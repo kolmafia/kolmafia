@@ -146,6 +146,14 @@ public class TCRSCommand
 			return;
 		}
 
+		if ( command.equals( "update" ) )
+		{
+			TCRSDatabase.update( true );
+			TCRSDatabase.updateCafeBooze( true );
+			TCRSDatabase.updateCafeFood( true );
+			return;
+		}
+
 		if ( command.equals( "check" ) )
 		{
 			int itemId = StringUtilities.parseInt( parameters );
