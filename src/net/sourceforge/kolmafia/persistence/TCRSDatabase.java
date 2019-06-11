@@ -223,6 +223,16 @@ public class TCRSDatabase
 		retval &= save( filename( cclass, csign, "_cafe_food" ), TCRSFoodMap, verbose );
 		return true;
 	}
+	
+	public static boolean saveCafeBooze( String cclass, String csign, final boolean verbose )
+	{
+		return save( filename( cclass, csign, "_cafe_booze" ), TCRSBoozeMap, verbose );
+	}
+	
+	public static boolean saveCafeFood( String cclass, String csign, final boolean verbose )
+	{
+		return save( filename( cclass, csign, "_cafe_food" ), TCRSFoodMap, verbose );
+	}
 
 	private static boolean save(  final String fileName, final Map<Integer, TCRS> map, final boolean verbose )
 	{
@@ -333,6 +343,92 @@ public class TCRSDatabase
 		TCRSMap.put( itemId, tcrs );
 
 		return true;
+	}
+
+	public static int update( final boolean verbose )
+	{
+		if ( !KoLCharacter.isCrazyRandomTwo() )
+		{
+			return 0;
+		}
+
+		Set<Integer> keys = ItemDatabase.descriptionIdKeySet();
+
+		if ( verbose )
+		{
+			KoLmafia.updateDisplay( "Updating TCRS item adjustments for real items..." );
+		}
+
+		int count = 0;
+		for ( Integer id : keys )
+		{
+			if ( derive( id ) ) {
+				count++;
+			}
+		}
+
+		if ( verbose )
+		{
+			KoLmafia.updateDisplay( count + " new items seen" );
+		}
+
+		return count;
+	}
+
+	public static int updateCafeBooze( final boolean verbose )
+	{
+		if ( !KoLCharacter.isCrazyRandomTwo() )
+		{
+			return 0;
+		}
+
+		if ( verbose )
+		{
+			KoLmafia.updateDisplay( "Updating TCRS item adjustments for cafe booze items..." );
+		}
+
+		int count = 0;
+		for ( Integer id : CafeDatabase.cafeBoozeKeySet() )
+		{
+			if ( deriveCafe( id, CafeDatabase.boozeDescId( id ), TCRSBoozeMap  ) ) {
+				count++;
+			}
+		}
+
+		if ( verbose )
+		{
+			KoLmafia.updateDisplay( count + " new cafe boozes seen" );
+		}
+
+		return count;
+	}
+
+	public static int updateCafeFood( final boolean verbose )
+	{
+		if ( !KoLCharacter.isCrazyRandomTwo() )
+		{
+			return 0;
+		}
+
+		if ( verbose )
+		{
+			KoLmafia.updateDisplay( "Updating TCRS item adjustments for cafe food items..." );
+		}
+
+		int count = 0;
+		for ( Integer id : CafeDatabase.cafeFoodKeySet() )
+		{
+			if ( deriveCafe( id, CafeDatabase.foodDescId( id ), TCRSFoodMap ) ) {
+				count++;
+			}
+		}
+
+		if ( verbose )
+		{
+			KoLmafia.updateDisplay( count + " new cafe foods seen" );
+		}
+
+		return count;
 	}
 
 	public static TCRS deriveItem( final int itemId )
@@ -900,6 +996,28 @@ public class TCRSDatabase
 		else
 		{
 			cafeLoaded = loadCafe( cclass, sign, verbose );
+		}
+
+		// If we loaded data files, update them.
+
+		if ( nonCafeLoaded )
+		{
+			if ( update( verbose ) > 0 )
+			{
+				save( cclass, sign, verbose );
+			}
+		}
+
+		if ( cafeLoaded )
+		{
+			if ( updateCafeBooze( verbose ) > 0 )
+			{
+				saveCafeBooze( cclass, sign, verbose );
+			}
+			if ( updateCafeFood( verbose ) > 0 )
+			{
+				saveCafeFood( cclass, sign, verbose );
+			}
 		}
 
 		if ( nonCafeLoaded || cafeLoaded )
