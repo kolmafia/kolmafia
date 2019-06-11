@@ -657,14 +657,15 @@ public class TCRSDatabase
 			return false;
 		}
 
+		// Set modifiers
+		Modifiers.updateItem( itemName, tcrs.modifiers );
+
+		// *** Do this after modifiers are set so can log effect modifiers
 		int usage = ItemDatabase.getConsumptionType( itemId );
 		if ( usage == KoLConstants.CONSUME_EAT || usage == KoLConstants.CONSUME_DRINK || usage == KoLConstants.CONSUME_SPLEEN )
 		{
 			applyConsumableModifiers( usage, itemName, tcrs );
 		}
-
-		// Set modifiers
-		Modifiers.updateItem( itemName, tcrs.modifiers );
 
 		// Add as effect source, if appropriate
 		String effectName = Modifiers.getStringModifier( "Item", itemName, "Effect" );
@@ -752,8 +753,24 @@ public class TCRSDatabase
 		int mus = 0;
 		int mys = 0;
 		int mox = 0;
-		// Could include effect
+
 		String comment = "Unspaded";
+		String effectName = Modifiers.getStringModifier( "Item", itemName, "Effect" );
+		if ( effectName != null && !effectName.equals( "" ) )
+		{
+			int duration = (int) Modifiers.getNumericModifier( "Item", itemName, "Effect Duration" );
+			String effectModifiers = Modifiers.getStringModifier( "Effect", effectName, "Modifiers" );
+			StringBuilder buf = new StringBuilder( comment );
+			buf.append( " " );
+			buf.append( String.valueOf( duration ) );
+			buf.append( " " );
+			buf.append( effectName );
+			buf.append( " (" );
+			buf.append( effectModifiers );
+			buf.append( ")" );
+			comment = buf.toString();
+		}
+
 		ConsumablesDatabase.updateConsumableSize( itemName, usage, tcrs.size );
 		ConsumablesDatabase.updateConsumable( itemName, tcrs.size, level, tcrs.quality, String.valueOf( adv ),
 						      String.valueOf( mus ), String.valueOf( mys ), String.valueOf( mox ),
