@@ -1140,7 +1140,7 @@ public class ProxyRecordValue
 
 		public String get_image()
 		{
-			return EffectDatabase.getImage( (int) this.contentLong );
+			return EffectDatabase.getImageName( (int) this.contentLong );
 		}
 
 		public String get_descid()

@@ -458,7 +458,7 @@ public class EffectDatabase
 	 * @return The name of the corresponding effect
 	 */
 
-	static final String getImageName( final int effectId )
+	public static final String getImageName( final int effectId )
 	{
 		String imageName = effectId == -1 ? null : EffectDatabase.imageById.get( IntegerPool.get( effectId ) );
 		return imageName == null ? "" : imageName;
