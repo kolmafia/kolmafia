@@ -38,7 +38,7 @@
 39	squat pretty flower	0		
 40	casino pass	0		
 41	lousy ice-cold Sir Schlitz	3	decent	
-42	cyan letter from King Ralph XI	0		
+42	hermit permit	0		
 43	worthless trinket	0		
 44	worthless gewgaw	0		
 45	pulsating worthless knick-knack	0		
@@ -427,10 +427,10 @@
 429	bouncing bouncing beanbag chair	0		
 430	red squat blurry acid-squirting flower	0		Single Equip
 431	spinning clown shoes of Leguizamo	0		Monster Level: +20, Clowniness: 25
-432	horrifying bloody clown pants	0		, Clowniness: 25
+432	horrifying bloody clown pants	0		Spooky Damage: +25, Clowniness: 25
 433	ghostly skinny balloon	0		
 434	balloon helmet of extreme caution	0		Monster Level: -25, Clowniness: 25
-435	upside-down ribald gravedigger's balloon sword	0		Sleaze Damage: +10, Clowniness: 50
+435	upside-down ribald gravedigger's balloon sword	0		Spooky Damage: +10, Sleaze Damage: +10, Clowniness: 50
 436	balloon monkey	0		
 437	chef skull	0		
 438	pulsating chef-in-the-box	0		
@@ -1946,9 +1946,9 @@
 1969	spoon!	0		Familiar Weight: +5
 1970	nervous tick egg	0		Free Pull
 1971	plastic pumpkin bucket	0		Familiar Weight: +5, Item Drop: +13, Softcore Only
-1972	red blinking Letter for Melvign the Gnome	0		
+1972	fortified dance instructor's shrimp fork	0		Experience Percent (Moxie): +10, Damage Absorption: +60
 1973	half of a memo	0		
-1974	red blinking Letter for Melvign the Gnome	0		
+1974	ghostly cocoabo	0		
 1975	blinking upside-down baby gravy fairy	0		
 1976	gravy fairy	0		
 1977	gravy fairy	0		
@@ -2447,8 +2447,8 @@
 2474	wobbly upside-down clown skin	0		
 2475	family-friendly Tesla clown wig	0		Sleaze Resistance: +1, MP Regen Min: 7, MP Regen Max: 10, Clowniness: 50
 2476	ghostly Herculean clownskin belt	0		Experience (Muscle): +1, Clowniness: 50
-2477	zippy clownskin buckler	0		Initiative: +20, Damage Reduction: 3, Clowniness: 50
-2478	clown whip of doom	0		, Clowniness: 50
+2477	zippy clownskin buckler	0		Initiative: +20, Clowniness: 50, Damage Reduction: 3
+2478	clown whip of doom	0		Spooky Spell Damage: +50, Clowniness: 50
 2479	demon skin	0		
 2480	friendly demon-horned hat	0		Familiar Weight: +3
 2481	narrow skewed demon buckler of the brute	0		Muscle Percent: +30, Damage Reduction: 5
@@ -2625,10 +2625,10 @@
 2652	normal S.T.L.T.	4	good	
 2653	stale honey-dew	3	decent	
 2654	perfectly mixed strong Xanadian	5	EPIC	
-2655	friendly Jim Carey's wholesome rock-hard Brutal brogues	0		Damage Reduction: 5, Maximum HP Percent: +10, Monster Level: +25, Familiar Weight: +3, Lasts Until Rollover
+2655	quadruple-concentrated quadruple-ionized squat jittery bottle of absinthe	0		Effect: "Sweetened and Fattened", Effect Duration: 45
 2656	twirling Van der Graaf Drowsy Sword of the scaredy-cat	0		Monster Level: -15, MP Regen Min: 5, MP Regen Max: 7
 2657	flavorless bouncing blurry escargotsicle	3	decent	
-2658	friendly Jim Carey's wholesome rock-hard Brutal brogues	0		Damage Reduction: 5, Maximum HP Percent: +10, Monster Level: +25, Familiar Weight: +3, Lasts Until Rollover
+2658	bad bottle of realpagne	3	decent	
 2659	yellow savvy albatross necklace	0		Mysticality Percent: +20, Single Equip
 2660	denatured tumbling shaking not-a-pipe	1	awesome	
 2661	lousy watered-down flask of Amontillado	2	decent	
@@ -2704,7 +2704,7 @@
 2731	aged triple-distilled shot of pear schnapps	10	awesome	
 2732	lousy triple-distilled shot of peach schnapps	10	decent	
 2733	snack-sized adequate bunch of square grapes	2	good	
-2734	lightning-fast horrifying scorching educational brawny Molten Brainy Burlap Jorts of Self-control of the Porcupine	0		Muscle Percent: +20, Experience: +1, Hot Damage: +25, Spooky Damage: +25, Initiative: +40, Lasts Until Rollover
+2734	moldy brown sugar cane	4	crappy	
 2735	rotten blinking sandwich of the gods	3	crappy	
 2736	lousy special watered-down Pan-Dimensional Gargle Blaster	2	decent	Effect: "The Power of LOV", Effect Duration: 5
 2737	mixed blue leopard-print barbell	1	crappy	
@@ -2804,7 +2804,7 @@
 2831	star key lime	0		
 2832	spoiled pulsating digital key lime pie	3	crappy	
 2833	small decent star key lime pie	2	good	
-2834	Usain Bolt's avaricious bottle-rocket crossbow of incineration	0		Meat Drop: +30, Initiative: +80, Softcore Only
+2834	Usain Bolt's avaricious bottle-rocket crossbow of incineration	0		Hot Spell Damage: +50, Meat Drop: +30, Initiative: +80, Softcore Only
 2835	rock-hard indie comic hipster glasses	0		Damage Reduction: 5, Softcore Only
 2836	cyan wizard action figure	0		Free Pull
 2837	mint-condition magic wand	0		
@@ -3040,7 +3040,7 @@
 3068	mirror toy deathbot	0		
 3069	laser cannon	0		
 3070	jittery plexifoam chin strap	0		
-3071	tumbling God Lobster's Scepter	0		
+3071	mirror silicon-infused gluteal shield	0		
 3072	red carbonite visor	0		
 3073	set of Unobtainium straps	0		
 3074	polymorphic fastening apparatus	0		
@@ -3131,7 +3131,7 @@
 3159	ionized twirling warm El Vibrato drone	0		Effect: "The Strength...  of the Future", Effect Duration: 67
 3160	oxidized yellow skewed skewed humming El Vibrato drone	0		Effect: "Mana Tea", Effect Duration: 46
 3161	energized improved maroon El Vibrato drone	0		Effect: "Deep-Seated Rage", Effect Duration: 24
-3162	bland glass of raw eggs	3	decent	
+3162	El Vibrato helmet	0		
 3163	squat El Vibrato energy spear	0		
 3164	El Vibrato leg guards	0		
 3165	broken El Vibrato drone	0		
@@ -3386,7 +3386,7 @@
 3414	Hodgman's journal #3: Pumping Tin	0		Skill: "Abs of Tin"
 3415	narrow Hodgman's journal #4: View From The Big Top	0		Skill: "Marginally Insane"
 3416	tumbling lime green hobo fortress blueprints	0		
-3421	normal meteoreo	3	good	
+3421	box of fireworks	0		Familiar Weight: +5, Softcore Only
 3422	Vulcanized lime green sterno-flavored Hob-O	0		Effect: "Hagg-ard", Effect Duration: 33
 3423	galvanized frostbite-flavored Hob-O	0		Effect: "Serendipi Tea", Effect Duration: 26
 3424	quadruple-irradiated energized blurry fry-oil-flavored Hob-O	0		Effect: "Cold as Ice", Effect Duration: 41
@@ -3416,7 +3416,7 @@
 3449	narrow tumbling cotton candy cone	0		
 3450	cotton candy pinch	0		
 3451	huge cotton candy smidgen	0		
-3452	manspreader's dangerous slick LOV Eardigan	0		
+3452	cotton candy skoshe	0		
 3453	jittery cotton candy plug	0		
 3454	teal cotton candy pillow	0		
 3455	spinning cotton candy bale	0		
@@ -3510,7 +3510,7 @@
 3543	depleted Grimacite gravy boat of wisdom of terror	0		Mysticality: +15, Spooky Spell Damage: +10
 3544	occult groovy depleted Grimacite weightlifting belt	0		Moxie Percent: +10, Spell Damage Percent: +25, Single Equip
 3545	Annie Oakley's depleted Grimacite grappling hook of courage	0		Critical Hit Percent: +20, Spooky Resistance: +3, Single Equip
-3546	adequate PB&J with the crusts cut off	3	good	
+3546	sinister depleted Grimacite ninja mask of the wise owl	0		Mysticality: +20, Spell Damage: +10
 3547	greedy depleted Grimacite shinguards of dire peril	0		Weapon Damage: +20, Meat Drop: +20
 3548	ribald Socratic depleted Grimacite astrolabe	0		Experience (Mysticality): +1, Sleaze Damage: +10, Single Equip
 3549	huge manspreader's Da Vinci's KoL Con Cinco Pi&ntilde;ata Bat	0		Experience (Mysticality): +5, Monster Level: +10, Softcore Only
@@ -3608,13 +3608,13 @@
 3642	dragonfish caviar	0		
 3643	squat blue pufferfish spine	0		
 3644	skewed twirling depleted Grimacite kneecapping stick of the sweet-tooth	0		Candy Drop: +100
-3645	experienced shoe ad T-shirt of chilblains	0		Experience: +2, Cold Damage: +25
+3645	delicious shaking yellow canteen of wine	4	awesome	
 3646	flavorless super-sized elven <i>limbos</i> gingerbread	5	decent	
 3647	elven whittling knife	0		
 3648	magic dragonfish fry	0		
 3649	purple skewed map to Madness Reef	0		
 3650	adequate toast with jam	4	good	
-3651	bouncing antlers	0		Familiar Weight: +5
+3651	bouncing antlers	0		Familiar Weight: +3
 3652	bad elven moonshine	4	decent	
 3653	half-sized yummy knuckle sandwich	2	awesome	
 3654	jittery foul-smelling cool psycho sweater	0		Moxie: +5, Stench Damage: +10
@@ -3642,7 +3642,7 @@
 3676	Mer-kin foodbucket	0		
 3677	beefcake's diving muff	0		Muscle: +25, Single Equip
 3678	drinkable weak salinated mint julep	2	good	
-3679	maroon gas can	0		
+3679	skewed wobbly ink bladder	0		
 3680	esca	0		
 3681	skewed bubbling tempura batter	0		
 3682	shaking globe of Deep Sauce	0		
@@ -3679,7 +3679,7 @@
 3713	reassuring Lo Pan's 7-inch discus	0		Spell Critical Percent: +30, Spooky Resistance: +1
 3714	chaotic banded PVC staff of extreme caution	0		Damage Absorption: +100, Spell Critical Percent: +10, Monster Level: -25
 3715	up-at-dawn flame-wreathed vinyl shield of the glutton	0		Hot Spell Damage: +10, Food Drop: +100, Adventures: +5, Damage Reduction: 14
-3716	surprisingly capacious handbag	0		
+3716	rock-hard Sinatra's vinyl boots of vim and vigor	0		Experience (Moxie): +5, Damage Reduction: 5, Maximum HP Percent: +50, Single Equip
 3717	decaying oar	0		
 3718	fishhook	0		
 3719	lantern	0		
@@ -3832,7 +3832,7 @@
 3878	hellseal sinew	0		
 3879	huge blurry torn hellseal sinew	0		
 3880	hellseal disguise	0		
-3881	mirror ring of Detect Boring Doors	0		
+3881	mansplainer's slick fouet de tortue-dressage	0		Moxie: +10, Monster Level: +15
 3882	encoded cult documents	0		
 3883	cult memo	0		
 3884	decoded cult documents	0		
@@ -4128,7 +4128,7 @@
 4177	Tome of Sugar Shummoning	0		Free Pull
 4178	banded sugar shotgun	0		Damage Absorption: +100
 4179	blue manspreader's sugar shillelagh	0		Monster Level: +10
-4180	smelly sugar shank	0		
+4180	smelly sugar shank	0		Stench Spell Damage: +10
 4181	mirror lard-coated banded strapping sugar chapeau	0		Muscle: +5, Damage Absorption: +100, Sleaze Spell Damage: +25
 4182	censurious sugar shorts	0		Sleaze Resistance: +3
 4183	sugar shield	0		Familiar Weight: +10
@@ -4187,7 +4187,7 @@
 4236	wobbly blue can of sterno	0		
 4237	sharpshooter's cheese-slicer	0		Critical Hit Percent: +10
 4238	bite-sized tasty blue beef jerky	1	awesome	
-4239	huge up-at-dawn gravedigger's plastic gundam of chilblains	0		Cold Damage: +25, Spooky Damage: +10, Adventures: +5
+4239	pipe wrench of the bloodbag	0		Maximum HP: +100
 4240	magnetized improved narrow gun cleaning kit	0		Effect: "Browbeaten", Effect Duration: 67
 4241	therapeutic sleep mask	0		HP Regen Min: 5, HP Regen Max: 7
 4242	bouncing coward's sock garters	0		Monster Level: -20, Single Equip
@@ -4232,7 +4232,7 @@
 4281	cyan blinking Sherlock's rock-hard Mer-kin bunwig	0		Damage Reduction: 5, Item Drop: +25
 4282	blurry electrified extremely unsafe smartaleck's crappy Mer-kin mask	0		Moxie Percent: +30, Weapon Damage Percent: +100, MP Regen Min: 3, MP Regen Max: 5, Adventure Underwater
 4283	spinning ruddy wholesome crappy Mer-kin tailpiece	0		Maximum HP Percent: 50
-4284	aromatic greasy Mer-kin gladiator mask of the early riser	0		Stench Resistance: +1, Adventures: +7, Adventure Underwater
+4284	aromatic greasy Mer-kin gladiator mask of the early riser	0		Sleaze Spell Damage: +10, Stench Resistance: +1, Adventures: +7, Adventure Underwater
 4285	greasy wicked Mer-kin scholar mask of the scaredy-cat	0		Spell Damage: +5, Monster Level: -15, Sleaze Spell Damage: +10, Adventure Underwater
 4286	flame-retardant knitted strapping Mer-kin gladiator tailpiece	0		Muscle: +5, Cold Resistance: +3, Hot Resistance: +1
 4287	tumbling baleful arcane researcher's educational Mer-kin scholar tailpiece	0		Experience: +1, Experience Percent (Mysticality): +10, Spell Damage: +25
@@ -5449,7 +5449,7 @@
 5547	skewed Clancy's sackbut	0		
 5548	Ghost Pinching Quarterly	0		Skill: "Pinch Ghost"
 5549	Clancy's crumhorn	0		
-5550	upside-down clutch of dodecapede eggs	0		
+5550	The Snitch's Manifesto	0		Skill: "Tattle"
 5551	Clancy's lute	0		
 5552	mansplainer's Trusty	0		Monster Level: +15
 5553	wobbly can of Rain-Doh	0		
@@ -5682,7 +5682,7 @@
 5784	cyan weirdwood plank	0		
 5785	thick caulk	0		
 5786	hard screw	0		
-5787	dry magnetized maroon squat spinning wobbly cuppa Mana tea	0		Effect: "Pemmican't", Effect Duration: 33
+5787	upside-down messy butt joint	0		
 5788	smut orc keepsake box	0		
 5789	bubblin' crude	0		
 5790	box of bear arms	0		
@@ -5762,7 +5762,7 @@
 5864	bouncing papier-m&acirc;ch&eacute; glob	0		
 5865	electrified papier-mochi	0		Effect: "Going Ape", Effect Duration: 22
 5866	improved squat yellow papier-m&acirc;chaeranthera	0		Effect: "There Is A Spoon", Effect Duration: 33
-5867	therapeutic Da Vinci's flask flops	0		Experience (Mysticality): +5, HP Regen Min: 5, HP Regen Max: 7, Single Equip
+5867	wet mirror papier-m&acirc;ch&eacute; toothpicks	0		Effect: "Rushtacean'", Effect Duration: 66
 5868	energetic thinker's papier-m&acirc;ch&eacute;te	0		Mysticality: +10, Maximum MP Percent: +20
 5869	twirling dance instructor's papier-m&acirc;chine gun of vim and vigor	0		Experience Percent (Moxie): +10, Maximum HP Percent: +50
 5870	mirror Lo Pan's papier-masque	0		Spell Critical Percent: +30, Item Drop: +5, Single Equip
@@ -5974,7 +5974,7 @@
 6077	bland haggis-wrapped haggis-stuffed haggis	3	decent	
 6078	home robotics kit	0		
 6079	school calculator watch	0		
-6080	nippy haggis socks	0		Single Equip
+6080	nippy haggis socks	0		Cold Damage: +10, Single Equip
 6081	tumbling airblaster gun	0		
 6082	skewed Thinknerd T-shirt grab bag	0		
 6083	squat actual reality goggles	0		Single Equip, Free Pull
@@ -6039,7 +6039,6 @@
 6143	low-calorie flavorless dead meat bun	1	decent	
 6144	zippy cat collar	0		Initiative: +20, Single Equip
 6145	foul-smelling Temple Grandin's suspicious-looking fedora	0		Familiar Weight: +7, Stench Damage: +10
-6146	Sword of Procedural Generation	0		Mysticality Percent: +80, Hot Damage: +50, Hot Resistance: +5, Meat Drop: +20
 6147	Bodacious MechaElf Hunter Saga:Relay Wolf	0		
 6148	skewed Deactivated MiniMechaElf	0		
 6149	MiniMechaElf Laser Punch Missile Launcher	0		
@@ -6151,8 +6150,8 @@
 6256	dried gelatinous cube	0		
 6257	pile of dungeon junk	0		Familiar Weight: +5
 6258	avaricious Fonzie's Newton's Staff of the Healthy Breakfast of the cheetah	0		Experience (Mysticality): +3, Experience (Moxie): +1, Meat Drop: +30, Initiative: +60, Jiggle: "Recover Some HP"
-6259	auspicious perfumed smelly foul-smelling Staff of the Staff of Life	0		Stench Spell Damage: +10, Stench Resistance: +5, Item Drop: +10, Jiggle: "Full HP Recovery"
-6260	wobbly shaking Usain Bolt's horrifying Staff of the Light Lunch of the sweet-tooth	0		Candy Drop: +100, Initiative: +80, Jiggle: "Deal Some Cold Damage"
+6259	auspicious perfumed smelly foul-smelling Staff of the Staff of Life	0		Stench Damage: +10, Stench Spell Damage: +10, Stench Resistance: +5, Item Drop: +10, Jiggle: "Full HP Recovery"
+6260	wobbly shaking Usain Bolt's horrifying Staff of the Light Lunch of the sweet-tooth	0		Spooky Damage: +25, Candy Drop: +100, Initiative: +80, Jiggle: "Deal Some Cold Damage"
 6261	forbidden strapping Staff of the Standalone Cheese of Gandalf	0		Muscle: +5, Spell Damage Percent: +50, Spell Critical Percent: +20, Jiggle: "Banish opponent for the rest of the day"
 6262	Usain Bolt's groovy stylish Staff of the Hearty Dinner	0		Moxie: +25, Moxie Percent: +10, Initiative: +80, Jiggle: "Weaken Bad Guy"
 6263	ghostly Van der Graaf hardened Staff of the All-Steak of the sewer	0		Damage Reduction: 3, Stench Damage: +25, MP Regen Min: 5, MP Regen Max: 7, Jiggle: "Massive Bonus to Item Drops"
@@ -6241,8 +6240,8 @@
 6346	Mer-kin fitbrine	0		
 6347	non-pressed wet Mer-kin ragejuice	0		Effect: "Celestial Body", Effect Duration: 13
 6348	skewed Mer-kin dragbelt of the early riser	0		Adventures: +7, Experience (Muscle): +20, Single Equip
-6349	scandalous Mer-kin eyeglasses	0		Experience (Mysticality): +20, Single Equip
-6350	cyan nasty Mer-kin gutgirdle	0		Experience (Moxie): +20, Single Equip
+6349	scandalous Mer-kin eyeglasses	0		Sleaze Damage: +5, Experience (Mysticality): +20, Single Equip
+6350	cyan nasty Mer-kin gutgirdle	0		Stench Damage: +5, Experience (Moxie): +20, Single Equip
 6351	rock-hard Mer-kin finpaddle	0		Damage Reduction: 5
 6352	sinister Mer-kin stopwatch	0		Spell Damage: +10, Initiative: +50
 6353	Mer-kin dreadscroll	0		
@@ -6251,7 +6250,7 @@
 6356	Mer-kin worktea	0		
 6357	Mer-kin knucklebone	0		
 6358	Mer-kin darkbook	0		Skill: "Deep Dark Visions"
-6359	jittery greasy Mer-kin begsign	0		Meat Drop: +40
+6359	jittery greasy Mer-kin begsign	0		Sleaze Spell Damage: +10, Meat Drop: +40
 6360	Libram of Pulled Taffy	0		Free Pull
 6361	tarnished cold-filtered pulled taffy	0		Effect: "Inner Dog", Effect Duration: 40
 6362	activated tarnished pulled indigo taffy	0		Effect: "Heavily Breathing", Effect Duration: 44
@@ -6477,7 +6476,7 @@
 6586	double-unsweetened maroon chicle de salchicha	0		Effect: "Slimily Strong", Effect Duration: 20
 6587	twirling jar of frostigkraut of James Dean	0		Experience (Moxie): +3
 6588	Jim Carey's gnawed-up dog bone of the scaredy-cat	0		Monster Level: 10
-6589	Grey Guanon of doom	0		
+6589	Grey Guanon of doom	0		Spooky Spell Damage: +50
 6590	wobbly boxer's slick Engorged Sausages and You of bravery	0		Moxie: +10, Muscle Percent: +10, Spooky Resistance: +5
 6591	hand-crafted weak dream of a dog	2	EPIC	
 6592	quilted supercool optimal spreadsheet of Tarzan	0		Moxie Percent: +20, Experience (Muscle): +3, Damage Absorption: +40
@@ -6505,7 +6504,7 @@
 6614	cuckoo clock	0		
 6615	acceptable Cold One	4		
 6616	special normal spaghetti breakfast	4		Effect: "There Wolf", Effect Duration: 35
-6617	over-the-shoulder Folder Holder	0		Single Equip, Softcore Only
+6617	over-the-shoulder Folder Holder	0		Familiar Weight: 20, Single Equip, Softcore Only
 6618	teal folder (red)	0		Muscle: +20
 6619	folder (blue)	0		Mysticality: +20
 6620	folder (green)	0		Moxie: +20
@@ -7010,14 +7009,14 @@
 7124	corrupted Vulcanized activated blinking upside-down lemonhead caviar	0		Effect: "Triangle, Man", Effect Duration: 35
 7125	arcane researcher's strapping gummi sword	0		Muscle: +5, Experience Percent (Mysticality): +10
 7126	nitrogenated colloidal small gummi fin	0		Effect: "High Blood Chocolate Content", Effect Duration: 64
-7127	chocolate cow bone of the sewer	0		
+7127	chocolate cow bone of the sewer	0		Stench Damage: +25
 7128	diffused gummi fang	0		Effect: "Christmessy", Effect Duration: 37
 7129	snack-sized tasty ghostly leftover canap&eacute;s	2	awesome	
 7130	tolerable practically non-alcoholic magnum of champagne	1	good	
 7131	executive baleful sinister cow creamer	0		Spell Damage: 35, Meat Drop: +40
 7132	ionized diffused quadruple-aerosolized narrow red Outer Wolf&trade; cologne	0		Effect: "Rat-Faced", Effect Duration: 30
 7133	shaking cyan lupine appetite hormones	0		
-7134	blurry stanky wolf whistle of terror	0		Spooky Spell Damage: +10
+7134	blurry stanky wolf whistle of terror	0		Stench Spell Damage: +25, Spooky Spell Damage: +10
 7135	moldy witch's bread	4	crappy	
 7136	extra-ionized upside-down witch's brew	0		Effect: "Polka Face", Effect Duration: 41
 7137	hardened brainy witch's bra of horror	0		Mysticality: +5, Damage Reduction: 3, Spooky Spell Damage: +25
@@ -7247,7 +7246,7 @@
 7361	sharpshooter's plaid pocket square	0		Critical Hit Percent: +10
 7362	lion tamer's plaid skirt of terror	0		Experience (familiar): +2, Spooky Spell Damage: +10
 7363	polarized improved shaking bloodstain stick	0		Effect: "Can't Smell Nothin'", Effect Duration: 38
-7364	pocket wish	0		
+7364	red fabric softener	0		
 7365	triple-boiled blinking cyan fabric hardener	0		Effect: "Stinky Hands", Effect Duration: 28
 7366	artisanal bottle of laundry sherry	4	EPIC	
 7367	adjusted Vulcanized industrial strength starch	0		Effect: "Turn On, Tune In, Play Ball!", Effect Duration: 33
@@ -7386,7 +7385,7 @@
 7500	map	0		
 7501		0		
 7502	pressed energized Texas tea	0		Effect: "Okee-Dokee Computer", Effect Duration: 37
-7503	Jeselnik's dark hamethyst ring	0		
+7503	Jeselnik's dark hamethyst ring	0		Sleaze Damage: +25
 7504	brainy dark baconstone ring	0		Mysticality: +5
 7505	pulsating dark porquoise ring of Gandalf	0		Spell Critical Percent: +20
 7506	careful book of the overflowing toilet	0		Monster Level: -10, Stench Spell Damage: +50
@@ -7449,10 +7448,10 @@
 7563	super-liquefied wobbly programmable turtle	0		Effect: "One Very Clear Eye", Effect Duration: 51
 7564	polymerized quadruple-denatured fuchsia mocking turtle	0		Effect: "Badger Underfoot", Effect Duration: 43
 7565	special bland ham steak	4	decent	Effect: "stats.enq", Effect Duration: 10
-7566	time-twitching toolbelt of chilblains	0		Single Equip
+7566	time-twitching toolbelt of chilblains	0		Cold Damage: +25, Single Equip
 7567	lime green shaking blurry Chroner	0		
 7568	groovy stylish Time Lord Badge of Honor of James Dean	0		Moxie: +25, Moxie Percent: +10, Experience (Moxie): +3
-7569	shaking red toasty Tesla Time Bandit Badge of Courage of the cheetah	0		Initiative: +60, MP Regen Min: 7, MP Regen Max: 10
+7569	shaking red toasty Tesla Time Bandit Badge of Courage of the cheetah	0		Hot Damage: +5, Initiative: +60, MP Regen Min: 7, MP Regen Max: 10
 7570	modified Friendliness Beverage	0		Effect: "Super-Mega-Charged", Effect Duration: 58
 7571	perfumed smooth silent pea shooter	0		Moxie: +15, Stench Resistance: +5
 7572	rotten small D roll	2	crappy	
@@ -7518,7 +7517,7 @@
 7632	ionized government-issue identification badge	0		Effect: "Super Speed", Effect Duration: 13
 7633	concentrated twirling alien hologram projector	0		Effect: "From Nantucket", Effect Duration: 15
 7634	pickled warmed spinning irradiated turtle	0		Effect: "The Style... of the Future", Effect Duration: 33
-7635	li'l ninja costume	0		Item Drop: +150, Lasts Until Rollover
+7635	flattened tumbling cigar box turtle	0		Effect: "Compensatory Cruelness", Effect Duration: 55
 7636	energetic shellacked shell of bravery	0		Maximum MP Percent: +20, Spooky Resistance: +5
 7637	lard-coated pillow shell	0		Sleaze Spell Damage: +25
 7638	jittery sinister whatsit-covered turtle shell	0		Spell Damage: +10
@@ -7578,7 +7577,7 @@
 7692	stanky healthy razor-sharp hand whip	0		Weapon Damage Percent: +25, Maximum HP Percent: +20, Stench Spell Damage: +25
 7693	lion tamer's Lo Pan's energetic glow-in-the-dark necklace	0		Maximum MP Percent: +20, Spell Critical Percent: +30, Experience (familiar): +2
 7694	Groll doll	0		Single Equip
-7695	family-friendly cap gun of terror of bravery	0		Spooky Resistance: +5, Sleaze Resistance: +1
+7695	family-friendly cap gun of terror of bravery	0		Spooky Spell Damage: +10, Spooky Resistance: +5, Sleaze Resistance: +1
 7696	ruddy cassette player of the blizzard	0		Maximum HP Percent: +40, Cold Spell Damage: +25, Single Equip
 7697	chewable paper	0		Free Pull
 7698	blinking teal rubber spider	0		
@@ -7635,7 +7634,7 @@
 7749	Xiblaxian holo-schematic: xeno-goggles	0		
 7750	Xiblaxian 5D printer	0		
 7751	Xiblaxian holo-bowtie	0		Familiar Weight: +5
-7752	Xiblaxian xeno-detection goggles of horror	0		Single Equip
+7752	Xiblaxian xeno-detection goggles of horror	0		Spooky Spell Damage: +25, Single Equip
 7753	flame-wreathed Xiblaxian stealth cowl of the empath	0		Familiar Weight: +5, Hot Spell Damage: +10
 7754	twirling executive Socratic Xiblaxian stealth trousers	0		Experience (Mysticality): +1, Meat Drop: +40
 7755	banded sage Xiblaxian stealth vest	0		Mysticality Percent: +10, Damage Absorption: +100
@@ -7863,7 +7862,7 @@
 7984	extra-flattened squat Boosty Juice	0		Effect: "One Very Clear Eye", Effect Duration: 58
 7985	tumbling ruddy occult parachute	0		Spell Damage Percent: +25, Maximum HP Percent: +40
 7986	up-at-dawn brainy pad	0		Mysticality: +5, Adventures: +5, Damage Reduction: 3
-7987	foul-smelling curative peeler	0		HP Regen Min: 3, HP Regen Max: 5
+7987	foul-smelling curative peeler	0		Stench Damage: +10, HP Regen Min: 3, HP Regen Max: 5
 7988	tumbling fuchsia Van der Graaf deadly pettipants	0		Weapon Damage: +5, MP Regen Min: 5, MP Regen Max: 7
 7989	studded slick panama hat	0		Moxie: +10, Damage Absorption: +80
 7990	Oprah's pulsera of the bloodbag	0		Maximum HP: +100, Maximum MP Percent: +50, Single Equip
@@ -7872,7 +7871,7 @@
 7993	stylish porkpie of Tarzan	0		Moxie: +25, Experience (Muscle): +3
 7994	medical-grade grievous pepper mill	0		Weapon Damage Percent: +50, HP Regen Min: 7, HP Regen Max: 10
 7995	wobbly dangerous boxer's pelerine	0		Muscle Percent: +10, Weapon Damage: +10
-7996	yellow horrifying nippy phantom mask	0		Spooky Damage: +25, Single Equip
+7996	yellow horrifying nippy phantom mask	0		Cold Damage: +10, Spooky Damage: +25, Single Equip
 7997	dried red mirror polyesterene powder	1	EPIC	
 7998	vaporized yellow blinking narrow powder	1	good	Effect: "Black Lung", Effect Duration: 10
 7999	double-unsweetened boiled diffused choco-Crimbot	0		Effect: "Cringle's Curative Carol", Effect Duration: 26
@@ -7881,7 +7880,7 @@
 8002	Newton's toy Crimbot mega face	0		Experience (Mysticality): +3, Crimbot Outfit Power: +1
 8003	deadly toy Crimbot power glove	0		Weapon Damage: +5, Crimbot Outfit Power: +1
 8004	dog trainer's toy Crimbot super fist	0		Experience (familiar): +1, Crimbot Outfit Power: +1
-8005	gravedigger's toy Crimbot rocket legs	0		Crimbot Outfit Power: +1
+8005	gravedigger's toy Crimbot rocket legs	0		Spooky Damage: +10, Crimbot Outfit Power: +1
 8006	quantum Crimbot battery	0		Effect: "Down With Chow", Effect Duration: 38
 8007	huge tumbling Crimbot ROM: Rapid Prototyping	0		Skill: "Rapid Prototyping"
 8008	spinning Crimbot ROM: Mathematical Precision	0		Skill: "Mathematical Precision"
@@ -7924,7 +7923,7 @@
 8045	cool sturdy machete	0		Moxie: +5
 8046	aromatic shotgun	0		Stench Resistance: +1
 8047	dog trainer's boomerang	0		Experience (familiar): +1
-8049	mirror wobbly frightening mining helmet	0		
+8049	mirror wobbly frightening mining helmet	0		Spooky Damage: +5
 8050	Tesla X-ray goggles	0		MP Regen Min: 7, MP Regen Max: 10, Luck: +5
 8051	squat cape of temperance	0		Sleaze Resistance: +5
 8052	wicked jetpack	0		Spell Damage: +5
@@ -7934,7 +7933,7 @@
 8056	skewed torch	0		
 8058	auspicious plasma rifle	0		Item Drop: +10
 8059	upside-down teal narrow Bananubis's Staff	0		Luck: -6
-8060	fuchsia narrow pulsating knitted greasy The Joke Book of the Dead	0		Cold Resistance: +3, Luck: -6
+8060	fuchsia narrow pulsating knitted greasy The Joke Book of the Dead	0		Sleaze Spell Damage: +10, Cold Resistance: +3, Luck: -6
 8061	green The Clown Crown	0		Luck: -6
 8062	blurry coffee cup	0		Luck: -2
 8063	upside-down narrow Tales of Spelunking	0		
@@ -7953,7 +7952,7 @@
 8076	Sherlock's chaotic Spelunker's khakis of temperance	0		Spell Critical Percent: +10, Sleaze Resistance: +5, Item Drop: +25
 8077	blinking tumbling Spelunker's Guild prize sack	0		
 8084	lime green mirror LOLmec statuette	0		
-8085	Pok&eacute;-Gro fertilizer	0		
+8085	Spelunker of Fortune (used)	0		Skill: "Speluck"
 8086	still-beating spleen	0		
 8087	Thwaitgold scarab beetle statuette	0		
 8088	jewel	0		
@@ -7970,18 +7969,18 @@
 8099	manspreader's Fonzie's belt	0		Experience (Moxie): +1, Monster Level: +10, Single Equip
 8100	blinking quilted badge of the brazier	0		Damage Absorption: +40, Hot Spell Damage: +25, Single Equip
 8101	tumbling bowl of vim and vigor of the empath	0		Maximum HP Percent: +50, Familiar Weight: +5
-8102	brooch of doom of the boozehound	0		Booze Drop: +100, Single Equip
+8102	brooch of doom of the boozehound	0		Spooky Spell Damage: +50, Booze Drop: +100, Single Equip
 8103	red narrow horrifying healthy breeches	0		Maximum HP Percent: +20, Spooky Damage: +25
-8104	therapeutic backpack of doom	0		HP Regen Min: 5, HP Regen Max: 7
+8104	therapeutic backpack of doom	0		Spooky Spell Damage: +50, HP Regen Min: 5, HP Regen Max: 7
 8105	twisted huge bits	1	EPIC	
-8106	pulsating scorching medical-grade anvil	0		HP Regen Min: 7, HP Regen Max: 10, Single Equip
+8106	pulsating scorching medical-grade anvil	0		Hot Damage: +25, HP Regen Min: 7, HP Regen Max: 10, Single Equip
 8107	occult brainy akubra	0		Mysticality: +5, Spell Damage Percent: +25
 8108	jittery frosty arcane researcher's apron	0		Experience Percent (Mysticality): +10, Cold Spell Damage: +10, Single Equip
 8109	ascot of the wise owl of the glutton	0		Mysticality: +20, Food Drop: +100, Single Equip
 8110	studded smooth attache case	0		Moxie: +15, Damage Absorption: +80
 8111	twirling perfumed Socratic accordion	0		Experience (Mysticality): +1, Stench Resistance: +5, Song Duration: 10
 8112	modified purple aerosolized	1	EPIC	
-8113	foul-smelling medical-grade wig	0		HP Regen Min: 7, HP Regen Max: 10
+8113	foul-smelling medical-grade wig	0		Stench Damage: +10, HP Regen Min: 7, HP Regen Max: 10
 8114	gray groovy winch crank of the sewer	0		Moxie Percent: +10, Stench Damage: +25, Single Equip
 8115	Van der Graaf quilted widget	0		Damage Absorption: +40, MP Regen Min: 5, MP Regen Max: 7, Single Equip
 8116	censurious clever whisk	0		Maximum MP: +20, Sleaze Resistance: +3
@@ -7997,7 +7996,7 @@
 8126	powdered smithereens	1	awesome	Effect: "Mer-kinny Flavor", Effect Duration: 40
 8127	Usain Bolt's wizardly fiberglass fetish	0		Mysticality: +25, Initiative: +80
 8128	shaking blurry dog trainer's fiberglass foil of chilblains	0		Experience (familiar): +1, Cold Damage: +25
-8129	mirror scorching fiberglass fannypack of the cheetah	0		Initiative: +60, Single Equip
+8129	mirror scorching fiberglass fannypack of the cheetah	0		Hot Damage: +25, Initiative: +60, Single Equip
 8130	blue beefcake's fiberglass frock of the blizzard	0		Muscle: +25, Cold Spell Damage: +25
 8131	fireproof wholesome fiberglass fingerguard	0		Maximum HP Percent: +10, Hot Resistance: +3, Single Equip
 8132	Jeselnik's Da Vinci's fiberglass fedora	0		Experience (Mysticality): +5, Sleaze Damage: +25
@@ -8126,7 +8125,7 @@
 8256	Dinsey tattoo kit	0		
 8257	alkaline blinking nasty gum	0		Effect: "Innately Wise", Effect Duration: 58
 8258	Wart Dinsey: An Afterlife	0		Skill: "Rotten Memories"
-8259	gravedigger's The Lot's engagement ring	0		
+8259	gravedigger's The Lot's engagement ring	0		Spooky Damage: +10
 8260	huge Mayo Clinic	0		
 8261	Mayonex	0		
 8262	Mayodiol	0		
@@ -8296,7 +8295,7 @@
 8426	Volcoino	0		
 8427	fizzing spore pod	0		
 8428	blinking spore pod	0		
-8429	rotten diet sausage	1	crappy	
+8429	spinning veiny spore pod	0		
 8430	hard spore pod	0		
 8431	spore pod	0		
 8432	hot spore pod	0		
@@ -8689,7 +8688,7 @@
 8822	acceptable watered-down Doc Clock's thyme cocktail	2	good	
 8823	adequate super-sized Mr. Burnsger	5	good	
 8824	dried huge bouncing The Inquisitor's unidentifiable object	1	EPIC	Effect: "Spookypants", Effect Duration: 20
-8825	smelly electrified medical-grade The Jokester's gun	0		MP Regen Min: 3, MP Regen Max: 5, HP Regen Min: 7, HP Regen Max: 10
+8825	smelly electrified medical-grade The Jokester's gun	0		Stench Spell Damage: +10, MP Regen Min: 3, MP Regen Max: 5, HP Regen Min: 7, HP Regen Max: 10
 8826	pulsating executive gravedigger's energetic The Jokester's wig	0		Maximum MP Percent: +20, Spooky Damage: +10, Meat Drop: +40
 8827	shaking blue Usain Bolt's lion tamer's fortified The Jokester's pants	0		Damage Absorption: +60, Experience (familiar): +2, Initiative: +80
 8828	flattened tumbling Jokester makeup	0		Effect: "Tiki Thoughtfulness", Effect Duration: 38
@@ -8714,7 +8713,7 @@
 8847	altered adjusted cyan mirror red-hot jawbreaker	0		Effect: "The Magic of Sharing", Effect Duration: 37
 8848	pressed non-wet colloidal question juice	0		Effect: "Well Owl Be!", Effect Duration: 61
 8849	diffused tube of villain	0		Effect: "Superioreo", Effect Duration: 41
-8850	olive asbestos-lined your cowboy boots	0		Hot Resistance: +5
+8850	your cowboy boots	0		Maximum HP: +25, Maximum MP: +25, Muscle Percent: +50
 8851	ghostly inflatable LT&T telegraph office	0		
 8852	nugget of quicksilver	0		
 8853	nugget of thicksilver	0		
@@ -8889,7 +8888,7 @@
 9024	daily dungeon malware	0		
 9025	infinite BACON machine	0		
 9026	First Post shirt package	0		
-9027	wool Tesla First Post shirt - Cir Senam of doom	0		Cold Resistance: +1, MP Regen Min: 7, MP Regen Max: 10
+9027	wool Tesla First Post shirt - Cir Senam of doom	0		Spooky Spell Damage: +50, Cold Resistance: +1, MP Regen Min: 7, MP Regen Max: 10
 9028	ghostly high-speed upgrade	0		Familiar Weight: +5
 9029	no spoon	0		
 9030	toothsome pulsating star salad	4	awesome	
@@ -9057,7 +9056,7 @@
 9193	mirror Official Council Aide Pin of the storm of incineration	0		Maximum MP Percent: +40, Hot Spell Damage: +50
 9194	watered-down drinkable eldritch distillate	2	good	
 9195	compressed pulsating upside-down eldritch essence	1	awesome	
-9196	toasty Science Notebook	0		
+9196	toasty Science Notebook	0		Hot Damage: +5
 9197	boxer's eldritch hat of the wise owl of doom	0		Mysticality: +20, Muscle Percent: +10, Spooky Spell Damage: +50
 9198	mirror nippy curative smartaleck's eldritch pants	0		Moxie Percent: +30, Cold Damage: +10, HP Regen Min: 3, HP Regen Max: 5
 9199	watered-down lousy eldritch elixir	2	decent	
@@ -9180,7 +9179,7 @@
 9317	aerosolized vacuum-sealed lime green LOV Elixir #3	0		Effect: "Stone-Faced", Effect Duration: 24
 9318	modified polarized olive ghostly LOV Elixir #6	0		Effect: "Warm Belly", Effect Duration: 31
 9319	pickled LOV Elixir #9	0		Effect: "Mucilaginous Muscle", Effect Duration: 53
-9320	manspreader's dangerous slick LOV Eardigan	0		
+9320	manspreader's dangerous slick LOV Eardigan	0		Moxie: +10, Weapon Damage: +10, Monster Level: +10, Lasts Until Rollover
 9321	mirror blinking spinning coward's wholesome LOV Epaulettes of James Dean	0		Experience (Moxie): +3, Maximum HP Percent: +10, Monster Level: -20, Lasts Until Rollover
 9322	executive mansplainer's LOV Earrings of the empath	0		Monster Level: +15, Familiar Weight: +5, Meat Drop: +40, Single Equip, Lasts Until Rollover
 9323	LOV Enamorang	0		
@@ -9188,7 +9187,7 @@
 9325	spinning LOV Extraterrestrial Chocolate	0		
 9326	modified olive LOV Echinacea Bouquet	1	awesome	
 9327	spinning curative LOV Elephant	0		HP Regen Min: 3, HP Regen Max: 5, Damage Reduction: 6
-9328	Jeselnik's eldritch scanner	0		
+9328	Jeselnik's eldritch scanner	0		Sleaze Damage: +25
 9329	ionized extra-dry squat squat eldritch alignment spray	0		Effect: "Chalky Hand", Effect Duration: 65
 9330	LOV Entrance Pass	0		
 9331	horrifying chilly eldritch hammer of the cougar	0		Moxie: +20, Cold Damage: +5, Spooky Damage: +25
@@ -9243,7 +9242,7 @@
 9380	watered-down bad soilzerac	2	decent	
 9381	mediocre London frog	3	decent	
 9382	perfectly mixed weak green nothingtini	2	EPIC	
-9383	shaking Special Seasoning	0		
+9383	tolerable watered-down cyan eighth plague	2	good	
 9384	practically non-alcoholic mediocre tumbling single entendre	1	decent	
 9385	weak perfectly mixed reverse Tantalus	2	EPIC	
 9386	drinkable weak huge elemental caipiroska	2	good	
@@ -9359,7 +9358,7 @@
 9498	can of Minions-Be-Gone	0		
 9499	tattoo gun	0		
 9500	gun	0		Free Pull
-9501	bite-sized tasty blue beef jerky	1	awesome	
+9501	gum	0		Free Pull
 9502	huge up-at-dawn gravedigger's plastic gundam of chilblains	0		Cold Damage: +25, Spooky Damage: +10, Adventures: +5
 9503	License to Chill	0		
 9504	Celsius 233	0		Skill: "Eternal Flame"
@@ -9428,13 +9427,13 @@
 9567	Temple Grandin's deadly Socratic sage steel drivin' hammer	0		Mysticality Percent: +10, Experience (Mysticality): +1, Weapon Damage: +5, Familiar Weight: +7
 9568	piece of steel	0		
 9569	tumbling veiny strapping mafia pointer finger ring	0		Muscle: +5, Maximum HP: +10, Single Equip
-9570	wobbly worksite credentials of the sewer	0		Single Equip
+9570	wobbly worksite credentials of the sewer	0		Stench Damage: +25, Single Equip
 9571	Usain Bolt's horrifying forbidden negotiatin' hammer of the dark arts	0		Spell Damage Percent: 150, Spooky Damage: +25, Initiative: +80
 9572	mirror mirror pantogram	0		Free Pull
 9573	pantogram	0		
-9574	lightning-fast horrifying scorching educational brawny Molten Brainy Burlap Jorts of Self-control of the Porcupine	0		Muscle Percent: +20, Experience: +1, Hot Damage: +25, Spooky Damage: +25, Initiative: +40, Lasts Until Rollover
+9574	lightning-fast horrifying scorching educational brawny pantogram pants	0		Muscle Percent: +20, Experience: +1, Hot Damage: +25, Spooky Damage: +25, Initiative: +40, Lasts Until Rollover
 9575	Jack Frost's Jim Carey's mafia wedding ring	0		Monster Level: +25, Cold Spell Damage: +50, Single Equip
-9576	ribald mafia organizer badge	0		Single Equip
+9576	ribald mafia organizer badge	0		Sleaze Damage: +10, Single Equip
 9577	mafia filofax	0		
 9578	special transparent nog	1	awesome	Effect: "Nano-juiced", Effect Duration: 50
 9579	toothsome shaking unfinished fruitcake	3	awesome	
@@ -9757,7 +9756,7 @@
 9907	narrow huge God Lobster's Crown	0		
 9908	skewed Dish of Clarified Butter	0		
 9909	G	0		
-9910	Gggggggarland of Gggggggreatness	0		
+9910	Ggggggggggarland of Ggggggggggreatness	0		
 9911	gattoo	0		
 9912	mirror A-Boo glue	0		
 9913	glued A-Boo clue	0		
@@ -9779,7 +9778,7 @@
 9929	friendly Jim Carey's wholesome rock-hard Brutal brogues	0		Damage Reduction: 5, Maximum HP Percent: +10, Monster Level: +25, Familiar Weight: +3, Lasts Until Rollover
 9930	bouncing asbestos-lined Fonzie's Draftsman's driving gloves of the sewer of courage	0		Experience (Moxie): +1, Stench Damage: +25, Hot Resistance: +5, Spooky Resistance: +3, Lasts Until Rollover
 9931	twirling gray prompt avaricious quilted Nouveau nosering of the glutton	0		Damage Absorption: +40, Meat Drop: +30, Food Drop: +100, Adventures: +3, Lasts Until Rollover
-9932	flavorless bouncing blurry escargotsicle	3	decent	
+9932	super-concentrated diffused blurry sharkfin gumbo	0		Effect: "Educated (Kinda)", Effect Duration: 12
 9933	irradiated red boiling broth	0		Effect: "Smoking like a Bandit", Effect Duration: 49
 9934	alkaline energized blurry interrogative elixir	0		Effect: "El Vibrations", Effect Duration: 32
 9935	mirror yellow Bastille Battalion Fondue Trophy	0		
@@ -9795,7 +9794,7 @@
 9945	Neverending Party favor	0		
 9946	deluxe Neverending Party favor	0		
 9947	maroon gas can	0		
-9948	esca	0		
+9948	enchanted perfectly mixed Middle of the Road&trade; brand whiskey	4	EPIC	Effect: "Fishy Fortification", Effect Duration: 35
 9949	ghostly neverending wallet chain	0		
 9950	lime green smelly pentagram bandana of mayonnaise	0		Stench Spell Damage: +10, Sleaze Spell Damage: +50
 9951	ghostly skull ring of the pedagogue	0		Experience: +3, Single Equip
@@ -9805,12 +9804,12 @@
 9955	flame-retardant brawny ponytail clip	0		Muscle Percent: +20, Hot Resistance: +1
 9956	shellacked paint palette	0		Damage Reduction: 7
 9957	blurry blinking teal unremarkable duffel bag	0		
-9958	skewed twirling depleted Grimacite kneecapping stick of the sweet-tooth	0		Candy Drop: +100
+9958	mixed Purple Beast energy drink	1	decent	
 9959	mirror cosmetic football of the cheetah	0		Initiative: +60
 9960	experienced shoe ad T-shirt of chilblains	0		Experience: +2, Cold Damage: +25
 9961	narrow boxer's pump-up high-tops	0		Muscle Percent: +10, Single Equip
 9962	energized super-ionized runproof mascara	0		Effect: "Broken Bone Nubs", Effect Duration: 50
-9963	up-at-dawn flame-wreathed vinyl shield of the glutton	0		Hot Spell Damage: +10, Food Drop: +100, Adventures: +5, Damage Reduction: 14
+9963	blurry very small dress	0		
 9964	yellow quilted deadly noticeable pumps	0		Weapon Damage: +5, Damage Absorption: +40, Single Equip
 9965	surprisingly capacious handbag	0		
 9966	watered-down delicious everfull glass	2		
@@ -9892,7 +9891,7 @@
 10044	mediocre blurry beaver punch (papaya)	3	decent	
 10045	weak artisanal pulsating skewed beaver punch (peach)	2	EPIC	
 10046	aged blue beaver punch (cherry)	3	awesome	
-10047	upside-down zippy Canadian lantern of the overflowing toilet	0		Initiative: +20
+10047	upside-down zippy Canadian lantern of the overflowing toilet	0		Stench Spell Damage: +50, Initiative: +20
 10048	muskox-skin cap of the glutton	0		Food Drop: +100
 10049	bouncing Boxing Day care package	0		Free Pull
 10050	bland glass of raw eggs	3	decent	
@@ -9924,7 +9923,7 @@
 10079	up-at-dawn Crimbolex watch of James Dean of horror	0		Experience (Moxie): +3, Spooky Spell Damage: +25, Adventures: +5, Single Equip
 10080	Crimbo tattoo kit	0		
 10081	twirling personal trainer's beefcake's hand-knitted Crimbo socks of the blizzard	0		Muscle: +25, Experience Percent (Muscle): +10, Cold Spell Damage: +25
-10082	tumbling narrow asbestos-lined chalk chlamys of terror	0		Hot Resistance: +5
+10082	tumbling narrow asbestos-lined chalk chlamys of terror	0		Spooky Spell Damage: +10, Hot Resistance: +5
 10083	avaricious Newton's chalk chain	0		Experience (Mysticality): +3, Meat Drop: +30, Single Equip
 10084	narrow family-friendly flame-retardant chalk chalice	0		Hot Resistance: +1, Sleaze Resistance: +1
 10085	crafty chalk chinos of dire peril	0		Weapon Damage: +20, Maximum MP: +10
@@ -9932,7 +9931,7 @@
 10087	aromatic curative chalk choker	0		Stench Resistance: +1, HP Regen Min: 3, HP Regen Max: 5, Single Equip
 10088	mixed bouncing pulsating purple chalk chunks	1	crappy	Effect: "Irresistible Resolve", Effect Duration: 40
 10089	concentrated Vulcanized candy chalk	0		Effect: "Cuts Like a Lightly-Buttered Knife", Effect Duration: 33
-10090	purple Usain Bolt's stanky marble maebari	0		Initiative: +80
+10090	purple Usain Bolt's stanky marble maebari	0		Stench Spell Damage: +25, Initiative: +80
 10091	toasty marble mantle of wisdom	0		Mysticality: +15, Hot Damage: +5
 10092	gray rosy-cheeked smooth marble magnet	0		Moxie: +15, Maximum HP Percent: +30, Single Equip
 10093	blue huge Temple Grandin's marble mignonette bowl of the boozehound	0		Familiar Weight: +7, Booze Drop: +100
@@ -10017,7 +10016,7 @@
 10223	dried pewter shavings	1	good	
 10224	fuchsia Red Roger tattoo kit	0		
 10225	upside-down PirateRealm fun-a-log	0		
-10226	scorching plush sea serpent	0		Monster Level: -100, Single Equip
+10226	scorching plush sea serpent	0		Hot Damage: +25, Monster Level: -100, Single Equip
 10227	adequate pirate fork	3		
 10228	Scurvy and Sobriety Prevention	0		Skill: "Prevent Scurvy and Sobriety"
 10229	ring	0		Single Equip
@@ -10037,5 +10036,8 @@
 10243	plastic pirate hat	0		Familiar Weight: +5
 10244	enhanced oxidized blurry one piece of bubble gum	0		Effect: "Hip to the Jive", Effect Duration: 25
 10250	Fourth of May Cosplay Saber kit	0		Free Pull
-10251	squat up-at-dawn smelly Fourth of May Cosplay Saber of the detective	0		Item Drop: +20, Adventures: +5
+10251	squat up-at-dawn smelly Fourth of May Cosplay Saber of the detective	0		Stench Spell Damage: +10, Item Drop: +20, Adventures: +5
 10252	ring	0		Single Equip
+10253	Thwaitgold nymph statuette	0		
+10254	hewn moon-rune spoon	0		Single Equip
+10256	purple rune-strewn spoon cocoon	0		Free Pull
