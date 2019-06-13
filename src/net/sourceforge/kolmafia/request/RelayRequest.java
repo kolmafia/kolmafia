@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -2226,7 +2227,10 @@ public class RelayRequest
 			String baron = TavernManager.baronSquare();
 			if ( action != null && action.equals( "explore" ) && square != null && square.equals( baron ) && KoLCharacter.mcdAvailable() )
 			{
-				return this.sendBossWarning( "Baron von Ratsworth", "ratsworth.gif", 2, "moneyclip.gif", 9, "tophat.gif" );
+				return this.sendBossWarning( "Baron von Ratsworth", "ratsworth.gif",
+							     "Baron von Ratsworth's monocle",
+							     2, "Baron von Ratsworth's money clip",
+							     9, "Baron von Ratsworth's tophat" );
 			}
 			return false;
 		}
@@ -2249,7 +2253,10 @@ public class RelayRequest
 					// Do not prompt about adjusting the MCD if the Boss Bat cannot show up
 					return false;
 				}
-				return this.sendBossWarning( "The Boss Bat", "bossbat.gif", 4, "batpants.gif", 8, "batbling.gif" );
+				return this.sendBossWarning( "The Boss Bat", "bossbat.gif",
+							     "",
+							     4, "Boss Bat britches",
+							     8, "Boss Bat bling" );
 			}
 			return false;
 		}
@@ -2260,7 +2267,10 @@ public class RelayRequest
 			String action = this.getFormField( "action" );
 			if ( action != null && action.equals( "throneroom" ) && KoLCharacter.mcdAvailable() )
 			{
-				return this.sendBossWarning( "The Knob Goblin King", "goblinking.gif", 3, "glassballs.gif", 7, "codpiece.gif" );
+				return this.sendBossWarning( "The Knob Goblin King", "goblinking.gif",
+							     "Crown of the Goblin King",
+							     3, "Glass Balls of the Goblin King",
+							     7, "Codpiece of the Goblin King" );
 			}
 			return false;
 		}
@@ -2271,7 +2281,10 @@ public class RelayRequest
 			String action = this.getFormField( "action" );
 			if ( action != null && action.equals( "heart" ) && KoLCharacter.mcdAvailable() )
 			{
-				return this.sendBossWarning( "The Bonerdagon", "bonedragon.gif", 5, "rib.gif", 10, "vertebra.gif" );
+				return this.sendBossWarning( "The Bonerdagon", "bonedragon.gif",
+							     "",
+							     5, "rib of the Bonerdagon",
+							     10, "vertebra of the Bonerdagon" );
 			}
 			return false;
 		}
@@ -2280,6 +2293,7 @@ public class RelayRequest
 	}
 
 	private boolean sendBossWarning( final String name, final String image,
+					 final String item0,
 					 final int mcd1, final String item1,
 					 final int mcd2, final String item2 )
 	{
@@ -2296,6 +2310,16 @@ public class RelayRequest
 		}
 
 		int mcd0 = KoLCharacter.getMindControlLevel();
+
+		int item0Id = (item0 == null ) ? -1 : ItemDatabase.getItemId( item0, 1, false );
+		String item0Image = ( item0 == null ) ? "" : ItemDatabase.getItemImageLocation( item0Id );
+		String item0Modifiers = ( item0 == null ) ? "" : Modifiers.getStringModifier( "Item", item0, "Modifiers" );
+		int item1Id = ItemDatabase.getItemId( item1, 1, false );
+		String item1Image = ( item1 == null ) ? "" : ItemDatabase.getItemImageLocation( item1Id );
+		String item1Modifiers =  Modifiers.getStringModifier( "Item", item1, "Modifiers" );
+		int item2Id = ItemDatabase.getItemId( item2, 1, false );
+		String item2Image = ( item2 == null ) ? "" : ItemDatabase.getItemImageLocation( item2Id );
+		String item2Modifiers =  Modifiers.getStringModifier( "Item", item2, "Modifiers" );
 
 		StringBuilder warning = new StringBuilder();
 
@@ -2325,44 +2349,79 @@ public class RelayRequest
 
 		warning.append( "<table><tr>" );
 
-		warning.append( "<td align=center valign=center><div id=\"mcd1\" style=\"padding: 4px 4px 4px 4px" );
-
+		warning.append( "<td align=center valign=top><div id=\"mcd1\" style=\"padding: 4px 4px 4px 4px" );
+		
 		if ( mcd0 == mcd1 )
 		{
 			warning.append( "; border: 1px dashed blue" );
 		}
 
-		warning.append( "\"><a id=\"link1\" style=\"text-decoration: none\" onClick=\"switchLinks('mcd1'); void(0);\" href=\"#\"><img src=\"/images/itemimages/" );
-		warning.append( item1 );
+		warning.append( "\">" );
+		warning.append( "<table ncol=1 width=100>" );
+		warning.append( "<tr align=center><td><a id=\"link1\" style=\"text-decoration: none\" onClick=\"switchLinks('mcd1'); void(0);\" href=\"#\"><img src=\"/images/itemimages/" );
+		warning.append( item1Image );
 		warning.append( "\" width=30 height=30><br /><font size=1>MCD " );
 		warning.append( mcd1 );
-		warning.append( "</font></a></div></td>" );
+		warning.append( "</font></a></td></tr>" );
+		if ( !item1Modifiers.equals( "" ) )
+		{
+			warning.append( "<tr align=center><td><font size=1>" );
+			warning.append( item1Modifiers );
+			warning.append( "</font></td></tr>" );
+		}
+		warning.append( "</table>" );
+		warning.append( "</div></td>" );
 
 		warning.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
 
-		warning.append( "<td valign=center><a href=\"" );
+		warning.append( "<td valign=top>" );
+		warning.append( "<table ncol=1 width=100>" );
+		warning.append( "<tr align=center><td><a href=\"" );
 		warning.append( this.getURLString() );
 		warning.append( "&" );
 		warning.append( CONFIRM_MCD );
 		warning.append( "=on" );
 		warning.append( "\"><img src=\"/images/adventureimages/" );
 		warning.append( image );
-		warning.append( "\"></a></td>" );
+		warning.append( "\"></a>" );
+		warning.append( "</td></tr>" );
+
+		if ( !item0.equals( "" ) )
+		{
+			warning.append( "<tr align=center><td><img src=\"/images/itemimages/" );
+			warning.append( item0Image );
+			warning.append( "\" width=30 height=30></td></tr>" );
+			warning.append( "<tr align=center><td><font size=1>" );
+			warning.append( item0Modifiers );
+			warning.append( "</font></td></tr>" );
+		}
+		warning.append( "</table>" );
+		warning.append( "</td>" );
 
 		warning.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
 
-		warning.append( "<td align=center valign=center><div id=\"mcd2\" style=\"padding: 4px 4px 4px 4px" );
+		warning.append( "<td align=center valign=top><div id=\"mcd2\" style=\"padding: 4px 4px 4px 4px" );
 
 		if ( KoLCharacter.getMindControlLevel() == mcd2 )
 		{
 			warning.append( "; border: 1px dashed blue" );
 		}
 
-		warning.append( "\"><a id=\"link2\" style=\"text-decoration: none\" onClick=\"switchLinks('mcd2'); void(0);\" href=\"#\"><img src=\"/images/itemimages/" );
-		warning.append( item2 );
+		warning.append( "\">" );
+		warning.append( "<table ncol=1 width=100>" );
+		warning.append( "<tr align=center><td><a id=\"link2\" style=\"text-decoration: none\" onClick=\"switchLinks('mcd2'); void(0);\" href=\"#\"><img src=\"/images/itemimages/" );
+		warning.append( item2Image );
 		warning.append( "\" width=30 height=30><br /><font size=1>MCD " );
 		warning.append( mcd2 );
-		warning.append( "</font></a></div></td>" );
+		warning.append( "</font></a></td></tr>" );
+		if ( !item2Modifiers.equals( "" ) )
+		{
+			warning.append( "<tr align=center><td><font size=1>" );
+			warning.append( item2Modifiers );
+			warning.append( "</font></td></tr>" );
+		}
+		warning.append( "</table>" );
+		warning.append( "</div></td>" );
 
 		warning.append( "</tr></table></center><blockquote>" );
 		warning.append( name );
