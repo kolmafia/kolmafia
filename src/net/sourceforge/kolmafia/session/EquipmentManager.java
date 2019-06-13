@@ -835,6 +835,9 @@ public class EquipmentManager
 					KoLCharacter.removeAvailableSkill( "Reflex Hammer" );
 					KoLCharacter.removeAvailableSkill( "Chest X-Ray" );
 					break;				
+				case ItemPool.FOURTH_SABER:
+					KoLCharacter.removeAvailableSkill( "Use the Force" );
+					break;
 				}
 			}
 		}
@@ -1115,6 +1118,9 @@ public class EquipmentManager
 			KoLCharacter.addAvailableSkill( "Reflex Hammer" );
 			KoLCharacter.addAvailableSkill( "Chest X-Ray" );
 			break;				
+		case ItemPool.FOURTH_SABER:
+			KoLCharacter.addAvailableSkill( "Use the Force" );
+			break;
 		}
 
 		// If we are either swapping out or in a stinky cheese item,
@@ -2134,6 +2140,20 @@ public class EquipmentManager
 			{
 				return Stat.MOXIE;
 			}
+			if ( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() == ItemPool.FOURTH_SABER )
+			{
+				// Fourth of May Cosplay Saber uses highest buffed stat
+				if ( KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle()
+					&& KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMysticality() )
+				{
+					return Stat.MOXIE;
+				}
+				if ( KoLCharacter.getAdjustedMysticality() >= KoLCharacter.getAdjustedMuscle()
+					&& KoLCharacter.getAdjustedMysticality() >= KoLCharacter.getAdjustedMoxie() )
+				{
+					return Stat.MYSTICALITY;
+				}
+			}			
 			return Stat.MUSCLE;
 		}
 	}
