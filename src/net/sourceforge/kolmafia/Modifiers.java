@@ -46,6 +46,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.TreeMap;
 
@@ -89,6 +90,7 @@ public class Modifiers
 	private static final ArrayList<UseSkillRequest> passiveSkills = new ArrayList<UseSkillRequest>();
 	private static final ArrayList synergies = new ArrayList();
 	private static final ArrayList<String> mutexes = new ArrayList<String>();
+	private static final Map<String,Set<String>> uniques = new HashMap<String,Set<String>>();
 	public static String currentLocation = "";
 	public static String currentZone = "";
 	public static String currentEnvironment = "";
@@ -4017,6 +4019,7 @@ public class Modifiers
 		Modifiers.passiveSkills.clear();
 		Modifiers.synergies.clear();
 		Modifiers.mutexes.clear();
+		Modifiers.uniques.clear();
 
 		BufferedReader reader = FileUtilities.getVersionedReader( "modifiers.txt", KoLConstants.MODIFIERS_VERSION );
 		String[] data;
@@ -4114,6 +4117,15 @@ public class Modifiers
 					mods.bitmaps[ Modifiers.MUTEX ] |= bit;
 				}
 				Modifiers.mutexes.add( name );
+			}
+			else if ( type.equals( "Unique" ) )
+			{
+				if ( Modifiers.uniques.containsKey( modifiers ) )
+				{
+					KoLmafia.updateDisplay( "Unique items for " + modifiers + " already declared." );
+					continue loop;
+				}
+				Modifiers.uniques.put( modifiers, new HashSet<String>( Arrays.asList( name.split( "/" ) ) ) );
 			}
 		}
 
