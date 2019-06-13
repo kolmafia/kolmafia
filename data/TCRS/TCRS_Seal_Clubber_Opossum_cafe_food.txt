@@ -1,0 +1,45 @@
+-1	bland jumbo squat Peche a la Frog	5	decent	
+-2	decent As Jus Gezund Heit	4	good	
+-3	immense decent Bouillabaise Coucher Avec Moi	7	good	
+-7	snack-sized flavorless gumdrop chow mein	2	decent	
+-8	adequate miniature candy cane pizza	2	good	
+-9	moldy teal gingerbread stir-fry	4	crappy	
+-10	decent bouncing twigs and gravel	4	good	
+-11	miniature bland yellow shoots and leaves	2	decent	
+-12	rotten enchanted bowl of unidentifiable goo	4	crappy	
+-13	yummy yellow gingerbread massacre	3	awesome	
+-14	bland cyan It Came From Beyond Dessert	3	decent	
+-15	bland tiny vampire cake	1	decent	
+-52	snack-sized spoiled Soylent Red and Green	2	crappy	
+-53	decent Disc-Shaped Nutrition Unit	4	good	
+-54	bland Gingerborg Hive	3	decent	
+-61	normal small Candy Cane Surprise	2	good	
+-62	tasty jittery Grimdrop Chow Mein	3	awesome	
+-63	stale miniature Grimgerbread House	2	decent	
+-67	moldy snack-sized Caviar Carbonara	2	crappy	
+-68	adequate fancy snack-sized Halibut Alfredo	2	good	
+-69	bite-sized yummy Red Herring Velvet Cake	1	awesome	
+-73	tiny stale CRIMBCO Reconstituted Gruel	1	decent	
+-74	normal ghostly New and Improved CRIMBCO Reconstituted Gruel	3	good	
+-75	flavorless CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	3	decent	
+-79	decent Brussels Sprout Stir-Fry	3	good	
+-80	yummy jumbo Carrot, Cabbage, and Kale Pizza	5	awesome	
+-81	rotten Turnip and Rutabaga Pie	3	crappy	
+-85	toothsome thick Rainbow Spider Fun Roll	5	awesome	
+-86	rotten special upside-down Vegas Volcano Lava Roll	3	crappy	
+-87	super-sized spoiled squat Crazy Dragon Shogun Buddha Roll	5	crappy	
+-92	spoiled jumbo basic hot dog	5	crappy	
+-93	moldy squat savage macho dog	4	crappy	
+-94	gigantic spoiled one with everything	8	crappy	
+-95	stale sly dog	4	decent	
+-96	adequate devil dog	3	good	
+-97	moldy fuchsia chilly dog	4	crappy	
+-98	flavorless bite-sized ghost dog	1	decent	
+-99	diet stale junkyard dog	1	decent	
+-100	rotten wet dog	4	crappy	
+-101	normal teal sleeping dog	4	good	
+-102	bland twirling optimal dog	4	decent	
+-103	flavorless bite-sized pulsating video games hot dog	1	decent	
+-104	adequate jumbo Peppermint Nutrition Block	5	good	
+-105	miniature adequate Gingerbread Nutrition Block	2	good	
+-106	rotten Cinnamon Nutrition Block	4	crappy	
