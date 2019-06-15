@@ -9583,13 +9583,7 @@ public class FightRequest
 		case ItemPool.ROCK_BAND_FLYERS:
 		case ItemPool.JAM_BAND_FLYERS:
 			// You slap a flyer up on your opponent. It enrages it.
-			// 
-			// rune-hewn moon spoon will replace a word with an italicized rhyme.
-			// I haven't seen it replace two words, so check two phrases
-
-			if ( responseText.contains( "You slap a flyer" ) ||
-			     responseText.contains( "It enrages" ) ||
-			     itemSuccess )
+			if ( responseText.contains( "You slap a flyer" ) || itemSuccess )
 			{
 				int ML = Math.max( 0, MonsterStatusTracker.getMonsterOriginalAttack() );
 				Preferences.increment( "flyeredML", ML );
