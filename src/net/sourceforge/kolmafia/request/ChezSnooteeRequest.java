@@ -215,21 +215,6 @@ public class ChezSnooteeRequest
 		CafeRequest.reset( KoLConstants.restaurantItems );
 	}
 
-	private static final String cafeItemName( final int itemId )
-	{
-		switch ( itemId )
-		{
-		case -1:
-			return "Peche a la Frog";
-		case -2:
-			return "As Jus Gezund Heit";
-		case -3:
-			return "Bouillabaise Coucher Avec Moi";
-		default:
-			return ItemDatabase.getItemName( itemId );
-		}
-	}
-
 	public static final boolean registerRequest( final String urlString )
 	{
 		Matcher matcher = CafeRequest.CAFE_PATTERN.matcher( urlString );
