@@ -551,7 +551,7 @@ public class ListCellRendererFactory
 				}
 				else
 				{
-					String effectName = Modifiers.getStringModifier( "Item", name, "Effect" );
+					String effectName = item.getEffectName();
 					int effectDuration = (int) Modifiers.getNumericModifier( "Item", name, "Effect Duration" );
 					String effectModifiers = Modifiers.getStringModifier( "Effect", effectName, "Modifiers" );
 					stringForm.append( effectDuration );

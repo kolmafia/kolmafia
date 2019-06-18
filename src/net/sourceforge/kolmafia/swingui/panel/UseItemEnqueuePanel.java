@@ -154,28 +154,28 @@ public class UseItemEnqueuePanel
 
 		boolean potions = !food && !booze && !spleen;
 
-		this.filters = new JCheckBox[ !potions ? 8 : 3 ];
+		this.filters = new JCheckBox[ potions ? 4 : 8 ];
 
 		this.filters[ 0 ] = new JCheckBox( "no create" );
 		this.filters[ 1 ] = new TurnFreeCheckbox();
 		this.filters[ 2 ] = new NoSummonCheckbox();
-		for ( int i = 0; i < 3; ++i )
-		{
-			this.listenToCheckBox( this.filters[ i ] );
-		}
 
-		if ( !potions )
+		if ( potions )
+		{
+			this.filters[ 3 ] = new EffectNameCheckbox();
+		}
+		else
 		{
 			this.filters[ 3 ] = new JCheckBox( "+mus only" );
 			this.filters[ 4 ] = new JCheckBox( "+mys only" );
 			this.filters[ 5 ] = new JCheckBox( "+mox only" );
 			this.filters[ 6 ] = new ExperimentalCheckBox( food, booze );
 			this.filters[ 7 ] = new ByRoomCheckbox();
+		}
 
-			for ( int i = 3; i < 6; ++i )
-			{
-				this.listenToCheckBox( this.filters[ i ] );
-			}
+		for ( JCheckBox checkbox : this.filters )
+		{
+			this.listenToCheckBox( checkbox );
 		}
 
 		JPanel filterPanel = new JPanel( new GridLayout() );
@@ -187,7 +187,11 @@ public class UseItemEnqueuePanel
 		column1.add( this.filters[ 0 ], BorderLayout.NORTH );
 		column2.add( this.filters[ 1 ], BorderLayout.NORTH );
 		column3.add( this.filters[ 2 ], BorderLayout.NORTH );
-		if ( !potions )
+		if ( potions )
+		{
+			column4.add( this.filters[ 3 ], BorderLayout.NORTH );
+		}
+		else
 		{
 			column1.add( this.filters[ 3 ], BorderLayout.CENTER );
 			column2.add( this.filters[ 4 ], BorderLayout.CENTER );
@@ -996,6 +1000,23 @@ public class UseItemEnqueuePanel
 			super( food && booze ? "per full/drunk" : booze ? "per drunk" : food ? "per full" : "per spleen", "showGainsPerUnit" );
 
 			this.setToolTipText( "Sort gains per adventure" );
+		}
+
+		@Override
+		protected void handleClick()
+		{
+			ConcoctionDatabase.getUsables().sort();
+		}
+	}
+
+	private static class EffectNameCheckbox
+		extends PreferenceListenerCheckBox
+	{
+		public EffectNameCheckbox()
+		{
+			super( "by effect", "sortByEffect" );
+
+			this.setToolTipText( "Sort items by the effect they produce" );
 		}
 
 		@Override

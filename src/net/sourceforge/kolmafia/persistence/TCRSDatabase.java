@@ -39,6 +39,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -667,7 +669,19 @@ public class TCRSDatabase
 			addEffectSource( itemName, usage, effectName );
 		}
 
+		// Whether or not there is an effect name, reset the concoction
+		setEffectName( itemId, itemName );
+
 		return true;
+	}
+
+	public static void setEffectName( final Integer itemId, String name )
+	{
+		Concoction c = ConcoctionPool.get( itemId, name );
+		if ( c != null )
+		{
+			c.setEffectName();
+		}
 	}
 
 	private static void addEffectSource( final String itemName, final int usage, final String effectName )
@@ -790,6 +804,7 @@ public class TCRSDatabase
 		deriveApplyItem( ItemPool.RING  );
 		deriveApplyItem( ItemPool.HEWN_MOON_RUNE_SPOON  );
 
+		ConcoctionDatabase.resetEffects();
 		ConcoctionDatabase.refreshConcoctions();
 		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
