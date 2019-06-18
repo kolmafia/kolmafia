@@ -152,18 +152,30 @@ public class UseItemEnqueuePanel
 		this.getElementList().setVisibleRowCount( 6 );
 		this.getElementList().setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
-		this.filters = new JCheckBox[ food || booze || spleen ? 8 : 7 ];
+		boolean potions = !food && !booze && !spleen;
+
+		this.filters = new JCheckBox[ !potions ? 8 : 3 ];
 
 		this.filters[ 0 ] = new JCheckBox( "no create" );
 		this.filters[ 1 ] = new TurnFreeCheckbox();
 		this.filters[ 2 ] = new NoSummonCheckbox();
-		this.filters[ 3 ] = new JCheckBox( "+mus only" );
-		this.filters[ 4 ] = new JCheckBox( "+mys only" );
-		this.filters[ 5 ] = new JCheckBox( "+mox only" );
-
-		for ( int i = 0; i < 6; ++i )
+		for ( int i = 0; i < 3; ++i )
 		{
 			this.listenToCheckBox( this.filters[ i ] );
+		}
+
+		if ( !potions )
+		{
+			this.filters[ 3 ] = new JCheckBox( "+mus only" );
+			this.filters[ 4 ] = new JCheckBox( "+mys only" );
+			this.filters[ 5 ] = new JCheckBox( "+mox only" );
+			this.filters[ 6 ] = new ExperimentalCheckBox( food, booze );
+			this.filters[ 7 ] = new ByRoomCheckbox();
+
+			for ( int i = 3; i < 6; ++i )
+			{
+				this.listenToCheckBox( this.filters[ i ] );
+			}
 		}
 
 		JPanel filterPanel = new JPanel( new GridLayout() );
@@ -175,21 +187,13 @@ public class UseItemEnqueuePanel
 		column1.add( this.filters[ 0 ], BorderLayout.NORTH );
 		column2.add( this.filters[ 1 ], BorderLayout.NORTH );
 		column3.add( this.filters[ 2 ], BorderLayout.NORTH );
-		column1.add( this.filters[ 3 ], BorderLayout.CENTER );
-		column2.add( this.filters[ 4 ], BorderLayout.CENTER );
-		column3.add( this.filters[ 5 ], BorderLayout.CENTER );
-
-		if ( food || booze || spleen )
+		if ( !potions )
 		{
-			this.filters[ 6 ] = new ExperimentalCheckBox( food, booze );
-			this.filters[ 7 ] = new ByRoomCheckbox();
+			column1.add( this.filters[ 3 ], BorderLayout.CENTER );
+			column2.add( this.filters[ 4 ], BorderLayout.CENTER );
+			column3.add( this.filters[ 5 ], BorderLayout.CENTER );
 			column4.add( this.filters[ 6 ], BorderLayout.NORTH );
 			column4.add( this.filters[ 7 ], BorderLayout.CENTER );
-		}
-		else
-		{
-			this.filters[ 6 ] = new ByRoomCheckbox();
-			column4.add( this.filters[ 6 ], BorderLayout.CENTER );
 		}
 
 		filterPanel.add( column1 );
@@ -344,12 +348,12 @@ public class UseItemEnqueuePanel
 				UseItemEnqueuePanel.this.queueTabs.setTitleAt(
 					0, ConcoctionDatabase.getQueuedFullness() + " Full Queued" );
 			}
-			if ( UseItemEnqueuePanel.this.booze )
+			else if ( UseItemEnqueuePanel.this.booze )
 			{
 				UseItemEnqueuePanel.this.queueTabs.setTitleAt(
 					0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
 			}
-			if ( UseItemEnqueuePanel.this.spleen )
+			else if ( UseItemEnqueuePanel.this.spleen )
 			{
 				UseItemEnqueuePanel.this.queueTabs.setTitleAt(
 					0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
@@ -394,15 +398,19 @@ public class UseItemEnqueuePanel
 				ConcoctionDatabase.handleQueue( true, false, false, KoLConstants.CONSUME_EAT );
 				UseItemEnqueuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedFullness() + " Full Queued" );
 			}
-			if ( UseItemEnqueuePanel.this.booze )
+			else if ( UseItemEnqueuePanel.this.booze )
 			{
 				ConcoctionDatabase.handleQueue( false, true, false, KoLConstants.CONSUME_DRINK );
 				UseItemEnqueuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
 			}
-			if ( UseItemEnqueuePanel.this.spleen )
+			else if ( UseItemEnqueuePanel.this.spleen )
 			{
 				ConcoctionDatabase.handleQueue( false, false, true, KoLConstants.CONSUME_SPLEEN );
 				UseItemEnqueuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
+			}
+			else
+			{
+				ConcoctionDatabase.handleQueue( false, false, false, KoLConstants.CONSUME_USE );
 			}
 			ConcoctionDatabase.getUsables().sort();
 		}
@@ -668,6 +676,8 @@ public class UseItemEnqueuePanel
 				}
 			}
 
+			boolean potions = !UseItemEnqueuePanel.this.food && !UseItemEnqueuePanel.this.booze && !UseItemEnqueuePanel.this.spleen;
+
 			String name = creation.getName();
 
 			if ( ConsumablesDatabase.getRawFullness( name ) != null )
@@ -708,22 +718,53 @@ public class UseItemEnqueuePanel
 				return super.isVisible( element );
 
 			case KoLConstants.CONSUME_USE:
-				if ( ( !UseItemEnqueuePanel.this.booze ||
-				       creation.getItemId() != ItemPool.ICE_STEIN ) &&
-				     ( !UseItemEnqueuePanel.this.food ||
-				       !ConcoctionDatabase.canQueueFood( creation.getItemId() ) ) )
+				if ( UseItemEnqueuePanel.this.booze )
+				{
+					if ( creation.getItemId() != ItemPool.ICE_STEIN )
+					{
+						return false;
+					}
+				}
+				else if ( UseItemEnqueuePanel.this.food )
+				{
+					if ( !ConcoctionDatabase.canQueueFood( creation.getItemId() ) )
+					{
+						return false;
+					}
+				}
+				else if ( UseItemEnqueuePanel.this.spleen )
 				{
 					return false;
+				}
+				else
+				{
+					if ( !ItemDatabase.isPotion( item ) )
+					{
+						return false;
+					}
 				}
 				return super.isVisible( element );
 
 			case KoLConstants.CONSUME_MULTIPLE:
-				if ( !UseItemEnqueuePanel.this.food ||
-				     !ConcoctionDatabase.canQueueFood( creation.getItemId() ) )
+				if ( UseItemEnqueuePanel.this.booze || UseItemEnqueuePanel.this.spleen )
 				{
 					return false;
 				}
-				return super.isVisible( element );
+				if ( UseItemEnqueuePanel.this.food )
+				{
+					if ( !ConcoctionDatabase.canQueueFood( creation.getItemId() ) )
+					{
+						return false;
+					}
+				}
+				else
+				{
+					if ( !ItemDatabase.isPotion( item ) )
+					{
+						return false;
+					}
+				}
+ 				return super.isVisible( element );
 
 			default:
 				return false;
@@ -902,30 +943,35 @@ public class UseItemEnqueuePanel
 					return false;
 				}
 			}
-			if ( UseItemEnqueuePanel.this.filters[ 3 ].isSelected() )
-			{
-				String range = ConsumablesDatabase.getMuscleRange( name );
-				if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
-				{
-					return false;
-				}
-			}
 
-			if ( UseItemEnqueuePanel.this.filters[ 4 ].isSelected() )
+			// Consumables only:
+			if ( !potions )
 			{
-				String range = ConsumablesDatabase.getMysticalityRange( name );
-				if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
+				if ( UseItemEnqueuePanel.this.filters[ 3 ].isSelected() )
 				{
-					return false;
+					String range = ConsumablesDatabase.getMuscleRange( name );
+					if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
+					{
+						return false;
+					}
 				}
-			}
 
-			if ( UseItemEnqueuePanel.this.filters[ 5 ].isSelected() )
-			{
-				String range = ConsumablesDatabase.getMoxieRange( name );
-				if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
+				if ( UseItemEnqueuePanel.this.filters[ 4 ].isSelected() )
 				{
-					return false;
+					String range = ConsumablesDatabase.getMysticalityRange( name );
+					if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
+					{
+						return false;
+					}
+				}
+
+				if ( UseItemEnqueuePanel.this.filters[ 5 ].isSelected() )
+				{
+					String range = ConsumablesDatabase.getMoxieRange( name );
+					if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
+					{
+						return false;
+					}
 				}
 			}
 

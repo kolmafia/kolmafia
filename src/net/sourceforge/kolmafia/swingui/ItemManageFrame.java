@@ -180,6 +180,21 @@ public class ItemManageFrame
 
 		selectorPanel.addPanel( " - Spleen", spleenPanel );
 
+		JPanel potionPanel = new JPanel( new BorderLayout() );
+
+		queueTabs = null;
+
+		if ( Preferences.getBoolean( "addCreationQueue" ) )
+		{
+			dequeuePanel = new UseItemDequeuePanel( false, false, false );
+			potionPanel.add( dequeuePanel, BorderLayout.NORTH );
+			queueTabs = dequeuePanel.getQueueTabs();
+		}
+
+		potionPanel.add( new UseItemEnqueuePanel( false, false, false, queueTabs ), BorderLayout.CENTER );
+
+		selectorPanel.addPanel( " - Potions", potionPanel );
+
 		selectorPanel.addPanel( " - Restores", new RestorativeItemPanel() );
 
 		selectorPanel.addSeparator();

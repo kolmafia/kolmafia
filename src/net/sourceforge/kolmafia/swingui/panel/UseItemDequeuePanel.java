@@ -133,15 +133,19 @@ public class UseItemDequeuePanel
 				ConcoctionDatabase.handleQueue( true, false, false, KoLConstants.CONSUME_EAT );
 				UseItemDequeuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedFullness() + " Full Queued" );
 			}
-			if ( UseItemDequeuePanel.this.booze )
+			else if ( UseItemDequeuePanel.this.booze )
 			{
 				ConcoctionDatabase.handleQueue( false, true, false, KoLConstants.CONSUME_DRINK );
 				UseItemDequeuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
 			}
-			if ( UseItemDequeuePanel.this.spleen )
+			else if ( UseItemDequeuePanel.this.spleen )
 			{
 				ConcoctionDatabase.handleQueue( false, false, true, KoLConstants.CONSUME_SPLEEN );
 				UseItemDequeuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
+			}
+			else
+			{
+				ConcoctionDatabase.handleQueue( false, false, false, KoLConstants.CONSUME_USE );
 			}
 			ConcoctionDatabase.getUsables().sort();
 		}
@@ -164,15 +168,19 @@ public class UseItemDequeuePanel
 				ConcoctionDatabase.handleQueue( true, false, false, KoLConstants.NO_CONSUME );
 				UseItemDequeuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedFullness() + " Full Queued" );
 			}
-			if ( UseItemDequeuePanel.this.booze )
+			else if ( UseItemDequeuePanel.this.booze )
 			{
 				ConcoctionDatabase.handleQueue( false, true, false, KoLConstants.NO_CONSUME );
 				UseItemDequeuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
 			}
-			if ( UseItemDequeuePanel.this.spleen )
+			else if ( UseItemDequeuePanel.this.spleen )
 			{
 				ConcoctionDatabase.handleQueue( false, false, true, KoLConstants.NO_CONSUME );
 				UseItemDequeuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
+			}
+			else
+			{
+				ConcoctionDatabase.handleQueue( false, false, false, KoLConstants.NO_CONSUME );
 			}
 			ConcoctionDatabase.getUsables().sort();
 		}
@@ -197,12 +205,12 @@ public class UseItemDequeuePanel
 				UseItemDequeuePanel.this.queueTabs.setTitleAt(
 					0, ConcoctionDatabase.getQueuedFullness() + " Full Queued" );
 			}
-			if ( UseItemDequeuePanel.this.booze )
+			else if ( UseItemDequeuePanel.this.booze )
 			{
 				UseItemDequeuePanel.this.queueTabs.setTitleAt(
 					0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
 			}
-			if ( UseItemDequeuePanel.this.spleen )
+			else if ( UseItemDequeuePanel.this.spleen )
 			{
 				UseItemDequeuePanel.this.queueTabs.setTitleAt(
 					0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );

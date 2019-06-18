@@ -2057,6 +2057,29 @@ public class ItemDatabase
 		}
 	}
 
+	public static final boolean isPotion( final AdventureResult item )
+	{
+		if ( item == null )
+		{
+			return false;
+		}
+		int itemId = item.getItemId();
+		// *** Use KoL's designation. For now, if it is usable and grants an effect.
+		int useType = ItemDatabase.useTypeById.get( itemId );
+		switch ( useType )
+		{
+		case KoLConstants.CONSUME_USE:
+		case KoLConstants.CONSUME_MULTIPLE:
+		case KoLConstants.CONSUME_AVATAR:
+			break;
+		default:
+			return false;
+		}
+		String itemName = item.getName();
+		String effectName = Modifiers.getStringModifier( "Item", itemName, "Effect" );
+		return ( effectName != null && !effectName.equals( "" ) );
+	}
+
 	public static final boolean isEquipment( final int itemId )
 	{
 		int useType = ItemDatabase.useTypeById.get( itemId );
