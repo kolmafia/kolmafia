@@ -143,6 +143,9 @@ public class ConcoctionDatabase
 	public static final LockableListModel<QueuedConcoction> queuedSpleen = new LockableListModel<QueuedConcoction>();
 	private static final SortedListModel<AdventureResult> queuedSpleenIngredients = new SortedListModel<AdventureResult>();
 
+	public static final LockableListModel<QueuedConcoction> queuedPotions = new LockableListModel<QueuedConcoction>();
+	private static final SortedListModel<AdventureResult> queuedPotionIngredients = new SortedListModel<AdventureResult>();
+
 	public static final Concoction stillsLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
 	public static final Concoction clipArtLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
 	public static final Concoction extrudeLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
@@ -193,6 +196,11 @@ public class ConcoctionDatabase
 		while ( queue.size() > 0 )
 		{
 			ConcoctionDatabase.pop( false, false, true );
+		}
+		queue = ConcoctionDatabase.queuedPotions;
+		while ( queue.size() > 0 )
+		{
+			ConcoctionDatabase.pop( false, false, false );
 		}
 	}
 
@@ -441,7 +449,8 @@ public class ConcoctionDatabase
 	{
 		return food ? ConcoctionDatabase.queuedFoodIngredients :
 			booze ? ConcoctionDatabase.queuedBoozeIngredients :
-			ConcoctionDatabase.queuedSpleenIngredients;
+			spleen ? ConcoctionDatabase.queuedSpleenIngredients :
+			ConcoctionDatabase.queuedPotionIngredients;
 	}
 
 	public static final boolean canQueueFood( final int id )
@@ -515,10 +524,15 @@ public class ConcoctionDatabase
 			queue = ConcoctionDatabase.queuedBooze;
 			queuedIngredients = ConcoctionDatabase.queuedBoozeIngredients;
 		}
-		else
+		else if ( c.getSpleenHit() > 0 )
 		{
 			queue = ConcoctionDatabase.queuedSpleen;
 			queuedIngredients = ConcoctionDatabase.queuedSpleenIngredients;
+		}
+		else
+		{
+			queue = ConcoctionDatabase.queuedPotions;
+			queuedIngredients = ConcoctionDatabase.queuedPotionIngredients;
 		}
 
 		// Handle items that affect more than one organ
@@ -661,7 +675,8 @@ public class ConcoctionDatabase
 		}
 		else
 		{
-			return null;
+			queue = ConcoctionDatabase.queuedPotions;
+			queuedIngredients = ConcoctionDatabase.queuedPotionIngredients;
 		}
 
 		if ( queue.isEmpty() )
@@ -840,7 +855,7 @@ public class ConcoctionDatabase
 		return	food ? ConcoctionDatabase.queuedFood :
 			booze ? ConcoctionDatabase.queuedBooze :
 			spleen ? ConcoctionDatabase.queuedSpleen :
-			null;
+			ConcoctionDatabase.queuedPotions;
 	}
 
 	private static final AdventureResult currentConsumptionHelper( boolean food, boolean booze )
@@ -879,6 +894,9 @@ public class ConcoctionDatabase
 		// KoLConstants.CONSUME_SPLEEN - use spleen items
 		// KoLConstants.CONSUME_GHOST - binge ghost with food
 		// KoLConstants.CONSUME_HOBO - binge hobo with booze
+		// KoLConstants.CONSUME_USE - use potions
+		// KoLConstants.CONSUME_MULTIPLE - use potions
+		// KoLConstants.CONSUME_AVATAR - use potions
 
 		QueuedConcoction currentItem;
 		Stack<QueuedConcoction> toProcess = new Stack<QueuedConcoction>();
@@ -945,16 +963,22 @@ public class ConcoctionDatabase
 				AdventureResult toConsume = c.getItem().getInstance( quantity );
 				InventoryManager.retrieveItem( toConsume );
 
-				if ( consumptionType != KoLConstants.CONSUME_GHOST &&
-				     consumptionType != KoLConstants.CONSUME_HOBO )
+				if ( consumptionType == KoLConstants.CONSUME_GHOST |
+				     consumptionType == KoLConstants.CONSUME_HOBO )
 				{
+					// Binge the familiar!
+					RequestThread.postRequest( UseItemRequest.getInstance( consumptionType, toConsume ) );
 					continue;
 				}
 
-				// Binge the familiar!
-				RequestThread.postRequest( UseItemRequest.getInstance( consumptionType, toConsume ) );
+				if ( consumptionType == KoLConstants.NO_CONSUME )
+				{
+					// Create only
+					continue;
+				}
 
-				continue;
+				// CONSUME_USE, CONSUME_MULTIPLE, CONSUME_AVATAR - potions
+				// Consume it.
 			}
 
 			// "using" the item will either queue a consumption
@@ -1148,7 +1172,8 @@ public class ConcoctionDatabase
 		boolean includeQueue =
 			!ConcoctionDatabase.queuedFoodIngredients.isEmpty() ||
 			!ConcoctionDatabase.queuedBoozeIngredients.isEmpty() ||
-			!ConcoctionDatabase.queuedSpleenIngredients.isEmpty();
+			!ConcoctionDatabase.queuedSpleenIngredients.isEmpty() ||
+			!ConcoctionDatabase.queuedPotionIngredients.isEmpty();
 
 		if ( !includeCloset && !includeStorage && !includeStash && !includeQueue )
 		{
@@ -1183,45 +1208,43 @@ public class ConcoctionDatabase
 			}
 		}
 
-		if ( !ConcoctionDatabase.queuedFoodIngredients.isEmpty() )
+		for ( AdventureResult ingredient : ConcoctionDatabase.queuedFoodIngredients )
 		{
-			for ( int i = 0; i < ConcoctionDatabase.queuedFoodIngredients.size(); ++i )
+			if ( ingredient.isItem() )
 			{
-				AdventureResult ingredient = (AdventureResult) ConcoctionDatabase.queuedFoodIngredients.get( i );
-				if ( ingredient.isItem() )
-				{
-					AdventureResult.addResultToList(
-						availableIngredients,
-						ingredient.getNegation() );
-				}
+				AdventureResult.addResultToList(
+					availableIngredients,
+					ingredient.getNegation() );
 			}
 		}
 
-		if ( !ConcoctionDatabase.queuedBoozeIngredients.isEmpty() )
+		for ( AdventureResult ingredient : ConcoctionDatabase.queuedBoozeIngredients )
 		{
-			for ( int i = 0; i < ConcoctionDatabase.queuedBoozeIngredients.size(); ++i )
+			if ( ingredient.isItem() )
 			{
-				AdventureResult ingredient = (AdventureResult) ConcoctionDatabase.queuedBoozeIngredients.get( i );
-				if ( ingredient.isItem() )
-				{
-					AdventureResult.addResultToList(
-						availableIngredients,
-						ingredient.getNegation() );
-				}
+				AdventureResult.addResultToList(
+					availableIngredients,
+					ingredient.getNegation() );
 			}
 		}
 
-		if ( !ConcoctionDatabase.queuedSpleenIngredients.isEmpty() )
+		for ( AdventureResult ingredient : ConcoctionDatabase.queuedSpleenIngredients )
 		{
-			for ( int i = 0; i < ConcoctionDatabase.queuedSpleenIngredients.size(); ++i )
+			if ( ingredient.isItem() )
 			{
-				AdventureResult ingredient = (AdventureResult) ConcoctionDatabase.queuedSpleenIngredients.get( i );
-				if ( ingredient.isItem() )
-				{
-					AdventureResult.addResultToList(
-						availableIngredients,
-						ingredient.getNegation() );
-				}
+				AdventureResult.addResultToList(
+					availableIngredients,
+					ingredient.getNegation() );
+			}
+		}
+
+		for ( AdventureResult ingredient : ConcoctionDatabase.queuedPotionIngredients )
+		{
+			if ( ingredient.isItem() )
+			{
+				AdventureResult.addResultToList(
+					availableIngredients,
+					ingredient.getNegation() );
 			}
 		}
 

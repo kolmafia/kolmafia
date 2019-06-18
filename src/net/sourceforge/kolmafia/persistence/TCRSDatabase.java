@@ -583,14 +583,7 @@ public class TCRSDatabase
 			Integer id = entry.getKey();
 			TCRS tcrs = entry.getValue();
 			String name = ItemDatabase.getItemDataName( id.intValue() );
-
-			// If the path name is the same as the standard name,
-			// leave modifiers intact.
-			if ( !tcrs.name.equals( name ) )
-			{
-				// Otherwise, make the changes.
-				applyModifiers( id, tcrs );
-			}
+			applyModifiers( id, tcrs );
 		}
 
 		// Do the same for cafe consumables

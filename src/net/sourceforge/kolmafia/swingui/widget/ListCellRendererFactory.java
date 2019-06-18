@@ -492,6 +492,7 @@ public class ListCellRendererFactory
 				Integer inebriety = ConsumablesDatabase.getRawInebriety( name );
 				Integer spleenhit = ConsumablesDatabase.getRawSpleenHit( name );
 				String spacer = "";
+				boolean potion = true;
 	
 				if ( fullness != null )
 				{
@@ -499,6 +500,7 @@ public class ListCellRendererFactory
 					spacer = " ";
 					stringForm.append( fullness );
 					stringForm.append( " full" );
+					potion = false;
 				}
 				if ( inebriety != null )
 				{
@@ -506,6 +508,7 @@ public class ListCellRendererFactory
 					spacer = " ";
 					stringForm.append( inebriety );
 					stringForm.append( " drunk" );
+					potion = false;
 				}
 				if ( spleenhit != null )
 				{
@@ -513,34 +516,50 @@ public class ListCellRendererFactory
 					spacer = " ";
 					stringForm.append( spleenhit );
 					stringForm.append( " spleen" );
+					potion = false;
 				}
 	
-				this.appendRange( stringForm, ConsumablesDatabase.getAdventureRange( name ), "adv" );
-	
-				if ( Preferences.getBoolean( "showGainsPerUnit" ) )
+				if ( !potion )
 				{
-					if ( fullness != null && fullness.intValue() > 0 )
+					this.appendRange( stringForm, ConsumablesDatabase.getAdventureRange( name ), "adv" );
+	
+					if ( Preferences.getBoolean( "showGainsPerUnit" ) )
 					{
-						stringForm.append( " / full" );
+						if ( fullness != null && fullness.intValue() > 0 )
+						{
+							stringForm.append( " / full" );
+						}
+						else if ( inebriety != null && inebriety.intValue() > 0 )
+						{
+							stringForm.append( " / drunk" );
+						}
+						else if ( spleenhit != null && spleenhit.intValue() > 0 )
+						{
+							stringForm.append( " / spleen" );
+						}
 					}
-					else if ( inebriety != null && inebriety.intValue() > 0 )
+	
+					this.appendRange( stringForm, ConsumablesDatabase.getMuscleRange( name ), "mus" );
+					this.appendRange( stringForm, ConsumablesDatabase.getMysticalityRange( name ), "mys" );
+					this.appendRange( stringForm, ConsumablesDatabase.getMoxieRange( name ), "mox" );
+					String notes = ConsumablesDatabase.getNotes( name );
+					if ( notes != null && notes.length() > 0 )
 					{
-						stringForm.append( " / drunk" );
-					}
-					else if ( spleenhit != null && spleenhit.intValue() > 0 )
-					{
-						stringForm.append( " / spleen" );
+						stringForm.append( ", " );
+						stringForm.append( notes );
 					}
 				}
-	
-				this.appendRange( stringForm, ConsumablesDatabase.getMuscleRange( name ), "mus" );
-				this.appendRange( stringForm, ConsumablesDatabase.getMysticalityRange( name ), "mys" );
-				this.appendRange( stringForm, ConsumablesDatabase.getMoxieRange( name ), "mox" );
-				String notes = ConsumablesDatabase.getNotes( name );
-				if ( notes != null && notes.length() > 0 )
+				else
 				{
-					stringForm.append( ", " );
-					stringForm.append( notes );
+					String effectName = Modifiers.getStringModifier( "Item", name, "Effect" );
+					int effectDuration = (int) Modifiers.getNumericModifier( "Item", name, "Effect Duration" );
+					String effectModifiers = Modifiers.getStringModifier( "Effect", effectName, "Modifiers" );
+					stringForm.append( effectDuration );
+					stringForm.append( " " );
+					stringForm.append( effectName );
+					stringForm.append( " (" );
+					stringForm.append( effectModifiers );
+					stringForm.append( ")" );
 				}
 			}
 
