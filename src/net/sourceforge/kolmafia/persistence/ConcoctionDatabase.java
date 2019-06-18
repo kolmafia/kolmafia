@@ -1564,6 +1564,16 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.usableList.sort();
 	}
 
+	public static final void resetEffects()
+	{
+		for ( Concoction item : ConcoctionPool.concoctions() )
+		{
+			item.setEffectName();
+		}
+
+		ConcoctionDatabase.usableList.sort();
+	}
+
 	private static final void calculateBasicItems( final List<AdventureResult> availableIngredients )
 	{
 		// Meat paste and meat stacks can be created directly

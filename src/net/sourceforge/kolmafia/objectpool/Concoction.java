@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
 import net.sourceforge.kolmafia.KoLConstants.CraftingMisc;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -123,6 +124,7 @@ public class Concoction
 	public boolean steelOrgan;
 
 	private int fullness, inebriety, spleenhit;
+	private String effectName;
 	private double mainstatGain;
 
 	public Concoction( final AdventureResult concoction, final CraftingType mixingMethod,
@@ -146,6 +148,7 @@ public class Concoction
 			this.inebriety = 0;
 			this.spleenhit = 0;
 			this.mainstatGain = 0.0f;
+			this.effectName = "";
 		}
 		else
 		{
@@ -163,6 +166,7 @@ public class Concoction
 			{
 				this.request = new CombineMeatRequest( this );
 			}
+			this.setEffectName();
 		}
 
 		this.ingredients = new ArrayList<AdventureResult>();
@@ -194,6 +198,7 @@ public class Concoction
 
 		this.resetCalculations();
 		this.setConsumptionData();
+		this.setEffectName();
 	}
 
 	public Concoction( final String name )
@@ -205,6 +210,7 @@ public class Concoction
 
 		this.resetCalculations();
 		this.setConsumptionData();
+		this.setEffectName();
 	}
 
 	public Concoction( final String name, final String property )
@@ -216,6 +222,7 @@ public class Concoction
 
 		this.resetCalculations();
 		this.setConsumptionData();
+		this.setEffectName();
 	}
 
 	public void setConsumptionData()
@@ -229,6 +236,11 @@ public class Concoction
 			this.spleenhit > 0 ? SPLEEN_PRIORITY :
 			NO_PRIORITY;
 		this.setStatGain();
+	}
+
+	public void setEffectName()
+	{
+		this.effectName = Modifiers.getStringModifier( "Item", this.name, "Effect" );
 	}
 
 	public void setStatGain()
@@ -463,6 +475,11 @@ public class Concoction
 			return this.sortOrder - o.sortOrder;
 		}
 
+		if ( Preferences.getBoolean( "sortByEffect" ) )
+		{
+			return this.effectName.compareTo( o.effectName );
+		}
+
 		// Sort steel organs to the top.
 		if ( this.steelOrgan )
 		{
@@ -609,6 +626,11 @@ public class Concoction
 	public int getSpleenHit()
 	{
 		return this.spleenhit;
+	}
+
+	public String getEffectName()
+	{
+		return this.effectName;
 	}
 
 	public int getRow()
