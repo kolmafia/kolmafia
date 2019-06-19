@@ -425,11 +425,11 @@
 428	bouncing nothing-in-the-box	0		
 429	beanbag chair	0		
 430	acid-squirting flower	0		Single Equip
-431	huge teal clown shoes of the blizzard	0		Cold Spell Damage: +25
-432	narrow upside-down bloody clown pants of the cheetah	0		Initiative: +60
+431	huge teal clown shoes of the blizzard	0		Cold Spell Damage: +25, Clowniness: 25
+432	narrow upside-down bloody clown pants of the cheetah	0		Initiative: +60, Clowniness: 25
 433	skinny balloon	0		
-434	maroon MacGyver's balloon helmet	0		Maximum MP: +100
-435	olive Jack Frost's Jim Carey's balloon sword	0		Monster Level: +25, Cold Spell Damage: +50
+434	maroon MacGyver's balloon helmet	0		Maximum MP: +100, Clowniness: 25
+435	olive Jack Frost's Jim Carey's balloon sword	0		Monster Level: +25, Cold Spell Damage: +50, Clowniness: 50
 436	balloon monkey	0		
 437	chef skull	0		
 438	chef-in-the-box	0		
@@ -442,8 +442,8 @@
 445	cyan bouncing smooth box-in-the-box	0		Moxie: +15
 446	nothing-in-the-box-in-the-box	0		
 447	box-in-the-box-in-the-box of the scaredy-cat	0		Monster Level: -15
-448	maroon Jeselnik's smelly foolscap fool's cap	0		Stench Spell Damage: +10, Sleaze Damage: +25
-449	Herculean clown nose	0		Experience (Muscle): +1
+448	maroon Jeselnik's smelly foolscap fool's cap	0		Stench Spell Damage: +10, Sleaze Damage: +25, Clowniness: 25
+449	Herculean clown nose	0		Experience (Muscle): +1, Clowniness: 25
 450	bouncing pretentious paintbrush	0		
 451	pretentious palette	0		
 452	disease	0		
@@ -2203,7 +2203,7 @@
 2230	icicle katana	0		Familiar Weight: +5
 2231	teal mote	0		
 2232	squat gray smudged alchemical recipe	0		
-2233	bow tie of bravery	0		Spooky Resistance: +5
+2233	bow tie of bravery	0		Spooky Resistance: +5, Clowniness: 75
 2234	skewed curative calavera concertina	0		HP Regen Min: 3, HP Regen Max: 5, Song Duration: 7
 2235	perfumed ratarang of the empath	0		Familiar Weight: +5, Stench Resistance: +5
 2236	aerosolized aerosolized turtle pheromones	0		Effect: "Extra-Sharp Weapon", Effect Duration: 34
@@ -2443,17 +2443,17 @@
 2472	wilted lettuce	0		
 2473	shaking pulsating empty greasepaint tube	0		
 2474	clown skin	0		
-2475	miser's Jeselnik's clown wig	0		Sleaze Damage: +25, Meat Drop: +10
-2476	clownskin belt of the storm	0		Maximum MP Percent: +40
-2477	clever clownskin buckler	0		Maximum MP: +20, Damage Reduction: 3
-2478	upside-down grievous clown whip	0		Weapon Damage Percent: +50
+2475	miser's Jeselnik's clown wig	0		Sleaze Damage: +25, Meat Drop: +10, Clowniness: 50
+2476	clownskin belt of the storm	0		Maximum MP Percent: +40, Clowniness: 50
+2477	clever clownskin buckler	0		Maximum MP: +20, Damage Reduction: 3, Clowniness: 50
+2478	upside-down grievous clown whip	0		Weapon Damage Percent: +50, Clowniness: 50
 2479	demon skin	0		
 2480	demon-horned hat of Calamity Jane	0		Critical Hit Percent: +15
 2481	Newton's demon buckler	0		Experience (Mysticality): +3, Damage Reduction: 5
 2482	blinking mansplainer's sage demon whip of the scaredy-cat	0		Mysticality Percent: +10, Monster Level: 0
 2483	gray stylish barskin cloak	0		Moxie: +25
 2484	purple extremely unsafe grievous snakeskin duster	0		Weapon Damage Percent: 150
-2485	weightlifter's clownskin harness of courage	0		Muscle: +15, Spooky Resistance: +3
+2485	weightlifter's clownskin harness of courage	0		Muscle: +15, Spooky Resistance: +3, Clowniness: 50
 2486	twirling rock-hard Da Vinci's demonskin jacket	0		Experience (Mysticality): +5, Damage Reduction: 5
 2487	cyan hipposkin poncho of the brute	0		Muscle Percent: +30
 2488	blurry Annie Oakley's yak anorak	0		Critical Hit Percent: +20
@@ -6566,11 +6566,11 @@
 6680	special hand-crafted Cursed Punch	3	EPIC	Effect: "Standard Cheer", Effect Duration: 20
 6681	acceptable Bowl of Scorpions	3	good	
 6683	twirling book of matches	0		
-6684	skewed tumbling padded surgical mask	0		Damage Absorption: +20
-6685	head mirror of the sweet-tooth	0		Candy Drop: +100
-6686	maroon blurry half-size scalpel of the wise owl	0		Mysticality: +20
-6687	avaricious surgical apron	0		Meat Drop: +30
-6688	jittery shaking grievous bloodied surgical dungarees	0		Weapon Damage Percent: +50
+6684	skewed tumbling padded surgical mask	0		Damage Absorption: +20, Surgeonosity: +1
+6685	head mirror of the sweet-tooth	0		Candy Drop: +100, Surgeonosity: +1
+6686	maroon blurry half-size scalpel of the wise owl	0		Mysticality: +20, Surgeonosity: +1
+6687	avaricious surgical apron	0		Meat Drop: +30, Surgeonosity: +1
+6688	jittery shaking grievous bloodied surgical dungarees	0		Weapon Damage Percent: +50, Surgeonosity: +1
 6689	McClusky file (page 1)	0		
 6690	McClusky file (page 2)	0		
 6691	McClusky file (page 3)	0		
