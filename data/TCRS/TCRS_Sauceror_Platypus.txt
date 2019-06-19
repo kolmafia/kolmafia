@@ -426,11 +426,11 @@
 428	nothing-in-the-box	0		
 429	gray beanbag chair	0		
 430	acid-squirting flower	0		Single Equip
-431	clown shoes of Leguizamo	0		Monster Level: +20
-432	twirling frosty bloody clown pants	0		Cold Spell Damage: +10
+431	clown shoes of Leguizamo	0		Monster Level: +20, Clowniness: 25
+432	twirling frosty bloody clown pants	0		Cold Spell Damage: +10, Clowniness: 25
 433	gray skinny balloon	0		
-434	rock-hard balloon helmet	0		Damage Reduction: 5
-435	Temple Grandin's balloon sword of the wise owl	0		Mysticality: +20, Familiar Weight: +7
+434	rock-hard balloon helmet	0		Damage Reduction: 5, Clowniness: 25
+435	Temple Grandin's balloon sword of the wise owl	0		Mysticality: +20, Familiar Weight: +7, Clowniness: 50
 436	balloon monkey	0		
 437	chef skull	0		
 438	narrow chef-in-the-box	0		
@@ -443,8 +443,8 @@
 445	box-in-the-box of Gandalf	0		Spell Critical Percent: +20
 446	green blurry nothing-in-the-box-in-the-box	0		
 447	groovy box-in-the-box-in-the-box	0		Moxie Percent: +10
-448	tumbling inspector's stiffened foolscap fool's cap	0		Damage Reduction: 1, Item Drop: +15
-449	pulsating squat clown nose of the glutton	0		Food Drop: +100
+448	tumbling inspector's stiffened foolscap fool's cap	0		Damage Reduction: 1, Item Drop: +15, Clowniness: 25
+449	pulsating squat clown nose of the glutton	0		Food Drop: +100, Clowniness: 25
 450	mirror pretentious paintbrush	0		
 451	pretentious palette	0		
 452	disease	0		
@@ -2205,7 +2205,7 @@
 2230	twirling icicle katana	0		Familiar Weight: +5
 2231	mote	0		
 2232	skewed smudged alchemical recipe	0		
-2233	bow tie of mayonnaise	0		Sleaze Spell Damage: +50
+2233	bow tie of mayonnaise	0		Sleaze Spell Damage: +50, Clowniness: 75
 2234	arcane researcher's calavera concertina	0		Experience Percent (Mysticality): +10, Song Duration: 7
 2235	upside-down therapeutic smooth ratarang	0		Moxie: +15, HP Regen Min: 5, HP Regen Max: 7
 2236	unsweetened activated turtle pheromones	0		Effect: "Flame-Retardant Trousers", Effect Duration: 65
@@ -2445,17 +2445,17 @@
 2472	narrow wilted lettuce	0		
 2473	spinning empty greasepaint tube	0		
 2474	clown skin	0		
-2475	pulsating asbestos-lined razor-sharp clown wig	0		Weapon Damage Percent: +25, Hot Resistance: +5
-2476	blurry mirror hale clownskin belt	0		Maximum HP: +20
-2477	reassuring clownskin buckler	0		Spooky Resistance: +1, Damage Reduction: 3
-2478	skewed shellacked clown whip	0		Damage Reduction: 7
+2475	pulsating asbestos-lined razor-sharp clown wig	0		Weapon Damage Percent: +25, Hot Resistance: +5, Clowniness: 50
+2476	blurry mirror hale clownskin belt	0		Maximum HP: +20, Clowniness: 50
+2477	reassuring clownskin buckler	0		Spooky Resistance: +1, Damage Reduction: 3, Clowniness: 50
+2478	skewed shellacked clown whip	0		Damage Reduction: 7, Clowniness: 50
 2479	maroon demon skin	0		
 2480	demon-horned hat of the storm	0		Maximum MP Percent: +40
 2481	blinking rosy-cheeked demon buckler	0		Maximum HP Percent: +30, Damage Reduction: 5
 2482	frightening Lo Pan's razor-sharp demon whip	0		Weapon Damage Percent: +25, Spell Critical Percent: +30, Spooky Damage: +5
 2483	hardy barskin cloak	0		Maximum HP: +50
 2484	therapeutic snakeskin duster of Leguizamo	0		Monster Level: +20, HP Regen Min: 5, HP Regen Max: 7
-2485	green thinker's clownskin harness of incineration	0		Mysticality: +10, Hot Spell Damage: +50
+2485	green thinker's clownskin harness of incineration	0		Mysticality: +10, Hot Spell Damage: +50, Clowniness: 50
 2486	up-at-dawn smelly demonskin jacket	0		Stench Spell Damage: +10, Adventures: +5
 2487	hipposkin poncho	0		Item Drop: +5
 2488	double-paned yak anorak	0		Cold Resistance: +5
@@ -6569,11 +6569,11 @@
 6681	acceptable Bowl of Scorpions	4	good	
 6682	weak lousy jittery Fog Murderer	2	decent	
 6683	book of matches	0		
-6684	surgical mask of the overflowing toilet	0		Stench Spell Damage: +50
-6685	deadly head mirror	0		Weapon Damage: +5
-6686	half-size scalpel of James Dean	0		Experience (Moxie): +3
-6687	twirling surgical apron of Calamity Jane	0		Critical Hit Percent: +15
-6688	shaking jittery dog trainer's bloodied surgical dungarees	0		Experience (familiar): +1
+6684	surgical mask of the overflowing toilet	0		Stench Spell Damage: +50, Surgeonosity: +1
+6685	deadly head mirror	0		Weapon Damage: +5, Surgeonosity: +1
+6686	half-size scalpel of James Dean	0		Experience (Moxie): +3, Surgeonosity: +1
+6687	twirling surgical apron of Calamity Jane	0		Critical Hit Percent: +15, Surgeonosity: +1
+6688	shaking jittery dog trainer's bloodied surgical dungarees	0		Experience (familiar): +1, Surgeonosity: +1
 6689	teal mirror McClusky file (page 1)	0		
 6690	McClusky file (page 2)	0		
 6691	McClusky file (page 3)	0		
