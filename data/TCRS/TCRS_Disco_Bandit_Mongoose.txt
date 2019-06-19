@@ -426,11 +426,11 @@
 428	blinking nothing-in-the-box	0		
 429	spinning beanbag chair	0		
 430	acid-squirting flower	0		Single Equip
-431	clown shoes of the detective	0		Item Drop: +20, Clowniness: 25
-432	bloody clown pants of the sweet-tooth	0		Candy Drop: +100, Clowniness: 25
+431	clown shoes of the detective	0		Item Drop: +20
+432	bloody clown pants of the sweet-tooth	0		Candy Drop: +100
 433	skinny balloon	0		
-434	frosty balloon helmet	0		Cold Spell Damage: +10, Clowniness: 25
-435	balloon sword of horror of courage	0		Spooky Spell Damage: +25, Spooky Resistance: +3, Clowniness: 50
+434	frosty balloon helmet	0		Cold Spell Damage: +10
+435	balloon sword of horror of courage	0		Spooky Spell Damage: +25, Spooky Resistance: +3
 436	balloon monkey	0		
 437	blinking chef skull	0		
 438	chef-in-the-box	0		
@@ -443,8 +443,8 @@
 445	Socratic box-in-the-box	0		Experience (Mysticality): +1
 446	nothing-in-the-box-in-the-box	0		
 447	flame-wreathed box-in-the-box-in-the-box	0		Hot Spell Damage: +10
-448	gray Sherlock's horrifying foolscap fool's cap	0		Spooky Damage: +25, Item Drop: +25, Clowniness: 25
-449	lion tamer's clown nose	0		Experience (familiar): +2, Clowniness: 25
+448	gray Sherlock's horrifying foolscap fool's cap	0		Spooky Damage: +25, Item Drop: +25
+449	lion tamer's clown nose	0		Experience (familiar): +2
 450	wobbly pretentious paintbrush	0		
 451	pretentious palette	0		
 452	huge disease	0		
@@ -2205,7 +2205,7 @@
 2230	icicle katana	0		Familiar Weight: +5
 2231	mote	0		
 2232	smudged alchemical recipe	0		
-2233	mirror wobbly nasty bow tie	0		Stench Damage: +5, Clowniness: 75
+2233	mirror wobbly nasty bow tie	0		Stench Damage: +5
 2234	jittery bouncing fortified calavera concertina	0		Damage Absorption: +60, Song Duration: 7
 2235	cyan hardened baleful ratarang	0		Spell Damage: +25, Damage Reduction: 3
 2236	altered nitrogenated maroon blurry turtle pheromones	0		Effect: "Ichorous Eyesight", Effect Duration: 57
@@ -2445,17 +2445,17 @@
 2472	teal wilted lettuce	0		
 2473	empty greasepaint tube	0		
 2474	huge clown skin	0		
-2475	Jim Carey's beefy clown wig	0		Muscle: +10, Monster Level: +25, Clowniness: 50
-2476	scorching clownskin belt	0		Hot Damage: +25, Clowniness: 50
-2477	aromatic clownskin buckler	0		Stench Resistance: +1, Damage Reduction: 3, Clowniness: 50
-2478	pulsating zippy clown whip	0		Initiative: +20, Clowniness: 50
+2475	Jim Carey's beefy clown wig	0		Muscle: +10, Monster Level: +25
+2476	scorching clownskin belt	0		Hot Damage: +25
+2477	aromatic clownskin buckler	0		Stench Resistance: +1, Damage Reduction: 3
+2478	pulsating zippy clown whip	0		Initiative: +20
 2479	demon skin	0		
 2480	ruddy demon-horned hat	0		Maximum HP Percent: +40
 2481	yellow Fonzie's demon buckler	0		Experience (Moxie): +1, Damage Reduction: 5
 2482	green fireproof gravedigger's groovy demon whip	0		Moxie Percent: +10, Spooky Damage: +10, Hot Resistance: +3
 2483	mirror mirror chilly barskin cloak	0		Cold Damage: +5
 2484	Sinatra's snakeskin duster of the brazier	0		Experience (Moxie): +5, Hot Spell Damage: +25
-2485	clownskin harness of horror of the detective	0		Spooky Spell Damage: +25, Item Drop: +20, Clowniness: 50
+2485	clownskin harness of horror of the detective	0		Spooky Spell Damage: +25, Item Drop: +20
 2486	deadly demonskin jacket of Tarzan	0		Experience (Muscle): +3, Weapon Damage: +5
 2487	red inspector's hipposkin poncho	0		Item Drop: +15
 2488	yak anorak of James Dean	0		Experience (Moxie): +3
@@ -6569,11 +6569,11 @@
 6681	weak acceptable gray Bowl of Scorpions	2	good	
 6682	lousy Fog Murderer	3	decent	
 6683	mirror book of matches	0		
-6684	tumbling hale surgical mask	0		Maximum HP: +20, Surgeonosity: +1
-6685	family-friendly head mirror	0		Sleaze Resistance: +1, Surgeonosity: +1
-6686	half-size scalpel of wisdom	0		Mysticality: +15, Surgeonosity: +1
-6687	yellow supercool surgical apron	0		Moxie Percent: +20, Surgeonosity: +1
-6688	blinking bloodied surgical dungarees of Tarzan	0		Experience (Muscle): +3, Surgeonosity: +1
+6684	tumbling hale surgical mask	0		Maximum HP: +20
+6685	family-friendly head mirror	0		Sleaze Resistance: +1
+6686	half-size scalpel of wisdom	0		Mysticality: +15
+6687	yellow supercool surgical apron	0		Moxie Percent: +20
+6688	blinking bloodied surgical dungarees of Tarzan	0		Experience (Muscle): +3
 6689	squat McClusky file (page 1)	0		
 6690	huge McClusky file (page 2)	0		
 6691	McClusky file (page 3)	0		
@@ -10039,3 +10039,5 @@
 10251	huge avaricious supercharged Fourth of May Cosplay Saber of mayonnaise	0		Maximum MP Percent: +30, Sleaze Spell Damage: +50, Meat Drop: +30
 10252	ring	0		Single Equip
 10253	Thwaitgold nymph statuette	0		
+10254	hewn moon-rune spoon	0		Single Equip
+10256	tumbling rune-strewn spoon cocoon	0		Free Pull
