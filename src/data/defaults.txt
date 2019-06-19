@@ -1189,8 +1189,6 @@ user	snojoMuscleWins	0
 user	snojoMysticalityWins	0
 user	snojoSetting	NONE
 user	snowsuit	
-user	sortByEffect	false
-user	sortByRoom	true
 user	sourceAgentsDefeated	0
 user	sourceEnlightenment	0
 user	sourceInterval	0

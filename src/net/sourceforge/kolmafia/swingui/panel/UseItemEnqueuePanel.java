@@ -38,9 +38,12 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.JCheckBox;
@@ -48,6 +51,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -91,9 +96,18 @@ public class UseItemEnqueuePanel
 	private final JCheckBox[] filters;
 	private final JTabbedPane queueTabs;
 
+	private final LockableListModel<Concoction> model;
+	private final Comparator comparator;
+
+	// These control the sort order for Consumable and Potion comparators.
+	// They are controlled by checkboxes, but these are reasonable defaults
+	private boolean sortByRoom = false;
+	private boolean sortByEffect = false;
+
 	public UseItemEnqueuePanel( final boolean food, final boolean booze, final boolean spleen, JTabbedPane queueTabs )
 	{
 		super( ConcoctionDatabase.getUsables(), true, true );
+
 		// Remove the default borders inherited from ScrollablePanel.
 		BorderLayout a = (BorderLayout) this.actualPanel.getLayout();
 		a.setVgap( 0 );
@@ -104,6 +118,10 @@ public class UseItemEnqueuePanel
 		this.booze = booze;
 		this.spleen = spleen;
 
+		boolean potions = !food && !booze && !spleen;
+		this.comparator = potions ? new PotionComparator() : new ConsumableComparator();
+		this.model = this.elementModel;
+
 		if ( queueTabs == null )
 		{	// Make a dummy tabbed pane, so that we don't have to do null
 			// checks in the 8 places where setTitleAt(0, ...) is called.
@@ -112,7 +130,7 @@ public class UseItemEnqueuePanel
 		}
 		this.queueTabs = queueTabs;
 
-		ArrayList<ThreadedListener> listeners = new ArrayList<ThreadedListener>();
+		List<ThreadedListener> listeners = new ArrayList<ThreadedListener>();
 
 		if ( Preferences.getBoolean( "addCreationQueue" ) )
 		{
@@ -151,8 +169,6 @@ public class UseItemEnqueuePanel
 
 		this.getElementList().setVisibleRowCount( 6 );
 		this.getElementList().setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-
-		boolean potions = !food && !booze && !spleen;
 
 		this.filters = new JCheckBox[ potions ? 4 : 8 ];
 
@@ -328,13 +344,136 @@ public class UseItemEnqueuePanel
 	{
 	}
 
-	private static class ReSortListener
+	private class ConsumableComparator
+		implements Comparator<Concoction>
+	{
+		public int compare( Concoction o1, Concoction o2 )
+		{
+			if ( o1 == null || o2 == null )
+			{
+				throw new NullPointerException();
+			}
+
+			String name1 = o1.getName();
+			String name2 = o2.getName();
+
+			if ( name1 == null )
+			{
+				return name2 == null ? 0 : 1;
+			}	
+
+			if ( name2 == null )
+			{
+				return -1;
+			}
+
+			// Sort steel organs to the top.
+			if ( o1.steelOrgan )
+			{
+				return o2.steelOrgan ? name1.compareToIgnoreCase( name2 ) : -1;
+			}
+			else if ( o2.steelOrgan )
+			{
+				return 1;
+			}
+
+			// none, food, booze, spleen
+			if ( o1.sortOrder != o2.sortOrder )
+			{
+				return o1.sortOrder - o2.sortOrder;
+			}
+
+			if  ( o1.sortOrder == Concoction.NO_PRIORITY )
+			{
+				return name1.compareToIgnoreCase( name2 );
+			}
+
+			if ( UseItemEnqueuePanel.this.sortByRoom )
+			{
+				int limit = 0;
+				boolean o1CantConsume = false;
+				boolean o2CantConsume = false;
+
+				switch ( o1.sortOrder )
+				{
+				case Concoction.FOOD_PRIORITY:
+					limit = KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()
+						- ConcoctionDatabase.getQueuedFullness();
+					o1CantConsume = o1.getFullness() > limit;
+					o1CantConsume = o2.getFullness() > limit;
+					break;
+
+				case Concoction.BOOZE_PRIORITY:
+					limit = KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety()
+						- ConcoctionDatabase.getQueuedInebriety();
+					o1CantConsume = o1.getInebriety() > limit;
+					o2CantConsume = o2.getInebriety() > limit;
+					break;
+
+				case Concoction.SPLEEN_PRIORITY:
+					limit = KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse()
+						- ConcoctionDatabase.getQueuedSpleenHit();
+					o1CantConsume = o1.getSpleenHit() > limit;
+					o2CantConsume = o2.getSpleenHit() > limit;
+				}
+
+				if ( o1CantConsume != o2CantConsume )
+				{
+					return o1CantConsume ? 1 : -1;
+				}
+			}
+
+			return o1.compareTo( o2 );
+		}
+
+		public boolean equals( Object o )
+		{
+			return o instanceof ConsumableComparator;
+		}
+	}
+
+	private class PotionComparator
+		implements Comparator<Concoction>
+	{
+		public int compare( Concoction o1, Concoction o2 )
+		{
+			if ( o1 == null || o2 == null )
+			{
+				throw new NullPointerException();
+			}
+
+			String name1, name2;
+
+			if ( UseItemEnqueuePanel.this.sortByEffect ) {
+				name1 = o1.getEffectName();
+				name2 = o2.getEffectName();
+			}
+			else
+			{
+				name1 = o1.getName();
+				name2 = o2.getName();
+			}
+
+			return name1 == null ?
+				( name2 == null ? 0 : 1 ) :
+				name2 == null ?
+				-1 :
+				name1.compareToIgnoreCase( name2 );
+		}
+
+		public boolean equals( Object o )
+		{
+			return o instanceof PotionComparator;
+		}
+	}
+
+	private class ReSortListener
 		extends ThreadedListener
 	{
 		@Override
 		protected void execute()
 		{
-			ConcoctionDatabase.getUsables().sort();
+			UseItemEnqueuePanel.this.model.sort( UseItemEnqueuePanel.this.comparator );
 		}
 	}
 
@@ -362,7 +501,7 @@ public class UseItemEnqueuePanel
 				UseItemEnqueuePanel.this.queueTabs.setTitleAt(
 					0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
 			}
-			ConcoctionDatabase.getUsables().sort();
+			UseItemEnqueuePanel.this.model.sort( UseItemEnqueuePanel.this.comparator );
 		}
 
 		@Override
@@ -416,7 +555,7 @@ public class UseItemEnqueuePanel
 			{
 				ConcoctionDatabase.handleQueue( false, false, false, KoLConstants.CONSUME_USE );
 			}
-			ConcoctionDatabase.getUsables().sort();
+			UseItemEnqueuePanel.this.model.sort( UseItemEnqueuePanel.this.comparator );
 		}
 
 		@Override
@@ -992,7 +1131,7 @@ public class UseItemEnqueuePanel
 		}
 	}
 
-	private static class ExperimentalCheckBox
+	private class ExperimentalCheckBox
 		extends PreferenceListenerCheckBox
 	{
 		public ExperimentalCheckBox( final boolean food, final boolean booze )
@@ -1005,45 +1144,59 @@ public class UseItemEnqueuePanel
 		@Override
 		protected void handleClick()
 		{
-			ConcoctionDatabase.getUsables().sort();
+			UseItemEnqueuePanel.this.model.sort( UseItemEnqueuePanel.this.comparator );
 		}
 	}
 
-	private static class EffectNameCheckbox
-		extends PreferenceListenerCheckBox
+	private class EffectNameCheckbox
+		extends JCheckBox
+		implements ActionListener
 	{
 		public EffectNameCheckbox()
 		{
-			super( "by effect", "sortByEffect" );
-
+			super( "by effect" );
 			this.setToolTipText( "Sort items by the effect they produce" );
+			this.setSelected( UseItemEnqueuePanel.this.sortByEffect );
+			this.addActionListener( this );
 		}
 
-		@Override
-		protected void handleClick()
+		public void actionPerformed( final ActionEvent e )
 		{
-			ConcoctionDatabase.getUsables().sort();
+			if ( UseItemEnqueuePanel.this.sortByEffect == this.isSelected() )
+			{
+				return;
+			}
+
+			UseItemEnqueuePanel.this.sortByEffect = this.isSelected();
+			UseItemEnqueuePanel.this.model.sort( UseItemEnqueuePanel.this.comparator );
 		}
 	}
 
-	private static class ByRoomCheckbox
-		extends PreferenceListenerCheckBox
+	private class ByRoomCheckbox
+		extends JCheckBox
+		implements ActionListener
 	{
 		public ByRoomCheckbox()
 		{
-			super( "by room", "sortByRoom" );
-
+			super( "by room" );
 			this.setToolTipText( "Sort items you have no room for to the bottom" );
+			this.setSelected( UseItemEnqueuePanel.this.sortByRoom );
+			this.addActionListener( this );
 		}
 
-		@Override
-		protected void handleClick()
+		public void actionPerformed( final ActionEvent e )
 		{
-			ConcoctionDatabase.getUsables().sort();
+			if ( UseItemEnqueuePanel.this.sortByRoom == this.isSelected() )
+			{
+				return;
+			}
+
+			UseItemEnqueuePanel.this.sortByRoom = this.isSelected();
+			UseItemEnqueuePanel.this.model.sort( UseItemEnqueuePanel.this.comparator );
 		}
 	}
 	
-	private static class TurnFreeCheckbox
+	private class TurnFreeCheckbox
 		extends PreferenceListenerCheckBox
 	{
 		public TurnFreeCheckbox()
@@ -1056,11 +1209,11 @@ public class UseItemEnqueuePanel
 		@Override
 		protected void handleClick()
 		{
-			ConcoctionDatabase.getUsables().sort();
+			UseItemEnqueuePanel.this.model.sort( UseItemEnqueuePanel.this.comparator );
 		}
 	}
 
-	private static class NoSummonCheckbox
+	private class NoSummonCheckbox
 		extends PreferenceListenerCheckBox
 	{
 		public NoSummonCheckbox()
@@ -1073,7 +1226,7 @@ public class UseItemEnqueuePanel
 		@Override
 		protected void handleClick()
 		{
-			ConcoctionDatabase.getUsables().sort();
+			UseItemEnqueuePanel.this.model.sort( UseItemEnqueuePanel.this.comparator );
 		}
 	}
 }
