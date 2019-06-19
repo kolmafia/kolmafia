@@ -73,10 +73,10 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class Concoction
 	implements Comparable<Concoction>
 {
-	private static final int FOOD_PRIORITY = 1;
-	private static final int BOOZE_PRIORITY = 2;
-	private static final int SPLEEN_PRIORITY = 3;
-	private static final int NO_PRIORITY = 0;
+	public static final int FOOD_PRIORITY = 1;
+	public static final int BOOZE_PRIORITY = 2;
+	public static final int SPLEEN_PRIORITY = 3;
+	public static final int NO_PRIORITY = 0;
 
 	private String name;
 	private int hashCode;
@@ -90,7 +90,7 @@ public class Concoction
 	private EnumSet<CraftingRequirements> mixingRequirements;
 	private EnumSet<CraftingMisc> mixingMisc;
 	private int row;
-	private int sortOrder;
+	public int sortOrder;
 
 	private final boolean isReagentPotion;
 
@@ -475,59 +475,9 @@ public class Concoction
 			return this.sortOrder - o.sortOrder;
 		}
 
-		if ( Preferences.getBoolean( "sortByEffect" ) )
-		{
-			return this.effectName.compareTo( o.effectName );
-		}
-
-		// Sort steel organs to the top.
-		if ( this.steelOrgan )
-		{
-			return o.steelOrgan ? this.name.compareToIgnoreCase( o.name ) : -1;
-		}
-		else if ( o.steelOrgan )
-		{
-			return 1;
-		}
-
 		if  ( this.sortOrder == NO_PRIORITY )
 		{
 			return this.name.compareToIgnoreCase( o.name );
-		}
-
-		if ( Preferences.getBoolean( "sortByRoom" ) )
-		{
-			int limit = 0;
-			boolean thisCantConsume = false;
-			boolean oCantConsume = false;
-
-			switch ( this.sortOrder )
-			{
-			case FOOD_PRIORITY:
-				limit = KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()
-					- ConcoctionDatabase.getQueuedFullness();
-				thisCantConsume = this.fullness > limit;
-				oCantConsume = o.fullness > limit;
-				break;
-
-			case BOOZE_PRIORITY:
-				limit = KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety()
-					- ConcoctionDatabase.getQueuedInebriety();
-				thisCantConsume = this.inebriety > limit;
-				oCantConsume = o.inebriety > limit;
-				break;
-
-			case SPLEEN_PRIORITY:
-				limit = KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse()
-					- ConcoctionDatabase.getQueuedSpleenHit();
-				thisCantConsume = this.spleenhit > limit;
-				oCantConsume = o.spleenhit > limit;
-			}
-
-			if ( thisCantConsume != oCantConsume )
-			{
-				return thisCantConsume ? 1 : -1;
-			}
 		}
 
 		double adventures1 = ConsumablesDatabase.getAdventureRange( this.name );
