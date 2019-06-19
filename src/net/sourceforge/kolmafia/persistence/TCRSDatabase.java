@@ -584,7 +584,6 @@ public class TCRSDatabase
 		{
 			Integer id = entry.getKey();
 			TCRS tcrs = entry.getValue();
-			String name = ItemDatabase.getItemDataName( id.intValue() );
 			applyModifiers( id, tcrs );
 		}
 
@@ -594,10 +593,7 @@ public class TCRSDatabase
 			Integer id = entry.getKey();
 			TCRS tcrs = entry.getValue();
 			String name = CafeDatabase.getCafeBoozeName( id.intValue() );
-			if ( !tcrs.name.equals( name ) )
-			{
-				applyConsumableModifiers( KoLConstants.CONSUME_DRINK, name,  tcrs );
-			}
+			applyConsumableModifiers( KoLConstants.CONSUME_DRINK, name,  tcrs );
 		}
 
 		for ( Entry<Integer, TCRS> entry : TCRSFoodMap.entrySet() )
@@ -605,10 +601,7 @@ public class TCRSDatabase
 			Integer id = entry.getKey();
 			TCRS tcrs = entry.getValue();
 			String name = CafeDatabase.getCafeFoodName( id.intValue() );
-			if ( !tcrs.name.equals( name ) )
-			{
-				applyConsumableModifiers( KoLConstants.CONSUME_EAT, name,  tcrs );
-			}
+			applyConsumableModifiers( KoLConstants.CONSUME_EAT, name,  tcrs );
 		}
 
 		ConcoctionDatabase.refreshConcoctions();
