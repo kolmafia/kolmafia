@@ -121,6 +121,7 @@ public class UseItemEnqueuePanel
 		boolean potions = !food && !booze && !spleen;
 		this.comparator = potions ? new PotionComparator() : new ConsumableComparator();
 		this.model = this.elementModel;
+		this.refreshButton.setAction( new RefreshListener() );
 
 		if ( queueTabs == null )
 		{	// Make a dummy tabbed pane, so that we don't have to do null
@@ -1227,6 +1228,23 @@ public class UseItemEnqueuePanel
 		protected void handleClick()
 		{
 			UseItemEnqueuePanel.this.model.sort( UseItemEnqueuePanel.this.comparator );
+		}
+	}
+
+	private class RefreshListener
+		extends ThreadedListener
+	{
+		@Override
+		protected void execute()
+		{
+			ConcoctionDatabase.refreshConcoctions();
+			UseItemEnqueuePanel.this.model.sort( UseItemEnqueuePanel.this.comparator );
+		}
+
+		@Override
+		public String toString()
+		{
+			return "refresh";
 		}
 	}
 }

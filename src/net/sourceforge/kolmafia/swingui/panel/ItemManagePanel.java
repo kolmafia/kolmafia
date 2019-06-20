@@ -109,7 +109,7 @@ public abstract class ItemManagePanel
 
 	protected final AutoFilterTextField filterfield;
 	protected JPanel buttonPanel;
-	protected JButton refreshButton;
+	protected ThreadedButton refreshButton;
 
 	protected static boolean shouldAddRefreshButton( final LockableListModel elementModel )
 	{
