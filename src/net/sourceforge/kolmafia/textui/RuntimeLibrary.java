@@ -540,6 +540,10 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "desc_to_effect", DataTypes.EFFECT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "desc_to_item", DataTypes.ITEM_TYPE, params ) );
+
 		// Functions related to daily information which get
 		// updated usually once per day.
 
@@ -2734,6 +2738,11 @@ public abstract class RuntimeLibrary
 	public static Value to_item( Interpreter interpreter, final Value name, final Value count )
 	{
 		return DataTypes.makeItemValue( ItemDatabase.getItemId( name.toString(), (int) count.intValue() ), true );
+	}
+
+	public static Value desc_to_item( Interpreter interpreter, final Value value )
+	{
+		return DataTypes.makeItemValue( ItemDatabase.getItemIdFromDescription( value.toString() ), true );
 	}
 
 	public static Value to_class( Interpreter interpreter, final Value value )
