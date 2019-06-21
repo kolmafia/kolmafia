@@ -68,6 +68,7 @@ public class LockableListModel<E>
 
 	E selectedValue;
 	protected ListElementFilter currentFilter;
+	protected Comparator<E> comparator;
 
 	/**
 	 * Constructs a new <code>LockableListModel</code>.
@@ -81,6 +82,7 @@ public class LockableListModel<E>
 
 		this.selectedValue = null;
 		this.currentFilter = LockableListModel.NO_FILTER;
+		this.comparator = null;
 	}
 
 	public LockableListModel( final Collection<E> c )
@@ -138,6 +140,16 @@ public class LockableListModel<E>
 		return null;
 	}
 
+	public Comparator<E> getComparator()
+	{
+		return this.comparator;
+	}
+
+	public void  setComparator( Comparator<E> comparator )
+	{
+		this.comparator = comparator;
+	}
+
 	public void sort()
 	{
 		this.sort( null );
@@ -147,9 +159,9 @@ public class LockableListModel<E>
 	{
 		synchronized ( this.actualElements )
 		{
-			Collections.sort( this.actualElements, c );
-
-			Collections.sort( this.visibleElements, c );
+			Comparator<E> comparator = this.comparator != null ? this.comparator : c;
+			Collections.sort( this.actualElements, comparator );
+			Collections.sort( this.visibleElements, comparator );
 			this.fireContentsChanged( this, 0, this.visibleElements.size() - 1 );
 
 			Iterator<WeakReference<LockableListModel<E>>> it = this.mirrorList.iterator();
@@ -161,7 +173,9 @@ public class LockableListModel<E>
 					break;
 				}
 
-				Collections.sort( mirror.visibleElements, c );
+				// If the mirror has a comparator assigned to it, always use that
+				comparator = mirror.comparator != null ? mirror.comparator : c;
+				Collections.sort( mirror.visibleElements, comparator );
 				mirror.fireContentsChanged( this, 0, mirror.visibleElements.size() - 1 );
 			}
 		}

@@ -231,7 +231,8 @@ public class Concoction
 		this.inebriety = ConsumablesDatabase.getInebriety( this.name );
 		this.spleenhit = ConsumablesDatabase.getSpleenHit( this.name );
 
-		this.sortOrder = this.fullness > 0 || ( this.concoction != null && this.concoction.getItemId() == ItemPool.QUANTUM_TACO ) ? FOOD_PRIORITY :
+		this.sortOrder =
+			this.fullness > 0 || ( this.concoction != null && this.concoction.getItemId() == ItemPool.QUANTUM_TACO ) ? FOOD_PRIORITY :
 			this.inebriety > 0 || ( this.concoction != null && this.concoction.getItemId() == ItemPool.SCHRODINGERS_THERMOS ) ? BOOZE_PRIORITY :
 			this.spleenhit > 0 ? SPLEEN_PRIORITY :
 			NO_PRIORITY;
@@ -478,6 +479,54 @@ public class Concoction
 		if  ( this.sortOrder == NO_PRIORITY )
 		{
 			return this.name.compareToIgnoreCase( o.name );
+		}
+
+		// Sort steel organs to the top.
+		if ( this.steelOrgan )
+		{
+			return o.steelOrgan ? this.name.compareToIgnoreCase( o.name ) : -1;
+		}
+		else if ( o.steelOrgan )
+		{
+			return 1;
+		}
+
+		if ( Preferences.getBoolean( "sortByRoom" ) )
+		{
+			int limit = 0;
+			boolean thisCantConsume = false;
+			boolean oCantConsume = false;
+
+			switch ( this.sortOrder )
+			{
+			case FOOD_PRIORITY:
+				limit = KoLCharacter.getFullnessLimit() -
+					KoLCharacter.getFullness() -
+					ConcoctionDatabase.getQueuedFullness();
+				thisCantConsume = this.fullness > limit;
+				oCantConsume = o.fullness > limit;
+				break;
+
+			case BOOZE_PRIORITY:
+				limit = KoLCharacter.getInebrietyLimit() -
+					KoLCharacter.getInebriety() -
+					ConcoctionDatabase.getQueuedInebriety();
+				thisCantConsume = this.inebriety > limit;
+				oCantConsume = o.inebriety > limit;
+				break;
+
+			case SPLEEN_PRIORITY:
+				limit = KoLCharacter.getSpleenLimit() -
+					KoLCharacter.getSpleenUse() -
+					ConcoctionDatabase.getQueuedSpleenHit();
+				thisCantConsume = this.spleenhit > limit;
+				oCantConsume = o.spleenhit > limit;
+			}
+
+			if ( thisCantConsume != oCantConsume )
+			{
+				return thisCantConsume ? 1 : -1;
+			}
 		}
 
 		double adventures1 = ConsumablesDatabase.getAdventureRange( this.name );
