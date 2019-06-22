@@ -1,0 +1,45 @@
+-1	snack-sized bland Peche a la Frog	2	decent	
+-2	spoiled super-sized As Jus Gezund Heit	5	crappy	
+-3	half-sized spoiled narrow Bouillabaise Coucher Avec Moi	2	crappy	
+-7	moldy half-sized purple gumdrop chow mein	2	crappy	
+-8	thick toothsome lime green candy cane pizza	5	awesome	
+-9	normal jumbo gingerbread stir-fry	5	good	
+-10	moldy twigs and gravel	4	crappy	
+-11	flavorless huge shoots and leaves	6	decent	
+-12	moldy snack-sized mirror bowl of unidentifiable goo	2	crappy	
+-13	normal gingerbread massacre	4	good	
+-14	rotten huge It Came From Beyond Dessert	4	crappy	
+-15	rotten skewed vampire cake	3	crappy	
+-52	rotten enchanted mirror Soylent Red and Green	3	crappy	
+-53	moldy Disc-Shaped Nutrition Unit	4	crappy	
+-54	small stale Gingerborg Hive	2	decent	
+-61	stale Candy Cane Surprise	4	decent	
+-62	adequate fancy tumbling Grimdrop Chow Mein	3	good	
+-63	immense flavorless pulsating Grimgerbread House	7	decent	
+-67	stale shaking blue Caviar Carbonara	3	decent	
+-68	rotten Halibut Alfredo	3	crappy	
+-69	normal Red Herring Velvet Cake	3	good	
+-73	normal CRIMBCO Reconstituted Gruel	3	good	
+-74	flavorless miniature New and Improved CRIMBCO Reconstituted Gruel	2	decent	
+-75	spoiled CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	3	crappy	
+-79	massive stale Brussels Sprout Stir-Fry	10	decent	
+-80	flavorless Carrot, Cabbage, and Kale Pizza	3	decent	
+-81	decent squat blue Turnip and Rutabaga Pie	4	good	
+-85	delicious squat Rainbow Spider Fun Roll	4	awesome	
+-86	moldy blinking Vegas Volcano Lava Roll	4	crappy	
+-87	spoiled massive Crazy Dragon Shogun Buddha Roll	10	crappy	
+-92	adequate tiny basic hot dog	1	good	
+-93	miniature rotten maroon savage macho dog	2	crappy	
+-94	adequate one with everything	3	good	
+-95	yummy sly dog	3	awesome	
+-96	moldy immense devil dog	7	crappy	
+-97	adequate chilly dog	4	good	
+-98	adequate immense ghost dog	10	good	
+-99	decent bite-sized junkyard dog	1	good	
+-100	bland wet dog	3	decent	
+-101	normal small sleeping dog	2	good	
+-102	low-calorie toothsome optimal dog	1	awesome	
+-103	rotten thick video games hot dog	5	crappy	
+-104	stale Peppermint Nutrition Block	4	decent	
+-105	rotten huge shaking Gingerbread Nutrition Block	8	crappy	
+-106	decent pulsating narrow Cinnamon Nutrition Block	3	good	
