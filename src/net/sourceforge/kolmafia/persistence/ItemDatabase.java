@@ -1020,6 +1020,9 @@ public class ItemDatabase
 			ItemDatabase.noobSkillIdByItemSource.set( itemId, skillId );
 		}
 
+		// If it is equipment, derive pulverization
+		EquipmentDatabase.getPulverization( itemId );
+
 		// Add the new item to the ConcoctionPool
 		AdventureResult ar = ItemPool.get( itemId, 1 );
 		Concoction c = new Concoction( ar, CraftingType.NOCREATE );

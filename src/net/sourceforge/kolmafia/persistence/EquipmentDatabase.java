@@ -830,6 +830,49 @@ public class EquipmentDatabase
 		return  EquipmentDatabase.isChefStaff( itemId ) || EquipmentDatabase.isAccordion( itemId ) || EquipmentDatabase.getHands( itemId ) != 1;
 	}
 
+	public static void initializePulverization()
+	{
+		for ( Integer id : ItemDatabase.descriptionIdKeySet() )
+		{
+			if ( EquipmentDatabase.isPulverizable( id ) )
+			{
+				EquipmentDatabase.getPulverization( id );
+			}
+		}
+
+	}
+
+	public static boolean isPulverizable( final int id )
+	{
+		if ( id < 0 )
+		{
+			return false;
+		}
+
+		switch ( ItemDatabase.getConsumptionType( id ) )
+		{
+		case KoLConstants.EQUIP_ACCESSORY:
+		case KoLConstants.EQUIP_HAT:
+		case KoLConstants.EQUIP_PANTS:
+		case KoLConstants.EQUIP_SHIRT:
+		case KoLConstants.EQUIP_WEAPON:
+		case KoLConstants.EQUIP_OFFHAND:
+		case KoLConstants.EQUIP_CONTAINER:
+			break;
+
+		case KoLConstants.EQUIP_FAMILIAR:
+		default:
+			return false;
+		}
+
+		if ( ItemDatabase.isQuestItem( id ) )
+		{
+			return false;
+		}
+
+		return true;
+	}
+
 	public static final int getPulverization( final int id )
 	{
 		if ( id < 0 )
@@ -847,25 +890,11 @@ public class EquipmentDatabase
 
 	private static final int derivePulverization( final int id )
 	{
-		switch ( ItemDatabase.getConsumptionType( id ) )
+		if ( !EquipmentDatabase.isPulverizable( id ) )
 		{
-		case KoLConstants.EQUIP_ACCESSORY:
-		case KoLConstants.EQUIP_HAT:
-		case KoLConstants.EQUIP_PANTS:
-		case KoLConstants.EQUIP_SHIRT:
-		case KoLConstants.EQUIP_WEAPON:
-		case KoLConstants.EQUIP_OFFHAND:
-		case KoLConstants.EQUIP_CONTAINER:
-			break;
-
-		default:
 			return -1;
 		}
 
-		if ( ItemDatabase.isQuestItem( id ) )
-		{	// quest item
-			return -1;
-		}
 		if ( ItemDatabase.isGiftable( id ) && !ItemDatabase.isTradeable( id ) )
 		{	// gift item
 			return ItemPool.USELESS_POWDER;
