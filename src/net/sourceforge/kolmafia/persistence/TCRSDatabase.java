@@ -364,6 +364,18 @@ public class TCRSDatabase
 		int count = 0;
 		for ( Integer id : keys )
 		{
+			// For a while, we stored the hewn moon-rune spoon
+			// without modifiers.  If the data file we loaded has
+			// that, force derive here to get the real modifiers.
+			if ( id == ItemPool.HEWN_MOON_RUNE_SPOON )
+			{
+				TCRS tcrs = TCRSMap.get( id );
+				if ( tcrs != null && "hewn moon-rune spoon".equals( tcrs.name ) )
+				{
+					TCRSMap.remove( id );
+				}
+			}
+
 			if ( derive( id ) ) {
 				count++;
 			}
