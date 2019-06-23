@@ -10039,6 +10039,6 @@
 10251	skewed careful wholesome rock-hard Fourth of May Cosplay Saber	0		Damage Reduction: 5, Maximum HP Percent: +10, Monster Level: -10
 10252	ring	0		Single Equip
 10253	huge upside-down Thwaitgold nymph statuette	0		
-10254	hewn moon-rune spoon	0		Single Equip
+10254	blue blinking Sherlock's reassuring lard-coated scorching Tesla hale healthy stiffened hewn moon-rune spoon of Leguizamo of the sweet-tooth of the glutton	0		Damage Reduction: 1, Maximum HP Percent: +20, Maximum HP: +20, Monster Level: +20, Hot Damage: +25, Sleaze Spell Damage: +25, Spooky Resistance: +1, Item Drop: +25, Candy Drop: +100, Food Drop: +100, MP Regen Min: 7, MP Regen Max: 10, Single Equip
 10255	blurry spinning cartoon harpoon	0		
 10256	rune-strewn spoon cocoon	0		Free Pull

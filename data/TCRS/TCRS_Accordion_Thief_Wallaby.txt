@@ -10021,5 +10021,4 @@
 10251	pulsating huge avaricious lard-coated savvy Fourth of May Cosplay Saber	0		Mysticality Percent: +20, Sleaze Spell Damage: +25, Meat Drop: +30
 10252	ring	0		Single Equip
 10253	Thwaitgold nymph statuette	0		
-10254	hewn moon-rune spoon	0		Single Equip
 10256	blinking rune-strewn spoon cocoon	0		Free Pull

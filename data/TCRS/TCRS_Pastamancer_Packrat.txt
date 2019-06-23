@@ -10039,6 +10039,5 @@
 10251	twirling frightening sharpshooter's padded Fourth of May Cosplay Saber	0		Damage Absorption: +20, Critical Hit Percent: +10, Spooky Damage: +5
 10252	ring	0		Single Equip
 10253	Thwaitgold nymph statuette	0		
-10254	hewn moon-rune spoon	0		Single Equip
 10255	lime green cartoon harpoon	0		
 10256	gray huge upside-down rune-strewn spoon cocoon	0		Free Pull

@@ -10039,5 +10039,4 @@
 10251	upside-down Jack Frost's ruddy Samson's Fourth of May Cosplay Saber	0		Experience (Muscle): +5, Maximum HP Percent: +40, Cold Spell Damage: +50
 10252	ring	0		Single Equip
 10253	red jittery bouncing huge Thwaitgold nymph statuette	0		
-10254	hewn moon-rune spoon	0		Single Equip
 10256	rune-strewn spoon cocoon	0		Free Pull

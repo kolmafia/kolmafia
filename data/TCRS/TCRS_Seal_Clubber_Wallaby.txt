@@ -10039,6 +10039,5 @@
 10251	aromatic double-paned greasy Fourth of May Cosplay Saber	0		Sleaze Spell Damage: +10, Cold Resistance: +5, Stench Resistance: +1
 10252	ring	0		Single Equip
 10253	wobbly Thwaitgold nymph statuette	0		
-10254	hewn moon-rune spoon	0		Single Equip
 10255	cartoon harpoon	0		
 10256	narrow rune-strewn spoon cocoon	0		Free Pull

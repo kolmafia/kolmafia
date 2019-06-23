@@ -10022,6 +10022,5 @@
 10251	foul-smelling electrified Fourth of May Cosplay Saber	0		Stench Damage: +10, Item Drop: +5, MP Regen Min: 3, MP Regen Max: 5
 10252	ring	0		Single Equip
 10253	Thwaitgold nymph statuette	0		
-10254	hewn moon-rune spoon	0		Single Equip
 10255	green cartoon harpoon	0		
 10256	rune-strewn spoon cocoon	0		Free Pull

@@ -10037,6 +10037,5 @@
 10251	upside-down twirling Da Vinci's savvy Fourth of May Cosplay Saber of extreme caution	0		Mysticality Percent: +20, Experience (Mysticality): +5, Monster Level: -25
 10252	ring	0		Single Equip
 10253	Thwaitgold nymph statuette	0		
-10254	hewn moon-rune spoon	0		Single Equip
 10255	cartoon harpoon	0		
 10256	rune-strewn spoon cocoon	0		Free Pull

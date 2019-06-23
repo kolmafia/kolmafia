@@ -10039,6 +10039,5 @@
 10251	skewed auspicious ribald resourceful Fourth of May Cosplay Saber	0		Maximum MP: +50, Sleaze Damage: +10, Item Drop: +10
 10252	ring	0		Single Equip
 10253	Thwaitgold nymph statuette	0		
-10254	hewn moon-rune spoon	0		Single Equip
 10255	cartoon harpoon	0		
 10256	rune-strewn spoon cocoon	0		Free Pull
