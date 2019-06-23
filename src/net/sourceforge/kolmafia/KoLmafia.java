@@ -848,6 +848,9 @@ public abstract class KoLmafia
 		PastaThrallData.initialize();
 		EdServantData.initialize();
 
+		// Initialize pulverization data from original item enchantments
+		EquipmentDatabase.initializePulverization();
+
 		// Start out fetching the status using the KoL API. This
 		// provides data from a lot of different standard pages
 
