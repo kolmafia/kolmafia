@@ -10039,5 +10039,4 @@
 10251	huge avaricious supercharged Fourth of May Cosplay Saber of mayonnaise	0		Maximum MP Percent: +30, Sleaze Spell Damage: +50, Meat Drop: +30
 10252	ring	0		Single Equip
 10253	Thwaitgold nymph statuette	0		
-10254	hewn moon-rune spoon	0		Single Equip
 10256	tumbling rune-strewn spoon cocoon	0		Free Pull

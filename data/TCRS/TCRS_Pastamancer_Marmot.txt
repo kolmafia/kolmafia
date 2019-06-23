@@ -10039,6 +10039,5 @@
 10251	lard-coated nippy quilted Fourth of May Cosplay Saber	0		Damage Absorption: +40, Cold Damage: +10, Sleaze Spell Damage: +25
 10252	ring	0		Single Equip
 10253	shaking Thwaitgold nymph statuette	0		
-10254	hewn moon-rune spoon	0		Single Equip
 10255	wobbly cartoon harpoon	0		
 10256	bouncing rune-strewn spoon cocoon	0		Free Pull

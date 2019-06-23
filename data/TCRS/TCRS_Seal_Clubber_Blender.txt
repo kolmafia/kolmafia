@@ -10039,6 +10039,5 @@
 10251	razor-sharp savvy Fourth of May Cosplay Saber of the sewer	0		Mysticality Percent: +20, Weapon Damage Percent: +25, Stench Damage: +25
 10252	ring	0		Single Equip
 10253	spinning Thwaitgold nymph statuette	0		
-10254	hewn moon-rune spoon	0		Single Equip
 10255	bouncing cartoon harpoon	0		
 10256	rune-strewn spoon cocoon	0		Free Pull

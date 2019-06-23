@@ -10039,5 +10039,4 @@
 10251	squat up-at-dawn smelly Fourth of May Cosplay Saber of the detective	0		Stench Spell Damage: +10, Item Drop: +20, Adventures: +5
 10252	ring	0		Single Equip
 10253	Thwaitgold nymph statuette	0		
-10254	hewn moon-rune spoon	0		Single Equip
 10256	purple rune-strewn spoon cocoon	0		Free Pull
