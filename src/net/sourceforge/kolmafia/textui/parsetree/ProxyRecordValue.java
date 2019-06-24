@@ -1301,6 +1301,7 @@ public class ProxyRecordValue
 			.add( "phylum", DataTypes.PHYLUM_TYPE )
 			.add( "poison", DataTypes.EFFECT_TYPE )
 			.add( "boss", DataTypes.BOOLEAN_TYPE )
+			.add( "copyable", DataTypes.BOOLEAN_TYPE )
 			.add( "dummy", DataTypes.BOOLEAN_TYPE )
 			.add( "image", DataTypes.STRING_TYPE )
 			.add( "images",
@@ -1427,6 +1428,11 @@ public class ProxyRecordValue
 		public boolean get_boss()
 		{
 			return ( (MonsterData) this.content ).isBoss();
+		}
+
+		public boolean get_copyable()
+		{
+			return !( ( (MonsterData) this.content ).isNoCopy() );
 		}
 
 		public boolean get_dummy()
