@@ -533,6 +533,7 @@ public class MonsterDatabase
 		int poison = Integer.MAX_VALUE;
 		boolean boss = false;
 		boolean noBanish = false;
+		boolean noCopy = false;
 		boolean dummy = false;
 		EnumSet<EncounterType> type = EnumSet.noneOf( EncounterType.class );
 		int physical = 0;
@@ -758,6 +759,12 @@ public class MonsterDatabase
 					continue;
 				}
 
+				else if( option.equals( "NOCOPY" ) )
+				{
+					noCopy = true;
+					continue;
+				}
+
 				else if ( option.equals( "WANDERER" ) )
 				{
 					type.add( EncounterType.WANDERER );
@@ -835,7 +842,7 @@ public class MonsterDatabase
 					   attackElement, defenseElement,
 					   physical,
 					   meat, minSprinkles, maxSprinkles, phylum, poison,
-					   boss, noBanish, dummy, type,
+					   boss, noBanish, noCopy, dummy, type,
 					   images, manuelName, wikiName,
 					   subTypes, attributes );
 

@@ -77,6 +77,7 @@ public class MonsterData
 	private final int poison;
 	private final boolean boss;
 	private final boolean noBanish;
+	private final boolean noCopy;
 	private final boolean noManuel;
 	private final boolean dummy;
 	private boolean transformed; // from CLEESH and such
@@ -191,7 +192,7 @@ public class MonsterData
 			    final int physicalResistance,
 			    final int meat, final Object minSprinkles, final Object maxSprinkles,
 			    final Phylum phylum, final int poison,
-			    final boolean boss, final boolean noBanish, final boolean dummy,
+			    final boolean boss, final boolean noBanish, final boolean noCopy, final boolean dummy,
 			    final EnumSet<EncounterType> type, final String[] images,
 			    final String manuelName, final String wikiName, final List<String> subTypes,
 			    final String attributes )
@@ -219,6 +220,7 @@ public class MonsterData
 		this.poison = poison;
 		this.boss = boss;
 		this.noBanish = noBanish;
+		this.noCopy = noCopy;
 		this.dummy = dummy;
 		this.transformed = false;
 		this.type = type;
@@ -907,6 +909,11 @@ public class MonsterData
 	public boolean isNoBanish()
 	{
 		return this.noBanish;
+	}
+
+	public boolean isNoCopy()
+	{
+		return this.noCopy;
 	}
 
 	public boolean isDummy()
