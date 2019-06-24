@@ -406,7 +406,7 @@ public class UseItemEnqueuePanel
 						KoLCharacter.getFullness() -
 						ConcoctionDatabase.getQueuedFullness();
 					o1CantConsume = o1.getFullness() > limit;
-					o1CantConsume = o2.getFullness() > limit;
+					o2CantConsume = o2.getFullness() > limit;
 					break;
 
 				case Concoction.BOOZE_PRIORITY:
