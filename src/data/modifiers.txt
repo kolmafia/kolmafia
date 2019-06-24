@@ -1074,7 +1074,7 @@ Item	black kettle drum	Moxie: +5, Maximum HP: +30, Maximum MP: +30
 Item	black sword	Critical Hit Percent: +7, Weapon Damage: +7
 Item	blammer	Critical Hit Percent: +7, Weakens Monster
 # Item bloody harpoon: +100% Physical Damage (in PirateRealm only)
-Item	bloody harpoon	Lasts Until Rollover
+Item	bloody harpoon	Weapon Damage Percent: [100*zone(PirateRealm)], Lasts Until Rollover
 # Item blood knife: Gross!
 Item	blood knife	Lasts Until Rollover
 Item	Bloodbath	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, HP Regen Min: 25, HP Regen Max: 30, MP Regen Min: 25, MP Regen Max: 30
@@ -1592,6 +1592,7 @@ Item	rave whistle	Maximum HP: +10, Monster Level: +10, Raveosity: +1
 Item	red hot poker	Hot Damage: +15
 Item	red-hot sausage fork	Hot Damage: +8, Food Drop: +10
 # Item Red Roger's red right hand: +50 Physical Damage (in PirateRealm only)
+Item	Red Roger's red right hand	Weapon Damage: [50*zone(PirateRealm)]
 # Red Rover BB gun: You'll Put Your Eye Out!
 Item	Red Rover BB gun	Critical Hit Percent: +15
 Item	regret hose	Cold Damage: +10
@@ -2002,8 +2003,7 @@ Item	Crimbo tree flocker	Cold Damage: +10
 Item	cuddly teddy bear	Monster Level: +10
 # cup of infinite pencils: Never runs out of pencils
 Item	cup of infinite pencils	Meat Drop: +15
-# Item cursed compass: +100% Item Drops (in PirateRealm only)
-Item	cursed compass	Lasts Until Rollover
+Item	cursed compass	Item Drop: [100*zone(PirateRealm)], Lasts Until Rollover
 Item	cyborg doll	Muscle: +3
 Item	Dallas Dynasty Falcon Crest shield	Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Damage Reduction: 15
 # deceased crimbo tree: Blocks damage while needles remain
@@ -2308,7 +2308,7 @@ Item	red book	Spell Damage: +20, HP Regen Min: 5, HP Regen Max: 10
 Item	red China marble	Hot Spell Damage: +40
 Item	red LavaCo Lamp&trade;	Adventures: +5, Rollover Effect: "Red Menace", Rollover Effect Duration: 50
 Item	red wagon	Mysticality Percent: +15, Spell Damage Percent: +50, Maximum MP: +300
-# Item Red Roger's red left hand: +100% Item Drops (in PirateRealm only)
+Item	Red Roger's red left hand	Item Drop: [100*zone(PirateRealm)]
 Item	Red X Shield	Maximum HP: +20, Maximum MP: +20, Damage Reduction: 11
 Item	reusable shopping bag	Food Drop: +20, Booze Drop: +20, Candy Drop: +20
 Item	rice bowl	Food Drop: +20
