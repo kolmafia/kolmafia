@@ -45,6 +45,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
@@ -392,7 +393,27 @@ public class Expression
 				v = Modifiers.currentFamiliar.equalsIgnoreCase( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
 				break;
 			case 'z':
-				v = Modifiers.currentZone.equalsIgnoreCase( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
+				String expressionZone = (String) this.literals.get( (int) s[ --sp ] );
+				String currentZone = Modifiers.currentZone;
+				do
+				{
+					if ( currentZone.equalsIgnoreCase( expressionZone ) )
+					{
+						v = 1;
+					}
+					else
+					{
+						String parentZone = AdventureDatabase.PARENT_ZONES.get( currentZone );
+						if ( parentZone == null || currentZone == parentZone )
+						{
+							break;
+						}
+						else
+						{
+							currentZone = parentZone;
+						}
+					}
+				} while ( v == 0 );
 				break;
 			case 'v':
 				Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
