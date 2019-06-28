@@ -11564,6 +11564,21 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1360:
+			// Like Shops in the Night
+			if ( ChoiceManager.lastDecision == 5 &&
+			     text.contains( "You gain 500 gold" ) )
+			{
+				// Sell them the cursed compass
+				// Remove from equipment (including checkpoints)
+				if ( EquipmentManager.discardEquipment( ItemPool.CURSED_COMPASS ) == -1 )
+				{
+					// Remove from inventory
+					ResultProcessor.removeItem( ItemPool.CURSED_COMPASS );
+				}
+			}
+			break;
+
 		case 1386:
 			SaberRequest.parseUpgrade( urlString, text );
 			break;
