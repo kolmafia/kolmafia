@@ -2692,7 +2692,7 @@ Item	disembodied smile	Spooky Damage: +2, Single Equip
 # diving muff: Makes you a better diver
 Item	diving muff	Single Equip, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 # doll-eye amulet: +40% Item Drops in Spookyraven Manor
-Item	doll-eye amulet	Single Equip, Item Drop: [40*(zone(Manor0)+zone(Manor1)+zone(Manor2)+zone(Manor3))]
+Item	doll-eye amulet	Single Equip, Item Drop: [40*zone(Manor)]
 Item	dope gangsta bling-bling	Moxie: +1
 Item	dorky glasses	Moxie: -30, Mysticality: +30, Single Equip
 Item	Draftsman's driving gloves	Mysticality Percent: +50, Spell Damage Percent: +50, Adventures: +8, Experience (Mysticality): +4, Lasts Until Rollover
@@ -3295,7 +3295,7 @@ Item	sticky gloves	Pickpocket Chance: +20, Single Equip
 Item	stinky cheese eye	Softcore Only, Meat Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))], Item Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))]
 # stinky fannypack: +40% Item Drops while on Vacation
 # stinky fannypack: (in any Elemental Airport area)
-Item	stinky fannypack	Stench Damage: +25, Stench Spell Damage: +25, Item Drop: [40*(zone(Spring Break Beach)+zone(Conspiracy Island)+zone(Dinseylandfill)+zone(That 70s Volcano)+zone(The Glaciest))]
+Item	stinky fannypack	Stench Damage: +25, Stench Spell Damage: +25, Item Drop: [40*zone(Elemental International Airport)]
 Item	stolen necklace	PvP Fights: +1, Spooky Damage: +5
 # strawberyl necklace: (only in the Candy Diorama)
 Item	strawberyl necklace	Spell Damage Percent: [200*zone(The Candy Diorama)], Single Equip
@@ -5321,7 +5321,7 @@ Effect	Experimental Effect G-9	Muscle Percent: [pref(_g9Effect)], Mysticality Pe
 Effect	Expert Oiliness	Equalize: "Mysticality"
 Effect	Expert Timing	Item Drop: +20
 # Expert Vacationer: +25% to all stat gains in exotic travel destinations
-Effect	Expert Vacationer	Experience Percent (Muscle): [25*(zone(Spring Break Beach)+zone(Conspiracy Island)+zone(Dinseylandfill)+zone(That 70s Volcano)+zone(The Glaciest))], Experience Percent (Mysticality): [25*(zone(Spring Break Beach)+zone(Conspiracy Island)+zone(Dinseylandfill)+zone(That 70s Volcano)+zone(The Glaciest))], Experience Percent (Moxie): [25*(zone(Spring Break Beach)+zone(Conspiracy Island)+zone(Dinseylandfill)+zone(That 70s Volcano)+zone(The Glaciest))]
+Effect	Expert Vacationer	Experience Percent (Muscle): [25*zone(Elemental International Airport))], Experience Percent (Mysticality): [25*zone(Elemental International Airport)], Experience Percent (Moxie): [25*zone(Elemental International Airport)]
 Effect	Extended Toes	Combat Rate: -5
 Effect	Extra Backbone	Muscle: +5, Experience (Muscle): +1
 Effect	Extra Sensory Perception	Item Drop: +50

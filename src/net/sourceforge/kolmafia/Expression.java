@@ -395,25 +395,21 @@ public class Expression
 			case 'z':
 				String expressionZone = (String) this.literals.get( (int) s[ --sp ] );
 				String currentZone = Modifiers.currentZone;
-				do
+				v = 0;
+				while ( true )
 				{
 					if ( currentZone.equalsIgnoreCase( expressionZone ) )
 					{
 						v = 1;
+						break;
 					}
-					else
+					String parentZone = AdventureDatabase.PARENT_ZONES.get( currentZone );
+					if ( parentZone == null || currentZone.equals( parentZone ) )
 					{
-						String parentZone = AdventureDatabase.PARENT_ZONES.get( currentZone );
-						if ( parentZone == null || currentZone == parentZone )
-						{
-							break;
-						}
-						else
-						{
-							currentZone = parentZone;
-						}
+						break;
 					}
-				} while ( v == 0 );
+					currentZone = parentZone;
+				}
 				break;
 			case 'v':
 				Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
