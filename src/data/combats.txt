@@ -513,6 +513,7 @@ Pump Up Moxie	0
 Pump Up Muscle	0
 Pump Up Mysticality	0
 Rumpelstiltskin's Workshop	0
+Sailing the PirateRealm Seas	0
 # St. Sneaky Pete's Day is unusual in that although it has no combats,
 # you might want a between-battle script to execute.
 St. Sneaky Pete's Day Stupor	-1
