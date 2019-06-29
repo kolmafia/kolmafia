@@ -806,6 +806,10 @@ public class TCRSDatabase
 
 		ConcoctionDatabase.resetEffects();
 		ConcoctionDatabase.refreshConcoctions();
+		ConsumablesDatabase.setSmoresData();
+		ConsumablesDatabase.setAffirmationCookieData();
+		ConsumablesDatabase.setVariableConsumables();
+		ConsumablesDatabase.calculateAdventureRanges();
 		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
 	}
