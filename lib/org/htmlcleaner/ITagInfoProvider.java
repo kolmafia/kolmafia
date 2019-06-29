@@ -44,9 +44,6 @@ package org.htmlcleaner;
  * desired behaviour of cleaner can be achived.<br/>
  * In most cases implementation will be or contain a kind of Map.
  * </p>
- *
- * Created by: Vladimir Nikic<br/>
- * Date: November, 2006.
  */
 public interface ITagInfoProvider {
 

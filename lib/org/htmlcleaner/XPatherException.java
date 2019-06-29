@@ -40,9 +40,6 @@ package org.htmlcleaner;
 
 /**
  * <p>Exception that could occure during XPather evaluation.</p>
- *
- * Created by: Vladimir Nikic<br/>
- * Date: March, 2008.
  */
 public class XPatherException extends Exception {
 

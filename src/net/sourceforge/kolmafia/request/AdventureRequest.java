@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -1426,15 +1424,7 @@ public class AdventureRequest
 		HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
 		String xpath = "//script/text()";
 		TagNode doc;
-		try
-		{
-			doc = cleaner.clean( responseText );
-		}
-		catch( IOException e )
-		{
-			StaticEntity.printStackTrace( e );
-			return monsterName;
-		}
+		doc = cleaner.clean( responseText );
 
 		Object[] result;
 		try

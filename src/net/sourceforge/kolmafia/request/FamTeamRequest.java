@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.io.IOException;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -334,16 +332,8 @@ public class FamTeamRequest
 
 	private static final TagNode cleanPokeTeamHTML( final String text )
 	{
-		try
-		{
-			// Clean the HTML on this response page
-			return cleaner.clean( text );
-		}
-		catch ( IOException e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
-		return null;
+		// Clean the HTML on this response page
+		return cleaner.clean( text );
 	}
 
 /*

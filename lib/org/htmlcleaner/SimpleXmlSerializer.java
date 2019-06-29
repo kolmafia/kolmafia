@@ -39,13 +39,11 @@ package org.htmlcleaner;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * <p>Simple XML serializer - creates resulting XML without indenting lines.</p>
- *
- * Created by: Vladimir Nikic<br/>
- * Date: November, 2006.
  */
 public class SimpleXmlSerializer extends XmlSerializer {
 
@@ -54,18 +52,20 @@ public class SimpleXmlSerializer extends XmlSerializer {
 	}
 
     @Override
-protected void serialize(TagNode tagNode, Writer writer) throws IOException {
+    protected void serialize(TagNode tagNode, Writer writer) throws IOException {
         serializeOpenTag(tagNode, writer, false);
-
-        List tagChildren = tagNode.getChildren();
+        
+        List<? extends BaseToken> tagChildren = tagNode.getAllChildren();
         if ( !isMinimizedTagSyntax(tagNode) ) {
-            Iterator childrenIt = tagChildren.iterator();
+            Iterator<? extends BaseToken> childrenIt = tagChildren.iterator();
             while ( childrenIt.hasNext() ) {
                 Object item = childrenIt.next();
+                   	
                 if (item != null) {
-                    if ( item instanceof ContentToken ) {
-                        String content = ((ContentToken) item).getContent();
-                        writer.write( dontEscape(tagNode) ? content.replaceAll("]]>", "]]&gt;") : escapeXml(content) );
+                	if (item instanceof CData) {
+                		serializeCData((CData)item, tagNode, writer);
+                	} else if ( item instanceof ContentNode ) {
+                        serializeContentToken((ContentNode)item, tagNode, writer);
                     } else {
                         ((BaseToken)item).serialize(this, writer);
                     }
