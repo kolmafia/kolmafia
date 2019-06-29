@@ -2447,15 +2447,8 @@ public abstract class RuntimeLibrary
 		HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
 
 		TagNode doc;
-		try
-		{
-			doc = cleaner.clean( html.toString() );
-		}
-		catch ( IOException e )
-		{
-			StaticEntity.printStackTrace( e );
-			throw interpreter.runtimeException( "something went wrong while cleaning html" );
-		}
+		doc = cleaner.clean( html.toString() );
+
 		Object[] result;
 		try
 		{
@@ -2480,15 +2473,7 @@ public abstract class RuntimeLibrary
 			if ( ob instanceof TagNode )
 			{
 				TagNode tag = (TagNode) ob;
-				try
-				{
-					result[ i ] = serializer.getXmlAsString( tag );
-				}
-				catch ( IOException e )
-				{
-					StaticEntity.printStackTrace( e );
-					throw interpreter.runtimeException( "something went wrong while serializing to html" );
-				}
+				result[ i ] = serializer.getXmlAsString( tag );
 			}
 
 			value.aset( new Value( i ), new Value( result[ i ].toString() ) );

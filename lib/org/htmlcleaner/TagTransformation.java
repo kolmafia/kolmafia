@@ -37,19 +37,27 @@
 
 package org.htmlcleaner;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.LinkedHashMap;
+import java.util.regex.Pattern;
 
 /**
  * Describes how specified tag is transformed to another one, or is ignored during parsing
  */
 public class TagTransformation {
-
+    public static String VAR_START = "${";
+    public static String VAR_END = "}";
     private String sourceTag;
     private String destTag;
     private boolean preserveSourceAttributes;
-    private Map attributeTransformations;
-
+    private Map<String, String> attributeTransformations = new LinkedHashMap<String, String>();
+    private List<AttributeTransformation> attributePatternTransformations = new ArrayList<AttributeTransformation>();
+    public TagTransformation() {
+        this.preserveSourceAttributes = true;
+    }
     /**
      * Creates new tag transformation from source tag to target tag specifying whether
      * source tag attributes are preserved.
@@ -96,12 +104,23 @@ public class TagTransformation {
      * @param transformationDesc Template describing attribute value.
      */
     public void addAttributeTransformation(String targetAttName, String transformationDesc) {
-        if (attributeTransformations == null) {
-            attributeTransformations = new LinkedHashMap();
-        }
         attributeTransformations.put(targetAttName.toLowerCase(), transformationDesc);
     }
-
+    public void addAttributePatternTransformation(Pattern attNamePattern, String transformationDesc) {
+        attributePatternTransformations.add(new AttributeTransformationPatternImpl(attNamePattern, null, transformationDesc));
+    }
+    public void addAttributePatternTransformation(Pattern attNamePattern, Pattern attValuePattern, String transformationDesc) {
+        addAttributePatternTransformation(new AttributeTransformationPatternImpl(attNamePattern, attValuePattern, transformationDesc));
+    }
+    /**
+     * @param attributeTransformation
+     */
+    public void addAttributePatternTransformation(AttributeTransformation attributeTransformation) {
+        if (attributePatternTransformations == null) {
+            attributePatternTransformations = new ArrayList<AttributeTransformation>();
+        }
+        attributePatternTransformations.add(attributeTransformation);
+    }
     /**
      * Adds new attribute transformation in which destination attrbute will not exists
      * (simply removes it from list of attributes).
@@ -112,7 +131,7 @@ public class TagTransformation {
     }
 
     boolean hasAttributeTransformations() {
-        return attributeTransformations != null;
+        return attributeTransformations != null || attributePatternTransformations != null;
     }
 
     String getSourceTag() {
@@ -127,8 +146,86 @@ public class TagTransformation {
         return preserveSourceAttributes;
     }
 
-    Map getAttributeTransformations() {
+    Map<String, String> getAttributeTransformations() {
         return attributeTransformations;
     }
-    
+    /**
+     * @param attributes
+     */
+    public Map<String, String> applyTagTransformations(Map<String, String> attributes) {
+        boolean isPreserveSourceAtts = isPreserveSourceAttributes();
+        boolean hasAttTransforms = hasAttributeTransformations();
+        if ( hasAttTransforms || !isPreserveSourceAtts) {
+            Map<String, String> newAttributes = isPreserveSourceAtts ? new LinkedHashMap<String, String>(attributes) : new LinkedHashMap<String, String>();
+            if (hasAttTransforms) {
+                Map<String, String> map = getAttributeTransformations();
+                Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
+                while (iterator.hasNext()) {
+                    Map.Entry<String, String> entry = iterator.next();
+                    String attName = (String) entry.getKey();
+                    String template = (String) entry.getValue();
+                    if (template == null) {
+                        newAttributes.remove(attName);
+                    } else {
+                        String attValue = evaluateTemplate(template, attributes);
+                        newAttributes.put(attName, attValue);
+                    }
+                }
+                
+                for(AttributeTransformation attributeTransformation: this.attributePatternTransformations) {
+                    for(Map.Entry<String, String> entry1: attributes.entrySet()) {
+                        String attName = entry1.getKey();
+                        if (attributeTransformation.satisfy(attName, entry1.getValue())) {
+                            String template = attributeTransformation.getTemplate();
+                            if (template == null) {
+                                newAttributes.remove(attName);
+                            } else {
+                                String attValue = evaluateTemplate(template, attributes);
+                                newAttributes.put(attName, attValue);
+                            }
+                        }
+                    }
+                }
+            }
+            return newAttributes;
+        } else {
+            return attributes;
+        }
+    }
+    /**
+     * Evaluates string template for specified map of variables. Template string can contain
+     * dynamic parts in the form of ${VARNAME}. Each such part is replaced with value of the
+     * variable if such exists in the map, or with empty string otherwise.
+     *
+     * @param template Template string
+     * @param variables Map of variables (can be null)
+     * @return Evaluated string
+     */
+    public String evaluateTemplate(String template, Map<String, String> variables) {
+        if (template == null) {
+            return template;
+        }
+
+        StringBuffer result = new StringBuffer();
+
+        int startIndex = template.indexOf(VAR_START);
+        int endIndex = -1;
+
+        while (startIndex >= 0 && startIndex < template.length()) {
+            result.append( template.substring(endIndex + 1, startIndex) );
+            endIndex = template.indexOf(VAR_END, startIndex);
+
+            if (endIndex > startIndex) {
+                String varName = template.substring(startIndex + VAR_START.length(), endIndex);
+                Object resultObj = variables != null ? variables.get(varName.toLowerCase()) : "";
+                result.append( resultObj == null ? "" : resultObj.toString() );
+            }
+
+            startIndex = template.indexOf( VAR_START, Math.max(endIndex + VAR_END.length(), startIndex + 1) );
+        }
+
+        result.append( template.substring(endIndex + 1) );
+
+        return result.toString();
+    }
 }

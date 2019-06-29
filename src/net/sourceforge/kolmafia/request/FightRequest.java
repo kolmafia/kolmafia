@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia.request;
 
 import java.io.File;
-import java.io.IOException;
 
 import java.text.SimpleDateFormat;
 
@@ -136,8 +135,8 @@ import net.sourceforge.kolmafia.webui.NemesisDecorator;
 import net.sourceforge.kolmafia.webui.VillainLairDecorator;
 
 import org.htmlcleaner.CleanerProperties;
-import org.htmlcleaner.CommentToken;
-import org.htmlcleaner.ContentToken;
+import org.htmlcleaner.CommentNode;
+import org.htmlcleaner.ContentNode;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 
@@ -5103,9 +5102,9 @@ public class FightRequest
 		{
 			Object child = it.next();
 
-			if ( child instanceof ContentToken )
+			if ( child instanceof ContentNode )
 			{
-				buffer.append( ((ContentToken) child).getContent() );
+				buffer.append( ((ContentNode) child).getContent() );
 			}
 			else if ( child instanceof TagNode )
 			{
@@ -5780,7 +5779,7 @@ public class FightRequest
 			if ( bnode instanceof TagNode )
 			{
 				TagNode b = (TagNode) bnode;
-				if ( b.getText().indexOf( " Team:" ) != -1 )
+				if ( b.getText().toString().indexOf( " Team:" ) != -1 )
 				{
 					return b.getParent();
 				}
@@ -6202,16 +6201,8 @@ public class FightRequest
 
 	private static final TagNode cleanFightHTML( final String text )
 	{
-		try
-		{
-			// Clean the HTML on this fight response page
-			return cleaner.clean( text );
-		}
-		catch ( IOException e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
-		return null;
+		// Clean the HTML on this fight response page
+		return cleaner.clean( text );
 	}
 
 	private static final TagNode findMonsterTag( final TagNode node )
@@ -6458,8 +6449,7 @@ public class FightRequest
 				return;
 			}
 
-			StringBuffer text = node.getText();
-			String str = text.toString();
+			String str = node.getText().toString();
 
 			// Camera flashes
 			// A monster caught on the film
@@ -6517,14 +6507,14 @@ public class FightRequest
 			if ( VYKEAaction && status.logFamiliar )
 			{
 				// VYKEA companion action
-				FightRequest.logText( text, status );
+				FightRequest.logText( str, status );
 			}
 
 			boolean ghostAction = status.ghost != null && str.contains( status.ghost );
 			if ( ghostAction && status.logFamiliar )
 			{
 				// Pastamancer ghost action
-				FightRequest.logText( text, status );
+				FightRequest.logText( str, status );
 			}
 
 			int damage = FightRequest.parseNormalDamage( str );
@@ -6553,16 +6543,16 @@ public class FightRequest
 		{
 			Object child = it.next();
 
-			if ( child instanceof CommentToken )
+			if ( child instanceof CommentNode )
 			{
-				CommentToken object = (CommentToken) child;
+				CommentNode object = (CommentNode) child;
 				FightRequest.processComment( object, status );
 				continue;
 			}
 
-			if ( child instanceof ContentToken )
+			if ( child instanceof ContentNode )
 			{
-				ContentToken object = (ContentToken) child;
+				ContentNode object = (ContentNode) child;
 				String str = object.getContent().trim();
 
 				if ( str.equals( "" ) )
@@ -6719,8 +6709,7 @@ public class FightRequest
 		}
 
 		StringBuffer action = status.action;
-		StringBuffer text = node.getText();
-		String str = text.toString();
+		String str = node.getText().toString();
 
 		if ( inode == null )
 		{
@@ -7063,8 +7052,7 @@ public class FightRequest
 			return false;
 		}
 
-		StringBuffer text = node.getText();
-		String str = text.toString();
+		String str = node.getText().toString();
 
 		if ( str.startsWith( "You hear in your mind" ) ||
 		     str.startsWith( "Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl is done with you" ) )
@@ -7127,8 +7115,7 @@ public class FightRequest
 			return true;
 		}
 
-		StringBuffer text = span.getText();
-		String str = text.toString();
+		String str = span.getText().toString();
 
 		// Log the actual kiss message
 		FightRequest.logText( str, status );
@@ -7184,8 +7171,7 @@ public class FightRequest
 			return false;
 		}
 
-		StringBuffer text = node.getText();
-		String str = text.toString();
+		String str = node.getText().toString();
 
 		Matcher matcher = FightRequest.CRIMBO_PATTERN.matcher( str );
 		if ( !matcher.find() )
@@ -7201,8 +7187,7 @@ public class FightRequest
 	public static final Pattern CHAKRA_PATTERN = Pattern.compile( "This Chakra is now (\\d+)% clean." );
 	private static boolean handleChakra( TagNode node, TagStatus status )
 	{
-		StringBuffer text = node.getText();
-		String str = text.toString();
+		String str = node.getText().toString();
 
 		Matcher matcher = FightRequest.CHAKRA_PATTERN.matcher( str );
 		if ( !matcher.find() )
@@ -7247,8 +7232,7 @@ public class FightRequest
 		{
 			return;
 		}
-		StringBuffer text = node.getText();
-		String str = text.toString();
+		String str = node.getText().toString();
 		if ( str.contains( "crackle" ) )
 		{
 			FightRequest.logText( str );
@@ -7259,9 +7243,9 @@ public class FightRequest
 
 	private static boolean handleProselytization( TagNode node, TagStatus status )
 	{
-		StringBuffer text = node.getText();
+		String str = node.getText().toString();
 
-		Matcher matcher = FightRequest.PROSELYTIZATION_PATTERN.matcher( text.toString() );
+		Matcher matcher = FightRequest.PROSELYTIZATION_PATTERN.matcher( str );
 		if ( !matcher.find() )
 		{
 			return false;
@@ -7284,16 +7268,16 @@ public class FightRequest
 		{
 			Object child = it.next();
 
-			if ( child instanceof CommentToken )
+			if ( child instanceof CommentNode )
 			{
-				CommentToken object = (CommentToken) child;
+				CommentNode object = (CommentNode) child;
 				FightRequest.processComment( object, status );
 				continue;
 			}
 		}
 	}
 
-	private static void processComment( CommentToken object, TagStatus status )
+	private static void processComment( CommentNode object, TagStatus status )
 	{
 		String content = object.getContent();
 		if ( content.equals( "familiarmessage" ) )

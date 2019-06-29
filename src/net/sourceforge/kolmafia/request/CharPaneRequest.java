@@ -1403,15 +1403,7 @@ public class CharPaneRequest
 		}
 
 		TagNode doc;
-		try
-		{
-			doc = cleaner.clean( responseText );
-		}
-		catch( IOException e )
-		{
-			StaticEntity.printStackTrace( e );
-			return;
-		}
+		doc = cleaner.clean( responseText );
 
 		Object[] result;
 		String xpath = "//div[@class='gnoob small']/font/text()";

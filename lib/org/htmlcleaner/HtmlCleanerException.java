@@ -40,9 +40,6 @@ package org.htmlcleaner;
 
 /**
  * <p>General HtmlCleaner runtime exception.</p>
- *
- * Created by: Vladimir Nikic<br/>
- * Date: March, 2008.
  */
 public class HtmlCleanerException extends RuntimeException {
 

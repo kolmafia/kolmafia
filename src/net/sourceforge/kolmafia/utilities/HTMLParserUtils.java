@@ -39,8 +39,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.htmlcleaner.CleanerProperties;
-import org.htmlcleaner.CommentToken;
-import org.htmlcleaner.ContentToken;
+import org.htmlcleaner.CommentNode;
+import org.htmlcleaner.ContentNode;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 
@@ -88,9 +88,9 @@ public class HTMLParserUtils
 		{
 			Object child = it.next();
 
-			if ( child instanceof CommentToken )
+			if ( child instanceof CommentNode )
 			{
-				CommentToken object = (CommentToken) child;
+				CommentNode object = (CommentNode) child;
 				String content = object.getContent();
 				HTMLParserUtils.indent( buffer, level + 1 );
 				buffer.append( "<!--" );
@@ -100,9 +100,9 @@ public class HTMLParserUtils
 				continue;
 			}
 
-			if ( child instanceof ContentToken )
+			if ( child instanceof ContentNode )
 			{
-				ContentToken object = (ContentToken) child;
+				ContentNode object = (ContentNode) child;
 				String content = object.getContent().trim();
 				if ( content.equals( "" ) )
 				{
