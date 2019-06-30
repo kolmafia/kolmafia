@@ -134,6 +134,7 @@
 			debug="on"
 			debuglevel="lines,vars,source"
 			deprecation="off"
+			encoding="utf-8"
 			nowarn="on"
 			includeantruntime="false"
 			errorProperty="compile.failed">
@@ -170,6 +171,7 @@
 			debug="on"
 			debuglevel="lines,vars,source"
 			deprecation="off"
+			encoding="utf-8"
 			nowarn="on"
 			includeantruntime="false"
 			errorProperty="compile.failed" />
