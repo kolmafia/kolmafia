@@ -5097,7 +5097,7 @@ public class FightRequest
 			hasTag = true;
 		}
 
-		Iterator it = node.getChildren().iterator();
+		Iterator it = node.getAllChildren().iterator();
 		while ( it.hasNext() )
 		{
 			Object child = it.next();
@@ -5805,7 +5805,7 @@ public class FightRequest
 		// allow regular node processing to glean whatever it wants
 		// from what remains.
 
-		Iterator it = node.getChildren().iterator();
+		Iterator it = node.getAllChildren().iterator();
 		boolean done = false;
 		int pokindex = 0;
 		while ( it.hasNext() && !done )
@@ -6538,7 +6538,7 @@ public class FightRequest
 	private static final void processChildren( final TagNode node, final TagStatus status )
 	{
 		StringBuffer action = status.action;
-		Iterator it = node.getChildren().iterator();
+		Iterator it = node.getAllChildren().iterator();
 		while ( it.hasNext() )
 		{
 			Object child = it.next();
@@ -7263,7 +7263,7 @@ public class FightRequest
 
 	private static void processComments( TagNode node, TagStatus status )
 	{
-		Iterator it = node.getChildren().iterator();
+		Iterator it = node.getAllChildren().iterator();
 		while ( it.hasNext() )
 		{
 			Object child = it.next();
