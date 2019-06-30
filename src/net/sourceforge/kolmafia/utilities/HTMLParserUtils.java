@@ -83,7 +83,7 @@ public class HTMLParserUtils
 		HTMLParserUtils.printTag( buffer, node );
 		RequestLogger.updateDebugLog( buffer.toString() );
 
-		Iterator it = node.getChildren().iterator();
+		Iterator it = node.getAllChildren().iterator();
 		while ( it.hasNext() )
 		{
 			Object child = it.next();
