@@ -6243,6 +6243,20 @@ public class FightRequest
 		return null;
 	}
 
+	// Utility to reproduce the behavior of TagNode.getText() from the
+	// earlier version we upgraded from.
+	private static String getContentNodeText( TagNode node )
+	{
+		StringBuilder text = new StringBuilder();
+		for (Object item : node.getAllChildren() )
+		{
+			if (item instanceof ContentNode) {
+				text.append(((ContentNode) item).getContent());
+			}
+		}
+		return text.toString();
+	}
+
 	private static final Pattern FUMBLE_PATTERN =
 		Pattern.compile( "You drop your .*? on your .*?, doing ([\\d,]+) damage" );
 	private static final Pattern MOSQUITO_PATTERN =
@@ -6449,7 +6463,8 @@ public class FightRequest
 				return;
 			}
 
-			String str = node.getText().toString();
+			// String str = node.getText().toString();
+			String str = FightRequest.getContentNodeText( node );
 
 			// Camera flashes
 			// A monster caught on the film
