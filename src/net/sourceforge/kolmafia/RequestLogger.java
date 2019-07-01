@@ -470,6 +470,11 @@ public class RequestLogger
 		RequestLogger.outputStream = System.out;
 	}
 
+	public static final void openCustom(PrintStream out)
+	{
+		RequestLogger.outputStream = out;
+	}
+
 	public static final void openMirror( final String location )
 	{
 		RequestLogger.mirrorStream = RequestLogger.openStream( location, RequestLogger.mirrorStream, true );

@@ -207,7 +207,8 @@
 	</target>
 
 	<target name="test" depends="test-compile">
-		<junit printsummary="on" haltonfailure="yes" fork="true">
+	  <junit printsummary="on" haltonfailure="yes" fork="true" dir="${test}/root">
+			<jvmarg value="-DuseCWDasROOT=true" />
 			<classpath>
 				<pathelement location="${build}"/>
 				<pathelement path="${classpath}"/>

@@ -1,0 +1,2 @@
+test load evilometer_fight.txt
+test fight 1
