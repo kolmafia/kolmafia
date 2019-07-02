@@ -10039,3 +10039,6 @@
 10251	huge Usain Bolt's inspector's beefcake's Fourth of May Cosplay Saber	0		Muscle: +25, Item Drop: +15, Initiative: +80
 10252	avaricious asbestos-lined horrifying dog trainer's mansplainer's electrified therapeutic stiffened sinister personal trainer's stylish ring of Calamity Jane of Leguizamo of horror	0		Moxie: +3, Experience Percent (Muscle): +1, Spell Damage: +1, Damage Reduction: 1, Critical Hit Percent: +2, Monster Level: 4, Experience (familiar): +1, Spooky Damage: +3, Spooky Spell Damage: +3, Hot Resistance: +1, Meat Drop: +3, MP Regen Min: 1, MP Regen Max: 1, HP Regen Min: 1, HP Regen Max: 1, Single Equip
 10253	Thwaitgold nymph statuette	0		
+10254	jittery inspector's asbestos-lined foul-smelling chilly veiny shellacked wizardly hewn moon-rune spoon of the empath of courage of bravery of Flo-Jo	0		Mysticality: +25, Damage Reduction: 7, Maximum HP: +10, Familiar Weight: +5, Cold Damage: +5, Stench Damage: +10, Hot Resistance: +5, Spooky Resistance: 8, Item Drop: +15, Initiative: +100, Single Equip
+10255	ghostly cartoon harpoon	0		
+10256	rune-strewn spoon cocoon	0		Free Pull
