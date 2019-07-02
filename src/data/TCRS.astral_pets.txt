@@ -1,0 +1,825 @@
+Accordion Thief	Blender	[5028]astral bludgeon	Moxie: +10, Moxie Percent: +10, Damage Reduction: 9
+Accordion Thief	Blender	[5029]astral shield	Spell Damage: +25, Spooky Resistance: +5, Damage Reduction: 15
+Accordion Thief	Blender	[5030]astral chapeau	Moxie: +15, Experience: +2, Sleaze Spell Damage: +50
+Accordion Thief	Blender	[5031]astral bracer	Spooky Damage: +10, Meat Drop: +20, Initiative: +40
+Accordion Thief	Blender	[5032]astral longbow	Experience (Muscle): +1, Maximum HP Percent: +10, Hot Resistance: +3
+Accordion Thief	Blender	[5033]astral shorts	Mysticality Percent: +10, Spell Critical Percent: +10, Hot Damage: +25
+Accordion Thief	Blender	[5034]astral mace	Weapon Damage: +10, Meat Drop: +30, HP Regen Min: 5, HP Regen Max: 7
+Accordion Thief	Blender	[5035]astral trousers	Damage Absorption: +20, Maximum HP: +50, Hot Spell Damage: +25
+Accordion Thief	Blender	[5036]astral ring	Experience (Mysticality): +3, Spooky Spell Damage: +25, Stench Resistance: +5
+Accordion Thief	Blender	[5037]astral statuette	Weapon Damage: +10, Cold Spell Damage: +50, Meat Drop: +10
+Accordion Thief	Blender	[5038]astral pistol	Mysticality Percent: +20, Spell Damage Percent: +50, Hot Resistance: +3
+Accordion Thief	Blender	[5039]astral mask	Monster Level: -25, Hot Spell Damage: +50
+Accordion Thief	Blender	[5040]astral pet sweater	Familiar Weight: +10
+Accordion Thief	Blender	[5041]astral shirt	Experience (Mysticality): +5, Cold Damage: +25, Initiative: +20
+Accordion Thief	Blender	[5042]astral belt	Maximum MP: +50, MP Regen Min: 7, MP Regen Max: 10
+Accordion Thief	Marmot	[5028]astral bludgeon	Mysticality Percent: +10, Damage Absorption: +100, Experience (familiar): +2
+Accordion Thief	Marmot	[5029]astral shield	Hot Damage: +5, Meat Drop: +10, Damage Reduction: 15
+Accordion Thief	Marmot	[5030]astral chapeau	Experience (Moxie): +3, Hot Resistance: +3, Initiative: +40
+Accordion Thief	Marmot	[5031]astral bracer	Experience (Muscle): +5, Weapon Damage Percent: +50, Damage Reduction: 5
+Accordion Thief	Marmot	[5032]astral longbow	Maximum HP Percent: +40, Maximum MP Percent: +50, Sleaze Resistance: +5
+Accordion Thief	Marmot	[5033]astral shorts	Experience (Mysticality): +1, Maximum MP Percent: +40, Spooky Spell Damage: +25
+Accordion Thief	Marmot	[5034]astral mace	Mysticality Percent: +10, Weapon Damage: +10, Damage Absorption: +80
+Accordion Thief	Marmot	[5035]astral trousers	Muscle: +15, Moxie Percent: +30, Hot Damage: +5
+Accordion Thief	Marmot	[5036]astral ring	Experience (Muscle): +1, Monster Level: +25, Spooky Resistance: +1
+Accordion Thief	Marmot	[5037]astral statuette	Muscle: +5, Spell Critical Percent: +30, Initiative: +40
+Accordion Thief	Marmot	[5038]astral pistol	Moxie: +15, Monster Level: -25, Spooky Resistance: +5
+Accordion Thief	Marmot	[5039]astral mask	Mysticality: +25, Muscle Percent: +10
+Accordion Thief	Marmot	[5040]astral pet sweater	Familiar Weight: +10
+Accordion Thief	Marmot	[5041]astral shirt	Moxie: +5, Muscle Percent: +30, Familiar Weight: +7
+Accordion Thief	Marmot	[5042]astral belt	Hot Resistance: +5, MP Regen Min: 3, MP Regen Max: 5
+Accordion Thief	Mongoose	[5028]astral bludgeon	Weapon Damage: +10, Maximum MP Percent: +10, Cold Resistance: +1
+Accordion Thief	Mongoose	[5029]astral shield	Muscle Percent: +20, Maximum HP Percent: +10, Damage Reduction: 15
+Accordion Thief	Mongoose	[5030]astral chapeau	Muscle: +10, Maximum MP Percent: +30, Critical Hit Percent: +15
+Accordion Thief	Mongoose	[5031]astral bracer	Muscle: +5, Damage Reduction: 5, Spooky Resistance: +1
+Accordion Thief	Mongoose	[5032]astral longbow	Experience: +2, Experience (Mysticality): +1, Adventures: +5
+Accordion Thief	Mongoose	[5033]astral shorts	Muscle: +20, Experience Percent (Moxie): +10, Maximum MP Percent: +30
+Accordion Thief	Mongoose	[5034]astral mace	Familiar Weight: +7, Meat Drop: +30, Initiative: +100
+Accordion Thief	Mongoose	[5035]astral trousers	Damage Absorption: +60, Spooky Damage: +25, Stench Resistance: +3
+Accordion Thief	Mongoose	[5036]astral ring	Experience (Moxie): 4, Experience Percent (Mysticality): +10
+Accordion Thief	Mongoose	[5037]astral statuette	Muscle: +5, Item Drop: +10, HP Regen Min: 5, HP Regen Max: 7
+Accordion Thief	Mongoose	[5038]astral pistol	Weapon Damage Percent: +25, Monster Level: +25, Sleaze Spell Damage: +10
+Accordion Thief	Mongoose	[5039]astral mask	Maximum HP: +20, Hot Resistance: +1
+Accordion Thief	Mongoose	[5040]astral pet sweater	Familiar Weight: +10
+Accordion Thief	Mongoose	[5041]astral shirt	Weapon Damage Percent: +100, Spooky Damage: +25, Cold Resistance: +5
+Accordion Thief	Mongoose	[5042]astral belt	Damage Absorption: +20, Spooky Spell Damage: +10
+Accordion Thief	Opossum	[5028]astral bludgeon	Experience: +1, Damage Reduction: 1, Monster Level: -15
+Accordion Thief	Opossum	[5029]astral shield	Maximum HP: +100, Item Drop: +20, Damage Reduction: 15
+Accordion Thief	Opossum	[5030]astral chapeau	Experience (Mysticality): +5, Monster Level: -25, Meat Drop: +30
+Accordion Thief	Opossum	[5031]astral bracer	Moxie: +10, Maximum MP: +20, Hot Spell Damage: +50
+Accordion Thief	Opossum	[5032]astral longbow	Weapon Damage: +10, Damage Reduction: 1, Initiative: +80
+Accordion Thief	Opossum	[5033]astral shorts	Maximum HP Percent: +30, Sleaze Damage: +10, MP Regen Min: 3, MP Regen Max: 5
+Accordion Thief	Opossum	[5034]astral mace	Experience (Moxie): +5, Damage Reduction: 5, Critical Hit Percent: +15
+Accordion Thief	Opossum	[5035]astral trousers	Moxie Percent: +30, Maximum HP Percent: +40, Item Drop: +10
+Accordion Thief	Opossum	[5036]astral ring	Mysticality Percent: +20, Damage Absorption: +20, Initiative: +100
+Accordion Thief	Opossum	[5037]astral statuette	Maximum HP Percent: +20, Stench Damage: +5, Item Drop: +10
+Accordion Thief	Opossum	[5038]astral pistol	Weapon Damage: +10, Damage Reduction: 3, Maximum HP Percent: +50
+Accordion Thief	Opossum	[5039]astral mask	Maximum MP Percent: +50, Meat Drop: +20
+Accordion Thief	Opossum	[5040]astral pet sweater	Familiar Weight: +10
+Accordion Thief	Opossum	[5041]astral shirt	Damage Absorption: +100, Critical Hit Percent: +20, Food Drop: +100
+Accordion Thief	Opossum	[5042]astral belt	Experience (Mysticality): +3, Adventures: +5
+Accordion Thief	Packrat	[5028]astral bludgeon	Experience: +3, Experience (Mysticality): +1, Familiar Weight: +5
+Accordion Thief	Packrat	[5029]astral shield	Experience Percent (Mysticality): +10, Maximum HP: +20, Damage Reduction: 15
+Accordion Thief	Packrat	[5030]astral chapeau	Moxie: +5, Maximum MP Percent: +10, Stench Damage: +5
+Accordion Thief	Packrat	[5031]astral bracer	Maximum HP: +20, Spooky Resistance: +5, Meat Drop: +10
+Accordion Thief	Packrat	[5032]astral longbow	Weapon Damage: +5, Maximum HP Percent: +20, Item Drop: +20
+Accordion Thief	Packrat	[5033]astral shorts	Mysticality: +25, Monster Level: -25, MP Regen Min: 7, MP Regen Max: 10
+Accordion Thief	Packrat	[5034]astral mace	Experience: +1, Maximum HP: +50, Familiar Weight: +3
+Accordion Thief	Packrat	[5035]astral trousers	Experience (Moxie): +5, Damage Absorption: +40, Damage Reduction: 1
+Accordion Thief	Packrat	[5036]astral ring	Meat Drop: +10, Candy Drop: +100, Food Drop: +100
+Accordion Thief	Packrat	[5037]astral statuette	Spell Damage: +25, Critical Hit Percent: +20, Hot Spell Damage: +50
+Accordion Thief	Packrat	[5038]astral pistol	Muscle: +5, Experience (Muscle): +3, Maximum MP: +50
+Accordion Thief	Packrat	[5039]astral mask	Weapon Damage Percent: +100, Experience (familiar): +1
+Accordion Thief	Packrat	[5040]astral pet sweater	Familiar Weight: +10
+Accordion Thief	Packrat	[5041]astral shirt	Damage Absorption: +40, Cold Resistance: +3, Item Drop: +25
+Accordion Thief	Packrat	[5042]astral belt	Spell Damage: +5, Adventures: +5
+Accordion Thief	Platypus	[5028]astral bludgeon	Maximum MP: +50, Cold Spell Damage: +50, Meat Drop: +40
+Accordion Thief	Platypus	[5029]astral shield	Hot Spell Damage: +25, Hot Resistance: +5, Damage Reduction: 15
+Accordion Thief	Platypus	[5030]astral chapeau	Moxie: +5, Stench Damage: +10, Spooky Spell Damage: +25
+Accordion Thief	Platypus	[5031]astral bracer	Hot Damage: +25, Cold Resistance: +3, Booze Drop: +100
+Accordion Thief	Platypus	[5032]astral longbow	Muscle: +5, Mysticality: +15, Mysticality Percent: +10
+Accordion Thief	Platypus	[5033]astral shorts	Damage Absorption: +60, Maximum HP Percent: +30, Sleaze Spell Damage: +25
+Accordion Thief	Platypus	[5034]astral mace	Mysticality: +15, Sleaze Damage: +5, Adventures: +5
+Accordion Thief	Platypus	[5035]astral trousers	Mysticality Percent: +20, Damage Absorption: +40, Spell Critical Percent: +10
+Accordion Thief	Platypus	[5036]astral ring	Mysticality: +15, Maximum MP: +20, Cold Spell Damage: +10
+Accordion Thief	Platypus	[5037]astral statuette	Hot Spell Damage: +25, Stench Spell Damage: +25, Spooky Damage: +10
+Accordion Thief	Platypus	[5038]astral pistol	Mysticality: +15, Experience (Moxie): +1, Meat Drop: +20
+Accordion Thief	Platypus	[5039]astral mask	Moxie Percent: +10, Damage Reduction: 7
+Accordion Thief	Platypus	[5040]astral pet sweater	Familiar Weight: +10
+Accordion Thief	Platypus	[5041]astral shirt	Maximum MP: +100, Cold Damage: +5, Item Drop: +25
+Accordion Thief	Platypus	[5042]astral belt	Experience Percent (Muscle): +10, Damage Reduction: 1
+Accordion Thief	Vole	[5028]astral bludgeon	Muscle: +15, Stench Resistance: +1, Item Drop: +5
+Accordion Thief	Vole	[5029]astral shield	Spell Damage: +10, Spooky Spell Damage: +25, Damage Reduction: 15
+Accordion Thief	Vole	[5030]astral chapeau	Experience: +2, Monster Level: -15, Spooky Resistance: +5
+Accordion Thief	Vole	[5031]astral bracer	Spell Damage Percent: +100, Maximum MP Percent: +50, Critical Hit Percent: +15
+Accordion Thief	Vole	[5032]astral longbow	Mysticality Percent: +30, Maximum MP: +100, Spooky Resistance: +1
+Accordion Thief	Vole	[5033]astral shorts	Weapon Damage Percent: +25, Maximum MP Percent: +30, Stench Spell Damage: +25
+Accordion Thief	Vole	[5034]astral mace	Experience (Muscle): +1, Experience (Moxie): +1, Hot Resistance: +3
+Accordion Thief	Vole	[5035]astral trousers	Spell Critical Percent: +30, Cold Spell Damage: +25, Sleaze Resistance: +5
+Accordion Thief	Vole	[5036]astral ring	Maximum MP Percent: +20, Cold Spell Damage: +50, Adventures: +3
+Accordion Thief	Vole	[5037]astral statuette	Experience: +3, Damage Reduction: 5, Monster Level: +10
+Accordion Thief	Vole	[5038]astral pistol	Cold Damage: +10, Sleaze Damage: +10, Candy Drop: +100
+Accordion Thief	Vole	[5039]astral mask	Maximum HP: +10, Sleaze Resistance: +3
+Accordion Thief	Vole	[5040]astral pet sweater	Familiar Weight: +10
+Accordion Thief	Vole	[5041]astral shirt	Experience Percent (Moxie): +10, Familiar Weight: +7, Cold Spell Damage: +10
+Accordion Thief	Vole	[5042]astral belt	Muscle: +5, Monster Level: +20
+Accordion Thief	Wallaby	[5028]astral bludgeon	Weapon Damage Percent: +100, Maximum HP: +100, Maximum MP: +100
+Accordion Thief	Wallaby	[5029]astral shield	Mysticality: +5, Hot Resistance: +5, Damage Reduction: 15
+Accordion Thief	Wallaby	[5030]astral chapeau	Hot Spell Damage: +10, Spooky Resistance: +1, MP Regen Min: 7, MP Regen Max: 10
+Accordion Thief	Wallaby	[5031]astral bracer	Maximum HP: +10, Cold Damage: +5, HP Regen Min: 7, HP Regen Max: 10
+Accordion Thief	Wallaby	[5032]astral longbow	Experience Percent (Mysticality): +10, Hot Spell Damage: +50, Stench Damage: +10
+Accordion Thief	Wallaby	[5033]astral shorts	Mysticality Percent: +10, Experience (Moxie): +3, Adventures: +5
+Accordion Thief	Wallaby	[5034]astral mace	Moxie: +10, Maximum HP Percent: +50, Spooky Damage: +5
+Accordion Thief	Wallaby	[5035]astral trousers	Sleaze Spell Damage: +25, Spooky Resistance: +1, Meat Drop: +40
+Accordion Thief	Wallaby	[5036]astral ring	Experience (Muscle): +5, Spell Damage Percent: +25, Cold Damage: +25
+Accordion Thief	Wallaby	[5037]astral statuette	Muscle: +15, Weapon Damage Percent: +25, Damage Reduction: 7
+Accordion Thief	Wallaby	[5038]astral pistol	Mysticality Percent: +30, Critical Hit Percent: +20, Sleaze Spell Damage: +25
+Accordion Thief	Wallaby	[5039]astral mask	Mysticality Percent: +20, Experience (Muscle): +3
+Accordion Thief	Wallaby	[5040]astral pet sweater	Familiar Weight: +10
+Accordion Thief	Wallaby	[5041]astral shirt	Maximum MP: +50, Hot Spell Damage: +10, Hot Resistance: +5
+Accordion Thief	Wallaby	[5042]astral belt	Spell Damage: +5, Stench Damage: +25
+Accordion Thief	Wombat	[5028]astral bludgeon	Damage Reduction: 5, Critical Hit Percent: +10, Sleaze Damage: +10
+Accordion Thief	Wombat	[5029]astral shield	Hot Damage: +10, Meat Drop: +10, Damage Reduction: 15
+Accordion Thief	Wombat	[5030]astral chapeau	Mysticality: +10, Spell Damage Percent: +100, Hot Damage: +25
+Accordion Thief	Wombat	[5031]astral bracer	Spooky Damage: +25, Spooky Spell Damage: +50, Initiative: +40
+Accordion Thief	Wombat	[5032]astral longbow	Experience (Moxie): +1, Damage Reduction: 9, Maximum HP: +20
+Accordion Thief	Wombat	[5033]astral shorts	Muscle Percent: +10, Spooky Resistance: +3, MP Regen Min: 3, MP Regen Max: 5
+Accordion Thief	Wombat	[5034]astral mace	Damage Reduction: 1, Maximum HP Percent: +10, Cold Resistance: +1
+Accordion Thief	Wombat	[5035]astral trousers	Experience Percent (Moxie): +10, Hot Spell Damage: +50, Hot Resistance: +1
+Accordion Thief	Wombat	[5036]astral ring	Experience (Moxie): +3, Weapon Damage Percent: +100, Spell Damage: +10
+Accordion Thief	Wombat	[5037]astral statuette	Moxie: +5, Critical Hit Percent: +10, Sleaze Spell Damage: +25
+Accordion Thief	Wombat	[5038]astral pistol	Experience Percent (Mysticality): +10, Spooky Spell Damage: +25, Item Drop: +15
+Accordion Thief	Wombat	[5039]astral mask	Monster Level: +20, Initiative: +40
+Accordion Thief	Wombat	[5040]astral pet sweater	Familiar Weight: +10
+Accordion Thief	Wombat	[5041]astral shirt	Weapon Damage: +5, Damage Reduction: 5, Maximum HP Percent: +10
+Accordion Thief	Wombat	[5042]astral belt	Mysticality: +25, Stench Resistance: +1
+Disco Bandit	Blender	[5028]astral bludgeon	Spell Damage Percent: +100, Familiar Weight: +7, Spooky Damage: +25
+Disco Bandit	Blender	[5029]astral shield	Cold Damage: +25, Candy Drop: +100, Damage Reduction: 15
+Disco Bandit	Blender	[5030]astral chapeau	Moxie Percent: +30, Spell Damage Percent: +25, Maximum HP Percent: +30
+Disco Bandit	Blender	[5031]astral bracer	Moxie Percent: +10, Spell Critical Percent: +20, HP Regen Min: 3, HP Regen Max: 5
+Disco Bandit	Blender	[5032]astral longbow	Mysticality Percent: +10, Monster Level: +10, Meat Drop: +30
+Disco Bandit	Blender	[5033]astral shorts	Damage Reduction: 9, Stench Spell Damage: +10, Sleaze Resistance: +5
+Disco Bandit	Blender	[5034]astral mace	Experience (Muscle): +3, Cold Spell Damage: +50, Sleaze Damage: +10
+Disco Bandit	Blender	[5035]astral trousers	Familiar Weight: +3, Sleaze Damage: +5, Adventures: +7
+Disco Bandit	Blender	[5036]astral ring	Muscle: +5, Muscle Percent: +30, Sleaze Resistance: +3
+Disco Bandit	Blender	[5037]astral statuette	Moxie: +10, Experience (Moxie): +5, Initiative: +60
+Disco Bandit	Blender	[5038]astral pistol	Familiar Weight: +7, Spooky Damage: +5, MP Regen Min: 7, MP Regen Max: 10
+Disco Bandit	Blender	[5039]astral mask	Maximum MP Percent: +10, Critical Hit Percent: +10
+Disco Bandit	Blender	[5040]astral pet sweater	Familiar Weight: +10
+Disco Bandit	Blender	[5041]astral shirt	Mysticality: +5, Spooky Damage: +5, MP Regen Min: 3, MP Regen Max: 5
+Disco Bandit	Blender	[5042]astral belt	Sleaze Spell Damage: +25, Item Drop: +20
+Disco Bandit	Marmot	[5028]astral bludgeon	Mysticality: +10, Sleaze Resistance: +3, Adventures: +7
+Disco Bandit	Marmot	[5029]astral shield	Spell Damage Percent: +25, Maximum MP: +100, Damage Reduction: 15
+Disco Bandit	Marmot	[5030]astral chapeau	Moxie Percent: +20, Sleaze Damage: +5, HP Regen Min: 3, HP Regen Max: 5
+Disco Bandit	Marmot	[5031]astral bracer	Maximum HP Percent: +30, Maximum HP: +50, Stench Damage: +10
+Disco Bandit	Marmot	[5032]astral longbow	Spell Damage Percent: +50, Stench Damage: +5, Hot Resistance: +1
+Disco Bandit	Marmot	[5033]astral shorts	Muscle Percent: +10, Spell Damage: +10, Item Drop: +5
+Disco Bandit	Marmot	[5034]astral mace	Experience (Muscle): +3, Damage Reduction: 9, Spooky Damage: +25
+Disco Bandit	Marmot	[5035]astral trousers	Mysticality: +20, Damage Absorption: +100, Stench Resistance: +5
+Disco Bandit	Marmot	[5036]astral ring	Maximum HP: +20, Hot Damage: +25, Item Drop: +10
+Disco Bandit	Marmot	[5037]astral statuette	Damage Absorption: +100, Monster Level: +25, Cold Spell Damage: +10
+Disco Bandit	Marmot	[5038]astral pistol	Damage Reduction: 5, Hot Damage: +5, Spooky Damage: +5
+Disco Bandit	Marmot	[5039]astral mask	Moxie: +20, Initiative: +20
+Disco Bandit	Marmot	[5040]astral pet sweater	Familiar Weight: +10
+Disco Bandit	Marmot	[5041]astral shirt	Muscle: +15, Meat Drop: +50, Initiative: +80
+Disco Bandit	Marmot	[5042]astral belt	Experience Percent (Moxie): +10, Spooky Spell Damage: +50
+Disco Bandit	Mongoose	[5028]astral bludgeon	Maximum MP Percent: +40, Sleaze Damage: +5, Cold Resistance: +3
+Disco Bandit	Mongoose	[5029]astral shield	Monster Level: -15, Cold Damage: +5, Damage Reduction: 15
+Disco Bandit	Mongoose	[5030]astral chapeau	Moxie: +10, Experience: +2, Weapon Damage Percent: +25
+Disco Bandit	Mongoose	[5031]astral bracer	Muscle Percent: +30, Weapon Damage Percent: +50, MP Regen Min: 5, MP Regen Max: 7
+Disco Bandit	Mongoose	[5032]astral longbow	Experience (Mysticality): +3, Maximum MP Percent: +20, Sleaze Spell Damage: +25
+Disco Bandit	Mongoose	[5033]astral shorts	Muscle: +15, Cold Damage: +10, Spooky Spell Damage: +50
+Disco Bandit	Mongoose	[5034]astral mace	Stench Spell Damage: +50, Spooky Resistance: +1, Meat Drop: +10
+Disco Bandit	Mongoose	[5035]astral trousers	Muscle Percent: +10, Damage Reduction: 3, Maximum HP Percent: +10
+Disco Bandit	Mongoose	[5036]astral ring	Mysticality: +20, Experience (Moxie): +5, Spell Damage Percent: +25
+Disco Bandit	Mongoose	[5037]astral statuette	Critical Hit Percent: +15, Spell Critical Percent: +20, Experience (familiar): +1
+Disco Bandit	Mongoose	[5038]astral pistol	Mysticality: +10, Muscle Percent: +30, Stench Resistance: +5
+Disco Bandit	Mongoose	[5039]astral mask	Moxie: +25, Maximum MP: +50
+Disco Bandit	Mongoose	[5040]astral pet sweater	Familiar Weight: +10
+Disco Bandit	Mongoose	[5041]astral shirt	Damage Reduction: 3, Monster Level: -20, Hot Resistance: +3
+Disco Bandit	Mongoose	[5042]astral belt	Spell Damage: +25, Initiative: +60
+Disco Bandit	Opossum	[5028]astral bludgeon	Damage Reduction: 3, Maximum MP Percent: +50, HP Regen Min: 3, HP Regen Max: 5
+Disco Bandit	Opossum	[5029]astral shield	Mysticality: +20, Moxie Percent: +30, Damage Reduction: 15
+Disco Bandit	Opossum	[5030]astral chapeau	Stench Spell Damage: +50, Initiative: 120
+Disco Bandit	Opossum	[5031]astral bracer	Damage Absorption: +100, Stench Damage: +25, Stench Resistance: +1
+Disco Bandit	Opossum	[5032]astral longbow	Maximum HP: +100, Hot Damage: +10, Spooky Damage: +25
+Disco Bandit	Opossum	[5033]astral shorts	Muscle: +25, Spooky Resistance: +3, Item Drop: +25
+Disco Bandit	Opossum	[5034]astral mace	Mysticality: +10, Experience: +3, Sleaze Damage: +5
+Disco Bandit	Opossum	[5035]astral trousers	Muscle Percent: +20, Experience (Moxie): +5, Weapon Damage: +5
+Disco Bandit	Opossum	[5036]astral ring	Experience (Moxie): +5, Damage Reduction: 9, Initiative: +20
+Disco Bandit	Opossum	[5037]astral statuette	Maximum MP Percent: +30, Hot Damage: +5, Stench Spell Damage: +25
+Disco Bandit	Opossum	[5038]astral pistol	Maximum MP: +100, Item Drop: +5, MP Regen Min: 7, MP Regen Max: 10
+Disco Bandit	Opossum	[5039]astral mask	Maximum HP Percent: +40, Item Drop: +20
+Disco Bandit	Opossum	[5040]astral pet sweater	Familiar Weight: +10
+Disco Bandit	Opossum	[5041]astral shirt	Muscle: +5, Experience: +2, Stench Damage: +5
+Disco Bandit	Opossum	[5042]astral belt	Stench Spell Damage: +50, Hot Resistance: +1
+Disco Bandit	Packrat	[5028]astral bludgeon	Stench Spell Damage: +50, Sleaze Damage: +5, Meat Drop: +50
+Disco Bandit	Packrat	[5029]astral shield	Experience Percent (Muscle): +10, Candy Drop: +100, Damage Reduction: 15
+Disco Bandit	Packrat	[5030]astral chapeau	Moxie: +25, Experience (familiar): +1, Adventures: +7
+Disco Bandit	Packrat	[5031]astral bracer	Experience Percent (Muscle): +10, Spell Damage: +10, Initiative: +60
+Disco Bandit	Packrat	[5032]astral longbow	Experience (Muscle): +5, Damage Absorption: +80, Familiar Weight: +5
+Disco Bandit	Packrat	[5033]astral shorts	Weapon Damage: +5, Monster Level: -15, Stench Spell Damage: +25
+Disco Bandit	Packrat	[5034]astral mace	Experience: +2, Maximum HP Percent: +30, Hot Spell Damage: +10
+Disco Bandit	Packrat	[5035]astral trousers	Maximum HP Percent: +30, Cold Spell Damage: +10, Adventures: +3
+Disco Bandit	Packrat	[5036]astral ring	Experience (Mysticality): +5, Maximum HP: +100, Stench Spell Damage: +25
+Disco Bandit	Packrat	[5037]astral statuette	Mysticality: +25, Experience (Moxie): +1, HP Regen Min: 7, HP Regen Max: 10
+Disco Bandit	Packrat	[5038]astral pistol	Maximum HP Percent: 60, Monster Level: -25
+Disco Bandit	Packrat	[5039]astral mask	Mysticality: +5, Stench Damage: +10
+Disco Bandit	Packrat	[5040]astral pet sweater	Familiar Weight: +10
+Disco Bandit	Packrat	[5041]astral shirt	Damage Reduction: 3, Cold Damage: +5, Item Drop: +25
+Disco Bandit	Packrat	[5042]astral belt	Experience: +3, Cold Damage: +5
+Disco Bandit	Platypus	[5028]astral bludgeon	Monster Level: +25, Meat Drop: +50, Initiative: +40
+Disco Bandit	Platypus	[5029]astral shield	Experience Percent (Moxie): +10, Hot Spell Damage: +10, Damage Reduction: 15
+Disco Bandit	Platypus	[5030]astral chapeau	Experience (Muscle): +3, Weapon Damage Percent: +100, Cold Damage: +10
+Disco Bandit	Platypus	[5031]astral bracer	Moxie: +5, Stench Damage: +5, Item Drop: +10
+Disco Bandit	Platypus	[5032]astral longbow	Moxie: +10, Damage Absorption: +100, Initiative: +60
+Disco Bandit	Platypus	[5033]astral shorts	Weapon Damage: +10, Cold Resistance: +3, Meat Drop: +50
+Disco Bandit	Platypus	[5034]astral mace	Experience: +2, Cold Damage: +25, Adventures: +3
+Disco Bandit	Platypus	[5035]astral trousers	Mysticality: +25, Sleaze Spell Damage: +25, Hot Resistance: +1
+Disco Bandit	Platypus	[5036]astral ring	Maximum HP: +20, Hot Spell Damage: +25, Cold Resistance: +3
+Disco Bandit	Platypus	[5037]astral statuette	Experience (Muscle): +1, Experience (Moxie): +3, Monster Level: +10
+Disco Bandit	Platypus	[5038]astral pistol	Monster Level: +20, Stench Damage: +5, Stench Resistance: +3
+Disco Bandit	Platypus	[5039]astral mask	Hot Resistance: +3, Stench Resistance: +3
+Disco Bandit	Platypus	[5040]astral pet sweater	Familiar Weight: +10
+Disco Bandit	Platypus	[5041]astral shirt	Weapon Damage Percent: +100, Maximum MP Percent: +20, Spooky Damage: +10
+Disco Bandit	Platypus	[5042]astral belt	Spooky Resistance: +1, HP Regen Min: 5, HP Regen Max: 7
+Disco Bandit	Vole	[5028]astral bludgeon	Experience: +2, Hot Resistance: +3, HP Regen Min: 5, HP Regen Max: 7
+Disco Bandit	Vole	[5029]astral shield	Maximum HP Percent: +10, Booze Drop: +100, Damage Reduction: 15
+Disco Bandit	Vole	[5030]astral chapeau	Muscle: +5, Cold Resistance: +5, Candy Drop: +100
+Disco Bandit	Vole	[5031]astral bracer	Experience (Muscle): +1, Damage Absorption: +40, Stench Resistance: +1
+Disco Bandit	Vole	[5032]astral longbow	Experience (Moxie): +1, Monster Level: +15, Cold Spell Damage: +50
+Disco Bandit	Vole	[5033]astral shorts	Experience Percent (Mysticality): +10, Maximum HP Percent: +50, Maximum HP: +50
+Disco Bandit	Vole	[5034]astral mace	Maximum HP Percent: +40, Maximum MP: +20, Sleaze Resistance: +5
+Disco Bandit	Vole	[5035]astral trousers	Moxie Percent: +20, Damage Reduction: 9, Initiative: +20
+Disco Bandit	Vole	[5036]astral ring	Moxie: +20, Spooky Resistance: +3, Meat Drop: +40
+Disco Bandit	Vole	[5037]astral statuette	Maximum MP: +50, Cold Damage: +25, Meat Drop: +50
+Disco Bandit	Vole	[5038]astral pistol	Experience Percent (Mysticality): +10, Item Drop: +15, HP Regen Min: 3, HP Regen Max: 5
+Disco Bandit	Vole	[5039]astral mask	Sleaze Damage: +10, Stench Resistance: +3
+Disco Bandit	Vole	[5040]astral pet sweater	Familiar Weight: +10
+Disco Bandit	Vole	[5041]astral shirt	Critical Hit Percent: +20, Sleaze Damage: +5, Candy Drop: +100
+Disco Bandit	Vole	[5042]astral belt	Mysticality: +15, Meat Drop: +30
+Disco Bandit	Wallaby	[5028]astral bludgeon	Spell Damage: +5, Damage Reduction: 3, Maximum HP Percent: +50
+Disco Bandit	Wallaby	[5029]astral shield	Cold Damage: +10, MP Regen Min: 3, MP Regen Max: 5, Damage Reduction: 15
+Disco Bandit	Wallaby	[5030]astral chapeau	Damage Reduction: 7, Monster Level: -15, Cold Damage: +25
+Disco Bandit	Wallaby	[5031]astral bracer	Muscle: +10, Maximum HP Percent: +10, Stench Resistance: +5
+Disco Bandit	Wallaby	[5032]astral longbow	Moxie Percent: +20, Monster Level: -25, Item Drop: +20
+Disco Bandit	Wallaby	[5033]astral shorts	Experience (Mysticality): +1, Critical Hit Percent: +20, Stench Resistance: +1
+Disco Bandit	Wallaby	[5034]astral mace	Weapon Damage Percent: +100, Familiar Weight: +5, Sleaze Resistance: +3
+Disco Bandit	Wallaby	[5035]astral trousers	Maximum HP Percent: +20, Maximum MP: +100, Familiar Weight: +7
+Disco Bandit	Wallaby	[5036]astral ring	Monster Level: +15, Spooky Spell Damage: +10, MP Regen Min: 7, MP Regen Max: 10
+Disco Bandit	Wallaby	[5037]astral statuette	Experience (Mysticality): +5, Initiative: +100, MP Regen Min: 3, MP Regen Max: 5
+Disco Bandit	Wallaby	[5038]astral pistol	Monster Level: -15, Spooky Resistance: +5, HP Regen Min: 5, HP Regen Max: 7
+Disco Bandit	Wallaby	[5039]astral mask	Moxie Percent: +20, Cold Spell Damage: +50
+Disco Bandit	Wallaby	[5040]astral pet sweater	Familiar Weight: +10
+Disco Bandit	Wallaby	[5041]astral shirt	Maximum HP: +20, Item Drop: +10, Meat Drop: +50
+Disco Bandit	Wallaby	[5042]astral belt	Experience: +3, Spell Damage Percent: +50
+Disco Bandit	Wombat	[5028]astral bludgeon	Experience: +1, Monster Level: -10, Hot Damage: +5
+Disco Bandit	Wombat	[5029]astral shield	Monster Level: +10, Meat Drop: +30, Damage Reduction: 15
+Disco Bandit	Wombat	[5030]astral chapeau	Moxie Percent: +30, Maximum HP: +10, Initiative: +40
+Disco Bandit	Wombat	[5031]astral bracer	Maximum HP Percent: +40, Hot Spell Damage: +25, Meat Drop: +40
+Disco Bandit	Wombat	[5032]astral longbow	Muscle: +15, Spell Damage Percent: +50, Adventures: +3
+Disco Bandit	Wombat	[5033]astral shorts	Moxie Percent: +20, Cold Damage: +10, Stench Damage: +5
+Disco Bandit	Wombat	[5034]astral mace	Maximum MP: +20, Monster Level: -10, Spooky Damage: +25
+Disco Bandit	Wombat	[5035]astral trousers	Weapon Damage Percent: +100, Damage Reduction: 3, Spooky Resistance: +1
+Disco Bandit	Wombat	[5036]astral ring	Moxie Percent: +10, Monster Level: -15, Meat Drop: +20
+Disco Bandit	Wombat	[5037]astral statuette	Moxie: +15, Experience (Moxie): +3, Item Drop: +5
+Disco Bandit	Wombat	[5038]astral pistol	Experience (Moxie): +1, Damage Reduction: 7, Cold Damage: +10
+Disco Bandit	Wombat	[5039]astral mask	Moxie: +5, Experience (Muscle): +1
+Disco Bandit	Wombat	[5040]astral pet sweater	Familiar Weight: +10
+Disco Bandit	Wombat	[5041]astral shirt	Mysticality: +20, Critical Hit Percent: +20, Monster Level: +10
+Disco Bandit	Wombat	[5042]astral belt	Familiar Weight: +7, Spooky Resistance: +3
+Pastamancer	Blender	[5028]astral bludgeon	Experience (Muscle): +5, Weapon Damage Percent: +25, Spooky Damage: +10
+Pastamancer	Blender	[5029]astral shield	Mysticality Percent: +20, Monster Level: +10, Damage Reduction: 15
+Pastamancer	Blender	[5030]astral chapeau	Experience Percent (Muscle): +10, Stench Damage: +5, Spooky Damage: +10
+Pastamancer	Blender	[5031]astral bracer	Experience (Mysticality): +5, Damage Absorption: +80, HP Regen Min: 7, HP Regen Max: 10
+Pastamancer	Blender	[5032]astral longbow	Spooky Spell Damage: +25, Item Drop: +15, Initiative: +40
+Pastamancer	Blender	[5033]astral shorts	Muscle: +25, Spooky Spell Damage: +25, Adventures: +5
+Pastamancer	Blender	[5034]astral mace	Experience Percent (Muscle): +10, Critical Hit Percent: +10, Cold Damage: +10
+Pastamancer	Blender	[5035]astral trousers	Maximum HP: +100, Cold Resistance: +3, Adventures: +5
+Pastamancer	Blender	[5036]astral ring	Mysticality: +15, Damage Reduction: 1, Sleaze Damage: +25
+Pastamancer	Blender	[5037]astral statuette	Experience (Moxie): +1, Maximum HP Percent: +10, Spell Critical Percent: +20
+Pastamancer	Blender	[5038]astral pistol	Muscle: +25, Familiar Weight: +3, Hot Damage: +5
+Pastamancer	Blender	[5039]astral mask	Moxie: +25, Muscle Percent: +10
+Pastamancer	Blender	[5040]astral pet sweater	Familiar Weight: +10
+Pastamancer	Blender	[5041]astral shirt	Critical Hit Percent: +20, Experience (familiar): +2, Item Drop: +5
+Pastamancer	Blender	[5042]astral belt	Mysticality: +15, Stench Damage: +5
+Pastamancer	Marmot	[5028]astral bludgeon	Experience (Mysticality): +3, Hot Spell Damage: +10, Initiative: +20
+Pastamancer	Marmot	[5029]astral shield	Moxie: +25, Moxie Percent: +20, Damage Reduction: 15
+Pastamancer	Marmot	[5030]astral chapeau	Experience (Mysticality): +1, Stench Damage: +10, Meat Drop: +30
+Pastamancer	Marmot	[5031]astral bracer	Mysticality: +5, Damage Absorption: +60, Item Drop: +5
+Pastamancer	Marmot	[5032]astral longbow	Maximum MP Percent: +30, Maximum MP: +100, Stench Spell Damage: +50
+Pastamancer	Marmot	[5033]astral shorts	Mysticality Percent: +20, Experience (Moxie): +3, Initiative: +60
+Pastamancer	Marmot	[5034]astral mace	Mysticality: +25, Maximum HP Percent: +10, Monster Level: +15
+Pastamancer	Marmot	[5035]astral trousers	Spell Critical Percent: +20, Hot Resistance: +3, MP Regen Min: 5, MP Regen Max: 7
+Pastamancer	Marmot	[5036]astral ring	Critical Hit Percent: +15, Adventures: +5, HP Regen Min: 3, HP Regen Max: 5
+Pastamancer	Marmot	[5037]astral statuette	Experience Percent (Mysticality): +10, Sleaze Damage: +10, Sleaze Resistance: +3
+Pastamancer	Marmot	[5038]astral pistol	Muscle: +5, Sleaze Resistance: +1, Adventures: +5
+Pastamancer	Marmot	[5039]astral mask	Spell Damage Percent: 125
+Pastamancer	Marmot	[5040]astral pet sweater	Familiar Weight: +10
+Pastamancer	Marmot	[5041]astral shirt	Maximum HP: +10, Maximum MP Percent: +10, Sleaze Spell Damage: +50
+Pastamancer	Marmot	[5042]astral belt	Experience (Muscle): +3, Damage Reduction: 7
+Pastamancer	Mongoose	[5028]astral bludgeon	Moxie Percent: +20, Experience (Muscle): +3, Meat Drop: +50
+Pastamancer	Mongoose	[5029]astral shield	Cold Spell Damage: +25, Spooky Resistance: +1, Damage Reduction: 15
+Pastamancer	Mongoose	[5030]astral chapeau	Experience (Muscle): +5, Spooky Spell Damage: +50, Sleaze Resistance: +3
+Pastamancer	Mongoose	[5031]astral bracer	Experience Percent (Mysticality): +10, Sleaze Damage: +5, Item Drop: +20
+Pastamancer	Mongoose	[5032]astral longbow	Maximum HP: +50, Critical Hit Percent: +20, Hot Damage: +25
+Pastamancer	Mongoose	[5033]astral shorts	Maximum HP Percent: +50, Monster Level: +25, Spooky Damage: +25
+Pastamancer	Mongoose	[5034]astral mace	Mysticality Percent: +10, Monster Level: +20, Hot Resistance: +5
+Pastamancer	Mongoose	[5035]astral trousers	Mysticality Percent: +20, Moxie Percent: +20, Weapon Damage Percent: +50
+Pastamancer	Mongoose	[5036]astral ring	Muscle: +25, Hot Spell Damage: +25, Cold Resistance: +5
+Pastamancer	Mongoose	[5037]astral statuette	Moxie: +10, Spell Critical Percent: +10, Adventures: +3
+Pastamancer	Mongoose	[5038]astral pistol	Damage Absorption: +100, Spooky Damage: +10, Spooky Resistance: +5
+Pastamancer	Mongoose	[5039]astral mask	Monster Level: +25, Hot Spell Damage: +25
+Pastamancer	Mongoose	[5040]astral pet sweater	Familiar Weight: +10
+Pastamancer	Mongoose	[5041]astral shirt	Experience (Mysticality): +3, Weapon Damage: +20, Damage Absorption: +20
+Pastamancer	Mongoose	[5042]astral belt	Spell Damage Percent: +50, Damage Absorption: +60
+Pastamancer	Opossum	[5028]astral bludgeon	Familiar Weight: +5, Stench Spell Damage: +50, Initiative: +100
+Pastamancer	Opossum	[5029]astral shield	Mysticality: +15, Maximum HP Percent: +20, Damage Reduction: 15
+Pastamancer	Opossum	[5030]astral chapeau	Mysticality: +20, Moxie: +25, Stench Spell Damage: +50
+Pastamancer	Opossum	[5031]astral bracer	Muscle: +20, Mysticality: +25, Item Drop: +25
+Pastamancer	Opossum	[5032]astral longbow	Damage Reduction: 5, Sleaze Damage: +25, Item Drop: +20
+Pastamancer	Opossum	[5033]astral shorts	Muscle: +20, Damage Absorption: +60, Maximum MP: +20
+Pastamancer	Opossum	[5034]astral mace	Damage Reduction: 3, Monster Level: -20, Item Drop: +20
+Pastamancer	Opossum	[5035]astral trousers	Mysticality Percent: +10, Spell Damage Percent: +100, MP Regen Min: 5, MP Regen Max: 7
+Pastamancer	Opossum	[5036]astral ring	Muscle Percent: +20, Experience (Muscle): +3, Critical Hit Percent: +10
+Pastamancer	Opossum	[5037]astral statuette	Damage Absorption: +40, Sleaze Resistance: +1, Food Drop: +100
+Pastamancer	Opossum	[5038]astral pistol	Mysticality Percent: +10, Experience (Muscle): +5, Maximum HP Percent: +30
+Pastamancer	Opossum	[5039]astral mask	Experience Percent (Muscle): +10, Spell Critical Percent: +10
+Pastamancer	Opossum	[5040]astral pet sweater	Familiar Weight: +10
+Pastamancer	Opossum	[5041]astral shirt	Mysticality: +15, Maximum HP Percent: +20, Experience (familiar): +1
+Pastamancer	Opossum	[5042]astral belt	Maximum MP Percent: +40, Stench Resistance: +3
+Pastamancer	Packrat	[5028]astral bludgeon	Experience (Muscle): +5, Experience Percent (Moxie): +10, Spell Critical Percent: +20
+Pastamancer	Packrat	[5029]astral shield	Damage Reduction: 16, Spooky Resistance: +3
+Pastamancer	Packrat	[5030]astral chapeau	Experience (Moxie): +5, Maximum HP: +20, Spooky Resistance: +1
+Pastamancer	Packrat	[5031]astral bracer	Spell Damage Percent: +50, Spell Critical Percent: +30, Cold Damage: +10
+Pastamancer	Packrat	[5032]astral longbow	Maximum MP: +10, Spooky Damage: +5, HP Regen Min: 3, HP Regen Max: 5
+Pastamancer	Packrat	[5033]astral shorts	Muscle: +5, Spell Damage Percent: +50, Cold Spell Damage: +25
+Pastamancer	Packrat	[5034]astral mace	Maximum MP: +10, Experience (familiar): +1, Meat Drop: +30
+Pastamancer	Packrat	[5035]astral trousers	Moxie: +5, Mysticality Percent: +20, Spooky Resistance: +5
+Pastamancer	Packrat	[5036]astral ring	Mysticality Percent: +10, Damage Absorption: +100, Familiar Weight: +3
+Pastamancer	Packrat	[5037]astral statuette	Maximum HP: +20, Monster Level: +15, Cold Resistance: +3
+Pastamancer	Packrat	[5038]astral pistol	Mysticality Percent: +30, Spell Damage: +5, Cold Damage: +10
+Pastamancer	Packrat	[5039]astral mask	Mysticality Percent: +10, MP Regen Min: 3, MP Regen Max: 5
+Pastamancer	Packrat	[5040]astral pet sweater	Familiar Weight: +10
+Pastamancer	Packrat	[5041]astral shirt	Moxie Percent: +10, Familiar Weight: +3, Stench Damage: +5
+Pastamancer	Packrat	[5042]astral belt	Mysticality Percent: +10, Hot Spell Damage: +10
+Pastamancer	Platypus	[5028]astral bludgeon	Maximum HP Percent: +10, Item Drop: +25, Initiative: +40
+Pastamancer	Platypus	[5029]astral shield	Sleaze Damage: +5, Item Drop: +20, Damage Reduction: 15
+Pastamancer	Platypus	[5030]astral chapeau	Critical Hit Percent: +20, Spooky Damage: +25, Food Drop: +100
+Pastamancer	Platypus	[5031]astral bracer	Spell Damage: +5, Spooky Resistance: +1, MP Regen Min: 7, MP Regen Max: 10
+Pastamancer	Platypus	[5032]astral longbow	Spell Damage Percent: +25, Monster Level: -20, Spooky Damage: +5
+Pastamancer	Platypus	[5033]astral shorts	Muscle: +10, Damage Absorption: +80, Familiar Weight: +3
+Pastamancer	Platypus	[5034]astral mace	Maximum MP Percent: +50, Maximum MP: +100, Item Drop: +10
+Pastamancer	Platypus	[5035]astral trousers	Mysticality: +5, Moxie Percent: +30, Spooky Spell Damage: +10
+Pastamancer	Platypus	[5036]astral ring	Cold Damage: +5, Cold Spell Damage: +25, Initiative: +20
+Pastamancer	Platypus	[5037]astral statuette	Mysticality Percent: +20, Stench Resistance: +3, MP Regen Min: 7, MP Regen Max: 10
+Pastamancer	Platypus	[5038]astral pistol	Hot Spell Damage: +10, Sleaze Spell Damage: +50, MP Regen Min: 5, MP Regen Max: 7
+Pastamancer	Platypus	[5039]astral mask	Stench Damage: +25, Spooky Resistance: +1
+Pastamancer	Platypus	[5040]astral pet sweater	Familiar Weight: +10
+Pastamancer	Platypus	[5041]astral shirt	Hot Damage: +10, Hot Resistance: +5, Spooky Resistance: +5
+Pastamancer	Platypus	[5042]astral belt	Maximum MP: +10, Initiative: +100
+Pastamancer	Vole	[5028]astral bludgeon	Muscle: +20, Moxie: +20, Critical Hit Percent: +10
+Pastamancer	Vole	[5029]astral shield	Damage Absorption: +20, Maximum MP Percent: +30, Damage Reduction: 15
+Pastamancer	Vole	[5030]astral chapeau	Muscle Percent: +30, Spell Damage: +5, HP Regen Min: 3, HP Regen Max: 5
+Pastamancer	Vole	[5031]astral bracer	Maximum MP: +100, Cold Spell Damage: +25, Stench Resistance: +1
+Pastamancer	Vole	[5032]astral longbow	Experience (Muscle): +3, Spooky Spell Damage: +25, Adventures: +3
+Pastamancer	Vole	[5033]astral shorts	Experience (Moxie): +3, Maximum MP Percent: +40, Initiative: +20
+Pastamancer	Vole	[5034]astral mace	Experience (Mysticality): 8, Damage Reduction: 1
+Pastamancer	Vole	[5035]astral trousers	Familiar Weight: +3, Cold Spell Damage: +10, Stench Resistance: +3
+Pastamancer	Vole	[5036]astral ring	Experience: +3, Damage Absorption: +40, Candy Drop: +100
+Pastamancer	Vole	[5037]astral statuette	Mysticality: +5, Spell Damage: +10, Initiative: +20
+Pastamancer	Vole	[5038]astral pistol	Moxie: +5, Hot Spell Damage: +25, Stench Damage: +5
+Pastamancer	Vole	[5039]astral mask	Muscle: +10, Meat Drop: +30
+Pastamancer	Vole	[5040]astral pet sweater	Familiar Weight: +10
+Pastamancer	Vole	[5041]astral shirt	Muscle Percent: +10, Damage Absorption: +100, Maximum HP Percent: +50
+Pastamancer	Vole	[5042]astral belt	Moxie: +10, Muscle Percent: +10
+Pastamancer	Wallaby	[5028]astral bludgeon	Moxie Percent: +10, Familiar Weight: +3, Sleaze Spell Damage: +25
+Pastamancer	Wallaby	[5029]astral shield	Experience (Moxie): +5, Spell Critical Percent: +20, Damage Reduction: 15
+Pastamancer	Wallaby	[5030]astral chapeau	Experience (Muscle): +5, Maximum MP Percent: +30, Spooky Resistance: +5
+Pastamancer	Wallaby	[5031]astral bracer	Moxie Percent: +20, Monster Level: +15, Stench Damage: +25
+Pastamancer	Wallaby	[5032]astral longbow	Weapon Damage: +20, Critical Hit Percent: +15, Initiative: +100
+Pastamancer	Wallaby	[5033]astral shorts	Maximum MP: +100, Monster Level: -25, Spooky Damage: +5
+Pastamancer	Wallaby	[5034]astral mace	Mysticality Percent: +30, Spell Damage Percent: +50, Meat Drop: +40
+Pastamancer	Wallaby	[5035]astral trousers	Moxie Percent: +10, Damage Absorption: +100, Meat Drop: +10
+Pastamancer	Wallaby	[5036]astral ring	Muscle: +15, Item Drop: +15, HP Regen Min: 3, HP Regen Max: 5
+Pastamancer	Wallaby	[5037]astral statuette	Spooky Spell Damage: +25, Sleaze Spell Damage: +25, Spooky Resistance: +5
+Pastamancer	Wallaby	[5038]astral pistol	Damage Absorption: +20, Maximum HP: +100, Meat Drop: +40
+Pastamancer	Wallaby	[5039]astral mask	Maximum HP Percent: +10, Meat Drop: +20
+Pastamancer	Wallaby	[5040]astral pet sweater	Familiar Weight: +10
+Pastamancer	Wallaby	[5041]astral shirt	Mysticality Percent: +20, Maximum MP Percent: +10, Sleaze Damage: +25
+Pastamancer	Wallaby	[5042]astral belt	Moxie: +20, Stench Spell Damage: +10
+Pastamancer	Wombat	[5028]astral bludgeon	Experience Percent (Mysticality): +10, Maximum MP: +50, Meat Drop: +30
+Pastamancer	Wombat	[5029]astral shield	Maximum HP: +100, Maximum MP Percent: +30, Damage Reduction: 15
+Pastamancer	Wombat	[5030]astral chapeau	Experience (Moxie): +5, Maximum MP: +20, Critical Hit Percent: +10
+Pastamancer	Wombat	[5031]astral bracer	Muscle: +25, Monster Level: -20, Experience (familiar): +2
+Pastamancer	Wombat	[5032]astral longbow	Spooky Resistance: +5, Candy Drop: +100, HP Regen Min: 7, HP Regen Max: 10
+Pastamancer	Wombat	[5033]astral shorts	Experience (Moxie): +1, Maximum HP: +20, MP Regen Min: 3, MP Regen Max: 5
+Pastamancer	Wombat	[5034]astral mace	Moxie: +25, Damage Absorption: +60, Food Drop: +100
+Pastamancer	Wombat	[5035]astral trousers	Moxie Percent: 40, Hot Damage: +25
+Pastamancer	Wombat	[5036]astral ring	Stench Spell Damage: +10, Cold Resistance: +5, HP Regen Min: 7, HP Regen Max: 10
+Pastamancer	Wombat	[5037]astral statuette	Mysticality: +25, Maximum HP Percent: +40, Familiar Weight: +7
+Pastamancer	Wombat	[5038]astral pistol	Maximum MP Percent: +50, Experience (familiar): +1, Stench Resistance: +5
+Pastamancer	Wombat	[5039]astral mask	Spell Damage: +10, Maximum MP Percent: +40
+Pastamancer	Wombat	[5040]astral pet sweater	Familiar Weight: +10
+Pastamancer	Wombat	[5041]astral shirt	Damage Absorption: +100, Experience (familiar): +2, Item Drop: +25
+Pastamancer	Wombat	[5042]astral belt	Maximum MP: +10, Spooky Damage: +10
+Sauceror	Blender	[5028]astral bludgeon	Mysticality: +5, Experience (Muscle): +1, Spell Critical Percent: +20
+Sauceror	Blender	[5029]astral shield	Muscle: +15, Sleaze Damage: +5, Damage Reduction: 15
+Sauceror	Blender	[5030]astral chapeau	Maximum HP Percent: +10, Monster Level: -25, Hot Spell Damage: +50
+Sauceror	Blender	[5031]astral bracer	Damage Absorption: +40, Critical Hit Percent: +10, Item Drop: +5
+Sauceror	Blender	[5032]astral longbow	Experience (Mysticality): +1, Sleaze Resistance: +1, Meat Drop: +10
+Sauceror	Blender	[5033]astral shorts	Muscle Percent: +30, Damage Absorption: +60, Monster Level: +10
+Sauceror	Blender	[5034]astral mace	Maximum MP: +10, Cold Spell Damage: +10, Stench Damage: +25
+Sauceror	Blender	[5035]astral trousers	Maximum HP: +20, Monster Level: -15, Sleaze Spell Damage: +50
+Sauceror	Blender	[5036]astral ring	Experience Percent (Mysticality): +10, Critical Hit Percent: +20, MP Regen Min: 3, MP Regen Max: 5
+Sauceror	Blender	[5037]astral statuette	Moxie: +5, Cold Spell Damage: +10, Hot Damage: +10
+Sauceror	Blender	[5038]astral pistol	Experience Percent (Muscle): +10, Maximum MP: +20, Food Drop: +100
+Sauceror	Blender	[5039]astral mask	Sleaze Spell Damage: +10, Item Drop: +20
+Sauceror	Blender	[5040]astral pet sweater	Familiar Weight: +10
+Sauceror	Blender	[5041]astral shirt	Muscle: +25, Spooky Damage: +5, Meat Drop: +10
+Sauceror	Blender	[5042]astral belt	Experience: +3, Damage Absorption: +100
+Sauceror	Marmot	[5028]astral bludgeon	Muscle Percent: +10, Meat Drop: +30, HP Regen Min: 3, HP Regen Max: 5
+Sauceror	Marmot	[5029]astral shield	Damage Absorption: +60, Item Drop: +25, Damage Reduction: 15
+Sauceror	Marmot	[5030]astral chapeau	Mysticality: 30, Experience (Mysticality): +5
+Sauceror	Marmot	[5031]astral bracer	Maximum HP: +10, Hot Damage: 30
+Sauceror	Marmot	[5032]astral longbow	Muscle: +25, Moxie Percent: +30, Experience Percent (Moxie): +10
+Sauceror	Marmot	[5033]astral shorts	Maximum HP: +50, Maximum MP Percent: +10, Item Drop: +10
+Sauceror	Marmot	[5034]astral mace	Experience Percent (Muscle): +10, Maximum HP Percent: +40, Cold Resistance: +1
+Sauceror	Marmot	[5035]astral trousers	Familiar Weight: +7, Item Drop: +5, Adventures: +3
+Sauceror	Marmot	[5036]astral ring	Mysticality Percent: +20, Spooky Damage: +5, Spooky Resistance: +3
+Sauceror	Marmot	[5037]astral statuette	Spell Damage Percent: +100, Spooky Spell Damage: +50, Sleaze Resistance: +3
+Sauceror	Marmot	[5038]astral pistol	Spell Damage Percent: +50, Maximum HP: +10, Cold Resistance: +1
+Sauceror	Marmot	[5039]astral mask	Maximum MP Percent: +50, Experience (familiar): +1
+Sauceror	Marmot	[5040]astral pet sweater	Familiar Weight: +10
+Sauceror	Marmot	[5041]astral shirt	Moxie Percent: +30, Hot Spell Damage: +10, Sleaze Spell Damage: +25
+Sauceror	Marmot	[5042]astral belt	Damage Absorption: +20, Stench Resistance: +5
+Sauceror	Mongoose	[5028]astral bludgeon	Spell Damage Percent: +100, Damage Absorption: +40, Adventures: +3
+Sauceror	Mongoose	[5029]astral shield	Experience (Moxie): +3, Initiative: +20, Damage Reduction: 15
+Sauceror	Mongoose	[5030]astral chapeau	Experience (Mysticality): +5, Spell Critical Percent: +30, Spooky Damage: +5
+Sauceror	Mongoose	[5031]astral bracer	Monster Level: +25, Meat Drop: +40, MP Regen Min: 3, MP Regen Max: 5
+Sauceror	Mongoose	[5032]astral longbow	Damage Absorption: +60, Meat Drop: +20, Food Drop: +100
+Sauceror	Mongoose	[5033]astral shorts	Experience (Mysticality): +5, Meat Drop: 90
+Sauceror	Mongoose	[5034]astral mace	Experience Percent (Muscle): +10, Monster Level: -25, Food Drop: +100
+Sauceror	Mongoose	[5035]astral trousers	Experience Percent (Muscle): +10, Damage Absorption: +60, Cold Resistance: +1
+Sauceror	Mongoose	[5036]astral ring	Muscle Percent: +20, Monster Level: -10, Hot Resistance: +1
+Sauceror	Mongoose	[5037]astral statuette	Moxie Percent: +10, Damage Reduction: 5, Maximum HP: +100
+Sauceror	Mongoose	[5038]astral pistol	Experience (Moxie): +3, Spell Damage Percent: +50, Cold Spell Damage: +10
+Sauceror	Mongoose	[5039]astral mask	Experience (Mysticality): +1, Spell Critical Percent: +30
+Sauceror	Mongoose	[5040]astral pet sweater	Familiar Weight: +10
+Sauceror	Mongoose	[5041]astral shirt	Moxie: +15, Maximum HP: +100, Monster Level: +10
+Sauceror	Mongoose	[5042]astral belt	Spell Damage Percent: +100, Maximum MP: +100
+Sauceror	Opossum	[5028]astral bludgeon	Damage Reduction: 9, Familiar Weight: +5, Sleaze Resistance: +5
+Sauceror	Opossum	[5029]astral shield	Maximum HP: +50, Initiative: +20, Damage Reduction: 15
+Sauceror	Opossum	[5030]astral chapeau	Hot Damage: +25, Stench Resistance: +3, Booze Drop: +100
+Sauceror	Opossum	[5031]astral bracer	Maximum HP: +50, Adventures: +3, HP Regen Min: 5, HP Regen Max: 7
+Sauceror	Opossum	[5032]astral longbow	Cold Damage: +10, Sleaze Resistance: +3, Item Drop: +15
+Sauceror	Opossum	[5033]astral shorts	Muscle: +10, Moxie: +10, MP Regen Min: 5, MP Regen Max: 7
+Sauceror	Opossum	[5034]astral mace	Mysticality: +5, Muscle Percent: +10, Critical Hit Percent: +20
+Sauceror	Opossum	[5035]astral trousers	Weapon Damage Percent: +50, Maximum MP Percent: +10, Spooky Resistance: +1
+Sauceror	Opossum	[5036]astral ring	Familiar Weight: +7, Experience (familiar): +2, Spooky Resistance: +5
+Sauceror	Opossum	[5037]astral statuette	Monster Level: -25, Spooky Resistance: +5, Candy Drop: +100
+Sauceror	Opossum	[5038]astral pistol	Experience (Muscle): +3, Stench Damage: +10, Sleaze Spell Damage: +50
+Sauceror	Opossum	[5039]astral mask	Spooky Spell Damage: +25, Sleaze Resistance: +3
+Sauceror	Opossum	[5040]astral pet sweater	Familiar Weight: +10
+Sauceror	Opossum	[5041]astral shirt	Mysticality Percent: +30, Sleaze Spell Damage: +25, Initiative: +60
+Sauceror	Opossum	[5042]astral belt	Weapon Damage Percent: +100, Candy Drop: +100
+Sauceror	Packrat	[5028]astral bludgeon	Mysticality: +15, Stench Damage: +10, Spooky Spell Damage: +25
+Sauceror	Packrat	[5029]astral shield	Stench Damage: +5, Spooky Damage: +5, Damage Reduction: 15
+Sauceror	Packrat	[5030]astral chapeau	Maximum HP Percent: +10, Maximum MP: +20, Spooky Damage: +25
+Sauceror	Packrat	[5031]astral bracer	Cold Spell Damage: +25, Spooky Damage: +10, Meat Drop: +20
+Sauceror	Packrat	[5032]astral longbow	Mysticality: +15, Damage Absorption: +20, Monster Level: +20
+Sauceror	Packrat	[5033]astral shorts	Experience Percent (Moxie): +10, Maximum HP Percent: 50
+Sauceror	Packrat	[5034]astral mace	Mysticality: +15, Moxie: +25, Monster Level: -25
+Sauceror	Packrat	[5035]astral trousers	Weapon Damage Percent: +25, Spell Damage Percent: +100, Initiative: +40
+Sauceror	Packrat	[5036]astral ring	Spell Damage Percent: +50, Critical Hit Percent: +15, Monster Level: +20
+Sauceror	Packrat	[5037]astral statuette	Muscle Percent: +10, Spooky Damage: +25, Meat Drop: +30
+Sauceror	Packrat	[5038]astral pistol	Mysticality: +5, Experience Percent (Moxie): +10, Familiar Weight: +3
+Sauceror	Packrat	[5039]astral mask	Spooky Resistance: 8
+Sauceror	Packrat	[5040]astral pet sweater	Familiar Weight: +10
+Sauceror	Packrat	[5041]astral shirt	Damage Absorption: +20, Maximum MP Percent: +30, HP Regen Min: 5, HP Regen Max: 7
+Sauceror	Packrat	[5042]astral belt	Sleaze Spell Damage: +25, Item Drop: +25
+Sauceror	Platypus	[5028]astral bludgeon	Maximum HP: +50, Monster Level: -25, Stench Damage: +10
+Sauceror	Platypus	[5029]astral shield	Monster Level: +20, Initiative: +60, Damage Reduction: 15
+Sauceror	Platypus	[5030]astral chapeau	Damage Absorption: +20, Cold Resistance: +3, Hot Resistance: +3
+Sauceror	Platypus	[5031]astral bracer	Maximum MP Percent: +10, Stench Damage: +10, Cold Resistance: +5
+Sauceror	Platypus	[5032]astral longbow	Experience (Muscle): +3, Familiar Weight: +7, Spooky Resistance: +3
+Sauceror	Platypus	[5033]astral shorts	Maximum MP Percent: 60, Hot Spell Damage: +50
+Sauceror	Platypus	[5034]astral mace	Damage Reduction: 5, Maximum HP: +100, Critical Hit Percent: +20
+Sauceror	Platypus	[5035]astral trousers	Moxie: +20, Muscle Percent: +20, Stench Spell Damage: +50
+Sauceror	Platypus	[5036]astral ring	Experience (Muscle): +1, Item Drop: +15, Adventures: +5
+Sauceror	Platypus	[5037]astral statuette	Moxie: +15, Damage Reduction: 9, Spooky Damage: +25
+Sauceror	Platypus	[5038]astral pistol	Moxie Percent: +10, Damage Absorption: +100, Damage Reduction: 3
+Sauceror	Platypus	[5039]astral mask	Experience: +1, Stench Damage: +25
+Sauceror	Platypus	[5040]astral pet sweater	Familiar Weight: +10
+Sauceror	Platypus	[5041]astral shirt	Moxie: +10, Experience (Mysticality): +5, Initiative: +80
+Sauceror	Platypus	[5042]astral belt	Maximum HP: +20, Initiative: +20
+Sauceror	Vole	[5028]astral bludgeon	Mysticality: +10, Monster Level: -20, Initiative: +40
+Sauceror	Vole	[5029]astral shield	Monster Level: -25, Spooky Resistance: +3, Damage Reduction: 15
+Sauceror	Vole	[5030]astral chapeau	Experience Percent (Mysticality): +10, Critical Hit Percent: +15, Sleaze Damage: +10
+Sauceror	Vole	[5031]astral bracer	Experience Percent (Moxie): +10, Initiative: 100
+Sauceror	Vole	[5032]astral longbow	Muscle: +10, Weapon Damage Percent: +25, Damage Reduction: 9
+Sauceror	Vole	[5033]astral shorts	Muscle Percent: +30, Stench Damage: +25, Sleaze Spell Damage: +25
+Sauceror	Vole	[5034]astral mace	Cold Spell Damage: +50, Sleaze Spell Damage: +25, Hot Resistance: +1
+Sauceror	Vole	[5035]astral trousers	Weapon Damage Percent: +100, Spell Critical Percent: +20, Hot Resistance: +3
+Sauceror	Vole	[5036]astral ring	Moxie: +5, Monster Level: -10, Initiative: +40
+Sauceror	Vole	[5037]astral statuette	Mysticality Percent: +10, Monster Level: +10, Familiar Weight: +3
+Sauceror	Vole	[5038]astral pistol	Familiar Weight: +5, Cold Damage: +10, Spooky Resistance: +3
+Sauceror	Vole	[5039]astral mask	Damage Reduction: 1, Monster Level: -20
+Sauceror	Vole	[5040]astral pet sweater	Familiar Weight: +10
+Sauceror	Vole	[5041]astral shirt	Spell Damage Percent: +25, Monster Level: +20, Adventures: +5
+Sauceror	Vole	[5042]astral belt	Maximum HP: +50, Adventures: +7
+Sauceror	Wallaby	[5028]astral bludgeon	Muscle: +5, Monster Level: +15, Cold Damage: +5
+Sauceror	Wallaby	[5029]astral shield	Spell Damage Percent: +25, Sleaze Spell Damage: +50, Damage Reduction: 15
+Sauceror	Wallaby	[5030]astral chapeau	Spell Damage: +5, Spell Damage Percent: +100, Food Drop: +100
+Sauceror	Wallaby	[5031]astral bracer	Spell Critical Percent: +20, Monster Level: -15, MP Regen Min: 3, MP Regen Max: 5
+Sauceror	Wallaby	[5032]astral longbow	Weapon Damage: +5, Maximum HP: +50, Meat Drop: +40
+Sauceror	Wallaby	[5033]astral shorts	Maximum HP Percent: +50, Hot Damage: +5, Stench Spell Damage: +25
+Sauceror	Wallaby	[5034]astral mace	Mysticality: +10, Weapon Damage: +5, HP Regen Min: 7, HP Regen Max: 10
+Sauceror	Wallaby	[5035]astral trousers	Spooky Spell Damage: +50, Sleaze Damage: +10, Sleaze Resistance: +1
+Sauceror	Wallaby	[5036]astral ring	Hot Damage: +10, Item Drop: +15, Adventures: +7
+Sauceror	Wallaby	[5037]astral statuette	Monster Level: +15, Spooky Spell Damage: +10, Hot Resistance: +1
+Sauceror	Wallaby	[5038]astral pistol	Muscle: +10, Maximum MP Percent: +50, Sleaze Resistance: +1
+Sauceror	Wallaby	[5039]astral mask	Cold Resistance: +1, Sleaze Resistance: +5
+Sauceror	Wallaby	[5040]astral pet sweater	Familiar Weight: +10
+Sauceror	Wallaby	[5041]astral shirt	Maximum HP: +100, Cold Spell Damage: +25, Sleaze Resistance: +1
+Sauceror	Wallaby	[5042]astral belt	Stench Damage: +5, Meat Drop: +50
+Sauceror	Wombat	[5028]astral bludgeon	Spooky Spell Damage: +10, Sleaze Spell Damage: +50, Stench Resistance: +3
+Sauceror	Wombat	[5029]astral shield	Experience: +3, Experience (Muscle): +1, Damage Reduction: 15
+Sauceror	Wombat	[5030]astral chapeau	Sleaze Damage: +10, Cold Resistance: +3, Stench Resistance: +5
+Sauceror	Wombat	[5031]astral bracer	Weapon Damage: 30, HP Regen Min: 3, HP Regen Max: 5
+Sauceror	Wombat	[5032]astral longbow	Moxie Percent: +30, Monster Level: 35
+Sauceror	Wombat	[5033]astral shorts	Damage Absorption: +20, Damage Reduction: 3, Monster Level: -10
+Sauceror	Wombat	[5034]astral mace	Maximum MP Percent: +30, Item Drop: +5, Initiative: +60
+Sauceror	Wombat	[5035]astral trousers	Experience (Moxie): +1, Damage Reduction: 7, Meat Drop: +30
+Sauceror	Wombat	[5036]astral ring	Critical Hit Percent: +20, Monster Level: +25, Sleaze Resistance: +5
+Sauceror	Wombat	[5037]astral statuette	Cold Resistance: +5, Meat Drop: +20, Adventures: +5
+Sauceror	Wombat	[5038]astral pistol	Muscle: +15, Moxie: +10, Initiative: +80
+Sauceror	Wombat	[5039]astral mask	Muscle: +25, Maximum MP: +100
+Sauceror	Wombat	[5040]astral pet sweater	Familiar Weight: +10
+Sauceror	Wombat	[5041]astral shirt	Moxie Percent: +30, Weapon Damage Percent: +50, Maximum HP: +100
+Sauceror	Wombat	[5042]astral belt	Mysticality Percent: +20, Item Drop: +25
+Seal Clubber	Blender	[5028]astral bludgeon	Muscle Percent: +10, Weapon Damage: +10, Maximum MP Percent: +30
+Seal Clubber	Blender	[5029]astral shield	Moxie: +20, Moxie Percent: +10, Damage Reduction: 15
+Seal Clubber	Blender	[5030]astral chapeau	Cold Spell Damage: +50, Spooky Damage: +25, Cold Resistance: +1
+Seal Clubber	Blender	[5031]astral bracer	Experience Percent (Mysticality): +10, Maximum HP: +10, Cold Spell Damage: +50
+Seal Clubber	Blender	[5032]astral longbow	Maximum HP: +20, Hot Damage: +10, Stench Spell Damage: +50
+Seal Clubber	Blender	[5033]astral shorts	Mysticality: +10, Maximum MP Percent: +20, HP Regen Min: 3, HP Regen Max: 5
+Seal Clubber	Blender	[5034]astral mace	Maximum MP: +10, Cold Damage: +25, Meat Drop: +20
+Seal Clubber	Blender	[5035]astral trousers	Maximum HP Percent: +10, Spell Critical Percent: +20, Familiar Weight: +7
+Seal Clubber	Blender	[5036]astral ring	Muscle Percent: +20, Spell Damage: +10, Sleaze Damage: +10
+Seal Clubber	Blender	[5037]astral statuette	Experience (Mysticality): +1, Weapon Damage Percent: +50, Spell Critical Percent: +30
+Seal Clubber	Blender	[5038]astral pistol	Mysticality: +20, Moxie: +15, Sleaze Resistance: +1
+Seal Clubber	Blender	[5039]astral mask	Monster Level: +25, HP Regen Min: 3, HP Regen Max: 5
+Seal Clubber	Blender	[5040]astral pet sweater	Familiar Weight: +10
+Seal Clubber	Blender	[5041]astral shirt	Maximum MP Percent: +20, Hot Spell Damage: +25, Stench Damage: +10
+Seal Clubber	Blender	[5042]astral belt	Damage Reduction: 7, Hot Damage: +10
+Seal Clubber	Marmot	[5028]astral bludgeon	Muscle Percent: +30, Maximum MP Percent: +50, Meat Drop: +10
+Seal Clubber	Marmot	[5029]astral shield	Spell Critical Percent: +10, Spooky Damage: +5, Damage Reduction: 15
+Seal Clubber	Marmot	[5030]astral chapeau	Damage Absorption: +100, Monster Level: -25, Cold Spell Damage: +25
+Seal Clubber	Marmot	[5031]astral bracer	Weapon Damage: +10, Hot Resistance: +5, Spooky Resistance: +3
+Seal Clubber	Marmot	[5032]astral longbow	Experience (Muscle): +1, Experience Percent (Moxie): +10, Cold Damage: +10
+Seal Clubber	Marmot	[5033]astral shorts	Maximum HP: +10, Hot Resistance: +1, HP Regen Min: 3, HP Regen Max: 5
+Seal Clubber	Marmot	[5034]astral mace	Damage Absorption: +60, Critical Hit Percent: +10, Meat Drop: +30
+Seal Clubber	Marmot	[5035]astral trousers	Muscle: +10, Mysticality: +10, Experience: +1
+Seal Clubber	Marmot	[5036]astral ring	Damage Reduction: 9, Spell Critical Percent: +30, Stench Spell Damage: +10
+Seal Clubber	Marmot	[5037]astral statuette	Spell Damage: +10, Maximum HP: +10, MP Regen Min: 5, MP Regen Max: 7
+Seal Clubber	Marmot	[5038]astral pistol	Maximum MP: +100, Stench Spell Damage: +50, Item Drop: +10
+Seal Clubber	Marmot	[5039]astral mask	Spell Damage Percent: +25, Meat Drop: +30
+Seal Clubber	Marmot	[5040]astral pet sweater	Familiar Weight: +10
+Seal Clubber	Marmot	[5041]astral shirt	Muscle Percent: +10, Spooky Damage: +10, Sleaze Resistance: +5
+Seal Clubber	Marmot	[5042]astral belt	Experience Percent (Muscle): +10, Stench Damage: +25
+Seal Clubber	Mongoose	[5028]astral bludgeon	Monster Level: -10, Sleaze Damage: +10, Initiative: +80
+Seal Clubber	Mongoose	[5029]astral shield	Spell Damage Percent: +25, Spooky Damage: +25, Damage Reduction: 15
+Seal Clubber	Mongoose	[5030]astral chapeau	Moxie: +5, Experience (familiar): +1, Booze Drop: +100
+Seal Clubber	Mongoose	[5031]astral bracer	Moxie Percent: +30, Familiar Weight: +3, Sleaze Resistance: +3
+Seal Clubber	Mongoose	[5032]astral longbow	Moxie Percent: +10, Experience (Muscle): +3, Maximum HP Percent: +40
+Seal Clubber	Mongoose	[5033]astral shorts	Stench Spell Damage: +10, Item Drop: +15, Adventures: +7
+Seal Clubber	Mongoose	[5034]astral mace	Spell Damage Percent: +50, Maximum HP Percent: +30, Stench Damage: +10
+Seal Clubber	Mongoose	[5035]astral trousers	Muscle Percent: +30, Sleaze Spell Damage: +50, Meat Drop: +30
+Seal Clubber	Mongoose	[5036]astral ring	Cold Damage: +5, Spooky Spell Damage: +10, Item Drop: +25
+Seal Clubber	Mongoose	[5037]astral statuette	Experience: +3, Maximum MP: +50, Hot Resistance: +1
+Seal Clubber	Mongoose	[5038]astral pistol	Experience: +2, Spell Critical Percent: +30, Sleaze Resistance: +1
+Seal Clubber	Mongoose	[5039]astral mask	Moxie: +10, Moxie Percent: +10
+Seal Clubber	Mongoose	[5040]astral pet sweater	Familiar Weight: +10
+Seal Clubber	Mongoose	[5041]astral shirt	Experience (Moxie): +5, Booze Drop: +100, Candy Drop: +100
+Seal Clubber	Mongoose	[5042]astral belt	Cold Spell Damage: +50, MP Regen Min: 7, MP Regen Max: 10
+Seal Clubber	Opossum	[5028]astral bludgeon	Moxie Percent: +10, Damage Reduction: 1, Stench Spell Damage: +10
+Seal Clubber	Opossum	[5029]astral shield	Familiar Weight: +5, Stench Resistance: +1, Damage Reduction: 15
+Seal Clubber	Opossum	[5030]astral chapeau	Spell Damage Percent: +25, Maximum HP: +20, Hot Spell Damage: +25
+Seal Clubber	Opossum	[5031]astral bracer	Muscle Percent: +20, Maximum HP Percent: +20, Sleaze Resistance: +3
+Seal Clubber	Opossum	[5032]astral longbow	Experience: +2, Maximum MP Percent: +20, Meat Drop: +50
+Seal Clubber	Opossum	[5033]astral shorts	Mysticality Percent: +30, Hot Resistance: +5, HP Regen Min: 7, HP Regen Max: 10
+Seal Clubber	Opossum	[5034]astral mace	Weapon Damage: +20, Spell Critical Percent: +20, Hot Damage: +10
+Seal Clubber	Opossum	[5035]astral trousers	Damage Reduction: 9, Monster Level: -25, Stench Resistance: +1
+Seal Clubber	Opossum	[5036]astral ring	Cold Damage: +25, Stench Spell Damage: +25, Cold Resistance: +3
+Seal Clubber	Opossum	[5037]astral statuette	Muscle Percent: +20, Maximum MP Percent: +10, Spooky Spell Damage: +25
+Seal Clubber	Opossum	[5038]astral pistol	Moxie: +25, Experience (Moxie): +1, Initiative: +60
+Seal Clubber	Opossum	[5039]astral mask	Experience Percent (Moxie): +10, Stench Damage: +10
+Seal Clubber	Opossum	[5040]astral pet sweater	Familiar Weight: +10
+Seal Clubber	Opossum	[5041]astral shirt	Maximum HP: +10, Sleaze Resistance: +5, Meat Drop: +10
+Seal Clubber	Opossum	[5042]astral belt	Spell Damage: +10, Stench Spell Damage: +10
+Seal Clubber	Packrat	[5028]astral bludgeon	Maximum HP: +100, Spooky Damage: +10, Adventures: +3
+Seal Clubber	Packrat	[5029]astral shield	Maximum MP Percent: +30, Monster Level: -20, Damage Reduction: 15
+Seal Clubber	Packrat	[5030]astral chapeau	Maximum HP: +50, Maximum MP: +100, Cold Resistance: +3
+Seal Clubber	Packrat	[5031]astral bracer	Weapon Damage: +20, Familiar Weight: +5, Food Drop: +100
+Seal Clubber	Packrat	[5032]astral longbow	Monster Level: +20, Hot Damage: +5, Spooky Resistance: +5
+Seal Clubber	Packrat	[5033]astral shorts	Weapon Damage: +10, Sleaze Resistance: +1, Item Drop: +10
+Seal Clubber	Packrat	[5034]astral mace	Damage Reduction: 7, Spooky Resistance: +3, Initiative: +20
+Seal Clubber	Packrat	[5035]astral trousers	Experience (Moxie): +3, Maximum MP: +20, Hot Resistance: +1
+Seal Clubber	Packrat	[5036]astral ring	Mysticality: +25, Experience Percent (Muscle): +10, Initiative: +20
+Seal Clubber	Packrat	[5037]astral statuette	Experience (Muscle): +5, Maximum MP: +100, Hot Resistance: +3
+Seal Clubber	Packrat	[5038]astral pistol	Muscle: +15, Monster Level: -15, Cold Damage: +25
+Seal Clubber	Packrat	[5039]astral mask	Spooky Damage: +25, Sleaze Resistance: +1
+Seal Clubber	Packrat	[5040]astral pet sweater	Familiar Weight: +10
+Seal Clubber	Packrat	[5041]astral shirt	Familiar Weight: +5, Spooky Damage: +5, Meat Drop: +30
+Seal Clubber	Packrat	[5042]astral belt	Damage Reduction: 5, MP Regen Min: 5, MP Regen Max: 7
+Seal Clubber	Platypus	[5028]astral bludgeon	Cold Spell Damage: +25, Stench Damage: +5, Item Drop: +20
+Seal Clubber	Platypus	[5029]astral shield	Experience (Muscle): +1, Initiative: +60, Damage Reduction: 15
+Seal Clubber	Platypus	[5030]astral chapeau	Spell Damage: +10, Maximum HP Percent: +50, Food Drop: +100
+Seal Clubber	Platypus	[5031]astral bracer	Damage Absorption: +40, Hot Spell Damage: +25, Adventures: +5
+Seal Clubber	Platypus	[5032]astral longbow	Experience: +3, Experience (Moxie): +3, Spell Damage Percent: +50
+Seal Clubber	Platypus	[5033]astral shorts	Damage Absorption: +40, Damage Reduction: 7, Maximum MP Percent: +30
+Seal Clubber	Platypus	[5034]astral mace	Experience Percent (Muscle): +10, Sleaze Damage: +25, Stench Resistance: +1
+Seal Clubber	Platypus	[5035]astral trousers	Experience (Mysticality): +3, Spell Critical Percent: +20, HP Regen Min: 3, HP Regen Max: 5
+Seal Clubber	Platypus	[5036]astral ring	Moxie: +10, Monster Level: -15, Spooky Damage: +10
+Seal Clubber	Platypus	[5037]astral statuette	Experience Percent (Muscle): +10, Weapon Damage: +10, Sleaze Resistance: +3
+Seal Clubber	Platypus	[5038]astral pistol	Moxie: +5, Monster Level: -20, Spooky Damage: +10
+Seal Clubber	Platypus	[5039]astral mask	Mysticality Percent: +30, Spell Critical Percent: +20
+Seal Clubber	Platypus	[5040]astral pet sweater	Familiar Weight: +10
+Seal Clubber	Platypus	[5041]astral shirt	Muscle: +25, Hot Damage: +5, Sleaze Damage: +25
+Seal Clubber	Platypus	[5042]astral belt	Maximum HP Percent: +40, Experience (familiar): +2
+Seal Clubber	Vole	[5028]astral bludgeon	Familiar Weight: +3, Spooky Spell Damage: +50, Hot Resistance: +1
+Seal Clubber	Vole	[5029]astral shield	Muscle: +25, Stench Damage: +10, Damage Reduction: 15
+Seal Clubber	Vole	[5030]astral chapeau	Maximum MP Percent: +10, Spooky Damage: +10, Stench Resistance: +5
+Seal Clubber	Vole	[5031]astral bracer	Mysticality: +25, Muscle Percent: +10, Hot Damage: +25
+Seal Clubber	Vole	[5032]astral longbow	Spell Damage Percent: +50, Damage Reduction: 5, Initiative: +100
+Seal Clubber	Vole	[5033]astral shorts	Mysticality: +10, Familiar Weight: +3, Sleaze Spell Damage: +10
+Seal Clubber	Vole	[5034]astral mace	Muscle: +25, Spell Damage Percent: +100, Stench Damage: +25
+Seal Clubber	Vole	[5035]astral trousers	Experience: +2, Maximum HP: +20, Hot Resistance: +3
+Seal Clubber	Vole	[5036]astral ring	Weapon Damage Percent: +50, Spooky Damage: +10, Sleaze Damage: +25
+Seal Clubber	Vole	[5037]astral statuette	Stench Spell Damage: +50, Spooky Spell Damage: +25, Sleaze Spell Damage: +25
+Seal Clubber	Vole	[5038]astral pistol	Maximum HP Percent: +40, Stench Spell Damage: +25, Sleaze Damage: +10
+Seal Clubber	Vole	[5039]astral mask	Muscle: +15, Monster Level: -15
+Seal Clubber	Vole	[5040]astral pet sweater	Familiar Weight: +10
+Seal Clubber	Vole	[5041]astral shirt	Mysticality Percent: +20, Sleaze Spell Damage: +25, Initiative: +80
+Seal Clubber	Vole	[5042]astral belt	Moxie: +5, Spell Damage: +5
+Seal Clubber	Wallaby	[5028]astral bludgeon	Experience: +2, Damage Absorption: +100, Adventures: +7
+Seal Clubber	Wallaby	[5029]astral shield	Muscle: +5, Weapon Damage Percent: +50, Damage Reduction: 15
+Seal Clubber	Wallaby	[5030]astral chapeau	Mysticality Percent: +30, Experience: +1, Spooky Resistance: +1
+Seal Clubber	Wallaby	[5031]astral bracer	Moxie: +10, Maximum MP: +20, Item Drop: +20
+Seal Clubber	Wallaby	[5032]astral longbow	Muscle Percent: +20, Cold Spell Damage: +25, Item Drop: +25
+Seal Clubber	Wallaby	[5033]astral shorts	Maximum MP Percent: +50, Hot Spell Damage: +25, HP Regen Min: 5, HP Regen Max: 7
+Seal Clubber	Wallaby	[5034]astral mace	Monster Level: +10, Cold Damage: +10, Stench Spell Damage: +50
+Seal Clubber	Wallaby	[5035]astral trousers	Moxie: +25, Maximum HP: +20, Cold Damage: +5
+Seal Clubber	Wallaby	[5036]astral ring	Cold Damage: +25, Spooky Damage: +10, Spooky Spell Damage: +10
+Seal Clubber	Wallaby	[5037]astral statuette	Damage Reduction: 7, Maximum MP Percent: +10, Stench Spell Damage: +25
+Seal Clubber	Wallaby	[5038]astral pistol	Muscle Percent: +20, Spooky Spell Damage: +25, Cold Resistance: +1
+Seal Clubber	Wallaby	[5039]astral mask	Cold Damage: +5, Candy Drop: +100
+Seal Clubber	Wallaby	[5040]astral pet sweater	Familiar Weight: +10
+Seal Clubber	Wallaby	[5041]astral shirt	Maximum HP Percent: +30, Monster Level: -25, Meat Drop: +30
+Seal Clubber	Wallaby	[5042]astral belt	Spell Damage Percent: +100, Hot Damage: +5
+Seal Clubber	Wombat	[5028]astral bludgeon	Moxie: +10, Mysticality Percent: +20, Maximum MP: +10
+Seal Clubber	Wombat	[5029]astral shield	Muscle: +10, Critical Hit Percent: +15, Damage Reduction: 15
+Seal Clubber	Wombat	[5030]astral chapeau	Mysticality: +25, Maximum MP: +100, Spooky Damage: +25
+Seal Clubber	Wombat	[5031]astral bracer	Spell Damage Percent: +25, Monster Level: -25, Stench Spell Damage: +50
+Seal Clubber	Wombat	[5032]astral longbow	Experience Percent (Moxie): +10, Hot Resistance: +5, Initiative: +40
+Seal Clubber	Wombat	[5033]astral shorts	Maximum HP Percent: +10, Stench Resistance: +5, Booze Drop: +100
+Seal Clubber	Wombat	[5034]astral mace	Maximum HP: +50, Critical Hit Percent: +20, Booze Drop: +100
+Seal Clubber	Wombat	[5035]astral trousers	Muscle: +5, Spell Damage Percent: +100, Meat Drop: +20
+Seal Clubber	Wombat	[5036]astral ring	Maximum MP: +10, Spell Critical Percent: +20, Sleaze Resistance: +1
+Seal Clubber	Wombat	[5037]astral statuette	Experience Percent (Moxie): +10, Spooky Damage: +10, Sleaze Resistance: +5
+Seal Clubber	Wombat	[5038]astral pistol	Weapon Damage Percent: +25, Critical Hit Percent: +10, Item Drop: +25
+Seal Clubber	Wombat	[5039]astral mask	Mysticality: +10, Weapon Damage: +10
+Seal Clubber	Wombat	[5040]astral pet sweater	Familiar Weight: +10
+Seal Clubber	Wombat	[5041]astral shirt	Moxie Percent: +20, Experience (Moxie): +5, Spell Critical Percent: +30
+Seal Clubber	Wombat	[5042]astral belt	Muscle: +10, Experience (Moxie): +5
+Turtle Tamer	Blender	[5028]astral bludgeon	Experience (Moxie): +3, Spell Damage: +25, Hot Spell Damage: +50
+Turtle Tamer	Blender	[5029]astral shield	Mysticality: +25, Spell Critical Percent: +20, Damage Reduction: 15
+Turtle Tamer	Blender	[5030]astral chapeau	Weapon Damage Percent: +50, Spell Critical Percent: +20, Meat Drop: +50
+Turtle Tamer	Blender	[5031]astral bracer	Damage Absorption: +60, Maximum MP Percent: +20, Item Drop: +10
+Turtle Tamer	Blender	[5032]astral longbow	Moxie: +10, Damage Reduction: 5, Maximum MP Percent: +20
+Turtle Tamer	Blender	[5033]astral shorts	Critical Hit Percent: +20, Stench Spell Damage: +50, Sleaze Damage: +10
+Turtle Tamer	Blender	[5034]astral mace	Muscle Percent: +10, Experience Percent (Mysticality): +10, Item Drop: +5
+Turtle Tamer	Blender	[5035]astral trousers	Spell Damage Percent: +50, Sleaze Spell Damage: +25, Candy Drop: +100
+Turtle Tamer	Blender	[5036]astral ring	Spell Damage Percent: +100, Maximum MP: +100, Sleaze Resistance: +5
+Turtle Tamer	Blender	[5037]astral statuette	Damage Absorption: +80, Stench Damage: +10, Spooky Damage: +25
+Turtle Tamer	Blender	[5038]astral pistol	Maximum MP: 60, Spooky Damage: +10
+Turtle Tamer	Blender	[5039]astral mask	Monster Level: +25, Meat Drop: +50
+Turtle Tamer	Blender	[5040]astral pet sweater	Familiar Weight: +10
+Turtle Tamer	Blender	[5041]astral shirt	Muscle: +15, Mysticality: +10, Spooky Damage: +10
+Turtle Tamer	Blender	[5042]astral belt	Damage Reduction: 3, Maximum HP: +100
+Turtle Tamer	Marmot	[5028]astral bludgeon	Experience (Mysticality): +1, Maximum MP Percent: +30, Critical Hit Percent: +10
+Turtle Tamer	Marmot	[5029]astral shield	Moxie Percent: +30, Sleaze Damage: +5, Damage Reduction: 15
+Turtle Tamer	Marmot	[5030]astral chapeau	Mysticality Percent: +20, Damage Reduction: 7, Monster Level: +15
+Turtle Tamer	Marmot	[5031]astral bracer	Mysticality: +20, Muscle Percent: +30, Experience (Mysticality): +5
+Turtle Tamer	Marmot	[5032]astral longbow	Maximum HP Percent: +40, Sleaze Spell Damage: 75
+Turtle Tamer	Marmot	[5033]astral shorts	Maximum HP Percent: +20, Stench Spell Damage: +10, Hot Resistance: +5
+Turtle Tamer	Marmot	[5034]astral mace	Spell Damage Percent: +25, Monster Level: -15, Food Drop: +100
+Turtle Tamer	Marmot	[5035]astral trousers	Experience (Moxie): +1, Monster Level: +25, HP Regen Min: 5, HP Regen Max: 7
+Turtle Tamer	Marmot	[5036]astral ring	Weapon Damage Percent: +25, Damage Absorption: +100, Maximum HP: +10
+Turtle Tamer	Marmot	[5037]astral statuette	Muscle Percent: +20, Sleaze Spell Damage: +10, Spooky Resistance: +5
+Turtle Tamer	Marmot	[5038]astral pistol	Mysticality: +25, Damage Absorption: 140
+Turtle Tamer	Marmot	[5039]astral mask	Experience: +1, Initiative: +20
+Turtle Tamer	Marmot	[5040]astral pet sweater	Familiar Weight: +10
+Turtle Tamer	Marmot	[5041]astral shirt	Muscle: +10, Familiar Weight: +7, Sleaze Spell Damage: +50
+Turtle Tamer	Marmot	[5042]astral belt	Maximum HP Percent: +10, Stench Spell Damage: +50
+Turtle Tamer	Mongoose	[5028]astral bludgeon	Muscle: +25, Maximum HP Percent: +30, Adventures: +7
+Turtle Tamer	Mongoose	[5029]astral shield	Damage Reduction: 20, Stench Spell Damage: +50
+Turtle Tamer	Mongoose	[5030]astral chapeau	Mysticality: +15, Experience Percent (Moxie): +10, Hot Resistance: +5
+Turtle Tamer	Mongoose	[5031]astral bracer	Experience (Moxie): +3, Maximum HP Percent: +10, Cold Resistance: +3
+Turtle Tamer	Mongoose	[5032]astral longbow	Mysticality: +15, Maximum HP: +50, Meat Drop: +10
+Turtle Tamer	Mongoose	[5033]astral shorts	Maximum MP: +50, Stench Resistance: +1, Sleaze Resistance: +5
+Turtle Tamer	Mongoose	[5034]astral mace	Experience (Muscle): +3, Maximum MP: +50, MP Regen Min: 3, MP Regen Max: 5
+Turtle Tamer	Mongoose	[5035]astral trousers	Spell Damage Percent: +100, Monster Level: +15, Cold Damage: +5
+Turtle Tamer	Mongoose	[5036]astral ring	Damage Reduction: 3, Maximum HP Percent: +50, Initiative: +20
+Turtle Tamer	Mongoose	[5037]astral statuette	Maximum MP: +50, Monster Level: -20, Experience (familiar): +1
+Turtle Tamer	Mongoose	[5038]astral pistol	Mysticality: +15, Spell Critical Percent: +10, HP Regen Min: 3, HP Regen Max: 5
+Turtle Tamer	Mongoose	[5039]astral mask	Monster Level: -25, Initiative: +100
+Turtle Tamer	Mongoose	[5040]astral pet sweater	Familiar Weight: +10
+Turtle Tamer	Mongoose	[5041]astral shirt	Maximum HP: +100, Stench Damage: +25, Sleaze Spell Damage: +25
+Turtle Tamer	Mongoose	[5042]astral belt	Maximum MP: +10, Sleaze Damage: +25
+Turtle Tamer	Opossum	[5028]astral bludgeon	Mysticality Percent: +10, Maximum HP Percent: +50, Sleaze Damage: +25
+Turtle Tamer	Opossum	[5029]astral shield	Weapon Damage Percent: +50, Spooky Spell Damage: +25, Damage Reduction: 15
+Turtle Tamer	Opossum	[5030]astral chapeau	Experience: +3, Spooky Resistance: +3, Item Drop: +5
+Turtle Tamer	Opossum	[5031]astral bracer	Experience: +3, Maximum MP: +20, Critical Hit Percent: +20
+Turtle Tamer	Opossum	[5032]astral longbow	Experience: +3, Experience Percent (Muscle): +10, Maximum MP Percent: +30
+Turtle Tamer	Opossum	[5033]astral shorts	Moxie: +5, Experience Percent (Mysticality): +10, Meat Drop: +30
+Turtle Tamer	Opossum	[5034]astral mace	Muscle: +10, Mysticality Percent: +10, Damage Reduction: 1
+Turtle Tamer	Opossum	[5035]astral trousers	Damage Absorption: +40, Cold Spell Damage: +50, Sleaze Spell Damage: +10
+Turtle Tamer	Opossum	[5036]astral ring	Muscle: +5, Hot Spell Damage: +10, Adventures: +5
+Turtle Tamer	Opossum	[5037]astral statuette	Mysticality Percent: +30, Familiar Weight: +7, Sleaze Spell Damage: +10
+Turtle Tamer	Opossum	[5038]astral pistol	Experience (Mysticality): +5, Damage Reduction: 3, Adventures: +5
+Turtle Tamer	Opossum	[5039]astral mask	Stench Resistance: +5, Adventures: +5
+Turtle Tamer	Opossum	[5040]astral pet sweater	Familiar Weight: +10
+Turtle Tamer	Opossum	[5041]astral shirt	Moxie Percent: +20, Experience (Moxie): +1, Spooky Damage: +25
+Turtle Tamer	Opossum	[5042]astral belt	Spell Critical Percent: +20, HP Regen Min: 5, HP Regen Max: 7
+Turtle Tamer	Packrat	[5028]astral bludgeon	Weapon Damage Percent: +100, Monster Level: +10, Sleaze Damage: +25
+Turtle Tamer	Packrat	[5029]astral shield	Maximum MP: +100, Sleaze Spell Damage: +25, Damage Reduction: 15
+Turtle Tamer	Packrat	[5030]astral chapeau	Weapon Damage: +5, Spell Damage: +10, Damage Reduction: 9
+Turtle Tamer	Packrat	[5031]astral bracer	Moxie: +15, Experience (Muscle): +3, Experience (Moxie): +5
+Turtle Tamer	Packrat	[5032]astral longbow	Muscle: +15, Mysticality Percent: +10, Weapon Damage Percent: +100
+Turtle Tamer	Packrat	[5033]astral shorts	Damage Reduction: 9, Sleaze Spell Damage: +10, Adventures: +7
+Turtle Tamer	Packrat	[5034]astral mace	Damage Reduction: 3, Maximum MP: +50, Item Drop: +10
+Turtle Tamer	Packrat	[5035]astral trousers	Mysticality Percent: +10, Sleaze Spell Damage: +50, Initiative: +20
+Turtle Tamer	Packrat	[5036]astral ring	Muscle: +10, Muscle Percent: +20, Cold Spell Damage: +50
+Turtle Tamer	Packrat	[5037]astral statuette	Moxie: +5, Damage Absorption: +20, Maximum MP: +10
+Turtle Tamer	Packrat	[5038]astral pistol	Experience (Moxie): +1, Maximum HP: +100, Experience (familiar): +1
+Turtle Tamer	Packrat	[5039]astral mask	Experience: +3, Maximum HP Percent: +50
+Turtle Tamer	Packrat	[5040]astral pet sweater	Familiar Weight: +10
+Turtle Tamer	Packrat	[5041]astral shirt	Damage Reduction: 5, Monster Level: -15, Cold Damage: +5
+Turtle Tamer	Packrat	[5042]astral belt	Muscle Percent: +20, Item Drop: +5
+Turtle Tamer	Platypus	[5028]astral bludgeon	Moxie: +15, Stench Damage: +5, Meat Drop: +20
+Turtle Tamer	Platypus	[5029]astral shield	Hot Resistance: +1, Spooky Resistance: +3, Damage Reduction: 15
+Turtle Tamer	Platypus	[5030]astral chapeau	Muscle Percent: +10, Monster Level: -15, Stench Damage: +5
+Turtle Tamer	Platypus	[5031]astral bracer	Maximum HP Percent: +10, Maximum HP: +20, Hot Spell Damage: +50
+Turtle Tamer	Platypus	[5032]astral longbow	Maximum HP Percent: +20, Stench Damage: +25, Item Drop: +10
+Turtle Tamer	Platypus	[5033]astral shorts	Critical Hit Percent: +20, Hot Damage: +25, Adventures: +5
+Turtle Tamer	Platypus	[5034]astral mace	Mysticality: +5, Weapon Damage: +20, Spell Damage Percent: +100
+Turtle Tamer	Platypus	[5035]astral trousers	Damage Reduction: 7, Item Drop: +15, Meat Drop: +30
+Turtle Tamer	Platypus	[5036]astral ring	Moxie: +5, Damage Reduction: 1, Monster Level: -20
+Turtle Tamer	Platypus	[5037]astral statuette	Experience (Moxie): +1, Spooky Damage: +25, Sleaze Damage: +5
+Turtle Tamer	Platypus	[5038]astral pistol	Spell Critical Percent: +20, Initiative: +40, Adventures: +5
+Turtle Tamer	Platypus	[5039]astral mask	Damage Reduction: 5, Cold Damage: +5
+Turtle Tamer	Platypus	[5040]astral pet sweater	Familiar Weight: +10
+Turtle Tamer	Platypus	[5041]astral shirt	Muscle: +20, Spooky Damage: +10, HP Regen Min: 3, HP Regen Max: 5
+Turtle Tamer	Platypus	[5042]astral belt	Muscle: +20, Muscle Percent: +20
+Turtle Tamer	Vole	[5028]astral bludgeon	Monster Level: +10, Item Drop: +25, HP Regen Min: 7, HP Regen Max: 10
+Turtle Tamer	Vole	[5029]astral shield	Mysticality Percent: +10, Food Drop: +100, Damage Reduction: 15
+Turtle Tamer	Vole	[5030]astral chapeau	Moxie: 35, Maximum HP Percent: +20
+Turtle Tamer	Vole	[5031]astral bracer	Cold Damage: +10, Meat Drop: +40, HP Regen Min: 7, HP Regen Max: 10
+Turtle Tamer	Vole	[5032]astral longbow	Mysticality Percent: +10, Hot Damage: +25, Booze Drop: +100
+Turtle Tamer	Vole	[5033]astral shorts	Muscle: 25, Experience Percent (Mysticality): +10
+Turtle Tamer	Vole	[5034]astral mace	Weapon Damage: +20, Damage Reduction: 7, Meat Drop: +50
+Turtle Tamer	Vole	[5035]astral trousers	Critical Hit Percent: +20, Item Drop: +10, Meat Drop: +10
+Turtle Tamer	Vole	[5036]astral ring	Experience (Muscle): +5, Maximum HP Percent: +20, Stench Spell Damage: +50
+Turtle Tamer	Vole	[5037]astral statuette	Spell Critical Percent: +10, Familiar Weight: +5, Meat Drop: +10
+Turtle Tamer	Vole	[5038]astral pistol	Experience (Muscle): +3, Spooky Resistance: +1, Adventures: +5
+Turtle Tamer	Vole	[5039]astral mask	Sleaze Spell Damage: +25, Hot Resistance: +3
+Turtle Tamer	Vole	[5040]astral pet sweater	Familiar Weight: +10
+Turtle Tamer	Vole	[5041]astral shirt	Damage Absorption: +100, Sleaze Resistance: +3, Food Drop: +100
+Turtle Tamer	Vole	[5042]astral belt	Muscle: +25, Moxie Percent: +20
+Turtle Tamer	Wallaby	[5028]astral bludgeon	Moxie: +15, Experience (Moxie): +3, Spooky Spell Damage: +25
+Turtle Tamer	Wallaby	[5029]astral shield	Hot Damage: +25, Stench Spell Damage: +50, Damage Reduction: 15
+Turtle Tamer	Wallaby	[5030]astral chapeau	Experience: +2, Experience (Moxie): +5, Spooky Damage: +25
+Turtle Tamer	Wallaby	[5031]astral bracer	Moxie Percent: +10, Damage Absorption: +80, Maximum MP: +10
+Turtle Tamer	Wallaby	[5032]astral longbow	Maximum MP: +50, Sleaze Spell Damage: +25, Item Drop: +10
+Turtle Tamer	Wallaby	[5033]astral shorts	Experience Percent (Moxie): +10, Initiative: +80, Adventures: +5
+Turtle Tamer	Wallaby	[5034]astral mace	Monster Level: +25, MP Regen Min: 10, MP Regen Max: 15
+Turtle Tamer	Wallaby	[5035]astral trousers	Muscle: +25, Maximum HP Percent: +10, Spooky Resistance: +1
+Turtle Tamer	Wallaby	[5036]astral ring	Experience (Muscle): +5, Monster Level: +15, Hot Damage: +10
+Turtle Tamer	Wallaby	[5037]astral statuette	Muscle: +20, Experience Percent (Muscle): +10, Hot Damage: +5
+Turtle Tamer	Wallaby	[5038]astral pistol	Mysticality Percent: +20, Weapon Damage Percent: +25, Cold Spell Damage: +10
+Turtle Tamer	Wallaby	[5039]astral mask	Weapon Damage Percent: +100, Maximum MP: +20
+Turtle Tamer	Wallaby	[5040]astral pet sweater	Familiar Weight: +10
+Turtle Tamer	Wallaby	[5041]astral shirt	Muscle: +5, Spell Damage Percent: +100, Stench Resistance: +1
+Turtle Tamer	Wallaby	[5042]astral belt	Muscle: +15, Damage Reduction: 7
+Turtle Tamer	Wombat	[5028]astral bludgeon	Maximum MP: +10, Critical Hit Percent: +15, Cold Resistance: +1
+Turtle Tamer	Wombat	[5029]astral shield	Adventures: +7, MP Regen Min: 5, MP Regen Max: 7, Damage Reduction: 15
+Turtle Tamer	Wombat	[5030]astral chapeau	Moxie: +20, Mysticality Percent: +10, Meat Drop: +10
+Turtle Tamer	Wombat	[5031]astral bracer	Moxie Percent: +10, Experience: +2, Maximum MP: +10
+Turtle Tamer	Wombat	[5032]astral longbow	Spell Damage: +5, Spell Damage Percent: +100, Critical Hit Percent: +10
+Turtle Tamer	Wombat	[5033]astral shorts	Mysticality Percent: +10, Damage Reduction: 1, Maximum MP: +10
+Turtle Tamer	Wombat	[5034]astral mace	Hot Damage: +25, Sleaze Damage: +25, Initiative: +40
+Turtle Tamer	Wombat	[5035]astral trousers	Muscle: +10, Maximum HP: +10, Sleaze Damage: +5
+Turtle Tamer	Wombat	[5036]astral ring	Damage Absorption: +40, Spell Critical Percent: +30, Sleaze Damage: +5
+Turtle Tamer	Wombat	[5037]astral statuette	Weapon Damage: +5, Booze Drop: +100, Candy Drop: +100
+Turtle Tamer	Wombat	[5038]astral pistol	Moxie Percent: +30, Weapon Damage: +20, Hot Damage: +25
+Turtle Tamer	Wombat	[5039]astral mask	Item Drop: +15, Initiative: +100
+Turtle Tamer	Wombat	[5040]astral pet sweater	Familiar Weight: +10
+Turtle Tamer	Wombat	[5041]astral shirt	Muscle Percent: +20, Sleaze Spell Damage: +25, Hot Resistance: +1
+Turtle Tamer	Wombat	[5042]astral belt	Familiar Weight: +7, Cold Resistance: +5
+none	none	[5028]astral bludgeon	Muscle Percent: +25, Weapon Damage: +20, Critical Hit Percent: +15
+none	none	[5029]astral shield	Muscle Percent: +25, HP Regen Min: 5, HP Regen Max: 10, Damage Reduction: 15
+none	none	[5030]astral chapeau	Mysticality Percent: +25, Spell Damage: +20, MP Regen Min: 3, MP Regen Max: 5, Familiar Effect: "1xVolley, 1xLep, cap 12"
+none	none	[5031]astral bracer	Mysticality Percent: +25, Mana Cost (combat): -3, Adventures: +3
+none	none	[5032]astral longbow	Moxie Percent: +25, Ranged Damage: +20, Meat Drop: +30
+none	none	[5033]astral shorts	Moxie Percent: +25, Initiative: +20, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4, Familiar Effect: "1xGhoul, cap 12"
+none	none	[5034]astral mace	Muscle Percent: +25, Weapon Damage: +20, PvP Fights: +4
+none	none	[5035]astral trousers	Muscle Percent: +25, Weapon Damage Percent: +50, Meat Drop: +20, Familiar Effect: "1xPotato, cap 12"
+none	none	[5036]astral ring	Mysticality Percent: +25, Spell Damage: +20, MP Regen Min: 4, MP Regen Max: 6
+none	none	[5037]astral statuette	Mysticality Percent: +25, Spell Damage Percent: +50, Adventures: +4
+none	none	[5038]astral pistol	Moxie Percent: +25, Ranged Damage: +20, PvP Fights: +4
+none	none	[5039]astral mask	Moxie Percent: +25, Item Drop: +20
+none	none	[5040]astral pet sweater	Familiar Weight: +10, Generic
+none	none	[5041]astral shirt	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Experience: +3, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
+none	none	[5042]astral belt	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Monster Level: +20

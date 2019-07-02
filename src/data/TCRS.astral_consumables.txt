@@ -1,0 +1,165 @@
+Accordion Thief	Blender	[2743]steel margarita	3/
+Accordion Thief	Blender	[5043]astral hot dog	5/
+Accordion Thief	Blender	[5044]astral pilsner	5/
+Accordion Thief	Marmot	[2743]steel margarita	6/
+Accordion Thief	Marmot	[5043]astral hot dog	2/
+Accordion Thief	Marmot	[5044]astral pilsner	2/
+Accordion Thief	Mongoose	[2743]steel margarita	5/
+Accordion Thief	Mongoose	[5043]astral hot dog	2/
+Accordion Thief	Mongoose	[5044]astral pilsner	3/
+Accordion Thief	Opossum	[2743]steel margarita	8/
+Accordion Thief	Opossum	[5043]astral hot dog	3/Effect: "Cold-Blooded Warm Fuzzies", Effect Duration: 20
+Accordion Thief	Opossum	[5044]astral pilsner	3/
+Accordion Thief	Packrat	[2743]steel margarita	4/
+Accordion Thief	Packrat	[5043]astral hot dog	4/
+Accordion Thief	Packrat	[5044]astral pilsner	2/
+Accordion Thief	Platypus	[2743]steel margarita	1/
+Accordion Thief	Platypus	[5043]astral hot dog	3/
+Accordion Thief	Platypus	[5044]astral pilsner	2/
+Accordion Thief	Vole	[2743]steel margarita	3/
+Accordion Thief	Vole	[5043]astral hot dog	1/
+Accordion Thief	Vole	[5044]astral pilsner	4/
+Accordion Thief	Wallaby	[2743]steel margarita	4/
+Accordion Thief	Wallaby	[5043]astral hot dog	3/
+Accordion Thief	Wallaby	[5044]astral pilsner	4/
+Accordion Thief	Wombat	[2743]steel margarita	3/
+Accordion Thief	Wombat	[5043]astral hot dog	2/
+Accordion Thief	Wombat	[5044]astral pilsner	3/
+Disco Bandit	Blender	[2743]steel margarita	2/
+Disco Bandit	Blender	[5043]astral hot dog	4/
+Disco Bandit	Blender	[5044]astral pilsner	3/
+Disco Bandit	Marmot	[2743]steel margarita	5/
+Disco Bandit	Marmot	[5043]astral hot dog	5/
+Disco Bandit	Marmot	[5044]astral pilsner	4/
+Disco Bandit	Mongoose	[2743]steel margarita	2/Effect: "Weird Flavor", Effect Duration: 15
+Disco Bandit	Mongoose	[5043]astral hot dog	5/
+Disco Bandit	Mongoose	[5044]astral pilsner	4/
+Disco Bandit	Opossum	[2743]steel margarita	1/Effect: "Nothing Is Impossible", Effect Duration: 10
+Disco Bandit	Opossum	[5043]astral hot dog	5/
+Disco Bandit	Opossum	[5044]astral pilsner	4/Effect: "Mad at Science", Effect Duration: 35
+Disco Bandit	Packrat	[2743]steel margarita	6/Effect: "Cruisin' for a Bruisin'", Effect Duration: 5
+Disco Bandit	Packrat	[5043]astral hot dog	3/
+Disco Bandit	Packrat	[5044]astral pilsner	4/
+Disco Bandit	Platypus	[2743]steel margarita	4/
+Disco Bandit	Platypus	[5043]astral hot dog	3/
+Disco Bandit	Platypus	[5044]astral pilsner	3/
+Disco Bandit	Vole	[2743]steel margarita	9/
+Disco Bandit	Vole	[5043]astral hot dog	4/
+Disco Bandit	Vole	[5044]astral pilsner	7/
+Disco Bandit	Wallaby	[2743]steel margarita	2/
+Disco Bandit	Wallaby	[5043]astral hot dog	8/Effect: "Polka Face", Effect Duration: 5
+Disco Bandit	Wallaby	[5044]astral pilsner	1/
+Disco Bandit	Wombat	[2743]steel margarita	3/
+Disco Bandit	Wombat	[5043]astral hot dog	4/
+Disco Bandit	Wombat	[5044]astral pilsner	3/
+Pastamancer	Blender	[2743]steel margarita	3/
+Pastamancer	Blender	[5043]astral hot dog	3/
+Pastamancer	Blender	[5044]astral pilsner	3/Effect: "Pockets of Fire", Effect Duration: 50
+Pastamancer	Marmot	[2743]steel margarita	2/
+Pastamancer	Marmot	[5043]astral hot dog	4/
+Pastamancer	Marmot	[5044]astral pilsner	3/
+Pastamancer	Mongoose	[2743]steel margarita	2/
+Pastamancer	Mongoose	[5043]astral hot dog	1/
+Pastamancer	Mongoose	[5044]astral pilsner	3/
+Pastamancer	Opossum	[2743]steel margarita	5/
+Pastamancer	Opossum	[5043]astral hot dog	3/
+Pastamancer	Opossum	[5044]astral pilsner	10/
+Pastamancer	Packrat	[2743]steel margarita	7/
+Pastamancer	Packrat	[5043]astral hot dog	4/
+Pastamancer	Packrat	[5044]astral pilsner	3/
+Pastamancer	Platypus	[2743]steel margarita	2/Effect: "Cock of the Walk", Effect Duration: 35
+Pastamancer	Platypus	[5043]astral hot dog	2/
+Pastamancer	Platypus	[5044]astral pilsner	1/
+Pastamancer	Vole	[2743]steel margarita	5/
+Pastamancer	Vole	[5043]astral hot dog	5/
+Pastamancer	Vole	[5044]astral pilsner	3/
+Pastamancer	Wallaby	[2743]steel margarita	9/
+Pastamancer	Wallaby	[5043]astral hot dog	3/
+Pastamancer	Wallaby	[5044]astral pilsner	5/
+Pastamancer	Wombat	[2743]steel margarita	3/
+Pastamancer	Wombat	[5043]astral hot dog	2/
+Pastamancer	Wombat	[5044]astral pilsner	3/Effect: "Human-Constellation Hybrid", Effect Duration: 20
+Sauceror	Blender	[2743]steel margarita	4/
+Sauceror	Blender	[5043]astral hot dog	9/
+Sauceror	Blender	[5044]astral pilsner	4/
+Sauceror	Marmot	[2743]steel margarita	1/
+Sauceror	Marmot	[5043]astral hot dog	10/
+Sauceror	Marmot	[5044]astral pilsner	2/
+Sauceror	Mongoose	[2743]steel margarita	5/
+Sauceror	Mongoose	[5043]astral hot dog	4/
+Sauceror	Mongoose	[5044]astral pilsner	10/Effect: "Rainbow Bright", Effect Duration: 5
+Sauceror	Opossum	[2743]steel margarita	7/
+Sauceror	Opossum	[5043]astral hot dog	4/
+Sauceror	Opossum	[5044]astral pilsner	6/
+Sauceror	Packrat	[2743]steel margarita	2/
+Sauceror	Packrat	[5043]astral hot dog	4/
+Sauceror	Packrat	[5044]astral pilsner	1/
+Sauceror	Platypus	[2743]steel margarita	3/
+Sauceror	Platypus	[5043]astral hot dog	2/
+Sauceror	Platypus	[5044]astral pilsner	5/Effect: "Dexteri Tea", Effect Duration: 25
+Sauceror	Vole	[2743]steel margarita	3/
+Sauceror	Vole	[5043]astral hot dog	4/
+Sauceror	Vole	[5044]astral pilsner	5/
+Sauceror	Wallaby	[2743]steel margarita	2/
+Sauceror	Wallaby	[5043]astral hot dog	2/
+Sauceror	Wallaby	[5044]astral pilsner	2/
+Sauceror	Wombat	[2743]steel margarita	3/
+Sauceror	Wombat	[5043]astral hot dog	1/
+Sauceror	Wombat	[5044]astral pilsner	4/
+Seal Clubber	Blender	[2743]steel margarita	2/
+Seal Clubber	Blender	[5043]astral hot dog	4/
+Seal Clubber	Blender	[5044]astral pilsner	1/
+Seal Clubber	Marmot	[2743]steel margarita	2/
+Seal Clubber	Marmot	[5043]astral hot dog	5/
+Seal Clubber	Marmot	[5044]astral pilsner	3/
+Seal Clubber	Mongoose	[2743]steel margarita	3/
+Seal Clubber	Mongoose	[5043]astral hot dog	3/
+Seal Clubber	Mongoose	[5044]astral pilsner	1/
+Seal Clubber	Opossum	[2743]steel margarita	3/
+Seal Clubber	Opossum	[5043]astral hot dog	3/
+Seal Clubber	Opossum	[5044]astral pilsner	4/
+Seal Clubber	Packrat	[2743]steel margarita	4/
+Seal Clubber	Packrat	[5043]astral hot dog	3/
+Seal Clubber	Packrat	[5044]astral pilsner	4/
+Seal Clubber	Platypus	[2743]steel margarita	3/
+Seal Clubber	Platypus	[5043]astral hot dog	3/
+Seal Clubber	Platypus	[5044]astral pilsner	2/
+Seal Clubber	Vole	[2743]steel margarita	3/
+Seal Clubber	Vole	[5043]astral hot dog	2/
+Seal Clubber	Vole	[5044]astral pilsner	4/
+Seal Clubber	Wallaby	[2743]steel margarita	5/Effect: "Cold, Dead Hands", Effect Duration: 15
+Seal Clubber	Wallaby	[5043]astral hot dog	1/
+Seal Clubber	Wallaby	[5044]astral pilsner	1/
+Seal Clubber	Wombat	[2743]steel margarita	2/
+Seal Clubber	Wombat	[5043]astral hot dog	7/
+Seal Clubber	Wombat	[5044]astral pilsner	2/
+Turtle Tamer	Blender	[2743]steel margarita	1/
+Turtle Tamer	Blender	[5043]astral hot dog	3/
+Turtle Tamer	Blender	[5044]astral pilsner	3/
+Turtle Tamer	Marmot	[2743]steel margarita	2/
+Turtle Tamer	Marmot	[5043]astral hot dog	3/
+Turtle Tamer	Marmot	[5044]astral pilsner	2/
+Turtle Tamer	Mongoose	[2743]steel margarita	1/
+Turtle Tamer	Mongoose	[5043]astral hot dog	3/
+Turtle Tamer	Mongoose	[5044]astral pilsner	3/
+Turtle Tamer	Opossum	[2743]steel margarita	3/
+Turtle Tamer	Opossum	[5043]astral hot dog	3/
+Turtle Tamer	Opossum	[5044]astral pilsner	3/Effect: "Human-Elemental Hybrid", Effect Duration: 25
+Turtle Tamer	Packrat	[2743]steel margarita	4/
+Turtle Tamer	Packrat	[5043]astral hot dog	5/
+Turtle Tamer	Packrat	[5044]astral pilsner	2/Effect: "Leisurely Amblin'", Effect Duration: 45
+Turtle Tamer	Platypus	[2743]steel margarita	10/
+Turtle Tamer	Platypus	[5043]astral hot dog	3/Effect: "Walberg's Dim Bulb", Effect Duration: 50
+Turtle Tamer	Platypus	[5044]astral pilsner	10/
+Turtle Tamer	Vole	[2743]steel margarita	4/
+Turtle Tamer	Vole	[5043]astral hot dog	3/
+Turtle Tamer	Vole	[5044]astral pilsner	3/
+Turtle Tamer	Wallaby	[2743]steel margarita	3/
+Turtle Tamer	Wallaby	[5043]astral hot dog	10/Effect: "Crocodile Tear", Effect Duration: 15
+Turtle Tamer	Wallaby	[5044]astral pilsner	2/
+Turtle Tamer	Wombat	[2743]steel margarita	2/
+Turtle Tamer	Wombat	[5043]astral hot dog	1/
+Turtle Tamer	Wombat	[5044]astral pilsner	1/Effect: "Norwhalloped", Effect Duration: 45
+none	none	[2743]steel margarita	5/
+none	none	[5043]astral hot dog	3/
+none	none	[5044]astral pilsner	1/

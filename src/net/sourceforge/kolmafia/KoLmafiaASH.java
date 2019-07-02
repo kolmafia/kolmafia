@@ -52,6 +52,8 @@ import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+
 public abstract class KoLmafiaASH
 {
 	private static final HashMap<String, File> relayScriptMap = new HashMap<String, File>();
@@ -97,19 +99,18 @@ public abstract class KoLmafiaASH
 
 	public static final boolean getClientHTML( final RelayRequest request )
 	{
-		String script = request.getBasePath();
+		String base = request.getBasePath();
 		String field = null;
-		String alternateField = null;
 
-		if ( script.equals( "place.php" ) )
+		if ( base.equals( "place.php" ) )
 		{
 			field = request.getFormField( "whichplace" );
 		}
-		else if ( script.equals( "shop.php" ) )
+		else if ( base.equals( "shop.php" ) )
 		{
 			field = request.getFormField( "whichshop" );
 		}
-		else if ( script.equals( "campground.php" ) )
+		else if ( base.equals( "campground.php" ) )
 		{
 			field = request.getFormField( "action" );
 			if ( field != null && field.equals( "workshed" ) )
@@ -117,50 +118,15 @@ public abstract class KoLmafiaASH
 				AdventureResult workshed_item = CampgroundRequest.getCurrentWorkshedItem();
 				if ( workshed_item != null )
 				{
-					alternateField = field + "." + workshed_item.getItemId();
+					field += "." + workshed_item.getItemId();
 				}
 			}
 		}
 
-		if ( alternateField != null )
-		{
-			String fullscript = script.substring( 0, script.length() - 4 ) + "." + alternateField + ".ash";
-			File toExecute;
-			if ( KoLmafiaASH.relayScriptMap.containsKey( fullscript ) )
-			{
-				toExecute = KoLmafiaASH.relayScriptMap.get( fullscript );
-			}
-			else
-			{
-				toExecute = new File( KoLConstants.RELAY_LOCATION, fullscript );
-				KoLmafiaASH.relayScriptMap.put( fullscript, toExecute );
-			}
-			if ( toExecute.exists() )
-			{
-				return KoLmafiaASH.getClientHTML( request, toExecute );
-			}
-		}
-
+		String script = base;
 		if ( field != null )
 		{
-			// This block and the alternateField block above are supposed to be the same.
-			// There's probably a simple way of refactoring for simplicity, but until then,
-			// any changes to one block should be done in the other.
-			String fullscript = script.substring( 0, script.length() - 4 ) + "." + field + ".ash";
-			File toExecute;
-			if ( KoLmafiaASH.relayScriptMap.containsKey( fullscript ) )
-			{
-				toExecute = KoLmafiaASH.relayScriptMap.get( fullscript );
-			}
-			else
-			{
-				toExecute = new File( KoLConstants.RELAY_LOCATION, fullscript );
-				KoLmafiaASH.relayScriptMap.put( fullscript, toExecute );
-			}
-			if ( toExecute.exists() )
-			{
-				return KoLmafiaASH.getClientHTML( request, toExecute );
-			}
+			script = base.substring( 0, base.length() - 4 ) + "." + field + ".ash";
 		}
 
 		if ( KoLmafiaASH.relayScriptMap.containsKey( script ) )
@@ -180,6 +146,11 @@ public abstract class KoLmafiaASH
 		}
 
 		File toExecute = new File( KoLConstants.RELAY_LOCATION, script );
+		if ( !toExecute.exists() )
+		{
+			FileUtilities.loadInternalRelayFile( script );
+		}
+
 		KoLmafiaASH.relayScriptMap.put( script, toExecute );
 		return toExecute.exists() && KoLmafiaASH.getClientHTML( request, toExecute );
 	}
