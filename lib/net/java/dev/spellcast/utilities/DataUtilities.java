@@ -494,6 +494,6 @@ public class DataUtilities
 		return html;
 	}
 
-	private static ByteArrayInputStream EMPTY_STREAM = new ByteArrayInputStream( new byte[ 0 ] );
+	public static ByteArrayInputStream EMPTY_STREAM = new ByteArrayInputStream( new byte[ 0 ] );
 	private static ByteArrayOutputStream MEMORY_OUTPUT_STREAM = new ByteArrayOutputStream();
 }

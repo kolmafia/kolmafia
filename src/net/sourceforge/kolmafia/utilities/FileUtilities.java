@@ -195,6 +195,21 @@ public class FileUtilities
 		return line == null ? null : line.split( "\t", -1 );
 	}
 
+	public static final boolean loadInternalRelayFile( final String filename )
+	{
+		String directory = KoLConstants.RELAY_DIRECTORY;
+
+		InputStream istream = DataUtilities.getInputStream( directory, filename, false );
+		if ( istream == DataUtilities.EMPTY_STREAM )
+		{
+			// This is not an internal relay file.
+			return false;
+		}
+
+		File parent = KoLConstants.RELAY_LOCATION;
+		return FileUtilities.loadLibrary( parent, directory, filename );
+	}
+
 	public static final boolean loadLibrary( final File parent, final String directory, final String filename )
 	{
 		// Next, load the icon which will be used by KoLmafia
