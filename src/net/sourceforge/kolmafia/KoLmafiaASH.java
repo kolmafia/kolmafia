@@ -145,12 +145,12 @@ public abstract class KoLmafiaASH
 			script = script.substring( 0, script.length() - 4 ) + ".ash";
 		}
 
-		File toExecute = new File( KoLConstants.RELAY_LOCATION, script );
-		if ( !toExecute.exists() )
+		if ( FileUtilities.internalRelayScriptExists( script ) )
 		{
-			FileUtilities.loadInternalRelayFile( script );
+			FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, script );
 		}
 
+		File toExecute = new File( KoLConstants.RELAY_LOCATION, script );
 		KoLmafiaASH.relayScriptMap.put( script, toExecute );
 		return toExecute.exists() && KoLmafiaASH.getClientHTML( request, toExecute );
 	}

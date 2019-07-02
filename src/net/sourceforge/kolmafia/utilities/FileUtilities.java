@@ -195,19 +195,9 @@ public class FileUtilities
 		return line == null ? null : line.split( "\t", -1 );
 	}
 
-	public static final boolean loadInternalRelayFile( final String filename )
+	public static final boolean internalRelayScriptExists( final String filename )
 	{
-		String directory = KoLConstants.RELAY_DIRECTORY;
-
-		InputStream istream = DataUtilities.getInputStream( directory, filename, false );
-		if ( istream == DataUtilities.EMPTY_STREAM )
-		{
-			// This is not an internal relay file.
-			return false;
-		}
-
-		File parent = KoLConstants.RELAY_LOCATION;
-		return FileUtilities.loadLibrary( parent, directory, filename );
+		return DataUtilities.getInputStream( KoLConstants.RELAY_DIRECTORY, filename, false ) !=  DataUtilities.EMPTY_STREAM;
 	}
 
 	public static final boolean loadLibrary( final File parent, final String directory, final String filename )
@@ -220,8 +210,8 @@ public class FileUtilities
 
 		if ( library.exists() )
 		{
-			if ( parent == KoLConstants.RELAY_LOCATION && !Preferences.getString( "lastRelayUpdate" ).equals(
-				StaticEntity.getVersion() ) )
+			if ( parent == KoLConstants.RELAY_LOCATION &&
+			     !Preferences.getString( "lastRelayUpdate" ).equals( StaticEntity.getVersion() ) )
 			{
 				library.delete();
 			}
