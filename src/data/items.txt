@@ -10281,3 +10281,21 @@
 10254	hewn moon-rune spoon	576117737	runespoon.gif	accessory		0
 10255	cartoon harpoon	599602904	cartoonharpoon.gif	none, usable, curse	t,d	5
 10256	rune-strewn spoon cocoon	503105318	spooncocoon.gif	usable	t	0
+10257	Beach Comb Box	836738650	beachcomb.gif	accessory		0
+10258	Beach Comb	442466704	beachcomb.gif	accessory		0
+10259	grain of sand	162212708	sandgrain.gif	multiple, combat	t,d	1	grains of sand
+
+10266	magenta seashell	377121810	seashell1.gif	multiple	t,d	5
+10267	cyan seashell	870503412	seashell2.gif	usable	t,d	5
+10268	gray seashell	959980778	seashell3.gif	usable	t,d	5
+10269	green seashell	338927564	seashell4.gif	usable	t,d	5
+10270	yellow seashell	574493175	seashell5.gif	usable	t,d	5
+10271	bunch of sea grapes	581342010	seagrapes.gif	multiple	t,d	15
+
+10273	kelp	528198924	kelp.gif	spleen, usable	t,d	15
+
+10275	driftwood pants	271223980	driftwoodpants.gif	pants	q,d	11
+10276	driftwood bracelet	883276464	driftwoodbrace.gif	accessory	q,d	11
+
+10281	piece of driftwood	571744538	woodbeachcomb.gif	usable	t	0
+
