@@ -468,6 +468,7 @@ distressed denim pants	170	Mox: 70
 double-ice britches	70	Mox: 20
 drafty drawers	225	Mox: 200
 dress pants	115	Mox: 42
+driftwood pants	50	Mox: 10
 Drunkula's silky pants	300	Mys: 250
 dubious loincloth	225	Mox: 200
 duct tape dockers	195	Mox: 82
@@ -2165,6 +2166,7 @@ barrel hoop earring	100	none
 batskin belt	0	none
 battle broom	200	Mys: 10
 bauxite bow-tie	150	Mys: 10
+Beach Comb	0	none
 beach glass necklace	70	Mys: 20
 beaten-up Chucks	200	Mys: 45
 beer goggles	10	none
@@ -2291,6 +2293,7 @@ dope gangsta bling-bling	45	Mys: 7
 dorky glasses	50	none
 Draftsman's driving gloves	200	none
 Dreadsylvania Auditor's badge	250	Mys: 200
+driftwood bracelet	0	Mys: 10
 droll monocle	100	Mys: 35
 Drunkula's ring of haze	300	Mys: 100
 duonoculars	65	Mys: 17

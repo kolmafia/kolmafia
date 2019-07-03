@@ -597,6 +597,7 @@ Item	distressed denim pants	Stench Resistance: +1, Damage Reduction: 2, Familiar
 Item	double-ice britches	Hot Resistance: +4, Damage Reduction: 4, Maximum HP: +40, Maximum MP: +40, Familiar Effect: "cold atk, 3xVolley, 3xLep, cap 17"
 Item	drafty drawers	Maximum MP: +200, MP Regen Min: 15, MP Regen Max: 20, Familiar Effect: "1.5xVolley"
 Item	dress pants	Moxie: +5, Familiar Effect: "2xFairy, cap 28"
+Item	driftwood pants	Muscle: +1, Muscle Percent: +1, Maximum HP: +1, Maximum HP Percent: +1, Weapon Damage: +1, Weapon Damage Percent: +1, Critical Hit Percent: +1, Experience (Muscle): +1, Experience Percent (Muscle): +1, Lasts Until Rollover
 Item	Drunkula's silky pants	Cold Spell Damage: +100, Stench Resistance: +5, Sleaze Resistance: +1, Class: "Sauceror", Familiar Effect: "1xPotato, 1xGhoul"
 # dubious loincloth: Deals <font color=purple>Sleaze Damage</font> every round
 Item	dubious loincloth	Familiar Effect: "atk, 1.5xVolley"
@@ -2545,6 +2546,7 @@ Item	barrel hoop earring	Mysticality Percent: +25, Item Drop: +50, MP Regen Min:
 Item	batskin belt	Muscle: +3, Mysticality: +3, Moxie: +3
 Item	battle broom	Experience (Mysticality): +5, MP Regen Min: 5, MP Regen Max: 10, Mysticality Percent: +50, Spell Damage Percent: +100, Spell Critical Percent: +10, Single Equip, Lasts Until Rollover
 Item	bauxite bow-tie	Mysticality: +11, Maximum MP: [23+floor(pref(daycareToddlers)^0.35)], Spell Damage: [37+floor(pref(daycareToddlers)^0.35)], Single Equip
+Item	Beach Comb	Moxie Percent: +20, MP Regen Min: 8, MP Regen Max: 12, Familiar Weight: +5, Single Equip
 Item	beach glass necklace	Muscle: +5
 Item	beaten-up Chucks	Initiative: +40
 # beer goggles: They Do Nothing!
@@ -2697,6 +2699,7 @@ Item	dope gangsta bling-bling	Moxie: +1
 Item	dorky glasses	Moxie: -30, Mysticality: +30, Single Equip
 Item	Draftsman's driving gloves	Mysticality Percent: +50, Spell Damage Percent: +50, Adventures: +8, Experience (Mysticality): +4, Lasts Until Rollover
 Item	Dreadsylvania Auditor's badge	Item Drop: +10, Kruegerand Drop: +5, Single Equip
+Item	driftwood bracelet	Mysticality: +1, Mysticality Percent: +1, Maximum MP: +1, Maximum MP Percent: +1, Spell Damage: +1, Spell Damage Percent: +1, Spell Critical Percent: +1, Experience (Mysticality): +1, Experience Percent (Mysticality): +1, Single Equip, Lasts Until Rollover
 Item	droll monocle	MP Regen Min: 2, MP Regen Max: 4, Meat Drop: +20, Single Equip
 # Drunkula's ring of haze: The first attack against you will always miss
 Item	Drunkula's ring of haze	Weapon Damage Percent: -100, Maximum HP: -200, Maximum MP: +300, Single Equip
@@ -4856,6 +4859,7 @@ Effect	Blue Swayed	Experience (familiar): [ceil(min(T,50)/5)], Familiar Weight: 
 Effect	Blue Tongue	Item Drop: +30
 Effect	Boilermade	Cold Resistance: +5, Spooky Resistance: +5
 # Boiling Determination: Boosts castle attack and defense in Bastille Battalion.
+Effect	Boisterous Oysterous	Sleaze Resistance: +1
 Effect	Boletus Swoletus	Muscle: +40
 Effect	Bolts about Candy	Maximum MP: +50
 Effect	Bone Chilling	Cold Damage: +40, Cold Spell Damage: +40
@@ -5202,6 +5206,7 @@ Effect	Disdain of the War Snapper	Muscle: +5, Weapon Damage: +5
 Effect	Disguised as a Warehouse Clerk	Avatar: "warehouse clerk"
 Effect	Disquiet Riot	Combat Rate: -20
 Effect	Dizzy with Rage	Moxie Percent: -10
+Effect	Does a Body Good	Maximum HP: +60, Maximum MP: +30, Damage Reduction: 10
 Effect	Does Whatever a Person Can	Avatar: "spider"
 Effect	Dog Breath	Stench Damage: +30, Hot Resistance: +3, Spooky Resistance: +3, Combat Rate: +5
 Effect	Doing The Hustle	Item Drop: +100
@@ -6107,6 +6112,7 @@ Effect	Omphaloskepsis	Damage Reduction: [L], Meat Drop (sporadic): +4.25, Item D
 Effect	Omphalotus Omnipresence	Mysticality: +40
 Effect	On a Roll	Food Drop: +25
 Effect	On Pins and Needles	Initiative: +23
+Effect	On Smellier Tides	Stench Resistance: +1
 Effect	On the Homeo Path	Avatar: "War Hippy Homeopath"
 Effect	On the Shoulders of Giants	Mysticality Percent: +200
 # On the Trail
@@ -6415,6 +6421,7 @@ Effect	Shawarma Initiative	Initiative: +150
 Effect	Shawarma Warm War	Muscle: +15, Muscle Percent: +50, Hot Damage: +25, Hot Spell Damage: +25, Cold Resistance: +3, Spooky Resistance: +3
 Effect	She Ate Too Much Candy	Familiar Weight: [min(T,25)]
 # Sheepskinned: Your regular attacks deal Sleaze damage
+Effect	Shells of the Damned	Cold Resistance: +1
 Effect	Shelter of Shed	Combat Rate: -20
 Effect	Shepherd's Breath	Stench Damage: +30
 # Shield of the Pastalord: Reduces physical damage taken by 30%
@@ -6886,6 +6893,7 @@ Effect	To Protect and Servo	Avatar: "cyborg policeman"
 Effect	Toast Tea	Cold Resistance: +3
 Effect	Tomato Power	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Tomes of Opportunity	Experience Percent (Mysticality): +20
+Effect	Too Cool for (Fish) School	Hot Resistance: +1
 Effect	Too Noir For Snoir	Monster Level: +50
 Effect	Took Eleven	Muscle: +11, Mysticality: +11, Moxie: +11
 Effect	Toothy Grin	Familiar Weight: +5
@@ -7059,6 +7067,7 @@ Effect	Wolf Form	Muscle Percent: +150, Meat Drop: +150
 Effect	Wolfish Form	Muscle Percent: +50, Meat Drop: +50
 Effect	Work For Hours a Week	Familiar Weight: +5, HP Regen Min: 10, HP Regen Max: 20
 Effect	World's Shortest Giant	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+Effect	Worst Willy	Spooky Resistance: +1
 Effect	Worth Your Salt	Maximum HP: +25, Meat Drop: +25
 Effect	Wreathed in Merriment	Moxie Percent: +10
 Effect	Wreathed in Smoke	Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
@@ -8594,6 +8603,7 @@ Item	batarang	Effect: "Batwards Masking", Effect Duration: 50
 # Battlie Light Saver: Deals 30-50 Physical Damage and briefly stuns your foe
 # battoo kit: Unlocks a sweet Batfellow tattoo
 Item	bazookafish bubble gum	Effect: "Fishbreath", Effect Duration: 5
+Item	Beach Comb Box	Free Pull
 Item	bear claw	Effect: "Bear Clawed", Effect Duration: 30
 Item	beard incense	Effect: "Stinkybeard", Effect Duration: 20
 Item	beautiful rainbow	Skill: "Belch The Rainbow"
@@ -9005,6 +9015,7 @@ Item	cursed pony keg	Free Pull
 # cursed voodoo skull: Deals <font color=red>Hot Damage</font> and <font color=gray>Spooky Damage</font> based on your Mysticality
 Item	cursed wishbone	Effect: "Slightly Cursed, Mostly Lucky", Effect Duration: 30
 Item	custom avatar form	Free Pull
+Item	cyan seashell	Effect: "Shells of the Damned", Effect Duration: 20
 Item	cyclops eyedrops	Effect: "One Very Clear Eye", Effect Duration: 10
 Item	cymbal syrup	Free Pull, Effect: "Tinnitus", Effect Duration: 20
 # d10: Weakens enemies somewhat
@@ -9437,6 +9448,7 @@ Item	Granny Tood's Thanksgarden Catalog	Free Pull
 # grape troll doll: (doesn't go away when used)
 # grass clippings: Weakens enemies very slightly
 Item	graveyard snowglobe	Effect: "Cold, Dead Hands", Effect Duration: 20
+Item	gray seashell	Effect: "Worst Willy", Effect Duration: 20
 Item	grease trap	Effect: "Grease Trappings", Effect Duration: 50
 # great big capacitor: Deals 25-35 Physical Damage and briefly stuns your foe
 # Great Wolf's lice: Weakens enemies a lot
@@ -9451,6 +9463,7 @@ Item	green candy heart	Effect: "Heart of Green", Effect Duration: 10
 Item	green face paint	Free Pull
 # green pixel potion: Restores 40-60 HP and 30-40 MP
 Item	green rock candy	Effect: "Sprinkle Sense", Effect Duration: 10
+Item	green seashell	Effect: "On Smellier Tides", Effect Duration: 20
 # green smoke bomb: Lets you escape from combat without spending an Adventure
 # green smoke bomb: (Probably)
 Item	green snowcone	Effect: "Green Tongue", Effect Duration: 20
@@ -9777,6 +9790,7 @@ Item	machine elf capsule	Free Pull
 # macrame net: Deals 90-100 Physical Damage
 # macrame net: Weakens Enemies Somewhat
 Item	mafia aria	Effect: "Macho Profundo", Effect Duration: 5
+Item	magenta seashell	Effect: "Too Cool for (Fish) School", Effect Duration: 20
 # magical mystery juice: Restores an amount of MP that increases as you level up
 Item	magicberry tablets	Effect: "Magic Tongue", Effect Duration: 1
 # magnolia blossom: Restores 15-30 HP and MP
@@ -10916,6 +10930,7 @@ Item	yellow pixel potion	Effect: "WAKKA WAKKA WAKKA", Effect Duration: 20
 # yellow plastic oyster egg: Grants a Random Beneficial Effect
 Item	yellow puck	Free Pull
 Item	yellow puck with a bow on it	Free Pull
+Item	yellow seashell	Effect: "Boisterous Oysterous", Effect Duration: 20
 Item	yellow snowcone	Effect: "Yellow Tongue", Effect Duration: 20
 # yellow submarine: Allows Travel to The Mysterious Island of Mystery
 # yellowcake bomb: Vaporizes an enemy and causes all of its items to drop

@@ -2468,3 +2468,11 @@
 2467	Tiki Thoughtfulness	pr_tiki2_2.gif	f10b22f26778a43113677e601d1ac2c6	drink 1 Island Thunderstorm|drink 1 Electric Punch|drink 1 Turtle Bowl
 2468	Tiki Temerity	pr_tiki3_3.gif	5db844a5ad44119d0554d4cc68684d50	drink 1 Island Hurricane|drink 1 Smuggler's Punch|drink 1 Cobra Bowl
 2469	Spoon Boon	runespoon.gif	fa4374dcb3f6a5d3ff129b0be374fa1f
+2470	Harpooned and Marooned	cartoonharpoon.gif	3361012dfe7619bb6efd524ac2ad93d6
+2471	Too Cool for (Fish) School	seashell1.gif	acf495cc3a380399b63057acb57da18c	use 1 magenta seashell
+2472	Shells of the Damned	seashell2.gif	30213b80dce5858b91e91183fe553be7	use 1 cyan seashell
+2473	Worst Willy	seashell3.gif	bf6033288b67d8bf9c0f9359aeccf10e	use 1 gray seashell
+2474	On Smellier Tides	seashell4.gif	cd593aea9c0d40e8558c24656f9dbd59	use 1 green seashell
+2475	Boisterous Oysterous	seashell5.gif	6206ca738bc928cbafe120c80ae5382d	use 1 yellow seashell
+2476	Does a Body Good	kelp.gif	4fb7171b072457f2d2bf2b74c5d77cb5	chew 1 kelp
+
