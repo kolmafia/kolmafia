@@ -99,36 +99,38 @@ public abstract class KoLmafiaASH
 
 	public static final boolean getClientHTML( final RelayRequest request )
 	{
-		String base = request.getBasePath();
-		String field = null;
+		String script = request.getBasePath();
+		String field1 = null;
+		String field2 = null;
 
-		if ( base.equals( "place.php" ) )
+		if ( script.equals( "place.php" ) )
 		{
-			field = request.getFormField( "whichplace" );
+			field1 = request.getFormField( "whichplace" );
 		}
-		else if ( base.equals( "shop.php" ) )
+		else if ( script.equals( "shop.php" ) )
 		{
-			field = request.getFormField( "whichshop" );
+			field1 = request.getFormField( "whichshop" );
 		}
-		else if ( base.equals( "campground.php" ) )
+		else if ( script.equals( "campground.php" ) )
 		{
-			field = request.getFormField( "action" );
-			if ( field != null && field.equals( "workshed" ) )
+			field1 = request.getFormField( "action" );
+			if ( field1 != null && field1.equals( "workshed" ) )
 			{
 				AdventureResult workshed_item = CampgroundRequest.getCurrentWorkshedItem();
 				if ( workshed_item != null )
 				{
-					field += "." + workshed_item.getItemId();
+					field2 = field1 + "." + workshed_item.getItemId();
 				}
 			}
 		}
 
-		String script = base;
-		if ( field != null )
-		{
-			script = base.substring( 0, base.length() - 4 ) + "." + field + ".ash";
-		}
+		return  ( field2 != null && KoLmafiaASH.getClientHTML( request, script.substring( 0, script.length() - 4 ) + "." + field2 + ".ash" ) ) ||
+			( field1 != null && KoLmafiaASH.getClientHTML( request, script.substring( 0, script.length() - 4 ) + "." + field1 + ".ash" ) ) ||
+			KoLmafiaASH.getClientHTML( request, script );
+	}
 
+	private static final boolean getClientHTML( final RelayRequest request, String script )
+	{
 		if ( KoLmafiaASH.relayScriptMap.containsKey( script ) )
 		{
 			File toExecute = KoLmafiaASH.relayScriptMap.get( script );
