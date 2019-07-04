@@ -6463,7 +6463,6 @@ public class FightRequest
 				return;
 			}
 
-			// String str = node.getText().toString();
 			String str = FightRequest.getContentNodeText( node );
 
 			// Camera flashes
@@ -6538,11 +6537,6 @@ public class FightRequest
 				FightRequest.logMonsterAttribute( status, damage, HEALTH );
 				MonsterStatusTracker.damageMonster( damage );
 				FightRequest.processComments( node, status );
-				return;
-			}
-
-			if ( ghostAction || VYKEAaction )
-			{
 				return;
 			}
 		}
