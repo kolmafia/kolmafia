@@ -90,6 +90,7 @@ Dolphin King's crown	35	Mox: 2
 double-ice cap	70	Mox: 20
 draggin' ball hat	100	Mox: 35
 dreadful fedora	200	Mox: 200
+driftwood hat	50	Mox: 10
 duct tape fedora	195	Mox: 82
 dwarvish war helmet	165	Mox: 67
 Dyspepsi-Cola helmet	30	none
@@ -658,6 +659,7 @@ Unkillable Skeleton's shinguards	300	Mus: 250
 Vicar's Tutu	100	none
 Volartta's bellbottoms	125	Mox: 30
 Voluminous Radio Pants	150	Mox: 60
+waders	150	Mox: 30
 Wal-Mart overalls	200	Mox: 50
 warbear battle greaves	50	Mox: 10
 warbear bearserker greaves	250	Mox: 110
@@ -1442,6 +1444,7 @@ space heater	100	Mox: 35	1-handed pistol
 space needle	100	Mus: 35	1-handed sword
 Space Tourist Phaser	100	Mox: 35	1-handed pistol
 spant spear	100	Mus: 20	1-handed spear
+spearfish fishing spear	150	Mus: 30	1-handed spear
 spectral axe	150	Mus: 50	1-handed axe
 Spelunker's whip	10	Mus: 0	1-handed whip
 spiked femur	100	Mus: 35	1-handed club
@@ -2485,6 +2488,7 @@ lucky cat collar	60	Mys: 15
 lucky Crimbo tiki necklace	10	none
 lucky gold ring	0	none
 lucky rabbit's foot	60	Mys: 15
+lucky rabbitfish fin	150	Mys: 30
 LWA ring	10	none
 LyleCo premium monocle	10	none
 Mafia bow tie	0	Mys: 35

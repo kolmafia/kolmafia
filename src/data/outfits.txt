@@ -153,5 +153,5 @@
 150
 151
 152
-153	PirateRealm Assortment	prealmtat.gif	PirateRealm party hat, conquistador's breastplate, plush sea serpent, pirate radio ring
 153	PirateRealm Assortment	prealmtat.gif	PirateRealm party hat, piratical blunderbuss, conquistador's breastplate, plush sea serpent, pirate radio ring
+154	Shallow Sea Fishing Outfit	fishingtat.gif	spearfish fishing spear, waders, lucky rabbitfish fin
