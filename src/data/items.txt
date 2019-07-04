@@ -10281,7 +10281,7 @@
 10254	hewn moon-rune spoon	576117737	runespoon.gif	accessory		0
 10255	cartoon harpoon	599602904	cartoonharpoon.gif	none, usable, curse	t,d	5
 10256	rune-strewn spoon cocoon	503105318	spooncocoon.gif	usable	t	0
-10257	Beach Comb Box	836738650	beachcomb.gif	accessory		0
+10257	Beach Comb Box	836738650	beachcomb.gif	usable	t	0
 10258	Beach Comb	442466704	beachcomb.gif	accessory		0
 10259	grain of sand	162212708	sandgrain.gif	multiple, combat	t,d	1	grains of sand
 
