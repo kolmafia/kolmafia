@@ -4634,6 +4634,7 @@ Effect	A Short Trial	Avatar: "pygmy witch lawyer"
 Effect	A Taste for Accounting	Avatar: "pygmy witch accountant"
 # A Taste of Rainbow: Increases stat gains from food
 Effect	A View to Some Meat	Meat Drop: +100
+Effect	A Brush with Grossness	Stench Resistance: +3, Stench Damage: +15, Stench Spell Damage: +15
 Effect	Abominably Slippery	Initiative: +20, Sleaze Resistance: +2
 # Absinthe-Minded: You are aware of The Worm Wood
 Effect	Abyssal Blood	Weapon Damage Percent: +100, Hot Damage: +50, HP Regen Min: 40, HP Regen Max: 50
@@ -5041,6 +5042,7 @@ Effect	Cock of the Walk	Moxie Percent: +200
 Effect	Cockroach Scurry	Initiative: +50
 Effect	Coffeesphere	Combat Rate: +15
 Effect	Cold as Ice	Hot Resistance: +5, Cold Damage: +50, Cold Spell Damage: +50
+Effect	Cold as Nice	Cold Resistance: +3, Cold Damage: +15, Cold Spell Damage: +15
 Effect	Cold Blooded	Muscle Percent: +30, Mysticality Percent: +20, Moxie Percent: +10, Cold Damage: +10, Cold Resistance: +2
 # Cold Breath: Can breathe frigid air in combat
 Effect	Cold Hands	Cold Damage: +10, Cold Spell Damage: +20, Stench Resistance: +2, Sleaze Resistance: +2
@@ -5206,7 +5208,9 @@ Effect	Disdain of the War Snapper	Muscle: +5, Weapon Damage: +5
 Effect	Disguised as a Warehouse Clerk	Avatar: "warehouse clerk"
 Effect	Disquiet Riot	Combat Rate: -20
 Effect	Dizzy with Rage	Moxie Percent: -10
+Effect	Do I Know You From Somewhere?	Familiar Weight: +5
 Effect	Does a Body Good	Maximum HP: +60, Maximum MP: +30, Damage Reduction: 10
+Effect	Does It Have a Skull In There??	Spooky Resistance: +3, Spooky Damage: +15, Spooky Spell Damage: +15
 Effect	Does Whatever a Person Can	Avatar: "spider"
 Effect	Dog Breath	Stench Damage: +30, Hot Resistance: +3, Spooky Resistance: +3, Combat Rate: +5
 Effect	Doing The Hustle	Item Drop: +100
@@ -5386,6 +5390,7 @@ Effect	Filled with Magic	Spell Damage Percent: +100
 # Filthworm Guard Stench
 # Filthworm Larva Stench
 # Finstrong: Makes you a better diver
+Effect	Fishing For Knowledge	Fishing Skill: +5
 Effect	Finstrong	Initiative Penalty: [30*env(underwater)], Item Drop Penalty: [30*env(underwater)], Meat Drop Penalty: [30*env(underwater)]
 Effect	Fire Down Below	Hot Damage: [min(100,T)]
 Effect	Fire Inside	Hot Damage: +25
@@ -5666,6 +5671,7 @@ Effect	Hopped Up on Goofballs	Muscle Percent: +20, Moxie Percent: +20
 Effect	Hoppyness	Initiative: +100
 Effect	Hornswaggled	Moxie Percent: +50, Muscle Percent: -50
 Effect	Horrid, Torrid	Weapon Damage Percent: +10
+Effect	Hot-Headed	Hot Resistance: +3, Hot Damage: +15, Hot Spell Damage: +15
 Effect	Hot Blooded	Muscle Percent: +30, Mysticality Percent: +10, Moxie Percent: +20, Hot Damage: +10, Hot Resistance: +2
 # Hot Breath: Can breathe fire in combat
 Effect	Hot Buttoned	Hot Damage: +10, Hot Spell Damage: +10
@@ -5854,6 +5860,7 @@ Effect	Kung-Furious	Avatar: "Kung-Fu Hustler"
 Effect	L'instinct F&eacute;lin	Moxie: +30
 Effect	La Bamba	Item Drop: +3
 Effect	La Oscuridad Adentro	Spooky Spell Damage: +13, Spooky Damage: +13, Experience (Mysticality): +3
+Effect	Lack of Body-Building	Muscle Percent: +50, Weapon Damage Percent: +25
 Effect	Lapdog	Initiative: +30, Stench Damage: +25, Monster Level: +20
 Effect	Larger	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 # Latency: Prismatic Vulnerability (-Source Agents killed)
@@ -6096,6 +6103,7 @@ Effect	Ogred and Oublietted	Experience (Muscle): +1, Experience (Mysticality): +
 # Oh Hamlet Hamlet Hamlet Hamlet: +50 Damage vs. Ghosts
 Effect	Oh Hamlet Hamlet Hamlet Hamlet	Maximum HP Percent: +50, Maximum MP Percent: +50
 Effect	Oh Snap	Experience (Moxie): +10
+Effect	Oiled, Slick	Sleaze Resistance: +3, Sleaze Damage: +15, Sleaze Spell Damage: +15
 Effect	Oiled-Up	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
 Effect	Oiled Skin	Moxie Percent: +100
 Effect	Oilsphere	Hot Resistance: +3, Cold Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Sleaze Resistance: +3
@@ -6222,6 +6230,7 @@ Effect	Polka Face	Item Drop: [5*min(L,11)], Meat Drop: [5*min(L,11)]
 Effect	Polka of Plenty	Meat Drop: +50
 Effect	Polonoia	Monster Level: +50
 Effect	Polyphonic Yawn	Avatar: "Drab Bard"
+Effect	Pomp & Circumsands	Moxie Percent: +50, Ranged Damage Percent: +25
 Effect	Pompadour	Experience: +3
 Effect	Ponderous Potency	Weapon Damage: +20
 Effect	Pop-eyed	Weapon Damage: +30
@@ -6343,6 +6352,7 @@ Effect	Remaining Alive	Damage Absorption: +50, Damage Reduction: 2
 Effect	Rented Costume	Avatar: "Entire Shoplifter"
 Effect	Reptilian Fortitude	Maximum HP: +30
 Effect	Resilient Spirit	Damage Reduction: 15, Damage Absorption: +50
+Effect	Resting Beach Face	Initiative: +50
 Effect	Retrograde Relaxation	HP Regen Min: 8, HP Regen Max: 10
 Effect	Rhinestoned	Moxie: [T]
 # Riboflavin': Pickin' Pockets like a G
@@ -6712,6 +6722,7 @@ Effect	Sweet and Yellow	Ranged Damage: +30, Initiative: +10
 Effect	Sweet Heart	Meat Drop: [2*min(T,20)], Muscle: [min(T,20)]
 Effect	Sweet Incentive	Familiar Weight: +5
 Effect	Sweet Nostalgia	Candy Drop: +20
+Effect	Sweet Pirate Curse	Critical Hit Percent: +5, Spell Critical Percent: +5
 Effect	Sweet Taste	Candy Drop: +10
 Effect	Sweet Tooth	Candy Drop: +40
 Effect	Sweet, Nuts	Mysticality: +5
@@ -7007,6 +7018,7 @@ Effect	Waterborne	Avatar: "giant tardigrade"
 Effect	Wax On Your Shoes	Moxie: +15, Initiative: +25
 Effect	Waxing	Maximum HP Percent: +100, Maximum MP Percent: +50, Initiative: +50
 Effect	Waxing Mystical	MP Regen Min: 3, MP Regen Max: 5
+Effect	We're All Made of Starfish	Mysticality Percent: +50, Spell Damage Percent: +25
 Effect	Weally Satisfied	HP Regen Min: [min(T/10,50)], HP Regen Max: [min(T/5,100)]
 Effect	Weapon of Mass Destruction	Weapon Damage Percent: +30
 Effect	Wearing a Guard's Hat	Avatar: "warehouse guard"
@@ -7091,6 +7103,7 @@ Effect	You Know What's Up	Muscle Percent: +10, Mysticality Percent: +10, Moxie P
 Effect	You Know When to Walk Away	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Effect	You Know Where to Go	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Effect	You Know Who to Call	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+Effect	You Learned Something Maybe!	Experience: +5
 Effect	You Liver	Maximum HP: +200, HP Regen Min: 20, HP Regen Max: 40
 Effect	You Read The Manual	Experience (Mysticality): +4
 Effect	You're a Brick . . . Ooze	Avatar: "BRICKO ooze"
@@ -9009,6 +9022,7 @@ Item	cuppa Yet tea	Effect: "Yet tea", Effect Duration: 30
 # Item curious anemometer: Increases the sailing speed of your PirateRealm ship
 Item	curious anemometer	Lasts Until Rollover
 # cursed cannonball: Deals <font color=gray>Spooky Damage</font> based on your Muscle
+Item	cursed chocolate doubloon	Effect: "Sweet Pirate Curse", Effect Duration: 20
 # cursed dirty joke scroll: Deals <font color=blueviolet>Sleaze Damage</font> and <font color=gray>Spooky Damage</font> based on your Moxie
 Item	cursed microwave	Free Pull
 Item	cursed pony keg	Free Pull
@@ -9266,6 +9280,7 @@ Item	filthy monkey head	Effect: "Monkeymask", Effect Duration: 100
 # finger cuffs: Stuns your opponent for a few rounds
 Item	finger exerciser	Effect: "Strong Grip", Effect Duration: 20
 # fingerprint dusting kit: Helps you find villains faster
+Item	Finnish Fish	Effect: "Fishing For Knowledge", Effect Duration: 20
 Item	fire flower	Effect: "Flamingly Floral", Effect Duration: 10
 # fire of unknown origin: Deals 35-45 <font color=red>Hot Damage</font> and 35-45 <font color=gray>Spooky Damage</font>
 # fireball: Deals 190-210 <font color=red>Hot Damage</font>

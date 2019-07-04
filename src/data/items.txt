@@ -10291,7 +10291,7 @@
 10269	green seashell	338927564	seashell4.gif	usable	t,d	5
 10270	yellow seashell	574493175	seashell5.gif	usable	t,d	5
 10271	bunch of sea grapes	581342010	seagrapes.gif	multiple	t,d	15
-
+10272	bottle of sea wine	329178790	wine2.gif	drink	t,d	10
 10273	kelp	528198924	kelp.gif	spleen, usable	t,d	15
 
 10275	driftwood pants	271223980	driftwoodpants.gif	pants	q,d	11
@@ -10299,3 +10299,5 @@
 
 10281	piece of driftwood	571744538	woodbeachcomb.gif	usable	t	0
 
+10289	Finnish Fish	924184613	fishy2.gif	usable	t,d	5
+10290	cursed chocolate doubloon	686531916	ccannonball.gif	multiple	t,d	5
