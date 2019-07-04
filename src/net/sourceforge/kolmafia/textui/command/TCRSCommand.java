@@ -46,7 +46,7 @@ public class TCRSCommand
 {
 	public TCRSCommand()
 	{
-		this.usage = " fetch CLASS, SIGN | load | save | derive | check # | apply - handle item modifiers for Two Crazy Random Summer.";
+		this.usage = " fetch CLASS, SIGN | load | save | derive [#] | check # | apply - handle item modifiers for Two Crazy Random Summer.";
 	}
 
 	@Override
@@ -145,7 +145,14 @@ public class TCRSCommand
 
 		if ( command.equals( "derive" ) )
 		{
-			TCRSDatabase.derive( true );
+			if ( parameters.equals( "" ) )
+			{
+				TCRSDatabase.derive( true );
+			}
+			else
+			{
+				TCRSDatabase.deriveAndSaveItem( StringUtilities.parseInt( parameters ) );
+			}
 			return;
 		}
 

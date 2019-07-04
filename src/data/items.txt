@@ -10284,6 +10284,7 @@
 10257	Beach Comb Box	836738650	beachcomb.gif	usable	t	0
 10258	Beach Comb	442466704	beachcomb.gif	accessory		0
 10259	grain of sand	162212708	sandgrain.gif	multiple, combat	t,d	1	grains of sand
+10260	small pile of sand	489624773	sandpile1.gif	usable, combat	t,d	50
 
 10266	magenta seashell	377121810	seashell1.gif	multiple	t,d	5
 10267	cyan seashell	870503412	seashell2.gif	usable	t,d	5
@@ -10293,9 +10294,12 @@
 10271	bunch of sea grapes	581342010	seagrapes.gif	multiple	t,d	15
 10272	bottle of sea wine	329178790	wine2.gif	drink	t,d	10
 10273	kelp	528198924	kelp.gif	spleen, usable	t,d	15
-
+10274	driftwood hat	704654884	driftwoodhat.gif	hat	q,d	11
 10275	driftwood pants	271223980	driftwoodpants.gif	pants	q,d	11
 10276	driftwood bracelet	883276464	driftwoodbrace.gif	accessory	q,d	11
+10277	waders	684903560	waders.gif	pants	t,d	250
+10278	spearfish fishing spear	708713605	fishspear.gif	weapon	t,d	250
+10279	lucky rabbitfish fin	383657459	rabbitfin.gif	accessory	t,d	250
 
 10281	piece of driftwood	571744538	woodbeachcomb.gif	usable	t	0
 

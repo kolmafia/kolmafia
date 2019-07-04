@@ -463,6 +463,16 @@ public class TCRSDatabase
 		return deriveItem( text );
 	}
 
+	public static TCRS deriveAndSaveItem( final int itemId )
+	{
+		TCRS tcrs = deriveItem( itemId );
+		if ( tcrs != null )
+		{
+			TCRSMap.put( itemId, tcrs );
+		}
+		return tcrs;
+	}
+
 	public static TCRS deriveRing()
 	{
 		String text = DebugDatabase.itemDescriptionText( ItemPool.RING, false );
