@@ -435,6 +435,13 @@ The Crown of Ed the Undying	nosmash
 Buddy Bjorn	nosmash
 Kremlin's Greatest Briefcase	nosmash
 protonic accelerator pack	nosmash
+Fourth of May Cosplay Saber	nosmash
+Kramco Sausage-o-Matic&trade;	nosmash
+latte lovers member's mug	nosmash
+mint condition Lil' Doctor&trade; bag	nosmash
+vampyric cloake	nosmash
+hewn moon-rune spoon	nosmash
+Beach Comb	nosmash
 
 # Depleted grimacite items.
 depleted Grimacite hammer	chunk of depleted Grimacite
