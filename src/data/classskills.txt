@@ -827,7 +827,7 @@
 7311	Use the Force	may4sword.gif	5	0	0
 7312	Dragoon Platoon	runespoon.gif	5	0	0
 7313	Spittoon Monsoon	runespoon.gif	5	0	0
-7314	Festoon Buffoon		runespoon.gif	5	0	0
+7314	Festoon Buffoon	runespoon.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
