@@ -46,7 +46,7 @@ public class TCRSCommand
 {
 	public TCRSCommand()
 	{
-		this.usage = " fetch CLASS, SIGN | load | save | derive [#] | check # | apply - handle item modifiers for Two Crazy Random Summer.";
+		this.usage = " fetch CLASS, SIGN | load | save | derive [#] | check # | apply | help - handle item modifiers for Two Crazy Random Summer.";
 	}
 
 	@Override
@@ -64,6 +64,23 @@ public class TCRSCommand
 		{
 			command = parameters.substring( 0, index );
 			parameters = parameters.substring( index + 1 );
+		}
+
+		if ( command.equals( "help" ))
+		{
+			RequestLogger.printLine(" ");
+			RequestLogger.printLine("Some commands require being in a TCRS run and data will");
+			RequestLogger.printLine("be for current CLASS and SIGN.");
+			RequestLogger.printLine("fetch CLASS SIGN - fetch remote data for class and sign.");
+			RequestLogger.printLine("ring - display modifiers for ring.");
+			RequestLogger.printLine("spoon - display modifiers for spoon.");
+			RequestLogger.printLine("load - load current data.");
+			RequestLogger.printLine("save = data to local disk.");
+			RequestLogger.printLine("derive [#] - derive data for specified item or all items for current CLASS and SIGN");
+			RequestLogger.printLine("check # - display data for item.");
+			RequestLogger.printLine("apply - apply current data.");
+			RequestLogger.printLine("help - display this text.");
+			return;
 		}
 
 		if ( command.equals( "fetch" ) )
