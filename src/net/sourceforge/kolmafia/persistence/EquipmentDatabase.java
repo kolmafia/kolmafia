@@ -177,7 +177,8 @@ public class EquipmentDatabase
 				if ( index1 > 0 )
 				{
 					hval = StringUtilities.parseInt( str.substring( 0, index1 ) );
-					tval = new String( str.substring( index1 + 7 ).trim() );
+					String type = str.substring( index1 + 7 ).trim();
+					tval = type.equals( "" ) ? "weapon" : new String( type );
 				}
 				else
 				{
