@@ -2503,7 +2503,11 @@ public class ConcoctionDatabase
 			( KoLCharacter.hasSkill( "Rapid Prototyping" ) &&
 			  StandardRequest.isAllowed( "Skills", "Rapid Prototyping" ) ? 5 - Preferences.getInteger( "_rapidPrototypingUsed" ) : 0 ) +
 			( KoLCharacter.hasSkill( "Expert Corner-Cutter" ) &&
-			  StandardRequest.isAllowed( "Skills", "Expert Corner-Cutter" ) ? 5 - Preferences.getInteger( "_expertCornerCutterUsed" ) : 0 ) +
+			  StandardRequest.isAllowed( "Skills", "Expert Corner-Cutter" ) &&
+			  // KoL bug: this is the only skill that does not work
+			  // unless you have at least one turn available, even
+			  // though crafting will not use that turn.
+			  ( KoLCharacter.getAdventuresLeft() > 0 ) ? 5 - Preferences.getInteger( "_expertCornerCutterUsed" ) : 0 ) +
 			ConcoctionDatabase.CRAFT_TEA.getCount( KoLConstants.activeEffects ) / 5;
 	}
 
