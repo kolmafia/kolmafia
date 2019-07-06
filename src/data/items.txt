@@ -10285,7 +10285,11 @@
 10258	Beach Comb	442466704	beachcomb.gif	accessory		0
 10259	grain of sand	162212708	sandgrain.gif	multiple, combat	t,d	1	grains of sand
 10260	small pile of sand	489624773	sandpile1.gif	usable, combat	t,d	50
-
+10261	pile of sand	522432828	sandpile2.gif	usable, combat	t,d	250
+10262
+10263
+10264
+10265
 10266	magenta seashell	377121810	seashell1.gif	multiple	t,d	5
 10267	cyan seashell	870503412	seashell2.gif	usable	t,d	5
 10268	gray seashell	959980778	seashell3.gif	usable	t,d	5
@@ -10300,8 +10304,14 @@
 10277	waders	684903560	waders.gif	pants	t,d	250
 10278	spearfish fishing spear	708713605	fishspear.gif	weapon	t,d	250
 10279	lucky rabbitfish fin	383657459	rabbitfin.gif	accessory	t,d	250
-
+10280	piece of coral	769931998	petcoral.gif	grow	t,d	200
 10281	piece of driftwood	571744538	woodbeachcomb.gif	usable	t	0
-
+10282
+10283
+10284
+10285
+10286
+10287
+10288
 10289	Finnish Fish	924184613	fishy2.gif	usable	t,d	5
 10290	cursed chocolate doubloon	686531916	ccannonball.gif	multiple	t,d	5

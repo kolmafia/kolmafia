@@ -3061,3 +3061,8 @@ Smuggler's Punch	TIKI	bottle of super-extra-dark rhum	hibiscus petal
 Scorpion Bowl	TIKI	bottle of dark rhum	huge mint leaf
 Turtle Bowl	TIKI	bottle of extra-dark rhum	huge mint leaf
 Cobra Bowl	TIKI	bottle of super-extra-dark rhum	huge mint leaf
+
+# Beach Comb
+small pile of sand	MUSE	grain of sand (100)
+pile of sand	MUSE	grain of sand (1000)
+# large pile of sand	MUSE	grain of sand (10000)
