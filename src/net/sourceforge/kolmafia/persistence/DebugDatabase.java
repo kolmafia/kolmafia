@@ -388,6 +388,22 @@ public class DebugDatabase
 			report.println( "# *** " + name + " (" + itemId + ") has secondary usage of " + secondary + " but is described as " + descSecondary + "." );
 		}
 
+		// If description says it's a potion, make that the primary
+		// type and move usability and multiusability into attributes
+		if ( descPrimary == KoLConstants.CONSUME_POTION )
+		{
+			if ( type == KoLConstants.CONSUME_USE )
+			{
+				type = KoLConstants.CONSUME_POTION;
+				attrs |= ItemDatabase.ATTR_USABLE;
+			}
+			else if ( type == KoLConstants.CONSUME_MULTIPLE )
+			{
+				type = KoLConstants.CONSUME_POTION;
+				attrs |= ItemDatabase.ATTR_MULTIPLE;
+			}
+		}
+
 		int price = ItemDatabase.getPriceById( itemId );
 		int descPrice = DebugDatabase.parsePrice( text );
 		if ( price != descPrice && ( price >= 0 || descPrice != 0 ) )
@@ -608,13 +624,13 @@ public class DebugDatabase
 			// Curse items are special
 			return KoLConstants.NO_CONSUME;
 		}
-		if ( type.startsWith( "usable" ) || type.contains( " usable" ) || type.equals( "gift package" ) || type.equals( "potion" ) )
+		if ( type.equals( "potion" ) )
 		{
-			// Although most potions end up being multi-usable, KoL
-			// almost always forgets to add that flag when the item
-			// is first introduced.
-			//
-			// We'll assume they are single-usable unless we are
+			return KoLConstants.CONSUME_POTION;
+		}
+		if ( type.startsWith( "usable" ) || type.contains( " usable" ) || type.equals( "gift package" ) )
+		{
+			// We'll assume these are single-usable unless we are
 			// explicitly told otherwise in a "rel" string
 
 			return multi ? KoLConstants.CONSUME_MULTIPLE : KoLConstants.CONSUME_USE;
@@ -723,7 +739,6 @@ public class DebugDatabase
 		case KoLConstants.MESSAGE_DISPLAY:
 		case KoLConstants.CONSUME_USE:
 		case KoLConstants.CONSUME_MULTIPLE:
-		case KoLConstants.CONSUME_AVATAR:
 		case KoLConstants.INFINITE_USES:
 			return descType == KoLConstants.CONSUME_USE ||
 			       descType == KoLConstants.CONSUME_MULTIPLE ||
@@ -731,6 +746,9 @@ public class DebugDatabase
 			       descType == KoLConstants.CONSUME_DRINK ||
 			       descType == KoLConstants.CONSUME_AVATAR ||
 			       descType == KoLConstants.NO_CONSUME;
+		case KoLConstants.CONSUME_POTION:
+		case KoLConstants.CONSUME_AVATAR:
+			return descType == KoLConstants.CONSUME_POTION;
 		case KoLConstants.CONSUME_FOOD_HELPER:
 		case KoLConstants.CONSUME_DRINK_HELPER:
 		case KoLConstants.CONSUME_STICKER:
