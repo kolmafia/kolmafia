@@ -3065,4 +3065,7 @@ Cobra Bowl	TIKI	bottle of super-extra-dark rhum	huge mint leaf
 # Beach Comb
 small pile of sand	MUSE	grain of sand (100)
 pile of sand	MUSE	grain of sand (1000)
-# large pile of sand	MUSE	grain of sand (10000)
+large pile of sand	MUSE	grain of sand (10000)
+empty hourglass	COMBINE	large pile of sand	fire
+hourglass	COMBINE	small pile of sand	empty hourglass
+etched hourglass	COMBINE	pile of sand	hourglass
