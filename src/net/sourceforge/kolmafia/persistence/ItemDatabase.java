@@ -302,8 +302,10 @@ public class ItemDatabase
 		ItemDatabase.definePrimaryUse( "zap", KoLConstants.CONSUME_ZAP );
 		ItemDatabase.definePrimaryUse( "sphere", KoLConstants.CONSUME_SPHERE );
 		ItemDatabase.definePrimaryUse( "guardian", KoLConstants.CONSUME_GUARDIAN );
-		ItemDatabase.definePrimaryUse( "avatar", KoLConstants.CONSUME_AVATAR );
 		ItemDatabase.definePrimaryUse( "pokepill", KoLConstants.CONSUME_POKEPILL );
+
+		ItemDatabase.definePrimaryUse( "potion", KoLConstants.CONSUME_POTION );
+		ItemDatabase.definePrimaryUse( "avatar", KoLConstants.CONSUME_AVATAR );
 
 		ItemDatabase.defineSecondaryUse( "usable", ItemDatabase.ATTR_USABLE );
 		ItemDatabase.defineSecondaryUse( "multiple", ItemDatabase.ATTR_MULTIPLE );
@@ -2051,9 +2053,11 @@ public class ItemDatabase
 		case KoLConstants.INFINITE_USES:
 			// Multi-use
 		case KoLConstants.CONSUME_MULTIPLE:
-		case KoLConstants.CONSUME_AVATAR:
 			// Grow is a type of use
 		case KoLConstants.GROW_FAMILIAR:
+			// Any potion
+		case KoLConstants.CONSUME_POTION:
+		case KoLConstants.CONSUME_AVATAR:
 			return true;
 		default:
 			return ( attributes & ( ItemDatabase.ATTR_USABLE | ItemDatabase.ATTR_MULTIPLE | ItemDatabase.ATTR_REUSABLE ) ) != 0;
@@ -2067,20 +2071,8 @@ public class ItemDatabase
 			return false;
 		}
 		int itemId = item.getItemId();
-		// *** Use KoL's designation. For now, if it is usable and grants an effect.
 		int useType = ItemDatabase.useTypeById.get( itemId );
-		switch ( useType )
-		{
-		case KoLConstants.CONSUME_USE:
-		case KoLConstants.CONSUME_MULTIPLE:
-		case KoLConstants.CONSUME_AVATAR:
-			break;
-		default:
-			return false;
-		}
-		String itemName = item.getName();
-		String effectName = Modifiers.getStringModifier( "Item", itemName, "Effect" );
-		return ( effectName != null && !effectName.equals( "" ) );
+		return ( useType == KoLConstants.CONSUME_POTION || useType == KoLConstants.CONSUME_AVATAR );
 	}
 
 	public static final boolean isEquipment( final int itemId )
@@ -2166,6 +2158,7 @@ public class ItemDatabase
 		{
 		case KoLConstants.CONSUME_MULTIPLE:
 			return true;
+		case KoLConstants.CONSUME_POTION:
 		case KoLConstants.CONSUME_AVATAR:
 		case KoLConstants.CONSUME_SPLEEN:
 			return ( attributes & ItemDatabase.ATTR_USABLE ) == 0;

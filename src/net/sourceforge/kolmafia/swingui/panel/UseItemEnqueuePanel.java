@@ -889,10 +889,7 @@ public class UseItemEnqueuePanel
 				}
 				else
 				{
-					if ( !ItemDatabase.isPotion( item ) )
-					{
-						return false;
-					}
+					return false;
 				}
 				return super.isVisible( element );
 
@@ -910,10 +907,15 @@ public class UseItemEnqueuePanel
 				}
 				else
 				{
-					if ( !ItemDatabase.isPotion( item ) )
-					{
-						return false;
-					}
+					return false;
+				}
+ 				return super.isVisible( element );
+
+			case KoLConstants.CONSUME_POTION:
+			case KoLConstants.CONSUME_AVATAR:
+				if ( UseItemEnqueuePanel.this.food || UseItemEnqueuePanel.this.booze || UseItemEnqueuePanel.this.spleen )
+				{
+					return false;
 				}
  				return super.isVisible( element );
 
