@@ -98,6 +98,7 @@ import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 
+import net.sourceforge.kolmafia.session.BeachManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
@@ -754,6 +755,12 @@ public class TestCommand
 			BarrelDecorator.decorate( buffer );
 			TestCommand.dump( buffer.toString() );
 			return;
+		}
+
+		if ( command.equals( "beach" ) )
+		{
+			BeachManager.parseBeachMap( TestCommand.contents );
+			TestCommand.contents = null;
 		}
 
 		if ( command.equals( "charpane" ) )

@@ -1354,6 +1354,8 @@ user	_ballpit	false
 user	_banderRunaways	0
 user	_barrelPrayer	false
 user	_bastilleGames	0
+user	_beachLayout
+user	_beachMinutes
 user	_beanCannonUses	0
 user	_bearHugs	0
 user	_beerLensDrops	0
