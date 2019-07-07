@@ -10479,15 +10479,28 @@ public abstract class ChoiceManager
 				Matcher matcher = pattern.matcher( text );
 				if ( matcher.find() )
 				{
-					Preferences.setString( "_horsery", matcher.group( 2 ) );
-					String message = "Chose the " + matcher.group( 2 );
+					String horse = matcher.group( 2 );
+					Preferences.setString( "_horsery", horse );
+					String message = "Chose the " + horse;
 					RequestLogger.printLine( message );
 					RequestLogger.updateSessionLog( message );
+					String setting =
+						horse.equals( "crazy horse" ) ? "_horseryCrazyName" :
+						horse.equals( "dark horse" ) ? "_horseryDarkName" :
+						horse.equals( "normal horse" ) ? "_horseryNormalName" :
+						horse.equals( "pale horse" ) ? "_horseryPaleName" :
+						null;
+					if ( setting != null )
+					{
+						String name = Preferences.getString( setting );
+						Preferences.setString( "_horseryCurrentName", name );
+					}
 				}
 			}
 			else if ( ChoiceManager.lastDecision == 5 )
 			{
 				Preferences.setString( "_horsery", "" );
+				Preferences.setString( "_horseryCurrentName", "" );
 				String message = "Returned your horse";
 				RequestLogger.printLine( message );
 				RequestLogger.updateSessionLog( message );
@@ -14570,14 +14583,41 @@ public abstract class ChoiceManager
 		{
 			// The Hostler
 			Preferences.setBoolean( "horseryAvailable", true );
-			Pattern pattern = Pattern.compile( "Gives you\\s+([+-]\\d+)% Muscle, ([+-]\\d+)% Mysticality, and ([+-]\\d+)%" );
+
+			
+			// <td valign=top class=small><b>Drab Teddy</b> the Normal Horse<P>
+			// <td valign=top class=small><b>Surreptitious Mantilla</b> the Dark Horse<P>
+			// <td valign=top class=small><b>Wacky Biggles</b> the Crazy Horse<P>
+			// <td valign=top class=small><b>Frightful Twiggy</b> the Pale Horse<P>
+
+			// Save the horse names so we can recognize them in combat
+			Pattern pattern = Pattern.compile( "<td valign=top class=small><b>([^<]+)</b> the ([^ ]+) Horse<P>" );
 			Matcher matcher = pattern.matcher( text );
+			while ( matcher.find() )
+			{
+				String name = matcher.group( 1 );
+				String type = matcher.group( 2 );
+				String setting =
+					type.equals( "Crazy" ) ? "_horseryCrazyName" :
+					type.equals( "Dark" ) ? "_horseryDarkName" :
+					type.equals( "Normal" ) ? "_horseryNormalName" :
+					type.equals( "Pale" ) ? "_horseryPaleName" :
+					null;
+				if ( setting != null )
+				{
+					Preferences.setString( setting, name );
+				}
+			}
+
+			pattern = Pattern.compile( "Gives you\\s+([+-]\\d+)% Muscle, ([+-]\\d+)% Mysticality, and ([+-]\\d+)%" );
+			matcher = pattern.matcher( text );
 			if ( matcher.find() )
 			{
 				Preferences.setString( "_horseryCrazyMus", matcher.group( 1 ) );
 				Preferences.setString( "_horseryCrazyMys", matcher.group( 2 ) );
 				Preferences.setString( "_horseryCrazyMox", matcher.group( 3 ) );
 			}
+
 			if ( !text.contains( "name=option value=1" ) )
 			{
 				Preferences.setString( "_horsery", "normal horse" );

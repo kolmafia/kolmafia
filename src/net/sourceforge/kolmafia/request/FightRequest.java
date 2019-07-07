@@ -5634,6 +5634,8 @@ public class FightRequest
 		public boolean eldritchHorror;
 		public String limitmode;
 		public String VYKEACompanion;
+		public String horse;
+		public boolean meteors;
 		public String location;
 
 		public TagStatus()
@@ -5661,6 +5663,9 @@ public class FightRequest
 			String VYKEAName = Preferences.getString( "_VYKEACompanionName" );
 			this.VYKEACompanion = ( VYKEAName == null || VYKEAName.equals( "" ) ) ? null : VYKEAName;
 
+			String horseName = Preferences.getString( "_horseryCurrentName" );
+			this.horse = ( horseName == null || horseName.equals( "" ) ) ? null : horseName;
+
 			this.logFamiliar = Preferences.getBoolean( "logFamiliarActions" );
 			this.logMonsterHealth = Preferences.getBoolean( "logMonsterHealth" );
 			this.action = new StringBuffer();
@@ -5686,6 +5691,9 @@ public class FightRequest
 
 			// Note if we are fighting Outside the Club
 			this.ravers = ( KoLAdventure.lastAdventureId() == AdventurePool.OUTSIDE_THE_CLUB );
+
+			// If we have the Meteor Lore skill
+			this.meteors = KoLCharacter.hasSkill( "Meteor Lore" );
 
 			this.ghost = null;
 
@@ -6517,6 +6525,11 @@ public class FightRequest
 
 			FightRequest.handleVillainLairRadio( node, status );
 
+			if ( status.meteors && str.contains( "meteor" ) )
+			{
+				FightRequest.logText( str, status );
+			}
+
 			boolean VYKEAaction = status.VYKEACompanion != null && str.contains( status.VYKEACompanion );
 			if ( VYKEAaction && status.logFamiliar )
 			{
@@ -6528,6 +6541,13 @@ public class FightRequest
 			if ( ghostAction && status.logFamiliar )
 			{
 				// Pastamancer ghost action
+				FightRequest.logText( str, status );
+			}
+
+			boolean horseAction = status.horse != null && str.contains( status.horse );
+			if ( horseAction && status.logFamiliar )
+			{
+				// Horsery horse action
 				FightRequest.logText( str, status );
 			}
 
