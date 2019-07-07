@@ -1511,9 +1511,14 @@ user	_holoWristCrystal	false
 user	_holoWristDrops	0
 user	_holoWristProgress	0
 user	_horsery
+user	_horseryCurrentName
 user	_horseryCrazyMus
 user	_horseryCrazyMys
 user	_horseryCrazyMox
+user	_horseryCrazyName
+user	_horseryDarkName
+user	_horseryNormalName
+user	_horseryPaleName
 user	_hotAirportToday	false
 user	_hotAshesDrops	0
 user	_hotJellyUses	0

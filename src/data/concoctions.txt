@@ -3069,3 +3069,4 @@ large pile of sand	MUSE	grain of sand (10000)
 empty hourglass	COMBINE	large pile of sand	fire
 hourglass	COMBINE	small pile of sand	empty hourglass
 etched hourglass	COMBINE	pile of sand	hourglass
+fire	MUSE	stick (2)
