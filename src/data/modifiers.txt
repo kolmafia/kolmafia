@@ -157,6 +157,7 @@ Item	Crown of Thrones	Softcore Only
 Item	crown-shaped beanie	Slime Resistance: +1, Food Drop: +20, Initiative: +20, Familiar Effect: "1xBarrr, 1xGhuol"
 Item	crumpled felt fedora	Familiar Weight: +10, Muscle Percent: +5, Familiar Effect: "0.75xVolley, 0.75xLep"
 Item	cursed eyepatch	Mysticality: +15, Familiar Effect: "spooky atk, 1xBarrr"
+Item	cursed tricorn hat	Mysticality: +25, Experience: +10, PvP Fights: +5
 Item	demon-horned hat	Moxie: +4, Familiar Effect: "hot atk, 1xLep, cap 17"
 Item	depleted Grimacite ninja mask	Moxie Percent: [5*G], PvP Fights: [G], Familiar Effect: "1xBarrr, 1xFairy, cap 25"
 Item	dice-print do-rag	Random Monster Modifiers: +1
@@ -1198,6 +1199,7 @@ Item	crystalline reamer	Spell Damage: +10
 Item	curdflinger	Moxie: +3, Weakens Monster
 Item	curmudgel	Monster Level: +8, Weapon Damage: +10
 Item	cursed cutlass	Muscle: +15
+Item	cursed pirate cutlass	Muscle: +25, Familiar Weight: +10, Adventures: +5, Single Equip
 Item	cyber-mattock	Item Drop: +5, Meat Drop: +10
 Item	deadfall branch	Mysticality Percent: +10, Weapon Damage Percent: +10, Adventures: +1, PvP Fights: +1
 Item	deathchucks	Weapon Damage Percent: +75, Monster Level: +15
@@ -2669,6 +2671,7 @@ Item	crystal belt buckle	Maximum MP: +25, Spell Damage: +10
 Item	crystalline seal eye	Single Equip
 Item	cursed ring finger ring	Spell Damage Percent: +50, Spooky Spell Damage: +30, Spell Critical Percent: +10, Single Equip
 Item	cursed scrunchie	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Single Equip
+Item	cursed swash buckle	Moxie: +25, Meat Drop: +50, Item Drop: +25, Single Equip
 Item	cyborg stompin' boot	Damage Reduction: 8, Weapon Damage: +20, Initiative: +30, Single Equip
 # dark baconstone ring: Spell Criticals Deal Extra Damage
 Item	dark baconstone ring	Mysticality: +15
@@ -7540,6 +7543,7 @@ Outfit	Crappy Mer-kin Disguise	Muscle: +30, Mysticality: +30, Moxie: +30
 Outfit	Crimbo Duds	Item Drop: +5
 Outfit	Crimborg Assault Armor	Ranged Damage: +20
 Outfit	Crimbot Crimboutfit	Crimbot Outfit Power: +3
+Outfit	Cursed Skeleton Pirate Costume	Critical Hit Percent: +10, Spell Critical Percent: +10
 Outfit	Cursed Zombie Pirate Costume	Spooky Damage: +30
 Outfit	Dark Bro's Vestments	Spooky Spell Damage: +40
 Outfit	Dinsey's Exoskeleton	Muscle: +100, Mysticality: +100, Moxie: +100

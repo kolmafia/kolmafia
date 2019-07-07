@@ -78,6 +78,7 @@ Crown of Thrones	100	none
 crown-shaped beanie	200	Mox: 200
 crumpled felt fedora	200	Mox: 200
 cursed eyepatch	200	Mus: 85
+cursed tricorn hat	200	Mox: 50
 demon-horned hat	70	Mox: 20
 depleted Grimacite ninja mask	100	Mox: 35
 dice-print do-rag	10	none
@@ -1008,6 +1009,7 @@ crystalline reamer	75	Mys: 22	1-handed utensil
 curdflinger	45	Mox: 7	1-handed crossbow
 curmudgel	125	Mus: 47	1-handed club
 cursed cutlass	200	Mus: 85	1-handed sword
+cursed pirate cutlass	200	Mus: 50	1-handed sword
 cyber-mattock	160	Mus: 65	2-handed axe
 deadfall branch	50	Mus: 15	1-handed club
 deathchucks	50	Mus: 10	2-handed flail
@@ -2269,6 +2271,7 @@ crystal belt buckle	100	Mys: 35
 crystalline seal eye	0	none
 cursed ring finger ring	250	Mys: 200
 cursed scrunchie	200	Mys: 200
+cursed swash buckle	200	Mys: 50
 cyborg stompin' boot	150	Mus: 60
 dark baconstone ring	125	Mys: 47
 dark hamethyst ring	125	Mus: 47

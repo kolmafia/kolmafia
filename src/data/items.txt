@@ -10287,10 +10287,10 @@
 10259	grain of sand	162212708	sandgrain.gif	multiple, combat	t,d	1	grains of sand
 10260	small pile of sand	489624773	sandpile1.gif	usable, combat	t,d	50
 10261	pile of sand	522432828	sandpile2.gif	usable, combat	t,d	250
-10262
-10263
-10264
-10265
+10262	large pile of sand	427463999	sandpile3.gif	none	t,d	1000
+10263	empty hourglass	610982132	beachhourglass1.gif	none	t,d	500
+10264	hourglass	598421661	beachhourglass2.gif	usable	t,d	600
+10265	etched hourglass	693028996	beachhourglass3.gif	usable	d	1000
 10266	magenta seashell	377121810	seashell1.gif	potion, multiple	t,d	5
 10267	cyan seashell	870503412	seashell2.gif	potion, usable	t,d	5
 10268	gray seashell	959980778	seashell3.gif	potion, usable	t,d	5
@@ -10307,9 +10307,9 @@
 10279	lucky rabbitfish fin	383657459	rabbitfin.gif	accessory	t,d	250
 10280	piece of coral	769931998	petcoral.gif	grow	t,d	200
 10281	piece of driftwood	571744538	woodbeachcomb.gif	usable	t	0
-10282
-10283
-10284
+10282	cursed pirate cutlass	150533329	piratecutlass.gif	weapon	t	0
+10283	cursed tricorn hat	149252891	piratetricorn.gif	hat	t	0
+10284	cursed swash buckle	583006027	piratebuckle.gif	accessory	t	0
 10285
 10286
 10287
