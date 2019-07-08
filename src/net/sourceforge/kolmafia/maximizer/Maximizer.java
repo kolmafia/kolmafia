@@ -596,22 +596,7 @@ public class Maximizer
 			name = effect.getName();
 			boolean hasEffect = KoLConstants.activeEffects.contains( effect );
 			Iterator<String> sources;
-			String cmd, text;
-			int advCost = 0;
-			int mpCost = 0;
-			int fullCost = 0;
-			int drunkCost = 0;
-			int spleenCost = 0;
-			int soulsauceCost = 0;
-			int thunderCost = 0;
-			int rainCost = 0;
-			int lightningCost = 0;
-			int fuelCost = 0;
-			int hpCost = 0;
-			int duration = 0;
-			int usesRemaining = 0;
-			int itemsRemaining = 0;
-			int itemsCreatable = 0;
+
 			if ( !hasEffect )
 			{
 				spec.addEffect( effect );
@@ -639,7 +624,6 @@ public class Maximizer
 					continue;
 				}
 				sources = EffectDatabase.getAllActions( effectId );
-				cmd = MoodManager.getDefaultAction( "lose_effect", name );
 				if ( !sources.hasNext() )
 				{
 					if ( includeAll )
@@ -665,7 +649,7 @@ public class Maximizer
 				case -1:
 					isSpecial = true;
 				}
-				cmd = MoodManager.getDefaultAction( "gain_effect", name );
+				String cmd = MoodManager.getDefaultAction( "gain_effect", name );
 				if ( cmd.length() == 0 )
 				{
 					if ( includeAll )
@@ -685,6 +669,25 @@ public class Maximizer
 				{
 					return;
 				}
+
+				String cmd, text;
+
+				int advCost = 0;
+				int mpCost = 0;
+				int fullCost = 0;
+				int drunkCost = 0;
+				int spleenCost = 0;
+				int soulsauceCost = 0;
+				int thunderCost = 0;
+				int rainCost = 0;
+				int lightningCost = 0;
+				int fuelCost = 0;
+				int hpCost = 0;
+				int duration = 0;
+				int usesRemaining = 0;
+				int itemsRemaining = 0;
+				int itemsCreatable = 0;
+
 				cmd = text = sources.next();
 				AdventureResult item = null;
 
