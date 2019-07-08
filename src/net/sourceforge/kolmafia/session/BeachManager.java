@@ -85,9 +85,10 @@ public class BeachManager
 	//
 	// rough sand
 	// combed sand
-	// beach head
+	// a beach head
+	// a sand castle
 	//
-	// There are others. whale.png is ... what? a "beached whale"?
+	// There are others. whale.png is ... what? "a beached whale"?
 
 	// Settings to hold current map:
 	//
@@ -140,6 +141,7 @@ public class BeachManager
 				type.equals( "rough sand" ) ? 'R' :
 				type.equals( "combed sand" ) ? 'C' :
 				type.equals( "a beach head" ) ? 'H' :
+				type.equals( "a sand castle" ) ? 'S' :
 				image.equals( "whale" ) ?  'W':
 				'?';
 
