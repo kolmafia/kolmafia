@@ -14833,6 +14833,10 @@ public abstract class ChoiceManager
 			break;
 		}
 
+		case 1388:
+			BeachManager.parseBeachMap( text );
+			break;
+
 		}
 	}
 
