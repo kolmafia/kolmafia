@@ -169,15 +169,4 @@ public class BeachManager
 		Preferences.setInteger( "_beachMinutes", minutes );
 		Preferences.setString( "_beachLayout", layout.toString() );
 	}
-
-	public static final String beachLayout()
-	{
-		String layout = Preferences.getString( "beachLayout" );
-		if ( layout.length() != 25 )
-		{
-			layout = "0000000000000000000000000";
-			// Preferences.setString( "beachLayout", layout );
-		}
-		return layout;
-	}
 }
