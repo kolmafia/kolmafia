@@ -756,7 +756,7 @@ public class TCRSDatabase
 				buffer.append( "|" );
 			}
 			buffer.append( verb );
-			buffer.append( " 1 " );
+			buffer.append( "1 " );
 			buffer.append( itemName );
 		}
 		EffectDatabase.setActions( effectId, buffer.toString() );

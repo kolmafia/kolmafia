@@ -138,12 +138,17 @@ public class BeachManager
 			}
 
 			char ch =
-				type.equals( "rough sand" ) ? 'R' :
-				type.equals( "combed sand" ) ? 'C' :
+				type.equals( "rough sand" ) ? 'r' :
+				type.equals( "combed sand" ) ? 'c' :
 				type.equals( "a beach head" ) ? 'H' :
-				type.equals( "a sand castle" ) ? 'S' :
+				type.equals( "a sand castle" ) ? 'C' :
 				image.equals( "whale" ) ?  'W':
 				'?';
+
+			if ( ch == '?' )
+			{
+				logText( "Unknown beach square at " + minutes + ":" + row + "," + col + ": text = '" + text + "' image = '" + image + "'." );
+			}
 
 			layout.append( ch );
 		}
@@ -170,5 +175,11 @@ public class BeachManager
 
 		Preferences.setInteger( "_beachMinutes", minutes );
 		Preferences.setString( "_beachLayout", layout.toString() );
+	}
+
+	private static final void logText( final String text )
+	{
+		RequestLogger.printLine( text );
+		RequestLogger.updateSessionLog( text );
 	}
 }
