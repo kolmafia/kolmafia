@@ -6525,7 +6525,7 @@ public class FightRequest
 
 			FightRequest.handleVillainLairRadio( node, status );
 
-			if ( status.meteors && str.contains( "meteor" ) )
+			if ( status.meteors && ( str.contains( "meteor" ) || str.contains( "falling star" ) ) )
 			{
 				FightRequest.logText( str, status );
 			}
