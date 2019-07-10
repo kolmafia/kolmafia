@@ -3993,6 +3993,10 @@ public class FightRequest
 				Preferences.setInteger( "_nanorhinoCharge", newCharge );
 				break;
 
+			case FamiliarPool.CUBELING:
+				Preferences.increment( "cubelingProgress" );
+				break;
+
 			case FamiliarPool.REANIMATOR:
 				if ( responseText.contains( "injects an arm" )
 					|| responseText.contains( "reanimates an arm" )

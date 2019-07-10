@@ -622,6 +622,13 @@ public class CharPaneDecorator
 			buffer.append( "% charge" );
 			return buffer;
 
+		case FamiliarPool.CUBELING:
+			int cubelingProgress = Preferences.getInteger( "cubelingProgress" );
+			int cubelingDrops = Math.min((int)(Math.max(cubelingProgress - 3, 0) / 3), 3);
+			buffer.append( cubelingDrops );
+			buffer.append( "/3 drops" );
+			return buffer;
+
 		case FamiliarPool.GRIMSTONE_GOLEM:
 			String gDrops = Preferences.getString( "_grimstoneMaskDrops" );
 			buffer.append( gDrops );
