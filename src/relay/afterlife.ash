@@ -63,8 +63,8 @@ void insert_class_sign_dropdowns( buffer html, string class_id, string class_fun
     html.append( "<option value=\"0\"> -- Pick a Class -- </option>" );
     html.append( "<option value=\"1\">Seal Clubber</option>" );
     html.append( "<option value=\"2\">Turtle Tamer</option>" );
-    html.append( "<option value=\"3\">Sauceror</option>" );
-    html.append( "<option value=\"4\">Pastamancer</option>" );
+    html.append( "<option value=\"3\">Pastamancer</option>" );
+    html.append( "<option value=\"4\">Sauceror</option>" );
     html.append( "<option value=\"5\">Disco Bandit</option>" );
     html.append( "<option value=\"6\">Accordion Thief</option>" );
     html.append( "</select>" );
