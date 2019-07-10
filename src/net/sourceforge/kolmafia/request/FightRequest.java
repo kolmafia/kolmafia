@@ -3359,6 +3359,27 @@ public class FightRequest
 				"Your makeshirt garbage shirt falls apart." );
 		}
 
+		// You hear a whirring as your unicorn horn begins to inflate. Yeah!
+		if ( responseText.contains( "your unicorn horn begins to inflate" ) )
+		{
+			Preferences.setInteger( "unicornHornInflation", 5 );
+		}
+		// Your unicorn horn becomes slightly more inflated as a result of your increasing confidence and pride. Yay!
+		else if ( responseText.contains( "Your unicorn horn becomes slightly more inflated" ) )
+		{
+			Preferences.increment( "unicornHornInflation", 5 );
+		}
+		// Your unicorn horn squeaks as it fills to capacity. You feel great!
+		else if ( responseText.contains( "Your unicorn horn squeaks" ) )
+		{
+			Preferences.setInteger( "unicornHornInflation", 100 );
+		}
+		// Your unicorn horn shrivels in shame.
+		else if ( responseText.contains( "Your unicorn horn shrivels" ) )
+		{
+			Preferences.setInteger( "unicornHornInflation", 0 );
+		}
+
 		// The Great Wolf of the Air emits an ear-splitting final
 		// howl. Your necklace shatters like a champagne flute in a
 		// Memorex comercial[sic].
