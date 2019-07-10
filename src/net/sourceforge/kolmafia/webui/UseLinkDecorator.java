@@ -853,8 +853,44 @@ public abstract class UseLinkDecorator
 			}
 			return new UseLink( itemId, 1, "drink with", "inv_use.php?which=1&whichitem=" );
 		
-		case KoLConstants.CONSUME_MULTIPLE:
+		case KoLConstants.CONSUME_POTION:
 		case KoLConstants.CONSUME_AVATAR:
+		{
+			int count = InventoryManager.getCount( itemId );
+			int useCount = Math.min( UseItemRequest.maximumUses( itemId ), count );
+
+			// If we are limited to 0 uses, no use link needed
+			if ( useCount == 0 )
+			{
+				return null;
+			}
+
+			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
+			{
+				return null;
+			}
+
+			if ( KoLCharacter.inGLover()&& ItemDatabase.unusableInGLover( itemId ) )
+			{
+				return null;
+			}
+
+			if ( useCount == 1 || !ItemDatabase.isMultiUsable( itemId ) )
+			{
+				String use = getPotionSpeculation( "use", itemId );
+				return new UseLink( itemId, 1, use, "inv_use.php?which=3&whichitem=" );
+			}
+
+			String use = getPotionSpeculation( "use multiple", itemId );
+			if ( Preferences.getBoolean( "relayUsesInlineLinks" ) )
+			{
+				return new UseLink( itemId, useCount, use, "#" );
+			}
+
+			return new UseLink( itemId, useCount, use, "multiuse.php?passitem=" );
+		}
+
+		case KoLConstants.CONSUME_MULTIPLE:
 		{
 			int count = InventoryManager.getCount( itemId );
 			int useCount = Math.min( UseItemRequest.maximumUses( itemId ), count );
