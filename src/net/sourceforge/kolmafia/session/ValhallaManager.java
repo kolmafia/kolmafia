@@ -622,6 +622,7 @@ public class ValhallaManager
 		Preferences.setInteger( "pyramidPosition", 1 );
 		Preferences.setBoolean( "pyramidBombUsed", false );
 		Preferences.setInteger( "jungCharge", 0 );
+		Preferences.setInteger( "cubelingProgress", 0 );
 		Preferences.setInteger( "grimstoneCharge", 0 );
 		Preferences.setInteger( "miniAdvClass", 0 );
 		Preferences.setInteger( "turtleBlessingTurns", 0 );
