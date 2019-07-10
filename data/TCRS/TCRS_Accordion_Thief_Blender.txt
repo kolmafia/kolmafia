@@ -3138,7 +3138,7 @@
 3166	repaired El Vibrato drone	0		
 3167	augmented El Vibrato drone	0		
 3168	cold-filtered ionized seal eyeball	0		Effect: "Berry Berry Cold", Effect Duration: 25
-3169	decent turtle soup	3	good	Effect: "A Little Bit Evil"
+3169	decent turtle soup	3	good	Effect: "[598]A Little Bit Evil"
 3170	evil noodles	0		
 3171	nauseating reagent	0		
 3172	lime green Samson's evil paper umbrella	0		Experience (Muscle): +5
@@ -3614,7 +3614,7 @@
 3648	magic dragonfish fry	0		
 3649	map to Madness Reef	0		
 3650	stale toast with jam	3	decent	
-3651	bouncing upside-down antlers	0		Familiar Weight: +2
+3651	bouncing upside-down antlers	0		Familiar Weight: +3
 3652	artisanal practically non-alcoholic elven moonshine	1	EPIC	
 3653	small stale knuckle sandwich	2	decent	
 3654	MacGyver's hale psycho sweater	0		Maximum HP: +20, Maximum MP: +100
@@ -6371,7 +6371,7 @@
 6480	healthy Unkillable Skeleton's shield of the sewer	0		Maximum HP Percent: +20, Stench Damage: +25, Damage Reduction: 23
 6481	Sinatra's stylish Unkillable Skeleton's restless leg	0		Moxie: +25, Experience (Moxie): +5
 6482	electrified experienced Staff of the Roaring Hearth of the wise owl	0		Mysticality: +20, Experience: +2, MP Regen Min: 3, MP Regen Max: 5
-6483	special Kool-Aid	1	good	Effect: "Slicked-Back Do", Effect Duration: 10
+6483	special Kool-Aid	1	good	Effect: "[1342]Slicked-Back Do", Effect Duration: 10
 6484	dread tarragon	0		
 6485	bone flour	0		
 6486	spinning dreadful roast	0		
@@ -9896,7 +9896,7 @@
 10049	Boxing Day care package	0		Free Pull
 10050	miniature normal glass of raw eggs	2	good	
 10051	watered-down perfectly mixed squat punch-drunk punch	2	EPIC	
-10052	distilled narrow shaking olive body spradium	1	good	Effect: "Dancin' Fool", Effect Duration: 40
+10052	distilled narrow shaking olive body spradium	1	good	Effect: "[1609]Dancin' Fool", Effect Duration: 40
 10053	mirror Jeselnik's bauxite beret	0		Sleaze Damage: +25
 10054	brainy bauxite boxers	0		Mysticality: +5
 10055	blurry cyan experienced bauxite bow-tie	0		Experience: +2, Single Equip
@@ -9998,6 +9998,7 @@
 10203	hand-crafted spinning bottle of super-extra-dark rhum	3	EPIC	
 10204	pressed ionized twirling pirate shaving cream	0		Effect: "Also Schmeckt Zarathustra", Effect Duration: 34
 10205	supercharged energetic conquistador's breastplate	0		Maximum MP Percent: 50
+10207	[glitch season reward name]	0		
 10208	signal fragment	0		
 10209	windicle	0		
 10210	fuchsia tumbling jittery Usain Bolt's pirate radio ring of the pedagogue	0		Experience: +3, Initiative: +80, Single Equip
@@ -10042,3 +10043,33 @@
 10254	blurry blue up-at-dawn nasty supercharged energetic supercool Rosewater's cool hewn moon-rune spoon of the brute of the empath of the blizzard of the cheetah	0		Moxie: +5, Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +20, Maximum MP Percent: 50, Familiar Weight: +5, Cold Spell Damage: +25, Stench Damage: +5, Initiative: +60, Adventures: +5, Single Equip
 10255	spinning cartoon harpoon	0		
 10256	rune-strewn spoon cocoon	0		Free Pull
+10257	Beach Comb Box	0		Free Pull
+10258	frosty hale Beach Comb of the cougar	0		Moxie: +20, Maximum HP: +20, Cold Spell Damage: +10, Single Equip
+10259	grain of sand	0		
+10260	small pile of sand	0		
+10261	huge pile of sand	0		
+10262	pile of sand	0		
+10263	spinning empty hourglass	0		
+10264	hourglass	0		
+10265	etched hourglass	0		
+10266	quadruple-dry teal magenta seashell	0		Effect: "The Grass...  Is Blue...", Effect Duration: 19
+10267	activated colloidal moist cyan seashell	0		Effect: "Mmmmmelon", Effect Duration: 21
+10268	unsweetened triple-diffused olive gray seashell	0		Effect: "Spooky Flavor", Effect Duration: 67
+10269	liquefied bouncing seashell	0		Effect: "Spore-Wreathed", Effect Duration: 22
+10270	polarized chilled seashell	0		Effect: "Thicker, Sicker", Effect Duration: 26
+10271	bunch of sea grapes	0		
+10272	perfectly mixed blue bouncing bottle of sea wine	3	EPIC	
+10273	modified bouncing blurry kelp	1	crappy	Effect: "Updated", Effect Duration: 5
+10274	aromatic asbestos-lined hardy grievous Samson's cool driftwood hat of the storm of Gandalf of mayonnaise	0		Moxie: +5, Experience (Muscle): +5, Weapon Damage Percent: +50, Maximum HP: +50, Maximum MP Percent: +40, Spell Critical Percent: +20, Sleaze Spell Damage: +50, Hot Resistance: +5, Stench Resistance: +1, Lasts Until Rollover
+10275	mirror asbestos-lined lard-coated chilly Rosewater's driftwood pants of the ox of the cougar of the brute of terror of the boozehound	0		Muscle: +20, Moxie: +20, Muscle Percent: +30, Mysticality Percent: +30, Cold Damage: +5, Spooky Spell Damage: +10, Sleaze Spell Damage: +25, Hot Resistance: +5, Booze Drop: +100, Lasts Until Rollover
+10276	jittery aromatic gravedigger's MacGyver's medical-grade Fonzie's driftwood bracelet of the ox of the brazier of the businessman of the cheetah	0		Muscle: +20, Experience (Moxie): +1, Maximum MP: +100, Hot Spell Damage: +25, Spooky Damage: +10, Stench Resistance: +1, Meat Drop: +50, Initiative: +60, HP Regen Min: 7, HP Regen Max: 10, Single Equip, Lasts Until Rollover
+10277	shaking vibrating Sinatra's waders of the ox	0		Muscle: +20, Experience (Moxie): +5, Maximum MP Percent: +10
+10278	Jim Carey's Sinatra's spearfish fishing spear of courage	0		Experience (Moxie): +5, Monster Level: +25, Spooky Resistance: +3
+10279	wobbly up-at-dawn zippy Tesla rabbitfish fin	0		Initiative: +20, Adventures: +5, MP Regen Min: 7, MP Regen Max: 10, Single Equip
+10280	piece of coral	0		
+10281	piece of driftwood	0		
+10282	lime green energetic wizardly pirate cutlass of the brute	0		Mysticality: +25, Muscle Percent: +30, Maximum MP Percent: +20, Single Equip
+10283	sharpshooter's rosy-cheeked tricorn hat of the overflowing toilet	0		Maximum HP Percent: +30, Critical Hit Percent: +10, Stench Spell Damage: +50
+10284	dog trainer's Tesla banded swash buckle	0		Damage Absorption: +100, Experience (familiar): +1, MP Regen Min: 7, MP Regen Max: 10, Single Equip
+10289	pickled frozen teal Finnish Fish	0		Effect: "Cold, Dead Hands", Effect Duration: 66
+10290	extra-electrified quadruple-boiled jittery chocolate doubloon	0		Effect: "The Moxious Madrigal", Effect Duration: 14
