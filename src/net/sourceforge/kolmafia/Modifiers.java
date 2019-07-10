@@ -3506,14 +3506,29 @@ public class Modifiers
 		return null;
 	}
 
-	private static final Pattern EFFECT_PATTERN = Pattern.compile( "Effect: <b><a[^>]*>([^<]*)</a></b>" );
+	private static final Pattern EFFECT_PATTERN = Pattern.compile( "Effect: <b><a([^>]*)>([^<]*)</a></b>" );
 
 	public static final String parseEffect( final String text )
 	{
 		Matcher matcher = Modifiers.EFFECT_PATTERN.matcher( text );
 		if ( matcher.find() )
 		{
-			return Modifiers.modifierTag( Modifiers.stringModifiers, Modifiers.EFFECT ) + ": \"" + matcher.group( 1 ) + "\"";
+			// matcher.group( 1 ) contains the the link to the description
+			// matcher.group( 2 ) contains the name.
+			// Look up the effect by descid. If it is unknown, we'll just use the name.
+			// Otherwise, we may need to disambiguate the name by effectId.
+			String name = matcher.group( 2 );
+			int[] effectIds = EffectDatabase.getEffectIds( name, false );
+			if ( effectIds.length > 1 )
+			{
+				String descid = DebugDatabase.parseEffectDescid( matcher.group( 1 ) );
+				int effectId = EffectDatabase.getEffectIdFromDescription( descid );
+				if ( effectId != -1 )
+				{
+					name = "[" + String.valueOf( effectId ) + "]" + name;
+				}
+			}
+			return Modifiers.modifierTag( Modifiers.stringModifiers, Modifiers.EFFECT ) + ": \"" + name + "\"";
 		}
 
 		return null;

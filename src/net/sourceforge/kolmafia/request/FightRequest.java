@@ -6456,10 +6456,7 @@ public class FightRequest
 				return;
 			}
 
-			if ( FightRequest.handleKisses( node, status ) )
-			{
-				return;
-			}
+			FightRequest.handleKisses( node, status );
 
 			if ( FightRequest.handleCrimboPresent( node, status ) )
 			{
