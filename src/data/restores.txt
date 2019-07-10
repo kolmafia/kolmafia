@@ -91,6 +91,7 @@ Lasagna Bandages	skill	10	30	0	0	0
 Laugh It Off	skill	1	2	0	0	0
 linen bandages	item	20	40	0	0	0
 magical mystery juice	item	0	0	[floor(L*1.5)+4]	[floor(L*1.5)+6]	0
+magical sausage	item	0	0	999	999	0	[23-pref(_sausagesEaten)]
 magnolia blossom	item	15	30	15	30	0
 Marquis de Poivre soda	item	0	0	30	40	0
 Medicinal Herb's medicinal herbs	item	[HP]	[HP]	0	0	0
