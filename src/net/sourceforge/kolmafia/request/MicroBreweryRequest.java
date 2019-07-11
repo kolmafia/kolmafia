@@ -48,6 +48,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MicroBreweryRequest
@@ -131,6 +133,12 @@ public class MicroBreweryRequest
 		MicroBreweryRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
+	@Override
+	protected void parseResponse()
+	{
+		MicroBreweryRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
 	public static void parseResponse( final String urlString, final String responseText )
 	{
 		// cafe.php?cafeid=2&pwd&action=CONSUME%21&whichitem=806
@@ -158,6 +166,15 @@ public class MicroBreweryRequest
 
 			}
 			return;
+		}
+
+		// We attempted to drink something. It might have failed - and
+		// if it was attempted via a CafeRequest, this will have been
+		// detected there - but if it succeeded, via internal or
+		// external request, update things here.
+		if ( responseText.contains ( "You pour your drink into your mime army shotglass" ) )
+		{
+			Preferences.setBoolean( "_mimeArmyShotglassUsed", true );
 		}
 	}
 	
