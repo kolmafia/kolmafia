@@ -2704,13 +2704,8 @@ public class Modifiers
 
 	public final static ModifierList evaluateModifiers( final String lookup, final String modifiers )
 	{
-		return evaluateModifiers( lookup, modifiers, false );
-	}
-
-	public final static ModifierList evaluateModifiers( final String lookup, final String modifiers, boolean forceEval )
-	{
 		// Nothing to do if no expressions
-		if ( !modifiers.contains( "[" ) && !forceEval )
+		if ( !modifiers.contains( "[" ) )
 		{
 			return Modifiers.splitModifiers( modifiers );
 		}
