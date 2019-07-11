@@ -2122,17 +2122,17 @@ public class Modifiers
 			return false;
 		}
 		if (index < DOUBLE_MODIFIERS) {
-		  return this.set( index, Double.parseDouble(mod.getValue()) );
+			return this.set( index, Double.parseDouble(mod.getValue()) );
 		}
 
 		index -= DOUBLE_MODIFIERS;
 		if (index < BITMAP_MODIFIERS) {
-		  return this.set( index, Integer.parseInt(mod.getValue()) );
+			return this.set( index, Integer.parseInt(mod.getValue()) );
 		}
 
 		index -= BITMAP_MODIFIERS;
 		if (index < BOOLEAN_MODIFIERS) {
-		  return this.set( index, mod.getValue().equals("true"));
+			return this.set( index, mod.getValue().equals("true"));
 		}
 
 		index -= BOOLEAN_MODIFIERS;
@@ -4030,7 +4030,6 @@ public class Modifiers
 	{
 		Modifiers.modifiersByName.clear();
 		Modifiers.familiarEffectByName.clear();
-		Modifiers.modifierIndicesByName.clear();
 		Modifiers.passiveSkills.clear();
 		Modifiers.synergies.clear();
 		Modifiers.mutexes.clear();
