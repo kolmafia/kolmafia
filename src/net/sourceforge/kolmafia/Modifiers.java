@@ -4034,6 +4034,7 @@ public class Modifiers
 		Modifiers.synergies.clear();
 		Modifiers.mutexes.clear();
 		Modifiers.uniques.clear();
+		Arrays.fill( Modifiers.bitmapMasks, 1 );
 
 		BufferedReader reader = FileUtilities.getVersionedReader( "modifiers.txt", KoLConstants.MODIFIERS_VERSION );
 		String[] data;
