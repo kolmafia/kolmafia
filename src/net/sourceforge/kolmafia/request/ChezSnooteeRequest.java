@@ -132,6 +132,7 @@ public class ChezSnooteeRequest
 		ChezSnooteeRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
+	@Override
 	protected void parseResponse()
 	{
 		ChezSnooteeRequest.parseResponse( this.getURLString(), this.responseText );

@@ -52,8 +52,6 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
-import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
@@ -208,17 +206,9 @@ public class CafeRequest
 			return;
 		}
 
-		if ( this.responseText.contains ( "You pour your drink into your mime army shotglass" ) )
-		{
-			Preferences.setBoolean( "_mimeArmyShotglassUsed", true );
-		}
-
 		// Successful purchase/consumption. Let subclass deal with with it
 
 		this.parseResponse();
-
-		// Handle food helpers and adjust fullness, if necessary
-		EatItemRequest.handleFoodHelper( this.itemName, 1, this.responseText );
 
 		KoLmafia.updateDisplay( "Goodie purchased." );
 	}
