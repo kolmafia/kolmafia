@@ -6070,7 +6070,7 @@ public abstract class KoLCharacter
 		}
 
 		// Mummery
-		newModifiers.add( new Modifiers( "Mummery", Modifiers.evaluateModifiers( "Mummery", Preferences.getString( "_mummeryMods" ) ) ) );
+		newModifiers.add( Modifiers.parseModifiers( "Mummery", Modifiers.evaluateModifiers( "Mummery", Preferences.getString( "_mummeryMods" ), true ).toString() ) );
 
 		// Add modifiers from inventory
 		if ( InventoryManager.hasItem( ItemPool.FISHING_POLE ) )
@@ -6092,7 +6092,7 @@ public abstract class KoLCharacter
 		newModifiers.add( Modifiers.getModifiers( "Horsery", horsery ) );
 
 		// Voting Booth
-		newModifiers.add( new Modifiers( "Local Vote:Local Vote", Modifiers.evaluateModifiers( "Local Vote:Local Vote", Preferences.getString( "_voteModifier" ) ) ) );
+		newModifiers.add( Modifiers.parseModifiers( "Local Vote:Local Vote", Modifiers.evaluateModifiers( "Local Vote:Local Vote", Preferences.getString( "_voteModifier" ), true ).toString() ) );
 
 		// Miscellaneous
 
