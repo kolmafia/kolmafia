@@ -6986,6 +6986,13 @@ public class FightRequest
 			str = StringUtilities.singleStringReplace( str, "gets", "gain" );
 			str = StringUtilities.singleStringReplace( str, "Meets", "Meat" );
 
+			// Adjust for the 1000 Meat cap for free fights:
+			//   There's a lot of Meat here, but you're in too big of a hurry to grab more than 1,000 of it.
+			if ( str.contains( "too big of a hurry to grab more than 1,000" ) )
+			{
+				str = "You gain 1,000 Meat";
+			}
+
 			// Adjust for The Sea
 			str = StringUtilities.singleStringReplace( str, "manage to grab", "gain" );
 
