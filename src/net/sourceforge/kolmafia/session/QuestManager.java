@@ -2319,18 +2319,6 @@ public class QuestManager
 				}
 			}
 		}
-		else if ( monsterName.equals( "angry ghost" ) ||
-			      monsterName.equals( "annoyed snake" ) ||
-			      monsterName.equals( "government bureaucrat" ) ||
-			      monsterName.equals( "terrible mutant" ) ||
-		          monsterName.equals( "slime blob" ) )
-		{
-			Preferences.increment( "_voteFreeFights", 1, 3, false );
-			Preferences.setInteger( "lastVoteMonsterTurn", KoLCharacter.getTurnsPlayed() );
-			Preferences.setString( "_voteMonster", monsterName );
-			TurnCounter.stopCounting( "Vote Monster" );
-			VoteMonsterManager.checkCounter();
-		}
 		else if ( monsterName.equals( "Steve Belmont" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.BAT, "step4" );
@@ -2778,6 +2766,18 @@ public class QuestManager
 		{
 			Preferences.increment( "_sausageFights" );
 			Preferences.setInteger( "_lastSausageMonsterTurn", KoLCharacter.getTurnsPlayed() );
+		}
+		else if ( monsterName.equals( "angry ghost" ) ||
+			      monsterName.equals( "annoyed snake" ) ||
+			      monsterName.equals( "government bureaucrat" ) ||
+			      monsterName.equals( "terrible mutant" ) ||
+		          monsterName.equals( "slime blob" ) )
+		{
+			Preferences.increment( "_voteFreeFights", 1, 3, false );
+			Preferences.setInteger( "lastVoteMonsterTurn", KoLCharacter.getTurnsPlayed() );
+			Preferences.setString( "_voteMonster", monsterName );
+			TurnCounter.stopCounting( "Vote Monster" );
+			VoteMonsterManager.checkCounter();
 		}
 	}
 	
