@@ -838,6 +838,23 @@ public class EquipmentManager
 				case ItemPool.FOURTH_SABER:
 					KoLCharacter.removeAvailableSkill( "Use the Force" );
 					break;
+				case ItemPool.HEWN_MOON_RUNE_SPOON:
+					if ( KoLCharacter.isMuscleClass() )
+					{
+						KoLCharacter.removeAvailableSkill( "Dragoon Platoon" );
+					}
+					else if ( KoLCharacter.isMysticalityClass() )
+					{
+						KoLCharacter.removeAvailableSkill( "Spittoon Monsoon" );
+					}
+					else if ( KoLCharacter.isMoxieClass() )
+					{
+						KoLCharacter.removeAvailableSkill( "Festoon Buffoon" );
+					}
+					break;
+				case ItemPool.BEACH_COMB:
+					KoLCharacter.removeAvailableSkill( "Beach Combo" );
+					break;
 				}
 			}
 		}
@@ -1120,6 +1137,23 @@ public class EquipmentManager
 			break;				
 		case ItemPool.FOURTH_SABER:
 			KoLCharacter.addAvailableSkill( "Use the Force" );
+			break;
+		case ItemPool.HEWN_MOON_RUNE_SPOON:
+			if ( KoLCharacter.isMuscleClass() )
+			{
+				KoLCharacter.addAvailableSkill( "Dragoon Platoon" );
+			}
+			else if ( KoLCharacter.isMysticalityClass() )
+			{
+				KoLCharacter.addAvailableSkill( "Spittoon Monsoon" );
+			}
+			else if ( KoLCharacter.isMoxieClass() )
+			{
+				KoLCharacter.addAvailableSkill( "Festoon Buffoon" );
+			}
+			break;
+		case ItemPool.BEACH_COMB:
+			KoLCharacter.addAvailableSkill( "Beach Combo" );
 			break;
 		}
 
