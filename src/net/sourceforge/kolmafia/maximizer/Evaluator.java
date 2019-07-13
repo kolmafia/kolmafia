@@ -1258,6 +1258,11 @@ public class Evaluator
 					}
 					if ( this.effective )
 					{
+						if ( id == ItemPool.FOURTH_SABER )
+						{
+							// Always uses best stat, so always considered effective
+							slot = auxSlot;
+						}
 						if ( KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle() &&
 							weaponType != WeaponType.RANGED &&
 							( !EquipmentDatabase.isKnife( id ) || !KoLCharacter.hasSkill( "Tricky Knifework" ) ) )
