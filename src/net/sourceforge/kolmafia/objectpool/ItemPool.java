@@ -3105,6 +3105,7 @@ public class ItemPool
 	public static final int FOURTH_SABER = 10251;
 	public static final int RING = 10252;
 	public static final int HEWN_MOON_RUNE_SPOON = 10254;
+	public static final int BEACH_COMB = 10258;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
