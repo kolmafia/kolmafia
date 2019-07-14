@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -812,6 +813,15 @@ public class TCRSDatabase
 		EffectDatabase.reset();
 		ConsumablesDatabase.reset();
 
+		// Check items that vary per person.  Not all of these are in
+		// Standard, but TCRS will be out of standard soon.
+		// (Copied from KoLmafia.refreshSessionData)
+		InventoryManager.checkNoHat();
+		InventoryManager.checkJickSword();
+		InventoryManager.checkPantogram();
+		InventoryManager.checkLatte();
+		InventoryManager.checkSaber();
+
 		deriveApplyItem( ItemPool.RING  );
 
 		ConcoctionDatabase.resetEffects();
@@ -820,6 +830,7 @@ public class TCRSDatabase
 		ConsumablesDatabase.setAffirmationCookieData();
 		ConsumablesDatabase.setVariableConsumables();
 		ConsumablesDatabase.calculateAdventureRanges();
+
 		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
 	}
