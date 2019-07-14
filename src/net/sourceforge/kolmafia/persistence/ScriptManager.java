@@ -51,7 +51,9 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.svn.SVNManager;
+import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ScriptManager
 {
@@ -139,7 +141,8 @@ public class ScriptManager
 
 	public static void updateRepoScripts( boolean force )
 	{
-		if ( force || !Preferences.getBoolean( "_svnRepoFileFetched" ) )
+		File repoFile = KoLConstants.SVN_REPO_FILE;
+		if ( force || !repoFile.exists() || !Preferences.getBoolean( "_svnRepoFileFetched" ) )
 		{
 			repoScripts.clear();
 			FileUtilities.downloadFile( REPO_FILE_LOCATION, KoLConstants.SVN_REPO_FILE, true );
@@ -153,37 +156,16 @@ public class ScriptManager
 	{
 		File repoFile = KoLConstants.SVN_REPO_FILE;
 
-		if ( !repoFile.exists() )
+		if ( !repoFile.exists() ) {
 			return null;
-		BufferedReader reader = FileUtilities.getReader( repoFile );
-		StringBuilder builder = new StringBuilder();
+		}
+
+		byte[] bytes = ByteBufferUtilities.read( repoFile );
+		String string = StringUtilities.getEncodedString( bytes, "UTF-8" );
 
 		try
 		{
-			String[] data;
-			while ( ( data = FileUtilities.readData( reader ) ) != null )
-			{
-				for ( String s : data )
-				{
-					builder.append( s );
-				}
-			}
-		}
-		finally
-		{
-			try
-			{
-				reader.close();
-			}
-			catch ( IOException e )
-			{
-				StaticEntity.printStackTrace( e );
-			}
-		}
-
-		try
-		{
-			JSONArray jArray = new JSONArray( builder.toString() );
+			JSONArray jArray = new JSONArray( string );
 			return jArray;
 		}
 		catch ( JSONException e )
