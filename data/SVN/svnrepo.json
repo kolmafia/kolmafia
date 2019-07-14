@@ -183,7 +183,7 @@
   "repo": "https://svn.code.sf.net/p/veracity0/code/beach/", 
   "author": "Veracity", 
   "name": "Veracity's BeachComber", 
-  "forumThread": "https://kolmafia.us/showthread.php?23993-BeachComber", 
+  "forumThread": "https://kolmafia.us/showthread.php?23993", 
   "shortDesc": "Automate Combing the Beach with your Beach Comb", 
   "category": "adventure", 
   "longDesc": "Configurable script to visit random sections of the Beach to comb your deired patches of sand with your Beach Comb."
@@ -808,7 +808,7 @@
   "forumThread": "https://kolmafia.us/showthread.php?23145", 
   "shortDesc": "Veracity's consumable library", 
   "category": "library", 
-  "longDesc": "Functions to find the most "profitable" food, booze, and spleen items based on adventure yield and expected MPA.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
+  "longDesc": "Functions to find the most 'profitable' food, booze, and spleen items based on adventure yield and expected MPA.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
  }, 
  {
   "repo": "https://svn.code.sf.net/p/zlib/code/", 
