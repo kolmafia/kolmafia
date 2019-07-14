@@ -153,23 +153,41 @@
   "longDesc": "Unlocks Dreadsylvania zones one at a time, or multiple at once, Banishes Monsters, Offers help on how to setup bosses, and explains roughly how kisses work."
  }, 
  {
+  "repo": "https://svn.code.sf.net/p/veracity0/code/meat-farm/", 
+  "author": "Veracity", 
+  "name": "Veracity's Meat Farming", 
+  "forumThread": "https://kolmafia.us/showthread.php?20933", 
+  "shortDesc": "Farm Meat and perform daily tasks", 
+  "category": "adventure", 
+  "longDesc": "Farm Meat and do daily tasks as enabled by numerous IoTMS."
+ }, 
+ {
   "repo": "https://svn.code.sf.net/p/veracity0/code/gingerbread/", 
   "author": "Veracity", 
   "name": "Veracity's Gingerbread City", 
-  "forumThread": "http://kolmafia.us/showthread.php?21609", 
+  "forumThread": "https://kolmafia.us/showthread.php?21609", 
   "shortDesc": "Automate the Gingerbread City", 
   "category": "adventure", 
   "longDesc": "Highly configurable script to allow automation of turns in the Gingerbread City, specifying the morning, afternoon, and night adventuring locations and the noon and midnight non-combats."
  },
  {
-  "repo": "https://svn.code.sf.net/p/veracity0/code/meat-farm/", 
+  "repo": "https://svn.code.sf.net/p/veracity0/code/spacegate/", 
   "author": "Veracity", 
-  "name": "Veracity's Meat Farming", 
-  "forumThread": "http://kolmafia.us/showthread.php?20933-My-personal-Meat-farming-script", 
-  "shortDesc": "Farm Meat and perform daily tasks", 
+  "name": "Veracity's Spacegate", 
+  "forumThread": "https://kolmafia.us/showthread.php?23335", 
+  "shortDesc": "Automate Spacegate", 
   "category": "adventure", 
-  "longDesc": "Farm Meat and do daily tasks as enabled by numerous IoTMS."
- }, 
+  "longDesc": "Highly configurable script to choose or visit a Spacegate planet of your desired difficulty with your desired encounters."
+ },
+ {
+  "repo": "https://svn.code.sf.net/p/veracity0/code/beach/", 
+  "author": "Veracity", 
+  "name": "Veracity's BeachComber", 
+  "forumThread": "https://kolmafia.us/showthread.php?23993-BeachComber", 
+  "shortDesc": "Automate Spacegate", 
+  "category": "adventure", 
+  "longDesc": "Configurable script to visit random sections of the Beach to comb your deired patches of sand with your Beach Comb."
+ },
  {
   "repo": "https://svn.code.sf.net/p/acquirebuff/code/", 
   "author": "Rinn", 
@@ -777,11 +795,20 @@
  {
   "repo": "https://svn.code.sf.net/p/veracity0/code/vprops/", 
   "author": "Veracity", 
-  "name": "vProps", 
-  "forumThread": "http://kolmafia.us/showthread.php?21593-Veracity-s-Property-Management-Library-vprops-ash", 
+  "name": "vprops", 
+  "forumThread": "https://kolmafia.us/showthread.php?21593", 
   "shortDesc": "Veracity's property management library", 
   "category": "library", 
   "longDesc": "Functions to easily manage custom properties and convert back and forth between simple data types (and sets and lists of such) and a string representation which is suitable to store in such properties.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
+ }, 
+ {
+  "repo": "https://svn.code.sf.net/p/veracity0/code/vcon/", 
+  "author": "Veracity", 
+  "name": "vcon", 
+  "forumThread": "https://kolmafia.us/showthread.php?23145", 
+  "shortDesc": "Veracity's consumable library", 
+  "category": "library", 
+  "longDesc": "Functions to find the most "profitable" food, booze, and spleen items based on adventure yield and expected MPA.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
  }, 
  {
   "repo": "https://svn.code.sf.net/p/zlib/code/", 
