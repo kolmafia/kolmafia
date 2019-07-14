@@ -808,7 +808,7 @@
   "forumThread": "https://kolmafia.us/showthread.php?23145", 
   "shortDesc": "Veracity's consumable library", 
   "category": "library", 
-  "longDesc": "Functions to find the most 'profitable' food, booze, and spleen items based on adventure yield and expected MPA.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
+  "longDesc": "Functions to find the most profitable food, booze, and spleen items based on adventure yield and expected MPA.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
  }, 
  {
   "repo": "https://svn.code.sf.net/p/zlib/code/", 
