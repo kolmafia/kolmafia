@@ -299,4 +299,4 @@
 270	Sausage Golem	saugrindgolem.gif	combat1,m0	sausage golem	jar of magical relish	0	0	0	0
 271	Elf Operative	elfopelf.gif	stat0,item0,drop	elf sleeper agent	red-and-green microcamera	3	3	2	2
 272	Plastic Pirate Skull	pr_rogerskull.gif	delevel,hp1,mp1	Red Roger's skull	plastic pirate hat	0	0	0	0
-272	Pet Coral	petcoral.gif		piece of coral		0	0	0	0
+273	Pet Coral	petcoral.gif		piece of coral		0	0	0	0
