@@ -623,6 +623,9 @@ public class TCRSDatabase
 			applyConsumableModifiers( KoLConstants.CONSUME_EAT, name,  tcrs );
 		}
 
+		// Fix all the consumables whose adv yield varies by level
+		ConsumablesDatabase.setVariableConsumables();
+
 		ConcoctionDatabase.refreshConcoctions();
 		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();

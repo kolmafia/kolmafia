@@ -1277,7 +1277,7 @@ public class ConsumablesDatabase
 		// X is equal to your level with a minimum of 3 and a maximum of 11
 
 		String name = "astral pilsner";
-		int size = 1;
+		int size = ConsumablesDatabase.getInebriety( name );
 		String adventures = String.valueOf( level );
 		String statGain = "0-" + String.valueOf( 2 * level );
 		String muscle = statGain;
@@ -1302,7 +1302,7 @@ public class ConsumablesDatabase
 		// Y will be between 16 and 20 times your level.
 
 		name = "astral hot dog";
-		size = 3;
+		size = ConsumablesDatabase.getFullness( name );
 		int a1 = (int) Math.ceil( 1.8 * level );
 		int a2 = (int) Math.floor( 2.2 * level );
 		adventures = String.valueOf( a1 ) + "-" + String.valueOf( a2 );
@@ -1324,7 +1324,7 @@ public class ConsumablesDatabase
 		// are (probably) lumped together giving 13-19 adventures.
 
 		name = "astral energy drink";
-		size = 8;
+		size = ConsumablesDatabase.getSpleenHit( name );
 		int a = 10 + level * 2;
 		adventures = String.valueOf( a - 3 ) + "-" + String.valueOf( a + 3 );
 		muscle = "0";
@@ -1341,7 +1341,7 @@ public class ConsumablesDatabase
 		// Adventure gains appear to be 0.5 + (your level/2), capped at level 11.
 
 		name = "spaghetti breakfast";
-		size = 1;
+		size = ConsumablesDatabase.getFullness( name );
 		float sbAdv = ( level + 1 ) / 2;
 		adventures = String.valueOf( sbAdv );
 		muscle = "0";
@@ -1358,7 +1358,7 @@ public class ConsumablesDatabase
 		// Adventure gains appear to be 0.5 + (your level/2), capped at level 11.
 
 		name = "Cold One";
-		size = 1;
+		size = ConsumablesDatabase.getInebriety( name );
 		float coAdv = ( level + 1 ) / 2;
 		adventures = String.valueOf( coAdv );
 		muscle = "0";
