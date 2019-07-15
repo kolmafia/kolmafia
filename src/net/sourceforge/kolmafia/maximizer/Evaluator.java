@@ -1258,21 +1258,19 @@ public class Evaluator
 					}
 					if ( this.effective )
 					{
-						if ( id == ItemPool.FOURTH_SABER )
+						if ( id != ItemPool.FOURTH_SABER ) // Always uses best stat, so always considered effective
 						{
-							// Always uses best stat, so always considered effective
-							slot = auxSlot;
-						}
-						if ( KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle() &&
-							weaponType != WeaponType.RANGED &&
-							( !EquipmentDatabase.isKnife( id ) || !KoLCharacter.hasSkill( "Tricky Knifework" ) ) )
-						{
-							slot = auxSlot;
-						}
-						if ( KoLCharacter.getAdjustedMoxie() < KoLCharacter.getAdjustedMuscle() &&
-							weaponType != WeaponType.MELEE )
-						{
-							slot = auxSlot;
+							if ( KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle() &&
+								weaponType != WeaponType.RANGED &&
+								( !EquipmentDatabase.isKnife( id ) || !KoLCharacter.hasSkill( "Tricky Knifework" ) ) )
+							{
+								slot = auxSlot;
+							}
+							if ( KoLCharacter.getAdjustedMoxie() < KoLCharacter.getAdjustedMuscle() &&
+								weaponType != WeaponType.MELEE )
+							{
+								slot = auxSlot;
+							}
 						}
 					}
 					if ( id == ItemPool.BROKEN_CHAMPAGNE && this.weight[ Modifiers.ITEMDROP ] > 0 &&
