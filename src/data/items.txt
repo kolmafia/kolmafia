@@ -10290,7 +10290,7 @@
 10262	large pile of sand	427463999	sandpile3.gif	none	t,d	1000
 10263	empty hourglass	610982132	beachhourglass1.gif	none	t,d	500
 10264	hourglass	598421661	beachhourglass2.gif	usable	t,d	600
-10265	etched hourglass	693028996	beachhourglass3.gif	usable	d	1000
+10265	etched hourglass	693028996	beachhourglass3.gif	reusable	d	1000
 10266	magenta seashell	377121810	seashell1.gif	potion, multiple	t,d	5
 10267	cyan seashell	870503412	seashell2.gif	potion, multiple	t,d	5
 10268	gray seashell	959980778	seashell3.gif	potion, usable	t,d	5
