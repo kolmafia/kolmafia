@@ -881,5 +881,14 @@
   "shortDesc": "Scripting the birth of a new ascension", 
   "category": "other", 
   "longDesc": "Scripting the birth of a new ascension. This sets optimal choice adventure defaults for your class and ascension path. It also does a few repetitive housekeeping chores such as visiting the Toot Oriole, opening your pork sack, using your Newbie Tent, equipping your starting gear...<p style='border:1px solid red;text-indent:-20px;padding:5px 10px 5px 30px;margin-left:40px;margin-right:40px;'>To make this work automatically, you need to copy/paste the following line into the CLI:<br /><span style='font-weight:bold;font-family:monospace'>set postAscensionScript = newLife.ash</span></p>"
+ },
+ {
+  "repo": "https://svn.code.sf.net/p/zap-wand/code/",
+  "author": "PazSox",
+  "name": "Zap Wand",
+  "forumThread": "http://kolmafia.us/showthread.php?22677-Dungeon-of-Doom-ZAP-WAND",
+  "shortDesc": "Automates Dungeons of Doom to get ZAP Wand",
+  "category": "Adventure",
+  "longDesc": "Automates Dungeons of Doom to get ZAP Wand" 
  }
 ]
