@@ -6482,6 +6482,7 @@ public class FightRequest
 			}
 
 			FightRequest.handleKisses( node, status );
+			FightRequest.handleCrimboPresent( node, status );
 
 			if ( FightRequest.handleChakra( node, status ) )
 			{
@@ -6489,11 +6490,6 @@ public class FightRequest
 			}
 
 			String str = FightRequest.getContentNodeText( node );
-
-			if ( FightRequest.handleCrimboPresent( str, status ) )
-			{
-				return;
-			}
 
 			// Camera flashes
 			// A monster caught on the film
@@ -7222,12 +7218,14 @@ public class FightRequest
 	// It's from <a href=showplayer.php?who=2379226><b>TroyMcClure2</b></a>!
 
 	public static final Pattern CRIMBO_PATTERN = Pattern.compile( "It's from (.*?)!" );
-	private static boolean handleCrimboPresent( String str, TagStatus status )
+	private static boolean handleCrimboPresent( TagNode node, TagStatus status )
 	{
 		if ( !status.crimbo )
 		{
 			return false;
 		}
+
+		String str = node.getText().toString();
 
 		Matcher matcher = FightRequest.CRIMBO_PATTERN.matcher( str );
 		if ( !matcher.find() )
@@ -7235,7 +7233,7 @@ public class FightRequest
 			return false;
 		}
 
-		FightRequest.logText( str, status );
+		FightRequest.logText( matcher.group(0), status );
 
 		return true;
 	}
