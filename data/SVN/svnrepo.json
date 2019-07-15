@@ -10,7 +10,7 @@
  }, 
  {
   "repo": "https://svn.code.sf.net/p/autobhh/code/", 
-  "author": "Theraze, izchak, Raorn, Zarqon", 
+  "author": "Theraze, izchak, Raorn, zarqon", 
   "name": "Bounty", 
   "forumThread": "http://kolmafia.us/showthread.php?1023-auto-BHH-and-friends", 
   "shortDesc": "Automatic Bounty Hunter Hunter", 
@@ -389,7 +389,7 @@
  }, 
  {
   "repo": "https://svn.code.sf.net/p/reference-plus/code/",
-  "author": "Zarqon",
+  "author": "zarqon",
   "name": "Prefref Plus",
   "forumThread": "http://kolmafia.us/showthread.php?22101",
   "shortDesc": "Manager for all your ZLib settings and mafia prefs",
@@ -575,6 +575,42 @@
   "shortDesc": "Shows item effects/enchantments in inventory", 
   "category": "relay", 
   "longDesc": "This will display information about every item in your inventory, below its name."
+ }, 
+ {
+  "repo": "https://svn.code.sf.net/p/drag-n-drop-inventories/code",
+  "author": "zarqon",
+  "name": "Drag-n-Drop Inventories",
+  "forumThread": "https://kolmafia.us/showthread.php?22910",
+  "shortDesc": "Add an intuitive visual drag-n-drop interface for any item",
+  "category": "library",
+  "longDesc": "Adds a compact interface showing the amount you have in inventory, closet, storage, display case, and stash for each item.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
+ }, 
+ {
+  "repo": "https://svn.code.sf.net/p/kol-airport-colors/code",
+  "author": "darkcodelagsniper",
+  "name": "Airport Colors",
+  "forumThread": "https://kolmafia.us/showthread.php?19258",
+  "shortDesc": "Colors each plane in the Elemental Aiport with the appropriate elemental color",
+  "category": "relay",
+  "longDesc": "Colors each plane in the Elemental Aiport with the appropriate elemental color"
+ }, 
+ {
+  "repo": "https://svn.code.sf.net/p/bale/dinsey/code/",
+  "author": "Bale",
+  "name": "Dinsey Landfill",
+  "forumThread": "https://kolmafia.us/showthread.php?24009",
+  "shortDesc": "Tracks your progress towards gaining each of the four keycards and killing Wart Dinsey",
+  "category": "relay",
+  "longDesc": "Tracks your progress towards gaining each of the four keycards and killing Wart Dinsey"
+ }, 
+ {
+  "repo": "https://svn.code.sf.net/p/kolm-noobsorb/svn/",
+  "author": "Smelltastic",
+  "name": "Noobsorb",
+  "forumThread": "https://kolmafia.us/showthread.php?21529",
+  "shortDesc": "A relay script to keep track of Gelatinous Noob absorptions.",
+  "category": "relay",
+  "longDesc": "For each modifier, provides a dropdown list of skills that affect it with available items"
  }, 
  {
   "repo": "https://svn.code.sf.net/p/rlbond86-mafia-scripts/code/fax_tell/trunk/", 
