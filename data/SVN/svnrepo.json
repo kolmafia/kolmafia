@@ -52,7 +52,7 @@
   "shortDesc": "Manage automation for KoLmafia counters", 
   "category": "adventure", 
   "longDesc": "This script will automatically handle all your counters automatically. Supported Counters:<ul style='margin:3 0 5 22'><li><b>Fortune Cookie</b>: If you're not in hardcore it will get the available semi-rare with highest mall price.</li><li><b>Spookyraven Lights Out</b>: If spookyraven counters are enabled this will automatically advance both quests.</li><li><b>Wormwood</b>: Will automatically get the wormwood goal of your choice. <i>(see instructions in thread)</i></i></li><li><b>Dance Card</b>: Will adventure in Ballroom, if you're not already there and use another dance card.</li></ul><p style='border:1px solid red;text-indent:-20px;padding:5px 10px 5px 30px;margin:5px 40px 0px 40px;'>To make this work automatically, you need to copy/paste the following line into the CLI:<br /><span style='font-weight:bold;font-family:monospace'>set counterScript = CounterChecker.ash</span></p>"
- }, 
+ },
  {
   "repo": "https://svn.code.sf.net/p/eodscascension/code-0/", 
   "author": "Eliteofdelete", 
@@ -250,6 +250,15 @@
   "shortDesc": "Automates your diet", 
   "category": "action", 
   "longDesc": "Eats, drinks, and spleens to maximize adventures using most cost-effective items given specified Meat per Adventure."
+ },
+   {
+  "repo": "https://svn.code.sf.net/p/kolmafiascripts/currencies/code/", 
+  "author": "froubulax", 
+  "name": "Currencies", 
+  "forumThread": "https://kolmafia.us/showthread.php?21958-Currencies", 
+  "shortDesc": "Assists in spending currencies for items to be sold", 
+  "category": "information", 
+  "longDesc": "A relay script that builds a table of things that can be obtained from a currency and sold for meat.  Table includes ColdFront sales volume and meat per currency to assist in determing which exchanges are to be made."
  },
  {
   "repo": "https://github.com/Ezandora/Detective-Solver/branches/Release/", 
@@ -492,7 +501,7 @@
   "name": "Snapshot Maker",
   "forumThread": "http://forums.kingdomofloathing.com/vb/showthread.php?t=218735",
   "shortDesc": "Take a snapshot of your character to display", 
-  "category": "informational",
+  "category": "information",
   "longDesc": "Makes a snapshot of your character and display it on a website (where everyone can see it) with lots of boxes that you compulsively want to make green. <p>Yes, completionist torture..."
  },
  {
