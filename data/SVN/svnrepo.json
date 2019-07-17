@@ -1,1001 +1,1046 @@
 [
  {
-  "repo": "https://svn.code.sf.net/p/winterbay-mafia/autobasement/code/", 
-  "author": "Winterbay, Rinn", 
-  "name": "autoBasement", 
-  "forumThread": "http://kolmafia.us/showthread.php?3113-autoBasement-ash-Better-basement-automation", 
-  "shortDesc": "Automates Fernswarthy's Basement", 
-  "category": "adventure", 
-  "longDesc": "Automates Fernswarthy's Basement: <ul><li>Creates and switches oufits</li><li>Uses cheapest buffs needed for necessary buffing</li><li>User perference to use Dr. Lucifer or other food/drink/spleen items.</li></ul>See thread for full list of options."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/autobhh/code/", 
-  "author": "Theraze, izchak, Raorn, zarqon", 
-  "name": "Bounty", 
-  "forumThread": "http://kolmafia.us/showthread.php?1023-auto-BHH-and-friends", 
-  "shortDesc": "Automatic Bounty Hunter Hunter", 
-  "category": "adventure", 
-  "longDesc": "The purpose of this script is to automatically go to the Bounty Hunter Hunter, accept bounties, hunt them and turn in the completed bounties for lucre."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/bumcheekascend/code/bumcheekascend/", 
-  "author": "bumcheekcity, Winterbay", 
-  "name": "Bumcheekcend", 
-  "forumThread": "http://kolmafia.us/showthread.php?4963-bumcheekcend-ash-A-zero-setup-semi-automated-ascension-script!", 
-  "shortDesc": "Automatically script an entire ascension", 
-  "category": "adventure", 
-  "longDesc": "This is a semi-automated hardcore ascension script. Its stated intent is to:<ol><li>Ascend Moxie characters through HCNP ascensions to get karma</li><li>Ascend Muscle and Myst characters mostly, so you can finish off ascensions started with them</li></ol>This is <b>not</b> intended for softcore, Bad Moon or any challenge path. If it works... fine, but bugs with will probably remain bugs."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/bumcheekascend/code/bumpork/", 
-  "author": "bumcheekcity", 
-  "name": "BumPork", 
-  "forumThread": "http://kolmafia.us/showthread.php?6861-Automatic-Porko!", 
-  "shortDesc": "Automatically play Porko", 
-  "category": "adventure", 
-  "longDesc": "Simply complete the quest and unlock the Elvish Paradise, run bumpork.ash and it should work fine."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/cartouchehunter/svn/", 
-  "author": "ungawa", 
-  "name": "CartoucheHunter", 
-  "forumThread": "http://kolmafia.us/showthread.php?18121-CartoucheHunter", 
-  "shortDesc": "Seaches for Ed's Cartouches throughout the Kingdom", 
-  "category": "adventure", 
-  "longDesc": "This script will adventure in every zone where you have not yet adventured today and aborts if you find a cartouche. It checks your session log for information about where you have adventured, so it knows if you already found one today and if you abort prematurely, it will pick up where it left off.<p>Before running the script, <b><u>the player</u></b> needs to:<ul><li>Equip the Crown of Ed and pirate fledges</li><li>Maximize +combat%</li></ul>"
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/bale/counterchecker/code/", 
-  "author": "Bale", 
-  "name": "CounterChecker", 
-  "forumThread": "http://kolmafia.us/showthread.php?2519-CounterChecker-Wormwood-Semi-rares-Dance-Cards-and-more", 
-  "shortDesc": "Manage automation for KoLmafia counters", 
-  "category": "adventure", 
-  "longDesc": "This script will automatically handle all your counters automatically. Supported Counters:<ul style='margin:3 0 5 22'><li><b>Fortune Cookie</b>: If you're not in hardcore it will get the available semi-rare with highest mall price.</li><li><b>Spookyraven Lights Out</b>: If spookyraven counters are enabled this will automatically advance both quests.</li><li><b>Wormwood</b>: Will automatically get the wormwood goal of your choice. <i>(see instructions in thread)</i></i></li><li><b>Dance Card</b>: Will adventure in Ballroom, if you're not already there and use another dance card.</li></ul><p style='border:1px solid red;text-indent:-20px;padding:5px 10px 5px 30px;margin:5px 40px 0px 40px;'>To make this work automatically, you need to copy/paste the following line into the CLI:<br /><span style='font-weight:bold;font-family:monospace'>set counterScript = CounterChecker.ash</span></p>"
+   "repo": "https://svn.code.sf.net/p/acquirebuff/code/",
+   "author": "Rinn",
+   "name": "acquireBuff",
+   "forumThread": "https://kolmafia.us/showthread.php?4048-acquireBuff-Get-a-buff-from-a-buffbot",
+   "shortDesc": "Get a buff from a buffbot",
+   "category": "action",
+   "longDesc": "This script will attempt to get you a buff from a buffbot without needing to know the price or even the bot's name."
  },
  {
-  "repo": "https://svn.code.sf.net/p/eodscascension/code-0/", 
-  "author": "Eliteofdelete", 
-  "name": "EoD Softcore Ascension Script", 
-  "forumThread": "http://kolmafia.us/showthread.php?14814-EoD-Softcore-Ascension-Script", 
-  "shortDesc": "Does 100% automatic softcore ascension runs", 
-  "category": "adventure", 
-  "longDesc": "This script automatically does softcore ascension runs with moxie classes. <b>Features include:</b> <ol><li>Ascends Moxie characters in 4-5 days.</li><li>Requires no skills permed.</li><li>Handles all pulls using ~100k meat.</li><li>Very customizable if desired.</li><li>Reports how many adventures were spent doing quest related things and saves the info.</ol> More classes may be officially supported in the future."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/mafia-harvest/code/", 
-  "author": "Ioeth, Banana Lord", 
-  "name": "Harvest", 
-  "forumThread": "http://kolmafia.us/showthread.php?7015-Harvest-%96-A-highly-customisable-farming-script", 
-  "shortDesc": "A highly customizable KoL farming script", 
-  "category": "adventure", 
-  "longDesc": "Can be configured to the farm whatever you like best. It runs from login to logout, handling all your daily activities <i>(eg: buffbot buffs, prismatic wads, equipping optimal rollover gear etc.)</i>. It even hunts bounties."
- }, 
- {
-  "repo": "https://github.com/Ezandora/FantasyRealm/branches/Release/", 
-  "author": "Ezandora", 
-  "name": "FantasyRealm", 
-  "forumThread": "https://kolmafia.us/showthread.php?22722", 
-  "shortDesc": "Plays through the FantasyRealm area", 
-  "category": "adventure", 
-  "longDesc": "Automates the FantasyRealm to unlock bosses and collect rewards."
+   "repo": "https://svn.code.sf.net/p/rlbond86-mafia-scripts/code/auto_mushroom/trunk/",
+   "author": "rlbond86",
+   "name": "Auto Mushroom",
+   "forumThread": "https://kolmafia.us/showthread.php?9854-auto_mushroom-the-perfect-mushroom-growing-script",
+   "shortDesc": "Automatically farms mushrooms from Degrassi Knoll",
+   "category": "action",
+   "longDesc": "Automatically farms mushrooms to produce 8 gloomy black mushrooms every 16 days, along with a lot of additional second and third generation mushrooms."
  },
  {
-  "repo": "https://svn.code.sf.net/p/winterbay-mafia/farm/code/", 
-  "author": "Winterbay, dj_d", 
-  "name": "Make Meat Fast", 
-  "forumThread": "http://kolmafia.us/showthread.php?2567-Make-meat-fast", 
-  "shortDesc": "Automates item farming based on current mall values", 
-  "category": "adventure", 
-  "longDesc": "It surveys the entire kingdom and all of your possessions to figure out what will make you the most meat. If something gets in demand - like briefcases did during one Crimbo - it automatically figures it out and farms accordingly. If farming the castle is best; great - it optimizes you for that as well."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/slyz-nemesis/code/", 
-  "author": "slyz", 
-  "name": "Nemesis.ash", 
-  "forumThread": "http://kolmafia.us/showthread.php?4761-Nemesis-quest-script", 
-  "shortDesc": "Automates the nemesis quest", 
-  "category": "adventure", 
-  "longDesc": "<ol><li>Automatically do the LEW and nemesis Cave quests</li><li>Farm until you get the volcano map</li><li>Unlock the volcano island</li><li>Unlock the nemesis lair and try to solve the volcano maze</li></ol>Surviving combats is your responsibility."
- }, 
- {
-  "repo": "svn://svn.code.sf.net/p/wrldwzrd89-mafia-scripts/code/trunk/pandamonium-quest/", 
-  "author": "wrldwzrd89", 
-  "name": "PandamoniumQuest", 
-  "forumThread": "http://kolmafia.us/showthread.php?13732-wrldwzrd89-s-PandamoniumQuest-ash-automated-steel-organ", 
-  "shortDesc": "Automates the Steel Organ quest in Pandamonium", 
-  "category": "adventure", 
-  "longDesc": "This will find the various items needed to complete the quest in Pandamonium, solve the puzzles (perhaps changing your gear to maximize success), and finish by using the steel organ item if possible."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/guyymafia/code/porkfuture/", 
-  "author": "guyy", 
-  "name": "Pork to the Future", 
-  "forumThread": "http://kolmafia.us/showthread.php?12625-Pork-to-the-Future-Cyrus-Hyboria-Future-and-Wumpus!", 
-  "shortDesc": "Automates the agua de vida quests", 
-  "category": "adventure", 
-  "longDesc": "A script to automatically complete:<ol><li><b>Primordial Fear</b>: Be Cyrus's punching bag</li><li><b>Hyboria</b>: Krakrox does manly things <i>(includes Hunt the Wumpus)</i></li><li><b>Future</b>: Collect elemental essences</li></ol>...and get you a nifty <i>Secret from the Future</i>."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/therazekolmafia/thesea/code/", 
-  "author": "Theraze", 
-  "name": "The Sea", 
-  "forumThread": "http://kolmafia.us/showthread.php?8708-TheSea-ash-Automated-Underwater-Quests", 
-  "shortDesc": "Automates all underwater quests", 
-  "category": "adventure", 
-  "longDesc": "Read the thread for information on how to configure this script to do any of the following:<table><tr><td'><ul type='square' style='margin-left:12px;'><li>Adventure to unlock all 5 monkees</li><li>Adventure to get you to the hatred boss outfit</li><li>Adventure to get you to the violence boss outfit</li><li>Chat with Grandpa about all known chat topics</li></ul></td><td><ul type='square' style='margin-left:20px;'><li>Get Das Boot or other reward from the Old Man</li><li>Unlock and complete the Skate quest</li><li>Get a sushi mat and install it</li><li>Get an aerated diving helmet</li></ul></td></tr></table>"
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/slimetube/code/", 
-  "author": "Alhifar", 
-  "name": "Slime Tube", 
-  "forumThread": "http://kolmafia.us/showthread.php?2596-Slime-Tube-Adventuring-Script", 
-  "shortDesc": "Automates the Slime Tube", 
-  "category": "adventure", 
-  "longDesc": "This script will adventure in the slime tube, changing outfits to get the most turns of Coated in Slime possible, and wiping off the slime whenever you are no longer able to survive the damage you would receive combined from Coated in Slime, and the combat.<p>It will take advantage of Navel runaways and Bandersnatch runaways, and supports the following skills for damage calculations: Attack with weapon, Thrust-Smack, Lunging Thrust-Smack, Saucegeyser, Weapon of the Pastalord, Shieldbutt, Fearful Fetuccini and divines, both single and funkslung."
- }, 
- {
-  "repo": "https://github.com/Ezandora/Spacegate/branches/Release/", 
-  "author": "Ezandora", 
-  "name": "Spacegate", 
-  "forumThread": "https://kolmafia.us/showthread.php?21685", 
-  "shortDesc": "Automates your daily Spacegate turns to collect research", 
-  "category": "adventure", 
-  "longDesc": "Spends 20 turns a day at a 'Z' difficuly planet with all rocks."
+   "repo": "https://svn.code.sf.net/p/zekaonar/code-0/PVPBestGear/",
+   "author": "zekaonar",
+   "name": "Best PvP Gear",
+   "forumThread": "https://kolmafia.us/showthread.php?15347-Best-PVP-Gear-optimizes-balances-for-8-mini-games",
+   "shortDesc": "Optimizes and balances gear for PvP mini-games",
+   "category": "action",
+   "longDesc": "This script will help you optimize your gear for the PvP mini-games: Laconic Dresser, Verbosity Demonstration, Showing Initiative, The Egg Hunt, Meat Lover, Broad Resistance Contest, Lightest Load and Letter of the Moment. The script will check which mini-games are active and will retrieve the letter of the moment on each run.<p>There are options to buy cheap mall gear (default is 1k or less) superior to what you possess and provide a comprehensive list of the best gear in-game with wiki links to research how you may acquire it."
  },
  {
-  "repo": "https://svn.code.sf.net/p/guyymafia/code/spacetripper/", 
-  "author": "guyy", 
-  "name": "Space Tripper", 
-  "forumThread": "http://kolmafia.us/showthread.php?10020-Space-Tripper-automatic-Space-Trip", 
-  "shortDesc": "Automates the Space Trip minigame", 
-  "category": "adventure", 
-  "longDesc": "Beats Space Trip for you, aiming for a high score for maximum tickets... and more importantly, unlocks the Space Trip Safety Headphones (-100 ML and -combat accessory). Get a token, run the script, and it will play the entire game on its own, opening the relay browser to the final screen when it's finished. May lose or get stuck occasionally due to RNG screw."
+   "repo": "https://github.com/soolar/CONSUME.ash/trunk/RELEASE/",
+   "author": "soolar",
+   "name": "CONSUME",
+   "forumThread": "https://kolmafia.us/showthread.php?20406",
+   "shortDesc": "Automates your diet",
+   "category": "action",
+   "longDesc": "Eats, drinks, and spleens to maximize adventures using most cost-effective items given specified Meat per Adventure."
  },
  {
-  "repo": "https://svn.code.sf.net/p/guyymafia/code/tricktreat/", 
-  "author": "guyy", 
-  "name": "TrickTreat", 
-  "forumThread": "http://kolmafia.us/showthread.php?13890-Trick-Or-Treating-script", 
-  "shortDesc": "Automates Halloween Trick or Treating", 
-  "category": "adventure", 
-  "longDesc": "Automates Halloween Trick or Treating. <ul style='margin:8 0 5 22'><li>Optional Configuration: Choose separate outfits named \"trick\" for combats and \"treat\" for non-combats. If you don't do this, then it will use your current equipment for all encounters.</li><li>If you encounter All-Hallow's Steve, it will abort so you can fight him yourself.</li><li>Check the mall prices for candies you acquire with your current equippable outfits if you type the following command in the CLI: <span style='text-indent:20px;font-weight:bold;font-family:monospace'>tricktreat outfits</span></li></ul>"
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/unlock-dread2/code/", 
-  "author": "PazSox", 
-  "name": "Unlock Dreasylvania", 
-  "forumThread": "http://kolmafia.us/showthread.php?21545-Automatically-unlock-areas-of-Dreadsylvania", 
-  "shortDesc": "Unlocks Dread, Banishes Monsters, Offers help", 
-  "category": "adventure", 
-  "longDesc": "Unlocks Dreadsylvania zones one at a time, or multiple at once, Banishes Monsters, Offers help on how to setup bosses, and explains roughly how kisses work."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/veracity0/code/beach/", 
-  "author": "Veracity", 
-  "name": "Veracity's BeachComber", 
-  "forumThread": "https://kolmafia.us/showthread.php?23993", 
-  "shortDesc": "Automate Combing the Beach with your Beach Comb", 
-  "category": "adventure", 
-  "longDesc": "Configurable script to visit random sections of the Beach to comb your deired patches of sand with your Beach Comb."
+   "repo": "https://github.com/Ezandora/Detective-Solver/branches/Release/",
+   "author": "Ezandora",
+   "name": "Detective Solver",
+   "forumThread": "https://kolmafia.us/showthread.php?20406",
+   "shortDesc": "Automates the 11th Precinct mysteries",
+   "category": "action",
+   "longDesc": "Detective Solver will complete all three daily egg murders for the 11th Precinct/Detective School Application IOTM, earning cop dollars."
  },
  {
-  "repo": "https://svn.code.sf.net/p/veracity0/code/gingerbread/", 
-  "author": "Veracity", 
-  "name": "Veracity's Gingerbread City", 
-  "forumThread": "https://kolmafia.us/showthread.php?21609", 
-  "shortDesc": "Automate the Gingerbread City", 
-  "category": "adventure", 
-  "longDesc": "Highly configurable script to allow automation of turns in the Gingerbread City, specifying the morning, afternoon, and night adventuring locations and the noon and midnight non-combats."
+   "repo": "https://svn.code.sf.net/p/guyymafia/code/dreaddrunk/",
+   "author": "guyy",
+   "name": "DreadDrunk",
+   "forumThread": "https://kolmafia.us/showthread.php?12975-Carriageman-Feeder",
+   "shortDesc": "Gives booze to the Dreadsylvania Carriageman",
+   "category": "action",
+   "longDesc": "This will find the most cost-efficient booze (given a non-insane number of mall searches) for making the Carriageman drunk as a Dreadsylvanian skunk, buy as much as it needs, and dump it down his throat."
  },
  {
-  "repo": "https://svn.code.sf.net/p/veracity0/code/meat-farm/", 
-  "author": "Veracity", 
-  "name": "Veracity's Meat Farming", 
-  "forumThread": "https://kolmafia.us/showthread.php?20933", 
-  "shortDesc": "Farm Meat and perform daily tasks", 
-  "category": "adventure", 
-  "longDesc": "Farm Meat and do daily tasks as enabled by numerous IoTMS."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/veracity0/code/spacegate/", 
-  "author": "Veracity", 
-  "name": "Veracity's Spacegate", 
-  "forumThread": "https://kolmafia.us/showthread.php?23335", 
-  "shortDesc": "Automate Spacegate", 
-  "category": "adventure", 
-  "longDesc": "Highly configurable script to choose or visit a Spacegate planet of your desired difficulty with your desired encounters."
+   "repo": "https://svn.code.sf.net/p/therazekolmafia/eatdrink/code/",
+   "author": "Theraze, dj_d",
+   "name": "EatDrink",
+   "forumThread": "https://kolmafia.us/showthread.php?1519-EatDrink-ash-Optimize-your-daily-diet",
+   "shortDesc": "Optimize your daily diet",
+   "category": "action",
+   "longDesc": "EatDrink.ash will attempt to fill you up with the finest vittles, firewater, and spleenables that the kingdom has to offer - and that you can afford. It considers things like prices, the relative value of adventures and stats, whether you have to pull or purchase the item, and so on. It even ends your day with a bang by overdrinking (if you tell it to)."
  },
  {
-  "repo": "https://svn.code.sf.net/p/zap-wand/code/",
-  "author": "PazSox",
-  "name": "Zap Wand",
-  "forumThread": "http://kolmafia.us/showthread.php?22677",
-  "shortDesc": "Automates Dungeons of Doom to get ZAP Wand",
-  "category": "adventure",
-  "longDesc": "Automates Dungeons of Doom to get ZAP Wand" 
+   "repo": "https://github.com/Ezandora/Far-Future/branches/Release/",
+   "author": "Ezandora",
+   "name": "Far Future",
+   "forumThread": "https://kolmafia.us/showthread.php?20406-Detective-Solver",
+   "shortDesc": "Plays the Timespinner's Far Future mini-game once",
+   "category": "action",
+   "longDesc": "The FarFuture command will play the game to collect the prize of your choice and earn two medals."
  },
  {
-  "repo": "https://svn.code.sf.net/p/acquirebuff/code/", 
-  "author": "Rinn", 
-  "name": "acquireBuff", 
-  "forumThread": "http://kolmafia.us/showthread.php?4048-acquireBuff-Get-a-buff-from-a-buffbot", 
-  "shortDesc": "Get a buff from a buffbot", 
-  "category": "action", 
-  "longDesc": "This script will attempt to get you a buff from a buffbot without needing to know the price or even the bot's name."
- }, 
- {
-  "repo": "http://svn.code.sf.net/p/rlbond86-mafia-scripts/code/auto_mushroom/trunk/", 
-  "author": "rlbond86", 
-  "name": "Auto Mushroom", 
-  "forumThread": "http://kolmafia.us/showthread.php?9854-auto_mushroom-the-perfect-mushroom-growing-script", 
-  "shortDesc": "Automatically farms mushrooms from Degrassi Knoll", 
-  "category": "action", 
-  "longDesc": "Automatically farms mushrooms to produce 8 gloomy black mushrooms every 16 days, along with a lot of additional second and third generation mushrooms."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/zekaonar/code-0/PVPBestGear/", 
-  "author": "zekaonar", 
-  "name": "Best PvP Gear", 
-  "forumThread": "http://kolmafia.us/showthread.php?15347-Best-PVP-Gear-optimizes-balances-for-8-mini-games", 
-  "shortDesc": "Optimizes and balances gear for PvP mini-games", 
-  "category": "action", 
-  "longDesc": "This script will help you optimize your gear for the PvP mini-games: Laconic Dresser, Verbosity Demonstration, Showing Initiative, The Egg Hunt, Meat Lover, Broad Resistance Contest, Lightest Load and Letter of the Moment. The script will check which mini-games are active and will retrieve the letter of the moment on each run.<p>There are options to buy cheap mall gear (default is 1k or less) superior to what you possess and provide a comprehensive list of the best gear in-game with wiki links to research how you may acquire it."
- }, 
- {
-  "repo": "https://github.com/soolar/CONSUME.ash/trunk/RELEASE/", 
-  "author": "soolar", 
-  "name": "CONSUME", 
-  "forumThread": "http://kolmafia.us/showthread.php?20406", 
-  "shortDesc": "Automates your diet", 
-  "category": "action", 
-  "longDesc": "Eats, drinks, and spleens to maximize adventures using most cost-effective items given specified Meat per Adventure."
+   "repo": "https://svn.code.sf.net/p/therazekolmafia/getskill/code/",
+   "author": "Theraze & kitsunenine",
+   "name": "Get Skill",
+   "forumThread": "https://kolmafia.us/showthread.php?4302-Get_skill-ash-CLI-accessible-skill-acquisition",
+   "shortDesc": "CLI accessible skill acquisition",
+   "category": "action",
+   "longDesc": "Allows you to learn a skill directly from the CLI."
  },
  {
-  "repo": "https://svn.code.sf.net/p/kolmafiascripts/currencies/code/", 
-  "author": "froubulax", 
-  "name": "Currencies", 
-  "forumThread": "https://kolmafia.us/showthread.php?21958-Currencies", 
-  "shortDesc": "Assists in spending currencies for items to be sold", 
-  "category": "information", 
-  "longDesc": "A relay script that builds a table of things that can be obtained from a currency and sold for meat.  Table includes ColdFront sales volume and meat per currency to assist in determing which exchanges are to be made."
+   "repo": "https://github.com/Ezandora/Briefcase/branches/Release/",
+   "author": "Ezandora",
+   "name": "KGBriefcase",
+   "forumThread": "https://kolmafia.us/showthread.php?21892",
+   "shortDesc": "Automates the Kremlin's Greatest Briefcase",
+   "category": "action",
+   "longDesc": "The 'briefcase' command will unlock and configure your briefcase as desired."
  },
  {
-  "repo": "https://github.com/Ezandora/Detective-Solver/branches/Release/", 
-  "author": "Ezandora", 
-  "name": "Detective Solver", 
-  "forumThread": "http://kolmafia.us/showthread.php?20406", 
-  "shortDesc": "Automates the 11th Precinct mysteries", 
-  "category": "action", 
-  "longDesc": "Detective Solver will complete all three daily egg murders for the 11th Precinct/Detective School Application IOTM, earning cop dollars."
+   "repo": "https://svn.code.sf.net/p/kolmafiascripts/shop/code/",
+   "author": "fronobulax",
+   "name": "Manage Store",
+   "forumThread": "https://kolmafia.us/showthread.php?9947-ManageStore-and-CFStat-Weed-out-your-store",
+   "shortDesc": "Autosell or kBay items in your store that don't sell",
+   "category": "action",
+   "longDesc": "ManageStore looks at all the items in your store. It then offers the opportunity to autosell or sell on kBay all the items that are priced at the mall minimum, have a low (see below) sales volume or a ColdFront average price that is greater than the mall minimum."
  },
  {
-  "repo": "https://svn.code.sf.net/p/guyymafia/code/dreaddrunk/", 
-  "author": "guyy", 
-  "name": "DreadDrunk", 
-  "forumThread": "http://kolmafia.us/showthread.php?12975-Carriageman-Feeder", 
-  "shortDesc": "Gives booze to the Dreadsylvania Carriageman", 
-  "category": "action", 
-  "longDesc": "This will find the most cost-efficient booze (given a non-insane number of mall searches) for making the Carriageman drunk as a Dreadsylvanian skunk, buy as much as it needs, and dump it down his throat."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/therazekolmafia/eatdrink/code/", 
-  "author": "Theraze, dj_d", 
-  "name": "EatDrink", 
-  "forumThread": "http://kolmafia.us/showthread.php?1519-EatDrink-ash-Optimize-your-daily-diet", 
-  "shortDesc": "Optimize your daily diet", 
-  "category": "action", 
-  "longDesc": "EatDrink.ash will attempt to fill you up with the finest vittles, firewater, and spleenables that the kingdom has to offer - and that you can afford. It considers things like prices, the relative value of adventures and stats, whether you have to pull or purchase the item, and so on. It even ends your day with a bang by overdrinking (if you tell it to)."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/therazekolmafia/getskill/code/", 
-  "author": "Theraze & kitsunenine", 
-  "name": "Get Skill", 
-  "forumThread": "http://kolmafia.us/showthread.php?4302-Get_skill-ash-CLI-accessible-skill-acquisition", 
-  "shortDesc": "CLI accessible skill acquisition", 
-  "category": "action", 
-  "longDesc": "Allows you to learn a skill directly from the CLI."
- }, 
- {
-  "repo": "https://github.com/Ezandora/Far-Future/branches/Release/", 
-  "author": "Ezandora", 
-  "name": "Far Future", 
-  "forumThread": "http://kolmafia.us/showthread.php?20406-Detective-Solver", 
-  "shortDesc": "Plays the Timespinner's Far Future mini-game once", 
-  "category": "action", 
-  "longDesc": "The FarFuture command will play the game to collect the prize of your choice and earn two medals."
+   "repo": "https://github.com/coandco/mafia-NewYou/trunk/",
+   "author": "coandco",
+   "name": "NewYou",
+   "forumThread": "https://kolmafia.us/showthread.php?21918-New-You-2-0-(New-New-You-)",
+   "shortDesc": "Sharpen Your Saw & Become a New You",
+   "category": "action",
+   "longDesc": "This will (usually) identify the New You quest activity and then perfom it until completion."
  },
  {
-  "repo": "https://github.com/Ezandora/Briefcase/branches/Release/", 
-  "author": "Ezandora", 
-  "name": "KGBriefcase", 
-  "forumThread": "https://kolmafia.us/showthread.php?21892", 
-  "shortDesc": "Automates the Kremlin's Greatest Briefcase", 
-  "category": "action", 
-  "longDesc": "The 'briefcase' command will unlock and configure your briefcase as desired."
+   "repo": "https://svn.code.sf.net/p/mafiarecovery/code/",
+   "author": "Bale",
+   "name": "OBE Universal Recovery",
+   "forumThread": "https://kolmafia.us/showthread.php?1780-Universal-Recovery-Script",
+   "shortDesc": "Automated Recovery",
+   "category": "action",
+   "longDesc": "This is Bale's original repository.  It is recommended that this be uninstalled and the 'other' version be installed."
  },
  {
-  "repo": "https://svn.code.sf.net/p/kolmafiascripts/shop/code/", 
-  "author": "fronobulax", 
-  "name": "Manage Store", 
-  "forumThread": "http://kolmafia.us/showthread.php?9947-ManageStore-and-CFStat-Weed-out-your-store", 
-  "shortDesc": "Autosell or kBay items in your store that don't sell", 
-  "category": "action", 
-  "longDesc": "ManageStore looks at all the items in your store. It then offers the opportunity to autosell or sell on kBay all the items that are priced at the mall minimum, have a low (see below) sales volume or a ColdFront average price that is greater than the mall minimum."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/bale/ocd/code/", 
-  "author": "Bale", 
-  "name": "OCD Inventory Control", 
-  "forumThread": "http://kolmafia.us/showthread.php?1818-OCD-Inventory-control", 
-  "shortDesc": "Complete inventory control system", 
-  "category": "action", 
-  "longDesc": "This script will allow you to choose the proper dispensation for absolutely every item that may be in your inventory. You can tell it exactly how many to keep of any given item, or tell it to keep all of them. It can put items in the mall, send items as gifts, mix keys into pies, use gift certificates, stock your display case or autosell trash items. <i>And more!</i><p>Okay, this script is honestly a little bit insane. It's somewhat nuts to list a method of dealing with every single item I may own. I use this because I want to cleanse my inventory before every hardcore ascension. It takes a bit of effort to make the list of everything, but now my inventory can be malled in a flash. If anyone else wants to take the trouble of making their own list it would do the same for them."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/rollover-management/code/", 
-  "author": "PazSox, bumcheekcity, hippoking & Th3y", 
-  "name": "Rollover Management", 
-  "forumThread": "http://kolmafia.us/showthread.php?22074-Rollover-Management", 
-  "shortDesc": "Maximize rollover turns and completes Daily Deeds", 
-  "category": "action", 
-  "longDesc": "Maximizes player for maximum turns with gear on hand.  Checks ALL daily deeds, Does all daily deeds that don't require user input.  Checks your Source Terminal for usage, and informs you if you're missing any upgrades.  Runs SNOJO Adventures if any are available, Runs 5 (free) adventures in the mines (if Unattended Minor skill is found), Checks Spacegate to see if any turns are remaining (or if it was even opened).  Grabs Cop dollars (if available), and Time Spinner items (if available)  Works in STANDARD, HARDCORE, and NON-STANDARD ascensions, and in AFTERCORE TOO!  Script will only spend a minimal amount of meat, just to buy a 'bag of park garbage', if none are in inventory, and charter is available.  And MUCH MUCH more!  It's easily customizable too!"
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/fluxxdog-coding/code/trunk/superdrinks/", 
-  "author": "fluxxdog", 
-  "name": "Superdrinks for Fun and Profit", 
-  "forumThread": "http://kolmafia.us/showthread.php?4703-Superhuman-Cocktailcrafting-script", 
-  "shortDesc": "Automates making Superdrinks if you have still access", 
-  "category": "action", 
-  "longDesc": "This script is for whipping up Superhuman drinks. This is intended to be run as part of a beforeBattleScript. If you have your own, or use BestBetweenBattle, you can basically add this:<p style='border:1px solid red;padding:5px 10px 5px 10px;margin-left:40px;margin-right:40px;font-family:monospace;'>import \"superdrinks.ash\";<br />if(stills_available()>0) make_superdrinks();</p>"
+   "repo": "https://svn.code.sf.net/p/bale/ocd/code/",
+   "author": "Bale",
+   "name": "OCD Inventory Control",
+   "forumThread": "https://kolmafia.us/showthread.php?1818-OCD-Inventory-control",
+   "shortDesc": "Complete inventory control system",
+   "category": "action",
+   "longDesc": "This script will allow you to choose the proper dispensation for absolutely every item that may be in your inventory. You can tell it exactly how many to keep of any given item, or tell it to keep all of them. It can put items in the mall, send items as gifts, mix keys into pies, use gift certificates, stock your display case or autosell trash items. <i>And more!</i><p>Okay, this script is honestly a little bit insane. It's somewhat nuts to list a method of dealing with every single item I may own. I use this because I want to cleanse my inventory before every hardcore ascension. It takes a bit of effort to make the list of everything, but now my inventory can be malled in a flash. If anyone else wants to take the trouble of making their own list it would do the same for them."
  },
  {
-  "repo": "https://svn.code.sf.net/p/winterbay-mafia/sushi/code/", 
-  "author": "Winterbay", 
-  "name": "Sushi", 
-  "forumThread": "http://kolmafia.us/showthread.php?5767-Best-sushi-for-profit", 
-  "shortDesc": "Eats best sushi for profit", 
-  "category": "action", 
-  "longDesc": "This script tries to look over your sushi-eating options and make the best choices based on a given meat-per-adventure. It can be used directly or imported into another script as described in the associated thread."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/guyymafia/code/taleprank/", 
-  "author": "guyy", 
-  "name": "Tale Prank", 
-  "forumThread": "http://kolmafia.us/showthread.php?21303", 
-  "shortDesc": "Generates zany prank text", 
-  "category": "action", 
-  "longDesc": "Makes randomized remixes of Crimbo Tale, Monster Manuel, and other in-game sources. Sends the ridiculous results to unsuspecting players in time-spinner pranks or brick messages."
+   "repo": "https://svn.code.sf.net/p/rollover-management/code/",
+   "author": "PazSox, bumcheekcity, hippoking & Th3y",
+   "name": "Rollover Management",
+   "forumThread": "https://kolmafia.us/showthread.php?22074-Rollover-Management",
+   "shortDesc": "Maximize rollover turns and completes Daily Deeds",
+   "category": "action",
+   "longDesc": "Maximizes player for maximum turns with gear on hand.  Checks ALL daily deeds, Does all daily deeds that don't require user input.  Checks your Source Terminal for usage, and informs you if you're missing any upgrades.  Runs SNOJO Adventures if any are available, Runs 5 (free) adventures in the mines (if Unattended Minor skill is found), Checks Spacegate to see if any turns are remaining (or if it was even opened).  Grabs Cop dollars (if available), and Time Spinner items (if available)  Works in STANDARD, HARDCORE, and NON-STANDARD ascensions, and in AFTERCORE TOO!  Script will only spend a minimal amount of meat, just to buy a 'bag of park garbage', if none are in inventory, and charter is available.  And MUCH MUCH more!  It's easily customizable too!"
  },
  {
-  "repo": "https://svn.code.sf.net/p/mafiarecovery/code/", 
-  "author": "Bale", 
-  "name": "OBE Universal Recovery", 
-  "forumThread": "http://kolmafia.us/showthread.php?1780-Universal-Recovery-Script", 
-  "shortDesc": "Automated Recovery", 
-  "category": "action", 
-  "longDesc": "This is Bale's original repository.  It is recommended that this be uninstalled and the 'other' version be installed."
+   "repo": "https://github.com/soolar/sl_ascend/trunk/RELEASE/",
+   "author": "soolar, cheesecookie",
+   "name": "SL_Ascend",
+   "forumThread": "https://kolmafia.us/showthread.php?23498-sl_ascend-a-cc_ascend-fork",
+   "shortDesc": "Automated ascenscion",
+   "category": "action",
+   "longDesc": "soolar's fork of cheesecookie's cc_ascend"
  },
  {
-  "repo": "https://svn.code.sf.net/p/kolmafiascripts/mafiarecovery/code/",
-  "author": "Bale, zarqon, community", 
-  "name": "Universal Recovery", 
-  "forumThread": "http://kolmafia.us/showthread.php?1780-Universal-Recovery-Script", 
-  "shortDesc": "Automated Recovery", 
-  "category": "action", 
-  "longDesc": "This is the supported version of Bale's original.  This script will change kolMafia's default healing functions to make the most of your available items in hardcore/ronin or make the most of your meat if you have access to the mall. That makes this a great restoration improvement for both ascenders <i>and</i> farmers.<p style='border:1px solid red;text-indent:-20px;padding:5px 10px 5px 30px;margin-left:40px;margin-right:40px;'>To make this work automatically, you need to copy/paste the following line into the CLI:<br /><span style='font-weight:bold;font-family:monospace'>set recoveryScript = Universal_recovery.ash</span></p>"
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/veracity0/code/garden/", 
-  "author": "Veracity", 
-  "name": "Veracity's Garden Harvester", 
-  "forumThread": "http://kolmafia.us/showthread.php?21651", 
-  "shortDesc": "Harvest any kind of garden", 
-  "category": "action", 
-  "longDesc": "This script lets you configure what you want from all possible gardens and will detect garden type and pick the right thing."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/eodascensionchecklist/code/", 
-  "author": "Eliteofdelete", 
-  "name": "Ascension Checklist Handler", 
-  "forumThread": "http://kolmafia.us/showthread.php?17230-EoD-SC-Ascension-Checklist-Handler", 
-  "shortDesc": "Helps with daily pulls", 
-  "category": "information", 
-  "longDesc": "This stores all your ascension relevant items into an easy to view relay script, based on on a variety of factors such as path, class and astral items. It helps you build a pull lists based on the factors that matter to you. It will even alert you to type69 status if your path is current. Finally, it will help you to buy and pull items in run based on your decisions."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/therazekolmafia/canadv/code/", 
-  "author": "Theraze, zarqon", 
-  "name": "CanAdv", 
-  "forumThread": "http://kolmafia.us/showthread.php?2027-CanAdv-check-whether-you-can-adventure-at-a-given-location", 
-  "shortDesc": "Check if you \"Can Adventure\" at a location", 
-  "category": "information", 
-  "longDesc": "Check whether you can adventure at any given location.<p style='text-align:center;font-style:italic'>This is most useful when imported into other scripts and may be automatically installed by them.</p>"
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/kolmafiascripts/cfstat/code/", 
-  "author": "fronobulax", 
-  "name": "CFStat", 
-  "forumThread": "http://kolmafia.us/showthread.php?9947-ManageStore-and-CFStat-Weed-out-your-store", 
-  "shortDesc": "Acquire price and sales volume from Coldfront", 
-  "category": "information", 
-  "longDesc": "Fetches and caches price and sales volume from Coldfront"
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/kolmafiascripts/dcq/code/", 
-  "author": "fronobulax", 
-  "name": "DCQuest", 
-  "forumThread": "http://kolmafia.us/showthread.php?3640-DCQuest", 
-  "shortDesc": "Assists completionists in managing their display case", 
-  "category": "information", 
-  "longDesc": "DCQuest is an information gathering script for the Display Case completest. It looks at every displayable item that your version of Kolmafia knows about and writes tab delimited files with some annotation in the data subdirectory."
- }, 
- {
-  "repo": "https://github.com/Ezandora/Guide/branches/Release/", 
-  "author": "Ezandora", 
-  "name": "Guide", 
-  "forumThread": "http://kolmafia.us/showthread.php?14784-Guide", 
-  "shortDesc": "Complete Ascension Guide", 
-  "category": "information", 
-  "longDesc": "Guide is a relay script that will give advice on playing KoL. It details how to complete quests you're on and what resources you have available. During an ascension, it will inform you what you need to know to complete your ascension as quickly as possible including faxing, the daily dungeon, acquiring a wand and where to go next."
- }, 
- {
-  "repo": "http://svn.code.sf.net/p/missingmanuel/code/trunk/", 
-  "author": "Turing", 
-  "name": "Missing Manuel", 
-  "forumThread": "http://kolmafia.us/showthread.php?11428-missingManuel-ash-Yet-Another-Manuel-Script!", 
-  "shortDesc": "Missing Manuel factoids!", 
-  "category": "information", 
-  "longDesc": "This scans Monster Manuel to get a list of monsters with missing factoids.<p>The script will ask if you want to display the full list. Selecting yes will list all monsters. Selecting no will only list the monsters for which you still need to hunt factoids. The display of monsters is sorted by area for your convenience."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/reference-plus/code/",
-  "author": "zarqon",
-  "name": "Prefref Plus",
-  "forumThread": "http://kolmafia.us/showthread.php?22101",
-  "shortDesc": "Manager for all your ZLib settings and mafia prefs",
-  "category": "information",
-  "longDesc": "Your one-stop settings and preferences manager.  Conveniently search, configure, delete, revert to default, and understand your ZLib script settings and KoLmafia properties."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/psychoseamatic/code/", 
-  "author": "zarqon", 
-  "name": "Psychose-a-Matic", 
-  "forumThread": "http://kolmafia.us/showthread.php?13293-Psychose-a-Matic-one-stop-NPC-psychiatric-management", 
-  "shortDesc": "One-stop psychoanalytic jar management", 
-  "category": "information", 
-  "longDesc": "The psychoanalytic jars dropped by the Angry Jung Man add a <i>lot</i> of fun content to KoL. Each jar is a flavorful mini-quest with a sweet sword for a reward. It can be tedious, however, to manage everything -- the jars are in your inventory, the NPCs are all over the kingdom, the couch is in your campground, and all the quest information you might want to seek out is on the Wiki.<p>When I was setting out to experience all the jar content for myself, I immediately realized a script which organized this information and put it all in one place would be a big click-reducing asset to completing the jars. Hence, this script."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/rlbond86-mafia-scripts/code/task_list/trunk/", 
-  "author": "rlbond86", 
-  "name": "Relay Task List", 
-  "forumThread": "http://kolmafia.us/showthread.php?14400-Relay-Task-List-(Programmable!)", 
-  "shortDesc": "The ultimate \"To Do\" list!", 
-  "category": "information", 
-  "longDesc": "This relay override shows a task list at the bottom of main.php displaying stuff you still need to do. Unlike some other scripts that might be similar, this one is <b>programmable</b> using ASH.<p>If you don't know anything about ASH programming, that's OK! The task list comes preprogrammed with all of the in-run main quests as well as some side quests and The Sea. It's quite functional even if you never touch the programmable aspect."
- }, 
- {
-  "repo": "http://svn.code.sf.net/p/mafia-cs-planner/svn/", 
-  "author": "Lxndr, Almighty Sapling", 
-  "name": "Skill Planner/CS Tracker", 
-  "forumThread": "http://kolmafia.us/showthread.php?5657-Skill-CS-planner", 
-  "shortDesc": "Relay script detailing the characters skills and CS", 
-  "category": "information", 
-  "longDesc": "This is an informational script very similar to the profile snapshot, but with some critical differences. All the information is stored locally, rather than online. The layout is a little different, and semi-customizable to your liking. It shows familiars, trophies, tattoos and skills. The skills come with a nice little queue so that you can drag and drop them into place and sort them based on priority."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/guyymafia/code/slimecalc/", 
-  "author": "guyy", 
-  "name": "Slimecalc", 
-  "forumThread": "http://kolmafia.us/showthread.php?3113-autoBasement-ash-Better-basement-automation", 
-  "shortDesc": "The slime calculator, for efficient Slimetubing", 
-  "category": "information", 
-  "longDesc": "This is a tool for finding the best (i.e. cheapest) way to boost Slimetube ML for a specific turncount.<p>The CLI command <span style='font-weight:bold;font-family:monospace;color:blue'>slimecalc [number of turns]</span> will display a shopping list of items to produce that turncount. Use <span style='font-weight:bold;font-family:monospace;color:blue'>slimecalc run [turns]</span> to have the script buy and use those items for you.<p>Additional functionality is explained in the forum thread."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/ccascend/code/snapshot",
-  "author": "cheesecookie, bumcheekcity",
-  "name": "Snapshot Maker",
-  "forumThread": "http://forums.kingdomofloathing.com/vb/showthread.php?t=218735",
-  "shortDesc": "Take a snapshot of your character to display", 
-  "category": "information",
-  "longDesc": "Makes a snapshot of your character and display it on a website (where everyone can see it) with lots of boxes that you compulsively want to make green. <p>Yes, completionist torture..."
+   "repo": "https://svn.code.sf.net/p/fluxxdog-coding/code/trunk/superdrinks/",
+   "author": "fluxxdog",
+   "name": "Superdrinks for Fun and Profit",
+   "forumThread": "https://kolmafia.us/showthread.php?4703-Superhuman-Cocktailcrafting-script",
+   "shortDesc": "Automates making Superdrinks if you have still access",
+   "category": "action",
+   "longDesc": "This script is for whipping up Superhuman drinks. This is intended to be run as part of a beforeBattleScript. If you have your own, or use BestBetweenBattle, you can basically add this:<p style='border:1px solid red;padding:5px 10px 5px 10px;margin-left:40px;margin-right:40px;font-family:monospace;'>import \"superdrinks.ash\";<br />if(stills_available()>0) make_superdrinks();</p>"
  },
  {
-  "repo": "https://svn.code.sf.net/p/standard-rollover-bonus/code/", 
-  "author": "PazSox", 
-  "name": "Standard Rollover Bonus", 
-  "forumThread": "http://kolmafia.us/showthread.php?21993-Standard-Rollover-Bonus", 
-  "shortDesc": "Informs you about gear you have for rollover", 
-  "category": "information", 
-  "longDesc": "This script checks all items you have which will give you bonus adventures for rollover. It checks on-hand <i>and storage</i> items for gear, familiar, chateau, & campground items.</p><p>It tells you how many of each item you have and the adventure bonus you will receive for it.</p><p>It will tell you how many pulls you have available. This is made primarily for <b>softcore</b> players. It works in <i>both</i> standard, and unrestricted ascensions."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/rlbond86-mafia-scripts/code/cocktailmax/trunk/", 
-  "author": "rlbond86", 
-  "name": "Superhuman Cocktail Maximizer", 
-  "forumThread": "http://kolmafia.us/showthread.php?11488-Superhuman-Cocktailcrafting-maximizer", 
-  "shortDesc": "Calculates which drinks to superhumanly cocktailcraft", 
-  "category": "information", 
-  "longDesc": "Have Superhuman Cocktailcrafting and a bunch of ingredients? Don't know how to make as many drinks as possible out of all your stuff? Not sure what to use your still charges for?<p>Enter this Cocktailcrafting Maximizer. The script will run a linear program to determine how to maximize your still uses and what drinks to create. It will try to first maximize the total number of drinks you can make, breaking ties by total profit.<p>The script won't actually do anything when you run it. You'll have to create the drinks yourself."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/towerchecker/code/", 
-  "author": "lostcalpolydude", 
-  "name": "Tower Checker", 
-  "forumThread": "http://kolmafia.us/showthread.php?9381-Tower-Checker", 
-  "shortDesc": "Naughty Sorceress' Tower checklist", 
-  "category": "information", 
-  "longDesc": "This script gives information about what you have and still need for climbing the tower. It gives the same information as the <span style='font-weight:bold;font-family:monospace'>telescope</span> command, plus it lets you know if you need a drum, guitar, star items, keys or an item for the final boss. This is mostly so you don't forget to farm/pull an item before reaching the tower."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/uberpvpoptimizer/svn/", 
-  "author": "UberFerret", 
-  "name": "UberPvPOptimizer", 
-  "forumThread": "http://kolmafia.us/showthread.php?18356-Fork%B2-UberPvPOptimizer-an-updated-PVPBestGear", 
-  "shortDesc": "Optimizes equipment for PvP", 
-  "category": "information", 
-  "longDesc": "This script will equip your character with equipment to maximize the value of current PVP minigames. It will use the best equipment in inventory or buy better gear if you enable that setting.<p>Updated through at least season 19."
+   "repo": "https://svn.code.sf.net/p/winterbay-mafia/sushi/code/",
+   "author": "Winterbay",
+   "name": "Sushi",
+   "forumThread": "https://kolmafia.us/showthread.php?5767-Best-sushi-for-profit",
+   "shortDesc": "Eats best sushi for profit",
+   "category": "action",
+   "longDesc": "This script tries to look over your sushi-eating options and make the best choices based on a given meat-per-adventure. It can be used directly or imported into another script as described in the associated thread."
  },
  {
-  "repo": "https://svn.code.sf.net/p/kol-airport-colors/code",
-  "author": "darkcodelagsniper",
-  "name": "Airport Colors",
-  "forumThread": "https://kolmafia.us/showthread.php?19258",
-  "shortDesc": "Colors each plane in the Elemental Aiport with the appropriate elemental color",
-  "category": "relay",
-  "longDesc": "Colors each plane in the Elemental Aiport with the appropriate elemental color"
- }, 
- {
-  "repo": "https://github.com/Ezandora/Asdon-Martin-GUI/branches/Release/", 
-  "author": "Ezandora", 
-  "name": "Asdon Martin GUI", 
-  "forumThread": "https://kolmafia.us/showthread.php?22188", 
-  "shortDesc": "Enhances view of Asdon Martin in your workshed", 
-  "category": "relay", 
-  "longDesc": "Choose desired effects and choose fuel more efficiently."
+   "repo": "https://svn.code.sf.net/p/guyymafia/code/taleprank/",
+   "author": "guyy",
+   "name": "Tale Prank",
+   "forumThread": "https://kolmafia.us/showthread.php?21303",
+   "shortDesc": "Generates zany prank text",
+   "category": "action",
+   "longDesc": "Makes randomized remixes of Crimbo Tale, Monster Manuel, and other in-game sources. Sends the ridiculous results to unsuspecting players in time-spinner pranks or brick messages."
  },
  {
-  "repo": "https://svn.code.sf.net/p/bale/relay/code/campground/", 
-  "author": "Bale", 
-  "name": "Bale's Campground", 
-  "forumThread": "http://kolmafia.us/showthread.php?12644-Bale-s-Relay-Overrides", 
-  "shortDesc": "Additional functionality for your campground", 
-  "category": "relay", 
-  "longDesc": "Adds several nice features to your campground:<ul><li><b>Telescope</b>: When you \"Look Low\" it adds detail, telling you exactly what items you need to kill the tower monsters and where to find them.</li><li><b>Bookshelf</b>: Tells you how many tome and libram summons you have done today.</li><li><b>Workshed</b>: Allows easy switching of workshed appliances if you haven't done so today.</li></ul>"
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/bale/relay/code/mall_storeLinks/", 
-  "author": "Bale", 
-  "name": "Bale's Mall", 
-  "forumThread": "http://kolmafia.us/showthread.php?12644-Bale-s-Relay-Overrides", 
-  "shortDesc": "Extra links added to your mall entrance", 
-  "category": "relay", 
-  "longDesc": "If you click on the \"mall\" link in the top menu it modifies that page. Not everyone uses the page, but for those who do... This adds several links as shortcuts to managing your item prices and viewing recent store activity."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/bale/relay/code/museum/", 
-  "author": "Bale", 
-  "name": "Bale's Museum", 
-  "forumThread": "http://kolmafia.us/showthread.php?12644-Bale-s-Relay-Overrides", 
-  "shortDesc": "Museum Leaderboard skin", 
-  "category": "relay", 
-  "longDesc": "Want to see which commendations for the current path are silver and which are bronze? This playful override adds numerical rankings and colorizes the player's names so that you can tell at a glance who just missed getting a silver star."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/bale/relay/code/topmenu/", 
-  "author": "Bale", 
-  "name": "Bale's Topmenu", 
-  "forumThread": "http://kolmafia.us/showthread.php?12644-Bale-s-Relay-Overrides", 
-  "shortDesc": "Topmenu skinned for increased functionality", 
-  "category": "relay", 
-  "longDesc": "<ul><li>Adds a clan whitelist drop-down. Click on the name of any clan in your whitelist to go there!</li><li>Adds an image of the Florist Friar's Cottage. Seeing the image helps me remember to use him.</li><li>Adds an image of a Hobo Fort to link directly to the clan raid logs.</li><li>The moons link to the Noblesse Oblige calendar.</li><li>It adds a few helpful links like \"bean\" for over the beanstalk and \"manor\" for Spookyraven Manor.</li><li>It tries to be intelligent about only adding links as they become relevant.</li><li>Does a few of these things for drop-down style menus also</li></ul>"
- }, 
- {
-  "repo": "https://github.com/Ezandora/Bastille/branches/Release/", 
-  "author": "Ezandora", 
-  "name": "Bastille", 
-  "forumThread": "https://kolmafia.us/showthread.php?22957", 
-  "shortDesc": "Enhances view of Bastille Battalion control rig to let you select rewards", 
-  "category": "relay", 
-  "longDesc": "Choose desired rewards via relay browser or CLI."
+   "repo": "https://svn.code.sf.net/p/kolmafiascripts/mafiarecovery/code/",
+   "author": "Bale, zarqon, community",
+   "name": "Universal Recovery",
+   "forumThread": "https://kolmafia.us/showthread.php?1780-Universal-Recovery-Script",
+   "shortDesc": "Automated Recovery",
+   "category": "action",
+   "longDesc": "This is the supported version of Bale's original.  This script will change kolMafia's default healing functions to make the most of your available items in hardcore/ronin or make the most of your meat if you have access to the mall. That makes this a great restoration improvement for both ascenders <i>and</i> farmers.<p style='border:1px solid red;text-indent:-20px;padding:5px 10px 5px 30px;margin-left:40px;margin-right:40px;'>To make this work automatically, you need to copy/paste the following line into the CLI:<br /><span style='font-weight:bold;font-family:monospace'>set recoveryScript = Universal_recovery.ash</span></p>"
  },
  {
-  "repo": "https://svn.code.sf.net/p/ckbiconmenu/code/", 
-  "author": "ckb", 
-  "name": "ckb's Iconic topmenu", 
-  "forumThread": "http://kolmafia.us/showthread.php?16445-ckb-s-Iconic-topmenu", 
-  "shortDesc": "Alternate topmenu relay overide, with fun icons!", 
-  "category": "relay", 
-  "longDesc": "Changes KoL's link style top menu into something similar to KoL's iconic top menu, but an original creation.<p>Icons are smaller than KoLs menu, and so this is more compact, and it does not have the large description popup (alt text only), and I added some color highlighting to more easily find what you want. The basic structure is utility on line 1, locations on line 2."
+   "repo": "https://svn.code.sf.net/p/veracity0/code/garden/",
+   "author": "Veracity",
+   "name": "Veracity's Garden Harvester",
+   "forumThread": "https://kolmafia.us/showthread.php?21651",
+   "shortDesc": "Harvest any kind of garden",
+   "category": "action",
+   "longDesc": "This script lets you configure what you want from all possible gardens and will detect garden type and pick the right thing."
  },
  {
-  "repo": "https://svn.code.sf.net/p/rlbond86-mafia-scripts/code/bounty_hunter_helper/trunk/", 
-  "author": "rlbond86", 
-  "name": "Bounty Hunter Helper", 
-  "forumThread": "http://kolmafia.us/showthread.php?10991-Bounty-Hunter-Helper", 
-  "shortDesc": "Shows turncount for available bounties", 
-  "category": "relay", 
-  "longDesc": "Tired of opening the KoL Wiki every day to check on which bounty is the fastest? Ever realized that the turns quoted on the Wiki are inaccurate? This relay script was made to display bounty information in a helpful, easy way."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/guyymafia/code/buttonfrenzy/", 
-  "author": "guyy", 
-  "name": "buttonFrenzy", 
-  "forumThread": "http://kolmafia.us/showthread.php?12692-buttonFrenzy-Betterized-stores", 
-  "shortDesc": "Improves buttons for all stores", 
-  "category": "relay", 
-  "longDesc": "A buttontastic improvement to the interface of mall-stores and (most) NPC stores."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/mafiachit/code/", 
-  "author": "Bale, Chez", 
-  "name": "ChIT", 
-  "forumThread": "http://kolmafia.us/showthread.php?7594-Character-Info-Toolbox", 
-  "shortDesc": "Character Pane Replacement", 
-  "category": "relay", 
-  "longDesc": "This skins your left pane to make everything easier to see at the same time. It also adds a lot of great tools such as an outfit switcher, MCD control and Florist plant visibility and control. It is so shiny and awesome that your entire life will be better and you'll wonder how you ever lived without it... at least that is what everyone tells me."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/relay-charsheet/code/", 
-  "author": "Heeheehee, Theraze, Rinn", 
-  "name": "Charsheet: Skills by Class", 
-  "forumThread": "http://kolmafia.us/showthread.php?1578-charsheet-php-Group-Skills-by-Character-Class", 
-  "shortDesc": "Groups skills by class on the charsheet", 
-  "category": "relay", 
-  "longDesc": "On your charsheet it will sort your skills by character class."
- }, 
- {
-  "repo": "https://github.com/balefull/raidlog-parser/branches/master", 
-  "author": "Bale, bordemstirs", 
-  "name": "Clan Raidlog Parser", 
-  "forumThread": "http://kolmafia.us/showthread.php?8052-raidlog-override-a-la-Dr-Evi1", 
-  "shortDesc": "Parse your clan dungeon Raidlogs", 
-  "category": "relay", 
-  "longDesc": "Parses the clan dungeon Raidlog to make your clan dungeons like Hobopolis and Dreadsylvania a lot more friendly. It is the KoLmafia version of Dr.Evi1's famous greasemonkey script."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/bale/dinsey/code/",
-  "author": "Bale",
-  "name": "Dinsey Landfill",
-  "forumThread": "https://kolmafia.us/showthread.php?24009",
-  "shortDesc": "Tracks your progress towards gaining each of the four keycards and killing Wart Dinsey",
-  "category": "relay",
-  "longDesc": "Tracks your progress towards gaining each of the four keycards and killing Wart Dinsey"
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/rlbond86-mafia-scripts/code/enhanced_inventory_spoilers/trunk/", 
-  "author": "rlbond86, ckb", 
-  "name": "Enhanced Inventory Spoilers", 
-  "forumThread": "http://kolmafia.us/showthread.php?10005-Enhanced-Inventory-Spoilers", 
-  "shortDesc": "Shows item effects/enchantments in inventory", 
-  "category": "relay", 
-  "longDesc": "This will display information about every item in your inventory, below its name."
- }, 
- {
-  "repo": "https://github.com/Ezandora/Genie/branches/Release/", 
-  "author": "Ezandora", 
-  "name": "Genie", 
-  "forumThread": "https://kolmafia.us/showthread.php?22077", 
-  "shortDesc": "Relay script for the genie bottle to more easily choose wishes.", 
-  "category": "relay", 
-  "longDesc": "Choose monsters to fight, effects, stats, ponies, etc."
+   "repo": "https://svn.code.sf.net/p/winterbay-mafia/autobasement/code/",
+   "author": "Winterbay, Rinn",
+   "name": "autoBasement",
+   "forumThread": "https://kolmafia.us/showthread.php?3113-autoBasement-ash-Better-basement-automation",
+   "shortDesc": "Automates Fernswarthy's Basement",
+   "category": "adventure",
+   "longDesc": "Automates Fernswarthy's Basement: <ul><li>Creates and switches oufits</li><li>Uses cheapest buffs needed for necessary buffing</li><li>User perference to use Dr. Lucifer or other food/drink/spleen items.</li></ul>See thread for full list of options."
  },
  {
-  "repo": "https://svn.code.sf.net/p/rlbond86-mafia-scripts/code/fax_tell/trunk/", 
-  "author": "rlbond86", 
-  "name": "Fax Identification", 
-  "forumThread": "http://kolmafia.us/showthread.php?11247-Tell-you-what-you-got-in-the-fax-machine-1-0", 
-  "shortDesc": "Tells you what you got from the fax machine", 
-  "category": "relay", 
-  "longDesc": "I kept getting annoyed when I wouldn't get the fax I wanted. So I wrote this relay script which displays what just arrived in the fax machine."
- }, 
- {
-  "repo": "https://github.com/Ezandora/Helix-Fossil/branches/Release/", 
-  "author": "Ezandora", 
-  "name": "Helix Fossil", 
-  "forumThread": "https://kolmafia.us/showthread.php?22521", 
-  "shortDesc": "Adds 'script' and 'again' buttons to Pocket Familiar battles", 
-  "category": "relay", 
-  "longDesc": "Automate battles and use axiliary script to choose your team."
+   "repo": "https://svn.code.sf.net/p/autobhh/code/",
+   "author": "Theraze, izchak, Raorn, zarqon",
+   "name": "Bounty",
+   "forumThread": "https://kolmafia.us/showthread.php?1023-auto-BHH-and-friends",
+   "shortDesc": "Automatic Bounty Hunter Hunter",
+   "category": "adventure",
+   "longDesc": "The purpose of this script is to automatically go to the Bounty Hunter Hunter, accept bounties, hunt them and turn in the completed bounties for lucre."
  },
  {
-  "repo": "https://svn.code.sf.net/p/rlbond86-mafia-scripts/code/better_trainer/trunk/", 
-  "author": "rlbond86", 
-  "name": "Improved Guild Trainer", 
-  "forumThread": "http://kolmafia.us/showthread.php?13972-Improved-Guild-Trainer", 
-  "shortDesc": "Shows skill descriptions for all these newfangled skills", 
-  "category": "relay", 
-  "longDesc": "Displays the description for every skill at the Guild Trainer."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/bale/ltt/code/", 
-  "author": "Bale", 
-  "name": "LT&T Office", 
-  "forumThread": "http://kolmafia.us/showthread.php?12644-Bale-s-Relay-Overrides", 
-  "shortDesc": "Display full quest information for the LT&T Office", 
-  "category": "relay", 
-  "longDesc": "Do you have all the LT&T quest information memorized? With that information it can be hard to make an informed decision about which quest to select. When you go to the LT&T office in the relay browser, this will display full information concerning all possible quests. It will list the monsters you have to fight, the boss at the end, and any incidental prize of note along the way. In case you have trouble defeating the final boss, you can click the boss's name to see its entry on the KoL Wiki."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/rlbond86-mafia-scripts/code/modular_choice_override/trunk/", 
-  "author": "rlbond86", 
-  "name": "Modular Choice Override", 
-  "forumThread": "http://kolmafia.us/showthread.php?11264-Modular-Choice-Override", 
-  "shortDesc": "Allows overriding of choice adventures", 
-  "category": "relay", 
-  "longDesc": "This relay script is really more of a framework.<p> Ever wanted to override a choice adventure, but been frustrated with mafia's lack of support? It's very difficult to override a single choice adventure and not interfere with other choice adventure overrides. This script is designed to make overriding choice adventures easy and conflict-free."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/bale/relay/code/Monster_Manuel_Improvement/", 
-  "author": "Bale", 
-  "name": "Monster Manuel: Improved", 
-  "forumThread": "http://kolmafia.us/showthread.php?11388-Monster-Manuel-Improved", 
-  "shortDesc": "Lets big monsters be big in KoL's Monster Manuel", 
-  "category": "relay", 
-  "longDesc": "Lets big monsters be big in KoL's Monster Manuel.<p>This also adds annotations for ambiguous monsters such as which Nightstand is which, the toolbearing Gremlins, the version of the El Vibrato monsters that you get from the translator and quite a few others."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/bale/relay/code/manor_unlockInfo/", 
-  "author": "Bale", 
-  "name": "Manor Informer", 
-  "forumThread": "http://kolmafia.us/showthread.php?12644-Bale-s-Relay-Overrides", 
-  "shortDesc": "Get full status on Manor unlocking from ground floor", 
-  "category": "relay", 
-  "longDesc": "Display full status of Manor unlocking when viewing the ground floor."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/kolm-noobsorb/svn/",
-  "author": "Smelltastic",
-  "name": "Noobsorb",
-  "forumThread": "https://kolmafia.us/showthread.php?21529",
-  "shortDesc": "A relay script to keep track of Gelatinous Noob absorptions.",
-  "category": "relay",
-  "longDesc": "For each modifier, provides a dropdown list of skills that affect it with available items"
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/bale/ns-tower-relay/code/", 
-  "author": "Bale", 
-  "name": "NS Tower Scroller", 
-  "forumThread": "http://kolmafia.us/showthread.php?12644-Bale-s-Relay-Overrides", 
-  "shortDesc": "Automatically scrolls the Sorceress' Tower", 
-  "category": "relay", 
-  "longDesc": "You know how the new NS Tower is this ridiculously long page that you have to keep scrolling down to reach the bottom? Install this script to scroll that for you."
- }, 
- {
-  "repo": "https://github.com/Ezandora/Source-Terminal-GUI/branches/Release/", 
-  "author": "Ezandora", 
-  "name": "Source Terminal GUI", 
-  "forumThread": "https://kolmafia.us/showthread.php?21329", 
-  "shortDesc": "Enhances view of Source Terminal in your campground", 
-  "category": "relay", 
-  "longDesc": "Choose desired skills, enhancements, extrusions, and enquiries."
+   "repo": "https://svn.code.sf.net/p/bumcheekascend/code/bumcheekascend/",
+   "author": "bumcheekcity, Winterbay",
+   "name": "Bumcheekcend",
+   "forumThread": "https://kolmafia.us/showthread.php?4963-bumcheekcend-ash-A-zero-setup-semi-automated-ascension-script!",
+   "shortDesc": "Automatically script an entire ascension",
+   "category": "adventure",
+   "longDesc": "This is a semi-automated hardcore ascension script. Its stated intent is to:<ol><li>Ascend Moxie characters through HCNP ascensions to get karma</li><li>Ascend Muscle and Myst characters mostly, so you can finish off ascensions started with them</li></ol>This is <b>not</b> intended for softcore, Bad Moon or any challenge path. If it works... fine, but bugs with will probably remain bugs."
  },
  {
-  "repo": "https://svn.code.sf.net/p/bale/spelunky/code/", 
-  "author": "Bale", 
-  "name": "Spelunky Reference", 
-  "forumThread": "http://kolmafia.us/showthread.php?12644-Bale-s-Relay-Overrides", 
-  "shortDesc": "Adds helpful Spelunkin' non-combat information", 
-  "category": "relay", 
-  "longDesc": "The most confusing thing about playing the Spelunkin' minigame is keeping track of the non-combats. This adds helpful information about all the Spelunkin' non-combat information to the Spelunky map as well as information about which non-combat to expect next."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/bale/snojo/code/", 
-  "author": "Bale", 
-  "name": "Snojo Training", 
-  "forumThread": "http://kolmafia.us/showthread.php?12644-Bale-s-Relay-Overrides", 
-  "shortDesc": "Provides information about Snojo training modes", 
-  "category": "relay", 
-  "longDesc": "Provides information about Snojo training modes. This including number of turns trained today, number of turns trained in each mode and how many turns until each possible prize."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/guyymafia/code/trophytastic/", 
-  "author": "guyy", 
-  "name": "TrophyTastic", 
-  "forumThread": "http://kolmafia.us/showthread.php?14133-TrophyTastic-the-trophy-case-de-suckifier", 
-  "shortDesc": "The trophy case de-suckifier", 
-  "category": "relay", 
-  "longDesc": "Trophies! They're great. But arranging them is a pain in the (chaos) butt(erfly).<p>This script transforms the barely usable trophy case into a means of creating bitchin' trophy configurations quickly instead of over many hours while you slowly lose your mind."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/bale/relay/code/desc_wikiLinks/", 
-  "author": "Bale", 
-  "name": "Wiki Links", 
-  "forumThread": "http://kolmafia.us/showthread.php?12644-Bale-s-Relay-Overrides", 
-  "shortDesc": "Pop-ups descriptions link to entry on KoL Wiki", 
-  "category": "relay", 
-  "longDesc": "This alters KoL's pop-up windows, making the title of the window into a link to its entry on the KoL Wiki. This improves the pop-up descriptions for effect, familiar, item, outfit, skill and Pasta Thrall."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/bale/relay/code/woods_questStart/", 
-  "author": "Bale", 
-  "name": "Woods quest starter", 
-  "forumThread": "http://kolmafia.us/showthread.php?12644-Bale-s-Relay-Overrides", 
-  "shortDesc": "Get transfunctioner and screwdriver automatically", 
-  "category": "relay", 
-  "longDesc": "Automatically get the continuum transfunctioner and screwdriver when woods are first visited. This saves some repetitive clicking at the beginning of your ascension."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/relaywtf/code/famswtf/", 
-  "author": "ckb", 
-  "name": "WTF Familiars", 
-  "forumThread": "http://kolmafia.us/showthread.php?15696-WTF-Relay-script-collection", 
-  "shortDesc": "Display familiar information from terrarium", 
-  "category": "relay", 
-  "longDesc": "I have a lot of familiars. And the list is growing. And I can't keep track of what they all do. WTF? How am I supposed to remember exactly how 100+ vaguely named creatures perform? I cannot. I know the hipster does lots of stuff and gives free fights... and so does the goth kid. But the goth kid is really a fairy right? No, its a volleyball. Or a leprechaun... I don't remember.<p>I could look this up on the wiki over and over. And I used to. Then I wrote this relay script to tell me."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/relaywtf/code/inventorywtf/", 
-  "author": "ckb", 
-  "name": "WTF Inventory", 
-  "forumThread": "http://kolmafia.us/showthread.php?15696-WTF-Relay-script-collection", 
-  "shortDesc": "Display information about items in your inventory", 
-  "category": "relay", 
-  "longDesc": "Updates your inventory page with WTF-style descriptions for items and effects. This is a modified version of rlbond86's Enhanced Inventory Spoilers, which is a modified version on my original Inventory SPOILERZ relay override script. It will display information about the items in your inventory below their name.<p>This script uses the same basic WTF code as the others, so you get standardized colors and fonts and look and feel."
+   "repo": "https://svn.code.sf.net/p/bumcheekascend/code/bumpork/",
+   "author": "bumcheekcity",
+   "name": "BumPork",
+   "forumThread": "https://kolmafia.us/showthread.php?6861-Automatic-Porko!",
+   "shortDesc": "Automatically play Porko",
+   "category": "adventure",
+   "longDesc": "Simply complete the quest and unlock the Elvish Paradise, run bumpork.ash and it should work fine."
  },
  {
-  "repo": "https://svn.code.sf.net/p/relaywtf/code/shopwtf/", 
-  "author": "ckb", 
-  "name": "WTF Shops", 
-  "forumThread": "http://kolmafia.us/showthread.php?15696-WTF-Relay-script-collection", 
-  "shortDesc": "Help with the Dungeon Vending Machine", 
-  "category": "relay", 
-  "longDesc": "For the Daily Dungeon Vending Machine, this will show you which keys you have and which keys you do not have. It will take away the link to buy keys you already have. It will also check if you have a key lime pie in your inventory, and show that you DO have the key IF you have the pie.<p>This is because I am forgetful and will pull a pie AND buy the key at the same time, and that sucks."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/relaywtf/code/skillswtf/", 
-  "author": "ckb", 
-  "name": "WTF Skills", 
-  "forumThread": "http://kolmafia.us/showthread.php?15696-WTF-Relay-script-collection", 
-  "shortDesc": "Skill list is sorted, clickable and informative", 
-  "category": "relay", 
-  "longDesc": "When casting skills and buffs from the relay browser, they are color coded to help distinguish types. Active effects from skills are highlighted.<p>The incentive here is that I found myself going to the skills page to buff up and forgetting what each skill does and which skills I had already cast and which ones were single effect only (songs and expressions).  This should make that more clear and more easy."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/relaywtf/code/vipwtf/", 
-  "author": "ckb", 
-  "name": "WTF VIP Lounge", 
-  "forumThread": "http://kolmafia.us/showthread.php?15696-WTF-Relay-script-collection", 
-  "shortDesc": "Help with the VIP Concession Stands", 
-  "category": "relay", 
-  "longDesc": "Hot dogs and Speakeasy Drinks from the VIP lounge are totally sweet -- awesome food, great in HC, and they give some totally sweet effects, but I can't remember what any of them do. To find out, first you have to click the item to open up an info box, which has a link to the effect, which you then click to give its description.<p>Or you can skip that process by using this script so you won't have to click <i>anything</i>."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/batman-re/code/", 
-  "author": "zarqon", 
-  "name": "BatMan RE", 
-  "forumThread": "http://kolmafia.us/showthread.php?10042-BatMan-Relay-more-info-less-clicking", 
-  "shortDesc": "Provides advanced combat interface in browser", 
-  "category": "combat", 
-  "longDesc": "Provides advanced combat HUD and automation in the relay browser. It will display recommended actions to complete combat and solve quests. You can them execute them as a macro by clicking."
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/digitrev/code/extraction", 
-  "author": "digitrev", 
-  "name": "extraction", 
-  "forumThread": "http://kolmafia.us/showthread.php?15383-extraction-ash-Automated-Gene-Extraction", 
-  "shortDesc": "Automates use of the DNA Lab",
-  "category": "combat",
-  "longDesc": "This is a two-part script for using the DNA syringe. The first part is a custom combat script that will automatically extract the DNA you want. The second part is an afteradventure script, to automate creation of gene tonics or hybridization.<p>See the forum post for details on setup."
+   "repo": "https://svn.code.sf.net/p/cartouchehunter/svn/",
+   "author": "ungawa",
+   "name": "CartoucheHunter",
+   "forumThread": "https://kolmafia.us/showthread.php?18121-CartoucheHunter",
+   "shortDesc": "Seaches for Ed's Cartouches throughout the Kingdom",
+   "category": "adventure",
+   "longDesc": "This script will adventure in every zone where you have not yet adventured today and aborts if you find a cartouche. It checks your session log for information about where you have adventured, so it knows if you already found one today and if you abort prematurely, it will pick up where it left off.<p>Before running the script, <b><u>the player</u></b> needs to:<ul><li>Equip the Crown of Ed and pirate fledges</li><li>Maximize +combat%</li></ul>"
  },
  {
-  "repo": "https://svn.code.sf.net/p/smartstasis/code/", 
-  "author": "zarqon", 
-  "name": "SmartStasis", 
-  "forumThread": "http://kolmafia.us/showthread.php?1715-SmartStasis-a-complex-script-for-a-simple-CCS", 
-  "shortDesc": "Automates stasis and other non-lethal combat", 
-  "category": "combat", 
-  "longDesc": "Automates stasis and everything else that doesn't kill a monster such as insulting pirates and flyering.<p style='border:1px solid red;padding:5px 10px 5px 10px;margin-left:40px;margin-right:40px;'>To make this work, you need to put <span style='font-weight:bold;font-family:monospace;'>consult SmartStasis.ash</span> into your CCS followed by a method of killing the monsters.</span></p>"
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/winterbay-mafia/wham/code/", 
-  "author": "Winterbay", 
-  "name": "WHAM", 
-  "forumThread": "http://kolmafia.us/showthread.php?8861-Winterbay-s-Helpful-Automatic-Monsterbasher-WHAM", 
-  "shortDesc": "All-knowing CCS", 
-  "category": "combat", 
-  "longDesc": "This is a custom combat script. First it makes use of every trick known by SmartStasis and then...<br /><b>It kills all the things</b>.<p style='border:1px solid red;text-indent:-20px;padding:5px 10px 5px 30px;margin-left:40px;margin-right:40px;'>To make this work, you need to put the following lines into your CCS:<br /><span style='font-family:monospace'>[ default ]<br />consult WHAM.ash</span></p>"
- }, 
- {
-  "repo": "https://svn.code.sf.net/p/batbrain/code/", 
-  "author": "zarqon", 
-  "name": "BatBrain", 
-  "forumThread": "http://kolmafia.us/showthread.php?6445-BatBrain-a-central-nervous-system-for-consult-scripts", 
-  "shortDesc": "A central nervous system for consult scripts", 
-  "category": "library", 
-  "longDesc": "A central nervous system for consult scripts.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
- }, 
- {
-  "repo": "https://github.com/Ezandora/Choice-Override/branches/Release/", 
-  "author": "Ezandora", 
-  "name": "Choice Override", 
-  "forumThread": "https://kolmafia.us/showthread.php?22722", 
-  "shortDesc": "Allow multiple choice.ID.ash relay scripts.", 
-  "category": "library", 
-  "longDesc": "Allow multiple choice.ID.ash relay scripts.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
+   "repo": "https://svn.code.sf.net/p/bale/counterchecker/code/",
+   "author": "Bale",
+   "name": "CounterChecker",
+   "forumThread": "https://kolmafia.us/showthread.php?2519-CounterChecker-Wormwood-Semi-rares-Dance-Cards-and-more",
+   "shortDesc": "Manage automation for KoLmafia counters",
+   "category": "adventure",
+   "longDesc": "This script will automatically handle all your counters automatically. Supported Counters:<ul style='margin:3 0 5 22'><li><b>Fortune Cookie</b>: If you're not in hardcore it will get the available semi-rare with highest mall price.</li><li><b>Spookyraven Lights Out</b>: If spookyraven counters are enabled this will automatically advance both quests.</li><li><b>Wormwood</b>: Will automatically get the wormwood goal of your choice. <i>(see instructions in thread)</i></i></li><li><b>Dance Card</b>: Will adventure in Ballroom, if you're not already there and use another dance card.</li></ul><p style='border:1px solid red;text-indent:-20px;padding:5px 10px 5px 30px;margin:5px 40px 0px 40px;'>To make this work automatically, you need to copy/paste the following line into the CLI:<br /><span style='font-weight:bold;font-family:monospace'>set counterScript = CounterChecker.ash</span></p>"
  },
  {
-  "repo": "https://svn.code.sf.net/p/clilinks/code/", 
-  "author": "zarqon", 
-  "name": "CLI Links", 
-  "forumThread": "http://kolmafia.us/showthread.php?13096-CLI-Links-easily-add-CLI-power-to-your-relay-script", 
-  "shortDesc": "Adds CLI commands to relay scripts", 
-  "category": "library", 
-  "longDesc": "Adds CLI commands to relay scripts.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
- }, 
+   "repo": "https://svn.code.sf.net/p/eodscascension/code-0/",
+   "author": "Eliteofdelete",
+   "name": "EoD Softcore Ascension Script",
+   "forumThread": "https://kolmafia.us/showthread.php?14814-EoD-Softcore-Ascension-Script",
+   "shortDesc": "Does 100% automatic softcore ascension runs",
+   "category": "adventure",
+   "longDesc": "This script automatically does softcore ascension runs with moxie classes. <b>Features include:</b> <ol><li>Ascends Moxie characters in 4-5 days.</li><li>Requires no skills permed.</li><li>Handles all pulls using ~100k meat.</li><li>Very customizable if desired.</li><li>Reports how many adventures were spent doing quest related things and saves the info.</ol> More classes may be officially supported in the future."
+ },
  {
-  "repo": "https://svn.code.sf.net/p/drag-n-drop-inventories/code",
-  "author": "zarqon",
-  "name": "Drag-n-Drop Inventories",
-  "forumThread": "https://kolmafia.us/showthread.php?22910",
-  "shortDesc": "Add an intuitive visual drag-n-drop interface for any item",
-  "category": "library",
-  "longDesc": "Adds a compact interface showing the amount you have in inventory, closet, storage, display case, and stash for each item.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
- }, 
+   "repo": "https://github.com/Ezandora/FantasyRealm/branches/Release/",
+   "author": "Ezandora",
+   "name": "FantasyRealm",
+   "forumThread": "https://kolmafia.us/showthread.php?22722",
+   "shortDesc": "Plays through the FantasyRealm area",
+   "category": "adventure",
+   "longDesc": "Automates the FantasyRealm to unlock bosses and collect rewards."
+ },
  {
-  "repo": "https://svn.code.sf.net/p/formhtml/code/", 
-  "author": "jasonharper", 
-  "name": "Form of...HTML!", 
-  "forumThread": "http://kolmafia.us/showthread.php?3842-Form-of-HTML!", 
-  "shortDesc": "Code library to add input forms for relay scripts", 
-  "category": "library", 
-  "longDesc": "Code library to add input forms for relay scripts.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
- }, 
+   "repo": "https://svn.code.sf.net/p/mafia-harvest/code/",
+   "author": "Ioeth, Banana Lord",
+   "name": "Harvest",
+   "forumThread": "https://kolmafia.us/showthread.php?7015-Harvest-%96-A-highly-customisable-farming-script",
+   "shortDesc": "A highly customizable KoL farming script",
+   "category": "adventure",
+   "longDesc": "Can be configured to the farm whatever you like best. It runs from login to logout, handling all your daily activities <i>(eg: buffbot buffs, prismatic wads, equipping optimal rollover gear etc.)</i>. It even hunts bounties."
+ },
  {
-  "repo": "https://svn.code.sf.net/p/veracity0/code/vprops/", 
-  "author": "Veracity", 
-  "name": "vprops", 
-  "forumThread": "https://kolmafia.us/showthread.php?21593", 
-  "shortDesc": "Veracity's property management library", 
-  "category": "library", 
-  "longDesc": "Functions to easily manage custom properties and convert back and forth between simple data types (and sets and lists of such) and a string representation which is suitable to store in such properties.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
- }, 
+   "repo": "https://svn.code.sf.net/p/winterbay-mafia/farm/code/",
+   "author": "Winterbay, dj_d",
+   "name": "Make Meat Fast",
+   "forumThread": "https://kolmafia.us/showthread.php?2567-Make-meat-fast",
+   "shortDesc": "Automates item farming based on current mall values",
+   "category": "adventure",
+   "longDesc": "It surveys the entire kingdom and all of your possessions to figure out what will make you the most meat. If something gets in demand - like briefcases did during one Crimbo - it automatically figures it out and farms accordingly. If farming the castle is best; great - it optimizes you for that as well."
+ },
  {
-  "repo": "https://svn.code.sf.net/p/veracity0/code/vcon/", 
-  "author": "Veracity", 
-  "name": "vcon", 
-  "forumThread": "https://kolmafia.us/showthread.php?23145", 
-  "shortDesc": "Veracity's consumable library", 
-  "category": "library", 
-  "longDesc": "Functions to find the most profitable food, booze, and spleen items based on adventure yield and expected MPA.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
- }, 
+   "repo": "https://svn.code.sf.net/p/slyz-nemesis/code/",
+   "author": "slyz",
+   "name": "Nemesis.ash",
+   "forumThread": "https://kolmafia.us/showthread.php?4761-Nemesis-quest-script",
+   "shortDesc": "Automates the nemesis quest",
+   "category": "adventure",
+   "longDesc": "<ol><li>Automatically do the LEW and nemesis Cave quests</li><li>Farm until you get the volcano map</li><li>Unlock the volcano island</li><li>Unlock the nemesis lair and try to solve the volcano maze</li></ol>Surviving combats is your responsibility."
+ },
  {
-  "repo": "https://svn.code.sf.net/p/zlib/code/", 
-  "author": "zarqon", 
-  "name": "ZLib", 
-  "forumThread": "http://kolmafia.us/showthread.php?2072-ZLib-Zarqon-s-useful-function-library", 
-  "shortDesc": "Zarqon's general function library for scripting", 
-  "category": "library", 
-  "longDesc": "Zarqon's general function library for scripting.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
- }, 
+   "repo": "https://svn.code.sf.net/p/wrldwzrd89-mafia-scripts/code/trunk/pandamonium-quest/",
+   "author": "wrldwzrd89",
+   "name": "PandamoniumQuest",
+   "forumThread": "https://kolmafia.us/showthread.php?13732-wrldwzrd89-s-PandamoniumQuest-ash-automated-steel-organ",
+   "shortDesc": "Automates the Steel Organ quest in Pandamonium",
+   "category": "adventure",
+   "longDesc": "This will find the various items needed to complete the quest in Pandamonium, solve the puzzles (perhaps changing your gear to maximize success), and finish by using the steel organ item if possible."
+ },
  {
-  "repo": "https://svn.code.sf.net/p/bestbetweenbattle/code/", 
-  "author": "zarqon", 
-  "name": "BestBetweenBattle", 
-  "forumThread": "http://kolmafia.us/showthread.php?1240-Best-Between-Battle-Script-Ever", 
-  "shortDesc": "Manages gazoodles of between battle stuff", 
-  "category": "other", 
-  "longDesc": "Manages gazoodles of between battle stuff. That includes choice adventure default options, turtle taming, switching item drop familiars and much more.<p style='border:1px solid red;text-indent:-20px;padding:5px 10px 5px 30px;margin-left:40px;margin-right:40px;'>To make this work automatically, you need to copy/paste the following line into the CLI:<br /><span style='font-weight:bold;font-family:monospace'>set betweenBattleScript=BestBetweenBattle.ash</span></p>"
- }, 
+   "repo": "https://svn.code.sf.net/p/guyymafia/code/porkfuture/",
+   "author": "guyy",
+   "name": "Pork to the Future",
+   "forumThread": "https://kolmafia.us/showthread.php?12625-Pork-to-the-Future-Cyrus-Hyboria-Future-and-Wumpus!",
+   "shortDesc": "Automates the agua de vida quests",
+   "category": "adventure",
+   "longDesc": "A script to automatically complete:<ol><li><b>Primordial Fear</b>: Be Cyrus's punching bag</li><li><b>Hyboria</b>: Krakrox does manly things <i>(includes Hunt the Wumpus)</i></li><li><b>Future</b>: Collect elemental essences</li></ol>...and get you a nifty <i>Secret from the Future</i>."
+ },
  {
-  "repo": "https://svn.code.sf.net/p/guyymafia/code/lootbot/", 
-  "author": "guyy", 
-  "name": "LootBot", 
-  "forumThread": "http://kolmafia.us/showthread.php?13620-LootBot-A-dungeon-loot-auto-seller-(is-you)", 
-  "shortDesc": "Sell dungeon loot, lazily", 
-  "category": "other", 
-  "longDesc": "This is an experimental thing intended to make selling untradeable dungeon loot only marginally more complicated than Mall-selling."
- }, 
+   "repo": "https://svn.code.sf.net/p/slimetube/code/",
+   "author": "Alhifar",
+   "name": "Slime Tube",
+   "forumThread": "https://kolmafia.us/showthread.php?2596-Slime-Tube-Adventuring-Script",
+   "shortDesc": "Automates the Slime Tube",
+   "category": "adventure",
+   "longDesc": "This script will adventure in the slime tube, changing outfits to get the most turns of Coated in Slime possible, and wiping off the slime whenever you are no longer able to survive the damage you would receive combined from Coated in Slime, and the combat.<p>It will take advantage of Navel runaways and Bandersnatch runaways, and supports the following skills for damage calculations: Attack with weapon, Thrust-Smack, Lunging Thrust-Smack, Saucegeyser, Weapon of the Pastalord, Shieldbutt, Fearful Fetuccini and divines, both single and funkslung."
+ },
  {
-  "repo": "https://svn.code.sf.net/p/bale/new-life/code/", 
-  "author": "Bale", 
-  "name": "New Life", 
-  "forumThread": "http://kolmafia.us/showthread.php?2769-Scripting-the-birth-of-a-new-life", 
-  "shortDesc": "Scripting the birth of a new ascension", 
-  "category": "other", 
-  "longDesc": "Scripting the birth of a new ascension. This sets optimal choice adventure defaults for your class and ascension path. It also does a few repetitive housekeeping chores such as visiting the Toot Oriole, opening your pork sack, using your Newbie Tent, equipping your starting gear...<p style='border:1px solid red;text-indent:-20px;padding:5px 10px 5px 30px;margin-left:40px;margin-right:40px;'>To make this work automatically, you need to copy/paste the following line into the CLI:<br /><span style='font-weight:bold;font-family:monospace'>set postAscensionScript = newLife.ash</span></p>"
+   "repo": "https://svn.code.sf.net/p/guyymafia/code/spacetripper/",
+   "author": "guyy",
+   "name": "Space Tripper",
+   "forumThread": "https://kolmafia.us/showthread.php?10020-Space-Tripper-automatic-Space-Trip",
+   "shortDesc": "Automates the Space Trip minigame",
+   "category": "adventure",
+   "longDesc": "Beats Space Trip for you, aiming for a high score for maximum tickets... and more importantly, unlocks the Space Trip Safety Headphones (-100 ML and -combat accessory). Get a token, run the script, and it will play the entire game on its own, opening the relay browser to the final screen when it's finished. May lose or get stuck occasionally due to RNG screw."
+ },
+ {
+   "repo": "https://github.com/Ezandora/Spacegate/branches/Release/",
+   "author": "Ezandora",
+   "name": "Spacegate",
+   "forumThread": "https://kolmafia.us/showthread.php?21685",
+   "shortDesc": "Automates your daily Spacegate turns to collect research",
+   "category": "adventure",
+   "longDesc": "Spends 20 turns a day at a 'Z' difficuly planet with all rocks."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/therazekolmafia/thesea/code/",
+   "author": "Theraze",
+   "name": "The Sea",
+   "forumThread": "https://kolmafia.us/showthread.php?8708-TheSea-ash-Automated-Underwater-Quests",
+   "shortDesc": "Automates all underwater quests",
+   "category": "adventure",
+   "longDesc": "Read the thread for information on how to configure this script to do any of the following:<table><tr><td'><ul type='square' style='margin-left:12px;'><li>Adventure to unlock all 5 monkees</li><li>Adventure to get you to the hatred boss outfit</li><li>Adventure to get you to the violence boss outfit</li><li>Chat with Grandpa about all known chat topics</li></ul></td><td><ul type='square' style='margin-left:20px;'><li>Get Das Boot or other reward from the Old Man</li><li>Unlock and complete the Skate quest</li><li>Get a sushi mat and install it</li><li>Get an aerated diving helmet</li></ul></td></tr></table>"
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/guyymafia/code/tricktreat/",
+   "author": "guyy",
+   "name": "TrickTreat",
+   "forumThread": "https://kolmafia.us/showthread.php?13890-Trick-Or-Treating-script",
+   "shortDesc": "Automates Halloween Trick or Treating",
+   "category": "adventure",
+   "longDesc": "Automates Halloween Trick or Treating. <ul style='margin:8 0 5 22'><li>Optional Configuration: Choose separate outfits named \"trick\" for combats and \"treat\" for non-combats. If you don't do this, then it will use your current equipment for all encounters.</li><li>If you encounter All-Hallow's Steve, it will abort so you can fight him yourself.</li><li>Check the mall prices for candies you acquire with your current equippable outfits if you type the following command in the CLI: <span style='text-indent:20px;font-weight:bold;font-family:monospace'>tricktreat outfits</span></li></ul>"
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/unlock-dread2/code/",
+   "author": "PazSox",
+   "name": "Unlock Dreasylvania",
+   "forumThread": "https://kolmafia.us/showthread.php?21545-Automatically-unlock-areas-of-Dreadsylvania",
+   "shortDesc": "Unlocks Dread, Banishes Monsters, Offers help",
+   "category": "adventure",
+   "longDesc": "Unlocks Dreadsylvania zones one at a time, or multiple at once, Banishes Monsters, Offers help on how to setup bosses, and explains roughly how kisses work."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/veracity0/code/beach/",
+   "author": "Veracity",
+   "name": "Veracity's BeachComber",
+   "forumThread": "https://kolmafia.us/showthread.php?23993",
+   "shortDesc": "Automate Combing the Beach with your Beach Comb",
+   "category": "adventure",
+   "longDesc": "Configurable script to visit random sections of the Beach to comb your deired patches of sand with your Beach Comb."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/veracity0/code/gingerbread/",
+   "author": "Veracity",
+   "name": "Veracity's Gingerbread City",
+   "forumThread": "https://kolmafia.us/showthread.php?21609",
+   "shortDesc": "Automate the Gingerbread City",
+   "category": "adventure",
+   "longDesc": "Highly configurable script to allow automation of turns in the Gingerbread City, specifying the morning, afternoon, and night adventuring locations and the noon and midnight non-combats."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/veracity0/code/meat-farm/",
+   "author": "Veracity",
+   "name": "Veracity's Meat Farming",
+   "forumThread": "https://kolmafia.us/showthread.php?20933",
+   "shortDesc": "Farm Meat and perform daily tasks",
+   "category": "adventure",
+   "longDesc": "Farm Meat and do daily tasks as enabled by numerous IoTMS."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/veracity0/code/spacegate/",
+   "author": "Veracity",
+   "name": "Veracity's Spacegate",
+   "forumThread": "https://kolmafia.us/showthread.php?23335",
+   "shortDesc": "Automate Spacegate",
+   "category": "adventure",
+   "longDesc": "Highly configurable script to choose or visit a Spacegate planet of your desired difficulty with your desired encounters."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/zap-wand/code/",
+   "author": "PazSox",
+   "name": "Zap Wand",
+   "forumThread": "https://kolmafia.us/showthread.php?22677",
+   "shortDesc": "Automates Dungeons of Doom to get ZAP Wand",
+   "category": "adventure",
+   "longDesc": "Automates Dungeons of Doom to get ZAP Wand"
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/batman-re/code/",
+   "author": "zarqon",
+   "name": "BatMan RE",
+   "forumThread": "https://kolmafia.us/showthread.php?10042-BatMan-Relay-more-info-less-clicking",
+   "shortDesc": "Provides advanced combat interface in browser",
+   "category": "combat",
+   "longDesc": "Provides advanced combat HUD and automation in the relay browser. It will display recommended actions to complete combat and solve quests. You can them execute them as a macro by clicking."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/digitrev/code/extraction",
+   "author": "digitrev",
+   "name": "extraction",
+   "forumThread": "https://kolmafia.us/showthread.php?15383-extraction-ash-Automated-Gene-Extraction",
+   "shortDesc": "Automates use of the DNA Lab",
+   "category": "combat",
+   "longDesc": "This is a two-part script for using the DNA syringe. The first part is a custom combat script that will automatically extract the DNA you want. The second part is an afteradventure script, to automate creation of gene tonics or hybridization.<p>See the forum post for details on setup."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/smartstasis/code/",
+   "author": "zarqon",
+   "name": "SmartStasis",
+   "forumThread": "https://kolmafia.us/showthread.php?1715-SmartStasis-a-complex-script-for-a-simple-CCS",
+   "shortDesc": "Automates stasis and other non-lethal combat",
+   "category": "combat",
+   "longDesc": "Automates stasis and everything else that doesn't kill a monster such as insulting pirates and flyering.<p style='border:1px solid red;padding:5px 10px 5px 10px;margin-left:40px;margin-right:40px;'>To make this work, you need to put <span style='font-weight:bold;font-family:monospace;'>consult SmartStasis.ash</span> into your CCS followed by a method of killing the monsters.</span></p>"
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/winterbay-mafia/wham/code/",
+   "author": "Winterbay",
+   "name": "WHAM",
+   "forumThread": "https://kolmafia.us/showthread.php?8861-Winterbay-s-Helpful-Automatic-Monsterbasher-WHAM",
+   "shortDesc": "All-knowing CCS",
+   "category": "combat",
+   "longDesc": "This is a custom combat script. First it makes use of every trick known by SmartStasis and then...<br /><b>It kills all the things</b>.<p style='border:1px solid red;text-indent:-20px;padding:5px 10px 5px 30px;margin-left:40px;margin-right:40px;'>To make this work, you need to put the following lines into your CCS:<br /><span style='font-family:monospace'>[ default ]<br />consult WHAM.ash</span></p>"
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/eodascensionchecklist/code/",
+   "author": "Eliteofdelete",
+   "name": "Ascension Checklist Handler",
+   "forumThread": "https://kolmafia.us/showthread.php?17230-EoD-SC-Ascension-Checklist-Handler",
+   "shortDesc": "Helps with daily pulls",
+   "category": "information",
+   "longDesc": "This stores all your ascension relevant items into an easy to view relay script, based on on a variety of factors such as path, class and astral items. It helps you build a pull lists based on the factors that matter to you. It will even alert you to type69 status if your path is current. Finally, it will help you to buy and pull items in run based on your decisions."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/therazekolmafia/canadv/code/",
+   "author": "Theraze, zarqon",
+   "name": "CanAdv",
+   "forumThread": "https://kolmafia.us/showthread.php?2027-CanAdv-check-whether-you-can-adventure-at-a-given-location",
+   "shortDesc": "Check if you \"Can Adventure\" at a location",
+   "category": "information",
+   "longDesc": "Check whether you can adventure at any given location.<p style='text-align:center;font-style:italic'>This is most useful when imported into other scripts and may be automatically installed by them.</p>"
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/kolmafiascripts/cfstat/code/",
+   "author": "fronobulax",
+   "name": "CFStat",
+   "forumThread": "https://kolmafia.us/showthread.php?9947-ManageStore-and-CFStat-Weed-out-your-store",
+   "shortDesc": "Acquire price and sales volume from Coldfront",
+   "category": "information",
+   "longDesc": "Fetches and caches price and sales volume from Coldfront"
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/kolmafiascripts/currencies/code/",
+   "author": "froubulax",
+   "name": "Currencies",
+   "forumThread": "https://kolmafia.us/showthread.php?21958-Currencies",
+   "shortDesc": "Assists in spending currencies for items to be sold",
+   "category": "information",
+   "longDesc": "A relay script that builds a table of things that can be obtained from a currency and sold for meat.  Table includes ColdFront sales volume and meat per currency to assist in determing which exchanges are to be made."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/kolmafiascripts/dcq/code/",
+   "author": "fronobulax",
+   "name": "DCQuest",
+   "forumThread": "https://kolmafia.us/showthread.php?3640-DCQuest",
+   "shortDesc": "Assists completionists in managing their display case",
+   "category": "information",
+   "longDesc": "DCQuest is an information gathering script for the Display Case completest. It looks at every displayable item that your version of Kolmafia knows about and writes tab delimited files with some annotation in the data subdirectory."
+ },
+ {
+   "repo": "https://github.com/Ezandora/Guide/branches/Release/",
+   "author": "Ezandora",
+   "name": "Guide",
+   "forumThread": "https://kolmafia.us/showthread.php?14784-Guide",
+   "shortDesc": "Complete Ascension Guide",
+   "category": "information",
+   "longDesc": "Guide is a relay script that will give advice on playing KoL. It details how to complete quests you're on and what resources you have available. During an ascension, it will inform you what you need to know to complete your ascension as quickly as possible including faxing, the daily dungeon, acquiring a wand and where to go next."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/missingmanuel/code/trunk/",
+   "author": "Turing",
+   "name": "Missing Manuel",
+   "forumThread": "https://kolmafia.us/showthread.php?11428-missingManuel-ash-Yet-Another-Manuel-Script!",
+   "shortDesc": "Missing Manuel factoids!",
+   "category": "information",
+   "longDesc": "This scans Monster Manuel to get a list of monsters with missing factoids.<p>The script will ask if you want to display the full list. Selecting yes will list all monsters. Selecting no will only list the monsters for which you still need to hunt factoids. The display of monsters is sorted by area for your convenience."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/reference-plus/code/",
+   "author": "zarqon",
+   "name": "Prefref Plus",
+   "forumThread": "https://kolmafia.us/showthread.php?22101",
+   "shortDesc": "Manager for all your ZLib settings and mafia prefs",
+   "category": "information",
+   "longDesc": "Your one-stop settings and preferences manager.  Conveniently search, configure, delete, revert to default, and understand your ZLib script settings and KoLmafia properties."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/psychoseamatic/code/",
+   "author": "zarqon",
+   "name": "Psychose-a-Matic",
+   "forumThread": "https://kolmafia.us/showthread.php?13293-Psychose-a-Matic-one-stop-NPC-psychiatric-management",
+   "shortDesc": "One-stop psychoanalytic jar management",
+   "category": "information",
+   "longDesc": "The psychoanalytic jars dropped by the Angry Jung Man add a <i>lot</i> of fun content to KoL. Each jar is a flavorful mini-quest with a sweet sword for a reward. It can be tedious, however, to manage everything -- the jars are in your inventory, the NPCs are all over the kingdom, the couch is in your campground, and all the quest information you might want to seek out is on the Wiki.<p>When I was setting out to experience all the jar content for myself, I immediately realized a script which organized this information and put it all in one place would be a big click-reducing asset to completing the jars. Hence, this script."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/rlbond86-mafia-scripts/code/task_list/trunk/",
+   "author": "rlbond86",
+   "name": "Relay Task List",
+   "forumThread": "https://kolmafia.us/showthread.php?14400-Relay-Task-List-(Programmable!)",
+   "shortDesc": "The ultimate \"To Do\" list!",
+   "category": "information",
+   "longDesc": "This relay override shows a task list at the bottom of main.php displaying stuff you still need to do. Unlike some other scripts that might be similar, this one is <b>programmable</b> using ASH.<p>If you don't know anything about ASH programming, that's OK! The task list comes preprogrammed with all of the in-run main quests as well as some side quests and The Sea. It's quite functional even if you never touch the programmable aspect."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/mafia-cs-planner/svn/",
+   "author": "Lxndr, Almighty Sapling",
+   "name": "Skill Planner/CS Tracker",
+   "forumThread": "https://kolmafia.us/showthread.php?5657-Skill-CS-planner",
+   "shortDesc": "Relay script detailing the characters skills and CS",
+   "category": "information",
+   "longDesc": "This is an informational script very similar to the profile snapshot, but with some critical differences. All the information is stored locally, rather than online. The layout is a little different, and semi-customizable to your liking. It shows familiars, trophies, tattoos and skills. The skills come with a nice little queue so that you can drag and drop them into place and sort them based on priority."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/guyymafia/code/slimecalc/",
+   "author": "guyy",
+   "name": "Slimecalc",
+   "forumThread": "https://kolmafia.us/showthread.php?3113-autoBasement-ash-Better-basement-automation",
+   "shortDesc": "The slime calculator, for efficient Slimetubing",
+   "category": "information",
+   "longDesc": "This is a tool for finding the best (i.e. cheapest) way to boost Slimetube ML for a specific turncount.<p>The CLI command <span style='font-weight:bold;font-family:monospace;color:blue'>slimecalc [number of turns]</span> will display a shopping list of items to produce that turncount. Use <span style='font-weight:bold;font-family:monospace;color:blue'>slimecalc run [turns]</span> to have the script buy and use those items for you.<p>Additional functionality is explained in the forum thread."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/ccascend/code/snapshot",
+   "author": "cheesecookie, bumcheekcity",
+   "name": "Snapshot Maker",
+   "forumThread": "https://forums.kingdomofloathing.com/vb/showthread.php?t=218735",
+   "shortDesc": "Take a snapshot of your character to display",
+   "category": "information",
+   "longDesc": "Makes a snapshot of your character and display it on a website (where everyone can see it) with lots of boxes that you compulsively want to make green. <p>Yes, completionist torture..."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/standard-rollover-bonus/code/",
+   "author": "PazSox",
+   "name": "Standard Rollover Bonus",
+   "forumThread": "https://kolmafia.us/showthread.php?21993-Standard-Rollover-Bonus",
+   "shortDesc": "Informs you about gear you have for rollover",
+   "category": "information",
+   "longDesc": "This script checks all items you have which will give you bonus adventures for rollover. It checks on-hand <i>and storage</i> items for gear, familiar, chateau, & campground items.</p><p>It tells you how many of each item you have and the adventure bonus you will receive for it.</p><p>It will tell you how many pulls you have available. This is made primarily for <b>softcore</b> players. It works in <i>both</i> standard, and unrestricted ascensions."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/rlbond86-mafia-scripts/code/cocktailmax/trunk/",
+   "author": "rlbond86",
+   "name": "Superhuman Cocktail Maximizer",
+   "forumThread": "https://kolmafia.us/showthread.php?11488-Superhuman-Cocktailcrafting-maximizer",
+   "shortDesc": "Calculates which drinks to superhumanly cocktailcraft",
+   "category": "information",
+   "longDesc": "Have Superhuman Cocktailcrafting and a bunch of ingredients? Don't know how to make as many drinks as possible out of all your stuff? Not sure what to use your still charges for?<p>Enter this Cocktailcrafting Maximizer. The script will run a linear program to determine how to maximize your still uses and what drinks to create. It will try to first maximize the total number of drinks you can make, breaking ties by total profit.<p>The script won't actually do anything when you run it. You'll have to create the drinks yourself."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/towerchecker/code/",
+   "author": "lostcalpolydude",
+   "name": "Tower Checker",
+   "forumThread": "https://kolmafia.us/showthread.php?9381-Tower-Checker",
+   "shortDesc": "Naughty Sorceress' Tower checklist",
+   "category": "information",
+   "longDesc": "This script gives information about what you have and still need for climbing the tower. It gives the same information as the <span style='font-weight:bold;font-family:monospace'>telescope</span> command, plus it lets you know if you need a drum, guitar, star items, keys or an item for the final boss. This is mostly so you don't forget to farm/pull an item before reaching the tower."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/uberpvpoptimizer/svn/",
+   "author": "UberFerret",
+   "name": "UberPvPOptimizer",
+   "forumThread": "https://kolmafia.us/showthread.php?18356-Fork%B2-UberPvPOptimizer-an-updated-PVPBestGear",
+   "shortDesc": "Optimizes equipment for PvP",
+   "category": "information",
+   "longDesc": "This script will equip your character with equipment to maximize the value of current PVP minigames. It will use the best equipment in inventory or buy better gear if you enable that setting.<p>Updated through at least season 19."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/batbrain/code/",
+   "author": "zarqon",
+   "name": "BatBrain",
+   "forumThread": "https://kolmafia.us/showthread.php?6445-BatBrain-a-central-nervous-system-for-consult-scripts",
+   "shortDesc": "A central nervous system for consult scripts",
+   "category": "library",
+   "longDesc": "A central nervous system for consult scripts.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
+ },
+ {
+   "repo": "https://github.com/Ezandora/Choice-Override/branches/Release/",
+   "author": "Ezandora",
+   "name": "Choice Override",
+   "forumThread": "https://kolmafia.us/showthread.php?22722",
+   "shortDesc": "Allow multiple choice.ID.ash relay scripts.",
+   "category": "library",
+   "longDesc": "Allow multiple choice.ID.ash relay scripts.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/clilinks/code/",
+   "author": "zarqon",
+   "name": "CLI Links",
+   "forumThread": "https://kolmafia.us/showthread.php?13096-CLI-Links-easily-add-CLI-power-to-your-relay-script",
+   "shortDesc": "Adds CLI commands to relay scripts",
+   "category": "library",
+   "longDesc": "Adds CLI commands to relay scripts.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/drag-n-drop-inventories/code",
+   "author": "zarqon",
+   "name": "Drag-n-Drop Inventories",
+   "forumThread": "https://kolmafia.us/showthread.php?22910",
+   "shortDesc": "Add an intuitive visual drag-n-drop interface for any item",
+   "category": "library",
+   "longDesc": "Adds a compact interface showing the amount you have in inventory, closet, storage, display case, and stash for each item.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/formhtml/code/",
+   "author": "jasonharper",
+   "name": "Form of...HTML!",
+   "forumThread": "https://kolmafia.us/showthread.php?3842-Form-of-HTML!",
+   "shortDesc": "Code library to add input forms for relay scripts",
+   "category": "library",
+   "longDesc": "Code library to add input forms for relay scripts.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
+ },
+ {
+   "repo": "https://github.com/Ezandora/Gain/branches/Release/",
+   "author": "Ezandora",
+   "name": "Gain",
+   "forumThread": "",
+   "shortDesc": "Allows fast querying of which effects have which numeric_modifier()s.\n",
+   "category": "library",
+   "longDesc": " "
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/mercenarymood/code",
+   "author": "zarqon",
+   "name": "Mercenary Mood",
+   "forumThread": "https://kolmafia.us/showthread.php?22943-Mercenary-Mood-choiceadv-adjustment-as-you-go-modifier-maintenance-etc",
+   "shortDesc": "Manages other gazoodles of between battle stuff",
+   "category": "library",
+   "longDesc": "Manages other gazoodles of between battle stuff via a mood.  Plays nicely with BestBetweenBattle"
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/veracity0/code/vcon/",
+   "author": "Veracity",
+   "name": "vcon",
+   "forumThread": "https://kolmafia.us/showthread.php?23145",
+   "shortDesc": "Veracity's consumable library",
+   "category": "library",
+   "longDesc": "Functions to find the most profitable food, booze, and spleen items based on adventure yield and expected MPA.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
+ },
+ {
+   "repo": "https://github.com/Ezandora/Voting-Booth/trunk/Release/",
+   "author": "Ezandora",
+   "name": "VotingBooth",
+   "forumThread": "",
+   "shortDesc": "Votes",
+   "category": "library",
+   "longDesc": ""
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/veracity0/code/vprops/",
+   "author": "Veracity",
+   "name": "vprops",
+   "forumThread": "https://kolmafia.us/showthread.php?21593",
+   "shortDesc": "Veracity's property management library",
+   "category": "library",
+   "longDesc": "Functions to easily manage custom properties and convert back and forth between simple data types (and sets and lists of such) and a string representation which is suitable to store in such properties.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/zlib/code/",
+   "author": "zarqon",
+   "name": "ZLib",
+   "forumThread": "https://kolmafia.us/showthread.php?2072-ZLib-Zarqon-s-useful-function-library",
+   "shortDesc": "Zarqon's general function library for scripting",
+   "category": "library",
+   "longDesc": "Zarqon's general function library for scripting.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/bestbetweenbattle/code/",
+   "author": "zarqon",
+   "name": "BestBetweenBattle",
+   "forumThread": "https://kolmafia.us/showthread.php?1240-Best-Between-Battle-Script-Ever",
+   "shortDesc": "Manages gazoodles of between battle stuff",
+   "category": "other",
+   "longDesc": "Manages gazoodles of between battle stuff. That includes choice adventure default options, turtle taming, switching item drop familiars and much more.<p style='border:1px solid red;text-indent:-20px;padding:5px 10px 5px 30px;margin-left:40px;margin-right:40px;'>To make this work automatically, you need to copy/paste the following line into the CLI:<br /><span style='font-weight:bold;font-family:monospace'>set betweenBattleScript=BestBetweenBattle.ash</span></p>"
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/guyymafia/code/lootbot/",
+   "author": "guyy",
+   "name": "LootBot",
+   "forumThread": "https://kolmafia.us/showthread.php?13620-LootBot-A-dungeon-loot-auto-seller-(is-you)",
+   "shortDesc": "Sell dungeon loot, lazily",
+   "category": "other",
+   "longDesc": "This is an experimental thing intended to make selling untradeable dungeon loot only marginally more complicated than Mall-selling."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/bale/new-life/code/",
+   "author": "Bale",
+   "name": "New Life",
+   "forumThread": "https://kolmafia.us/showthread.php?2769-Scripting-the-birth-of-a-new-life",
+   "shortDesc": "Scripting the birth of a new ascension",
+   "category": "other",
+   "longDesc": "Scripting the birth of a new ascension. This sets optimal choice adventure defaults for your class and ascension path. It also does a few repetitive housekeeping chores such as visiting the Toot Oriole, opening your pork sack, using your Newbie Tent, equipping your starting gear...<p style='border:1px solid red;text-indent:-20px;padding:5px 10px 5px 30px;margin-left:40px;margin-right:40px;'>To make this work automatically, you need to copy/paste the following line into the CLI:<br /><span style='font-weight:bold;font-family:monospace'>set postAscensionScript = newLife.ash</span></p>"
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/kol-airport-colors/code",
+   "author": "darkcodelagsniper",
+   "name": "Airport Colors",
+   "forumThread": "https://kolmafia.us/showthread.php?19258",
+   "shortDesc": "Colors each plane in the Elemental Aiport with the appropriate elemental color",
+   "category": "relay",
+   "longDesc": "Colors each plane in the Elemental Aiport with the appropriate elemental color"
+ },
+ {
+   "repo": "https://github.com/Ezandora/Asdon-Martin-GUI/branches/Release/",
+   "author": "Ezandora",
+   "name": "Asdon Martin GUI",
+   "forumThread": "https://kolmafia.us/showthread.php?22188",
+   "shortDesc": "Enhances view of Asdon Martin in your workshed",
+   "category": "relay",
+   "longDesc": "Choose desired effects and choose fuel more efficiently."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/bale/relay/code/campground/",
+   "author": "Bale",
+   "name": "Bale's Campground",
+   "forumThread": "https://kolmafia.us/showthread.php?12644-Bale-s-Relay-Overrides",
+   "shortDesc": "Additional functionality for your campground",
+   "category": "relay",
+   "longDesc": "Adds several nice features to your campground:<ul><li><b>Telescope</b>: When you \"Look Low\" it adds detail, telling you exactly what items you need to kill the tower monsters and where to find them.</li><li><b>Bookshelf</b>: Tells you how many tome and libram summons you have done today.</li><li><b>Workshed</b>: Allows easy switching of workshed appliances if you haven't done so today.</li></ul>"
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/bale/relay/code/mall_storeLinks/",
+   "author": "Bale",
+   "name": "Bale's Mall",
+   "forumThread": "https://kolmafia.us/showthread.php?12644-Bale-s-Relay-Overrides",
+   "shortDesc": "Extra links added to your mall entrance",
+   "category": "relay",
+   "longDesc": "If you click on the \"mall\" link in the top menu it modifies that page. Not everyone uses the page, but for those who do... This adds several links as shortcuts to managing your item prices and viewing recent store activity."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/bale/relay/code/museum/",
+   "author": "Bale",
+   "name": "Bale's Museum",
+   "forumThread": "https://kolmafia.us/showthread.php?12644-Bale-s-Relay-Overrides",
+   "shortDesc": "Museum Leaderboard skin",
+   "category": "relay",
+   "longDesc": "Want to see which commendations for the current path are silver and which are bronze? This playful override adds numerical rankings and colorizes the player's names so that you can tell at a glance who just missed getting a silver star."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/bale/relay/code/topmenu/",
+   "author": "Bale",
+   "name": "Bale's Topmenu",
+   "forumThread": "https://kolmafia.us/showthread.php?12644-Bale-s-Relay-Overrides",
+   "shortDesc": "Topmenu skinned for increased functionality",
+   "category": "relay",
+   "longDesc": "<ul><li>Adds a clan whitelist drop-down. Click on the name of any clan in your whitelist to go there!</li><li>Adds an image of the Florist Friar's Cottage. Seeing the image helps me remember to use him.</li><li>Adds an image of a Hobo Fort to link directly to the clan raid logs.</li><li>The moons link to the Noblesse Oblige calendar.</li><li>It adds a few helpful links like \"bean\" for over the beanstalk and \"manor\" for Spookyraven Manor.</li><li>It tries to be intelligent about only adding links as they become relevant.</li><li>Does a few of these things for drop-down style menus also</li></ul>"
+ },
+ {
+   "repo": "https://github.com/Ezandora/Bastille/branches/Release/",
+   "author": "Ezandora",
+   "name": "Bastille",
+   "forumThread": "https://kolmafia.us/showthread.php?22957",
+   "shortDesc": "Enhances view of Bastille Battalion control rig to let you select rewards",
+   "category": "relay",
+   "longDesc": "Choose desired rewards via relay browser or CLI."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/rlbond86-mafia-scripts/code/bounty_hunter_helper/trunk/",
+   "author": "rlbond86",
+   "name": "Bounty Hunter Helper",
+   "forumThread": "https://kolmafia.us/showthread.php?10991-Bounty-Hunter-Helper",
+   "shortDesc": "Shows turncount for available bounties",
+   "category": "relay",
+   "longDesc": "Tired of opening the KoL Wiki every day to check on which bounty is the fastest? Ever realized that the turns quoted on the Wiki are inaccurate? This relay script was made to display bounty information in a helpful, easy way."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/guyymafia/code/buttonfrenzy/",
+   "author": "guyy",
+   "name": "buttonFrenzy",
+   "forumThread": "https://kolmafia.us/showthread.php?12692-buttonFrenzy-Betterized-stores",
+   "shortDesc": "Improves buttons for all stores",
+   "category": "relay",
+   "longDesc": "A buttontastic improvement to the interface of mall-stores and (most) NPC stores."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/relay-charsheet/code/",
+   "author": "Heeheehee, Theraze, Rinn",
+   "name": "Charsheet: Skills by Class",
+   "forumThread": "https://kolmafia.us/showthread.php?1578-charsheet-php-Group-Skills-by-Character-Class",
+   "shortDesc": "Groups skills by class on the charsheet",
+   "category": "relay",
+   "longDesc": "On your charsheet it will sort your skills by character class."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/mafiachit/code/",
+   "author": "Bale, Chez",
+   "name": "ChIT",
+   "forumThread": "https://kolmafia.us/showthread.php?7594-Character-Info-Toolbox",
+   "shortDesc": "Character Pane Replacement",
+   "category": "relay",
+   "longDesc": "This skins your left pane to make everything easier to see at the same time. It also adds a lot of great tools such as an outfit switcher, MCD control and Florist plant visibility and control. It is so shiny and awesome that your entire life will be better and you'll wonder how you ever lived without it... at least that is what everyone tells me."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/ckbiconmenu/code/",
+   "author": "ckb",
+   "name": "ckb's Iconic topmenu",
+   "forumThread": "https://kolmafia.us/showthread.php?16445-ckb-s-Iconic-topmenu",
+   "shortDesc": "Alternate topmenu relay overide, with fun icons!",
+   "category": "relay",
+   "longDesc": "Changes KoL's link style top menu into something similar to KoL's iconic top menu, but an original creation.<p>Icons are smaller than KoLs menu, and so this is more compact, and it does not have the large description popup (alt text only), and I added some color highlighting to more easily find what you want. The basic structure is utility on line 1, locations on line 2."
+ },
+ {
+   "repo": "https://github.com/balefull/raidlog-parser/branches/master",
+   "author": "Bale, bordemstirs",
+   "name": "Clan Raidlog Parser",
+   "forumThread": "https://kolmafia.us/showthread.php?8052-raidlog-override-a-la-Dr-Evi1",
+   "shortDesc": "Parse your clan dungeon Raidlogs",
+   "category": "relay",
+   "longDesc": "Parses the clan dungeon Raidlog to make your clan dungeons like Hobopolis and Dreadsylvania a lot more friendly. It is the KoLmafia version of Dr.Evi1's famous greasemonkey script."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/bale/dinsey/code/",
+   "author": "Bale",
+   "name": "Dinsey Landfill",
+   "forumThread": "https://kolmafia.us/showthread.php?24009",
+   "shortDesc": "Tracks your progress towards gaining each of the four keycards and killing Wart Dinsey",
+   "category": "relay",
+   "longDesc": "Tracks your progress towards gaining each of the four keycards and killing Wart Dinsey"
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/rlbond86-mafia-scripts/code/enhanced_inventory_spoilers/trunk/",
+   "author": "rlbond86, ckb",
+   "name": "Enhanced Inventory Spoilers",
+   "forumThread": "https://kolmafia.us/showthread.php?10005-Enhanced-Inventory-Spoilers",
+   "shortDesc": "Shows item effects/enchantments in inventory",
+   "category": "relay",
+   "longDesc": "This will display information about every item in your inventory, below its name."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/rlbond86-mafia-scripts/code/fax_tell/trunk/",
+   "author": "rlbond86",
+   "name": "Fax Identification",
+   "forumThread": "https://kolmafia.us/showthread.php?11247-Tell-you-what-you-got-in-the-fax-machine-1-0",
+   "shortDesc": "Tells you what you got from the fax machine",
+   "category": "relay",
+   "longDesc": "I kept getting annoyed when I wouldn't get the fax I wanted. So I wrote this relay script which displays what just arrived in the fax machine."
+ },
+ {
+   "repo": "https://github.com/Ezandora/Genie/branches/Release/",
+   "author": "Ezandora",
+   "name": "Genie",
+   "forumThread": "https://kolmafia.us/showthread.php?22077",
+   "shortDesc": "Relay script for the genie bottle to more easily choose wishes.",
+   "category": "relay",
+   "longDesc": "Choose monsters to fight, effects, stats, ponies, etc."
+ },
+ {
+   "repo": "https://github.com/Ezandora/Helix-Fossil/branches/Release/",
+   "author": "Ezandora",
+   "name": "Helix Fossil",
+   "forumThread": "https://kolmafia.us/showthread.php?22521",
+   "shortDesc": "Adds 'script' and 'again' buttons to Pocket Familiar battles",
+   "category": "relay",
+   "longDesc": "Automate battles and use axiliary script to choose your team."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/rlbond86-mafia-scripts/code/better_trainer/trunk/",
+   "author": "rlbond86",
+   "name": "Improved Guild Trainer",
+   "forumThread": "https://kolmafia.us/showthread.php?13972-Improved-Guild-Trainer",
+   "shortDesc": "Shows skill descriptions for all these newfangled skills",
+   "category": "relay",
+   "longDesc": "Displays the description for every skill at the Guild Trainer."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/bale/ltt/code/",
+   "author": "Bale",
+   "name": "LT&T Office",
+   "forumThread": "https://kolmafia.us/showthread.php?12644-Bale-s-Relay-Overrides",
+   "shortDesc": "Display full quest information for the LT&T Office",
+   "category": "relay",
+   "longDesc": "Do you have all the LT&T quest information memorized? With that information it can be hard to make an informed decision about which quest to select. When you go to the LT&T office in the relay browser, this will display full information concerning all possible quests. It will list the monsters you have to fight, the boss at the end, and any incidental prize of note along the way. In case you have trouble defeating the final boss, you can click the boss's name to see its entry on the KoL Wiki."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/bale/relay/code/manor_unlockInfo/",
+   "author": "Bale",
+   "name": "Manor Informer",
+   "forumThread": "https://kolmafia.us/showthread.php?12644-Bale-s-Relay-Overrides",
+   "shortDesc": "Get full status on Manor unlocking from ground floor",
+   "category": "relay",
+   "longDesc": "Display full status of Manor unlocking when viewing the ground floor."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/rlbond86-mafia-scripts/code/modular_choice_override/trunk/",
+   "author": "rlbond86",
+   "name": "Modular Choice Override",
+   "forumThread": "https://kolmafia.us/showthread.php?11264-Modular-Choice-Override",
+   "shortDesc": "Allows overriding of choice adventures",
+   "category": "relay",
+   "longDesc": "This relay script is really more of a framework.<p> Ever wanted to override a choice adventure, but been frustrated with mafia's lack of support? It's very difficult to override a single choice adventure and not interfere with other choice adventure overrides. This script is designed to make overriding choice adventures easy and conflict-free."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/bale/relay/code/Monster_Manuel_Improvement/",
+   "author": "Bale",
+   "name": "Monster Manuel: Improved",
+   "forumThread": "https://kolmafia.us/showthread.php?11388-Monster-Manuel-Improved",
+   "shortDesc": "Lets big monsters be big in KoL's Monster Manuel",
+   "category": "relay",
+   "longDesc": "Lets big monsters be big in KoL's Monster Manuel.<p>This also adds annotations for ambiguous monsters such as which Nightstand is which, the toolbearing Gremlins, the version of the El Vibrato monsters that you get from the translator and quite a few others."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/kolm-noobsorb/svn/",
+   "author": "Smelltastic",
+   "name": "Noobsorb",
+   "forumThread": "https://kolmafia.us/showthread.php?21529",
+   "shortDesc": "A relay script to keep track of Gelatinous Noob absorptions.",
+   "category": "relay",
+   "longDesc": "For each modifier, provides a dropdown list of skills that affect it with available items"
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/bale/ns-tower-relay/code/",
+   "author": "Bale",
+   "name": "NS Tower Scroller",
+   "forumThread": "https://kolmafia.us/showthread.php?12644-Bale-s-Relay-Overrides",
+   "shortDesc": "Automatically scrolls the Sorceress' Tower",
+   "category": "relay",
+   "longDesc": "You know how the new NS Tower is this ridiculously long page that you have to keep scrolling down to reach the bottom? Install this script to scroll that for you."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/bale/snojo/code/",
+   "author": "Bale",
+   "name": "Snojo Training",
+   "forumThread": "https://kolmafia.us/showthread.php?12644-Bale-s-Relay-Overrides",
+   "shortDesc": "Provides information about Snojo training modes",
+   "category": "relay",
+   "longDesc": "Provides information about Snojo training modes. This including number of turns trained today, number of turns trained in each mode and how many turns until each possible prize."
+ },
+ {
+   "repo": "https://github.com/Ezandora/Source-Terminal-GUI/branches/Release/",
+   "author": "Ezandora",
+   "name": "Source Terminal GUI",
+   "forumThread": "https://kolmafia.us/showthread.php?21329",
+   "shortDesc": "Enhances view of Source Terminal in your campground",
+   "category": "relay",
+   "longDesc": "Choose desired skills, enhancements, extrusions, and enquiries."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/bale/spelunky/code/",
+   "author": "Bale",
+   "name": "Spelunky Reference",
+   "forumThread": "https://kolmafia.us/showthread.php?12644-Bale-s-Relay-Overrides",
+   "shortDesc": "Adds helpful Spelunkin' non-combat information",
+   "category": "relay",
+   "longDesc": "The most confusing thing about playing the Spelunkin' minigame is keeping track of the non-combats. This adds helpful information about all the Spelunkin' non-combat information to the Spelunky map as well as information about which non-combat to expect next."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/guyymafia/code/trophytastic/",
+   "author": "guyy",
+   "name": "TrophyTastic",
+   "forumThread": "https://kolmafia.us/showthread.php?14133-TrophyTastic-the-trophy-case-de-suckifier",
+   "shortDesc": "The trophy case de-suckifier",
+   "category": "relay",
+   "longDesc": "Trophies! They're great. But arranging them is a pain in the (chaos) butt(erfly).<p>This script transforms the barely usable trophy case into a means of creating bitchin' trophy configurations quickly instead of over many hours while you slowly lose your mind."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/bale/relay/code/desc_wikiLinks/",
+   "author": "Bale",
+   "name": "Wiki Links",
+   "forumThread": "https://kolmafia.us/showthread.php?12644-Bale-s-Relay-Overrides",
+   "shortDesc": "Pop-ups descriptions link to entry on KoL Wiki",
+   "category": "relay",
+   "longDesc": "This alters KoL's pop-up windows, making the title of the window into a link to its entry on the KoL Wiki. This improves the pop-up descriptions for effect, familiar, item, outfit, skill and Pasta Thrall."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/bale/relay/code/woods_questStart/",
+   "author": "Bale",
+   "name": "Woods quest starter",
+   "forumThread": "https://kolmafia.us/showthread.php?12644-Bale-s-Relay-Overrides",
+   "shortDesc": "Get transfunctioner and screwdriver automatically",
+   "category": "relay",
+   "longDesc": "Automatically get the continuum transfunctioner and screwdriver when woods are first visited. This saves some repetitive clicking at the beginning of your ascension."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/relaywtf/code/famswtf/",
+   "author": "ckb",
+   "name": "WTF Familiars",
+   "forumThread": "https://kolmafia.us/showthread.php?15696-WTF-Relay-script-collection",
+   "shortDesc": "Display familiar information from terrarium",
+   "category": "relay",
+   "longDesc": "I have a lot of familiars. And the list is growing. And I can't keep track of what they all do. WTF? How am I supposed to remember exactly how 100+ vaguely named creatures perform? I cannot. I know the hipster does lots of stuff and gives free fights... and so does the goth kid. But the goth kid is really a fairy right? No, its a volleyball. Or a leprechaun... I don't remember.<p>I could look this up on the wiki over and over. And I used to. Then I wrote this relay script to tell me."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/relaywtf/code/inventorywtf/",
+   "author": "ckb",
+   "name": "WTF Inventory",
+   "forumThread": "https://kolmafia.us/showthread.php?15696-WTF-Relay-script-collection",
+   "shortDesc": "Display information about items in your inventory",
+   "category": "relay",
+   "longDesc": "Updates your inventory page with WTF-style descriptions for items and effects. This is a modified version of rlbond86's Enhanced Inventory Spoilers, which is a modified version on my original Inventory SPOILERZ relay override script. It will display information about the items in your inventory below their name.<p>This script uses the same basic WTF code as the others, so you get standardized colors and fonts and look and feel."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/relaywtf/code/shopwtf/",
+   "author": "ckb",
+   "name": "WTF Shops",
+   "forumThread": "https://kolmafia.us/showthread.php?15696-WTF-Relay-script-collection",
+   "shortDesc": "Help with the Dungeon Vending Machine",
+   "category": "relay",
+   "longDesc": "For the Daily Dungeon Vending Machine, this will show you which keys you have and which keys you do not have. It will take away the link to buy keys you already have. It will also check if you have a key lime pie in your inventory, and show that you DO have the key IF you have the pie.<p>This is because I am forgetful and will pull a pie AND buy the key at the same time, and that sucks."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/relaywtf/code/skillswtf/",
+   "author": "ckb",
+   "name": "WTF Skills",
+   "forumThread": "https://kolmafia.us/showthread.php?15696-WTF-Relay-script-collection",
+   "shortDesc": "Skill list is sorted, clickable and informative",
+   "category": "relay",
+   "longDesc": "When casting skills and buffs from the relay browser, they are color coded to help distinguish types. Active effects from skills are highlighted.<p>The incentive here is that I found myself going to the skills page to buff up and forgetting what each skill does and which skills I had already cast and which ones were single effect only (songs and expressions).  This should make that more clear and more easy."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/relaywtf/code/vipwtf/",
+   "author": "ckb",
+   "name": "WTF VIP Lounge",
+   "forumThread": "https://kolmafia.us/showthread.php?15696-WTF-Relay-script-collection",
+   "shortDesc": "Help with the VIP Concession Stands",
+   "category": "relay",
+   "longDesc": "Hot dogs and Speakeasy Drinks from the VIP lounge are totally sweet -- awesome food, great in HC, and they give some totally sweet effects, but I can't remember what any of them do. To find out, first you have to click the item to open up an info box, which has a link to the effect, which you then click to give its description.<p>Or you can skip that process by using this script so you won't have to click <i>anything</i>."
  }
 ]
