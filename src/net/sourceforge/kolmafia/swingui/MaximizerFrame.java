@@ -67,9 +67,14 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLGUIConstants;
 
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.maximizer.MaximizerSpeculation;
+
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 
 import net.sourceforge.kolmafia.preferences.PreferenceListenerCheckBox;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -226,7 +231,7 @@ public class MaximizerFrame
 			MaximizerFrame.this.equipmentSelect.add( new JRadioButton( "none" ) );
 			MaximizerFrame.this.equipmentSelect.add( new JRadioButton( "on hand" ) );
 			MaximizerFrame.this.equipmentSelect.add( new JRadioButton( "creatable" ) );
-			MaximizerFrame.this.equipmentSelect.add( new JRadioButton( "pullable/buyable" ) );
+			MaximizerFrame.this.equipmentSelect.add( new PullableRadioButton( "pullable/buyable" ) );
 			MaximizerFrame.this.equipmentSelect.setSelectedIndex( Preferences.getInteger( "maximizerEquipmentLevel" ) );
 
 			JPanel mallPanel = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
@@ -282,6 +287,36 @@ public class MaximizerFrame
 			JComponentUtilities.setComponentSize( content, -1, 500 );
 			JOptionPane.showMessageDialog( this, content, "Modifier Maximizer help",
 				JOptionPane.PLAIN_MESSAGE );
+		}
+	}
+
+	private class PullableRadioButton
+		extends JRadioButton
+		implements Listener
+	{
+		final String text;
+
+		public PullableRadioButton( String text )
+		{
+			super( text );
+			this.text = text;
+			NamedListenerRegistry.registerNamedListener( "(pullsremaining)", this );
+			this.update();
+		}
+
+		public void update()
+		{
+			int pulls = ConcoctionDatabase.getPullsRemaining();
+			StringBuilder buf = new StringBuilder( this.text );
+			buf.append( " (" );
+			buf.append( String.valueOf( pulls ) );
+			buf.append( " pull" );
+			if ( pulls != 1 )
+			{
+				buf.append( "s" );
+			}
+			buf.append( " left)" );
+			this.setText( buf.toString() );
 		}
 	}
 

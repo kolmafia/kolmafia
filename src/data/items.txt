@@ -3292,9 +3292,9 @@
 3265	bag of Crotchety Pine saplings	983680869	knobsack.gif	offhand	q	0
 3266	bag of Saccharine Maple saplings	309371987	knobsack.gif	offhand	q	0
 3267	bag of Laughing Willow saplings	812801333	knobsack.gif	offhand	q	0
-3268	handful of Crotchety Pine needles	575824061	pineneedles.gif	potion, usable	t	0	handfuls of Crotchety Pine needles
-3269	lump of Saccharine Maple sap	425798774	salsaball.gif	potion, usable, candy2	t	0	lumps of Saccharine Maple sap
-3270	handful of Laughing Willow bark	811790050	bark2.gif	potion, usable	t	0	handfuls of Laughing Willow bark
+3268	handful of Crotchety Pine needles	575824061	pineneedles.gif	potion, multiple	t	0	handfuls of Crotchety Pine needles
+3269	lump of Saccharine Maple sap	425798774	salsaball.gif	potion, multiple, candy2	t	0	lumps of Saccharine Maple sap
+3270	handful of Laughing Willow bark	811790050	bark2.gif	potion, multiple	t	0	handfuls of Laughing Willow bark
 3271	crotchety pants	577653594	barkpants.gif	pants		0	pairs of crotchety pants
 3272	Saccharine Maple pendant	533229935	maplependant.gif	accessory		0
 3273	willowy bonnet	604596957	bonnet.gif	hat		0
