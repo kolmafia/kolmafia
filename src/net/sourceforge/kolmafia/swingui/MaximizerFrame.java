@@ -308,14 +308,21 @@ public class MaximizerFrame
 		{
 			int pulls = ConcoctionDatabase.getPullsRemaining();
 			StringBuilder buf = new StringBuilder( this.text );
-			buf.append( " (" );
-			buf.append( String.valueOf( pulls ) );
-			buf.append( " pull" );
-			if ( pulls != 1 )
+			if ( pulls == -1 )
 			{
-				buf.append( "s" );
+				buf.append( " (unlimited)" );
 			}
-			buf.append( " left)" );
+			else
+			{
+				buf.append( " (" );
+				buf.append( String.valueOf( pulls ) );
+				buf.append( " pull" );
+				if ( pulls != 1 )
+				{
+					buf.append( "s" );
+				}
+				buf.append( " left)" );
+			}
 			this.setText( buf.toString() );
 		}
 	}
