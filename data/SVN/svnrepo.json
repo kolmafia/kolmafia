@@ -297,6 +297,15 @@
    "longDesc": "This will find the various items needed to complete the quest in Pandamonium, solve the puzzles (perhaps changing your gear to maximize success), and finish by using the steel organ item if possible."
  },
  {
+   "repo": "https://github.com/Ezandora/PirateRealm/trunk/Release/",
+   "author": "Ezandora",
+   "name": "PirateRealm",
+   "forumThread": "https://kolmafia.us/showthread.php?24030",
+   "shortDesc": "Farms fun points in PirateRealm",
+   "category": "adventure",
+   "longDesc": "Automates the PirateRealm to collect FunFunds. Can handle any island.."
+ },
+ {
    "repo": "https://svn.code.sf.net/p/guyymafia/code/porkfuture/",
    "author": "guyy",
    "name": "Pork to the Future",
@@ -496,12 +505,12 @@
  },
  {
    "repo": "https://svn.code.sf.net/p/missingmanuel/code/trunk/",
-   "author": "Turing",
+   "author": "Turing, Veracity",
    "name": "Missing Manuel",
-   "forumThread": "https://kolmafia.us/showthread.php?11428-missingManuel-ash-Yet-Another-Manuel-Script!",
+   "forumThread": "https://kolmafia.us/showthread.php?11428",
    "shortDesc": "Missing Manuel factoids!",
    "category": "information",
-   "longDesc": "This scans Monster Manuel to get a list of monsters with missing factoids.<p>The script will ask if you want to display the full list. Selecting yes will list all monsters. Selecting no will only list the monsters for which you still need to hunt factoids. The display of monsters is sorted by area for your convenience."
+   "longDesc": "This scans Monster Manuel to get a list of monsters with missing factoids."
  },
  {
    "repo": "https://svn.code.sf.net/p/reference-plus/code/",
