@@ -33,9 +33,7 @@
 
 package net.sourceforge.kolmafia.persistence;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -159,14 +157,20 @@ public class ScriptManager
 		if ( !repoFile.exists() ) {
 			return null;
 		}
+		else
+		{
+			if (repoFile.length() <= 0) {
+				repoFile.delete();
+				return null;
+			}
+		}
 
 		byte[] bytes = ByteBufferUtilities.read( repoFile );
 		String string = StringUtilities.getEncodedString( bytes, "UTF-8" );
 
 		try
 		{
-			JSONArray jArray = new JSONArray( string );
-			return jArray;
+			return new JSONArray( string );
 		}
 		catch ( JSONException e )
 		{
