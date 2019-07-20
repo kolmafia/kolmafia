@@ -52,12 +52,80 @@ public class BeachManager
 	// main.php?comb=1
 	// choice.php?forceoption=0
 	// choice.php?whichchoice=1388&pwd&option=1&minutes=420
+	// choice.php?whichchoice=1388&pwd&option=3&buff=3
 	// choice.php?whichchoice=1388&pwd&option=4&coords=8%2C4197
 	// choice.php?whichchoice=1388&pwd&option=5
 
 	// You walk for 420 minutes and find a nice stretch of beach.  Now...  Where to comb?
-
 	private static final Pattern MINUTES_PATTERN = Pattern.compile( "You walk for ([\\d,]+) minutes and find a nice stretch of beach" );
+
+	// (You have 11 free walks down the beach left today.)
+	private static final Pattern FREE_WALK_PATTERN = Pattern.compile( "\\(You have ([\\d]+) free walks? down the beach left today.\\)" );
+
+	// Visit Beach Head #10
+	private static final Pattern BEACH_HEAD_PATTERN = Pattern.compile( "Visit Beach Head #([\\d]+)" );
+
+	// Beach Heads:
+	//
+	// #1 (420)	Hot-Headed
+	// #2 (2323)	Cold as Nice
+	// #3 (4242)	A Brush with Grossness
+	// #4 (6969)	Does It Have a Skull In There??
+	// #5 (8888)	Oiled, SLick
+	// #6 (37)	Lack of Body-Building
+	// #7 (3737)	We're All Made of Starfish
+	// #8 (7114)	Pomp and Circumstands
+	// #9 (5555)	Resting Beach Face
+	// #10 (1111)	Do I Know You From Somewhere?
+	// #11 (9696)	You Learned Something Maybe!
+
+	// You return to the beach head and comb it once again, still trying to
+	// not think too hard about what it <i>is</i>. It gives you some kind
+	// of magical blessing as a tip.
+
+	// Initial choice when using the Beach Comb
+	public static final boolean parseCombUsage( final String text )
+	{
+		// You grab your comb and head to the start of the beach to find a good spot.
+		if ( !text.contains( "You grab your comb and head back to the start of the beach" ) )
+		{
+			return false;
+		}
+
+		Matcher matcher = BeachManager.FREE_WALK_PATTERN.matcher( text );
+		int walksAvailable = matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+		Preferences.setInteger( "_freeBeachWalksUsed", 11 - walksAvailable );
+
+		matcher = BeachManager.BEACH_HEAD_PATTERN.matcher( text );
+		StringBuilder buf = new StringBuilder();
+		int expected = 1;
+		while ( matcher.find() )
+		{
+			int current = StringUtilities.parseInt( matcher.group( 1 ) );
+			while ( expected < current )
+			{
+				if ( buf.length() > 0 )
+				{
+					buf.append( "," );
+				}
+				buf.append( String.valueOf( expected++ ) );
+			}
+			expected++;
+		}
+
+		while ( expected < 11 )
+		{
+			if ( buf.length() > 0 )
+			{
+				buf.append( "," );
+			}
+			buf.append( String.valueOf( expected++ ) );
+		}
+
+		Preferences.setString( "_beachHeadsUsed", buf.toString() );
+
+		return true;
+	}
 
 	// Beach Layout:
 	//
@@ -107,7 +175,6 @@ public class BeachManager
 		Matcher matcher = BeachManager.MINUTES_PATTERN.matcher( text );
 		if ( !matcher.find() )
 		{
-			// Print an error?
 			return;
 		}
 
