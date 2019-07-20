@@ -111,6 +111,7 @@ public class BreakfastManager
 		ItemPool.get( ItemPool.PUMP_UP_HIGH_TOPS, 1 ),
 		ItemPool.get( ItemPool.PUMP_UP_HIGH_TOPS, 1 ), // You can pump them more than once
 		ItemPool.get( ItemPool.PUMP_UP_HIGH_TOPS, 1 ), // Three times in fact
+		ItemPool.get( ItemPool.ETCHED_HOURGLASS, 1 ),
 	};
 
 	private static final AdventureResult VIP_LOUNGE_KEY = ItemPool.get( ItemPool.VIP_LOUNGE_KEY, 1 );
