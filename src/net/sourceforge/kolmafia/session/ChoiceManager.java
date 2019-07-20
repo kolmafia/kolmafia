@@ -3674,7 +3674,7 @@ public abstract class ChoiceManager
 				       new Option( "New Age healing crystal -> empty lava bottle", 2, "empty lava bottle" ),
 				       new Option( "empty lava bottle -> full lava bottle", 3, "full lava bottle" ),
 				       new Option( "make colored lava globs", 4 ),
-				       new Option( "glowing New Age healing crystal -> crystalline light bulb", 5, "crystalline light bulb" ),
+				       new Option( "glowing New Age crystal -> crystalline light bulb", 5, "crystalline light bulb" ),
 				       new Option( "crystalline light bulb + insulated wire + heat-resistant sheet metal -> LavaCo&trade; Lamp housing", 6, "LavaCo&trade; Lamp housing" ),
 				       new Option( "fused fuse", 7, "fused fuse" ),
 				       new Option( "leave", 9 )
@@ -12740,7 +12740,7 @@ public abstract class ChoiceManager
 					ResultProcessor.processResult( ItemPool.get( ItemPool.EMPTY_LAVA_BOTTLE, -1 ) );
 					break;
 				case 5:
-					ResultProcessor.processResult( ItemPool.get( ItemPool.GLOWING_NEW_AGE_HEALING_CRYSTAL, -1 ) );
+					ResultProcessor.processResult( ItemPool.get( ItemPool.GLOWING_NEW_AGE_CRYSTAL, -1 ) );
 					break;
 				case 6:
 					ResultProcessor.processResult( ItemPool.get( ItemPool.CRYSTALLINE_LIGHT_BULB, -1 ) );
@@ -12748,6 +12748,14 @@ public abstract class ChoiceManager
 					ResultProcessor.processResult( ItemPool.get( ItemPool.HEAT_RESISTANT_SHEET_METAL, -1 ) );
 					break;
 				}
+			}
+			break;
+
+		case 1092:
+			// Choice 1092 is Dyer Maker
+			if ( text.contains ( "You acquire" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.VISCOUS_LAVA_GLOBS, -1 ) );
 			}
 			break;
 
@@ -16942,6 +16950,42 @@ public abstract class ChoiceManager
 				// Can only access Popular machine after quest complete
 				return "0";
 			}
+			return decision;
+
+		// The Floor Is Yours
+		case 1091:
+			if ( decision.equals( "1" ) && InventoryManager.getCount( ItemPool.GOLD_1970 ) < 1 )
+			{
+				// Infinite Loop if don't have 1,970 carat gold 
+				return "9";
+			}
+			else if ( decision.equals( "2" ) && InventoryManager.getCount( ItemPool.NEW_AGE_HEALING_CRYSTAL ) < 1 )
+			{
+				// Infinite Loop if don't have New Age healing crystal
+				return "9";
+			}
+			else if ( decision.equals( "3" ) && InventoryManager.getCount( ItemPool.EMPTY_LAVA_BOTTLE ) < 1 )
+			{
+				// Infinite Loop if don't have empty lava bottle
+				return "9";
+			}
+			else if ( decision.equals( "4" ) && InventoryManager.getCount( ItemPool.VISCOUS_LAVA_GLOBS ) < 1 )
+			{
+				// Infinite Loop if don't have viscous lava globs
+				return "9";
+			}
+			else if ( decision.equals( "5" ) && InventoryManager.getCount( ItemPool.GLOWING_NEW_AGE_CRYSTAL ) < 1 )
+			{
+				// Infinite Loop if don't have glowing New Age crystal
+				return "9";
+			}
+
+			// 6: "crystalline light bulb + insulated wire + heat-resistant sheet metal -> LavaCo&trade; Lamp housing"
+			// This exits choice if you don't have the ing1redients
+			// 7: "fused fuse"
+			// Doesn't require materials
+			// 9: "leave"
+
 			return decision;
 
 		case 1260:

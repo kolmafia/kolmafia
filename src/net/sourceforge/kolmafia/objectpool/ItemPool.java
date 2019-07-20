@@ -2559,8 +2559,9 @@ public class ItemPool
 	public static final int FIZZING_SPORE_POD = 8427;
 	public static final int INSULATED_GOLD_WIRE = 8439;
 	public static final int EMPTY_LAVA_BOTTLE = 8440;
+	public static final int VISCOUS_LAVA_GLOBS = 8442;
 	public static final int HEAT_RESISTANT_SHEET_METAL = 8453;
-	public static final int GLOWING_NEW_AGE_HEALING_CRYSTAL = 8455;
+	public static final int GLOWING_NEW_AGE_CRYSTAL = 8455;
 	public static final int CRYSTALLINE_LIGHT_BULB = 8456;
 	public static final int GOOEY_LAVA_GLOBS = 8470;
 	public static final int LAVA_MINERS_DAUGHTER = 8482;
