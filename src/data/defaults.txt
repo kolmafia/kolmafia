@@ -1356,6 +1356,7 @@ user	_ballpit	false
 user	_banderRunaways	0
 user	_barrelPrayer	false
 user	_bastilleGames	0
+user	_beachHeadsUsed
 user	_beachLayout
 user	_beachMinutes
 user	_beanCannonUses	0
@@ -1465,6 +1466,7 @@ user	_floristPlantsUsed
 user	_floundryItemCreated	false
 user	_floundryItemUsed	false
 user	_fragrantHerbsUsed	0
+user	_freeBeachWalksUsed	0
 user	_frAreasUnlocked
 user	_frButtonsPressed	0
 user	_frHoursLeft

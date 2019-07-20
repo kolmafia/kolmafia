@@ -11599,6 +11599,10 @@ public abstract class ChoiceManager
 		case 1387:
 			SaberRequest.parseForce( urlString, text );
 			break;
+
+		case 1388:
+			BeachManager.parseCombUsage( text );
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
@@ -14834,9 +14838,9 @@ public abstract class ChoiceManager
 		}
 
 		case 1388:
+			BeachManager.parseCombUsage( text );
 			BeachManager.parseBeachMap( text );
 			break;
-
 		}
 	}
 
