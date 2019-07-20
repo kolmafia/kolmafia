@@ -156,7 +156,7 @@ public class PantogramRequest
 			{
 				modList.addModifier( "MP Regen Min", "10" );
 				modList.addModifier( "MP Regen Max", "20" );
-				ResultProcessor.removeItem( ItemPool.GLOWING_NEW_AGE_HEALING_CRYSTAL );
+				ResultProcessor.removeItem( ItemPool.GLOWING_NEW_AGE_CRYSTAL );
 			}
 			else if ( slot1.startsWith( "705" ) )
 			{
