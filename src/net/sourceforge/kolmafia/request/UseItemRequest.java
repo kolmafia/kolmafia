@@ -1210,6 +1210,10 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return ( 5 - Preferences.getInteger( "_jerksHealthMagazinesUsed" ) );
 
+		case ItemPool.ETCHED_HOURGLASS:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_etchedHourglassUsed" ) ? 0 : 1;
+
 		}
 
 		if ( restorationMaximum < Integer.MAX_VALUE )
@@ -6222,6 +6226,10 @@ public class UseItemRequest
 
 		case ItemPool.JERKS_HEALTH_MAGAZINE:
 			Preferences.increment( "_jerksHealthMagazinesUsed", count );
+			break;
+
+		case ItemPool.ETCHED_HOURGLASS:
+			Preferences.setBoolean( "_etchedHourglassUsed", true );
 			break;
 
 		case ItemPool.PR_MEMBER:

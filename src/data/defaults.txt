@@ -1447,6 +1447,7 @@ user	_elronsCasts	0
 user	_enamorangs	0
 user	_envyfishEggUsed	false
 user	_essentialTofuUsed	false
+user	_etchedHourglassUsed	false
 user	_eternalCarBatteryUsed	false
 user	_everfullGlassUsed	false
 user	_expertCornerCutterUsed	0
