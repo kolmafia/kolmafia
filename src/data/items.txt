@@ -10316,3 +10316,4 @@
 10288
 10289	Finnish Fish	924184613	fishy2.gif	potion, usable	t,d	5
 10290	cursed chocolate doubloon	686531916	ccannonball.gif	potion, multiple	t,d	5
+10291	driftwood beach comb	560767631	woodbeachcomb.gif	accessory	q	0
