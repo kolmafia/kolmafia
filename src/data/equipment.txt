@@ -2299,6 +2299,7 @@ dope gangsta bling-bling	45	Mys: 7
 dorky glasses	50	none
 Draftsman's driving gloves	200	none
 Dreadsylvania Auditor's badge	250	Mys: 200
+driftwood beach comb	0	none
 driftwood bracelet	0	Mys: 10
 droll monocle	100	Mys: 35
 Drunkula's ring of haze	300	Mys: 100
