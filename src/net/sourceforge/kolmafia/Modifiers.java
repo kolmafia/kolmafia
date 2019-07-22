@@ -4135,12 +4135,12 @@ public class Modifiers
 			}
 			else if ( type.equals( "Unique" ) )
 			{
-				if ( Modifiers.uniques.containsKey( modifiers ) )
+				if ( Modifiers.uniques.containsKey( name ) )
 				{
-					KoLmafia.updateDisplay( "Unique items for " + modifiers + " already declared." );
+					KoLmafia.updateDisplay( "Unique items for " + name + " already declared." );
 					continue loop;
 				}
-				Modifiers.uniques.put( modifiers, new HashSet<String>( Arrays.asList( name.split( "/" ) ) ) );
+				Modifiers.uniques.put( name, new HashSet<String>( Arrays.asList( modifiers.split( "/" ) ) ) );
 			}
 		}
 
@@ -4160,6 +4160,11 @@ public class Modifiers
 	static
 	{
 		Modifiers.resetModifiers();
+	}
+
+	public static Set<String> getUniques( String name )
+	{
+		return Modifiers.uniques.get( name );
 	}
 
 	public static void writeModifiers( final File output )

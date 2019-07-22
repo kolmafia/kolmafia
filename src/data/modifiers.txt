@@ -7759,8 +7759,8 @@ MutexE	Shrieking Weasel/Power, Man/Lucky Struck/Ministrations in the Dark/Superd
 # These are items that all contribute to a modifier, but only once per unique item.
 # Consider them to be SIngle Equip, insofar as the specified modifier is concerned.
 
-Unique	balloon helmet/clown wig/foolscap fool's cap/bloody clown pants/clownskin harness/balloon sword/clown whip/clownskin buckler/big red clown nose/clown shoes/clownskin belt/polka-dot bow tie	Clowniness
-Unique	bloodied surgical dungarees/surgical apron/half-size scalpel/head mirror/surgical mask	Surgeonosity
+Unique	Clowniness	balloon helmet/clown wig/foolscap fool's cap/bloody clown pants/clownskin harness/balloon sword/clown whip/clownskin buckler/big red clown nose/clown shoes/clownskin belt/polka-dot bow tie
+Unique	Surgeonosity	bloodied surgical dungarees/surgical apron/half-size scalpel/head mirror/surgical mask
 
 # Maximization categories section of modifiers.txt
 # These pseudo-items list the indirect benefits of certain classes of

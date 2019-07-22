@@ -40,6 +40,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
@@ -105,6 +106,7 @@ public class Evaluator
 	private boolean current = !KoLCharacter.canInteract() || Preferences.getBoolean( "maximizerAlwaysCurrent" );
 	private HashSet<String> posOutfits, negOutfits;
 	private TreeSet<AdventureResult> posEquip, negEquip;
+	private TreeSet<AdventureResult> uniques;
 
 	private static final String TIEBREAKER = "1 familiar weight, 1 familiar experience, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop, 1 DB combat damage, 0.1 sixgun damage";
 	private static final Pattern KEYWORD_PATTERN = Pattern.compile( "\\G\\s*(\\+|-|)([\\d.]*)\\s*(\"[^\"]+\"|(?:[^-+,0-9]|(?<! )[-+0-9])+),?\\s*" );
@@ -198,6 +200,7 @@ public class Evaluator
 		this.negOutfits = tiebreaker.negOutfits = new HashSet<String>();
 		this.posEquip = tiebreaker.posEquip = new TreeSet<AdventureResult>();
 		this.negEquip = tiebreaker.negEquip = new TreeSet<AdventureResult>();
+		this.uniques = tiebreaker.uniques = new TreeSet<AdventureResult>();
 		this.familiars = tiebreaker.familiars = new ArrayList<FamiliarData>();
 		this.carriedFamiliars = tiebreaker.carriedFamiliars = new ArrayList<FamiliarData>();
 		this.weight = new double[ Modifiers.DOUBLE_MODIFIERS ];
@@ -254,7 +257,8 @@ public class Evaluator
 				}
 				continue;
 			}
-			else if ( keyword.equals( "max" ) )
+
+			if ( keyword.equals( "max" ) )
 			{
 				if ( index >= 0 )
 				{
@@ -266,12 +270,14 @@ public class Evaluator
 				}
 				continue;
 			}
-			else if ( keyword.equals( "dump" ) )
+
+			if ( keyword.equals( "dump" ) )
 			{
 				this.dump = (int) weight;
 				continue;
 			}
-			else if ( keyword.startsWith( "hand" ) )
+
+			if ( keyword.startsWith( "hand" ) )
 			{
 				this.hands = (int) weight;
 				if ( this.hands >= 2 )
@@ -280,59 +286,70 @@ public class Evaluator
 				}
 				continue;
 			}
-			else if ( keyword.startsWith( "tie" ) )
+
+			if ( keyword.startsWith( "tie" ) )
 			{
 				this.noTiebreaker = weight < 0.0;
 				continue;
 			}
-			else if ( keyword.startsWith( "current" ) )
+
+			if ( keyword.startsWith( "current" ) )
 			{
 				this.current = weight > 0.0;
 				forceCurrent = true;
 				continue;
 			}
-			else if ( keyword.startsWith( "type " ) )
+
+			if ( keyword.startsWith( "type " ) )
 			{
 				this.weaponType = keyword.substring( 5 ).trim();
 				continue;
 			}
-			else if ( keyword.equals( "club" ) )
+
+			if ( keyword.equals( "club" ) )
 			{
 				this.requireClub = weight > 0.0;
 				continue;
 			}
-			else if ( keyword.equals( "shield" ) )
+
+			if ( keyword.equals( "shield" ) )
 			{
 				this.requireShield = weight > 0.0;
 				this.hands = 1;
 				continue;
 			}
-			else if ( keyword.equals( "utensil" ) )
+
+			if ( keyword.equals( "utensil" ) )
 			{
 				this.requireUtensil = weight > 0.0;
 				continue;
 			}
-			else if ( keyword.equals( "knife" ) )
+
+			if ( keyword.equals( "knife" ) )
 			{
 				this.requireKnife = weight > 0.0;
 				continue;
 			}
-			else if ( keyword.equals( "accordion" ) )
+
+			if ( keyword.equals( "accordion" ) )
 			{
 				this.requireAccordion = weight > 0.0;
 				continue;
 			}
-			else if ( keyword.equals( "melee" ) )
+
+			if ( keyword.equals( "melee" ) )
 			{
 				this.melee = (int) (weight * 2.0);
 				continue;
 			}
-			else if ( keyword.equals( "effective" ) )
+
+			if ( keyword.equals( "effective" ) )
 			{
 				this.effective = weight > 0.0;
 				continue;
 			}
-			else if ( keyword.equals( "empty" ) )
+
+			if ( keyword.equals( "empty" ) )
 			{
 				for ( int i = 0; i < EquipmentManager.ALL_SLOTS; ++i )
 				{
@@ -341,7 +358,8 @@ public class Evaluator
 				}
 				continue;
 			}
-			else if ( keyword.equals( "clownosity" ) )
+
+			if ( keyword.equals( "clownosity" ) )
 			{
 				if ( m.end( 2 ) == m.start( 2 ) )
 				{
@@ -354,7 +372,8 @@ public class Evaluator
 				}
 				continue;
 			}
-			else if ( keyword.equals( "raveosity" ) )
+
+			if ( keyword.equals( "raveosity" ) )
 			{
 				if ( m.end( 2 ) == m.start( 2 ) )
 				{
@@ -367,12 +386,14 @@ public class Evaluator
 				}
 				continue;
 			}
-			else if ( keyword.equals( "beeosity" ) )
+
+			if ( keyword.equals( "beeosity" ) )
 			{
 				this.beeosity = (int) weight;
 				continue;
 			}
-			else if ( keyword.equals( "sea" ) )
+
+			if ( keyword.equals( "sea" ) )
 			{
 				this.booleanMask |= (1 << Modifiers.ADVENTURE_UNDERWATER) | (1 << Modifiers.UNDERWATER_FAMILIAR);
 				this.booleanValue |= (1 << Modifiers.ADVENTURE_UNDERWATER) | (1 << Modifiers.UNDERWATER_FAMILIAR);
@@ -381,7 +402,8 @@ public class Evaluator
 				this.edPieceDecided = "fish";
 				continue;
 			}
-			else if ( keyword.startsWith( "equip " ) )
+
+			if ( keyword.startsWith( "equip " ) )
 			{
 				AdventureResult match = ItemFinder.getFirstMatchingItem(
 					keyword.substring( 6 ).trim(), Match.EQUIP );
@@ -401,7 +423,8 @@ public class Evaluator
 				}
 				continue;
 			}
-			else if ( keyword.startsWith( "outfit" ) )
+
+			if ( keyword.startsWith( "outfit" ) )
 			{
 				keyword = keyword.substring( 6 ).trim();
 				if ( keyword.equals( "" ) )
@@ -432,7 +455,8 @@ public class Evaluator
 				}
 				continue;
 			}
-			else if ( keyword.startsWith( "switch " ) )
+
+			if ( keyword.startsWith( "switch " ) )
 			{
 				if ( KoLCharacter.inPokefam() )
 				{
@@ -470,8 +494,10 @@ public class Evaluator
 			}
 
 			index = Modifiers.findName( keyword );
+
+			// Adjust for generic abbreviations
 			if ( index < 0 )
-			{	// try generic abbreviations
+			{
 				if ( keyword.endsWith( " res" ) )
 				{
 					keyword += "istance";
@@ -491,141 +517,160 @@ public class Evaluator
 				index = Modifiers.findName( keyword );
 			}
 
-			if ( index >= 0 )
-			{	// exact match
-			}
-			else if ( keyword.equals( "all resistance" ) )
+			// Match keyword with multiple modifiers
+			if ( index < 0 )
 			{
-				this.weight[ Modifiers.COLD_RESISTANCE ] = weight;
-				this.weight[ Modifiers.HOT_RESISTANCE ] = weight;
-				this.weight[ Modifiers.SLEAZE_RESISTANCE ] = weight;
-				this.weight[ Modifiers.SPOOKY_RESISTANCE ] = weight;
-				this.weight[ Modifiers.STENCH_RESISTANCE ] = weight;
-				continue;
-			}
-			else if ( keyword.equals( "elemental damage" ) )
-			{
-				this.weight[ Modifiers.COLD_DAMAGE ] = weight;
-				this.weight[ Modifiers.HOT_DAMAGE ] = weight;
-				this.weight[ Modifiers.SLEAZE_DAMAGE ] = weight;
-				this.weight[ Modifiers.SPOOKY_DAMAGE ] = weight;
-				this.weight[ Modifiers.STENCH_DAMAGE ] = weight;
-				continue;
-			}
-			else if ( keyword.equals( "hp regen" ) )
-			{
-				this.weight[ Modifiers.HP_REGEN_MIN ] = weight / 2;
-				this.weight[ Modifiers.HP_REGEN_MAX ] = weight / 2;
-				continue;
-			}
-			else if ( keyword.equals( "mp regen" ) )
-			{
-				this.weight[ Modifiers.MP_REGEN_MIN ] = weight / 2;
-				this.weight[ Modifiers.MP_REGEN_MAX ] = weight / 2;
-				continue;
-			}
-			else if ( keyword.equals( "init" ) )
-			{
-				index = Modifiers.INITIATIVE;
-			}
-			else if ( keyword.equals( "hp" ) )
-			{
-				index = Modifiers.HP;
-			}
-			else if ( keyword.equals( "mp" ) )
-			{
-				index = Modifiers.MP;
-			}
-			else if ( keyword.equals( "da" ) )
-			{
-				index = Modifiers.DAMAGE_ABSORPTION;
-			}
-			else if ( keyword.equals( "dr" ) )
-			{
-				index = Modifiers.DAMAGE_REDUCTION;
-			}
-			else if ( keyword.equals( "ml" ) )
-			{
-				index = Modifiers.MONSTER_LEVEL;
-			}
-			else if ( keyword.startsWith( "mus" ) )
-			{
-				index = Modifiers.MUS;
-			}
-			else if ( keyword.startsWith( "mys" ) )
-			{
-				index = Modifiers.MYS;
-			}
-			else if ( keyword.startsWith( "mox" ) )
-			{
-				index = Modifiers.MOX;
-			}
-			else if ( keyword.startsWith( "main" ) )
-			{
-				switch ( KoLCharacter.getPrimeIndex() )
+				if ( keyword.equals( "all resistance" ) )
 				{
-				case 0:
+					this.weight[ Modifiers.COLD_RESISTANCE ] = weight;
+					this.weight[ Modifiers.HOT_RESISTANCE ] = weight;
+					this.weight[ Modifiers.SLEAZE_RESISTANCE ] = weight;
+					this.weight[ Modifiers.SPOOKY_RESISTANCE ] = weight;
+					this.weight[ Modifiers.STENCH_RESISTANCE ] = weight;
+					continue;
+				}
+				if ( keyword.equals( "elemental damage" ) )
+				{
+					this.weight[ Modifiers.COLD_DAMAGE ] = weight;
+					this.weight[ Modifiers.HOT_DAMAGE ] = weight;
+					this.weight[ Modifiers.SLEAZE_DAMAGE ] = weight;
+					this.weight[ Modifiers.SPOOKY_DAMAGE ] = weight;
+					this.weight[ Modifiers.STENCH_DAMAGE ] = weight;
+					continue;
+				}
+				if ( keyword.equals( "hp regen" ) )
+				{
+					this.weight[ Modifiers.HP_REGEN_MIN ] = weight / 2;
+					this.weight[ Modifiers.HP_REGEN_MAX ] = weight / 2;
+					continue;
+				}
+				if ( keyword.equals( "mp regen" ) )
+				{
+					this.weight[ Modifiers.MP_REGEN_MIN ] = weight / 2;
+					this.weight[ Modifiers.MP_REGEN_MAX ] = weight / 2;
+					continue;
+				}
+			}
+
+			// Match keyword with specific abbreviations
+			if ( index < 0 )
+			{
+				if ( keyword.equals( "init" ) )
+				{
+					index = Modifiers.INITIATIVE;
+				}
+				else if ( keyword.equals( "hp" ) )
+				{
+					index = Modifiers.HP;
+				}
+				else if ( keyword.equals( "mp" ) )
+				{
+					index = Modifiers.MP;
+				}
+				else if ( keyword.equals( "da" ) )
+				{
+					index = Modifiers.DAMAGE_ABSORPTION;
+				}
+				else if ( keyword.equals( "dr" ) )
+				{
+					index = Modifiers.DAMAGE_REDUCTION;
+				}
+				else if ( keyword.equals( "ml" ) )
+				{
+					index = Modifiers.MONSTER_LEVEL;
+				}
+				else if ( keyword.startsWith( "mus" ) )
+				{
 					index = Modifiers.MUS;
-					break;
-				case 1:
-					index = Modifiers.MYS;
-					break;
-				case 2:
-					index = Modifiers.MOX;
-					break;
 				}
-			}
-			else if ( keyword.startsWith( "com" ) )
-			{
-				index = Modifiers.COMBAT_RATE;
-				if ( Modifiers.currentZone.equals( "The Sea" ) || Modifiers.currentLocation.equals( "The Sunken Party Yacht" ) )
+				else if ( keyword.startsWith( "mys" ) )
 				{
-					this.weight[ Modifiers.UNDERWATER_COMBAT_RATE ] = weight;
+					index = Modifiers.MYS;
 				}
-			}
-			else if ( keyword.startsWith( "item" ) )
-			{
-				index = Modifiers.ITEMDROP;
-			}
-			else if ( keyword.startsWith( "meat" ) )
-			{
-				index = Modifiers.MEATDROP;
-			}
-			else if ( keyword.startsWith( "adv" ) )
-			{
-				this.beeosity = 999;
-				index = Modifiers.ADVENTURES;
-			}
-			else if ( keyword.startsWith( "fites" ) )
-			{
-				this.beeosity = 999;
-				index = Modifiers.PVP_FIGHTS;
-			}
-			else if ( keyword.startsWith( "exp" ) )
-			{
-				index = Modifiers.EXPERIENCE;
-			}
-			else if ( keyword.startsWith( "crit" ) )
-			{
-				index = Modifiers.CRITICAL_PCT;
-			}
-			else if ( keyword.startsWith( "spell crit" ) )
-			{
-				index = Modifiers.SPELL_CRITICAL_PCT;
-			}
-			else if ( keyword.startsWith( "sprinkle" ) )
-			{
-				index = Modifiers.SPRINKLES;
-			}
-			else if ( keyword.equals( "ocrs" ) )
-			{
-				this.noTiebreaker = true;
-				this.beeosity = 999;
-				index = Modifiers.RANDOM_MONSTER_MODIFIERS;
+				else if ( keyword.startsWith( "mox" ) )
+				{
+					index = Modifiers.MOX;
+				}
+				else if ( keyword.startsWith( "main" ) )
+				{
+					switch ( KoLCharacter.getPrimeIndex() )
+					{
+					case 0:
+						index = Modifiers.MUS;
+						break;
+					case 1:
+						index = Modifiers.MYS;
+						break;
+					case 2:
+						index = Modifiers.MOX;
+						break;
+					}
+				}
+				else if ( keyword.startsWith( "com" ) )
+				{
+					index = Modifiers.COMBAT_RATE;
+					if ( Modifiers.currentZone.equals( "The Sea" ) || Modifiers.currentLocation.equals( "The Sunken Party Yacht" ) )
+					{
+						this.weight[ Modifiers.UNDERWATER_COMBAT_RATE ] = weight;
+					}
+				}
+				else if ( keyword.startsWith( "item" ) )
+				{
+					index = Modifiers.ITEMDROP;
+				}
+				else if ( keyword.startsWith( "meat" ) )
+				{
+					index = Modifiers.MEATDROP;
+				}
+				else if ( keyword.startsWith( "adv" ) )
+				{
+					this.beeosity = 999;
+					index = Modifiers.ADVENTURES;
+				}
+				else if ( keyword.startsWith( "fites" ) )
+				{
+					this.beeosity = 999;
+					index = Modifiers.PVP_FIGHTS;
+				}
+				else if ( keyword.startsWith( "exp" ) )
+				{
+					index = Modifiers.EXPERIENCE;
+				}
+				else if ( keyword.startsWith( "crit" ) )
+				{
+					index = Modifiers.CRITICAL_PCT;
+				}
+				else if ( keyword.startsWith( "spell crit" ) )
+				{
+					index = Modifiers.SPELL_CRITICAL_PCT;
+				}
+				else if ( keyword.startsWith( "sprinkle" ) )
+				{
+					index = Modifiers.SPRINKLES;
+				}
+				else if ( keyword.equals( "ocrs" ) )
+				{
+					this.noTiebreaker = true;
+					this.beeosity = 999;
+					index = Modifiers.RANDOM_MONSTER_MODIFIERS;
+				}
 			}
 
 			if ( index >= 0 )
 			{
+				// We found a match. If only the first instance
+				// of particular equipped items provide this
+				// modifier, add them to the "uniques" list.
+				String modifierName = Modifiers.getModifierName( index );
+				Set<String> itemNames = Modifiers.getUniques( modifierName );
+				if ( itemNames != null )
+				{
+					for ( String itemName : itemNames )
+					{
+						this.uniques.add( ItemPool.get( itemName, 1 ) );
+					}
+				}
+
 				this.weight[ index ] = weight;
 				continue;
 			}
@@ -1417,6 +1462,14 @@ public class Evaluator
 				}
 
 				if ( mods.getBoolean( Modifiers.SINGLE ) )
+				{
+					item.singleFlag = true;
+				}
+
+				// If we are maximizing for a modifier that
+				// only counts one of a particular item,
+				// pretend that item is single equip
+				if ( this.uniques.contains( preItem ) )
 				{
 					item.singleFlag = true;
 				}
