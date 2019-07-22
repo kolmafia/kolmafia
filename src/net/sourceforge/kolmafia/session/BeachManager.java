@@ -33,15 +33,21 @@
 
 package net.sourceforge.kolmafia.session;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
+
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -65,29 +71,89 @@ public class BeachManager
 	// Visit Beach Head #10
 	private static final Pattern BEACH_HEAD_PATTERN = Pattern.compile( "Visit Beach Head #([\\d]+)" );
 
-	// Beach Heads:
-	//
-	// #1 (420)	Hot-Headed
-	// #2 (2323)	Cold as Nice
-	// #3 (4242)	A Brush with Grossness
-	// #4 (6969)	Does It Have a Skull In There??
-	// #5 (8888)	Oiled, SLick
-	// #6 (37)	Lack of Body-Building
-	// #7 (3737)	We're All Made of Starfish
-	// #8 (7114)	Pomp and Circumstands
-	// #9 (5555)	Resting Beach Face
-	// #10 (1111)	Do I Know You From Somewhere?
-	// #11 (9696)	You Learned Something Maybe!
+	// You acquire an effect: <b>A Brush with Grossness</b>
+	private static final Pattern EFFECT_PATTERN = Pattern.compile( "You acquire an effect: <b>([^<]+)</b>" );
 
-	// You return to the beach head and comb it once again, still trying to
-	// not think too hard about what it <i>is</i>. It gives you some kind
-	// of magical blessing as a tip.
+	public static class BeachHead
+	{
+		public final int id;
+		public final String effect;
+		public final int beach;
+		public final String desc;
 
-	// Initial choice when using the Beach Comb
+		public BeachHead( int id, String effect, int beach, final String desc )
+		{
+			this.id = id;
+			this.effect = effect;
+			this.beach = beach;
+			this.desc = desc;
+		}
+	}
+
+	public static final BeachHead [] BEACH_HEADS = 
+	{
+		new BeachHead( 1, "Hot-Headed", 420, "hot" ),
+		new BeachHead( 2, "Cold as Nice", 2323, "cold" ),
+		new BeachHead( 3, "A Brush with Grossness", 4242, "stench" ),
+		new BeachHead( 4, "Does It Have a Skull In There??", 6969, "spooky" ),
+		new BeachHead( 5, "Oiled, Slick", 8888, "sleaze" ),
+		new BeachHead( 6, "Lack of Body-Building", 37, "muscle" ),
+		new BeachHead( 7, "We're All Made of Starfish", 3737, "mysticality" ),
+		new BeachHead( 8, "Pomp and Circumsands", 7114, "moxie" ),
+		new BeachHead( 9, "Resting Beach Face", 5555, "initiative" ),
+		new BeachHead( 10, "Do I Know You From Somewhere?", 1111, "familiar" ),
+		new BeachHead( 11, "You Learned Something Maybe!", 9696, "experience" ),
+	};
+
+	public static final Map<Integer, BeachHead> idToBeachHead = new TreeMap<Integer, BeachHead>();
+	public static final Map<String, BeachHead> effectToBeachHead = new TreeMap<String, BeachHead>();
+	public static final List<String> beachHeadDescs = new ArrayList<String>();
+
+	static
+	{
+		for ( BeachHead head : BEACH_HEADS )
+		{
+			idToBeachHead.put( head.id, head );
+			effectToBeachHead.put( head.effect, head );
+			beachHeadDescs.add( head.desc );
+		}
+	};
+
+	public static Set<Integer> getBeachHeadPreference( String property )
+	{
+		Set<Integer> beachHeads = new TreeSet<Integer>();
+		for ( String iword : Preferences.getString( property ).split( " *, *" ) )
+		{
+			if ( !iword.equals( "" ) )
+			{
+				beachHeads.add( IntegerPool.get( StringUtilities.parseInt( iword ) ) );
+			}
+		}
+		return beachHeads;
+	}
+
+	public static String setBeachHeadPreference( String property, Set<Integer> beachHeads )
+	{
+		StringBuilder buf = new StringBuilder();
+		for ( Integer id : beachHeads )
+		{
+			if ( buf.length() > 0 )
+			{
+				buf.append( "," );
+			}
+			buf.append( String.valueOf( id ) );
+		}
+		String value = buf.toString();
+		Preferences.setString( property, value );
+		return value;
+	}
+
+	// Choice when using the Beach Comb or after combing, if you have adventures left
 	public static final boolean parseCombUsage( final String text )
 	{
 		// You grab your comb and head to the start of the beach to find a good spot.
-		if ( !text.contains( "You grab your comb and head back to the start of the beach" ) )
+		// You grab your comb and head back to the start of the beach to find another good spot.
+		if ( !text.contains( "to the start of the beach to find" ) )
 		{
 			return false;
 		}
@@ -96,33 +162,77 @@ public class BeachManager
 		int walksAvailable = matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
 		Preferences.setInteger( "_freeBeachWalksUsed", 11 - walksAvailable );
 
+		// Parse the beach head shortcuts and see what we can deduce about them.
+
+		// Start by retrieving what we know are unlocked
+		Set<Integer> unlocked = getBeachHeadPreference( "beachHeadsUnlocked" );
+
+		// Find which beach heads have available shortcuts
+		Set<Integer> available = new TreeSet<Integer>();
+
 		matcher = BeachManager.BEACH_HEAD_PATTERN.matcher( text );
-		StringBuilder buf = new StringBuilder();
-		int expected = 1;
 		while ( matcher.find() )
 		{
-			int current = StringUtilities.parseInt( matcher.group( 1 ) );
-			while ( expected < current )
-			{
-				if ( buf.length() > 0 )
-				{
-					buf.append( "," );
-				}
-				buf.append( String.valueOf( expected++ ) );
-			}
-			expected++;
+			available.add( StringUtilities.parseInt( matcher.group( 1 ) ) );
 		}
 
-		while ( expected < 11 )
+		// All visible beach head shortcuts are unlocked
+		Set<Integer> allUnlocked = new TreeSet<Integer>( unlocked );
+		allUnlocked.addAll( available );
+		setBeachHeadPreference( "beachHeadsUnlocked", allUnlocked );
+
+		// All visible beach head shortcuts have not been visited today
+		Set<Integer> visited = new TreeSet<Integer>( allUnlocked );
+		visited.removeAll( available );
+		setBeachHeadPreference( "_beachHeadsUsed", visited );
+
+		return true;
+	}
+
+	// Choice when using the Beach Comb or after combing, if you have adventures left
+	public static final boolean parseBeachHeadCombing( final String text )
+	{
+		// You return to the beach head and comb it once again, still trying to
+		// not think too hard about what it <i>is</i>. It gives you some kind
+		// of magical blessing as a tip.
+		//
+		// You already combed that head today.
+		if ( !text.contains( "some kind of magical blessing" ) )
 		{
-			if ( buf.length() > 0 )
-			{
-				buf.append( "," );
-			}
-			buf.append( String.valueOf( expected++ ) );
+			return false;
 		}
 
-		Preferences.setString( "_beachHeadsUsed", buf.toString() );
+		// You acquire an effect: <b>A Brush with Grossness</b>
+		Matcher matcher = BeachManager.EFFECT_PATTERN.matcher( text );
+		if ( !matcher.find() )
+		{
+			return false;
+		}
+
+		BeachHead beachHead = effectToBeachHead.get( matcher.group( 1 ) );
+		if ( beachHead == null )
+		{
+			return false;
+		}
+
+		Integer id = IntegerPool.get( beachHead.id );
+
+		// Add this beach head to set of unlocked (if not already present)
+		Set<Integer> unlocked = getBeachHeadPreference( "beachHeadsUnlocked" );
+		if ( !unlocked.contains( id ) )
+		{
+			unlocked.add( id );
+			setBeachHeadPreference( "beachHeadsUnlocked", unlocked );
+		}
+
+		// Add this beach head to set of visited (if not already
+		// present - which might be true if we parsed the Beach Comb first)
+		Set<Integer> visited = getBeachHeadPreference( "_beachHeadsUsed" );
+		if ( !visited.contains( id ) )
+		{
+			visited.add( id );
+			setBeachHeadPreference( "_beachHeadsUsed", visited );
+		}
 
 		return true;
 	}

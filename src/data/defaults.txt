@@ -291,6 +291,7 @@ user	batmanTimeLeft	0
 user	batmanZone	Gotpork City
 user	batmanUpgrades
 user	battleAction	attack with weapon
+user	beachHeadsUnlocked
 user	bearSwagger	0
 user	beeCounter	0
 user	beforePVPScript

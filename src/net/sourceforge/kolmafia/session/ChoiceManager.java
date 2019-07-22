@@ -11601,6 +11601,7 @@ public abstract class ChoiceManager
 			break;
 
 		case 1388:
+			BeachManager.parseBeachHeadCombing( text );
 			BeachManager.parseCombUsage( text );
 			break;
 		}
