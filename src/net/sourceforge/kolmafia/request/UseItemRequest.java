@@ -6252,6 +6252,15 @@ public class UseItemRequest
 			//}
 			Preferences.setBoolean( "_prToday", true );
 			break;
+
+		case ItemPool.PIECE_OF_DRIFTWOOD:
+			// You don't need another beach comb! Stop that!
+			if ( responseText.contains( "You don't need another beach comb" ) )
+			{
+				// If you already have access it is not consumed
+				return;
+			}
+			break;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
