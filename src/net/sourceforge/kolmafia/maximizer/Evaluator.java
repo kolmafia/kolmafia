@@ -82,6 +82,7 @@ public class Evaluator
 	private int dump = 0;
 	private int clownosity = 0;
 	private int raveosity = 0;
+	private int surgeonosity = 0;
 	private int beeosity = 2;
 	private int booleanMask, booleanValue;
 	private ArrayList<FamiliarData> familiars;
@@ -373,15 +374,9 @@ public class Evaluator
 
 			if ( keyword.equals( "clownosity" ) )
 			{
-				if ( m.end( 2 ) == m.start( 2 ) )
-				{
-					// No weight specified, so assume 4
-					this.clownosity = 4;
-				}
-				else
-				{
-					this.clownosity = (int) weight;
-				}
+				// If no weight specified, assume 4
+				this.clownosity = ( m.end( 2 ) == m.start( 2 ) ) ? 4 : (int) weight;
+
 				// Clownosity is built on Clowniness and has
 				// same unique items requirement.
 				this.addUniqueItems( "Clowniness" );
@@ -390,15 +385,16 @@ public class Evaluator
 
 			if ( keyword.equals( "raveosity" ) )
 			{
-				if ( m.end( 2 ) == m.start( 2 ) )
-				{
-					// No weight specified, so assume 7
-					this.raveosity = 7;
-				}
-				else
-				{
-					this.raveosity = (int) weight;
-				}
+				// If no weight specified, assume 7
+				this.raveosity = ( m.end( 2 ) == m.start( 2 ) ) ? 7 : (int) weight;
+				continue;
+			}
+
+			if ( keyword.equals( "surgeonosity" ) )
+			{
+				// If no weight specified, assume 5
+				this.surgeonosity = ( m.end( 2 ) == m.start( 2 ) ) ? 5 : (int) weight;
+				this.addUniqueItems( "Surgeonosity" );
 				continue;
 			}
 
@@ -852,6 +848,13 @@ public class Evaluator
 			int osity = mods.getBitmap( Modifiers.RAVEOSITY );
 			score += Math.min( osity, this.raveosity );
 			if ( osity < this.raveosity )
+				this.failed = true;
+		}
+		if ( this.surgeonosity > 0 )
+		{
+			int osity = (int) mods.get( Modifiers.SURGEONOSITY );
+			score += Math.min( osity, this.surgeonosity );
+			if ( osity < this.surgeonosity )
 				this.failed = true;
 		}
 		if ( !this.failed && this.booleanMask != 0 &&
@@ -1541,6 +1544,8 @@ public class Evaluator
 						mods.get( Modifiers.CLOWNINESS ) != 0 ) ||
 					( this.raveosity > 0 &&
 						mods.getRawBitmap( Modifiers.RAVEOSITY ) != 0 ) ||
+					( this.surgeonosity > 0 &&
+						mods.get( Modifiers.SURGEONOSITY ) != 0 ) ||
 					( (mods.getRawBitmap( Modifiers.SYNERGETIC )
 						& usefulSynergies) != 0 ) )
 				{
