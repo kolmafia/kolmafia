@@ -10285,8 +10285,8 @@
 10257	Beach Comb Box	836738650	beachcombbox.gif	usable	t	0
 10258	Beach Comb	442466704	beachcomb.gif	accessory		0
 10259	grain of sand	162212708	sandgrain.gif	multiple, combat	t,d	1	grains of sand
-10260	small pile of sand	489624773	sandpile1.gif	usable, combat	t,d	50
-10261	pile of sand	522432828	sandpile2.gif	usable, combat	t,d	250
+10260	small pile of sand	489624773	sandpile1.gif	multiple, combat	t,d	50
+10261	pile of sand	522432828	sandpile2.gif	multiple, combat	t,d	250
 10262	large pile of sand	427463999	sandpile3.gif	none	t,d	1000
 10263	empty hourglass	610982132	beachhourglass1.gif	none	t,d	500
 10264	hourglass	598421661	beachhourglass2.gif	usable	t,d	600
@@ -10317,3 +10317,4 @@
 10289	Finnish Fish	924184613	fishy2.gif	potion, usable	t,d	5
 10290	cursed chocolate doubloon	686531916	ccannonball.gif	potion, multiple	t,d	5
 10291	driftwood beach comb	560767631	woodbeachcomb.gif	accessory	q	0
+<
