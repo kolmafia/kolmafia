@@ -215,6 +215,18 @@ public class Evaluator
 		this.parse( expr );
 	}
 
+	private void addUniqueItems( String name )
+	{
+		Set<String> itemNames = Modifiers.getUniques( name );
+		if ( itemNames != null )
+		{
+			for ( String itemName : itemNames )
+			{
+				this.uniques.add( ItemPool.get( itemName, 1 ) );
+			}
+		}
+	}
+
 	private void parse( String expr )
 	{
 		expr = expr.trim().toLowerCase();
@@ -370,6 +382,9 @@ public class Evaluator
 				{
 					this.clownosity = (int) weight;
 				}
+				// Clownosity is built on Clowniness and has
+				// same unique items requirement.
+				this.addUniqueItems( "Clowniness" );
 				continue;
 			}
 
@@ -662,15 +677,7 @@ public class Evaluator
 				// of particular equipped items provide this
 				// modifier, add them to the "uniques" list.
 				String modifierName = Modifiers.getModifierName( index );
-				Set<String> itemNames = Modifiers.getUniques( modifierName );
-				if ( itemNames != null )
-				{
-					for ( String itemName : itemNames )
-					{
-						this.uniques.add( ItemPool.get( itemName, 1 ) );
-					}
-				}
-
+				this.addUniqueItems( modifierName );
 				this.weight[ index ] = weight;
 				continue;
 			}
