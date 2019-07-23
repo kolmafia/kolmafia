@@ -371,7 +371,9 @@ public class DataTypes
 			itemId = item.resolveBangPotion().getItemId();
 		}
 
-		if ( itemId == -1 )
+		// ItemDatabase parses as "[0]" as itemId 0, even though no such item exists,
+		// to allow that to mean "no item" in concoctions
+		if ( itemId < 1 )
 		{
 			return returnDefault ? DataTypes.ITEM_INIT : null;
 		}
