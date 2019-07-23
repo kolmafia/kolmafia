@@ -47,6 +47,7 @@ public class ScriptExit
 	public Value execute( final Interpreter interpreter )
 	{
 		super.execute( interpreter );
+		interpreter.setExiting();
 		return null;
 	}
 	

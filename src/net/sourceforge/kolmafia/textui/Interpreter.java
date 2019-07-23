@@ -83,6 +83,7 @@ public class Interpreter
 	private static Stack interpreterStack = new Stack();
 
 	private String currentState = Interpreter.STATE_NORMAL;
+	private boolean exiting = false;
 	private int traceIndentation = 0;
 	public Profiler profiler;
 
@@ -365,6 +366,7 @@ public class Interpreter
 		Interpreter.interpreterStack.push( this );
 
 		this.currentState = Interpreter.STATE_NORMAL;
+		this.exiting = false;
 		this.resetTracing();
 
 		if ( functionName.equals( "main" ) )
@@ -665,10 +667,21 @@ public class Interpreter
 		}
 	}
 
+	public final void setExiting()
+	{
+		this.exiting = true;
+	}
+
 	public final void captureValue( final Value value )
 	{
 		// We've just executed a command in a context that captures the
 		// return value.
+
+		// If the script specifically exits, don't override that
+		if ( this.exiting )
+		{
+			return;
+		}
 
 		if ( KoLmafia.refusesContinue() || value == null )
 		{
