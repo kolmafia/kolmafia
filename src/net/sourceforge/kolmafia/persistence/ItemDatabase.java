@@ -1266,8 +1266,31 @@ public class ItemDatabase
 		return ItemDatabase.getItemId( itemName, 1, false );
 	}
 
+	private static final int getBrackededItemId( final String itemName )
+	{
+		if ( itemName.startsWith( "[" ) )
+		{
+			int index = itemName.indexOf( "]" );
+			if ( index > 0 )
+			{
+				String idString = itemName.substring( 1, index );
+				if ( StringUtilities.isNumeric( idString ) )
+				{
+					int itemId = StringUtilities.parseInt( idString );
+					// Allow item Id = 0 to mean "no item"
+					if ( itemId == 0 ||
+					     ItemDatabase.getItemName( itemId ) != null )
+					{
+						return itemId;
+					}
+				}
+			}
+		}
+		return -1;
+	}
+
 	private static final int[] NO_ITEM_IDS = new int[0];
-	
+
 	public static final int[] getItemIds( final String itemName, final int count, final boolean substringMatch )
 	{
 		if ( itemName == null )
@@ -1278,18 +1301,9 @@ public class ItemDatabase
 		// If name starts with [nnnn] then that is explicitly the item id 
 		if ( itemName.startsWith( "[" ) )
 		{
-			int index = itemName.indexOf( "]" );
-			if ( index > 0 )
+			int itemId = ItemDatabase.getBrackededItemId( itemName );
+			if ( itemId != -1 )
 			{
-				String idString = itemName.substring( 1, index );
-				int itemId = -1;
-				try 
-				{
-					itemId = StringUtilities.parseInt( idString );
-				}
-				catch (NumberFormatException e)
-				{
-				}
 				int[] ids = new int[1];
 				ids[0] = itemId;
 				return ids;
@@ -1356,10 +1370,9 @@ public class ItemDatabase
 		// If name is specified by use of [xxxx], return CanonicalName
 		if ( itemName.startsWith( "[" ) )
 		{
-			int index = itemName.indexOf( "]" );
-			if ( index > 0 )
+			itemId = ItemDatabase.getBrackededItemId( itemName );
+			if ( itemId != -1 )
 			{
-				itemId = StringUtilities.parseInt( itemName.substring( 1,  index ) );
 				return ItemDatabase.getCanonicalName( (Integer) itemId );
 			}
 		}
@@ -1970,10 +1983,9 @@ public class ItemDatabase
 	{
 		if ( itemName.startsWith( "[" ) )
 		{
-			int ind = itemName.indexOf( "]" );
-			if ( ind > 0 )
+			int itemId = ItemDatabase.getBrackededItemId( itemName );
+			if ( itemId != -1 )
 			{
-				int itemId = StringUtilities.parseInt( itemName.substring( 1, ind ) );
 				return getItemName( itemId );
 			}
 		}
