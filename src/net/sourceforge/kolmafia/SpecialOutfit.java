@@ -235,16 +235,23 @@ public class SpecialOutfit
 				continue;
 			}
 
-			if ( this.isWearing( piece, slot ) )
+			// How many copies of this piece of equipment are in this outfit
+			int pieceCount = this.pieceCount( piece );
+
+			// How many copies of this piece of equipment are being worn
+			int equippedCount = EquipmentManager.equippedCount( piece );
+
+			// How many are not being worn
+			int missingCount = pieceCount - equippedCount;
+
+			if ( missingCount <= 0 )
 			{
 				continue;
 			}
 
-			int pieceCount = this.pieceCount( piece );
-
-			if ( InventoryManager.getAccessibleCount( piece ) >= pieceCount )
+			if ( InventoryManager.getAccessibleCount( piece ) >= pieceCount &&
+			     InventoryManager.retrieveItem( ItemPool.get( piece.getItemId(), missingCount ), true, false ) )
 			{
-				InventoryManager.retrieveItem( ItemPool.get( piece.getItemId(), pieceCount ) );
 				continue;
 			}
 
