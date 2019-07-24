@@ -16957,28 +16957,28 @@ public abstract class ChoiceManager
 		case 1091:
 			if ( decision.equals( "1" ) && InventoryManager.getCount( ItemPool.GOLD_1970 ) < 1 )
 			{
-				// Infinite Loop if don't have 1,970 carat gold 
-				return "9";
+				// Manual Control if don't have 1,970 carat gold 
+				return "0";
 			}
 			else if ( decision.equals( "2" ) && InventoryManager.getCount( ItemPool.NEW_AGE_HEALING_CRYSTAL ) < 1 )
 			{
-				// Infinite Loop if don't have New Age healing crystal
-				return "9";
+				// Manual Control if don't have New Age healing crystal
+				return "0";
 			}
 			else if ( decision.equals( "3" ) && InventoryManager.getCount( ItemPool.EMPTY_LAVA_BOTTLE ) < 1 )
 			{
-				// Infinite Loop if don't have empty lava bottle
-				return "9";
+				// Manual Control if don't have empty lava bottle
+				return "0";
 			}
 			else if ( decision.equals( "4" ) && InventoryManager.getCount( ItemPool.VISCOUS_LAVA_GLOBS ) < 1 )
 			{
-				// Infinite Loop if don't have viscous lava globs
-				return "9";
+				// Manual Control if don't have viscous lava globs
+				return "0";
 			}
 			else if ( decision.equals( "5" ) && InventoryManager.getCount( ItemPool.GLOWING_NEW_AGE_CRYSTAL ) < 1 )
 			{
-				// Infinite Loop if don't have glowing New Age crystal
-				return "9";
+				// Manual Control if don't have glowing New Age crystal
+				return "0";
 			}
 
 			// 6: "crystalline light bulb + insulated wire + heat-resistant sheet metal -> LavaCo&trade; Lamp housing"
