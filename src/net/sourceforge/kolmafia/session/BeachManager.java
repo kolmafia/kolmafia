@@ -79,30 +79,32 @@ public class BeachManager
 		public final int id;
 		public final String effect;
 		public final int beach;
+		public final String coords;
 		public final String desc;
 
-		public BeachHead( int id, String effect, int beach, final String desc )
+		public BeachHead( int id, String effect, int beach, String coords, String desc )
 		{
 			this.id = id;
 			this.effect = effect;
 			this.beach = beach;
+			this.coords = coords;
 			this.desc = desc;
 		}
 	}
 
 	public static final BeachHead [] BEACH_HEADS = 
 	{
-		new BeachHead( 1, "Hot-Headed", 420, "hot" ),
-		new BeachHead( 2, "Cold as Nice", 2323, "cold" ),
-		new BeachHead( 3, "A Brush with Grossness", 4242, "stench" ),
-		new BeachHead( 4, "Does It Have a Skull In There??", 6969, "spooky" ),
-		new BeachHead( 5, "Oiled, Slick", 8888, "sleaze" ),
-		new BeachHead( 6, "Lack of Body-Building", 37, "muscle" ),
-		new BeachHead( 7, "We're All Made of Starfish", 3737, "mysticality" ),
-		new BeachHead( 8, "Pomp and Circumsands", 7114, "moxie" ),
-		new BeachHead( 9, "Resting Beach Face", 5555, "initiative" ),
-		new BeachHead( 10, "Do I Know You From Somewhere?", 1111, "familiar" ),
-		new BeachHead( 11, "You Learned Something Maybe!", 9696, "experience" ),
+		new BeachHead( 1, "Hot-Headed", 420, "8,4197", "hot" ),
+		new BeachHead( 2, "Cold as Nice", 2323, "8,23222", "cold" ),
+		new BeachHead( 3, "A Brush with Grossness", 4242, "8,42412", "stench" ),
+		new BeachHead( 4, "Does It Have a Skull In There??", 6969, "8,69682",  "spooky" ),
+		new BeachHead( 5, "Oiled, Slick", 8888, "8,88879", "sleaze" ),
+		new BeachHead( 6, "Lack of Body-Building", 37, "8,368", "muscle" ),
+		new BeachHead( 7, "We're All Made of Starfish", 3737, "8,37368", "mysticality" ),
+		new BeachHead( 8, "Pomp and Circumsands", 7114, "8,71138", "moxie" ),
+		new BeachHead( 9, "Resting Beach Face", 5555, "9,55549", "initiative" ),
+		new BeachHead( 10, "Do I Know You From Somewhere?", 1111, "9,11109", "familiar" ),
+		new BeachHead( 11, "You Learned Something Maybe!", 9696, "9,96958", "experience" ),
 	};
 
 	public static final Map<Integer, BeachHead> idToBeachHead = new TreeMap<Integer, BeachHead>();
