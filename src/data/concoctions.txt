@@ -3071,3 +3071,4 @@ hourglass	COMBINE	small pile of sand	empty hourglass
 etched hourglass	COMBINE	pile of sand	hourglass
 fire	MUSE	stick (2)
 driftwood beach comb	SUSE	piece of driftwood
+bottle of sea wine	SUSE	bunch of sea grapes
