@@ -2549,6 +2549,19 @@ public class EquipmentManager
 		return ItemPool.get( itemId, 1 );
 	}
 
+	public static final int equippedCount( final AdventureResult item )
+	{
+		int count = 0;
+		for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
+		{
+			if ( item.equals( EquipmentManager.getEquipment( i ) ) )
+			{
+				count++;
+			}
+		}
+		return count;
+	}
+
 	public static final void parseStatus( final JSONObject JSON )
 		throws JSONException
 	{
