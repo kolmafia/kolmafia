@@ -1699,6 +1699,12 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "file_to_array", DataTypes.INT_TO_STRING_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "file_to_buffer", DataTypes.BUFFER_TYPE, params ) );
+
+		params = new Type[] { DataTypes.BUFFER_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "buffer_to_file", DataTypes.BOOLEAN_TYPE, params ) );
+
 		// Custom combat helper functions.
 
 		params = new Type[] {};
@@ -7551,6 +7557,24 @@ public abstract class RuntimeLibrary
 		}
 
 		return result;
+	}
+
+	public static Value file_to_buffer( Interpreter interpreter, final Value var1 )
+	{
+		String location = var1.toString();
+		byte[] bytes = DataFileCache.getBytes( location );
+		String string = StringUtilities.getEncodedString( bytes, "UTF-8" );
+		StringBuffer buffer = new StringBuffer( string );
+		return new Value( DataTypes.BUFFER_TYPE, "", buffer );
+	}
+
+	public static Value buffer_to_file( Interpreter interpreter, final Value var1, final Value var2 )
+	{
+		StringBuffer buffer = (StringBuffer) var1.rawValue();
+		String string = buffer.toString();
+		byte[] bytes = StringUtilities.getEncodedBytes( string, "UTF-8" );
+		String location = var2.toString();
+		return DataFileCache.printBytes( location, bytes );
 	}
 
 	// Custom combat helper functions.
