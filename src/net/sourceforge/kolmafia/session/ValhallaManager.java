@@ -741,6 +741,8 @@ public class ValhallaManager
 		Preferences.setInteger( "daycareInstructors", 0 );
 		// Sausage Grinder
 		Preferences.setInteger( "sausageGrinderUnits", 0 );
+		// Hewn Moon Rune Spoon
+		Preferences.setBoolean( "moonTuned", false );
 		// Community Service
 		Preferences.setString( "csServicesPerformed", "" );	
 		// AWOL

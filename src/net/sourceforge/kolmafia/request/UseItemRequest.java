@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.RestoresDatabase;
+import net.sourceforge.kolmafia.persistence.TCRSDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -170,6 +171,7 @@ public class UseItemRequest
 	protected static AdventureResult lastItemUsed = null;
 	protected static AdventureResult lastHelperUsed = null;
 	private static int currentItemId = -1;
+	private static String lastUrlString = null;
 
 	private static int askedAboutPvP = 0;
 
@@ -2101,6 +2103,22 @@ public class UseItemRequest
 		}
 		return true;
 	}
+
+	private static final Pattern HEWN_SPOON_PATTERN = Pattern.compile( "whichsign=(\\d+)" );
+	private static String parseAscensionSign( String urlString )
+	{
+		Matcher matcher = UseItemRequest.HEWN_SPOON_PATTERN.matcher( urlString );
+		if ( matcher.find() )
+		{
+			int num = StringUtilities.parseInt( matcher.group(1) );
+			if ( num >= 1 && num <= 9 )
+			{
+				return KoLCharacter.ZODIACS[ num - 1 ];
+			}
+		}
+		return null;
+	}
+
 
 	public void parseConsumption()
 	{
@@ -6261,6 +6279,42 @@ public class UseItemRequest
 				return;
 			}
 			break;
+
+		case ItemPool.HEWN_MOON_RUNE_SPOON:
+			// You twist the spoon around until the reflection of the moon in the bowl looks just like you intended.
+			if ( responseText.contains( "You twist the spoon around" ) )
+			{
+				// You did change sign and it succeeded.
+				// This was redirected to inventory.php?action=message.
+				// Need to extract the sign from the original URL.
+				String sign = UseItemRequest.parseAscensionSign( UseItemRequest.lastUrlString );
+				if ( sign != null )
+				{
+					// Set the new sign.
+					KoLCharacter.setSign( sign );
+					// If we are in TCRS, need to reload everything
+					if ( KoLCharacter.isCrazyRandomTwo() )
+					{
+						TCRSDatabase.resetModifiers();
+						TCRSDatabase.loadTCRSData();
+					}
+					else
+					{
+						// This is done for TCRS when loading data
+						KoLCharacter.recalculateAdjustments();
+						KoLCharacter.updateStatus();
+					}
+				}
+				Preferences.setBoolean( "moonTuned", true );
+			}
+			// You can't figure out the angle to see the moon's reflection in the spoon anymore.
+			else if ( responseText.contains( "You can't figure out the angle" ) )
+			{
+				// You already changed the sign this ascension.
+				Preferences.setBoolean( "moonTuned", true );
+			}
+			// The item is not consumed regardless
+			return;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
@@ -6688,6 +6742,7 @@ public class UseItemRequest
 
 		// Everything below here will work with the item we extracted
 
+		UseItemRequest.lastUrlString = urlString;
 		UseItemRequest.lastItemUsed = item;
 		UseItemRequest.currentItemId = itemId;
 		UseItemRequest.lastHelperUsed = UseItemRequest.extractHelper( urlString );
@@ -6960,6 +7015,15 @@ public class UseItemRequest
 		case ItemPool.PORK_N_BEANS:
 			useString = "plate " + name;
 			break;
+
+		case ItemPool.HEWN_MOON_RUNE_SPOON:
+		{
+			String sign = parseAscensionSign( urlString );
+			if ( sign != null && urlString.contains( "doit=96" ) )
+			{
+				useString = "tuning moon to The " + sign;
+			}
+		}
 		}
 
 		if ( useString == null )
