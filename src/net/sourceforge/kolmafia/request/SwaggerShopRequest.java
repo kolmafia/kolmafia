@@ -117,6 +117,8 @@ public class SwaggerShopRequest
 					return Preferences.getInteger( "schoolOfHardKnocksDiplomaCost" );
 				case ItemPool.GUIDE_TO_SAFARI:
 					return Preferences.getInteger( "guideToSafariCost" );
+				case ItemPool.GLITCH_ITEM:
+					return Preferences.getInteger( "glitchItemCost" );
 				case ItemPool.ESSENCE_OF_ANNOYANCE:
 					return Preferences.getInteger( "essenceOfAnnoyanceCost" );
 				}
@@ -147,6 +149,8 @@ public class SwaggerShopRequest
 					return Preferences.getBoolean( "schoolOfHardKnocksDiplomaAvailable" );
 				case ItemPool.GUIDE_TO_SAFARI:
 					return Preferences.getBoolean( "guideToSafariAvailable" );
+				case ItemPool.GLITCH_ITEM:
+					return Preferences.getBoolean( "glitchItemAvailable" );
 				case ItemPool.ESSENCE_OF_ANNOYANCE:
 					return Preferences.getBoolean( "essenceOfAnnoyanceAvailable" );
 				}
@@ -181,6 +185,9 @@ public class SwaggerShopRequest
 
 				case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA:
 					return Preferences.getInteger( "schoolSwagger" ) >= Preferences.getInteger( "schoolOfHardKnocksDiplomaCost" );
+
+				case ItemPool.GUIDE_TO_SAFARI:
+					return Preferences.getInteger( "safariSwagger" ) >= Preferences.getInteger( "guideToSafariCost" );
 
 				case ItemPool.GLITCH_ITEM:
 					return Preferences.getInteger( "glitchSwagger" ) >= Preferences.getInteger( "glitchItemCost" );
