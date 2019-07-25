@@ -893,6 +893,7 @@ user	mmgDisabled	false
 user	mmgSearchMinimum
 user	mmgSearchMaximum
 user	moleTunnelLevel	0
+user	moonTuned	false
 user	mothershipProgress	0
 user	mpAutoRecovery	-0.5
 user	mpAutoRecoveryItems	phonics down;knob goblin superseltzer;mountain stream soda;magical mystery juice;knob goblin seltzer;cherry cloaca cola;soda water
