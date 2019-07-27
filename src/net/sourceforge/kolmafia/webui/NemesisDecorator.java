@@ -159,6 +159,11 @@ public class NemesisDecorator
 		return null;
 	}
 
+	public static boolean isRaver( final String monster )
+	{
+		return NemesisDecorator.findRaver( monster ) != null;
+	}
+
 	public static final String danceMoveStatus( final String monster )
 	{
 		NemesisManager.ensureUpdatedNemesisStatus();

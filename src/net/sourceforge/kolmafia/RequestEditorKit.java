@@ -1379,6 +1379,12 @@ public class RequestEditorKit
 			IslandDecorator.decorateBattlefieldFight( buffer );
 		}
 
+		// Copied ravers still need to be decorated
+		if ( NemesisDecorator.isRaver( monsterName ) )
+		{
+			NemesisDecorator.decorateRaverFight( buffer );
+		}
+
 		if ( monsterName.contains( "gremlin" ) )
 		{
 			IslandDecorator.decorateGremlinFight( monsterName, buffer );
@@ -1392,10 +1398,6 @@ public class RequestEditorKit
 
 		case AdventurePool.SEASIDE_MEGALOPOLIS:
 			MemoriesDecorator.decorateMegalopolisFight( buffer );
-			break;
-
-		case AdventurePool.OUTSIDE_THE_CLUB:
-			NemesisDecorator.decorateRaverFight( buffer );
 			break;
 		}
 	}
