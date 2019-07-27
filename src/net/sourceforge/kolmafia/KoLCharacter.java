@@ -797,33 +797,45 @@ public abstract class KoLCharacter
 			}
 		}
 
-		if ( KoLCharacter.hasSkill( "Stomach of Steel" ) )
-		{
-			limit += 5;
-		}
+		// yojimbos_law sez:
+		//
+		// "The path sets your max fullness to 5, regardless of other modifiers.
+		//  Spice melanges and sour balls each clear 3 fullness (and dieting pills
+		//  have no interaction with your fullness), so those work.
+		//  Pantsgiving increases your max fullness, which is then set to 5,
+		//  so it doesn't work. If you somehow got liver or stomach of steel,
+		//  those would similarly not work."
 
-		if ( Preferences.getBoolean( "_distentionPillUsed" ) )
+		if ( !KoLCharacter.isVampyre() )
 		{
-			limit += 1;
-		}
+			if ( KoLCharacter.hasSkill( "Stomach of Steel" ) )
+			{
+				limit += 5;
+			}
 
-		if ( Preferences.getBoolean( "_lupineHormonesUsed" ) )
-		{
-			limit += 3;
-		}
+			if ( Preferences.getBoolean( "_distentionPillUsed" ) )
+			{
+				limit += 1;
+			}
 
-		if ( Preferences.getBoolean( "_sweetToothUsed" ) )
-		{
-			limit += 1;
-		}
+			if ( Preferences.getBoolean( "_lupineHormonesUsed" ) )
+			{
+				limit += 3;
+			}
 
-		if ( Preferences.getBoolean( "_voraciTeaUsed" ) )
-		{
-			limit += 1;
-		}
+			if ( Preferences.getBoolean( "_sweetToothUsed" ) )
+			{
+				limit += 1;
+			}
 
-		// Pantsgiving
-		limit += Preferences.getInteger( "_pantsgivingFullness" );
+			if ( Preferences.getBoolean( "_voraciTeaUsed" ) )
+			{
+				limit += 1;
+			}
+
+			// Pantsgiving
+			limit += Preferences.getInteger( "_pantsgivingFullness" );
+		}
 
 		if ( KoLCharacter.inBeecore() || KoLCharacter.isTrendy() ||
 		     KoLCharacter.inBugcore() || KoLCharacter.inClasscore() )
