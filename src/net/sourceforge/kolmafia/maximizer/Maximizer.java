@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.maximizer;
 
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Set;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -78,6 +79,8 @@ import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
+import net.sourceforge.kolmafia.session.BeachManager;
+import net.sourceforge.kolmafia.session.BeachManager.BeachHead;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.Limitmode;
@@ -1443,6 +1446,37 @@ public class Maximizer
 					}
 					duration = 30;
 					usesRemaining = Preferences.getBoolean( "_spacegateVaccine" ) ? 0 : 1;
+				}
+				else if ( cmd.startsWith( "beach head " ) )
+				{
+					if ( !StandardRequest.isAllowed( "Items", "Beach Comb" ) )
+					{
+						continue;
+					}
+					boolean available =
+						( InventoryManager.getAccessibleCount( ItemPool.BEACH_COMB ) > 0 ) ||
+						( InventoryManager.getAccessibleCount( ItemPool.DRIFTWOOD_BEACH_COMB ) > 0 );
+					BeachHead head = BeachManager.effectToBeachHead.get( name );
+					Set<Integer> visited = BeachManager.getBeachHeadPreference( "_beachHeadsUsed" );
+					boolean headAvailable = head != null & !visited.contains( head.id );
+					if ( !available )
+					{
+						if ( includeAll )
+						{
+							text = "(acquire a Beach Comb or a driftwood beach comb for " + name + ")";
+							cmd = "";
+						}
+						else
+						{
+							continue;
+						}
+					}
+					else if ( !headAvailable )
+					{
+						cmd = "";
+					}
+					duration = 50;
+					usesRemaining = headAvailable ? 1 : 0;
 				}
 				else if ( cmd.startsWith( "daycare" ) )
 				{
