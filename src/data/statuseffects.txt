@@ -2475,16 +2475,16 @@
 2474	On Smellier Tides	seashell4.gif	cd593aea9c0d40e8558c24656f9dbd59	use 1 green seashell
 2475	Boisterous Oysterous	seashell5.gif	6206ca738bc928cbafe120c80ae5382d	use 1 yellow seashell
 2476	Does a Body Good	kelp.gif	4fb7171b072457f2d2bf2b74c5d77cb5	chew 1 kelp
-2477	Hot-Headed	beachface1.gif	af5a99b27a8c15613c6bcc38df7ce1b7
-2478	Cold as Nice	beachface2.gif	06ee15b12b004fba16323c3d311d8bc0
-2479	A Brush with Grossness	beachface3.gif	f812d44c25edc9317d1486d0190c22c4
-2480	Does It Have a Skull In There??	beachface4.gif	8dcd56352c0a918f21e940a61f0f0c81
-2481	Oiled, Slick	beachface5.gif	f4e6230536590003cd903396c3bcc868
-2482	Lack of Body-Building	beachface6.gif	949a72c535a6942b9622fef2c38b5226
-2483	We're All Made of Starfish	beachface7.gif	30ec335a592282b39919cd6c3c18d9fb
-2484	Pomp & Circumsands	beachface8.gif	b9072cf420d05090ce274e93f6755fa2
-2485	Resting Beach Face	beachface9.gif	d62cd7322be9e2ecb0c8888efcd36efb
-2486	Do I Know You From Somewhere?	beachface10.gif	e36e09682be5b280c810bf5a2dc53469
-2487	You Learned Something Maybe!	beachface11.gif	441324a54b655f39e6302afd9ab44cb6
+2477	Hot-Headed	beachface1.gif	af5a99b27a8c15613c6bcc38df7ce1b7	beach head Hot-Headed
+2478	Cold as Nice	beachface2.gif	06ee15b12b004fba16323c3d311d8bc0	beach head Cold as Nice
+2479	A Brush with Grossness	beachface3.gif	f812d44c25edc9317d1486d0190c22c4	beach head A Brush with Grossness
+2480	Does It Have a Skull In There??	beachface4.gif	8dcd56352c0a918f21e940a61f0f0c81	beach head Does It Have a Skull In There??
+2481	Oiled, Slick	beachface5.gif	f4e6230536590003cd903396c3bcc868	beach head Oiled, Slick
+2482	Lack of Body-Building	beachface6.gif	949a72c535a6942b9622fef2c38b5226	beach head Lack of Body-Building
+2483	We're All Made of Starfish	beachface7.gif	30ec335a592282b39919cd6c3c18d9fb	beach head We're All Made of Starfish
+2484	Pomp & Circumsands	beachface8.gif	b9072cf420d05090ce274e93f6755fa2	beach head Pomp & Circumsands
+2485	Resting Beach Face	beachface9.gif	d62cd7322be9e2ecb0c8888efcd36efb	beach head Resting Beach Face
+2486	Do I Know You From Somewhere?	beachface10.gif	e36e09682be5b280c810bf5a2dc53469	beach head Do I Know You From Somewhere?
+2487	You Learned Something Maybe!	beachface11.gif	441324a54b655f39e6302afd9ab44cb6	beach head You Learned Something Maybe!
 2488	Fishing For Knowledge	fishy2.gif	988d1f337b551101628604f9b74c571b	use 1 Finnish Fish
 2489	Sweet Pirate Curse	ccannonball.gif	ef9d5a4d0c0b5252d8fef89b20224d7b	use 1 cursed chocolate doubloon

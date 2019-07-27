@@ -3109,6 +3109,7 @@ public class ItemPool
 	public static final int BEACH_COMB = 10258;
 	public static final int ETCHED_HOURGLASS = 10265;
 	public static final int PIECE_OF_DRIFTWOOD = 10281;
+	public static final int DRIFTWOOD_BEACH_COMB = 10291;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
