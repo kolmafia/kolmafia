@@ -44,11 +44,14 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.BeachManager;
 import net.sourceforge.kolmafia.session.BeachManager.BeachHead;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class BeachCombRequest
 	extends GenericRequest
@@ -260,6 +263,23 @@ public class BeachCombRequest
 			{
 				// We are in the Beach Comb choice. Carry on from here.
 				usingComb = true;
+			}
+		}
+
+		if ( !usingComb )
+		{
+			// Ensure we have access to a Beach Comb or dirftwood beach comb
+			if ( InventoryManager.getAccessibleCount( ItemPool.BEACH_COMB ) > 0 )
+			{
+				if ( !KoLCharacter.hasEquipped( ItemPool.BEACH_COMB ) )
+				{
+					InventoryManager.retrieveItem( ItemPool.BEACH_COMB, true, false );
+				}
+			}
+			else if ( InventoryManager.getAccessibleCount( ItemPool.DRIFTWOOD_BEACH_COMB ) <= 0 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You need either a Beach Comb or a driftwood beach comb" );
+				return;
 			}
 		}
 

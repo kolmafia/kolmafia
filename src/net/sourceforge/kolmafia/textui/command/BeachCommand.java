@@ -78,13 +78,16 @@ public class BeachCommand
 		if ( command.equals( "common" ) )
 		{
 			boolean visited = BeachCombRequest.visitIfNecessary();
-			try
+			if ( KoLmafia.permitsContinue() )
 			{
-				( new BeachCombRequest( BeachCombCommand.COMMON ) ).run();
-			}
-			finally
-			{
-				BeachCombRequest.exitIfNecessary( visited );
+				try
+				{
+					( new BeachCombRequest( BeachCombCommand.COMMON ) ).run();
+				}
+				finally
+				{
+					BeachCombRequest.exitIfNecessary( visited );
+				}
 			}
 			return;
 		}
@@ -151,13 +154,16 @@ public class BeachCommand
 			}
 
 			boolean visited = BeachCombRequest.visitIfNecessary();
-			try
+			if ( KoLmafia.permitsContinue() )
 			{
-				( new BeachCombRequest( head ) ).run();
-			}
-			finally
-			{
-				BeachCombRequest.exitIfNecessary( visited );
+				try
+				{
+					( new BeachCombRequest( head ) ).run();
+				}
+				finally
+				{
+					BeachCombRequest.exitIfNecessary( visited );
+				}
 			}
 			return;
 		}
@@ -182,10 +188,13 @@ public class BeachCommand
 		if ( command.equals( "random" ) )
 		{
 			boolean visited = BeachCombRequest.visitIfNecessary();
-			( new BeachCombRequest( BeachCombCommand.RANDOM ) ).run();
-			if ( Preferences.getBoolean( "_beachCombing" ) )
+			if ( KoLmafia.permitsContinue() )
 			{
-				printBeachLayout();
+				( new BeachCombRequest( BeachCombCommand.RANDOM ) ).run();
+				if ( Preferences.getBoolean( "_beachCombing" ) )
+				{
+					printBeachLayout();
+				}
 			}
 			return;
 		}
@@ -209,10 +218,13 @@ public class BeachCommand
 			int minutes = StringUtilities.parseInt( minutesString );
 
 			boolean visited = BeachCombRequest.visitIfNecessary();
-			( new BeachCombRequest( minutes ) ).run();
-			if ( Preferences.getBoolean( "_beachCombing" ) )
+			if ( KoLmafia.permitsContinue() )
 			{
-				printBeachLayout();
+				( new BeachCombRequest( minutes ) ).run();
+				if ( Preferences.getBoolean( "_beachCombing" ) )
+				{
+					printBeachLayout();
+				}
 			}
 			return;
 		}
