@@ -101,7 +101,7 @@ public class BeachManager
 		new BeachHead( 5, "Oiled, Slick", 8888, "8,88879", "sleaze" ),
 		new BeachHead( 6, "Lack of Body-Building", 37, "8,368", "muscle" ),
 		new BeachHead( 7, "We're All Made of Starfish", 3737, "8,37368", "mysticality" ),
-		new BeachHead( 8, "Pomp and Circumsands", 7114, "8,71138", "moxie" ),
+		new BeachHead( 8, "Pomp & Circumsands", 7114, "8,71138", "moxie" ),
 		new BeachHead( 9, "Resting Beach Face", 5555, "9,55549", "initiative" ),
 		new BeachHead( 10, "Do I Know You From Somewhere?", 1111, "9,11109", "familiar" ),
 		new BeachHead( 11, "You Learned Something Maybe!", 9696, "9,96958", "experience" ),

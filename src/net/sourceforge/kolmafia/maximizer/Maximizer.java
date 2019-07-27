@@ -1458,7 +1458,7 @@ public class Maximizer
 						( InventoryManager.getAccessibleCount( ItemPool.DRIFTWOOD_BEACH_COMB ) > 0 );
 					BeachHead head = BeachManager.effectToBeachHead.get( name );
 					Set<Integer> visited = BeachManager.getBeachHeadPreference( "_beachHeadsUsed" );
-					boolean headAvailable = head != null & !visited.contains( head.id );
+					boolean headAvailable = head != null && !visited.contains( head.id );
 					if ( !available )
 					{
 						if ( includeAll )
