@@ -1229,7 +1229,7 @@ public class GenericRequest
 		return GenericRequest.abortIfInFightOrChoice( false );
 	}
 
-	public static final boolean abortIfInFightOrChoice( final boolean silent )
+	public static final boolean abortIfInFight( final boolean silent )
 	{
 		if ( FightRequest.currentRound != 0 )
 		{
@@ -1258,6 +1258,11 @@ public class GenericRequest
 			return true;
 		}
 
+		return false;
+	}
+
+	public static final boolean abortIfInChoice( final boolean silent )
+	{
 		if ( ChoiceManager.handlingChoice && !ChoiceManager.canWalkAway() )
 		{
 			if ( !silent )
@@ -1268,6 +1273,11 @@ public class GenericRequest
 		}
 
 		return false;
+	}
+
+	public static final boolean abortIfInFightOrChoice( final boolean silent )
+	{
+		return GenericRequest.abortIfInFight( silent) || GenericRequest.abortIfInChoice( silent);
 	}
 
 	/**

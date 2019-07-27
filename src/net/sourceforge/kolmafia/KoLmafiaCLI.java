@@ -668,6 +668,7 @@ public class KoLmafiaCLI
 		new BanishesCommand().register( "banishes" );
 		new BarrelPrayerCommand().register( "barrelprayer" );
 		new BasementCommand().register( "basement" );
+		new BeachCommand().register( "beach" );
 		new BjornifyCommand().register( "bjornify" );
 		new BoomBoxCommand().register( "boombox" );
 		new BountyCommand().register( "bounty" );

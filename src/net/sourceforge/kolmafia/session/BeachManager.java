@@ -110,6 +110,8 @@ public class BeachManager
 	public static final Map<Integer, BeachHead> idToBeachHead = new TreeMap<Integer, BeachHead>();
 	public static final Map<String, BeachHead> effectToBeachHead = new TreeMap<String, BeachHead>();
 	public static final List<String> beachHeadDescs = new ArrayList<String>();
+	public static final String[] beachHeadDescArray;
+	public static final Map<String, BeachHead> descToBeachHead = new TreeMap<String, BeachHead>();
 
 	static
 	{
@@ -118,7 +120,9 @@ public class BeachManager
 			idToBeachHead.put( head.id, head );
 			effectToBeachHead.put( head.effect, head );
 			beachHeadDescs.add( head.desc );
+			descToBeachHead.put( head.desc, head );
 		}
+		beachHeadDescArray = beachHeadDescs.toArray( new String[ beachHeadDescs.size() ] );
 	};
 
 	public static Set<Integer> getBeachHeadPreference( String property )
@@ -148,6 +152,23 @@ public class BeachManager
 		String value = buf.toString();
 		Preferences.setString( property, value );
 		return value;
+	}
+
+	public static Map<Integer, String> getBeachLayout()
+	{
+		Map<Integer, String> rowLayout = new TreeMap<Integer, String>();
+		for ( String rowData : Preferences.getString( "_beachLayout" ).split( "," ) )
+		{
+			int colon = rowData.indexOf( ":" );
+			if ( colon != -1 )
+			{
+				int row = StringUtilities.parseInt( rowData.substring( 0, colon ) );
+				String squares = rowData.substring( colon + 1 );
+				rowLayout.put( row, squares );
+			}
+		}
+
+		return rowLayout;
 	}
 
 	// Choice when using the Beach Comb or after combing, if you have adventures left
@@ -272,21 +293,23 @@ public class BeachManager
 
 	// Settings to hold current map:
 	//
-	// _beachLayout
-	// _beachMinutes
+	// _beachCombing	Actually on the beach
+	// _beachMinutes	Minutes of wandering
+	// _beachLayout		What's there
 	//
 	// Unspaded, as far as I know, whether what's at a particular coordinate changes from day to day.
 	// "rough sand" can change to "combed sand" via actions of other players.
 	// Presumably all "combed sand" periodically becomes "rough sand" (at rollover?)
 	// Presumably, "beach head" squares do not change
 	//
-	// So, we'll use "_" preferences, for now.
+	// So, we'll use "_" preferences
 
 	public static final void parseBeachMap( final String text )
 	{
 		Matcher matcher = BeachManager.MINUTES_PATTERN.matcher( text );
 		if ( !matcher.find() )
 		{
+			Preferences.setBoolean( "_beachCombing", false );
 			return;
 		}
 
@@ -352,6 +375,7 @@ public class BeachManager
 			layout.append( cols );
 		}
 
+		Preferences.setBoolean( "_beachCombing", true );
 		Preferences.setInteger( "_beachMinutes", minutes );
 		Preferences.setString( "_beachLayout", layout.toString() );
 	}
