@@ -2886,7 +2886,7 @@ Item	Ice-Cold Beerring	Sleaze Resistance: +3, Stench Resistance: +3, Single Equi
 Item	Iiti Kitty phone charm	Spooky Damage: +15, Single Equip
 Item	imitation nice watch	Adventures: +3, Single Equip, Nonstackable Watch
 Item	imp unity ring	Hot Damage: +5, Hot Spell Damage: +5
-Item	incredibly dense meat gem	Meat Drop: +40, Moxie: +5, Maximum MP: +10
+Item	incredibly dense meat gem	Meat Drop: +50, Moxie: +5, Maximum MP: +10
 Item	infernal insoles	Hot Resistance: +1, Initiative: +10
 # inflatable duck
 Item	intergalactic pom poms	Moxie: +20, Initiative: +30
@@ -4720,7 +4720,7 @@ Effect	Arse-a'fire	Muscle Percent: +10, Initiative: +25
 Effect	Artificially Sweet	Moxie Percent: +100
 Effect	Artisanal Retentive	Avatar: "Foodie Giant"
 Effect	Artisanal Satiaton	Experience: +3
-Effect	Ashen	Combat Rate: -10
+Effect	Ashen	Combat Rate: -15
 Effect	Ashen Burps	Monster Level: +15
 Effect	Aspect of the GravyPlum Fairy	Item Drop: +10
 Effect	Aspect of the Twinklefairy	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Weapon Damage: +5, Spell Damage: +5
@@ -4928,7 +4928,7 @@ Effect	Broken Bone Nubs	Mysticality Percent: +50, Maximum MP: +25, Spell Damage 
 Effect	Broken Fast	Item Drop: +30
 Effect	Broken Heart	HP Regen Min: [min(T,20)], HP Regen Max: [min(T,20)], Muscle: [min(T,20)]
 Effect	Broken Knees	Muscle Percent: -30
-Effect	Brooding	Combat Rate: -10
+Effect	Brooding	Combat Rate: -15
 Effect	Brother Corsican's Blessing	Experience (familiar): +2
 Effect	Brother Flying Burrito's Blessing	Food Drop: +30
 Effect	Brother Smothers's Blessing	Booze Drop: +30
@@ -8112,6 +8112,7 @@ Item	chocotini	Effect: "High Blood Chocolate Content", Effect Duration: 30
 Item	Churchill	Effect: "Big Ol' Glass of Rum", Effect Duration: 40
 Item	Cinco Mayo Lager	Effect: "Cinco Elementos", Effect Duration: 5
 Item	citrus-infused sake	Effect: "Warm Belly", Effect Duration: 1
+Item	Cobra Bowl	Effect: "Tiki Temerity", Effect Duration: 40
 Item	complex mushroom wine	Effect: "Omphalotus Omnipresence", Effect Duration: 80
 Item	cranberry schnapps	Effect: "Cranberry Cordiality", Effect Duration: 10
 Item	Crazymaker	Effect: "Void Between the Stars", Effect Duration: 15
@@ -8396,6 +8397,7 @@ Item	glimmering penguin feather	Effect: "Antarctic Memories", Effect Duration: 2
 Item	glimmering phoenix feather	Effect: "Phoenix, Right?", Effect Duration: 20
 Item	glimmering raven feather	Effect: "Melancholy Burden", Effect Duration: 20
 Item	glistening oyster egg	Effect: "Eggstraordinary Style", Effect Duration: 20
+Item	glyph of athleticism	Effect: "Turn On, Tune In, Play Ball!", Effect Duration: 50
 Item	goblin paste	Effect: "Gobliny Flavor", Effect Duration: 10
 Item	greasy paste	Effect: "Greasy Flavor", Effect Duration: 10
 Item	groose grease	Effect: "Just the Best Anapests", Effect Duration: 50
@@ -8407,6 +8409,11 @@ Item	homeopathic mint tea	Effect: "Alpine Mintiness", Effect Duration: 50
 Item	hot jelly	Effect: "Hot Jellied", Effect Duration: 50
 Item	hot wad	Effect: "Hot Blooded", Effect Duration: 20
 Item	indescribably horrible paste	Effect: "Indescribable Flavor", Effect Duration: 10
+Item	kelp	Effect: "Does a Body Good", Effect Duration: 50
+Item	Knob Goblin eyedrops	Effect: "Peeled Eyeballs", Effect Duration: 30
+Item	Knob Goblin learning pill	Effect: "Big Veiny Brain", Effect Duration: 30
+Item	Knob Goblin nasal spray	Effect: "Wasabi Sinuses", Effect Duration: 30
+Item	Knob Goblin pet-buffing spray	Effect: "Heavy Petting", Effect Duration: 30
 Item	liquid shifting time weirdness	Effect: "Liquid Luck", Effect Duration: 10
 # lucky pill: Lucky!
 Item	lustrous oyster egg	Effect: "Lustre After Wealth", Effect Duration: 50
@@ -9440,7 +9447,6 @@ Item	glowing frisbee	Free Pull
 # glowing New Age crystal: (and briefly stuns your opponent)
 # glowing spore pod: Briefly enhances your Mysticality
 Item	glowing syringe	Effect: "Biologically Shocked", Effect Duration: 20
-Item	glyph of athleticism	Effect: "Turn On, Tune In, Play Ball!", Effect Duration: 50
 Item	Gnollish Crossdress	Effect: "Dress to Kill", Effect Duration: 30
 # Gnomitronic Hyperspatial Demodulizer: Science!
 Item	go-go potion	Effect: "Go-Gone", Effect Duration: 20
@@ -9708,15 +9714,11 @@ Item	Keese berry	Effect: "Berry Defensive", Effect Duration: 20
 Item	Kissin' Cousins	Skill: "Awesome Balls of Fire"
 # kite: Weakens enemies somewhat and briefly stuns them
 Item	kitten burglar	Free Pull
-Item	Knob Goblin eyedrops	Effect: "Peeled Eyeballs", Effect Duration: 30
 # Knob Goblin firecracker: Deals 2-4 Physical Damage
 Item	Knob Goblin firecracker	Effect: "Missing Fingers", Effect Duration: 3
-Item	Knob Goblin learning pill	Effect: "Big Veiny Brain", Effect Duration: 30
 Item	Knob Goblin love potion	Effect: "Knob Goblin Lust Frenzy", Effect Duration: 5
 Item	Knob Goblin Mutagen	Effect: "Weirdly Scientific", Effect Duration: 30
-Item	Knob Goblin nasal spray	Effect: "Wasabi Sinuses", Effect Duration: 30
 Item	Knob Goblin perfume	Effect: "Knob Goblin Perfume", Effect Duration: 1
-Item	Knob Goblin pet-buffing spray	Effect: "Heavy Petting", Effect Duration: 30
 # Knob Goblin seltzer: Restores 8-12 MP
 Item	Knob Goblin sharpening spray	Effect: "Sharp Weapon", Effect Duration: 5
 Item	Knob Goblin steroids	Effect: "Steroid Boost", Effect Duration: 5
