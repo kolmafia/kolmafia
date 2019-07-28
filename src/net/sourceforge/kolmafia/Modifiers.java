@@ -3657,9 +3657,11 @@ public class Modifiers
 			String level = matcher.group( 1 );
 			String rate =
 				level.equals( "more" ) ? "+5" :
+				level.equals( "much more" ) ? "+10" :
 				level.equals( "significantly more" ) ? "+15" :
 				level.equals( "<i>way</i> more" ) ? "+20" :
 				level.equals( "less" ) ? "-5" :
+				level.equals( "much less" ) ? "-10" :
 				level.equals( "significantly less" ) ? "-15" :
 				level.equals( "<i>way</i> less" ) ? "-20" :
 				"+0";

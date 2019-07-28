@@ -1228,10 +1228,7 @@ public class DebugDatabase
 
 					if ( key.equals( "Effect" ) || key.equals( "Rollover Effect" ) )
 					{
-						// Remove initial effect ID
-						String effect = currentValue.substring( 0, lbracket ) + currentValue.substring( rbracket + 1 );
-
-						if ( !value.equals( effect ) )
+						if ( !currentValue.equals( value ) )
 						{
 							// Effect does not match
 							report.println( "# *** modifier " + key + ": " + currentValue + " should be " + key + ": " + value );
