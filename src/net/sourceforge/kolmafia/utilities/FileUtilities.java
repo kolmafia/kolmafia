@@ -259,7 +259,7 @@ public class FileUtilities
 		}
 	}
 
-	private static void downloadFileToStream( final String remote, final HttpURLConnection connection, final OutputStream ostream )
+	private static InputStream getInputStreamFromConnection( final String remote, final HttpURLConnection connection )
 	{
 		if ( RequestLogger.isDebugging() )
 		{
@@ -271,19 +271,29 @@ public class FileUtilities
 			RequestLogger.trace( "Requesting: " + remote );
 		}
 		
-		InputStream istream = null;
 		try
 		{
 			int responseCode = connection.getResponseCode();
 			String responseMessage = connection.getResponseMessage();
 			switch ( responseCode ) {
 			case 200:
-				istream = connection.getInputStream();
+				InputStream istream = connection.getInputStream();
 				if ( "gzip".equals( connection.getContentEncoding() ) )
 				{
 					istream = new GZIPInputStream( istream );
 				}
-				break;
+
+				if ( RequestLogger.isDebugging() )
+				{
+					GenericRequest.printHeaderFields( remote, connection );
+				}
+
+				if ( RequestLogger.isTracing() )
+				{
+					RequestLogger.trace( "Retrieved: " + remote );
+				}
+
+				return istream;
 			case 304:
 				//Requested variant not modified, fall through.
 				if ( RequestLogger.isDebugging() )
@@ -300,25 +310,18 @@ public class FileUtilities
 				{
 					RequestLogger.updateDebugLog( "Server returned response code " + responseCode + " (" + responseMessage + ")" );
 				}
-				return;
+				return null;
 			}
 		}
 		catch ( IOException e )
 		{
 			StaticEntity.printStackTrace( e );
-			return;
+			return null;
 		}
+	}
 
-		if ( RequestLogger.isDebugging() )
-		{
-			GenericRequest.printHeaderFields( remote, connection );
-		}
-
-		if ( RequestLogger.isTracing() )
-		{
-			RequestLogger.trace( "Retrieved: " + remote );
-		}
-
+	private static void downloadFileToStream( final String remote, final InputStream istream, final OutputStream ostream )
+	{
 		try
 		{
 			// If it's Javascript, then modify it so that
@@ -377,8 +380,14 @@ public class FileUtilities
 			return new StringBuffer();
 		}
 
+		InputStream istream = getInputStreamFromConnection( remote, connection );
+		if ( istream == null )
+		{
+			return new StringBuffer();
+		}
+
 		ByteArrayOutputStream ostream = new ByteArrayOutputStream();
-		downloadFileToStream( remote, connection, ostream );
+		downloadFileToStream( remote, istream, ostream );
 		return new StringBuffer( StringUtilities.getEncodedString( ostream.toByteArray(), "UTF-8" ) );
 	}
 
@@ -422,10 +431,16 @@ public class FileUtilities
 					"Referer", "http://www.kingdomofloathing.com/showplayer.php?who=" + idMatcher.group( 1 ) );
 			}
 		}
+
+		InputStream istream = getInputStreamFromConnection( remote, connection );
+		if ( istream == null )
+		{
+			return;
+		}
 		
 		OutputStream ostream = DataUtilities.getOutputStream( local );
 
-		downloadFileToStream( remote, connection, ostream );
+		downloadFileToStream( remote, istream, ostream );
 
 		// Don't keep a 0-length file
 		if ( local.exists() && local.length() == 0 )
@@ -434,7 +449,7 @@ public class FileUtilities
 		}
 		else
 		{
-			String lastModifiedString = ((HttpURLConnection)connection).getHeaderField( "Last-Modified" );
+			String lastModifiedString = connection.getHeaderField( "Last-Modified" );
 			long lastModified = StringUtilities.parseDate( lastModifiedString );
 			if ( lastModified > 0 )
 			{
