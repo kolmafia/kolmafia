@@ -98,7 +98,7 @@ bottle of realpagne	2	2	awesome	5-8	0	0	12-18	10 The Real Deal (+20 HP/MP regen)
 bottle of rum	3	1	crappy	3	0	0	0
 bottle of sake	3	1	crappy	3	0	0	0
 bottle of Sanguiovese	1	1	EPIC	11	5-10	5-10	5-10	Vampyre
-bottle of sea wine	1	1	awesome	0	0	0	0	Unspaded
+bottle of sea wine	1	1	awesome	4-5	0	0	0	Unspaded
 bottle of sewage schnapps	3	1	crappy	0	0	0	0	20 Majorly Poisoned, lose 30 HP
 bottle of single-barrel whiskey	3	13	EPIC	13-20	40-50	40-50	40-50
 bottle of super-extra-dark rhum	2	2	good	0	0	0	0	Unspaded
