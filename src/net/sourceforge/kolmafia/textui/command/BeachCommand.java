@@ -118,27 +118,33 @@ public class BeachCommand
 					head = BeachManager.idToBeachHead.get( num );
 					if ( head == null )
 					{
-						KoLmafia.updateDisplay( MafiaState.ERROR, "'" + num + "' is not a valif beach head number." );
+						KoLmafia.updateDisplay( MafiaState.ERROR, "'" + num + "' is not a valid beach head number." );
 						return;
 					}
 				}
 				else
 				{
-					List<String> matchingNames = StringUtilities.getMatchingNames( BeachManager.beachHeadDescArray, str );
-					if ( matchingNames.size() == 0 )
-					{
-						KoLmafia.updateDisplay( MafiaState.ERROR, "Which beach head is " + str + "?" );
-						return;
-					}
+					// Look for an effect with no spaces...
+					head = BeachManager.effectToBeachHead.get( str );
 
-					if ( matchingNames.size() > 1 )
+					if ( head == null )
 					{
-						KoLmafia.updateDisplay( MafiaState.ERROR, "'" + str + "' is an ambiguous beach head" );
-						return;
-					}
+						List<String> matchingNames = StringUtilities.getMatchingNames( BeachManager.beachHeadDescArray, str );
+						if ( matchingNames.size() == 0 )
+						{
+							KoLmafia.updateDisplay( MafiaState.ERROR, "Which beach head is " + str + "?" );
+							return;
+						}
 
-					head = BeachManager.descToBeachHead.get( matchingNames.get( 0 ) );
-					// If the name fuzzy matches the descs, it is a valid beach head
+						if ( matchingNames.size() > 1 )
+						{
+							KoLmafia.updateDisplay( MafiaState.ERROR, "'" + str + "' is an ambiguous beach head" );
+							return;
+						}
+
+						head = BeachManager.descToBeachHead.get( matchingNames.get( 0 ) );
+						// If the name fuzzy matches the descs, it is a valid beach head
+					}
 				}
 			}
 			else
