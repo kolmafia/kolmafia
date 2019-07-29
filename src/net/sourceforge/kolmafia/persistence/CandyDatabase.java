@@ -64,16 +64,18 @@ public class CandyDatabase
 
 	public static AdventureResult [] potionCandies = null;
 	public static AdventureResult [] foodCandies = null;
+	public static AdventureResult [] otherCandies = null;
 
 	public static void categorizeCandies()
 	{
-		if ( potionCandies != null && foodCandies != null )
+		if ( potionCandies != null && foodCandies != null && otherCandies != null )
 		{
 			return;
 		}
 
 		ArrayList<AdventureResult> potions = new ArrayList<AdventureResult>();
 		ArrayList<AdventureResult> foods = new ArrayList<AdventureResult>();
+		ArrayList<AdventureResult> others = new ArrayList<AdventureResult>();
 
 		for ( Integer itemId : CandyDatabase.tier2Candy )
 		{
@@ -82,15 +84,19 @@ public class CandyDatabase
 			{
 				foods.add( item);
 			}
-			else
+			else if ( ItemDatabase.isPotion( item ) )
 			{
 				potions.add( item );
 			}
-			
+			else
+			{
+				others.add( item );
+			}
 		}
 
 		CandyDatabase.potionCandies = potions.toArray( new AdventureResult[ potions.size() ] );
 		CandyDatabase.foodCandies = foods.toArray( new AdventureResult[ foods.size() ] );
+		CandyDatabase.otherCandies = others.toArray( new AdventureResult[ others.size() ] );
 	}
 
 	public static void registerCandy( final Integer itemId, final String type )

@@ -72,6 +72,7 @@ public class TCRSCommand
 			RequestLogger.printLine("Some commands require being in a TCRS run and data will");
 			RequestLogger.printLine("be for current CLASS and SIGN.");
 			RequestLogger.printLine("fetch CLASS SIGN - fetch remote data for class and sign.");
+			RequestLogger.printLine("test CLASS SIGN - load and apply data for class and sign, regardless of current path, class, and sign.");
 			RequestLogger.printLine("ring - display modifiers for ring.");
 			RequestLogger.printLine("spoon - display modifiers for spoon.");
 			RequestLogger.printLine("load - load current data.");
@@ -88,7 +89,7 @@ public class TCRSCommand
 			String[] split = parameters.split( " *, *" );
 			if ( split.length != 2 )
 			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "fetch CLASS SIGN." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "fetch CLASS SIGN" );
 				return;
 			}
 			String cclass = split [ 0];
@@ -138,6 +139,30 @@ public class TCRSCommand
 			String line2 = "modifiers = '" + tcrs.modifiers + "'";
 			RequestLogger.printLine( line2 );
 			RequestLogger.updateSessionLog( line2 );
+			return;
+		}
+
+		if ( command.equals( "test" ) )
+		{
+			String[] split = parameters.split( " *, *" );
+
+			if ( split.length == 1 && split[ 0 ].equals( "reset" ) )
+			{
+				TCRSDatabase.resetModifiers();
+				return;
+			}
+
+			if ( split.length != 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test CLASS, SIGN or test reset" );
+				return;
+			}
+
+			String cclass = split[ 0];
+			String sign = split[ 1 ];
+			TCRSDatabase.load( cclass, sign, true );
+			TCRSDatabase.loadCafe( cclass, sign, true );
+			TCRSDatabase.applyModifiers();
 			return;
 		}
 
