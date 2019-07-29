@@ -1041,18 +1041,29 @@ public class SynthesizePanel
 		@Override
 		protected void execute()
 		{
-			// As of 2018-10-06, there are 195 "potions" and 23 "food" candies.
+			// As of 2019-07-21, there are 140 "potions", 23 "foods", and 55 "other" candies
 			//
-			// Bulk updating prices for those two categories is faster than
-			// checking them individually.
+			// There are 105 pages of "potions", which is fewer than 140 potions updated individually
+			// There are 70 pages of "foods", which is more than 23 foods updated individually
+			// There is  no category that contains non-potion, non-food candies.
+			//
+			// Therefore, by bulk updating all potions, it will take
+			//    105 + 23 + 55 = 183 pages hits
+			// to update the mall prices for all
+			//    140 + 23 + 55 = 218 candies.
+			//
+			// If there were a "candies" category, all candies could be done in
+			// 22 server hits. Instead, it takes 183 server hits.  I submitted a
+			// Feature Request to KoL for that, but no joy so far
+			//
+			// On the other hand, if we update all candies individually, it will
+			// take more server hits, but cached prices will not require a hit.
 
-			// Actually, since there are 68 pages of foods but only
-			// 23 food candies, we'll get the mall prices
-			// individually for foods
 			CandyDatabase.categorizeCandies();
 
-			StoreManager.getMallPrices( "potions" );
+			StoreManager.getMallPrices( CandyDatabase.potionCandies, 0.0f );
 			StoreManager.getMallPrices( CandyDatabase.foodCandies, 0.0f );
+			StoreManager.getMallPrices( CandyDatabase.otherCandies, 0.0f );
 
 			// Update all visible candies
 			SynthesizePanel.this.update();
