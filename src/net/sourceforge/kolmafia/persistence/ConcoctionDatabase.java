@@ -1547,6 +1547,10 @@ public class ConcoctionDatabase
 		// Now tell the GUI about the changes
 		ConcoctionDatabase.creatableList.updateFilter( changeDetected );
 		ConcoctionDatabase.usableList.updateFilter( changeDetected );
+		ConcoctionDatabase.queuedFood.updateFilter( changeDetected );
+		ConcoctionDatabase.queuedBooze.updateFilter( changeDetected );
+		ConcoctionDatabase.queuedSpleen.updateFilter( changeDetected );
+		ConcoctionDatabase.queuedPotions.updateFilter( changeDetected );
 	}
 
 	/**

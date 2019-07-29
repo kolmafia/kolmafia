@@ -43,6 +43,8 @@ import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 
+import net.java.dev.spellcast.utilities.LockableListModel;
+
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 
@@ -50,6 +52,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.QueuedConcoction;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
@@ -65,6 +68,7 @@ public class UseItemDequeuePanel
 {
 	private final JTabbedPane queueTabs;
 	private final boolean food, booze, spleen;
+	private final LockableListModel<QueuedConcoction> queue;
 
 	public UseItemDequeuePanel( final boolean food, final boolean booze, final boolean spleen )
 	{
@@ -87,18 +91,22 @@ public class UseItemDequeuePanel
 		if ( this.food )
 		{
 			this.queueTabs.addTab( "0 Full Queued", this.centerPanel );
+			this.queue = ConcoctionDatabase.queuedFood.getMirrorImage();
 		}
 		else if ( this.booze )
 		{
 			this.queueTabs.addTab( "0 Drunk Queued", this.centerPanel );
+			this.queue = ConcoctionDatabase.queuedBooze.getMirrorImage();
 		}
 		else if ( this.spleen )
 		{
 			this.queueTabs.addTab( "0 Spleen Queued", this.centerPanel );
+			this.queue = ConcoctionDatabase.queuedSpleen.getMirrorImage();
 		}
 		else
 		{
 			this.queueTabs.addTab( "Potions Queued", this.centerPanel );
+			this.queue = ConcoctionDatabase.queuedPotions.getMirrorImage();
 		}
 
 		this.queueTabs.addTab( "Resources Used", new GenericScrollPane( ConcoctionDatabase.getQueuedIngredients( this.food, this.booze, this.spleen ), 7 ) );
@@ -119,6 +127,12 @@ public class UseItemDequeuePanel
 
 		this.setEnabled( true );
 		this.filterItems();
+	}
+
+	@Override
+	public void filterItems()
+	{
+		this.queue.updateFilter( true );
 	}
 
 	public JTabbedPane getQueueTabs()
