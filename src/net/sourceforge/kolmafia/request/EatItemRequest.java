@@ -1009,6 +1009,9 @@ public class EatItemRequest
 			Preferences.increment( "_sausagesEaten", item.getCount(), 23, false );
 			return;
 
+		case ItemPool.ELECTRIC_KOOL_AID:
+			Preferences.increment( "electricKoolAidEaten", item.getCount() );
+			return;
 		}
 	}
 
