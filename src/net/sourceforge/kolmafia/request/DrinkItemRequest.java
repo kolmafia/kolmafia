@@ -896,6 +896,10 @@ public class DrinkItemRequest
 		case ItemPool.MINI_MARTINI:
 			Preferences.increment( "miniMartinisDrunk", item.getCount() );
 			return;
+
+		case ItemPool.BLOODWEISER:
+			Preferences.increment( "bloodweiserDrunk", item.getCount() );
+			return;
 		}
 	}
 

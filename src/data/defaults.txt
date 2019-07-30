@@ -308,6 +308,7 @@ user	blackBartsBootyCost	1000
 user	blackPuddingsDefeated	0
 user	blackForestProgress	0
 user	blankOutUsed	0
+user	bloodweiserDrunk	0
 user	bondAdv	false
 user	bondBeach	false
 user	bondBeat	false
@@ -524,6 +525,7 @@ user	edPoints	0
 user	edUsedLash	false
 user	eldritchFissureAvailable	false
 user	eldritchHorrorAvailable	false
+user	electricKoolAidEaten	0
 user	encountersUntilDMTChoice	5
 user	enamorangMonster
 user	envyfishMonster
