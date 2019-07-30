@@ -371,6 +371,15 @@ public class ConsumablesDatabase
 		ConsumablesDatabase.mysticalityByName.put( name, data[ 6 ] );
 		ConsumablesDatabase.moxieByName.put( name, data[ 7 ] );
 
+		// When we reset consumption data, we must reset Concoctions
+		ConsumablesDatabase.calculateAdventureRange( name );
+		int itemId = ItemDatabase.getItemId( name, 1, false );
+		Concoction c = ConcoctionPool.get( itemId, name );
+		if ( c != null )
+		{
+			c.setConsumptionData();
+		}
+
 		if ( data.length < 9 )
 			return;
 
