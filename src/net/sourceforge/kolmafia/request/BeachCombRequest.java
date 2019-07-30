@@ -422,6 +422,7 @@ public class BeachCombRequest
 			{
 				this.removeFormField( "minutes" );
 				this.removeFormField( "coords" );
+				this.addFormField( "option", String.valueOf( BeachCombCommand.HEAD.option() ) );
 				this.addFormField( "buff", String.valueOf( id ) );
 				super.run();
 			}
@@ -431,11 +432,13 @@ public class BeachCombRequest
 
 				// Wander
 				this.removeFormField( "coords" );
+				this.addFormField( "option", String.valueOf( BeachCombCommand.WANDER.option() ) );
 				this.addFormField( "minutes", String.valueOf( this.head.beach ) );
 				super.run();
 
 				// Comb
 				this.removeFormField( "minutes" );
+				this.addFormField( "option", String.valueOf( BeachCombCommand.COMB.option() ) );
 				this.addFormField( "coords", this.head.coords );
 				super.run();
 			}
