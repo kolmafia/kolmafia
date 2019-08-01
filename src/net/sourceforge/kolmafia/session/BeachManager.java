@@ -63,7 +63,7 @@ public class BeachManager
 	// choice.php?whichchoice=1388&pwd&option=5
 
 	// You walk for 420 minutes and find a nice stretch of beach.  Now...  Where to comb?
-	private static final Pattern MINUTES_PATTERN = Pattern.compile( "You walk for ([\\d,]+) minutes and find a nice stretch of beach" );
+	private static final Pattern MINUTES_PATTERN = Pattern.compile( "You walk for ([\\d,]+) minutes? and find a nice stretch of beach" );
 
 	// (You have 11 free walks down the beach left today.)
 	private static final Pattern FREE_WALK_PATTERN = Pattern.compile( "\\(You have ([\\d]+) free walks? down the beach left today.\\)" );

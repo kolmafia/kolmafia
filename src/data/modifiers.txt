@@ -2914,7 +2914,7 @@ Item	KoL Con X Bingo Card	HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP 
 # Krampus Horn: Greatly improves chances of finding lumps and sludge
 # Krampus Horn: Doubles your damage against Bad Vibes
 Item	Krampus Horn	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Experience: +2, Single Equip
-Item	Kremlin's Greatest Briefcase	Muscle: +10, Mysticality: +10, Moxie: +10, Maximum HP: +25, Maximum MP: +25, Weapon Damage Percent: +25, Initiative: +25, MP Regen Min: 5, MP Regen Max: 10, Single Equip, HP Regen Min: 5, HP Regen Max: 10
+Item	Kremlin's Greatest Briefcase	Muscle: +10, Mysticality: +10, Moxie: +10, Maximum HP: +25, Maximum MP: +25, Weapon Damage Percent: +25, Initiative: +25, MP Regen Min: 5, MP Regen Max: 10, HP Regen Min: 5, HP Regen Max: 10, Single Equip
 # kumquartz ring: +200% Physical Damage (currently approximated with Weapon Damage)
 # kumquartz ring: (only in the Candy Diorama)
 Item	kumquartz ring	Single Equip, Weapon Damage Percent: [200*zone(The Candy Diorama)]
