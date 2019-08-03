@@ -214,6 +214,7 @@ import net.sourceforge.kolmafia.request.WaxGlobRequest;
 import net.sourceforge.kolmafia.request.WinterGardenRequest;
 import net.sourceforge.kolmafia.request.XOShopRequest;
 import net.sourceforge.kolmafia.request.YeNeweSouvenirShoppeRequest;
+import net.sourceforge.kolmafia.request.YourCampfireRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -1746,6 +1747,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof YeNeweSouvenirShoppeRequest || isExternal ) && YeNeweSouvenirShoppeRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof YourCampfireRequest || isExternal ) && YourCampfireRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

@@ -1447,9 +1447,16 @@ public class ResultProcessor
 		case ItemPool.COP_DOLLAR:
 		case ItemPool.PRICELESS_DIAMOND:
 		case ItemPool.CRYSTALLINE_CHEER:
+		case ItemPool.STICK_OF_FIREWOOD:
 			// Pulverized ascension rewards
-		case ItemPool.WICKERBITS:
-		case ItemPool.BAKELITE_BITS:
+		case ItemPool.WICKERBITS:		// 2016 Standard gear -> 2015 Standard gear
+		case ItemPool.BAKELITE_BITS:		// 2016 Hardcore gear -> 2015 Hardcore gear
+		case ItemPool.AEROSOLIZED_AEROGEL:	// 2017 Standard gear -> 2016 Standard gear
+		case ItemPool.WROUGHT_IRON_FLAKES:	// 2017 Hardcore gear -> 2016 Hardcore gear
+		case ItemPool.GABARDEEN_SMITHEREENS:	// 2018 Standard gear -> 2017 Standard gear
+		case ItemPool.FIBERGLASS_FIBERS:	// 2018 Hardcore gear -> 2017 Hardcore gear
+		case ItemPool.CHALK_CHUNKS:		// 2019 Standard gear -> 2018 Standard gear
+		case ItemPool.MARBLE_MOECULES:		// 2019 Hardcore gear -> 2018 Hardcore gear
 			// BatFellow currencies
 		case ItemPool.INCRIMINATING_EVIDENCE:
 		case ItemPool.DANGEROUS_CHEMICALS:

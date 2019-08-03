@@ -10318,7 +10318,7 @@
 10290	cursed chocolate doubloon	686531916	ccannonball.gif	potion, multiple	t,d	5
 10291	driftwood beach comb	560767631	woodbeachcomb.gif	accessory	q	0
 10292	Distant Woods Getaway Brochure	334117432	campbrochure.gif	usable	t	0
-10293	stick of firewood	385126198	firewood.gif	none	t,d	5
+10293	stick of firewood	385126198	firewood.gif	none	t,d	5	sticks of firewood
 10294	whittled tiara	802973553	whittletiara.gif	hat	q	0
 10295	whittled shorts	672306137	whittleshorts.gif	pants	q	0
 10296	whittled flail	810260191	whittleflail.gif	weapon	q	0

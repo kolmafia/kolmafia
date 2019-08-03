@@ -554,6 +554,22 @@ fiberglass frock	fiberglass fibers
 fiberglass fingerguard	fiberglass fibers
 fiberglass fedora	fiberglass fibers
 
+# Chalk items
+chalk chapeau	chalk chunks
+chalk chalice	chalk chunks
+chalk chlamys	chalk chunks
+chalk chinos	chalk chunks
+chalk chain	chalk chunks
+chalk choker	chalk chunks
+
+# Marble items
+marble maebari	marble molecules
+marble mantle	marble molecules
+marble magnet	marble molecules
+marble mignonette bowl	marble molecules
+marble medallion	marble molecules
+marble mariachi hat	marble molecules
+
 # Dice items
 dice ring	powdered dice
 dice belt buckle	powdered dice
@@ -590,11 +606,3 @@ bejeweled cufflinks	258112
 rainbow pearl earring	rainbow pearl
 rainbow pearl necklace	rainbow pearl
 rainbow pearl ring	rainbow pearl
-
-# Chalk items
-chalk chapeau	chalk chunks
-chalk chalice	chalk chunks
-chalk chlamys	chalk chunks
-chalk chinos	chalk chunks
-chalk chain	chalk chunks
-chalk choker	chalk chunks
