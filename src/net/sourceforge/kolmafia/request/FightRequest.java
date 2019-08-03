@@ -2446,7 +2446,11 @@ public class FightRequest
 			{
 				MonsterStatusTracker.setNextMonsterName( CombatActionManager.encounterKey( encounter, false ) );
 			}
+
 			MonsterData monster = MonsterStatusTracker.getLastMonster();
+			String monsterName = monster != null ? monster.getName() : "";
+
+			QuestManager.updateQuestFightStarted( responseText, monsterName );
 
 			// http://kol.coldfront.net/thekolwiki/index.php/Encounter#Encounter_Flowchart (image link there 
 			// is regularly updated) shows the order is Digitize, Arrow, Enamorang, so check in that order
@@ -2926,12 +2930,6 @@ public class FightRequest
 			return;
 		}
 
-		// First round quest update
-		if ( FightRequest.currentRound == 1 )
-		{
-			QuestManager.updateQuestFightStarted( responseText, monsterName );
-		}
-		
 		// Look for special effects
 		FightRequest.updateMonsterHealth( responseText );
 
