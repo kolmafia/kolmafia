@@ -384,6 +384,7 @@ warbear spiked helm	150	Mus: 60
 water-polo cap	200	Mox: 85
 wax hat	50	Mus: 10
 webbed comic mask	10	none
+whittled tiara	100	none
 willowy bonnet	75	Mox: 22
 witch hat	10	none
 wolf mask	150	Mox: 60
@@ -677,6 +678,7 @@ wax pants	50	Mox: 10
 weasel stomping pants	80	Mys: 25
 weedy skirt	250	Mox: 200
 white satin pants	40	Mox: 5
+whittled shorts	100	none
 Whoompa Fur Pants	110	Mox: 40
 wicker knickers	50	none
 wooly loincloth	110	Mox: 40
@@ -1598,6 +1600,9 @@ western-style skinning knife	40	Mus: 5	1-handed knife
 White Dragon Fang	200	Mus: 200	1-handed sword
 white sword	40	Mus: 5	1-handed sword
 white whip	10	Mus: 0	1-handed whip
+whittled flail	150	Mus: 0	1-handed flail
+whittled flute	150	Mox: 0	1-handed instrument
+whittled wand	150	Mus: 0	1-handed wand
 wholeberd	80	Mus: 25	2-handed polearm
 wicker sticker	110	Mus: 0	1-handed knife
 wiffle-flail	75	Mus: 22	2-handed flail
@@ -2110,6 +2115,7 @@ washboard shield	160	Mus: 150	shield
 Whatsian Ionic Pliers	110	Mys: 40
 white balloon	10	none
 white satin shield	80	Mus: 25	shield
+whittled walking stick	0	Mus: 50
 wicker clicker	50	none
 wicker shield	170	Mus: 70	shield
 wonderwall shield	190	Mus: 70	shield
@@ -3120,6 +3126,9 @@ wheel	30	none
 white belt	40	Mys: 5
 white collar	20	none
 white earbuds	100	Mys: 35
+whittled bear figurine	0	none
+whittled fox figurine	0	none
+whittled owl figurine	0	none
 wicker kickers	50	none
 wicker ticker	50	none
 wicksilver ring	100	Mys: 10

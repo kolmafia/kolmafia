@@ -1169,6 +1169,9 @@ public class QuestManager
 		{
 			Preferences.setInteger( "lastWuTangDefeated", KoLCharacter.getAscensions() );
 		}
+
+		// Detect if the Getaway Campsite is available
+		Preferences.setBoolean( "getawayCampsiteUnlocked", responseText.contains( "campaway" ) );
 	}
 
 	private static void handleBatholeChange( final String responseText )
