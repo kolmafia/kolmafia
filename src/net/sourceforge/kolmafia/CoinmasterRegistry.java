@@ -99,6 +99,7 @@ import net.sourceforge.kolmafia.request.VendingMachineRequest;
 import net.sourceforge.kolmafia.request.WarbearBoxRequest;
 import net.sourceforge.kolmafia.request.WalMartRequest;
 import net.sourceforge.kolmafia.request.YeNeweSouvenirShoppeRequest;
+import net.sourceforge.kolmafia.request.YourCampfireRequest;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -170,6 +171,7 @@ public abstract class CoinmasterRegistry
 		WalMartRequest.WALMART,
 		WarbearBoxRequest.WARBEARBOX,
 		YeNeweSouvenirShoppeRequest.SHAKE_SHOP,
+		YourCampfireRequest.YOUR_CAMPFIRE,
 	};
 
 	public static final String [] MASTERS = new String[ COINMASTERS.length ];

@@ -145,6 +145,7 @@ import net.sourceforge.kolmafia.request.VendingMachineRequest;
 import net.sourceforge.kolmafia.request.WalMartRequest;
 import net.sourceforge.kolmafia.request.WarbearBoxRequest;
 import net.sourceforge.kolmafia.request.YeNeweSouvenirShoppeRequest;
+import net.sourceforge.kolmafia.request.YourCampfireRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -240,6 +241,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel vendingMachinePanel = null;
 	private CoinmasterPanel walmartPanel = null;
 	private CoinmasterPanel warbearBoxPanel = null;
+	private CoinmasterPanel yourCampfirePanel = null;
 
 	public CoinmastersFrame()
 	{
@@ -497,6 +499,11 @@ public class CoinmastersFrame
 		funALogPanel = new FunALogPanel();
 		panel.add( funALogPanel );
 		this.selectorPanel.addPanel( funALogPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		yourCampfirePanel = new YourCampfirePanel();
+		panel.add( yourCampfirePanel );
+		this.selectorPanel.addPanel( yourCampfirePanel.getPanelSelector(), panel );
 
 		// Events coinmasters
 		this.selectorPanel.addSeparator();
@@ -1445,6 +1452,15 @@ public class CoinmastersFrame
 		public FunALogPanel()
 		{
 			super( FunALogRequest.FUN_A_LOG );
+		}
+	}
+
+	private class YourCampfirePanel
+		extends CoinmasterPanel
+	{
+		public YourCampfirePanel()
+		{
+			super( YourCampfireRequest.YOUR_CAMPFIRE );
 		}
 	}
 

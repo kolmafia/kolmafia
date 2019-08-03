@@ -2495,7 +2495,11 @@ public class ItemPool
 	public static final int WICKERBITS = 8098;
 	public static final int BAKELITE_BITS = 8105;
 	public static final int AEROGEL_ACCORDION = 8111;
+	public static final int AEROSOLIZED_AEROGEL = 8112;
+	public static final int WROUGHT_IRON_FLAKES = 8119;
 	public static final int GABARDINE_GIRDLE = 8124;
+	public static final int GABARDEEN_SMITHEREENS = 8126;
+	public static final int FIBERGLASS_FIBERS = 8133;
 	public static final int LOVEBUG_PHEROMONES = 8134;
 	public static final int WINGED_YETI_FUR = 8135;
 	public static final int SESHAT_TALISMAN = 8144;
@@ -3094,6 +3098,8 @@ public class ItemPool
 	public static final int MAGICAL_SAUSAGE_CASING = 10059;
 	public static final int MAGICAL_SAUSAGE = 10060;
 	public static final int CRIMBO_CANDLE = 10072;
+	public static final int CHALK_CHUNKS = 10088;
+	public static final int MARBLE_MOECULES = 10096;
 	public static final int TRYPTOPHAN_DART = 10159;
 	public static final int DOCTOR_BAG = 10166;
 	public static final int BOOKE_OF_VAMPYRIC_KNOWLEDGE = 10180;
@@ -3112,6 +3118,7 @@ public class ItemPool
 	public static final int ETCHED_HOURGLASS = 10265;
 	public static final int PIECE_OF_DRIFTWOOD = 10281;
 	public static final int DRIFTWOOD_BEACH_COMB = 10291;
+	public static final int STICK_OF_FIREWOOD = 10293;
 	public static final int GETAWAY_BROCHURE = 10292;
 
 	public static final AdventureResult get( String itemName, int count )
