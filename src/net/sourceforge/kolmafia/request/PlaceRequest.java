@@ -457,6 +457,10 @@ public class PlaceRequest
 				ResultProcessor.removeItem( ItemPool.BIG_BAG_OF_MONEY );
 			}
 		}
+		else if ( place.equals( "woods" ) )
+		{
+			Preferences.setBoolean( "getawayCampsiteUnlocked", responseText.contains( "campaway" ) );
+		}
 	}
 
 	public static boolean registerRequest( final String urlString )
@@ -551,6 +555,21 @@ public class PlaceRequest
 			else if ( action.equals( "airport3_kiosk" ) )
 			{
 				message = "Visiting the Employee Assignment Kiosk";
+			}
+		}
+		else if ( place.equals( "campaway" ) )
+		{
+			if ( action.equals( "campaway_tenclick" ) )
+			{
+				message = "Resting in your Campaway tent";
+			}
+			else if ( action.equals( "campaway_sky" ) )
+			{
+				message = "Gazing at the Stars";
+			}
+			else
+			{
+				message = "Visiting your Getaway Campsite";
 			}
 		}
 		else if ( place.equals( "canadia" ) )

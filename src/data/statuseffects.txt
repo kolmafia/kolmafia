@@ -2488,3 +2488,12 @@
 2487	You Learned Something Maybe!	beachface11.gif	441324a54b655f39e6302afd9ab44cb6	beach head You Learned Something Maybe!
 2488	Fishing For Knowledge	fishy2.gif	988d1f337b551101628604f9b74c571b	use 1 Finnish Fish
 2489	Sweet Pirate Curse	ccannonball.gif	ef9d5a4d0c0b5252d8fef89b20224d7b	use 1 cursed chocolate doubloon
+2490
+2491
+2492
+2493	Traditional Eating	nopic.gif	470561dcbab975da6f1d76aab4fbd7de	eat 1 campfire hot dog
+2494	Trial by Campfire	nopic.gif	f5f846ff8fdcf4c712e3654fb94b32d7	eat 1 campfire baked potato
+2495	Gimme, Gimme	nopic.gif	c53449f9855d31fb86769dd4cedb64f7	eat 1 campfire s'more
+2496	The More You Eat	nopic.gif	e74b9deafaee13c8c35cfbf8b3d865ed	eat 1 campfire beans
+2497	Just Like Me, They Want to Be	nopic.gif	ace65aa58faa1e731ee0bfdb07fa3871	eat 1 campfire stew
+2498	Coffee Achiever	nopic.gif	df349ed07a74d9ff6e00d794d0ae9f50	eat 1 campfire coffee

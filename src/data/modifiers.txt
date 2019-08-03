@@ -508,6 +508,7 @@ Item	warbear spiked helm	WarBear Armor Penetration: +40, Familiar Effect: "atk, 
 Item	water-polo cap	Weapon Damage: +30, Familiar Effect: "1xVolley, 1xBarrr"
 Item	wax hat	Moxie: +7, Maximum HP: +10, Familiar Effect: "1xPotato, 1xFairy"
 Item	webbed comic mask	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only, Familiar Effect: "1xVolley, 1xLep, cap 2"
+Item	whittled tiara	Muscle: +10, Mysticality: +10, Moxie: +10, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Experience: +3
 Item	willowy bonnet	Maximum MP: +40, Familiar Effect: "1xFairy, cap 18"
 Item	witch hat	Familiar Effect: "8xVolley, 8xLep, cap 2"
 Item	wolf mask	Muscle: +4, Moxie: -5, Familiar Effect: "1xBarrr, HP regen, cap 37"
@@ -837,6 +838,7 @@ Item	wax pants	Moxie: +7, Initiative: +10, Familiar Effect: "atk, 3xBarrr, cap 1
 Item	weasel stomping pants	Initiative: +25, Candy Drop: +25, Single Equip, Familiar Effect: "1xGhoul, cap 20"
 Item	weedy skirt	Maximum HP: +400, HP Regen Min: 25, HP Regen Max: 50, Initiative: +25, Familiar Effect: "atk, 1xFairy"
 Item	white satin pants	Sleaze Resistance: +2, Familiar Effect: "atk, 2xPotato, cap 10"
+Item	whittled shorts	Muscle: +10, Mysticality: +10, Moxie: +10, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 10
 Item	Whoompa Fur Pants	Stench Damage: +10, Stench Resistance: +2, Familiar Effect: "atk, cap 27"
 # wicker knickers: Increases the effectiveness of Shield of the Pastalord
 Item	wicker knickers	Experience (Mysticality): +2, Adventures: +2
@@ -1873,6 +1875,9 @@ Item	western-style skinning knife	Weapon Damage: +5, Hat Drop: +10
 Item	White Dragon Fang	Muscle Percent: +9, Mysticality Percent: +9, Moxie Percent: +9, Spooky Damage: +9, Stench Damage: +9, Hot Damage: +9, Cold Damage: +9, Sleaze Damage: +9, MP Regen Min: 9, MP Regen Max: 9
 Item	white sword	Muscle: +2
 Item	white whip	Experience: +1
+Item	whittled flail	Muscle: +20, Weapon Damage Percent: +50, Critical Hit Percent: +10
+Item	whittled flute	Moxie: +20, Ranged Damage Percent: +50, Meat Drop: +25
+Item	whittled wand	Mysticality: +20, Spell Damage Percent: +50, Spell Critical Percent: +10
 Item	wholeberd	Weapon Damage: +6
 # wicker sticker: Is a sweet, sweet knife
 Item	wicker sticker	Weapon Damage Percent: +20, PvP Fights: +4
@@ -2472,6 +2477,7 @@ Item	washboard shield	Damage Absorption: +50, Class: "Turtle Tamer", Damage Redu
 Item	Whatsian Ionic Pliers	HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5
 # white balloon
 Item	white satin shield	Moxie: +2, Damage Reduction: 5
+Item	whittled walking stick	Adventures: +3, PvP Fights: +6, Combat Rate: +5, Item Drop: +20
 # wicker clicker: Cadenza will briefly stun opponents
 Item	wicker clicker	Experience (Moxie): +2, MP Regen Min: 2, MP Regen Max: 4
 Item	wicker shield	Moxie: +6, Damage Reduction: 11
@@ -3657,6 +3663,9 @@ Item	wheel	Initiative: +10
 Item	white belt	Muscle: +3, Weapon Damage: +3, Single Equip
 Item	white collar	Meat Drop: +3, Moxie: +1
 Item	white earbuds	Spooky Resistance: +4, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Monster Level: -11, Single Equip
+Item	whittled bear figurine	Muscle Percent: +25, HP Regen Min: 8, HP Regen Max: 10, Familiar Weight: +5, Single Equip
+Item	whittled fox figurine	Moxie Percent: +25, HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 4, MP Regen Max: 6, Initiative: +50, Single Equip
+Item	whittled owl figurine	Mysticality Percent: +25, MP Regen Min: 6, MP Regen Max: 8, Monster Level: +20, Single Equip
 # wicker kickers: Add a stomp attack to every Smack
 Item	wicker kickers	Initiative: +20, Maximum HP: +20, Single Equip
 # wicker ticker: Collecting Soul Sauce restores HP
@@ -5048,6 +5057,7 @@ Effect	Coated Arms	Weapon Damage: +15
 # Coated in Slime: It Burns!  It Burns!
 Effect	Cock of the Walk	Moxie Percent: +200
 Effect	Cockroach Scurry	Initiative: +50
+Effect	Coffee Achiever	Initiative: +25
 Effect	Coffeesphere	Combat Rate: +15
 Effect	Cold as Ice	Hot Resistance: +5, Cold Damage: +50, Cold Spell Damage: +50
 Effect	Cold as Nice	Cold Resistance: +3, Cold Damage: +15, Cold Spell Damage: +15
@@ -5509,6 +5519,7 @@ Effect	Gettin' the Goods	Item Drop: +100
 Effect	Ghostly Shell	Damage Absorption: +80
 Effect	Giant Growth	Muscle Percent: +300, Mysticality Percent: +300, Moxie Percent: +300
 # Gift of the Warbear: +15% Item Drops from WarBears
+Effect	Gimme, Gimme	Food Drop: +25
 Effect	Ginger Fightis	Avatar: "creepy ginger twin"
 Effect	Ginger Snapped	Spooky Damage: +10
 Effect	Gingerbread Robust	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
@@ -5845,6 +5856,7 @@ Effect	Juicy Boost	Maximum HP: +30, Maximum MP: +30, Experience Percent (Muscle)
 Effect	Jukebox Hero	Item Drop: +300
 # Jungle Juiced: Doubles Stat Gains in the Deep Dark Jungle
 Effect	Just Aged Enough	Moxie: +25
+Effect	Just Like Me, They Want to Be	Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
 # Just the Best Anapests: Da da dee, da da dee
 Effect	Just the Brown Ones	Moxie: +15
 Effect	Keep Free Hate in your Heart	Monster Level: +30, Damage Absorption: +10
@@ -6827,6 +6839,7 @@ Effect	The Moxie of LOV	Moxie: +25, Ranged Damage Percent: +50, Initiative: +50
 Effect	The Magic of Sharing	Mysticality Percent: +50, Spell Damage: +25
 Effect	The Magical Mojomuscular Melody	Maximum MP: +20, Mysticality: +10
 Effect	The Moomy's Curse	Mana Cost: +20, Familiar Weight: -40, Muscle Percent: -200, Mysticality Percent: -200, Moxie Percent: -200
+Effect	The More You Eat	Stench Damage: +15, Stench Spell Damage: +15
 Effect	The Moxious Madrigal	Moxie: +10
 Effect	The Other	Avatar: "The Author"
 Effect	The Perfect Snowman Disguise	Avatar: "Snowbrawler"
@@ -6924,6 +6937,7 @@ Effect	Total Protonic Reversal	Muscle Percent: +20, Mysticality Percent: +20, Mo
 Effect	Touched by a Ghost	Muscle Percent: [-(30+T)], Mysticality Percent: [-(30+T)], Moxie Percent: [-(30+T)]
 Effect	Towering Strength	Muscle Percent: [100+2*min(50,pref(chessboardsCleared))]
 Effect	Toxic Vengeance	Muscle: [-T], Mysticality: [-T], Moxie: [-T], Stench Damage: [3*T], Spell Damage Percent: [3*T]
+Effect	Traditional Eating	Meat Drop: +25
 Effect	Tranquilized Mind	Damage Absorption: +50, Damage Reduction: 10, Initiative: -1000
 Effect	Transcendental Wind	Mysticality: +50
 # Transpondent: Gives access to A Transporter Booth
@@ -6931,6 +6945,7 @@ Effect	Trash-Wrapped	Damage Reduction: 10
 Effect	Tremella Tremens	Item Drop: +40
 # Trepandation: Continually lose MP
 Effect	Trepandation	Spell Damage Percent: +50, Spell Damage: +50
+Effect	Trial by Campfire	Damage Reduction: 10
 Effect	Triangle, Man	Muscle Percent: +10
 Effect	Trivia Master	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 # Tropical Contact High: Grants Access to Kokomo
@@ -7808,6 +7823,12 @@ Item	bread roll	Effect: "Thanksgetting", Effect Duration: 20
 Item	brown sugar cane	Effect: "Sugar Rush", Effect Duration: 3
 Item	bucket of honey	Effect: "Sugar Rush", Effect Duration: 50
 Item	C.H.U.M. chum	Effect: "Majorly Poisoned", Effect Duration: 20
+Item	campfire baked potato	Effect: "Trial by Campfire", Effect Duration: 60
+Item	campfire beans	Effect: "The More You Eat", Effect Duration: 40
+Item	campfire coffee	Effect: "Coffee Achiever", Effect Duration: 40
+Item	campfire hot dog	Effect: "Traditional Eating", Effect Duration: 40
+Item	campfire s'more	Effect: "Gimme, Gimme", Effect Duration: 60
+Item	campfire stew	Effect: "Just Like Me, They Want to Be", Effect Duration: 60
 Item	can of Adultwitch&trade;	Effect: "Greasy Visage", Effect Duration: 20
 Item	can of franks 'n' beans	Effect: "Crimbo Nostalgia", Effect Duration: 50
 Item	candied pecan	Effect: "Sugar Rush", Effect Duration: 10
@@ -9140,6 +9161,7 @@ Item	disintegrating spiky collar	Effect: "Man's Worst Enemy", Effect Duration: 1
 # disposable instant camera: Weakens enemies somewhat
 # disposable instant camera: (more effective against undead)
 Item	disposable lighter	Effect: "Looking at Fire", Effect Duration: 50
+Item	Distant Woods Getaway Brochure	Free Pull
 # divine blowout: Deals Physical Damage based on your Moxie
 # divine blowout: Makes you cooler when you use it
 # divine can of silly string: Deals Physical Damage based on your Mysticality

@@ -6315,6 +6315,27 @@ public class UseItemRequest
 			}
 			// The item is not consumed regardless
 			return;
+
+		case ItemPool.GETAWAY_BROCHURE:
+			// Grants access to your Getaway Campsite in the Distant Woods
+			Preferences.setBoolean( "getawayCampsiteUnlocked", true );
+
+			// You follow the map in the brochure until you find a
+			// nice place to camp -- and it turns out someone's
+			// already set up a tent and campfire for you! Wasn't
+			// that nice of them? ...Unless maybe this is actually
+			// just someone else's campsite, and they got eaten by
+			// a bear... wasn't that nice of them?
+
+			// I assume there is a different message if you already
+			// have the campsite and the second item is not
+			// consumed.
+			if ( !responseText.contains( "you find a nice place to camp" ) )
+			{
+				return;
+			}
+
+			break;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )

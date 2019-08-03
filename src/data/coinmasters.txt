@@ -931,3 +931,24 @@ PirateRealm Fun-a-Log	buy	2000	Scurvy and Sobriety Prevention	ROW1066
 PirateRealm Fun-a-Log	buy	2000	lucky gold ring	ROW1068
 PirateRealm Fun-a-Log	buy	3000	Island Drinkin', a Tiki Mixology Odyssey	ROW1060
 PirateRealm Fun-a-Log	buy	5000	Red Roger tattoo kit	ROW1061
+
+# Getaway Campsite
+
+Your Campfire	buy	10	bundle of firewood	ROW1086
+Your Campfire	buy	1	campfire smoke	ROW1087
+Your Campfire	buy	1	burnt stick	ROW1083
+Your Campfire	buy	1	campfire hot dog	ROW1076
+Your Campfire	buy	1	campfire beans	ROW1079
+Your Campfire	buy	1	campfire coffee	ROW1081
+Your Campfire	buy	2	campfire baked potato	ROW1077
+Your Campfire	buy	2	campfire stew	ROW1080
+Your Campfire	buy	2	campfire s'more	ROW1078
+Your Campfire	buy	5	whittled tiara	ROW1084
+Your Campfire	buy	5	whittled shorts	ROW1085
+Your Campfire	buy	5	whittled flail	ROW1069
+Your Campfire	buy	5	whittled wand	ROW1070
+Your Campfire	buy	5	whittled flute	ROW1071
+Your Campfire	buy	10	whittled bear figurine	ROW1072
+Your Campfire	buy	10	whittled owl figurine	ROW1073
+Your Campfire	buy	10	whittled fox figurine	ROW1074
+Your Campfire	buy	100	whittled walking stick	ROW1075
