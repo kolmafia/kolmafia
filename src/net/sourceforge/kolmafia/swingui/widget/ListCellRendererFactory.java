@@ -50,10 +50,12 @@ import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.Modifiers;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.QueuedConcoction;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -554,9 +556,18 @@ public class ListCellRendererFactory
 					String effectName = item.getEffectName();
 					int effectDuration = (int) Modifiers.getNumericModifier( "Item", name, "Effect Duration" );
 					String effectModifiers = Modifiers.getStringModifier( "Effect", effectName, "Modifiers" );
+					int effectId = EffectDatabase.getEffectId( effectName );
+					AdventureResult effect = EffectPool.get( effectId, 0 );
+					int active = effect.getCount( KoLConstants.activeEffects );
 					stringForm.append( effectDuration );
 					stringForm.append( " " );
 					stringForm.append( effectName );
+					if ( active > 0 )
+					{
+						stringForm.append( " (" );
+						stringForm.append( String.valueOf( active ) );
+						stringForm.append( " active)" );
+					}
 					stringForm.append( " (" );
 					stringForm.append( effectModifiers );
 					stringForm.append( ")" );
