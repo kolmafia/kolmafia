@@ -14,6 +14,7 @@ import java.lang.reflect.Method;
 
 import java.net.URI;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -117,25 +118,40 @@ public class BareBonesBrowserLaunch
 	{
 		if ( browser != null && !browser.equals( "" ) )
 		{
-			String command = null;
+			ArrayList<String> arguments = new ArrayList<String>();
 
 			if ( browser.startsWith( "/" ) && !browser.contains(".app" ) )
 			{
-				command = browser;
+				arguments.add( browser );
 			}
 			else if ( browser.startsWith( "-" ) )
 			{
-				command = "open " + browser;
+				arguments.add( "open" );
+				int index = browser.indexOf( " " );
+				if ( index != -1 )
+				{
+					arguments.add( browser.substring( 0, index ) );
+					arguments.add( browser.substring( index + 1 ) );
+				}
+				else
+				{
+					arguments.add( browser );;
+				}
 			}
 			else
 			{
-				command = "open -a " + browser;
+				arguments.add( "open" );
+				arguments.add( "-a" );
+				arguments.add( browser );
 			}
-
+					
+			arguments.add( url );
+					
 			try
 			{
+				String [] cmdArray = arguments.toArray( new String[ arguments.size() ] );
 				Runtime runtime = Runtime.getRuntime();
-				Process process = runtime.exec( command + " " + url );
+				Process process = runtime.exec( cmdArray );
 
 				process.waitFor();
 				process.exitValue();
