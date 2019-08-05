@@ -4817,6 +4817,7 @@ Effect	Big Flaming Whip	Hot Damage: +20, Damage Reduction: 5
 Effect	Big Meat Big Prizes	Meat Drop: +50
 Effect	Big Ol' Glass of Rum	Moxie: +20
 Effect	Big Punkin'	Moxie: +30
+Effect	Big Smile of the Vole	HP Regen Min: 10, HP Regen Max: 30
 Effect	Big Square Head	Avatar: "Arthur Frankenstein"
 Effect	Big Veiny Brain	Experience: +3, Meat Drop: -10, Item Drop: -5
 Effect	Biker Swagger	Monster Level: +30
@@ -6538,6 +6539,14 @@ Effect	Slurpee-O'ed	Avatar: "angry tourist"
 Effect	Small	Muscle Limit: 50, Mysticality Limit: 50, Moxie Limit: 50
 Effect	Smart Drunk	Maximum HP: +120, Familiar Weight: +20
 Effect	Smelly Pants	Stench Resistance: +1
+Effect	Smile of the Blender	Booze Drop: +25
+Effect	Smile of the Marmot	MP Regen Min: 4, MP Regen Max: 6
+Effect	Smile of the Mongoose	Critical Hit Percent: +10
+Effect	Smile of the Packrat	Meat Drop: +25
+Effect	Smile of the Platypus	Experience (familiar): +3
+Effect	Smile of the Vole	HP Regen Min: 5, HP Regen Max: 15
+Effect	Smile of the Wallaby	Spell Critical Percent: +10
+Effect	Smile of the Wombat	Damage Absorption: +50
 Effect	Smithsness Cheer	Smithsness: +10
 Effect	Smithsness Dinner	Smithsness: +10
 Effect	Smithsness Presence	Smithsness: +10
@@ -6802,6 +6811,7 @@ Effect	Tetched by an Angel	Avatar: "tetched prospector"
 Effect	Texas Elegance	Maximum HP: +30, Maximum MP: +30
 Effect	Thanksgetting	Meat Drop: [40+40*pref(_thanksgettingFoodsEaten)], Item Drop: [20+20*pref(_thanksgettingFoodsEaten)], Familiar Weight: [1+1*pref(_thanksgettingFoodsEaten)], Hot Resistance: [pref(_thanksgettingFoodsEaten)], Cold Resistance: [pref(_thanksgettingFoodsEaten)], Stench Resistance: [pref(_thanksgettingFoodsEaten)], Spooky Resistance: [pref(_thanksgettingFoodsEaten)], Sleaze Resistance: [pref(_thanksgettingFoodsEaten)]
 Effect	Thanksgot	Meat Drop: +80, Item Drop: +40, Familiar Weight: +2, Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
+Effect	That's Just Cloud-Talk, Man	Experience Percent (Muscle): +25, Experience Percent (Mysticality): +25, Experience Percent (Moxie): +25
 Effect	Thaumodynamic	Experience Percent (Mysticality): +5
 # The 'Tussin: Wait, What?
 Effect	The Applause That Refreshes	Muscle: +10, Mysticality: +10, Moxie: +10, Experience: +3
