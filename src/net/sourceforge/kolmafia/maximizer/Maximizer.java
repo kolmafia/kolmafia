@@ -908,20 +908,19 @@ public class Maximizer
 				else if ( cmd.startsWith( "cast " ) )
 				{
 					String skillName = UneffectRequest.effectToSkill( name );
-					int skillId = SkillDatabase.getSkillId( skillName );
-					mpCost = SkillDatabase.getMPConsumptionById( skillId );
-					advCost = SkillDatabase.getAdventureCost( skillId );
-					soulsauceCost = SkillDatabase.getSoulsauceCost( skillId );
-					thunderCost = SkillDatabase.getThunderCost( skillId );
-					rainCost = SkillDatabase.getRainCost( skillId );
-					lightningCost = SkillDatabase.getLightningCost( skillId );
-					hpCost = SkillDatabase.getHPCost( skillId );
-					duration = SkillDatabase.getEffectDuration( skillId );
+					if ( !StandardRequest.isAllowed( "Skills", skillName ) )
+					{
+						continue;
+					}
+
 					UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( skillName );
+					int skillId = SkillDatabase.getSkillId( skillName );
+
 					if ( skill != null )
 					{
 						usesRemaining = skill.getMaximumCast();
 					}
+
 					if ( !KoLCharacter.hasSkill( skillName ) || usesRemaining == 0 )
 					{
 						if ( includeAll )
@@ -932,6 +931,15 @@ public class Maximizer
 						}
 						else continue;
 					}
+
+					mpCost = SkillDatabase.getMPConsumptionById( skillId );
+					advCost = SkillDatabase.getAdventureCost( skillId );
+					soulsauceCost = SkillDatabase.getSoulsauceCost( skillId );
+					thunderCost = SkillDatabase.getThunderCost( skillId );
+					rainCost = SkillDatabase.getRainCost( skillId );
+					lightningCost = SkillDatabase.getLightningCost( skillId );
+					hpCost = SkillDatabase.getHPCost( skillId );
+					duration = SkillDatabase.getEffectDuration( skillId );
 				}
 				else if ( cmd.startsWith( "synthesize " ) )
 				{
