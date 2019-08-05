@@ -814,7 +814,8 @@ public class UseItemEnqueuePanel
 
 			if ( item != null )
 			{
-				if ( !StandardRequest.isAllowed( "Items", item.getDataName() ) )
+				// Apparently, Cafe items are allowed, whether or not they are in Standard
+				if ( creation.getPrice() <= 0 && !StandardRequest.isAllowed( "Items", item.getDataName() ) )
 				{
 					return false;
 				}
