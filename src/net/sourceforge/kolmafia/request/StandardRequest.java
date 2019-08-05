@@ -33,9 +33,9 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,11 +50,11 @@ public class StandardRequest
 {
 	// Types: "Items", Bookshelf Books", "Skills", "Familiars", "Clan Items".
 
-	private final static List<String> itemMap = new ArrayList<String>();
-	private final static List<String> bookshelfMap = new ArrayList<String>();
-	private final static List<String> familiarMap = new ArrayList<String>();
-	private final static List<String> skillMap = new ArrayList<String>();
-	private final static List<String> clanMap = new ArrayList<String>();
+	private final static Set<String> itemSet = new HashSet<String>();
+	private final static Set<String> bookshelfSet = new HashSet<String>();
+	private final static Set<String> familiarSet = new HashSet<String>();
+	private final static Set<String> skillSet = new HashSet<String>();
+	private final static Set<String> clanSet = new HashSet<String>();
 	// There is a Miscellaneous category that doesn't seem useful
 
 	private static boolean running = false;
@@ -64,11 +64,11 @@ public class StandardRequest
 	public static void reset()
 	{
 		StandardRequest.initialized = false;
-		StandardRequest.itemMap.clear();
-		StandardRequest.bookshelfMap.clear();
-		StandardRequest.familiarMap.clear();
-		StandardRequest.skillMap.clear();
-		StandardRequest.clanMap.clear();
+		StandardRequest.itemSet.clear();
+		StandardRequest.bookshelfSet.clear();
+		StandardRequest.familiarSet.clear();
+		StandardRequest.skillSet.clear();
+		StandardRequest.clanSet.clear();
 	}
 
 	public static void initialize()
@@ -79,21 +79,21 @@ public class StandardRequest
 		}
 	}
 
-	private static List<String> typeToList( final String type )
+	private static Set<String> typeToSet( final String type )
 	{
 		return	
-			type.equals( "Items" ) ? StandardRequest.itemMap :
-			type.equals( "Bookshelf Books" ) ? StandardRequest.bookshelfMap :
-			type.equals( "Skills" ) ? StandardRequest.skillMap :
-			type.equals( "Familiars" ) ? StandardRequest.familiarMap :
-			type.equals( "Clan Items" ) ? StandardRequest.clanMap :
+			type.equals( "Items" ) ? StandardRequest.itemSet :
+			type.equals( "Bookshelf Books" ) ? StandardRequest.bookshelfSet :
+			type.equals( "Skills" ) ? StandardRequest.skillSet :
+			type.equals( "Familiars" ) ? StandardRequest.familiarSet :
+			type.equals( "Clan Items" ) ? StandardRequest.clanSet :
 			null;
 	}
 
-	private static boolean isNotRestricted( final List<String> list, final String key )
+	private static boolean isNotRestricted( final Set<String> set, final String key )
 	{
 		StandardRequest.initialize();
-		return list.indexOf( key.toLowerCase() ) == -1;
+		return !set.contains( key.toLowerCase() );
 	}
 
 	public static boolean isNotRestricted( final String type, final String key )
@@ -102,8 +102,8 @@ public class StandardRequest
 		{
 			return true;
 		}
-		List<String> list = StandardRequest.typeToList( type );
-		return list != null && StandardRequest.isNotRestricted( list, key );
+		Set<String> set = StandardRequest.typeToSet( type );
+		return set != null && StandardRequest.isNotRestricted( set, key );
 	}
 
 	public static boolean isAllowed( String type, final String key )
@@ -140,8 +140,8 @@ public class StandardRequest
 				StandardRequest.isNotRestricted( "Items", key );
 		}
 
-		List<String> list = StandardRequest.typeToList( type );
-		return list != null && StandardRequest.isNotRestricted( list, key );
+		Set<String> set = StandardRequest.typeToSet( type );
+		return set != null && StandardRequest.isNotRestricted( set, key );
 	}
 
 	public StandardRequest()
@@ -215,8 +215,8 @@ public class StandardRequest
 		while ( matcher.find() )
 		{
 			String type = matcher.group( 1 );
-			List<String> list = StandardRequest.typeToList( type );
-			if ( list == null )
+			Set<String> set = StandardRequest.typeToSet( type );
+			if ( set == null )
 			{
 				continue;
 			}
@@ -227,16 +227,16 @@ public class StandardRequest
 				String object = objectMatcher.group( 1 ).trim().toLowerCase();
 				if ( object.length() > 0 )
 				{
-					list.add( object );
+					set.add( object );
 				}
 			}
 		}
 
-		// Buggy items and skills that should be on the list but aren't.
-		if ( !itemMap.isEmpty() )
+		// Buggy items and skills that should be listed but aren't.
+		if ( !itemSet.isEmpty() )
 		{
-			itemMap.add( "actual reality goggles" );
-			skillMap.add( "Fifteen Minutes of Flame" );
+			itemSet.add( "actual reality goggles" );
+			skillSet.add( "fifteen minutes of flame" );
 		}
 
 		StandardRequest.initialized = true;
