@@ -6542,6 +6542,7 @@ Effect	Smelly Pants	Stench Resistance: +1
 Effect	Smile of the Blender	Booze Drop: +25
 Effect	Smile of the Marmot	MP Regen Min: 4, MP Regen Max: 6
 Effect	Smile of the Mongoose	Critical Hit Percent: +10
+Effect	Smile of the Opposum	Candy Drop: +50
 Effect	Smile of the Packrat	Meat Drop: +25
 Effect	Smile of the Platypus	Experience (familiar): +3
 Effect	Smile of the Vole	HP Regen Min: 5, HP Regen Max: 15

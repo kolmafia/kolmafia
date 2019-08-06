@@ -2502,7 +2502,7 @@
 2501	Smile of the Wallaby	const2.gif	cddee20a242185001f832c863235619a
 2502	Smile of the Vole	const3.gif	3138897dbdb3fef8bdac982c8b146b2f
 2503	Smile of the Platypus	const4.gif	d51097292995fe2fab7f7ba8406e1221
-2504
+2504	Smile of the Opposum	const5.gif	a5ec2ad150c0f82c1b5d8eedc915f0d2
 2505	Smile of the Marmot	const6.gif	b9779ab75ed2d3236e14f938e7f8f97e
 2506	Smile of the Wombat	const7.gif	d18213568e8d1ebce441999e3016f160
 2507	Smile of the Blender	const8.gif	64bc68fc99828b49785f8dc1eab613f8
