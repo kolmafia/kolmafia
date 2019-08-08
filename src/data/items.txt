@@ -10334,7 +10334,7 @@
 10306	campfire beans	941461105	franksbeans.gif	food		0
 10307	campfire stew	652339083	soupbowl.gif	food		0
 10308	campfire coffee	462527854	coffeecup.gif	food		0
-10309
+10309	leftover chocolate bar	949825729	mediocrebar.gif	potion, usable	t,d	5
 10310
 10311	burnt stick	865739152	burntstick.gif	usable	t,d	5
 10312	bundle of firewood	478273036	firewoodbundle.gif	usable		0

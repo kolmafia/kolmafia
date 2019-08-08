@@ -7680,6 +7680,7 @@ Outfit	Violent Vestments	Muscle Percent: +15, Mysticality Percent: +15, Moxie Pe
 Outfit	War Hippy Fatigues	Stench Damage: +15
 Outfit	Warbear Dress Armor	Item Drop: +10
 Outfit	Wax Wardrobe	Moxie: +7
+Outfit	Whittled Wearables	Maximum HP Percent: +50, Maximum MP Percent: +25
 Outfit	Wicker Wear	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Outfit	Workoutfit	PvP Fights: +2
 Outfit	Wrought Wrappings	Weapon Damage Percent: +100
@@ -9771,6 +9772,7 @@ Item	lavender candy heart	Effect: "Heart of Lavender", Effect Duration: 10
 # lavender plastic oyster egg: Deals 40-50 Physical Damage
 Item	Lazenby's Life Lesson	Free Pull
 Item	leather glove	Effect: "Connering the Seanman", Effect Duration: 100
+Item	leftover chocolate bar	Effect: "Sugar Rush", Effect Duration: 50
 # leftovers of indeterminate origin: Deals 8-10 <font color=green>Stench Damage</font>
 Item	lemonhead caviar	Effect: "Sourpuss", Effect Duration: 30
 Item	Leonard's glasses	Effect: "Leonarded", Effect Duration: 100
