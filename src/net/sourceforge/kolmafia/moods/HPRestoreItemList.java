@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.CampAwayRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
@@ -81,6 +82,7 @@ public abstract class HPRestoreItemList
 
 	private static final HPRestoreItem SOFA = new HPRestoreItem( "sleep on your clan sofa", Integer.MAX_VALUE );
 	private static final HPRestoreItem CHATEAU = new HPRestoreItem( "rest at the chateau", 250 );
+	private static final HPRestoreItem CAMPAWAY = new HPRestoreItem( "rest in your campaway tent", 225 );
 	private static final HPRestoreItem CAMPGROUND = new HPRestoreItem( "rest at your campground", 40 );
 	private static final HPRestoreItem FREEREST = new HPRestoreItem( "free rest", 40 );
 	private static final HPRestoreItem DISCONAP = new HPRestoreItem( "Disco Nap", 20 );
@@ -103,6 +105,7 @@ public abstract class HPRestoreItemList
 	{
 		HPRestoreItemList.SOFA,
 		HPRestoreItemList.CHATEAU,
+		HPRestoreItemList.CAMPAWAY,
 		HPRestoreItemList.CAMPGROUND,
 		HPRestoreItemList.FREEREST,
 		HPRestoreItemList.HERBS,
@@ -176,8 +179,8 @@ public abstract class HPRestoreItemList
 	{
 		HPRestoreItemList.CAMPGROUND.healthPerUse = KoLCharacter.getRestingHP();
 		HPRestoreItemList.FREEREST.healthPerUse =
-			(Preferences.getBoolean( "restUsingChateau" ) && Preferences.getBoolean( "chateauAvailable" ) ) ?
-			250 :
+			(Preferences.getBoolean( "restUsingChateau" ) && Preferences.getBoolean( "chateauAvailable" ) ) ? 250 :
+			(Preferences.getBoolean( "restUsingCampAwayTent" ) && Preferences.getBoolean( "getawayCampsiteUnlocked" ) ) ? 250 :
 			KoLCharacter.getRestingHP();
 		HPRestoreItemList.SOFA.healthPerUse = KoLCharacter.getLevel() * 5 + 1;
 		HPRestoreItemList.DISCONAP.healthPerUse = KoLCharacter.hasSkill( "Adventurer of Leisure" ) ? 40 : 20;
@@ -372,6 +375,15 @@ public abstract class HPRestoreItemList
 				return;
 			}
 
+			if ( this == HPRestoreItemList.CAMPAWAY )
+			{
+				if ( CampAwayRequest.campAwayTentRestUsable() )
+				{
+					RequestThread.postRequest( new CampAwayRequest( "campaway_tentclick" ) );
+				}
+				return;
+			}
+
 			if ( this == HPRestoreItemList.CAMPGROUND )
 			{
 				if ( Limitmode.limitCampground() || KoLCharacter.isEd() )
@@ -396,10 +408,17 @@ public abstract class HPRestoreItemList
 					if ( ChateauRequest.chateauRestUsable() )
 					{
 						RequestThread.postRequest( new ChateauRequest( "chateau_restbox" ) );
+						return;
 					}
-					else if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() && !KoLCharacter.inNuclearAutumn() )
+					if ( CampAwayRequest.campAwayTentRestUsable() )
+					{
+						RequestThread.postRequest( new CampAwayRequest( "campaway_tentclick" ) );
+						return;
+					}
+					if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() && !KoLCharacter.inNuclearAutumn() )
 					{
 						RequestThread.postRequest( new CampgroundRequest( "rest" ) );
+						return;
 					}
 				}
 				return;

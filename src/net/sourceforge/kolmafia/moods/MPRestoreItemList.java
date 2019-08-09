@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.CampAwayRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
@@ -84,6 +85,8 @@ public abstract class MPRestoreItemList
 
 	public static final MPRestoreItem CHATEAU =
 		new MPRestoreItem( "rest at the chateau", 125, false );
+	public static final MPRestoreItem CAMPAWAY =
+		new MPRestoreItem( "rest in your campaway tent", 150, false );
 	private static final MPRestoreItem NUNS =
 		new MPRestoreItem( "visit the nuns", 1000, false);
 	private static final MPRestoreItem OSCUS =
@@ -101,6 +104,7 @@ public abstract class MPRestoreItemList
 	{
 		MPRestoreItemList.EXPRESS,
 		MPRestoreItemList.SOFA,
+		MPRestoreItemList.CAMPAWAY,
 		MPRestoreItemList.CHATEAU,
 		MPRestoreItemList.CAMPGROUND,
 		MPRestoreItemList.FREEREST,
@@ -186,8 +190,8 @@ public abstract class MPRestoreItemList
 	{
 		MPRestoreItemList.CAMPGROUND.manaPerUse = KoLCharacter.getRestingMP();
 		MPRestoreItemList.FREEREST.manaPerUse =
-			(Preferences.getBoolean( "restUsingChateau" ) && Preferences.getBoolean( "chateauAvailable" ) ) ?
-			125 :
+			(Preferences.getBoolean( "restUsingChateau" ) && Preferences.getBoolean( "chateauAvailable" ) ) ? 125 :
+			(Preferences.getBoolean( "restUsingCampAwayTent" ) && Preferences.getBoolean( "getawayCampsiteUnlocked" ) ) ? 125 :
 			KoLCharacter.getRestingMP();
 		MPRestoreItemList.SOFA.manaPerUse = KoLCharacter.getLevel() * 5 + 1;
 		MPRestoreItemList.MYSTERY_JUICE.manaPerUse = (int) ( KoLCharacter.getLevel() * 1.5f + 4.0f );
@@ -377,6 +381,15 @@ public abstract class MPRestoreItemList
 				return;
 			}
 
+			if ( this == MPRestoreItemList.CAMPAWAY )
+			{
+				if ( CampAwayRequest.campAwayTentRestUsable() )
+				{
+					RequestThread.postRequest( new CampAwayRequest( "campaway_tentclick" ) );
+				}
+				return;
+			}
+
 			if ( this == MPRestoreItemList.CAMPGROUND )
 			{
 				if ( Limitmode.limitCampground() || KoLCharacter.isEd() )
@@ -401,6 +414,11 @@ public abstract class MPRestoreItemList
 					if ( ChateauRequest.chateauRestUsable() )
 					{
 						RequestThread.postRequest( new ChateauRequest( "chateau_restbox" ) );
+						return;
+					}
+					if ( CampAwayRequest.campAwayTentRestUsable() )
+					{
+						RequestThread.postRequest( new CampAwayRequest( "campaway_tentclick" ) );
 						return;
 					}
 					if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() && !KoLCharacter.inNuclearAutumn() )

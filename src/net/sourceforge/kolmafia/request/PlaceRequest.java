@@ -126,6 +126,10 @@ public class PlaceRequest
 		{
 			BatFellowRequest.parseResponse( urlString, responseText );
 		}
+		else if ( place.equals( "campaway" ) )
+		{
+			CampAwayRequest.parseResponse( urlString, responseText );
+		}
 		else if ( place.equals( "chateau" ) )
 		{
 			ChateauRequest.parseResponse( urlString, responseText );
@@ -555,21 +559,6 @@ public class PlaceRequest
 			else if ( action.equals( "airport3_kiosk" ) )
 			{
 				message = "Visiting the Employee Assignment Kiosk";
-			}
-		}
-		else if ( place.equals( "campaway" ) )
-		{
-			if ( action.equals( "campaway_tenclick" ) )
-			{
-				message = "Resting in your Campaway tent";
-			}
-			else if ( action.equals( "campaway_sky" ) )
-			{
-				message = "Gazing at the Stars";
-			}
-			else
-			{
-				message = "Visiting your Getaway Campsite";
 			}
 		}
 		else if ( place.equals( "canadia" ) )
