@@ -38,6 +38,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.CampAwayRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.FalloutShelterRequest;
@@ -66,6 +67,10 @@ public class CampgroundCommand
 		if ( command.equals( "rest" ) && ChateauRequest.chateauRestUsable() )
 		{
 			request = new ChateauRequest( "chateau_restbox" );
+		}
+		else if ( command.equals( "rest" ) && CampAwayRequest.campAwayTentRestUsable() )
+		{
+			request = new CampAwayRequest( "campaway_tentclick" );
 		}
 		else
 		{

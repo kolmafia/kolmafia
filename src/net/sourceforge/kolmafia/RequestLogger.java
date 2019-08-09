@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.request.BurningNewspaperRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
+import net.sourceforge.kolmafia.request.CampAwayRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CanteenRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
@@ -1051,6 +1052,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof CakeArenaRequest || isExternal ) && CakeArenaRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof CampAwayRequest || isExternal ) && CampAwayRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
