@@ -1444,6 +1444,14 @@ public class DebugDatabase
 		return DebugDatabase.createModifierString( known );
 	}
 
+	public static final String parseItemEnchantments( final String text, final int type )
+	{
+		ModifierList known = new ModifierList();
+		ArrayList<String> unknown = new ArrayList<String>();
+		DebugDatabase.parseItemEnchantments( text, known, unknown, type );
+		return DebugDatabase.createModifierString( known );
+	}
+
 	private static final void parseStandardEnchantments( final String text, final ModifierList known, final ArrayList<String> unknown, final Pattern pattern )
 	{
 		Matcher matcher = pattern.matcher( text );
@@ -1457,6 +1465,7 @@ public class DebugDatabase
 		StringUtilities.globalStringDelete(
 			enchantments,
 			"<b>NOTE:</b> Items that reduce the MP cost of skills will not do so by more than 3 points, in total." );
+		StringUtilities.globalStringReplace( enchantments, "</font><br>", "<br></font>" );
 		StringUtilities.globalStringReplace( enchantments, "<br>", "\n" );
 		StringUtilities.globalStringReplace( enchantments, "<Br>", "\n" );
 		// Following from bogus HTML in Two Crazy Random Summer

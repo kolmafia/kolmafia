@@ -1803,7 +1803,7 @@ public abstract class InventoryManager
 		}
 
 		String rawText = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( ItemPool.KREMLIN_BRIEFCASE ), true );
-		String mod = DebugDatabase.parseItemEnchantments( rawText, new ArrayList<String>(), KoLConstants.EQUIP_ACCESSORY );
+		String mod = DebugDatabase.parseItemEnchantments( rawText, KoLConstants.EQUIP_ACCESSORY );
 		Modifiers.overrideModifier( "Item:[" + ItemPool.KREMLIN_BRIEFCASE + "]", mod );
 	}
 
