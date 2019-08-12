@@ -4818,6 +4818,8 @@ Effect	Big Meat Big Prizes	Meat Drop: +50
 Effect	Big Ol' Glass of Rum	Moxie: +20
 Effect	Big Punkin'	Moxie: +30
 Effect	Big Smile of the Vole	HP Regen Min: 10, HP Regen Max: 30
+Effect	Big Smile of the Wallaby	Spell Critical Percent: +20
+Effect	Big Smile of the Wombat	Damage Absorption: +100
 Effect	Big Square Head	Avatar: "Arthur Frankenstein"
 Effect	Big Veiny Brain	Experience: +3, Meat Drop: -10, Item Drop: -5
 Effect	Biker Swagger	Monster Level: +30

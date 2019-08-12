@@ -2061,6 +2061,7 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.hasSkill( "Food Coma" ) ) freerests += 10;
 		if ( KoLCharacter.hasSkill( "Dog Tired" ) ) freerests += 5;
 		if ( ChateauRequest.ceiling != null && ChateauRequest.ceiling.equals( "ceiling fan" ) ) freerests += 5;
+		if ( Preferences.getBoolean( "getawayCampsiteUnlocked" ) ) ++freerests;
 		return freerests;
 	}
 

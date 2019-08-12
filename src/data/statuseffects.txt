@@ -2508,5 +2508,11 @@
 2507	Smile of the Blender	const8.gif	64bc68fc99828b49785f8dc1eab613f8
 2508	Smile of the Packrat	const9.gif	d725eebccdc585f9b547fcbf01fa6add
 2509
-2510
+2510	Big Smile of the Wallaby	const2.gif	d5cf7710a84d8977d51e574432459ae5
 2511	Big Smile of the Vole	const3.gif	382c3c5599435b72ae4b8d07f0d05222
+2512
+2513
+2514
+2515	Big Smile of the Wombat	const7.gif	def481a320876018461fb7a0a6792d2a
+2516
+2517
