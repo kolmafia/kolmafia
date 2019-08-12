@@ -253,7 +253,9 @@ public class BreakfastManager
 				continue;
 			}
 
-			int needed = toy.getCount();
+			// If we run this more than once, we may have used up the maximum uses
+			int usable = UseItemRequest.maximumUses( toy.getItemId() );
+			int needed = Math.min( toy.getCount(), usable );
 			int available = 0;
 			int count = 0;
 
