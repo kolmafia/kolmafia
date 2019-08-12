@@ -948,6 +948,11 @@ public class Maximizer
 					{
 						continue;
 					}
+					// Must be available in your current path
+					if ( !StandardRequest.isAllowed( "Skills", "Sweet Synthesis" ) )
+					{
+						continue;
+					}
 					// You must know the skill
 					if ( !KoLCharacter.hasSkill( "Sweet Synthesis" ) )
 					{
