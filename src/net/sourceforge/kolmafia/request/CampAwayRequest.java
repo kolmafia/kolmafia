@@ -67,6 +67,7 @@ public class CampAwayRequest
 		CampAwayRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
+	private static final Pattern EFFECT_PATTERN = Pattern.compile( "You acquire an effect: <b>(.*?)</b>" );
 	public static final void parseResponse( final String urlString, final String responseText )
 	{
 		String action = GenericRequest.getAction( urlString );
@@ -92,6 +93,22 @@ public class CampAwayRequest
 		if ( action.startsWith( "campaway_tent" ) )
 		{
 			Preferences.increment( "timesRested" );
+		}
+		else if ( action.equals( "campaway_sky" ) )
+		{
+			Matcher m = EFFECT_PATTERN.matcher( responseText );
+			if ( m.find() )
+			{
+				String effect = m.group( 1 );
+				if ( effect.contains( "Smile" ) )
+				{
+					Preferences.increment( "_campawaySmileBuffs" );
+				}
+				else if ( effect.contains( "Cloud-Talk" ) )
+				{
+					Preferences.increment( "_campawayCloudBuffs" );
+				}
+			}
 		}
 	}
 
