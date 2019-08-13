@@ -4817,6 +4817,10 @@ Effect	Big Flaming Whip	Hot Damage: +20, Damage Reduction: 5
 Effect	Big Meat Big Prizes	Meat Drop: +50
 Effect	Big Ol' Glass of Rum	Moxie: +20
 Effect	Big Punkin'	Moxie: +30
+Effect	Big Smile of the Blender	Booze Drop: +50
+Effect	Big Smile of the Mongoose	Critical Hit Percent: +20
+Effect	Big Smile of the Opposum	Candy Drop: +100
+Effect	Big Smile of the Platypus	Experience (familiar): +5
 Effect	Big Smile of the Vole	HP Regen Min: 10, HP Regen Max: 30
 Effect	Big Smile of the Wallaby	Spell Critical Percent: +20
 Effect	Big Smile of the Wombat	Damage Absorption: +100
