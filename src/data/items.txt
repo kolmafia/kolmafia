@@ -450,7 +450,7 @@
 423	cordial of concentration	733027305	bloodymary.gif	potion, multiple	t,d	36	cordials of concentration
 424	ointment of the occult	751589445	milk.gif	potion, multiple	t,d	36	ointments of the occult
 425	oil of expertise	536224886	bottle.gif	potion, multiple	t,d	36	oils of expertise
-426	potion of temporary gr8ness	202508725	lovepotion.gif	potion, multiple	t,d	36	potions of temporary gr8tness
+426	potion of temporary gr8ness	202508725	lovepotion.gif	potion, multiple	t,d	36	potions of temporary gr8ness
 427	box	670936993	box.gif	offhand	t,d	19	boxen
 428	nothing-in-the-box	736598885	springbox.gif	none	t,d	26	nothings-in-the-box
 429	beanbag chair	605678154	beanbag.gif	usable	t,d	48
