@@ -102,11 +102,11 @@ public class CampAwayRequest
 				String effect = m.group( 1 );
 				if ( effect.contains( "Smile" ) )
 				{
-					Preferences.increment( "_campawaySmileBuffs" );
+					Preferences.increment( "_campAwaySmileBuffs" );
 				}
 				else if ( effect.contains( "Cloud-Talk" ) )
 				{
-					Preferences.increment( "_campawayCloudBuffs" );
+					Preferences.increment( "_campAwayCloudBuffs" );
 				}
 			}
 		}

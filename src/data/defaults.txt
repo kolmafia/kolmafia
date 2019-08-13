@@ -1386,8 +1386,8 @@ user	_brassDreadFlaskUsed	false
 user	_brickoFights	0
 user	_brickoEyeSummons	0
 user	_cameraUsed	false
-user	_campawayCloudBuffs	0
-user	_campawaySmileBuffs	0
+user	_campAwayCloudBuffs	0
+user	_campAwaySmileBuffs	0
 user	_candySummons	0
 user	_carboLoaded	false
 user	_carnieCandyDrops	0
