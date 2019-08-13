@@ -1330,7 +1330,7 @@ eyedrops of the ocelot	SSAUCE, SX3	scrumdiddlyumptious solution	raspberry
 peach lozenge	SSAUCE, SX3	scrumdiddlyumptious solution	peach
 pear lozenge	SSAUCE, SX3	scrumdiddlyumptious solution	pear
 plum lozenge	SSAUCE, SX3	scrumdiddlyumptious solution	plum
-potion of temporary gr8tness	SSAUCE, SX3	scrumdiddlyumptious solution	gr8ps
+potion of temporary gr8ness	SSAUCE, SX3	scrumdiddlyumptious solution	gr8ps
 
 fluid of fudge-finding	SSAUCE	scrumdiddlyumptious solution	superheated fudge
 
