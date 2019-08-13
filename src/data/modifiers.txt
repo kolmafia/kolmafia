@@ -10228,7 +10228,7 @@ Item	Potion of Heroism	Effect: "Heroic Fortune", Effect Duration: 10
 Item	potion of potency	Effect: "Pronounced Potency", Effect Duration: [R]
 Item	potion of punctual companionship	Effect: "Stickler for Promptness", Effect Duration: 30
 Item	potion of spiritual gunkifying	Effect: "The Power of Negative Thinking", Effect Duration: 20
-Item	potion of temporary gr8tness	Effect: "Gr8tness", Effect Duration: [R]
+Item	potion of temporary gr8ness	Effect: "Gr8tness", Effect Duration: [R]
 Item	potion of the captain's hammer	Effect: "The Captain's Hammer", Effect Duration: 20
 Item	potion of the field gar	Effect: "Gar-ish", Effect Duration: 10
 Item	potion of the litterbox	Effect: "Litterboxing", Effect Duration: 20

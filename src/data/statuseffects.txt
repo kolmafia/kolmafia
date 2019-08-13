@@ -36,7 +36,7 @@
 35	Concentration	farout.gif	7cb1ce3c6611696ed66b0f180fcb79d4	use 1 cordial of concentration
 36	Mystically Oiled	potion4.gif	df21506858f7dfabf69c62d6562dc574	use either 1 ointment of the occult, 1 evil ointment of the occult
 37	Expert Oiliness	potion4.gif	e29bedb34840827fd6c9e6887d04d2b4	use 1 oil of expertise
-38	Gr8tness	grapes.gif	22a24325a136bd388cd85852ffee92e3	use 1 potion of temporary gr8tness
+38	Gr8tness	grapes.gif	22a24325a136bd388cd85852ffee92e3	use 1 potion of temporary gr8ness
 39	Hernia!	hernia.gif	eb4f2cac29d8c2a73a6b0f1d532f61c9	# using mafia aria without cummerbund
 40	Red Neck	redneck.gif	e0e05fe6a88713716c5f8644379c1aeb	# wearing mesh cap
 41	Chapped Legs	legs.gif	8b5481d9989685d266fcbb5028cd6929	# wearing leather chaps
