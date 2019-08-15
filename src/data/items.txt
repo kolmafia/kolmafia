@@ -10335,7 +10335,17 @@
 10307	campfire stew	652339083	soupbowl.gif	food		0
 10308	campfire coffee	462527854	coffeecup.gif	food		0
 10309	leftover chocolate bar	949825729	mediocrebar.gif	potion, usable	t,d	5
-10310
+10310	rare Meat isotope	727769995	meatisotope.gif	none	q	0
 10311	burnt stick	865739152	burntstick.gif	usable	t,d	5
 10312	bundle of firewood	478273036	firewoodbundle.gif	usable		0
 10313	campfire smoke	252689228	puff.gif	usable	d	1
+10314
+10315
+10316	space shield	921680684	invadershield.gif	offhand	q	0
+10317	signal jammer	289684083	signaljammer.gif	accessory	q	0
+10318	low-pressure oxygen tank	552087017	spacetank.gif	accessory	q	0
+10319
+10320	space chowder	855651055	soupbowl.gif	food	t,d	50
+10321	space wine	709394288	wine2.gif	drink	t,d	50
+10322	The Imploded World	501133194	book4.gif	usable	t	0
+

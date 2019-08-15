@@ -952,3 +952,19 @@ Your Campfire	buy	10	whittled bear figurine	ROW1072
 Your Campfire	buy	10	whittled owl figurine	ROW1073
 Your Campfire	buy	10	whittled fox figurine	ROW1074
 Your Campfire	buy	100	whittled walking stick	ROW1075
+
+# Kingdom of Exploathing
+
+Cosmic Ray's Bazaar	buy	5	space chowder	ROW1098
+Cosmic Ray's Bazaar	buy	5	space wine	ROW1099
+Cosmic Ray's Bazaar	buy	10	antique accordion	ROW1097
+Cosmic Ray's Bazaar	buy	10	low-pressure oxygen tank	ROW1091
+Cosmic Ray's Bazaar	buy	20	lucky pill	ROW1100
+Cosmic Ray's Bazaar	buy	25	signal jammer	ROW1089
+Cosmic Ray's Bazaar	buy	25	space shield	ROW1088
+Cosmic Ray's Bazaar	buy	30	Wand of Nagamar	ROW1092
+Cosmic Ray's Bazaar	buy	30	digital key	ROW1090
+Cosmic Ray's Bazaar	buy	1	Boris's key	ROW1093
+Cosmic Ray's Bazaar	buy	1	Jarlsberg's key	ROW1094
+Cosmic Ray's Bazaar	buy	1	Sneaky Pete's key	ROW1095
+Cosmic Ray's Bazaar	buy	rare Meat isotope	950	ROW1096

@@ -184,6 +184,7 @@ public abstract class KoLCharacter
 	public static final String DISGUISES_DELIMIT = "Disguises Delimit";
 	public static final String DARK_GYFFTE = "Dark Gyffte";
 	public static final String CRAZY_RANDOM_TWO = "Two Crazy Random Summer";
+	public static final String KINGDOM_OF_EXPLOATHING = "Kingdom of Exploathing";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
@@ -4137,6 +4138,11 @@ public abstract class KoLCharacter
 	public static final boolean inDarkGyffte()
 	{
 		return KoLCharacter.ascensionPath.equals( DARK_GYFFTE );
+	}
+
+	public static final boolean isKingdomOfExploathing()
+	{
+		return KoLCharacter.ascensionPath.equals( KINGDOM_OF_EXPLOATHING );
 	}
 
 	public static final boolean isUnarmed()

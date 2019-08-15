@@ -90,6 +90,7 @@ public class AscensionSnapshot
 	public static final int DISGUISES_DELIMIT = 34;
 	public static final int DARK_GYFFTE = 35;
 	public static final int CRAZY_RANDOM_SUMMER_TWO = 36;
+	public static final int KINGDOM_OF_EXPLOATHING = 37;
 
 	public static final int UNKNOWN_CLASS = -1;
 	public static final int SEAL_CLUBBER = 1;
@@ -246,6 +247,10 @@ public class AscensionSnapshot
 
 		if ( typeFilter != AscensionSnapshot.CASUAL )
 		{
+			strbuf.append( KoLConstants.LINE_BREAK );
+			strbuf.append( AscensionSnapshot.getPathedAscensionData(
+				typeFilter, AscensionSnapshot.KINGDOM_OF_EXPLOATHING, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,
+				localProfileLink ) );
 			strbuf.append( KoLConstants.LINE_BREAK );
 			strbuf.append( AscensionSnapshot.getPathedAscensionData(
 				typeFilter, AscensionSnapshot.CRAZY_RANDOM_SUMMER_TWO, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,
@@ -612,6 +617,7 @@ public class AscensionSnapshot
 						pathFilter == AscensionSnapshot.GLOVER ? "G-Lover " :
 						pathFilter == AscensionSnapshot.DISGUISES_DELIMIT ? "Disguises Delimit " :
 						pathFilter == AscensionSnapshot.DARK_GYFFTE ? "Dark Gyffte " :
+						pathFilter == AscensionSnapshot.KINGDOM_OF_EXPLOATHING ? "Kingdom of Exploathing " :
 						"" );
 
 			strbuf.append( "Ascensions (Out of " );

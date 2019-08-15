@@ -841,6 +841,7 @@ public class AscensionHistoryRequest
 				path[ 1 ].equals( "Disguises Delimit" ) ? AscensionSnapshot.DISGUISES_DELIMIT :
 				path[ 1 ].equals( "Dark Gyffte" ) ? AscensionSnapshot.DARK_GYFFTE :
 				path[ 1 ].equals( "Two Crazy Random Summer" ) ? AscensionSnapshot.CRAZY_RANDOM_SUMMER_TWO :
+				path[ 1 ].equals( "Kingdom of Exploathing" ) ? AscensionSnapshot.KINGDOM_OF_EXPLOATHING :
 				AscensionSnapshot.UNKNOWN_PATH;
 		}
 
@@ -904,6 +905,7 @@ public class AscensionHistoryRequest
 					columns[ 8 ].contains( "g-loveheart" ) ? AscensionSnapshot.GLOVER :
 					columns[ 8 ].contains( "dd_icon" ) ? AscensionSnapshot.DISGUISES_DELIMIT :
 					columns[ 8 ].contains( "darkgift" ) ? AscensionSnapshot.DARK_GYFFTE :
+					// columns[ 8 ].contains( "exploathing" ) ? AscensionSnapshot.KINGDOM_OF_EXPLOATHING :
 					AscensionSnapshot.NOPATH;
 			}
 			catch ( Exception e )

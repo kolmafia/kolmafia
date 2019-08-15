@@ -588,6 +588,7 @@ soilzerac	1	1	good	2-4	0	0	0	40 Here's Mud in Your Eye (+50 Meat Drop)
 soy cordial	5	6	EPIC	28-35	55-61	38-50	35-52	2 Electrolyte Fantastic (+10% mys exp)
 soyburger juice	2	3	crappy	2-4	0	0	0	gain Oversaturated Palate or lose Deadened Palate
 space port	2	5	good	5-6	10-20	10-20	10-20
+space wine	6	1	awesome	0	0	0	0	Unspaded
 Spasmi Dolorosi Del Rene Champagne	1	10	EPIC	6-10	60	60	60
 spiced rum	3	2	decent	4-8	0	0	17-30
 Spicy Hot Chocolate	5	1	good	10-15	0	0	0	30 Loaded Forwarbear (So-So Supercold Resistance)
