@@ -91,6 +91,7 @@ import net.sourceforge.kolmafia.request.BrogurtRequest;
 import net.sourceforge.kolmafia.request.BuffJimmyRequest;
 import net.sourceforge.kolmafia.request.CanteenRequest;
 import net.sourceforge.kolmafia.request.ChemiCorpRequest;
+import net.sourceforge.kolmafia.request.CosmicRaysBazaarRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 import net.sourceforge.kolmafia.request.Crimbo11Request;
@@ -197,6 +198,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel canteenPanel = null;
 	private CoinmasterPanel cashewPanel = null;
 	private CoinmasterPanel chemCorpPanel = null;
+	private CoinmasterPanel cosmicRaysBazaarPanel = null;
 	private CoinmasterPanel crimbo11Panel = null;
 	private CoinmasterPanel crimbo14Panel = null;
 	private CoinmasterPanel crimbo17Panel = null;
@@ -341,6 +343,11 @@ public class CoinmastersFrame
 		gmartPanel = new GMartPanel();
 		panel.add( gmartPanel );
 		this.selectorPanel.addPanel( gmartPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		cosmicRaysBazaarPanel = new CosmicRaysBazaarPanel();
+		panel.add( cosmicRaysBazaarPanel );
+		this.selectorPanel.addPanel( cosmicRaysBazaarPanel.getPanelSelector(), panel );
 
 		// Aftercore coinmasters
 		this.selectorPanel.addSeparator();
@@ -1603,6 +1610,15 @@ public class CoinmastersFrame
 		public GMartPanel()
 		{
 			super( GMartRequest.GMART );
+		}
+	}
+
+	private class CosmicRaysBazaarPanel
+		extends CoinmasterPanel
+	{
+		public CosmicRaysBazaarPanel()
+		{
+			super( CosmicRaysBazaarRequest.COSMIC_RAYS_BAZAAR );
 		}
 	}
 

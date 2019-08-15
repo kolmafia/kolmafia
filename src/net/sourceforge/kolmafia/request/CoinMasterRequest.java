@@ -552,6 +552,7 @@ public class CoinMasterRequest
 			String property = data.getProperty();
 
 			int available =
+				tokenItem.isMeat() ? KoLCharacter.getAvailableMeat() :
 				storage ? tokenItem.getCount( KoLConstants.storage ) :
 				property != null ? Preferences.getInteger( property ) :
 				tokenItem.getCount( KoLConstants.inventory );

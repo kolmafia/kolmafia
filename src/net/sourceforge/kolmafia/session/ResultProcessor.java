@@ -1448,6 +1448,8 @@ public class ResultProcessor
 		case ItemPool.PRICELESS_DIAMOND:
 		case ItemPool.CRYSTALLINE_CHEER:
 		case ItemPool.STICK_OF_FIREWOOD:
+		case ItemPool.RARE_MEAT_ISOTOPE:
+		case ItemPool.WHITE_PIXEL:
 			// Pulverized ascension rewards
 		case ItemPool.WICKERBITS:		// 2016 Standard gear -> 2015 Standard gear
 		case ItemPool.BAKELITE_BITS:		// 2016 Hardcore gear -> 2015 Hardcore gear

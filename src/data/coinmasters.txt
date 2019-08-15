@@ -967,4 +967,4 @@ Cosmic Ray's Bazaar	buy	30	digital key	ROW1090
 Cosmic Ray's Bazaar	buy	1	Boris's key	ROW1093
 Cosmic Ray's Bazaar	buy	1	Jarlsberg's key	ROW1094
 Cosmic Ray's Bazaar	buy	1	Sneaky Pete's key	ROW1095
-Cosmic Ray's Bazaar	buy	rare Meat isotope	950	ROW1096
+Cosmic Ray's Bazaar	buy	1000	rare Meat isotope	ROW1096

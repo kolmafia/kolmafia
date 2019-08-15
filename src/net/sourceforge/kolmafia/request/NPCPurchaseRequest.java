@@ -192,6 +192,14 @@ public class NPCPurchaseRequest
 		return (int) ( ( this.price * factor ) / 100 );
 	}
 
+	public static int currentDiscountedPrice( int price )
+	{
+		long factor = 100;
+		if ( NPCPurchaseRequest.usingTrousers() ) factor -= 5;
+		if ( KoLCharacter.hasSkill( "Five Finger Discount" ) ) factor -= 5;
+		return (int)( ( price * factor ) / 100 );
+	}
+
 	private static boolean usingTrousers()
 	{
 		return EquipmentManager.getEquipment( EquipmentManager.PANTS ).equals( NPCPurchaseRequest.TROUSERS );
@@ -902,6 +910,12 @@ public class NPCPurchaseRequest
 		if ( shopId.equals( "campaway" ) )
 		{
 			YourCampfireRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		if ( shopId.equals( "exploathing" ) )
+		{
+			CosmicRaysBazaarRequest.parseResponse( urlString, responseText );
 			return;
 		}
 
