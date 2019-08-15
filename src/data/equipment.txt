@@ -2493,6 +2493,7 @@ Lord Soggyraven's Slippers	150	Mys: 60
 Lord Spookyraven's ear trumpet	150	Mys: 20
 Lord Spookyraven's spectacles	10	none
 LOV Earrings	100	none
+low-pressure oxygen tank	0	none
 lucky bottlecap	200	Mys: 200
 lucky cat collar	60	Mys: 15
 lucky Crimbo tiki necklace	10	none
@@ -2745,6 +2746,7 @@ shiny ring	50	Mys: 10
 shiny tribal beads	80	Mys: 25
 shock belt	80	none
 sicksilver ring	100	Mys: 10
+signal jammer	0	none
 silent nightlight	10	none
 silver detective badge	0	none
 silver tongue charrrm bracelet	190	Mys: 80

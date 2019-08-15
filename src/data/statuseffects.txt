@@ -2488,9 +2488,9 @@
 2487	You Learned Something Maybe!	beachface11.gif	441324a54b655f39e6302afd9ab44cb6	beach head You Learned Something Maybe!
 2488	Fishing For Knowledge	fishy2.gif	988d1f337b551101628604f9b74c571b	use 1 Finnish Fish
 2489	Sweet Pirate Curse	ccannonball.gif	ef9d5a4d0c0b5252d8fef89b20224d7b	use 1 cursed chocolate doubloon
-2490
-2491
-2492
+2490	Muscular Intentions	strboost.gif	6c52b947f9756c7f484b3c471a75427c
+2491	Mystical Intentions	snowflakes.gif	13b2d681db6135bb662c853a92979556
+2492	Moxious Intentions	wink.gif	2164ac3ff91c098fb65dde89c1d172c2
 2493	Traditional Eating	nopic.gif	470561dcbab975da6f1d76aab4fbd7de	eat 1 campfire hot dog
 2494	Trial by Campfire	nopic.gif	f5f846ff8fdcf4c712e3654fb94b32d7	eat 1 campfire baked potato
 2495	Gimme, Gimme	nopic.gif	c53449f9855d31fb86769dd4cedb64f7	eat 1 campfire s'more
@@ -2515,4 +2515,4 @@
 2514
 2515	Big Smile of the Wombat	const7.gif	def481a320876018461fb7a0a6792d2a
 2516	Big Smile of the Blender	const8.gif	3311b637173b590b2ac75e9a5ccb175c
-2517
+2517	Big Smile of the Packrat	const9.gif	97c18428c097b8c132ace1cd46e13f73

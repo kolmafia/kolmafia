@@ -2367,6 +2367,8 @@ Item	sock monkey	Moxie: +3
 Item	Solstice Shield	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie Percent: [5*G], Damage Absorption: +20
 Item	sommelier's towel	Booze Drop: +50
 Item	sonar fishfinder	Fishing Skill: +5
+# Item space shield: Deflects Invader Bullets
+Item	space shield	Damage Reduction: 9
 Item	Space Tourist palmdoctor	Maximum HP: +25, Maximum MP: +25, HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 4, MP Regen Max: 6, Lasts Until Rollover
 Item	spaghetti-box banjo	MP Regen Min: 5, MP Regen Max: 10, Class: "Pastamancer"
 # Spanish fly trap
@@ -2941,6 +2943,8 @@ Item	Lord Soggyraven's Slippers	Initiative: +20, Pickpocket Chance: +20, Maximum
 Item	Lord Spookyraven's ear trumpet	Initiative: +25, Single Equip
 # Lord Spookyraven's spectacles
 Item	LOV Earrings	Experience Percent (Moxie): +25, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Meat Drop: +50, Single Equip, Lasts Until Rollover
+# low-pressure oxygen tank: Prevents oxygen deprivation in the event of a planetary explosion
+Item	low-pressure oxygen tank	Single Equip
 # lube-shoes: Good for lubricating rollercoaster tracks
 Item	lube-shoes	Moxie: -10
 Item	lucky bottlecap	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
@@ -3242,6 +3246,8 @@ Item	shiny tribal beads	Mysticality: +6
 # shock belt: Shocks enemies that hit you
 Item	shock belt	Single Equip
 Item	sicksilver ring	Stench Damage: +20, Stench Spell Damage: +40, Muscle: +10, Single Equip
+# signal jammer: Repels Skeleton Astronauts
+Item	signal jammer	Single Equip
 Item	silent nightlight	Muscle: +5, Mysticality: +5, Moxie: +5, Rollover Effect: "Nightlit", Rollover Effect Duration: 50
 Item	silver detective badge	Maximum HP: +30, Maximum MP: +30, Item Drop: +15, Meat Drop: +25
 Item	silver tongue charrrm bracelet	Moxie: +5, Spell Damage: +10, Single Equip
@@ -4820,6 +4826,7 @@ Effect	Big Punkin'	Moxie: +30
 Effect	Big Smile of the Blender	Booze Drop: +50
 Effect	Big Smile of the Mongoose	Critical Hit Percent: +20
 Effect	Big Smile of the Opposum	Candy Drop: +100
+Effect	Big Smile of the Packrat	Meat Drop: +50
 Effect	Big Smile of the Platypus	Experience (familiar): +5
 Effect	Big Smile of the Vole	HP Regen Min: 10, HP Regen Max: 30
 Effect	Big Smile of the Wallaby	Spell Critical Percent: +20
@@ -6043,6 +6050,7 @@ Effect	Morninja	Initiative: +100
 Effect	Mortarfied	Damage Absorption: +100
 Effect	Motion	Initiative: +100
 Effect	Motorhair	Avatar: "motorhead"
+Effect	Moxious Intentions	Experience (Moxie): +3
 # Mr. Skullhead's Birthday Happiness: Puts a birthday smile on your face.
 Effect	Mrs. Frozen	Avatar: "Mrs. Freeze"
 Effect	Mucilaginous Mentalism	Mysticality Percent: +200
@@ -6052,6 +6060,7 @@ Effect	Muddled	Muscle Percent: +200, Monster Level: +15
 Effect	Muddy Buddy	Avatar: "mud turtle"
 Effect	Muffled	Combat Rate: -15
 Effect	Muscle Unbound	Experience Percent (Muscle): +5
+Effect	Muscular Intentions	Experience (Muscle): +3
 Effect	Muscularrr	Muscle Percent: +10
 Effect	Mush-Mouth	Muscle: -100, Mysticality: -100, Moxie: -100
 Effect	Mushroom Magicalness	Mysticality Percent: +200
@@ -6067,6 +6076,7 @@ Effect	My Breakfast With Andrea	Meat Drop: [min(80,2*T)]
 Effect	Mysteriously Handsome	Moxie Percent: +5, Monster Level: [4.5+1.5*X]
 Effect	Mystic Circle	Mysticality Percent: +10
 Effect	Mystic Pickleness	Mysticality: +5, Muscle: -5
+Effect	Mystical Intentions	Experience (Mysticality): +3
 Effect	Mystically Oiled	Mysticality Percent: +100
 Effect	N-Spatial vision	Mysticality Percent: -30
 Effect	Nano-juiced	Muscle Percent: +15
@@ -8013,7 +8023,6 @@ Item	rocky road ice cream	Effect: "A Contender", Effect Duration: 40
 Item	rook cookie	Effect: "Towering Strength", Effect Duration: 30
 Item	sausage without a cause	Effect: "East of Eaten", Effect Duration: 1
 Item	savage macho dog	Effect: "Macho, Macho Dog", Effect Duration: 50
-Item	Scurvy and Sobriety Prevention	Skill: "Prevent Scurvy and Sobriety"
 Item	sea truffle	Effect: "Trufflin'", Effect Duration: 10
 Item	shadowy cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 Item	shoo-fish pie	Effect: "Fishy", Effect Duration: 20
@@ -10453,6 +10462,7 @@ Item	scroll of Protection from Bad Stuff	Effect: "Protection from Bad Stuff", Ef
 Item	scroll of Puddingskin	Effect: "Puddingskin", Effect Duration: 80
 Item	scrunchie tourniquet	Effect: "First, Like, Do No Harm?", Effect Duration: 50
 Item	Scuba Snack	Effect: "Jinkies!", Effect Duration: 100
+Item	Scurvy and Sobriety Prevention	Skill: "Prevent Scurvy and Sobriety"
 # sea cowbell: Gives you a fever
 Item	sea grease	Effect: "Greased-Up Familiar", Effect Duration: 40
 # sea lasso: Allows underwater rooting and tooting
@@ -10749,6 +10759,7 @@ Item	The Firegate Tapes	Skill: "Firegate"
 Item	The Fun-Guy Cold Weather Bartender's Guide	Skill: "Perfect Freeze"
 Item	The Gingerbread Vigilante's Handbook	Skill: "Licorice Rope"
 Item	The Groose in the Hoose	Free Pull
+Item	The Imploded World	Skill: "Implode Universe"
 Item	The Journal of Mime Science Vol. 1	Skill: "Silent Hunter"
 Item	The Journal of Mime Science Vol. 1 (used)	Skill: "Silent Hunter"
 Item	The Journal of Mime Science Vol. 2	Skill: "Quiet Determination"
