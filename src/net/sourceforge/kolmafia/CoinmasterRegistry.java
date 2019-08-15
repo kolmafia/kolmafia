@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.request.BuffJimmyRequest;
 import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.CanteenRequest;
 import net.sourceforge.kolmafia.request.ChemiCorpRequest;
+import net.sourceforge.kolmafia.request.CosmicRaysBazaarRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 import net.sourceforge.kolmafia.request.Crimbo11Request;
 import net.sourceforge.kolmafia.request.Crimbo14Request;
@@ -122,6 +123,7 @@ public abstract class CoinmasterRegistry
 		BURTRequest.BURT,
 		CanteenRequest.CANTEEN,
 		ChemiCorpRequest.CHEMICORP,
+		CosmicRaysBazaarRequest.COSMIC_RAYS_BAZAAR,
 		CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP,
 		Crimbo11Request.CRIMBO11,
 		Crimbo14Request.CRIMBO14,

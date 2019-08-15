@@ -1233,6 +1233,28 @@ public class AdventureResult
 			return item;
 		}
 
+		if ( this.isMeat() )
+		{
+			if ( this.count == quantity )
+			{
+				return this;
+			}
+
+			AdventureResult item;
+			try
+			{
+				item =  (AdventureResult) this.clone();
+			}
+			catch ( CloneNotSupportedException e )
+			{
+				// This should not happen. Hope for the best.
+				item = new AdventureResult( AdventureResult.MEAT, quantity );
+			}
+
+			item.count = quantity;
+			return item;
+		}
+
 		if ( this.isStatusEffect() )
 		{
 			AdventureResult effect;

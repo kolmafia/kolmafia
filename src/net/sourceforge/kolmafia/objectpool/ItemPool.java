@@ -3120,6 +3120,7 @@ public class ItemPool
 	public static final int DRIFTWOOD_BEACH_COMB = 10291;
 	public static final int STICK_OF_FIREWOOD = 10293;
 	public static final int GETAWAY_BROCHURE = 10292;
+	public static final int RARE_MEAT_ISOTOPE = 10310;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

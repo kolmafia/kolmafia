@@ -225,6 +225,11 @@ public class CoinmasterData
 
 	public final int availableTokens( final AdventureResult currency )
 	{
+		if ( currency.isMeat() )
+		{
+			return KoLCharacter.getAvailableMeat();
+		}
+
 		int itemId = currency.getItemId();
 
 		if ( itemId != -1 )
@@ -251,6 +256,11 @@ public class CoinmasterData
 
 	public final int affordableTokens( final AdventureResult currency )
 	{
+		if ( currency.isMeat() )
+		{
+			return KoLCharacter.getAvailableMeat();
+		}
+
 		return  currency.getItemId() == ItemPool.WORTHLESS_ITEM ?
 			HermitRequest.getAcquirableWorthlessItemCount() :
 			this.availableTokens( currency );
