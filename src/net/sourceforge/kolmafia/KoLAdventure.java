@@ -825,7 +825,8 @@ public class KoLAdventure
 		{
 			this.isValidAdventure =
 				InventoryManager.hasItem( ItemPool.get( ItemPool.SOCK, 1 ) ) ||
-				InventoryManager.hasItem( ItemPool.get( ItemPool.ROWBOAT, 1 ) );
+				InventoryManager.hasItem( ItemPool.get( ItemPool.ROWBOAT, 1 ) ) ||
+				KoLCharacter.isKingdomOfExploathing();
 			return;
 		}
 
