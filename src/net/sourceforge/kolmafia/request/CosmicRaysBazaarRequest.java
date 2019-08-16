@@ -86,7 +86,7 @@ public class CosmicRaysBazaarRequest
 			"exploathing",
 			CosmicRaysBazaarRequest.class,
 			"rare Meat isotope",
-			"rare Meat isotopes",
+			"no rare Meat isotopes",
 			false,
 			CosmicRaysBazaarRequest.TOKEN_PATTERN,
 			CosmicRaysBazaarRequest.RARE_MEAT_ISOTOPE,

@@ -122,6 +122,7 @@ import net.sourceforge.kolmafia.request.MerchTableRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.NeandermallRequest;
 import net.sourceforge.kolmafia.request.NinjaStoreRequest;
+import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.NuggletCraftingRequest;
 import net.sourceforge.kolmafia.request.PokemporiumRequest;
 import net.sourceforge.kolmafia.request.PrecinctRequest;
@@ -1619,6 +1620,14 @@ public class CoinmastersFrame
 		public CosmicRaysBazaarPanel()
 		{
 			super( CosmicRaysBazaarRequest.COSMIC_RAYS_BAZAAR );
+			this.update();
+		}
+
+		@Override
+		public final void update()
+		{
+			super.update();
+			this.setEnabled( this.data.isAccessible() );
 		}
 	}
 
@@ -2055,17 +2064,16 @@ public class CoinmastersFrame
 			{
 				super( (LockableListModel) CoinmasterPanel.this.data.getBuyItems() );
 
+				this.eastPanel.add( new InvocationButton( "visit", CoinmasterPanel.this, "check" ), BorderLayout.SOUTH );
+				this.getElementList().setCellRenderer( getCoinmasterRenderer( CoinmasterPanel.this.data, true ) );
+				this.getElementList().setVisibleRowCount( 6 );
+
 				if ( listeners != null )
 				{
 					this.setButtons( true, listeners );
+					this.setEnabled( true );
+					this.filterItems();
 				}
-
-				this.eastPanel.add( new InvocationButton( "visit", CoinmasterPanel.this, "check" ), BorderLayout.SOUTH );
-
-				this.getElementList().setCellRenderer( getCoinmasterRenderer( CoinmasterPanel.this.data, true ) );
-				this.getElementList().setVisibleRowCount( 6 );
-				this.setEnabled( true );
-				this.filterItems();
 			}
 
 			public BuyPanel()
@@ -2263,6 +2271,11 @@ public class CoinmastersFrame
 			boolean show = !this.buying || data.availableItem( itemId );
 
 			int price = cost.getCount();
+
+			if ( cost.isMeat() )
+			{
+				price = NPCPurchaseRequest.currentDiscountedPrice( price );
+			}
 
 			if ( show && this.buying)
 			{

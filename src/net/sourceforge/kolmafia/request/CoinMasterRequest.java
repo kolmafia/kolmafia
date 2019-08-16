@@ -516,6 +516,10 @@ public class CoinMasterRequest
 	{
 		AdventureResult tokenItem = data.itemBuyPrice( itemId );
 		int cost = count * tokenItem.getCount();
+		if ( tokenItem.isMeat() )
+		{
+			cost = NPCPurchaseRequest.currentDiscountedPrice( cost );
+		}
 		String itemName = ( count != 1 ) ? ItemDatabase.getPluralName( itemId ) : ItemDatabase.getItemName( itemId );
 
 		RequestLogger.updateSessionLog();
@@ -558,6 +562,10 @@ public class CoinMasterRequest
 				tokenItem.getCount( KoLConstants.inventory );
 
 			int price = tokenItem.getCount();
+			if ( tokenItem.isMeat() )
+			{
+				price = NPCPurchaseRequest.currentDiscountedPrice( price );
+			}
 			count = available / price;
 		}
 
@@ -569,6 +577,10 @@ public class CoinMasterRequest
 		AdventureResult tokenItem = data.itemBuyPrice( itemId );
 		int price = tokenItem.getCount();
 		int cost = count * price;
+		if ( tokenItem.isMeat() )
+		{
+			cost = NPCPurchaseRequest.currentDiscountedPrice( cost );
+		}
 		String property = data.getProperty();
 
 		if ( property != null && !storage )
