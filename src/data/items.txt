@@ -10344,7 +10344,7 @@
 10316	space shield	921680684	invadershield.gif	offhand	q	0
 10317	signal jammer	289684083	signaljammer.gif	accessory	q	0
 10318	low-pressure oxygen tank	552087017	spacetank.gif	accessory	q	0
-10319
+10319	Thwaitgold bombardier beetle statuette	561417414	thwaitbomber.gif	none		0
 10320	space chowder	855651055	soupbowl.gif	food	t,d	50
 10321	space wine	709394288	wine2.gif	drink	t,d	50
 10322	The Imploded World	501133194	book4.gif	usable	t	0
