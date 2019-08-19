@@ -206,7 +206,6 @@ import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 
 import net.sourceforge.kolmafia.svn.SVNManager;
-import net.sourceforge.kolmafia.swingui.FaxRequestFrame;
 import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 
 import net.sourceforge.kolmafia.textui.Interpreter.CallFrame;
@@ -758,6 +757,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "retrieve_item", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.MONSTER_TYPE };
+		functions.add( new LibraryFunction( "faxbot", DataTypes.BOOLEAN_TYPE, params ) );
+		
+		params = new Type[] { DataTypes.MONSTER_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "faxbot", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.MONSTER_TYPE };
@@ -4033,41 +4035,51 @@ public abstract class RuntimeLibrary
 		return DataTypes.makeBooleanValue( InventoryManager.retrieveItem( ItemPool.get( (int) item.intValue(), count ) ) );
 	}
 
-	public static Value faxbot( Interpreter interpreter, final Value arg )
+	public static Value faxbot( Interpreter interpreter, final Value monsterName, final Value botName)
 	{
-		MonsterData monster = (MonsterData) arg.rawValue();
+		MonsterData monster = (MonsterData) monsterName.rawValue();
+
 		if ( monster == null )
 		{
 			return DataTypes.FALSE_VALUE;
 		}
 
 		FaxBotDatabase.configure();
+		
+		FaxBot bot = FaxBotDatabase.getFaxbot( botName.toString() );
 
-		String actualName = monster.getName();
+		if ( bot == null )
+		{
+			return DataTypes.FALSE_VALUE;
+		}
+
+		return DataTypes.makeBooleanValue( bot.request( monster ) );
+	}
+
+	public static Value faxbot( Interpreter interpreter, final Value monsterName )
+	{
+		MonsterData monster = (MonsterData) monsterName.rawValue();
+
+		if ( monster == null )
+		{
+			return DataTypes.FALSE_VALUE;
+		}
+		
+		FaxBotDatabase.configure();
+
 		for ( FaxBot bot : FaxBotDatabase.faxbots )
 		{
 			if ( bot == null )
 			{
 				continue;
 			}
+			
+			boolean result = bot.request( monster );
 
-			String botName = bot.getName();
-			if ( botName == null )
+			if ( result == true )
 			{
-				continue;
+				return DataTypes.TRUE_VALUE;
 			}
-
-			Monster monsterObject = bot.getMonsterByActualName( actualName );
-			if ( monsterObject == null )
-			{
-				continue;
-			}
-
-			if ( !FaxRequestFrame.isBotOnline( botName ) )
-			{
-				continue;
-			}
-			return DataTypes.makeBooleanValue( FaxRequestFrame.requestFax( botName, monsterObject, false ) );
 		}
 		return DataTypes.FALSE_VALUE;
 	}
