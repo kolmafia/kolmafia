@@ -4441,7 +4441,7 @@ public abstract class KoLCharacter
 
 	public static final boolean knollAvailable()
 	{
-		return KoLCharacter.ascensionSignZone == ZodiacZone.KNOLL && !Limitmode.limitZone( "MusSign" );
+		return KoLCharacter.ascensionSignZone == ZodiacZone.KNOLL && !Limitmode.limitZone( "MusSign" ) && !KoLCharacter.isKingdomOfExploathing();
 	}
 
 	/**
@@ -4456,7 +4456,7 @@ public abstract class KoLCharacter
 
 	public static final boolean canadiaAvailable()
 	{
-		return KoLCharacter.ascensionSignZone == ZodiacZone.CANADIA && !Limitmode.limitZone( "Little Canadia" );
+		return KoLCharacter.ascensionSignZone == ZodiacZone.CANADIA && !Limitmode.limitZone( "Little Canadia" ) && !KoLCharacter.isKingdomOfExploathing();
 	}
 
 	/**
@@ -4470,7 +4470,7 @@ public abstract class KoLCharacter
 
 	public static final boolean gnomadsAvailable()
 	{
-		return KoLCharacter.ascensionSignZone == ZodiacZone.GNOMADS && KoLCharacter.desertBeachAccessible();
+		return (KoLCharacter.ascensionSignZone == ZodiacZone.GNOMADS) && KoLCharacter.desertBeachAccessible() && !KoLCharacter.isKingdomOfExploathing();
 	}
 
 	/**
