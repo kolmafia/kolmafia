@@ -53,11 +53,14 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.session.ContactManager;
+
+import net.sourceforge.kolmafia.swingui.FaxRequestFrame;
 
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -162,6 +165,23 @@ public class FaxBotDatabase
 		return ( i < 0 || i >= faxbots.size() ) ? null : FaxBotDatabase.faxbots.get(i);
 	}
 
+	public static final FaxBot getFaxbot( final String botName )
+	{
+		for ( FaxBot bot : faxbots )
+		{
+			if (bot == null)
+			{
+				continue;
+			}
+			if (bot.name.equalsIgnoreCase(botName))
+			{
+				return bot;
+			}
+		}
+		
+		return null;
+	}
+
 	public static final String botName( final int i )
 	{
 		FaxBot bot = FaxBotDatabase.getFaxbot( i );
@@ -227,6 +247,31 @@ public class FaxBotDatabase
 		public LockableListModel<Monster> [] getMonstersByCategory()
 		{
 			return this.monstersByCategory;
+		}
+		
+		public boolean request( final MonsterData monster )
+		{
+			String name = this.getName();
+
+			if ( name == null )
+			{
+				return false;
+			}
+
+			String monsterName = monster.getName();
+
+			Monster monsterObject = this.getMonsterByActualName( monsterName );
+			if ( monsterObject == null )
+			{
+				return false;
+			}
+
+			if ( !FaxRequestFrame.isBotOnline( name ) )
+			{
+				return false;
+			}
+
+			return FaxRequestFrame.requestFax( name, monsterObject, false );
 		}
 
 		public Monster getMonsterByActualName( final String actualName )
