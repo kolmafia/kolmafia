@@ -1629,6 +1629,21 @@ public class CoinmastersFrame
 			super.update();
 			this.setEnabled( this.data.isAccessible() );
 		}
+
+		@Override
+		public void setTitle( final StringBuffer buffer )
+		{
+			this.standardTitle( buffer );
+			for ( AdventureResult currency : this.data.currencies() )
+			{
+				int count = currency.isMeat() ? KoLCharacter.getAvailableMeat() : InventoryManager.getCount( currency );
+				buffer.append( " (" );
+				buffer.append( String.valueOf( count ) );
+				buffer.append( " " );
+				buffer.append( currency.getPluralName( count ) );
+				buffer.append( ")" );
+			}
+		}
 	}
 
 	public abstract class CoinmasterPanel
