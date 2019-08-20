@@ -1216,6 +1216,10 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_etchedHourglassUsed" ) ? 0 : 1;
 
+		case ItemPool.SEWING_KIT:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_sewingKitUsed" ) ? 0 : 1;
+
 		}
 
 		if ( restorationMaximum < Integer.MAX_VALUE )
@@ -6335,6 +6339,10 @@ public class UseItemRequest
 				return;
 			}
 
+			break;
+
+		case ItemPool.SEWING_KIT:
+			Preferences.setBoolean( "_sewingKitUsed", true );
 			break;
 		}
 

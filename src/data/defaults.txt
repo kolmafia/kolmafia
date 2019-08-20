@@ -1715,6 +1715,7 @@ user	_sealFigurineUses	0
 user	_sealScreeches	0
 user	_sealsSummoned	0
 user	_setOfJacksUsed	false
+user	_sewingKitUsed	false
 user	_sexChanged	false
 user	_shatteringPunchUsed	0
 user	_shrubCharge	0
