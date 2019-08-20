@@ -4,6 +4,8 @@
 Town	Town	Seaside Town
 Casino	Town	Seaside Casino
 
+Exploathing	Exploathing	Kingdom of Exploathing
+
 Manor	Town	Spookyraven Manor
 Manor0	Manor	Spookyraven (Cellar)
 Manor1	Manor	Spookyraven (First Floor)

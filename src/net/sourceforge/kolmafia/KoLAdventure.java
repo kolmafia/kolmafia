@@ -660,6 +660,12 @@ public class KoLAdventure
 
 		if ( this.adventureId.equals( AdventurePool.HIDDEN_TEMPLE_ID ) )
 		{
+			if ( KoLCharacter.isKingdomOfExploathing() )
+			{
+				this.isValidAdventure = true;
+				return;
+			}
+
 			boolean unlocked = KoLCharacter.getTempleUnlocked();
 			if ( !unlocked )
 			{
@@ -848,6 +854,7 @@ public class KoLAdventure
 		if ( this.adventureId.equals( AdventurePool.HOLE_IN_THE_SKY_ID ) )
 		{
 			this.isValidAdventure =
+				KoLCharacter.isKingdomOfExploathing() ||
 				InventoryManager.hasItem( ItemPool.get( ItemPool.ROCKETSHIP, 1 ) ) ||
 				InventoryManager.hasItem( ItemPool.get( ItemPool.ROWBOAT, 1 ) );
 			return;
@@ -858,6 +865,12 @@ public class KoLAdventure
 
 		if ( this.adventureId.equals( AdventurePool.AIRSHIP_ID ) && !QuestDatabase.isQuestLaterThan( Quest.GARBAGE, QuestDatabase.STARTED ) )
 		{
+			if ( KoLCharacter.isKingdomOfExploathing() )
+			{
+				this.isValidAdventure = false;
+				return;
+			}
+
 			// If the character is not at least level 10, they have
 			// no chance to get to the beanstalk
 			if ( KoLCharacter.getLevel() < 10 )
@@ -1159,6 +1172,12 @@ public class KoLAdventure
 
 		if ( this.adventureId.equals( AdventurePool.SPACEGATE_ID ) )
 		{
+			if ( KoLCharacter.isKingdomOfExploathing() )
+			{
+				this.isValidAdventure = false;
+				return;
+			}
+
 			boolean unlocked = Preferences.getBoolean( "spacegateAlways" ) || Preferences.getBoolean( "_spacegateToday" );
 			if ( !unlocked )
 			{

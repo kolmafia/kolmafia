@@ -4503,16 +4503,21 @@ public abstract class KoLCharacter
 
 	public static final boolean desertBeachAccessible()
 	{
+		if ( KoLCharacter.isKingdomOfExploathing() )
+		{
+			return false;
+		}
+
 		// Temporary code to allow Mafia to catch up with the fact that unlock is a flag
 		if ( Preferences.getInteger( "lastDesertUnlock" ) != KoLCharacter.getAscensions() )
 		{
 			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.BITCHIN_MEATCAR, 1 ) ) ||
-				KoLConstants.inventory.contains( ItemPool.get( ItemPool.DESERT_BUS_PASS, 1 ) ) ||
-				KoLConstants.inventory.contains( ItemPool.get( ItemPool.PUMPKIN_CARRIAGE, 1 ) ) ||
-				KoLConstants.inventory.contains( ItemPool.get( ItemPool.TIN_LIZZIE, 1 ) ) ||
-				Preferences.getString( "peteMotorbikeGasTank" ).equals( "Large Capacity Tank" ) ||
-				Preferences.getString( "questG01Meatcar" ).equals( "finished" ) ||
-				KoLCharacter.kingLiberated() || KoLCharacter.isEd() )
+			     KoLConstants.inventory.contains( ItemPool.get( ItemPool.DESERT_BUS_PASS, 1 ) ) ||
+			     KoLConstants.inventory.contains( ItemPool.get( ItemPool.PUMPKIN_CARRIAGE, 1 ) ) ||
+			     KoLConstants.inventory.contains( ItemPool.get( ItemPool.TIN_LIZZIE, 1 ) ) ||
+			     Preferences.getString( "peteMotorbikeGasTank" ).equals( "Large Capacity Tank" ) ||
+			     Preferences.getString( "questG01Meatcar" ).equals( "finished" ) ||
+			     KoLCharacter.kingLiberated() || KoLCharacter.isEd() )
 			{
 				Preferences.setInteger( "lastDesertUnlock", KoLCharacter.getAscensions() );
 			}
@@ -4535,6 +4540,11 @@ public abstract class KoLCharacter
 
 	public static final boolean mysteriousIslandAccessible()
 	{
+		if ( KoLCharacter.isKingdomOfExploathing() )
+		{
+			return false;
+		}
+
 		// Temporary code to allow Mafia to catch up with the fact that unlock is a flag
 		if ( Preferences.getInteger( "lastIslandUnlock" ) != KoLCharacter.getAscensions() )
 		{

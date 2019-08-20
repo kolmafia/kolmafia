@@ -289,6 +289,11 @@ public class NPCStoreDatabase
 		}
 		else if ( storeId.equals( "hippy" ) )
 		{
+			if ( KoLCharacter.isKingdomOfExploathing() )
+			{
+				return false;
+			}
+
 			int level = KoLCharacter.getLevel();
 
 			if ( shopName.equals( "Hippy Store (Pre-War)" ) )
@@ -415,6 +420,11 @@ public class NPCStoreDatabase
 		else if ( storeId.equals( "town_giftshop.php" ) )
 		{
 			// Gift Shop
+			if ( KoLCharacter.inBadMoon() || KoLCharacter.isKingdomOfExploathing() )
+			{
+				return false;
+			}
+
 			// Some items restricted, because of holidays or number of ascensions
 			String holiday = HolidayDatabase.getHoliday();
 			int asc = KoLCharacter.getAscensions();
@@ -545,7 +555,7 @@ public class NPCStoreDatabase
 		else if ( storeId.equals( "meatsmith" ) )
 		{
 			// Meatsmith's Shop
-			return !KoLCharacter.inZombiecore() && !KoLCharacter.inNuclearAutumn();
+			return !KoLCharacter.inZombiecore() && !KoLCharacter.inNuclearAutumn() && !KoLCharacter.isKingdomOfExploathing();
 		}
 		else if ( storeId.equals( "whitecitadel" ) )
 		{
@@ -558,7 +568,7 @@ public class NPCStoreDatabase
 		}
 		else if ( storeId.equals( "armory" ) )
 		{
-			if ( KoLCharacter.inZombiecore() || KoLCharacter.inNuclearAutumn() )
+			if ( KoLCharacter.inZombiecore() || KoLCharacter.inNuclearAutumn() || KoLCharacter.isKingdomOfExploathing() )
 			{
 				return false;
 			}
@@ -572,17 +582,13 @@ public class NPCStoreDatabase
 		{
 			return false;
 		}
-		else if ( shopName.equals( "Gift Shop" ) )
-		{
-			return !KoLCharacter.inBadMoon();
-		}
 		else if ( storeId.equals( "hiddentavern" ) )
 		{
 			return Preferences.getInteger( "hiddenTavernUnlock" ) == KoLCharacter.getAscensions();
 		}
 		else if ( storeId.equals( "doc" ) )
 		{
-			if ( KoLCharacter.inZombiecore() || KoLCharacter.inNuclearAutumn() )
+			if ( KoLCharacter.inZombiecore() || KoLCharacter.inNuclearAutumn() || KoLCharacter.isKingdomOfExploathing() )
 			{
 				return false;
 			}
@@ -593,6 +599,10 @@ public class NPCStoreDatabase
 		}
 		else if ( storeId.equals( "mystic" ) )
 		{
+			if ( KoLCharacter.isKingdomOfExploathing() )
+			{
+				return false;
+			}
 			if ( itemId == ItemPool.YELLOW_SUBMARINE )
 			{
 				return !KoLCharacter.desertBeachAccessible();

@@ -1603,6 +1603,13 @@ public abstract class UseLinkDecorator
 		}
 	}
 
+	private static String gnasir()
+	{
+		return  KoLCharacter.isKingdomOfExploathing() ?
+			"place.php?whichplace=exploathing_beach&action=expl_gnasir" :
+			"place.php?whichplace=desertbeach&action=db_gnasir";
+	}
+
 	private static final UseLink getNavigationLink( int itemId, String location )
 	{
 		String useType = null;
@@ -2053,7 +2060,7 @@ public abstract class UseLinkDecorator
 
 		case ItemPool.STONE_ROSE:
 			useType = "gnasir";
-			useLocation = "place.php?whichplace=desertbeach&action=db_gnasir";
+			useLocation = UseLinkDecorator.gnasir();
 			break;
 
 		case ItemPool.WORM_RIDING_MANUAL_PAGE:
@@ -2061,7 +2068,7 @@ public abstract class UseLinkDecorator
 			int count = InventoryManager.getCount( itemId );
 			return count < 15 ?
 				new UseLink( itemId, count ) :
-				new UseLink( itemId, count, "gnasir", "place.php?whichplace=desertbeach&action=db_gnasir" );
+				new UseLink( itemId, count, "gnasir", UseLinkDecorator.gnasir() );
 		}
 
 		case ItemPool.FIRST_PIZZA:
