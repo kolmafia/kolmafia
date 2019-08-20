@@ -1726,9 +1726,18 @@ public abstract class UseLinkDecorator
 		case ItemPool.GREEN_PIXEL:
 		case ItemPool.BLUE_PIXEL:
 
-			int whiteCount = CreateItemRequest.getInstance( ItemPool.WHITE_PIXEL ).getQuantityPossible() + InventoryManager.getCount( ItemPool.WHITE_PIXEL );
-			useType = whiteCount + " white";
-			useLocation = "place.php?whichplace=forestvillage&action=fv_mystic";
+			if ( KoLCharacter.isKingdomOfExploathing() )
+			{
+				int whiteCount = InventoryManager.getCount( ItemPool.WHITE_PIXEL );
+				useType = whiteCount + " white";
+				useLocation = "shop.php?whichshop=exploathing";
+			}
+			else
+			{
+				int whiteCount = CreateItemRequest.getInstance( ItemPool.WHITE_PIXEL ).getQuantityPossible() + InventoryManager.getCount( ItemPool.WHITE_PIXEL );
+				useType = whiteCount + " white";
+				useLocation = "place.php?whichplace=forestvillage&action=fv_mystic";
+			}
 			break;
 
 		// Special handling for star charts, lines, and stars, where
