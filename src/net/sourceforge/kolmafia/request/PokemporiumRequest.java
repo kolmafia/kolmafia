@@ -51,7 +51,13 @@ public class PokemporiumRequest
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( PokemporiumRequest.master );
 	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( PokemporiumRequest.master );
 	private static final Pattern POKEDOLLAR_PATTERN = Pattern.compile( "([\\d,]+) 1,960 pok&eacute;dollar bills" );
-	public static final AdventureResult POKEDOLLAR = ItemPool.get( ItemPool.POKEDOLLAR_BILLS, 1 );
+	public static final AdventureResult POKEDOLLAR = new AdventureResult( ItemPool.POKEDOLLAR_BILLS, 1, false ) {
+			@Override
+			public String getPluralName( int price )
+			{
+				return price == 1 ? "pok&eacute;dollar bill" : "pok&eacute;dollar bills";
+			}
+		};
 
 	public static final CoinmasterData POKEMPORIUM =
 		new CoinmasterData(
@@ -88,6 +94,11 @@ public class PokemporiumRequest
 				return KoLCharacter.inPokefam();
 			}
 		};
+
+	static
+	{
+		POKEMPORIUM.plural = "pok&eacute;dollar bills";
+	};
 
 	public PokemporiumRequest()
 	{
