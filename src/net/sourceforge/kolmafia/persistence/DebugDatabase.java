@@ -1465,7 +1465,7 @@ public class DebugDatabase
 		StringUtilities.globalStringDelete(
 			enchantments,
 			"<b>NOTE:</b> Items that reduce the MP cost of skills will not do so by more than 3 points, in total." );
-		StringUtilities.globalStringReplace( enchantments, "</font><br>", "<br></font>" );
+		// StringUtilities.globalStringReplace( enchantments, "</font><br>", "<br></font>" );
 		StringUtilities.globalStringReplace( enchantments, "<br>", "\n" );
 		StringUtilities.globalStringReplace( enchantments, "<Br>", "\n" );
 		// Following from bogus HTML in Two Crazy Random Summer
