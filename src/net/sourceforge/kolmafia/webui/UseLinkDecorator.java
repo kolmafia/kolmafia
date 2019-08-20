@@ -2010,8 +2010,16 @@ public abstract class UseLinkDecorator
 
 		case ItemPool.FORGED_ID_DOCUMENTS:
 
-			useType = "vacation";
-			useLocation = "adventure.php?snarfblat=355";
+			if ( KoLCharacter.isKingdomOfExploathing() )
+			{
+				useType = "council";
+				useLocation = "place.php?whichplace=exploathing&action=expl_council";
+			}
+			else
+			{
+				useType = "vacation";
+				useLocation = "adventure.php?snarfblat=355";
+			}
 			break;
 
 		case ItemPool.ZEPPELIN_TICKET:
