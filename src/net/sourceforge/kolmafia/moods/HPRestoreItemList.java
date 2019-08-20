@@ -82,7 +82,7 @@ public abstract class HPRestoreItemList
 
 	private static final HPRestoreItem SOFA = new HPRestoreItem( "sleep on your clan sofa", Integer.MAX_VALUE );
 	private static final HPRestoreItem CHATEAU = new HPRestoreItem( "rest at the chateau", 250 );
-	private static final HPRestoreItem CAMPAWAY = new HPRestoreItem( "rest in your campaway tent", 225 );
+	private static final HPRestoreItem CAMPAWAY = new HPRestoreItem( "rest in your campaway tent", 300 );
 	private static final HPRestoreItem CAMPGROUND = new HPRestoreItem( "rest at your campground", 40 );
 	private static final HPRestoreItem FREEREST = new HPRestoreItem( "free rest", 40 );
 	private static final HPRestoreItem DISCONAP = new HPRestoreItem( "Disco Nap", 20 );
@@ -104,8 +104,8 @@ public abstract class HPRestoreItemList
 	public static final HPRestoreItem[] CONFIGURES = new HPRestoreItem[]
 	{
 		HPRestoreItemList.SOFA,
-		HPRestoreItemList.CHATEAU,
 		HPRestoreItemList.CAMPAWAY,
+		HPRestoreItemList.CHATEAU,
 		HPRestoreItemList.CAMPGROUND,
 		HPRestoreItemList.FREEREST,
 		HPRestoreItemList.HERBS,
