@@ -1125,6 +1125,15 @@ public class CoinmastersFrame
 		{
 			super( PokemporiumRequest.POKEMPORIUM );
 		}
+
+		@Override
+		public void setTitle( final StringBuffer buffer )
+		{
+			this.standardTitle( buffer );
+			String title = buffer.toString();
+			buffer.setLength( 0 );
+			buffer.append( StringUtilities.getEntityDecode( title ) );
+		}
 	}
 
 	public class TicketCounterPanel
@@ -1451,6 +1460,15 @@ public class CoinmastersFrame
 		public RubeePanel()
 		{
 			super( RubeeRequest.RUBEE );
+		}
+
+		@Override
+		public void setTitle( final StringBuffer buffer )
+		{
+			this.standardTitle( buffer );
+			String title = buffer.toString();
+			buffer.setLength( 0 );
+			buffer.append( StringUtilities.getEntityDecode( title ) );
 		}
 	}
 
