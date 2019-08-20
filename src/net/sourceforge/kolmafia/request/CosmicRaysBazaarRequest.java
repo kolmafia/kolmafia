@@ -63,7 +63,6 @@ public class CosmicRaysBazaarRequest
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getNewMap();
 	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( CosmicRaysBazaarRequest.master );
 
-	private static final Pattern TOKEN_PATTERN = Pattern.compile( "([\\d,]+) rare Meat isotopes?" );
 	public static final AdventureResult RARE_MEAT_ISOTOPE = ItemPool.get( ItemPool.RARE_MEAT_ISOTOPE, 1 );
 	public static final AdventureResult WHITE_PIXEL = ItemPool.get( ItemPool.WHITE_PIXEL, 1 );
 	public static final AdventureResult FAT_LOOT_TOKEN = ItemPool.get( ItemPool.FAT_LOOT_TOKEN, 1 );
@@ -85,11 +84,11 @@ public class CosmicRaysBazaarRequest
 			CosmicRaysBazaarRequest.master,
 			"exploathing",
 			CosmicRaysBazaarRequest.class,
-			"rare Meat isotope",
-			"no rare Meat isotopes",
+			null,
+			null,
 			false,
-			CosmicRaysBazaarRequest.TOKEN_PATTERN,
-			CosmicRaysBazaarRequest.RARE_MEAT_ISOTOPE,
+			null,
+			null,
 			null,
 			CosmicRaysBazaarRequest.itemRows,
 			"shop.php?whichshop=exploathing",
