@@ -7324,7 +7324,7 @@
 7297	Professor What T-Shirt	665245234	btee3.gif	shirt	t,d	10
 7298	heavy-duty bendy straw	540002924	bendystraw.gif	none	q	0
 7299	pellet of plant food	342274913	pellet.gif	none	q	0
-7300	sewing kit	386978970	sewingkit.gif	usable		0
+7300	sewing kit	386978970	sewingkit.gif	reusable		0
 7301	Spookyraven billiards room key	481640214	srkey4.gif	none	q	0
 7302	Spookyraven library key	382709011	srkey1.gif	none	q	0
 7303	Lady Spookyraven's necklace	186449199	srnecklace.gif	none	q	0
