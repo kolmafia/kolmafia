@@ -41,7 +41,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CouncilCommand
 	extends AbstractCommand
 {
-	public static final CouncilRequest COUNCIL_VISIT = new CouncilRequest();
+	public static CouncilRequest COUNCIL_VISIT = new CouncilRequest();
 
 	public CouncilCommand()
 	{
@@ -51,9 +51,10 @@ public class CouncilCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		RequestThread.postRequest( CouncilCommand.COUNCIL_VISIT );
+		COUNCIL_VISIT = new CouncilRequest();
+		RequestThread.postRequest( COUNCIL_VISIT );
 
 		KoLmafiaCLI.showHTML( StringUtilities.singleStringReplace(
-			CouncilCommand.COUNCIL_VISIT.responseText, "<a href=\"town.php\">Back to Seaside Town</a>", "" ) );
+			COUNCIL_VISIT.responseText, "<a href=\"town.php\">Back to Seaside Town</a>", "" ) );
 	}
 }

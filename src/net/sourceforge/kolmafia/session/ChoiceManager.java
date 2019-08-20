@@ -17756,6 +17756,7 @@ public abstract class ChoiceManager
 		case 1335: // Boxing Day Spa
 		case 1336: // Boxing Daycare
 		case 1339: // A Little Pump and Grind
+		case 1389: // The Council of Exploathing
 			return true;
 
 		default:

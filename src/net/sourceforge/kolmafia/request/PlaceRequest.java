@@ -669,6 +669,27 @@ public class PlaceRequest
 				// message = "Visiting the Small Pyramid";
 			}
 		}
+		else if ( place.equals( "exploathing" ) )
+		{
+			if ( action.equals( "expl_council" ) )
+			{
+				message = "Visiting The Council";
+			}
+		}
+		else if ( place.equals( "exploathing_beach" ) )
+		{
+			if ( action.equals( "expl_gnasir" ) )
+			{
+				message = "Talking to Gnasir";
+			}
+			else if ( action.equals( "expl_pyramidpre" ) )
+			{
+				// message = "Visiting the Small Pyramid";
+			}
+		}
+		else if ( place.equals( "exploathing_other" ) )
+		{
+		}
 		else if ( place.equals( "forestvillage" ) )
 		{
 			if ( action.equals( "fv_friar" ) )
@@ -711,9 +732,18 @@ public class PlaceRequest
 				message = "Visiting Rumplestiltskin's Workshop";
 			}
 		}
+		else if ( place.equals( "kgb" ) )
+		{
+			// Kremlin's Greatest Briefcase is a "place"
+			if ( action.equals( "" ) )
+			{
+				message = "Examining Kremlin's Greatest Briefcase";
+			}
+		}
 		else if ( place.equals( "manor1" ) )
 		{
-			if ( action.equals( "manor1lock_billiards" ) ||
+			if ( action.equals( "manor1lock_kitchen" ) ||
+			     action.equals( "manor1lock_billiards" ) ||
 			     action.equals( "manor1lock_library" ) ||
 			     action.equals( "manor1lock_stairsup" ) )
 			{

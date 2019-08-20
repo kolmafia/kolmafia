@@ -33,7 +33,10 @@
 
 package net.sourceforge.kolmafia.swingui;
 
-import net.sourceforge.kolmafia.textui.command.CouncilCommand;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import net.sourceforge.kolmafia.request.CouncilRequest;
 
 public class CouncilFrame
 	extends RequestFrame
@@ -50,8 +53,7 @@ public class CouncilFrame
 
 		if ( isVisible )
 		{
-			CouncilCommand.COUNCIL_VISIT.responseText = null;
-			this.displayRequest( CouncilCommand.COUNCIL_VISIT );
+			this.displayRequest( new CouncilRequest() );
 		}
 	}
 
@@ -61,11 +63,16 @@ public class CouncilFrame
 		return false;
 	}
 
+	private static final Pattern FORM_PATTERN = Pattern.compile( "(<form.*?</form>)", Pattern.DOTALL );
+
 	@Override
 	public String getDisplayHTML( final String responseText )
 	{
+		Matcher matcher = FORM_PATTERN.matcher( responseText );
+		String form = matcher.find() ? matcher.group( 0 ) : "";
 		return super.getDisplayHTML( responseText )
 			.replaceFirst( "<a href=\"town.php\">Back to Seaside Town</a>", "" )
+			.replaceFirst( form, "" )
 			.replaceFirst( "table width=95%", "table width=100%" );
 	}
 }

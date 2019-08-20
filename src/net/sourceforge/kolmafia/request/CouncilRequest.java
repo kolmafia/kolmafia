@@ -33,12 +33,25 @@
 
 package net.sourceforge.kolmafia.request;
 
+import net.sourceforge.kolmafia.KoLCharacter;
+
 public class CouncilRequest
 	extends GenericRequest
 {
 	public CouncilRequest()
 	{
-		super( "council.php" );
+		super( KoLCharacter.isKingdomOfExploathing() ? "place.php" : "council.php" );
+		if ( KoLCharacter.isKingdomOfExploathing() )
+		{
+			this.addFormField( "whichplace", "exploathing" );
+			this.addFormField( "action", "expl_council" );
+		}
+	}
+
+	@Override
+	protected boolean shouldFollowRedirect()
+	{
+		return KoLCharacter.isKingdomOfExploathing();
 	}
 
 	@Override

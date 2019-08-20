@@ -228,6 +228,11 @@ public class FloristRequest
 			return;
 		}
 
+		if ( KoLCharacter.isKingdomOfExploathing() )
+		{
+			return;
+		}
+
 		if ( KoLCharacter.getLevel() < 2 )
 		{
 			return;
