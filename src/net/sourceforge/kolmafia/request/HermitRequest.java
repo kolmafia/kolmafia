@@ -537,6 +537,10 @@ public class HermitRequest
 
 	public static String accessible()
 	{
+		if ( KoLCharacter.isKingdomOfExploathing() )
+		{
+			return "The Hermitage exploded";
+		}
 		return null;
 	}
 

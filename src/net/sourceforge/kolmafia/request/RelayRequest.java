@@ -2219,6 +2219,12 @@ public class RelayRequest
 		// Sometimes, people want the MCD rewards from various boss monsters.
 		// Let's help out.
 
+		// No MCD if the Kingdom exploded
+		if ( KoLCharacter.isKingdomOfExploathing() )
+		{
+			return false;
+		}
+
 		// This one's for Baron von Ratsworth, who has special items at 2 and 9.
 		if ( path.startsWith( "cellar.php" ) )
 		{

@@ -41,6 +41,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.KoLCharacter;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -157,6 +158,10 @@ public class VendingMachineRequest
 
 	public static String accessible()
 	{
+		if ( KoLCharacter.isKingdomOfExploathing() )
+		{
+			return "The vending machine exploded";
+		}
 		return null;
 	}
 

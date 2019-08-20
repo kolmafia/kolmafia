@@ -1819,27 +1819,30 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.EXPENSIVE );
 		}
 
-		// Star charts and pixel chart recipes are available to all
-		// players at all times.
+		// Star chart recipes are always available to all players.
 
 		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.STARCHART );
-		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.PIXEL );
 		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.MULTI_USE );
 		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.SINGLE_USE );
 		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.SUGAR_FOLDING );
 
 		ConcoctionDatabase.CREATION_COST.put( CraftingType.STARCHART, 0 );
-		ConcoctionDatabase.CREATION_COST.put( CraftingType.PIXEL, 0 );
 		ConcoctionDatabase.CREATION_COST.put( CraftingType.MULTI_USE, 0 );
 		ConcoctionDatabase.CREATION_COST.put( CraftingType.SINGLE_USE, 0 );
 		ConcoctionDatabase.CREATION_COST.put( CraftingType.SUGAR_FOLDING, 0 );
 
 		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.STARCHART, 0 );
-		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.PIXEL, 0 );
 		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.MULTI_USE, 0 );
 		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.SINGLE_USE, 0 );
 		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.SUGAR_FOLDING, 0 );
 
+		// Pixel recipes are not available in Kingdom of Exploathing
+		if ( !KoLCharacter.isKingdomOfExploathing() )
+		{
+			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.PIXEL );
+			ConcoctionDatabase.CREATION_COST.put( CraftingType.PIXEL, 0 );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.PIXEL, 0 );
+		}
 
 		// A rolling pin or unrolling pin can be always used in item
 		// creation because we can get the same effect even without the

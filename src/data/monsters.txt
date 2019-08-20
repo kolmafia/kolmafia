@@ -2472,6 +2472,8 @@ Mob Penguin union rail worker	2031	pengthug.gif	Scale: 6 Cap: 1000 Floor: 10 Ini
 tree hugging hippy protestor	2066	limphippy1.gif	Scale: 6 Cap: 1000 Floor: 10 Init: 50 P: hippy E: stench	&quot;Remember the Trees&quot; Shirt (0)
 tree loving hippy protestor	2086	limphippy2.gif	Scale: 6 Cap: 1000 Floor: 10 Init: 50 P: hippy E: stench	deadfall branch (0)
 
+# Kingdom of Exploathing
+
 # Retired Standard Monsters
 Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation Manuel: "Astronomer" Wiki: "Astronomer"	star chart (100)
 possessed wine rack (obsolete)	454	winerack.gif	Atk: 158 Def: 146 HP: 165 Init: 40 E: spooky P: construct Manuel: "possessed wine rack" Wiki: "possessed wine rack"

@@ -1437,6 +1437,10 @@ public class Maximizer
 					{
 						continue;
 					}
+					if ( KoLCharacter.isKingdomOfExploathing() )
+					{
+						continue;
+					}
 					boolean available = Preferences.getBoolean( "spacegateAlways" ) || Preferences.getBoolean( "_spacegateToday" );
 					String number = cmd.substring( cmd.length() - 1 );
 					String setting = "spacegateVaccine" + number;
