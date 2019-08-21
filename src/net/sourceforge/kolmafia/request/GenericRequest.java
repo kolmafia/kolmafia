@@ -1468,7 +1468,8 @@ public class GenericRequest
 			return true;
 		}
 
-		if ( location.startsWith( "place.php?whichplace=desertbeach&action=db_pyramid1" ) )
+		if ( location.startsWith( "place.php?whichplace=desertbeach&action=db_pyramid1" ) ||
+		     location.startsWith( "place.php?whichplace=exploathing_beach&action=expl_pyramidpre" ) )
 		{
 			// This is the normal one, not the one Ed wields
 			ResultProcessor.autoCreate( ItemPool.STAFF_OF_ED );

@@ -1298,7 +1298,12 @@ public class RelayRequest
 
 		// If they have compass or ornate dowsing rod equipped, no problem
 		if ( KoLCharacter.hasEquipped( ItemPool.UV_RESISTANT_COMPASS , EquipmentManager.OFFHAND ) ||
-			KoLCharacter.hasEquipped( ItemPool.DOWSING_ROD , EquipmentManager.OFFHAND ) )
+		     KoLCharacter.hasEquipped( ItemPool.DOWSING_ROD , EquipmentManager.OFFHAND ) )
+		{
+			return false;
+		}
+		// Since The Shore is unavailable in Kingdom of Exploathing and you can't get one, so no problem
+		if ( KoLCharacter.isKingdomOfExploathing() )
 		{
 			return false;
 		}

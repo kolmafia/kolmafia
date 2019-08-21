@@ -347,6 +347,17 @@ public class QuestManager
 					handleBeachChange( responseText );
 				}
 			}
+			else if ( location.contains( "whichplace=exploathing_beach" ) )
+			{
+				if ( location.contains( "action=expl_pyramidpre" ) )
+				{
+					handlePyramidChange( location, responseText );
+				}
+				else
+				{
+					handleBeachChange( responseText );
+				}
+			}
 			else if ( location.contains( "whichplace=gingerbreadcity" ) )
 			{
 				handleGingerbreadCityChange( location, responseText );
@@ -895,7 +906,8 @@ public class QuestManager
 
 	public static final void handlePyramidChange( final String location, final String responseText )
 	{
-		if ( location.contains( "action=db_pyramid1" ) )
+		if ( location.contains( "action=db_pyramid1" ) ||
+		     location.contains( "action=expl_pyramidpre" ))
 		{
 			// Unlock Pyramid
 			if ( responseText.contains( "the model bursts into flames and is quickly consumed" ) )
