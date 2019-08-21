@@ -977,7 +977,9 @@ public class RequestEditorKit
 			}
 			else if ( locname.contains( "A Small Pyramid" ) )
 			{
-				url = "place.php?whichplace=desertbeach&action=db_pyramid1";
+				url = KoLCharacter.isKingdomOfExploathing() ?
+					"place.php?whichplace=exploathing_beach&action=expl_pyramidpre" :
+					"place.php?whichplace=desertbeach&action=db_pyramid1";
 			}
 			else if ( locname.contains( "An Ancient Altar" ) )
 			{

@@ -654,6 +654,15 @@ public abstract class UseLinkDecorator
 		return null;
 	}
 
+	private static final UseLink getCouncilLink( int itemId )
+	{
+		return  KoLCharacter.isEd() ?
+			new UseLink( itemId, "Amun", "council.php" ) :
+			KoLCharacter.isKingdomOfExploathing() ?
+			new UseLink( itemId, "council", "place.php?whichplace=exploathing&action=expl_council" ) :
+			new UseLink( itemId, "council", "council.php" );
+	}
+
 	private static final UseLink getUseLink( int itemId, int itemCount, String location, int consumeMethod, final String text )
 	{
 		if ( !ConsumablesDatabase.meetsLevelRequirement( ItemDatabase.getItemName( itemId ) ) )
@@ -669,14 +678,7 @@ public abstract class UseLinkDecorator
 
 			if ( itemId  == ItemPool.MOSQUITO_LARVA )
 			{
-				if ( KoLCharacter.isEd() )
-				{
-					return new UseLink( itemId, "Amun", "council.php" );
-				}
-				else
-				{
-					return new UseLink( itemId, "council", "council.php" );
-				}
+				return getCouncilLink( itemId );
 			}
 
 			if ( KoLCharacter.isPicky() )
@@ -1261,14 +1263,7 @@ public abstract class UseLinkDecorator
 				// council to complete the quest.
 				if ( combatResults )
 				{
-					if ( KoLCharacter.isEd() )
-					{
-						return new UseLink( itemId, "Amun", "council.php" );
-					}
-					else
-					{
-						return new UseLink( itemId, "council", "council.php" );
-					}
+					return getCouncilLink( itemId );
 				}
 				break;
 
@@ -1644,7 +1639,9 @@ public abstract class UseLinkDecorator
 
 		case ItemPool.FAT_LOOT_TOKEN:
 			useType = String.valueOf( InventoryManager.getCount( ItemPool.FAT_LOOT_TOKEN ) );
-			useLocation = "shop.php?whichshop=damachine";
+			useLocation = KoLCharacter.isKingdomOfExploathing() ?
+				"shop.php?whichshop=exploathing" :
+				"shop.php?whichshop=damachine";
 			break;
 			
 		// Subject 37 File goes to Cell #37
@@ -1943,16 +1940,7 @@ public abstract class UseLinkDecorator
 		case ItemPool.HOLY_MACGUFFIN:
 		case ItemPool.ED_HOLY_MACGUFFIN:
 
-			if ( KoLCharacter.isEd() )
-			{
-				useType = "Amun";
-			}
-			else
-			{
-				useType = "council";
-			}
-			useLocation = "council.php";
-			break;
+			return getCouncilLink( itemId );
 
 		// Link to the Pretentious Artist when you find his last tool
 
@@ -2012,14 +2000,11 @@ public abstract class UseLinkDecorator
 
 			if ( KoLCharacter.isKingdomOfExploathing() )
 			{
-				useType = "council";
-				useLocation = "place.php?whichplace=exploathing&action=expl_council";
+				return getCouncilLink( itemId );
 			}
-			else
-			{
-				useType = "vacation";
-				useLocation = "adventure.php?snarfblat=355";
-			}
+
+			useType = "vacation";
+			useLocation = "adventure.php?snarfblat=355";
 			break;
 
 		case ItemPool.ZEPPELIN_TICKET:
