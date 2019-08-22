@@ -40,6 +40,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -62,6 +64,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
@@ -340,26 +343,32 @@ public abstract class SorceressLairManager
 		{
 			SorceressLairManager.BORIS_KEY,
 			"ns_lock1",
+			true,
 		},
 		{
 			SorceressLairManager.JARLSBERG_KEY,
 			"ns_lock2",
+			true,
 		},
 		{
 			SorceressLairManager.SNEAKY_PETE_KEY,
 			"ns_lock3",
+			true,
 		},
 		{
 			SorceressLairManager.STAR_KEY,
 			"ns_lock4",
+			false,
 		},
 		{
 			SorceressLairManager.DIGITAL_KEY,
 			"ns_lock5",
+			true,
 		},
 		{
 			SorceressLairManager.SKELETON_KEY,
 			"ns_lock6",
+			false,
 		},
 	};
 
@@ -1405,10 +1414,29 @@ public abstract class SorceressLairManager
 		if ( needed.size() > 0 )
 		{
 			// First acquire all needed keys
+			CoinmasterData data = CoinmasterRegistry.findCoinmaster( "Cosmic Ray's Bazaar" );
+			boolean exploathing = KoLCharacter.isKingdomOfExploathing();
 			for ( Object[] row : needed )
 			{
 				AdventureResult key = (AdventureResult) row[ 0 ];
-				if ( !InventoryManager.retrieveItem( key ) )
+				boolean special = (Boolean) row[ 2 ];
+				boolean have = InventoryManager.hasItem( key );
+				if ( !have && special && exploathing )
+				{
+					// We have to get this from Cosmic Ray's Bazaar
+					AdventureResult[] itemList = new AdventureResult[1];
+					itemList[0] = key;
+					CoinMasterRequest request = data.getRequest( true, itemList );
+					RequestThread.postRequest( request );
+					have = InventoryManager.hasItem( key );
+				}
+				else
+				{
+					// If we have the key, move it to inventory.
+					// Otherwise, acquire it.
+					have = InventoryManager.retrieveItem( key );
+				}
+				if ( !have )
 				{
 					KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to acquire " + key );
 					return;
