@@ -135,9 +135,9 @@ Regular Cloaca Cola	item	0	0	7	9	0
 sacramental wine	item	0	0	160	200	0
 sanctified cola	item	0	0	400	500	0
 scented massage oil	item	[HP]	[HP]	0	0	0
-scroll of drastic healing	item	[HP]	[HP]	0	0	0
+scroll of drastic healing	item	100000	100000	0	0	0
 sew-on bandage	item	300	300	0	0	0
-sewing kit	item	1000	1000	0	0
+sewing kit	item	1000	1000	0	0	0	[1-pref(_sewingKitUsed)]
 Shake it off	skill	[HP]	[HP]	0	0	0
 silk bandages	item	80	160	0	0	0
 soda water	item	0	0	3	5	0
