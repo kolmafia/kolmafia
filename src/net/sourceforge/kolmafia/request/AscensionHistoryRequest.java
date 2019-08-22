@@ -905,7 +905,7 @@ public class AscensionHistoryRequest
 					columns[ 8 ].contains( "g-loveheart" ) ? AscensionSnapshot.GLOVER :
 					columns[ 8 ].contains( "dd_icon" ) ? AscensionSnapshot.DISGUISES_DELIMIT :
 					columns[ 8 ].contains( "darkgift" ) ? AscensionSnapshot.DARK_GYFFTE :
-					// columns[ 8 ].contains( "exploathing" ) ? AscensionSnapshot.KINGDOM_OF_EXPLOATHING :
+					columns[ 8 ].contains( "puff" ) ? AscensionSnapshot.KINGDOM_OF_EXPLOATHING :
 					AscensionSnapshot.NOPATH;
 			}
 			catch ( Exception e )

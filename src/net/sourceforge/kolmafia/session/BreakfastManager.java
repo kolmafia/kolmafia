@@ -336,7 +336,7 @@ public class BreakfastManager
 
 	public static void getHermitClovers()
 	{
-		if ( KoLCharacter.inBadMoon() || KoLCharacter.inNuclearAutumn() || Limitmode.limitZone( "Mountain" ) )
+		if ( KoLCharacter.inBadMoon() || KoLCharacter.inNuclearAutumn() || KoLCharacter.isKingdomOfExploathing() || Limitmode.limitZone( "Mountain" ) )
 		{
 			return;
 		}
