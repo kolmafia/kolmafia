@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.CouncilRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
@@ -305,7 +306,11 @@ public class ValhallaManager
 
 		if ( Preferences.getBoolean( "autoQuest" ) )
 		{
-			RequestThread.postRequest( new PlaceRequest( "manor1" ) );
+			if ( KoLCharacter.isKingdomOfExploathing() )
+			{
+				RequestThread.postRequest( new CouncilRequest() );
+				RequestThread.postRequest( new PlaceRequest( "manor1" ) );
+			}
 			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.SPOOKYRAVEN_TELEGRAM, 1 ) ) );
 		}
 

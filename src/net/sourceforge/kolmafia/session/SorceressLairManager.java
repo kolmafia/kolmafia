@@ -83,16 +83,7 @@ public abstract class SorceressLairManager
 	private static final Pattern MAP_PATTERN = Pattern.compile( "usemap=\"#(\\w+)\"" );
 
 	// Items for the tower doorway
-	private static final AdventureResult DIGITAL_KEY = ItemPool.get( ItemPool.DIGITAL_KEY, 1 );
-	private static final AdventureResult STAR_KEY = ItemPool.get( ItemPool.STAR_KEY, 1 );
-	private static final AdventureResult SKELETON_KEY = ItemPool.get( ItemPool.SKELETON_KEY, 1 );
-	private static final AdventureResult BORIS_KEY = ItemPool.get( ItemPool.BORIS_KEY, 1 );
-	private static final AdventureResult JARLSBERG_KEY = ItemPool.get( ItemPool.JARLSBERG_KEY, 1 );
-	private static final AdventureResult SNEAKY_PETE_KEY = ItemPool.get( ItemPool.SNEAKY_PETE_KEY, 1 );
 	private static final AdventureResult UNIVERSAL_KEY = ItemPool.get( ItemPool.UNIVERSAL_KEY, 1 );
-
-	private static final AdventureResult KEY_RING = ItemPool.get( ItemPool.SKELETON_KEY_RING, 1 );
-	private static final AdventureResult BALLOON = ItemPool.get( ItemPool.BALLOON_MONKEY, 1 );
 
 	// Items for the shadow battle
 	private static final AdventureResult [] HEALING_ITEMS = new AdventureResult[]
@@ -338,65 +329,56 @@ public abstract class SorceressLairManager
 		return "(" + test + ")";
 	}
 
-	private static final Object[][] LOCK_DATA =
+
+	private static class Lock
 	{
+		final AdventureResult key;	// The key that fits the lock
+		final String action;		// The action name for the lock
+		final boolean special;		// True if normal retrieve_item will not work
+						// to get the key in Kingdom of Exploathing
+
+		public Lock( int itemId, String action, boolean special )
 		{
-			SorceressLairManager.BORIS_KEY,
-			"ns_lock1",
-			true,
-		},
-		{
-			SorceressLairManager.JARLSBERG_KEY,
-			"ns_lock2",
-			true,
-		},
-		{
-			SorceressLairManager.SNEAKY_PETE_KEY,
-			"ns_lock3",
-			true,
-		},
-		{
-			SorceressLairManager.STAR_KEY,
-			"ns_lock4",
-			false,
-		},
-		{
-			SorceressLairManager.DIGITAL_KEY,
-			"ns_lock5",
-			true,
-		},
-		{
-			SorceressLairManager.SKELETON_KEY,
-			"ns_lock6",
-			false,
-		},
+			this.key = ItemPool.get( itemId, 1 );
+			this.action = action;
+			this.special = special;
+		}
+	}
+
+	private static final Lock[] LOCK_DATA =
+	{
+		new Lock( ItemPool.BORIS_KEY, "ns_lock1", true ),
+		new Lock( ItemPool.JARLSBERG_KEY, "ns_lock2", true ),
+		new Lock( ItemPool.SNEAKY_PETE_KEY, "ns_lock3", true ),
+		new Lock( ItemPool.STAR_KEY, "ns_lock4", false ),
+		new Lock( ItemPool.DIGITAL_KEY, "ns_lock5", true ),
+		new Lock( ItemPool.SKELETON_KEY, "ns_lock6", false ),
 	};
 
-	public static AdventureResult lockToKey( final String lock )
+	public static AdventureResult actionToKey( final String action )
 	{
-		for ( Object [] row : SorceressLairManager.LOCK_DATA )
+		for ( Lock lock : SorceressLairManager.LOCK_DATA )
 		{
-			if ( lock.equals( (String) row[ 1 ] ) )
+			if ( action.equals( lock.action ) )
 			{
-				return (AdventureResult) row[ 0 ];
+				return lock.key;
 			}
 		}
 		return null;
 	}
 
-	public static String keyToLock( final AdventureResult key )
+	public static String keyToAction( final AdventureResult key )
 	{
-		return SorceressLairManager.keyToLock( key.getName() );
+		return SorceressLairManager.keyToAction( key.getName() );
 	}
 
-	public static String keyToLock( final String keyName )
+	public static String keyToAction( final String keyName )
 	{
-		for ( Object [] row : SorceressLairManager.LOCK_DATA )
+		for ( Lock lock : SorceressLairManager.LOCK_DATA )
 		{
-			AdventureResult key = (AdventureResult) row[ 0 ];
-			if ( keyName.equals( key.getName() ) )
+			if ( keyName.equals( lock.key.getName() ) )
 			{
-				return (String) row[ 1 ];
+				return lock.action;
 			}
 		}
 		return null;
@@ -662,17 +644,17 @@ public abstract class SorceressLairManager
 			return;
 		}
 
-		AdventureResult lock = SorceressLairManager.lockToKey( action );
+		AdventureResult key = SorceressLairManager.actionToKey( action );
 
-		if ( lock == null )
+		if ( key == null )
 		{
 			return;
 		}
 
-		AdventureResult key =
+		AdventureResult item =
 			responseText.contains( "universal key" ) ?
 			SorceressLairManager.UNIVERSAL_KEY :
-			lock;
+			key;
 
 		// You place Boris's key in the lock and turn it. You hear a
 		// jolly bellowing in the distance as the lock vanishes, along
@@ -705,9 +687,9 @@ public abstract class SorceressLairManager
 		     responseText.contains( "crumble to dust" ) ||
 		     responseText.contains( "the lock disappears" ) )
 		{
-			ResultProcessor.processResult( key.getNegation() );
+			ResultProcessor.processResult( item.getNegation() );
 			String keys = Preferences.getString( "nsTowerDoorKeysUsed" );
-			Preferences.setString( "nsTowerDoorKeysUsed", keys + ( keys.equals( "" ) ? "" : "," ) + lock.getDataName() );
+			Preferences.setString( "nsTowerDoorKeysUsed", keys + ( keys.equals( "" ) ? "" : "," ) + key.getDataName() );
 		}
 	}
 
@@ -716,16 +698,16 @@ public abstract class SorceressLairManager
 		// Based on which locks are absent, deduce which keys have been used.
 
 		StringBuilder buffer = new StringBuilder();
-		int keys = 0;
 
-		for ( Object [] row : SorceressLairManager.LOCK_DATA )
+		for ( Lock lock : SorceressLairManager.LOCK_DATA )
 		{
-			String lock = (String) row[ 1 ];
-			if ( !responseText.contains( lock ) )
+			if ( !responseText.contains( lock.action ) )
 			{
-				AdventureResult key = (AdventureResult) row[ 0 ];
-				buffer.append( keys++ > 0 ? "," : "" );
-				buffer.append( key.getDataName() );
+				if ( buffer.length() > 0 )
+				{
+					buffer.append( "," );
+				}
+				buffer.append( lock.key.getDataName() );
 			}
 		}
 
@@ -1400,13 +1382,12 @@ public abstract class SorceressLairManager
 
 		String keys = Preferences.getString( "nsTowerDoorKeysUsed" );
 
-		ArrayList<Object[]> needed = new ArrayList<Object[]>();
-		for ( Object[] row : SorceressLairManager.LOCK_DATA )
+		ArrayList<Lock> needed = new ArrayList<Lock>();
+		for ( Lock lock : SorceressLairManager.LOCK_DATA )
 		{
-			AdventureResult key = (AdventureResult) row[ 0 ];
-			if ( !keys.contains( key.getName() ) )
+			if ( !keys.contains( lock.key.getName() ) )
 			{
-				needed.add( row );
+				needed.add( lock );
 			}
 		}
 
@@ -1414,19 +1395,18 @@ public abstract class SorceressLairManager
 		if ( needed.size() > 0 )
 		{
 			// First acquire all needed keys
-			CoinmasterData data = CoinmasterRegistry.findCoinmaster( "Cosmic Ray's Bazaar" );
+			CoinmasterData coinmaster = CoinmasterRegistry.findCoinmaster( "Cosmic Ray's Bazaar" );
 			boolean exploathing = KoLCharacter.isKingdomOfExploathing();
-			for ( Object[] row : needed )
+			for ( Lock lock : needed )
 			{
-				AdventureResult key = (AdventureResult) row[ 0 ];
-				boolean special = (Boolean) row[ 2 ];
+				AdventureResult key = lock.key;
 				boolean have = InventoryManager.hasItem( key );
-				if ( !have && special && exploathing )
+				if ( !have && lock.special && exploathing )
 				{
 					// We have to get this from Cosmic Ray's Bazaar
 					AdventureResult[] itemList = new AdventureResult[1];
 					itemList[0] = key;
-					CoinMasterRequest request = data.getRequest( true, itemList );
+					CoinMasterRequest request = coinmaster.getRequest( true, itemList );
 					RequestThread.postRequest( request );
 					have = InventoryManager.hasItem( key );
 				}
@@ -1444,16 +1424,13 @@ public abstract class SorceressLairManager
 			}
 
 			// Then unlock each lock
-			for ( Object[] row : needed )
+			for ( Lock lock : needed )
 			{
-				AdventureResult key = (AdventureResult) row[ 0 ];
-				String keyName = key.getName();
-				String action = (String) row[ 1 ];
-				RequestThread.postRequest( new PlaceRequest( "nstower_door", action ) );
+				RequestThread.postRequest( new PlaceRequest( "nstower_door", lock.action ) );
 				keys = Preferences.getString( "nsTowerDoorKeysUsed" );
-				if ( !keys.contains( keyName ) )
+				if ( !keys.contains( lock.key.getName() ) )
 				{
-					KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to open lock using " + key );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to open lock using " + lock.key );
 					return;
 				}
 			}
