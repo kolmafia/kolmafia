@@ -881,7 +881,8 @@ public class IslandManager
 			side = delta == 1 ? "hippy" : "hippies";
 		}
 
-		return delta + " " + side + " defeated; " + current + " down, " + ( 1000 - current ) + " left.";
+		int total = KoLCharacter.isKingdomOfExploathing() ? 333 : 1000;
+		return delta + " " + side + " defeated; " + current + " down, " + ( total - current ) + " left.";
 	}
 
 	private static final int[] AREA_UNLOCK =
@@ -907,8 +908,13 @@ public class IslandManager
 
 	public static final String areaMessage( final int last, final int current )
 	{
-		final String[] areas = IslandManager.fratboy ? IslandManager.HIPPY_AREA_UNLOCK : IslandManager.FRATBOY_AREA_UNLOCK;
+		// There are no sidequests in Kingdom of Exploathing
+		if ( KoLCharacter.isKingdomOfExploathing() )
+		{
+			return null;
+		}
 
+		final String[] areas = IslandManager.fratboy ? IslandManager.HIPPY_AREA_UNLOCK : IslandManager.FRATBOY_AREA_UNLOCK;
 		for ( int i = 0; i < IslandManager.AREA_UNLOCK.length; ++i )
 		{
 			int threshold = IslandManager.AREA_UNLOCK[ i ];
@@ -950,6 +956,12 @@ public class IslandManager
 
 	public static final String heroMessage( final int last, final int current )
 	{
+		// Assume war heroes do not show up in Kingdom of Exploathing
+		if ( KoLCharacter.isKingdomOfExploathing() )
+		{
+			return null;
+		}
+
 		final String[] heroes = IslandManager.fratboy ? IslandManager.FRATBOY_HERO : IslandManager.HIPPY_HERO;
 
 		for ( int i = 0; i < IslandManager.HERO_UNLOCK.length; ++i )
@@ -1009,14 +1021,15 @@ public class IslandManager
 	{
 		String message;
 
+		int total = KoLCharacter.isKingdomOfExploathing() ? 333 : 1000;
 		if ( loser.equals( "fratboys" ) )
 		{
-			Preferences.setInteger( "fratboysDefeated", 1000 );
+			Preferences.setInteger( "fratboysDefeated", total );
 			message = "War finished: fratboys defeated";
 		}
 		else if ( loser.equals( "hippies" ) )
 		{
-			Preferences.setInteger( "hippiesDefeated", 1000 );
+			Preferences.setInteger( "hippiesDefeated", total );
 			message = "War finished: hippies defeated";
 		}
 		else if ( loser.equals( "both" ) )
