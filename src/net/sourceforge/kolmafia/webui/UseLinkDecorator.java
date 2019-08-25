@@ -1719,22 +1719,21 @@ public abstract class UseLinkDecorator
 		// present in the player's inventory.
 
 		case ItemPool.WHITE_PIXEL:
+			if ( KoLCharacter.isKingdomOfExploathing() )
+			{
+				useType = String.valueOf( InventoryManager.getCount( ItemPool.WHITE_PIXEL ) );
+				useLocation = "shop.php?whichshop=exploathing";
+				break;
+			}
+			// Fall through
+
 		case ItemPool.RED_PIXEL:
 		case ItemPool.GREEN_PIXEL:
 		case ItemPool.BLUE_PIXEL:
 
-			if ( KoLCharacter.isKingdomOfExploathing() )
-			{
-				int whiteCount = InventoryManager.getCount( ItemPool.WHITE_PIXEL );
-				useType = whiteCount + " white";
-				useLocation = "shop.php?whichshop=exploathing";
-			}
-			else
-			{
-				int whiteCount = CreateItemRequest.getInstance( ItemPool.WHITE_PIXEL ).getQuantityPossible() + InventoryManager.getCount( ItemPool.WHITE_PIXEL );
-				useType = whiteCount + " white";
-				useLocation = "place.php?whichplace=forestvillage&action=fv_mystic";
-			}
+			int whiteCount = CreateItemRequest.getInstance( ItemPool.WHITE_PIXEL ).getQuantityPossible() + InventoryManager.getCount( ItemPool.WHITE_PIXEL );
+			useType = whiteCount + " white";
+			useLocation = "place.php?whichplace=forestvillage&action=fv_mystic";
 			break;
 
 		// Special handling for star charts, lines, and stars, where

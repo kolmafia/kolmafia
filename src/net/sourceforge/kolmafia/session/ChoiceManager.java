@@ -7639,6 +7639,12 @@ public abstract class ChoiceManager
 	private static final Pattern SKELETON_PATTERN = Pattern.compile( "You defeated <b>(\\d+)</b> skeletons" );
 	private static final Pattern FOG_PATTERN = Pattern.compile( "<font.*?><b>(.*?)</b></font>" );
 
+	private static final Pattern TOSSID_PATTERN = Pattern.compile( "tossid=(\\d+)" );
+	// You toss the space wine off the edge of the floating battlefield and 21 frat boys jump off after it.
+	private static final Pattern FRAT_RATIONING_PATTERN = Pattern.compile( "You toss the (.*?) off the edge of the floating battlefield and (\\d+) frat boys? jumps? off after it." );
+	// You toss the mana curds into the crowd.  10 hippies dive onto it, greedily consume it, and pass out.
+	private static final Pattern HIPPY_RATIONING_PATTERN = Pattern.compile( "You toss the (.*?) into the crowd.  (\\d+) hippies dive onto it, greedily consume it, and pass out." );
+
 	public static void postChoice1( final String urlString, final GenericRequest request )
 	{
 		// chat and desc_ and questlog requests can come at any time
@@ -11604,6 +11610,55 @@ public abstract class ChoiceManager
 			BeachManager.parseBeachHeadCombing( text );
 			BeachManager.parseCombUsage( text );
 			break;
+
+		case 1391:
+		{
+			// Rationing out Destruction
+			//    choice.php?whichchoice=1391&option=1&pwd&tossid=10321
+
+			Matcher tossMatcher = TOSSID_PATTERN.matcher( urlString );
+			if ( !tossMatcher.find() )
+			{
+				break;
+			}
+			int itemId = StringUtilities.parseInt( tossMatcher.group(1) );
+			ResultProcessor.processItem( itemId, -1 );
+
+			String army = null;
+			String property = null;
+			String consumable = null;
+			int casualties = 0;
+
+			if ( casualties == 0 )
+			{
+				Matcher fratMatcher = FRAT_RATIONING_PATTERN.matcher( text );
+				if ( fratMatcher.find() )
+				{
+					army = "frat boys";
+					property = "fratboysDefeated";
+					consumable = fratMatcher.group(1);
+					casualties = StringUtilities.parseInt( fratMatcher.group(2) );
+				}
+			}
+			if ( casualties == 0 )
+			{
+				Matcher hippyMatcher = HIPPY_RATIONING_PATTERN.matcher( text );
+				if ( hippyMatcher.find() )
+				{
+					army = "hippies";
+					property = "hippiesDefeated";
+					consumable = hippyMatcher.group(1);
+					casualties = StringUtilities.parseInt( hippyMatcher.group(2) );
+				}
+			}
+
+			Preferences.increment( property, casualties );
+
+			message = "You defeated " + casualties + " " + army + " with some " + consumable;
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+			break;
+		}
 		}
 
 		// Certain choices cost meat or items when selected
