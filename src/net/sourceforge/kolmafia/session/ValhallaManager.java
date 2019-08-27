@@ -298,6 +298,13 @@ public class ValhallaManager
 		{
 			Preferences.setInteger( "sourceEnlightenment", Math.min( Preferences.getInteger( "sourcePoints" ), 11 ) );
 		}
+		else if ( KoLCharacter.isKingdomOfExploathing() )
+		{
+			// In Kingdom of Exploathing, you need to visit the council before you can visit place.php
+			RequestThread.postRequest( new CouncilRequest() );
+			// This will get you the telegram from Lady Spookyraven
+			RequestThread.postRequest( new PlaceRequest( "manor1" ) );
+		}
 
 		// User-defined actions:
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "postAscensionScript" ) );
@@ -306,11 +313,6 @@ public class ValhallaManager
 
 		if ( Preferences.getBoolean( "autoQuest" ) )
 		{
-			if ( KoLCharacter.isKingdomOfExploathing() )
-			{
-				RequestThread.postRequest( new CouncilRequest() );
-				RequestThread.postRequest( new PlaceRequest( "manor1" ) );
-			}
 			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.SPOOKYRAVEN_TELEGRAM, 1 ) ) );
 		}
 
