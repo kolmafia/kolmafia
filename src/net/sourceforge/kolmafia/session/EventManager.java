@@ -142,8 +142,6 @@ public class EventManager
 			RequestLogger.printLine( eventHTML );
 		}
 
-		boolean moneyMakingGameEvent = eventHTML.indexOf( "href='bet.php'" ) != -1;
-
 		// The event may be marked up with color and links to
 		// user profiles. For example:
 
@@ -158,11 +156,6 @@ public class EventManager
 		String eventText = eventHTML.replaceAll( "<a[^>]*showplayer\\.php\\?who=(\\d+)[^>]*>(.*?)</a>", "$2 (#$1)" );
 
 		eventText = eventText.replaceAll( "<.*?>", "" );
-
-		if ( moneyMakingGameEvent )
-		{
-			MoneyMakingGameManager.processEvent( eventText );
-		}
 
 		if ( addTimestamp )
 		{

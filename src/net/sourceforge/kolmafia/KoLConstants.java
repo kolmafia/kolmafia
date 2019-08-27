@@ -254,10 +254,6 @@ public interface KoLConstants
 			"DatabaseFrame"
 		},
 		{
-			"Coin Toss Game",
-			"MoneyMakingGameFrame"
-		},
-		{
 			"Preferences",
 			"OptionsFrame"
 		},

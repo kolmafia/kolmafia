@@ -67,7 +67,6 @@ import net.sourceforge.kolmafia.request.BeerPongRequest;
 import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.BURTRequest;
-import net.sourceforge.kolmafia.request.BurningNewspaperRequest;
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
@@ -109,7 +108,6 @@ import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.MomRequest;
-import net.sourceforge.kolmafia.request.MoneyMakingGameRequest;
 import net.sourceforge.kolmafia.request.MonsterManuelRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.MushroomRequest;
@@ -140,7 +138,6 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
 import net.sourceforge.kolmafia.request.VolcanoMazeRequest;
-import net.sourceforge.kolmafia.request.WaxGlobRequest;
 import net.sourceforge.kolmafia.request.WitchessRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
@@ -333,11 +330,6 @@ public class ResponseTextParser
 		else if ( location.startsWith( "beerpong.php" ) )
 		{
 			BeerPongRequest.parseResponse( location, responseText );
-		}
-
-		else if ( location.startsWith( "bet.php" ) )
-		{
-			MoneyMakingGameRequest.parseResponse( location, responseText, false );
 		}
 
 		else if ( location.startsWith( "bigisland.php" ) || location.startsWith( "postwarisland.php" ) )
