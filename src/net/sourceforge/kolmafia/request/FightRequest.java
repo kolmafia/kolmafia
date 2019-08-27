@@ -3246,6 +3246,7 @@ public class FightRequest
 		{
 		case AdventurePool.FRAT_UNIFORM_BATTLEFIELD:
 		case AdventurePool.HIPPY_UNIFORM_BATTLEFIELD:
+		case AdventurePool.EXPLOADED_BATTLEFIELD:
 			IslandManager.handleBattlefield( responseText );
 			break;
 

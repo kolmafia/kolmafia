@@ -308,7 +308,7 @@ public class QuestManager
 		else if ( location.startsWith( "main" ) )
 		{
 			if ( Preferences.getInteger( "lastIslandUnlock" ) != KoLCharacter.getAscensions() &&
-				responseText.contains( "island.php" ) )
+			     responseText.contains( "island.php" ) )
 			{
 				Preferences.setInteger( "lastIslandUnlock", KoLCharacter.getAscensions() );
 			}

@@ -1049,7 +1049,10 @@ public class IslandManager
 
 		Preferences.setString( "sideDefeated", loser );
 		Preferences.setString( "warProgress", "finished" );
-		QuestDatabase.setQuestProgress( QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.FINISHED );
+
+		// Kingdom of Exploathing has a Hippy/Frat war, but it is not the same as the "Island War".
+		QuestDatabase.Quest warQuest = KoLCharacter.isKingdomOfExploathing() ? QuestDatabase.Quest.HIPPY_FRAT : QuestDatabase.Quest.ISLAND_WAR;
+		QuestDatabase.setQuestProgress( warQuest, QuestDatabase.FINISHED );
 	}
 
 	public static final void handleBattlefieldMonster( final String responseText, final String monsterName )
@@ -1116,18 +1119,19 @@ public class IslandManager
 			delta += 3;
 		}
 
+		int max = KoLCharacter.isKingdomOfExploathing() ? 333 : 1000;
 		int last;
 		int current;
 
 		if ( IslandManager.fratboy )
 		{
 			last = IslandManager.lastFratboysDefeated;
-			current = Preferences.increment( "fratboysDefeated", delta, 1000, false );
+			current = Preferences.increment( "fratboysDefeated", delta, max, false );
 		}
 		else
 		{
 			last = IslandManager.lastHippiesDefeated;
-			current = Preferences.increment( "hippiesDefeated", delta, 1000, false );
+			current = Preferences.increment( "hippiesDefeated", delta, max, false );
 		}
 
 		String message = IslandManager.victoryMessage( last, current );

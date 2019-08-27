@@ -299,7 +299,7 @@ public class NPCStoreDatabase
 			if ( shopName.equals( "Hippy Store (Pre-War)" ) )
 			{
 				if ( !KoLCharacter.mysteriousIslandAccessible() ||
-					!EquipmentManager.hasOutfit( OutfitPool.HIPPY_OUTFIT ) )
+				     !EquipmentManager.hasOutfit( OutfitPool.HIPPY_OUTFIT ) )
 				{
 					return false;
 				}

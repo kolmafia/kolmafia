@@ -239,13 +239,12 @@ public class QuestLogRequest
 
 		// Set (mostly historical) preferences we can set based on quest status
 		if ( QuestDatabase.isQuestLaterThan( Quest.MACGUFFIN, "step1" ) ||
-			QuestDatabase.isQuestFinished( Quest.MEATCAR ) )
+		     QuestDatabase.isQuestFinished( Quest.MEATCAR ) )
 		{
 			KoLCharacter.setDesertBeachAvailable();
 		}
-		if ( QuestDatabase.isQuestLaterThan( Quest.ISLAND_WAR, QuestDatabase.STARTED ) ||
-			QuestDatabase.isQuestLaterThan( Quest.PIRATE, QuestDatabase.UNSTARTED ) ||
-			QuestDatabase.isQuestFinished( Quest.HIPPY ) )
+		if ( QuestDatabase.isQuestLaterThan( Quest.PIRATE, QuestDatabase.UNSTARTED ) ||
+		     QuestDatabase.isQuestFinished( Quest.HIPPY ) )
 		{
 			Preferences.setInteger( "lastIslandUnlock", KoLCharacter.getAscensions() );
 		}

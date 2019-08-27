@@ -84,6 +84,7 @@ public class QuestDatabase
 		SPARE( "questL11Spare" ),
 		DESERT( "questL11Desert" ),
 		ISLAND_WAR( "questL12War" ),
+		HIPPY_FRAT( "questL12HippyFrat" ),
 		FINAL( "questL13Final" ),
 		WAREHOUSE( "questL13Warehouse" ),
 		MEATCAR( "questG01Meatcar" ),
