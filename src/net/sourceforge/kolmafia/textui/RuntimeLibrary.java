@@ -171,7 +171,6 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.InternalChatRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
-import net.sourceforge.kolmafia.request.MoneyMakingGameRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
@@ -193,7 +192,6 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.FamiliarManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.MoneyMakingGameManager;
 import net.sourceforge.kolmafia.session.MonsterManuelManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.NumberologyManager;
@@ -2005,50 +2003,6 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "is_unrestricted", DataTypes.BOOLEAN_TYPE, params ) );
 
-		// MMG support
-
-		params = new Type[] {};
-		functions.add( new LibraryFunction( "mmg_visit", DataTypes.VOID_TYPE, params ) );
-
-		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE };
-		functions.add( new LibraryFunction( "mmg_search", DataTypes.VOID_TYPE, params ) );
-
-		params = new Type[] { DataTypes.INT_TYPE, DataTypes.BOOLEAN_TYPE };
-		functions.add( new LibraryFunction( "mmg_make_bet", DataTypes.INT_TYPE, params ) );
-
-		params = new Type[] { DataTypes.INT_TYPE };
-		functions.add( new LibraryFunction( "mmg_retract_bet", DataTypes.BOOLEAN_TYPE, params ) );
-
-		params = new Type[] { DataTypes.INT_TYPE, DataTypes.BOOLEAN_TYPE };
-		functions.add( new LibraryFunction( "mmg_take_bet", DataTypes.INT_TYPE, params ) );
-
-		params = new Type[] {};
-		functions.add( new LibraryFunction( "mmg_my_bets", new AggregateType( DataTypes.INT_TYPE, 0 ), params ) );
-
-		params = new Type[] {};
-		functions.add( new LibraryFunction( "mmg_offered_bets", new AggregateType( DataTypes.INT_TYPE, 0 ), params ) );
-
-		params = new Type[] { DataTypes.INT_TYPE };
-		functions.add( new LibraryFunction( "mmg_bet_owner", DataTypes.STRING_TYPE, params ) );
-
-		params = new Type[] { DataTypes.INT_TYPE };
-		functions.add( new LibraryFunction( "mmg_bet_owner_id", DataTypes.INT_TYPE, params ) );
-
-		params = new Type[] { DataTypes.INT_TYPE };
-		functions.add( new LibraryFunction( "mmg_bet_amount", DataTypes.INT_TYPE, params ) );
-
-		params = new Type[] { DataTypes.INT_TYPE };
-		functions.add( new LibraryFunction( "mmg_wait_event", DataTypes.INT_TYPE, params ) );
-
-		params = new Type[] {};
-		functions.add( new LibraryFunction( "mmg_bet_taker", DataTypes.STRING_TYPE, params ) );
-
-		params = new Type[] {};
-		functions.add( new LibraryFunction( "mmg_bet_taker_id", DataTypes.STRING_TYPE, params ) );
-
-		params = new Type[] {};
-		functions.add( new LibraryFunction( "mmg_bet_winnings", DataTypes.INT_TYPE, params ) );
-		
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "svn_exists", DataTypes.BOOLEAN_TYPE, params ) );
 		
@@ -8617,112 +8571,6 @@ public abstract class RuntimeLibrary
 		}
 
 		return DataTypes.makeBooleanValue( result );
-	}
-
-	public static Value mmg_visit( Interpreter interpreter )
-	{
-		RequestThread.postRequest( new MoneyMakingGameRequest() );
-		return DataTypes.VOID_VALUE;
-	}
-
-	public static Value mmg_search( Interpreter interpreter, final Value arg1, final Value arg2 )
-	{
-		int lower = (int) arg1.intValue();
-		int higher = (int) arg2.intValue();
-		RequestThread.postRequest( new MoneyMakingGameRequest( MoneyMakingGameRequest.SEARCH, lower, higher ) );
-		return DataTypes.VOID_VALUE;
-	}
-
-	public static Value mmg_make_bet( Interpreter interpreter, final Value arg, final Value source )
-	{
-		int amount = (int) arg.intValue();
-		int storage = (int) source.intValue();
-		RequestThread.postRequest( new MoneyMakingGameRequest( MoneyMakingGameRequest.MAKE_BET, amount, storage ) );
-		return new Value( MoneyMakingGameManager.getLastBetId() );
-	}
-
-	public static Value mmg_retract_bet( Interpreter interpreter, final Value arg )
-	{
-		int id = (int) arg.intValue();
-		RequestThread.postRequest( new MoneyMakingGameRequest( MoneyMakingGameRequest.RETRACT_BET, id ) );
-		return RuntimeLibrary.continueValue();
-	}
-
-	public static Value mmg_take_bet( Interpreter interpreter, final Value arg, final Value source )
-	{
-		int betId = (int) arg.intValue();
-		int storage = (int) source.intValue();
-		RequestThread.postRequest( new MoneyMakingGameRequest( MoneyMakingGameRequest.TAKE_BET, betId, storage ) );
-		return new Value( MoneyMakingGameManager.getLastWinnings() );
-	}
-
-	public static Value mmg_my_bets( Interpreter interpreter )
-	{
-		int[] bets = MoneyMakingGameManager.getActiveBets();
-
-		AggregateType type = new AggregateType( DataTypes.INT_TYPE, bets.length );
-		ArrayValue value = new ArrayValue( type );
-
-		for ( int i = 0; i < bets.length; ++i )
-		{
-			value.aset( new Value( i ), new Value( bets[ i ] ) );
-		}
-
-		return value;
-	}
-
-	public static Value mmg_offered_bets( Interpreter interpreter )
-	{
-		int[] bets = MoneyMakingGameManager.getOfferedBets();
-
-		AggregateType type = new AggregateType( DataTypes.INT_TYPE, bets.length );
-		ArrayValue value = new ArrayValue( type );
-
-		for ( int i = 0; i < bets.length; ++i )
-		{
-			value.aset( new Value( i ), new Value( bets[ i ] ) );
-		}
-
-		return value;
-	}
-
-	public static Value mmg_bet_owner( Interpreter interpreter, final Value arg )
-	{
-		int id = (int) arg.intValue();
-		return new Value( MoneyMakingGameManager.betOwner( id ) );
-	}
-
-	public static Value mmg_bet_owner_id( Interpreter interpreter, final Value arg )
-	{
-		int id = (int) arg.intValue();
-		return new Value( MoneyMakingGameManager.betOwnerId( id ) );
-	}
-
-	public static Value mmg_bet_amount( Interpreter interpreter, final Value arg )
-	{
-		int id = (int) arg.intValue();
-		return new Value( MoneyMakingGameManager.betAmount( id ) );
-	}
-
-	public static Value mmg_wait_event( Interpreter interpreter, final Value arg )
-	{
-		int seconds = (int) arg.intValue();
-		return new Value( MoneyMakingGameManager.getNextEvent( seconds ) );
-	}
-
-	public static Value mmg_bet_taker( Interpreter interpreter )
-	{
-		return new Value( MoneyMakingGameManager.getLastEventPlayer() );
-	}
-
-	public static Value mmg_bet_taker_id( Interpreter interpreter )
-	{
-		return new Value( MoneyMakingGameManager.getLastEventPlayerId() );
-	}
-
-	public static Value mmg_bet_winnings( Interpreter interpreter )
-	{
-		return new Value( MoneyMakingGameManager.getLastEventWinnings() );
 	}
 
 	public static Value svn_exists( Interpreter interpreter, final Value project )

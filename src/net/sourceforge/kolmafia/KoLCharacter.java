@@ -113,7 +113,6 @@ import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.Limitmode;
-import net.sourceforge.kolmafia.session.MoneyMakingGameManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.VioletFogManager;
@@ -611,7 +610,6 @@ public abstract class KoLCharacter
 		EquipmentManager.resetCustomOutfits();
 		GearChangeFrame.clearFamiliarList();
 		InventoryManager.resetInventory();
-		MoneyMakingGameManager.reset();
 		SpecialOutfit.forgetCheckpoints();
 		VolcanoMazeManager.reset();
 		VYKEACompanionData.initialize( true );

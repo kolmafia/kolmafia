@@ -2778,14 +2778,6 @@ public class GenericRequest
 			return;
 		}
 
-		if ( urlString.startsWith( "bet.php" ) )
-		{
-			// This can either add or remove meat from inventory
-			// using unique messages, in some cases. Let
-			// MoneyMakingGameRequest sort it all out.
-			return;
-		}
-
 		if ( urlString.startsWith( "mallstore.php" ) )
 		{
 			// MallPurchaseRequest.parseResponse will sort this out.

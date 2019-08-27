@@ -891,10 +891,6 @@ user	mineLayout5
 user	mineLayout6
 user	miniAdvClass	0
 user	miniMartinisDrunk	0
-user	mmgAutoConfirmBets	false
-user	mmgDisabled	false
-user	mmgSearchMinimum
-user	mmgSearchMaximum
 user	moleTunnelLevel	0
 user	moonTuned	false
 user	mothershipProgress	0

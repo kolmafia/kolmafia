@@ -48,7 +48,6 @@ import javax.swing.ScrollPaneConstants;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.KoLAdventure;
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -73,7 +72,6 @@ import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
@@ -334,51 +332,7 @@ public class RequestFrame
 		displayHTML =
 			displayHTML.replaceFirst( "<input class=button type=submit value=\"Take this one with you\">", "" );
 
-		// The second of these is the betting page.  Here, the
-		// problem is an "onClick" in the input field, if the
-		// Hagnk option is available.
-
-		if ( displayHTML.indexOf( "whichbet" ) != -1 )
-		{
-			// Since the introduction of MMG bots, bets are usually
-			// placed and taken instantaneously.  Therefore, the
-			// search form is extraneous.
-
-			displayHTML = displayHTML.replaceAll( "<center><b>Search.*?<center>", "<center>" );
-
-			// Also, placing a bet is awkward through the KoLmafia
-			// interface.  Remove this capability.
-
-			displayHTML = displayHTML.replaceAll( "<center><b>Add.*?</form><br>", "<br>" );
-
-			// Checkboxes were a safety which were added server-side,
-			// but they do not really help anything and Java is not
-			// very good at rendering them -- remove it.
-
-			displayHTML = displayHTML.replaceFirst( "\\(confirm\\)", "" );
-			displayHTML =
-				displayHTML.replaceAll(
-					"<input type=checkbox name=confirm>", "<input type=hidden name=confirm value=on>" );
-
-			// In order to avoid the problem of having two submits,
-			// which confuses the built-in Java parser, remove one
-			// of the buttons and leave the one that makes sense.
-
-			if ( KoLCharacter.canInteract() )
-			{
-				displayHTML =
-					displayHTML.replaceAll(
-						"whichbet value='(\\d+)'><input type=hidden name=from value=0>.*?</td><td><input type=hidden",
-						"whichbet value='$1'><input type=hidden name=from value=0><input class=button type=submit value=\"On Hand\"><input type=hidden" );
-			}
-			else
-			{
-				displayHTML =
-					displayHTML.replaceAll(
-						"whichbet value='(\\d+)'><input type=hidden name=from value=0>.*?</td><td><input type=hidden",
-						"whichbet value='$1'><input type=hidden name=from value=1><input class=button type=submit value=\"In Hagnk's\"><input type=hidden" );
-			}
-		}
+		// The second of these was the betting page which is now OBE.
 
 		// The third of these is the outfit managing page,
 		// which requires that the form for the table be

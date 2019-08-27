@@ -86,7 +86,6 @@ import javax.swing.UIManager;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.text.DefaultCaret;
-import javax.swing.text.JTextComponent;
 
 import org.jdesktop.swingx.JXPanel;
 
@@ -360,8 +359,6 @@ public class OptionsFrame
 				{},
 
 				{ "requireSewerTestItems", "Require appropriate test items to adventure in clan sewers " },
-				{ "mmgDisabled", "Disable access to the MMG in the Relay Browser" },
-				{ "mmgAutoConfirmBets", "Auto-confirm bets in the MMG" },
 
 				{},
 

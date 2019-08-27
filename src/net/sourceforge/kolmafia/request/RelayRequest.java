@@ -2586,18 +2586,6 @@ public class RelayRequest
 		return false;
 	}
 
-	private boolean sendMMGWarning()
-	{
-		if ( !Preferences.getBoolean( "mmgDisabled" ) )
-		{
-			return false;
-		}
-
-		// The player has asked to be protected from himself
-		this.sendGeneralWarning( "shield_stop.gif", "You may not enter the Money Losing Game.", null );
-		return true;
-	}
-
 	private boolean sendWineglassWarning( final KoLAdventure adventure )
 	{
 		if ( adventure == null )
@@ -3796,11 +3784,6 @@ public class RelayRequest
 			return true;
 		}
 
-		if ( path.startsWith( "bet.php" ) && this.sendMMGWarning() )
-		{
-			return true;
-		}
-		
 		return false;
 	}
 
