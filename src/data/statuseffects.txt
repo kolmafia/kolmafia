@@ -2512,7 +2512,7 @@
 2511	Big Smile of the Vole	const3.gif	382c3c5599435b72ae4b8d07f0d05222
 2512	Big Smile of the Platypus	const4.gif	fae6632deb49a89b15c1e477ec9f559f
 2513	Big Smile of the Opposum	const5.gif	938cf22538092603d2060891ad82bff0
-2514
+2514	Big Smile of the Marmot	const6.gif	339dbc25ede82c251ea2f523947ea96d
 2515	Big Smile of the Wombat	const7.gif	def481a320876018461fb7a0a6792d2a
 2516	Big Smile of the Blender	const8.gif	3311b637173b590b2ac75e9a5ccb175c
 2517	Big Smile of the Packrat	const9.gif	97c18428c097b8c132ace1cd46e13f73
