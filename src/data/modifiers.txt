@@ -4824,6 +4824,7 @@ Effect	Big Meat Big Prizes	Meat Drop: +50
 Effect	Big Ol' Glass of Rum	Moxie: +20
 Effect	Big Punkin'	Moxie: +30
 Effect	Big Smile of the Blender	Booze Drop: +50
+Effect	Big Smile of the Marmot	MP Regen Min: 8, MP Regen Max: 12
 Effect	Big Smile of the Mongoose	Critical Hit Percent: +20
 Effect	Big Smile of the Opposum	Candy Drop: +100
 Effect	Big Smile of the Packrat	Meat Drop: +50
