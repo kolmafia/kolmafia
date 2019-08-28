@@ -32,7 +32,7 @@ public class DataFileTest
 				 ( "(none|food|drink|spleen|usable|multiple|reusable|message|grow|pokepill|"
 				   + "hat|weapon|sixgun|offhand|container|shirt|pants|accessory|familiar|sticker|"
 				   + "card|folder|bootspur|bootskin|food helper|drink helper|zap|sphere|guardian|"
-				   + "avatar)(\\s*,\\s*(usable|multiple|reusable|combat|combat reusable|single|"
+				   + "avatar|potion)(\\s*,\\s*(usable|multiple|reusable|combat|combat reusable|single|"
 				   + "solo|curse|bounty|candy1|candy2|candy|chocolate|matchable|fancy))*" ), // use
 				 "([qgtd](,[qgtd])*)?", // access
 				 "\\d+",				// autosell
