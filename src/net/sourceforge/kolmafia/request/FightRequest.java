@@ -6577,6 +6577,25 @@ public class FightRequest
 				return;
 			}
 		}
+		else if ( name.equals( "td" ) )
+		{
+			// If this td element has text directly under it, as
+			// opposed to within an embedded "p" node, say, look
+			// for damage.
+			String str = FightRequest.getContentNodeText( node );
+			if ( !str.equals( "" ) )
+			{
+				String text = node.getText().toString();
+				int damage = FightRequest.parseNormalDamage( text );
+				if ( damage != 0 )
+				{
+					FightRequest.logMonsterAttribute( status, damage, HEALTH );
+					MonsterStatusTracker.damageMonster( damage );
+					FightRequest.processComments( node, status );
+					return;
+				}
+			}
+		}
 
 		FightRequest.processChildren( node, status );
 	}
