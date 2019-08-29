@@ -509,7 +509,15 @@ public class IslandManager
 			// hippy you were fighting was just the astral
 			// projection of another hippy several yards
 			// away. Freaky.
-			"astral projection", },
+			"astral projection",
+
+			// You knock another hippy into the void with a deft flick of your paddle-ball.
+			"knock another hippy into the void",
+
+			// Electricity arcs from your weapon, blasting a nearby hippy off into the endless void.
+			"blasting a nearby hippy",
+		},
+
 		// 4 total
 		{
 			// You see a War Frat Grill Sergeant hose down three
@@ -706,7 +714,14 @@ public class IslandManager
 			// You see an F.R.O.G. crunch a bulb of garlic in his
 			// teeth and breathe all over a nearby frat boy, who
 			// turns green and falls over.
-			"bulb of garlic", },
+			"bulb of garlic",
+
+			// You knock another frat boy into the void with a deft flick of your paddle-ball.
+			"knock another frat boy into the void",
+
+			// Electricity arcs from your weapon, blasting a nearby frat boy off into the endless void.
+			"blasting a nearby frat boy",
+		},
 		// 4 total
 		{
 			// You hear chanting behind you, and turn to see thick,
