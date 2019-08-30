@@ -10422,8 +10422,6 @@ Item	roll of meat	Effect: "Stick Emporium Membership", Effect Duration: 50
 Item	roll of toilet paper	Free Pull
 # roller skate decoy: Put it down, and monsters will attack it instead of you
 Item	ROM of Optimality	Skill: "Toggle Optimality"
-# roofie: Stops Enemy From Attacking and Weakens it Slightly
-Item	roofie	Effect: "Confused", Effect: "Amorous", Effect Duration: 10
 # rotten tomato: Throw it at somebody to grant extra PvP fights
 Item	rotting beefsteak	Effect: "Cowrruption", Effect Duration: 30
 # rotting cowskin: Adds Demonic Bovine Taint to your cowboy boots
@@ -10499,6 +10497,8 @@ Item	shavin' razor	Effect: "Hairless and Airless", Effect Duration: 30
 Item	shaving cream	Effect: "Clean-Shaven", Effect Duration: 5
 Item	Shielding Potion	Effect: "Remaining Alive", Effect Duration: 10
 Item	shimmering tendrils	Class: "Pastamancer"
+# shingle: Stops Enemy From Attacking and Weakens it Slightly
+Item	shingle	Effect: "Confused", Effect: "Amorous", Effect Duration: 10
 Item	Shivering Ch&egrave;vre	Effect: "Goat Gotten", Effect Duration: 30
 Item	shoe gum	Effect: "Gummed Shoes", Effect Duration: 50
 Item	shopkeeper beard	Effect: "Shopkeeperrific", Effect Duration: 30

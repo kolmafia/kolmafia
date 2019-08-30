@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
@@ -304,6 +305,8 @@ public class ValhallaManager
 			RequestThread.postRequest( new CouncilRequest() );
 			// This will get you the telegram from Lady Spookyraven
 			RequestThread.postRequest( new PlaceRequest( "manor1" ) );
+			// And potentially other things. Refresh inventory.
+			ApiRequest.updateInventory();
 		}
 
 		// User-defined actions:

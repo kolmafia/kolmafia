@@ -216,7 +216,7 @@
 215	Newt Gets In Your Eyes	eyes.gif	46a5628ca44d03f0f26bdf3467f1c0c2	use 1 eyedrops of newt
 216	Blessed by the RNG	fence.gif	e449f82b68903398fc800a02cf2aa318	# cast on you by The RNG
 217	Cursed by The RNG	tinycow.gif	619bf55052f4270389dd24d68a029246	# cast on you by The RNG
-218	Amorous	lips.gif	e8430f88372ba98df5e361f0b091fe65	use 1 roofie
+218	Amorous	lips.gif	e8430f88372ba98df5e361f0b091fe65	use 1 shingle
 219	Bubble, Bubble	sphere.gif	6ede1a75e47f82c98a429c9a50d067b4	use 1 alphabet gum
 220	Sticky Fingers	glove.gif	4becdf2ac82c2bf30dd433dd54465918	use 1 bag of Cheat-Os
 221	Chalky Hand	glove.gif	3e2eed0d70d0e023a11619655a3f48c0	use 1 handful of hand chalk

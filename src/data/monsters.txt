@@ -520,7 +520,7 @@ oil slick	1235	oilslick.gif	Atk: 85 Def: 77 HP: 60 Init: 50 E: sleaze P: slime	b
 oil tycoon	1236	oiltycoon.gif	Atk: 85 Def: 77 HP: 60 Init: 65 E: sleaze P: slime	bubblin' crude (100)	bubblin' crude (10)
 one-eyed Gnoll	18	dk_oneeye.gif	Atk: 11 Def: 9 HP: 5 Init: 60 Meat: 22 P: humanoid	eyepatch (5)	gnoll teeth (5)	glass gnoll eye (p5)	Missing Eye Simulation Device (c0)
 One-Eyed Willie	178	oneeyed.gif	Atk: 150 Def: 135 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	line (30)	star (30)
-Orcish Frat Boy (Music Lover)	62	fratboy.gif	Atk: 39 Def: 35 HP: 30 Init: 60 E: sleaze Meat: 30 P: orc Manuel: "Orcish Frat Boy"	ice-cold Sir Schlitz (20)	ice-cold fotie (20)	Orcish baseball cap (5)	deodorant (5)	roofie (25)	packet of beer nuts (p15)
+Orcish Frat Boy (Music Lover)	62	fratboy.gif	Atk: 39 Def: 35 HP: 30 Init: 60 E: sleaze Meat: 30 P: orc Manuel: "Orcish Frat Boy"	ice-cold Sir Schlitz (20)	ice-cold fotie (20)	Orcish baseball cap (5)	deodorant (5)	shingle (25)	packet of beer nuts (p15)
 Orcish Frat Boy (Paddler)	63	fratboy.gif	Atk: 40 Def: 36 HP: 30 Init: 60 E: sleaze Meat: 30 P: orc Manuel: "Orcish Frat Boy"	bottle of gin (20)	ice-cold Sir Schlitz (20)	Orcish cargo shorts (5)	deodorant (5)	packet of beer nuts (p15)
 Orcish Frat Boy (Pledge)	64	fratskirt.gif	Atk: 41 Def: 36 HP: 30 Init: 60 E: sleaze Meat: 30 P: orc Manuel: "Orcish Frat Boy"	bottle of vodka (20)	Orcish frat-paddle (5)	ice-cold Sir Schlitz (20)	deodorant (5)	frilly skirt (0)	packet of beer nuts (p15)
 Orcish Frat Boy Spy	409	fratbong.gif	Atk: 165 Def: 153 HP: 180 Init: 60 E: sleaze P: orc	beer helmet (30)	distressed denim pants (30)	bejeweled pledge pin (30)

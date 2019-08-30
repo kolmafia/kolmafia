@@ -210,6 +210,7 @@
 185
 186	Tiki Mixology	pr_tiki2_3.gif	0	0	0
 187	Prevent Scurvy and Sobriety	pr_rhum.gif	1	50	0
+188	Implode Universe	light.gif	5	50	0
 
 # Skills available to Clubbers
 
