@@ -8126,6 +8126,14 @@ public abstract class ChoiceManager
 			}
 			return;
 
+		case 594:
+			// A Lost Room
+			if ( text.contains( "You acquire" ) )
+			{
+				ResultProcessor.processItem( ItemPool.LOST_KEY, -1 );
+			}
+			break;
+
 		case 595:
 			// Fire! I... have made... fire!
 			if ( text.contains( "rubbing the two stupid sticks together" ) ||

@@ -1146,6 +1146,10 @@ public class ResponseTextParser
 		{
 			Preferences.increment( "skillLevel180" );
 		}
+		else if ( skillName.equals( "Implode Universe" ) )
+		{
+			Preferences.increment( "skillLevel188", 1, 13, false );
+		}
 		else if ( KoLCharacter.inNuclearAutumn() )
 		{
 			if ( skillName.equals( "Boiling Tear Ducts" ) ||

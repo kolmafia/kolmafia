@@ -3423,6 +3423,7 @@ public class UseItemRequest
 		case ItemPool.MY_FIRST_ART_OF_WAR:
 		case ItemPool.ISLAND_DRINKIN:
 		case ItemPool.SCURVY_AND_SOBRIETY_PREVENTION:
+		case ItemPool.THE_IMPLODED_WORLD:
 		{
 			// You insert the ROM in to your... ROM receptacle and
 			// absorb the knowledge of optimality. You suspect you

@@ -1749,6 +1749,7 @@ public class ItemPool
 	public static final int CURSED_KEG = 5664;
 	public static final int JERK_BOOK = 5665;
 	public static final int GRUDGE_BOOK = 5666;
+	public static final int LOST_KEY = 5680;
 	public static final int NOTE_FROM_CLANCY = 5682;
 	public static final int BURT = 5683;
 	public static final int AUTOPSY_TWEEZERS = 5687;
@@ -3121,6 +3122,7 @@ public class ItemPool
 	public static final int STICK_OF_FIREWOOD = 10293;
 	public static final int GETAWAY_BROCHURE = 10292;
 	public static final int RARE_MEAT_ISOTOPE = 10310;
+	public static final int THE_IMPLODED_WORLD = 10322;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
