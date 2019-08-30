@@ -134,7 +134,17 @@ public class ClanFortuneRequest
 		{
 			return;
 		}
-		RequestThread.postRequest( new ClanLoungeRequest( ClanLoungeRequest.FORTUNE ) );
+
+		ClanLoungeRequest request =
+			new ClanLoungeRequest( ClanLoungeRequest.FORTUNE ) {
+				@Override
+				protected boolean shouldFollowRedirect()
+				{
+					return true;
+				}
+			};
+
+		RequestThread.postRequest( request );
 		super.run();
 	}
 

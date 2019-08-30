@@ -871,12 +871,6 @@ public class ClanLoungeRequest
 		this.action = action;
 		this.option = option;
 	}
-	
-	@Override
-	protected boolean shouldFollowRedirect()
-	{
-		return true;
-	}
 
 	public static final ClanLoungeRequest buyHotDogRequest( final String name )
 	{
