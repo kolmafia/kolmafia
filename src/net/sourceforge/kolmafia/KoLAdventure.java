@@ -622,6 +622,7 @@ public class KoLAdventure
 		if ( this.adventureId.equals( AdventurePool.PALINDOME_ID ) )
 		{
 			AdventureResult talisman = ItemPool.get( ItemPool.TALISMAN, 1 );
+
 			if ( !KoLCharacter.hasEquipped( talisman ) )
 			{
 				if ( !InventoryManager.hasItem( talisman ) )
@@ -629,15 +630,28 @@ public class KoLAdventure
 					return;
 				}
 
+				// This will pick an empty slot, or accessory1, if all are full
 				RequestThread.postRequest( new EquipmentRequest( talisman ) );
 			}
 
-			if ( QuestDatabase.isQuestLaterThan( Quest.PALINDOME, QuestDatabase.UNSTARTED ) )
+			// In Kingdom of Exploathing, the Palindome is in place.php?whichplace=exploathing,
+			// not in plains.php. It is visible whether or not the Talisman is equipped
+			if ( KoLCharacter.isKingdomOfExploathing() )
 			{
+				// We have a talisman.
+				QuestDatabase.setQuestIfBetter( Quest.PALINDOME, QuestDatabase.STARTED );
 				this.isValidAdventure = true;
 				return;
 			}
 
+			if ( QuestDatabase.isQuestLaterThan( Quest.PALINDOME, QuestDatabase.UNSTARTED ) )
+			{
+				// We have previously seen the Palindome on the plains. I.e., unlocked it.
+				this.isValidAdventure = true;
+				return;
+			}
+
+			// We have the Talisman equipped. Unlock the Palindome by looking at the plains.
 			GenericRequest request = new PlaceRequest( "plains" );
 			RequestThread.postRequest( request );
 			this.isValidAdventure = request.responseText.contains( "palinlink.gif" ) ;
