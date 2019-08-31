@@ -2013,6 +2013,7 @@ Solstice Shield	0	none
 sommelier's towel	150	Mys: 60
 sonar fishfinder	10	none
 Space Tourist palmdoctor	50	none
+space shield	150	none	shield
 spaghetti-box banjo	160	Mys: 150
 Spanish fly trap	10	none
 spant shield	100	Mus: 20	shield
@@ -2177,7 +2178,7 @@ barrel hoop earring	100	none
 batskin belt	0	none
 battle broom	200	Mys: 10
 bauxite bow-tie	150	Mys: 10
-Beach Comb	0	none
+Beach Comb	150	none
 beach glass necklace	70	Mys: 20
 beaten-up Chucks	200	Mys: 45
 beer goggles	10	none
@@ -2434,7 +2435,7 @@ heat-resistant gloves	100	Mox: 35
 heat-resistant necktie	100	Mys: 35
 Helps-You-Sleep	300	Mox: 100
 hemp string	70	Mys: 20
-hewn moon-rune spoon	0	none
+hewn moon-rune spoon	200	none
 high-friction boots	10	none
 hippy medical kit	175	Mys: 72
 hippy protest button	160	Mys: 65
