@@ -1783,7 +1783,7 @@ sandcastle	MUSE, NOBEE, NODISCOVERY	brick of sand (20)
 
 house of twigs and spit	MUSE	interesting-looking twig (100)
 
-deck of lewd playing cards	MUSE	lewd playing card (52)
+deck of lewd playing cards	MUSE, NODISCOVERY	lewd playing card (52)
 
 propeller beanie	MUSE, NOBEE	Bash-&#332;s boxtop (20)
 
