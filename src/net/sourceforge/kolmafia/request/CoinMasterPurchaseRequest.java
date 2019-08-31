@@ -45,7 +45,6 @@ public class CoinMasterPurchaseRequest
 {
 	private CoinmasterData data;
 	private AdventureResult cost;
-	private String priceString;
 	private CoinMasterRequest request;
 
 	/**
@@ -69,7 +68,6 @@ public class CoinMasterPurchaseRequest
 
 		this.data = data;
 		this.cost = price;
-		this.priceString = KoLConstants.COMMA_FORMAT.format( this.price ) + " " + price.getPluralName( this.price );
 		this.request = data.getRequest( true, new AdventureResult[] { this.item } );
 	}
 
@@ -81,7 +79,12 @@ public class CoinMasterPurchaseRequest
 	@Override
 	public String getPriceString()
 	{
-		return this.priceString;
+		int price =
+			this.cost.isMeat() ?
+			NPCPurchaseRequest.currentDiscountedPrice( this.price ) :
+			this.price;
+
+		return KoLConstants.COMMA_FORMAT.format( price ) + " " + this.cost.getPluralName( price );
 	}
 
 	@Override

@@ -505,6 +505,22 @@ public abstract class InventoryManager
 
 	private static final String doRetrieveItem( final AdventureResult item, final boolean isAutomated, final boolean useEquipped, final boolean sim, final boolean canCreate )
 	{
+		if ( item.isMeat() )
+		{
+			int available = KoLCharacter.getAvailableMeat();
+			int needed = item.getCount();
+			if ( needed > available )
+			{
+				if ( sim )
+				{
+					return "fail";
+				}
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You need " + ( needed - available) + " more Meat to continue." );
+				return null;
+			}
+			return sim ? "have" : "";
+		}
+
 		int itemId = item.getItemId();
 
 		if ( itemId < 0 )
