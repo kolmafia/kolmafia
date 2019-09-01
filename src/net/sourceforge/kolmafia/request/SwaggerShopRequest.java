@@ -119,6 +119,8 @@ public class SwaggerShopRequest
 					return Preferences.getInteger( "guideToSafariCost" );
 				case ItemPool.GLITCH_ITEM:
 					return Preferences.getInteger( "glitchItemCost" );
+				case ItemPool.LAW_OF_AVERAGES:
+					return Preferences.getInteger( "lawOfAveragesCost" );
 				case ItemPool.ESSENCE_OF_ANNOYANCE:
 					return Preferences.getInteger( "essenceOfAnnoyanceCost" );
 				}
@@ -151,6 +153,8 @@ public class SwaggerShopRequest
 					return Preferences.getBoolean( "guideToSafariAvailable" );
 				case ItemPool.GLITCH_ITEM:
 					return Preferences.getBoolean( "glitchItemAvailable" );
+				case ItemPool.LAW_OF_AVERAGES:
+					return Preferences.getBoolean( "lawOfAveragesAvailable" );
 				case ItemPool.ESSENCE_OF_ANNOYANCE:
 					return Preferences.getBoolean( "essenceOfAnnoyanceAvailable" );
 				}
@@ -191,6 +195,9 @@ public class SwaggerShopRequest
 
 				case ItemPool.GLITCH_ITEM:
 					return Preferences.getInteger( "glitchSwagger" ) >= Preferences.getInteger( "glitchItemCost" );
+
+				case ItemPool.LAW_OF_AVERAGES:
+					return Preferences.getInteger( "averageSwagger" ) >= Preferences.getInteger( "lawOfAveragesCost" );
 				}
 
 				return super.availableItem( itemId );
@@ -258,8 +265,9 @@ public class SwaggerShopRequest
 	// You've earned 0 swagger during a school season!
 	// You've earned 349 swagger during a safari season!
 	// You've earned -61 swagger during a glitch season!
+	// You've earned -0 swagger during an average season.
 
-	private static final Pattern SEASON_PATTERN = Pattern.compile( "You've earned -?([\\d,]+) swagger during (?:a |an |)(pirate|holiday|ice|drunken|bear|numeric|optimal|school|safari|glitch) season" );
+	private static final Pattern SEASON_PATTERN = Pattern.compile( "You've earned -?([\\d,]+) swagger during (?:a |an |)(pirate|holiday|ice|drunken|bear|numeric|optimal|school|safari|glitch|average) season" );
 
 	// <tr><td><img style='vertical-align: middle' class=hand src='http://images.kingdomofloathing.com/itemimages/radio.gif' onclick='descitem(475026869)'></td><td valign=center><b><span onclick='descitem(475026869)'>Huggler Radio<span>&nbsp;&nbsp;&nbsp;&nbsp;</b></td><td><form style="padding:0;margin:0;"><input type="hidden" name="action" value="buy" /><input type="hidden" name="place" value="shop" /><input type="hidden" name="pwd" value="0c6efe5fe0c70235b340073785255041" /><input type="hidden" name="whichitem" value="5656" /><input type="submit" class="button" value="Buy (50 swagger)" /></form></td></tr>
 
@@ -276,6 +284,7 @@ public class SwaggerShopRequest
 	private static final AdventureResult SCHOOL_OF_HARD_KNOCKS_DIPLOMA = ItemPool.get( ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA, 1 );
 	private static final AdventureResult GUIDE_TO_SAFARI = ItemPool.get( ItemPool.GUIDE_TO_SAFARI, 1 );
 	private static final AdventureResult GLITCH_ITEM = ItemPool.get( ItemPool.GLITCH_ITEM, 1 );
+	private static final AdventureResult LAW_OF_AVERAGES = ItemPool.get( ItemPool.LAW_OF_AVERAGES, 1 );
 	private static final AdventureResult ESSENCE_OF_ANNOYANCE = ItemPool.get( ItemPool.ESSENCE_OF_ANNOYANCE, 1 );
 
 	public static void parseResponse( final String urlString, final String responseText )
@@ -348,6 +357,9 @@ public class SwaggerShopRequest
 			case ItemPool.GLITCH_ITEM:
 				Preferences.setInteger( "glitchItemCost", price );
 				break;
+			case ItemPool.LAW_OF_AVERAGES:
+				Preferences.setInteger( "lawOfAveragesCost", price );
+				break;
 			case ItemPool.ESSENCE_OF_ANNOYANCE:
 				Preferences.setInteger( "essenceOfAnnoyanceCost", price );
 				break;
@@ -365,6 +377,7 @@ public class SwaggerShopRequest
 		Preferences.setBoolean( "schoolOfHardKnocksDiplomaAvailable", items.contains( SwaggerShopRequest.SCHOOL_OF_HARD_KNOCKS_DIPLOMA ) );
 		Preferences.setBoolean( "guideToSafariAvailable", items.contains( SwaggerShopRequest.GUIDE_TO_SAFARI ) );
 		Preferences.setBoolean( "glitchItemAvailable", items.contains( SwaggerShopRequest.GLITCH_ITEM ) );
+		Preferences.setBoolean( "lawOfAveragesAvailable", items.contains( SwaggerShopRequest.LAW_OF_AVERAGES ) );
 		Preferences.setBoolean( "essenceOfAnnoyanceAvailable", items.contains( SwaggerShopRequest.ESSENCE_OF_ANNOYANCE ) );
 
 		// Register the purchase requests, now that we know what is available
@@ -418,6 +431,10 @@ public class SwaggerShopRequest
 			else if ( season.equals( "glitch" ) )
 			{
 				Preferences.setInteger( "glitchSwagger", seasonSwagger );
+			}
+			else if ( season.equals( "average" ) )
+			{
+				Preferences.setInteger( "averageSwagger", seasonSwagger );
 			}
 		}
 	}

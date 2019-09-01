@@ -3123,6 +3123,7 @@ public class ItemPool
 	public static final int GETAWAY_BROCHURE = 10292;
 	public static final int RARE_MEAT_ISOTOPE = 10310;
 	public static final int THE_IMPLODED_WORLD = 10322;
+	public static final int LAW_OF_AVERAGES = 10325;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

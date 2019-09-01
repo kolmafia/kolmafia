@@ -218,6 +218,7 @@ user	availableFunPoints	0
 user	availableQuarters	0
 user	availableStoreCredits	0
 user	availableSwagger	0
+user	averageSwagger	0
 user	awolMedicine	0
 user	awolPointsBeanslinger	0
 user	awolPointsCowpuncher	0
@@ -818,6 +819,8 @@ user	lastYearbookCameraAscension	-1
 user	lastZapperWand	0
 user	latteModifier	
 user	latteUnlocks	cinnamon,pumpkin,vanilla
+user	lawOfAveragesAvailable	true
+user	lawOfAveragesCost	1000
 user	libramSkillsHardcore	none
 user	libramSkillsSoftcore	none
 user	libramSummons	0
