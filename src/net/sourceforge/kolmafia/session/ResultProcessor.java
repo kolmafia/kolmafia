@@ -1510,7 +1510,20 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA:
-			Preferences.setBoolean( "schoolOfHardKnocksDiplomaAvailable", false );
+			// You actual can (could) buy multiple School of Hard Knocks diplomas
+			// Preferences.setBoolean( "schoolOfHardKnocksDiplomaAvailable", false );
+			break;
+
+		case ItemPool.GUIDE_TO_SAFARI:
+			Preferences.setBoolean( "guideToSafariAvailable", false );
+			break;
+
+		case ItemPool.GLITCH_ITEM:
+			Preferences.setBoolean( "glitchItemAvailable", false );
+			break;
+
+		case ItemPool.LAW_OF_AVERAGES:
+			Preferences.setBoolean( "lawOfAveragesAvailable", false );
 			break;
 		}
 

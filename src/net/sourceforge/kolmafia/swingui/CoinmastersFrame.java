@@ -833,6 +833,9 @@ public class CoinmastersFrame
 			PreferenceListenerRegistry.registerPreferenceListener( "manualOfNumberologyAvailable", this );
 			PreferenceListenerRegistry.registerPreferenceListener( "ROMOfOptimalityAvailable", this );
 			PreferenceListenerRegistry.registerPreferenceListener( "schoolOfHardKnocksDiplomaAvailable", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "guideToSafariAvailable", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "glitchItemAvailable", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "lawOfAveragesAvailable", this );
 			PreferenceListenerRegistry.registerPreferenceListener( "essenceOfAnnoyanceAvailable", this );
 		}
 	}

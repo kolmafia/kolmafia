@@ -10348,4 +10348,6 @@
 10320	space chowder	855651055	soupbowl.gif	food	t,d	50
 10321	space wine	709394288	wine2.gif	drink	t,d	50
 10322	The Imploded World	501133194	book4.gif	usable	t	0
-
+10323
+10324
+10325	Law of Averages	514916402	sheet.gif	usable		0
