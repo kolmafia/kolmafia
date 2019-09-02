@@ -371,22 +371,15 @@ public class ResultProcessor
 		}
 	}
 
-	// <table><tr><td><img class=hand src="http://images.kingdomofloathing.com/itemimages/breath.gif" onClick='eff("7ecbd57bcb86d63be06bb6d4b8e7229f");' width=30 height=30 alt="Hot Breath" title="Hot Breath"></td><td valign=center class=effect>You acquire an effect: <b>Hot Breath</b><br>(duration: 5 Adventures)</td></tr></table>
-	// <table><tr><td><img class=hand src="http://images.kingdomofloathing.com/itemimages/milk.gif" onClick='eff("225aa10e75476b0ad5fa576c89df3901");' width=30 height=30></td><td valign=center class=effect>You lose some of an effect: <b>Got Milk</b> (5 Adventures)</td></tr></table>
+	// <table><tr><td><img class=hand src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/breath.gif" onClick='eff("7ecbd57bcb86d63be06bb6d4b8e7229f");' width=30 height=30 alt="Hot Breath" title="Hot Breath"></td><td valign=center class=effect>You acquire an effect: <b>Hot Breath</b><br>(duration: 5 Adventures)</td></tr></table>
+	// <table><tr><td><img class=hand src="https://s3.amazonaws.com//images.kingdomofloathing.com/itemimages/milk.gif" onClick='eff("225aa10e75476b0ad5fa576c89df3901");' width=30 height=30></td><td valign=center class=effect>You lose some of an effect: <b>Got Milk</b> (5 Adventures)</td></tr></table>
+	// <table><tr><td><img class=hand src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/discoleer.gif" onClick='eff("bc3d4aad3454fcd82c066ef3949749ca");' width=30 height=30></td><td valign=center class=effect>You lose an effect: <b>Disco Leer</b></td></tr></table>
 
-	public static Pattern EFFECT_TABLE_PATTERN = Pattern.compile( "<table><tr><td><img[^>]*eff\\(\"(.*?)\"\\)[^>]*>.*?class=effect>(.*?)<b>(.*?)</b>(?:<br>| )\\((?:duration: )?(\\d+) Adventures?\\)</td></tr></table>" );
+	public static Pattern EFFECT_TABLE_PATTERN = Pattern.compile( "<table><tr><td><img[^>]*eff\\(\"(.*?)\"\\)[^>]*>.*?class=effect>(.*?)<b>(.*?)</b>(?:(?:<br>| )\\((?:duration: )?(\\d+) Adventures?\\))?</td></tr></table>" );
 
 	public static LinkedList<AdventureResult> parseEffects( String results )
 	{
-		// Results now come in like this:
-		//
-		// <table><tr><td>You narrow your eyes and begin to leer at things.<center><table><tr><td>
-		// <img class=hand src="http://images.kingdomofloathing.com/itemimages/discoleer.gif" 
-		// onClick='eff("bc3d4aad3454fcd82c066ef3949749ca");' width=30 height=30 alt="Disco Leer"
-		// title="Disco Leer"></td><td valign=center class=effect>You acquire an effect: <b>Disco Leer</b>
-		// <br>(duration: 10 Adventures)</td></tr></table></center></td></tr></table>
-		//
-		// Pre-process all such matches and add them to the passed in list of effects.
+		// Pre-process all effect matches and add them to the passed in list of effects.
 
 		LinkedList<AdventureResult> effects = new LinkedList<AdventureResult>();
 
@@ -404,11 +397,19 @@ public class ResultProcessor
 			}
 
 			String acquisition = effectMatcher.group( 2 );
-			int duration = StringUtilities.parseInt( effectMatcher.group( 4 ) );
+			int duration = 0;
 
-			if ( acquisition.contains( "lose" ) )
+			if ( acquisition.startsWith( "You lose an effect" ) )
 			{
-				duration = -duration;
+				duration = 0;
+			}
+			else if ( acquisition.contains( "lose some of an effect" ) )
+			{
+				duration = -StringUtilities.parseInt( effectMatcher.group( 4 ) );
+			}
+			else
+			{
+				duration = StringUtilities.parseInt( effectMatcher.group( 4 ) );
 			}
 
 			AdventureResult effect = EffectPool.get( effectId, duration );
@@ -778,7 +779,14 @@ public class ResultProcessor
 			return false;
 		}
 
-		String message = acquisition + " " + result.getName() + " (" + result.getCount() + ")";
+		String effectName = result.getName();
+		int count = result.getCount();
+
+		String message = acquisition + " " + effectName;
+		if ( count != 0 )
+		{
+			message += " (" + count + ")";
+		}
 
 		RequestLogger.printLine( message );
 		if ( Preferences.getBoolean( "logStatusEffects" ) )
