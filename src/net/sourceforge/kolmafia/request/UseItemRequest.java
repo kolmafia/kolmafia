@@ -3437,6 +3437,7 @@ public class UseItemRequest
 			     !responseText.contains( "additional carrot" ) &&
 			     !responseText.contains( "larynx become even more pirate" ) &&
 			     !responseText.contains( "become even more of an expert" ) &&
+			     !responseText.contains( "reread the tale and really remember" ) &&
 			     !responseText.contains( "Beleven" ) )
 			{
 				UseItemRequest.lastUpdate = "You can't learn that skill.";
