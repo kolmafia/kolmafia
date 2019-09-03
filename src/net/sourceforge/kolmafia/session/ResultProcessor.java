@@ -733,6 +733,14 @@ public class ResultProcessor
 
 	public static Pattern DURATION_PATTERN = Pattern.compile( "\\((?:duration: )?(\\d+) Adventures?\\)" );
 
+	private static boolean decodedNamesEqual( String name1, String name2 )
+	{
+		// Sacr&eacute; Mental
+		// Sacré Mental
+		return  name1.equals( name2 ) ||
+			StringUtilities.getEntityDecode( name1 ).equals( StringUtilities.getEntityDecode( name2 ) );
+	}
+
 	private static boolean processEffect( LinkedList<String> parsedResults, String acquisition, List<AdventureResult> data,
 					      LinkedList<AdventureResult> effects )
 	{
@@ -744,7 +752,7 @@ public class ResultProcessor
 		String effectName = parsedResults.remove();
 		AdventureResult effect = effects.size() == 0 ? null : effects.getFirst();
 
-		if ( effect != null && effectName.equals( effect.getName() ) )
+		if ( effect != null && decodedNamesEqual( effectName, effect.getName() ) )
 		{
 			effects.removeFirst();
 			return ResultProcessor.processEffect( false, acquisition, effect, data );
