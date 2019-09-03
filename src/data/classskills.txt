@@ -830,6 +830,10 @@
 7313	Spittoon Monsoon	runespoon.gif	5	0	0
 7314	Festoon Buffoon	runespoon.gif	5	0	0
 7315	Beach Combo	beachcomb.gif	5	0	0
+7316	deliver your thesis!	document2.gif	5	0	0
+7317	lecture on velocity	velocity.gif	5	0	0
+7318	lecture on mass	mass.gif	5	0	0
+7319	lecture on relativity	relativity.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
