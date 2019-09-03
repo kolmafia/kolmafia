@@ -6577,25 +6577,6 @@ public class FightRequest
 				return;
 			}
 		}
-		else if ( name.equals( "td" ) )
-		{
-			// If this td element has text directly under it, as
-			// opposed to within an embedded "p" node, say, look
-			// for damage.
-			String str = FightRequest.getContentNodeText( node );
-			if ( !str.equals( "" ) )
-			{
-				String text = node.getText().toString();
-				int damage = FightRequest.parseNormalDamage( text );
-				if ( damage != 0 )
-				{
-					FightRequest.logMonsterAttribute( status, damage, HEALTH );
-					MonsterStatusTracker.damageMonster( damage );
-					FightRequest.processComments( node, status );
-					return;
-				}
-			}
-		}
 
 		FightRequest.processChildren( node, status );
 	}
@@ -7110,6 +7091,19 @@ public class FightRequest
 				FightRequest.handleYearbookCamera( status );
 			}
 			return false;
+		}
+
+		// ammo.gif is a combat item but has weird HTML structure: the
+		// damage dealt is not in a child node
+		if ( image.equals( "ammo.gif" ) )
+		{
+			int damage = FightRequest.parseNormalDamage( str );
+			if ( damage != 0 )
+			{
+				FightRequest.logMonsterAttribute( status, damage, HEALTH );
+				MonsterStatusTracker.damageMonster( damage );
+				return false;
+			}
 		}
 		
 		// Combat item usage: process the children of this node
