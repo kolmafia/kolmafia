@@ -191,10 +191,10 @@ public class ResultProcessor
 		while ( itemMatcher.find() )
 		{
 			String relString = itemMatcher.group( 1 );
-			String itemName = itemMatcher.group( 2 );
+			String itemName = itemMatcher.group( 2 ).trim();
 			String descId = itemMatcher.group( 3 );
 			Matcher boldMatcher = ResultProcessor.BOLD_NAME_PATTERN.matcher( itemMatcher.group(0) );
-			String boldName = boldMatcher.find() ? boldMatcher.group(1) : null;
+			String boldName = boldMatcher.find() ? boldMatcher.group(1).trim() : null;
 			String comment = boldName != null ? boldMatcher.group(2) : null;
 
 			// Both itemName and boldName can have adjectives. If
@@ -334,10 +334,10 @@ public class ResultProcessor
 		while ( itemMatcher.find() )
 		{
 			String relString = itemMatcher.group( 1 );
-			String itemName = itemMatcher.group( 2 );
+			String itemName = itemMatcher.group( 2 ).trim();
 			String descId = itemMatcher.group( 3 );
 			Matcher boldMatcher = ResultProcessor.BOLD_NAME_PATTERN.matcher( itemMatcher.group(0) );
-			String boldName = boldMatcher.find() ? boldMatcher.group(1) : null;
+			String boldName = boldMatcher.find() ? boldMatcher.group(1).trim() : null;
 			boolean hagnk = boldName != null && boldMatcher.group(2) != null;
 
 			// If we don't know this descid, it's an unknown item.
@@ -387,7 +387,8 @@ public class ResultProcessor
 		while ( effectMatcher.find() )
 		{
 			String descId = effectMatcher.group( 1 );
-			String effectName = effectMatcher.group( 3 );
+			// KoL bug: some Affirmations, at least, are reported with a leading space
+			String effectName = effectMatcher.group( 3 ).trim();
 			int effectId = EffectDatabase.getEffectIdFromDescription( descId );
 
 			// If we don't know this effectId, it's an unknown effect
@@ -749,7 +750,8 @@ public class ResultProcessor
 			return false;
 		}
 
-		String effectName = parsedResults.remove();
+		// KoL bug: some Affirmations, at least, are reported with a leading space
+		String effectName = parsedResults.remove().trim();
 		AdventureResult effect = effects.size() == 0 ? null : effects.getFirst();
 
 		if ( effect != null && decodedNamesEqual( effectName, effect.getName() ) )
@@ -812,7 +814,7 @@ public class ResultProcessor
 			return false;
 		}
 
-		String effectName = parsedResults.remove();
+		String effectName = parsedResults.remove().trim();
 
 		String message = acquisition + " " + effectName;
 		RequestLogger.printLine( message );
