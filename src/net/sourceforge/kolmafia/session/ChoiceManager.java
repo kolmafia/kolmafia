@@ -8291,6 +8291,14 @@ public abstract class ChoiceManager
 			}
 			break;			
 
+		case 675:
+			// Melon Collie and the Infinite Lameness
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				ResultProcessor.removeItem( ItemPool.DRUM_N_BASS_RECORD );
+			}
+			break;
+
 		case 679:
 			// Keep On Turnin' the Wheel in the Sky
 			QuestDatabase.setQuestProgress( Quest.GARBAGE, "step10" );
