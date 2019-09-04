@@ -2473,6 +2473,9 @@ tree hugging hippy protestor	2066	limphippy1.gif	Scale: 6 Cap: 1000 Floor: 10 In
 tree loving hippy protestor	2086	limphippy2.gif	Scale: 6 Cap: 1000 Floor: 10 Init: 50 P: hippy E: stench	deadfall branch (0)
 
 # Kingdom of Exploathing
+invader bullet	2137	invaderbullet.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: 10000 P: construct
+skeleton astronaut	2136	astroskeleton.gif	WANDERER Atk: 100 Def: 100 HP: 100 Init: 100 P: undead
+the invader	2138	invader.gif	Atk: 1000 Def: 1000 HP: 1000 Init: -10000 P: construct
 
 # Retired Standard Monsters
 Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation Manuel: "Astronomer" Wiki: "Astronomer"	star chart (100)
