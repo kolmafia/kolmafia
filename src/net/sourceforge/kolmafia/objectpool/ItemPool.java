@@ -1882,6 +1882,7 @@ public class ItemPool
 	public static final int YE_OLDE_MEAD = 6276;
 	public static final int MARK_V_STEAM_HAT = 6289;
 	public static final int ROCKETSHIP = 6290;
+	public static final int DRUM_N_BASS_RECORD = 6295;
 	public static final int JARLSBERG_SOUL_FRAGMENT = 6297;
 	public static final int MODEL_AIRSHIP = 6299;
 	public static final int RING_OF_DETECT_BORING_DOORS = 6303;
