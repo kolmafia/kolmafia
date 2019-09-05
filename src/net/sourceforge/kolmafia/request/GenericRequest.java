@@ -239,7 +239,11 @@ public class GenericRequest
 
 		GenericRequest.setLoginServer( GenericRequest.SERVERS[ useDevProxyServer ? 0 : 1 ] );
 
-		if ( Preferences.getBoolean( "allowSocketTimeout" ) )
+		// Disable this, since it causes unrecoverable problems in
+		// situations of lag, rather than simply slowing things down
+		boolean allowSocketTimeout = false; // Preferences.getBoolean( "allowSocketTimeout" );
+
+		if ( allowSocketTimeout )
 		{
 			systemProperties.put( "sun.net.client.defaultConnectTimeout", "10000" );
 			systemProperties.put( "sun.net.client.defaultReadTimeout", "120000" );
