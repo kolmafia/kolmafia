@@ -972,6 +972,15 @@
    "longDesc": "Choose desired skills, enhancements, extrusions, and enquiries."
  },
  {
+   "repo": "https://svn.code.sf.net/p/veracity0/code/spacegate-sounds/",
+   "author": "Veracity",
+   "name": "Spacegate Sounds",
+   "forumThread": "https://kolmafia.us/showthread.php?24197",
+   "shortDesc": "Plays KAWOOSH when you activate the Spacegate",
+   "category": "relay",
+   "longDesc": "If relayAddsSounds is true, when you activate the Spacegate, you'll get a Stargate KAWOOSH."
+ },
+ {
    "repo": "https://svn.code.sf.net/p/bale/spelunky/code/",
    "author": "Bale",
    "name": "Spelunky Reference",
