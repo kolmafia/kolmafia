@@ -1189,7 +1189,13 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "run_choice", DataTypes.BUFFER_TYPE, params ) );
 
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.STRING_TYPE  };
+		functions.add( new LibraryFunction( "run_choice", DataTypes.BUFFER_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.BOOLEAN_TYPE };
+		functions.add( new LibraryFunction( "run_choice", DataTypes.BUFFER_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "run_choice", DataTypes.BUFFER_TYPE, params ) );
 
 		params = new Type[] {};
@@ -5481,16 +5487,30 @@ public abstract class RuntimeLibrary
 
 	public static Value run_choice( Interpreter interpreter, final Value decision )
 	{
-		return run_choice( interpreter, decision, DataTypes.TRUE_VALUE );
+		return run_choice( interpreter, decision, DataTypes.TRUE_VALUE, DataTypes.STRING_INIT );
 	}
 
-	public static Value run_choice( Interpreter interpreter, final Value decision, final Value custom )
+	public static Value run_choice( Interpreter interpreter, final Value decision, final Value extra )
+	{
+		if ( extra.getType().equals( DataTypes.TYPE_BOOLEAN ) )
+		{
+			// if extra is a boolean, it specifies whether to automate fights
+			return run_choice( interpreter, decision, extra, DataTypes.STRING_INIT );
+		}
+
+		// Otherwise it must be a string and it specifies additional form fields
+		return run_choice( interpreter, decision, DataTypes.TRUE_VALUE, extra );
+	}
+
+	public static Value run_choice( Interpreter interpreter, final Value decision, final Value custom, final Value more )
 	{
 		int option = (int) decision.intValue();
 		boolean handleFights = custom.intValue() != 0;
+		String extraFields = more.toString();
 
 		String response = null;
-		if ( ( !ChoiceManager.handlingChoice && !FightRequest.choiceFollowsFight ) || ChoiceManager.lastResponseText == null ||
+		if ( ( !ChoiceManager.handlingChoice && !FightRequest.choiceFollowsFight ) ||
+		     ChoiceManager.lastResponseText == null ||
 		     option == 0 )
 		{
 			// If you are not in a choice, or you send 0, just return the last response
@@ -5510,7 +5530,7 @@ public abstract class RuntimeLibrary
 			// If want to handle fights via CCS, use ChoiceManager.CHOICE_HANDLER
 			if ( handleFights )
 			{
-				response = ChoiceManager.processChoiceAdventure( option, false );
+				response = ChoiceManager.processChoiceAdventure( option, extraFields, false );
 			}
 			// Otherwise, submit it in a new GenericRequest
 			else
@@ -5518,8 +5538,25 @@ public abstract class RuntimeLibrary
 				GenericRequest request = new GenericRequest( "choice.php" );
 				request.addFormField( "whichchoice", String.valueOf( ChoiceManager.lastChoice ) );
 				request.addFormField( "option", String.valueOf( decision ) );
+				if ( !extraFields.equals( "" ) )
+				{
+					String fields[] = extraFields.split( "&" );
+					for ( String field : fields )
+					{
+						int equals = field.indexOf( "=" );
+						if ( equals == -1 )
+						{
+							request.addFormField( field );
+						}
+						else
+						{
+							request.addFormField( field.substring( 0, equals ), field.substring( equals + 1 ) );
+						}
+					}
+				}
 				request.addFormField( "pwd", GenericRequest.passwordHash );
 				request.run();
+				response = request.responseText;
 			}
 		}
 		return new Value( DataTypes.BUFFER_TYPE, "", new StringBuffer( response == null ? "" : response ) );
