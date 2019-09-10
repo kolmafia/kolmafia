@@ -10350,4 +10350,4 @@
 10322	The Imploded World	501133194	book4.gif	usable	t	0
 10323	packaged Pocket Professor	468273178	lilprofessoroff.gif	grow	t	0
 10324	Pocket Professor memory chip	831832648	memchip.gif	familiar	t,d	75
-10325	Law of Averages	514916402	sheet.gif	usable		0
+10325	Law of Averages	514916402	sheet.gif	reusable		0

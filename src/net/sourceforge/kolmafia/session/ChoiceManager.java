@@ -7110,11 +7110,32 @@ public abstract class ChoiceManager
 
 	public static final String processChoiceAdventure( final int decision, final boolean tryToAutomate )
 	{
+		return ChoiceManager.processChoiceAdventure( decision, "", tryToAutomate );
+	}
+
+	public static final String processChoiceAdventure( final int decision, final String extraFields, final boolean tryToAutomate )
+	{
 		GenericRequest request = ChoiceManager.CHOICE_HANDLER;
 
 		request.constructURLString( "choice.php" );
 		request.addFormField( "whichchoice", String.valueOf( ChoiceManager.lastChoice ) );
 		request.addFormField( "option", String.valueOf( decision ) );
+		if ( !extraFields.equals( "" ) )
+		{
+			String[] fields = extraFields.split( "&" );
+			for ( String field : fields )
+			{
+				int equals = field.indexOf( "=" );
+				if ( equals == -1 )
+				{
+					request.addFormField( field );
+				}
+				else
+				{
+					request.addFormField( field.substring( 0, equals ), field.substring( equals + 1 ) );
+				}
+			}
+		}
 		request.addFormField( "pwd", GenericRequest.passwordHash );
 		request.run();
 
@@ -7209,7 +7230,20 @@ public abstract class ChoiceManager
 			}
 
 			String option = "choiceAdventure" + choice;
-			String decision = Preferences.getString( option );
+			String optionValue = Preferences.getString( option );
+			String decision;
+			String extraFields;
+			int amp = optionValue.indexOf( "&" );
+			if ( amp == -1 )
+			{
+				decision = optionValue;
+				extraFields = "";
+			}
+			else
+			{
+				decision = optionValue.substring( 0, amp );
+				extraFields = optionValue.substring( amp + 1 );
+			}
 
 			// If choice zero is not "Manual Control", adjust it to an actual choice
 
@@ -7264,6 +7298,22 @@ public abstract class ChoiceManager
 
 			request.addFormField( "whichchoice", String.valueOf( choice ) );
 			request.addFormField( "option", decision );
+			if ( !extraFields.equals( "" ) )
+			{
+				String[] fields = extraFields.split( "&" );
+				for ( String field : fields )
+				{
+					int equals = field.indexOf( "=" );
+					if ( equals == -1 )
+					{
+						request.addFormField( field );
+					}
+					else
+					{
+						request.addFormField( field.substring( 0, equals ), field.substring( equals + 1 ) );
+					}
+				}
+			}
 			request.addFormField( "pwd", GenericRequest.passwordHash );
 
 			request.run();
