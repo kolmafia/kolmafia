@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -128,7 +127,7 @@ public class TavernManager
 
 	private static int exploreTavern( final int goal )
 	{
-		if ( (KoLCharacter.getLevel() < 3 ) && (Objects.equals(KoLCharacter.getPath(), KoLCharacter.KINGDOM_OF_EXPLOATHING)))
+		if ( (KoLCharacter.getLevel() < 3 ) && !KoLCharacter.isKingdomOfExploathing() )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You need to level up first." );
 			return -1;
