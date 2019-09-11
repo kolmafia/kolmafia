@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia.webui;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.TreeMap;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -689,7 +688,7 @@ public class StationaryButtonDecorator
 		StationaryButtonDecorator.addButton( buffer, name, action, true, false );
 
 		StringBuilder actionBuffer = new StringBuilder();
-		TreeMap<Integer,String> choices = ChoiceUtilities.parseChoices( ChoiceManager.lastResponseText );
+		Map<Integer,String> choices = ChoiceUtilities.parseChoices( ChoiceManager.lastResponseText );
 		for ( Map.Entry<Integer,String> entry : choices.entrySet() )
 		{
 			actionBuffer.setLength( 0 );

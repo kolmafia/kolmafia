@@ -6979,7 +6979,7 @@ public abstract class ChoiceManager
 			// Tomb of the Unknown Your Class Here
 
 			String responseText = ChoiceManager.lastResponseText;
-			TreeMap<Integer,String> choices = ChoiceUtilities.parseChoices( responseText );
+			Map<Integer,String> choices = ChoiceUtilities.parseChoices( responseText );
 			int options = choices.size();
 			if ( options == 1 )
 			{
@@ -15996,7 +15996,7 @@ public abstract class ChoiceManager
 
 			// This handles every choice in the "The Unknown Tomb"
 			// Many of them have a single option.
-			TreeMap<Integer,String> choices = ChoiceUtilities.parseChoices( responseText );
+			Map<Integer,String> choices = ChoiceUtilities.parseChoices( responseText );
 			if ( choices.size() == 1 )
 			{
 				return "1";
@@ -16038,7 +16038,7 @@ public abstract class ChoiceManager
 
 		case 1087:
 			// The Dark and Dank and Sinister Cave Entrance
-			TreeMap<Integer,String> choices = ChoiceUtilities.parseChoices( responseText );
+			Map<Integer,String> choices = ChoiceUtilities.parseChoices( responseText );
 			if ( choices.size() == 1 )
 			{
 				return "1";
@@ -17338,7 +17338,7 @@ public abstract class ChoiceManager
 		}
 
 		// If we didn't find a spoiler, use KoL's label for the option
-		TreeMap<Integer,String> choices = ChoiceUtilities.parseChoices( ChoiceManager.lastResponseText );
+		Map<Integer,String> choices = ChoiceUtilities.parseChoices( ChoiceManager.lastResponseText );
 		String desc = choices.get( decision );
 
 		// If we still can't find it, throw up our hands

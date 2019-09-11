@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.Map;
-import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -77,7 +76,7 @@ public class ChoiceCommand
 		    parameters = parameters.substring( 0, parameters.length() - 7 ).trim();
 		}
 		int decision = 0;
-		TreeMap<Integer,String> choices = ChoiceUtilities.parseChoicesWithSpoilers();
+		Map<Integer,String> choices = ChoiceUtilities.parseChoicesWithSpoilers();
 		if ( StringUtilities.isNumeric( parameters ) )
 		{
 			decision = StringUtilities.parseInt( parameters );
@@ -112,16 +111,31 @@ public class ChoiceCommand
 
 	public static void printChoices()
 	{
-		TreeMap<Integer,String> choices = ChoiceUtilities.parseChoicesWithSpoilers();
-		for ( Map.Entry<Integer,String> entry : choices.entrySet() )
+		Map<Integer,String> choices = ChoiceUtilities.parseChoicesWithSpoilers();
+		Map<Integer, Map<String, Map<String, String>>> selects = ChoiceUtilities.parseSelectInputsWithTags( ChoiceManager.lastResponseText );
+		for ( Map.Entry<Integer,String> choice : choices.entrySet() )
 		{
-			RequestLogger.printLine( "<b>choice " + entry.getKey() + "</b>: " + entry.getValue() );
+			Integer choiceKey = choice.getKey();
+			RequestLogger.printLine( "<b>choice " + choiceKey + "</b>: " + choice.getValue() );
+			Map<String, Map<String, String>> choiceSelects = selects.get( choiceKey );
+			if ( choiceSelects != null )
+			{
+				for ( Map.Entry<String,Map<String, String>> select : choiceSelects.entrySet() )
+				{
+					Map<String, String> options = select.getValue();
+					RequestLogger.printLine( "&nbsp;&nbsp;select = <b>" + select.getKey() + "</b> (" + options.size() + " options)" );
+					for ( Map.Entry<String, String> option : options.entrySet() )
+					{
+						RequestLogger.printLine( "&nbsp;&nbsp;&nbsp;&nbsp;" + option.getKey() + " => " + option.getValue() );
+					}
+				}
+			}
 		}
 	}
 	
 	public static void logChoices()
 	{
-		TreeMap<Integer,String> choices = ChoiceUtilities.parseChoicesWithSpoilers();
+		Map<Integer,String> choices = ChoiceUtilities.parseChoicesWithSpoilers();
 		int choice = ChoiceManager.currentChoice();
 		for ( Map.Entry<Integer,String> entry : choices.entrySet() )
 		{
