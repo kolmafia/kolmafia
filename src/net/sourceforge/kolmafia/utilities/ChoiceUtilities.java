@@ -33,8 +33,11 @@
 
 package net.sourceforge.kolmafia.utilities;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -56,7 +59,7 @@ public class ChoiceUtilities
 	private static final Pattern OPTION_PATTERN2 = Pattern.compile( "&option=(\\d+)" );
 	private static final Pattern TEXT_PATTERN2 = Pattern.compile( "title=(?:\"([^\"]*)\"|'([^']*)'|([^ >]*))" );
 
-	public static TreeMap<Integer,String> parseChoices( final String responseText )
+	public static Map<Integer,String> parseChoices( final String responseText )
 	{
 		TreeMap<Integer,String> rv = new TreeMap<Integer,String>();
 		if ( responseText == null )
@@ -133,9 +136,9 @@ public class ChoiceUtilities
 		return rv;
 	}
 
-	public static TreeMap<Integer,String> parseChoicesWithSpoilers()
+	public static Map<Integer,String> parseChoicesWithSpoilers()
 	{
-		TreeMap<Integer,String> rv = ChoiceUtilities.parseChoices( ChoiceManager.lastResponseText );
+		Map<Integer,String> rv = ChoiceUtilities.parseChoices( ChoiceManager.lastResponseText );
 
 		if ( !ChoiceManager.handlingChoice || ChoiceManager.lastResponseText == null )
 		{
@@ -170,13 +173,13 @@ public class ChoiceUtilities
 
 	public static boolean optionAvailable( final String decision, final String responseText)
 	{
-		TreeMap<Integer,String> choices = ChoiceUtilities.parseChoices( responseText );
+		Map<Integer,String> choices = ChoiceUtilities.parseChoices( responseText );
 		return choices.containsKey( StringUtilities.parseInt( decision ) );
 	}
 
 	public static String actionOption( final String action, final String responseText)
 	{
-		TreeMap<Integer,String> choices = ChoiceUtilities.parseChoices( responseText );
+		Map<Integer,String> choices = ChoiceUtilities.parseChoices( responseText );
 		for ( Map.Entry<Integer,String> entry : choices.entrySet() )
 		{
 			if ( entry.getValue().equals( action ) )
@@ -185,5 +188,166 @@ public class ChoiceUtilities
 			}
 		}
 		return null;
+	}
+
+	// Support for extra fields. For example, tossid=10320
+	// Assume that they are all options in a "select" (dropdown) input
+
+	// <select name=tossid>><option value=7375>actual tapas  (5 casualties)</option>
+	private static final Pattern SELECT_PATTERN = Pattern.compile( "<select name=(.*?)>(.*?)</select>", Pattern.DOTALL );
+	private static final Pattern SELECT_OPTION_PATTERN = Pattern.compile( "<option value=(.*?)>(.*?)</option>" );
+
+	public static Map<Integer, Map<String, Set<String>>> parseSelectInputs( final String responseText )
+	{
+		// Return a map from CHOICE => map from  NAME => set of OPTIONS
+		Map<Integer, Map<String, Set<String>>> rv = new TreeMap<Integer, Map<String, Set<String>>>();
+
+		if ( responseText == null )
+		{
+			return rv;
+		}
+
+		// Find all choice forms
+		Matcher m = FORM_PATTERN.matcher( responseText );
+		while ( m.find() )
+		{
+			String form = m.group();
+			if ( !form.contains( "choice.php" ) )
+			{
+				continue;
+			}
+			Matcher optMatcher = OPTION_PATTERN1.matcher( form );
+			if ( !optMatcher.find() )
+			{
+				continue;
+			}
+
+			// Collect all the selects from this form
+			Map<String, Set<String>> choice = new TreeMap<String, Set<String>>();
+
+			// Find all "select" tags within this form
+			Matcher s = SELECT_PATTERN.matcher( form );
+			while ( s.find() )
+			{
+				String name = s.group(1);
+
+				// For each, extract all the options into a set
+				Set<String> options = new TreeSet<String>();
+
+				Matcher o = SELECT_OPTION_PATTERN.matcher( s.group(2) );
+				while ( o.find() )
+				{
+					options.add( o.group(1) );
+				}
+
+				choice.put( name, options );
+			}
+
+			rv.put( Integer.parseInt( optMatcher.group( 1 ) ), choice );
+		}
+
+		return rv;
+	}
+
+	public static Map<Integer, Map<String, Map<String, String>>> parseSelectInputsWithTags( final String responseText )
+	{
+		// Return a map from CHOICE => map from  NAME => map from OPTION => SPOILER
+		Map<Integer, Map<String, Map<String, String>>> rv = new TreeMap<Integer, Map<String, Map<String, String>>>();
+
+		if ( responseText == null )
+		{
+			return rv;
+		}
+
+		// Find all choice forms
+		Matcher m = FORM_PATTERN.matcher( responseText );
+		while ( m.find() )
+		{
+			String form = m.group();
+			if ( !form.contains( "choice.php" ) )
+			{
+				continue;
+			}
+			Matcher optMatcher = OPTION_PATTERN1.matcher( form );
+			if ( !optMatcher.find() )
+			{
+				continue;
+			}
+
+			// Collect all the selects from this form
+			Map<String, Map<String, String>> choice = new TreeMap<String, Map<String, String>>();
+
+			// Find all "select" tags within this form
+			Matcher s = SELECT_PATTERN.matcher( form );
+			while ( s.find() )
+			{
+				String name = s.group(1);
+
+				// For each, extract all the options into a map
+				Map<String, String> options = new TreeMap<String, String>();
+
+				Matcher o = SELECT_OPTION_PATTERN.matcher( s.group(2) );
+				while ( o.find() )
+				{
+					String option = o.group(1);
+					String tag = o.group(2);
+					options.put( option, tag );
+				}
+				choice.put( name, options );
+			}
+
+			rv.put( Integer.parseInt( optMatcher.group( 1 ) ), choice );
+		}
+
+		return rv;
+	}
+
+	public static boolean extraFieldsValid( final String decision, final String extraFields, final String responseText)
+	{
+		// Get a map from CHOICE => map from  NAME => set of OPTIONS
+		Map<Integer, Map<String, Set<String>>> forms = ChoiceUtilities.parseSelectInputs( responseText );
+
+		// Make sure that the decision has available selects
+		Map<String, Set<String>> options = forms.get( StringUtilities.parseInt( decision ) );
+		if ( options == null )
+		{
+			// If there are no selects in this form, extra fields are not allowed.
+			return extraFields.equals( "" );
+		}
+
+		// There are selects available/required for this form.
+		// Make a map from extra field => value
+		Map<String, String> suppliedFields = new HashMap<String, String>();
+		for ( String field : extraFields.split( "&" ) )
+		{
+			int equals = field.indexOf( "=" );
+			if ( equals != -1 )
+			{
+				String name = field.substring( 0, equals );
+				String value = field.substring( equals + 1 );
+				suppliedFields.put( name, value );
+			}
+		}
+
+		// All selects in the form must have a value supplied
+		for ( Map.Entry<String, Set<String>> select : options.entrySet() )
+		{
+			String name = select.getKey();
+			Set<String> values = select.getValue();
+			String supplied = suppliedFields.get( name );
+			if ( supplied == null )
+			{
+				// Did not supply a value for a field
+				return false;
+			}
+			if ( !values.contains( supplied) )
+			{
+				// Supplied an unavailable value
+				return false;
+			}
+		}
+
+		// All extraFields have been validated
+		return true;
 	}
 }

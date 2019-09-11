@@ -43,7 +43,7 @@ import java.io.OutputStreamWriter;
 
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.Set;
 
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
@@ -1041,11 +1041,26 @@ public class TestCommand
 			ChoiceManager.lastChoice = 0;
 			ChoiceManager.visitChoice( request );
 			RequestLogger.printLine( "choice = " + ChoiceManager.lastChoice );
-			TreeMap<Integer,String> choices = ChoiceUtilities.parseChoices( TestCommand.contents );
+			Map<Integer,String> choices = ChoiceUtilities.parseChoices( TestCommand.contents );
+			Map<Integer, Map<String, Map<String, String>>> selects = ChoiceUtilities.parseSelectInputsWithTags( TestCommand.contents );
 			TestCommand.contents = null;
-			for ( Map.Entry<Integer,String> entry : choices.entrySet() )
+			for ( Map.Entry<Integer,String> choice : choices.entrySet() )
 			{
-				RequestLogger.printLine( "<b>choice " + entry.getKey() + "</b>: " + entry.getValue() );
+				Integer choiceKey = choice.getKey();
+				RequestLogger.printLine( "<b>choice " + choiceKey + "</b>: " + choice.getValue() );
+				Map<String, Map<String, String>> choiceSelects = selects.get( choiceKey );
+				if ( choiceSelects != null )
+				{
+					for ( Map.Entry<String,Map<String, String>> select : choiceSelects.entrySet() )
+					{
+						Map<String, String> options = select.getValue();
+						RequestLogger.printLine( "&nbsp;&nbsp;select = <b>" + select.getKey() + "</b> (" + options.size() + " options)" );
+						for ( Map.Entry<String, String> option : options.entrySet() )
+						{
+							RequestLogger.printLine( "&nbsp;&nbsp;&nbsp;&nbsp;" + option.getKey() + " => " + option.getValue() );
+						}
+					}
+				}
 			}
 			return;
 		}
