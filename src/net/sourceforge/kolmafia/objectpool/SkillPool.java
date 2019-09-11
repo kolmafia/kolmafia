@@ -120,6 +120,7 @@ public class SkillPool
 	public static final int CAROL_OF_THE_THRILLS = 184;
 	public static final int TIKI_MIXOLOGY = 186;
 	public static final int PREVENT_SCURVY = 187;
+	public static final int IMPLODE_UNIVERSE = 188;
 	public static final int WALRUS_TONGUE = 1010;
 	public static final int BATTER_UP = 1014;
 	public static final int CLOBBER = 1022;

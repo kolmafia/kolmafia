@@ -9438,6 +9438,13 @@ public class FightRequest
 			}
 			break;
 
+		case SkillPool.IMPLODE_UNIVERSE:
+			// You close your eyes, concentrate really hard, and implode the portion of the universe that contains your foe.
+			if ( responseText.contains( "implode the portion of the universe that contains your foe" ) || skillSuccess )
+			{
+				Preferences.increment( "_universeImploded" );
+			}
+			break;
 		}
 	}
 
