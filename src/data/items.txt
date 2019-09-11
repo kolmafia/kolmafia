@@ -10296,7 +10296,7 @@
 10268	gray seashell	959980778	seashell3.gif	potion, usable	t,d	5
 10269	green seashell	338927564	seashell4.gif	potion, usable	t,d	5
 10270	yellow seashell	574493175	seashell5.gif	potion, usable	t,d	5
-10271	bunch of sea grapes	581342010	seagrapes.gif	multiple	t,d	15
+10271	bunch of sea grapes	581342010	seagrapes.gif	multiple	t,d	15	bunches of sea grapes
 10272	bottle of sea wine	329178790	wine2.gif	drink	t,d	10
 10273	kelp	528198924	kelp.gif	spleen, usable	t,d	15
 10274	driftwood hat	704654884	driftwoodhat.gif	hat	q,d	11

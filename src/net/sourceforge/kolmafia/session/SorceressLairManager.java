@@ -1155,7 +1155,23 @@ public abstract class SorceressLairManager
 
 		KoLmafia.updateDisplay( "You are currently in room " + currentRoom + " and it will take you " + turns + " turns to clear the maze." );
 
-		// *** Check turns remaining
+		int available = KoLCharacter.getAdventuresLeft();
+		int lacking = turns - available;
+		if ( lacking > 0 )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You need " + lacking + " more adventure" + ( lacking > 1 ? "s" : "" ) + " to take that path through the maze." );
+			return;
+		}
+
+		// This maze looks really complicated, and it might take more
+		// Adventures to finish it than you currently have. Are you
+		// sure you want to go in?
+		//
+		// We have already verified that we have enough adventures.
+		if ( available < 9 )
+		{
+			Preferences.setInteger( "choiceAdventure1004", 1 );	// 'This Maze is... Mazelike...
+		}
 
 		// If it is all traps, assess readiness
 		if ( mode == SorceressLairManager.HEDGE_MAZE_TRAPS )
@@ -1338,7 +1354,7 @@ public abstract class SorceressLairManager
 
 			// *** If we won a fight, will we redirect into the choice?
 
-			// *** What if we ran out of turns?
+			// This shouldn't happen. We checked available turns before we entered the maze.
 			if ( request.responseText.contains( "You don't have time" ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You're out of adventures." );
