@@ -748,6 +748,10 @@ public class QuestManager
 		{
 			Preferences.setBoolean( "_spacegateToday", true );
 		}
+		if ( location.contains( "action=sg_Terminal" ) )
+		{
+			parseSpacegateTerminal( responseText, false );
+		}
 	}
 
 	private static void handleFantasyRealmChange( final String location, final String responseText )
