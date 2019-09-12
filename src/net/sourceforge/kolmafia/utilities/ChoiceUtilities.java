@@ -171,12 +171,6 @@ public class ChoiceUtilities
 		return rv;
 	}
 
-	public static boolean optionAvailable( final String decision, final String responseText)
-	{
-		Map<Integer,String> choices = ChoiceUtilities.parseChoices( responseText );
-		return choices.containsKey( StringUtilities.parseInt( decision ) );
-	}
-
 	public static String actionOption( final String action, final String responseText)
 	{
 		Map<Integer,String> choices = ChoiceUtilities.parseChoices( responseText );
@@ -302,31 +296,101 @@ public class ChoiceUtilities
 		return rv;
 	}
 
-	public static boolean extraFieldsValid( final String decision, final String extraFields, final String responseText)
+	public static String validateChoiceFields( final String decision, final String extraFields, final String responseText)
 	{
-		// Get a map from CHOICE => map from  NAME => set of OPTIONS
+		// Given the response text from visiting a choice, determine if
+		// a particular decision (option) and set of extra fields are valid.
+		//
+		// Some decisions are not always available.
+		// Some decisions have extra fields from "select" inputs which must be specified.
+		// Some select inputs are variable: available options vary.
+
+		// This method checks all of the following:
+		//
+		// - The decision is currently available
+		// - All required select inputs are supplied
+		// - No invalid select inputs are supplied
+		//
+		// If all is well, null is returned, and decision + extraFields
+		// will work as a response to the choice as presented
+		//
+		// If there are errors, returns a string, suitable as an error
+		// message, describing all of the issues.
+
+		// Must have a response text to examine
+		if ( responseText == null )
+		{
+			return "No response text.";
+		}
+
+		// Figure out which choice we are in from responseText
+		int choice = ChoiceManager.extractChoice( responseText );
+		if ( choice == 0 )
+		{
+			return "No choice adventure in response text.";
+		}
+
+		String choiceOption = choice + "/" + decision;
+
+		// See if supplied decision is available
+		Map<Integer,String> choices = ChoiceUtilities.parseChoices( responseText );
+		if ( !choices.containsKey( StringUtilities.parseInt( decision ) ) )
+		{
+			return "Choice option " + choiceOption + " is not available.";
+		}
+		
+		// Accumulate multiple errors in a buffer
+		StringBuilder errors = new StringBuilder();
+
+		// Extract supplied extra fields
+		Set<String> extras = new TreeSet<String>();
+		for ( String field : extraFields.split( "&" ) )
+		{
+			if ( field.equals( "" ) )
+			{
+			}
+			else if ( field.indexOf( "=" ) != -1 )
+			{
+				extras.add( field );
+			}
+			else
+			{
+				errors.append( "Invalid extra field: '" + field + "'; no value supplied.\n" );
+			}
+		}
+
+		// Get a map from CHOICE => map from NAME => set of OPTIONS
 		Map<Integer, Map<String, Set<String>>> forms = ChoiceUtilities.parseSelectInputs( responseText );
 
-		// Make sure that the decision has available selects
+		// Does the decision have extra selects?
 		Map<String, Set<String>> options = forms.get( StringUtilities.parseInt( decision ) );
+
 		if ( options == null )
 		{
-			// If there are no selects in this form, extra fields are not allowed.
-			return extraFields.equals( "" );
+			// No. If the user supplied no extra fields, all is well
+			if ( extras.size() == 0 )
+			{
+				return ( errors.length() > 0 ) ? errors.toString() : null;
+			}
+			// Otherwise, list all unexpected extra fields
+			for ( String extra : extras )
+			{
+				errors.append( "Choice option " + choiceOption + "does not require '" + extra + "'.\n" );
+			}
+			return errors.toString();
 		}
 
 		// There are selects available/required for this form.
-		// Make a map from extra field => value
-		Map<String, String> suppliedFields = new HashMap<String, String>();
-		for ( String field : extraFields.split( "&" ) )
+
+		// Make a map from supplied select field => value
+		Map<String, String> suppliedFields = new TreeMap<String, String>();
+		for ( String field : extras )
 		{
+			// We validated this above; only fields with '=' are included
 			int equals = field.indexOf( "=" );
-			if ( equals != -1 )
-			{
-				String name = field.substring( 0, equals );
-				String value = field.substring( equals + 1 );
-				suppliedFields.put( name, value );
-			}
+			String name = field.substring( 0, equals );
+			String value = field.substring( equals + 1 );
+			suppliedFields.put( name, value );
 		}
 
 		// All selects in the form must have a value supplied
@@ -338,16 +402,24 @@ public class ChoiceUtilities
 			if ( supplied == null )
 			{
 				// Did not supply a value for a field
-				return false;
+				errors.append( "Choice option " + choiceOption + " requires '" + name + "' but not supplied.\n" );
 			}
-			if ( !values.contains( supplied) )
+			else if ( !values.contains( supplied) )
 			{
-				// Supplied an unavailable value
-				return false;
+				errors.append( "Choice option " + choiceOption + " requires '" + name + "' but '" + supplied + "' is not a valid value.\n" );
 			}
 		}
 
-		// All extraFields have been validated
-		return true;
+		// No invalid selects in the form can be supplied
+		for ( Map.Entry<String, String> supplied : suppliedFields.entrySet() )
+		{
+			String name = supplied.getKey();
+			if ( !options.containsKey( name ) )
+			{
+				errors.append( "Choice option " + choiceOption + "does not require '" + name + "'.\n" );
+			}
+		}
+
+		return ( errors.length() > 0 ) ? errors.toString() : null;
 	}
 }

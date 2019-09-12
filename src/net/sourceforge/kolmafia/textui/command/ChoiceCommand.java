@@ -53,7 +53,7 @@ public class ChoiceCommand
 {
 	public ChoiceCommand()
 	{
-		this.usage = " [<number> [always]|<text>] - list or choose choice adventure options.";
+		this.usage = " [<number> [FIELD=VALUE]... [always]] - list or choose choice adventure options.";
 	}
 
 	@Override
@@ -75,38 +75,55 @@ public class ChoiceCommand
 		    always = true;
 		    parameters = parameters.substring( 0, parameters.length() - 7 ).trim();
 		}
-		int decision = 0;
-		Map<Integer,String> choices = ChoiceUtilities.parseChoicesWithSpoilers();
-		if ( StringUtilities.isNumeric( parameters ) )
+
+		// DECISION [FIELD=VALUE]...
+		String[] fields = parameters.split( " +" );
+		String decision = fields[ 0 ];
+
+		if ( !StringUtilities.isNumeric( decision ) )
 		{
-			decision = StringUtilities.parseInt( parameters );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Decision '" + decision + "' must be a number." );
+			return;
 		}
-		else
+
+		StringBuilder buf = new StringBuilder();
+		for ( int i = 1; i < fields.length; ++i )
 		{
-			for ( Map.Entry<Integer,String> entry : choices.entrySet() )
+			String field = fields[ i ];
+			if ( field.indexOf( "=" ) == -1 )
 			{
-				if ( entry.getValue().toLowerCase().indexOf( parameters.toLowerCase() ) != -1 )
-				{
-					decision = entry.getKey().intValue();
-					break;
-				}
+				RequestLogger.printLine( "Field '" + field + "' must have a value; ignoring." );
+				continue;
 			}
+			if ( buf.length() > 0 )
+			{
+				buf.append( "&" );
+			}
+			buf.append( field );
 		}
-		
-		if ( !choices.containsKey( IntegerPool.get( decision ) ) )
+
+		String extraFields = buf.toString();
+
+		String error = ChoiceUtilities.validateChoiceFields( decision, extraFields, ChoiceManager.lastResponseText );
+		if ( error != null )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "That isn't one of your choices." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, error );
 			return;
 		}
 
 		if (always)
 		{
 			String pref = "choiceAdventure" + ChoiceManager.currentChoice();
-			RequestLogger.printLine( pref + " => " + decision );
-			Preferences.setInteger( pref, decision );
+			String value = decision;
+			if ( !extraFields.equals( "" ) )
+			{
+				value += "&" + extraFields;
+			}
+			RequestLogger.printLine( pref + " => " + value );
+			Preferences.setString( pref, value );
 		}
 
-		ChoiceManager.processChoiceAdventure( decision, true );
+		ChoiceManager.processChoiceAdventure( decision, extraFields, true );
 	}
 
 	public static void printChoices()

@@ -7108,9 +7108,9 @@ public abstract class ChoiceManager
 		ChoiceManager.processChoiceAdventure( ChoiceManager.CHOICE_HANDLER, "choice.php", responseText );
 	}
 
-	public static final String processChoiceAdventure( final int decision, final boolean tryToAutomate )
+	public static final String processChoiceAdventure( final String decision, final String extraFields, final boolean tryToAutomate )
 	{
-		return ChoiceManager.processChoiceAdventure( decision, "", tryToAutomate );
+		return ChoiceManager.processChoiceAdventure( StringUtilities.parseInt( decision ), extraFields, tryToAutomate );
 	}
 
 	public static final String processChoiceAdventure( final int decision, final String extraFields, final boolean tryToAutomate )
@@ -7126,11 +7126,7 @@ public abstract class ChoiceManager
 			for ( String field : fields )
 			{
 				int equals = field.indexOf( "=" );
-				if ( equals == -1 )
-				{
-					request.addFormField( field );
-				}
-				else
+				if ( equals != -1 )
 				{
 					request.addFormField( field.substring( 0, equals ), field.substring( equals + 1 ) );
 				}
@@ -7231,19 +7227,10 @@ public abstract class ChoiceManager
 
 			String option = "choiceAdventure" + choice;
 			String optionValue = Preferences.getString( option );
-			String decision;
-			String extraFields;
 			int amp = optionValue.indexOf( "&" );
-			if ( amp == -1 )
-			{
-				decision = optionValue;
-				extraFields = "";
-			}
-			else
-			{
-				decision = optionValue.substring( 0, amp );
-				extraFields = optionValue.substring( amp + 1 );
-			}
+
+			String decision = ( amp == -1 ) ? optionValue : optionValue.substring( 0, amp );
+			String extraFields = ( amp == -1 ) ? "" : optionValue.substring( amp + 1 );
 
 			// If choice zero is not "Manual Control", adjust it to an actual choice
 
@@ -7286,11 +7273,11 @@ public abstract class ChoiceManager
 				return;
 			}
 
-			// Make sure that KoL currently allows the chosen choice
-
-			if ( !ChoiceUtilities.optionAvailable( decision, request.responseText ) )
+			// Make sure that KoL currently allows the chosen choice/decision/extraFields
+			String error = ChoiceUtilities.validateChoiceFields( decision, extraFields, request.responseText );
+			if ( error != null )
 			{
-				KoLmafia.updateDisplay( MafiaState.ABORT, "Requested choice (" + decision + ") for choice #" + choice + " is not currently available." );
+				KoLmafia.updateDisplay( MafiaState.ABORT, error );
 				ChoiceCommand.printChoices();
 				request.showInBrowser( true );
 				return;
@@ -7304,11 +7291,7 @@ public abstract class ChoiceManager
 				for ( String field : fields )
 				{
 					int equals = field.indexOf( "=" );
-					if ( equals == -1 )
-					{
-						request.addFormField( field );
-					}
-					else
+					if ( equals != -1 )
 					{
 						request.addFormField( field.substring( 0, equals ), field.substring( equals + 1 ) );
 					}
@@ -7323,7 +7306,11 @@ public abstract class ChoiceManager
 	public static final int getDecision( int choice, String responseText )
 	{
 		String option = "choiceAdventure" + choice;
-		String decision = Preferences.getString( option );
+		String optionValue = Preferences.getString( option );
+		int amp = optionValue.indexOf( "&" );
+
+		String decision = ( amp == -1 ) ? optionValue : optionValue.substring( 0, amp );
+		String extraFields = ( amp == -1 ) ? "" : optionValue.substring( amp + 1 );
 
 		// If choice decision is not "Manual Control", adjust it to an actual option
 
@@ -7339,7 +7326,8 @@ public abstract class ChoiceManager
 		decision = ChoiceManager.specialChoiceDecision2( choice, decision, Integer.MAX_VALUE, responseText );
 
 		// Currently unavailable decision, manual choice requested, or unsupported choice
-		if ( decision.equals( "0" ) || decision.equals( "" ) || !ChoiceUtilities.optionAvailable( decision, responseText ) )
+		if ( decision.equals( "0" ) || decision.equals( "" ) ||
+		     ChoiceUtilities.validateChoiceFields( decision, extraFields, responseText) != null )
 		{
 			return 0;
 		}
