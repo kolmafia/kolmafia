@@ -42,6 +42,8 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.RequestLogger;
+
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -59,9 +61,41 @@ public class ChoiceUtilities
 	private static final Pattern OPTION_PATTERN2 = Pattern.compile( "&option=(\\d+)" );
 	private static final Pattern TEXT_PATTERN2 = Pattern.compile( "title=(?:\"([^\"]*)\"|'([^']*)'|([^ >]*))" );
 
+	private static final Pattern [] CHOICE_PATTERNS =
+	{
+		Pattern.compile( "name=['\"]?whichchoice['\"]? value=['\"]?(\\d+)['\"]?" ),
+		Pattern.compile( "value=['\"]?(\\d+)['\"]? name=['\"]?whichchoice['\"]?" ),
+		Pattern.compile( "choice.php\\?whichchoice=(\\d+)" ),
+	};
+
+	public static int extractChoice( final String responseText )
+	{
+		for ( Pattern pattern : ChoiceUtilities.CHOICE_PATTERNS )
+		{
+			Matcher matcher = pattern.matcher( responseText );
+			if ( matcher.find() )
+			{
+				return StringUtilities.parseInt( matcher.group( 1 ) );
+			}
+		}
+
+		// Rarely, a choice isn't given, but try to identify it anyway:
+		if ( responseText.contains( "<b>Hippy Talkin'</b>" ) )
+		{
+			// Is this really missing? My logs look normal
+			return 798;
+		}
+		else if ( responseText.contains( "<b>The WLF Bunker</b>" ) )
+		{
+			return 1093;
+		}
+
+		return 0;
+	}
+
 	public static Map<Integer,String> parseChoices( final String responseText )
 	{
-		TreeMap<Integer,String> rv = new TreeMap<Integer,String>();
+		Map<Integer,String> rv = new TreeMap<Integer,String>();
 		if ( responseText == null )
 		{
 			return rv;
@@ -136,11 +170,15 @@ public class ChoiceUtilities
 		return rv;
 	}
 
-	public static Map<Integer,String> parseChoicesWithSpoilers()
+	public static Map<Integer,String> parseChoicesWithSpoilers( final String responseText )
 	{
-		Map<Integer,String> rv = ChoiceUtilities.parseChoices( ChoiceManager.lastResponseText );
+		Map<Integer,String> rv = ChoiceUtilities.parseChoices( responseText );
+		if ( responseText == null )
+		{
+			return rv;
+		}
 
-		if ( !ChoiceManager.handlingChoice || ChoiceManager.lastResponseText == null )
+		if ( !ChoiceManager.handlingChoice )
 		{
 			return rv;
 		}
@@ -184,16 +222,21 @@ public class ChoiceUtilities
 		return null;
 	}
 
-	// Support for extra fields. For example, tossid=10320
-	// Assume that they are all options in a "select" (dropdown) input
+	// Support for extra fields.
+	//
+	//	<select name=tossid><option value=7375>actual tapas  (5 casualties)</option></select>
+	//	Coordinates: <input name=word type=text size=15 maxlength=7><br>(a valid set of coordinates is 7 letters)<p>
+	//
+	// checkboxes (no examples)
+	// radio buttons (no examples
 
 	// <select name=tossid>><option value=7375>actual tapas  (5 casualties)</option>
-	private static final Pattern SELECT_PATTERN = Pattern.compile( "<select name=(.*?)>(.*?)</select>", Pattern.DOTALL );
-	private static final Pattern SELECT_OPTION_PATTERN = Pattern.compile( "<option value=(.*?)>(.*?)</option>" );
+	private static final Pattern SELECT_PATTERN = Pattern.compile( "<select name=['\"]?(.*?)['\"]?>(.*?)</select>", Pattern.DOTALL );
+	private static final Pattern SELECT_OPTION_PATTERN = Pattern.compile( "<option value=['\"]?(.*?)['\"]?>(.*?)</option>" );
 
-	public static Map<Integer, Map<String, Set<String>>> parseSelectInputs( final String responseText )
+	private static Map<Integer, Map<String, Set<String>>> parseSelectInputs( final String responseText )
 	{
-		// Return a map from CHOICE => map from  NAME => set of OPTIONS
+		// Return a map from CHOICE => map from NAME => set of OPTIONS
 		Map<Integer, Map<String, Set<String>>> rv = new TreeMap<Integer, Map<String, Set<String>>>();
 
 		if ( responseText == null )
@@ -237,15 +280,18 @@ public class ChoiceUtilities
 				choice.put( name, options );
 			}
 
-			rv.put( Integer.parseInt( optMatcher.group( 1 ) ), choice );
+			if ( choice.size() > 0 )
+			{
+				rv.put( Integer.parseInt( optMatcher.group( 1 ) ), choice );
+			}
 		}
 
 		return rv;
 	}
 
-	public static Map<Integer, Map<String, Map<String, String>>> parseSelectInputsWithTags( final String responseText )
+	private static Map<Integer, Map<String, Map<String, String>>> parseSelectInputsWithTags( final String responseText )
 	{
-		// Return a map from CHOICE => map from  NAME => map from OPTION => SPOILER
+		// Return a map from CHOICE => map from NAME => map from OPTION => SPOILER
 		Map<Integer, Map<String, Map<String, String>>> rv = new TreeMap<Integer, Map<String, Map<String, String>>>();
 
 		if ( responseText == null )
@@ -290,13 +336,85 @@ public class ChoiceUtilities
 				choice.put( name, options );
 			}
 
-			rv.put( Integer.parseInt( optMatcher.group( 1 ) ), choice );
+			if ( choice.size() > 0 )
+			{
+				rv.put( Integer.parseInt( optMatcher.group( 1 ) ), choice );
+			}
 		}
 
 		return rv;
 	}
 
-	public static String validateChoiceFields( final String decision, final String extraFields, final String responseText)
+	// Coordinates: <input name=word type=text size=15 maxlength=7><br>(a valid set of coordinates is 7 letters)<p>
+	private static final Pattern INPUT_PATTERN = Pattern.compile( "<input (.*?)>", Pattern.DOTALL );
+	private static final Pattern NAME_PATTERN = Pattern.compile( "name=['\"]?([^'\" >]+)['\"]?" );
+	private static final Pattern TYPE_PATTERN = Pattern.compile( "type=['\"]?([^'\" >]+)['\"]?" );
+
+	private static Map<Integer, Set<String>> parseTextInputs( final String responseText )
+	{
+		// Return a map from CHOICE => set of NAME
+		Map<Integer, Set<String>> rv = new TreeMap<Integer,Set<String>>();
+
+		if ( responseText == null )
+		{
+			return rv;
+		}
+
+		// Find all choice forms
+		Matcher m = FORM_PATTERN.matcher( responseText );
+		while ( m.find() )
+		{
+			String form = m.group();
+			if ( !form.contains( "choice.php" ) )
+			{
+				continue;
+			}
+			Matcher optMatcher = OPTION_PATTERN1.matcher( form );
+			if ( !optMatcher.find() )
+			{
+				continue;
+			}
+
+			// Collect all the text inputs from this form
+			Set<String> choice = new TreeSet<String>();
+
+			// Find all "input" tags within this form
+			Matcher i = INPUT_PATTERN.matcher( form );
+			while ( i.find() )
+			{
+				String input = i.group(1);
+				Matcher t = TYPE_PATTERN.matcher( input );
+				if ( !t.find() )
+				{
+					continue;
+				}
+
+				String type = t.group(1);
+
+				if ( !type.equals( "text" ) )
+				{
+					continue;
+				}
+
+				Matcher n = NAME_PATTERN.matcher( input );
+				if ( !n.find() )
+				{
+					continue;
+				}
+				String name = n.group(1);
+				choice.add( name );
+			}
+
+			if ( choice.size() > 0 )
+			{
+				rv.put( Integer.parseInt( optMatcher.group( 1 ) ), choice );
+			}
+		}
+
+		return rv;
+	}
+
+	public static String validateChoiceFields( final String decision, final String extraFields, final String responseText )
 	{
 		// Given the response text from visiting a choice, determine if
 		// a particular decision (option) and set of extra fields are valid.
@@ -304,12 +422,13 @@ public class ChoiceUtilities
 		// Some decisions are not always available.
 		// Some decisions have extra fields from "select" inputs which must be specified.
 		// Some select inputs are variable: available options vary.
+		// Some decisions have extra fields from "text" inputs which must be specified.
 
 		// This method checks all of the following:
 		//
 		// - The decision is currently available
-		// - All required select inputs are supplied
-		// - No invalid select inputs are supplied
+		// - All required select and inputs are supplied
+		// - No invalid select values are supplied
 		//
 		// If all is well, null is returned, and decision + extraFields
 		// will work as a response to the choice as presented
@@ -324,7 +443,7 @@ public class ChoiceUtilities
 		}
 
 		// Figure out which choice we are in from responseText
-		int choice = ChoiceManager.extractChoice( responseText );
+		int choice = ChoiceUtilities.extractChoice( responseText );
 		if ( choice == 0 )
 		{
 			return "No choice adventure in response text.";
@@ -359,13 +478,18 @@ public class ChoiceUtilities
 			}
 		}
 
-		// Get a map from CHOICE => map from NAME => set of OPTIONS
-		Map<Integer, Map<String, Set<String>>> forms = ChoiceUtilities.parseSelectInputs( responseText );
+		// Selects: get a map from CHOICE => map from NAME => set of OPTIONS
+		Map<Integer, Map<String, Set<String>>> formSelects = ChoiceUtilities.parseSelectInputs( responseText );
 
-		// Does the decision have extra selects?
-		Map<String, Set<String>> options = forms.get( StringUtilities.parseInt( decision ) );
+		// Texts: get a map from CHOICE => set of NAMES
+		Map<Integer, Set<String>> formTexts = ChoiceUtilities.parseTextInputs( responseText );
 
-		if ( options == null )
+		// Does the decision have extra select or text inputs?
+		Integer key = IntegerPool.get( StringUtilities.parseInt( decision ) );
+		Map<String, Set<String>> selects = formSelects.get( key );
+		Set<String> texts = formTexts.get( key );
+
+		if ( selects == null && texts == null )
 		{
 			// No. If the user supplied no extra fields, all is well
 			if ( extras.size() == 0 )
@@ -380,9 +504,9 @@ public class ChoiceUtilities
 			return errors.toString();
 		}
 
-		// There are selects available/required for this form.
+		// There are select and/or text inputs available/required for this form.
 
-		// Make a map from supplied select field => value
+		// Make a map from supplied field => value
 		Map<String, String> suppliedFields = new TreeMap<String, String>();
 		for ( String field : extras )
 		{
@@ -394,32 +518,87 @@ public class ChoiceUtilities
 		}
 
 		// All selects in the form must have a value supplied
-		for ( Map.Entry<String, Set<String>> select : options.entrySet() )
+		if ( selects != null )
 		{
-			String name = select.getKey();
-			Set<String> values = select.getValue();
-			String supplied = suppliedFields.get( name );
-			if ( supplied == null )
+			for ( Map.Entry<String, Set<String>> select : selects.entrySet() )
 			{
-				// Did not supply a value for a field
-				errors.append( "Choice option " + choiceOption + " requires '" + name + "' but not supplied.\n" );
-			}
-			else if ( !values.contains( supplied) )
-			{
-				errors.append( "Choice option " + choiceOption + " requires '" + name + "' but '" + supplied + "' is not a valid value.\n" );
+				String name = select.getKey();
+				Set<String> values = select.getValue();
+				String supplied = suppliedFields.get( name );
+				if ( supplied == null )
+				{
+					// Did not supply a value for a field
+					errors.append( "Choice option " + choiceOption + " requires '" + name + "' but not supplied.\n" );
+				}
+				else if ( !values.contains( supplied) )
+				{
+					errors.append( "Choice option " + choiceOption + " requires '" + name + "' but '" + supplied + "' is not a valid value.\n" );
+				}
+				else
+				{
+					suppliedFields.remove( name );
+				}
 			}
 		}
 
-		// No invalid selects in the form can be supplied
+		// All text inputs in the form must have a value supplied
+		if ( texts != null )
+		{
+			for ( String name : texts )
+			{
+				String supplied = suppliedFields.get( name );
+				if ( supplied == null )
+				{
+					// Did not supply a value for a field
+					errors.append( "Choice option " + choiceOption + " requires '" + name + "' but not supplied.\n" );
+				}
+				else
+				{
+					suppliedFields.remove( name );
+				}
+			}
+		}
+
+		// No unnecessary fields in the form can be supplied
 		for ( Map.Entry<String, String> supplied : suppliedFields.entrySet() )
 		{
 			String name = supplied.getKey();
-			if ( !options.containsKey( name ) )
-			{
-				errors.append( "Choice option " + choiceOption + "does not require '" + name + "'.\n" );
-			}
+			errors.append( "Choice option " + choiceOption + "does not require '" + name + "'.\n" );
 		}
 
 		return ( errors.length() > 0 ) ? errors.toString() : null;
+	}
+
+	public static void printChoices( final String responseText )
+	{
+		Map<Integer,String> choices = ChoiceUtilities.parseChoicesWithSpoilers( responseText );
+		Map<Integer, Map<String, Map<String, String>>> selects = ChoiceUtilities.parseSelectInputsWithTags( responseText );
+		Map<Integer, Set<String>> texts = ChoiceUtilities.parseTextInputs( responseText );
+		for ( Map.Entry<Integer,String> choice : choices.entrySet() )
+		{
+			Integer choiceKey = choice.getKey();
+			RequestLogger.printLine( "<b>choice " + choiceKey + "</b>: " + choice.getValue() );
+			Map<String, Map<String, String>> choiceSelects = selects.get( choiceKey );
+			if ( choiceSelects != null )
+			{
+				for ( Map.Entry<String,Map<String, String>> select : choiceSelects.entrySet() )
+				{
+					Map<String, String> options = select.getValue();
+					RequestLogger.printLine( "&nbsp;&nbsp;select = <b>" + select.getKey() + "</b> (" + options.size() + " options)" );
+					for ( Map.Entry<String, String> option : options.entrySet() )
+					{
+						RequestLogger.printLine( "&nbsp;&nbsp;&nbsp;&nbsp;" + option.getKey() + " => " + option.getValue() );
+					}
+				}
+			}
+			Set<String> choiceTexts = texts.get( choiceKey );
+			if ( choiceTexts != null )
+			{
+				for ( String name : choiceTexts )
+				{
+					RequestLogger.printLine( "&nbsp;&nbsp;text = <b>" + name + "</b>" );
+				}
+			}
+		}
 	}
 }

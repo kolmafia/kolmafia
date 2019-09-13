@@ -5590,7 +5590,7 @@ public abstract class RuntimeLibrary
 		if ( responseText != null && !responseText.equals( "" ) )
 		{
 			Map<Integer,String> choices = spoilers ?
-				ChoiceUtilities.parseChoicesWithSpoilers() :
+				ChoiceUtilities.parseChoicesWithSpoilers( responseText ) :
 				ChoiceUtilities.parseChoices( responseText );
 
 			for ( Entry<Integer,String> entry : choices.entrySet() )

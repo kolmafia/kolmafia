@@ -66,7 +66,7 @@ public class ChoiceCommand
 		}
 		if ( parameters.equals( "" ) )
 		{
-			ChoiceCommand.printChoices();
+			ChoiceUtilities.printChoices( ChoiceManager.lastResponseText );
 			return;
 		}
 		boolean always = false;
@@ -124,40 +124,5 @@ public class ChoiceCommand
 		}
 
 		ChoiceManager.processChoiceAdventure( decision, extraFields, true );
-	}
-
-	public static void printChoices()
-	{
-		Map<Integer,String> choices = ChoiceUtilities.parseChoicesWithSpoilers();
-		Map<Integer, Map<String, Map<String, String>>> selects = ChoiceUtilities.parseSelectInputsWithTags( ChoiceManager.lastResponseText );
-		for ( Map.Entry<Integer,String> choice : choices.entrySet() )
-		{
-			Integer choiceKey = choice.getKey();
-			RequestLogger.printLine( "<b>choice " + choiceKey + "</b>: " + choice.getValue() );
-			Map<String, Map<String, String>> choiceSelects = selects.get( choiceKey );
-			if ( choiceSelects != null )
-			{
-				for ( Map.Entry<String,Map<String, String>> select : choiceSelects.entrySet() )
-				{
-					Map<String, String> options = select.getValue();
-					RequestLogger.printLine( "&nbsp;&nbsp;select = <b>" + select.getKey() + "</b> (" + options.size() + " options)" );
-					for ( Map.Entry<String, String> option : options.entrySet() )
-					{
-						RequestLogger.printLine( "&nbsp;&nbsp;&nbsp;&nbsp;" + option.getKey() + " => " + option.getValue() );
-					}
-				}
-			}
-		}
-	}
-	
-	public static void logChoices()
-	{
-		Map<Integer,String> choices = ChoiceUtilities.parseChoicesWithSpoilers();
-		int choice = ChoiceManager.currentChoice();
-		for ( Map.Entry<Integer,String> entry : choices.entrySet() )
-		{
-			RequestLogger.updateSessionLog( "choice " + choice + "/" + entry.getKey() + ": " + entry.getValue() );
-			RequestLogger.printLine( "<b>choice " + entry.getKey() + "</b>: " + entry.getValue() );
-		}
 	}
 }

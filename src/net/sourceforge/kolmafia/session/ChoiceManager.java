@@ -111,7 +111,6 @@ import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 
-import net.sourceforge.kolmafia.textui.command.ChoiceCommand;
 import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
 
@@ -151,13 +150,6 @@ public abstract class ChoiceManager
 
 	private static PostChoiceAction action = PostChoiceAction.NONE;
 
-	private static final Pattern [] CHOICE_PATTERNS =
-	{
-		Pattern.compile( "name=['\"]?whichchoice['\"]? value=['\"]?(\\d+)['\"]?" ),
-		Pattern.compile( "value=['\"]?(\\d+)['\"]? name=['\"]?whichchoice['\"]?" ),
-		Pattern.compile( "choice.php\\?whichchoice=(\\d+)" ),
-	};
-
 	public static int currentChoice()
 	{
 		return ChoiceManager.handlingChoice ? ChoiceManager.lastChoice : 0;
@@ -165,32 +157,16 @@ public abstract class ChoiceManager
 
 	public static int extractChoice( final String responseText )
 	{
-		for ( int i = 0; i < ChoiceManager.CHOICE_PATTERNS.length; ++i )
-		{
-			Matcher matcher = CHOICE_PATTERNS[i].matcher( responseText );
-			if ( matcher.find() )
-			{
-				return StringUtilities.parseInt( matcher.group( 1 ) );
-			}
-		}
+		int choice = ChoiceUtilities.extractChoice( responseText );
 
-		// Rarely, a choice isn't given, but try to identify it anyway:
-		if ( responseText.contains( "<b>Hippy Talkin'</b>" ) )
-		{
-			return 798;
-		}
-		else if ( responseText.contains( "<b>The WLF Bunker</b>" ) )
-		{
-			return 1093;
-		}
-		else if ( responseText.contains( "<b>Lyle, LyleCo CEO</b>" ) )
+		if ( choice == 0 && responseText.contains( "<b>Lyle, LyleCo CEO</b>" ) )
 		{
 			// We still don't know the choice number, so take action here instead
 			// We will either now, or in the past, have had Favored By Lyle
 			Preferences.setBoolean( "_lyleFavored", true );
 		}
 
-		return 0;
+		return choice;
 	}
 
 	public static final Pattern URL_CHOICE_PATTERN = Pattern.compile( "whichchoice=(\\d+)" );
@@ -4456,7 +4432,7 @@ public abstract class ChoiceManager
 		GenericRequest request = ChoiceManager.CHOICE_HANDLER;
 		request.constructURLString( "choice.php" );
 		request.run();
-		ChoiceCommand.printChoices();
+		ChoiceUtilities.printChoices( ChoiceManager.lastResponseText );
 	}
 
 	public static boolean initializingAfterChoice()
@@ -7250,7 +7226,7 @@ public abstract class ChoiceManager
 			if ( decision.equals( "0" ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ABORT, "Manual control requested for choice #" + choice );
-				ChoiceCommand.printChoices();
+				ChoiceUtilities.printChoices( ChoiceManager.lastResponseText );
 				request.showInBrowser( true );
 				return;
 			}
@@ -7258,7 +7234,7 @@ public abstract class ChoiceManager
 			if ( KoLCharacter.isEd() && Preferences.getInteger( "_edDefeats" ) >= Preferences.getInteger( "edDefeatAbort" ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ABORT, "Hit Ed defeat threshold - Manual control requested for choice #" + choice  );
-				ChoiceCommand.printChoices();
+				ChoiceUtilities.printChoices( ChoiceManager.lastResponseText );
 				request.showInBrowser( true );
 				return;
 			}
@@ -7268,7 +7244,7 @@ public abstract class ChoiceManager
 			if ( decision.equals( "" ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ABORT, "Unsupported choice adventure #" + choice );
-				ChoiceCommand.logChoices();
+				ChoiceManager.logChoices();
 				request.showInBrowser( true );
 				return;
 			}
@@ -7278,7 +7254,7 @@ public abstract class ChoiceManager
 			if ( error != null )
 			{
 				KoLmafia.updateDisplay( MafiaState.ABORT, error );
-				ChoiceCommand.printChoices();
+				ChoiceUtilities.printChoices( ChoiceManager.lastResponseText );
 				request.showInBrowser( true );
 				return;
 			}
@@ -17870,6 +17846,17 @@ public abstract class ChoiceManager
 
 		default:
 			return false;
+		}
+	}
+	
+	private static void logChoices()
+	{
+		int choice = ChoiceManager.currentChoice();
+		Map<Integer,String> choices = ChoiceUtilities.parseChoicesWithSpoilers(  ChoiceManager.lastResponseText );
+		for ( Map.Entry<Integer,String> entry : choices.entrySet() )
+		{
+			RequestLogger.updateSessionLog( "choice " + choice + "/" + entry.getKey() + ": " + entry.getValue() );
+			RequestLogger.printLine( "<b>choice " + entry.getKey() + "</b>: " + entry.getValue() );
 		}
 	}
 }
