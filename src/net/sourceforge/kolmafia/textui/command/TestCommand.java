@@ -796,7 +796,7 @@ public class TestCommand
 				ChoiceManager.lastChoice = choice;
 				TestCommand.contents = null;
 				RequestLogger.printLine( "default decision = " + ChoiceManager.getDecision( choice, ChoiceManager.lastResponseText ) );
-				ChoiceCommand.printChoices();
+				ChoiceUtilities.printChoices( ChoiceManager.lastResponseText );
 			}
 			finally
 			{
@@ -1038,30 +1038,12 @@ public class TestCommand
 			GenericRequest request = new GenericRequest( "choice.php" );
 			request.addFormField( "forceoption", "0" );
 			request.responseText = TestCommand.contents;
+			TestCommand.contents = null;
+
 			ChoiceManager.lastChoice = 0;
 			ChoiceManager.visitChoice( request );
 			RequestLogger.printLine( "choice = " + ChoiceManager.lastChoice );
-			Map<Integer,String> choices = ChoiceUtilities.parseChoices( TestCommand.contents );
-			Map<Integer, Map<String, Map<String, String>>> selects = ChoiceUtilities.parseSelectInputsWithTags( TestCommand.contents );
-			TestCommand.contents = null;
-			for ( Map.Entry<Integer,String> choice : choices.entrySet() )
-			{
-				Integer choiceKey = choice.getKey();
-				RequestLogger.printLine( "<b>choice " + choiceKey + "</b>: " + choice.getValue() );
-				Map<String, Map<String, String>> choiceSelects = selects.get( choiceKey );
-				if ( choiceSelects != null )
-				{
-					for ( Map.Entry<String,Map<String, String>> select : choiceSelects.entrySet() )
-					{
-						Map<String, String> options = select.getValue();
-						RequestLogger.printLine( "&nbsp;&nbsp;select = <b>" + select.getKey() + "</b> (" + options.size() + " options)" );
-						for ( Map.Entry<String, String> option : options.entrySet() )
-						{
-							RequestLogger.printLine( "&nbsp;&nbsp;&nbsp;&nbsp;" + option.getKey() + " => " + option.getValue() );
-						}
-					}
-				}
-			}
+			ChoiceUtilities.printChoices( ChoiceManager.lastResponseText );
 			return;
 		}
 	}
