@@ -259,6 +259,8 @@ public abstract class RuntimeLibrary
 
 	private static final AggregateType ItemSetType = new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.INT_TYPE );
 
+	private static final AggregateType SelectMapType = new AggregateType( DataTypes.STRING_TO_STRING_TYPE, DataTypes.STRING_TYPE );
+
 	public static final FunctionList functions = new FunctionList();
 
 	// *** Why can't the following go in KoLConstants?
@@ -1209,6 +1211,12 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.BOOLEAN_TYPE };
 		functions.add( new LibraryFunction( "available_choice_options", DataTypes.INT_TO_STRING_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "available_choice_select_inputs", RuntimeLibrary.SelectMapType, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "available_choice_text_inputs", DataTypes.STRING_TO_STRING_TYPE, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "in_multi_fight", DataTypes.BOOLEAN_TYPE, params ) );
@@ -5600,6 +5608,51 @@ public abstract class RuntimeLibrary
 			}
 		}
 		
+		return value;
+	}
+
+	public static Value available_choice_select_inputs( Interpreter interpreter, Value decision )
+	{
+		MapValue value = new MapValue( RuntimeLibrary.SelectMapType );
+		String responseText = ChoiceManager.lastResponseText;
+		if ( responseText != null && !responseText.equals( "" ) )
+		{
+			Map<Integer, Map<String, Map<String, String>>> selectForms = ChoiceUtilities.parseSelectInputsWithTags( responseText );
+			Map<String, Map<String, String>> selects = selectForms.get( (int)decision.intValue() );
+			if ( selects != null )
+			{
+				for ( Entry<String, Map<String, String>> entry : selects.entrySet() )
+				{
+					String name = entry.getKey();
+					MapValue selectMap = new MapValue( DataTypes.STRING_TO_STRING_TYPE );
+					for ( Entry<String,String> mapping : entry.getValue().entrySet() )
+					{
+						selectMap.aset( new Value( mapping.getKey() ),
+								new Value( mapping.getValue() ) );
+					}
+					value.aset( new Value( name ), selectMap );
+				}
+			}
+		}
+		return value;
+	}
+
+	public static Value available_choice_text_inputs( Interpreter interpreter, Value decision )
+	{
+		MapValue value = new MapValue( DataTypes.STRING_TO_STRING_TYPE );
+		String responseText = ChoiceManager.lastResponseText;
+		if ( responseText != null && !responseText.equals( "" ) )
+		{
+			Map<Integer, Set<String>> textForms = ChoiceUtilities.parseTextInputs( responseText );
+			Set<String> texts = textForms.get( (int)decision.intValue() );
+			if ( texts != null )
+			{
+				for ( String text : texts )
+				{
+					value.aset( new Value( text ), new Value( "" ) );
+				}
+			}
+		}
 		return value;
 	}
 

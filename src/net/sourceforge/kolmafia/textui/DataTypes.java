@@ -185,6 +185,10 @@ public class DataTypes
 	public static final AggregateType INT_TO_STRING_TYPE =
 		new AggregateType( DataTypes.STRING_TYPE, DataTypes.INT_TYPE );
 
+	// Map from STRING -> STRING
+	public static final AggregateType STRING_TO_STRING_TYPE =
+		new AggregateType( DataTypes.STRING_TYPE, DataTypes.STRING_TYPE );
+
 	public static final AggregateType REGEX_GROUP_TYPE =
 		new AggregateType(
 			new AggregateType( DataTypes.STRING_TYPE, DataTypes.INT_TYPE ), DataTypes.INT_TYPE );
