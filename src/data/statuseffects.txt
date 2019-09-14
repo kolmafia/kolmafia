@@ -2491,12 +2491,12 @@
 2490	Muscular Intentions	strboost.gif	6c52b947f9756c7f484b3c471a75427c
 2491	Mystical Intentions	snowflakes.gif	13b2d681db6135bb662c853a92979556
 2492	Moxious Intentions	wink.gif	2164ac3ff91c098fb65dde89c1d172c2
-2493	Traditional Eating	nopic.gif	470561dcbab975da6f1d76aab4fbd7de	eat 1 campfire hot dog
-2494	Trial by Campfire	nopic.gif	f5f846ff8fdcf4c712e3654fb94b32d7	eat 1 campfire baked potato
-2495	Gimme, Gimme	nopic.gif	c53449f9855d31fb86769dd4cedb64f7	eat 1 campfire s'more
-2496	The More You Eat	nopic.gif	e74b9deafaee13c8c35cfbf8b3d865ed	eat 1 campfire beans
-2497	Just Like Me, They Want to Be	nopic.gif	ace65aa58faa1e731ee0bfdb07fa3871	eat 1 campfire stew
-2498	Coffee Achiever	nopic.gif	df349ed07a74d9ff6e00d794d0ae9f50	eat 1 campfire coffee
+2493	Traditional Eating	hotdog_stench.gif	470561dcbab975da6f1d76aab4fbd7de	eat 1 campfire hot dog
+2494	Trial by Campfire	jarl_bakedpotato.gif	f5f846ff8fdcf4c712e3654fb94b32d7	eat 1 campfire baked potato
+2495	Gimme, Gimme	smore.gif	c53449f9855d31fb86769dd4cedb64f7	eat 1 campfire s'more
+2496	The More You Eat	franksbeans.gif	e74b9deafaee13c8c35cfbf8b3d865ed	eat 1 campfire beans
+2497	Just Like Me, They Want to Be	soupbowl.gif	ace65aa58faa1e731ee0bfdb07fa3871	eat 1 campfire stew
+2498	Coffee Achiever	coffeecup.gif	df349ed07a74d9ff6e00d794d0ae9f50	eat 1 campfire coffee
 2499	That's Just Cloud-Talk, Man	puff.gif	0e4df48fbd74c17071e74bda5d337161
 2500	Smile of the Mongoose	const1.gif	53db113a18633034025164e78b76c510
 2501	Smile of the Wallaby	const2.gif	cddee20a242185001f832c863235619a

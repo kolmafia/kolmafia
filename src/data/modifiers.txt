@@ -10095,6 +10095,7 @@ Item	Outer Wolf&trade; cologne	Effect: "Outer Wolf&trade;", Effect Duration: 20
 # ovoid leather thing: Deals 80-100 Physical Damage
 # pacification grenade: Weakens enemies somewhat
 Item	Pack of Every Card	Free Pull
+Item	packaged Pocket Professor	Free Pull
 # PADL Phone: Summons Frat Army Aid
 Item	page of the Necrohobocon	Effect: "Ecce Wino", Effect Duration: 50
 Item	Pain Dip	Effect: "The HeyDezebound Heart", Effect Duration: 1
