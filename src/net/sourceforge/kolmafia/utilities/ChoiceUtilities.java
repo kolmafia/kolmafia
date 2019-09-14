@@ -234,7 +234,7 @@ public class ChoiceUtilities
 	private static final Pattern SELECT_PATTERN = Pattern.compile( "<select name=['\"]?(.*?)['\"]?>(.*?)</select>", Pattern.DOTALL );
 	private static final Pattern SELECT_OPTION_PATTERN = Pattern.compile( "<option value=['\"]?(.*?)['\"]?>(.*?)</option>" );
 
-	private static Map<Integer, Map<String, Set<String>>> parseSelectInputs( final String responseText )
+	public static Map<Integer, Map<String, Set<String>>> parseSelectInputs( final String responseText )
 	{
 		// Return a map from CHOICE => map from NAME => set of OPTIONS
 		Map<Integer, Map<String, Set<String>>> rv = new TreeMap<Integer, Map<String, Set<String>>>();
@@ -289,7 +289,7 @@ public class ChoiceUtilities
 		return rv;
 	}
 
-	private static Map<Integer, Map<String, Map<String, String>>> parseSelectInputsWithTags( final String responseText )
+	public static Map<Integer, Map<String, Map<String, String>>> parseSelectInputsWithTags( final String responseText )
 	{
 		// Return a map from CHOICE => map from NAME => map from OPTION => SPOILER
 		Map<Integer, Map<String, Map<String, String>>> rv = new TreeMap<Integer, Map<String, Map<String, String>>>();
@@ -350,7 +350,7 @@ public class ChoiceUtilities
 	private static final Pattern NAME_PATTERN = Pattern.compile( "name=['\"]?([^'\" >]+)['\"]?" );
 	private static final Pattern TYPE_PATTERN = Pattern.compile( "type=['\"]?([^'\" >]+)['\"]?" );
 
-	private static Map<Integer, Set<String>> parseTextInputs( final String responseText )
+	public static Map<Integer, Set<String>> parseTextInputs( final String responseText )
 	{
 		// Return a map from CHOICE => set of NAME
 		Map<Integer, Set<String>> rv = new TreeMap<Integer,Set<String>>();
