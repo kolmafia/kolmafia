@@ -148,6 +148,14 @@ public class DebugDatabase
 		return plural;
 	}
 
+	private static boolean decodedNamesEqual( String name1, String name2 )
+	{
+		// Sacr&eacute; Mental
+		// Sacré Mental
+		return  name1.equals( name2 ) ||
+			StringUtilities.getEntityDecode( name1 ).toLowerCase().equals( StringUtilities.getEntityDecode( name2 ).toLowerCase() );
+	}
+
 	/**
 	 * Utility method which searches for the plural version of the item on the KoL wiki.
 	 */
@@ -362,7 +370,7 @@ public class DebugDatabase
 		}
 
 		String descriptionName = DebugDatabase.parseName( text );
-		if ( !name.equals( descriptionName ) )
+		if ( !decodedNamesEqual( name, descriptionName ) )
 		{
 			report.println( "# *** " + name + " (" + itemId + ") has description of " + descriptionName + "." );
 			DebugDatabase.rawItems.set( itemId, null );
@@ -1821,7 +1829,7 @@ public class DebugDatabase
 		}
 
 		String descriptionName = DebugDatabase.parseName( text );
-		if ( !name.equalsIgnoreCase( StringUtilities.getCanonicalName( descriptionName ) ) )
+		if ( !decodedNamesEqual( name, descriptionName ) )
 		{
 			report.println( "# *** " + name + " (" + effectId + ") has description of " + descriptionName + "." );
 			return;

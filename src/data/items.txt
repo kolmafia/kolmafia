@@ -255,7 +255,7 @@
 228	Kentucky-fried meat staff	140378723	meatstaff.gif	weapon	t,d	75	Kentucky-fried meat staves
 229	Kentucky-fried meat crossbow	115544265	crossbow.gif	weapon	t,d	75
 230	dead guy's watch	678672280	watch.gif	accessory	t,d	60	dead guys' watches
-231	Doc Galaktik's Pungent Unguent	555651223	balm.gif	multiple, combat	t,d	15	tins of Doc Galaktik's Pungent Unguent
+231	Doc Galaktik's Pungent Unguent	555651223	balm.gif	multiple, combat	t,d	10	tins of Doc Galaktik's Pungent Unguent
 232	Doc Galaktik's Ailment Ointment	420199984	balm.gif	multiple, combat	t,d	20	tins of Doc Galaktik's Ailment Ointment
 233	Doc Galaktik's Restorative Balm	504849907	balm.gif	multiple, combat	t,d	25	tins of Doc Galaktik's Restorative Balm
 234	Doc Galaktik's Homeopathic Elixir	492143729	elixir.gif	multiple, combat	t,d	30	bottles of Doc Galaktik's Homeopathic Elixir
@@ -853,7 +853,7 @@
 826	dark potion	407001621	exclam.gif	multiple, combat, single	t,d	60
 827	murky potion	301022011	exclam.gif	multiple, combat, single	t,d	60
 828	baby killer bee	8374657	babya.gif	grow	t,d	76
-829	anti-anti-antidote	82346664	poisoncup.gif	usable, combat, single	t,d	15
+829	anti-anti-antidote	82346664	poisoncup.gif	usable, combat, single	t,d	10
 830	royal jelly	90050040	percent.gif	food	t,d	77	clumps of royal jelly
 831	small box	1553500054	lparen.gif	multiple	t,d	65	small boxes
 832	large box	82292246	lparen.gif	multiple	t,d	85	large boxes
