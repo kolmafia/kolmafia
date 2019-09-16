@@ -34,7 +34,10 @@
 package net.sourceforge.kolmafia.webui;
 
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
+
 import net.sourceforge.kolmafia.request.FightRequest;
+
 import net.sourceforge.kolmafia.utilities.PauseObject;
 
 public class RelayAutoCombatThread
@@ -69,18 +72,25 @@ public class RelayAutoCombatThread
 		{
 			this.pauser.pause();
 
-			KoLmafia.forceContinue();
-
-			if ( this.desiredAction == null )
+			synchronized (FightRequest.INSTANCE )
 			{
-				FightRequest.INSTANCE.run();
-			}
-			else
-			{
-				FightRequest.INSTANCE.runOnce( this.desiredAction );
-			}
+				RequestLogger.updateDebugLog( "Starting combat in + " + this );
 
-			FightRequest.stopTrackingFights();
+				KoLmafia.forceContinue();
+
+				if ( this.desiredAction == null )
+				{
+					FightRequest.INSTANCE.run();
+				}
+				else
+				{
+					FightRequest.INSTANCE.runOnce( this.desiredAction );
+				}
+
+				FightRequest.stopTrackingFights();
+
+				RequestLogger.updateDebugLog( "Done with combat in + " + this );
+			}
 		}
 	}
 }

@@ -1931,7 +1931,7 @@ public class FightRequest
 		       FightRequest.isInvalidLocationAttack( action );
 	}
 
-	public void runOnce( final String desiredAction )
+	public synchronized void runOnce( final String desiredAction )
 	{
 		this.clearDataFields();
 
@@ -1977,7 +1977,7 @@ public class FightRequest
 		this.run( null );
 	}
 
-	public void run( final String redirectLocation )
+	public synchronized void run( final String redirectLocation )
 	{
 		String url = FightRequest.inMultiFight ? "fight.php" : redirectLocation;
 
@@ -1999,25 +1999,30 @@ public class FightRequest
 
 		this.constructURLString( "fight.php" );
 
-		FightRequest.isAutomatingFight = true;
-
-		do
+		try
 		{
-			this.runOnce( null );
-		}
-		while ( this.responseCode == 200 && FightRequest.currentRound != 0 && !KoLmafia.refusesContinue() );
+			FightRequest.isAutomatingFight = true;
 
-		if ( this.responseCode == 302 )
+			do
+			{
+				this.runOnce( null );
+			}
+			while ( this.responseCode == 200 && FightRequest.currentRound != 0 && !KoLmafia.refusesContinue() );
+
+			if ( this.responseCode == 302 )
+			{
+				FightRequest.clearInstanceData();
+			}
+
+			if ( KoLmafia.refusesContinue() && FightRequest.currentRound != 0 && !FightRequest.isTrackingFights() )
+			{
+				this.showInBrowser( true );
+			}
+		}
+		finally
 		{
-			FightRequest.clearInstanceData();
+			FightRequest.isAutomatingFight = false;
 		}
-
-		if ( KoLmafia.refusesContinue() && FightRequest.currentRound != 0 && !FightRequest.isTrackingFights() )
-		{
-			this.showInBrowser( true );
-		}
-
-		FightRequest.isAutomatingFight = false;
 	}
 
 	private static final String removeGothy( String text )
@@ -9809,7 +9814,7 @@ public class FightRequest
 		return 0;
 	}
 
-	public static final String getNextTrackedRound()
+	public synchronized static final String getNextTrackedRound()
 	{
 		while ( FightRequest.isTrackingFights && !FightRequest.foundNextRound && !KoLmafia.refusesContinue() )
 		{
