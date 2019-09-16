@@ -71,7 +71,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class RelayAgent
 	extends Thread
 {
-	public static final RelayAutoCombatThread COMBAT_THREAD = new RelayAutoCombatThread();
+	public final RelayAutoCombatThread COMBAT_THREAD = new RelayAutoCombatThread();
 
 	private static GenericRequest errorRequest = null;
 	private static String errorRequestPath = null;
@@ -507,37 +507,53 @@ public class RelayAgent
 
 		if ( this.path.equals( "/fight.php?action=custom" ) )
 		{
-			RelayAgent.COMBAT_THREAD.wake( null );
+			synchronized ( FightRequest.INSTANCE )
+			{
+				RequestLogger.updateDebugLog( "Waking up RelayAutoCombatRequestThread + " + this.COMBAT_THREAD );
+				this.COMBAT_THREAD.wake( null );
+			}
 			this.request.pseudoResponse( "HTTP/1.1 302 Found", "/fight.php?action=script" );
 		}
 		else if ( this.path.equals( "/fight.php?action=script" ) )
 		{
-			String fightResponse = FightRequest.getNextTrackedRound();
-			if ( FightRequest.isTrackingFights() )
+			String fightResponse;
+			synchronized ( FightRequest.INSTANCE )
 			{
-				fightResponse = KoLConstants.SCRIPT_PATTERN.matcher( fightResponse ).replaceAll( "" );
-				this.request.headers.add( "Refresh: 1" );
+				fightResponse = FightRequest.getNextTrackedRound();
+				if ( FightRequest.isTrackingFights() )
+				{
+					fightResponse = KoLConstants.SCRIPT_PATTERN.matcher( fightResponse ).replaceAll( "" );
+					this.request.headers.add( "Refresh: 1" );
+				}
 			}
 			this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
 			RelayRequest.executeAfterAdventureScript();
 		}
 		else if ( this.path.equals( "/fight.php?action=abort" ) )
 		{
-			FightRequest.stopTrackingFights();
-			this.request.pseudoResponse( "HTTP/1.1 200 OK", FightRequest.getNextTrackedRound() );
+			String fightResponse;
+			synchronized ( FightRequest.INSTANCE )
+			{
+				FightRequest.stopTrackingFights();
+				fightResponse = FightRequest.getNextTrackedRound();
+			}
+			this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
 			RelayRequest.executeAfterAdventureScript();
 		}
 		else if ( this.path.startsWith( "/fight.php?hotkey=" ) )
 		{
 			String hotkey = this.request.getFormField( "hotkey" );
 
-			if ( hotkey.equals( "11" ) )
+			synchronized ( FightRequest.INSTANCE )
 			{
-				RelayAgent.COMBAT_THREAD.wake( null );
-			}
-			else
-			{
-				RelayAgent.COMBAT_THREAD.wake( Preferences.getString( "combatHotkey" + hotkey ) );
+				if ( hotkey.equals( "11" ) )
+				{
+					this.COMBAT_THREAD.wake( null );
+				}
+				else
+				{
+					this.COMBAT_THREAD.wake( Preferences.getString( "combatHotkey" + hotkey ) );
+				}
 			}
 
 			this.request.pseudoResponse( "HTTP/1.1 302 Found", "/fight.php?action=script" );

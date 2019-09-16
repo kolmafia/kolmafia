@@ -58,7 +58,7 @@ import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.RelayAgent;
+import net.sourceforge.kolmafia.webui.RelayAutoCombatThread;
 import net.sourceforge.kolmafia.webui.RelayServer;
 
 public abstract class StaticEntity
@@ -803,23 +803,26 @@ public abstract class StaticEntity
 
 	public static final MafiaState getContinuationState()
 	{
-		if ( isRelayThread() )
-			return StaticEntity.threadLocalContinuationState.get();
-
-		return StaticEntity.globalContinuationState;
+		return  isRelayThread() ?
+			StaticEntity.threadLocalContinuationState.get() :
+			StaticEntity.globalContinuationState;
 	}
 
 	public static void setContinuationState( MafiaState state )
 	{
 		if ( isRelayThread() )
+		{
 			StaticEntity.threadLocalContinuationState.set( state );
+		}
 		else
+		{
 			StaticEntity.globalContinuationState = state;
+		}
 	}
 
 	static final boolean isRelayThread()
 	{
-		return RelayServer.agentThreads.contains( Thread.currentThread() ) ||
-			 Thread.currentThread() == RelayAgent.COMBAT_THREAD;
+		return  RelayServer.agentThreads.contains( Thread.currentThread() ) ||
+			Thread.currentThread() instanceof RelayAutoCombatThread;
 	}
 }
