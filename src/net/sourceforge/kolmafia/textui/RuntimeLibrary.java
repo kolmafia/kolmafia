@@ -600,6 +600,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.LOCATION_TYPE };
 		functions.add( new LibraryFunction( "set_location", DataTypes.VOID_TYPE, params ) );
 
+		params = new Type[] { DataTypes.LOCATION_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "adventure", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.LOCATION_TYPE };
 		functions.add( new LibraryFunction( "adventure", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -636,13 +639,25 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "mood_list", new AggregateType( DataTypes.STRING_TYPE, 0), params ) );
 
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "buy", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "buy", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "buy", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "buy", DataTypes.INT_TYPE, params ) );
 
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "buy_using_storage", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "buy_using_storage", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "buy_using_storage", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
@@ -711,7 +726,13 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "drink", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "overdrink", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "overdrink", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "overdrink", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
@@ -795,7 +816,13 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "hermit", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "retrieve_item", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "retrieve_item", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "retrieve_item", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.MONSTER_TYPE };
@@ -3195,15 +3222,18 @@ public abstract class RuntimeLibrary
 	// Major functions related to adventuring and
 	// item management.
 
-	public static Value adventure( Interpreter interpreter, final Value countValue, final Value locationValue )
+	public static Value adventure( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		int count = (int) countValue.intValue();
+		boolean countThenLocation = arg1.getType().equals( DataTypes.INT_TYPE );
+		int count = (int) ( countThenLocation ? arg1.intValue() : arg2.intValue() );
+
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "adventure", count + " " + locationValue );
+		Value location = ( countThenLocation ? arg2 : arg1 );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "adventure", count + " " + location );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -3351,19 +3381,30 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static Value buy( Interpreter interpreter, final Value countValue, final Value item )
+	public static Value buy( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		int count = (int) countValue.intValue();
+		int arg1Value = (int) arg1.intValue();
+		int arg2Value = (int) arg2.intValue();
+
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+
+		int count = countThenItem ? arg1Value : arg2Value;
+		int item = countThenItem ? arg2Value : arg1Value;
+
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
 
-		int itemId = (int) item.intValue();
-		AdventureResult itemToBuy = ItemPool.get( itemId );
+		AdventureResult itemToBuy = ItemPool.get( item );
 		int initialAmount = itemToBuy.getCount( KoLConstants.inventory );
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", count + " \u00B6" + itemId );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", count + " \u00B6" + item );
 		return DataTypes.makeBooleanValue( initialAmount + count == itemToBuy.getCount( KoLConstants.inventory ) );
+	}
+
+	public static Value buy( Interpreter interpreter, final Value item )
+	{
+		return buy(interpreter, new Value( 1 ), item);
 	}
 
 	public static Value buy( Interpreter interpreter, final Value arg1, final Value arg2, final Value arg3 )
@@ -3386,24 +3427,35 @@ public abstract class RuntimeLibrary
 		return new Value( itemToBuy.getCount( KoLConstants.inventory ) - initialAmount );
 	}
 
-	public static Value buy_using_storage( Interpreter interpreter, final Value countValue, final Value item )
+	public static Value buy_using_storage( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
 		if ( KoLCharacter.canInteract() )
 		{
 			return DataTypes.FALSE_VALUE;
 		}
 
-		int count = (int) countValue.intValue();
+		int arg1Value = (int) arg1.intValue();
+		int arg2Value = (int) arg2.intValue();
+
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+
+		int count = countThenItem ? arg1Value : arg2Value;
+		int item = countThenItem ? arg2Value : arg1Value;
+
 		if ( count <= 0 )
 		{
 			return DataTypes.TRUE_VALUE;
 		}
 
-		int itemId = (int) item.intValue();
-		AdventureResult itemToBuy = ItemPool.get( itemId );
+		AdventureResult itemToBuy = ItemPool.get( item );
 		int initialAmount = itemToBuy.getCount( KoLConstants.storage );
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", "using storage " + count + " \u00B6" + itemId );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", "using storage " + count + " \u00B6" + item );
 		return DataTypes.makeBooleanValue( initialAmount + count == itemToBuy.getCount( KoLConstants.storage ) );
+	}
+
+	public static Value buy_using_storage( Interpreter interpreter, final Value item )
+	{
+		return buy_using_storage(interpreter, new Value( 1 ), item);
 	}
 
 	public static Value buy_using_storage( Interpreter interpreter, final Value countValue, final Value item, final Value limitValue )
@@ -3506,7 +3558,7 @@ public abstract class RuntimeLibrary
 	}
 
 	private static Value execute_item_quantity( final String command, final Value arg1, final Value arg2 )
-		{
+	{
 		int arg1Value = (int) arg1.intValue();
 		int arg2Value = (int) arg2.intValue();
 
@@ -3525,9 +3577,10 @@ public abstract class RuntimeLibrary
 	}
 
 	public static Value create( Interpreter interpreter, final Value arg1, final Value arg2 )
-		{
-		return execute_item_quantity( "create", arg1, arg2 );
-		}
+	{
+		execute_item_quantity( "create", arg1, arg2 );
+		return RuntimeLibrary.continueValue();
+	}
 
 	public static Value create( Interpreter interpreter, final Value item )
 	{
@@ -3535,9 +3588,9 @@ public abstract class RuntimeLibrary
 	}
 
 	public static Value use( Interpreter interpreter, final Value arg1, final Value arg2 )
-		{
+	{
 		return execute_item_quantity( "use", arg1, arg2 );
-		}
+	}
 
 	public static Value use( Interpreter interpreter, final Value item )
 	{
@@ -3547,7 +3600,7 @@ public abstract class RuntimeLibrary
 	public static Value eat( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
 		return execute_item_quantity( "eat", arg1, arg2 );
-		}
+	}
 
 	public static Value eat( Interpreter interpreter, final Value item )
 	{
@@ -3555,9 +3608,9 @@ public abstract class RuntimeLibrary
 	}
 
 	public static Value eatsilent( Interpreter interpreter, final Value arg1, final Value arg2 )
-		{
+	{
 		return execute_item_quantity( "eatsilent", arg1, arg2 );
-		}
+	}
 
 	public static Value eatsilent( Interpreter interpreter, final Value item )
 	{
@@ -3570,9 +3623,19 @@ public abstract class RuntimeLibrary
 	}
 
 	public static Value drink( Interpreter interpreter, final Value item )
-		{
+	{
 		return drink(interpreter, new Value( 1 ), item);
-		}
+	}
+
+	public static Value overdrink( Interpreter interpreter, final Value arg1, final Value arg2 )
+	{
+		return execute_item_quantity( "overdrink", arg1, arg2 );
+	}
+
+	public static Value overdrink( Interpreter interpreter, final Value item )
+	{
+		return overdrink(interpreter, new Value( 1 ), item);
+	}
 
 	public static Value drinksilent( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
@@ -3585,25 +3648,13 @@ public abstract class RuntimeLibrary
 	}
 
 	public static Value chew( Interpreter interpreter, final Value arg1, final Value arg2 )
-		{
+	{
 		return execute_item_quantity( "chew", arg1, arg2 );
-		}
+	}
 
 	public static Value chew( Interpreter interpreter, final Value item )
 	{
 		return chew(interpreter, new Value( 1 ), item);
-	}
-
-	public static Value overdrink( Interpreter interpreter, final Value countValue, final Value item )
-	{
-		int count = (int) countValue.intValue();
-		if ( count <= 0 )
-		{
-			return RuntimeLibrary.continueValue();
-		}
-
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "overdrink", count + " \u00B6" + (int) item.intValue() );
-		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
 	public static Value last_item_message( Interpreter interpreter )
@@ -4039,15 +4090,27 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value retrieve_item( Interpreter interpreter, final Value countValue, final Value item )
+	public static Value retrieve_item( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		int count = (int) countValue.intValue();
+		int arg1Value = (int) arg1.intValue();
+		int arg2Value = (int) arg2.intValue();
+
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+
+		int count = countThenItem ? arg1Value : arg2Value;
+		int item = countThenItem ? arg2Value : arg1Value;
+
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
 
-		return DataTypes.makeBooleanValue( InventoryManager.retrieveItem( ItemPool.get( (int) item.intValue(), count ) ) );
+		return DataTypes.makeBooleanValue( InventoryManager.retrieveItem( ItemPool.get( item, count ) ) );
+	}
+
+	public static Value retrieve_item( Interpreter interpreter, final Value item )
+	{
+		return retrieve_item(interpreter, new Value( 1 ), item);
 	}
 
 	public static Value faxbot( Interpreter interpreter, final Value monsterName, final Value botName)
