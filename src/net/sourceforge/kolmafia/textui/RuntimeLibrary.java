@@ -3594,6 +3594,18 @@ public abstract class RuntimeLibrary
 		return chew(interpreter, new Value( 1 ), item);
 	}
 
+	public static Value overdrink( Interpreter interpreter, final Value countValue, final Value item )
+	{
+		int count = (int) countValue.intValue();
+		if ( count <= 0 )
+		{
+			return RuntimeLibrary.continueValue();
+		}
+
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "overdrink", count + " \u00B6" + (int) item.intValue() );
+		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
+	}
+
 	public static Value last_item_message( Interpreter interpreter )
 	{
 		return new Value( UseItemRequest.lastUpdate );
