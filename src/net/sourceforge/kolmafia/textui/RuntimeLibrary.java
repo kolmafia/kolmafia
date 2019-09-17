@@ -669,16 +669,46 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "create", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "create", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "create", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "use", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "use", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "use", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "eat", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "eat", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "eat", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "eatsilent", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "eatsilent", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "eatsilent", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "drink", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "drink", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "drink", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
@@ -687,7 +717,19 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "drinksilent", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "drinksilent", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "drinksilent", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "chew", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "chew", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "chew", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
@@ -3463,100 +3505,93 @@ public abstract class RuntimeLibrary
 		return new Value( req.created() );
 	}
 
-	public static Value create( Interpreter interpreter, final Value countValue, final Value item )
-	{
-		int count = (int) countValue.intValue();
+	private static Value execute_item_quantity( final String command, final Value arg1, final Value arg2 )
+		{
+		int arg1Value = (int) arg1.intValue();
+		int arg2Value = (int) arg2.intValue();
+
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+
+		int count = countThenItem ? arg1Value : arg2Value;
+		int item = countThenItem ? arg2Value : arg1Value;
+
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "create", count + " \u00B6" + (int) item.intValue() );
-		return RuntimeLibrary.continueValue();
-	}
-
-	public static Value use( Interpreter interpreter, final Value countValue, final Value item )
-	{
-		int count = (int) countValue.intValue();
-		if ( count <= 0 )
-		{
-			return RuntimeLibrary.continueValue();
-		}
-
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "use", count + " \u00B6" + (int) item.intValue() );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( command, count + " \u00B6" + item );
 		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
-	public static Value eat( Interpreter interpreter, final Value countValue, final Value item )
-	{
-		int count = (int) countValue.intValue();
-		if ( count <= 0 )
+	public static Value create( Interpreter interpreter, final Value arg1, final Value arg2 )
 		{
-			return RuntimeLibrary.continueValue();
+		return execute_item_quantity( "create", arg1, arg2 );
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "eat", count + " \u00B6" + (int) item.intValue() );
-		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
+	public static Value create( Interpreter interpreter, final Value item )
+	{
+		return create(interpreter, new Value( 1 ), item);
 	}
 
-	public static Value eatsilent( Interpreter interpreter, final Value countValue, final Value item )
-	{
-		int count = (int) countValue.intValue();
-		if ( count <= 0 )
+	public static Value use( Interpreter interpreter, final Value arg1, final Value arg2 )
 		{
-			return RuntimeLibrary.continueValue();
+		return execute_item_quantity( "use", arg1, arg2 );
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "eatsilent", count + " \u00B6" + (int) item.intValue() );
-		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
+	public static Value use( Interpreter interpreter, final Value item )
+	{
+		return use(interpreter, new Value( 1 ), item);
 	}
 
-	public static Value drink( Interpreter interpreter, final Value countValue, final Value item )
+	public static Value eat( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		int count = (int) countValue.intValue();
-		if ( count <= 0 )
-		{
-			return RuntimeLibrary.continueValue();
+		return execute_item_quantity( "eat", arg1, arg2 );
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "drink", count + " \u00B6" + (int) item.intValue() );
-		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
+	public static Value eat( Interpreter interpreter, final Value item )
+	{
+		return eat(interpreter, new Value( 1 ), item);
 	}
 
-	public static Value overdrink( Interpreter interpreter, final Value countValue, final Value item )
-	{
-		int count = (int) countValue.intValue();
-		if ( count <= 0 )
+	public static Value eatsilent( Interpreter interpreter, final Value arg1, final Value arg2 )
 		{
-			return RuntimeLibrary.continueValue();
+		return execute_item_quantity( "eatsilent", arg1, arg2 );
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "overdrink", count + " \u00B6" + (int) item.intValue() );
-		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
+	public static Value eatsilent( Interpreter interpreter, final Value item )
+	{
+		return eatsilent(interpreter, new Value( 1 ), item);
 	}
 
-	public static Value drinksilent( Interpreter interpreter, final Value countValue, final Value item )
+	public static Value drink( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		int count = (int) countValue.intValue();
-		if ( count <= 0 )
-		{
-			return RuntimeLibrary.continueValue();
-		}
-
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "drinksilent", count + " \u00B6" + (int) item.intValue() );
-		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
+		return execute_item_quantity( "drink", arg1, arg2 );
 	}
 
-	public static Value chew( Interpreter interpreter, final Value countValue, final Value item )
-	{
-		int count = (int) countValue.intValue();
-		if ( count <= 0 )
+	public static Value drink( Interpreter interpreter, final Value item )
 		{
-			return RuntimeLibrary.continueValue();
+		return drink(interpreter, new Value( 1 ), item);
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "chew", count + " \u00B6" + (int) item.intValue() );
-		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
+	public static Value drinksilent( Interpreter interpreter, final Value arg1, final Value arg2 )
+	{
+		return execute_item_quantity( "drinksilent", arg1, arg2 );
+	}
+
+	public static Value drinksilent( Interpreter interpreter, final Value item )
+	{
+		return drinksilent(interpreter, new Value( 1 ), item);
+	}
+
+	public static Value chew( Interpreter interpreter, final Value arg1, final Value arg2 )
+		{
+		return execute_item_quantity( "chew", arg1, arg2 );
+		}
+
+	public static Value chew( Interpreter interpreter, final Value item )
+	{
+		return chew(interpreter, new Value( 1 ), item);
 	}
 
 	public static Value last_item_message( Interpreter interpreter )
