@@ -5784,10 +5784,8 @@ public abstract class RuntimeLibrary
 		{
 			RequestThread.postRequest( FightRequest.INSTANCE );
 		}
-		String response = relayRequest == null ?
-			FightRequest.lastResponseText : FightRequest.getNextTrackedRound();
 
-		return new Value( DataTypes.BUFFER_TYPE, "", new StringBuffer( response == null ? "" : response ) );
+		return new Value( DataTypes.BUFFER_TYPE, "", new StringBuffer( FightRequest.lastDecoratedResponseText ) );
 	}
 
 	public static Value run_combat( Interpreter interpreter, Value filterFunction )

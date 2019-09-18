@@ -517,7 +517,7 @@ public class RelayAgent
 				{
 					StaticEntity.printStackTrace( e );
 				}
-				fightResponse = FightRequest.getNextTrackedRound();
+				fightResponse = FightRequest.lastDecoratedResponseText;
 			}
 			this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
 			RelayRequest.executeAfterAdventureScript();
@@ -527,7 +527,7 @@ public class RelayAgent
 			String fightResponse;
 			synchronized ( FightRequest.INSTANCE )
 			{
-				fightResponse = FightRequest.getNextTrackedRound();
+				fightResponse = FightRequest.lastDecoratedResponseText;
 			}
 			this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
 			RelayRequest.executeAfterAdventureScript();
@@ -558,7 +558,7 @@ public class RelayAgent
 				{
 					StaticEntity.printStackTrace( e );
 				}
-				fightResponse = FightRequest.getNextTrackedRound();
+				fightResponse = FightRequest.lastDecoratedResponseText;
 			}
 			this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
 		}
@@ -576,7 +576,7 @@ public class RelayAgent
 			else if ( this.request.responseText == null )
 			{
 				// Force a refresh
-				this.request.pseudoResponse( "HTTP/1.1 200 OK", ChoiceManager.lastResponseText );
+				this.request.pseudoResponse( "HTTP/1.1 200 OK", ChoiceManager.lastDecoratedResponseText );
 			}
 		}
 		else if ( this.path.equals( "/leaflet.php?action=auto" ) )
