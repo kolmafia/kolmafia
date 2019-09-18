@@ -509,8 +509,14 @@ public class RelayAgent
 			synchronized ( FightRequest.INSTANCE )
 			{
 				KoLmafia.forceContinue();
-				FightRequest.INSTANCE.run();
-				FightRequest.stopTrackingFights();
+				try
+				{
+					FightRequest.INSTANCE.run();
+				}
+				catch ( Exception e )
+				{
+					StaticEntity.printStackTrace( e );
+				}
 				fightResponse = FightRequest.getNextTrackedRound();
 			}
 			this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
@@ -521,7 +527,6 @@ public class RelayAgent
 			String fightResponse;
 			synchronized ( FightRequest.INSTANCE )
 			{
-				FightRequest.stopTrackingFights();
 				fightResponse = FightRequest.getNextTrackedRound();
 			}
 			this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
@@ -538,15 +543,21 @@ public class RelayAgent
 			synchronized ( FightRequest.INSTANCE )
 			{
 				KoLmafia.forceContinue();
-				if ( desiredAction == null )
+				try
 				{
-					FightRequest.INSTANCE.run();
+					if ( desiredAction == null )
+					{
+						FightRequest.INSTANCE.run();
+					}
+					else
+					{
+						FightRequest.INSTANCE.runOnce( desiredAction );
+					}
 				}
-				else
+				catch ( Exception e )
 				{
-					FightRequest.INSTANCE.runOnce( desiredAction );
+					StaticEntity.printStackTrace( e );
 				}
-				FightRequest.stopTrackingFights();
 				fightResponse = FightRequest.getNextTrackedRound();
 			}
 			this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );

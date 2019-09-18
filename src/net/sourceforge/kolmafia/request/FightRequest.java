@@ -185,9 +185,8 @@ public class FightRequest
 	public static boolean waitingForSpecial;
 
 	public static String lastResponseText = "";
+	public static String lastDecoratedResponseText = "";
 	public static String currentEncounter = "";
-	private static boolean isTrackingFights = false;
-	private static boolean foundNextRound = false;
 	private static boolean haveFought = false;
 	private static boolean shouldRefresh = false;
 	private static boolean initializeAfterFight = false;
@@ -2014,7 +2013,7 @@ public class FightRequest
 				FightRequest.clearInstanceData();
 			}
 
-			if ( KoLmafia.refusesContinue() && FightRequest.currentRound != 0 && !FightRequest.isTrackingFights() )
+			if ( KoLmafia.refusesContinue() && FightRequest.currentRound != 0 )
 			{
 				this.showInBrowser( true );
 			}
@@ -2831,7 +2830,8 @@ public class FightRequest
 			FightRequest.nextAction = "abort";
 		}
 
-		FightRequest.foundNextRound = true;
+		//Now that we have processed the page, generated the decorated HTML
+		FightRequest.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( "fight.php", responseText );
 	}
 
 	private static final boolean waitingForSpecial( MonsterData monster )
@@ -9816,25 +9816,7 @@ public class FightRequest
 
 	public synchronized static final String getNextTrackedRound()
 	{
-		while ( FightRequest.isTrackingFights && !FightRequest.foundNextRound && !KoLmafia.refusesContinue() )
-		{
-			PAUSER.pause( 200 );
-		}
-
-		if ( !FightRequest.foundNextRound || KoLmafia.refusesContinue() )
-		{
-			FightRequest.isTrackingFights = false;
-		}
-		else if ( FightRequest.isTrackingFights )
-		{
-			FightRequest.isTrackingFights = FightRequest.currentRound != 0;
-		}
-
-		FightRequest.foundNextRound = false;
-
-		String location = FightRequest.isTrackingFights ? "fight.php?action=script" : "fight.php?action=done";
-		String responseText = FightRequest.lastResponseText;
-		return RequestEditorKit.getFeatureRichHTML( location, responseText );
+		return FightRequest.lastDecoratedResponseText;
 	}
 
 	public static final int getCurrentRound()
@@ -9875,19 +9857,15 @@ public class FightRequest
 
 	public static final void beginTrackingFights()
 	{
-		FightRequest.isTrackingFights = true;
-		FightRequest.foundNextRound = false;
 	}
 
 	public static final void stopTrackingFights()
 	{
-		FightRequest.isTrackingFights = false;
-		FightRequest.foundNextRound = false;
 	}
 
 	public static final boolean isTrackingFights()
 	{
-		return FightRequest.isTrackingFights;
+		return false;
 	}
 
 	public static final boolean haveFought()
