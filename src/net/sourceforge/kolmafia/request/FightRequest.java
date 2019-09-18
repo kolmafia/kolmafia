@@ -9814,11 +9814,6 @@ public class FightRequest
 		return 0;
 	}
 
-	public synchronized static final String getNextTrackedRound()
-	{
-		return FightRequest.lastDecoratedResponseText;
-	}
-
 	public static final int getCurrentRound()
 	{
 		return FightRequest.currentRound;
@@ -9853,19 +9848,6 @@ public class FightRequest
 	public static final boolean shotSixgun()
 	{
 		return FightRequest.shotSixgun;
-	}
-
-	public static final void beginTrackingFights()
-	{
-	}
-
-	public static final void stopTrackingFights()
-	{
-	}
-
-	public static final boolean isTrackingFights()
-	{
-		return false;
 	}
 
 	public static final boolean haveFought()
