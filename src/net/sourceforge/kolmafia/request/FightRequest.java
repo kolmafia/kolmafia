@@ -248,7 +248,7 @@ public class FightRequest
 	private static final Pattern MULTIFIGHT_PATTERN =
 		Pattern.compile( "href=\"?/?fight.php" );
 	private static final Pattern FIGHTCHOICE_PATTERN =
-		Pattern.compile( "href=\"choice.php" );
+		Pattern.compile( "href=\"?choice.php" );
 
 	private static final Pattern KEYOTRON_PATTERN =
 		Pattern.compile( "key-o-tron emits (\\d) short" );

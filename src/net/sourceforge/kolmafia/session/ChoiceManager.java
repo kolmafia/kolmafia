@@ -137,6 +137,7 @@ public abstract class ChoiceManager
 	public static int lastChoice = 0;
 	public static int lastDecision = 0;
 	public static String lastResponseText = "";
+	public static String lastDecoratedResponseText = "";
 
 	private static int skillUses = 0;
 	private static boolean canWalkAway;
@@ -2458,7 +2459,8 @@ public abstract class ChoiceManager
 			"McLarge", "choiceAdventure575", "eXtreme Slope",
 			new Object[] { "get an outfit piece",
 				       new Option( "jar of frostigkraut", "jar of frostigkraut" ),
-				       "skip adventure" } ),
+				       "skip adventure",
+				       new Option( "lucky pill", "lucky pill" ) } ),
 
 		// Choice 576 is Your Minstrel Camps
 		// Choice 577 is Your Minstrel Scamp
@@ -7336,6 +7338,7 @@ public abstract class ChoiceManager
 			ChoiceManager.lastChoice = 0;
 			ChoiceManager.lastDecision = 0;
 			ChoiceManager.lastResponseText = null;
+			ChoiceManager.lastDecoratedResponseText = null;
 			return;
 		}
 
@@ -7683,7 +7686,9 @@ public abstract class ChoiceManager
 			return;
 		}
 
-		String text = ChoiceManager.lastResponseText = request.responseText;
+		String text = request.responseText;
+		ChoiceManager.lastResponseText = text;
+		ChoiceManager.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( "choice.php", text );
 
 		switch ( ChoiceManager.lastChoice )
 		{
@@ -13616,6 +13621,8 @@ public abstract class ChoiceManager
 		}
 
 		ChoiceManager.lastResponseText = text;
+		ChoiceManager.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( "choice.php", text );
+
 		ChoiceManager.setCanWalkAway( ChoiceManager.lastChoice );
 
 		switch ( ChoiceManager.lastChoice )
@@ -15842,6 +15849,7 @@ public abstract class ChoiceManager
 		request.run();
 
 		ChoiceManager.lastResponseText = request.responseText;
+		ChoiceManager.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( "choice.php", request.responseText );
 
 		return true;
 	}
