@@ -100,6 +100,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.GenericRequest.ServerCookie;
 
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
@@ -367,7 +368,17 @@ public class RelayRequest
 	{
 		this.statusLine = "HTTP/1.1 200 OK";
 		String path = this.getBasePath();
-		StringBuffer responseBuffer = new StringBuffer( this.responseText );
+
+		boolean fight = path.startsWith( "fight.php" );
+		boolean choice = path.startsWith( "choice.php" );
+
+		// Use previously decorated response for fights and choices
+		String text =
+			fight ? FightRequest.lastDecoratedResponseText :
+			choice ? ChoiceManager.lastDecoratedResponseText :
+			this.responseText;
+
+		StringBuffer responseBuffer = new StringBuffer( text );
 
 		// Fix KoLmafia getting outdated by events happening
 		// in the browser by using the sidepane.
@@ -442,13 +453,17 @@ public class RelayRequest
 			}
 		}
 
-		try
+		// Fights and choices are already decorated.
+		if ( !fight && !choice )
 		{
-			RequestEditorKit.getFeatureRichHTML( this.getURLString(), responseBuffer );
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
+			try
+			{
+				RequestEditorKit.getFeatureRichHTML( this.getURLString(), responseBuffer );
+			}
+			catch ( Exception e )
+			{
+				StaticEntity.printStackTrace( e );
+			}
 		}
 
 		// Remove the default frame busting script so that

@@ -126,8 +126,8 @@ public abstract class UseLinkDecorator
 		boolean usedMafiaMacro = location.contains( "action=done" );
 		boolean usedMacro = inCombat && ( usedNativeMacro || usedMafiaMacro );
 
-		// Some combats lead to a non-optional choice
-		boolean duringCombat = inCombat && ( FightRequest.getCurrentRound() != 0 || buffer.indexOf( "choice.php" ) != -1 );
+		// Some combats lead to a non-optional fight or choice
+		boolean duringCombat = inCombat && ( FightRequest.getCurrentRound() != 0 || FightRequest.inMultiFight || FightRequest.choiceFollowsFight );
 		// Some choices lead to a non-optional choice
 		boolean duringChoice = inChoice && buffer.indexOf( "choice.php" ) != -1 && !ChoiceManager.canWalkAway();
 
@@ -153,19 +153,27 @@ public abstract class UseLinkDecorator
 		
 		if ( inCombat )
 		{
-			StringUtilities.singleStringReplace( buffer,
-				"A sticker falls off your weapon, faded and torn.",
-				"A sticker falls off your weapon, faded and torn. <font size=1>" +
-				"[<a href=\"bedazzle.php\">bedazzle</a>]</font>" );
+			String find = "A sticker falls off your weapon, faded and torn.";
+			String replace = find + " <font size=1>[<a href=\"bedazzle.php\">bedazzle</a>]</font>";
+			StringUtilities.singleStringReplace( buffer, find, replace );
+			// *** If we are deferring, should add this to UseLinkDecorator.deferred
 		}
+
+		// System.out.println( "inCombat = " + inCombat + " duringCombat = " + duringCombat + " inChoice = " + inChoice + " duringChoice = " + duringChoice );
+		// System.out.println( "deferring = " + deferring + " deferrable = " + deferrable + " buffer length = " + deferred.length() );
 		
+		// If we are currently in combat or a choice, discard all
+		// changes, since the links aren't usable yet
 		if ( deferring )
-		{	// discard all changes, the links aren't usable yet
+		{
 			buffer.setLength( 0 );
 			buffer.append( text );
+			return;
 		}
 		
-		else if ( deferrable )
+		// If we have completed a combat or are in a choice that we can
+		// walk away, the links are immediately usable.
+		if ( deferrable )
 		{
 			int pos = buffer.lastIndexOf( "</table>" );
 			if ( pos == -1 )
