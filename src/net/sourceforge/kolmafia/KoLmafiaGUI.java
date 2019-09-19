@@ -45,15 +45,11 @@ import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CharPaneRequest;
-import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClanWarRequest;
-import net.sourceforge.kolmafia.request.CrimboCafeRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
-import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
-import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 
 import net.sourceforge.kolmafia.session.BuffBotManager;
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -317,37 +313,6 @@ public class KoLmafiaGUI
 		}
 		else if ( frameClass == ItemManageFrame.class )
 		{
-			// The Crimbo Cafe is open
-			if ( KoLConstants.cafeItems.isEmpty() )
-			{
-				CrimboCafeRequest.getMenu();
-			}
-
-			// If the person is in Bad Moon, retrieve
-			// information from Hell's Kitchen.
-
-			if ( KoLCharacter.inBadMoon() &&
-			     KoLConstants.kitchenItems.isEmpty() )
-			{
-				HellKitchenRequest.getMenu();
-			}
-
-			// If the person is in a canadia sign, retrieve
-			// information from the restaurant.
-
-			if ( KoLCharacter.canEat() && KoLCharacter.canadiaAvailable() && KoLConstants.restaurantItems.isEmpty() )
-			{
-				ChezSnooteeRequest.getMenu();
-			}
-
-			// If the person is in a gnomad sign and the beach is
-			// open, retrieve information from the microbrewery.
-
-			if ( KoLCharacter.canDrink() && KoLCharacter.gnomadsAvailable() && KoLConstants.microbreweryItems.isEmpty() )
-			{
-				MicroBreweryRequest.getMenu();
-			}
-
 			if ( InventoryManager.canUseClanStash() )
 			{
 				if ( !ClanManager.isStashRetrieved() )
