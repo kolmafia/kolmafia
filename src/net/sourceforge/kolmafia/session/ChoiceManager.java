@@ -13620,10 +13620,11 @@ public abstract class ChoiceManager
 			return;
 		}
 
+		// Must do this BEFORE we decorate the response text
+		ChoiceManager.setCanWalkAway( ChoiceManager.lastChoice );
+
 		ChoiceManager.lastResponseText = text;
 		ChoiceManager.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( "choice.php", text );
-
-		ChoiceManager.setCanWalkAway( ChoiceManager.lastChoice );
 
 		switch ( ChoiceManager.lastChoice )
 		{

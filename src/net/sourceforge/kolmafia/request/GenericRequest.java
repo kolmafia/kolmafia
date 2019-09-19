@@ -1241,6 +1241,7 @@ public class GenericRequest
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You are currently in a fight." );
 			}
+			// StaticEntity.printStackTrace( "You are currently in a fight." );
 			return true;
 		}
 
@@ -1250,6 +1251,7 @@ public class GenericRequest
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You are currently in a multi-stage fight." );
 			}
+			// StaticEntity.printStackTrace( "You are currently in a multi-stage fight." );
 			return true;
 		}
 
@@ -1259,6 +1261,7 @@ public class GenericRequest
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "A choice follows this fight immediately." );
 			}
+			// StaticEntity.printStackTrace( "A choice follows this fight immediately." );
 			return true;
 		}
 
@@ -1273,6 +1276,7 @@ public class GenericRequest
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You are currently in a choice." );
 			}
+			// StaticEntity.printStackTrace( "You are currently in a choice." );
 			return true;
 		}
 
