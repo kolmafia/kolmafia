@@ -930,8 +930,8 @@ public abstract class KoLmafia
 		{
 			RequestThread.postRequest( new FamTeamRequest() );
 		}
-		else if ( !KoLCharacter.inAxecore() && !KoLCharacter.isJarlsberg() && !KoLCharacter.isSneakyPete()
-			&& !KoLCharacter.inBondcore() && !KoLCharacter.isVampyre() )
+		else if ( !KoLCharacter.inAxecore() && !KoLCharacter.isJarlsberg() && !KoLCharacter.isSneakyPete() &&
+			  !KoLCharacter.inBondcore() && !KoLCharacter.isVampyre() )
 		{
 			// Retrieve the Terrarium
 			RequestThread.postRequest( new FamiliarRequest() );
@@ -954,6 +954,10 @@ public abstract class KoLmafia
 			RequestThread.postRequest( new CampgroundRequest( "workshed" ) );
 			KoLCharacter.checkTelescope();
 		}
+
+		// Retrieve current Cafe menus if we haven't done so today
+		// These affect available concoctions
+		ConcoctionDatabase.retrieveCafeMenus();
 
 		if ( !Limitmode.limitCampground() && KoLCharacter.inNuclearAutumn() )
 		{

@@ -3585,6 +3585,42 @@ public class ConcoctionDatabase
 		}
 	}
 
+	public static void retrieveCafeMenus()
+	{
+		// The Crimbo Cafe is open
+		if ( KoLConstants.cafeItems.isEmpty() )
+		{
+			CrimboCafeRequest.getMenu();
+		}
+
+		// If the person is in Bad Moon, retrieve
+		// information from Hell's Kitchen.
+
+		if ( KoLCharacter.inBadMoon() &&
+		     KoLConstants.kitchenItems.isEmpty() )
+		{
+			HellKitchenRequest.getMenu();
+		}
+
+		// If the person is in a canadia sign, retrieve
+		// information from the restaurant.
+
+		if ( KoLCharacter.canEat() && KoLCharacter.canadiaAvailable() &&
+		     KoLConstants.restaurantItems.isEmpty() )
+		{
+			ChezSnooteeRequest.getMenu();
+		}
+
+		// If the person is in a gnomad sign and the beach is
+		// open, retrieve information from the microbrewery.
+
+		if ( KoLCharacter.canDrink() && KoLCharacter.gnomadsAvailable() &&
+		     KoLConstants.microbreweryItems.isEmpty() )
+		{
+			MicroBreweryRequest.getMenu();
+		}
+	}
+
 	public static class QueuedConcoction
 	{
 		private final Concoction concoction;
