@@ -160,6 +160,7 @@ public abstract class UseLinkDecorator
 		}
 
 		// System.out.println( "inCombat = " + inCombat + " duringCombat = " + duringCombat + " inChoice = " + inChoice + " duringChoice = " + duringChoice );
+		// if ( inChoice ) System.out.println( "choice = " + ChoiceManager.lastChoice + " contains choice.php = " + ( buffer.indexOf( "choice.php" ) != -1 ) + " not can walk away = " + !ChoiceManager.canWalkAway() );
 		// System.out.println( "deferring = " + deferring + " deferrable = " + deferrable + " buffer length = " + deferred.length() );
 		
 		// If we are currently in combat or a choice, discard all

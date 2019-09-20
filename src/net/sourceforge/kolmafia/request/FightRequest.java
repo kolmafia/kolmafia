@@ -4320,9 +4320,12 @@ public class FightRequest
 			}
 		}
 
-		FightRequest.clearInstanceData();
 		FightRequest.inMultiFight = won && FightRequest.MULTIFIGHT_PATTERN.matcher( responseText ).find();
 		FightRequest.choiceFollowsFight = FightRequest.FIGHTCHOICE_PATTERN.matcher( responseText ).find();
+
+		// Do this AFTER we set the above so it does not continue
+		// logging in if you are still in a fight or choice
+		FightRequest.clearInstanceData();
 
 		// <a href="fight.php" id="againlink">The barrier between world is torn...</a>
 		if ( FightRequest.inMultiFight && responseText.contains( "The barrier between world" ) )
@@ -7916,7 +7919,7 @@ public class FightRequest
 		FightRequest.macroPrefixLength = 0;
 		FightRequest.consultScriptThatDidNothing = null;
 
-		if ( FightRequest.initializeAfterFight )
+		if ( FightRequest.initializeAfterFight && !FightRequest.inMultiFight && !FightRequest.choiceFollowsFight )
 		{
 			Runnable initializeRunner = new Runnable()
 			{

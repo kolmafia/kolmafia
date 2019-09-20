@@ -7688,7 +7688,6 @@ public abstract class ChoiceManager
 
 		String text = request.responseText;
 		ChoiceManager.lastResponseText = text;
-		ChoiceManager.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( "choice.php", text );
 
 		switch ( ChoiceManager.lastChoice )
 		{
@@ -11731,16 +11730,15 @@ public abstract class ChoiceManager
 			return;
 		}
 
+		// Things that can or need to be done AFTER processing results.
+		String text = request.responseText;
+
 		// If you walked away from the choice, this is not a choice page
 		if ( ChoiceManager.canWalkAway && !urlString.startsWith( "choice.php" ) && !urlString.startsWith( "fight.php" ) )
 		{
 			ChoiceManager.handlingChoice = false;
 			return;
 		}
-
-		// Things that can or need to be done AFTER processing results.
-
-		String text = request.responseText;
 
 		ChoiceManager.handlingChoice = ChoiceManager.stillInChoice( text );
 
@@ -13524,6 +13522,9 @@ public abstract class ChoiceManager
 			return;
 		}
 
+		// visitChoice() gets the decorated response text, but this is not a visit
+		ChoiceManager.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( request.getURLString(), text );
+
 		if ( text.contains( "charpane.php" ) )
 		{
 			// Since a charpane refresh was requested, a turn might have been spent
@@ -13551,6 +13552,13 @@ public abstract class ChoiceManager
 		// If we are not handling a choice, nothing to do
 		if ( !ChoiceManager.handlingChoice )
 		{
+			return;
+		}
+
+		// If taking a choice redirects to a fight, we are no longer in a choice
+		if ( redirectLocation.startsWith( "fight.php" ) )
+		{
+			ChoiceManager.handlingChoice = false;
 			return;
 		}
 
@@ -13624,7 +13632,7 @@ public abstract class ChoiceManager
 		ChoiceManager.setCanWalkAway( ChoiceManager.lastChoice );
 
 		ChoiceManager.lastResponseText = text;
-		ChoiceManager.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( "choice.php", text );
+		ChoiceManager.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( request.getURLString(), text );
 
 		switch ( ChoiceManager.lastChoice )
 		{
@@ -15850,7 +15858,7 @@ public abstract class ChoiceManager
 		request.run();
 
 		ChoiceManager.lastResponseText = request.responseText;
-		ChoiceManager.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( "choice.php", request.responseText );
+		ChoiceManager.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( request.getURLString(), request.responseText );
 
 		return true;
 	}
@@ -17289,10 +17297,7 @@ public abstract class ChoiceManager
 		String responseText = ChoiceManager.lastResponseText;
 		GenericRequest request = ChoiceManager.CHOICE_HANDLER;
 		ChoiceManager.processChoiceAdventure( request, "choice.php", responseText );
-
-		StringBuffer buffer = new StringBuffer( request.responseText );
-		RequestEditorKit.getFeatureRichHTML( request.getURLString(), buffer );
-		RelayRequest.specialCommandResponse = buffer.toString();
+		RelayRequest.specialCommandResponse = ChoiceManager.lastDecoratedResponseText;
 		RelayRequest.specialCommandIsAdventure = true;
 		return request.responseText;
 	}
