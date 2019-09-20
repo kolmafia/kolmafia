@@ -369,14 +369,24 @@ public class RelayRequest
 		this.statusLine = "HTTP/1.1 200 OK";
 		String path = this.getBasePath();
 
-		boolean fight = path.startsWith( "fight.php" );
-		boolean choice = path.startsWith( "choice.php" );
+		// Use previously decorated response for fights and choices if available
+		boolean decorate = false;
+		String text = null;
 
-		// Use previously decorated response for fights and choices
-		String text =
-			fight ? FightRequest.lastDecoratedResponseText :
-			choice ? ChoiceManager.lastDecoratedResponseText :
-			this.responseText;
+		if ( path.startsWith( "fight.php" ) )
+		{
+			text = FightRequest.lastDecoratedResponseText;
+		}
+		else if ( path.startsWith( "choice.php" ) )
+		{
+			text = ChoiceManager.lastDecoratedResponseText;
+		}
+
+		if ( text == null )
+		{
+			text = this.responseText;
+			decorate = true;
+		}
 
 		StringBuffer responseBuffer = new StringBuffer( text );
 
@@ -454,7 +464,7 @@ public class RelayRequest
 		}
 
 		// Fights and choices are already decorated.
-		if ( !fight && !choice )
+		if ( decorate )
 		{
 			try
 			{
