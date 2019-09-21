@@ -2830,7 +2830,7 @@ public class FightRequest
 			FightRequest.nextAction = "abort";
 		}
 
-		//Now that we have processed the page, generated the decorated HTML
+		// Now that we have processed the page, generated the decorated HTML
 		FightRequest.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( "fight.php", responseText );
 	}
 
@@ -6551,6 +6551,20 @@ public class FightRequest
 			FightRequest.handleVillainLairRadio( node, status );
 
 			if ( status.meteors && ( str.contains( "meteor" ) || str.contains( "falling star" ) ) )
+			{
+				FightRequest.logText( str, status );
+			}
+
+			if ( // KoL Con 13 Snowglobe
+			     str.contains( "KoL Con" ) ||
+			     str.contains( "You notice some extra Meat" ) ||
+			     // Mr. Screege's spectacles
+			     str.contains( "You notice something valuable hidden" ) ||
+			     // Mr. Cheeng's spectacles
+			     str.contains( "You see a weird thing out of the corner of your eye, and you grab it" ) ||
+			     str.contains( "You think you see a weird thing out of the corner of your eye" ) ||
+			     // lucky gold ring
+			     str.contains( "Your lucky gold ring gets warmer for a moment." ) )
 			{
 				FightRequest.logText( str, status );
 			}
