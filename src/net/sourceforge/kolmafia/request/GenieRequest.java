@@ -162,6 +162,7 @@ public class GenieRequest
 			KoLAdventure.lastVisitedLocation = null;
 			KoLAdventure.lastLocationName = null;
 			KoLAdventure.lastLocationURL = "choice.php";
+			KoLAdventure.setLastAdventure( "None" );
 			KoLAdventure.setNextAdventure( "None" );
 
 			EncounterManager.ignoreSpecialMonsters();

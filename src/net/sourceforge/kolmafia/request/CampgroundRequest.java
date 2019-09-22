@@ -1655,6 +1655,7 @@ public class CampgroundRequest
 			KoLAdventure.lastVisitedLocation = null;
 			KoLAdventure.lastLocationName = null;
 			KoLAdventure.lastLocationURL = urlString;
+			KoLAdventure.setLastAdventure( "None" );
 			KoLAdventure.setNextAdventure( "None" );
 			message = "[" + KoLAdventure.getAdventureCount() + "] Your Witchess Set";
 		}

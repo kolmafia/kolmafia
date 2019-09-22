@@ -1519,6 +1519,21 @@ public class KoLAdventure
 		return adventure;
 	}
 
+	public static final void setLastAdventure( final String adventureName )
+	{
+		KoLAdventure adventure = AdventureDatabase.getAdventure( adventureName );
+		if ( adventure == null )
+		{
+			KoLAdventure.lastVisitedLocation = null;
+			KoLAdventure.lastLocationName = null;
+			KoLAdventure.lastLocationURL = null;
+			Preferences.setString( "lastAdventure", adventureName );
+			KoLCharacter.updateSelectedLocation( null );
+			return;
+		}
+		KoLAdventure.setLastAdventure( adventure );
+	}
+
 	public static final void setLastAdventure( final KoLAdventure adventure )
 	{
 		if ( adventure == null )
