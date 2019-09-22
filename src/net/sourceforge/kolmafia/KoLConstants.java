@@ -394,7 +394,7 @@ public interface KoLConstants
 	public static final String MACROHELPER_JS = "macrohelper.4.js";
 	public static final String ONFOCUS_JS = "onfocus.1.js";
 	public static final String SORTTABLE_JS = "sorttable.2.js";
-	public static final String STATIONARYBUTTONS_CSS = "stationarybuttons.1.css";
+	public static final String STATIONARYBUTTONS_CSS = "stationarybuttons.2.css";
 	public static final String STATIONARYBUTTONS_JS = "stationarybuttons.1.js";
 
 	public static final String[] RELAY_FILES =
