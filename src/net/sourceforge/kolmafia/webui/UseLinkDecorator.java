@@ -2269,7 +2269,9 @@ public abstract class UseLinkDecorator
 		{
 			this.itemId = itemId;
 			this.itemCount = itemCount;
-			this.useType = useType;
+			// Quote '$' characters so that Matcher.appendReplacement
+			// does not throw an  exception.
+			this.useType = StringUtilities.globalStringReplace( useType, "$", "\\$" );
 			this.useLocation = useLocation;
 			this.inline = inline;
 
