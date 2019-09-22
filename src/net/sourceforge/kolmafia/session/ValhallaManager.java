@@ -815,6 +815,8 @@ public class ValhallaManager
 		Preferences.setBoolean( "bondHoney", false );
 		// Pocket Familiars
 		Preferences.setString( "pokefamBoosts", "" );
+		// Kingdom Of Exploathing
+		Preferences.setBoolean( "spaceInvaderDefeated", false );
 		// Campground resets
 		Preferences.setBoolean( "hasBartender", false );
 		Preferences.setBoolean( "hasChef", false );

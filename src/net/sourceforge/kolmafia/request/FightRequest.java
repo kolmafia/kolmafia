@@ -4277,6 +4277,10 @@ public class FightRequest
 			{
 				TavernRequest.addTavernLocation( '6' );
 			}
+			else if ( monsterName.equals( "the invader" ) )
+			{
+				Preferences.setBoolean( "spaceInvaderDefeated", true );
+			}
 			else if ( !FightRequest.castCleesh &&
 				Preferences.getString( "lastAdventure" ).equalsIgnoreCase(
 					"A Maze of Sewer Tunnels" ) )

@@ -1220,6 +1220,7 @@ user	spacegateAlways	false
 user	spacegateVaccine1	false
 user	spacegateVaccine2	false
 user	spacegateVaccine3	false
+user	spaceInvaderDefeated	false
 user	spadingData
 user	spelunkyHints	false
 user	spelunkyNextNoncombat	1
