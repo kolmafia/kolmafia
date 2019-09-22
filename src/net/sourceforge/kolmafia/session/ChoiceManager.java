@@ -9364,6 +9364,7 @@ public abstract class ChoiceManager
 				KoLAdventure.lastVisitedLocation = null;
 				KoLAdventure.lastLocationName = null;
 				KoLAdventure.lastLocationURL = urlString;
+				KoLAdventure.setLastAdventure( "None" );
 				KoLAdventure.setNextAdventure( "None" );
 				GenericRequest.itemMonster = "Rain Man";
 			}
@@ -10204,6 +10205,7 @@ public abstract class ChoiceManager
 				KoLAdventure.lastVisitedLocation = null;
 				KoLAdventure.lastLocationName = null;
 				KoLAdventure.lastLocationURL = urlString;
+				KoLAdventure.setLastAdventure( "None" );
 				KoLAdventure.setNextAdventure( "None" );
 				GenericRequest.itemMonster = "Your Witchess Set";
 			}
@@ -17506,6 +17508,7 @@ public abstract class ChoiceManager
 				KoLAdventure.lastVisitedLocation = null;
 				KoLAdventure.lastLocationName = null;
 				KoLAdventure.lastLocationURL = urlString;
+				KoLAdventure.setLastAdventure( "None" );
 				KoLAdventure.setNextAdventure( "None" );
 				GenericRequest.itemMonster = "Time-Spinner";
 			
@@ -17524,6 +17527,7 @@ public abstract class ChoiceManager
 				KoLAdventure.lastVisitedLocation = null;
 				KoLAdventure.lastLocationName = null;
 				KoLAdventure.lastLocationURL = urlString;
+				KoLAdventure.setLastAdventure( "None" );
 				KoLAdventure.setNextAdventure( "None" );
 				GenericRequest.itemMonster = "Time-Spinner";
 

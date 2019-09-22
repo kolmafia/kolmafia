@@ -607,18 +607,20 @@ public class ResultProcessor
 			item = "Love Potion #XYZ";
 		}
 
-		boolean checkItemName = !KoLCharacter.isCrazyRandomTwo();
-
 		if ( acquisition.contains( "an item" ) )
 		{
 			AdventureResult result = items.size() == 0 ? null : items.getFirst();
 
-			if ( result != null && ( !checkItemName || item.equals( result.getName() ) ) )
+			if ( result != null )
 			{
 				items.removeFirst();
 				ResultProcessor.processItem( combatResults, acquisition, result, data );
 				return;
 			}
+
+			// We really shouldn't get here; all items should
+			// appear in a standardized table with relstrings which
+			// we parse into the "items" list
 
 			result = ItemPool.get( item, 1 );
 
@@ -678,7 +680,7 @@ public class ResultProcessor
 
 		AdventureResult result = items.size() == 0 ? null : items.getFirst();
 
-		if ( result != null && ( !checkItemName || itemName.equals( result.getName() ) ) )
+		if ( result != null )
 		{
 			items.removeFirst();
 			ResultProcessor.processItem( combatResults, acquisition, result, data );

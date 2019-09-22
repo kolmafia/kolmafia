@@ -3319,9 +3319,7 @@ public class GenericRequest
 
 		if ( nextAdventure == null )
 		{
-			KoLAdventure.lastVisitedLocation = null;
-			KoLAdventure.lastLocationName = null;
-			KoLAdventure.lastLocationURL = location;
+			KoLAdventure.setLastAdventure( "None" );
 			KoLAdventure.setNextAdventure( "None" );
 		}
 		else
@@ -3370,6 +3368,7 @@ public class GenericRequest
 		KoLAdventure.lastVisitedLocation = null;
 		KoLAdventure.lastLocationName = null;
 		KoLAdventure.lastLocationURL = location;
+		KoLAdventure.setLastAdventure( "None" );
 		KoLAdventure.setNextAdventure( "None" );
 
 		String message = "[" + KoLAdventure.getAdventureCount() + "] " + name;
@@ -3408,6 +3407,7 @@ public class GenericRequest
 		KoLAdventure.lastVisitedLocation = null;
 		KoLAdventure.lastLocationName = null;
 		KoLAdventure.lastLocationURL = location;
+		KoLAdventure.setLastAdventure( "None" );
 		KoLAdventure.setNextAdventure( "None" );
 
 		String message = "[" + KoLAdventure.getAdventureCount() + "] " + skillName;
@@ -3436,6 +3436,7 @@ public class GenericRequest
 				KoLAdventure.lastVisitedLocation = null;
 				KoLAdventure.lastLocationName = null;
 				KoLAdventure.lastLocationURL = location;
+				KoLAdventure.setLastAdventure( "None" );
 				KoLAdventure.setNextAdventure( "None" );
 
 				String message = "[" + KoLAdventure.getAdventureCount() + "] " + otherName;
