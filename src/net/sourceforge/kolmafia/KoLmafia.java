@@ -1670,6 +1670,13 @@ public abstract class KoLmafia
 
 	public static void protectClovers()
 	{
+		// If we are in a multifight or a choice follows a fight, we
+		// can't do this. Unfortunate.
+		if ( GenericRequest.abortIfInFightOrChoice( true ) )
+		{
+			return;
+		}
+
 		if ( KoLCharacter.inBeecore() || KoLCharacter.inGLover() )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "closet", "put * ten-leaf clover" );
