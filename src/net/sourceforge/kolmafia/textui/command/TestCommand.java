@@ -920,19 +920,21 @@ public class TestCommand
 		{
 			int round = split.length > 1 ? StringUtilities.parseInt( split[ 1 ].trim() ) : -1;
 			String adventureName = split.length > 2 ? split[ 2 ].trim() : Preferences.getString( "nextAdventure" );
+			String responseText = TestCommand.contents;
 			if ( round >= 0 )
 			{
 				KoLAdventure.setLastAdventure( AdventureDatabase.getAdventure( adventureName ) );
-				String encounter = AdventureRequest.parseCombatEncounter( TestCommand.contents );
+				String encounter = AdventureRequest.parseCombatEncounter( responseText );
 				FightRequest.setCurrentEncounter( encounter );
-				String monster = AdventureRequest.translateGenericType( encounter, TestCommand.contents );
+				String monster = AdventureRequest.translateGenericType( encounter, responseText );
 				MonsterStatusTracker.setNextMonsterName( monster );
 				FightRequest.currentRound = round;
-				FightRequest.updateCombatData( "fight.php", monster, TestCommand.contents );
+				FightRequest.updateCombatData( "fight.php", monster, responseText );
+				FightRequest.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( "fight.php", responseText );
 			}
 			else
 			{
-				FightRequest.parseFightHTML( TestCommand.contents );
+				FightRequest.parseFightHTML( responseText );
 			}
 			TestCommand.contents = null;
 			return;
