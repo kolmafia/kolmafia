@@ -2040,6 +2040,9 @@ public class FightRequest
 		FightRequest.parseCombatItems( responseText );
 		FightRequest.parseAvailableCombatSkills( responseText );
 
+		// Now that we have processed the page, generated the decorated HTML
+		FightRequest.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( "fight.php", responseText );
+
 		return FightRequest.shouldRefresh;
 	}
 
@@ -2829,9 +2832,6 @@ public class FightRequest
 		{
 			FightRequest.nextAction = "abort";
 		}
-
-		// Now that we have processed the page, generated the decorated HTML
-		FightRequest.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( "fight.php", responseText );
 	}
 
 	private static final boolean waitingForSpecial( MonsterData monster )
