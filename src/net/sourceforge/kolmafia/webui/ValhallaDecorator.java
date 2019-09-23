@@ -303,11 +303,6 @@ public class ValhallaDecorator
 			buffer.append( "<nobr><a href=\"peevpee.php?place=fight\">Use remaining PVP fights</a></nobr><br>" );
 		}
 
-		if ( InventoryManager.getCount( ItemPool.RARE_MEAT_ISOTOPE ) > 0 )
-		{
-			buffer.append( "<nobr><a href=\"shop.php?whichshop=exploathing\">spend rare Meat isotopes</a></nobr><br>" );
-		}
-
 		ValhallaDecorator.checkCatHeists( buffer );
 
 		ValhallaDecorator.switchSeeds( buffer );
