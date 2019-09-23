@@ -182,6 +182,7 @@ public class RelayRequest
 	private static String CONFIRM_STICKER = "confirm25";
 	private static String CONFIRM_DESERT_OFFHAND = "confirm26";
 	private static String CONFIRM_MACHETE = "confirm27";
+	private static String CONFIRM_MEAT_ISOTOPES = "confirm28";
 
 	private static boolean ignoreBoringDoorsWarning = false;
 	private static boolean ignoreDesertWarning = false;
@@ -943,6 +944,47 @@ public class RelayRequest
 		case 33:
 			// Frat Warrior Fatigues
 			return checkBattle( outfitId );
+		}
+
+		return false;
+	}
+
+	private boolean sendBreakPrismWarning( final String urlString )
+	{
+		// place.php?whichplace=nstower&action=ns_11_prism
+
+		if ( !urlString.startsWith( "place.php" ) ||
+		     !urlString.contains( "whichplace=nstower" ) ||
+		     !urlString.contains( "action=ns_11_prism" ) )
+		{
+			return false;
+		}
+
+		// We are about to free King Ralph
+
+		// In Kingdom of Exploathing, you will lose access to Cosmic
+		// Ray's Bazaar and can therefore not turn in your rare Meat
+		// Isotopes
+
+		if ( KoLCharacter.isKingdomOfExploathing() &&
+		     InventoryManager.getCount( ItemPool.RARE_MEAT_ISOTOPE ) > 0 )
+		{
+			StringBuilder warning = new StringBuilder();
+			warning.append( "You are about to free King Ralph and end your Kingdom of Exploathing run." );
+			warning.append( " Before you do so, you might want to redeem your rare Meat isotopes at Cosmic Ray's Bazaar," );
+			warning.append( " since you will not be able to do so after you free the king." );
+			warning.append( " If you are ready to break the prism, click on the icon on the left." );
+			warning.append( " If you wish to visit Cosmic Ray's Bazaar, click on icon on the right." );
+			this.sendOptionalWarning(
+				CONFIRM_MEAT_ISOTOPES,
+				warning.toString(),
+				"hand.gif",
+				"meatisotope.gif",
+				"\"shop.php?whichshop=exploathing\"",
+				null,
+				null
+				);
+			return true;
 		}
 
 		return false;
@@ -3663,6 +3705,13 @@ public class RelayRequest
 		// - give player chance to cash in dimes and quarters
 
 		if ( this.sendBattlefieldWarning( urlString, adventure ) )
+		{
+			return true;
+		}
+
+		// Perhaps warn player before freeing King Ralph
+
+		if ( this.sendBreakPrismWarning( urlString ) )
 		{
 			return true;
 		}
