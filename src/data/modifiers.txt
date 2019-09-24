@@ -2995,11 +2995,11 @@ Item	mime army infiltration glove	Pickpocket Chance: +25, Initiative: -200, Sing
 # mime army insignia (cryonics): Convert all your elemental bonus damage to <font color=blue>Cold Damage</font>
 Item	mime army insignia (cryonics)	Single Equip
 # mime army insignia (espionage): Change all combat stat gains to Moxie
-Item	mime army insignia (espionage)	Single Equip
+Item	mime army insignia (espionage)	Moxie: +5, Single Equip
 # mime army insignia (infantry): Change all combat stat gains to Muscle
-Item	mime army insignia (infantry)	Single Equip
+Item	mime army insignia (infantry)	Muscle: +5, Single Equip
 # mime army insignia (intelligence): Change all combat stat gains to Mysticality
-Item	mime army insignia (intelligence)	Single Equip
+Item	mime army insignia (intelligence)	Mysticality: +5, Single Equip
 # mime army insignia (morale): Convert all your elemental bonus damage to <font color=purple>Sleaze Damage</font>
 Item	mime army insignia (morale)	Single Equip
 # mime army insignia (psychological warfare): Convert all your elemental bonus damage to <font color=gray>Spooky Damage</font>
@@ -9264,6 +9264,7 @@ Item	Elron's Explosive Etude	Skill: "Elron's Explosive Etude"
 Item	elven suicide capsule	Effect: "Sugar Rush", Effect Duration: 10
 Item	Elvish delight	Effect: "Cuts Like a Lightly-Buttered Knife", Effect Duration: 3
 Item	embezzler's oil	Effect: "Robbin' Like a Goblin", Effect Duration: 50
+Item	EMD holo-record	Effect: "Ministrations in the Dark", Effect Duration: 10
 Item	emo roe	Free Pull
 Item	Enchanted Flyswatter	Effect: "Fly for a White Guy", Effect Duration: 30
 Item	enchanted muesli	Effect: "Ski Ballin'", Effect Duration: 30
@@ -9963,7 +9964,7 @@ Item	miniature power pill	Effect: "Pill Power", Effect Duration: 30
 # Miniborg strangler: Weakens enemies slightly
 # Miniborg strangler: (doesn't go away when used)
 Item	miniscule temporal rip	Free Pull
-Item	EMD holo-record	Effect: "Ministrations in the Dark", Effect Duration: 10
+Item	mint condition Lil' Doctor&trade; bag	Free Pull
 Item	Missing Eye Simulation Device	Effect: "Gnollivision", Effect Duration: 30
 # Mob Penguin cellular phone: Lets You Talk to Penguins
 Item	mocking turtle	Effect: "Tortious", Effect Duration: 15
