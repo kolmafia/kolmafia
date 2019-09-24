@@ -941,6 +941,7 @@ public class PlaceRequest
 			if ( action.equals( "town_horsery" ) )
 			{
 				message = "Visiting The Horsery";
+				compact = true;	// Part of logging in
 			}
 			if ( action.equals( "townright_vote" ) )
 			{
