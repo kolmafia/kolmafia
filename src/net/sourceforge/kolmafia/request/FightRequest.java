@@ -9471,6 +9471,58 @@ public class FightRequest
 				Preferences.increment( "_universeImploded" );
 			}
 			break;
+
+		case SkillPool.DELIVER_THESIS:
+			// DECREASING WAVELENGTH. OBJECTS IN MIRROR MAY BE BLUER THAN THEY APPEAR.
+			// TIME AND SPACE ARE FUNGIBLE. LET ME DEMONSTRATE WITH THIS OPPONENT.
+			// BUFFER OVERFLOW. REBOOTING PREVIOUS MINUTE.
+			if ( responseText.contains( "DECREASING WAVELENGTH" ) ||
+			     responseText.contains( "TIME AND SPACE ARE FUNGIBLE" ) ||
+			     responseText.contains( "BUFFER OVERFLOW" ) ||
+			     skillSuccess )
+			{
+				Preferences.setBoolean( "_thesisDelivered", true );
+			}
+			break;
+
+		case SkillPool.LECTURE_ON_VELOCITY:
+			// These all share a counter
+
+			// ADJUSTING DOPPLER WAVELENGTH.
+			if ( responseText.contains( "ADJUSTING DOPPLER WAVELENGTH" ) ||
+			     skillSuccess )
+			{
+				Preferences.increment( "_pocketProfessorLectures" );
+			}
+			break;
+
+		case SkillPool.LECTURE_ON_MASS:
+			// These all share a counter
+
+			// COLLAPSING ITEM PROBABILITY WAVEFORMS NOW. PLEASE STAND BACK.
+			// CALCULATE MASS FOR DROPPED ITEMS CAREFULLY. THREE TIMES AT LEAST.
+			if ( responseText.contains( "COLLAPSING ITEM PROBABILITY WAVEFORMS" ) ||
+			     responseText.contains( "CALCULATE MASS FOR DROPPED ITEMS" ) ||
+			     skillSuccess )
+			{
+				Preferences.increment( "_pocketProfessorLectures" );
+			}
+			break;
+
+		case SkillPool.LECTURE_ON_RELATIVITY:
+			// These all share a counter
+
+			// TESSERACT? I HARDLY KNEW HER."
+			// NOW CONVERTING MATTER INTO TIME. PLEASE HAVE ALREADY WAITED.
+			// I WILL NOW DEMONSTRATE BY FOLDING TIME AND SPACE.
+			if ( responseText.contains( "TESSERACT" ) ||
+			     responseText.contains( "NOW CONVERTING MATTER INTO TIME" ) ||
+			     responseText.contains( "FOLDING TIME AND SPACE" ) ||
+			     skillSuccess )
+			{
+				Preferences.increment( "_pocketProfessorLectures" );
+			}
+			break;
 		}
 	}
 

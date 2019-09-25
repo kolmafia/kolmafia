@@ -1677,6 +1677,7 @@ user	_pieDrops	0
 user	_piePartsCount	0
 user	_pirateBellowUsed	false
 user	_pneumaticityPotionUsed	false
+user	_pocketProfessorLectures	0
 user	_poisonArrows	0
 user	_poolGames	0
 user	_pottedTeaTreeUsed	false
@@ -1795,6 +1796,7 @@ user	_templeHiddenPower	false
 user	_tempRelayCounters
 user	_tempuraAirUsed	false
 user	_thanksgettingFoodsEaten	0
+user	_thesisDelivered	false
 user	_thingfinderCasts	0
 user	_thinknerdPackageDrops	0
 user	_thorsPliersCrafting	0

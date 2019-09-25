@@ -303,6 +303,10 @@ public class SkillPool
 	public static final int BECOME_WOLF = 7308;
 	public static final int BECOME_MIST = 7309;
 	public static final int BECOME_BAT = 7310;
+	public static final int DELIVER_THESIS = 7316;
+	public static final int LECTURE_ON_VELOCITY = 7317;
+	public static final int LECTURE_ON_MASS = 7318;
+	public static final int LECTURE_ON_RELATIVITY = 7319;
 	public static final int GOOD_SINGING_VOICE = 11016;
 	public static final int BANISHING_SHOUT = 11020;
 	public static final int DEMAND_SANDWICH = 11021;
