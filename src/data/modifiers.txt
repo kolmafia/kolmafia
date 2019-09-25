@@ -171,7 +171,7 @@ Item	Dolphin King's crown	Muscle: +2, Mysticality: +2, Moxie: +2, Familiar Effec
 # double-ice cap: Stuns opponents who hit you
 Item	double-ice cap	MP Regen Min: 5, MP Regen Max: 9, Cold Damage: +10, Familiar Effect: "1xPotato, 1xFairy, cap 17"
 Item	draggin' ball hat	Moxie: +6, Muscle: -3, Familiar Effect: "atk, 1xVolley, cap 25"
-Item	dreadful fedora	Spooky Damage: +25, Spooky Spell Damage: +25, Kruegerand Drop: +5, Familiar Effect: "spooky atk, 1xLep"
+Item	dreadful fedora	Spooky Damage: +25, Spooky Spell Damage: +25, Kruegerand Drop: 5, Familiar Effect: "spooky atk, 1xLep"
 Item	driftwood hat	Moxie: +5, Moxie Percent: +1, Damage Absorption: +1, Damage Reduction: 1, Ranged Damage: +1, Ranged Damage Percent: +1, Initiative: +1, Experience (Moxie): +2, Experience Percent (Moxie): +1, Lasts Until Rollover
 Item	duct tape fedora	Mysticality: +12, Maximum MP: +40, Familiar Effect: "1xBarrr, 1xLep, cap 48"
 # dwarvish war helmet: Heads Up!
@@ -886,7 +886,7 @@ Item	Corporal Fennel's Lonely Clubs Club Jacket	PvP Fights: +2
 Item	demonskin jacket	Mysticality: +5, Hot Spell Damage: +5
 Item	denim jacket	Mysticality: +10, MP Regen Min: 4, MP Regen Max: 8
 Item	Dragonscale breastplate	Muscle: +15, Muscle Percent: +25, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3
-Item	dreadful sweater	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Kruegerand Drop: +5
+Item	dreadful sweater	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Kruegerand Drop: 5
 Item	duct tape shirt	Moxie: +9, Meat Drop: +20
 Item	extra-see-thru nightie	Moxie Percent: +15
 Item	eXtreme Bi-Polar Fleece Vest	Cold Resistance: +2
@@ -1234,7 +1234,7 @@ Item	doubt cannon	Weakens Monster
 Item	Dr. Hobo's scalpel	Weapon Damage: +3, Stench Damage: +1
 # dragon slaying sword: Kills dragons, probably
 Item	dragon slaying sword	Lasts Until Rollover
-Item	dreadful glove	Critical Hit Percent: +5, Kruegerand Drop: +5
+Item	dreadful glove	Critical Hit Percent: +5, Kruegerand Drop: 5
 Item	dreadlock whip	Sleaze Damage: +5, Stench Damage: +5, Monster Level: +10
 Item	dripping meat crossbow	Moxie: +2
 Item	dripping meat staff	Mysticality: +2
@@ -1457,7 +1457,7 @@ Item	logging hatchet	Weapon Damage: +5
 Item	love	Pants Drop: +50, HP Regen Min: 8, HP Regen Max: 16, MP Regen Min: 8, MP Regen Max: 16, Familiar Weight: +5
 # lucky ball-and-chain
 Item	lupine sword	Spooky Damage: +9, Synergetic
-Item	LyleCo premium magnifying glass	Rubee Drop: +1, Single Equip
+Item	LyleCo premium magnifying glass	Rubee Drop: 1, Single Equip
 Item	Mace of the Tortoise	Muscle: +7, Class: "Turtle Tamer"
 Item	machetito	Weapon Damage: +9
 Item	macroplane grater	Spell Damage Percent: +10
@@ -2712,7 +2712,7 @@ Item	doll-eye amulet	Single Equip, Item Drop: [40*zone(Manor)]
 Item	dope gangsta bling-bling	Moxie: +1
 Item	dorky glasses	Moxie: -30, Mysticality: +30, Single Equip
 Item	Draftsman's driving gloves	Mysticality Percent: +50, Spell Damage Percent: +50, Adventures: +8, Experience (Mysticality): +4, Lasts Until Rollover
-Item	Dreadsylvania Auditor's badge	Item Drop: +10, Kruegerand Drop: +5, Single Equip
+Item	Dreadsylvania Auditor's badge	Item Drop: +10, Kruegerand Drop: 5, Single Equip
 Item	driftwood beach comb	Moxie Percent: +1, MP Regen Min: 1, MP Regen Max: 2, Familiar Weight: +1, Single Equip, Lasts Until Rollover
 Item	driftwood bracelet	Mysticality: +5, Mysticality Percent: +1, Maximum MP: +1, Maximum MP Percent: +1, Spell Damage: +1, Spell Damage Percent: +1, Spell Critical Percent: +1, Experience (Mysticality): +2, Experience Percent (Mysticality): +1, Single Equip, Lasts Until Rollover
 Item	droll monocle	MP Regen Min: 2, MP Regen Max: 4, Meat Drop: +20, Single Equip
@@ -2955,7 +2955,7 @@ Item	lucky gold ring	Single Equip
 Item	lucky rabbit's foot	Item Drop: +7, Meat Drop: +7
 Item	lucky rabbitfish fin	HP Regen Min: 10, HP Regen Max: 12, MP Regen Min: 10, MP Regen Max: 12, Familiar Weight: +5, Fishing Skill: +5, Single Equip
 Item	LWA ring	MP Regen Min: 2, MP Regen Max: 3
-Item	LyleCo premium monocle	Rubee Drop: +1, Single Equip
+Item	LyleCo premium monocle	Rubee Drop: 1, Single Equip
 Item	Mafia bow tie	Muscle: +20, Moxie: +20
 # mafia middle finger ring: Show enemies your ring once a day!
 Item	mafia middle finger ring	Weapon Damage Percent: +13, Muscle Percent: +13, Single Equip
@@ -4810,6 +4810,8 @@ Effect	Bent Knees	Combat Rate: -5
 Effect	Berry Berry Cold	Cold Damage: +10, Cold Spell Damage: +20
 Effect	Berry Critical	Critical Hit Percent: +30
 Effect	Berry Defensive	Damage Reduction: 10, Damage Absorption: +100
+# *** KoL bug: Berry Elemental has Spooky Resistance: +1, Spooky Resistance: +1
+# *** Bug reported and acknowledged
 Effect	Berry Elemental	Cold Resistance: +1, Hot Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
 Effect	Berry Experiential	Experience: +6
 Effect	Berry Statistical	Muscle Percent: +66, Mysticality Percent: +100, Moxie Percent: +66
@@ -5382,12 +5384,12 @@ Effect	Eyes for Miles	Meat Drop: +50, Item Drop: +25
 Effect	Eyes of the Dragon	Item Drop: [100*env(underwater)]
 Effect	Eyes Wide Propped	Item Drop: +25, Meat Drop: +50
 Effect	Faboooo	Muscle: +5, Weapon Damage: +10
-Effect	Faerie Fortune	Rubee Drop: +1
+Effect	Faerie Fortune	Rubee Drop: 1
 Effect	Familial Ties	Familiar Weight (hidden): [10*env(underwater)]
 Effect	familiar.enq	Familiar Weight: +5
 Effect	Fan Dancing	Avatar: "fan dancer"
 Effect	Fan-Cooled	Cold Damage: +10
-Effect	Fanatical Fortune	Rubee Drop: +1
+Effect	Fanatical Fortune	Rubee Drop: 1
 Effect	Fancy Feasted	Moxie Percent: +20
 # Fangs and Pangs: Attacks enemies every round and restores HP
 # Fantastic Immunity: You're immune to FantasyRealm poisons
@@ -5477,7 +5479,7 @@ Effect	Force of Mayo Be With You	Sleaze Damage: [pref(mayoLevel)+10], Hot Resist
 # Fortunate Resolve: Bonus Luck!
 Effect	Fortunate Resolve	Item Drop: +10, Meat Drop: +10, Spell Damage: +10, Initiative: +10
 # Fortunate, Son: FantasyRealm enemies drop 2-3 aditional Rubees
-Effect	Fortunate, Son	Rubee Drop: +2.5
+Effect	Fortunate, Son	Rubee Drop: 2.5
 Effect	Fortune of the Wheel	Item Drop: +100
 Effect	Fratty Flavor	Moxie: +15
 Effect	Freaked Out	Spooky Damage: +10, Damage Reduction: -2
@@ -5675,7 +5677,7 @@ Effect	Here to Kick Ass	Muscle Percent: +50, Weapon Damage Percent: +50
 Effect	Here's Mud in Your Eye	Meat Drop: +50
 Effect	Here's Some More Mud in Your Eye	Meat Drop: +100
 Effect	Hernia!	Muscle Percent: -70
-Effect	Heroic Fortune	Rubee Drop: +1
+Effect	Heroic Fortune	Rubee Drop: 1
 Effect	Hidden Power	Muscle: +15, Mysticality: +15, Moxie: +15
 Effect	Hide of Sobek	Damage Absorption: +50, Damage Reduction: 5, Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
 Effect	Hiding in Plain Sight	Initiative: +100
@@ -8112,6 +8114,8 @@ Item	Aura Libre	Effect: "Transcendental Wind", Effect Duration: 15
 Item	Aye Aye	Effect: "Arresistible", Effect Duration: 5
 Item	Aye Aye, Captain	Effect: "Arresistible", Effect Duration: 10
 Item	Aye Aye, Tooth Tooth	Effect: "Arresistible", Effect Duration: 15
+# *** KoL bug: bad rum and good cola grants Faerie Fortune, no item grants Fanatical Fortune.
+# *** Bug reported and not yet acknowledged
 Item	bad rum and good cola	Effect: "Fanatical Fortune", Effect Duration: 30
 Item	bark rootbeer	Effect: "Bark of the Dog", Effect Duration: 40
 Item	barrel-aged martini	Effect: "Just Aged Enough", Effect Duration: 50
@@ -8176,7 +8180,7 @@ Item	discocktail	Effect: "Disco Neuropathy", Effect Duration: 30
 # Doc Clock's thyme cocktail: Reduces your Fullness by 2
 Item	double entendre	Effect: "Space Cadet", Effect Duration: 40
 Item	Doublepunchplanter	Effect: "Fishy", Effect Duration: 10
-Item	Drac & Tan	Effect: "Creepypasted ", Effect Duration: 5
+Item	Drac & Tan	Effect: "Creepypasted", Effect Duration: 5
 Item	Dreadsylvanian cold-fashioned	Effect: "Dreadful Chill", Effect Duration: 200
 Item	Dreadsylvanian dank and stormy	Effect: "Dreadful Smell", Effect Duration: 200
 Item	Dreadsylvanian grimlet	Effect: "Dreadful Fear", Effect Duration: 200
@@ -8333,7 +8337,7 @@ Item	sham champagne	Effect: "Shamboozled", Effect Duration: 10
 Item	shot of flower schnapps	Effect: "Flower Power", Effect Duration: 3
 Item	shot of mescal	Effect: "Brainworm", Effect Duration: 50
 Item	shot of nepenthe schnapps	Effect: "Memento Moir&eacute;", Effect Duration: 10
-Item	Shot of the Living Dead	Effect: "Creepypasted ", Effect Duration: 15
+Item	Shot of the Living Dead	Effect: "Creepypasted", Effect Duration: 15
 Item	shroomtini	Effect: "Mushroom Samba", Effect Duration: 40
 Item	Siberian sunrise	Effect: "Sugar, Hello", Effect Duration: 40
 Item	Silver Bullet beer	Effect: "Wolf's Bane", Effect Duration: 30
@@ -8351,7 +8355,9 @@ Item	slug of rum	Effect: "Brined Liver", Effect Duration: 10
 Item	slug of shochu	Effect: "Brined Liver", Effect Duration: 10
 Item	slug of vodka	Effect: "Brined Liver", Effect Duration: 10
 Item	smooth mushroom wine	Effect: "Gyromitra Gymnastics", Effect Duration: 80
-Item	Smuggler's Punch	Effect: "Tiki Thoughtfulness", Effect Duration: 30
+# *** KoL bug: Smuggler's Punch grants Tiki Thoughtfulness, but should grant Tiki Temerity
+# *** Bug reported and acknowledged
+Item	Smuggler's Punch	Effect: "Tiki Temerity", Effect Duration: 30
 Item	snakebite	Effect: "Sweet Tooth", Effect Duration: 30
 Item	Sockdollager	Effect: "In a Lather", Effect Duration: 25
 Item	soilzerac	Effect: "Here's Mud in Your Eye", Effect Duration: 40
@@ -8367,7 +8373,7 @@ Item	The Cooler Out of Space	Effect: "You Can Taste the Darkness", Effect Durati
 # The Mad Liquor: Reduces your Fullness by 1
 Item	Third Base	Effect: "Third Based", Effect Duration: 40
 Item	tobiko-infused sake	Effect: "Pisces in the Skyces", Effect Duration: 30
-Item	Transylvania Sling	Effect: "Creepypasted ", Effect Duration: 10
+Item	Transylvania Sling	Effect: "Creepypasted", Effect Duration: 10
 Item	Turtle Bowl	Effect: "Tiki Thoughtfulness", Effect Duration: 40
 Item	twice-haunted screwdriver	Effect: "Haunted Liver", Effect Duration: 40
 Item	unfinished fruitcake	Effect: "Holiday Disappointment", Effect Duration: 10
@@ -10848,9 +10854,9 @@ Item	totally sweet mohawk helmet	Effect: "Radiarius", Effect Duration: 100
 # toy sixgun: Bang!
 # toy soldier: Deals 30-35 Damage (Requires Tequila)
 # toy soldier: (Not consumed when used)
-Item	training scroll: Shattering Punch	Skill: "Shattering Punch"
-Item	training scroll: Shivering Monkey Technique	Skill: "Shivering Monkey Technique"
-Item	training scroll: Snokebomb	Skill: "Snokebomb"
+Item	training scroll:  Shattering Punch	Skill: "Shattering Punch"
+Item	training scroll:  Shivering Monkey Technique	Skill: "Shivering Monkey Technique"
+Item	training scroll:  Snokebomb	Skill: "Snokebomb"
 Item	transporter transponder	Effect: "Transpondent", Effect Duration: 30
 Item	Trash, a Memoir	Skill: "Garbage Nova"
 Item	Travels with Jerry	Skill: "Mudbath"
