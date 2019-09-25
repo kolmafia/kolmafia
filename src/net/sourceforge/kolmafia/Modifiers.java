@@ -3517,7 +3517,7 @@ public class Modifiers
 			// matcher.group( 2 ) contains the name.
 			// Look up the effect by descid. If it is unknown, we'll just use the name.
 			// Otherwise, we may need to disambiguate the name by effectId.
-			String name = matcher.group( 2 );
+			String name = matcher.group( 2 ).trim();
 			int[] effectIds = EffectDatabase.getEffectIds( name, false );
 			if ( effectIds.length > 1 )
 			{
@@ -3760,7 +3760,7 @@ public class Modifiers
 					value = Modifiers.depluralizeClassName( value );
 				}
 				
-				return tag + ": " + quote + value + quote;
+				return tag + ": " + quote + value.trim() + quote;
 			}
 		}
 

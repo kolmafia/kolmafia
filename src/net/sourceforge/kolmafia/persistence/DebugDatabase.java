@@ -369,8 +369,9 @@ public class DebugDatabase
 			return;
 		}
 
+		String normalizedName = StringUtilities.globalStringReplace( name, "  ", " " ).trim();
 		String descriptionName = DebugDatabase.parseName( text );
-		if ( !decodedNamesEqual( name, descriptionName ) )
+		if ( !decodedNamesEqual( normalizedName, descriptionName ) )
 		{
 			report.println( "# *** " + name + " (" + itemId + ") has description of " + descriptionName + "." );
 			DebugDatabase.rawItems.set( itemId, null );
@@ -1236,7 +1237,8 @@ public class DebugDatabase
 
 					if ( key.equals( "Effect" ) || key.equals( "Rollover Effect" ) )
 					{
-						if ( !currentValue.equals( value ) )
+						String normalizedValue = StringUtilities.globalStringReplace( value, "  ", " " ).trim();
+						if ( !decodedNamesEqual( currentValue, normalizedValue ) )
 						{
 							// Effect does not match
 							report.println( "# *** modifier " + key + ": " + currentValue + " should be " + key + ": " + value );
@@ -1250,7 +1252,13 @@ public class DebugDatabase
 				}
 
 				// If the value is not an expression, it must match exactly
-				if ( !value.equals( currentValue ) )
+				// (modulo entity encoding)
+				// Some names actually have double spaces.
+				// Some names have a single space but are displayed with a double space. Sometimes.
+				String normalizedCurrentValue = StringUtilities.globalStringReplace( currentValue, "  ", " " ).trim();
+				String normalizedValue = StringUtilities.globalStringReplace( value, "  ", " " ).trim();
+				if ( !decodedNamesEqual( currentValue, value ) &&
+				     !decodedNamesEqual( normalizedCurrentValue, normalizedValue ))
 				{
 					report.println( "# *** modifier " + key + ": " + currentValue + " should be " + key + ": " + value );
 				}
@@ -1828,8 +1836,9 @@ public class DebugDatabase
 			report.println( "# *** " + name + " (" + effectId + ") should have effectId " + id + "." );
 		}
 
+		String normalizedName = StringUtilities.globalStringReplace( name, "  ", " " ).trim();
 		String descriptionName = DebugDatabase.parseName( text );
-		if ( !decodedNamesEqual( name, descriptionName ) )
+		if ( !decodedNamesEqual( normalizedName, descriptionName ) )
 		{
 			report.println( "# *** " + name + " (" + effectId + ") has description of " + descriptionName + "." );
 			return;
