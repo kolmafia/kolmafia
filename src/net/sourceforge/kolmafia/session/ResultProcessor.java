@@ -3426,6 +3426,13 @@ public class ResultProcessor
 			return;
 		}
 
+		// If we are still in a choice, defer until after results have
+		// been processed
+		if ( ChoiceManager.handlingChoice )
+		{
+			return;
+		}
+
 		ConcoctionDatabase.refreshConcoctionsNow();
 		CreateItemRequest creator = CreateItemRequest.getInstance( itemId );
 

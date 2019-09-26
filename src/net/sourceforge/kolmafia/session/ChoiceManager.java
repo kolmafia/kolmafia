@@ -12466,6 +12466,15 @@ public abstract class ChoiceManager
 				RumpleManager.recordTrade( text );
 			}
 			break;
+
+		case 854:
+			// Shen Copperhead, World's Biggest Jerk
+			if ( InventoryManager.hasItem( ItemPool.COPPERHEAD_CHARM ) &&
+			     InventoryManager.hasItem( ItemPool.COPPERHEAD_CHARM_RAMPANT ) )
+			{
+				ResultProcessor.autoCreate( ItemPool.TALISMAN );
+			}
+			break;
 		
 		case 856:
 		{
