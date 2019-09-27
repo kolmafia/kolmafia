@@ -8115,7 +8115,8 @@ Item	Aye Aye	Effect: "Arresistible", Effect Duration: 5
 Item	Aye Aye, Captain	Effect: "Arresistible", Effect Duration: 10
 Item	Aye Aye, Tooth Tooth	Effect: "Arresistible", Effect Duration: 15
 # *** KoL bug: bad rum and good cola grants Faerie Fortune, no item grants Fanatical Fortune.
-# *** Bug reported and not yet acknowledged
+# *** Bug reported and acknowledged. bad rum and good cola DOES give Fanatical Fortune, but
+# *** the description is wrong for unknown reasons. Maybe the description will eventually be fixed..
 Item	bad rum and good cola	Effect: "Fanatical Fortune", Effect Duration: 30
 Item	bark rootbeer	Effect: "Bark of the Dog", Effect Duration: 40
 Item	barrel-aged martini	Effect: "Just Aged Enough", Effect Duration: 50
