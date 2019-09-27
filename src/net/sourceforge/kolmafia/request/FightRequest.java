@@ -9482,6 +9482,7 @@ public class FightRequest
 			     skillSuccess )
 			{
 				Preferences.setBoolean( "_thesisDelivered", true );
+				KoLCharacter.getFamiliar().addNonCombatExperience( -200 );
 			}
 			break;
 
