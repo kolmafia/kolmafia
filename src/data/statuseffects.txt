@@ -2502,7 +2502,7 @@
 2501	Smile of the Wallaby	const2.gif	cddee20a242185001f832c863235619a
 2502	Smile of the Vole	const3.gif	3138897dbdb3fef8bdac982c8b146b2f
 2503	Smile of the Platypus	const4.gif	d51097292995fe2fab7f7ba8406e1221
-2504	Smile of the Opposum	const5.gif	a5ec2ad150c0f82c1b5d8eedc915f0d2
+2504	Smile of the Opossum	const5.gif	a5ec2ad150c0f82c1b5d8eedc915f0d2
 2505	Smile of the Marmot	const6.gif	b9779ab75ed2d3236e14f938e7f8f97e
 2506	Smile of the Wombat	const7.gif	d18213568e8d1ebce441999e3016f160
 2507	Smile of the Blender	const8.gif	64bc68fc99828b49785f8dc1eab613f8
@@ -2511,7 +2511,7 @@
 2510	Big Smile of the Wallaby	const2.gif	d5cf7710a84d8977d51e574432459ae5
 2511	Big Smile of the Vole	const3.gif	382c3c5599435b72ae4b8d07f0d05222
 2512	Big Smile of the Platypus	const4.gif	fae6632deb49a89b15c1e477ec9f559f
-2513	Big Smile of the Opposum	const5.gif	938cf22538092603d2060891ad82bff0
+2513	Big Smile of the Opossum	const5.gif	938cf22538092603d2060891ad82bff0
 2514	Big Smile of the Marmot	const6.gif	339dbc25ede82c251ea2f523947ea96d
 2515	Big Smile of the Wombat	const7.gif	def481a320876018461fb7a0a6792d2a
 2516	Big Smile of the Blender	const8.gif	3311b637173b590b2ac75e9a5ccb175c

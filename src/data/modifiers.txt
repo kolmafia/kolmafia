@@ -4828,7 +4828,7 @@ Effect	Big Punkin'	Moxie: +30
 Effect	Big Smile of the Blender	Booze Drop: +50
 Effect	Big Smile of the Marmot	MP Regen Min: 8, MP Regen Max: 12
 Effect	Big Smile of the Mongoose	Critical Hit Percent: +20
-Effect	Big Smile of the Opposum	Candy Drop: +100
+Effect	Big Smile of the Opossum	Candy Drop: +100
 Effect	Big Smile of the Packrat	Meat Drop: +50
 Effect	Big Smile of the Platypus	Experience (familiar): +5
 Effect	Big Smile of the Vole	HP Regen Min: 10, HP Regen Max: 30
@@ -6561,7 +6561,7 @@ Effect	Smelly Pants	Stench Resistance: +1
 Effect	Smile of the Blender	Booze Drop: +25
 Effect	Smile of the Marmot	MP Regen Min: 4, MP Regen Max: 6
 Effect	Smile of the Mongoose	Critical Hit Percent: +10
-Effect	Smile of the Opposum	Candy Drop: +50
+Effect	Smile of the Opossum	Candy Drop: +50
 Effect	Smile of the Packrat	Meat Drop: +25
 Effect	Smile of the Platypus	Experience (familiar): +3
 Effect	Smile of the Vole	HP Regen Min: 5, HP Regen Max: 15
