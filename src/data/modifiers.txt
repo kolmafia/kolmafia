@@ -2724,6 +2724,8 @@ Item	Dyspepsi-Cola-issue canteen	Maximum MP: +5, Single Equip
 # E.M.U. Unit
 Item	Earring of Fire	Cold Resistance: +3, Spooky Resistance: +3, Single Equip
 Item	eerie fetish	Spooky Resistance: +4, Single Equip
+# Eight Days a Week Pill Keeper: Doesn't Let You Down once a fight
+Item	Eight Days a Week Pill Keeper	Maximum HP: +20, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Muscle: +10, Mysticality: +10, Moxie: +10
 # El Vibrato translator
 Item	elevennis shoes	Muscle: +11, Mysticality: +11, Moxie: +11, Maximum HP: +11, Maximum MP: +11
 Item	Elmley shades	Muscle: +12, Critical Hit Percent: +3, Single Equip

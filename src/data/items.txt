@@ -10351,3 +10351,11 @@
 10323	packaged Pocket Professor	468273178	lilprofessoroff.gif	grow	t	0
 10324	Pocket Professor memory chip	831832648	memchip.gif	familiar	t,d	75
 10325	Law of Averages	514916402	sheet.gif	reusable		0
+10326
+10327
+10328
+10329
+10330
+10331
+10332	Unopened Eight Days a Week Pill Keeper	237309673	pillminderpack.gif	usable	t	0
+10333	Eight Days a Week Pill Keeper	891298157	pillminder.gif	accessory		0

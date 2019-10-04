@@ -451,8 +451,6 @@ public class DebugDatabase
 		report.println( ItemDatabase.itemString( itemId, name, descId, image, type, attrs, access, price, plural ) );
 	}
 
-	private static final GenericRequest DESC_ITEM_REQUEST = new GenericRequest( "desc_item.php" );
-
 	public static final String itemDescriptionText( final int itemId, boolean forceReload )
 	{
 		return DebugDatabase.itemDescriptionText( DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( itemId ), forceReload ) );
@@ -465,10 +463,11 @@ public class DebugDatabase
 			return "";
 		}
 
-		DebugDatabase.DESC_ITEM_REQUEST.clearDataFields();
-		DebugDatabase.DESC_ITEM_REQUEST.addFormField( "whichitem", descId );
-		RequestThread.postRequest( DebugDatabase.DESC_ITEM_REQUEST );
-		return DebugDatabase.DESC_ITEM_REQUEST.responseText;
+		GenericRequest request = new GenericRequest( "desc_item.php" );
+
+		request.addFormField( "whichitem", descId );
+		RequestThread.postRequest( request );
+		return request.responseText;
 	}
 
 	public static final String rawItemDescriptionText( final int itemId )
@@ -493,16 +492,16 @@ public class DebugDatabase
 			return previous;
 		}
 
-		DebugDatabase.DESC_ITEM_REQUEST.clearDataFields();
-		DebugDatabase.DESC_ITEM_REQUEST.addFormField( "whichitem", descId );
-		RequestThread.postRequest( DebugDatabase.DESC_ITEM_REQUEST );
+		GenericRequest request = new GenericRequest( "desc_item.php" );
+		request.addFormField( "whichitem", descId );
+		RequestThread.postRequest( request );
 		if ( itemId == -1 )
 		{
-			itemId = DebugDatabase.parseItemId( DebugDatabase.DESC_ITEM_REQUEST.responseText );
+			itemId = DebugDatabase.parseItemId( request.responseText );
 		}
-		DebugDatabase.rawItems.set( itemId, DebugDatabase.DESC_ITEM_REQUEST.responseText );
+		DebugDatabase.rawItems.set( itemId, request.responseText );
 
-		return DebugDatabase.DESC_ITEM_REQUEST.responseText;
+		return request.responseText;
 	}
 
 	private static final Pattern ITEM_DATA_PATTERN = Pattern.compile( "<div id=\"description\"[^>]*>(.*?)<script", Pattern.DOTALL );
