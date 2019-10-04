@@ -2316,6 +2316,7 @@ Dyspepsi-Cola-issue canteen	30	none
 E.M.U. Unit	0	none
 Earring of Fire	150	Mys: 60
 eerie fetish	225	Mys: 200
+Eight Days a Week Pill Keeper	100	none
 El Vibrato translator	200	none
 elevennis shoes	111	Mys: 11
 Elmley shades	180	Mys: 75
@@ -3183,7 +3184,7 @@ gabardine gunnysack	50	none
 ghost shawl	250	Mys: 200
 giant gym membership card	150	Mus: 75
 Great S-Cape	10	none
-hemp backpack	0	Mys: 75
+hemp backpack	2	Mys: 75
 jetpack	0	none
 Lavalos's shell	150	Mys: 75
 little deuce cape	150	Mus: 75
