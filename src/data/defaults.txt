@@ -1478,6 +1478,7 @@ user	_floundryItemCreated	false
 user	_floundryItemUsed	false
 user	_fragrantHerbsUsed	0
 user	_freeBeachWalksUsed	0
+user	_freePillKeeperUsed	false
 user	_frAreasUnlocked
 user	_frButtonsPressed	0
 user	_frHoursLeft

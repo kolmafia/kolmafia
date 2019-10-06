@@ -13525,6 +13525,29 @@ public abstract class ChoiceManager
 			ChoiceManager.handleAfterAvatar();
 			break;
 
+		case 1395: // Take your Pills
+			{
+				if ( ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 8 )
+				{
+					if ( !Preferences.getBoolean( "_freePillKeeperUsed" ) )
+					{
+						Preferences.setBoolean( "_freePillKeeperUsed", true );
+					}
+					else
+					{
+						KoLCharacter.setSpleenUse( KoLCharacter.getSpleenUse() + 3 );
+					}
+				}
+				if ( ChoiceManager.lastDecision == 7 )
+				{
+					TurnCounter.stopCounting( "Fortune Cookie" );
+					TurnCounter.stopCounting( "Semirare window begin" );
+					TurnCounter.stopCounting( "Semirare window end" );
+					TurnCounter.startCounting( 0, "Fortune Cookie", "fortune.gif" );
+				}
+			}
+			break;
+
 		}
 
 		if ( ChoiceManager.handlingChoice )
@@ -17869,6 +17892,7 @@ public abstract class ChoiceManager
 		case 1336: // Boxing Daycare
 		case 1339: // A Little Pump and Grind
 		case 1389: // The Council of Exploathing
+		case 1395: // Take your Pills
 			return true;
 
 		default:

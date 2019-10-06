@@ -5447,6 +5447,7 @@ Effect	Fit As a Poster	Avatar: "Fitness giant"
 Effect	Fit To Be Tide	HP Regen Min: 5, HP Regen Max: 16, MP Regen Min: 5, MP Regen Max: 16
 Effect	Fitter, Bitter	Muscle Percent: +100, Maximum HP Percent: +50, HP Regen Min: 20, HP Regen Max: 25
 Effect	Fitter, Happier	Muscle Percent: +100, Mysticality Percent: +100
+# Effect Fidoxene: Makes your familiars all at least 20 pounds
 Effect	Fizzier Than Light	MP Regen Min: 1, MP Regen Max: 3
 Effect	Flagrantly Fragrant	Maximum HP: +100, Maximum MP: +50, Damage Reduction: 25, MP Regen Min: 5, MP Regen Max: 10, HP Regen Min: 10, HP Regen Max: 20
 Effect	Flambé-a-thon	Hot Damage: +20, Hot Spell Damage: +20
@@ -5517,6 +5518,7 @@ Effect	Full of Vinegar	Weapon Damage: [+1*D]
 Effect	Full of Wist	Experience: [min(L,11)]
 Effect	Full Steam Ahead	Avatar: "Steampunk Giant"
 Effect	Full-Body Tan	Experience (Moxie): [L]
+# Effect Funday!: Adventure Randomly
 Effect	Fungal Flambé	Hot Spell Damage: +100
 Effect	Fungal Fortification	Damage Absorption: +200
 Effect	Funky Coal Patina	Moxie: +20
@@ -5721,6 +5723,7 @@ Effect	Hotcaked	Hot Resistance: +3
 Effect	Hotform	Hot Immunity, Sleaze Vulnerability, Stench Vulnerability
 # How to Scam Tourists: +300% Meat Drops from Tourists
 Effect	How to Scam Tourists	Meat Drop: [300*zone(Dinseylandfill)]
+Effect	Hulkien	Muscle Percent: +100, Moxie Percent: +100, Mysticality Percent: +100
 Effect	Human-Beast Hybrid	Weapon Damage: +30
 Effect	Human-Constellation Hybrid	Meat Drop: +50
 Effect	Human-Demon Hybrid	Hot Damage: +20, Hot Spell Damage: +20
@@ -6356,6 +6359,7 @@ Effect	Raging Animal	Familiar Damage: +30
 Effect	Rain Dancin'	Item Drop: +20
 Effect	Rainbow Bright	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Cold Damage: +15, Hot Damage: +15, Sleaze Damage: +15, Spooky Damage: +15, Stench Damage: +15
 Effect	Rainbow Vaccine	Hot Resistance: +3, Cold Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Sleaze Resistance: +3
+Effect	Rainbowolin	Hot Resistance: +4, Cold Resistance: +4, Stench Resistance: +4, Spooky Resistance: +4, Sleaze Resistance: +4
 Effect	Rainy Soul Miasma	Muscle: +10, Mysticality: +10, Moxie: -5
 Effect	Ramboner	Avatar: "Mercenary of Fortune"
 Effect	Rampage!	Weapon Damage Percent: +50
