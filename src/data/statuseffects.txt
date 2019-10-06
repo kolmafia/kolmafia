@@ -2516,3 +2516,8 @@
 2515	Big Smile of the Wombat	const7.gif	def481a320876018461fb7a0a6792d2a
 2516	Big Smile of the Blender	const8.gif	3311b637173b590b2ac75e9a5ccb175c
 2517	Big Smile of the Packrat	const9.gif	97c18428c097b8c132ace1cd46e13f73
+2518	Rainbowolin	rrainbow.gif	c3bcc68a9fee113409c239dd343c2c17
+2519	Hulkien	getbig.gif	52ce8577fb2af0bbb477d8ccda02794e
+2520	Fidoxene	pill5.gif	fda85b95057d6eda312515fb0394e1b9
+2521	Funday!	calendar.gif	3d0ca8a1b066b7767469f733dddaadaa
+
