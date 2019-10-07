@@ -13527,6 +13527,12 @@ public abstract class ChoiceManager
 
 		case 1395: // Take your Pills
 			{
+				if ( !text.contains( "day's worth of pills" ) )
+				{
+					// Something failed.  Not enough spleen space left, already have
+					// Everything Looks Yellow active, or maybe some other failure condition
+					break;
+				}
 				if ( ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 8 )
 				{
 					if ( !Preferences.getBoolean( "_freePillKeeperUsed" ) )
