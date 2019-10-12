@@ -13550,6 +13550,7 @@ public abstract class ChoiceManager
 					TurnCounter.stopCounting( "Semirare window begin" );
 					TurnCounter.stopCounting( "Semirare window end" );
 					TurnCounter.startCounting( 0, "Fortune Cookie", "fortune.gif" );
+					Preferences.setString( "semirareLocation", "" );
 				}
 			}
 			break;
