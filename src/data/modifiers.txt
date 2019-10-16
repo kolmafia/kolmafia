@@ -5571,7 +5571,7 @@ Effect	Goofball Withdrawal	Muscle Percent: -10, Mysticality Percent: -10, Moxie 
 # Got Milk: You like food; food tastes good.
 Effect	Got Your Boots On	Moxie Percent: +10
 Effect	Gothy	Mysticality: +20, Muscle: -10, Moxie: -10
-Effect	Gr8tness	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
+Effect	Gr8ness	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Graham Crackling	Maximum HP: +10, Maximum MP: +5
 Effect	Grand Blessing of She-Who-Was	Mysticality: +10, Spooky Damage: +10
 Effect	Grand Blessing of the Storm Tortoise	Initiative: +10, Maximum MP: +20
@@ -10258,7 +10258,7 @@ Item	Potion of Heroism	Effect: "Heroic Fortune", Effect Duration: 10
 Item	potion of potency	Effect: "Pronounced Potency", Effect Duration: [R]
 Item	potion of punctual companionship	Effect: "Stickler for Promptness", Effect Duration: 30
 Item	potion of spiritual gunkifying	Effect: "The Power of Negative Thinking", Effect Duration: 20
-Item	potion of temporary gr8ness	Effect: "Gr8tness", Effect Duration: [R]
+Item	potion of temporary gr8ness	Effect: "Gr8ness", Effect Duration: [R]
 Item	potion of the captain's hammer	Effect: "The Captain's Hammer", Effect Duration: 20
 Item	potion of the field gar	Effect: "Gar-ish", Effect Duration: 10
 Item	potion of the litterbox	Effect: "Litterboxing", Effect Duration: 20
