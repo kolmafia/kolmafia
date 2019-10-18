@@ -13673,7 +13673,6 @@ public abstract class ChoiceManager
 		ChoiceManager.setCanWalkAway( ChoiceManager.lastChoice );
 
 		ChoiceManager.lastResponseText = text;
-		ChoiceManager.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( request.getURLString(), text );
 
 		switch ( ChoiceManager.lastChoice )
 		{
@@ -14993,6 +14992,10 @@ public abstract class ChoiceManager
 			BeachManager.parseBeachMap( text );
 			break;
 		}
+
+		// Do this after special classes (like WumpusManager) have a
+		// chance to update state in their visitChoice methods.
+		ChoiceManager.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( request.getURLString(), text );
 	}
 
 	private static String booPeakDamage()
