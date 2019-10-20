@@ -374,8 +374,9 @@ public class ResultProcessor
 	// <table><tr><td><img class=hand src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/breath.gif" onClick='eff("7ecbd57bcb86d63be06bb6d4b8e7229f");' width=30 height=30 alt="Hot Breath" title="Hot Breath"></td><td valign=center class=effect>You acquire an effect: <b>Hot Breath</b><br>(duration: 5 Adventures)</td></tr></table>
 	// <table><tr><td><img class=hand src="https://s3.amazonaws.com//images.kingdomofloathing.com/itemimages/milk.gif" onClick='eff("225aa10e75476b0ad5fa576c89df3901");' width=30 height=30></td><td valign=center class=effect>You lose some of an effect: <b>Got Milk</b> (5 Adventures)</td></tr></table>
 	// <table><tr><td><img class=hand src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/discoleer.gif" onClick='eff("bc3d4aad3454fcd82c066ef3949749ca");' width=30 height=30></td><td valign=center class=effect>You lose an effect: <b>Disco Leer</b></td></tr></table>
+	// <table><tr><td><img class=hand src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/scharm.gif" onClick='eff("81d92825729f8b3a913133c18e37a74c");' width=30 height=30 alt="Ancient Annoying Serpent Poison" title="Ancient Annoying Serpent Poison"></td><td valign=center class=effect>You lose an intrinsic: <b>Ancient Annoying Serpent Poison</b><br></td></tr></table>
 
-	public static Pattern EFFECT_TABLE_PATTERN = Pattern.compile( "<table><tr><td><img[^>]*eff\\(\"(.*?)\"\\)[^>]*>.*?class=effect>(.*?)<b>(.*?)</b>(?:(?:<br>| )\\((?:duration: )?(\\d+) Adventures?\\))?</td></tr></table>" );
+	public static Pattern EFFECT_TABLE_PATTERN = Pattern.compile( "<table><tr><td><img[^>]*eff\\(\"(.*?)\"\\)[^>]*>.*?class=effect>(.*?)<b>(.*?)</b>(?:<br>| )?(?:\\((?:duration: )?(\\d+) Adventures?\\))?</td></tr></table>" );
 
 	public static LinkedList<AdventureResult> parseEffects( String results )
 	{
