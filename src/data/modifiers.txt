@@ -2992,7 +2992,7 @@ Item	Mer-kin thighguard	Damage Reduction: 10
 Item	Mer-kin waistrope	Mysticality Percent: +10
 Item	Mesmereyes&trade; contact lenses	Mysticality Percent: +15, Single Equip
 Item	meteorthopedic shoes	Initiative: +30, Moxie Percent: +15, Adventures: +5, Single Equip
-# mime army infiltration glove: <font color="blue"></font>Allows pickpocketing
+# mime army infiltration glove: Allows pickpocketing
 Item	mime army infiltration glove	Pickpocket Chance: +25, Initiative: -200, Single Equip
 # mime army insignia (cryonics): Convert all your elemental bonus damage to <font color=blue>Cold Damage</font>
 Item	mime army insignia (cryonics)	Single Equip

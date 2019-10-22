@@ -1475,18 +1475,73 @@ public class DebugDatabase
 			return;
 		}
 
+		// The matcher has removed the "blue" <font> tags which
+		// surrounds all the enchantments. The enchantments are
+		// separated by <br> tags.
+		//
+		// <font> tags can legitimately appear within enchantments.
+		//
+		// Compare:
+		//
+		// 8-billed baseball cap
+		//
+		// <font color=blue>
+		//  Muscle +15%<br>
+		//  Combat Initiative +30%<br>
+		//  +5 <font color=gray>Spooky Damage</font><br>
+		//  +5 <font color=green>Stench Damage</font><br>
+		//  +5 <font color=red>Hot Damage</font><br>
+		//  +5 <font color=blue>Cold Damage</font><br>
+		//  +5 <font color=blueviolet>Sleaze Damage</font><br>
+		//  &nbsp;<br>
+		//</font>
+		//
+		// which has font tags embedded within individual enchantments, with:
+		//
+		// Kremlin's Greatest Briefcase
+		//
+		//<font color=blue>
+		//  All Attributes +10<br>
+		//  Maximum HP/MP +25<br>
+		//  <font color="blue">
+		//    Weapon Damage +25%<br>
+		//    +25% Combat Initiative<br>
+		//    Regenerate 5-10 MP per Adventure<br>
+		//    Regenerate 5-10 HP per Adventure
+		//  </font><br>
+		//  Lets you banish enemy agents with tranquilizer darts
+		//</font>
+		//
+		// which has a subset of the enchantments embedded within a
+		// blue font tags.
+		//
+		// mime army infiltration glove
+		//
+		//<font color=blue>
+		//  +25% Pickpocket Chance<br>
+		//  Combat Initiative -200%<br>
+		//  <font color="blue">
+		//  </font>
+		//  Allows pickpocketing
+		//</font>
+		//
+		// Which is just weird.
+
 		StringBuffer enchantments = new StringBuffer( matcher.group(1) );
 
 		StringUtilities.globalStringDelete(
 			enchantments,
 			"<b>NOTE:</b> Items that reduce the MP cost of skills will not do so by more than 3 points, in total." );
-		// StringUtilities.globalStringReplace( enchantments, "</font><br>", "<br></font>" );
 		StringUtilities.globalStringReplace( enchantments, "<br>", "\n" );
 		StringUtilities.globalStringReplace( enchantments, "<Br>", "\n" );
 		// Following from bogus HTML in Two Crazy Random Summer
 		StringUtilities.globalStringReplace( enchantments, "</font></b></center>", "\n" );
+		// Following from bogus HTML for mime army infiltration glove
+		StringUtilities.globalStringReplace( enchantments, "<font color=\"blue\"></font>", "" );
 
 		String[] mods = enchantments.toString().split( "\n+" );
+		String BLUE_START = "<font color=\"blue\">";
+		String BLUE_END = "</font>";
 		for ( int i = 0; i < mods.length; ++i )
 		{
 			String enchantment = mods[i].trim();
@@ -1501,6 +1556,41 @@ public class DebugDatabase
 			if ( enchantment.equals( "(awesome)" ) )
 			{
 				continue;
+			}
+
+			// Trim each enchantment to account for embedded blue
+			// font blocks.  We don't have actual examples of all
+			// of the following, but allow for them.
+			//
+			// Remove font tags from the following:
+			//
+			// 1) <font color="blue">The first embedded enchantment
+			// 2) The last embedded enchantment</font>
+			// 3) <font color="blue">The only embedded enchantment</font>
+			//
+			// Do not remove font tags from the following:
+			//
+			// 4) <font color="blue">Cold</font> enchantment
+			// 5) +5 <font color="blue">Cold Damage</font>
+
+			// 1, 3, or 4
+			if ( enchantment.startsWith( BLUE_START ) )
+			{
+				// 1 or 3
+				if ( !enchantment.contains( BLUE_END ) || enchantment.endsWith( BLUE_END ) )
+				{
+					enchantment = enchantment.substring( BLUE_START.length() );
+				}
+			}
+
+			// 2, 3, 5
+			if ( enchantment.endsWith( BLUE_END ) )
+			{
+				// 2 or 3
+				if ( !enchantment.contains( "<font" ) )
+				{
+					enchantment = enchantment.substring( 0, enchantment.length() - BLUE_END.length() );
+				}
 			}
 
 			String mod = Modifiers.parseModifier( enchantment );
