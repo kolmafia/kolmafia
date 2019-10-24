@@ -181,6 +181,8 @@ public class BeachManager
 			return false;
 		}
 
+		// <span class='guts'>You comb the area and under the sand you find a bottle. It looks like it contains some sort of message? You pop the bottle open and look at the piece of paper inside. It says:<br><br>LIFE ON A DESSERT ISLAND -- SHOULD BE HARD, BUT REALLY IT IS A PIECE OF CAKE<br><br>Is that some sort of joke?</span>
+
 		Matcher matcher = BeachManager.FREE_WALK_PATTERN.matcher( text );
 		int walksAvailable = matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
 		Preferences.setInteger( "_freeBeachWalksUsed", 11 - walksAvailable );

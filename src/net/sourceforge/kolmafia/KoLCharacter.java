@@ -3622,7 +3622,6 @@ public abstract class KoLCharacter
 		     oldPath.equals( ZOMBIE_SLAYER ) ||
 		     oldPath.equals( AVATAR_OF_JARLSBERG ) ||
 		     oldPath.equals( AVATAR_OF_SNEAKY_PETE ) ||
-		     oldPath.equals( ACTUALLY_ED_THE_UNDYING ) ||
 		     oldPath.equals( GELATINOUS_NOOB ) ||
 		     oldPath.equals( DARK_GYFFTE ) )
 		{
