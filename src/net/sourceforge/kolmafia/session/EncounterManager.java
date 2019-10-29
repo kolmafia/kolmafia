@@ -153,6 +153,10 @@ public abstract class EncounterManager
 
 	public void registerAdventure( final KoLAdventure adventureLocation )
 	{
+		if ( adventureLocation == null )
+		{
+			return;
+		}
 		EncounterManager.registerAdventure( adventureLocation.getAdventureName() );
 	}
 
@@ -178,19 +182,35 @@ public abstract class EncounterManager
 
 	public static final Encounter findEncounter( final String encounterName )
 	{
+		return findEncounter( KoLAdventure.lastVisitedLocation(), encounterName );
+	}
+
+	public static final Encounter findEncounter( final KoLAdventure adventureLocation, final String encounterName )
+	{
+		String locationName = adventureLocation == null ? null : adventureLocation.getAdventureName();
+		return findEncounter( locationName, encounterName );
+	}
+
+	public static final Encounter findEncounter( final String locationName, final String encounterName )
+	{
 		for ( int i = 0; i < specialEncounters.length; ++i )
 		{
 			Encounter encounter = specialEncounters[ i ];
-			if ( encounterName.equalsIgnoreCase( encounter.encounter ) )
+			if ( locationName != null && !locationName.equalsIgnoreCase( encounter.location ) )
 			{
-				return encounter;
+				continue;
 			}
+			if ( !encounterName.equalsIgnoreCase( encounter.encounter ) )
+			{
+				continue;
+			}
+			return encounter;
 		}
 
 		return null;
 	}
 
-	public static final EncounterType encounterType( final String encounterName )
+	private static final EncounterType encounterType( final String encounterName )
 	{
 		Encounter encounter = EncounterManager.findEncounter( encounterName );
 		return EncounterManager.encounterType( encounter, encounterName );
@@ -210,10 +230,15 @@ public abstract class EncounterManager
 		for ( int i = 0; i < specialEncounters.length; ++i )
 		{
 			Encounter encounter = specialEncounters[ i ];
-			if ( locationName.equalsIgnoreCase( encounter.location ) && type.equals( encounter.encounterType ) )
+			if ( !locationName.equalsIgnoreCase( encounter.location ) )
 			{
-				return encounter.encounter;
+				continue;
 			}
+			if ( !type.equals( encounter.encounterType ) )
+			{
+				continue;
+			}
+			return encounter.encounter;
 		}
 
 		return null;
