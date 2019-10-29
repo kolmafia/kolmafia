@@ -110,6 +110,7 @@ import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
@@ -13643,12 +13644,7 @@ public abstract class ChoiceManager
 			break;
 		}
 
-		StringBuilder buffer = new StringBuilder();
-		buffer.append( "Now walking on the " );
-		buffer.append( newClass );
-		buffer.append( " road." );
-
-		String message = buffer.toString();
+		String message = "Now walking on the " + newClass + " road.";
 
 		KoLmafia.updateDisplay( message );
 		RequestLogger.updateSessionLog( message );
@@ -13673,6 +13669,10 @@ public abstract class ChoiceManager
 		ChoiceManager.setCanWalkAway( ChoiceManager.lastChoice );
 
 		ChoiceManager.lastResponseText = text;
+
+		// Clear lastItemUsed, to prevent the item being "prcessed"
+		// next time we simply visit the inventory.
+		UseItemRequest.clearLastItemUsed();
 
 		switch ( ChoiceManager.lastChoice )
 		{
