@@ -303,6 +303,12 @@ public class UseItemRequest
 		UseItemRequest.currentItemId = item.getItemId();
 	}
 
+	public static void clearLastItemUsed()
+	{
+		UseItemRequest.lastItemUsed = null;
+		UseItemRequest.lastHelperUsed = null;
+	}
+
 	public static final int currentItemId()
 	{
 		return UseItemRequest.currentItemId;
