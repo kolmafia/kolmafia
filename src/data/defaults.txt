@@ -1700,6 +1700,7 @@ user	_rainStickUsed	false
 user	_rapidPrototypingUsed	0
 user	_raveStealCount	0
 user	_reflexHammerUsed	0
+user	_relativityMonster	false
 user	_requestSandwichSucceeded	false
 user	_resolutionAdv	0
 user	_rhinestonesAcquired	false

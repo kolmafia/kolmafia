@@ -261,7 +261,7 @@ public abstract class EncounterManager
 	public static boolean isRomanticEncounter( final String responseText, final boolean checkMonster )
 	{
 		if ( responseText.contains( "hear a wolf whistle" ) ||
-		       responseText.contains( "you feel the hairs" ) )
+		     responseText.contains( "you feel the hairs" ) )
 		{
 			return true;
 		}
@@ -324,6 +324,19 @@ public abstract class EncounterManager
 		}
 		String name = MonsterStatusTracker.getLastMonsterName();
 		return name.equalsIgnoreCase( Preferences.getString( "_saberForceMonster" ) );
+	}
+
+	public static final boolean isRelativityMonster()
+	{
+		// There's no message to check for, and the monster always
+		// shows up immediately following the fight as a chained
+		// encounter.
+		if ( Preferences.getBoolean( "_relativityMonster" ) )
+		{
+			Preferences.setBoolean( "_relativityMonster", false );
+			return true;
+		}
+		return false;
 	}
 
 	public static final boolean isWanderingMonster( String encounter )
@@ -401,6 +414,7 @@ public abstract class EncounterManager
 		     !EncounterManager.isRomanticEncounter( responseText, false ) &&
 		     !EncounterManager.isDigitizedEncounter( responseText, false ) &&
 		     !EncounterManager.isEnamorangEncounter( responseText, false ) &&
+		     !EncounterManager.isRelativityMonster() &&
 		     !responseText.contains( "clover disappears" ) &&
 		     !FightRequest.edFightInProgress() )
 		{
