@@ -9521,6 +9521,7 @@ public class FightRequest
 			     responseText.contains( "FOLDING TIME AND SPACE" ) ||
 			     skillSuccess )
 			{
+				Preferences.setBoolean( "_relativityMonster", true );
 				Preferences.increment( "_pocketProfessorLectures" );
 			}
 			break;
