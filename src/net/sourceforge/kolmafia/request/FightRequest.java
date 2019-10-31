@@ -3526,6 +3526,13 @@ public class FightRequest
 			}
 		}
 
+		// Check if a lecture on relativity is about to give you a copy
+		// of the monster you just fought.
+		if ( responseText.contains( "STEP INTO FOLD IN SPACETIME" ) )
+		{
+			Preferences.setBoolean( "_relativityMonster", true );
+		}
+
 		// Check for runaways. Only a free runaway decreases chance
 		if ( ( responseText.contains( "shimmers as you quickly float away" ) ||
 		       responseText.contains( "your pants suddenly activate" ) )
@@ -9521,7 +9528,6 @@ public class FightRequest
 			     responseText.contains( "FOLDING TIME AND SPACE" ) ||
 			     skillSuccess )
 			{
-				Preferences.setBoolean( "_relativityMonster", true );
 				Preferences.increment( "_pocketProfessorLectures" );
 			}
 			break;
