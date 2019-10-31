@@ -107,6 +107,12 @@ public class EatItemRequest
 		return 0;
 	}
 
+	private static void logConsumption( String message )
+	{
+		RequestLogger.updateSessionLog( message );
+		RequestLogger.printLine( message );
+	}
+
 	public static final void ignorePrompt()
 	{
 		EatItemRequest.ignorePrompt = KoLCharacter.getUserId();
@@ -1023,7 +1029,7 @@ public class EatItemRequest
 		{
 			int itemsUsed = Math.min( Math.min( count, InventoryManager.getCount( ItemPool.GRAINS_OF_SALT ) ),
 				3 - Preferences.getInteger( "_saltGrainsConsumed" ) );
-			RequestLogger.printLine( "You ate " + itemsUsed + " grains of salt with your food" );
+			EatItemRequest.logConsumption( "You ate " + itemsUsed + " grains of salt with your food" );
 			ResultProcessor.processItem( ItemPool.GRAINS_OF_SALT, -itemsUsed );
 			Preferences.increment( "_saltGrainsConsumed", itemsUsed );
 		}
@@ -1035,26 +1041,26 @@ public class EatItemRequest
 			int itemsUsed = Math.min( count, InventoryManager.getCount( ItemPool.JAR_OF_SWAMP_HONEY ) );
 			if ( itemsUsed > 1 )
 			{
-				RequestLogger.printLine( "You ate " + itemsUsed + " jars of swamp honey with your food" );
+				EatItemRequest.logConsumption( "You ate " + itemsUsed + " jars of swamp honey with your food" );
 			}
 			else
 			{
-				RequestLogger.printLine( "You ate a jar of swamp honey with your food" );
+				EatItemRequest.logConsumption( "You ate a jar of swamp honey with your food" );
 			}
 			ResultProcessor.processItem( ItemPool.JAR_OF_SWAMP_HONEY, -itemsUsed );
 		}
 
-		// You give the barrel cracker a nice dry rubbing before going to work on it...</
+		// You give the barrel cracker a nice dry rubbing before going to work on it...
 		if ( responseText.contains( "a nice dry rubbing before going to work on it" ) )
 		{
 			int itemsUsed = Math.min( count, InventoryManager.getCount( ItemPool.DRY_RUB ) );
 			if ( itemsUsed > 1 )
 			{
-				RequestLogger.printLine( "You ate " + itemsUsed + " shakers of dry rub with your food" );
+				EatItemRequest.logConsumption( "You ate " + itemsUsed + " shakers of dry rub with your food" );
 			}
 			else
 			{
-				RequestLogger.printLine( "You ate a shaker of dry rub with your food" );
+				EatItemRequest.logConsumption( "You ate a shaker of dry rub with your food" );
 			}
 			ResultProcessor.processItem( ItemPool.DRY_RUB, -itemsUsed );
 		}
@@ -1065,11 +1071,11 @@ public class EatItemRequest
 			int itemsUsed = Math.min( count, InventoryManager.getCount( ItemPool.SPECIAL_SEASONING ) );
 			if ( itemsUsed > 1 )
 			{
-				RequestLogger.printLine( "You ate " + itemsUsed + " Special Seasoning with your food" );
+				EatItemRequest.logConsumption( "You ate " + itemsUsed + " Special Seasoning with your food" );
 			}
 			else
 			{
-				RequestLogger.printLine( "You ate Special Seasoning with your food" );
+				EatItemRequest.logConsumption( "You ate Special Seasoning with your food" );
 			}
 			ResultProcessor.processItem( ItemPool.SPECIAL_SEASONING, -itemsUsed );
 		}
@@ -1095,31 +1101,31 @@ public class EatItemRequest
 			if ( responseText.contains( "feel the Mayonex gurgling" ) )
 			{
 				int itemsUsed = Math.min( count, InventoryManager.getCount( ItemPool.MAYONEX ) );
-				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayonex (" + itemsUsed + " times)" );
+				EatItemRequest.logConsumption( "Mayo Minder&trade; reminded you to use Mayonex (" + itemsUsed + " times)" );
 				ResultProcessor.processItem( ItemPool.MAYONEX, -itemsUsed );
 			}
 			else if ( responseText.contains( "Mayodiol kicks in" ) )
 			{
 				int itemsUsed = Math.min( count, InventoryManager.getCount( ItemPool.MAYODIOL ) );
-				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayodiol (" + itemsUsed + " times)" );
+				EatItemRequest.logConsumption( "Mayo Minder&trade; reminded you to use Mayodiol (" + itemsUsed + " times)" );
 				ResultProcessor.processItem( ItemPool.MAYODIOL, -itemsUsed );
 			}
 			else if ( responseText.contains( "Mayostat kicks in" ) )
 			{
 				int itemsUsed = Math.min( count, InventoryManager.getCount( ItemPool.MAYOSTAT ) );
-				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayostat (" + itemsUsed + " times)" );
+				EatItemRequest.logConsumption( "Mayo Minder&trade; reminded you to use Mayostat (" + itemsUsed + " times)" );
 				ResultProcessor.processItem( ItemPool.MAYOSTAT, -itemsUsed );
 			}
 			else if ( responseText.contains( "Mayozapine kicks in" ) )
 			{
 				int itemsUsed = Math.min( count, InventoryManager.getCount( ItemPool.MAYOZAPINE ) );
-				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayozapine (" + itemsUsed + " times)" );
+				EatItemRequest.logConsumption( "Mayo Minder&trade; reminded you to use Mayozapine (" + itemsUsed + " times)" );
 				ResultProcessor.processItem( ItemPool.MAYOZAPINE, -itemsUsed );
 			}
 			else if ( responseText.contains( "Mayoflex kicks in" ) )
 			{
 				int itemsUsed = Math.min( count, InventoryManager.getCount( ItemPool.MAYOFLEX ) );
-				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayoflex (" + itemsUsed + " times)" );
+				EatItemRequest.logConsumption( "Mayo Minder&trade; reminded you to use Mayoflex (" + itemsUsed + " times)" );
 				ResultProcessor.processItem( ItemPool.MAYOFLEX, -itemsUsed );
 			}
 		}
@@ -1159,10 +1165,7 @@ public class EatItemRequest
 
 	private static final void handleFortuneCookie( final Matcher matcher )
 	{
-		String message = matcher.group( 1 );
-
-		RequestLogger.updateSessionLog( message );
-		RequestLogger.printLine( message );
+		EatItemRequest.logConsumption( matcher.group( 1 ) );
 
 		if ( TurnCounter.isCounting( "Fortune Cookie" ) )
 		{
