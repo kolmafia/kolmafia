@@ -167,6 +167,7 @@ public class CampgroundRequest
 		ItemPool.DNA_LAB,
 		ItemPool.MAYO_CLINIC,
 		ItemPool.ASDON_MARTIN,
+		ItemPool.DIABOLIC_PIZZA_CUBE,
 
 		// Outside dwelling
 		ItemPool.MEAT_GOLEM,
@@ -344,6 +345,7 @@ public class CampgroundRequest
 		CampgroundRequest.workshedItems.add( ItemPool.DNA_LAB );
 		CampgroundRequest.workshedItems.add( ItemPool.MAYO_CLINIC );
 		CampgroundRequest.workshedItems.add( ItemPool.ASDON_MARTIN );
+		CampgroundRequest.workshedItems.add( ItemPool.DIABOLIC_PIZZA_CUBE );
 	}
 
 	public static final AdventureResult [] CROPS =
@@ -1216,6 +1218,10 @@ public class CampgroundRequest
 			{
 				asdonMartinFuel = StringUtilities.parseInt( fuelMatcher.group( 1 ) );
 			}
+		}
+		else if ( findImage( responseText, "horadricoven.gif", ItemPool.DIABOLIC_PIZZA_CUBE ) )
+		{
+			CampgroundRequest.setCurrentWorkshedItem( ItemPool.DIABOLIC_PIZZA_CUBE );
 		}
 	}
 
