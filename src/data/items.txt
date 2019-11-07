@@ -10361,3 +10361,4 @@
 10333	Eight Days a Week Pill Keeper	891298157	pillminder.gif	accessory		0
 10334	unopened diabolic pizza cube box	285600291	crate.gif	usable	t	0
 10335	diabolic pizza cube	234341716	horadricoven.gif	usable		0
+10336	diabolic pizza	820781574	horadricpizza.gif	food	q	0
