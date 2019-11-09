@@ -185,7 +185,8 @@ public class QuestManager
 				//
 				// You get the following if you haven't made a
 				// Talisman o' Namsilat.
-				if ( !responseText.contains( "That place isn't accessible to you right now." ) )
+				if ( !responseText.contains( "That place isn't accessible to you right now." ) &&
+				     !responseText.contains( "You find yourself unable to get near the Palindome." ) )
 				{
 					QuestDatabase.setQuestIfBetter( Quest.PALINDOME, QuestDatabase.STARTED );
 				}
