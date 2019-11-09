@@ -635,11 +635,11 @@ public class KoLAdventure
 			}
 
 			// In Kingdom of Exploathing, the Palindome is in place.php?whichplace=exploathing,
-			// not in plains.php. It is visible whether or not the Talisman is equipped
+			// not in plains.php. It is visible from the beginning, whether or not the Talisman
+			// is equipped
 			if ( KoLCharacter.isKingdomOfExploathing() )
 			{
 				// We have a talisman.
-				QuestDatabase.setQuestIfBetter( Quest.PALINDOME, QuestDatabase.STARTED );
 				this.isValidAdventure = true;
 				return;
 			}

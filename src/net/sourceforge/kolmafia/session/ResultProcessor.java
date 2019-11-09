@@ -2082,6 +2082,15 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.TALISMAN:
+			if ( KoLCharacter.isKingdomOfExploathing() )
+			{
+				// Having a Talisman is good enough to adventure in the Palindome.
+				// Which is to say, The Palindome quest is now started.
+				QuestDatabase.setQuestIfBetter( Quest.PALINDOME, QuestDatabase.STARTED );
+			}
+			break;
+
 		case ItemPool.EYE_OF_ED:
 			QuestDatabase.setQuestProgress( Quest.MANOR, QuestDatabase.FINISHED );
 			break;
