@@ -977,6 +977,35 @@ public class Maximizer
 					duration = 30;
 					spleenCost = 1;
 				}
+				else if ( cmd.startsWith( "pillkeeper" ) )
+				{
+					// Must be available in your current path
+					if ( !StandardRequest.isAllowed( "Items", "Eight Days a Week Pill Keeper" ) )
+					{
+						continue;
+					}
+					// You must have the pill keeper
+					if ( !InventoryManager.hasItem( ItemPool.PILL_KEEPER ) )
+					{
+						if ( includeAll )
+						{
+							text = "(get an Eight Days a Week Pill Keeper)";
+							cmd = "";
+						}
+						else continue;
+					}
+					// If the free daily use has been spent, you must have 3 spleen available
+					if ( Preferences.getBoolean( "_freePillKeeperUsed" ) )
+					{
+						usesRemaining = KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse();
+						if ( usesRemaining < 3 )
+						{
+							cmd = "";
+						}
+						spleenCost = 3;
+					}
+					duration = 30;
+				}
 				else if ( cmd.startsWith( "friars " ) )
 				{
 					int lfc = Preferences.getInteger( "lastFriarCeremonyAscension" );
