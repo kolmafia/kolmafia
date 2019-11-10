@@ -7260,7 +7260,7 @@
 7233	red letter	643254878	redletter.gif	potion, multiple	t,d	15
 7234	red book	478361408	book4.gif	offhand	t,d	25
 7235	red masque	700844745	redmask.gif	accessory	t,d	30
-7236	red hot poker	907729535	redpoker.gif	weapon	t,d	25
+7236	red-hot poker	907729535	redpoker.gif	weapon	t,d	25
 7237	Red X Shield	840627724	redshield.gif	offhand	t,d	30
 7238	red badge	757374140	redbadge.gif	accessory	t,d	20
 7239	red shirt	816143588	btee.gif	shirt	t,d	20
@@ -7378,7 +7378,7 @@
 7351	Staff of the Electric Range	835601865	elecstaff.gif	weapon	d	250	Staves of the Electric Range
 7352	deluxe layer cake	206008643	layercake.gif	food	t,d	400
 7353	chunk of hot iron	162821749	gi_chunk.gif	none, combat	t,d	55	chunks of hot iron
-7354	red hot boilermaker	626685541	hotboilermaker.gif	drink	t,d	75
+7354	red-hot boilermaker	626685541	hotboilermaker.gif	drink	t,d	75
 7355	coal shovel	154511416	coalshovel.gif	weapon	t,d	145
 7356	hot coal	724775130	hotcoal.gif	potion, multiple	t,d	88
 7357	coal dust	677190547	scpowder.gif	potion, multiple	t,d	78	handfuls of coal dust

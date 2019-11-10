@@ -1596,7 +1596,7 @@ Item	ram-battering staff	Hot Spell Damage: +10, Moxie: +5
 Item	ratarang	Ranged Damage: +7, Moxie: +3
 Item	rattail whip	Moxie: +5, Monster Level: +5
 Item	rave whistle	Maximum HP: +10, Monster Level: +10, Raveosity: +1
-Item	red hot poker	Hot Damage: +15
+Item	red-hot poker	Hot Damage: +15
 Item	red-hot sausage fork	Hot Damage: +8, Food Drop: +10
 # Item Red Roger's red right hand: +50 Physical Damage (in PirateRealm only)
 Item	Red Roger's red right hand	Weapon Damage: [50*zone(PirateRealm)]
@@ -8328,7 +8328,7 @@ Item	Quaatorade&trade;	Effect: "Quaaaaaaa", Effect Duration: 100
 Item	R'lyeh	Effect: "The Effect Man Was Not Meant to Have", Effect Duration: 40
 Item	red ale	Effect: "Putting the Pro in Proletariat", Effect Duration: 40
 Item	Red Dwarf	Effect: "World's Shortest Giant", Effect Duration: 5
-Item	red hot boilermaker	Effect: "Boilermade", Effect Duration: 50
+Item	red-hot boilermaker	Effect: "Boilermade", Effect Duration: 50
 Item	reverse Tantalus	Effect: "It Is So Hot In Your Guts, So So Hot", Effect Duration: 40
 Item	Rompedores de Fantasmas	Effect: "Desenfantasmada", Effect Duration: 13
 # Russian Ice: Weakens enemies somewhat when used as a combat item
