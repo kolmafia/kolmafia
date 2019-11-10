@@ -1630,7 +1630,7 @@ public class GenericRequest
 
 		this.externalExecute();
 
-		if ( !LoginRequest.isInstanceRunning() )
+		if ( !LoginRequest.isInstanceRunning() && !this.isChatRequest )
 		{
 			ConcoctionDatabase.refreshConcoctions( false );
 		}
