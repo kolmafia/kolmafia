@@ -13564,9 +13564,6 @@ public abstract class ChoiceManager
 			return;
 		}
 
-		// visitChoice() gets the decorated response text, but this is not a visit
-		ChoiceManager.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( request.getURLString(), text );
-
 		if ( text.contains( "charpane.php" ) )
 		{
 			// Since a charpane refresh was requested, a turn might have been spent
@@ -13587,6 +13584,9 @@ public abstract class ChoiceManager
 				break;
 			}
 		}
+
+		// visitChoice() gets the decorated response text, but this is not a visit
+		ChoiceManager.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( request.getURLString(), text );
 	}
 
 	public static void handleWalkingAway( final String urlString, final String redirectLocation )
