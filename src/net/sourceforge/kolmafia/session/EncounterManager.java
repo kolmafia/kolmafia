@@ -402,6 +402,12 @@ public abstract class EncounterManager
 			EncounterManager.ignoreSpecialMonsters();
 		}
 
+		// Using the Lecture About Relativity skill fires an immediate encounter, a fight, which could be a semi-rare.
+		if ( EncounterManager.isRelativityMonster() )
+		{
+			EncounterManager.ignoreSpecialMonsters();
+		}
+
 		// You stop for a moment to catch your breath, and possibly a
 		// cold, and hear a wolf whistle from behind you. You spin
 		// around and see <monster> that looks suspiciously like the
@@ -414,7 +420,6 @@ public abstract class EncounterManager
 		     !EncounterManager.isRomanticEncounter( responseText, false ) &&
 		     !EncounterManager.isDigitizedEncounter( responseText, false ) &&
 		     !EncounterManager.isEnamorangEncounter( responseText, false ) &&
-		     !EncounterManager.isRelativityMonster() &&
 		     !responseText.contains( "clover disappears" ) &&
 		     !FightRequest.edFightInProgress() )
 		{
