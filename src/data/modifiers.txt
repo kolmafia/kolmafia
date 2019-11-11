@@ -10913,6 +10913,7 @@ Item	Unmotivator: Crashed Orca	Free Pull
 Item	Unmotivator: Success Warrior	Free Pull
 # unnatural gas: Weakens enemies a lot
 Item	unopened diabolic pizza cube box	Free Pull
+Item	Unopened Eight Days a Week Pill Keeper	Free Pull
 Item	unpowered Robortender	Free Pull
 # unrefined Mountain Stream syrup: Restores 50-60 MP
 Item	unstable DNA	Effect: "Yuletide Mutations", Effect Duration: 10
