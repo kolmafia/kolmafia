@@ -66,6 +66,8 @@ public class ChoiceUtilities
 		Pattern.compile( "name=['\"]?whichchoice['\"]? value=['\"]?(\\d+)['\"]?" ),
 		Pattern.compile( "value=['\"]?(\\d+)['\"]? name=['\"]?whichchoice['\"]?" ),
 		Pattern.compile( "choice.php\\?whichchoice=(\\d+)" ),
+		// Witchess pieces
+		Pattern.compile( "whichchoice=(\\d+)&piece=" ),
 	};
 
 	public static int extractChoice( final String responseText )
