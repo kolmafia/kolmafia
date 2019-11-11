@@ -2751,6 +2751,11 @@ public class QuestManager
 	 */
 	public static void updateQuestFightStarted( final String responseText, final String monsterName )
 	{
+		if ( EncounterManager.ignoreSpecialMonsters )
+		{
+			return;
+		}
+
 		if ( monsterName.equals( "Gorgolok, the Infernal Seal (Volcanic Cave)" ) ||
 		     monsterName.equals( "Stella, the Turtle Poacher (Volcanic Cave)" ) ||
 		     monsterName.equals( "Spaghetti Elemental (Volcanic Cave)" ) ||
@@ -2788,9 +2793,9 @@ public class QuestManager
 			Preferences.setInteger( "_lastSausageMonsterTurn", KoLCharacter.getTurnsPlayed() );
 		}
 		else if ( monsterName.equals( "angry ghost" ) ||
-			      monsterName.equals( "annoyed snake" ) ||
-			      monsterName.equals( "government bureaucrat" ) ||
-			      monsterName.equals( "terrible mutant" ) ||
+			  monsterName.equals( "annoyed snake" ) ||
+			  monsterName.equals( "government bureaucrat" ) ||
+			  monsterName.equals( "terrible mutant" ) ||
 		          monsterName.equals( "slime blob" ) )
 		{
 			Preferences.increment( "_voteFreeFights", 1, 3, false );
