@@ -38,6 +38,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -114,13 +115,22 @@ public class MayoMinderCommand
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Mayo clinic not installed" );
 			return;
 		}
+
 		if ( !InventoryManager.hasItem( ItemPool.MAYO_MINDER ) )
 		{
-			if ( !InventoryManager.retrieveItem( ItemPool.MAYO_MINDER ) )
+			try
 			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot obtain a Mayo Minder" );
-				return;
-			}			
+				SpecialOutfit.createImplicitCheckpoint();
+				if ( !InventoryManager.retrieveItem( ItemPool.MAYO_MINDER ) )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot obtain a Mayo Minder" );
+					return;
+				}			
+			}
+			finally
+			{
+				SpecialOutfit.restoreImplicitCheckpoint();
+			}
 		}
 
 		GenericRequest request = new GenericRequest( "inv_use.php?which=3&whichitem=" + ItemPool.MAYO_MINDER ) ;
