@@ -611,6 +611,7 @@ user	gladiatorBladeMovesKnown	0
 user	gladiatorNetMovesKnown	0
 user	glitchItemAvailable	true
 user	glitchItemCost	1000
+user	glitchItemImplementationLevel	0
 user	glitchSwagger	0
 user	gloverPoints	0
 user	gnasirProgress	0

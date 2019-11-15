@@ -3308,6 +3308,14 @@ public class GenericRequest
 			consumed = true;
 			break;
 
+		case ItemPool.GLITCH_ITEM:
+			if ( !location.startsWith( "inv_eat.php" ) )
+			{
+				return;
+			}
+			itemName = "[glitch season reward name]";
+			break;
+
 		default:
 			return;
 		}

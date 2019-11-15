@@ -2416,6 +2416,28 @@ public class UseItemRequest
 			return;
 
 		case KoLConstants.MESSAGE_DISPLAY:
+			// If these items cease to be MESSAGE_DISPLAY, move
+			// case block to regular items below
+			switch (itemId )
+			{
+			case ItemPool.GLITCH_ITEM:
+			{
+				// [This needs implementation.
+				// [This needs more implementation.]
+				// [This needs some more implementation.]
+				// [This needs a lot more implementation.]
+				// [This needs even more than a ton more implementation.]
+				int glitchLevel =
+					responseText.contains( "needs even more than a ton more implementation" ) ? 5 :
+					responseText.contains( "needs a lot more implementation" ) ? 4 :
+					responseText.contains( "needs some more implementation" ) ? 3 :
+					responseText.contains( "needs more implementation" ) ? 2 :
+					responseText.contains( "needs implementation" ) ? 1 :
+					0;
+				Preferences.setInteger( "glitchItemImplementationLevel", glitchLevel );
+				break;
+			}
+			}
 			UseItemRequest.showItemUsage( showHTML, responseText );
 			return;
 		}
