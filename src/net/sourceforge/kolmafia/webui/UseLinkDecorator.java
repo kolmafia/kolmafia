@@ -1230,10 +1230,20 @@ public abstract class UseLinkDecorator
 			case ItemPool.ROTTING_BARREL:
 			case ItemPool.MOULDERING_BARREL:
 			case ItemPool.BARNACLED_BARREL:
+			{
 				ArrayList<UseLink> uses = new ArrayList<UseLink>();
 				uses.add( new UseLink( itemId, 1, "use", "inv_use.php?whichitem=" ) );
 				uses.add( new UseLink( itemId, 1, "smash party", "inv_use.php?choice=1&whichitem=", false ) );
 				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
+			}
+
+			case ItemPool.GLITCH_ITEM:
+			{
+				ArrayList<UseLink> uses = new ArrayList<UseLink>();
+				uses.add( new UseLink( itemId, itemCount, "implement", "inv_use.php?whichitem=" ) );
+				uses.add( new UseLink( itemId, itemCount, "eat", "inv_eat.php?whichitem=", false ) );
+				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
+			}
 
 			default:
 
