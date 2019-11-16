@@ -1246,7 +1246,7 @@ Chad Alacarte	2113	chadalacarte.gif	Atk: 250 Def: 250 HP: 2000 Init: 300 P: dude
 Your Lack of Reflection	2115	towermirror.gif	Atk: 100 Def: 100 HP: 3000 Init: -10000 P: horror
 
 # Glitch Season
-%monster%	2140	nopic.gif	Atk: 1 Def: 1 HP: 1 Init: 1 P: construct
+%monster%	2140	nopic.gif	NOCOPY Atk: 1 Def: 1 HP: 1 Init: 1 P: construct
 
 # Items of the Month
 

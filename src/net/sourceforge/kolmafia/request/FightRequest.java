@@ -459,16 +459,17 @@ public class FightRequest
 	{
 		// Individual monsters
 		ANCIENT_PROTECTOR_SPIRIT( "Ancient Protector Spirit" ),
+		CONJOINED_ZMOMBIE( "conjoined zmombie" ),
+		DAD_SEA_MONKEE( "Dad Sea Monkee" ),
+		FAMILY_OF_KOBOLDS( "family of kobolds" ),
+		GARGANTULIHC( "gargantulihc" ),
+		GIANT_OCTOPUS( "giant octopus" ),
+		GIANT_SKEELTON( "giant skeelton" ),
+		GLITCH_MONSTER( "%monster%" ),
+		HUGE_GHUOL( "huge ghoul" ),
 		PYGMY_JANITOR( "pygmy janitor" ),
 		PYGMY_WITCH_LAWYER( "pygmy witch lawyer" ),
-		CONJOINED_ZMOMBIE( "conjoined zmombie" ),
-		HUGE_GHUOL( "huge ghoul" ),
-		GARGANTULIHC( "gargantulihc" ),
-		GIANT_SKEELTON( "giant skeelton" ),
-		GIANT_OCTOPUS( "giant octopus" ),
-		DAD_SEA_MONKEE( "Dad Sea Monkee" ),
 		TIME_SPINNER_PRANK( "time-spinner prank" ),
-		FAMILY_OF_KOBOLDS( "family of kobolds" ),
 
 		// Categories of monsters
 		BEE( "bee" ),
@@ -2649,6 +2650,11 @@ public class FightRequest
 				case FAMILY_OF_KOBOLDS:
 					// Remove 100 D4's from inventory
 					ResultProcessor.processItem( ItemPool.D4, -100 );
+					break;
+
+				case GLITCH_MONSTER:
+					// This appears to be NOCOPY.
+					Preferences.increment( "_glitchMonsterFights", 1 );
 					break;
 
 				case HIPSTER:
