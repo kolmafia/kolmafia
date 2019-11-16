@@ -504,16 +504,17 @@ public class FightRequest
 	static
 	{
 		FightRequest.specialMonsters.put( "Ancient Protector Spirit", SpecialMonster.ANCIENT_PROTECTOR_SPIRIT );
+		FightRequest.specialMonsters.put( "conjoined zmombie", SpecialMonster.CONJOINED_ZMOMBIE );
+		FightRequest.specialMonsters.put( "Dad Sea Monkee", SpecialMonster.DAD_SEA_MONKEE );
+		FightRequest.specialMonsters.put( "family of kobolds", SpecialMonster.FAMILY_OF_KOBOLDS );
+		FightRequest.specialMonsters.put( "gargantulihc", SpecialMonster.GARGANTULIHC );
+		FightRequest.specialMonsters.put( "giant octopus", SpecialMonster.GIANT_OCTOPUS );
+		FightRequest.specialMonsters.put( "giant skeelton", SpecialMonster.GIANT_SKEELTON );
+		FightRequest.specialMonsters.put( "%monster%", SpecialMonster.GLITCH_MONSTER );
+		FightRequest.specialMonsters.put( "huge ghoul", SpecialMonster.HUGE_GHUOL );
 		FightRequest.specialMonsters.put( "pygmy janitor", SpecialMonster.PYGMY_JANITOR );
 		FightRequest.specialMonsters.put( "pygmy witch lawyer", SpecialMonster.PYGMY_WITCH_LAWYER );
-		FightRequest.specialMonsters.put( "conjoined zmombie", SpecialMonster.CONJOINED_ZMOMBIE );
-		FightRequest.specialMonsters.put( "huge ghoul", SpecialMonster.HUGE_GHUOL );
-		FightRequest.specialMonsters.put( "gargantulihc", SpecialMonster.GARGANTULIHC );
-		FightRequest.specialMonsters.put( "giant skeelton", SpecialMonster.GIANT_SKEELTON );
-		FightRequest.specialMonsters.put( "giant octopus", SpecialMonster.GIANT_OCTOPUS );
-		FightRequest.specialMonsters.put( "Dad Sea Monkee", SpecialMonster.DAD_SEA_MONKEE );
 		FightRequest.specialMonsters.put( "time-spinner prank", SpecialMonster.TIME_SPINNER_PRANK );
-		FightRequest.specialMonsters.put( "family of kobolds", SpecialMonster.FAMILY_OF_KOBOLDS );
 
 		FightRequest.specialMonsters.put( "angry bassist", SpecialMonster.HIPSTER );
 		FightRequest.specialMonsters.put( "blue-haired girl", SpecialMonster.HIPSTER );
