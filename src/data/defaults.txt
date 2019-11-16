@@ -1502,6 +1502,7 @@ user	_gingerbreadClockAdvanced	false
 user	_gingerbreadMobHitUsed	false
 user	_glarkCableUses	0
 user	_glennGoldenDiceUsed	false
+user	_glitchMonsterFights	0
 user	_gnollEyeUsed	false
 user	_gnomeAdv	0
 user	_godLobsterFights	0
