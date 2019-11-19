@@ -11736,10 +11736,10 @@ public abstract class ChoiceManager
 		// Things that can or need to be done AFTER processing results.
 		String text = request.responseText;
 
-		// If you walked away from the choice, this is not a choice page
+		// If you walked away from the choice (or we automated during
+		// result processing), this is not a choice page
 		if ( ChoiceManager.canWalkAway && !urlString.startsWith( "choice.php" ) && !urlString.startsWith( "fight.php" ) )
 		{
-			ChoiceManager.handlingChoice = false;
 			return;
 		}
 
@@ -13660,8 +13660,8 @@ public abstract class ChoiceManager
 		if ( ChoiceManager.lastChoice == 0 )
 		{
 			// choice.php did not offer us any choices and we couldn't work out which choice it was.
-			// This would either be a bug in KoL itself or a non-choice page
-			// that you can visit at any time that we don't know about yet.
+			// This happens if taking a choice gives a response with a "next" link to choice.php.
+			ChoiceManager.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( request.getURLString(), text );
 			return;
 		}
 
