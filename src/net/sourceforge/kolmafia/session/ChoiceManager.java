@@ -11733,6 +11733,14 @@ public abstract class ChoiceManager
 			return;
 		}
 
+		// The following are requests that may or may not be allowed at
+		// any time, but we do them in automation during result
+		// processing and they do not count as "walking away"
+		if ( urlString.startsWith( "diary.php" ) )
+		{
+			return;
+		}
+
 		// Things that can or need to be done AFTER processing results.
 		String text = request.responseText;
 
@@ -11740,6 +11748,8 @@ public abstract class ChoiceManager
 		// result processing), this is not a choice page
 		if ( ChoiceManager.canWalkAway && !urlString.startsWith( "choice.php" ) && !urlString.startsWith( "fight.php" ) )
 		{
+			// I removed the following line, but it caused issues.
+			ChoiceManager.handlingChoice = false;
 			return;
 		}
 
