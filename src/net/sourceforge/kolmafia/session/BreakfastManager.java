@@ -249,9 +249,20 @@ public class BreakfastManager
 			}
 
 			// Special cases
-			if ( itemId == ItemPool.CSA_FIRE_STARTING_KIT && Preferences.getInteger( "choiceAdventure595" ) == 0 )
+			switch ( itemId )
 			{
-				continue;
+			case ItemPool.CSA_FIRE_STARTING_KIT:
+				if ( Preferences.getInteger( "choiceAdventure595" ) == 0 )
+				{
+					continue;
+				}
+				break;
+			case ItemPool.GLITCH_ITEM:
+				if ( !Preferences.getBoolean( "implementGlitchItem" ) )
+				{
+					continue;
+				}
+				break;
 			}
 
 			// If we run this more than once, we may have used up the maximum uses

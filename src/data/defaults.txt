@@ -670,6 +670,7 @@ user	hpAutoRecoveryItems	cannelloni cocoon;scroll of drastic healing;tongue of t
 user	hpAutoRecoveryTarget	1.0
 user	iceSculptureMonster
 user	iceSwagger	0
+user	implementGlitchItem	false
 user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
 user	item9084	0
 user	itemBoughtPerAscension637	false
