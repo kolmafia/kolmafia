@@ -179,7 +179,7 @@ public abstract class HPRestoreItemList
 	{
 		HPRestoreItemList.CAMPGROUND.healthPerUse = KoLCharacter.getRestingHP();
 		HPRestoreItemList.FREEREST.healthPerUse =
-			(Preferences.getBoolean( "restUsingChateau" ) && Preferences.getBoolean( "chateauAvailable" ) ) ? 250 :
+			ChateauRequest.chateauRestUsable() ? 250 :
 			(Preferences.getBoolean( "restUsingCampAwayTent" ) && Preferences.getBoolean( "getawayCampsiteUnlocked" ) ) ? 250 :
 			KoLCharacter.getRestingHP();
 		HPRestoreItemList.SOFA.healthPerUse = KoLCharacter.getLevel() * 5 + 1;

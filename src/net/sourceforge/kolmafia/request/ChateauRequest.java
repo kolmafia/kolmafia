@@ -86,7 +86,7 @@ public class ChateauRequest
 	public static void refresh()
 	{
 		ChateauRequest.reset();
-		if ( Preferences.getBoolean( "chateauAvailable" ) && StandardRequest.isAllowed( "Items", "Chateau Mantegna room key" ) )
+		if ( ChateauRequest.chateauAvailable() )
 		{
 			RequestThread.postRequest( new ChateauRequest() );
 		}
@@ -316,11 +316,16 @@ public class ChateauRequest
 		return true;
 	}
 
-	public static boolean chateauRestUsable()
-	{	return Preferences.getBoolean( "restUsingChateau" ) &&
-		       Preferences.getBoolean( "chateauAvailable" ) &&
+	public static boolean chateauAvailable()
+	{	return Preferences.getBoolean( "chateauAvailable" ) &&
 		       StandardRequest.isAllowed( "Items", "Chateau Mantegna room key" ) &&
 		       !Limitmode.limitZone( "Mountain" ) &&
-		       !KoLCharacter.inBadMoon();
+		       !KoLCharacter.inBadMoon() &&
+		       !KoLCharacter.isKingdomOfExploathing();
+	}
+
+	public static boolean chateauRestUsable()
+	{	return Preferences.getBoolean( "restUsingChateau" ) &&
+		       ChateauRequest.chateauAvailable();
 	}
 }

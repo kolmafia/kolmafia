@@ -190,7 +190,7 @@ public abstract class MPRestoreItemList
 	{
 		MPRestoreItemList.CAMPGROUND.manaPerUse = KoLCharacter.getRestingMP();
 		MPRestoreItemList.FREEREST.manaPerUse =
-			(Preferences.getBoolean( "restUsingChateau" ) && Preferences.getBoolean( "chateauAvailable" ) ) ? 125 :
+			ChateauRequest.chateauRestUsable() ? 125 :
 			(Preferences.getBoolean( "restUsingCampAwayTent" ) && Preferences.getBoolean( "getawayCampsiteUnlocked" ) ) ? 125 :
 			KoLCharacter.getRestingMP();
 		MPRestoreItemList.SOFA.manaPerUse = KoLCharacter.getLevel() * 5 + 1;
