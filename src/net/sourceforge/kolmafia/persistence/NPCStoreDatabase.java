@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
@@ -255,7 +256,7 @@ public class NPCStoreDatabase
 		else if ( storeId.equals( "chateau" ) )
 		{
 			// Chateau Mantenga
-			return Preferences.getBoolean( "chateauAvailable" ) && StandardRequest.isAllowed( "Items", "Chateau Mantegna room key" );
+			return ChateauRequest.chateauAvailable();
 		}
 		else if ( storeId.equals( "chinatown" ) )
 		{

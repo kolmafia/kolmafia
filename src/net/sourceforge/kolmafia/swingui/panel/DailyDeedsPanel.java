@@ -77,6 +77,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.MomRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.PottedTeaTreeRequest;
@@ -4314,12 +4315,8 @@ public class DailyDeedsPanel
 		@Override
 		public void update()
 		{
-			boolean bm = KoLCharacter.inBadMoon();
-			boolean kf = KoLCharacter.kingLiberated();
-			boolean have = Preferences.getBoolean( "chateauAvailable" );
-			boolean allowed = StandardRequest.isAllowed( "Items", "Chateau Mantegna room key" );
-			boolean limited = Limitmode.limitZone( "Mountain" );
-			this.setShown( ( !bm || kf ) && have && allowed && !limited );
+			boolean available = ChateauRequest.chateauAvailable();
+			this.setShown( available );
 
 			boolean harvested = Preferences.getBoolean( "_chateauDeskHarvested" );
 
