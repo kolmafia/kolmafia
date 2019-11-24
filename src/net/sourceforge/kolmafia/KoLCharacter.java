@@ -3683,13 +3683,16 @@ public abstract class KoLCharacter
 			// Retrieve the bookshelf
 			RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
 		}
-
-		if ( restricted )
+		if ( restricted ||
+		     oldPath.equals( LICENSE ) )
 		{
 			// All familiars can now be used
 			RequestThread.postRequest( new FamiliarRequest() );
 			GearChangeFrame.updateFamiliars();
+		}
 
+		if ( restricted )
+		{
 			// Available stuff in Clan may have changed, so check clan
 			// Equipment can be on either the first or second floor
 			ClanLoungeRequest.visitLounge();
