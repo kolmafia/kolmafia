@@ -5981,6 +5981,7 @@ Effect	Majorly Poisoned	Muscle Percent: -90, Mysticality Percent: -90, Moxie Per
 Effect	Make Meat FA$T!	Meat Drop: +20
 Effect	Mallowed Out	Muscle Percent: [min(500,+5*T)], Mysticality Percent: [min(500,+5*T)], Moxie Percent: [min(500,+5*T)]
 Effect	Man's Worst Enemy	Familiar Weight: +5
+Effect	Mana-Blasted	Maximum MP Percent: +50, MP Regen Min: 3, MP Regen Max: 5
 Effect	Mana Tea	Maximum MP: +30, MP Regen Min: 3, MP Regen Max: 5
 Effect	Manbait	Monster Level: +30
 Effect	Marbles in Your Mouth	Moxie: +50
@@ -7992,6 +7993,10 @@ Item	liquid bread	Effect: "Comprehensively Nourished", Effect Duration: 20
 Item	loaf of soda bread	Effect: "Bread Burps", Effect Duration: 15
 Item	Ludovico Pastaco	Effect: "Tremella Tremens", Effect Duration: 40
 # magical baguette: You can make stuff out of it
+Item	mana-basted tofurkey leg	Effect: "Mana-Blasted", Effect Duration: 20
+Item	mana-coated yams	Effect: "Mana-Blasted", Effect Duration: 20
+Item	mana-fortified cranberry sauce	Effect: "Mana-Blasted", Effect Duration: 20
+Item	mana-stuffed herbal stuffing	Effect: "Mana-Blasted", Effect Duration: 20
 Item	maple syrup	Effect: "Antsy in your Pantsy", Effect Duration: 5
 Item	mashed potatoes	Effect: "Thanksgetting", Effect Duration: 20
 Item	Medical Pastaco	Effect: "Helvella Health", Effect Duration: 40

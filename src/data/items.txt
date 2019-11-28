@@ -10362,3 +10362,16 @@
 10334	unopened diabolic pizza cube box	285600291	crate.gif	usable	t	0
 10335	diabolic pizza cube	234341716	horadricoven.gif	usable		0
 10336	diabolic pizza	820781574	horadricpizza.gif	food	q	0
+10337
+10338
+10339
+10340
+10341
+10342
+10343
+10344
+10345
+10346	mana-coated yams	177436029	casserole.gif	food	t,d	50
+10347	mana-basted tofurkey leg	931240043	turkeyleg.gif	food	t,d	50
+10348	mana-fortified cranberry sauce	828577710	cransauce.gif	food	t,d	40
+10349	mana-stuffed herbal stuffing	363702530	casserole.gif	food	t,d	30
