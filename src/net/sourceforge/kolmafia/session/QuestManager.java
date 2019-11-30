@@ -2787,11 +2787,6 @@ public class QuestManager
 			}
 			Preferences.setInteger( "_snojoParts", snowParts );
 		}
-		else if ( monsterName.equals( "sausage goblin" ) )
-		{
-			Preferences.increment( "_sausageFights" );
-			Preferences.setInteger( "_lastSausageMonsterTurn", KoLCharacter.getTurnsPlayed() );
-		}
 		else if ( monsterName.equals( "angry ghost" ) ||
 			  monsterName.equals( "annoyed snake" ) ||
 			  monsterName.equals( "government bureaucrat" ) ||

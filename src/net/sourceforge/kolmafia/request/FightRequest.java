@@ -469,6 +469,7 @@ public class FightRequest
 		HUGE_GHUOL( "huge ghoul" ),
 		PYGMY_JANITOR( "pygmy janitor" ),
 		PYGMY_WITCH_LAWYER( "pygmy witch lawyer" ),
+		SAUSAGE_GOBLIN( "sausage goblin" ),
 		TIME_SPINNER_PRANK( "time-spinner prank" ),
 
 		// Categories of monsters
@@ -514,6 +515,7 @@ public class FightRequest
 		FightRequest.specialMonsters.put( "huge ghoul", SpecialMonster.HUGE_GHUOL );
 		FightRequest.specialMonsters.put( "pygmy janitor", SpecialMonster.PYGMY_JANITOR );
 		FightRequest.specialMonsters.put( "pygmy witch lawyer", SpecialMonster.PYGMY_WITCH_LAWYER );
+		FightRequest.specialMonsters.put( "sausage goblin", SpecialMonster.SAUSAGE_GOBLIN );
 		FightRequest.specialMonsters.put( "time-spinner prank", SpecialMonster.TIME_SPINNER_PRANK );
 
 		FightRequest.specialMonsters.put( "angry bassist", SpecialMonster.HIPSTER );
@@ -2656,6 +2658,14 @@ public class FightRequest
 				case GLITCH_MONSTER:
 					// This appears to be NOCOPY.
 					Preferences.increment( "_glitchMonsterFights", 1 );
+					break;
+
+				case SAUSAGE_GOBLIN:
+					if ( !EncounterManager.ignoreSpecialMonsters )
+					{
+						Preferences.increment( "_sausageFights" );
+						Preferences.setInteger( "_lastSausageMonsterTurn", KoLCharacter.getTurnsPlayed() );
+					}
 					break;
 
 				case HIPSTER:
