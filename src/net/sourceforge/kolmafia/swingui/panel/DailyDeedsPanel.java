@@ -679,130 +679,100 @@ public class DailyDeedsPanel
 
 		String pref = deedsString[ 2 ];
 
+		String displayText = deedsString[ 1 ];
+		String itemName = "";
+		int itemId = -1;
+		String itemCommand = "";
+
+		// 3 arguments uses the displayText as the itemName
+		// 4, 5, 6, 7 arguments use optional itemName, otherwise displayText
+		// Use substring matching in getItemId because itemName may not
+		// be the canonical name of the item
+		if ( deedsString.length == 3 || deedsString[ 3 ].equals( "" ) )
+		{
+			// optional itemName not specified; use display text
+			itemName = displayText;
+			itemId = ItemDatabase.getItemId( itemName );
+			itemCommand = "use " +ItemDatabase.getItemName( itemId );
+		}
+		else
+		{
+			// itemName is specified
+			String [] split = deedsString[ 3 ].split( ";" );
+			itemName = split[0];
+			itemId = ItemDatabase.getItemId( itemName );
+			itemCommand = "use " +ItemDatabase.getItemName( itemId );
+
+			// Additional arbitrary commands allowed
+			if ( split.length > 1 )
+			{
+				for ( int i = 1; i < split.length; ++i )
+				{
+					itemCommand += ";" + split[ i ];
+				}
+			}
+		}
+
+		if ( itemId == -1 )
+		{
+			RequestLogger .printLine( "Daily Deeds error: unable to resolve item " + itemName );
+			return;
+		}
+
+		// 5, 6, or 7 arguments include an optional maxUses
+		int maxUses = 1;
+
+		if ( deedsString.length >= 5 )
+		{
+			try
+			{
+				String maxString = deedsString[ 4 ];
+				if ( !maxString.equals( "" ) )
+				{
+					maxUses = Integer.parseInt( maxString );
+				}
+
+			}
+			catch ( NumberFormatException e )
+			{
+				RequestLogger .printLine( "Daily Deeds error: Item deeds require an int for the fifth parameter." );
+				return;
+			}
+		}
+
 		if ( deedsString.length == 3 )
 		{
 			/*
 			 * BooleanItem|displayText|preference
 			 * itemId is found from displayText
 			 */
-			int itemId = ItemDatabase.getItemId( deedsString[ 1 ] );
-			String item = ItemDatabase.getItemName( itemId );
-
-			if ( itemId == -1 )
-			{
-				RequestLogger
-					.printLine( "Daily Deeds error: unable to resolve item " + deedsString[ 1 ] );
-				return;
-			}
-
-			this.add( new ItemDaily( pref, itemId, "use " + item ) );
+			this.add( new ItemDaily( pref, itemId, itemCommand ) );
 		}
 
 		else if ( deedsString.length == 4 )
 		{
 			/*
 			 * BooleanItem|displayText|preference|itemName
-			 * itemId is found from itemName
+			 * itemId is found from itemName if present, otherwise display text
 			 */
-			String displayText = deedsString[ 1 ];
-			// Use the substring matching of getItemId because itemName may not
-			// be the canonical name of the item
-			String split = deedsString[ 3 ].split( ";" )[ 0 ];
-			int itemId = ItemDatabase.getItemId( split );
-			String item = ItemDatabase.getItemName( itemId );
-			if ( deedsString[ 3 ].split( ";" ).length > 1 )
-			{
-				for ( int i = 1; i < deedsString[ 3 ].split( ";" ).length; ++i )
-				{
-					item += ";" + deedsString[ 3 ].split( ";" )[ i ];
-				}
-			}
-
-			if ( itemId == -1 )
-			{
-				RequestLogger
-					.printLine( "Daily Deeds error: unable to resolve item " + deedsString[ 3 ] );
-				return;
-			}
-
-			this.add( new ItemDaily( displayText, pref, itemId, "use " + item ) );
+			this.add( new ItemDaily( displayText, pref, itemId, itemCommand ) );
 		}
 		else if ( deedsString.length == 5 )
 		{
 			/*
 			 * BooleanItem|displayText|preference|itemName|maxUses
-			 * itemId is found from itemName
+			 * itemId is found from itemName if present, otherwise display text
 			 */
-			String displayText = deedsString[ 1 ];
-			// Use the substring matching of getItemId because itemName may not
-			// be the canonical name of the item
-			String split = deedsString[ 3 ].split( ";" )[ 0 ];
-			int itemId = ItemDatabase.getItemId( split );
-			String item = ItemDatabase.getItemName( itemId );
-			if ( deedsString[ 3 ].split( ";" ).length > 1 )
-			{
-				for ( int i = 1; i < deedsString[ 3 ].split( ";" ).length; ++i )
-				{
-					item += ";" + deedsString[ 3 ].split( ";" )[ i ];
-				}
-			}
-
-			if ( itemId == -1 )
-			{
-				RequestLogger
-					.printLine( "Daily Deeds error: unable to resolve item " + deedsString[ 3 ] );
-				return;
-			}
-			try
-			{
-				int maxUses = Integer.parseInt( deedsString[ 4 ] );
-
-				this.add( new ItemDaily( displayText, pref, itemId, "use " + item, maxUses ) );
-			}
-			catch ( NumberFormatException e )
-			{
-				RequestLogger
-					.printLine( "Daily Deeds error: Item deeds require an int for the fifth parameter." );
-			}
+			this.add( new ItemDaily( displayText, pref, itemId, itemCommand, maxUses ) );
 		}
 		else if ( deedsString.length == 6 )
 		{
 			/*
 			 * BooleanItem|displayText|preference|itemName|maxUses|toolTip
-			 * itemId is found from itemName
+			 * itemId is found from itemName if present, otherwise display text
 			 */
-			String displayText = deedsString[ 1 ];
 			String toolTip = deedsString[ 5 ];
-			// Use the substring matching of getItemId because itemName may not
-			// be the canonical name of the item
-			String split = deedsString[ 3 ].split( ";" )[ 0 ];
-			int itemId = ItemDatabase.getItemId( split );
-			String item = ItemDatabase.getItemName( itemId );
-			if ( deedsString[ 3 ].split( ";" ).length > 1 )
-			{
-				for ( int i = 1; i < deedsString[ 3 ].split( ";" ).length; ++i )
-				{
-					item += ";" + deedsString[ 3 ].split( ";" )[ i ];
-				}
-			}
-
-			if ( itemId == -1 )
-			{
-				RequestLogger
-					.printLine( "Daily Deeds error: unable to resolve item " + deedsString[ 3 ] );
-				return;
-			}
-			try
-			{
-				int maxUses = Integer.parseInt( deedsString[ 4 ] );
-
-				this.add( new ItemDaily( displayText, pref, itemId, "use " + item, maxUses, toolTip ) );
-			}
-			catch ( NumberFormatException e )
-			{
-				RequestLogger
-					.printLine( "Daily Deeds error: Item deeds require an int for the fifth parameter." );
-			}
+			this.add( new ItemDaily( displayText, pref, itemId, itemCommand, maxUses, toolTip ) );
 		}
 		else if ( deedsString.length == 7 )
 		{
@@ -810,62 +780,9 @@ public class DailyDeedsPanel
 			 * BooleanItem|displayText|preference|itemName|maxUses|toolTip|compMessage
 			 * itemId is found from itemName if present, otherwise display text
 			 */
-			String displayText = deedsString[ 1 ];
 			String toolTip = deedsString[ 5 ];
 			String compMessage = deedsString[ 6 ];
-			// Use the substring matching of getItemId because itemName may not
-			// be the canonical name of the item
-			int itemId;
-			String item = "";
-			if ( deedsString[ 3 ].equals ( "" ) )
-			{
-				itemId = ItemDatabase.getItemId( displayText );
-				item = ItemDatabase.getItemName( itemId );
-
-				if ( itemId == -1 )
-				{
-					RequestLogger
-						.printLine( "Daily Deeds error: unable to resolve item " + displayText );
-					return;
-				}
-			}
-			else
-			{
-				String split = deedsString[ 3 ].split( ";" )[ 0 ];
-				itemId = ItemDatabase.getItemId( split );
-				item = ItemDatabase.getItemName( itemId );
-				if ( deedsString[ 3 ].split( ";" ).length > 1 )
-				{
-					for ( int i = 1; i < deedsString[ 3 ].split( ";" ).length; ++i )
-					{
-						item += ";" + deedsString[ 3 ].split( ";" )[ i ];
-					}
-				}
-
-				if ( itemId == -1 )
-				{
-					RequestLogger
-						.printLine( "Daily Deeds error: unable to resolve item " + deedsString[ 3 ] );
-					return;
-				}
-			}
-
-			try
-			{
-				String maxString = deedsString[ 4 ];
-				int maxUses = 1;
-				if ( !maxString.equals( "" ) )
-				{
-					maxUses = Integer.parseInt( maxString );
-				}
-
-				this.add( new ItemDaily( displayText, pref, itemId, "use " + item, maxUses, toolTip, compMessage ) );
-			}
-			catch ( NumberFormatException e )
-			{
-				RequestLogger
-					.printLine( "Daily Deeds error: Item deeds require an int for the fifth parameter." );
-			}
+			this.add( new ItemDaily( displayText, pref, itemId, itemCommand, maxUses, toolTip, compMessage ) );
 		}
 	}
 
