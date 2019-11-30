@@ -192,6 +192,14 @@ public class FamiliarData
 
 	public final boolean canEquip()
 	{
+		// If you are in Pokefam, you can use your familiars in a
+		// PokeTeam, but you cannot take one out of your terrarium in
+		// the usual way
+		if ( KoLCharacter.inPokefam() )
+		{
+			return false;
+		}
+
 		// Familiars cannot be equipped by most Avatar classes
 		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() || KoLCharacter.isEd() ||
 		     KoLCharacter.inBondcore() || KoLCharacter.isVampyre() )
