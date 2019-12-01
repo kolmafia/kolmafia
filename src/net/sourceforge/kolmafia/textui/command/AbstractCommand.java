@@ -123,6 +123,17 @@ public abstract class AbstractCommand
 		return this;
 	}
 
+	public AbstractCommand registerPlural( final String name )
+	{
+		// For commands that can be typed with either an exact name or
+		// that name with "s" appended
+		AbstractCommand.lookup.putExact( name.toLowerCase(), this );
+		this.registerFlags( name );
+		AbstractCommand.lookup.putExact( name.toLowerCase() + "s", this );
+		this.registerFlags( name + "s" );
+		return this;
+	}
+
 	public AbstractCommand registerPrefix( final String prefix )
 	{
 		// For commands that are parsed as startsWith(...)

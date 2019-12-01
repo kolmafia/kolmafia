@@ -1166,7 +1166,7 @@
 1165	The Champion's Breakfast	knifefork.gif	df9824cb55375f2223c71449497e8f3c	# making an "especially delicious meal"? inside The Pretentious Artist's Obsession (sometimes)
 1166	Breakfast Clubbed	knifefork.gif	c5615181944ec9777ce97b12f0922547	# making a "disaster" of breakfast in The Pretentious Artist's Obsession
 1167	ChibiChanged&trade;	chibibuddy.gif	b1db2ea88d890164d84d76258cffd9dc	# chatting with your ChibiBuddy™
-1168	Lucky Cat is Lucky	kittystatue.gif	7c36cbf0cf8ca15dc6ab9bcde8e6e8d4	# rest with lucky cat statue in dwelling
+1168	Lucky Cat Is Lucky	kittystatue.gif	7c36cbf0cf8ca15dc6ab9bcde8e6e8d4	# rest with lucky cat statue in dwelling
 1169	Pla-see-bo	snowcarrot.gif	7788b095166a425339a98d9bb8c7cf2e	chew 1 carrot juice
 1170	Hoppyness	pinecone.gif	2fe0004ca79a4f94028ff59a80682709	drink 1 Hundred Headed IPA
 1171

@@ -395,7 +395,7 @@ public class ResultProcessor
 
 			// If we don't know this effectId, it's an unknown effect
 			// If KoL changed the effect name, treat it as an unknown effect.
-			if ( effectId == -1 || !effectName.equals( EffectDatabase.getEffectName( effectId ) ) )
+			if ( effectId == -1 || !decodedNamesEqual( effectName, EffectDatabase.getEffectName( effectId ) ) )
 			{
 				effectId = EffectDatabase.learnEffectId( effectName, descId );
 			}
