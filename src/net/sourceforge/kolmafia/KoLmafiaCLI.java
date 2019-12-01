@@ -650,21 +650,35 @@ public class KoLmafiaCLI
 		new AbortCommand().register( "abort" );
 		new AbsorbCommand().register( "absorb" );
 		new AccordionsCommand().register( "accordions" );
-		new AcquireCommand().register( "find" ).register( "acquire" ).register( "retrieve" );
-		new AdventureCommand().registerPrefix( "adv" );
+		new AcquireCommand().
+			register( "acquire" ).
+			register( "find" ).
+			register( "retrieve" );
+		new AdventureCommand().
+			register( "adv" ).
+			register( "adventure" );
 		new AliasCommand().register( "alias" );
 		new AreaSummaryCommand().register( "safe" );
 		new AsdonMartinCommand().register( "asdonmartin" );
 		new AshMultiLineCommand().register( "<inline-ash-script>" );
 		new AshRefCommand().register( "ashref" );
-		new AshSingleLineCommand().register( "ash" ).register( "ashq" );
-		new AutoAttackCommand().register( "aa" ).register( "autoattack" );
+		new AshSingleLineCommand().
+			register( "ash" ).
+			register( "ashq" );
+		new AutoAttackCommand().
+			register( "aa" ).
+			register( "autoattack" );
 		new AutoMallCommand().register( "automall" );
-		new AutoSellCommand().register( "sell" ).register( "autosell" );
+		new AutoSellCommand().
+			register( "sell" ).
+			register( "autosell" );
 		new BacktraceCommand().register( "backtrace" );
 		new BadMoonCommand().register( "badmoon" );
 		new BallPitCommand().register( "ballpit" );
-		new BangPotionsCommand().register( "!" ).register( "bang" ).register( "vials" );
+		new BangPotionsCommand().
+			register( "!" ).
+			register( "bang" ).
+			register( "vials" );
 		new BanishesCommand().register( "banishes" );
 		new BarrelPrayerCommand().register( "barrelprayer" );
 		new BasementCommand().register( "basement" );
@@ -677,20 +691,27 @@ public class KoLmafiaCLI
 		new BuffbotCommand().register( "buffbot" );
 		new BugbearsCommand().register( "bugbears" );
 		new BurnMpCommand().register( "burn" );
-		new BuyCommand().register( "buy" ).register( "mallbuy" );
+		new BuyCommand().
+			register( "buy" ).
+			register( "mallbuy" );
 		new CacheCommand().register( "cache" );
-		new CallScriptCommand().register( "verify" ).
+		new CallScriptCommand().
+			register( "verify" ).
 			register( "validate" ).
 			register( "check" ).
 			register( "call" ).
 			register( "run" ).
-			registerPrefix( "exec" ).
+			register( "exec" ).
+			register( "exececute" ).
 			register( "load" ).
 			register( "start" ).
 			register( "profile" );
-		new CampgroundCommand().registerPrefix( "camp" );
+		new CampgroundCommand().
+			register( "camp" ).
+			register( "campground" );
 		new ChangeCombatScriptCommand().register( "ccs" );
-		new CheckDataCommand().register( "newdata" ).
+		new CheckDataCommand().
+			register( "newdata" ).
 			register( "checkcandy" ).
 			register( "checkconsumables" ).
 			register( "checkconsumption" ).
@@ -711,15 +732,26 @@ public class KoLmafiaCLI
 		new ChoiceCommand().register( "choice" );
 		new ChipsCommand().register( "chips" );
 		new ClanCommand().register( "clan" );
-		new ClanSofaCommand().register( "sofa" ).register( "sleep" );
+		new ClanSofaCommand().
+			register( "sofa" ).
+			register( "sleep" );
 		new ClanStashCommand().register( "stash" );
-		new CleanupJunkRequest().register( "junk" ).register( "cleanup" );
-		new ClearBufferCommand().register( "clear" ).register( "cls" ).register( "reset" );
+		new CleanupJunkRequest().
+			register( "junk" ).
+			register( "cleanup" );
+		new ClearBufferCommand().
+			register( "clear" ).
+			register( "cls" ).
+			register( "reset" );
 		new CliRefCommand().register( "help" ).register( "which" );
 		new ClosetCommand().register( "closet" );
 		new CoinmasterCommand().register( "coinmaster" );
-		new ColorEchoCommand().register( "colorecho" ).register( "cecho" );
-		new ComparisonShopCommand().register( "cheapest" ).register( "expensive" );
+		new ColorEchoCommand().
+			register( "colorecho" ).
+			register( "cecho" );
+		new ComparisonShopCommand().
+			register( "cheapest" ).
+			register( "expensive" );
 		new CompleteQuestCommand().
 			register( "baron" ).
 			register( "choice-goal" ).
@@ -731,12 +763,21 @@ public class KoLmafiaCLI
 			register( "sven" ).
 			register( "tavern" );
 		new ConcertCommand().register( "concert" );
-		new ConditionsCommand().registerPrefix( "goal" ).registerPrefix( "condition" ).registerPrefix( "objective" );
+		new ConditionsCommand().
+			registerPlural( "goal" ).
+			registerPlural( "condition" ).
+			registerPlural( "objective" );
 		new CondRefCommand().register( "condref" );
 		new CouncilCommand().register( "council" );
 		new CountersCommand().register( "counters" );
-		new CreateItemCommand().register( "create" ).register( "make" ).register( "bake" ).register( "mix" ).register(
-			"smith" ).register( "tinker" ).register( "ply" );
+		new CreateItemCommand().
+			register( "create" ).
+			register( "make" ).
+			register( "bake" ).
+			register( "mix" ).
+			register( "smith" ).
+			register( "tinker" ).
+			register( "ply" );
 		new CrimboTreeCommand().register( "crimbotree" );
 		new CrossStreamsCommand().register( "crossstreams" );
 		new DadCommand().register( "dad" );
@@ -748,32 +789,49 @@ public class KoLmafiaCLI
 		new DreadscrollCommand().register( "dreadscroll" );
 		new DustyBottlesCommand().register( "dusty" );
 		new DwarfFactoryCommand().register( "factory" );
-		new EchoCommand().register( "echo" ).register( "print" );
+		new EchoCommand().
+			register( "echo" ).
+			register( "print" );
 		new EditCommand().register( "edit" );
-		new EditMoodCommand().registerPrefix( "trigger" );
+		new EditMoodCommand().registerPlural( "trigger" );
 		new EdPieceCommand().register( "edpiece" );
-		new EdServantCommand().register( "servant" ).register( "servants" );
+		new EdServantCommand().registerPlural( "servant" );
 		new ElseIfStatement().register( "elseif" );
 		new ElseStatement().register( "else" );
-		new EnableCommand().register( "enable" ).register( "disable" );
+		new EnableCommand().
+			register( "enable" ).
+			register( "disable" );
 		new EnthroneCommand().register( "enthrone" );
-		new EquipCommand().register( "equip" ).register( "wear" ).register( "wield" );
-		new EudoraCommand().register( "eudora" ).register( "correspondent" );
+		new EquipCommand().
+			register( "equip" ).
+			register( "wear" ).
+			register( "wield" );
+		new EudoraCommand().
+			register( "eudora" ).
+			register( "correspondent" );
 		new EventsCommand().register( "events" );
-		new ExitCommand().register( "exit" ).register( "quit" );
+		new ExitCommand().
+			register( "exit" ).
+			register( "quit" );
 		new ExtendEffectCommand().register( "up" );
 		new FakeAddItemCommand().register( "fakeitem" );
 		new FakeRemoveItemCommand().register( "removeitem" );
 		new FamiliarCommand().register( "familiar" );
 		new FaxCommand().register( "fax" );
 		new FaxbotCommand().register( "faxbot" );
-		new FullEchoCommand().register( "fecho" ).register( "fprint" );
+		new FullEchoCommand().
+			register( "fecho" ).
+			register( "fprint" );
 		new FlickerCommand().register( "flicker" );
 		new FloristCommand().register( "florist" );
-		new FlowerHuntCommand().register( "flowers" ).register( "swagger" );
-		new FoldItemCommand().register( "fold" ).register( "squeeze" );
+		new FlowerHuntCommand().
+			register( "flowers" ).
+			register( "swagger" );
+		new FoldItemCommand().
+			register( "fold" ).
+			register( "squeeze" );
 		new FortuneCommand().register( "fortune" );
-		new ForumCommand().registerPrefix( "forum" );
+		new ForumCommand().registerPlural( "forum" );
 		new FriarBlessingCommand().register( "friars" );
 		new GapCommand().register("gap");
 		new GarbageCollectCommand().register("gc");
@@ -781,25 +839,36 @@ public class KoLmafiaCLI
 		new GenieCommand().register( "genie" );
 		new GongCommand().register( "gong" );
 		new GrandpaCommand().register( "grandpa" );
-		new GrayGUICommand().register( "graygui" ).register( "greygui" ).register( "jstack" );
+		new GrayGUICommand().
+			register( "graygui" ).
+			register( "greygui" ).
+			register( "jstack" );
 		new GrimCommand().register( "grim" );
 		new HallOfLegendsCommand().register( "donate" );
 		new HatterCommand().register( "hatter" );
-		new HeapDumpCommand().register( "jmap" ).register( "heapdump" );
+		new HeapDumpCommand().
+			register( "jmap" ).
+			register( "heapdump" );
 		new HermitCommand().register( "hermit" );
 		new HorseryCommand().register( "horsery" );
-		new HotTubCommand().register( "hottub" ).register( "soak" );
+		new HotTubCommand().
+			register( "hottub" ).
+			register( "soak" );
 		new IfStatement().register( "if" );
 		new ItemTraceCommand().register( "itrace" );
 		new JukeboxCommand().register( "jukebox" );
 		new KitchenCommand().registerSubstring( "kitchen" );
 		new LatteCommand().register( "latte" );
 		new LeafletCommand().register( "leaflet" );
-		new LogEchoCommand().register( "logecho" ).register( "logprint" );
+		new LogEchoCommand().
+			register( "logecho" ).
+			register( "logprint" );
 		new LoginCommand().register( "login" );
 		new LogoutCommand().register( "logout" );
 		new MacroTestCommand().register( "macrotest" );
-		new MallRepriceCommand().register( "reprice" ).register( "undercut" );
+		new MallRepriceCommand().
+			register( "reprice" ).
+			register( "undercut" );
 		new MallSellCommand().register( "mallsell" );
 		new ManaRestoreCountCommand().register( "mpitems" );
 		new MayoMinderCommand().register( "mayominder" );
@@ -814,8 +883,10 @@ public class KoLmafiaCLI
 		new MomCommand().register( "mom" );
 		new MonorailCommand().register( "monorail" );
 		new MonsterDataCommand().register( "monsters" );
-		new MonsterLevelCommand().register( "mind-control" ).register( "mcd" );
-		new MoodCommand().registerPrefix( "mood" );
+		new MonsterLevelCommand().
+			register( "mind-control" ).
+			register( "mcd" );
+		new MoodCommand().registerPlural( "mood" );
 		new MummeryCommand().register( "mummery" );
 		new MushroomFieldCommand().register( "field" );
 		new NamespaceAddCommand().register( "using" );
@@ -824,7 +895,10 @@ public class KoLmafiaCLI
 		new NewEffectCommand().register( "neweffect" );
 		new NumberologyCommand().register( "numberology" );
 		new NunneryCommand().register( "nuns" );
-		new OlfactionCommand().registerPrefix( "olfact" ).register( "putty" );
+		new OlfactionCommand().
+			register( "olfact" ).
+			register( "olfaction" ).
+			register( "putty" );
 		new OutfitCheckpointCommand().register( "checkpoint" );
 		new OutfitCommand().register( "outfit" );
 		new PandaCommand().register( "panda" );
@@ -832,46 +906,76 @@ public class KoLmafiaCLI
 		new PillKeeperCommand().register( "pillkeeper" );
 		new PirateInsultsCommand().register( "insults" );
 		new PlayerSnapshotCommand().register( "log" );
-		new PlayCommand().register( "play" ).register( "cheat" );
+		new PlayCommand().
+			register( "play" ).
+			register( "cheat" );
 		new PoolCommand().register( "pool" );
 		new PoolskillCommand().register( "poolskill" );
 		new PrefRefCommand().register( "prefref" );
 		new PrefTraceCommand().register( "ptrace" );
 		new PripheaCommand().register( "priphea" );
-		new PulverizeCommand().register( "smash" ).register( "pulverize" );
+		new PulverizeCommand().
+			register( "smash" ).
+			register( "pulverize" );
 		new PvpAttackCommand().register( "attack" );
-		new PvpStealCommand().register( "pvp" ).register( "steal" );
+		new PvpStealCommand().
+			register( "pvp" ).
+			register( "steal" );
 		new QuarkCommand().register( "quark" );
 		new RaffleCommand().register( "raffle" );
-		new RecipeCommand().register( "recipe" ).register( "ingredients" );
-		new RecoverCommand().registerPrefix( "restore" ).registerPrefix( "recover" ).registerPrefix( "check" );
+		new RecipeCommand().
+			register( "recipe" ).
+			register( "ingredients" );
+		new RecoverCommand().
+			register( "restore" ).
+			register( "recover" ).
+			register( "check" );
 		new RefreshStatusCommand().register( "refresh" );
 		new RegisterAdventureCommand().register( "location" );
 		new RelayBrowserCommand().register( "relay" );
 		new RepeatLineCommand().register( "repeat" );
-		new RestaurantCommand().register( "restaurant" ).registerSubstring( "brewery" );
+		new RestaurantCommand().
+			register( "restaurant" ).
+			registerSubstring( "brewery" );
 		new RestoresCommand().register( "restores" );
 		new SaveAsMoodCommand().register( "save as mood" );
 		new SearchMallCommand().register( "searchmall" );
-		new SendMessageCommand().register( "send" ).register( "kmail" ).register( "csend" );
+		new SendMessageCommand().
+			register( "send" ).
+			register( "kmail" ).
+			register( "csend" );
 		new SetHolidayCommand().register( "holiday" );
-		new SetPreferencesCommand().register( "get" ).register( "set" );
+		new SetPreferencesCommand().
+			register( "get" ).
+			register( "set" );
 		new ShopCommand().register( "shop" );
-		new ShowDataCommand()
-			.registerPrefix( "inv" ).register( "storage" ).register( "session" ).register( "summary" )
-			.register( "effects" ).register( "status" ).register( "skills" ).register( "locations" )
-			.register( "encounters" ).registerPrefix( "moon" );
+		new ShowDataCommand().
+			register( "inv" ).
+			register( "inventory" ).
+			register( "storage" ).
+			register( "session" ).
+			register( "summary" ).
+			register( "effects" ).
+			register( "status" ).
+			register( "skills" ).
+			register( "locations" ).
+			register( "encounters" ).
+			registerPlural( "moon" );
 		new ShowerCommand().register( "shower" );
 		new SkateParkCommand().register( "skate" );
 		new SkeeballCommand().register( "skeeball" );
 		new SkeletonCommand().register( "skeleton" );
-		new SlimeStackCommand().registerPrefix( "slime-stack");
+		new SlimeStackCommand().registerPlural( "slime-stack");
 		new SnowsuitCommand().register( "snowsuit" );
 		new SpacegateCommand().register( "spacegate" );
-		new SpeculateCommand().register( "speculate" ).register( "whatif" );
+		new SpeculateCommand().
+			register( "speculate" ).
+			register( "whatif" );
 		new SpookyravenCommand().register( "spookyraven" );
-		new StickersCommand().registerPrefix( "sticker" );
-		new StorageCommand().register( "hagnk" ).register( "pull" );
+		new StickersCommand().registerPlural( "sticker" );
+		new StorageCommand().
+			register( "hagnk" ).
+			register( "pull" );
 		new StyxPixieCommand().register( "styx" );
 		new SubmitSpadeDataCommand().register( "spade" );
 		new SummonDemonCommand().register( "summon" );
@@ -890,35 +994,67 @@ public class KoLmafiaCLI
 		new TrainFamiliarCommand().register( "train" );
 		new TryStatement().register( "try" );
 		new UnaliasCommand().register( "unalias" );
-		new UneffectCommand().register( "shrug" ).register( "uneffect" ).register( "remedy" );
-		new UnequipCommand().register( "unequip" ).register( "remove" );
+		new UneffectCommand().
+			register( "shrug" ).
+			register( "uneffect" ).
+			register( "remedy" );
+		new UnequipCommand().
+			register( "unequip" ).
+			register( "remove" );
 		new UntinkerCommand().register( "untinker" );
 		new UpdateDataCommand().register( "update" );
-		new UseItemCommand().register( "eat" ).register( "drink" ).register( "use" ).register( "chew" )
-			.register( "eatsilent" ).register( "overdrink" ).register( "drinksilent" )
-			.register( "hobo" ).register( "ghost" ).register( "slimeling" ).register( "robo" );
-		new UseSkillCommand().register( "cast" ).register( "skill" );
+		new UseItemCommand().
+			register( "eat" ).
+			register( "drink" ).
+			register( "use" ).
+			register( "chew" ).
+			register( "eatsilent" ).
+			register( "overdrink" ).
+			register( "drinksilent" ).
+			register( "hobo" ).
+			register( "ghost" ).
+			register( "slimeling" ).
+			register( "robo" );
+		new UseSkillCommand().
+			register( "cast" ).
+			register( "skill" );
 		new VersionCommand().register( "version" );
-		new VisitURLCommand().register( "text" ).registerPrefix( "http://" ).registerSubstring( ".php" );
+		new VisitURLCommand().
+			register( "text" ).
+			registerPrefix( "http://" ).
+			registerSubstring( ".php" );
 		new VolcanoCommand().register( "volcano" );
-		new WaitCommand().register( "wait" ).register( "waitq" ).register( "pause" );
+		new WaitCommand().
+			register( "wait" ).
+			register( "waitq" ).
+			register( "pause" );
 		new WhileStatement().register( "while" );
 		new WikiLookupCommand().register( "lookup" );
 		new WikiMafiaSearchCommand().register( "ashwiki" );
 		new WikiSearchCommand().register( "wiki" );
-		new WindowOpenCommand().register( "chat" ).register( "mail" ).registerPrefix( "opt" ).register( "item" ).register(
-			"gear" ).register( "radio" );
+		new WindowOpenCommand().
+			register( "chat" ).
+			register( "mail" ).
+			register( "opt" ).
+			registerPlural( "option" ).
+			register( "item" ).
+			register( "gear" );
 		new WinGameCommand().register( "win game" );
 		new WitchessCommand().register( "witchess" );
 		new WumpusCommand().register( "wumpus" );
 		new ZapCommand().register( "zap" );
 
 		new CommandAlias( "campground", "rest" ).register( "rest" );
-		new CommandAlias( "equip", "off-hand" ).register( "second" ).register( "hold" ).register( "dualwield" );
-		new CommandAlias( "skills", "buff" ).registerPrefix( "buff" );
-		new CommandAlias( "skills", "passive" ).registerPrefix( "pass" );
-		new CommandAlias( "skills", "self" ).registerPrefix( "self" );
-		new CommandAlias( "skills", "combat" ).registerPrefix( "combat" );
+		new CommandAlias( "equip", "off-hand" ).
+			register( "second" ).
+			register( "hold" ).
+			register( "dualwield" );
+		new CommandAlias( "skills", "buff" ).register( "buff" );
+		new CommandAlias( "skills", "passive" ).
+			register( "pass" ).
+			register( "passive" );
+		new CommandAlias( "skills", "self" ).register( "self" );
+		new CommandAlias( "skills", "combat" ).register( "combat" );
 	}
 
 	public static void showHTML( final String text )
