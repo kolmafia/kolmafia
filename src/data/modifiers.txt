@@ -4762,6 +4762,8 @@ Effect	Badger Underfoot	Meat Drop: +20
 Effect	Bailando, Fernando	Item Drop: +10
 Effect	Balls of Ectoplasm	Spooky Resistance: +1
 Effect	Baited Hook	Fishing Skill: +5
+# Effect Baja, Humbug: +50% to Item Drops from Monsters (Underwater only)
+Effect Baja, Humbug	Item Drop: [50*env(underwater)]
 Effect	Bananas!	Muscle: +40, Mysticality: +40, Moxie: +40
 Effect	Bandananit	Avatar: "dirty thieving brigand"
 Effect	Bandersnatched	Moxie: +5, Ranged Damage: +10 
@@ -5414,6 +5416,8 @@ Effect	Feeling Queasy	Item Drop: -10, Meat Drop: -20, Initiative: -30
 Effect	Feet of Grapefruit	Experience (Mysticality): +3
 Effect	Feet of Strawberry	Experience (Moxie): +3
 Effect	Feet of Watermelon	Experience (Muscle): +3
+# Effect Festively Brined: Makes you a better diver
+Effect Festively Brined	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 Effect	Feline Ferocity	Weapon Damage Percent: +100
 Effect	Feroci Tea	Muscle: +50
 Effect	Festive Radiation	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, HP Regen Min: 10, HP Regen Max: 10, MP Regen Min: 10, MP Regen Max: 10
