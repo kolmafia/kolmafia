@@ -5955,7 +5955,7 @@ Effect	Lovebotamy	Experience: +10
 Effect	Low on the Hog	Meat Drop: +100
 Effect	Loyal Tea	Familiar Weight: +5
 Effect	Lubed	Sleaze Damage: +25, Moxie Percent: +10
-Effect	Lucky Cat is Lucky	Item Drop: +5
+Effect	Lucky Cat Is Lucky	Item Drop: +5
 Effect	Lucky Struck	Item Drop: +20
 Effect	Lustre After Wealth	Meat Drop: +50
 Effect	Lustful Heart	Moxie: [min(T,20)]
