@@ -10362,9 +10362,9 @@
 10334	unopened diabolic pizza cube box	285600291	crate.gif	usable	t	0
 10335	diabolic pizza cube	234341716	horadricoven.gif	usable		0
 10336	diabolic pizza	820781574	horadricpizza.gif	food	q	0
-10337
-10338
-10339
+10337	bu&ntilde;uelos Jaliscos	501889623	bunuelos.gif	food	t	0
+10338	flan del mar	403478407	flan2.gif	food	t	0
+10339	Baja sopapilla	715021636	sopapilla.gif	food	t	0
 10340
 10341
 10342
