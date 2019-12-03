@@ -202,7 +202,7 @@ public class RecoveryManager
 		return RecoveryManager.recoverHP( 0 );
 	}
 
-	public static boolean recoverHP( final int recover )
+	public static boolean recoverHP( final long recover )
 	{
 		if ( KoLmafia.refusesContinue() )
 		{
@@ -248,7 +248,7 @@ public class RecoveryManager
 	 * Utility. The method which restores the character's current mana points above the given value.
 	 */
 
-	public static boolean recoverMP( final int mpNeeded )
+	public static boolean recoverMP( final long mpNeeded )
 	{
 		if ( KoLmafia.refusesContinue() )
 		{
@@ -582,7 +582,7 @@ public class RecoveryManager
 		return restoreCount;
 	}
 
-	private static boolean invokeRecoveryScript( final String type, final int needed )
+	private static boolean invokeRecoveryScript( final String type, final long needed )
 	{
 		String scriptName = Preferences.getString( "recoveryScript" );
 		if ( scriptName.length() == 0 )

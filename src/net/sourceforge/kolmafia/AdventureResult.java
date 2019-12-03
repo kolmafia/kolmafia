@@ -81,8 +81,6 @@ public class AdventureResult
 
 	protected static final int MONSTER_PRIORITY = -1;
 
-	public static final String HP = "HP";
-	public static final String MP = "MP";
 	public static final String ADV = "Adv";
 	public static final String ARENA_ML = "Arena flyer ML";
 	public static final String AUTOSTOP = "Autostop";
@@ -94,13 +92,18 @@ public class AdventureResult
 	public static final String FLOUNDRY = "Floundry Fish";
 	public static final String FREE_CRAFT = "Free Craft";
 	public static final String FULL = "Fullness";
-	public static final String MEAT = "Meat";
-	public static final String MEAT_SPENT = "Meat Spent";
 	public static final String PIRATE_INSULT = "pirate insult";
 	public static final String PULL = "Pull";
 	public static final String PVP = "PvP";
 	public static final String STILL = "Still";
 	public static final String TOME = "Tome Summon";
+
+	// Meat, HP, and MP need their "count" field to be a long, not an int
+	// and should be delegated to AdventureLongCountResult
+	public static final String MEAT = "Meat";
+	public static final String MEAT_SPENT = "Meat Spent";
+	public static final String HP = "HP";
+	public static final String MP = "MP";
 
 	// Sub/full stats have multiple values and should be delegated
 	// to AdventureMultiResult.
@@ -449,6 +452,11 @@ public class AdventureResult
 		return this.priority == AdventureResult.MEAT_PRIORITY;
 	}
 
+	public boolean isHP()
+	{
+		return this.name.equals( AdventureResult.HP );
+	}
+
 	public boolean isMP()
 	{
 		return this.name.equals( AdventureResult.MP );
@@ -544,7 +552,7 @@ public class AdventureResult
 		return this.getPluralName( this.getPluralCount() );
 	}
 
-	public String getPluralName( final int count )
+	public String getPluralName( final long count )
 	{
 		return count == 1 ?
 			this.getName() :
@@ -592,6 +600,11 @@ public class AdventureResult
 		return count;
 	}
 
+	public long getLongCount()
+	{
+		return (long)count;
+	}
+
 	public int[] getCounts()
 	{	// This should be called on multi-valued subclasses only!
 		return null;
@@ -607,6 +620,11 @@ public class AdventureResult
 	public int getCount( final int index )
 	{
 		return index != 0 ? 0 : this.count;
+	}
+
+	public long getLongCount( final int index )
+	{
+		return index != 0 ? 0 : (long)this.count;
 	}
 
 	/**
@@ -654,7 +672,7 @@ public class AdventureResult
 			}
 
 			// Yes. It is safe to parse it as an integer
-			int modifier = sign * StringUtilities.parseInt( val );
+			long modifier = sign * StringUtilities.parseLong( val );
 
 			// Stats actually fall into one of four categories -
 			// simply pick the correct one and return the result.
@@ -663,23 +681,23 @@ public class AdventureResult
 
 			if ( statname.startsWith( "Adv" ) )
 			{
-				return new AdventureResult( AdventureResult.ADV, modifier );
+				return new AdventureResult( AdventureResult.ADV, (int)modifier );
 			}
 
 			if ( statname.startsWith( "Dru" ) )
 			{
-				return new AdventureResult( AdventureResult.DRUNK, modifier );
+				return new AdventureResult( AdventureResult.DRUNK, (int)modifier );
 			}
 
 			if ( statname.startsWith( "Full" ) )
 			{
-				return new AdventureResult( AdventureResult.FULL, modifier );
+				return new AdventureResult( AdventureResult.FULL, (int)modifier );
 			}
 
 			if ( statname.startsWith( "Me" ) )
 			{
 				// "Meat" or "Meets", if Can Has Cyborger
-				return new AdventureResult( AdventureResult.MEAT, modifier );
+				return new AdventureLongCountResult( AdventureResult.MEAT, modifier );
 			}
 
 			if ( statname.startsWith( "addit" ) )
@@ -689,14 +707,14 @@ public class AdventureResult
 
 			if ( statname.startsWith( "PvP" ) )
 			{
-				return new AdventureResult( AdventureResult.PVP, modifier );
+				return new AdventureResult( AdventureResult.PVP, (int)modifier );
 			}
 
 			if ( parsedGain.hasMoreTokens() )
 			{
 				char identifier = statname.charAt( 0 );
-				return new AdventureResult(
-					identifier == 'H' || identifier == 'h' ? AdventureResult.HP : AdventureResult.MP, modifier );
+				String name = identifier == 'H' || identifier == 'h' ? AdventureResult.HP : AdventureResult.MP;
+				return new AdventureLongCountResult( name, modifier );
 			}
 
 			// In the current implementations, all stats gains are
@@ -704,7 +722,9 @@ public class AdventureResult
 			// indicates how much of each substat is gained.
 
 			int[] gained =
-				{ AdventureResult.MUS_SUBSTAT.contains( statname ) ? modifier : 0, AdventureResult.MYS_SUBSTAT.contains( statname ) ? modifier : 0, AdventureResult.MOX_SUBSTAT.contains( statname ) ? modifier : 0 };
+				{ AdventureResult.MUS_SUBSTAT.contains( statname ) ? (int)modifier : 0,
+				  AdventureResult.MYS_SUBSTAT.contains( statname ) ? (int)modifier : 0,
+				  AdventureResult.MOX_SUBSTAT.contains( statname ) ? (int)modifier : 0 };
 
 			return new AdventureMultiResult( AdventureResult.SUBSTATS, gained );
 		}
@@ -788,7 +808,7 @@ public class AdventureResult
 
 		if ( this.name.equals( AdventureResult.MEAT ) )
 		{
-			return " Meat Gained: " + KoLConstants.COMMA_FORMAT.format( this.count );
+			return " Meat Gained: " + KoLConstants.COMMA_FORMAT.format( this.getLongCount() );
 		}
 
 		if ( this.name.equals( AdventureResult.MEAT_SPENT ) )
@@ -826,7 +846,12 @@ public class AdventureResult
 			return " Source Terminal Extrudes: " + KoLConstants.COMMA_FORMAT.format( this.count );
 		}
 
-		if ( this.name.equals( AdventureResult.HP ) || this.name.equals( AdventureResult.MP ) || this.name.equals( AdventureResult.DRUNK ) || this.name.equals( AdventureResult.FULL ) )
+		if ( this.name.equals( AdventureResult.HP ) || this.name.equals( AdventureResult.MP ) )
+		{
+			return " " + this.name + ": " + KoLConstants.COMMA_FORMAT.format( this.getLongCount() );
+		}
+
+		if ( this.name.equals( AdventureResult.DRUNK ) || this.name.equals( AdventureResult.FULL ) )
 		{
 			return " " + this.name + ": " + KoLConstants.COMMA_FORMAT.format( this.count );
 		}
@@ -955,10 +980,10 @@ public class AdventureResult
 
 		if ( !conditionType.equals( "item" ) && !conditionType.equals( "pirate insult" ) )
 		{
-			return this.count + " " + conditionType;
+			return this.getLongCount() + " " + conditionType;
 		}
 
-		return "+" + this.count + " " + this.name.replaceAll( "[,\"]", "" );
+		return "+" + this.getLongCount() + " " + this.name.replaceAll( "[,\"]", "" );
 	}
 
 	/**
@@ -1100,18 +1125,18 @@ public class AdventureResult
 		// Compute the sum of the existing adventure result and the
 		// current adventure result, and construct the sum.
 
-		AdventureResult current = (AdventureResult) sourceList.get( index );
+		AdventureResult current = sourceList.get( index );
 
 		// Modify substats and fullstats in place
 		if ( current instanceof AdventureMultiResult &&
-			result instanceof AdventureMultiResult )
+		     result instanceof AdventureMultiResult )
 		{
 			((AdventureMultiResult) current).addResultInPlace(
 				(AdventureMultiResult) result );
 			return;
 		}
 
-		AdventureResult sumResult = current.getInstance( current.count + result.count );
+		AdventureResult sumResult = current.getInstance( current.getLongCount() + result.getLongCount() );
 
 		// Check to make sure that the result didn't transform the value
 		// to zero - if it did, then remove the item from the list if
@@ -1169,7 +1194,7 @@ public class AdventureResult
 			return;
 		}
 
-		AdventureResult current = (AdventureResult) sourceList.get( index );
+		AdventureResult current = sourceList.get( index );
 		AdventureResult sumResult = current.getInstance( current.count + result.count );
 
 		if ( sumResult.getCount() <= 0 )
@@ -1182,7 +1207,7 @@ public class AdventureResult
 		sourceList.set( index, sumResult );
 	}
 
-	public static final void removeResultFromList( final List sourceList, final AdventureResult result )
+	public static final void removeResultFromList( final List<AdventureResult> sourceList, final AdventureResult result )
 	{
 		int index = sourceList.indexOf( result );
 		if ( index != -1 )
@@ -1205,8 +1230,18 @@ public class AdventureResult
 		return this.getInstance( -this.count );
 	}
 
-	public AdventureResult getInstance( final int quantity )
+	public AdventureResult getInstance( final long quantity )
 	{
+		if ( this.isMeat() || this.isHP() || this.isMP() )
+		{
+			if ( this.count == quantity )
+			{
+				return this;
+			}
+
+			return new AdventureLongCountResult( this.name, quantity );
+		}
+
 		if ( this.isItem() )
 		{
 			if ( this.count == quantity )
@@ -1229,29 +1264,7 @@ public class AdventureResult
 				item.id = this.id;
 			}
 
-			item.count = quantity;
-			return item;
-		}
-
-		if ( this.isMeat() )
-		{
-			if ( this.count == quantity )
-			{
-				return this;
-			}
-
-			AdventureResult item;
-			try
-			{
-				item =  (AdventureResult) this.clone();
-			}
-			catch ( CloneNotSupportedException e )
-			{
-				// This should not happen. Hope for the best.
-				item = new AdventureResult( AdventureResult.MEAT, quantity );
-			}
-
-			item.count = quantity;
+			item.count = (int)quantity;
 			return item;
 		}
 
@@ -1270,11 +1283,11 @@ public class AdventureResult
 				effect.id = this.id;
 			}
 
-			effect.count = quantity;
+			effect.count = (int)quantity;
 			return effect;
 		}
 
-		return new AdventureResult( this.name, quantity );
+		return new AdventureResult( this.name, (int)quantity );
 	}
 
 	public AdventureResult getInstance( final int[] quantity )
@@ -1589,6 +1602,63 @@ public class AdventureResult
 		}
 	}
 
+	public static class AdventureLongCountResult
+		extends AdventureResult
+	{
+		private long longCount;
+
+		public AdventureLongCountResult( final String name, final long count )
+		{
+			super( name, 0 );
+			this.longCount = count;
+		}
+
+		public AdventureLongCountResult( final String name )
+		{
+			this( name, 0 );
+		}
+
+		@Override
+		public long getLongCount()
+		{
+			return longCount;
+		}
+
+		@Override
+		public long getLongCount( final int index )
+		{
+			return index != 0 ? 0 : longCount;
+		}
+
+		@Override
+		public AdventureResult getNegation()
+		{
+			return this.getInstance( -this.longCount );
+		}
+
+		@Override
+		public AdventureResult getInstance( final long quantity )
+		{
+			if ( this.longCount == quantity )
+			{
+				return this;
+			}
+
+			// Try to use clone() to preserve instance-specific method overrides
+			try
+			{
+				AdventureLongCountResult item =  (AdventureLongCountResult) this.clone();
+				item.longCount = quantity;
+				return item;
+			}
+			catch ( CloneNotSupportedException e )
+			{
+				// This should not happen. Hope for the best.
+				return new AdventureLongCountResult( this.name, quantity );
+			}
+		}
+	}
+
 	public static class WildcardResult
 		extends AdventureResult
 	{
@@ -1614,9 +1684,9 @@ public class AdventureResult
 		}
 
 		@Override
-		public AdventureResult getInstance( int count )
+		public AdventureResult getInstance( long count )
 		{
-			return new WildcardResult( this.getName(), count, this.match, this.negated );
+			return new WildcardResult( this.getName(), (int)count, this.match, this.negated );
 		}
 
 		@Override

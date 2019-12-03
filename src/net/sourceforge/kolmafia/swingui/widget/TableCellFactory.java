@@ -335,7 +335,7 @@ public class TableCellFactory
 			{
 				return null;
 			}
-			int maxHP = KoLCharacter.getMaximumHP();
+			long maxHP = KoLCharacter.getMaximumHP();
 			if ( hpRestore > maxHP )
 			{
 				return maxHP;
@@ -347,7 +347,7 @@ public class TableCellFactory
 			{
 				return null;
 			}
-			int maxMP = KoLCharacter.getMaximumMP();
+			long maxMP = KoLCharacter.getMaximumMP();
 			if ( mpRestore > maxMP )
 			{
 				return maxMP;

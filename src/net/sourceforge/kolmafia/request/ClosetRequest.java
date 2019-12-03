@@ -41,6 +41,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -139,9 +140,9 @@ public class ClosetRequest
 		this.moveType = moveType;
 	}
 
-	public ClosetRequest( final int moveType, final int amount )
+	public ClosetRequest( final int moveType, final long amount )
 	{
-		this( moveType, new AdventureResult( AdventureResult.MEAT, amount ) );
+		this( moveType, new AdventureLongCountResult( AdventureResult.MEAT, amount ) );
 	}
 
 	public ClosetRequest( final int moveType, final AdventureResult attachment )
@@ -342,8 +343,8 @@ public class ClosetRequest
 			// that information.
 
 			Matcher matcher = ClosetRequest.CLOSETMEAT_PATTERN.matcher( responseText );
-			int before = KoLCharacter.getClosetMeat();
-			int after = matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+			long before = KoLCharacter.getClosetMeat();
+			long after = matcher.find() ? StringUtilities.parseLong( matcher.group( 1 ) ) : 0;
 
 			KoLCharacter.setClosetMeat( after );
 			success = before != after;
@@ -434,7 +435,7 @@ public class ClosetRequest
 				KoLConstants.inventory, 0 );
 		}
 
-		int meat = TransferItemRequest.transferredMeat( urlString, "quantity" );
+		long meat = TransferItemRequest.transferredMeat( urlString, "quantity" );
 		String message = null;
 
 		if ( urlString.indexOf( "action=addtakeclosetmeat" ) != -1 )

@@ -581,7 +581,7 @@ public class DrinkItemRequest
 
 			// Cast Ode automatically if you have enough mana,
 			// when you are out of Ronin/HC
-			int odeCost = SkillDatabase.getMPConsumptionById( 6014 );
+			long odeCost = SkillDatabase.getMPConsumptionById( 6014 );
 			while ( KoLCharacter.canInteract() &&
 				odeTurns < consumptionTurns &&
 				KoLCharacter.getCurrentMP() >= odeCost &&

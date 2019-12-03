@@ -48,6 +48,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -1700,7 +1701,7 @@ public abstract class ChoiceManager
 				       "skip adventure" } ),
 		// A Vent Horizon
 		new Object[]{ IntegerPool.get(304), IntegerPool.get(1),
-		  new AdventureResult( AdventureResult.MP, -200 ) },
+		  new AdventureLongCountResult( AdventureResult.MP, -200 ) },
 
 		// There is Sauce at the Bottom of the Ocean
 		new ChoiceAdventure(
@@ -4472,7 +4473,7 @@ public abstract class ChoiceManager
 			return;
 		}
 
-		int costCount = cost.getCount();
+		long costCount = cost.getLongCount();
 
 		// No cost for this choice/decision
 		if ( costCount == 0 )
@@ -4491,13 +4492,13 @@ public abstract class ChoiceManager
 
 			if ( costCount > 0 )
 			{
-				int multiplier = inventoryCount / costCount;
+				long multiplier = inventoryCount / costCount;
 				cost = cost.getInstance( multiplier * costCount * -1 );
 			}
 		}
 		else if ( cost.isMeat() )
 		{
-			int purseCount = KoLCharacter.getAvailableMeat();
+			long purseCount = KoLCharacter.getAvailableMeat();
 			// Make sure we have enough in inventory
 			if ( costCount + purseCount < 0 )
 			{
@@ -4506,7 +4507,7 @@ public abstract class ChoiceManager
 		}
 		else if ( cost.isMP() )
 		{
-			int current = KoLCharacter.getCurrentMP();
+			long current = KoLCharacter.getCurrentMP();
 			// Make sure we have enough mana
 			if ( costCount + current < 0 )
 			{
@@ -5780,7 +5781,7 @@ public abstract class ChoiceManager
 				StringBuilder buffer = new StringBuilder();
 				int resistance = KoLCharacter.getElementalResistanceLevels( Element.HOT );
 				int damage = (int)( 2.50 * (100.0 - KoLCharacter.elementalResistanceByLevel( resistance ) ) );
-				int hp = KoLCharacter.getCurrentHP();
+				long hp = KoLCharacter.getCurrentHP();
 				buffer.append( "take " );
 				buffer.append( String.valueOf( damage ) );
 				buffer.append( " hot damage, current HP = " );
@@ -5830,7 +5831,7 @@ public abstract class ChoiceManager
 				StringBuilder buffer = new StringBuilder();
 				int resistance = KoLCharacter.getElementalResistanceLevels( Element.SPOOKY );
 				int damage = (int)( 2.50 * (100.0 - KoLCharacter.elementalResistanceByLevel( resistance ) ) );
-				int hp = KoLCharacter.getCurrentHP();
+				long hp = KoLCharacter.getCurrentHP();
 				buffer.append( "take " );
 				buffer.append( String.valueOf( damage ) );
 				buffer.append( " spooky damage, current HP = " );

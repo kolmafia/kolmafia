@@ -556,7 +556,8 @@ public class CoinMasterRequest
 			String property = data.getProperty();
 
 			int available =
-				tokenItem.isMeat() ? KoLCharacter.getAvailableMeat() :
+				// Meat can be very large. Artificially limit it
+				tokenItem.isMeat() ? (int)Math.min( Integer.MAX_VALUE, KoLCharacter.getAvailableMeat() ) :
 				storage ? tokenItem.getCount( KoLConstants.storage ) :
 				property != null ? Preferences.getInteger( property ) :
 				tokenItem.getCount( KoLConstants.inventory );

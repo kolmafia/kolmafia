@@ -676,7 +676,7 @@ public class Maximizer
 				String cmd, text;
 
 				int advCost = 0;
-				int mpCost = 0;
+				long mpCost = 0;
 				int fullCost = 0;
 				int drunkCost = 0;
 				int spleenCost = 0;
@@ -687,7 +687,7 @@ public class Maximizer
 				int fuelCost = 0;
 				int hpCost = 0;
 				int duration = 0;
-				int usesRemaining = 0;
+				long usesRemaining = 0;
 				int itemsRemaining = 0;
 				int itemsCreatable = 0;
 
@@ -1849,7 +1849,7 @@ public class Maximizer
 							text = "make & " + text;
 							cmd = "make \u00B6" + itemId + ";" + cmd;
 							price = ConcoctionPool.get( item ).price;
-							advCost = ConcoctionPool.get( item ).getAdventuresNeeded( 1 );
+							advCost = (int)ConcoctionPool.get( item ).getAdventuresNeeded( 1 );
 						}
 						else if ( checkedItem.npcBuyable > 0 )
 						{

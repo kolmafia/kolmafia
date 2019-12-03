@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -111,7 +112,7 @@ public class SendMessageCommand
 			return;
 		}
 
-		int meatAmount = 0;
+		long meatAmount = 0;
 		ArrayList<AdventureResult> attachmentList = new ArrayList<AdventureResult>();
 
 		for ( int i = 0; i < attachments.length; ++i )
@@ -140,7 +141,7 @@ public class SendMessageCommand
 		if ( meatAmount > 0 )
 		{
 			meatAmount = BuffBotDatabase.getOffering( recipient, meatAmount );
-			AdventureResult.addResultToList( attachmentList, new AdventureResult( AdventureResult.MEAT, meatAmount ) );
+			AdventureResult.addResultToList( attachmentList, new AdventureLongCountResult( AdventureResult.MEAT, meatAmount ) );
 		}
 
 		AdventureResult[] items = new AdventureResult[ attachmentList.size() ];

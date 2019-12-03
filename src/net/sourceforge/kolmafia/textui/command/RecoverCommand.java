@@ -59,13 +59,13 @@ public class RecoverCommand
 
 			if ( parameters.equalsIgnoreCase( "hp" ) || parameters.equalsIgnoreCase( "health" ) || parameters.equalsIgnoreCase( "both" ) )
 			{
-				int target = (int) ( Preferences.getFloat( "hpAutoRecoveryTarget" ) * KoLCharacter.getMaximumHP() );
+				long target = (long) ( Preferences.getFloat( "hpAutoRecoveryTarget" ) * KoLCharacter.getMaximumHP() );
 				RecoveryManager.recoverHP( Math.max( target, KoLCharacter.getCurrentHP() + 1 ) );
 			}
 
 			if ( parameters.equalsIgnoreCase( "mp" ) || parameters.equalsIgnoreCase( "mana" ) || parameters.equalsIgnoreCase( "both" ) )
 			{
-				int target = (int) ( Preferences.getFloat( "mpAutoRecoveryTarget" ) * KoLCharacter.getMaximumMP() );
+				long target = (long) ( Preferences.getFloat( "mpAutoRecoveryTarget" ) * KoLCharacter.getMaximumMP() );
 				RecoveryManager.recoverMP( Math.max( target, KoLCharacter.getCurrentMP() + 1 ) );
 			}
 		}

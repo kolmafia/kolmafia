@@ -43,6 +43,7 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -66,14 +67,14 @@ public class CosmicRaysBazaarRequest
 	public static final AdventureResult RARE_MEAT_ISOTOPE = ItemPool.get( ItemPool.RARE_MEAT_ISOTOPE, 1 );
 	public static final AdventureResult WHITE_PIXEL = ItemPool.get( ItemPool.WHITE_PIXEL, 1 );
 	public static final AdventureResult FAT_LOOT_TOKEN = ItemPool.get( ItemPool.FAT_LOOT_TOKEN, 1 );
-	public static final AdventureResult MEAT = new AdventureResult( AdventureResult.MEAT, 1 ) {
+	public static final AdventureResult MEAT = new AdventureLongCountResult( AdventureResult.MEAT, 1 ) {
 			@Override
 			public String toString()
 			{
 				return this.getCount() + " Meat";
 			}
 			@Override
-			public String getPluralName( int price )
+			public String getPluralName( long price )
 			{
 				return "Meat";
 			}

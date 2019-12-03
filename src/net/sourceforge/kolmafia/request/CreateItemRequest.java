@@ -1136,7 +1136,9 @@ public class CreateItemRequest
 				if ( left == null ) return -1;
 				Concoction right = ConcoctionPool.get( (AdventureResult) o2 );
 				if ( right == null ) return 1;
-				return left.creatable - right.creatable;
+				return  left.creatable < right.creatable ? -1 :
+					left.creatable < right.creatable ? 1 :
+					0;
 			}
 		} );
 

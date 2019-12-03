@@ -299,7 +299,7 @@ public abstract class MPRestoreItemList
 			return ratioDifference > 0.0f ? 1 : ratioDifference < 0.0f ? -1 : 0;
 		}
 
-		public int getManaRestored()
+		public long getManaRestored()
 		{
 			return Math.min( this.manaPerUse, KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() );
 		}
@@ -473,7 +473,7 @@ public abstract class MPRestoreItemList
 				this.manaPerUse = (int) ( KoLCharacter.getLevel() * 1.5 + 4.0 );
 			}
 
-			int mpShort = needed - KoLCharacter.getCurrentMP();
+			long mpShort = needed - KoLCharacter.getCurrentMP();
 			if ( mpShort <= 0 )
 			{
 				return;
@@ -504,7 +504,7 @@ public abstract class MPRestoreItemList
 
 			if ( purchase && numberAvailable < numberToUse && InventoryManager.canUseNPCStores( this.itemUsed ) )
 			{
-				int numberToBuy = numberToUse;
+				long numberToBuy = numberToUse;
 				int unitPrice = ItemDatabase.getPriceById( this.itemUsed.getItemId() ) * 2;
 
 				if ( MoodManager.isExecuting() )

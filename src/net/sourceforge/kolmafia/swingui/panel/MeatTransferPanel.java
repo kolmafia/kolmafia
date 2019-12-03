@@ -97,7 +97,7 @@ public class MeatTransferPanel
 		return "Unknown Transfer Type";
 	}
 
-	private GenericRequest getRequest( final int amount )
+	private GenericRequest getRequest( final long amount )
 	{
 		switch ( transferType )
 		{
@@ -111,7 +111,7 @@ public class MeatTransferPanel
 		return null;
 	}
 
-	private int currentAvailable()
+	private long currentAvailable()
 	{
 		switch ( this.transferType )
 		{
@@ -133,7 +133,7 @@ public class MeatTransferPanel
 		case MeatTransferPanel.MEAT_TO_CLOSET:
 		case MeatTransferPanel.MEAT_TO_INVENTORY:
 		case MeatTransferPanel.PULL_MEAT_FROM_STORAGE:
-			int amount = this.currentAvailable();
+			long amount = this.currentAvailable();
 			this.closetField.setText( KoLConstants.COMMA_FORMAT.format( amount ) + " meat" );
 			break;
 

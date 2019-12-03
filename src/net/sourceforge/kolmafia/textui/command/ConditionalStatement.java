@@ -146,8 +146,8 @@ public abstract class ConditionalStatement
 		String left = tokens[ 0 ].trim();
 		String right = tokens[ tokens.length - 1 ].trim();
 
-		int leftValue;
-		int rightValue;
+		long leftValue;
+		long rightValue;
 
 		try
 		{
@@ -172,11 +172,11 @@ public abstract class ConditionalStatement
 		       false;
 	}
 
-	static final int lvalue( final String left )
+	static final long lvalue( final String left )
 	{
 		if ( StringUtilities.isNumeric( left ) )
 		{
-			return StringUtilities.parseInt( left );
+			return StringUtilities.parseLong( left );
 		}
 
 		if ( left.equals( "level" ) )

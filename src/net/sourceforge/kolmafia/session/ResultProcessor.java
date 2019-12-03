@@ -42,6 +42,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -974,14 +975,14 @@ public class ResultProcessor
 		// chewing bug vendors, etc. - but you can only lose as much
 		// meat as you actually have in inventory.
 
-		int amount = result.getCount();
-		int available = KoLCharacter.getAvailableMeat();
+		long amount = result.getLongCount();
+		long available = KoLCharacter.getAvailableMeat();
 
 		if ( amount < 0 && -amount > available )
 		{
 			amount = -available;
 			lastToken = "You lose " + String.valueOf( -amount ) + " Meat";
-			result = new AdventureResult( AdventureResult.MEAT, amount );
+			result = new AdventureLongCountResult( AdventureResult.MEAT, amount );
 		}
 
 		if ( amount == 0 )
@@ -1177,7 +1178,7 @@ public class ResultProcessor
 		else if ( resultName.equals( AdventureResult.MEAT ) )
 		{
 			AdventureResult.addResultToList( KoLConstants.tally, result );
-			KoLCharacter.incrementSessionMeat( result.getCount() );
+			KoLCharacter.incrementSessionMeat( result.getLongCount() );
 			shouldRefresh = true;
 		}
 		else if ( resultName.equals( AdventureResult.ADV ) )
@@ -1279,9 +1280,9 @@ public class ResultProcessor
 		}
 	}
 
-	public static boolean processMeat( int amount )
+	public static boolean processMeat( long amount )
 	{
-		return ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, amount ) );
+		return ResultProcessor.processResult( new AdventureLongCountResult( AdventureResult.MEAT, amount ) );
 	}
 
 	public static void processAdventuresLeft( int amount )
@@ -1345,18 +1346,20 @@ public class ResultProcessor
 		else if ( resultName.equals( AdventureResult.HP ) )
 		{
 			KoLCharacter.setHP(
-				KoLCharacter.getCurrentHP() + result.getCount(), KoLCharacter.getMaximumHP(),
+				KoLCharacter.getCurrentHP() + result.getLongCount(),
+				KoLCharacter.getMaximumHP(),
 				KoLCharacter.getBaseMaxHP() );
 		}
 		else if ( resultName.equals( AdventureResult.MP ) )
 		{
 			KoLCharacter.setMP(
-				KoLCharacter.getCurrentMP() + result.getCount(), KoLCharacter.getMaximumMP(),
+				KoLCharacter.getCurrentMP() + result.getLongCount(),
+				KoLCharacter.getMaximumMP(),
 				KoLCharacter.getBaseMaxMP() );
 		}
 		else if ( resultName.equals( AdventureResult.MEAT ) )
 		{
-			KoLCharacter.setAvailableMeat( KoLCharacter.getAvailableMeat() + result.getCount() );
+			KoLCharacter.setAvailableMeat( KoLCharacter.getAvailableMeat() + result.getLongCount() );
 			if ( updateCalculatedLists )
 			{
 				ConcoctionDatabase.setRefreshNeeded( false );

@@ -187,7 +187,7 @@ public abstract class TransferItemRequest
 		boolean allowMemento = !Preferences.getBoolean( "mementoListActive" ) || this.allowMementoTransfer();
 		int capacity = this.getCapacity();
 
-		int meatAttachment = 0;
+		long meatAttachment = 0;
 
 		AdventureResultArray nextAttachments = new AdventureResultArray();
 		int index = 0;
@@ -207,7 +207,7 @@ public abstract class TransferItemRequest
 
 				if ( item.getName().equals( AdventureResult.MEAT ) )
 				{
-					meatAttachment += item.getCount();
+					meatAttachment += item.getLongCount();
 					continue;
 				}
 
@@ -638,7 +638,7 @@ public abstract class TransferItemRequest
 		}
 	}
 
-	public static final int transferredMeat( final String urlString, final String field )
+	public static final long transferredMeat( final String urlString, final String field )
 	{
 		if ( field == null )
 		{
@@ -652,7 +652,7 @@ public abstract class TransferItemRequest
 			return 0;
 		}
 
-		return StringUtilities.parseInt( matcher.group(1) );
+		return StringUtilities.parseLong( matcher.group(1) );
 	}
 
 	public static final boolean registerRequest( final String command, final String urlString,
@@ -689,7 +689,7 @@ public abstract class TransferItemRequest
 		Matcher recipientMatcher = TransferItemRequest.RECIPIENT_PATTERN.matcher( urlString );
 		boolean recipients = recipientMatcher.find();
 		AdventureResultArray itemList = TransferItemRequest.getItemList( urlString, itemPattern, quantityPattern, source, defaultQuantity );
-		int meat = TransferItemRequest.transferredMeat( urlString, meatField );
+		long meat = TransferItemRequest.transferredMeat( urlString, meatField );
 
 		if ( !recipients && itemList.isEmpty() && meat == 0 )
 		{

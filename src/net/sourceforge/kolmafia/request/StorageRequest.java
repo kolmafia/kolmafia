@@ -41,6 +41,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -166,9 +167,9 @@ public class StorageRequest
 		this.moveType = moveType;
 	}
 
-	public StorageRequest( final int moveType, final int amount )
+	public StorageRequest( final int moveType, final long amount )
 	{
-		this( moveType, new AdventureResult( AdventureResult.MEAT, amount ) );
+		this( moveType, new AdventureLongCountResult( AdventureResult.MEAT, amount ) );
 	}
 
 	public StorageRequest( final int moveType, final AdventureResult attachment )
@@ -631,16 +632,16 @@ public class StorageRequest
 
 	private static final void transferMeat( final String urlString )
 	{
-		int meat = TransferItemRequest.transferredMeat( urlString, "amt" );
+		long meat = TransferItemRequest.transferredMeat( urlString, "amt" );
 		KoLCharacter.setStorageMeat( KoLCharacter.getStorageMeat() - meat );
 		ResultProcessor.processMeat( meat );
 
 		// If remaining is -1, pulls are unlimited.
 		int remaining = ConcoctionDatabase.getPullsRemaining();
-		int pulls = (meat + 999 ) / 1000;
+		long pulls = (meat + 999 ) / 1000;
 		if ( pulls > 0 && remaining >= pulls )
 		{
-			ConcoctionDatabase.setPullsRemaining( remaining - pulls );
+			ConcoctionDatabase.setPullsRemaining( (int)( remaining - pulls ) );
 		}
 	}
 
@@ -671,7 +672,7 @@ public class StorageRequest
 
 		if ( urlString.contains( "action=takemeat" ) )
 		{
-			int meat = TransferItemRequest.transferredMeat( urlString, "amt" );
+			long meat = TransferItemRequest.transferredMeat( urlString, "amt" );
 			String message = "pull: " + meat + " Meat";
 
 			if ( meat > 0 )

@@ -286,7 +286,7 @@ public class AutoFilterTextField
 		}
 		if ( element instanceof Concoction )
 		{
-			return ( (Concoction) element ).getAvailable();
+			return (int)Math.min( Integer.MAX_VALUE, ( (Concoction) element ).getAvailable() );
 		}
 		if ( element instanceof SoldItem )
 		{

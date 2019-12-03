@@ -600,7 +600,7 @@ public class Macrofier
 
 	public static void macroSkill( StringBuffer macro, int skillId )
 	{
-		int cost = SkillDatabase.getMPConsumptionById( skillId );
+		long cost = SkillDatabase.getMPConsumptionById( skillId );
 		if ( cost > KoLCharacter.getMaximumMP() )
 		{
 			return; // no point in even trying

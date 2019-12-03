@@ -183,7 +183,7 @@ public class SendMailRequest
 
 	public static boolean parseTransfer( final String urlString )
 	{
-		int meat = TransferItemRequest.transferredMeat( urlString, "sendmeat" );
+		long meat = TransferItemRequest.transferredMeat( urlString, "sendmeat" );
 		if ( meat > 0 )
 		{
 			ResultProcessor.processMeat( 0 - meat );

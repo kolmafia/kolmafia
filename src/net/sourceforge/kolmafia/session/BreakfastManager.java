@@ -389,7 +389,7 @@ public class BreakfastManager
 		CampgroundRequest.useSpinningWheel();
 	}
 
-	public static boolean castSkills( final boolean allowRestore, final int manaRemaining )
+	public static boolean castSkills( final boolean allowRestore, final long manaRemaining )
 	{
 		String skillSetting = Preferences.getString( "breakfastAlways" );
 		for ( int i = 0; i < UseSkillRequest.BREAKFAST_ALWAYS_SKILLS.length; ++i )
@@ -406,7 +406,7 @@ public class BreakfastManager
 				continue;
 			}
 
-			BreakfastManager.castSkill( skill, Integer.MAX_VALUE, false, 0 );
+			BreakfastManager.castSkill( skill, Long.MAX_VALUE, false, 0 );
 		}
 
 		String suffix = ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" );
@@ -455,27 +455,27 @@ public class BreakfastManager
 				}
 			}
 
-			limitExceeded &= BreakfastManager.castSkill( skill, Integer.MAX_VALUE, allowRestore, manaRemaining );
+			limitExceeded &= BreakfastManager.castSkill( skill, Long.MAX_VALUE, allowRestore, manaRemaining );
 		}
 
 		return limitExceeded;
 	}
 
-	public static boolean castSkill( final String name, final int casts, final boolean allowRestore, final int manaRemaining )
+	public static boolean castSkill( final String name, final long casts, final boolean allowRestore, final long manaRemaining )
 	{
 		UseSkillRequest skill = UseSkillRequest.getInstance( name );
 
-		int maximumCast = skill.getMaximumCast();
+		long maximumCast = skill.getMaximumCast();
 		if ( maximumCast <= 0 )
 		{
 			return true;
 		}
 
-		int castCount = Math.min( casts, maximumCast );
+		long castCount = Math.min( casts, maximumCast );
 		if ( castCount > 0 && !allowRestore )
 		{
-			int available = KoLCharacter.getCurrentMP() - manaRemaining;
-			int perCast = SkillDatabase.getMPConsumptionById( SkillDatabase.getSkillId( name ) );
+			long available = KoLCharacter.getCurrentMP() - manaRemaining;
+			long perCast = SkillDatabase.getMPConsumptionById( SkillDatabase.getSkillId( name ) );
 			if ( perCast != 0 )
 			{
 				castCount = Math.min( castCount, available / perCast );
@@ -575,7 +575,7 @@ public class BreakfastManager
 		// Determine total number of times we will try to use skills of
 		// this type.
 
-		int totalCasts = 0;
+		long totalCasts = 0;
 
 		switch ( type )
 		{
@@ -608,8 +608,8 @@ public class BreakfastManager
 		// Determine number of times we will cast each skill. Divide
 		// evenly, with any excess going to first skill.
 
-		int nextCast = totalCasts / skillCount;
-		int cast = nextCast + totalCasts - ( nextCast * skillCount );
+		long nextCast = totalCasts / skillCount;
+		long cast = nextCast + totalCasts - ( nextCast * skillCount );
 
 		boolean done = true;
 

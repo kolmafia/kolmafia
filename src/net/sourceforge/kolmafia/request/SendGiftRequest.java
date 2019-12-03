@@ -245,7 +245,7 @@ public class SendGiftRequest
 		List source = SendGiftRequest.source( urlString );
 
 		int cost = SendGiftRequest.getMaterialCost( urlString );
-		int meat = TransferItemRequest.transferredMeat( urlString, "sendmeat" );
+		long meat = TransferItemRequest.transferredMeat( urlString, "sendmeat" );
 		if ( cost > 0 || meat > 0 )
 		{
 			if ( source == KoLConstants.inventory )
@@ -254,7 +254,7 @@ public class SendGiftRequest
 			}
 			else if ( source == KoLConstants.storage )
 			{
-				int storageMeat = KoLCharacter.getStorageMeat();
+				long storageMeat = KoLCharacter.getStorageMeat();
 				KoLCharacter.setStorageMeat( storageMeat - cost - meat );
 			}
 		}

@@ -40,6 +40,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
@@ -929,7 +930,7 @@ public class EatItemRequest
 		case ItemPool.LUCIFER:
 
 			// Jumbo Dr. Lucifer reduces your hit points to 1.
-			ResultProcessor.processResult( new AdventureResult( AdventureResult.HP, 1 - KoLCharacter.getCurrentHP() ) );
+			ResultProcessor.processResult( new AdventureLongCountResult( AdventureResult.HP, 1 - KoLCharacter.getCurrentHP() ) );
 			return;
 
 		case ItemPool.BLACK_PUDDING:

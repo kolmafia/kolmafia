@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
@@ -684,7 +685,7 @@ public class ItemFinder
 				{
 					isMeatMatch = true;
 
-					int amount = 0;
+					long amount = 0;
 
 					if ( !amountString.equals( "*" ) )
 					{
@@ -699,7 +700,7 @@ public class ItemFinder
 							KoLCharacter.getAvailableMeat();
 					}
 
-					firstMatch = new AdventureResult( AdventureResult.MEAT, amount );
+					firstMatch = new AdventureLongCountResult( AdventureResult.MEAT, amount );
 				}
 			}
 

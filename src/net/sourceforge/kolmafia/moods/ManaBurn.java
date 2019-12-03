@@ -54,7 +54,7 @@ public class ManaBurn
 		this.count = 0;
 	}
 	
-	public boolean isCastable( int allowedMP )
+	public boolean isCastable( long allowedMP )
 	{
 		if ( this.duration >= this.limit )
 		{
@@ -63,7 +63,7 @@ public class ManaBurn
 
 		// The max(1,...) guarantees that this loop will terminate.
 		
-		int cost = Math.max( 1, this.getMPCost() );
+		long cost = Math.max( 1, this.getMPCost() );
 		
 		if ( cost > allowedMP )
 		{
@@ -73,7 +73,7 @@ public class ManaBurn
 		return true;
 	}
 	
-	public int simulateCast()
+	public long simulateCast()
 	{
 		++this.count;
 		this.duration += SkillDatabase.getEffectDuration( this.skillId );
@@ -86,7 +86,7 @@ public class ManaBurn
 		return this.duration - ( (ManaBurn) o ).duration;
 	}
 
-	private int getMPCost()
+	private long getMPCost()
 	{
 		return SkillDatabase.getMPConsumptionById( this.skillId );
 	}

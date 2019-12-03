@@ -2605,7 +2605,7 @@ public class GenericRequest
 
 		if ( this.hasResult )
 		{
-			int initialHP = KoLCharacter.getCurrentHP();
+			long initialHP = KoLCharacter.getCurrentHP();
 			this.parseResults();
 
 			if ( initialHP != 0 && KoLCharacter.getCurrentHP() == 0 )

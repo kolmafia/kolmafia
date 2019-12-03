@@ -314,7 +314,7 @@ public class CoinmastersDatabase
 			return null;
 		}
 
-		request.setLimit( request.affordableCount() );
+		request.setLimit( (int)Math.min( Integer.MAX_VALUE, request.affordableCount() ) );
 		request.setCanPurchase();
 
 		return request;
