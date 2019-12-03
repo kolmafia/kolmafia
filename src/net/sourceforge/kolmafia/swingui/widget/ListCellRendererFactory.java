@@ -606,7 +606,7 @@ public class ListCellRendererFactory
 			if ( item.getItem() != null )
 			{
 				boolean turnFreeOnly = Preferences.getBoolean( "showTurnFreeOnly" );
-				int modified = (int)( turnFreeOnly ? item.getTurnFreeAvailable() : item.getAvailable() );
+				int modified = ( turnFreeOnly ? item.getTurnFreeAvailable() : item.getAvailable() );
 				int initial = item.getItem().getCount( KoLConstants.inventory );
 
 				// hack for clip art summons: if "no-summon" is checked, only show on-hand items

@@ -44,6 +44,7 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -223,11 +224,11 @@ public class CoinmasterData
 		return this.storageAction != null ? this.item.getCount( KoLConstants.storage ) : 0;
 	}
 
-	public final long availableTokens( final AdventureResult currency )
+	public final int availableTokens( final AdventureResult currency )
 	{
 		if ( currency.isMeat() )
 		{
-			return KoLCharacter.getAvailableMeat();
+			return Concoction.getAvailableMeat();
 		}
 
 		int itemId = currency.getItemId();
@@ -254,11 +255,11 @@ public class CoinmasterData
 			0;
 	}
 
-	public final long affordableTokens( final AdventureResult currency )
+	public final int affordableTokens( final AdventureResult currency )
 	{
 		if ( currency.isMeat() )
 		{
-			return KoLCharacter.getAvailableMeat();
+			return Concoction.getAvailableMeat();
 		}
 
 		return  currency.getItemId() == ItemPool.WORTHLESS_ITEM ?

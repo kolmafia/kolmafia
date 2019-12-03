@@ -107,9 +107,9 @@ public class CoinMasterPurchaseRequest
 	@Override
 	public int affordableCount()
 	{
-		long tokens = this.data.affordableTokens( this.cost );
+		int tokens = this.data.affordableTokens( this.cost );
 		int price = this.price;
-		return price == 0 ? 0 : (int)Math.min( Integer.MAX_VALUE, tokens / price );
+		return price == 0 ? 0 : tokens / price;
 	}
 
 	@Override

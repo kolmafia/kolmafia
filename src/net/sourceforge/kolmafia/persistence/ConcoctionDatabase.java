@@ -47,7 +47,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -116,13 +115,13 @@ public class ConcoctionDatabase
 	private static boolean recalculateAdventureRange = false;
 	public static int refreshLevel = 0;
 
-	public static long queuedAdventuresUsed = 0;
-	public static long queuedFreeCraftingTurns = 0;
-	public static long queuedStillsUsed = 0;
-	public static long queuedTomesUsed = 0;
-	public static long queuedExtrudesUsed = 0;
-	public static long queuedPullsUsed = 0;
-	public static long queuedMeatSpent = 0;
+	public static int queuedAdventuresUsed = 0;
+	public static int queuedFreeCraftingTurns = 0;
+	public static int queuedStillsUsed = 0;
+	public static int queuedTomesUsed = 0;
+	public static int queuedExtrudesUsed = 0;
+	public static int queuedPullsUsed = 0;
+	public static int queuedMeatSpent = 0;
 	public static boolean queuedFancyDog = false;
 	public static int queuedSpeakeasyDrink = 0;
 	public static int queuedSmores = 0;
@@ -542,13 +541,13 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.queuedSpleenHit += c.getSpleenHit() * quantity;
 
 		// Get current values of things that a concoction can consume
-		long meat = ConcoctionDatabase.queuedMeatSpent;
-		long pulls = ConcoctionDatabase.queuedPullsUsed;
-		long tome = ConcoctionDatabase.queuedTomesUsed;
-		long stills = ConcoctionDatabase.queuedStillsUsed;
-		long extrudes = ConcoctionDatabase.queuedExtrudesUsed;
-		long free = ConcoctionDatabase.queuedFreeCraftingTurns;
-		long advs = ConcoctionDatabase.queuedAdventuresUsed;
+		int meat = ConcoctionDatabase.queuedMeatSpent;
+		int pulls = ConcoctionDatabase.queuedPullsUsed;
+		int tome = ConcoctionDatabase.queuedTomesUsed;
+		int stills = ConcoctionDatabase.queuedStillsUsed;
+		int extrudes = ConcoctionDatabase.queuedExtrudesUsed;
+		int free = ConcoctionDatabase.queuedFreeCraftingTurns;
+		int advs = ConcoctionDatabase.queuedAdventuresUsed;
 
 		// Queue the ingredients used by this concoction
 		ArrayList<AdventureResult> ingredients = new ArrayList<AdventureResult>();
@@ -559,49 +558,49 @@ public class ConcoctionDatabase
 		if ( meat != 0 )
 		{
 			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureLongCountResult( AdventureResult.MEAT_SPENT, meat ) );
+				queuedIngredients, new AdventureResult( AdventureResult.MEAT_SPENT, meat ) );
 		}
 
 		pulls = ConcoctionDatabase.queuedPullsUsed - pulls;
 		if ( pulls != 0 )
 		{
 			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.PULL, (int)pulls ) );
+				queuedIngredients, new AdventureResult( AdventureResult.PULL, pulls ) );
 		}
 
 		tome = ConcoctionDatabase.queuedTomesUsed - tome;
 		if ( tome != 0 )
 		{
 			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.TOME, (int)tome ) );
+				queuedIngredients, new AdventureResult( AdventureResult.TOME, tome ) );
 		}
 
 		extrudes = ConcoctionDatabase.queuedExtrudesUsed - extrudes;
 		if ( extrudes != 0 )
 		{
 			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.EXTRUDE, (int)extrudes ) );
+				queuedIngredients, new AdventureResult( AdventureResult.EXTRUDE, extrudes ) );
 		}
 
 		stills = ConcoctionDatabase.queuedStillsUsed - stills;
 		if ( stills != 0 )
 		{
 			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.STILL, (int)stills ) );
+				queuedIngredients, new AdventureResult( AdventureResult.STILL, stills ) );
 		}
 
 		advs = ConcoctionDatabase.queuedAdventuresUsed - advs;
 		if ( advs != 0 )
 		{
 			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.ADV, (int)advs ) );
+				queuedIngredients, new AdventureResult( AdventureResult.ADV, advs ) );
 		}
 		
 		free = ConcoctionDatabase.queuedFreeCraftingTurns - free;
 		if ( free != 0 )
 		{
 			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.FREE_CRAFT, (int)free ) );
+				queuedIngredients, new AdventureResult( AdventureResult.FREE_CRAFT, free ) );
 		}
 
 		if ( c.fancydog )
@@ -701,61 +700,61 @@ public class ConcoctionDatabase
 				queuedIngredients, ( (AdventureResult) ingredients.get( i ) ).getNegation() );
 		}
 
-		long meat = qc.getMeat();
+		int meat = qc.getMeat();
 		if ( meat != 0 )
 		{
 			ConcoctionDatabase.queuedMeatSpent -= meat;
 			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.MEAT_SPENT, (int)-meat ) );
+				queuedIngredients, new AdventureResult( AdventureResult.MEAT_SPENT, -meat ) );
 		}
 
-		long pulls = qc.getPulls();
+		int pulls = qc.getPulls();
 		if ( pulls != 0 )
 		{
 			c.queuedPulls -= pulls;
 			ConcoctionDatabase.queuedPullsUsed -= pulls;
 			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.PULL, (int)-pulls ) );
+				queuedIngredients, new AdventureResult( AdventureResult.PULL, -pulls ) );
 		}
 
-		long tome = qc.getTomes();
+		int tome = qc.getTomes();
 		if ( tome != 0 )
 		{
 			ConcoctionDatabase.queuedTomesUsed -= tome;
 			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.TOME, (int)-tome ) );
+				queuedIngredients, new AdventureResult( AdventureResult.TOME, -tome ) );
 		}
 
-		long stills = qc.getStills();
+		int stills = qc.getStills();
 		if ( stills != 0 )
 		{
 			ConcoctionDatabase.queuedStillsUsed -= stills;
 			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.STILL, (int)-stills ) );
+				queuedIngredients, new AdventureResult( AdventureResult.STILL, -stills ) );
 		}
 
-		long extrudes = qc.getExtrudes();
+		int extrudes = qc.getExtrudes();
 		if ( extrudes != 0 )
 		{
 			ConcoctionDatabase.queuedExtrudesUsed -= extrudes;
 			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.EXTRUDE, (int)-extrudes ) );
+				queuedIngredients, new AdventureResult( AdventureResult.EXTRUDE, -extrudes ) );
 		}
 
-		long advs = qc.getAdventures();
+		int advs = qc.getAdventures();
 		if ( advs != 0 )
 		{
 			ConcoctionDatabase.queuedAdventuresUsed -= advs;
 			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.ADV, (int)-advs ) );
+				queuedIngredients, new AdventureResult( AdventureResult.ADV, -advs ) );
 		}
 
-		long free = qc.getFreeCrafts();
+		int free = qc.getFreeCrafts();
 		if ( free != 0 )
 		{
 			ConcoctionDatabase.queuedFreeCraftingTurns -= free;
 			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.FREE_CRAFT, (int)-free ) );
+				queuedIngredients, new AdventureResult( AdventureResult.FREE_CRAFT, -free ) );
 		}
 
 		if ( qc.getConcoction().fancydog )
@@ -1495,8 +1494,8 @@ public class ConcoctionDatabase
 			     ConsumablesDatabase.meetsLevelRequirement( item.getName() ) &&
 			     StandardRequest.isAllowed( "Items", ar.getName() ) )
 			{
-				item.setPullable( Math.min ( (int)( ar.getCount( KoLConstants.storage ) - item.queuedPulls ),
-							     (int)( ConcoctionDatabase.getPullsBudgeted() - ConcoctionDatabase.queuedPullsUsed ) ) );
+				item.setPullable( Math.min ( ar.getCount( KoLConstants.storage ) - item.queuedPulls ,
+							     ConcoctionDatabase.getPullsBudgeted() - ConcoctionDatabase.queuedPullsUsed ) );
 			}
 			else
 			{
@@ -1510,7 +1509,7 @@ public class ConcoctionDatabase
 				continue;
 			}
 
-			int creatable = Math.max( (int)Math.min( Integer.MAX_VALUE, item.creatable), 0 );
+			int creatable = Math.max( item.creatable, 0 );
 			int pullable = Math.max( item.pullable, 0 );
 
 			instance.setQuantityPossible( creatable );
@@ -1703,7 +1702,7 @@ public class ConcoctionDatabase
 		// Meat is also also considered Item #0 in the event that the
 		// concoction will create paste/stacks or buy NPC items.
 
-		ConcoctionDatabase.meatLimit.total = KoLCharacter.getAvailableMeat();
+		ConcoctionDatabase.meatLimit.total = Concoction.getAvailableMeat();
 		ConcoctionDatabase.meatLimit.initial =
 			ConcoctionDatabase.meatLimit.total - ConcoctionDatabase.queuedMeatSpent;
 		ConcoctionDatabase.meatLimit.creatable = 0;
@@ -3571,7 +3570,7 @@ public class ConcoctionDatabase
 	{
 		if ( pullsBudgeted < queuedPullsUsed )
 		{
-			pullsBudgeted = (int)queuedPullsUsed;
+			pullsBudgeted = queuedPullsUsed;
 		}
 
 		if ( pullsBudgeted > pullsRemaining )
@@ -3628,17 +3627,17 @@ public class ConcoctionDatabase
 		private final Concoction concoction;
 		private final int count;
 		private final ArrayList<AdventureResult> ingredients;
-		private final long meat;
-		private final long pulls;
-		private final long tomes;
-		private final long stills;
-		private final long extrudes;
-		private final long adventures;
-		private final long freeCrafts;
+		private final int meat;
+		private final int pulls;
+		private final int tomes;
+		private final int stills;
+		private final int extrudes;
+		private final int adventures;
+		private final int freeCrafts;
 
 		public QueuedConcoction( final Concoction c, final int count, final ArrayList<AdventureResult> ingredients,
-					 final long meat, final long pulls, final long tomes, final long stills, final long extrudes,
-					 final long adventures, final long freeCrafts )
+					 final int meat, final int pulls, final int tomes, final int stills, final int extrudes,
+					 final int adventures, final int freeCrafts )
 		{
 			this.concoction = c;
 			this.count = count;
@@ -3667,37 +3666,37 @@ public class ConcoctionDatabase
 			return this.ingredients;
 		}
 
-		public long getMeat()
+		public int getMeat()
 		{
 			return this.meat;
 		}
 
-		public long getPulls()
+		public int getPulls()
 		{
 			return this.pulls;
 		}
 
-		public long getTomes()
+		public int getTomes()
 		{
 			return this.tomes;
 		}
 
-		public long getStills()
+		public int getStills()
 		{
 			return this.stills;
 		}
 
-		public long getExtrudes()
+		public int getExtrudes()
 		{
 			return this.extrudes;
 		}
 
-		public long getAdventures()
+		public int getAdventures()
 		{
 			return this.adventures;
 		}
 
-		public long getFreeCrafts()
+		public int getFreeCrafts()
 		{
 			return this.freeCrafts;
 		}

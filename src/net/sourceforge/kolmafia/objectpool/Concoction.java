@@ -107,15 +107,15 @@ public class Concoction
 
 	public int price;
 	public String property;
-	public long creatable;
-	public long queued;
+	public int creatable;
+	public int queued;
 	public int queuedPulls;
-	public long initial;
+	public int initial;
 	public int pullable;
 	public int mallable;
-	public long total;
-	public long visibleTotal;
-	public long freeTotal;
+	public int total;
+	public int visibleTotal;
+	public int freeTotal;
 
 	public boolean special;
 	public boolean hotdog;
@@ -587,22 +587,22 @@ public class Concoction
 		return this.name;
 	}
 
-	public long getInitial()
+	public int getInitial()
 	{
 		return this.initial;
 	}
 
-	public long getAvailable()
+	public int getAvailable()
 	{
 		return this.visibleTotal;
 	}
 	
-	public long getTurnFreeAvailable()
+	public int getTurnFreeAvailable()
 	{
 		return this.freeTotal;
 	}
 
-	public long getQueued()
+	public int getQueued()
 	{
 		return this.queued;
 	}
@@ -709,9 +709,9 @@ public class Concoction
 			return;
 		}
 
-		int decrementAmount = (int)Math.min( this.initial, amount );
-		long creatableAmount = Math.max( this.creatable, 0 );
-		int overAmount = (int)Math.min( creatableAmount, amount - decrementAmount );
+		int decrementAmount = Math.min( this.initial, amount );
+		int creatableAmount = Math.max( this.creatable, 0 );
+		int overAmount = Math.min( creatableAmount, amount - decrementAmount );
 		int pullAmount = amount - decrementAmount - overAmount;
 		if ( this.price > 0 || this.property != null || this.special )
 		{
@@ -736,7 +736,7 @@ public class Concoction
 			AdventureResult.addResultToList( localChanges, ingredient );
 		}
 
-		int advs = ConcoctionDatabase.getAdventureUsage( this.mixingMethod ) * (int)overAmount;
+		int advs = ConcoctionDatabase.getAdventureUsage( this.mixingMethod ) * overAmount;
 		if ( advs != 0 )
 		{
 			for ( int i = 0; i < advs; ++i )
@@ -810,6 +810,17 @@ public class Concoction
 		}
 	}
 
+	public static int getAvailableMeat()
+	{
+		// This package assumes that available Meat fits in an int.
+		// Currently, we use a long to store it, since there no such limit.
+		// Additionally, KoL allows at most 2^24-1 items in any location:
+		// inventory, storage, etc.
+		//
+		// Limit Meat we will consider using to an Integer's worth
+		return (int)Math.min( Integer.MAX_VALUE, KoLCharacter.getAvailableMeat() );
+	}
+
 	public final void resetCalculations()
 	{
 		this.initial = -1;
@@ -823,7 +834,7 @@ public class Concoction
 
 		if ( this.speakeasy )
 		{
-			this.initial = Math.min( KoLCharacter.getAvailableMeat() / this.price,
+			this.initial = Math.min( Concoction.getAvailableMeat() / this.price,
 						 3 - Preferences.getInteger( "_speakeasyDrinksDrunk" ) );
 			this.creatable = 0;
 			this.total = this.initial;
@@ -835,7 +846,7 @@ public class Concoction
 		if ( this.concoction == null && this.name != null )
 		{
 			this.initial =
-				this.price > 0 ? KoLCharacter.getAvailableMeat() / this.price :
+				this.price > 0 ? Concoction.getAvailableMeat() / this.price :
 				this.property != null ? Preferences.getInteger( property ) :
 				this.special ? 1 :
 				0;
@@ -935,9 +946,9 @@ public class Concoction
 		}
 
 		int id = this.getItemId();
-		long maxSuccess = this.initial;
-		long minFailure = Long.MAX_VALUE;
-		long guess = maxSuccess + 1;
+		int maxSuccess = this.initial;
+		int minFailure = Integer.MAX_VALUE;
+		int guess = maxSuccess + 1;
 		ArrayList<Concoction> visited = new ArrayList<Concoction>();
 
 		if ( id == Concoction.debugId )
@@ -947,7 +958,7 @@ public class Concoction
 
 		while ( true )
 		{
-			long res = this.canMake( guess, visited );
+			int res = this.canMake( guess, visited );
 
 			if ( Concoction.debug )
 			{
@@ -992,10 +1003,12 @@ public class Concoction
 
 		this.total = maxSuccess;
 		this.creatable = this.total - this.initial;
-		if ( this.price > 0 && id != ItemPool.MEAT_PASTE &&
-		     id != ItemPool.MEAT_STACK && id != ItemPool.DENSE_STACK )
+		if ( this.price > 0 &&
+		     id != ItemPool.MEAT_PASTE &&
+		     id != ItemPool.MEAT_STACK &&
+		     id != ItemPool.DENSE_STACK )
 		{
-			this.creatable -= KoLCharacter.getAvailableMeat() / this.price;
+			this.creatable -= Concoction.getAvailableMeat() / this.price;
 		}
 		this.visibleTotal = this.total;
 	}
@@ -1010,14 +1023,14 @@ public class Concoction
 		}
 
 		int id = this.getItemId();
-		long maxSuccess = this.initial;
-		long minFailure = Long.MAX_VALUE;
-		long guess = maxSuccess + 1;
+		int maxSuccess = this.initial;
+		int minFailure = Integer.MAX_VALUE;
+		int guess = maxSuccess + 1;
 		ArrayList<Concoction> visited = new ArrayList<Concoction>();
 
 		while ( true )
 		{
-			long res = this.canMake( guess, visited, true );
+			int res = this.canMake( guess, visited, true );
 
 			if ( res >= guess )
 			{	
@@ -1055,12 +1068,12 @@ public class Concoction
 	// accurate.  This method will be called with distinct requested
 	// values until some N is found to be possible, while N+1 is impossible.
 
-	private long canMake( long requested, ArrayList<Concoction> visited )
+	private int canMake( int requested, ArrayList<Concoction> visited )
 	{
 		return canMake( requested, visited, false );
 	}
 
-	private long canMake( long requested, ArrayList<Concoction> visited, boolean turnFreeOnly )
+	private int canMake( int requested, ArrayList<Concoction> visited, boolean turnFreeOnly )
 	{
 		if ( !this.visited )
 		{
@@ -1068,7 +1081,7 @@ public class Concoction
 			this.visited = true;
 		}
 
-		long alreadyHave = this.initial - this.allocated;
+		int alreadyHave = this.initial - this.allocated;
 		if ( alreadyHave < 0 || requested <= 0 )
 		{	// Already overspent this ingredient - either due to it being
 			// present multiple times in the recipe, or being part of a
@@ -1076,11 +1089,11 @@ public class Concoction
 			return 0;
 		}
 		this.allocated += requested;
-		long needToMake = requested - alreadyHave;
+		int needToMake = requested - alreadyHave;
 		if ( needToMake > 0 && this.price > 0 )
 		{
 			Concoction c = ConcoctionDatabase.meatLimit;
-			long buyable = c.canMake( needToMake * this.price, visited, turnFreeOnly ) / this.price;
+			int buyable = c.canMake( needToMake * this.price, visited, turnFreeOnly ) / this.price;
 			if ( Concoction.debug )
 			{
 				RequestLogger.printLine( "- " + this.name + " limited to " +
@@ -1200,8 +1213,8 @@ public class Concoction
 
 		int yield = this.getYield();
 		needToMake = (needToMake + yield - 1) / yield;
-		long minMake = Long.MAX_VALUE;
-		long lastMinMake = minMake;
+		int minMake = Integer.MAX_VALUE;
+		int lastMinMake = minMake;
 
 		int len = this.ingredientArray.length;
 		for ( int i = 0; minMake > 0 && i < len; ++i )
@@ -1354,11 +1367,11 @@ public class Concoction
 		return alreadyHave + minMake * yield;
 	}
 
-	public int getMeatPasteNeeded( final long quantityNeeded )
+	public int getMeatPasteNeeded( final int quantityNeeded )
 	{
 		// Avoid mutual recursion.
 
-		long create = quantityNeeded - this.initial;
+		int create = quantityNeeded - this.initial;
 		if ( create <= 0 ||
 		     ( this.mixingMethod != CraftingType.COMBINE && this.mixingMethod != CraftingType.ACOMBINE && this.mixingMethod != CraftingType.JEWELRY ) ||
 		     ( KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() ) )
@@ -1369,7 +1382,7 @@ public class Concoction
 		// Count all the meat paste from the different
 		// levels in the creation tree.
 
-		long runningTotal = create;
+		int runningTotal = create;
 		for ( int i = 0; i < this.ingredientArray.length; ++i )
 		{
 			Concoction ingredient = ConcoctionPool.get( this.ingredientArray[ i ] );
@@ -1377,10 +1390,7 @@ public class Concoction
 			runningTotal += ingredient.getMeatPasteNeeded( create );
 		}
 
-		// *** doesn't handle making more meat paste that fits in an
-		// *** int, since adventure results cannot handle item counts
-		// *** that big.
-		return (int)runningTotal;
+		return runningTotal;
 	}
 
 	public int getAdventuresNeeded( final int quantityNeeded )
@@ -1397,12 +1407,11 @@ public class Concoction
 			return 0;
 		}
 
-		if ( this.initial > quantityNeeded )
+		int create = quantityNeeded - this.initial;
+		if ( create <= 0 )
 		{
 			return 0;
 		}
-
-		int create = (int)( quantityNeeded - this.initial );
 
 		// Heuristic/kludge: don't count making base booze by
 		// fermenting juniper berries, for example.

@@ -74,7 +74,7 @@ public class CosmicRaysBazaarRequest
 				return this.getCount() + " Meat";
 			}
 			@Override
-			public String getPluralName( long price )
+			public String getPluralName( int price )
 			{
 				return "Meat";
 			}

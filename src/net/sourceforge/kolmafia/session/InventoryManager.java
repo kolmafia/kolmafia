@@ -508,7 +508,7 @@ public abstract class InventoryManager
 		if ( item.isMeat() )
 		{
 			long available = KoLCharacter.getAvailableMeat();
-			long needed = item.getCount();
+			long needed = item.getLongCount();
 			if ( needed > available )
 			{
 				if ( sim )

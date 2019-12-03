@@ -3689,7 +3689,6 @@ public abstract class KoLCharacter
 			// All familiars can now be used
 			RequestThread.postRequest( new FamiliarRequest() );
 			GearChangeFrame.updateFamiliars();
-
 		}
 
 		if ( restricted )
