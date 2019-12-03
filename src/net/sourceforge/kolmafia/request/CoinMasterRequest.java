@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
@@ -556,8 +557,7 @@ public class CoinMasterRequest
 			String property = data.getProperty();
 
 			int available =
-				// Meat can be very large. Artificially limit it
-				tokenItem.isMeat() ? (int)Math.min( Integer.MAX_VALUE, KoLCharacter.getAvailableMeat() ) :
+				tokenItem.isMeat() ? Concoction.getAvailableMeat() :
 				storage ? tokenItem.getCount( KoLConstants.storage ) :
 				property != null ? Preferences.getInteger( property ) :
 				tokenItem.getCount( KoLConstants.inventory );

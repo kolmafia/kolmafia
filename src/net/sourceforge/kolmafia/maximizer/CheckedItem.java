@@ -304,7 +304,7 @@ public class CheckedItem
 
 	public int inventory;
 	public int initial;
-	public long creatable;
+	public int creatable;
 	public int npcBuyable;
 	public int mallBuyable;
 	public int foldable;

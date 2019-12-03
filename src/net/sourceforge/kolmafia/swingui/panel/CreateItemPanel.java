@@ -133,7 +133,7 @@ public class CreateItemPanel
 
 			// Check if user happy to spend turns crafting before creating items
 			// askAboutCrafting uses initial + creatable, not creatable.
-			int initial = (int)Math.min( Integer.MAX_VALUE, selection.concoction.getInitial() );
+			int initial = selection.concoction.getInitial();
 			selection.setQuantityNeeded( initial + create );                       
 			if ( InventoryManager.askAboutCrafting( selection ) )
 			{

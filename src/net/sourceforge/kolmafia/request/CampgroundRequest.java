@@ -254,7 +254,7 @@ public class CampgroundRequest
 		}
 
 		@Override
-		public String getPluralName( long count )
+		public String getPluralName( int count )
 		{
 			return  count == 1 ?
 				"patch of tall grass" :

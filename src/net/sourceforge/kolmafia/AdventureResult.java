@@ -66,7 +66,7 @@ public class AdventureResult
 	protected int priority;
 	protected int id;
 	protected String name;
-	private int count;
+	protected int count;
 
 	private static final int NO_PRIORITY = 0;
 	private static final int ADV_PRIORITY = 1;
@@ -552,7 +552,7 @@ public class AdventureResult
 		return this.getPluralName( this.getPluralCount() );
 	}
 
-	public String getPluralName( final long count )
+	public String getPluralName( final int count )
 	{
 		return count == 1 ?
 			this.getName() :
@@ -1609,13 +1609,20 @@ public class AdventureResult
 
 		public AdventureLongCountResult( final String name, final long count )
 		{
-			super( name, 0 );
+			super( name, AdventureLongCountResult.intCount( count ) );
 			this.longCount = count;
 		}
 
 		public AdventureLongCountResult( final String name )
 		{
 			this( name, 0 );
+		}
+
+		private static int intCount( long count )
+		{
+			return  count > Integer.MAX_VALUE ? Integer.MAX_VALUE :
+				count < Integer.MIN_VALUE ? Integer.MIN_VALUE :
+				(int) count;
 		}
 
 		@Override
@@ -1648,6 +1655,7 @@ public class AdventureResult
 			try
 			{
 				AdventureLongCountResult item =  (AdventureLongCountResult) this.clone();
+				item.count = AdventureLongCountResult.intCount( quantity );
 				item.longCount = quantity;
 				return item;
 			}

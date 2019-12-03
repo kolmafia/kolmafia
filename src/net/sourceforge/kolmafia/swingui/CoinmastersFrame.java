@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -1657,7 +1658,7 @@ public class CoinmastersFrame
 			this.standardTitle( buffer );
 			for ( AdventureResult currency : this.data.currencies() )
 			{
-				long count = currency.isMeat() ? KoLCharacter.getAvailableMeat() : InventoryManager.getCount( currency );
+				int count = currency.isMeat() ? Concoction.getAvailableMeat() : InventoryManager.getCount( currency );
 				buffer.append( " (" );
 				buffer.append( String.valueOf( count ) );
 				buffer.append( " " );
@@ -1909,11 +1910,11 @@ public class CoinmastersFrame
 				Integer value = originalBalances.get( currency );
 				if ( value == null )
 				{
-					long newValue = 
+					int newValue = 
 						fromStorage ?
 						data.availableStorageTokens( cost ) :
 						data.availableTokens( cost );
-					value = IntegerPool.get( (int)Math.min( Integer.MAX_VALUE, newValue ) );
+					value = IntegerPool.get( newValue );
 					originalBalances.put( currency, value );
 					balances.put( currency, value );
 				}
@@ -2315,8 +2316,8 @@ public class CoinmastersFrame
 
 			if ( show && this.buying)
 			{
-				int balance1 = (int)Math.min( Integer.MAX_VALUE, this.data.availableTokens( cost ) );
-				int balance2 = (int)Math.min( Integer.MAX_VALUE, this.data.availableStorageTokens( cost ) );
+				int balance1 = this.data.availableTokens( cost );
+				int balance2 = this.data.availableStorageTokens( cost );
 				if ( price > balance1 && price > balance2 )
 				{
 					show = false;
