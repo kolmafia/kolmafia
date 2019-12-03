@@ -74,11 +74,11 @@ public class SpleenItemRequest
 		{
 			return 0;
 		}
-		// Some spleen items also heal HP or MP
-		int restorationMaximum = UseItemRequest.getRestorationMaximum( itemName );
 
-		UseItemRequest.limiter = ( restorationMaximum < Integer.MAX_VALUE ) ?
-			"needed restoration or spleen" : "spleen";
+		// Some spleen items also heal HP or MP
+		long restorationMaximum = UseItemRequest.getRestorationMaximum( itemName );
+
+		UseItemRequest.limiter = ( restorationMaximum < Long.MAX_VALUE ) ? "needed restoration or spleen" : "spleen";
 
 		int limit = KoLCharacter.getSpleenLimit();
 		int spleenLeft = limit - KoLCharacter.getSpleenUse();
@@ -91,7 +91,7 @@ public class SpleenItemRequest
 			return Math.min( usableMaximum, ( 3 - Preferences.getInteger( "_turkeyBlastersUsed" ) ) );
 		}
 
-		return Math.min( restorationMaximum, usableMaximum );
+		return (int) Math.min( restorationMaximum, usableMaximum );
 	}
 
 	@Override

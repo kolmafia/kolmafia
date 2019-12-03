@@ -517,7 +517,7 @@ public class UseItemRequest
 			return SpleenItemRequest.maximumUses( itemId, itemName, spleenHit );
 		}
 
-		int restorationMaximum = UseItemRequest.getRestorationMaximum( itemName );
+		long restorationMaximum = UseItemRequest.getRestorationMaximum( itemName );
 
 		if ( itemId <= 0 )
 		{
@@ -1229,10 +1229,10 @@ public class UseItemRequest
 
 		}
 
-		if ( restorationMaximum < Integer.MAX_VALUE )
+		if ( restorationMaximum < Long.MAX_VALUE )
 		{
 			UseItemRequest.limiter = "needed restoration";
-			return restorationMaximum;
+			return (int) Math.min( Integer.MAX_VALUE, restorationMaximum );
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
@@ -1279,30 +1279,30 @@ public class UseItemRequest
 		return Integer.MAX_VALUE;
 	}
 
-	protected static int getRestorationMaximum( final String itemName )
+	protected static long getRestorationMaximum( final String itemName )
 	{
-		float hpRestored = (float) RestoresDatabase.getHPAverage( itemName );
+		double hpRestored = RestoresDatabase.getHPAverage( itemName );
 		boolean restoresHP = hpRestored != 0;
-		float mpRestored = (float) RestoresDatabase.getMPAverage( itemName );
+		double mpRestored = RestoresDatabase.getMPAverage( itemName );
 		boolean restoresMP = mpRestored != 0;
 
 		if ( !restoresHP && !restoresMP )
 		{
-			return Integer.MAX_VALUE;
+			return Long.MAX_VALUE;
 		}
 
-		int maximumSuggested = 0;
+		long maximumSuggested = 0;
 
-		if ( hpRestored != 0.0f )
+		if ( hpRestored != 0.0 )
 		{
-			float belowMax = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
-			maximumSuggested = Math.max( maximumSuggested, (int) Math.ceil( belowMax / hpRestored ) );
+			double belowMax = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
+			maximumSuggested = Math.max( maximumSuggested, (long) Math.ceil( belowMax / hpRestored ) );
 		}
 
-		if ( mpRestored != 0.0f )
+		if ( mpRestored != 0.0 )
 		{
-			float belowMax = KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP();
-			maximumSuggested = Math.max( maximumSuggested, (int) Math.ceil( belowMax / mpRestored ) );
+			double belowMax = KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP();
+			maximumSuggested = Math.max( maximumSuggested, (long) Math.ceil( belowMax / mpRestored ) );
 		}
 
 		return maximumSuggested;
