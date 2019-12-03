@@ -39,6 +39,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.BuffBotHome;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -158,7 +159,7 @@ public class UseSkillRequest
 	private final boolean isBuff;
 	private final String skillName;
 	private String target;
-	private int buffCount;
+	private long buffCount;
 	private String countFieldId;
 	private boolean isRunning;
 
@@ -413,9 +414,9 @@ public class UseSkillRequest
 		}
 	}
 
-	public void setBuffCount( int buffCount )
+	public void setBuffCount( long buffCount )
 	{
-		int maxPossible = 0;
+		long maxPossible = 0;
 
 		if ( SkillDatabase.isSoulsauceSkill( skillId ) )
 		{
@@ -439,8 +440,8 @@ public class UseSkillRequest
 		}
 		else
 		{
-			int mpCost = SkillDatabase.getMPConsumptionById( this.skillId );
-			int availableMP = KoLCharacter.getCurrentMP();
+			long mpCost = SkillDatabase.getMPConsumptionById( this.skillId );
+			long availableMP = KoLCharacter.getCurrentMP();
 			if ( mpCost == 0 )
 			{
 				maxPossible = this.getMaximumCast();
@@ -474,10 +475,10 @@ public class UseSkillRequest
 			return -1;
 		}
 
-		int mpDifference =
+		long  mpDifference =
 			SkillDatabase.getMPConsumptionById( this.skillId ) - SkillDatabase.getMPConsumptionById( ( (UseSkillRequest) o ).skillId );
 
-		return mpDifference != 0 ? mpDifference : this.skillName.compareToIgnoreCase( ( (UseSkillRequest) o ).skillName );
+		return mpDifference < 0 ? -1 : mpDifference > 0 ? 1 : this.skillName.compareToIgnoreCase( ( (UseSkillRequest) o ).skillName );
 	}
 
 	public int getSkillId()
@@ -492,9 +493,9 @@ public class UseSkillRequest
 
 	private static final AdventureResult TAINTED_LOVE_POTION = EffectPool.get( EffectPool.TAINTED_LOVE_POTION );
 
-	public int getMaximumCast()
+	public long getMaximumCast()
 	{
-		int maximumCast = Integer.MAX_VALUE;
+		long maximumCast = Long.MAX_VALUE;
 
 		boolean canCastHoboSong =
 			KoLCharacter.getClassType() == KoLCharacter.ACCORDION_THIEF && KoLCharacter.getLevel() > 14;
@@ -860,8 +861,8 @@ public class UseSkillRequest
 			break;
 
 		case SkillPool.INTERNAL_SODA_MACHINE:
-			int meatLimit = KoLCharacter.getAvailableMeat() / 20;
-			int mpLimit = (int) Math.ceil( ( KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() ) / 10.0 );
+			long meatLimit = KoLCharacter.getAvailableMeat() / 20;
+			long mpLimit = (int) Math.ceil( ( KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() ) / 10.0 );
 			maximumCast = Math.min( meatLimit, mpLimit );
 			break;
 
@@ -904,7 +905,7 @@ public class UseSkillRequest
 		}
 
 		this.lastReduction = KoLCharacter.getManaCostAdjustment();
-		int mpCost = SkillDatabase.getMPConsumptionById( this.skillId );
+		long mpCost = SkillDatabase.getMPConsumptionById( this.skillId );
 		int advCost = SkillDatabase.getAdventureCost( this.skillId );
 		int soulCost = SkillDatabase.getSoulsauceCost( this.skillId );
 		int thunderCost = SkillDatabase.getThunderCost( this.skillId );
@@ -1145,7 +1146,7 @@ public class UseSkillRequest
 
 	private static final void reduceManaConsumption( final int skillId )
 	{
-		int mpCost = SkillDatabase.getMPConsumptionById( skillId );
+		long mpCost = SkillDatabase.getMPConsumptionById( skillId );
 		// Never bother trying to reduce mana consumption when casting
 		// expensive skills or a libram skill
 
@@ -1324,14 +1325,14 @@ public class UseSkillRequest
 			return;
 		}
 
-		int available = this.getMaximumCast();
+		long available = this.getMaximumCast();
 		if ( available == 0 )
 		{
 			// We could print something
 			return;
 		}
 
-		int desired = this.buffCount;
+		long desired = this.buffCount;
 		if ( available < desired )
 		{
 			// We SHOULD print something here
@@ -1342,7 +1343,7 @@ public class UseSkillRequest
 
 		if ( this.skillId == SkillPool.SUMMON_MINION || this.skillId == SkillPool.SUMMON_HORDE )
 		{
-			ChoiceManager.setSkillUses( this.buffCount );
+			ChoiceManager.setSkillUses( (int)this.buffCount );
 		}
 
 		this.isRunning = true;
@@ -1361,7 +1362,7 @@ public class UseSkillRequest
 			return;
 		}
 
-		int castsRemaining = this.buffCount;
+		long castsRemaining = this.buffCount;
 		if ( castsRemaining == 0 )
 		{
 			return;
@@ -1387,15 +1388,15 @@ public class UseSkillRequest
 		if ( this.skillId == SkillPool.RAINBOW_GRAVITATION )
 		{
 			// Acquire necessary wads
-			InventoryManager.retrieveItem( ItemPool.COLD_WAD, castsRemaining );
-			InventoryManager.retrieveItem( ItemPool.HOT_WAD, castsRemaining );
-			InventoryManager.retrieveItem( ItemPool.SLEAZE_WAD, castsRemaining );
-			InventoryManager.retrieveItem( ItemPool.SPOOKY_WAD, castsRemaining );
-			InventoryManager.retrieveItem( ItemPool.STENCH_WAD, castsRemaining );
-			InventoryManager.retrieveItem( ItemPool.TWINKLY_WAD, castsRemaining );
+			InventoryManager.retrieveItem( ItemPool.COLD_WAD, (int)castsRemaining );
+			InventoryManager.retrieveItem( ItemPool.HOT_WAD, (int)castsRemaining );
+			InventoryManager.retrieveItem( ItemPool.SLEAZE_WAD, (int)castsRemaining );
+			InventoryManager.retrieveItem( ItemPool.SPOOKY_WAD, (int)castsRemaining );
+			InventoryManager.retrieveItem( ItemPool.STENCH_WAD, (int)castsRemaining );
+			InventoryManager.retrieveItem( ItemPool.TWINKLY_WAD, (int)castsRemaining );
 		}
 
-		int mpPerCast = SkillDatabase.getMPConsumptionById( this.skillId );
+		long mpPerCast = SkillDatabase.getMPConsumptionById( this.skillId );
 
 		// If the skill doesn't use MP then MP restoring and checking can be skipped
 		if ( mpPerCast == 0 )
@@ -1446,13 +1447,13 @@ public class UseSkillRequest
 			if ( mana != null )
 			{
 				int manaPerCast = mana.getCount();
-				int manaNeeded = manaPerCast * castsRemaining;
+				long manaNeeded = manaPerCast * castsRemaining;
 
 				// getMaximumCast accounted for the "accessible
 				// count" of the appropriate mana before we got
 				// here. This should not fail.
 
-				InventoryManager.retrieveItem( mana.getInstance( manaNeeded ) );
+				InventoryManager.retrieveItem( mana.getInstance( (int)manaNeeded ) );
 
 				single = true;
 			}
@@ -1485,8 +1486,8 @@ public class UseSkillRequest
 
 		// Before executing the skill, recover all necessary mana
 
-		int maximumMP = KoLCharacter.getMaximumMP();
-		int maximumCast = maximumMP / mpPerCast;
+		long maximumMP = KoLCharacter.getMaximumMP();
+		long maximumCast = maximumMP / mpPerCast;
 
 		// Save name so we can guarantee correct target later
 		// *** Why, exactly, is this necessary?
@@ -1511,7 +1512,7 @@ public class UseSkillRequest
 
 			// Find out how many times we can cast with current MP
 
-			int currentCast = this.availableCasts( castsRemaining, mpPerCast );
+			long currentCast = this.availableCasts( castsRemaining, mpPerCast );
 
 			// If none, attempt to recover MP in order to cast;
 			// take auto-recovery into account.
@@ -1526,9 +1527,9 @@ public class UseSkillRequest
 			if ( currentCast == 0 || needExtra )
 			{
 				currentCast = Math.min( castsRemaining, maximumCast );
-				int currentMP = KoLCharacter.getCurrentMP();
+				long currentMP = KoLCharacter.getCurrentMP();
 
-				int recoverMP = mpPerCast * currentCast;
+				long recoverMP = mpPerCast * currentCast;
 
 				if ( MoodManager.isExecuting() )
 				{
@@ -1572,7 +1573,7 @@ public class UseSkillRequest
 			case SkillPool.GELATINOUS_RECONSTRUCTION:
 
 				int healthRestored = HPRestoreItemList.getHealthRestored( this.skillName );
-				int maxPossible = Math.max( 1, ( KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() ) / healthRestored );
+				long maxPossible = Math.max( 1, ( KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() ) / healthRestored );
 				castsRemaining = Math.min( castsRemaining, maxPossible );
 				currentCast = Math.min( currentCast, castsRemaining );
 				break;
@@ -1634,10 +1635,10 @@ public class UseSkillRequest
 		}
 	}
 
-	public final int availableCasts( int maxCasts, int mpPerCast )
+	public final long availableCasts( long maxCasts, long mpPerCast )
 	{
-		int availableMP = KoLCharacter.getCurrentMP();
-		int currentCast = 0;
+		long availableMP = KoLCharacter.getCurrentMP();
+		long currentCast = 0;
 
 		if ( SkillDatabase.isLibramSkill( this.skillId ) )
 		{
@@ -1938,7 +1939,7 @@ public class UseSkillRequest
 
 		if ( responseText == null || responseText.trim().length() == 0 )
 		{
-			int initialMP = KoLCharacter.getCurrentMP();
+			long initialMP = KoLCharacter.getCurrentMP();
 			ApiRequest.updateStatus();
 
 			if ( initialMP == KoLCharacter.getCurrentMP() )
@@ -2202,7 +2203,7 @@ public class UseSkillRequest
 				"Your opera mask shattered." );
 		}
 
-		int mpCost = SkillDatabase.getMPConsumptionById( skillId ) * count;
+		long mpCost = SkillDatabase.getMPConsumptionById( skillId ) * count;
 
 		if ( responseText.contains( "You can only conjure" ) ||
 		     responseText.contains( "You can only scrounge up" ) ||
@@ -2589,12 +2590,12 @@ public class UseSkillRequest
 
 		else if ( SkillDatabase.isVampyreSkill( skillId ) )
 		{
-			ResultProcessor.processResult( new AdventureResult( AdventureResult.HP, 0 - SkillDatabase.getHPCost( skillId ) * count ) );
+			ResultProcessor.processResult( new AdventureLongCountResult( AdventureResult.HP, 0 - SkillDatabase.getHPCost( skillId ) * count ) );
 		}
 
 		if ( mpCost > 0 )
 		{
-			ResultProcessor.processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
+			ResultProcessor.processResult( new AdventureLongCountResult( AdventureResult.MP, 0 - mpCost ) );
 		}
 
 		return false;
@@ -2714,7 +2715,7 @@ public class UseSkillRequest
 		return -1;
 	}
 	
-	private static final int getCount( final String urlString, int skillId )
+	private static final long getCount( final String urlString, int skillId )
 	{
 		Matcher countMatcher = UseSkillRequest.COUNT_PATTERN.matcher( urlString );
 
@@ -2723,8 +2724,8 @@ public class UseSkillRequest
 			return 1;
 		}
 
-		int availableMP = KoLCharacter.getCurrentMP();
-		int maxcasts;
+		long availableMP = KoLCharacter.getCurrentMP();
+		long maxcasts;
 		if ( SkillDatabase.isLibramSkill( skillId ) )
 		{
 			maxcasts = SkillDatabase.libramSkillCasts( availableMP );
@@ -2751,7 +2752,7 @@ public class UseSkillRequest
 		}
 		else
 		{
-			int MP = SkillDatabase.getMPConsumptionById( skillId );
+			long MP = SkillDatabase.getMPConsumptionById( skillId );
 			maxcasts = SkillDatabase.getMaxCasts( skillId );
 			maxcasts = maxcasts == -1 ? Integer.MAX_VALUE : maxcasts;
 			if ( MP != 0 )
@@ -2765,7 +2766,7 @@ public class UseSkillRequest
 			return maxcasts;
 		}
 
-		return Math.min( maxcasts, StringUtilities.parseInt( countMatcher.group( 1 ) ) );
+		return Math.min( maxcasts, StringUtilities.parseLong( countMatcher.group( 1 ) ) );
 	}
 
 	public static final boolean registerRequest( final String urlString )
@@ -2787,7 +2788,10 @@ public class UseSkillRequest
 			return false;
 		}
 
-		int count = UseSkillRequest.getCount( urlString, skillId );
+		// Exceedingly unlikely that count will exceed the capacity of
+		// an integer. SkillDatabase can't handle that, at the moment.
+		// So, simply cast to an int and possible overflow
+		int count = (int)UseSkillRequest.getCount( urlString, skillId );
 		String skillName = SkillDatabase.getSkillName( skillId );
 
 		UseSkillRequest.lastSkillUsed = skillId;

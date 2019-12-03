@@ -668,8 +668,8 @@ public class CharPaneRequest
 		Matcher matcher = pattern == null ? null : pattern.matcher( responseText );
 		if ( matcher != null && matcher.find() )
 		{
-			int currentHP = StringUtilities.parseInt( matcher.group( 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
-			int maximumHP = StringUtilities.parseInt( matcher.group( 2 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
+			long currentHP = StringUtilities.parseLong( matcher.group( 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
+			long maximumHP = StringUtilities.parseLong( matcher.group( 2 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
 			KoLCharacter.setHP( currentHP, maximumHP, maximumHP );
 		}
 
@@ -677,8 +677,8 @@ public class CharPaneRequest
 		matcher = pattern == null ? null : pattern.matcher( responseText );
 		if ( matcher != null && matcher.find() )
 		{
-			int currentMP = 0;
-			int maximumMP = 0;
+			long currentMP = 0;
+			long maximumMP = 0;
 			if ( KoLCharacter.inZombiecore() )
 			{
 				String currentHorde = matcher.group( 1 );
@@ -686,8 +686,8 @@ public class CharPaneRequest
 			}
 			else
 			{
-				currentMP = StringUtilities.parseInt( matcher.group( 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
-				maximumMP = StringUtilities.parseInt( matcher.group( 2 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
+				currentMP = StringUtilities.parseLong( matcher.group( 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
+				maximumMP = StringUtilities.parseLong( matcher.group( 2 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
 			}
 			KoLCharacter.setMP( currentMP, maximumMP, maximumMP );
 		}
@@ -696,7 +696,7 @@ public class CharPaneRequest
 		matcher = pattern == null ? null : pattern.matcher( responseText );
 		if ( matcher != null && matcher.find() )
 		{
-			int availableMeat = StringUtilities.parseInt( matcher.group( 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
+			long availableMeat = StringUtilities.parseLong( matcher.group( 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
 			KoLCharacter.setAvailableMeat( availableMeat );
 		}
 
@@ -1705,8 +1705,8 @@ public class CharPaneRequest
 			KoLCharacter.setAudience( audience );
 		}
 
-		int hp = JSON.getInt( "hp" );
-		int maxhp = JSON.getInt( "maxhp" );
+		long hp = JSON.getLong( "hp" );
+		long maxhp = JSON.getLong( "maxhp" );
 		KoLCharacter.setHP( hp, maxhp, maxhp );
 
 		if ( KoLCharacter.inZombiecore() )
@@ -1716,12 +1716,12 @@ public class CharPaneRequest
 		}
 		else
 		{
-			int mp = JSON.getInt( "mp" );
-			int maxmp = JSON.getInt( "maxmp" );
+			long mp = JSON.getLong( "mp" );
+			long maxmp = JSON.getLong( "maxmp" );
 			KoLCharacter.setMP( mp, maxmp, maxmp );
 		}
 
-		int meat = JSON.getInt( "meat" );
+		long meat = JSON.getLong( "meat" );
 		KoLCharacter.setAvailableMeat( meat );
 
 		int drunk = JSON.getInt( "drunk" );

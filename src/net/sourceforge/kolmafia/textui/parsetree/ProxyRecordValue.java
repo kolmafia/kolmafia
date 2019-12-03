@@ -1095,7 +1095,7 @@ public class ProxyRecordValue
 			return SkillDatabase.isPermable( (int) this.contentLong );
 		}
 
-		public int get_dailylimit()
+		public long get_dailylimit()
 		{
 			return SkillDatabase.getMaxCasts( (int) this.contentLong );
 		}

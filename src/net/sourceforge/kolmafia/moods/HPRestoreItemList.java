@@ -272,7 +272,7 @@ public abstract class HPRestoreItemList
 			return this.itemUsed;
 		}
 
-		public int getHealthRestored()
+		public long getHealthRestored()
 		{
 			return Math.min( this.healthPerUse, KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() );
 		}
@@ -474,7 +474,7 @@ public abstract class HPRestoreItemList
 			// For all other instances, you will need to calculate
 			// the number of times this technique must be used.
 
-			int hpShort = needed - KoLCharacter.getCurrentHP();
+			long hpShort = needed - KoLCharacter.getCurrentHP();
 			if ( hpShort <= 0 )
 			{
 				return;
@@ -506,7 +506,7 @@ public abstract class HPRestoreItemList
 
 				if ( purchase && numberAvailable < numberToUse )
 				{
-					int numberToBuy = numberAvailable;
+					long numberToBuy = numberAvailable;
 					int unitPrice = ItemDatabase.getPriceById( itemId ) * 2;
 
 					if ( this == HPRestoreItemList.HERBS && NPCStoreDatabase.contains( itemId ) )

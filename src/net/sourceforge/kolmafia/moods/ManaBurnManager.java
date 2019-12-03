@@ -78,7 +78,7 @@ public class ManaBurnManager
 		boolean was = MoodManager.isExecuting;
 		MoodManager.isExecuting = true;
 	
-		int currentMP = -1;
+		long currentMP = -1;
 	
 		while ( currentMP != KoLCharacter.getCurrentMP() && ( nextBurnCast = ManaBurnManager.getNextBurnCast() ) != null )
 		{
@@ -89,7 +89,7 @@ public class ManaBurnManager
 		MoodManager.isExecuting = was;
 	}
 
-	public static final void burnMana( int minimum )
+	public static final void burnMana( long minimum )
 	{
 		if ( KoLCharacter.inZombiecore() )
 		{
@@ -102,7 +102,7 @@ public class ManaBurnManager
 		MoodManager.isExecuting = true;
 	
 		minimum = Math.max( 0, minimum );
-		int currentMP = -1;
+		long currentMP = -1;
 	
 		while ( currentMP != KoLCharacter.getCurrentMP() && ( nextBurnCast = ManaBurnManager.getNextBurnCast( minimum ) ) != null )
 		{
@@ -128,11 +128,11 @@ public class ManaBurnManager
 		return ManaBurnManager.getNextBurnCast( minimum );
 	}
 
-	private static final String getNextBurnCast( final int minimum )
+	private static final String getNextBurnCast( final long minimum )
 	{
 		// Punt immediately if already burned enough or must recover MP
 	
-		int allowedMP = KoLCharacter.getCurrentMP() - minimum;
+		long allowedMP = KoLCharacter.getCurrentMP() - minimum;
 		if ( allowedMP <= 0 )
 		{
 			return null;
@@ -169,7 +169,7 @@ public class ManaBurnManager
 			// be in an infinite loop
 
 			int skillId = SkillDatabase.getSkillId( skillName );
-			int mpCost = SkillDatabase.getMPConsumptionById( skillId );
+			long mpCost = SkillDatabase.getMPConsumptionById( skillId );
 
 			if ( mpCost <= 0 )
 			{
@@ -290,7 +290,7 @@ public class ManaBurnManager
 		return chosen.toString();
 	}
 
-	private static final String considerBreakfastSkill( final int minimum )
+	private static final String considerBreakfastSkill( final long minimum )
 	{
 		for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
 		{
@@ -309,16 +309,16 @@ public class ManaBurnManager
 	
 			UseSkillRequest skill = UseSkillRequest.getInstance( UseSkillRequest.BREAKFAST_SKILLS[ i ] );
 	
-			int maximumCast = skill.getMaximumCast();
+			long maximumCast = skill.getMaximumCast();
 	
 			if ( maximumCast == 0 )
 			{
 				continue;
 			}
 	
-			int availableMP = KoLCharacter.getCurrentMP() - minimum;
-			int mpPerUse = SkillDatabase.getMPConsumptionById( skill.getSkillId() );
-			int castCount = Math.min( maximumCast, availableMP / mpPerUse );
+			long availableMP = KoLCharacter.getCurrentMP() - minimum;
+			long mpPerUse = SkillDatabase.getMPConsumptionById( skill.getSkillId() );
+			long castCount = Math.min( maximumCast, availableMP / mpPerUse );
 	
 			if ( castCount > 0 )
 			{
@@ -329,9 +329,9 @@ public class ManaBurnManager
 		return ManaBurnManager.considerLibramSummon( minimum );
 	}
 
-	private static final String considerLibramSummon( final int minimum )
+	private static final String considerLibramSummon( final long minimum )
 	{
-		int castCount = SkillDatabase.libramSkillCasts( KoLCharacter.getCurrentMP() - minimum );
+		long castCount = SkillDatabase.libramSkillCasts( KoLCharacter.getCurrentMP() - minimum );
 		if ( castCount <= 0 )
 		{
 			return null;
@@ -349,7 +349,7 @@ public class ManaBurnManager
 		StringBuilder buf = new StringBuilder();
 		for ( int i = 0; i < skillCount; ++i )
 		{
-			int thisCast = (castCount + skillCount - 1 - i) / skillCount;
+			long thisCast = (castCount + skillCount - 1 - i) / skillCount;
 			if ( thisCast <= 0 ) continue;
 			buf.append( "cast " );
 			buf.append( thisCast );

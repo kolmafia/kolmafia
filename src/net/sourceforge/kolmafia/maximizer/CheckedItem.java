@@ -153,7 +153,7 @@ public class CheckedItem
 			if ( this.getCount() == 0 )
 			{	
 				// We include things with historical price up to twice as high as limit, as current price may be lower
-				int price = Math.min( maxPrice, KoLCharacter.getAvailableMeat() );
+				long price = Math.min( maxPrice, KoLCharacter.getAvailableMeat() );
 				if ( priceLevel == 0 ||
 					MallPriceDatabase.getPrice( itemId ) < price * 2 )
 				{
@@ -174,7 +174,7 @@ public class CheckedItem
 				if ( this.getCount() == 0 )
 				{	
 					// We include things with historical price up to twice as high as limit, as current price may be lower
-					int price = Math.min( maxPrice, KoLCharacter.getStorageMeat() );
+					long price = Math.min( maxPrice, KoLCharacter.getStorageMeat() );
 					if ( priceLevel == 0 ||	MallPriceDatabase.getPrice( itemId ) < price * 2 )
 					{
 						this.pullBuyable = 1;
@@ -235,10 +235,10 @@ public class CheckedItem
 		}
 		if ( this.singleFlag )
 		{
-			return Math.min( 1, this.initial + this.creatable + this.npcBuyable + this.mallBuyable + this.foldable + this.pullable + this.pullfoldable + this.pullBuyable );
+			return (int)Math.min( 1, this.initial + this.creatable + this.npcBuyable + this.mallBuyable + this.foldable + this.pullable + this.pullfoldable + this.pullBuyable );
 		}
 
-		return this.initial + this.creatable + this.npcBuyable + this.mallBuyable + this.foldable + this.pullable + this.pullfoldable + this.pullBuyable;
+		return (int)( this.initial + this.creatable + this.npcBuyable + this.mallBuyable + this.foldable + this.pullable + this.pullfoldable + this.pullBuyable );
 	}
 
 	public void validate( int maxPrice, int priceLevel )
@@ -304,7 +304,7 @@ public class CheckedItem
 
 	public int inventory;
 	public int initial;
-	public int creatable;
+	public long creatable;
 	public int npcBuyable;
 	public int mallBuyable;
 	public int foldable;

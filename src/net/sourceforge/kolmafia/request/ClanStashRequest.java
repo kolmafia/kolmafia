@@ -42,6 +42,7 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -85,9 +86,9 @@ public class ClanStashRequest
 	 * @param amount The amount of meat involved in this transaction
 	 */
 
-	public ClanStashRequest( final int amount )
+	public ClanStashRequest( final long amount )
 	{
-		super( "clan_stash.php", new AdventureResult( AdventureResult.MEAT, amount ) );
+		super( "clan_stash.php", new AdventureLongCountResult( AdventureResult.MEAT, amount ) );
 		this.addFormField( "action", "contribute" );
 
 		this.moveType = ClanStashRequest.MEAT_TO_STASH;
@@ -264,7 +265,7 @@ public class ClanStashRequest
 		}
 		else if ( urlString.indexOf( "action=contribute" ) != -1 )
 		{
-			int meat = TransferItemRequest.transferredMeat( urlString, "howmuch" );
+			long meat = TransferItemRequest.transferredMeat( urlString, "howmuch" );
 			ResultProcessor.processMeat( 0 - meat );
 			KoLCharacter.updateStatus();
 		}
@@ -376,7 +377,7 @@ public class ClanStashRequest
 
 		if ( urlString.indexOf( "action=contribute" ) != -1 )
 		{
-			int meat = TransferItemRequest.transferredMeat( urlString, "howmuch" );
+			long meat = TransferItemRequest.transferredMeat( urlString, "howmuch" );
 			String message = "add to stash: " + meat + " Meat";
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( message );

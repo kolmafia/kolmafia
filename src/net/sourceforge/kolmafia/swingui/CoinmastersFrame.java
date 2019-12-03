@@ -1657,7 +1657,7 @@ public class CoinmastersFrame
 			this.standardTitle( buffer );
 			for ( AdventureResult currency : this.data.currencies() )
 			{
-				int count = currency.isMeat() ? KoLCharacter.getAvailableMeat() : InventoryManager.getCount( currency );
+				long count = currency.isMeat() ? KoLCharacter.getAvailableMeat() : InventoryManager.getCount( currency );
 				buffer.append( " (" );
 				buffer.append( String.valueOf( count ) );
 				buffer.append( " " );
@@ -1909,11 +1909,11 @@ public class CoinmastersFrame
 				Integer value = originalBalances.get( currency );
 				if ( value == null )
 				{
-					int newValue = 
+					long newValue = 
 						fromStorage ?
 						data.availableStorageTokens( cost ) :
 						data.availableTokens( cost );
-					value = IntegerPool.get( newValue );
+					value = IntegerPool.get( (int)Math.min( Integer.MAX_VALUE, newValue ) );
 					originalBalances.put( currency, value );
 					balances.put( currency, value );
 				}
@@ -2315,8 +2315,8 @@ public class CoinmastersFrame
 
 			if ( show && this.buying)
 			{
-				int balance1 = this.data.availableTokens( cost );
-				int balance2 = this.data.availableStorageTokens( cost );
+				int balance1 = (int)Math.min( Integer.MAX_VALUE, this.data.availableTokens( cost ) );
+				int balance2 = (int)Math.min( Integer.MAX_VALUE, this.data.availableStorageTokens( cost ) );
 				if ( price > balance1 && price > balance2 )
 				{
 					show = false;

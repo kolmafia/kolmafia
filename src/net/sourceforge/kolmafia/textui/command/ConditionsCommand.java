@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2019, KoLmafia development team
+
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -39,6 +39,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -167,8 +168,8 @@ public class ConditionsCommand
 		if ( isMeatCondition )
 		{
 			String[] splitCondition = conditionString.split( "\\s+" );
-			int amount = StringUtilities.parseInt( splitCondition[ 0 ] );
-			return new AdventureResult( AdventureResult.MEAT, amount );
+			long amount = StringUtilities.parseInt( splitCondition[ 0 ] );
+			return new AdventureLongCountResult( AdventureResult.MEAT, amount );
 		}
 
 		if ( conditionString.endsWith( "choiceadv" ) || conditionString.endsWith( "choices" ) || conditionString.endsWith( "choice" ) )
@@ -306,7 +307,7 @@ public class ConditionsCommand
 		if ( conditionString.endsWith( "health" ) || conditionString.endsWith( "mana" ) )
 		{
 			String type;
-			int max, current;
+			long max, current;
 
 			if ( conditionString.endsWith( "health" ) )
 			{
@@ -336,7 +337,7 @@ public class ConditionsCommand
 
 			points -= current;
 
-			AdventureResult condition = new AdventureResult( type, points );
+			AdventureResult condition = new AdventureLongCountResult( type, points );
 
 			condition = condition.getInstance( condition.getCount() - GoalManager.getGoalCount( condition ));
 

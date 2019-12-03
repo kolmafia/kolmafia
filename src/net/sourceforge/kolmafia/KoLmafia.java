@@ -61,6 +61,8 @@ import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
+import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
+
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
@@ -1196,7 +1198,7 @@ public abstract class KoLmafia
 
 		KoLConstants.tally.clear();
 		KoLConstants.tally.add( new AdventureResult( AdventureResult.ADV ) );
-		KoLConstants.tally.add( new AdventureResult( AdventureResult.MEAT ) );
+		KoLConstants.tally.add( new AdventureLongCountResult( AdventureResult.MEAT ) );
 		KoLConstants.tally.add( AdventureResult.SESSION_SUBSTATS_RESULT );
 		KoLConstants.tally.add( AdventureResult.SESSION_FULLSTATS_RESULT );
 
@@ -1836,7 +1838,7 @@ public abstract class KoLmafia
 		AdventureResult[] requirementsArray = new AdventureResult[ requirements.size() ];
 		requirements.toArray( requirementsArray );
 
-		int actualCount = 0;
+		long actualCount = 0;
 
 		// Check the items required for this quest,
 		// retrieving any items which might be inside
@@ -1976,7 +1978,7 @@ public abstract class KoLmafia
 			}
 
 			int previousLimit = currentRequest.getLimit();
-			currentRequest.setLimit( Math.min( currentRequest.getAvailableMeat() / currentPrice,
+			currentRequest.setLimit( Math.min( (int)Math.min( Integer.MAX_VALUE, currentRequest.getAvailableMeat() / currentPrice ),
 							   Math.min( previousLimit, desiredCount - currentCount ) ) );
 
 			RequestThread.postRequest( currentRequest );

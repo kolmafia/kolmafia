@@ -161,7 +161,7 @@ public class MallPurchaseRequest
 	}
 
 	@Override
-	public int getAvailableMeat()
+	public long getAvailableMeat()
 	{
 		return KoLCharacter.canInteract() ? KoLCharacter.getAvailableMeat() : KoLCharacter.getStorageMeat();
 	}

@@ -43,6 +43,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -2806,7 +2807,7 @@ public class UseItemRequest
 			// If a scroll of drastic healing was used and didn't
 			// crumble, it is not consumed
 
-			ResultProcessor.processResult( new AdventureResult( AdventureResult.HP, KoLCharacter.getMaximumHP() ) );
+			ResultProcessor.processResult( new AdventureLongCountResult( AdventureResult.HP, KoLCharacter.getMaximumHP() ) );
 
 			if ( !responseText.contains( "crumble" ) )
 			{

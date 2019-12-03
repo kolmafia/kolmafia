@@ -223,7 +223,7 @@ public class CoinmasterData
 		return this.storageAction != null ? this.item.getCount( KoLConstants.storage ) : 0;
 	}
 
-	public final int availableTokens( final AdventureResult currency )
+	public final long availableTokens( final AdventureResult currency )
 	{
 		if ( currency.isMeat() )
 		{
@@ -254,7 +254,7 @@ public class CoinmasterData
 			0;
 	}
 
-	public final int affordableTokens( final AdventureResult currency )
+	public final long affordableTokens( final AdventureResult currency )
 	{
 		if ( currency.isMeat() )
 		{

@@ -110,7 +110,7 @@ public class ClosetCommand
 		}
 
 		int meatAttachmentCount = 0;
-		int meatCount = 0;
+		long meatCount = 0;
 		int hatCount = 0;
 
 		for ( int i = 0; i < itemList.length; ++i )
@@ -118,7 +118,7 @@ public class ClosetCommand
 			AdventureResult item = itemList[ i ];
 			if ( item.getName().equals( AdventureResult.MEAT ) )
 			{
-				meatCount += item.getCount();
+				meatCount += item.getLongCount();
 				meatAttachmentCount += 1;
 				itemList[ i ] = null;
 			}

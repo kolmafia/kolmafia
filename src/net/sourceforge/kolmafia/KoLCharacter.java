@@ -373,8 +373,8 @@ public abstract class KoLCharacter
 	private static long decrementPrime = 0;
 	private static long incrementPrime = 25;
 
-	private static int currentHP, maximumHP, baseMaxHP;
-	private static int currentMP, maximumMP, baseMaxMP;
+	private static long currentHP, maximumHP, baseMaxHP;
+	private static long currentMP, maximumMP, baseMaxMP;
 
 	private static int[] adjustedStats = new int[ 3 ];
 	private static long[] totalSubpoints = new long[ 3 ];
@@ -405,10 +405,10 @@ public abstract class KoLCharacter
 	// the user issues a "status" type command.
 
 	private static int attacksLeft = 0;
-	private static int availableMeat = 0;
-	private static int storageMeat = 0;
-	private static int closetMeat = 0;
-	private static int sessionMeat = 0;
+	private static long availableMeat = 0;
+	private static long storageMeat = 0;
+	private static long closetMeat = 0;
+	private static long sessionMeat = 0;
 	private static int inebriety = 0;
 	private static int fullness = 0;
 	private static int spleenUse = 0;
@@ -1863,7 +1863,7 @@ public abstract class KoLCharacter
 	 * @param baseMaxHP The base value for the character's maximum HP
 	 */
 
-	public static final void setHP( final int currentHP, final int maximumHP, final int baseMaxHP )
+	public static final void setHP( final long currentHP, final long maximumHP, final long baseMaxHP )
 	{
 		KoLCharacter.currentHP = currentHP < 0 ? 0 : currentHP > maximumHP ? maximumHP : currentHP;
 		KoLCharacter.maximumHP = maximumHP;
@@ -1878,7 +1878,7 @@ public abstract class KoLCharacter
 	 * @return The character's current HP
 	 */
 
-	public static final int getCurrentHP()
+	public static final long getCurrentHP()
 	{
 		return KoLCharacter.currentHP;
 	}
@@ -1889,7 +1889,7 @@ public abstract class KoLCharacter
 	 * @return The character's maximum HP
 	 */
 
-	public static final int getMaximumHP()
+	public static final long getMaximumHP()
 	{
 		return KoLCharacter.maximumHP;
 	}
@@ -1900,7 +1900,7 @@ public abstract class KoLCharacter
 	 * @return The base value for the character's maximum HP
 	 */
 
-	public static final int getBaseMaxHP()
+	public static final long getBaseMaxHP()
 	{
 		return KoLCharacter.baseMaxHP;
 	}
@@ -1913,7 +1913,7 @@ public abstract class KoLCharacter
 	 * @param baseMaxMP The base value for the character's maximum MP
 	 */
 
-	public static final void setMP( final int currentMP, final int maximumMP, final int baseMaxMP )
+	public static final void setMP( final long currentMP, final long maximumMP, final long baseMaxMP )
 	{
 		KoLCharacter.currentMP = currentMP < 0 ? 0 : currentMP > maximumMP ? maximumMP : currentMP;
 		KoLCharacter.maximumMP = maximumMP;
@@ -1928,7 +1928,7 @@ public abstract class KoLCharacter
 	 * @return The character's current MP
 	 */
 
-	public static final int getCurrentMP()
+	public static final long getCurrentMP()
 	{
 		return KoLCharacter.currentMP;
 	}
@@ -1939,7 +1939,7 @@ public abstract class KoLCharacter
 	 * @return The character's maximum MP
 	 */
 
-	public static final int getMaximumMP()
+	public static final long getMaximumMP()
 	{
 		return KoLCharacter.maximumMP;
 	}
@@ -1950,7 +1950,7 @@ public abstract class KoLCharacter
 	 * @return The base value for the character's maximum MP
 	 */
 
-	public static final int getBaseMaxMP()
+	public static final long getBaseMaxMP()
 	{
 		return KoLCharacter.baseMaxMP;
 	}
@@ -1961,12 +1961,12 @@ public abstract class KoLCharacter
 	 * @return The amount of meat in storage.
 	 */
 
-	public static final int getStorageMeat()
+	public static final long getStorageMeat()
 	{
 		return KoLCharacter.storageMeat;
 	}
 
-	public static final void setStorageMeat( final int storageMeat )
+	public static final void setStorageMeat( final long storageMeat )
 	{
 		if ( KoLCharacter.storageMeat != storageMeat )
 		{
@@ -1975,7 +1975,7 @@ public abstract class KoLCharacter
 		}
 	}
 
-	public static final void addStorageMeat( final int meat )
+	public static final void addStorageMeat( final long meat )
 	{
 		if ( meat != 0 )
 		{
@@ -1990,12 +1990,12 @@ public abstract class KoLCharacter
 	 * @return The amount of meat in the character's closet.
 	 */
 
-	public static final int getClosetMeat()
+	public static final long getClosetMeat()
 	{
 		return KoLCharacter.closetMeat;
 	}
 
-	public static final void setClosetMeat( final int closetMeat )
+	public static final void setClosetMeat( final long closetMeat )
 	{
 		KoLCharacter.closetMeat = closetMeat;
 	}
@@ -2007,7 +2007,7 @@ public abstract class KoLCharacter
 	 * @return The amount of meat gained or lost this session
 	 */
 
-	public static final int getSessionMeat()
+	public static final long getSessionMeat()
 	{
 		return KoLCharacter.sessionMeat;
 	}
@@ -2017,7 +2017,7 @@ public abstract class KoLCharacter
 		KoLCharacter.sessionMeat = 0;
 	}
 
-	public static final void incrementSessionMeat( final int delta)
+	public static final void incrementSessionMeat( final long delta)
 	{
 		KoLCharacter.sessionMeat += delta;
 	}
@@ -2029,7 +2029,7 @@ public abstract class KoLCharacter
 	 * @param availableMeat The character's available meat for spending
 	 */
 
-	public static final void setAvailableMeat( final int availableMeat )
+	public static final void setAvailableMeat( final long availableMeat )
 	{
 		if ( KoLCharacter.availableMeat != availableMeat )
 		{
@@ -2045,7 +2045,7 @@ public abstract class KoLCharacter
 	 * @return The character's available meat for spending
 	 */
 
-	public static final int getAvailableMeat()
+	public static final long getAvailableMeat()
 	{
 		return Limitmode.limitMeat() ? 0 : KoLCharacter.availableMeat;
 	}
@@ -3689,6 +3689,7 @@ public abstract class KoLCharacter
 			// All familiars can now be used
 			RequestThread.postRequest( new FamiliarRequest() );
 			GearChangeFrame.updateFamiliars();
+
 		}
 
 		if ( restricted )

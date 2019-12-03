@@ -1302,10 +1302,10 @@ public class CompactSidePane
 			buf.append( KoLConstants.MODIFIER_FORMAT.format( dmox ) );
 			buf.append( ")</td></tr>" );
 		}
-		int hp = Math.max( 1, predicted[ Modifiers.BUFFED_HP ] );
-		int mp = Math.max( 1, predicted[ Modifiers.BUFFED_MP ] );
-		int dhp = KoLCharacter.getMaximumHP() - hp;
-		int dmp = KoLCharacter.getMaximumMP() - mp;
+		long hp = Math.max( 1, predicted[ Modifiers.BUFFED_HP ] );
+		long mp = Math.max( 1, predicted[ Modifiers.BUFFED_MP ] );
+		long dhp = KoLCharacter.getMaximumHP() - hp;
+		long dmp = KoLCharacter.getMaximumMP() - mp;
 		if ( dhp != 0 || dmp != 0 )
 		{
 			buf.append( "<tr><td colspan=4>Predicted: Max HP " );

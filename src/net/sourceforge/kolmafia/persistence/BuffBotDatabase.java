@@ -73,7 +73,7 @@ public class BuffBotDatabase
 	private static final TreeMap<String, LockableListModel<Offering>> normalOfferings = new TreeMap<String, LockableListModel<Offering>>();
 	private static final TreeMap<String, LockableListModel<Offering>> freeOfferings = new TreeMap<String, LockableListModel<Offering>>();
 
-	public static final int getOffering( String name, final int amount )
+	public static final long getOffering( String name, final long amount )
 	{
 		// If you have no idea what the names present in
 		// the database are, go ahead and refresh it.

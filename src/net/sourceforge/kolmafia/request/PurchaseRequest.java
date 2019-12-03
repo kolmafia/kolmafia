@@ -222,7 +222,7 @@ public abstract class PurchaseRequest
 		return buffer.toString();
 	}
 
-	public int getAvailableMeat()
+	public long getAvailableMeat()
 	{
 		return KoLCharacter.getAvailableMeat();
 	}
@@ -254,7 +254,8 @@ public abstract class PurchaseRequest
 
 	public int affordableCount()
 	{
-		return this.getAvailableMeat() / this.getPrice();
+		// Eliminate silly purchases
+		return (int)Math.min( Integer.MAX_VALUE, this.getAvailableMeat() / this.getPrice() );
 	}
 
 	public boolean isAccessible()

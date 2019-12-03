@@ -397,7 +397,7 @@ public abstract class ItemManagePanel
 			{
 				Concoction concoction = ( (Concoction) items[ i ] );
 				itemName = concoction.getName();
-				itemCount = concoction.getAvailable();
+				itemCount = (int)Math.min( Integer.MAX_VALUE, concoction.getAvailable() );
 				if ( concoction.speakeasy )
 				{
 					itemCount -= ConcoctionDatabase.queuedSpeakeasyDrink;

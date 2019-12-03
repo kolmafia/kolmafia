@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.persistence.ItemFinder;
@@ -61,7 +62,7 @@ public class FakeAddItemCommand
 
 			if ( StringUtilities.isNumeric( amountString ) )
 			{
-				item = new AdventureResult( AdventureResult.MEAT, StringUtilities.parseInt( amountString ) );
+				item = new AdventureLongCountResult( AdventureResult.MEAT, StringUtilities.parseLong( amountString ) );
 			}
 		}
 

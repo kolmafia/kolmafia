@@ -6362,7 +6362,7 @@ public abstract class RuntimeLibrary
 		{
 			if ( result.getName().equals( AdventureResult.MEAT ) )
 			{
-				return new Value( result.getCount() );
+				return new Value( result.getLongCount() );
 			}
 		}
 

@@ -51,6 +51,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -7976,7 +7977,7 @@ public class FightRequest
 		}
 	}
 
-	private static final int getActionCost()
+	private static final long getActionCost()
 	{
 		if ( FightRequest.nextAction.startsWith( "skill" ) )
 		{
@@ -8726,11 +8727,11 @@ public class FightRequest
 		}
 
 		int skillId = StringUtilities.parseInt( FightRequest.nextAction.substring( 5 ) );
-		int mpCost = SkillDatabase.getMPConsumptionById( skillId );
+		long mpCost = SkillDatabase.getMPConsumptionById( skillId );
 
 		if ( mpCost > 0 )
 		{
-			ResultProcessor.processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
+			ResultProcessor.processResult( new AdventureLongCountResult( AdventureResult.MP, 0 - mpCost ) );
 		}
 		SkillDatabase.registerCasts( skillId, 1 );
 

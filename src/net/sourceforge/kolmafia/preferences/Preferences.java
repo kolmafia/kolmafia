@@ -518,6 +518,11 @@ public class Preferences
 		setFloat( null, name, value );
 	}
 
+	public static final float getFloat( final String name )
+	{
+		return getFloat( null, name );
+	}
+
 	public static final void setLong( final String name, final long value )
 	{
 		setLong( null, name, value );
@@ -528,9 +533,14 @@ public class Preferences
 		return getLong( null, name );
 	}
 
-	public static final float getFloat( final String name )
+	public static final void setDouble( final String name, final double value )
 	{
-		return getFloat( null, name );
+		setDouble( null, name, value );
+	}
+
+	public static final double getDouble( final String name )
+	{
+		return getDouble( null, name );
 	}
 
 	public static final int increment( final String name )
@@ -685,6 +695,25 @@ public class Preferences
 		return ((Float) value).floatValue();
 	}
 
+	public static final double getDouble( final String user, final String name )
+	{
+		Map<String, Object> map = Preferences.getMap( name );
+		Object value = Preferences.getObject( map, user, name );
+
+		if ( value == null )
+		{
+			return 0.0;
+		}
+
+		if ( !(value instanceof Double) )
+		{
+			value = new Double( StringUtilities.parseDouble( value.toString() ) );
+			map.put( name, value );
+		}
+
+		return ((Double) value).doubleValue();
+	}
+
 	private static final Map<String, Object> getMap( final String name )
 	{
 		return Preferences.isGlobalProperty( name ) ? Preferences.globalValues : Preferences.userValues;
@@ -761,6 +790,15 @@ public class Preferences
 		if ( old != value )
 		{
 			Preferences.setObject( user, name, String.valueOf( value ), new Float( value ) );
+		}
+	}
+
+	public static final void setDouble( final String user, final String name, final double value )
+	{
+		double old = Preferences.getDouble( user, name );
+		if ( old != value )
+		{
+			Preferences.setObject( user, name, String.valueOf( value ), new Double( value ) );
 		}
 	}
 

@@ -528,7 +528,7 @@ public class SkillDatabase
 
 	private static final AdventureResult SUPER_SKILL = EffectPool.get( EffectPool.SUPER_SKILL );
 
-	public static final int getMPConsumptionById( final int skillId )
+	public static final long getMPConsumptionById( final int skillId )
 	{
 		if ( isLibramSkill( skillId ) )
 		{
@@ -665,13 +665,13 @@ public class SkillDatabase
 	 * @return the MP cost to cast it
 	 */
 
-	public static final int libramSkillMPConsumption()
+	public static final long libramSkillMPConsumption()
 	{
 		int cast = Preferences.getInteger( "libramSummons" );
 		return libramSkillMPConsumption( cast + 1 );
 	}
 
-	public static final void setLibramSkillCasts( int cost )
+	public static final void setLibramSkillCasts( long cost )
 	{
 		// With sufficient mana cost reduction, the first, second, and
 		// third libram summons all cost 1 MP. Therefore, we can't
@@ -723,7 +723,7 @@ public class SkillDatabase
 	 * @return the MP cost to cast it
 	 */
 
-	public static final int libramSkillMPConsumption( final int cast )
+	public static final long libramSkillMPConsumption( final int cast )
 	{
 		// Old formula: n * (n+1) / 2
 		// return Math.max( (cast * ( cast + 1 ) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
@@ -758,7 +758,7 @@ public class SkillDatabase
 	 * @return the number of casts
 	 */
 
-	public static final int libramSkillCasts( int availableMP )
+	public static final long libramSkillCasts( long availableMP )
 	{
 		int cast = Preferences.getInteger( "libramSummons" );
 		return Math.min( 200, libramSkillCasts( cast + 1, availableMP ) );
@@ -773,9 +773,9 @@ public class SkillDatabase
 	 * @return the number of casts
 	 */
 
-	public static final int libramSkillCasts( int cast, int availableMP )
+	public static final int libramSkillCasts( int cast, long availableMP )
 	{
-		int mpCost = SkillDatabase.libramSkillMPConsumption( cast );
+		long mpCost = SkillDatabase.libramSkillMPConsumption( cast );
 		int count = 0;
 
 		while ( mpCost <= availableMP )
@@ -1775,15 +1775,15 @@ public class SkillDatabase
 	 * Utility method used to retrieve the maximum daily casts of a skill. Returns -1 if no limit.
 	 */
 
-	public static int getMaxCasts( int skillId )
+	public static long getMaxCasts( int skillId )
 	{
 		UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( skillId );
 		if ( skill == null )
 		{
 			return -1;
 		}
-		int max = skill.getMaximumCast();
-		return ( max == Integer.MAX_VALUE ? -1 : max );
+		long max = skill.getMaximumCast();
+		return ( max == Long.MAX_VALUE ? -1 : max );
 	}
 
 	/**
