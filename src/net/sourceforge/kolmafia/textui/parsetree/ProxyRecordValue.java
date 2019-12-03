@@ -134,6 +134,16 @@ public class ProxyRecordValue
 			return DataTypes.makeIntValue( ( (Integer) rv ).intValue() );
 		}
 
+		if ( rv instanceof Long )
+		{
+			return DataTypes.makeIntValue( ( (Long) rv ).longValue() );
+		}
+
+		if ( rv instanceof Float )
+		{
+			return DataTypes.makeFloatValue( ( (Float) rv ).floatValue() );
+		}
+
 		if ( rv instanceof Double )
 		{
 			return DataTypes.makeFloatValue( ( (Double) rv ).doubleValue() );
@@ -354,22 +364,22 @@ public class ProxyRecordValue
 			return ConsumablesDatabase.getSpleenHit( this.contentString );
 		}
 
-		public int get_minhp()
+		public long get_minhp()
 		{
 			return RestoresDatabase.getHPMin( this.contentString );
 		}
 
-		public int get_maxhp()
+		public long get_maxhp()
 		{
 			return RestoresDatabase.getHPMax( this.contentString );
 		}
 
-		public int get_minmp()
+		public long get_minmp()
 		{
 			return RestoresDatabase.getMPMin( this.contentString );
 		}
 
-		public int get_maxmp()
+		public long get_maxmp()
 		{
 			return RestoresDatabase.getMPMax( this.contentString );
 		}

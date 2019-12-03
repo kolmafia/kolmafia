@@ -165,7 +165,7 @@ public class RestoresDatabase
 		}
 	}
 
-	private static final int getValue( final String stringValue, final String name )
+	private static final long getValue( final String stringValue, final String name )
 	{
 		if ( stringValue == null )
 		{
@@ -174,7 +174,7 @@ public class RestoresDatabase
 		int lb = stringValue.indexOf( "[" );
 		if ( lb == -1 )
 		{
-			return Integer.parseInt( stringValue );
+			return Long.parseLong( stringValue );
 		}
 		int rb = stringValue.indexOf( "]", lb );
 		RestoreExpression expr = new RestoreExpression( stringValue.substring( lb + 1, rb ), name );
@@ -183,7 +183,7 @@ public class RestoresDatabase
 			KoLmafia.updateDisplay( "Error in restores.txt for item " + name + ", invalid expression " + stringValue );
 			return -1;
 		}
-		return (int) expr.eval();
+		return (long) expr.eval();
 	}
 
 	public static final String getType( final String name )
@@ -196,7 +196,7 @@ public class RestoresDatabase
 		return RestoresDatabase.typeByName.get( name );
 	}
 
-	public static final int getHPMin( final String name )
+	public static final long getHPMin( final String name )
 	{
 		if ( name == null || ( KoLCharacter.isEd() && !RestoresDatabase.edSafe( name ) ) )
 		{
@@ -213,10 +213,10 @@ public class RestoresDatabase
 		{
 			return 0;
 		}
-		return (int) Math.floor( RestoresDatabase.getValue( hpMin, name ) );
+		return (long) Math.floor( RestoresDatabase.getValue( hpMin, name ) );
 	}
 
-	public static final int getHPMax( final String name )
+	public static final long getHPMax( final String name )
 	{
 		if ( name == null || ( KoLCharacter.isEd() && !RestoresDatabase.edSafe( name ) ) )
 		{
@@ -233,10 +233,10 @@ public class RestoresDatabase
 		{
 			return 0;
 		}
-		return (int) Math.ceil( RestoresDatabase.getValue( hpMax, name ) );
+		return (long) Math.ceil( RestoresDatabase.getValue( hpMax, name ) );
 	}
 
-	public static final int getMPMin( final String name )
+	public static final long getMPMin( final String name )
 	{
 		if ( name == null )
 		{
@@ -253,10 +253,10 @@ public class RestoresDatabase
 		{
 			return 0;
 		}
-		return (int) Math.floor( RestoresDatabase.getValue( mpMin, name ) );
+		return (long) Math.floor( RestoresDatabase.getValue( mpMin, name ) );
 	}
 
-	public static final Integer getMPMax( final String name )
+	public static final long getMPMax( final String name )
 	{
 		if ( name == null )
 		{
@@ -273,7 +273,7 @@ public class RestoresDatabase
 		{
 			return 0;
 		}
-		return (int) Math.ceil( RestoresDatabase.getValue( mpMax, name ) );
+		return (long) Math.ceil( RestoresDatabase.getValue( mpMax, name ) );
 	}
 
 	public static final double getHPAverage( final String name )
@@ -303,17 +303,17 @@ public class RestoresDatabase
 			return "";
 		}
 
-		int hpMin = RestoresDatabase.getHPMin( name );
-		int hpMax = RestoresDatabase.getHPMax( name );
+		long hpMin = RestoresDatabase.getHPMin( name );
+		long hpMax = RestoresDatabase.getHPMax( name );
 		if ( hpMin == 0 && hpMax == 0 )
 		{
 			return "";
 		}
 		if ( hpMin == hpMax )
 		{
-			return Integer.toString( hpMin );
+			return Long.toString( hpMin );
 		}
-		return ( Integer.toString( hpMin ) + "-" + Integer.toString( hpMax ) );
+		return ( Long.toString( hpMin ) + "-" + Long.toString( hpMax ) );
 	}
 
 	public static final String getMPRange( final String name )
@@ -323,17 +323,17 @@ public class RestoresDatabase
 			return "";
 		}
 
-		int mpMin = RestoresDatabase.getMPMin( name );
-		int mpMax = RestoresDatabase.getMPMax( name );
+		long mpMin = RestoresDatabase.getMPMin( name );
+		long mpMax = RestoresDatabase.getMPMax( name );
 		if ( mpMin == 0 && mpMax == 0 )
 		{
 			return "";
 		}
 		if ( mpMin == mpMax )
 		{
-			return Integer.toString( mpMin );
+			return Long.toString( mpMin );
 		}
-		return ( Integer.toString( mpMin ) + "-" + Integer.toString( mpMax ) );
+		return ( Long.toString( mpMin ) + "-" + Long.toString( mpMax ) );
 	}
 
 	public static final int getAdvCost( final String name )
@@ -348,7 +348,7 @@ public class RestoresDatabase
 		{
 			return 0;
 		}
-		return ( (int) advCost );
+		return advCost.intValue();
 	}
 
 	public static final int getUsesLeft( final String name )
