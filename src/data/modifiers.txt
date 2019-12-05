@@ -7842,6 +7842,8 @@ Item	animal part cracker	Effect: "Sprinkle in Your Eye", Effect Duration: 30
 Item	badass pie	Effect: "Pie in the Sky", Effect Duration: 20
 Item	bag of GORF	Effect: "Long Live GORF", Effect Duration: 3
 Item	bag of QWOP	Effect: "QWOPped Up", Effect Duration: 10
+# Baja sopapilla: NOTE: This item will stop working when Crimbo 2019 is over.
+Item	Baja sopapilla	Effect: "Baja, Humbug", Effect Duration: 30
 Item	baked stuffing	Effect: "Thanksgetting", Effect Duration: 20
 Item	barrel cracker	Effect: "Shortened", Effect Duration: 40
 Item	barrel pickle	Effect: "Briny Blood", Effect Duration: 50
@@ -7864,6 +7866,8 @@ Item	bread line	Effect: "Bread-Lined", Effect Duration: 40
 Item	bread roll	Effect: "Thanksgetting", Effect Duration: 20
 Item	brown sugar cane	Effect: "Sugar Rush", Effect Duration: 3
 Item	bucket of honey	Effect: "Sugar Rush", Effect Duration: 50
+# bu&ntilde;uelos Jaliscos: NOTE: This item will stop working when Crimbo 2019 is over.
+Item	bu&ntilde;uelos Jaliscos	Effect: "Fishy", Effect Duration: 30
 Item	C.H.U.M. chum	Effect: "Majorly Poisoned", Effect Duration: 20
 Item	campfire baked potato	Effect: "Trial by Campfire", Effect Duration: 60
 Item	campfire beans	Effect: "The More You Eat", Effect Duration: 40
@@ -7936,6 +7940,8 @@ Item	extra-toasted half sandwich	Effect: "Stop the Presses!", Effect Duration: 2
 Item	FDKOL hotcakes	Effect: "Hotcaked", Effect Duration: 50
 Item	festive sausage	Effect: "Sausage Festive", Effect Duration: 20
 Item	fireman's lunch	Effect: "You're Not Cooking", Effect Duration: 20
+# flan del mar: NOTE: This item will stop working when Crimbo 2019 is over.
+Item	flan del mar	Effect: "Festively Brined", Effect Duration: 30
 Item	flower petal pie	Effect: "Flower Power", Effect Duration: 3
 Item	foie gras	Effect: "Beaten Up", Effect Duration: 1
 Item	forbidden danish	Effect: "Danish Cunning", Effect Duration: 30
