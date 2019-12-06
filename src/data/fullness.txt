@@ -395,6 +395,7 @@ grilled mooseflank	3	1	EPIC	15-17	10-20	10-20	10-20
 Grimdrop Chow Mein	4	5		6-11	0	0	0
 Grimgerbread House	5	5		10-15	0	0	0
 grue egg omelette	4	9	EPIC	21-27	35-45	35-45	35-45
+guffin	3	1	awesome	0	0	0	0	Unspaded
 gumdrop chow mein	5	1		9-17	0	0	0	10 Sugar Rush
 gunky chicken	2	5	good	4-6	15-30	0	0	lose 5-10 HP, 20 Gunky Dory (+50 HP, +4-10 HP regen)
 gunpowder burrito	2	1	good	0	0	0	0	+3 PvP fights

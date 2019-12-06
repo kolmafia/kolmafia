@@ -1217,6 +1217,11 @@ public class CompactSidePane
 			String path = prefix + image;
 			FileUtilities.downloadImage( KoLmafia.imageServerPath() + path );
 			ImageIcon icon = JComponentUtilities.getImage( path );
+			if ( icon == null )
+			{
+				this.setNoIcon();
+				return;
+			}
 			super.setIcon( icon );
 			icon.setImageObserver( this );
 		}

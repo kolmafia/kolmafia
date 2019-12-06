@@ -2523,3 +2523,17 @@
 2522	Festively Brined	flan2.gif	fdfdb06b66794900575f6e192c6c2247	eat 1 flan del mar
 2523	Baja, Humbug	sopapilla.gif	28b561f29c7cbcf8ca361184a859ff6e	eat 1 Baja sopapilla
 2524	Mana-Blasted	snowflakes.gif	0eea810738136755db9016d1a3b9dab5	eat either 1 mana-coated yams, 1 mana-basted tofurkey leg, 1 mana-fortified cranberry sauce, 1 mana-stuffed herbal stuffing
+2525	Furrier Than Thou	spacefur.gif	32e5886efc29d83ed915e979ac4ad7f8	use 1 patch of extra-warm fur
+2526	Potpourri Committed	sachet.gif	1394a0b4d47903bc761b2243f4babf84	use 1 organic potpourri
+2527	Gooed Enough For Government Work	plantgoo.gif	c3aed4f4cf78c7fd3cb8912e470e76df	use 1 extra-strength goo
+2528	Good Chance of Surviving Hell	hellsnowball.gif	568b981ef6e25816b734647f14ec2fab	use 1 infernal snowball
+2529	Pleasant Forecast	unfpleasure.gif	f12ba142ed49935e586a135a12b4d863	use 1 unfinished pleasure
+2530	Lividly Energized	magicicing.gif	4ca9741b4fe30ce0ca04dced76308ec7	chew 1 livid energy
+2531	A Bug's Life	cardheart.gif	3f83d893fc0fd8ab7bab3ee20c7eac63	chew 1 a bug's lymph
+2532	HGH-charged	strboost.gif	7be8277e6e14523c347c8130f0ef2307	chew 1 vial of humanoid growth hormone
+2533	Different Way of Seeing Things	angle.gif	d983a3ac448e84f420b4c15d3fcf6f81	chew 1 non-Euclidean angle
+2534	Thou Shant Not Sing	notes.gif	2809cb3503d6b274b418832b485a8e26	chew 1 Shantix&trade;
+2535	Sea Seeing	blackdrops.gif	909be96379dbcd8eaaf6e18d57c5c3e3	use 1 Mer-kin eyedrops
+2536	Industrially Lubricated	saucedrops.gif	b950be382d75b4b6945fdb7422bd1b55	chew 1 industrial lubricant
+2537	Eau d' Clochard	hobohead.gif	cfc0b96c6d374f5949bf67c0453ef9c0	chew 1 beggin' cologne
+2538	Candied Teeth	ghuoltooth.gif	0653e6882291fa70f4b6b27e519d2035	use 1 peppermint syrup

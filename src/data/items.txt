@@ -10310,7 +10310,7 @@
 10282	cursed pirate cutlass	150533329	piratecutlass.gif	weapon	t	0
 10283	cursed tricorn hat	149252891	piratetricorn.gif	hat	t	0
 10284	cursed swash buckle	583006027	piratebuckle.gif	accessory	t	0
-10285
+10285	meteorite fragment	721620315	meteorock.gif	none	t	0
 10286
 10287
 10288
@@ -10370,8 +10370,55 @@
 10342
 10343
 10344
-10345
+10345	red-spotted snapper roe	593931020	redroe.gif	grow	t	0
 10346	mana-coated yams	177436029	casserole.gif	food	t,d	50
 10347	mana-basted tofurkey leg	931240043	turkeyleg.gif	food	t,d	50
 10348	mana-fortified cranberry sauce	828577710	cransauce.gif	food	t,d	40
 10349	mana-stuffed herbal stuffing	363702530	casserole.gif	food	t,d	30
+10350	human musk	735594651	potion16.gif	none, combat	t,d	5
+10351	patch of extra-warm fur	734345806	spacefur.gif	potion, usable	t,d	5
+10352	industrial lubricant	294103515	lubecan.gif	spleen, usable	t,d	5
+10353	unfinished pleasure	151864264	unfpleasure.gif	potion, usable	t,d	5
+10354	vial of humanoid growth hormone	757472551	bloodvial.gif	spleen, usable	t,d	5
+10355	a bug's lymph	197958292	vglob1.gif	spleen, usable	t,d	5
+10356	organic potpourri	325989674	sachet.gif	potion, usable	t,d	5
+10357	boot flask	793163131	flask.gif	drink	t,d	5
+10358	infernal snowball	739773497	hellsnowball.gif	potion, usable	t,d	5
+10359	powdered madness	668204281	disease.gif	none, combat	t,d	5
+10360	fish sauce	194337600	ww_sauce.gif	spleen, usable	t,d	5
+10361	guffin	546213618	cccoccoon.gif	food	t,d	5
+10362	Shantix&trade;	761212866	pill6.gif	spleen, usable	t,d	5
+10363	goodberry	961219400	goodberry.gif	none, combat	t,d	5
+10364	non-Euclidean angle	781860531	angle.gif	spleen, usable	t,d	5
+10365	peppermint syrup	596779660	coughsyrup.gif	potion, usable	t,d	5
+10366	Mer-kin eyedrops	948852416	blackdrops.gif	potion, usable	t,d	5
+10367	extra-strength goo	587387994	plantgoo.gif	potion, usable	t,d	5
+10368	envelope full of Meat	191943714	envelope2.gif	usable	d	5
+10369	livid energy	196580972	magicicing.gif	spleen, usable	t,d	5
+10370	micronova	202645961	micronova.gif	none, combat	t,d	5
+10371	beggin' cologne	909702326	potion9.gif	spleen, usable	t,d	5
+10372
+10373
+10374
+10375
+10376
+10377
+10378
+10379
+10380
+10381
+10382
+10383
+10384
+10385
+10386
+10387
+10388
+10389
+10390
+10391
+10392
+10393
+10394
+10395
+10396	tinsel fin	348138693	tinselfin.gif	familiar	t,d	75

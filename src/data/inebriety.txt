@@ -63,6 +63,7 @@ boilermaker	4	12	awesome	11-15	25-29	10-15	10-15
 Bologna Lambic	3	1	good	8-10	0	30-40	20-30
 bone aperitif	2	6	awesome	7-9	12-20	12-20	12-20
 Bone's Farm &quot;wine&quot;	1	6	awesome	3-4	5-10	5-10	5-10	30 Sticks and Stones (+50 dmg vs. Skeletons)
+boot flask	3	1	awesome	0	0	0	0	Unspaded
 booze-soaked cherry	1	3	decent	1-3	0	5-10	0
 Bordeaux Marteaux	1	3	awesome	3-5	60-75	0	0	20 Hammered (+50% weapon dmg)
 bottle of Amontillado	4	5	good	11-13	5-15	0	5-15	100 Bricked-In (+50 HP)
