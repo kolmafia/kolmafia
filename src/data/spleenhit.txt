@@ -4,6 +4,7 @@
 
 # Item	Spleenhit	Level Req	Quality	Adv	Musc	Myst	Moxie
 
+a bug's lymph	1	1	awesome	0	0	0	0	Unspaded 60 A Bug's Life (+100% HP, +8-10 HP Regen)
 abstraction: action	1	1	decent	0	0	0	0	50 Action (+100% mus)
 abstraction: category	1	1	decent	0	0	0	0	50 Category (+25% mys experience)
 abstraction: certainty	1	1	good	0	0	0	0	50 Certainty (+100% item drop)
@@ -30,6 +31,7 @@ astronaut ice-cream	1	7	EPIC	8-10	0	0	0
 bakelite bits	3	12	awesome	0	1000-2000	1000-2000	1000-2000
 beastly paste	4	4	good	5-10	18-22	18-22	18-22	10 Beastly Flavor (+3 fam weight)
 beefy pill	1	4	decent	0	0	0	0	30 Beefy (+10 DR, +1 all res)
+beggin' cologne	1	1	good	0	0	0	0	Unspaded 60 Eau d' Clochard (+100% meat drop)
 bit-o-cactus	1	1	good	0	0	10-12	0
 black paisley oyster egg	1	1	awesome	0	0	11-15	0	20 Egg-stortionary Tactics (+50% meat drop)
 black polka-dot oyster egg	1	1	awesome	0	0	0	11-15	20 Egg-stortionary Tactics (+50% meat drop)
@@ -73,6 +75,7 @@ excitement pill	1	5	decent	0	0	0	0	Get random effect
 expensive cigar	1	7	decent	0	40-50	0	0
 extra-strength strongness elixir	1	3	good	0	8-10	0	0
 fiberglass fibers	3	12	awesome	0	1000-2000	1000-2000	1000-2000
+fish sauce	1	1	good	0	0	0	0	Unspaded 30 Fishy
 fishy paste	4	4	good	5-10	18-22	18-22	18-22	10 Fishy
 Five Second Energy&trade;	3	1	crappy	0	0	0	0	+3 PvP fights
 furry pill	1	3	decent	0	0	0	0	Remove negative effect, Restores 40-50 HP
@@ -104,6 +107,7 @@ homeopathic mint tea	1	1	decent	1-2	0	0	0	50 Alpine Mintiness (+25 HP/MP, +25 We
 hot jelly	1	1	crappy	0	50-60	0	0	50 Hot Jellied (+3 mus stats/fight, +5 hot damage, +30% mus), grants one-use 20 turn banishing skill
 hot wad	1	6	good	0	50-60	10-20	30-40	20 Hot Blooded (+30% mus, +20% mox, +10% mys, hot dmg/res)
 indescribably horrible paste	4	4	good	5-10	18-22	18-22	18-22	10 Indescribable Flavor (+30 spell dmg)
+industrial lubricant	1	1	awesome	0	0	0	0	Unspaded 30 Industrially Lubricated (+150 init)
 Instant Karma	5	13	EPIC	20-25	60-70	60-70	60-70
 jug-o-magicalness	1	3	good	0	0	8-10	0
 kelp	1	1	good	0	0	0	0	Unspaded
@@ -115,6 +119,7 @@ lavender paisley oyster egg	1	1	awesome	0	0	11-15	11-15
 lavender polka-dot oyster egg	1	1	awesome	0	0	0	22-30
 lavender striped oyster egg	1	1	awesome	0	11-15	0	11-15
 liquid shifting time weirdness	2	6	awesome	0	50-65	50-65	50-65	10 Liquid Luck (+10% critical, +10% spell critical)
+livid energy	1	1	awesome	0	0	0	0	Unspaded 60 Lividly Energized (+50% MP, +3-5 MP Regen)
 LOV Echinacea Bouquet	1	1	crappy	0	20-40	20-40	20-40	20-40 HP, 20-40 MP
 lucky pill	1	7	awesome	0	0	0	0	Get lucky
 lustrous oyster egg	1	5	EPIC	0	0	0	0	50 Lustre After Wealth (+50% meat drop)
@@ -138,6 +143,7 @@ mummified loaf of bread	3	1	awesome	11-13	5-10	5-10	5-10
 nasty snuff	1	4	decent	1-2	15-30	15-30	15-30
 Nightmare Fuel	1	1	crappy	0	0	0	0	Add Free Campground Rest
 not-a-pipe	4	4	good	4-12	20-30	20-30	20-30
+non-Euclidean angle	1	1	awesome	0	0	0	0	Unspaded 30 Different Way of Seeing Things (+50 mys experience)
 octolus oculus	1	4	decent	2	0	0	15-30
 off-white paisley oyster egg	1	1	awesome	0	0	11-15	0	20 Eggs-tra Sensory Perception (+10% item drop)
 off-white polka-dot oyster egg	1	1	awesome	0	0	0	11-15	20 Eggs-tra Sensory Perception (+10% item drop)
@@ -169,6 +175,7 @@ residual zeal	5	20	EPIC	0	25000-35000	25000-35000	25000-35000
 sachet of strange powder	1	4	good	0	30-50	30-50	30-50	40 Powder Power (+5 prismatic damage)
 scintillating oyster egg	1	5	EPIC	0	0	0	0	20 Eggscitingly Colorful (+3 all res)
 sea jelly	1	1	crappy	0	30-40	30-40	30-40	10 Fishy
+Shantix&trade;	1	1	awesome	0	0	0	0	Unspaded 30 Thou Shant Not Sing (+50% mox experience)
 single atom	1	1	decent	1	0	0	0
 sleaze jelly	1	1	crappy	0	0	0	50-60	50 Sleazy Jellied (+3 mox stats/fight, +5 sleaze damage, +30% mox), 10% off next NPC purchase (not Gift shop)
 sleaze wad	1	6	good	0	20-30	20-30	50-60	20 Supafly (+30% mox, +15% mus, +15% mys, sleaze dmg/res)
@@ -194,6 +201,7 @@ turkey blaster	2	4	crappy	0	0	0	0	Restore 500-1000 HP/MP first 3 uses per day
 twinkly wad	1	6	decent	0	15-20	15-20	15-20	20 Aspect of the Twinklefairy (+10% all, +weapon/spell dmg)
 ultimate wad	15	13	EPIC	0	0	0	0	+1 level
 Unconscious Collective Dream Jar	4	1	good	5-10	20-30	20-30	20-30
+vial of humanoid growth hormone	1	1	awesome	0	0	0	0	Unspaded 30 HGH-charged (+50% mus experience)
 vibrating mushroom	2	4	decent	0	0	0	0	30 Weird Vibrations (+25 init)
 vitamin G pill	1	6	good	0	0	0	0	5 Riboflavin' (Pickin' Pockets like a G)
 voodoo snuff	3	13	good	8	0	100-150	0

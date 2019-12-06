@@ -130,7 +130,7 @@ Item	catskin cap	Muscle: +9, Maximum HP: +40, Familiar Effect: "1xVolley, 1xBarr
 Item	centurion helmet	Muscle: +7, Mysticality: +7, Moxie: +7, Familiar Effect: "1xFairy, atk, cap 25"
 # Cerebral Cloche: Jellyfish Vision
 Item	Cerebral Cloche	Maximum HP: +15, Familiar Effect: "1.5xLep, cap 22"
-# Item chalk chapeau: Weakens enemies who hit you
+# chalk chapeau: Weakens enemies who hit you
 Item	chalk chapeau	PvP Fights: +3, HP Regen Min: 3, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 6
 Item	cheerful antler hat	Cold Resistance: +2, Moxie: -15
 Item	chef's hat	Mysticality: +2, MP Regen Min: 1, MP Regen Max: 1, Familiar Effect: "atk, 3xLep, cap 7"
@@ -309,7 +309,7 @@ Item	maiden wig	Familiar Effect: "2xPotato, cap 8"
 # makeshift turban: Interferes with your vision
 Item	makeshift turban	Spooky Resistance: +2, Familiar Effect: "1.5xBarrr, 1xLep, cap 25"
 Item	makeshift yakuza mask	Moxie: -10
-# Item marble mariachi hat: Damages enemies who hit you
+# marble mariachi hat: Damages enemies who hit you
 Item	marble mariachi hat	Monster Level: +10, Ranged Damage Percent: +30
 Item	mariachi hat	Moxie: +1, Familiar Effect: "atk, cap 2"
 Item	Mark I Steam-Hat	Mysticality: +5, Maximum HP: +20, Familiar Effect: "1xLep, cap 37"
@@ -344,7 +344,7 @@ Item	mullet wig	Sleaze Damage: +2, Familiar Effect: "3xPotato, 2xGhuol, cap 10"
 Item	mummy costume	Familiar Effect: "1xVolley, 8xLep, cap 2"
 Item	mummy mask	Spooky Damage: +12, Familiar Effect: "1xBarrr, 1xFairy, cap 42"
 Item	murderbot mask	Muscle: +10, Maximum HP: +20, PvP Fights: +2, Avatar: "Murderbot"
-# Item muskox-skin cap: +100% Meat Drops in the Canadian Wildlife Preserve
+# muskox-skin cap: +100% Meat Drops in the Canadian Wildlife Preserve
 Item	muskox-skin cap	Cold Resistance: +3, Meat Drop: [100*loc(The Canadian Wildlife Preserve)]
 Item	mutant crown	Monster Level: +15, Muscle Percent: +25, HP Regen Min: 25, HP Regen Max: 50, MP Regen Min: 25, MP Regen Max: 50
 Item	nasty rat mask	Moxie: +9, Monster Level: -5, Familiar Effect: "sleaze atk, 1xBarrr, cap 45"
@@ -380,7 +380,7 @@ Item	pentagram bandana	Mysticality: +15, Maximum MP: +15
 Item	pickelhaube	Weapon Damage: +5, Weapon Damage Percent: +10, Familiar Effect: "atk, 1xFairy, cap 18"
 Item	pig-iron helm	Muscle: +7, Weapon Damage: +10, Familiar Effect: "1xFairy, cap 22"
 Item	pimpin' meat hat	Muscle: +2, Moxie: +2, Familiar Effect: "sleaze atk, 1xVolley, cap 13"
-# Item PirateRealm party hat: Gain more FunPoints during PirateRealm adventures
+# PirateRealm party hat: Gain more FunPoints during PirateRealm adventures
 Item	PirateRealm party hat	Muscle: +10, Mysticality: +10, Moxie: +10
 Item	pixel hat	Muscle: +2, Mysticality: +2, Moxie: +2, Familiar Effect: "atk, 2xVolley, cap 12"
 Item	plaid cowboy hat	Weapon Damage: +20, Hot Resistance: +2, Familiar Effect: "2xLep, 1xBarrr, cap 25"
@@ -575,7 +575,7 @@ Item	Can-Can skirt	Muscle Percent: +10, Familiar Effect: "1.5xFairy, 2xPotato, c
 Item	cane-mail pants	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 1, HP Regen Max: 4, MP Regen Min: 1, MP Regen Max: 4, PvP Fights: +3, Familiar Effect: "atk, 2xBarrr, cap 25"
 Item	Cerebral Culottes	Mysticality: +10, Familiar Effect: "3xBarrr, 1xGhoul, cap 22"
 Item	chain-mail monokini	Familiar Effect: "sleaze atk, 4xBarrr, cap 7"
-# Item chalk chinos: Weakens enemies who hit you
+# chalk chinos: Weakens enemies who hit you
 Item	chalk chinos	Experience (Mysticality): +2, Initiative: +20
 Item	cheerful pajama pants	Cold Resistance: +2, Moxie: -15
 Item	Chester's cutoffs	Hot Resistance: +3, Stench Resistance: +3, Class: "Disco Bandit", Familiar Effect: "sleaze atk, 1.5xGhuol"
@@ -684,7 +684,7 @@ Item	los chinos	Damage Absorption: +20, Familiar Effect: "2xPotato, HP regen, ca
 Item	lynyrdskin breeches	Initiative: +25, Familiar Effect: "1xPotato, 1.5xGhuol, cap 42"
 Item	makeshift skirt	Initiative: +15, Familiar Effect: "2xBarrr, 1xFairy, cap 25"
 Item	manly bloomers	Muscle: +6, Moxie: -3, Familiar Effect: "3xBarrr, 1xGhuol, cap 13"
-# Item marble maebari: Damages enemies who hit you
+# marble maebari: Damages enemies who hit you
 Item	marble maebari	Muscle Percent: +20, Sleaze Damage: +20
 Item	mariachi pants	Familiar Effect: "8xPotato, cap 2"
 Item	Mayor Ghost's khakis	Spooky Spell Damage: +100, Sleaze Resistance: +5, Cold Resistance: +1, Class: "Pastamancer", Familiar Effect: "1xPotato, HP regen"
@@ -1042,7 +1042,7 @@ Item	bad-ass club	Weapon Damage: +15, Monster Level: +10, Class: "Seal Clubber"
 Item	bag of random words	Effect: "Madly Liberated", Effect Duration: 50
 Item	bag of unfinished business	Stench Damage: +40, Familiar Weight: +5
 Item	Bal-musette accordion	PvP Fights: [4*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10
-# Item balanced antler: Keeps beasts away
+# balanced antler: Keeps beasts away
 Item	balanced antler	Monster Level: +15
 Item	balloon sword	Never Fumble, Weapon Damage: -2, Clowniness: 50
 # bamboo bokuto
@@ -1079,9 +1079,9 @@ Item	black blade	Spooky Damage: +10
 Item	black kettle drum	Moxie: +5, Maximum HP: +30, Maximum MP: +30
 Item	black sword	Critical Hit Percent: +7, Weapon Damage: +7
 Item	blammer	Critical Hit Percent: +7, Weakens Monster
-# Item bloody harpoon: +100% Physical Damage (in PirateRealm only)
+# bloody harpoon: +100% Physical Damage (in PirateRealm only)
 Item	bloody harpoon	Weapon Damage Percent: [100*zone(PirateRealm)], Lasts Until Rollover
-# Item blood knife: Gross!
+# blood knife: Gross!
 Item	blood knife	Lasts Until Rollover
 Item	Bloodbath	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, HP Regen Min: 25, HP Regen Max: 30, MP Regen Min: 25, MP Regen Max: 30
 Item	blunt icepick	Cold Damage: +15
@@ -1554,9 +1554,9 @@ Item	pixel chain whip	Muscle: +4, Mysticality: +4, Moxie: +4
 Item	pixel morning star	Muscle: +5, Mysticality: +5, Moxie: +5
 Item	pixel sword	Initiative: +15
 Item	pixel whip	Muscle: +3, Mysticality: +3, Moxie: +3
-# Item plastic bazooka: Quick Draw
-# Item plastic bazooka: (you will nearly always win Initiative)
-# Item plastic bazooka: Allows you to Super Blast your enemies
+# plastic bazooka: Quick Draw
+# plastic bazooka: (you will nearly always win Initiative)
+# plastic bazooka: Allows you to Super Blast your enemies
 Item	plastic guitar	Moxie: +5, Initiative: +15
 Item	plastic nunchaku	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Initiative: +30
 Item	plastic replica blaster pistol	Initiative: +20, Ranged Damage: +20, Lasts Until Rollover
@@ -1598,7 +1598,7 @@ Item	rattail whip	Moxie: +5, Monster Level: +5
 Item	rave whistle	Maximum HP: +10, Monster Level: +10, Raveosity: +1
 Item	red-hot poker	Hot Damage: +15
 Item	red-hot sausage fork	Hot Damage: +8, Food Drop: +10
-# Item Red Roger's red right hand: +50 Physical Damage (in PirateRealm only)
+# Red Roger's red right hand: +50 Physical Damage (in PirateRealm only)
 Item	Red Roger's red right hand	Weapon Damage: [50*zone(PirateRealm)]
 # Red Rover BB gun: You'll Put Your Eye Out!
 Item	Red Rover BB gun	Critical Hit Percent: +15
@@ -1832,7 +1832,7 @@ Item	toy accordion	Song Duration: 5
 Item	toy Crimbot power glove	Weapon Damage: +15, Crimbot Outfit Power: +1
 Item	toy ray gun	Hot Damage: +5, Critical Hit Percent: +5
 # toy taijijian
-# Item Toyleporter: Locates toys and then blasts them to the Crimbo Town Toy Factory
+# Toyleporter: Locates toys and then blasts them to the Crimbo Town Toy Factory
 # trash net
 Item	triple barreled barrel gun	Weapon Damage Percent: +100, Critical Hit Percent: +10, Meat Drop: +25
 Item	Tropical Crimbo Sword	Weapon Damage: +5
@@ -1986,7 +1986,7 @@ Item	C.H.U.M. lantern	Stench Damage: +17, Item Drop: [30*loc(Sewer Tunnels)]
 Item	cardboard box turtle	Muscle: +3, Damage Reduction: 4
 Item	catskin buckler	Muscle: +10, Damage Absorption: +50, Damage Reduction: 11
 Item	Chalice of the Malkovich Prince	Muscle Percent: +4, Mysticality Percent: +4, Moxie Percent: +4
-# Item chalk chalice: Weakens enemies who hit you
+# chalk chalice: Weakens enemies who hit you
 Item	chalk chalice	Maximum MP: +15, Hot Spell Damage: +20
 Item	charged druidic orb	Lasts Until Rollover
 # charged magnet: Radiates a Strange Energy
@@ -2161,7 +2161,7 @@ Item	KoL Con 13 snowglobe	Drops Items
 Item	KoL Con IV Pole	Maximum HP: +4, Maximum MP: +4, Muscle: +4, Mysticality: +4, Moxie: +4, Hot Damage: +4
 Item	KoL Con Six Pack	Muscle: +5, Mysticality: +5, Moxie: +5, Booze Drop: +25
 Item	KoL Con X Treasure Map	Item Drop: +5, Meat Drop: +10
-# Item Kramco Sausage-o-Matic&trade;: Shows you how the sausage is made
+# Kramco Sausage-o-Matic&trade;: Shows you how the sausage is made
 Item	Kramco Sausage-o-Matic&trade;	Item Drop: +10, Food Drop: +10, Maximum HP: +5, Maximum MP: +5, Critical Hit Percent: +20
 Item	LARP carp	Muscle: +10, Mysticality: +10, Moxie: +10
 # left bear arm: Lets you act like a bear
@@ -2189,7 +2189,7 @@ Item	mad scientist's sock monkey	Moxie: +3
 Item	magic lamp	Mysticality: +5
 Item	magical ice cubes	Cold Damage: +1
 Item	makeshift castanets	DB Combat Damage: +10, Class: "Disco Bandit"
-# Item marble mignonette bowl: Damages enemies who hit you
+# marble mignonette bowl: Damages enemies who hit you
 Item	marble mignonette bowl	MP Regen Min: 4, MP Regen Max: 8, Cold Spell Damage: +40
 Item	marinara jug	Spell Damage: +30, Class: "Sauceror"
 Item	marionette	Mysticality: +3
@@ -2312,7 +2312,7 @@ Item	rag doll	Muscle: +3
 # Rain-Doh green lantern: Makes Spells Smell Worse
 Item	Rain-Doh green lantern	Maximum MP: +20, Softcore Only
 Item	Rainbow Jello Mould	Moxie Percent: +25
-# Item recursed compass: Now it's even more cursed
+# recursed compass: Now it's even more cursed
 Item	recursed compass	Lasts Until Rollover
 # red balloon
 Item	red book	Spell Damage: +20, HP Regen Min: 5, HP Regen Max: 10
@@ -2367,7 +2367,7 @@ Item	sock monkey	Moxie: +3
 Item	Solstice Shield	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie Percent: [5*G], Damage Absorption: +20
 Item	sommelier's towel	Booze Drop: +50
 Item	sonar fishfinder	Fishing Skill: +5
-# Item space shield: Deflects Invader Bullets
+# space shield: Deflects Invader Bullets
 Item	space shield	Damage Reduction: 9
 Item	Space Tourist palmdoctor	Maximum HP: +25, Maximum MP: +25, HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 4, MP Regen Max: 6, Lasts Until Rollover
 Item	spaghetti-box banjo	MP Regen Min: 5, MP Regen Max: 10, Class: "Pastamancer"
@@ -2515,7 +2515,7 @@ Item	ankleweights	PvP Fights: +4, Experience: +1, Single Equip
 Item	anniversary balsa wood socks	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	anniversary burlap belt	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	Annual Ascot	Muscle Percent: +12, Mysticality Percent: +12, Moxie Percent: +12
-# Item antique Canadian lantern: +15% more Item Drops in the Canadian Wildlife Preserve
+# antique Canadian lantern: +15% more Item Drops in the Canadian Wildlife Preserve
 Item	antique Canadian lantern	Item Drop: [15+15*loc(The Canadian Wildlife Preserve)], Cold Resistance: +3
 # aquamariner's necklace: Makes you a better diver
 Item	aquamariner's necklace	MP Regen Min: 10, MP Regen Max: 15, Meat Drop: +15, Single Equip, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
@@ -2623,9 +2623,9 @@ Item	Caveman Dan's favorite rock	Maximum HP: +60, Food Drop: +30, Experience (Mu
 Item	cement sandals	Initiative: -10, Experience (Muscle): +1, Single Equip
 # cement shoes: Makes you sleep like the dead
 Item	cement shoes	Mysticality: +20, Moxie: +20
-# Item chalk chain: Weakens enemies who hit you
+# chalk chain: Weakens enemies who hit you
 Item	chalk chain	Experience (Muscle): +2, Experience (familiar): +1, Single Equip
-# Item chalk choker: Weakens enemies who hit you
+# chalk choker: Weakens enemies who hit you
 Item	chalk choker	Experience (Moxie): +2, Pants Drop: +20, Single Equip
 Item	cheap elven gloves	Mysticality: +1, Sleaze Resistance: +1
 Item	cheap studded belt	Damage Reduction: 1
@@ -2932,8 +2932,8 @@ Item	La Hebilla del Cintur&oacute;n de Lopez	Moxie: +11, HP Regen Min: 5, HP Reg
 Item	ladle of mystery	Maximum HP: +20, Maximum MP: +20, Class: "Sauceror"
 Item	Lead Zeta of Chastity	Muscle: +6, Mysticality: +6, Moxie: +6, Item Drop: +10, Single Equip
 # left half of a heart necklace
-# Item Lil' Doctor&trade; bag: Regenerate 4-7 HP per Adventure</font>
-# Item Lil' Doctor&trade; bag: Lets you perform various medical procedures on enemies
+# Lil' Doctor&trade; bag: Regenerate 4-7 HP per Adventure</font>
+# Lil' Doctor&trade; bag: Lets you perform various medical procedures on enemies
 Item	Lil' Doctor&trade; bag	Maximum HP: [15+5*pref(doctorBagUpgrades)], HP Regen Min: [4+pref(doctorBagUpgrades)], HP Regen Max: [7+pref(doctorBagUpgrades)], Single Equip
 Item	loafers	Initiative: +10, Single Equip
 Item	Loathing Legion necktie	Experience: +4, Single Equip, Softcore Only
@@ -2952,7 +2952,7 @@ Item	lube-shoes	Moxie: -10
 Item	lucky bottlecap	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 Item	lucky cat collar	Meat Drop: +7, Single Equip
 # lucky Crimbo tiki necklace: Brings Good Luck!
-# Item lucky gold ring: Find various valuable currencies after combat
+# lucky gold ring: Find various valuable currencies after combat
 Item	lucky gold ring	Single Equip
 Item	lucky rabbit's foot	Item Drop: +7, Meat Drop: +7
 Item	lucky rabbitfish fin	HP Regen Min: 10, HP Regen Max: 12, MP Regen Min: 10, MP Regen Max: 12, Familiar Weight: +5, Fishing Skill: +5, Single Equip
@@ -2973,9 +2973,9 @@ Item	mafia wedding ring	Muscle Percent: +10, Mysticality Percent: +10, Moxie Per
 Item	MagiMechTech NanoMechaMech	Single Equip
 Item	makeshift SCUBA gear	Stench Resistance: +2, Item Drop: -50, Initiative: -100, Adventure Underwater
 Item	malevolent medallion	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, MP Regen Min: 10, MP Regen Max: 30, Slime Hates It: +1, Single Equip
-# Item marble magnet: Damages enemies who hit you
+# marble magnet: Damages enemies who hit you
 Item	marble magnet	Mysticality Percent: +20, Spell Damage Percent: +30, Single Equip
-# Item marble medallion: Damages enemies who hit you
+# marble medallion: Damages enemies who hit you
 Item	marble medallion	Moxie Percent: +20, Spooky Resistance: +5, Single Equip
 Item	Marvelous Unitard	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only
 Item	Master Thief's utility belt	Moxie: +15, Moxie Percent: +25, Experience (Moxie): +5, Single Equip
@@ -3179,9 +3179,9 @@ Item	Red Balloon of Valor	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +11
 Item	Red Fox glove	Critical Hit Percent: +5, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Attacks Can't Miss, Single Equip
 Item	red masque	Spooky Damage: +15, Maximum HP: +30, Single Equip
 Item	red plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
-# Item Red Roger's red left foot: Gain more FunPoints during PirateRealm island adventures
+# Red Roger's red left foot: Gain more FunPoints during PirateRealm island adventures
 Item	Red Roger's red left foot	Single Equip
-# Item Red Roger's red right foot: Gain more FunPoints during PirateRealm sailing adventures
+# Red Roger's red right foot: Gain more FunPoints during PirateRealm sailing adventures
 Item	Red Roger's red right foot	Single Equip
 Item	red shoe	Hot Resistance: +2, Combat Rate: -5, Single Equip
 Item	red-hot medallion	Hot Damage: +30, Single Equip
@@ -3726,7 +3726,7 @@ Item	burning cape	Hot Resistance: +3, Maximum HP: +25, Maximum MP: +25, Adventur
 # Camp Scout backpack: Helps You Be Prepared
 Item	Camp Scout backpack	Item Drop: +15, Softcore Only, Drops Items
 Item	carpe	Mysticality Percent: +50, MP Regen Min: 5, MP Regen Max: 10, Meat Drop: +50, Combat Rate: +10, Lasts Until Rollover
-# Item chalk chlamys: Weakens enemies who hit you
+# chalk chlamys: Weakens enemies who hit you
 Item	chalk chlamys	Adventures: +2, Combat Rate: -5
 Item	Cloak of Dire Shadows	Maximum MP: +40, Meat Drop: +10, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Item	cod cape	Stench Damage: +25, Combat Rate: +5
@@ -3750,7 +3750,7 @@ Item	little deuce cape	Muscle Percent: +10, Mysticality Percent: +10, Moxie Perc
 Item	Lord Flameface's cloak	Cold Resistance: +2
 Item	LOV Epaulettes	Experience Percent (Mysticality): +25, MP Regen Min: 4, MP Regen Max: 6, Mana Cost (combat): -3, Lasts Until Rollover
 Item	makeshift cape	Item Drop: +5
-# Item marble mantle: Damages enemies who hit you
+# marble mantle: Damages enemies who hit you
 Item	marble mantle	Damage Reduction: 10, Weapon Damage Percent: +30
 Item	Mayor Ghost's cloak	PvP Fights: +5, Weapon Drop: +20, Food Drop: +20, Class: "Pastamancer"
 Item	Misty Cape	Moxie: +5, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 1, MP Regen Max: 2
@@ -3793,7 +3793,7 @@ Item	Time Bandit Time Towel	Muscle: +5, Mysticality: +5, Moxie: +5, Adventures: 
 Item	Time Cape	Item Drop: [25*zone(Twitch)]
 # Time Cloak: Sometimes Find an Extra Chroner in the Time-Twitching Tower
 # toy jet pack: Jane!  Get Me Off This Crazy Thing!
-# Item vampyric cloake: Improves the effectiveness of various Dark Gyffte skills
+# vampyric cloake: Improves the effectiveness of various Dark Gyffte skills
 Item	vampyric cloake	Item Drop: +15, Maximum HP: [min(10*L,1300)], Initiative: +25, Adventures: +4, Experience: +3
 Item	whatsit-covered turtle shell	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Class: "Turtle Tamer"
 # wicker slicker: Lets you use Shell Up multiple times per fight
@@ -4039,7 +4039,7 @@ Item	rattlesnake enrager	Familiar Weight: +5
 # razor fang: Your familiar will sometimes interrupt enemy attacks
 Item	razor fang	Familiar Weight: +10, Lasts Until Rollover, Generic
 Item	really tiny cocktail shaker	Familiar Weight: +5
-# Item red-and-green microcamera: Increases operational effectiveness
+# red-and-green microcamera: Increases operational effectiveness
 Item	red-and-green microcamera	Familiar Weight: +5
 Item	rhesus monkey	Familiar Weight: +5
 Item	rhinestone cowhorn	Familiar Weight: +5
@@ -4082,6 +4082,7 @@ Item	sugar shield	Familiar Weight: +10, Generic, Breakable
 Item	tasteful black bow tie	Familiar Weight: +5
 # teddy bear sewing kit: Teddy Bear loses less stuffing when hit
 # teddy borg sewing kit: Teddy Borg loses less stuffing when hit
+Item	tinsel fin	Familiar Weight: +5
 Item	tiny baby scorpion	Familiar Weight: +10
 Item	tiny ballet slippers	Familiar Weight: +5
 Item	tiny balloon knife	Familiar Weight: +5
@@ -4571,7 +4572,7 @@ Item	clockwork maid	Adventures: +8
 Item	comfy blanket	Base Resting HP: +50
 Item	comfy coffin	Spooky Resistance: +2
 Item	cottage	Base Resting HP: +29, Base Resting MP: +30
-# Item Crimbo candle: Lights up your dwelling, giving you 3 extra Adventures per day (in December only)
+# Crimbo candle: Lights up your dwelling, giving you 3 extra Adventures per day (in December only)
 Item	Crimbo candle	Variable
 Item	cuckoo clock	Adventures: +3
 Item	elevent	Base Resting HP: +49, Base Resting MP: +50
@@ -4639,6 +4640,7 @@ Effect	20/20 Vision	Item Drop: +10
 Effect	5 Pounds Lighter	Initiative: +10, Moxie: +5
 Effect	8-bit Apparition	Avatar: "ancient ghost"
 Effect	9/10ths of the Law	Avatar: "creepy little girl"
+Effect	A Bug's Life	Maximum HP Percent: +100, HP Regen Min: 8, HP Regen Max: 10
 Effect	A Contender	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 Effect	A Few Extra Pounds	Maximum HP: [5*min(L,11)]
 Effect	A Girl Named Sue	Familiar Weight: +5, Experience (familiar): +5, Familiar Damage: +10
@@ -4998,6 +5000,7 @@ Effect	Can't Smell Nothin'	Stench Resistance: +9
 # Canadianity: Makes you feel more Canadian
 Effect	Cancer Rising	Maximum MP Percent: +100
 Effect	Candied Skeleton	Weapon Damage: -10, Spooky Damage: +10
+Effect	Candied Teeth	Candy Drop: +50
 Effect	Capricorn Rising	Item Drop: +5
 Effect	Carapace of the God Lobster	Hot Resistance: +1, Cold Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Sleaze Resistance: +1, Damage Absorption: +20, Damage Reduction: 3
 Effect	Carlweather's Cantata of Confrontation	Combat Rate: [5*(1+equipped(fiberglass fedora))]
@@ -5223,6 +5226,7 @@ Effect	Destructive Resolve	Weapon Damage: +20, Spell Damage: +20
 Effect	Devil Inside	Hot Damage: +30, Cold Resistance: +3, Spooky Resistance: +3
 Effect	Devil Woman (or Man)	Avatar: "devil"
 Effect	Dexteri Tea	Moxie: +50
+Effect	Different Way of Seeing Things	Experience Percent (Mysticality): +50
 Effect	Digitalis, Dig It	Initiative: +75, Maximum HP: +200
 Effect	Digitally Converted	Monster Level: +30
 Effect	Dilated Pupils	Item Drop: +20
@@ -5303,6 +5307,7 @@ Effect	Ear Winds	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2,
 # Easily Embarrassed: Extra-Vulnerable to Sleaze
 Effect	Easily Embarrassed	Sleaze Vulnerability
 Effect	East of Eaten	Weapon Damage Percent: +200, Hot Resistance: +4
+Effect	Eau d' Clochard	Meat Drop: +100
 Effect	Eau D'enmity	Monster Level: +5
 # Eau de Tortue: Helps you tame turtles
 Effect	Ecce Wino	Avatar: "mad wino"
@@ -5526,6 +5531,7 @@ Effect	Full-Body Tan	Experience (Moxie): [L]
 Effect	Fungal Flambé	Hot Spell Damage: +100
 Effect	Fungal Fortification	Damage Absorption: +200
 Effect	Funky Coal Patina	Moxie: +20
+Effect	Furrier Than Thou	Cold Resistance: +5
 Effect	Fury of the Bells	Muscle Percent: +10
 Effect	Fustulent	Stench Damage: +15, Stench Spell Damage: +15
 Effect	Gabarding	Maximum HP: +10
@@ -5568,10 +5574,12 @@ Effect	Godfather of Soul Patch	Avatar: "funky pirate"
 Effect	Going Ape	Item Drop: +30
 Effect	Goldentongue	Moxie Percent: +100
 Effect	Gonna Get You, Sucker	Muscle: +5, Mysticality: +5, Moxie: +5
+Effect	Good Chance of Surviving Hell	Hot Resistance: +5
 Effect	Good Karma	Mysticality: +5
 Effect	Good Motivator	Initiative: +25
 Effect	Good with the Ladies	Experience: +3
 Effect	Goofball Withdrawal	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
+Effect	Gooed Enough For Government Work	Sleaze Resistance: +5
 # Got Milk: You like food; food tastes good.
 Effect	Got Your Boots On	Moxie Percent: +10
 Effect	Gothy	Mysticality: +20, Muscle: -10, Moxie: -10
@@ -5686,6 +5694,7 @@ Effect	Here's Mud in Your Eye	Meat Drop: +50
 Effect	Here's Some More Mud in Your Eye	Meat Drop: +100
 Effect	Hernia!	Muscle Percent: -70
 Effect	Heroic Fortune	Rubee Drop: 1
+Effect	HGH-charged	Experience Percent (Muscle): +50
 Effect	Hidden Power	Muscle: +15, Mysticality: +15, Moxie: +15
 Effect	Hide of Sobek	Damage Absorption: +50, Damage Reduction: 5, Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
 Effect	Hiding in Plain Sight	Initiative: +100
@@ -5789,6 +5798,7 @@ Effect	Incredibly Hulking	Muscle Percent: +200
 Effect	Indescribable Flavor	Spell Damage: +30
 Effect	Industrial Strength Starch	Muscle: +20, Mysticality: +20, Moxie: +20
 Effect	Industrially Frosted	Damage Reduction: 50, Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Sprinkle Drop: +250
+Effect	Industrially Lubricated	Initiative: +150
 Effect	Inebriate Pride	Experience: [min(4,ceil(D/5))]
 Effect	Infernal Thirst	Booze Drop: +200
 # Infinite Loop
@@ -5916,6 +5926,7 @@ Effect	Leash of Linguini	Familiar Weight: +5
 Effect	Leisurely Amblin'	Meat Drop: +100
 Effect	Lemon Enlightenment	Mysticality Percent: +10, Spell Damage Percent: +15
 Effect	Lemony Goodness	Muscle: +10, Mysticality: +10, Moxie: +10
+Effect	Lividly Energized	Maximum MP Percent: +50, MP Regen Min: 3, MP Regen Max: 5
 Effect	Leo Rising	Meat Drop: +10
 Effect	Leonarded	Avatar: "Leonard"
 Effect	Less Pervious	Damage Reduction: 3
@@ -6270,6 +6281,7 @@ Effect	Piratey Flavor	Critical Hit Percent: +5
 Effect	Pisces in the Skyces	Spell Damage Percent: +150
 Effect	Pisces Rising	Mysticality Percent: +50
 Effect	Pla-see-bo	Item Drop: +10
+Effect	Pleasant Forecast	Spooky Resistance: +5
 Effect	Pneumatic	Adventure Underwater
 Effect	Pockets of Fire	Hot Damage: +10
 Effect	Poetically Licensed	Mysticality Percent: +20, Muscle Percent: -20, Experience (Mysticality): +2, Spell Damage Percent: +10
@@ -6288,6 +6300,7 @@ Effect	Pop-eyed	Weapon Damage: +30
 Effect	Pork Barrel	Item Drop: +90
 Effect	Pork Power	Muscle: +10
 Effect	Porkpocketed	Avatar: "Porkpocket"
+Effect	Potpourri Committed	Stench Resistance: +5
 Effect	Pounded by the Actual Stars	Maximum MP Percent: +100
 Effect	Powder Power	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
 Effect	Powdered	Experience (Mysticality): +10
@@ -6929,6 +6942,7 @@ Effect	Thinkin' Drunk	Mysticality: +50, MP Regen Min: 10, MP Regen Max: 20
 Effect	Third Based	Pickpocket Chance: +25
 Effect	Third Eye Blind	Moxie Percent: +50, Mysticality Percent: -50
 Effect	This Is Where You're a Viking	Cold Damage: +25, Weapon Damage Percent: +25
+Effect	Thou Shant Not Sing	Experience Percent (Moxie): +50
 Effect	Thought	Mysticality Percent: +100
 Effect	Three Days Slow	Experience (familiar): +3
 Effect	Three King-sized Sheets to the Wind	Avatar: "Booze Giant"
@@ -8031,10 +8045,10 @@ Item	pawn cookie	Effect: "Pwnd", Effect Duration: 30
 Item	pecan pie	Effect: "Pecan Pied Piper", Effect Duration: 30
 Item	petit 4.1	Effect: "Petit Force", Effect Duration: 20
 Item	petit fortran	Effect: "Petit Forbearance", Effect Duration: 10
-# Item pirate fork: (</font><font color=green>?</font><font color=red>?</font><font color=#999999>?</font><font color=blue>)</font></b>
-# Item pirate fork: Size: <b>4</b>
-# Item pirate fork: Cannot be traded or discarded
-# Item pirate fork: Only one may be consumed per day<p><center><b><font color=blue>Usable once each day to steal some food!
+# pirate fork: (</font><font color=green>?</font><font color=red>?</font><font color=#999999>?</font><font color=blue>)</font></b>
+# pirate fork: Size: <b>4</b>
+# pirate fork: Cannot be traded or discarded
+# pirate fork: Only one may be consumed per day<p><center><b><font color=blue>Usable once each day to steal some food!
 Item	pixel banana	Effect: "Going Ape", Effect Duration: 40
 Item	plumber's lunch	Effect: "Egg Burps", Effect Duration: 20
 Item	poisonous caviar	Effect: "Majorly Poisoned", Effect Duration: 50
@@ -8421,6 +8435,7 @@ Item	Zoodriver	Effect: "Rampage!", Effect Duration: 5
 
 # Spleen Toxins section of modifiers.txt
 
+Item	a bug's lymph	Effect: "A Bug's Life", Effect Duration: 60
 Item	abstraction: action	Effect: "Action", Effect Duration: 50
 Item	abstraction: category	Effect: "Category", Effect Duration: 50
 Item	abstraction: certainty	Effect: "Certainty", Effect Duration: 50
@@ -8438,6 +8453,7 @@ Item	antique bottle of cough syrup	Effect: "The Q Is Talking To You", Effect Dur
 Item	armored prawn	Effect: "Rushtacean'", Effect Duration: 50
 Item	beastly paste	Effect: "Beastly Flavor", Effect Duration: 10
 Item	beefy pill	Effect: "Beefy", Effect Duration: 30
+Item	beggin' cologne	Effect: "Eau d' Clochard", Effect Duration: 60
 Item	black paisley oyster egg	Effect: "Egg-stortionary Tactics", Effect Duration: 20
 Item	black polka-dot oyster egg	Effect: "Egg-stortionary Tactics", Effect Duration: 20
 Item	black striped oyster egg	Effect: "Egg-stortionary Tactics", Effect Duration: 20
@@ -8465,6 +8481,7 @@ Item	ectoplasmic paste	Effect: "Spooky Flavor", Effect Duration: 10
 Item	eldritch essence	Effect: "Eldritch Concentration", Effect Duration: 50
 Item	elemental paste	Effect: "Elemental Flavor", Effect Duration: 10
 # excitement pill: Get an exciting random effect!
+Item	fish sauce	Effect: "Fishy", Effect Duration: 30
 Item	fishy paste	Effect: "Fishy", Effect Duration: 10
 # furry pill: Removes a Negative Effect<br />Restores 40-50 HP
 Item	gaseous gravy	Effect: "Gettin' the Goods", Effect Duration: 50
@@ -8487,12 +8504,14 @@ Item	homeopathic mint tea	Effect: "Alpine Mintiness", Effect Duration: 50
 Item	hot jelly	Effect: "Hot Jellied", Effect Duration: 50
 Item	hot wad	Effect: "Hot Blooded", Effect Duration: 20
 Item	indescribably horrible paste	Effect: "Indescribable Flavor", Effect Duration: 10
+Item	industrial lubricant	Effect: "Industrially Lubricated", Effect Duration: 30
 Item	kelp	Effect: "Does a Body Good", Effect Duration: 50
 Item	Knob Goblin eyedrops	Effect: "Peeled Eyeballs", Effect Duration: 30
 Item	Knob Goblin learning pill	Effect: "Big Veiny Brain", Effect Duration: 30
 Item	Knob Goblin nasal spray	Effect: "Wasabi Sinuses", Effect Duration: 30
 Item	Knob Goblin pet-buffing spray	Effect: "Heavy Petting", Effect Duration: 30
 Item	liquid shifting time weirdness	Effect: "Liquid Luck", Effect Duration: 10
+Item	livid energy	Effect: "Lividly Energized", Effect Duration: 60
 # lucky pill: Lucky!
 Item	lustrous oyster egg	Effect: "Lustre After Wealth", Effect Duration: 50
 Item	magnificent oyster egg	Effect: "Eggstraordinary Strength", Effect Duration: 20
@@ -8502,6 +8521,7 @@ Item	Mer-kin paste	Effect: "Mer-kinny Flavor", Effect Duration: 10
 Item	mime army superserum	Effect: "I'll Have the Soup", Effect Duration: 50
 Item	moomy dust	Effect: "Cowrruption", Effect Duration: 30
 # Nightmare Fuel: Lets you uneasily rest for free
+Item	non-Euclidean angle	Effect: "Different Way of Seeing Things", Effect Duration: 30
 Item	off-white paisley oyster egg	Effect: "Eggs-tra Sensory Perception", Effect Duration: 20
 Item	off-white polka-dot oyster egg	Effect: "Eggs-tra Sensory Perception", Effect Duration: 20
 Item	off-white striped oyster egg	Effect: "Eggs-tra Sensory Perception", Effect Duration: 20
@@ -8523,6 +8543,7 @@ Item	prototype stimulant	Effect: "Proto-Stimulated", Effect Duration: 50
 Item	sachet of strange powder	Effect: "Powder Power", Effect Duration: 40
 Item	scintillating oyster egg	Effect: "Eggscitingly Colorful", Effect Duration: 20
 Item	sea jelly	Effect: "Fishy", Effect Duration: 10
+Item	Shantix&trade;	Effect: "Thou Shant Not Sing", Effect Duration: 30
 # sleaze jelly: Enables Sleazy Bickering
 Item	sleaze jelly	Effect: "Sleazy Jellied", Effect Duration: 50
 Item	sleaze wad	Effect: "Supafly", Effect Duration: 20
@@ -8539,6 +8560,7 @@ Item	The Author's ink	Effect: "It's a Good Life!", Effect Duration: 200
 Item	The Inquisitor's unidentifiable object	Effect: "The Inquisitor's Unknown Effect", Effect Duration: 100
 Item	tube of hair oil	Effect: "Got Your Boots On", Effect Duration: 10
 Item	twinkly wad	Effect: "Aspect of the Twinklefairy", Effect Duration: 20
+Item	vial of humanoid growth hormone	Effect: "HGH-charged", Effect Duration: 30
 Item	vibrating mushroom	Effect: "Weird Vibrations", Effect Duration: 30
 Item	vitamin G pill	Effect: "Riboflavin'", Effect Duration: 5
 Item	watered-down Red Minotaur	Effect: "Water Wings", Effect Duration: 5
@@ -9114,7 +9136,7 @@ Item	cuppa Vitali tea	Effect: "Vitali Tea", Effect Duration: 30
 # cuppa Voraci tea: Increase your stomach capacity by 1
 Item	cuppa Wit tea	Effect: "Wit Tea", Effect Duration: 30
 Item	cuppa Yet tea	Effect: "Yet tea", Effect Duration: 30
-# Item curious anemometer: Increases the sailing speed of your PirateRealm ship
+# curious anemometer: Increases the sailing speed of your PirateRealm ship
 Item	curious anemometer	Lasts Until Rollover
 # cursed cannonball: Deals <font color=gray>Spooky Damage</font> based on your Muscle
 Item	cursed chocolate doubloon	Effect: "Sweet Pirate Curse", Effect Duration: 20
@@ -9324,6 +9346,7 @@ Item	experimental serum P-00	Effect: "Schroedinger's Butt", Effect Duration: 20
 Item	explosion-flavored chewing gum	Effect: "Beaten Up", Effect Duration: 10
 Item	extra-potent gremlin mutagen	Effect: "Seriously Mutated", Effect Duration: 1
 # extra-strength red potion: Restores 190-210 HP
+Item	extra-strength goo	Effect: "Gooed Enough For Government Work", Effect Duration: 20
 Item	extra-strength red potion	Effect: "Healthy Red Glow", Effect Duration: 40
 Item	eyebrow lifter	Effect: "Pained Smirk", Effect Duration: 50
 Item	eyedrops of newt	Effect: "Newt Gets In Your Eyes", Effect Duration: [R]
@@ -9502,11 +9525,11 @@ Item	ginger snaps	Effect: "Ready to Snap", Effect Duration: 15
 # gingerbread restraining order: Banish a gingerbread man for the rest of the day
 # gingerbread smartphone
 Item	gingerbread spice latte	Effect: "Whole Latte Love", Effect Duration: 30
-# Item gingernade: Deals 200-250 damage
+# gingernade: Deals 200-250 damage
 # ginseng: Gives a Pokefamiliar Regeneration
 Item	giraffe-necked turtle	Effect: "Adorable Lookout", Effect Duration: 15
 # glark cable: Instantly defeats most monsters on the Red Zeppelin
-# Item Glass Jack's spyglass: Reveals the distant secrets of PirateRealm
+# Glass Jack's spyglass: Reveals the distant secrets of PirateRealm
 Item	Glass Jack's spyglass	Lasts Until Rollover
 Item	glass of gnat milk	Effect: "Tango, O Gnat", Effect Duration: 30
 Item	glass of warm milk	Effect: "Polyphonic Yawn", Effect Duration: 30
@@ -9655,6 +9678,7 @@ Item	henna face paint	Effect: "Florid Cheeks", Effect Duration: 10
 Item	henna tattoo	Effect: "Hennaliciousness", Effect Duration: 5
 Item	hero's skull	Lasts Until Rollover
 Item	Hersey&trade; SMOOCH	Effect: "Kissed By Fire", Effect Duration: 20
+Item	red-spotted snapper roe	Free Pull
 Item	rune-strewn spoon cocoon	Free Pull
 Item	hi-octane carrot juice	Effect: "Beta Carotene Overdose", Effect Duration: 30
 Item	hibernating Grimstone Golem	Free Pull
@@ -9710,6 +9734,7 @@ Item	How to Hold a Grudge	Skill: "Chip on your Shoulder"
 Item	How to Tolerate Jerks	Skill: "Thick-Skinned"
 Item	huge mint leaf	Effect: "Mint-Condition Breath", Effect Duration: 20
 Item	Huggler Radio	Free Pull
+# human musk: Banish an enemy for the rest of the day
 Item	humming El Vibrato drone	Effect: "El Vibrations", Effect Duration: 10
 Item	Hunger&trade; Sauce	Effect: "The Tunger&trade;", Effect Duration: 1
 Item	hungover chauvinist pig	Free Pull
@@ -9733,6 +9758,7 @@ Item	incense bath ball	Effect: "Incensed", Effect Duration: 10
 Item	industrial frosting	Effect: "Industrially Frosted", Effect Duration: 5
 Item	industrial strength starch	Effect: "Industrial Strength Starch", Effect Duration: 20
 Item	infant sandworm	Free Pull
+Item	infernal snowball	Effect: "Good Chance of Surviving Hell", Effect Duration: 20
 Item	infrablack lipstick	Effect: "One Lip in the Grave", Effect Duration: 50
 # ingot turtle: Deals 90-110 <font color=red>Hot Damage</font> and changes your opponent's element to Hot
 Item	Inigo's Incantation of Inspiration	Class: "Accordion Thief", Skill: "Inigo's Incantation of Inspiration"
@@ -9948,6 +9974,7 @@ Item	Memories of Snake Oiling	Free Pull
 # memory of an AT base pair: Causes a memory of evolution
 Item	Mer-kin cooljuice	Effect: "Juiced", Effect Duration: 30
 Item	Mer-kin darkbook	Skill: "Deep Dark Visions"
+Item	Mer-kin eyedrops	Effect: "Sea Seeing", Effect Duration: 20
 Item	Mer-kin fastjuice	Effect: "Juiced Up", Effect Duration: 10
 # Mer-kin fitbrine: Restores 300-400 HP and MP
 # Mer-kin healscroll: Restores up to 300 Hit Points
@@ -9972,6 +9999,7 @@ Item	mercenary headband	Effect: "Ramboner", Effect Duration: 30
 # metandienone: Increase a Pokefamiliar's power by 1
 Item	Mick's IcyVapoHotness Inhaler	Effect: "Sinuses For Miles", Effect Duration: 10
 Item	Mick's IcyVapoHotness Rub	Effect: "Extreme Muscle Relaxation", Effect Duration: 10
+# micronova: Vaporizes an enemy and causes all of its items to drop
 # military-grade fingernail clippers: Clips fingernails
 Item	milk of magnesium	Effect: "Got Milk", Effect Duration: [R+5]
 Item	Milk Studs	Effect: "Milk Studly", Effect Duration: 15
@@ -10110,6 +10138,7 @@ Item	orange and black Crimboween candy	Effect: "Sugar Rush", Effect Duration: 5
 Item	orange candy heart	Effect: "Heart of Orange", Effect Duration: 10
 Item	orange snowcone	Effect: "Orange Tongue", Effect Duration: 20
 Item	orange-frosted astral cupcake	Effect: "Shiny Happy Cupcake", Effect Duration: 20
+Item	organic potpourri	Effect: "Potpourri Committed", Effect Duration: 20
 Item	orcish hand lotion	Effect: "Hairy Palms", Effect Duration: 10
 Item	orcish nailing lube	Effect: "Well-Lubed", Effect Duration: 10
 Item	orcish rubber	Effect: "Using Protection", Effect Duration: 10
@@ -10147,6 +10176,7 @@ Item	papotion of papower	Effect: "Papowerful", Effect Duration: [R]
 Item	paranormal ricotta	Class: "Pastamancer"
 Item	Party Planning on a Budget	Skill: "Budget Conscious"
 Item	passed-out psychedelic bear	Free Pull
+Item	patch of extra-warm fur	Effect: "Furrier Than Thou", Effect Duration: 20
 # patchouli incense stick: Weakens enemies a little bit
 Item	patchouli incense stick	Effect: "Far Out", Effect: "Embarrassed", Effect Duration: 5
 # patchouli oil bomb: Deals 65-80 <font color=green>Stench Damage</font>
@@ -10168,6 +10198,7 @@ Item	PEEZ dispenser	Effect: "Sugar Rush", Effect Duration: 5
 # peppermint crook: (Maybe)
 # peppermint parasol: Lets you escape from combat without spending an Adventure
 # peppermint parasol: (Maybe)
+Item	peppermint syrup	Effect: "Candied Teeth", Effect Duration: 20
 Item	peppermint twist	Effect: "Peppermint Twisted", Effect Duration: 10
 Item	perfectly ordinary frog	Free Pull
 Item	perfume of prejudice	Effect: "Eau D'enmity", Effect Duration: [R]
@@ -10206,7 +10237,7 @@ Item	pirate cream pie	Effect: "Well Excuuuuse Me!", Effect Duration: 30
 Item	pirate pamphlet	Effect: "Charrrming", Effect Duration: 10
 Item	pirate shaving cream	Effect: "The Best a Pirate Can Get", Effect Duration: 40
 Item	pirate tract	Effect: "Carrrsmic", Effect Duration: 10
-# Item PirateRealm guest pass: Gives you access to PirateRealm for the day
+# PirateRealm guest pass: Gives you access to PirateRealm for the day
 Item	pitted sheet metal	Effect: "Ironclad", Effect Duration: 20
 # pixel coin: Sell it for 2,000 Meat
 # pixel cross: Deals 80-100 Physical Damage
@@ -10283,6 +10314,7 @@ Item	potion of X-ray vision	Effect: "X-Ray Vision", Effect Duration: 30
 # potted tea tree: 2) Get tea every day
 Item	powdered candy sushi set	Effect: "Fishy", Effect Duration: 30
 Item	powdered dice	Effect: "Curse of Randomness", Effect Duration: 100
+# powdered madness: Instantly dispatch a foe (limit 5/day)
 # powdered organs: Weakens enemies somewhat
 Item	powdered toad horn	Effect: "Squirming Like a Toad", Effect Duration: 10
 Item	Power-Guy 2000 holo-record	Effect: "Power, Man", Effect Duration: 10
@@ -10369,7 +10401,7 @@ Item	ravenous eye	Effect: "Stark Raven Mad", Effect Duration: 50
 # razor-sharp can lid: Deals 2-3 Physical Damage
 # razor-tipped yo-yo: Deals 30-40 Physical Damage
 Item	Really Expensive Jewelry and You	Skill: "Really Expensive Jewelrycrafting"
-# Item really nice net: Weakens your foe and stuns them for a few rounds
+# really nice net: Weakens your foe and stuns them for a few rounds
 # really really sticky spider web: Weakens enemies a little bit
 # really sticky spider web: Weakens enemies slightly
 # really thick bandage: Restores 100-120 HP
@@ -10414,7 +10446,7 @@ Item	red eye	Effect: "Seeing Red", Effect Duration: 20
 Item	red face paint	Free Pull
 Item	red foxglove	Effect: "Digitalis, Dig It", Effect Duration: 10
 Item	red letter	Effect: "Red Lettered", Effect Duration: 20
-# Item Red Roger's flag: Increases the likelihood of sea battles in PirateRealm
+# Red Roger's flag: Increases the likelihood of sea battles in PirateRealm
 Item	Red Roger's flag	Lasts Until Rollover
 Item	Red Roger's map	Lasts Until Rollover
 Item	Red Pill	Effect: "There is No Spoon", Effect Duration: 5
@@ -10513,7 +10545,7 @@ Item	Senior Mints	Effect: "Sugar Rush", Effect Duration: 3
 Item	sensitive poetry journal	Effect: "Moon June Spooned", Effect Duration: 10
 Item	Sensual Massage for Creeps	Skill: "Inappropriate Backrub"
 Item	serum of sarcasm	Effect: "Superhuman Sarcasm", Effect Duration: [R]
-# Item sew-on bandage: Restores up to 300 HP
+# sew-on bandage: Restores up to 300 HP
 # sewing kit: Restores up to 1,000 HP
 # sewing kit: (doesn't go away when used)
 Item	shady shades	Effect: "Throwing Some Shade", Effect Duration: 1
@@ -10823,8 +10855,8 @@ Item	The Thorax's Codex of Tormenting Plants	Skill: "Torment Plant"
 Item	The Western Look	Skill: "Steely-Eyed Squint"
 Item	They liver	Effect: "You Liver", Effect Duration: 20
 Item	They'll Love You In Rhinestones	Skill: "Acquire Rhinestones"
-# Item thick walrus blubber: Weakens foes
-# Item thick walrus blubber: (much more effective in the Canadian Wildlife Preserve)
+# thick walrus blubber: Weakens foes
+# thick walrus blubber: (much more effective in the Canadian Wildlife Preserve)
 Item	thin black candle	Effect: "Rainy Soul Miasma", Effect Duration: 10
 Item	Thinknerd's Grimoire of Geeky Gifts	Free Pull, Skill: "Summon Geeky Gifts"
 Item	Threatening Missive	Effect: "Annoyed by Threats", Effect Duration: 30
@@ -10842,8 +10874,8 @@ Item	tin cup	Effect: "Tingling Feeling", Effect Duration: 20
 Item	tin magnolia	Effect: "Tin, Man", Effect Duration: 10
 # tin snips: Deals 8-10 Physical Damage and causes bleeding
 Item	tin thermos of chai	Effect: "Chai Guru Deva Om", Effect Duration: 30
-# Item tiny bomb: Deals moderate damage to enemies
-# Item tiny bomb: (much more effective in the Canadian Wildlife Preserve)
+# tiny bomb: Deals moderate damage to enemies
+# tiny bomb: (much more effective in the Canadian Wildlife Preserve)
 Item	tiny bottle of absinthe	Effect: "Absinthe-Minded", Effect Duration: 10
 Item	tiny canopic jar	Effect: "Ham(ster)-Handed", Effect Duration: 30
 Item	tiny dancer	Effect: "Held Closer", Effect Duration: 20
@@ -10889,7 +10921,7 @@ Item	triggerfingerbone	Effect: "Itchy Trigger Finger", Effect Duration: 20
 # tropical orchid: Weakens enemies a little bit
 Item	Trout Fishing in Loathing	Skill: "Astute Angler"
 Item	true grit	Effect: "Truly Gritty", Effect Duration: 10
-# Item tryptophan dart: Knocks an enemy out.  You won't see them for the rest of the day.
+# tryptophan dart: Knocks an enemy out.  You won't see them for the rest of the day.
 Item	tube of dread wax	Effect: "Crusty Head", Effect Duration: 10
 # tube of herbal ointment: Restores 14-16 HP
 Item	tube of pendulum lube	Effect: "Swung Step", Effect Duration: 50
@@ -10920,6 +10952,7 @@ Item	Underworld acorn	Free Pull
 Item	unearthed volcanic meteoroid	Skill: "Volcanometeor Showeruption"
 Item	unemployed hunchbacked minion	Free Pull
 # unfinished ice sculpture: Makes a copy of a monster to fight later
+Item	unfinished pleasure	Effect: "Pleasant Forecast", Effect Duration: 20
 Item	unholy water	Effect: "Shocking Biology", Effect Duration: 30
 Item	uniclops egg	Free Pull
 Item	universal antivenin	Lasts Until Rollover, Effect: "Fantastic Immunity", Effect Duration: 10
