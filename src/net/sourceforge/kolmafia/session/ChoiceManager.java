@@ -7689,7 +7689,13 @@ public abstract class ChoiceManager
 		}
 
 		String text = request.responseText;
-		ChoiceManager.lastResponseText = text;
+
+		// If this is not actually a choice page, we were redirected.
+		// Do not save this responseText
+		if ( urlString.startsWith( "choice.php" ) )
+		{
+			ChoiceManager.lastResponseText = text;
+		}
 
 		switch ( ChoiceManager.lastChoice )
 		{
@@ -13596,8 +13602,13 @@ public abstract class ChoiceManager
 			}
 		}
 
-		// visitChoice() gets the decorated response text, but this is not a visit
-		ChoiceManager.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( request.getURLString(), text );
+		// visitChoice() gets the decorated response text, but this is not a visit.
+		// If this is not actually a choice page, we were redirected.
+		// Do not save this responseText
+		if ( urlString.startsWith( "choice.php" ) )
+		{
+			ChoiceManager.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( request.getURLString(), text );
+		}
 	}
 
 	public static void handleWalkingAway( final String urlString, final String redirectLocation )
@@ -13605,13 +13616,6 @@ public abstract class ChoiceManager
 		// If we are not handling a choice, nothing to do
 		if ( !ChoiceManager.handlingChoice )
 		{
-			return;
-		}
-
-		// If taking a choice redirects to a fight, we are no longer in a choice
-		if ( redirectLocation.startsWith( "fight.php" ) )
-		{
-			ChoiceManager.handlingChoice = false;
 			return;
 		}
 
