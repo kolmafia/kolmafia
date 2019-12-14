@@ -719,6 +719,18 @@ public class CharPaneDecorator
 				}
 				return buffer;
 			}
+		case FamiliarPool.POCKET_PROFESSOR:
+			buffer.append( Preferences.getString( "_pocketProfessorLectures" ) );
+			buffer.append( "/" );
+			int lectures = (int) Math.ceil( Math.sqrt( familiar.getModifiedWeight() ) );
+			AdventureResult chip = ItemPool.get( ItemPool.POCKET_PROFESSOR_MEMORY_CHIP, 1 );
+			if ( EquipmentManager.getEquipment( EquipmentManager.FAMILIAR ).equals( chip ) )
+			{
+				lectures += 2;
+			}
+			buffer.append( String.valueOf( lectures ) );
+			buffer.append( " lectures" );
+			return buffer;
 		}
 
 		if( familiar.hasDrop() )

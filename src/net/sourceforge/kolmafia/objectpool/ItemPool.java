@@ -3125,6 +3125,7 @@ public class ItemPool
 	public static final int RARE_MEAT_ISOTOPE = 10310;
 	public static final int CAMPFIRE_SMOKE = 10313;
 	public static final int THE_IMPLODED_WORLD = 10322;
+	public static final int POCKET_PROFESSOR_MEMORY_CHIP = 10324;
 	public static final int LAW_OF_AVERAGES = 10325;
 	public static final int PILL_KEEPER = 10333;
 	public static final int DIABOLIC_PIZZA_CUBE = 10335;

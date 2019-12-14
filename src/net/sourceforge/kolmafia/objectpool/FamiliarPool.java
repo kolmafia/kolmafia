@@ -136,4 +136,5 @@ public class FamiliarPool
 	public static final int GOD_LOBSTER = 266;
 	public static final int CAT_BURGLAR = 267;
 	public static final int YULE_HOUND = 269;
+	public static final int POCKET_PROFESSOR = 274;
 }
