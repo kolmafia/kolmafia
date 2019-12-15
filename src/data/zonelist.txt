@@ -121,6 +121,8 @@ Unsorted	Unsorted	No Category
 Sorceress	Unsorted	Sorceress Lair
 
 Holiday	Unsorted	Holiday Zones
+Crimbo19	Holiday	Christmas 2019
+Tammy's Offshore Platform	Crimbo19	Crimbo 19 Underwater
 
 Override	Unsorted	Discoveries
 
@@ -141,5 +143,5 @@ Crimbo14	Removed	Christmas 2014
 Crimbo15	Removed	Christmas 2015
 Crimbo16	Removed	Christmas 2016
 Crimbo17	Removed	Christmas 2017
-Crimbo18	Holiday	Christmas 2018
+Crimbo18	Removed	Christmas 2018
 WhiteWed	Removed	White Wednesday

@@ -2480,6 +2480,13 @@ invader bullet	2137	invaderbullet.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: 1
 skeleton astronaut	2136	astroskeleton.gif	WANDERER Atk: 100 Def: 100 HP: 100 Init: 100 P: undead
 the invader	2138	invader.gif	Atk: 1000 Def: 1000 HP: 1000 Init: -10000 P: construct
 
+# Crimbo 2019 (December 2019)
+gingerbread maw	2141	gingermaw.gif	Atk: 200 Def: 200 HP: 300 Init: 100 P: horror	salty gumdrop	soggy gingerbread chunk	ribbon candy ascot
+nutmeg anemone	2142	nutmeganemone.gif	Atk: 200 Def: 200 HP: 150 Init: -10000 P: plant	intact anemone spike	moist Crimbo spices	anemoney clip
+icingfish	2143	icingfish.gif	Atk: 200 Def: 200 HP: 100 Init: 300 P: fish	runny icing	super-sweet fish goo	icing poncho
+Mer-kin baker	2144	merkinbaker.gif	Atk: 200 Def: 200 HP: 400 Init: 200 P: mer-kin	glob of salty molasses	Mer-kin cookiestove	Mer-kin rollpin
+dolphin "orphan"	2145	dolphin2.gif	Atk: 300 Def: 300 HP: 500 Init: 200 P: fish	waterlogged wood	waterlogged cloth	waterlogged stuffing	waterlogged leather	waterlogged metal
+
 # Retired Standard Monsters
 Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation Manuel: "Astronomer" Wiki: "Astronomer"	star chart (100)
 possessed wine rack (obsolete)	454	winerack.gif	Atk: 158 Def: 146 HP: 165 Init: 40 E: spooky P: construct Manuel: "possessed wine rack" Wiki: "possessed wine rack"
