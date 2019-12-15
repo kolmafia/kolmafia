@@ -2427,9 +2427,13 @@ public class UseItemRequest
 				// [This needs more implementation.]
 				// [This needs some more implementation.]
 				// [This needs a lot more implementation.]
+				// [This needs a ton more implementation.]
 				// [This needs even more than a ton more implementation.]
+				// [Whoa .]
 				int glitchLevel =
-					responseText.contains( "needs even more than a ton more implementation" ) ? 5 :
+					responseText.contains( "Whoa" ) ? 7 :
+					responseText.contains( "needs even more than a ton more implementation" ) ? 6 :
+					responseText.contains( "needs a ton more implementation" ) ? 5 :
 					responseText.contains( "needs a lot more implementation" ) ? 4 :
 					responseText.contains( "needs some more implementation" ) ? 3 :
 					responseText.contains( "needs more implementation" ) ? 2 :
