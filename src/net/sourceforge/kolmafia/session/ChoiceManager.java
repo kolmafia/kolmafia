@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -274,6 +275,7 @@ public abstract class ChoiceManager
 	private static final Pattern DAYCARE_ITEM_PATTERN = Pattern.compile( "<td valign=center>You lose an item: </td>(?:.*?)<b>(.*?)</b> \\((.*?)\\)</td>" );
 	private static final Pattern SAUSAGE_PATTERN = Pattern.compile( "grinder needs (.*?) of the (.*?) required units of filling to make a sausage.  Your grinder reads \\\"(\\d+)\\\" units." );
 	private static final Pattern DOCTOR_BAG_PATTERN = Pattern.compile( "We've received a report of a patient (.*?), in (.*?)\\." );
+	private static final Pattern RED_SNAPPER_PATTERN = Pattern.compile( "guiding you towards: <b>(.*?)</b>.  You've found <b>(\\d+)</b> of them" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -11703,6 +11705,22 @@ public abstract class ChoiceManager
 			RequestLogger.updateSessionLog( message );
 			break;
 		}
+
+		case 1396:
+			// Adjusting Your Fish
+			// choice.php?pwd&whichchoice=1396&option=1&cat=fish
+			if ( urlString.contains( "option=1" ) && urlString.contains( "cat=" ) )
+			{
+				Pattern pattern = Pattern.compile( "cat=([^&]*)" );
+				Matcher matcher = pattern.matcher( urlString );
+				if ( matcher.find() )
+				{
+					String phylum = matcher.group( 1 );
+					Preferences.setString( "redSnapperPhylum", phylum );
+					Preferences.setInteger( "redSnapperProgress", 0 );
+				}
+			}
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
@@ -15006,6 +15024,18 @@ public abstract class ChoiceManager
 			BeachManager.parseCombUsage( text );
 			BeachManager.parseBeachMap( text );
 			break;
+		
+		case 1396:
+			// Adjusting Your Fish
+			Matcher matcher = ChoiceManager.RED_SNAPPER_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				String phylum = MonsterDatabase.phylumFromPlural( matcher.group( 1 ) );
+				int progress = StringUtilities.parseInt( matcher.group( 2 ) );
+				Preferences.setString( "redSnapperPhylum", phylum );
+				Preferences.setInteger( "redSnapperProgress", progress );
+			}
+			break;
 		}
 
 		// Do this after special classes (like WumpusManager) have a
@@ -17918,6 +17948,7 @@ public abstract class ChoiceManager
 		case 1339: // A Little Pump and Grind
 		case 1389: // The Council of Exploathing
 		case 1395: // Take your Pills
+		case 1396: // Adjusting Your Fish
 			return true;
 
 		default:

@@ -3436,6 +3436,35 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.HUMAN_MUSK:
+		case ItemPool.EXTRA_WARM_FUR:
+		case ItemPool.INDUSTRIAL_LUBRICANT:
+		case ItemPool.UNFINISHED_PLEASURE:
+		case ItemPool.HUMANOID_GROWTH_HORMONE:
+		case ItemPool.BUG_LYMPH:
+		case ItemPool.ORGANIC_POTPOURRI:
+		case ItemPool.BOOT_FLASK:
+		case ItemPool.INFERNAL_SNOWBALL:
+		case ItemPool.POWDERED_MADNESS:
+		case ItemPool.FISH_SAUCE:
+		case ItemPool.GUFFIN:
+		case ItemPool.SHANTIX:
+		case ItemPool.GOODBERRY:
+		case ItemPool.EUCLIDEAN_ANGLE:
+		case ItemPool.PEPPERMINT_SYRUP:
+		case ItemPool.MERKIN_EYEDROPS:
+		case ItemPool.EXTRA_STRENGTH_GOO:
+		case ItemPool.ENVELOPE_MEAT:
+		case ItemPool.LIVID_ENERGY:
+		case ItemPool.MICRONOVA:
+		case ItemPool.BEGGIN_COLOGNE:
+			if ( combatResults )
+			{
+				// The end of the fight will increment it to 0
+				Preferences.setInteger( "redSnapperProgress", -1 );
+			}
+			break;
+
 		}
 
 		// Gaining items can achieve goals.

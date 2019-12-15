@@ -141,40 +141,42 @@ public class MonsterDatabase
 
 	public enum Phylum
 	{
-		NONE( "none", "circle.gif", "Unknown" ),
-		BEAST( "beast", "beastflavor.gif", "a Beast" ),
-		BUG( "bug", "stinkbug.gif", "a Bug" ),
-		CONSTELLATION( "constellation", "star.gif", "a Constellation" ),
-		CONSTRUCT( "construct", "sprocket.gif", "a Construct" ),
-		DEMON( "demon", "demonflavor.gif", "a Demon" ),
-		DUDE( "dude", "happy.gif", "a Dude" ),
-		ELEMENTAL( "elemental", "rrainbow.gif", "an Elemental" ),
-		ELF( "elf", "elfflavor.gif", "an Elf" ),
-		FISH( "fish", "fish.gif", "a Fish" ),
-		GOBLIN( "goblin", "goblinflavor.gif", "a Goblin" ),
-		HIPPY( "hippy", "hippyflavor.gif", "a Hippy" ),
-		HOBO( "hobo", "hoboflavor.gif", "a Hobo" ),
-		HORROR( "horror", "skull.gif", "a Horror" ),
-		HUMANOID( "humanoid", "statue.gif", "a Humanoid" ),
-		MER_KIN( "mer-kin", "merkinflavor.gif", "a Mer-kin" ),
-		ORC( "orc", "frattyflavor.gif", "an Orc" ),
-		PENGUIN( "penguin", "bowtie.gif", "a Penguin" ),
-		PIRATE( "pirate", "pirateflavor.gif", "a Pirate" ),
-		PLANT( "plant", "leafflavor.gif", "a Plant" ),
-		SLIME( "slime", "sebashield.gif", "a Slime" ),
-		UNDEAD( "undead", "spookyflavor.gif", "an Undead" ),
-		WEIRD( "weird", "weirdflavor.gif", "Weird" ),
+		NONE( "none", "circle.gif", "Unknown", "" ),
+		BEAST( "beast", "beastflavor.gif", "a Beast", "beasts" ),
+		BUG( "bug", "stinkbug.gif", "a Bug", "bugs" ),
+		CONSTELLATION( "constellation", "star.gif", "a Constellation", "constellations" ),
+		CONSTRUCT( "construct", "sprocket.gif", "a Construct", "constructs" ),
+		DEMON( "demon", "demonflavor.gif", "a Demon", "demons" ),
+		DUDE( "dude", "happy.gif", "a Dude", "dudes" ),
+		ELEMENTAL( "elemental", "rrainbow.gif", "an Elemental", "elementals" ),
+		ELF( "elf", "elfflavor.gif", "an Elf", "elves" ),
+		FISH( "fish", "fish.gif", "a Fish", "fishies" ),
+		GOBLIN( "goblin", "goblinflavor.gif", "a Goblin", "goblins" ),
+		HIPPY( "hippy", "hippyflavor.gif", "a Hippy", "hippys" ),
+		HOBO( "hobo", "hoboflavor.gif", "a Hobo", "hobos" ),
+		HORROR( "horror", "skull.gif", "a Horror", "horrors" ),
+		HUMANOID( "humanoid", "statue.gif", "a Humanoid", "humanoids" ),
+		MER_KIN( "mer-kin", "merkinflavor.gif", "a Mer-kin", "merkins" ),
+		ORC( "orc", "frattyflavor.gif", "an Orc", "orcs" ),
+		PENGUIN( "penguin", "bowtie.gif", "a Penguin", "penguins" ),
+		PIRATE( "pirate", "pirateflavor.gif", "a Pirate", "pirates" ),
+		PLANT( "plant", "leafflavor.gif", "a Plant", "plants" ),
+		SLIME( "slime", "sebashield.gif", "a Slime", "slimes" ),
+		UNDEAD( "undead", "spookyflavor.gif", "an Undead", "the undead" ),
+		WEIRD( "weird", "weirdflavor.gif", "Weird", "weirds" ),
 		;
 
 		private final String name;
 		private final String image;
 		private final String description;
+		private final String plural;
 
-		private Phylum( String name, String image, String description )
+		private Phylum( String name, String image, String description, String plural )
 		{
 			this.name = name;
 			this.image = image;
 			this.description = description;
+			this.plural = plural;
 		}
 
 		@Override
@@ -191,6 +193,11 @@ public class MonsterDatabase
 		public String getDescription()
 		{
 			return this.description;
+		}
+
+		public String getPlural()
+		{
+			return this.plural;
 		}
 	}
 
@@ -232,6 +239,18 @@ public class MonsterDatabase
 			}
 		}
 		return Phylum.NONE;
+	}
+
+	public static final String phylumFromPlural( final String plural )
+	{
+		for ( Phylum phylum : Phylum.values() )
+		{
+			if ( plural.equals( phylum.getPlural() ) )
+			{
+				return phylum.toString();
+			}
+		}
+		return "";
 	}
 
 	public static final boolean elementalVulnerability( final Element element1, final Element element2 )
