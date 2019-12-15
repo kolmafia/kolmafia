@@ -4174,6 +4174,14 @@ public class FightRequest
 					Preferences.setInteger( "_catBurglarCharge", (int) Math.round( charge / 10 ) * 10 );
 				}
 				break;
+				
+			case FamiliarPool.RED_SNAPPER:
+				String monsterPhylum = MonsterStatusTracker.getLastMonster().getPhylum().toString();
+				if ( Preferences.getString( "redSnapperPhylum" ).equals( monsterPhylum ) )
+				{
+					Preferences.increment( "redSnapperProgress" );
+				}
+				break;
 
 			}
 

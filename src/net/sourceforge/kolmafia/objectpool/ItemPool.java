@@ -3129,6 +3129,28 @@ public class ItemPool
 	public static final int LAW_OF_AVERAGES = 10325;
 	public static final int PILL_KEEPER = 10333;
 	public static final int DIABOLIC_PIZZA_CUBE = 10335;
+	public static final int HUMAN_MUSK = 10350;
+	public static final int EXTRA_WARM_FUR = 10351;
+	public static final int INDUSTRIAL_LUBRICANT = 10352;
+	public static final int UNFINISHED_PLEASURE = 10353;
+	public static final int HUMANOID_GROWTH_HORMONE = 10354;
+	public static final int BUG_LYMPH = 10355;
+	public static final int ORGANIC_POTPOURRI = 10356;
+	public static final int BOOT_FLASK = 10357;
+	public static final int INFERNAL_SNOWBALL = 10358;
+	public static final int POWDERED_MADNESS = 10359;
+	public static final int FISH_SAUCE = 10360;
+	public static final int GUFFIN = 10361;
+	public static final int SHANTIX = 10362;
+	public static final int GOODBERRY = 10363;
+	public static final int EUCLIDEAN_ANGLE = 10364;
+	public static final int PEPPERMINT_SYRUP = 10365;
+	public static final int MERKIN_EYEDROPS = 10366;
+	public static final int EXTRA_STRENGTH_GOO = 10367;
+	public static final int ENVELOPE_MEAT = 10368;
+	public static final int LIVID_ENERGY = 10369;
+	public static final int MICRONOVA = 10370;
+	public static final int BEGGIN_COLOGNE = 10371;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

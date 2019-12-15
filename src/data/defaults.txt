@@ -1095,6 +1095,8 @@ user	reanimatorWeirdParts	0
 user	reanimatorWings	0
 user	recentLocations	5
 user	recoveryScript
+user	redSnapperPhylum
+user	redSnapperProgress	0
 user	relayCounters
 user	relayShowSpoilers	false
 user	relayShowWarnings	true

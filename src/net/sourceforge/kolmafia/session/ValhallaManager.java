@@ -671,6 +671,7 @@ public class ValhallaManager
 		Preferences.setInteger( "highTopPumped", 0 );
 		Preferences.setInteger( "smutOrcNoncombatProgress", 0 );
 		Preferences.setInteger( "unicornHornInflation", 0 );
+		Preferences.setInteger( "redSnapperProgress", 0 );
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );
 		Preferences.setString( "crappyCameraMonster", "" );
