@@ -163,6 +163,12 @@ public class AdventureSelectPanel
 		for ( int i = 0; i < zones.length; ++i )
 		{
 			currentZone = AdventureDatabase.ZONE_DESCRIPTIONS.get( zones[ i ] );
+			if ( currentZone == null )
+			{
+				// This indicates an error in zonelist.txt
+				System.out.println( "null zone for " + zones[ i ] );
+				continue;
+			}
 			this.zoneMap.put( currentZone, zones[ i ] );
 
 			if ( useZoneComboBox )

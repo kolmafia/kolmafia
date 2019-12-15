@@ -2537,3 +2537,5 @@
 2536	Industrially Lubricated	saucedrops.gif	b950be382d75b4b6945fdb7422bd1b55	chew 1 industrial lubricant
 2537	Eau d' Clochard	hobohead.gif	cfc0b96c6d374f5949bf67c0453ef9c0	chew 1 beggin' cologne
 2538	Candied Teeth	ghuoltooth.gif	0653e6882291fa70f4b6b27e519d2035	use 1 peppermint syrup
+2539	Molasses Flooded	molasses.gif	c1fa35608c6bd1a96b001ccc862f0772	use 1 glob of salty molasses
+2544	Salt Rush	saltdrop.gif	ee744539761afc35f335929227c50810	use 1 salty gumdrop
