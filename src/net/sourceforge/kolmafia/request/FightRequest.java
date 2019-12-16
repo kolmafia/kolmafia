@@ -9535,8 +9535,10 @@ public class FightRequest
 
 			// COLLAPSING ITEM PROBABILITY WAVEFORMS NOW. PLEASE STAND BACK.
 			// CALCULATE MASS FOR DROPPED ITEMS CAREFULLY. THREE TIMES AT LEAST.
+			// DO NOT STAND UNDER DROPPING ITEMS. IT IS THE LAW (OF GRAVITY).
 			if ( responseText.contains( "COLLAPSING ITEM PROBABILITY WAVEFORMS" ) ||
 			     responseText.contains( "CALCULATE MASS FOR DROPPED ITEMS" ) ||
+			     responseText.contains( "DO NOT STAND" ) ||
 			     skillSuccess )
 			{
 				Preferences.increment( "_pocketProfessorLectures" );
