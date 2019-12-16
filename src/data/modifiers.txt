@@ -10774,7 +10774,7 @@ Item	Summer Nights	Skill: "Grease Lightning"
 Item	Super Weight-Gain 9000	Effect: "Superveiny 9000", Effect Duration: 10
 Item	super-spiky hair gel	Effect: "Spiky Hair", Effect Duration: 5
 # super-sweet fish goo: NOTE: This item will stop working when Crimbo 2019 is over.
-Item	super-sweet fish goo	Effect: "Fishy", Effect Duration: 30
+Item	super-sweet fish goo	Effect: "Fishy", Effect Duration: 15
 # superamplified boom box: Deals 90-100 Physical Damage
 # superamplified boom box: Weakens enemies somewhat
 # superamplified boom box: Briefly stuns your opponent
