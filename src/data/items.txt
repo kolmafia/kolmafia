@@ -10411,22 +10411,22 @@
 10383	soggy gingerbread chunk	948413313	gingerchunk.gif	none	t	0
 10384	salty gumdrop	463449458	saltdrop.gif	potion, usable	t,d	12
 10385	ribbon candy ascot	518918253	candyascot.gif	accessory	t,d	75
-10386	moist Crimbo spices	974036344	disease.gif	none	t,d	5
+10386	moist Crimbo spices	974036344	disease.gif	none	t,d	5	tablespoons of moist Crimbo spices
 10387	intact anemone spike	832222109	bloodspike.gif	none, combat	t,d	25
 10388	anemoney clip	595355898	moneyclip2.gif	accessory	t,d	120
-10389	runny icing	252787051	drippyicing.gif	none	t,d	9
-10390	super-sweet fish goo	616721982	fishgoo.gif	potion, usable	t,d	14
+10389	runny icing	252787051	drippyicing.gif	none	t,d	9	globs of runny icing
+10390	super-sweet fish goo	616721982	fishgoo.gif	potion, usable	t,d	14	mounds of super-sweet fish goo
 10391	icing poncho	787336641	icingponcho.gif	shirt	t,d	80
 10392	Mer-kin cookiestove	943213498	cookiestove.gif	usable	t,d	250
-10393	glob of salty molasses	132552047	molasses.gif	potion, usable	t,d	22
+10393	glob of salty molasses	132552047	molasses.gif	potion, usable	t,d	22	globs of salty molasses
 10394	Mer-kin rollpin	321495976	rollingpin2.gif	weapon	t,d	90
 10395	personalizable gingerbread cookie	378576088	gingercookie.gif	none, usable, curse	t,d	5
 10396	tinsel fin	348138693	tinselfin.gif	familiar	t,d	75
-10397
-10398
-10399
-10400	waterlogged wood	337190254	wlwood.gif	none	t,d	5
-10401	waterlogged cloth	481538473	wlcloth.gif	none	t,d	5
-10402	waterlogged stuffing	146717644	wlstuffing.gif	none	t,d	5
-10403	waterlogged leather	372437118	wlleather.gif	none	t,d	5
-10404	waterlogged metal	139236791	wlmetal.gif	none	t,d	5
+10397	bowl of mernudo	112441928	soupbowl.gif	food	t,d	23	bowls of mernudo
+10398	fishelada	631748375	foamymug.gif	drink	t,d	21
+10399	ojo de pez burrito	506952325	burrito.gif	food	t,d	25
+10400	waterlogged wood	337190254	wlwood.gif	none	t,d	5	blocks of waterlogged wood
+10401	waterlogged cloth	481538473	wlcloth.gif	none	t,d	5	bolts of waterlogged cloth
+10402	waterlogged stuffing	146717644	wlstuffing.gif	none	t,d	5	bales of waterlogged stuffing
+10403	waterlogged leather	372437118	wlleather.gif	none	t,d	5	scraps of waterlogged leather
+10404	waterlogged metal	139236791	wlmetal.gif	none	t,d	5	chunks of waterlogged metal

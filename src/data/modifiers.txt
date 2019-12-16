@@ -5452,6 +5452,7 @@ Effect	Fireproof Lips	Hot Resistance: +9
 Effect	First Blood Kiwi	Spooky Damage: +30
 Effect	First Eye Blind	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 Effect	First, Like, Do No Harm?	Avatar: "Sorority Nurse"
+Effect	Fish-Eye View	Item Drop: [30*env(underwater)]
 Effect	Fishbreath	Stench Damage: +15
 Effect	Fishily Speeding	Initiative: +50
 Effect	Fishtacular Vernacular	Fishing Skill: +10
@@ -6484,6 +6485,7 @@ Effect	Scorpio Rising	Initiative: +25
 Effect	Scowl of the Auk	Weapon Damage: +10
 Effect	Scrappy, Shadowy	Spooky Damage: +25, Damage Reduction: 15
 Effect	Screaming!  SCREAMING!  AAAAAAAH!	Combat Rate: +5
+Effect	Sea Guts	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 Effect	Seal Clubbing Frenzy	Muscle: +2
 Effect	Sealed Brain	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
 Effect	Seeing Colors	Mysticality Percent: +50
@@ -7885,6 +7887,8 @@ Item	blob-shaped Crimbo cookie	Effect: "Amorphous Cheer", Effect Duration: 10
 Item	blunt cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 Item	bowl of Bounty-Os	Effect: "Broken Fast", Effect Duration: 20
 Item	bowl of eyeballs	Effect: "Your Eyes are Peeled!", Effect Duration: 30
+# bowl of mernudo: NOTE: This item will stop working when Crimbo 2019 is over.
+Item	bowl of mernudo	Effect: "Sea Guts", Effect Duration: 30
 Item	bowl of mummy guts	Effect: "Guts Feeling", Effect Duration: 30
 Item	bowl of Tastee-Wheet&trade;	Effect: "Video... Games?", Effect Duration: 5
 Item	Brain Food Pastaco	Effect: "Omphalotus Omnipresence", Effect Duration: 40
@@ -7966,6 +7970,8 @@ Item	extra-toasted half sandwich	Effect: "Stop the Presses!", Effect Duration: 2
 Item	FDKOL hotcakes	Effect: "Hotcaked", Effect Duration: 50
 Item	festive sausage	Effect: "Sausage Festive", Effect Duration: 20
 Item	fireman's lunch	Effect: "You're Not Cooking", Effect Duration: 20
+# fishelada: NOTE: This item will stop working when Crimbo 2019 is over.
+Item	fishelada	Effect: "Fishy", Effect Duration: 30
 # flan del mar: NOTE: This item will stop working when Crimbo 2019 is over.
 Item	flan del mar	Effect: "Festively Brined", Effect Duration: 30
 Item	flower petal pie	Effect: "Flower Power", Effect Duration: 3
@@ -8050,6 +8056,8 @@ Item	natto pocky	Effect: "Ninja, Please", Effect Duration: 30
 Item	nega-mushroom	Effect: "Negavision", Effect Duration: 50
 Item	nut-shaped Crimbo cookie	Effect: "Nut-Rition", Effect Duration: 20
 Item	occult jelly donut	Effect: "Filled with Magic", Effect Duration: 30
+# ojo de pez burrito: NOTE: This item will stop working when Crimbo 2019 is over.
+Item	ojo de pez burrito	Effect: "Fish-Eye View", Effect Duration: 50
 Item	old chum	Effect: "Fishy", Effect Duration: 5
 Item	one with everything	Effect: "Inner Dog", Effect Duration: 50
 Item	packet of beer nuts	Effect: "Salty Mouth", Effect Duration: 1
