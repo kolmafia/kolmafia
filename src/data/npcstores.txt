@@ -414,3 +414,7 @@ Crimbo Town Gift-O-Mat	crimbo18giftomat	Carol of the Hells	500000	ROW1036
 Crimbo Town Gift-O-Mat	crimbo18giftomat	Carol of the Thrills	500000	ROW1037
 Crimbo Town Gift-O-Mat	crimbo18giftomat	Crimbolex watch	1000000	ROW1039
 Crimbo Town Gift-O-Mat	crimbo18giftomat	Crimbo tattoo kit	1000000	ROW1040
+
+The Crimbo Cafe	crimbo19	fishelada	50	ROW1103
+The Crimbo Cafe	crimbo19	bowl of mernudo	50	ROW1101
+The Crimbo Cafe	crimbo19	ojo de pez burrito	50	ROW1104
