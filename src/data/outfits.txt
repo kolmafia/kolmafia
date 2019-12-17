@@ -157,3 +157,4 @@
 154	Shallow Sea Fishing Outfit	fishingtat.gif	spearfish fishing spear, waders, lucky rabbitfish fin
 155	Cursed Skeleton Pirate Costume	skelepiratetat.gif	cursed tricorn hat, cursed pirate cutlass, cursed swash buckle
 156	Whittled Wearables	whittletat.gif	whittled tiara, whittled shorts
+157	Antique Nutcracker Outfit	nutctat.gif	antique nutcracker hat, antique nutcracker sword, antique nutcracker drumstick, antique nutcracker cape, antique nutcracker waistcoat, antique nutcracker pants, antique nutcracker beard, antique nutcracker epaulets, antique nutcracker boots

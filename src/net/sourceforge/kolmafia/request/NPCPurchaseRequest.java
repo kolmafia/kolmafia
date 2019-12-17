@@ -514,6 +514,7 @@ public class NPCPurchaseRequest
 		if ( shopId.equals( "airport" ) ||
 		     shopId.equals( "beergarden" ) ||
 		     shopId.equals( "crimbo16" ) ||
+		     shopId.equals( "crimbo19toys" ) ||
 		     shopId.equals( "grandma" ) ||
 		     shopId.equals( "junkmagazine" ) ||
 		     shopId.startsWith( "kolhs_" ) ||
@@ -1086,6 +1087,7 @@ public class NPCPurchaseRequest
 			     shopId.equals( "airport" ) ||
 			     shopId.equals( "beergarden" ) ||
 			     shopId.equals( "crimbo16" ) ||
+			     shopId.equals( "crimbo19toys" ) ||
 			     shopId.equals( "grandma" ) ||
 			     shopId.equals( "junkmagazine" ) ||
 			     shopId.startsWith( "kolhs_" ) ||

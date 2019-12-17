@@ -134,6 +134,7 @@ import net.sourceforge.kolmafia.request.JarlsbergRequest;
 import net.sourceforge.kolmafia.request.JunkMagazineRequest;
 import net.sourceforge.kolmafia.request.KnollRequest;
 import net.sourceforge.kolmafia.request.KOLHSRequest;
+import net.sourceforge.kolmafia.request.KringleRequest;
 import net.sourceforge.kolmafia.request.LTTRequest;
 import net.sourceforge.kolmafia.request.LeafletRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
@@ -1382,6 +1383,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof KOLHSRequest || isExternal ) && KOLHSRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof KringleRequest || isExternal ) && KringleRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

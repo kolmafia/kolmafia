@@ -10430,3 +10430,29 @@
 10402	waterlogged stuffing	146717644	wlstuffing.gif	none	t,d	5	bales of waterlogged stuffing
 10403	waterlogged leather	372437118	wlleather.gif	none	t,d	5	scraps of waterlogged leather
 10404	waterlogged metal	139236791	wlmetal.gif	none	t,d	5	chunks of waterlogged metal
+10405	antique nutcracker hat	413129670	nutchat.gif	hat		0
+10406	antique nutcracker waistcoat	234876032	nutccoat.gif	shirt		0
+10407	antique nutcracker pants	569021018	nutcpants.gif	pants		0
+10408	antique nutcracker boots	244190918	nutcboots.gif	accessory		0
+10409	antique nutcracker sword	442169862	nutcsword.gif	weapon		0
+10410	antique nutcracker drumstick	981314009	nutcdrumstick.gif	offhand		0
+10411	antique nutcracker beard	271440931	nutcbeard.gif	accessory		0
+10412	antique nutcracker cape	535278260	nutccape.gif	container		0
+10413	antique nutcracker epaulets	557923218	nutcepaulets.gif	accessory		0
+10414	antique nutcracker figurine	625331001	nutcfigure.gif	grow	t,d	150
+10415	salt plum	325004438	saltplum.gif	food	t,d	8
+10416	peppermint eel sauce	723842474	soupbowl.gif	none	t,d	17
+10417	green and red bean	992800964	greenreadbean.gif	food	t,d	6
+10418
+10419
+10420
+10421
+10422
+10423
+10424
+10425
+10426
+10427
+10428
+10429
+10430	nutcracking pliers	422425305	pliers.gif	familiar	t,d	75

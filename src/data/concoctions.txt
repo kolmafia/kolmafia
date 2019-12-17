@@ -3075,3 +3075,15 @@ bottle of sea wine	SUSE	bunch of sea grapes
 
 # Getaway Campsite
 stick of firewood (10)	SUSE	bundle of firewood
+
+# Crimbo 2019
+antique nutcracker hat	KRINGLE, ROW1105	waterlogged cloth (3)	waterlogged stuffing (3)
+antique nutcracker beard	KRINGLE, ROW1110	waterlogged stuffing (3)
+antique nutcracker epaulets	KRINGLE, ROW1111	waterlogged wood (3)	waterlogged metal (3)
+antique nutcracker cape	KRINGLE, ROW1106	waterlogged cloth (3)
+antique nutcracker waistcoat	KRINGLE, ROW1107	waterlogged cloth (3)	waterlogged stuffing (3)	waterlogged leather (3)
+antique nutcracker sword	KRINGLE, ROW1109	waterlogged wood (3)	waterlogged metal (3)
+antique nutcracker drumstick	KRINGLE, ROW1112	waterlogged wood (3)	waterlogged stuffing (3)	waterlogged leather (3)
+antique nutcracker pants	KRINGLE, ROW1114	waterlogged cloth (3)	waterlogged leather (3)	waterlogged metal (3)
+antique nutcracker boots	KRINGLE, ROW1108	waterlogged leather (3)	waterlogged metal (3)
+antique nutcracker figurine	KRINGLE, ROW1113	waterlogged wood (3)

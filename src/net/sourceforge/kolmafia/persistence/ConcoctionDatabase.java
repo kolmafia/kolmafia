@@ -2454,6 +2454,10 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.EXCUSE.put( CraftingType.FANTASY_REALM, "You do not have access to Fantasy Realm welcome center." );
 		}
 
+		// You can't use Kringle's workshop on demand; it is a shop
+		// found in a non-combat adventure
+		ConcoctionDatabase.EXCUSE.put( CraftingType.KRINGLE, "You must rescue Grandma first." );
+
 		// Now, go through all the cached adventure usage values and if
 		// the number of adventures left is zero and the request requires
 		// adventures, it is not permitted.
@@ -2808,6 +2812,10 @@ public class ConcoctionDatabase
 		else if ( mixingMethod == CraftingType.FANTASY_REALM )
 		{
 			result.append( "Fantasy Realm Welcome Center" );
+		}
+		else if ( mixingMethod == CraftingType.KRINGLE )
+		{
+			result.append( "Kringle's workshop" );
 		}
 		if ( result.length() == 0 )
 		{
@@ -3437,6 +3445,11 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "GRANDMA" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.GRANDMA;
+		}
+
+		else if ( mix.equals( "KRINGLE" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.KRINGLE;
 		}
 
 		else if ( mix.equals( "BEER" ) )
