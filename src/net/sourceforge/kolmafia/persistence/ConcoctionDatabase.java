@@ -2455,8 +2455,12 @@ public class ConcoctionDatabase
 		}
 
 		// You can't use Kringle's workshop on demand; it is a shop
-		// found in a non-combat adventure
-		ConcoctionDatabase.EXCUSE.put( CraftingType.KRINGLE, "You must rescue Grandma first." );
+		// found in a non-combat adventure. However, if you are in
+		// that shop, you can "create" the item normally.
+		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.KRINGLE );
+		ConcoctionDatabase.CREATION_COST.put( CraftingType.KRINGLE, 0 );
+		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.KRINGLE, 0 );
+		ConcoctionDatabase.EXCUSE.put( CraftingType.KRINGLE, "You must be in Kringel's workshop." );
 
 		// Now, go through all the cached adventure usage values and if
 		// the number of adventures left is zero and the request requires

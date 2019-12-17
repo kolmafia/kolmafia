@@ -461,6 +461,7 @@ cool iron greaves	250	Mox: 200
 corroded breeches	200	Mox: 150
 crappy Mer-kin tailpiece	200	Mox: 85
 Crimbo pants	100	Mox: 35
+Crimbylow-rise jeans	125	Mox: 15
 crotchety pants	75	Mox: 22
 cursed breeches	200	Mox: 85
 Daisy's unclean bloomers	150	Mox: 30
@@ -1317,6 +1318,7 @@ peace accordion	170	Mox: 70	2-handed accordion
 Pener's drumstick	150	Mus: 35	1-handed club
 penguin whip	20	Mus: 0	1-handed whip
 pentatonic accordion	90	Mox: 30	2-handed accordion
+peppermint spine	125	Mys: 20	1-handed staff
 perforated battle paddle	175	Mus: 72	2-handed club
 Periodical Paintbrush	100	Mus: 0	1-handed artsything
 pernicious cudgel	200	Mus: 150	1-handed club
@@ -2785,6 +2787,7 @@ smooth velvet socks	50	Mys: 10
 snow belly	50	Mys: 10
 snow belt	100	none
 sock garters	150	Mys: 60
+soggy elf shoes	0	Mox: 20
 solid baconstone earring	110	Mys: 40
 solid baconstone necklace	110	Mys: 40
 solid baconstone ring	110	Mys: 40
