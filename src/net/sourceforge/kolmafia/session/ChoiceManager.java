@@ -4399,6 +4399,13 @@ public abstract class ChoiceManager
 			new Object[] { new Option( "use muscle/weapon damage", 1 ),
 			               new Option( "use myst/spell damage", 2 ),
 			               new Option( "use mox/sleaze res", 3 ) } ),
+		
+		// Choice 1397 is Kringle workshop
+		new ChoiceAdventure(
+			"Tammy's Offshore Platform", "choiceAdventure1397", "Kringle workshop",
+			new Object[] { new Option( "craft stuff", 1 ),
+			               new Option( "get waterlogged items", 2 ),
+			               new Option( "fail at life", 3 ) } ),
 
 	};
 

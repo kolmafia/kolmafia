@@ -388,6 +388,7 @@ government cheese	2	1	decent	2-4	5-10	0	0
 gr8ps	1	1	crappy	1	0	0	0
 grapefruit	1	1	crappy	1	0	0	0
 grapes	1	1	crappy	1	0	0	0
+green and red bean	1	1	good	0	0	0	0	Unspaded
 green bean casserole	2	1	awesome	8-10	0	10-20	0	leftovers, 20 Thanksgetting (Variable +meat, +item, +familiar weight, +all res)
 green drunki-bear	4	6	EPIC	22-26	0	200-240	0	4 Inebriety 80 Gummibrain (+100 Myst)
 green hamhock	3	12	EPIC	21	0	0	0	50 Just the Best Anapests
@@ -705,6 +706,7 @@ royal jelly	1	1	crappy	1	10-15	0	0
 royal jelly taco	1	1	decent	2	4-20	0	0
 S.T.L.T.	4	4	awesome	10-15	10-30	10-30	13-27
 salacious crumbs	3	1	decent	5-7	0	0	15-20
+salt plum	2	1	good	0	0	0	0	Unspaded
 salty ancient serpent roll	3	1		9-14	0	8-16	20-30	45/55 Fishy, 10 Salty Dogs
 salty beefy maki	3	1		7-12	8-16	0	0	45/55 Fishy, 10 Salty Dogs
 salty eleven oceans roll	3	1		9-14	20-30	20-30	28-46	45/55 Fishy, 10 Salty Dogs

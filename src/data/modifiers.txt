@@ -85,6 +85,7 @@ Item	Ancient Saucehelm	Mysticality: +11, Spell Damage: +11, Class: "Sauceror", F
 Item	ancient turtle shell helmet	Meat Drop: +10, Familiar Effect: "hot atk, cap 8"
 Item	anniversary concrete fedora	Muscle: +1, Mysticality: +1, Moxie: +1, Familiar Effect: "5xVolley, 5xLep, cap 2"
 Item	antique helmet	Initiative: -10, Spooky Resistance: +2, Breakable, Familiar Effect: "0.5xPotato, 0.5xFairy"
+Item	antique nutcracker hat	Initiative: +15, Moxie Percent: +15
 Item	asbestos helmet turtle	Hot Resistance: +2, Familiar Effect: "hot atk, 1xFairy, cap 20"
 Item	asshat	Stench Resistance: +1, Sleaze Damage: +1, Familiar Effect: "stench atk, 1xVolley, cap 7"
 Item	astral chapeau	Mysticality Percent: +25, Spell Damage: +20, MP Regen Min: 3, MP Regen Max: 5, Familiar Effect: "1xVolley, 1xLep, cap 12"
@@ -540,6 +541,7 @@ Item	1337 7r0uZ0RZ	Muscle: +6, Moxie: -3, Familiar Effect: "2xPotato, cap 27"
 Item	alpha-mail pants	Familiar Effect: "atk, 1xBarrr, cap 35"
 Item	Angelhair Culottes	Mysticality: +11, Spell Damage: +15, Class: "Pastamancer", Familiar Effect: "1.5xPotato, 2xGhoul, cap 31"
 Item	antique greaves	Initiative: -10, Breakable, Familiar Effect: "1xBarrr"
+Item	antique nutcracker pants	Meat Drop: +15, Moxie Percent: +15
 Item	astral shorts	Moxie Percent: +25, Initiative: +20, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4, Familiar Effect: "1xGhoul, cap 12"
 Item	astral trousers	Muscle Percent: +25, Weapon Damage Percent: +50, Meat Drop: +20, Familiar Effect: "1xPotato, cap 12"
 Item	astronaut pants	Maximum HP: +30, Maximum MP: +30, Muscle: +5, Familiar Effect: "1xVolley, 1.5xPotato, cap 43"
@@ -862,6 +864,7 @@ Item	&quot;Humorous&quot; T-shirt	Muscle: +4, Mysticality: +4, Moxie: +4, Fumble
 Item	&quot;Remember the Trees&quot; Shirt	Monster Level: +10, Stench Damage: +10, Combat Rate: +5
 Item	anniversary safety glass vest	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	asbestos apron	Hot Resistance: +3
+Item	antique nutcracker waistcoat	PvP Fights: +3, Muscle Percent: +15
 # Ascension Souvenir T-Shirt
 Item	ASCII shirt	Mysticality: +7
 Item	astral shirt	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Experience: +3, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
@@ -1024,6 +1027,7 @@ Item	ancient stone fist	Damage Reduction: 2, Maximum HP: +20
 Item	anger blaster	Hot Damage: +10
 Item	antique accordion	Song Duration: 10
 Item	antique machete	Muscle Percent: +5
+Item	antique nutcracker sword	Weapon Damage Percent: +30, Muscle Percent: +15
 Item	antique spear	Initiative: -30, Weakens Monster, Breakable
 # archaeologing shovel
 Item	armgun	Weapon Damage: +10, Critical Hit Percent: +5
@@ -1938,6 +1942,7 @@ Item	ancient hot dog wrapper	HP Regen Min: 25, HP Regen Max: 30, MP Regen Min: 2
 Item	ancient stone head	Damage Reduction: 5
 # anniversary balloon
 Item	anniversary chutney sculpture	Muscle: +1, Mysticality: +1, Moxie: +1
+Item	antique nutcracker drumstick	MP Regen Min: 4, MP Regen Max: 8, Mysticality Percent: +15
 Item	antique shield	Initiative: -10, Damage Reduction: 11, Breakable
 Item	antique spyglass	Reduce Enemy Defense: 15, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Item	arm buzzer	Maximum MP: +25, Damage Reduction: 6
@@ -2524,6 +2529,9 @@ Item	anniversary burlap belt	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	Annual Ascot	Muscle Percent: +12, Mysticality Percent: +12, Moxie Percent: +12
 # antique Canadian lantern: +15% more Item Drops in the Canadian Wildlife Preserve
 Item	antique Canadian lantern	Item Drop: [15+15*loc(The Canadian Wildlife Preserve)], Cold Resistance: +3
+Item	antique nutcracker beard	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Mysticality Percent: +15, Single Equip
+Item	antique nutcracker boots	Weapon Damage: +15, Muscle Percent: +15, Single Equip
+Item	antique nutcracker epaulets	HP Regen Min: 6, HP Regen Max: 12, Moxie Percent: +15
 # aquamariner's necklace: Makes you a better diver
 Item	aquamariner's necklace	MP Regen Min: 10, MP Regen Max: 15, Meat Drop: +15, Single Equip, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 # aquamariner's ring: Makes you a better diver
@@ -3722,6 +3730,7 @@ Item	Zombo's skull ring	Moxie Percent: +15, PvP Fights: +4, Single Equip
 # Containers section of modifiers.txt
 
 Item	anniversary pewter cape	Muscle: +1, Mysticality: +1, Moxie: +1
+antique nutcracker cape	0	Mys: 30
 Item	auxiliary backbone	PvP Fights: +3
 # bakelite backpack: Makes Accordion Bash knock loose some Meat
 Item	bakelite backpack	Monster Level: +10, Candy Drop: +20
@@ -4009,6 +4018,7 @@ Item	moveable feast	Familiar Weight: +5, Softcore Only, Generic, Experience (fam
 Item	muscle band	Familiar Weight: +10, Lasts Until Rollover, Generic
 # nanorhino credit card: Helps your Nano-Rhino charge
 Item	nosy nose ringy ring	Familiar Weight: +15
+# nutcracking pliers: Makes your Antique Nutcracker drop nuts more often
 # orange boxing gloves: Causes your Puck Man to sometimes drop extra yellow pixels
 # origami &quot;gentlemen's&quot; magazine: +10 lbs. of Ghuol Whelp
 Item	origami &quot;gentlemen's&quot; magazine	Softcore Only, Generic
@@ -7604,6 +7614,7 @@ Outfit	8-Bit Finery	Initiative: +25
 Outfit	Aeroutfit	Meat Drop: +40
 Outfit	Animelf Apparel	HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 2, MP Regen Max: 3
 Outfit	Antique Arms and Armor	Damage Reduction: 5, Muscle: +15, Initiative: -10
+Outfit	Antique Nutcracker Outfit	Muscle: +25, Mysticality: +25, Moxie: +25, Meat Drop: +25, Item Drop: +25
 Outfit	Arboreal Raiment	Stench Resistance: +3
 Outfit	Arrrbor Day Apparrrrrel	HP Regen Min: 10, HP Regen Max: 15
 Outfit	Bakelite Brigandine	Item Drop: +20

@@ -340,6 +340,9 @@ public class CreateItemRequest
 		case GRANDMA:
 			return new GrandmaRequest( conc );
 
+		case KRINGLE:
+			return new KringleRequest( conc );
+
 		case CHEMCLASS:
 		case ARTCLASS:
 		case SHOPCLASS:
