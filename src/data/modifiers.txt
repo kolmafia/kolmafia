@@ -591,6 +591,7 @@ Item	cool iron greaves	Damage Reduction: 20, HP Regen Min: 20, HP Regen Max: 40,
 Item	corroded breeches	Damage Absorption: +50, Critical Hit Percent: +5, Slime Hates It: +1, Familiar Effect: "sleaze atk, 1xPotato"
 Item	crappy Mer-kin tailpiece	Initiative: -25, Mana Cost: +2, Familiar Effect: "1xBarrr, 1xFairy"
 Item	Crimbo pants	Initiative: +30, Familiar Effect: "atk, cap 25"
+Item	Crimbylow-rise jeans	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Adventures: +4
 Item	crotchety pants	Maximum HP: +40, Familiar Effect: "3xPotato, 2xGhuol, cap 18"
 Item	cursed breeches	Moxie: +15, Familiar Effect: "stench atk, 1xPotato"
 Item	Daisy's unclean bloomers	Stench Damage: +30, Stench Spell Damage: +30, Monster Level: +15, Familiar Effect: "2xBArrr, 1xGhuol, cap 37"
@@ -1548,6 +1549,7 @@ Item	peace accordion	Stench Damage: [12*(1+skill(Accordion Appreciation))], Clas
 Item	Pener's drumstick	Hot Damage: +20, Initiative: +20, Critical Hit Percent: +5
 Item	penguin whip	Meat Drop: +3
 Item	pentatonic accordion	Cold Damage: [9*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 12
+Item	peppermint spine	Mysticality: +10, Spell Critical Percent: +10
 Item	perforated battle paddle	Weapon Damage: +10
 Item	Periodical Paintbrush	Muscle Percent: [+5*G], Mysticality Percent: [+5*G], Moxie Percent: [+5*G], Softcore Only
 Item	pernicious cudgel	Sleaze Damage: +30, Critical Hit Percent: +10, Slime Hates It: +1
@@ -3295,6 +3297,7 @@ Item	Sneaky Pete's breath spray	Moxie: +10
 Item	snow belly	Cold Damage: +6, Single Equip
 Item	snow belt	Experience (Muscle): +5, Experience (Mysticality): +5, Experience (Moxie): +5, Adventures: +8, Single Equip, Lasts Until Rollover
 Item	sock garters	Cold Resistance: +2, Single Equip
+Item	soggy elf shoes	Initiative: +40, Sleaze Damage: +40, Single Equip
 Item	solid baconstone earring	Mysticality: +8, Maximum MP: +15, Mana Cost: -1, Single Equip
 Item	solid baconstone necklace	Mysticality: +10, Spell Damage: +15, Single Equip
 Item	solid baconstone ring	Mysticality: +12, Maximum MP: +30, MP Regen Min: 2, MP Regen Max: 4, Single Equip
