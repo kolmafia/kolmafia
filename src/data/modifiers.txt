@@ -1028,7 +1028,7 @@ Item	ancient stone fist	Damage Reduction: 2, Maximum HP: +20
 Item	anger blaster	Hot Damage: +10
 Item	antique accordion	Song Duration: 10
 Item	antique machete	Muscle Percent: +5
-Item	antique nutcracker sword	Weapon Damage Percent: +30, Muscle Percent: +15
+Item	antique nutcracker sword	Weapon Damage Percent: +30, Muscle Percent: +15, Single Equip
 Item	antique spear	Initiative: -30, Weakens Monster, Breakable
 # archaeologing shovel
 Item	armgun	Weapon Damage: +10, Critical Hit Percent: +5
@@ -2534,7 +2534,7 @@ Item	Annual Ascot	Muscle Percent: +12, Mysticality Percent: +12, Moxie Percent: 
 Item	antique Canadian lantern	Item Drop: [15+15*loc(The Canadian Wildlife Preserve)], Cold Resistance: +3
 Item	antique nutcracker beard	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Mysticality Percent: +15, Single Equip
 Item	antique nutcracker boots	Weapon Damage: +15, Muscle Percent: +15, Single Equip
-Item	antique nutcracker epaulets	HP Regen Min: 6, HP Regen Max: 12, Moxie Percent: +15
+Item	antique nutcracker epaulets	HP Regen Min: 6, HP Regen Max: 12, Moxie Percent: +15, Single Equip
 # aquamariner's necklace: Makes you a better diver
 Item	aquamariner's necklace	MP Regen Min: 10, MP Regen Max: 15, Meat Drop: +15, Single Equip, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 # aquamariner's ring: Makes you a better diver
@@ -3133,7 +3133,7 @@ Item	plastic vampire fangs	Maximum HP: +30, Maximum MP: +30, Muscle: +15, Mystic
 Item	plexiglass pendant	Never Fumble, Moxie Percent: +30, Four Songs, Single Equip
 Item	plexiglass pinky ring	Spell Damage: +30, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Mysticality Percent: +30, Single Equip
 Item	plexiglass pocketwatch	Mana Cost: -3, Adventures: +3, Mysticality Percent: +30, Single Equip
-Item	plush sea serpent	Damage Reduction: 10, Monster Level: [-100*env(underwater)]
+Item	plush sea serpent	Damage Reduction: 10, Monster Level: [-100*env(underwater)], Single Equip
 Item	Pocket Square of Loathing	Never Fumble, Mana Cost: -3, Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Single Equip, Cloathing
 Item	pogo stick	Initiative: +30, Moxie Percent: +10, Single Equip
 Item	Pok&euml;mann figurine: Bloodkip	Familiar Weight: +3, Single Equip
@@ -3734,7 +3734,7 @@ Item	Zombo's skull ring	Moxie Percent: +15, PvP Fights: +4, Single Equip
 # Containers section of modifiers.txt
 
 Item	anniversary pewter cape	Muscle: +1, Mysticality: +1, Moxie: +1
-antique nutcracker cape	0	Mys: 30
+Item	antique nutcracker cape	Spell Damage Percent: +30, Mysticality Percent: +15
 Item	auxiliary backbone	PvP Fights: +3
 # bakelite backpack: Makes Accordion Bash knock loose some Meat
 Item	bakelite backpack	Monster Level: +10, Candy Drop: +20
@@ -9120,6 +9120,7 @@ Item	Crimbo candied pecan	Effect: "Sweet, Nuts", Effect Duration: 5
 Item	Crimbo Candy Cookbook	Skill: "Summon Crimbo Candy"
 # Crimbo Credit: Use it to buy gifts in Crimbo Town!
 Item	crimbo elfling	Free Pull
+# Crimbo Factory surprise box: Full of Crimbo nostalgia!
 Item	Crimbo fudge	Effect: "Busy Bein' Delicious", Effect Duration: 5
 Item	Crimbo P. R. E. S. S. I. E.	Free Pull
 Item	Crimbo peppermint bark	Effect: "Peppermint Bite", Effect Duration: 5
