@@ -10449,7 +10449,7 @@
 10421	soggy elf shoes	392093369	elfshoes.gif	accessory	t	0
 10422	Crimbylow-rise jeans	579303801	lowjeans.gif	pants	t	0
 10423
-10424
+10424	Staff of the Peppermint Twist	676343541	peppstaff.gif	weapon		0
 10425	tempura green and red bean	689603031	tempura1.gif	food	t,d	75
 10426	salt plum sake	527189556	sakecup.gif	drink	t,d	75
 10427	pressurized potion of possessiveness	887222365	potion10.gif	potion, usable	t,d	150

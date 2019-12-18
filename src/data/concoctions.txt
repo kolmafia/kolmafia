@@ -3087,3 +3087,5 @@ antique nutcracker drumstick	KRINGLE, ROW1112	waterlogged wood (3)	waterlogged s
 antique nutcracker pants	KRINGLE, ROW1114	waterlogged cloth (3)	waterlogged leather (3)	waterlogged metal (3)
 antique nutcracker boots	KRINGLE, ROW1108	waterlogged leather (3)	waterlogged metal (3)
 antique nutcracker figurine	KRINGLE, ROW1113	waterlogged wood (3)
+
+Staff of the Peppermint Twist	STAFF	peppermint spine	green and red bean (3)	super-sweet fish goo (3)	salty gumdrop (3)	intact anemone spine (3)

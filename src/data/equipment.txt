@@ -1498,6 +1498,7 @@ Staff of the Light Lunch	10	Mys: 0	1-handed chefstaff
 Staff of the Lunch Lady	10	Mys: 75	1-handed chefstaff
 Staff of the Midnight Snack	10	Mys: 15	1-handed chefstaff
 Staff of the November Jack-O-Lantern	10	Mys: 15	1-handed chefstaff
+Staff of the Peppermint Twist	10	Mys: 200	1-handed chefstaff
 Staff of the Roaring Hearth	10	Mys: 250	1-handed chefstaff
 Staff of the Scummy Sink	10	Mys: 125	1-handed chefstaff
 Staff of the Short Order Cook	10	Mys: 15	1-handed chefstaff
@@ -1658,7 +1659,7 @@ ancient stone head	85	Mus: 27	shield
 anniversary balloon	10	none
 anniversary chutney sculpture	10	none
 antique Canadian lantern	150	Mys: 60
-antique nutcracker drumstick	0	Mys: 30
+antique nutcracker drumstick	150	Mys: 30
 antique shield	180	Mus: 60	shield
 antique spyglass	225	Mys: 200
 arm buzzer	100	Mus: 25	shield
@@ -2149,16 +2150,16 @@ Aluminum Epsilon of Humility	200	Mys: 85
 amber aviator shades	200	Mys: 85
 amulet of extreme plot significance	100	Mys: 35
 Amulet of Yendor	10	none
-anemoney clip	0	Mys: 15
+anemoney clip	80	Mys: 15
 Ankh of Badahnkadh	165	Mys: 67
 ankleweights	100	Mys: 35
 anniversary balsa wood socks	10	none
 anniversary burlap belt	10	none
 Annual Ascot	0	none
 anti-earplugs	10	none
-antique nutcracker beard	0	Mys: 30
-antique nutcracker boots	0	Mus: 30
-antique nutcracker epaulets	0	Mox: 30
+antique nutcracker beard	150	Mys: 30
+antique nutcracker boots	150	Mus: 30
+antique nutcracker epaulets	150	Mox: 30
 aquamariner's necklace	200	Mys: 85
 aquamariner's ring	200	Mys: 85
 arrrgyle socks	70	Mys: 20
@@ -2787,7 +2788,7 @@ smooth velvet socks	50	Mys: 10
 snow belly	50	Mys: 10
 snow belt	100	none
 sock garters	150	Mys: 60
-soggy elf shoes	0	Mox: 20
+soggy elf shoes	125	Mox: 20
 solid baconstone earring	110	Mys: 40
 solid baconstone necklace	110	Mys: 40
 solid baconstone ring	110	Mys: 40
@@ -3179,7 +3180,7 @@ Zombo's skull ring	200	Mys: 200
 # Containers section of equipment.txt
 
 anniversary pewter cape	10	none
-antique nutcracker cape	0	Mys: 30
+antique nutcracker cape	150	Mys: 30
 auxiliary backbone	0	Mus: 75
 bakelite backpack	120	Mus: 40
 barskin cloak	25	Mys: 75
