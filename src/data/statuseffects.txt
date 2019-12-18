@@ -2544,5 +2544,5 @@
 2543	Fish-Eye View	bigeyes.gif	0eded3f9cb2ff88cb88c80f89edd5e5b	eat 1 ojo de pez burrito
 2544	Salt Rush	saltdrop.gif	ee744539761afc35f335929227c50810	use 1 salty gumdrop
 2545	Possessive Pressure	potion10.gif	085cb05447143fccde1399447f0581c3	use 1 pressurized potion of possessiveness
-3546
+2546	Dreaming of a Wet Crimbo	waves.gif	6a973ad9f1e20d1c0edd618e9bf96938
 2547	Mixed Nutrients	mixednuts.gif	6970d24f7f32c78045428a46a54c93a4	use 1 tiny handful of mixed nuts

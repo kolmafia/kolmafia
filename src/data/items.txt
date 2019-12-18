@@ -10407,7 +10407,7 @@
 10379
 10380
 10381
-10382
+10382	Crimbo Factory surprise box	867013472	c19box.gif	usable	t	0
 10383	soggy gingerbread chunk	948413313	gingerchunk.gif	none	t	0
 10384	salty gumdrop	463449458	saltdrop.gif	potion, usable	t,d	12
 10385	ribbon candy ascot	518918253	candyascot.gif	accessory	t,d	75
@@ -10415,7 +10415,7 @@
 10387	intact anemone spike	832222109	bloodspike.gif	none, combat	t,d	25
 10388	anemoney clip	595355898	moneyclip2.gif	accessory	t,d	120
 10389	runny icing	252787051	drippyicing.gif	none	t,d	9	globs of runny icing
-10390	super-sweet fish goo	616721982	fishgoo.gif	potion, usable	t,d	14	mounds of super-sweet fish goo
+10390	super-sweet fish goo	616721982	fishgoo.gif	potion, multiple	t,d	14	mounds of super-sweet fish goo
 10391	icing poncho	787336641	icingponcho.gif	shirt	t,d	80
 10392	Mer-kin cookiestove	943213498	cookiestove.gif	usable	t,d	250
 10393	glob of salty molasses	132552047	molasses.gif	potion, usable	t,d	22	globs of salty molasses
