@@ -1758,6 +1758,7 @@ Item	Staff of the Light Lunch	Spell Damage: +10, Initiative: +15, MP Regen Min: 
 Item	Staff of the Lunch Lady	Spell Damage Percent: +75, Maximum HP: +15, Maximum MP: +15, MP Regen Min: 5, MP Regen Max: 6, Food Drop: +25
 Item	Staff of the Midnight Snack	Spell Damage Percent: +20, Spooky Spell Damage: +10, MP Regen Min: 2, MP Regen Max: 3
 Item	Staff of the November Jack-O-Lantern	Spell Damage Percent: +20, Stench Spell Damage: +10, MP Regen Min: 2, MP Regen Max: 3
+Item	Staff of the Peppermint Twist	Spell Damage Percent: +200, Hot Spell Damage: +20, Cold Spell Damage: +20, MP Regen Min: 15, MP Regen Max: 20
 Item	Staff of the Roaring Hearth	Spell Damage Percent: +250, Hot Spell Damage: +40, MP Regen Min: 30, MP Regen Max: 35
 Item	Staff of the Scummy Sink	Spell Damage Percent: +150, Sleaze Spell Damage: +20, HP Regen Min: 8, HP Regen Max: 10, Slime Hates It: +1
 Item	Staff of the Short Order Cook	Spell Damage Percent: +20, Mysticality: +5, MP Regen Min: 2, MP Regen Max: 3
