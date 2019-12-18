@@ -3088,4 +3088,58 @@ antique nutcracker pants	KRINGLE, ROW1114	waterlogged cloth (3)	waterlogged leat
 antique nutcracker boots	KRINGLE, ROW1108	waterlogged leather (3)	waterlogged metal (3)
 antique nutcracker figurine	KRINGLE, ROW1113	waterlogged wood (3)
 
-Staff of the Peppermint Twist	STAFF	peppermint spine	green and red bean (3)	super-sweet fish goo (3)	salty gumdrop (3)	intact anemone spine (3)
+tempura green and red bean	TEMPURA	bubbling tempura batter	green and red bean
+salt plum sake	SCOCK	bottle of Pete's Sake	salt plum
+pressurized potion of possessiveness	DSAUCE	globe of Deep Sauce	salt plum
+
+Staff of the Peppermint Twist	STAFF	peppermint spine	green and red bean (3)	super-sweet fish goo (3)	salty gumdrop (3)	intact anemone spike (3)
+
+jacked Santa roll	SUSHI	beefy fish meat	white rice	seaweed	green and red bean
+magical jacked Santa roll	SUSHI	beefy fish meat	white rice	seaweed	green and red bean	dragonfish caviar
+salty jacked Santa roll	SUSHI	beefy fish meat	white rice	seaweed	green and red bean	sea salt crystal
+electric jacked Santa roll	SUSHI	beefy fish meat	white rice	seaweed	green and red bean	eel sauce
+
+omniscient Santa roll	SUSHI	glistening fish meat	white rice	seaweed	green and red bean
+magical omniscient Santa roll	SUSHI	glistening fish meat	white rice	seaweed	green and red bean	dragonfish caviar
+salty omniscient Santa roll	SUSHI	glistening fish meat	white rice	seaweed	green and red bean	sea salt crystal
+electric omniscient Santa roll	SUSHI	glistening fish meat	white rice	seaweed	green and red bean	eel sauce
+
+sneaky Santa roll	SUSHI	slick fish meat	white rice	seaweed	green and red bean
+magical sneaky Santa roll	SUSHI	slick fish meat	white rice	seaweed	green and red bean	dragonfish caviar
+salty sneaky Santa roll	SUSHI	slick fish meat	white rice	seaweed	green and red bean	sea salt crystal
+electric sneaky Santa roll	SUSHI	slick fish meat	white rice	seaweed	green and red bean	eel sauce
+
+Yuletide beefy maki	SUSHI	beefy fish meat	white rice	seaweed	peppermint eel sauce
+Yuletide giant dragon roll	SUSHI	beefy fish meat	white rice	seaweed	sea cucumber	peppermint eel sauce
+Yuletide Jack LaLanne roll	SUSHI	beefy fish meat	white rice	seaweed	sea radish	peppermint eel sauce
+Yuletide musclebound rabbit roll	SUSHI	beefy fish meat	white rice	seaweed	sea carrot	peppermint eel sauce
+Yuletide python roll	SUSHI	beefy fish meat	white rice	seaweed	sea avocado	peppermint eel sauce
+Yuletide jacked Santa roll	SUSHI	beefy fish meat	white rice	seaweed	green and red bean	peppermint eel sauce
+
+Yuletide glistening maki	SUSHI	glistening fish meat	white rice	seaweed	peppermint eel sauce
+Yuletide wise dragon roll	SUSHI	glistening fish meat	white rice	seaweed	sea cucumber	peppermint eel sauce
+Yuletide wizened master roll	SUSHI	glistening fish meat	white rice	seaweed	sea radish	peppermint eel sauce
+Yuletide white rabbit roll	SUSHI	glistening fish meat	white rice	seaweed	sea carrot	peppermint eel sauce
+Yuletide ancient serpent roll	SUSHI	glistening fish meat	white rice	seaweed	sea avocado	peppermint eel sauce
+Yuletide omniscient Santa roll	SUSHI	glistening fish meat	white rice	seaweed	green and red bean	peppermint eel sauce
+
+Yuletide slick maki	SUSHI	slick fish meat	white rice	seaweed	peppermint eel sauce
+Yuletide eleven oceans roll	SUSHI	slick fish meat	white rice	seaweed	sea radish	peppermint eel sauce
+Yuletide tricky dragon roll	SUSHI	slick fish meat	white rice	seaweed	sea cucumber	peppermint eel sauce
+Yuletide sneaky rabbit roll	SUSHI	slick fish meat	white rice	seaweed	sea carrot	peppermint eel sauce
+Yuletide slippery snake roll	SUSHI	slick fish meat	white rice	seaweed	sea avocado	peppermint eel sauce
+Yuletide sneaky Santa roll	SUSHI	slick fish meat	white rice	seaweed	green and red bean	peppermint eel sauce
+
+tempura cucumber bento box with peppermint eel sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	peppermint eel sauce	tempura cucumber
+tempura avocado bento box with peppermint eel sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	peppermint eel sauce	tempura avocado
+tempura broccoli bento box with peppermint eel sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	peppermint eel sauce	tempura broccoli
+tempura carrot bento box with peppermint eel sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	peppermint eel sauce	tempura carrot
+tempura cauliflower bento box with peppermint eel sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	peppermint eel sauce	tempura cauliflower
+tempura radish bento box with peppermint eel sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	peppermint eel sauce	tempura radish
+
+tempura green and red bean bento box with anemone sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	anemone sauce	tempura green and red bean
+tempura green and red bean bento box with eel sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	eel sauce	tempura green and red bean
+tempura green and red bean bento box with inky squid sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	inky squid sauce	tempura green and red bean
+tempura green and red bean bento box with mer-kin weaksauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	Mer-kin weaksauce	tempura green and red bean
+tempura green and red bean bento box with peanut sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	peanut sauce	tempura green and red bean
+tempura green and red bean bento box with peppermint eel sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	peppermint eel sauce	tempura green and red bean

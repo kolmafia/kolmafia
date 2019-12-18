@@ -437,7 +437,7 @@ The VERY Unquiet Garves	100	corpulent zobmie	grave rober zmobie	senile lihc	slic
 The Weird Swamp Village	-1	mud turtle	swamp gator	swamp owl	swamp skunk: 0
 The Wildlife Sanctuarrrrrgh	-1	swamp beaver warrior	swamp entity	swamp gator
 The Wreck of the Edgar Fitzsimmons	100	cargo crab	drowned sailor	Mer-kin scavenger	mine crab	unholy diver
-The Wreck of the H. M. S. Kringle	95	Crimbylow	peppermint eel	sea-elf
+The Wreck of the H. M. S. Kringle	95	Crimbylow	peppermint eel	sea-elf	dolphin "orphan" 
 The X-32-F Combat Training Snowman	100	X-32-F Combat Training Snowman
 Throne Room	100	Knob Goblin King
 Through the Spacegate	-1	hostile plant	large hostile plant	exotic hostile plant	small hostile animal	large hostile animal	exotic hostile animal	Spant drone	Spant soldier	Murderbot drone	Murderbot soldier	hostile intelligent alien
