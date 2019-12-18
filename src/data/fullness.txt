@@ -870,6 +870,7 @@ tempura cucumber bento box with eel sauce	5	1	EPIC	24-32	45-65	5-15	5-15	80 Fish
 tempura cucumber bento box with inky squid sauce	5	1	EPIC	24-32	45-65	75-95	5-15	80 Fishy
 tempura cucumber bento box with mer-kin weaksauce	5	1	EPIC	24-32	45-65	5-15	75-95	80 Fishy
 tempura cucumber bento box with peanut sauce	5	1	EPIC	24-32	45-65	5-15	5-15	80 Fishy
+tempura green and red bean	1	1	EPIC	0	0	0	0	Unspaded
 tempura radish	1	7	EPIC	5-7	63	66	63
 tempura radish bento box with anemone sauce	5	1	EPIC	24-32	75-95	5-15	5-15	80 Fishy
 tempura radish bento box with eel sauce	5	1	EPIC	24-32	5-15	5-15	5-15	80 Fishy

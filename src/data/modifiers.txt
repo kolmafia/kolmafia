@@ -6080,6 +6080,7 @@ Effect	Misty Form	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2
 Effect	Mister Master	Avatar: "master of ceremonies"
 Effect	Mistified	Damage Reduction: 30
 Effect	Mitre Cut	Mysticality Percent: [100+2*min(50,pref(chessboardsCleared))]
+Effect	Mixed Nutrients	Muscle: +15, Mysticality: +15, Moxie: +15
 Effect	Mmmmmelon	Item Drop: +30
 Effect	Mo' Hobo	Hobo Power: +10
 # Effect Molasses Flooded: Makes you a better diver
@@ -6325,6 +6326,7 @@ Effect	Pop-eyed	Weapon Damage: +30
 Effect	Pork Barrel	Item Drop: +90
 Effect	Pork Power	Muscle: +10
 Effect	Porkpocketed	Avatar: "Porkpocket"
+Effect	Possessive Pressure	Item Drop: [100*env(underwater)]
 Effect	Potpourri Committed	Stench Resistance: +5
 Effect	Pounded by the Actual Stars	Maximum MP Percent: +100
 Effect	Powder Power	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
@@ -8125,6 +8127,7 @@ Item	tea for one	Effect: "One For Tea", Effect Duration: 40
 Item	temperance whiskey	Effect: "Old Time Hydration", Effect Duration: 100
 Item	tempura broccoli	Effect: "Down With Chow", Effect Duration: 20
 Item	tempura cauliflower	Effect: "Low on the Hog", Effect Duration: 20
+# tempura green and red bean: NOTE: This item will stop working when Crimbo 2019 is over.
 Item	thanksgiving turkey	Effect: "Thanksgetting", Effect Duration: 20
 # The Plumber's mushroom stew: Reduces your Drunkenness by 1
 Item	They liver popsicle	Effect: "You Liver", Effect Duration: 100
@@ -8400,6 +8403,8 @@ Item	Sacramento wine	Effect: "Sacr&eacute; Mental", Effect Duration: 50
 Item	salacious lychee chuhai	Effect: "Brined Liver", Effect Duration: 30
 Item	salacious screwdiver	Effect: "Brined Liver", Effect Duration: 30
 Item	salinated mint julep	Effect: "Brined Liver", Effect Duration: 10
+# salt plum sake: NOTE: This item will stop working when Crimbo 2019 is over.
+Item	salt plum sake	Effect: "Warm Belly", Effect Duration: 1
 Item	Sazerorc	Effect: "Orc Chops", Effect Duration: 5
 Item	Sazuruk-hai	Effect: "Orc Chops", Effect Duration: 10
 Item	Scorpion Bowl	Effect: "Tiki Toughness", Effect Duration: 40
@@ -10365,6 +10370,8 @@ Item	press-on ribs	Effect: "The Bone Us Round", Effect Duration: 30
 Item	pressurized potion of perception	Effect: "Perceptive Pressure", Effect Duration: [R]
 Item	pressurized potion of perspicacity	Effect: "Perspicacious Pressure", Effect Duration: [R]
 Item	pressurized potion of pneumaticity	Effect: "Pneumatic", Effect Duration: 20
+# pressurized potion of possessiveness: NOTE: This item will stop working when Crimbo 2019 is over.
+Item	pressurized potion of possessiveness	Effect: "Possessive Pressure", Effect Duration: 5
 Item	pressurized potion of proficiency	Effect: "Proficient Pressure", Effect Duration: [R]
 Item	pressurized potion of puissance	Effect: "Puissant Pressure", Effect Duration: [R]
 Item	pressurized potion of pulchritude	Effect: "Pulchritudinous Pressure", Effect Duration: [R]
@@ -10925,6 +10932,7 @@ Item	tiny dancer	Effect: "Held Closer", Effect Duration: 20
 Item	tiny domino mask	Familiar Weight: +5
 # tiny goth giant: Makes combat all Gothy
 # tiny goth giant: (doesn't go away when used)
+Item	tiny handful of mixed nuts	Effect: "Mixed Nutrients", Effect Duration: 10
 # tiny house: Restores 20-24 HP and MP and removes negative effects
 Item	To Build an Igloo	Skill: "Refusal to Freeze"
 Item	to-go brew	Lasts Until Rollover

@@ -651,75 +651,66 @@ public class CharPaneDecorator
 				buffer.append( "/20 charges" );
 				return buffer;
 			}
-			return null;
+			return buffer;
 
 		case FamiliarPool.ROCKIN_ROBIN:
-			{
-				buffer.append( Preferences.getString( "rockinRobinProgress" ) );
-				buffer.append( "/30 charges" );
-				return buffer;
-			}
+			buffer.append( Preferences.getString( "rockinRobinProgress" ) );
+			buffer.append( "/30 charges" );
+			return buffer;
 		case FamiliarPool.SPACE_JELLYFISH:
-			{
-				buffer.append( Preferences.getString( "_spaceJellyfishDrops" ) );
-				buffer.append( " jelly harvested" );
-				return buffer;
-			}
+			buffer.append( Preferences.getString( "_spaceJellyfishDrops" ) );
+			buffer.append( " jelly harvested" );
+			return buffer;
 		case FamiliarPool.CANDLE:
-			{
-				buffer.append( Preferences.getString( "optimisticCandleProgress" ) );
-				buffer.append( "/30 charges" );
-				return buffer;
-			}
+			buffer.append( Preferences.getString( "optimisticCandleProgress" ) );
+			buffer.append( "/30 charges" );
+			return buffer;
 		case FamiliarPool.XO_SKELETON:
-			{
-				buffer.append( Preferences.getString( "xoSkeleltonXProgress" ) );
-				buffer.append( "/9 X, " );
-				buffer.append( Preferences.getString( "xoSkeleltonOProgress" ) );
-				buffer.append( "/9 O" );
-				return buffer;
-			}
+			buffer.append( Preferences.getString( "xoSkeleltonXProgress" ) );
+			buffer.append( "/9 X, " );
+			buffer.append( Preferences.getString( "xoSkeleltonOProgress" ) );
+			buffer.append( "/9 O" );
+			return buffer;
 		case FamiliarPool.GARBAGE_FIRE:
-			{
-				buffer.append( Preferences.getString( "garbageFireProgress" ) );
-				buffer.append( "/30 charges" );
-				return buffer;
-			}
+			buffer.append( Preferences.getString( "garbageFireProgress" ) );
+			buffer.append( "/30 charges" );
+			return buffer;
 		case FamiliarPool.CAT_BURGLAR:
+		{
+			// Calculate total charges available
+			int charge = Preferences.getInteger( "_catBurglarCharge" );
+			int minChargeCost = 10;
+			int totalHeists = 0;
+			while ( charge >= minChargeCost )
 			{
-				// Calculate total charges available
-				int charge = Preferences.getInteger( "_catBurglarCharge" );
-				int minChargeCost = 10;
-				int totalHeists = 0;
-				while ( charge >= minChargeCost )
-				{
-					totalHeists++;
-					charge -= minChargeCost;
-					minChargeCost *= 2;
-				}
-				int heistsComplete = Preferences.getInteger( "_catBurglarHeistsComplete" );
-				int bankHeists = Preferences.getInteger( "catBurglarBankHeists" );
-				if ( totalHeists + bankHeists > heistsComplete )
-				{
-					buffer.append( charge );
-					buffer.append( "/" );
-					buffer.append( minChargeCost );
-					buffer.append( " to heist<br>" );
-					buffer.append( heistsComplete );
-					buffer.append( "/" );
-					buffer.append( totalHeists + bankHeists );
-					buffer.append( " heists" );
-				}
-				else
-				{
-					buffer.append( charge );
-					buffer.append( "/" );
-					buffer.append( minChargeCost );
-					buffer.append( " to heist" );
-				}
-				return buffer;
+				totalHeists++;
+				charge -= minChargeCost;
+				minChargeCost *= 2;
 			}
+			int heistsComplete = Preferences.getInteger( "_catBurglarHeistsComplete" );
+			int bankHeists = Preferences.getInteger( "catBurglarBankHeists" );
+			if ( totalHeists + bankHeists > heistsComplete )
+			{
+				buffer.append( charge );
+				buffer.append( "/" );
+				buffer.append( minChargeCost );
+				buffer.append( " to heist<br>" );
+				buffer.append( heistsComplete );
+				buffer.append( "/" );
+				buffer.append( totalHeists + bankHeists );
+				buffer.append( " heists" );
+			}
+			else
+			{
+				buffer.append( charge );
+				buffer.append( "/" );
+				buffer.append( minChargeCost );
+				buffer.append( " to heist" );
+			}
+			return buffer;
+		}
 		case FamiliarPool.POCKET_PROFESSOR:
+		{
 			buffer.append( Preferences.getString( "_pocketProfessorLectures" ) );
 			buffer.append( "/" );
 			int lectures = (int) Math.ceil( Math.sqrt( familiar.getModifiedWeight() ) );
@@ -731,6 +722,16 @@ public class CharPaneDecorator
 			buffer.append( String.valueOf( lectures ) );
 			buffer.append( " lectures" );
 			return buffer;
+		}
+		case FamiliarPool.RED_SNAPPER:
+		{
+			String phylum = Preferences.getString( "redSnapperPhylum" );
+			int progress = Preferences.getInteger( "redSnapperProgress" );
+			buffer.append( String.valueOf( progress ) );
+			buffer.append( "/11 " );
+			buffer.append( phylum.equals( "" ) ? "(none)" : phylum );
+			return buffer;
+		}
 		}
 
 		if( familiar.hasDrop() )
