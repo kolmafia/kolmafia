@@ -351,6 +351,7 @@ The Ice Hole	100	Norwhal	Tin of Submardines	Arctic Octolus
 The Ice Hotel	-1	ice bartender	ice clerk	ice concierge	ice housekeeper	ice porter
 The Icy Peak	85	Knott Yeti: 2	Snow Queen	upgraded ram: 2	Knott Slanding: -1	The ghost of Sam McGee: 0
 The Inner Wolf Gym	100	Abcrusher 4000&trade;	Escalatormaster&trade;	Legstrong&trade; stationary bicycle	rack of free weights	treadmill
+The Impenetrable Kelp-Holly Forest	100	kelpie (horse form)	kelpie (lady form)	Yuleviathan	dolphin "orphan" 
 The Island Barracks	-1	sleepy mariachi	surprised mariachi	alert mariachi
 The Jungle	-1	bee	scorpion	skeleton	tikiman
 The Jungles of Ancient Loathing	30	ancient guardian statue	evil cultist	jungle baboon	tribal goblin	giant bird-creature: 0	giant jungle python: 0	giant octopus: 0	giant spider: 0	high priest of Ki'rhuss: 0	wumpus: 0

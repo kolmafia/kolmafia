@@ -10443,12 +10443,12 @@
 10415	salt plum	325004438	saltplum.gif	food	t,d	8
 10416	peppermint eel sauce	723842474	soupbowl.gif	none	t,d	17
 10417	green and red bean	992800964	greenreadbean.gif	food	t,d	6
-10418
-10419
+10418	kelp-holly gun	735913346	hollygun.gif	weapon	t	0
+10419	Yuleviathan necklace	593533608	yulenecklace.gif	accessory	t	0
 10420	peppermint spine	603672935	peppspine.gif	weapon	t	0
 10421	soggy elf shoes	392093369	elfshoes.gif	accessory	t	0
 10422	Crimbylow-rise jeans	579303801	lowjeans.gif	pants	t	0
-10423
+10423	kelp-holly drape	132137052	kelpcape.gif	container	t	0
 10424	Staff of the Peppermint Twist	676343541	peppstaff.gif	weapon		0
 10425	tempura green and red bean	689603031	tempura1.gif	food	t,d	75
 10426	salt plum sake	527189556	sakecup.gif	drink	t,d	75
