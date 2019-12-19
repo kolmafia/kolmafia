@@ -1426,6 +1426,7 @@ Item	jack flapper	Spell Damage: +5
 Item	Jacob's rung	Maximum MP: +15, Spell Damage: +15
 Item	jungle drum	Spooky Damage: +10, Spooky Resistance: +2, Initiative: -20
 Item	keel-haulin' knife	Spell Damage: +17
+Item	kelp-holly gun	Moxie: +10, Ranged Damage Percent: +50, Pickpocket Chance: +25
 Item	Kentucky-fried meat crossbow	Moxie: +5
 Item	Kentucky-fried meat staff	Mysticality: +5
 Item	Kentucky-fried meat sword	Muscle: +5
@@ -3727,6 +3728,7 @@ Item	yellow glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 Item	Yellow Moon of Compassion	Muscle: +9, Mysticality: +9, Moxie: +9, Item Drop: +7, Single Equip
 # your cowboy boots: Lets you engage in Cowboy Kicking, can be further upgraded with skins and spurs
 Item	your cowboy boots	Maximum HP: +25, Maximum MP: +25
+Item	Yuleviathan necklace	Spooky Damage: +15, Stench Damage: +15, Hot Damage: +15, Cold Damage: +15, Sleaze Damage: +15, MP Regen Min: 20, MP Regen Max: 30, Single Equip
 Item	Zinc Delta of Tranquility	Muscle: +8, Mysticality: +8, Moxie: +8, Item Drop: +8, Single Equip
 Item	zombie monkey necklace	Spooky Damage: +11, Stench Damage: +11
 Item	Zombo's skull ring	Moxie Percent: +15, PvP Fights: +4, Single Equip
@@ -3765,6 +3767,7 @@ Item	ghost shawl	Spell Damage: +50, Spell Critical Percent: +5
 Item	giant gym membership card	Weapon Damage: +15
 Item	Great S-Cape	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only
 Item	hemp backpack	Item Drop: +2
+Item	kelp-holly drape	Monster Level: +15, HP Regen Min: 6, HP Regen Max: 10, MP Regen Min: 6, MP Regen Max: 10
 Item	Lavalos's shell	Damage Absorption: +40, Hot Damage: +20, Hot Resistance: +2
 Item	little deuce cape	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Weapon Damage Percent: +25
 # Lord Flameface's cloak: Has Cool Swirling Flames

@@ -1214,6 +1214,7 @@ jack flapper	35	Mys: 2	1-handed utensil
 Jacob's rung	120	Mys: 45	1-handed staff
 jungle drum	160	Mox: 65	2-handed drum
 keel-haulin' knife	150	Mys: 60	1-handed utensil
+kelp-holly gun	125	Mox: 25	1-handed pistol
 Kentucky-fried meat crossbow	70	Mox: 20	2-handed crossbow
 Kentucky-fried meat staff	70	Mus: 20	2-handed staff
 Kentucky-fried meat sword	70	Mus: 20	2-handed sword
@@ -3173,6 +3174,7 @@ Yearbook Club Camera	0	none
 yellow glowstick	20	none
 Yellow Moon of Compassion	200	Mys: 85
 your cowboy boots	50	none
+Yuleviathan necklace	0	Mys: 40
 Zinc Delta of Tranquility	200	Mys: 85
 zombie monkey necklace	0	none
 Zombo's skull ring	200	Mys: 200
@@ -3204,6 +3206,7 @@ giant gym membership card	150	Mus: 75
 Great S-Cape	10	none
 hemp backpack	2	Mys: 75
 jetpack	0	none
+kelp-holly drape	0	Mys: 25
 Lavalos's shell	150	Mys: 75
 little deuce cape	150	Mus: 75
 Lord Flameface's cloak	0	Mys: 75
