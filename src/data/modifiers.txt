@@ -2882,6 +2882,8 @@ Item	hamethyst ring	Muscle: +5, Maximum HP: +10, HP Regen Min: 2, HP Regen Max: 
 # Hand in Glove: (+Monster Level and Does Damage in Combat based on Smithsness)
 Item	Hand in Glove	Muscle: +5, Smithsness: +5, Single Equip, Monster Level: [K]
 Item	hand-knitted Crimbo socks	Maximum HP: +10, HP Regen Min: 3, HP Regen Max: 5, Cold Resistance: +1
+# hand-knitted diving booties: NOTE: This item will stop working when Crimbo 2019 is over.
+Item	hand-knitted diving booties	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 Item	hardened slime belt	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, HP Regen Min: 10, HP Regen Max: 30, MP Regen Min: 10, MP Regen Max: 30, Mysticality Percent: +20, Single Equip
 Item	hare pin	Moxie Percent: +20, Initiative: +40, Single Equip
 # hazardous sauce dosimeter: Lets you gather more Soulsauce

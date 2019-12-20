@@ -2442,6 +2442,7 @@ hamethyst necklace	50	Mys: 10
 hamethyst ring	50	Mys: 10
 Hand in Glove	100	none
 hand-knitted Crimbo socks	0	none
+hand-knitted diving booties	100	none
 hardened slime belt	200	Mys: 200
 hare pin	200	Mox: 85
 hazardous sauce dosimeter	0	none
@@ -2708,7 +2709,7 @@ Red Roger's red right foot	120	none
 red shoe	150	Mys: 40
 red-hot medallion	50	none
 reinforced furry underpants	30	none
-ribbon candy ascot	0	Mys: 20
+ribbon candy ascot	80	Mys: 20
 rickety old unicycle	200	Mox: 200
 ridiculous belt	0	none
 ridiculous earring	0	none
@@ -3174,7 +3175,7 @@ Yearbook Club Camera	0	none
 yellow glowstick	20	none
 Yellow Moon of Compassion	200	Mys: 85
 your cowboy boots	50	none
-Yuleviathan necklace	0	Mys: 40
+Yuleviathan necklace	200	Mys: 40
 Zinc Delta of Tranquility	200	Mys: 85
 zombie monkey necklace	0	none
 Zombo's skull ring	200	Mys: 200
@@ -3206,7 +3207,7 @@ giant gym membership card	150	Mus: 75
 Great S-Cape	10	none
 hemp backpack	2	Mys: 75
 jetpack	0	none
-kelp-holly drape	0	Mys: 25
+kelp-holly drape	125	Mys: 25
 Lavalos's shell	150	Mys: 75
 little deuce cape	150	Mus: 75
 Lord Flameface's cloak	0	Mys: 75
