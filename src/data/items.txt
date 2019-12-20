@@ -10398,7 +10398,7 @@
 10370	micronova	202645961	micronova.gif	none, combat	t,d	5
 10371	beggin' cologne	909702326	potion9.gif	spleen, usable	t,d	5
 10372	oxygenated eggnog helmet	564465693	noghelmet.gif	hat		0
-10373
+10373	hand-knitted diving booties	782621665	booties.gif	accessory		0
 10374
 10375
 10376
