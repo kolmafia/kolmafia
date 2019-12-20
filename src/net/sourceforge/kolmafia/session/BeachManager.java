@@ -342,6 +342,7 @@ public class BeachManager
 			}
 
 			char ch =
+				type.equals( "rough sand with a twinkle" ) ? 't' :
 				type.equals( "rough sand" ) ? 'r' :
 				type.equals( "combed sand" ) ? 'c' :
 				type.equals( "a beach head" ) ? 'H' :
