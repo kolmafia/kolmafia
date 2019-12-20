@@ -2486,12 +2486,12 @@ nutmeg anemone	2142	nutmeganemone.gif	Atk: 200 Def: 200 HP: 150 Init: -10000 Mea
 icingfish	2143	icingfish.gif	Atk: 200 Def: 200 HP: 100 Init: 300 P: fish	runny icing	super-sweet fish goo	icing poncho
 Mer-kin baker	2144	merkinbaker.gif	Atk: 200 Def: 200 HP: 400 Init: 200 Meat: 200 P: mer-kin	glob of salty molasses	Mer-kin cookiestove	Mer-kin rollpin
 dolphin "orphan"	2145	dolphin2.gif	Atk: 300 Def: 300 HP: 500 Init: 200 Meat: 300 P: fish	waterlogged wood	waterlogged cloth	waterlogged stuffing	waterlogged leather	waterlogged metal
-kelpie (horse form)	2146	kelpiehorse.gif	Atk: 300 Def: 300 HP: 400 Init: 200 P: beast	kelp-holly drape (0)
-kelpie (lady form)	2147	kelpielady.gif	Atk: 300 Def: 300 HP: 400 Init: 300 P: dude	kelp-holly gun (0)
+kelpie (horse form)	2146	kelpiehorse.gif	Atk: 300 Def: 300 HP: 400 Init: 200 Meat: 300 P: beast	kelp-holly drape (0)
+kelpie (lady form)	2147	kelpielady.gif	Atk: 300 Def: 300 HP: 400 Init: 300 Meat: 200 P: dude	kelp-holly gun (0)
 Crimbylow	2148	crimbylow.gif	Atk: 500 Def: 400 HP: 50 Init: 300 Meat: 100 P: demon	green and red bean (0)	Crimbylow-rise jeans (0)
 sea-elf	2149	seaelf.gif	Atk: 300 Def: 300 HP: 400 Init: 200 Meat: 100 P: elf	salt plum (0)	soggy elf shoes (0)
 peppermint eel	2150	pepperminteel.gif	Atk: 400 Def: 400 HP: 400 Init: 200 Meat: 150 P: fish	peppermint eel sauce (0)	peppermint spine (0)
-Yuleviathan	2151	yuleviathan.gif	Atk: 400 Def: 400 HP: 1000 Init: -10000 P: fish	Yuleviathan necklace (0)
+Yuleviathan	2151	yuleviathan.gif	Atk: 400 Def: 400 HP: 1000 Init: -10000 Meat: 300 P: fish	Yuleviathan necklace (0)
 
 # Retired Standard Monsters
 Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation Manuel: "Astronomer" Wiki: "Astronomer"	star chart (100)
