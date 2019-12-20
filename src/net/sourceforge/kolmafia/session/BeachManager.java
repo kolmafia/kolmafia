@@ -282,10 +282,11 @@ public class BeachManager
 	//
 	// I've seen a report that the number of rows on the beach changes from day to day. Tides?
 
-	private static final Pattern MAP_PATTERN = Pattern.compile( "name=\"coords\" value=\"([\\d]+),([\\d]+)\".*?title=\"([^\"]*).*?otherimages/beachcomb/(.*?).png", Pattern.DOTALL );
+	private static final Pattern MAP_PATTERN = Pattern.compile( "name=\"coords\" value=\"([\\d]+),([\\d]+)\".*?title=\"([^\"]*).*?otherimages/beachcomb/(.*?).(gif|png)", Pattern.DOTALL );
 
 	// Known "title" names
 	//
+	// rough sand with a twinkle
 	// rough sand
 	// combed sand
 	// a beach head
