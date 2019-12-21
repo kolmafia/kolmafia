@@ -1550,6 +1550,8 @@ Item	peace accordion	Stench Damage: [12*(1+skill(Accordion Appreciation))], Clas
 Item	Pener's drumstick	Hot Damage: +20, Initiative: +20, Critical Hit Percent: +5
 Item	penguin whip	Meat Drop: +3
 Item	pentatonic accordion	Cold Damage: [9*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 12
+# peppermint harpoon gun: NOTE: This item will stop working when Crimbo 2019 is over.
+Item	peppermint harpoon gun	Weapon Damage: [100*env(underwater)], Item Drop: [100*env(underwater)]
 Item	peppermint spine	Mysticality: +10, Spell Critical Percent: +10
 Item	perforated battle paddle	Weapon Damage: +10
 Item	Periodical Paintbrush	Muscle Percent: [+5*G], Mysticality Percent: [+5*G], Moxie Percent: [+5*G], Softcore Only
@@ -7818,6 +7820,10 @@ Loc	Anemone Mine	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Pe
 Loc	Caliginous Abyss	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
 Loc	The Dive Bar	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
 Loc	The Marinara Trench	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
+
+Loc	Gingerbread Reef	Initiative Penalty: -50, Item Drop Penalty: -50, Meat Drop Penalty: -50
+Loc	The Wreck of the H. M. S. Kringle	Initiative Penalty: -75, Item Drop Penalty: -75, Meat Drop Penalty: -75
+Loc	The Impenetrable Kelp-Holly Forest	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
 
 Loc	The Sunken Party Yacht	Initiative Penalty: -50, Item Drop Penalty: -50, Meat Drop Penalty: -50
 
