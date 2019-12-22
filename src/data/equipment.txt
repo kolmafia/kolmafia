@@ -3021,6 +3021,7 @@ tiny plastic lobsterfrogman	10	none
 tiny plastic Lord Flameface	50	Mys: 10
 tiny plastic Lord Spookyraven	50	Mys: 10
 tiny plastic MechaElf	0	none
+tiny plastic Mer-kin baker	10	none
 tiny plastic mime executive	0	none
 tiny plastic mime functionary	0	none
 tiny plastic mime scientist	0	none
@@ -3050,6 +3051,7 @@ tiny plastic sauceror	20	none
 tiny plastic scary clown	10	none
 tiny plastic Scott the Miner	10	none
 tiny plastic Scream Queen	20	none
+tiny plastic sea elf	10	none
 tiny plastic seal clubber	20	none
 tiny plastic semi-autonomous drill unit	10	none
 tiny plastic senile lihc	10	none

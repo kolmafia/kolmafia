@@ -3551,6 +3551,7 @@ Item	tiny plastic lobsterfrogman	Monster Level: +1
 Item	tiny plastic Lord Flameface	Hot Damage: +20, Cold Resistance: +1, Single Equip
 Item	tiny plastic Lord Spookyraven	Maximum MP: +30, Spell Damage: +10
 Item	tiny plastic MechaElf	Monster Level: +4
+Item	tiny plastic Mer-kin baker	Familiar Weight: +1
 Item	tiny plastic mime executive	Meat Drop: +4
 Item	tiny plastic mime functionary	Moxie: +2
 Item	tiny plastic mime scientist	Mysticality: +2
@@ -3580,6 +3581,7 @@ Item	tiny plastic sauceror	Mysticality: +2, Moxie: +1
 Item	tiny plastic scary clown	Monster Level: +1
 Item	tiny plastic Scott the Miner	Monster Level: +1
 Item	tiny plastic Scream Queen	Muscle: +1, Mysticality: +1, Moxie: +1
+Item	tiny plastic sea elf	Familiar Weight: +2
 Item	tiny plastic seal clubber	Muscle: +2, Moxie: +1
 Item	tiny plastic semi-autonomous drill unit	Mysticality: +1
 Item	tiny plastic senile lihc	Monster Level: +1
@@ -9072,6 +9074,8 @@ Item	Comma Chameleon egg	Free Pull
 Item	compressed air canister	Effect: "Dug Out", Effect Duration: 30
 Item	communal gobstopper	Effect: "The Magic of Sharing", Effect Duration: 20
 Item	concentrated cordial of concentration	Effect: "Concentrated Concentration", Effect Duration: [R]
+# concentrated fish broth: NOTE: This item will stop working when Crimbo 2019 is over.
+Item	concentrated fish broth	Effect: "Fishy", Effect Duration: 30
 Item	concentrated garbage juice	Effect: "Drenched With Filth", Effect Duration: 20
 Item	concoction of clumsiness	Effect: "Clumsy", Effect Duration: [R]
 # confidence-building hug: Increases the damage of your bat-punches and bat-kicks
