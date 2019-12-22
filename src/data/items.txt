@@ -10365,8 +10365,8 @@
 10337	bu&ntilde;uelos Jaliscos	501889623	bunuelos.gif	food	t	0
 10338	flan del mar	403478407	flan2.gif	food	t	0
 10339	Baja sopapilla	715021636	sopapilla.gif	food	t	0
-10340
-10341
+10340	tiny plastic Mer-kin baker	510435981	tpmerkin.gif	accessory	t	0
+10341	tiny plastic sea elf	884489722	tpseaelf.gif	accessory	t	0
 10342
 10343
 10344
@@ -10400,7 +10400,7 @@
 10372	oxygenated eggnog helmet	564465693	noghelmet.gif	hat		0
 10373	hand-knitted diving booties	782621665	booties.gif	accessory		0
 10374	peppermint harpoon gun	872220578	peppergun.gif	weapon		0
-10375
+10375	concentrated fish broth	324033483	soupbowl.gif	potion, usable	t	0
 10376
 10377
 10378
