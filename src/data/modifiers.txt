@@ -6314,6 +6314,7 @@ Effect	Pie in the Sky	Experience (Muscle): +2, Experience (Mysticality): +2, Exp
 Effect	Pigulated	Avatar: "piggy"
 Effect	Pill Party!	Muscle: -20, Mysticality: -20, Moxie: -20
 Effect	Pill Power	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
+# Effect PING...  PING...  PING...: Increased chance of dolphin "orphan" encounters
 Effect	Piratastic	Moxie: +100
 Effect	Piratey Flavor	Critical Hit Percent: +5
 Effect	Pisces in the Skyces	Spell Damage Percent: +150
@@ -9935,6 +9936,8 @@ Item	liquid ice	Effect: "Cold as Ice", Effect Duration: 50
 Item	liquid ice pack	Effect: "Ice Packed", Effect Duration: 30
 Item	liquid rhinestones	Effect: "Sparkly!", Effect Duration: 40
 Item	liquid smoke	Effect: "Liquidy Smoky", Effect Duration: 15
+# liquid SONAR: NOTE: This item will stop working when Crimbo 2019 is over.
+Item	liquid SONAR	Effect: "PING...  PING...  PING...", Effect Duration: 50
 # little parachute guy: Eventually restores 10-20 HP and MP
 Item	little red .epub file	Effect: "Xiblaxian Sympathizer", Effect Duration: 50
 # little red book: Weakens enemies by 5% and briefly stuns them.
