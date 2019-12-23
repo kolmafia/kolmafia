@@ -280,7 +280,7 @@ public class BeachManager
 	//
 	// Coordinates: <row>,(minutes*10-column)
 	//
-	// I've seen a report that the number of rows on the beach changes from day to day. Tides?
+	// The number of rows on the beach changes from day to day. Tides?
 
 	private static final Pattern MAP_PATTERN = Pattern.compile( "name=\"coords\" value=\"([\\d]+),([\\d]+)\".*?title=\"([^\"]*).*?otherimages/beachcomb/(.*?).(gif|png)", Pattern.DOTALL );
 

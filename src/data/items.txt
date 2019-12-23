@@ -10367,7 +10367,7 @@
 10339	Baja sopapilla	715021636	sopapilla.gif	food	t	0
 10340	tiny plastic Mer-kin baker	510435981	tpmerkin.gif	accessory	t	0
 10341	tiny plastic sea elf	884489722	tpseaelf.gif	accessory	t	0
-10342
+10342	tiny plastic yuleviathan	628118786	tpyuleviathan.gif	accessory	t	0
 10343
 10344
 10345	red-spotted snapper roe	593931020	redroe.gif	grow	t	0
