@@ -10401,7 +10401,7 @@
 10373	hand-knitted diving booties	782621665	booties.gif	accessory		0
 10374	peppermint harpoon gun	872220578	peppergun.gif	weapon		0
 10375	concentrated fish broth	324033483	soupbowl.gif	potion, usable	t	0
-10376
+10376	liquid SONAR	875930005	potion24.gif	potion, multiple	t	0	bottles of liquid SONAR
 10377
 10378
 10379
