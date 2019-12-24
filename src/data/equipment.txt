@@ -88,6 +88,7 @@ Dinsey mascot mask	10	none
 Dinsey's brain	200	Mox: 100
 Disco 'Fro Pick	100	Mox: 15
 disco mask	10	none
+Dolph Bossin's Crimbo hat	150	Mox: 40
 Dolphin King's crown	35	Mox: 2
 double-ice cap	70	Mox: 20
 draggin' ball hat	100	Mox: 35
@@ -1319,7 +1320,7 @@ peace accordion	170	Mox: 70	2-handed accordion
 Pener's drumstick	150	Mus: 35	1-handed club
 penguin whip	20	Mus: 0	1-handed whip
 pentatonic accordion	90	Mox: 30	2-handed accordion
-peppermint harpoon gun	100	Mus: 0	2-handed bazooka
+peppermint harpoon gun	100	Mox: 0	2-handed bazooka
 peppermint spine	125	Mys: 20	1-handed staff
 perforated battle paddle	175	Mus: 72	2-handed club
 Periodical Paintbrush	100	Mus: 0	1-handed artsything
@@ -2964,6 +2965,7 @@ tiny plastic Crimboween pentagram	20	none
 tiny plastic cubist bull	10	none
 tiny plastic demoninja	10	none
 tiny plastic disco bandit	20	none
+tiny plastic dolphin &quot;orphan&quot;	10	none
 tiny plastic Don Crimbo	0	none
 tiny plastic Dr. Awkward	50	Mys: 10
 tiny plastic drunk goat	10	none
