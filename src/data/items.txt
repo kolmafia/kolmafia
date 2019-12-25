@@ -10369,7 +10369,7 @@
 10341	tiny plastic sea elf	884489722	tpseaelf.gif	accessory	t	0
 10342	tiny plastic yuleviathan	628118786	tpyuleviathan.gif	accessory	t	0
 10343	tiny plastic dolphin &quot;orphan&quot;	567229020	tpdolphin.gif	accessory	t	0
-10344
+10344	tiny plastic Dolph Bossin	878622615	tpdolphin.gif	accessory	t	0
 10345	red-spotted snapper roe	593931020	redroe.gif	grow	t	0
 10346	mana-coated yams	177436029	casserole.gif	food	t,d	50
 10347	mana-basted tofurkey leg	931240043	turkeyleg.gif	food	t,d	50
@@ -10405,7 +10405,7 @@
 10377	map to Dolph Bossin's hideout	986362048	map.gif	none		0
 10378	Dolph Bossin's charity note	955490978	document.gif	none		0
 10379	Dolph Bossin's Crimbo hat	371325275	dolphhat.gif	hat	t	0
-10380
+10380	The Spirit of Giving	415922024	book3.gif	usable	t	0
 10381
 10382	Crimbo Factory surprise box	867013472	c19box.gif	usable	t	0
 10383	soggy gingerbread chunk	948413313	gingerchunk.gif	none	t	0
