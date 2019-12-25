@@ -1926,7 +1926,7 @@ Ol' Scratch's ash can	200	Mys: 200
 Ol' Scratch's stove door	240	Mus: 200	shield
 old school flying disc	220	Mus: 200	shield
 Operation Patriot Shield	240	none	shield
-optimal spreadsheet	0	none
+optimal spreadsheet	10	none
 orcish stud-finder	85	Mys: 27
 ornate dowsing rod	10	none
 Oscus's garbage can lid	240	Mus: 200	shield
@@ -1985,7 +1985,7 @@ Red X Shield	180	Mus: 70	shield
 reusable shopping bag	10	none
 rice bowl	30	none
 rock	0	none
-Royal scepter	0	none
+Royal scepter	100	none
 rubber ribcage	120	Mus: 45	shield
 rusty compass	60	Mys: 15
 rusty old lantern	200	Mys: 85
@@ -2638,7 +2638,7 @@ Pink Heart of Spirit	200	Mys: 85
 pink plastic baby	20	none
 PirateRealm eyepatch	10	none
 pirate fledges	140	Mys: 60
-pirate radio ring	0	none
+pirate radio ring	80	none
 plaid pocket square	150	Mys: 50
 plastic detective badge	10	none
 plastic Duskwalker necklace	50	none
@@ -2675,7 +2675,7 @@ porquoise necklace	50	Mys: 10
 porquoise ring	50	Mys: 10
 portable cassette player	20	none
 power sock	100	Mys: 10
-primitive alien necklace	0	Mys: 10
+primitive alien necklace	50	Mys: 10
 Protects-Your-Junk	350	Mox: 100
 psychic's amulet	100	Mys: 35
 pulled porquoise earring	110	Mys: 40
@@ -2965,6 +2965,7 @@ tiny plastic Crimboween pentagram	20	none
 tiny plastic cubist bull	10	none
 tiny plastic demoninja	10	none
 tiny plastic disco bandit	20	none
+tiny plastic Dolph Bossin	10	none
 tiny plastic dolphin &quot;orphan&quot;	10	none
 tiny plastic Don Crimbo	0	none
 tiny plastic Dr. Awkward	50	Mys: 10

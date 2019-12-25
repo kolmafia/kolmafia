@@ -3496,6 +3496,7 @@ Item	tiny plastic Crimboween pentagram	MP Regen Min: 1, MP Regen Max: 2, Single 
 Item	tiny plastic cubist bull	Monster Level: +1
 Item	tiny plastic demoninja	Monster Level: +1
 Item	tiny plastic disco bandit	Moxie: +2, Muscle: +1
+Item	tiny plastic Dolph Bossin	Experience (familiar): +1
 Item	tiny plastic dolphin &quot;orphan&quot;	Familiar Weight: +3, Single Equip
 Item	tiny plastic Don Crimbo	Weapon Damage Percent: +5
 Item	tiny plastic Dr. Awkward	Never Fumble
@@ -10926,6 +10927,7 @@ Item	The Pigs holo-record	Effect: "Record Hunger", Effect Duration: 10
 # The Six-Pack of Pain: Weakens Enemies a Whole Lot
 Item	The Smith's Tome	Free Pull, Skill: "Summon Smithsness"
 Item	The Snitch's Manifesto	Skill: "Tattle"
+Item	The Spirit of Giving	Skill: "The Spirit of Taking"
 Item	The Thorax's Codex of Tormenting Plants	Skill: "Torment Plant"
 Item	The Western Look	Skill: "Steely-Eyed Squint"
 Item	They liver	Effect: "You Liver", Effect Duration: 20

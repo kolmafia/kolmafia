@@ -47,6 +47,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -76,10 +77,12 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MonsterManuelRequest;
+import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
@@ -2429,9 +2432,58 @@ public class DebugDatabase
 
 	// **********************************************************
 
+	private static final boolean powerFilter( AdventureResult item )
+	{
+		int itemId = item.getItemId();
+		int type = ItemDatabase.getConsumptionType( itemId );
+		return ( type == KoLConstants.EQUIP_OFFHAND ||
+			 type == KoLConstants.EQUIP_ACCESSORY ||
+			 type == KoLConstants.EQUIP_CONTAINER );
+	}	
+
+	private static final boolean unknownPower( AdventureResult item )
+	{
+		return ( EquipmentDatabase.getPower( item.getItemId() ) == 0 );
+	}
+
+	private static final void conditionallyAddItems( Collection<AdventureResult> items, List<AdventureResult> location, boolean force )
+	{
+		// If checking display case, retrieve if necessary
+		if ( location == KoLConstants.collection )
+		{
+			if ( !KoLCharacter.hasDisplayCase() )
+			{
+				return;
+			}
+			if ( !DisplayCaseManager.collectionRetrieved )
+			{
+				RequestThread.postRequest( new DisplayCaseRequest() );
+			}
+		}
+
+		for ( AdventureResult item : location )
+		{
+			if ( !powerFilter( item ) ||
+			     ( !force && !unknownPower( item ) ) ||
+			     items.contains( item ) )
+			{
+				continue;
+			}
+			if ( location == KoLConstants.storage )
+			{
+				// A potential item that we have only in storage
+				// Move a single one to inventory and then to the closet
+				AdventureResult toTransfer = item.getInstance( 1 );
+				RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, toTransfer ) );
+				RequestThread.postRequest( new ClosetRequest( ClosetRequest.INVENTORY_TO_CLOSET, toTransfer ) );
+			}
+			items.add( item );
+		}
+	}
+
 	public static final void checkPowers( final String option )
 	{
-		// We can check the power of any items in inventory or closet.
+		// We can check the power of any items in inventory, equipment, closet, or display case.
 		// We'll assume that any item with a non-zero power is correct.
 		// Off-hand items and accessories don't have visible power and
 		// might be 0 in the database. Look them up and fix them.
@@ -2443,32 +2495,25 @@ public class DebugDatabase
 		}
 
 		TreeSet<AdventureResult> items = new TreeSet<AdventureResult>();
-		items.addAll( KoLConstants.inventory );
-		items.addAll( KoLConstants.closet );
-		items.addAll( EquipmentManager.allEquipmentAsList() );
-		// items.addAll( KoLConstants.storage );
+		boolean force = option.equals( "all" );
 
-		if ( KoLCharacter.hasDisplayCase() && !DisplayCaseManager.collectionRetrieved )
-		{
-			RequestThread.postRequest( new DisplayCaseRequest() );
-		}
-		items.addAll( KoLConstants.collection );
+		DebugDatabase.conditionallyAddItems( items, KoLConstants.inventory, force );
+		DebugDatabase.conditionallyAddItems( items, KoLConstants.closet, force );
+		DebugDatabase.conditionallyAddItems( items, EquipmentManager.allEquipmentAsList(), force );
+		DebugDatabase.conditionallyAddItems( items, KoLConstants.collection, force );
+		// Storage must be at the end since we will pull things iff the
+		// are not present in a more accessible place
+		// *** disabled, since I've done it once. :)
+		// DebugDatabase.conditionallyAddItems( items, KoLConstants.storage, force );
 
-		DebugDatabase.checkPowers( items, option.equals( "all" ) );
+		DebugDatabase.checkPowers( items, force );
 	}
 
 	private static final void checkPowers( final Collection<AdventureResult> items, final boolean force  )
 	{
 		for ( AdventureResult item : items )
 		{
-			int itemId = item.getItemId();
-			int type = ItemDatabase.getConsumptionType( itemId );
-			if ( type == KoLConstants.EQUIP_OFFHAND ||
-			     type == KoLConstants.EQUIP_ACCESSORY ||
-			     type == KoLConstants.EQUIP_CONTAINER )
-			{
-				DebugDatabase.checkPower( itemId, force );
-			}
+			DebugDatabase.checkPower( item.getItemId(), force );
 		}
 	}
 
@@ -2491,8 +2536,8 @@ public class DebugDatabase
 			String location = 
 				KoLConstants.inventory.contains( item ) ? "inventory" :
 				KoLConstants.closet.contains( item ) ? "closet" :
-				KoLConstants.storage.contains( item ) ? "storage" :
 				KoLConstants.collection.contains( item ) ? "display case" :
+				KoLConstants.storage.contains( item ) ? "storage" :
 				"nowhere";
 			KoLmafia.updateDisplay( "Could not look up item " + item + " from " + location );
 			return;
