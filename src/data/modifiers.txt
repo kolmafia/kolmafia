@@ -2529,7 +2529,7 @@ Item	amulet of extreme plot significance	Maximum MP: +30
 # Amulet of Yendor: Prevents Level Teleporting
 Item	Amulet of Yendor	Mana Cost: +3, Initiative: -10, Single Equip
 # anemoney clip: +50% Meat Drops (Underwater only)
-Item	anemoney clip	Meat Drop: +25, Single Equip
+Item	anemoney clip	Meat Drop: [25+50*env(underwater)], Single Equip
 Item	Ankh of Badahnkadh	Spell Damage Percent: +25, Single Equip
 Item	ankleweights	PvP Fights: +4, Experience: +1, Single Equip
 Item	anniversary balsa wood socks	Muscle: +1, Mysticality: +1, Moxie: +1
@@ -5310,7 +5310,7 @@ Effect	Dreadful Heat	Cold Resistance: +5, Spooky Resistance: +5
 Effect	Dreadful Sheen	Hot Resistance: +5, Stench Resistance: +5
 Effect	Dreadful Smell	Hot Resistance: +5, Spooky Resistance: +5
 Effect	Dreadlocked	Mysticality Percent: +50, Moxie Percent: -50
-Effect	Dreaming of a Wet Crimbo	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)], Item Drop: [50*env(underwater)]
+Effect	Dreaming of a Wet Crimbo	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)], Item Drop: [50*env(underwater)], Meat Drop: [100*env(underwater)]
 Effect	Dreams and Lights	Mysticality: +10, Mana Cost: -3
 Effect	Drenched in Lava	Muscle Limit: 30, Mysticality Limit: 30, Moxie Limit: 30
 Effect	Drenched With Filth	Stench Damage: +75
@@ -9837,7 +9837,7 @@ Item	Inner Strength	Effect: "Innately Strong", Effect Duration: 20
 Item	Inner Truth	Effect: "Innately Truthy", Effect Duration: 20
 Item	Inner Wisdom	Effect: "Innately Wise", Effect Duration: 20
 # intact anemone spike: Deal 500 damage (Underwater only)
-# intact anemone spike helmet: NOTE: This item will stop working when Crimbo 2019 is over.
+# intact anemone spike: NOTE: This item will stop working when Crimbo 2019 is over.
 # interesting clod of dirt: Absorb it for a useful skill!
 Item	interrogative elixir	Effect: "Enhanced Interrogation", Effect Duration: 1
 Item	invisibility cream	Effect: "Skinvisible", Effect Duration: 100
