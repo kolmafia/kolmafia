@@ -2539,7 +2539,7 @@
 2538	Candied Teeth	ghuoltooth.gif	0653e6882291fa70f4b6b27e519d2035	use 1 peppermint syrup
 2539	Molasses Flooded	molasses.gif	c1fa35608c6bd1a96b001ccc862f0772	use 1 glob of salty molasses
 2540	PING...  PING...  PING...	echo.gif	056ebeb2b7ed8d897c083abd88cf99ad	use 1 liquid SONAR
-2541
+2541	The Spirit of Taking	sack1.gif	010bdf32849b82f3693cbc805095c417	cast 1 The Spirit of Taking
 2542	Sea Guts	batgut.gif	bd9ea297968de5763128351293d2b612	eat 1 bowl of mernudo
 2543	Fish-Eye View	bigeyes.gif	0eded3f9cb2ff88cb88c80f89edd5e5b	eat 1 ojo de pez burrito
 2544	Salt Rush	saltdrop.gif	ee744539761afc35f335929227c50810	use 1 salty gumdrop

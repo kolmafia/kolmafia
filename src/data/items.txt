@@ -10406,7 +10406,7 @@
 10378	Dolph Bossin's charity note	955490978	document.gif	none		0
 10379	Dolph Bossin's Crimbo hat	371325275	dolphhat.gif	hat	t	0
 10380	The Spirit of Giving	415922024	book3.gif	usable	t	0
-10381
+10381	The Spirit of Giving (used)	220346586	book3.gif	usable		0
 10382	Crimbo Factory surprise box	867013472	c19box.gif	usable	t	0
 10383	soggy gingerbread chunk	948413313	gingerchunk.gif	none	t	0
 10384	salty gumdrop	463449458	saltdrop.gif	potion, usable	t,d	12

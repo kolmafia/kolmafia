@@ -6963,6 +6963,7 @@ Effect	The Smile of Mr. A.	Muscle: +15, Mysticality: +15, Moxie: +15
 Effect	The Solution	Weapon Damage: +25
 Effect	The Sonata of Sneakiness	Combat Rate: [-5*(1+equipped(fiberglass fedora))]
 # The Spirit of Crimbo
+Effect	The Spirit of Taking	Item Drop: +10
 Effect	The Spy Who Loved XP	Experience: +5
 Effect	The Strength... of the Future	Muscle Percent: +50, Muscle: +15, Experience (Muscle): +3
 Effect	The Style... of the Future	Moxie Percent: +50, Moxie: +15, Experience (Moxie): +3
@@ -10928,6 +10929,7 @@ Item	The Pigs holo-record	Effect: "Record Hunger", Effect Duration: 10
 Item	The Smith's Tome	Free Pull, Skill: "Summon Smithsness"
 Item	The Snitch's Manifesto	Skill: "Tattle"
 Item	The Spirit of Giving	Skill: "The Spirit of Taking"
+Item	The Spirit of Giving (used)	Skill: "The Spirit of Taking"
 Item	The Thorax's Codex of Tormenting Plants	Skill: "Torment Plant"
 Item	The Western Look	Skill: "Steely-Eyed Squint"
 Item	They liver	Effect: "You Liver", Effect Duration: 20
