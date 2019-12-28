@@ -928,6 +928,15 @@ public class AdventureRequest
 
 		case 1135:	// The Bat-Sedan
 			return BatManager.parseBatSedan( responseText );
+
+		case 1388:
+		{
+			if ( !BeachCombRequest.containsEncounter( urlString ) )
+			{
+				return null;
+			}
+			break;
+		}
 		}
 
 		// No "encounter" for certain arcade games

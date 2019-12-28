@@ -39,6 +39,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -52,6 +53,8 @@ import net.sourceforge.kolmafia.session.BeachManager;
 import net.sourceforge.kolmafia.session.BeachManager.BeachHead;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BeachCombRequest
 	extends GenericRequest
@@ -77,6 +80,90 @@ public class BeachCombRequest
 		{
 			return this.option;
 		}
+	}
+
+	private static BeachCombCommand optionToCommand( final int option )
+	{
+		switch( option )
+		{
+		case 1:
+			return BeachCombCommand.WANDER;
+		case 2:
+			return BeachCombCommand.RANDOM;
+		case 3:
+			return BeachCombCommand.HEAD;
+		case 4:
+			return BeachCombCommand.COMB;
+		case 5:
+			return BeachCombCommand.EXIT;
+		case 6:
+			return BeachCombCommand.COMMON;
+		}
+		return BeachCombCommand.VISIT;
+	}
+
+	private static BeachCombCommand extractCommandFromURL( final String urlString )
+	{
+		return BeachCombRequest.optionToCommand( ChoiceManager.extractOptionFromURL( urlString ) );
+	}
+
+	public static class Coords
+	{
+		private static final Pattern COORDS_PATTERN = Pattern.compile( "coords=((\\d+)%2C(\\d+))" );
+		public final int beach;
+		public final int row;
+		public final int col;
+
+		public Coords( int beach, int row, int col )
+		{
+			this.beach = beach;
+			this.row = row;
+			this.col = col;
+		}
+
+		public Coords( String coords )
+		{
+			Matcher matcher = COORDS_PATTERN.matcher( coords );
+			if ( matcher.find() )
+			{
+				this.row = StringUtilities.parseInt( matcher.group( 2 ) );;
+				int rest = StringUtilities.parseInt( matcher.group( 3 ) );
+				int mod = ( rest % 10 );
+				this.beach = ( rest / 10 ) + ( mod == 0 ? 0 : 1 );
+				this.col = ( mod == 0 ) ? 0 : ( 10 - mod );
+			}
+			else
+			{
+				this.beach = 0;
+				this.row = 0;
+				this.col = 0;
+			}
+		}
+
+		@Override
+		public String toString()
+		{
+			return String.valueOf( this.row ) + "," + String.valueOf( ( this.beach * 10 ) - this.col );
+		}
+	}
+
+	private static Coords extractCoordsFromURL( final String urlString )
+	{
+		return new Coords( urlString );
+	}
+
+	private static final Pattern URL_BUFF_PATTERN = Pattern.compile( "buff=(\\d+)" );
+	private static BeachHead extractBeachHeadFromURL( final String urlString )
+	{
+		Matcher matcher = BeachCombRequest.URL_BUFF_PATTERN.matcher( urlString );
+		return  matcher.find() ? BeachManager.idToBeachHead.get( StringUtilities.parseInt( matcher.group( 1 ) ) ) : null;
+	}
+
+	private static final Pattern URL_MINUTES_PATTERN = Pattern.compile( "minutes=(\\d+)" );
+	private static int extractMinutesFromURL( final String urlString )
+	{
+		Matcher matcher = BeachCombRequest.URL_MINUTES_PATTERN.matcher( urlString );
+		return  matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
 	}
 
 	// Expected sequence of requests:
@@ -224,11 +311,6 @@ public class BeachCombRequest
 			KoLmafia.forceContinue();
 			(new BeachCombRequest( BeachCombCommand.EXIT )).run();
 		}
-	}
-
-	private static String makeCoords( int beach, int row, int col )
-	{
-		return String.valueOf( row ) + "," + String.valueOf( ( beach * 10 ) - col );
 	}
 
 	@Override
@@ -407,8 +489,8 @@ public class BeachCombRequest
 
 		if ( this.command == BeachCombCommand.COMB )
 		{
-			String coords = BeachCombRequest.makeCoords( Preferences.getInteger( "_beachMinutes" ), row, col );
-			this.addFormField( "coords", coords );
+			Coords coords = new Coords( Preferences.getInteger( "_beachMinutes" ), row, col );
+			this.addFormField( "coords", coords.toString() );
 			super.run();
 			return;
 		}
@@ -466,5 +548,95 @@ public class BeachCombRequest
 			return Preferences.getInteger( "_freeBeachWalksUsed" ) < 11 ? 0 : 1;
 		}
 		return 0;
+	}
+
+	public static final boolean containsEncounter( final String urlString )
+	{
+		// Only wand to log "Encounter:" in interesting cases
+		BeachCombCommand command = BeachCombRequest.extractCommandFromURL( urlString );
+		switch ( command )
+		{
+		case VISIT:
+		case EXIT:
+			// Picking up or putting down the comb are uninteresting
+			return false;
+		case COMMON:
+		case HEAD:
+		case COMB:
+			// These are the result of combing a square. Not interesting encounter
+			return false;
+		case WANDER:
+		case RANDOM:
+			// These bring us to a particular section of beach. The
+			// encounter tells us which section.
+			return true;
+		}
+		return false;
+	}
+
+	public static final boolean registerRequest( final String urlString )
+	{
+		if ( !urlString.startsWith( "choice.php" ) || !urlString.contains( "whichchoice=1388" ) ) 
+		{
+			return false;
+		}
+
+		String message = null;
+		boolean turns = false;
+
+		BeachCombCommand command = BeachCombRequest.extractCommandFromURL( urlString );
+		switch( command )
+		{
+		case VISIT:
+			// Using Beach Comb
+			return true;
+		case EXIT:
+			// Putting Down Beach Comb
+			// Took choice 1388/5: (secret choice)
+			// choice.php?whichchoice=1388&option=5&pwd
+			return true;
+		case COMMON:
+			// Not really, but log turn # anyway
+			turns = true;
+			message = "Collecting common items";
+			break;
+		case WANDER:
+		{
+			int minutes = BeachCombRequest.extractMinutesFromURL( urlString );
+			turns = true;
+			message = "Wandering " + minutes + " minutes down the beach";
+			break;
+		}
+		case RANDOM:
+			turns = true;
+			message = "Wandering to a random section of the beach";
+			break;
+		case HEAD:
+		{
+			turns = true;
+			BeachHead head = BeachCombRequest.extractBeachHeadFromURL( urlString );
+			message = "Combing (" + ( head == null ? "unknown" : head.desc ) + ") Beach Head";
+			break;
+		}
+		case COMB:
+		{
+			Coords coords = BeachCombRequest.extractCoordsFromURL( urlString );
+			// Internally indexed from 0-9, but display as 1-10
+			message = "Combing square " + coords.row + "," + ( coords.col + 1 ) + " (" + coords.beach + " minutes down the beach)";
+			break;
+		}
+		}
+
+		if ( turns )
+		{
+			message = "[" + KoLAdventure.getAdventureCount() + "] " + message;
+			RequestLogger.printLine();
+			RequestLogger.updateSessionLog();
+		}
+
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
+
+		return true;
 	}
 }

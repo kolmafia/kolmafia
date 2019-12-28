@@ -89,6 +89,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
+import net.sourceforge.kolmafia.request.BeachCombRequest;
 import net.sourceforge.kolmafia.request.BeerPongRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
@@ -17574,6 +17575,11 @@ public abstract class ChoiceManager
 					Preferences.setString( "_LastPirateRealmIsland", desc );
 				}
 				return true;
+			}
+
+			case 1388:	// Comb the Beach
+			{
+				return BeachCombRequest.registerRequest( urlString );
 			}
 			}
 
