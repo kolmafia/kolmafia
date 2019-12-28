@@ -10406,10 +10406,10 @@
 10378	Dolph Bossin's charity note	955490978	document.gif	none		0
 10379	Dolph Bossin's Crimbo hat	371325275	dolphhat.gif	hat	t	0
 10380	The Spirit of Giving	415922024	book3.gif	usable	t	0
-10381	The Spirit of Giving (used)	220346586	book3.gif	usable		0
+10381	The Spirit of Giving (used)	220346586	book3.gif	reusable		0
 10382	Crimbo Factory surprise box	867013472	c19box.gif	usable	t	0
 10383	soggy gingerbread chunk	948413313	gingerchunk.gif	none	t	0
-10384	salty gumdrop	463449458	saltdrop.gif	potion, usable	t,d	12
+10384	salty gumdrop	463449458	saltdrop.gif	potion, multiple	t,d	12
 10385	ribbon candy ascot	518918253	candyascot.gif	accessory	t	0
 10386	moist Crimbo spices	974036344	disease.gif	none	t,d	5	tablespoons of moist Crimbo spices
 10387	intact anemone spike	832222109	bloodspike.gif	none, combat	t,d	25
@@ -10418,7 +10418,7 @@
 10390	super-sweet fish goo	616721982	fishgoo.gif	potion, multiple	t,d	14	mounds of super-sweet fish goo
 10391	icing poncho	787336641	icingponcho.gif	shirt	t	0
 10392	Mer-kin cookiestove	943213498	cookiestove.gif	usable	t,d	250
-10393	glob of salty molasses	132552047	molasses.gif	potion, usable	t,d	22	globs of salty molasses
+10393	glob of salty molasses	132552047	molasses.gif	potion, multiple	t,d	22	globs of salty molasses
 10394	Mer-kin rollpin	321495976	rollingpin2.gif	weapon	t	0
 10395	personalizable gingerbread cookie	378576088	gingercookie.gif	none, usable, curse	t,d	5
 10396	tinsel fin	348138693	tinselfin.gif	familiar	t,d	75
