@@ -11662,7 +11662,7 @@ public abstract class ChoiceManager
 
 		case 1388:
 			BeachManager.parseBeachHeadCombing( text );
-			BeachManager.parseCombUsage( text );
+			BeachManager.parseCombUsage( urlString, text );
 			break;
 
 		case 1391:
