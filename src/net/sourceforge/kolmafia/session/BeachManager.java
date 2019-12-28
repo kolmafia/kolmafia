@@ -51,6 +51,10 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.BeachCombRequest;
+import net.sourceforge.kolmafia.request.BeachCombRequest.BeachCombCommand;
+import net.sourceforge.kolmafia.request.BeachCombRequest.Coords;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BeachManager
@@ -154,24 +158,86 @@ public class BeachManager
 		return value;
 	}
 
-	public static Map<Integer, String> getBeachLayout()
+	public static Map<Integer, String> stringToLayout( final String input )
 	{
-		Map<Integer, String> rowLayout = new TreeMap<Integer, String>();
-		for ( String rowData : Preferences.getString( "_beachLayout" ).split( "," ) )
+		Map<Integer, String> rowMap = new TreeMap<Integer, String>();
+		for ( String rowData : input.split( "," ) )
 		{
 			int colon = rowData.indexOf( ":" );
 			if ( colon != -1 )
 			{
 				int row = StringUtilities.parseInt( rowData.substring( 0, colon ) );
 				String squares = rowData.substring( colon + 1 );
-				rowLayout.put( row, squares );
+				rowMap.put( row, squares );
 			}
 		}
 
-		return rowLayout;
+		return rowMap;
 	}
 
-	// Choice when using the Beach Comb or after combing, if you have adventures left
+	public static Map<Integer, String> getBeachLayout()
+	{
+		return BeachManager.stringToLayout( Preferences.getString( "_beachLayout" ) );
+	}
+
+	public static final String layoutToString( final Map<Integer, String> input )
+	{
+		StringBuilder value = new StringBuilder();
+
+		for ( Entry<Integer, String> entry : input.entrySet() )
+		{
+			int row = entry.getKey();
+			String cols = entry.getValue();
+			if ( value.length() > 0 )
+			{
+				value.append( "," );
+			}
+			value.append( String.valueOf( row ) );
+			value.append( ':' );
+			value.append( cols );
+		}
+
+		return value.toString();
+	}
+
+	// Choice when using the Beach Comb or after combing.
+	// If you have adventures left, you are still using the comb.
+	// Otherwise, you are not.
+	public static final boolean parseCombUsage( final String urlString, final String text )
+	{
+		// If we actually combed the beach, update the beach layout
+		BeachCombCommand command = BeachCombRequest.extractCommandFromURL( urlString );
+		if ( command == BeachCombCommand.COMB && text.contains( "You acquire" ) )
+		{
+			Coords coords = new Coords( urlString );
+
+			// Parse the _beachLayout property
+			Map<Integer,String> layout = BeachManager.stringToLayout( Preferences.getString( "_beachLayout" ) );
+
+			// Replace the combed square with 'c'
+			String squares = layout.get( coords.row );
+			if ( squares != null )
+			{
+				int col = coords.col;
+				StringBuilder modified = new StringBuilder();
+				if ( col > 0 ) {
+					modified.append( squares.substring( 0, col ) );
+				}
+				modified.append( 'c' );
+				if ( col < squares.length() - 1 ) {
+					modified.append( squares.substring( col + 1, squares.length() ) );
+				}
+
+				layout.put( coords.row, modified.toString() );
+			}
+
+			// Replace the setting
+			String value = BeachManager.layoutToString( layout );
+			Preferences.setString( "_beachLayout", value );
+		}
+		return BeachManager.parseCombUsage( text );
+	}
+
 	public static final boolean parseCombUsage( final String text )
 	{
 		// You grab your comb and head to the start of the beach to find a good spot.
@@ -364,24 +430,11 @@ public class BeachManager
 			rowLayout.put( currentRow, layout.toString() );
 		}
 
-		layout.setLength( 0 );
-
-		for ( Entry<Integer, String> entry : rowLayout.entrySet() )
-		{
-			int row = entry.getKey();
-			String cols = entry.getValue();
-			if ( layout.length() > 0 )
-			{
-				layout.append( "," );
-			}
-			layout.append( String.valueOf( row ) );
-			layout.append( ':' );
-			layout.append( cols );
-		}
+		String value = BeachManager.layoutToString( rowLayout );
 
 		Preferences.setBoolean( "_beachCombing", true );
 		Preferences.setInteger( "_beachMinutes", minutes );
-		Preferences.setString( "_beachLayout", layout.toString() );
+		Preferences.setString( "_beachLayout", value );
 	}
 
 	private static final void logText( final String text )

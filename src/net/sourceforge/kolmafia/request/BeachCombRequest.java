@@ -102,7 +102,7 @@ public class BeachCombRequest
 		return BeachCombCommand.VISIT;
 	}
 
-	private static BeachCombCommand extractCommandFromURL( final String urlString )
+	public static BeachCombCommand extractCommandFromURL( final String urlString )
 	{
 		return BeachCombRequest.optionToCommand( ChoiceManager.extractOptionFromURL( urlString ) );
 	}
