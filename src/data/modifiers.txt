@@ -2736,7 +2736,7 @@ Item	dope gangsta bling-bling	Moxie: +1
 Item	dorky glasses	Moxie: -30, Mysticality: +30, Single Equip
 Item	Draftsman's driving gloves	Mysticality Percent: +50, Spell Damage Percent: +50, Adventures: +8, Experience (Mysticality): +4, Lasts Until Rollover
 Item	Dreadsylvania Auditor's badge	Item Drop: +10, Kruegerand Drop: 5, Single Equip
-Item	driftwood beach comb	Moxie Percent: +1, MP Regen Min: 1, MP Regen Max: 2, Familiar Weight: +1, Single Equip, Lasts Until Rollover
+Item	driftwood beach comb	Moxie Percent: +5, MP Regen Min: 4, MP Regen Max: 5, Familiar Weight: +2, Single Equip, Lasts Until Rollover
 Item	driftwood bracelet	Mysticality: +5, Mysticality Percent: +1, Maximum MP: +1, Maximum MP Percent: +1, Spell Damage: +1, Spell Damage Percent: +1, Spell Critical Percent: +1, Experience (Mysticality): +2, Experience Percent (Mysticality): +1, Single Equip, Lasts Until Rollover
 Item	droll monocle	MP Regen Min: 2, MP Regen Max: 4, Meat Drop: +20, Single Equip
 # Drunkula's ring of haze: The first attack against you will always miss
@@ -2900,7 +2900,7 @@ Item	heat-resistant gloves	Hot Resistance: +4, Weapon Damage Percent: -50, Fumbl
 Item	heat-resistant necktie	Hot Resistance: +4, Spell Damage: -50, Single Equip
 Item	Helps-You-Sleep	Initiative: +75, Critical Hit Percent: +10, Single Equip
 # hemp string
-Item	hewn moon-rune spoon	Experience: +3, Familiar Weight: +5, Critical Hit Percent: +10, Spell Damage: +10, Initiative: +25, Rollover Effect: "Spoon Boon", Rollover Effect Duration: 50, Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +25, Maximum HP: +25, Single Equip
+Item	hewn moon-rune spoon	Experience: +3, Familiar Weight: +5, Critical Hit Percent: +10, Spell Damage: +10, Initiative: +25, Rollover Effect: "Spoon Boon", Rollover Effect Duration: 50, Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +25, Maximum MP: +25, Single Equip
 # high-friction boots: Allows you to move normally on extremely windy planets
 Item	high-friction boots	Single Equip, Lasts Until Rollover
 Item	hippy medical kit	Mysticality: +10, HP Regen Min: 6, HP Regen Max: 10, Single Equip
@@ -9329,6 +9329,7 @@ Item	dog ointment	Effect: "Unbarking Dogs", Effect Duration: 20
 Item	Dogsgotnonoz pills	Effect: "Can't Smell Nothin'", Effect Duration: 10
 Item	dollop of barbecue sauce	Effect: "Barbecue Saucy", Effect Duration: 15
 Item	donkey flipbook	Effect: "Hyperoffended", Effect Duration: 10
+Item	Dolph Bossin's charity note	Free Pull
 Item	doppelshifter egg	Free Pull
 Item	double-ice gum	Effect: "Wintry Breath", Effect Duration: 10
 Item	dragon aluminum ore	Lasts Until Rollover
@@ -10005,6 +10006,7 @@ Item	mangled finger	Effect: "It Tickles! It Tickles!", Effect Duration: 20
 Item	Mansquito's blood	Effect: "Blood of the Jerk that Bit You", Effect Duration: 50
 Item	Manual of Numberology	Skill: "Calculate the Universe"
 Item	Manual of Transcendent Olfaction	Skill: "Transcendent Olfaction"
+Item	map to Dolph Bossin's hideout	Free Pull
 Item	Map to Kokomo	Free Pull, Skill: "Summon Kokomo Resort Pass"
 Item	March hat	Free Pull
 # mariachi G-string: Deals 10-15 Physical Damage
