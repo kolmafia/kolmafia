@@ -45,7 +45,7 @@
 44	Draggin' Balls	ballhat.gif	cf78b055a699cad5e45443be2345a354	# wearing draggin' ball hat
 45	1337p4n7Z	whitepants.gif	70679877d6ac73627d6576ca7cb72f62	# wearing 1337 7r0uZ0RZ
 46	Spiky Hair	spikyhair.gif	89acaef20b7c355d36fdf0990bf6a5ec	use 1 super-spiky hair gel
-47	Complete Delusion	wolfmask.gif	b00a05823151fd7e6c8fe7697c0420ca	#wearing wolf mask
+47	Complete Delusion	wolfmask.gif	b00a05823151fd7e6c8fe7697c0420ca	# wearing wolf mask
 48	The Smile of Mr. A.	gma.gif	59e9f58e87d531b3ef613515a3417210	use 1 box of sunshine
 49	Macho Profundo	strboost.gif	a02c6fb27a3f9f4bf2c48d59584adc56	use 1 mafia aria
 50	Empathy	empathy.gif	ac32e95f470a7e0999863fa0db58d808	cast 1 Empathy of the Newt
@@ -79,7 +79,7 @@
 78	Yuletide Sappiness	scook3.gif	b4a14c949225b6e8427fbad113c8d777	eat 1 tree-shaped Crimbo cookie
 79
 80	Missing Fingers	sad.gif	c6100ac99a847dc3b60d9f8c1a2c223d	use 1 Knob Goblin firecracker
-81	Gnawed-Off Arm	sad.gif	99337ac6df628a7b13162ef7a725f01d	#St. Sneaky Pete's Day Stupor
+81	Gnawed-Off Arm	sad.gif	99337ac6df628a7b13162ef7a725f01d	# St. Sneaky Pete's Day Stupor
 82	Broken Knees	sad.gif	c377ac25ce57bab5069f08744b111930
 83	And Your Family, Too	sad.gif	4f336a7c8fb1b5b3355180116e822627
 84
@@ -209,7 +209,7 @@
 208	Ocelot Eyes	bigeyes.gif	c857c096f180a92bbd6b378c363f8b63	use 1 eyedrops of the ocelot
 209	Ponderous Potency	strboost.gif	7f39a1d79d44181871af122ba6c8c851	use 1 potent potion of potency
 210	Concentrated Concentration	farout.gif	4815faee551d03188624535356609c76	use 1 concentrated cordial of concentration
-211	Got Milk	milk.gif	225aa10e75476b0ad5fa576c89df3901	use 1 milk of magnesium
+211	Got Milk	milk.gif	225aa10e75476b0ad5fa576c89df3901	# obsolete
 212	Papowerful	papaya.gif	62f614c0cd7832fcaf864d74bea81c01	use 1 papotion of papower
 213	Frog In Your Throat	squashfrog.gif	52cf0120a2ecbc702da6ef92e588d242	use 1 frogade
 214	Salamander In Your Stomach	stomach.gif	1c2325ff89b6a58b386e5563da098e46	use 1 salamander slurry
