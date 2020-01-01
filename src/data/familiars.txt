@@ -302,4 +302,4 @@
 273	Pet Coral	petcoral.gif	none	piece of coral		0	0	0	0
 274	Pocket Professor	lilprofessoron.gif	item0,mp1	packaged Pocket Professor	Pocket Professor memory chip	0	2	2	3
 275	Red-Nosed Snapper	redsnapper.gif	item0,underwater	red-spotted snapper roe	tinsel fin	3	3	3	3
-276	Antique Nutcracker	nutcfigure.gif	stat0,drop	antique nutcracker figure	nutcracking pliers	0	0	0	0
+276	Antique Nutcracker	nutcfigure.gif	stat0,drop	antique nutcracker figure	nutcracking pliers	1	2	3	2
