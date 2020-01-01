@@ -10074,7 +10074,7 @@ Item	Mick's IcyVapoHotness Inhaler	Effect: "Sinuses For Miles", Effect Duration:
 Item	Mick's IcyVapoHotness Rub	Effect: "Extreme Muscle Relaxation", Effect Duration: 10
 # micronova: Vaporizes an enemy and causes all of its items to drop
 # military-grade fingernail clippers: Clips fingernails
-Item	milk of magnesium	Effect: "Got Milk", Effect Duration: [R+5]
+# milk of magnesium: The next food item you eat will give 5 extra Adventures (usable once per day)
 Item	Milk Studs	Effect: "Milk Studly", Effect Duration: 15
 Item	mime army camouflage kit	Effect: "Mimeoflage", Effect Duration: 30
 # miniature boiler: Deals 20-40 Physical Damage

@@ -714,29 +714,8 @@ public class UseItemRequest
 			return Math.max( 0, 5 - Preferences.getInteger( "_feastUsed" ) );
 
 		case ItemPool.MILK_OF_MAGNESIUM:
-			UseItemRequest.limiter = "remaining fullness";
-			int milkyTurns = ConsumablesDatabase.MILK.getCount( KoLConstants.activeEffects );
-			int fullnessAvailable = KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness();
-			// If our current dose of Got Milk is sufficient to
-			// fill us up, no milk is needed.
-			int unmilkedTurns = fullnessAvailable - milkyTurns;
-			if ( unmilkedTurns <= 0 )
-			{
-				return 0;
-			}
-
-			// Otherwise, limit to number of useful potions
-			int milkDuration = 10 +
-				( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR ? 5 : 0 ) +
-				( KoLCharacter.hasSkill( "Impetuous Sauciness" ) ? 5 : 0 );
-
-			int limit = 0;
-			while ( unmilkedTurns > 0 )
-			{
-				unmilkedTurns -= milkDuration;
-				limit++;
-			}
-			return limit;
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_milkOfMagnesiumUsed" ) ? 0 : 1;
 
 		case ItemPool.GHOSTLY_BODY_PAINT:
 		case ItemPool.NECROTIZING_BODY_SPRAY:
@@ -4278,8 +4257,29 @@ public class UseItemRequest
 
 		case ItemPool.MILK_OF_MAGNESIUM:
 
+			// You've already had some of this stuff today, and it
+			// was pretty hard on the old gullet.  Best wait until
+			// tomorrow to go through that again.
+
+			if ( responseText.contains( "hard on the old gullet" ) )
+			{
+				Preferences.setBoolean( "_milkOfMagnesiumUsed", true );
+				return;
+			}
+
+			// You swallow the liquid.  You stomach immediately
+			// begins to churn, and all the wrinkles in your shirt
+			// smooth out from the heat radiating from your abdomen
+			if ( !responseText.contains( "stomach immediately begins to churn" ) )
+			{
+				return;
+			}
+
+			Preferences.setBoolean( "_milkOfMagnesiumUsed", true );
+			KoLCharacter.updateStatus();
 			ConcoctionDatabase.getUsables().sort();
 			ConcoctionDatabase.queuedFood.touch();
+
 			break;
 
 		case ItemPool.NEWBIESPORT_TENT:

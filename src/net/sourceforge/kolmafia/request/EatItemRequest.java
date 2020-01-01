@@ -565,13 +565,11 @@ public class EatItemRequest
 		if ( !skipMilkNag && canMilk )
 		{
 			// See if already have enough of the Got Milk effect
-			int milkyTurns = ConsumablesDatabase.MILK.getCount( KoLConstants.activeEffects );
+			boolean milkUsed = Preferences.getBoolean( "_milkOfMagnesiumUsed" );
 
-			if ( milkyTurns < consumptionTurns )
+			if ( !milkUsed )
 			{
-				String message = milkyTurns > 0 ?
-					"Got Milk will run out before you finish eating that. Are you sure?" :
-					"Are you sure you want to eat without milk?";
+				String message = "Are you sure you want to eat without milk?";
 				if ( !InputFieldUtilities.confirm( message ) )
 				{
 					return false;
@@ -1080,6 +1078,14 @@ public class EatItemRequest
 			}
 			ResultProcessor.processItem( ItemPool.SPECIAL_SEASONING, -itemsUsed );
 		}
+
+		// Satisfied, you let loose a nasty magnesium-flavored belch.
+		if ( responseText.contains( "magnesium-flavored belch" ) )
+		{
+			EatItemRequest.logConsumption( "Your milk of magnesium kicked in" );
+			Preferences.setBoolean( "_milkOfMagnesiumUsed", true );
+		}
+
 
 		// You feel the canticle take hold, and feel suddenly bloated
 		// as the pasta expands in your belly.
