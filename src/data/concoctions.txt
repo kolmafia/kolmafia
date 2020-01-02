@@ -1690,6 +1690,10 @@ rainbow pearl earring	EJEWEL	rainbow pearl	precious piercing post
 rainbow pearl necklace	EJEWEL	rainbow pearl	heavy necklace chain
 rainbow pearl ring	EJEWEL	rainbow pearl	extra-fancy ring setting
 
+meteorite earring	EJEWEL	meteorite fragment	precious piercing post
+meteorite necklace	EJEWEL	meteorite fragment	heavy necklace chain
+meteorite ring	EJEWEL	meteorite fragment	extra-fancy ring setting
+
 # Silver Items
 
 nicksilver ring	COMBINE	red-hot knucklebone	nugget of nicksilver

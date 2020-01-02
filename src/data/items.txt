@@ -10130,7 +10130,7 @@
 10102
 10103
 10104
-10105
+10105	Para-Pop	249247918	para_pop.gif	potion, usable	t,d	15
 10106
 10107
 10108
@@ -10138,7 +10138,7 @@
 10110
 10111
 10112
-10113
+10113	terra panna cotta	995803784	tc_pannacotta.gif	potion, usable	t,d	15
 10114
 10115
 10116
@@ -10311,9 +10311,9 @@
 10283	cursed tricorn hat	149252891	piratetricorn.gif	hat	t	0
 10284	cursed swash buckle	583006027	piratebuckle.gif	accessory	t	0
 10285	meteorite fragment	721620315	meteorock.gif	none	t	0
-10286
-10287
-10288
+10286	meteorite earring	239721435	meteorockearring.gif	accessory	t	0
+10287	meteorite necklace	743072065	meteorockneck.gif	accessory	t	0
+10288	meteorite ring	841449919	meteorockring.gif	accessory	t	0
 10289	Finnish Fish	924184613	fishy2.gif	potion, usable	t,d	5
 10290	cursed chocolate doubloon	686531916	ccannonball.gif	potion, multiple	t,d	5
 10291	driftwood beach comb	560767631	woodbeachcomb.gif	accessory	q	0
@@ -10456,3 +10456,5 @@
 10428
 10429	tiny handful of mixed nuts	634704415	mixednuts.gif	potion, multiple	t	0
 10430	nutcracking pliers	422425305	pliers.gif	familiar	t,d	75
+10431	Retrospecs try-at-home kit	928685191	retrospecsbox.gif	usable	t	0
+10432	Retrospecs	327030460	retrospecs.gif	accessory		0

@@ -142,7 +142,7 @@ public class BanishManager
 		new Banisher( "pantsgiving", 30, 1, false, Reset.TURN_ROLLOVER_RESET ),
 		new Banisher( "peel out", -1, 1, true, Reset.AVATAR_RESET ),
 		new Banisher( "pulled indigo taffy", 40, 1, true, Reset.TURN_RESET ),
-		new Banisher( "Reflex Hammer", 20, 1, true, Reset.TURN_ROLLOVER_RESET ),
+		new Banisher( "Reflex Hammer", 30, 1, true, Reset.TURN_ROLLOVER_RESET ),
 		new Banisher( "Saber Force", 30, 1, true, Reset.TURN_ROLLOVER_RESET ),
 		new Banisher( "smoke grenade", 20, 1, false, Reset.TURN_RESET ),
 		new Banisher( "snokebomb", 30, 1, true, Reset.TURN_ROLLOVER_RESET ),
