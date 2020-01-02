@@ -3016,6 +3016,9 @@ Item	Mer-kin gutgirdle	Maximum HP: -300, Experience (Moxie): [20*env(underwater)
 Item	Mer-kin thighguard	Damage Reduction: 10
 Item	Mer-kin waistrope	Mysticality Percent: +10
 Item	Mesmereyes&trade; contact lenses	Mysticality Percent: +15, Single Equip
+Item	meteorite earring	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Experience Percent (Moxie): +25, Initiative: +200, Single Equip
+Item	meteorite necklace	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Experience Percent (Mysticality): +25, Spell Damage Percent: +200, Single Equip
+Item	meteorite ring	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Experience Percent (Muscle): +25, Weapon Damage Percent: +200, Single Equip
 Item	meteorthopedic shoes	Initiative: +30, Moxie Percent: +15, Adventures: +5, Single Equip
 # mime army infiltration glove: Allows pickpocketing
 Item	mime army infiltration glove	Pickpocket Chance: +25, Initiative: -200, Single Equip
@@ -3211,6 +3214,9 @@ Item	Red Roger's red right foot	Single Equip
 Item	red shoe	Hot Resistance: +2, Combat Rate: -5, Single Equip
 Item	red-hot medallion	Hot Damage: +30, Single Equip
 Item	reinforced furry underpants	Mysticality: +2, Sleaze Damage: +2
+# Retrospecs: Reveals foes' weaknesses
+# Retrospecs: Gives you another chance on item drops you missed out on
+Item	Retrospecs	Muscle: +15, Mysticality: +15, Moxie: +15, Maximum HP: +25, Maximum MP: +25, HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5, Single Equip, Free Pull
 Item	ribbon candy ascot	Candy Drop: +100, HP Regen Min: 6, HP Regen Max: 10, MP Regen Min: 6, MP Regen Max: 10, Single Equip
 Item	rickety old unicycle	Moxie Percent: +15, Initiative: +50, MP Regen Min: 10, MP Regen Max: 25, Single Equip
 Item	ridiculous belt	Muscle: +11
@@ -9747,6 +9753,7 @@ Item	henna tattoo	Effect: "Hennaliciousness", Effect Duration: 5
 Item	hero's skull	Lasts Until Rollover
 Item	Hersey&trade; SMOOCH	Effect: "Kissed By Fire", Effect Duration: 20
 Item	red-spotted snapper roe	Free Pull
+Item	Retrospecs try-at-home kit	Free Pull
 Item	rune-strewn spoon cocoon	Free Pull
 Item	hi-octane carrot juice	Effect: "Beta Carotene Overdose", Effect Duration: 30
 Item	hibernating Grimstone Golem	Free Pull
@@ -10246,6 +10253,7 @@ Item	papier-m&acirc;ch&eacute; toothpicks	Effect: "Eyes Wide Propped", Effect Du
 Item	papier-m&acirc;chaeranthera	Effect: "Stopping to Smell the Flowers", Effect Duration: 40
 Item	papier-mochi	Effect: "Altered Wavelengths", Effect Duration: 40
 Item	papotion of papower	Effect: "Papowerful", Effect Duration: [R]
+Item	Para-Pop	Effect: "Para-lyzed Jaw", Effect Duration: 20
 Item	paranormal ricotta	Class: "Pastamancer"
 Item	Party Planning on a Budget	Skill: "Budget Conscious"
 Item	passed-out psychedelic bear	Free Pull
@@ -10883,6 +10891,7 @@ Item	temporary X tattoos	Effect: "Straight-Edgy", Effect Duration: 100
 Item	tempura air	Effect: "Pumped Stomach", Effect Duration: 20
 # tennis ball: Banish an enemy for 30 Adventures
 # tequila grenade: Deals 75-100 Physical Damage
+Item	terra panna cotta	Effect: "Panna Consideration", Effect Duration: 20
 # terrible poem: Deals 5-6 Physical Damage
 Item	Texas tea	Effect: "Texas Elegance", Effect Duration: 10
 Item	That 70s Cologne	Effect: "Yeah, It's Just Gasoline", Effect Duration: 50

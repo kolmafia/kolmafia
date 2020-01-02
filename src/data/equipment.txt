@@ -2549,6 +2549,9 @@ Mer-kin prayerbeads	200	Mys: 85
 Mer-kin thighguard	200	Mys: 85
 Mer-kin waistrope	200	Mys: 85
 Mesmereyes&trade; contact lenses	200	Mys: 200
+meteorite earring	0	Mys: 200
+meteorite necklace	0	Mys: 200
+meteorite ring	0	Mys: 200
 meteorthopedic shoes	100	none
 mime army infiltration glove	50	Mox: 200
 mime army insignia (cryonics)	10	Mys: 200
@@ -2711,6 +2714,7 @@ Red Roger's red right foot	120	none
 red shoe	150	Mys: 40
 red-hot medallion	50	none
 reinforced furry underpants	30	none
+Retrospecs	0	none
 ribbon candy ascot	80	Mys: 20
 rickety old unicycle	200	Mox: 200
 ridiculous belt	0	none
