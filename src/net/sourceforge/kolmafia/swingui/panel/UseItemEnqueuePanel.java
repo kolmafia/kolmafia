@@ -266,8 +266,10 @@ public class UseItemEnqueuePanel
 			this.buttons[ bingeIndex ].setEnabled( haveGhost );
 
 			// The milk listener is just after the ghost listener
-			boolean milkAvailable = InventoryManager.itemAvailable( ItemPool.MILK_OF_MAGNESIUM )
-						|| CreateItemRequest.getInstance( ItemPool.get( ItemPool.MILK_OF_MAGNESIUM, 1 ), false ).getQuantityPossible() > 0;
+			boolean milkUsed = Preferences.getBoolean( "_milkOfMagnesiumUsed" );
+			boolean milkAvailable = !milkUsed &&
+				( InventoryManager.itemAvailable( ItemPool.MILK_OF_MAGNESIUM ) ||
+				  CreateItemRequest.getInstance( ItemPool.get( ItemPool.MILK_OF_MAGNESIUM, 1 ), false ).getQuantityPossible() > 0 );
 
 			this.buttons[ bingeIndex + 1 ].setEnabled( milkAvailable );
 
