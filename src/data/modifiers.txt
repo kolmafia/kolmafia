@@ -6267,8 +6267,9 @@ Effect	Paging Betty	Mysticality: +5, Spell Damage: +10
 Effect	Pained Smirk	Avatar: "Brick Mulligan, the Bartender"
 Effect	Painted-On Bikini	Sleaze Damage: +50, Sleaze Spell Damage: +50, Hot Resistance: +5, Stench Resistance: +5
 Effect	Pajama Party	Familiar Weight: +10
-Effect	Paul's Passionate Pop Song	MP Regen Min: 4, MP Regen Max: 5
+Effect	Panna Consideration	Familiar Weight: +5, Familiar Damage: +10
 Effect	Papowerful	Weapon Damage: +10, Spell Damage: +10, Experience: +2
+Effect	Para-lyzed Jaw	Monster Level: +25
 # Partially Ghosted: Reduces physical damage taken by 30%
 Effect	Partially Paralyzed	Moxie Percent: -50
 Effect	Party on Your Skin	Maximum HP Percent: +50, Maximum MP Percent: +50, Familiar Weight: +5, Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
@@ -6287,6 +6288,7 @@ Effect	Patent Prevention	Hot Resistance: +3, Cold Resistance: +3, Stench Resista
 Effect	Patent Sallowness	Monster Level: +30
 Effect	Patience of the Tortoise	Maximum HP: +3, Muscle: +1
 Effect	Patient Smile	Experience (Muscle): +1
+Effect	Paul's Passionate Pop Song	MP Regen Min: 4, MP Regen Max: 5
 # Paw swap: Extra-Vulnerable to Hot and Spooky
 Effect	Paw swap	Cold Resistance: +2, Hot Vulnerability, Spooky Vulnerability
 Effect	Peaceful, Easy Feeling	Monster Level: -10
