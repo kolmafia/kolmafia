@@ -37,7 +37,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -61,6 +63,17 @@ public class MonsterManuelManager
 {
 	private static final Map<Integer, String> manuelEntries = new TreeMap<Integer, String>();
 	private static final Map<Integer, Integer> manuelFactoidCounts = new TreeMap<Integer, Integer>();
+	private static final Set<Integer> variableNamedMonsters = new TreeSet<Integer>();
+
+	static
+	{
+		MonsterManuelManager.variableNamedMonsters.add( 1667 );	// Your winged yeti
+		MonsterManuelManager.variableNamedMonsters.add( 1669 );	// You the Adventurer
+		MonsterManuelManager.variableNamedMonsters.add( 2105 );	// Steve Belmont
+		MonsterManuelManager.variableNamedMonsters.add( 2106 );	// Ricardo Belmont
+		MonsterManuelManager.variableNamedMonsters.add( 2107 );	// Jayden Belmont
+		MonsterManuelManager.variableNamedMonsters.add( 2108 );	// Travis Belmont
+	}
 
 	public static void flushCache()
 	{
@@ -71,8 +84,10 @@ public class MonsterManuelManager
 	public static void reset()
 	{
 		// Reset Your winged yeti and You the Adventurer
-		MonsterManuelManager.reset( MonsterDatabase.findMonsterById( 1667 ) );
-		MonsterManuelManager.reset( MonsterDatabase.findMonsterById( 1669 ) );
+		for ( int id : MonsterManuelManager.variableNamedMonsters )
+		{
+			MonsterManuelManager.reset( MonsterDatabase.findMonsterById( id ) );
+		}
 
 		Iterator<Entry<Integer,Integer>> entryIterator = MonsterManuelManager.manuelFactoidCounts.entrySet().iterator();
 
@@ -153,8 +168,8 @@ public class MonsterManuelManager
 
 			// Check our data with what Manuel says
 
-			// Don't bother checking name for Your winged yeti && You the Adventurer
-			if ( id != 1667 && id != 1669 && !monster.getManuelName().equals( name ) )
+			// Don't bother checking name for monsters with variable names
+			if ( !MonsterManuelManager.variableNamedMonsters.contains( id ) && !monster.getManuelName().equals( name ) )
 			{
 				// We know this monster, but do not have the correct Manuel name
 				RequestLogger.printLine( "Monster #" + id + " has name '" + monster.getManuelName() + "' but Manuel calls it '" + name + "'" );

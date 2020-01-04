@@ -10123,20 +10123,20 @@
 10095	marble mariachi hat	506380732	marblehat.gif	hat		0
 10096	marble molecules	452097243	marblechunks.gif	spleen, usable		0
 10097	Mallomarbles	759433074	mallomarbles.gif	potion, usable	t,d	15
-10098
-10099
-10100
-10101
-10102
-10103
+10098	paraffin punching bag	308439993	para_bag.gif	accessory		0
+10099	paraffin pith helmet	465597505	para_hat.gif	hat		0
+10100	paraffin poncho	507002958	para_shirt.gif	container		0
+10101	paraffin pendant	723705450	para_necklace.gif	accessory		0
+10102	paraffin palazzos	835839735	para_pants.gif	pants		0
+10103	paraffin pseudoaccordion	219458750	para_accordion.gif	weapon		0
 10104
 10105	Para-Pop	249247918	para_pop.gif	potion, usable	t,d	15
-10106
-10107
-10108
-10109
-10110
-10111
+10106	terra cotta truss	597698250	tc_truss.gif	accessory		0
+10107	terra cotta trousers	789767758	tc_pants.gif	pants		0
+10108	terra cotta tongs	859986945	tc_tongs.gif	weapon		0
+10109	terra cotta train	154520376	tc_cape.gif	container		0
+10110	terra cotta tie tack	649592665	tc_tietack.gif	accessory		0
+10111	terra cotta tambourine	174155630	tc_tambourine.gif	offhand		0
 10112
 10113	terra panna cotta	995803784	tc_pannacotta.gif	potion, usable	t,d	15
 10114

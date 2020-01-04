@@ -265,6 +265,7 @@ oversized skullcap	20	none
 oxygenated eggnog helmet	100	none
 pail	30	none
 panhandle panhandling hat	150	Mus: 175
+paraffin pith helmet	50	none
 pentagram bandana	50	none
 paperclip turban	50	none
 papier-mitre	100	Mox: 20
@@ -582,6 +583,7 @@ Pantsgiving	100	none
 paper-plate-mail pants	80	Mox: 25
 paperclip pants	50	none
 papier-m&acirc;churidars	100	Mox: 20
+paraffin palazzos	50	none
 parasitic tentacles	30	none
 penguin shorts	120	Mox: 45
 penguinskin mini-kilt	120	Mox: 45
@@ -636,6 +638,7 @@ stylish swimsuit	40	Mus: 5
 sucker hakama	50	none
 sugar shorts	100	none
 swashbuckling pants	80	Mox: 25
+terra cotta trousers	120	Mus: 40
 the Archwizard's briefs	200	Mys: 40
 The Emperor's new pants	10	none
 The Ghoul King's ghoulottes	200	Mus: 40
@@ -1312,6 +1315,7 @@ pair of bolt cutters	60	Mus: 15	2-handed club
 palm-frond whip	25	Mus: 0	1-handed whip
 papier-m&acirc;ch&eacute;te	100	Mus: 20	1-handed sword
 papier-m&acirc;chine gun	100	Mox: 20	1-handed pistol
+paraffin pseudoaccordion	50	Mox: 0	1-handed accordion
 parasitic claw	30	Mus: 0	1-handed club
 party whip	10	Mus: 0	1-handed whip
 Pasta Spoon of Peril	50	Mys: 10	1-handed utensil
@@ -1556,6 +1560,7 @@ tail o' nine cats	30	Mus: 0	1-handed whip
 Tales of the Word Realms	0	Mus: 0	2-handed book
 tambourine	50	Mox: 10	1-handed drum
 teflon spatula	200	Mys: 85	1-handed utensil
+terra cotta tongs	120	Mys: 40	1-handed utensil
 The Jokester's gun	200	Mox: 50	1-handed pistol
 The Landscaper's leafblower	100	Mox: 35	2-handed leafblower
 The Necbromancer's Wizard Staff	10	Mys: 200	1-handed chefstaff
@@ -2093,6 +2098,7 @@ Taco Dan's Taco Stand Cocktail Sauce Bottle	10	none
 tailbone shield	250	Mus: 200	shield
 teflon shield	220	Mus: 85	shield
 Temporal Tempera Tube	0	none
+terra cotta tambourine	120	Mox: 40
 Tesla's Electroplated Beans	40	Mys: 5	can of beans
 The Joke Book of the Dead	0	none
 The Lot's engagement ring	0	none
@@ -2621,6 +2627,8 @@ pair of government shades	10	none
 pair of pearidot earrings	0	none
 paperclip-on tie	50	none
 papier-masque	100	Mys: 20
+paraffin pendant	50	none
+paraffin punching bag	50	none
 pat-a-cake pendant	10	none
 patent leather shoes	30	none
 peace-sign necklace	70	Mys: 20
@@ -2856,6 +2864,8 @@ tap shoes	70	Mys: 20
 tarnished tastevin	150	Mys: 40
 tarrrnished charrrm bracelet	150	Mys: 60
 teflon swim fins	200	Mus: 85
+terra cotta tie tack	120	Mox: 40
+terra cotta truss	120	Mus: 40
 the Ley Incursion's waist	200	Mys: 40
 The Lost Glasses	0	Mys: 25
 The One Mood Ring	150	Mys: 60
@@ -3236,6 +3246,7 @@ oil shell	50	Mus: 20
 old SCUBA tank	0	Mys: 75
 palm-frond cloak	140	Mys: 75
 paperclip cape	50	Mys: 75
+paraffin poncho	50	none
 pillow shell	10	none
 polyester parachute	50	none
 porcelain pelerine	120	Mus: 40
@@ -3256,6 +3267,7 @@ spant backplate	100	Mus: 20
 super-absorbent tarp	50	none
 T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	200	Mus: 85
 teddybear backpack	150	Mox: 75
+terra cotta train	120	Mys: 40
 Time Bandit Time Towel	10	none
 Time Cape	100	none
 Time Cloak	100	none
