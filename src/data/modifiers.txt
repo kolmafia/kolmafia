@@ -376,6 +376,8 @@ Item	panhandle panhandling hat	Food Drop: +30, Familiar Effect: "1xLep, cap 37"
 Item	paperclip turban	Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +5, Maximum MP: +5, Damage Reduction: 5, Familiar Effect: "atk, cap 12"
 # papier-mitre: Helps you describe things
 Item	papier-mitre	Familiar Weight: +5, PvP Fights: +2, Familiar Effect: "1xVolley, cap 25"
+# paraffin pith helmet: Lets you unleash a prismatic attack
+Item	paraffin pith helmet	Experience (Muscle): +2, Cold Damage: +10
 # parasitic headgnawer: Deals 30-45 damage to attackers
 Item	parasitic headgnawer	Familiar Effect: "atk, cap 7"
 # party hat: (On the Festival of Jarlsberg only)
@@ -731,6 +733,8 @@ Item	paper-plate-mail pants	Familiar Effect: "hot atk, 2xBarrr, cap 20"
 Item	paperclip pants	Adventures: +2, Initiative: +15, Familiar Effect: "atk, 3xBarrr, cap 12"
 # papier-m&acirc;churidars: Improves things
 Item	papier-m&acirc;churidars	Initiative: +25, Never Fumble, Familiar Effect: "1xFairy, cap 25"
+# paraffin palazzos: Lets you unleash a prismatic attack
+Item	paraffin palazzos	Moxie: +10, Stench Damage: +10
 Item	parasitic tentacles	Initiative: [min(2*L,30)], Familiar Effect: "spooky atk, 5xBarrr, cap 7"
 Item	penguin shorts	Initiative: +20, Familiar Effect: "cold atk, 1xGhuol, cap 30"
 Item	penguinskin mini-kilt	Initiative: +20, Familiar Effect: "cold atk, 1xFairy, cap 30"
@@ -789,6 +793,8 @@ Item	stylish swimsuit	Moxie: +5, Sleaze Damage: [5-5*X], Familiar Effect: "1xPot
 Item	sucker hakama	Damage Reduction: 5, Familiar Effect: "afk, cap 12"
 Item	sugar shorts	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Breakable, Familiar Effect: "2xVolley, 1xLep, cap 25"
 Item	swashbuckling pants	Moxie: +4, Familiar Effect: "3xPotato, 1.5xFairy, cap 20"
+# terra cotta trousers: Lets you unleash a terra cotta army on your foes
+Item	terra cotta trousers	Muscle Percent: +20, Familiar Weight: +5
 Item	the Archwizard's briefs	Mysticality: +15, Mysticality Percent: +25, Maximum MP: +100
 Item	The Emperor's new pants	Moxie: [L]
 Item	The Ghoul King's ghoulottes	Muscle: +15, Muscle Percent: +25, Maximum HP: +100, Single Equip
@@ -1543,6 +1549,8 @@ Item	palm-frond whip	Weapon Damage: +30
 Item	papier-m&acirc;ch&eacute;te	Weapon Damage: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 # papier-m&acirc;chine gun: Makes actions more exciting
 Item	papier-m&acirc;chine gun	Ranged Damage: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
+# paraffin pseudoaccordion: Lets you unleash a prismatic attack
+Item	paraffin pseudoaccordion	Experience (Moxie): +4, Spooky Damage: +20
 Item	parasitic claw	Weapon Damage: [min(L,15)]
 Item	party whip	Monster Level: +15, Item Drop: +10, Familiar Weight: +5
 # pasta spoon
@@ -1822,6 +1830,8 @@ Item	tail o' nine cats	Initiative: +15, Monster Level: +5
 # Tales of the Word Realms: Lends Power to Your Words
 Item	tambourine	Maximum HP: +20, Maximum MP: +20
 Item	teflon spatula	Mysticality Percent: +10, Sleaze Resistance: +3, Spell Damage: +40
+# terra cotta tongs: Lets you unleash a terra cotta army on your foes
+Item	terra cotta tongs	Experience (Mysticality): +3, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
 # The Jokester's gun: Can be fired in a weird way once per day to instantly defeat an opponent
 Item	The Jokester's gun	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Initiative: +25, Pants Drop: +50
 Item	The Landscaper's leafblower	Monster Level: [pref(_leafblowerML)]
@@ -2455,6 +2465,8 @@ Item	Sword of the Brouhaha Prince	Muscle Percent: +12
 Item	tailbone shield	Stench Damage: +40, Damage Reduction: 16
 Item	teflon shield	Muscle Percent: +10, Damage Reduction: 24, Damage Absorption: +50
 Item	Temporal Tempera Tube	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie Percent: [5*G]
+# terra cotta tambourine: Lets you unleash a terra cotta army on your foes
+Item	terra cotta tambourine	Moxie Percent: +20, Monster Level: +10
 Item	Tesla's Electroplated Beans	Maximum MP: [15*(1+skill(Beanweaver))], Spell Damage: [10*(1+skill(Beanweaver))], MP Regen Min: [4*(1+skill(Beanweaver))], MP Regen Max: [5*(1+skill(Beanweaver))]
 # The Lot's engagement ring: Allows Noxious Proposals
 Item	The Lot's engagement ring	Stench Damage: +3
@@ -3108,6 +3120,10 @@ Item	pair of pearidot earrings	Item Drop: [100*zone(The Candy Diorama)], Single 
 Item	paperclip-on tie	Weapon Damage: +5, Spell Damage: +5, Experience: +1, Single Equip
 # papier-masque: Makes your possessions seem more interesting
 Item	papier-masque	Spell Damage: +10, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4, Single Equip
+# paraffin pendant: Lets you unleash a prismatic attack
+Item	paraffin pendant	Experience (Mysticality): +2, Maximum MP: +10, Single Equip
+# paraffin punching bag: Lets you unleash a prismatic attack
+Item	paraffin punching bag	Muscle: +10, Hot Damage: +10, Single Equip
 # pat-a-cake pendant: Regenerate 1 MP per adventure (sometimes)
 Item	pat-a-cake pendant	Mysticality: +1, MP Regen Min: 0, MP Regen Max: 1
 Item	patent leather shoes	Muscle: +1, Hot Resistance: +1
@@ -3384,6 +3400,10 @@ Item	tarnished tastevin	Booze Drop: +25, Single Equip
 Item	tarrrnished charrrm bracelet	Stench Damage: +10, Stench Spell Damage: +10, Single Equip
 # teflon swim fins: Makes you a better diver
 Item	teflon swim fins	Moxie Percent: -5, Initiative: +25, Single Equip, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
+# terra cotta tie tack: Lets you unleash a terra cotta army on your foes
+Item	terra cotta tie tack	Experience (Moxie): +3, Meat Drop: +20, Single Equip
+# terra cotta truss: Lets you unleash a terra cotta army on your foes
+Item	terra cotta truss	Experience (Muscle): +3, Initiative: +40, Single Equip
 Item	the Ley Incursion's waist	Mysticality: +15, Mysticality Percent: +25, Experience (Mysticality): +5, Single Equip
 Item	The Lost Glasses	Reduce Enemy Defense: 15, Hot Resistance: +2, Single Equip
 Item	The One Mood Ring	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie Percent: [5*G], Monster Level: [25-5*G], Single Equip
@@ -3804,6 +3824,8 @@ Item	oil shell	Sleaze Damage: +15, Class: "Turtle Tamer"
 Item	old SCUBA tank	Item Drop: -50, Initiative: -100, Adventure Underwater
 Item	palm-frond cloak	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 Item	paperclip cape	HP Regen Min: 5, HP Regen Max: 7, MP Regen Min: 5, MP Regen Max: 7
+# paraffin poncho: Lets you unleash a prismatic attack
+Item	paraffin poncho	Mysticality: +10, Sleaze Damage: +10
 Item	pillow shell	Damage Reduction: 3, Class: "Turtle Tamer"
 # polyester parachute: Fury Increases Your Initiative
 Item	polyester parachute	Experience (Muscle): +2, Weapon Drop: +10, Initiative: [10*Y]
@@ -3830,6 +3852,8 @@ Item	spant backplate	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent:
 Item	super-absorbent tarp	Maximum Hooch: +2
 Item	T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	Wiki Name: "Bugged baio"
 Item	teddybear backpack	Meat Drop: +10, Raveosity: +1
+# terra cotta train: Lets you unleash a terra cotta army on your foes
+Item	terra cotta train	Mysticality Percent: +20, Item Drop: +10
 Item	Time Bandit Time Towel	Muscle: +5, Mysticality: +5, Moxie: +5, Adventures: +1
 Item	Time Cape	Item Drop: [25*zone(Twitch)]
 # Time Cloak: Sometimes Find an Extra Chroner in the Time-Twitching Tower
