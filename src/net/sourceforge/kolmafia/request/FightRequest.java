@@ -6606,6 +6606,12 @@ public class FightRequest
 				FightRequest.logText( str, status );
 			}
 
+			// Retrospecs
+			if ( str.contains( "notice an item you missed earlier" ) )
+			{
+				FightRequest.logText( str, status );
+			}
+
 			boolean VYKEAaction = status.VYKEACompanion != null && str.contains( status.VYKEACompanion );
 			if ( VYKEAaction && status.logFamiliar )
 			{
