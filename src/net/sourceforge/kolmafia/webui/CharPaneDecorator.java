@@ -458,7 +458,6 @@ public class CharPaneDecorator
 
 		switch ( familiar.getId() )
 		{
-
 		case FamiliarPool.BANDER:
 			if ( !KoLCharacter.inBigcore() )
 			{
@@ -651,7 +650,7 @@ public class CharPaneDecorator
 				buffer.append( "/20 charges" );
 				return buffer;
 			}
-			return buffer;
+			return null;
 
 		case FamiliarPool.ROCKIN_ROBIN:
 			buffer.append( Preferences.getString( "rockinRobinProgress" ) );
