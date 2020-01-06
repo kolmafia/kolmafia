@@ -414,7 +414,7 @@ public class CharPaneDecorator
 	private static final void decorateFamiliar( final StringBuffer buffer )
 	{
 		StringBuffer annotations = CharPaneDecorator.getFamiliarAnnotation();
-		if ( annotations == null )
+		if ( annotations == null || annotations.length() == 0 )
 		{
 			return;
 		}
