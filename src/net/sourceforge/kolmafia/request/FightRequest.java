@@ -9757,6 +9757,13 @@ public class FightRequest
 				Preferences.setBoolean( "_tryptophanDartUsed", true );
 			}
 			break;
+		case ItemPool.HUMAN_MUSK:
+			if ( responseText.contains( "open the vial" ) || itemSuccess )
+			{
+				BanishManager.banishCurrentMonster( "human musk" );
+				Preferences.increment( "_humanMuskUses" );
+			}
+			break;
 		case ItemPool.ROCK_BAND_FLYERS:
 		case ItemPool.JAM_BAND_FLYERS:
 			// You slap a flyer up on your opponent. It enrages it.
@@ -9899,6 +9906,13 @@ public class FightRequest
 				else if ( responseText.contains( "throw the replica bat-oomerang" ) || itemSuccess )
 				{
 					Preferences.increment( "_usedReplicaBatoomerang", 1, 3, false );
+				}
+				break;
+
+			case ItemPool.POWDERED_MADNESS:
+				if ( responseText.contains( "blow the madness" ) )
+				{
+					Preferences.increment( "_powderedMadnessUses" );
 				}
 				break;
 
