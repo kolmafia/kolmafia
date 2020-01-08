@@ -8847,6 +8847,7 @@ Item	big dribbly candle	Effect: "Waxing Mystical", Effect Duration: 10
 # big glob of skin: Restores half of your missing Hit Points
 Item	Big Punk	Effect: "Big Punkin'", Effect Duration: 50
 # big red button: Deals 2000-3000 Physical Damage
+# Item Bird-a-Day calendar: Receive a blessing from a different bird each day
 Item	birthday candle	Effect: "Light!", Effect Duration: 3
 Item	Bit O' Ectoplasm	Effect: "Sugar Rush", Effect Duration: 5
 Item	Bit O' Quail Spleen	Effect: "Vented Spleen", Effect Duration: 10
@@ -11077,6 +11078,7 @@ Item	Unmotivator: Crashed Meat Car	Free Pull
 Item	Unmotivator: Crashed Orca	Free Pull
 Item	Unmotivator: Success Warrior	Free Pull
 # unnatural gas: Weakens enemies a lot
+Item	unopened Bird-a-Day calendar	Free Pull
 Item	unopened diabolic pizza cube box	Free Pull
 Item	Unopened Eight Days a Week Pill Keeper	Free Pull
 Item	unpowered Robortender	Free Pull

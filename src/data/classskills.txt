@@ -835,6 +835,7 @@
 7317	lecture on velocity	velocity.gif	5	0	0
 7318	lecture on mass	mass.gif	5	0	0
 7319	lecture on relativity	relativity.gif	5	0	0
+7320	Detect Weakness	retrospecs.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

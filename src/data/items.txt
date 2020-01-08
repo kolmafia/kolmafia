@@ -10458,3 +10458,5 @@
 10430	nutcracking pliers	422425305	pliers.gif	familiar	t,d	75
 10431	Retrospecs try-at-home kit	928685191	retrospecsbox.gif	usable	t	0
 10432	Retrospecs	327030460	retrospecs.gif	accessory		0
+10433	unopened Bird-a-Day calendar	382877115	birdcal_unopened.gif	usable	t	0
+10434	Bird-a-Day calendar	510437377	birdcal.gif	reusable		0
