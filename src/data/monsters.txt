@@ -533,7 +533,7 @@ pair of burnouts	1578	stonebros.gif	Atk: 34 Def: 30 HP: 25 Init: -10000 P: dude 
 panicking Knott Yeti	1228	yeti.gif	NOCOPY Atk: 105 Def: 92 HP: 90 Init: 60 E: cold Meat: 200 P: beast	yeti fur (30)
 Panty Raider Frat Boy	421	warfratpr.gif	Atk: 200 Def: 180 HP: 250 Init: 100 E: sleaze P: orc	chloroform rag (12)	chloroform rag (7)	depantsing bomb (18)	depantsing bomb (3)	Elmley shades (6)	PADL Phone (3)	panty raider camouflage (10)	white class ring (30)
 paper towelgeist	374	ptowels.gif	Atk: 21 Def: 18 HP: 22 Init: 30 P: undead	cardboard katana (5)
-party skelteon	2154	partyskeleton.gif	Atk: 52 Def: 49 HP: 55 Init: 50 E: spooky P: undead	skeleton bone	loose teeth	monkey wrench	salty dog	strawberry wine	vodka martini	whiskey sour
+party skelteon	2154	partyskeleton.gif	Atk: 52 Def: 49 HP: 55 Init: 50 E: spooky P: undead	skeleton bone	loose teeth	margarita	martini	monkey wrench	salty dog	screwdriver	strawberry daiquiri	strawberry wine	tequila sunrise	vodka martini	whiskey and soda	whiskey sour	wine spritzer
 Peanut	1376	peanut.gif	NOCOPY Atk: 650 Def: 700 HP: 1200 Init: 75 P: horror	peanut sauce (0)
 pencil golem	71	pencil.gif	Atk: 15 Def: 13 HP: 11 Init: 60 P: construct	pencil stub (n100)
 pernicious puddle of pesto	659	pestopuddle.gif	Atk: 21 Def: 18 HP: 18 Init: 20 P: slime	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
