@@ -2487,7 +2487,7 @@ the invader	2138	invader.gif	Atk: 1000 Def: 1000 HP: 1000 Init: -10000 P: constr
 # Crimbo 2019 (December 2019)
 gingerbread maw	2141	gingermaw.gif	Atk: 200 Def: 200 HP: 300 Init: 100 P: horror	salty gumdrop	soggy gingerbread chunk	ribbon candy ascot
 nutmeg anemone	2142	nutmeganemone.gif	Atk: 200 Def: 200 HP: 150 Init: -10000 Meat: 100 P: plant	intact anemone spike	moist Crimbo spices	anemoney clip
-icingfish	2143	icingfish.gif	Atk: 200 Def: 200 HP: 100 Init: 300 P: fish	runny icing	super-sweet fish goo	icing poncho
+icingfish	2143	icingfish.gif	Atk: 200 Def: 200 HP: 100 Init: 300 P: fish	runny icing	super-sweet fish goo (spoiled)	icing poncho
 Mer-kin baker	2144	merkinbaker.gif	Atk: 200 Def: 200 HP: 400 Init: 200 Meat: 200 P: mer-kin	glob of salty molasses	Mer-kin cookiestove	Mer-kin rollpin
 dolphin "orphan"	2145	dolphin2.gif	Atk: 300 Def: 300 HP: 500 Init: 200 Meat: 300 P: fish	waterlogged wood	waterlogged cloth	waterlogged stuffing	waterlogged leather	waterlogged metal
 kelpie (horse form)	2146	kelpiehorse.gif	Atk: 300 Def: 300 HP: 400 Init: 200 Meat: 300 P: beast	kelp-holly drape (0)

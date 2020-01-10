@@ -368,7 +368,6 @@ Item	Orcish baseball cap	Muscle: +3, Mysticality: -3, Familiar Effect: "1xVolley
 Item	oriole-feather headdress	Maximum HP: +1, Maximum MP: +1, Familiar Effect: "atk, 3xVolley, cap 3"
 Item	outrageous sombrero	Muscle: +5, Mysticality: +5, Moxie: +5, Initiative: -20, Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
 Item	oversized skullcap	Muscle: +2, Damage Reduction: 3, Familiar Effect: "1xVolley,cap 5"
-# oxygenated eggnog helmet: Base Stats Raised to At Least 200
 # oxygenated eggnog helmet: NOTE: This item will stop working when Crimbo 2019 is over.
 Item	oxygenated eggnog helmet	Item Drop: -100, Initiative: -100, Adventure Underwater
 Item	pail	Damage Absorption: +10, Familiar Effect: "2xFairy, cap 7"
@@ -1561,7 +1560,7 @@ Item	Pener's drumstick	Hot Damage: +20, Initiative: +20, Critical Hit Percent: +
 Item	penguin whip	Meat Drop: +3
 Item	pentatonic accordion	Cold Damage: [9*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 12
 # peppermint harpoon gun: NOTE: This item will stop working when Crimbo 2019 is over.
-Item	peppermint harpoon gun	Weapon Damage: [100*env(underwater)], Item Drop: [100*env(underwater)]
+Item	peppermint harpoon gun	Weapon Damage: [100*env(underwater)]
 Item	peppermint spine	Mysticality: +10, Spell Critical Percent: +10
 Item	perforated battle paddle	Weapon Damage: +10
 Item	Periodical Paintbrush	Muscle Percent: [+5*G], Mysticality Percent: [+5*G], Moxie Percent: [+5*G], Softcore Only
@@ -6375,7 +6374,7 @@ Effect	Pop-eyed	Weapon Damage: +30
 Effect	Pork Barrel	Item Drop: +90
 Effect	Pork Power	Muscle: +10
 Effect	Porkpocketed	Avatar: "Porkpocket"
-Effect	Possessive Pressure	Item Drop: [100*env(underwater)]
+Effect	Possessive Pressure	Item Drop: [30*env(underwater)]
 Effect	Potpourri Committed	Stench Resistance: +5
 Effect	Pounded by the Actual Stars	Maximum MP Percent: +100
 Effect	Powder Power	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
@@ -7942,7 +7941,6 @@ Item	badass pie	Effect: "Pie in the Sky", Effect Duration: 20
 Item	bag of GORF	Effect: "Long Live GORF", Effect Duration: 3
 Item	bag of QWOP	Effect: "QWOPped Up", Effect Duration: 10
 # Baja sopapilla: NOTE: This item will stop working when Crimbo 2019 is over.
-Item	Baja sopapilla	Effect: "Baja, Humbug", Effect Duration: 30
 Item	baked stuffing	Effect: "Thanksgetting", Effect Duration: 20
 Item	barrel cracker	Effect: "Shortened", Effect Duration: 40
 Item	barrel pickle	Effect: "Briny Blood", Effect Duration: 50
@@ -7959,7 +7957,7 @@ Item	blunt cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 Item	bowl of Bounty-Os	Effect: "Broken Fast", Effect Duration: 20
 Item	bowl of eyeballs	Effect: "Your Eyes are Peeled!", Effect Duration: 30
 # bowl of mernudo: NOTE: This item will stop working when Crimbo 2019 is over.
-Item	bowl of mernudo	Effect: "Sea Guts", Effect Duration: 30
+# Item	bowl of mernudo	Effect: "Sea Guts", Effect Duration: 30
 Item	bowl of mummy guts	Effect: "Guts Feeling", Effect Duration: 30
 Item	bowl of Tastee-Wheet&trade;	Effect: "Video... Games?", Effect Duration: 5
 Item	Brain Food Pastaco	Effect: "Omphalotus Omnipresence", Effect Duration: 40
@@ -8042,7 +8040,7 @@ Item	FDKOL hotcakes	Effect: "Hotcaked", Effect Duration: 50
 Item	festive sausage	Effect: "Sausage Festive", Effect Duration: 20
 Item	fireman's lunch	Effect: "You're Not Cooking", Effect Duration: 20
 # fishelada: NOTE: This item will stop working when Crimbo 2019 is over.
-Item	fishelada	Effect: "Fishy", Effect Duration: 30
+# Item	fishelada	Effect: "Fishy", Effect Duration: 30
 # flan del mar: NOTE: This item will stop working when Crimbo 2019 is over.
 Item	flan del mar	Effect: "Festively Brined", Effect Duration: 30
 Item	flower petal pie	Effect: "Flower Power", Effect Duration: 3
@@ -8128,7 +8126,7 @@ Item	nega-mushroom	Effect: "Negavision", Effect Duration: 50
 Item	nut-shaped Crimbo cookie	Effect: "Nut-Rition", Effect Duration: 20
 Item	occult jelly donut	Effect: "Filled with Magic", Effect Duration: 30
 # ojo de pez burrito: NOTE: This item will stop working when Crimbo 2019 is over.
-Item	ojo de pez burrito	Effect: "Fish-Eye View", Effect Duration: 50
+# Item	ojo de pez burrito	Effect: "Fish-Eye View", Effect Duration: 50
 Item	old chum	Effect: "Fishy", Effect Duration: 5
 Item	one with everything	Effect: "Inner Dog", Effect Duration: 50
 Item	packet of beer nuts	Effect: "Salty Mouth", Effect Duration: 1
@@ -8650,6 +8648,8 @@ Item	spooky wad	Effect: "Spooky Demeanor", Effect Duration: 20
 Item	stench jelly	Effect: "Stench Jellied", Effect Duration: 50
 Item	stench wad	Effect: "Stenchtastic", Effect Duration: 20
 Item	strange paste	Effect: "Weird Flavor", Effect Duration: 10
+# super-sweet fish goo (spoiled): NOTE: This item will stop working when Crimbo 2019 is over.
+Item	super-sweet fish goo (spoiled)	Effect: "Fishy", Effect Duration: 15
 Item	The Author's ink	Effect: "It's a Good Life!", Effect Duration: 200
 Item	The Inquisitor's unidentifiable object	Effect: "The Inquisitor's Unknown Effect", Effect Duration: 100
 Item	tube of hair oil	Effect: "Got Your Boots On", Effect Duration: 10
@@ -9643,7 +9643,7 @@ Item	Glo-Pop	Effect: "Glo-Face", Effect Duration: 10
 # glob of melted wax: Stuns enemies for a few rounds, dealing <font color=red>Hot Damage</font> all the while
 # glob of melted wax: Can be fashioned into various wax objects
 # glob of salty molasses: NOTE: This item will stop working when Crimbo 2019 is over.
-Item	glob of salty molasses	Effect: "Molasses Flooded", Effect Duration: 30
+Item	glob of salty molasses	Effect: "Molasses Flooded", Effect Duration: 1
 Item	glob of spoiled mayo	Effect: "Mayeaugh", Effect Duration: 10
 Item	glowing El Vibrato drone	Effect: "Inscrutable exoskeleton", Effect Duration: 10
 Item	glowing frisbee	Free Pull
@@ -9871,7 +9871,7 @@ Item	Inigo's Incantation of Inspiration (crumpled)	Class: "Accordion Thief", Ski
 Item	Inner Strength	Effect: "Innately Strong", Effect Duration: 20
 Item	Inner Truth	Effect: "Innately Truthy", Effect Duration: 20
 Item	Inner Wisdom	Effect: "Innately Wise", Effect Duration: 20
-# intact anemone spike: Deal 500 damage (Underwater only)
+# intact anemone spike: Deal 100 damage (Underwater only)
 # intact anemone spike: NOTE: This item will stop working when Crimbo 2019 is over.
 # interesting clod of dirt: Absorb it for a useful skill!
 Item	interrogative elixir	Effect: "Enhanced Interrogation", Effect Duration: 1
@@ -10614,7 +10614,7 @@ Item	salamander slurry	Effect: "Salamander In Your Stomach", Effect Duration: [R
 Item	salt wages	Effect: "Worth Your Salt", Effect Duration: 30
 Item	salt water taffy	Effect: "Bedraggled Dragoon", Effect Duration: 30
 # salty gumdrop: NOTE: This item will stop working when Crimbo 2019 is over.
-Item	salty gumdrop	Effect: "Salt Rush", Effect Duration: 20
+Item	salty gumdrop	Effect: "Salt Rush", Effect Duration: 1
 # samurai turtle: Does various ninja things
 # sanctified cola: Restores 400-500 MP
 Item	sanctified cola	Lasts Until Rollover
@@ -10859,8 +10859,6 @@ Item	sugar-coated pine cone	Effect: "Sugar Rush", Effect Duration: 5
 Item	Summer Nights	Skill: "Grease Lightning"
 Item	Super Weight-Gain 9000	Effect: "Superveiny 9000", Effect Duration: 10
 Item	super-spiky hair gel	Effect: "Spiky Hair", Effect Duration: 5
-# super-sweet fish goo: NOTE: This item will stop working when Crimbo 2019 is over.
-Item	super-sweet fish goo	Effect: "Fishy", Effect Duration: 15
 # superamplified boom box: Deals 90-100 Physical Damage
 # superamplified boom box: Weakens enemies somewhat
 # superamplified boom box: Briefly stuns your opponent

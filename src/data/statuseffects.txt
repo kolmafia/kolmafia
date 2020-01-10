@@ -2521,7 +2521,7 @@
 2520	Fidoxene	pill5.gif	fda85b95057d6eda312515fb0394e1b9	pillkeeper familiar
 2521	Funday!	calendar.gif	3d0ca8a1b066b7767469f733dddaadaa	pillkeeper random
 2522	Festively Brined	flan2.gif	fdfdb06b66794900575f6e192c6c2247	eat 1 flan del mar
-2523	Baja, Humbug	sopapilla.gif	28b561f29c7cbcf8ca361184a859ff6e	eat 1 Baja sopapilla
+2523	Baja, Humbug	sopapilla.gif	28b561f29c7cbcf8ca361184a859ff6e
 2524	Mana-Blasted	snowflakes.gif	0eea810738136755db9016d1a3b9dab5	eat either 1 mana-coated yams, 1 mana-basted tofurkey leg, 1 mana-fortified cranberry sauce, 1 mana-stuffed herbal stuffing
 2525	Furrier Than Thou	spacefur.gif	32e5886efc29d83ed915e979ac4ad7f8	use 1 patch of extra-warm fur
 2526	Potpourri Committed	sachet.gif	1394a0b4d47903bc761b2243f4babf84	use 1 organic potpourri

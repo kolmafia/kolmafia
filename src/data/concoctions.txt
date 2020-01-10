@@ -3096,7 +3096,7 @@ tempura green and red bean	TEMPURA	bubbling tempura batter	green and red bean
 salt plum sake	SCOCK	bottle of Pete's Sake	salt plum
 pressurized potion of possessiveness	DSAUCE	globe of Deep Sauce	salt plum
 
-Staff of the Peppermint Twist	STAFF	peppermint spine	green and red bean (3)	super-sweet fish goo (3)	salty gumdrop (3)	intact anemone spike (3)
+Staff of the Peppermint Twist	STAFF	peppermint spine	green and red bean (3)	super-sweet fish goo (spoiled) (3)	salty gumdrop (3)	intact anemone spike (3)
 
 jacked Santa roll	SUSHI	beefy fish meat	white rice	seaweed	green and red bean
 magical jacked Santa roll	SUSHI	beefy fish meat	white rice	seaweed	green and red bean	dragonfish caviar
