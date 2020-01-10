@@ -10415,7 +10415,7 @@
 10387	intact anemone spike	832222109	bloodspike.gif	none, combat	t,d	25
 10388	anemoney clip	595355898	moneyclip2.gif	accessory	t	0
 10389	runny icing	252787051	drippyicing.gif	none	t,d	9	globs of runny icing
-10390	super-sweet fish goo	616721982	fishgoo.gif	potion, multiple	t,d	14	mounds of super-sweet fish goo
+10390	super-sweet fish goo (spoiled)	616721982	fishgoo.gif	spleen	t,d	14	mounds of super-sweet fish goo (spoiled)
 10391	icing poncho	787336641	icingponcho.gif	shirt	t	0
 10392	Mer-kin cookiestove	943213498	cookiestove.gif	usable	t,d	250
 10393	glob of salty molasses	132552047	molasses.gif	potion, multiple	t,d	22	globs of salty molasses
