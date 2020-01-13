@@ -836,6 +836,8 @@
 7318	lecture on mass	mass.gif	5	0	0
 7319	lecture on relativity	relativity.gif	5	0	0
 7320	Detect Weakness	retrospecs.gif	5	0	0
+7321	Unleash Terra Cotta Army	tc_soldier,gif	5	20	0
+7322	Paraffin Prism	paraffinprism.gif	5	30	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
