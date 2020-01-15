@@ -1103,6 +1103,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.VOTER_BALLOT:
 			case ItemPool.GOVERNMENT_REQUISITION_FORM:
 			case ItemPool.CAMPFIRE_SMOKE:
+			case ItemPool.BURNT_STICK:
 
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.
