@@ -70,7 +70,7 @@ public class CampgroundCommand
 		}
 		else if ( command.equals( "rest" ) && CampAwayRequest.campAwayTentRestUsable() )
 		{
-			request = new CampAwayRequest( "campaway_tentclick" );
+			request = new CampAwayRequest( CampAwayRequest.TENT );
 		}
 		else
 		{

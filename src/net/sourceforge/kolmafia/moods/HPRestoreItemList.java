@@ -379,7 +379,7 @@ public abstract class HPRestoreItemList
 			{
 				if ( CampAwayRequest.campAwayTentRestUsable() )
 				{
-					RequestThread.postRequest( new CampAwayRequest( "campaway_tentclick" ) );
+					RequestThread.postRequest( new CampAwayRequest( CampAwayRequest.TENT ) );
 				}
 				return;
 			}
@@ -412,7 +412,7 @@ public abstract class HPRestoreItemList
 					}
 					if ( CampAwayRequest.campAwayTentRestUsable() )
 					{
-						RequestThread.postRequest( new CampAwayRequest( "campaway_tentclick" ) );
+						RequestThread.postRequest( new CampAwayRequest( CampAwayRequest.TENT ) );
 						return;
 					}
 					if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() && !KoLCharacter.inNuclearAutumn() )

@@ -124,9 +124,6 @@ public class ClanLoungeRequest
 	private static final Pattern LAPS_PATTERN = Pattern.compile( "manage to swim (\\d+) before" );
 	private static final Pattern SPRINTS_PATTERN = Pattern.compile( "you do (\\d+) of them" );
 	private static final Pattern FISH_STOCK_PATTERN = Pattern.compile( "<br>(\\d+)?[,]?(\\d+)?[,]?(\\d+) (carp|cod|trout|bass|hatchetfish|tuna)" );
-	private static final AdventureResult CURSE1_EFFECT = EffectPool.get( EffectPool.ONCE_CURSED );
-	private static final AdventureResult CURSE2_EFFECT = EffectPool.get( EffectPool.TWICE_CURSED );
-	private static final AdventureResult CURSE3_EFFECT = EffectPool.get( EffectPool.THRICE_CURSED );
 
 	public static final Object [][] POOL_GAMES = new Object[][]
 	{
@@ -1039,15 +1036,14 @@ public class ClanLoungeRequest
 
 		case ClanLoungeRequest.HOTTUB:
 			// If on the Hidden Apartment Quest, and have a Curse, ask if you are sure you want to lose it ?
-			boolean cursed = KoLConstants.activeEffects.contains( ClanLoungeRequest.CURSE1_EFFECT ) ||
-				KoLConstants.activeEffects.contains( ClanLoungeRequest.CURSE2_EFFECT ) ||
-				KoLConstants.activeEffects.contains( ClanLoungeRequest.CURSE3_EFFECT );
-			if ( cursed && Preferences.getInteger( "hiddenApartmentProgress" ) < 7 )
+			boolean cursed = KoLConstants.activeEffects.contains( EffectPool.CURSE1_EFFECT ) ||
+				KoLConstants.activeEffects.contains( EffectPool.CURSE2_EFFECT ) ||
+				KoLConstants.activeEffects.contains( EffectPool.CURSE3_EFFECT );
+			if ( cursed &&
+			     Preferences.getInteger( "hiddenApartmentProgress" ) < 7 &&
+			     !InputFieldUtilities.confirm( "Are you sure, that will remove your Cursed effect?" ) )
 			{
-				if ( !InputFieldUtilities.confirm( "Are you sure, that will remove your Cursed effect?" ) )
-				{
-					break;
-				}
+				break;
 			}
 			this.constructURLString( "clan_viplounge.php" );
 			this.addFormField( "action", "hottub" );

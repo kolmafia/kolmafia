@@ -42,23 +42,54 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.Limitmode;
 
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+
 public class CampAwayRequest
 	extends PlaceRequest
 {
+	private final String action;
+
+	public static final String TENT = "campaway_tentclick";
+	public static final String SKY = "campaway_sky";
+
 	public CampAwayRequest()
 	{
 		super( "campaway" );
+		this.action = null;
 	}
 
 	public CampAwayRequest( final String action )
 	{
 		super( "campaway", action );
+		this.action = action;
+	}
+
+	@Override
+	public void run()
+	{
+		if ( TENT.equals( this.action ) )
+		{
+			// This will remove Curse effects
+			// If on the Hidden Apartment Quest, and have a Curse, ask if you are sure you want to lose it ?
+			boolean cursed = KoLConstants.activeEffects.contains( EffectPool.CURSE1_EFFECT ) ||
+				KoLConstants.activeEffects.contains( EffectPool.CURSE2_EFFECT ) ||
+				KoLConstants.activeEffects.contains( EffectPool.CURSE3_EFFECT );
+			if ( cursed &&
+			     Preferences.getInteger( "hiddenApartmentProgress" ) < 7 &&
+			     !InputFieldUtilities.confirm( "Are you sure, that will remove your Cursed effect?" ) )
+			{
+				return;
+			}
+		}
+
+		super.run();
 	}
 
 	@Override

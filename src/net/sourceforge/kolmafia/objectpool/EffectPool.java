@@ -349,6 +349,10 @@ public class EffectPool
 	public static final int MIST_FORM = 2450;
 	public static final int BATS_FORM = 2451;
 
+	public static final AdventureResult CURSE1_EFFECT = EffectPool.get( EffectPool.ONCE_CURSED );
+	public static final AdventureResult CURSE2_EFFECT = EffectPool.get( EffectPool.TWICE_CURSED );
+	public static final AdventureResult CURSE3_EFFECT = EffectPool.get( EffectPool.THRICE_CURSED );
+
 	public static final AdventureResult get( final int effectId )
 	{
 		return new AdventureResult( effectId, 1, true );
