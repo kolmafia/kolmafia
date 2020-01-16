@@ -356,6 +356,8 @@ public class FightRequest
 	private static boolean castShellUp = false;
 	private static boolean castAccordionBash = false;
 	private static boolean castCleesh = false;
+	private static boolean castParaffinPrism = false;
+	private static boolean castTerracottaArmy = false;
 	private static boolean insultedPirate = false;
 	private static boolean usedFlyer = false;
 	private static boolean jiggledChefstaff = false;
@@ -1501,6 +1503,24 @@ public class FightRequest
 		{
 			// You can only use this skill once per combat
 			if ( FightRequest.castAccordionBash )
+			{
+				this.skipRound();
+				return;
+			}
+		}
+		else if ( skillName.equals( "Unleash Terra Cotta Army" ) )
+		{
+			// You can only use this skill once per combat
+			if ( FightRequest.castTerracottaArmy )
+			{
+				this.skipRound();
+				return;
+			}
+		}
+		else if ( skillName.equals( "Paraffin Prism" ) )
+		{
+			// You can only use this skill once per combat
+			if ( FightRequest.castParaffinPrism )
 			{
 				this.skipRound();
 				return;
@@ -7938,6 +7958,8 @@ public class FightRequest
 		FightRequest.castNoodles = false;
 		FightRequest.castClubFoot = false;
 		FightRequest.castShellUp = false;
+		FightRequest.castTerracottaArmy = false;
+		FightRequest.castParaffinPrism = false;
 		FightRequest.castAccordionBash = false;
 		FightRequest.castCleesh = false;
 		FightRequest.insultedPirate = false;
@@ -8780,6 +8802,14 @@ public class FightRequest
 			
 		case SkillPool.SHELL_UP:
 			FightRequest.castShellUp = true;
+			return;
+
+		case SkillPool.TERRACOTTA_ARMY:
+			FightRequest.castTerracottaArmy = true;
+			return;
+
+		case SkillPool.PARAFFIN_PRISM:
+			FightRequest.castParaffinPrism = true;
 			return;
 			
 		case SkillPool.ACCORDION_BASH:
