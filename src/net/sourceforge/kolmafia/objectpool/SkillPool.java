@@ -307,6 +307,8 @@ public class SkillPool
 	public static final int LECTURE_ON_VELOCITY = 7317;
 	public static final int LECTURE_ON_MASS = 7318;
 	public static final int LECTURE_ON_RELATIVITY = 7319;
+	public static final int TERRACOTTA_ARMY = 7321;
+	public static final int PARAFFIN_PRISM = 7322;
 	public static final int GOOD_SINGING_VOICE = 11016;
 	public static final int BANISHING_SHOUT = 11020;
 	public static final int DEMAND_SANDWICH = 11021;
