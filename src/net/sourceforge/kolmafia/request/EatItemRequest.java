@@ -564,18 +564,24 @@ public class EatItemRequest
 		// Check for Got Milk
 		if ( !skipMilkNag && canMilk )
 		{
-			// See if already have enough of the Got Milk effect
-			boolean milkUsed = Preferences.getBoolean( "_milkOfMagnesiumUsed" );
-
-			if ( !milkUsed )
+			// Certain foods do not benefit from milk of magnesium
+			// This is not fully spaded yet, but magical sausages
+			// (a size 0 food) do not. Assume true of all size 0.
+			if ( consumptionTurns > 0 )
 			{
-				String message = "Are you sure you want to eat without milk?";
-				if ( !InputFieldUtilities.confirm( message ) )
-				{
-					return false;
-				}
+				// See if already used milk of magnesium today
+				boolean milkUsed = Preferences.getBoolean( "_milkOfMagnesiumUsed" );
 
-				EatItemRequest.askedAboutMilk = myUserId;
+				if ( !milkUsed )
+				{
+					String message = "Are you sure you want to eat without milk?";
+					if ( !InputFieldUtilities.confirm( message ) )
+					{
+						return false;
+					}
+
+					EatItemRequest.askedAboutMilk = myUserId;
+				}
 			}
 		}
 
