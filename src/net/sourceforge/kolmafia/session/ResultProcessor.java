@@ -1493,6 +1493,8 @@ public class ResultProcessor
 		case ItemPool.FIBERGLASS_FIBERS:	// 2018 Hardcore gear -> 2017 Hardcore gear
 		case ItemPool.CHALK_CHUNKS:		// 2019 Standard gear -> 2018 Standard gear
 		case ItemPool.MARBLE_MOECULES:		// 2019 Hardcore gear -> 2018 Hardcore gear
+		case ItemPool.PARAFFIN_PIECES:		// 2020 Standard gear -> 2019 Standard gear
+		case ItemPool.TERRA_COTTA_TIDBITS:	// 2020 Hardcore gear -> 2019 Hardcore gear
 			// BatFellow currencies
 		case ItemPool.INCRIMINATING_EVIDENCE:
 		case ItemPool.DANGEROUS_CHEMICALS:

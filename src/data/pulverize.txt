@@ -570,6 +570,22 @@ marble mignonette bowl	marble molecules
 marble medallion	marble molecules
 marble mariachi hat	marble molecules
 
+# Paraffin items
+paraffin punching bag	paraffin pieces
+paraffin pith helmet	paraffin pieces
+paraffin poncho	paraffin pieces
+paraffin pendant	paraffin pieces
+paraffin palazzos	paraffin pieces
+paraffin pseudoaccordion	paraffin pieces
+
+# Terra cotta items
+terra cotta truss	terra cotta tidbits
+terra cotta trousers	terra cotta tidbits
+terra cotta tongs	terra cotta tidbits
+terra cotta train	terra cotta tidbits
+terra cotta tie tack	terra cotta tidbits
+terra cotta tambourine	terra cotta tidbits
+
 # Dice items
 dice ring	powdered dice
 dice belt buckle	powdered dice

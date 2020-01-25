@@ -10129,7 +10129,7 @@
 10101	paraffin pendant	723705450	para_necklace.gif	accessory		0
 10102	paraffin palazzos	835839735	para_pants.gif	pants		0
 10103	paraffin pseudoaccordion	219458750	para_accordion.gif	weapon		0
-10104
+10104	paraffin pieces	211908086	para_bits.gif	spleen, usable		0
 10105	Para-Pop	249247918	para_pop.gif	potion, usable	t,d	15
 10106	terra cotta truss	597698250	tc_truss.gif	accessory		0
 10107	terra cotta trousers	789767758	tc_pants.gif	pants		0
@@ -10137,7 +10137,7 @@
 10109	terra cotta train	154520376	tc_cape.gif	container		0
 10110	terra cotta tie tack	649592665	tc_tietack.gif	accessory		0
 10111	terra cotta tambourine	174155630	tc_tambourine.gif	offhand		0
-10112
+10112	terra cotta tidbits	729179128	tc_bits.gif	spleen, usable		0
 10113	terra panna cotta	995803784	tc_pannacotta.gif	potion, usable	t,d	15
 10114
 10115
@@ -10289,7 +10289,7 @@
 10261	pile of sand	522432828	sandpile2.gif	multiple, combat	t,d	250
 10262	large pile of sand	427463999	sandpile3.gif	none	t,d	1000
 10263	empty hourglass	610982132	beachhourglass1.gif	none	t,d	500
-10264	hourglass	598421661	beachhourglass2.gif	usable	t,d	600
+10264	hourglass	598421661	beachhourglass2.gif	message	t,d	600
 10265	etched hourglass	693028996	beachhourglass3.gif	reusable	d	1000
 10266	magenta seashell	377121810	seashell1.gif	potion, multiple	t,d	5
 10267	cyan seashell	870503412	seashell2.gif	potion, multiple	t,d	5
