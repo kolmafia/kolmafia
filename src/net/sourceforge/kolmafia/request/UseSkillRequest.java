@@ -891,6 +891,10 @@ public class UseSkillRequest
 							KoLConstants.activeEffects.contains( UseSkillRequest.TAINTED_LOVE_POTION ) ? 0 : 1;
 			break;
 
+		case SkillPool.SEEK_OUT_A_BIRD:
+			// Is this daily limited? The mana cost doubles each
+			// time it is used. Can it be multi-cast?
+			break;
 		}
 
 		return maximumCast;
@@ -1494,11 +1498,11 @@ public class UseSkillRequest
 		String originalTarget = this.target;
 
 		// libram skills have variable (increasing) mana cost
-		boolean isLibramSkill = SkillDatabase.isLibramSkill( this.skillId );
+		boolean hasVariableMpCost = SkillDatabase.hasVariableMpCost( this.skillId );
 
 		while ( castsRemaining > 0 && !KoLmafia.refusesContinue() )
 		{
-			if ( isLibramSkill )
+			if ( hasVariableMpCost )
 			{
 				mpPerCast = SkillDatabase.getMPConsumptionById( this.skillId );
 			}
@@ -2557,6 +2561,9 @@ public class UseSkillRequest
 			}
 			break;
 
+		case SkillPool.SEEK_OUT_A_BIRD:
+			Preferences.increment( "_birdsSoughtToday" );
+			break;
 		}
 
 		if ( SkillDatabase.isLibramSkill( skillId ) )

@@ -2549,3 +2549,5 @@
 2548
 2549	Para-lyzed Jaw	para_pop.gif	bf2bcc1f7d2451b8ab11c24198c9a6ca	use 1 Para-Pop
 2550	Panna Consideration	tc_pannacotta.gif	22fef32a9bc3af04af21439f1c09e68b	use 1 terra panna cotta
+2551	Blessing of the Bird	findbird.gif	8de6fb855433dc4b90fb4dbc2a5c919d	cast 1 Seek out a Bird
+2552	Blessing of your favorite Bird	favoritebird.gif	e9c3b4f9a7f9b24166b835481f15c875	cast 1 Visit your Favorite Bird

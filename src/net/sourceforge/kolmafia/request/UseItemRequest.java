@@ -125,6 +125,8 @@ public class UseItemRequest
 		Pattern.compile( "don't forget <font color=purple><b><i>(.*?)</i></b></font>" );
 	private static final Pattern GIFT_FROM_PATTERN =
 		Pattern.compile( "<p>From: <b><a class=nounder href=\"showplayer.php\\?who=(\\d+)\">(.*?)</a></b>" );
+	private static final Pattern BIRD_OF_THE_DAY_PATTERN =
+		Pattern.compile( "Today's bird is the (.*?)!" );
 
 	// It goes [Xd12] feet, and doesn't hit anything interesting.
 	private static final Pattern ARROW_PATTERN =
@@ -6380,6 +6382,19 @@ public class UseItemRequest
 		case ItemPool.SEWING_KIT:
 			Preferences.setBoolean( "_sewingKitUsed", true );
 			break;
+
+		case ItemPool.BIRD_A_DAY_CALENDAR:
+		{
+			// xyzzy
+			Matcher m = BIRD_OF_THE_DAY_PATTERN.matcher( responseText );
+			if ( m.find() )
+			{
+				Preferences.setString( "_birdOfTheDay", m.group( 1 ) );
+				// skill 7323: "Seek out %birdname%"
+				// %birdname% is now "a " + m.group( 1 );
+			}
+			break;
+		}
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )

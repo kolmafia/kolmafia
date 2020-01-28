@@ -591,6 +591,12 @@ public class SkillDatabase
 
 		case SkillPool.STACK_LUMPS:
 			return SkillDatabase.stackLumpsCost();
+
+		case SkillPool.SEEK_OUT_A_BIRD:
+			// Casting cost: 5, 10, 20, 40, 80, 160, 320, ...
+			int birds = Preferences.getInteger( "_birdsSoughtToday" );
+			long mp = 5 * (long)Math.pow( 2.0, birds );
+			return Math.max( mp + KoLCharacter.getManaCostAdjustment(), 1 );
 		}
 
 		if ( classType != null )
@@ -638,6 +644,12 @@ public class SkillDatabase
 
 		int adjustment = KoLCharacter.getManaCostAdjustment( isCombat );
 		return Math.max( cost + adjustment, 1 );
+	}
+
+	public static final boolean hasVariableMpCost( final int skillId )
+	{
+		return  SkillDatabase.isLibramSkill( skillId ) ||
+			skillId == SkillPool.SEEK_OUT_A_BIRD;
 	}
 
 	/**
