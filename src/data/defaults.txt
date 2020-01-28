@@ -374,6 +374,7 @@ user	burrowgrubSummonsRemaining	0
 user	buyScript
 user	cameraMonster
 user	camerasUsed	0
+user	campAwayDecoration	0
 user	canteenUnlocked	false
 user	carboLoading	0
 user	catBurglarBankHeists	0
@@ -1393,6 +1394,7 @@ user	_brickoFights	0
 user	_brickoEyeSummons	0
 user	_cameraUsed	false
 user	_campAwayCloudBuffs	0
+user	_campAwaySmileBuffSign
 user	_campAwaySmileBuffs	0
 user	_candySummons	0
 user	_carboLoaded	false
@@ -1416,6 +1418,8 @@ user	_clanFortuneBuffUsed	false
 user	_clanFortuneConsultUses	0
 user	_claraBellUsed	false
 user	_clipartSummons	0
+user	_cloudTalkMessage
+user	_cloudTalkSmoker
 user	_coalPaperweightUsed	false
 user	_cocktailShakerUsed	false
 user	_coldAirportToday	false

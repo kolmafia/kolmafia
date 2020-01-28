@@ -94,6 +94,7 @@ import net.sourceforge.kolmafia.request.BeerPongRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest;
+import net.sourceforge.kolmafia.request.DecorateTentRequest;
 import net.sourceforge.kolmafia.request.EatItemRequest;
 import net.sourceforge.kolmafia.request.EdBaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -11713,6 +11714,10 @@ public abstract class ChoiceManager
 			RequestLogger.updateSessionLog( message );
 			break;
 		}
+
+		case 1392:
+			DecorateTentRequest.parseDecoration( urlString, text );
+			break;
 
 		case 1396:
 			// Adjusting Your Fish

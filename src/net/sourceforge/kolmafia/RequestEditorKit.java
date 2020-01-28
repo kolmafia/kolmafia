@@ -142,8 +142,6 @@ public class RequestEditorKit
 	extends HTMLEditorKit
 {
 	private static final Pattern FORM_PATTERN = Pattern.compile( "name=choiceform(\\d+)" );
-	//private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice\"? value=\"?(\\d+)\"?" );
-	private static final Pattern CHOICE2_PATTERN = Pattern.compile( "whichchoice=(\\d+)" );
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "name=option value=(\\d+)" );
 	private static final Pattern OUTFIT_FORM_PATTERN = Pattern.compile( "<form name=outfit.*?</form>", Pattern.DOTALL );
 	private static final Pattern OPTGROUP_PATTERN = Pattern.compile( "<optgroup label=['\"]([^']*)['\"]>(.*?)</optgroup>", Pattern.DOTALL );
@@ -872,7 +870,7 @@ public class RequestEditorKit
 			return;
 		}
 
-		UseLinkDecorator.UseLink link = new UseLinkDecorator.UseLink( ItemPool.TRANSPORTER_TRANSPONDER, 1, "use transponder", "inv_use.php?which=3&whichitem=" );
+		UseLink link = new UseLink( ItemPool.TRANSPORTER_TRANSPONDER, 1, "use transponder", "inv_use.php?which=3&whichitem=" );
 		buffer.insert( index + test.length(), link.getItemHTML() );
 	}
 
@@ -894,7 +892,7 @@ public class RequestEditorKit
 			return;
 		}
 
-		UseLinkDecorator.UseLink link = new UseLinkDecorator.UseLink( ItemPool.WARBEAR_BATTERY, 1, "install warbear battery", "inv_use.php?which=3&whichitem=" );
+		UseLink link = new UseLink( ItemPool.WARBEAR_BATTERY, 1, "install warbear battery", "inv_use.php?which=3&whichitem=" );
 		buffer.insert( index + test.length(), link.getItemHTML() );
 	}
 
@@ -918,7 +916,7 @@ public class RequestEditorKit
 			return;
 		}
 
-		UseLinkDecorator.UseLink link = new UseLinkDecorator.UseLink( ItemPool.DEVILISH_FOLIO, 1, "use devilish folio", "inv_use.php?which=3&whichitem=" );
+		UseLink link = new UseLink( ItemPool.DEVILISH_FOLIO, 1, "use devilish folio", "inv_use.php?which=3&whichitem=" );
 		buffer.insert( index + test.length(), link.getItemHTML() );
 	}
 
@@ -939,7 +937,7 @@ public class RequestEditorKit
 			return;
 		}
 
-		UseLinkDecorator.UseLink link = new UseLinkDecorator.UseLink( ItemPool.ABSINTHE, 1, "use absinthe", "inv_use.php?which=3&whichitem=" );
+		UseLink link = new UseLink( ItemPool.ABSINTHE, 1, "use absinthe", "inv_use.php?which=3&whichitem=" );
 		buffer.insert( index + test.length(), link.getItemHTML() );
 	}
 
@@ -2108,13 +2106,12 @@ public class RequestEditorKit
 
 	private static final void decorateChoiceResponse( final String location, final StringBuffer buffer )
 	{
-		Matcher matcher = RequestEditorKit.CHOICE2_PATTERN.matcher( location );
-		if ( !matcher.find() )
+		int choice = ChoiceManager.extractChoiceFromURL( location );
+		if ( choice == 0 )
 		{
 			return;
 		}
-
-		int choice = StringUtilities.parseInt( matcher.group( 1 ) );
+		int option = ChoiceManager.extractOptionFromURL( location );
 
 		switch ( choice )
 		{
@@ -2173,6 +2170,36 @@ public class RequestEditorKit
 		case 577:
 			// Your Minstrel Scamp
 			RequestEditorKit.addMinstrelNavigationLink( buffer, "Go to the Ancient Buried Pyramid", "pyramid.php" );
+			break;
+
+		case 579:
+			// Such Great Heights
+			if ( option == 3 )
+			{
+				// xyzzy
+				int index = buffer.indexOf( "<p><a href=\"adventure.php?snarfblat=280\">Adventure Again (The Hidden Temple)</a>" );
+				if ( index == -1 )
+				{
+					break;
+				}
+
+				int itemId = ItemPool.STONE_WOOL;
+				int count = ItemPool.get( itemId, 1 ).getCount( KoLConstants.inventory );
+				if ( count == 0 )
+				{
+					break;
+				}
+
+				String name = "stone wool";
+				StringBuilder link = new StringBuilder( "<a href=\"javascript:singleUse('inv_use.php','which=3&whichitem=" );
+				link.append( String.valueOf( itemId ) );
+				link.append( "&pwd=" );
+				link.append( GenericRequest.passwordHash );
+				link.append( "&ajax=1');void(0);\">Use another " );
+				link.append( name );
+				link.append( "</a>" );
+				buffer.insert( index, link.toString() );
+			}
 			break;
 
 		case 611: {
@@ -2545,15 +2572,15 @@ public class RequestEditorKit
 		link = " <a href=\"javascript:singleUse('inv_equip.php',which=2&action=equip&slot=1&whichitem=7770&pwd=" + GenericRequest.passwordHash + "');void();\">[acc1]</a>" +
 			"<a href=\"javascript:singleUse('inv_equip.php',which=2&action=equip&slot=2&whichitem=7770&pwd=" + GenericRequest.passwordHash + "');void();\">[acc2]</a>" +
 			"<a href=\"javascript:singleUse('inv_equip.php',which=2&action=equip&slot=3&whichitem=7770&pwd=" + GenericRequest.passwordHash + "');void();\">[acc3]</a>";
-		UseLinkDecorator.UseLink link1 = new UseLink( ItemPool.VENTILATION_UNIT, 1,
-					UseLinkDecorator.getEquipmentSpeculation( "acc1", ItemPool.VENTILATION_UNIT,  EquipmentManager.ACCESSORY1 ),
-					"inv_equip.php?which=2&action=equip&slot=1&whichitem=" );
-		UseLinkDecorator.UseLink link2 = new UseLink( ItemPool.VENTILATION_UNIT, 1,
-					UseLinkDecorator.getEquipmentSpeculation( "acc2", ItemPool.VENTILATION_UNIT,  EquipmentManager.ACCESSORY2 ),
-					"inv_equip.php?which=2&action=equip&slot=2&whichitem=" );
-		UseLinkDecorator.UseLink link3 = new UseLink( ItemPool.VENTILATION_UNIT, 1,
-					UseLinkDecorator.getEquipmentSpeculation( "acc3", ItemPool.VENTILATION_UNIT,  EquipmentManager.ACCESSORY3 ),
-					"inv_equip.php?which=2&action=equip&slot=3&whichitem=" );
+		UseLink link1 = new UseLink( ItemPool.VENTILATION_UNIT, 1,
+					     UseLinkDecorator.getEquipmentSpeculation( "acc1", ItemPool.VENTILATION_UNIT,  EquipmentManager.ACCESSORY1 ),
+					     "inv_equip.php?which=2&action=equip&slot=1&whichitem=" );
+		UseLink link2 = new UseLink( ItemPool.VENTILATION_UNIT, 1,
+					     UseLinkDecorator.getEquipmentSpeculation( "acc2", ItemPool.VENTILATION_UNIT,  EquipmentManager.ACCESSORY2 ),
+					     "inv_equip.php?which=2&action=equip&slot=2&whichitem=" );
+		UseLink link3 = new UseLink( ItemPool.VENTILATION_UNIT, 1,
+					     UseLinkDecorator.getEquipmentSpeculation( "acc3", ItemPool.VENTILATION_UNIT,  EquipmentManager.ACCESSORY3 ),
+					     "inv_equip.php?which=2&action=equip&slot=3&whichitem=" );
 		buffer.insert( index + test.length(), link1.getItemHTML() + link2.getItemHTML() + link3.getItemHTML() );
 	}
 
