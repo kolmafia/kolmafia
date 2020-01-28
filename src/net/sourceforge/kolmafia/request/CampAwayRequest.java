@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.Map;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -123,6 +125,27 @@ public class CampAwayRequest
 
 		if ( action.startsWith( "campaway_tent" ) )
 		{
+			Matcher m = EFFECT_PATTERN.matcher( responseText );
+			if ( m.find() )
+			{
+				String effect = m.group( 1 );
+				if ( effect.contains( "Muscular" ) )
+				{
+					Preferences.setInteger( "campAwayDecoration", 1 );
+				}
+				else if ( effect.contains( "Mystical" ) )
+				{
+					Preferences.setInteger( "campAwayDecoration", 2 );
+				}
+				else if ( effect.contains( "Moxious" ) )
+				{
+					Preferences.setInteger( "campAwayDecoration", 3 );
+				}
+			}
+			else
+			{
+				Preferences.setInteger( "campAwayDecoration", 0 );
+			}
 			Preferences.increment( "timesRested" );
 		}
 		else if ( action.equals( "campaway_sky" ) )
@@ -131,16 +154,114 @@ public class CampAwayRequest
 			if ( m.find() )
 			{
 				String effect = m.group( 1 );
-				if ( effect.contains( "Smile" ) )
+				String prefix = "Smile of the ";
+				int smileIndex = effect.indexOf( prefix );
+				if ( smileIndex != -1 )
 				{
+					Preferences.setString( "_campAwaySmileBuffSign", effect.substring( smileIndex + prefix.length() ) );
 					Preferences.increment( "_campAwaySmileBuffs" );
 				}
 				else if ( effect.contains( "Cloud-Talk" ) )
 				{
+					CampAwayRequest.parseCloudTalk( responseText );
 					Preferences.increment( "_campAwayCloudBuffs" );
 				}
 			}
 		}
+	}
+
+	// <div class="msg">...</div>
+	private static final Pattern CLOUD_TALK_MESSAGE_PATTERN = Pattern.compile( "<div class=\"msg\">(.*?)</div>", Pattern.DOTALL );
+
+	// <img src="https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/smoke2/question.png" class='float5'></div>
+	private static final Pattern CLOUD_TALK_PATTERN = Pattern.compile( "<img .*?otherimages/smoke2/([^\"]*)\"", Pattern.DOTALL );
+
+	private static final Map<String, Character> cloudLetters = new HashMap<String, Character>();
+	static
+	{
+		cloudLetters.put( "a.png", 'A' );
+		cloudLetters.put( "b.png", 'B' );
+		cloudLetters.put( "c.png", 'C' );
+		cloudLetters.put( "d.png", 'D' );
+		cloudLetters.put( "e.png", 'E' );
+		cloudLetters.put( "f.png", 'F' );
+		cloudLetters.put( "g.png", 'G' );
+		cloudLetters.put( "h.png", 'H' );
+		cloudLetters.put( "i.png", 'I' );
+		cloudLetters.put( "j.png", 'J' );
+		cloudLetters.put( "k.png", 'K' );
+		cloudLetters.put( "l.png", 'L' );
+		cloudLetters.put( "m.png", 'M' );
+		cloudLetters.put( "n.png", 'N' );
+		cloudLetters.put( "o.png", 'O' );
+		cloudLetters.put( "p.png", 'P' );
+		cloudLetters.put( "q.png", 'Q' );
+		cloudLetters.put( "r.png", 'R' );
+		cloudLetters.put( "s.png", 'S' );
+		cloudLetters.put( "t.png", 'T' );
+		cloudLetters.put( "u.png", 'U' );
+		cloudLetters.put( "v.png", 'V' );
+		cloudLetters.put( "w.png", 'W' );
+		cloudLetters.put( "x.png", 'X' );
+		cloudLetters.put( "y.png", 'Y' );
+		cloudLetters.put( "z.png", 'Z' );
+		cloudLetters.put( "space.png", ' ' );
+		cloudLetters.put( "comma.png", ',' );
+		cloudLetters.put( "period.png", '.' );
+		cloudLetters.put( "singlequote.png", '\'' );
+		cloudLetters.put( "doublequote.png", '\"' );
+		cloudLetters.put( "dollarsign.png", '$' );
+		cloudLetters.put( "exclamation.png", '!' );
+		cloudLetters.put( "leftparen.png", '(' );
+		cloudLetters.put( "rightparen.png", ')' );
+		cloudLetters.put( "lessthan.png", '<' );
+		cloudLetters.put( "greaterthan.png", '>' );
+		cloudLetters.put( "plussign.png", '+' );
+		cloudLetters.put( "poundsign.png", '#' );
+		cloudLetters.put( "question.png", '?' );
+	};
+
+	// <small>Smoked by <a href="showplayer.php?who=550986">Croft</a></small>
+	private static final Pattern CLOUD_TALKER_PATTERN = Pattern.compile( "<small>Smoked by .*?who=(\\d+)\">(.*?)</a></small>" );
+
+	public static final void parseCloudTalk( final String responseText )
+	{
+		Matcher d = CLOUD_TALK_MESSAGE_PATTERN.matcher( responseText );
+		if ( !d.find() )
+		{
+			return;
+		}
+
+		StringBuilder buffer = new StringBuilder();
+		Matcher m = CLOUD_TALK_PATTERN.matcher( d.group( 1 ) );
+		while ( m.find() )
+		{
+			Character ch = cloudLetters.get( m.group( 1 ) );
+			buffer.append( ch == null ? 'x' : ch );
+		}
+
+		String message = buffer.toString();
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
+		Preferences.setString( "_cloudTalkMessage", message );
+
+		Matcher w = CLOUD_TALKER_PATTERN.matcher( responseText );
+		if ( !w.find() )
+		{
+			return;
+		}
+
+		buffer.setLength( 0 );
+		buffer.append( "Smoked by " );
+		buffer.append( w.group( 2 ) );
+		buffer.append( " (" );
+		buffer.append( w.group( 1 ) );
+		buffer.append( ")" );
+
+		message = buffer.toString();
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
+		Preferences.setString( "_cloudTalkSmoker", message );
 	}
 
 	public static final boolean registerRequest( final String urlString )

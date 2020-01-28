@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.AdventureRequest;
+import net.sourceforge.kolmafia.request.CampAwayRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
@@ -189,6 +190,8 @@ public class TestCommand
 			KoLmafia.updateDisplay( "Read " + KoLConstants.COMMA_FORMAT.format( bytes.length ) +
 						" bytes into a " + KoLConstants.COMMA_FORMAT.format( string.length() ) +
 						" character string" );
+
+			return;
 		}
 
 		// *** Commands that do not depend on a loaded HTML file, in alphabetical order
@@ -807,6 +810,13 @@ public class TestCommand
 			return;
 		}
 
+		if ( command.equals( "clouds" ) )
+		{
+			CampAwayRequest.parseCloudTalk( TestCommand.contents );
+			TestCommand.contents = null;
+			return;
+		}
+
 		if ( command.equals( "dad" ) )
 		{
 			if ( !DadManager.solve( TestCommand.contents ) )
@@ -1048,5 +1058,7 @@ public class TestCommand
 			ChoiceUtilities.printChoices( ChoiceManager.lastResponseText );
 			return;
 		}
+
+		KoLmafia.updateDisplay( MafiaState.ERROR, "Unknown test command: " + command );
 	}
 }
