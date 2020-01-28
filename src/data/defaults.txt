@@ -1378,6 +1378,8 @@ user	_bearHugs	0
 user	_beerLensDrops	0
 user	_bendHellUsed	false
 user	_benettonsCasts	0
+user	_birdOfTheDay
+user	_birdsSoughtToday	0
 user	_bittycar
 user	_blankoutUsed	false
 user	_bonersSummoned	false

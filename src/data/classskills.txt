@@ -212,6 +212,7 @@
 187	Prevent Scurvy and Sobriety	pr_rhum.gif	1	50	0
 188	Implode Universe	light.gif	5	50	0
 189	The Spirit of Taking	sack1.gif	3	50	10
+190	Visit your Favorite Bird	favoritebird.gif	3	50	20
 
 # Skills available to Clubbers
 
@@ -838,6 +839,7 @@
 7320	Detect Weakness	retrospecs.gif	5	0	0
 7321	Unleash Terra Cotta Army	tc_soldier,gif	5	20	0
 7322	Paraffin Prism	paraffinprism.gif	5	30	0
+7323	Seek out a Bird	findbird.gif	3	5	10
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

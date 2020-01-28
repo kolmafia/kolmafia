@@ -121,6 +121,7 @@ public class SkillPool
 	public static final int TIKI_MIXOLOGY = 186;
 	public static final int PREVENT_SCURVY = 187;
 	public static final int IMPLODE_UNIVERSE = 188;
+	public static final int VISIT_YOUR_FAVORITE_BIRD = 190;
 	public static final int WALRUS_TONGUE = 1010;
 	public static final int BATTER_UP = 1014;
 	public static final int CLOBBER = 1022;
@@ -309,6 +310,7 @@ public class SkillPool
 	public static final int LECTURE_ON_RELATIVITY = 7319;
 	public static final int TERRACOTTA_ARMY = 7321;
 	public static final int PARAFFIN_PRISM = 7322;
+	public static final int SEEK_OUT_A_BIRD = 7323;
 	public static final int GOOD_SINGING_VOICE = 11016;
 	public static final int BANISHING_SHOUT = 11020;
 	public static final int DEMAND_SANDWICH = 11021;

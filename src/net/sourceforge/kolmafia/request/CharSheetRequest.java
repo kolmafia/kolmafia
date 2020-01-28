@@ -431,6 +431,15 @@ public class CharSheetRequest
 			UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( "Absorb Cowrruption" );
 			newSkillSet.add( skill );
 		}
+
+		// If you have looked at your Bird-a-Day calendar today, you can use
+		// "Seek out %birdname%". Actually, "Seek out <_birdOfTheDay>
+		String bird = Preferences.getString( "_birdOfTheDay" );
+		if ( !bird.equals( "" ) )
+		{
+			UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( "Seek out a Bird" );
+			newSkillSet.add( skill );
+		}
 		
 		// Set the skills that we saw
 		KoLCharacter.setAvailableSkills( newSkillSet );
