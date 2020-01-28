@@ -447,6 +447,11 @@ public class KoLAdventure
 			return;
 		}
 
+		if ( this.zone.equals( "Tammy's Offshore Platform" ) )
+		{
+			return;
+		}
+
 		// Fighting the Goblin King requires effects
 
 		if ( this.formSource.equals( "cobbsknob.php" ) )

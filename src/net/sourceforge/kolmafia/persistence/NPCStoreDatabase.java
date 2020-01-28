@@ -270,7 +270,7 @@ public class NPCStoreDatabase
 		}
 		else if ( storeId.startsWith( "crimbo19" ) )
 		{
-			return true;
+			return false;
 		}
 		else if ( storeId.equals( "guildstore1" ) )
 		{
