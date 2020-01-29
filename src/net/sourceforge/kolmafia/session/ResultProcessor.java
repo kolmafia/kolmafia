@@ -395,8 +395,24 @@ public class ResultProcessor
 			int effectId = EffectDatabase.getEffectIdFromDescription( descId );
 
 			// If we don't know this effectId, it's an unknown effect
+			if ( effectId == -1 )
+			{
+				effectId = EffectDatabase.learnEffectId( effectName, descId );
+			}
+
+			// If the effect is "Blessing of the Bird", KoL changes
+			// it to "Blessing of the XXX", where XXX is today's bird
+			if ( effectId == EffectPool.BLESSING_OF_THE_BIRD )
+			{
+				// Read it once per day
+				if ( !Preferences.getBoolean( "_birdBlessingKnown" ) )
+				{
+					Modifiers.overrideEffectModifiers( EffectPool.BLESSING_OF_THE_BIRD );
+					Preferences.setBoolean( "_birdBlessingKnown", true );
+				}
+			}
 			// If KoL changed the effect name, treat it as an unknown effect.
-			if ( effectId == -1 || !decodedNamesEqual( effectName, EffectDatabase.getEffectName( effectId ) ) )
+			else if ( !decodedNamesEqual( effectName, EffectDatabase.getEffectName( effectId ) ) )
 			{
 				effectId = EffectDatabase.learnEffectId( effectName, descId );
 			}
@@ -757,16 +773,16 @@ public class ResultProcessor
 			return false;
 		}
 
-		// KoL bug: some Affirmations, at least, are reported with a leading space
-		String effectName = parsedResults.remove().trim();
 		AdventureResult effect = effects.size() == 0 ? null : effects.getFirst();
-
-		if ( effect != null && decodedNamesEqual( effectName, effect.getName() ) )
+		if ( effect != null )
 		{
+			parsedResults.removeFirst();
 			effects.removeFirst();
 			return ResultProcessor.processEffect( false, acquisition, effect, data );
 		}
 
+		// KoL bug: some Affirmations, at least, are reported with a leading space
+		String effectName = parsedResults.remove().trim();
 		int effectId = EffectDatabase.getEffectId( effectName );
 		int duration = 0;
 

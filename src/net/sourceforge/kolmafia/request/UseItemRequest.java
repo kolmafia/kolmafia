@@ -6385,13 +6385,13 @@ public class UseItemRequest
 
 		case ItemPool.BIRD_A_DAY_CALENDAR:
 		{
-			// xyzzy
 			Matcher m = BIRD_OF_THE_DAY_PATTERN.matcher( responseText );
 			if ( m.find() )
 			{
 				Preferences.setString( "_birdOfTheDay", m.group( 1 ) );
-				// skill 7323: "Seek out %birdname%"
-				// %birdname% is now "a " + m.group( 1 );
+				ResponseTextParser.learnSkill( "Seek out a Bird" );
+				Modifiers.overrideEffectModifiers( EffectPool.BLESSING_OF_THE_BIRD );
+				Preferences.setBoolean( "_birdBlessingKnown", true );
 			}
 			break;
 		}

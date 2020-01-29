@@ -2172,6 +2172,12 @@ public class DebugDatabase
 		return DebugDatabase.createModifierString( known );
 	}
 
+	public static final String parseEffectEnchantments( final String text )
+	{
+		ArrayList<String> unknown = new ArrayList<String>();
+		return DebugDatabase.parseEffectEnchantments( text, unknown );
+	}
+
 	private static final void checkEffectModifierDatum( final String name, final String text, final PrintStream report )
 	{
 		ModifierList known = new ModifierList();

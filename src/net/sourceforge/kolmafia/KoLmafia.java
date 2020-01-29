@@ -989,6 +989,7 @@ public abstract class KoLmafia
 
 		// Items that need to be checked every time
 		InventoryManager.checkKGB();
+		InventoryManager.checkBirdOfTheDay();
 
 		// Check items that vary per person
 		// These won't actually generate a server hit if the item
