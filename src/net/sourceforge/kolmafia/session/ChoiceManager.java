@@ -11734,6 +11734,17 @@ public abstract class ChoiceManager
 				}
 			}
 			break;
+
+		case 1399:
+			// New Favorite Bird?
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				String bird = Preferences.getString( "_birdOfTheDay" );
+				Preferences.setString( "yourFavoriteBird", bird );
+				ResponseTextParser.learnSkill( "Visit your Favorite Bird" );
+				Modifiers.overrideEffectModifiers( EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD );
+			}
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
@@ -11775,6 +11786,13 @@ public abstract class ChoiceManager
 		// any time, but we do them in automation during result
 		// processing and they do not count as "walking away"
 		if ( urlString.startsWith( "diary.php" ) )
+		{
+			return;
+		}
+
+		// The following is returned as part of the seventh casting of
+		// "Seek out a Bird". The actual choice will show up later
+		if ( urlString.equals( "skillz.php?oneskillz=7323" ) )
 		{
 			return;
 		}

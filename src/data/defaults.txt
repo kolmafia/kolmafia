@@ -1341,6 +1341,7 @@ user	yearbookCameraAscensions	0
 user	yearbookCameraPending	false
 user	yearbookCameraTarget
 user	yearbookCameraUpgrades	0
+user	yourFavoriteBird
 user	zeppelinProtestors	0
 user	zombiePoints	0
 user	_absintheDrops	0
@@ -1476,6 +1477,7 @@ user	_everfullGlassUsed	false
 user	_expertCornerCutterUsed	0
 user	_falloutShelterSpaUsed	false
 user	_fancyHotDogEaten	false
+user	_favoriteBirdVisited	false
 user	_favorRareSummons	0
 user	_feastedFamiliars
 user	_feastUsed	0

@@ -895,6 +895,10 @@ public class UseSkillRequest
 			// Is this daily limited? The mana cost doubles each
 			// time it is used. Can it be multi-cast?
 			break;
+
+		case SkillPool.VISIT_YOUR_FAVORITE_BIRD:
+			maximumCast = Preferences.getBoolean( "_favoriteBirdVisited" ) ? 0 : 1;
+			break;
 		}
 
 		return maximumCast;
@@ -2562,7 +2566,13 @@ public class UseSkillRequest
 			break;
 
 		case SkillPool.SEEK_OUT_A_BIRD:
+		{
 			Preferences.increment( "_birdsSoughtToday" );
+			break;
+		}
+
+		case SkillPool.VISIT_YOUR_FAVORITE_BIRD:
+			Preferences.setBoolean( "_favoriteBirdVisited", true );
 			break;
 		}
 
