@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -1821,6 +1822,18 @@ public abstract class InventoryManager
 		String rawText = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( ItemPool.KREMLIN_BRIEFCASE ), true );
 		String mod = DebugDatabase.parseItemEnchantments( rawText, KoLConstants.EQUIP_ACCESSORY );
 		Modifiers.overrideModifier( "Item:[" + ItemPool.KREMLIN_BRIEFCASE + "]", mod );
+	}
+
+	public static final void checkBirdOfTheDay()
+	{
+		AdventureResult BOTD = ItemPool.get( ItemPool.BIRD_A_DAY_CALENDAR, 1 );
+		if ( BOTD.getCount( KoLConstants.inventory ) == 0 && BOTD.getCount( KoLConstants.closet ) == 0 )
+		{
+			return;
+		}
+
+		Modifiers.overrideEffectModifiers( EffectPool.BLESSING_OF_THE_BIRD );
+		Modifiers.overrideEffectModifiers( EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD );
 	}
 
 	private static final AdventureResult GOLDEN_MR_ACCESSORY = ItemPool.get( ItemPool.GOLDEN_MR_ACCESSORY, 1 );
