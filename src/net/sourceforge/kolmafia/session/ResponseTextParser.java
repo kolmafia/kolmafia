@@ -466,7 +466,8 @@ public class ResponseTextParser
 				{
 					SkillDatabase.registerSkill( responseText, skill, null );
 				}
-				if ( location.contains( "self=true" ) ) {
+				if ( location.contains( "self=true" ) )
+				{
 					ConsequenceManager.parseSkillDesc( skill, responseText );
 				}
 			}
