@@ -1597,7 +1597,7 @@ public class UseSkillRequest
 				break;
 			}
 
-			currentCast = Math.min( Math.min( castsRemaining, maximumCast ), castsPerIteration );
+			currentCast = Math.min( Math.min( currentCast, maximumCast ), castsPerIteration );
 
 			if ( currentCast > 0 )
 			{
