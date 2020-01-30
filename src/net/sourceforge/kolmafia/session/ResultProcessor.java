@@ -407,9 +407,16 @@ public class ResultProcessor
 				// Read it once per day
 				if ( !Preferences.getBoolean( "_birdBlessingKnown" ) )
 				{
+					// *** Update _birdOfTheDay from the effect name?
 					Modifiers.overrideEffectModifiers( EffectPool.BLESSING_OF_THE_BIRD );
 					Preferences.setBoolean( "_birdBlessingKnown", true );
 				}
+			}
+			else if ( effectId == EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD )
+			{
+				// Read the modifiers
+				// *** Update yourFavoriteBird from the effect name?
+				Modifiers.overrideEffectModifiers( EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD );
 			}
 			// If KoL changed the effect name, treat it as an unknown effect.
 			else if ( !decodedNamesEqual( effectName, EffectDatabase.getEffectName( effectId ) ) )
