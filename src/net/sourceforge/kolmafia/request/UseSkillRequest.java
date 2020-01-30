@@ -394,7 +394,6 @@ public class UseSkillRequest
 
 	public void setTarget( final String target )
 	{
-		this.countFieldId = "quantity";
 		if ( this.isBuff )
 		{
 			if ( target == null || target.trim().length() == 0 || target.equals( KoLCharacter.getPlayerId() ) || target.equals( KoLCharacter.getUserName() ) )
@@ -416,6 +415,8 @@ public class UseSkillRequest
 
 	public void setBuffCount( long buffCount )
 	{
+		this.countFieldId = "quantity";
+
 		long maxPossible = 0;
 
 		if ( SkillDatabase.isSoulsauceSkill( skillId ) )
@@ -1504,6 +1505,9 @@ public class UseSkillRequest
 		// libram skills have variable (increasing) mana cost
 		boolean hasVariableMpCost = SkillDatabase.hasVariableMpCost( this.skillId );
 
+		// Some skills have to be cast 1 at a time. This might be a KoL bug
+		int castsPerIteration = this.singleCastSkill() ? 1 : Integer.MAX_VALUE;
+
 		while ( castsRemaining > 0 && !KoLmafia.refusesContinue() )
 		{
 			if ( hasVariableMpCost )
@@ -1520,7 +1524,7 @@ public class UseSkillRequest
 
 			// Find out how many times we can cast with current MP
 
-			long currentCast = this.availableCasts( castsRemaining, mpPerCast );
+			long currentCast = Math.min( this.availableCasts( castsRemaining, mpPerCast ), castsPerIteration );
 
 			// If none, attempt to recover MP in order to cast;
 			// take auto-recovery into account.
@@ -1534,9 +1538,9 @@ public class UseSkillRequest
 
 			if ( currentCast == 0 || needExtra )
 			{
-				currentCast = Math.min( castsRemaining, maximumCast );
-				long currentMP = KoLCharacter.getCurrentMP();
+				currentCast = Math.min( Math.min( castsRemaining, maximumCast ), castsPerIteration );
 
+				long currentMP = KoLCharacter.getCurrentMP();
 				long recoverMP = mpPerCast * currentCast;
 
 				if ( MoodManager.isExecuting() )
@@ -1558,7 +1562,7 @@ public class UseSkillRequest
 					return;
 				}
 
-				currentCast = this.availableCasts( castsRemaining, mpPerCast );
+				currentCast = Math.min( this.availableCasts( castsRemaining, mpPerCast ), castsPerIteration );
 			}
 
 			if ( KoLmafia.refusesContinue() )
@@ -1587,7 +1591,7 @@ public class UseSkillRequest
 				break;
 			}
 
-			currentCast = Math.min( currentCast, maximumCast );
+			currentCast = Math.min( Math.min( castsRemaining, maximumCast ), castsPerIteration );
 
 			if ( currentCast > 0 )
 			{
@@ -1641,6 +1645,18 @@ public class UseSkillRequest
 		{
 			UseSkillRequest.lastUpdate = "Error encountered during cast attempt.";
 		}
+	}
+
+	public final boolean singleCastSkill()
+	{
+		// Some skills do not work with a "count" field.
+		// This might be a KoL bug.
+		switch ( this.skillId )
+		{
+		case SkillPool.SEEK_OUT_A_BIRD:
+			return true;
+		}
+		return false;
 	}
 
 	public final long availableCasts( long maxCasts, long mpPerCast )

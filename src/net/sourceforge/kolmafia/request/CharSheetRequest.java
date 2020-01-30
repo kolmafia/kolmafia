@@ -440,13 +440,6 @@ public class CharSheetRequest
 			UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( "Seek out a Bird" );
 			newSkillSet.add( skill );
 		}
-
-		String favoriteBird = Preferences.getString( "yourFavoriteBird" );
-		if ( !favoriteBird.equals( "" ) )
-		{
-			UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( "Visit your Favorite Bird" );
-			newSkillSet.add( skill );
-		}
 		
 		// Set the skills that we saw
 		KoLCharacter.setAvailableSkills( newSkillSet );
