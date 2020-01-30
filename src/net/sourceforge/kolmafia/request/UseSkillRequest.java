@@ -1355,9 +1355,15 @@ public class UseSkillRequest
 			ChoiceManager.setSkillUses( (int)this.buffCount );
 		}
 
-		this.isRunning = true;
-		this.useSkillLoop();
-		this.isRunning = false;
+		try
+		{
+			this.isRunning = true;
+			this.useSkillLoop();
+		}
+		finally
+		{
+			this.isRunning = false;
+		}
 	}
 
 	private static final AdventureResult ONCE_CURSED = EffectPool.get( EffectPool.ONCE_CURSED );
@@ -1629,6 +1635,20 @@ public class UseSkillRequest
 
 				this.constructURLString( URLString, false );
 				super.run();
+
+				if ( this.redirectLocation != null )
+				{
+					// This skill cast redirected - probably to a choice or a fight.
+					// Since we do not handle redirects here, GenericRequest automated.
+					// Therefore, our processResults method was not called.
+					//
+					// If it was a choice, process the result from the choice
+					if ( this.redirectLocation.startsWith( "choice.php" ) )
+					{
+						this.responseText = ChoiceManager.lastResponseText;
+						this.processResults();
+					}
+				}
 
 				// But keep fields as per POST for easy modification
 				this.constructURLString( URLString, true );
@@ -2105,6 +2125,12 @@ public class UseSkillRequest
 		{
 			UseSkillRequest.lastUpdate = "You can only declare one Employee of the Month per day.";
 			Preferences.setBoolean( "_managerialManipulationUsed", true );
+			return true;
+		}
+
+		if ( responseText.contains( "You decide not to commit" ) )
+		{
+			UseSkillRequest.lastUpdate = "You decide to not change your favorite bird.";
 			return true;
 		}
 
