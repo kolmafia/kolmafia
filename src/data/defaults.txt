@@ -1163,6 +1163,7 @@ user	skillBurn6023	-100
 user	skillBurn6024	-100
 user	skillBurn6026	-100
 user	skillBurn6028	-100
+user	skillBurn7323	-100
 user	skillBurn14008	-100
 user	skillBurn14028	-100
 user	skillBurn14038	-100
