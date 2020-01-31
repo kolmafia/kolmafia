@@ -351,8 +351,8 @@ public class SkillDatabase
 
 	public static final int getSkillLevel( final int skillId )
 	{
-		Object level = SkillDatabase.levelById.get( IntegerPool.get( skillId ) );
-		return level == null ? -1 : ( (Integer) level ).intValue();
+		Integer level = SkillDatabase.levelById.get( IntegerPool.get( skillId ) );
+		return level == null ? -1 : level.intValue();
 	}
 
 	public static final int getSkillPurchaseCost( final int skillId )
@@ -538,7 +538,7 @@ public class SkillDatabase
 		String classType = null;
 		boolean thrallReduced = false;
 		boolean isCombat = ( SkillDatabase.isCombat( skillId ) && !SkillDatabase.isNonCombat( skillId ) ) ||
-							( SkillDatabase.isCombat( skillId ) && FightRequest.getCurrentRound() > 0 );
+			           ( SkillDatabase.isCombat( skillId ) && FightRequest.getCurrentRound() > 0 );
 		boolean terminal = false;
 
 		switch ( skillId )
@@ -593,10 +593,8 @@ public class SkillDatabase
 			return SkillDatabase.stackLumpsCost();
 
 		case SkillPool.SEEK_OUT_A_BIRD:
-			// Casting cost: 5, 10, 20, 40, 80, 160, 320, ...
 			int birds = Preferences.getInteger( "_birdsSoughtToday" );
-			long mp = 5 * (long)Math.pow( 2.0, birds );
-			return Math.max( mp + KoLCharacter.getManaCostAdjustment(), 1 );
+			return SkillDatabase.birdSkillMPConsumption( birds );
 		}
 
 		if ( classType != null )
@@ -615,14 +613,14 @@ public class SkillDatabase
 			return 0;
 		}
 
-		Object mpConsumption = SkillDatabase.mpConsumptionById.get( IntegerPool.get( skillId ) );
+		Integer mpConsumption = SkillDatabase.mpConsumptionById.get( IntegerPool.get( skillId ) );
 
 		if ( mpConsumption == null )
 		{
 			return 0;
 		}
 
-		int cost = ( (Integer) mpConsumption ).intValue();
+		int cost =  mpConsumption.intValue();
 		if ( cost == 0 )
 		{
 			return 0;
@@ -798,6 +796,36 @@ public class SkillDatabase
 		}
 
 		return count;
+	}
+	
+
+	public static final long birdSkillMPConsumption( final int cast )
+	{
+		// Casting cost: 5, 10, 20, 40, 80, 160, 320, ...
+		long mp = 5 * (long)Math.pow( 2.0, cast );
+		return Math.max( mp + KoLCharacter.getManaCostAdjustment(), 1 );
+	}
+
+
+	public static final int birdSkillCasts( int cast, long availableMP )
+	{
+		long mpCost = SkillDatabase.birdSkillMPConsumption( cast );
+		int count = 0;
+
+		while ( mpCost <= availableMP )
+		{
+			count++;
+			availableMP -= mpCost;
+			mpCost = SkillDatabase.birdSkillMPConsumption( cast );
+		}
+
+		return count;
+	}
+
+	public static final long birdSkillCasts( long availableMP )
+	{
+		int birds = Preferences.getInteger( "_birdsSoughtToday" );
+		return SkillDatabase.birdSkillCasts( birds, availableMP );
 	}
 
 	public static final int stackLumpsCost()

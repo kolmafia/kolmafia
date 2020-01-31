@@ -181,6 +181,14 @@ public class ManaBurnManager
 			{
 				continue;
 			}
+
+			// Don't cast if the the skill has not currently castable
+			UseSkillRequest skill = UseSkillRequest.getInstance( skillName );
+			long maximumCast = skill.getMaximumCast();
+			if ( maximumCast == 0 )
+			{
+				continue;
+			}
 			
 			int priority = Preferences.getInteger( "skillBurn" + skillId ) + 100;
 			// skillBurnXXXX values offset by 100 so that missing prefs read

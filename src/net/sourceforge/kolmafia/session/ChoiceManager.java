@@ -11737,6 +11737,8 @@ public abstract class ChoiceManager
 
 		case 1399:
 			// New Favorite Bird?
+			// Auto correct, in case we cast this outside of KoLmafia
+			Preferences.setInteger( "_birdsSoughtToday", 6 );
 			if ( ChoiceManager.lastDecision == 1 )
 			{
 				String bird = Preferences.getString( "_birdOfTheDay" );
