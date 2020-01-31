@@ -447,6 +447,10 @@ public class UseSkillRequest
 			{
 				maxPossible = this.getMaximumCast();
 			}
+			else if ( this.skillId == SkillPool.SEEK_OUT_A_BIRD )
+			{
+				maxPossible = SkillDatabase.birdSkillCasts( availableMP );
+			}
 			else if ( SkillDatabase.isLibramSkill( this.skillId ) )
 			{
 				maxPossible = SkillDatabase.libramSkillCasts( availableMP );
@@ -893,9 +897,30 @@ public class UseSkillRequest
 			break;
 
 		case SkillPool.SEEK_OUT_A_BIRD:
-			// Is this daily limited? The mana cost doubles each
-			// time it is used. Can it be multi-cast?
+		{
+			// On the seventh cast of the day, you are given the
+			// option to change your favorite bird.
+			//
+			// The choice adventure to select this is 1399.
+			// Option 1 changes the bird and the cast succeeds
+			// Option 2 does not change and the cast fails.
+			//
+			// Therefore:
+			// 
+			// If you want option 1, casts are limited by MP
+			// If you want option 2, you get 6 casts per day
+			//
+			// If you have already summoned at least 7 birds today,
+			// you are past the choice and casts are unlimited
+
+			int option = Preferences.getInteger( "choiceAdventure1399" );
+			int birds = Preferences.getInteger( "_birdsSoughtToday" );
+			if ( birds < 7 && option != 1 )
+			{
+				maximumCast = 6 - birds;
+			}
 			break;
+		}
 
 		case SkillPool.VISIT_YOUR_FAVORITE_BIRD:
 			maximumCast = Preferences.getBoolean( "_favoriteBirdVisited" ) ? 0 : 1;
@@ -1687,6 +1712,10 @@ public class UseSkillRequest
 		if ( SkillDatabase.isLibramSkill( this.skillId ) )
 		{
 			currentCast = SkillDatabase.libramSkillCasts( availableMP );
+		}
+		else if ( this.skillId == SkillPool.SEEK_OUT_A_BIRD )
+		{
+			currentCast = SkillDatabase.birdSkillCasts( availableMP );
 		}
 		else if ( SkillDatabase.isSoulsauceSkill( this.skillId ) )
 		{
@@ -2788,6 +2817,10 @@ public class UseSkillRequest
 		if ( SkillDatabase.isLibramSkill( skillId ) )
 		{
 			maxcasts = SkillDatabase.libramSkillCasts( availableMP );
+		}
+		else if ( skillId == SkillPool.SEEK_OUT_A_BIRD )
+		{
+			maxcasts = SkillDatabase.birdSkillCasts( availableMP );
 		}
 		else if ( SkillDatabase.isSoulsauceSkill( skillId ) )
 		{
