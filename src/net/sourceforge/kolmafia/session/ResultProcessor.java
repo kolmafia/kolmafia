@@ -378,8 +378,27 @@ public class ResultProcessor
 	// <table><tr><td><img class=hand src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/discoleer.gif" onClick='eff("bc3d4aad3454fcd82c066ef3949749ca");' width=30 height=30></td><td valign=center class=effect>You lose an effect: <b>Disco Leer</b></td></tr></table>
 	// <table><tr><td><img class=hand src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/scharm.gif" onClick='eff("81d92825729f8b3a913133c18e37a74c");' width=30 height=30 alt="Ancient Annoying Serpent Poison" title="Ancient Annoying Serpent Poison"></td><td valign=center class=effect>You lose an intrinsic: <b>Ancient Annoying Serpent Poison</b><br></td></tr></table>
 
-	public static Pattern EFFECT_TABLE_PATTERN = Pattern.compile( "<table><tr><td><img[^>]*eff\\(\"(.*?)\"\\)[^>]*>.*?class=effect>(.*?)<b>(.*?)</b>(?:<br>| )?(?:\\((?:duration: )?(\\d+) Adventures?\\))?</td></tr></table>" );
+	public static Pattern BIRD_PATTERN = Pattern.compile( "Blessing of the (.*)" );
+	public static void updateBird( int effectId, String effectName, String property )
+	{
+		// You acquire an effect: <b>Blessing of the Southern Japanese Velocity Eagle</b>
+		String bird = Preferences.getString( property );
+		Matcher birdMatcher = ResultProcessor.BIRD_PATTERN.matcher( effectName );
+		String blessingBird = birdMatcher.find() ? birdMatcher.group( 1 ) : bird;
+		if ( blessingBird.equals( "Bird" ) )
+		{
+			// You carried an effect through rollover and no longer
+			// have a bird of the day?
+			Preferences.setString( property, "" );
+		}
+		else if ( !bird.equals( blessingBird ) )
+		{
+			Preferences.setString( property, blessingBird );
+			Modifiers.overrideEffectModifiers( effectId );
+		}
+	}
 
+	public static Pattern EFFECT_TABLE_PATTERN = Pattern.compile( "<table><tr><td><img[^>]*eff\\(\"(.*?)\"\\)[^>]*>.*?class=effect>(.*?)<b>(.*?)</b>(?:<br>| )?(?:\\((?:duration: )?(\\d+) Adventures?\\))?</td></tr></table>" );
 	public static LinkedList<AdventureResult> parseEffects( String results )
 	{
 		// Pre-process all effect matches and add them to the passed in list of effects.
@@ -404,19 +423,11 @@ public class ResultProcessor
 			// it to "Blessing of the XXX", where XXX is today's bird
 			if ( effectId == EffectPool.BLESSING_OF_THE_BIRD )
 			{
-				// Read it once per day
-				if ( !Preferences.getBoolean( "_birdBlessingKnown" ) )
-				{
-					// *** Update _birdOfTheDay from the effect name?
-					Modifiers.overrideEffectModifiers( EffectPool.BLESSING_OF_THE_BIRD );
-					Preferences.setBoolean( "_birdBlessingKnown", true );
-				}
+				ResultProcessor.updateBird( EffectPool.BLESSING_OF_THE_BIRD, effectName, "_birdOfTheDay" );
 			}
 			else if ( effectId == EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD )
 			{
-				// Read the modifiers
-				// *** Update yourFavoriteBird from the effect name?
-				Modifiers.overrideEffectModifiers( EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD );
+				ResultProcessor.updateBird( EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, effectName, "yourFavoriteBird" );
 			}
 			// If KoL changed the effect name, treat it as an unknown effect.
 			else if ( !decodedNamesEqual( effectName, EffectDatabase.getEffectName( effectId ) ) )

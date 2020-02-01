@@ -950,9 +950,13 @@ public class CharPaneRequest
 		{
 			effectId = EffectDatabase.learnEffectId( effectName, descId );
 		}
-		else
+		else if ( effectId == EffectPool.BLESSING_OF_THE_BIRD )
 		{
-			effectName = EffectDatabase.getEffectName( effectId );
+			ResultProcessor.updateBird( EffectPool.BLESSING_OF_THE_BIRD, effectName, "_birdOfTheDay" );
+		}
+		else if ( effectId == EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD )
+		{
+			ResultProcessor.updateBird( EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, effectName, "yourFavoriteBird" );
 		}
 
 		if ( duration == Integer.MAX_VALUE )
