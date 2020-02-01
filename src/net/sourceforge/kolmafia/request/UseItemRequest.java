@@ -6391,7 +6391,6 @@ public class UseItemRequest
 				Preferences.setString( "_birdOfTheDay", m.group( 1 ) );
 				ResponseTextParser.learnSkill( "Seek out a Bird" );
 				Modifiers.overrideEffectModifiers( EffectPool.BLESSING_OF_THE_BIRD );
-				Preferences.setBoolean( "_birdBlessingKnown", true );
 			}
 			break;
 		}
