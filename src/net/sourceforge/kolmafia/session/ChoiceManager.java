@@ -11484,14 +11484,17 @@ public abstract class ChoiceManager
 			break;
 
 		case 1336:
+		{
 			// Boxing Daycare
-			String message = null;
+			String message1 = null;
+			String message2 = null;
 			if ( ChoiceManager.lastDecision == 1 )
 			{
 				Matcher matcher = ChoiceManager.DAYCARE_RECRUIT_PATTERN.matcher( text );
 				if ( matcher.find() )
 				{
-					message = "You have recruited " + matcher.group( 1 ) + " toddlers";
+					message1 = "Activity: Recruit toddlers";
+					message2 = "You have recruited " + matcher.group( 1 ) + " toddlers";
 					Preferences.increment( "_daycareRecruits" );
 				}
 			}
@@ -11500,7 +11503,8 @@ public abstract class ChoiceManager
 				Matcher matcher = ChoiceManager.DAYCARE_EQUIPMENT_PATTERN.matcher( text );
 				if ( matcher.find() )
 				{
-					message = "You have found " + matcher.group( 1 ) + " pieces of gym equipment";
+					message1 = "Activity: Scavenge for gym equipment";
+					message2 = "You have found " + matcher.group( 1 ) + " pieces of gym equipment";
 					Preferences.increment( "_daycareGymScavenges" );
 				}
 			}
@@ -11508,7 +11512,8 @@ public abstract class ChoiceManager
 			{
 				if ( text.contains( "new teacher joins the staff" ) )
 				{
-					message = "You have hired a new instructor";
+					message1 = "Activity: Hire an instructor";
+					message2 = "You have hired a new instructor";
 				}
 				Matcher matcher = ChoiceManager.DAYCARE_ITEM_PATTERN.matcher( text );
 				if ( matcher.find() )
@@ -11522,15 +11527,22 @@ public abstract class ChoiceManager
 			{
 				if ( text.contains( "step into the ring" ) )
 				{
+					message1 = "Activity: Spar";
 					Preferences.setBoolean( "_daycareFights", true );
 				}
 			}
-			if ( message != null )
+			if ( message1 != null )
 			{
-				RequestLogger.printLine( message );
-				RequestLogger.updateSessionLog( message );
+				RequestLogger.printLine( message1 );
+				RequestLogger.updateSessionLog( message1 );
+			}
+			if ( message2 != null )
+			{
+				RequestLogger.printLine( message2 );
+				RequestLogger.updateSessionLog( message2 );
 			}
 			break;
+		}
 
 		case 1340:
 			// Is There A Doctor In The House?
@@ -11622,7 +11634,7 @@ public abstract class ChoiceManager
 					{
 						String skillName = SkillDatabase.getSkillName( 24000 + i );
 						KoLCharacter.addAvailableSkill( skillName );
-						message = "You have learned " + skillName;
+						String message = "You have learned " + skillName;
 						RequestLogger.printLine( message );
 						RequestLogger.updateSessionLog( message );
 					}
@@ -11630,7 +11642,7 @@ public abstract class ChoiceManager
 					{
 						String skillName = SkillDatabase.getSkillName( 24000 + i );
 						KoLCharacter.removeAvailableSkill( skillName );
-						message = "You have forgotten " + skillName;
+						String message = "You have forgotten " + skillName;
 						RequestLogger.printLine( message );
 						RequestLogger.updateSessionLog( message );
 					}
@@ -11709,7 +11721,7 @@ public abstract class ChoiceManager
 
 			Preferences.increment( property, casualties );
 
-			message = "You defeated " + casualties + " " + army + " with some " + consumable;
+			String message = "You defeated " + casualties + " " + army + " with some " + consumable;
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
 			break;
@@ -17575,6 +17587,12 @@ public abstract class ChoiceManager
 				}
 				return true;
 
+			case 1334: // Boxing Daycare (Lobby)
+			case 1335: // Boxing Daycare Spa
+			case 1336: // Boxing Daycare
+				// Special logging done elsewhere
+				return true;
+
 			case 1339:	// A Little Pump and Grind
 				if ( decision == 1 )
 				{
@@ -17757,7 +17775,14 @@ public abstract class ChoiceManager
 
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( message );
+			break;
 		}
+
+		case 1334: // Boxing Daycare (Lobby)
+		case 1335: // Boxing Daycare Spa
+		case 1336: // Boxing Daycare
+			RequestLogger.registerLocation( "Boxing Daycare" );
+			break;
 
 		}
 	}
