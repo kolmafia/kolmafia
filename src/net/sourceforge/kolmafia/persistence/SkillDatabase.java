@@ -75,7 +75,7 @@ public class SkillDatabase
 	private static final Map<Integer, String> imageById = new TreeMap<Integer, String>();
 	private static final Map<Integer, String> dataNameById = new TreeMap<Integer, String>();
 	private static final Map<String, Integer> skillByName = new TreeMap<String, Integer>();
-	private static final Map<Integer, Integer> mpConsumptionById = new HashMap<Integer, Integer>();
+	private static final Map<Integer, Long> mpConsumptionById = new HashMap<Integer, Long>();
 	private static final Map<Integer, Integer> skillTypeById = new TreeMap<Integer, Integer>();
 	private static final Map<Integer, Integer> durationById = new HashMap<Integer, Integer>();
 	private static final Map<Integer, Integer> levelById = new HashMap<Integer, Integer>();
@@ -177,7 +177,7 @@ public class SkillDatabase
 			String name = data[ 1 ];
 			String image = data[ 2 ];
 			Integer type = Integer.valueOf( data[ 3 ] );
-			Integer mp = Integer.valueOf( data[ 4 ] );
+			Long mp = Long.valueOf( data[ 4 ] );
 			Integer duration = Integer.valueOf( data[ 5 ] );
 			Integer level = ( data.length > 6 ) ? Integer.valueOf( data[ 6 ] ) : null;
 			SkillDatabase.addSkill( id, name, image, type, mp, duration, level );
@@ -199,7 +199,7 @@ public class SkillDatabase
 		SkillDatabase.skillByName.keySet().toArray( SkillDatabase.canonicalNames );
 	}
 
-	private static final void addSkill( final Integer skillId, final String name, final String image, final Integer skillType, final Integer mpConsumption, final Integer duration, final Integer level )
+	private static final void addSkill( final Integer skillId, final String name, final String image, final Integer skillType, final Long mpConsumption, final Integer duration, final Integer level )
 	{
 		String canonicalName = StringUtilities.getCanonicalName( name );
 		String displayName = StringUtilities.getDisplayName( name );
@@ -613,7 +613,7 @@ public class SkillDatabase
 			return 0;
 		}
 
-		Integer mpConsumption = SkillDatabase.mpConsumptionById.get( IntegerPool.get( skillId ) );
+		Long mpConsumption = SkillDatabase.mpConsumptionById.get( IntegerPool.get( skillId ) );
 
 		if ( mpConsumption == null )
 		{
@@ -1841,7 +1841,7 @@ public class SkillDatabase
 		SkillDatabase.castsById.put( IntegerPool.get( skillId ), IntegerPool.get( newCasts ) );
 	}
 
-	public static String skillString( final int skillId, final String skillName, final String image, final int type, final int mp, final int duration, final int level )
+	public static String skillString( final int skillId, final String skillName, final String image, final int type, final long mp, final int duration, final int level )
 	{
 		StringBuilder buffer = new StringBuilder();
 
@@ -1894,7 +1894,7 @@ public class SkillDatabase
 			typeString.equals( "Noncombat" ) ? 3 :
 			typeString.equals( "Combat" ) ? 5 :
 			-1;
-		int mp = DebugDatabase.parseSkillMPCost( text );
+		long mp = DebugDatabase.parseSkillMPCost( text );
 		int duration = DebugDatabase.parseSkillEffectDuration( text );
 		int level = 0;
 
