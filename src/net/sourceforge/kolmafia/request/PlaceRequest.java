@@ -943,7 +943,7 @@ public class PlaceRequest
 				message = "Visiting The Horsery";
 				compact = true;	// Part of logging in
 			}
-			if ( action.equals( "townright_vote" ) )
+			else if ( action.equals( "townright_vote" ) )
 			{
 				message = "Visiting The Voting Booth";
 			}
@@ -953,6 +953,10 @@ public class PlaceRequest
 			if ( action.equals( "townwrong_precinct" ) )
 			{
 				message = "Visiting the 11th Precinct Headquarters";
+			}
+			else if ( action.equals( "townwrong_boxingdaycare" ) )
+			{
+				message = "Visiting the Boxing Daycare";
 			}
 		}
 		else if ( place.equals( "twitch" ) )
