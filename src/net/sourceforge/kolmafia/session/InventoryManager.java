@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -1824,12 +1825,38 @@ public abstract class InventoryManager
 		Modifiers.overrideModifier( "Item:[" + ItemPool.KREMLIN_BRIEFCASE + "]", mod );
 	}
 
+	public static Pattern BIRD_PATTERN = Pattern.compile( "Seek out a (.*)" );
 	public static final void checkBirdOfTheDay()
 	{
 		AdventureResult BOTD = ItemPool.get( ItemPool.BIRD_A_DAY_CALENDAR, 1 );
 		if ( BOTD.getCount( KoLConstants.inventory ) == 0 && BOTD.getCount( KoLConstants.closet ) == 0 )
 		{
 			return;
+		}
+
+		if ( !Preferences.getBoolean( "_canSeekBirds" ) )
+		{
+			String text = DebugDatabase.readSkillDescriptionText( SkillPool.SEEK_OUT_A_BIRD );
+			String skillName = DebugDatabase.parseName( text );
+			Matcher birdMatcher = InventoryManager.BIRD_PATTERN.matcher( skillName );
+			if ( birdMatcher.find() )
+			{
+				// We have unlocked this skill today.
+				String bird = birdMatcher.group( 1 );
+				Preferences.setString( "_birdOfTheDay", bird );
+				Preferences.setBoolean( "_canSeekBirds", true );
+				ResponseTextParser.learnSkill( "Seek out a Bird" );
+				// Calculate how many times we used it.
+				long mp = DebugDatabase.parseSkillMPCost( text );
+				int casts = (int) ( Math.log( mp / 5 ) / Math.log( 2 ) );
+				Preferences.setInteger( "_birdsSoughtToday", casts );
+			}
+			else
+			{
+				// We have not unlocked this skill today.
+				// Leave _birdOfTheDay intact; active turns of
+				// Blessing of the Bid will still refer to it.
+			}
 		}
 
 		Modifiers.overrideEffectModifiers( EffectPool.BLESSING_OF_THE_BIRD );

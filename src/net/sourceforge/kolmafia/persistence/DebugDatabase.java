@@ -1992,10 +1992,10 @@ public class DebugDatabase
 	}
 
 	private static final Pattern SKILL_MP_COST_PATTERN = Pattern.compile( "<b>MP Cost:</b> (\\d+)" );
-	public static final int parseSkillMPCost( final String text )
+	public static final long parseSkillMPCost( final String text )
 	{
 		Matcher matcher = DebugDatabase.SKILL_MP_COST_PATTERN.matcher( text );
-		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+		return matcher.find() ? StringUtilities.parseLong( matcher.group( 1 ) ) : 0;
 	}
 
 	// Gives Effect: <b><a class=nounder href="desc_effect.php?whicheffect=69dcf3d8fe46c29e7fb6075d06448c95">Your Fifteen Minutes</a>
