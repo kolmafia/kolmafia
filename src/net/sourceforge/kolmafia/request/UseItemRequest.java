@@ -6385,10 +6385,22 @@ public class UseItemRequest
 
 		case ItemPool.BIRD_A_DAY_CALENDAR:
 		{
+			// First usage of the day tells you the daily bird
 			Matcher m = BIRD_OF_THE_DAY_PATTERN.matcher( responseText );
 			if ( m.find() )
 			{
+				// First usage of the day
+				// This changes the bird of the day even in
+				// carried over turns of the effect
 				Preferences.setString( "_birdOfTheDay", m.group( 1 ) );
+			}
+
+			// Subsequent logins today will add skill
+			Preferences.setBoolean( "_canSeekBirds", true );
+
+			// If we've not added the skill today, learn it now
+			if ( !KoLCharacter.hasSkill( "Seek out a Bird" ) )
+			{
 				ResponseTextParser.learnSkill( "Seek out a Bird" );
 				Modifiers.overrideEffectModifiers( EffectPool.BLESSING_OF_THE_BIRD );
 			}
