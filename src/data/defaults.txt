@@ -1400,6 +1400,7 @@ user	_cameraUsed	false
 user	_campAwayCloudBuffs	0
 user	_campAwaySmileBuffSign
 user	_campAwaySmileBuffs	0
+user	_canSeekBirds	false
 user	_candySummons	0
 user	_carboLoaded	false
 user	_carnieCandyDrops	0

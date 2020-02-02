@@ -433,9 +433,8 @@ public class CharSheetRequest
 		}
 
 		// If you have looked at your Bird-a-Day calendar today, you can use
-		// "Seek out %birdname%". Actually, "Seek out <_birdOfTheDay>
-		String bird = Preferences.getString( "_birdOfTheDay" );
-		if ( !bird.equals( "" ) )
+		// "Seek out a Bird".
+		if ( Preferences.getBoolean( "_canSeekBirds" ) )
 		{
 			UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( "Seek out a Bird" );
 			newSkillSet.add( skill );

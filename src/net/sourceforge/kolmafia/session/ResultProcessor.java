@@ -385,13 +385,7 @@ public class ResultProcessor
 		String bird = Preferences.getString( property );
 		Matcher birdMatcher = ResultProcessor.BIRD_PATTERN.matcher( effectName );
 		String blessingBird = birdMatcher.find() ? birdMatcher.group( 1 ) : bird;
-		if ( blessingBird.equals( "Bird" ) )
-		{
-			// You carried an effect through rollover and no longer
-			// have a bird of the day?
-			Preferences.setString( property, "" );
-		}
-		else if ( !bird.equals( blessingBird ) )
+		if ( !bird.equals( blessingBird ) )
 		{
 			Preferences.setString( property, blessingBird );
 			Modifiers.overrideEffectModifiers( effectId );
