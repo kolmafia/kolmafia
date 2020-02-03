@@ -1825,7 +1825,7 @@ public abstract class InventoryManager
 		Modifiers.overrideModifier( "Item:[" + ItemPool.KREMLIN_BRIEFCASE + "]", mod );
 	}
 
-	public static Pattern BIRD_PATTERN = Pattern.compile( "Seek out a (.*)" );
+	public static Pattern BIRD_PATTERN = Pattern.compile( "Seek out an? (.*)" );
 	public static final void checkBirdOfTheDay()
 	{
 		AdventureResult BOTD = ItemPool.get( ItemPool.BIRD_A_DAY_CALENDAR, 1 );
