@@ -1834,29 +1834,29 @@ public abstract class InventoryManager
 			return;
 		}
 
-		if ( !Preferences.getBoolean( "_canSeekBirds" ) )
+		String text = DebugDatabase.readSkillDescriptionText( SkillPool.SEEK_OUT_A_BIRD );
+		String skillName = DebugDatabase.parseName( text );
+		Matcher birdMatcher = InventoryManager.BIRD_PATTERN.matcher( skillName );
+		if ( birdMatcher.find() )
 		{
-			String text = DebugDatabase.readSkillDescriptionText( SkillPool.SEEK_OUT_A_BIRD );
-			String skillName = DebugDatabase.parseName( text );
-			Matcher birdMatcher = InventoryManager.BIRD_PATTERN.matcher( skillName );
-			if ( birdMatcher.find() )
+			// We have unlocked this skill today.
+			String bird = birdMatcher.group( 1 );
+			Preferences.setString( "_birdOfTheDay", bird );
+			if ( !Preferences.getBoolean( "_canSeekBirds" ) )
 			{
-				// We have unlocked this skill today.
-				String bird = birdMatcher.group( 1 );
-				Preferences.setString( "_birdOfTheDay", bird );
 				Preferences.setBoolean( "_canSeekBirds", true );
 				ResponseTextParser.learnSkill( "Seek out a Bird" );
-				// Calculate how many times we used it.
-				long mp = DebugDatabase.parseSkillMPCost( text );
-				int casts = (int) ( Math.log( mp / 5 ) / Math.log( 2 ) );
-				Preferences.setInteger( "_birdsSoughtToday", casts );
 			}
-			else
-			{
-				// We have not unlocked this skill today.
-				// Leave _birdOfTheDay intact; active turns of
-				// Blessing of the Bid will still refer to it.
-			}
+			// Calculate how many times we used it.
+			long mp = DebugDatabase.parseSkillMPCost( text );
+			int casts = (int) ( Math.log( mp / 5 ) / Math.log( 2 ) );
+			Preferences.setInteger( "_birdsSoughtToday", casts );
+		}
+		else
+		{
+			// We have not unlocked this skill today.
+			// Leave _birdOfTheDay intact; active turns of
+			// Blessing of the Bid will still refer to it.
 		}
 
 		Modifiers.overrideEffectModifiers( EffectPool.BLESSING_OF_THE_BIRD );
