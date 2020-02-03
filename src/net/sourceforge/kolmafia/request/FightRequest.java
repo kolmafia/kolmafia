@@ -5150,6 +5150,15 @@ public class FightRequest
 		return 0;
 	}
 
+	private static final void logSpecialDamage( final String text, TagStatus status )
+	{
+		if ( text.contains( "continues to bleed" ) ||
+		     text.contains( "from the poison" ) )
+		{
+			FightRequest.logText( text, status );
+		}
+	}
+
 	public static final Pattern HAIKU_PATTERN = Pattern.compile( "<td valign=center[^>]*>(.*?)</td>" );
 	private static final Pattern INT_PATTERN = Pattern.compile( "\\d[\\d,]*" );
 	private static final Pattern SPACE_INT_PATTERN = Pattern.compile( " \\d[\\d,]*" );
@@ -6656,6 +6665,7 @@ public class FightRequest
 			int damage = FightRequest.parseNormalDamage( str );
 			if ( damage != 0 )
 			{
+				FightRequest.logSpecialDamage( str, status );
 				FightRequest.logMonsterAttribute( status, damage, HEALTH );
 				MonsterStatusTracker.damageMonster( damage );
 				FightRequest.processComments( node, status );
@@ -6732,6 +6742,7 @@ public class FightRequest
 				int damage = FightRequest.parseNormalDamage( str );
 				if ( damage != 0 )
 				{
+					FightRequest.logSpecialDamage( str, status );
 					FightRequest.logMonsterAttribute( status, damage, HEALTH );
 					MonsterStatusTracker.damageMonster( damage );
 					continue;
@@ -6859,6 +6870,7 @@ public class FightRequest
 			if ( damage != 0 )
 			{
 				FightRequest.handleSpelunky( str, status );
+				FightRequest.logSpecialDamage( str, status );
 				FightRequest.logMonsterAttribute( status, damage, HEALTH );
 				MonsterStatusTracker.damageMonster( damage );
 			}
@@ -7182,6 +7194,19 @@ public class FightRequest
 		// damage dealt is not in a child node
 		if ( image.equals( "ammo.gif" ) )
 		{
+			int damage = FightRequest.parseNormalDamage( str );
+			if ( damage != 0 )
+			{
+				FightRequest.logMonsterAttribute( status, damage, HEALTH );
+				MonsterStatusTracker.damageMonster( damage );
+				return false;
+			}
+		}
+
+		if ( image.equals( "tc_soldier.gif" ) )
+		{
+			// Terra Cotta Soldier. Log the effect.
+			FightRequest.logText( str, status );
 			int damage = FightRequest.parseNormalDamage( str );
 			if ( damage != 0 )
 			{
