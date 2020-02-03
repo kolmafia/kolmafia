@@ -11756,7 +11756,7 @@ public abstract class ChoiceManager
 				String bird = Preferences.getString( "_birdOfTheDay" );
 				Preferences.setString( "yourFavoriteBird", bird );
 				ResponseTextParser.learnSkill( "Visit your Favorite Bird" );
-				Modifiers.overrideEffectModifiers( EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD );
+				ResultProcessor.updateBirdModifiers( EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, "yourFavoriteBird" );
 			}
 			break;
 		}

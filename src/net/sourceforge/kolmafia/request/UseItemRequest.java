@@ -6402,8 +6402,9 @@ public class UseItemRequest
 			if ( !KoLCharacter.hasSkill( "Seek out a Bird" ) )
 			{
 				ResponseTextParser.learnSkill( "Seek out a Bird" );
-				Modifiers.overrideEffectModifiers( EffectPool.BLESSING_OF_THE_BIRD );
+				ResultProcessor.updateBirdModifiers( EffectPool.BLESSING_OF_THE_BIRD, "_birdOfTheDay" );
 			}
+
 			break;
 		}
 		}

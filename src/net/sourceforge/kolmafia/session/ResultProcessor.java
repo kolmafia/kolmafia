@@ -388,8 +388,15 @@ public class ResultProcessor
 		if ( !bird.equals( blessingBird ) )
 		{
 			Preferences.setString( property, blessingBird );
-			Modifiers.overrideEffectModifiers( effectId );
+			ResultProcessor.updateBirdModifiers( effectId, property );
 		}
+	}
+
+	public static void updateBirdModifiers( int effectId, String property )
+	{
+		Modifiers.overrideEffectModifiers( effectId );
+		String mods = Modifiers.getStringModifier( "Effect", effectId, "Modifiers" );
+		Preferences.setString( property + "Mods", mods );
 	}
 
 	public static Pattern EFFECT_TABLE_PATTERN = Pattern.compile( "<table><tr><td><img[^>]*eff\\(\"(.*?)\"\\)[^>]*>.*?class=effect>(.*?)<b>(.*?)</b>(?:<br>| )?(?:\\((?:duration: )?(\\d+) Adventures?\\))?</td></tr></table>" );
