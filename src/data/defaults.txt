@@ -1343,6 +1343,7 @@ user	yearbookCameraPending	false
 user	yearbookCameraTarget
 user	yearbookCameraUpgrades	0
 user	yourFavoriteBird
+user	yourFavoriteBirdMods
 user	zeppelinProtestors	0
 user	zombiePoints	0
 user	_absintheDrops	0
@@ -1381,6 +1382,7 @@ user	_beerLensDrops	0
 user	_bendHellUsed	false
 user	_benettonsCasts	0
 user	_birdOfTheDay
+user	_birdOfTheDayMods
 user	_birdsSoughtToday	0
 user	_bittycar
 user	_blankoutUsed	false

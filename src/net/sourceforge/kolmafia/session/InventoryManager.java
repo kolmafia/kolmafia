@@ -1859,8 +1859,8 @@ public abstract class InventoryManager
 			// Blessing of the Bid will still refer to it.
 		}
 
-		Modifiers.overrideEffectModifiers( EffectPool.BLESSING_OF_THE_BIRD );
-		Modifiers.overrideEffectModifiers( EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD );
+		ResultProcessor.updateBirdModifiers( EffectPool.BLESSING_OF_THE_BIRD, "_birdOfTheDay" );
+		ResultProcessor.updateBirdModifiers( EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, "yourFavoriteBird" );
 	}
 
 	private static final AdventureResult GOLDEN_MR_ACCESSORY = ItemPool.get( ItemPool.GOLDEN_MR_ACCESSORY, 1 );
