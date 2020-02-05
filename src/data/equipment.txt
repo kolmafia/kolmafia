@@ -2686,6 +2686,7 @@ porquoise necklace	50	Mys: 10
 porquoise ring	50	Mys: 10
 portable cassette player	20	none
 power sock	100	Mys: 10
+Powerful Glove	100	none
 primitive alien necklace	50	Mys: 10
 Protects-Your-Junk	350	Mox: 100
 psychic's amulet	100	Mys: 35
@@ -2722,7 +2723,7 @@ Red Roger's red right foot	120	none
 red shoe	150	Mys: 40
 red-hot medallion	50	none
 reinforced furry underpants	30	none
-Retrospecs	0	none
+Retrospecs	100	none
 ribbon candy ascot	80	Mys: 20
 rickety old unicycle	200	Mox: 200
 ridiculous belt	0	none
