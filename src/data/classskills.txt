@@ -840,6 +840,10 @@
 7321	Unleash Terra Cotta Army	tc_soldier,gif	5	20	0
 7322	Paraffin Prism	paraffinprism.gif	5	30	0
 7323	Seek out a Bird	findbird.gif	3	5	10
+7324	CHEAT CODE: Invisible Avatar	missingavatar.gif	3	0	10
+7325	CHEAT CODE: Triple Size	triplesize.gif	3	0	20
+7326	CHEAT CODE: Replace Enemy	replaceenemy.gif	5	0	0
+7327	CHEAT CODE: Shrink Enemy	shrinkenemy.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

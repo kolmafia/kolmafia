@@ -2551,3 +2551,8 @@
 2550	Panna Consideration	tc_pannacotta.gif	22fef32a9bc3af04af21439f1c09e68b	use 1 terra panna cotta
 2551	Blessing of the Bird	findbird.gif	8de6fb855433dc4b90fb4dbc2a5c919d	cast 1 Seek out a Bird
 2552	Blessing of your favorite Bird	favoritebird.gif	e9c3b4f9a7f9b24166b835481f15c875	cast 1 Visit your Favorite Bird
+2553
+2554
+2555
+2556	Invisible Avatar	missingavatar.gif	da6f47ae655716b599e530128712c36c	cast 1 CHEAT CODE: Invisible Avatar
+2557	Triple-Sized	triplesize.gif	6be2d9af5964c3bc987c0696ea60eeeb	cast 1 CHEAT CODE: Triple Size
