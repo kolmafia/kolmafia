@@ -5906,6 +5906,7 @@ Effect	Intuition of the God Lobster	Experience: +10
 # Invisible (20 Minutes Ago): Makes You Invisible In The Past
 Effect	Invisible (20 Minutes Ago)	Critical Hit Percent: +15, Spell Critical Percent: +15
 Effect	Invisible Avarice	Meat Drop: +50
+Effect	Invisible Avatar	Combat Rate: -10
 # Invisible Ties
 Effect	Ironclad	Damage Absorption: +50, Damage Reduction: 10
 # Iron Palms: Swords count as clubs
@@ -7083,6 +7084,7 @@ Effect	Tremella Tremens	Item Drop: +40
 Effect	Trepandation	Spell Damage Percent: +50, Spell Damage: +50
 Effect	Trial by Campfire	Damage Reduction: 10
 Effect	Triangle, Man	Muscle Percent: +10
+Effect	Triple-Sized	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 Effect	Trivia Master	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 # Tropical Contact High: Grants Access to Kokomo
 Effect	Truffle Tango	Item Drop: +50
