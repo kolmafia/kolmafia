@@ -7215,6 +7215,18 @@ public class FightRequest
 				return false;
 			}
 		}
+
+		if ( image.equals( "sig_receiver.gif" ) ||
+		     image.equals( "nopic.gif" ) )
+		{
+			if ( str.contains( "signal receiver" ) )
+			{
+				// Your signal receiver emits quiet static.
+				// The low static on your signal receiver is suddenly broken by a series of beeps and boops and buzzes: <i>boopbeepbuzzboopbuzzhissbuzzbeepbeepbeep</i>
+				FightRequest.logText( str, status );
+			}
+			return false;
+		}
 		
 		// Combat item usage: process the children of this node
 		// to pick up damage to the monster and stat gains
