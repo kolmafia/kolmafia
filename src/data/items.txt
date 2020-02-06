@@ -10270,11 +10270,11 @@
 10242	vampyric cloake	894240195	cloake.gif	container		0
 10243	plastic pirate hat	634762498	pr_piratehat.gif	familiar	t,d	75
 10244	one piece of bubble gum	829221842	pieceof13.gif	potion, usable	t,d	37
-10245
-10246
-10247
-10248
-10249
+10245	arcanoferric housing	399901101	sig_housing.gif	usable	t	0
+10246	intact medium-wave antenna	876023432	sig_antenna.gif	none	t	0
+10247	18-picohertz resonator crystal	319047609	sig_crystal.gif	none	t	0
+10248	blown-out speaker cone	889637333	sig_speaker.gif	none	t	0
+10249	overloaded short-pulse transistor	527648988	sig_transistor.gif	none	t	0
 10250	Fourth of May Cosplay Saber kit	328783447	may4swordkit.gif	usable	t	0
 10251	Fourth of May Cosplay Saber	651314979	may4sword.gif	weapon		0
 10252	ring	170559868	dcring.gif	accessory		0
@@ -10340,7 +10340,7 @@
 10312	bundle of firewood	478273036	firewoodbundle.gif	usable		0
 10313	campfire smoke	252689228	puff.gif	usable	d	1
 10314
-10315
+10315	signal receiver	228047056	sig_receiver.gif	offhand		0
 10316	space shield	921680684	invadershield.gif	offhand	q	0
 10317	signal jammer	289684083	signaljammer.gif	accessory	q	0
 10318	low-pressure oxygen tank	552087017	spacetank.gif	accessory	q	0
@@ -10464,3 +10464,5 @@
 10436
 10437	mint-in-box Powerful Glove	766433791	pglove_inbox.gif	usable	t	0
 10438	Powerful Glove	991142661	pglove.gif	accessory		0
+10439
+10440	status cymbal	611893466	cymbal.gif	weapon	t	0
