@@ -2372,6 +2372,7 @@ Item	shadowy seal eye	Spooky Damage: +20, Monster Level: +15, Class: "Seal Clubb
 Item	Shield of Icy Fate	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Weapon Damage Percent: +25, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Damage Reduction: 7
 Item	shield of the Skeleton Lord	Muscle Percent: +50, Monster Level: +50, Familiar Weight: +5, Damage Reduction: 19
 Item	Shrub's Premium Baked Beans	Maximum MP: [25*(1+skill(Beanweaver))], Spell Damage Percent: [25*(1+skill(Beanweaver))], Spell Critical Percent: [5*(1+skill(Beanweaver))]
+# Item signal receiver: Receives signals, presumably
 Item	silver cow creamer	Adventures: +3, PvP Fights: +3, Meat Drop: +30
 # silver sausage
 # Sinful Desires: All Spells Cast Are Sleazy
