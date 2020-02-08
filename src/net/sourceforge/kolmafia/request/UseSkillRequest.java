@@ -925,6 +925,20 @@ public class UseSkillRequest
 		case SkillPool.VISIT_YOUR_FAVORITE_BIRD:
 			maximumCast = Preferences.getBoolean( "_favoriteBirdVisited" ) ? 0 : 1;
 			break;
+
+		case SkillPool.INVISIBLE_AVATAR:
+		case SkillPool.TRIPLE_SIZE:
+		case SkillPool.SHRINK_ENEMY:
+		case SkillPool.REPLACE_ENEMY:
+		{
+			// Powerful Glove skills use Battery Power, not MP
+			// The two buffs each use 5% of the battery power
+			// The combat skills cost 5 or 10%
+			int cost = ( this.skillId == SkillPool.REPLACE_ENEMY ) ? 10 : 5;
+			int powerAvailable = EquipmentManager.powerfulGloveAvailableBatteryPower();
+			maximumCast = powerAvailable / cost;
+			break;
+		}
 		}
 
 		return maximumCast;
@@ -2644,6 +2658,11 @@ public class UseSkillRequest
 
 		case SkillPool.VISIT_YOUR_FAVORITE_BIRD:
 			Preferences.setBoolean( "_favoriteBirdVisited", true );
+			break;
+
+		case SkillPool.INVISIBLE_AVATAR:
+		case SkillPool.TRIPLE_SIZE:
+			Preferences.increment( "_powerfulGloveBatteryPowerUsed", 5, 100, false );
 			break;
 		}
 

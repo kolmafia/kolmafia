@@ -1841,6 +1841,24 @@ public class FightRequest
 				return;
 			}
 		}
+		else if ( skillName.equals( "CHEAT CODE: Replace Enemy" ) )
+		{
+			// Replace Enemy takes 10% of your daily battery power
+			if ( EquipmentManager.powerfulGloveUsableBatteryPower() < 10)
+			{
+				this.skipRound();
+				return;
+			}
+		}
+		else if ( skillName.equals( "CHEAT CODE: Shrink Enemy" ) )
+		{
+			// Shrink Enemy takes 5% of your daily battery power
+			if ( EquipmentManager.powerfulGloveUsableBatteryPower() < 5)
+			{
+				this.skipRound();
+				return;
+			}
+		}
 
 		// Skills use MP. Make sure the character has enough.
 		if ( KoLCharacter.getCurrentMP() < FightRequest.getActionCost() )
@@ -9631,6 +9649,14 @@ public class FightRequest
 			{
 				Preferences.increment( "_pocketProfessorLectures" );
 			}
+			break;
+
+		case SkillPool.REPLACE_ENEMY:
+			Preferences.increment( "_powerfulGloveBatteryPowerUsed", 10, 100, false );
+			break;
+
+		case SkillPool.SHRINK_ENEMY:
+			Preferences.increment( "_powerfulGloveBatteryPowerUsed", 5, 100, false );
 			break;
 		}
 	}
