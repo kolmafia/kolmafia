@@ -855,6 +855,12 @@ public class EquipmentManager
 				case ItemPool.BEACH_COMB:
 					KoLCharacter.removeAvailableSkill( "Beach Combo" );
 					break;
+				case ItemPool.POWERFUL_GLOVE:
+					KoLCharacter.removeAvailableSkill( "CHEAT CODE: Invisible Avatar" );
+					KoLCharacter.removeAvailableSkill( "CHEAT CODE: Triple Size" );
+					KoLCharacter.removeAvailableSkill( "CHEAT CODE: Replace Enemy" );
+					KoLCharacter.removeAvailableSkill( "CHEAT CODE: Shrink Enemy" );
+					break;
 				}
 			}
 		}
@@ -1154,6 +1160,12 @@ public class EquipmentManager
 			break;
 		case ItemPool.BEACH_COMB:
 			KoLCharacter.addAvailableSkill( "Beach Combo" );
+			break;
+		case ItemPool.POWERFUL_GLOVE:
+			KoLCharacter.addAvailableSkill( "CHEAT CODE: Invisible Avatar" );
+			KoLCharacter.addAvailableSkill( "CHEAT CODE: Triple Size" );
+			KoLCharacter.addAvailableSkill( "CHEAT CODE: Replace Enemy" );
+			KoLCharacter.addAvailableSkill( "CHEAT CODE: Shrink Enemy" );
 			break;
 		}
 
@@ -2091,6 +2103,24 @@ public class EquipmentManager
 	public static final boolean holsteredSixgun()
 	{
 		return EquipmentManager.getEquipment( EquipmentManager.HOLSTER ) != EquipmentRequest.UNEQUIP;
+	}
+
+	/**
+	 * Accessor method to determine available battery power in equipped Powerful Glove
+	 *
+	 * @return int 0 if not wearing Powerful Glove, otherwise remaining battery power
+	 */
+
+	public static final int powerfulGloveUsableBatteryPower()
+	{
+		return  KoLCharacter.hasEquipped( ItemPool.get( ItemPool.POWERFUL_GLOVE, 1 ) ) ?
+			EquipmentManager.powerfulGloveAvailableBatteryPower() :
+			0;
+	}
+
+	public static final int powerfulGloveAvailableBatteryPower()
+	{
+		return 100 - Preferences.getInteger( "_powerfulGloveBatteryPowerUsed" );
 	}
 
 	/**
