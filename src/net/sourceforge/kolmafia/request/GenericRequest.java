@@ -2257,6 +2257,7 @@ public class GenericRequest
 			GenericRequest.checkOtherRedirection( location );
 
 			if ( this instanceof UseItemRequest ||
+			     this instanceof CampgroundRequest ||
 			     this instanceof ChateauRequest ||
 			     this instanceof DeckOfEveryCardRequest ||
 			     this instanceof GenieRequest ||
@@ -3428,33 +3429,43 @@ public class GenericRequest
 	
 	private static final void checkOtherRedirection( final String location )
 	{
-		// This code probably needs some refactoring once it's checking more than 1 thing
+		String otherName = null;
+
 		if ( location.startsWith( "main.php" ) )
 		{
-			String otherName = null;
-
 			if ( location.contains( "fightgodlobster=1" ) )
 			{
 				Preferences.increment( "_godLobsterFights" );
 				otherName = "God Lobster";
 			}
-
-			if ( otherName != null )
+		}
+		else if ( location.startsWith( "campground.php" ) )
+		{
+			// A redirection to fight.php from harvesting your Bone
+			// Garden is the skulldozer.
+			if ( location.contains( "action=garden" ) )
 			{
-				KoLAdventure.lastVisitedLocation = null;
-				KoLAdventure.lastLocationName = null;
-				KoLAdventure.lastLocationURL = location;
-				KoLAdventure.setLastAdventure( "None" );
-				KoLAdventure.setNextAdventure( "None" );
-
-				String message = "[" + KoLAdventure.getAdventureCount() + "] " + otherName;
-				RequestLogger.printLine();
-				RequestLogger.printLine( message );
-
-				RequestLogger.updateSessionLog();
-				RequestLogger.updateSessionLog( message );
+				otherName = "Bone Garden";
 			}
 		}
+
+		if ( otherName == null )
+		{
+			return;
+		}
+
+		KoLAdventure.lastVisitedLocation = null;
+		KoLAdventure.lastLocationName = null;
+		KoLAdventure.lastLocationURL = location;
+		KoLAdventure.setLastAdventure( "None" );
+		KoLAdventure.setNextAdventure( "None" );
+
+		String message = "[" + KoLAdventure.getAdventureCount() + "] " + otherName;
+		RequestLogger.printLine();
+		RequestLogger.printLine( message );
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( message );
 	}
 
 	private static final AdventureResult sealRitualCandles( final int itemId )
