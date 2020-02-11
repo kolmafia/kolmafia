@@ -204,7 +204,6 @@ public class EquipmentRequest
 	private String outfitName;
 	private String error;
 
-	private static boolean shouldSavePreviousOutfit = false;
 	private static int customOutfitId = 0;
 
 	public EquipmentRequest( final int requestType )
@@ -359,11 +358,6 @@ public class EquipmentRequest
 	protected boolean retryOnTimeout()
 	{
 		return true;
-	}
-
-	public static final void savePreviousOutfit()
-	{
-		EquipmentRequest.shouldSavePreviousOutfit = true;
 	}
 
 	private void initializeChangeData( final AdventureResult changeItem, final int equipmentSlot, final boolean force )
@@ -880,17 +874,6 @@ public class EquipmentRequest
 					return;
 				}
 
-				// Make a checkpoint, if necessary
-				if ( EquipmentRequest.shouldSavePreviousOutfit )
-				{
-					if ( SpecialOutfit.markImplicitCheckpoint() )
-					{
-						( new EquipmentRequest( "Backup" ) ).run();
-					}
-
-					EquipmentRequest.shouldSavePreviousOutfit = false;
-				}
-
 				// Tell KoL to unequip everything
 				( new EquipmentRequest( EquipmentRequest.UNEQUIP_ALL ) ).run();
 
@@ -928,17 +911,6 @@ public class EquipmentRequest
 				{
 					return;
 				}
-			}
-
-			// Make a checkpoint, if necessary
-			if ( EquipmentRequest.shouldSavePreviousOutfit )
-			{
-				if ( SpecialOutfit.markImplicitCheckpoint() )
-				{
-					( new EquipmentRequest( "Backup" ) ).run();
-				}
-
-				EquipmentRequest.shouldSavePreviousOutfit = false;
 			}
 		}
 

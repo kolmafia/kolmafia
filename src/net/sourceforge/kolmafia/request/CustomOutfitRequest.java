@@ -101,7 +101,6 @@ public class CustomOutfitRequest
 	public static final void parseResponse( final String urlString, final String responseText )
 	{
 		SortedListModel<SpecialOutfit> outfits = new SortedListModel<SpecialOutfit>();
-		SpecialOutfit.clearImplicitOutfit();
 
 		Matcher listMatcher = CustomOutfitRequest.LIST_PATTERN.matcher( responseText );
 		if ( !listMatcher.find() )
