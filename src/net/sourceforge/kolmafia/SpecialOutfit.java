@@ -494,10 +494,18 @@ public class SpecialOutfit
 		synchronized ( SpecialOutfit.class )
 		{
 			AdventureResult[] implicit = new AdventureResult[ EquipmentManager.SLOTS ];
+			boolean notEmpty = false;
 
 			for ( int i = 0; i < implicit.length; ++i )
 			{
-				implicit[ i ] = EquipmentManager.getEquipment( i );
+				AdventureResult item = EquipmentManager.getEquipment( i );
+				implicit[ i ] = item;
+				notEmpty |= i < EquipmentManager.FAMILIAR && !item.equals( EquipmentRequest.UNEQUIP );
+			}
+
+			if ( !notEmpty )
+			{
+				StaticEntity.printStackTrace( "Created an empty implicit checkpoint" );
 			}
 
 			SpecialOutfit.implicitPoints.push( implicit );
