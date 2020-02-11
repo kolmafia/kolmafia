@@ -1088,6 +1088,7 @@ public class Concoction
 			// creation loop with insufficient initial quantities.
 			return 0;
 		}
+
 		this.allocated += requested;
 		int needToMake = requested - alreadyHave;
 		if ( needToMake > 0 && this.price > 0 )
@@ -1214,6 +1215,8 @@ public class Concoction
 		int yield = this.getYield();
 		needToMake = (needToMake + yield - 1) / yield;
 		int minMake = Integer.MAX_VALUE;
+
+		// Debugging variable
 		int lastMinMake = minMake;
 
 		int len = this.ingredientArray.length;
@@ -1224,22 +1227,35 @@ public class Concoction
 			if ( c == null ) continue;
 			int count = ingredient.getCount();
 
-			if ( i == 0 && len == 2 &&
-				this.ingredientArray[ 1 ].equals( ingredient ) )
-			{	// Two identical ingredients - this is a moderately common
+			if ( i == 0 && len == 2 && this.ingredientArray[ 1 ].equals( ingredient ) )
+			{
+				// Two identical ingredients - this is a moderately common
 				// situation, and the algorithm produces better estimates if
 				// it considers both quantities at once.
 				count += this.ingredientArray[ 1 ].getCount();
 				len = 1;
 			}
 
+			// Special case: if the ingredient is made by a
+			// Coinmaster using the item we are trying to make,
+			// skip making this item.
+
+			if ( c.mixingMethod == CraftingType.COINMASTER )
+			{
+				PurchaseRequest purchaseRequest = c.purchaseRequest;
+				if ( this.getItemId() == purchaseRequest.getCost().getItemId() )
+				{
+					minMake = c.initial;
+					break;
+				}
+			}
+
 			minMake = Math.min( minMake, c.canMake( needToMake * count, visited, turnFreeOnly ) / count );
 			if ( Concoction.debug )
 			{
 				RequestLogger.printLine( "- " + this.name +
-					(lastMinMake == minMake ?
-						" not limited" : " limited to " + minMake) +
-					" by " + c.name );
+							 ( lastMinMake == minMake ? " not limited" : " limited to " ) +
+							 minMake + " by " + c.name );
 				lastMinMake = minMake;
 			}
 		}
