@@ -75,9 +75,6 @@ public class SpecialOutfit
 	public static final SpecialOutfit BIRTHDAY_SUIT = new SpecialOutfit( Integer.MAX_VALUE, "Birthday Suit" );
 	public static final SpecialOutfit PREVIOUS_OUTFIT = new SpecialOutfit( Integer.MAX_VALUE, "Your Previous Outfit" );
 
-	private static SpecialOutfit implicitOutfit = null;
-	private static int markedCheckpoint = -1;
-
 	public SpecialOutfit( final int outfitId, final String outfitName )
 	{
 		this.outfitId = outfitId;
@@ -504,7 +501,6 @@ public class SpecialOutfit
 			}
 
 			SpecialOutfit.implicitPoints.push( implicit );
-			EquipmentRequest.savePreviousOutfit();
 		}
 	}
 
@@ -520,16 +516,7 @@ public class SpecialOutfit
 		}
 
 		AdventureResult[] implicit = (AdventureResult[]) SpecialOutfit.implicitPoints.pop();
-
-		if ( SpecialOutfit.implicitPoints.size() < SpecialOutfit.markedCheckpoint )
-		{
-			RequestThread.postRequest( new EquipmentRequest( SpecialOutfit.implicitOutfit ) );
-			SpecialOutfit.markedCheckpoint = -1;
-		}
-		else if ( SpecialOutfit.markedCheckpoint == -1 )
-		{
-			SpecialOutfit.restoreCheckpoint( implicit );
-		}
+		SpecialOutfit.restoreCheckpoint( implicit );
 	}
 
 	public static final void discardImplicitCheckpoint()
@@ -540,22 +527,6 @@ public class SpecialOutfit
 		}
 
 		SpecialOutfit.implicitPoints.pop();
-
-		if ( SpecialOutfit.implicitPoints.size() < SpecialOutfit.markedCheckpoint )
-		{
-			SpecialOutfit.markedCheckpoint = -1;
-		}
-	}
-
-	public static final boolean markImplicitCheckpoint()
-	{
-		if ( SpecialOutfit.markedCheckpoint != -1 || SpecialOutfit.implicitPoints.isEmpty() )
-		{
-			return false;
-		}
-
-		SpecialOutfit.markedCheckpoint = SpecialOutfit.implicitPoints.size();
-		return true;
 	}
 
 	/**
@@ -572,7 +543,6 @@ public class SpecialOutfit
 		}
 
 		Matcher singleOutfitMatcher = SpecialOutfit.OPTION_PATTERN.matcher( selectHTML );
-		SpecialOutfit.implicitOutfit = null;
 
 		while ( singleOutfitMatcher.find() )
 		{
@@ -595,21 +565,6 @@ public class SpecialOutfit
 				// Id has changed
 				outfit.outfitId = outfitId;
 			}
-
-			checkImplicitOutfit( outfit );
-		}
-	}
-
-	public static final void clearImplicitOutfit()
-	{
-		SpecialOutfit.implicitOutfit = null;
-	}
-
-	public static final void checkImplicitOutfit( final SpecialOutfit outfit )
-	{
-		if ( outfit.getName().equals( "Backup" ) )
-		{
-			SpecialOutfit.implicitOutfit = outfit;
 		}
 	}
 
@@ -679,6 +634,5 @@ public class SpecialOutfit
 	{
 		SpecialOutfit.implicitPoints.clear();
 		SpecialOutfit.explicitPoints.clear();
-		SpecialOutfit.markedCheckpoint = -1;
 	}
 }

@@ -1937,7 +1937,6 @@ public class EquipmentManager
 			}
 		}
 		newOutfits.add( outfit );
-		SpecialOutfit.checkImplicitOutfit( outfit );
 		EquipmentManager.setCustomOutfits( newOutfits );
 	}
 
