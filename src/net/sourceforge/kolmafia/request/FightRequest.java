@@ -3303,11 +3303,6 @@ public class FightRequest
 			IslandManager.handleGremlin( responseText );
 		}
 
-		if ( monsterName == "Eldritch Tentacle" )
-		{
-			Preferences.increment("eldritchTentaclesFought", 1 );
-		}
-
 		switch ( KoLAdventure.lastAdventureId() )
 		{
 		case AdventurePool.FRAT_UNIFORM_BATTLEFIELD:
@@ -4356,6 +4351,10 @@ public class FightRequest
 			else if ( monsterName.equals( "the invader" ) )
 			{
 				Preferences.setBoolean( "spaceInvaderDefeated", true );
+			}
+			else if ( monsterName.equals( "Eldritch Tentacle" ) )
+			{
+				Preferences.increment( "eldritchTentaclesFought", 1 );
 			}
 			else if ( !FightRequest.castCleesh &&
 				Preferences.getString( "lastAdventure" ).equalsIgnoreCase(
