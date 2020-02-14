@@ -256,8 +256,16 @@ public class CampAwayRequest
 		Matcher m = CLOUD_TALK_PATTERN.matcher( d.group( 1 ) );
 		while ( m.find() )
 		{
-			Character ch = cloudLetters.get( m.group( 1 ) );
-			buffer.append( ch == null ? 'x' : ch );
+			String image = m.group( 1 );
+			Character ch = cloudLetters.get( image );
+			if ( ch == null )
+			{
+				String printit = "Unknown cloud image: "  + image;
+				RequestLogger.printLine( printit );
+				RequestLogger.updateSessionLog( printit );
+				ch = 'x';
+			}
+			buffer.append( ch );
 		}
 
 		String message = buffer.toString();

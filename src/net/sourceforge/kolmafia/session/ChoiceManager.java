@@ -11731,6 +11731,16 @@ public abstract class ChoiceManager
 			DecorateTentRequest.parseDecoration( urlString, text );
 			break;
 
+		case 1394:
+			// Send up a Smoke Signal
+			if ( ChoiceManager.lastDecision == 1 &&
+			     text.contains( "You send a smoky message to the sky." ) )
+			{
+				// Remove from inventory
+				ResultProcessor.removeItem( ItemPool.CAMPFIRE_SMOKE );
+			}
+			break;
+
 		case 1396:
 			// Adjusting Your Fish
 			// choice.php?pwd&whichchoice=1396&option=1&cat=fish
