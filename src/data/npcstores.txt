@@ -292,7 +292,7 @@ Doc Galaktik's Medicine Show	doc	Doc Galaktik's Homeopathic Elixir	120	ROW696
 Doc Galaktik's Medicine Show	doc	Doc Galaktik's Invigorating Tonic	90	ROW697
 Doc Galaktik's Medicine Show	doc	Doc Galaktik's Vitality Serum	60	ROW698
 
-Gift Shop	town_giftshop.php	Valentine	500
+Gift Shop	town_giftshop.php	Valentine	100
 Gift Shop	town_giftshop.php	potted cactus	20
 Gift Shop	town_giftshop.php	daisy	100
 Gift Shop	town_giftshop.php	potted fern	200
