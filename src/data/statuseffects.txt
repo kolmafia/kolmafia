@@ -2546,7 +2546,7 @@
 2545	Possessive Pressure	potion10.gif	085cb05447143fccde1399447f0581c3	use 1 pressurized potion of possessiveness
 2546	Dreaming of a Wet Crimbo	waves.gif	6a973ad9f1e20d1c0edd618e9bf96938
 2547	Mixed Nutrients	mixednuts.gif	6970d24f7f32c78045428a46a54c93a4	use 1 tiny handful of mixed nuts
-2548
+2548	Almond Allemande	candyalmond.gif	9370afc952907e7d4959a23c33bc954c	use 1 candied almond
 2549	Para-lyzed Jaw	para_pop.gif	bf2bcc1f7d2451b8ab11c24198c9a6ca	use 1 Para-Pop
 2550	Panna Consideration	tc_pannacotta.gif	22fef32a9bc3af04af21439f1c09e68b	use 1 terra panna cotta
 2551	Blessing of the Bird	findbird.gif	8de6fb855433dc4b90fb4dbc2a5c919d	cast 1 Seek out a Bird

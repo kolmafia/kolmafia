@@ -4759,6 +4759,7 @@ Effect	All Glory To the Toad	Hot Damage: +2, Cold Damage: +2, Spooky Damage: +2,
 Effect	All Is Forgiven	Familiar Weight: +10
 Effect	All Revved Up	Muscle: +10, Mysticality: +10, Moxie: +10
 Effect	All Wound Up	Spell Damage Percent: [max(0,202-2*T)], Weapon Damage Percent: [max(0,202-2*T)]
+Effect	Almond Allemande	Moxie: +5
 Effect	Almost Cool	Moxie: +5, Experience (Moxie): +1
 Effect	Amplified Fabulousness	Moxie Percent: +50
 Effect	Analog Drunk	Experience: +3
@@ -9003,6 +9004,7 @@ Item	can of spinach	Effect: "Pop-eyed", Effect Duration: 10
 Item	can of V-11	Effect: "It's Ridiculous", Effect Duration: 111
 Item	candied bolts	Effect: "Bolts about Candy", Effect Duration: 20
 Item	candy chalk	Effect: "Chalked-Up Teeth", Effect Duration: 20
+Item	candied almond	Effect: "Almond Allemande", Effect Duration: 10
 Item	candied kobold	Effect: "Sugar Rush", Effect Duration: 3
 Item	candied nuts	Effect: "Nuts about Candy", Effect Duration: 20
 Item	candy brain	Effect: "Sugar Rush", Effect Duration: 15
