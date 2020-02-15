@@ -10453,7 +10453,7 @@
 10425	tempura green and red bean	689603031	tempura1.gif	food	t,d	75
 10426	salt plum sake	527189556	sakecup.gif	drink	t,d	75
 10427	pressurized potion of possessiveness	887222365	potion10.gif	potion, usable	t,d	150
-10428
+10428	candied almond	693574857	candyalmond.gif	potion, usable	t,d	5
 10429	tiny handful of mixed nuts	634704415	mixednuts.gif	potion, multiple	t	0
 10430	nutcracking pliers	422425305	pliers.gif	familiar	t,d	75
 10431	Retrospecs try-at-home kit	928685191	retrospecsbox.gif	usable	t	0
