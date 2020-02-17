@@ -642,7 +642,7 @@ Skelter Butleton, the Butler Skeleton	408	buttleton.gif	NOCOPY Atk: 170 Def: 153
 Skinflute	353	skinflute.gif	Atk: 158 Def: 142 HP: 150 Init: 70 E: sleaze P: constellation	star (30)	star (30)	line (30)	line (30)
 skleleton	29	skeleton.gif	Atk: 18 Def: 16 HP: 10 Init: 60 E: spooky P: undead	loose teeth (30)	skeleton bone (40)	skeleton bone (20)
 skullbat	45	skullbat.gif	Atk: 16 Def: 14 HP: 10 Init: 60 EA: spooky Meat: 28 P: beast	broken skull (40)	loose teeth (20)	sonar-in-a-biscuit (15)	smoking talon (c0)
-skulldozer	1239	skulldozer.gif	NOCOPY Scale: 5 Cap: 300 Init: -10000 E: spooky P: undead	skulldozer egg (0)
+skulldozer	1239	skulldozer.gif	NOCOPY Scale: 5 Cap: 10000 Floor: 300 Init: -10000 E: spooky P: undead	skulldozer egg (0)
 skullery maid	377	skullery.gif	Atk: 20 Def: 18 HP: 20 Init: 50 E: spooky P: undead	bottle of popskull (30)	dishrag (5)	Skullery Maid's Knee (c0)
 sleeping Knob Goblin Guard	152	kg_sleepingguard.gif	Atk: 0 Def: 0 HP: 1 Init: -10000 Meat: 5 P: goblin	viking helmet (32)	Knob Goblin pants (8)	Knob Goblin scimitar (32)
 sleepy 7-Foot Dwarf	1149	dwarf_sleepy.gif	Atk: 53 Def: 47 HP: 40 Init: -10000 Meat: 40 P: humanoid	miner's pants (9)
