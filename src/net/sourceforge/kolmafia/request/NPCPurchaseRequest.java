@@ -920,6 +920,18 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "mariogear" ) )
+		{
+			PlumberGearRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		if ( shopId.equals( "marioitems" ) )
+		{
+			PlumberItemRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		// When we purchase items from NPC stores using ajax, the
 		// response tells us nothing about the contents of the store.
 		if ( urlString.contains( "ajax=1" ) )

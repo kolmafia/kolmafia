@@ -125,6 +125,8 @@ import net.sourceforge.kolmafia.request.NeandermallRequest;
 import net.sourceforge.kolmafia.request.NinjaStoreRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.NuggletCraftingRequest;
+import net.sourceforge.kolmafia.request.PlumberGearRequest;
+import net.sourceforge.kolmafia.request.PlumberItemRequest;
 import net.sourceforge.kolmafia.request.PokemporiumRequest;
 import net.sourceforge.kolmafia.request.PrecinctRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
@@ -228,6 +230,8 @@ public class CoinmastersFrame
 	private CoinmasterPanel neandermallPanel = null;
 	private CoinmasterPanel ninjaPanel = null;
 	private CoinmasterPanel nuggletcraftingPanel = null;
+	private CoinmasterPanel plumberGearPanel = null;
+	private CoinmasterPanel plumberItemPanel = null;
 	private CoinmasterPanel pokemporiumPanel = null;
 	private CoinmasterPanel precinctPanel = null;
 	private CoinmasterPanel quartersmasterPanel = null;
@@ -350,6 +354,16 @@ public class CoinmastersFrame
 		cosmicRaysBazaarPanel = new CosmicRaysBazaarPanel();
 		panel.add( cosmicRaysBazaarPanel );
 		this.selectorPanel.addPanel( cosmicRaysBazaarPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		plumberGearPanel = new PlumberGearPanel();
+		panel.add( plumberGearPanel );
+		this.selectorPanel.addPanel( plumberGearPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		plumberItemPanel = new PlumberItemPanel();
+		panel.add( plumberItemPanel );
+		this.selectorPanel.addPanel( plumberItemPanel.getPanelSelector(), panel );
 
 		// Aftercore coinmasters
 		this.selectorPanel.addSeparator();
@@ -1633,6 +1647,24 @@ public class CoinmastersFrame
 		public GMartPanel()
 		{
 			super( GMartRequest.GMART );
+		}
+	}
+
+	private class PlumberGearPanel
+		extends CoinmasterPanel
+	{
+		public PlumberGearPanel()
+		{
+			super( PlumberGearRequest.PLUMBER_GEAR );
+		}
+	}
+
+	private class PlumberItemPanel
+		extends CoinmasterPanel
+	{
+		public PlumberItemPanel()
+		{
+			super( PlumberItemRequest.PLUMBER_ITEMS );
 		}
 	}
 
