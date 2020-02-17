@@ -18022,6 +18022,8 @@ public abstract class ChoiceManager
 		case 1389: // The Council of Exploathing
 		case 1395: // Take your Pills
 		case 1396: // Adjusting Your Fish
+		case 1407: // Mushroom District Badge Shop
+		case 1408: // Mushroom District Costume Shop
 			return true;
 
 		default:

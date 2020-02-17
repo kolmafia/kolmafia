@@ -1427,7 +1427,7 @@
 # Plumber
 
 25001	Hammer Throw	mario_throwhammer.gif	0	0	0
-25002	Ultra Smash	mario_ultrasmash.gif	0	0
+25002	Ultra Smash	mario_ultrasmash.gif	0	0	0
 25003	Juggle Fireballs	mario_juggle.gif	0	0	0
 25004	Fireball Barrage	mario_barrage.gif	0	0	0
 25005	Spin Jump	mario_spinjump.gif	0	0	0
