@@ -1520,6 +1520,12 @@ public class AdventureRequest
 		for ( int j = 0; j <= count; ++j )
 		{
 			String modifier = internal.get( j );
+			if ( MonsterData.extraModifiers.contains( modifier ) )
+			{
+				MonsterData.lastRandomModifiers.add( modifier );
+				continue;
+			}
+
 			String remove = MonsterData.crazySummerModifiers.get( modifier );
 
 			if ( remove == null )

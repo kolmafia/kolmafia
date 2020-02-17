@@ -38,7 +38,10 @@ import java.lang.CloneNotSupportedException;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -167,12 +170,26 @@ public class MonsterData
 		{ "zoom", "restless" },
 	};
 
-	public static final HashMap<String, String> crazySummerModifiers = new HashMap<String, String>();
+	public static final Map<String, String> crazySummerModifiers = new HashMap<String, String>();
 	static
 	{
 		for ( String[] mapping : MonsterData.crazyModifierMapping )
 		{
 			MonsterData.crazySummerModifiers.put( mapping[0], mapping[1] );
+		}
+	};
+
+	private static final String[] extraModifierNames =
+	{
+		"powerPixel"
+	};
+
+	public static final Set<String> extraModifiers = new HashSet<String>();
+	static
+	{
+		for ( String name : MonsterData.extraModifierNames )
+		{
+			MonsterData.extraModifiers.add( name );
 		}
 	};
 

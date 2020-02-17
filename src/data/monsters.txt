@@ -2498,6 +2498,9 @@ peppermint eel	2150	pepperminteel.gif	Atk: 400 Def: 400 HP: 400 Init: 200 Meat: 
 Yuleviathan	2151	yuleviathan.gif	Atk: 400 Def: 400 HP: 1000 Init: -10000 Meat: 300 P: fish	Yuleviathan necklace (0)
 Dolph Bossin, the Boss Dolphin	2152	dolphbossin.gif	NOMANUEL Atk: 500 Def: 450 HP: 800 Init: -10000 P: fish	Dolph Bossin's charity note (100)	Dolph Bossin's Crimbo hat (100)
 
+# Path of the Plumber
+Koopa Paratroopa	2165	paratroopa.gif	Atk: 40 Def: 40 HP: 40 Init: 50 P: beast	fizzy soda
+
 # Retired Standard Monsters
 Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation Manuel: "Astronomer" Wiki: "Astronomer"	star chart (100)
 possessed wine rack (obsolete)	454	winerack.gif	Atk: 158 Def: 146 HP: 165 Init: 40 E: spooky P: construct Manuel: "possessed wine rack" Wiki: "possessed wine rack"
