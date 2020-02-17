@@ -387,7 +387,7 @@ public class Expression
 				v = Modifiers.currentLocation.equalsIgnoreCase( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
 				break;
 			case 'n':
-				v = KoLCharacter.getClassName().equals( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
+				v = KoLCharacter.getClassName().equalsIgnoreCase( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
 				break;
 			case 'w':
 				v = Modifiers.currentFamiliar.equalsIgnoreCase( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;

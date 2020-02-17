@@ -63,7 +63,7 @@ public class RestoreExpression
 	{
 		if ( this.optional( "class(" ) )
 		{
-			return this.literal( this.until( ")" ).toLowerCase(), 'a' );
+			return this.literal( this.until( ")" ).toLowerCase(), 'n' );
 		}
 		if ( this.optional( "effect(" ) )
 		{
