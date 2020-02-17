@@ -198,7 +198,7 @@ public class RestoresDatabase
 
 	public static final long getHPMin( final String name )
 	{
-		if ( name == null || ( KoLCharacter.isEd() && !RestoresDatabase.edSafe( name ) ) )
+		if ( name == null || !RestoresDatabase.pathSafe( name ) )
 		{
 			return 0;
 		}
@@ -218,7 +218,7 @@ public class RestoresDatabase
 
 	public static final long getHPMax( final String name )
 	{
-		if ( name == null || ( KoLCharacter.isEd() && !RestoresDatabase.edSafe( name ) ) )
+		if ( name == null || !RestoresDatabase.pathSafe( name ) )
 		{
 			return 0;
 		}
@@ -278,7 +278,7 @@ public class RestoresDatabase
 
 	public static final double getHPAverage( final String name )
 	{
-		if ( name == null || ( KoLCharacter.isEd() && !RestoresDatabase.edSafe( name ) ) )
+		if ( name == null || !RestoresDatabase.pathSafe( name ) )
 		{
 			return 0;
 		}
@@ -298,7 +298,7 @@ public class RestoresDatabase
 
 	public static final String getHPRange( final String name )
 	{
-		if ( name == null || ( KoLCharacter.isEd() && !RestoresDatabase.edSafe( name ) ) )
+		if ( name == null || !RestoresDatabase.pathSafe( name ) )
 		{
 			return "";
 		}
@@ -508,12 +508,17 @@ public class RestoresDatabase
 		return RestoresDatabase.mpMinByName.get( restore ).equals( "[MP]" );
 	}
 
-	private static final boolean edSafe( final String hpRestore )
+	private static final boolean pathSafe( final String hpRestore )
 	{
-		if ( hpRestore.equals( "cotton bandages" ) || hpRestore.equals( "linen bandages" ) || hpRestore.equals( "silk bandages" ) )
+		if ( KoLCharacter.isEd() )
 		{
-			return true;
+			return hpRestore.equals( "cotton bandages" ) || hpRestore.equals( "linen bandages" ) || hpRestore.equals( "silk bandages" );
 		}
-		return false;
+
+		if ( KoLCharacter.isPlumber() )
+		{
+			return hpRestore.equals( "mushroom" ) || hpRestore.equals( "deluxe mushroom" ) || hpRestore.equals( "super deluxe mushroom" );
+		}
+		return true;
 	}
 }
