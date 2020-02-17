@@ -10496,7 +10496,7 @@
 10468	spiky back shell	409070013	mario_shell2.gif	container	q	0
 10469	power pants	457142219	mario_pants.gif	pants	q	0
 10470
-10471	Plumber's Union Handbook	602159414	mario_book.gif	usable	q	0
+10471	Plumber's Union Handbook	602159414	mario_book.gif	reusable	q	0
 10472	bony back shell	570068864	mario_shell3.gif	container	q	0
 10473	frosty button	596311200	mario_frostpin.gif	accessory	q	0
 10474	blooper ink	383888760	mario_ink.gif	potion, usable	q	0
