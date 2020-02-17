@@ -598,6 +598,7 @@ polyester pettipants	50	none
 poodle skirt	200	Mox: 200
 porcelain plus-fours	120	Mox: 40
 pottery training pants	50	none
+power pants	100	none
 primitive alien loincloth	50	Mox: 10
 psychic's pslacks	100	Mox: 35
 pteruges	100	Mox: 35
@@ -927,6 +928,7 @@ bone flute	110	Mox: 40	2-handed flute
 bone rattle	30	Mox: 0	1-handed rattle
 bonerang	20	Mox: 0	1-handed boomerang
 Bonestabber	100	Mus: 0	1-handed sword
+bonfire flower	0	Mus: 0	1-handed flower
 boning knife	20	Mus: 0	1-handed knife
 boomerang	30	Mox: 0	1-handed boomerang
 boot knife	50	Mus: 0	1-handed knife
@@ -1086,6 +1088,7 @@ fiberglass foil	120	Mus: 40	1-handed sword
 filthy pestle	60	Mys: 15	1-handed utensil
 finger cymbals	65	Mox: 17	1-handed cymbals
 fire axe	200	Mus: 85	2-handed axe
+fire flower	0	Mus: 0	1-handed flower
 fire poi	190	Mox: 80	2-handed flail
 fish bazooka	200	Mox: 85	2-handed bazooka
 fish hatchet	200	Mus: 0	1-handed axe
@@ -1176,6 +1179,7 @@ half-size scalpel	155	Mus: 62	1-handed knife
 half-sized guitar	40	Mox: 5	2-handed guitar
 halfberd	30	Mus: 0	1-handed polearm
 halibut	200	Mus: 85	2-handed fish
+hammer	0	Mus: 0	1-handed hammer
 Hammer of Smiting	90	Mus: 15	1-handed club
 hammerus	50	Mus: 0	1-handed club
 Hand that Rocks the Ladle	100	Mys: 0	1-handed utensil
@@ -1186,6 +1190,7 @@ happiness	165	Mox: 67	1-handed pistol
 haunted bindle	50	Mus: 0	2-handed polearm
 haunted paddle-ball	110	Mox: 40	1-handed flail
 hawk	110	Mus: 40	1-handed saw
+heavy hammer	0	Mus: 0	1-handed hammer
 heavy leather-bound tome	150	Mus: 60	1-handed club
 heavy metal thunderrr guitarrr	160	Mox: 65	2-handed axe
 heteroerotic frat-paddle	150	Mus: 60	1-handed club
@@ -2361,6 +2366,7 @@ expensive camera	100	Mys: 30
 eXtreme mittens	100	Mys: 35
 eXtreme nose ring	100	Mys: 10
 fancy black tie	100	Mys: 35
+fancy boots	0	none
 Fancy Jeff's fancy pocket square	150	Mox: 30
 FantasyRealm G. E. M.	10	none
 fiberglass fannypack	120	Mys: 40
@@ -2384,6 +2390,7 @@ fossilized necklace	50	none
 frayed rope belt	200	Mys: 200
 French slippers	10	none
 freshwater pearl necklace	80	Mys: 25
+frosty button	0	none
 frosty halo	50	none
 Frosty's carrot	200	Mus: 200
 Frown Exerciser	10	Mys: 30
@@ -3181,6 +3188,7 @@ wicker ticker	50	none
 wicksilver ring	100	Mys: 10
 witch wart	125	Mys: 47
 wool sock	100	Mox: 10
+work boots	0	none
 worksite credentials	0	Mox: 30
 World's Best Adventurer sash	100	none
 woven baling wire bracelets	180	Mys: 75
@@ -3209,12 +3217,15 @@ Zombo's skull ring	200	Mys: 200
 anniversary pewter cape	10	none
 antique nutcracker cape	150	Mys: 30
 auxiliary backbone	0	Mus: 75
+back shell	0	none
 bakelite backpack	120	Mus: 40
 barskin cloak	25	Mys: 75
 black cloak	120	Mys: 75
+bony back shell	0	none
 Buddy Bjorn	100	none
 burning cape	100	none
 Camp Scout backpack	0	none
+cape	0	none
 carpe	0	none
 chalk chlamys	50	none
 Cloak of Dire Shadows	120	none
@@ -3267,6 +3278,7 @@ shocked shell	100	Mus: 50
 Size XI Wizard's Robe	0	none
 smoker's cloak	80	Mys: 25
 spant backplate	100	Mus: 20
+spiky back shell	0	none
 super-absorbent tarp	50	none
 T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	200	Mus: 85
 teddybear backpack	150	Mox: 75

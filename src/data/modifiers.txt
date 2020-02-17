@@ -750,6 +750,7 @@ Item	poodle skirt	Slime Resistance: +1, Meat Drop: +25, Hot Damage: +25, Familia
 # porcelain plus-fours: Increase Duration of Turtle Tamer Buffs by 4
 Item	porcelain plus-fours	Muscle: +4, Mysticality: +4, Moxie: +4, Maximum HP: +4, Maximum MP: +4, Spooky Damage: +4, Stench Damage: +4, Hot Damage: +4, Cold Damage: +4, Sleaze Damage: +4, Critical Hit Percent: +4, Damage Reduction: 4, Familiar Weight: +4
 Item	pottery training pants	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Damage: +5, Familiar Effect: "hot atk, 2xGhuol, cap 12"
+# Item power pants: +1 Max Power Points
 Item	primitive alien loincloth	Initiative: +50, Stench Damage: +25, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4
 Item	psychic's pslacks	PvP Fights: +3, HP Regen Min: 5, HP Regen Max: 10
 Item	pteruges	Weapon Damage: +10, Familiar Effect: "1xFairy, atk, cap 25"
@@ -1110,6 +1111,7 @@ Item	bone rattle	Spooky Damage: +4
 # bonerang: +10% Damage vs. Skeletons
 # Bonestabber: +30% Damage vs. Skeletons
 Item	Bonestabber	Spooky Resistance: +3, Spooky Damage: +10, Monster Level: +5
+# Item bonfire flower: +2 to Fireball attacks
 # boning knife: +10% Damage vs. Skeletons
 # boot knife
 # bottle-rocket crossbow: Shoots Bottle-Rockets!
@@ -1284,6 +1286,7 @@ Item	fiberglass foil	Experience (Muscle): +3, Monster Level: +10, MP Regen Min: 
 Item	filthy pestle	Spell Damage: +7
 Item	finger cymbals	Maximum MP: +20
 Item	fire axe	Cold Damage: +200
+# Item fire flower: +1 to Fireball attacks
 Item	fire poi	Hot Damage: +15, Moxie: +3
 Item	fish bazooka	Moxie Percent: +5, Meat Drop: +10
 Item	fish hatchet	Muscle Percent: +100, Weapon Damage: +50, Familiar Weight: +5, Combat Rate: -10, Lasts Until Rollover
@@ -1387,6 +1390,7 @@ Item	half-size scalpel	Weapon Damage Percent: +10, Surgeonosity: +1
 Item	half-sized guitar	Moxie: +2, Ranged Damage: +4
 Item	halfberd	Weapon Damage: +2
 Item	halibut	Stench Damage: +100, Sleaze Damage: +100, Moxie Percent: -10
+# Item hammer: +1 to Hammer attacks
 Item	Hammer of Smiting	Muscle: +16, Critical Hit Percent: +7, Class: "Seal Clubber"
 Item	hammerus	Spooky Damage: +15
 # Hand that Rocks the Ladle: (+% to Mysticality Based on Smithsness)
@@ -1400,6 +1404,7 @@ Item	haunted bindle	Spooky Damage: +10, Spooky Spell Damage: +10
 Item	haunted paddle-ball	Monster Level: +5, Spooky Damage: +10
 # hawk: +22% Damage vs. Skeletons
 Item	hawk	Critical Hit Percent: +5, Weapon Damage: +11
+# Item heavy hammer: +2 to Hammer attacks
 Item	heavy leather-bound tome	Weakens Monster
 Item	heavy metal thunderrr guitarrr	Weapon Damage: +16
 # heteroerotic frat-paddle
@@ -2780,6 +2785,8 @@ Item	expensive camera	Initiative: +20, Reduce Enemy Defense: 10, Single Equip
 Item	eXtreme mittens	Weapon Damage: +6
 Item	eXtreme nose ring	Muscle: +4, Mysticality: +4, Moxie: +4
 Item	fancy black tie	Muscle Percent: +15, Single Equip
+# Item fancy boots: +2 to Jump attacks
+Item	fancy boots	Single Equip
 Item	Fancy Jeff's fancy pocket square	Moxie Percent: +25, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
 Item	FantasyRealm G. E. M.	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100, Lasts Until Rollover
 # fiberglass fannypack: Filled with a never-ending supply of deadly pasta
@@ -2811,6 +2818,8 @@ Item	frayed rope belt	Moxie Percent: +10, Single Equip
 # French slippers
 Item	freshwater pearl necklace	Spell Critical Percent: +5
 Item	Frigid Northern Beans	Cold Spell Damage: [15*(1+skill(Beanweaver))]
+# Item frosty button: Makes your fireball attacks deal Cold damage
+Item	frosty button	Single Equip
 Item	frosty halo	Item Drop: +25, Unarmed, Single Equip
 Item	Frosty's carrot	Stench Resistance: +3, Sleaze Resistance: +3, Class: "Seal Clubber", Single Equip
 Item	Frown Exerciser	Monster Level: [5*G], Moxie: -5, Single Equip
@@ -3741,6 +3750,8 @@ Item	wicker ticker	HP Regen Min: 4, HP Regen Max: 8, Spell Damage Percent: +20, 
 Item	wicksilver ring	Hot Damage: +20, Hot Spell Damage: +40, Mysticality: +10, Single Equip
 Item	witch wart	Mysticality: +5, MP Regen Min: 6, MP Regen Max: 8
 Item	wool sock	Mysticality: +20, Muscle: -5, Moxie: -5, Spell Damage Percent: +40, Single Equip
+# Item work boots: +1 to Jump attacks
+Item work	boots	Single Equip
 # worksite credentials: Grants access to worksites
 Item	worksite credentials	Adventures: +1, Single Equip
 Item	World's Best Adventurer sash	Muscle: [min(100,A+1)], Mysticality: [min(100,A+1)], Moxie: [min(100,A+1)]
@@ -3777,16 +3788,19 @@ Item	Zombo's skull ring	Moxie Percent: +15, PvP Fights: +4, Single Equip
 Item	anniversary pewter cape	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	antique nutcracker cape	Spell Damage Percent: +30, Mysticality Percent: +15
 Item	auxiliary backbone	PvP Fights: +3
+Item	back shell	Damage Absorption: +200, Damage Reduction: 20
 # bakelite backpack: Makes Accordion Bash knock loose some Meat
 Item	bakelite backpack	Monster Level: +10, Candy Drop: +20
 Item	barskin cloak	Muscle: +7
 Item	black cloak	Spell Damage: +10
+Item	bony back shell	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
 # Buddy Bjorn: Put a Familiar In It!
 # Buddy Bjorn: That Familiar gains 1 Experience per Fight
 Item	Buddy Bjorn	Softcore Only
 Item	burning cape	Hot Resistance: +3, Maximum HP: +25, Maximum MP: +25, Adventures: +5, Lasts Until Rollover
 # Camp Scout backpack: Helps You Be Prepared
 Item	Camp Scout backpack	Item Drop: +15, Softcore Only, Drops Items
+Item	cape	Initiative: +100
 Item	carpe	Mysticality Percent: +50, MP Regen Min: 5, MP Regen Max: 10, Meat Drop: +50, Combat Rate: +10, Lasts Until Rollover
 # chalk chlamys: Weakens enemies who hit you
 Item	chalk chlamys	Adventures: +2, Combat Rate: -5
@@ -3851,6 +3865,7 @@ Item	shocked shell	Class: "Turtle Tamer"
 Item	Size XI Wizard's Robe	Booze Drop: +11, Food Drop: +11, Candy Drop: +11
 Item	smoker's cloak	Monster Level: +10, Initiative: +20, Stench Damage: +30
 Item	spant backplate	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Damage Absorption: +100, Single Equip
+# Item spiky back shell: Enemies take 40-50 when they hit you
 Item	super-absorbent tarp	Maximum Hooch: +2
 Item	T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	Wiki Name: "Bugged baio"
 Item	teddybear backpack	Meat Drop: +10, Raveosity: +1
@@ -4964,6 +4979,7 @@ Effect	Bloody Grin	Experience (Muscle): [25*zone(Twitch)], Weapon Damage Percent
 Effect	Bloody Hand	Muscle: -1
 Effect	Bloody Potato Bits	HP Regen Min: 3, HP Regen Max: 5
 # Bloody-minded: +50% Damage vs. Vampires
+Effect	Blooper Inked	Combat Rate: -10
 Effect	Blubbered Up	Moxie: +5
 Effect	Blue Eyed Devil	Experience Percent (Mysticality): +50
 Effect	Blue Swayed	Experience (familiar): [ceil(min(T,50)/5)], Familiar Weight: [ceil(min(T,50)/10)]
@@ -5530,6 +5546,7 @@ Effect	Fitter, Bitter	Muscle Percent: +100, Maximum HP Percent: +50, HP Regen Mi
 Effect	Fitter, Happier	Muscle Percent: +100, Mysticality Percent: +100
 # Effect Fidoxene: Makes your familiars all at least 20 pounds
 Effect	Fizzier Than Light	MP Regen Min: 1, MP Regen Max: 3
+# Effect Fizzy Fizzy: +1 Maximum Power Points
 Effect	Flagrantly Fragrant	Maximum HP: +100, Maximum MP: +50, Damage Reduction: 25, MP Regen Min: 5, MP Regen Max: 10, HP Regen Min: 10, HP Regen Max: 20
 Effect	Flambé-a-thon	Hot Damage: +20, Hot Spell Damage: +20
 Effect	Flame-Retardant Trousers	Hot Resistance: +1
@@ -5962,6 +5979,7 @@ Effect	Juiced Out	Muscle Percent: +200, Mysticality Percent: -100, Moxie Percent
 # Juiced Up: Makes you a better diver
 Effect	Juiced Up	Muscle Percent: -5, Mysticality Percent: -5, Moxie Percent: -5, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 Effect	Juicy Boost	Maximum HP: +30, Maximum MP: +30, Experience Percent (Muscle): +100, Experience Percent (Mysticality): +100, Experience Percent (Moxie): +100
+Effect	Juicy Health	HP Regen Min: 5, HP Regen Max: 5
 Effect	Jukebox Hero	Item Drop: +300
 # Jungle Juiced: Doubles Stat Gains in the Deep Dark Jungle
 Effect	Just Aged Enough	Moxie: +25
@@ -7428,6 +7446,7 @@ Skill	Golgi Apparatus	Absorb Stats: +25
 # Gourmand: Increases adventures from food
 Skill	Hamstrings	Initiative: +10
 Skill	Healing Scarabs	HP Regen Min: +2, HP Regen Max: +4
+Skill	Health Symbol	HP Regen Min: +5, HP Regen Max: +5
 Skill	Heart of Polyester	Sleaze Resistance: +2
 # Hero of the Half-Shell
 Skill	Hide of the Walrus	Damage Absorption: +50
@@ -7470,6 +7489,9 @@ Skill	Legendary Impatience	Initiative: +100
 # Legendary Luck: Critical hits are even criticaler!
 # Liver of Steel
 # Louder Bellows: Improves Intimidating Bellow
+Skill	Lucky Brooch	Item Drop: +30
+Skill	Lucky Insignia	Item Drop: +30
+Skill	Lucky Pin	Item Drop: +30
 Skill	Lysosomes	Absorb Stats: +5
 Skill	Lower Hypothalamus	Cold Resistance: +1
 Skill	Macabre Cunning	Experience: +5, Maximum HP: -20
@@ -7526,6 +7548,7 @@ Skill	Profound Shame	Sleaze Resistance: +3
 # Pulverize
 Skill	Quantum Movement	Initiative: +20
 Skill	Rain Delay	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3
+Skill	Rainbow Shield	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
 # Rapid Prototyping: Craft up to 5 items per day without using an Adventure
 # Really Expensive Jewelrycrafting
 Skill	Refusal to Freeze	Cold Resistance: +3
@@ -8890,6 +8913,7 @@ Item	blob of Alphredo&trade;	Effect: "Blessing of the Stinking Alphredo&trade;",
 Item	Blood 'n' Plenty	Effect: "Sugar Rush", Effect Duration: 10
 Item	blood of the Wereseal	Effect: "Temporary Lycanthropy", Effect Duration: 10
 Item	bloodstain stick	Effect: "Bloodstain-Resistant", Effect Duration: 20
+Item	blooper ink	Effect: "Blooper Inked", Effect Duration: 10
 # blowdart: Poisons your opponent
 Item	blue grass	Effect: "The Grass...  Is Blue...", Effect Duration: 20
 Item	blue oyster badge	Effect: "Cult Fiction", Effect Duration: 50
@@ -9507,7 +9531,7 @@ Item	filthy monkey head	Effect: "Monkeymask", Effect Duration: 100
 Item	finger exerciser	Effect: "Strong Grip", Effect Duration: 20
 # fingerprint dusting kit: Helps you find villains faster
 Item	Finnish Fish	Effect: "Fishing For Knowledge", Effect Duration: 20
-Item	fire flower	Effect: "Flamingly Floral", Effect Duration: 10
+Item	[2426]fire flower	Effect: "Flamingly Floral", Effect Duration: 10
 # fire of unknown origin: Deals 35-45 <font color=red>Hot Damage</font> and 35-45 <font color=gray>Spooky Damage</font>
 # fireball: Deals 190-210 <font color=red>Hot Damage</font>
 # firebomb: Deals 40-50 <font color=red>Hot Damage</font>
@@ -9520,6 +9544,7 @@ Item	fist turkey outline	Free Pull
 Item	fitness wristband	Effect: "Fitter, Bitter", Effect Duration: 50
 Item	Fitspiration&trade; poster	Effect: "Fit As a Poster", Effect Duration: 50
 # fizzing spore pod: Deals 20-40 physical damage
+Item	fizzy soda	Effect: "Fizzy Fizzy", Effect Duration: 20
 # flaming feather: Deals 80-120 <font color=red>Hot Damage</font>
 Item	Flan in the Moon	Effect: "Heal Thy Nanoself", Effect Duration: 50
 # flaregun: Deals Various Kinds of Naval Damage
@@ -9773,6 +9798,7 @@ Item	hare brush	Effect: "Hare-o-dynamic", Effect Duration: 10
 Item	haunted flame	Effect: "Skulla, Brah", Effect Duration: 50
 Item	hawkface potion	Effect: "Your Head is That of a Hawk", Effect Duration: 30
 Item	Hawking's Elixir of Brilliance	Effect: "On the Shoulders of Giants", Effect Duration: [R]
+Item	healthy juice	Effect: "Juicy Health", Effect Duration: 20
 Item	heart necklace	Free Pull
 # heart of dark chocolate: Restores 40-50 HP
 # heart of dark chocolate: (doesn't go away when used)

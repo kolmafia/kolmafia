@@ -844,6 +844,18 @@
 7325	CHEAT CODE: Triple Size	triplesize.gif	3	0	20
 7326	CHEAT CODE: Replace Enemy	replaceenemy.gif	5	0	0
 7327	CHEAT CODE: Shrink Enemy	shrinkenemy.gif	5	0	0
+7328	Hammer Smash	mario_hammer2.gif	5	0	0
+# The commented-out skills below (in 7329-7336) have duplicate names with skills that will
+# always be available at the same time.  They cannot be supported until duplicate skill names
+# are handled
+# 7329	Hammer Throw	mario_throwhammer.gif	5	0	0
+# 7330	Ultra Smash	mario_ultrasmash.gif	5	0	0
+7331	Fireball Toss	mario_fireball.gif	5	0	0
+# 7332	Juggle Fireballs	mario_juggle.gif	5	0	0
+# 7333	Fireball Barrage	mario_barrage.gif	5	0	0
+7334	Jump Attack	mario_jump.gif	5	0	0
+# 7335	Spin Jump	mario_spinjump.gif	5	0	0
+# 7336	Multi-Bounce	mario_multibounce.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
@@ -1411,3 +1423,20 @@
 24036	Batlike Reflexes	regularbat.gif	0	0	0
 24037	Sharp Eyes	eyesleft.gif	0	0	0
 24038	Spot Weakness	blueprint.gif	0	0	0
+
+# Plumber
+
+25001	Hammer Throw	mario_throwhammer.gif	0	0	0
+25002	Ultra Smash	mario_ultrasmash.gif	0	0
+25003	Juggle Fireballs	mario_juggle.gif	0	0	0
+25004	Fireball Barrage	mario_barrage.gif	0	0	0
+25005	Spin Jump	mario_spinjump.gif	0	0	0
+25006	Multi-Bounce	mario_multibounce.gif	0	0	0
+25007	Power Plus	mario_power.gif	0	0	0
+25008	Secret Eye	mario_eye.gif	0	0	0
+25009	Lucky Buckle	mario_buckle.gif	0	0	0
+25010	Rainbow Shield	mario_shield.gif	0	0	0
+25011	Lucky Pin	mario_luck1.gif	0	0	0
+25012	Lucky Brooch	mario_luck2.gif	0	0	0
+25013	Lucky Insignia	mario_luck3.gif	0	0	0
+25014	Health Symbol	mario_health.gif	0	0	0
