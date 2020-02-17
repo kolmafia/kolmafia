@@ -1248,6 +1248,15 @@ public abstract class KoLCharacter
 			return 2;
 		}
 
+		if ( classType.equals( KoLCharacter.PLUMBER ) )
+		{
+			long mus =  KoLCharacter.totalSubpoints[ 0 ];
+			long mys =  KoLCharacter.totalSubpoints[ 1 ];
+			long mox =  KoLCharacter.totalSubpoints[ 2 ];
+			return  ( mus >= mys ) ? ( mus >= mox ? 0 : 2 ) :
+				( mys >= mox ) ? 1 : 2;
+		}
+
 		return 0;
 	}
 
