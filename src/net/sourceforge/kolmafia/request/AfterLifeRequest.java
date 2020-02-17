@@ -449,6 +449,9 @@ public class AfterLifeRequest
 			case 24:
 				builder.append( "Vampyre" );
 				break;
+			case 25:
+				builder.append( "Plumber" );
+				break;
 			default:
 				builder.append( "(Class " );
 				builder.append( String.valueOf( pclass ) );
@@ -597,6 +600,9 @@ public class AfterLifeRequest
 				break;
 			case 37:
 				builder.append( "a Kingdom of Exploathing" );
+				break;
+			case 38:
+				builder.append( "a Path of the Plumber" );
 				break;
 			default:
 				builder.append( "(Path " );

@@ -526,6 +526,10 @@ public class ValhallaManager
 		{
 			sessionStream.print( "Two Crazy Random Summer " );
 		}
+		else if ( KoLCharacter.isPlumber() )
+		{
+			sessionStream.print( "Path of the Plumber " );
+		}
 		else if ( KoLCharacter.getRestricted() )
 		{
 			sessionStream.print( "Standard " );
