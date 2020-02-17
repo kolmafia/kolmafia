@@ -10500,3 +10500,4 @@
 10472	bony back shell	570068864	mario_shell3.gif	container	q	0
 10473	frosty button	596311200	mario_frostpin.gif	accessory	q	0
 10474	blooper ink	383888760	mario_ink.gif	potion, usable	q	0
+10475	red coin	713142976	mario_redcoin.gif	none		0

@@ -155,6 +155,7 @@ public abstract class KoLCharacter
 	public static final String BEANSLINGER = "Beanslinger";
 	public static final String SNAKE_OILER = "Snake Oiler";
 	public static final String VAMPYRE = "Vampyre";
+	public static final String PLUMBER = "Plumber";
 
 	// Paths
 	public static final String BEES_HATE_YOU = "Bees Hate You";
@@ -184,6 +185,7 @@ public abstract class KoLCharacter
 	public static final String DARK_GYFFTE = "Dark Gyffte";
 	public static final String CRAZY_RANDOM_TWO = "Two Crazy Random Summer";
 	public static final String KINGDOM_OF_EXPLOATHING = "Kingdom of Exploathing";
+	public static final String PATH_OF_THE_PLUMBER = "Path of the Plumber";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
@@ -784,6 +786,11 @@ public abstract class KoLCharacter
 			limit = 5;
 		}
 
+		else if ( KoLCharacter.isPlumber() )
+		{
+			limit = 20;
+		}
+
 		else if ( KoLCharacter.inBadMoon() )
 		{
 			if ( KoLCharacter.hasSkill( "Pride" ) )
@@ -1044,6 +1051,11 @@ public abstract class KoLCharacter
 		else if ( KoLCharacter.inNuclearAutumn() )
 		{
 			limit = 3;
+		}
+
+		else if ( KoLCharacter.isPlumber() )
+		{
+			limit = 5;
 		}
 
 		else if ( KoLCharacter.inBondcore() && Preferences.getBoolean( "bondSpleen" ) )
@@ -1620,6 +1632,7 @@ public abstract class KoLCharacter
 			classtype == 20 ? KoLCharacter.SNAKE_OILER :
 			classtype == 23 ? KoLCharacter.GELATINOUS_NOOB :
 			classtype == 24 ? KoLCharacter.VAMPYRE :
+			classtype == 25 ? KoLCharacter.PLUMBER :
 			"Unknown";
 
 		KoLCharacter.classtype = classname;
@@ -3590,6 +3603,11 @@ public abstract class KoLCharacter
 		{
 			TCRSDatabase.resetModifiers();
 		}
+		else if ( oldPath.equals( PATH_OF_THE_PLUMBER ) )
+		{
+			int plumberPoints = wasInHardcore ? 2 : 1;
+			Preferences.increment( "plumberPoints", plumberPoints );
+		}
 
 		// We are no longer in Hardcore
 		KoLCharacter.setHardcore( false );
@@ -3624,7 +3642,8 @@ public abstract class KoLCharacter
 		     oldPath.equals( AVATAR_OF_SNEAKY_PETE ) ||
 		     oldPath.equals( ACTUALLY_ED_THE_UNDYING ) ||
 		     oldPath.equals( GELATINOUS_NOOB ) ||
-		     oldPath.equals( DARK_GYFFTE ) )
+		     oldPath.equals( DARK_GYFFTE ) ||
+		     oldPath.equals( PATH_OF_THE_PLUMBER ) )
 		{
 			return;
 		}
@@ -4146,6 +4165,11 @@ public abstract class KoLCharacter
 		return KoLCharacter.ascensionPath.equals( KINGDOM_OF_EXPLOATHING );
 	}
 
+	public static final boolean isPlumber()
+	{
+		return KoLCharacter.ascensionPath.equals( PATH_OF_THE_PLUMBER );
+	}
+
 	public static final boolean isUnarmed()
 	{
 		AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
@@ -4229,6 +4253,11 @@ public abstract class KoLCharacter
 		}
 
 		if ( KoLCharacter.inNoobcore() )
+		{
+			return false;
+		}
+
+		if ( KoLCharacter.isPlumber() )
 		{
 			return false;
 		}

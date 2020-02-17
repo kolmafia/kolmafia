@@ -133,7 +133,7 @@ public class DataTypes
 		"",
 		KoLCharacter.GELATINOUS_NOOB,
 		"",
-		"",
+		KoLCharacter.PLUMBER,
 		"",
 		"",
 		"",

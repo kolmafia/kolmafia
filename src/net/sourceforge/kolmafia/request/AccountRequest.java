@@ -746,6 +746,10 @@ public class AccountRequest
 		{
 			path = "Kingdom of Exploathing";
 		}
+		else if ( path.equals( "38" ) )
+		{
+			path = "Path of the Plumber";
+		}
 		KoLCharacter.setPath( path );
 
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1 || sign.equals( "Bad Moon" );
