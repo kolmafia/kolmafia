@@ -53,7 +53,7 @@ creepy ginger ale	item	0	0	35	45	0
 CSA all-purpose soap	item	0	0	1000	1000	0
 cup of hickory chicory	item	0	0	30	50	0
 delicious shimmering moth	item	0	0	[30*effect(form of...bird!)]	[40*effect(form of...bird!)]	0
-deluxe mushroom	item	30	30	0	0	0	[class(Plumber)]
+deluxe mushroom	item	30	30	0	0	0	[100*class(Plumber)]
 Devour Minions	skill	[max(floor(HP*0.5),20)]	[max(floor(HP*0.5),20)]	0	0	0
 Diet Cloaca Cola	item	0	0	7	9	0
 Disco Nap	skill	[20*(1+skill(Adventurer of Leisure))]	[20*(1+skill(Adventurer of Leisure))]	0	0	0
@@ -102,7 +102,7 @@ Monstar energy beverage	item	0	0	70	80	0
 Mountain Stream Code Black Alert	item	0	0	15	20	0
 Mountain Stream soda	item	0	0	30	40	0
 myrrh-soaked, chocolate-covered bacon bath ball	item	0	0	30	45	0
-mushroom	item	10	10	0	0	0	[class(Plumber)]
+mushroom	item	10	10	0	0	0	[100*class(Plumber)]
 Nardz energy beverage	item	0	0	50	70	0
 natural fennel soda	item	0	0	80	120	0
 New Cloaca-Cola	item	0	0	140	160	0
@@ -149,7 +149,7 @@ sparking robo-battery	item	0	0	80	100	0
 spirit beer	item	0	0	80	100	0
 Spirit Vacation	skill	[HP]	[HP]	0	0	1
 sugar shard	item	10	20	5	10	0
-super deluxe mushroom	item	100	100	0	0	0	[class(Plumber)]
+super deluxe mushroom	item	100	100	0	0	0	[100*class(Plumber)]
 tiny house	item	20	24	20	24	0
 Tongue of the Walrus	skill	30	40	0	0	0
 tonic water	item	0	0	30	50	0
