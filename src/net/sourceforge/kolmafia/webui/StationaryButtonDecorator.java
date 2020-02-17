@@ -488,7 +488,12 @@ public class StationaryButtonDecorator
 			return;
 		}
 
-		if ( Preferences.getBoolean( "relayScriptButtonFirst" ) )
+		if ( KoLCharacter.isPlumber() )
+		{
+			// No "attack" button for plumbers
+			StationaryButtonDecorator.addScriptButton( urlString, actionBuffer, true );
+		}
+		else if ( Preferences.getBoolean( "relayScriptButtonFirst" ) )
 		{
 			StationaryButtonDecorator.addScriptButton( urlString, actionBuffer, true );
 			StationaryButtonDecorator.addFightButton( actionBuffer, "attack", FightRequest.getCurrentRound() > 0 );

@@ -2313,7 +2313,8 @@ public class RelayRequest
 			return false;
 		}
 
-  		if ( KoLCharacter.inRaincore() || KoLCharacter.isVampyre()  )
+		// Some paths replace the usual bosses with other monsters
+  		if ( KoLCharacter.inRaincore() || KoLCharacter.isVampyre() || KoLCharacter.isPlumber()  )
 		{
 			return false;
 		}
