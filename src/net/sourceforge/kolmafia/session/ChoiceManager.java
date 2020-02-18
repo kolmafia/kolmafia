@@ -13646,6 +13646,11 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1409:
+			// Your Quest is Over
+			ChoiceManager.handleAfterAvatar();
+			break;
+
 		}
 
 		if ( ChoiceManager.handlingChoice )
