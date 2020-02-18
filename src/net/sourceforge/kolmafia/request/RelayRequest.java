@@ -1856,19 +1856,34 @@ public class RelayRequest
 			warning.append( "You cannot beat the hustler. You have " + poolSkill + " pool skill and need 14 to have a chance, and 18 to guarantee it. " );
 		}
 
-		if ( drunk < 10 )
+		if ( !KoLCharacter.canDrink() )
 		{
-			warning.append( "<br>Drinking more may help, giving an extra one pool skill per drunk up to 10." );
-		}
-
-		if ( image2 == null )
-		{
-			warning.append( "<br>If you are sure you wish to adventure at this drunkenness, click the icon to adventure. " );
+			if ( image2 == null )
+			{
+				warning.append( "<br>If you are sure you wish to adventure, click the icon. " );
+			}
+			else
+			{
+				warning.append( "<br>If you are sure you wish to adventure, click the icon on the left. " );
+			}
 		}
 		else
 		{
-			warning.append( "<br>If you are sure you wish to adventure at this drunkenness, click the icon on the left to adventure. " );
+			if ( drunk < 10 )
+			{
+				warning.append( "<br>Drinking more may help, giving an extra one pool skill per drunk up to 10." );
+			}
+
+			if ( image2 == null )
+			{
+				warning.append( "<br>If you are sure you wish to adventure at this drunkenness, click the icon to adventure. " );
+			}
+			else
+			{
+				warning.append( "<br>If you are sure you wish to adventure at this drunkenness, click the icon on the left to adventure. " );
+			}
 		}
+
 		if ( image3 == null )
 		{
 			if ( "poolcue.gif".equals( image2 ) )

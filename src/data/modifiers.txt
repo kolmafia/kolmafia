@@ -7423,6 +7423,7 @@ Skill	Ferocity	Variable
 # Ferocity (Vampyre)	Your combat skills do 50% more damage
 Skill	Financial Ambition	Meat Drop: +40
 Skill	Fingernails	Weapon Damage: +7
+# Fireball Barrage: Grants 2 PP Combat (fire) skill
 # Five Finger Discount Items in stores cost 5% less Meat
 # Flavour of Magic
 # Flashy Dancer Opponents cannot act during Disco Dances
@@ -7444,6 +7445,7 @@ Skill	Gnomish Hardigness	Maximum HP Percent: +5
 Skill	Golgi Apparatus	Absorb Stats: +25
 # Good Singing Voice: Doubles duration of Boris songs
 # Gourmand: Increases adventures from food
+# Hammer Throw: Grants 1 PP Combat (hammer) skill
 Skill	Hamstrings	Initiative: +10
 Skill	Healing Scarabs	HP Regen Min: +2, HP Regen Max: +4
 Skill	Health Symbol	HP Regen Min: +5, HP Regen Max: +5
@@ -7473,6 +7475,7 @@ Skill	Introspection	Mysticality: +20
 # Ire of the Orca Fury capacity increases to 5 gallons
 Skill	Irrepressible Spunk	Maximum HP Percent: +5, Maximum MP Percent: +5
 # Itchy Curse Finger Your curses take hold too quickly for your opponents to react
+# Juggle Fireballs: Grants 1 PP Combat (fire) skill
 # Just One More Extra Spleen Good grief, another +5 spleen capacity
 Skill	Kneecaps	Initiative: +30
 Skill	Knees	Weapon Damage: +13
@@ -7490,6 +7493,7 @@ Skill	Legendary Impatience	Initiative: +100
 # Liver of Steel
 # Louder Bellows: Improves Intimidating Bellow
 Skill	Lucky Brooch	Item Drop: +30
+# Lucky Buckle: Find more coins after combat
 Skill	Lucky Insignia	Item Drop: +30
 Skill	Lucky Pin	Item Drop: +30
 Skill	Lysosomes	Absorb Stats: +5
@@ -7509,6 +7513,7 @@ Skill	Mitochondria	Absorb Stats: +10
 Skill	More Elemental Wards	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Skill	More Legs	Initiative: +50
 Skill	More to Love	Minstrel Level: +3
+# Multi-Bounce: Grants 2 PP Combat (jump) skill
 Skill	Nasal Lamina Propria	Stench Resistance: +2
 Skill	Nasal Septum	Stench Resistance: +2
 Skill	Natural Born Scrabbler	Item Drop: +5
@@ -7540,6 +7545,7 @@ Skill	Pinky Fingers	Pickpocket Chance: +10
 Skill	Pinchable Nose	Stench Resistance: +1
 # Pizza Lover You really, really like pizza
 Skill	Politeness	Sleaze Resistance: +2
+# Power Plus: Maximum PP: +1
 Skill	Powers of Observatiogn	Item Drop: +10
 # Precision of the Penguin +1% chance of Critical Hit for each gallon of Fury
 Skill	Precision of the Penguin	Critical Hit Percent: [Y]
@@ -7548,7 +7554,7 @@ Skill	Profound Shame	Sleaze Resistance: +3
 # Pulverize
 Skill	Quantum Movement	Initiative: +20
 Skill	Rain Delay	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3
-Skill	Rainbow Shield	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
+Skill	Rainbow Shield	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 # Rapid Prototyping: Craft up to 5 items per day without using an Adventure
 # Really Expensive Jewelrycrafting
 Skill	Refusal to Freeze	Cold Resistance: +3
@@ -7572,6 +7578,7 @@ Skill	Saccade Reflex	Item Drop: +40
 Skill	Sanguine Magnetism	Maximum HP: -15
 # Saucemaven Get more Adventures from the saucy food you eat
 Skill	Savage Bite	Maximum HP: -10
+# Secret Eye: Sometimes find hidden blocks after fights
 # Seething of the Snow Leopard Gain additional bonus damage from Fury
 Skill	Seething of the Snow Leopard	Weapon Damage: [2*Y]
 Skill	Self-Lubricating Feet	Initiative: +20
@@ -7601,6 +7608,7 @@ Skill	Small Left Kidney	Maximum HP Percent: +40
 # Soul Saucery Allows you to gather Soulsauce from defeated foes
 Skill	Spectral Awareness	Maximum HP: -10
 Skill	Speluck	Item Drop: [5*env(underground)], Meat Drop: [10*env(underground)]
+# Spin Jump: Grants 1 PP Combat (jump) skill
 Skill	Spinal Cord	Maximum MP Percent: +100
 Skill	Spinal Discs	Damage Reduction: 10
 Skill	Spirit of Ravioli	Maximum HP Percent: +25
@@ -7644,6 +7652,7 @@ Skill	Triceps	Muscle: +5
 # Tricky Knifework Use knifes as if Muscle=Moxie if Moxie higher
 Skill	True Outdoorsperson	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3
 Skill	Two Right Feet	Item Drop: +10
+# Ultra Smash: Grants 2 PP Combat (hammer) skill
 Skill	Undying Greed	Meat Drop: +25
 Skill	Unrepentant Thief	Pickpocket Chance: +50
 Skill	Unoffendable	Sleaze Resistance: +3
