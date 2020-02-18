@@ -160,8 +160,10 @@ public class MonsterManuelManager
 			{
 				// We don't know a monster with this ID. Add to monster ID map.
 				String attributes = MonsterManuelManager.buildMonsterAttributes( attackString, defenseString, hpString, phylumString, element, initiativeString );
+				String line = name + "\t" + id + "\t" + image + "\t" + attributes;
 
 				RequestLogger.printLine( "New monster #" + id + " found in Manuel with name '" + name + "' image '" + image + "' attributes ='" + attributes + "'" );
+				RequestLogger.updateSessionLog( line );
 				monster = MonsterDatabase.registerMonster( name, id, image, attributes );
 				return;
 			}
