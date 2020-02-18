@@ -2556,7 +2556,9 @@
 2555
 2556	Invisible Avatar	missingavatar.gif	da6f47ae655716b599e530128712c36c	cast 1 CHEAT CODE: Invisible Avatar
 2557	Triple-Sized	triplesize.gif	6be2d9af5964c3bc987c0696ea60eeeb	cast 1 CHEAT CODE: Triple Size
-
+2558
+2559	Heated Up	mario_juggle.gif	7ff2479058ced96de968b27a32df19e1
+2560	Half-Sized	mario_halfsize.gif	a2e799db00f83234a97fe1ab9d38ee88
 2561	Fizzy Fizzy	mario_soda.gif	8e2c240a3b8a8330268136b316d334d4	use 1 fizzy soda
 2562	Juicy Health	mario_juice.gif	e2504ca258d4680a65dfd5e17a86585c	use 1 healthy juice
 2563	Blooper Inked	mario_ink.gif	e63d22a94a7e60c5b1c4e4b5383b64cd	use 1 blooper ink
