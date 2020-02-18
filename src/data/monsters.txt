@@ -2499,7 +2499,15 @@ Yuleviathan	2151	yuleviathan.gif	Atk: 400 Def: 400 HP: 1000 Init: -10000 Meat: 3
 Dolph Bossin, the Boss Dolphin	2152	dolphbossin.gif	NOMANUEL Atk: 500 Def: 450 HP: 800 Init: -10000 P: fish	Dolph Bossin's charity note (100)	Dolph Bossin's Crimbo hat (100)
 
 # Path of the Plumber
-Koopa Paratroopa	2165	paratroopa.gif	Atk: 40 Def: 40 HP: 40 Init: 50 P: beast	fizzy soda
+Koopa Paratroopa	2165	paratroopa.gif	Atk: 40 Def: 40 HP: 40 Init: 50 P: beast
+Hammer Brother	2166	hammerbrother.gif	Atk: 60 Def: 60 HP: 80 Init: 50 P: beast
+Very Dry Bones	2167	drybones.gif	Atk: 100 Def: 100 HP: 150 Init: 50 P: undead
+Birdo	2168	birdo.gif	Atk: 180 Def: 180 HP: 300 Init: 50 P: beast
+King Boo	2169	kingboo2.gif	Atk: 180 Def: 180 HP: 300 Init: 50 P: undead
+Kamek	2170	kamek.gif	Atk: 180 Def: 180 HP: 200 Init: 50 P: beast
+Angry Sun	2171	angrysun.gif	Atk: 130 Def: 130 HP: 300 Init: 50 P: weird
+Bowser	2172	bowser.gif	Atk: 300 Def: 300 HP: 400 Init: 50 P: beast
+Wa%playername/lowercase	2174	waplayer.gif	Atk: 300 Def: 300 HP: 1000 Init: 10000 P: dude
 
 # Retired Standard Monsters
 Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation Manuel: "Astronomer" Wiki: "Astronomer"	star chart (100)
