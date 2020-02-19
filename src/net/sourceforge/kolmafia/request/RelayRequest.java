@@ -2550,7 +2550,7 @@ public class RelayRequest
 		if ( KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() || KoLCharacter.isJarlsberg() ||
 		     KoLCharacter.inHighschool() || KoLCharacter.isSneakyPete() || KoLCharacter.inRaincore() ||
 		     KoLCharacter.isEd() || KoLCharacter.inTheSource() || KoLCharacter.inBondcore() ||
-		     KoLCharacter.inPokefam() || KoLCharacter.isVampyre() )
+		     KoLCharacter.inPokefam() || KoLCharacter.isVampyre() || KoLCharacter.isPlumber() )
 		{
 			return false;
 		}
