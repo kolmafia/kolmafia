@@ -512,17 +512,7 @@ The Swagger Shop	buy	2000	How to Tolerate Jerks
 The Swagger Shop	buy	100	puppet strings
 The Swagger Shop	buy	500	bagged stuffed &quot;L&quot;
 The Swagger Shop	buy	500	stuffed club
-The Swagger Shop	buy	1000	Black Bart's Booty
-The Swagger Shop	buy	1000	Holiday Hal's Happy-Time Fun Book!
-The Swagger Shop	buy	1000	Antagonistic Snowman Kit
-The Swagger Shop	buy	1234	Map to Kokomo
-The Swagger Shop	buy	1000	Essence of Bear
-The Swagger Shop	buy	1000	Manual of Numberology
-The Swagger Shop	buy	1000	ROM of Optimality
-The Swagger Shop	buy	1000	School of Hard Knocks Diploma
-The Swagger Shop	buy	1000	A Guide to Safari
-The Swagger Shop	buy	1000	[glitch season reward name]
-The Swagger Shop	buy	1000	Law of Averages
+# Seasonal rewards are detected when we visit the Swagger Shop
 The Swagger Shop	buy	5000	Essence of Annoyance
 
 # Things you can buy with topiary nugglets
