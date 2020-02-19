@@ -128,8 +128,8 @@ public class SwaggerShopRequest
 			itemIdToSeason.put( season.itemId, season );
 		}
 
-		String lastPVPSeason = Preferences.getString( "lastPVPSeason" );
-		Season season = nameToSeason.get( lastPVPSeason );
+		String currentPVPSeason = Preferences.getString( "currentPVPSeason" );
+		Season season = nameToSeason.get( currentPVPSeason );
 		currentSeason = ( season == null ) ? Season.NONE : season;
 	};
 
@@ -331,7 +331,7 @@ public class SwaggerShopRequest
 		{
 			int seasonSwagger = StringUtilities.parseInt( seasonMatcher.group( 1 ) );
 			String seasonName = seasonMatcher.group( 2 );
-			Preferences.setString( "lastPVPSeason", seasonName );
+			Preferences.setString( "currentPVPSeason", seasonName );
 			Season season = nameToSeason.get( seasonName );
 			if ( season != null )
 			{
