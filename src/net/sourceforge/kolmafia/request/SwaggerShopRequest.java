@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.Map;
 
 import java.util.regex.Pattern;
@@ -46,6 +48,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -59,6 +62,77 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class SwaggerShopRequest
 	extends CoinMasterRequest
 {
+	// When a new type of PVP season appears:
+	//
+	// name = "new"
+	// itemId = ItemPool.NEW_PVP_REWARD
+	// itemPrefix = "newPvpReward
+	//
+	// properties in defaults.txt:
+	//
+	// user	NAME + Swagger	0
+	// user	ITEMPREFIX + Available	true
+	// user	ITEMPREFIX + Cost	1000
+	// 
+	// Add it to the Season enum
+	// Do NOT add the new item to coinmasters.txt
+
+	public enum Season
+	{
+		PIRATE( "pirate", ItemPool.BLACK_BARTS_BOOTY, "blackBartsBooty" ),
+		HOLIDAY( "holiday", ItemPool.HOLIDAY_FUN_BOOK, "holidayHalsBook" ),
+		ICE( "ice", ItemPool.ANTAGONISTIC_SNOWMAN_KIT, "antagonisticSnowmanKit" ),
+		DRUNKEN( "drunken", ItemPool.MAP_TO_KOKOMO, "mapToKokomo" ),
+		BEAR( "bear", ItemPool.ESSENCE_OF_BEAR, "essenceOfBear" ),
+		NUMERIC( "numeric", ItemPool.MANUAL_OF_NUMBEROLOGY, "manualOfNumberology" ),
+		OPTIMAL( "optimal", ItemPool.ROM_OF_OPTIMALITY, "ROMOfOptimality" ),
+		SCHOOL( "school", ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA, "schoolOfHardKnocksDiploma" ),
+		SAFARI( "safari", ItemPool.GUIDE_TO_SAFARI, "guideToSafari" ),
+		GLITCH( "glitch", ItemPool.GLITCH_ITEM, "glitchItem" ),
+		AVERAGE( "average", ItemPool.LAW_OF_AVERAGES, "lawOfAverages" ),
+		// Pseudo-season to handle Essence of Annoyance
+		NONE( "none", ItemPool.ESSENCE_OF_ANNOYANCE, "essenceOfAnnoyance" );
+			
+		final public String name;
+		final public int itemId;
+		final public AdventureResult item;
+
+		// Composed property names
+		final public String swagger;	// name + "Swagger"
+		final public String cost;	// itemPrefix + "Cost"
+		final public String available;	// itemPrefix + "Available"
+
+		Season( String name, int itemId, String itemPrefix )
+		{
+			this.name = name;
+			this.itemId = itemId;
+			this.item = ItemPool.get( itemId, 1 );
+			this.swagger = name + "Swagger";
+			this.cost = itemPrefix + "Cost";
+			this.available = itemPrefix + "Available";
+		}
+	}
+
+	// Discovered when we visit the Swagger Shop
+	public static Season currentSeason = Season.NONE;
+
+	final public static EnumSet<Season> allSeasons = EnumSet.allOf( Season.class );
+	final public static Map<String, Season> nameToSeason = new HashMap<String, Season>();
+	final public static Map<Integer, Season> itemIdToSeason = new HashMap<Integer, Season>();
+
+	static
+	{
+		for ( Season season : allSeasons )
+		{
+			nameToSeason.put( season.name, season );
+			itemIdToSeason.put( season.itemId, season );
+		}
+
+		String lastPVPSeason = Preferences.getString( "lastPVPSeason" );
+		Season season = nameToSeason.get( lastPVPSeason );
+		currentSeason = ( season == null ) ? Season.NONE : season;
+	};
+
 	public static final String master = "The Swagger Shop"; 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( SwaggerShopRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( SwaggerShopRequest.master );
@@ -97,110 +171,30 @@ public class SwaggerShopRequest
 			@Override
 			public final int getBuyPrice( final int itemId )
 			{
-				switch ( itemId )
-				{
-				case ItemPool.BLACK_BARTS_BOOTY:
-					return Preferences.getInteger( "blackBartsBootyCost" );
-				case ItemPool.HOLIDAY_FUN_BOOK:
-					return Preferences.getInteger( "holidayHalsBookCost" );
-				case ItemPool.ANTAGONISTIC_SNOWMAN_KIT:
-					return Preferences.getInteger( "antagonisticSnowmanKitCost" );
-				case ItemPool.MAP_TO_KOKOMO:
-					return Preferences.getInteger( "mapToKokomoCost" );
-				case ItemPool.ESSENCE_OF_BEAR:
-					return Preferences.getInteger( "essenceOfBearCost" );
-				case ItemPool.MANUAL_OF_NUMBEROLOGY:
-					return Preferences.getInteger( "manualOfNumberologyCost" );
-				case ItemPool.ROM_OF_OPTIMALITY:
-					return Preferences.getInteger( "ROMOfOptimalityCost" );
-				case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA:
-					return Preferences.getInteger( "schoolOfHardKnocksDiplomaCost" );
-				case ItemPool.GUIDE_TO_SAFARI:
-					return Preferences.getInteger( "guideToSafariCost" );
-				case ItemPool.GLITCH_ITEM:
-					return Preferences.getInteger( "glitchItemCost" );
-				case ItemPool.LAW_OF_AVERAGES:
-					return Preferences.getInteger( "lawOfAveragesCost" );
-				case ItemPool.ESSENCE_OF_ANNOYANCE:
-					return Preferences.getInteger( "essenceOfAnnoyanceCost" );
-				}
-
-				return super.getBuyPrice( itemId );
+				Season season = itemIdToSeason.get( itemId );
+				return  ( season != null ) ?
+					Preferences.getInteger( season.cost ) :
+					super.getBuyPrice( itemId );
 			}
 
 			@Override
 			public final boolean canBuyItem( final int itemId )
 			{
-				switch ( itemId )
-				{
-				case ItemPool.BLACK_BARTS_BOOTY:
-					return Preferences.getBoolean( "blackBartsBootyAvailable" );
-				case ItemPool.HOLIDAY_FUN_BOOK:
-					return Preferences.getBoolean( "holidayHalsBookAvailable" );
-				case ItemPool.ANTAGONISTIC_SNOWMAN_KIT:
-					return Preferences.getBoolean( "antagonisticSnowmanKitAvailable" );
-				case ItemPool.MAP_TO_KOKOMO:
-					return Preferences.getBoolean( "mapToKokomoAvailable" );
-				case ItemPool.ESSENCE_OF_BEAR:
-					return Preferences.getBoolean( "essenceOfBearAvailable" );
-				case ItemPool.MANUAL_OF_NUMBEROLOGY:
-					return Preferences.getBoolean( "manualOfNumberologyAvailable" );
-				case ItemPool.ROM_OF_OPTIMALITY:
-					return Preferences.getBoolean( "ROMOfOptimalityAvailable" );
-				case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA:
-					return Preferences.getBoolean( "schoolOfHardKnocksDiplomaAvailable" );
-				case ItemPool.GUIDE_TO_SAFARI:
-					return Preferences.getBoolean( "guideToSafariAvailable" );
-				case ItemPool.GLITCH_ITEM:
-					return Preferences.getBoolean( "glitchItemAvailable" );
-				case ItemPool.LAW_OF_AVERAGES:
-					return Preferences.getBoolean( "lawOfAveragesAvailable" );
-				case ItemPool.ESSENCE_OF_ANNOYANCE:
-					return Preferences.getBoolean( "essenceOfAnnoyanceAvailable" );
-				}
-				return super.canBuyItem( itemId );
+				Season season = itemIdToSeason.get( itemId );
+				return  ( season != null ) ?
+					Preferences.getBoolean( season.available ) :
+					super.canBuyItem( itemId );
 			}
 
 			@Override
 			public final boolean availableItem( final int itemId )
 			{
-				switch ( itemId )
-				{
-				case ItemPool.BLACK_BARTS_BOOTY:
-					return Preferences.getInteger( "pirateSwagger" ) >= Preferences.getInteger( "blackBartsBootyCost" );
-
-				case ItemPool.HOLIDAY_FUN_BOOK:
-					return Preferences.getInteger( "holidaySwagger" ) >= Preferences.getInteger( "holidayHalsBookCost" );
-
-				case ItemPool.ANTAGONISTIC_SNOWMAN_KIT:
-					return Preferences.getInteger( "iceSwagger" ) >= Preferences.getInteger( "antagonisticSnowmanKitCost" );
-
-				case ItemPool.MAP_TO_KOKOMO:
-					return Preferences.getInteger( "drunkenSwagger" ) >= Preferences.getInteger( "mapToKokomoCost" );
-
-				case ItemPool.ESSENCE_OF_BEAR:
-					return Preferences.getInteger( "bearSwagger" ) >= Preferences.getInteger( "essenceOfBearCost" );
-
-				case ItemPool.MANUAL_OF_NUMBEROLOGY:
-					return Preferences.getInteger( "numericSwagger" ) >= Preferences.getInteger( "manualOfNumberologyCost" );
-
-				case ItemPool.ROM_OF_OPTIMALITY:
-					return Preferences.getInteger( "optimalSwagger" ) >= Preferences.getInteger( "ROMOfOptimalityCost" );
-
-				case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA:
-					return Preferences.getInteger( "schoolSwagger" ) >= Preferences.getInteger( "schoolOfHardKnocksDiplomaCost" );
-
-				case ItemPool.GUIDE_TO_SAFARI:
-					return Preferences.getInteger( "safariSwagger" ) >= Preferences.getInteger( "guideToSafariCost" );
-
-				case ItemPool.GLITCH_ITEM:
-					return Preferences.getInteger( "glitchSwagger" ) >= Preferences.getInteger( "glitchItemCost" );
-
-				case ItemPool.LAW_OF_AVERAGES:
-					return Preferences.getInteger( "averageSwagger" ) >= Preferences.getInteger( "lawOfAveragesCost" );
-				}
-
-				return super.availableItem( itemId );
+				Season season = itemIdToSeason.get( itemId );
+				return  ( season == Season.NONE ) ?
+					Preferences.getBoolean( season.available ) :
+					( season == currentSeason ) ?
+					Preferences.getBoolean( season.available ) && Preferences.getInteger( season.swagger ) >= Preferences.getInteger( season.cost ) :
+					super.availableItem( itemId );
 			}
 		};
 
@@ -274,19 +268,6 @@ public class SwaggerShopRequest
 	private static final Pattern ITEM_PATTERN =
 		Pattern.compile( "<tr><td><img.*?onclick='descitem\\((.*?)\\)'.*?<b>(?:<[^>]*>)?([^<]*).*?</b>.*?name=\"whichitem\" value=\"(.*?)\".*?\\((.*?) swagger\\).*?</td></tr>", Pattern.DOTALL );
 
-	private static final AdventureResult BLACK_BARTS_BOOTY = ItemPool.get( ItemPool.BLACK_BARTS_BOOTY, 1 );
-	private static final AdventureResult HOLIDAY_FUN_BOOK = ItemPool.get( ItemPool.HOLIDAY_FUN_BOOK, 1 );
-	private static final AdventureResult ANTAGONISTIC_SNOWMAN_KIT = ItemPool.get( ItemPool.ANTAGONISTIC_SNOWMAN_KIT, 1 );
-	private static final AdventureResult MAP_TO_KOKOMO = ItemPool.get( ItemPool.MAP_TO_KOKOMO, 1 );
-	private static final AdventureResult ESSENCE_OF_BEAR = ItemPool.get( ItemPool.ESSENCE_OF_BEAR, 1 );
-	private static final AdventureResult MANUAL_OF_NUMBEROLOGY = ItemPool.get( ItemPool.MANUAL_OF_NUMBEROLOGY, 1 );
-	private static final AdventureResult ROM_OF_OPTIMALITY = ItemPool.get( ItemPool.ROM_OF_OPTIMALITY, 1 );
-	private static final AdventureResult SCHOOL_OF_HARD_KNOCKS_DIPLOMA = ItemPool.get( ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA, 1 );
-	private static final AdventureResult GUIDE_TO_SAFARI = ItemPool.get( ItemPool.GUIDE_TO_SAFARI, 1 );
-	private static final AdventureResult GLITCH_ITEM = ItemPool.get( ItemPool.GLITCH_ITEM, 1 );
-	private static final AdventureResult LAW_OF_AVERAGES = ItemPool.get( ItemPool.LAW_OF_AVERAGES, 1 );
-	private static final AdventureResult ESSENCE_OF_ANNOYANCE = ItemPool.get( ItemPool.ESSENCE_OF_ANNOYANCE, 1 );
-
 	public static void parseResponse( final String urlString, final String responseText )
 	{
 		CoinmasterData data = SwaggerShopRequest.SWAGGER_SHOP;
@@ -325,60 +306,18 @@ public class SwaggerShopRequest
 			items.add( item );
 			prices.put( itemId, price );
 
-			switch ( itemId )
+			Season itemSeason = itemIdToSeason.get( itemId );
+			if ( itemSeason != null )
 			{
-			case ItemPool.BLACK_BARTS_BOOTY:
-				Preferences.setInteger( "blackBartsBootyCost", price );
-				break;
-			case ItemPool.HOLIDAY_FUN_BOOK:
-				Preferences.setInteger( "holidayHalsBookCost", price );
-				break;
-			case ItemPool.ANTAGONISTIC_SNOWMAN_KIT:
-				Preferences.setInteger( "antagonisticSnowmanKitCost", price );
-				break;
-			case ItemPool.MAP_TO_KOKOMO:
-				Preferences.setInteger( "mapToKokomoCost", price );
-				break;
-			case ItemPool.ESSENCE_OF_BEAR:
-				Preferences.setInteger( "essenceOfBearCost", price );
-				break;
-			case ItemPool.MANUAL_OF_NUMBEROLOGY:
-				Preferences.setInteger( "manualOfNumberologyCost", price );
-				break;
-			case ItemPool.ROM_OF_OPTIMALITY:
-				Preferences.setInteger( "ROMOfOptimalityCost", price );
-				break;
-			case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA:
-				Preferences.setInteger( "schoolOfHardKnocksDiplomaCost", price );
-				break;
-			case ItemPool.GUIDE_TO_SAFARI:
-				Preferences.setInteger( "guideToSafariCost", price );
-				break;
-			case ItemPool.GLITCH_ITEM:
-				Preferences.setInteger( "glitchItemCost", price );
-				break;
-			case ItemPool.LAW_OF_AVERAGES:
-				Preferences.setInteger( "lawOfAveragesCost", price );
-				break;
-			case ItemPool.ESSENCE_OF_ANNOYANCE:
-				Preferences.setInteger( "essenceOfAnnoyanceCost", price );
-				break;
+				Preferences.setInteger( itemSeason.cost, price );
 			}
 		}
 
 		// Find availability/cost of conditional items
-		Preferences.setBoolean( "blackBartsBootyAvailable", items.contains( SwaggerShopRequest.BLACK_BARTS_BOOTY ) );
-		Preferences.setBoolean( "holidayHalsBookAvailable", items.contains( SwaggerShopRequest.HOLIDAY_FUN_BOOK ) );
-		Preferences.setBoolean( "antagonisticSnowmanKitAvailable", items.contains( SwaggerShopRequest.ANTAGONISTIC_SNOWMAN_KIT ) );
-		Preferences.setBoolean( "mapToKokomoAvailable", items.contains( SwaggerShopRequest.MAP_TO_KOKOMO ) );
-		Preferences.setBoolean( "essenceOfBearAvailable", items.contains( SwaggerShopRequest.ESSENCE_OF_BEAR ) );
-		Preferences.setBoolean( "manualOfNumberologyAvailable", items.contains( SwaggerShopRequest.MANUAL_OF_NUMBEROLOGY ) );
-		Preferences.setBoolean( "ROMOfOptimalityAvailable", items.contains( SwaggerShopRequest.ROM_OF_OPTIMALITY ) );
-		Preferences.setBoolean( "schoolOfHardKnocksDiplomaAvailable", items.contains( SwaggerShopRequest.SCHOOL_OF_HARD_KNOCKS_DIPLOMA ) );
-		Preferences.setBoolean( "guideToSafariAvailable", items.contains( SwaggerShopRequest.GUIDE_TO_SAFARI ) );
-		Preferences.setBoolean( "glitchItemAvailable", items.contains( SwaggerShopRequest.GLITCH_ITEM ) );
-		Preferences.setBoolean( "lawOfAveragesAvailable", items.contains( SwaggerShopRequest.LAW_OF_AVERAGES ) );
-		Preferences.setBoolean( "essenceOfAnnoyanceAvailable", items.contains( SwaggerShopRequest.ESSENCE_OF_ANNOYANCE ) );
+		for ( Season season : allSeasons )
+		{
+			Preferences.setBoolean( season.available, items.contains( season.item ) );
+		}
 
 		// Register the purchase requests, now that we know what is available
 		data.registerPurchaseRequests();
@@ -391,50 +330,19 @@ public class SwaggerShopRequest
 		if ( seasonMatcher.find() )
 		{
 			int seasonSwagger = StringUtilities.parseInt( seasonMatcher.group( 1 ) );
-			String season = seasonMatcher.group( 2 );
-			if ( season.equals( "pirate" ) )
+			String seasonName = seasonMatcher.group( 2 );
+			Preferences.setString( "lastPVPSeason", seasonName );
+			Season season = nameToSeason.get( seasonName );
+			if ( season != null )
 			{
-				Preferences.setInteger( "pirateSwagger", seasonSwagger );
+				SwaggerShopRequest.currentSeason = season;
+				Preferences.setInteger( season.swagger, seasonSwagger );
 			}
-			else if ( season.equals( "holiday" ) )
+			else
 			{
-				Preferences.setInteger( "holidaySwagger", seasonSwagger );
-			}
-			else if ( season.equals( "ice" ) )
-			{
-				Preferences.setInteger( "iceSwagger", seasonSwagger );
-			}
-			else if ( season.equals( "drunken" ) )
-			{
-				Preferences.setInteger( "drunkenSwagger", seasonSwagger );
-			}
-			else if ( season.equals( "bear" ) )
-			{
-				Preferences.setInteger( "bearSwagger", seasonSwagger );
-			}
-			else if ( season.equals( "numeric" ) )
-			{
-				Preferences.setInteger( "numericSwagger", seasonSwagger );
-			}
-			else if ( season.equals( "optimal" ) )
-			{
-				Preferences.setInteger( "optimalSwagger", seasonSwagger );
-			}
-			else if ( season.equals( "school" ) )
-			{
-				Preferences.setInteger( "schoolSwagger", seasonSwagger );
-			}
-			else if ( season.equals( "safari" ) )
-			{
-				Preferences.setInteger( "safariSwagger", seasonSwagger );
-			}
-			else if ( season.equals( "glitch" ) )
-			{
-				Preferences.setInteger( "glitchSwagger", seasonSwagger );
-			}
-			else if ( season.equals( "average" ) )
-			{
-				Preferences.setInteger( "averageSwagger", seasonSwagger );
+				String message = "*** Unknown PVP season: " + seasonName;
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
 			}
 		}
 	}
