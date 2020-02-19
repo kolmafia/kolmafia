@@ -454,6 +454,7 @@ user	currentJunkyardLocation
 user	currentMojoFilters	0
 user	currentMood	default
 user	currentNunneryMeat	0
+user	currentPVPSeason	none
 user	currentPvpVictories
 user	currentSpecialBountyItem	
 user	customCombatScript	default
@@ -790,7 +791,6 @@ user	lastPlusSignUnlock	-1
 user	lastPorkoBoard
 user	lastPorkoPayouts
 user	lastPorkoExpected
-user	lastPVPSeason	none
 user	lastQuartetAscension	-1
 user	lastQuartetRequest	0
 user	lastSecondFloorUnlock	-1
