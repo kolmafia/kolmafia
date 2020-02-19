@@ -81,6 +81,7 @@ import net.sourceforge.kolmafia.request.NeandermallRequest;
 import net.sourceforge.kolmafia.request.NinjaStoreRequest;
 import net.sourceforge.kolmafia.request.NuggletCraftingRequest;
 import net.sourceforge.kolmafia.request.PlumberGearRequest;
+import net.sourceforge.kolmafia.request.PlumberItemRequest;
 import net.sourceforge.kolmafia.request.PokemporiumRequest;
 import net.sourceforge.kolmafia.request.PrecinctRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
@@ -155,6 +156,7 @@ public abstract class CoinmasterRegistry
 		NinjaStoreRequest.NINJA_STORE,
 		NuggletCraftingRequest.NUGGLETCRAFTING,
 		PlumberGearRequest.PLUMBER_GEAR,
+		PlumberItemRequest.PLUMBER_ITEMS,
 		PokemporiumRequest.POKEMPORIUM,
 		PrecinctRequest.PRECINCT,
 		QuartersmasterRequest.FRATBOY,
