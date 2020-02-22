@@ -2508,7 +2508,7 @@ Kamek	2170	kamek.gif	Atk: 180 Def: 180 HP: 200 Init: 50 P: beast
 Angry Sun	2171	angrysun.gif	Atk: 130 Def: 130 HP: 300 Init: 50 P: weird
 Bowser	2172	bowser.gif	Atk: 300 Def: 300 HP: 400 Init: 50 P: beast
 Bowser	2173	bowser.gif	Atk: 300 Def: 300 HP: 400 Init: 50 P: beast
-Wa%playername/lowercase	2174	waplayer.gif	Atk: 300 Def: 300 HP: 1000 Init: 10000 P: dude
+Wa%playername/lowercase%	2174	waplayer.gif	Atk: 300 Def: 300 HP: 1000 Init: 10000 P: dude
 
 # Retired Standard Monsters
 Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation Manuel: "Astronomer" Wiki: "Astronomer"	star chart (100)
