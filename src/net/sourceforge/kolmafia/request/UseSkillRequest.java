@@ -316,8 +316,7 @@ public class UseSkillRequest
 
 	private static String chooseURL( final int skillId )
 	{
-		return  SkillDatabase.isCombat( skillId ) ? "fight.php" :
-			SkillDatabase.isBookshelfSkill( skillId ) ? "campground.php" :
+		return  SkillDatabase.isBookshelfSkill( skillId ) ? "campground.php" :
 			"runskillz.php";
 	}
 
@@ -329,13 +328,6 @@ public class UseSkillRequest
 
 	private void addFormFields()
 	{
-		if ( SkillDatabase.isCombat( this.skillId ) )
-		{
-			this.addFormField( "action", "skill" );
-			this.addFormField( "whichskill", String.valueOf( this.skillId ) );
-			return;
-		}
-
 		switch ( this.skillId )
 		{
 		case SkillPool.SNOWCONE:
