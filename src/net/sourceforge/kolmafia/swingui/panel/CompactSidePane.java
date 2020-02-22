@@ -918,6 +918,12 @@ public class CompactSidePane
 				this.statusValueLabel[ count ].setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getCurrentMP() ) + " / " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getMaximumMP() ) );
 				count++;
 			}
+			if ( KoLCharacter.isPlumber() )
+			{
+				this.statusLabel[ count ].setText( "    PP: " );
+				this.statusValueLabel[ count ].setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getCurrentPP() ) + " / " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getMaximumPP() ) );
+				count++;
+			}
 			if ( KoLCharacter.getFuryLimit() > 0 )
 			{
 				this.statusLabel[ count ].setText( "  Fury: " );

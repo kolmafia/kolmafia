@@ -471,7 +471,8 @@ public class CharPaneRequest
 		}
 		try
 		{
-			CharPaneRequest.handleMiscPoints( responseText, CharPaneRequest.MISC_PATTERNS[ KoLCharacter.inZombiecore() ? 2 : 0 ] );
+			int index = KoLCharacter.inZombiecore() ? 2 : KoLCharacter.isPlumber() ? 4 : 0;
+			CharPaneRequest.handleMiscPoints( responseText, CharPaneRequest.MISC_PATTERNS[ index ] );
 		}
 		catch ( Exception e )
 		{
@@ -511,7 +512,8 @@ public class CharPaneRequest
 		}
 		try
 		{
-			CharPaneRequest.handleMiscPoints( responseText, CharPaneRequest.MISC_PATTERNS[ KoLCharacter.inZombiecore() ? 3 : 1 ] );
+			int index = KoLCharacter.inZombiecore() ? 3 : KoLCharacter.isPlumber() ? 5 : 1;
+			CharPaneRequest.handleMiscPoints( responseText, CharPaneRequest.MISC_PATTERNS[ index ] );
 		}
 		catch ( Exception e )
 		{
@@ -650,6 +652,22 @@ public class CharPaneRequest
 			Pattern.compile( "/(?:slim)?meat\\.gif.*?<span.*?>(.*?)</span>" ),
 			Pattern.compile( "/(?:slim)?hourglass\\.gif.*?<span.*?>(.*?)</span>" ),
 		},
+
+		// Compact Plumber
+		{
+			Pattern.compile( "HP:.*?<b>(.*?)/(.*?)</b>" ),
+			Pattern.compile( "PP:.*?<b>(.*?)/(.*?)</b>" ),
+			Pattern.compile( "Meat.*?<b>(.*?)</b>" ),
+			Pattern.compile( "Adv.*?<b>(.*?)</b>" ),
+		},
+
+		// Expanded Plumber
+		{
+			Pattern.compile( "/(?:slim)?hp\\.gif.*?<span.*?>(.*?)&nbsp;/&nbsp;(.*?)</span>" ),
+			Pattern.compile( "/(?:slim)?pp\\.gif.*?<span.*?>(.*?) / (.*?)</span>" ),
+			Pattern.compile( "/(?:slim)?meat\\.gif.*?<span.*?>(.*?)</span>" ),
+			Pattern.compile( "/(?:slim)?hourglass\\.gif.*?<span.*?>(.*?)</span>" ),
+		},
 	};
 
 	private static final int HP = 0;
@@ -677,19 +695,24 @@ public class CharPaneRequest
 		matcher = pattern == null ? null : pattern.matcher( responseText );
 		if ( matcher != null && matcher.find() )
 		{
-			long currentMP = 0;
-			long maximumMP = 0;
 			if ( KoLCharacter.inZombiecore() )
 			{
 				String currentHorde = matcher.group( 1 );
-				currentMP = maximumMP = StringUtilities.parseInt( currentHorde );
+				int horde = StringUtilities.parseInt( currentHorde );
+				KoLCharacter.setMP( horde, horde, horde );
+			}
+			else if ( KoLCharacter.isPlumber() )
+			{
+				int currentPP = StringUtilities.parseInt( matcher.group( 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
+				int maximumPP = StringUtilities.parseInt( matcher.group( 2 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
+				KoLCharacter.setPP( currentPP, maximumPP );
 			}
 			else
 			{
-				currentMP = StringUtilities.parseLong( matcher.group( 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
-				maximumMP = StringUtilities.parseLong( matcher.group( 2 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
+				long currentMP = StringUtilities.parseLong( matcher.group( 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
+				long maximumMP = StringUtilities.parseLong( matcher.group( 2 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
+				KoLCharacter.setMP( currentMP, maximumMP, maximumMP );
 			}
-			KoLCharacter.setMP( currentMP, maximumMP, maximumMP );
 		}
 
 		pattern = patterns[ MEAT ];

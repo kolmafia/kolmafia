@@ -83,7 +83,7 @@ public class UseSkillRequest
 	extends GenericRequest
 	implements Comparable<UseSkillRequest>
 {
-	private static final HashMap<String, UseSkillRequest> ALL_SKILLS = new HashMap<String, UseSkillRequest>();
+	private static final HashMap<Integer, UseSkillRequest> ALL_SKILLS = new HashMap<Integer, UseSkillRequest>();
 	private static final Pattern SKILLID_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern BOOKID_PATTERN = Pattern.compile( "preaction=(?:summon|combine)([^&]*)" );
 
@@ -155,14 +155,16 @@ public class UseSkillRequest
 	public static int lastSkillUsed = -1;
 	public static int lastSkillCount = 0;
 
+	// The following fields are set in an "unmodified" instance
 	private final int skillId;
 	private final boolean isBuff;
 	private final String skillName;
 	private String target;
 	private long buffCount;
+
+	// The rest of the fields are set in an instance that we actually run
 	private String countFieldId;
 	private boolean isRunning;
-
 	private int lastReduction = Integer.MAX_VALUE;
 	private String lastStringForm = "";
 
@@ -277,6 +279,19 @@ public class UseSkillRequest
 	// Vile Vagrant Vestments (-5) - unlikely to be equippable during Ronin.
 	// Idol of Ak'gyxoth (-1) - off-hand, would require special handling.
 
+	private UseSkillRequest( final int skillId )
+	{
+		super( UseSkillRequest.chooseURL( skillId ) );
+
+		this.skillId = skillId;
+		this.skillName = SkillDatabase.getSkillName( this.skillId );
+		this.isBuff = SkillDatabase.isBuff( this.skillId );
+		this.target = null;
+
+		this.countFieldId = null;
+		this.addFormFields();
+	}
+
 	private UseSkillRequest( final String skillName )
 	{
 		super( UseSkillRequest.chooseURL( skillName ) );
@@ -295,21 +310,32 @@ public class UseSkillRequest
 		}
 
 		this.target = null;
+		this.countFieldId = null;
 		this.addFormFields();
+	}
+
+	private static String chooseURL( final int skillId )
+	{
+		return  SkillDatabase.isCombat( skillId ) ? "fight.php" :
+			SkillDatabase.isBookshelfSkill( skillId ) ? "campground.php" :
+			"runskillz.php";
 	}
 
 	private static String chooseURL( final String skillName )
 	{
-		if ( SkillDatabase.isBookshelfSkill( skillName ) )
-		{
-			return "campground.php";
-		}
-
-		return "runskillz.php";
+		return  SkillDatabase.isBookshelfSkill( skillName ) ? "campground.php" :
+			"runskillz.php";
 	}
 
 	private void addFormFields()
 	{
+		if ( SkillDatabase.isCombat( this.skillId ) )
+		{
+			this.addFormField( "action", "skill" );
+			this.addFormField( "whichskill", String.valueOf( this.skillId ) );
+			return;
+		}
+
 		switch ( this.skillId )
 		{
 		case SkillPool.SNOWCONE:
@@ -1927,38 +1953,52 @@ public class UseSkillRequest
 		return this.skillId;
 	}
 
-	public static final UseSkillRequest getUnmodifiedInstance( String skillName )
+	public static final UseSkillRequest getUnmodifiedInstance( final int skillId )
 	{
-		if ( skillName == null || !SkillDatabase.contains( skillName ) )
+		if ( skillId == -1 )
 		{
 			return null;
 		}
 
-		String canonical = StringUtilities.getCanonicalName( skillName );
-		UseSkillRequest request = (UseSkillRequest) UseSkillRequest.ALL_SKILLS.get( canonical );
+		String skillName = SkillDatabase.getSkillName( skillId );
+		if ( skillName == null )
+		{
+			return null;
+		}
+
+		UseSkillRequest request = UseSkillRequest.ALL_SKILLS.get( skillId );
 		if ( request == null )
 		{
-			request = new UseSkillRequest( skillName );
-			UseSkillRequest.ALL_SKILLS.put( canonical, request );
+			request = new UseSkillRequest( skillId );
+			UseSkillRequest.ALL_SKILLS.put( skillId, request );
 		}
 
 		return request;
 	}
 
-	public static final UseSkillRequest getUnmodifiedInstance( final int skillId )
+	public static final UseSkillRequest getUnmodifiedInstance( String skillName )
 	{
-		return UseSkillRequest.getUnmodifiedInstance( SkillDatabase.getSkillName( skillId ) );
+		// *** Skills can have ambiguous names. Best to use the methods that deal with skill id
+		return UseSkillRequest.getUnmodifiedInstance( SkillDatabase.getSkillId( skillName ) );
+	}
+
+	public static final UseSkillRequest getInstance( final int skillId, final String target, final int buffCount )
+	{
+		UseSkillRequest request = new UseSkillRequest( skillId );
+		request.setTarget( target == null || target.equals( "" ) ? KoLCharacter.getUserName() : target );
+		request.setBuffCount( buffCount );
+		return request;
+	}
+
+	public static final UseSkillRequest getInstance( final int skillId )
+	{
+		return UseSkillRequest.getInstance( skillId, null, 0 );
 	}
 
 	public static final UseSkillRequest getInstance( final String skillName, final String target, final int buffCount )
 	{
-		UseSkillRequest request = UseSkillRequest.getUnmodifiedInstance( skillName );
-		if ( request != null )
-		{
-			request.setTarget( target == null || target.equals( "" ) ? KoLCharacter.getUserName() : target );
-			request.setBuffCount( buffCount );
-		}
-		return request;
+		// *** Skills can have ambiguous names. Best to use the methods that deal with skill id
+		return UseSkillRequest.getInstance( SkillDatabase.getSkillId( skillName ) );
 	}
 
 	public static final UseSkillRequest getInstance( String skillName )
@@ -1966,38 +2006,10 @@ public class UseSkillRequest
 		return UseSkillRequest.getInstance( skillName, null, 0 );
 	}
 
-	public static final UseSkillRequest getInstance( final int skillId )
-	{
-		return UseSkillRequest.getInstance( SkillDatabase.getSkillName( skillId ) );
-	}
-
 	public static final UseSkillRequest getInstance( final String skillName, final int buffCount )
 	{
+		// *** Skills can have ambiguous names. Best to use the methods that deal with skill id
 		return UseSkillRequest.getInstance( skillName, null, buffCount );
-	}
-
-	public static final UseSkillRequest getInstance( final String skillName, final Concoction conc )
-	{
-		// Summon Clip Art
-
-		UseSkillRequest request = UseSkillRequest.getUnmodifiedInstance( skillName );
-		if ( request != null )
-		{
-			request.buffCount = 1;
-			request.countFieldId = null;
-			request.target = null;
-
-			int param = conc.getParam();
-			int clip1 = ( param >> 16 ) & 0xFF;
-			int clip2 = ( param >>  8 ) & 0xFF;
-			int clip3 = ( param       ) & 0xFF;
-
-			request.addFormField( "clip1", String.valueOf( clip1 ) );
-			request.addFormField( "clip2", String.valueOf( clip2 ) );
-			request.addFormField( "clip3", String.valueOf( clip3 ) );
-		}
-
-		return request;
 	}
 
 	public static final boolean parseResponse( final String urlString, final String responseText )

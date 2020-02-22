@@ -1206,6 +1206,12 @@ public class ResponseTextParser
 			KoLCharacter.setBookshelf( true );
 		}
 		PreferenceListenerRegistry.firePreferenceChanged( "(skill)" );
+
+		if ( skillName.equals( "Power Plus" ) )
+		{
+			KoLCharacter.recalculateAdjustments();
+			KoLCharacter.resetCurrentPP();
+		}
 	}
 
 	public static final String[][] COMBAT_MOVE_DATA =

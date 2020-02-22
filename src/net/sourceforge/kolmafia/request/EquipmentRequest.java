@@ -1543,6 +1543,13 @@ public class EquipmentRequest
 
 		EquipmentManager.setEquipment( newEquipment );
 
+		if ( KoLCharacter.isPlumber() )
+		{
+			// If we put on or removed power pants, our maximum PP changes
+			KoLCharacter.recalculateAdjustments();
+			KoLCharacter.resetCurrentPP();
+		}
+
 		return refresh;
 	}
 

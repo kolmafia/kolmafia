@@ -350,6 +350,7 @@ public class EffectPool
 	public static final int BATS_FORM = 2451;
 	public static final int BLESSING_OF_THE_BIRD = 2551;
 	public static final int BLESSING_OF_YOUR_FAVORITE_BIRD = 2552;
+	public static final int FIZZY_FIZZY = 2561;
 
 	public static final AdventureResult CURSE1_EFFECT = EffectPool.get( EffectPool.ONCE_CURSED );
 	public static final AdventureResult CURSE2_EFFECT = EffectPool.get( EffectPool.TWICE_CURSED );

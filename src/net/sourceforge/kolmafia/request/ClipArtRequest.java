@@ -56,7 +56,16 @@ public class ClipArtRequest
 		}
 
 		KoLmafia.updateDisplay( "Creating " + this.getQuantityNeeded() + " " + this.getName() + "..." );
-		UseSkillRequest request = UseSkillRequest.getInstance( "Summon Clip Art", this.concoction );
+		UseSkillRequest request = UseSkillRequest.getInstance( "Summon Clip Art", null, 1 );
+
+		int param = this.concoction.getParam();
+		int clip1 = ( param >> 16 ) & 0xFF;
+		int clip2 = ( param >>  8 ) & 0xFF;
+		int clip3 = ( param       ) & 0xFF;
+
+		request.addFormField( "clip1", String.valueOf( clip1 ) );
+		request.addFormField( "clip2", String.valueOf( clip2 ) );
+		request.addFormField( "clip3", String.valueOf( clip3 ) );
 
 		while ( this.getQuantityNeeded() > 0 && KoLmafia.permitsContinue() )
 		{

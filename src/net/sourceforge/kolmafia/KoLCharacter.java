@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
@@ -377,6 +378,9 @@ public abstract class KoLCharacter
 
 	private static long currentHP, maximumHP, baseMaxHP;
 	private static long currentMP, maximumMP, baseMaxMP;
+
+	// Plumbers only
+	private static int currentPP, maximumPP;
 
 	private static int[] adjustedStats = new int[ 3 ];
 	private static long[] totalSubpoints = new long[ 3 ];
@@ -1975,6 +1979,57 @@ public abstract class KoLCharacter
 	public static final long getBaseMaxMP()
 	{
 		return KoLCharacter.baseMaxMP;
+	}
+
+	/* Accessor method to set the character's current power points
+	 *
+	 * @param currentHP The character's current HP value
+	 * @param maximumHP The character's maximum HP value
+	 */
+
+	public static final void setPP( final int currentPP, final int maximumPP )
+	{
+		KoLCharacter.currentHP = currentPP;
+		KoLCharacter.maximumHP = maximumPP;
+
+		KoLCharacter.updateStatus();
+	}
+
+	/**
+	 * Accessor method to retrieve the character's current PP.
+	 *
+	 * @return The character's current PP
+	 */
+
+	public static final int getCurrentPP()
+	{
+		return KoLCharacter.currentPP;
+	}
+
+	/**
+	 * Accessor method to retrieve the character's maximum PP.
+	 *
+	 * @return The character's maximum PP
+	 */
+
+	public static final int getMaximumPP()
+	{
+		return KoLCharacter.maximumPP;
+	}
+
+	public static final int calculateMaximumPP()
+	{
+		return 1 + (int)KoLCharacter.currentModifiers.get( Modifiers.PP );
+	}
+
+	public static final void resetCurrentPP()
+	{
+		KoLCharacter.currentPP = KoLCharacter.maximumPP = calculateMaximumPP();
+	}
+
+	public static final void spendPP( int pp )
+	{
+		KoLCharacter.currentPP -= pp;
 	}
 
 	/**
@@ -4635,13 +4690,25 @@ public abstract class KoLCharacter
 	 * Adds a single skill to the list of known skills possessed by this character.
 	 */
 
+	public static final void addAvailableSkill( final int skillId )
+	{
+		KoLCharacter.addAvailableSkill( skillId, false );
+	}
+
+	public static final void addAvailableSkill( final int skillId, final boolean checkTrendy )
+	{
+		KoLCharacter.addAvailableSkill( UseSkillRequest.getUnmodifiedInstance( skillId ), checkTrendy );
+	}
+
 	public static final void addAvailableSkill( final String name )
 	{
+		// *** Skills can have ambiguous names. Best to use the methods that deal with skill id
 		KoLCharacter.addAvailableSkill( name, false );
 	}
 
 	public static final void addAvailableSkill( final String name, final boolean checkTrendy )
 	{
+		// *** Skills can have ambiguous names. Best to use the methods that deal with skill id
 		KoLCharacter.addAvailableSkill( UseSkillRequest.getUnmodifiedInstance( name ), checkTrendy );
 	}
 
@@ -4695,32 +4762,61 @@ public abstract class KoLCharacter
 		switch ( SkillDatabase.getSkillType( skill.getSkillId() ) )
 		{
 		case SkillDatabase.PASSIVE:
-
-			// Flavour of Magic gives you access to five other
-			// castable skills
-
-			if ( skill.getSkillName().equals( "Flavour of Magic" ) )
+		{
+			switch ( skill.getSkillId() )
 			{
+			case SkillPool.FLAVOUR_OF_MAGIC:
+				// Flavour of Magic gives you access to five other
+				// castable skills
 				KoLCharacter.addAvailableSkill( "Spirit of Cayenne" );
 				KoLCharacter.addAvailableSkill( "Spirit of Peppermint" );
 				KoLCharacter.addAvailableSkill( "Spirit of Garlic" );
 				KoLCharacter.addAvailableSkill( "Spirit of Wormwood" );
 				KoLCharacter.addAvailableSkill( "Spirit of Bacon Grease" );
 				KoLCharacter.addAvailableSkill( "Spirit of Nothing" );
-			}
+				break;
 
-			// Soul Saucery gives you access to six other skills if a Sauceror
-			if ( skill.getSkillName().equals( "Soul Saucery" ) && KoLCharacter.getClassType() == KoLCharacter.SAUCEROR )
-			{
-				KoLCharacter.addAvailableSkill( "Soul Bubble" );
-				KoLCharacter.addAvailableSkill( "Soul Finger" );
-				KoLCharacter.addAvailableSkill( "Soul Blaze" );
-				KoLCharacter.addAvailableSkill( "Soul Food" );
-				KoLCharacter.addAvailableSkill( "Soul Rotation" );
-				KoLCharacter.addAvailableSkill( "Soul Funk" );
-			}
+			case SkillPool.SOUL_SAUCERY:
+				// Soul Saucery gives you access to six other skills if a Sauceror
+				if ( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR )
+				{
+					KoLCharacter.addAvailableSkill( "Soul Bubble" );
+					KoLCharacter.addAvailableSkill( "Soul Finger" );
+					KoLCharacter.addAvailableSkill( "Soul Blaze" );
+					KoLCharacter.addAvailableSkill( "Soul Food" );
+					KoLCharacter.addAvailableSkill( "Soul Rotation" );
+					KoLCharacter.addAvailableSkill( "Soul Funk" );
+				}
+				break;
 
-			break;
+				// Plumber passive skills that grant Plumber
+				// combat skills with the same name
+			case SkillPool.HAMMER_THROW:
+				KoLCharacter.addAvailableCombatSkill( SkillPool.HAMMER_THROW_COMBAT );
+				KoLCharacter.addCombatSkill( skill.getSkillName() );
+				break;
+			case SkillPool.ULTRA_SMASH:
+				KoLCharacter.addAvailableCombatSkill( SkillPool.ULTRA_SMASH_COMBAT );
+				KoLCharacter.addCombatSkill( skill.getSkillName() );
+				break;
+			case SkillPool.JUGGLE_FIREBALLS:
+				KoLCharacter.addAvailableCombatSkill( SkillPool.JUGGLE_FIREBALLS_COMBAT );
+				KoLCharacter.addCombatSkill( skill.getSkillName() );
+				break;
+			case SkillPool.FIREBALL_BARRAGE:
+				KoLCharacter.addAvailableCombatSkill( SkillPool.FIREBALL_BARRAGE_COMBAT );
+				KoLCharacter.addCombatSkill( skill.getSkillName() );
+				break;
+			case SkillPool.SPIN_JUMP:
+				KoLCharacter.addAvailableCombatSkill( SkillPool.SPIN_JUMP_COMBAT );
+				KoLCharacter.addCombatSkill( skill.getSkillName() );
+				break;
+			case SkillPool.MULTI_BOUNCE:
+				KoLCharacter.addAvailableCombatSkill( SkillPool.MULTI_BOUNCE_COMBAT );
+				KoLCharacter.addCombatSkill( skill.getSkillName() );
+				break;
+			}
+		}
 
 		case SkillDatabase.SUMMON:
 			KoLConstants.usableSkills.add( skill );
@@ -4794,6 +4890,17 @@ public abstract class KoLCharacter
 	 * Adds a single skill to the list of skills temporarily possessed by this character.
 	 */
 
+	public static final void addAvailableCombatSkill( final int skillId )
+	{
+		KoLCharacter.addAvailableCombatSkill( UseSkillRequest.getUnmodifiedInstance( skillId ) );
+	}
+
+	public static final void addAvailableCombatSkill( final String skillName )
+	{
+		// *** Skills can have ambiguous names. Best to use the methods that deal with skill id
+		KoLCharacter.addAvailableCombatSkill( UseSkillRequest.getUnmodifiedInstance( skillName ) );
+	}
+
 	private static final void addAvailableCombatSkill( final UseSkillRequest skill )
 	{
 		if ( skill == null )
@@ -4810,9 +4917,10 @@ public abstract class KoLCharacter
 		KoLConstants.availableCombatSkillsMap.put( skill, null );
 	}
 
-	public static final void addAvailableCombatSkill( final String name )
+	public static final void removeAvailableCombatSkill( final String name )
 	{
-		KoLCharacter.addAvailableCombatSkill( UseSkillRequest.getUnmodifiedInstance( name ) );
+		// *** Skills can have ambiguous names. Best to use the methods that deal with skill id
+		KoLCharacter.removeAvailableCombatSkill( UseSkillRequest.getUnmodifiedInstance( name ) );
 	}
 
 	private static final void removeAvailableCombatSkill( final UseSkillRequest skill )
@@ -4831,11 +4939,6 @@ public abstract class KoLCharacter
 		KoLConstants.availableCombatSkillsMap.remove( skill );
 	}
 
-	public static final void removeAvailableCombatSkill( final String name )
-	{
-		KoLCharacter.removeAvailableCombatSkill( UseSkillRequest.getUnmodifiedInstance( name ) );
-	}
-
 	private static final void addCombatSkill( final String name )
 	{
 		String skillname = "skill " + name.toLowerCase();
@@ -4845,13 +4948,19 @@ public abstract class KoLCharacter
 		}
 	}
 
-	public static final void removeAvailableSkill( final String name )
+	public static final void removeAvailableSkill( final String skillName )
 	{
-		if ( !KoLCharacter.hasSkill( name ) )
+		KoLCharacter.removeAvailableSkill( SkillDatabase.getSkillId( skillName ) );
+	}
+
+	public static final void removeAvailableSkill( final int skillId )
+	{
+		if ( skillId == -1 )
 		{
 			return;
 		}
-		UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( name );
+
+		UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( skillId );
 
 		KoLConstants.availableSkills.remove( skill );
 		KoLConstants.availableSkillsMap.remove( skill );
@@ -4864,7 +4973,7 @@ public abstract class KoLCharacter
 		KoLConstants.songSkills.remove( skill );
 		KoLConstants.expressionSkills.remove( skill );
 		KoLConstants.walkSkills.remove( skill );
-		KoLCharacter.battleSkillNames.remove( "skill " + name.toLowerCase() );
+		KoLCharacter.battleSkillNames.remove( "skill " + skill.getSkillName().toLowerCase() );
 		KoLCharacter.updateStatus();
 		ConcoctionDatabase.setRefreshNeeded( true );
 		PreferenceListenerRegistry.firePreferenceChanged( "(skill)" );
@@ -5007,12 +5116,22 @@ public abstract class KoLCharacter
 
 	public static final boolean hasSkill( final int skillId )
 	{
-		return KoLCharacter.hasSkill( SkillDatabase.getSkillName( skillId ) );
+		UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( skillId );
+		return KoLCharacter.hasSkill( skill );
 	}
 
 	public static final boolean hasSkill( final String skillName )
 	{
-		return KoLCharacter.hasSkill( skillName, KoLConstants.availableSkills );
+		// *** Skills can have ambiguous names. Best to use the methods that deal with skill id
+		UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( skillName );
+		return KoLCharacter.hasSkill( skill );
+	}
+
+	public static final boolean hasSkill( final String skillName, final List<UseSkillRequest> list )
+	{
+		// *** Skills can have ambiguous names. Best to use the methods that deal with skill id
+		UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( skillName );
+		return KoLCharacter.hasSkill( skill, list );
 	}
 
 	public static final boolean hasSkill( final UseSkillRequest skill )
@@ -5020,18 +5139,13 @@ public abstract class KoLCharacter
 		return KoLCharacter.hasSkill( skill, KoLConstants.availableSkills );
 	}
 
-	public static final boolean hasSkill( final String skillName, final List<UseSkillRequest> list )
+	public static final boolean hasSkill( final UseSkillRequest skill, final List<UseSkillRequest> list )
 	{
-		if ( skillName == null )
+		if ( skill == null )
 		{
 			return false;
 		}
-		UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( skillName );
-		return KoLCharacter.hasSkill( skill, list );
-	}
 
-	public static final boolean hasSkill( final UseSkillRequest skill, final List<UseSkillRequest> list )
-	{
 		if ( list == KoLConstants.availableSkills )
 		{
 			return KoLConstants.availableSkillsMap.containsKey( skill );
@@ -5923,7 +6037,7 @@ public abstract class KoLCharacter
 							      AdventureResult[] equipment, List<AdventureResult> effects,
 							      FamiliarData familiar, FamiliarData enthroned, FamiliarData bjorned,
 							      String edPiece, String snowsuit, String custom, String horsery,
-								  String boomBox, boolean speculation )
+							      String boomBox, boolean speculation )
 	{
 		int taoFactor = KoLCharacter.hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
 

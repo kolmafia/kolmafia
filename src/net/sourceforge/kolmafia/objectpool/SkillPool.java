@@ -151,6 +151,7 @@ public class SkillPool
 	public static final int WEAPON_PASTALORD = 3008;
 	public static final int BANDAGES = 3009;
 	public static final int COCOON = 3012;
+	public static final int FLAVOUR_OF_MAGIC = 3017;
 	public static final int SPAGHETTI_SPEAR = 3020;
 	public static final int STRINGOZZI = 3023;
 	public static final int CARBOLOADING = 3024;
@@ -170,6 +171,7 @@ public class SkillPool
 	public static final int JALAPENO_SAUCESPHERE = 4008;
 	public static final int SALSABALL = 4020;
 	public static final int SIMMER = 4025;
+	public static final int SOUL_SAUCERY = 4027;
 	public static final int INNER_SAUCE = 4028;
 	public static final int BLOOD_SUGAR_SAUCE_MAGIC = 4038;
 	public static final int SAUCEMAVEN = 4039;
@@ -315,7 +317,12 @@ public class SkillPool
 	public static final int TRIPLE_SIZE = 7325;
 	public static final int REPLACE_ENEMY = 7326;
 	public static final int SHRINK_ENEMY = 7327;
+	public static final int HAMMER_THROW_COMBAT = 7329;
 	public static final int ULTRA_SMASH_COMBAT = 7330;
+	public static final int JUGGLE_FIREBALLS_COMBAT = 7332;
+	public static final int FIREBALL_BARRAGE_COMBAT = 7333;
+	public static final int SPIN_JUMP_COMBAT = 7335;
+	public static final int MULTI_BOUNCE_COMBAT = 7336;
 	public static final int GOOD_SINGING_VOICE = 11016;
 	public static final int BANISHING_SHOUT = 11020;
 	public static final int DEMAND_SANDWICH = 11021;
@@ -400,4 +407,10 @@ public class SkillPool
 	public static final int ENSORCEL = 24032;
 	public static final int SPECTRAL_AWARENESS = 24033;
 	public static final int FLOCK_OF_BATS_FORM = 24034;
+	public static final int HAMMER_THROW = 25001;
+	public static final int ULTRA_SMASH = 25002;
+	public static final int JUGGLE_FIREBALLS = 25003;
+	public static final int FIREBALL_BARRAGE = 25004;
+	public static final int SPIN_JUMP = 25005;
+	public static final int MULTI_BOUNCE = 25006;
 }

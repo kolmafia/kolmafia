@@ -845,17 +845,14 @@
 7326	CHEAT CODE: Replace Enemy	replaceenemy.gif	5	0	0
 7327	CHEAT CODE: Shrink Enemy	shrinkenemy.gif	5	0	0
 7328	Hammer Smash	mario_hammer2.gif	5	0	0
-# The commented-out skills below (in 7329-7336) have duplicate names with skills that will
-# always be available at the same time.  They cannot be supported until duplicate skill names
-# are handled
-# 7329	Hammer Throw	mario_throwhammer.gif	5	0	0
-# 7330	Ultra Smash	mario_ultrasmash.gif	5	0	0
+7329	Hammer Throw	mario_throwhammer.gif	5	0	0
+7330	Ultra Smash	mario_ultrasmash.gif	5	0	0
 7331	Fireball Toss	mario_fireball.gif	5	0	0
-# 7332	Juggle Fireballs	mario_juggle.gif	5	0	0
-# 7333	Fireball Barrage	mario_barrage.gif	5	0	0
+7332	Juggle Fireballs	mario_juggle.gif	5	0	0
+7333	Fireball Barrage	mario_barrage.gif	5	0	0
 7334	Jump Attack	mario_jump.gif	5	0	0
-# 7335	Spin Jump	mario_spinjump.gif	5	0	0
-# 7336	Multi-Bounce	mario_multibounce.gif	5	0	0
+7335	Spin Jump	mario_spinjump.gif	5	0	0
+7336	Multi-Bounce	mario_multibounce.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
