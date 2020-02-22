@@ -3729,12 +3729,6 @@ public abstract class KoLCharacter
 			KoLCharacter.checkTelescope();
 		}
 
-		if ( oldPath.equals( DARK_GYFFTE ) )
-		{
-			// We haven't previously seen our dwelling
-			RequestThread.postRequest( new CampgroundRequest( "inspectdwelling" ) );
-		}
-
 		// If we were in a path that grants skills only while on the path, rest them
 		if ( oldPath.equals( HEAVY_RAINS ) ||
 		     oldPath.equals( NUCLEAR_AUTUMN ) )
@@ -3777,23 +3771,7 @@ public abstract class KoLCharacter
 		if ( restricted )
 		{
 			// Available stuff in Clan may have changed, so check clan
-			// Equipment can be on either the first or second floor
-			ClanLoungeRequest.visitLounge();
-			ClanLoungeRequest.visitLoungeFloor2();
-
-			// Check hotdog stand, speakeasy, and floundry, if present
-			if ( ClanManager.getClanLounge().contains( ClanManager.HOT_DOG_STAND ) )
-			{
-				ClanLoungeRequest.visitLounge( ClanLoungeRequest.HOT_DOG_STAND );
-			}
-			if ( ClanManager.getClanLounge().contains( ClanManager.SPEAKEASY ) )
-			{
-				ClanLoungeRequest.visitLounge( ClanLoungeRequest.SPEAKEASY );
-			}
-			if ( ClanManager.getClanLounge().contains( ClanManager.FLOUNDRY ) )
-			{
-				ClanLoungeRequest.visitLounge( ClanLoungeRequest.FLOUNDRY );
-			}
+			ClanLoungeRequest.updateLounge();
 
 			// Check Campground
 			CampgroundRequest.reset();

@@ -95,6 +95,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -1100,6 +1101,9 @@ public abstract class KoLmafia
 		// Retrieve the Terrarium
 		RequestThread.postRequest( new FamiliarRequest() );
 		GearChangeFrame.updateFamiliars();
+
+		// Available stuff in Clan may have changed, so check clan
+		ClanLoungeRequest.updateLounge();
 
 		// Check the campground
 		CampgroundRequest.reset();
