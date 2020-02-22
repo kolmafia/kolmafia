@@ -1989,8 +1989,8 @@ public abstract class KoLCharacter
 
 	public static final void setPP( final int currentPP, final int maximumPP )
 	{
-		KoLCharacter.currentHP = currentPP;
-		KoLCharacter.maximumHP = maximumPP;
+		KoLCharacter.currentPP = currentPP;
+		KoLCharacter.maximumPP = maximumPP;
 
 		KoLCharacter.updateStatus();
 	}
