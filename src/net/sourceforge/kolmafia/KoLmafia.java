@@ -82,6 +82,7 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.FlaggedItems;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.TCRSDatabase;
@@ -881,6 +882,9 @@ public abstract class KoLmafia
 		{
 			return;
 		}
+
+		// Reset things that depend on player name
+		MonsterDatabase.saveAliases();
 
 		// Now that we know the character's ascension count, reset
 		// anything that depends on that.

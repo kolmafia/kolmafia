@@ -271,6 +271,47 @@ public class MonsterData
 		this.randomModifiers = new String[0];
 	}
 
+	public MonsterData( final MonsterData monster )
+	{
+		super( AdventureResult.MONSTER_PRIORITY, monster.getName() );
+
+		this.id = monster.id;
+		this.health = monster.health;
+		this.attack = monster.attack;
+		this.defense = monster.defense;
+		this.initiative = monster.initiative;
+		this.experience = monster.experience;
+		this.scale = monster.scale;
+		this.cap = monster.cap;
+		this.floor = monster.floor;
+		this.mlMult = monster.mlMult;
+		this.attackElement = monster.attackElement;
+		this.defenseElement = monster.defenseElement;
+		this.physicalResistance = monster.physicalResistance;
+		this.meat = monster.meat;
+		this.minSprinkles = monster.minSprinkles;
+		this.maxSprinkles = monster.maxSprinkles;
+		this.phylum = monster.phylum;
+		this.poison = monster.poison;
+		this.boss = monster.boss;
+		this.noBanish = monster.noBanish;
+		this.noCopy = monster.noCopy;
+		this.dummy = monster.dummy;
+		this.transformed = monster.transformed;
+		this.type = monster.type;
+		this.image = monster.image;
+		this.images = monster.images;
+		this.manuelName = monster.manuelName;
+		this.wikiName = monster.wikiName;
+		this.subTypes = monster.subTypes;
+		this.attributes = monster.attributes;
+		this.noManuel = monster.noManuel;
+		this.beeCount = monster.beeCount;
+		this.items = monster.items;
+		this.pocketRates = monster.pocketRates;
+		this.randomModifiers = monster.randomModifiers;
+	}
+
 	public MonsterData handleMonsterLevel()
 	{
 		// If we tracked nostagger, stunresist, and start-of-combat
