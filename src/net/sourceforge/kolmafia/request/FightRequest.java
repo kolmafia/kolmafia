@@ -9205,6 +9205,13 @@ public class FightRequest
 			}
 			break;
 
+		case SkillPool.ULTRA_SMASH_COMBAT:
+			if ( responseText.contains( "knock your opponent into tomorrow" ) || skillRunawaySuccess )
+			{
+				BanishManager.banishMonster( monsterName, "Ultra Hammer" );
+			}
+			break;
+
 		case SkillPool.OFFER_LATTE:
 			if ( responseText.contains( "friends start following you" ) || skillSuccess )
 			{

@@ -155,6 +155,7 @@ public class BanishManager
 		new Banisher( "Throw Latte on Opponent", 30, 1, true, Reset.TURN_ROLLOVER_RESET ),
 		new Banisher( "thunder clap", 40, 1, false, Reset.TURN_RESET ),
 		new Banisher( "tryptophan dart", -1, 1, false, Reset.ROLLOVER_RESET ),
+		new Banisher( "Ultra Hammer", -1, 1, false, Reset.ROLLOVER_RESET ),
 		new Banisher( "v for vivala mask", 10, 1, true, Reset.TURN_RESET ),
 		new Banisher( "walk away from explosion", 30, 1, false, Reset.TURN_RESET ),
 	};

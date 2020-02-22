@@ -315,6 +315,7 @@ public class SkillPool
 	public static final int TRIPLE_SIZE = 7325;
 	public static final int REPLACE_ENEMY = 7326;
 	public static final int SHRINK_ENEMY = 7327;
+	public static final int ULTRA_SMASH_COMBAT = 7330;
 	public static final int GOOD_SINGING_VOICE = 11016;
 	public static final int BANISHING_SHOUT = 11020;
 	public static final int DEMAND_SANDWICH = 11021;
