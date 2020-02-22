@@ -1998,7 +1998,7 @@ public class UseSkillRequest
 	public static final UseSkillRequest getInstance( final String skillName, final String target, final int buffCount )
 	{
 		// *** Skills can have ambiguous names. Best to use the methods that deal with skill id
-		return UseSkillRequest.getInstance( SkillDatabase.getSkillId( skillName ) );
+		return UseSkillRequest.getInstance( SkillDatabase.getSkillId( skillName ), target, buffCount );
 	}
 
 	public static final UseSkillRequest getInstance( String skillName )
