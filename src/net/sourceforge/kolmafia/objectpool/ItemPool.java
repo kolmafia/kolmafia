@@ -3161,6 +3161,7 @@ public class ItemPool
 	public static final int BIRD_A_DAY_CALENDAR = 10434;
 	public static final int POWERFUL_GLOVE = 10438;
 	public static final int COIN = 10454;
+	public static final int POWER_PANTS = 10469;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

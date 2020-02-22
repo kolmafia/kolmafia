@@ -2825,6 +2825,11 @@ public class FightRequest
 			autoAttacked = FightRequest.checkForInitiative( responseText );
 			FightRequest.fightingCopy = EncounterManager.ignoreSpecialMonsters;
 			EncounterManager.ignoreSpecialMonsters = false;
+
+			if ( KoLCharacter.isPlumber() )
+			{
+				KoLCharacter.resetCurrentPP();
+			}
 		}
 
 		// Figure out various things by examining the responseText. Ideally,
@@ -4398,6 +4403,10 @@ public class FightRequest
 				Preferences.setBoolean( "edUsedLash", false );
 			}
 		}
+		else if ( KoLCharacter.isPlumber() )
+		{
+			KoLCharacter.resetCurrentPP();
+		}
 
 		FightRequest.inMultiFight = won && FightRequest.MULTIFIGHT_PATTERN.matcher( responseText ).find();
 		FightRequest.choiceFollowsFight = FightRequest.FIGHTCHOICE_PATTERN.matcher( responseText ).find();
@@ -4807,7 +4816,7 @@ public class FightRequest
 				skillName = m.group( 2 );
 				SkillDatabase.registerSkill( skillId, skillName );
 			}
-			KoLCharacter.addAvailableCombatSkill( skillName );
+			KoLCharacter.addAvailableCombatSkill( skillId );
 			// If lovebug skills present, they've been unlocked
 			if ( skillId >= 7245 && skillId <= 7247 )
 			{
@@ -9205,13 +9214,6 @@ public class FightRequest
 			}
 			break;
 
-		case SkillPool.ULTRA_SMASH_COMBAT:
-			if ( responseText.contains( "knock your opponent into tomorrow" ) || skillRunawaySuccess )
-			{
-				BanishManager.banishMonster( monsterName, "Ultra Hammer" );
-			}
-			break;
-
 		case SkillPool.OFFER_LATTE:
 			if ( responseText.contains( "friends start following you" ) || skillSuccess )
 			{
@@ -9668,6 +9670,22 @@ public class FightRequest
 
 		case SkillPool.SHRINK_ENEMY:
 			Preferences.increment( "_powerfulGloveBatteryPowerUsed", 5, 100, false );
+			break;
+
+		case SkillPool.HAMMER_THROW_COMBAT:
+		case SkillPool.JUGGLE_FIREBALLS_COMBAT:
+		case SkillPool.SPIN_JUMP_COMBAT:
+			KoLCharacter.spendPP( 1 );
+			break;
+		case SkillPool.ULTRA_SMASH_COMBAT:
+			if ( responseText.contains( "knock your opponent into tomorrow" ) || skillRunawaySuccess )
+			{
+				BanishManager.banishMonster( monsterName, "Ultra Hammer" );
+			}
+			// Fall through
+		case SkillPool.FIREBALL_BARRAGE_COMBAT:
+		case SkillPool.MULTI_BOUNCE_COMBAT:
+			KoLCharacter.spendPP( 2 );
 			break;
 		}
 	}

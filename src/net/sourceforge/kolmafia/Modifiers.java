@@ -244,6 +244,7 @@ public class Modifiers
 	public static final int KRUEGERAND_DROP = 130;
 	public static final int WARBEAR_ARMOR_PENETRATION = 131;
 	public static final int CLOWNINESS = 132;
+	public static final int PP = 133;
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
 	private static final Object[][] doubleModifiers =
@@ -840,6 +841,10 @@ public class Modifiers
 		{ "Clowniness",
 		  Pattern.compile( "Makes you look (\\d+)% clowny" ),
 		  Pattern.compile( "Clowniness: " + EXPR )
+		},
+		{ "Maximum PP",
+		  Pattern.compile( "([+-]\\d+) Max(imum)? Power Point" ),
+		  Pattern.compile( "Maximum PP: " + EXPR )
 		},
 	};
 

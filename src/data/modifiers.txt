@@ -750,7 +750,7 @@ Item	poodle skirt	Slime Resistance: +1, Meat Drop: +25, Hot Damage: +25, Familia
 # porcelain plus-fours: Increase Duration of Turtle Tamer Buffs by 4
 Item	porcelain plus-fours	Muscle: +4, Mysticality: +4, Moxie: +4, Maximum HP: +4, Maximum MP: +4, Spooky Damage: +4, Stench Damage: +4, Hot Damage: +4, Cold Damage: +4, Sleaze Damage: +4, Critical Hit Percent: +4, Damage Reduction: 4, Familiar Weight: +4
 Item	pottery training pants	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Damage: +5, Familiar Effect: "hot atk, 2xGhuol, cap 12"
-# Item power pants: +1 Max Power Points
+Item	power pants	Maximum PP: +1
 Item	primitive alien loincloth	Initiative: +50, Stench Damage: +25, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4
 Item	psychic's pslacks	PvP Fights: +3, HP Regen Min: 5, HP Regen Max: 10
 Item	pteruges	Weapon Damage: +10, Familiar Effect: "1xFairy, atk, cap 25"
@@ -5546,7 +5546,7 @@ Effect	Fitter, Bitter	Muscle Percent: +100, Maximum HP Percent: +50, HP Regen Mi
 Effect	Fitter, Happier	Muscle Percent: +100, Mysticality Percent: +100
 # Effect Fidoxene: Makes your familiars all at least 20 pounds
 Effect	Fizzier Than Light	MP Regen Min: 1, MP Regen Max: 3
-# Effect Fizzy Fizzy: +1 Maximum Power Points
+Effect	Fizzy Fizzy	Maximum PP: +1
 Effect	Flagrantly Fragrant	Maximum HP: +100, Maximum MP: +50, Damage Reduction: 25, MP Regen Min: 5, MP Regen Max: 10, HP Regen Min: 10, HP Regen Max: 20
 Effect	Flambé-a-thon	Hot Damage: +20, Hot Spell Damage: +20
 Effect	Flame-Retardant Trousers	Hot Resistance: +1
@@ -7547,7 +7547,7 @@ Skill	Pinky Fingers	Pickpocket Chance: +10
 Skill	Pinchable Nose	Stench Resistance: +1
 # Pizza Lover You really, really like pizza
 Skill	Politeness	Sleaze Resistance: +2
-# Power Plus: Maximum PP: +1
+Skill	Power Plus	Maximum PP: +1
 Skill	Powers of Observatiogn	Item Drop: +10
 # Precision of the Penguin +1% chance of Critical Hit for each gallon of Fury
 Skill	Precision of the Penguin	Critical Hit Percent: [Y]

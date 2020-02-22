@@ -1054,6 +1054,12 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "my_maxmp", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_pp", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_maxpp", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_primestat", DataTypes.STAT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STAT_TYPE };
@@ -5067,6 +5073,16 @@ public abstract class RuntimeLibrary
 		return new Value( KoLCharacter.getMaximumMP() );
 	}
 
+	public static Value my_pp( Interpreter interpreter )
+	{
+		return new Value( KoLCharacter.getCurrentPP() );
+	}
+
+	public static Value my_maxpp( Interpreter interpreter )
+	{
+		return new Value( KoLCharacter.getMaximumPP() );
+	}
+
 	public static Value my_primestat( Interpreter interpreter )
 	{
 		int primeIndex = KoLCharacter.getPrimeIndex();
@@ -5376,8 +5392,8 @@ public abstract class RuntimeLibrary
 
 	public static Value have_skill( Interpreter interpreter, final Value arg )
 	{
-		String skillName = SkillDatabase.getSkillName( (int) arg.intValue() );
-		UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( skillName );
+		int skillId = (int) arg.intValue();
+		UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( skillId );
 		return DataTypes.makeBooleanValue( KoLCharacter.hasSkill( skill, KoLConstants.availableSkills ) ||
 						   KoLCharacter.hasSkill( skill, KoLConstants.availableCombatSkills ) );
 	}

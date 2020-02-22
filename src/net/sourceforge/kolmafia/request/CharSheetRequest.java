@@ -161,9 +161,20 @@ public class CharSheetRequest
 		// Mana point parsing is exactly the same as hit point
 		// parsing - so this is just a copy-paste of the code.
 
-		if ( !KoLCharacter.inZombiecore() && !KoLCharacter.isVampyre() )
+		if ( KoLCharacter.inZombiecore() )
 		{
-			// Zombie Masters and Vampyres have no MP
+			// Zombie Masters have a Horde.
+			while ( !token.startsWith( "Zombie Horde" ) )
+			{
+				token = cleanContent.nextToken();
+			}
+
+			int horde = GenericRequest.intToken( cleanContent );
+			KoLCharacter.setMP( horde, horde, horde );
+		}
+		else if ( !KoLCharacter.isVampyre() )
+		{
+			// Vampyres have no MP
 			while ( !token.startsWith( "Current" ) )
 			{
 				token = cleanContent.nextToken();
@@ -179,17 +190,6 @@ public class CharSheetRequest
 			token = cleanContent.nextToken();
 
 			KoLCharacter.setMP( currentMP, maximumMP, CharSheetRequest.retrieveBase( token, maximumMP ) );
-		}
-		else if ( !KoLCharacter.isVampyre() )
-		{
-			// Zombie Masters DO have a Horde.
-			while ( !token.startsWith( "Zombie Horde" ) )
-			{
-				token = cleanContent.nextToken();
-			}
-
-			int horde = GenericRequest.intToken( cleanContent );
-			KoLCharacter.setMP( horde, horde, horde );
 		}
 
 		// Players with a custom title will have their actual class shown in this area.

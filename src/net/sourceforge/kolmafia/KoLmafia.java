@@ -939,6 +939,11 @@ public abstract class KoLmafia
 			RequestThread.postRequest( new FamiliarRequest() );
 		}
 
+		if ( KoLCharacter.isPlumber() )
+		{
+			KoLCharacter.resetCurrentPP();
+		}
+
 		ChateauRequest.refresh();
 
 		// Retrieve campground data to see if the user has box servants
@@ -1246,6 +1251,7 @@ public abstract class KoLmafia
 	public static final void applyEffects()
 	{
 		boolean concoctionRefreshNeeded = false;
+		boolean updatePPNeeded = false;
 
 		int oldCount = KoLConstants.activeEffects.size();
 
@@ -1258,6 +1264,10 @@ public abstract class KoLmafia
 			if ( effectId == EffectPool.INIGOS || effectId == EffectPool.CRAFT_TEA )
 			{
 				concoctionRefreshNeeded = true;
+			}
+			else if ( effectId == EffectPool.FIZZY_FIZZY )
+			{
+				updatePPNeeded = true;
 			}
 			else if ( effectId == EffectPool.COWRRUPTION )
 			{
@@ -1278,6 +1288,13 @@ public abstract class KoLmafia
 		if ( oldCount != KoLConstants.activeEffects.size() )
 		{
 			KoLCharacter.updateStatus();
+		}
+
+		if ( updatePPNeeded )
+		{
+			// Gaining or losing this effect will add or subtract 1 PP
+			KoLCharacter.recalculateAdjustments();
+			KoLCharacter.resetCurrentPP();
 		}
 
 		if ( concoctionRefreshNeeded )

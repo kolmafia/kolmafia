@@ -116,6 +116,7 @@ public class SkillDatabase
 	private static final String NUCLEAR_AUTUMN = "Nuclear Autumn";
 	private static final String GELATINOUS_NOOB = "Gelatinous Noob";
 	private static final String VAMPYRE = "Vampyre";
+	private static final String PLUMBER = "Plumber";
 
 	private static final String[] CATEGORIES = new String[]
 	{
@@ -143,7 +144,8 @@ public class SkillDatabase
 		SkillDatabase.SOURCE,		// 21xxx
 		SkillDatabase.NUCLEAR_AUTUMN,	// 22xxx
 		SkillDatabase.GELATINOUS_NOOB,	// 23xxx
-		SkillDatabase.VAMPYRE,	// 24xxx
+		SkillDatabase.VAMPYRE,		// 24xxx
+		SkillDatabase.PLUMBER,		// 25xxx
 		// The following are convenience categories, not implied by skill id
 		SkillDatabase.GNOME_SKILLS,
 		SkillDatabase.BAD_MOON
@@ -466,6 +468,10 @@ public class SkillDatabase
 		if ( name == KoLCharacter.VAMPYRE )
 		{
 			return 24000;
+		}
+		if ( name == KoLCharacter.PLUMBER )
+		{
+			return 25000;
 		}
 
 		return 0;
@@ -1255,6 +1261,25 @@ public class SkillDatabase
 		}
 	}
 
+	public static final int getPPCost( final int skillId )
+	{
+		switch ( skillId )
+		{
+		case SkillPool.HAMMER_THROW_COMBAT:
+		case SkillPool.JUGGLE_FIREBALLS_COMBAT:
+		case SkillPool.SPIN_JUMP_COMBAT:
+			return 1;
+
+		case SkillPool.ULTRA_SMASH_COMBAT:
+		case SkillPool.FIREBALL_BARRAGE_COMBAT:
+		case SkillPool.MULTI_BOUNCE_COMBAT:
+			return 2;
+
+		default:
+			return 0;
+		}
+	}
+
 	public static final AdventureResult getManaItemCost( final int skillId )
 	{
 		switch ( skillId )
@@ -1432,6 +1457,7 @@ public class SkillDatabase
 		case 22:			// Nuclear Autumn skills
 		case 23:			// Gelatinous Noob skills
 		case 24:			// Vampyre skills
+		case 25:			// Plumber skills
 			return false;
 		}
 
