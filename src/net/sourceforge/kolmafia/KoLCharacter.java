@@ -3644,9 +3644,7 @@ public abstract class KoLCharacter
 		else if ( oldPath.equals( LICENSE ) )
 		{
 			int bondPoints = wasInHardcore ? 2 : 1;
-			int currentBondPoints = Preferences.getInteger( "bondPoints" );
-			currentBondPoints += bondPoints;
-			Preferences.setInteger( "bondPoints", ( currentBondPoints < 24 ? currentBondPoints : 24 ) );
+			Preferences.increment( "bondPoints", bondPoints, 24, false );
 		}
 		else if ( oldPath.equals( GLOVER ) )
 		{

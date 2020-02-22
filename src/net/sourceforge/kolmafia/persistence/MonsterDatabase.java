@@ -37,6 +37,7 @@ import java.io.BufferedReader;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -45,6 +46,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
@@ -66,6 +68,7 @@ public class MonsterDatabase
 	private static final Map<String, MonsterData> MONSTER_DATA = new TreeMap<String, MonsterData>();
 	private static final Map<String, MonsterData> OLD_MONSTER_DATA = new TreeMap<String, MonsterData>();
 	private static final Map<String, MonsterData> LEET_MONSTER_DATA = new TreeMap<String, MonsterData>();
+	private static final Set<String> MONSTER_ALIASES = new HashSet<String>();
 	private static String[] MONSTER_STRINGS = null;
 	private static final Map<String, MonsterData> MONSTER_IMAGES = new TreeMap<String, MonsterData>();
 	private static final Map<Integer, MonsterData> MONSTER_IDS = new TreeMap<Integer, MonsterData>();
@@ -332,19 +335,8 @@ public class MonsterDatabase
 
 				if ( !monster.isDummy() )
 				{
-					String keyName = CombatActionManager.encounterKey( name, false );
-					StringUtilities.registerPrepositions( keyName );
-					MonsterDatabase.MONSTER_DATA.put( keyName, monster );
-					MonsterDatabase.OLD_MONSTER_DATA.put( keyName.toLowerCase(), monster );
-					if ( keyName.toLowerCase().startsWith( "the " ) )
-					{
-						// Some effects seem to sometimes remove The from the start of the monster name even if normally part of name
-						// eg. ELDRITCH HORROR Master Of Thieves
-						// So allow finding monster without the 'The' also
-						MonsterDatabase.MONSTER_DATA.put( keyName.substring( 4 ), monster );
-						MonsterDatabase.OLD_MONSTER_DATA.put( keyName.substring( 4 ).toLowerCase(), monster );
-					}
-					for ( String image : images )
+					MonsterDatabase.saveMonster( name, monster);
+					for ( String image : monster.getImages() )
 					{
 						MonsterDatabase.MONSTER_IMAGES.put( image, monster );
 					}
@@ -365,6 +357,78 @@ public class MonsterDatabase
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e );
+		}
+	}
+
+	public static final void saveAliases()
+	{
+		// Remove previously saved aliases, since you can log in as a
+		// new player without exiting KoLmafia
+		for ( String alias : MONSTER_ALIASES )
+		{
+			MonsterDatabase.removeAlias( alias );
+		}
+		MONSTER_ALIASES.clear();
+
+		String playerName = KoLCharacter.getUserName();
+		if ( playerName.equals( "" ) )
+		{
+			return;
+		}
+
+		String waname = "Wa" + playerName.toLowerCase();
+		String alucard = new StringBuilder(playerName).reverse().toString();
+
+		MonsterDatabase.saveAlias( "Wa%playername/lowercase%", waname );
+		MonsterDatabase.saveAlias( "%alucard%", alucard );
+	}
+
+	private static final void saveAlias( final String name, final String alias )
+	{
+		MonsterData monster = MonsterDatabase.findMonster( name );
+		if ( monster == null )
+		{
+			// This is a bug and should not happen
+			System.out.println( "Could not find monster named '" + name + "'" );
+			return;
+		}
+
+		MonsterData cloned = new MonsterData( monster) {
+			public String getName()
+			{
+				return alias;
+			}
+		};
+			
+		MonsterDatabase.saveMonster( alias, cloned );
+		MONSTER_ALIASES.add( alias );
+	}
+
+	private static final void saveMonster( final String name, final MonsterData monster )
+	{
+		String keyName = CombatActionManager.encounterKey( name, false );
+		StringUtilities.registerPrepositions( keyName );
+		MonsterDatabase.MONSTER_DATA.put( keyName, monster );
+		MonsterDatabase.OLD_MONSTER_DATA.put( keyName.toLowerCase(), monster );
+		if ( keyName.toLowerCase().startsWith( "the " ) )
+		{
+			// Some effects seem to sometimes remove The from the start of the monster name even if normally part of name
+			// eg. ELDRITCH HORROR Master Of Thieves
+			// So allow finding monster without the 'The' also
+			MonsterDatabase.MONSTER_DATA.put( keyName.substring( 4 ), monster );
+			MonsterDatabase.OLD_MONSTER_DATA.put( keyName.substring( 4 ).toLowerCase(), monster );
+		}
+	}
+
+	private static final void removeAlias( final String name )
+	{
+		String keyName = CombatActionManager.encounterKey( name, false );
+		MonsterDatabase.MONSTER_DATA.remove( keyName );
+		MonsterDatabase.OLD_MONSTER_DATA.remove( keyName.toLowerCase() );
+		if ( keyName.toLowerCase().startsWith( "the " ) )
+		{
+			MonsterDatabase.MONSTER_DATA.remove( keyName.substring( 4 ) );
+			MonsterDatabase.OLD_MONSTER_DATA.remove( keyName.substring( 4 ).toLowerCase() );
 		}
 	}
 
