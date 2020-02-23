@@ -2503,8 +2503,8 @@ Koopa Paratroopa	2165	paratroopa.gif	Atk: 40 Def: 40 HP: 40 Init: 50 P: beast
 Hammer Brother	2166	hammerbrother.gif	Atk: 60 Def: 60 HP: 80 Init: 50 P: beast
 Very Dry Bones	2167	drybones.gif	Atk: 100 Def: 100 HP: 150 Init: 50 P: undead
 Birdo	2168	birdo.gif	Atk: 180 Def: 180 HP: 300 Init: 50 P: beast
-King Boo	2169	kingboo2.gif	Atk: 180 Def: 180 HP: 300 Init: 50 P: undead
-Kamek	2170	kamek.gif	Atk: 180 Def: 180 HP: 200 Init: 50 P: beast
+King Boo	2169	kingboo2.gif	Atk: 180 Def: 180 HP: 300 Init: 50 Phys: 100 P: undead
+Kamek	2170	kamek.gif	Atk: 180 Def: 180 HP: 200 Init: 50 Phys: 100 P: beast
 Angry Sun	2171	angrysun.gif	Atk: 130 Def: 130 HP: 300 Init: 50 P: weird
 Bowser	2172	bowser.gif	Atk: 300 Def: 300 HP: 400 Init: 50 P: beast
 Bowser	2173	bowser.gif	Atk: 300 Def: 300 HP: 400 Init: 50 P: beast

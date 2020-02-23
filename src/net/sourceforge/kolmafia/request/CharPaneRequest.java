@@ -664,7 +664,7 @@ public class CharPaneRequest
 		// Expanded Plumber
 		{
 			Pattern.compile( "/(?:slim)?hp\\.gif.*?<span.*?>(.*?)&nbsp;/&nbsp;(.*?)</span>" ),
-			Pattern.compile( "/(?:slim)?pp\\.gif.*?<span.*?>(.*?) / (.*?)</span>" ),
+			Pattern.compile( "/(?:slim)?pp\\.gif.*?(\\d+) / (\\d+)<" ),
 			Pattern.compile( "/(?:slim)?meat\\.gif.*?<span.*?>(.*?)</span>" ),
 			Pattern.compile( "/(?:slim)?hourglass\\.gif.*?<span.*?>(.*?)</span>" ),
 		},

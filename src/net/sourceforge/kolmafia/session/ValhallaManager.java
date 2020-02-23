@@ -824,6 +824,10 @@ public class ValhallaManager
 		Preferences.setString( "pokefamBoosts", "" );
 		// Kingdom Of Exploathing
 		Preferences.setBoolean( "spaceInvaderDefeated", false );
+		// Path of the Plumber
+		Preferences.setInteger( "plumberBadgeCost", 50 );
+		Preferences.setInteger( "plumberCostumeCost", 50 );
+		Preferences.setString( "plumberCostumeWorn", "none" );
 		// Campground resets
 		Preferences.setBoolean( "hasBartender", false );
 		Preferences.setBoolean( "hasChef", false );
