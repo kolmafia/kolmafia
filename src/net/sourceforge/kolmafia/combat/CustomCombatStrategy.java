@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.combat;
 import java.io.PrintStream;
 
 import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -77,7 +78,7 @@ public class CustomCombatStrategy
 		this.actionOffsets = null;
 	}
 
-	public int getActionCount( CustomCombatLookup lookup, HashSet seen )
+	public int getActionCount( CustomCombatLookup lookup, Set seen )
 	{
 		// Ignore any call to a section that results in a loop
 

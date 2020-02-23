@@ -60,6 +60,8 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.UseSkillRequest;
+
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -500,10 +502,10 @@ public abstract class CombatActionManager
 
 		if ( action.startsWith( "skill" ) )
 		{
-			String potentialSkill = SkillDatabase.getCombatSkillName( action.substring( 5 ).trim() );
+			UseSkillRequest potentialSkill = SkillDatabase.getCombatSkill( action.substring( 5 ).trim() );
 			if ( potentialSkill != null )
 			{
-				return "skill " + potentialSkill.toLowerCase();
+				return "skill " + potentialSkill.getSkillName().toLowerCase();
 			}
 			else
 			{
@@ -514,10 +516,10 @@ public abstract class CombatActionManager
 		// Well, it's either a standard skill, or it's an item,
 		// or it's something you need to lookup in the tables.
 
-		String potentialSkill = SkillDatabase.getCombatSkillName( action );
+		UseSkillRequest potentialSkill = SkillDatabase.getCombatSkill( action );
 		if ( potentialSkill != null )
 		{
-			return "skill " + potentialSkill.toLowerCase();
+			return "skill " + potentialSkill.getSkillName().toLowerCase();
 		}
 
 		String item = CombatActionManager.getLongItemAction( action );
@@ -694,14 +696,14 @@ public abstract class CombatActionManager
 			{
 				return "skill" + action.substring( 5 ).trim();
 			}
-			String name = SkillDatabase.getCombatSkillName( action.substring( 5 ).trim() );
-			return name == null ? "attack" : "skill" + SkillDatabase.getSkillId( name );
+			UseSkillRequest potentialSkill = SkillDatabase.getCombatSkill( action.substring( 5 ).trim() );
+			return potentialSkill == null ? "attack" : "skill" + potentialSkill.getSkillId();
 		}
 
-		String potentialSkill = SkillDatabase.getCombatSkillName( action );
+		UseSkillRequest potentialSkill = SkillDatabase.getCombatSkill( action );
 		if ( potentialSkill != null )
 		{
-			return "skill" + SkillDatabase.getSkillId( potentialSkill );
+			return "skill" + potentialSkill.getSkillId();
 		}
 
 		return CombatActionManager.getShortItemAction( action );
