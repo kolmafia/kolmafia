@@ -14,7 +14,7 @@ ancient turtle shell powder	item	80	100	0	0	0
 April Shower	loc	0	0	1000	1000	0	[1-pref(_aprilShower)]
 bag of pygmy blood	item	30	40	0	0	0
 banana spritzer	item	0	0	40	100	0
-beer-scented teddy bear	item	15	20	0	0	0
+beer-scented teddy bear	item	0	0	15	20	0
 black cherry soda	item	0	0	9	11	0
 Blatantly Canadian	item	0	0	20	25	0
 blue paisley oyster egg	item	0	0	30	35	0
