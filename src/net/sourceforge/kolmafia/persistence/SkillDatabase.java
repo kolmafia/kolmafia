@@ -486,14 +486,14 @@ public class SkillDatabase
 
 	public static final int getSkillType( final int skillId )
 	{
-		Object skillType = SkillDatabase.skillTypeById.get( IntegerPool.get( skillId ) );
-		return skillType == null ? -1 : ( (Integer) skillType ).intValue();
+		Integer skillType = SkillDatabase.skillTypeById.get( IntegerPool.get( skillId ) );
+		return skillType == null ? -1 : skillType.intValue();
 	}
 
 	public static final String getSkillCategory( final int skillId )
 	{
-		Object cat = SkillDatabase.skillCategoryById.get( IntegerPool.get( skillId ) );
-		return cat == null ? "" : (String) cat;
+		String cat = SkillDatabase.skillCategoryById.get( IntegerPool.get( skillId ) );
+		return cat == null ? "" : cat;
 	}
 
 	/**
@@ -521,8 +521,8 @@ public class SkillDatabase
 		{
 			return -1;
 		}
-		Object skillId = SkillDatabase.skillByName.get( StringUtilities.getCanonicalName( skillName ) );
-		return skillId == null ? -1 : ( (Integer) skillId ).intValue();
+		Integer skillId = SkillDatabase.skillByName.get( StringUtilities.getCanonicalName( skillName ) );
+		return skillId == null ? -1 : skillId.intValue();
 	}
 
 	/**
@@ -856,13 +856,13 @@ public class SkillDatabase
 
 	public static final int getEffectDuration( final int skillId )
 	{
-		Object duration = SkillDatabase.durationById.get( IntegerPool.get( skillId ) );
+		Integer duration = SkillDatabase.durationById.get( IntegerPool.get( skillId ) );
 		if ( duration == null )
 		{
 			return 0;
 		}
 
-		int actualDuration = ( (Integer) duration ).intValue();
+		int actualDuration = duration.intValue();
 		if ( actualDuration == 0 )
 		{
 			return 0;
@@ -962,12 +962,12 @@ public class SkillDatabase
 
 	public static final boolean isNormal( final int skillId )
 	{
-		Object skillType = SkillDatabase.skillTypeById.get( IntegerPool.get( skillId ) );
+		Integer skillType = SkillDatabase.skillTypeById.get( IntegerPool.get( skillId ) );
 		if ( skillType == null )
 			return false;
-		int type = ( (Integer) skillType ).intValue();
+		int type = skillType.intValue();
 		return type == SUMMON || type == REMEDY || type == SELF_ONLY ||
-			   type == SONG || type == COMBAT_NONCOMBAT_REMEDY || type == EXPRESSION;
+			type == SONG || type == COMBAT_NONCOMBAT_REMEDY || type == EXPRESSION;
 	}
 
 	/**
@@ -1086,8 +1086,8 @@ public class SkillDatabase
 
 	private static final boolean isType( final int skillId, final int type )
 	{
-		Object skillType = SkillDatabase.skillTypeById.get( IntegerPool.get( skillId ) );
-		return skillType == null ? false : ( (Integer) skillType ).intValue() == type;
+		Integer skillType = SkillDatabase.skillTypeById.get( IntegerPool.get( skillId ) );
+		return skillType == null ? false : skillType.intValue() == type;
 	}
 
 	public static final boolean isSoulsauceSkill( final int skillId )
@@ -1530,29 +1530,29 @@ public class SkillDatabase
 
 	public static final List<UseSkillRequest> getSkillsByType( final int type, final boolean onlyKnown )
 	{
+		Integer[] keys = new Integer[ SkillDatabase.skillTypeById.size() ];
+		SkillDatabase.skillTypeById.keySet().toArray( keys );
+
 		ArrayList<UseSkillRequest> list = new ArrayList<UseSkillRequest>();
 
-		Object[] keys = SkillDatabase.skillTypeById.keySet().toArray();
-
-		for ( int i = 0; i < keys.length; ++i )
+ 		for ( Integer skillId : keys )
 		{
-			boolean shouldAdd = false;
-
-			int skillId = ( (Integer) keys[ i ] ).intValue();
 			Integer value = SkillDatabase.skillTypeById.get( skillId );
-			if ( value == null )
-				continue;
+			if ( value == null ) continue;
+
 			int skillType = value.intValue();
 
+			boolean shouldAdd = false;
 			if ( type == SkillDatabase.ALL )
 			{
 				shouldAdd = true;
 			}
 			else if ( type == SkillDatabase.CASTABLE )
 			{
-				shouldAdd = skillType == SUMMON || skillType == REMEDY || skillType == SELF_ONLY || 
-							skillType == BUFF || skillType == SONG || skillType == COMBAT_NONCOMBAT_REMEDY ||
-							skillType == EXPRESSION || skillType == WALK;
+				shouldAdd =
+					skillType == SUMMON || skillType == REMEDY || skillType == SELF_ONLY || 
+					skillType == BUFF || skillType == SONG || skillType == COMBAT_NONCOMBAT_REMEDY ||
+					skillType == EXPRESSION || skillType == WALK;
 			}
 			else if ( type == SkillDatabase.COMBAT )
 			{
@@ -1747,56 +1747,55 @@ public class SkillDatabase
 	
 	public static final String getSkillName( final String substring, final List<UseSkillRequest> list )
 	{
-		UseSkillRequest[] skills = new UseSkillRequest[ list.size() ];
-		list.toArray( skills );
-	
+		UseSkillRequest  match = getSkill( substring, list );
+		return match == null ? null : match.getSkillName();
+	}
+
+	/**
+	 * Utility method used to retrieve a UseSkillRequest, given a substring of its name
+	 */
+
+	public static final UseSkillRequest getSkill( final String substring, final List<UseSkillRequest> skills )
+	{
 		String name = substring.toLowerCase();
 	
-		int skillIndex = -1;
-		boolean ambiguous = false;
-	
-		for ( int i = 0; i < skills.length; ++i )
+		// Search for exact match
+		for ( UseSkillRequest skill : skills )
 		{
-			if ( skills[i] == null )
-			{
-				continue;
-			}
-			String skill = skills[ i ].getSkillName();
-			if ( skill.toLowerCase().equals( name ) )
+			String skillName = skill.getSkillName();
+			if ( skillName.equalsIgnoreCase( name ) )
 			{
 				return skill;
 			}
 		}
 
-		for ( int i = 0; i < skills.length; ++i )
+		// Search for case insensitive substring match
+		UseSkillRequest match = null;
+		boolean ambiguous = false;
+		for ( UseSkillRequest skill : skills )
 		{
-			if ( skills[i] == null )
-			{
-				continue;
-			}
-			String skill = skills[ i ].getSkillName();
-			if ( skill.toLowerCase().contains( name ) )
+			String skillName = skill.getSkillName();
+			if ( skillName.toLowerCase().contains( name ) )
 			{
 				if ( ambiguous )
 				{
-					RequestLogger.printLine( skill );
+					RequestLogger.printLine( skillName );
 				}
-				else if ( skillIndex != -1 )
+				else if ( match != null )
 				{
 					RequestLogger.printLine( "Possible matches:" );
-					RequestLogger.printLine( skills[ skillIndex ].getSkillName() );
-					RequestLogger.printLine( skill );
+					RequestLogger.printLine( match.getSkillName() );
+					RequestLogger.printLine( skillName );
 					ambiguous = true;
 				}
 				else
 				{
-					skillIndex = i;
+					match = skill;
 				}
 			}
 		}
 	
-		return (ambiguous || skillIndex == -1) ? null
-			: skills[ skillIndex ].getSkillName();
+		return ( ambiguous || match == null ) ? null : match;
 	}
 
 	/**
@@ -1832,9 +1831,9 @@ public class SkillDatabase
 	 * Utility method used to retrieve the full name of a combat skill, given a substring representing it.
 	 */
 	
-	public static final String getCombatSkillName( final String substring )
+	public static final UseSkillRequest getCombatSkill( final String substring )
 	{
-		return getSkillName( substring, getSkillsByType( COMBAT ) );
+		return getSkill( substring, getSkillsByType( COMBAT ) );
 	}
 
 	/**
@@ -1858,12 +1857,12 @@ public class SkillDatabase
 
 	public static void registerCasts( int skillId, int count )
 	{
-		Object oldCasts = SkillDatabase.castsById.get( IntegerPool.get( skillId ) );
+		Integer oldCasts = SkillDatabase.castsById.get( IntegerPool.get( skillId ) );
 		if ( oldCasts == null )
 		{
 			return;
 		}
-		int newCasts = ( (Integer) oldCasts ).intValue() + count;
+		int newCasts = oldCasts.intValue() + count;
 		SkillDatabase.castsById.put( IntegerPool.get( skillId ), IntegerPool.get( newCasts ) );
 	}
 
@@ -1960,13 +1959,13 @@ public class SkillDatabase
 
 	public static int getCasts( int skillId )
 	{
-		Object casts = (Object) SkillDatabase.castsById.get( IntegerPool.get( skillId ) );
+		Integer casts = SkillDatabase.castsById.get( IntegerPool.get( skillId ) );
 
 		if ( casts == null )
 		{
 			return 0;
 		}
-		return ( (Integer) casts ).intValue();
+		return  casts.intValue();
 	}
 
 	public static boolean sourceAgentSkill( int skillId )

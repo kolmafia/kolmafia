@@ -57,8 +57,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CustomCombatLookup
 	extends DefaultMutableTreeNode
 {
-	private List childKeys = new LinkedList();
-	private Map childLookup = new TreeMap();
+	private List<CombatEncounterKey> childKeys = new LinkedList<CombatEncounterKey>();
+	private Map<String, CustomCombatStrategy> childLookup = new TreeMap<String, CustomCombatStrategy>();
 
 	public CustomCombatLookup()
 	{
@@ -67,7 +67,7 @@ public class CustomCombatLookup
 
 	public CustomCombatStrategy getStrategy( final String encounterKey )
 	{
-		return (CustomCombatStrategy) childLookup.get( encounterKey );
+		return childLookup.get( encounterKey );
 	}
 
 	public String getBestEncounterKey( final String encounter )
@@ -113,10 +113,8 @@ public class CustomCombatLookup
 		String longestMatch = null;
 		int longestMatchLength = 0;
 
-		for ( int i = 0; i < childKeys.size(); ++i )
+		for ( CombatEncounterKey childKey : childKeys )
 		{
-			CombatEncounterKey childKey = (CombatEncounterKey) childKeys.get( i );
-
 			if ( childKey.matches( encounter, monsterData ) )
 			{
 				String childName = childKey.toString();
@@ -134,11 +132,11 @@ public class CustomCombatLookup
 
 	public void clearEncounterKey( final String encounterKey )
 	{
-		Iterator strategyIterator = childLookup.values().iterator();
+		Iterator<CustomCombatStrategy> strategyIterator = childLookup.values().iterator();
 
 		while ( strategyIterator.hasNext() )
 		{
-			CustomCombatStrategy strategy = (CustomCombatStrategy) strategyIterator.next();
+			CustomCombatStrategy strategy = strategyIterator.next();
 
 			if ( strategy.getName().equals( encounterKey ) )
 			{
@@ -155,7 +153,7 @@ public class CustomCombatLookup
 	{
 		if ( childLookup.containsKey( encounterKey ) )
 		{
-			CustomCombatStrategy strategy = (CustomCombatStrategy) childLookup.get( encounterKey );
+			CustomCombatStrategy strategy = childLookup.get( encounterKey );
 
 			strategy.removeAllChildren();
 		}
@@ -175,9 +173,9 @@ public class CustomCombatLookup
 	}
 
 	public void addEncounterAction( final String encounterKey, final int roundIndex, final String indent,
-		final String combatAction, boolean isMacro )
+					final String combatAction, boolean isMacro )
 	{
-		CustomCombatStrategy strategy = (CustomCombatStrategy) childLookup.get( encounterKey );
+		CustomCombatStrategy strategy = childLookup.get( encounterKey );
 
 		if ( roundIndex < 0 )
 		{
@@ -329,11 +327,11 @@ public class CustomCombatLookup
 
 	public void store( PrintStream writer )
 	{
-		Iterator strategyIterator = childLookup.values().iterator();
+		Iterator<CustomCombatStrategy> strategyIterator = childLookup.values().iterator();
 
 		while ( strategyIterator.hasNext() )
 		{
-			CustomCombatStrategy strategy = (CustomCombatStrategy) strategyIterator.next();
+			CustomCombatStrategy strategy = strategyIterator.next();
 
 			strategy.store( writer );
 		}
