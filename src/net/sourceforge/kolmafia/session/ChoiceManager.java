@@ -278,6 +278,8 @@ public abstract class ChoiceManager
 	private static final Pattern SAUSAGE_PATTERN = Pattern.compile( "grinder needs (.*?) of the (.*?) required units of filling to make a sausage.  Your grinder reads \\\"(\\d+)\\\" units." );
 	private static final Pattern DOCTOR_BAG_PATTERN = Pattern.compile( "We've received a report of a patient (.*?), in (.*?)\\." );
 	private static final Pattern RED_SNAPPER_PATTERN = Pattern.compile( "guiding you towards: <b>(.*?)</b>.  You've found <b>(\\d+)</b> of them" );
+	private static final Pattern MUSHROOM_COSTUME_PATTERN = Pattern.compile( "<form.*?name=option value=(\\d).*?type=submit value=\"(.*?) Costume\".*?>(\\d+) coins<.*?</form>" );
+	private static final Pattern MUSHROOM_BADGE_PATTERN = Pattern.compile( "Current cost: (\\d+) coins." );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -11769,6 +11771,50 @@ public abstract class ChoiceManager
 				ResultProcessor.updateBirdModifiers( EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, "yourFavoriteBird" );
 			}
 			break;
+
+		case 1407:
+		{
+			// Mushroom District Costume Shop
+
+			String costume = "none";
+			if ( text.contains( "You slip into something a little more carpentable" ) )
+			{
+				costume = "muscle";
+			}
+			else if ( text.contains( "You let down your guard and put on the gardener costume" ) )
+			{
+				costume = "mysticality";
+			}
+			else if ( text.contains( "Todge holds out a tutu and you jump into it" ) )
+			{
+				costume = "moxie";
+			}
+			else
+			{
+				break;
+			}
+
+			int cost = Preferences.getInteger( "plumberCostumeCost" );
+			ResultProcessor.processItem( ItemPool.COIN, -cost );
+			Preferences.increment( "plumberCostumeCost", 50 );
+			Preferences.setString( "plumberCostumeWorn", costume );
+			break;
+		}
+
+		case 1408:
+		{
+			// Mushroom District Badge Shop
+			// If successful, deduct coins.
+
+			if ( text.contains( "You acquire a skill" ) )
+			{
+				int cost = Preferences.getInteger( "plumberBadgeCost" );
+				ResultProcessor.processItem( ItemPool.COIN, -cost );
+				Preferences.increment( "plumberBadgeCost", 50 );
+			}
+			break;
+		}
+
 		}
 
 		// Certain choices cost meat or items when selected
@@ -15086,6 +15132,7 @@ public abstract class ChoiceManager
 			break;
 		
 		case 1396:
+		{
 			// Adjusting Your Fish
 			Matcher matcher = ChoiceManager.RED_SNAPPER_PATTERN.matcher( text );
 			if ( matcher.find() )
@@ -15096,6 +15143,53 @@ public abstract class ChoiceManager
 				Preferences.setInteger( "redSnapperProgress", progress );
 			}
 			break;
+		}
+
+		case 1407:
+		{
+			// Mushroom District Costume Shop
+			Matcher matcher = ChoiceManager.MUSHROOM_COSTUME_PATTERN.matcher( text );
+			int cost = 0;
+			boolean carpenter = false;
+			boolean gardener = false;
+			boolean ballerina = false;
+			while ( matcher.find() )
+			{
+				String costume = matcher.group( 2 );
+				cost = StringUtilities.parseInt( matcher.group( 3 ) );
+				if ( costume.equals( "Carpenter" ) )
+				{
+					carpenter = true;
+				} else if ( costume.equals( "Gardener" ) )
+				{
+					gardener = true;
+				} else if ( costume.equals( "Ballerina" ) )
+				{
+					ballerina = true;
+				}
+			}
+			String wearing =
+				!carpenter ? "muscle" :
+				!gardener ? "mysticality" :
+				!ballerina ? "moxie" :
+				"none";
+			Preferences.setInteger( "plumberCostumeCost", cost );
+			Preferences.setString( "plumberCostumeWorn", wearing );
+			break;
+		}
+
+		case 1408:
+		{
+			// Mushroom District Badge Shop
+			Matcher matcher = ChoiceManager.MUSHROOM_BADGE_PATTERN.matcher( text );
+			int cost = 0;
+			if ( matcher.find() )
+			{
+				cost = StringUtilities.parseInt( matcher.group( 1 ) );
+			}
+			Preferences.setInteger( "plumberBadgeCost", cost );
+			break;
+		}
 		}
 
 		// Do this after special classes (like WumpusManager) have a

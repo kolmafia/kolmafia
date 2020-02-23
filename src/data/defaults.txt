@@ -961,6 +961,9 @@ user	plantingDate
 user	plantingDay	-1
 user	plantingLength
 user	plantingScript
+user	plumberBadgeCost	50
+user	plumberCostumeCost	50
+user	plumberCostumeWorn	none
 user	plumberPoints	0
 user	pokefamBoosts
 user	poolSharkCount	0
