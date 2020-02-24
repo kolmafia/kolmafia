@@ -869,6 +869,11 @@ public abstract class KoLmafia
 			return;
 		}
 
+		// Reset monsters that depend on player name. Do this before we
+		// look at the char sheet; we'll bail early if we are in a
+		// fight - and we want to recognize aliased monsters
+		MonsterDatabase.saveAliases();
+
 		// Retrieve the character sheet. It's necessary to do this
 		// before concoctions have a chance to get refreshed.
 
@@ -882,9 +887,6 @@ public abstract class KoLmafia
 		{
 			return;
 		}
-
-		// Reset things that depend on player name
-		MonsterDatabase.saveAliases();
 
 		// Now that we know the character's ascension count, reset
 		// anything that depends on that.
