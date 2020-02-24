@@ -1212,9 +1212,19 @@ public class EquipmentRequest
 		// If the items are not equivalent, make sure
 		// the items should get switched out.
 
-		if ( newItem.getItemId() == oldItem.getItemId() )
+		int oldItemId = oldItem.getItemId();
+		int newItemId = newItem.getItemId();
+
+		if ( oldItemId == newItemId )
 		{
 			return false;
+		}
+
+		if (  KoLCharacter.isPlumber() )
+		{
+			// If we put on or removed power pants, our maximum PP changes
+			int delta = ( oldItemId == ItemPool.POWER_PANTS ) ? -1 : 1;
+			KoLCharacter.deltaPP( delta );
 		}
 
 		// Manually subtract item from inventory to avoid
@@ -1232,8 +1242,8 @@ public class EquipmentRequest
 		}
 
 		// If we remove Special Sauce Glove, also remove Chefstaff
-		if ( oldItem.getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE && !KoLCharacter.hasSkill( "Spirit of Rigatoni" ) &&
-			!KoLCharacter.isJarlsberg() && EquipmentManager.usingChefstaff() )
+		if ( oldItemId == ItemPool.SPECIAL_SAUCE_GLOVE && !KoLCharacter.hasSkill( "Spirit of Rigatoni" ) &&
+		     !KoLCharacter.isJarlsberg() && EquipmentManager.usingChefstaff() )
 		{
 			EquipmentManager.removeEquipment( EquipmentManager.getEquipment( EquipmentManager.WEAPON ), EquipmentManager.WEAPON );
 		}
@@ -1542,13 +1552,6 @@ public class EquipmentRequest
 		// items are properly selected in the dropdowns.
 
 		EquipmentManager.setEquipment( newEquipment );
-
-		if ( KoLCharacter.isPlumber() )
-		{
-			// If we put on or removed power pants, our maximum PP changes
-			KoLCharacter.recalculateAdjustments();
-			KoLCharacter.resetCurrentPP();
-		}
 
 		return refresh;
 	}
