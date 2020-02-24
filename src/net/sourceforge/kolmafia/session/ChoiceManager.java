@@ -11810,7 +11810,7 @@ public abstract class ChoiceManager
 			{
 				int cost = Preferences.getInteger( "plumberBadgeCost" );
 				ResultProcessor.processItem( ItemPool.COIN, -cost );
-				Preferences.increment( "plumberBadgeCost", 50 );
+				Preferences.increment( "plumberBadgeCost", 25 );
 			}
 			break;
 		}
@@ -18121,8 +18121,8 @@ public abstract class ChoiceManager
 		case 1389: // The Council of Exploathing
 		case 1395: // Take your Pills
 		case 1396: // Adjusting Your Fish
-		case 1407: // Mushroom District Badge Shop
-		case 1408: // Mushroom District Costume Shop
+		case 1407: // Mushroom District Costume Shop
+		case 1408: // Mushroom District Badge Shop
 			return true;
 
 		default:

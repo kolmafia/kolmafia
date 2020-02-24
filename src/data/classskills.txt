@@ -1423,17 +1423,17 @@
 
 # Plumber
 
-25001	Hammer Throw	mario_throwhammer.gif	0	0	0
-25002	Ultra Smash	mario_ultrasmash.gif	0	0	0
-25003	Juggle Fireballs	mario_juggle.gif	0	0	0
-25004	Fireball Barrage	mario_barrage.gif	0	0	0
-25005	Spin Jump	mario_spinjump.gif	0	0	0
-25006	Multi-Bounce	mario_multibounce.gif	0	0	0
-25007	Power Plus	mario_power.gif	0	0	0
-25008	Secret Eye	mario_eye.gif	0	0	0
-25009	Lucky Buckle	mario_buckle.gif	0	0	0
-25010	Rainbow Shield	mario_shield.gif	0	0	0
-25011	Lucky Pin	mario_luck1.gif	0	0	0
-25012	Lucky Brooch	mario_luck2.gif	0	0	0
-25013	Lucky Insignia	mario_luck3.gif	0	0	0
-25014	Health Symbol	mario_health.gif	0	0	0
+25001	Hammer Throw	mario_throwhammer.gif	0	0	0	1
+25002	Ultra Smash	mario_ultrasmash.gif	0	0	0	2
+25003	Juggle Fireballs	mario_juggle.gif	0	0	0	3
+25004	Fireball Barrage	mario_barrage.gif	0	0	0	4
+25005	Spin Jump	mario_spinjump.gif	0	0	0	5
+25006	Multi-Bounce	mario_multibounce.gif	0	0	0	6
+25007	Power Plus	mario_power.gif	0	0	0	7
+25008	Secret Eye	mario_eye.gif	0	0	0	8
+25009	Lucky Buckle	mario_buckle.gif	0	0	0	9
+25010	Rainbow Shield	mario_shield.gif	0	0	0	10
+25011	Lucky Pin	mario_luck1.gif	0	0	0	11
+25012	Lucky Brooch	mario_luck2.gif	0	0	0	12
+25013	Lucky Insignia	mario_luck3.gif	0	0	0	13
+25014	Health Symbol	mario_health.gif	0	0	0	14
