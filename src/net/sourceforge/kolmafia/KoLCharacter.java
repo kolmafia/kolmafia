@@ -2027,6 +2027,12 @@ public abstract class KoLCharacter
 		KoLCharacter.currentPP = KoLCharacter.maximumPP = calculateMaximumPP();
 	}
 
+	public static final void deltaPP( final int delta )
+	{
+		KoLCharacter.currentPP += delta;
+		KoLCharacter.maximumPP += delta;
+	}
+
 	public static final void spendPP( int pp )
 	{
 		KoLCharacter.currentPP -= pp;
