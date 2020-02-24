@@ -1223,8 +1223,14 @@ public class EquipmentRequest
 		if (  KoLCharacter.isPlumber() )
 		{
 			// If we put on or removed power pants, our maximum PP changes
-			int delta = ( oldItemId == ItemPool.POWER_PANTS ) ? -1 : 1;
-			KoLCharacter.deltaPP( delta );
+			int delta =
+				( oldItemId == ItemPool.POWER_PANTS ) ? -1 :
+				( newItemId == ItemPool.POWER_PANTS ) ? 1 :
+				0;
+			if ( delta != 0 )
+			{
+				KoLCharacter.deltaPP( delta );
+			}
 		}
 
 		// Manually subtract item from inventory to avoid
