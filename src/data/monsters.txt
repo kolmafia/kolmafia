@@ -419,7 +419,7 @@ Little Man in the Canoe	540	canoeman.gif	Atk: 165 Def: 148 HP: 150 Init: 70 E: s
 lobsterfrogman	529	lobsterman.gif	Atk: 171 Def: 152 HP: 190 Init: 40 Meat: 78 P: beast	barrel of gunpowder (n100)
 lonely construct	668	vib5.gif	Atk: 300 Def: 315 HP: 350 Init: 80 P: construct	El Vibrato punchcard (213 holes) (1)	El Vibrato punchcard (182 holes) (1)
 lonely construct (translated)	674	vib5.gif	Atk: 300 Def: 315 HP: 350 Init: 80 P: construct Manuel: "lonely construct" Wiki: "lonely construct"	El Vibrato punchcard (213 holes) (1)	El Vibrato punchcard (182 holes) (1)
-Lord Spookyraven	464	lordspooky.gif	NOCOPY BOSS Atk: 165 Def: 148 HP: 200 Exp: [120+ML/3] Init: 10000 ED: spooky P: undead	Eye of Ed (100)	Lord Spookyraven's ear trumpet (100)
+Lord Spookyraven	464	lordspooky.gif	NOCOPY BOSS Atk: 165 Def: 148 HP: 200 Exp: [120+ML/3] Init: 10000 ED: spooky P: undead	Eye of Ed (n100)	Lord Spookyraven's ear trumpet (n100)
 Lot's Wife	1757	lotswife.gif	Atk: 3 Def: 3 HP: 10 P: beast Init: -10000	The Lot's engagement ring (n100)
 lounge lizardfish	770	lizardfish.gif	Atk: 400 Def: 630 HP: 550 Init: 100 Meat: 200 P: fish	amber aviator shades (n5)	hair of the fish (c7)	rough fish scale (n4)	slug of shochu (21)
 lowercase B	934	lower_b.gif	Atk: 58 Def: 52 HP: 70 Init: 40 P: slime	left parenthesis (15)
@@ -558,7 +558,7 @@ poutine ooze	225	pouooze.gif	Atk: 3 Def: 1 HP: 3 Init: 30 P: slime	poutine (40)
 Pr Imp	979	primp.gif	Atk: 60 Def: 54 HP: 60 E: hot Init: 50 Meat: 50 P: demon	imp air (15)
 Procrastination Giant	170	giant_procrast.gif	Atk: 125 Def: 112 HP: 150 Init: -10000 Meat: 150 P: humanoid	procrastination potion (25)
 Protagonist	160	protag.gif	Atk: 100 Def: 90 HP: 80 Init: 80 Meat: 100 P: dude	phonics down (40)	ridiculously huge sword (10)	super-spiky hair gel (20)	ocarina of space (5)
-Protector Spectre	450	protspect.gif	NOCOPY Atk: 164 Def: 151 HP: 100 Init: 30 Phys: 100 P: undead GHOST	ancient amulet (100)	spectre scepter (100)
+Protector Spectre	450	protspect.gif	NOCOPY Atk: 164 Def: 151 HP: 100 Init: 30 Phys: 100 P: undead GHOST	ancient amulet (n100)	spectre scepter (n100)
 psychedelic fur	661	carpet.gif	Atk: 21 Def: 18 HP: 18 Init: 20 P: weird	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
 pufferfish	757	pufferfish.gif	Atk: 400 Def: 450 HP: 750 Init: 100 Meat: 200 P: fish	pufferfish spine (n5)	rough fish scale (n4)	seaweed (n5)
 pumped-up bass	718	pumpedbass.gif	Atk: 330 Def: 270 HP: 500 Init: 100 Meat: 200 P: fish	dull fish scale (n15)	beefy fish meat (n5)
@@ -2502,13 +2502,13 @@ Dolph Bossin, the Boss Dolphin	2152	dolphbossin.gif	NOMANUEL Atk: 500 Def: 450 H
 Koopa Paratroopa	2165	paratroopa.gif	Atk: 40 Def: 40 HP: 40 Init: 50 P: beast
 Hammer Brother	2166	hammerbrother.gif	Atk: 60 Def: 60 HP: 80 Init: 50 P: beast
 Very Dry Bones	2167	drybones.gif	Atk: 100 Def: 100 HP: 150 Init: 50 P: undead
-Birdo	2168	birdo.gif	Atk: 180 Def: 180 HP: 300 Init: 50 P: beast
-King Boo	2169	kingboo2.gif	Atk: 180 Def: 180 HP: 300 Init: 50 Phys: 100 P: undead
-Kamek	2170	kamek.gif	Atk: 180 Def: 180 HP: 200 Init: 50 Phys: 100 P: beast
+Birdo	2168	birdo.gif	Atk: 180 Def: 180 HP: 300 Init: 50 P: beast	Staff of Fats (n100)
+King Boo	2169	kingboo2.gif	Atk: 180 Def: 180 HP: 300 Init: 50 Phys: 100 P: undead	Eye of Ed (n100)
+Kamek	2170	kamek.gif	Atk: 180 Def: 180 HP: 200 Init: 50 Phys: 100 P: beast	ancient amulet (n100)
 Angry Sun	2171	angrysun.gif	Atk: 130 Def: 130 HP: 300 Init: 50 P: weird
 Bowser	2172	bowser.gif	Atk: 300 Def: 300 HP: 400 Init: 50 P: beast
 Bowser	2173	bowser.gif	Atk: 300 Def: 300 HP: 400 Init: 50 P: beast
-Wa%playername/lowercase%	2174	waplayer.gif	Atk: 300 Def: 300 HP: 1000 Init: 10000 P: dude
+Wa%playername/lowercase%	2174	waplayer.gif	Atk: 300 Def: 300 HP: 1000 Init: 10000 P: dude	red coin (n100)
 
 # Retired Standard Monsters
 Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation Manuel: "Astronomer" Wiki: "Astronomer"	star chart (100)
