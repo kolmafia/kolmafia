@@ -132,12 +132,8 @@ public class DataTypes
 		"",
 		"",
 		KoLCharacter.GELATINOUS_NOOB,
-		"",
-		KoLCharacter.PLUMBER,
-		"",
-		"",
-		"",
 		KoLCharacter.VAMPYRE,
+		KoLCharacter.PLUMBER,
 	};
 
 	public static final Type ANY_TYPE = new Type( null, DataTypes.TYPE_ANY );
