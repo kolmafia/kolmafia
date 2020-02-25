@@ -71,7 +71,7 @@ public class AscensionHistoryRequest
 	private static int typeComparator = AscensionSnapshot.NORMAL;
 
 	private static final SimpleDateFormat ASCEND_DATE_FORMAT = new SimpleDateFormat( "MM/dd/yy", Locale.US );
-	private static final Pattern FIELD_PATTERN = Pattern.compile( "</tr><td class=small.*?</tr>" );
+	private static final Pattern FIELD_PATTERN = Pattern.compile( "</tr><td class=small.*?</tr>", Pattern.DOTALL );
 	private static final Pattern NAME_PATTERN = Pattern.compile( "who=(\\d+)\\\" class=nounder><font color=white>(.*?)</font>" );
 
 	private final String playerName;
@@ -115,7 +115,10 @@ public class AscensionHistoryRequest
 
 	public int compareTo( final AscensionHistoryRequest o )
 	{
-		return o == null || !( o instanceof AscensionHistoryRequest ) ? -1 : typeComparator == AscensionSnapshot.NORMAL ? ( (AscensionHistoryRequest) o ).softcoreCount - this.softcoreCount : typeComparator == AscensionSnapshot.HARDCORE ? ( (AscensionHistoryRequest) o ).hardcoreCount - this.hardcoreCount : ( (AscensionHistoryRequest) o ).casualCount - this.casualCount;
+		return  o == null || !( o instanceof AscensionHistoryRequest ) ? -1 :
+			typeComparator == AscensionSnapshot.NORMAL ? ( (AscensionHistoryRequest) o ).softcoreCount - this.softcoreCount :
+			typeComparator == AscensionSnapshot.HARDCORE ? ( (AscensionHistoryRequest) o ).hardcoreCount - this.hardcoreCount :
+			( (AscensionHistoryRequest) o ).casualCount - this.casualCount;
 	}
 
 	@Override
@@ -146,12 +149,14 @@ public class AscensionHistoryRequest
 		int gloverPoints = 0;
 		int masksUnlocked = 0;
 		int gyfftePoints = 0;
+		int plumberPoints = 0;
 		String playerName = null;
 		String playerId = null;
 
 		// Add something into familiar column if blank so later processing works
-		responseText = 	responseText.replaceAll( "<a[^>]*?>Back[^<?]</a>", "" ).replaceAll( "<td></td>",
-					     "<td><img src=\"" + KoLmafia.imageServerPath() + "itemimages/confused.gif\" height=30 width=30></td>" );
+		responseText = 	responseText
+			.replaceAll( "<a[^>]*?>Back[^<?]</a>", "" )
+			.replaceAll( "<td></td>", "<td><img src=\"" + KoLmafia.imageServerPath() + "itemimages/confused.gif\" height=30 width=30></td>" );
 
 		Matcher nameMatcher = AscensionHistoryRequest.NAME_PATTERN.matcher( responseText );
 		if ( nameMatcher.find() )
@@ -234,6 +239,9 @@ public class AscensionHistoryRequest
 			case AscensionSnapshot.DARK_GYFFTE:
 				gyfftePoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
 				break;
+			case AscensionSnapshot.PATH_OF_THE_PLUMBER:
+				plumberPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
+				break;
 			}
 		}
 
@@ -244,6 +252,7 @@ public class AscensionHistoryRequest
 		Preferences.setInteger( "gloverPoints", gloverPoints );
 		Preferences.setInteger( "garlandUpgrades", garlandUpgrades );
 		Preferences.setInteger( "masksUnlocked", masksUnlocked );
+		Preferences.setInteger( "plumberPoints", plumberPoints );
 
 		// Some can be increased by buying points, so only set these if higher than preference
 		if ( jarlsbergPoints > Preferences.getInteger( "jarlsbergPoints" ) )
@@ -608,7 +617,7 @@ public class AscensionHistoryRequest
 		}
 	}
 
-	public List getAscensionData()
+	public List<AscensionDataField> getAscensionData()
 	{
 		return this.ascensionData;
 	}
@@ -762,6 +771,10 @@ public class AscensionHistoryRequest
 			case AscensionSnapshot.VAMPYRE:
 				this.stringForm.append( "V" );
 				break;
+
+			case AscensionSnapshot.PLUMBER:
+				this.stringForm.append( "P" );
+				break;
 			}
 
 			this.stringForm.append( ")&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=right>" );
@@ -805,43 +818,45 @@ public class AscensionHistoryRequest
 						path[ 0 ].equals( "Casual" ) ? AscensionSnapshot.CASUAL :
 						AscensionSnapshot.UNKNOWN_TYPE;
 
+			String pathName = path[ 1 ];
 			this.pathId =
-				path[ 1 ].equals( "No Path" ) ? AscensionSnapshot.NOPATH :
-				path[ 1 ].equals( "Teetotaler" ) ? AscensionSnapshot.TEETOTALER :
-				path[ 1 ].equals( "Boozetafarian" ) ? AscensionSnapshot.BOOZETAFARIAN :
-				path[ 1 ].equals( "Oxygenarian" ) ? AscensionSnapshot.OXYGENARIAN :
-				path[ 1 ].equals( "Bad Moon" ) ? AscensionSnapshot.BAD_MOON :
-				path[ 1 ].equals( "Bees Hate You" ) ? AscensionSnapshot.BEES_HATE_YOU :
-				path[ 1 ].equals( "Way of the Surprising Fist" ) ? AscensionSnapshot.SURPRISING_FIST :
-				path[ 1 ].equals( "Trendy" ) ? AscensionSnapshot.TRENDY :
-				path[ 1 ].equals( "Avatar of Boris" ) ? AscensionSnapshot.AVATAR_OF_BORIS :
-				path[ 1 ].equals( "Bugbear Invasion" ) ? AscensionSnapshot.BUGBEAR_INVASION :
-				path[ 1 ].equals( "Zombie Slayer" ) ? AscensionSnapshot.ZOMBIE_SLAYER :
-				path[ 1 ].equals( "Class Act" ) ? AscensionSnapshot.CLASS_ACT :
-				path[ 1 ].equals( "Avatar of Jarlsberg" ) ? AscensionSnapshot.AVATAR_OF_JARLSBERG  :
-				path[ 1 ].equals( "BIG!" ) ? AscensionSnapshot.BIG :
-				path[ 1 ].equals( "KOLHS" ) ? AscensionSnapshot.KOLHS :
-				path[ 1 ].equals( "Class Act II: A Class For Pigs" ) ? AscensionSnapshot.CLASS_ACT_II :
-				path[ 1 ].equals( "Avatar of Sneaky Pete" ) ? AscensionSnapshot.AVATAR_OF_SNEAKY_PETE :
-				path[ 1 ].equals( "Slow and Steady" ) ? AscensionSnapshot.SLOW_AND_STEADY :
-				path[ 1 ].equals( "Heavy Rains" ) ? AscensionSnapshot.HEAVY_RAINS :
-				path[ 1 ].equals( "Picky" ) ? AscensionSnapshot.PICKY :
-				path[ 1 ].equals( "Standard" ) ? AscensionSnapshot.STANDARD :
-				path[ 1 ].equals( "Actually Ed the Undying" ) ? AscensionSnapshot.ACTUALLY_ED_THE_UNDYING :
-				path[ 1 ].equals( "One Crazy Random Summer" ) ? AscensionSnapshot.CRAZY_RANDOM_SUMMER :
-				path[ 1 ].equals( "Community Service" ) ? AscensionSnapshot.COMMUNITY_SERVICE :
-				path[ 1 ].equals( "Avatar of West of Loathing" ) ? AscensionSnapshot.AVATAR_OF_WEST_OF_LOATHING :
-				path[ 1 ].equals( "The Source" ) ? AscensionSnapshot.THE_SOURCE :
-				path[ 1 ].equals( "Nuclear Autumn" ) ? AscensionSnapshot.NUCLEAR_AUTUMN :
-				path[ 1 ].equals( "Gelatinous Noob" ) ? AscensionSnapshot.GELATINOUS_NOOB :
-				path[ 1 ].equals( "License to Adventure" ) ? AscensionSnapshot.LICENSE :
-				path[ 1 ].equals( "Live. Ascend. Repeat." ) ? AscensionSnapshot.REPEAT :
-				path[ 1 ].equals( "Pocket Familiars" ) ? AscensionSnapshot.POKEFAM :
-				path[ 1 ].equals( "G-Lover" ) ? AscensionSnapshot.GLOVER :
-				path[ 1 ].equals( "Disguises Delimit" ) ? AscensionSnapshot.DISGUISES_DELIMIT :
-				path[ 1 ].equals( "Dark Gyffte" ) ? AscensionSnapshot.DARK_GYFFTE :
-				path[ 1 ].equals( "Two Crazy Random Summer" ) ? AscensionSnapshot.CRAZY_RANDOM_SUMMER_TWO :
-				path[ 1 ].equals( "Kingdom of Exploathing" ) ? AscensionSnapshot.KINGDOM_OF_EXPLOATHING :
+				pathName.equals( "No Path" ) ? AscensionSnapshot.NOPATH :
+				pathName.equals( "Teetotaler" ) ? AscensionSnapshot.TEETOTALER :
+				pathName.equals( "Boozetafarian" ) ? AscensionSnapshot.BOOZETAFARIAN :
+				pathName.equals( "Oxygenarian" ) ? AscensionSnapshot.OXYGENARIAN :
+				pathName.equals( "Bad Moon" ) ? AscensionSnapshot.BAD_MOON :
+				pathName.equals( "Bees Hate You" ) ? AscensionSnapshot.BEES_HATE_YOU :
+				pathName.equals( "Way of the Surprising Fist" ) ? AscensionSnapshot.SURPRISING_FIST :
+				pathName.equals( "Trendy" ) ? AscensionSnapshot.TRENDY :
+				pathName.equals( "Avatar of Boris" ) ? AscensionSnapshot.AVATAR_OF_BORIS :
+				pathName.equals( "Bugbear Invasion" ) ? AscensionSnapshot.BUGBEAR_INVASION :
+				pathName.equals( "Zombie Slayer" ) ? AscensionSnapshot.ZOMBIE_SLAYER :
+				pathName.equals( "Class Act" ) ? AscensionSnapshot.CLASS_ACT :
+				pathName.equals( "Avatar of Jarlsberg" ) ? AscensionSnapshot.AVATAR_OF_JARLSBERG  :
+				pathName.equals( "BIG!" ) ? AscensionSnapshot.BIG :
+				pathName.equals( "KOLHS" ) ? AscensionSnapshot.KOLHS :
+				pathName.equals( "Class Act II: A Class For Pigs" ) ? AscensionSnapshot.CLASS_ACT_II :
+				pathName.equals( "Avatar of Sneaky Pete" ) ? AscensionSnapshot.AVATAR_OF_SNEAKY_PETE :
+				pathName.equals( "Slow and Steady" ) ? AscensionSnapshot.SLOW_AND_STEADY :
+				pathName.equals( "Heavy Rains" ) ? AscensionSnapshot.HEAVY_RAINS :
+				pathName.equals( "Picky" ) ? AscensionSnapshot.PICKY :
+				pathName.equals( "Standard" ) ? AscensionSnapshot.STANDARD :
+				pathName.equals( "Actually Ed the Undying" ) ? AscensionSnapshot.ACTUALLY_ED_THE_UNDYING :
+				pathName.equals( "One Crazy Random Summer" ) ? AscensionSnapshot.CRAZY_RANDOM_SUMMER :
+				pathName.equals( "Community Service" ) ? AscensionSnapshot.COMMUNITY_SERVICE :
+				pathName.equals( "Avatar of West of Loathing" ) ? AscensionSnapshot.AVATAR_OF_WEST_OF_LOATHING :
+				pathName.equals( "The Source" ) ? AscensionSnapshot.THE_SOURCE :
+				pathName.equals( "Nuclear Autumn" ) ? AscensionSnapshot.NUCLEAR_AUTUMN :
+				pathName.equals( "Gelatinous Noob" ) ? AscensionSnapshot.GELATINOUS_NOOB :
+				pathName.equals( "License to Adventure" ) ? AscensionSnapshot.LICENSE :
+				pathName.equals( "Live. Ascend. Repeat." ) ? AscensionSnapshot.REPEAT :
+				pathName.equals( "Pocket Familiars" ) ? AscensionSnapshot.POKEFAM :
+				pathName.equals( "G-Lover" ) ? AscensionSnapshot.GLOVER :
+				pathName.equals( "Disguises Delimit" ) ? AscensionSnapshot.DISGUISES_DELIMIT :
+				pathName.equals( "Dark Gyffte" ) ? AscensionSnapshot.DARK_GYFFTE :
+				pathName.equals( "Two Crazy Random Summer" ) ? AscensionSnapshot.CRAZY_RANDOM_SUMMER_TWO :
+				pathName.equals( "Kingdom of Exploathing" ) ? AscensionSnapshot.KINGDOM_OF_EXPLOATHING :
+				pathName.equals( "Path of the Plumber" ) ? AscensionSnapshot.PATH_OF_THE_PLUMBER :
 				AscensionSnapshot.UNKNOWN_PATH;
 		}
 
@@ -866,11 +881,13 @@ public class AscensionHistoryRequest
 					columns[ 3 ].contains( "tinysnake" ) ? AscensionSnapshot.SNAKE_OILER :
 					columns[ 3 ].contains( "gelatinousicon" ) ? AscensionSnapshot.GELATINOUS_NOOB :
 					columns[ 3 ].contains( "vampirefangs" ) ? AscensionSnapshot.VAMPYRE :
+					columns[ 3 ].contains( "mario_hammer2" ) ? AscensionSnapshot.PLUMBER :
 					AscensionSnapshot.UNKNOWN_CLASS;
 
-				this.typeId = columns[ 8 ].contains( "hardcore" ) ? AscensionSnapshot.HARDCORE :
-							columns[ 8 ].contains( "beanbag" ) ? AscensionSnapshot.CASUAL :
-							AscensionSnapshot.NORMAL;
+				this.typeId =
+					columns[ 8 ].contains( "hardcore" ) ? AscensionSnapshot.HARDCORE :
+					columns[ 8 ].contains( "beanbag" ) ? AscensionSnapshot.CASUAL :
+					AscensionSnapshot.NORMAL;
 
 				this.pathId =
 					columns[ 8 ].contains( "bowl" ) ? AscensionSnapshot.TEETOTALER :
@@ -894,6 +911,8 @@ public class AscensionHistoryRequest
 					columns[ 8 ].contains( "pickypath" ) ? AscensionSnapshot.PICKY :
 					columns[ 8 ].contains( "standardicon" ) ? AscensionSnapshot.STANDARD :
 					columns[ 8 ].contains( "scarab" ) ? AscensionSnapshot.ACTUALLY_ED_THE_UNDYING :
+					// "twocrazydice" must come before "dice"
+					columns[ 8 ].contains( "twocrazydice" ) ? AscensionSnapshot.CRAZY_RANDOM_SUMMER_TWO :
 					columns[ 8 ].contains( "dice" ) ? AscensionSnapshot.CRAZY_RANDOM_SUMMER :
 					columns[ 8 ].contains( "csplaquesmall" ) ? AscensionSnapshot.COMMUNITY_SERVICE :
 					columns[ 8 ].contains( "badge" ) ? AscensionSnapshot.AVATAR_OF_WEST_OF_LOATHING :
@@ -901,11 +920,13 @@ public class AscensionHistoryRequest
 					columns[ 8 ].contains( "radiation" ) ? AscensionSnapshot.NUCLEAR_AUTUMN :
 					columns[ 8 ].contains( "gcube" ) ? AscensionSnapshot.GELATINOUS_NOOB :
 					columns[ 8 ].contains( "briefcase" ) ? AscensionSnapshot.LICENSE :
+					columns[ 8 ].contains( "watch" ) ? AscensionSnapshot.REPEAT :
 					columns[ 8 ].contains( "spiritorb" ) ? AscensionSnapshot.POKEFAM :
 					columns[ 8 ].contains( "g-loveheart" ) ? AscensionSnapshot.GLOVER :
 					columns[ 8 ].contains( "dd_icon" ) ? AscensionSnapshot.DISGUISES_DELIMIT :
 					columns[ 8 ].contains( "darkgift" ) ? AscensionSnapshot.DARK_GYFFTE :
 					columns[ 8 ].contains( "puff" ) ? AscensionSnapshot.KINGDOM_OF_EXPLOATHING :
+					columns[ 8 ].contains( "mario_mushroom1" ) ? AscensionSnapshot.PATH_OF_THE_PLUMBER :
 					AscensionSnapshot.NOPATH;
 			}
 			catch ( Exception e )
@@ -920,6 +941,21 @@ public class AscensionHistoryRequest
 		public String getDateAsString()
 		{
 			return ProfileRequest.OUTPUT_FORMAT.format( this.timestamp );
+		}
+
+		public int getTypeId()
+		{
+			return this.typeId;
+		}
+
+		public int getPathId()
+		{
+			return this.pathId;
+		}
+
+		public int getClassId()
+		{
+			return this.classId;
 		}
 
 		public int getAge()
@@ -948,15 +984,19 @@ public class AscensionHistoryRequest
 			return this.playerId != null ? this.playerId.hashCode() : 0;
 		}
 
-		public boolean matchesFilter( final int typeFilter, final int pathFilter, final int classFilter,
-			final int maxAge )
+		public boolean matchesFilter( final int typeFilter, final int pathFilter, final int classFilter, final int maxAge )
 		{
-			return ( typeFilter == AscensionSnapshot.NO_FILTER || typeFilter == this.typeId ) && ( pathFilter == AscensionSnapshot.NO_FILTER || pathFilter == this.pathId ) && ( classFilter == AscensionSnapshot.NO_FILTER || classFilter == this.classId ) && ( maxAge == 0 || maxAge >= this.getAge() );
+			return  ( typeFilter == AscensionSnapshot.NO_FILTER || typeFilter == this.typeId ) &&
+				( pathFilter == AscensionSnapshot.NO_FILTER || pathFilter == this.pathId ) &&
+				( classFilter == AscensionSnapshot.NO_FILTER || classFilter == this.classId ) &&
+				( maxAge == 0 || maxAge >= this.getAge() );
 		}
 
 		public boolean matchesFilter( final int typeFilter, final int pathFilter, final int classFilter )
 		{
-			return ( typeFilter == AscensionSnapshot.NO_FILTER || typeFilter == this.typeId ) && ( pathFilter == AscensionSnapshot.NO_FILTER || pathFilter == this.pathId ) && ( classFilter == AscensionSnapshot.NO_FILTER || classFilter == this.classId );
+			return  ( typeFilter == AscensionSnapshot.NO_FILTER || typeFilter == this.typeId ) &&
+				( pathFilter == AscensionSnapshot.NO_FILTER || pathFilter == this.pathId ) &&
+				( classFilter == AscensionSnapshot.NO_FILTER || classFilter == this.classId );
 		}
 
 		public int compareTo( final AscensionDataField o )
