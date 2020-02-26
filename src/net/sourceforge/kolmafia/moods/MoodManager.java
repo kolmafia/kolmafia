@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -486,6 +487,19 @@ public abstract class MoodManager
 	public static final boolean effectInMood( final AdventureResult effect )
 	{
 		return MoodManager.currentMood.isTrigger( effect );
+	}
+
+	public static final void checkpointedExecute( final int multiplicity )
+	{
+		Checkpoint checkpoint = new Checkpoint();
+		try
+		{
+			MoodManager.execute( 0 );
+		}
+		finally
+		{
+			checkpoint.restore();
+		}
 	}
 
 	public static final void execute( final int multiplicity )

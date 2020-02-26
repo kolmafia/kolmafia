@@ -130,17 +130,9 @@ public class MindControlRequest
 			}
 			if ( MindControlRequest.RADIO.getCount( KoLConstants.inventory ) == 0 )
 			{
-				try
+				if ( !InventoryManager.checkpointedRetrieveItem( MindControlRequest.RADIO ) )
 				{
-					SpecialOutfit.createImplicitCheckpoint();
-					if ( !InventoryManager.retrieveItem( MindControlRequest.RADIO ) )
-					{
-						return;
-					}
-				}
-				finally
-				{
-					SpecialOutfit.restoreImplicitCheckpoint();
+					return;
 				}
 			}
 		}

@@ -4969,12 +4969,12 @@ public abstract class RuntimeLibrary
 		try
 		{
 			RecoveryManager.setRecoveryActive( true );
-			SpecialOutfit.createImplicitCheckpoint();
-			return DataTypes.makeBooleanValue( hp ? RecoveryManager.recoverHP( amount ) : RecoveryManager.recoverMP( amount ) );
+			return DataTypes.makeBooleanValue( hp ?
+							   RecoveryManager.checkpointedRecoverHP( amount ) :
+							   RecoveryManager.checkpointedRecoverMP( amount ) );
 		}
 		finally
 		{
-			SpecialOutfit.restoreImplicitCheckpoint();
 			RecoveryManager.setRecoveryActive( wasRecoveryActive );
 		}
 	}
@@ -4986,16 +4986,8 @@ public abstract class RuntimeLibrary
 			return DataTypes.VOID_VALUE;
 		}
 
-		try
-		{
-			SpecialOutfit.createImplicitCheckpoint();
-			MoodManager.execute( (int) multiplicity.intValue() );
-			return DataTypes.VOID_VALUE;
-		}
-		finally
-		{
-			SpecialOutfit.restoreImplicitCheckpoint();
-		}
+		MoodManager.checkpointedExecute( (int) multiplicity.intValue() );
+		return DataTypes.VOID_VALUE;
 	}
 
 	public static Value my_name( Interpreter interpreter )

@@ -44,7 +44,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -139,17 +138,9 @@ public class UntinkerRequest
 		}
 
 		// Retrieving item to untinker may need an outfit change
-		try
+		if ( !InventoryManager.checkpointedRetrieveItem( this.item ) )
 		{
-			SpecialOutfit.createImplicitCheckpoint();
-			if ( !InventoryManager.retrieveItem( this.item ) )
-			{
-				return;
-			}
-		}
-		finally
-		{
-			SpecialOutfit.restoreImplicitCheckpoint();
+			return;
 		}
 		
 		KoLmafia.updateDisplay( "Untinkering " + this.item + "..." );

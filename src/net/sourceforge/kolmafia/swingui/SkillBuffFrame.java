@@ -54,7 +54,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
@@ -452,13 +452,14 @@ public class SkillBuffFrame
 				return;
 			}
 
-			SpecialOutfit.createImplicitCheckpoint();
-
 			if ( targets.length == 0 )
 			{
-				RequestThread.postRequest( UseSkillRequest.getInstance( buffName, KoLCharacter.getUserName(), buffCount ) );
+				RequestThread.checkpointedPostRequest( UseSkillRequest.getInstance( buffName, KoLCharacter.getUserName(), buffCount ) );
+				return;
 			}
-			else
+
+			Checkpoint checkpoint = new Checkpoint();
+			try
 			{
 				for ( int i = 0; i < targets.length && KoLmafia.permitsContinue(); ++i )
 				{
@@ -468,8 +469,10 @@ public class SkillBuffFrame
 					}
 				}
 			}
-
-			SpecialOutfit.restoreImplicitCheckpoint();
+			finally
+			{
+				checkpoint.restore();
+			}
 		}
 	}
 

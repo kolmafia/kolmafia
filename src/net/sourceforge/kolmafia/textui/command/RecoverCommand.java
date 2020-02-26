@@ -34,7 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
@@ -51,19 +51,22 @@ public class RecoverCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
+		boolean recoverHP = parameters.equalsIgnoreCase( "hp" ) || parameters.equalsIgnoreCase( "health" ) || parameters.equalsIgnoreCase( "both" );
+		boolean recoverMP = parameters.equalsIgnoreCase( "mp" ) || parameters.equalsIgnoreCase( "mana" ) || parameters.equalsIgnoreCase( "both" );
 		boolean wasRecoveryActive = RecoveryManager.isRecoveryActive();
+
+		Checkpoint checkpoint = new Checkpoint();
 		try
 		{
 			RecoveryManager.setRecoveryActive( true );
-			SpecialOutfit.createImplicitCheckpoint();
 
-			if ( parameters.equalsIgnoreCase( "hp" ) || parameters.equalsIgnoreCase( "health" ) || parameters.equalsIgnoreCase( "both" ) )
+			if ( recoverHP )
 			{
 				long target = (long) ( Preferences.getFloat( "hpAutoRecoveryTarget" ) * KoLCharacter.getMaximumHP() );
 				RecoveryManager.recoverHP( Math.max( target, KoLCharacter.getCurrentHP() + 1 ) );
 			}
 
-			if ( parameters.equalsIgnoreCase( "mp" ) || parameters.equalsIgnoreCase( "mana" ) || parameters.equalsIgnoreCase( "both" ) )
+			if ( recoverMP )
 			{
 				long target = (long) ( Preferences.getFloat( "mpAutoRecoveryTarget" ) * KoLCharacter.getMaximumMP() );
 				RecoveryManager.recoverMP( Math.max( target, KoLCharacter.getCurrentMP() + 1 ) );
@@ -71,7 +74,7 @@ public class RecoverCommand
 		}
 		finally
 		{
-			SpecialOutfit.restoreImplicitCheckpoint();
+			checkpoint.restore();
 			RecoveryManager.setRecoveryActive( wasRecoveryActive );
 		}
 	}

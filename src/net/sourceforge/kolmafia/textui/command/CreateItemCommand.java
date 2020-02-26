@@ -38,7 +38,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
@@ -57,9 +57,15 @@ public class CreateItemCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		SpecialOutfit.createImplicitCheckpoint();
-		CreateItemCommand.create( parameters );
-		SpecialOutfit.restoreImplicitCheckpoint();
+		Checkpoint checkpoint = new Checkpoint();
+		try
+		{
+			CreateItemCommand.create( parameters );
+		}
+		finally
+		{
+			checkpoint.restore();
+		}
 	}
 
 	public static void create( final String parameters )

@@ -34,7 +34,9 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.TreeMap;
+import java.util.Set;
 import java.util.Stack;
 
 import java.util.regex.Matcher;
@@ -59,8 +61,8 @@ public class SpecialOutfit
 {
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=[\'\"]?(.*?)[\'\"]?>(.*?)</option>" );
 
-	private static final Stack<AdventureResult[]> implicitPoints = new Stack<AdventureResult[]>();
-	private static final Stack<AdventureResult[]> explicitPoints = new Stack<AdventureResult[]>();
+	private static final Stack<Checkpoint> explicitPoints = new Stack<Checkpoint>();
+	private static final Set<Checkpoint> allCheckpoints = new HashSet<Checkpoint>();
 
 	private int outfitId;
 	private String outfitName;
@@ -419,56 +421,16 @@ public class SpecialOutfit
 	 * Restores a checkpoint. This should be called whenever the player needs to revert to their checkpointed outfit.
 	 */
 
-	private static final void restoreCheckpoint( final AdventureResult[] checkpoint )
-	{
-		AdventureResult equippedItem;
-		for ( int i = 0; i < checkpoint.length && !KoLmafia.refusesContinue(); ++i )
-		{
-			if ( checkpoint[ i ] == null )
-			{
-				continue;
-			}
-
-			equippedItem = EquipmentManager.getEquipment( i );
-			if ( equippedItem.equals( checkpoint[ i ] ) )
-			{
-				continue;
-			}
-
-			int itemId = checkpoint[ i ].getItemId();
-			if ( EquipmentManager.itemIdToEquipmentType( itemId ) == EquipmentManager.FAMILIAR )
-			{
-				FamiliarData familiar = KoLCharacter.getFamiliar();
-				if ( familiar == FamiliarData.NO_FAMILIAR )
-				{
-					KoLmafia.updateDisplay( MafiaState.ERROR, "You have no familiar with you." );
-					continue;
-				}
-				if ( !familiar.canEquip( checkpoint[ i ] ) )
-				{
-					KoLmafia.updateDisplay( MafiaState.ERROR, "Your " + familiar.getRace() + " can't wear a " + checkpoint[ i ].getName() );
-					continue;
-				}
-			}
-
-			RequestThread.postRequest( new EquipmentRequest( checkpoint[ i ], i ) );
-		}
-	}
-
 	/**
 	 * Creates a checkpoint. This should be called whenever the player needs an outfit marked to revert to.
 	 */
 
 	public static final void createExplicitCheckpoint()
 	{
-		AdventureResult[] explicit = new AdventureResult[ EquipmentManager.SLOTS ];
-
-		for ( int i = 0; i < explicit.length; ++i )
+		synchronized ( SpecialOutfit.class )
 		{
-			explicit[ i ] = EquipmentManager.getEquipment( i );
+			SpecialOutfit.explicitPoints.push( new Checkpoint() );
 		}
-
-		SpecialOutfit.explicitPoints.push( explicit );
 	}
 
 	/**
@@ -477,64 +439,15 @@ public class SpecialOutfit
 
 	public static final void restoreExplicitCheckpoint()
 	{
-		if ( SpecialOutfit.explicitPoints.isEmpty() )
-		{
-			return;
-		}
-
-		SpecialOutfit.restoreCheckpoint( (AdventureResult[]) SpecialOutfit.explicitPoints.pop() );
-	}
-
-	/**
-	 * Creates a checkpoint. This should be called whenever the player needs an outfit marked to revert to.
-	 */
-
-	public static final void createImplicitCheckpoint()
-	{
 		synchronized ( SpecialOutfit.class )
 		{
-			AdventureResult[] implicit = new AdventureResult[ EquipmentManager.SLOTS ];
-			boolean notEmpty = false;
-
-			for ( int i = 0; i < implicit.length; ++i )
+			if ( SpecialOutfit.explicitPoints.isEmpty() )
 			{
-				AdventureResult item = EquipmentManager.getEquipment( i );
-				implicit[ i ] = item;
-				notEmpty |= i < EquipmentManager.FAMILIAR && !item.equals( EquipmentRequest.UNEQUIP );
+				return;
 			}
 
-			if ( !notEmpty )
-			{
-				StaticEntity.printStackTrace( "Created an empty implicit checkpoint" );
-			}
-
-			SpecialOutfit.implicitPoints.push( implicit );
+			SpecialOutfit.explicitPoints.pop().restore();
 		}
-	}
-
-	/**
-	 * Restores a checkpoint. This should be called whenever the player needs to revert to their checkpointed outfit.
-	 */
-
-	public static final void restoreImplicitCheckpoint()
-	{
-		if ( SpecialOutfit.implicitPoints.isEmpty() )
-		{
-			return;
-		}
-
-		AdventureResult[] implicit = (AdventureResult[]) SpecialOutfit.implicitPoints.pop();
-		SpecialOutfit.restoreCheckpoint( implicit );
-	}
-
-	public static final void discardImplicitCheckpoint()
-	{
-		if ( SpecialOutfit.implicitPoints.isEmpty() )
-		{
-			return;
-		}
-
-		SpecialOutfit.implicitPoints.pop();
 	}
 
 	/**
@@ -593,23 +506,13 @@ public class SpecialOutfit
 
 	public static void replaceEquipment( AdventureResult item , AdventureResult replaceWith )
 	{
-		for ( AdventureResult[] checkpoint : SpecialOutfit.implicitPoints )
+		for ( Checkpoint checkpoint : SpecialOutfit.allCheckpoints )
 		{
-			for ( int j = 0; j < checkpoint.length; ++j )
+			for ( int slot = 0; slot < checkpoint.length(); ++slot )
 			{
-				if ( item.equals( checkpoint[ j ] ) )
+				if ( item.equals( checkpoint.get( slot ) ) )
 				{
-					checkpoint[ j ] = replaceWith;
-				}
-			}
-		}
-		for ( AdventureResult[] checkpoint : SpecialOutfit.explicitPoints )
-		{
-			for ( int j = 0; j < checkpoint.length; ++j )
-			{
-				if ( item.equals( checkpoint[ j ] ) )
-				{
-					checkpoint[ j ] = replaceWith;
+					checkpoint.set( slot, replaceWith );
 				}
 			}
 		}
@@ -617,18 +520,11 @@ public class SpecialOutfit
 
 	public static void replaceEquipmentInSlot( AdventureResult item, int slot )
 	{
-		for ( AdventureResult[] checkpoint : SpecialOutfit.implicitPoints )
+		for ( Checkpoint checkpoint : SpecialOutfit.allCheckpoints )
 		{
-			if ( slot < checkpoint.length )
+			if ( slot < checkpoint.length() )
 			{
-				checkpoint[ slot ] = item;
-			}
-		}
-		for ( AdventureResult[] checkpoint : SpecialOutfit.explicitPoints )
-		{
-			if ( slot < checkpoint.length )
-			{
-				checkpoint[ slot ] = item;
+				checkpoint.set( slot, item );
 			}
 		}
 	}
@@ -640,7 +536,92 @@ public class SpecialOutfit
 
 	public static final void forgetCheckpoints()
 	{
-		SpecialOutfit.implicitPoints.clear();
-		SpecialOutfit.explicitPoints.clear();
+		synchronized ( SpecialOutfit.class )
+		{
+			SpecialOutfit.allCheckpoints.clear();
+			SpecialOutfit.explicitPoints.clear();
+		}
+	}
+
+	public static class Checkpoint
+	{
+		private final AdventureResult[] slots = new AdventureResult[ EquipmentManager.SLOTS ];
+
+		public Checkpoint()
+		{
+			for ( int slot = 0; slot < this.slots.length; ++slot )
+			{
+				this.slots[ slot ] = EquipmentManager.getEquipment( slot );
+			}
+			synchronized ( SpecialOutfit.class )
+			{
+				SpecialOutfit.allCheckpoints.add( this);
+			}
+		}
+
+		public AdventureResult get( final int slot )
+		{
+			return  ( slot < this.slots.length ) ? this.slots[ slot ] : null;
+		}
+
+		public void set( final int slot, final AdventureResult item )
+		{
+			if ( slot < this.slots.length )
+			{
+				this.slots[ slot ] = item;
+			}
+		}
+
+		public void restore()
+		{
+			for ( int slot = 0; slot < this.slots.length && !KoLmafia.refusesContinue(); ++slot )
+			{
+				AdventureResult item = slots[ slot ];
+
+				if ( item == null )
+				{
+					continue;
+				}
+
+				AdventureResult equippedItem = EquipmentManager.getEquipment( slot );
+
+				if ( equippedItem.equals( item ) )
+				{
+					continue;
+				}
+
+				if ( slot == EquipmentManager.FAMILIAR )
+				{
+					FamiliarData familiar = KoLCharacter.getFamiliar();
+					if ( familiar == FamiliarData.NO_FAMILIAR )
+					{
+						KoLmafia.updateDisplay( MafiaState.ERROR, "You have no familiar with you." );
+						continue;
+					}
+					if ( !familiar.canEquip( item ) )
+					{
+						KoLmafia.updateDisplay( MafiaState.ERROR, "Your " + familiar.getRace() + " can't wear a " + item.getName() );
+						continue;
+					}
+				}
+
+				RequestThread.postRequest( new EquipmentRequest( item, slot ) );
+			}
+			this.close();
+		}
+
+		public void close()
+		{
+			// For use with "try with resource", once we upgrade to a better Java version
+			synchronized ( SpecialOutfit.class )
+			{
+				SpecialOutfit.allCheckpoints.remove( this );
+			}
+		}
+
+		public int length()
+		{
+			return slots.length;
+		}
 	}
 }

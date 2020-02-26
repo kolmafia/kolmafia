@@ -41,7 +41,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
@@ -77,17 +77,22 @@ public class UseItemCommand
 		}
 
 		String limitmode = KoLCharacter.getLimitmode();
-		SpecialOutfit.createImplicitCheckpoint();
 
-		UseItemCommand.use( command, parameters );
-
-		if ( KoLCharacter.getLimitmode() != limitmode )
+		Checkpoint checkpoint = new Checkpoint();
+		try
 		{
-			SpecialOutfit.discardImplicitCheckpoint();
+			UseItemCommand.use( command, parameters );
 		}
-		else
+		finally
 		{
-			SpecialOutfit.restoreImplicitCheckpoint();
+			if ( KoLCharacter.getLimitmode() != limitmode )
+			{
+				checkpoint.close();
+			}
+			else
+			{
+				checkpoint.restore();
+			}
 		}
 	}
 

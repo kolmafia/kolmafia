@@ -522,11 +522,7 @@ public abstract class HPRestoreItemList
 					// recovery item, but make sure we are wearing
 					// our original outfit before consuming it.
 
-					SpecialOutfit.createImplicitCheckpoint();
-					boolean success = InventoryManager.retrieveItem( this.itemUsed.getInstance( numberToBuy ) );
-					SpecialOutfit.restoreImplicitCheckpoint();
-
-					if ( !success )
+					if ( !InventoryManager.checkpointedRetrieveItem( this.itemUsed.getInstance( numberToBuy ) ) )
 					{
 						return;
 					}

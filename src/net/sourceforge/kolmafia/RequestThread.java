@@ -44,6 +44,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.SwingUtilities;
 
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.InternalMessage;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
@@ -247,6 +248,19 @@ public abstract class RequestThread
 		boolean force = RequestThread.threadMap.isEmpty() && request.hasResult();
 
 		RequestThread.postRequest( force, request );
+	}
+
+	public static final void checkpointedPostRequest( final GenericRequest request )
+	{
+		Checkpoint checkpoint = new Checkpoint();
+		try
+		{
+			RequestThread.postRequest( request );
+		}
+		finally
+		{
+			checkpoint.restore();
+		}
 	}
 
 	public static final void postRequest( final KoLAdventure request )

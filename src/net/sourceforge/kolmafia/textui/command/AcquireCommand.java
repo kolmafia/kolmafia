@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.textui.command;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 
@@ -58,9 +58,9 @@ public class AcquireCommand
 
 		AdventureResult[] items = ItemFinder.getMatchingItemList( parameters );
 
+		Checkpoint checkpoint = new Checkpoint();
 		try
 		{
-			SpecialOutfit.createImplicitCheckpoint();
 			for ( int i = 0; i < items.length; ++i )
 			{
 				AdventureResult item = items[ i ];
@@ -77,7 +77,14 @@ public class AcquireCommand
 		}
 		finally
 		{
-			SpecialOutfit.restoreImplicitCheckpoint();
+			if ( checking )
+			{
+				checkpoint.close();
+			}
+			else
+			{
+				checkpoint.restore();
+			}
 		}
 	}
 }

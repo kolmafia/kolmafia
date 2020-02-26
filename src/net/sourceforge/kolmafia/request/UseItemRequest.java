@@ -53,7 +53,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 
 import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
@@ -1659,42 +1659,48 @@ public class UseItemRequest
 			}
 		}
 
-		if ( itemId == ItemPool.MAFIA_ARIA )
+		Checkpoint checkpoint = null;
+		try
 		{
-			SpecialOutfit.createImplicitCheckpoint();
-			AdventureResult cummerbund = ItemPool.get( ItemPool.CUMMERBUND, 1 );
-			if ( !KoLCharacter.hasEquipped( cummerbund ) )
+			if ( itemId == ItemPool.MAFIA_ARIA )
 			{
-				RequestThread.postRequest( new EquipmentRequest( cummerbund ) );
+				checkpoint = new Checkpoint();
+				AdventureResult cummerbund = ItemPool.get( ItemPool.CUMMERBUND, 1 );
+				if ( !KoLCharacter.hasEquipped( cummerbund ) )
+				{
+					RequestThread.postRequest( new EquipmentRequest( cummerbund ) );
+				}
+			}
+
+			String originalURLString = this.getURLString();
+
+			for ( int i = 1; i <= iterations && KoLmafia.permitsContinue(); ++i )
+			{
+				this.constructURLString( originalURLString );
+				this.useOnce( i, iterations, "Using" );
+
+				if ( itemId == ItemPool.YUMMY_TUMMY_BEAN )
+				{	// the first iteration may have been short
+					this.itemUsed = this.itemUsed.getInstance( 20 );
+				}
+				else if ( itemId == ItemPool.PACK_OF_POGS )
+				{	// the first iteration may have been short
+					this.itemUsed = this.itemUsed.getInstance( 11 );
+				}
+
+				if ( ( isSealFigurine || isBRICKOMonster ) && KoLmafia.permitsContinue() )
+				{
+					this.addFormField( "checked", "1" );
+					super.run();
+				}
 			}
 		}
-
-		String originalURLString = this.getURLString();
-
-		for ( int i = 1; i <= iterations && KoLmafia.permitsContinue(); ++i )
+		finally
 		{
-			this.constructURLString( originalURLString );
-			this.useOnce( i, iterations, "Using" );
-
-			if ( itemId == ItemPool.YUMMY_TUMMY_BEAN )
-			{	// the first iteration may have been short
-				this.itemUsed = this.itemUsed.getInstance( 20 );
-			}
-			else if ( itemId == ItemPool.PACK_OF_POGS )
-			{	// the first iteration may have been short
-				this.itemUsed = this.itemUsed.getInstance( 11 );
-			}
-
-			if ( ( isSealFigurine || isBRICKOMonster ) && KoLmafia.permitsContinue() )
+			if ( checkpoint != null )
 			{
-				this.addFormField( "checked", "1" );
-				super.run();
+				checkpoint.restore();
 			}
-		}
-
-		if ( itemId == ItemPool.MAFIA_ARIA )
-		{
-			SpecialOutfit.restoreImplicitCheckpoint();
 		}
 
 		if ( KoLmafia.permitsContinue() )

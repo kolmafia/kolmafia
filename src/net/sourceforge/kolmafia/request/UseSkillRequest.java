@@ -1611,9 +1611,7 @@ public class UseSkillRequest
 					recoverMP = Math.min( Math.max( recoverMP, MoodManager.getMaintenanceCost() ), maximumMP );
 				}
 
-				SpecialOutfit.createImplicitCheckpoint();
-				RecoveryManager.recoverMP( recoverMP  );
-				SpecialOutfit.restoreImplicitCheckpoint();
+				RecoveryManager.checkpointedRecoverMP( recoverMP  );
 
 				// If no change occurred, that means the person
 				// was unable to recover MP; abort the process.
