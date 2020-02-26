@@ -1117,6 +1117,12 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "my_session_adv", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_session_items", new AggregateType( DataTypes.INT_TYPE, DataTypes.ITEM_TYPE ), params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "my_session_items", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_daycount", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
@@ -5220,6 +5226,30 @@ public abstract class RuntimeLibrary
 			}
 		}
 		return new Value( adv );
+	}
+
+	public static Value my_session_items( Interpreter interpreter )
+	{
+		AggregateType type = new AggregateType( DataTypes.INT_TYPE, DataTypes.ITEM_TYPE );
+		MapValue value = new MapValue( type );
+
+		for ( AdventureResult result : KoLConstants.tally ) {
+			if ( result.isItem() ) {
+				value.aset( DataTypes.makeItemValue( result ), new Value( result.getCount() ) );
+			}
+		}
+
+		return value;
+	}
+
+	public static Value my_session_items( Interpreter interpreter, Value item ) {
+		for ( AdventureResult result : KoLConstants.tally ) {
+			if ( result.getItemId() == item.intValue() ) {
+				return new Value( result.getCount() );
+			}
+		}
+
+		return new Value( 0 );
 	}
 
 	public static Value my_daycount( Interpreter interpreter )
