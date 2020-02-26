@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
+import java.lang.AutoCloseable;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.TreeMap;
@@ -544,6 +546,7 @@ public class SpecialOutfit
 	}
 
 	public static class Checkpoint
+		implements AutoCloseable
 	{
 		private final AdventureResult[] slots = new AdventureResult[ EquipmentManager.SLOTS ];
 
@@ -625,6 +628,15 @@ public class SpecialOutfit
 			synchronized ( SpecialOutfit.class )
 			{
 				SpecialOutfit.allCheckpoints.remove( this );
+			}
+		}
+
+		public boolean known()
+		{
+			// For use with "try with resource", once we upgrade to a better Java version
+			synchronized ( SpecialOutfit.class )
+			{
+				return SpecialOutfit.allCheckpoints.contains( this );
 			}
 		}
 

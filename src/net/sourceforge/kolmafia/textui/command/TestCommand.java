@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.ChatMessage;
@@ -228,6 +229,19 @@ public class TestCommand
 			String canonical = StringUtilities.getEntityEncode( string, false );
 			String escaped = CharacterEntities.escape( canonical );
 			RequestLogger.printLine( "canonical(" + canonical.length() + ") = \"" + escaped + "\"" );
+			return;
+		}
+
+		if ( command.equals( "checkpoint" ) )
+		{
+			// Using Java 7 try with resources
+			Checkpoint saved = null;
+			try ( Checkpoint checkpoint = new Checkpoint() )
+			{
+				saved = checkpoint;
+				RequestLogger.printLine( "Inside try: checkpoint known = " + saved.known() );
+			}
+			RequestLogger.printLine( "Outside try: checkpoint known = " + saved.known() );
 			return;
 		}
 
