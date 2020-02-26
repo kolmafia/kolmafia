@@ -62,7 +62,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -293,9 +293,15 @@ public class MallSearchFrame
 
 			MallSearchFrame.this.currentlyBuying = true;
 
-			SpecialOutfit.createImplicitCheckpoint();
-			KoLmafia.makePurchases( MallSearchFrame.results, purchases, count, false, 0 );
-			SpecialOutfit.restoreImplicitCheckpoint();
+			Checkpoint checkpoint = new Checkpoint();
+			try
+			{
+				KoLmafia.makePurchases( MallSearchFrame.results, purchases, count, false, 0 );
+			}
+			finally
+			{
+				checkpoint.restore();
+			}
 
 			MallSearchFrame.this.currentlyBuying = false;
 		}

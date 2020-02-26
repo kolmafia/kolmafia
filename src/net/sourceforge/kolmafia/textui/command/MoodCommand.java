@@ -83,9 +83,7 @@ public class MoodCommand
 				return;
 			}
 
-			SpecialOutfit.createImplicitCheckpoint();
-			MoodManager.execute( 0 );
-			SpecialOutfit.restoreImplicitCheckpoint();
+			MoodManager.checkpointedExecute( 0 );
 			RequestLogger.printLine( "Mood swing complete." );
 		}
 		else if ( parameters.startsWith( "repeat" ) )
@@ -103,9 +101,7 @@ public class MoodCommand
 				multiplicity = StringUtilities.parseInt( parameters.substring( spaceIndex + 1 ) );
 			}
 
-			SpecialOutfit.createImplicitCheckpoint();
-			MoodManager.execute( multiplicity );
-			SpecialOutfit.restoreImplicitCheckpoint();
+			MoodManager.checkpointedExecute( multiplicity );
 			RequestLogger.printLine( "Mood swing complete." );
 		}
 		else

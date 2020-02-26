@@ -45,7 +45,7 @@ import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -248,10 +248,16 @@ public class FamiliarRequest
 			{
 				if ( this.changeTo.equals( FamiliarData.NO_FAMILIAR ) && !enthroned.equals( FamiliarData.NO_FAMILIAR ) )
 				{
-					SpecialOutfit.createImplicitCheckpoint();
-					RequestThread.postRequest( new EquipmentRequest( ItemPool.get( ItemPool.HATSEAT, 1 ), EquipmentManager.HAT ) );
-					RequestThread.postRequest( FamiliarRequest.enthroneRequest( FamiliarData.NO_FAMILIAR ) );
-					SpecialOutfit.restoreImplicitCheckpoint();
+					Checkpoint checkpoint = new Checkpoint();
+					try
+					{
+						RequestThread.postRequest( new EquipmentRequest( ItemPool.get( ItemPool.HATSEAT, 1 ), EquipmentManager.HAT ) );
+						RequestThread.postRequest( FamiliarRequest.enthroneRequest( FamiliarData.NO_FAMILIAR ) );
+					}
+					finally
+					{
+						checkpoint.restore();
+					}
 				}
 				return;
 			}
@@ -279,10 +285,16 @@ public class FamiliarRequest
 			{
 				if ( this.changeTo.equals( FamiliarData.NO_FAMILIAR ) && !bjorned.equals( FamiliarData.NO_FAMILIAR ) )
 				{
-					SpecialOutfit.createImplicitCheckpoint();
-					RequestThread.postRequest( new EquipmentRequest( ItemPool.get( ItemPool.BUDDY_BJORN, 1 ), EquipmentManager.CONTAINER ) );
-					RequestThread.postRequest( FamiliarRequest.bjornifyRequest( FamiliarData.NO_FAMILIAR ) );
-					SpecialOutfit.restoreImplicitCheckpoint();
+					Checkpoint checkpoint = new Checkpoint();
+					try
+					{
+						RequestThread.postRequest( new EquipmentRequest( ItemPool.get( ItemPool.BUDDY_BJORN, 1 ), EquipmentManager.CONTAINER ) );
+						RequestThread.postRequest( FamiliarRequest.bjornifyRequest( FamiliarData.NO_FAMILIAR ) );
+					}
+					finally
+					{
+						checkpoint.restore();
+					}
 				}
 				return;
 			}

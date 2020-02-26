@@ -197,10 +197,7 @@ public class AsdonMartinCommand
 				KoLmafia.updateDisplay( MafiaState.ERROR, param + " cannot be used as fuel." );
 				return;
 			}
-			SpecialOutfit.createImplicitCheckpoint();
-			boolean itemRetrieved = InventoryManager.retrieveItem( item );
-			SpecialOutfit.restoreImplicitCheckpoint();
-			if ( !itemRetrieved )
+			if ( !InventoryManager.checkpointedRetrieveItem( item ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have enough " + item.getDataName() + "." );
 				return;

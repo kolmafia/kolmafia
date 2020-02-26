@@ -75,7 +75,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.chat.StyledChatBuffer;
@@ -774,6 +774,36 @@ public class FamiliarTrainingFrame
 			return false;
 		}
 
+		Checkpoint checkpoint = new Checkpoint();
+		try
+		{
+			if ( !trainFamiliar( goal, type, debug ) )
+			{
+				return false;
+			}
+		}
+		finally
+		{
+			checkpoint.restore();
+		}
+
+		if ( familiar.getId() != FamiliarPool.CHAMELEON )
+		{
+			// Find and wear an appropriate item
+			familiar.findAndWearItem( false );
+		}
+
+		boolean result = type == FamiliarTrainingFrame.BUFFED ? FamiliarTrainingFrame.buffFamiliar( goal ) : true;
+
+		FamiliarTrainingFrame.statusMessage( MafiaState.CONTINUE, "Training session completed." );
+		return result;
+	}
+
+	private static final boolean trainFamiliar( final int goal, final int type, final boolean debug )
+	{
+		// Get current familiar
+		FamiliarData familiar = KoLCharacter.getFamiliar();
+
 		// Get the status of current familiar
 		FamiliarStatus status = new FamiliarStatus();
 
@@ -798,11 +828,7 @@ public class FamiliarTrainingFrame
 		// Make a Familiar Tool
 		FamiliarTool tool = new FamiliarTool( opponents );
 
-		// Save your current outfit
-		SpecialOutfit.createImplicitCheckpoint();
-
 		// Let the battles begin!
-
 		KoLmafia.updateDisplay( "Starting training session..." );
 
 		// Iterate until we reach the goal
@@ -812,7 +838,7 @@ public class FamiliarTrainingFrame
 			// If user canceled, bail now
 			if ( FamiliarTrainingFrame.stop || !KoLmafia.permitsContinue() )
 			{
-				FamiliarTrainingFrame.statusMessage( MafiaState.ERROR, "Training session aborted.", true );
+				FamiliarTrainingFrame.statusMessage( MafiaState.ERROR, "Training session aborted." );
 				return false;
 			}
 
@@ -820,14 +846,14 @@ public class FamiliarTrainingFrame
 			if ( KoLCharacter.getAdventuresLeft() < 1 )
 			{
 				FamiliarTrainingFrame.statusMessage(
-					MafiaState.ERROR, "Training stopped: out of adventures.", true );
+					MafiaState.ERROR, "Training stopped: out of adventures." );
 				return false;
 			}
 
 			// Make sure you have enough meat to pay for the contest
 			if ( KoLCharacter.getAvailableMeat() < 100 )
 			{
-				FamiliarTrainingFrame.statusMessage( MafiaState.ERROR, "Training stopped: out of meat.", true );
+				FamiliarTrainingFrame.statusMessage( MafiaState.ERROR, "Training stopped: out of meat." );
 				return false;
 			}
 
@@ -846,7 +872,7 @@ public class FamiliarTrainingFrame
 			if ( opponent == null )
 			{
 				FamiliarTrainingFrame.statusMessage(
-					MafiaState.ERROR, "Couldn't choose a suitable opponent.", true );
+					MafiaState.ERROR, "Couldn't choose a suitable opponent." );
 				return false;
 			}
 
@@ -855,7 +881,7 @@ public class FamiliarTrainingFrame
 			if ( !KoLmafia.permitsContinue() )
 			{
 				FamiliarTrainingFrame.statusMessage(
-					MafiaState.ERROR, "Training stopped: internal error.", true );
+					MafiaState.ERROR, "Training stopped: internal error." );
 				return false;
 			}
 
@@ -877,23 +903,11 @@ public class FamiliarTrainingFrame
 
 		if ( FamiliarTrainingFrame.losses >= 5 )
 		{
-			FamiliarTrainingFrame.statusMessage( MafiaState.ERROR, "Too many consecutive losses.", true );
+			FamiliarTrainingFrame.statusMessage( MafiaState.ERROR, "Too many consecutive losses." );
 			return false;
 		}
 
-		// Done training. Restore original outfit
-		SpecialOutfit.restoreImplicitCheckpoint();
-
-		if ( familiar.getId() != FamiliarPool.CHAMELEON )
-		{
-			// Find and wear an appropriate item
-			familiar.findAndWearItem( false );
-		}
-
-		boolean result = type == FamiliarTrainingFrame.BUFFED ? FamiliarTrainingFrame.buffFamiliar( goal ) : true;
-
-		FamiliarTrainingFrame.statusMessage( MafiaState.CONTINUE, "Training session completed." );
-		return result;
+		return true;
 	}
 
 	/**
@@ -960,31 +974,35 @@ public class FamiliarTrainingFrame
 		// Make a Familiar Tool
 		FamiliarTool tool = new FamiliarTool( opponents );
 
-		// Save your current outfit
-		SpecialOutfit.createImplicitCheckpoint();
-
-		// Let the battles begin!
-		KoLmafia.updateDisplay( "Starting training session..." );
-
-		// XP earned indexed by [event][rank]
-		int[][] xp = new int[ 4 ][ 3 ];
-
-		// Array of skills to test with
-		int[] test = new int[ 4 ];
-
-		// Array of contest suckage
-
+		// Learned skills
 		int[] skills = new int[ 4 ];
-		boolean[] suckage = new boolean[ 4 ];
 
-		// Iterate for the specified number of trials
-		for ( int trial = 1; trial <= trials && KoLmafia.permitsContinue(); ++trial )
+		Checkpoint checkpoint = new Checkpoint();
+		try
 		{
-			skills = FamiliarTrainingFrame.learnFamiliarParameters( trial, status, tool, xp, test, suckage );
-		}
+			// Let the battles begin!
+			KoLmafia.updateDisplay( "Starting training session..." );
 
-		// Done training. Restore original outfit
-		SpecialOutfit.restoreImplicitCheckpoint();
+			// XP earned indexed by [event][rank]
+			int[][] xp = new int[ 4 ][ 3 ];
+
+			// Array of skills to test with
+			int[] test = new int[ 4 ];
+
+			// Array of contest suckage
+			boolean[] suckage = new boolean[ 4 ];
+
+			// Iterate for the specified number of trials
+			for ( int trial = 1; trial <= trials && KoLmafia.permitsContinue(); ++trial )
+			{
+				skills = FamiliarTrainingFrame.learnFamiliarParameters( trial, status, tool, xp, test, suckage );
+			}
+		}
+		finally
+		{
+			// Done training. Restore original outfit
+			checkpoint.restore();
+		}
 
 		return skills;
 	}
@@ -1011,7 +1029,7 @@ public class FamiliarTrainingFrame
 				if ( FamiliarTrainingFrame.stop || !KoLmafia.permitsContinue() )
 				{
 					FamiliarTrainingFrame.printTrainingResults( trial, status, xp, suckage );
-					FamiliarTrainingFrame.statusMessage( MafiaState.ERROR, "Training session aborted.", true );
+					FamiliarTrainingFrame.statusMessage( MafiaState.ERROR, "Training session aborted." );
 					return null;
 				}
 
@@ -1032,7 +1050,7 @@ public class FamiliarTrainingFrame
 				{
 					FamiliarTrainingFrame.printTrainingResults( trial, status, xp, suckage );
 					FamiliarTrainingFrame.statusMessage(
-						MafiaState.ERROR, "Couldn't choose a suitable opponent.", true );
+						MafiaState.ERROR, "Couldn't choose a suitable opponent." );
 					return null;
 				}
 
@@ -1053,7 +1071,7 @@ public class FamiliarTrainingFrame
 				{
 					FamiliarTrainingFrame.printTrainingResults( trial, status, xp, suckage );
 					FamiliarTrainingFrame.statusMessage(
-						MafiaState.ERROR, "Training stopped: internal error.", true );
+						MafiaState.ERROR, "Training stopped: internal error." );
 					return null;
 				}
 
@@ -1264,16 +1282,6 @@ public class FamiliarTrainingFrame
 
 	private static final void statusMessage( final MafiaState state, final String message )
 	{
-		FamiliarTrainingFrame.statusMessage( state, message, false );
-	}
-
-	private static final void statusMessage( final MafiaState state, final String message, boolean restoreOutfit )
-	{
-		if ( restoreOutfit )
-		{
-			SpecialOutfit.restoreImplicitCheckpoint();
-		}
-
 		if ( state == MafiaState.ERROR || message.endsWith( "lost." ) )
 		{
 			FamiliarTrainingFrame.results.append( "<font color=red>" + message + "</font><br>" );

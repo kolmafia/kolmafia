@@ -39,7 +39,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
@@ -61,9 +61,15 @@ public class BuyCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		SpecialOutfit.createImplicitCheckpoint();
-		BuyCommand.buy( parameters );
-		SpecialOutfit.restoreImplicitCheckpoint();
+		Checkpoint checkpoint = new Checkpoint();
+		try
+		{
+			BuyCommand.buy( parameters );
+		}
+		finally
+		{
+			checkpoint.restore();
+		}
 	}
 
 	public static void buy( String parameters )

@@ -138,9 +138,7 @@ public class CreateItemPanel
 			if ( InventoryManager.askAboutCrafting( selection ) )
 			{
 				selection.setQuantityNeeded( create );
-				SpecialOutfit.createImplicitCheckpoint();
-				RequestThread.postRequest( selection );
-				SpecialOutfit.restoreImplicitCheckpoint();
+				RequestThread.checkpointedPostRequest( selection );
 			}
 			if ( pulled > 0 && KoLmafia.permitsContinue() )
 			{
@@ -181,10 +179,8 @@ public class CreateItemPanel
 			KoLmafia.updateDisplay( "Verifying ingredients..." );
 			int pulled = Math.max( 0, quantityDesired - selection.getQuantityPossible() );
 			selection.setQuantityNeeded( quantityDesired - pulled );
+			RequestThread.checkpointedPostRequest( selection );
 
-			SpecialOutfit.createImplicitCheckpoint();
-			RequestThread.postRequest( selection );
-			SpecialOutfit.restoreImplicitCheckpoint();
 			if ( pulled > 0 && KoLmafia.permitsContinue() )
 			{
 				int newbudget = ConcoctionDatabase.getPullsBudgeted() - pulled;

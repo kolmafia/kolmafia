@@ -52,7 +52,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
@@ -1831,20 +1831,27 @@ public class ResultProcessor
 			if ( Preferences.getBoolean( "autoQuest" ) )
 			{
 				boolean equipSpecs = KoLConstants.inventory.contains( ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 ) );
-				if ( equipSpecs )
+				Checkpoint checkpoint = null;
+				try
 				{
-					SpecialOutfit.createImplicitCheckpoint();
-					RequestThread.postRequest( new EquipmentRequest( ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 ), EquipmentManager.ACCESSORY3 ) );
+					if ( equipSpecs )
+					{
+						checkpoint = new Checkpoint();
+						RequestThread.postRequest( new EquipmentRequest( ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 ), EquipmentManager.ACCESSORY3 ) );
+					}
+					RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.MORTAR_DISSOLVING_RECIPE ) );
 				}
-				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.MORTAR_DISSOLVING_RECIPE ) );
-				if ( equipSpecs )
+				finally
 				{
-					SpecialOutfit.restoreImplicitCheckpoint();
+					if ( checkpoint != null )
+					{
+						checkpoint.restore();
+					}
 				}
 				boolean hasSpecs = equipSpecs || KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 ) );
 				KoLmafia.updateDisplay( "Mortar-dissolving recipe used with Lord Spookyraven's spectacles " +
-							    ( hasSpecs ? "" : "NOT " ) +
-								"equipped." );
+							( hasSpecs ? "" : "NOT " ) +
+							"equipped." );
 				// Ugly hacky fix for the above UseItemRequest for some reason not triggering the code there
 				if ( hasSpecs )
 				{

@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.textui.command;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 
 import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
@@ -70,10 +70,16 @@ public class BurnMpCommand
 
 		if ( parameters.startsWith( "extra" ) )
 		{
-			SpecialOutfit.createImplicitCheckpoint();
-			RecoveryManager.recoverHP();
-			ManaBurnManager.burnExtraMana( true );
-			SpecialOutfit.restoreImplicitCheckpoint();
+			Checkpoint checkpoint = new Checkpoint();
+			try
+			{
+				RecoveryManager.recoverHP();
+				ManaBurnManager.burnExtraMana( true );
+			}
+			finally
+			{
+				checkpoint.restore();
+			}
 			return;
 		}
 
@@ -96,9 +102,17 @@ public class BurnMpCommand
 			return;
 		}
 
-		SpecialOutfit.createImplicitCheckpoint();
-		RecoveryManager.recoverHP();
-		ManaBurnManager.burnMana( -amount );
-		SpecialOutfit.restoreImplicitCheckpoint();
+		{
+			Checkpoint checkpoint = new Checkpoint();
+			try
+			{
+				RecoveryManager.recoverHP();
+				ManaBurnManager.burnMana( -amount );
+			}
+			finally
+			{
+				checkpoint.restore();
+			}
+		}
 	}
 }

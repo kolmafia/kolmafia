@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 
 import net.sourceforge.kolmafia.listener.ItemListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
@@ -317,6 +318,19 @@ public abstract class InventoryManager
 		return count;
 	}
 
+	public static final boolean checkpointedRetrieveItem( final int itemId )
+	{
+		Checkpoint checkpoint = new Checkpoint();
+		try
+		{
+			return InventoryManager.retrieveItem( ItemPool.get( itemId, 1 ), true, true, true );
+		}
+		finally
+		{
+			checkpoint.restore();
+		}
+	}
+
 	public static final boolean retrieveItem( final int itemId )
 	{
 		return InventoryManager.retrieveItem( ItemPool.get( itemId, 1 ), true, true, true );
@@ -340,6 +354,19 @@ public abstract class InventoryManager
 	public static final boolean retrieveItem( final int itemId, final int count )
 	{
 		return InventoryManager.retrieveItem( ItemPool.get( itemId, count ), true, true, true );
+	}
+
+	public static final boolean checkpointedRetrieveItem( final int itemId, final int count )
+	{
+		Checkpoint checkpoint = new Checkpoint();
+		try
+		{
+			return InventoryManager.retrieveItem( itemId, count );
+		}
+		finally
+		{
+			checkpoint.restore();
+		}
 	}
 
 	public static final boolean retrieveItem( final int itemId, final int count, final boolean isAutomated )
@@ -400,6 +427,19 @@ public abstract class InventoryManager
 	public static final boolean retrieveItem( final AdventureResult item )
 	{
 		return InventoryManager.retrieveItem( item, true, true, true );
+	}
+
+	public static final boolean checkpointedRetrieveItem( final AdventureResult item )
+	{
+		Checkpoint checkpoint = new Checkpoint();
+		try
+		{
+			return InventoryManager.retrieveItem( item );
+		}
+		finally
+		{
+			checkpoint.restore();
+		}
 	}
 
 	public static final boolean retrieveItem( final AdventureResult item, final boolean isAutomated )

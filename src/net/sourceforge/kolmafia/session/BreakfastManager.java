@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -133,39 +134,43 @@ public class BreakfastManager
 			return;
 		}
 
-		SpecialOutfit.createImplicitCheckpoint();
-
-		if ( runComplete )
+		Checkpoint checkpoint = new Checkpoint();
+		try
 		{
-			checkRumpusRoom();
-			checkVIPLounge();
-			readGuildManual();
-			getHermitClovers();
-			harvestGarden();
-			useSpinningWheel();
-			visitBigIsland();
-			visitVolcanoIsland();
-			checkJackass();
-			makePocketWishes();
-			haveBoxingDaydream();
-			if ( Preferences.getBoolean( "useCrimboToys" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
+			if ( runComplete )
 			{
-				useToys();
+				checkRumpusRoom();
+				checkVIPLounge();
+				readGuildManual();
+				getHermitClovers();
+				harvestGarden();
+				useSpinningWheel();
+				visitBigIsland();
+				visitVolcanoIsland();
+				checkJackass();
+				makePocketWishes();
+				haveBoxingDaydream();
+				if ( Preferences.getBoolean( "useCrimboToys" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
+				{
+					useToys();
+				}
+				collectAnticheese();
+				collectSeaJelly();
 			}
-			collectAnticheese();
-			collectSeaJelly();
+
+			boolean recoverMana = Preferences.getBoolean( "loginRecovery" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
+
+			boolean done = true;
+
+			done &= castSkills( recoverMana, 0 );
+			done &= castBookSkills( recoverMana, 0 );
+
+			Preferences.setBoolean( "breakfastCompleted", done );
 		}
-
-		boolean recoverMana = Preferences.getBoolean( "loginRecovery" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
-
-		boolean done = true;
-
-		done &= castSkills( recoverMana, 0 );
-		done &= castBookSkills( recoverMana, 0 );
-
-		Preferences.setBoolean( "breakfastCompleted", done );
-
-		SpecialOutfit.restoreImplicitCheckpoint();
+		finally
+		{
+			checkpoint.restore();
+		}
 		KoLmafia.forceContinue();
 	}
 

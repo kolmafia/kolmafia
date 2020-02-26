@@ -50,7 +50,7 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -460,8 +460,19 @@ public class CreateItemRequest
 
 		// Save outfit in case we need to equip something - like a Grimacite hammer
 
-		SpecialOutfit.createImplicitCheckpoint();
+		Checkpoint checkpoint = new Checkpoint();
+		try
+		{
+			this.createItemLoop();
+		}
+		finally
+		{
+			checkpoint.restore();
+		}
+	}
 
+	private void createItemLoop()
+	{
 		while ( this.quantityNeeded > 0 && KoLmafia.permitsContinue() )
 		{
 			if ( !this.autoRepairBoxServant() )
@@ -525,8 +536,6 @@ public class CreateItemRequest
 			KoLmafia.updateDisplay( "Successfully created " + this.getName() + " (" + createdQuantity + ")" );
 			this.quantityNeeded -= createdQuantity;
 		}
-
-		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
 	public boolean noCreation()

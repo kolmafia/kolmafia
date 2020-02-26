@@ -51,7 +51,7 @@ import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.moods.HPRestoreItemList.HPRestoreItem;
@@ -142,29 +142,34 @@ public class RecoveryManager
 		// Now, run the built-in behavior to take care of
 		// any loose ends.
 
-		SpecialOutfit.createImplicitCheckpoint();
 
-		if ( isMoodCheck )
+		Checkpoint checkpoint = new Checkpoint();
+		try
 		{
-			MoodManager.execute();
-		}
+			if ( isMoodCheck )
+			{
+				MoodManager.execute();
+			}
 
-		if ( isHealthCheck )
+			if ( isHealthCheck )
+			{
+				RecoveryManager.recoverHP();
+			}
+
+			if ( isMoodCheck )
+			{
+				ManaBurnManager.burnExtraMana( false );
+			}
+
+			if ( isManaCheck )
+			{
+				RecoveryManager.recoverMP();
+			}
+		}
+		finally
 		{
-			RecoveryManager.recoverHP();
+			checkpoint.restore();
 		}
-
-		if ( isMoodCheck )
-		{
-			ManaBurnManager.burnExtraMana( false );
-		}
-
-		if ( isManaCheck )
-		{
-			RecoveryManager.recoverMP();
-		}
-
-		SpecialOutfit.restoreImplicitCheckpoint();
 
 		if ( KoLmafia.permitsContinue() && KoLCharacter.getCurrentHP() == 0 && !FightRequest.edFightInProgress() )
 		{
@@ -195,6 +200,19 @@ public class RecoveryManager
 	public static boolean recoverHP()
 	{
 		return RecoveryManager.recoverHP( 0 );
+	}
+
+	public static boolean checkpointedRecoverHP( final long recover )
+	{
+		Checkpoint checkpoint = new Checkpoint();
+		try
+		{
+			return RecoveryManager.recoverHP( recover );
+		}
+		finally
+		{
+			checkpoint.restore();
+		}
 	}
 
 	public static boolean recoverHP( final long recover )
@@ -242,6 +260,19 @@ public class RecoveryManager
 	/**
 	 * Utility. The method which restores the character's current mana points above the given value.
 	 */
+
+	public static boolean checkpointedRecoverMP( final long recover )
+	{
+		Checkpoint checkpoint = new Checkpoint();
+		try
+		{
+			return RecoveryManager.recoverMP( recover );
+		}
+		finally
+		{
+			checkpoint.restore();
+		}
+	}
 
 	public static boolean recoverMP( final long mpNeeded )
 	{

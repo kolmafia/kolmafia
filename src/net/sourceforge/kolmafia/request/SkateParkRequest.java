@@ -43,7 +43,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
@@ -144,15 +144,15 @@ public class SkateParkRequest
 	public void run()
 	{
 		// Equip for underwater adventuring if not
+		Checkpoint checkpoint = new Checkpoint();
 		try
 		{
-			SpecialOutfit.createImplicitCheckpoint();
 			SkateParkRequest.equip();
 			super.run();
 		}
 		finally
 		{
-			SpecialOutfit.restoreImplicitCheckpoint();
+			checkpoint.restore();
 		}
 	}
 

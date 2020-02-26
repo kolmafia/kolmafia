@@ -75,7 +75,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.chat.ChatPoller;
@@ -1514,32 +1514,38 @@ public class GenericRequest
 			}
 
 			AdventureResult comedyItem = ItemPool.get( comedyItemID, 1 );
+			String text = null;
 
-			SpecialOutfit.createImplicitCheckpoint();
-			if ( KoLConstants.inventory.contains( comedyItem ) )
+			Checkpoint checkpoint = new Checkpoint();
+			try
 			{
-				// Unequip any 2-handed weapon before equipping an offhand
-				if ( offhand )
+				if ( KoLConstants.inventory.contains( comedyItem ) )
 				{
-					AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
-					int hands = EquipmentDatabase.getHands( weapon.getItemId() );
-					if ( hands > 1 )
+					// Unequip any 2-handed weapon before equipping an offhand
+					if ( offhand )
 					{
-						new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.WEAPON ).run();
+						AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
+						int hands = EquipmentDatabase.getHands( weapon.getItemId() );
+						if ( hands > 1 )
+						{
+							new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.WEAPON ).run();
+						}
 					}
+
+					new EquipmentRequest( comedyItem ).run();
 				}
 
-				new EquipmentRequest( comedyItem ).run();
+				if ( KoLmafia.permitsContinue() && KoLCharacter.hasEquipped( comedyItem ) )
+				{
+					GenericRequest request = new PandamoniumRequest( comedy );
+					request.run();
+					text = request.responseText;
+				}
 			}
-
-			String text = null;
-			if ( KoLmafia.permitsContinue() && KoLCharacter.hasEquipped( comedyItem ) )
+			finally
 			{
-				GenericRequest request = new PandamoniumRequest( comedy );
-				request.run();
-				text = request.responseText;
+				checkpoint.restore();
 			}
-			SpecialOutfit.restoreImplicitCheckpoint();
 
 			if ( text != null )
 			{

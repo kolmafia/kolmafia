@@ -43,7 +43,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -117,17 +117,17 @@ public class MomRequest
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You have already had food from Mom Sea Monkee today." );
 			return;
 		}
+
+		Checkpoint checkpoint = new Checkpoint();
 		try
 		{
-			SpecialOutfit.createImplicitCheckpoint();
 			this.equip();
-		
 			KoLmafia.updateDisplay( "Visiting Mom..." );
 			super.run();
 		}
 		finally
 		{
-			SpecialOutfit.restoreImplicitCheckpoint();
+			checkpoint.restore();
 		}
 	}
 

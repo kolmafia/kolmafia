@@ -149,10 +149,8 @@ public class CreateSpecialPanel
 			KoLmafia.updateDisplay( "Verifying ingredients..." );
 			int pulled = Math.max( 0, quantityDesired - selection.getQuantityPossible() );
 			selection.setQuantityNeeded( quantityDesired - pulled );
+			RequestThread.checkpointedPostRequest( selection );
 
-			SpecialOutfit.createImplicitCheckpoint();
-			RequestThread.postRequest( selection );
-			SpecialOutfit.restoreImplicitCheckpoint();
 			if ( pulled > 0 && KoLmafia.permitsContinue() )
 			{
 				int newbudget = ConcoctionDatabase.getPullsBudgeted() - pulled;
@@ -192,10 +190,8 @@ public class CreateSpecialPanel
 			KoLmafia.updateDisplay( "Verifying ingredients..." );
 			int pulled = Math.max( 0, quantityDesired - selection.getQuantityPossible() );
 			selection.setQuantityNeeded( quantityDesired - pulled );
+			RequestThread.checkpointedPostRequest( selection );
 
-			SpecialOutfit.createImplicitCheckpoint();
-			RequestThread.postRequest( selection );
-			SpecialOutfit.restoreImplicitCheckpoint();
 			if ( pulled > 0 && KoLmafia.permitsContinue() )
 			{
 				int newbudget = ConcoctionDatabase.getPullsBudgeted() - pulled;

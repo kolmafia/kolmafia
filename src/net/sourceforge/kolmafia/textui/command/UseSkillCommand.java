@@ -38,7 +38,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -59,9 +59,15 @@ public class UseSkillCommand
 	{
 		if ( parameters.length() > 0 )
 		{
-			SpecialOutfit.createImplicitCheckpoint();
-			UseSkillCommand.cast( parameters );
-			SpecialOutfit.restoreImplicitCheckpoint();
+			Checkpoint checkpoint = new Checkpoint();
+			try
+			{
+				UseSkillCommand.cast( parameters );
+			}
+			finally
+			{
+				checkpoint.restore();
+			}
 			return;
 		}
 		ShowDataCommand.show( "skills" + ( command.equals( "cast" ) ? " cast" : "" ) );

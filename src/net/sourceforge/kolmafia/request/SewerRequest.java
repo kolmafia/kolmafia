@@ -279,8 +279,6 @@ public class SewerRequest
 
 		try
 		{
-			SpecialOutfit.createImplicitCheckpoint();
-
 			int initialClosetCount = SewerRequest.currentItemCount( items, KoLConstants.inventory );
 			while ( needed > count )
 			{
@@ -291,7 +289,7 @@ public class SewerRequest
 
 				// Get enough gum for all remaining items to fish out of the sewer
 				if ( gum.getCount( KoLConstants.inventory ) < gumUseCount &&
-				     !InventoryManager.retrieveItem( ItemPool.CHEWING_GUM, remaining ) )
+				     !InventoryManager.checkpointedRetrieveItem( ItemPool.CHEWING_GUM, remaining ) )
 				{
 					break;
 				}
@@ -310,8 +308,6 @@ public class SewerRequest
 		}
 		finally
 		{
-			SpecialOutfit.restoreImplicitCheckpoint();
-
 			// Pull the goal items back out of the closet.
 			SewerRequest.unclosetSewerItems( SewerRequest.currentClosetItems( items ), initialCloset );
 		}

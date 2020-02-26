@@ -118,19 +118,11 @@ public class MayoMinderCommand
 
 		if ( !InventoryManager.hasItem( ItemPool.MAYO_MINDER ) )
 		{
-			try
+			if ( !InventoryManager.checkpointedRetrieveItem( ItemPool.MAYO_MINDER ) )
 			{
-				SpecialOutfit.createImplicitCheckpoint();
-				if ( !InventoryManager.retrieveItem( ItemPool.MAYO_MINDER ) )
-				{
-					KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot obtain a Mayo Minder" );
-					return;
-				}			
-			}
-			finally
-			{
-				SpecialOutfit.restoreImplicitCheckpoint();
-			}
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot obtain a Mayo Minder" );
+				return;
+			}			
 		}
 
 		GenericRequest request = new GenericRequest( "inv_use.php?which=3&whichitem=" + ItemPool.MAYO_MINDER ) ;

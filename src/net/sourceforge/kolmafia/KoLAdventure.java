@@ -1383,9 +1383,7 @@ public class KoLAdventure
 		     this.areaSummary.poison() <= Preferences.getInteger( "autoAntidote" ) &&
 		     !KoLCharacter.hasEquipped( ItemPool.get( ItemPool.BEZOAR_RING, 1 ) ) )
 		{
-			SpecialOutfit.createImplicitCheckpoint();
-			InventoryManager.retrieveItem( ItemPool.ANTIDOTE );
-			SpecialOutfit.restoreImplicitCheckpoint();
+			InventoryManager.checkpointedRetrieveItem( ItemPool.ANTIDOTE );
 		}
 
 		if ( !KoLmafia.permitsContinue() )

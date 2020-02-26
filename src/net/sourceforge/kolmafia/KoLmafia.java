@@ -62,6 +62,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -1330,6 +1331,7 @@ public abstract class KoLmafia
 
 		boolean wasAdventuring = KoLmafia.isAdventuring;
 
+		Checkpoint checkpoint = null;
 		try
 		{
 			if ( request instanceof KoLAdventure )
@@ -1362,7 +1364,7 @@ public abstract class KoLmafia
 				{
 					KoLmafia.isAdventuring = true;
 					NamedListenerRegistry.fireChange( "(adventuring)" );
-					SpecialOutfit.createImplicitCheckpoint();
+					checkpoint = new Checkpoint();
 				}
 			}
 
@@ -1377,9 +1379,12 @@ public abstract class KoLmafia
 		}
 		finally
 		{
+			if ( checkpoint != null )
+			{
+				checkpoint.restore();
+			}
 			if ( request instanceof KoLAdventure && !wasAdventuring )
 			{
-				SpecialOutfit.restoreImplicitCheckpoint();
 				KoLmafia.isAdventuring = false;
 				NamedListenerRegistry.fireChange( "(adventuring)" );
 

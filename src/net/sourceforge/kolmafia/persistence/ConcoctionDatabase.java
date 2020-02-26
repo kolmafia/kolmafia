@@ -57,7 +57,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 
@@ -913,8 +913,22 @@ public class ConcoctionDatabase
 		// empty.
 		ConcoctionDatabase.refreshConcoctionsNow();
 
-		SpecialOutfit.createImplicitCheckpoint();
+		Checkpoint checkpoint = new Checkpoint();
+		try
+		{
+			ConcoctionDatabase.handleQueue( toProcess, food, booze, consumptionType );
+		}
+		finally
+		{
+			checkpoint.restore();
+		}
 
+		// Refresh again now that ingredients have been deducted
+		ConcoctionDatabase.refreshConcoctions();
+	}
+
+	private static final void handleQueue( Stack<QueuedConcoction> toProcess, boolean food, boolean booze, int consumptionType )
+	{
 		// Keep track of current consumption helper. These can be
 		// "queued" by simply "using" them. Account for that.
 		AdventureResult helper = ConcoctionDatabase.currentConsumptionHelper( food, booze );
@@ -923,7 +937,7 @@ public class ConcoctionDatabase
 		// popping the stack will get items in actual queued order.
 		while ( !toProcess.isEmpty() )
 		{
-			currentItem = toProcess.pop();
+			QueuedConcoction currentItem = toProcess.pop();
 			Concoction c = currentItem.getConcoction();
 			int quantity = currentItem.getCount();
 
@@ -1039,11 +1053,6 @@ public class ConcoctionDatabase
 			// Get current state of appropriate consumption helper
 			helper = ConcoctionDatabase.currentConsumptionHelper( food, booze );
 		}
-
-		SpecialOutfit.restoreImplicitCheckpoint();
-
-		// Refresh again now that ingredients have been deducted
-		ConcoctionDatabase.refreshConcoctions();
 	}
 
 	private static final void consumeItem( Concoction c, int quantity, int consumptionType )

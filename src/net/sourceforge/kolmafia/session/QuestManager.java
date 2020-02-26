@@ -48,7 +48,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -1811,10 +1811,16 @@ public class QuestManager
 			return;
 		}
 
-		SpecialOutfit.createImplicitCheckpoint();
-		( new EquipmentRequest( EquipmentDatabase.getOutfit( OutfitPool.MINING_OUTFIT ) ) ).run();
-		RequestThread.postRequest( goatlet );
-		SpecialOutfit.restoreImplicitCheckpoint();
+		Checkpoint checkpoint = new Checkpoint();
+		try
+		{
+			( new EquipmentRequest( EquipmentDatabase.getOutfit( OutfitPool.MINING_OUTFIT ) ) ).run();
+			RequestThread.postRequest( goatlet );
+		}
+		finally
+		{
+			checkpoint.restore();
+		}
 	}
 
 	/** After we win a fight, some quests may need to be updated.  Centralize handling for it here.
