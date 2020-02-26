@@ -784,7 +784,7 @@ public class Maximizer
 					String iName = cmd.substring( cmd.indexOf( " " ) + 3 ).trim();
 					if ( cmd.startsWith( "use " ) )
 					{
-						item = ItemFinder.getFirstMatchingItem( iName, false );
+						item = ItemFinder.getFirstMatchingItem( iName, false, Match.USE );
 					}
 					else if ( cmd.startsWith( "chew " ) )
 					{

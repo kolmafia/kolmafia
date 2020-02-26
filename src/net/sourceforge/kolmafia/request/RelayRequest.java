@@ -182,7 +182,9 @@ public class RelayRequest
 	private static String CONFIRM_STICKER = "confirm25";
 	private static String CONFIRM_DESERT_OFFHAND = "confirm26";
 	private static String CONFIRM_MACHETE = "confirm27";
-	private static String CONFIRM_MEAT_ISOTOPES = "confirm28";
+	private static String CONFIRM_RALPH = "confirm28";
+	private static String CONFIRM_RALPH1 = "confirm29";
+	private static String CONFIRM_RALPH2 = "confirm30";
 
 	private static boolean ignoreBoringDoorsWarning = false;
 	private static boolean ignoreDesertWarning = false;
@@ -190,6 +192,7 @@ public class RelayRequest
 	private static boolean ignoreMacheteWarning = false;
 	private static boolean ignoreMohawkWigWarning = false;
 	private static boolean ignorePoolSkillWarning = false;
+	private static boolean ignoreFullnessWarning = false;
 
 	public static final void reset()
 	{
@@ -199,6 +202,7 @@ public class RelayRequest
 		RelayRequest.ignoreMacheteWarning = false;
 		RelayRequest.ignoreMohawkWigWarning = false;
 		RelayRequest.ignorePoolSkillWarning = false;
+		RelayRequest.ignoreFullnessWarning = false;
 	}
 
 	public RelayRequest( final boolean allowOverride )
@@ -966,9 +970,13 @@ public class RelayRequest
 		// Ray's Bazaar and can therefore not turn in your rare Meat
 		// Isotopes
 
-		if ( KoLCharacter.isKingdomOfExploathing() &&
-		     InventoryManager.getCount( ItemPool.RARE_MEAT_ISOTOPE ) > 0 )
+		if ( KoLCharacter.isKingdomOfExploathing() )
 		{
+			if ( InventoryManager.getCount( ItemPool.RARE_MEAT_ISOTOPE ) <= 0 )
+			{
+				return false;
+			}
+
 			StringBuilder warning = new StringBuilder();
 			warning.append( "You are about to free King Ralph and end your Kingdom of Exploathing run." );
 			warning.append( " Before you do so, you might want to redeem your rare Meat isotopes at Cosmic Ray's Bazaar," );
@@ -976,7 +984,7 @@ public class RelayRequest
 			warning.append( " If you are ready to break the prism, click on the icon on the left." );
 			warning.append( " If you wish to visit Cosmic Ray's Bazaar, click on icon on the right." );
 			this.sendOptionalWarning(
-				CONFIRM_MEAT_ISOTOPES,
+				CONFIRM_RALPH,
 				warning.toString(),
 				"hand.gif",
 				"meatisotope.gif",
@@ -985,6 +993,52 @@ public class RelayRequest
 				null
 				);
 			return true;
+		}
+
+		if ( KoLCharacter.isPlumber() )
+		{
+			// If you are already stuffed, you can't eat more.
+			if ( KoLCharacter.getFullness() < KoLCharacter.getFullnessLimit() &&
+			     !RelayRequest.ignoreFullnessWarning )
+			{
+				// If it's already confirmed, then track that for the session
+				if ( this.getFormField( CONFIRM_RALPH1 ) == null )
+				{
+					StringBuilder warning = new StringBuilder();
+					warning.append( "When you stop being a plumber, you will lose five maximum fullness." );
+					warning.append( " Since you are not yet full, perhaps you would like to eat more now?" );
+					warning.append( " (It is not harmful to be over-full.)" );
+					warning.append( " If you are sure you don't want to eat more at this time, click the icon. " );
+					this.sendGeneralWarning( "knifefork.gif", warning.toString(), CONFIRM_RALPH1 );
+					return true;
+				}
+				RelayRequest.ignoreFullnessWarning = true;
+			}
+
+			// If you don't have any coins, nothing to spend
+			if ( InventoryManager.getCount( ItemPool.COIN ) > 0 )
+			{
+				if ( this.getFormField( CONFIRM_RALPH2 ) == null )
+				{
+					StringBuilder warning = new StringBuilder();
+					warning.append( "When you stop being a plumber, you will lose access to the Mushroom District." );
+					warning.append( " Since you have unspent coins, perhaps you would like to visit some shops?" );
+					warning.append( " If you are sure you don't want to spend your coins, click the icon on the left. " );
+					warning.append( " If you wish to visit the Mushroom District, click on icon on the right." );
+					this.sendOptionalWarning(
+						CONFIRM_RALPH2,
+						warning.toString(),
+						"mario_coin.gif",
+						"mario_mushroom1.gif",
+						"place.php?whichplace=mario",
+						null,
+						null
+						);
+					return true;
+				}
+			}
+			
+			return false;
 		}
 
 		return false;
