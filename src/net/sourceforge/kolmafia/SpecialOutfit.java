@@ -549,9 +549,18 @@ public class SpecialOutfit
 
 		public Checkpoint()
 		{
+			boolean notEmpty = false;
 			for ( int slot = 0; slot < this.slots.length; ++slot )
 			{
-				this.slots[ slot ] = EquipmentManager.getEquipment( slot );
+				AdventureResult item = EquipmentManager.getEquipment( slot );
+				this.slots[ slot ] = item;
+				notEmpty |= slot < EquipmentManager.FAMILIAR && !item.equals( EquipmentRequest.UNEQUIP );
+			}
+			if ( !notEmpty )
+			{
+				String message = "Created an empty checkpoint.";
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
 			}
 			synchronized ( SpecialOutfit.class )
 			{
@@ -561,7 +570,7 @@ public class SpecialOutfit
 
 		public AdventureResult get( final int slot )
 		{
-			return  ( slot < this.slots.length ) ? this.slots[ slot ] : null;
+			return ( slot < this.slots.length ) ? this.slots[ slot ] : null;
 		}
 
 		public void set( final int slot, final AdventureResult item )
