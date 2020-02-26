@@ -1237,17 +1237,34 @@ Jerry Bradford	2058	larryscrote.gif	NOCOPY Atk: 200 Def: 0 HP: 0 Init: -10000 P:
 Jerry Bradford, Pokéfam World Champion	2059	larryscrote.gif	NOCOPY Atk: 250 Def: 0 HP: 0 Init: -10000 P: dude
 
 # Dark Gyffte
-Steve Belmont	2105	stevebelmont.gif	Atk: 40 Def: 40 HP: 50 Init: 100 P: dude	white money bag (n100)
-Ricardo Belmont	2106	ricardobelmont.gif	Atk: 60 Def: 60 HP: 80 Init: 150 P: dude	white money bag (n100)
-Jayden Belmont	2107	jaydenbelmont.gif	Atk: 100 Def: 100 HP: 150 Init: 200 P: dude	red money bag (n100)
-Travis Belmont	2108	travisbelmont.gif	Atk: 200 Def: 200 HP: 250 Init: 250 P: dude	red money bag (n100)	Staff of Fats (n100)
-Greg Dagreasy	2109	gregdagreasy.gif	Atk: 200 Def: 300 HP: 200 Init: 250 P: dude	red money bag (n100)	Eye of Ed (100)
-Sylvia Belgrande	2110	sylviabelgrande.gif	Atk: 200 Def: 200 HP: 200 Init: 250 P: dude	red money bag (n100)	ancient amulet (100)
-Sharona	2111	sharona.gif	Atk: 150 Def: 150 HP: 250 Init: 150 P: dude	red money bag (n100)
-Jake Norris	2112	jakenorris.gif	Atk: 250 Def: 250 HP: 2000 Init: 300 P: dude	blue money bag (n100)
-Chad Alacarte	2113	chadalacarte.gif	Atk: 250 Def: 250 HP: 2000 Init: 300 P: dude	blue money bag (n100)
-%alucard%	2114	reyalpeht.gif	Atk: 300 Def: 300 HP: 1000 Init: 10000 P: dude
-Your Lack of Reflection	2115	towermirror.gif	Atk: 100 Def: 100 HP: 3000 Init: -10000 P: horror
+Steve Belmont	2105	stevebelmont.gif	NOCOPY BOSS Atk: 40 Def: 40 HP: 50 Init: 100 P: dude	white money bag (n100)
+Ricardo Belmont	2106	ricardobelmont.gif	NOCOPY BOSS Atk: 60 Def: 60 HP: 80 Init: 150 P: dude	white money bag (n100)
+Jayden Belmont	2107	jaydenbelmont.gif	NOCOPY BOSS Atk: 100 Def: 100 HP: 150 Init: 200 P: dude	red money bag (n100)
+Travis Belmont	2108	travisbelmont.gif	NOCOPY BOSS Atk: 200 Def: 200 HP: 250 Init: 250 P: dude	red money bag (n100)	Staff of Fats (n100)
+Greg Dagreasy	2109	gregdagreasy.gif	NOCOPY BOSS Atk: 200 Def: 300 HP: 200 Init: 250 P: dude	red money bag (n100)	Eye of Ed (100)
+Sylvia Belgrande	2110	sylviabelgrande.gif	NOCOPY BOSS Atk: 200 Def: 200 HP: 200 Init: 250 P: dude	red money bag (n100)	ancient amulet (100)
+Sharona	2111	sharona.gif	NOCOPY BOSS Atk: 150 Def: 150 HP: 250 Init: 150 P: dude	red money bag (n100)
+Jake Norris	2112	jakenorris.gif	NOCOPY BOSS Atk: 250 Def: 250 HP: 2000 Init: 300 P: dude	blue money bag (n100)
+Chad Alacarte	2113	chadalacarte.gif	NOCOPY BOSS Atk: 250 Def: 250 HP: 2000 Init: 300 P: dude	blue money bag (n100)
+%alucard%	2114	reyalpeht.gif	NOCOPY BOSS Atk: 300 Def: 300 HP: 1000 Init: 10000 P: dude
+Your Lack of Reflection	2115	towermirror.gif	NOCOPY BOSS Atk: 100 Def: 100 HP: 3000 Init: -10000 P: horror
+
+# Kingdom of Exploathing
+invader bullet	2137	invaderbullet.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: 10000 P: construct
+skeleton astronaut	2136	astroskeleton.gif	WANDERER Atk: 100 Def: 100 HP: 100 Init: 100 P: undead
+the invader	2138	invader.gif	Atk: 1000 Def: 1000 HP: 1000 Init: -10000 P: construct
+
+# Path of the Plumber
+Koopa Paratroopa	2165	paratroopa.gif	NOCOPY BOSS Atk: 40 Def: 40 HP: 40 Init: 50 P: beast
+Hammer Brother	2166	hammerbrother.gif	NOCOPY BOSS Atk: 60 Def: 60 HP: 80 Init: 50 P: beast
+Very Dry Bones	2167	drybones.gif	NOCOPY BOSS Atk: 100 Def: 100 HP: 150 Init: 50 P: undead
+Birdo	2168	birdo.gif	NOCOPY BOSS Atk: 180 Def: 180 HP: 300 Init: 50 P: beast	Staff of Fats (n100)
+King Boo	2169	kingboo2.gif	NOCOPY BOSS Atk: 180 Def: 180 HP: 300 Init: 50 Phys: 100 P: undead	Eye of Ed (n100)
+Kamek	2170	kamek.gif	NOCOPY BOSS Atk: 180 Def: 180 HP: 200 Init: 50 Phys: 100 P: beast	ancient amulet (n100)
+Angry Sun	2171	angrysun.gif	NOCOPY BOSS Atk: 130 Def: 130 HP: 300 Init: 50 P: weird
+Bowser	2172	bowser.gif	NOCOPY BOSS Atk: 300 Def: 300 HP: 400 Init: 50 P: beast
+Bowser	2173	bowser.gif	NOCOPY BOSS Atk: 300 Def: 300 HP: 400 Init: 50 P: beast
+Wa%playername/lowercase%	2174	waplayer.gif	NOCOPY BOSS Atk: 300 Def: 300 HP: 1000 Init: 10000 P: dude	red coin (n100)
 
 # Glitch Season
 %monster%	2140	nopic.gif	NOCOPY Atk: 1 Def: 1 HP: 1 Init: 1 P: construct
@@ -2479,11 +2496,6 @@ Mob Penguin union rail worker	2031	pengthug.gif	Scale: 6 Cap: 1000 Floor: 10 Ini
 tree hugging hippy protestor	2066	limphippy1.gif	Scale: 6 Cap: 1000 Floor: 10 Init: 50 P: hippy E: stench	&quot;Remember the Trees&quot; Shirt (0)
 tree loving hippy protestor	2086	limphippy2.gif	Scale: 6 Cap: 1000 Floor: 10 Init: 50 P: hippy E: stench	deadfall branch (0)
 
-# Kingdom of Exploathing
-invader bullet	2137	invaderbullet.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: 10000 P: construct
-skeleton astronaut	2136	astroskeleton.gif	WANDERER Atk: 100 Def: 100 HP: 100 Init: 100 P: undead
-the invader	2138	invader.gif	Atk: 1000 Def: 1000 HP: 1000 Init: -10000 P: construct
-
 # Crimbo 2019 (December 2019)
 gingerbread maw	2141	gingermaw.gif	Atk: 200 Def: 200 HP: 300 Init: 100 P: horror	salty gumdrop	soggy gingerbread chunk	ribbon candy ascot
 nutmeg anemone	2142	nutmeganemone.gif	Atk: 200 Def: 200 HP: 150 Init: -10000 Meat: 100 P: plant	intact anemone spike	moist Crimbo spices	anemoney clip
@@ -2497,18 +2509,6 @@ sea-elf	2149	seaelf.gif	Atk: 300 Def: 300 HP: 400 Init: 200 Meat: 100 P: elf	sal
 peppermint eel	2150	pepperminteel.gif	Atk: 400 Def: 400 HP: 400 Init: 200 Meat: 150 P: fish	peppermint eel sauce (0)	peppermint spine (0)
 Yuleviathan	2151	yuleviathan.gif	Atk: 400 Def: 400 HP: 1000 Init: -10000 Meat: 300 P: fish	Yuleviathan necklace (0)
 Dolph Bossin, the Boss Dolphin	2152	dolphbossin.gif	NOMANUEL Atk: 500 Def: 450 HP: 800 Init: -10000 P: fish	Dolph Bossin's charity note (100)	Dolph Bossin's Crimbo hat (100)
-
-# Path of the Plumber
-Koopa Paratroopa	2165	paratroopa.gif	NOCOPY BOSS Atk: 40 Def: 40 HP: 40 Init: 50 P: beast
-Hammer Brother	2166	hammerbrother.gif	NOCOPY BOSS Atk: 60 Def: 60 HP: 80 Init: 50 P: beast
-Very Dry Bones	2167	drybones.gif	NOCOPY BOSS Atk: 100 Def: 100 HP: 150 Init: 50 P: undead
-Birdo	2168	birdo.gif	NOCOPY BOSS Atk: 180 Def: 180 HP: 300 Init: 50 P: beast	Staff of Fats (n100)
-King Boo	2169	kingboo2.gif	NOCOPY BOSS Atk: 180 Def: 180 HP: 300 Init: 50 Phys: 100 P: undead	Eye of Ed (n100)
-Kamek	2170	kamek.gif	NOCOPY BOSS Atk: 180 Def: 180 HP: 200 Init: 50 Phys: 100 P: beast	ancient amulet (n100)
-Angry Sun	2171	angrysun.gif	NOCOPY BOSS Atk: 130 Def: 130 HP: 300 Init: 50 P: weird
-Bowser	2172	bowser.gif	NOCOPY BOSS Atk: 300 Def: 300 HP: 400 Init: 50 P: beast
-Bowser	2173	bowser.gif	NOCOPY BOSS Atk: 300 Def: 300 HP: 400 Init: 50 P: beast
-Wa%playername/lowercase%	2174	waplayer.gif	NOCOPY BOSS Atk: 300 Def: 300 HP: 1000 Init: 10000 P: dude	red coin (n100)
 
 # Retired Standard Monsters
 Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation Manuel: "Astronomer" Wiki: "Astronomer"	star chart (100)

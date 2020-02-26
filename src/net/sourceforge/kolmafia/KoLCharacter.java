@@ -114,6 +114,7 @@ import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.VioletFogManager;
@@ -3675,6 +3676,7 @@ public abstract class KoLCharacter
 		{
 			int plumberPoints = wasInHardcore ? 2 : 1;
 			Preferences.increment( "plumberPoints", plumberPoints );
+			KoLCharacter.removePlumberQuestItems();
 		}
 
 		// We are no longer in Hardcore
@@ -3813,6 +3815,22 @@ public abstract class KoLCharacter
 
 		// Run a user-supplied script
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "kingLiberatedScript" ) );
+	}
+
+	private static final void removePlumberQuestItems()
+	{
+		// When you free Princess Ralph, all special "quest" items from
+		// this path vanish from inventory and your equipment.
+		for ( int itemId = ItemPool.FIRST_PLUMBER_QUEST_ITEM; itemId <= ItemPool.LAST_PLUMBER_QUEST_ITEM; ++itemId )
+		{
+			EquipmentManager.discardEquipment( itemId );
+			int count = InventoryManager.getCount( itemId );
+			if ( count > 0 )
+			{
+				AdventureResult item = ItemPool.get( itemId, -count );
+				ResultProcessor.processResult( item );
+			}
+		}
 	}
 
 	/**
