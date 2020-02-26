@@ -1015,6 +1015,11 @@ public class RelayRequest
 				RelayRequest.ignoreFullnessWarning = true;
 			}
 
+			// *** coins are quest items, but, rather than persisting until ascension, they disappear when
+			// *** you free Princess Ralph - as do all items you can spend coins on.
+			// *** If this changes, uncomment the following code.
+
+			/*
 			// If you don't have any coins, nothing to spend
 			if ( InventoryManager.getCount( ItemPool.COIN ) > 0 )
 			{
@@ -1037,6 +1042,7 @@ public class RelayRequest
 					return true;
 				}
 			}
+			*/
 			
 			return false;
 		}
