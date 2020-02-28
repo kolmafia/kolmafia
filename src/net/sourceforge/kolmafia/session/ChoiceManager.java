@@ -268,6 +268,7 @@ public abstract class ChoiceManager
 	private static final Pattern SAFE_PATTERN = Pattern.compile( "find ([\\d,]+) Meat in the safe" );
 	private static final Pattern TRASH_PATTERN = Pattern.compile( "must have been (\\d+) pieces of trash" );
 	private static final Pattern VOTE_PATTERN = Pattern.compile( "<label><input .*? value=\\\"(\\d)\\\" class=\\\"locals\\\" /> (.*?)<br /><span .*? color: blue\\\">(.*?)</span><br /></label>" );
+	private static final Pattern VOTE_SPEECH_PATTERN = Pattern.compile( "<p><input type='radio' name='g' value='(\\d+)' /> <b>(.*?)</b>(.*?)<br><blockquote>(.*?)</blockquote>" );
 	private static final Pattern URL_VOTE_PATTERN = Pattern.compile( "local\\[\\]=(\\d)" );
 	private static final Pattern EARLY_DAYCARE_PATTERN = Pattern.compile( "mostly empty. (.*?) toddlers are training with (.*?) instructor" );
 	private static final Pattern DAYCARE_PATTERN = Pattern.compile( "(?:Looks like|Probably around) (.*?) pieces in all. (.*?) toddlers are training with (.*?) instructor" );
@@ -4742,137 +4743,92 @@ public abstract class ChoiceManager
 		StringUtilities.globalStringReplace( buffer, "Door #4", "Deuce Freshly" );
 	}
 
-	private static final Pattern VOTE_SPEECH_PATTERN = Pattern.compile( "<p><input type='radio' name='g' value='(\\d+)' /> <b>(.*?)</b>(.*?)<br><blockquote>(.*?)</blockquote>" );
+	public static final String parseVoteSpeech( final String party, final String speech )
+	{
+		if (party.contains("Pork Elf Historical Preservation Party")) {
+			if (speech.contains("strict curtailing of unnatural modern technologies")) {
+				return "government bureaucrat";
+			} else if (speech.contains("reintroduce Pork Elf DNA")) {
+				return "terrible mutant";
+			} else if (speech.contains("kingdom-wide seance")) {
+				return "angry ghost";
+			} else if (speech.contains("very interested in snakes")) {
+				return "annoyed snake";
+			} else if (speech.contains("lots of magical lard")) {
+				return "slime blob";
+			}
+		} else if (party.contains("Clan Ventrilo")) {
+			if (speech.contains("bringing this blessing to the entire population")) {
+				return "slime blob";
+			} else if (speech.contains("see your deceased loved ones again")) {
+				return "angry ghost";
+			} else if (speech.contains("stronger and more vigorous")) {
+				return "terrible mutant";
+			} else if (speech.contains("implement healthcare reforms")) {
+				return "government bureaucrat";
+			} else if (speech.contains("flavored drink in a tube")) {
+				return "annoyed snake";
+			}
+		} else if (party.contains("Bureau of Efficient Government")) {
+			if (speech.contains("graveyards are a terribly inefficient use of space")) {
+				return "angry ghost";
+			} else if (speech.contains("strictly enforced efficiency laws")) {
+				return "government bureaucrat";
+			} else if (speech.contains("distribute all the medications for all known diseases ")) {
+				return "terrible mutant";
+			} else if (speech.contains("introduce an influx of snakes")) {
+				return "annoyed snake";
+			} else if (speech.contains("releasing ambulatory garbage-eating slimes")) {
+				return "slime blob";
+			}
+		} else if (party.contains("Scions of Ich'Xuul'kor")) {
+			if (speech.contains("increase awareness of our really great god")) {
+				return "terrible mutant";
+			} else if (speech.contains("hunt these evil people down")) {
+				return "government bureaucrat";
+			} else if (speech.contains("sound of a great hissing")) {
+				return "annoyed snake";
+			} else if (speech.contains("make things a little bit more like he's used to")) {
+				return "slime blob";
+			} else if (speech.contains("kindness energy")) {
+				return "angry ghost";
+			}
+		} else if (party.contains("Extra-Terrific Party")) {
+			if (speech.contains("wondrous chemical")) {
+				return "terrible mutant";
+			} else if (speech.contains("comprehensive DNA harvesting program")) {
+				return "government bureaucrat";
+			} else if (speech.contains("mining and refining processes begin")) {
+				return "slime blob";
+			} else if (speech.contains("warp engines will not destabilize")) {
+				return "angry ghost";
+			} else if (speech.contains("breeding pair of these delightful creatures")) {
+				return "annoyed snake";
+			}
+		}
+
+		return null;
+	}
 
 	public static final void decorateVote( final StringBuffer buffer )
 	{
 		Matcher matcher = ChoiceManager.VOTE_SPEECH_PATTERN.matcher( buffer.toString() );
+
+		int count = 1;
+
 		while ( matcher.find() )
 		{
-			String party = matcher.group( 3 );
-			String speech = matcher.group( 4 );
 			String find = matcher.group( 0 );
-			String replace = null;
-			if ( party.contains( "Pork Elf Historical Preservation Party" ) )
-			{
-				if ( speech.contains( "strict curtailing of unnatural modern technologies" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for government bureaucrat tomorrow)</blockquote>" );
-				}
-				else if ( speech.contains( "reintroduce Pork Elf DNA" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for terrible mutant tomorrow)</blockquote>" );
-				}
-				else if ( speech.contains( "kingdom-wide seance" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for angry ghost tomorrow)</blockquote>" );
-				}
-				else if ( speech.contains( "very interested in snakes" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for annoyed snake tomorrow)</blockquote>" );
-				}
-				else if ( speech.contains( "lots of magical lard" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for slime blob tomorrow)</blockquote>" );
-				}
-			}
-			else if ( party.contains( "Clan Ventrilo" ) )
-			{
-				if ( speech.contains( "bringing this blessing to the entire population" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for slime blob tomorrow)</blockquote>" );
-				}
-				else if ( speech.contains( "see your deceased loved ones again" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for angry ghost tomorrow)</blockquote>" );
-				}
-				else if ( speech.contains( "stronger and more vigorous" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for terrible mutant tomorrow)</blockquote>" );
-				}
-				else if ( speech.contains( "implement healthcare reforms" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for government bureaucrat tomorrow)</blockquote>" );
-				}
-				else if ( speech.contains( "flavored drink in a tube" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for annoyed snake tomorrow)</blockquote>" );
-				}
-			}
-			else if ( party.contains( "Bureau of Efficient Government" ) )
-			{
-				if ( speech.contains( "graveyards are a terribly inefficient use of space" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for angry ghost tomorrow)</blockquote>" );
-				}
-				else if ( speech.contains( "strictly enforced efficiency laws" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for government bureaucrat tomorrow)</blockquote>" );
-				}
-				else if ( speech.contains( "distribute all the medications for all known diseases " ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for terrible mutant tomorrow)</blockquote>" );
-				}
-				else if ( speech.contains( "introduce an influx of snakes" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for annoyed snake tomorrow)</blockquote>" );
-				}
-				else if ( speech.contains( "releasing ambulatory garbage-eating slimes" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for slime blob tomorrow)</blockquote>" );
-				}
-			}
-			else if ( party.contains( "Scions of Ich'Xuul'kor" ) )
-			{
-				if ( speech.contains( "increase awareness of our really great god" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for terrible mutant tomorrow)</blockquote>" );
-				}
-				else if ( speech.contains( "hunt these evil people down" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for government bureaucrat tomorrow)</blockquote>" );
-				}
-				else if ( speech.contains( "sound of a great hissing" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for annoyed snake tomorrow)</blockquote>" );
-				}
-				else if ( speech.contains( "make things a little bit more like he's used to" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for slime blob tomorrow)</blockquote>" );
-				}
-				else if ( speech.contains( "kindness energy" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for angry ghost tomorrow)</blockquote>" );
-				}
-			}
-			else if ( party.contains( "Extra-Terrific Party" ) )
-			{
-				if ( speech.contains( "wondrous chemical" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for terrible mutant tomorrow)</blockquote>" );
-				}
-				else if ( speech.contains( "comprehensive DNA harvesting program" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for government bureaucrat tomorrow)</blockquote>" );
-				}
-				else if ( speech.contains( "mining and refining processes begin" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for slime blob tomorrow)</blockquote>" );
-				}
-				else if ( speech.contains( "warp engines will not destabilize" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for angry ghost tomorrow)</blockquote>" );
-				}
-				else if ( speech.contains( "breeding pair of these delightful creatures" ) )
-				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for annoyed snake tomorrow)</blockquote>" );
-				}
-			}
+			String monsterName = Preferences.getString( "_voteMonster" + count );
 
-			if ( replace != null )
+			if ( monsterName != "" )
 			{
+				String replace = StringUtilities.singleStringReplace( find, "</blockquote>",
+						"<br />(vote for " + monsterName + " tomorrow)</blockquote>" );
 				StringUtilities.singleStringReplace( buffer, find, replace );
-			}			
+			}
+	
+			count++;
 		}
 	}
 
@@ -15014,15 +14970,33 @@ public abstract class ChoiceManager
 		case 1331:
 		{
 			// Daily Loathing Ballot
-			Matcher matcher = ChoiceManager.VOTE_PATTERN.matcher( text );
-			while ( matcher.find() )
+			Matcher localMatcher = ChoiceManager.VOTE_PATTERN.matcher( text );
+			while ( localMatcher.find() )
 			{
-				int voteValue = StringUtilities.parseInt( matcher.group( 1 ) ) + 1;
-				String voteMod = Modifiers.parseModifier( matcher.group( 3 ) );
+				int voteValue = StringUtilities.parseInt( localMatcher.group( 1 ) ) + 1;
+				String voteMod = Modifiers.parseModifier( localMatcher.group( 3 ) );
 				if ( voteMod != null )
 				{
 					Preferences.setString( "_voteLocal" + voteValue, voteMod );
 				}
+			}
+
+			Matcher platformMatcher = ChoiceManager.VOTE_SPEECH_PATTERN.matcher ( text );
+
+			int count = 1;
+
+			while ( platformMatcher.find() )
+			{
+				String party = platformMatcher.group( 3 );
+				String speech = platformMatcher.group( 4 );
+
+				String monsterName = ChoiceManager.parseVoteSpeech( party, speech );
+
+				if ( monsterName != null ) {
+					Preferences.setString( "_voteMonster" + count, monsterName );
+				}
+
+				count++;
 			}
 			break;
 		}

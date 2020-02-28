@@ -1887,6 +1887,8 @@ user	_voteLocal1
 user	_voteLocal2	
 user	_voteLocal3	
 user	_voteLocal4	
+user	_voteMonster1	
+user	_voteMonster2	
 user	_voteModifier	
 user	_voteMonster	
 user	_voteToday	false
