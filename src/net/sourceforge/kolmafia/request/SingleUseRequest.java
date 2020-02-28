@@ -125,7 +125,9 @@ public class SingleUseRequest
 		}
 
 		int type = ItemDatabase.getConsumptionType( itemId );
-		int count = this.getQuantityNeeded();
+		int quantity = this.getQuantityNeeded();
+		int yield = this.getYield();
+		int count = ( quantity + yield - 1 ) / yield;
 
 		if ( count > 1 &&
 		     (type == KoLConstants.CONSUME_USE || ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_USABLE )) )

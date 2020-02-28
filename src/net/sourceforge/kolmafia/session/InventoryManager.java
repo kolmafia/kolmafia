@@ -856,6 +856,7 @@ public abstract class InventoryManager
 		}
 
 		boolean shouldUseMall = !forceNoMall && InventoryManager.canUseMall( item );
+		boolean haveBuyScript = Preferences.getString( "buyScript" ).trim().length() > 0;
 		boolean scriptSaysBuy = false;
 
 		// Attempt to create the item from existing ingredients (if
@@ -867,14 +868,13 @@ public abstract class InventoryManager
 
 		if ( creator != null && creator.getQuantityPossible() > 0 )
 		{
-			if ( sim )
-			{
-				return shouldUseMall ? "create or buy" : "create";
-			}
-
 			if ( !forceNoMall )
 			{
 				boolean defaultBuy = shouldUseMall && InventoryManager.cheaperToBuy( item, missingCount );
+				if ( sim && haveBuyScript)
+				{
+					return defaultBuy ? "create or buy" : "create";
+				}
 				scriptSaysBuy = InventoryManager.invokeBuyScript( item, missingCount, 2, defaultBuy );
 				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
@@ -882,6 +882,11 @@ public abstract class InventoryManager
 				{
 					return "";
 				}
+			}
+
+			if ( sim )
+			{
+				return scriptSaysBuy ? "buy" : "create or buy";
 			}
 
 			if ( !scriptSaysBuy )
@@ -957,18 +962,21 @@ public abstract class InventoryManager
 
 		if ( shouldUseMall && !scriptSaysBuy && !InventoryManager.hasAnyIngredient( itemId ) )
 		{
-			if ( sim )
-			{
-				return "create or buy";
-			}
-
 			if ( creator == null )
 			{
+				if ( sim )
+				{
+					return "buy";
+				}
 				scriptSaysBuy = true;
 			}
 			else
 			{
 				boolean defaultBuy = InventoryManager.cheaperToBuy( item, missingCount );
+				if ( sim && haveBuyScript)
+				{
+					return defaultBuy ? "create or buy" : "create";
+				}
 				scriptSaysBuy = InventoryManager.invokeBuyScript( item, missingCount, 0, defaultBuy );
 				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
@@ -1034,11 +1042,6 @@ public abstract class InventoryManager
 
 		if ( creator != null && mixingMethod != CraftingType.NOCREATE )
 		{
-			if ( sim )
-			{
-				return shouldUseMall ? "create or buy" : "create";
-			}
-
 			switch ( itemId )
 			{
 			case ItemPool.DOUGH:
@@ -1052,6 +1055,10 @@ public abstract class InventoryManager
 			}
 
 			boolean defaultBuy = scriptSaysBuy || shouldUseMall && InventoryManager.cheaperToBuy( item, missingCount );
+			if ( sim && haveBuyScript)
+			{
+				return defaultBuy ? "create or buy" : "create";
+			}
 			scriptSaysBuy = InventoryManager.invokeBuyScript( item, missingCount, 1, defaultBuy );
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
@@ -1059,69 +1066,83 @@ public abstract class InventoryManager
 			{
 				return "";
 			}
+		}
 
-			// If it's creatable, and you have at least one ingredient, see
-			// if you can make it via recursion.
+		// If it's creatable, and you have at least one ingredient, see
+		// if you can make it via recursion.
 
-			if ( !scriptSaysBuy && creator.getQuantityPossible() > 0 )
+		if ( creator != null && mixingMethod != CraftingType.NOCREATE && !scriptSaysBuy )
+		{
+			boolean makeFromComponents = true;
+			if ( isAutomated && creator.getQuantityPossible() > 0 )
 			{
-				boolean makeFromComponents = true;
-				if ( isAutomated )
+				// Speculate on how much the items needed to make the creation would cost.
+				// Do not retrieve if the average meat spend to make one of the item
+				// exceeds the user's autoBuyPriceLimit.
+
+				float meatSpend = InventoryManager.priceToMake( item, missingCount, 0, true, true ) / missingCount;
+				int autoBuyPriceLimit = Preferences.getInteger( "autoBuyPriceLimit" );
+				if ( meatSpend > autoBuyPriceLimit )
 				{
-					// Speculate on how much the items needed to make the creation would cost.
-					// Do not retrieve if the average meat spend to make one of the item
-					// exceeds the user's autoBuyPriceLimit.
+					makeFromComponents = false;
+					KoLmafia.updateDisplay(
+						MafiaState.ERROR,
+						"The average amount of meat spent on components ("
+						+ KoLConstants.COMMA_FORMAT.format( meatSpend )
+						+ ") for one " + item.getName() + " exceeds autoBuyPriceLimit ("
+						+ KoLConstants.COMMA_FORMAT.format( autoBuyPriceLimit ) + ")" );
 
-					float meatSpend = InventoryManager.priceToMake( item, missingCount, 0, true, true ) / missingCount;
-					int autoBuyPriceLimit = Preferences.getInteger( "autoBuyPriceLimit" );
-					if ( meatSpend > autoBuyPriceLimit )
-					{
-						makeFromComponents = false;
-						KoLmafia.updateDisplay(
-							MafiaState.ERROR,
-							"The average amount of meat spent on components ("
-							+ KoLConstants.COMMA_FORMAT.format( meatSpend )
-							+ ") for one " + item.getName() + " exceeds autoBuyPriceLimit ("
-							+ KoLConstants.COMMA_FORMAT.format( autoBuyPriceLimit ) + ")" );
+					// If making it from components was cheaper than buying the final product, and we
+					// couldn't afford to make it, don't bother trying to buy the final product.
+					shouldUseMall = false;
+				}
+			}
 
-						// If making it from components was cheaper than buying the final product, and we
-						// couldn't afford to make it, don't bother trying to buy the final product.
-						shouldUseMall = false;
-					}
+			// bundle of firewood = stick of firewood (10) - COINMASTER
+			// stick of firewood (10) = bundle of firewood - SUSE
+			//
+			// This is the only concoction that creates a coinmaster token
+			//
+			// It is reasonable to use bundle of firewood to get sticks of
+			// firewood to spend in the Coinmaster to make items - unless
+			// you are making bundles of firewood.
+			if ( item.getItemId() == ItemPool.BUNDLE_OF_FIREWOOD &&
+			     creator.getQuantityPossible() == 0 )
+			{
+				makeFromComponents = false;
+			}
+
+			if ( makeFromComponents )
+			{
+				if ( sim )
+				{
+					return "create";
 				}
 
-				if ( makeFromComponents )
+				// Second place to check for adventure usage.  Make sure we didn't already ask above.
+				creator.setQuantityNeeded( missingCount );
+
+				if ( !asked && isAutomated && concoction != null &&
+				     concoction.getAdventuresNeeded( missingCount, true ) > 0 )
 				{
-					if ( sim )
-					{
-						return "create";
-					}
-
-					// Second place to check for adventure usage.  Make sure we didn't already ask above.
-					creator.setQuantityNeeded( missingCount );
-
-					if ( !asked && isAutomated && concoction != null &&
-					     concoction.getAdventuresNeeded( missingCount, true ) > 0 )
-					{
-						if ( !InventoryManager.allowTurnConsumption( creator ) )
-						{
-							return null;
-						}
-						asked = true;
-					}
-
-					RequestThread.postRequest( creator );
-					missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
-
-					if ( missingCount <= 0 )
-					{
-						return "";
-					}
-
-					if ( !KoLmafia.permitsContinue() && isAutomated )
+					if ( !InventoryManager.allowTurnConsumption( creator ) )
 					{
 						return null;
 					}
+					asked = true;
+				}
+
+				RequestThread.postRequest( creator );
+				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
+
+				if ( missingCount <= 0 )
+				{
+					return "";
+				}
+
+				if ( !KoLmafia.permitsContinue() && isAutomated )
+				{
+					return null;
 				}
 			}
 		}

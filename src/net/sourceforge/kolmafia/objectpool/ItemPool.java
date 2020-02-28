@@ -3126,6 +3126,7 @@ public class ItemPool
 	public static final int GETAWAY_BROCHURE = 10292;
 	public static final int RARE_MEAT_ISOTOPE = 10310;
 	public static final int BURNT_STICK = 10311;
+	public static final int BUNDLE_OF_FIREWOOD = 10312;
 	public static final int CAMPFIRE_SMOKE = 10313;
 	public static final int THE_IMPLODED_WORLD = 10322;
 	public static final int POCKET_PROFESSOR_MEMORY_CHIP = 10324;
