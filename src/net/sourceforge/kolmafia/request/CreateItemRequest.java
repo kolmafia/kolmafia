@@ -142,6 +142,11 @@ public class CreateItemRequest
 		this.createdItem = this.concoction.getItem().getInstance( this.yield );
 	}
 
+	public int getYield()
+	{
+		return this.yield;
+	}
+
 	public void reconstructFields()
 	{
 		String formSource = "craft.php";
@@ -1159,6 +1164,8 @@ public class CreateItemRequest
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
+			AdventureResult ingredient = ingredients[ i ];
+
 			// First, calculate the multiplier that's needed
 			// for this ingredient to avoid not making enough
 			// intermediate ingredients and getting an error.
@@ -1166,7 +1173,7 @@ public class CreateItemRequest
 			int multiplier = 0;
 			for ( int j = 0; j < ingredients.length; ++j )
 			{
-				if ( ingredients[ i ].getItemId() == ingredients[ j ].getItemId() )
+				if ( ingredient.getItemId() == ingredients[ j ].getItemId() )
 				{
 					multiplier += ingredients[ j ].getCount();
 				}
@@ -1182,7 +1189,7 @@ public class CreateItemRequest
 				quantity = ( quantity + yield - 1 ) / yield;
 			}
 
-			AdventureResult retrieval = ingredients[ i ].getInstance( quantity );
+			AdventureResult retrieval = ingredient.getInstance( quantity );
 			if ( !InventoryManager.retrieveItem( retrieval ) )
 			{
 				return false;
