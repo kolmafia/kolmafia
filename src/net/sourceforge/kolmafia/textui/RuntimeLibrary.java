@@ -1306,6 +1306,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "choice_follows_fight", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "handling_choice", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "run_combat", DataTypes.BUFFER_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
@@ -5665,7 +5668,15 @@ public abstract class RuntimeLibrary
 		String extraFields = more.toString();
 
 		String response = null;
-		if ( ( !ChoiceManager.handlingChoice && !FightRequest.choiceFollowsFight ) ||
+
+		// If we have finished a fight which is followed by a choice
+		// but are not yet handling it, visit choice.php to load it up.
+		if ( FightRequest.choiceFollowsFight )
+		{
+			RuntimeLibrary.visit_url( interpreter, "choice.php", true, false );
+		}
+
+		if ( !ChoiceManager.handlingChoice ||
 		     ChoiceManager.lastResponseText == null ||
 		     option == 0 )
 		{
@@ -5812,6 +5823,11 @@ public abstract class RuntimeLibrary
 	public static Value choice_follows_fight( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( FightRequest.choiceFollowsFight );
+	}
+
+	public static Value handling_choice( Interpreter interpreter )
+	{
+		return DataTypes.makeBooleanValue( ChoiceManager.handlingChoice );
 	}
 
 	public static Value run_combat( Interpreter interpreter )
