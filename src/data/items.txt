@@ -9764,10 +9764,10 @@
 9736	heart cozy	419274968	heartwarmer.gif	none, usable, curse	t,d	5
 9737	eaves droppers	834104982	earwarmer.gif	none, usable, curse	t,d	5
 9738	personal graffiti kit	390440571	smallcase.gif	none, usable, curse	t,d	5
-9739	Mysterious Red Box	252328462	dreadbox.gif	none	t	0	Mysterious Red Boxen
-9740	Mysterious Green Box	984001760	dreadbox.gif	none	t	0	Mysterious Green Boxen
-9741	Mysterious Blue Box	153708947	dreadbox.gif	none	t	0	Mysterious Blue Boxen
-9742	Mysterious Black Box	126440301	dreadbox.gif	none	t	0	Mysterious Black Boxen
+9739	Mysterious Red Box	252328462	dreadbox.gif	usable	t	0	Mysterious Red Boxen
+9740	Mysterious Green Box	984001760	dreadbox.gif	usable	t	0	Mysterious Green Boxen
+9741	Mysterious Blue Box	153708947	dreadbox.gif	usable	t	0	Mysterious Blue Boxen
+9742	Mysterious Black Box	126440301	dreadbox.gif	usable	t	0	Mysterious Black Boxen
 9743	rainbow jellybean	722559610	rainbowbean.gif	potion, multiple	t,d	1
 9744	mystery lollipop	803282805	mysterylolly.gif	potion, usable	t,d	1
 9745	Love Potion #0	863678027	potion9.gif	potion, usable	q	0
@@ -10501,3 +10501,8 @@
 10473	frosty button	596311200	mario_frostpin.gif	accessory	q	0
 10474	blooper ink	383888760	mario_ink.gif	potion, multiple	q	0
 10475	red coin	713142976	mario_redcoin.gif	none		0
+10476	rubber doll head	592150148	rubberbabyhead.gif	usable	t	0
+10477	rubber doll body	833926717	rubberbabybody.gif	none	t	0
+10478	plastic doll arms	310790003	rubberbabyarms.gif	none	t	0
+10479	plastic doll legs	881534687	rubberbabylegs.gif	none	t	0
+10480	rubber baby doll	455517746	rubberbaby.gif	offhand		0

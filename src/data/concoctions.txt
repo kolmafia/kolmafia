@@ -3148,3 +3148,11 @@ tempura green and red bean bento box with inky squid sauce	SUSHI	Mer-kin lunchbo
 tempura green and red bean bento box with mer-kin weaksauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	Mer-kin weaksauce	tempura green and red bean
 tempura green and red bean bento box with peanut sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	peanut sauce	tempura green and red bean
 tempura green and red bean bento box with peppermint eel sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	peppermint eel sauce	tempura green and red bean
+
+# February 29
+
+rubber doll head	SUSE	Mysterious Black Box
+rubber doll body	SUSE	Mysterious Blue Box
+plastic doll arms	SUSE	Mysterious Green Box
+plastic doll legs	SUSE	Mysterious Red Box
+rubber baby doll	SUSE	rubber doll head	rubber doll body	plastic doll arms	plastic doll legs
