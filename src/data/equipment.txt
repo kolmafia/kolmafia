@@ -1997,6 +1997,7 @@ reusable shopping bag	10	none
 rice bowl	30	none
 rock	0	none
 Royal scepter	100	none
+rubber baby doll	100	none
 rubber ribcage	120	Mus: 45	shield
 rusty compass	60	Mys: 15
 rusty old lantern	200	Mys: 85
