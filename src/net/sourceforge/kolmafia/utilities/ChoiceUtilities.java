@@ -231,7 +231,7 @@ public class ChoiceUtilities
 	// radio buttons (no examples
 
 	// <select name=tossid>><option value=7375>actual tapas  (5 casualties)</option>
-	private static final Pattern SELECT_PATTERN = Pattern.compile( "<select name=['\"]?(.*?)['\"]?>(.*?)</select>", Pattern.DOTALL );
+	private static final Pattern SELECT_PATTERN = Pattern.compile( "<select .*?name=['\"]?(.*?)['\"]?>(.*?)</select>", Pattern.DOTALL );
 	private static final Pattern SELECT_OPTION_PATTERN = Pattern.compile( "<option value=['\"]?(.*?)['\"]?>(.*?)</option>" );
 
 	public static Map<Integer, Map<String, Set<String>>> parseSelectInputs( final String responseText )

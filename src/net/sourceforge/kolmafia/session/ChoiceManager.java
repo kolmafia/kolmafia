@@ -18106,12 +18106,14 @@ public abstract class ChoiceManager
 	
 	private static void logChoices()
 	{
+		// Log choice options to the session log
 		int choice = ChoiceManager.currentChoice();
-		Map<Integer,String> choices = ChoiceUtilities.parseChoicesWithSpoilers(  ChoiceManager.lastResponseText );
+		Map<Integer,String> choices = ChoiceUtilities.parseChoicesWithSpoilers( ChoiceManager.lastResponseText );
 		for ( Map.Entry<Integer,String> entry : choices.entrySet() )
 		{
 			RequestLogger.updateSessionLog( "choice " + choice + "/" + entry.getKey() + ": " + entry.getValue() );
-			RequestLogger.printLine( "<b>choice " + entry.getKey() + "</b>: " + entry.getValue() );
 		}
+		// Give prettier and more verbose output to the gCLI
+		ChoiceUtilities.printChoices( ChoiceManager.lastResponseText );
 	}
 }
