@@ -1392,11 +1392,17 @@ public class AdventureRequest
 		return this.adventureName;
 	}
 
-	public static final void handleServerRedirect( final String redirectLocation )
+	public static final void handleServerRedirect( String redirectLocation )
 	{
 		if ( redirectLocation.contains( "main.php" ) )
 		{
 			return;
+		}
+
+		// Yes, there really is a typo in the URL
+		if ( redirectLocation.startsWith( "camground.php" ) )
+		{
+			redirectLocation = "campground.php";
 		}
 
 		AdventureRequest.ZONE_UNLOCK.constructURLString( redirectLocation );
@@ -1426,6 +1432,15 @@ public class AdventureRequest
 		if ( redirectLocation.startsWith( "witchess.php" ) )
 		{
 			// Grabbing the buff from Witchess
+			AdventureRequest.ZONE_UNLOCK.run();
+			return;
+		}
+
+		if ( redirectLocation.startsWith( "campground.php" ) )
+		{
+			// Submitting a Source Terminal request with a bad
+			// option leaves the Source Terminal by redirecting to
+			// the campground.
 			AdventureRequest.ZONE_UNLOCK.run();
 			return;
 		}
