@@ -3163,6 +3163,9 @@ public class ItemPool
 	public static final int POWERFUL_GLOVE = 10438;
 	public static final int FIRST_PLUMBER_QUEST_ITEM = 10454;
 	public static final int COIN = 10454;
+	public static final int MUSHROOM = 10455;
+	public static final int DELUXE_MUSHROOM = 10456;
+	public static final int SUPER_DELUXE_MUSHROOM = 10457;
 	public static final int POWER_PANTS = 10469;
 	public static final int LAST_PLUMBER_QUEST_ITEM = 10474;
 

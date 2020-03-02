@@ -36,10 +36,14 @@ package net.sourceforge.kolmafia.moods;
 import java.io.File;
 
 import java.lang.reflect.Method;
+import java.lang.NoSuchMethodException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.BuffBotHome;
@@ -192,6 +196,19 @@ public class RecoveryManager
 		RecoveryManager.recoveryActive = false;
 	}
 
+	private static Method getKoLCharacterMethod( String name )
+	{
+		try
+		{
+			return KoLCharacter.class.getMethod( name, new Class[ 0 ] );
+		}
+		catch ( NoSuchMethodException e )
+		{
+			System.out.println( "Cannot find method KoLCharacter." + name + "()" );
+			return null;
+		}
+	}
+
 	/**
 	 * Utility. The method called in between battles. This method checks to see if the character's HP has dropped below
 	 * the tolerance value, and recovers if it has (if the user has specified this in their settings).
@@ -215,7 +232,10 @@ public class RecoveryManager
 		}
 	}
 
-	public static boolean recoverHP( final long recover )
+	private static final Method currentHPMethod = RecoveryManager.getKoLCharacterMethod( "getCurrentHP" );
+	private static final Method maximumHPMethod = RecoveryManager.getKoLCharacterMethod( "getMaximumHP" );
+
+	public static boolean recoverHP( final long hpNeeded )
 	{
 		if ( KoLmafia.refusesContinue() )
 		{
@@ -230,12 +250,26 @@ public class RecoveryManager
 			}
 
 			HPRestoreItemList.updateHealthRestored();
-			if ( RecoveryManager.invokeRecoveryScript( "HP", recover ) )
+			if ( RecoveryManager.invokeRecoveryScript( "HP", hpNeeded ) )
 			{
 				return true;
 			}
-			return RecoveryManager.recover(
-				recover, "hpAutoRecovery", "getCurrentHP", "getMaximumHP", HPRestoreItemList.CONFIGURES );
+
+			String allowed;
+			HPRestoreItem[] items;
+
+			if ( KoLCharacter.isPlumber() )
+			{
+				allowed = "super deluxe mushroom;deluxe mushroom;mushroom";
+				items = HPRestoreItemList.PLUMBER_CONFIGURES;
+			}
+			else
+			{
+				allowed = Preferences.getString( "hpAutoRecoveryItems" );
+				items = HPRestoreItemList.CONFIGURES;
+			}
+
+			return RecoveryManager.recover( hpNeeded, "hpAutoRecovery", allowed, currentHPMethod, maximumHPMethod, items );
 		}
 		catch ( Exception e )
 		{
@@ -274,6 +308,9 @@ public class RecoveryManager
 		}
 	}
 
+	private static final Method currentMPMethod = RecoveryManager.getKoLCharacterMethod( "getCurrentMP" );
+	private static final Method maximumMPMethod = RecoveryManager.getKoLCharacterMethod( "getMaximumMP" );
+
 	public static boolean recoverMP( final long mpNeeded )
 	{
 		if ( KoLmafia.refusesContinue() )
@@ -288,8 +325,9 @@ public class RecoveryManager
 			{
 				return true;
 			}
-			return RecoveryManager.recover(
-				mpNeeded, "mpAutoRecovery", "getCurrentMP", "getMaximumMP", MPRestoreItemList.CONFIGURES );
+
+			String allowed = Preferences.getString( "mpAutoRecoveryItems" );
+			return RecoveryManager.recover( mpNeeded, "mpAutoRecovery", allowed, currentMPMethod, maximumMPMethod, MPRestoreItemList.CONFIGURES );
 		}
 		catch ( Exception e )
 		{
@@ -306,36 +344,21 @@ public class RecoveryManager
 	 * so.
 	 */
 
-	private static boolean recover( float desired, final String settingName, final String currentName,
-		final String maximumName, final Object[] techniques )
+	private static boolean recover( float desired, float setting, float target, boolean isNonCombatHealthRestore,
+					final Method currentMethod, final Method maximumMethod,
+					Set<String> usableTechniques, final RestoreItem[] techniques )
 		throws Exception
 	{
-		// First, check for beaten up, if the person has tongue as an
-		// auto-heal option. This takes precedence over all other checks.
-
-		String restoreSetting = Preferences.getString( settingName + "Items" ).trim().toLowerCase();
-
-		// Next, check against the restore needed to see if
-		// any restoration needs to take place.
-
-		Object[] empty = new Object[ 0 ];
-		Method currentMethod, maximumMethod;
-
-		currentMethod = KoLCharacter.class.getMethod( currentName, new Class[ 0 ] );
-		maximumMethod = KoLCharacter.class.getMethod( maximumName, new Class[ 0 ] );
-
-		float setting = Preferences.getFloat( settingName );
-
-		if ( setting < 0.0f && desired == 0 )
+		// See if any restoration needs to take place
+		if ( setting < 0.0f && desired == 0.0f )
 		{
 			return true;
 		}
 
+		Object[] empty = new Object[ 0 ];
 		int current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
 
-		// If you've already reached the desired value, don't
-		// bother restoring.
-
+		// If you've already reached the desired value, don't restore.
 		if ( desired != 0 && current >= desired )
 		{
 			return true;
@@ -344,22 +367,13 @@ public class RecoveryManager
 		int maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
 		int needed = (int) Math.min( maximum, Math.max( desired, setting * maximum + 1.0f ) );
 
-		// Next, check against the restore target to see how
-		// far you need to go.
-
-		setting = Preferences.getFloat( settingName + "Target" );
-		desired = Math.min( maximum, Math.max( desired, setting * maximum ) );
+		// Check against restore target to see how far you need to go.
+		desired = Math.min( maximum, Math.max( desired, target * maximum ) );
 
 		if ( BuffBotHome.isBuffBotActive() || desired > maximum )
 		{
 			desired = maximum;
 		}
-
-		// Special handling of the Hidden Temple. Here, as
-		// long as your health is above zero, you're okay.
-
-		boolean isNonCombatHealthRestore =
-			settingName.startsWith( "hp" ) && KoLmafia.isAdventuring() && KoLmafia.currentAdventure.isNonCombatsOnly();
 
 		if ( isNonCombatHealthRestore )
 		{
@@ -376,47 +390,28 @@ public class RecoveryManager
 		// using the selected items. This involves a few extra
 		// reflection methods.
 
-		String currentTechniqueName;
-
 		// Determine all applicable items and skills for the restoration.
 		// This is a little bit memory intensive, but it allows for a lot
 		// more flexibility.
 
-		ArrayList possibleItems = new ArrayList();
-		ArrayList possibleSkills = new ArrayList();
+		ArrayList<RestoreItem> possibleItems = new ArrayList<>();
+		ArrayList<RestoreItem> possibleSkills = new ArrayList<>();
 
-		for ( int i = 0; i < techniques.length; ++i )
+		for ( RestoreItem technique : techniques )
 		{
-			currentTechniqueName = techniques[ i ].toString().toLowerCase();
-			if ( restoreSetting.indexOf( currentTechniqueName ) == -1 )
+			String currentTechniqueName = technique.toString().toLowerCase();
+			if ( !usableTechniques.contains( currentTechniqueName ) )
 			{
 				continue;
 			}
 
-			if ( techniques[ i ] instanceof HPRestoreItem )
+			if ( technique.isSkill() )
 			{
-				HPRestoreItem item = (HPRestoreItem) techniques[ i ];
-				if ( item.isSkill() )
-				{
-					possibleSkills.add( item );
-				}
-				else if ( item.usableInCurrentPath() )
-				{
-					possibleItems.add( item );
-				}
+				possibleSkills.add( technique );
 			}
-
-			if ( techniques[ i ] instanceof MPRestoreItem )
+			else if ( technique.usableInCurrentPath() )
 			{
-				MPRestoreItem item = (MPRestoreItem) techniques[ i ];
-				if ( item.isSkill() )
-				{
-					possibleSkills.add( item );
-				}
-				else if ( item.usableInCurrentPath() )
-				{
-					possibleItems.add( item );
-				}
+				possibleItems.add( technique );
 			}
 		}
 
@@ -438,13 +433,11 @@ public class RecoveryManager
 
 				do
 				{
+					RestoreItem skill = possibleSkills.get( indexToTry );
+					skill.recover( (int) desired, false );
+
 					last = current;
-					currentTechniqueName = possibleSkills.get( indexToTry ).toString().toLowerCase();
-
-					RecoveryManager.recoverOnce(
-						possibleSkills.get( indexToTry ), currentTechniqueName, (int) desired, false );
 					current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
-
 					maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
 					desired = Math.min( maximum, desired );
 					needed = Math.min( maximum, needed );
@@ -472,14 +465,12 @@ public class RecoveryManager
 		{
 			do
 			{
+				RestoreItem item = possibleItems.get( i );
+				item.recover( (int) desired, false );
+
 				last = current;
-				currentTechniqueName = possibleItems.get( i ).toString().toLowerCase();
-
-				RecoveryManager.recoverOnce( possibleItems.get( i ), currentTechniqueName, (int) desired, false );
-
 				current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
 				maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
-
 				desired = Math.min( maximum, desired );
 				needed = Math.min( maximum, needed );
 			}
@@ -518,13 +509,11 @@ public class RecoveryManager
 
 				do
 				{
+					RestoreItem item = possibleItems.get( indexToTry );
+					item.recover( (int) desired, true );
+
 					last = current;
-					currentTechniqueName = possibleItems.get( indexToTry ).toString().toLowerCase();
-
-					RecoveryManager.recoverOnce(
-						possibleItems.get( indexToTry ), currentTechniqueName, (int) desired, true );
 					current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
-
 					maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
 					desired = Math.min( maximum, desired );
 
@@ -562,25 +551,36 @@ public class RecoveryManager
 		return true;
 	}
 
-	/**
-	 * Utility. The method which uses the given recovery technique (not specified in a script) in order to restore.
-	 */
-
-	private static void recoverOnce( final Object technique, final String techniqueName, final int needed,
-		final boolean purchase )
+	private static boolean recover( float desired, final String settingName, String allowed,
+					final Method currentMethod, final Method maximumMethod,
+					final RestoreItem[] techniques )
 	{
-		// If the technique is an item, and the item is not readily
-		// available, then don't bother with this item -- however, if
-		// it is the only item present, then rethink it.
-
-		if ( technique instanceof HPRestoreItem )
+		try
 		{
-			( (HPRestoreItem) technique ).recoverHP( needed, purchase );
+			// Look up some settings
+			float setting = Preferences.getFloat( settingName );
+			float target = Preferences.getFloat( settingName + "Target" );
+
+			// Special handling for hp restoration in adventure
+			// locations with no combats: as long as your health is
+			// above zero, you're okay.
+
+			boolean isNonCombatHealthRestore =
+				settingName.startsWith( "hp" ) &&
+				KoLmafia.isAdventuring() &&
+				KoLmafia.currentAdventure.isNonCombatsOnly();
+
+			// Make a set of allowed restoration techniques
+			Set<String> usableTechniques = new HashSet<>( Arrays.asList( allowed.trim().toLowerCase().split( "\\s*;\\s*" ) ) ); 
+
+			return RecoveryManager.recover( desired, setting, target, isNonCombatHealthRestore,
+							currentMethod, maximumMethod,
+							usableTechniques, techniques );
 		}
-
-		if ( technique instanceof MPRestoreItem )
+		catch ( Exception e )
 		{
-			( (MPRestoreItem) technique ).recoverMP( needed, purchase );
+			StaticEntity.printStackTrace( e );
+			return false;
 		}
 	}
 
