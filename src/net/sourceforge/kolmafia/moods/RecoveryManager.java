@@ -420,11 +420,10 @@ public class RecoveryManager
 
 		// First, use any available skills. 
 
-		int last = -1;
-
 		if ( !possibleSkills.isEmpty() )
 		{
 			current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
+			int last = -1;
 
 			while ( last != current && current < needed )
 			{
@@ -463,6 +462,7 @@ public class RecoveryManager
 
 		for ( int i = 0; i < possibleItems.size() && current < needed; ++i )
 		{
+			int last = -1;
 			do
 			{
 				RestoreItem item = possibleItems.get( i );
@@ -494,44 +494,65 @@ public class RecoveryManager
 		// If things are still not restored, try looking for items you
 		// don't have but can purchase.
 
-		if ( !possibleItems.isEmpty() )
+		try
 		{
 			HPRestoreItemList.setPurchaseBasedSort( true );
 			MPRestoreItemList.setPurchaseBasedSort( true );
 
+			int last = -1;
 			current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
-			last = -1;
 
-			while ( last != current && current < needed )
+			// Plumbers purchase things with coins.
+			if ( KoLCharacter.isPlumber() )
 			{
-				int indexToTry = 0;
-				Collections.sort( possibleItems );
-
-				do
+				while ( last != current && current < needed )
 				{
-					RestoreItem item = possibleItems.get( indexToTry );
+					Collections.sort( possibleItems );
+
+					RestoreItem item = possibleItems.get( 0 );
 					item.recover( (int) desired, true );
 
 					last = current;
 					current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
 					maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
 					desired = Math.min( maximum, desired );
-
-					if ( last >= current )
-					{
-						++indexToTry;
-					}
 				}
-				while ( indexToTry < possibleItems.size() && current < needed );
 			}
+			else if ( !possibleItems.isEmpty() )
+			{
+				while ( last != current && current < needed )
+				{
+					int indexToTry = 0;
+					Collections.sort( possibleItems );
 
+					do
+					{
+						RestoreItem item = possibleItems.get( indexToTry );
+						item.recover( (int) desired, true );
+
+						last = current;
+						current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
+						maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
+						desired = Math.min( maximum, desired );
+
+						if ( last >= current )
+						{
+							++indexToTry;
+						}
+					}
+					while ( indexToTry < possibleItems.size() && current < needed );
+				}
+			}
+			else if ( current < needed )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You ran out of restores." );
+				return false;
+			}
+		}
+		finally
+		{
 			HPRestoreItemList.setPurchaseBasedSort( false );
 			MPRestoreItemList.setPurchaseBasedSort( false );
-		}
-		else if ( current < needed )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You ran out of restores." );
-			return false;
 		}
 
 		// Fall-through check, just in case you've reached the

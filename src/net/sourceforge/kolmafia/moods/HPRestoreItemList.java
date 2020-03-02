@@ -515,21 +515,15 @@ public abstract class HPRestoreItemList
 						// Healing items are bought with coins
 						int unitPrice = this.purchaseCost;
 						int coins = COIN.getCount( KoLConstants.inventory );
-						numberToBuy = Math.min( coins / unitPrice, numberToUse - numberAvailable );
+						int canBuy = coins / unitPrice;
+						numberToBuy = Math.min( canBuy, numberToUse - numberAvailable );
 					}
-					else
+					else if ( NPCStoreDatabase.contains( itemId ) )
 					{
 						// Healing items are bought with Meat
 						int unitPrice = ItemDatabase.getPriceById( itemId ) * 2;
-
-						if ( this == HPRestoreItemList.HERBS && NPCStoreDatabase.contains( itemId ) )
-						{
-							numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, 3 );
-						}
-						else if ( NPCStoreDatabase.contains( itemId ) )
-						{
-							numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, numberToUse );
-						}
+						long canBuy = KoLCharacter.getAvailableMeat() / unitPrice;
+						numberToBuy = Math.min( canBuy, ( this == HPRestoreItemList.HERBS ) ? 3 : numberToUse );
 					}
 
 					// We may need to switch outfits to buy the
