@@ -230,46 +230,26 @@ public abstract class MPRestoreItemList
 	}
 
 	public static class MPRestoreItem
-		implements Comparable<MPRestoreItem>
+		extends RestoreItem
+		implements Comparable<RestoreItem>
 	{
-		private final String itemName;
 		private int manaPerUse;
 		private int purchaseCost;
 		private final boolean isCombatUsable;
-		private AdventureResult itemUsed;
 
-		public MPRestoreItem( final String itemName, final int manaPerUse, final boolean isCombatUsable )
+		public MPRestoreItem( final String restoreName, final int manaPerUse, final boolean isCombatUsable )
 		{
-			this( itemName, manaPerUse, 0, isCombatUsable );
+			this( restoreName, manaPerUse, 0, isCombatUsable );
 		}
 
-		public MPRestoreItem( final String itemName, final int manaPerUse, final int purchaseCost, final boolean isCombatUsable )
+		public MPRestoreItem( final String restoreName, final int manaPerUse, final int purchaseCost, final boolean isCombatUsable )
 		{
-			this.itemName = itemName;
+			super( restoreName );
 			this.manaPerUse = manaPerUse;
 			this.purchaseCost = purchaseCost;
 			this.isCombatUsable = isCombatUsable;
 
-			MPRestoreItemList.restoreByName.put( itemName, this );
-
-			if ( ItemDatabase.contains( itemName ) )
-			{
-				this.itemUsed = ItemPool.get( itemName, 1 );
-			}
-			else
-			{
-				this.itemUsed = null;
-			}
-		}
-
-		public AdventureResult getItem()
-		{
-			return this.itemUsed;
-		}
-
-		public boolean isSkill()
-		{
-			return this.itemUsed == null;
+			MPRestoreItemList.restoreByName.put( restoreName, this );
 		}
 
 		public boolean isCombatUsable()
@@ -277,8 +257,14 @@ public abstract class MPRestoreItemList
 			return this.isCombatUsable && this.usableInCurrentPath();
 		}
 
-		public int compareTo( final MPRestoreItem o )
+		@Override
+		public int compareTo( final RestoreItem o )
 		{
+			if ( !( o instanceof MPRestoreItem ) )
+			{
+				return super.compareTo( o );
+			}
+
 			MPRestoreItem mpi = (MPRestoreItem) o;
 
 			float restoreAmount = KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP();
@@ -326,7 +312,7 @@ public abstract class MPRestoreItemList
 			return true;
 		}
 
-		public void recoverMP( final int needed, final boolean purchase )
+		public void recover( final int needed, final boolean purchase )
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -542,12 +528,6 @@ public abstract class MPRestoreItemList
 			}
 
 			RequestThread.postRequest( UseItemRequest.getInstance( this.itemUsed.getInstance( numberToUse ) ) );
-		}
-
-		@Override
-		public String toString()
-		{
-			return this.itemName;
 		}
 	}
 }

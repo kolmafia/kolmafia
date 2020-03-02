@@ -2503,6 +2503,19 @@ public class ItemDatabase
 		return !KoLCharacter.hasGs( ItemDatabase.getItemName( itemId ) );
 	}
 
+	public static boolean usableOnlyAsPlumber( final int itemId )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.MUSHROOM:
+		case ItemPool.DELUXE_MUSHROOM:
+		case ItemPool.SUPER_DELUXE_MUSHROOM:
+			return true;
+		default:
+			return false;
+		}
+	}
+
 	public static boolean isAllowed( final int itemId )
 	{
 		return StandardRequest.isAllowed( "Items", ItemDatabase.getDataName( itemId ) );

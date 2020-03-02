@@ -101,6 +101,12 @@ public abstract class HPRestoreItemList
 	private static final HPRestoreItem DOCS_ELIXIR = new HPRestoreItem( "Doc Galaktik's Homeopathic Elixir", 19, 120 );
 	private static final HPRestoreItem GELATINOUS_RECONSTRUCTION = new HPRestoreItem( "Gelatinous Reconstruction", 13 );
 
+	// Path of the Plumber items. purchase cost is coins, not Meat
+	private static final HPRestoreItem SUPER_DELUXE_MUSHROOM = new HPRestoreItem( "super deluxe mushroom", 100, 20 );
+	private static final HPRestoreItem DELUXE_MUSHROOM = new HPRestoreItem( "deluxe mushroom", 30, 10 );
+	private static final HPRestoreItem MUSHROOM = new HPRestoreItem( "mushroom", 10, 5 );
+	private static final AdventureResult COIN = ItemPool.get( ItemPool.COIN, 1 );
+
 	public static final HPRestoreItem[] CONFIGURES = new HPRestoreItem[]
 	{
 		HPRestoreItemList.SOFA,
@@ -164,6 +170,16 @@ public abstract class HPRestoreItemList
 		HPRestoreItemList.GELATINOUS_RECONSTRUCTION,
 	};
 
+	// These are the only items usable as a Plumber - and, since they are
+	// quest items which disappear when you free Princess Ralph, they are
+	// usable ONLY as a Plumber.
+	public static final HPRestoreItem[] PLUMBER_CONFIGURES = new HPRestoreItem[]
+	{
+		HPRestoreItemList.SUPER_DELUXE_MUSHROOM,
+		HPRestoreItemList.DELUXE_MUSHROOM,
+		HPRestoreItemList.MUSHROOM,
+	};
+
 	public static final void setPurchaseBasedSort( final boolean purchaseBasedSort )
 	{
 		HPRestoreItemList.purchaseBasedSort = purchaseBasedSort;
@@ -220,15 +236,11 @@ public abstract class HPRestoreItemList
 	}
 
 	public static class HPRestoreItem
-		implements Comparable<HPRestoreItem>
+		extends RestoreItem
+		implements Comparable<RestoreItem>
 	{
-		private final String restoreName;
 		private int healthPerUse;
 		private int purchaseCost;
-		private int spleenHit;
-
-		private int skillId;
-		private AdventureResult itemUsed;
 
 		public HPRestoreItem( final String restoreName, final int healthPerUse )
 		{
@@ -237,39 +249,11 @@ public abstract class HPRestoreItemList
 
 		public HPRestoreItem( final String restoreName, final int healthPerUse, final int purchaseCost )
 		{
-			this.restoreName = restoreName;
+			super( restoreName );
 			this.healthPerUse = healthPerUse;
 			this.purchaseCost = purchaseCost;
-			this.spleenHit = 0;
 
 			HPRestoreItemList.restoreByName.put( restoreName, this );
-
-			if ( ItemDatabase.contains( restoreName ) )
-			{
-				this.itemUsed = ItemPool.get( restoreName, 1 );
-				this.spleenHit = ConsumablesDatabase.getSpleenHit( restoreName );
-				this.skillId = -1;
-			}
-			else if ( SkillDatabase.contains( restoreName ) )
-			{
-				this.itemUsed = null;
-				this.skillId = SkillDatabase.getSkillId( restoreName );
-			}
-			else
-			{
-				this.itemUsed = null;
-				this.skillId = -1;
-			}
-		}
-
-		public boolean isSkill()
-		{
-			return this.skillId != -1;
-		}
-
-		public AdventureResult getItem()
-		{
-			return this.itemUsed;
 		}
 
 		public long getHealthRestored()
@@ -284,12 +268,23 @@ public abstract class HPRestoreItemList
 				return false;
 			}
 
+			// Plumbers can heal HP ONLY with plumber items; no
+			// skills or "resting" mechanism heal HP
+			boolean isPlumber = KoLCharacter.isPlumber();
+
 			if ( this.itemUsed == null )
 			{
-				return true;
+				return !isPlumber;
 			}
 
 			int itemId = this.itemUsed.getItemId();
+
+			// Plumber-only items are all quest items which
+			// disappear when you free Princess Ralph.
+			if ( ItemDatabase.usableOnlyAsPlumber( itemId ) )
+			{
+				return isPlumber;
+			}
 
 			if ( KoLCharacter.inBeecore() )
 			{
@@ -304,17 +299,24 @@ public abstract class HPRestoreItemList
 			return true;
 		}
 
-		public int compareTo( final HPRestoreItem o )
+		@Override
+		public int compareTo( final RestoreItem o )
 		{
-			// Health restores are special because skills are preferred
-			// over items, so test for that first.
+			if ( !( o instanceof HPRestoreItem ) )
+			{
+				return super.compareTo( o );
+			}
 
 			HPRestoreItem hpi = (HPRestoreItem) o;
+
+			// Health restores are special because skills are preferred
+			// over items, so test for that first.
 
 			if ( this.itemUsed == null && hpi.itemUsed != null )
 			{
 				return -1;
 			}
+
 			if ( this.itemUsed != null && hpi.itemUsed == null )
 			{
 				return 1;
@@ -347,7 +349,7 @@ public abstract class HPRestoreItemList
 			return ratioDifference > 0.0f ? 1 : ratioDifference < 0.0f ? -1 : 0;
 		}
 
-		public void recoverHP( final int needed, final boolean purchase )
+		public void recover( final int needed, final boolean purchase )
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -507,15 +509,27 @@ public abstract class HPRestoreItemList
 				if ( purchase && numberAvailable < numberToUse )
 				{
 					long numberToBuy = numberAvailable;
-					int unitPrice = ItemDatabase.getPriceById( itemId ) * 2;
 
-					if ( this == HPRestoreItemList.HERBS && NPCStoreDatabase.contains( itemId ) )
+					if ( KoLCharacter.isPlumber() )
 					{
-						numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, 3 );
+						// Healing items are bought with coins
+						int unitPrice = this.purchaseCost;
+						int coins = COIN.getCount( KoLConstants.inventory );
+						numberToBuy = Math.min( coins / unitPrice, numberToUse - numberAvailable );
 					}
-					else if ( NPCStoreDatabase.contains( itemId ) )
+					else
 					{
-						numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, numberToUse );
+						// Healing items are bought with Meat
+						int unitPrice = ItemDatabase.getPriceById( itemId ) * 2;
+
+						if ( this == HPRestoreItemList.HERBS && NPCStoreDatabase.contains( itemId ) )
+						{
+							numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, 3 );
+						}
+						else if ( NPCStoreDatabase.contains( itemId ) )
+						{
+							numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, numberToUse );
+						}
 					}
 
 					// We may need to switch outfits to buy the
@@ -555,12 +569,6 @@ public abstract class HPRestoreItemList
 			{
 				RequestThread.postRequest( UseItemRequest.getInstance( this.itemUsed.getInstance( numberToUse ) ) );
 			}
-		}
-
-		@Override
-		public String toString()
-		{
-			return this.restoreName;
 		}
 	}
 }
