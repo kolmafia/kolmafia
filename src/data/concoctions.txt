@@ -3151,8 +3151,9 @@ tempura green and red bean bento box with peppermint eel sauce	SUSHI	Mer-kin lun
 
 # February 29
 
-rubber doll head	SUSE	Mysterious Black Box
-rubber doll body	SUSE	Mysterious Blue Box
-plastic doll arms	SUSE	Mysterious Green Box
-plastic doll legs	SUSE	Mysterious Red Box
+# Only on February 29
+# rubber doll head	SUSE	Mysterious Black Box
+# rubber doll body	SUSE	Mysterious Blue Box
+# plastic doll arms	SUSE	Mysterious Green Box
+# plastic doll legs	SUSE	Mysterious Red Box
 rubber baby doll	SUSE	rubber doll head	rubber doll body	plastic doll arms	plastic doll legs

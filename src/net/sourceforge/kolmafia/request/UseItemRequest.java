@@ -6414,6 +6414,17 @@ public class UseItemRequest
 			}
 			return;
 		}
+
+		case ItemPool.MYSTERIOUS_RED_BOX:
+		case ItemPool.MYSTERIOUS_GREEN_BOX:
+		case ItemPool.MYSTERIOUS_BLUE_BOX:
+		case ItemPool.MYSTERIOUS_BLACK_BOX:
+			// This box can't be opened today. Because of the mystery, you see.
+			if ( responseText.contains( "This box can't be opened today" ) )
+			{
+				return;
+			}
+			break;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
