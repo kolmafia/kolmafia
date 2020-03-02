@@ -1225,13 +1225,13 @@ Villainous Henchperson	2025	bond_sidekick1.gif,bond_sidekick2.gif,bond_sidekick3
 Villainous Villain	2026	bond_villain1.gif,bond_villain2.gif,bond_villain3.gif,bond_villain4.gif,bond_villain5.gif,bond_villain6.gif,bond_villain7.gif	Scale: 11 Cap: ? Floor: ? Init: -10000 P: dude
 
 # Pocket Familiars
-Jerry Bradford	2050	larryscrote.gif	NOCOPY Atk: 35 Def: 0 HP: 0 Init: -10000 P: dude
-Jerry Bradford	2051	larryscrote.gif	NOCOPY Atk: 50 Def: 0 HP: 50 Init: -10000 P: dude
-Jerry Bradford	2052	larryscrote.gif	NOCOPY Atk: 90 Def: 0 HP: 0 Init: -10000 P: dude
-Jerry Bradford	2053	larryscrote.gif	NOCOPY Atk: 120 Def: 0 HP: 0 Init: -10000 P: dude
-Jerry Bradford	2054	larryscrote.gif	NOCOPY Atk: 170 Def: 0 HP: 0 Init: -10000 P: dude
-Jerry Bradford	2055	larryscrote.gif	NOCOPY Atk: 170 Def: 0 HP: 170 Init: -10000 P: dude
-Jerry Bradford	2056	larryscrote.gif	NOCOPY Atk: 170 Def: 0 HP: 170 Init: -10000 P: dude
+Jerry Bradford	2050	larryscrote.gif	NOCOPY Atk: 35 Def: 0 HP: 0 Init: -10000 P: dude	batskin belt (n100)	dense Meat stack (n100)
+Jerry Bradford	2051	larryscrote.gif	NOCOPY Atk: 50 Def: 0 HP: 50 Init: -10000 P: dude	Crown of the Goblin King (n100)	dense Meat stack (n100)
+Jerry Bradford	2052	larryscrote.gif	NOCOPY Atk: 90 Def: 0 HP: 0 Init: -10000 P: dude	skull of the Bonerdagon (n100)	chest of the Bonerdagon (n100)
+Jerry Bradford	2053	larryscrote.gif	NOCOPY Atk: 120 Def: 0 HP: 0 Init: -10000 P: dude	Groar's fur (100)	dense meat stack (100)
+Jerry Bradford	2054	larryscrote.gif	NOCOPY Atk: 170 Def: 0 HP: 0 Init: -10000 P: dude	Staff of Fats (n100)
+Jerry Bradford	2055	larryscrote.gif	NOCOPY Atk: 170 Def: 0 HP: 170 Init: -10000 P: dude	Eye of Ed (n100)
+Jerry Bradford	2056	larryscrote.gif	NOCOPY Atk: 170 Def: 0 HP: 170 Init: -10000 P: dude	ancient amulet (n100)
 Jerry Bradford	2057	larryscrote.gif	NOCOPY Atk: 200 Def: 0 HP: 0 Init: -10000 P: dude
 Jerry Bradford	2058	larryscrote.gif	NOCOPY Atk: 200 Def: 0 HP: 0 Init: -10000 P: dude
 Jerry Bradford, Pokéfam World Champion	2059	larryscrote.gif	NOCOPY Atk: 250 Def: 0 HP: 0 Init: -10000 P: dude

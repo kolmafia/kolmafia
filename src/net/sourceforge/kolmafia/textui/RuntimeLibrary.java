@@ -438,6 +438,8 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
 		params = new Type[] { DataTypes.CLASS_TYPE };
 		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.MONSTER_TYPE };
+		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
 		params = new Type[] { DataTypes.THRALL_TYPE };
 		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
 		params = new Type[] { DataTypes.SERVANT_TYPE };
@@ -1812,11 +1814,16 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "last_monster", DataTypes.MONSTER_TYPE, params ) );
 
 		params = new Type[] { DataTypes.LOCATION_TYPE };
-		functions.add( new LibraryFunction( "get_monsters", new AggregateType(
-			DataTypes.MONSTER_TYPE, 0 ), params ) );
+		functions.add( new LibraryFunction( "get_monsters", new AggregateType( DataTypes.MONSTER_TYPE, 0 ), params ) );
 
 		params = new Type[] { DataTypes.LOCATION_TYPE };
 		functions.add( new LibraryFunction( "get_location_monsters", new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.MONSTER_TYPE ), params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_monster_mapping", new AggregateType( DataTypes.MONSTER_TYPE, DataTypes.MONSTER_TYPE ), params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "get_monster_mapping", new AggregateType( DataTypes.MONSTER_TYPE, DataTypes.MONSTER_TYPE ), params ) );
 
 		params = new Type[] { DataTypes.LOCATION_TYPE };
 		functions.add( new LibraryFunction( "appearance_rates", new AggregateType(
@@ -7815,6 +7822,16 @@ public abstract class RuntimeLibrary
 		return DataTypes.makeMonsterValue( MonsterStatusTracker.getLastMonster() );
 	}
 
+	private static MonsterData mapMonster( MonsterData mon, Map<MonsterData,MonsterData> mapping )
+	{
+		if ( mapping == null )
+		{
+			return mon;
+		}
+		MonsterData mapped = mapping.get( mon );
+		return mapped != null ? mapped : mon;
+	}
+
 	public static Value get_monsters( Interpreter interpreter, final Value location )
 	{
 		KoLAdventure adventure = (KoLAdventure) location.rawValue();
@@ -7826,14 +7843,18 @@ public abstract class RuntimeLibrary
 		AggregateType type = new AggregateType( DataTypes.MONSTER_TYPE, monsterCount + superlikelyMonsterCount );
 		ArrayValue value = new ArrayValue( type );
 
+		Map<MonsterData, MonsterData> mapping = MonsterDatabase.getMonsterPathMap( KoLCharacter.getPath() );
+
 		for ( int i = 0; i < monsterCount; ++i )
 		{
-			value.aset( new Value( i ), DataTypes.makeMonsterValue( data.getMonster( i ) ) );
+			MonsterData mon = mapMonster( data.getMonster( i ), mapping );
+			value.aset( new Value( i ), DataTypes.makeMonsterValue( mon ) );
 		}
 
 		for ( int i = 0; i < superlikelyMonsterCount; ++i )
 		{
-			value.aset( new Value( i + monsterCount ), DataTypes.makeMonsterValue( data.getSuperlikelyMonster( i ) ) );
+			MonsterData mon = mapMonster( data.getSuperlikelyMonster( i ), mapping );
+			value.aset( new Value( i + monsterCount ), DataTypes.makeMonsterValue( mon ) );
 		}
 
 		return value;
@@ -7848,20 +7869,52 @@ public abstract class RuntimeLibrary
 		AggregateType type = new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.MONSTER_TYPE );
 		MapValue value = new MapValue( type );
 
+		Map<MonsterData, MonsterData> mapping = MonsterDatabase.getMonsterPathMap( KoLCharacter.getPath() );
+
 		int monsterCount = data == null ? 0 : data.getMonsterCount();
 		for ( int i = 0; i < monsterCount; ++i )
 		{
-			value.aset( DataTypes.makeMonsterValue( data.getMonster( i ) ), DataTypes.TRUE_VALUE );
+			MonsterData mon = mapMonster( data.getMonster( i ), mapping );
+			value.aset( DataTypes.makeMonsterValue( mon ), DataTypes.TRUE_VALUE );
 		}
 
 		int superlikelyMonsterCount = data == null ? 0 : data.getSuperlikelyMonsterCount();
 		for ( int i = 0; i < superlikelyMonsterCount; ++i )
 		{
-			value.aset( DataTypes.makeMonsterValue( data.getSuperlikelyMonster( i ) ), DataTypes.TRUE_VALUE );
+			MonsterData mon = mapMonster( data.getSuperlikelyMonster( i ), mapping );
+			value.aset( DataTypes.makeMonsterValue( mon ), DataTypes.TRUE_VALUE );
 		}
 
 		return value;
 
+	}
+
+	public static Value get_monster_mapping( Interpreter interpreter )
+	{
+		return get_monster_mapping( interpreter, KoLCharacter.getPath() );
+	}
+
+	public static Value get_monster_mapping( Interpreter interpreter, final Value path )
+	{
+		return get_monster_mapping( interpreter, path.toString() );
+	}
+
+	private static Value get_monster_mapping( Interpreter interpreter, final String path )
+	{
+		AggregateType type = new AggregateType( DataTypes.MONSTER_TYPE, DataTypes.MONSTER_TYPE );
+		MapValue value = new MapValue( type );
+
+		Map<MonsterData, MonsterData> mapping = MonsterDatabase.getMonsterPathMap( path );
+		if ( mapping != null )
+		{
+			for ( Map.Entry<MonsterData, MonsterData> entry : mapping.entrySet() )
+			{
+				MonsterData mon1 = entry.getKey();
+				MonsterData mon2 = entry.getValue();
+				value.aset( DataTypes.makeMonsterValue( mon1 ), DataTypes.makeMonsterValue( mon2 ) );
+			}
+		}
+		return value;
 	}
 
 	public static Value appearance_rates( Interpreter interpreter, final Value location )

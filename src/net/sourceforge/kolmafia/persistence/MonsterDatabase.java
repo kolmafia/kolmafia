@@ -66,12 +66,13 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class MonsterDatabase
 {
 	private static final Map<String, MonsterData> MONSTER_DATA = new TreeMap<String, MonsterData>();
+	private static final Map<Integer, MonsterData> MONSTER_IDS = new TreeMap<Integer, MonsterData>();
 	private static final Map<String, MonsterData> OLD_MONSTER_DATA = new TreeMap<String, MonsterData>();
 	private static final Map<String, MonsterData> LEET_MONSTER_DATA = new TreeMap<String, MonsterData>();
 	private static final Set<String> MONSTER_ALIASES = new HashSet<String>();
 	private static String[] MONSTER_STRINGS = null;
 	private static final Map<String, MonsterData> MONSTER_IMAGES = new TreeMap<String, MonsterData>();
-	private static final Map<Integer, MonsterData> MONSTER_IDS = new TreeMap<Integer, MonsterData>();
+	private static final Map<String, Map<MonsterData, MonsterData>> MONSTER_PATH_MAP = new TreeMap<>();
 
 	public enum Element
 	{
@@ -274,9 +275,100 @@ public class MonsterDatabase
 		return false;
 	}
 
+	private static void addMapping( Map<MonsterData, MonsterData> map, String name1, String name2 )
+	{
+		MonsterData mon1 = MONSTER_DATA.get( name1 );
+		MonsterData mon2 = MONSTER_DATA.get( name2 );
+		MonsterDatabase.addMapping( map, mon1, mon2 );
+	}
+
+	private static void addMapping( Map<MonsterData, MonsterData> map, String name1, int id2 )
+	{
+		MonsterData mon1 = MONSTER_DATA.get( name1 );
+		MonsterData mon2 = MONSTER_IDS.get( id2 );
+		MonsterDatabase.addMapping( map, mon1, mon2 );
+	}
+
+	private static void addMapping( Map<MonsterData, MonsterData> map, MonsterData mon1, MonsterData mon2 )
+	{
+		if ( mon1 != null && mon2 != null )
+		{
+			map.put( mon1, mon2 );
+		}
+	}
+
 	static
 	{
 		MonsterDatabase.refreshMonsterTable();
+
+		// Set up MONSTER_PATH_MAP
+		Map<MonsterData, MonsterData> plumberMap = new TreeMap<>();
+		MonsterDatabase.addMapping( plumberMap, "Boss Bat", "Koopa Paratroopa" );
+		MonsterDatabase.addMapping( plumberMap, "Knob Goblin King", "Hammer Brother" );
+		MonsterDatabase.addMapping( plumberMap, "Bonerdagon", "Very Dry Bones" );
+		MonsterDatabase.addMapping( plumberMap, "Groar", "Angry Sun" );
+		MonsterDatabase.addMapping( plumberMap, "Dr. Awkward", "Birdo" );
+		MonsterDatabase.addMapping( plumberMap, "Lord Spookyraven", "King Boo" );
+		MonsterDatabase.addMapping( plumberMap, "Protector Spectre", "Kamek" );
+		MonsterDatabase.addMapping( plumberMap, "The Big Wisniewski", 2172 );
+		MonsterDatabase.addMapping( plumberMap, "The Man", 2173 );
+		MonsterDatabase.addMapping( plumberMap, "Naughty Sorceress", "Wa%playername/lowercase%" );
+		MonsterDatabase.MONSTER_PATH_MAP.put( KoLCharacter.PATH_OF_THE_PLUMBER, plumberMap );
+
+		Map<MonsterData, MonsterData> darkGyffteMap = new TreeMap<>();
+		MonsterDatabase.addMapping( darkGyffteMap, "Boss Bat", "Steve Belmont" );
+		MonsterDatabase.addMapping( darkGyffteMap, "Knob Goblin King", "Ricardo Belmont" );
+		MonsterDatabase.addMapping( darkGyffteMap, "Bonerdagon", "Jayden Belmont" );
+		MonsterDatabase.addMapping( darkGyffteMap, "Groar", "Sharona" );
+		MonsterDatabase.addMapping( darkGyffteMap, "Dr. Awkward", "Travis Belmont" );
+		MonsterDatabase.addMapping( darkGyffteMap, "Lord Spookyraven", "Greg Dagreasy" );
+		MonsterDatabase.addMapping( darkGyffteMap, "Protector Spectre", "Sylvia Belgrande" );
+		MonsterDatabase.addMapping( darkGyffteMap, "The Big Wisniewski", "Jake Norris" );
+		MonsterDatabase.addMapping( darkGyffteMap, "The Man", "Chad Alacarte" );
+		MonsterDatabase.addMapping( darkGyffteMap, "Your Shadow", "Your Lack of Reflection" );
+		MonsterDatabase.addMapping( darkGyffteMap, "Naughty Sorceress", "%alucard%" );
+		MonsterDatabase.MONSTER_PATH_MAP.put( KoLCharacter.DARK_GYFFTE, darkGyffteMap );
+
+		Map<MonsterData, MonsterData> pocketFamiliarsMap = new TreeMap<>();
+		// These are all "Jerry Bradford"
+		MonsterDatabase.addMapping( pocketFamiliarsMap, "Boss Bat", 2050 );
+		MonsterDatabase.addMapping( pocketFamiliarsMap, "Knob Goblin King", 2051 );
+		MonsterDatabase.addMapping( pocketFamiliarsMap, "Bonerdagon", 2052 );
+		MonsterDatabase.addMapping( pocketFamiliarsMap, "Groar", 2053 );
+		MonsterDatabase.addMapping( pocketFamiliarsMap, "Dr. Awkward", 2054 );
+		MonsterDatabase.addMapping( pocketFamiliarsMap, "Lord Spookyraven", 2055 );
+		MonsterDatabase.addMapping( pocketFamiliarsMap, "Protector Spectre", 2056 );
+		MonsterDatabase.addMapping( pocketFamiliarsMap, "The Big Wisniewski", 2057 );
+		MonsterDatabase.addMapping( pocketFamiliarsMap, "The Man", 2058 );
+		MonsterDatabase.addMapping( pocketFamiliarsMap, "Naughty Sorceress", 2059 );
+		MonsterDatabase.MONSTER_PATH_MAP.put( KoLCharacter.POKEFAM, pocketFamiliarsMap );
+
+		Map<MonsterData, MonsterData> heavyRainsMap = new TreeMap<>();
+		MonsterDatabase.addMapping( heavyRainsMap, "Boss Bat", "Aquabat" );
+		MonsterDatabase.addMapping( heavyRainsMap, "Knob Goblin King", "Aquagoblin" );
+		MonsterDatabase.addMapping( heavyRainsMap, "Bonerdagon", "Auqadargon" );
+		MonsterDatabase.addMapping( heavyRainsMap, "Groar", "Gurgle" );
+		MonsterDatabase.addMapping( heavyRainsMap, "Dr. Awkward", "Dr. Aquard" );
+		MonsterDatabase.addMapping( heavyRainsMap, "Lord Spookyraven", "Lord Soggyraven" );
+		MonsterDatabase.addMapping( heavyRainsMap, "Protector Spectre", "Protector Spurt" );
+		MonsterDatabase.addMapping( heavyRainsMap, "The Big Wisniewski", "Big Wisnaqua" );
+		MonsterDatabase.addMapping( heavyRainsMap, "The Man", "The Aquaman" );
+		MonsterDatabase.addMapping( heavyRainsMap, "Naughty Sorceress", "The Rain King" );
+		MonsterDatabase.MONSTER_PATH_MAP.put( KoLCharacter.HEAVY_RAINS, heavyRainsMap );
+
+		Map<MonsterData, MonsterData> actuallyEdMap = new TreeMap<>();
+		MonsterDatabase.addMapping( actuallyEdMap, "Boss Bat", "Boss Bat?" );
+		MonsterDatabase.addMapping( actuallyEdMap, "Knob Goblin King", "new Knob Goblin King" );
+		MonsterDatabase.addMapping( actuallyEdMap, "Bonerdagon", "Donerbagon" );
+		MonsterDatabase.addMapping( actuallyEdMap, "Groar", "Your winged yeti" );
+		MonsterDatabase.addMapping( actuallyEdMap, "Naughty Sorceress", "You the Adventurer" );
+		MonsterDatabase.MONSTER_PATH_MAP.put( KoLCharacter.ACTUALLY_ED_THE_UNDYING, actuallyEdMap );
+
+	}
+
+	public static Map<MonsterData, MonsterData> getMonsterPathMap( final String path )
+	{
+		return MonsterDatabase.MONSTER_PATH_MAP.get( path );
 	}
 
 	public static final void refreshMonsterTable()
