@@ -3157,3 +3157,8 @@ tempura green and red bean bento box with peppermint eel sauce	SUSHI	Mer-kin lun
 # plastic doll arms	SUSE	Mysterious Green Box
 # plastic doll legs	SUSE	Mysterious Red Box
 rubber baby doll	SUSE	rubber doll head	rubber doll body	plastic doll arms	plastic doll legs
+
+# Mushroom Garden
+
+mushroom tea	COOK	mushroom filet	soda water
+mushroom whiskey	MIX	mushroom filet	fermenting powder

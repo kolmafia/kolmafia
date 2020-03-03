@@ -576,6 +576,7 @@ muffled muffuletta	2	1	awesome	8-10	20-30	20-30	20-30	100 Noise Cancelled (-300%
 mugcake	1	1	crappy	1	0	0	0
 mulberry	1	5	good	3	0	0	5-15
 musclebound rabbit roll	3	1		9-14	8-16	20-30	0	45/55 Fishy
+mushroom filet	1	1	good	0	0	0	0	Unspaded
 mushroom pizza	3	2	good	3-10	0	15-18	0
 nachos of the night	2	1	decent	2-4	0	0	0	20 Night of the Nachos (+50 Spooky Spell Damage, +100% Spell Damage)
 nailswurst	2	1	crappy	0	0	0	0	+1 PvP fight

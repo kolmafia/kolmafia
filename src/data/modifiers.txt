@@ -4850,7 +4850,7 @@ Effect	Badger Underfoot	Meat Drop: +20
 Effect	Bailando, Fernando	Item Drop: +10
 Effect	Balls of Ectoplasm	Spooky Resistance: +1
 Effect	Baited Hook	Fishing Skill: +5
-# Effect Baja, Humbug: +50% to Item Drops from Monsters (Underwater only)
+# Baja, Humbug: +50% to Item Drops from Monsters (Underwater only)
 Effect Baja, Humbug	Item Drop: [50*env(underwater)]
 Effect	Bananas!	Muscle: +40, Mysticality: +40, Moxie: +40
 Effect	Bandananit	Avatar: "dirty thieving brigand"
@@ -5015,9 +5015,9 @@ Effect	Bounty of Renenutet	Item Drop: +50
 # Bow-Legged Swagger: Your Physical Damage and Initiative bonuses are doubled
 # Need precise definition for Physical Damage.  Possibly Weapon Damage and Ranged Damage.
 Effect	Bow-Legged Swagger	Initiative: [mod(Initiative)]
-# Effect Boxing Day Breakfast: Improves yield when scavenging
+# Boxing Day Breakfast: Improves yield when scavenging
 Effect	Boxing Day Breakfast	Gear Drop: +50, Weapon Damage Percent: +50, Spell Damage Percent: +50
-# Effect Boxing Day Drinking: Reduces cost of recruiting staff
+# Boxing Day Drinking: Reduces cost of recruiting staff
 Effect	Boxing Day Drinking	Pickpocket Chance: +25, Experience: +5
 Effect	Boxing Day Glow	Meat Drop: +50, Familiar Weight: +5
 Effect	Braaaaaains	Meat Drop: +200, Item Drop: -50
@@ -5509,7 +5509,7 @@ Effect	Feeling Queasy	Item Drop: -10, Meat Drop: -20, Initiative: -30
 Effect	Feet of Grapefruit	Experience (Mysticality): +3
 Effect	Feet of Strawberry	Experience (Moxie): +3
 Effect	Feet of Watermelon	Experience (Muscle): +3
-# Effect Festively Brined: Makes you a better diver
+# Festively Brined: Makes you a better diver
 Effect Festively Brined	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 Effect	Feline Ferocity	Weapon Damage Percent: +100
 Effect	Feroci Tea	Muscle: +50
@@ -5545,7 +5545,7 @@ Effect	Fit As a Poster	Avatar: "Fitness giant"
 Effect	Fit To Be Tide	HP Regen Min: 5, HP Regen Max: 16, MP Regen Min: 5, MP Regen Max: 16
 Effect	Fitter, Bitter	Muscle Percent: +100, Maximum HP Percent: +50, HP Regen Min: 20, HP Regen Max: 25
 Effect	Fitter, Happier	Muscle Percent: +100, Mysticality Percent: +100
-# Effect Fidoxene: Makes your familiars all at least 20 pounds
+# Fidoxene: Makes your familiars all at least 20 pounds
 Effect	Fizzier Than Light	MP Regen Min: 1, MP Regen Max: 3
 Effect	Fizzy Fizzy	Maximum PP: +1
 Effect	Flagrantly Fragrant	Maximum HP: +100, Maximum MP: +50, Damage Reduction: 25, MP Regen Min: 5, MP Regen Max: 10, HP Regen Min: 10, HP Regen Max: 20
@@ -5617,7 +5617,7 @@ Effect	Full of Vinegar	Weapon Damage: [+1*D]
 Effect	Full of Wist	Experience: [min(L,11)]
 Effect	Full Steam Ahead	Avatar: "Steampunk Giant"
 Effect	Full-Body Tan	Experience (Moxie): [L]
-# Effect Funday!: Adventure Randomly
+# Funday!: Adventure Randomly
 Effect	Fungal Flambé	Hot Spell Damage: +100
 Effect	Fungal Fortification	Damage Absorption: +200
 Effect	Funky Coal Patina	Moxie: +20
@@ -6046,7 +6046,7 @@ Effect	Litely Baked	MP Regen Min: [min(T/10,50)], MP Regen Max: [min(T/5,100)]
 Effect	Literally On Fire	Avatar: "Fire Fighter"
 Effect	Litterboxing	Stench Damage: +30, Item Drop: +15
 Effect	Litterbug	Monster Level: +25
-# Effect:Little Mouse Skull Buddy: Occasionally attacks your enemies for you
+# Little Mouse Skull Buddy: Occasionally attacks your enemies for you
 Effect	Livin' Large	Meat Drop: +10
 Effect	Living Fast	Initiative: +100, Maximum HP Percent: -30
 Effect	Loaded Forwarbear	Supercold Resistance: +2
@@ -6154,7 +6154,7 @@ Effect	Mitre Cut	Mysticality Percent: [100+2*min(50,pref(chessboardsCleared))]
 Effect	Mixed Nutrients	Muscle: +15, Mysticality: +15, Moxie: +15
 Effect	Mmmmmelon	Item Drop: +30
 Effect	Mo' Hobo	Hobo Power: +10
-# Effect Molasses Flooded: Makes you a better diver
+# Molasses Flooded: Makes you a better diver
 Effect	Molasses Flooded	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)],
 Effect	Monkeymask	Avatar: "damned dirty ape"
 Effect	monsters.enq	Monster Level: +25
@@ -6183,6 +6183,7 @@ Effect	Muffled	Combat Rate: -15
 Effect	Muscle Unbound	Experience Percent (Muscle): +5
 Effect	Muscular Intentions	Experience (Muscle): +3
 Effect	Muscularrr	Muscle Percent: +10
+Effect	Mush-Maw	Monster Level: +20, Combat Rate: +10
 Effect	Mush-Mouth	Muscle: -100, Mysticality: -100, Moxie: -100
 Effect	Mushroom Magicalness	Mysticality Percent: +200
 Effect	Mushroom Melody	Ranged Damage: +100
@@ -6375,7 +6376,8 @@ Effect	Pie in the Sky	Experience (Muscle): +2, Experience (Mysticality): +2, Exp
 Effect	Pigulated	Avatar: "piggy"
 Effect	Pill Party!	Muscle: -20, Mysticality: -20, Moxie: -20
 Effect	Pill Power	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
-# Effect PING...  PING...  PING...: Increased chance of dolphin "orphan" encounters
+# PING...  PING...  PING...: Increased chance of dolphin "orphan" encounters
+Effect	Piranha Power	Maximum HP: +20, Maximum MP: +20, MP Regen Min: 3, MP Regen Max: 5, HP Regen Min: 3, HP Regen Max: 5
 Effect	Piratastic	Moxie: +100
 Effect	Piratey Flavor	Critical Hit Percent: +5
 Effect	Pisces in the Skyces	Spell Damage Percent: +150
@@ -6545,7 +6547,7 @@ Effect	Salamander In Your Stomach	Mysticality: +25
 Effect	Salamanderenity	MP Regen Min: 3, MP Regen Max: 4
 Effect	Salsa Satanica	Item Drop: +50
 Effect	Salt Rockin'	Moxie: +30
-# Effect Salt Rush: Makes you a better diver
+# Salt Rush: Makes you a better diver
 Effect	Salt Rush	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)],
 # Salty Dogs: Makes you a better diver
 Effect	Salty Dogs	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
@@ -8653,6 +8655,7 @@ Item	Mansquito Serum	Effect: "More Mansquito Than Man", Effect Duration: 400
 Item	Mer-kin paste	Effect: "Mer-kinny Flavor", Effect Duration: 10
 Item	mime army superserum	Effect: "I'll Have the Soup", Effect Duration: 50
 Item	moomy dust	Effect: "Cowrruption", Effect Duration: 30
+Item	mushroom tea	Effect: "Mush-Maw", Effect Duration: 50
 # Nightmare Fuel: Lets you uneasily rest for free
 Item	non-Euclidean angle	Effect: "Different Way of Seeing Things", Effect Duration: 30
 Item	off-white paisley oyster egg	Effect: "Eggs-tra Sensory Perception", Effect Duration: 20
