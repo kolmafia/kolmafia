@@ -437,6 +437,8 @@ Psychoses	adventure=316	Env: outdoor	The Gourd!
 Psychoses	adventure=317	Env: indoor	The Tower of Procedurally-Generated Skeletons
 Psychoses	adventure=318	Env: outdoor	The Old Man's Bathtime Adventures
 
+Campground	adventure=543	Env: outdoor	Mushroom Garden
+
 Skid Row	adventure=369	Env: indoor nowander Stat: 0	The Inner Wolf Gym
 Skid Row	place=ioty2014_wolf	Env: none Stat: 0	Unleash Your Inner Wolf
 

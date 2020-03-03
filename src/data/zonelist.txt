@@ -88,6 +88,7 @@ Magic Commune	Antique Maps	Magic Commune
 Ellsbury's Claim	Antique Maps	Ellsbury's Claim
 
 Psychoses	Psychoses	Psychoses
+Campground	Campground	Campground
 
 Skid Row	Woods	Skid Row
 The Prince's Ball	Woods	The Prince's Ball
