@@ -2562,3 +2562,7 @@
 2561	Fizzy Fizzy	mario_soda.gif	8e2c240a3b8a8330268136b316d334d4	use 1 fizzy soda
 2562	Juicy Health	mario_juice.gif	e2504ca258d4680a65dfd5e17a86585c	use 1 healthy juice
 2563	Blooper Inked	mario_ink.gif	e63d22a94a7e60c5b1c4e4b5383b64cd	use 1 blooper ink
+2564
+2565
+2566	Piranha Power	piranhaplant.gif	3d155e040e97f6c33724872265b5d243	use 1 piranha pollen
+2567	Mush-Maw	gmush3.gif	4bc3e6784775746fae40f1f019dd0ec0	chew 1 mushroom tea
