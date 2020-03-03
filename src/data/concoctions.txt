@@ -3160,5 +3160,5 @@ rubber baby doll	SUSE	rubber doll head	rubber doll body	plastic doll arms	plasti
 
 # Mushroom Garden
 
-mushroom tea	COOK	mushroom filet	soda water
-mushroom whiskey	MIX	mushroom filet	fermenting powder
+mushroom tea	COOK	piranha pollen	soda water
+mushroom whiskey	MIX	piranha pollen	fermenting powder
