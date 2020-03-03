@@ -2517,6 +2517,12 @@ public class KoLAdventure
 			"That isn't a place you can get to the way you're dressed",
 			"You're not equipped properly to adventure there.",
 		},
+
+		// If you got into a fight right now, you wouldn't be able to attack anything! Equip those boots you found.
+		{
+			"Equip those boots you found",
+			"Plumbers cannot adventure without appropriate gear.",
+		},
 	};
 
 	public static final int findAdventureFailure( String responseText )
