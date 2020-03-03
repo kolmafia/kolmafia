@@ -378,7 +378,8 @@ public class ValhallaDecorator
 		boolean haveWinter = InventoryManager.hasItem( ItemPool.WINTER_SEEDS );
 		boolean haveThanksGarden = InventoryManager.hasItem( ItemPool.THANKSGARDEN_SEEDS );
 		boolean haveGrass = InventoryManager.hasItem( ItemPool.TALL_GRASS_SEEDS );
-		if ( !havePumpkin && !havePeppermint && !haveSkeleton && !haveBeer && !haveWinter && !haveThanksGarden && !haveGrass )
+		boolean haveMushroom = InventoryManager.hasItem( ItemPool.MUSHROOM_SPORES );
+		if ( !havePumpkin && !havePeppermint && !haveSkeleton && !haveBeer && !haveWinter && !haveThanksGarden && !haveGrass && !haveMushroom )
 		{
 			return;
 		}
@@ -458,6 +459,16 @@ public class ValhallaDecorator
 			buffer.append( "</option>" );
 		}
 
+		if ( haveMushroom )
+		{
+			buffer.append( "<option style=\"background-color: #eeeeff\" " );
+			buffer.append( "value=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+mushroom+spores;" );
+			buffer.append( "+use+packet+of+mushroom+spores&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">mushroom" );
+			buffer.append( "</option>" );
+		}
+
 		buffer.append( "</select></form>" );
 
 		AdventureResult crop = CampgroundRequest.getCrop();
@@ -472,6 +483,7 @@ public class ValhallaDecorator
 				: ( cropName.contains( "ice harvest" ) || cropName.contains( "frost flower" ) ) ? "Winter Garden"
 				: ( cropName.contains( "cornucopia" ) ) ? "Thanksgarden"
 				: ( cropName.contains( "grass" ) ) ? "Grass"
+				: ( cropName.contains( "mushroom" ) ) ? "Mushroom"
 				: "Unknown";
 			buffer.append( "</nobr><br><nobr>" );
 			buffer.append( " (currently " ).append( cropString ).append( ")" );

@@ -292,6 +292,7 @@ public class CampgroundRequest
 	public static final AdventureResult SIX_TALL_GRASS = new TallGrass( 6 );
 	public static final AdventureResult SEVEN_TALL_GRASS = new TallGrass( 7 );
 	public static final AdventureResult VERY_TALL_GRASS = new TallGrass( 8 );
+	public static final AdventureResult FREE_RANGE_MUSHROOM = ItemPool.get( ItemPool.FREE_RANGE_MUSHROOM, 1 );
 
 	private enum CropType
 	{
@@ -302,6 +303,7 @@ public class CampgroundRequest
 		WINTER,
 		THANKSGARDEN,
 		GRASS,
+		MUSHROOM,
 		;
 
 		@Override
@@ -311,7 +313,7 @@ public class CampgroundRequest
 		}
 	}
 
-	private static final HashMap<AdventureResult, CropType> CROPMAP = new HashMap<AdventureResult, CropType>();
+	private static final HashMap<AdventureResult, CropType> CROPMAP = new HashMap<>();
 
 	static
 	{
@@ -328,6 +330,7 @@ public class CampgroundRequest
 		CROPMAP.put( CORNUCOPIA, CropType.THANKSGARDEN );
 		CROPMAP.put( MEGACOPIA, CropType.THANKSGARDEN );
 		CROPMAP.put( TALL_GRASS, CropType.GRASS );
+		CROPMAP.put( FREE_RANGE_MUSHROOM, CropType.MUSHROOM );
 	}
 
 	public static final List<Integer> workshedItems = new ArrayList<Integer>();
@@ -377,6 +380,7 @@ public class CampgroundRequest
 		// CampgroundRequest.SIX_TALL_GRASS,
 		// CampgroundRequest.SEVEN_TALL_GRASS,
 		CampgroundRequest.VERY_TALL_GRASS,
+		CampgroundRequest.FREE_RANGE_MUSHROOM,
 	};
 
 	public static void reset()
@@ -972,6 +976,7 @@ public class CampgroundRequest
 		if ( !gardenFound ) gardenFound = findImage( responseText, "grassgarden6.gif", SIX_TALL_GRASS );
 		if ( !gardenFound ) gardenFound = findImage( responseText, "grassgarden7.gif", SEVEN_TALL_GRASS );
 		if ( !gardenFound ) gardenFound = findImage( responseText, "grassgarden8.gif", VERY_TALL_GRASS );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "mushgarden.gif", FREE_RANGE_MUSHROOM );
 
 		Matcher jungMatcher = JUNG_PATTERN.matcher( responseText );
 		if ( jungMatcher.find() )
