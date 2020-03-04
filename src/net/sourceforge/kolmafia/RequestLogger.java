@@ -156,6 +156,7 @@ import net.sourceforge.kolmafia.request.NumberologyRequest;
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
 import net.sourceforge.kolmafia.request.PeeVPeeRequest;
 import net.sourceforge.kolmafia.request.PixelRequest;
+import net.sourceforge.kolmafia.request.PizzaCubeRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.PokemporiumRequest;
 import net.sourceforge.kolmafia.request.PortalRequest;
@@ -823,6 +824,13 @@ public class RequestLogger
 
 		// We want to register some visits to the Campground
 		if ( ( request instanceof CampgroundRequest || isExternal ) && CampgroundRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		// This is a campground request and so must go here.
+		if ( ( request instanceof PizzaCubeRequest || isExternal ) && PizzaCubeRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
