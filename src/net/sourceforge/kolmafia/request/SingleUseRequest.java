@@ -48,6 +48,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -169,6 +171,21 @@ public class SingleUseRequest
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Using " + count + " " + ( count == 1 ? item.getName() : plural ) + " doesn't make anything interesting." );
 			return;
 		}
+
+		switch ( baseId )
+		{
+		case ItemPool.BLANK_OUT_BOTTLE:
+			if ( KoLCharacter.isJarlsberg() && responseText.contains( "mess with this crap" ) )
+			{
+				UseItemRequest.lastUpdate = "Jarlsberg hated getting his hands dirty. There is no way he would mess with this crap.";
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+				return;
+			}
+
+			Preferences.setBoolean( "_blankoutUsed", true );
+			break;
+		}
+
 		Concoction concoction = ConcoctionDatabase.singleUseCreation( baseId );
 
 		if ( concoction == null )
