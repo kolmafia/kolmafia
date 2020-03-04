@@ -259,8 +259,14 @@ public class CoinMasterRequest
 					AdventureResult ar = this.attachments[ i ];
 					boolean singleton = keepSingleton && KoLConstants.singletonList.contains( ar );
 
-					this.setItem( ar );
 					int count = this.setCount( ar, singleton );
+
+					if ( count == 0 )
+					{
+						continue;
+					}
+
+					this.setItem( ar );
 
 					// If we cannot specify the count, we must get 1 at a time.
 
