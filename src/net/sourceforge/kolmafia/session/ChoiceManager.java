@@ -1022,17 +1022,17 @@ public abstract class ChoiceManager
 
 		// Cornered!
 		new ChoiceAdventure(
-			"IsleWar", "choiceAdventure147", "Isle War Barn",
+			"Farm", "choiceAdventure147", "McMillicancuddy's Barn",
 			new Object[] { "Open The Granary (meat)", "Open The Bog (stench)", "Open The Pond (cold)" } ),
 
 		// Cornered Again!
 		new ChoiceAdventure(
-			"IsleWar", "choiceAdventure148", "Isle War Barn",
+			"Farm", "choiceAdventure148", "McMillicancuddy's Barn",
 			new Object[] { "Open The Back 40 (hot)", "Open The Family Plot (spooky)" } ),
 
 		// How Many Corners Does this Stupid Barn Have!?
 		new ChoiceAdventure(
-			"IsleWar", "choiceAdventure149", "Isle War Barn",
+			"Farm", "choiceAdventure149", "McMillicancuddy's Barn",
 			new Object[] { "Open The Shady Thicket (booze)", "Open The Other Back 40 (sleaze)" } ),
 
 		// Choice 150 is Another Adventure About BorderTown
