@@ -474,6 +474,7 @@ Yomama's Throne	-1	Yomama: 0
 Your Bung Chakra	100	obsessively imagining your worst phobias	the most embarrassing moment in your entire life	what you totally should have said that one time
 Your Guts Chakra	100	obsessively imagining your worst phobias	fear of an uncertain future	that time you screwed everything up like a complete idiot
 Your Liver Chakra	100	fear of an uncertain future	the most embarrassing moment in your entire life	the realization that everyone you love will die someday
+Your Mushroom Garden	100	piranha plant
 Your Nipple Chakra	100	that time you screwed everything up like a complete idiot	what you totally should have said that one time	the realization that everyone you love will die someday
 Your Nose Chakra	100	the most embarrassing moment in your entire life	imagining how your life would be better if you'd made different decisions	that time you screwed everything up like a complete idiot
 Your Hat Chakra	100	what you totally should have said that one time	fear of an uncertain future	imagining how your life would be better if you'd made different decisions	Your Brain: 0
