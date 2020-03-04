@@ -698,6 +698,12 @@ public class CampgroundRequest
 			return;
 		}
 
+		if ( action.equals( "makepizza" ) )
+		{
+			PizzaCubeRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		if ( action.endsWith( "powerelvibratoportal" ) )
 		{
 			PortalRequest.parseResponse( urlString, responseText );
