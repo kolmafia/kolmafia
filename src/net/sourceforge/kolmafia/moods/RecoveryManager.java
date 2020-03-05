@@ -143,9 +143,7 @@ public class RecoveryManager
 			KoLmafia.executeScript( Preferences.getString( "betweenBattleScript" ) );
 		}
 
-		// Now, run the built-in behavior to take care of
-		// any loose ends.
-
+		// Now, run the built-in behavior to take care of any loose ends.
 
 		Checkpoint checkpoint = new Checkpoint();
 		try

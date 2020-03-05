@@ -586,6 +586,12 @@ public class SpecialOutfit
 
 		public void restore()
 		{
+			// If this checkpoint has been closed, don't restore using it
+			if ( !this.known() )
+			{
+				return;
+			}
+
 			for ( int slot = 0; slot < this.slots.length && !KoLmafia.refusesContinue(); ++slot )
 			{
 				AdventureResult item = slots[ slot ];
