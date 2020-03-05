@@ -470,6 +470,7 @@ public class FightRequest
 		GIANT_SKEELTON( "giant skeelton" ),
 		GLITCH_MONSTER( "%monster%" ),
 		HUGE_GHUOL( "huge ghoul" ),
+		PIRANHA_PLANT( "piranha plant" ),
 		PYGMY_JANITOR( "pygmy janitor" ),
 		PYGMY_WITCH_LAWYER( "pygmy witch lawyer" ),
 		SAUSAGE_GOBLIN( "sausage goblin" ),
@@ -516,6 +517,7 @@ public class FightRequest
 		FightRequest.specialMonsters.put( "giant skeelton", SpecialMonster.GIANT_SKEELTON );
 		FightRequest.specialMonsters.put( "%monster%", SpecialMonster.GLITCH_MONSTER );
 		FightRequest.specialMonsters.put( "huge ghoul", SpecialMonster.HUGE_GHUOL );
+		FightRequest.specialMonsters.put( "piranha plant", SpecialMonster.PIRANHA_PLANT );
 		FightRequest.specialMonsters.put( "pygmy janitor", SpecialMonster.PYGMY_JANITOR );
 		FightRequest.specialMonsters.put( "pygmy witch lawyer", SpecialMonster.PYGMY_WITCH_LAWYER );
 		FightRequest.specialMonsters.put( "sausage goblin", SpecialMonster.SAUSAGE_GOBLIN );
@@ -2671,6 +2673,13 @@ public class FightRequest
 
 				case DAD_SEA_MONKEE:
 					DadManager.solve( responseText );
+					break;
+
+				case PIRANHA_PLANT:
+					if ( !EncounterManager.ignoreSpecialMonsters )
+					{
+						Preferences.increment( "_mushroomGardenFights" );
+					}
 					break;
 
 				case TIME_SPINNER_PRANK:

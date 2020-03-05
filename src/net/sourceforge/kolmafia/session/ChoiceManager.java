@@ -11771,6 +11771,22 @@ public abstract class ChoiceManager
 			break;
 		}
 
+		case 1410:
+		{
+			// The Mushy Center
+			switch ( ChoiceManager.lastDecision )
+			{
+			case 1:
+				// Fertilize the mushroom
+				Preferences.increment( "mushroomGardenCropLevel", 1, 6, false );
+				break;
+			case 2:
+				// Pick the mushroom
+				Preferences.setInteger( "mushroomGardenCropLevel", 1 );
+				break;
+			}
+			Preferences.setBoolean( "_mushroomGardenVisited", true );
+		}
 		}
 
 		// Certain choices cost meat or items when selected
@@ -15163,6 +15179,26 @@ public abstract class ChoiceManager
 			}
 			Preferences.setInteger( "plumberBadgeCost", cost );
 			break;
+		}
+
+		case 1410:
+		{
+			// The Mushy Center
+			// *** need more mushroom messages
+			int mushroomMessageLevel =
+				text.contains( "decent-sized mushroom" ) ? 1 :
+				0;
+			// *** verify when new rewards are seen
+			int mushroomImageLevel =
+				text.contains( "gmush6.gif" ) ? 6 :
+				text.contains( "gmush5.gif" ) ? 5 :
+				text.contains( "gmush4.gif" ) ? 4 :
+				text.contains( "gmush3.gif" ) ? 3 :
+				text.contains( "gmush2.gif" ) ? 2 :
+				text.contains( "gmush1.gif" ) ? 1 :
+				0;
+			int mushroomLevel = Math.max( mushroomMessageLevel, mushroomImageLevel );
+			Preferences.setInteger( "mushroomGardenCropLevel", mushroomLevel );
 		}
 		}
 
