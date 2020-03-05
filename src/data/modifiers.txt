@@ -6578,6 +6578,7 @@ Effect	Scowl of the Auk	Weapon Damage: +10
 Effect	Scrappy, Shadowy	Spooky Damage: +25, Damage Reduction: 15
 Effect	Screaming!  SCREAMING!  AAAAAAAH!	Combat Rate: +5
 Effect	Sea Guts	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
+Effect	Sea Seeing	Item Drop: [30*env(underwater)]
 Effect	Seal Clubbing Frenzy	Muscle: +2
 Effect	Sealed Brain	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
 Effect	Seeing Colors	Mysticality Percent: +50
