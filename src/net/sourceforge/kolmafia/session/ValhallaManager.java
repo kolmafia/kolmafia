@@ -836,6 +836,7 @@ public class ValhallaManager
 		Preferences.setBoolean( "hasRange", false );
 		Preferences.setBoolean( "hasShaker", false );
 		Preferences.setBoolean( "hasSushiMat", false );
+		Preferences.setInteger( "mushroomGardenCropLevel", 1 );
 
 		QuestDatabase.resetQuests();
 		IslandManager.resetIsland();

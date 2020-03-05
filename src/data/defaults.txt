@@ -906,6 +906,7 @@ user	mpAutoRecovery	-0.5
 user	mpAutoRecoveryItems	phonics down;knob goblin superseltzer;mountain stream soda;magical mystery juice;knob goblin seltzer;cherry cloaca cola;soda water
 user	mpAutoRecoveryTarget	0.3
 user	munchiesPillsUsed	0
+user	mushroomGardenCropLevel	1
 user	neverendingPartyAlways	false
 user	nextAdventure
 user	nextParanormalActivity	0
@@ -1662,6 +1663,8 @@ user	_missileLauncherUsed	false
 user	_momFoodReceived	false
 user	_mummeryMods
 user	_mummeryUses
+user	_mushroomGardenVisited	false
+user	_mushroomGardenFights	0
 user	_nanorhinoBanishedMonster
 user	_nanorhinoCharge	100
 user	_navelRunaways	0
