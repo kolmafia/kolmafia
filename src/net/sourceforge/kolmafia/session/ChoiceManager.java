@@ -15186,16 +15186,16 @@ public abstract class ChoiceManager
 			// The Mushy Center
 			// *** need more mushroom messages
 			int mushroomMessageLevel =
+				text.contains( "plump mushroom" ) ? 2 :
 				text.contains( "decent-sized mushroom" ) ? 1 :
 				0;
 			// *** verify when new rewards are seen
 			int mushroomImageLevel =
-				text.contains( "gmush6.gif" ) ? 6 :
-				text.contains( "gmush5.gif" ) ? 5 :
-				text.contains( "gmush4.gif" ) ? 4 :
-				text.contains( "gmush3.gif" ) ? 3 :
-				text.contains( "gmush2.gif" ) ? 2 :
-				text.contains( "gmush1.gif" ) ? 1 :
+				text.contains( "mushgrow5.gif" ) ? 5 :
+				text.contains( "mushgrow4.gif" ) ? 4 :
+				text.contains( "mushgrow3.gif" ) ? 3 :
+				text.contains( "mushgrow2.gif" ) ? 2 :
+				text.contains( "mushgrow1.gif" ) ? 1 :
 				0;
 			int mushroomLevel = Math.max( mushroomMessageLevel, mushroomImageLevel );
 			Preferences.setInteger( "mushroomGardenCropLevel", mushroomLevel );
