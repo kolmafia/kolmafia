@@ -91,6 +91,7 @@ import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.BeachCombRequest;
 import net.sourceforge.kolmafia.request.BeerPongRequest;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest;
@@ -15199,6 +15200,8 @@ public abstract class ChoiceManager
 				0;
 			int mushroomLevel = Math.max( mushroomMessageLevel, mushroomImageLevel );
 			Preferences.setInteger( "mushroomGardenCropLevel", mushroomLevel );
+			CampgroundRequest.setCampgroundItem( ItemPool.FREE_RANGE_MUSHROOM, mushroomLevel );
+			break;
 		}
 		}
 
