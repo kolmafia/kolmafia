@@ -3137,6 +3137,7 @@ public class ItemPool
 	public static final int LAW_OF_AVERAGES = 10325;
 	public static final int PILL_KEEPER = 10333;
 	public static final int DIABOLIC_PIZZA_CUBE = 10335;
+	public static final int DIABOLIC_PIZZA = 10336;
 	public static final int HUMAN_MUSK = 10350;
 	public static final int EXTRA_WARM_FUR = 10351;
 	public static final int INDUSTRIAL_LUBRICANT = 10352;
@@ -3177,6 +3178,7 @@ public class ItemPool
 	public static final int PLUMP_FREE_RANGE_MUSHROOM = 10484;
 	public static final int BULKY_FREE_RANGE_MUSHROOM = 10485;
 	public static final int GIANT_FREE_RANGE_MUSHROOM = 10486;
+	public static final int IMMENSE_FREE_RANGE_MUSHROOM = 10487;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

@@ -234,8 +234,6 @@ public abstract class UseLinkDecorator
 		int specialLinkId = 0;
 		String specialLinkText = null;
 
-		boolean checkItemName = !KoLCharacter.isCrazyRandomTwo();
-
 		while ( useLinkMatcher.find() )
 		{
 			// See if it's an effect
@@ -295,7 +293,7 @@ public abstract class UseLinkDecorator
 
 				AdventureResult item = items.size() == 0 ? null : items.getFirst();
 
-				if ( item != null && ( !checkItemName || itemName.equals( item.getName() ) ) )
+				if ( item != null )
 				{
 					items.removeFirst();
 					itemId = item.getItemId();
