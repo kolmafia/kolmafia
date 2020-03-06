@@ -898,7 +898,15 @@ public class CampgroundRequest
 
 	private static final void parseCampground( final String responseText )
 	{
-		KoLCharacter.setTelescope( findImage( responseText, "telescope.gif", ItemPool.TELESCOPE ) );
+		boolean haveTelescope = findImage( responseText, "telescope.gif", ItemPool.TELESCOPE );
+		if ( haveTelescope )
+		{
+			KoLCharacter.setTelescope( true );
+			KoLCharacter.checkTelescope();
+			int upgrades = Preferences.getInteger( "telescopeUpgrades" );
+			CampgroundRequest.setCampgroundItem( ItemPool.TELESCOPE, upgrades );
+		}
+
 		KoLCharacter.setBookshelf( responseText.contains( "action=bookshelf" ) );
 
 		findImage( responseText, "pagoda.gif", ItemPool.PAGODA_PLANS );
