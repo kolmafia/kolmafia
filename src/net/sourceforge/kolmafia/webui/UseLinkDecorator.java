@@ -276,20 +276,6 @@ public abstract class UseLinkDecorator
 			{
 				int itemId = -1;
 				int itemCount = 1;
-				String itemName = useLinkMatcher.group( 3 );
-
-				if ( itemName.equals( "Tales of the West:  Cow Punching" ) )
-				{
-					// Accommodate KoL bug: extra space in name
-					itemName = "Tales of the West: Cow Punching";
-				}
-
-				int spaceIndex = itemName.indexOf( " " );
-				if ( spaceIndex != -1 && !type.contains( ":" ) )
-				{
-					itemCount = StringUtilities.parseInt( itemName.substring( 0, spaceIndex ) );
-					itemName = itemName.substring( spaceIndex + 1 );
-				}
 
 				AdventureResult item = items.size() == 0 ? null : items.getFirst();
 
@@ -301,6 +287,13 @@ public abstract class UseLinkDecorator
 				}
 				else
 				{
+					String itemName = useLinkMatcher.group( 3 );
+					int spaceIndex = itemName.indexOf( " " );
+					if ( spaceIndex != -1 && !type.contains( ":" ) )
+					{
+						itemCount = StringUtilities.parseInt( itemName.substring( 0, spaceIndex ) );
+						itemName = itemName.substring( spaceIndex + 1 );
+					}
 					itemId = ItemDatabase.getItemId( itemName, itemCount, itemCount > 1 );
 				}
 
