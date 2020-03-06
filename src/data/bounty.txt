@@ -3,7 +3,7 @@
 # Single Name, Plural Name, Type, Image, Number, Monster, Best Location
 
 # Easy
-bean-shaped rock	bean-shaped rocks	easy	bean.gif	35	beanbat	The Beanbat Chamber
+bean-shaped rock	bean-shaped rocks	easy	bean.gif	12	beanbat	The Beanbat Chamber
 bloodstained briquette	bloodstained briquettes	easy	briquette.gif	8	Knob Goblin Barbecue Team	The Outskirts of Cobb's Knob
 brightly-colored bottlecap	brightly-colored bottlecaps	easy	bottlecap.gif	10	cooler wino	The Overgrown Lot
 broken petri dish	broken petri dishes	easy	petridish.gif	13	Knob Goblin Mad Scientist	Cobb's Knob Laboratory
