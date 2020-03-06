@@ -8788,7 +8788,7 @@ public abstract class RuntimeLibrary
 
 	public static Value is_trendy( Interpreter interpreter, final Value thing )
 	{
-		// Types: "Items", "Campground", Bookshelf", "Familiars", "Skills", "Clan Item".
+		// Types: "Items", "Campground", "Bookshelf", "Familiars", "Skills", "Clan Item".
 		String key = thing.toString();
 		Type type = thing.getType();
 		boolean result;
@@ -8834,7 +8834,7 @@ public abstract class RuntimeLibrary
 
 	public static Value is_unrestricted( Interpreter interpreter, final Value thing )
 	{
-		// Types: "Items", Bookshelf Books", "Skills", "Familiars", "Clan Item".
+		// Types: "Items", "Bookshelf Books", "Skills", "Familiars", "Clan Items".
 		String key = thing.toString();
 		Type type = thing.getType();
 		boolean result;
