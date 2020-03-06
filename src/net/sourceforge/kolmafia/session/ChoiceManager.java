@@ -11779,7 +11779,8 @@ public abstract class ChoiceManager
 			{
 			case 1:
 				// Fertilize the mushroom
-				Preferences.increment( "mushroomGardenCropLevel", 1, 6, false );
+				int mushroomLevel = Preferences.increment( "mushroomGardenCropLevel", 1, 6, false );
+				CampgroundRequest.setCampgroundItem( ItemPool.FREE_RANGE_MUSHROOM, mushroomLevel );
 				break;
 			case 2:
 				// Pick the mushroom
@@ -15187,6 +15188,7 @@ public abstract class ChoiceManager
 			// The Mushy Center
 			// *** need more mushroom messages
 			int mushroomMessageLevel =
+				text.contains( "bulky mushroom" ) ? 3 :
 				text.contains( "plump mushroom" ) ? 2 :
 				text.contains( "decent-sized mushroom" ) ? 1 :
 				0;
