@@ -508,13 +508,16 @@ public class SpecialOutfit
 
 	public static void replaceEquipment( AdventureResult item , AdventureResult replaceWith )
 	{
-		for ( Checkpoint checkpoint : SpecialOutfit.allCheckpoints )
+		synchronized ( SpecialOutfit.class )
 		{
-			for ( int slot = 0; slot < checkpoint.length(); ++slot )
+			for ( Checkpoint checkpoint : SpecialOutfit.allCheckpoints )
 			{
-				if ( item.equals( checkpoint.get( slot ) ) )
+				for ( int slot = 0; slot < checkpoint.length(); ++slot )
 				{
-					checkpoint.set( slot, replaceWith );
+					if ( item.equals( checkpoint.get( slot ) ) )
+					{
+						checkpoint.set( slot, replaceWith );
+					}
 				}
 			}
 		}
@@ -522,11 +525,14 @@ public class SpecialOutfit
 
 	public static void replaceEquipmentInSlot( AdventureResult item, int slot )
 	{
-		for ( Checkpoint checkpoint : SpecialOutfit.allCheckpoints )
+		synchronized ( SpecialOutfit.class )
 		{
-			if ( slot < checkpoint.length() )
+			for ( Checkpoint checkpoint : SpecialOutfit.allCheckpoints )
 			{
-				checkpoint.set( slot, item );
+				if ( slot < checkpoint.length() )
+				{
+					checkpoint.set( slot, item );
+				}
 			}
 		}
 	}

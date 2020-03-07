@@ -294,6 +294,9 @@ public class CampgroundRequest
 	public static final AdventureResult VERY_TALL_GRASS = new TallGrass( 8 );
 	public static final AdventureResult FREE_RANGE_MUSHROOM = ItemPool.get( ItemPool.FREE_RANGE_MUSHROOM, 1 );
 	public static final AdventureResult PLUMP_FREE_RANGE_MUSHROOM = ItemPool.get( ItemPool.PLUMP_FREE_RANGE_MUSHROOM, 1 );
+	public static final AdventureResult BULKY_FREE_RANGE_MUSHROOM = ItemPool.get( ItemPool.BULKY_FREE_RANGE_MUSHROOM, 1 );
+	public static final AdventureResult GIANT_FREE_RANGE_MUSHROOM = ItemPool.get( ItemPool.GIANT_FREE_RANGE_MUSHROOM, 1 );
+	public static final AdventureResult IMMENSE_FREE_RANGE_MUSHROOM = ItemPool.get( ItemPool.IMMENSE_FREE_RANGE_MUSHROOM, 1 );
 
 	private enum CropType
 	{
@@ -333,6 +336,9 @@ public class CampgroundRequest
 		CROPMAP.put( TALL_GRASS, CropType.GRASS );
 		CROPMAP.put( FREE_RANGE_MUSHROOM, CropType.MUSHROOM );
 		CROPMAP.put( PLUMP_FREE_RANGE_MUSHROOM, CropType.MUSHROOM );
+		CROPMAP.put( BULKY_FREE_RANGE_MUSHROOM, CropType.MUSHROOM );
+		CROPMAP.put( GIANT_FREE_RANGE_MUSHROOM, CropType.MUSHROOM );
+		CROPMAP.put( IMMENSE_FREE_RANGE_MUSHROOM, CropType.MUSHROOM );
 	}
 
 	public static final List<Integer> workshedItems = new ArrayList<Integer>();
@@ -384,6 +390,7 @@ public class CampgroundRequest
 		CampgroundRequest.VERY_TALL_GRASS,
 		CampgroundRequest.FREE_RANGE_MUSHROOM,
 		CampgroundRequest.PLUMP_FREE_RANGE_MUSHROOM,
+		CampgroundRequest.BULKY_FREE_RANGE_MUSHROOM,
 	};
 
 	public static void reset()

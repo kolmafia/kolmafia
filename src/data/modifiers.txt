@@ -4102,6 +4102,7 @@ Item	Petite Paintbrush	Adventures: +1, Generic
 Item	pewter candlestick	Familiar Weight: +10
 Item	pile of dungeon junk	Familiar Weight: +5
 # plastic bib: Makes your ghost better at eating stuff
+Item	plastic piranha pot	Familiar Weight: +5
 Item	plastic pirate hat	Familiar Weight: +5
 # plastic pumpkin bucket: Familiar Will Occasionally Play Tricks on Enemies
 Item	plastic pumpkin bucket	Familiar Weight: +5, Item Drop: +13, Softcore Only, Generic

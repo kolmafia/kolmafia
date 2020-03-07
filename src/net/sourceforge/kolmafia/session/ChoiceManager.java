@@ -15188,6 +15188,7 @@ public abstract class ChoiceManager
 			// The Mushy Center
 			// *** need more mushroom messages
 			int mushroomMessageLevel =
+				text.contains( "giant mushroom" ) ? 4 :
 				text.contains( "bulky mushroom" ) ? 3 :
 				text.contains( "plump mushroom" ) ? 2 :
 				text.contains( "decent-sized mushroom" ) ? 1 :

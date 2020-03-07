@@ -10510,12 +10510,12 @@
 10482	packet of mushroom spores	335873711	seeds.gif	usable		0
 10483	free-range mushroom	968303165	gmush1.gif	usable		0
 10484	plump free-range mushroom	270565036	gmush2.gif	usable		0
-10485
+10485	bulky free-range mushroom	743376601	gmush3.gif	usable		0
 10486
 10487
 10488
 10489	mushroom filet	404087117	gmushfilet.gif	food	t,d	10
-10490
+10490	mushroom slab	898631090	gmushslab.gif	usable	t,d	50
 10491	mushroom tea	594563300	coffeecup.gif	spleen, usable	t,d	20
 10492	mushroom whiskey	484291261	shot.gif	drink	t,d	20
 10493
@@ -10524,5 +10524,5 @@
 10496
 10497
 10498	pristine piranha seed	436277245	piranhaseed.gif	grow	t	0
-10499
+10499	plastic piranha pot	129214663	plasticpot.gif	familiar	t,d	75
 10500	piranha pollen	736668065	disease.gif	potion, usable	t,d	10
