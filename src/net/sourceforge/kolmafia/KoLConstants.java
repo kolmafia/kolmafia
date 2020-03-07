@@ -372,7 +372,7 @@ public interface KoLConstants
 	public static final int QUESTSCOUNCIL_VERSION = 1;
 	public static final int QUESTSLOG_VERSION = 1;
 	public static final int SPLEENHIT_VERSION = 3;
-	public static final int STATUSEFFECTS_VERSION = 3;
+	public static final int STATUSEFFECTS_VERSION = 4;
 	public static final int ZAPGROUPS_VERSION = 1;
 	public static final int ZONELIST_VERSION = 1;
 
