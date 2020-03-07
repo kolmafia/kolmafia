@@ -2557,7 +2557,7 @@
 2555
 2556	Invisible Avatar	missingavatar.gif	da6f47ae655716b599e530128712c36c	neutral		cast 1 CHEAT CODE: Invisible Avatar
 2557	Triple-Sized	triplesize.gif	6be2d9af5964c3bc987c0696ea60eeeb	good		cast 1 CHEAT CODE: Triple Size
-2558
+2558	Warmed Up	mario_juggle.gif	9fea199e3a5fd92b82e46f9e0ecc203c	neutral	none
 2559	Heated Up	mario_juggle.gif	7ff2479058ced96de968b27a32df19e1	good	
 2560	Half-Sized	mario_halfsize.gif	a2e799db00f83234a97fe1ab9d38ee88	bad	
 2561	Fizzy Fizzy	mario_soda.gif	8e2c240a3b8a8330268136b316d334d4	neutral		use 1 fizzy soda
