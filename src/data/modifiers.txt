@@ -7195,6 +7195,7 @@ Effect	Warlock, Warstock, and Warbarrel	Spell Damage Percent: +150
 # Warm Belly: Makes sushi taste better
 Effect	Warm Belly	Hot Damage: [+3*D]
 Effect	Warm Shoulders	Familiar Weight: +5, Experience (familiar): +5
+Effect	Warmed Up	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Warriors, Come out to Playyyy	WarBear Armor Penetration: +60
 Effect	Wasabi Sinuses	Experience: -1, Meat Drop: +40, Item Drop: -20
 Effect	Wasabi With You	Weapon Damage Percent: +150
