@@ -79,8 +79,8 @@ public class EffectDatabase
 	private static final Map<Integer, String> imageById = new HashMap<Integer, String>();
 	private static final Map<Integer, String> descriptionById = new TreeMap<Integer, String>();
 	private static final Map<String, Integer> effectIdByDescription = new HashMap<String, Integer>();
-	private static final Map<Integer, Integer> qualityById = new HashMap<Integer, Integer>();
-	private static final Map<Integer, List<String>> attributesById = new HashMap<Integer, List<String>>();
+	private static final Map<Integer, Integer> qualityById = new HashMap<>();
+	private static final Map<Integer, List<String>> attributesById = new HashMap<>();
 
 	public static boolean newEffects = false;
 
@@ -195,7 +195,7 @@ public class EffectDatabase
 		EffectDatabase.addIdToName( canonicalName, effectId );
 		EffectDatabase.imageById.put( effectId, image );
 
-		if ( descriptionId != "" )
+		if ( descriptionId != null && !descriptionId.equals( "" ) )
 		{
 			EffectDatabase.descriptionById.put( effectId, descriptionId );
 			EffectDatabase.effectIdByDescription.put( descriptionId, effectId );
