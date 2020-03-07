@@ -13583,7 +13583,8 @@ public abstract class ChoiceManager
 			break;
 
 		case 1267: // Rubbed it the Right Way
-			GenieRequest.postChoice( text );
+			String wish = request.getFormField( "wish" );
+			GenieRequest.postChoice( text, wish );
 			break;
 
 		case 1272:

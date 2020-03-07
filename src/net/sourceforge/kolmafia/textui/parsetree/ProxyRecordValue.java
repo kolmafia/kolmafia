@@ -1127,6 +1127,8 @@ public class ProxyRecordValue
 			.add( "image", DataTypes.STRING_TYPE )
 			.add( "descid", DataTypes.STRING_TYPE )
 			.add( "candy_tier", DataTypes.INT_TYPE )
+			.add( "quality", DataTypes.STRING_TYPE )
+			.add( "attributes", DataTypes.STRING_TYPE )
 			.finish( "effect proxy" );
 
 		public EffectProxy( Value obj )
@@ -1137,6 +1139,16 @@ public class ProxyRecordValue
 		public String get_default()
 		{
 			return EffectDatabase.getDefaultAction( (int) this.contentLong );
+		}
+
+		public String get_quality()
+		{
+			return EffectDatabase.getQualityDescription( (int) this.contentLong );
+		}
+
+		public String get_attributes()
+		{
+			return String.join( ",", EffectDatabase.getEffectAttributes( (int) this.contentLong ) );
 		}
 
 		public String get_note()
