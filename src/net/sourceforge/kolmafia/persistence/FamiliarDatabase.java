@@ -39,6 +39,7 @@ import java.io.PrintStream;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -62,74 +63,81 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
-import net.sourceforge.kolmafia.utilities.BooleanArray;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FamiliarDatabase
 {
-	private static final Map<Integer,String> familiarById = new TreeMap<Integer,String>();
-	private static final Map<String,Integer> familiarByName = new TreeMap<String,Integer>();
+	private static final Map<Integer,String> familiarById = new TreeMap<>();
+	private static final Map<String,Integer> familiarByName = new TreeMap<>();
+	private static final Map<String,String> canonicalNameMap = new HashMap<>();
 
-	private static final Map<Integer, String> familiarItemById = new HashMap<Integer,String>();
-	private static final Map<String, Integer> familiarByItem = new HashMap<String,Integer>();
+	private static final Map<Integer, String> familiarItemById = new HashMap<>();
+	private static final Map<String, Integer> familiarByItem = new HashMap<>();
 
-	private static final Map<Integer, Integer> familiarLarvaById = new HashMap<Integer,Integer>();
-	private static final Map<Integer, Integer> familiarByLarva = new HashMap<Integer,Integer>();
+	private static final Map<Integer, Integer> familiarLarvaById = new HashMap<>();
+	private static final Map<Integer, Integer> familiarByLarva = new HashMap<>();
 
-	private static final Map<Integer,String> familiarImageById = new HashMap<Integer,String>();
-	private static final Map<String,Integer> familiarByImage = new HashMap<String,Integer>();
+	private static final Map<Integer,String> familiarImageById = new HashMap<>();
+	private static final Map<String,Integer> familiarByImage = new HashMap<>();
 
-	private static final BooleanArray volleyById = new BooleanArray();
-	private static final BooleanArray sombreroById = new BooleanArray();
-	private static final BooleanArray meatDropById = new BooleanArray();
-	private static final BooleanArray fairyById = new BooleanArray();
+	private static final Set<Integer> volleyById = new HashSet<>();
+	private static final Set<Integer> sombreroById = new HashSet<>();
+	private static final Set<Integer> meatDropById = new HashSet<>();
+	private static final Set<Integer> fairyById = new HashSet<>();
 
-	private static final BooleanArray combat0ById = new BooleanArray();
-	private static final BooleanArray combat1ById = new BooleanArray();
-	private static final BooleanArray blockById = new BooleanArray();
-	private static final BooleanArray delevelById = new BooleanArray();
-	private static final BooleanArray meat1ById = new BooleanArray();
-	private static final BooleanArray stat2ById = new BooleanArray();
-	private static final BooleanArray hp0ById = new BooleanArray();
-	private static final BooleanArray mp0ById = new BooleanArray();
-	private static final BooleanArray other0ById = new BooleanArray();
+	private static final Set<Integer> combat0ById = new HashSet<>();
+	private static final Set<Integer> combat1ById = new HashSet<>();
+	private static final Set<Integer> blockById = new HashSet<>();
+	private static final Set<Integer> delevelById = new HashSet<>();
+	private static final Set<Integer> meat1ById = new HashSet<>();
+	private static final Set<Integer> stat2ById = new HashSet<>();
+	private static final Set<Integer> hp0ById = new HashSet<>();
+	private static final Set<Integer> mp0ById = new HashSet<>();
+	private static final Set<Integer> other0ById = new HashSet<>();
 
-	private static final BooleanArray hp1ById = new BooleanArray();
-	private static final BooleanArray mp1ById = new BooleanArray();
-	private static final BooleanArray stat3ById = new BooleanArray();
-	private static final BooleanArray other1ById = new BooleanArray();
+	private static final Set<Integer> hp1ById = new HashSet<>();
+	private static final Set<Integer> mp1ById = new HashSet<>();
+	private static final Set<Integer> stat3ById = new HashSet<>();
+	private static final Set<Integer> other1ById = new HashSet<>();
 
-	private static final BooleanArray passiveById = new BooleanArray();
-	private static final BooleanArray dropById = new BooleanArray();
-	private static final BooleanArray underwaterById = new BooleanArray();
+	private static final Set<Integer> passiveById = new HashSet<>();
+	private static final Set<Integer> dropById = new HashSet<>();
+	private static final Set<Integer> underwaterById = new HashSet<>();
 
-	private static final BooleanArray noneById = new BooleanArray();
-	private static final BooleanArray variableById = new BooleanArray();
+	private static final Set<Integer> noneById = new HashSet<>();
+	private static final Set<Integer> variableById = new HashSet<>();
 
 	private static final Map<String,Integer>[] eventSkillByName = new HashMap[ 4 ];
-	private static final Map<Integer,List<String>> attributesById = new HashMap<Integer,List<String>>();
+	private static final Map<Integer,List<String>> attributesById = new HashMap<>();
 
 	public static boolean newFamiliars = false;
 	public static int maxFamiliarId = 0;
+	private static String [] canonicalNames = new String[0];
 
-	private static final Map<Integer,PokefamData> pokefamById = new TreeMap<Integer,PokefamData>();
-	private static final Map<String,PokefamData> pokefamByName = new TreeMap<String,PokefamData>();
+	private static final Map<Integer,PokefamData> pokefamById = new TreeMap<>();
+	private static final Map<String,PokefamData> pokefamByName = new TreeMap<>();
 
 	static
 	{
+		FamiliarDatabase.reset();
+	}
+
+	public static void reset()
+	{
 		FamiliarDatabase.newFamiliars = false;
+
 		for ( int i = 0; i < 4; ++i )
 		{
 			FamiliarDatabase.eventSkillByName[ i ] = new HashMap<String,Integer>();
 		}
+		FamiliarDatabase.readFamiliars();
+		FamiliarDatabase.saveCanonicalNames();
+	}
 
-		// This begins by opening up the data file and preparing
-		// a buffered reader; once this is done, every line is
-		// examined and double-referenced: once in the name-lookup,
-		// and again in the Id lookup.
-
+	private static void readFamiliars()
+	{
 		BufferedReader reader = FileUtilities.getVersionedReader( "familiars.txt", KoLConstants.FAMILIARS_VERSION );
 
 		String[] data;
@@ -141,90 +149,54 @@ public class FamiliarDatabase
 				continue;
 			}
 
-			try
+			int familiarId = StringUtilities.parseInt( data[ 0 ] );
+			Integer id = IntegerPool.get( familiarId );
+			if ( familiarId > FamiliarDatabase.maxFamiliarId )
 			{
-				int id = StringUtilities.parseInt( data[ 0 ] );
-				if ( id > FamiliarDatabase.maxFamiliarId )
-				{
-					FamiliarDatabase.maxFamiliarId = id;
-				}
-
-				Integer familiarId = IntegerPool.get( id );
-				String familiarName = new String( data[ 1 ] );
-				String familiarImage = new String( data[ 2 ] );
-				String familiarType = new String( data[ 3 ] );
-				String familiarLarvaName = new String( data[ 4 ] );
-				Integer familiarLarva = Integer.valueOf( ItemDatabase.getItemId( familiarLarvaName ) );
-				String familiarItemName = new String( data[ 5 ] );
-
-				FamiliarDatabase.familiarById.put( familiarId, StringUtilities.getDisplayName( familiarName ) );
-				FamiliarDatabase.familiarByName.put( StringUtilities.getCanonicalName( familiarName ), familiarId );
-
-				FamiliarDatabase.familiarImageById.put( familiarId, familiarImage );
-				FamiliarDatabase.familiarByImage.put( familiarImage, familiarId );
-
-				// Kludge: Happy Medium has 4 different images
-				if ( id == FamiliarPool.HAPPY_MEDIUM )
-				{
-					FamiliarDatabase.familiarByImage.put( "medium_1.gif", familiarId );
-					FamiliarDatabase.familiarByImage.put( "medium_2.gif", familiarId );
-					FamiliarDatabase.familiarByImage.put( "medium_3.gif", familiarId );
-				}
-				
-				FamiliarDatabase.familiarLarvaById.put( familiarId, familiarLarva );
-				FamiliarDatabase.familiarByLarva.put( familiarLarva, familiarId );
-
-				FamiliarDatabase.familiarItemById.put( familiarId, familiarItemName );
-				FamiliarDatabase.familiarByItem.put( familiarItemName, familiarId );
-
-				FamiliarDatabase.volleyById.set( familiarId.intValue(), familiarType.contains( "stat0" ) );
-				FamiliarDatabase.sombreroById.set( familiarId.intValue(), familiarType.contains( "stat1" ) );
-				FamiliarDatabase.fairyById.set( familiarId.intValue(), familiarType.contains( "item0" ) );
-				FamiliarDatabase.meatDropById.set( familiarId.intValue(), familiarType.contains( "meat0" ) );
-
-				// The following are "combat" abilities
-				FamiliarDatabase.combat0ById.set( familiarId.intValue(), familiarType.contains( "combat0" ) );
-				FamiliarDatabase.combat1ById.set( familiarId.intValue(), familiarType.contains( "combat1" ) );
-				FamiliarDatabase.blockById.set( familiarId.intValue(), familiarType.contains( "block" ) );
-				FamiliarDatabase.delevelById.set( familiarId.intValue(), familiarType.contains( "delevel" ) );
-				FamiliarDatabase.hp0ById.set( familiarId.intValue(), familiarType.contains( "hp0" ) );
-				FamiliarDatabase.mp0ById.set( familiarId.intValue(), familiarType.contains( "mp0" ) );
-				FamiliarDatabase.meat1ById.set( familiarId.intValue(), familiarType.contains( "meat1" ) );
-				FamiliarDatabase.stat2ById.set( familiarId.intValue(), familiarType.contains( "stat2" ) );
-				FamiliarDatabase.other0ById.set( familiarId.intValue(), familiarType.contains( "other0" ) );
-
-				// The following are "after combat" abilities
-				FamiliarDatabase.hp1ById.set( familiarId.intValue(), familiarType.contains( "hp1" ) );
-				FamiliarDatabase.mp1ById.set( familiarId.intValue(), familiarType.contains( "mp1" ) );
-				FamiliarDatabase.stat3ById.set( familiarId.intValue(), familiarType.contains( "stat3" ) );
-				FamiliarDatabase.other1ById.set( familiarId.intValue(), familiarType.contains( "other1" ) );
-
-				// The following are other abilities that deserve their own category
-				FamiliarDatabase.passiveById.set( familiarId.intValue(), familiarType.contains( "passive" ) );
-				FamiliarDatabase.dropById.set( familiarId.intValue(), familiarType.contains( "drop" ) );
-				FamiliarDatabase.underwaterById.set( familiarId.intValue(), familiarType.contains( "underwater" ) );
-
-				FamiliarDatabase.noneById.set( familiarId.intValue(), familiarType.contains( "none" ) );
-				FamiliarDatabase.variableById.set( familiarId.intValue(), familiarType.contains( "variable" ) );
-
-				String canonical = StringUtilities.getCanonicalName( data[ 1 ] );
-				for ( int i = 0; i < 4; ++i )
-				{
-					FamiliarDatabase.eventSkillByName[ i ].put( canonical, Integer.valueOf( data[ i + 6 ] ) );
-				}
-				if ( data.length == 11 )
-				{
-					String [] list = data[ 10 ].split( "\\s*,\\s*" );
-					List<String> attrs = Arrays.asList( list );
-					FamiliarDatabase.attributesById.put( familiarId, attrs );
-				}
+				FamiliarDatabase.maxFamiliarId = id;
 			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
 
-				StaticEntity.printStackTrace( e );
+			String name = new String( data[ 1 ] );
+			String canonical = StringUtilities.getCanonicalName( name );
+			String display = StringUtilities.getDisplayName( name );
+
+			FamiliarDatabase.familiarById.put( id, display );
+			FamiliarDatabase.familiarByName.put( name, id );
+			FamiliarDatabase.canonicalNameMap.put( canonical, name );
+
+			String image = new String( data[ 2 ] );
+			FamiliarDatabase.familiarImageById.put( id, image );
+			FamiliarDatabase.familiarByImage.put( image, id );
+			// Kludge: Happy Medium has 4 different images
+			if ( id == FamiliarPool.HAPPY_MEDIUM )
+			{
+				FamiliarDatabase.familiarByImage.put( "medium_1.gif", id );
+				FamiliarDatabase.familiarByImage.put( "medium_2.gif", id );
+				FamiliarDatabase.familiarByImage.put( "medium_3.gif", id );
+			}
+
+			String type = new String( data[ 3 ] );
+			FamiliarDatabase.updateType( type, id );
+
+			String larvaName = new String( data[ 4 ] );
+			Integer larva = Integer.valueOf( ItemDatabase.getItemId( larvaName ) );
+			FamiliarDatabase.familiarLarvaById.put( id, larva );
+			FamiliarDatabase.familiarByLarva.put( larva, id );
+
+			String itemName = new String( data[ 5 ] );
+			FamiliarDatabase.familiarItemById.put( id, itemName );
+			FamiliarDatabase.familiarByItem.put( itemName, id );
+
+			for ( int i = 0; i < 4; ++i )
+			{
+				FamiliarDatabase.eventSkillByName[ i ].put( name, Integer.valueOf( data[ i + 6 ] ) );
+			}
+
+			if ( data.length == 11 )
+			{
+				String [] list = data[ 10 ].split( "\\s*,\\s*" );
+				List<String> attrs = Arrays.asList( list );
+				FamiliarDatabase.attributesById.put( id, attrs );
 			}
 		}
 
@@ -234,10 +206,56 @@ public class FamiliarDatabase
 		}
 		catch ( Exception e )
 		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
 			StaticEntity.printStackTrace( e );
+		}
+	}
+
+	private static final void saveCanonicalNames()
+	{
+		String[] newArray = new String[ FamiliarDatabase.canonicalNameMap.size() ];
+		FamiliarDatabase.canonicalNameMap.keySet().toArray( newArray );
+		Arrays.sort( newArray );
+		FamiliarDatabase.canonicalNames = newArray;
+	}
+
+	private static void updateType( final String type, final Integer id )
+	{
+		FamiliarDatabase.updateType( type, "stat0", id, volleyById );
+		FamiliarDatabase.updateType( type, "stat1", id, sombreroById );
+		FamiliarDatabase.updateType( type, "item0", id, fairyById );
+		FamiliarDatabase.updateType( type, "meat0", id, meatDropById );
+
+		// The following are "combat" abilities
+		FamiliarDatabase.updateType( type, "combat0", id, combat0ById );
+		FamiliarDatabase.updateType( type, "combat1", id, combat1ById );
+		FamiliarDatabase.updateType( type, "block", id, blockById );
+		FamiliarDatabase.updateType( type, "delevel", id, delevelById );
+		FamiliarDatabase.updateType( type, "hp0", id, hp0ById );
+		FamiliarDatabase.updateType( type, "mp0", id, mp0ById );
+		FamiliarDatabase.updateType( type, "meat1", id, meat1ById );
+		FamiliarDatabase.updateType( type, "stat2", id, stat2ById );
+		FamiliarDatabase.updateType( type, "other0", id, other0ById );
+
+		// The following are "after combat" abilities
+		FamiliarDatabase.updateType( type, "hp1", id, hp1ById );
+		FamiliarDatabase.updateType( type, "mp1", id, mp1ById );
+		FamiliarDatabase.updateType( type, "stat3", id, stat3ById );
+		FamiliarDatabase.updateType( type, "other1", id, other1ById );
+			
+		// The following are other abilities that deserve their own category
+		FamiliarDatabase.updateType( type, "passive", id, passiveById );
+		FamiliarDatabase.updateType( type, "drop", id, dropById );
+		FamiliarDatabase.updateType( type, "underwater", id, underwaterById );
+
+		FamiliarDatabase.updateType( type, "none", id, noneById );
+		FamiliarDatabase.updateType( type, "variable", id, variableById );
+	}
+
+	private static void updateType( final String type, final String key, final Integer id, final Set<Integer> set )
+	{
+		if ( type.contains( key ) )
+		{
+			set.add( id );
 		}
 	}
 
@@ -267,8 +285,7 @@ public class FamiliarDatabase
 				String move3 = new String( data[ 6 ] );
 				String attribute = new String( data[ 7 ] );
 
-				String canonical = StringUtilities.getCanonicalName( race );
-				Integer id = FamiliarDatabase.familiarByName.get( canonical );
+				Integer id = FamiliarDatabase.familiarByName.get( race );
 				if ( id == null )
 				{
 					RequestLogger.printLine( "Unknown familiar in fambattle.txt: " + race );
@@ -278,7 +295,7 @@ public class FamiliarDatabase
 				PokefamData value = new PokefamData( race, level2, level3, level4, move1, move2, move3, attribute );
 
 				FamiliarDatabase.pokefamById.put( id, value );
-				FamiliarDatabase.pokefamByName.put( StringUtilities.getCanonicalName( race ), value );
+				FamiliarDatabase.pokefamByName.put( race, value );
 			}
 			catch ( Exception e )
 			{
@@ -331,8 +348,7 @@ public class FamiliarDatabase
 
 	public static final void registerFamiliar( final int familiarId, final String familiarName, final String image, final Integer larvaId )
 	{
-		String canon = StringUtilities.getCanonicalName( familiarName );
-		if ( FamiliarDatabase.familiarByName.containsKey( canon ) )
+		if ( FamiliarDatabase.familiarByName.containsKey( familiarName ) )
 		{
 			return;
 		}
@@ -344,20 +360,23 @@ public class FamiliarDatabase
 			FamiliarDatabase.maxFamiliarId = familiarId;
 		}
 
-		Integer dummyId = IntegerPool.get( familiarId );
+		Integer id = IntegerPool.get( familiarId );
+		String canonical = StringUtilities.getCanonicalName( familiarName );
 
-		FamiliarDatabase.familiarById.put( dummyId, familiarName );
-		FamiliarDatabase.familiarByName.put( canon, dummyId );
-		FamiliarDatabase.familiarImageById.put( dummyId, image );
-		FamiliarDatabase.familiarByImage.put( image, dummyId );
-		FamiliarDatabase.familiarLarvaById.put( dummyId, larvaId );
-		FamiliarDatabase.familiarByLarva.put( larvaId, dummyId );
-		FamiliarDatabase.familiarItemById.put( dummyId, "" );
+		FamiliarDatabase.familiarById.put( id, familiarName );
+		FamiliarDatabase.familiarByName.put( familiarName, id );
+		FamiliarDatabase.canonicalNameMap.put( canonical, familiarName );
+		FamiliarDatabase.familiarImageById.put( id, image );
+		FamiliarDatabase.familiarByImage.put( image, id );
+		FamiliarDatabase.familiarLarvaById.put( id, larvaId );
+		FamiliarDatabase.familiarByLarva.put( larvaId, id );
+		FamiliarDatabase.familiarItemById.put( id, "" );
 		for ( int i = 0; i < 4; ++i )
 		{
-			FamiliarDatabase.eventSkillByName[ i ].put( canon, FamiliarDatabase.ZERO );
+			FamiliarDatabase.eventSkillByName[ i ].put( familiarName, FamiliarDatabase.ZERO );
 		}
 		FamiliarDatabase.newFamiliars = true;
+		FamiliarDatabase.saveCanonicalNames();
 	}
 
 	/**
@@ -397,149 +416,158 @@ public class FamiliarDatabase
 	 * @return The Id number of the corresponding familiar
 	 */
 
-	public static final int getFamiliarId( final String substring )
+	public static final int getFamiliarId( final String name )
 	{
-		String searchString = substring.toLowerCase();
-		Object familiarId = FamiliarDatabase.familiarByName.get( searchString );
+		return getFamiliarId( name, true );
+	}
+
+	public static final int getFamiliarId( final String name, final boolean substringMatch )
+	{
+		// Look for an exact match first
+		Integer familiarId = FamiliarDatabase.familiarByName.get( name );
 		if ( familiarId != null )
 		{
-			return ( (Integer) familiarId ).intValue();
+			return familiarId.intValue();
 		}
 
-		String[] familiarNames = new String[ FamiliarDatabase.familiarByName.size() ];
-		FamiliarDatabase.familiarByName.keySet().toArray( familiarNames );
-
-		for ( int i = 0; i < familiarNames.length; ++i )
+		if ( !substringMatch )
 		{
-			if ( familiarNames[ i ].contains( searchString ) )
-			{
-				familiarId = FamiliarDatabase.familiarByName.get( familiarNames[ i ] );
-				return familiarId == null ? -1 : ( (Integer) familiarId ).intValue();
-			}
+			return -1;
+		}
+
+		String canonical = StringUtilities.getCanonicalName( name );
+		List<String> possibilities = StringUtilities.getMatchingNames( FamiliarDatabase.canonicalNames, canonical );
+		int matches = possibilities.size();
+
+		if ( matches == 1 )
+		{
+			String first = possibilities.get( 0 );
+			String realName = FamiliarDatabase.canonicalNameMap.get( first );
+			return FamiliarDatabase.familiarByName.get( realName );
 		}
 
 		return -1;
 	}
 
-	public static final boolean isVolleyType( final int familiarId )
+	public static final boolean isVolleyType( final Integer familiarId )
 	{
-		return FamiliarDatabase.volleyById.get( familiarId );
+		return FamiliarDatabase.volleyById.contains( familiarId );
 	}
 
-	public static final boolean isSombreroType( final int familiarId )
+	public static final boolean isSombreroType( final Integer familiarId )
 	{
-		return FamiliarDatabase.sombreroById.get( familiarId );
+		return FamiliarDatabase.sombreroById.contains( familiarId );
 	}
 
-	public static final boolean isFairyType( final int familiarId )
+	public static final boolean isFairyType( final Integer familiarId )
 	{
-		return FamiliarDatabase.fairyById.get( familiarId );
+		return FamiliarDatabase.fairyById.contains( familiarId );
 	}
 
-	public static final boolean isMeatDropType( final int familiarId )
+	public static final boolean isMeatDropType( final Integer familiarId )
 	{
-		return FamiliarDatabase.meatDropById.get( familiarId );
+		return FamiliarDatabase.meatDropById.contains( familiarId );
 	}
 
-	public static final boolean isCombatType( final int familiarId )
+	public static final boolean isCombatType( final Integer familiarId )
 	{
-		return  FamiliarDatabase.combat0ById.get( familiarId ) ||
-			FamiliarDatabase.combat1ById.get( familiarId ) ||
-			FamiliarDatabase.blockById.get( familiarId ) ||
-			FamiliarDatabase.delevelById.get( familiarId ) ||
-			FamiliarDatabase.hp0ById.get( familiarId ) ||
-			FamiliarDatabase.mp0ById.get( familiarId ) ||
-			FamiliarDatabase.other0ById.get( familiarId );
+		return  FamiliarDatabase.combat0ById.contains( familiarId ) ||
+			FamiliarDatabase.combat1ById.contains( familiarId ) ||
+			FamiliarDatabase.blockById.contains( familiarId ) ||
+			FamiliarDatabase.delevelById.contains( familiarId ) ||
+			FamiliarDatabase.hp0ById.contains( familiarId ) ||
+			FamiliarDatabase.mp0ById.contains( familiarId ) ||
+			FamiliarDatabase.other0ById.contains( familiarId );
 	}
 
-	public static final boolean isCombat0Type( final int familiarId )
+	public static final boolean isCombat0Type( final Integer familiarId )
 	{
-		return  FamiliarDatabase.combat0ById.get( familiarId );
+		return  FamiliarDatabase.combat0ById.contains( familiarId );
 	}
 
-	public static final boolean isCombat1Type( final int familiarId )
+	public static final boolean isCombat1Type( final Integer familiarId )
 	{
-		return  FamiliarDatabase.combat1ById.get( familiarId );
+		return  FamiliarDatabase.combat1ById.contains( familiarId );
 	}
 
-	public static final boolean isDropType( final int familiarId )
+	public static final boolean isDropType( final Integer familiarId )
 	{
-		return  FamiliarDatabase.dropById.get( familiarId );
+		return  FamiliarDatabase.dropById.contains( familiarId );
 	}
 
-	public static final boolean isBlockType( final int familiarId )
+	public static final boolean isBlockType( final Integer familiarId )
 	{
-		return  FamiliarDatabase.blockById.get( familiarId );
+		return  FamiliarDatabase.blockById.contains( familiarId );
 	}
 
-	public static final boolean isDelevelType( final int familiarId )
+	public static final boolean isDelevelType( final Integer familiarId )
 	{
-		return  FamiliarDatabase.delevelById.get( familiarId );
+		return  FamiliarDatabase.delevelById.contains( familiarId );
 	}
 
-	public static final boolean isHp0Type( final int familiarId )
+	public static final boolean isHp0Type( final Integer familiarId )
 	{
-		return  FamiliarDatabase.hp0ById.get( familiarId );
+		return  FamiliarDatabase.hp0ById.contains( familiarId );
 	}
 
-	public static final boolean isMp0Type( final int familiarId )
+	public static final boolean isMp0Type( final Integer familiarId )
 	{
-		return  FamiliarDatabase.mp0ById.get( familiarId );
+		return  FamiliarDatabase.mp0ById.contains( familiarId );
 	}
 
-	public static final boolean isMeat1Type( final int familiarId )
+	public static final boolean isMeat1Type( final Integer familiarId )
 	{
-		return  FamiliarDatabase.meat1ById.get( familiarId );
+		return  FamiliarDatabase.meat1ById.contains( familiarId );
 	}
 
-	public static final boolean isStat2Type( final int familiarId )
+	public static final boolean isStat2Type( final Integer familiarId )
 	{
-		return  FamiliarDatabase.stat2ById.get( familiarId );
+		return  FamiliarDatabase.stat2ById.contains( familiarId );
 	}
 
-	public static final boolean isOther0Type( final int familiarId )
+	public static final boolean isOther0Type( final Integer familiarId )
 	{
-		return  FamiliarDatabase.other0ById.get( familiarId );
+		return  FamiliarDatabase.other0ById.contains( familiarId );
 	}
 
-	public static final boolean isHp1Type( final int familiarId )
+	public static final boolean isHp1Type( final Integer familiarId )
 	{
-		return  FamiliarDatabase.hp1ById.get( familiarId );
+		return  FamiliarDatabase.hp1ById.contains( familiarId );
 	}
 
-	public static final boolean isMp1Type( final int familiarId )
+	public static final boolean isMp1Type( final Integer familiarId )
 	{
-		return  FamiliarDatabase.mp1ById.get( familiarId );
+		return  FamiliarDatabase.mp1ById.contains( familiarId );
 	}
 
-	public static final boolean isStat3Type( final int familiarId )
+	public static final boolean isStat3Type( final Integer familiarId )
 	{
-		return  FamiliarDatabase.stat3ById.get( familiarId );
+		return  FamiliarDatabase.stat3ById.contains( familiarId );
 	}
 
-	public static final boolean isNoneType( final int familiarId )
+	public static final boolean isNoneType( final Integer familiarId )
 	{
-		return  FamiliarDatabase.noneById.get( familiarId );
+		return  FamiliarDatabase.noneById.contains( familiarId );
 	}
 
-	public static final boolean isOther1Type( final int familiarId )
+	public static final boolean isOther1Type( final Integer familiarId )
 	{
-		return  FamiliarDatabase.other1ById.get( familiarId );
+		return  FamiliarDatabase.other1ById.contains( familiarId );
 	}
 
-	public static final boolean isPassiveType( final int familiarId )
+	public static final boolean isPassiveType( final Integer familiarId )
 	{
-		return  FamiliarDatabase.passiveById.get( familiarId );
+		return  FamiliarDatabase.passiveById.contains( familiarId );
 	}
 
-	public static final boolean isUnderwaterType( final int familiarId )
+	public static final boolean isUnderwaterType( final Integer familiarId )
 	{
-		return  FamiliarDatabase.underwaterById.get( familiarId );
+		return  FamiliarDatabase.underwaterById.contains( familiarId );
 	}
 
-	public static final boolean isVariableType( final int familiarId )
+	public static final boolean isVariableType( final Integer familiarId )
 	{
-		return  FamiliarDatabase.variableById.get( familiarId );
+		return  FamiliarDatabase.variableById.contains( familiarId );
 	}
 
 	public static final String getFamiliarItem( final int familiarId )
@@ -565,7 +593,7 @@ public class FamiliarDatabase
 
 	public static final int getFamiliarByItem( final String item )
 	{
-		Integer familiarId = FamiliarDatabase.familiarByItem.get( StringUtilities.getCanonicalName( item ) );
+		Integer familiarId = FamiliarDatabase.familiarByItem.get( item );
 		return familiarId == null ? -1 : familiarId.intValue();
 	}
 
@@ -586,25 +614,25 @@ public class FamiliarDatabase
 		String sep = "";
 
 		// Base types: Leprechaun, Fairy, Volleyball, Sombrero
-		if ( FamiliarDatabase.meatDropById.get( familiarId ) )
+		if ( FamiliarDatabase.meatDropById.contains( familiarId ) )
 		{
 			buffer.append( sep );
 			sep = ",";
 			buffer.append( "meat0" );
 		}
-		if ( FamiliarDatabase.fairyById.get( familiarId ) )
+		if ( FamiliarDatabase.fairyById.contains( familiarId ) )
 		{
 			buffer.append( sep );
 			sep = ",";
 			buffer.append( "item0" );
 		}
-		if ( FamiliarDatabase.volleyById.get( familiarId ) )
+		if ( FamiliarDatabase.volleyById.contains( familiarId ) )
 		{
 			buffer.append( sep );
 			sep = ",";
 			buffer.append( "stat0" );
 		}
-		if ( FamiliarDatabase.sombreroById.get( familiarId ) )
+		if ( FamiliarDatabase.sombreroById.contains( familiarId ) )
 		{
 			buffer.append( sep );
 			sep = ",";
@@ -612,55 +640,55 @@ public class FamiliarDatabase
 		}
 
 		// Combat abilities
-		if ( FamiliarDatabase.combat0ById.get( familiarId ) )
+		if ( FamiliarDatabase.combat0ById.contains( familiarId ) )
 		{
 			buffer.append( sep );
 			sep = ",";
 			buffer.append( "combat0" );
 		}
-		if ( FamiliarDatabase.combat1ById.get( familiarId ) )
+		if ( FamiliarDatabase.combat1ById.contains( familiarId ) )
 		{
 			buffer.append( sep );
 			sep = ",";
 			buffer.append( "combat1" );
 		}
-		if ( FamiliarDatabase.blockById.get( familiarId ) )
+		if ( FamiliarDatabase.blockById.contains( familiarId ) )
 		{
 			buffer.append( sep );
 			sep = ",";
 			buffer.append( "block" );
 		}
-		if ( FamiliarDatabase.delevelById.get( familiarId ) )
+		if ( FamiliarDatabase.delevelById.contains( familiarId ) )
 		{
 			buffer.append( sep );
 			sep = ",";
 			buffer.append( "delevel" );
 		}
-		if ( FamiliarDatabase.hp0ById.get( familiarId ) )
+		if ( FamiliarDatabase.hp0ById.contains( familiarId ) )
 		{
 			buffer.append( sep );
 			sep = ",";
 			buffer.append( "hp0" );
 		}
-		if ( FamiliarDatabase.mp0ById.get( familiarId ) )
+		if ( FamiliarDatabase.mp0ById.contains( familiarId ) )
 		{
 			buffer.append( sep );
 			sep = ",";
 			buffer.append( "mp0" );
 		}
-		if ( FamiliarDatabase.other0ById.get( familiarId ) )
+		if ( FamiliarDatabase.other0ById.contains( familiarId ) )
 		{
 			buffer.append( sep );
 			sep = ",";
 			buffer.append( "other0" );
 		}
-		if ( FamiliarDatabase.meat1ById.get( familiarId ) )
+		if ( FamiliarDatabase.meat1ById.contains( familiarId ) )
 		{
 			buffer.append( sep );
 			sep = ",";
 			buffer.append( "meat1" );
 		}
-		if ( FamiliarDatabase.stat2ById.get( familiarId ) )
+		if ( FamiliarDatabase.stat2ById.contains( familiarId ) )
 		{
 			buffer.append( sep );
 			sep = ",";
@@ -668,39 +696,39 @@ public class FamiliarDatabase
 		}
 
 		// After Combat abilities
-		if ( FamiliarDatabase.hp1ById.get( familiarId ) )
+		if ( FamiliarDatabase.hp1ById.contains( familiarId ) )
 		{
 			buffer.append( sep );
 			sep = ",";
 			buffer.append( "hp1" );
 		}
-		if ( FamiliarDatabase.mp1ById.get( familiarId ) )
+		if ( FamiliarDatabase.mp1ById.contains( familiarId ) )
 		{
 			buffer.append( sep );
 			sep = ",";
 			buffer.append( "mp1" );
 		}
-		if ( FamiliarDatabase.other1ById.get( familiarId ) )
+		if ( FamiliarDatabase.other1ById.contains( familiarId ) )
 		{
 			buffer.append( sep );
 			sep = ",";
 			buffer.append( "other1" );
 		}
 
-		if ( FamiliarDatabase.passiveById.get( familiarId ) )
+		if ( FamiliarDatabase.passiveById.contains( familiarId ) )
 		{
 			buffer.append( sep );
 			sep = ",";
 			buffer.append( "passive" );
 		}
-		if ( FamiliarDatabase.underwaterById.get( familiarId ) )
+		if ( FamiliarDatabase.underwaterById.contains( familiarId ) )
 		{
 			buffer.append( sep );
 			sep = ",";
 			buffer.append( "underwater" );
 		}
 
-		if ( FamiliarDatabase.variableById.get( familiarId ) )
+		if ( FamiliarDatabase.variableById.contains( familiarId ) )
 		{
 			buffer.append( sep );
 			sep = ",";
@@ -708,7 +736,7 @@ public class FamiliarDatabase
 		}
 
 		// Special items
-		if ( FamiliarDatabase.dropById.get( familiarId ) )
+		if ( FamiliarDatabase.dropById.contains( familiarId ) )
 		{
 			buffer.append( sep );
 			sep = ",";
@@ -777,20 +805,19 @@ public class FamiliarDatabase
 	}
 
 	/**
-	 * Returns whether or not an item with a given name exists in the database; this is useful in the event that an item
-	 * is encountered which is not tradeable (and hence, should not be displayed).
+	 * Returns whether or not a familiar with a given name exists in the database.
 	 *
-	 * @return <code>true</code> if the item is in the database
+	 * @return <code>true</code> if the familiar is in the database
 	 */
 
 	public static final boolean contains( final String familiarName )
 	{
-		return FamiliarDatabase.familiarByName.containsKey( StringUtilities.getCanonicalName( familiarName ) );
+		return FamiliarDatabase.familiarByName.containsKey( familiarName );
 	}
 
 	public static final Integer getFamiliarSkill( final String name, final int event )
 	{
-		return (Integer) FamiliarDatabase.eventSkillByName[ event - 1 ].get( StringUtilities.getCanonicalName( name ) );
+		return (Integer) FamiliarDatabase.eventSkillByName[ event - 1 ].get( name );
 	}
 
 	public static final int[] getFamiliarSkills( final int id )
@@ -800,7 +827,7 @@ public class FamiliarDatabase
 
 	public static final int[] getFamiliarSkills( final Integer id )
 	{
-		String name = StringUtilities.getCanonicalName( FamiliarDatabase.getFamiliarName( id ) );
+		String name = FamiliarDatabase.getFamiliarName( id );
 		int skills[] = new int[ 4 ];
 		for ( int i = 0; i < 4; ++i )
 		{
@@ -811,10 +838,9 @@ public class FamiliarDatabase
 
 	public static final void setFamiliarSkills( final String name, final int[] skills )
 	{
-		String canon = StringUtilities.getCanonicalName( name );
 		for ( int i = 0; i < 4; ++i )
 		{
-			FamiliarDatabase.eventSkillByName[ i ].put( canon, IntegerPool.get( skills[ i ] ) );
+			FamiliarDatabase.eventSkillByName[ i ].put( name, IntegerPool.get( skills[ i ] ) );
 		}
 		FamiliarDatabase.newFamiliars = true;
 		FamiliarDatabase.saveDataOverride();
@@ -848,7 +874,7 @@ public class FamiliarDatabase
 
 	public static final PokefamData getPokeDataByName( final String name )
 	{
-		return FamiliarDatabase.pokefamByName.get( StringUtilities.getCanonicalName( name ) );
+		return FamiliarDatabase.pokefamByName.get( name );
 	}
 
 	public static final PokefamData getPokeDataById( final int id )
@@ -959,7 +985,7 @@ public class FamiliarDatabase
 
 			int id = FamiliarDatabase.getFamiliarId( race );
 			FamiliarDatabase.pokefamById.put( id, data );
-			FamiliarDatabase.pokefamByName.put( StringUtilities.getCanonicalName( race ), data );
+			FamiliarDatabase.pokefamByName.put( race, data );
 			printNewPokefamData( data );
 			return;
 		}
