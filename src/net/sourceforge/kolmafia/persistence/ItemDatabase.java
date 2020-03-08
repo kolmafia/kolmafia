@@ -1266,7 +1266,7 @@ public class ItemDatabase
 		return ItemDatabase.getItemId( itemName, 1, false );
 	}
 
-	private static final int getBrackededItemId( final String itemName )
+	private static final int getBracketedItemId( final String itemName )
 	{
 		if ( itemName.startsWith( "[" ) )
 		{
@@ -1301,7 +1301,7 @@ public class ItemDatabase
 		// If name starts with [nnnn] then that is explicitly the item id 
 		if ( itemName.startsWith( "[" ) )
 		{
-			int itemId = ItemDatabase.getBrackededItemId( itemName );
+			int itemId = ItemDatabase.getBracketedItemId( itemName );
 			if ( itemId != -1 )
 			{
 				int[] ids = new int[1];
@@ -1370,7 +1370,7 @@ public class ItemDatabase
 		// If name is specified by use of [xxxx], return CanonicalName
 		if ( itemName.startsWith( "[" ) )
 		{
-			itemId = ItemDatabase.getBrackededItemId( itemName );
+			itemId = ItemDatabase.getBracketedItemId( itemName );
 			if ( itemId != -1 )
 			{
 				return ItemDatabase.getCanonicalName( (Integer) itemId );
@@ -1983,7 +1983,7 @@ public class ItemDatabase
 	{
 		if ( itemName.startsWith( "[" ) )
 		{
-			int itemId = ItemDatabase.getBrackededItemId( itemName );
+			int itemId = ItemDatabase.getBracketedItemId( itemName );
 			if ( itemId != -1 )
 			{
 				return getItemName( itemId );

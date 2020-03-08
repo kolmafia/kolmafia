@@ -2895,7 +2895,11 @@ public abstract class RuntimeLibrary
 			return DataTypes.makeMonsterValue( (int) value.intValue(), true );
 		}
 
-		return DataTypes.parseMonsterValue( value.toString(), true );
+		String s1 = value.toString();
+		Value monster = DataTypes.parseMonsterValue( s1, true );
+		DataTypes.MONSTER_TYPE.validateValue( interpreter, s1, monster );
+
+		return monster;
 	}
 
 	public static Value image_to_monster( Interpreter interpreter, final Value value )

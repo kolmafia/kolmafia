@@ -597,15 +597,32 @@ public class DataTypes
 			return DataTypes.MONSTER_INIT;
 		}
 
-		// Allow fuzzy matching and case-insensitive full matching.
-		// Since the latter allows ambiguity, caller must check
-		MonsterData monster = MonsterDatabase.findMonster( name, true, false );
+		// Allow for an monster id to be specified
+		// inside of the "monster" construct.
+
+		if ( StringUtilities.isNumeric( name ) )
+		{
+			int monsterId = StringUtilities.parseInt( name );
+			return DataTypes.makeMonsterValue( monsterId, returnDefault );
+		}
+
+		// Look for exact match
+		MonsterData[] monsters = MonsterDatabase.findMonsters( name, false );
+		if ( monsters.length > 0 )
+		{
+			// The name matches exactly for at least one monster.
+			// Return the first one. It's up to the caller to disambiguate
+			return DataTypes.makeMonsterValue( monsters[0] );
+		}
+
+		// Allow fuzzy matching. MonsterDatabase will not allow ambiguity
+		MonsterData monster = MonsterDatabase.findMonster( name, true );
 		if ( monster == null )
 		{
 			return returnDefault ? DataTypes.MONSTER_INIT : null;
 		}
 
-		return new Value( DataTypes.MONSTER_TYPE, monster.getId(), monster.getName(), monster );
+		return DataTypes.makeMonsterValue( monster );
 	}
 
 	public static final Value parseElementValue( String name, final boolean returnDefault )
@@ -937,7 +954,7 @@ public class DataTypes
 		{
 			return returnDefault? DataTypes.MONSTER_INIT : null;
 		}
-		return new Value( DataTypes.MONSTER_TYPE, monster.getId(), monster.getName(), monster );
+		return makeMonsterValue( monster );
 	}
 
 	public static final Value makeElementValue( Element elem, final boolean returnDefault )
@@ -1008,7 +1025,15 @@ public class DataTypes
 			return DataTypes.MONSTER_INIT;
 		}
 
-		return new Value( DataTypes.MONSTER_TYPE, monster.getId(), monster.getName(), monster );
+		int id = monster.getId();
+		String name = monster.getName();
+		int[] monsterIds = MonsterDatabase.getMonsterIds( name, false );
+		if ( monsterIds != null && monsterIds.length > 1 )
+		{
+			name = "[" + String.valueOf( id ) + "]" + name;
+		}
+
+		return new Value( DataTypes.MONSTER_TYPE, id, name, monster );
 	}
 
 	// Also supply:
