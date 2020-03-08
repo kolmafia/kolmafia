@@ -819,13 +819,13 @@ public class MonsterDatabase
 			if ( old == null )
 			{
 				MonsterDatabase.MONSTER_IDS.put( id, monster );
-				MonsterDatabase.addMonsterToName( monster );
 			}
 			else
 			{
 				RequestLogger.printLine( "Duplicate monster ID " + id + " : (" + old.getName() + "," + name + ")" );
 			}
 		}
+		MonsterDatabase.addMonsterToName( monster );
 	}
 
 	public static final Set entrySet()
