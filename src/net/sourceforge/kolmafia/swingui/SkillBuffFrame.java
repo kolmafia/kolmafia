@@ -215,6 +215,51 @@ public class SkillBuffFrame
 				"That's Not a Knife", "_discoKnife", "boolean", "true",
 			},
 			{
+				"Summon \"Boner Battalion\"", "_bonersSummoned", "boolean", "true",
+			},
+			{
+				"Acquire Rhinestones", "_rhinestonesAcquired", "boolean", "true",
+			},
+			{
+				"Psychokinetic Hug", "_psychokineticHugUsed", "boolean", "true",
+			},
+			{
+				"Managerial Manipulation", "_managerialManipulationUsed", "boolean", "true",
+			},
+			{
+				"Throw Party", "_petePartyThrown", "boolean", "true",
+			},
+			{
+				"Throw Party", "_petePartyThrown", "boolean", "true",
+			},
+			{
+				"Perfect Freeze", "_perfectFreezeUsed", "boolean", "true",
+			},
+			{
+				"Communism!", "_communismUsed", "boolean", "true",
+			},
+			{
+				"Bow-Legged Swagger", "_bowleggedSwaggerUsed", "boolean", "true",
+			},
+			{
+				"Bend Hell", "_bendHellUsed", "boolean", "true",
+			},
+			{
+				"Steely-Eyed Squint", "_steelyEyedSquintUsed", "boolean", "true",
+			},
+			{
+				"Ceci N'Est Pas Un Chapeau", "_ceciHatUsed", "boolean", "true",
+			},
+			{
+				"Evoke Eldritch Horror", "_eldritchHorrorEvoked", "boolean", "true",
+			},
+			{
+				"Incredible Self Esteem", "_incredibleSelfEsteemCast", "boolean", "true",
+			},
+			{
+				"Prevent Scurvy and Sobriety", "_preventScurvy", "boolean", "true",
+			},
+			{
 				"Advanced Cocktailcrafting", "cocktailSummons", "integer", "1",
 			},
 			{

@@ -4816,6 +4816,7 @@ public abstract class KoLCharacter
 				KoLCharacter.addCombatSkill( skill.getSkillName() );
 				break;
 			}
+			break;
 		}
 
 		case SkillDatabase.SUMMON:
