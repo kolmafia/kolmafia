@@ -173,16 +173,17 @@ public class ArcadeRequest
 			return false;
 		}
 
+		if ( Preferences.getInteger( "lastArcadeAscension" ) != KoLCharacter.getAscensions() )
+		{
+			Preferences.setInteger( "lastArcadeAscension", KoLCharacter.getAscensions() );
+			RequestThread.postRequest( new GenericRequest( "place.php?whichplace=town_wrong" ) );
+		}
+
 		String action = GenericRequest.getAction( urlString );
 
 		if ( action == null )
 		{
 			return false;
-		}
-
-		if ( Preferences.getInteger( "lastArcadeAscension" ) != KoLCharacter.getAscensions() )
-		{
-			RequestThread.postRequest( new GenericRequest( "place.php?whichplace=town_wrong" ) );
 		}
 
 		int count = TOKEN.getCount( KoLConstants.inventory );
