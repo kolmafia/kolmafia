@@ -401,11 +401,6 @@ public class BreakfastManager
 		{
 			String skill = UseSkillRequest.BREAKFAST_ALWAYS_SKILLS[ i ];
 
-			if ( !skillSetting.contains( skill ) )
-			{
-				continue;
-			}
-
 			if ( !KoLCharacter.hasSkill( skill ) )
 			{
 				continue;
