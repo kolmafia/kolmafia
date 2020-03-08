@@ -66,6 +66,9 @@ public class PlaceRequest
 	public static TreeSet<String> places = new TreeSet<String>();
 	public boolean followRedirects = false;
 
+	private String place = null;
+	private String action = null;
+
 	public PlaceRequest()
 	{
 		super( "place.php" );
@@ -74,12 +77,14 @@ public class PlaceRequest
 	public PlaceRequest( final String place )
 	{
 		this();
+		this.place = place;
 		this.addFormField( "whichplace", place );
 	}
 
 	public PlaceRequest( final String place, final String action )
 	{
 		this( place );
+		this.action = action;
 		this.addFormField( "action", action );
 	}
 

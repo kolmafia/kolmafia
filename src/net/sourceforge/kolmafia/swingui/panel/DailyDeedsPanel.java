@@ -4193,20 +4193,13 @@ public class DailyDeedsPanel
 			{
 				this.setShown( false );
 			}
-			if ( !unlocked && unlockable )
-			{
-				Preferences.setInteger( "lastArcadeAscension", KoLCharacter.getAscensions() );
-				RequestThread.postRequest( new PlaceRequest( "town_wrong" ) );
-				unlocked = true;
-			}
 
-			else if ( !unlocked && !unlockable )
+			if ( !unlockable )
 			{
 				this.setText( "Game Grid Arcade is not accessible" );
 				this.button.setVisible( false );
 			}
-
-			if ( unlocked )
+			else
 			{
 				this.setText( "click to check" );
 				this.button.setVisible( true );
