@@ -36,7 +36,9 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -65,14 +67,18 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MonsterDatabase
 {
-	private static final Map<String, MonsterData> MONSTER_DATA = new TreeMap<String, MonsterData>();
-	private static final Map<Integer, MonsterData> MONSTER_IDS = new TreeMap<Integer, MonsterData>();
-	private static final Map<String, MonsterData> OLD_MONSTER_DATA = new TreeMap<String, MonsterData>();
-	private static final Map<String, MonsterData> LEET_MONSTER_DATA = new TreeMap<String, MonsterData>();
-	private static final Set<String> MONSTER_ALIASES = new HashSet<String>();
+	private static final Map<String, MonsterData> MONSTER_DATA = new TreeMap<>();
+	private static final Map<Integer, MonsterData> MONSTER_IDS = new TreeMap<>();
+	private static final Map<String, MonsterData> OLD_MONSTER_DATA = new TreeMap<>();
+	private static final Map<String, MonsterData> LEET_MONSTER_DATA = new TreeMap<>();
+	private static final Set<String> MONSTER_ALIASES = new HashSet<>();
 	private static String[] MONSTER_STRINGS = null;
-	private static final Map<String, MonsterData> MONSTER_IMAGES = new TreeMap<String, MonsterData>();
+	private static final Map<String, MonsterData> MONSTER_IMAGES = new TreeMap<>();
 	private static final Map<String, Map<MonsterData, MonsterData>> MONSTER_PATH_MAP = new TreeMap<>();
+
+	// For handling duplicate monster and substring match of monster names
+	private static final Map<String, MonsterData[]> MONSTER_ID_SET = new HashMap<>();
+	private static String [] canonicalNames = new String[0];
 
 	public enum Element
 	{
@@ -450,6 +456,43 @@ public class MonsterDatabase
 
 			StaticEntity.printStackTrace( e );
 		}
+
+		// Save canonical names for substring lookup
+		MonsterDatabase.saveCanonicalNames();
+	}
+
+	private static void addMonsterToName( MonsterData monster )
+	{
+		String canonicalName = StringUtilities.getCanonicalName( monster.getName() );
+		MonsterData[] monsterSet = MonsterDatabase.MONSTER_ID_SET.get( canonicalName );
+		MonsterData[] newSet;
+
+		if ( monsterSet == null )
+		{
+			newSet = new MonsterData[1];
+		}
+		// *** This assumes the array is sorted
+		else if ( Arrays.binarySearch( monsterSet, monster ) >= 0 )
+		{
+			return;
+		}
+		else
+		{
+			newSet = Arrays.copyOf( monsterSet, monsterSet.length + 1 );
+		}
+
+		newSet[ newSet.length - 1 ] = monster;
+		// *** Make it so
+		Arrays.sort( newSet );
+		MonsterDatabase.MONSTER_ID_SET.put( canonicalName, newSet );
+	}
+
+	private static final void saveCanonicalNames()
+	{
+		String[] newArray = new String[ MonsterDatabase.MONSTER_ID_SET.size() ];
+		MonsterDatabase.MONSTER_ID_SET.keySet().toArray( newArray );
+		Arrays.sort( newArray );
+		MonsterDatabase.canonicalNames = newArray;
 	}
 
 	public static final void saveAliases()
@@ -572,6 +615,8 @@ public class MonsterDatabase
 		}
 	}
 
+	// Monster lookup using encounter keys. Used for finding monsters that KoL gives us.
+
 	public static final MonsterData findMonster( final String name )
 	{
 		// Exact match monster name lookup - use this when KoL itself gives us a monster name
@@ -610,6 +655,120 @@ public class MonsterDatabase
 		return null;
 	}
 
+	// Monster lookup using monster name from ASH scripts.
+
+	public static final MonsterData findMonster( final String name, boolean trySubstrings )
+	{
+		// Get all the monsters which match this name
+		MonsterData[] monsters = MonsterDatabase.findMonsters( name, trySubstrings );
+
+		// If no (or ambiguous) name match found, no monster to return;
+		if ( monsters == null )
+		{
+			return null;
+		}
+
+		// If there is exactly one monster that matches, we got it.
+		if ( monsters.length == 1 )
+		{
+			return monsters[ 0 ];
+		}
+
+		// Exact match for the name, but multiple monsters
+		return null;
+	}
+
+	private static final MonsterData getBracketedMonster( final String monsterName )
+	{
+		if ( monsterName.startsWith( "[" ) )
+		{
+			int index = monsterName.indexOf( "]" );
+			if ( index > 0 )
+			{
+				String idString = monsterName.substring( 1, index );
+				if ( StringUtilities.isNumeric( idString ) )
+				{
+					int monsterId = StringUtilities.parseInt( idString );
+					MonsterData monster = MonsterDatabase.findMonsterById( monsterId );
+					if ( monster != null )
+					{
+						return monster;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	private static final MonsterData[] NO_MONSTERS = new MonsterData[0];
+
+	public static final MonsterData[] findMonsters( final String monsterName, final boolean substringMatch )
+	{
+		if ( monsterName == null )
+		{
+			return NO_MONSTERS;
+		}
+
+		// If name starts with [nnnn] then that is explicitly the monster id 
+		if ( monsterName.startsWith( "[" ) )
+		{
+			MonsterData monster = MonsterDatabase.getBracketedMonster( monsterName );
+			if ( monster != null )
+			{
+				MonsterData[] monsters = new MonsterData[1];
+				monsters[0] = monster;
+				return monsters;
+			}
+		}
+
+		// We want an exact (case insensitive) match
+		if ( !substringMatch )
+		{
+			String canonicalName = StringUtilities.getCanonicalName( monsterName );
+			MonsterData[] monsters = MonsterDatabase.MONSTER_ID_SET.get( canonicalName );
+			if ( monsters != null && monsters.length > 0 )
+			{
+				return monsters;
+			}
+			return NO_MONSTERS;
+		}
+
+		// We want a substring match. Do a canonical name search
+		String canonical = StringUtilities.getCanonicalName( monsterName );
+		List<String> possibilities = StringUtilities.getMatchingNames( MonsterDatabase.canonicalNames, canonical );
+
+		// If one name matches, return the monster set for that name
+		if ( possibilities.size() == 1 )
+		{
+			String first = possibilities.get( 0 );
+			return MonsterDatabase.MONSTER_ID_SET.get( first );
+		}
+
+		// Otherwise the name is ambiguous or not found
+		return NO_MONSTERS;
+	}
+
+	private static final int[] NO_MONSTER_IDS = new int[0];
+
+	public static final int[] getMonsterIds( final String monsterName, final boolean substringMatch )
+	{
+		MonsterData[] monsters = MonsterDatabase.findMonsters( monsterName, substringMatch );
+
+		if ( monsters == null )
+		{
+			return NO_MONSTER_IDS;
+		}
+
+		int length = monsters.length;
+		int[] monsterIds = new int[ length ];
+		for ( int i = 0; i < length; ++i )
+		{
+			monsterIds[i] = monsters[i].getId();
+		}
+
+		return monsterIds;
+	}
+
 	public static final MonsterData findMonsterByImage( final String image )
 	{
 		return MonsterDatabase.MONSTER_IMAGES.get( image );
@@ -618,6 +777,12 @@ public class MonsterDatabase
 	public static final MonsterData findMonsterById( final int id )
 	{
 		return MonsterDatabase.MONSTER_IDS.get( id );
+	}
+
+	public static final String getMonsterName( final int id )
+	{
+		MonsterData monster = MonsterDatabase.MONSTER_IDS.get( id );
+		return monster == null ? "" : monster.getName();
 	}
 
 	public static final String translateLeetMonsterName( final String leetName )
@@ -642,6 +807,7 @@ public class MonsterDatabase
 		String[] images = { image };
 		MonsterData monster = MonsterDatabase.registerMonster( name, id, images, attributes );
 		MonsterDatabase.registerMonsterId( id, name, monster );
+		MonsterDatabase.saveCanonicalNames();
 		return monster;
 	}
 
@@ -653,6 +819,7 @@ public class MonsterDatabase
 			if ( old == null )
 			{
 				MonsterDatabase.MONSTER_IDS.put( id, monster );
+				MonsterDatabase.addMonsterToName( monster );
 			}
 			else
 			{

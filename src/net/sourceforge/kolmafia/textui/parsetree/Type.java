@@ -333,6 +333,7 @@ public class Type
 		{
 		case DataTypes.TYPE_ITEM:
 		case DataTypes.TYPE_EFFECT:
+		case DataTypes.TYPE_MONSTER:
 		{
 			String s2 = value.toString();
 			if ( s1.equalsIgnoreCase( s2 ) )
@@ -361,11 +362,19 @@ public class Type
 			String name =
 				this.type == DataTypes.TYPE_ITEM ?
 				ItemDatabase.getItemName( currentId ) :
-				EffectDatabase.getEffectName( currentId );
+				this.type == DataTypes.TYPE_EFFECT ?
+				EffectDatabase.getEffectName( currentId ) :
+				this.type == DataTypes.TYPE_MONSTER ?
+				MonsterDatabase.getMonsterName( currentId ) :
+				"";
 			int[] ids =
 				this.type == DataTypes.TYPE_ITEM ?
 				ItemDatabase.getItemIds( name, 1, false ) :
-				EffectDatabase.getEffectIds( name, false );
+				this.type == DataTypes.TYPE_EFFECT ?
+				EffectDatabase.getEffectIds( name, false ) :
+				this.type == DataTypes.TYPE_MONSTER ?
+				MonsterDatabase.getMonsterIds( name, false ) :
+				null;
 
 			for ( int id : ids )
 			{
