@@ -1705,6 +1705,7 @@ user	_pickyTweezersUsed	false
 user	_pieDrops	0
 user	_piePartsCount	0
 user	_pirateBellowUsed	false
+user	_pixelOrbUsed	false
 user	_pneumaticityPotionUsed	false
 user	_pocketProfessorLectures	0
 user	_poisonArrows	0

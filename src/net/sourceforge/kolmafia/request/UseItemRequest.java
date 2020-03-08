@@ -1026,11 +1026,14 @@ public class UseItemRequest
 			return Preferences.getBoolean( "_blankoutUsed" ) ? 0 : 1;
 
 		case ItemPool.CORRUPTED_STARDUST:
-		case ItemPool.PIXEL_ORB:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_corruptedStardustUsed" ) ? 0 : 1;
 
-		case ItemPool.SWEET_TOOTH:
+		case ItemPool.PIXEL_ORB:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_pixelOrbUsed" ) ? 0 : 1;
+
+			case ItemPool.SWEET_TOOTH:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_sweetToothUsed" ) ? 0 : 1;
 
@@ -5533,11 +5536,14 @@ public class UseItemRequest
 			break;
 
 		case ItemPool.CORRUPTED_STARDUST:
-		case ItemPool.PIXEL_ORB:
 			Preferences.setBoolean( "_corruptedStardustUsed", true );
 			break;
 
-		case ItemPool.JARLSBERG_SOUL_FRAGMENT:
+		case ItemPool.PIXEL_ORB:
+			Preferences.setBoolean( "_pixelOrbUsed", true );
+			break;
+
+			case ItemPool.JARLSBERG_SOUL_FRAGMENT:
 			if ( !responseText.contains( "extra skill point" ) )
 			{
 				return;
