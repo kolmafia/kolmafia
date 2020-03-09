@@ -391,6 +391,8 @@ public class CampgroundRequest
 		CampgroundRequest.FREE_RANGE_MUSHROOM,
 		CampgroundRequest.PLUMP_FREE_RANGE_MUSHROOM,
 		CampgroundRequest.BULKY_FREE_RANGE_MUSHROOM,
+		CampgroundRequest.GIANT_FREE_RANGE_MUSHROOM,
+		CampgroundRequest.IMMENSE_FREE_RANGE_MUSHROOM,
 	};
 
 	public static void reset()
