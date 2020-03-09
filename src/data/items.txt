@@ -10511,8 +10511,8 @@
 10483	free-range mushroom	968303165	gmush1.gif	usable		0
 10484	plump free-range mushroom	270565036	gmush2.gif	usable		0
 10485	bulky free-range mushroom	743376601	gmush3.gif	usable		0
-10486
-10487
+10486	giant free-range mushroom	807702184	gmush4.gif	usable		0
+10487	immense free-range mushroom	287444748	gmush5.gif	usable		0
 10488
 10489	mushroom filet	404087117	gmushfilet.gif	food	t,d	10
 10490	mushroom slab	898631090	gmushslab.gif	usable	t,d	50
