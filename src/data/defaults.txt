@@ -182,6 +182,7 @@ global	_svnUpdated	false
 user	addingScrolls	-1
 user	affirmationCookiesEaten	0
 user	afterAdventureScript
+user	aminoAcidsUsed	0
 user	antagonisticSnowmanKitAvailable	true
 user	antagonisticSnowmanKitCost	1000
 user	arcadeGameHints	false
@@ -463,6 +464,7 @@ user	cyrptCrannyEvilness	0
 user	cyrptNicheEvilness	0
 user	cyrptNookEvilness	0
 user	cyrptTotalEvilness	0
+user	cyrusAdjectives
 user	dailyDungeonDone	false
 user	dampOldBootPurchased	false
 user	darkGyfftePoints	0

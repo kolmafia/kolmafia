@@ -50,6 +50,8 @@ import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.QuestManager;
+
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -112,6 +114,7 @@ public class QuestDatabase
 		MEATSMITH( "questM23Meatsmith" ),
 		DOC( "questM24Doc" ),
 		ARMORER( "questM25Armorer" ),
+		PRIMORDIAL( "questF01Primordial" ),
 		GENERATOR( "questF04Elves" ),
 		CLANCY( "questF05Clancy" ),
 		SEA_OLD_GUY( "questS01OldGuy" ),
@@ -333,12 +336,14 @@ public class QuestDatabase
 		{
 			handleCompetitionStatus( details );
 		}
-			// Special handling as there are nine sets of descriptions for the one quest
+
+		// Special handling as there are nine sets of descriptions for the one quest
 		if ( pref.equals( Quest.TELEGRAM.getPref() ) )
 		{
 			return handleTelegramStatus( details );
 		}
-			// Get Oracle quest target
+
+		// Get Oracle quest target
 		if ( pref.equals( Quest.ORACLE.getPref() ) )
 		{
 			Matcher matcher = QuestDatabase.ORACLE_QUEST_PATTERN.matcher( details );
@@ -347,7 +352,8 @@ public class QuestDatabase
 				Preferences.setString( "sourceOracleTarget", matcher.group( 1 ) );
 			}
 		}
-			// Get Ghost quest target
+
+		// Get Ghost quest target
 		if ( pref.equals( Quest.GHOST.getPref() ) )
 		{
 			Matcher matcher = QuestDatabase.GHOST_QUEST_PATTERN.matcher( details );
@@ -357,7 +363,7 @@ public class QuestDatabase
 			}
 		}
 
-			// Get New You quest target
+		// Get New You quest target
 		if ( pref.equals( Quest.NEW_YOU.getPref() ) )
 		{
 			Matcher matcher = QuestDatabase.NEW_YOU_QUEST_PATTERN.matcher( details );
@@ -370,7 +376,7 @@ public class QuestDatabase
 			}
 		}
 
-			// Get Shen quest target
+		// Get Shen quest target
 		if ( pref.equals( Quest.SHEN.getPref() ) )
 		{
 			Matcher matcher = QuestDatabase.SHEN_PATTERN.matcher( details );
@@ -388,16 +394,22 @@ public class QuestDatabase
 			}
 		}
 
-			// Get Party Fair quest target
+		// Get Party Fair quest target
 		if ( pref.equals( Quest.PARTY_FAIR.getPref() ) )
 		{
 			return handlePartyFair( details );
 		}
 
-			// Get Doctor, Doctor quest target
+		// Get Doctor, Doctor quest target
 		if ( pref.equals( Quest.DOCTOR_BAG.getPref() ) )
 		{
 			return handleDoctorBag( details );
+		}
+
+		// Special handling, as there are versions with one, two, or three paragraphs
+		if ( pref.equals( Quest.PRIMORDIAL.getPref() ) )
+		{
+			return handlePrimordialSoup( details );
 		}
 
 		// First thing to do is find which quest we're talking about.
@@ -977,6 +989,46 @@ public class QuestDatabase
 			return "step1";
 		}
 		return "";
+	}
+
+	public static final Pattern CYRUS_ADJECTIVE_PATTERN = Pattern.compile( "You remember inadvertently making him ([^.]*?)\\." );
+	private static String handlePrimordialSoup( String details )
+	{
+		// You remember floating aimlessly in the Primordial Soup. You wanted to do it some more.
+		String retval = "started";
+
+		// You remember finding your way to a higher, warmer, oranger part of the Primordial Soup.  You were hungry for adventure.  And for food.
+		if ( details.contains( "You remember finding your way to a higher, warmer, oranger part of the Primordial Soup." ) )
+		{
+			retval = "step1";
+		}
+		// Every time you tried to swim upward, you ran into a virus named Cyrus.
+		if ( details.contains( "Every time you tried to swim upward, you ran into a virus named Cyrus." ) )
+		{
+			retval = "step2";
+		}
+		// You remember inadvertently making him stronger.
+		// You remember inadvertently making him stronger and smarter.
+		// You remember inadvertently making him stronger, smarter and more attractive.
+		if ( details.contains( "You remember inadvertently making him " ) )
+		{
+			Matcher matcher = CYRUS_ADJECTIVE_PATTERN.matcher( details );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "cyrusAdjectives", "" );
+				String adjectives = StringUtilities.singleStringReplace( matcher.group( 1 ), " and", "," );
+				for ( String adjective : adjectives.split( ", " ) )
+				{
+					QuestManager.updateCyrusAdjective( adjective );
+				}
+			}
+		}
+		// You remember creating an unstoppable supervirus. Congratulations!
+		if ( details.contains( "You remember creating an unstoppable supervirus." ) )
+		{
+			retval = "finished";
+		}
+		return retval;
 	}
 
 	public static void setQuestProgress( Quest quest, String progress )

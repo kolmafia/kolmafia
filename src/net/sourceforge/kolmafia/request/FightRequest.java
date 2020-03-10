@@ -360,6 +360,7 @@ public class FightRequest
 	private static boolean castTerracottaArmy = false;
 	private static boolean insultedPirate = false;
 	private static boolean usedFlyer = false;
+	private static boolean usedBasePair = false;
 	private static boolean jiggledChefstaff = false;
 	private static boolean handledCan = false;
 	private static boolean shotSixgun = false;
@@ -463,6 +464,7 @@ public class FightRequest
 		// Individual monsters
 		ANCIENT_PROTECTOR_SPIRIT( "Ancient Protector Spirit" ),
 		CONJOINED_ZMOMBIE( "conjoined zmombie" ),
+		CYRUS_THE_VIRUS( "Cyrus the Virus" ),
 		DAD_SEA_MONKEE( "Dad Sea Monkee" ),
 		FAMILY_OF_KOBOLDS( "family of kobolds" ),
 		GARGANTULIHC( "gargantulihc" ),
@@ -510,6 +512,7 @@ public class FightRequest
 	{
 		FightRequest.specialMonsters.put( "Ancient Protector Spirit", SpecialMonster.ANCIENT_PROTECTOR_SPIRIT );
 		FightRequest.specialMonsters.put( "conjoined zmombie", SpecialMonster.CONJOINED_ZMOMBIE );
+		FightRequest.specialMonsters.put( "Cyrus the Virus", SpecialMonster.CYRUS_THE_VIRUS );
 		FightRequest.specialMonsters.put( "Dad Sea Monkee", SpecialMonster.DAD_SEA_MONKEE );
 		FightRequest.specialMonsters.put( "family of kobolds", SpecialMonster.FAMILY_OF_KOBOLDS );
 		FightRequest.specialMonsters.put( "gargantulihc", SpecialMonster.GARGANTULIHC );
@@ -2662,6 +2665,10 @@ public class FightRequest
 						Preferences.increment( "cyrptTotalEvilness" , -Preferences.getInteger( "cyrptNookEvilness" ) + 25 );
 						Preferences.setInteger( "cyrptNookEvilness", 25 );
 					}
+					break;
+
+				case CYRUS_THE_VIRUS:
+					Preferences.setInteger( "aminoAcidsUsed", 0 );
 					break;
 
 				case GIANT_OCTOPUS:
@@ -8041,6 +8048,7 @@ public class FightRequest
 		FightRequest.castCleesh = false;
 		FightRequest.insultedPirate = false;
 		FightRequest.usedFlyer = false;
+		FightRequest.usedBasePair = false;
 		FightRequest.canOlfact = true;
 		FightRequest.jiggledChefstaff = false;
 		FightRequest.handledCan = false;
@@ -8828,7 +8836,7 @@ public class FightRequest
 
 			if ( item2 != null )
 			{
-				FightRequest.payItemCost( id2, id1, responseText );
+				FightRequest.payItemCost( id1, id2, responseText );
 			}
 
 			return;
@@ -9999,6 +10007,18 @@ public class FightRequest
 			}
 			break;
 
+		case ItemPool.CA_BASE_PAIR:
+		case ItemPool.CG_BASE_PAIR:
+		case ItemPool.CT_BASE_PAIR:
+		case ItemPool.AG_BASE_PAIR:
+		case ItemPool.AT_BASE_PAIR:
+		case ItemPool.GT_BASE_PAIR:
+			if ( !usedBasePair )
+			{
+				usedBasePair = true;
+				QuestManager.updateCyrusAdjective( itemId );
+			}
+			break;
 		}
 
 		if ( itemId != itemId2 )
@@ -10053,6 +10073,19 @@ public class FightRequest
 				     itemSuccess )
 				{
 					Preferences.setBoolean( "_affirmationHateUsed", true );
+				}
+				break;
+
+			case ItemPool.CA_BASE_PAIR:
+			case ItemPool.CG_BASE_PAIR:
+			case ItemPool.CT_BASE_PAIR:
+			case ItemPool.AG_BASE_PAIR:
+			case ItemPool.AT_BASE_PAIR:
+			case ItemPool.GT_BASE_PAIR:
+				if ( !usedBasePair )
+				{
+					usedBasePair = true;
+					QuestManager.updateCyrusAdjective( itemId2 );
 				}
 				break;
 			}

@@ -1210,6 +1210,12 @@ public class ItemPool
 	public static final int MOONTAN_LOTION = 4003;
 	public static final int BALLAST_TURTLE = 4005;
 	public static final int AMINO_ACIDS = 4006;
+	public static final int CA_BASE_PAIR = 4011;
+	public static final int CG_BASE_PAIR = 4012;
+	public static final int CT_BASE_PAIR = 4013;
+	public static final int AG_BASE_PAIR = 4014;
+	public static final int AT_BASE_PAIR = 4015;
+	public static final int GT_BASE_PAIR = 4016;
 	public static final int CONTACT_LENSES = 4019;
 	public static final int GRAPPLING_HOOK = 4029;
 	public static final int SMALL_STONE_BLOCK = 4030;

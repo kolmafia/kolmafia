@@ -2705,50 +2705,108 @@ public class QuestManager
 	 * @param responseText The text from (at least) the losing round of the fight
 	 * @param monster The monster which beat us up.
 	 */
+
+	private static final Pattern CYRUS_PATTERN = Pattern.compile( "you remember him getting ([^.]*?)\\." );
 	public static void updateQuestFightLost( String responseText, String monsterName )
 	{
-		if ( monsterName.equals( "menacing thug" ) )
+		switch ( monsterName )
 		{
+		case "menacing thug":
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step18" );
-		}
-		else if ( monsterName.equals( "Mob Penguin hitman" ) )
-		{
+			break;
+		case "Mob Penguin hitman":
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step20" );
-		}
-		else if ( monsterName.equals( "Naughty Sorceress (3)" )  )
-		{
+			break;
+		case "Naughty Sorceress (3)":
 			QuestDatabase.setQuestProgress( Quest.FINAL, "step12" );
-		}
-		else if ( monsterName.equals( "hunting seal" ) ||
-			  monsterName.equals( "turtle trapper" ) ||
-			  monsterName.equals( "evil spaghetti cult assassin" ) ||
-			  monsterName.equals( "b&eacute;arnaise zombie" ) ||
-			  monsterName.equals( "flock of seagulls" ) ||
-			  monsterName.equals( "mariachi bandolero" ) )
+			break;
+		case "hunting seal":
+		case "turtle trapper": 
+		case "evil spaghetti cult assassin":
+		case "b&eacute;arnaise zombie":
+		case "flock of seagulls":
+		case "mariachi bandolero":
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step22" );
+			break;
 		}
-		else if ( monsterName.equals( "Argarggagarg the Dire Hellseal" ) ||
-			  monsterName.equals( "Safari Jack, Small-Game Hunter" ) ||
-			  monsterName.equals( "Yakisoba the Executioner" ) ||
-			  monsterName.equals( "Heimandatz, Nacho Golem" ) ||
-			  monsterName.equals( "Jocko Homo" ) ||
-			  monsterName.equals( "The Mariachi With No Name" ) )
+		case "Argarggagarg the Dire Hellseal":
+		case "Safari Jack, Small-Game Hunter":
+		case "Yakisoba the Executioner":
+		case "Heimandatz, Nacho Golem":
+		case "Jocko Homo":
+		case "The Mariachi With No Name":
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step24" );
+			break;
 		}
-		else if ( monsterName.equals( "mother hellseal" ) )
-		{
+		case "mother hellseal":
 			Preferences.decrement( "_sealScreeches", 1, 0 );
-		}
-		else if ( monsterName.equals( "Travoltron" ) )
+			break;
+		case "Cyrus the Virus":
 		{
+			QuestDatabase.setQuestIfBetter( Quest.PRIMORDIAL, "step2" );
+			Matcher matcher = CYRUS_PATTERN.matcher( responseText );
+			if ( matcher.find() )
+			{
+				QuestManager.updateCyrusAdjective( matcher.group( 1 ) );
+			}
+			break;
+		}
+		case "Travoltron":
 			Preferences.setBoolean( "_infernoDiscoVisited", false );
-		}
-		else if ( monsterName.equals( "Source Agent" ) )
-		{
+			break;
+		case "Source Agent":
 			Preferences.decrement( "sourceAgentsDefeated", 1, 0 );
+			break;
 		}
+	}
+
+	public static void updateCyrusAdjective( int itemId )
+	{
+		String adjective;
+		switch ( itemId )
+		{
+		case ItemPool.CA_BASE_PAIR:
+			adjective = "stronger";
+			break;
+		case ItemPool.CG_BASE_PAIR:
+			adjective = "smarter";
+			break;
+		case ItemPool.CT_BASE_PAIR:
+			adjective = "more attractive";
+			break;
+		case ItemPool.AG_BASE_PAIR:
+			adjective = "faster";
+			break;
+		case ItemPool.AT_BASE_PAIR:
+			adjective = "more aggresive";
+			break;
+		case ItemPool.GT_BASE_PAIR:
+			adjective = "more resilient";
+			break;
+		default:
+			return;
+		}
+		QuestManager.updateCyrusAdjective( adjective );
+	}
+
+	public static void updateCyrusAdjective( String adjective )
+	{
+		String adjectives = Preferences.getString( "cyrusAdjectives" );
+		if ( adjectives.contains( adjective ) )
+		{
+			return;
+		}
+		else if ( adjectives.length() == 0 )
+		{
+			adjectives = adjective;
+		}
+		else
+		{
+			adjectives = adjectives + "," + adjective;
+		}
+		Preferences.setString( "cyrusAdjectives", adjectives );
 	}
 
 	/** After we start a fight, some quests may need to be updated.  Centralize handling for it here.
