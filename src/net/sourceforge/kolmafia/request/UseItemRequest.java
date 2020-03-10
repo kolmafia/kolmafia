@@ -577,8 +577,11 @@ public class UseItemRequest
 			return Preferences.getBoolean( "_toastSummoned" ) ? 0 : 1;
 
 		case ItemPool.AMINO_ACIDS:
+		{
 			UseItemRequest.limiter = "usability";
-			return 3;
+			int aminoAcidsUsed = Preferences.getInteger( "aminoAcidsUsed" );
+			return 3 - aminoAcidsUsed;
+		}
 
 		case ItemPool.DANCE_CARD:
 			// Disallow using a dance card if already active
@@ -2391,6 +2394,11 @@ public class UseItemRequest
 
 		if ( responseText.contains( "too full" ) )
 		{
+			if ( itemId == ItemPool.AMINO_ACIDS )
+			{
+				Preferences.setInteger( "aminoAcidsUsed", 3 );
+			}
+
 			UseItemRequest.lastUpdate = "Consumption limit reached.";
 			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 			return;
@@ -6419,6 +6427,14 @@ public class UseItemRequest
 			{
 				return;
 			}
+			break;
+
+		case ItemPool.AMINO_ACIDS:
+			if ( !responseText.contains( "you ate some delicious, delicious amino acids" ) )
+			{
+				return;
+			}
+			Preferences.increment( "aminoAcidsUsed", 1, 3, false );
 			break;
 		}
 

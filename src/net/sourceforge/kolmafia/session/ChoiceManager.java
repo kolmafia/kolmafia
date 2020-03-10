@@ -7764,6 +7764,28 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 346:
+			// Soup For You
+		case 347:
+			// Yes, Soup For You...
+		case 348:
+			// Souped Up
+		case 349:
+			// The Primordial Directive
+		case 351:
+			// Beginner's Luck
+			QuestDatabase.setQuestIfBetter( Quest.PRIMORDIAL, QuestDatabase.STARTED );
+			break;
+
+		case 350:
+			// Soupercharged
+			if ( ChoiceManager.lastDecision == 1 && text.contains( "You've fixed me all up" ) )
+			{
+				Preferences.setInteger( "aminoAcidsUsed", 0 );
+				QuestDatabase.setQuestProgress( Quest.PRIMORDIAL, QuestDatabase.FINISHED );
+			}
+			break;
+
 		case 354:
 			// You Can Never Be Too Rich or Too in the Future
 			ResultProcessor.processResult( ItemPool.get( ItemPool.INDIGO_PARTY_INVITATION, -1 ) );

@@ -678,6 +678,8 @@ public class ValhallaManager
 		Preferences.setInteger( "smutOrcNoncombatProgress", 0 );
 		Preferences.setInteger( "unicornHornInflation", 0 );
 		Preferences.setInteger( "redSnapperProgress", 0 );
+		Preferences.setInteger( "aminoAcidsUsed", 0 );
+		Preferences.setString( "cyrusAdjectives", "" );
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );
 		Preferences.setString( "crappyCameraMonster", "" );
