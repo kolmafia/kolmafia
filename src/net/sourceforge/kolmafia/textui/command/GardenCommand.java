@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
 
 import net.sourceforge.kolmafia.session.Limitmode;
 
@@ -54,7 +55,15 @@ public class GardenCommand
 	@Override
 	public void run( final String cmd, String parameters )
 	{
+		if ( KoLCharacter.isEd() || KoLCharacter.inNuclearAutumn() || Limitmode.limitCampground() )
+		{
+			KoLmafia.updateDisplay( "You can't get to your campground to visit your garden." );
+			return;
+		}
+
 		AdventureResult crop = CampgroundRequest.getCrop();
+		CropType cropType = CampgroundRequest.getCropType( crop );
+		
 		if ( crop == null )
 		{
 			KoLmafia.updateDisplay( "You don't have a garden." );
@@ -65,24 +74,42 @@ public class GardenCommand
 		{
 			int count = crop.getPluralCount();
 			String name = crop.getPluralName();
-			KoLmafia.updateDisplay( "Your garden has " + count + " " + name + " in it." );
+			String gardenType = cropType.toString();
+			KoLmafia.updateDisplay( "Your " + gardenType + " garden has " + count + " " + name + " in it." );
 			return;
 		}
 
-		int count = crop.getCount();
+		if ( parameters.equals( "fertilize" ) )
+		{
+			// Mushroom garden only
+			if ( cropType != CropType.MUSHROOM )
+			{
+				KoLmafia.updateDisplay( "You don't have a mushroom garden." );
+				return;
+			}
+
+			CampgroundRequest.harvestMushrooms( false );
+			return;
+		}
 
 		if ( parameters.equals( "pick" ) )
 		{
+			// Mushroom garden only
+			if ( cropType == CropType.MUSHROOM )
+			{
+				CampgroundRequest.harvestMushrooms( true );
+				return;
+			}
+
+			int count = crop.getCount();
 			if ( count == 0 )
 			{
 				KoLmafia.updateDisplay( "There is nothing ready to pick in your garden." );
 				return;
 			}
 
-			if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() && !KoLCharacter.inNuclearAutumn() )
-			{
-				CampgroundRequest.harvestCrop();
-			}
+			CampgroundRequest.harvestCrop();
+			return;
 		}
 	}
 }

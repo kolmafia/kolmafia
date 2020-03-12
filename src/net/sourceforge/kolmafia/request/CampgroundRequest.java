@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,6 +49,8 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.moods.RecoveryManager;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -56,8 +59,10 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CampgroundRequest
@@ -213,7 +218,8 @@ public class CampgroundRequest
 		ItemPool.PLASMA_BALL,
 	};
 
-	public static class TallGrass extends AdventureResult
+	public static class TallGrass
+		extends AdventureResult
 	{
 		public TallGrass( int count )
 		{
@@ -264,6 +270,39 @@ public class CampgroundRequest
 		}
 	}
 
+	public static class Mushroom
+		extends AdventureResult
+	{
+		private final int days;
+
+		public Mushroom( int count )
+		{
+			super( Mushroom.getType( count ), 1 );
+			this.days = count;
+		}
+
+		private static String getType( final int count )
+		{
+			return  count == 1 ?
+				"free-range mushroom" :
+				count == 2 ?
+				"plump free-range mushroom" :
+				count == 3 ?
+				"bulky free-range mushroom" :
+				count == 4 ?
+				"giant free-range mushroom" :
+				// *** Eventually we will know about mushroom 6
+				count >= 5 ?
+				"immense free-range mushroom" :
+				"free-range mushroom";
+		}
+
+		public int getdays()
+		{
+			return this.days;
+		}
+	}
+
 	public static final AdventureResult PUMPKIN = ItemPool.get( ItemPool.PUMPKIN, 1 );
 	public static final AdventureResult HUGE_PUMPKIN = ItemPool.get( ItemPool.HUGE_PUMPKIN, 1 );
 	public static final AdventureResult GINORMOUS_PUMPKIN = ItemPool.get( ItemPool.GINORMOUS_PUMPKIN, 1 );
@@ -292,13 +331,13 @@ public class CampgroundRequest
 	public static final AdventureResult SIX_TALL_GRASS = new TallGrass( 6 );
 	public static final AdventureResult SEVEN_TALL_GRASS = new TallGrass( 7 );
 	public static final AdventureResult VERY_TALL_GRASS = new TallGrass( 8 );
-	public static final AdventureResult FREE_RANGE_MUSHROOM = ItemPool.get( ItemPool.FREE_RANGE_MUSHROOM, 1 );
-	public static final AdventureResult PLUMP_FREE_RANGE_MUSHROOM = ItemPool.get( ItemPool.PLUMP_FREE_RANGE_MUSHROOM, 1 );
-	public static final AdventureResult BULKY_FREE_RANGE_MUSHROOM = ItemPool.get( ItemPool.BULKY_FREE_RANGE_MUSHROOM, 1 );
-	public static final AdventureResult GIANT_FREE_RANGE_MUSHROOM = ItemPool.get( ItemPool.GIANT_FREE_RANGE_MUSHROOM, 1 );
-	public static final AdventureResult IMMENSE_FREE_RANGE_MUSHROOM = ItemPool.get( ItemPool.IMMENSE_FREE_RANGE_MUSHROOM, 1 );
+	public static final AdventureResult FREE_RANGE_MUSHROOM = new Mushroom( 1 );
+	public static final AdventureResult PLUMP_FREE_RANGE_MUSHROOM = new Mushroom( 2 );
+	public static final AdventureResult BULKY_FREE_RANGE_MUSHROOM = new Mushroom( 3 );
+	public static final AdventureResult GIANT_FREE_RANGE_MUSHROOM = new Mushroom( 4 );
+	public static final AdventureResult IMMENSE_FREE_RANGE_MUSHROOM = new Mushroom( 5 );
 
-	private enum CropType
+	public enum CropType
 	{
 		PUMPKIN,
 		PEPPERMINT,
@@ -442,7 +481,7 @@ public class CampgroundRequest
 		CampgroundRequest.setCampgroundItem( ItemPool.get( itemId, count ) );
 	}
 
-	private static void setCampgroundItem( final AdventureResult item )
+	public static void setCampgroundItem( final AdventureResult item )
 	{
 		int i = KoLConstants.campground.indexOf( item );
 		if ( i != -1 )
@@ -477,6 +516,16 @@ public class CampgroundRequest
 			}
 		}
 		return null;
+	}
+
+	public static CropType getCropType()
+	{
+		return CampgroundRequest.getCropType( getCrop() );
+	}
+
+	public static CropType getCropType( AdventureResult crop )
+	{
+		return crop == null ? null : CROPMAP.get( crop );
 	}
 
 	public static AdventureResult parseCrop( final String crop )
@@ -578,17 +627,27 @@ public class CampgroundRequest
 			return;
 		}
 
-		int count = crop.getCount();
-		if ( count == 0 )
+		CropType cropType = CampgroundRequest.getCropType( crop );
+
+		// Dealing with mushroom gardens is an Adventure
+		if ( cropType == CropType.MUSHROOM )
 		{
-			// No crop
+			harvestMushrooms( true );
 			return;
 		}
 
-		// Grass plots need special handling, since each cluster of
-		// tall grass is picked individually - except for Very Tall
-		// Grass (the 8th growth)
-		if ( crop.getItemId() != ItemPool.TALL_GRASS_SEEDS || count == 8 )
+		// Other garden types have zero or more things to pick.
+		// We learned the count by looking at the campground.
+		int count = crop.getCount();
+		if ( count == 0 )
+		{
+			// Nothing to pick.
+			return;
+		}
+
+		// Grass plots are special: each cluster of tall grass is picked
+		// individually - except for Very Tall Grass (the 8th growth)
+		if ( cropType == CropType.GRASS || count == 8 )
 		{
 			// Harvest the entire garden in one go
 			count = 1;
@@ -602,10 +661,152 @@ public class CampgroundRequest
 		}
 	}
 
+	public static void fertilizeCrop()
+	{
+		// For now, only mushroom gardens need to be fertilized each day.
+		CampgroundRequest.harvestMushrooms( false );
+	}
+
+	private static final Pattern MUSHROOM_PATTERN = Pattern.compile( "an? (.*? mushroom)" );
+	public static void harvestMushrooms( final boolean pick )
+	{
+		AdventureResult crop = CampgroundRequest.getCrop();
+		if ( crop == null || CampgroundRequest.getCropType( crop ) != CropType.MUSHROOM )
+		{
+			// We don't have a mushroom garden
+			return;
+		}
+
+		if ( Preferences.getBoolean( "_mushroomGardenVisited" ) )
+		{
+			// We've already fertilized or picked our mushroom garden today
+			return;
+		}
+
+		// Fight through Piranha plants: adventure.php?snarfblat=543
+
+		if ( KoLCharacter.getAdventuresLeft() <= 0 )
+		{
+			// You need an available turn (even though the fights are free)
+			return;
+		}
+
+		if ( KoLCharacter.isFallingDown() )
+		{
+			// You cannot be falling down drunk
+			return;
+		}
+
+		// We expect redirection to either fight.php or choice.php
+		// We want to handle it ourself, so run it in a RelayRequest
+		RelayRequest request = new RelayRequest( false );
+
+		KoLAdventure.setNextAdventure( "Your Mushroom Garden" );
+
+		while ( true )
+		{
+			if ( RecoveryManager.isRecoveryPossible() )
+			{
+				RecoveryManager.runBetweenBattleChecks( true );
+
+				if ( !KoLmafia.permitsContinue() )
+				{
+					return;
+				}
+			}
+
+			request.constructURLString( "adventure.php?snarfblat=543" );
+			RequestThread.postRequest( request );
+
+			// We expect redirection
+			String redirect = request.redirectLocation;
+
+			// If the adventure does not redirect, we've already
+			// dealt with the mushroom garden today.
+			if ( redirect == null )
+			{
+				Preferences.setBoolean( "_mushroomGardenVisited", true );
+				return;
+			}
+
+			// If it redirects to a fight, we are still fighting
+			// our way through piranha plants.
+			if ( redirect.startsWith( "fight.php" ) ||
+			     redirect.startsWith( "fambattle.php" ) )
+			{
+				// Fight! Fight! Fight!
+				FightRequest.INSTANCE.run( redirect );
+				KoLmafia.executeAfterAdventureScript();
+				continue;
+			}
+
+			// If it redirects to something other than a choice,
+			// something weird is happening. Bail.
+			if ( !redirect.startsWith( "choice.php" ) )
+			{
+				return;
+			}
+
+			// Follow the redirection to choice.php
+			request.constructURLString( redirect, false );
+			RequestThread.postRequest( request );
+
+			// We have reached The Mushy Center.
+			// Look at which options are available.
+
+			Map<Integer,String> options = ChoiceUtilities.parseChoices( request.responseText );
+
+			int fertilizeOption = 0;	// Expect 1
+			int pickOption = 0;		// Expect 2
+
+			for ( Map.Entry<Integer,String> entry : options.entrySet() )
+			{
+				Integer key = entry.getKey();
+				String value = entry.getValue();
+				if ( value.startsWith( "Fertilize" ) )
+				{
+					fertilizeOption = key;
+				}
+				else if ( value.startsWith( "Pick" ) )
+				{
+					pickOption = key;
+				}
+			}
+
+			// Decide which choice option to submit
+			int option = pick ? pickOption : fertilizeOption;
+
+			// I've not actually seen the final mushroom, but I
+			// expect you will not be able to fertilize it. If
+			// there is no option to fertilize, log something
+			// useful and select option to pick.
+			if ( fertilizeOption == 0 )
+			{
+				// *** Temporary until we've seen this
+				ChoiceManager.logChoices();
+
+				// *** Temporary until we've seen this
+				Matcher m = MUSHROOM_PATTERN.matcher( request.responseText );
+				if ( m.find() )
+				{
+					String message = "*** Your Mushroom Garden has a " + m.group(1) + " in it.";
+					RequestLogger.printLine( message );
+					RequestLogger.updateSessionLog( message );
+				}
+
+				// If can't fertilize, assume we will pick.
+				option = pickOption;
+			}
+
+			ChoiceManager.processChoiceAdventure( option, "", false );
+			break;
+		}
+	}
+
 	public static void growTallGrass()
 	{
 		AdventureResult crop = CampgroundRequest.getCrop();
-		if ( crop == null || crop.getItemId() != ItemPool.TALL_GRASS_SEEDS )
+		if ( crop == null || CampgroundRequest.getCropType( crop ) != CropType.GRASS )
 		{
 			// We don't have a grass patch
 			return;
@@ -1041,8 +1242,7 @@ public class CampgroundRequest
 			findImage( responseText, "grassgarden6.gif", SIX_TALL_GRASS ) ||
 			findImage( responseText, "grassgarden7.gif", SEVEN_TALL_GRASS ) ||
 			findImage( responseText, "grassgarden8.gif", VERY_TALL_GRASS ) ||
-			findImage( responseText, "mushgarden.gif", ItemPool.FREE_RANGE_MUSHROOM,
-				   Preferences.getInteger( "mushroomGardenCropLevel" ));
+			findImage( responseText, "mushgarden.gif", new Mushroom( Preferences.getInteger( "mushroomGardenCropLevel" ) ) );
 	}
 
 	private static final void parseDwelling( final String responseText )
