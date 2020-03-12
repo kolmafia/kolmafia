@@ -92,6 +92,7 @@ import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.BeachCombRequest;
 import net.sourceforge.kolmafia.request.BeerPongRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.CampgroundRequest.Mushroom;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest;
@@ -11797,18 +11798,20 @@ public abstract class ChoiceManager
 		case 1410:
 		{
 			// The Mushy Center
+			int mushroomLevel = 1;		// Tomorrow's mushroom
 			switch ( ChoiceManager.lastDecision )
 			{
 			case 1:
 				// Fertilize the mushroom
-				int mushroomLevel = Preferences.increment( "mushroomGardenCropLevel", 1, 6, false );
-				CampgroundRequest.setCampgroundItem( ItemPool.FREE_RANGE_MUSHROOM, mushroomLevel );
+				mushroomLevel = Preferences.increment( "mushroomGardenCropLevel", 1 );
 				break;
 			case 2:
 				// Pick the mushroom
 				Preferences.setInteger( "mushroomGardenCropLevel", 1 );
 				break;
 			}
+			CampgroundRequest.clearCrop();
+			CampgroundRequest.setCampgroundItem( new Mushroom( mushroomLevel ) );
 			Preferences.setBoolean( "_mushroomGardenVisited", true );
 		}
 		}
@@ -15225,9 +15228,22 @@ public abstract class ChoiceManager
 				text.contains( "mushgrow2.gif" ) ? 2 :
 				text.contains( "mushgrow1.gif" ) ? 1 :
 				0;
+
 			int mushroomLevel = Math.max( mushroomMessageLevel, mushroomImageLevel );
-			Preferences.setInteger( "mushroomGardenCropLevel", mushroomLevel );
-			CampgroundRequest.setCampgroundItem( ItemPool.FREE_RANGE_MUSHROOM, mushroomLevel );
+
+			// After level 5, you can continue fertilizing for an unknown number
+			// of days before you get the ultimate mushroom.
+
+			// If we have fertilized the garden through KoLmafia,
+			// this is the number of days we have fertilized.
+			int currentLevel = Preferences.getInteger( "mushroomGardenCropLevel" );
+
+			// If we have not fertilized consistently through KoLmafia, correct it here
+			int newLevel = Math.max( mushroomLevel, currentLevel );
+
+			Preferences.setInteger( "mushroomGardenCropLevel", newLevel );
+			CampgroundRequest.clearCrop();
+			CampgroundRequest.setCampgroundItem( new Mushroom( newLevel ) );
 			break;
 		}
 		}
@@ -18170,7 +18186,7 @@ public abstract class ChoiceManager
 		}
 	}
 	
-	private static void logChoices()
+	public static void logChoices()
 	{
 		// Log choice options to the session log
 		int choice = ChoiceManager.currentChoice();

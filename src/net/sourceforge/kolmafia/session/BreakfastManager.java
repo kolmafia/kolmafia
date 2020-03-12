@@ -382,6 +382,11 @@ public class BreakfastManager
 		{
 			CampgroundRequest.harvestCrop();
 		}
+		else
+		{
+			// Mushrooms need to be fertilized each day
+			CampgroundRequest.fertilizeCrop();
+		}
 	}
 
 	public static void useSpinningWheel()
