@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.StandardRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -110,6 +111,12 @@ public class BarrelPrayerCommand
 		if ( !Preferences.getBoolean( "barrelShrineUnlocked" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Barrel Shrine not installed" );
+			return;
+		}
+
+		if ( !StandardRequest.isAllowed( "Items", "shrine to the Barrel god" ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Your path restricts you from approaching the Barrel Shrine" );
 			return;
 		}
 

@@ -48,7 +48,7 @@ import net.sourceforge.kolmafia.RequestThread;
 public class StandardRequest
 	extends GenericRequest
 {
-	// Types: "Items", Bookshelf Books", "Skills", "Familiars", "Clan Items".
+	// Types: "Items", "Bookshelf Books", "Skills", "Familiars", "Clan Items".
 
 	private final static Set<String> itemSet = new HashSet<String>();
 	private final static Set<String> bookshelfSet = new HashSet<String>();
