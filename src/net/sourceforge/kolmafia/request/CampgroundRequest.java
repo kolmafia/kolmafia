@@ -291,10 +291,9 @@ public class CampgroundRequest
 				"bulky free-range mushroom" :
 				count == 4 ?
 				"giant free-range mushroom" :
-				// *** Eventually we will know about mushroom 6
-				count >= 5 ?
+				count >= 5 && count < 12 ?
 				"immense free-range mushroom" :
-				"free-range mushroom";
+				"colossal free-range mushroom";
 		}
 
 		public int getdays()
@@ -336,6 +335,7 @@ public class CampgroundRequest
 	public static final AdventureResult BULKY_FREE_RANGE_MUSHROOM = new Mushroom( 3 );
 	public static final AdventureResult GIANT_FREE_RANGE_MUSHROOM = new Mushroom( 4 );
 	public static final AdventureResult IMMENSE_FREE_RANGE_MUSHROOM = new Mushroom( 5 );
+	public static final AdventureResult COLOSSAL_FREE_RANGE_MUSHROOM = new Mushroom( 12 );
 
 	public enum CropType
 	{
@@ -378,6 +378,7 @@ public class CampgroundRequest
 		CROPMAP.put( BULKY_FREE_RANGE_MUSHROOM, CropType.MUSHROOM );
 		CROPMAP.put( GIANT_FREE_RANGE_MUSHROOM, CropType.MUSHROOM );
 		CROPMAP.put( IMMENSE_FREE_RANGE_MUSHROOM, CropType.MUSHROOM );
+		CROPMAP.put( COLOSSAL_FREE_RANGE_MUSHROOM, CropType.MUSHROOM );
 	}
 
 	public static final List<Integer> workshedItems = new ArrayList<Integer>();
@@ -432,6 +433,7 @@ public class CampgroundRequest
 		CampgroundRequest.BULKY_FREE_RANGE_MUSHROOM,
 		CampgroundRequest.GIANT_FREE_RANGE_MUSHROOM,
 		CampgroundRequest.IMMENSE_FREE_RANGE_MUSHROOM,
+		CampgroundRequest.COLOSSAL_FREE_RANGE_MUSHROOM,
 	};
 
 	public static void reset()
@@ -782,18 +784,6 @@ public class CampgroundRequest
 			// useful and select option to pick.
 			if ( fertilizeOption == 0 )
 			{
-				// *** Temporary until we've seen this
-				ChoiceManager.logChoices();
-
-				// *** Temporary until we've seen this
-				Matcher m = MUSHROOM_PATTERN.matcher( request.responseText );
-				if ( m.find() )
-				{
-					String message = "*** Your Mushroom Garden has a " + m.group(1) + " in it.";
-					RequestLogger.printLine( message );
-					RequestLogger.updateSessionLog( message );
-				}
-
 				// If can't fertilize, assume we will pick.
 				option = pickOption;
 			}

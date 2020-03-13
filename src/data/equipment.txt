@@ -243,6 +243,7 @@ mullet wig	40	Mox: 5
 mummy costume	10	none
 mummy mask	170	Mox: 70
 murderbot mask	150	Mox: 30
+mushroom cap	100	none
 muskox-skin cap	150	Mox: 60
 mutant crown	200	Mus: 50
 nasty rat mask	180	Mox: 75
@@ -562,6 +563,7 @@ monster pants	70	none
 Moonthril Greaves	100	Mox: 40
 mostly rat-hide leggings	200	Mox: 200
 muddy skirt	225	Mox: 200
+mushroom pants	100	none
 mutant legs	200	Mus: 50
 Newman's Own Trousers	125	Mys: 30
 ninja hot pants	70	Mox: 20
@@ -1926,6 +1928,7 @@ mole skin notebook	40	none
 moxie magnet	30	none
 Mr. Balloon	20	none
 Mr. Haggis	10	none
+mushroom shield	100	none	shield
 Mylar balloon	10	none
 naughty fortune teller	0	none
 Necrotelicomnicon	30	none
