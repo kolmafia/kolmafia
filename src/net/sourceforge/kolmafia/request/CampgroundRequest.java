@@ -710,11 +710,11 @@ public class CampgroundRequest
 			if ( RecoveryManager.isRecoveryPossible() )
 			{
 				RecoveryManager.runBetweenBattleChecks( true );
+			}
 
-				if ( !KoLmafia.permitsContinue() )
-				{
-					return;
-				}
+			if ( !KoLmafia.permitsContinue() )
+			{
+				return;
 			}
 
 			request.constructURLString( "adventure.php?snarfblat=543" );
