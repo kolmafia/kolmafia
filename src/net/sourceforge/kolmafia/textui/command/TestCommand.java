@@ -1001,6 +1001,7 @@ public class TestCommand
 		if ( command.equals( "monster" ) )
 		{
 			String encounter = AdventureRequest.parseMonsterEncounter( TestCommand.contents );
+			RequestLogger.printLine( encounter );
 			MonsterStatusTracker.setNextMonsterName( encounter );
 			TestCommand.contents = null;
 			return;
