@@ -931,11 +931,17 @@ public class ConsumablesDatabase
 		{
 			return 0.0;
 		}
+
+		double factor = 1.0;
 		if ( ConsumablesDatabase.isPizza( itemId ) && KoLCharacter.hasSkill( SkillPool.PIZZA_LOVER ) )
 		{
-			return 2.0;
+			factor *= 2.0;
 		}
-		return 1.0;
+		if ( ItemDatabase.isFood( itemId ) && KoLCharacter.isPlumber() )
+		{
+			factor *= 10.0;
+		}
+		return factor;
 	}
 
 	public static final double getAdventureRange( final String name )
