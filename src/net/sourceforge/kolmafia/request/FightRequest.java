@@ -8836,7 +8836,7 @@ public class FightRequest
 
 			if ( item2 != null )
 			{
-				FightRequest.payItemCost( id1, id2, responseText );
+				FightRequest.payItemCost( id2, id1, responseText );
 			}
 
 			return;
