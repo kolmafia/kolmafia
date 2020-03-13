@@ -273,15 +273,26 @@ public class CampgroundRequest
 	public static class Mushroom
 		extends AdventureResult
 	{
-		private final int days;
-
-		public Mushroom( int count )
+		public Mushroom( int days )
 		{
-			super( Mushroom.getType( count ), 1 );
-			this.days = count;
+			super( "packet of mushroom spores", days );
 		}
 
-		private static String getType( final int count )
+		@Override
+		public int getPluralCount()
+		{
+			// We always have 1 mushroom to pick
+			return 1;
+		}
+
+		@Override
+		public String getPluralName()
+		{
+			return this.toString();
+		}
+
+		@Override
+		public String toString()
 		{
 			return  count == 1 ?
 				"free-range mushroom" :
@@ -294,11 +305,6 @@ public class CampgroundRequest
 				count >= 5 && count < 12 ?
 				"immense free-range mushroom" :
 				"colossal free-range mushroom";
-		}
-
-		public int getdays()
-		{
-			return this.days;
 		}
 	}
 
@@ -546,6 +552,18 @@ public class CampgroundRequest
 			CampgroundRequest.TALL_GRASS.getInstance( count ) :
 			name.equals( "very tall grass" ) ?
 			CampgroundRequest.VERY_TALL_GRASS :
+			name.equals( "free-range mushroom" ) ?
+			CampgroundRequest.FREE_RANGE_MUSHROOM :
+			name.equals( "plump free-range mushroom" ) ?
+			CampgroundRequest.PLUMP_FREE_RANGE_MUSHROOM :
+			name.equals( "bulky free-range mushroom" ) ?
+			CampgroundRequest.BULKY_FREE_RANGE_MUSHROOM :
+			name.equals( "giant free-range mushroom" ) ?
+			CampgroundRequest.GIANT_FREE_RANGE_MUSHROOM :
+			name.equals( "immense free-range mushroom" ) ?
+			CampgroundRequest.IMMENSE_FREE_RANGE_MUSHROOM :
+			name.equals( "colossal free-range mushroom" ) ?
+			CampgroundRequest.COLOSSAL_FREE_RANGE_MUSHROOM :
 			new AdventureResult( name, count, false );
 	}
 
@@ -705,7 +723,7 @@ public class CampgroundRequest
 
 		KoLAdventure.setNextAdventure( "Your Mushroom Garden" );
 
-		while ( true )
+		while ( KoLmafia.permitsContinue() )
 		{
 			if ( RecoveryManager.isRecoveryPossible() )
 			{
@@ -739,6 +757,11 @@ public class CampgroundRequest
 				// Fight! Fight! Fight!
 				FightRequest.INSTANCE.run( redirect );
 				KoLmafia.executeAfterAdventureScript();
+				if ( !FightRequest.won )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "You were defeated by a piranha plant. Run this fight manually." );
+					return;
+				}
 				continue;
 			}
 
@@ -778,13 +801,9 @@ public class CampgroundRequest
 			// Decide which choice option to submit
 			int option = pick ? pickOption : fertilizeOption;
 
-			// I've not actually seen the final mushroom, but I
-			// expect you will not be able to fertilize it. If
-			// there is no option to fertilize, log something
-			// useful and select option to pick.
+			// If there is no option to fertilize, pick.
 			if ( fertilizeOption == 0 )
 			{
-				// If can't fertilize, assume we will pick.
 				option = pickOption;
 			}
 
