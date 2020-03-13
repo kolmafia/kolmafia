@@ -2780,7 +2780,7 @@ public class QuestManager
 			adjective = "faster";
 			break;
 		case ItemPool.AT_BASE_PAIR:
-			adjective = "more aggresive";
+			adjective = "more aggressive";
 			break;
 		case ItemPool.GT_BASE_PAIR:
 			adjective = "more resilient";
