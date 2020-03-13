@@ -374,6 +374,7 @@ public class FightRequest
 	public static boolean pokefam = false;
 	public static boolean papier = false;
 	public static int currentRound = 0;
+	public static boolean won = false;;
 	public static boolean inMultiFight = false;
 	public static boolean choiceFollowsFight = false;
 	public static boolean fightingCopy = false;
@@ -2014,6 +2015,7 @@ public class FightRequest
 	public static void preFight()
 	{
 		FightRequest.currentRound = 0;
+		FightRequest.won = false;
 		FightRequest.macroPrefixLength = 0;
 		FightRequest.nextAction = null;
 	}
@@ -3006,6 +3008,7 @@ public class FightRequest
 			}
 
 			FightRequest.clearInstanceData();
+			FightRequest.won = won;
 			FightRequest.inMultiFight = FightRequest.MULTIFIGHT_PATTERN.matcher( responseText ).find();
 			FightRequest.choiceFollowsFight = FightRequest.FIGHTCHOICE_PATTERN.matcher( responseText ).find();
 
@@ -4430,6 +4433,7 @@ public class FightRequest
 		// Do this AFTER we set the above so it does not continue
 		// logging in if you are still in a fight or choice
 		FightRequest.clearInstanceData();
+		FightRequest.won = won;
 
 		// <a href="fight.php" id="againlink">The barrier between world is torn...</a>
 		if ( FightRequest.inMultiFight && responseText.contains( "The barrier between world" ) )
@@ -7522,8 +7526,9 @@ public class FightRequest
 		else if ( content.equals( "WINWINWIN" ) )
 		{
 			FightRequest.logText( status.name + " wins the fight!", status );
-			status.won = true;
 			FightRequest.currentRound = 0;
+			FightRequest.won = true;
+			status.won = true;
 		}
 		// macroaction: comment handled elsewhere
 	}
@@ -8056,6 +8061,7 @@ public class FightRequest
 		FightRequest.squeezedStressBall = false;
 		FightRequest.canStomp = false;
 		FightRequest.desiredScroll = null;
+		FightRequest.won = false;
 
 		// In Ed we'll only clear the monster status and Gremlins when we have won or abandoned the fight
 		if ( !KoLCharacter.isEd() || Preferences.getInteger( "_edDefeats" ) == 0 )
