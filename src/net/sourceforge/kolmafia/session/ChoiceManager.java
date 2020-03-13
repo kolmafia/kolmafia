@@ -11803,7 +11803,7 @@ public abstract class ChoiceManager
 			{
 			case 1:
 				// Fertilize the mushroom
-				mushroomLevel = Preferences.increment( "mushroomGardenCropLevel", 1 );
+				mushroomLevel = Preferences.increment( "mushroomGardenCropLevel", 1, 12, false );
 				break;
 			case 2:
 				// Pick the mushroom
@@ -15214,6 +15214,7 @@ public abstract class ChoiceManager
 			// The Mushy Center
 			// *** need more mushroom messages
 			int mushroomMessageLevel =
+				text.contains( "colossal mushroom" ) ? 12 :
 				text.contains( "immense mushroom" ) ? 5 :
 				text.contains( "giant mushroom" ) ? 4 :
 				text.contains( "bulky mushroom" ) ? 3 :

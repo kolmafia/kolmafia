@@ -10518,9 +10518,9 @@
 10490	mushroom slab	898631090	gmushslab.gif	usable	t,d	50
 10491	mushroom tea	594563300	coffeecup.gif	spleen, usable	t,d	20
 10492	mushroom whiskey	484291261	shot.gif	drink	t,d	20
-10493
-10494
-10495
+10493	mushroom cap	497619114	gmushhat.gif	hat	q	0
+10494	mushroom shield	312031039	gmushshield.gif	offhand	q	0
+10495	mushroom pants	324826750	gmushpants.gif	pants	q	0
 10496
 10497
 10498	pristine piranha seed	436277245	piranhaseed.gif	grow	t	0

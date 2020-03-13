@@ -347,6 +347,7 @@ Item	mullet wig	Sleaze Damage: +2, Familiar Effect: "3xPotato, 2xGhuol, cap 10"
 Item	mummy costume	Familiar Effect: "1xVolley, 8xLep, cap 2"
 Item	mummy mask	Spooky Damage: +12, Familiar Effect: "1xBarrr, 1xFairy, cap 42"
 Item	murderbot mask	Muscle: +10, Maximum HP: +20, PvP Fights: +2, Avatar: "Murderbot"
+Item	mushroom cap	Monster Level: +25, Adventures: +5, PvP Fights: +5
 # muskox-skin cap: +100% Meat Drops in the Canadian Wildlife Preserve
 Item	muskox-skin cap	Cold Resistance: +3, Meat Drop: [100*loc(The Canadian Wildlife Preserve)]
 Item	mutant crown	Monster Level: +15, Muscle Percent: +25, HP Regen Min: 25, HP Regen Max: 50, MP Regen Min: 25, MP Regen Max: 50
@@ -706,6 +707,7 @@ Item	Moonthril Greaves	Muscle Percent: [10*G], Mysticality Percent: [10*G], Moxi
 Item	mostly rat-hide leggings	Initiative: +40, Moxie Percent: +5, Familiar Effect: "stench atk, 1xPotato"
 # muddy skirt: Deals <font color=green>Stench Damage</font> every round
 Item	muddy skirt	Familiar Effect: "sleaze atk, 1xFairy"
+Item	mushroom pants	Moxie: +40, Muscle: -20, Mysticality: -20, Combat Rate: -10
 Item	mutant legs	Monster Level: +10, Muscle: +10, Critical Hit Percent: +10
 Item	Newman's Own Trousers	Mysticality: +11, MP Regen Min: 3, MP Regen Max: 7, Class: "Sauceror", Familiar Effect: "hot atk, 1xPotato, cap 31"
 Item	ninja hot pants	Hot Damage: +4, Familiar Effect: "hot atk, 3xPotato, cap 17"
@@ -2259,6 +2261,7 @@ Item	mole skin notebook	Moxie: +1
 Item	moxie magnet	Moxie Controls MP
 Item	Mr. Balloon	Muscle: +3, Mysticality: +3, Moxie: +3
 # Mr. Haggis: Haggis!
+Item	mushroom shield	Muscle: +40, Mysticality: -20, Moxie: -20, Combat Rate: +5, Damage Reduction: 6
 # Mylar balloon
 # naughty fortune teller: + Some Stats Per Fight
 Item	naughty fortune teller	Softcore Only
@@ -7800,6 +7803,7 @@ Outfit	Mer-kin Scholar's Vestments	Spell Critical Percent: +10
 Outfit	Meteor Masquerade	Meat Drop: +50
 Outfit	Miming Paraphernalia	Damage Reduction: 50, Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Outfit	Mining Gear	Meat Drop: +5
+Outfit	Mushroom Masquerade	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Maximum HP: +25, Maximum MP: +25, Initiative: +50, Experience: +5, Familiar Weight: +10, Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
 # Mutant Couture: Release Your Inner Mutant
 Outfit	Mutant Parts Apparel	Muscle Percent: +100, Monster Level: +50
 Outfit	Oil Rig	Initiative: +30
