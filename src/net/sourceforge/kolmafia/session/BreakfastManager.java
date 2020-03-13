@@ -378,7 +378,7 @@ public class BreakfastManager
 		}
 
 		String crop = Preferences.getString( "harvestGarden" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
-		if ( !crop.equals( "none" ) )
+		if ( crop.equals( "none" ) )
 		{
 			return;
 		}
