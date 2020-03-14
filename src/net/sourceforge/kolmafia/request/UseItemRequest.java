@@ -6398,22 +6398,70 @@ public class UseItemRequest
 
 		case ItemPool.GLITCH_ITEM:
 		{
-			// [This needs implementation.
-			// [This needs more implementation.]
-			// [This needs some more implementation.]
-			// [This needs a lot more implementation.]
-			// [This needs a ton more implementation.]
-			// [This needs even more than a ton more implementation.]
-			// [Whoa .]
-			int newGlitchLevel =
-				responseText.contains( "Whoa" ) ? 7 :
-				responseText.contains( "needs even more than a ton more implementation" ) ? 6 :
-				responseText.contains( "needs a ton more implementation" ) ? 5 :
-				responseText.contains( "needs a lot more implementation" ) ? 4 :
-				responseText.contains( "needs some more implementation" ) ? 3 :
-				responseText.contains( "needs more implementation" ) ? 2 :
-				responseText.contains( "needs implementation" ) ? 1 :
-				0;
+			// 1 => [This needs implementation.]
+			// 2 => [This needs more implementation.]
+			// 4 => [This needs some more implementation.]
+			// 11 => [This needs a lot more implementation.]
+			// 37 => [This needs a ton more implementation.]
+			// 69 => [This needs even more than a ton more implementation.]
+			// 111 => [Whoa .]
+
+			int newGlitchLevel = 0;
+			int minimumGlitchCount = 0;
+
+			if ( responseText.contains( "needs implementation" ) )
+			{
+				newGlitchLevel = 1;
+				minimumGlitchCount = 1;
+			}
+			else if ( responseText.contains( "needs more implementation" ) )
+			{
+				newGlitchLevel = 2;
+				minimumGlitchCount = 2;
+			}
+			else if ( responseText.contains( "needs some more implementation" ) )
+			{
+				newGlitchLevel = 3;
+				minimumGlitchCount = 4;
+			}
+			else if ( responseText.contains( "needs a lot more implementation" ) )
+			{
+				newGlitchLevel = 4;
+				minimumGlitchCount = 11;
+			}
+			else if ( responseText.contains( "needs a ton more implementation" ) )
+			{
+				newGlitchLevel = 5;
+				minimumGlitchCount = 37;
+			}
+			else if ( responseText.contains( "needs even more than a ton more implementation" ) )
+			{
+				newGlitchLevel = 6;
+				minimumGlitchCount = 69;
+			}
+			else if ( responseText.contains( "Whoa" ) )
+			{
+				newGlitchLevel = 7;
+				minimumGlitchCount = 111;
+			}
+
+			// glitch level is derivable from glitch  count -
+			// had we been tracking that from the beginning.
+			//
+			// glitch level is just amusing, but glitch count
+			// affects stat and meat gains from fighting a %monster%.
+			//
+			// Since we are now tracking glitch count, derive it
+			// (as much as we can) from glitch level
+
+			int newGlitchCount = Preferences.increment( "glitchItemImplementationCount" );
+			if ( newGlitchCount < minimumGlitchCount )
+			{
+				Preferences.setInteger( "glitchItemImplementationCount", minimumGlitchCount );
+			}
+
+			// Since glitch level is funny, display it when it changes.
+
 			int previousGlitchLevel = Preferences.getInteger( "glitchItemImplementationLevel" );
 			if ( previousGlitchLevel != newGlitchLevel )
 			{
