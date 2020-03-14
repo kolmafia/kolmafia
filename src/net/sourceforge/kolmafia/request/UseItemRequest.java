@@ -6454,7 +6454,16 @@ public class UseItemRequest
 			// Since we are now tracking glitch count, derive it
 			// (as much as we can) from glitch level
 
-			int newGlitchCount = Preferences.increment( "glitchItemImplementationCount" );
+			int newGlitchCount = 0;
+			if ( !Preferences.getBoolean( "_glitchItemImplemented" ) )
+			{
+				Preferences.setBoolean( "_glitchItemImplemented", true );
+				newGlitchCount = Preferences.increment( "glitchItemImplementationCount" );
+			}
+			else
+			{
+				newGlitchCount = Preferences.getInteger( "glitchItemImplementationCount" );
+			}
 			if ( newGlitchCount < minimumGlitchCount )
 			{
 				Preferences.setInteger( "glitchItemImplementationCount", minimumGlitchCount );
