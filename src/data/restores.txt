@@ -12,6 +12,7 @@ ancient Magi-Wipes	item	50	60	50	60	0
 ancient pills	item	0	0	30	40	0
 ancient turtle shell powder	item	80	100	0	0	0
 April Shower	loc	0	0	1000	1000	0	[1-pref(_aprilShower)]
+Aspirin	item	101	101	0	0	0
 bag of pygmy blood	item	30	40	0	0	0
 banana spritzer	item	0	0	40	100	0
 beer-scented teddy bear	item	0	0	15	20	0
@@ -85,7 +86,7 @@ Gulp Latte	skill	[HP/2]	[HP/2]	[MP/2]	[MP/2]	0	[1-pref(_latteDrinkUsed)]
 heart of dark chocolate	item	40	50	0	0	0	[1-pref(_darkChocolateHeart)]
 Hibernate	skill	[HP]	[HP]	0	0	1
 high-pressure seltzer bottle	item	0	0	150	200	0
-holy spring water	item	0	0	40	50	0
+holy spring water	item	0	0	40	60	0
 honey-dipped locust	item	30	40	30	40	0
 Knob Goblin seltzer	item	0	0	8	12	0
 Knob Goblin superseltzer	item	0	0	25	29	0
@@ -150,6 +151,7 @@ spirit beer	item	0	0	80	100	0
 Spirit Vacation	skill	[HP]	[HP]	0	0	1
 sugar shard	item	10	20	5	10	0
 super deluxe mushroom	item	100	100	0	0	0
+Texas tea	item	30	30	30	30	0
 tiny house	item	20	24	20	24	0
 Tongue of the Walrus	skill	30	40	0	0	0
 tonic water	item	0	0	30	50	0
