@@ -71,18 +71,18 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class SkillDatabase
 {
 	private static String [] canonicalNames = new String[0];
-	private static final Map<Integer, String> skillById = new TreeMap<Integer, String>();
-	private static final Map<Integer, String> imageById = new TreeMap<Integer, String>();
-	private static final Map<Integer, String> dataNameById = new TreeMap<Integer, String>();
-	private static final Map<String, Integer> skillByName = new TreeMap<String, Integer>();
-	private static final Map<Integer, Long> mpConsumptionById = new HashMap<Integer, Long>();
-	private static final Map<Integer, Integer> skillTypeById = new TreeMap<Integer, Integer>();
-	private static final Map<Integer, Integer> durationById = new HashMap<Integer, Integer>();
-	private static final Map<Integer, Integer> levelById = new HashMap<Integer, Integer>();
-	private static final Map<Integer, Integer> castsById = new HashMap<Integer, Integer>();
+	private static final Map<Integer, String> nameById = new TreeMap<>();
+	private static final Map<String, int[]> skillIdSetByName = new TreeMap<>();
 
-	private static final Map<String, ArrayList<String>> skillsByCategory = new HashMap<String, ArrayList<String>>();
-	private static final Map<Integer, String> skillCategoryById = new HashMap<Integer, String>();
+	private static final Map<Integer, String> imageById = new TreeMap<>();
+	private static final Map<Integer, Long> mpConsumptionById = new HashMap<>();
+	private static final Map<Integer, Integer> skillTypeById = new TreeMap<>();
+	private static final Map<Integer, Integer> durationById = new HashMap<>();
+	private static final Map<Integer, Integer> levelById = new HashMap<>();
+	private static final Map<Integer, Integer> castsById = new HashMap<>();
+
+	private static final Map<String, ArrayList<String>> skillsByCategory = new HashMap<>();
+	private static final Map<Integer, String> skillCategoryById = new HashMap<>();
 
 	public static final int ALL = -2;
 	public static final int CASTABLE = -1;
@@ -153,19 +153,19 @@ public class SkillDatabase
 
 	static
 	{
-		// This begins by opening up the data file and preparing
-		// a buffered reader; once this is done, every line is
-		// examined and float-referenced: once in the name-lookup,
-		// and again in the Id lookup.
+		SkillDatabase.reset();
+	}
 
+	public static void reset()
+	{
 		for ( int i = 0; i < SkillDatabase.CATEGORIES.length; ++i )
 		{
 			String category = SkillDatabase.CATEGORIES[ i ];
 			SkillDatabase.skillsByCategory.put( category, new ArrayList<String>() );
 		}
 
-		BufferedReader reader = FileUtilities.getVersionedReader( "classskills.txt", KoLConstants.CLASSSKILLS_VERSION );
-
+		BufferedReader reader =
+			FileUtilities.getVersionedReader( "classskills.txt", KoLConstants.CLASSSKILLS_VERSION );
 		String[] data;
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
@@ -175,14 +175,14 @@ public class SkillDatabase
 				continue;
 			}
 
-			Integer id = Integer.valueOf( data[ 0 ] );
+			Integer skillId = Integer.valueOf( data[ 0 ] );
 			String name = data[ 1 ];
 			String image = data[ 2 ];
 			Integer type = Integer.valueOf( data[ 3 ] );
 			Long mp = Long.valueOf( data[ 4 ] );
 			Integer duration = Integer.valueOf( data[ 5 ] );
 			Integer level = ( data.length > 6 ) ? Integer.valueOf( data[ 6 ] ) : null;
-			SkillDatabase.addSkill( id, name, image, type, mp, duration, level );
+			SkillDatabase.addSkill( skillId, name, image, type, mp, duration, level );
 		}
 
 		try
@@ -197,17 +197,40 @@ public class SkillDatabase
 			StaticEntity.printStackTrace( e );
 		}
 
-		SkillDatabase.canonicalNames = new String[ SkillDatabase.skillByName.size() ];
-		SkillDatabase.skillByName.keySet().toArray( SkillDatabase.canonicalNames );
+		SkillDatabase.canonicalNames = new String[ SkillDatabase.skillIdSetByName.size() ];
+		SkillDatabase.skillIdSetByName.keySet().toArray( SkillDatabase.canonicalNames );
+	}
+
+	private static void addIdToName( String canonicalName, int skillId )
+	{
+		int[] idSet = SkillDatabase.skillIdSetByName.get( canonicalName );
+		int[] newSet;
+
+		if ( idSet == null )
+		{
+			newSet = new int[1];
+		}
+		// *** This assumes the array is sorted
+		else if ( Arrays.binarySearch( idSet, skillId ) >= 0 )
+		{
+			return;
+		}
+		else
+		{
+			newSet = Arrays.copyOf( idSet, idSet.length + 1 );
+		}
+
+		newSet[ newSet.length - 1 ] = skillId;
+		// *** Make it so
+		Arrays.sort( newSet );
+		SkillDatabase.skillIdSetByName.put( canonicalName, newSet );
 	}
 
 	private static final void addSkill( final Integer skillId, final String name, final String image, final Integer skillType, final Long mpConsumption, final Integer duration, final Integer level )
 	{
 		String canonicalName = StringUtilities.getCanonicalName( name );
-		String displayName = StringUtilities.getDisplayName( name );
-		SkillDatabase.skillById.put( skillId, displayName );
-		SkillDatabase.dataNameById.put( skillId, name );
-		SkillDatabase.skillByName.put( canonicalName, skillId );
+		SkillDatabase.nameById.put( skillId, name );
+		SkillDatabase.addIdToName( canonicalName, skillId );
 
 		if ( image != null )
 		{
@@ -284,7 +307,7 @@ public class SkillDatabase
 		}
 
 		SkillDatabase.skillCategoryById.put( skillId, category );
-		( SkillDatabase.skillsByCategory.get( category ) ).add( displayName );
+		SkillDatabase.skillsByCategory.get( category ).add( name );
 		
 		SkillDatabase.castsById.put( skillId, IntegerPool.get(0) );
 	}
@@ -316,16 +339,6 @@ public class SkillDatabase
 	}
 
 	/**
-	 * Returns a list of all skills which contain the given substring. This is useful for people who are doing lookups
-	 * on skills.
-	 */
-
-	public static final List<String> getMatchingNames( final String substring )
-	{
-		return StringUtilities.getMatchingNames( SkillDatabase.canonicalNames, substring );
-	}
-
-	/**
 	 * Returns the name for an skill, given its Id.
 	 *
 	 * @param skillId The Id of the skill to lookup
@@ -334,14 +347,170 @@ public class SkillDatabase
 
 	public static final String getSkillName( final int skillId )
 	{
-		return (String) SkillDatabase.skillById.get( IntegerPool.get( skillId ) );
+		return (String) SkillDatabase.nameById.get( IntegerPool.get( skillId ) );
 	}
 
-	public static final String getSkillDataName( final int skillId )
+	public static final String getSkillDataName( final String skillName )
 	{
-		return skillId == -1 ?
-			null:
-			(String) SkillDatabase.dataNameById.get( IntegerPool.get( skillId ) );
+		if ( skillName.startsWith( "[" ) )
+		{
+			int ind = skillName.indexOf( "]" );
+			if ( ind > 0 )
+			{
+				int skillId = StringUtilities.parseInt( skillName.substring( 1, ind ) );
+				return getSkillName( skillId );
+			}
+		}
+		return skillName;
+	}
+
+	/**
+	 * Returns the Id number for an skill, given its name.
+	 *
+	 * @param skillName The name of the skill to lookup
+	 * @return The Id number of the corresponding skill
+	 */
+
+	public static final int getSkillId( final String skillName )
+	{
+		return SkillDatabase.getSkillId( skillName, false );
+	}
+
+	public static final int getSkillId( final String skillName, final boolean exact )
+	{
+		if ( skillName == null )
+		{
+			return -1;
+		}
+
+		// If name starts with [nnnn] then that is explicitly the skill id 
+		if ( skillName.startsWith( "[" ) )
+		{
+			int index = skillName.indexOf( "]" );
+			if ( index > 0 )
+			{
+				String idString = skillName.substring( 1, index );
+				int skillId = -1;
+				try 
+				{
+					skillId = StringUtilities.parseInt( idString );
+				}
+				catch (NumberFormatException e)
+				{
+				}
+				return skillId;
+			}
+		}
+
+		int[] ids = SkillDatabase.skillIdSetByName.get( StringUtilities.getCanonicalName( skillName ) );
+
+		if ( ids != null )
+		{
+			if ( exact && ids.length > 1)
+			{
+				return -1;
+			}
+			return ids[ ids.length - 1 ];
+		}
+
+		if ( exact )
+		{
+			return -1;
+		}
+
+		List<String> names = SkillDatabase.getMatchingNames( skillName );
+		if ( names.size() == 1 )
+		{
+			return SkillDatabase.getSkillId( names.get( 0 ), true );
+		}
+
+		return -1;
+	}
+
+	private static final int[] NO_SKILL_IDS = new int[0];
+	
+	public static final int[] getSkillIds( final String skillName, final boolean exact )
+	{
+		if ( skillName == null )
+		{
+			return NO_SKILL_IDS;
+		}
+
+		// If name starts with [nnnn] then that is explicitly the effect id 
+		if ( skillName.startsWith( "[" ) )
+		{
+			int index = skillName.indexOf( "]" );
+			if ( index > 0 )
+			{
+				String idString = skillName.substring( 1, index );
+				int skillId = -1;
+				try 
+				{
+					skillId = StringUtilities.parseInt( idString );
+				}
+				catch (NumberFormatException e)
+				{
+				}
+				int[] ids = new int[1];
+				ids[0] = skillId;
+				return ids;
+			}
+		}
+
+		int[] ids = SkillDatabase.skillIdSetByName.get( StringUtilities.getCanonicalName( skillName ) );
+
+		if ( ids != null )
+		{
+			if ( exact && ids.length > 1)
+			{
+				return NO_SKILL_IDS;
+			}
+			return ids;
+		}
+
+		if ( exact )
+		{
+			return NO_SKILL_IDS;
+		}
+
+		List<String> names = SkillDatabase.getMatchingNames( skillName );
+		if ( names.size() != 1 )
+		{
+			return NO_SKILL_IDS;
+		}
+
+		ids = skillIdSetByName.get( StringUtilities.getCanonicalName( names.get( 0 ) ) );
+
+		return ids != null ? ids : NO_SKILL_IDS;
+	}
+
+	/**
+	 * Returns a list of all skills which contain the given substring.
+	 */
+
+	public static final List<String> getMatchingNames( final String substring )
+	{
+		// If name starts with [nnnn] then that is explicitly the skill id 
+		if ( substring.startsWith( "[" ) )
+		{
+			int index = substring.indexOf( "]" );
+			if ( index > 0 )
+			{
+				String idString = substring.substring( 1, index );
+				try 
+				{
+					int skillId = StringUtilities.parseInt( idString );
+					// It parsed to a number so is valid
+					List<String> list = new ArrayList<String>();
+					list.add( substring );
+					return list;
+				}
+				catch (NumberFormatException e)
+				{
+				}
+			}
+		}
+		return StringUtilities.getMatchingNames( SkillDatabase.canonicalNames, substring );
 	}
 
 	/**
@@ -506,23 +675,6 @@ public class SkillDatabase
 	public static final String getSkillImage( final int skillId )
 	{
 		return (String) SkillDatabase.imageById.get( IntegerPool.get( skillId ) );
-	}
-
-	/**
-	 * Returns the Id number for an skill, given its name.
-	 *
-	 * @param skillName The name of the skill to lookup
-	 * @return The Id number of the corresponding skill
-	 */
-
-	public static final int getSkillId( final String skillName )
-	{
-		if ( skillName == null )
-		{
-			return -1;
-		}
-		Integer skillId = SkillDatabase.skillByName.get( StringUtilities.getCanonicalName( skillName ) );
-		return skillId == null ? -1 : skillId.intValue();
 	}
 
 	/**
@@ -1629,7 +1781,7 @@ public class SkillDatabase
 
 	public static final Set entrySet()
 	{
-		return SkillDatabase.skillById.entrySet();
+		return SkillDatabase.nameById.entrySet();
 	}
 
 	private static final ArrayList<String> skillNames = new ArrayList<String>();
@@ -1640,7 +1792,7 @@ public class SkillDatabase
 
 		if ( SkillDatabase.skillNames.isEmpty() )
 		{
-			SkillDatabase.skillNames.addAll( SkillDatabase.skillByName.keySet() );
+			SkillDatabase.skillNames.addAll( SkillDatabase.skillIdSetByName.keySet() );
 		}
 
 		for ( int i = 0; i < categories.length; ++i )
@@ -1948,9 +2100,8 @@ public class SkillDatabase
 		}
 
 		// Update Canonical names list
-		String [] newNames = new String[ SkillDatabase.skillByName.size() ];
-		SkillDatabase.skillByName.keySet().toArray( newNames );
-		SkillDatabase.canonicalNames = newNames;
+		SkillDatabase.canonicalNames = new String[ SkillDatabase.skillIdSetByName.size() ];
+		SkillDatabase.skillIdSetByName.keySet().toArray( SkillDatabase.canonicalNames );
 	}
 
 	/**

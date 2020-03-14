@@ -2838,7 +2838,11 @@ public abstract class RuntimeLibrary
 			return DataTypes.parseSkillValue( UneffectRequest.effectToSkill( value.toString() ), true );
 		}
 
-		return DataTypes.parseSkillValue( value.toString(), true );
+		String s1 = value.toString();
+		Value skill = DataTypes.parseSkillValue( s1, true );
+		DataTypes.SKILL_TYPE.validateValue( interpreter, s1, skill );
+
+		return skill;
 	}
 
 	public static Value desc_to_effect( Interpreter interpreter, final Value value )
