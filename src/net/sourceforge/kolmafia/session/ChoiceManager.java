@@ -7771,11 +7771,18 @@ public abstract class ChoiceManager
 			// Yes, Soup For You...
 		case 348:
 			// Souped Up
-		case 349:
-			// The Primordial Directive
 		case 351:
 			// Beginner's Luck
 			QuestDatabase.setQuestIfBetter( Quest.PRIMORDIAL, QuestDatabase.STARTED );
+			break;
+
+		case 349:
+			// The Primordial Directive
+			// You swam upward, into a brighter and warmer part of the soup
+			if ( ChoiceManager.lastDecision == 1 && text.contains( "a brighter and warmer part of the soup" ) )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.PRIMORDIAL, "step1" );
+			}
 			break;
 
 		case 350:
