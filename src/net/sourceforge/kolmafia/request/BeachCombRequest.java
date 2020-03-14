@@ -288,20 +288,22 @@ public class BeachCombRequest
 			return false;
 		}
 
-		if ( !ChoiceManager.handlingChoice )
+		if ( ChoiceManager.handlingChoice )
 		{
-			KoLmafia.forceContinue();
-			(new BeachCombRequest()).run();
-			return ChoiceManager.handlingChoice;
+			if ( ChoiceManager.lastChoice == WHICHCHOICE )
+			{
+				return false;
+			}
+			if ( !ChoiceManager.canWalkAway() )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You are currently in a choice." );
+				return false;
+			}
 		}
 
-		if ( ChoiceManager.lastChoice == WHICHCHOICE )
-		{
-			return false;
-		}
-
-		KoLmafia.updateDisplay( MafiaState.ERROR, "You are currently in a choice." );
-		return false;
+		KoLmafia.forceContinue();
+		(new BeachCombRequest()).run();
+		return ChoiceManager.handlingChoice;
 	}
 
 	public static void exitIfNecessary( boolean necessary )
