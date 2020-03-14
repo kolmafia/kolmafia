@@ -15212,16 +15212,20 @@ public abstract class ChoiceManager
 		case 1410:
 		{
 			// The Mushy Center
-			// *** need more mushroom messages
+
+			// The mushroom in your garden is now large enough to walk around inside.  Also there's a door on it, which is convenient for that purpose.
+
 			int mushroomMessageLevel =
-				text.contains( "colossal mushroom" ) ? 12 :
+				text.contains( "walk around inside" ) ? 12 :
 				text.contains( "immense mushroom" ) ? 5 :
 				text.contains( "giant mushroom" ) ? 4 :
 				text.contains( "bulky mushroom" ) ? 3 :
 				text.contains( "plump mushroom" ) ? 2 :
 				text.contains( "decent-sized mushroom" ) ? 1 :
 				0;
-			// *** verify when new rewards are seen
+
+			// mushgrow5.gif is used for both the immense and colossal mushroom
+
 			int mushroomImageLevel =
 				text.contains( "mushgrow5.gif" ) ? 5 :
 				text.contains( "mushgrow4.gif" ) ? 4 :
