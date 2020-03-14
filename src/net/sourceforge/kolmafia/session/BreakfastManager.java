@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.BookType;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
@@ -60,6 +61,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
@@ -144,6 +146,11 @@ public class BreakfastManager
 				readGuildManual();
 				getHermitClovers();
 				harvestGarden();
+				if ( GenericRequest.abortIfInFightOrChoice() )
+				{
+					KoLmafia.updateDisplay( MafiaState.ABORT, "Breakfast aborted." );
+					return;
+				}
 				useSpinningWheel();
 				visitBigIsland();
 				visitVolcanoIsland();
@@ -377,17 +384,27 @@ public class BreakfastManager
 			return;
 		}
 
-		String crop = Preferences.getString( "harvestGarden" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
+		String crop = Preferences.getString( "harvestGarden" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ).trim();
 		if ( crop.equals( "none" ) )
 		{
+			return;
+		}
+
+		if ( crop.equals( "any" ) )
+		{
+			CampgroundRequest.harvestCrop();
 			return;
 		}
 
 		if ( CampgroundRequest.hasCropOrBetter( crop ) )
 		{
 			CampgroundRequest.harvestCrop();
+			return;
 		}
-		else
+
+		CropType cropType = CampgroundRequest.getCropType( CampgroundRequest.parseCrop( crop ) );
+
+		if ( cropType == CropType.MUSHROOM )
 		{
 			// Mushrooms need to be fertilized each day
 			CampgroundRequest.fertilizeCrop();

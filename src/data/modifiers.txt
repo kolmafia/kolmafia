@@ -6189,6 +6189,7 @@ Effect	Muscular Intentions	Experience (Muscle): +3
 Effect	Muscularrr	Muscle Percent: +10
 Effect	Mush-Maw	Monster Level: +20, Combat Rate: +10
 Effect	Mush-Mouth	Muscle: -100, Mysticality: -100, Moxie: -100
+Effect	Mushed	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Initiative: +25, Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
 Effect	Mushroom Magicalness	Mysticality Percent: +200
 Effect	Mushroom Melody	Ranged Damage: +100
 Effect	Mushroom Might	Muscle Percent: +200
