@@ -114,6 +114,7 @@ public class CampgroundRequest
 		ItemPool.ELEVENT,
 		ItemPool.RESIDENCE_CUBE,
 		ItemPool.GIANT_PILGRIM_HAT,
+		ItemPool.HOUSE_SIZED_MUSHROOM,
 
 		// Bedding
 		ItemPool.BEANBAG_CHAIR,
@@ -1328,6 +1329,9 @@ public class CampgroundRequest
 		case 15:
 			itemId = ItemPool.GIANT_PILGRIM_HAT;
 			break;
+		case 16:
+			itemId = ItemPool.HOUSE_SIZED_MUSHROOM;
+			break;
 		default:
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Unrecognized housing type (" + CampgroundRequest.currentDwellingLevel + ")!" );
 			break;
@@ -1604,6 +1608,8 @@ public class CampgroundRequest
 		case ItemPool.SNOW_FORT:
 		case ItemPool.ELEVENT:
 		case ItemPool.RESIDENCE_CUBE:
+		case ItemPool.GIANT_PILGRIM_HAT:
+		case ItemPool.HOUSE_SIZED_MUSHROOM:
 			return true;
 		}
 		return false;
@@ -1643,6 +1649,8 @@ public class CampgroundRequest
 			return 14;
 		case ItemPool.GIANT_PILGRIM_HAT:
 			return 15;
+		case ItemPool.HOUSE_SIZED_MUSHROOM:
+			return 16;
 		}
 		return 0;
 	}

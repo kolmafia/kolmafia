@@ -349,6 +349,7 @@ public class UseItemRequest
 		case ItemPool.ELEVENT:
 		case ItemPool.RESIDENCE_CUBE:
 		case ItemPool.GIANT_PILGRIM_HAT:
+		case ItemPool.HOUSE_SIZED_MUSHROOM:
 			return CampgroundRequest.getCurrentDwelling() != CampgroundRequest.BIG_ROCK;
 
 		case ItemPool.HOT_BEDDING:
@@ -1400,6 +1401,8 @@ public class UseItemRequest
 		case ItemPool.SNOW_FORT:
 		case ItemPool.ELEVENT:
 		case ItemPool.RESIDENCE_CUBE:
+		case ItemPool.GIANT_PILGRIM_HAT:
+		case ItemPool.HOUSE_SIZED_MUSHROOM:
 			AdventureResult dwelling = CampgroundRequest.getCurrentDwelling();
 			int oldLevel = CampgroundRequest.getCurrentDwellingLevel();
 			int newLevel = CampgroundRequest.dwellingLevel( itemId );
@@ -4288,6 +4291,8 @@ public class UseItemRequest
 		case ItemPool.SNOW_FORT:
 		case ItemPool.ELEVENT:
 		case ItemPool.RESIDENCE_CUBE:
+		case ItemPool.GIANT_PILGRIM_HAT:
+		case ItemPool.HOUSE_SIZED_MUSHROOM:
 
 			if ( responseText.contains( "You've already got" ) )
 			{
