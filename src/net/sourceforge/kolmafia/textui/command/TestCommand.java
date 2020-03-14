@@ -261,32 +261,34 @@ public class TestCommand
 
 		if ( command.equals( "crop" ) )
 		{
-			if ( split.length < 2 )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "test crop [CROP,] MATCH" );
-				return;
-			}
 
 			AdventureResult crop;
 			String matchName;
 
-			int space = parameters.indexOf( " " );
-			int comma = parameters.indexOf( "," );
-			if ( comma != -1 )
+			if ( split.length < 2 )
 			{
-				String cropName = parameters.substring( space + 1, comma ).trim();
-				crop = CampgroundRequest.parseCrop( cropName );
-				matchName = parameters.substring( comma + 1 ).trim();
+				crop = CampgroundRequest.getCrop();
+				matchName = Preferences.getString( "harvestGarden" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
 			}
 			else
 			{
-				crop = CampgroundRequest.getCrop();
-				matchName = parameters.substring( space + 1 ).trim();
+				int space = parameters.indexOf( " " );
+				int comma = parameters.indexOf( "," );
+				if ( comma != -1 )
+				{
+					String cropName = parameters.substring( space + 1, comma ).trim();
+					crop = CampgroundRequest.parseCrop( cropName );
+					matchName = parameters.substring( comma + 1 ).trim();
+				}
+				else
+				{
+					crop = CampgroundRequest.getCrop();
+					matchName = parameters.substring( space + 1 ).trim();
+				}
 			}
 
 			boolean better = CampgroundRequest.hasCropOrBetter( crop, matchName );
-			AdventureResult match = CampgroundRequest.parseCrop( matchName );
-			RequestLogger.printLine( crop + ( better ? " is as good as " : " is worse than " ) + match );
+			RequestLogger.printLine( crop + ( better ? " is as good as " : " is worse than " ) + matchName );
 			return;
 		}
 
