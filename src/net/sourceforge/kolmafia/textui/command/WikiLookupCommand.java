@@ -132,7 +132,7 @@ public class WikiLookupCommand
 				if ( names.size() == 1 )
 				{
 					int num = SkillDatabase.getSkillId( (String) names.get( 0 ) );
-					target = SkillDatabase.getSkillDataName( num );
+					target = SkillDatabase.getSkillName( num );
 					WikiUtilities.showWikiDescription( target );
 					return;
 				}

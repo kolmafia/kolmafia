@@ -488,16 +488,33 @@ public class DataTypes
 			return DataTypes.SKILL_INIT;
 		}
 
-		List<String> skills = SkillDatabase.getMatchingNames( name );
+		// Allow for a skill number to be specified
+		// inside of the "skill" construct.
 
-		if ( skills.isEmpty() )
+		int skillId;
+
+		if ( StringUtilities.isNumeric( name ) )
+		{
+			skillId = StringUtilities.parseInt( name );
+			name = SkillDatabase.getSkillName( skillId );
+
+			if ( name == null  )
+			{
+				return returnDefault ? DataTypes.SKILL_INIT : null;
+			}
+
+			return DataTypes.makeNormalizedSkill( skillId, name );
+		}
+
+		skillId = SkillDatabase.getSkillId( name );
+
+		if ( skillId == -1 )
 		{
 			return returnDefault ? DataTypes.SKILL_INIT : null;
 		}
 
-		int num = SkillDatabase.getSkillId( skills.get( 0 ) );
-		name = SkillDatabase.getSkillDataName( num );
-		return new Value( DataTypes.SKILL_TYPE, num, name );
+		name = SkillDatabase.getSkillName( skillId );
+		return DataTypes.makeNormalizedSkill( skillId, name );
 	}
 
 	public static final Value parseEffectValue( String name, final boolean returnDefault )
@@ -898,15 +915,33 @@ public class DataTypes
 		return new Value( DataTypes.CLASS_TYPE, DataTypes.classToInt( name ), name );
 	}
 
+	private static final Value makeNormalizedSkill( final int num, String name )
+	{
+		if ( num == -1 )
+		{
+			return DataTypes.SKILL_INIT;
+		}
+		if ( name == null )
+		{
+			name = "[" + String.valueOf( num ) + "]";
+		}
+		int[] skillIds = SkillDatabase.getSkillIds( name, false );
+		if ( skillIds != null && skillIds.length > 1 )
+		{
+			name = "[" + String.valueOf( num ) + "]" + name;
+		}
+		return new Value( DataTypes.SKILL_TYPE, num, name );
+	}		
+
 	public static final Value makeSkillValue( final int num, final boolean returnDefault )
 	{
-		String name = SkillDatabase.getSkillDataName( num );
+		String name = SkillDatabase.getSkillName( num );
 		if ( name == null )
 		{
 			return returnDefault ? DataTypes.SKILL_INIT : null;
 		}
 
-		return new Value( DataTypes.SKILL_TYPE, num, name );
+		return DataTypes.makeNormalizedSkill( num, name );
 	}
 
 	private static final Value makeNormalizedEffect( final int num, String name )

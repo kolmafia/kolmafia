@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -3555,6 +3556,17 @@ public class Parser
 					for ( int id : ids )
 					{
 						String s3 = "$monster[[" + String.valueOf( id ) + "]" + name + "]";
+						names.add( s3 );
+					}
+				}
+				else if ( type == DataTypes.SKILL_TYPE )
+				{
+					int skillId = (int)value.contentLong;
+					String name = SkillDatabase.getSkillName( skillId );
+					int[] ids = SkillDatabase.getSkillIds( name, false );
+					for ( int id : ids )
+					{
+						String s3 = "$skill[[" + String.valueOf( id ) + "]" + name + "]";
 						names.add( s3 );
 					}
 				}

@@ -334,6 +334,7 @@ public class Type
 		case DataTypes.TYPE_ITEM:
 		case DataTypes.TYPE_EFFECT:
 		case DataTypes.TYPE_MONSTER:
+		case DataTypes.TYPE_SKILL:
 		{
 			String s2 = value.toString();
 			if ( s1.equalsIgnoreCase( s2 ) )
@@ -366,6 +367,8 @@ public class Type
 				EffectDatabase.getEffectName( currentId ) :
 				this.type == DataTypes.TYPE_MONSTER ?
 				MonsterDatabase.getMonsterName( currentId ) :
+				this.type == DataTypes.TYPE_SKILL ?
+				SkillDatabase.getSkillName( currentId ) :
 				"";
 			int[] ids =
 				this.type == DataTypes.TYPE_ITEM ?
@@ -374,6 +377,8 @@ public class Type
 				EffectDatabase.getEffectIds( name, false ) :
 				this.type == DataTypes.TYPE_MONSTER ?
 				MonsterDatabase.getMonsterIds( name, false ) :
+				this.type == DataTypes.TYPE_SKILL ?
+				SkillDatabase.getSkillIds( name, false ) :
 				null;
 
 			for ( int id : ids )
