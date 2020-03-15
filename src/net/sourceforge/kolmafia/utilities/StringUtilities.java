@@ -1119,4 +1119,38 @@ public class StringUtilities
 		}
 		return b.toString();
 	}
+
+	public static final int getBracketedId( final String name )
+	{
+		if ( name.startsWith( "[" ) )
+		{
+			int index = name.indexOf( "]" );
+			if ( index > 0 )
+			{
+				String idString = name.substring( 1, index );
+				if ( StringUtilities.isNumeric( idString ) )
+				{
+					return StringUtilities.parseInt( idString );
+				}
+			}
+		}
+		return -1;
+	}
+
+	public static final String removeBracketedId( final String name )
+	{
+		if ( name.startsWith( "[" ) )
+		{
+			int index = name.indexOf( "]" );
+			if ( index > 0 )
+			{
+				String idString = name.substring( 1, index );
+				if ( StringUtilities.isNumeric( idString ) )
+				{
+					return name.substring( index + 1 );
+				}
+			}
+		}
+		return name;
+	}
 }
