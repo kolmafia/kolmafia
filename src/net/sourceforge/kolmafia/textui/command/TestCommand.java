@@ -111,6 +111,7 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.EventManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.NumberologyManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
@@ -422,6 +423,16 @@ public class TestCommand
 			}
 
 			AdventureResult.addResultToList( KoLConstants.inventory, item );
+
+			int count = InventoryManager.getCount( item );
+			if ( count != 1 )
+			{
+				RequestLogger.printLine( "You have " + count + " " + ItemDatabase.getPluralName( item.getItemId() ) + " in inventory." );
+			}
+			else
+			{
+				RequestLogger.printLine( "You have 1 " + item.getName() + " in inventory." );
+			}
 			return;
 		}
 
