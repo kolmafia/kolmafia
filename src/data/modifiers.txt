@@ -4756,7 +4756,7 @@ Effect	Abominably Slippery	Initiative: +20, Sleaze Resistance: +2
 Effect	Abyssal Blood	Weapon Damage Percent: +100, Hot Damage: +50, HP Regen Min: 40, HP Regen Max: 50
 # Abyssal Sweat: The first attack against you will always miss
 Effect	Abyssal Tears	Reduce Enemy Defense: 20
-Effect	Ack! Barred!	Muscle Percent: +30
+Effect	Ack!  Barred!	Muscle Percent: +30
 Effect	Action	Muscle Percent: +100
 Effect	Adapt to Change Eventually	Experience: +4, Initiative: +50
 Effect	Adorable Lookout	Initiative: +30
@@ -5942,7 +5942,7 @@ Effect	Is This Your Card?	Spell Damage Percent: +50
 Effect	Isskay like an Ashtray	Moxie Percent: +20, Mysticality Percent: -20, Experience (Moxie): +2, Pickpocket Chance: +10
 Effect	It Didn't Kill You	Muscle Percent: +50
 Effect	It Is So Hot In Your Guts, So So Hot	Hot Damage: +40, Hot Spell Damage: +40
-Effect	It Tickles! It Tickles!	MP Regen Min: 4, MP Regen Max: 6
+Effect	It Tickles!  It Tickles!	MP Regen Min: 4, MP Regen Max: 6
 Effect	It's a Good Life!	Experience: +10, Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 # It's Electric!: Damages Attacking Opponents
 Effect	It's Good To Be Royal!	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200, Maximum HP Percent: +200, Maximum MP Percent: +200, Weapon Damage Percent: +200, Spell Damage Percent: +200
@@ -10092,7 +10092,7 @@ Item	magenta seashell	Effect: "Too Cool for (Fish) School", Effect Duration: 20
 Item	magicberry tablets	Effect: "Magic Tongue", Effect Duration: 1
 # magnolia blossom: Restores 15-30 HP and MP
 Item	Mallomarbles	Effect: "Marbles in Your Mouth", Effect Duration: 20
-Item	mangled finger	Effect: "It Tickles! It Tickles!", Effect Duration: 20
+Item	mangled finger	Effect: "It Tickles!  It Tickles!", Effect Duration: 20
 Item	Mansquito's blood	Effect: "Blood of the Jerk that Bit You", Effect Duration: 50
 Item	Manual of Numberology	Skill: "Calculate the Universe"
 Item	Manual of Transcendent Olfaction	Skill: "Transcendent Olfaction"

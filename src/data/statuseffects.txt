@@ -520,7 +520,7 @@
 518	Digitally Converted	10101.gif	a5ce881631fcf7c7d0978b06c4999db8	neutral		use 1 digital underground potion
 519	Radiant Personality	light.gif	be2f929df46d63924049628a0efcb854	good		gong roach moxie
 520	Alchemical, Brother	potion2.gif	1dc8613ec51512efb78de20709bb88c0	good		gong roach mysticality
-521	Ack! Barred!	bars.gif	ce21463be85ec37958385d67bdc71f52	good		gong roach muscle
+521	Ack!  Barred!	bars.gif	ce21463be85ec37958385d67bdc71f52	good		gong roach muscle
 522	New, Improved	exclam.gif	0e37dd043a3b0b8d82b20dc0dc5899e2	good	nohookah	gong roach allstats
 523	Extra Sensory Perception	eyes.gif	2cca34cf2648600f341dc5e449af1aa4	good	nohookah	gong roach itemdrop
 524	Unpopular	sad.gif	70a42e022a0fe19477d8b1adeed519b5	neutral		gong roach ML
@@ -1584,7 +1584,7 @@
 1582	Bloodstain-Resistant	chapstick.gif	bd1a41c8b3ca3e893ab18835e9835710	good		use 1 bloodstain stick
 1583	Hardened Fabric	hardener.gif	e1867786a46ac85d7ac4daa28d335e86	good		use 1 fabric hardener
 1584	Industrial Strength Starch	box1.gif	31656485a0168a941731b595d97319ea	good		use 1 industrial strength starch
-1585	It Tickles! It Tickles!	manglefinger.gif	a7d735fef459ede6a290c0a298f4b934	good		use 1 mangled finger
+1585	It Tickles!  It Tickles!	manglefinger.gif	a7d735fef459ede6a290c0a298f4b934	good		use 1 mangled finger
 1586	Human-Human Hybrid	dna.gif	455a48d85df002dd24d899acb1fb077f	good		use 1 Gene Tonic: Dude
 1587	Human-Beast Hybrid	dna.gif	ce16a1db58a85c824bb054aa9ffec3e2	good		use 1 Gene Tonic: Beast
 1588	Human-Machine Hybrid	dna.gif	f91d197834145d929be554c3f04f6df5	good		use 1 Gene Tonic: Construct
