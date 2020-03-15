@@ -384,6 +384,14 @@ public class RecoveryManager
 			return true;
 		}
 
+		// If we are a plumber restoring HP, we can't heal with skills
+		// or any item which is not purchasable with coins
+		// Optimize for that situation.
+		if ( KoLCharacter.isPlumber() && techniques == HPRestoreItemList.PLUMBER_CONFIGURES )
+		{
+			return plumberHPRecovery( techniques, (int) desired, needed, currentMethod, maximumMethod );
+		}
+
 		// If it gets this far, then you should attempt to recover
 		// using the selected items. This involves a few extra
 		// reflection methods.
@@ -500,23 +508,7 @@ public class RecoveryManager
 			int last = -1;
 			current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
 
-			// Plumbers purchase things with coins.
-			if ( KoLCharacter.isPlumber() )
-			{
-				while ( last != current && current < needed )
-				{
-					Collections.sort( possibleItems );
-
-					RestoreItem item = possibleItems.get( 0 );
-					item.recover( (int) desired, true );
-
-					last = current;
-					current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
-					maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
-					desired = Math.min( maximum, desired );
-				}
-			}
-			else if ( !possibleItems.isEmpty() )
+			if ( !possibleItems.isEmpty() )
 			{
 				while ( last != current && current < needed )
 				{
@@ -555,6 +547,85 @@ public class RecoveryManager
 
 		// Fall-through check, just in case you've reached the
 		// desired value.
+
+		if ( KoLmafia.refusesContinue() )
+		{
+			return false;
+		}
+
+		if ( current < needed )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Autorecovery failed." );
+			return false;
+		}
+
+		return true;
+	}
+
+	private static boolean plumberHPRecovery( RestoreItem[] techniques, int desired, int needed,
+						  final Method currentMethod, final Method maximumMethod )
+		throws Exception
+	{
+		Object[] empty = new Object[ 0 ];
+
+		int current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
+		int maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
+
+		List<RestoreItem> possibleItems = Arrays.asList( techniques );
+
+		HPRestoreItemList.setPurchaseBasedSort( false );
+		Collections.sort( possibleItems );
+
+		// Use items in inventory
+		for ( int i = 0; i < possibleItems.size() && current < needed; ++i )
+		{
+			int last = -1;
+			do
+			{
+				RestoreItem item = possibleItems.get( i );
+				item.recover( (int) desired, false );
+
+				last = current;
+				current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
+				maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
+				desired = Math.min( maximum, desired );
+				needed = Math.min( maximum, needed );
+			}
+			while ( last != current && current < needed );
+		}
+
+		if ( KoLmafia.refusesContinue() )
+		{
+			return false;
+		}
+
+		// Use purchasable items
+		try
+		{
+			HPRestoreItemList.setPurchaseBasedSort( true );
+
+			int last = -1;
+			current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
+
+			// Plumbers purchase things with coins.
+			while ( last != current && current < needed )
+			{
+				Collections.sort( possibleItems );
+
+				RestoreItem item = possibleItems.get( 0 );
+				item.recover( (int) desired, true );
+
+				last = current;
+				current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
+				maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
+				desired = Math.min( maximum, desired );
+				needed = Math.min( maximum, needed );
+			}
+		}
+		finally
+		{
+			HPRestoreItemList.setPurchaseBasedSort( false );
+		}
 
 		if ( KoLmafia.refusesContinue() )
 		{
