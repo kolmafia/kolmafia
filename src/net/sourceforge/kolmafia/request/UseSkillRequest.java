@@ -159,6 +159,7 @@ public class UseSkillRequest
 	private final int skillId;
 	private final boolean isBuff;
 	private final String skillName;
+	private final String canonical;
 	private String target;
 	private long buffCount;
 
@@ -285,6 +286,7 @@ public class UseSkillRequest
 
 		this.skillId = skillId;
 		this.skillName = SkillDatabase.getSkillName( this.skillId );
+		this.canonical = StringUtilities.getCanonicalName( this.skillName );
 		this.isBuff = SkillDatabase.isBuff( this.skillId );
 		this.target = null;
 
@@ -309,6 +311,7 @@ public class UseSkillRequest
 			this.isBuff = SkillDatabase.isBuff( this.skillId );
 		}
 
+		this.canonical = StringUtilities.getCanonicalName( this.skillName );
 		this.target = null;
 		this.countFieldId = null;
 		this.addFormFields();
@@ -512,6 +515,11 @@ public class UseSkillRequest
 	public String getSkillName()
 	{
 		return this.skillName;
+	}
+
+	public String getCanonical()
+	{
+		return this.canonical;
 	}
 
 	private static final AdventureResult TAINTED_LOVE_POTION = EffectPool.get( EffectPool.TAINTED_LOVE_POTION );

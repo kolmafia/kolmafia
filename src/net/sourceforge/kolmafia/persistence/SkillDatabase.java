@@ -1909,13 +1909,12 @@ public class SkillDatabase
 
 	public static final UseSkillRequest getSkill( final String substring, final List<UseSkillRequest> skills )
 	{
-		String name = substring.toLowerCase();
+		String canonical = StringUtilities.getCanonicalName( substring );
 	
 		// Search for exact match
 		for ( UseSkillRequest skill : skills )
 		{
-			String skillName = skill.getSkillName();
-			if ( skillName.equalsIgnoreCase( name ) )
+			if ( skill.getCanonical().equals( canonical ) )
 			{
 				return skill;
 			}
@@ -1926,9 +1925,9 @@ public class SkillDatabase
 		boolean ambiguous = false;
 		for ( UseSkillRequest skill : skills )
 		{
-			String skillName = skill.getSkillName();
-			if ( skillName.toLowerCase().contains( name ) )
+			if ( skill.getCanonical().contains( canonical ) )
 			{
+				String skillName = skill.getSkillName();
 				if ( ambiguous )
 				{
 					RequestLogger.printLine( skillName );
