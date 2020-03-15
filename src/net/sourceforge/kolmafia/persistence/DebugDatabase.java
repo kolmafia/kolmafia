@@ -372,9 +372,13 @@ public class DebugDatabase
 			return;
 		}
 
-		String normalizedName = StringUtilities.globalStringReplace( name, "  ", " " ).trim();
 		String descriptionName = DebugDatabase.parseName( text );
-		if ( !decodedNamesEqual( normalizedName, descriptionName ) )
+		if ( itemId == 8954 )
+		{
+			descriptionName = StringUtilities.globalStringReplace( descriptionName, "  ", " " );
+		}
+		if ( !name.equals( descriptionName ) &&
+		     !decodedNamesEqual( name, descriptionName ))
 		{
 			report.println( "# *** " + name + " (" + itemId + ") has description of " + descriptionName + "." );
 			DebugDatabase.rawItems.set( itemId, null );
@@ -542,8 +546,7 @@ public class DebugDatabase
 			return "";
 		}
 
-		// One item is known to have an extra internal space
-		return StringUtilities.globalStringReplace( matcher.group( 1 ), "  ", " " ).trim();
+		return matcher.group( 1 ).trim();
 	}
 
 	private static final Pattern PRICE_PATTERN = Pattern.compile( "Selling Price: <b>(\\d+) Meat.</b>" );
@@ -1239,8 +1242,8 @@ public class DebugDatabase
 
 					if ( key.equals( "Effect" ) || key.equals( "Rollover Effect" ) )
 					{
-						String normalizedValue = StringUtilities.globalStringReplace( value, "  ", " " ).trim();
-						if ( !decodedNamesEqual( currentValue, normalizedValue ) )
+						if ( !currentValue.equals( value ) &&
+						     !decodedNamesEqual( currentValue, value ) )
 						{
 							// Effect does not match
 							report.println( "# *** modifier " + key + ": " + currentValue + " should be " + key + ": " + value );
@@ -1259,8 +1262,10 @@ public class DebugDatabase
 				// Some names have a single space but are displayed with a double space. Sometimes.
 				String normalizedCurrentValue = StringUtilities.globalStringReplace( currentValue, "  ", " " ).trim();
 				String normalizedValue = StringUtilities.globalStringReplace( value, "  ", " " ).trim();
-				if ( !decodedNamesEqual( currentValue, value ) &&
-				     !decodedNamesEqual( normalizedCurrentValue, normalizedValue ))
+				if ( !currentValue.equals( value ) &&
+				     !normalizedCurrentValue.equals( normalizedValue ) &&
+				     !decodedNamesEqual( currentValue, value ) &&
+				     !decodedNamesEqual( normalizedCurrentValue, normalizedValue ) )
 				{
 					report.println( "# *** modifier " + key + ": " + currentValue + " should be " + key + ": " + value );
 				}
@@ -1928,9 +1933,14 @@ public class DebugDatabase
 			report.println( "# *** " + name + " (" + effectId + ") should have effectId " + id + "." );
 		}
 
-		String normalizedName = StringUtilities.globalStringReplace( name, "  ", " " ).trim();
 		String descriptionName = DebugDatabase.parseName( text );
-		if ( !decodedNamesEqual( normalizedName, descriptionName ) )
+		// Kludge to adjust known defecting effect descriptions
+		if ( effectId == 1659 )
+		{
+			descriptionName = StringUtilities.globalStringReplace( descriptionName, "  ", " " );
+		}
+		if ( !name.equals( descriptionName ) &&
+		     !decodedNamesEqual( name, descriptionName ) )
 		{
 			report.println( "# *** " + name + " (" + effectId + ") has description of " + descriptionName + "." );
 			return;
