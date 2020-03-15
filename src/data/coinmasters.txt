@@ -971,7 +971,7 @@ Mushroom District Item Shop	buy	15	blooper ink	ROW1150
 
 Mushroom District Gear Shop	buy	20	hammer	ROW1138
 Mushroom District Gear Shop	buy	300	heavy hammer	ROW1139
-Mushroom District Gear Shop	buy	20	fire flower	ROW1140
+Mushroom District Gear Shop	buy	20	[10462]fire flower	ROW1140
 Mushroom District Gear Shop	buy	300	bonfire flower	ROW1141
 Mushroom District Gear Shop	buy	300	fancy boots	ROW1143
 Mushroom District Gear Shop	buy	200	cape	ROW1144

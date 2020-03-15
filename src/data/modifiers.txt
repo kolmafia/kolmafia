@@ -1113,7 +1113,7 @@ Item	bone rattle	Spooky Damage: +4
 # bonerang: +10% Damage vs. Skeletons
 # Bonestabber: +30% Damage vs. Skeletons
 Item	Bonestabber	Spooky Resistance: +3, Spooky Damage: +10, Monster Level: +5
-# Item bonfire flower: +2 to Fireball attacks
+# bonfire flower: +2 to Fireball attacks
 # boning knife: +10% Damage vs. Skeletons
 # boot knife
 # bottle-rocket crossbow: Shoots Bottle-Rockets!
@@ -1288,7 +1288,7 @@ Item	fiberglass foil	Experience (Muscle): +3, Monster Level: +10, MP Regen Min: 
 Item	filthy pestle	Spell Damage: +7
 Item	finger cymbals	Maximum MP: +20
 Item	fire axe	Cold Damage: +200
-# Item fire flower: +1 to Fireball attacks
+# [10462]fire flower: +1 to Fireball attacks
 Item	fire poi	Hot Damage: +15, Moxie: +3
 Item	fish bazooka	Moxie Percent: +5, Meat Drop: +10
 Item	fish hatchet	Muscle Percent: +100, Weapon Damage: +50, Familiar Weight: +5, Combat Rate: -10, Lasts Until Rollover
@@ -1392,7 +1392,7 @@ Item	half-size scalpel	Weapon Damage Percent: +10, Surgeonosity: +1
 Item	half-sized guitar	Moxie: +2, Ranged Damage: +4
 Item	halfberd	Weapon Damage: +2
 Item	halibut	Stench Damage: +100, Sleaze Damage: +100, Moxie Percent: -10
-# Item hammer: +1 to Hammer attacks
+# hammer: +1 to Hammer attacks
 Item	Hammer of Smiting	Muscle: +16, Critical Hit Percent: +7, Class: "Seal Clubber"
 Item	hammerus	Spooky Damage: +15
 # Hand that Rocks the Ladle: (+% to Mysticality Based on Smithsness)
@@ -1406,7 +1406,7 @@ Item	haunted bindle	Spooky Damage: +10, Spooky Spell Damage: +10
 Item	haunted paddle-ball	Monster Level: +5, Spooky Damage: +10
 # hawk: +22% Damage vs. Skeletons
 Item	hawk	Critical Hit Percent: +5, Weapon Damage: +11
-# Item heavy hammer: +2 to Hammer attacks
+# heavy hammer: +2 to Hammer attacks
 Item	heavy leather-bound tome	Weakens Monster
 Item	heavy metal thunderrr guitarrr	Weapon Damage: +16
 # heteroerotic frat-paddle
@@ -2359,7 +2359,7 @@ Item	Red X Shield	Maximum HP: +20, Maximum MP: +20, Damage Reduction: 11
 Item	reusable shopping bag	Food Drop: +20, Booze Drop: +20, Candy Drop: +20
 Item	rice bowl	Food Drop: +20
 Item	Royal scepter	Adventures: +4, PvP Fights: +8, Rollover Effect: "It's Good To Be Royal!", Rollover Effect Duration: 5
-# Item rubber baby doll: Deals 13 <font color=gray>Spooky Damage</font> to your enemies every round
+# rubber baby doll: Deals 13 <font color=gray>Spooky Damage</font> to your enemies every round
 Item	rubber ribcage	Spooky Resistance: +3, Damage Reduction: 12
 Item	rusty compass	Initiative: +30
 # rusty old lantern
@@ -2381,7 +2381,7 @@ Item	shadowy seal eye	Spooky Damage: +20, Monster Level: +15, Class: "Seal Clubb
 Item	Shield of Icy Fate	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Weapon Damage Percent: +25, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Damage Reduction: 7
 Item	shield of the Skeleton Lord	Muscle Percent: +50, Monster Level: +50, Familiar Weight: +5, Damage Reduction: 19
 Item	Shrub's Premium Baked Beans	Maximum MP: [25*(1+skill(Beanweaver))], Spell Damage Percent: [25*(1+skill(Beanweaver))], Spell Critical Percent: [5*(1+skill(Beanweaver))]
-# Item signal receiver: Receives signals, presumably
+# signal receiver: Receives signals, presumably
 Item	silver cow creamer	Adventures: +3, PvP Fights: +3, Meat Drop: +30
 # silver sausage
 # Sinful Desires: All Spells Cast Are Sleazy
@@ -2789,7 +2789,7 @@ Item	expensive camera	Initiative: +20, Reduce Enemy Defense: 10, Single Equip
 Item	eXtreme mittens	Weapon Damage: +6
 Item	eXtreme nose ring	Muscle: +4, Mysticality: +4, Moxie: +4
 Item	fancy black tie	Muscle Percent: +15, Single Equip
-# Item fancy boots: +2 to Jump attacks
+# fancy boots: +2 to Jump attacks
 Item	fancy boots	Single Equip
 Item	Fancy Jeff's fancy pocket square	Moxie Percent: +25, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
 Item	FantasyRealm G. E. M.	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100, Lasts Until Rollover
@@ -2822,7 +2822,7 @@ Item	frayed rope belt	Moxie Percent: +10, Single Equip
 # French slippers
 Item	freshwater pearl necklace	Spell Critical Percent: +5
 Item	Frigid Northern Beans	Cold Spell Damage: [15*(1+skill(Beanweaver))]
-# Item frosty button: Makes your fireball attacks deal Cold damage
+# frosty button: Makes your fireball attacks deal Cold damage
 Item	frosty button	Single Equip
 Item	frosty halo	Item Drop: +25, Unarmed, Single Equip
 Item	Frosty's carrot	Stench Resistance: +3, Sleaze Resistance: +3, Class: "Seal Clubber", Single Equip
@@ -3089,6 +3089,7 @@ Item	Ms. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
 Item	Mudflap-Girl Earring	Stench Resistance: +3, Hot Resistance: +3, Single Equip
 Item	Mudflap-Girl Necklace	Muscle: +3, Mysticality: +3, Moxie: +3, Sleaze Spell Damage: +40, Single Equip
 Item	Mudflap-Girl Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Sleaze Damage: +40, Single Equip
+Item	mushroom badge	Mysticality: +40, Muscle: -20, Moxie: -20, Monster Level: -25, Single Equip
 Item	musty moccasins	Stench Resistance: +1, Item Drop: +5, Synergetic
 Item	mysterious silver lapel pin	HP Regen Min: 5, HP Regen Max: 9, Meat Drop: +5, Single Equip
 Item	natty blue ascot	Meat Drop: +20
@@ -3754,7 +3755,7 @@ Item	wicker ticker	HP Regen Min: 4, HP Regen Max: 8, Spell Damage Percent: +20, 
 Item	wicksilver ring	Hot Damage: +20, Hot Spell Damage: +40, Mysticality: +10, Single Equip
 Item	witch wart	Mysticality: +5, MP Regen Min: 6, MP Regen Max: 8
 Item	wool sock	Mysticality: +20, Muscle: -5, Moxie: -5, Spell Damage Percent: +40, Single Equip
-# Item work boots: +1 to Jump attacks
+# work boots: +1 to Jump attacks
 Item work	boots	Single Equip
 # worksite credentials: Grants access to worksites
 Item	worksite credentials	Adventures: +1, Single Equip
@@ -3869,7 +3870,7 @@ Item	shocked shell	Class: "Turtle Tamer"
 Item	Size XI Wizard's Robe	Booze Drop: +11, Food Drop: +11, Candy Drop: +11
 Item	smoker's cloak	Monster Level: +10, Initiative: +20, Stench Damage: +30
 Item	spant backplate	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Damage Absorption: +100, Single Equip
-# Item spiky back shell: Enemies take 40-50 when they hit you
+# spiky back shell: Enemies take 40-50 when they hit you
 Item	super-absorbent tarp	Maximum Hooch: +2
 Item	T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	Wiki Name: "Bugged baio"
 Item	teddybear backpack	Meat Drop: +10, Raveosity: +1
@@ -8008,7 +8009,7 @@ Item	blunt cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 Item	bowl of Bounty-Os	Effect: "Broken Fast", Effect Duration: 20
 Item	bowl of eyeballs	Effect: "Your Eyes are Peeled!", Effect Duration: 30
 # bowl of mernudo: NOTE: This item will stop working when Crimbo 2019 is over.
-# Item	bowl of mernudo	Effect: "Sea Guts", Effect Duration: 30
+# bowl of mernudo	Effect: "Sea Guts", Effect Duration: 30
 Item	bowl of mummy guts	Effect: "Guts Feeling", Effect Duration: 30
 Item	bowl of Tastee-Wheet&trade;	Effect: "Video... Games?", Effect Duration: 5
 Item	Brain Food Pastaco	Effect: "Omphalotus Omnipresence", Effect Duration: 40
@@ -8091,7 +8092,7 @@ Item	FDKOL hotcakes	Effect: "Hotcaked", Effect Duration: 50
 Item	festive sausage	Effect: "Sausage Festive", Effect Duration: 20
 Item	fireman's lunch	Effect: "You're Not Cooking", Effect Duration: 20
 # fishelada: NOTE: This item will stop working when Crimbo 2019 is over.
-# Item	fishelada	Effect: "Fishy", Effect Duration: 30
+# fishelada	Effect: "Fishy", Effect Duration: 30
 # flan del mar: NOTE: This item will stop working when Crimbo 2019 is over.
 Item	flan del mar	Effect: "Festively Brined", Effect Duration: 30
 Item	flower petal pie	Effect: "Flower Power", Effect Duration: 3
@@ -8177,7 +8178,7 @@ Item	nega-mushroom	Effect: "Negavision", Effect Duration: 50
 Item	nut-shaped Crimbo cookie	Effect: "Nut-Rition", Effect Duration: 20
 Item	occult jelly donut	Effect: "Filled with Magic", Effect Duration: 30
 # ojo de pez burrito: NOTE: This item will stop working when Crimbo 2019 is over.
-# Item	ojo de pez burrito	Effect: "Fish-Eye View", Effect Duration: 50
+# ojo de pez burrito	Effect: "Fish-Eye View", Effect Duration: 50
 Item	old chum	Effect: "Fishy", Effect Duration: 5
 Item	one with everything	Effect: "Inner Dog", Effect Duration: 50
 Item	packet of beer nuts	Effect: "Salty Mouth", Effect Duration: 1
@@ -8899,7 +8900,7 @@ Item	big dribbly candle	Effect: "Waxing Mystical", Effect Duration: 10
 # big glob of skin: Restores half of your missing Hit Points
 Item	Big Punk	Effect: "Big Punkin'", Effect Duration: 50
 # big red button: Deals 2000-3000 Physical Damage
-# Item Bird-a-Day calendar: Receive a blessing from a different bird each day
+# Bird-a-Day calendar: Receive a blessing from a different bird each day
 Item	birthday candle	Effect: "Light!", Effect Duration: 3
 Item	Bit O' Ectoplasm	Effect: "Sugar Rush", Effect Duration: 5
 Item	Bit O' Quail Spleen	Effect: "Vented Spleen", Effect Duration: 10

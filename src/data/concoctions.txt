@@ -215,7 +215,7 @@ boxing-glove-in-a-box	ACOMBINE	nothing-in-the-box	boxing glove
 innuendo	ACOMBINE	skeleton key	skate skates
 Salsa de las Epocas	COOK_FANCY	scrumptious reagent	marzipan skull
 creepy voodoo doll	ACOMBINE	wooden figurine	gob of wet hair
-s'more gun	ACOMBINE	fire flower	armgun
+s'more gun	ACOMBINE	[2426]fire flower	armgun
 popcorn	ACOMBINE	Knob Goblin firecracker	cob of corn
 the finger	ACOMBINE	asparagus knife	fake hand
 tiny black hole	ACOMBINE	lime	coconut shell
