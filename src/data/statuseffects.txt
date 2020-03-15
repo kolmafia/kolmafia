@@ -310,7 +310,7 @@
 308	Sinuses For Miles	pupils.gif	81577de719bc99a5780d4e0cb5ca81a5	good		use 1 Mick's IcyVapoHotness Inhaler
 309	One Very Clear Eye	oneeye.gif	25fcac6c285396f710bc74057f6f3ba9	good		use 1 cyclops eyedrops
 310	Pop-eyed	oneeye.gif	deb5f1d2384c25301d1a81839d8f8a77	good		use 1 can of spinach
-311	Flamingly Floral	fire.gif	df55e784c72b808b1e00973d23ca14e6	good		use 1 fire flower
+311	Flamingly Floral	fire.gif	df55e784c72b808b1e00973d23ca14e6	good		use 1 [2426]fire flower
 312	Permafrosty	snowflake.gif	943504f00bdffe88dd982e1851707aec	good		use 1 freezerburned ice cube
 313	Bloody Bloody Bloody!	blooddrops.gif	f2780f015462419680ea5b12b76a34c7	good		use 1 fake blood
 314	Chauve-Souris Merde Fou	guano.gif	80081dfb463917dad6233a3b5f4ba222	good		use 1 Eau de Guaneau

@@ -1090,7 +1090,7 @@ fiberglass foil	120	Mus: 40	1-handed sword
 filthy pestle	60	Mys: 15	1-handed utensil
 finger cymbals	65	Mox: 17	1-handed cymbals
 fire axe	200	Mus: 85	2-handed axe
-fire flower	0	Mus: 0	1-handed flower
+[10462]fire flower	0	Mus: 0	1-handed flower
 fire poi	190	Mox: 80	2-handed flail
 fish bazooka	200	Mox: 85	2-handed bazooka
 fish hatchet	200	Mus: 0	1-handed axe
@@ -2603,6 +2603,7 @@ Ms. Accessory	0	none
 Mudflap-Girl Earring	150	Mys: 60
 Mudflap-Girl Necklace	150	Mys: 60
 Mudflap-Girl Ring	150	Mys: 60
+mushroom badge	100	none
 musty moccasins	160	Mox: 65
 mysterious silver lapel pin	0	none
 natty blue ascot	200	Mys: 10
