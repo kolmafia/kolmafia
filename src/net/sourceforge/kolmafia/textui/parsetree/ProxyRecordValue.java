@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.RestoresDatabase;
@@ -1017,6 +1018,7 @@ public class ProxyRecordValue
 		extends ProxyRecordValue
 	{
 		public static RecordType _type = new RecordBuilder()
+			.add( "name", DataTypes.STRING_TYPE )
 			.add( "level", DataTypes.INT_TYPE )
 			.add( "image", DataTypes.STRING_TYPE )
 			.add( "traincost", DataTypes.INT_TYPE )
@@ -1037,6 +1039,11 @@ public class ProxyRecordValue
 		public SkillProxy( Value obj )
 		{
 			super( _type, obj );
+		}
+
+		public String get_name()
+		{
+			return SkillDatabase.getSkillName( (int) this.contentLong );
 		}
 
 		public int get_level()
@@ -1120,6 +1127,7 @@ public class ProxyRecordValue
 		extends ProxyRecordValue
 	{
 		public static RecordType _type = new RecordBuilder()
+			.add( "name", DataTypes.STRING_TYPE )
 			.add( "default", DataTypes.STRING_TYPE )
 			.add( "note", DataTypes.STRING_TYPE )
 			.add( "all",
@@ -1134,6 +1142,11 @@ public class ProxyRecordValue
 		public EffectProxy( Value obj )
 		{
 			super( _type, obj );
+		}
+
+		public String get_name()
+		{
+			return EffectDatabase.getEffectName( (int) this.contentLong );
 		}
 
 		public String get_default()
@@ -1310,6 +1323,7 @@ public class ProxyRecordValue
 		extends ProxyRecordValue
 	{
 		public static RecordType _type = new RecordBuilder()
+			.add( "name", DataTypes.STRING_TYPE )
 			.add( "id", DataTypes.INT_TYPE )
 			.add( "base_hp", DataTypes.INT_TYPE )
 			.add( "base_attack", DataTypes.INT_TYPE )
@@ -1347,6 +1361,11 @@ public class ProxyRecordValue
 		public MonsterProxy( Value obj )
 		{
 			super( _type, obj );
+		}
+
+		public String get_name()
+		{
+			return MonsterDatabase.getMonsterName( (int) this.contentLong );
 		}
 
 		public int get_id()
