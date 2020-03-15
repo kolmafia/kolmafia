@@ -83,7 +83,10 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -390,6 +393,38 @@ public class TestCommand
 			return;
 		}
 
+		if ( command.equals( "inventory" ) )
+		{
+			if ( split.length < 3 ||
+			     ( !split[ 1 ].equals( "add" ) && !split[ 1 ].equals( "remove" ) ) )
+
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test inventory (add|remove) ITEM" );
+				return;
+			}
+
+			String direction = split[ 1 ];
+
+			String itemName = parameters;
+			itemName = itemName.substring( command.length() ).trim();
+			itemName = itemName.substring( direction.length() ).trim();
+
+			AdventureResult item = ItemFinder.getFirstMatchingItem( itemName, Match.ANY );
+			if ( item == null )
+			{
+				RequestLogger.printLine( "Can't parse item from \"" + parameters + "\"." );
+				return;
+			}
+
+			if ( direction.equals( "remove" ) )
+			{
+				item = item.getInstance( item.getCount() * -1 );
+			}
+
+			AdventureResult.addResultToList( KoLConstants.inventory, item );
+			return;
+		}
+
 		if ( command.equals( "intcache" ) )
 		{
 			int cacheHits = IntegerPool.getCacheHits();
@@ -459,6 +494,41 @@ public class TestCommand
 			String leet = StringUtilities.leetify( name );
 			String monsterName = MonsterDatabase.translateLeetMonsterName( leet );
 			RequestLogger.printLine( name + " -> " + leet + " -> " +  monsterName );
+			return;
+		}
+
+		if ( command.equals( "monsterids" ) )
+		{
+			int index = parameters.indexOf( " " );
+			String string = parameters.substring( index + 1 ).trim();
+			int[] monsterIds = MonsterDatabase.getMonsterIds( string, false );
+			int length = monsterIds.length;
+			if ( length == 0 )
+			{
+				RequestLogger.printLine( "No monster ids found for \"" + string + "\"." );
+			}
+			else
+			{
+				StringBuilder buffer = new StringBuilder();
+				buffer.append( string );
+				buffer.append( " has " );
+				buffer.append( String.valueOf( length ) );
+				buffer.append( " monsterid" );
+				if ( length > 1 )
+				{
+					buffer.append( "s" );
+				}
+				buffer.append( ": " );
+				for ( int i = 0; i < length; ++i )
+				{
+					if ( i > 0 )
+					{
+						buffer.append( ", " );
+					}
+					buffer.append( String.valueOf( monsterIds[ i ] ) );
+				}
+				RequestLogger.printLine( buffer.toString() );
+			}
 			return;
 		}
 
@@ -616,6 +686,41 @@ public class TestCommand
 			String itemName = ItemDatabase.getItemName( itemId );
 			Concoction concoction = ConcoctionPool.get( itemId );
 			RequestLogger.printLine( "Row " + row + " -> \"" + itemName + "\" (" + itemId + ") " + ( concoction == null ? "IS NOT" : "is" ) + " a known concoction" );
+			return;
+		}
+
+		if ( command.equals( "skillids" ) )
+		{
+			int index = parameters.indexOf( " " );
+			String string = parameters.substring( index + 1 ).trim();
+			int[] skillIds = SkillDatabase.getSkillIds( string, false );
+			int length = skillIds.length;
+			if ( length == 0 )
+			{
+				RequestLogger.printLine( "No skill ids found for \"" + string + "\"." );
+			}
+			else
+			{
+				StringBuilder buffer = new StringBuilder();
+				buffer.append( string );
+				buffer.append( " has " );
+				buffer.append( String.valueOf( length ) );
+				buffer.append( " skillid" );
+				if ( length > 1 )
+				{
+					buffer.append( "s" );
+				}
+				buffer.append( ": " );
+				for ( int i = 0; i < length; ++i )
+				{
+					if ( i > 0 )
+					{
+						buffer.append( ", " );
+					}
+					buffer.append( String.valueOf( skillIds[ i ] ) );
+				}
+				RequestLogger.printLine( buffer.toString() );
+			}
 			return;
 		}
 
