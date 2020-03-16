@@ -999,7 +999,7 @@ Cloaca-Cola-issue combat knife	30	Mus: 0	1-handed knife
 clock-cleaning hammer	50	Mus: 0	1-handed club
 clockwork crossbow	80	Mox: 25	1-handed crossbow
 clockwork staff	80	Mys: 25	2-handed staff
-clockwork sword	80	Mus: 25	2-handed sword
+clockwork sword	80	Mus: 25	1-handed sword
 clown hammer	10	Mus: 0	1-handed club
 clown whip	10	Mus: 0	1-handed whip
 club of corruption	20	Mus: 0	1-handed club
