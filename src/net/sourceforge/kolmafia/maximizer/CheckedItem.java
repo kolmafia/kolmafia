@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.maximizer;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -77,7 +77,7 @@ public class CheckedItem
 
 		if ( itemId > 0 && Preferences.getBoolean( "maximizerFoldables" ) )
 		{
-			ArrayList group = ItemDatabase.getFoldGroup( itemName );
+			List group = ItemDatabase.getFoldGroup( itemName );
 			if ( group != null )
 			{
 				for ( int i = 1; i < group.size(); ++i )
@@ -186,7 +186,7 @@ public class CheckedItem
 			this.pullfoldable = 0;
 			if ( itemId > 0 && Preferences.getBoolean( "maximizerFoldables" ) )
 			{
-				ArrayList group = ItemDatabase.getFoldGroup( itemName );
+				List group = ItemDatabase.getFoldGroup( itemName );
 				if ( group != null )
 				{
 					for ( int i = 1; i < group.size(); ++i )

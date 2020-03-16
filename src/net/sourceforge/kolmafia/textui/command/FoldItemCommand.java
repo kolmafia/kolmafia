@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -100,37 +100,45 @@ public class FoldItemCommand
 
 		// Find the fold group containing this item
 		String targetName = target.getName();
-		String canon = StringUtilities.getCanonicalName( targetName );
-		ArrayList group = ItemDatabase.getFoldGroup( targetName );
+		List group = ItemDatabase.getFoldGroup( targetName );
 		if ( group == null )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "That's not a transformable item!" );
 			return;
 		}
 
+		String groupHead = (String) group.get( 1 );
+		String canon = StringUtilities.getCanonicalName( targetName );
+
 		// Confirm that we'll be able to make this item
-		boolean canShirt = KoLCharacter.isTorsoAware();
-		if ( !canShirt && EquipmentDatabase.isShirt( target ) )
+		if ( EquipmentDatabase.isShirt( target ) )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't make a shirt" );
-			return;
+			boolean canShirt = KoLCharacter.isTorsoAware();
+			if ( !canShirt )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't make a shirt" );
+				return;
+			}
 		}
 
-		boolean canStaff =
-			KoLCharacter.hasSkill( "Spirit of Rigatoni" ) ||
-			KoLCharacter.isJarlsberg() ||
-			( KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) &&
-			  KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SPECIAL_SAUCE_GLOVE, 1 ) ) );
-		if ( !canStaff && EquipmentDatabase.isChefStaff( target ) )
+		if ( EquipmentDatabase.isChefStaff( target ) )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't make a chefstaff" );
-			return;
+			boolean canStaff =
+				KoLCharacter.hasSkill( "Spirit of Rigatoni" ) ||
+				KoLCharacter.isJarlsberg() ||
+				( KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) &&
+				  KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SPECIAL_SAUCE_GLOVE, 1 ) ) );
+			if ( !canStaff )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't make a chefstaff" );
+				return;
+			}
 		}
 
 		// Locate the item in the fold group
-		int count = group.size();
+		int groupSize = group.size();
 		int targetIndex = 0;
-		for ( int i = 1; i < count; ++i )
+		for ( int i = 1; i < groupSize; ++i )
 		{
 			String form = (String) group.get( i );
 			if ( form.equals( canon ) )
@@ -149,7 +157,7 @@ public class FoldItemCommand
 
 		// Iterate backwards to find closest item to transform. Skip
 		// index 0.
-		int sourceIndex = ( targetIndex > 1 ) ? targetIndex - 1 : count - 1;
+		int sourceIndex = ( targetIndex > 1 ) ? targetIndex - 1 : groupSize - 1;
 		AdventureResult source = null;
 		AdventureResult worn = null;
 		int wornIndex = 0;
@@ -186,7 +194,7 @@ public class FoldItemCommand
 			}
 
 			// Consider the next item. Skip index 0.
-			sourceIndex = sourceIndex > 1 ? sourceIndex - 1 : count - 1;
+			sourceIndex = sourceIndex > 1 ? sourceIndex - 1 : groupSize - 1;
 		}
 
 		// If a Boris's Helm is equipped, twist it regardless of whether or not
@@ -303,7 +311,7 @@ public class FoldItemCommand
 			return;
 		}
 
-		if ( ( (String) group.get( 1 ) ).equals( "january's garbage tote" ) )
+		if ( groupHead.equals( "january's garbage tote" ) )
 		{
 			// If you would lose valuable charges, check user wants to continue
 			if ( !Preferences.getBoolean( "_garbageItemChanged" ) )
@@ -359,7 +367,7 @@ public class FoldItemCommand
 			AdventureResult item = ItemPool.get( itemId );
 
 			// Consider the next item. Skip index 0.
-			sourceIndex = ( sourceIndex < count - 1 ) ? sourceIndex + 1 : 1;
+			sourceIndex = ( sourceIndex < groupSize - 1 ) ? sourceIndex + 1 : 1;
 
 			// If we don't have this item in inventory,  skip
 			if ( item.getCount( KoLConstants.inventory ) == 0 )

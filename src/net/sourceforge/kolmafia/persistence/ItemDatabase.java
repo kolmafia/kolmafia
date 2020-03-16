@@ -108,7 +108,7 @@ public class ItemDatabase
 	private static final Map<String, Integer> itemIdByPlural = new HashMap<String, Integer>();
 
 	private static final Map<String, Integer> itemIdByDescription = new HashMap<String, Integer>();
-	private static final Map<String, ArrayList<Comparable>> foldGroupsByName = new HashMap<String, ArrayList<Comparable>>();
+	private static final Map<String, List<Comparable>> foldGroupsByName = new HashMap<>();
 
 	private static final Map<Integer, int[]> itemSourceByNoobSkillId = new HashMap<Integer, int[]>();
 	private static final IntegerArray noobSkillIdByItemSource = new IntegerArray();
@@ -1723,7 +1723,7 @@ public class ItemDatabase
 		return JComponentUtilities.getImage( path );
 	}
 
-	public static final ArrayList getFoldGroup( final String name )
+	public static final List<Comparable> getFoldGroup( final String name )
 	{
 		if ( name == null )
 		{

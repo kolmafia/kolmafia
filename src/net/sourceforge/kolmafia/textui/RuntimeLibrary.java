@@ -4479,7 +4479,7 @@ public abstract class RuntimeLibrary
 		}
 		else if ( which.equals( "fold" ) )
 		{
-			ArrayList list = ItemDatabase.getFoldGroup( item.toString() );
+			List list = ItemDatabase.getFoldGroup( item.toString() );
 			if ( list == null ) return value;
 			// Don't use element 0, that's the damage percentage
 			for ( int i = list.size() - 1; i > 0; --i )
