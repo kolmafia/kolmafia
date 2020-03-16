@@ -2321,7 +2321,7 @@ public class Evaluator
 
 					// If we only need as many fold items as we have, then we can 
 					// count them against the items we need to pass through
-					ArrayList group = ItemDatabase.getFoldGroup( item.getName() );
+					List group = ItemDatabase.getFoldGroup( item.getName() );
 					int foldItemsNeeded = 0;
 					if ( group != null && Preferences.getBoolean( "maximizerFoldables" ) )
 					{
@@ -2334,7 +2334,7 @@ public class Evaluator
 							{
 								for ( CheckedItem checkItem : checkItemList )
 								{
-									ArrayList checkGroup = ItemDatabase.getFoldGroup( checkItem.getName() );
+									List checkGroup = ItemDatabase.getFoldGroup( checkItem.getName() );
 									if ( checkGroup != null && group.get( 1 ).equals( checkGroup.get( 1 ) ) )
 									{
 										foldItemsNeeded += Math.max( checkItem.getCount(), this.maxUseful( checkSlot ) );
@@ -2350,7 +2350,7 @@ public class Evaluator
 							while ( checkIterator.hasPrevious() )
 							{
 								CheckedItem checkItem = checkIterator.previous().attachment;
-								ArrayList checkGroup = ItemDatabase.getFoldGroup( checkItem.getName() );
+								List checkGroup = ItemDatabase.getFoldGroup( checkItem.getName() );
 								if ( checkGroup != null && group.get( 1 ).equals( checkGroup.get( 1 ) ) )
 								{
 									if ( usefulCheckCount > 0 || checkItem.requiredFlag )

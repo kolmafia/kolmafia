@@ -472,8 +472,9 @@ public class ItemFinder
 		else if ( ItemDatabase.getItemId( parameters, 1 ) != -1 )
 		{
 			// The entire parameter is a single item
+			itemId = ItemDatabase.getItemId( parameters, 1 );
 			matchList = new ArrayList<String>();
-			matchList.add( ItemDatabase.getCanonicalName( ItemDatabase.getItemId( parameters, 1 ) ) );
+			matchList.add( ItemDatabase.getCanonicalName( itemId ) );
 		}
 		else
 		{
@@ -632,9 +633,8 @@ public class ItemFinder
 		if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
 		{
 			KoLmafia.updateDisplay( firstMatch == null ? "No match" : firstMatch.toString() );
-			return null;
 		}
-
+		
 		return itemCount <= 0 ? null : firstMatch;
 	}
 
