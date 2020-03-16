@@ -389,7 +389,7 @@ public class RecoveryManager
 		// Optimize for that situation.
 		if ( KoLCharacter.isPlumber() && techniques == HPRestoreItemList.PLUMBER_CONFIGURES )
 		{
-			return plumberHPRecovery( techniques, (int) desired, needed, currentMethod, maximumMethod );
+			return plumberHPRecovery( techniques, (int) desired, needed );
 		}
 
 		// If it gets this far, then you should attempt to recover
@@ -562,14 +562,11 @@ public class RecoveryManager
 		return true;
 	}
 
-	private static boolean plumberHPRecovery( RestoreItem[] techniques, int desired, int needed,
-						  final Method currentMethod, final Method maximumMethod )
+	private static boolean plumberHPRecovery( RestoreItem[] techniques, long desired, long needed )
 		throws Exception
 	{
-		Object[] empty = new Object[ 0 ];
-
-		int current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
-		int maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
+		long current = KoLCharacter.getCurrentHP();
+		long maximum = KoLCharacter.getMaximumHP();
 
 		List<RestoreItem> possibleItems = Arrays.asList( techniques );
 
@@ -579,15 +576,15 @@ public class RecoveryManager
 		// Use items in inventory
 		for ( int i = 0; i < possibleItems.size() && current < needed; ++i )
 		{
-			int last = -1;
+			long last = -1;
 			do
 			{
 				RestoreItem item = possibleItems.get( i );
 				item.recover( (int) desired, false );
 
 				last = current;
-				current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
-				maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
+				current = KoLCharacter.getCurrentHP();
+				maximum = KoLCharacter.getMaximumHP();
 				desired = Math.min( maximum, desired );
 				needed = Math.min( maximum, needed );
 			}
@@ -604,8 +601,8 @@ public class RecoveryManager
 		{
 			HPRestoreItemList.setPurchaseBasedSort( true );
 
-			int last = -1;
-			current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
+			long last = -1;
+			current = KoLCharacter.getCurrentHP();
 
 			// Plumbers purchase things with coins.
 			while ( last != current && current < needed )
@@ -616,8 +613,8 @@ public class RecoveryManager
 				item.recover( (int) desired, true );
 
 				last = current;
-				current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
-				maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
+				current = KoLCharacter.getCurrentHP();
+				maximum = KoLCharacter.getMaximumHP();
 				desired = Math.min( maximum, desired );
 				needed = Math.min( maximum, needed );
 			}
