@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.StringTokenizer;
 
@@ -84,23 +85,23 @@ public class AdventureDatabase
 {
 	private static final Pattern SNARF_PATTERN = Pattern.compile( "snarfblat=(\\d+)" );
 	private static final Pattern MINE_PATTERN = Pattern.compile( "mine=(\\d+)" );
-	private static final LockableListModel<KoLAdventure> adventures = new LockableListModel<KoLAdventure>();
+	private static final LockableListModel<KoLAdventure> adventures = new LockableListModel<>();
 	private static final AdventureArray allAdventures = new AdventureArray();
 
-	public static final ArrayList<String> PARENT_LIST = new ArrayList<String>();
-	public static final HashMap<String, String> PARENT_ZONES = new HashMap<String, String>();
-	public static final HashMap<String, String> ZONE_DESCRIPTIONS = new HashMap<String, String>();
+	public static final List<String> PARENT_LIST = new ArrayList<>();
+	public static final Map<String, String> PARENT_ZONES = new HashMap<>();
+	public static final Map<String, String> ZONE_DESCRIPTIONS = new HashMap<>();
 
 	private static final StringArray[] adventureTable = new StringArray[ 4 ];
-	private static final HashMap<String, AreaCombatData> areaCombatData = new HashMap<String, AreaCombatData>();
-	private static final HashMap<String, KoLAdventure> adventureLookup = new HashMap<String, KoLAdventure>();
-	private static final HashMap<String, String> environmentLookup = new HashMap<String, String>();
-	private static final HashMap<String, String> zoneLookup = new HashMap<String, String>();
-	private static final HashMap<String, String> conditionLookup = new HashMap<String, String>();
-	private static final HashMap<String, String> bountyLookup = new HashMap<String, String>();
-	private static final HashMap<String, Integer> statLookup = new HashMap<String, Integer>();
-	private static final HashMap<String, Integer> waterLevelLookup = new HashMap<String, Integer>();
-	private static final HashMap<String, Boolean> wandererLookup = new HashMap<String, Boolean>();
+	private static final Map<String, AreaCombatData> areaCombatData = new HashMap<>();
+	private static final Map<String, KoLAdventure> adventureLookup = new HashMap<>();
+	private static final Map<String, String> environmentLookup = new HashMap<>();
+	private static final Map<String, String> zoneLookup = new HashMap<>();
+	private static final Map<String, String> conditionLookup = new HashMap<>();
+	private static final Map<String, String> bountyLookup = new HashMap<>();
+	private static final Map<String, Integer> statLookup = new HashMap<>();
+	private static final Map<String, Integer> waterLevelLookup = new HashMap<>();
+	private static final Map<String, Boolean> wandererLookup = new HashMap<>();
 
 	static
 	{
@@ -323,7 +324,7 @@ public class AdventureDatabase
 				String area = data[ 0 ];
 				if ( !AdventureDatabase.validateAdventureArea( area ) )
 				{
-					RequestLogger.printLine( "Invalid adventure area: \"" + data[ 0 ] + "\"" );
+					RequestLogger.printLine( "Invalid adventure area: \"" + area + "\"" );
 					continue;
 				}
 
@@ -348,10 +349,11 @@ public class AdventureDatabase
 					String bountyName = BountyDatabase.getNameByMonster( monsterName );
 					if ( bountyName != null )
 					{
-						AdventureDatabase.bountyLookup.put( data[ 0 ], bountyName );
+						AdventureDatabase.bountyLookup.put( area, bountyName );
 					}
 				}
-				AdventureDatabase.areaCombatData.put( data[ 0 ], combat );
+
+				AdventureDatabase.areaCombatData.put( area, combat );
 			}
 		}
 
