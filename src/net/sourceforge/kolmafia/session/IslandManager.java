@@ -58,6 +58,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.FightRequest.SpecialMonster;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -66,24 +68,21 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class IslandManager
 {
-	private static final AreaCombatData fratboyBattlefield = AdventureDatabase.getAreaCombatData( "The Battlefield (Frat Uniform)" );
-	private static final AreaCombatData hippyBattlefield = AdventureDatabase.getAreaCombatData( "The Battlefield (Hippy Uniform)" );
-	
 	public static final boolean isBattlefieldMonster()
 	{
 		return IslandManager.isBattlefieldMonster( MonsterStatusTracker.getLastMonster() );
 	}
 
-	public static final boolean isBattlefieldMonster( final String name )
-	{
-		MonsterData monster = MonsterDatabase.findMonster( name );
-		return IslandManager.isBattlefieldMonster( monster );
-	}
-
 	public static final boolean isBattlefieldMonster( MonsterData monster )
 	{
-		return	IslandManager.fratboyBattlefield.hasMonster( monster ) ||
-			IslandManager.hippyBattlefield.hasMonster( monster );
+		SpecialMonster category = FightRequest.specialMonsterCategory( monster );
+		return category == SpecialMonster.WAR_FRATBOY || category == SpecialMonster.WAR_HIPPY;
+	}
+
+	public static final boolean isBattlefieldMonster( final String name )
+	{
+		SpecialMonster category = FightRequest.specialMonsterCategory( name );
+		return category == SpecialMonster.WAR_FRATBOY || category == SpecialMonster.WAR_HIPPY;
 	}
 
 	public static final boolean isFratboyBattlefieldMonster( MonsterData monster )
@@ -92,7 +91,8 @@ public class IslandManager
 		{
 			return false;
 		}
-		return	IslandManager.fratboyBattlefield.hasMonster( monster );
+		SpecialMonster category = FightRequest.specialMonsterCategory( monster );
+		return category == SpecialMonster.WAR_HIPPY;
 	}
 
 	public static final boolean isHippyBattlefieldMonster( MonsterData monster )
@@ -101,7 +101,8 @@ public class IslandManager
 		{
 			return false;
 		}
-		return	IslandManager.hippyBattlefield.hasMonster( monster );
+		SpecialMonster category = FightRequest.specialMonsterCategory( monster );
+		return category == SpecialMonster.WAR_FRATBOY;
 	}
 
 	private static final Pattern MAP_PATTERN = Pattern.compile( "bfleft(\\d*).*bfright(\\d*)", Pattern.DOTALL );

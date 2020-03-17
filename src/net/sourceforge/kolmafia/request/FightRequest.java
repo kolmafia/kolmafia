@@ -487,11 +487,14 @@ public class FightRequest
 		HIPSTER( "hipsters" ),
 		HOLIDAY( "holiday monster" ),
 		NEMESIS( "nemesis assassin" ),
+		PORTSCAN( "portscan.edu" ),
 		RAIN( "Heavy Rains" ),
+		SEWER( "Sewer Tunnel" ),
 		TACO_ELF( "taco elf" ),
+		WAR_FRATBOY( "War Fratboy" ),
+		WAR_HIPPY( "War Hippy" ),
 		WITCHESS( "witchess" ),
-		WOL( "West of Loathing" ),
-		PORTSCAN( "portscan.edu" );
+		WOL( "West of Loathing" );
 
 		private final String name;
 
@@ -507,10 +510,31 @@ public class FightRequest
 		}
 	}
 
-	private final static HashMap<String,SpecialMonster> specialMonsters = new HashMap<String,SpecialMonster>();
+	private final static Map<String,SpecialMonster> specialMonsters = new HashMap<>();
 
-	static
+	// When AdventureRequest initializes AreaCombatData, if calls methods in FightRequest
+	// When FightRequest initializes the above map, if calls methods in AdventureRequest
+	// Therefore, initialize this map only when it is actually accessed.
+
+	public final static SpecialMonster specialMonsterCategory( final MonsterData monster )
 	{
+		FightRequest.initializeSpecialMonsters();
+		return FightRequest.specialMonsters.get( monster.getName() );
+	}
+
+	public final static SpecialMonster specialMonsterCategory( final String name )
+	{
+		FightRequest.initializeSpecialMonsters();
+		return FightRequest.specialMonsters.get( name );
+	}
+
+	private static final void initializeSpecialMonsters()
+	{
+		if ( specialMonsters.size() > 0 )
+		{
+			return;
+		}
+
 		FightRequest.specialMonsters.put( "Ancient Protector Spirit", SpecialMonster.ANCIENT_PROTECTOR_SPIRIT );
 		FightRequest.specialMonsters.put( "conjoined zmombie", SpecialMonster.CONJOINED_ZMOMBIE );
 		FightRequest.specialMonsters.put( "Cyrus the Virus", SpecialMonster.CYRUS_THE_VIRUS );
@@ -667,7 +691,29 @@ public class FightRequest
 
 		FightRequest.specialMonsters.put( "Source Agent", SpecialMonster.PORTSCAN );
 		FightRequest.specialMonsters.put( "Government agent", SpecialMonster.PORTSCAN );
+
+		FightRequest.addAreaMonsters( "A Maze of Sewer Tunnels", SpecialMonster.SEWER );
+		FightRequest.addAreaMonsters( "The Battlefield (Frat Uniform)", SpecialMonster.WAR_HIPPY );
+		FightRequest.addAreaMonsters( "The Battlefield (Hippy Uniform)", SpecialMonster.WAR_FRATBOY );
 	};
+
+	private static final void addAreaMonsters( String area, SpecialMonster category )
+	{
+		AreaCombatData combatData = AdventureDatabase.getAreaCombatData( area );
+		if ( combatData == null )
+		{
+			RequestLogger.printLine( "Invalid adventure area while initializing special monsters: \"" + area + "\"" );
+			return;
+		}
+		for ( MonsterData monster : combatData.getMonsters() )
+		{
+			FightRequest.specialMonsters.put( monster.getName(), category );
+		}
+		for ( MonsterData monster : combatData.getSuperlikelyMonsters() )
+		{
+			FightRequest.specialMonsters.put( monster.getName(), category );
+		}
+	}
 
 	private static final SimpleDateFormat COMBAT_START = new SimpleDateFormat( "yyyyMMddHHmmss" );
 	static
@@ -2417,6 +2463,7 @@ public class FightRequest
 		}
 
 		boolean autoAttacked = false;
+		SpecialMonster special = FightRequest.specialMonsterCategory( encounter );
 
 		if ( FightRequest.currentRound == 0 )
 		{
@@ -2580,8 +2627,6 @@ public class FightRequest
 			{
 				Preferences.setInteger( "turtleBlessingTurns", 0 );
 			}
-
-			SpecialMonster special = FightRequest.specialMonsters.get( encounter );
 
 			if ( special != null )
 			{
@@ -2804,6 +2849,17 @@ public class FightRequest
 					}
 					break;
 
+				case PORTSCAN:
+					if ( !EncounterManager.ignoreSpecialMonsters )
+					{
+						// Add special text for The Source when known
+						if ( responseText.contains( "government man runs up to you" ) || KoLCharacter.inTheSource() )
+						{
+							TurnCounter.stopCounting( "portscan.edu" );
+						}
+					}
+					break;
+
 				case RAIN:
 					if ( !EncounterManager.ignoreSpecialMonsters )
 					{
@@ -2821,17 +2877,6 @@ public class FightRequest
 						TurnCounter.stopCounting( "WoL Monster window end" );
 						TurnCounter.startCounting( 15, "WoL Monster window begin loc=*", "lparen.gif" );
 						TurnCounter.startCounting( 20, "WoL Monster window end loc=* type=wander", "rparen.gif" );
-					}
-					break;
-
-				case PORTSCAN:
-					if ( !EncounterManager.ignoreSpecialMonsters )
-					{
-						// Add special text for The Source when known
-						if ( responseText.contains( "government man runs up to you" ) || KoLCharacter.inTheSource() )
-						{
-							TurnCounter.stopCounting( "portscan.edu" );
-						}
 					}
 					break;
 				}
@@ -2953,6 +2998,7 @@ public class FightRequest
 
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
 		String monsterName = monster != null ? monster.getName() : "";
+		SpecialMonster special = FightRequest.specialMonsterCategory( monsterName );
 
 		String limitmode = KoLCharacter.getLimitmode();
 		boolean finalRound = macroMatcher.end() == FightRequest.lastResponseText.length();
@@ -4380,12 +4426,9 @@ public class FightRequest
 			{
 				Preferences.increment( "eldritchTentaclesFought", 1 );
 			}
-			else if ( !FightRequest.castCleesh &&
-				Preferences.getString( "lastAdventure" ).equalsIgnoreCase(
-					"A Maze of Sewer Tunnels" ) )
+			else if ( special == SpecialMonster.SEWER && !EncounterManager.ignoreSpecialMonsters )
 			{
-				AdventureResult result = AdventureResult.tallyItem(
-					"sewer tunnel explorations", false );
+				AdventureResult result = AdventureResult.tallyItem( "sewer tunnel explorations", false );
 				AdventureResult.addResultToList( KoLConstants.tally, result );
 			}
 

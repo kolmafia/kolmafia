@@ -87,7 +87,7 @@ public class AreaCombatData
 	private final List<MonsterData> superlikelyMonsters;
 	private final List<Integer> baseWeightings;
 	private final List<Integer> currentWeightings;
-	private final List<Integer>	rejection;
+	private final List<Integer> rejection;
 
 	private final String zone;
 
@@ -429,9 +429,19 @@ public class AreaCombatData
 		return total;
 	}
 
+	public List<MonsterData> getMonsters()
+	{
+		return this.monsters;
+	}
+
 	public int getMonsterCount()
 	{
 		return this.monsters.size();
+	}
+
+	public List<MonsterData> getSuperlikelyMonsters()
+	{
+		return this.superlikelyMonsters;
 	}
 
 	public int getSuperlikelyMonsterCount()
