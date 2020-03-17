@@ -153,6 +153,15 @@
    "longDesc": "This script is for whipping up Superhuman drinks. This is intended to be run as part of a beforeBattleScript. If you have your own, or use BestBetweenBattle, you can basically add this:<p style='border:1px solid red;padding:5px 10px 5px 10px;margin-left:40px;margin-right:40px;font-family:monospace;'>import \"superdrinks.ash\";<br />if(stills_available()>0) make_superdrinks();</p>"
  },
  {
+   "repo": "svn checkout https://github.com/Ezandora/Sweet-Synthesis/branches/Release/",
+   "author": "Ezandora",
+   "name": "Sweet Synthesis",
+   "forumThread": "https://kolmafia.us/showthread.php?21174",
+   "shortDesc": "Simplifies casting the Sweet Synthesis skill",
+   "category": "action",
+   "longDesc": "Cast Sweet Synthesis, specifying desired buff by keyword, buying candy from mall (in aftercore) or using from inventory (in-run) with confirmation."
+ },
+ {
    "repo": "https://svn.code.sf.net/p/winterbay-mafia/sushi/code/",
    "author": "Winterbay",
    "name": "Sushi",
@@ -952,6 +961,15 @@
    "shortDesc": "Automatically scrolls the Sorceress' Tower",
    "category": "relay",
    "longDesc": "You know how the new NS Tower is this ridiculously long page that you have to keep scrolling down to reach the bottom? Install this script to scroll that for you."
+ },
+ {
+   "repo": "https://github.com/ggvgiu/PizzaCubeGUI/branches/Release",
+   "author": "Lacey Jones",
+   "name": "Pizza Cube GUI",
+   "forumThread": "https://kolmafia.us/showthread.php?24487",
+   "shortDesc": "Helps you choose ingredients to bake a desirable pizza",
+   "category": "relay",
+   "longDesc": "Choose pizza ingredients to maximize adventures, give desirable effects, and/or have special features."
  },
  {
    "repo": "https://svn.code.sf.net/p/bale/snojo/code/",
