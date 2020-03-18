@@ -113,6 +113,9 @@ public class SaberRequest
 		{
 			return;
 		}
+
+		// Reset all combat state for the next fight.
+		FightRequest.clearInstanceData();
 		
 		// Eventually try to reduce delay in the last adventured area, and remove the
 		// last monster from the queue.  Not reducing delay when the fight didn't come
