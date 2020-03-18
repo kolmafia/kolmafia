@@ -160,7 +160,7 @@ ultracoagulator	item	0	0	0	0	0
 unrefined Mountain Stream syrup	item	0	0	50	60	0
 warm El Vibrato drone	item	[HP]	[HP]	0	0	0
 wasabi marble soda	item	0	0	5	10	0
-whimpering willow bark	item	[floor(HP/4)]	[floor(HP/4)]	0	0	0
+whimpering willow bark	item	[min(floor((HP-CURHP)/2),floor(HP/4))]	[min(floor((HP-CURHP)/2),floor(HP/4))]	0	0	0
 Wint-O-Fresh mint	item	0	0	3	5	0
 Wolfman Nardz	item	0	0	200	300	0
 your own black heart	item	[HP]	[HP]	[MP]	[MP]	0

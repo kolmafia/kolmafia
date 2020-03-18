@@ -85,9 +85,9 @@ public class RestoreExpression
 		{
 			return "\u0091";
 		}
-		if ( this.optional( "BASEMYS" ) )
+		if ( this.optional( "CURHP" ) )
 		{
-			return "\u0092";
+			return "\u0095";
 		}
 
 		return null;
