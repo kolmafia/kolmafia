@@ -8080,7 +8080,7 @@ public class FightRequest
 		RequestLogger.updateSessionLog( text );
 	}
 
-	private static final void clearInstanceData()
+	public static final void clearInstanceData()
 	{
 		FightRequest.clearInstanceData( false );
 	}
