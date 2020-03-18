@@ -153,7 +153,7 @@
    "longDesc": "This script is for whipping up Superhuman drinks. This is intended to be run as part of a beforeBattleScript. If you have your own, or use BestBetweenBattle, you can basically add this:<p style='border:1px solid red;padding:5px 10px 5px 10px;margin-left:40px;margin-right:40px;font-family:monospace;'>import \"superdrinks.ash\";<br />if(stills_available()>0) make_superdrinks();</p>"
  },
  {
-   "repo": "svn checkout https://github.com/Ezandora/Sweet-Synthesis/branches/Release/",
+   "repo": "https://github.com/Ezandora/Sweet-Synthesis/branches/Release/",
    "author": "Ezandora",
    "name": "Sweet Synthesis",
    "forumThread": "https://kolmafia.us/showthread.php?21174",
