@@ -99,7 +99,7 @@ public class SynthesizeCommand
 
 		public String getCanonicalName()
 		{
-			return this.name;
+			return this.canonicalName;
 		}
 	}
 
@@ -213,7 +213,7 @@ public class SynthesizeCommand
 	}
 
 	@Override
-	public void run( final String cmd, final String parameters )
+	public void run( final String cmd, String parameters )
 	{
 		boolean checking = KoLmafiaCLI.isExecutingCheckOnlyCommand;
 		KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
@@ -226,6 +226,18 @@ public class SynthesizeCommand
 		Effect effect = null;
 		AdventureResult candy1 = null;
 		AdventureResult candy2 = null;
+		int count = 1;
+
+		if ( parameters.contains( " " ) )
+		{
+			int space = parameters.indexOf( " " );
+			String token = parameters.substring( 0, space );
+			if ( StringUtilities.isNumeric( token ) )
+			{
+				count = StringUtilities.parseInt( token );
+				parameters = parameters.substring( space + 1 ).trim();
+			}
+		}
 
 		if ( parameters.contains( "," ) )
 		{
@@ -243,7 +255,7 @@ public class SynthesizeCommand
 			int length = itemList.length;
 
 			candy1 = ( length > 0 ) ? itemList[ 0 ] : null;
-			candy2 = ( length > 1 ) ? itemList[ 1 ] : ( length == 1 && candy1.getCount() == 2 ) ? candy1 : null;
+			candy2 = ( length > 1 ) ? itemList[ 1 ] : null;
 
 			if ( candy1 == null || candy2 == null )
 			{
@@ -326,7 +338,7 @@ public class SynthesizeCommand
 			return;
 		}
 
-		SweetSynthesisRequest request = new SweetSynthesisRequest( itemId1, itemId2 );
+		SweetSynthesisRequest request = new SweetSynthesisRequest( count, itemId1, itemId2 );
 		RequestThread.postRequest( request );
 		if ( KoLmafia.permitsContinue() )
 		{
