@@ -2130,6 +2130,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "candy_for_tier", new AggregateType( DataTypes.ITEM_TYPE, 0 ), params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "load_sweet_synthesis_blacklist", DataTypes.VOID_TYPE, params ) );
+
 		params = new Type[] { DataTypes.EFFECT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "sweet_synthesis_pairing", new AggregateType( DataTypes.ITEM_TYPE, 0 ), params ) );
 
@@ -8917,6 +8920,13 @@ public abstract class RuntimeLibrary
 	}
 
 	// Sweet Synthesis
+
+	public static Value load_sweet_synthesis_blacklist( Interpreter interpreter )
+	{
+		CandyDatabase.loadBlacklist();
+		return DataTypes.VOID_VALUE;
+	}
+
 	public static Value candy_for_tier( Interpreter interpreter, final Value arg )
 	{
 		return RuntimeLibrary.candy_for_tier( interpreter, arg, DataTypes.makeIntValue( CandyDatabase.defaultFlags() ) );

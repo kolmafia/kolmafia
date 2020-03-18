@@ -47,15 +47,21 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class CandyDatabase
 {
-	public static Set<Integer> NO_CANDY = new HashSet<Integer>();	// No candies
-	public static Set<Integer> tier0Candy = new HashSet<Integer>();	// Unspaded
-	public static Set<Integer> tier1Candy = new HashSet<Integer>();	// Simple
-	public static Set<Integer> tier2Candy = new HashSet<Integer>();	// Simple and Complex
-	public static Set<Integer> tier3Candy = new HashSet<Integer>();	// Complex
+	public static Set<Integer> NO_CANDY = new HashSet<>();		// No candies
+	public static Set<Integer> tier0Candy = new HashSet<>();	// Unspaded
+	public static Set<Integer> tier1Candy = new HashSet<>();	// Simple
+	public static Set<Integer> tier2Candy = new HashSet<>();	// Simple and Complex
+	public static Set<Integer> tier3Candy = new HashSet<>();	// Complex
+	public static Set<Integer> blacklist = new HashSet<>();		// Candies to not consider
 
 	public static final String NONE = "none";
 	public static final String UNSPADED = "unspaded";
@@ -73,9 +79,9 @@ public class CandyDatabase
 			return;
 		}
 
-		ArrayList<AdventureResult> potions = new ArrayList<AdventureResult>();
-		ArrayList<AdventureResult> foods = new ArrayList<AdventureResult>();
-		ArrayList<AdventureResult> others = new ArrayList<AdventureResult>();
+		List<AdventureResult> potions = new ArrayList<>();
+		List<AdventureResult> foods = new ArrayList<>();
+		List<AdventureResult> others = new ArrayList<>();
 
 		for ( Integer itemId : CandyDatabase.tier2Candy )
 		{
@@ -124,6 +130,43 @@ public class CandyDatabase
 		{
 			return;
 		}
+	}
+
+	public static final void loadBlacklist()
+	{
+		CandyDatabase.blacklist.clear();
+
+		String blacklisted = Preferences.getString( "sweetSynthesisBlacklist" ).trim();
+		if ( blacklisted.equals( "" ) )
+		{
+			return;
+		}
+
+		String[] candies = blacklisted.split( "\\s*,\\s*" );
+		for ( String candy : candies )
+		{
+			AdventureResult[] itemList = ItemFinder.getMatchingItemList( candy, false, null, Match.CANDY );
+
+			// Ignore non-candy
+			if ( itemList == null )
+			{
+				continue;
+			}
+
+			// There could be multiple matching items. Should we allow that?
+			if ( itemList.length != 1 )
+			{
+				continue;
+			}
+
+			int itemId = itemList[ 0 ].getItemId();
+			CandyDatabase.blacklist.add( itemId );
+		}
+	}
+
+	public static final boolean isCandyBlacklisted( final int itemId )
+	{
+		return CandyDatabase.blacklist.contains( itemId );
 	}
 
 	public static final String getCandyType( final int itemId )
@@ -221,10 +264,14 @@ public class CandyDatabase
 	// *** Deprecated
 	// private static final int FLAG_ALLOWED = 0x2;
 	private static final int FLAG_NO_CHOCOLATE = 0x4;
+	private static final int FLAG_USE_BLACKLIST = 0x8;
+	private static final int ALL_FLAGS = FLAG_AVAILABLE | FLAG_NO_CHOCOLATE | FLAG_USE_BLACKLIST;
 
-	public static int makeFlags( final boolean available, final boolean nochocolate )
+	public static int makeFlags( final boolean available, final boolean nochocolate, final boolean useblacklist )
 	{
-		return ( available ? FLAG_AVAILABLE : 0 ) + ( nochocolate ? FLAG_NO_CHOCOLATE : 0 );
+		return  ( available ? FLAG_AVAILABLE : 0 ) +
+			( nochocolate ? FLAG_NO_CHOCOLATE : 0 ) +
+			( useblacklist ? FLAG_USE_BLACKLIST : 0 );
 	}
 
 	public static int defaultFlags()
@@ -232,7 +279,8 @@ public class CandyDatabase
 		boolean loggedIn = KoLCharacter.getUserId() > 0;
 		boolean available = loggedIn && !KoLCharacter.canInteract();
 		boolean nochocolate = true;
-		return CandyDatabase.makeFlags( available, nochocolate );
+		boolean useblacklist = true;
+		return CandyDatabase.makeFlags( available, nochocolate, useblacklist );
 	}
 
 	public static Set<Integer> candyForTier( final int tier )
@@ -254,8 +302,8 @@ public class CandyDatabase
 			tier == 3 ? CandyDatabase.tier3Candy :
 			null;
 
-		// If neither flag is set, return full set
-		if ( ( flags & 0x3) == 0 )
+		// If no flags are set, return full set
+		if ( ( flags & ALL_FLAGS) == 0 )
 		{
 			return candies;
 		}
@@ -263,6 +311,7 @@ public class CandyDatabase
 		// Otherwise, we must filter
 		boolean available = ( flags & FLAG_AVAILABLE ) != 0;
 		boolean nochocolate = ( flags & FLAG_NO_CHOCOLATE ) != 0;
+		boolean useblacklist = ( flags & FLAG_USE_BLACKLIST ) != 0;
 		Set<Integer> result = new HashSet<Integer>();
 
 		for ( Integer itemId : candies )
@@ -272,6 +321,10 @@ public class CandyDatabase
 				continue;
 			}
 			if ( nochocolate && ItemDatabase.isChocolateItem( itemId ) )
+			{
+				continue;
+			}
+			if ( useblacklist && CandyDatabase.blacklist.contains( itemId ) )
 			{
 				continue;
 			}
@@ -339,6 +392,7 @@ public class CandyDatabase
 		int desiredModulus = CandyDatabase.getEffectModulus( effectId );
 		boolean available = ( flags & FLAG_AVAILABLE ) != 0;
 		boolean nochocolate = ( flags & FLAG_NO_CHOCOLATE ) != 0;
+		boolean useblacklist = ( flags & FLAG_USE_BLACKLIST ) != 0;
 
 		for ( int itemId2 : candidates )
 		{
@@ -346,9 +400,15 @@ public class CandyDatabase
 			{
 				continue;
 			}
-			// Note that the caller can give us a chocolate as candy1,
+			// The caller can give us a chocolate as candy1,
 			// whether or not chocolates are allowed for candy2
 			if ( nochocolate && ItemDatabase.isChocolateItem( itemId2 ) )
+			{
+				continue;
+			}
+			// The caller can give us a blacklisted candy1, whether
+			// or not candy2 is blacklisted
+			if ( useblacklist && CandyDatabase.blacklist.contains( itemId2 ) )
 			{
 				continue;
 			}
@@ -429,6 +489,11 @@ public class CandyDatabase
 		public boolean isChocolate()
 		{
 			return this.isChocolate;
+		}
+
+		public boolean isBlacklisted()
+		{
+			return CandyDatabase.blacklist.contains( this.itemId );
 		}
 
 		public int getCount()
