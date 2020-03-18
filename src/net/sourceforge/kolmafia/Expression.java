@@ -427,16 +427,72 @@ public class Expression
 					v = ( month == Calendar.DECEMBER ) ? 1 : 0;
 				}
 				break;
+			
+			// Valid with MonsterExpression:
+			case '\u0080':
+				v = KoLCharacter.getAdjustedMuscle();
+				break;
+			// Valid with MonsterExpression:
+			case '\u0081':
+				v = KoLCharacter.getAdjustedMysticality();
+				break;
+			// Valid with MonsterExpression:
+			case '\u0082':
+				v = KoLCharacter.getAdjustedMoxie();
+				break;
+			// Valid with MonsterExpression:
+			case '\u0083':
+				v = KoLCharacter.getMonsterLevelAdjustment();
+				break;
+			// Valid with MonsterExpression:
+			case '\u0084':
+				v = KoLCharacter.getMindControlLevel();
+				break;
+			// Valid with MonsterExpression and RestoreExpression:
+			case '\u0085':
+				v = KoLCharacter.getMaximumHP();
+				break;
+			// Valid with MonsterExpression:
+			case '\u0086':
+				v = BasementRequest.getBasementLevel();
+				break;
+			// Valid with MonsterExpression:
+			case '\u0087':
+				v = FightRequest.dreadKisses( "Woods" );
+				break;
+			// Valid with MonsterExpression:
+			case '\u0088':
+				v = FightRequest.dreadKisses( "Village" );
+				break;
+			// Valid with MonsterExpression:
+			case '\u0089':
+				v = FightRequest.dreadKisses( "Castle" );
+				break;
+			// Valid with MonsterExpression:
+			case '\u0090':
+				v = KoLCharacter.getAdjustedHighestStat();
+				break;
+			// Valid with RestoreExpression:
+			case '\u0091':
+				v = KoLCharacter.getMaximumMP();
+				break;
+			// Valid with ModifierExpression and MonsterExpression:
 			case '\u0092':
 				v = KoLCharacter.getPath().equals( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
 				break;
+			// Valid with ModifierExpression:
 			case '\u0093':
 				Modifiers mods = KoLCharacter.getCurrentModifiers();
 				String modName = (String) this.literals.get( (int) s[ --sp ] );
 				v = mods.getExtra( modName );
 				break;
+			// Valid with ModifierExpression:
 			case '\u0094':
 				v = KoLCharacter.canInteract() ? 1 : 0;
+				break;
+			// Valid with RestoreExpression:
+			case '\u0095':
+				v = KoLCharacter.getCurrentHP();
 				break;
 
 			case 'A':
@@ -520,46 +576,6 @@ public class Expression
 				break;
 			case 'Y':
 				v = KoLCharacter.getFury();
-				break;
-			
-			// Valid with MonsterExpression:
-			case '\u0080':
-				v = KoLCharacter.getAdjustedMuscle();
-				break;
-			case '\u0081':
-				v = KoLCharacter.getAdjustedMysticality();
-				break;
-			case '\u0082':
-				v = KoLCharacter.getAdjustedMoxie();
-				break;
-			case '\u0083':
-				v = KoLCharacter.getMonsterLevelAdjustment();
-				break;
-			case '\u0084':
-				v = KoLCharacter.getMindControlLevel();
-				break;
-			case '\u0085':
-				v = KoLCharacter.getMaximumHP();
-				break;
-			case '\u0086':
-				v = BasementRequest.getBasementLevel();
-				break;
-			case '\u0087':
-				v = FightRequest.dreadKisses( "Woods" );
-				break;
-			case '\u0088':
-				v = FightRequest.dreadKisses( "Village" );
-				break;
-			case '\u0089':
-				v = FightRequest.dreadKisses( "Castle" );
-				break;
-			case '\u0090':
-				v = KoLCharacter.getAdjustedHighestStat();
-				break;
-
-			// Valid with RestoreExpression:
-			case '\u0091':
-				v = KoLCharacter.getMaximumMP();
 				break;
 					
 			default:
