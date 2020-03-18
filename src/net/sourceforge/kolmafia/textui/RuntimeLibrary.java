@@ -2124,14 +2124,12 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "xpath", new AggregateType( DataTypes.STRING_TYPE, 0 ), params ) );
 
 		// Sweet Synthesis
+
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "candy_for_tier", new AggregateType( DataTypes.ITEM_TYPE, 0 ), params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "candy_for_tier", new AggregateType( DataTypes.ITEM_TYPE, 0 ), params ) );
-
-		params = new Type[] {};
-		functions.add( new LibraryFunction( "load_sweet_synthesis_blacklist", DataTypes.VOID_TYPE, params ) );
 
 		params = new Type[] { DataTypes.EFFECT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "sweet_synthesis_pairing", new AggregateType( DataTypes.ITEM_TYPE, 0 ), params ) );
@@ -2151,10 +2149,19 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.EFFECT_TYPE };
 		functions.add( new LibraryFunction( "sweet_synthesis", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.EFFECT_TYPE };
+		functions.add( new LibraryFunction( "sweet_synthesis", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.EFFECT_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "sweet_synthesis", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.EFFECT_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "sweet_synthesis", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "sweet_synthesis", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "sweet_synthesis", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
@@ -8921,12 +8928,6 @@ public abstract class RuntimeLibrary
 
 	// Sweet Synthesis
 
-	public static Value load_sweet_synthesis_blacklist( Interpreter interpreter )
-	{
-		CandyDatabase.loadBlacklist();
-		return DataTypes.VOID_VALUE;
-	}
-
 	public static Value candy_for_tier( Interpreter interpreter, final Value arg )
 	{
 		return RuntimeLibrary.candy_for_tier( interpreter, arg, DataTypes.makeIntValue( CandyDatabase.defaultFlags() ) );
@@ -8936,6 +8937,12 @@ public abstract class RuntimeLibrary
 	{
 		int tier = (int) arg1.intValue();
 		int flags = (int) arg2.intValue();
+
+		if ( ( flags & CandyDatabase.FLAG_NO_BLACKLIST ) == 0 )
+		{
+			CandyDatabase.loadBlacklist();
+		}
+
 		Set<Integer> candies = CandyDatabase.candyForTier( tier, flags );
 
 		int count = ( candies == null ) ? 0 : candies.size();
@@ -8968,6 +8975,11 @@ public abstract class RuntimeLibrary
 		int itemId = (int) arg2.intValue();
 		int flags = (int) arg3.intValue();
 
+		if ( ( flags & CandyDatabase.FLAG_NO_BLACKLIST ) == 0 )
+		{
+			CandyDatabase.loadBlacklist();
+		}
+
 		Set<Integer> candies = CandyDatabase.sweetSynthesisPairing( effectId, itemId, flags );
 
 		int count = ( candies == null ) ? 0 : candies.size();
@@ -8999,10 +9011,15 @@ public abstract class RuntimeLibrary
 		int effectId = (int) arg1.intValue();
 		int flags = (int) arg2.intValue();
 
-		AggregateType type = new AggregateType( DataTypes.ITEM_TYPE, 2 );
-		ArrayValue value = new ArrayValue( type );
+		if ( ( flags & CandyDatabase.FLAG_NO_BLACKLIST ) == 0 )
+		{
+			CandyDatabase.loadBlacklist();
+		}
 
 		Candy[] candies = CandyDatabase.synthesisPair( effectId, flags );
+
+		AggregateType type = new AggregateType( DataTypes.ITEM_TYPE, 2 );
+		ArrayValue value = new ArrayValue( type );
 
 		if ( candies.length == 2 )
 		{
@@ -9023,46 +9040,95 @@ public abstract class RuntimeLibrary
 
 	public static Value sweet_synthesis( Interpreter interpreter, final Value effect )
 	{
+		// one-argument forms
+
+		// sweet_synthesis( effect )
+		int count = 1;
 		int effectId = (int) effect.intValue();
-
-		Candy[] candies = CandyDatabase.synthesisPair( effectId );
-
-		if ( candies.length != 2 )
-		{
-			return DataTypes.FALSE_VALUE;
-		}
-
-		int itemId1 = candies[0].getItemId();
-		int itemId2 = candies[1].getItemId();
-
-		// SweetSynthesisRequest will retrieve the candies
-		SweetSynthesisRequest request = new SweetSynthesisRequest( itemId1, itemId2 );
-		RequestThread.postRequest( request );
-		return RuntimeLibrary.continueValue();
+		int flags = CandyDatabase.defaultFlags();
+		return RuntimeLibrary.synthesize_effect( interpreter, count, effectId, flags );
 	}
 
 	public static Value sweet_synthesis( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		Type type = arg1.getType();
+		// two-argument forms
 
-		int itemId1 = -1;
-		int itemId2 = -1;
+		Type type1 = arg1.getType();
 
-		if ( type.equals( DataTypes.TYPE_ITEM ) )
-		{
-			itemId1 = (int) arg1.intValue();
-			itemId2 = (int) arg2.intValue();
-
-			if ( !ItemDatabase.isCandyItem( itemId1 ) || !ItemDatabase.isCandyItem( itemId2 ) )
-			{
-				return DataTypes.FALSE_VALUE;
-			}
-		}
-		else
+		// sweet_synthesis( effect, flags )
+		if ( type1.equals( DataTypes.TYPE_EFFECT ) )
 		{
 			int effectId = (int) arg1.intValue();
-			int flags =  (int) arg2.intValue() | CandyDatabase.defaultFlags();
+			int flags = (int) arg2.intValue() | CandyDatabase.defaultFlags();
+			return RuntimeLibrary.synthesize_effect( interpreter, 1, effectId, flags );
+		}
 
+		Type type2 = arg2.getType();
+
+		// sweet_synthesis( count, effect )
+		if ( type2.equals( DataTypes.TYPE_EFFECT ) )
+		{
+			int count = (int) arg1.intValue();
+			int effectId = (int) arg2.intValue();
+			int flags = CandyDatabase.defaultFlags();
+			return RuntimeLibrary.synthesize_effect( interpreter, count, effectId, flags );
+		}
+
+		// sweet_synthesis( candy1, candy2 )
+		int itemId1 = (int) arg1.intValue();
+		int itemId2 = (int) arg2.intValue();
+
+		if ( !ItemDatabase.isCandyItem( itemId1 ) || !ItemDatabase.isCandyItem( itemId2 ) )
+		{
+			return DataTypes.FALSE_VALUE;
+		}
+
+		return RuntimeLibrary.synthesize_pair( interpreter, 1, itemId1, itemId2 );
+	}
+
+	public static Value sweet_synthesis( Interpreter interpreter, final Value arg1, final Value arg2, final Value arg3 )
+	{
+		// three-argument forms
+
+		Type type2 = arg2.getType();
+
+		// sweet_synthesis( count, effect, flags )
+		if ( type2.equals( DataTypes.TYPE_EFFECT ) )
+		{
+			int count = (int) arg1.intValue();
+			int effectId = (int) arg2.intValue();
+			int flags =  (int) arg3.intValue() | CandyDatabase.defaultFlags();
+			return RuntimeLibrary.synthesize_effect( interpreter, count, effectId, flags );
+		}
+
+		// sweet_synthesis( count, candy1, candy2 )
+
+		int count = (int) arg1.intValue();
+		int itemId1 = (int) arg2.intValue();
+		int itemId2 = (int) arg3.intValue();
+
+		if ( !ItemDatabase.isCandyItem( itemId1 ) || !ItemDatabase.isCandyItem( itemId2 ) )
+		{
+			return DataTypes.FALSE_VALUE;
+		}
+
+		return RuntimeLibrary.synthesize_pair( interpreter, count, itemId1, itemId2 );
+	}
+
+	private static Value synthesize_effect( Interpreter interpreter, int count, int effectId, int flags )
+	{
+		if ( count <= 0 )
+		{
+			return DataTypes.FALSE_VALUE;
+		}
+
+		if ( ( flags & CandyDatabase.FLAG_NO_BLACKLIST ) == 0 )
+		{
+			CandyDatabase.loadBlacklist();
+		}
+
+		while ( KoLmafia.permitsContinue() && count > 0 )
+		{
 			Candy[] candies = CandyDatabase.synthesisPair( effectId, flags );
 
 			if ( candies.length != 2 )
@@ -9070,12 +9136,42 @@ public abstract class RuntimeLibrary
 				return DataTypes.FALSE_VALUE;
 			}
 
-			itemId1 = candies[0].getItemId();
-			itemId2 = candies[1].getItemId();
-		}
+			int itemId1 = candies[0].getItemId();
+			int itemId2 = candies[1].getItemId();
 
-		// SweetSynthesisRequest will retrieve the candies
-		SweetSynthesisRequest request = new SweetSynthesisRequest( itemId1, itemId2 );
+			int quantity = count;
+
+			// If we want "available" candies, synthesizePair above
+			// gave us only available candies. We may or may not
+			// have enough to synthesize more than once with that
+			// pair, so limit quantity to available amount
+
+			if ( count > 1 && ( flags & CandyDatabase.FLAG_AVAILABLE ) != 0 )
+			{
+				int have1 = InventoryManager.getAccessibleCount( itemId1 );
+				int have2 = InventoryManager.getAccessibleCount( itemId2 );
+				int available = ( itemId1 == itemId2 ) ? ( have1 / 2 ) : Math.min( have1, have2 );
+				quantity = Math.min( count, available );
+			}
+
+			if ( quantity == 0 )
+			{
+				// This should not happen
+				return DataTypes.FALSE_VALUE;
+			}
+
+			RuntimeLibrary.synthesize_pair( interpreter, quantity, itemId1, itemId2 );
+
+			count -= quantity;
+		}
+		return RuntimeLibrary.continueValue();
+	}
+
+	private static Value synthesize_pair( Interpreter interpreter, int count, int itemId1, int itemId2 )
+	{
+		// SweetSynthesisRequest will retrieve the candies and fail if they are unavailable
+
+		SweetSynthesisRequest request = new SweetSynthesisRequest( count, itemId1, itemId2 );
 		RequestThread.postRequest( request );
 		return RuntimeLibrary.continueValue();
 	}
