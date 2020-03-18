@@ -359,9 +359,9 @@ public class SynthesizePanel
 			// effect can be made using available candies
 
 			boolean available = SynthesizePanel.this.availableChecked;
-			boolean nochocolate = !SynthesizePanel.this.chocolateChecked;
-			boolean useblacklist = SynthesizePanel.this.blacklistChecked;;
-			int flags = CandyDatabase.makeFlags( available, nochocolate, useblacklist );
+			boolean chocolate = SynthesizePanel.this.chocolateChecked;
+			boolean noblacklist = !SynthesizePanel.this.blacklistChecked;;
+			int flags = CandyDatabase.makeFlags( available, chocolate, noblacklist );
 
 			for ( Component component : this.getComponents() )
 			{
@@ -453,7 +453,7 @@ public class SynthesizePanel
 					EffectPanel.this.selected = this;
 					SynthesizePanel.this.automaticButton.setEnabled( true );
 					this.reverseColors();
-					Set<Integer> candy = CandyDatabase.candyForTier( CandyDatabase.getEffectTier( this.effectId ), 0 );
+					Set<Integer> candy = CandyDatabase.candyForTier( CandyDatabase.getEffectTier( this.effectId ), CandyDatabase.ALL_CANDY );
 					SynthesizePanel.this.candyList1.loadCandy( candy );
 				}
 			}
@@ -761,7 +761,7 @@ public class SynthesizePanel
 					}
 					else
 					{
-						Set<Integer> candy = CandyDatabase.sweetSynthesisPairing( SynthesizePanel.this.effectId(), replace.getItemId(), 0 );
+						Set<Integer> candy = CandyDatabase.sweetSynthesisPairing( SynthesizePanel.this.effectId(), replace.getItemId(), CandyDatabase.ALL_CANDY );
 						SynthesizePanel.this.candyList2.loadCandy( candy );
 					}
 					SynthesizePanel.this.synthesizeButton.setEnabled( false );
@@ -777,14 +777,14 @@ public class SynthesizePanel
 					Candy candy = (Candy)o;
 
 					boolean available = SynthesizePanel.this.availableChecked;
-					boolean nochocolate = !SynthesizePanel.this.chocolateChecked;
-					boolean useblacklist = SynthesizePanel.this.blacklistChecked;
+					boolean chocolate = SynthesizePanel.this.chocolateChecked;
+					boolean noblacklist = !SynthesizePanel.this.blacklistChecked;
 
-					if ( nochocolate && candy.isChocolate() )
+					if ( !chocolate && candy.isChocolate() )
 					{
 						return false;
 					}
-					if ( useblacklist && candy.isBlacklisted() )
+					if ( !noblacklist && candy.isBlacklisted() )
 					{
 						return false;
 					}
@@ -801,7 +801,7 @@ public class SynthesizePanel
 						// Filter out candy which has no available pairing
 						int effectId = SynthesizePanel.this.effectId();
 						int itemId = candy.getItemId();
-						int flags = CandyDatabase.makeFlags( available, nochocolate, useblacklist );
+						int flags = CandyDatabase.makeFlags( available, chocolate, noblacklist );
 						if ( CandyDatabase.sweetSynthesisPairing( effectId, itemId, flags ).size() == 0 )
 						{
 							return false;
@@ -854,15 +854,15 @@ public class SynthesizePanel
 					Candy candy = (Candy)o;
 
 					boolean available = SynthesizePanel.this.availableChecked;
-					boolean nochocolate = !SynthesizePanel.this.chocolateChecked;
-					boolean useblacklist = SynthesizePanel.this.blacklistChecked;
+					boolean chocolate = SynthesizePanel.this.chocolateChecked;
+					boolean noblacklist = !SynthesizePanel.this.blacklistChecked;
 
-					if ( nochocolate && candy.isChocolate() )
+					if ( !chocolate && candy.isChocolate() )
 					{
 						return false;
 					}
 
-					if ( useblacklist && candy.isBlacklisted() )
+					if ( !noblacklist && candy.isBlacklisted() )
 					{
 						return false;
 					}
@@ -1046,9 +1046,9 @@ public class SynthesizePanel
 			// more restrictive
 
 			boolean available = SynthesizePanel.this.availableChecked;
-			boolean nochocolate = !SynthesizePanel.this.chocolateChecked;
-			boolean useblacklist = SynthesizePanel.this.blacklistChecked;;
-			int flags = CandyDatabase.defaultFlags() | CandyDatabase.makeFlags( available, nochocolate, useblacklist );
+			boolean chocolate = SynthesizePanel.this.chocolateChecked;
+			boolean noblacklist = !SynthesizePanel.this.blacklistChecked;;
+			int flags = CandyDatabase.defaultFlags() | CandyDatabase.makeFlags( available, chocolate, noblacklist );
 
 			Candy [] pair = CandyDatabase.synthesisPair( effectId, flags );
 			if ( pair.length == 0 )

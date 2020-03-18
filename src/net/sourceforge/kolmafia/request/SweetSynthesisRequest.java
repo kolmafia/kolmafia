@@ -57,20 +57,28 @@ public class SweetSynthesisRequest
 	// runskillz.php?action=Skillz&whichskill=166&targetplayer=XXXXX&quantity=1
 	// choice.php?a=XXXX&b=YYYY&q=W&whichchoice=1217&option=1
 
+	private static final Pattern COUNT_PATTERN = Pattern.compile( "[?&]q=([\\d]+)" );
 	private static final Pattern ITEMID1_PATTERN = Pattern.compile( "[?&]a=([\\d]+)" );
 	private static final Pattern ITEMID2_PATTERN = Pattern.compile( "[?&]b=([\\d]+)" );
-	private static final Pattern QTY_PATTERN = Pattern.compile( "[?&]q=([\\d]+)" );
 
+	final int count;
 	final int itemId1;
 	final int itemId2;
 
 	public SweetSynthesisRequest( final int itemId1, final int itemId2 )
+	{
+		this( 1, itemId1, itemId2 );
+	}
+
+	public SweetSynthesisRequest( final int count, final int itemId1, final int itemId2 )
 	{
 		super( "choice.php" );
 		this.addFormField( "whichchoice", "1217" );
 		this.addFormField( "option", "1" );
 		this.addFormField( "a", String.valueOf( itemId1 ) );
 		this.addFormField( "b", String.valueOf( itemId2 ) );
+		this.addFormField( "q", String.valueOf( count ) );
+		this.count = count;
 		this.itemId1 = itemId1;
 		this.itemId2 = itemId2;
 	}
@@ -83,9 +91,9 @@ public class SweetSynthesisRequest
 			0;
 	}
 
-	private static final int extractQty( final String urlString )
+	private static final int extractCount( final String urlString )
 	{
-		Matcher matcher = SweetSynthesisRequest.QTY_PATTERN.matcher( urlString );
+		Matcher matcher = SweetSynthesisRequest.COUNT_PATTERN.matcher( urlString );
 		return matcher.find() ?
 			Math.max( 1, StringUtilities.parseInt( matcher.group ( 1 ) ) ) :
 			1;
@@ -100,7 +108,7 @@ public class SweetSynthesisRequest
 		}
 
 		// Check that you have spleen available
-		if ( KoLCharacter.getSpleenUse() >= KoLCharacter.getSpleenLimit() )
+		if ( ( KoLCharacter.getSpleenUse() + this.count ) > KoLCharacter.getSpleenLimit() )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Your spleen has been abused enough today" );
 			return;
@@ -134,7 +142,7 @@ public class SweetSynthesisRequest
 		if ( this.itemId1 == this.itemId2 )
 		{
 			// Acquire both candies
-			if ( !InventoryManager.retrieveItem( this.itemId1, 2, true, false, false ) )
+			if ( !InventoryManager.retrieveItem( this.itemId1, 2 * this.count, true, false, false ) )
 			{
 				return;
 			}
@@ -142,13 +150,13 @@ public class SweetSynthesisRequest
 		else
 		{
 			// Acquire the first candy
-			if ( !InventoryManager.retrieveItem( this.itemId1, 1, true, false, false ) )
+			if ( !InventoryManager.retrieveItem( this.itemId1, this.count, true, false, false ) )
 			{
 				return;
 			}
 
 			// Acquire the second candy
-			if ( !InventoryManager.retrieveItem( this.itemId2, 1, true, false, false ) )
+			if ( !InventoryManager.retrieveItem( this.itemId2, this.count, true, false, false ) )
 			{
 				return;
 			}
@@ -195,16 +203,16 @@ public class SweetSynthesisRequest
 		// Rather than detecting various failures, look for success.
 		if ( responseText.contains( "You acquire an effect" ) )
 		{
-			int qty = SweetSynthesisRequest.extractQty( urlString );
+			int count = SweetSynthesisRequest.extractCount( urlString );
 			// We just poisoned some spleen
-			KoLCharacter.setSpleenUse( KoLCharacter.getSpleenUse() + qty );
+			KoLCharacter.setSpleenUse( KoLCharacter.getSpleenUse() + count );
 			KoLCharacter.updateStatus();
 
 			// And used up some candies
 			int itemId1 = SweetSynthesisRequest.extractItemId( urlString, ITEMID1_PATTERN );
 			int itemId2 = SweetSynthesisRequest.extractItemId( urlString, ITEMID2_PATTERN );
-			ResultProcessor.processItem( itemId1, -qty );
-			ResultProcessor.processItem( itemId2, -qty );
+			ResultProcessor.processItem( itemId1, -count );
+			ResultProcessor.processItem( itemId2, -count );
 		}
 	}
 
@@ -230,10 +238,11 @@ public class SweetSynthesisRequest
 			return false;
 		}
 
+		int count = SweetSynthesisRequest.extractCount( urlString );
 		String name1 = ItemDatabase.getDataName( itemId1 );
 		String name2 = ItemDatabase.getDataName( itemId2 );
 
-		String message = "synthesize " + name1 + ", " + name2;
+		String message = "synthesize " + count + " " + name1 + ", " + name2;
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( message );

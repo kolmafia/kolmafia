@@ -260,27 +260,26 @@ public class CandyDatabase
 		return -1;
 	}
 
-	private static final int FLAG_AVAILABLE = 0x1;
-	// *** Deprecated
-	// private static final int FLAG_ALLOWED = 0x2;
-	private static final int FLAG_NO_CHOCOLATE = 0x4;
-	private static final int FLAG_USE_BLACKLIST = 0x8;
-	private static final int ALL_FLAGS = FLAG_AVAILABLE | FLAG_NO_CHOCOLATE | FLAG_USE_BLACKLIST;
+	public static final int FLAG_AVAILABLE = 0x1;
+	public static final int FLAG_CHOCOLATE = 0x2;
+	public static final int FLAG_NO_BLACKLIST = 0x4;
+	public static final int ALL_FLAGS = FLAG_AVAILABLE | FLAG_CHOCOLATE | FLAG_NO_BLACKLIST;
+	public static final int ALL_CANDY = FLAG_CHOCOLATE | FLAG_NO_BLACKLIST;
 
-	public static int makeFlags( final boolean available, final boolean nochocolate, final boolean useblacklist )
+	public static int makeFlags( final boolean available, final boolean chocolate, final boolean noblacklist )
 	{
-		return  ( available ? FLAG_AVAILABLE : 0 ) +
-			( nochocolate ? FLAG_NO_CHOCOLATE : 0 ) +
-			( useblacklist ? FLAG_USE_BLACKLIST : 0 );
+		return  ( available ? FLAG_AVAILABLE : 0 ) |
+			( chocolate ? FLAG_CHOCOLATE : 0 ) |
+			( noblacklist ? FLAG_NO_BLACKLIST : 0 );
 	}
 
 	public static int defaultFlags()
 	{
 		boolean loggedIn = KoLCharacter.getUserId() > 0;
 		boolean available = loggedIn && !KoLCharacter.canInteract();
-		boolean nochocolate = true;
-		boolean useblacklist = true;
-		return CandyDatabase.makeFlags( available, nochocolate, useblacklist );
+		boolean chocolate = false;
+		boolean noblacklist = false;
+		return CandyDatabase.makeFlags( available, chocolate, noblacklist );
 	}
 
 	public static Set<Integer> candyForTier( final int tier )
@@ -302,16 +301,18 @@ public class CandyDatabase
 			tier == 3 ? CandyDatabase.tier3Candy :
 			null;
 
-		// If no flags are set, return full set
-		if ( ( flags & ALL_FLAGS) == 0 )
+		boolean available = ( flags & FLAG_AVAILABLE ) != 0;
+		boolean chocolate = ( flags & FLAG_CHOCOLATE ) != 0;
+		boolean noblacklist = ( flags & FLAG_NO_BLACKLIST ) != 0;
+
+		// If we don't need to filter the candies, just return raw set
+		boolean nofilter = !available && chocolate && noblacklist;
+		if ( nofilter )
 		{
 			return candies;
 		}
 
 		// Otherwise, we must filter
-		boolean available = ( flags & FLAG_AVAILABLE ) != 0;
-		boolean nochocolate = ( flags & FLAG_NO_CHOCOLATE ) != 0;
-		boolean useblacklist = ( flags & FLAG_USE_BLACKLIST ) != 0;
 		Set<Integer> result = new HashSet<Integer>();
 
 		for ( Integer itemId : candies )
@@ -320,11 +321,11 @@ public class CandyDatabase
 			{
 				continue;
 			}
-			if ( nochocolate && ItemDatabase.isChocolateItem( itemId ) )
+			if ( !chocolate && ItemDatabase.isChocolateItem( itemId ) )
 			{
 				continue;
 			}
-			if ( useblacklist && CandyDatabase.blacklist.contains( itemId ) )
+			if ( !noblacklist && CandyDatabase.blacklist.contains( itemId ) )
 			{
 				continue;
 			}
@@ -391,8 +392,8 @@ public class CandyDatabase
 
 		int desiredModulus = CandyDatabase.getEffectModulus( effectId );
 		boolean available = ( flags & FLAG_AVAILABLE ) != 0;
-		boolean nochocolate = ( flags & FLAG_NO_CHOCOLATE ) != 0;
-		boolean useblacklist = ( flags & FLAG_USE_BLACKLIST ) != 0;
+		boolean chocolate = ( flags & FLAG_CHOCOLATE ) != 0;
+		boolean noblacklist = ( flags & FLAG_NO_BLACKLIST ) != 0;
 
 		for ( int itemId2 : candidates )
 		{
@@ -402,13 +403,13 @@ public class CandyDatabase
 			}
 			// The caller can give us a chocolate as candy1,
 			// whether or not chocolates are allowed for candy2
-			if ( nochocolate && ItemDatabase.isChocolateItem( itemId2 ) )
+			if ( !chocolate && ItemDatabase.isChocolateItem( itemId2 ) )
 			{
 				continue;
 			}
 			// The caller can give us a blacklisted candy1, whether
 			// or not candy2 is blacklisted
-			if ( useblacklist && CandyDatabase.blacklist.contains( itemId2 ) )
+			if ( !noblacklist && CandyDatabase.blacklist.contains( itemId2 ) )
 			{
 				continue;
 			}
