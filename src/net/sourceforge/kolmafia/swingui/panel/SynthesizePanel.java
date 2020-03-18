@@ -97,6 +97,8 @@ import net.sourceforge.kolmafia.session.StoreManager;
 
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+
 import com.jgoodies.binding.adapter.AbstractTableAdapter;
 
 public class SynthesizePanel
@@ -1007,14 +1009,39 @@ public class SynthesizePanel
 				return;
 			}
 
+			int availableSpleen = KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse();
+			if ( availableSpleen == 0 )
+			{
+				KoLmafia.updateDisplay( "Your spleen is too sore to synthesize any more today" );
+				return;
+			}
+
 			Candy candy1 = SynthesizePanel.this.candy1();
 			int itemId1 = candy1.getItemId();
 			Candy candy2 = SynthesizePanel.this.candy2();
 			int itemId2 = candy2.getItemId();
 
-			KoLmafia.updateDisplay( "Synthesizing " + candy1 + " with " + candy2 + "..." );
+			boolean available = SynthesizePanel.this.availableChecked;
+			int have1 = available ? candy1.getCount() : Integer.MAX_VALUE;
+			int have2 = available ? candy2.getCount() : Integer.MAX_VALUE;
+			int have = !available ? Integer.MAX_VALUE : ( itemId1 == itemId2 ) ? ( have1 / 2 ) : Math.min( have1, have2 );
 
-			SweetSynthesisRequest request = new SweetSynthesisRequest( itemId1, itemId2 );
+			int casts = Math.min( availableSpleen, have );
+
+			if ( casts > 1 )
+			{
+				String message = "You can synthesize up to " + casts + " times. How many do you want?";
+				Integer value = InputFieldUtilities.getQuantity( message, casts, 1 );
+				if ( value == null )
+				{
+					return;
+				}
+				casts = value.intValue();
+			}
+
+			KoLmafia.updateDisplay( "Synthesizing " + casts + " " + candy1 + " with " + casts + " " + candy2 + "..." );
+
+			SweetSynthesisRequest request = new SweetSynthesisRequest( casts, itemId1, itemId2 );
 			RequestThread.postRequest( request );
 
 			if ( KoLmafia.permitsContinue() )
