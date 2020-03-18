@@ -261,6 +261,8 @@ public class SynthesizeCommand
 			{
 				effect = SynthesizeCommand.findEffectByEffectId( effectId );
 			}
+
+			// If the user specifies two candies, the candy blacklist is not used
 		}
 		else
 		{
@@ -281,6 +283,9 @@ public class SynthesizeCommand
 			}
 
 			effect = SynthesizeCommand.findEffectByCanonicalName( matchingEffects.get( 0 ) );
+
+			// If the user wants us to pick two candies, use the blacklist
+			CandyDatabase.loadBlacklist();
 
 			Candy [] pair = CandyDatabase.synthesisPair( effect.effectId );
 			if ( pair.length == 0 )

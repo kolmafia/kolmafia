@@ -79,6 +79,7 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
@@ -109,6 +110,7 @@ public class SynthesizePanel
 	private JCheckBox[] filters;
 	private boolean availableChecked = false;
 	private boolean chocolateChecked = false;
+	private boolean blacklistChecked = false;
 
 	// The panel with Candy A and Candy B columns
 	private CandyPanel candyPanel;
@@ -172,6 +174,7 @@ public class SynthesizePanel
 		this.add( eastPanel, BorderLayout.EAST );
 
 		NamedListenerRegistry.registerNamedListener( "(candy)", this );
+		PreferenceListenerRegistry.registerPreferenceListener( "sweetSynthesisBlacklist", this );
 
 		this.setEnabled( true );
 	}
@@ -217,12 +220,18 @@ public class SynthesizePanel
 		boolean loggedIn = KoLCharacter.getUserId() > 0;
 		this.availableChecked = loggedIn && !KoLCharacter.canInteract();
 		this.chocolateChecked = false;
+		this.blacklistChecked = true;
 
-		this.filters = new JCheckBox[ 2 ];
+		// Load the current blacklist
+		CandyDatabase.loadBlacklist();
+
+		this.filters = new JCheckBox[ 3 ];
 		this.filters[ 0 ] = new JCheckBox( "available", this.availableChecked );
 		this.filters[ 0 ].setToolTipText( "Show only items that 'acquire' will find. Inventory, at least." );
 		this.filters[ 1 ] = new JCheckBox( "chocolates", this.chocolateChecked );
 		this.filters[ 1 ].setToolTipText( "Allow adventure-producing chocolates as ingredients." );
+		this.filters[ 2 ] = new JCheckBox( "blacklist", this.blacklistChecked );
+		this.filters[ 2 ].setToolTipText( "Do not consider expensive candies from \"sweetSynthesisBlacklist\" property." );
 
 		for ( JCheckBox checkbox : this.filters )
 		{
@@ -238,6 +247,7 @@ public class SynthesizePanel
 	{
 		this.availableChecked = this.filters[0].isSelected();
 		this.chocolateChecked = this.filters[1].isSelected();
+		this.blacklistChecked = this.filters[2].isSelected();
 
 		// Filter candy lists
 		this.filterItems();
@@ -260,8 +270,11 @@ public class SynthesizePanel
 	}
 
 	// called when (candy) fires
+	// called when "sweetSynthesisBlacklist" fires
 	public void update()
 	{
+		CandyDatabase.loadBlacklist();
+
 		for ( Candy candy : this.candyList1.getCandyList() )
 		{
 			candy.update();
@@ -347,7 +360,8 @@ public class SynthesizePanel
 
 			boolean available = SynthesizePanel.this.availableChecked;
 			boolean nochocolate = !SynthesizePanel.this.chocolateChecked;
-			int flags = CandyDatabase.makeFlags( available, nochocolate );
+			boolean useblacklist = SynthesizePanel.this.blacklistChecked;;
+			int flags = CandyDatabase.makeFlags( available, nochocolate, useblacklist );
 
 			for ( Component component : this.getComponents() )
 			{
@@ -662,6 +676,10 @@ public class SynthesizePanel
 					{
 						return false;
 					}
+					if ( SynthesizePanel.this.blacklistChecked && ((Candy)o).isBlacklisted() )
+					{
+						return false;
+					}
 				}
 				return true;
 			}
@@ -760,6 +778,16 @@ public class SynthesizePanel
 
 					boolean available = SynthesizePanel.this.availableChecked;
 					boolean nochocolate = !SynthesizePanel.this.chocolateChecked;
+					boolean useblacklist = SynthesizePanel.this.blacklistChecked;
+
+					if ( nochocolate && candy.isChocolate() )
+					{
+						return false;
+					}
+					if ( useblacklist && candy.isBlacklisted() )
+					{
+						return false;
+					}
 
 					if ( available )
 					{
@@ -773,16 +801,11 @@ public class SynthesizePanel
 						// Filter out candy which has no available pairing
 						int effectId = SynthesizePanel.this.effectId();
 						int itemId = candy.getItemId();
-						int flags = CandyDatabase.makeFlags( available, nochocolate );
+						int flags = CandyDatabase.makeFlags( available, nochocolate, useblacklist );
 						if ( CandyDatabase.sweetSynthesisPairing( effectId, itemId, flags ).size() == 0 )
 						{
 							return false;
 						}
-					}
-
-					if ( nochocolate && candy.isChocolate() )
-					{
-						return false;
 					}
 				}
 				return true;
@@ -830,12 +853,21 @@ public class SynthesizePanel
 				{
 					Candy candy = (Candy)o;
 
-					if ( !SynthesizePanel.this.chocolateChecked && candy.isChocolate() )
+					boolean available = SynthesizePanel.this.availableChecked;
+					boolean nochocolate = !SynthesizePanel.this.chocolateChecked;
+					boolean useblacklist = SynthesizePanel.this.blacklistChecked;
+
+					if ( nochocolate && candy.isChocolate() )
 					{
 						return false;
 					}
 
-					if ( SynthesizePanel.this.availableChecked )
+					if ( useblacklist && candy.isBlacklisted() )
+					{
+						return false;
+					}
+
+					if ( available )
 					{
 						// Filter out candy we have none of.
 						// You can synthesize two of the same
@@ -1015,7 +1047,8 @@ public class SynthesizePanel
 
 			boolean available = SynthesizePanel.this.availableChecked;
 			boolean nochocolate = !SynthesizePanel.this.chocolateChecked;
-			int flags = CandyDatabase.defaultFlags() | CandyDatabase.makeFlags( available, nochocolate );
+			boolean useblacklist = SynthesizePanel.this.blacklistChecked;;
+			int flags = CandyDatabase.defaultFlags() | CandyDatabase.makeFlags( available, nochocolate, useblacklist );
 
 			Candy [] pair = CandyDatabase.synthesisPair( effectId, flags );
 			if ( pair.length == 0 )
