@@ -196,7 +196,12 @@ public class StorageCommand
 			String itemName = item.getName();
 			int storageCount = item.getCount( KoLConstants.storage ) + item.getCount( KoLConstants.freepulls );
 
-			if ( storageCount < item.getCount() )
+			if ( item.getCount() == 0 )
+			{
+				KoLmafia.updateDisplay( "You have " + storageCount + " " + itemName + " in storage." );
+				items[ i ] = null;
+			}
+			else if ( storageCount < item.getCount() )
 			{
 				KoLmafia.updateDisplay( "You only have " + storageCount + " " + itemName + " in storage (you wanted " + item.getCount() + ")" );
 				items[ i ] = item.getInstance( storageCount );
@@ -209,7 +214,15 @@ public class StorageCommand
 			}
 		}
 
-		RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, items ) );
+		// Submit a StorageRequest if there is at least one item to pull.
+		for ( AdventureResult attachment : items )
+		{
+			if ( attachment != null )
+			{
+				RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, items ) );
+				break;
+			}
+		}
 
 		if ( !KoLCharacter.canInteract() )
 		{

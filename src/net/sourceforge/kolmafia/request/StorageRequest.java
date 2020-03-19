@@ -295,12 +295,17 @@ public class StorageRequest
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot remove meat from storage while in Hardcore." );
 				return;
 			case STORAGE_TO_INVENTORY:
-				for ( int i = 0; i < this.attachments.length; i++ )
+				for ( AdventureResult attachment : this.attachments )
 				{
-					if ( !KoLConstants.freepulls.contains( this.attachments[i] ) )
+					if ( attachment == null )
+					{
+						continue;
+					}
+
+					if ( !KoLConstants.freepulls.contains( attachment ) )
 					{
 						KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot pull a " + 
-							  this.attachments[i].getName() + " in Hardcore." );
+									attachment.getName() + " in Hardcore." );
 						return;
 					}
 				}

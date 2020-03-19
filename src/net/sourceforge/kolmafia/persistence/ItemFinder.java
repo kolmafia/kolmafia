@@ -431,8 +431,8 @@ public class ItemFinder
 				}
 			}
 
-			// KoL has an item whose name includes a pilcrow
-			// character. Handle it
+			// KoL has an item whose name includes a pilcrow character.
+			// Handle it
 			String name = parameters;
 
 			// If the pilcrow character is first, it is followed by an item ID
@@ -617,6 +617,13 @@ public class ItemFinder
 
 		if ( itemCount <= 0 )
 		{
+			if ( sourceList == KoLConstants.storage && !KoLCharacter.canInteract() )
+			{
+				// Pulls are budgeted.
+				itemCount = 0;
+				return firstMatch.getInstance( itemCount );
+			}
+
 			itemCount = matchCount + itemCount;
 			firstMatch = firstMatch.getInstance( itemCount );
 		}
