@@ -53,7 +53,7 @@ cotton candy smidgen	item	11	23	11	23	0
 creepy ginger ale	item	0	0	35	45	0
 CSA all-purpose soap	item	0	0	1000	1000	0
 cup of hickory chicory	item	0	0	30	50	0
-delicious shimmering moth	item	0	0	[30*effect(form of...bird!)]	[40*effect(form of...bird!)]	0
+delicious shimmering moth	item	0	0	[30*min(1,effect(form of...bird!))]	[40*min(1,effect(form of...bird!))]	0
 deluxe mushroom	item	30	30	0	0	0
 Devour Minions	skill	[max(floor(HP*0.5),20)]	[max(floor(HP*0.5),20)]	0	0	0
 Diet Cloaca Cola	item	0	0	7	9	0
@@ -118,13 +118,14 @@ Nunnery (War Hippy)	loc	1000	1000	0	0	0	[3-pref(nunsVisits)]
 Okee-Dokee soda	item	0	0	25	50	0
 Oscus's neverending soda	item	0	0	200	300	0	[1-pref(oscusSodaUsed)]
 palm-frond fan	item	35	45	35	45	0
+personal massager	item	[8*min(1,effect(Beaten Up))]	[10*min(1,effect(Beaten Up))]	0	0	0
 phonics down	item	46	50	46	50	0
 pixel energy tank	item	1000	1000	1000	1000	0
 pixel orb	item	[HP]	[HP]	[MP]	[MP]	0
 pixellated candy heart	item	4	5	0	0	0
 plaid bandage	item	120	150	0	0	0
 Platinum Yendorian Express Card	item	0	0	[MP]	[MP]	0	[1-pref(expressCardUsed)]
-plump juicy grub	item	[90*effect(form of...bird!)]	[100*effect(form of...bird!)]	0	0	0
+plump juicy grub	item	[90*min(1,effect(form of...bird!))]	[100*min(1,effect(form of...bird!))]	0	0	0
 Pok&euml;mann band-aid	item	100	100	0	0	0
 # Potion of healing may need special handling
 potion of healing	item	14	16	14	16	0
