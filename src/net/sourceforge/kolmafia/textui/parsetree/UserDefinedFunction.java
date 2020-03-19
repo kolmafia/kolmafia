@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
@@ -113,6 +114,54 @@ public class UserDefinedFunction
 		}
 	}
 
+	private void bindVariableReferences( Interpreter interpreter, Object[] values )
+	{
+		int paramCount = 1;
+		int valueCount = values.length;
+		for ( VariableReference paramVarRef : this.variableReferences )
+		{
+			Value value = null;
+
+			Type paramType = paramVarRef.getType();
+			if ( paramType instanceof VarArgType )
+			{
+				// If this is a vararg, it consumes all remaining values
+				if ( paramCount >= valueCount )
+				{
+					value = new ArrayValue( (VarArgType)paramType, Collections.emptyList() );
+				}
+				else
+				{
+					value = (Value)values[ paramCount ];
+					if ( !paramType.equals( value.getType() ) )
+					{
+						// Collect the values
+						List<Value> varValues = new ArrayList<>();
+						for ( int index = paramCount; index < values.length; ++index )
+						{
+							varValues.add( (Value)values[ index ] );
+						}
+						// Put them into an Array value
+						value = new ArrayValue( (VarArgType)paramType, varValues );
+					}
+					else
+					{
+						// User explicitly passed us an array
+					}
+				}
+			}
+			else
+			{
+				 value = (Value)values[ paramCount ];
+			}
+
+			paramCount++;
+
+			// Bind parameter to new value
+			paramVarRef.setValue( interpreter, value );
+		}
+	}
+
 	@Override
 	public Value execute( final Interpreter interpreter, Object[] values )
 	{
@@ -130,14 +179,8 @@ public class UserDefinedFunction
 		// Save current variable bindings
 		this.saveBindings( interpreter );
 
-		int paramCount = 1;
-		for ( VariableReference paramVarRef : this.variableReferences )
-		{
-			Value value = (Value)values[ paramCount++ ];
-
-			// Bind parameter to new value
-			paramVarRef.setValue( interpreter, value );
-		}
+		// Bind values to variable references
+		this.bindVariableReferences( interpreter, values );
 
 		Value result = this.scope.execute( interpreter );
 

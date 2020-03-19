@@ -106,6 +106,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.TypeDef;
 import net.sourceforge.kolmafia.textui.parsetree.UserDefinedFunction;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
+import net.sourceforge.kolmafia.textui.parsetree.VarArgType;
 import net.sourceforge.kolmafia.textui.parsetree.Variable;
 import net.sourceforge.kolmafia.textui.parsetree.VariableList;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
@@ -295,6 +296,7 @@ public class Parser
 		multiCharTokens.add( "<<=" );
 		multiCharTokens.add( ">>=" );
 		multiCharTokens.add( ">>>=" );
+		multiCharTokens.add( "..." );
 
 		// Constants
 		reservedWords.add( "true" );
@@ -713,6 +715,7 @@ public class Parser
 
 		VariableList paramList = new VariableList();
 		List<VariableReference> variableReferences = new ArrayList<VariableReference>();
+		boolean vararg = false;
 
 		while ( !this.currentToken().equals( ")" ) )
 		{
@@ -720,6 +723,22 @@ public class Parser
 			if ( paramType == null )
 			{
 				throw this.parseException( ")", this.currentToken() );
+			}
+
+			if ( this.currentToken().equals( "..." ) )
+			{
+				// We can only have a single vararg parameter
+				if ( vararg )
+				{
+					throw this.parseException( "Only one vararg parameter is allowed" );
+				}
+				// Make an vararg type out of the previously parsed type.
+				paramType = new VarArgType( paramType );
+
+				this.readToken(); //read ...
+
+				// Only one vararg is allowed
+				vararg = true;
 			}
 
 			Variable param = this.parseVariable( paramType, null );
@@ -735,6 +754,12 @@ public class Parser
 
 			if ( !this.currentToken().equals( ")" ) )
 			{
+				// The single vararg parameter must be the last one
+				if ( vararg )
+				{
+					throw this.parseException( "The vararg parameter must be the last one" );
+				}
+
 				if ( !this.currentToken().equals( "," ) )
 				{
 					throw this.parseException( ")", this.currentToken() );
@@ -2661,6 +2686,9 @@ public class Parser
 
 	private final Function findFunction( final BasicScope scope, final String name, final List<Value> params )
 	{
+		// First, try to find an exact match on parameter types.
+		// This allows strict matches to take precedence.
+
 		Function result = this.findFunction( scope, scope.getFunctions(), name, params, true );
 		if ( result != null )
 		{
@@ -2711,18 +2739,17 @@ public class Parser
 
 		Function[] functions = source.findFunctions( name );
 
-		// First, try to find an exact match on parameter types.
-		// This allows strict matches to take precedence.
-
 		for ( Function function : functions )
 		{
 			Iterator<VariableReference> refIterator = function.getVariableReferences().iterator();
 			Iterator<Value> valIterator = params.iterator();
 			boolean matched = true;
+			VariableReference vararg = null;
 
-			while ( refIterator.hasNext() && valIterator.hasNext() )
+			while ( ( vararg != null || refIterator.hasNext() ) && valIterator.hasNext() )
 			{
-				VariableReference currentParam = refIterator.next();
+				// A VarArg parameter will consume all remaining values
+				VariableReference currentParam = ( vararg != null ) ? vararg : refIterator.next();
 				Type paramType = currentParam.getType();
 				Value currentValue = valIterator.next();
 				Type valueType = currentValue.getType();
@@ -2734,15 +2761,35 @@ public class Parser
 						matched = false;
 						break;
 					}
+					continue;
 				}
-				else if ( !Parser.validCoercion( paramType, valueType, "parameter" ) )
+
+				if ( paramType instanceof VarArgType )
+				{
+					vararg = currentParam;
+					paramType = ((VarArgType) paramType).getDataType();
+				}
+
+				if ( !Parser.validCoercion( paramType, valueType, "parameter" ) )
 				{
 					matched = false;
 					break;
 				}
 			}
 
-			if ( refIterator.hasNext() || valIterator.hasNext() )
+			if ( refIterator.hasNext() )
+			{
+				// If the next parameter is a vararg, this is allowed
+				VariableReference currentParam = refIterator.next();
+				Type paramType = currentParam.getType();
+				
+				if ( !( paramType instanceof VarArgType ) )
+				{
+					matched = false;
+				}
+			}
+
+			if ( valIterator.hasNext() )
 			{
 				matched = false;
 			}

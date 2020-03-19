@@ -83,6 +83,17 @@ public class AggregateType
 		this.caseInsensitive = false;
 	}
 
+	// VarArg
+	public AggregateType( final String name, final Type dataType, final int size )
+	{
+		super( name, DataTypes.TYPE_AGGREGATE );
+		this.primitive = false;
+		this.dataType = dataType;
+		this.indexType = DataTypes.INT_TYPE;
+		this.size = size;
+		this.caseInsensitive = false;
+	}
+
 	@Override
 	public Type getDataType()
 	{
