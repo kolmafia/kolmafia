@@ -42,9 +42,15 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.Parser;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import org.json.JSONException;
@@ -548,10 +554,14 @@ public class Value
 		int type = this.getType().getType();
 		return  type == DataTypes.TYPE_STRING ?
 			Value.escapeString( this.contentString ) :
-			type == DataTypes.TYPE_ITEM || type == DataTypes.TYPE_EFFECT ?
-			( this.contentString.startsWith( "[" ) ?
-			  this.contentString :
-			  "[" + String.valueOf( this.contentLong ) + "]" + this.contentString ) :
+			type == DataTypes.TYPE_ITEM ?
+			"[" + String.valueOf( this.contentLong ) + "]" + ItemDatabase.getDataName( (int) this.contentLong ) :
+			type == DataTypes.TYPE_EFFECT ?
+			"[" + String.valueOf( this.contentLong ) + "]" + EffectDatabase.getEffectName( (int) this.contentLong ) :
+			type == DataTypes.TYPE_MONSTER && this.contentLong != 0 ?
+			"[" + String.valueOf( this.contentLong ) + "]" + MonsterDatabase.getMonsterName( (int) this.contentLong ) :
+			type == DataTypes.TYPE_SKILL ?
+			"[" + String.valueOf( this.contentLong ) + "]" + SkillDatabase.getSkillName( (int) this.contentLong ) :
 			this.toString();
 	}
 
