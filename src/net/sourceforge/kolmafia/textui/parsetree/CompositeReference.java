@@ -77,6 +77,16 @@ public class CompositeReference
 		return type;
 	}
 
+	public Type getRawType()
+	{
+		Type type = this.target.getType();
+		for ( Value current : this.indices )
+		{
+			type = ( (CompositeType) type.asProxy() ).getDataType( current );
+		}
+		return type;
+	}
+
 	@Override
 	public String getName()
 	{
