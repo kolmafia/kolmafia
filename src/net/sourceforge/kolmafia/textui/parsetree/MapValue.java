@@ -96,7 +96,7 @@ public class MapValue
 		}
 		else
 		{
-			throw interpreter.runtimeException( "Internal error: Cannot assign " + valType + " to " + dataType );
+			throw interpreter.runtimeException( "Internal error: Cannot assign " + valType + " to " + baseType );
 		}
 	}
 

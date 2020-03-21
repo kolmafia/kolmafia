@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -204,6 +205,66 @@ public abstract class Function
 			// If it fails, don't print the disabled message.
 			// Which means, exiting here is okay.
 		}
+	}
+
+	public Object[] bindVariableReferences( Interpreter interpreter, Object[] values )
+	{
+		List<Object> newValues = new ArrayList<>();
+
+		// This is the interpreter.
+		newValues.add( values[ 0 ] );
+
+		int paramCount = 1;
+		int valueCount = values.length;
+		for ( VariableReference paramVarRef : this.variableReferences )
+		{
+			Value value = null;
+
+			Type paramType = paramVarRef.getType();
+			if ( paramType instanceof VarArgType )
+			{
+				// If this is a vararg, it consumes all remaining values
+				if ( paramCount >= valueCount )
+				{
+					value = new ArrayValue( (VarArgType)paramType, Collections.emptyList() );
+				}
+				else
+				{
+					value = (Value)values[ paramCount ];
+					if ( !paramType.equals( value.getType() ) )
+					{
+						// Collect the values
+						List<Value> varValues = new ArrayList<>();
+						for ( int index = paramCount; index < values.length; ++index )
+						{
+							varValues.add( (Value)values[ index ] );
+						}
+						// Put them into an Array value
+						value = new ArrayValue( (VarArgType)paramType, varValues );
+					}
+					else
+					{
+						// User explicitly passed us an array
+					}
+				}
+			}
+			else
+			{
+				 value = (Value)values[ paramCount ];
+			}
+
+			paramCount++;
+
+			// Bind parameter to new value
+			paramVarRef.setValue( interpreter, value );
+
+			// Add to new values list
+			newValues.add( value );
+		}
+
+		// If this function has a VarArg parameter, we've collapsed
+		// multiple values into an array.
+		return newValues.toArray( new Object[ newValues.size() ] );
 	}
 
 	@Override

@@ -36,6 +36,10 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -100,8 +104,12 @@ public class LibraryFunction
 
 		try
 		{
+			// Bind values to variable references.
+			// Collapse values into VarArgs array
+			values = this.bindVariableReferences( interpreter, values );
+
 			// Invoke the method
-			return (Value) this.method.invoke( this, (Object []) values );
+			return (Value) this.method.invoke( this, values );
 		}
 		catch ( InvocationTargetException e )
 		{

@@ -171,6 +171,11 @@ public class Value
 		return this.type.getBaseType();
 	}
 
+	public Type getRawType()
+	{
+		return this.type;
+	}
+
 	@Override
 	public String toString()
 	{
