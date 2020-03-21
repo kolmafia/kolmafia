@@ -151,10 +151,9 @@ public class UserDefinedFunction
 	{
 		Function[] functions = RuntimeLibrary.functions.findFunctions( this.name );
 
-		for ( int i = 0; i < functions.length; ++i )
+		for ( Function function : functions )
 		{
-			Function function = functions[ i ];
-			if ( this.paramsMatch( function, true ) )
+			if ( this.paramsMatch( function ) )
 			{
 				return true;
 			}

@@ -65,7 +65,7 @@ public abstract class BasicScope
 	protected VariableList variables;
 	protected FunctionList functions;
 	protected BasicScope parentScope;
-	protected ArrayList<BasicScope> nestedScopes;
+	protected List<BasicScope> nestedScopes;
 	boolean executed;
 
 	public BasicScope( FunctionList functions, VariableList variables, TypeList types, BasicScope parentScope )
@@ -74,7 +74,7 @@ public abstract class BasicScope
 		this.types = ( types == null ) ? new TypeList() : types;
 		this.variables = ( variables == null ) ? new VariableList() : variables;
 		this.parentScope = parentScope;
-		this.nestedScopes = new ArrayList<BasicScope>();
+		this.nestedScopes = new ArrayList<>();
 		this.nestedScopes.add( this );
 		while ( parentScope != null )
 		{
@@ -307,7 +307,7 @@ public abstract class BasicScope
 			if ( options[ i ] instanceof UserDefinedFunction )
 			{
 				UserDefinedFunction existing = (UserDefinedFunction) options[ i ];
-				if ( f.paramsMatch( existing, true ) )
+				if ( f.paramsMatch( existing ) )
 				{
 					return existing;
 				}
