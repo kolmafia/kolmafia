@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -45,6 +46,8 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
+
+import net.sourceforge.kolmafia.textui.parsetree.Function.MatchType;
 
 import net.sourceforge.kolmafia.utilities.PauseObject;
 
@@ -164,44 +167,127 @@ public abstract class BasicScope
 		return this.functions.remove( f );
 	}
 
-	public Function findFunction( final String name, final List<Value> params )
+	public final Function findFunction( final String name, List<Value> params )
 	{
-		Function result = this.findFunction( this.functions, name, params, true );
-
-		if ( result == null )
+		// Functions with no params are fine.
+		if ( params == null )
 		{
-			result = this.findFunction( RuntimeLibrary.functions, name, params, true );
+			params = Collections.emptyList();
 		}
 
-		if ( result == null )
+		// We will consider functions from this scope and from the RuntimeLibrary.
+		Function[] userFunctions = this.functions.findFunctions( name );
+		Function[] libraryFunctions = RuntimeLibrary.functions.findFunctions( name );
+
+		Function result = null;
+
+		// Exact, no vararg, user functions
+		result = this.findFunction( this, userFunctions, name, params, MatchType.EXACT, false );
+		if ( result != null )
 		{
-			result = this.findFunction( this.functions, name, params, false );
+			return result;
 		}
 
-		if ( result == null )
+		// Exact, no vararg, library functions
+		result = this.findFunction( null, libraryFunctions, name, params, MatchType.EXACT, false );
+		if ( result != null )
 		{
-			result = this.findFunction( RuntimeLibrary.functions, name, params, false );
+			return result;
 		}
 
-		return result;
+		// Exact, vararg, user functions
+		result = this.findFunction( this, userFunctions, name, params, MatchType.EXACT, true );
+		if ( result != null )
+		{
+			return result;
+		}
+
+		// Exact, vararg, library functions
+		result = this.findFunction( null, libraryFunctions, name, params, MatchType.EXACT, true );
+		if ( result != null )
+		{
+			return result;
+		}
+
+		// Base, no vararg, user functions
+		result = this.findFunction( this, userFunctions, name, params, MatchType.BASE, false );
+		if ( result != null )
+		{
+			return result;
+		}
+
+		// Base, no vararg, library functions
+		result = this.findFunction( null, libraryFunctions, name, params, MatchType.BASE, false );
+		if ( result != null )
+		{
+			return result;
+		}
+
+		// Base, vararg, user functions
+		result = this.findFunction( this, userFunctions, name, params, MatchType.BASE, true );
+		if ( result != null )
+		{
+			return result;
+		}
+
+		// Base, vararg, library functions
+		result = this.findFunction( null, libraryFunctions, name, params, MatchType.BASE, true );
+		if ( result != null )
+		{
+			return result;
+		}
+
+		// Coerce, no vararg, user functions
+		result = this.findFunction( this, userFunctions, name, params, MatchType.COERCE, false );
+		if ( result != null )
+		{
+			return result;
+		}
+
+		// Coerce, no vararg, library functions
+		result = this.findFunction( null, libraryFunctions, name, params, MatchType.COERCE, false );
+		if ( result != null )
+		{
+			return result;
+		}
+
+		// Coerce, vararg, user functions
+		result = this.findFunction( this, userFunctions, name, params, MatchType.COERCE, true );
+		if ( result != null )
+		{
+			return result;
+		}
+
+		// Coerce, vararg, library functions
+		result = this.findFunction( null, libraryFunctions, name, params, MatchType.COERCE, true );
+		if ( result != null )
+		{
+			return result;
+		}
+
+		return null;
 	}
 
-	private Function findFunction( final FunctionList source, final String name, final List<Value> params, boolean exact )
+	private final Function findFunction( BasicScope scope, final Function[] functions, String name,
+					     final List<Value> params, MatchType match, boolean vararg )
 	{
-		Function[] functions = source.findFunctions( name );
-
-		for ( int i = 0; i < functions.length; ++i )
+		for ( Function function : functions )
 		{
-			Function function = functions[ i ];
-			if ( function.paramsMatch( params, exact ) )
+			if ( function.paramsMatch( params, match, vararg ) )
 			{
 				return function;
 			}
 		}
 
-		if ( !exact && this.parentScope != null )
+		if ( scope == null )
 		{
-			return this.parentScope.findFunction( name, params );
+			return null;
+		}
+
+		BasicScope parent = scope.getParentScope();
+		if ( parent != null )
+		{
+			return parent.findFunction( name, params );
 		}
 
 		return null;

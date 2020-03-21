@@ -107,6 +107,13 @@ public abstract class Function
 		return this.signature;
 	}
 
+	public enum MatchType
+	{
+		EXACT,
+		BASE,
+		COERCE;
+	}
+
 	public boolean paramsMatch( final Function that, boolean exact )
 	{
 		// The types of the other function's parameters must exactly
@@ -125,7 +132,7 @@ public abstract class Function
 				continue;
 			}
 
-			if ( !exact && Parser.validCoercion( p1Type, p2Type, "parameter" ) )
+			if ( !exact && Operator.validCoercion( p1Type, p2Type, "parameter" ) )
 			{
 				continue;
 			}
@@ -163,7 +170,7 @@ public abstract class Function
 				continue;
 			}
 
-			if ( !exact && Parser.validCoercion( paramType, valueType, "parameter" ) )
+			if ( !exact && Operator.validCoercion( paramType, valueType, "parameter" ) )
 			{
 				continue;
 			}
@@ -177,6 +184,148 @@ public abstract class Function
 		}
 
 		return true;
+	}
+
+	public boolean paramsMatch( final List<Value> params, MatchType match, boolean vararg )
+	{
+		return ( vararg ) ? this.paramsMatchVararg( params, match ) : this.paramsMatchNoVararg(  params, match );
+	}
+
+	private boolean paramsMatchNoVararg( final List<Value> params, MatchType match )
+	{
+		Iterator<VariableReference> refIterator = this.getVariableReferences().iterator();
+		Iterator<Value> valIterator = params.iterator();
+		boolean matched = true;
+
+		while ( matched && refIterator.hasNext() && valIterator.hasNext() )
+		{
+			VariableReference currentParam = refIterator.next();
+			Type paramType = currentParam.getType();
+
+			if ( paramType == null || paramType instanceof VarArgType )
+			{
+				matched = false;
+				break;
+			}
+
+			Value currentValue = valIterator.next();
+			Type valueType = currentValue.getType();
+
+			switch ( match )
+			{
+			case EXACT:
+				if ( !currentParam.getRawType().equals( currentValue.getRawType() ) )
+				{
+					matched = false;
+				}
+				break;
+						
+			case BASE:
+				if ( !paramType.equals( valueType ) )
+				{
+					matched = false;
+				}
+				break;
+
+			case COERCE:
+				if ( !Operator.validCoercion( paramType, valueType, "parameter" ) )
+				{
+					matched = false;
+				}
+				break;
+			}
+		}
+
+		if ( matched && !refIterator.hasNext() && !valIterator.hasNext() )
+		{
+			return true;
+		}
+		return false;
+	}
+
+	private boolean paramsMatchVararg( final List<Value> params, MatchType match )
+	{
+		Iterator<VariableReference> refIterator = this.getVariableReferences().iterator();
+		Iterator<Value> valIterator = params.iterator();
+		boolean matched = true;
+		VariableReference vararg = null;
+		VarArgType varargType = null;
+
+		while ( matched && ( vararg != null || refIterator.hasNext() ) && valIterator.hasNext() )
+		{
+			// A VarArg parameter will consume all remaining values
+			VariableReference currentParam = ( vararg != null ) ? vararg : refIterator.next();
+			Type paramType = currentParam.getType();
+			Value currentValue = valIterator.next();
+			Type valueType = currentValue.getType();
+
+			// If have found the vararg, remember it.
+			if ( vararg == null && paramType instanceof VarArgType )
+			{
+				vararg = currentParam;
+				varargType = ((VarArgType) paramType);
+			}
+
+			// Only one vararg is allowed. It must be at the end.
+			if ( vararg != null && refIterator.hasNext() )
+			{
+				matched = false;
+				break;
+			}
+
+			switch ( match )
+			{
+			case EXACT:
+				if ( !paramType.equals( valueType ) )
+				{
+					matched = false;
+				}
+				break;
+						
+			case BASE:
+				if ( vararg != null )
+				{
+					paramType = varargType.getDataType();
+				}
+				if ( !paramType.equals( valueType ) )
+				{
+					matched = false;
+				}
+				break;
+
+			case COERCE:
+				if ( vararg != null )
+				{
+					paramType = varargType.getDataType();
+				}
+				if ( !Operator.validCoercion( paramType, valueType, "parameter" ) )
+				{
+					matched = false;
+				}
+				break;
+			}
+		}
+
+		if ( refIterator.hasNext() )
+		{
+			// If the next parameter is a vararg, this is
+			// allowed if we ran out of parameters.
+			VariableReference currentParam = refIterator.next();
+			Type paramType = currentParam.getType();
+				
+			if ( paramType instanceof VarArgType )
+			{
+				vararg = currentParam;
+				matched = true;
+			}
+		}
+
+		if ( matched && vararg != null && !refIterator.hasNext() && !valIterator.hasNext() )
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	public void printDisabledMessage( Interpreter interpreter )
