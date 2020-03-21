@@ -114,7 +114,7 @@ public abstract class Function
 		COERCE;
 	}
 
-	public boolean paramsMatch( final Function that, boolean exact )
+	public boolean paramsMatch( final Function that )
 	{
 		// The types of the other function's parameters must exactly
 		// match the types of this function's parameters
@@ -128,11 +128,6 @@ public abstract class Function
 			Type p2Type = it2.next().getType();
 
 			if ( p1Type.equals( p2Type ) )
-			{
-				continue;
-			}
-
-			if ( !exact && Operator.validCoercion( p1Type, p2Type, "parameter" ) )
 			{
 				continue;
 			}
