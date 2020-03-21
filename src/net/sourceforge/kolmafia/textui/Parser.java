@@ -77,6 +77,7 @@ import net.sourceforge.kolmafia.textui.parsetree.ElseIf;
 import net.sourceforge.kolmafia.textui.parsetree.ForEachLoop;
 import net.sourceforge.kolmafia.textui.parsetree.ForLoop;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
+import net.sourceforge.kolmafia.textui.parsetree.Function.MatchType;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionCall;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionInvocation;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
@@ -892,10 +893,9 @@ public class Parser
 				throw this.parseException( "Expression expected" );
 			}
 
-			if ( !Parser.validCoercion( ltype, rhs.getType(), "assign" ) )
+			if ( !Operator.validCoercion( ltype, rhs.getType(), "assign" ) )
 			{
-				throw this.parseException(
-					"Cannot store " + rhs.getType() + " in " + variableName + " of type " + ltype );
+				throw this.parseException( "Cannot store " + rhs.getType() + " in " + variableName + " of type " + ltype );
 			}
 		}
 		else if ( this.currentToken().equals( "{" ) && ltype instanceof AggregateType )
@@ -1178,7 +1178,7 @@ public class Parser
 			if ( isArray )
 			{
 				// The value must have the correct data type
-				if ( !Parser.validCoercion( dataType, lhs.getType(), "assign" ) )
+				if ( !Operator.validCoercion( dataType, lhs.getType(), "assign" ) )
 				{
 					throw this.parseException( "Invalid array literal" );
 				}
@@ -1221,8 +1221,8 @@ public class Parser
 			}
 
 			// Check that each type is valid via validCoercion
-			if ( !Parser.validCoercion( index, lhs.getType(), "assign" ) ||
-			     !Parser.validCoercion( data, rhs.getType(), "assign" ) )
+			if ( !Operator.validCoercion( index, lhs.getType(), "assign" ) ||
+			     !Operator.validCoercion( data, rhs.getType(), "assign" ) )
 			{
 				throw this.parseException( "Invalid map literal" );
 			}
@@ -1412,8 +1412,7 @@ public class Parser
 				throw this.parseException( "Expression expected" );
 			}
 
-			if ( expectedType != null &&
-				!Parser.validCoercion( expectedType, value.getType(), "return" ) )
+			if ( expectedType != null && !Operator.validCoercion( expectedType, value.getType(), "return" ) )
 			{
 				throw this.parseException( "Cannot return " + value.getType() + " value from " + expectedType + " function");
 			}
@@ -2263,7 +2262,7 @@ public class Parser
 				Type ltype = t.getBaseType();
 				Type rtype = rhs.getType();
 
-				if ( !Parser.validCoercion( ltype, rtype, "assign" ) )
+				if ( !Operator.validCoercion( ltype, rtype, "assign" ) )
 				{
 					throw this.parseException( "Cannot store " + rtype + " in " + name + " of type " + ltype );
 				}
@@ -2470,7 +2469,7 @@ public class Parser
 				if ( val != DataTypes.VOID_VALUE )
 				{
 					Type given = val.getType();
-					if ( !Parser.validCoercion( expected, given, "assign" ) )
+					if ( !Operator.validCoercion( expected, given, "assign" ) )
 					{
 						throw this.parseException( given + " found when " + expected + " expected for field #" + ( param + 1 ) + " (" + names[param] + ")" );
 					}
@@ -2522,7 +2521,7 @@ public class Parser
 		this.readToken(); //name
 
 		List<Value> params = this.parseParameters( scope, firstParam );
-		Function target = this.findFunction( scope, name, params );
+		Function target = scope.findFunction( name, params );
 
 		if ( target == null )
 		{
@@ -2665,286 +2664,6 @@ public class Parser
 		return parsePostCall( scope, call );
 	}
 
-	public enum MatchType
-	{
-		EXACT,
-		BASE,
-		COERCE;
-	}
-
-	private final Function findFunction( final BasicScope scope, final String name, final List<Value> params )
-	{
-		// First, try to find an exact match on parameter types.
-		// This allows strict matches to take precedence.
-		Function result = null;
-
-		// Exact, no vararg, user functions
-		result = this.findFunction( scope, scope.getFunctions(), name, params, MatchType.EXACT, false );
-		if ( result != null )
-		{
-			return result;
-		}
-
-		// Exact, no vararg, library functions
-		result = this.findFunction( scope, RuntimeLibrary.functions, name, params, MatchType.EXACT, false );
-		if ( result != null )
-		{
-			return result;
-		}
-
-		// Exact, vararg, user functions
-		result = this.findFunction( scope, scope.getFunctions(), name, params, MatchType.EXACT, true );
-		if ( result != null )
-		{
-			return result;
-		}
-
-		// Exact, vararg, library functions
-		result = this.findFunction( scope, RuntimeLibrary.functions, name, params, MatchType.EXACT, true );
-		if ( result != null )
-		{
-			return result;
-		}
-
-		// Base, no vararg, user functions
-		result = this.findFunction( scope, scope.getFunctions(), name, params, MatchType.BASE, false );
-		if ( result != null )
-		{
-			return result;
-		}
-
-		// Base, no vararg, library functions
-		result = this.findFunction( scope, RuntimeLibrary.functions, name, params, MatchType.BASE, false );
-		if ( result != null )
-		{
-			return result;
-		}
-
-		// Base, vararg, user functions
-		result = this.findFunction( scope, scope.getFunctions(), name, params, MatchType.BASE, true );
-		if ( result != null )
-		{
-			return result;
-		}
-
-		// Base, vararg, library functions
-		result = this.findFunction( scope, RuntimeLibrary.functions, name, params, MatchType.BASE, true );
-		if ( result != null )
-		{
-			return result;
-		}
-
-		// Coerce, no vararg, user functions
-		result = this.findFunction( scope, scope.getFunctions(), name, params, MatchType.COERCE, false );
-		if ( result != null )
-		{
-			return result;
-		}
-
-		// Coerce, no vararg, library functions
-		result = this.findFunction( scope, RuntimeLibrary.functions, name, params, MatchType.COERCE, false );
-		if ( result != null )
-		{
-			return result;
-		}
-
-		// Coerce, vararg, user functions
-		result = this.findFunction( scope, scope.getFunctions(), name, params, MatchType.COERCE, true );
-		if ( result != null )
-		{
-			return result;
-		}
-
-		// Coerce, vararg, library functions
-		result = this.findFunction( scope, RuntimeLibrary.functions, name, params, MatchType.COERCE, true );
-		if ( result != null )
-		{
-			return result;
-		}
-
-		return null;
-	}
-
-	private final Function findFunction( BasicScope scope, final FunctionList source,
-					     final String name, final List<Value> params,
-					     MatchType match, boolean vararg )
-	{
-		if ( params == null )
-		{
-			return null;
-		}
-
-		Function[] functions = source.findFunctions( name );
-		Function function = this.findFunction( functions, params, match, vararg );
-
-		if ( function != null )
-		{
-			return function;
-		}
-
-		if ( match == MatchType.EXACT || source == RuntimeLibrary.functions )
-		{
-			return null;
-		}
-
-		BasicScope parent = scope.getParentScope();
-		if ( scope.getParentScope() != null )
-		{
-			return findFunction( parent, name, params );
-		}
-
-		return null;
-	}
-
-	private final Function findFunction( Function[] functions, final List<Value> params,
-					     MatchType match, boolean vararg )
-
-	{
-		return ( vararg ) ? findVarArgFunction( functions, params, match ) : findNoVarArgFunction( functions, params, match );
-	}
-
-	private final Function findNoVarArgFunction( Function[] functions, final List<Value> params, MatchType match )
-	{
-		for ( Function function : functions )
-		{
-			Iterator<VariableReference> refIterator = function.getVariableReferences().iterator();
-			Iterator<Value> valIterator = params.iterator();
-			boolean matched = true;
-
-			while ( matched && refIterator.hasNext() && valIterator.hasNext() )
-			{
-				VariableReference currentParam = refIterator.next();
-				Type paramType = currentParam.getType();
-
-				if ( paramType == null || paramType instanceof VarArgType )
-				{
-					matched = false;
-					break;
-				}
-
-				Value currentValue = valIterator.next();
-				Type valueType = currentValue.getType();
-
-				switch ( match )
-				{
-				case EXACT:
-					if ( !currentParam.getRawType().equals( currentValue.getRawType() ) )
-					{
-						matched = false;
-					}
-					break;
-						
-				case BASE:
-					if ( !paramType.equals( valueType ) )
-					{
-						matched = false;
-					}
-					break;
-
-				case COERCE:
-					if ( !Parser.validCoercion( paramType, valueType, "parameter" ) )
-					{
-						matched = false;
-					}
-					break;
-				}
-			}
-
-			if ( matched && !refIterator.hasNext() && !valIterator.hasNext() )
-			{
-				return function;
-			}
-		}
-		return null;
-	}
-
-	private final Function findVarArgFunction( Function[] functions, final List<Value> params, MatchType match )
-	{
-		for ( Function function : functions )
-		{
-			Iterator<VariableReference> refIterator = function.getVariableReferences().iterator();
-			Iterator<Value> valIterator = params.iterator();
-			boolean matched = true;
-			VariableReference vararg = null;
-			VarArgType varargType = null;
-
-			while ( matched && ( vararg != null || refIterator.hasNext() ) && valIterator.hasNext() )
-			{
-				// A VarArg parameter will consume all remaining values
-				VariableReference currentParam = ( vararg != null ) ? vararg : refIterator.next();
-				Type paramType = currentParam.getType();
-				Value currentValue = valIterator.next();
-				Type valueType = currentValue.getType();
-
-				// If have found the vararg, remember it.
-				if ( vararg == null && paramType instanceof VarArgType )
-				{
-					vararg = currentParam;
-					varargType = ((VarArgType) paramType);
-				}
-
-				// Only one vararg is allowed. It must be at the end.
-				if ( vararg != null && refIterator.hasNext() )
-				{
-					matched = false;
-					break;
-				}
-
-				switch ( match )
-				{
-				case EXACT:
-					if ( !paramType.equals( valueType ) )
-					{
-						matched = false;
-					}
-					break;
-						
-				case BASE:
-					if ( vararg != null )
-					{
-						paramType = varargType.getDataType();
-					}
-					if ( !paramType.equals( valueType ) )
-					{
-						matched = false;
-					}
-					break;
-
-				case COERCE:
-					if ( vararg != null )
-					{
-						paramType = varargType.getDataType();
-					}
-					if ( !Parser.validCoercion( paramType, valueType, "parameter" ) )
-					{
-						matched = false;
-					}
-					break;
-				}
-			}
-
-			if ( refIterator.hasNext() )
-			{
-				// If the next parameter is a vararg, this is
-				// allowed if we ran out of parameters.
-				VariableReference currentParam = refIterator.next();
-				Type paramType = currentParam.getType();
-				
-				if ( paramType instanceof VarArgType )
-				{
-					vararg = currentParam;
-					matched = true;
-				}
-			}
-
-			if ( matched && vararg != null && !refIterator.hasNext() && !valIterator.hasNext() )
-			{
-				return function;
-			}
-		}
-		return null;
-	}
-
 	private Assignment parseAssignment( final BasicScope scope, final VariableReference lhs )
 	{
 		String operStr = this.currentToken();
@@ -2997,7 +2716,7 @@ public class Parser
 			throw this.parseException( "Internal error" );
 		}
 
-		if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), oper ) )
+		if ( !oper.validCoercion( lhs.getType(), rhs.getType() ) )
 		{
 			String error =
 				oper.isLogical() ?
@@ -3230,10 +2949,9 @@ public class Parser
 					throw this.parseException( "Value expected" );
 				}
 
-				if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), oper ) )
+				if ( !oper.validCoercion( lhs.getType(), rhs.getType() ) )
 				{
-					throw this.parseException(
-						"Cannot choose between " + lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ")" );
+					throw this.parseException( "Cannot choose between " + lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ")" );
 				}
 
 				lhs = new TernaryExpression( conditional, lhs, rhs );
@@ -3264,10 +2982,9 @@ public class Parser
 						lhs = new Concatenate( lhs, rhs );
 					}
 				}
-				else if ( !Parser.validCoercion( ltype, rtype, oper ) )
+				else if ( !oper.validCoercion( ltype, rtype ) )
 				{
-					throw this.parseException(
-						"Cannot apply operator " + oper + " to " + lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ")" );
+					throw this.parseException( "Cannot apply operator " + oper + " to " + lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ")" );
 				}
 				else
 				{
@@ -4169,99 +3886,6 @@ public class Parser
 		return this.parseDirective( "import" );
 	}
 
-	public static final boolean validCoercion( Type lhs, Type rhs, final Operator oper )
-	{
-		int ltype = lhs.getBaseType().getType();
-		int rtype = rhs.getBaseType().getType();
-
-		if ( oper.isInteger() )
-		{
-			return ( ltype == DataTypes.TYPE_INT && rtype == DataTypes.TYPE_INT );
-		}
-		if ( oper.isBoolean() )
-		{
-			return ltype == rtype && ( ltype == DataTypes.TYPE_BOOLEAN );
-		}
-		if ( oper.isLogical() )
-		{
-			return ltype == rtype && ( ltype == DataTypes.TYPE_INT || ltype == DataTypes.TYPE_BOOLEAN );
-		}
-		return Parser.validCoercion( lhs, rhs, oper.toString() );
-	}
-
-	public static final boolean validCoercion( Type lhs, Type rhs, final String oper )
-	{
-		// Resolve aliases
-
-		lhs = lhs.getBaseType();
-		rhs = rhs.getBaseType();
-
-		if ( oper == null )
-		{
-			return lhs.getType() == rhs.getType();
-		}
-
-		// "oper" is either a standard operator or is a special name:
-		//
-		// "parameter" - value used as a function parameter
-		//	lhs = parameter type, rhs = expression type
-		//
-		// "return" - value returned as function value
-		//	lhs = function return type, rhs = expression type
-		//
-		// "assign" - value
-		//	lhs = variable type, rhs = expression type
-
-		// The "contains" operator requires an aggregate on the left
-		// and the correct index type on the right.
-
-		if ( oper.equals( "contains" ) )
-		{
-			return lhs.getType() == DataTypes.TYPE_AGGREGATE && ( (AggregateType) lhs ).getIndexType().getBaseType().equals( rhs );
-		}
-
-		// If the types are equal, no coercion is necessary
-		if ( lhs.equals( rhs ) )
-		{
-			return true;
-		}
-
-		if ( lhs.equals( DataTypes.ANY_TYPE ) )
-		{
-			return true;
-		}
-
-		// Noncoercible strings only accept strings
-		if ( lhs.equals( DataTypes.STRICT_STRING_TYPE ) )
-		{
-			return rhs.equals( DataTypes.TYPE_STRING ) || rhs.equals( DataTypes.TYPE_BUFFER );
-		}
-
-		// Anything coerces to a string
-		if ( lhs.equals( DataTypes.TYPE_STRING ) )
-		{
-			return true;
-		}
-
-		// Anything coerces to a string for concatenation
-		if ( oper.equals( "+" ) && rhs.equals( DataTypes.TYPE_STRING ) )
-		{
-			return true;
-		}
-
-		// Int coerces to float
-		if ( lhs.equals( DataTypes.TYPE_INT ) && rhs.equals( DataTypes.TYPE_FLOAT ) )
-		{
-			return true;
-		}
-
-		if ( lhs.equals( DataTypes.TYPE_FLOAT ) && rhs.equals( DataTypes.TYPE_INT ) )
-		{
-			return true;
-		}
-
-		return false;
-	}
 
 	// **************** Tokenizer *****************
 

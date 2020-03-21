@@ -82,7 +82,7 @@ public class CompositeReference
 		Type type = this.target.getType();
 		for ( Value current : this.indices )
 		{
-			type = ( (CompositeType) type.asProxy() ).getDataType( current );
+			type = ( (CompositeType) type.getBaseType().asProxy() ).getDataType( current );
 		}
 		return type;
 	}

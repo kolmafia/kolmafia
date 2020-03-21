@@ -103,7 +103,7 @@ public class FunctionInvocation
 			throw interpreter.undefinedFunctionException( func, this.params );
 		}
 
-		if ( !Parser.validCoercion( this.type, function.getType(), "return" ) )
+		if ( !Operator.validCoercion( this.type, function.getType(), "return" ) )
 		{
 			throw interpreter.runtimeException( "Calling \"" + func + "\", which returns " + function.getType() + " but " + this.type + " expected" );
 		}

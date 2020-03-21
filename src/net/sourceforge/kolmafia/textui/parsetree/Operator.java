@@ -230,6 +230,99 @@ public class Operator
 		return this.operator;
 	}
 
+	public boolean validCoercion( Type lhs, Type rhs )
+	{
+		int ltype = lhs.getBaseType().getType();
+		int rtype = rhs.getBaseType().getType();
+
+		if ( this.isInteger() )
+		{
+			return ( ltype == DataTypes.TYPE_INT && rtype == DataTypes.TYPE_INT );
+		}
+		if ( this.isBoolean() )
+		{
+			return ltype == rtype && ( ltype == DataTypes.TYPE_BOOLEAN );
+		}
+		if ( this.isLogical() )
+		{
+			return ltype == rtype && ( ltype == DataTypes.TYPE_INT || ltype == DataTypes.TYPE_BOOLEAN );
+		}
+		return Operator.validCoercion( lhs, rhs, this.toString() );
+	}
+
+	public static final boolean validCoercion( Type lhs, Type rhs, final String oper )
+	{
+		// Resolve aliases
+		lhs = lhs.getBaseType();
+		rhs = rhs.getBaseType();
+
+		if ( oper == null )
+		{
+			return lhs.getType() == rhs.getType();
+		}
+
+		// "oper" is either a standard operator or is a special name:
+		//
+		// "parameter" - value used as a function parameter
+		//	lhs = parameter type, rhs = expression type
+		//
+		// "return" - value returned as function value
+		//	lhs = function return type, rhs = expression type
+		//
+		// "assign" - value
+		//	lhs = variable type, rhs = expression type
+
+		// The "contains" operator requires an aggregate on the left
+		// and the correct index type on the right.
+
+		if ( oper.equals( "contains" ) )
+		{
+			return lhs.getType() == DataTypes.TYPE_AGGREGATE && ( (AggregateType) lhs ).getIndexType().getBaseType().equals( rhs );
+		}
+
+		// If the types are equal, no coercion is necessary
+		if ( lhs.equals( rhs ) )
+		{
+			return true;
+		}
+
+		if ( lhs.equals( DataTypes.ANY_TYPE ) )
+		{
+			return true;
+		}
+
+		// Noncoercible strings only accept strings
+		if ( lhs.equals( DataTypes.STRICT_STRING_TYPE ) )
+		{
+			return rhs.equals( DataTypes.TYPE_STRING ) || rhs.equals( DataTypes.TYPE_BUFFER );
+		}
+
+		// Anything coerces to a string
+		if ( lhs.equals( DataTypes.TYPE_STRING ) )
+		{
+			return true;
+		}
+
+		// Anything coerces to a string for concatenation
+		if ( oper.equals( "+" ) && rhs.equals( DataTypes.TYPE_STRING ) )
+		{
+			return true;
+		}
+
+		// Int coerces to float
+		if ( lhs.equals( DataTypes.TYPE_INT ) && rhs.equals( DataTypes.TYPE_FLOAT ) )
+		{
+			return true;
+		}
+
+		if ( lhs.equals( DataTypes.TYPE_FLOAT ) && rhs.equals( DataTypes.TYPE_INT ) )
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 	private Value compareValues( final Interpreter interpreter, Value leftValue, Value rightValue )
 	{
 		Type ltype = leftValue.getType();
@@ -657,7 +750,7 @@ public class Operator
 		}
 
 		// Ensure type compatibility of operands
-		if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), this ) )
+		if ( !this.validCoercion( lhs.getType(), rhs.getType() ) )
 		{
 			throw interpreter.runtimeException( "Internal error: left hand side and right hand side do not correspond", this.fileName, this.lineNumber );
 		}
