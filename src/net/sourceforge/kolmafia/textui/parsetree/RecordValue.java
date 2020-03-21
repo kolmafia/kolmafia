@@ -132,8 +132,7 @@ public class RecordValue
 		}
 		else
 		{
-			throw interpreter.runtimeException(
-				"Internal error: Cannot assign " + val.getType() + " to " + array[ index ].getType() );
+			throw interpreter.runtimeException( "Internal error: Cannot assign " + val.getType() + " to " + array[ index ].getType() );
 		}
 	}
 

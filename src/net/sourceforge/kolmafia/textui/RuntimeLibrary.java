@@ -222,6 +222,7 @@ import net.sourceforge.kolmafia.textui.parsetree.RecordType;
 import net.sourceforge.kolmafia.textui.parsetree.RecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
+import net.sourceforge.kolmafia.textui.parsetree.VarArgType;
 
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
@@ -1715,16 +1716,16 @@ public abstract class RuntimeLibrary
 		//
 		// The float versions must come first.
 
-		params = new Type[] { DataTypes.FLOAT_TYPE, DataTypes.FLOAT_TYPE };
+		params = new Type[] { DataTypes.FLOAT_TYPE, DataTypes.VARARG_FLOAT_TYPE };
 		functions.add( new LibraryFunction( "min", DataTypes.FLOAT_TYPE, params ) );
 
-		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE };
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.VARARG_INT_TYPE };
 		functions.add( new LibraryFunction( "min", DataTypes.INT_TYPE, params ) );
 
-		params = new Type[] { DataTypes.FLOAT_TYPE, DataTypes.FLOAT_TYPE };
+		params = new Type[] { DataTypes.FLOAT_TYPE, DataTypes.VARARG_FLOAT_TYPE };
 		functions.add( new LibraryFunction( "max", DataTypes.FLOAT_TYPE, params ) );
 
-		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE };
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.VARARG_INT_TYPE };
 		functions.add( new LibraryFunction( "max", DataTypes.INT_TYPE, params ) );
 
 		// String encoding/decoding functions.
@@ -7313,26 +7314,59 @@ public abstract class RuntimeLibrary
 
 	public static Value min( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		if ( arg1.getType() == DataTypes.INT_TYPE && arg2.getType() == DataTypes.INT_TYPE )
+		if ( arg1.getType().equals( DataTypes.INT_TYPE ) && arg2.getType().equals( DataTypes.VARARG_INT_TYPE ) )
 		{
-			return new Value(  Math.min( arg1.toIntValue().intValue(),
-						     arg2.toIntValue().intValue() ) );
+			long min = arg1.toIntValue().intValue();
+			ArrayValue array = (ArrayValue) arg2;
+			int length = array.count();
+			for ( int i = 0; i < length; ++i )
+			{
+				Value value = array.aref( new Value( i ) );
+				min = Math.min( min, value.toIntValue().intValue() );
+			}
+			return new Value( min );
 		}
-		return new Value( Math.min( arg1.toFloatValue().floatValue(),
-					    arg2.toFloatValue().floatValue() ) );
+		else
+		{
+			double min = arg1.toFloatValue().floatValue();
+			ArrayValue array = (ArrayValue) arg2;
+			int length = array.count();
+			for ( int i = 0; i < length; ++i )
+			{
+				Value value = array.aref( new Value( i ) );
+				min = Math.min( min, value.toFloatValue().floatValue() );
+			}
+			return new Value( min );
+		}
 
 	}
 
 	public static Value max( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		if ( arg1.getType() == DataTypes.INT_TYPE && arg2.getType() == DataTypes.INT_TYPE )
+		if ( arg1.getType().equals( DataTypes.INT_TYPE ) && arg2.getType().equals( DataTypes.VARARG_INT_TYPE ) )
 		{
-			return new Value( Math.max( arg1.toIntValue().intValue(),
-						    arg2.toIntValue().intValue() ) );
+			long max = arg1.toIntValue().intValue();
+			ArrayValue array = (ArrayValue) arg2;
+			int length = array.count();
+			for ( int i = 0; i < length; ++i )
+			{
+				Value value = array.aref( new Value( i ) );
+				max = Math.max( max, value.toIntValue().intValue() );
+			}
+			return new Value( max );
 		}
-		return new Value( Math.max( arg1.toFloatValue().floatValue(),
-					    arg2.toFloatValue().floatValue() ) );
-
+		else
+		{
+			double max = arg1.toFloatValue().floatValue();
+			ArrayValue array = (ArrayValue) arg2;
+			int length = array.count();
+			for ( int i = 0; i < length; ++i )
+			{
+				Value value = array.aref( new Value( i ) );
+				max = Math.max( max, value.toFloatValue().floatValue() );
+			}
+			return new Value( max );
+		}
 	}
 
 	// Settings-type functions.

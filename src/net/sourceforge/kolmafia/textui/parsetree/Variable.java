@@ -151,8 +151,7 @@ public class Variable
 		}
 		else
 		{
-			throw new ScriptException(
-				"Internal error: Cannot assign " + targetValue.getType() + " to " + this.getType() );
+			throw interpreter.runtimeException( "Internal error: Cannot assign " + targetValue.getType() + " to " + this.getType() );
 		}
 	}
 

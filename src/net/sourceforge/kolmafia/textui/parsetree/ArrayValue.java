@@ -84,7 +84,7 @@ public class ArrayValue
 		int index = (int) key.intValue();
 		if ( index < 0 || index >= array.length )
 		{
-			throw interpreter.runtimeException( "Array index out of bounds" );
+			throw interpreter.runtimeException( "Array index [" + index +"] out of bounds (" + array.length + ")" );
 		}
 		return array[ index ];
 	}
@@ -96,7 +96,7 @@ public class ArrayValue
 		int index = (int) key.intValue();
 		if ( index < 0 || index >= array.length )
 		{
-			throw interpreter.runtimeException( "Array index out of bounds" );
+			throw interpreter.runtimeException( "Array index [" + index +"] out of bounds (" + array.length + ")" );
 		}
 
 		Type dataType = array[ index ].getType();
@@ -134,7 +134,7 @@ public class ArrayValue
 		int index = (int) key.intValue();
 		if ( index < 0 || index >= array.length )
 		{
-			throw interpreter.runtimeException( "Array index out of bounds" );
+			throw interpreter.runtimeException( "Array index [" + index +"] out of bounds (" + array.length + ")" );
 		}
 		Value result = array[ index ];
 		array[ index ] = this.getDataType().initialValue();

@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.TypeList;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
+import net.sourceforge.kolmafia.textui.parsetree.VarArgType;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -188,6 +189,9 @@ public class DataTypes
 	public static final AggregateType REGEX_GROUP_TYPE =
 		new AggregateType(
 			new AggregateType( DataTypes.STRING_TYPE, DataTypes.INT_TYPE ), DataTypes.INT_TYPE );
+
+	public static final VarArgType VARARG_FLOAT_TYPE = new VarArgType( DataTypes.FLOAT_TYPE );
+	public static final VarArgType VARARG_INT_TYPE = new VarArgType( DataTypes.INT_TYPE );
 
 	// Common values
 

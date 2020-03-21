@@ -2665,64 +2665,101 @@ public class Parser
 		return parsePostCall( scope, call );
 	}
 
-        private static final String [] COMPAT_FUNCTIONS = {
-                "to_string",
-                "to_boolean",
-                "to_int",
-                "to_float",
-                "to_item",
-                "to_class",
-                "to_stat",
-                "to_skill",
-                "to_effect",
-                "to_location",
-                "to_familiar",
-                "to_monster",
-                "to_slot",
-                "to_element",
-                "to_coinmaster",
-                "to_url",
-        };
+	public enum MatchType
+	{
+		EXACT,
+		BASE,
+		COERCE;
+	}
 
 	private final Function findFunction( final BasicScope scope, final String name, final List<Value> params )
 	{
 		// First, try to find an exact match on parameter types.
 		// This allows strict matches to take precedence.
+		Function result = null;
 
-		Function result = this.findFunction( scope, scope.getFunctions(), name, params, true );
+		// Exact, no vararg, user functions
+		result = this.findFunction( scope, scope.getFunctions(), name, params, MatchType.EXACT, false );
 		if ( result != null )
 		{
 			return result;
 		}
 
-		result = this.findFunction( scope, RuntimeLibrary.functions, name, params, true );
+		// Exact, no vararg, library functions
+		result = this.findFunction( scope, RuntimeLibrary.functions, name, params, MatchType.EXACT, false );
 		if ( result != null )
 		{
 			return result;
 		}
 
-		result = this.findFunction( scope, scope.getFunctions(), name, params, false );
+		// Exact, vararg, user functions
+		result = this.findFunction( scope, scope.getFunctions(), name, params, MatchType.EXACT, true );
 		if ( result != null )
 		{
 			return result;
 		}
 
-		result = this.findFunction( scope, RuntimeLibrary.functions, name, params, false );
+		// Exact, vararg, library functions
+		result = this.findFunction( scope, RuntimeLibrary.functions, name, params, MatchType.EXACT, true );
 		if ( result != null )
 		{
 			return result;
 		}
 
-		// Just in case some people didn't edit their scripts to use
-		// the new function format, check for the old versions as well.
-
-		for ( int i = 0; i < COMPAT_FUNCTIONS.length; ++i )
+		// Base, no vararg, user functions
+		result = this.findFunction( scope, scope.getFunctions(), name, params, MatchType.BASE, false );
+		if ( result != null )
 		{
-			String fname = COMPAT_FUNCTIONS[i];
-			if ( !name.equals( fname ) && name.endsWith( fname ) )
-			{
-				return this.findFunction( scope, fname, params );
-			}
+			return result;
+		}
+
+		// Base, no vararg, library functions
+		result = this.findFunction( scope, RuntimeLibrary.functions, name, params, MatchType.BASE, false );
+		if ( result != null )
+		{
+			return result;
+		}
+
+		// Base, vararg, user functions
+		result = this.findFunction( scope, scope.getFunctions(), name, params, MatchType.BASE, true );
+		if ( result != null )
+		{
+			return result;
+		}
+
+		// Base, vararg, library functions
+		result = this.findFunction( scope, RuntimeLibrary.functions, name, params, MatchType.BASE, true );
+		if ( result != null )
+		{
+			return result;
+		}
+
+		// Coerce, no vararg, user functions
+		result = this.findFunction( scope, scope.getFunctions(), name, params, MatchType.COERCE, false );
+		if ( result != null )
+		{
+			return result;
+		}
+
+		// Coerce, no vararg, library functions
+		result = this.findFunction( scope, RuntimeLibrary.functions, name, params, MatchType.COERCE, false );
+		if ( result != null )
+		{
+			return result;
+		}
+
+		// Coerce, vararg, user functions
+		result = this.findFunction( scope, scope.getFunctions(), name, params, MatchType.COERCE, true );
+		if ( result != null )
+		{
+			return result;
+		}
+
+		// Coerce, vararg, library functions
+		result = this.findFunction( scope, RuntimeLibrary.functions, name, params, MatchType.COERCE, true );
+		if ( result != null )
+		{
+			return result;
 		}
 
 		return null;
@@ -2730,7 +2767,7 @@ public class Parser
 
 	private final Function findFunction( BasicScope scope, final FunctionList source,
 					     final String name, final List<Value> params,
-					     boolean isExactMatch )
+					     MatchType match, boolean vararg )
 	{
 		if ( params == null )
 		{
@@ -2738,15 +2775,100 @@ public class Parser
 		}
 
 		Function[] functions = source.findFunctions( name );
+		Function function = this.findFunction( functions, params, match, vararg );
 
+		if ( function != null )
+		{
+			return function;
+		}
+
+		if ( match == MatchType.EXACT || source == RuntimeLibrary.functions )
+		{
+			return null;
+		}
+
+		BasicScope parent = scope.getParentScope();
+		if ( scope.getParentScope() != null )
+		{
+			return findFunction( parent, name, params );
+		}
+
+		return null;
+	}
+
+	private final Function findFunction( Function[] functions, final List<Value> params,
+					     MatchType match, boolean vararg )
+
+	{
+		return ( vararg ) ? findVarArgFunction( functions, params, match ) : findNoVarArgFunction( functions, params, match );
+	}
+
+	private final Function findNoVarArgFunction( Function[] functions, final List<Value> params, MatchType match )
+	{
+		for ( Function function : functions )
+		{
+			Iterator<VariableReference> refIterator = function.getVariableReferences().iterator();
+			Iterator<Value> valIterator = params.iterator();
+			boolean matched = true;
+
+			while ( matched && refIterator.hasNext() && valIterator.hasNext() )
+			{
+				VariableReference currentParam = refIterator.next();
+				Type paramType = currentParam.getType();
+
+				if ( paramType == null || paramType instanceof VarArgType )
+				{
+					matched = false;
+					break;
+				}
+
+				Value currentValue = valIterator.next();
+				Type valueType = currentValue.getType();
+
+				switch ( match )
+				{
+				case EXACT:
+					if ( !currentParam.getRawType().equals( currentValue.getRawType() ) )
+					{
+						matched = false;
+					}
+					break;
+						
+				case BASE:
+					if ( !paramType.equals( valueType ) )
+					{
+						matched = false;
+					}
+					break;
+
+				case COERCE:
+					if ( !Parser.validCoercion( paramType, valueType, "parameter" ) )
+					{
+						matched = false;
+					}
+					break;
+				}
+			}
+
+			if ( matched && !refIterator.hasNext() && !valIterator.hasNext() )
+			{
+				return function;
+			}
+		}
+		return null;
+	}
+
+	private final Function findVarArgFunction( Function[] functions, final List<Value> params, MatchType match )
+	{
 		for ( Function function : functions )
 		{
 			Iterator<VariableReference> refIterator = function.getVariableReferences().iterator();
 			Iterator<Value> valIterator = params.iterator();
 			boolean matched = true;
 			VariableReference vararg = null;
+			VarArgType varargType = null;
 
-			while ( ( vararg != null || refIterator.hasNext() ) && valIterator.hasNext() )
+			while ( matched && ( vararg != null || refIterator.hasNext() ) && valIterator.hasNext() )
 			{
 				// A VarArg parameter will consume all remaining values
 				VariableReference currentParam = ( vararg != null ) ? vararg : refIterator.next();
@@ -2754,62 +2876,72 @@ public class Parser
 				Value currentValue = valIterator.next();
 				Type valueType = currentValue.getType();
 
-				if ( isExactMatch )
-				{
-					if ( paramType == null || !paramType.equals( valueType ) )
-					{
-						matched = false;
-						break;
-					}
-					continue;
-				}
-
-				if ( paramType instanceof VarArgType )
+				// If have found the vararg, remember it.
+				if ( vararg == null && paramType instanceof VarArgType )
 				{
 					vararg = currentParam;
-					paramType = ((VarArgType) paramType).getDataType();
+					varargType = ((VarArgType) paramType);
 				}
 
-				if ( !Parser.validCoercion( paramType, valueType, "parameter" ) )
+				// Only one vararg is allowed. It must be at the end.
+				if ( vararg != null && refIterator.hasNext() )
 				{
 					matched = false;
+					break;
+				}
+
+				switch ( match )
+				{
+				case EXACT:
+					if ( !paramType.equals( valueType ) )
+					{
+						matched = false;
+					}
+					break;
+						
+				case BASE:
+					if ( vararg != null )
+					{
+						paramType = varargType.getDataType();
+					}
+					if ( !paramType.equals( valueType ) )
+					{
+						matched = false;
+					}
+					break;
+
+				case COERCE:
+					if ( vararg != null )
+					{
+						paramType = varargType.getDataType();
+					}
+					if ( !Parser.validCoercion( paramType, valueType, "parameter" ) )
+					{
+						matched = false;
+					}
 					break;
 				}
 			}
 
 			if ( refIterator.hasNext() )
 			{
-				// If the next parameter is a vararg, this is allowed
+				// If the next parameter is a vararg, this is
+				// allowed if we ran out of parameters.
 				VariableReference currentParam = refIterator.next();
 				Type paramType = currentParam.getType();
 				
-				if ( !( paramType instanceof VarArgType ) )
+				if ( paramType instanceof VarArgType )
 				{
-					matched = false;
+					vararg = currentParam;
+					matched = true;
 				}
 			}
 
-			if ( valIterator.hasNext() )
-			{
-				matched = false;
-			}
-
-			if ( matched )
+			if ( matched && vararg != null && !refIterator.hasNext() && !valIterator.hasNext() )
 			{
 				return function;
 			}
 		}
-
-		if ( isExactMatch || source == RuntimeLibrary.functions )
-		{
-			return null;
-		}
-
-		if ( scope.getParentScope() != null )
-		{
-			return findFunction( scope.getParentScope(), name, params );
-		}
-
 		return null;
 	}
 

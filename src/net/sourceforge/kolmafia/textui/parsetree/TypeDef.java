@@ -68,4 +68,9 @@ public class TypeDef
 	{
 		return new TypeInitializer( this.base.getBaseType() );
 	}
+
+	public boolean equals( final Type type )
+	{
+		return this.getBaseType() == type.getBaseType();
+	}
 }

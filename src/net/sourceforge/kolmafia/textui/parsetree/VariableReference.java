@@ -65,6 +65,11 @@ public class VariableReference
 		return this.target.getBaseType();
 	}
 
+	public Type getRawType()
+	{
+		return this.target.getType();
+	}
+
 	public String getName()
 	{
 		return this.target.getName();
