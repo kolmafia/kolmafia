@@ -12618,7 +12618,27 @@ public abstract class ChoiceManager
 				ResultProcessor.autoCreate( ItemPool.TALISMAN );
 			}
 			break;
-		
+
+		case 855:
+		{
+			// Behind the 'Stache
+			String hazard = Preferences.getString( "copperheadClubHazard" );
+			switch ( ChoiceManager.lastDecision )
+			{
+			case 1:
+				hazard = "gong";
+				break;
+			case 2:
+				hazard = "ice";
+				break;
+			case 3:
+				hazard = "lantern";
+				break;
+			}
+			Preferences.setString( "copperheadClubHazard", hazard );
+			break;
+		}
+
 		case 856:
 		{
 			// This Looks Like a Good Bush for an Ambush
