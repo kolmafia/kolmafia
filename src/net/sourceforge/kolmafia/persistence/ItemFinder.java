@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
@@ -631,7 +632,16 @@ public class ItemFinder
 		{
 			if ( errorOnFailure )
 			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "[" + ( itemCount > 1 ? itemCount + " " : "" ) + firstMatch.getName() + "] requested, but " + ( matchCount == 0 ? "none" : "only " + matchCount ) + " available." );
+				String message = "";
+				if ( sourceList == KoLConstants.freepulls && !Modifiers.getBooleanModifier( "Item", firstMatch.getItemId(), "Free Pull" ) )
+				{
+					message = "[" +  firstMatch.getName() + "] requested, but it's not a Free Pull";
+				}
+				else
+				{
+					message = "[" + ( itemCount > 1 ? itemCount + " " : "" ) + firstMatch.getName() + "] requested, but " + ( matchCount == 0 ? "none" : "only " + matchCount ) + " available.";
+				}
+				KoLmafia.updateDisplay( MafiaState.ERROR, message );
 			}
 
 			return null;
@@ -686,6 +696,11 @@ public class ItemFinder
 
 			if ( name.endsWith( " meat" ) )
 			{
+				if ( sourceList == KoLConstants.freepulls )
+				{
+					continue;
+				}
+
 				String amountString = name.substring( 0, name.length() - 5 ).trim();
 
 				if ( amountString.equals( "*" ) || StringUtilities.isNumeric( amountString ) )

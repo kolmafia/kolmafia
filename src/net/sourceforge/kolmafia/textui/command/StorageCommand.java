@@ -64,21 +64,22 @@ public class StorageCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		if ( KoLCharacter.isHardcore() )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot pull things from storage when you are in Hardcore." );
-			return;
-		}
+		boolean inHardcore = KoLCharacter.isHardcore();
 
 		if ( parameters.trim().equals( "all" ) )
 		{
-			if ( !KoLCharacter.canInteract() )
+			if ( inHardcore )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot empty storage when you are in Hardcore." );
+			}
+			else if ( !KoLCharacter.canInteract() )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot pull everything while your pulls are limited." );
-				return;
 			}
-
-			RequestThread.postRequest( new StorageRequest( StorageRequest.EMPTY_STORAGE ) );
+			else
+			{
+				RequestThread.postRequest( new StorageRequest( StorageRequest.EMPTY_STORAGE ) );
+			}
 			return;
 		}
 
@@ -86,6 +87,11 @@ public class StorageCommand
 
 		if ( parameters.startsWith( "outfit " ) )
 		{
+			if ( inHardcore )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot pull things from storage when you are in Hardcore." );
+				return;
+			}
 			String name = parameters.substring( 7 ).trim();
 			SpecialOutfit outfit = EquipmentManager.getMatchingOutfit( name );
 			if ( outfit == null )
@@ -153,6 +159,10 @@ public class StorageCommand
 
 			items = needed.toArray();
 		}
+		else if ( inHardcore)
+		{
+			items = ItemFinder.getMatchingItemList( parameters, KoLConstants.freepulls );
+		}
 		else
 		{
 			items = ItemFinder.getMatchingItemList( parameters, KoLConstants.storage );
@@ -170,7 +180,10 @@ public class StorageCommand
 			AdventureResult item = items[ i ];
 			if ( item.getName().equals( AdventureResult.MEAT ) )
 			{
-				RequestThread.postRequest( new StorageRequest( StorageRequest.PULL_MEAT_FROM_STORAGE, item.getCount() ) );
+				if ( !inHardcore )
+				{
+					RequestThread.postRequest( new StorageRequest( StorageRequest.PULL_MEAT_FROM_STORAGE, item.getCount() ) );
+				}
 
 				items[ i ] = null;
 				++meatAttachmentCount;
@@ -224,7 +237,7 @@ public class StorageCommand
 			}
 		}
 
-		if ( !KoLCharacter.canInteract() )
+		if ( !inHardcore && !KoLCharacter.canInteract() )
 		{
 			int pulls = ConcoctionDatabase.getPullsRemaining();
 			if ( pulls >= 0 && KoLmafia.permitsContinue() )
