@@ -1212,6 +1212,7 @@ public class ProxyRecordValue
 			.add( "kisses", DataTypes.INT_TYPE )
 			.add( "recommended_stat", DataTypes.INT_TYPE )
 			.add( "water_level", DataTypes.INT_TYPE )
+			.add( "wanderers", DataTypes.BOOLEAN_TYPE )
 			.finish( "location proxy" );
 
 		public LocationProxy( Value obj )
@@ -1316,6 +1317,11 @@ public class ProxyRecordValue
 		public int get_water_level()
 		{
 			return KoLCharacter.inRaincore() ? ( (KoLAdventure) this.content ).getWaterLevel() : 0;
+		}
+
+		public boolean get_wanderers()
+		{
+			return ( (KoLAdventure) this.content ).hasWanderers();
 		}
 	}
 
