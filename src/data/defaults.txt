@@ -1363,6 +1363,7 @@ user	_affirmationCookieEaten	false
 user	_affirmationHateUsed	false
 user	_aguaDrops	0
 user	_akgyxothUsed	false
+user	_xenomorphCharge	0
 user	_alienAnimalMilkUsed	false
 user	_alienPlantPodUsed	false
 user	_allYearSucker	false
@@ -1373,10 +1374,11 @@ user	_armyToddlerCast	false
 user	_astralDrops	0
 user	_baconMachineUsed	false
 user	_badlyRomanticArrows	0
-user	_balefulHowlUses	0
-user	_bagOTricksUsed	false
+user	_badgerCharge	0
 user	_bagOfCandy	false
 user	_bagOfCandyUsed	false
+user	_bagOTricksUsed	false
+user	_balefulHowlUses	0
 user	_ballastTurtleUsed	false
 user	_ballInACupUsed	false
 user	_ballpit	false
@@ -1398,8 +1400,8 @@ user	_birdsSoughtToday	0
 user	_bittycar
 user	_blankoutUsed	false
 user	_bonersSummoned	false
-user	_boomBoxSongsLeft	11
 user	_boomBoxFights	9
+user	_boomBoxSongsLeft	11
 user	_bootStomps	0
 user	_borrowedTimeUsed	false
 user	_bowleggedSwaggerUsed	false
@@ -1407,8 +1409,8 @@ user	_boxingGloveArrows	0
 user	_boxOfHammersUsed	false
 user	_brainPreservationFluidUsed	false
 user	_brassDreadFlaskUsed	false
-user	_brickoFights	0
 user	_brickoEyeSummons	0
+user	_brickoFights	0
 user	_cameraUsed	false
 user	_campAwayCloudBuffs	0
 user	_campAwaySmileBuffSign
@@ -1461,24 +1463,24 @@ user	_daycareNap	false
 user	_daycareRecruits	0
 user	_daycareSpa	false
 user	_daycareToday	false
-user	_deckCardsSeen
 user	_deckCardsDrawn	0
+user	_deckCardsSeen
+user	_defectiveTokenChecked	false
 user	_defectiveTokenUsed	false
 user	_deluxeKlawSummons	0
-user	_defectiveTokenChecked	false
 user	_demandSandwich	0
 user	_detectiveCasesCompleted	0
 user	_dinseyGarbageDisposed	false
 user	_disavowed	0
 user	_discoKnife	false
 user	_distentionPillUsed	false
-user	_dnaPotionsMade	0
 user	_dnaHybrid	false
+user	_dnaPotionsMade	0
 user	_donhosCasts	0
-user	_drunkPygmyBanishes	0
 user	_dreamJarDrops	0
-user	_edLashCount	0
+user	_drunkPygmyBanishes	0
 user	_edDefeats	0
+user	_edLashCount	0
 user	_eldritchHorrorEvoked	false
 user	_eldritchTentacleFought	false
 user	_elronsCasts	0
@@ -1533,16 +1535,19 @@ user	_glitchMonsterFights	0
 user	_gnollEyeUsed	false
 user	_gnomeAdv	0
 user	_godLobsterFights	0
+user	_goldenMoneyCharge	0
 user	_gongDrops	0
-user	_gothKidFights	0
 user	_gothKidCharge	0
+user	_gothKidFights	0
 user	_grimBuff	false
+user	_grimBrotherCharge	0
 user	_grimFairyTaleDrops	0
 user	_grimFairyTaleDropsCrown	0
 user	_grimoireConfiscatorSummons	0
 user	_grimoireGeekySummons	0
 user	_grimstoneMaskDrops	0
 user	_grimstoneMaskDropsCrown	0
+user	_grooseCharge	0
 user	_grooseDrops	0
 user	_guildManualUsed	false
 user	_hardKnocksDiplomaUsed	false
@@ -1559,11 +1564,11 @@ user	_holoWristCrystal	false
 user	_holoWristDrops	0
 user	_holoWristProgress	0
 user	_horsery
-user	_horseryCurrentName
+user	_horseryCrazyMox
 user	_horseryCrazyMus
 user	_horseryCrazyMys
-user	_horseryCrazyMox
 user	_horseryCrazyName
+user	_horseryCurrentName
 user	_horseryDarkName
 user	_horseryNormalName
 user	_horseryPaleName
@@ -1585,9 +1590,9 @@ user	_internetGallonOfMilkBought	false
 user	_internetPlusOneBought	false
 user	_internetPrintScreenButtonBought	false
 user	_internetViralVideoBought	false
-user	_interviewVlad	false
 user	_interviewIsabella	false
 user	_interviewMasquerade	false
+user	_interviewVlad	false
 user	_ironicMoustache	false
 user	_jackassPlumberGame	false
 user	_jarlsCheeseSummoned	false
@@ -1610,7 +1615,6 @@ user	_jingleBellUsed	false
 user	_jitbCharge	0
 user	_jukebox	false
 user	_jungDrops	0
-user	_kloopDrops	0
 user	_kgbClicksUsed	0
 user	_kgbDispenserUses	0
 user	_kgbLeftDrawerUsed	false
@@ -1618,13 +1622,15 @@ user	_kgbOpened	false
 user	_kgbRightDrawerUsed	false
 user	_kgbTranquilizerDartUses	0
 user	_klawSummons	0
+user	_kloopCharge	0
+user	_kloopDrops	0
 user	_kolConSixPackUsed	false
 user	_kolhsAdventures	0
-user	_kolhsSavedByTheBell	0
-user	_kolhsSchoolSpirited	false
-user	_kolhsPoeticallyLicenced	false
 user	_kolhsCutButNotDried	false
 user	_kolhsIsskayLikeAnAshtray	false
+user	_kolhsPoeticallyLicenced	false
+user	_kolhsSavedByTheBell	0
+user	_kolhsSchoolSpirited	false
 user	_lastCombatStarted
 user	_lastDailyDungeonRoom	0
 user	_LastPirateRealmIsland
@@ -1633,12 +1639,13 @@ user	_lastZomboEye	0
 user	_latteBanishUsed	false
 user	_latteCopyUsed	false
 user	_latteDrinkUsed	false
-user	_latteMonster	
+user	_latteMonster
 user	_latteRefillsUsed	0
 user	_leafblowerML	1
 user	_legendaryBeat	false
 user	_legionJackhammerCrafting	0
 user	_licenseToChillUsed	false
+user	_llamaCharge	0
 user	_longConUsed	0
 user	_lookingGlass	false
 user	_loveChocolatesUsed	0
@@ -1677,9 +1684,9 @@ user	_neverendingPartyFreeTurns	0
 user	_neverendingPartyToday	false
 user	_newYouQuestCompleted	false
 user	_newYouQuestMonster
-user	_newYouQuestSkill
 user	_newYouQuestSharpensDone	0
 user	_newYouQuestSharpensToDo	0
+user	_newYouQuestSkill
 user	_nightmareFuelCharges	0
 user	_noHatModifier
 user	_noobSkillCount	0
@@ -1691,15 +1698,15 @@ user	_optimisticCandleDropsCrown	0
 user	_oreDropsCrown	0
 user	_otoscopeUsed	0
 user	_pantogramModifier
-user	_pantsgivingFullness	0
 user	_pantsgivingBanish	0
 user	_pantsgivingCount	0
 user	_pantsgivingCrumbs	0
+user	_pantsgivingFullness	0
 user	_partyHard	false
 user	_pastaAdditive	false
 user	_pasteDrops	0
-user	_perfectlyFairCoinUsed	false
 user	_perfectFreezeUsed	false
+user	_perfectlyFairCoinUsed	false
 user	_peteJukeboxFixed	0
 user	_peteJumpedShark	0
 user	_petePartyThrown	false
@@ -1711,6 +1718,7 @@ user	_pieDrops	0
 user	_piePartsCount	0
 user	_pirateBellowUsed	false
 user	_pixelOrbUsed	false
+user	_pixieCharge	0
 user	_pneumaticityPotionUsed	false
 user	_pocketProfessorLectures	0
 user	_poisonArrows	0
@@ -1721,9 +1729,8 @@ user	_powderedMadnessUses	0
 user	_powerfulGloveBatteryPowerUsed	0
 user	_powerPillDrops	0
 user	_powerPillUses	0
-user	_prToday	false
 user	_precisionCasts	0
-user 	_preventScurvy	false
+user	_prToday	false
 user	_psychoJarFilled	false
 user	_psychoJarUsed	false
 user	_psychokineticHugUsed	false
@@ -1742,12 +1749,14 @@ user	_resolutionAdv	0
 user	_rhinestonesAcquired	false
 user	_riftletAdv	0
 user	_roboDrinks
+user	_rogueProgramCharge	0
 user	_romanticFightsLeft	0
 user	_saberForceMonster
 user	_saberForceMonsterCount	0
 user	_saberForceUses	0
 user	_saberMod	0
 user	_saltGrainsConsumed	0
+user	_sandwormCharge	0
 user	_sausageFights	0
 user	_sausagesEaten	0
 user	_sausagesMade	0
@@ -1774,9 +1783,9 @@ user	_smithsnessSummons	0
 user	_snojoFreeFights	0
 user	_snojoParts	0
 user	_snokebombUsed	0
+user	_snowconeSummons	0
 user	_snowglobeDrops	0
 user	_snowSuitCount	0
-user	_snowconeSummons	0
 user	_sobrieTeaUsed	false
 user	_softwareGlitchTurnReceived	false
 user	_sourceTerminalDigitizeMonster
@@ -1804,6 +1813,7 @@ user	_spaceJellyfishDrops	0
 user	_spaghettiBreakfast	false
 user	_spaghettiBreakfastEaten	false
 user	_speakeasyDrinksDrunk	0
+user	_spelunkerCharges	0
 user	_spelunkingTalesDrops	0
 user	_spinningWheel	false
 user	_spookyAirportToday	false
@@ -1814,11 +1824,11 @@ user	_steamCardDrops	0
 user	_steelyEyedSquintUsed	false
 user	_stenchAirportToday	false
 user	_stickerSummons	0
-user	_stinkyCheeseCount	0
 user	_stinkyCheeseBanisherUsed	false
+user	_stinkyCheeseCount	0
 user	_stolenAccordions
-user	_stressBallSqueezes	0
 user	_streamsCrossed	false
+user	_stressBallSqueezes	0
 user	_stuffedPocketwatchUsed	false
 user	_styxSprayUsed	false
 user	_sugarSummons	0
@@ -1858,6 +1868,7 @@ user	_turkeyMoxie	0
 user	_turtlePowerCast	false
 user	_twelveNightEnergyUsed	false
 user	_ultraMegaSourBallUsed	false
+user	_unconsciousCollectiveCharge	0
 user	_universeCalculated	0
 user	_universeImploded	0
 user	_unknownEasyBountyItem	
@@ -1914,12 +1925,13 @@ user	_warbearBreakfastMachineUsed	false
 user	_warbearGyrocopterUsed	false
 user	_warbearSodaMachineUsed	false
 user	_whiteRiceDrops	0
-user	_witchessFights	0
 user	_witchessBuff	false
+user	_witchessFights	0
 user	_workshedItemUsed	false
 user	_xoHugsUsed	0
 user	_zapCount	0
 user	_zombieClover	false
+user 	_preventScurvy	false
 user	choiceAdventure2	2
 user	choiceAdventure3	3
 user	choiceAdventure4	3
@@ -2640,4 +2652,3 @@ user	unknownRecipe7755	true
 user	unknownRecipe7756	true
 user	unknownRecipe7757	true
 user	unknownRecipe7758	true
-

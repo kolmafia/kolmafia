@@ -3324,6 +3324,8 @@ public class FightRequest
 			{
 				Preferences.setInteger( "_nanorhinoCharge", 100 );
 			}
+			int nanorhinoCharge = Preferences.getInteger( "_nanorhinoCharge" );
+			familiar.setCharges( nanorhinoCharge );
 			break;
 		}
 
@@ -3858,6 +3860,8 @@ public class FightRequest
 				{
 					Preferences.increment( "_hareCharge", 1 );
 				}
+				int hareCharge = Preferences.getInteger( "_hareCharge" );
+				familiar.setCharges( hareCharge );
 				break;
 
 			case FamiliarPool.GIBBERER:
@@ -3881,6 +3885,8 @@ public class FightRequest
 						Preferences.setInteger( "_gibbererCharge", 0 );
 					}
 				}
+				int gibbererCharge = Preferences.getInteger( "_gibbererCharge" );
+				familiar.setCharges( gibbererCharge );
 				break;
 
 			case FamiliarPool.STOCKING_MIMIC:
@@ -3924,6 +3930,8 @@ public class FightRequest
 				{
 					Preferences.setInteger( "_jitbCharge", 0 );
 				}
+				int jitbCharge = Preferences.getInteger( "_jitbCharge" );
+				familiar.setCharges( jitbCharge );
 				break;
 				
 			case FamiliarPool.HATRACK:
@@ -4066,6 +4074,8 @@ public class FightRequest
 					{
 						Preferences.increment( "_gothKidCharge", 1 );
 					}
+					int gothKidCharge = Preferences.getInteger( "_gothKidCharge" );
+					familiar.setCharges( gothKidCharge );
 				}
 				break;
 
@@ -4080,13 +4090,145 @@ public class FightRequest
 					{
 						Preferences.increment( "_shrubCharge", 1 );
 					}
+					int shrubCharge = Preferences.getInteger( "_shrubCharge" );
+					familiar.setCharges( shrubCharge );
 				}
+				break;
+
+			case FamiliarPool.BADGER:
+				if ( responseText.contains( "produces a rainbow-colored mushroom" ) )
+				{
+					Preferences.setInteger( "_badgerCharge", 0 );
+				}
+				else
+				{
+					Preferences.increment( "_badgerCharge", 1 );
+				}
+				int badgerCharge = Preferences.getInteger( "_badgerCharge" );
+				familiar.setCharges( badgerCharge );
+				break;
+
+			case FamiliarPool.PIXIE:
+				if ( responseText.contains( "He tosses you a bottle of absinthe" ) )
+				{
+					Preferences.setInteger( "_pixieCharge", 0 );
+				}
+				else
+				{
+					Preferences.increment( "_pixieCharge", 1 );
+				}
+				int pixieCharge = Preferences.getInteger( "_pixieCharge" );
+				familiar.setCharges( pixieCharge );
+				break;
+
+			case FamiliarPool.LLAMA:
+				if ( responseText.contains( "This gong will enable you to see things" ) )
+				{
+					Preferences.setInteger( "_llamaCharge", 0 );
+				}
+				else
+				{
+					Preferences.increment( "_llamaCharge", 1 );
+				}
+				int llamaCharge = Preferences.getInteger( "_llamaCharge" );
+				familiar.setCharges( llamaCharge );
+				break;
+
+			case FamiliarPool.SANDWORM:
+				if ( responseText.contains( "he belches some murky fluid back into the bottle and hands it to you" ) )
+				{
+					Preferences.setInteger( "_sandwormCharge", 0 );
+				}
+				else
+				{
+					Preferences.increment( "_sandwormCharge", 1 );
+				}
+				int sandwormCharge = Preferences.getInteger( "_sandwormCharge" );
+				familiar.setCharges( sandwormCharge );
+				break;
+
+			case FamiliarPool.TRON:
+				if ( responseText.contains( "hands you an actual, literal token" ) )
+				{
+					Preferences.setInteger( "_rogueProgramCharge", 0 );
+				}
+				else
+				{
+					Preferences.increment( "_rogueProgramCharge", 1 );
+				}
+				int rogueProgramCharge = Preferences.getInteger( "_rogueProgramCharge" );
+				familiar.setCharges( rogueProgramCharge );
+				break;
+
+			case FamiliarPool.ALIEN:
+					if ( responseText.contains( "coughs up something covered in corrosive goo" ) )
+					{
+						Preferences.setInteger( "_xenomorphCharge", 0 );
+					}
+					else
+					{
+						Preferences.increment( "_xenomorphCharge", 1 );
+					}
+					int alienCharge = Preferences.getInteger( "_xenomorphCharge" );
+					familiar.setCharges( alienCharge );
+					break;
+
+			case FamiliarPool.GROOSE:
+				if ( responseText.contains( "he produces a small glob of grease" ) )
+				{
+					Preferences.setInteger( "_grooseCharge", 0 );
+				}
+				else
+				{
+					Preferences.increment( "_grooseCharge", 1 );
+				}
+				int grooseCharge = Preferences.getInteger( "_grooseCharge" );
+				familiar.setCharges( grooseCharge );
+				break;
+
+			case FamiliarPool.KLOOP:
+				if ( responseText.contains( "drops at your feet a small leatherbound book" ) )
+				{
+					Preferences.setInteger( "_kloopCharge", 0 );
+				}
+				else
+				{
+					Preferences.increment( "_kloopCharge", 1 );
+				}
+				int kloopCharge = Preferences.getInteger( "_kloopCharge" );
+				familiar.setCharges( kloopCharge );
+				break;
+
+			case FamiliarPool.UNCONSCIOUS_COLLECTIVE:
+				if ( responseText.contains( "dream stuff" ) )
+				{
+					Preferences.setInteger( "_unconsciousCollectiveCharge", 0 );
+				}
+				else
+				{
+					Preferences.increment( "_unconsciousCollectiveCharge", 1 );
+				}
+				int unconsciousCollectiveCharge = Preferences.getInteger( "_unconsciousCollectiveCharge" );
+				familiar.setCharges( unconsciousCollectiveCharge );
 				break;
 
 			case FamiliarPool.ANGRY_JUNG_MAN:
 				Preferences.increment( "jungCharge", 1 );
 				int newCharges = Preferences.getInteger( "jungCharge" );
 				familiar.setCharges( newCharges );
+				break;
+
+			case FamiliarPool.GRIM_BROTHER:
+				if ( responseText.contains( "finishes an illustrated manuscript with a final flourish" ) )
+				{
+					Preferences.setInteger( "_grimBrotherCharge", 0 );
+				}
+				else
+				{
+					Preferences.increment( "_grimBrotherCharge", 1 );
+				}
+				int grimBrotherCharge = Preferences.getInteger( "_grimBrotherCharge" );
+				familiar.setCharges( grimBrotherCharge );
 				break;
 
 			case FamiliarPool.GRIMSTONE_GOLEM:
@@ -4096,6 +4238,29 @@ public class FightRequest
 					Preferences.increment( "grimstoneCharge", 1 );
 					int grimCharges = Preferences.getInteger( "grimstoneCharge" );
 					familiar.setCharges( grimCharges );
+				}
+				break;
+
+			case FamiliarPool.GOLDEN_MONKEY:
+				if ( responseText.contains( "You sweep it up and take it with you." ) )
+				{
+					Preferences.setInteger( "_goldenMoneyCharge", 0 );
+				}
+				else
+				{
+					Preferences.increment( "_goldenMoneyCharge", 1 );
+				}
+				int goldenMoneyCharge = Preferences.getInteger( "_goldenMoneyCharge" );
+				familiar.setCharges( goldenMoneyCharge );
+				break;
+
+			case FamiliarPool.ADVENTUROUS_SPELUNKER:
+				// Only charges if no Tale has dropped today
+				if ( Preferences.getInteger( "_spelunkingTalesDrops" ) == 0 )
+				{
+					Preferences.increment( "_spelunkerCharges", 1 );
+					int adventurousSpelunkerCharges = Preferences.getInteger( "_spelunkerCharges" );
+					familiar.setCharges( adventurousSpelunkerCharges );
 				}
 				break;
 
@@ -4281,6 +4446,8 @@ public class FightRequest
 					int charge = Preferences.getInteger( "_catBurglarCharge" ) + 1;
 					Preferences.setInteger( "_catBurglarCharge", (int) Math.round( charge / 10 ) * 10 );
 				}
+				int catBurglarCharge = Preferences.getInteger( "_catBurglarCharge" );
+				familiar.setCharges( catBurglarCharge );
 				break;
 				
 			case FamiliarPool.RED_SNAPPER:
