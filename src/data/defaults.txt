@@ -393,6 +393,7 @@ user	checkJackassSoftcore	true
 user	chefTurnsUsed	0
 user	chessboardsCleared	0
 user	chilledToTheBone	0
+user	choiceAdventureScript
 user	chosenTrip
 user	cinderellaMinutesToMidnight	0
 user	cinderellaScore	0

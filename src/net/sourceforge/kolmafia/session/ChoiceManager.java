@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.session;
 
+import java.io.File;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -41,6 +43,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.TreeMap;
@@ -56,6 +59,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLmafiaASH;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Modifiers.Modifier;
 import net.sourceforge.kolmafia.Modifiers.ModifierList;
@@ -118,6 +123,7 @@ import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
+import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
 
@@ -7148,13 +7154,9 @@ public abstract class ChoiceManager
 			return;
 		}
 
-		for ( int stepCount = 0;
-		      !KoLmafia.refusesContinue() && ChoiceManager.stillInChoice( request.responseText );
-		      ++stepCount )
+		for ( int stepCount = 0; !KoLmafia.refusesContinue() && ChoiceManager.handlingChoice; ++stepCount )
 		{
-			request.clearDataFields();
-
-			int choice = ChoiceManager.extractChoice( request.responseText );
+			int choice = ChoiceManager.extractChoice( ChoiceManager.lastResponseText );
 			if ( choice == 0 )
 			{
 				// choice.php did not offer us any choices.
@@ -7166,92 +7168,154 @@ public abstract class ChoiceManager
 				return;
 			}
 
-			// If this choice has special handling that can't be
-			// handled by a single preference (extra fields, for
-			// example), handle it elsewhere.
-
-			if ( ChoiceManager.specialChoiceHandling( choice, request ) )
+			if ( ChoiceManager.invokeChoiceAdventureScript( choice, ChoiceManager.lastResponseText ) )
 			{
-				// Should we abort?
-				return;
-			}
-
-			String option = "choiceAdventure" + choice;
-			String optionValue = Preferences.getString( option );
-			int amp = optionValue.indexOf( "&" );
-
-			String decision = ( amp == -1 ) ? optionValue : optionValue.substring( 0, amp );
-			String extraFields = ( amp == -1 ) ? "" : optionValue.substring( amp + 1 );
-
-			// If choice zero is not "Manual Control", adjust it to an actual choice
-
-			decision = ChoiceManager.specialChoiceDecision1( choice, decision, stepCount, request.responseText );
-
-			// If one of the decisions will satisfy a goal, take it
-
-			decision = ChoiceManager.pickGoalChoice( option, decision );
-
-			// If this choice has special handling based on
-			// character state, convert to real decision index
-
-			decision = ChoiceManager.specialChoiceDecision2( choice, decision, stepCount, request.responseText );
-
-			// Let user handle the choice manually, if requested
-
-			if ( decision.equals( "0" ) )
-			{
-				KoLmafia.updateDisplay( MafiaState.ABORT, "Manual control requested for choice #" + choice );
-				ChoiceUtilities.printChoices( ChoiceManager.lastResponseText );
-				request.showInBrowser( true );
-				return;
-			}
-
-			if ( KoLCharacter.isEd() && Preferences.getInteger( "_edDefeats" ) >= Preferences.getInteger( "edDefeatAbort" ) )
-			{
-				KoLmafia.updateDisplay( MafiaState.ABORT, "Hit Ed defeat threshold - Manual control requested for choice #" + choice  );
-				ChoiceUtilities.printChoices( ChoiceManager.lastResponseText );
-				request.showInBrowser( true );
-				return;
-			}
-
-			// Bail if no setting determines the decision
-
-			if ( decision.equals( "" ) )
-			{
-				KoLmafia.updateDisplay( MafiaState.ABORT, "Unsupported choice adventure #" + choice );
-				ChoiceManager.logChoices();
-				request.showInBrowser( true );
-				return;
-			}
-
-			// Make sure that KoL currently allows the chosen choice/decision/extraFields
-			String error = ChoiceUtilities.validateChoiceFields( decision, extraFields, request.responseText );
-			if ( error != null )
-			{
-				KoLmafia.updateDisplay( MafiaState.ABORT, error );
-				ChoiceUtilities.printChoices( ChoiceManager.lastResponseText );
-				request.showInBrowser( true );
-				return;
-			}
-
-			request.addFormField( "whichchoice", String.valueOf( choice ) );
-			request.addFormField( "option", decision );
-			if ( !extraFields.equals( "" ) )
-			{
-				String[] fields = extraFields.split( "&" );
-				for ( String field : fields )
+				if ( !ChoiceManager.handlingChoice )
 				{
-					int equals = field.indexOf( "=" );
-					if ( equals != -1 )
-					{
-						request.addFormField( field.substring( 0, equals ), field.substring( equals + 1 ) );
-					}
+					// The choiceAdventureScript processed this choice chain.
+					// Done automating.
+					return;
+				}
+				// Otherwise, it may have left us in a different choice.
+				choice = ChoiceManager.extractChoice( ChoiceManager.lastResponseText );
+			}
+
+			// Either no choiceAdventure script or it left us in a choice.
+			if ( !ChoiceManager.automateChoice( choice, request, stepCount ) )
+			{
+				return;
+			}
+		}
+	}
+
+	private static boolean invokeChoiceAdventureScript( final int choice, final String responseText )
+	{
+		if ( responseText == null )
+		{
+			return false;
+		}
+
+		String scriptName = Preferences.getString( "choiceAdventureScript" ).trim();
+		if ( scriptName.length() == 0 )
+		{
+			return false;
+		}
+
+		List<File> scriptFiles = KoLmafiaCLI.findScriptFile( scriptName );
+		Interpreter interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
+
+		if ( interpreter == null )
+		{
+			return false;
+		}
+
+		File scriptFile = scriptFiles.get( 0 );
+
+		Object[] parameters = new Object[2];
+		parameters[0] = new Integer( choice );
+		parameters[1] = responseText;
+
+		KoLmafiaASH.logScriptExecution( "Starting choice adventure script: ", scriptFile.getName(), interpreter );
+
+		// Since we are automating, let the script execute without interruption
+		KoLmafia.forceContinue();
+
+		interpreter.execute( "main", parameters );
+		KoLmafiaASH.logScriptExecution( "Finished choice adventure script: ", scriptFile.getName(), interpreter );
+
+		return true;
+	}
+
+	private static final boolean automateChoice( final int choice, final GenericRequest request, final int stepCount )
+	{
+		// If this choice has special handling that can't be
+		// handled by a single preference (extra fields, for
+		// example), handle it elsewhere.
+
+		if ( ChoiceManager.specialChoiceHandling( choice, request ) )
+		{
+			// Should we abort?
+			return false;
+		}
+
+		String option = "choiceAdventure" + choice;
+		String optionValue = Preferences.getString( option );
+		int amp = optionValue.indexOf( "&" );
+
+		String decision = ( amp == -1 ) ? optionValue : optionValue.substring( 0, amp );
+		String extraFields = ( amp == -1 ) ? "" : optionValue.substring( amp + 1 );
+
+		// If choice zero is not "Manual Control", adjust it to an actual choice
+
+		decision = ChoiceManager.specialChoiceDecision1( choice, decision, stepCount, request.responseText );
+
+		// If one of the decisions will satisfy a goal, take it
+
+		decision = ChoiceManager.pickGoalChoice( option, decision );
+
+		// If this choice has special handling based on
+		// character state, convert to real decision index
+
+		decision = ChoiceManager.specialChoiceDecision2( choice, decision, stepCount, request.responseText );
+
+		// Let user handle the choice manually, if requested
+
+		if ( decision.equals( "0" ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ABORT, "Manual control requested for choice #" + choice );
+			ChoiceUtilities.printChoices( ChoiceManager.lastResponseText );
+			request.showInBrowser( true );
+			return false;
+		}
+
+		if ( KoLCharacter.isEd() && Preferences.getInteger( "_edDefeats" ) >= Preferences.getInteger( "edDefeatAbort" ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ABORT, "Hit Ed defeat threshold - Manual control requested for choice #" + choice  );
+			ChoiceUtilities.printChoices( ChoiceManager.lastResponseText );
+			request.showInBrowser( true );
+			return false;
+		}
+
+		// Bail if no setting determines the decision
+
+		if ( decision.equals( "" ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ABORT, "Unsupported choice adventure #" + choice );
+			ChoiceManager.logChoices();
+			request.showInBrowser( true );
+			return false;
+		}
+
+		// Make sure that KoL currently allows the chosen choice/decision/extraFields
+		String error = ChoiceUtilities.validateChoiceFields( decision, extraFields, request.responseText );
+		if ( error != null )
+		{
+			KoLmafia.updateDisplay( MafiaState.ABORT, error );
+			ChoiceUtilities.printChoices( ChoiceManager.lastResponseText );
+			request.showInBrowser( true );
+			return false;
+		}
+
+		request.clearDataFields();
+		request.addFormField( "whichchoice", String.valueOf( choice ) );
+		request.addFormField( "option", decision );
+		if ( !extraFields.equals( "" ) )
+		{
+			String[] fields = extraFields.split( "&" );
+			for ( String field : fields )
+			{
+				int equals = field.indexOf( "=" );
+				if ( equals != -1 )
+				{
+					request.addFormField( field.substring( 0, equals ), field.substring( equals + 1 ) );
 				}
 			}
-			request.addFormField( "pwd", GenericRequest.passwordHash );
-
-			request.run();
 		}
+		request.addFormField( "pwd", GenericRequest.passwordHash );
+
+		request.run();
+
+		return true;
 	}
 
 	public static final int getDecision( int choice, String responseText )

@@ -2193,6 +2193,7 @@ public class OptionsFrame
 		private ScriptSelectPanel recoveryScript;
 		private ScriptSelectPanel betweenBattleScript;
 		private ScriptSelectPanel afterAdventureScript;
+		private ScriptSelectPanel choiceAdventureScript;
 		private ScriptSelectPanel counterScript;
 		private ScriptSelectPanel familiarScript;
 
@@ -2209,7 +2210,7 @@ public class OptionsFrame
 		{
 			initialize();
 
-			final ArrayList<ScriptSelectPanel> list = new ArrayList<ScriptSelectPanel>();
+			final List<ScriptSelectPanel> list = new ArrayList<>();
 
 			fillList( list );
 
@@ -2234,28 +2235,30 @@ public class OptionsFrame
 			return scrollPane;
 		}
 
-		private JPanel makeLayoutPane( final ArrayList<ScriptSelectPanel> list )
+		private JPanel makeLayoutPane( final List<ScriptSelectPanel> list )
 		{
 			JXPanel layoutPanel = new JXPanel();
 			layoutPanel.setLayout( new BoxLayout( layoutPanel, BoxLayout.Y_AXIS ) );
 
 			//We're going to use BorderLayout for the rows, with the textComponent as the CENTER.
 			//Since the textComponent will gobble up all available space, make the labels on the left a uniform size.
-			int bigDim = list.get( 0 ).getLabel().getPreferredSize().width;
-			for ( int i = 1; i < list.size(); ++i )
+			int bigDim = 0;
+			for ( ScriptSelectPanel panel : list )
 			{
-				if ( list.get( i ).getLabel().getPreferredSize().width > bigDim )
+				int size = panel.getLabel().getPreferredSize().width;
+				if ( size > bigDim )
 				{
-					bigDim = list.get( i ).getLabel().getPreferredSize().width;
+					bigDim = size;
 				}
 			}
-			for ( int i = 0; i < list.size(); ++i )
+
+			for ( ScriptSelectPanel panel : list )
 			{
 				JXPanel p = new JXPanel( new BorderLayout() );
-				JLabel lab = list.get( i ).getLabel();
+				JLabel lab = panel.getLabel();
 				lab.setPreferredSize( new Dimension( bigDim + 2, lab.getPreferredSize().height ) );
 				p.add( lab, BorderLayout.WEST );
-				p.add( list.get( i ), BorderLayout.CENTER );
+				p.add( panel, BorderLayout.CENTER );
 
 				p.add( Box.createVerticalStrut( 5 ), BorderLayout.SOUTH );
 
@@ -2268,13 +2271,14 @@ public class OptionsFrame
 			return layoutPanel;
 		}
 
-		private void fillList( final ArrayList<ScriptSelectPanel> list )
+		private void fillList( final List<ScriptSelectPanel> list )
 		{
 			list.add( this.loginScript );
 			list.add( this.logoutScript );
 			list.add( this.recoveryScript );
 			list.add( this.betweenBattleScript );
 			list.add( this.afterAdventureScript );
+			list.add( this.choiceAdventureScript );
 			list.add( this.counterScript );
 			list.add( this.familiarScript );
 			list.add( this.kingLiberatedScript );
@@ -2293,6 +2297,7 @@ public class OptionsFrame
 			this.recoveryScript = new ScriptSelectPanel( new CollapsibleTextArea( "Recovery:" ) );
 			this.betweenBattleScript = new ScriptSelectPanel( new CollapsibleTextArea( "Pre-Adventure:" ) );
 			this.afterAdventureScript = new ScriptSelectPanel( new CollapsibleTextArea( "Post-Adventure:" ) );
+			this.choiceAdventureScript = new ScriptSelectPanel( new CollapsibleTextArea( "Choice-Adventure:" ) );
 			this.counterScript = new ScriptSelectPanel( new CollapsibleTextArea( "Counter Script:" ) );
 			this.familiarScript = new ScriptSelectPanel( new CollapsibleTextArea( "Familiar Script: " ) );
 			this.kingLiberatedScript = new ScriptSelectPanel( new CollapsibleTextArea( "King Freed:" ) );
@@ -2312,6 +2317,7 @@ public class OptionsFrame
 			Preferences.setString( "recoveryScript", this.recoveryScript.getText() );
 			Preferences.setString( "betweenBattleScript", this.betweenBattleScript.getText() );
 			Preferences.setString( "afterAdventureScript", this.afterAdventureScript.getText() );
+			Preferences.setString( "choiceAdventureScript", this.choiceAdventureScript.getText() );
 			Preferences.setString( "counterScript", this.counterScript.getText() );
 			Preferences.setString( "familiarScript", this.familiarScript.getText() );
 			Preferences.setString( "kingLiberatedScript", this.kingLiberatedScript.getText() );
@@ -2326,49 +2332,22 @@ public class OptionsFrame
 		@Override
 		public void actionCancelled()
 		{
-			String loginScript = Preferences.getString( "loginScript" );
-			this.loginScript.setText( loginScript );
-
-			String logoutScript = Preferences.getString( "logoutScript" );
-			this.logoutScript.setText( logoutScript );
-
-			String recoveryScript = Preferences.getString( "recoveryScript" );
-			this.recoveryScript.setText( recoveryScript );
-
-			String betweenBattleScript = Preferences.getString( "betweenBattleScript" );
-			this.betweenBattleScript.setText( betweenBattleScript );
-
-			String afterAdventureScript = Preferences.getString( "afterAdventureScript" );
-			this.afterAdventureScript.setText( afterAdventureScript );
-
-			String counterScript = Preferences.getString( "counterScript" );
-			this.counterScript.setText( counterScript );
-
-			String familiarScript = Preferences.getString( "familiarScript" );
-			this.familiarScript.setText( familiarScript );
-
-			String kingLiberatedScript = Preferences.getString( "kingLiberatedScript" );
-			this.kingLiberatedScript.setText( kingLiberatedScript );
-
-			String preAscensionScript = Preferences.getString( "preAscensionScript" );
-			this.preAscensionScript.setText( preAscensionScript );
-
-			String postAscensionScript = Preferences.getString( "postAscensionScript" );
-			this.postAscensionScript.setText( postAscensionScript );
-
-			String beforePVPScript = Preferences.getString( "beforePVPScript" );
-			this.beforePVPScript.setText( beforePVPScript );
-
-			String buyScript = Preferences.getString( "buyScript" );
-			this.buyScript.setText( buyScript );
-
-			String plantingScript = Preferences.getString( "plantingScript" );
-			this.plantingScript.setText( plantingScript );
-
-			String chatbotScript = Preferences.getString( "chatbotScript" );
-			this.chatbotScript.setText( chatbotScript );
+			this.loginScript.setText( Preferences.getString( "loginScript" ) );
+			this.logoutScript.setText( Preferences.getString( "logoutScript" ) );
+			this.recoveryScript.setText( Preferences.getString( "recoveryScript" ) );
+			this.betweenBattleScript.setText( Preferences.getString( "betweenBattleScript" ) );
+			this.afterAdventureScript.setText( Preferences.getString( "afterAdventureScript" ) );
+			this.choiceAdventureScript.setText( Preferences.getString( "choiceAdventureScript" ) );
+			this.counterScript.setText( Preferences.getString( "counterScript" ) );
+			this.familiarScript.setText( Preferences.getString( "familiarScript" ) );
+			this.kingLiberatedScript.setText( Preferences.getString( "kingLiberatedScript" ) );
+			this.preAscensionScript.setText( Preferences.getString( "preAscensionScript" ) );
+			this.postAscensionScript.setText( Preferences.getString( "postAscensionScript" ) );
+			this.beforePVPScript.setText( Preferences.getString( "beforePVPScript" ) );
+			this.buyScript.setText( Preferences.getString( "buyScript" ) );
+			this.plantingScript.setText( Preferences.getString( "plantingScript" ) );
+			this.chatbotScript.setText( Preferences.getString( "chatbotScript" ) );
 		}
-
 	}
 
 	protected class BreakfastAlwaysPanel
