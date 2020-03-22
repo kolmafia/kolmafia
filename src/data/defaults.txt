@@ -420,6 +420,7 @@ user	controlPanel7	false
 user	controlPanel8	false
 user	controlPanel9	false
 user	controlPanelOmega	0
+user	copperheadClubHazard	none
 user	cornucopiasOpened	0
 user	corralUnlocked	false
 user	cozyCounter6332	0
