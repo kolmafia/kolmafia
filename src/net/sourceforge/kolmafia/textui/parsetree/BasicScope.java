@@ -301,12 +301,11 @@ public abstract class BasicScope
 		}
 
 		Function[] options = this.functions.findFunctions( f.getName() );
-
-		for ( int i = 0; i < options.length; ++i )
+		for ( Function function : options )
 		{
-			if ( options[ i ] instanceof UserDefinedFunction )
+			if ( function instanceof UserDefinedFunction )
 			{
-				UserDefinedFunction existing = (UserDefinedFunction) options[ i ];
+				UserDefinedFunction existing = (UserDefinedFunction) function;
 				if ( f.paramsMatch( existing ) )
 				{
 					return existing;

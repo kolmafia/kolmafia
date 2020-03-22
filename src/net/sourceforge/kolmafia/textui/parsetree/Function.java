@@ -124,56 +124,18 @@ public abstract class Function
 
 		while ( it1.hasNext() && it2.hasNext() )
 		{
-			Type p1Type = it1.next().getType();
-			Type p2Type = it2.next().getType();
+			VariableReference param1 = it1.next();
+			VariableReference param2 = it2.next();
 
-			if ( p1Type.equals( p2Type ) )
+			if ( !param1.getRawType().equals( param2.getRawType() ) )
 			{
-				continue;
+				return false;
 			}
-
-			return false;
 		}
 
 		// There must be the same number of parameters
 
 		if ( it1.hasNext() || it2.hasNext() )
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	public boolean paramsMatch( final List<Value> params, boolean exact )
-	{
-		if ( params == null )
-		{
-			return true;
-		}
-
-		Iterator<VariableReference> refIterator = this.variableReferences.iterator();
-		Iterator<Value> valIterator = params.iterator();
-
-		while ( refIterator.hasNext() && valIterator.hasNext() )
-		{
-			Type paramType = refIterator.next().getType();
-			Type valueType = valIterator.next().getType();
-
-			if ( paramType == valueType )
-			{
-				continue;
-			}
-
-			if ( !exact && Operator.validCoercion( paramType, valueType, "parameter" ) )
-			{
-				continue;
-			}
-
-			return false;
-		}
-
-		if ( refIterator.hasNext() || valIterator.hasNext() )
 		{
 			return false;
 		}
