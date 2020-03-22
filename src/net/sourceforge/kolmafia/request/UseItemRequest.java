@@ -2624,7 +2624,7 @@ public class UseItemRequest
 			break;
 
 		case ItemPool.HERMIT_SCRIPT:
-
+			Preferences.setBoolean( "hermitHax0red", true );
 			HermitRequest.hackHermit();
 			break;
 

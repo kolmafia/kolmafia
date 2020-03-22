@@ -656,6 +656,7 @@ user	haveBoxingDaydreamSoftcore	false
 user	heavyRainsStartingThunder	0
 user	heavyRainsStartingRain	0
 user	heavyRainsStartingLightning	0
+user	hermitHax0red	false
 user	heroDonationBoris	0
 user	heroDonationJarlsberg	0
 user	heroDonationSneakyPete	0

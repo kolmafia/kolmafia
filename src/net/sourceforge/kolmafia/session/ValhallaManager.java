@@ -593,6 +593,7 @@ public class ValhallaManager
 		Preferences.setInteger( "guyMadeOfBeesCount", 0 );
 		Preferences.setBoolean( "guyMadeOfBeesDefeated", false );
 		Preferences.setInteger( "guardTurtlesFreed", 0 );
+		Preferences.setBoolean( "hermitHax0red", false );
 		Preferences.setInteger( "carboLoading", 0 );
 		Preferences.setBoolean( "popularTartUnlocked", false );
 		Preferences.setInteger( "smoresEaten", 0 );
