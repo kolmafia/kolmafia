@@ -617,6 +617,7 @@ public abstract class KoLCharacter
 		EquipmentManager.resetCustomOutfits();
 		GearChangeFrame.clearFamiliarList();
 		InventoryManager.resetInventory();
+		SkillDatabase.resetCasts();
 		SpecialOutfit.forgetCheckpoints();
 		VolcanoMazeManager.reset();
 		VYKEACompanionData.initialize( true );

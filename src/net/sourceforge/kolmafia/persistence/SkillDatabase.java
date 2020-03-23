@@ -79,10 +79,12 @@ public class SkillDatabase
 	private static final Map<Integer, Integer> skillTypeById = new TreeMap<>();
 	private static final Map<Integer, Integer> durationById = new HashMap<>();
 	private static final Map<Integer, Integer> levelById = new HashMap<>();
-	private static final Map<Integer, Integer> castsById = new HashMap<>();
 
 	private static final Map<String, ArrayList<String>> skillsByCategory = new HashMap<>();
 	private static final Map<Integer, String> skillCategoryById = new HashMap<>();
+
+	// Per-user data. Needs to be reset when log in as a new user.
+	private static final Map<Integer, Integer> castsById = new HashMap<>();
 
 	public static final int ALL = -2;
 	public static final int CASTABLE = -1;
@@ -199,6 +201,11 @@ public class SkillDatabase
 
 		SkillDatabase.canonicalNames = new String[ SkillDatabase.skillIdSetByName.size() ];
 		SkillDatabase.skillIdSetByName.keySet().toArray( SkillDatabase.canonicalNames );
+	}
+
+	public static void resetCasts()
+	{
+		SkillDatabase.castsById.clear();
 	}
 
 	private static void addIdToName( String canonicalName, int skillId )
@@ -2011,7 +2018,7 @@ public class SkillDatabase
 		Integer oldCasts = SkillDatabase.castsById.get( IntegerPool.get( skillId ) );
 		if ( oldCasts == null )
 		{
-			return;
+			oldCasts = IntegerPool.get( 0 );
 		}
 		int newCasts = oldCasts.intValue() + count;
 		SkillDatabase.castsById.put( IntegerPool.get( skillId ), IntegerPool.get( newCasts ) );
