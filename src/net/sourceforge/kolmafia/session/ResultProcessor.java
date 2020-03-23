@@ -100,6 +100,7 @@ public class ResultProcessor
 	private static final Pattern DISCARD_PATTERN = Pattern.compile( "You discard your (.*?)\\." );
 
 	private static boolean receivedClover = false;
+	private static boolean deferredClover = false;
 	private static boolean receivedDisassembledClover = false;
 	private static boolean autoCrafting = false;
 
@@ -108,23 +109,50 @@ public class ResultProcessor
 		return ResultProcessor.receivedClover;
 	}
 
-	public static boolean receivedDisassembledClover()
+	public static boolean deferredClover()
 	{
+		return ResultProcessor.deferredClover;
+	}
+
+	public static boolean receivedDisassembledClover()
+ 	{
 		return ResultProcessor.receivedDisassembledClover;
+	}
+
+	public static void deferClover()
+	{
+		if ( ResultProcessor.receivedClover )
+		{
+			ResultProcessor.deferredClover = true;
+			ResultProcessor.receivedClover = false;
+		}
+	}
+
+	public static void undeferClover()
+	{
+		if ( ResultProcessor.deferredClover )
+		{
+			ResultProcessor.deferredClover = false;
+			ResultProcessor.receivedClover = true;
+		}
+	}
+
+	public static boolean disassembledClovers( String formURLString )
+ 	{
+		return  ResultProcessor.receivedDisassembledClover &&
+			!GenericRequest.ascending &&
+			FightRequest.getCurrentRound() == 0 &&
+			InventoryManager.cloverProtectionActive() &&
+			isCloverURL( formURLString );
 	}
 
 	public static boolean shouldDisassembleClovers( String formURLString )
 	{
-		return ResultProcessor.receivedClover &&
-		       !GenericRequest.ascending &&
-		       FightRequest.getCurrentRound() == 0 &&
-		       InventoryManager.cloverProtectionActive() &&
-		       isCloverURL( formURLString );
-	}
-
-	public static boolean disassembledClovers( String formURLString )
-	{
-		return ResultProcessor.receivedDisassembledClover && InventoryManager.cloverProtectionActive() && isCloverURL( formURLString );
+		return  ( ResultProcessor.receivedClover || ResultProcessor.deferredClover ) &&
+			!GenericRequest.ascending &&
+			FightRequest.getCurrentRound() == 0 &&
+			InventoryManager.cloverProtectionActive() &&
+			isCloverURL( formURLString );
 	}
 
 	private static boolean isCloverURL( String formURLString )

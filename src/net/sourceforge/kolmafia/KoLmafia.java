@@ -138,6 +138,7 @@ import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.LightsOutManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.LogoutManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
@@ -1712,12 +1713,16 @@ public abstract class KoLmafia
 
 	public static void protectClovers()
 	{
-		// If we are in a multifight or a choice follows a fight, we
-		// can't do this. Unfortunate.
-		if ( GenericRequest.abortIfInFightOrChoice( true ) )
+		// If we are in a multifight or a choice follows a fight, defer
+		// this until we are free of those
+		if ( GenericRequest.abortIfInFightOrChoice( false ) )
 		{
+			// That didn't actually abort.
+			ResultProcessor.deferClover();
 			return;
 		}
+
+		ResultProcessor.undeferClover();
 
 		if ( KoLCharacter.inBeecore() || KoLCharacter.inGLover() )
 		{

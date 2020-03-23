@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.GuildUnlockManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.ResultProcessor;;
 
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 
@@ -1434,7 +1435,8 @@ public class KoLAdventure
 			}
 		}
 
-		if ( AdventureDatabase.isPotentialCloverAdventure( adventureName ) && InventoryManager.cloverProtectionActive() )
+		if ( AdventureDatabase.isPotentialCloverAdventure( adventureName ) &&
+		     ResultProcessor.shouldDisassembleClovers( this.request.getURLString() ) )
 		{
 			KoLmafia.protectClovers();
 		}
