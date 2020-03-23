@@ -7154,7 +7154,9 @@ public abstract class ChoiceManager
 			return;
 		}
 
-		for ( int stepCount = 0; !KoLmafia.refusesContinue() && ChoiceManager.handlingChoice; ++stepCount )
+		for ( int stepCount = 0;
+		      !KoLmafia.refusesContinue() && ChoiceManager.stillInChoice( request.responseText );
+		      ++stepCount )
 		{
 			int choice = ChoiceManager.extractChoice( ChoiceManager.lastResponseText );
 			if ( choice == 0 )
@@ -7172,11 +7174,11 @@ public abstract class ChoiceManager
 			{
 				if ( !ChoiceManager.handlingChoice )
 				{
-					// The choiceAdventureScript processed this choice chain.
-					// Done automating.
-					return;
+					// The choiceAdventureScript processed this choice.
+					// Continue loop, in case we are in a choice chain.
+					continue;
 				}
-				// Otherwise, it may have left us in a different choice.
+				// We are still handling a choice. Maybe it is a different one.
 				choice = ChoiceManager.extractChoice( ChoiceManager.lastResponseText );
 			}
 
