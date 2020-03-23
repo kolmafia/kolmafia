@@ -107,6 +107,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FalloutShelterRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FamTeamRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
@@ -127,6 +128,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.ActionBarManager;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BatManager;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.ContactManager;
@@ -1597,6 +1599,11 @@ public abstract class KoLmafia
 
 		RequestLogger.printLine();
 		RequestThread.postRequest( adventure );
+		if ( FightRequest.choiceFollowsFight )
+		{
+			RequestThread.postRequest( new GenericRequest( "choice.php" ) );
+			ChoiceManager.gotoGoal();
+		}
 		RequestLogger.printLine();
 
 		KoLmafia.currentIterationString = "";
