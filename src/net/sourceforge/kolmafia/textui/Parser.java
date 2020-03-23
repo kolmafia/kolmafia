@@ -3045,9 +3045,9 @@ public class Parser
 			;
 		}
 
-		else if ( this.currentToken().equals( "\"" ) || this.currentToken().equals( "\'" ) )
+		else if ( this.currentToken().equals( "\"" ) || this.currentToken().equals( "\'" ) || this.currentToken().equals( "`" ) )
 		{
-			result = this.parseString( null );
+			result = this.parseString( scope, null );
 		}
 
 		else if ( this.currentToken().equals( "$" ) )
@@ -3203,13 +3203,16 @@ public class Parser
 		return true;
 	}
 
-	private Value parseString( Type type )
+	private Value parseString( final BasicScope scope, Type type )
 	{
 		// Directly work with currentLine - ignore any "tokens" you meet until
 		// the string is closed
 
-		char startCharacter = this.currentLine.charAt( 0 );
+		char startCharacter = this.currentToken().charAt( 0 );
+		this.readToken();
+
 		char stopCharacter = startCharacter;
+		boolean template = startCharacter == "`".charAt( 0 );
 		boolean allowComments = false;
 
 		List<Value> list = null;
@@ -3226,15 +3229,16 @@ public class Parser
 		int level = 1;
 		boolean slash = false;
 
+		Concatenate conc = null;
 		StringBuilder resultString = new StringBuilder();
-		for ( int i = 1; ; ++i )
+		for ( int i = 0; ; ++i )
 		{
 			if ( i == this.currentLine.length() )
 			{
 				// Plain strings can't span lines
 				if ( type == null )
 				{
-					throw this.parseException( "No closing \" found" );
+					throw this.parseException( "No closing " + stopCharacter + " found" );
 				}
 
 				this.currentLine = "";
@@ -3327,6 +3331,38 @@ public class Parser
 				continue;
 			}
 
+			// Handle template substitutions
+			if ( template && ch == '{' )
+			{
+				// Move the current token to the expression
+				this.currentLine = this.currentLine.substring( i + 1 );
+
+				Value rhs = this.parseExpression( scope );
+				if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
+				{
+					throw this.parseException( "}", this.currentToken() );
+				}
+
+				this.readToken(); // }
+
+				// Set i to -1 so that it is set to zero by the loop as the currentLine has been shortened
+				i = -1;
+
+				Value lhs = new Value( resultString.toString() );
+				if ( conc == null )
+				{
+					conc = new Concatenate( lhs, rhs );
+				}
+				else
+				{
+					conc.addString( lhs );
+					conc.addString( rhs );
+				}
+				
+				resultString.setLength(0);
+				continue;
+			}
+
 			// Potentially handle comments
 			if ( allowComments )
 			{
@@ -3354,9 +3390,20 @@ public class Parser
 			{
 				if ( ch == stopCharacter )
 				{
-					this.currentLine = this.currentLine.substring( i + 1 ); //+ 1 to get rid of '"' token
+					this.currentLine = this.currentLine.substring( i + 1 ); //+ 1 to get rid of stop character token
 					this.currentToken = null;
-					return new Value( resultString.toString() );
+
+					Value result = new Value( resultString.toString() );
+
+					if ( conc == null )
+					{
+						return result;
+					}
+					else
+					{
+						conc.addString( result );
+						return conc;
+					}
 				}
 				resultString.append( ch );
 				continue;
@@ -3548,7 +3595,7 @@ public class Parser
 
 		if ( plurals )
 		{
-			Value value = this.parseString( type );
+			Value value = this.parseString( scope, type );
 			if ( value != null )
 			{
 				return value;	// explicit list of values
@@ -4144,6 +4191,7 @@ public class Parser
 		case '-':
 		case '=':
 		case '"':
+		case '`':
 		case '\'':
 		case '*':
 		case '/':
