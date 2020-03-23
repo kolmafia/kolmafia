@@ -365,6 +365,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "cli_execute", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "cli_execute_output", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "load_html", DataTypes.BUFFER_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
@@ -2436,6 +2439,18 @@ public abstract class RuntimeLibrary
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( string.toString(), interpreter );
 		return RuntimeLibrary.continueValue();
+	}
+
+	public static Value cli_execute_output( Interpreter interpreter, final Value string )
+	{
+		ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+		PrintStream out = new PrintStream( ostream );
+
+		RequestLogger.openCustom( out );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( string.toString(), interpreter );
+		RequestLogger.closeCustom();
+
+		return new Value( ostream.toString() );
 	}
 
 	public static Value load_html( Interpreter interpreter, final Value string )
