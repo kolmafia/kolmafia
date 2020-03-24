@@ -5980,6 +5980,7 @@ public class FightRequest
 		public boolean mosquito = false;
 		public boolean dice = false;
 		public boolean nunnery = false;
+		public boolean glitch = false;
 		public boolean ravers = false;
 		public boolean won = false;
 		public Matcher macroMatcher;
@@ -6047,6 +6048,9 @@ public class FightRequest
 
 			// Note if we are fighting in The Themthar Hills
 			this.nunnery = this.monsterName.equals( "dirty thieving brigand" );
+
+			// Note if we are fighting the glitch %monster%
+			this.glitch = this.monsterName.equals( "%monster%" );
 
 			// Note if we are fighting Outside the Club
 			this.ravers = ( KoLAdventure.lastAdventureId() == AdventurePool.OUTSIDE_THE_CLUB );
@@ -7357,6 +7361,10 @@ public class FightRequest
 
 			status.shouldRefresh |= ResultProcessor.processMeat( str, status.won, status.nunnery );
 
+			// We can deduce how implemented your glitch item is
+			// from the Meat dropped after defeating %monster%
+			FightRequest.handleGlitchMonster( status, str );
+
 			// Only the first Meat drop after the WINWINWIN comment is the
 			// monster's drop. Don't do meatDropSpading for later drops.
 			status.won = false;
@@ -7540,6 +7548,43 @@ public class FightRequest
 		}
 
 		return false;
+	}
+
+	private static boolean handleGlitchMonster( TagStatus status, String str )
+	{
+		if ( !status.glitch || !status.won )
+		{
+			return false;
+		}
+
+		Matcher m = INT_PATTERN.matcher( str );
+		if ( m.find() )
+		{
+			int meat = StringUtilities.parseInt( m.group() );
+			int have = InventoryManager.getCount( ItemPool.GLITCH_ITEM );
+			// If none in inventory, something is seriously wrong,
+			// but avoid divide-by-zero
+			if ( have > 0 )
+			{
+				int count = meat / ( 5 * have );
+				Preferences.setInteger( "glitchItemImplementationCount", count );
+				int level =
+					( count >= 111 ) ? 7 :
+					( count >= 69 ) ? 6 :
+					( count >= 37 ) ? 5 :
+					( count >= 11 ) ? 4 :
+					( count >= 4 ) ? 3 :
+					( count >= 2 ) ? 2 :
+					( count >= 1 ) ? 1 :
+					0;
+				Preferences.setInteger( "glitchItemImplementationLevel", level );
+			}
+		}
+
+		// Only the first Meat gain matters
+		status.glitch = false;
+
+		return true;
 	}
 
 	public static final Pattern KISS_PATTERN = Pattern.compile( "(\\d+) kiss(?:es)? for winning(?: \\+(\\d+) for difficulty)?" );
