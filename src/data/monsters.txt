@@ -1268,7 +1268,7 @@ Bowser	2173	bowser.gif	NOCOPY BOSS Atk: 300 Def: 300 HP: 400 Init: 50 P: beast
 Wa%playername/lowercase%	2174	waplayer.gif	NOCOPY BOSS Atk: 300 Def: 300 HP: 1000 Init: 10000 P: dude	red coin (n100)
 
 # Glitch Season
-%monster%	2140	nopic.gif	NOCOPY Atk: 1 Def: 1 HP: 1 Init: 1 P: construct
+%monster%	2140	nopic.gif	NOCOPY Atk: [pref(glitchItemImplementationCount)*5+1] Def: [pref(glitchItemImplementationCount)*5] HP: [pref(glitchItemImplementationCount)*5+1] Init: 1 P: construct
 
 # Items of the Month
 
