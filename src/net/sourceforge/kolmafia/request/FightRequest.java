@@ -5995,6 +5995,7 @@ public class FightRequest
 		public String limitmode;
 		public String VYKEACompanion;
 		public String horse;
+		public boolean hookah = false;
 		public boolean meteors;
 		public String location;
 
@@ -7232,6 +7233,29 @@ public class FightRequest
 				}
 				else
 				{
+					if ( status.hookah )
+					{
+						String message = null;
+						int quality = EffectDatabase.getQuality(effectId );
+
+						if ( EffectDatabase.hasAttribute( effectId, "nohookah" ) )
+						{
+							message = result.getName() + " is available from the hookah, but KoLmafia thought it was not";
+						}
+						else if ( quality != EffectDatabase.GOOD )
+						{
+							message = result.getName() + " is good quality, but KoLmafia thought it was " + EffectDatabase.getQualityDescription( effectId );
+						}
+
+						if ( message != null )
+						{
+							RequestLogger.printLine(message);
+							RequestLogger.updateSessionLog(message);
+						}
+
+						status.hookah = false;
+					}
+
 					ResultProcessor.processEffect( true, "You acquire an effect:", result, (List<AdventureResult>) null );
 				}
 				if ( effectId == EffectPool.HAIKU_STATE_OF_MIND )
@@ -7851,6 +7875,11 @@ public class FightRequest
 			AdventureResult newHat = ItemPool.get( oldHat.getItemId() + 1, 1 );
 			EquipmentManager.transformEquipment( oldHat, newHat );
 			return;
+		}
+
+		if ( str.contains("takes a pull on the hookah") )
+		{
+			status.hookah = true;
 		}
 
 		if ( !str.equals( "" ) && !ResultProcessor.processFamiliarWeightGain( str ) )
