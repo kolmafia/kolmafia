@@ -1017,11 +1017,11 @@ public abstract class MushroomManager
 			plotScript.println( "        set_property( \"plantingScript\", \"" + filename + "\" );" );
 			plotScript.println( "    }" );
 			plotScript.println();
-			plotScript.println( "    if ( get_property( \"plantingDate\" ).string_to_int() == moon_phase() )" );
+			plotScript.println( "    if ( get_property( \"plantingDate\" ).to_int() == moon_phase() )" );
 			plotScript.println( "        return;" );
 			plotScript.println();
 			plotScript.println( "    set_property( \"plantingDate\", moon_phase() );" );
-			plotScript.println( "    int index = (get_property( \"plantingDay\" ).string_to_int() + 1) % " + days.size() + ";" );
+			plotScript.println( "    int index = (get_property( \"plantingDay\" ).to_int() + 1) % " + days.size() + ";" );
 			plotScript.println( "    set_property( \"plantingDay\", index );" );
 
 			for ( int i = 0; i < days.size(); ++i )
