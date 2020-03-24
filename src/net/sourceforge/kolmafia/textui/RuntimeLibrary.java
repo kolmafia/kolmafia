@@ -482,6 +482,8 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
 		functions.add( new LibraryFunction( "to_skill", DataTypes.SKILL_TYPE, params ) );
+		params = new Type[] { DataTypes.STRICT_STRING_TYPE, DataTypes.STRICT_STRING_TYPE };
+		functions.add( new LibraryFunction( "to_skill", DataTypes.SKILL_TYPE, params ) );
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "to_skill", DataTypes.SKILL_TYPE, params ) );
 		params = new Type[] { DataTypes.EFFECT_TYPE };
@@ -2868,6 +2870,14 @@ public abstract class RuntimeLibrary
 		Value skill = DataTypes.parseSkillValue( s1, true );
 		DataTypes.SKILL_TYPE.validateValue( interpreter, s1, skill );
 
+		return skill;
+	}
+
+	public static Value to_skill( Interpreter interpreter, final Value value1, final Value value2 )
+	{
+		String name = value1.toString();
+		String type = value2.toString();
+		Value skill = DataTypes.parseSkillValue( name, type, true );
 		return skill;
 	}
 

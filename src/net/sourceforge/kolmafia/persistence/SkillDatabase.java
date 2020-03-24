@@ -80,7 +80,7 @@ public class SkillDatabase
 	private static final Map<Integer, Integer> durationById = new HashMap<>();
 	private static final Map<Integer, Integer> levelById = new HashMap<>();
 
-	private static final Map<String, ArrayList<String>> skillsByCategory = new HashMap<>();
+	private static final Map<String, List<String>> skillsByCategory = new HashMap<>();
 	private static final Map<Integer, String> skillCategoryById = new HashMap<>();
 
 	// Per-user data. Needs to be reset when log in as a new user.
@@ -99,6 +99,38 @@ public class SkillDatabase
 	public static final int COMBAT_PASSIVE = 8;
 	public static final int EXPRESSION = 9;
 	public static final int WALK = 10;
+
+	public static final String skillTypeToTypeName( final int type )
+	{
+		return  type == PASSIVE ? "passive" :
+			type == SUMMON ? "summon" :
+			type == REMEDY ? "remedy" :
+			type == SELF_ONLY ? "self-only" :
+			type == BUFF ? "buff" :
+			type == COMBAT ? "combat" :
+			type == SONG ? "song" :
+			type == COMBAT_NONCOMBAT_REMEDY ? "combat/noncombat remedy" :
+			type == COMBAT_PASSIVE ? "combat/passive" :
+			type == EXPRESSION ? "expression" :
+			type == WALK ? "walk" :
+			"unknown";
+	}
+
+	public static final int skillTypeNameToType( final String typeName )
+	{
+		return  typeName.equals( "passive" ) ? SkillDatabase.PASSIVE :
+			typeName.equals( "summon" ) ? SkillDatabase.SUMMON :
+			typeName.equals( "remedy" ) ? SkillDatabase.REMEDY :
+			typeName.equals( "self-only" ) ? SkillDatabase.SELF_ONLY :
+			typeName.equals( "buff" ) ? SkillDatabase.BUFF :
+			typeName.equals( "combat" ) ? SkillDatabase.COMBAT :
+			typeName.equals( "song" ) ? SkillDatabase.SONG :
+			typeName.equals( "combat/noncombat remedy" ) ? SkillDatabase.COMBAT_NONCOMBAT_REMEDY :
+			typeName.equals( "combat/passive" ) ? SkillDatabase.COMBAT_PASSIVE :
+			typeName.equals( "expression" ) ? SkillDatabase.EXPRESSION :
+			typeName.equals( "walk" ) ? SkillDatabase.WALK :
+			-1;
+	}
 
 	private static final String UNCATEGORIZED = "uncategorized";
 	private static final String CONDITIONAL = "conditional";
@@ -434,6 +466,31 @@ public class SkillDatabase
 		return -1;
 	}
 
+	public static final int getSkillId( final String skillName, final int type )
+	{
+		if ( skillName == null )
+		{
+			return -1;
+		}
+
+		int[] ids = SkillDatabase.skillIdSetByName.get( StringUtilities.getCanonicalName( skillName ) );
+
+		if ( ids == null )
+		{
+			return -1;
+		}
+
+		for ( int skillId : ids )
+		{
+			if ( SkillDatabase.isType( skillId, type ) )
+			{
+				return skillId;
+			}
+		}
+
+		return -1;
+	}
+
 	private static final int[] NO_SKILL_IDS = new int[0];
 	
 	public static final int[] getSkillIds( final String skillName, final boolean exact )
@@ -664,6 +721,17 @@ public class SkillDatabase
 	{
 		Integer skillType = SkillDatabase.skillTypeById.get( IntegerPool.get( skillId ) );
 		return skillType == null ? -1 : skillType.intValue();
+	}
+
+	public static final String getSkillTypeName( final int skillId )
+	{
+		Integer skillType = SkillDatabase.skillTypeById.get( IntegerPool.get( skillId ) );
+		if ( skillType == null )
+		{
+			return "unknown";
+		}
+		String typeName = SkillDatabase.skillTypeToTypeName( skillType.intValue() );
+		return typeName == null ? "unknown" : typeName;
 	}
 
 	public static final String getSkillCategory( final int skillId )
@@ -1139,9 +1207,9 @@ public class SkillDatabase
 	{
 		// Shake it off is a passive as well as a non-combat heal
 		// Vampyre skills all have a passive (-hp) effect
-		return SkillDatabase.isType( skillId, SkillDatabase.PASSIVE ) ||
-				SkillDatabase.isType( skillId, SkillDatabase.COMBAT_PASSIVE ) ||
-				SkillDatabase.isVampyreSkill( skillId );
+		return  SkillDatabase.isType( skillId, SkillDatabase.PASSIVE ) ||
+			SkillDatabase.isType( skillId, SkillDatabase.COMBAT_PASSIVE ) ||
+			SkillDatabase.isVampyreSkill( skillId );
 	}
 
 	/**
