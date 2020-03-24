@@ -521,6 +521,36 @@ public class DataTypes
 		return DataTypes.makeNormalizedSkill( skillId, name );
 	}
 
+	public static final Value parseSkillValue( String name, String typeName, final boolean returnDefault )
+	{
+		if ( name == null || name.equals( "" ) )
+		{
+			return returnDefault ? DataTypes.SKILL_INIT : null;
+		}
+
+		if ( name.equalsIgnoreCase( "none" ) )
+		{
+			return DataTypes.SKILL_INIT;
+		}
+
+		int type = SkillDatabase.skillTypeNameToType( typeName );
+
+		if ( type == -1 )
+		{
+			return DataTypes.SKILL_INIT;
+		}
+
+		int skillId = SkillDatabase.getSkillId( name, type );
+
+		if ( skillId == -1 )
+		{
+			return returnDefault ? DataTypes.SKILL_INIT : null;
+		}
+
+		name = SkillDatabase.getSkillName( skillId );
+		return DataTypes.makeNormalizedSkill( skillId, name );
+	}
+
 	public static final Value parseEffectValue( String name, final boolean returnDefault )
 	{
 		if ( name == null || name.equals( "" ) )

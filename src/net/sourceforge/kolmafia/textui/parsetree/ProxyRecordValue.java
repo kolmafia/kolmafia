@@ -1019,6 +1019,7 @@ public class ProxyRecordValue
 	{
 		public static RecordType _type = new RecordBuilder()
 			.add( "name", DataTypes.STRING_TYPE )
+			.add( "type", DataTypes.STRING_TYPE )
 			.add( "level", DataTypes.INT_TYPE )
 			.add( "image", DataTypes.STRING_TYPE )
 			.add( "traincost", DataTypes.INT_TYPE )
@@ -1044,6 +1045,11 @@ public class ProxyRecordValue
 		public String get_name()
 		{
 			return SkillDatabase.getSkillName( (int) this.contentLong );
+		}
+
+		public String get_type()
+		{
+			return SkillDatabase.getSkillTypeName( (int) this.contentLong );
 		}
 
 		public int get_level()
