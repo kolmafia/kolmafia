@@ -214,9 +214,14 @@ public class EffectDatabase
 		}
 	}
 
+	public static final int getQuality( final int effectId )
+	{
+		return EffectDatabase.qualityById.get( effectId );
+	}
+
 	public static final String getQualityDescription( final int effectId )
  	{
-		return EffectDatabase.describeQuality( EffectDatabase.qualityById.get( effectId ) );
+		return EffectDatabase.describeQuality( EffectDatabase.getQuality( effectId ) );
 	}
 
 	public static final List<String> getEffectAttributes( final int effectId )
