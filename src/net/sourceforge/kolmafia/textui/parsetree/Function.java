@@ -196,49 +196,19 @@ public abstract class Function
 				thatParamType = ((VarArgType) thatParamType).getDataType();
 			}
 
-			// If we have seen two varargs, an exact match is a clash
-			if ( thisVararg != null && thatVararg != null )
-			{
-				return !thisParamType.equals( thatParamType );
-			}
-
-		/*
-			// If we have seen one vararg, if the types agree, this
-			// is a clash, otherwise, not
-			if ( thisVararg != null || thatVararg != null )
- 			{
- 				return thisParamType.equals( thatParamType );
- 			}
-		*/
-
-			// If we have seen one vararg, if the other function
-			// has no more arguments, it will be an exact match.
-			// Otherwise, if the types agree, clash.
-
-			if ( thisVararg != null )
-			{
-				if ( !thatIterator.hasNext() )
-				{
-					return false;
-				}
-				return thisParamType.equals( thatParamType );
-			}
-
-			if ( thatVararg != null )
-			{
-				if ( !thisIterator.hasNext() )
-				{
-					return false;
-				}
-				return thisParamType.equals( thatParamType );
-			}
-
-			// With no varargs, if types don't agree, nothing more
-			// to look at
+			// If types don't agree, nothing more to look at
 			if ( !thisParamType.equals( thatParamType ) )
 			{
 				return false;
 			}
+
+			// If we have seen two varargs, an exact match is a clash
+			if ( thisVararg != null && thatVararg != null )
+			{
+				return true;
+			}
+
+			// Otherwise, continue looking for varargs
 		}
 
 		return false;
