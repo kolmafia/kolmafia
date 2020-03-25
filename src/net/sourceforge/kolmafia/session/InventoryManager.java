@@ -659,7 +659,10 @@ public abstract class InventoryManager
 		}
 
 		boolean isRestricted = !StandardRequest.isAllowed( "Items", item.getName() );
-		CreateItemRequest creator = canCreate ? CreateItemRequest.getInstance( item ) : null;
+		CraftingType mixingMethod = ConcoctionDatabase.getMixingMethod( item );
+		boolean coinmasterCreation = mixingMethod == CraftingType.COINMASTER;
+		boolean shouldUseCoinmasters = InventoryManager.canUseCoinmasters( itemId );
+		CreateItemRequest creator = canCreate && ( !coinmasterCreation || shouldUseCoinmasters ) ? CreateItemRequest.getInstance( item ) : null;
 
 		// If this item is restricted, we might be able to create it.
 		// If we can't, give up now; we cannot obtain it in any way.
@@ -929,7 +932,6 @@ public abstract class InventoryManager
 		// clover) or purchased from the Hermit (if he has any in
 		// stock. We tried the former above. Now try the latter.
 
-		boolean shouldUseCoinmasters = InventoryManager.canUseCoinmasters();
 		if ( shouldUseCoinmasters && KoLConstants.hermitItems.contains( item ) &&
 		     ( !shouldUseMall || SewerRequest.currentWorthlessItemCost() < StoreManager.getMallPrice( item ) ) )
 		{
@@ -1037,8 +1039,6 @@ public abstract class InventoryManager
 				}
 			}
 		}
-
-		CraftingType mixingMethod = ConcoctionDatabase.getMixingMethod( item );
 
 		if ( creator != null && mixingMethod != CraftingType.NOCREATE )
 		{
