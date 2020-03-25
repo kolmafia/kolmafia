@@ -249,10 +249,6 @@ public class AscensionHistoryRequest
 		Preferences.setInteger( "borisPoints", borisPoints );
 		Preferences.setInteger( "zombiePoints", zombiePoints );
 		Preferences.setInteger( "sourcePoints", sourcePoints );
-		Preferences.setInteger( "gloverPoints", gloverPoints );
-		Preferences.setInteger( "garlandUpgrades", garlandUpgrades );
-		Preferences.setInteger( "masksUnlocked", masksUnlocked );
-		Preferences.setInteger( "plumberPoints", plumberPoints );
 
 		// Some can be increased by buying points, so only set these if higher than preference
 		if ( jarlsbergPoints > Preferences.getInteger( "jarlsbergPoints" ) )
@@ -281,15 +277,31 @@ public class AscensionHistoryRequest
 		}
 		if ( noobPoints > Preferences.getInteger( "noobPoints" ) )
 		{
-			Preferences.setInteger( "noobPoints", noobPoints );
+			Preferences.setInteger( "noobPoints", ( noobPoints < 24 ? noobPoints : 20 ) );
 		}
 		if ( bondPoints > Preferences.getInteger( "bondPoints" ) )
 		{
 			Preferences.setInteger( "bondPoints", ( bondPoints < 24 ? bondPoints : 24 ) );
 		}
+		if ( gloverPoints > Preferences.getInteger( "gloverPoints" ) )
+		{
+			Preferences.setInteger( "gloverPoints", ( gloverPoints < 11 ? gloverPoints : 11 ) );
+		}
+		if ( garlandUpgrades > Preferences.getInteger( "garlandUpgrades" ) )
+		{
+			Preferences.setInteger( "garlandUpgrades", ( garlandUpgrades < 11 ? garlandUpgrades : 10 ) );
+		}
+		if ( masksUnlocked > Preferences.getInteger( "masksUnlocked" ) )
+		{
+			Preferences.setInteger( "masksUnlocked", ( masksUnlocked < 25 ? masksUnlocked : 25 ) );
+		}
 		if ( gyfftePoints > Preferences.getInteger( "darkGyfftePoints" ) )
 		{
 			Preferences.setInteger( "darkGyfftePoints", ( gyfftePoints < 23 ? gyfftePoints : 23 ) );
+		}
+		if ( plumberPoints > Preferences.getInteger( "plumberPoints" ) )
+		{
+			Preferences.setInteger( "plumberPoints", ( plumberPoints < 22 ? plumberPoints : 22 ) );
 		}
 	}
 
