@@ -315,6 +315,51 @@ public abstract class BasicScope
 
 		return null;
 	}
+	
+	public Function findVarargClash( final UserDefinedFunction f )
+	{
+		// We will consider functions from this scope and from the RuntimeLibrary.
+		Function[] userFunctions = this.functions.findFunctions( f.getName() );
+		Function[] libraryFunctions = RuntimeLibrary.functions.findFunctions( f.getName() );
+
+		Function result = this.findVarargClash( this, f, userFunctions );
+		if ( result != null )
+		{
+			return result;
+		}
+
+		result = this.findVarargClash( null, f, libraryFunctions );
+		if ( result != null )
+		{
+			return result;
+		}
+
+		return null;
+	}
+
+	private final Function findVarargClash( BasicScope scope, final UserDefinedFunction f, final Function[] functions )
+	{
+		for ( Function function : functions )
+		{
+			if ( f.varargsClash( function ) )
+			{
+				return function;
+			}
+		}
+
+		if ( scope == null )
+		{
+			return null;
+		}
+
+		BasicScope parent = scope.getParentScope();
+		if ( parent != null )
+		{
+			return parent.findVarargClash( f );
+		}
+
+		return null;
+	}
 
 	public UserDefinedFunction replaceFunction( final UserDefinedFunction existing, final UserDefinedFunction f )
 	{
@@ -348,7 +393,7 @@ public abstract class BasicScope
 
 		return function;
 	}
-	
+
 	public Function findFunction( final String name, final FunctionList functionList, final boolean hasParameters )
 	{
 		Function[] functions = functionList.findFunctions( name );

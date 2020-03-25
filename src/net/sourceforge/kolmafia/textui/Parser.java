@@ -781,14 +781,24 @@ public class Parser
 
 		if ( f.overridesLibraryFunction() )
 		{
-			throw this.overridesLibraryFunctionException( functionName, variableReferences );
+			throw this.overridesLibraryFunctionException( f );
 		}
 
 		UserDefinedFunction existing = parentScope.findFunction( f );
 
 		if ( existing != null && existing.getScope() != null )
 		{
-			throw this.multiplyDefinedFunctionException( functionName, variableReferences );
+			throw this.multiplyDefinedFunctionException( f );
+		}
+
+		if ( vararg )
+		{
+			Function clash = parentScope.findVarargClash( f );
+
+			if ( clash != null )
+			{
+				throw this.varargClashException( f, clash );
+			}
 		}
 
 		// Add new function or replace existing forward reference
@@ -4239,21 +4249,32 @@ public class Parser
 		return this.parseException( Parser.undefinedFunctionMessage( name, params ) );
 	}
 
-	private final ScriptException multiplyDefinedFunctionException( final String name, final List<VariableReference> params )
+	private final ScriptException multiplyDefinedFunctionException( final Function f )
 	{
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		buffer.append( "Function '" );
-		Parser.appendFunctionDefinition( buffer, name, params );
-		buffer.append( "' defined multiple times" );
+		buffer.append( f.getSignature() );
+		buffer.append( "' defined multiple times." );
 		return this.parseException( buffer.toString() );
 	}
 
-	private final ScriptException overridesLibraryFunctionException( final String name, final List<VariableReference> params )
+	private final ScriptException overridesLibraryFunctionException( final Function f )
 	{
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		buffer.append( "Function '" );
-		Parser.appendFunctionDefinition( buffer, name, params );
-		buffer.append( "' overrides a library function" );
+		buffer.append( f.getSignature() );
+		buffer.append( "' overrides a library function." );
+		return this.parseException( buffer.toString() );
+	}
+
+	private final ScriptException varargClashException( final Function f, final Function clash )
+	{
+		StringBuilder buffer = new StringBuilder();
+		buffer.append( "Function '" );
+		buffer.append( f.getSignature() );
+		buffer.append( "' clashes with existing function '" );
+		buffer.append( clash.getSignature() );
+		buffer.append( "'." );
 		return this.parseException( buffer.toString() );
 	}
 
@@ -4274,7 +4295,7 @@ public class Parser
 
 	public static final String undefinedFunctionMessage( final String name, final List<Value> params )
 	{
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		buffer.append( "Function '" );
 		Parser.appendFunctionCall( buffer, name, params );
 		buffer.append( "' undefined.  This script may require a more recent version of KoLmafia and/or its supporting scripts." );
@@ -4338,23 +4359,7 @@ public class Parser
 		RequestLogger.printLine( "WARNING: " + msg + " " + this.getLineAndFile() );
 	}
 
-	private static final void appendFunctionCall( final StringBuffer buffer, final String name, final List<Value> params )
-	{
-		buffer.append( name );
-		buffer.append( "(" );
-
-		String sep = " ";
-		for ( Value current : params )
-		{
-			buffer.append( sep );
-			sep = ", ";
-			buffer.append( current.getType() );
-		}
-
-		buffer.append( " )" );
-	}
-
-	private static final void appendFunctionDefinition( final StringBuffer buffer, final String name, final List<VariableReference> params )
+	private static final void appendFunctionCall( final StringBuilder buffer, final String name, final List<Value> params )
 	{
 		buffer.append( name );
 		buffer.append( "(" );
