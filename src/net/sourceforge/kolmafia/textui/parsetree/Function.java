@@ -202,10 +202,34 @@ public abstract class Function
 				return !thisParamType.equals( thatParamType );
 			}
 
+		/*
 			// If we have seen one vararg, if the types agree, this
 			// is a clash, otherwise, not
 			if ( thisVararg != null || thatVararg != null )
+ 			{
+ 				return thisParamType.equals( thatParamType );
+ 			}
+		*/
+
+			// If we have seen one vararg, if the other function
+			// has no more arguments, it will be an exact match.
+			// Otherwise, if the types agree, clash.
+
+			if ( thisVararg != null )
 			{
+				if ( !thatIterator.hasNext() )
+				{
+					return false;
+				}
+				return thisParamType.equals( thatParamType );
+			}
+
+			if ( thatVararg != null )
+			{
+				if ( !thisIterator.hasNext() )
+				{
+					return false;
+				}
 				return thisParamType.equals( thatParamType );
 			}
 
