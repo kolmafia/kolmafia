@@ -43,8 +43,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
-import net.sourceforge.kolmafia.objectpool.ItemPool;
-
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -55,9 +53,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class MicroBreweryRequest
 	extends CafeRequest
 {
-	private static AdventureResult dailySpecial = null;
 	private static final Pattern SPECIAL_PATTERN =
-		Pattern.compile( "Today's Special:.*?name=whichitem value=(\\d+).*?onclick='descitem\\(\"(\\d+)\".*?<td>(.*?) \\([\\d,]+ Meat\\)</td>", Pattern.DOTALL );
+		Pattern.compile( "Today's Special:.*?name=whichitem value=(\\d+).*?onclick='descitem\\(\"(\\d+)\".*?<td>(.*?) \\(([\\d,]+) Meat\\)</td>", Pattern.DOTALL );
 
 	public static final AdventureResult getDailySpecial()
 	{
@@ -66,7 +63,8 @@ public class MicroBreweryRequest
 			MicroBreweryRequest.getMenu();
 		}
 
-		return MicroBreweryRequest.dailySpecial;
+		String itemName = Preferences.getString( "_dailySpecial" );
+		return AdventureResult.tallyItem( itemName );
 	}
 
 	public MicroBreweryRequest()
@@ -101,7 +99,17 @@ public class MicroBreweryRequest
 
 		case 3:
 			itemId = ItemDatabase.getItemId( name );
-			price = Math.max( 1, Math.abs( ItemDatabase.getPriceById( itemId ) ) ) * 3;
+			String dsItemName = Preferences.getString( "_dailySpecial" );
+
+			if ( dsItemName.equals( name ) )
+			{
+				price = Preferences.getInteger( "_dailySpecialPrice" );
+			}
+			
+			if ( price == 0 )
+			{
+				price = Math.max( 1, Math.abs( ItemDatabase.getPriceById( itemId ) ) ) * 3;
+			}
 			break;
 		}
 
@@ -156,13 +164,15 @@ public class MicroBreweryRequest
 				int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
 				String descId = matcher.group( 2 );
 				String itemName = matcher.group( 3 );
+				int price = StringUtilities.parseInt( matcher.group( 4 ) );
 				String match = ItemDatabase.getItemDataName( itemId );
 				boolean checkItemName = !KoLCharacter.isCrazyRandomTwo();
 				if ( match == null || ( checkItemName && !match.equals( itemName ) ) )
 				{
 					ItemDatabase.registerItem( itemId, itemName, descId );
 				}
-				MicroBreweryRequest.dailySpecial = ItemPool.get( itemId );
+				Preferences.setString( "_dailySpecial", match );
+				Preferences.setInteger( "_dailySpecialPrice", price );
 
 			}
 			return;
@@ -198,12 +208,19 @@ public class MicroBreweryRequest
 
 		RequestThread.postRequest( new MicroBreweryRequest() );
 
-		if ( MicroBreweryRequest.dailySpecial != null )
+		String itemName = Preferences.getString( "_dailySpecial" );
+		if ( itemName != "" )
 		{
-			int itemId = MicroBreweryRequest.dailySpecial.getItemId();
-			String name = MicroBreweryRequest.dailySpecial.getName();
-			int price = Math.max( 1, Math.abs( ItemDatabase.getPriceById( itemId ) ) ) * 3;
-			CafeRequest.addMenuItem( KoLConstants.microbreweryItems, name, price );
+			int itemId = ItemDatabase.getItemId( itemName );
+
+			int price = Preferences.getInteger( "_dailySpecialPrice" );
+
+			if ( price == 0 )
+			{
+				price = Math.max( 1, Math.abs( ItemDatabase.getPriceById( itemId ) ) ) * 3;
+			}
+
+			CafeRequest.addMenuItem( KoLConstants.microbreweryItems, itemName, price );
 		}
 
 		ConcoctionDatabase.getUsables().sort();
@@ -231,7 +248,7 @@ public class MicroBreweryRequest
 
 		int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
 		String itemName;
-		int price;
+		int price = 0;
 
 		switch ( itemId )
 		{
@@ -249,7 +266,19 @@ public class MicroBreweryRequest
 			break;
 		default:
 			itemName = ItemDatabase.getItemName( itemId );
-			price = Math.max( 1, Math.abs( ItemDatabase.getPriceById( itemId ) ) ) * 3;
+
+			String dsItemName = Preferences.getString( "_dailySpecial" );
+
+			if ( dsItemName.equals( itemName ) )
+			{
+				price = Preferences.getInteger( "_dailySpecialPrice" );
+			}
+			
+			if ( price == 0 )
+			{
+				price = Math.max( 1, Math.abs( ItemDatabase.getPriceById( itemId ) ) ) * 3;
+			}
+
 			break;
 		}
 

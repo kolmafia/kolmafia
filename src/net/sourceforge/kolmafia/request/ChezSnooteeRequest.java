@@ -47,16 +47,14 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ChezSnooteeRequest
 	extends CafeRequest
 {
-	private static AdventureResult dailySpecial = null;
-
 	private static final Pattern SPECIAL_PATTERN =
-		Pattern.compile( "Today's Special:.*?name=whichitem value=(\\d+).*?onclick='descitem\\(\"(\\d+)\".*?<td>(.*?) \\([\\d,]+ Meat\\)</td>", Pattern.DOTALL );
+		Pattern.compile( "Today's Special:.*?name=whichitem value=(\\d+).*?onclick='descitem\\(\"(\\d+)\".*?<td>(.*?) \\(([\\d,]+) Meat\\)</td>", Pattern.DOTALL );
 
 	public static final AdventureResult getDailySpecial()
 	{
@@ -65,7 +63,8 @@ public class ChezSnooteeRequest
 			ChezSnooteeRequest.getMenu();
 		}
 
-		return ChezSnooteeRequest.dailySpecial;
+		String itemName = Preferences.getString( "_dailySpecial" );
+		return AdventureResult.tallyItem( itemName );
 	}
 
 	public ChezSnooteeRequest()
@@ -100,7 +99,17 @@ public class ChezSnooteeRequest
 
 		case 3:
 			itemId = ItemDatabase.getItemId( name );
-			price = Math.max( 1, Math.abs( ItemDatabase.getPriceById( itemId ) ) ) * 3;
+			String dsItemName = Preferences.getString( "_dailySpecial" );
+
+			if ( dsItemName.equals( name ) )
+			{
+				price = Preferences.getInteger( "_dailySpecialPrice" );
+			}
+			
+			if ( price == 0 )
+			{
+				price = Math.max( 1, Math.abs( ItemDatabase.getPriceById( itemId ) ) ) * 3;
+			}
 			break;
 		}
 
@@ -155,14 +164,15 @@ public class ChezSnooteeRequest
 				int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
 				String descId = matcher.group( 2 );
 				String itemName = matcher.group( 3 );
+				int price = StringUtilities.parseInt( matcher.group( 4 ) );
 				String match = ItemDatabase.getItemDataName( itemId );
 				boolean checkItemName = !KoLCharacter.isCrazyRandomTwo();
 				if ( match == null || ( checkItemName && !match.equals( itemName ) ) )
 				{
 					ItemDatabase.registerItem( itemId, itemName, descId );
 				}
-				ChezSnooteeRequest.dailySpecial = ItemPool.get( itemId );
-
+				Preferences.setString( "_dailySpecial", match );
+				Preferences.setInteger( "_dailySpecialPrice", price );
 			}
 			return;
 		}
@@ -199,12 +209,19 @@ public class ChezSnooteeRequest
 
 		RequestThread.postRequest( new ChezSnooteeRequest() );
 
-		if ( ChezSnooteeRequest.dailySpecial != null )
+		String itemName = Preferences.getString( "_dailySpecial" );
+		if ( itemName != "" )
 		{
-			int itemId = ChezSnooteeRequest.dailySpecial.getItemId();
-			String name = ChezSnooteeRequest.dailySpecial.getName();
-			int price = Math.max( 1, Math.abs( ItemDatabase.getPriceById( itemId ) ) ) * 3;
-			CafeRequest.addMenuItem( KoLConstants.restaurantItems, name, price );
+			int itemId = ItemDatabase.getItemId( itemName );
+
+			int price = Preferences.getInteger( "_dailySpecialPrice" );
+
+			if ( price == 0 )
+			{
+				price = Math.max( 1, Math.abs( ItemDatabase.getPriceById( itemId ) ) ) * 3;
+			}
+
+			CafeRequest.addMenuItem( KoLConstants.restaurantItems, itemName, price );
 		}
 
 		ConcoctionDatabase.getUsables().sort();
@@ -232,7 +249,7 @@ public class ChezSnooteeRequest
 
 		int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
 		String itemName;
-		int price;
+		int price = 0;
 
 		switch ( itemId )
 		{
@@ -250,7 +267,19 @@ public class ChezSnooteeRequest
 			break;
 		default:
 			itemName = ItemDatabase.getItemName( itemId );
-			price = Math.max( 1, Math.abs( ItemDatabase.getPriceById( itemId ) ) ) * 3;
+
+			String dsItemName = Preferences.getString( "_dailySpecial" );
+
+			if ( dsItemName.equals( itemName ) )
+			{
+				price = Preferences.getInteger( "_dailySpecialPrice" );
+			}
+			
+			if ( price == 0 )
+			{
+				price = Math.max( 1, Math.abs( ItemDatabase.getPriceById( itemId ) ) ) * 3;
+			}
+
 			break;
 		}
 
