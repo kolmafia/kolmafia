@@ -3647,7 +3647,7 @@ public abstract class KoLCharacter
 		else if ( oldPath.equals( GELATINOUS_NOOB ) )
 		{
 			int noobPoints = wasInHardcore ? 2 : 1;
-			Preferences.increment( "noobPoints", noobPoints );
+			Preferences.increment( "noobPoints", noobPoints, 20, false );
 		}
 		else if ( oldPath.equals( LICENSE ) )
 		{
@@ -3657,17 +3657,17 @@ public abstract class KoLCharacter
 		else if ( oldPath.equals( GLOVER ) )
 		{
 			int gloverPoints = wasInHardcore ? 2 : 1;
-			Preferences.increment( "gloverPoints", gloverPoints );
+			Preferences.increment( "gloverPoints", gloverPoints, 11, false );
 		}
 		else if ( oldPath.equals( DISGUISES_DELIMIT ) )
 		{
 			int masksUnlocked = wasInHardcore ? 2 : 1;
-			Preferences.increment( "masksUnlocked", masksUnlocked );
+			Preferences.increment( "masksUnlocked", masksUnlocked, 25, false );
 		}
 		else if ( oldPath.equals( DARK_GYFFTE ) )
 		{
 			int gyfftePoints = wasInHardcore ? 2 : 1;
-			Preferences.increment( "darkGyfftePoints", gyfftePoints );
+			Preferences.increment( "darkGyfftePoints", gyfftePoints, 23, false );
 		}
 		else if ( oldPath.equals( CRAZY_RANDOM_TWO ) )
 		{
@@ -3676,7 +3676,7 @@ public abstract class KoLCharacter
 		else if ( oldPath.equals( PATH_OF_THE_PLUMBER ) )
 		{
 			int plumberPoints = wasInHardcore ? 2 : 1;
-			Preferences.increment( "plumberPoints", plumberPoints );
+			Preferences.increment( "plumberPoints", plumberPoints, 22, false );
 			KoLCharacter.removePlumberQuestItems();
 		}
 
