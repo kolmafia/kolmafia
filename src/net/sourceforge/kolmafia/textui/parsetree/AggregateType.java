@@ -38,10 +38,10 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 public class AggregateType
 	extends CompositeType
 {
-	private final Type dataType;
-	private final Type indexType;
-	private final boolean caseInsensitive;
-	private int size;
+	protected final Type dataType;
+	protected final Type indexType;
+	protected final boolean caseInsensitive;
+	protected int size;
 
 	public AggregateType( final AggregateType original )
 	{

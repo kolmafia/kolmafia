@@ -43,4 +43,9 @@ public class VarArgType
 		super( "vararg", dataType, 0 );
 	}
 
+	@Override
+	public String toString()
+	{
+		return this.dataType.toString() + " ...";
+	}
 }

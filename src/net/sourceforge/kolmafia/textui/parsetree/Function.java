@@ -143,6 +143,83 @@ public abstract class Function
 		return true;
 	}
 
+	public boolean varargsClash( final Function that )
+	{
+		Iterator<VariableReference> thisIterator = this.getVariableReferences().iterator();
+		Iterator<VariableReference> thatIterator = that.getVariableReferences().iterator();
+		VariableReference thisVararg = null;
+		VariableReference thatVararg = null;
+
+		while ( thisIterator.hasNext() || thatIterator.hasNext() )
+		{
+			VariableReference thisParam;
+			if ( !thisIterator.hasNext() )
+			{
+				// If this function ran out of arguments without seeing a vararg, no clash
+				if ( thisVararg == null )
+				{
+					return false;
+				}
+				thisParam = thisVararg;
+			}
+			else
+			{
+				thisParam = thisIterator.next();
+			}
+
+			Type thisParamType = thisParam.getType();
+			if ( thisParamType instanceof VarArgType )
+			{
+				thisVararg = thisParam;
+				thisParamType = ((VarArgType) thisParamType).getDataType();
+			}
+
+			VariableReference thatParam;
+			if ( !thatIterator.hasNext() )
+			{
+				// If that function ran out of arguments without seeing a vararg, no clash
+				if ( thatVararg == null )
+				{
+					return false;
+				}
+				thatParam = thatVararg;
+			}
+			else
+			{
+				thatParam = thatIterator.next();
+			}
+
+			Type thatParamType = thatParam.getType();
+			if ( thatParamType instanceof VarArgType )
+			{
+				thatVararg = thatParam;
+				thatParamType = ((VarArgType) thatParamType).getDataType();
+			}
+
+			// If we have seen two varargs, an exact match is a clash
+			if ( thisVararg != null && thatVararg != null )
+			{
+				return !thisParamType.equals( thatParamType );
+			}
+
+			// If we have seen one vararg, if the types agree, this
+			// is a clash, otherwise, not
+			if ( thisVararg != null || thatVararg != null )
+			{
+				return thisParamType.equals( thatParamType );
+			}
+
+			// With no varargs, if types don't agree, nothing more
+			// to look at
+			if ( !thisParamType.equals( thatParamType ) )
+			{
+				return false;
+			}
+		}
+
+		return false;
+	}
+
 	public boolean paramsMatch( final List<Value> params, MatchType match, boolean vararg )
 	{
 		return ( vararg ) ? this.paramsMatchVararg( params, match ) : this.paramsMatchNoVararg(  params, match );
