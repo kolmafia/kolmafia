@@ -1459,6 +1459,8 @@ user	_crimboTree	false
 user	_cursedKegUsed	false
 user	_cursedMicrowaveUsed	false
 user	_dailyDungeonMalwareUsed	false
+user	_dailySpecial
+user	_dailySpecialPrice	0
 user	_darkChocolateHeart	false
 user	_daycareFights	false
 user	_daycareGymScavenges	0
