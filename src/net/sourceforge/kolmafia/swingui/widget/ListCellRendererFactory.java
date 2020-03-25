@@ -554,9 +554,10 @@ public class ListCellRendererFactory
 				else
 				{
 					String effectName = item.getEffectName();
-					int effectDuration = (int) Modifiers.getNumericModifier( "Item", name, "Effect Duration" );
-					String effectModifiers = Modifiers.getStringModifier( "Effect", effectName, "Modifiers" );
 					int effectId = EffectDatabase.getEffectId( effectName );
+					int effectDuration = (int) Modifiers.getNumericModifier( "Item", name, "Effect Duration" );
+					Modifiers mods = Modifiers.getEffectModifiers( effectId );
+					String effectModifiers = (mods == null ) ? null : mods.getString( "Evaluated Modifiers" );
 					AdventureResult effect = EffectPool.get( effectId, 0 );
 					int active = effect.getCount( KoLConstants.activeEffects );
 					stringForm.append( effectDuration );
@@ -568,9 +569,12 @@ public class ListCellRendererFactory
 						stringForm.append( String.valueOf( active ) );
 						stringForm.append( " active)" );
 					}
-					stringForm.append( " (" );
-					stringForm.append( effectModifiers );
-					stringForm.append( ")" );
+					if ( effectModifiers != null )
+					{
+						stringForm.append( " (" );
+						stringForm.append( effectModifiers );
+						stringForm.append( ")" );
+					}
 				}
 			}
 
