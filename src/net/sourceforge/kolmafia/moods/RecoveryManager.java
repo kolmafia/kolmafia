@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LightsOutManager;
 import net.sourceforge.kolmafia.session.VoteMonsterManager;
 
@@ -389,7 +390,7 @@ public class RecoveryManager
 		// Optimize for that situation.
 		if ( KoLCharacter.isPlumber() && techniques == HPRestoreItemList.PLUMBER_CONFIGURES )
 		{
-			return plumberHPRecovery( techniques, (int) desired, needed );
+			return plumberHPRecovery( needed, false );
 		}
 
 		// If it gets this far, then you should attempt to recover
@@ -562,80 +563,239 @@ public class RecoveryManager
 		return true;
 	}
 
-	private static boolean plumberHPRecovery( RestoreItem[] techniques, long desired, long needed )
-		throws Exception
+	private static final AdventureResult MUSHROOM = ItemPool.get( ItemPool.MUSHROOM, 1 );
+	private static final AdventureResult DELUXE_MUSHROOM = ItemPool.get( ItemPool.DELUXE_MUSHROOM, 1 );
+	private static final AdventureResult SUPER_DELUXE_MUSHROOM = ItemPool.get( ItemPool.SUPER_DELUXE_MUSHROOM, 1 );
+	private static final AdventureResult COIN = ItemPool.get( ItemPool.COIN, 1 );
+
+	private static class MushroomPlan
+	{
+		public final int min;
+		public final int max;
+		public final int coins;
+		public final int mushroom;
+		public final int deluxe;
+		public final int superDeluxe;
+		private String stringForm = null;
+
+		public MushroomPlan()
+		{
+			this( 0,0,0,0,0,0 );
+		}
+
+		public MushroomPlan( int min, int max, int coins, int mushroom, int deluxe, int superDeluxe )
+		{
+			this.min = min;
+			this.max = max;
+			this.coins = coins;
+			this.mushroom = mushroom;
+			this.deluxe = deluxe;
+			this.superDeluxe = superDeluxe;
+		}
+
+		public boolean execute( final int extraSupers, boolean purchase )
+		{
+			int supers = this.superDeluxe + extraSupers;
+			if ( supers > 0 )
+			{
+				if ( !this.use( supers, SUPER_DELUXE_MUSHROOM, purchase ) )
+				{
+					return false;
+				}
+			}
+
+			if ( this.deluxe > 0  )
+			{
+				if ( !this.use( this.deluxe, DELUXE_MUSHROOM, purchase ) )
+				{
+					return false;
+				}
+			}
+
+			if ( this.mushroom > 0 )
+			{
+				if ( !this.use( this.mushroom, MUSHROOM, purchase ) )
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+
+		private boolean use( int count, AdventureResult item, boolean purchase )
+		{
+			int have = InventoryManager.getCount( item );
+			if ( !purchase && have < count )
+			{
+				return false;
+			}
+			AdventureResult usedItem = item.getInstance( count );
+			if ( !InventoryManager.retrieveItem( usedItem ) )
+			{
+				return false;
+			}
+			RequestThread.postRequest( UseItemRequest.getInstance( usedItem ) );
+			return KoLmafia.permitsContinue();
+		}
+
+		private String stringForm()
+		{
+			StringBuilder buf = new StringBuilder();
+			String sep = "";
+			if ( mushroom > 0 )
+			{
+				buf.append( String.valueOf( mushroom ) );
+				buf.append( " mushroom" );
+				sep = ", ";
+			}
+			if ( deluxe > 0 )
+			{
+				buf.append( sep );
+				buf.append( String.valueOf( deluxe ) );
+				buf.append( " deluxe mushroom" );
+				sep = ", ";
+			}
+			if ( superDeluxe > 0 )
+			{
+				buf.append( sep );
+				buf.append( String.valueOf( superDeluxe ) );
+				buf.append( " super-deluxe mushroom" );
+			}
+			return buf.toString();
+		}
+
+		@Override
+		public String toString()
+		{
+			if ( stringForm == null )
+			{
+				this.stringForm = this.stringForm();
+			}
+			return this.stringForm;
+		}
+	}
+
+	// Optimal item usage for healing 1-99 HP
+	// (100+ requires at least one super-deluxe mushroom
+	private static final MushroomPlan[] mushroomPlans = new MushroomPlan[] {
+		new MushroomPlan(  1, 10,  5, 1, 0, 0 ),	//  1-10 HP   5 coins  mushroom
+		new MushroomPlan( 11, 20, 10, 2, 0, 0 ),	// 11-20 HP  10 coins  2 mushroom
+		new MushroomPlan( 11, 30, 10, 0, 1, 0 ),	// 11-30 HP  10 coins  deluxe mushroom
+		new MushroomPlan( 31, 40, 15, 1, 1, 0 ),	// 31-40 HP  15 coins  deluxe mushroom + mushroom
+		new MushroomPlan( 41, 50, 20, 2, 1, 0 ),	// 41-50 HP  20 coins  deluxe mushroom + 2 mushroom
+		new MushroomPlan( 41, 60, 20, 0, 2, 0 ),	// 41-60 HP  20 coins  deluxe mushroom + deluxe mushroom
+		new MushroomPlan( 41, 99, 20, 0, 0, 1 ),	//   41+ HP  20 coins  super-deluxe mushroom
+	};
+
+	private static final MushroomPlan superOnlyPlan = new MushroomPlan();
+
+	public static boolean plumberHPRecovery( long needed, boolean debug )
 	{
 		long current = KoLCharacter.getCurrentHP();
-		long maximum = KoLCharacter.getMaximumHP();
-
-		List<RestoreItem> possibleItems = Arrays.asList( techniques );
-
-		HPRestoreItemList.setPurchaseBasedSort( false );
-		Collections.sort( possibleItems );
-
-		// Use items in inventory
-		for ( int i = 0; i < possibleItems.size() && current < needed; ++i )
+		if ( needed <= current )
 		{
-			long last = -1;
-			do
-			{
-				RestoreItem item = possibleItems.get( i );
-				item.recover( (int) desired, false );
-
-				last = current;
-				current = KoLCharacter.getCurrentHP();
-				maximum = KoLCharacter.getMaximumHP();
-				desired = Math.min( maximum, desired );
-				needed = Math.min( maximum, needed );
-			}
-			while ( last != current && current < needed );
+			return true;
 		}
 
-		if ( KoLmafia.refusesContinue() )
+		// Calculate how many HP we need to recover
+		long desired = needed - current;
+
+		// There are exactly three restores for Plumbers:
+		//
+		//   super-deluxe mushroom   100 HP   20 coins
+		//   deluxe mushroom          30 HP   10 coins
+		//   mushroom                 10 HP    5 coins
+
+		// Assess our resources
+		int mushrooms = InventoryManager.getCount( MUSHROOM );
+		int deluxeMushrooms = InventoryManager.getCount( DELUXE_MUSHROOM );
+		int superDeluxeMushrooms = InventoryManager.getCount( SUPER_DELUXE_MUSHROOM );
+		int coins = InventoryManager.getCount( COIN );
+
+		// Assess our needs.
+
+		// Plans
+		ArrayList<MushroomPlan> plans = new ArrayList<>();
+
+		// Find all plans that will recover enough HP
+		long recover = desired;
+		int superNeeded = 0;
+
+		if ( recover >= 100 )
 		{
-			return false;
+			superNeeded = (int)( recover / 100 );
+			recover %= 100;
 		}
 
-		// Use purchasable items
-		try
+		for ( MushroomPlan plan : mushroomPlans )
 		{
-			HPRestoreItemList.setPurchaseBasedSort( true );
-
-			long last = -1;
-			current = KoLCharacter.getCurrentHP();
-
-			// Plumbers purchase things with coins.
-			while ( last != current && current < needed )
+			if ( plan.min <= recover && plan.max >= recover )
 			{
-				Collections.sort( possibleItems );
-
-				RestoreItem item = possibleItems.get( 0 );
-				item.recover( (int) desired, true );
-
-				last = current;
-				current = KoLCharacter.getCurrentHP();
-				maximum = KoLCharacter.getMaximumHP();
-				desired = Math.min( maximum, desired );
-				needed = Math.min( maximum, needed );
+				plans.add( plan );
 			}
 		}
-		finally
-		{
-			HPRestoreItemList.setPurchaseBasedSort( false );
-		}
 
-		if ( KoLmafia.refusesContinue() )
+		if ( debug )
 		{
+			RequestLogger.printLine( "To recover " + desired + " HP as a plumber, need " + superNeeded + " super-deluxe mushrooms." );
+			RequestLogger.printLine( "There are " + plans.size() + " plans to recover the final " + recover + " HP" );
+			for ( MushroomPlan plan : plans )
+			{
+				RequestLogger.printLine( plan.toString() );
+			}
 			return false;
 		}
 
-		if ( current < needed )
+		// Start by using super-deluxe mushrooms we have
+		if ( superNeeded > 0 )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Autorecovery failed." );
-			return false;
+			int use = Math.min( superNeeded, superDeluxeMushrooms );
+			if ( use > 0 )
+			{
+				boolean success =  superOnlyPlan.execute( use, false );
+				if ( !success )
+				{
+					return false;
+				}
+				superNeeded -= use;
+				superDeluxeMushrooms -= use;
+			}
 		}
 
-		return true;
+		// Continue by buying super-deluxe mushrooms
+		if ( superNeeded > 0 )
+		{
+			int use = superNeeded;
+			boolean success =  superOnlyPlan.execute( use, true );
+			if ( !success )
+			{
+				return false;
+			}
+			superNeeded -= use;
+			superDeluxeMushrooms -= use;
+		}
+
+		// If that completes recovery, success!
+		// There shouldn't be any plans, but guard
+		if ( recover == 0 || plans.size() == 0 )
+		{
+			return true;
+		}
+
+		// We have from 1-99 HP remaining to recover
+		// Look through plans and find one that uses mushrooms we own
+		for ( MushroomPlan plan : plans )
+		{
+			if ( plan.superDeluxe <= superDeluxeMushrooms &&
+			     plan.deluxe <= deluxeMushrooms &&
+			     plan.mushroom <= mushrooms )
+			{
+				return plan.execute( 0, false );
+			}
+		}
+
+		// Otherwise, just execute the first plan
+		return plans.get( 0 ).execute( 0, true );
 	}
 
 	private static boolean recover( float desired, final String settingName, String allowed,

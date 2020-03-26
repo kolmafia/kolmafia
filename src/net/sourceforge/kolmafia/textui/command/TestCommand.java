@@ -75,7 +75,9 @@ import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.combat.CombatUtilities;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
+import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.Concoction;
+
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
@@ -265,7 +267,6 @@ public class TestCommand
 
 		if ( command.equals( "crop" ) )
 		{
-
 			AdventureResult crop;
 			String matchName;
 
@@ -618,6 +619,19 @@ public class TestCommand
 				RequestLogger.printLine( "place.php?whichplace=" + place );
 			}
 
+			return;
+		}
+
+		if ( command.equals( "plumber" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test plumber NEEDED" );
+				return;
+			}
+
+			long needed = StringUtilities.parseLong( split[ 1 ].trim() );
+			RecoveryManager.plumberHPRecovery( needed, true );
 			return;
 		}
 
