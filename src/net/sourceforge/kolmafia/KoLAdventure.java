@@ -2525,6 +2525,12 @@ public class KoLAdventure
 			"Equip those boots you found",
 			"Plumbers cannot adventure without appropriate gear.",
 		},
+
+		// Something tells you the last bit of this is going to take a <i>long</i> time.  Come back when you've got more Adventures to spare.
+		{
+			"going to take a <i>long</i> time",
+			"You need 7 Adventures to fight Ed.",
+		},
 	};
 
 	public static final int findAdventureFailure( String responseText )
