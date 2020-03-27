@@ -327,7 +327,7 @@ public class CoinmastersDatabase
 
 	public static final boolean contains( final int itemId, boolean validate )
 	{
-		PurchaseRequest item = CoinmastersDatabase.getPurchaseRequest( itemId );
-		return item != null && ( !validate || item.canPurchase() );
+		CoinMasterPurchaseRequest item = CoinmastersDatabase.getPurchaseRequest( itemId );
+		return item != null && ( !validate || item.availableItem() );
 	}
 }
