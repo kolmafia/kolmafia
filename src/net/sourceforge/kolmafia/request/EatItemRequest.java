@@ -79,6 +79,8 @@ public class EatItemRequest
 		Pattern.compile( "You only have (\\d+) of those, not (\\d+)" );
 	private static final Pattern MAYONEX_PATTERN =
 		Pattern.compile( "Force of Mayo Be With You</b><br>\\(duration: (\\d+) Adventure" );
+	private static final Pattern PIRATE_FORK_PATTERN =
+		Pattern.compile( "You reach over and grab some (.*?) off of a random passerby's plate" );
 
 	private static int ignorePrompt = 0;
 	private static int askedAboutMilk = 0;
@@ -186,6 +188,10 @@ public class EatItemRequest
 		case ItemPool.MAGICAL_SAUSAGE:
 			UseItemRequest.limiter = "daily limit";
 			return 23 - Preferences.getInteger( "_sausagesEaten" );
+
+		case ItemPool.PIRATE_FORK:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_pirateForkUsed" ) ? 0 : 1;
 		}
 
 		int limit = KoLCharacter.getFullnessLimit();
@@ -771,6 +777,15 @@ public class EatItemRequest
 			}
 			return;
 		}
+		// You can only use one pirate fork per day.
+		if ( responseText.contains( "only use one pirate fork per day" ) )
+		{
+			UseItemRequest.lastUpdate = "You may only eat from the pirate fork once per day.";
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+			Preferences.setBoolean( "_pirateForkUsed", true );
+			return;
+		}
+
 
 		// Food is restricted by Standard.
 		if ( responseText.contains( "That item is too old to be used on this path" ) )
@@ -904,7 +919,16 @@ public class EatItemRequest
 
 		if ( !timeSpinnerUsed )
 		{
-			ResultProcessor.processResult( item.getNegation() );
+			// Pirate fork is not consumed
+			if ( item.getItemId() == ItemPool.PIRATE_FORK )
+			{
+				Preferences.setBoolean( "_pirateForkUsed", true );
+			}
+			// Everything else is consumed
+			else
+			{
+				ResultProcessor.processResult( item.getNegation() );
+			}
 		}
 		KoLCharacter.updateStatus();
 
@@ -1023,6 +1047,23 @@ public class EatItemRequest
 		case ItemPool.ELECTRIC_KOOL_AID:
 			Preferences.increment( "electricKoolAidEaten", item.getCount() );
 			return;
+
+		case ItemPool.PIRATE_FORK:
+		{
+			// You reach over and grab some <food> off of a random passerby's plate. Yum!
+			if ( responseText.contains( "You reach over and grab" ) )
+			{
+				Matcher m = PIRATE_FORK_PATTERN.matcher( responseText );
+				if ( m.find() )
+				{
+					String food = m.group( 1 );
+					String message = "Your pirate fork grabbed some " + food + "!";
+					RequestLogger.printLine( message );
+					RequestLogger.updateSessionLog( message );
+				}
+			}
+			break;
+		}
 		}
 	}
 

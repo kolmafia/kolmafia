@@ -33,6 +33,9 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -74,6 +77,9 @@ public class DrinkItemRequest
 	private static AdventureResult queuedDrinkHelper = null;
 	private static int queuedDrinkHelperCount = 0;
 	public static int boozeConsumed = 0;
+
+	private static final Pattern EVERFULL_GLASS_PATTERN =
+		Pattern.compile( "Someone must have poured some of their (.*?) into it" );
 
 	public DrinkItemRequest( final AdventureResult item )
 	{
@@ -732,6 +738,15 @@ public class DrinkItemRequest
 			return;
 		}
 
+		// You can only drink from your everfull glass once a day.
+		if ( responseText.contains( "only drink from your everfull glass once a day" ) )
+		{
+			UseItemRequest.lastUpdate = "You may only drink from the everfull glass once a day.";
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+			Preferences.setBoolean( "_everfullGlassUsed", true );
+			return;
+		}
+
 		// Booze is restricted by Standard.
 		if ( responseText.contains( "That item is too old to be used on this path" ) )
 		{
@@ -900,6 +915,23 @@ public class DrinkItemRequest
 		case ItemPool.BLOODWEISER:
 			Preferences.increment( "bloodweiserDrunk", item.getCount() );
 			return;
+
+		case ItemPool.EVERFULL_GLASS:
+		{
+			// You drink the liquid in the cup.  Someone must have poured some of their horizontal tango into it.
+			if ( responseText.contains( "You drink the liquid in the cup" ) )
+			{
+				Matcher m = EVERFULL_GLASS_PATTERN.matcher( responseText );
+				if ( m.find() )
+				{
+					String booze = m.group( 1 );
+					String message = "Your everfull glass contained some " + booze + "!";
+					RequestLogger.printLine( message );
+					RequestLogger.updateSessionLog( message );
+				}
+			}
+			break;
+		}
 		}
 	}
 
