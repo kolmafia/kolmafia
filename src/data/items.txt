@@ -10252,7 +10252,7 @@
 10224	Red Roger tattoo kit	829615551	pr_rogertat.gif	usable		0
 10225	PirateRealm fun-a-log	914228079	pr_funalog.gif	usable	q	0
 10226	plush sea serpent	125725891	pr_serpent.gif	accessory	t	0
-10227	pirate fork	477726449	pr_fork.gif	food		0
+10227	pirate fork	477726449	pr_fork.gif	food, reusable		0
 10228	Scurvy and Sobriety Prevention	319727011	book3.gif	usable	d	150
 10229	lucky gold ring	610669800	weddingring.gif	accessory		0
 10230	piratical blunderbuss	141455552	pr_gun.gif	weapon		0
