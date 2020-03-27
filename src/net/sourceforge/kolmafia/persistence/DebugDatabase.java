@@ -373,10 +373,11 @@ public class DebugDatabase
 		}
 
 		String descriptionName = DebugDatabase.parseName( text );
-		if ( itemId == 8954 )
+		if ( itemId == 8955 )
 		{
 			descriptionName = StringUtilities.globalStringReplace( descriptionName, "  ", " " );
 		}
+
 		if ( !name.equals( descriptionName ) &&
 		     !decodedNamesEqual( name, descriptionName ))
 		{
@@ -786,17 +787,20 @@ public class DebugDatabase
 		// However, there are quite a few items that we mark with those secondary attributes that are
 		// not tagged that way by KoL itself. Assume those are correct.
 
-		if ( ( descAttrs & ItemDatabase.ATTR_COMBAT ) != 0 && ( attrs & ItemDatabase.ATTR_COMBAT ) == 0 )
+		if ( ( descAttrs & ItemDatabase.ATTR_COMBAT ) != 0 &&
+		     ( attrs & ItemDatabase.ATTR_COMBAT | ItemDatabase.ATTR_COMBAT_REUSABLE | ItemDatabase.ATTR_CURSE ) == 0 )
 		{
 			return false;
 		}
 
-		if ( ( descAttrs & ItemDatabase.ATTR_COMBAT_REUSABLE ) != 0 && ( attrs & ItemDatabase.ATTR_COMBAT_REUSABLE ) == 0 )
+		if ( ( descAttrs & ItemDatabase.ATTR_COMBAT_REUSABLE ) != 0 &&
+		     ( attrs & ItemDatabase.ATTR_COMBAT_REUSABLE ) == 0 )
 		{
 			return false;
 		}
 
-		if ( ( descAttrs & ItemDatabase.ATTR_CURSE ) != 0 && ( attrs & ItemDatabase.ATTR_CURSE ) == 0 )
+		if ( ( descAttrs & ItemDatabase.ATTR_CURSE ) != 0 &&
+		     ( attrs & ItemDatabase.ATTR_CURSE ) == 0 )
 		{
 			return false;
 		}

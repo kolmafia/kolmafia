@@ -752,7 +752,7 @@ public class RecoveryManager
 			int use = Math.min( superNeeded, superDeluxeMushrooms );
 			if ( use > 0 )
 			{
-				boolean success =  superOnlyPlan.execute( use, false );
+				boolean success = superOnlyPlan.execute( use, false );
 				if ( !success )
 				{
 					return false;

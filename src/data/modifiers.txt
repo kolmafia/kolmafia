@@ -3756,7 +3756,7 @@ Item	wicksilver ring	Hot Damage: +20, Hot Spell Damage: +40, Mysticality: +10, S
 Item	witch wart	Mysticality: +5, MP Regen Min: 6, MP Regen Max: 8
 Item	wool sock	Mysticality: +20, Muscle: -5, Moxie: -5, Spell Damage Percent: +40, Single Equip
 # work boots: +1 to Jump attacks
-Item work	boots	Single Equip
+Item work boots	Single Equip
 # worksite credentials: Grants access to worksites
 Item	worksite credentials	Adventures: +1, Single Equip
 Item	World's Best Adventurer sash	Muscle: [min(100,A+1)], Mysticality: [min(100,A+1)], Moxie: [min(100,A+1)]
@@ -4973,7 +4973,7 @@ Effect	Block-Rockin' Beet	Damage Reduction: 15
 Effect	Blood Bond	Familiar Weight: +5
 # Blood Bubble: The first attack against you will always miss
 Effect	Blood of the Jerk that Bit You	Avatar: "Mansquito"
-Effect	Blood Porter	Maximum MP: [min(pref(bloodweiserDrunk),50)*5], MP Regen Min: [min(pref(bloodweiserDrunk),20)], MP Regen Max: [min(pref(bloodweiserDrunk),20)*2]
+Effect	Blood Porter	Maximum HP: [min(pref(bloodweiserDrunk),50)*10], HP Regen Min: [min(pref(bloodweiserDrunk),40)], HP Regen Max: [min(pref(bloodweiserDrunk),40)*2]
 Effect	[1457]Blood Sugar Sauce Magic	Maximum HP Percent: -10, Maximum MP Percent: +10
 Effect	[1458]Blood Sugar Sauce Magic	Maximum HP Percent: -30, Maximum MP Percent: +30
 Effect	Blood-Gorged	Sleaze Damage: +40, Sleaze Spell Damage: +40
@@ -10399,6 +10399,7 @@ Item	pink-frosted astral cupcake	Effect: "Your Cupcake Senses Are Tingling", Eff
 # pint of sweat: (and additional Stench and Sleaze damage in subsequent rounds)
 # piracetam: Make a Pokefamiliar Smart
 Item	PirateRealm membership packet	Free Pull
+Item	piranha pollen	Effect: "Piranha Power", Effect Duration: 20
 Item	pirate brochure	Effect: "Muscularrr", Effect Duration: 10
 Item	pirate cream pie	Effect: "Well Excuuuuse Me!", Effect Duration: 30
 Item	pirate pamphlet	Effect: "Charrrming", Effect Duration: 10
