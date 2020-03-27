@@ -112,13 +112,18 @@ public class CoinMasterPurchaseRequest
 		return price == 0 ? 0 : tokens / price;
 	}
 
+	public boolean availableItem()
+	{
+		return  this.data.isAccessible() &&
+			this.data.availableItem( this.item.getItemId() ) &&
+			this.data.canBuyItem( this.item.getItemId() );
+	}
+
 	@Override
 	public boolean canPurchase()
 	{
 		return  this.canPurchase &&
-			this.data.isAccessible() &&
-			this.data.availableItem( this.item.getItemId() ) &&
-			this.data.canBuyItem( this.item.getItemId() ) &&
+			this.availableItem() &&
 			this.affordableCount() > 0;
 	}
 
@@ -126,18 +131,14 @@ public class CoinMasterPurchaseRequest
 	public void setCanPurchase( final boolean canPurchase )
 	{
 		super.setCanPurchase( canPurchase &&
-				      this.data.isAccessible() &&
-				      this.data.availableItem( this.item.getItemId() ) &&
-				      this.data.canBuyItem( this.item.getItemId() ) &&
+				      this.availableItem() &&
 				      this.affordableCount() > 0 );
 	}
 
 	@Override
 	public void setCanPurchase()
 	{
-		super.setCanPurchase( this.data.isAccessible() &&
-				      this.data.availableItem( this.item.getItemId() ) &&
-				      this.data.canBuyItem( this.item.getItemId() ) &&
+		super.setCanPurchase( this.availableItem() &
 				      this.affordableCount() > 0 );
 	}
 
