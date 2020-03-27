@@ -777,6 +777,7 @@ public class EatItemRequest
 			}
 			return;
 		}
+
 		// You can only use one pirate fork per day.
 		if ( responseText.contains( "only use one pirate fork per day" ) )
 		{
