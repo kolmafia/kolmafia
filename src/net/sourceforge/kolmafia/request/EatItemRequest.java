@@ -920,16 +920,7 @@ public class EatItemRequest
 
 		if ( !timeSpinnerUsed )
 		{
-			// Pirate fork is not consumed
-			if ( item.getItemId() == ItemPool.PIRATE_FORK )
-			{
-				Preferences.setBoolean( "_pirateForkUsed", true );
-			}
-			// Everything else is consumed
-			else
-			{
-				ResultProcessor.processResult( item.getNegation() );
-			}
+			ResultProcessor.processResult( item.getNegation() );
 		}
 		KoLCharacter.updateStatus();
 
