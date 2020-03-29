@@ -273,6 +273,7 @@ public class ItemPool
 	public static final int PLASTIC_WRAP_IMMATERIA = 608;
 	public static final int SOCK = 609;
 	public static final int HEAVY_D = 611;
+	public static final int CHAOS_BUTTERFLY = 615;
 	public static final int FURRY_FUR = 616;
 	public static final int GIANT_NEEDLE = 619;
 	public static final int BLACK_CANDLE = 620;
