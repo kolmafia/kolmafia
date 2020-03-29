@@ -568,6 +568,20 @@ public class Evaluator
 				index = Modifiers.findName( keyword );
 			}
 
+			if ( index < 0 )
+			{
+				int boolIndex = Modifiers.findBooleanName( keyword );
+				if ( boolIndex >= 0 )
+				{
+					this.booleanMask |= 1 << boolIndex;
+					if ( weight > 0.0 )
+					{
+						this.booleanValue |= 1 << boolIndex;
+					}
+					continue;
+				}
+			}
+
 			// Match keyword with multiple modifiers
 			if ( index < 0 )
 			{
@@ -718,20 +732,7 @@ public class Evaluator
 				continue;
 			}
 
-			int boolIndex = Modifiers.findBooleanName( keyword );
-			if ( boolIndex >= 0 )
-			{
-				this.booleanMask |= 1 << boolIndex;
-				if ( weight > 0.0 )
-				{
-					this.booleanValue |= 1 << boolIndex;
-				}
-				index = -1;	// min/max not valid at this point
-				continue;
-			}
-
-			KoLmafia.updateDisplay( MafiaState.ERROR,
-				"Unrecognized keyword: " + keyword );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Unrecognized keyword: " + keyword );
 			return;
 		}
 
