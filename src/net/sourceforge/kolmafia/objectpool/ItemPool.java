@@ -3179,7 +3179,14 @@ public class ItemPool
 	public static final int MUSHROOM = 10455;
 	public static final int DELUXE_MUSHROOM = 10456;
 	public static final int SUPER_DELUXE_MUSHROOM = 10457;
+	public static final int HAMMER = 10460;
+	public static final int HEAVY_HAMMER = 10461;
+	public static final int PLUMBER_FIRE_FLOWER = 10462;
+	public static final int BONFIRE_FLOWER = 10463;
+	public static final int WORK_BOOTS = 10464;
+	public static final int FANCY_BOOTS = 10465;
 	public static final int POWER_PANTS = 10469;
+	public static final int FROSTY_BUTTON = 10473;
 	public static final int LAST_PLUMBER_QUEST_ITEM = 10474;
 	public static final int MUSHROOM_SPORES = 10482;
 	public static final int FREE_RANGE_MUSHROOM = 10483;

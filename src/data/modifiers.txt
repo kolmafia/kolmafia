@@ -1113,7 +1113,7 @@ Item	bone rattle	Spooky Damage: +4
 # bonerang: +10% Damage vs. Skeletons
 # Bonestabber: +30% Damage vs. Skeletons
 Item	Bonestabber	Spooky Resistance: +3, Spooky Damage: +10, Monster Level: +5
-# bonfire flower: +2 to Fireball attacks
+Item	bonfire flower	Plumber Stat: "Mysticality", Plumber Power: 2
 # boning knife: +10% Damage vs. Skeletons
 # boot knife
 # bottle-rocket crossbow: Shoots Bottle-Rockets!
@@ -1288,7 +1288,7 @@ Item	fiberglass foil	Experience (Muscle): +3, Monster Level: +10, MP Regen Min: 
 Item	filthy pestle	Spell Damage: +7
 Item	finger cymbals	Maximum MP: +20
 Item	fire axe	Cold Damage: +200
-# [10462]fire flower: +1 to Fireball attacks
+Item	[10462]fire flower	Plumber Stat: "Mysticality", Plumber Power: 1
 Item	fire poi	Hot Damage: +15, Moxie: +3
 Item	fish bazooka	Moxie Percent: +5, Meat Drop: +10
 Item	fish hatchet	Muscle Percent: +100, Weapon Damage: +50, Familiar Weight: +5, Combat Rate: -10, Lasts Until Rollover
@@ -1392,7 +1392,7 @@ Item	half-size scalpel	Weapon Damage Percent: +10, Surgeonosity: +1
 Item	half-sized guitar	Moxie: +2, Ranged Damage: +4
 Item	halfberd	Weapon Damage: +2
 Item	halibut	Stench Damage: +100, Sleaze Damage: +100, Moxie Percent: -10
-# hammer: +1 to Hammer attacks
+Item	hammer	Plumber Stat: "Muscle", Plumber Power: 1
 Item	Hammer of Smiting	Muscle: +16, Critical Hit Percent: +7, Class: "Seal Clubber"
 Item	hammerus	Spooky Damage: +15
 # Hand that Rocks the Ladle: (+% to Mysticality Based on Smithsness)
@@ -1407,6 +1407,7 @@ Item	haunted paddle-ball	Monster Level: +5, Spooky Damage: +10
 # hawk: +22% Damage vs. Skeletons
 Item	hawk	Critical Hit Percent: +5, Weapon Damage: +11
 # heavy hammer: +2 to Hammer attacks
+Item	heavy hammer	Plumber Stat: "Muscle", Plumber Power: 2
 Item	heavy leather-bound tome	Weakens Monster
 Item	heavy metal thunderrr guitarrr	Weapon Damage: +16
 # heteroerotic frat-paddle
@@ -2789,8 +2790,7 @@ Item	expensive camera	Initiative: +20, Reduce Enemy Defense: 10, Single Equip
 Item	eXtreme mittens	Weapon Damage: +6
 Item	eXtreme nose ring	Muscle: +4, Mysticality: +4, Moxie: +4
 Item	fancy black tie	Muscle Percent: +15, Single Equip
-# fancy boots: +2 to Jump attacks
-Item	fancy boots	Single Equip
+Item	fancy boots	Plumber Stat: "Moxie", Plumber Power: 2, Single Equip
 Item	Fancy Jeff's fancy pocket square	Moxie Percent: +25, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
 Item	FantasyRealm G. E. M.	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100, Lasts Until Rollover
 # fiberglass fannypack: Filled with a never-ending supply of deadly pasta
@@ -3755,8 +3755,7 @@ Item	wicker ticker	HP Regen Min: 4, HP Regen Max: 8, Spell Damage Percent: +20, 
 Item	wicksilver ring	Hot Damage: +20, Hot Spell Damage: +40, Mysticality: +10, Single Equip
 Item	witch wart	Mysticality: +5, MP Regen Min: 6, MP Regen Max: 8
 Item	wool sock	Mysticality: +20, Muscle: -5, Moxie: -5, Spell Damage Percent: +40, Single Equip
-# work boots: +1 to Jump attacks
-Item work boots	Single Equip
+Item	work boots	Plumber Stat: "Moxie", Plumber Power: 1, Single Equip
 # worksite credentials: Grants access to worksites
 Item	worksite credentials	Adventures: +1, Single Equip
 Item	World's Best Adventurer sash	Muscle: [min(100,A+1)], Mysticality: [min(100,A+1)], Moxie: [min(100,A+1)]
