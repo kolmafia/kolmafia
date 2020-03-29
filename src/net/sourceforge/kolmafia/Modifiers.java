@@ -245,6 +245,7 @@ public class Modifiers
 	public static final int WARBEAR_ARMOR_PENETRATION = 131;
 	public static final int CLOWNINESS = 132;
 	public static final int PP = 133;
+	public static final int PLUMBER_POWER = 134;
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
 	private static final Object[][] doubleModifiers =
@@ -846,6 +847,10 @@ public class Modifiers
 		  Pattern.compile( "([+-]\\d+) Max(imum)? Power Point" ),
 		  Pattern.compile( "Maximum PP: " + EXPR )
 		},
+		{ "Plumber Power",
+		  null,
+		  Pattern.compile( "Plumber Power: " + EXPR )
+		},
 	};
 
 	public static final int DOUBLE_MODIFIERS = Modifiers.doubleModifiers.length;
@@ -1116,6 +1121,7 @@ public class Modifiers
 	public static final int FLOOR_BUFFED_MUSCLE = 17;
 	public static final int FLOOR_BUFFED_MYST = 18;
 	public static final int FLOOR_BUFFED_MOXIE = 19;
+	public static final int PLUMBER_STAT = 20;
 
 	private static final Object[][] stringModifiers =
 	{
@@ -1205,6 +1211,10 @@ public class Modifiers
 		{ "Floor Buffed Moxie",
 		  null,
 		  Pattern.compile( "Floor Buffed Moxie: \"(.*?)\"" )
+		},
+		{ "Plumber Stat",
+		  null,
+		  Pattern.compile( "Plumber Stat: \"(.*?)\"" )
 		},
 	};
 

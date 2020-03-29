@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.BooleanArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -435,6 +436,45 @@ public class Evaluator
 				continue;
 			}
 
+			if ( keyword.equals( "plumber" ) )
+			{
+				if ( !KoLCharacter.isPlumber() )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "You are not a Plumber" );
+					return;
+				}
+				// Pick a tool that matches your prime stat
+				AdventureResult item = pickPlumberTool( KoLCharacter.getPrimeIndex(), true );
+				if ( item == null )
+				{
+					// Otherwise, pick best available tool
+					// You are guaranteed to have work boots, at least
+					pickPlumberTool( -1, true );
+				}
+				this.posEquip.add( item );
+				continue;
+			}
+
+			if ( keyword.equals( "cold plumber" ) )
+			{
+				if ( !KoLCharacter.isPlumber() )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "You are not a Plumber" );
+					return;
+				}
+				// Mysticality plumber item
+				AdventureResult item1 = pickPlumberTool( 1, true );
+				if ( item1 == null )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have an appropriate flower to wield" );
+					return;
+				}
+				AdventureResult item2 = ItemPool.get( ItemPool.FROSTY_BUTTON );
+				this.posEquip.add( item1 );
+				this.posEquip.add( item2 );
+				continue;
+			}
+
 			if ( keyword.startsWith( "outfit" ) )
 			{
 				keyword = keyword.substring( 6 ).trim();
@@ -740,6 +780,41 @@ public class Evaluator
 		this.weight[ Modifiers.LEPRECHAUN_EFFECTIVENESS ] += fudge;
 		this.weight[ Modifiers.SPORADIC_MEATDROP ] += fudge;
 		this.weight[ Modifiers.MEAT_BONUS ] += fudge;
+	}
+
+	private AdventureResult pickPlumberTool( int primeIndex, boolean have )
+	{
+		AdventureResult hammer = ItemPool.get( ItemPool.HAMMER );
+		boolean haveHammer = InventoryManager.hasItem( hammer );
+		AdventureResult heavyHammer = ItemPool.get( ItemPool.HEAVY_HAMMER );
+		boolean haveHeavyHammer = InventoryManager.hasItem( heavyHammer );
+		AdventureResult fireFlower = ItemPool.get( ItemPool.PLUMBER_FIRE_FLOWER );
+		boolean haveFireFlower = InventoryManager.hasItem( fireFlower );
+		AdventureResult bonfireFlower = ItemPool.get( ItemPool.BONFIRE_FLOWER );
+		boolean haveBonfireFlower = InventoryManager.hasItem( bonfireFlower );
+		AdventureResult workBoots = ItemPool.get( ItemPool.WORK_BOOTS );
+		boolean haveWorkBoots = InventoryManager.hasItem( workBoots );
+		AdventureResult fancyBoots = ItemPool.get( ItemPool.FANCY_BOOTS );
+		boolean haveFancyBoots = InventoryManager.hasItem( fancyBoots );
+
+		// Find the best plumber tool
+		switch ( primeIndex )
+		{
+		case 0:		// Muscle
+			return !have ? heavyHammer :  haveHeavyHammer ? heavyHammer : haveHammer ? hammer : null;
+		case 1:		// Mysticality
+			return !have ?  bonfireFlower : haveBonfireFlower ? bonfireFlower : haveFireFlower ? fireFlower : null;
+		case 2:		// Moxie
+			return !have ? fancyBoots : haveFancyBoots ? fancyBoots : haveWorkBoots ? workBoots : null;
+		}
+
+		// If you don't care about stat, pick the best item you own.
+		return  haveHeavyHammer ? heavyHammer :
+			haveBonfireFlower ? bonfireFlower :
+			haveFancyBoots ? fancyBoots :
+			haveHammer ? hammer :
+			haveFireFlower ? fireFlower :
+			workBoots;
 	}
 
 	public double getScore( Modifiers mods )
@@ -1531,23 +1606,22 @@ public class Evaluator
 				}
 
 				if ( ( hoboPowerUseful &&
-						mods.get( Modifiers.HOBO_POWER ) > 0.0 ) ||
-					( smithsnessUseful && !wrongClass &&
-						mods.get( Modifiers.SMITHSNESS ) > 0.0 ) ||
-					( brimstoneUseful &&
-						mods.getRawBitmap( Modifiers.BRIMSTONE ) != 0 ) ||
-					( cloathingUseful &&
-						mods.getRawBitmap( Modifiers.CLOATHING ) != 0 ) ||
-					( slimeHateUseful &&
-						mods.get( Modifiers.SLIME_HATES_IT ) > 0.0 ) ||
-					( this.clownosity > 0 &&
-						mods.get( Modifiers.CLOWNINESS ) != 0 ) ||
-					( this.raveosity > 0 &&
-						mods.getRawBitmap( Modifiers.RAVEOSITY ) != 0 ) ||
-					( this.surgeonosity > 0 &&
-						mods.get( Modifiers.SURGEONOSITY ) != 0 ) ||
-					( (mods.getRawBitmap( Modifiers.SYNERGETIC )
-						& usefulSynergies) != 0 ) )
+				       mods.get( Modifiers.HOBO_POWER ) > 0.0 ) ||
+				     ( smithsnessUseful && !wrongClass &&
+				       mods.get( Modifiers.SMITHSNESS ) > 0.0 ) ||
+				     ( brimstoneUseful &&
+				       mods.getRawBitmap( Modifiers.BRIMSTONE ) != 0 ) ||
+				     ( cloathingUseful &&
+				       mods.getRawBitmap( Modifiers.CLOATHING ) != 0 ) ||
+				     ( slimeHateUseful &&
+				       mods.get( Modifiers.SLIME_HATES_IT ) > 0.0 ) ||
+				     ( this.clownosity > 0 &&
+				       mods.get( Modifiers.CLOWNINESS ) != 0 ) ||
+				     ( this.raveosity > 0 &&
+				       mods.getRawBitmap( Modifiers.RAVEOSITY ) != 0 ) ||
+				     ( this.surgeonosity > 0 &&
+				       mods.get( Modifiers.SURGEONOSITY ) != 0 ) ||
+				     ( (mods.getRawBitmap( Modifiers.SYNERGETIC ) & usefulSynergies) != 0 ) )
 				{
 					item.automaticFlag = true;
 					break gotItem;
@@ -1593,7 +1667,7 @@ public class Evaluator
 				}
 
 				if ( mods.getBoolean( Modifiers.UNARMED ) ||
-					mods.getRawBitmap( Modifiers.MUTEX ) != 0 )
+				     mods.getRawBitmap( Modifiers.MUTEX ) != 0 )
 				{	// This item may turn out to be unequippable, so don't
 					// count it towards the shortlist length.
 					item.conditionalFlag = true;
