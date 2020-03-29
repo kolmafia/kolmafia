@@ -380,6 +380,7 @@ user	canteenUnlocked	false
 user	carboLoading	0
 user	catBurglarBankHeists	0
 user	cellarLayout	0
+user	chaosButterflyThrown	false
 user	charitableDonations	0
 user	chasmBridgeProgress	0
 user	chatbotScript

@@ -10025,6 +10025,13 @@ public class FightRequest
 		default:
 			break;
 
+		case ItemPool.CHAOS_BUTTERFLY:
+			if ( responseText.contains( "reality is altered in unpredictable ways" ) || itemSuccess )
+			{
+				Preferences.setBoolean( "chaosButterflyThrown", true );
+			}
+			break;
+
 		case ItemPool.TOY_SOLDIER:
 			// A toy soldier consumes tequila.
 
