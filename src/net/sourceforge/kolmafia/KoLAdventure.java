@@ -470,6 +470,14 @@ public class KoLAdventure
 			return;
 		}
 
+		if ( this.formSource.equals( "cobbsknob.php" ) )
+		{
+			this.isValidAdventure =
+				QuestDatabase.isQuestLaterThan( Quest.GOBLIN, QuestDatabase.STARTED ) &&
+				!QuestDatabase.isQuestFinished( Quest.GOBLIN );
+			return;
+		}
+
 		// Only look at adventure.php locations below this.
 		// Further validation for other adventures happens in part2
 		if ( !this.formSource.contains( "adventure.php" ) )
@@ -1023,9 +1031,14 @@ public class KoLAdventure
 			return;
 		}
 
-		if ( this.adventureId.equals( AdventurePool.SHROUDED_PEAK_ID ) )
+		if ( this.adventureId.equals( AdventurePool.SHROUDED_PEAK_ID ) ||
+		     this.adventureId.equals( AdventurePool.ICY_PEAK_ID ) )
 		{
-			this.isValidAdventure = KoLCharacter.getElementalResistanceLevels( Element.COLD ) > 4;
+			if ( KoLCharacter.getElementalResistanceLevels( Element.COLD ) < 5 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You need more cold protection" );
+				this.isValidAdventure = false;
+			}
 			return;
 		}
 
@@ -1282,7 +1295,11 @@ public class KoLAdventure
 		this.validate1();
 		if ( !this.isValidAdventure )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "That area is not available." );
+			if ( KoLmafia.permitsContinue() )
+			{
+				// validate1 did not give its own error message
+				KoLmafia.updateDisplay( MafiaState.ERROR, "That area is not available." );
+			}
 			return;
 		}
 
@@ -1384,7 +1401,11 @@ public class KoLAdventure
 		this.validate2();
 		if ( !this.isValidAdventure )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "That area is not available." );
+			if ( KoLmafia.permitsContinue() )
+			{
+				// validate2 did not give its own error message
+				KoLmafia.updateDisplay( MafiaState.ERROR, "That area is not available." );
+			}
 			return;
 		}
 

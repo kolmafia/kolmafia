@@ -7200,6 +7200,8 @@ public abstract class ChoiceManager
 			{
 				return;
 			}
+
+			responseText = request.responseText;
 		}
 	}
 
