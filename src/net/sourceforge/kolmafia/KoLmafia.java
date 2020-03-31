@@ -1600,10 +1600,20 @@ public abstract class KoLmafia
 
 		RequestLogger.printLine();
 		RequestThread.postRequest( adventure );
-		if ( FightRequest.choiceFollowsFight )
+		while ( true )
 		{
-			RequestThread.postRequest( new GenericRequest( "choice.php" ) );
-			ChoiceManager.gotoGoal();
+			if ( FightRequest.inMultiFight )
+			{
+				RequestThread.postRequest( FightRequest.INSTANCE );
+				continue;
+			}
+			if ( FightRequest.choiceFollowsFight )
+			{
+				RequestThread.postRequest( new GenericRequest( "choice.php" ) );
+				ChoiceManager.gotoGoal();
+				continue;
+			}
+			break;
 		}
 		RequestLogger.printLine();
 
