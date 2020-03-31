@@ -1400,7 +1400,8 @@ public class GenericRequest
 			else
 			{
 				if ( !this.redirectLocation.equals( "/game.php" ) &&
-				     !this.redirectLocation.equals( "witchess.php" ) )
+				     !this.redirectLocation.equals( "witchess.php" ) &&
+				     !this.redirectLocation.equals( "place.php?whichplace=edunder" ) )
 				{
 					// Informational debug message
 					KoLmafia.updateDisplay( "Unhandled redirect to " + this.redirectLocation );
