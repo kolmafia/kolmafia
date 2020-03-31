@@ -7125,7 +7125,7 @@ public abstract class ChoiceManager
 			responseText.contains( "href=\"choice.php" );
 	}
 
-	public static final void processChoiceAdventure( final GenericRequest request, final String initialURL, final String responseText )
+	public static final void processChoiceAdventure( final GenericRequest request, final String initialURL, String responseText )
 	{
 		// You can no longer simply ignore a choice adventure.  One of
 		// the options may have that effect, but we must at least run
@@ -7143,6 +7143,8 @@ public abstract class ChoiceManager
 			{
 				return;
 			}
+
+			responseText = request.responseText;
 		}
 		else
 		{
@@ -7155,10 +7157,10 @@ public abstract class ChoiceManager
 		}
 
 		for ( int stepCount = 0;
-		      !KoLmafia.refusesContinue() && ChoiceManager.stillInChoice( request.responseText );
+		      !KoLmafia.refusesContinue() && ChoiceManager.stillInChoice( responseText );
 		      ++stepCount )
 		{
-			int choice = ChoiceManager.extractChoice( ChoiceManager.lastResponseText );
+			int choice = ChoiceManager.extractChoice( responseText );
 			if ( choice == 0 )
 			{
 				// choice.php did not offer us any choices.
@@ -7170,19 +7172,23 @@ public abstract class ChoiceManager
 				return;
 			}
 
-			if ( ChoiceManager.invokeChoiceAdventureScript( choice, ChoiceManager.lastResponseText ) )
+			if ( ChoiceManager.invokeChoiceAdventureScript( choice, responseText ) )
 			{
 				if ( !ChoiceManager.handlingChoice )
 				{
 					// The choiceAdventureScript processed this choice.
-					// Continue loop, in case we are in a choice chain.
+					return;
+				}
+				
+				// We are still handling a choice. Maybe it is a different one.
+				if ( choice != ChoiceManager.extractChoice( ChoiceManager.lastResponseText ) )
+				{
+					responseText = ChoiceManager.lastResponseText;
 					continue;
 				}
-				// We are still handling a choice. Maybe it is a different one.
-				choice = ChoiceManager.extractChoice( ChoiceManager.lastResponseText );
 			}
 
-			// Either no choiceAdventure script or it left us in a choice.
+			// Either no choiceAdventure script or it left us in the same choice.
 			if ( !ChoiceManager.automateChoice( choice, request, stepCount ) )
 			{
 				return;

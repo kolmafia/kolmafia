@@ -59,10 +59,11 @@ public class VisitURLCommand
 		}
 
 		RequestThread.postRequest( visitor );
+		String text = visitor.responseText;
 
-		if ( cmd.equals( "text" ) )
+		if ( text != null && cmd.equals( "text" ) )
 		{
-			KoLmafiaCLI.showHTML( visitor.responseText );
+			KoLmafiaCLI.showHTML( text );
 		}
 	}
 
