@@ -114,12 +114,12 @@ bunch of square grapes	2	7	awesome	6-7	1-5	5-20	1-5
 bu&ntilde;uelos Jaliscos	1	1	EPIC	0	0	0	0	Unspaded 30 Fishy
 C.H.U.M. chum	3	1	crappy	1	0	0	0	20 Majorly Poisoned
 cactus fruit	2	7	awesome	6-7	6-20	1-5	1-5	lose 8-10 HP
-campfire baked potato	1	1	awesome	4-5	15-30	0	0	Unspaded 60 Trial by Campfire (Damage Reduction: 10)
-campfire beans	1	1	awesome	3-4	0	10-20	0	Unspaded 40 The More You Eat (Stench Damage +15, Stench Spell Damage +15)
-campfire coffee	1	1	awesome	3-4	0	0	10-20	Unspaded 40 Coffee Achiever (+25 Init)
-campfire hot dog	1	1	awesome	3-4	10-20	0	0	Unspaded 40 Traditional Eating (+25% meat drop)
-campfire s'more	1	1	awesome	4-5	0	0	15-30	Unspaded 60 Gimme, Gimme (+25% Food Drop)
-campfire stew	1	1	awesome	4-5	0	15-30	0	Unspaded 60 Just Like Me, They Want to Be (+1 Resist All)
+campfire baked potato	1	1	awesome	4-5	15-30	0	0	60 Trial by Campfire (Damage Reduction: 10)
+campfire beans	1	1	awesome	3-4	0	10-20	0	40 The More You Eat (Stench Damage +15, Stench Spell Damage +15)
+campfire coffee	1	1	awesome	3-4	0	0	10-20	40 Coffee Achiever (+25 Init)
+campfire hot dog	1	1	awesome	3-4	10-20	0	0	40 Traditional Eating (+25% meat drop)
+campfire s'more	1	1	awesome	4-5	0	0	15-30	60 Gimme, Gimme (+25% Food Drop)
+campfire stew	1	1	awesome	4-5	0	15-30	0	60 Just Like Me, They Want to Be (+1 Resist All)
 can of Adultwitch&trade;	2	4	decent	2-4	0	0	0	20 Greasy Visage (+50 Sleaze Spell Damage, +100% Spell Damage)
 can of franks 'n' beans	3	1	good	8-10	20-40	20-40	20-40	50 Crimbo Nostalgia (+5 exp)
 can of sardines	1	4	awesome	3-4	20-25	0	0
