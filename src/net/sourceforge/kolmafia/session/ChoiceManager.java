@@ -948,15 +948,6 @@ public abstract class ChoiceManager
 		new Object[]{ IntegerPool.get(129), IntegerPool.get(1),
 		  new AdventureResult( AdventureResult.MEAT, -500 ) },
 
-		// Let's Make a Deal!
-		new ChoiceAdventure(
-			"Beach", "choiceAdventure132", "Desert (Pre-Oasis)",
-			new Object[] { new Option( "broken carburetor", "broken carburetor" ),
-				       "Unlock Oasis" } ),
-		// Let's Make a Deal!
-		new Object[]{ IntegerPool.get(132), IntegerPool.get(1),
-		  new AdventureResult( AdventureResult.MEAT, -5000 ) },
-
 		// Choice 133 is unknown
 
 		// Peace Wants Love
@@ -2970,7 +2961,11 @@ public abstract class ChoiceManager
 				       new Option( "investigate elevator", 6 ) } ),
 
 		// Choice 804 is Trick or Treat!
+
 		// Choice 805 is A Sietch in Time
+		new ChoiceAdventure(
+			"Beach", "choiceAdventure805", "Arid, Extra-Dry Desert",
+			new Object[] { "stop talking to Gnasir" } ),
 
 		// Choice 808 is Silence at Last.
 		new ChoiceAdventure(
