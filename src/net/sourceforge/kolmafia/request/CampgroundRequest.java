@@ -303,7 +303,7 @@ public class CampgroundRequest
 				"bulky free-range mushroom" :
 				count == 4 ?
 				"giant free-range mushroom" :
-				count >= 5 && count < 12 ?
+				count >= 5 && count < 11 ?
 				"immense free-range mushroom" :
 				"colossal free-range mushroom";
 		}
@@ -342,7 +342,7 @@ public class CampgroundRequest
 	public static final AdventureResult BULKY_FREE_RANGE_MUSHROOM = new Mushroom( 3 );
 	public static final AdventureResult GIANT_FREE_RANGE_MUSHROOM = new Mushroom( 4 );
 	public static final AdventureResult IMMENSE_FREE_RANGE_MUSHROOM = new Mushroom( 5 );
-	public static final AdventureResult COLOSSAL_FREE_RANGE_MUSHROOM = new Mushroom( 12 );
+	public static final AdventureResult COLOSSAL_FREE_RANGE_MUSHROOM = new Mushroom( 11 );
 
 	public enum CropType
 	{

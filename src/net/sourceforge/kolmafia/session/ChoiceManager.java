@@ -11891,7 +11891,7 @@ public abstract class ChoiceManager
 			{
 			case 1:
 				// Fertilize the mushroom
-				mushroomLevel = Preferences.increment( "mushroomGardenCropLevel", 1, 12, false );
+				mushroomLevel = Preferences.increment( "mushroomGardenCropLevel", 1, 11, false );
 				break;
 			case 2:
 				// Pick the mushroom
@@ -15324,7 +15324,7 @@ public abstract class ChoiceManager
 			// The mushroom in your garden is now large enough to walk around inside.  Also there's a door on it, which is convenient for that purpose.
 
 			int mushroomMessageLevel =
-				text.contains( "walk around inside" ) ? 12 :
+				text.contains( "walk around inside" ) ? 11 :
 				text.contains( "immense mushroom" ) ? 5 :
 				text.contains( "giant mushroom" ) ? 4 :
 				text.contains( "bulky mushroom" ) ? 3 :
