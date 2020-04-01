@@ -122,7 +122,7 @@ public class ChoiceOptionsPanel
 	private final JComboBox hiddenParkSelect;
 	private final JComboBox hiddenBowlingAlleySelect;
 	private final JComboBox hiddenOfficeSelect;
-	private final JComboBox hiddenZigguratSelect;
+	private final JComboBox massiveZigguratSelect;
 	private final JComboBox gongSelect;
 	private final JComboBox kolhsCafeteriaSelect;
 	private final JComboBox dailyDungeonDoorSelect;
@@ -357,9 +357,10 @@ public class ChoiceOptionsPanel
 		this.hiddenOfficeSelect.addItem( "fight accountant" );
 		this.hiddenOfficeSelect.addItem( "skip adventure" );		
 		
-		this.hiddenZigguratSelect = new JComboBox();
-		this.hiddenZigguratSelect.addItem( "show in browser" );
-		this.hiddenZigguratSelect.addItem( "fight Protector Spectre" );
+		this.massiveZigguratSelect = new JComboBox();
+		this.massiveZigguratSelect.addItem( "show in browser" );
+		this.massiveZigguratSelect.addItem( "fight Protector Spectre" );
+		this.massiveZigguratSelect.addItem( "skip adventure" );
 
 		this.kolhsCafeteriaSelect = new JComboBox();
 		this.kolhsCafeteriaSelect.addItem( "show in browser" );
@@ -434,7 +435,7 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "HiddenCity", "Hidden Park", this.hiddenParkSelect );
 		this.addChoiceSelect( "HiddenCity", "Hidden Office", this.hiddenOfficeSelect );
 		this.addChoiceSelect( "HiddenCity", "Hidden Bowling Alley", this.hiddenBowlingAlleySelect );
-		this.addChoiceSelect( "HiddenCity", "Hidden Ziggurat", this.hiddenZigguratSelect );
+		this.addChoiceSelect( "HiddenCity", "Massive Ziggurat", this.massiveZigguratSelect );
 		this.addChoiceSelect( "KOL High School", "Delirium in the Cafeterium", this.kolhsCafeteriaSelect );
 		this.addChoiceSelect( "Dungeon", "Daily Dungeon: Doors", this.dailyDungeonDoorSelect );
 		this.addChoiceSelect( "Conspiracy Island", "Paranormal Test Lab", this.paranormalLabSelect );
@@ -949,11 +950,15 @@ public class ChoiceOptionsPanel
 		Preferences.setString( "choiceAdventure788", String.valueOf( this.hiddenBowlingAlleySelect.getSelectedIndex() ) );
 		int hiddenOfficeIndex = this.hiddenOfficeSelect.getSelectedIndex();
 		Preferences.setString( "choiceAdventure786",
-						hiddenOfficeIndex == 1 ? "1" :
-						hiddenOfficeIndex == 2 ? "3" :
-						hiddenOfficeIndex == 3 ? "6" :
-						"0" );
-		Preferences.setString( "choiceAdventure791", String.valueOf( this.hiddenZigguratSelect.getSelectedIndex() ) );
+				       hiddenOfficeIndex == 1 ? "1" :
+				       hiddenOfficeIndex == 2 ? "3" :
+				       hiddenOfficeIndex == 3 ? "6" :
+				       "0" );
+		int massiveZigguratIndex = this.massiveZigguratSelect.getSelectedIndex();
+		Preferences.setString( "choiceAdventure791",
+				       massiveZigguratIndex == 0 ? "0" :
+				       massiveZigguratIndex == 1 ? "1" :
+				       "6" );
 
 		Preferences.setString( "choiceAdventure700", String.valueOf( this.kolhsCafeteriaSelect.getSelectedIndex() ) );
 
@@ -1243,14 +1248,18 @@ public class ChoiceOptionsPanel
 		{
 			System.out.println( "Invalid setting " + hiddenOfficeIndex + " for choiceAdventure786." );
 		}
-		int hiddenZigguratIndex = Preferences.getInteger ( "choiceAdventure791" );
-		if ( hiddenZigguratIndex <= 1 && hiddenZigguratIndex >= 0 )
+		int massiveZigguratIndex = Preferences.getInteger ( "choiceAdventure791" );
+		switch ( massiveZigguratIndex )
 		{
-			this.hiddenZigguratSelect.setSelectedIndex( hiddenZigguratIndex );
-		}
-		else
-		{
-			System.out.println( "Invalid setting " + hiddenZigguratIndex + " for choiceAdventure791." );
+		case 0:
+		case 1:
+			this.massiveZigguratSelect.setSelectedIndex( massiveZigguratIndex );
+			break;
+		default:
+			System.out.println( "Invalid setting " + massiveZigguratIndex + " for choiceAdventure791." );
+		case 6:
+			this.massiveZigguratSelect.setSelectedIndex( 2 );
+			break;
 		}
 
 		int kolhsCafeteriaIndex = Preferences.getInteger ( "choiceAdventure700" );
