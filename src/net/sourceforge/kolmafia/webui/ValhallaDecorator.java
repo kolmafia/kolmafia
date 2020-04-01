@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -471,20 +472,19 @@ public class ValhallaDecorator
 
 		buffer.append( "</select></form>" );
 
-		AdventureResult crop = CampgroundRequest.getCrop();
-		if ( crop != null )
+		CropType cropType = CampgroundRequest.getCropType();
+		if ( cropType != null )
 		{
-			String cropName = crop.getName();
-			String cropString = 
-				  ( cropName.contains( "peppermint" ) || cropName.contains( "candy cane" ) ) ? "Peppermint"
-				: ( cropName.contains( "pumpkin" ) ) ? "Pumpkin"
-				: ( cropName.contains( "skeleton" ) ) ? "Skeleton"
-				: ( cropName.contains( "barley" ) || cropName.contains( "beer label" ) ) ? "Beer Garden"
-				: ( cropName.contains( "ice harvest" ) || cropName.contains( "frost flower" ) ) ? "Winter Garden"
-				: ( cropName.contains( "cornucopia" ) ) ? "Thanksgarden"
-				: ( cropName.contains( "grass" ) ) ? "Grass"
-				: ( cropName.contains( "mushroom" ) ) ? "Mushroom"
-				: "Unknown";
+			String cropString =
+				( cropType == CropType.PUMPKIN ) ? "Pumpkin" :
+				( cropType == CropType.PEPPERMINT ) ? "Peppermint" :
+				( cropType == CropType.SKELETON ) ? "Skeleton" :
+				( cropType == CropType.BEER ) ? "Beer Garden" :
+				( cropType == CropType.WINTER ) ? "Winder Garden" :
+				( cropType == CropType.THANKSGARDEN ) ? "Thanksgarden" :
+				( cropType == CropType.GRASS ) ? "Grass" :
+				( cropType == CropType.MUSHROOM ) ? "Mushroom" :
+				"Unknown";
 			buffer.append( "</nobr><br><nobr>" );
 			buffer.append( " (currently " ).append( cropString ).append( ")" );
 		}
