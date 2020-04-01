@@ -255,7 +255,7 @@ public class SynthesizeCommand
 			int length = itemList.length;
 
 			candy1 = ( length > 0 ) ? itemList[ 0 ] : null;
-			candy2 = ( length > 1 ) ? itemList[ 1 ] : null;
+			candy2 = ( length > 1 ) ? itemList[ 1 ] : ( length == 1 && candy1.getCount() == 2 ) ? candy1 : null;
 
 			if ( candy1 == null || candy2 == null )
 			{
