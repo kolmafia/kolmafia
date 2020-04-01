@@ -70,18 +70,23 @@ public class FamiliarData
 {
 	public static final FamiliarData NO_FAMILIAR = new FamiliarData( -1 );
 
-	// <center>Current Familiar:<br><img src="http://images.kingdomofloathing.com/itemimages/jungman.gif" class=hand onClick='fam(165)'><br><b>Jung Grrl</b><br>20-pound Angry Jung Man (500 experience, 29,380 kills)<table><tr><td valign=center>Equipment:</td><td><img src="http://images.kingdomofloathing.com/itemimages/antsickle.gif" class=hand onClick='descitem(235040244)'></td><td valign=center>ant sickle <font size=1><a href='inv_equip.php?pwd=4438585275374d322da30a77b73cb7d5&action=unequip&type=familiarequip&terrarium=1'>[unequip]</a></font></td><td><a href='familiar.php?action=lockequip&pwd=4438585275374d322da30a77b73cb7d5'><img src="http://images.kingdomofloathing.com/itemimages/openpadlock.gif" class=hand title='This Familiar Equipment is Unlocked'></a></td><td valign=top><font size=-1><b><a class=nounder href='javascript:doc("famequiplock");'>?</a></b></font></td></tr></table><p><form name=rename action=familiar.php method=post><input type=hidden name=action value="rename"><input type=hidden name=pwd value='4438585275374d322da30a77b73cb7d5'>Change your Familiar's Name:<br><input class=text type=text size=40 maxlength=40 name=newname value="Jung Grrl"> <input class=button type=submit value="Rename"></form>
+	// <center>Current Familiar:<br><img onClick='fam(265)' src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/pokefam8675309.gif" width=30 height=30 border=0><br><b>Bodolph</b><br>9-pound Mu (86 experience, 3,184 kills)<table><tr><td valign=center>Equipment:</td><td><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/ast_sweater.gif" class=hand onClick='descitem(648386354)'></td><td valign=center>astral pet sweater <font size=1><a href='inv_equip.php?pwd=930f51c25a0adce026fb5b3a9d34172b&action=unequip&type=familiarequip&terrarium=1'>[unequip]</a></font></td><td><a href='familiar.php?action=lockequip&pwd=930f51c25a0adce026fb5b3a9d34172b'><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/openpadlock.gif" class=hand title='This Familiar Equipment is Unlocked'></a></td><td valign=top><font size=-1><b><a class=nounder href='javascript:doc("famequiplock");'>?</a></b></font></td></tr></table><p><form name=rename action=familiar.php method=post><input type=hidden name=action value="rename"><input type=hidden name=pwd value='930f51c25a0adce026fb5b3a9d34172b'>Change your Familiar's Name:<br><input class=text type=text size=40 maxlength=40 name=newname value="Bodolph"> <input class=button type=submit value="Rename"></form>
 
 	private static final Pattern CURRENT_PATTERN =
 		Pattern.compile( "Current Familiar:.*?</form>" );
+
+	// 1=id 2=image 3=name 4=race 5=exp 6=kills 7=extra
+	private static final Pattern CURRENT_FAMILIAR_PATTERN =
+		Pattern.compile( ".*?<img onClick='fam\\((\\d+)\\)' src=\"[^>]*?(?:images.kingdomofloathing.com|/images)/itemimages/([^\"]*?)\".*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, ([\\d,]+) kills?\\)(.*?)(?:</form)>" );
 
 	// <tr class="frow expired" data-stats="1" data-other="1"><td valign=center>&nbsp;</td><td valign=center><img src="http://images.kingdomofloathing.com/itemimages/crayongoth.gif" class="hand fam" onClick='fam(160)'></td><td valign=top style='padding-top: .45em;'><b>Raven 'Raven' Ravengrrl</b>, the 1-pound Artistic Goth Kid (0 exp, 32,443 kills) <font size="1"><br />&nbsp;&nbsp;&nbsp;&nbsp;<a class="fave" href="familiar.php?group=0&action=fave&famid=160&pwd=4438585275374d322da30a77b73cb7d5">[unfavorite]</a></font></td></tr>
 
 	private static final Pattern FROW_PATTERN =
 		Pattern.compile( "<tr class=\"frow .*?</tr>" );
 
+	// 1=image 2=id 3=name 4=race 5=exp 6=kills 7=extra
 	private static final Pattern FAMILIAR_PATTERN =
-		Pattern.compile( ".*?<img src=[^>]*?(?:images.kingdomofloathing.com|/images)/itemimages/([^\"]*?)\" class=(?:\"hand fam\"|hand) onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, .*? kills?\\)(.*?)<(?:/tr|form)" );
+		Pattern.compile( "\".*?<img src=\"[^>]*?(?:images.kingdomofloathing.com|/images)/itemimages/([^\"]*?)\" class=(?:\"hand fam\"|hand) onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, ([\\d,]+) kills?\\)(.*?)(?:</tr>)" );
 
 	private static final Pattern DESCID_PATTERN = Pattern.compile( "descitem\\((.*?)\\)" );
 	private static final Pattern SHRUB_TOPPER_PATTERN = Pattern.compile( "span title=\"(.*?)-heavy" );
@@ -146,14 +151,14 @@ public class FamiliarData
 		this.pokeLevel = 0;
 	}
 
-	private FamiliarData( final Matcher dataMatcher )
+	private FamiliarData( final Matcher dataMatcher, boolean idFirst )
 	{
-		this.id = StringUtilities.parseInt( dataMatcher.group( 2 ) );
+		this.id = StringUtilities.parseInt( dataMatcher.group( idFirst ? 1 : 2 ) );
 		this.race = dataMatcher.group( 4 );
 		this.beeware = this.race.contains( "b" ) || this.race.contains( "B" );
 		this.glover = this.race.contains( "g" ) || this.race.contains( "G" );
 
-		String image = dataMatcher.group( 1 );
+		String image = dataMatcher.group( idFirst ? 2 : 1 );
 		FamiliarDatabase.registerFamiliar( this.id, this.race, image );
 
 		this.update( dataMatcher );
@@ -172,7 +177,8 @@ public class FamiliarData
 		this.name = dataMatcher.group( 3 );
 		this.experience = StringUtilities.parseInt( dataMatcher.group( 5 ) );
 		this.setWeight();
-		String itemData = dataMatcher.group( 6 );
+		// dataMatcher.group( 6 ) => kills
+		String itemData = dataMatcher.group( 7 );
 		this.item = FamiliarData.parseFamiliarItem( this.id, itemData );
 		this.favorite = itemData.contains( "[unfavorite]" );
 	}
@@ -430,10 +436,10 @@ public class FamiliarData
 			Matcher currentMatcher = FamiliarData.CURRENT_PATTERN.matcher( responseText );
 			if ( currentMatcher.find() )
 			{
-				Matcher familiarMatcher = FamiliarData.FAMILIAR_PATTERN.matcher( currentMatcher.group() );
+				Matcher familiarMatcher = FamiliarData.CURRENT_FAMILIAR_PATTERN.matcher( currentMatcher.group() );
 				if ( familiarMatcher.find() )
 				{
-					current = FamiliarData.registerFamiliar( familiarMatcher );
+					current = FamiliarData.registerFamiliar( familiarMatcher, true );
 					// There's no indication of whether your current familiar is a
 					// favorite or not.  Safest to assume it is:
 					current.setFavorite( true );
@@ -456,7 +462,7 @@ public class FamiliarData
 				continue;
 			}
 
-			FamiliarData familiar = FamiliarData.registerFamiliar( familiarMatcher );
+			FamiliarData familiar = FamiliarData.registerFamiliar( familiarMatcher, false );
 
 			if ( frow.contains( "kick out of Crown of Thrones" ) )
 			{
@@ -481,14 +487,14 @@ public class FamiliarData
 		FamiliarData.checkLockedItem( responseText );
 	}
 
-	private static final FamiliarData registerFamiliar( final Matcher matcher )
+	private static final FamiliarData registerFamiliar( final Matcher matcher, boolean idFirst )
 	{
 		String race = matcher.group( 4 );
 		FamiliarData familiar = KoLCharacter.findFamiliar( race );
 		if ( familiar == null )
 		{
 			// Add new familiar to list
-			familiar = new FamiliarData( matcher );
+			familiar = new FamiliarData( matcher, idFirst );
 			KoLCharacter.addFamiliar( familiar );
 		}
 		else
