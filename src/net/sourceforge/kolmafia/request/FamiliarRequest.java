@@ -376,6 +376,7 @@ public class FamiliarRequest
 		case FamiliarPool.BLACKBIRD:	// Reassembled Blackbird
 		case FamiliarPool.CROW:		// Reconstituted Crow
 		case FamiliarPool.HAND:		// Disembodied Hand
+		case FamiliarPool.LEFT_HAND:	// Left-Hand Man
 		case FamiliarPool.HATRACK:	// Mad Hatrack
 		case FamiliarPool.SCARECROW:	// Fancypants Scarecrow
 		case FamiliarPool.STOCKING_MIMIC:

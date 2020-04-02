@@ -158,6 +158,8 @@ public class Evaluator
 		case Evaluator.WEAPON_1H:
 			return 1 + relevantSkill( "Double-Fisted Skull Smashing" ) +
 				this.relevantFamiliar( FamiliarPool.HAND );
+		case EquipmentManager.OFFHAND:
+			return 1 + this.relevantFamiliar( FamiliarPool.LEFT_HAND );
 		case EquipmentManager.ACCESSORY1:
 			return 3;
 		case EquipmentManager.FAMILIAR:

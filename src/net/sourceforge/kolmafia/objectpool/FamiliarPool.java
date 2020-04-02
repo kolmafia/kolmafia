@@ -138,4 +138,5 @@ public class FamiliarPool
 	public static final int YULE_HOUND = 269;
 	public static final int POCKET_PROFESSOR = 274;
 	public static final int RED_SNAPPER = 275;
+	public static final int LEFT_HAND = 278;
 }
