@@ -746,10 +746,15 @@ public class GenericRequest
 
 	public String getFormField( final String key )
 	{
-		return this.findField( this.getFormFields(), key );
+		return this.findField( this.getFormFields(), key, true );
 	}
 
-	private String findField( final List<String> data, final String key )
+	public String getFormField( final String key, final boolean decode )
+	{
+		return this.findField( this.getFormFields(), key, decode );
+	}
+
+	private String findField( final List<String> data, final String key, final boolean decode )
 	{
 		for ( int i = 0; i < data.size(); ++i )
 		{
@@ -769,9 +774,13 @@ public class GenericRequest
 
 			String value = datum.substring( splitIndex + 1 );
 
-			// Chat was encoded as ISO-8859-1, so decode it that way.
-			String charset = this.isChatRequest ? "ISO-8859-1" : "UTF-8";
-			return GenericRequest.decodeField( value, charset );
+			if ( decode )
+			{
+				// Chat was encoded as ISO-8859-1, so decode it that way.
+				String charset = this.isChatRequest ? "ISO-8859-1" : "UTF-8";
+				return GenericRequest.decodeField( value, charset );
+			}
+			return value;
 		}
 
 		return null;
