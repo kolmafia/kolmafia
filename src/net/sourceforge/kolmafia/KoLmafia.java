@@ -1725,7 +1725,7 @@ public abstract class KoLmafia
 	{
 		// If we are in a multifight or a choice follows a fight, defer
 		// this until we are free of those
-		if ( GenericRequest.abortIfInFightOrChoice( false ) )
+		if ( GenericRequest.abortIfInFightOrChoice( true ) )
 		{
 			// That didn't actually abort.
 			ResultProcessor.deferClover();
