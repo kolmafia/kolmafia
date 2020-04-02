@@ -3196,23 +3196,23 @@ public class RelayRequest
 		String path = this.getBasePath();
 		if ( path.endsWith( "submitCommand" ) )
 		{
-			submitCommand( this.getFormField( "cmd" ) );
+			submitCommand( this.getFormField( "cmd", false ) );
 			this.pseudoResponse( "HTTP/1.1 200 OK", "" );
 		}
 		else if ( path.endsWith( "redirectedCommand" ) )
 		{
-			submitCommand( this.getFormField( "cmd" ) );
+			submitCommand( this.getFormField( "cmd", false ) );
 			this.pseudoResponse( "HTTP/1.1 302 Found", RelayRequest.redirectedCommandURL );
 		}
 		else if ( path.endsWith( "sideCommand" ) )
 		{
-			submitCommand( this.getFormField( "cmd" ), true );
+			submitCommand( this.getFormField( "cmd", false ), true );
 			this.pseudoResponse( "HTTP/1.1 302 Found", "/charpane.php" );
 		}
 		else if ( path.endsWith( "specialCommand" ) ||
 			  path.endsWith( "parameterizedCommand" ) )
 		{
-			String cmd = this.getFormField( "cmd" );
+			String cmd = this.getFormField( "cmd", false );
 			if ( !cmd.equals( "wait" ) )
 			{
 				RelayRequest.specialCommandIsAdventure = false;
