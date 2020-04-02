@@ -524,6 +524,7 @@ public class QuestDatabase
 		if ( details.contains( "lit the fire on A-Boo Peak" ) )
 		{
 			Preferences.setInteger( "booPeakProgress", 0 );
+			Preferences.setBoolean( "booPeakLit", true );
 		}
 		else if ( details.contains( "check out A-Boo Peak" ) )
 		{
@@ -546,15 +547,22 @@ public class QuestDatabase
 		// oil peak handling.  310.66 is started, 0 is complete.
 		if ( details.contains( "lit the fire on Oil Peak" ) )
 		{
-			Preferences.setString( "oilPeakProgress", String.valueOf( 0 ) );
+			Preferences.setBoolean( "oilPeakLit", true );
+			Preferences.setFloat( "oilPeakProgress", 0 );
 		}
 		else if ( details.contains( "go to Oil Peak and investigate" ) )
 		{
-			Preferences.setString( "oilPeakProgress", String.valueOf( 310.66 ) );
+			Preferences.setFloat( "oilPeakProgress", 310.66f );
 		}
 		else if ( oil.find() )
 		{
-			Preferences.setString( "oilPeakProgress", oil.group( 1 ) );
+			Preferences.setFloat( "oilPeakProgress", Float.valueOf( oil.group( 1 ) ) );
+		}
+
+
+		if ( Preferences.getBoolean( "booPeakLit" ) && Preferences.getInteger( "twinPeakProgress" ) == 15 && Preferences.getBoolean( "oilPeakLit" ) )
+		{
+			return "step 3";
 		}
 
 		return "step2";
@@ -1073,8 +1081,10 @@ public class QuestDatabase
 		Preferences.resetToDefault( "currentExtremity" );
 		Preferences.resetToDefault( "chasmBridgeProgress" );
 		Preferences.resetToDefault( "oilPeakProgress" );
+		Preferences.resetToDefault( "oilPeakLit" );
 		Preferences.resetToDefault( "twinPeakProgress" );
 		Preferences.resetToDefault( "booPeakProgress" );
+		Preferences.resetToDefault( "booPeakLit" );
 		Preferences.resetToDefault( "desertExploration" );
 		Preferences.resetToDefault( "zeppelinProtestors" );
 		Preferences.resetToDefault( "middleChamberUnlock" );

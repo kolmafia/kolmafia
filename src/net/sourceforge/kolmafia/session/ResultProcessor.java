@@ -2130,8 +2130,10 @@ public class ResultProcessor
 				QuestDatabase.setQuestProgress( Quest.TOPPING, QuestDatabase.FINISHED );
 				QuestDatabase.setQuestProgress( Quest.LOL, QuestDatabase.STARTED );
 				Preferences.setInteger( "booPeakProgress", 0 );
+				Preferences.setBoolean( "booPeakLit", true );
 				Preferences.setInteger( "twinPeakProgress", 15 );
-				Preferences.setInteger( "oilPeakProgress", 0 );
+				Preferences.setFloat( "oilPeakProgress", 0 );
+				Preferences.setBoolean( "oilPeakLit", true );
 			}
 			break;
 
