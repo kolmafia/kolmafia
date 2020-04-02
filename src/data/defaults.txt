@@ -352,6 +352,7 @@ user	bondWpn	false
 user	boneAbacusVictories	0
 user	boomBoxSong
 user	booPeakProgress	100
+user	booPeakLit	false
 user	bootsCharged	false
 user	borisPoints	0
 user	breakableHandling	1
@@ -938,6 +939,7 @@ user	oceanAction	savecontinue
 user	oceanDestination	manual
 user	odeBuffbotCheck	false
 user	oilPeakProgress	310.66
+user	oilPeakLit	false
 user	olfactedMonster	unknown
 user	optimalSwagger	0
 user	optimisticCandleProgress	25

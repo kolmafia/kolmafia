@@ -1367,14 +1367,21 @@ public class QuestManager
 
 	private static final void handleHighlandsChange( final String location, final String responseText )
 	{
-		if ( location.contains( "action=highlands_dude" ) &&
-			( responseText.contains( "trying to, like, order a pizza" ) || responseText.contains( "trying to order a pizza" ) ) )
+		if ( location.contains( "action=highlands_dude" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.TOPPING, "step2" );
+			if ( responseText.contains( "trying to, like, order a pizza" ) || responseText.contains( "trying to order a pizza" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.TOPPING, "step2" );
+			}
+			else if ( responseText.contains( "you're the one who totally lit all those fires" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.TOPPING, QuestDatabase.FINISHED );
+			}
 		}
 		if ( location.contains( AdventurePool.ABOO_PEAK_ID ) && responseText.contains( "Come On Ghosty, Light My Pyre" ) ||
 			responseText.contains( "orcchasm/fire1.gif" ) )
 		{
+			Preferences.setBoolean( "booPeakLit", true );
 			Preferences.setInteger( "booPeakProgress", 0 );
 		}
 		if ( responseText.contains( "orcchasm/fire2.gif" ) )
@@ -1384,7 +1391,13 @@ public class QuestManager
 		if ( location.contains( AdventurePool.OIL_PEAK_ID ) && responseText.contains( "Unimpressed with Pressure" ) ||
 			responseText.contains( "orcchasm/fire3.gif" ) )
 		{
+			Preferences.setBoolean( "oilPeakLit", true );
 			Preferences.setInteger( "oilPeakProgress", 0 );
+		}
+
+		if ( Preferences.getBoolean( "booPeakLit" ) && Preferences.getInteger( "twinPeakProgress" ) == 15 && Preferences.getBoolean( "oilPeakLit" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.TOPPING, "step3" );
 		}
 	}
 
