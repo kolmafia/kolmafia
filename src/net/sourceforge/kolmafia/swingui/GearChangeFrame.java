@@ -1750,6 +1750,13 @@ public class GearChangeFrame
 			items.add( offhandItem );
 		}
 
+		// Add anything your Left-Hand Man is wearing unless it is your current familiar
+		FamiliarData leftHand = KoLCharacter.findFamiliar( FamiliarPool.LEFT_HAND );
+		if ( leftHand != null && leftHand != KoLCharacter.getFamiliar() )
+		{
+			items.add( leftHand.getItem() );
+		}
+
 		// Possibly add the current off-hand item
 		AdventureResult currentOffhand = EquipmentManager.getEquipment( EquipmentManager.OFFHAND );
 		if ( !items.contains( currentOffhand ) &&

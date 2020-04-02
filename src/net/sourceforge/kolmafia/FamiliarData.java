@@ -77,7 +77,7 @@ public class FamiliarData
 
 	// 1=id 2=image 3=name 4=race 5=exp 6=kills 7=extra
 	private static final Pattern CURRENT_FAMILIAR_PATTERN =
-		Pattern.compile( ".*?<img onClick='fam\\((\\d+)\\)' src=\"[^>]*?(?:images.kingdomofloathing.com|/images)/itemimages/([^\"]*?)\".*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, ([\\d,]+) kills?\\)(.*?)(?:</form)>" );
+		Pattern.compile( ".*?<img (?:onClick='fam\\((\\d+)\\)')? src=\"[^>]*?(?:images.kingdomofloathing.com|/images)/(?:item|other)images/([^\"]*?)\".*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, ([\\d,]+) kills?\\)(.*?)(?:</form)>" );
 
 	// <tr class="frow expired" data-stats="1" data-other="1"><td valign=center>&nbsp;</td><td valign=center><img src="http://images.kingdomofloathing.com/itemimages/crayongoth.gif" class="hand fam" onClick='fam(160)'></td><td valign=top style='padding-top: .45em;'><b>Raven 'Raven' Ravengrrl</b>, the 1-pound Artistic Goth Kid (0 exp, 32,443 kills) <font size="1"><br />&nbsp;&nbsp;&nbsp;&nbsp;<a class="fave" href="familiar.php?group=0&action=fave&famid=160&pwd=4438585275374d322da30a77b73cb7d5">[unfavorite]</a></font></td></tr>
 
@@ -153,8 +153,12 @@ public class FamiliarData
 
 	private FamiliarData( final Matcher dataMatcher, boolean idFirst )
 	{
-		this.id = StringUtilities.parseInt( dataMatcher.group( idFirst ? 1 : 2 ) );
 		this.race = dataMatcher.group( 4 );
+		String idString = dataMatcher.group( idFirst ? 1 : 2 );
+		this.id =
+			idString != null ?
+			StringUtilities.parseInt( idString ) :
+			FamiliarDatabase.getFamiliarId( this.race, false );
 		this.beeware = this.race.contains( "b" ) || this.race.contains( "B" );
 		this.glover = this.race.contains( "g" ) || this.race.contains( "G" );
 
@@ -617,6 +621,12 @@ public class FamiliarData
 				EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
 				break;
 
+			case FamiliarPool.LEFT_HAND:
+				// Left-Hand Man
+				EquipmentManager.updateEquipmentList( EquipmentManager.OFFHAND );
+				EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
+				break;
+
 			case FamiliarPool.SCARECROW:
 				// Fancypants Scarecrow
 				EquipmentManager.updateEquipmentList( EquipmentManager.PANTS );
@@ -825,6 +835,7 @@ public class FamiliarData
 		case FamiliarPool.CHAMELEON:
 		case FamiliarPool.HATRACK:
 		case FamiliarPool.HAND:
+		case FamiliarPool.LEFT_HAND:
 		case FamiliarPool.SCARECROW:
 		case FamiliarPool.UNSPEAKACHU:
 		case FamiliarPool.STOOPER:
@@ -1110,6 +1121,14 @@ public class FamiliarData
 		case FamiliarPool.HAND:
 			// Disembodied Hand can't equip Mainhand only items or Single Equip items
 			if ( !EquipmentDatabase.isMainhandOnly( itemId ) && !Modifiers.getBooleanModifier( "Item", name, "Single Equip" ) )
+			{
+				return true;
+			}
+			break;
+
+		case FamiliarPool.LEFT_HAND:
+			// Left-Hand Man can wear Offhand items as well as familiar items
+			if ( ItemDatabase.getConsumptionType( itemId ) == KoLConstants.EQUIP_OFFHAND )
 			{
 				return true;
 			}
