@@ -10526,3 +10526,5 @@
 10498	pristine piranha seed	436277245	piranhaseed.gif	grow	t	0
 10499	plastic piranha pot	129214663	plasticpot.gif	familiar	t,d	75
 10500	piranha pollen	736668065	disease.gif	potion, multiple	t,d	10
+10501
+10502	sinistral homunculus	528018345	lhmlarva.gif	grow	t	0

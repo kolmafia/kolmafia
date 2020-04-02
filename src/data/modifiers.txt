@@ -10756,6 +10756,7 @@ Item	silver Dreadsylvanian flask	Effect: "Silver Age Secrets", Effect Duration: 
 Item	silver face paint	Effect: "Robot Friends", Effect Duration: 1
 Item	single of Donho's Bubbly Ballad	Effect: "Donho's Bubbly Ballad", Effect Duration: 10
 Item	single of Inigo's Incantation of Inspiration	Effect: "Inigo's Incantation of Inspiration", Effect Duration: 10
+Item	sinistral homunculus	Free Pull
 Item	sinister-looking cat	Effect: "Catstermind", Effect Duration: 100
 Item	sizzling seal fat	Effect: "Sizzling with Fury", Effect Duration: 10
 # skate skates: Deals 150-300 Physical Damage and briefly stuns your opponent
