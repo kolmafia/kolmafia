@@ -1143,7 +1143,7 @@ public class CompactSidePane
 				return;
 			}
 
-			this.familiarLabel.setIcon( ItemDatabase.getItemImageLocation( item.getItemId() ), "itemimages/" );
+			this.familiarLabel.setIcon( ItemDatabase.getItemImageLocation( item.getItemId() ) );
 			this.familiarLabel.setText( "Level " + KoLCharacter.getMinstrelLevel() );
 		}
 		else if ( KoLCharacter.isJarlsberg() )
@@ -1155,11 +1155,11 @@ public class CompactSidePane
 				return;
 			}
 
-			this.familiarLabel.setIcon( companion.imageName(), "itemimages/" );
+			this.familiarLabel.setIcon( companion.imageName() );
 		}
 		else if ( KoLCharacter.isSneakyPete() )
 		{
-			this.familiarLabel.setIcon( "motorbike.gif", "itemimages/" );
+			this.familiarLabel.setIcon( "motorbike.gif" );
 
 			String popText = CompactSidePane.motorcyclePopupText();
 			try
@@ -1181,7 +1181,7 @@ public class CompactSidePane
 				return;
 			}
 
-			this.familiarLabel.setIcon( servant.getImage(), "itemimages/" );
+			this.familiarLabel.setIcon( servant.getImage() );
 			this.familiarLabel.setText( "<HTML><center>level " + servant.getLevel() + "</center></HTML>" );
 		}
 		else
@@ -1210,6 +1210,20 @@ public class CompactSidePane
 		{
 			this.setIcon( this.noFamiliarImage );
 			this.setText( "" );
+		}
+
+		public void setIcon( final String path )
+		{
+			String prefix = "itemimages/";
+			String image = path;
+			int slash = path.indexOf( "/" );
+			if ( slash != -1 )
+			{
+				// includes slash
+				prefix = path.substring( 0, slash + 1 );
+				image = path.substring( slash + 1 );
+			}
+			this.setIcon( image, prefix );
 		}
 
 		public void setIcon( final String image, final String prefix )
@@ -1244,7 +1258,7 @@ public class CompactSidePane
 				return;
 			}
 
-			this.setIcon( KoLCharacter.getFamiliarImage(), "itemimages/" );
+			this.setIcon( KoLCharacter.getFamiliarImage() );
 
 			StringBuffer anno = CharPaneDecorator.getFamiliarAnnotation();
 			int weight = current.getModifiedWeight();

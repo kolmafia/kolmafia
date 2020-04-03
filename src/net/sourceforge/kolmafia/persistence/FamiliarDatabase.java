@@ -772,13 +772,14 @@ public class FamiliarDatabase
 		{
 			return FamiliarDatabase.getNoFamiliarImage();
 		}
-		String url = KoLmafia.imageServerPath() + "itemimages/" + location;
+		String path = ( location.contains( "/" ) ? "" : "itemimages/" ) + location;
+		String url = KoLmafia.imageServerPath() + path;
 		File file = FileUtilities.downloadImage( url );
 		if ( file == null )
 		{
 			return FamiliarDatabase.getNoFamiliarImage();
 		}
-		ImageIcon icon = JComponentUtilities.getImage( "itemimages/" + location );
+		ImageIcon icon = JComponentUtilities.getImage( path );
 		return icon != null ? icon : FamiliarDatabase.getNoFamiliarImage();
 	}
 

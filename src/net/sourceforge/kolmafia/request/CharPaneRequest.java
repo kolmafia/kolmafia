@@ -1156,7 +1156,7 @@ public class CharPaneRequest
 	private static final Pattern expandedFamiliarWeightPattern =
 		Pattern.compile( "<b>([\\d]+)</b> pound" );
 	private static final Pattern familiarImagePattern =
-		Pattern.compile( "<a.*?class=\"familiarpick\"><img.*?itemimages/(.*?\\.gif)" );
+		Pattern.compile( "<a.*?class=\"familiarpick\"><img.*?((?:item|other)images)/(.*?\\.(?:gif|png))" );
 	private static final AdventureResult somePigs = EffectPool.get( EffectPool.SOME_PIGS );
 
 	private static final void checkFamiliar( final String responseText )
@@ -1180,16 +1180,20 @@ public class CharPaneRequest
 
 		pattern = CharPaneRequest.familiarImagePattern;
 		matcher = pattern.matcher( responseText );
-		String image = matcher.find() ? new String( matcher.group( 1 ) ) : null;
-		if ( image != null )
+		if ( matcher.find() )
 		{
+			String directory = matcher.group( 1 );
+			String image = matcher.group( 2 );
+			int familiarId = KoLCharacter.getFamiliar().getId();
 			if ( image.startsWith( "snow" ) )
 			{
 				CharPaneRequest.checkSnowsuit( image );
 			}
-			else
+			// Left-Hand Man's image is composed of body + an item image
+			// Perhaps we could handle this, but let's not bother
+			else if ( familiarId != FamiliarPool.LEFT_HAND )
 			{
-				KoLCharacter.setFamiliarImage( image );
+				KoLCharacter.setFamiliarImage( directory, image );
 				CharPaneRequest.checkMedium( responseText );
 				CharPaneRequest.checkMiniAdventurer( image );
 				if ( image.startsWith( "commacha" ) )
