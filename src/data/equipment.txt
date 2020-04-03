@@ -1874,6 +1874,7 @@ LARP carp	0	none
 latte lovers member's mug	0	none
 lead umbrella	0	none
 left bear arm	0	none
+Left-Hand Man action figure	0	none
 left-handed melodica	160	Mox: 150
 lemonade marble	204	Mys: 85
 little black book	160	Mys: 65
