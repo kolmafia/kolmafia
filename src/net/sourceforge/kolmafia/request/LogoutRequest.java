@@ -80,7 +80,7 @@ public class LogoutRequest
 		// Clear up things you might be in the middle of that can stop execution on another character
 		if ( FightRequest.currentRound != 0 )
 		{
-			FightRequest.preFight();
+			FightRequest.preFight( false );
 		}
 		if ( FightRequest.inMultiFight )
 		{

@@ -1314,6 +1314,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "choice_follows_fight", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "fight_follows_choice", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "handling_choice", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
@@ -5877,6 +5880,11 @@ public abstract class RuntimeLibrary
 	public static Value choice_follows_fight( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( FightRequest.choiceFollowsFight );
+	}
+
+	public static Value fight_follows_choice( Interpreter interpreter )
+	{
+		return DataTypes.makeBooleanValue( FightRequest.fightFollowsChoice );
 	}
 
 	public static Value handling_choice( Interpreter interpreter )
