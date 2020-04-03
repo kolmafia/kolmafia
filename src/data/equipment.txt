@@ -1794,6 +1794,7 @@ flaming talons	90	Mys: 30
 fleshy lump	50	none	shield
 flickering flashlight	0	none
 flimsy clipboard	50	Mus: 10	shield
+flimsy ski pole	0	none
 foon	30	none
 foon of fearfulness	50	Mys: 10
 foon of fleshiness	50	Mys: 10
@@ -1901,6 +1902,7 @@ marinara jug	160	Mys: 150
 marble mignonette bowl	120	Mys: 40
 marionette	110	Mys: 40
 marionette collective	110	Mys: 40
+martini dregs	0	none
 meat shield	60	Mus: 15	shield
 Medallion of the Ventrilo Prince	0	none
 Mer-kin begsign	200	Mus: 85

@@ -10530,10 +10530,10 @@
 10502	sinistral homunculus	528018345	lhmlarva.gif	grow	t	0
 10503	rusty kettle bell	678267846	lhmkettlebell.gif	offhand	q	0
 10504	glued-together crystal ball	132860754	lhmcrystalball.gif	offhand	q	0
-
+10505	martini dregs	592851252	lhmmartini.gif	offhand	q	0
 10506	flickering flashlight	426941198	lhmflashlight.gif	offhand	q	0
 10507	crumbling rabbit's foot	863668850	lhmrabbitsfoot.gif	offhand	q	0
 10508	outmoded fidget toy	390635246	lhmfidgetspinner.gif	offhand	q	0
-
+10509	flimsy ski pole	552591074	lhmskipole.gif	offhand	q	0
 10510	discarded finger painting	326011606	lhmfingerpaint.gif	offhand	q	0
 10511	old pizza box	463349451	lhmpizzabox.gif	offhand	q	0
