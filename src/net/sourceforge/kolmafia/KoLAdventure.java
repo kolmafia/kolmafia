@@ -661,7 +661,12 @@ public class KoLAdventure
 				Preferences.getString( Quest.BAT.getPref() ).equals( "step2" ) ? 1 :
 				0;
 
-			if ( sonarsToUse == 0 )
+			int sonarsForLocation =
+				this.adventureId.equals( AdventurePool.BATRAT_ID ) ? 1 :
+				this.adventureId.equals( AdventurePool.BEANBAT_ID ) ? 2 :
+				3;
+
+			if ( sonarsToUse <= (3 - sonarsForLocation) )
 			{
 				this.isValidAdventure = true;
 				return;
