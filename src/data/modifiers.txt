@@ -2046,6 +2046,7 @@ Item	Crimbo Elf creepy bobble-head	Spooky Damage: +10
 Item	Crimbo light-up Rudolph doll	Sleaze Damage: +10
 Item	Crimbo stogie-scented room odorizer	Stench Spell Damage: +10
 Item	Crimbo tree flocker	Cold Damage: +10
+Item	crumbling rabbit's foot	Meat Drop: +30
 Item	cuddly teddy bear	Monster Level: +10
 # cup of infinite pencils: Never runs out of pencils
 Item	cup of infinite pencils	Meat Drop: +15
@@ -2065,6 +2066,7 @@ Item	detour shield	Damage Absorption: +10, Damage Reduction: 6
 # Dinsey's radar dish: Deals Increasing Damage Every Round
 Item	Dinsey's radar dish	MP Regen Min: 8, MP Regen Max: 10, Damage Reduction: 15
 Item	dirty rigging rope	Initiative: +30, Stench Damage: +15
+Item	discarded finger painting	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
 Item	disturbing fanfic	Sleaze Spell Damage: +30
 # double-ice box: All Spells Cast Are Cold
 # double-ice box: Deals 10-20 cold damage every round
@@ -2099,6 +2101,7 @@ Item	fireproof megaphone	Monster Level: +10, Hot Resistance: +2
 # fishbone catcher's mitt: Prevents some items from washing away in the Heavy Rains
 Item	flaming talons	Weapon Damage: +5, Hot Damage: +5
 Item	fleshy lump	Maximum HP: +20, HP Regen Min: 2, HP Regen Max: 4, Damage Reduction: 3
+Item	flickering flashlight	Item Drop: +15
 Item	flimsy clipboard	Meat Drop: +5, Damage Reduction: 3
 Item	foon	Mysticality: +2
 Item	foon of fearfulness	Mysticality: +3, Spooky Spell Damage: +8
@@ -2125,6 +2128,7 @@ Item	glow-in-the-dark stuffed burrowgrub	Muscle: [9-M], Weapon Damage: [9-M]
 # glowing esca: +20% Item Drops from Monsters (Underwater only)
 Item	glowing esca	Item Drop: [20*env(underwater)]
 Item	glowstick on a string	Weapon Damage: +10, Raveosity: +1
+Item	glued-together crystal ball	Mysticality Percent: +50
 Item	gnauga hide buckler	Muscle: +3, Mysticality: +3, Moxie: +3, Damage Reduction: 5
 # Golden HP-35 Calculator: Makes you look super altruistic
 # golden sausage
@@ -2276,6 +2280,7 @@ Item	oil lamp	Sleaze Damage: +5, Hot Damage: +5
 Item	Ol' Scratch's ash can	Spell Damage Percent: +100, Hot Spell Damage: +30, Class: "Sauceror"
 # Ol' Scratch's stove door: Deals 40-50 <font color=red>Hot Damage</font> to attackers
 Item	Ol' Scratch's stove door	Hot Damage: +20, Damage Reduction: 15
+Item	old pizza box	Damage Absorption: +50, Damage Reduction: 6
 Item	old school flying disc	Muscle Percent: +15, Damage Reduction: 24, Familiar Weight: +5
 Item	Operation Patriot Shield	Experience: +3, Maximum HP: +20, Maximum MP: +20, Softcore Only, Variable
 # Operation Patriot Shield: Can be Thrown in Combat
@@ -2301,6 +2306,7 @@ Item	Oscus's garbage can lid	Stench Damage: +20, Damage Reduction: 15
 # Ouija Board, Ouija Board: (+% to Muscle Based on Smithsness)
 # Ouija Board, Ouija Board: Gain the favor of the Turtle Spirits more quickly
 Item	Ouija Board, Ouija Board	Familiar Weight: +5, Smithsness: +5, Class: "Turtle Tamer", Damage Reduction: 7, Muscle Percent: [2*K]
+Item	outmoded fidget toy	Experience: +2
 Item	ox-head shield	Maximum HP: +100, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 26, PvP Fights: +8, Never Fumble, Lasts Until Rollover
 # oyster basket
 Item	oyster egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
@@ -2363,6 +2369,7 @@ Item	Royal scepter	Adventures: +4, PvP Fights: +8, Rollover Effect: "It's Good T
 # rubber baby doll: Deals 13 <font color=gray>Spooky Damage</font> to your enemies every round
 Item	rubber ribcage	Spooky Resistance: +3, Damage Reduction: 12
 Item	rusty compass	Initiative: +30
+Item	rusty kettle bell	Muscle Percent: +50
 # rusty old lantern
 Item	rxr shield	Damage Absorption: +10, Damage Reduction: 6
 Item	sawblade shield	Weapon Damage: +11, Damage Reduction: 11
