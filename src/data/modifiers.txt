@@ -2103,6 +2103,7 @@ Item	flaming talons	Weapon Damage: +5, Hot Damage: +5
 Item	fleshy lump	Maximum HP: +20, HP Regen Min: 2, HP Regen Max: 4, Damage Reduction: 3
 Item	flickering flashlight	Item Drop: +15
 Item	flimsy clipboard	Meat Drop: +5, Damage Reduction: 3
+Item	flimsy ski pole	Initiative: +30
 Item	foon	Mysticality: +2
 Item	foon of fearfulness	Mysticality: +3, Spooky Spell Damage: +8
 Item	foon of fleshiness	Mysticality: +3, Sleaze Spell Damage: +8
@@ -2233,6 +2234,7 @@ Item	marble mignonette bowl	MP Regen Min: 4, MP Regen Max: 8, Cold Spell Damage:
 Item	marinara jug	Spell Damage: +30, Class: "Sauceror"
 Item	marionette	Mysticality: +3
 Item	marionette collective	Mysticality: +3
+Item	martini dregs	Moxie Percent: +50
 Item	meat shield	Meat Drop: +3, Damage Reduction: 3
 Item	Medallion of the Ventrilo Prince	Moxie Percent: +12
 Item	Mer-kin begsign	Weakens Monster, Meat Drop: [40*env(underwater)]
