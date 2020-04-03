@@ -5185,10 +5185,24 @@ public abstract class KoLCharacter
 		KoLCharacter.setFamiliarImage( FamiliarDatabase.getFamiliarImageLocation( KoLCharacter.currentFamiliar.getId() ) );
 	}
 
-	public static final void setFamiliarImage( final String image )
+	public static final void setFamiliarImage( final String path )
 	{
-		KoLCharacter.currentFamiliarImage = image;
-		FamiliarDatabase.setFamiliarImageLocation( KoLCharacter.getFamiliar().getId(), image );
+		String directory = "itemimages";
+		String image = path;
+		int slash = path.indexOf( "/" );
+		if ( slash != -1 )
+		{
+			directory = path.substring( 0, slash );
+			image = path.substring( slash + 1 );
+		}
+		KoLCharacter.setFamiliarImage( directory, image );
+	}
+
+	public static final void setFamiliarImage( final String directory, final String image )
+	{
+		String path = ( directory == null || directory.equals( "itemimages" ) ) ? image : ( directory + "/" + image );
+		KoLCharacter.currentFamiliarImage = path;
+		FamiliarDatabase.setFamiliarImageLocation( KoLCharacter.getFamiliar().getId(), path );
 		NamedListenerRegistry.fireChange( "(familiar image)" );
 	}
 
