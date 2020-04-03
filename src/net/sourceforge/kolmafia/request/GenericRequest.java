@@ -2368,6 +2368,7 @@ public class GenericRequest
 			// Re-setup this request to follow the redirect
 			// desired and rerun the request.
 
+			boolean fromChoice = this.formURLString.startsWith( "choice.php" );
 			this.constructURLString( this.redirectLocation, this.redirectMethod.equals( "POST" ) );
 			this.hasResult = this.hasResult( this.redirectLocation );
 			if ( this.redirectLocation.startsWith( "choice.php" ) )
@@ -2377,7 +2378,7 @@ public class GenericRequest
 			else if ( this.redirectLocation.startsWith( "fight.php" ) ||
 				  this.redirectLocation.startsWith( "fambattle.php" ))
 			{
-				FightRequest.preFight();
+				FightRequest.preFight( fromChoice );
 			}
 			if ( this.hasResult )
 			{

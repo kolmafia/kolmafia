@@ -1602,7 +1602,7 @@ public abstract class KoLmafia
 		RequestThread.postRequest( adventure );
 		while ( true )
 		{
-			if ( FightRequest.inMultiFight )
+			if ( FightRequest.inMultiFight || FightRequest.fightFollowsChoice )
 			{
 				RequestThread.postRequest( FightRequest.INSTANCE );
 				continue;

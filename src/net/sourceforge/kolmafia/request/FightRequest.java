@@ -377,6 +377,7 @@ public class FightRequest
 	public static boolean won = false;;
 	public static boolean inMultiFight = false;
 	public static boolean choiceFollowsFight = false;
+	public static boolean fightFollowsChoice = false;
 	public static boolean fightingCopy = false;
 
 	private static String nextAction = null;
@@ -2058,8 +2059,9 @@ public class FightRequest
 		}
 	}
 
-	public static void preFight()
+	public static void preFight( boolean fromChoice )
 	{
+		FightRequest.fightFollowsChoice = fromChoice;
 		FightRequest.currentRound = 0;
 		FightRequest.won = false;
 		FightRequest.macroPrefixLength = 0;
@@ -2086,7 +2088,7 @@ public class FightRequest
 			// before the actual round zero is ready to go.
 
 			this.constructURLString( url );
-			FightRequest.preFight();
+			FightRequest.preFight( false );
 			super.run();
 
 			// Carry on with the rest of the automation
@@ -2459,6 +2461,7 @@ public class FightRequest
 			FightRequest.clearInstanceData();
 			FightRequest.inMultiFight = false;
 			FightRequest.choiceFollowsFight = false;
+			FightRequest.fightFollowsChoice = false;
 			return;
 		}
 
@@ -8328,6 +8331,8 @@ public class FightRequest
 
 	private static final void clearInstanceData( final boolean transform )
 	{
+		FightRequest.fightFollowsChoice = false;
+
 		FightRequest.castNoodles = false;
 		FightRequest.castClubFoot = false;
 		FightRequest.castShellUp = false;
