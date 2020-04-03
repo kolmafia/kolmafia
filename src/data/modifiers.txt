@@ -2206,6 +2206,7 @@ Item	Kramco Sausage-o-Matic&trade;	Item Drop: +10, Food Drop: +10, Maximum HP: +
 Item	LARP carp	Muscle: +10, Mysticality: +10, Moxie: +10
 # left bear arm: Lets you act like a bear
 Item	left bear arm	Muscle Percent: +10, Maximum HP: +30, Damage Reduction: 10
+Item	Left-Hand Man action figure	Familiar Weight: +7
 Item	left-handed melodica	Ranged Damage: +25, Class: "Accordion Thief"
 Item	lemonade marble	Cold Spell Damage: +45
 Item	little black book	Spell Damage: +15, MP Regen Min: 5, MP Regen Max: 6
