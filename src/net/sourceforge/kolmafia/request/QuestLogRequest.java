@@ -342,6 +342,15 @@ public class QuestLogRequest
 			 * }
 			 */
 
+			// We can't tell the difference between step1, step2 and step3 from the Quest Log, so if we have some progress stored
+			// from having previously examined the Bat Hole we should trust it.
+			if ( pref.equals( Quest.BAT.getPref() ) && ( QuestDatabase.isQuestStep( Quest.BAT, "step2" ) || QuestDatabase.isQuestStep( Quest.BAT, "step3" ) )
+			)
+			{
+				QuestDatabase.setQuestIfBetter( Quest.BAT, status );
+				continue;
+			}
+
 			QuestDatabase.setQuestProgress( pref, status );
 		}
 	}
