@@ -5189,11 +5189,14 @@ public abstract class KoLCharacter
 	{
 		String directory = "itemimages";
 		String image = path;
-		int slash = path.indexOf( "/" );
-		if ( slash != -1 )
+		if ( path != null )
 		{
-			directory = path.substring( 0, slash );
-			image = path.substring( slash + 1 );
+			int slash = path.indexOf( "/" );
+			if ( slash != -1 )
+			{
+				directory = path.substring( 0, slash );
+				image = path.substring( slash + 1 );
+			}
 		}
 		KoLCharacter.setFamiliarImage( directory, image );
 	}
