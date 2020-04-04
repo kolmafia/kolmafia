@@ -5887,10 +5887,12 @@ public abstract class KoLCharacter
 		switch ( ItemDatabase.getConsumptionType( item.getItemId() ) )
 		{
 		case KoLConstants.EQUIP_WEAPON:
-			return KoLCharacter.hasEquipped( equipment, item, EquipmentManager.WEAPON ) || KoLCharacter.hasEquipped( equipment, item, EquipmentManager.OFFHAND );
+			return  KoLCharacter.hasEquipped( equipment, item, EquipmentManager.WEAPON ) ||
+				KoLCharacter.hasEquipped( equipment, item, EquipmentManager.OFFHAND );
 
 		case KoLConstants.EQUIP_OFFHAND:
-			return KoLCharacter.hasEquipped( equipment, item, EquipmentManager.OFFHAND );
+			return  KoLCharacter.hasEquipped( equipment, item, EquipmentManager.OFFHAND ) ||
+				KoLCharacter.hasEquipped( equipment, item, EquipmentManager.FAMILIAR );
 
 		case KoLConstants.EQUIP_HAT:
 			return KoLCharacter.hasEquipped( equipment, item, EquipmentManager.HAT );
@@ -5936,70 +5938,74 @@ public abstract class KoLCharacter
 		switch ( ItemDatabase.getConsumptionType( item.getItemId() ) )
 		{
 		case KoLConstants.EQUIP_WEAPON:
-			return KoLCharacter.hasEquipped( item, EquipmentManager.WEAPON ) ?
+			return  KoLCharacter.hasEquipped( item, EquipmentManager.WEAPON ) ?
 				EquipmentManager.WEAPON :
-			KoLCharacter.hasEquipped( item, EquipmentManager.OFFHAND ) ?
+				KoLCharacter.hasEquipped( item, EquipmentManager.OFFHAND ) ?
 				EquipmentManager.OFFHAND :
-			EquipmentManager.NONE;
+				EquipmentManager.NONE;
 
 		case KoLConstants.EQUIP_OFFHAND:
-			return KoLCharacter.hasEquipped( item, EquipmentManager.OFFHAND ) ?
-				EquipmentManager.OFFHAND : EquipmentManager.NONE;
+			return  KoLCharacter.hasEquipped( item, EquipmentManager.OFFHAND ) ?
+				EquipmentManager.OFFHAND :
+				// Left-Hand Man gives usual powers when holding an off-hand item
+				KoLCharacter.hasEquipped( item, EquipmentManager.FAMILIAR ) ?
+				EquipmentManager.FAMILIAR :
+				EquipmentManager.NONE;
 
 		case KoLConstants.EQUIP_HAT:
-			return KoLCharacter.hasEquipped( item, EquipmentManager.HAT ) ?
+			return  KoLCharacter.hasEquipped( item, EquipmentManager.HAT ) ?
 				EquipmentManager.HAT : EquipmentManager.NONE;
 
 		case KoLConstants.EQUIP_SHIRT:
-			return KoLCharacter.hasEquipped( item, EquipmentManager.SHIRT ) ?
+			return  KoLCharacter.hasEquipped( item, EquipmentManager.SHIRT ) ?
 				EquipmentManager.SHIRT : EquipmentManager.NONE;
 
 		case KoLConstants.EQUIP_PANTS:
-			return KoLCharacter.hasEquipped( item, EquipmentManager.PANTS ) ?
+			return  KoLCharacter.hasEquipped( item, EquipmentManager.PANTS ) ?
 				EquipmentManager.PANTS : EquipmentManager.NONE;
 
 		case KoLConstants.EQUIP_CONTAINER:
-			return KoLCharacter.hasEquipped( item, EquipmentManager.CONTAINER ) ?
+			return  KoLCharacter.hasEquipped( item, EquipmentManager.CONTAINER ) ?
 				EquipmentManager.CONTAINER : EquipmentManager.NONE;
 
 		case KoLConstants.EQUIP_ACCESSORY:
-			return KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY1 ) ?
+			return  KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY1 ) ?
 				EquipmentManager.ACCESSORY1 :
-			KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY2 ) ?
+				KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY2 ) ?
 				EquipmentManager.ACCESSORY2 :
-			KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY3 ) ?
+				KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY3 ) ?
 				EquipmentManager.ACCESSORY3 :
-			EquipmentManager.NONE;
+				EquipmentManager.NONE;
 
 		case KoLConstants.CONSUME_STICKER:
-			return KoLCharacter.hasEquipped( item, EquipmentManager.STICKER1 ) ?
+			return  KoLCharacter.hasEquipped( item, EquipmentManager.STICKER1 ) ?
 				EquipmentManager.STICKER1 :
-			KoLCharacter.hasEquipped( item, EquipmentManager.STICKER2 ) ?
+				KoLCharacter.hasEquipped( item, EquipmentManager.STICKER2 ) ?
 				EquipmentManager.STICKER2 :
-			KoLCharacter.hasEquipped( item, EquipmentManager.STICKER3 ) ?
+				KoLCharacter.hasEquipped( item, EquipmentManager.STICKER3 ) ?
 				EquipmentManager.STICKER3 :
-			EquipmentManager.NONE;
+				EquipmentManager.NONE;
 
 		case KoLConstants.CONSUME_CARD:
-			return KoLCharacter.hasEquipped( item, EquipmentManager.CARDSLEEVE ) ?
+			return  KoLCharacter.hasEquipped( item, EquipmentManager.CARDSLEEVE ) ?
 				EquipmentManager.CARDSLEEVE :
-			EquipmentManager.NONE;
+				EquipmentManager.NONE;
 
 		case KoLConstants.CONSUME_FOLDER:
 			return KoLCharacter.hasEquipped( item, EquipmentManager.FOLDER1 ) ?
 				EquipmentManager.FOLDER1 :
-			KoLCharacter.hasEquipped( item, EquipmentManager.FOLDER2 ) ?
+				KoLCharacter.hasEquipped( item, EquipmentManager.FOLDER2 ) ?
 				EquipmentManager.FOLDER2 :
-			KoLCharacter.hasEquipped( item, EquipmentManager.FOLDER3 ) ?
+				KoLCharacter.hasEquipped( item, EquipmentManager.FOLDER3 ) ?
 				EquipmentManager.FOLDER3 :
-			KoLCharacter.hasEquipped( item, EquipmentManager.FOLDER4 ) ?
+				KoLCharacter.hasEquipped( item, EquipmentManager.FOLDER4 ) ?
 				EquipmentManager.FOLDER4 :
-			KoLCharacter.hasEquipped( item, EquipmentManager.FOLDER5 ) ?
+				KoLCharacter.hasEquipped( item, EquipmentManager.FOLDER5 ) ?
 				EquipmentManager.FOLDER5 :
-			EquipmentManager.NONE;
+				EquipmentManager.NONE;
 
 		case KoLConstants.EQUIP_FAMILIAR:
-			return KoLCharacter.hasEquipped( item, EquipmentManager.FAMILIAR ) ?
+			return  KoLCharacter.hasEquipped( item, EquipmentManager.FAMILIAR ) ?
 				EquipmentManager.FAMILIAR: EquipmentManager.NONE;
 		}
 

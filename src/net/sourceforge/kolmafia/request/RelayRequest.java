@@ -1424,8 +1424,8 @@ public class RelayRequest
 		}
 
 		// If they have compass or ornate dowsing rod equipped, no problem
-		if ( KoLCharacter.hasEquipped( ItemPool.UV_RESISTANT_COMPASS , EquipmentManager.OFFHAND ) ||
-		     KoLCharacter.hasEquipped( ItemPool.DOWSING_ROD , EquipmentManager.OFFHAND ) )
+		if ( KoLCharacter.hasEquipped( ItemPool.UV_RESISTANT_COMPASS ) ||
+		     KoLCharacter.hasEquipped( ItemPool.DOWSING_ROD ) )
 		{
 			return false;
 		}
