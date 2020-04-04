@@ -3201,7 +3201,7 @@ public class RelayRequest
 		}
 		else if ( path.endsWith( "redirectedCommand" ) )
 		{
-			submitCommand( this.getFormField( "cmd", false ) );
+			submitCommand( this.getFormField( "cmd" ) );
 			this.pseudoResponse( "HTTP/1.1 302 Found", RelayRequest.redirectedCommandURL );
 		}
 		else if ( path.endsWith( "sideCommand" ) )
@@ -3212,7 +3212,7 @@ public class RelayRequest
 		else if ( path.endsWith( "specialCommand" ) ||
 			  path.endsWith( "parameterizedCommand" ) )
 		{
-			String cmd = this.getFormField( "cmd", false );
+			String cmd = this.getFormField( "cmd" );
 			if ( !cmd.equals( "wait" ) )
 			{
 				RelayRequest.specialCommandIsAdventure = false;
