@@ -2429,11 +2429,11 @@ public class QuestManager
 				break;
 			}
 			int explored = 1;
-			if ( KoLCharacter.hasEquipped( ItemPool.UV_RESISTANT_COMPASS, EquipmentManager.OFFHAND ) )
+			if ( KoLCharacter.hasEquipped( ItemPool.UV_RESISTANT_COMPASS ) )
 			{
 				explored += 1;
 			}
-			else if ( KoLCharacter.hasEquipped( ItemPool.DOWSING_ROD, EquipmentManager.OFFHAND ) )
+			else if ( KoLCharacter.hasEquipped( ItemPool.DOWSING_ROD ) )
 			{
 				explored += 2;
 			}
