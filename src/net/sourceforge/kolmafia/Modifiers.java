@@ -3316,6 +3316,11 @@ public class Modifiers
 				"Familiar:" + race );
 		}
 
+		if ( FamiliarDatabase.isUnderwaterType( familiarId ) )
+		{
+			this.set( Modifiers.UNDERWATER_FAMILIAR, true );
+		}
+
 		switch ( familiarId )
 		{
 		case FamiliarPool.HATRACK:
