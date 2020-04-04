@@ -1,9 +1,8 @@
 (function(window) {
-	var WIKI_URL = "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?go=Go&search=";
-
 	var SEARCH_HTML = "<div style='width:100%; padding-bottom: 3px;'><b>Search:</b> ";
 	var MALL_HTML = "<a href='/mall.php?pudnuggler=%NAME' class='small'>[mall]</a>&nbsp;";
-	var WIKI_HTML = "<a target='_blank' href='" + WIKI_URL + "%NAME' class='small'>[wiki]</a></div>";
+	var WIKI_URL = "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?go=Go&search=";
+	var WIKI_HTML = "<a target='_blank' href='" + WIKI_URL + "%WNAME' class='small'>[wiki]</a></div>";
 
 	var original_function = window.pop_ircm_contents;
 
@@ -21,7 +20,7 @@
 
 			html += WIKI_HTML;
 
-			return [original[0] + html.replace(/%NAME/g, encodeURIComponent(name)), original[1] + 1];
+			return [original[0] + html.replace(/%NAME/g, encodeURIComponent(name)).replace(/%WNAME/g, name.replace( ' ', '+' )), original[1] + 1];
 		}
 
 		return original;
