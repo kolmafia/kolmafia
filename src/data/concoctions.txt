@@ -3066,6 +3066,7 @@ Turtle Bowl	TIKI	bottle of extra-dark rhum	huge mint leaf
 Cobra Bowl	TIKI	bottle of super-extra-dark rhum	huge mint leaf
 
 signal receiver	SUSE	arcanoferric housing	intact medium-wave antenna	18-picohertz resonator crystal	blown-out speaker cone	overloaded short-pulse transistor
+enhanced signal receiver	SUSE	Murgatroyd diode	signal receiver
 
 # Beach Comb
 small pile of sand	MUSE	grain of sand (100)

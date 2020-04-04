@@ -1780,6 +1780,7 @@ enchanted brass knuckles	50	Mys: 10
 enchanted fire extinguisher	0	Mys: 200
 encrypted micro-cassette recorder	10	none
 Engorged Sausages and You	100	Mys: 35
+enhanced signal receiver	0	none
 eye of the Tiger-lily	70	Mys: 20
 faded green protest sign	10	none
 faded red protest sign	10	none
