@@ -2089,6 +2089,7 @@ Item	enchanted fire extinguisher	Spell Damage Percent: +100, Cold Spell Damage: 
 # encrypted micro-cassette recorder: Optimized for Pun-Recording
 # Engorged Sausages and You: All Spells Cast Are Sleazy
 Item	Engorged Sausages and You	Spell Damage: +15, Food Drop: +20
+# enhanced signal receiver: Reveals and interprets electromagnetic noise
 Item	eye of the Tiger-lily	Spell Damage: +10, Item Drop: +5
 # fake hand: Gives Extra Offhand Equipment Slot
 Item	fake hand	Weapon Damage: -1
