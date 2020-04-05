@@ -655,22 +655,24 @@ public class KoLAdventure
 		     this.adventureId.equals( AdventurePool.BEANBAT_ID ) ||
 		     this.adventureId.equals( AdventurePool.BOSSBAT_ID ) )
 		{
-			int sonarsToUse = 
-				Preferences.getString( Quest.BAT.getPref() ).equals( QuestDatabase.STARTED ) ? 3 :
-				Preferences.getString( Quest.BAT.getPref() ).equals( "step1" ) ? 2 :
-				Preferences.getString( Quest.BAT.getPref() ).equals( "step2" ) ? 1 :
-				0;
+			int sonarsUsed = 
+				Preferences.getString( Quest.BAT.getPref() ).equals( QuestDatabase.STARTED ) ? 0 :
+				Preferences.getString( Quest.BAT.getPref() ).equals( "step1" ) ? 1 :
+				Preferences.getString( Quest.BAT.getPref() ).equals( "step2" ) ? 2 :
+				3;
 
 			int sonarsForLocation =
 				this.adventureId.equals( AdventurePool.BATRAT_ID ) ? 1 :
 				this.adventureId.equals( AdventurePool.BEANBAT_ID ) ? 2 :
 				3;
 
-			if ( sonarsToUse <= (3 - sonarsForLocation) )
+			if ( sonarsUsed >= sonarsForLocation )
 			{
 				this.isValidAdventure = true;
 				return;
 			}
+
+			int sonarsToUse = sonarsForLocation - sonarsUsed;
 
 			this.isValidAdventure = InventoryManager.hasItem( ItemPool.get( ItemPool.SONAR, sonarsToUse ) );
 			return;
@@ -1072,28 +1074,28 @@ public class KoLAdventure
 		     this.adventureId.equals( AdventurePool.BEANBAT_ID ) ||
 		     this.adventureId.equals( AdventurePool.BOSSBAT_ID ) )
 		{
-			int sonarsToUse = 
-				Preferences.getString( Quest.BAT.getPref() ).equals( QuestDatabase.STARTED ) ? 3 :
-				Preferences.getString( Quest.BAT.getPref() ).equals( "step1" ) ? 2 :
-				Preferences.getString( Quest.BAT.getPref() ).equals( "step2" ) ? 1 :
-				0;
+			int sonarsUsed = 
+				Preferences.getString( Quest.BAT.getPref() ).equals( QuestDatabase.STARTED ) ? 0 :
+				Preferences.getString( Quest.BAT.getPref() ).equals( "step1" ) ? 1 :
+				Preferences.getString( Quest.BAT.getPref() ).equals( "step2" ) ? 2 :
+				3;
 
-			if ( sonarsToUse == 0 )
+			int sonarsForLocation =
+				this.adventureId.equals( AdventurePool.BATRAT_ID ) ? 1 :
+				this.adventureId.equals( AdventurePool.BEANBAT_ID ) ? 2 :
+				3;
+
+			if ( sonarsUsed >= sonarsForLocation )
 			{
+				this.isValidAdventure = true;
 				return;
 			}
 
+			int sonarsToUse = sonarsForLocation - sonarsUsed;
 			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.SONAR, sonarsToUse ) ) );
+			sonarsUsed += sonarsToUse;
 
-			GenericRequest request = new PlaceRequest( "bathole" );
-			RequestThread.postRequest( request );
-
-			this.isValidAdventure =
-				this.adventureId.equals( AdventurePool.BATRAT_ID ) ?
-				request.responseText.contains( "batrockleft.gif" ) :
-				this.adventureId.equals( AdventurePool.BEANBAT_ID ) ?
-				request.responseText.contains( "batrockright.gif" ) :
-				request.responseText.contains( "batrockbottom.gif" );
+			this.isValidAdventure = ( sonarsUsed >= sonarsForLocation );
 
 			return;
 		}
