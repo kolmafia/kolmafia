@@ -86,57 +86,55 @@ public class SausageOMaticRequest
 		}
 
 		// Work out meat stacks needed to make requested sausages
-		int denseStacksNeeded = (int) Math.floor( ( meatNeeded - grinderUnits ) / 1000 );
-		int stacksNeeded = (int) Math.floor( ( meatNeeded - grinderUnits - denseStacksNeeded * 1000 ) / 100 );
-		int pasteNeeded = (int) Math.ceil( (double) ( meatNeeded - grinderUnits - denseStacksNeeded * 1000 - stacksNeeded * 100 ) / 10 );
+		int denseStacksNeeded = (int) Math.max( Math.floor( ( meatNeeded - grinderUnits ) / 1000 ), 0 );
+		int stacksNeeded = (int) Math.max( Math.floor( ( meatNeeded - grinderUnits - denseStacksNeeded * 1000 ) / 100 ), 0 );
+		int pasteNeeded = (int) Math.max( Math.ceil( (double) ( meatNeeded - grinderUnits - denseStacksNeeded * 1000 - stacksNeeded * 100 ) / 10 ), 0 );
 
-		KoLmafia.updateDisplay( "Meat needed: " + ( meatNeeded - grinderUnits ) + ", Dense: " + denseStacksNeeded + ", Stacks: " + stacksNeeded + ", Paste: " + pasteNeeded );
+		KoLmafia.updateDisplay( "Meat needed: " + ( Math.max( meatNeeded - grinderUnits, 0 ) ) + ", Dense: " + denseStacksNeeded + ", Stacks: " + stacksNeeded + ", Paste: " + pasteNeeded );
 
 		InventoryManager.retrieveItem( ItemPool.DENSE_STACK, denseStacksNeeded );
 		InventoryManager.retrieveItem( ItemPool.MEAT_STACK, stacksNeeded );
 		InventoryManager.retrieveItem( ItemPool.MEAT_PASTE, pasteNeeded );
+		InventoryManager.retrieveItem( ItemPool.MAGICAL_SAUSAGE_CASING, quantityNeeded );
 
-		if ( quantityNeeded > 0 )
+		GenericRequest request = new GenericRequest( "inventory.php?action=grind" );
+		RequestThread.postRequest( request );
+
+		if ( denseStacksNeeded > 0 )
 		{
-			GenericRequest request = new GenericRequest( "inventory.php?action=grind" );
+			String url = "choice.php?whichchoice=1339&option=1&qty=" + denseStacksNeeded + "&iid=" + ItemPool.DENSE_STACK;
+			request.constructURLString( url );
 			RequestThread.postRequest( request );
-
-			if ( denseStacksNeeded > 0 )
+		}
+		if ( stacksNeeded > 0 )
+		{
+			String url = "choice.php?whichchoice=1339&option=1&qty=" + stacksNeeded + "&iid=" + ItemPool.MEAT_STACK;
+			request.constructURLString( url );
+			RequestThread.postRequest( request );
+		}
+		if ( pasteNeeded > 0 )
+		{
+			String url = "choice.php?whichchoice=1339&option=1&qty=" + pasteNeeded + "&iid=" + ItemPool.MEAT_PASTE;
+			request.constructURLString( url );
+			RequestThread.postRequest( request );
+		}
+		while ( this.getQuantityNeeded() > 0 )
+		{
+			this.beforeQuantity = this.createdItem.getCount( KoLConstants.inventory );
+			String url = "choice.php?whichchoice=1339&option=2";
+			request.constructURLString( url );
+			RequestThread.postRequest( request );
+			int createdQuantity = this.createdItem.getCount( KoLConstants.inventory ) - this.beforeQuantity;
+			if ( createdQuantity == 0 )
 			{
-				String url = "choice.php?whichchoice=1339&option=1&qty=" + denseStacksNeeded + "&iid=" + ItemPool.DENSE_STACK;
-				request.constructURLString( url );
-				RequestThread.postRequest( request );
-			}
-			if ( stacksNeeded > 0 )
-			{
-				String url = "choice.php?whichchoice=1339&option=1&qty=" + stacksNeeded + "&iid=" + ItemPool.MEAT_STACK;
-				request.constructURLString( url );
-				RequestThread.postRequest( request );
-			}
-			if ( pasteNeeded > 0 )
-			{
-				String url = "choice.php?whichchoice=1339&option=1&qty=" + pasteNeeded + "&iid=" + ItemPool.MEAT_PASTE;
-				request.constructURLString( url );
-				RequestThread.postRequest( request );
-			}
-			while ( this.getQuantityNeeded() > 0 )
-			{
-				this.beforeQuantity = this.createdItem.getCount( KoLConstants.inventory );
-				String url = "choice.php?whichchoice=1339&option=2";
-				request.constructURLString( url );
-				RequestThread.postRequest( request );
-				int createdQuantity = this.createdItem.getCount( KoLConstants.inventory ) - this.beforeQuantity;
-				if ( createdQuantity == 0 )
+				if ( KoLmafia.permitsContinue() )
 				{
-					if ( KoLmafia.permitsContinue() )
-					{
-						KoLmafia.updateDisplay( MafiaState.ERROR, "Creation failed, no results detected." );
-					}
-
-					return;
+					KoLmafia.updateDisplay( MafiaState.ERROR, "Creation failed, no results detected." );
 				}
-				this.quantityNeeded -= createdQuantity;
+
+				return;
 			}
+			this.quantityNeeded -= createdQuantity;
 		}
 	}
 

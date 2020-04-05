@@ -369,7 +369,6 @@ Item	Orcish baseball cap	Muscle: +3, Mysticality: -3, Familiar Effect: "1xVolley
 Item	oriole-feather headdress	Maximum HP: +1, Maximum MP: +1, Familiar Effect: "atk, 3xVolley, cap 3"
 Item	outrageous sombrero	Muscle: +5, Mysticality: +5, Moxie: +5, Initiative: -20, Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
 Item	oversized skullcap	Muscle: +2, Damage Reduction: 3, Familiar Effect: "1xVolley,cap 5"
-# oxygenated eggnog helmet: NOTE: This item will stop working when Crimbo 2019 is over.
 Item	oxygenated eggnog helmet	Item Drop: -100, Initiative: -100, Adventure Underwater
 Item	pail	Damage Absorption: +10, Familiar Effect: "2xFairy, cap 7"
 Item	panhandle panhandling hat	Food Drop: +30, Familiar Effect: "1xLep, cap 37"
@@ -1567,7 +1566,6 @@ Item	peace accordion	Stench Damage: [12*(1+skill(Accordion Appreciation))], Clas
 Item	Pener's drumstick	Hot Damage: +20, Initiative: +20, Critical Hit Percent: +5
 Item	penguin whip	Meat Drop: +3
 Item	pentatonic accordion	Cold Damage: [9*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 12
-# peppermint harpoon gun: NOTE: This item will stop working when Crimbo 2019 is over.
 Item	peppermint harpoon gun	Weapon Damage: [100*env(underwater)]
 Item	peppermint spine	Mysticality: +10, Spell Critical Percent: +10
 Item	perforated battle paddle	Weapon Damage: +10
@@ -2922,7 +2920,6 @@ Item	hamethyst ring	Muscle: +5, Maximum HP: +10, HP Regen Min: 2, HP Regen Max: 
 # Hand in Glove: (+Monster Level and Does Damage in Combat based on Smithsness)
 Item	Hand in Glove	Muscle: +5, Smithsness: +5, Single Equip, Monster Level: [K]
 Item	hand-knitted Crimbo socks	Maximum HP: +10, HP Regen Min: 3, HP Regen Max: 5, Cold Resistance: +1
-# hand-knitted diving booties: NOTE: This item will stop working when Crimbo 2019 is over.
 Item	hand-knitted diving booties	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 Item	hardened slime belt	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, HP Regen Min: 10, HP Regen Max: 30, MP Regen Min: 10, MP Regen Max: 30, Mysticality Percent: +20, Single Equip
 Item	hare pin	Moxie Percent: +20, Initiative: +40, Single Equip
@@ -7994,6 +7991,7 @@ Item	badass pie	Effect: "Pie in the Sky", Effect Duration: 20
 Item	bag of GORF	Effect: "Long Live GORF", Effect Duration: 3
 Item	bag of QWOP	Effect: "QWOPped Up", Effect Duration: 10
 # Baja sopapilla: NOTE: This item will stop working when Crimbo 2019 is over.
+# Baja sopapilla	Effect: "Baja, Humbug", Effect Duration: 30
 Item	baked stuffing	Effect: "Thanksgetting", Effect Duration: 20
 Item	barrel cracker	Effect: "Shortened", Effect Duration: 40
 Item	barrel pickle	Effect: "Briny Blood", Effect Duration: 50
@@ -8019,7 +8017,7 @@ Item	bread roll	Effect: "Thanksgetting", Effect Duration: 20
 Item	brown sugar cane	Effect: "Sugar Rush", Effect Duration: 3
 Item	bucket of honey	Effect: "Sugar Rush", Effect Duration: 50
 # bu&ntilde;uelos Jaliscos: NOTE: This item will stop working when Crimbo 2019 is over.
-Item	bu&ntilde;uelos Jaliscos	Effect: "Fishy", Effect Duration: 30
+# Item	bu&ntilde;uelos Jaliscos	Effect: "Fishy", Effect Duration: 30
 Item	C.H.U.M. chum	Effect: "Majorly Poisoned", Effect Duration: 20
 Item	campfire baked potato	Effect: "Trial by Campfire", Effect Duration: 60
 Item	campfire beans	Effect: "The More You Eat", Effect Duration: 40
@@ -8095,7 +8093,7 @@ Item	fireman's lunch	Effect: "You're Not Cooking", Effect Duration: 20
 # fishelada: NOTE: This item will stop working when Crimbo 2019 is over.
 # fishelada	Effect: "Fishy", Effect Duration: 30
 # flan del mar: NOTE: This item will stop working when Crimbo 2019 is over.
-Item	flan del mar	Effect: "Festively Brined", Effect Duration: 30
+# Item	flan del mar	Effect: "Festively Brined", Effect Duration: 30
 Item	flower petal pie	Effect: "Flower Power", Effect Duration: 3
 Item	foie gras	Effect: "Beaten Up", Effect Duration: 1
 Item	forbidden danish	Effect: "Danish Cunning", Effect Duration: 30
@@ -8232,7 +8230,6 @@ Item	tea for one	Effect: "One For Tea", Effect Duration: 40
 Item	temperance whiskey	Effect: "Old Time Hydration", Effect Duration: 100
 Item	tempura broccoli	Effect: "Down With Chow", Effect Duration: 20
 Item	tempura cauliflower	Effect: "Low on the Hog", Effect Duration: 20
-# tempura green and red bean: NOTE: This item will stop working when Crimbo 2019 is over.
 Item	thanksgiving turkey	Effect: "Thanksgetting", Effect Duration: 20
 # The Plumber's mushroom stew: Reduces your Drunkenness by 1
 Item	They liver popsicle	Effect: "You Liver", Effect Duration: 100
@@ -8508,7 +8505,6 @@ Item	Sacramento wine	Effect: "Sacr&eacute; Mental", Effect Duration: 50
 Item	salacious lychee chuhai	Effect: "Brined Liver", Effect Duration: 30
 Item	salacious screwdiver	Effect: "Brined Liver", Effect Duration: 30
 Item	salinated mint julep	Effect: "Brined Liver", Effect Duration: 10
-# salt plum sake: NOTE: This item will stop working when Crimbo 2019 is over.
 Item	salt plum sake	Effect: "Warm Belly", Effect Duration: 1
 Item	Sazerorc	Effect: "Orc Chops", Effect Duration: 5
 Item	Sazuruk-hai	Effect: "Orc Chops", Effect Duration: 10
@@ -8702,7 +8698,6 @@ Item	spooky wad	Effect: "Spooky Demeanor", Effect Duration: 20
 Item	stench jelly	Effect: "Stench Jellied", Effect Duration: 50
 Item	stench wad	Effect: "Stenchtastic", Effect Duration: 20
 Item	strange paste	Effect: "Weird Flavor", Effect Duration: 10
-# super-sweet fish goo (spoiled): NOTE: This item will stop working when Crimbo 2019 is over.
 Item	super-sweet fish goo (spoiled)	Effect: "Fishy", Effect Duration: 15
 Item	The Author's ink	Effect: "It's a Good Life!", Effect Duration: 200
 Item	The Inquisitor's unidentifiable object	Effect: "The Inquisitor's Unknown Effect", Effect Duration: 100
@@ -9170,7 +9165,6 @@ Item	Comma Chameleon egg	Free Pull
 Item	compressed air canister	Effect: "Dug Out", Effect Duration: 30
 Item	communal gobstopper	Effect: "The Magic of Sharing", Effect Duration: 20
 Item	concentrated cordial of concentration	Effect: "Concentrated Concentration", Effect Duration: [R]
-# concentrated fish broth: NOTE: This item will stop working when Crimbo 2019 is over.
 Item	concentrated fish broth	Effect: "Fishy", Effect Duration: 30
 Item	concentrated garbage juice	Effect: "Drenched With Filth", Effect Duration: 20
 Item	concoction of clumsiness	Effect: "Clumsy", Effect Duration: [R]
@@ -9699,7 +9693,6 @@ Item	Glo-Pop	Effect: "Glo-Face", Effect Duration: 10
 # glob of Blank-Out: (usable a few times before it goes away)
 # glob of melted wax: Stuns enemies for a few rounds, dealing <font color=red>Hot Damage</font> all the while
 # glob of melted wax: Can be fashioned into various wax objects
-# glob of salty molasses: NOTE: This item will stop working when Crimbo 2019 is over.
 Item	glob of salty molasses	Effect: "Molasses Flooded", Effect Duration: 1
 Item	glob of spoiled mayo	Effect: "Mayeaugh", Effect Duration: 10
 Item	glowing El Vibrato drone	Effect: "Inscrutable exoskeleton", Effect Duration: 10
@@ -9930,7 +9923,6 @@ Item	Inner Strength	Effect: "Innately Strong", Effect Duration: 20
 Item	Inner Truth	Effect: "Innately Truthy", Effect Duration: 20
 Item	Inner Wisdom	Effect: "Innately Wise", Effect Duration: 20
 # intact anemone spike: Deal 100 damage (Underwater only)
-# intact anemone spike: NOTE: This item will stop working when Crimbo 2019 is over.
 # interesting clod of dirt: Absorb it for a useful skill!
 Item	interrogative elixir	Effect: "Enhanced Interrogation", Effect Duration: 1
 Item	invisibility cream	Effect: "Skinvisible", Effect Duration: 100
@@ -10494,7 +10486,6 @@ Item	press-on ribs	Effect: "The Bone Us Round", Effect Duration: 30
 Item	pressurized potion of perception	Effect: "Perceptive Pressure", Effect Duration: [R]
 Item	pressurized potion of perspicacity	Effect: "Perspicacious Pressure", Effect Duration: [R]
 Item	pressurized potion of pneumaticity	Effect: "Pneumatic", Effect Duration: 20
-# pressurized potion of possessiveness: NOTE: This item will stop working when Crimbo 2019 is over.
 Item	pressurized potion of possessiveness	Effect: "Possessive Pressure", Effect Duration: 5
 Item	pressurized potion of proficiency	Effect: "Proficient Pressure", Effect Duration: [R]
 Item	pressurized potion of puissance	Effect: "Puissant Pressure", Effect Duration: [R]
@@ -10673,7 +10664,6 @@ Item	sacramental wine	Effect: "Spiritually Awash", Effect Duration: 10
 Item	salamander slurry	Effect: "Salamander In Your Stomach", Effect Duration: [R]
 Item	salt wages	Effect: "Worth Your Salt", Effect Duration: 30
 Item	salt water taffy	Effect: "Bedraggled Dragoon", Effect Duration: 30
-# salty gumdrop: NOTE: This item will stop working when Crimbo 2019 is over.
 Item	salty gumdrop	Effect: "Salt Rush", Effect Duration: 1
 # samurai turtle: Does various ninja things
 # sanctified cola: Restores 400-500 MP
