@@ -44,6 +44,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -84,13 +85,13 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Modifiers
 {
-	private static final HashMap<String, Object> modifiersByName = new HashMap<String, Object>();
-	private static final HashMap<String,String> familiarEffectByName = new HashMap<String,String>();
-	private static final HashMap<String,Integer> modifierIndicesByName = new HashMap<String,Integer>();
-	private static final ArrayList<UseSkillRequest> passiveSkills = new ArrayList<UseSkillRequest>();
-	private static final ArrayList synergies = new ArrayList();
-	private static final ArrayList<String> mutexes = new ArrayList<String>();
-	private static final Map<String,Set<String>> uniques = new HashMap<String,Set<String>>();
+	private static final Map<String, Object> modifiersByName = new HashMap<>();
+	private static final Map<String,String> familiarEffectByName = new HashMap<>();
+	private static final Map<String,Integer> modifierIndicesByName = new HashMap<>();
+	private static final List<UseSkillRequest> passiveSkills = new ArrayList<>();
+	private static final List synergies = new ArrayList();
+	private static final List<String> mutexes = new ArrayList<>();
+	private static final Map<String,Set<String>> uniques = new HashMap<>();
 	public static String currentLocation = "";
 	public static String currentZone = "";
 	public static String currentEnvironment = "";
