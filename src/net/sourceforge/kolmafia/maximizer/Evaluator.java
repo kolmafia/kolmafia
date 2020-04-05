@@ -36,12 +36,13 @@ package net.sourceforge.kolmafia.maximizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -78,7 +79,9 @@ public class Evaluator
 	public boolean failed;
 	boolean exceeded;
 	private Evaluator tiebreaker;
-	private double[] weight, min, max;
+	private double[] weight= new double[ Modifiers.DOUBLE_MODIFIERS ];
+	private double[] min;
+	private double[] max;
 	private double totalMin, totalMax;
 	private int dump = 0;
 	private int clownosity = 0;
@@ -86,8 +89,8 @@ public class Evaluator
 	private int surgeonosity = 0;
 	private int beeosity = 2;
 	private int booleanMask, booleanValue;
-	private ArrayList<FamiliarData> familiars;
-	private ArrayList<FamiliarData> carriedFamiliars;
+	private List<FamiliarData> familiars = new ArrayList<>();
+	private List<FamiliarData> carriedFamiliars = new ArrayList<>();
 	private int carriedFamiliarsNeeded = 0;
 	private boolean cardNeeded = false;
 	private boolean edPieceNeeded = false;
@@ -106,9 +109,11 @@ public class Evaluator
 	private boolean requireAccordion = false;
 	private boolean noTiebreaker = false;
 	private boolean current = !KoLCharacter.canInteract() || Preferences.getBoolean( "maximizerAlwaysCurrent" );
-	private HashSet<String> posOutfits, negOutfits;
-	private TreeSet<AdventureResult> posEquip, negEquip;
-	private TreeSet<AdventureResult> uniques;
+	private Set<String> posOutfits = new HashSet<>();
+	private Set<String> negOutfits = new HashSet<>();
+	private Set<AdventureResult> posEquip = new HashSet<>();
+	private Set<AdventureResult> negEquip = new HashSet<>();
+	private Set<AdventureResult> uniques = new HashSet<>();
 
 	private static final String TIEBREAKER = "1 familiar weight, 1 familiar experience, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop, 1 DB combat damage, 0.1 sixgun damage";
 	private static final Pattern KEYWORD_PATTERN = Pattern.compile( "\\G\\s*(\\+|-|)([\\d.]*)\\s*(\"[^\"]+\"|(?:[^-+,0-9]|(?<! )[-+0-9])+),?\\s*" );
@@ -198,22 +203,15 @@ public class Evaluator
 	Evaluator( String expr )
 	{
 		this();
+
 		Evaluator tiebreaker = new Evaluator();
 		this.tiebreaker = tiebreaker;
-		this.posOutfits = tiebreaker.posOutfits = new HashSet<String>();
-		this.negOutfits = tiebreaker.negOutfits = new HashSet<String>();
-		this.posEquip = tiebreaker.posEquip = new TreeSet<AdventureResult>();
-		this.negEquip = tiebreaker.negEquip = new TreeSet<AdventureResult>();
-		this.uniques = tiebreaker.uniques = new TreeSet<AdventureResult>();
-		this.familiars = tiebreaker.familiars = new ArrayList<FamiliarData>();
-		this.carriedFamiliars = tiebreaker.carriedFamiliars = new ArrayList<FamiliarData>();
-		this.weight = new double[ Modifiers.DOUBLE_MODIFIERS ];
-		tiebreaker.weight = new double[ Modifiers.DOUBLE_MODIFIERS ];
 		tiebreaker.min = new double[ Modifiers.DOUBLE_MODIFIERS ];
 		tiebreaker.max = new double[ Modifiers.DOUBLE_MODIFIERS ];
 		Arrays.fill( tiebreaker.min, Double.NEGATIVE_INFINITY );
 		Arrays.fill( tiebreaker.max, Double.POSITIVE_INFINITY );
 		tiebreaker.parse( Evaluator.TIEBREAKER );
+
 		this.min = (double[]) tiebreaker.min.clone();
 		this.max = (double[]) tiebreaker.max.clone();
 		this.parse( expr );
@@ -951,10 +949,8 @@ public class Evaluator
 		if ( !this.failed && !this.posEquip.isEmpty() )
 		{
 			equipSatisfied = true;
-			Iterator<AdventureResult> i = this.posEquip.iterator();
-			while ( i.hasNext() )
+			for ( AdventureResult item : this.posEquip )
 			{
-				AdventureResult item = i.next();
 				if ( !KoLCharacter.hasEquipped( equipment, item ) )
 				{
 					equipSatisfied = false;
@@ -1103,9 +1099,9 @@ public class Evaluator
 	{
 		// Items automatically considered regardless of their score -
 		// synergies, hobo power, brimstone, etc.
-		ArrayList<CheckedItem>[] automatic = new ArrayList[ EquipmentManager.ALL_SLOTS + this.familiars.size() ];
+		List<CheckedItem>[] automatic = new ArrayList[ EquipmentManager.ALL_SLOTS + this.familiars.size() ];
 		// Items to be considered based on their score
-		ArrayList<CheckedItem>[] ranked = new ArrayList[ EquipmentManager.ALL_SLOTS + this.familiars.size() ];
+		List<CheckedItem>[] ranked = new ArrayList[ EquipmentManager.ALL_SLOTS + this.familiars.size() ];
 		for ( int i = ranked.length - 1; i >= 0; --i )
 		{
 			automatic[ i ] = new ArrayList<CheckedItem>();
@@ -1115,7 +1111,7 @@ public class Evaluator
 		double nullScore = this.getScore( new Modifiers() );
 
 		BooleanArray usefulOutfits = new BooleanArray();
-		TreeMap<AdventureResult, AdventureResult> outfitPieces = new TreeMap<AdventureResult, AdventureResult>();
+		Map<AdventureResult, AdventureResult> outfitPieces = new HashMap<>();
 		for ( int i = 1; i < EquipmentDatabase.normalOutfits.size(); ++i )
 		{
 			SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get( i );
@@ -1883,7 +1879,7 @@ public class Evaluator
 			}
 		}
 			
-		ArrayList<MaximizerSpeculation>[] speculationList = new ArrayList[ ranked.length ];
+		List<MaximizerSpeculation>[] speculationList = new ArrayList[ ranked.length ];
 		for ( int i = ranked.length - 1; i >= 0; --i )
 		{
 			speculationList[ i ] = new ArrayList<MaximizerSpeculation>();
@@ -1891,7 +1887,7 @@ public class Evaluator
 
 		for ( int slot = 0; slot < ranked.length; ++slot )
 		{
-			ArrayList<CheckedItem> checkedItemList = ranked[ slot ];
+			List<CheckedItem> checkedItemList = ranked[ slot ];
 
 			// If we currently have nothing equipped, also consider leaving nothing equipped
 			if ( EquipmentManager.getEquipment( Evaluator.toUseSlot( slot ) ) == EquipmentRequest.UNEQUIP )
@@ -2352,7 +2348,7 @@ public class Evaluator
 
 		for ( int slot = 0; slot < ranked.length; ++slot )
 		{
-			ArrayList<CheckedItem> checkedItemList = ranked[ slot ];
+			List<CheckedItem> checkedItemList = ranked[ slot ];
 
 			if ( this.dump > 0 )
 			{
@@ -2406,7 +2402,7 @@ public class Evaluator
 						// How many times have we already used this fold item?
 						for ( int checkSlot = 0; checkSlot < slot; ++checkSlot )
 						{
-							ArrayList<CheckedItem> checkItemList = automatic[ checkSlot ];
+							List<CheckedItem> checkItemList = automatic[ checkSlot ];
 							if ( checkItemList != null )
 							{
 								for ( CheckedItem checkItem : checkItemList )
@@ -2543,10 +2539,11 @@ public class Evaluator
 
 			Iterator<AdventureResult> i = outfitPieces.keySet().iterator();
 			while ( i.hasNext() )
-			{
+			for ( AdventureResult item : outfitPieces.keySet() )
+ 			{
 				id = i.next().getItemId();
 				if ( EquipmentManager.itemIdToEquipmentType( id ) == EquipmentManager.WEAPON &&
-					EquipmentDatabase.getHands( id ) > 1 )
+				     EquipmentDatabase.getHands( id ) > 1 )
 				{
 					i.remove();
 				}
