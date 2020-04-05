@@ -93,7 +93,7 @@ questL12War	step1	"My agents report that the war on the Mysterious Island is goi
 questL12War	finished	"Indeed, boss. By the way, my agents all chipped in and we got you a little something to commemorate your victory."
 questL13Final	started	"Time to show a jumped-up errand-boy what happens when you cross Ed the Undying."	"Boss! You're back! How did it go?" 
 questL13Warehouse	started	“There is a cave there called ‘Noob Cave’. There is a secret entrance to the warehouse in back of it.”	"I have faith that you will be successful, boss."
-questL13Warehouse	finished	"Boss!" Amum exclaims. "You did it, didn't you? You retrieved the Holy MacGuffin!"
+questL13Warehouse	finished	"Boss!" Amun exclaims. "You did it, didn't you? You retrieved the Holy MacGuffin!"
 
 # West of Loathing
 questL02Larva	started	Okay Cowboy, here's the first thing we need you to do: go find us a mosquito larva. Are you familiar with those? Probably not, since they don't live in the god-forsaken desert. It's like a little wriggly thing. You can find one in the Spooky Forest, which is in the Distant Woods. Here, I'd better write this down for you.	We still need a mosquito larva, pardner.  Please find us one, in the Spooky Forest.
