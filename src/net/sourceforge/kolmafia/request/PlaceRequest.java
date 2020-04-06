@@ -446,7 +446,8 @@ public class PlaceRequest
 		}
 		else if ( place.equals( "town_wrong" ) )
 		{
-			if ( action.equals( "townwrong_artist_quest" ) )
+			if ( action.equals( "townwrong_artist_quest" ) ||
+			     action.equals( "townwrong_artist_noquest" ) )
 			{
 				ArtistRequest.parseResponse( urlString, responseText );
 			}

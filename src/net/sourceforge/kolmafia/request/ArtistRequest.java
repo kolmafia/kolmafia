@@ -65,7 +65,9 @@ public class ArtistRequest
 
 	public static final void parseResponse( final String location, final String responseText )
 	{
-		if ( !location.startsWith( "place.php" ) || !location.contains( "action=townwrong_artist_quest" ) )
+		if ( !location.startsWith( "place.php" ) ||
+		     ( !location.contains( "action=townwrong_artist_quest" ) &&
+		       !location.contains( "action=townwrong_artist_noquest" ) ) )
 		{
 			return;
 		}
@@ -115,7 +117,9 @@ public class ArtistRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "place.php" ) || !urlString.contains( "action=townwrong_artist_quest" ) )
+		if ( !urlString.startsWith( "place.php" ) ||
+		     ( !urlString.contains( "action=townwrong_artist_quest" ) &&
+		       !urlString.contains( "action=townwrong_artist_noquest" ) ) )
 		{
 			return false;
 		}
