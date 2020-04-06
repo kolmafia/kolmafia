@@ -198,7 +198,7 @@ public class RestoresDatabase
 
 	public static final long getHPMin( final String name )
 	{
-		if ( name == null || !RestoresDatabase.pathSafe( name ) )
+		if ( name == null || !RestoresDatabase.pathSafeHP( name ) )
 		{
 			return 0;
 		}
@@ -218,7 +218,7 @@ public class RestoresDatabase
 
 	public static final long getHPMax( final String name )
 	{
-		if ( name == null || !RestoresDatabase.pathSafe( name ) )
+		if ( name == null || !RestoresDatabase.pathSafeHP( name ) )
 		{
 			return 0;
 		}
@@ -238,7 +238,7 @@ public class RestoresDatabase
 
 	public static final long getMPMin( final String name )
 	{
-		if ( name == null )
+		if ( name == null || !RestoresDatabase.pathSafeMP( name ) )
 		{
 			return 0;
 		}
@@ -258,7 +258,7 @@ public class RestoresDatabase
 
 	public static final long getMPMax( final String name )
 	{
-		if ( name == null )
+		if ( name == null || !RestoresDatabase.pathSafeMP( name ) )
 		{
 			return 0;
 		}
@@ -278,7 +278,7 @@ public class RestoresDatabase
 
 	public static final double getHPAverage( final String name )
 	{
-		if ( name == null || !RestoresDatabase.pathSafe( name ) )
+		if ( name == null || !RestoresDatabase.pathSafeHP( name ) )
 		{
 			return 0;
 		}
@@ -288,7 +288,7 @@ public class RestoresDatabase
 
 	public static final double getMPAverage( final String name )
 	{
-		if ( name == null )
+		if ( name == null || !RestoresDatabase.pathSafeMP( name ) )
 		{
 			return 0;
 		}
@@ -298,7 +298,7 @@ public class RestoresDatabase
 
 	public static final String getHPRange( final String name )
 	{
-		if ( name == null || !RestoresDatabase.pathSafe( name ) )
+		if ( name == null || !RestoresDatabase.pathSafeHP( name ) )
 		{
 			return "";
 		}
@@ -318,7 +318,7 @@ public class RestoresDatabase
 
 	public static final String getMPRange( final String name )
 	{
-		if ( name == null )
+		if ( name == null || !RestoresDatabase.pathSafeMP( name ) )
 		{
 			return "";
 		}
@@ -508,8 +508,13 @@ public class RestoresDatabase
 		return RestoresDatabase.mpMinByName.get( restore ).equals( "[MP]" );
 	}
 
-	private static final boolean pathSafe( final String hpRestore )
+	public static final boolean pathSafeHP( final String hpRestore )
 	{
+		if ( KoLCharacter.isVampyre() )
+		{
+			return false;
+		}
+
 		if ( KoLCharacter.isEd() )
 		{
 			return hpRestore.equals( "cotton bandages" ) || hpRestore.equals( "linen bandages" ) || hpRestore.equals( "silk bandages" );
@@ -518,6 +523,15 @@ public class RestoresDatabase
 		if ( KoLCharacter.isPlumber() )
 		{
 			return hpRestore.equals( "mushroom" ) || hpRestore.equals( "deluxe mushroom" ) || hpRestore.equals( "super deluxe mushroom" );
+		}
+		return true;
+	}
+
+	public static final boolean pathSafeMP( final String mpRestore )
+	{
+		if ( KoLCharacter.isVampyre() )
+		{
+			return false;
 		}
 		return true;
 	}

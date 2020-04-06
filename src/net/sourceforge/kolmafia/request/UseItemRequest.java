@@ -520,11 +520,21 @@ public class UseItemRequest
 			return SpleenItemRequest.maximumUses( itemId, itemName, spleenHit );
 		}
 
-		long restorationMaximum = UseItemRequest.getRestorationMaximum( itemName );
-
 		if ( itemId <= 0 )
 		{
 			return Integer.MAX_VALUE;
+		}
+
+		long restorationMaximum = 0;
+		if ( RestoresDatabase.isRestore( itemId ) )
+		{
+			if ( !RestoresDatabase.pathSafeHP( itemName ) ||
+			     !RestoresDatabase.pathSafeMP( itemName ) )
+			{
+				UseItemRequest.limiter = "uselessness in this path";
+				return 0;
+			}
+			restorationMaximum = UseItemRequest.getRestorationMaximum( itemName );
 		}
 
 		// Set reasonable default if the item fails to set a specific reason
