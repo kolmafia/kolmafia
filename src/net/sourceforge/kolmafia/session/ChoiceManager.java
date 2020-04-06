@@ -7169,6 +7169,14 @@ public abstract class ChoiceManager
 
 			if ( ChoiceManager.invokeChoiceAdventureScript( choice, responseText ) )
 			{
+				if ( FightRequest.choiceFollowsFight )
+				{
+					// The choice redirected to a fight, which was immediately lost,
+					// but which leads to another choice.
+					// Let the caller automate that one, if desired.
+					return;
+				}
+
 				if ( !ChoiceManager.handlingChoice )
 				{
 					// The choiceAdventureScript processed this choice.
