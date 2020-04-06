@@ -1067,6 +1067,16 @@ public class KoLAdventure
 			return;
 		}
 
+		if ( this.adventureId.equals( AdventurePool.GUANO_JUNCTION_ID ) )
+		{
+			if ( KoLCharacter.getElementalResistanceLevels( Element.STENCH ) < 1 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't stand the stench" );
+				this.isValidAdventure = false;
+			}
+			return;
+		}
+
 		if ( this.adventureId.equals( AdventurePool.BATRAT_ID ) ||
 		     this.adventureId.equals( AdventurePool.BEANBAT_ID ) ||
 		     this.adventureId.equals( AdventurePool.BOSSBAT_ID ) )

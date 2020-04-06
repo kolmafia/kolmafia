@@ -42,6 +42,7 @@ public class AdventurePool
 	public static final int FRAT_HOUSE_DISGUISED = 29;
 	public static final int BAT_HOLE_ENTRYWAY = 30;
 	public static final int GUANO_JUNCTION = 31;
+	public static final String GUANO_JUNCTION_ID = "31";
 	public static final int BATRAT = 32;
 	public static final String BATRAT_ID = "32";
 	public static final int BEANBAT = 33;
