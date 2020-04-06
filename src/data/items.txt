@@ -10537,5 +10537,5 @@
 10509	flimsy ski pole	552591074	lhmskipole.gif	offhand	q	0
 10510	discarded finger painting	326011606	lhmfingerpaint.gif	offhand	q	0
 10511	old pizza box	463349451	lhmpizzabox.gif	offhand	q	0
-10512
+10512	chipped coffee mug	559241043	lhmmug.gif	offhand	q	0
 10513	Left-Hand Man action figure	125983737	lhmlarva.gif	offhand	t	0
