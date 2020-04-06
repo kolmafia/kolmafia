@@ -525,7 +525,7 @@ public class UseItemRequest
 			return Integer.MAX_VALUE;
 		}
 
-		long restorationMaximum = 0;
+		long restorationMaximum = Long.MAX_VALUE;
 		if ( RestoresDatabase.isRestore( itemId ) )
 		{
 			if ( !RestoresDatabase.pathSafeHP( itemName ) ||
