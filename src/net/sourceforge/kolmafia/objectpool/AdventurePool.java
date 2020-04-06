@@ -174,6 +174,7 @@ public class AdventurePool
 	public static final int WARBEAR_FORTRESS_LEVEL_THREE = 368;
 	public static final int YE_OLDE_MEDIEVALE_VILLAGEE = 380;
 	public static final int HAUNTED_KITCHEN = 388;
+	public static final int HAUNTED_BILLIARDS_ROOM = 391;
 	public static final int ZEPPELIN_PROTESTORS = 384;
 	public static final String ZEPPELIN_PROTESTORS_ID = "384";
 	public static final int RED_ZEPPELIN = 385;

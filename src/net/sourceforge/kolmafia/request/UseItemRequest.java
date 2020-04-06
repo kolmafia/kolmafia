@@ -2925,7 +2925,9 @@ public class UseItemRequest
 			ResultProcessor.processItem( ItemPool.SPOOKY_SAPLING, -1 );
 			ResultProcessor.processItem( ItemPool.SPOOKY_FERTILIZER, -1 );
 
+			QuestDatabase.setQuestProgress( Quest.TEMPLE, QuestDatabase.FINISHED );
 			Preferences.setInteger( "lastTempleUnlock", KoLCharacter.getAscensions() );
+
 			// If quest Gotta Worship Them All is started, this completes step 1
 			if ( QuestDatabase.isQuestLaterThan( Quest.WORSHIP, QuestDatabase.UNSTARTED ) )
 			{
