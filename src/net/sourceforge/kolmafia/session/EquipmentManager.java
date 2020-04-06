@@ -856,8 +856,9 @@ public class EquipmentManager
 					KoLCharacter.removeAvailableSkill( "Beach Combo" );
 					break;
 				case ItemPool.POWERFUL_GLOVE:
-					KoLCharacter.removeAvailableSkill( "CHEAT CODE: Invisible Avatar" );
-					KoLCharacter.removeAvailableSkill( "CHEAT CODE: Triple Size" );
+					// *** Special case: the buffs are always available
+					// KoLCharacter.removeAvailableSkill( "CHEAT CODE: Invisible Avatar" );
+					// KoLCharacter.removeAvailableSkill( "CHEAT CODE: Triple Size" );
 					KoLCharacter.removeAvailableSkill( "CHEAT CODE: Replace Enemy" );
 					KoLCharacter.removeAvailableSkill( "CHEAT CODE: Shrink Enemy" );
 					break;
@@ -1162,8 +1163,9 @@ public class EquipmentManager
 			KoLCharacter.addAvailableSkill( "Beach Combo" );
 			break;
 		case ItemPool.POWERFUL_GLOVE:
-			KoLCharacter.addAvailableSkill( "CHEAT CODE: Invisible Avatar" );
-			KoLCharacter.addAvailableSkill( "CHEAT CODE: Triple Size" );
+			// *** Special case: the buffs are always available
+			// KoLCharacter.addAvailableSkill( "CHEAT CODE: Invisible Avatar" );
+			// KoLCharacter.addAvailableSkill( "CHEAT CODE: Triple Size" );
 			KoLCharacter.addAvailableSkill( "CHEAT CODE: Replace Enemy" );
 			KoLCharacter.addAvailableSkill( "CHEAT CODE: Shrink Enemy" );
 			break;

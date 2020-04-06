@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.Speculation;
 
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
@@ -249,6 +250,8 @@ public class UseSkillRequest
 	public static final AdventureResult SAUCEBLOB_BELT = ItemPool.get( ItemPool.SAUCEBLOB_BELT, 1 );
 	public static final AdventureResult JUJU_MOJO_MASK = ItemPool.get( ItemPool.JUJU_MOJO_MASK, 1 );
 
+	public static final AdventureResult POWERFUL_GLOVE = ItemPool.get( ItemPool.POWERFUL_GLOVE, 1 );
+
 	private static final AdventureResult[] AVOID_REMOVAL = new AdventureResult[]
 	{
 		UseSkillRequest.BASS_CLARINET,	// -3
@@ -268,13 +271,15 @@ public class UseSkillRequest
 		UseSkillRequest.EMBLEM_AKGYXOTH,	// -1
 		// Removing the following may lose a buff
 		UseSkillRequest.JUJU_MOJO_MASK,
+		// Removing the following may make some skills impossible to case
+		UseSkillRequest.POWERFUL_GLOVE,
 	};
 
 	// The number of items at the end of AVOID_REMOVAL that are simply
 	// there to avoid removal - there's no point in equipping them
 	// temporarily during casting:
 
-	private static final int AVOID_REMOVAL_ONLY = 1;
+	private static final int AVOID_REMOVAL_ONLY = 2;
 
 	// Other known MP cost items:
 	// Vile Vagrant Vestments (-5) - unlikely to be equippable during Ronin.
@@ -1150,6 +1155,33 @@ public class UseSkillRequest
 			}
 		}
 
+		// *** Powerful Glove buffs only work if the glove is equipped.
+		if ( skillId == SkillPool.INVISIBLE_AVATAR ||
+		     skillId == SkillPool.TRIPLE_SIZE )
+		{
+			AdventureResult item = UseSkillRequest.POWERFUL_GLOVE;
+			if ( !KoLCharacter.hasEquipped( item ) )
+			{
+				if ( !InventoryManager.retrieveItem( item ) )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "Cannot acquire Powerful Glove." );
+					return;
+				}
+
+				// Find an accessory slot to equip the Powerful Glove
+				boolean slot1Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY1, item, skillId );
+				boolean slot2Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY2, item, skillId );
+				boolean slot3Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY3, item, skillId );
+
+				int slot = UseSkillRequest.attemptSwitch( skillId, item, slot1Allowed, slot2Allowed, slot3Allowed );
+				if ( slot == -1 )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "Cannot choose slot to equip Powerful Glove." );
+					return;
+				}
+			}
+		}
+
 		if ( Preferences.getBoolean( "switchEquipmentForBuffs" ) )
 		{
 			UseSkillRequest.reduceManaConsumption( skillId );
@@ -1194,8 +1226,8 @@ public class UseSkillRequest
 		return true;
 	}
 
-	private static final int attemptSwitch( final int skillId, final AdventureResult item, final boolean slot1Allowed,
-		final boolean slot2Allowed, final boolean slot3Allowed )
+	private static final int attemptSwitch( final int skillId, final AdventureResult item,
+						final boolean slot1Allowed, final boolean slot2Allowed, final boolean slot3Allowed )
 	{
 		if ( slot3Allowed )
 		{
@@ -1220,9 +1252,10 @@ public class UseSkillRequest
 
 	private static final void reduceManaConsumption( final int skillId )
 	{
-		long mpCost = SkillDatabase.getMPConsumptionById( skillId );
 		// Never bother trying to reduce mana consumption when casting
 		// expensive skills or a libram skill
+
+		long mpCost = SkillDatabase.getMPConsumptionById( skillId );
 
 		if ( mpCost > 50 ||
 		     SkillDatabase.isLibramSkill( skillId ) ||
@@ -1247,27 +1280,29 @@ public class UseSkillRequest
 				return;
 			}
 
+			AdventureResult item = UseSkillRequest.AVOID_REMOVAL[ i ];
+
 			// If you haven't got it or can't wear it, don't evaluate further
-			if ( !UseSkillRequest.canSwitchToItem( UseSkillRequest.AVOID_REMOVAL[ i ] ) )
+			if ( !UseSkillRequest.canSwitchToItem( item ) )
 			{
 				continue;
 			}
 
 			// Items in G-Lover don't help unless they have G's
-			if ( KoLCharacter.inGLover() && !KoLCharacter.hasGs( UseSkillRequest.AVOID_REMOVAL[ i ].getName() ) )
+			if ( KoLCharacter.inGLover() && !KoLCharacter.hasGs( item.getName() ) )
 			{
 				continue;
 			}
 
 			// Some items only sometimes help
-			if ( UseSkillRequest.AVOID_REMOVAL[ i ].getItemId() == ItemPool.PANTOGRAM_PANTS )
+			if ( item.getItemId() == ItemPool.PANTOGRAM_PANTS )
 			{
 				if ( !Preferences.getString( "_pantogramModifier" ).contains( "Mana Cost" ) )
 				{
 					continue;
 				}
 			}
-			else if ( UseSkillRequest.AVOID_REMOVAL[ i ].getItemId() == ItemPool.KREMLIN_BRIEFCASE )
+			else if ( item.getItemId() == ItemPool.KREMLIN_BRIEFCASE )
 			{
 				if ( Modifiers.getItemModifiers( ItemPool.KREMLIN_BRIEFCASE ).get( Modifiers.MANA_COST ) == 0 )
 				{
@@ -1276,25 +1311,24 @@ public class UseSkillRequest
 			}
 
 			// If you won't lose max hp, current mp, or songs, use it
-			int slot = EquipmentManager.itemIdToEquipmentType( UseSkillRequest.AVOID_REMOVAL[ i ].getItemId() );
+			int slot = EquipmentManager.itemIdToEquipmentType( item.getItemId() );
 			if ( slot == EquipmentManager.ACCESSORY1 )
 			{
 				// First determine which slots are available for switching in
 				// MP reduction items.  This has do be done inside the loop now
 				// that max HP/MP prediction is done, since two changes that are
 				// individually harmless might add up to a loss of points.
-				boolean slot1Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY1, UseSkillRequest.AVOID_REMOVAL[ i ], skillId );
-				boolean slot2Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY2, UseSkillRequest.AVOID_REMOVAL[ i ], skillId );
-				boolean slot3Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY3, UseSkillRequest.AVOID_REMOVAL[ i ], skillId );
+				boolean slot1Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY1, item, skillId );
+				boolean slot2Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY2, item, skillId );
+				boolean slot3Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY3, item, skillId );
 
-				UseSkillRequest.attemptSwitch(
-					skillId, UseSkillRequest.AVOID_REMOVAL[ i ], slot1Allowed, slot2Allowed, slot3Allowed );
+				UseSkillRequest.attemptSwitch( skillId, item, slot1Allowed, slot2Allowed, slot3Allowed );
 			}
 			else
 			{
-				if ( UseSkillRequest.isValidSwitch( slot, UseSkillRequest.AVOID_REMOVAL[ i ], skillId ) )
+				if ( UseSkillRequest.isValidSwitch( slot, item, skillId ) )
 				{
-					( new EquipmentRequest( UseSkillRequest.AVOID_REMOVAL[ i ], slot ) ).run();
+					( new EquipmentRequest( item, slot ) ).run();
 				}
 			}
 
@@ -1389,16 +1423,6 @@ public class UseSkillRequest
 			return;
 		}
 
-		// Optimizing equipment can involve changing equipment.
-		// Save a checkpoint so we can restore previous equipment.
-
-		UseSkillRequest.optimizeEquipment( this.skillId );
-
-		if ( !KoLmafia.permitsContinue() )
-		{
-			return;
-		}
-
 		long available = this.getMaximumCast();
 		if ( available == 0 )
 		{
@@ -1420,14 +1444,25 @@ public class UseSkillRequest
 			ChoiceManager.setSkillUses( (int)this.buffCount );
 		}
 
+		// Optimizing equipment can involve changing equipment.
+		// Save a checkpoint so we can restore previous equipment.
+		Checkpoint checkpoint = new Checkpoint();
 		try
 		{
+			UseSkillRequest.optimizeEquipment( this.skillId );
+			if ( KoLmafia.refusesContinue() )
+			{
+				UseSkillRequest.lastUpdate = "Unable to change equipment to cast skill.";
+				return;
+			}
+
 			this.isRunning = true;
 			this.useSkillLoop();
 		}
 		finally
 		{
 			this.isRunning = false;
+			checkpoint.restore();
 		}
 	}
 
@@ -1665,14 +1700,6 @@ public class UseSkillRequest
 			if ( currentCast > 0 )
 			{
 				// Attempt to cast the buff.
-
-				UseSkillRequest.optimizeEquipment( this.skillId );
-
-				if ( KoLmafia.refusesContinue() )
-				{
-					UseSkillRequest.lastUpdate = "Error encountered during cast attempt.";
-					return;
-				}
 
 				if ( this.isBuff )
 				{

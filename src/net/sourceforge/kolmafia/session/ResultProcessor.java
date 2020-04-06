@@ -3536,6 +3536,11 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.POWERFUL_GLOVE:
+			// *** Special case: the buffs are always available
+			KoLCharacter.addAvailableSkill( "CHEAT CODE: Invisible Avatar" );
+			KoLCharacter.addAvailableSkill( "CHEAT CODE: Triple Size" );
+			break;
 		}
 
 		// Gaining items can achieve goals.

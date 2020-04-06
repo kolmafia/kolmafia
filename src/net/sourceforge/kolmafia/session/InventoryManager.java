@@ -94,6 +94,7 @@ import net.sourceforge.kolmafia.request.SewerRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.session.Limitmode;
 
@@ -1946,6 +1947,17 @@ public abstract class InventoryManager
 				ResponseTextParser.learnSkill( "The Smile of Mr. A." );
 			}
 			Preferences.setInteger( "goldenMrAccessories", newCount );
+		}
+	}
+
+	public static void checkPowerfulGlove()
+	{
+		if ( KoLCharacter.hasEquipped( UseSkillRequest.POWERFUL_GLOVE ) ||
+		     InventoryManager.hasItem( UseSkillRequest.POWERFUL_GLOVE, false ) )
+		{
+			// *** Special case: the buffs are always available
+			KoLCharacter.addAvailableSkill( "CHEAT CODE: Invisible Avatar" );
+			KoLCharacter.addAvailableSkill( "CHEAT CODE: Triple Size" );
 		}
 	}
 

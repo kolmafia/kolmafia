@@ -1016,6 +1016,9 @@ public abstract class KoLmafia
 		InventoryManager.checkLatte();
 		InventoryManager.checkSaber();
 
+		// Items that conditionally grant skills
+		InventoryManager.checkPowerfulGlove();
+
 		// Check Horsery if we haven't today
 		if ( Preferences.getBoolean( "horseryAvailable" ) && Preferences.getString( "_horseryCrazyMox" ).length() == 0 )
 		{
