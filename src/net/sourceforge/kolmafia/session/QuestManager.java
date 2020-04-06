@@ -2485,6 +2485,13 @@ public class QuestManager
 			}
 			break;
 
+		case AdventurePool.HAUNTED_BILLIARDS_ROOM:
+			if ( responseText.contains( "That's your cue" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_NECKLACE, "step2" );
+			}
+			break;
+
 		case AdventurePool.BLACK_FOREST:
 			if ( responseText.contains( "discover the trail leading to the Black Market" ) )
 			{
