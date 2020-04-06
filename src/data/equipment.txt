@@ -1727,6 +1727,7 @@ Chalice of the Malkovich Prince	0	none
 chalk chalice	50	none
 charged druidic orb	0	none
 charged magnet	30	none
+chipped coffee mug	0	none
 Cloaca-Cola shield	70	none	shield
 clockwork detective skull	80	Mox: 25
 clownskin buckler	60	Mus: 15	shield
