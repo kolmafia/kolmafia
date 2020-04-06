@@ -1030,10 +1030,7 @@ public class KoLAdventure
 
 		if ( this.adventureId.equals( AdventurePool.AIRSHIP_ID ) )
 		{
-			GenericRequest request = new PlaceRequest( "plains" );
-			RequestThread.postRequest( request );
-
-			if ( request.responseText.contains( "place.php?whichplace=beanstalk" ) )
+			if ( QuestDatabase.isQuestLaterThan( Quest.GARBAGE, QuestDatabase.STARTED ) )
 			{
 				return;
 			}
