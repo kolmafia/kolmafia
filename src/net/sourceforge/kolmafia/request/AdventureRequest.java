@@ -44,7 +44,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 
@@ -1351,7 +1350,13 @@ public class AdventureRequest
 		{
 			if ( formSource.contains( "which=" ) )
 			{
-				AdventureSpentDatabase.setNoncombatEncountered( true );
+				if ( !formSource.contains( "mine=6" ) )
+				{
+					// The Velvet / Gold Mine (mine=6) does not show up as the Last Adventure in
+					// charpane/api, so we can't track turns_spent there.  To avoid counting it
+					// for the wrong location, don't count it anywhere.
+					AdventureSpentDatabase.setNoncombatEncountered( true );
+				}
 			}
 			return false;
 		}
