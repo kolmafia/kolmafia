@@ -85,7 +85,7 @@ public class LatteCommand
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Use command 'latte refill ingredient1 ingredient2 ingredient3'. Use 'latte unlocked' to show available ingredients." );
 				return;
 			}			
-			LatteRequest.refill( params[1].toLowerCase().trim(), params[2].toLowerCase().trim(), params[3].toLowerCase().trim() );
+			LatteRequest.refill( params[1].trim().toLowerCase(), params[2].trim().toLowerCase(), params[3].trim().toLowerCase() );
 		}
 		else
 		{
