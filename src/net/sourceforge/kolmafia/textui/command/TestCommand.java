@@ -1078,12 +1078,12 @@ public class TestCommand
 		if ( command.equals( "fight" ) )
 		{
 			int round = split.length > 1 ? StringUtilities.parseInt( split[ 1 ].trim() ) : -1;
-			String adventureName = split.length > 2 ? split[ 2 ].trim() : Preferences.getString( "nextAdventure" );
 			String responseText = TestCommand.contents;
 			if ( round >= 0 )
 			{
+				String adventureName = split.length > 2 ? split[ 2 ].trim() : Preferences.getString( "nextAdventure" );
 				KoLAdventure.setLastAdventure( AdventureDatabase.getAdventure( adventureName ) );
-				String encounter = AdventureRequest.parseCombatEncounter( responseText );
+				String encounter = split.length > 3 ? split[ 3 ].trim() : AdventureRequest.parseCombatEncounter( responseText );
 				FightRequest.setCurrentEncounter( encounter );
 				String monster = AdventureRequest.translateGenericType( encounter, responseText );
 				MonsterStatusTracker.setNextMonsterName( monster );

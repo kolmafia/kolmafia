@@ -6551,27 +6551,31 @@ public class FightRequest
 		}
 
 		// Find the monster tag
-		TagNode mon = findMonsterTag( node );
-		if ( mon == null )
+		TagNode mon = findMonsterTag( node, logIt );
+		if ( mon != null )
 		{
-			if ( logIt )
-			{
-				RequestLogger.printLine( "Cannot find monster." );
-			}
-			return null;
+			return findFightNode( mon, logIt );
 		}
 
-		// Find the top of the parse tree
-		TagNode fight = findFightNode( mon );
-		if ( fight == null )
+		// Attempt to find top of fight the hard way.
+
+		// <td style="color: white;" align=center bgcolor=blue><b>Combat!</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td>
+
+		// We (probably) want the second <center> tag; the first one
+		// holds the whole combat table
+
+		TagNode[] nodes = node.getElementsByName( "center", true);
+		if ( nodes != null || nodes.length >= 2 )
 		{
-			if ( logIt )
-			{
-				RequestLogger.printLine( "Cannot find combat results." );
-			}
-			return null;
+			return nodes[1].getParent();
 		}
-		return fight;
+
+		if ( logIt )
+		{
+			RequestLogger.printLine( "Cannot find combat results." );
+		}
+
+		return null;
 	}
 
 	private static final TagNode cleanFightHTML( final String text )
@@ -6580,13 +6584,8 @@ public class FightRequest
 		return cleaner.clean( text );
 	}
 
-	private static final TagNode findMonsterTag( final TagNode node )
+	private static final TagNode findMonsterTag( final TagNode node, final boolean logIt )
 	{
-		if ( node == null )
-		{
-			return null;
-		}
-
 		// Look first for 'monpic' image.
 		// All haiku monsters and most normal monsters have that.
 		TagNode mon = node.findElementByAttValue( "id", "monpic", true, false );
@@ -6596,10 +6595,16 @@ public class FightRequest
 		{
 			mon = node.findElementByAttValue( "id", "monname", true, false );
 		}
+
+		if ( mon == null && logIt )
+		{
+			RequestLogger.printLine( "Cannot find monster." );
+		}
+
 		return mon;
 	}
 
-	private static final TagNode findFightNode( final TagNode mon )
+	private static final TagNode findFightNode( final TagNode mon, final boolean logIt )
 	{
 		// Walk up the tree and find <center>
 		//
@@ -6615,6 +6620,12 @@ public class FightRequest
 				return fight.getParent();
 			}
 		}
+
+		if ( logIt )
+		{
+			RequestLogger.printLine( "Cannot find combat results." );
+		}
+
 		return null;
 	}
 
@@ -6781,22 +6792,9 @@ public class FightRequest
 				return;
 			}
 
-			TagNode [] tables = node.getElementsByName( "table", true );
-			for ( int i = 0; i < tables.length; ++i )
-			{
-				TagNode table = tables[i];
-				table.getParent().removeChild( table );
-			}
-
 			if ( FightRequest.processTable( node, status ) )
 			{
 				FightRequest.processChildren( node, status );
-			}
-
-			for ( int i = 0; i < tables.length; ++i )
-			{
-				TagNode table = tables[i];
-				FightRequest.processNode( table, status );
 			}
 
 			return;
