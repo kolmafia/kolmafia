@@ -449,7 +449,7 @@ public class Evaluator
 				{
 					// Otherwise, pick best available tool
 					// You are guaranteed to have work boots, at least
-					pickPlumberTool( -1, true );
+					item = pickPlumberTool( -1, true );
 				}
 				this.posEquip.add( item );
 				continue;
