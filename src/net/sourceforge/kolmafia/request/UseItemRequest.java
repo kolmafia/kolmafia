@@ -528,8 +528,9 @@ public class UseItemRequest
 		long restorationMaximum = Long.MAX_VALUE;
 		if ( RestoresDatabase.isRestore( itemId ) )
 		{
-			if ( !RestoresDatabase.pathSafeHP( itemName ) ||
-			     !RestoresDatabase.pathSafeMP( itemName ) )
+			// If neither HP or MP is usable in this path, unusable item
+			if ( RestoresDatabase.getHPAverage( itemName ) == 0 &&
+			     RestoresDatabase.getMPAverage( itemName ) == 0 )
 			{
 				UseItemRequest.limiter = "uselessness in this path";
 				return 0;
