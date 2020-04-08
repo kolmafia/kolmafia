@@ -5417,7 +5417,24 @@ public class FightRequest
 	private static final void logSpecialDamage( final String text, TagStatus status )
 	{
 		if ( text.contains( "continues to bleed" ) ||
-		     text.contains( "from the poison" ) )
+		     text.contains( "from the poison" ) ||
+		     text.contains( "wave of toddlers" ) ||
+		     text.contains( "second wave follows" ) ||
+		     text.contains( "third group arrives" ) ||
+		     text.contains( "Bone Homie floats" ) ||
+		     text.contains( "Your stomach gurgles" ) ||
+		     text.contains( "Your insides vibrate" ) ||
+		     text.contains( "Your pygmy buddy staggers" ) ||
+		     text.contains( "disgusting coating of mayonnaise" ) ||
+		     text.contains( "EVISCERATE" ) ||
+		     text.contains( "sound of distant thunder" ) ||
+		     text.contains( "horrible stench of your armpits" ) ||
+		     text.contains( "burning beard hair" ) ||
+		     text.contains( "belch flames at your foe" ) ||
+		     text.contains( "damage from the demonic fire" ) ||
+		     text.contains( "Your dalmatian bites your opponent" ) ||
+		     text.contains( "burns you from head to toe" ) ||
+		     false )
 		{
 			FightRequest.logText( text, status );
 		}
@@ -6792,9 +6809,22 @@ public class FightRequest
 				return;
 			}
 
+			TagNode [] tables = node.getElementsByName( "table", true );
+			for ( int i = 0; i < tables.length; ++i )
+			{
+				TagNode table = tables[i];
+				table.getParent().removeChild( table );
+			}
+
 			if ( FightRequest.processTable( node, status ) )
 			{
 				FightRequest.processChildren( node, status );
+			}
+	
+			for ( int i = 0; i < tables.length; ++i )
+			{
+				TagNode table = tables[i];
+				FightRequest.processNode( table, status );
 			}
 
 			return;
