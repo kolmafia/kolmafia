@@ -702,6 +702,23 @@ public class EquipmentRequest
 		case ItemPool.SPELUNKY_SPIKED_BOOTS:
 			// Spelunky only has one "accessory" slot
 			return EquipmentManager.ACCESSORY1;
+		case ItemPool.WORK_BOOTS:
+		case ItemPool.FANCY_BOOTS:
+		{
+			// These are mutually exclusive. If you are wearing one and
+			// want to equip the other, choose the same accessory slot
+			int slot = KoLCharacter.equipmentSlot( ItemPool.get( ItemPool.WORK_BOOTS, 1 ) );
+			if ( slot != -1 )
+			{
+				return slot;
+			}
+			slot = KoLCharacter.equipmentSlot( ItemPool.get( ItemPool.FANCY_BOOTS, 1 ) );
+			if ( slot != -1 )
+			{
+				return slot;
+			}
+			return EquipmentRequest.availableAccessory();
+		}
 		}
 
 		int equipmentType = ItemDatabase.getConsumptionType( itemId );
