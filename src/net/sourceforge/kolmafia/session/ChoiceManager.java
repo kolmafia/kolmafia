@@ -2965,7 +2965,7 @@ public abstract class ChoiceManager
 		// Choice 805 is A Sietch in Time
 		new ChoiceAdventure(
 			"Beach", "choiceAdventure805", "Arid, Extra-Dry Desert",
-			new Object[] { "stop talking to Gnasir" } ),
+			new Object[] { "talk to Gnasir" } ),
 
 		// Choice 808 is Silence at Last.
 		new ChoiceAdventure(
