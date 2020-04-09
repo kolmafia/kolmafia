@@ -2362,7 +2362,7 @@ public class QuestManager
 		{
 			QuestDatabase.setQuestProgress( Quest.BAT, "step4" );
 		}
-		else if ( monsterName.equals( "Richardo Belmont" ) )
+		else if ( monsterName.equals( "Ricardo Belmont" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.GOBLIN, QuestDatabase.FINISHED );
 		}

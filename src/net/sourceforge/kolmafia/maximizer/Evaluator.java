@@ -2539,7 +2539,6 @@ public class Evaluator
 
 			Iterator<AdventureResult> i = outfitPieces.keySet().iterator();
 			while ( i.hasNext() )
-			for ( AdventureResult item : outfitPieces.keySet() )
  			{
 				id = i.next().getItemId();
 				if ( EquipmentManager.itemIdToEquipmentType( id ) == EquipmentManager.WEAPON &&
