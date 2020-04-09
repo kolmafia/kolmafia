@@ -289,9 +289,7 @@ public class QuestManager
 		{
 			handleGuildChange( responseText );
 		}
-		else if ( location.contains( "whichplace=highlands" ) ||
-		          locationId.equals( AdventurePool.ABOO_PEAK_ID ) ||
-		          locationId.equals( AdventurePool.OIL_PEAK_ID ) )
+		else if ( location.contains( "whichplace=highlands" ) )
 		{
 			handleHighlandsChange( location, responseText );
 		}
@@ -1378,8 +1376,7 @@ public class QuestManager
 				QuestDatabase.setQuestProgress( Quest.TOPPING, QuestDatabase.FINISHED );
 			}
 		}
-		if ( location.contains( AdventurePool.ABOO_PEAK_ID ) && responseText.contains( "Come On Ghosty, Light My Pyre" ) ||
-			responseText.contains( "orcchasm/fire1.gif" ) )
+		if ( responseText.contains( "orcchasm/fire1.gif" ) )
 		{
 			Preferences.setBoolean( "booPeakLit", true );
 			Preferences.setInteger( "booPeakProgress", 0 );
@@ -1388,8 +1385,7 @@ public class QuestManager
 		{
 			Preferences.setInteger( "twinPeakProgress", 15 );
 		}
-		if ( location.contains( AdventurePool.OIL_PEAK_ID ) && responseText.contains( "Unimpressed with Pressure" ) ||
-			responseText.contains( "orcchasm/fire3.gif" ) )
+		if ( responseText.contains( "orcchasm/fire3.gif" ) )
 		{
 			Preferences.setBoolean( "oilPeakLit", true );
 			Preferences.setInteger( "oilPeakProgress", 0 );
@@ -2486,9 +2482,25 @@ public class QuestManager
 			break;
 
 		case AdventurePool.HAUNTED_BILLIARDS_ROOM:
-			if ( responseText.contains( "That's your cue" ) )
+			if ( responseText.contains( "That's Your Cue" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_NECKLACE, "step2" );
+			}
+			break;
+
+		case AdventurePool.ABOO_PEAK:
+			if ( responseText.contains( "Come On Ghosty, Light My Pyre" ) )
+			{
+				Preferences.setBoolean( "booPeakLit", true );
+				Preferences.setInteger( "booPeakProgress", 0 );
+			}
+			break;
+
+		case AdventurePool.OIL_PEAK:
+			if ( responseText.contains( "Unimpressed with Pressure" ) )
+			{
+				Preferences.setBoolean( "oilPeakLit", true );
+				Preferences.setInteger( "oilPeakProgress", 0 );
 			}
 			break;
 
