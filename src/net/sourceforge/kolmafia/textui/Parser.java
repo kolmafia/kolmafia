@@ -3232,7 +3232,7 @@ public class Parser
 			// Typed plural constant - handled by same code as plain strings
 			// so that they can share escape character processing
 			stopCharacter = ']';
-			allowComments = type.getBaseType().getType() != DataTypes.TYPE_STRING;
+			allowComments = true;
 			list = new ArrayList<Value>();
 		}
 
