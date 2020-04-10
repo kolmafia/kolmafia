@@ -576,11 +576,6 @@ public class KoLAdventure
 
 		if ( this.adventureId.equals( AdventurePool.AIRSHIP_ID ) )
 		{
-			if ( !QuestDatabase.isQuestLaterThan( Quest.GARBAGE, QuestDatabase.STARTED ) )
-			{
-				return;
-			}
-				
 			if ( KoLCharacter.isKingdomOfExploathing() )
 			{
 				return;
