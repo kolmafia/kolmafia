@@ -152,6 +152,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
@@ -4500,7 +4501,8 @@ public abstract class RuntimeLibrary
 
 	public static Value my_garden_type( Interpreter interpreter )
 	{
-		return new Value( CampgroundRequest.getCropType().name().toLowerCase() );
+		CropType crop = CampgroundRequest.getCropType();
+		return new Value( crop == null ? "none" : crop.name().toLowerCase() );
 	}
 
 	private static final int WAD2POWDER = -12;	// <elem> powder - <elem> wad
