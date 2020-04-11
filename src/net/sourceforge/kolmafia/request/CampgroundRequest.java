@@ -1196,52 +1196,52 @@ public class CampgroundRequest
 
 	private static final boolean parseGarden( final String responseText )
 	{
-		return  findImage( responseText, "pumpkinpatch_0.gif", ItemPool.PUMPKIN, 0 ) ||
-			findImage( responseText, "pumpkinpatch_1.gif", ItemPool.PUMPKIN, 1 ) ||
-			findImage( responseText, "pumpkinpatch_2.gif", ItemPool.PUMPKIN, 2 ) ||
-			findImage( responseText, "pumpkinpatch_3.gif", ItemPool.PUMPKIN, 3 ) ||
-			findImage( responseText, "pumpkinpatch_4.gif", ItemPool.PUMPKIN, 4 ) ||
-			findImage( responseText, "pumpkinpatch_giant.gif", ItemPool.HUGE_PUMPKIN, 1 ) ||
-			findImage( responseText, "pumpkinpatch_ginormous.gif", ItemPool.GINORMOUS_PUMPKIN, 1 ) ||
-			findImage( responseText, "pepperpatch_0.gif", ItemPool.PEPPERMINT_SPROUT, 0 ) ||
-			findImage( responseText, "pepperpatch_1.gif", ItemPool.PEPPERMINT_SPROUT, 3 ) ||
-			findImage( responseText, "pepperpatch_2.gif", ItemPool.PEPPERMINT_SPROUT, 6 ) ||
-			findImage( responseText, "pepperpatch_3.gif", ItemPool.PEPPERMINT_SPROUT, 9 ) ||
-			findImage( responseText, "pepperpatch_4.gif", ItemPool.PEPPERMINT_SPROUT, 12 ) ||
-			findImage( responseText, "pepperpatch_huge.gif", ItemPool.GIANT_CANDY_CANE, 1 ) ||
-			findImage( responseText, "bonegarden0.gif", ItemPool.SKELETON, 0 ) ||
-			findImage( responseText, "bonegarden1.gif", ItemPool.SKELETON, 5 ) ||
-			findImage( responseText, "bonegarden2.gif", ItemPool.SKELETON, 10 ) ||
-			findImage( responseText, "bonegarden3.gif", ItemPool.SKELETON, 15 ) ||
-			findImage( responseText, "bonegarden4.gif", ItemPool.SKELETON, 20 ) ||
-			findImage( responseText, "bonegarden5.gif", ItemPool.SKELETON, 25 ) ||
+		return  findImage( responseText, "pumpkinpatch_0.gif", ItemPool.PUMPKIN, 0, ItemPool.PUMPKIN_SEEDS, 0 ) ||
+			findImage( responseText, "pumpkinpatch_1.gif", ItemPool.PUMPKIN, 1, ItemPool.PUMPKIN_SEEDS, 1 ) ||
+			findImage( responseText, "pumpkinpatch_2.gif", ItemPool.PUMPKIN, 2, ItemPool.PUMPKIN_SEEDS, 2 ) ||
+			findImage( responseText, "pumpkinpatch_3.gif", ItemPool.PUMPKIN, 3, ItemPool.PUMPKIN_SEEDS, 3 ) ||
+			findImage( responseText, "pumpkinpatch_4.gif", ItemPool.PUMPKIN, 4, ItemPool.PUMPKIN_SEEDS, 4 ) ||
+			findImage( responseText, "pumpkinpatch_giant.gif", ItemPool.HUGE_PUMPKIN, 1, ItemPool.PUMPKIN_SEEDS, 5 ) ||
+			findImage( responseText, "pumpkinpatch_ginormous.gif", ItemPool.GINORMOUS_PUMPKIN, 1, ItemPool.PUMPKIN_SEEDS, 11 ) ||
+			findImage( responseText, "pepperpatch_0.gif", ItemPool.PEPPERMINT_SPROUT, 0, ItemPool.PEPPERMINT_PACKET, 0 ) ||
+			findImage( responseText, "pepperpatch_1.gif", ItemPool.PEPPERMINT_SPROUT, 3, ItemPool.PEPPERMINT_PACKET, 1 ) ||
+			findImage( responseText, "pepperpatch_2.gif", ItemPool.PEPPERMINT_SPROUT, 6, ItemPool.PEPPERMINT_PACKET, 2 ) ||
+			findImage( responseText, "pepperpatch_3.gif", ItemPool.PEPPERMINT_SPROUT, 9, ItemPool.PEPPERMINT_PACKET, 3 ) ||
+			findImage( responseText, "pepperpatch_4.gif", ItemPool.PEPPERMINT_SPROUT, 12, ItemPool.PEPPERMINT_PACKET, 4 ) ||
+			findImage( responseText, "pepperpatch_huge.gif", ItemPool.GIANT_CANDY_CANE, 1, ItemPool.PEPPERMINT_PACKET, 5 ) ||
+			findImage( responseText, "bonegarden0.gif", ItemPool.SKELETON, 0, ItemPool.DRAGON_TEETH, 0 ) ||
+			findImage( responseText, "bonegarden1.gif", ItemPool.SKELETON, 5, ItemPool.DRAGON_TEETH, 1 ) ||
+			findImage( responseText, "bonegarden2.gif", ItemPool.SKELETON, 10, ItemPool.DRAGON_TEETH, 2 ) ||
+			findImage( responseText, "bonegarden3.gif", ItemPool.SKELETON, 15, ItemPool.DRAGON_TEETH, 3 ) ||
+			findImage( responseText, "bonegarden4.gif", ItemPool.SKELETON, 20, ItemPool.DRAGON_TEETH, 4 ) ||
+			findImage( responseText, "bonegarden5.gif", ItemPool.SKELETON, 25, ItemPool.DRAGON_TEETH, 5 ) ||
 			// This is day 6 for A Bone Garden.  It triggers a combat, so it should never be automatically picked.
 			// Setting a negative number of items will make it possible to tell that it isn't empty.
-			findImage( responseText, "bonegarden_spoilzlul.gif", ItemPool.SKELETON, -1 ) ||
-			findImage( responseText, "beergarden0.gif", ItemPool.BARLEY, 0 ) ||
-			findImage( responseText, "beergarden1.gif", ItemPool.BARLEY, 3 ) ||
-			findImage( responseText, "beergarden2.gif", ItemPool.BARLEY, 6 ) ||
-			findImage( responseText, "beergarden3.gif", ItemPool.FANCY_BEER_LABEL, 1 ) ||
-			findImage( responseText, "beergarden4.gif", ItemPool.FANCY_BEER_LABEL, 1 ) ||
-			findImage( responseText, "beergarden5.gif", ItemPool.FANCY_BEER_LABEL, 2 ) ||
-			findImage( responseText, "beergarden6.gif", ItemPool.FANCY_BEER_LABEL, 2 ) ||
-			findImage( responseText, "beergarden7.gif", ItemPool.FANCY_BEER_LABEL, 3 ) ||
-			findImage( responseText, "wintergarden0.gif", ItemPool.ICE_HARVEST, 0 ) ||
-			findImage( responseText, "wintergarden1.gif", ItemPool.ICE_HARVEST, 3 ) ||
-			findImage( responseText, "wintergarden2.gif", ItemPool.ICE_HARVEST, 6 ) ||
-			findImage( responseText, "wintergarden3.gif", ItemPool.FROST_FLOWER, 1 ) ||
-			findImage( responseText, "wintergarden4.gif", ItemPool.FROST_FLOWER, 1 ) ||
-			findImage( responseText, "wintergarden5.gif", ItemPool.FROST_FLOWER, 1 ) ||
-			findImage( responseText, "wintergarden6.gif", ItemPool.FROST_FLOWER, 1 ) ||
-			findImage( responseText, "wintergarden7.gif", ItemPool.FROST_FLOWER, 1 ) ||
-			findImage( responseText, "thanksgarden1.gif", ItemPool.CORNUCOPIA, 0 ) ||
-			findImage( responseText, "thanksgarden2.gif", ItemPool.CORNUCOPIA, 1 ) ||
-			findImage( responseText, "thanksgarden3.gif", ItemPool.CORNUCOPIA, 3 ) ||
-			findImage( responseText, "thanksgarden4.gif", ItemPool.CORNUCOPIA, 5 ) ||
-			findImage( responseText, "thanksgarden5.gif", ItemPool.CORNUCOPIA, 8 ) ||
-			findImage( responseText, "thanksgarden6.gif", ItemPool.CORNUCOPIA, 11 ) ||
-			findImage( responseText, "thanksgarden7.gif", ItemPool.CORNUCOPIA, 15 ) ||
-			findImage( responseText, "thanksgardenmega.gif", ItemPool.MEGACOPIA, 1 ) ||
+			findImage( responseText, "bonegarden_spoilzlul.gif", ItemPool.SKELETON, -1, ItemPool.DRAGON_TEETH, 6 ) ||
+			findImage( responseText, "beergarden0.gif", ItemPool.BARLEY, 0, ItemPool.BEER_SEEDS, 0 ) ||
+			findImage( responseText, "beergarden1.gif", ItemPool.BARLEY, 3, ItemPool.BEER_SEEDS, 1 ) ||
+			findImage( responseText, "beergarden2.gif", ItemPool.BARLEY, 6, ItemPool.BEER_SEEDS, 2 ) ||
+			findImage( responseText, "beergarden3.gif", ItemPool.FANCY_BEER_LABEL, 1, ItemPool.BEER_SEEDS, 3 ) ||
+			findImage( responseText, "beergarden4.gif", ItemPool.FANCY_BEER_LABEL, 1, ItemPool.BEER_SEEDS, 4 ) ||
+			findImage( responseText, "beergarden5.gif", ItemPool.FANCY_BEER_LABEL, 2, ItemPool.BEER_SEEDS, 5 ) ||
+			findImage( responseText, "beergarden6.gif", ItemPool.FANCY_BEER_LABEL, 2, ItemPool.BEER_SEEDS, 6 ) ||
+			findImage( responseText, "beergarden7.gif", ItemPool.FANCY_BEER_LABEL, 3, ItemPool.BEER_SEEDS, 7 ) ||
+			findImage( responseText, "wintergarden0.gif", ItemPool.ICE_HARVEST, 0, ItemPool.WINTER_SEEDS, 0 ) ||
+			findImage( responseText, "wintergarden1.gif", ItemPool.ICE_HARVEST, 3, ItemPool.WINTER_SEEDS, 1 ) ||
+			findImage( responseText, "wintergarden2.gif", ItemPool.ICE_HARVEST, 6, ItemPool.WINTER_SEEDS, 2 ) ||
+			findImage( responseText, "wintergarden3.gif", ItemPool.FROST_FLOWER, 1, ItemPool.WINTER_SEEDS, 3 ) ||
+			findImage( responseText, "wintergarden4.gif", ItemPool.FROST_FLOWER, 1, ItemPool.WINTER_SEEDS, 4 ) ||
+			findImage( responseText, "wintergarden5.gif", ItemPool.FROST_FLOWER, 1, ItemPool.WINTER_SEEDS, 5 ) ||
+			findImage( responseText, "wintergarden6.gif", ItemPool.FROST_FLOWER, 1, ItemPool.WINTER_SEEDS, 6 ) ||
+			findImage( responseText, "wintergarden7.gif", ItemPool.FROST_FLOWER, 1, ItemPool.WINTER_SEEDS, 7 ) ||
+			findImage( responseText, "thanksgarden1.gif", ItemPool.CORNUCOPIA, 0, ItemPool.THANKSGARDEN_SEEDS, 0 ) ||
+			findImage( responseText, "thanksgarden2.gif", ItemPool.CORNUCOPIA, 1, ItemPool.THANKSGARDEN_SEEDS, 1 ) ||
+			findImage( responseText, "thanksgarden3.gif", ItemPool.CORNUCOPIA, 3, ItemPool.THANKSGARDEN_SEEDS, 2 ) ||
+			findImage( responseText, "thanksgarden4.gif", ItemPool.CORNUCOPIA, 5, ItemPool.THANKSGARDEN_SEEDS, 3 ) ||
+			findImage( responseText, "thanksgarden5.gif", ItemPool.CORNUCOPIA, 8, ItemPool.THANKSGARDEN_SEEDS, 4 ) ||
+			findImage( responseText, "thanksgarden6.gif", ItemPool.CORNUCOPIA, 11, ItemPool.THANKSGARDEN_SEEDS, 5 ) ||
+			findImage( responseText, "thanksgarden7.gif", ItemPool.CORNUCOPIA, 15, ItemPool.THANKSGARDEN_SEEDS, 6 ) ||
+			findImage( responseText, "thanksgardenmega.gif", ItemPool.MEGACOPIA, 1, ItemPool.THANKSGARDEN_SEEDS, 7 ) ||
 			// Use special instances of the TallGrass extension of an AdventureResult
 			findImage( responseText, "grassgarden0.gif", NO_TALL_GRASS ) ||
 			findImage( responseText, "grassgarden1.gif", TALL_GRASS ) ||
@@ -1505,6 +1505,19 @@ public class CampgroundRequest
 		}
 
 		CampgroundRequest.setCampgroundItem( itemId, count );
+
+		return true;
+	}
+
+	private static boolean findImage( final String responseText, final String filename, final int itemId1, int count1, final int itemId2, int count2 )
+	{
+		if ( !responseText.contains( filename ) )
+		{
+			return false;
+		}
+
+		CampgroundRequest.setCampgroundItem( itemId1, count1 );
+		CampgroundRequest.setCampgroundItem( itemId2, count2 );
 
 		return true;
 	}
