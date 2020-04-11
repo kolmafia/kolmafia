@@ -881,6 +881,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "get_dwelling", DataTypes.ITEM_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_garden_type", DataTypes.STRING_TYPE, params ) );
+
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "get_related", DataTypes.ITEM_TO_INT_TYPE, params ) );
 
@@ -4493,6 +4496,11 @@ public abstract class RuntimeLibrary
 	public static Value get_dwelling( Interpreter interpreter )
 	{
 		return DataTypes.makeItemValue( CampgroundRequest.getCurrentDwelling().getItemId(), true );
+	}
+
+	public static Value my_garden_type( Interpreter interpreter )
+	{
+		return new Value( CampgroundRequest.getCropType().name().toLowerCase() );
 	}
 
 	private static final int WAD2POWDER = -12;	// <elem> powder - <elem> wad
