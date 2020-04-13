@@ -4997,6 +4997,7 @@ public class UseItemRequest
 		case ItemPool.WINTER_SEEDS:
 		case ItemPool.THANKSGARDEN_SEEDS:
 		case ItemPool.TALL_GRASS_SEEDS:
+		case ItemPool.MUSHROOM_SPORES:
 
 			if ( Limitmode.limitCampground() || KoLCharacter.isEd() || KoLCharacter.inNuclearAutumn() )
 			{

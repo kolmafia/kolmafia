@@ -309,6 +309,7 @@ public class CampgroundRequest
 		}
 	}
 
+	// Crops
 	public static final AdventureResult PUMPKIN = ItemPool.get( ItemPool.PUMPKIN, 1 );
 	public static final AdventureResult HUGE_PUMPKIN = ItemPool.get( ItemPool.HUGE_PUMPKIN, 1 );
 	public static final AdventureResult GINORMOUS_PUMPKIN = ItemPool.get( ItemPool.GINORMOUS_PUMPKIN, 1 );
@@ -343,6 +344,16 @@ public class CampgroundRequest
 	public static final AdventureResult GIANT_FREE_RANGE_MUSHROOM = new Mushroom( 4 );
 	public static final AdventureResult IMMENSE_FREE_RANGE_MUSHROOM = new Mushroom( 5 );
 	public static final AdventureResult COLOSSAL_FREE_RANGE_MUSHROOM = new Mushroom( 11 );
+
+	// Crop seeds
+	public static final AdventureResult PUMPKIN_SEEDS = ItemPool.get( ItemPool.PUMPKIN_SEEDS, 1 );
+	public static final AdventureResult PEPPERMINT_PACKETS = ItemPool.get( ItemPool.PEPPERMINT_PACKET, 1 );
+	public static final AdventureResult DRAGON_TEETH = ItemPool.get( ItemPool.DRAGON_TEETH, 1 );
+	public static final AdventureResult BEER_SEEDS = ItemPool.get( ItemPool.BEER_SEEDS, 1 );
+	public static final AdventureResult WINTER_SEEDS = ItemPool.get( ItemPool.WINTER_SEEDS, 1 );
+	public static final AdventureResult THANKSGARDEN_SEEDS = ItemPool.get( ItemPool.THANKSGARDEN_SEEDS, 1 );
+	public static final AdventureResult TALL_GRASS_SEEDS = ItemPool.get( ItemPool.TALL_GRASS_SEEDS, 1 );
+	public static final AdventureResult MUSHROOM_SPORES = ItemPool.get( ItemPool.MUSHROOM_SPORES, 1 );
 
 	public enum CropType
 	{
@@ -441,6 +452,18 @@ public class CampgroundRequest
 		CampgroundRequest.GIANT_FREE_RANGE_MUSHROOM,
 		CampgroundRequest.IMMENSE_FREE_RANGE_MUSHROOM,
 		CampgroundRequest.COLOSSAL_FREE_RANGE_MUSHROOM,
+	};
+
+	public static final AdventureResult [] CROP_SEEDS =
+	{
+		CampgroundRequest.PUMPKIN_SEEDS,
+		CampgroundRequest.PEPPERMINT_PACKETS,
+		CampgroundRequest.DRAGON_TEETH,
+		CampgroundRequest.BEER_SEEDS,
+		CampgroundRequest.WINTER_SEEDS,
+		CampgroundRequest.THANKSGARDEN_SEEDS,
+		CampgroundRequest.TALL_GRASS_SEEDS,
+		CampgroundRequest.MUSHROOM_SPORES,
 	};
 
 	public static void reset()
@@ -631,6 +654,15 @@ public class CampgroundRequest
 		for ( AdventureResult crop : CampgroundRequest.CROPS )
 		{
 			int index = KoLConstants.campground.indexOf( crop );
+			if ( index != -1 )
+			{
+				KoLConstants.campground.remove( index );
+				return;
+			}
+		}
+		for ( AdventureResult seed : CampgroundRequest.CROP_SEEDS )
+		{
+			int index = KoLConstants.campground.indexOf( seed );
 			if ( index != -1 )
 			{
 				KoLConstants.campground.remove( index );
