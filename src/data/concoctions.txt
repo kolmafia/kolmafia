@@ -3164,3 +3164,6 @@ rubber baby doll	SUSE	rubber doll head	rubber doll body	plastic doll arms	plasti
 mushroom tea	COOK	mushroom filet	soda water
 mushroom whiskey	MIX	mushroom filet	fermenting powder
 mushroom cap	SUSE	mushroom slab
+
+# Path of the Plumber
+red plumber's boots	MUSE	red coin (11)

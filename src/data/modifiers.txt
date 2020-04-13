@@ -3248,6 +3248,8 @@ Item	Red Balloon of Valor	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +11
 Item	Red Fox glove	Critical Hit Percent: +5, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Attacks Can't Miss, Single Equip
 Item	red masque	Spooky Damage: +15, Maximum HP: +30, Single Equip
 Item	red plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
+# Item red plumber's boots: Lets you unleash powerful jump attacks
+Item	red plumber's boots	Single Equip
 # Red Roger's red left foot: Gain more FunPoints during PirateRealm island adventures
 Item	Red Roger's red left foot	Single Equip
 # Red Roger's red right foot: Gain more FunPoints during PirateRealm sailing adventures
@@ -10603,6 +10605,7 @@ Item	red and green rain stick	Effect: "Peaceful, Easy Feeling", Effect Duration:
 Item	Red Army camouflage kit	Effect: "Red, Red Skeleton", Effect Duration: 50
 Item	red blood cells	Effect: "Extra-Thick Blood", Effect Duration: 100
 # red button: Deals Physical Damage based on how many of them you have
+# Item red coin: Try using 11 of them!
 Item	red eye	Effect: "Seeing Red", Effect Duration: 20
 # red face paint: Makes you red with holiday cheer!
 # red face paint: Does not go away when used.

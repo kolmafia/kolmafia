@@ -3196,6 +3196,7 @@ public class ItemPool
 	public static final int IMMENSE_FREE_RANGE_MUSHROOM = 10487;
 	public static final int COLOSSAL_FREE_RANGE_MUSHROOM = 10488;
 	public static final int HOUSE_SIZED_MUSHROOM = 10497;
+	public static final int RED_PLUMBERS_BOOTS = 10501;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
