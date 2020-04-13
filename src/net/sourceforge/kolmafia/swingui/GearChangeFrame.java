@@ -226,38 +226,52 @@ public class GearChangeFrame
 
 		if ( value instanceof AdventureResult )
 		{
-			if ( isFamiliarItem &&
-			     ( KoLCharacter.getFamiliar().getId() == FamiliarPool.HATRACK ||
-			       KoLCharacter.getFamiliar().getId() == FamiliarPool.SCARECROW ) )
+			AdventureResult item = (AdventureResult) value;
+			int itemId = item.getItemId();
+			int familiarId = KoLCharacter.getFamiliar().getId();
+			int consumption = ItemDatabase.getConsumptionType( itemId );
+
+			if ( itemId == -1 )
 			{
-				mods = Modifiers.getModifiers( "FamItem", ((AdventureResult) value).getName() );
+				// Nothing for (none)
+				mods = null;
+			}
+			if ( isFamiliarItem && consumption != KoLConstants.EQUIP_FAMILIAR &&
+			     ( familiarId == FamiliarPool.HATRACK || ( familiarId == FamiliarPool.SCARECROW ) ) )
+			{
+				// Mad Hat Racks can equip hats.
+				// Fancypants Scarecrows can equip pants.
+				//
+				// In each case, there is a special familiar
+				// effect; the standard item modifiers are
+				// meaningless.
+				//
+				// Disembodied Hands can equip one-handed weapons.
+				// Left Mand Man can equip off-hand items.
+				//
+				// In each case, the standard item modifiers
+				// are in force.
+				mods = null;
 			}
 			else
 			{
-				int itemId = ((AdventureResult) value).getItemId();
-				mods = Modifiers.getItemModifiers( itemId );
+				Modifiers newMods = new Modifiers();
+				newMods.add( Modifiers.getItemModifiers( itemId ) );
+
 				switch ( itemId )
 				{
 				case ItemPool.CROWN_OF_ED:
 				{
-					Modifiers newMods = new Modifiers();
-					newMods.add( mods );
 					newMods.add( Modifiers.getModifiers( "Edpiece", Preferences.getString( "edPiece" ) ) );
-					mods = newMods;
 					break;
 				}
 				case ItemPool.SNOW_SUIT:
 				{
-					Modifiers newMods = new Modifiers();
-					newMods.add( mods );
 					newMods.add( Modifiers.getModifiers( "Snowsuit", Preferences.getString( "snowsuit" ) ) );
-					mods = newMods;
 					break;
 				}
 				case ItemPool.COWBOY_BOOTS:
 				{
-					Modifiers newMods = new Modifiers();
-					newMods.add( mods );
 					AdventureResult skin = EquipmentManager.getEquipment( EquipmentManager.BOOTSKIN );
 					AdventureResult spur = EquipmentManager.getEquipment( EquipmentManager.BOOTSPUR );
 					if ( skin != null && skin != EquipmentRequest.UNEQUIP )
@@ -268,13 +282,10 @@ public class GearChangeFrame
 					{
 						newMods.add( Modifiers.getItemModifiers( spur.getItemId() ) );
 					}
-					mods = newMods;
 					break;
 				}
 				case ItemPool.FOLDER_HOLDER:
 				{
-					Modifiers newMods = new Modifiers();
-					newMods.add( mods );
 					for ( int i = EquipmentManager.FOLDER1; i <= EquipmentManager.FOLDER5; ++i )
 					{
 						AdventureResult folder = EquipmentManager.getEquipment( i );
@@ -283,14 +294,11 @@ public class GearChangeFrame
 							newMods.add( Modifiers.getItemModifiers( folder.getItemId() ) );
 						}
 					}
-					mods = newMods;
 					break;
 				}
 				case ItemPool.STICKER_CROSSBOW:
 				case ItemPool.STICKER_SWORD:
 				{
-					Modifiers newMods = new Modifiers();
-					newMods.add( mods );
 					for ( int i = EquipmentManager.STICKER1; i <= EquipmentManager.STICKER3; ++i )
 					{
 						AdventureResult sticker = EquipmentManager.getEquipment( i );
@@ -299,23 +307,19 @@ public class GearChangeFrame
 							newMods.add( Modifiers.getItemModifiers( sticker.getItemId() ) );
 						}
 					}
-					mods = newMods;
 					break;
 				}
 				case ItemPool.CARD_SLEEVE:
 				{
-					Modifiers newMods = new Modifiers();
-					newMods.add( mods );
 					AdventureResult card = EquipmentManager.getEquipment( EquipmentManager.CARDSLEEVE );
 					if ( card != null && card != EquipmentRequest.UNEQUIP )
 					{
 						newMods.add( Modifiers.getItemModifiers( card.getItemId() ) );
 					}
-					mods = newMods;
 					break;
 				}
-
 				}
+				mods = newMods;
 			}
 		}
 		else if ( value instanceof SpecialOutfit )

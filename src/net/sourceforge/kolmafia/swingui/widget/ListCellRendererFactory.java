@@ -985,7 +985,7 @@ public class ListCellRendererFactory
 	}
 
 	private static class FamiliarEquipmentRenderer
-		extends UsableEquipmentRenderer
+		extends DefaultListCellRenderer
 	{
 		@Override
 		public Component getListCellRendererComponent( final JList list, final Object value, final int index,
@@ -1002,15 +1002,15 @@ public class ListCellRendererFactory
 			}
 
 			AdventureResult ar = (AdventureResult) value;
+			String stringForm = ar.getName();
+
 			String effect = Modifiers.getFamiliarEffect( ar.getName() );
-			if ( effect == null )
+			if ( effect != null )
 			{
-				return super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
+				stringForm +=  " (" + effect + ")";
 			}
 
-			String stringForm = ar.getName() + " (" + effect + ")";
-			if ( KoLCharacter.getFamiliar() == null || 
-				!KoLCharacter.getFamiliar().canEquip( ar ) )
+			if ( KoLCharacter.getFamiliar() == null || !KoLCharacter.getFamiliar().canEquip( ar ) )
 			{
 				stringForm = "<html><font color=gray>" + stringForm + "</font></html>";
 			}
