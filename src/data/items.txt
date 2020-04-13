@@ -10500,7 +10500,7 @@
 10472	bony back shell	570068864	mario_shell3.gif	container	q	0
 10473	frosty button	596311200	mario_frostpin.gif	accessory	q	0
 10474	blooper ink	383888760	mario_ink.gif	potion, multiple	q	0
-10475	red coin	713142976	mario_redcoin.gif	none		0
+10475	red coin	713142976	mario_redcoin.gif	multiple	t	0
 10476	rubber doll head	592150148	rubberbabyhead.gif	usable	t	0
 10477	rubber doll body	833926717	rubberbabybody.gif	none	t	0
 10478	plastic doll arms	310790003	rubberbabyarms.gif	none	t	0
@@ -10526,7 +10526,7 @@
 10498	pristine piranha seed	436277245	piranhaseed.gif	grow	t	0
 10499	plastic piranha pot	129214663	plasticpot.gif	familiar	t,d	75
 10500	piranha pollen	736668065	disease.gif	potion, multiple	t,d	10
-10501
+10501	red plumber's boots	551349307	mario_boots2.gif	accessory		0
 10502	sinistral homunculus	528018345	lhmlarva.gif	grow	t	0
 10503	rusty kettle bell	678267846	lhmkettlebell.gif	offhand	q	0
 10504	glued-together crystal ball	132860754	lhmcrystalball.gif	offhand	q	0

@@ -862,6 +862,9 @@ public class EquipmentManager
 					KoLCharacter.removeAvailableSkill( "CHEAT CODE: Replace Enemy" );
 					KoLCharacter.removeAvailableSkill( "CHEAT CODE: Shrink Enemy" );
 					break;
+				case ItemPool.RED_PLUMBERS_BOOTS:
+					KoLCharacter.removeAvailableSkill( "Plumber Jump" );
+					break;
 				}
 			}
 		}
@@ -1168,6 +1171,9 @@ public class EquipmentManager
 			// KoLCharacter.addAvailableSkill( "CHEAT CODE: Triple Size" );
 			KoLCharacter.addAvailableSkill( "CHEAT CODE: Replace Enemy" );
 			KoLCharacter.addAvailableSkill( "CHEAT CODE: Shrink Enemy" );
+			break;
+		case ItemPool.RED_PLUMBERS_BOOTS:
+			KoLCharacter.addAvailableSkill( "Plumber Jump" );
 			break;
 		}
 
