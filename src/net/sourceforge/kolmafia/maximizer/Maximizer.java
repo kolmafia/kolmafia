@@ -802,11 +802,20 @@ public class Maximizer
 					if ( item != null )
 					{
 						int itemId = item.getItemId();
+
+						// Certain items with side-effects have enchantments only in TCRS,
+						// Perhaps we should let the user accept the item - and suffer the
+						// side-effect. Perhaps we should simply exclude the item.
+						if ( Maximizer.excludedTCRSItem( itemId ) )
+						{
+							continue;
+						}
+
 						// Cannot use/eat/drink items without G's in them in G-Lover except from restaurants
 						if ( KoLCharacter.inGLover() && !KoLCharacter.hasGs( iName ) &&
-							!KoLConstants.restaurantItems.contains( iName ) &&
-							!KoLConstants.microbreweryItems.contains( iName ) &&
-							!KoLConstants.cafeItems.contains( iName ) )
+						     !KoLConstants.restaurantItems.contains( iName ) &&
+						     !KoLConstants.microbreweryItems.contains( iName ) &&
+						     !KoLConstants.cafeItems.contains( iName ) )
 						{
 							continue;
 						}
@@ -2439,4 +2448,18 @@ public class Maximizer
 		}
 		return equipLevel;
 	}
+
+	private static boolean excludedTCRSItem( int itemId )
+	{
+		switch( itemId )
+		{
+		case ItemPool.DIETING_PILL:
+			// Doubles adventures and stats from next food.  Also
+			// doubles fullness - which can be a surprise.
+			return true;
+		}
+		return false;
+	}
+
+
 }
