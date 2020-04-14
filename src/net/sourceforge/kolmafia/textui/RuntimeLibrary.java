@@ -603,13 +603,15 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "session_logs", new AggregateType( DataTypes.STRING_TYPE, 0 ), params ) );
 
-				// Major functions related to adventuring and
-		// item management.
+		// Major functions related to adventuring and item management.
 
 		params = new Type[] { DataTypes.LOCATION_TYPE };
 		functions.add( new LibraryFunction( "set_location", DataTypes.VOID_TYPE, params ) );
 
 		params = new Type[] { DataTypes.LOCATION_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "adventure", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.LOCATION_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "adventure", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.LOCATION_TYPE };
@@ -630,7 +632,13 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "add_item_condition", DataTypes.VOID_TYPE, params ) );
 
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "add_item_condition", DataTypes.VOID_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "remove_item_condition", DataTypes.VOID_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "remove_item_condition", DataTypes.VOID_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
@@ -651,10 +659,13 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "buy", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "buy", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "buy", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "buy", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
@@ -663,10 +674,13 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "buy_using_storage", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "buy_using_storage", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "buy_using_storage", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "buy_using_storage", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
@@ -690,76 +704,76 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.ITEM_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "craft", DataTypes.INT_TYPE, params ) );
 
-		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "create", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "create", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.ITEM_TYPE };
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "create", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "use", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "use", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.ITEM_TYPE };
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "use", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "eat", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "eat", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.ITEM_TYPE };
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "eat", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "eatsilent", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "eatsilent", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.ITEM_TYPE };
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "eatsilent", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "drink", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "drink", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.ITEM_TYPE };
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "drink", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
-		functions.add( new LibraryFunction( "overdrink", DataTypes.BOOLEAN_TYPE, params ) );
-
-		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "overdrink", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "overdrink", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "overdrink", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "drinksilent", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "drinksilent", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.ITEM_TYPE };
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "drinksilent", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "chew", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "chew", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.ITEM_TYPE };
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "chew", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
@@ -768,10 +782,16 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "empty_closet", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "put_closet", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.INT_TYPE };
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "put_closet", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "put_closet", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "put_closet", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
@@ -792,16 +812,28 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "reprice_shop", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "put_stash", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "put_stash", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "put_display", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
-		functions.add( new LibraryFunction( "take_closet", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "put_display", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "take_closet", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "take_closet", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "take_closet", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "take_closet", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
@@ -810,17 +842,32 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "take_shop", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "take_storage", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "take_storage", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "take_display", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "take_display", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "take_stash", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "take_stash", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "autosell", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "autosell", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "hermit", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "hermit", DataTypes.BOOLEAN_TYPE, params ) );
@@ -828,10 +875,10 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "retrieve_item", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "retrieve_item", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "retrieve_item", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.MONSTER_TYPE };
@@ -1245,7 +1292,13 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "my_effects", new AggregateType(
 			DataTypes.INT_TYPE, DataTypes.EFFECT_TYPE ), params ) );
 
+		params = new Type[] { DataTypes.SKILL_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "use_skill", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.SKILL_TYPE };
+		functions.add( new LibraryFunction( "use_skill", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.SKILL_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "use_skill", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.SKILL_TYPE, DataTypes.STRING_TYPE };
@@ -1353,6 +1406,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "can_equip", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "equip", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.SLOT_TYPE };
 		functions.add( new LibraryFunction( "equip", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.SLOT_TYPE, DataTypes.ITEM_TYPE };
@@ -1577,17 +1633,22 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.BUFFER_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "append", DataTypes.BUFFER_TYPE, params ) );
+
 		params = new Type[] { DataTypes.BUFFER_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "insert", DataTypes.BUFFER_TYPE, params ) );
+
 		params = new Type[] { DataTypes.BUFFER_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "replace", DataTypes.BUFFER_TYPE, params ) );
+
 		params = new Type[] { DataTypes.BUFFER_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "delete", DataTypes.BUFFER_TYPE, params ) );
+
 		params = new Type[] { DataTypes.BUFFER_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "set_length", DataTypes.VOID_TYPE, params ) );
 
 		params = new Type[] { DataTypes.MATCHER_TYPE, DataTypes.BUFFER_TYPE };
 		functions.add( new LibraryFunction( "append_tail", DataTypes.BUFFER_TYPE, params ) );
+
 		params = new Type[] { DataTypes.MATCHER_TYPE, DataTypes.BUFFER_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "append_replacement", DataTypes.BUFFER_TYPE, params ) );
 
@@ -1598,43 +1659,54 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.MATCHER_TYPE };
 		functions.add( new LibraryFunction( "find", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.MATCHER_TYPE };
 		functions.add( new LibraryFunction( "start", DataTypes.INT_TYPE, params ) );
+
 		params = new Type[] { DataTypes.MATCHER_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "start", DataTypes.INT_TYPE, params ) );
+
 		params = new Type[] { DataTypes.MATCHER_TYPE };
 		functions.add( new LibraryFunction( "end", DataTypes.INT_TYPE, params ) );
+
 		params = new Type[] { DataTypes.MATCHER_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "end", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.MATCHER_TYPE };
 		functions.add( new LibraryFunction( "group", DataTypes.STRING_TYPE, params ) );
+
 		params = new Type[] { DataTypes.MATCHER_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "group", DataTypes.STRING_TYPE, params ) );
+
 		params = new Type[] { DataTypes.MATCHER_TYPE };
 		functions.add( new LibraryFunction( "group_count", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.MATCHER_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "replace_first", DataTypes.STRING_TYPE, params ) );
+
 		params = new Type[] { DataTypes.MATCHER_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "replace_all", DataTypes.STRING_TYPE, params ) );
 
 		params = new Type[] { DataTypes.MATCHER_TYPE };
 		functions.add( new LibraryFunction( "reset", DataTypes.MATCHER_TYPE, params ) );
+
 		params = new Type[] { DataTypes.MATCHER_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "reset", DataTypes.MATCHER_TYPE, params ) );
 
 		params = new Type[] { DataTypes.BUFFER_TYPE, DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "replace_string", DataTypes.BUFFER_TYPE, params ) );
+
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "replace_string", DataTypes.BUFFER_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "split_string", new AggregateType(
 			DataTypes.STRING_TYPE, 0 ), params ) );
+
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "split_string", new AggregateType(
 			DataTypes.STRING_TYPE, 0 ), params ) );
+
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "group_string", DataTypes.REGEX_GROUP_TYPE, params ) );
 
@@ -3295,8 +3367,7 @@ public abstract class RuntimeLibrary
 		return timestamp;
 	}
 
-	// Major functions related to adventuring and
-	// item management.
+	// Major functions related to adventuring and item management.
 
 	public static Value adventure( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
@@ -3313,14 +3384,14 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value adventure( Interpreter interpreter, final Value countValue, final Value locationValue, final Value filterFunction )
+	public static Value adventure( Interpreter interpreter, final Value arg1, final Value arg2, final Value filterFunction )
 	{
 		try
 		{
 			String filter = filterFunction.toString();
 			Macrofier.setMacroOverride( filter, interpreter );
 
-			return RuntimeLibrary.adventure( interpreter, countValue, locationValue );
+			return RuntimeLibrary.adventure( interpreter, arg1, arg2 );
 		}
 		finally
 		{
@@ -3368,10 +3439,11 @@ public abstract class RuntimeLibrary
 		return new Value( FightRequest.canStillSteal() );
 	}
 
-	public static Value add_item_condition( Interpreter interpreter, final Value countValue, final Value item )
+	public static Value add_item_condition( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		int count = (int) countValue.intValue();
-		int itemId = (int) item.intValue();
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+		int count = (int) (countThenItem ? arg1 : arg2 ).intValue();
+		int itemId = (int) (countThenItem ? arg2 : arg1 ).intValue();
 		if ( count <= 0 || itemId <= 0 )
 		{
 			return DataTypes.VOID_VALUE;
@@ -3381,10 +3453,12 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value remove_item_condition( Interpreter interpreter, final Value countValue, final Value item )
+	public static Value remove_item_condition( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		int count = (int) countValue.intValue();
-		int itemId = (int) item.intValue();
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+		int count = (int) (countThenItem ? arg1 : arg2 ).intValue();
+		int itemId = (int) (countThenItem ? arg2 : arg1 ).intValue();
+
 		if ( count <= 0 || itemId <= 0 )
 		{
 			return DataTypes.VOID_VALUE;
@@ -3457,6 +3531,11 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
+	public static Value buy( Interpreter interpreter, final Value item )
+	{
+		return buy(interpreter, new Value( 1 ), item);
+	}
+
 	public static Value buy( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
 		int arg1Value = (int) arg1.intValue();
@@ -3478,11 +3557,6 @@ public abstract class RuntimeLibrary
 		return DataTypes.makeBooleanValue( initialAmount + count == itemToBuy.getCount( KoLConstants.inventory ) );
 	}
 
-	public static Value buy( Interpreter interpreter, final Value item )
-	{
-		return buy(interpreter, new Value( 1 ), item);
-	}
-
 	public static Value buy( Interpreter interpreter, final Value arg1, final Value arg2, final Value arg3 )
 	{
 		if ( arg1.getType().equals( DataTypes.TYPE_COINMASTER ) )
@@ -3490,17 +3564,31 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.coinmaster_buy( interpreter, arg1, arg2, arg3 );
 		}
 
-		int count = (int) arg1.intValue();
+		int arg1Value = (int) arg1.intValue();
+		int arg2Value = (int) arg2.intValue();
+
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+
+		int count = countThenItem ? arg1Value : arg2Value;
+
 		if ( count <= 0 )
 		{
 			return DataTypes.ZERO_VALUE;
 		}
 
-		int itemId = (int) arg2.intValue();
+		int itemId = countThenItem ? arg2Value : arg1Value;
+		int limit = (int) arg3.intValue();
+
 		AdventureResult itemToBuy = ItemPool.get( itemId );
+
 		int initialAmount = itemToBuy.getCount( KoLConstants.inventory );
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", count + " \u00B6" + itemId + "@" + arg3.intValue() );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", count + " \u00B6" + itemId + "@" + limit );
 		return new Value( itemToBuy.getCount( KoLConstants.inventory ) - initialAmount );
+	}
+
+	public static Value buy_using_storage( Interpreter interpreter, final Value item )
+	{
+		return buy_using_storage(interpreter, new Value( 1 ), item);
 	}
 
 	public static Value buy_using_storage( Interpreter interpreter, final Value arg1, final Value arg2 )
@@ -3529,28 +3617,32 @@ public abstract class RuntimeLibrary
 		return DataTypes.makeBooleanValue( initialAmount + count == itemToBuy.getCount( KoLConstants.storage ) );
 	}
 
-	public static Value buy_using_storage( Interpreter interpreter, final Value item )
-	{
-		return buy_using_storage(interpreter, new Value( 1 ), item);
-	}
-
-	public static Value buy_using_storage( Interpreter interpreter, final Value countValue, final Value item, final Value limitValue )
+	public static Value buy_using_storage( Interpreter interpreter, final Value arg1, final Value arg2, final Value arg3 )
 	{
 		if ( KoLCharacter.canInteract() )
 		{
 			return DataTypes.ZERO_VALUE;
 		}
 
-		int count = (int) countValue.intValue();
+		int arg1Value = (int) arg1.intValue();
+		int arg2Value = (int) arg2.intValue();
+
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+
+		int count = countThenItem ? arg1Value : arg2Value;
+
 		if ( count <= 0 )
 		{
 			return DataTypes.ZERO_VALUE;
 		}
 
-		int itemId = (int) item.intValue();
+		int itemId = countThenItem ? arg2Value : arg1Value;
+		int limit = (int) arg3.intValue();
+
 		AdventureResult itemToBuy = ItemPool.get( itemId );
+
 		int initialAmount = itemToBuy.getCount( KoLConstants.storage );
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", "using storage " + count + " \u00B6" + itemId + "@" + limitValue.intValue() );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", "using storage " + count + " \u00B6" + itemId + "@" + limit );
 		return new Value( itemToBuy.getCount( KoLConstants.storage ) - initialAmount );
 	}
 
@@ -3652,20 +3744,15 @@ public abstract class RuntimeLibrary
 		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
-	public static Value create( Interpreter interpreter, final Value arg1, final Value arg2 )
-	{
-		execute_item_quantity( "create", arg1, arg2 );
-		return RuntimeLibrary.continueValue();
-	}
-
 	public static Value create( Interpreter interpreter, final Value item )
 	{
 		return create(interpreter, new Value( 1 ), item);
 	}
 
-	public static Value use( Interpreter interpreter, final Value arg1, final Value arg2 )
+	public static Value create( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		return execute_item_quantity( "use", arg1, arg2 );
+		execute_item_quantity( "create", arg1, arg2 );
+		return RuntimeLibrary.continueValue();
 	}
 
 	public static Value use( Interpreter interpreter, final Value item )
@@ -3673,9 +3760,9 @@ public abstract class RuntimeLibrary
 		return use(interpreter, new Value( 1 ), item);
 	}
 
-	public static Value eat( Interpreter interpreter, final Value arg1, final Value arg2 )
+	public static Value use( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		return execute_item_quantity( "eat", arg1, arg2 );
+		return execute_item_quantity( "use", arg1, arg2 );
 	}
 
 	public static Value eat( Interpreter interpreter, final Value item )
@@ -3683,9 +3770,9 @@ public abstract class RuntimeLibrary
 		return eat(interpreter, new Value( 1 ), item);
 	}
 
-	public static Value eatsilent( Interpreter interpreter, final Value arg1, final Value arg2 )
+	public static Value eat( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		return execute_item_quantity( "eatsilent", arg1, arg2 );
+		return execute_item_quantity( "eat", arg1, arg2 );
 	}
 
 	public static Value eatsilent( Interpreter interpreter, final Value item )
@@ -3693,9 +3780,9 @@ public abstract class RuntimeLibrary
 		return eatsilent(interpreter, new Value( 1 ), item);
 	}
 
-	public static Value drink( Interpreter interpreter, final Value arg1, final Value arg2 )
+	public static Value eatsilent( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		return execute_item_quantity( "drink", arg1, arg2 );
+		return execute_item_quantity( "eatsilent", arg1, arg2 );
 	}
 
 	public static Value drink( Interpreter interpreter, final Value item )
@@ -3703,9 +3790,9 @@ public abstract class RuntimeLibrary
 		return drink(interpreter, new Value( 1 ), item);
 	}
 
-	public static Value overdrink( Interpreter interpreter, final Value arg1, final Value arg2 )
+	public static Value drink( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		return execute_item_quantity( "overdrink", arg1, arg2 );
+		return execute_item_quantity( "drink", arg1, arg2 );
 	}
 
 	public static Value overdrink( Interpreter interpreter, final Value item )
@@ -3713,9 +3800,9 @@ public abstract class RuntimeLibrary
 		return overdrink(interpreter, new Value( 1 ), item);
 	}
 
-	public static Value drinksilent( Interpreter interpreter, final Value arg1, final Value arg2 )
+	public static Value overdrink( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		return execute_item_quantity( "drinksilent", arg1, arg2 );
+		return execute_item_quantity( "overdrink", arg1, arg2 );
 	}
 
 	public static Value drinksilent( Interpreter interpreter, final Value item )
@@ -3723,14 +3810,19 @@ public abstract class RuntimeLibrary
 		return drinksilent(interpreter, new Value( 1 ), item);
 	}
 
-	public static Value chew( Interpreter interpreter, final Value arg1, final Value arg2 )
+	public static Value drinksilent( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		return execute_item_quantity( "chew", arg1, arg2 );
+		return execute_item_quantity( "drinksilent", arg1, arg2 );
 	}
 
 	public static Value chew( Interpreter interpreter, final Value item )
 	{
 		return chew(interpreter, new Value( 1 ), item);
+	}
+
+	public static Value chew( Interpreter interpreter, final Value arg1, final Value arg2 )
+	{
+		return execute_item_quantity( "chew", arg1, arg2 );
 	}
 
 	public static Value last_item_message( Interpreter interpreter )
@@ -3752,15 +3844,20 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value put_closet( Interpreter interpreter, final Value countValue, final Value itemValue )
+	public static Value put_closet( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		int count = (int) countValue.intValue();
+		int arg1Value = (int) arg1.intValue();
+		int arg2Value = (int) arg2.intValue();
+
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+
+		int count = countThenItem ? arg1Value : arg2Value;
+		int itemId = countThenItem ? arg2Value : arg1Value;
+
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
-
-		int itemId = (int) itemValue.intValue();
 
 		if ( interpreter.batched != null )
 		{
@@ -3777,9 +3874,14 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value put_closet( Interpreter interpreter, final Value meatValue )
+	public static Value put_closet( Interpreter interpreter, final Value arg1 )
 	{
-		long meat = meatValue.intValue();
+		if ( !arg1.getType().equals( DataTypes.INT_TYPE ) )
+		{
+			return put_closet(interpreter, new Value( 1 ), arg1);
+		}
+
+		long meat = arg1.intValue();
 		if ( meat <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
@@ -3802,7 +3904,7 @@ public abstract class RuntimeLibrary
 
 	public static Value put_shop( Interpreter interpreter, final Value priceValue, final Value limitValue, final Value itemValue )
 	{
-			return put_shop( interpreter, priceValue, limitValue, InventoryManager.getCount( (int) itemValue.contentLong ), itemValue, false );
+		return put_shop( interpreter, priceValue, limitValue, InventoryManager.getCount( (int) itemValue.contentLong ), itemValue, false );
 	}
 
 	public static Value put_shop( Interpreter interpreter, final Value priceValue, final Value limitValue, final Value qtyValue, final Value itemValue )
@@ -3883,15 +3985,20 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value put_stash( Interpreter interpreter, final Value countValue, final Value itemValue )
+	public static Value put_stash( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		int count = (int) countValue.intValue();
+		int arg1Value = (int) arg1.intValue();
+		int arg2Value = (int) arg2.intValue();
+
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+
+		int count = countThenItem ? arg1Value : arg2Value;
+		int itemId = countThenItem ? arg2Value : arg1Value;
+
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
-
-		int itemId = (int) itemValue.intValue();
 
 		if ( interpreter.batched != null )
 		{
@@ -3911,15 +4018,20 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value put_display( Interpreter interpreter, final Value countValue, final Value itemValue )
+	public static Value put_display( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		int count = (int) countValue.intValue();
+		int arg1Value = (int) arg1.intValue();
+		int arg2Value = (int) arg2.intValue();
+
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+
+		int count = countThenItem ? arg1Value : arg2Value;
+		int itemId = countThenItem ? arg2Value : arg1Value;
+
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
-
-		int itemId = (int) itemValue.intValue();
 
 		if ( interpreter.batched != null )
 		{
@@ -3938,15 +4050,20 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value take_closet( Interpreter interpreter, final Value countValue, final Value itemValue )
+	public static Value take_closet( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		int count = (int) countValue.intValue();
+		int arg1Value = (int) arg1.intValue();
+		int arg2Value = (int) arg2.intValue();
+
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+
+		int count = countThenItem ? arg1Value : arg2Value;
+		int itemId = countThenItem ? arg2Value : arg1Value;
+
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
-
-		int itemId = (int) itemValue.intValue();
 
 		if ( interpreter.batched != null )
 		{
@@ -3964,9 +4081,14 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value take_closet( Interpreter interpreter, final Value meatValue )
+	public static Value take_closet( Interpreter interpreter, final Value arg1 )
 	{
-		long meat = meatValue.intValue();
+		if ( !arg1.getType().equals( DataTypes.INT_TYPE ) )
+		{
+			return take_closet(interpreter, new Value( 1 ), arg1);
+		}
+
+		long meat = arg1.intValue();
 		if ( meat <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
@@ -4020,15 +4142,20 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value take_shop( Interpreter interpreter, final Value countValue, final Value itemValue )
+	public static Value take_shop( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		int count = (int) countValue.intValue();
+		int arg1Value = (int) arg1.intValue();
+		int arg2Value = (int) arg2.intValue();
+
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+
+		int count = countThenItem ? arg1Value : arg2Value;
+		int itemId = countThenItem ? arg2Value : arg1Value;
+
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
-
-		int itemId = (int) itemValue.intValue();
 
 		if ( interpreter.batched != null )
 		{
@@ -4046,15 +4173,20 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value take_storage( Interpreter interpreter, final Value countValue, final Value itemValue )
+	public static Value take_storage( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		int count = (int) countValue.intValue();
+		int arg1Value = (int) arg1.intValue();
+		int arg2Value = (int) arg2.intValue();
+
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+
+		int count = countThenItem ? arg1Value : arg2Value;
+		int itemId = countThenItem ? arg2Value : arg1Value;
+
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
-
-		int itemId = (int) itemValue.intValue();
 
 		if ( interpreter.batched != null )
 		{
@@ -4071,15 +4203,20 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value take_display( Interpreter interpreter, final Value countValue, final Value itemValue )
+	public static Value take_display( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		int count = (int) countValue.intValue();
+		int arg1Value = (int) arg1.intValue();
+		int arg2Value = (int) arg2.intValue();
+
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+
+		int count = countThenItem ? arg1Value : arg2Value;
+		int itemId = countThenItem ? arg2Value : arg1Value;
+
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
-
-		int itemId = (int) itemValue.intValue();
 
 		if ( interpreter.batched != null )
 		{
@@ -4099,15 +4236,20 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value take_stash( Interpreter interpreter, final Value countValue, final Value itemValue )
+	public static Value take_stash( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		int count = (int) countValue.intValue();
+		int arg1Value = (int) arg1.intValue();
+		int arg2Value = (int) arg2.intValue();
+
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+
+		int count = countThenItem ? arg1Value : arg2Value;
+		int itemId = countThenItem ? arg2Value : arg1Value;
+
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
-
-		int itemId = (int) itemValue.intValue();
 
 		if ( interpreter.batched != null )
 		{
@@ -4127,15 +4269,20 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value autosell( Interpreter interpreter, final Value countValue, final Value itemValue )
+	public static Value autosell( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		int count = (int) countValue.intValue();
+		int arg1Value = (int) arg1.intValue();
+		int arg2Value = (int) arg2.intValue();
+
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+
+		int count = countThenItem ? arg1Value : arg2Value;
+		int itemId = countThenItem ? arg2Value : arg1Value;
+
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
-
-		int itemId = (int) itemValue.intValue();
 
 		if ( interpreter.batched != null )
 		{
@@ -4154,15 +4301,22 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value hermit( Interpreter interpreter, final Value countValue, final Value item )
+	public static Value hermit( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		int count = (int) countValue.intValue();
+		int arg1Value = (int) arg1.intValue();
+		int arg2Value = (int) arg2.intValue();
+
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+
+		int count = countThenItem ? arg1Value : arg2Value;
+		int itemId = countThenItem ? arg2Value : arg1Value;
+
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "hermit", count + " " + ItemDatabase.getItemName( (int) item.intValue() ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "hermit", count + " " + ItemDatabase.getItemName( itemId ) );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -5571,9 +5725,16 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static Value use_skill( Interpreter interpreter, final Value countValue, final Value skill )
+	public static Value use_skill( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		int count = (int) countValue.intValue();
+		int arg1Value = (int) arg1.intValue();
+		int arg2Value = (int) arg2.intValue();
+
+		boolean countThenSkill = arg1.getType().equals( DataTypes.INT_TYPE );
+
+		int count = countThenSkill ? arg1Value : arg2Value;
+		int skillId = countThenSkill ? arg2Value : arg1Value;
+
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
@@ -5581,8 +5742,6 @@ public abstract class RuntimeLibrary
 
 		// Just in case someone assumed that use_skill would also work
 		// in combat, go ahead and allow it here.
-
-		int skillId = (int) skill.intValue();
 
 		if ( SkillDatabase.isCombat( skillId ) )
 		{
@@ -5592,7 +5751,7 @@ public abstract class RuntimeLibrary
 			{
 				for ( int i = 0; i < count; ++i )
 				{
-					RuntimeLibrary.use_skill( interpreter, skill );
+					RuntimeLibrary.use_skill( interpreter, countThenSkill ? arg2 : arg1 );
 				}
 
 				return DataTypes.TRUE_VALUE;
@@ -5606,27 +5765,36 @@ public abstract class RuntimeLibrary
 			}
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "cast", count + " " + SkillDatabase.getSkillName( (int) skill.intValue() ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "cast", count + " " + SkillDatabase.getSkillName( skillId ) );
 		return UseSkillRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
 	public static Value use_skill( Interpreter interpreter, final Value skill )
 	{
+		int skillId = (int) skill.intValue();
+
 		// Just in case someone assumed that use_skill would also work
 		// in combat, go ahead and allow it here.
 
-		if ( SkillDatabase.isCombat( (int) skill.intValue() ) && FightRequest.getCurrentRound() > 0 )
+		if ( SkillDatabase.isCombat( skillId ) && FightRequest.getCurrentRound() > 0 )
 		{
 			return RuntimeLibrary.visit_url( interpreter, "fight.php?action=skill&whichskill=" + (int) skill.intValue() );
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "cast", "1 " + SkillDatabase.getSkillName( (int) skill.intValue() ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "cast", "1 " + SkillDatabase.getSkillName( skillId ) );
 		return new Value( UseSkillRequest.lastUpdate );
 	}
 
-	public static Value use_skill( Interpreter interpreter, final Value countValue, final Value skill, final Value target )
+	public static Value use_skill( Interpreter interpreter, final Value arg1, final Value arg2, final Value target )
 	{
-		int count = (int) countValue.intValue();
+		int arg1Value = (int) arg1.intValue();
+		int arg2Value = (int) arg2.intValue();
+
+		boolean countThenSkill = arg1.getType().equals( DataTypes.INT_TYPE );
+
+		int count = countThenSkill ? arg1Value : arg2Value;
+		int skillId = countThenSkill ? arg2Value : arg1Value;
+
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
@@ -5634,8 +5802,6 @@ public abstract class RuntimeLibrary
 
 		// Just in case someone assumed that use_skill would also work
 		// in combat, go ahead and allow it here.
-
-		int skillId = (int) skill.intValue();
 
 		if ( SkillDatabase.isCombat( skillId ) )
 		{
@@ -5645,7 +5811,7 @@ public abstract class RuntimeLibrary
 			{
 				for ( int i = 0; i < count; ++i )
 				{
-					RuntimeLibrary.use_skill( interpreter, skill );
+					RuntimeLibrary.use_skill( interpreter, countThenSkill ? arg2 : arg1 );
 				}
 
 				return DataTypes.TRUE_VALUE;
@@ -5659,7 +5825,7 @@ public abstract class RuntimeLibrary
 			}
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "cast", count + " " + SkillDatabase.getSkillName( (int) skill.intValue() ) + " on " + target );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "cast", count + " " + SkillDatabase.getSkillName( skillId ) + " on " + target );
 		return UseSkillRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
@@ -6032,9 +6198,13 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value equip( Interpreter interpreter, final Value slotValue, final Value item )
+	public static Value equip( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		String slot = slotValue.toString();
+		boolean slotThenItem = arg1.getType().equals( DataTypes.SLOT_TYPE );
+
+		String slot = slotThenItem ? arg1.toString() : arg2.toString();;
+		Value item = slotThenItem ? arg2 : arg1;
+
 		if ( item.equals( DataTypes.ITEM_INIT ) )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "unequip", slot );
