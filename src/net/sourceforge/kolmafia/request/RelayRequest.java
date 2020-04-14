@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.Modifiers.ModifierList;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -2446,6 +2447,30 @@ public class RelayRequest
 		return false;
 	}
 
+	private String prunedItemModifiers( final int itemId )
+	{
+		// Perform the same adjustments to the displayed modifiers as
+		// the Gear Changer, except leave Familiar Effect if you own
+		// the relevant familiar.
+		ModifierList list = Modifiers.getModifierList( "Item", itemId );
+		list.removeModifier( "Wiki Name" );
+		list.removeModifier( "Modifiers" );
+		list.removeModifier( "Outfit" );
+		int type = ItemDatabase.getConsumptionType( itemId);
+		if ( !( type == KoLConstants.EQUIP_HAT && KoLCharacter.findFamiliar( FamiliarPool.HATRACK) != null ) &&
+		     !( type == KoLConstants.EQUIP_PANTS && KoLCharacter.findFamiliar( FamiliarPool.SCARECROW) != null ) )
+		{
+			list.removeModifier( "Familiar Effect" );
+		}
+		String stringform = list.toString();
+		stringform = StringUtilities.globalStringReplace( stringform, "Familiar", "Fam" );
+		stringform = StringUtilities.globalStringReplace( stringform, "Experience", "Exp" );
+		stringform = StringUtilities.globalStringReplace( stringform, "Damage", "Dmg" );
+		stringform = StringUtilities.globalStringReplace( stringform, "Resistance", "Res" );
+		stringform = StringUtilities.globalStringReplace( stringform, "Percent", "%" );
+		return stringform;
+	}
+
 	private boolean sendBossWarning( final String name, final String image,
 					 final String item0,
 					 final int mcd1, final String item1,
@@ -2467,13 +2492,13 @@ public class RelayRequest
 
 		int item0Id = (item0 == null ) ? -1 : ItemDatabase.getItemId( item0, 1, false );
 		String item0Image = ( item0 == null ) ? "" : ItemDatabase.getItemImageLocation( item0Id );
-		String item0Modifiers = ( item0 == null ) ? "" : Modifiers.getStringModifier( "Item", item0, "Modifiers" );
+		String item0Modifiers = ( item0 == null ) ? "" : prunedItemModifiers( item0Id );
 		int item1Id = ItemDatabase.getItemId( item1, 1, false );
 		String item1Image = ( item1 == null ) ? "" : ItemDatabase.getItemImageLocation( item1Id );
-		String item1Modifiers =  Modifiers.getStringModifier( "Item", item1, "Modifiers" );
+		String item1Modifiers = ( item1 == null ) ? "" : prunedItemModifiers( item1Id );
 		int item2Id = ItemDatabase.getItemId( item2, 1, false );
 		String item2Image = ( item2 == null ) ? "" : ItemDatabase.getItemImageLocation( item2Id );
-		String item2Modifiers =  Modifiers.getStringModifier( "Item", item2, "Modifiers" );
+		String item2Modifiers =  ( item2 == null ) ? "" : prunedItemModifiers( item2Id );
 
 		StringBuilder warning = new StringBuilder();
 
