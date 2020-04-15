@@ -313,6 +313,11 @@ public class CoinmastersFrame
 		panel.add( nuggletcraftingPanel );
 		this.selectorPanel.addPanel( nuggletcraftingPanel.getPanelSelector(), panel );
 
+		panel = new JPanel( new BorderLayout() );
+		dripArmoryPanel = new DripArmoryPanel();
+		panel.add( dripArmoryPanel );
+		this.selectorPanel.addPanel( dripArmoryPanel.getPanelSelector(), panel );
+
 		// Ascension coinmasters
 		this.selectorPanel.addSeparator();
 		this.selectorPanel.addCategory( "Ascension" );
@@ -533,11 +538,6 @@ public class CoinmastersFrame
 		// Events coinmasters
 		this.selectorPanel.addSeparator();
 		this.selectorPanel.addCategory( "Special Events" );
-
-		panel = new JPanel( new BorderLayout() );
-		dripArmoryPanel = new DripArmoryPanel();
-		panel.add( dripArmoryPanel );
-		this.selectorPanel.addPanel( dripArmoryPanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
 		awolPanel = new CommendationPanel();
