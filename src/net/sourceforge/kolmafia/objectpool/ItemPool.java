@@ -3175,6 +3175,7 @@ public class ItemPool
 	public static final int TEMPURA_GREEN_AND_RED_BEAN = 10425;
 	public static final int BIRD_A_DAY_CALENDAR = 10434;
 	public static final int POWERFUL_GLOVE = 10438;
+	public static final int DRIPLET = 10443;
 	public static final int DRIPPY_NUGGET = 10445;
 	public static final int DRIPPY_WINE = 10446;
 	public static final int DRIPPY_CAVIAR = 10447;

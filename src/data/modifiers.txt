@@ -610,6 +610,7 @@ Item	double-ice britches	Hot Resistance: +4, Damage Reduction: 4, Maximum HP: +4
 Item	drafty drawers	Maximum MP: +200, MP Regen Min: 15, MP Regen Max: 20, Familiar Effect: "1.5xVolley"
 Item	dress pants	Moxie: +5, Familiar Effect: "2xFairy, cap 28"
 Item	driftwood pants	Muscle: +5, Muscle Percent: +1, Maximum HP: +1, Maximum HP Percent: +1, Weapon Damage: +1, Weapon Damage Percent: +1, Critical Hit Percent: +1, Experience (Muscle): +2, Experience Percent (Muscle): +1, Lasts Until Rollover
+# drippy khakis: Limited protection from damage in The Drip
 Item	Drunkula's silky pants	Cold Spell Damage: +100, Stench Resistance: +5, Sleaze Resistance: +1, Class: "Sauceror", Familiar Effect: "1xPotato, 1xGhoul"
 # dubious loincloth: Deals <font color=purple>Sleaze Damage</font> every round
 Item	dubious loincloth	Familiar Effect: "atk, 1.5xVolley"
@@ -1258,6 +1259,8 @@ Item	dreadlock whip	Sleaze Damage: +5, Stench Damage: +5, Monster Level: +10
 Item	dripping meat crossbow	Moxie: +2
 Item	dripping meat staff	Mysticality: +2
 Item	dripping meat sword	Muscle: +2
+# drippy truncheon: +30 Damage vs. creatures of The Drip
+Item	drippy truncheon	Single Equip
 Item	Drowsy Sword	Weakens Monster, Monster Level: -10
 Item	drywall axe	Muscle: +2, Mysticality: +2, Moxie: +2, Muscle Percent: +3, Mysticality Percent: +3, Moxie Percent: +3
 Item	duck-on-a-string	Weapon Damage: +5, Item Drop: +5
@@ -3823,6 +3826,8 @@ Item	Cloak of Dire Shadows	Maximum MP: +40, Meat Drop: +10, Muscle Percent: +5, 
 Item	cod cape	Stench Damage: +25, Combat Rate: +5
 Item	dice-shaped backpack	Random Monster Modifiers: +1
 Item	Drapes-You-Regally	Meat Drop: +20, Booze Drop: +20, Hat Drop: +20, Class: "Disco Bandit"
+# Item Drip harness: Allows you to enter The Drip
+Item	Drip harness	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100
 Item	Drunkula's cape	Adventures: +3, Candy Drop: +20, Accessory Drop: +20, Class: "Sauceror"
 Item	Duke Vampire's regal cloak	Moxie: +15, Moxie Percent: +25, Initiative: +50, Single Equip
 Item	elf army poncho	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Lasts Until Rollover

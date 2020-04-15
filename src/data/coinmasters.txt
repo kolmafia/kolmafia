@@ -980,3 +980,7 @@ Mushroom District Gear Shop	buy	100	spiky back shell	ROW1146
 Mushroom District Gear Shop	buy	300	power pants	ROW1147
 Mushroom District Gear Shop	buy	100	bony back shell	ROW1148
 Mushroom District Gear Shop	buy	100	frosty button	ROW1149
+
+# Things you can buy with Driplets
+
+Drip Institute Armory	buy	30	drippy khakis	ROW1130
