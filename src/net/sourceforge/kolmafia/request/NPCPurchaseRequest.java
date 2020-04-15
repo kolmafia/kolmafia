@@ -654,6 +654,12 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "driparmory" ) )
+		{
+			DripArmoryRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		if ( shopId.equals( "shore" ) )
 		{
 			ShoreGiftShopRequest.parseResponse( urlString, responseText );
@@ -1150,6 +1156,11 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "damachine" ) )
 			{
 				return VendingMachineRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "driparmory" ) )
+			{
+				return DripArmoryRequest.registerRequest( urlString, true );
 			}
 
 			if ( shopId.equals( "shore" ) )

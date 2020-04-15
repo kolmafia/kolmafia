@@ -103,6 +103,7 @@ import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.DinseyCompanyStoreRequest;
 import net.sourceforge.kolmafia.request.DiscoGiftCoRequest;
 import net.sourceforge.kolmafia.request.DollHawkerRequest;
+import net.sourceforge.kolmafia.request.DripArmoryRequest;
 import net.sourceforge.kolmafia.request.EdShopRequest;
 import net.sourceforge.kolmafia.request.FDKOLRequest;
 import net.sourceforge.kolmafia.request.FishboneryRequest;
@@ -211,6 +212,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel dinseyCompanyStorePanel = null;
 	private CoinmasterPanel discoGiftCoPanel = null;
 	private CoinmasterPanel dollhawkerPanel = null;
+	private CoinmasterPanel dripArmoryPanel = null;
 	private CoinmasterPanel edshopPanel = null;
 	private CoinmasterPanel fdkolPanel = null;
 	private CoinmasterPanel fishboneryPanel = null;
@@ -531,6 +533,11 @@ public class CoinmastersFrame
 		// Events coinmasters
 		this.selectorPanel.addSeparator();
 		this.selectorPanel.addCategory( "Special Events" );
+
+		panel = new JPanel( new BorderLayout() );
+		dripArmoryPanel = new DripArmoryPanel();
+		panel.add( dripArmoryPanel );
+		this.selectorPanel.addPanel( dripArmoryPanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
 		awolPanel = new CommendationPanel();
@@ -1230,6 +1237,15 @@ public class CoinmastersFrame
 		public CRIMBCOGiftShopPanel()
 		{
 			super( CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP );
+		}
+	}
+
+	public class DripArmoryPanel
+		extends CoinmasterPanel
+	{
+		public DripArmoryPanel()
+		{
+			super( DripArmoryRequest.DRIP_ARMORY );
 		}
 	}
 

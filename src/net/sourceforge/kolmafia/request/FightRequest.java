@@ -2526,6 +2526,12 @@ public class FightRequest
 				ResultProcessor.processItem( ItemPool.WARBEAR_BADGE, -1 );
 			}
 
+			// Adventuring in The Dripping Trees
+			else if ( adventure == AdventurePool.THE_DRIPPING_TREES )
+			{
+				Preferences.decrement( "drippyJuice", 1, 0 );
+			}
+
 			// Wearing any piece of papier equipment really messes up the results
 			FightRequest.papier = FightRequest.usingPapierEquipment();
 

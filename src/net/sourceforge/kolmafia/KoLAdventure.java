@@ -2473,6 +2473,12 @@ public class KoLAdventure
 			"going to take a <i>long</i> time",
 			"You need 7 Adventures to fight Ed.",
 		},
+
+		// You can't go there because your Drippy Juice supply has run out.
+		{
+			"Drippy Juice supply",
+			"You've run out of Drippy Juice.",
+		},
 	};
 
 	public static final int findAdventureFailure( String responseText )
