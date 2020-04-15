@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.DinseyCompanyStoreRequest;
 import net.sourceforge.kolmafia.request.DiscoGiftCoRequest;
 import net.sourceforge.kolmafia.request.DollHawkerRequest;
+import net.sourceforge.kolmafia.request.DripArmoryRequest;
 import net.sourceforge.kolmafia.request.EdShopRequest;
 import net.sourceforge.kolmafia.request.FDKOLRequest;
 import net.sourceforge.kolmafia.request.FishboneryRequest;
@@ -135,6 +136,7 @@ public abstract class CoinmasterRegistry
 		DinseyCompanyStoreRequest.DINSEY_COMPANY_STORE,
 		DiscoGiftCoRequest.DISCO_GIFTCO,
 		DollHawkerRequest.DOLLHAWKER,
+		DripArmoryRequest.DRIP_ARMORY,
 		EdShopRequest.EDSHOP,
 		FDKOLRequest.FDKOL,
 		FishboneryRequest.FISHBONERY,

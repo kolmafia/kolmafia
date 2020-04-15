@@ -675,6 +675,25 @@ public class PlaceRequest
 				// message = "Visiting the Small Pyramid";
 			}
 		}
+		else if ( place.equals( "dripfacility" ) )
+		{
+			if ( action.equals( "" ) )
+			{
+				// message = "Visiting The Drip Institute";
+			}
+			else if ( action.equals( "drip_jeremy" ) )
+			{
+				message = "Talking to Jeremy Science";
+			}
+			else if ( action.equals( "drip_armory" ) )
+			{
+				// Redirects to shop.php?whichshop=driparmory
+			}
+			else if ( action.equals( "drip_cafeteria" ) )
+			{
+				// Redirects to shop.php?whichshop=dripcafeteria
+			}
+		}
 		else if ( place.equals( "exploathing" ) )
 		{
 			if ( action.equals( "expl_council" ) )
