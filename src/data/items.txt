@@ -10470,9 +10470,9 @@
 10442
 10443
 10444
-10445
-10446
-10447
+10445	drippy nugget	872053470	drippynugget.gif	food	t	0
+10446	glass of drippy wine	499425032	drippywine.gif	drink	t	0
+10447	drippy caviar	170861825	drippycaviar.gif	food	t	0
 10448
 10449
 10450

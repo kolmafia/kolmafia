@@ -154,6 +154,10 @@ public class DrinkItemRequest
 
 		switch ( itemId )
 		{
+		case ItemPool.DRIPPY_WINE:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_drippyWineUsed" ) ? 0 : 1;
+
 		case ItemPool.GREEN_BEER:
 			// Green Beer allows drinking to limit + 10,
 			// but only on SSPD. For now, always allow
@@ -914,6 +918,11 @@ public class DrinkItemRequest
 
 		case ItemPool.BLOODWEISER:
 			Preferences.increment( "bloodweiserDrunk", item.getCount() );
+			return;
+
+		case ItemPool.DRIPPY_WINE:
+			Preferences.setBoolean( "_drippyWineUsed", true );
+			Preferences.increment( "drippyJuice", 5 );
 			return;
 
 		case ItemPool.EVERFULL_GLASS:
