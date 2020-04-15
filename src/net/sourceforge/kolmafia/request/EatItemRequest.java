@@ -185,6 +185,14 @@ public class EatItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_affirmationCookieEaten" ) ? 0 : ( 1 - ConcoctionDatabase.queuedAffirmationCookies );
 
+		case ItemPool.DRIPPY_CAVIAR:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_drippyCaviarUsed" ) ? 0 : 1;
+
+		case ItemPool.DRIPPY_NUGGET:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_drippyNuggetUsed" ) ? 0 : 1;
+
 		case ItemPool.MAGICAL_SAUSAGE:
 			UseItemRequest.limiter = "daily limit";
 			return 23 - Preferences.getInteger( "_sausagesEaten" );
@@ -1007,6 +1015,16 @@ public class EatItemRequest
 			{
 				ResponseTextParser.learnSkill( "Stomach of Steel" );
 			}
+			return;
+
+		case ItemPool.DRIPPY_CAVIAR:
+			Preferences.setBoolean( "_drippyCaviarUsed", true );
+			Preferences.increment( "drippyJuice", 5 );
+			return;
+
+		case ItemPool.DRIPPY_NUGGET:
+			Preferences.setBoolean( "_drippyNuggetUsed", true );
+			Preferences.increment( "drippyJuice", 5 );
 			return;
 
 		case ItemPool.EXTRA_GREASY_SLIDER:
