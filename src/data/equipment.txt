@@ -479,6 +479,7 @@ double-ice britches	70	Mox: 20
 drafty drawers	225	Mox: 200
 dress pants	115	Mox: 42
 driftwood pants	50	Mox: 10
+drippy khakis	50	none
 Drunkula's silky pants	300	Mys: 250
 dubious loincloth	225	Mox: 200
 duct tape dockers	195	Mox: 82
@@ -1060,6 +1061,7 @@ dreadlock whip	40	Mus: 5	1-handed whip
 dripping meat crossbow	50	Mox: 10	2-handed crossbow
 dripping meat staff	50	Mus: 10	2-handed staff
 dripping meat sword	50	Mus: 10	1-handed sword
+drippy truncheon	5	Mus: 0	1-handed club
 Drowsy Sword	175	Mus: 66	2-handed sword
 drywall axe	150	Mus: 60	2-handed axe
 duck-on-a-string	100	Mus: 35	1-handed flail
@@ -3250,6 +3252,7 @@ Cloak of Dire Shadows	120	none
 cod cape	225	Mox: 200
 dice-shaped backpack	10	none
 Drapes-You-Regally	300	Mox: 250
+Drip harness	0	Mus: 100
 Drunkula's cape	300	Mys: 250
 Duke Vampire's regal cloak	200	Mox: 40
 fiberglass frock	120	Mus: 40
