@@ -326,11 +326,17 @@ public class KoLAdventure
 		}
 
 		int advId = Integer.parseInt( adventureId );
-		if ( advId == AdventurePool.THE_SHORE  ||
-		     advId == AdventurePool.TRAINING_SNOWMAN ||
-		     advId == AdventurePool.DIRE_WARREN ||
-		     ( advId >= AdventurePool.GINGERBREAD_CIVIC && advId <= AdventurePool.GINGERBREAD_SEWERS ) )
+		switch ( advId )
 		{
+		case AdventurePool.THE_SHORE:
+		case AdventurePool.TRAINING_SNOWMAN:
+		case AdventurePool.DIRE_WARREN:
+		case AdventurePool.GINGERBREAD_CIVIC_CENTER:
+		case AdventurePool.GINGERBREAD_TRAIN_STATION:
+		case AdventurePool.GINGERBREAD_INDUSTRIAL_ZONE:
+		case AdventurePool.GINGERBREAD_RETAIL_DISTRICT:
+		case AdventurePool.GINGERBREAD_SEWERS:
+		case AdventurePool.THE_DRIPPING_TREES:
 			return false;
 		}
 
