@@ -11843,6 +11843,19 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1406:
+		{
+			// Drippy House on the Prairie
+			// 1 = Explore the House. 9 = Leave
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				// This leaves you in the choice; you exit via option 9.
+				// Does it consume your Drippy Juice if you simply leave?
+				Preferences.decrement( "drippyJuice", 1, 0 );
+			}
+			break;
+		}
+
 		case 1407:
 		{
 			// Mushroom District Costume Shop
