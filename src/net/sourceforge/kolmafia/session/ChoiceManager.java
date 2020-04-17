@@ -11846,8 +11846,10 @@ public abstract class ChoiceManager
 		case 1406:
 		{
 			// Drippy House on the Prairie
-			// 1 = Explore the House. 9 = Leave
-			if ( ChoiceManager.lastDecision == 1 )
+			// 1 = Explore the House
+			// 2 = Dislodge some bats
+			// 9 = Leave
+			if ( ChoiceManager.lastDecision != 9 )
 			{
 				// This leaves you in the choice; you exit via option 9.
 				// Does it consume your Drippy Juice if you simply leave?

@@ -1478,16 +1478,6 @@ public class AdventureRequest
 			return monsterName;
 		}
 
-		if ( monsterName.equals( "drippy tree" ) )
-		{
-			// The Drippy Forest has "drippy trees" in it.
-			// Apparently "drippy" is in the ocrs array.  However,
-			// "drippy tree" is in Manuel.  Special case it for
-			// now. If there are other "drippy" monsters
-			// eventually, we'll figure out what to do.
-			return monsterName;
-		}
-
 		HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
 		String xpath = "//script/text()";
 		TagNode doc;
@@ -1550,6 +1540,16 @@ public class AdventureRequest
 		for ( int j = 0; j <= count; ++j )
 		{
 			String modifier = internal.get( j );
+
+			// The Drippy Forest has "drippy trees" and "drippy
+			// bats" (at least). "drippy" appears in the ocrs
+			// array, but Manuel has drippy as part of the name.
+			// Ignore "drippy" as an OCRS modifier
+			if ( "drippy".equals( modifier ) )
+			{
+				continue;
+			}
+
 			if ( MonsterData.extraModifiers.contains( modifier ) )
 			{
 				MonsterData.lastRandomModifiers.add( modifier );
