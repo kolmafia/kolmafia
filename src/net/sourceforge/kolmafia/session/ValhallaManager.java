@@ -683,6 +683,7 @@ public class ValhallaManager
 		Preferences.setInteger( "aminoAcidsUsed", 0 );
 		Preferences.setString( "cyrusAdjectives", "" );
 		Preferences.setString( "copperheadClubHazard", "none" );
+		Preferences.setInteger( "drippyJuice", 0 );
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );
 		Preferences.setString( "crappyCameraMonster", "" );
