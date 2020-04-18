@@ -68,6 +68,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Modifiers.Modifier;
 import net.sourceforge.kolmafia.Modifiers.ModifierList;
 import net.sourceforge.kolmafia.ModifierExpression;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -105,31 +106,56 @@ public class DebugDatabase
 	private static final Pattern WIKI_PLURAL_PATTERN =
 		Pattern.compile( "\\(.*?In-game plural</a>: <i>(.*?)</i>\\)", Pattern.DOTALL );
 	//private static final Pattern WIKI_AUTOSELL_PATTERN = Pattern.compile( "Selling Price: <b>(\\d+) Meat.</b>" );
+	private static final Pattern WIKI_MONSTER_MEAT_PATTERN = Pattern.compile( "Meat gained - ([\\d,]+)-([\\d,]+)" );
 
 	/**
 	 * Takes an item name and constructs the likely Wiki equivalent of that item name.
 	 */
 
-	private static final String readWikiData( final String name )
+	private static final String readWikiItemData( final String name )
 	{
-		try
-		{
-			String url = WikiUtilities.getWikiLocation( name, WikiUtilities.ITEM_TYPE );
-			HttpURLConnection connection = (HttpURLConnection) new URL( null, url ).openConnection();
-			connection.setRequestProperty( "Connection", "close" ); // no need to keep-alive
-			InputStream istream = connection.getInputStream();
+		String url = WikiUtilities.getWikiLocation( name, WikiUtilities.ITEM_TYPE );
+		return DebugDatabase.readWikiData( url );
+	}
 
-			if ( connection.getResponseCode() != 200 )
+	private static final String readWikiMonsterData( final MonsterData monster )
+	{
+		String url = WikiUtilities.getWikiLocation( monster );
+		return DebugDatabase.readWikiData( url );
+	}
+
+	private static final String readWikiData( String url )
+	{
+		while ( true )
+		{
+			try
+			{
+				HttpURLConnection connection = (HttpURLConnection) new URL( null, url ).openConnection();
+				connection.setRequestProperty( "Connection", "close" ); // no need to keep-alive
+				InputStream istream = connection.getInputStream();
+
+				int responseCode = connection.getResponseCode();
+				if ( responseCode == 200 )
+				{
+					byte[] bytes = ByteBufferUtilities.read( istream );
+					return StringUtilities.getEncodedString( bytes, "UTF-8" );
+				}
+
+				if ( responseCode >= 301 || responseCode < 308 )
+				{
+					String redirectLocation = connection.getHeaderField( "Location" );
+					System.out.println( url + " => " + redirectLocation );
+					url = redirectLocation;
+					continue;
+				}
+
+				return "";
+			
+			}
+			catch ( IOException e )
 			{
 				return "";
 			}
-			
-			byte[] bytes = ByteBufferUtilities.read( istream );
-			return StringUtilities.getEncodedString( bytes, "UTF-8" );
-		}
-		catch ( IOException e )
-		{
-			return "";
 		}
 	}
 
@@ -165,7 +191,7 @@ public class DebugDatabase
 
 	/*public static final void determineWikiData( final String name )
 	{
-		String wikiData = DebugDatabase.readWikiData( name );
+		String wikiData = DebugDatabase.readWikiItemData( name );
 
 		Matcher itemMatcher = DebugDatabase.WIKI_ITEMID_PATTERN.matcher( wikiData );
 		if ( !itemMatcher.find() )
@@ -2395,7 +2421,7 @@ public class DebugDatabase
 			}
 			else
 			{
-				String wikiData = DebugDatabase.readWikiData( name );
+				String wikiData = DebugDatabase.readWikiItemData( name );
 				Matcher matcher = DebugDatabase.WIKI_PLURAL_PATTERN.matcher( wikiData );
 				otherPlural = matcher.find() ? matcher.group( 1 ) : "";
 				otherPlural = CharacterEntities.unescape( otherPlural);
@@ -3607,7 +3633,7 @@ public class DebugDatabase
 		PrintStream report = LogStream.openStream( new File( KoLConstants.DATA_LOCATION, "zapreport.txt" ), true );
 
 		String[] groups = DebugDatabase.ZAPGROUP_PATTERN.split(
-			DebugDatabase.readWikiData( "Zapping" ) );
+			DebugDatabase.readWikiItemData( "Zapping" ) );
 		for ( int i = 1; i < groups.length; ++i )
 		{
 			String group = groups[ i ];
@@ -3720,5 +3746,33 @@ public class DebugDatabase
 		RequestLogger.printLine( "Page " + page.toUpperCase() );
 		MonsterManuelRequest request = new MonsterManuelRequest( page );
 		RequestThread.postRequest( request );
+	}
+
+	// Check Monster Meat from wiki
+
+	public static final void checkMeat()
+	{
+		for ( MonsterData monster : MonsterDatabase.valueSet() )
+		{
+			if ( !KoLmafia.permitsContinue() )
+			{
+				break;
+			}
+			String wikiData = DebugDatabase.readWikiMonsterData( monster );
+			int meatDrop = monster.getBaseMeat();
+			int baseMeat = 0;
+			Matcher matcher = WIKI_MONSTER_MEAT_PATTERN.matcher( wikiData );
+			if ( matcher.find() )
+			{
+				int minMeat = StringUtilities.parseInt( matcher.group( 1 ) );
+				int maxMeat = StringUtilities.parseInt( matcher.group( 2 ) );
+				baseMeat = ( minMeat + maxMeat ) / 2;
+			}
+
+			if ( meatDrop != baseMeat )
+			{
+				RequestLogger.printLine( "Monster '" + monster.getName() + "' (" + monster.getId() + ") drops " + meatDrop + " but Wiki says " + baseMeat );
+			}
+		}
 	}
 }

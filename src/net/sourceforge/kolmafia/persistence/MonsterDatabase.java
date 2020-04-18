@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MonsterDatabase
 {
+	private static final Set<MonsterData> ALL_MONSTER_DATA = new TreeSet<>();
 	private static final Map<String, MonsterData> MONSTER_DATA = new TreeMap<>();
 	private static final Map<Integer, MonsterData> MONSTER_IDS = new TreeMap<>();
 	private static final Map<String, MonsterData> OLD_MONSTER_DATA = new TreeMap<>();
@@ -379,6 +380,7 @@ public class MonsterDatabase
 
 	public static final void refreshMonsterTable()
 	{
+		MonsterDatabase.ALL_MONSTER_DATA.clear();
 		MonsterDatabase.MONSTER_DATA.clear();
 		MonsterDatabase.OLD_MONSTER_DATA.clear();
 		MonsterDatabase.MONSTER_IMAGES.clear();
@@ -543,6 +545,7 @@ public class MonsterDatabase
 	{
 		String keyName = CombatActionManager.encounterKey( name, false );
 		StringUtilities.registerPrepositions( keyName );
+		MonsterDatabase.ALL_MONSTER_DATA.add( monster );
 		MonsterDatabase.MONSTER_DATA.put( keyName, monster );
 		MonsterDatabase.OLD_MONSTER_DATA.put( keyName.toLowerCase(), monster );
 		if ( keyName.toLowerCase().startsWith( "the " ) )
@@ -828,14 +831,14 @@ public class MonsterDatabase
 		MonsterDatabase.addMonsterToName( monster );
 	}
 
-	public static final Set entrySet()
+	public static final Set<Map.Entry<String, MonsterData>> entrySet()
 	{
 		return MonsterDatabase.MONSTER_DATA.entrySet();
 	}
 
-	public static final Set valueSet()
+	public static final Set<MonsterData> valueSet()
 	{
-		return new TreeSet( MonsterDatabase.MONSTER_DATA.values() );
+		return MonsterDatabase.ALL_MONSTER_DATA;
 	}
 
 	public static final Set<Integer> idKeySet()

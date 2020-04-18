@@ -719,6 +719,7 @@ public class KoLmafiaCLI
 			register( "checkfamiliars" ).
 			register( "checkitems" ).
 			register( "checkmanuel" ).
+			register( "checkmeat" ).
 			register( "checkmodifiers" ).
 			register( "checkoutfits" ).
 			register( "checkplurals" ).
