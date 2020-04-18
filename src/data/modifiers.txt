@@ -2073,6 +2073,7 @@ Item	disturbing fanfic	Sleaze Spell Damage: +30
 # double-ice box: All Spells Cast Are Cold
 # double-ice box: Deals 10-20 cold damage every round
 Item	double-ice box	Spell Damage Percent: +10
+# drippy shield: Moderate protection from damage in The Drip
 Item	druidic orb	Lasts Until Rollover
 # Drunkula's wineglass: Prevents you from using skills and spells and combat items
 # Drunkula's wineglass: Allows adventuring while falling-down drunk

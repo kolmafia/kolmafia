@@ -984,3 +984,4 @@ Mushroom District Gear Shop	buy	100	frosty button	ROW1149
 # Things you can buy with Driplets
 
 Drip Institute Armory	buy	30	drippy khakis	ROW1130
+Drip Institute Armory	buy	50	drippy shield	ROW1132

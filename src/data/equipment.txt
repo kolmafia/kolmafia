@@ -1770,6 +1770,7 @@ dirty rigging rope	100	Mus: 30
 discarded finger painting	0	none
 disturbing fanfic	60	Mys: 15
 double-ice box	70	Mys: 20
+drippy shield	0	none
 druidic orb	0	none
 Drunkula's wineglass	300	Mys: 100
 duct tape buckler	195	Mus: 82	shield
