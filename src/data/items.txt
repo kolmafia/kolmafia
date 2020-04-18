@@ -10469,7 +10469,7 @@
 10441	Drip harness	785395340	dripharness.gif	container		0
 10442	drippy truncheon	204573919	drippyclub.gif	weapon	t	0
 10443	Driplet	877617676	driplet.gif	none		0
-10444
+10444	drippy snail shell	876508657	drippyshell.gif	none		0
 10445	drippy nugget	872053470	drippynugget.gif	food	t	0
 10446	glass of drippy wine	499425032	drippywine.gif	drink	t	0
 10447	drippy caviar	170861825	drippycaviar.gif	food	t	0
@@ -10477,7 +10477,7 @@
 10449
 10450
 10451	drippy khakis	426201773	drippykhakis.gif	pants	t	0
-10452
+10452	drippy shield	727176523	drippyshield.gif	offhand		0
 10453
 10454	coin	196730418	mario_coin.gif	none	q	0
 10455	mushroom	370949382	mario_mushroom1.gif	multiple, combat	q	0
