@@ -1659,7 +1659,6 @@ public class KoLAdventure
 
 			switch ( id )
 			{
-
 			case AdventurePool.FCLE:
 				AdventureResult mop = ItemPool.get( ItemPool.MIZZENMAST_MOP, 1 );
 				AdventureResult polish = ItemPool.get( ItemPool.BALL_POLISH, 1 );
@@ -2632,6 +2631,7 @@ public class KoLAdventure
 
 		KoLAdventure.setLastAdventure( KoLAdventure.lastVisitedLocation );
 		KoLAdventure.setNextAdventure( KoLAdventure.lastVisitedLocation );
+		KoLAdventure.registerAdventure();
 		EncounterManager.registerAdventure( location );
 
 		String limitmode = KoLCharacter.getLimitmode();
@@ -2668,6 +2668,16 @@ public class KoLAdventure
 		}
 
 		return true;
+	}
+
+	public static final void registerAdventure()
+	{
+		switch ( KoLAdventure.lastAdventureId() )
+		{
+		case AdventurePool.THE_DRIPPING_TREES:
+			Preferences.decrement( "drippyJuice", 1, 0 );
+			break;
+		}
 	}
 
 	public static final int getAdventureCount()
