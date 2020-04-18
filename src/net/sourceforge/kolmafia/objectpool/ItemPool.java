@@ -3179,6 +3179,7 @@ public class ItemPool
 	public static final int DRIPPY_NUGGET = 10445;
 	public static final int DRIPPY_WINE = 10446;
 	public static final int DRIPPY_CAVIAR = 10447;
+	public static final int DRIPPY_SHIELD = 10452;
 	public static final int FIRST_PLUMBER_QUEST_ITEM = 10454;
 	public static final int COIN = 10454;
 	public static final int MUSHROOM = 10455;

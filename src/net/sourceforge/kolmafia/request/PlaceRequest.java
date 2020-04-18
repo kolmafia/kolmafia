@@ -153,6 +153,17 @@ public class PlaceRequest
 				}
 			}
 		}
+		else if ( place.equals( "dripfacility" ) )
+		{
+			if ( action.equals( "drip_jeremy" ) )
+			{
+				// You show Jeremy the big snail shell you found.
+				if ( responseText.contains( "You show Jeremy the big snail shell you found" ) )
+				{
+					Preferences.setBoolean( "drippyShieldUnlocked", true );
+				}
+			}
+		}
 		else if ( place.equals( "falloutshelter" ) )
 		{
 			FalloutShelterRequest.parseResponse( urlString, responseText );

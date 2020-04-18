@@ -527,7 +527,9 @@ user	dreadScroll5	0
 user	dreadScroll6	0
 user	dreadScroll7	0
 user	dreadScroll8	0
+user	drippyBatsUnlocked	false
 user	drippyJuice	0
+user	drippyShieldUnlocked	false
 user	drunkenSwagger	0
 user	edDefeatAbort	2
 user	edPiece	
