@@ -157,6 +157,13 @@ public class CheckDataCommand
 			return;
 		}
 
+		if ( command.equals( "checkmeat" ) )
+		{
+			DebugDatabase.checkMeat();
+			RequestLogger.printLine( "Monster Meat checked." );
+			return;
+		}
+
 		if ( command.equals( "checkmodifiers" ) )
 		{
 			Modifiers.checkModifiers();

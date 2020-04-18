@@ -134,10 +134,15 @@ public class WikiUtilities
 		// Turn character entities into characters
 		name = CharacterEntities.unescape( name );
 
-		// The Wiki does not consistently work with UTF-8 (or ISO-8859-1) encoded URLS
-		// name = StringUtilities.getURLEncode( name );
+		switch ( type )
+		{
+		case MONSTER_TYPE:
+			name = StringUtilities.getURLEncode( name );
+			name = "Data:" + name;
+			break;
+		}
 
-		return "http://kol.coldfront.net/thekolwiki/index.php/" + name;
+		return "https://kol.coldfront.net/thekolwiki/index.php/" + name;
 	}
 
 	public static final String getWikiLocation( Object item )
