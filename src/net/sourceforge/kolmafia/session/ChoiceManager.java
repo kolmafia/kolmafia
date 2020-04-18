@@ -11849,12 +11849,6 @@ public abstract class ChoiceManager
 			// 1 = Explore the House
 			// 2 = Dislodge some bats
 			// 9 = Leave
-			if ( ChoiceManager.lastDecision != 9 )
-			{
-				// This leaves you in the choice; you exit via option 9.
-				// Does it consume your Drippy Juice if you simply leave?
-				Preferences.decrement( "drippyJuice", 1, 0 );
-			}
 			break;
 		}
 
