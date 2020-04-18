@@ -48,6 +48,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -89,7 +91,19 @@ public class DripArmoryRequest
 			null,
 			null,
 			true
-			);
+			)
+		{
+			@Override
+			public final boolean availableItem( final int itemId )
+			{
+				switch ( itemId )
+				{
+				case ItemPool.DRIPPY_SHIELD:
+					return Preferences.getBoolean( "drippyShieldAvailable" );
+				}
+				return super.availableItem( itemId );
+			}
+		};
 
 	public DripArmoryRequest()
 	{
@@ -122,6 +136,12 @@ public class DripArmoryRequest
 		if ( !location.contains( "whichshop=driparmory" ) )
 		{
 			return;
+		}
+
+		// Check for item unlocks
+		if ( responseText.contains( "drippy shield" ) )
+		{
+			Preferences.setBoolean( "drippyShieldUnlocked", true );
 		}
 
 		CoinmasterData data = DripArmoryRequest.DRIP_ARMORY;

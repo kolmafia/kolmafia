@@ -11847,7 +11847,15 @@ public abstract class ChoiceManager
 		{
 			// Drippy House on the Prairie
 			// 1 = Explore the House
+			// Even though the house doesn't have a door, you check under the mat for a key anyway.  You don't find one, but you <i>do</i> find a little puddle of those Driplet things Jeremy told you about.
+			// 1 = Keep Exploring
+			// In one of the side rooms of the house, you find a giant spiral shell stuck to the wall.  You pry it loose -- Jeremy will probably want to see this.
 			// 2 = Dislodge some bats
+			// You flush some of the vile bat-things out of the rafters and into the nearby forest.  No way that'll come back to bite you in the ass!
+			if ( text.contains( "vile bat-things" ) )
+			{
+				Preferences.setBoolean( "drippyBatsUnlocked", true );
+			}
 			// 9 = Leave
 			break;
 		}
