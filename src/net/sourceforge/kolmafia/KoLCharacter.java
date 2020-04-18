@@ -3756,6 +3756,7 @@ public abstract class KoLCharacter
 			)
 		{
 			RequestThread.postRequest( new CharSheetRequest() );
+			InventoryManager.checkPowerfulGlove();
 		}
 
 		if ( restricted ||
