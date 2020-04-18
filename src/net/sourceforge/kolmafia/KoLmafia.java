@@ -1094,6 +1094,7 @@ public abstract class KoLmafia
 		// Clear skills first, since we no longer know Avatar skills
 		KoLCharacter.resetSkills();
 		RequestThread.postRequest( new CharSheetRequest() );
+		InventoryManager.checkPowerfulGlove();
 
 		// Clear preferences
 		Preferences.setString( "banishingShoutMonsters", "" );
@@ -1162,8 +1163,8 @@ public abstract class KoLmafia
 
 		// Clear skills first, since we no longer know Limitmode skills
 		KoLCharacter.resetSkills();
-
 		RequestThread.postRequest( new CharSheetRequest() );
+		InventoryManager.checkPowerfulGlove();
 
 		// Retrieve inventory contents, since quest items may disappear.
 		InventoryManager.refresh();
