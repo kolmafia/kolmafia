@@ -11852,6 +11852,8 @@ public abstract class ChoiceManager
 			// In one of the side rooms of the house, you find a giant spiral shell stuck to the wall.  You pry it loose -- Jeremy will probably want to see this.
 			// 2 = Dislodge some bats
 			// You flush some of the vile bat-things out of the rafters and into the nearby forest.  No way that'll come back to bite you in the ass!
+			// 3 = Check the bucket under the sink
+			// You look in the bucket and find a few Driplets.  You collect them and put the bucket back under the sink.
 			if ( text.contains( "vile bat-things" ) )
 			{
 				Preferences.setBoolean( "drippyBatsUnlocked", true );
