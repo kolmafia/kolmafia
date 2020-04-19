@@ -628,8 +628,12 @@ public class Interpreter
 		// We may attempt to print the stack trace multiple times if in STATE_EXIT.
 		if ( this.frameStack.size() > 0 )
 		{
+			String stackTrace = this.getStackTrace();
 			RequestLogger.printLine( "Stack trace:" );
-			RequestLogger.printLine( this.getStackTrace() );
+			RequestLogger.printLine( stackTrace );
+			RequestLogger.updateSessionLog( "Stack trace:" );
+			RequestLogger.updateSessionLog( stackTrace );
+
 		}
 	}
 
