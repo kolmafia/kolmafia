@@ -2378,13 +2378,25 @@ public class QuestManager
 				}
 			}
 		}
-		else if ( monsterName.equals( "Steve Belmont" ) )
+		else if ( monsterName.equals( "Steve Belmont" ) ||
+			  monsterName.equals( "Koopa Paratroopa" ))
 		{
 			QuestDatabase.setQuestProgress( Quest.BAT, "step4" );
 		}
-		else if ( monsterName.equals( "Ricardo Belmont" ) )
+		else if ( monsterName.equals( "Ricardo Belmont" ) ||
+			  monsterName.equals( "Hammer Brother" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.GOBLIN, QuestDatabase.FINISHED );
+		}
+		else if ( monsterName.equals( "Jayden Belmont" ) ||
+			  monsterName.equals( "Very Dry Bones" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.CYRPT, "step1" );
+		}
+		else if ( monsterName.equals( "Sharona" ) ||
+			  monsterName.equals( "Angry Sun" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.TRAPPER, "step5" );
 		}
 		else if ( monsterName.equals( "smut orc jacker" ) || 
 		          monsterName.equals( "smut orc nailer" ) || 
