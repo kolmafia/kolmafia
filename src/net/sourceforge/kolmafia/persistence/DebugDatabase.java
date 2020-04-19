@@ -106,7 +106,7 @@ public class DebugDatabase
 	private static final Pattern WIKI_PLURAL_PATTERN =
 		Pattern.compile( "\\(.*?In-game plural</a>: <i>(.*?)</i>\\)", Pattern.DOTALL );
 	//private static final Pattern WIKI_AUTOSELL_PATTERN = Pattern.compile( "Selling Price: <b>(\\d+) Meat.</b>" );
-	private static final Pattern WIKI_MONSTER_MEAT_PATTERN = Pattern.compile( "Meat gained - ([\\d,]+)-([\\d,]+)" );
+	private static final Pattern WIKI_MONSTER_MEAT_PATTERN = Pattern.compile( "Meat gained - ([\\d,]+)(?:-([\\d,]+))?" );
 
 	/**
 	 * Takes an item name and constructs the likely Wiki equivalent of that item name.
@@ -3765,7 +3765,7 @@ public class DebugDatabase
 			if ( matcher.find() )
 			{
 				int minMeat = StringUtilities.parseInt( matcher.group( 1 ) );
-				int maxMeat = StringUtilities.parseInt( matcher.group( 2 ) );
+				int maxMeat = ( matcher.group( 2 ) ) == null ? minMeat : StringUtilities.parseInt( matcher.group( 2 ) );
 				baseMeat = ( minMeat + maxMeat ) / 2;
 			}
 

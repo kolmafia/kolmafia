@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.QueuedConcoction;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
@@ -69,6 +70,7 @@ public class WikiUtilities
 		boolean inItemTable = ItemDatabase.containsExactly( name );
 		boolean inEffectTable = EffectDatabase.containsExactly( name );
 		boolean inSkillTable = SkillDatabase.contains( name );
+		boolean inMonsterTable = MonsterDatabase.contains( name );
 
 		if ( type != ANY_TYPE )
 		{
@@ -103,21 +105,27 @@ public class WikiUtilities
 			{
 				name = name + " (hatchling)";
 			}
-			else if ( inEffectTable || inSkillTable )
+			else if ( inEffectTable || inSkillTable || inMonsterTable )
 			{
 				name = name + " (item)";
 			}
 			break;
 		case EFFECT_TYPE:
-			if ( inItemTable || inSkillTable )
+			if ( inItemTable || inSkillTable || inMonsterTable )
 			{
 				name = name + " (effect)";
 			}
 			break;
 		case SKILL_TYPE:
-			if ( inItemTable || inEffectTable )
+			if ( inItemTable || inEffectTable || inMonsterTable )
 			{
 				name = name + " (skill)";
+			}
+			break;
+		case MONSTER_TYPE:
+			if ( inItemTable || inEffectTable || inSkillTable )
+			{
+				name = name + " (monster)";
 			}
 			break;
 		}
