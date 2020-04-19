@@ -10473,7 +10473,7 @@
 10445	drippy nugget	872053470	drippynugget.gif	food	t	0
 10446	glass of drippy wine	499425032	drippywine.gif	drink	t	0
 10447	drippy caviar	170861825	drippycaviar.gif	food	t	0
-10448
+10448	drippy plum(?)	438609796	drippyplum.gif	food	t	0
 10449
 10450
 10451	drippy khakis	426201773	drippykhakis.gif	pants	t	0
