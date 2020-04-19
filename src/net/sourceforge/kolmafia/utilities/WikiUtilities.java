@@ -101,6 +101,11 @@ public class WikiUtilities
 			{
 				// If its not an effect or skill, no disambiguation needed
 			}
+			else if ( name.equals( "zmobie" ) ||
+				  name.equals( "ice porter" ))
+			{
+				name = name + " (drink)";
+			}
 			else if ( name.equals( "Bulky Buddy Box" ) )
 			{
 				name = name + " (hatchling)";
@@ -123,7 +128,16 @@ public class WikiUtilities
 			}
 			break;
 		case MONSTER_TYPE:
-			if ( inItemTable || inEffectTable || inSkillTable )
+			if ( name.equals( "ice porter" ))
+			{
+				// Also a drink.
+			}
+			else if ( name.equals( "undead elbow macaroni" ))
+			{
+				// Also (formerly) a pasta guardian
+				name = name + " (monster)";
+			}
+			else if ( inItemTable || inEffectTable || inSkillTable )
 			{
 				name = name + " (monster)";
 			}
