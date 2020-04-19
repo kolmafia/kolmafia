@@ -8078,6 +8078,9 @@ Item	Dreadsylvanian sleaze pocket	Effect: "Dreadful Sheen", Effect Duration: 200
 Item	Dreadsylvanian spooky pocket	Effect: "Dreadful Fear", Effect Duration: 200
 Item	Dreadsylvanian stew	Effect: "You've Got a Stew Going!", Effect Duration: 50
 Item	Dreadsylvanian stink pocket	Effect: "Dreadful Smell", Effect Duration: 200
+# drippy caviar: Puts 5 &micro;g of Drippy Juice into your blood
+# drippy nugget: Puts 5 &micro;g of Drippy Juice into your blood
+# drippy plum(?): Puts 5 &micro;g of Drippy Juice into your blood
 # dwarf bread: Deals 4-28 Physical Damage when used as a combat item
 Item	dwarf bread	Effect: "Dwarven Hardiness", Effect Duration: 5
 Item	eldritch distillate	Effect: "Eldritch Concentration", Effect Duration: 30
@@ -8419,6 +8422,7 @@ Item	Fromage Pinotage	Effect: "Some Cheese with Your Wine", Effect Duration: 20
 Item	Fuzzy Tentacle	Effect: "Void Between the Stars", Effect Duration: 10
 Item	ghost beer	Damage Reduction: 11, Effect: "Booooooze", Effect Duration: 50
 Item	gingerbread wine	Effect: "Sprinkle in Your Eye", Effect Duration: 30
+# glass of drippy wine: Puts 5 &micro;g of Drippy Juice into your blood
 Item	glass of herbal tequila	Effect: "Herbal Pert", Effect Duration: 50
 Item	gloomy mushroom wine	Effect: "Gothy", Effect Duration: 20
 Item	Gnollish sangria	Effect: "Strength of the Gnoll", Effect Duration: 40
