@@ -209,7 +209,7 @@ drunk pygmy	1431	pyg_drunk.gif	Atk: 150 Def: 130 HP: 160 Init: 20 P: dude Meat: 
 drunken 7-foot dwarf	998	drunkminer.gif	Atk: 8 Def: 9 HP: 7 Init: 40 P: humanoid Meat: 20	bottle of whiskey (20)	bottle of whiskey (20)
 drunken half-orc hobo	158	hobo.gif	Atk: 1 Def: 0 HP: 1 Init: 40 E: stench P: hobo	dirty hobo gloves (32)	Mad Train wine (60)	moxie weed (15)	Boozehounds Anonymous token (p10)	beer-battered accordion (a0)
 drunken rat	51	rat.gif	Atk: 10 Def: 9 HP: 8 Init: 60 Meat: 10 P: beast	rat whisker (100)	rat appendix (20)	furry pill (0)
-drunken rat king	996	ratking.gif	NOCOPY Atk: 40 Def: 36 HP: 32 Init: 100 Meat 40 P: beast	rat whisker (0)	rat whisker (0)	rat whisker (0)	rat whisker (0)	rat appendix (0)	rat appendix (0)	rat appendix (0)	tangle of rat tails (0)
+drunken rat king	996	ratking.gif	NOCOPY Atk: 40 Def: 36 HP: 32 Init: 100 Meat: 40 P: beast	rat whisker (0)	rat whisker (0)	rat whisker (0)	rat whisker (0)	rat appendix (0)	rat appendix (0)	rat appendix (0)	tangle of rat tails (0)
 Dusken Raider Ghost	1255	aboo_dipshit.gif	Atk: 72 Def: 68 HP: 40 Init: -10000 E: spooky P: undead Phys: 100 GHOST	A-Boo clue (c15)	Duskwalker syringe (15)	Duskwalker fangs (5)	ectoplasmic orbs (0)
 Dyspepsi-Cola General	293	colaoff2.gif	Atk: 30 Def: 27 HP: 40 Init: 50 P: dude	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi-Cola d-rations (5)	Dyspepsi grenade (5)
 Dyspepsi-Cola Knight	291	colasol2.gif	Atk: 30 Def: 27 HP: 35 Init: 50 P: dude	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi grenade (5)
@@ -2157,7 +2157,7 @@ zombie zmobie	303	zombie2.gif	Atk: 20 Def: 18 HP: 11 Init: 60 E: spooky P: undea
 # Wrong Side of the Tracks, 28 Days Later (November 2005)
 # scary pirate	307	zompirate.gif
 Zombie eXtreme Snowboarding Orc	310	zomsnow.gif	Atk: 74 Def: 66 HP: 65 Init: 60 Meat: 40 E: spooky P: undead	snowboarder pants (0)	eXtreme mittens (0)	Mountain Stream soda (0)	zombie pineal gland (0)
-Zombie Goth Giant	312	zomgoth.gif	Atk: 130 Def: 117 HP: 150 Init: 40 Meat:150 E: spooky P: undead	thin black candle (0)	Warm Subject gift certificate (0)	awful poetry journal (0)	zombie pineal gland (0)
+Zombie Goth Giant	312	zomgoth.gif	Atk: 130 Def: 117 HP: 150 Init: 40 Meat: 150 E: spooky P: undead	thin black candle (0)	Warm Subject gift certificate (0)	awful poetry journal (0)	zombie pineal gland (0)
 Zombie N00b	309	zomnoob.gif	Atk: 79 Def: 71 HP: 69 Init: 70 Meat: 30 P: undead	draggin' ball hat (0)	33398 scroll (0)	zombie pineal gland (0)
 Zombie Quiet Healer	311	zomhealer.gif	Atk: 95 Def: 85 HP: 90 Init: 80 Meat: 115 E: spooky P: undead	scroll of drastic healing (0)	amulet of extreme plot significance (0)	soft green echo eyedrop antidote (0)	zombie pineal gland (0)
 
