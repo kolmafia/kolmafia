@@ -2504,7 +2504,11 @@ public class KoLAdventure
 		{
 			Preferences.setInteger( "fratboysDefeated", 1000 );
 		}
-		
+		else if ( responseText.contains( "Drippy Juice supply" ) )
+		{
+			Preferences.setInteger( "drippyJuice", 0 );
+		}
+
 		for ( int i = 1; i < ADVENTURE_FAILURES.length; ++i )
 		{
 			if ( responseText.contains( (String) ADVENTURE_FAILURES[ i ][ 0 ] ) )
