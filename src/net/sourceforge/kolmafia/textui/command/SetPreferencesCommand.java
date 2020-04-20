@@ -40,6 +40,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 
+import net.sourceforge.kolmafia.moods.MoodManager;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
@@ -154,6 +156,11 @@ public class SetPreferencesCommand
 		}
 
 		Preferences.setString( name, value );
+
+		if ( name.equals( "currentMood" ) )
+		{
+			MoodManager.setMood( value );
+		}
 
 		if ( name.startsWith( "combatHotkey" ) )
 		{
