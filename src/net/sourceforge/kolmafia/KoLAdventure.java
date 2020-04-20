@@ -992,29 +992,38 @@ public class KoLAdventure
 			     InventoryManager.retrieveItem( ItemPool.DUMPLINGS ) &&
 			     InventoryManager.retrieveItem( ItemPool.OIL_OF_OILINESS, 3 ) )
 			{
-				StringBuilder message = new StringBuilder();
-				message.append("requireSewerTestItems is true so: ");
-				if (!(KoLCharacter.hasEquipped( ItemPool.get( ItemPool.GATORSKIN_UMBRELLA, 1 )))) {
-					message.append("Equip a gatorskin umbrella. ");
-				}
-				if (!(KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HOBO_CODE_BINDER, 1 ) ) ) ) {
-					message.append("Equip a hobo code binder. ");
-				}
-				if (!InventoryManager.retrieveItem( ItemPool.SEWER_WAD )) {
-					message.append("Acquire 1 sewer wad. ");
-				}
-				if (!InventoryManager.retrieveItem( ItemPool.OOZE_O )) {
-					message.append("Acquire 1 bottle of Ooze-O. ");
-				}
-				if (!InventoryManager.retrieveItem( ItemPool.DUMPLINGS )) {
-					message.append("Acquire 1 unfortunate dumpling. ");
-				}
-				if (!InventoryManager.retrieveItem( ItemPool.OIL_OF_OILINESS, 3 ) ) {
-					message.append("Acquire 3 oil of oiliness. ");
-				}
-				KoLmafia.updateDisplay( MafiaState.ERROR, message.toString() );
-				this.isValidAdventure = false;
+				return;
 			}
+
+			StringBuilder message = new StringBuilder();
+			message.append("requireSewerTestItems is true so: ");
+			if ( !(KoLCharacter.hasEquipped( ItemPool.get( ItemPool.GATORSKIN_UMBRELLA, 1 ))) )
+			{
+				message.append("Equip a gatorskin umbrella. ");
+			}
+			if ( !(KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HOBO_CODE_BINDER, 1 ) ) )  )
+			{
+				message.append("Equip a hobo code binder. ");
+			}
+			if ( !InventoryManager.retrieveItem( ItemPool.SEWER_WAD ))
+			{
+				message.append("Acquire 1 sewer wad. ");
+			}
+			if ( !InventoryManager.retrieveItem( ItemPool.OOZE_O ))
+			{
+				message.append("Acquire 1 bottle of Ooze-O. ");
+			}
+			if ( !InventoryManager.retrieveItem( ItemPool.DUMPLINGS ) )
+			{
+				message.append("Acquire 1 unfortunate dumpling. ");
+			}
+			if ( !InventoryManager.retrieveItem( ItemPool.OIL_OF_OILINESS, 3 )  )
+			{
+				message.append("Acquire 3 oil of oiliness. ");
+			}
+
+			KoLmafia.updateDisplay( MafiaState.ERROR, message.toString() );
+			this.isValidAdventure = false;
 			return;
 		}
 
