@@ -1259,6 +1259,8 @@ Item	dreadlock whip	Sleaze Damage: +5, Stench Damage: +5, Monster Level: +10
 Item	dripping meat crossbow	Moxie: +2
 Item	dripping meat staff	Mysticality: +2
 Item	dripping meat sword	Muscle: +2
+# drippy stake: +40 Damage vs. creatures of The Drip
+Item	drippy stake	Single Equip
 # drippy truncheon: +30 Damage vs. creatures of The Drip
 Item	drippy truncheon	Single Equip
 Item	Drowsy Sword	Weakens Monster, Monster Level: -10
