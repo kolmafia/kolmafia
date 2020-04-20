@@ -805,10 +805,10 @@
 803	Sausage Festive	festsausage.gif	fad9f1b25fabed5a6c0e45ae97bd27f3	good	none	eat 1 festive sausage
 804	Stands Alone	cheeselog.gif	8baa4c34bdc87691d5aa6bcf344c0d4f	good	none	eat 1 holiday cheese log
 805	Loco Motives	motiposter.gif	a5af4ebb8dd7db582526cb51fc7fc40e	good	none	use 1 motivational poster
-806	Kung Fu Fighting	kungfu.gif	c3b40896d1596565f2f489b2774dd6ec	good	nohookah	# 1st combat whilst unarmed, with Kung Fu Hustler
-807	Fast as Lightning	lightning.gif	e5da19b3764183b04d100fabe8978416	good	nohookah	# 10th combat whilst unarmed, with Kung Fu Hustler
-808	A Little Bit Frightening	scaredeyes.gif	346ada2be15421d61362feb7efe73249	good	nohookah	# 20th combat whilst unarmed, with Kung Fu Hustler
-809	Expert Timing	watch.gif	8026f881e7284dc03b962eef338210d8	good	nohookah	# 30th combat whilst unarmed, with Kung Fu Hustler
+806	Kung Fu Fighting	kungfu.gif	c3b40896d1596565f2f489b2774dd6ec	good	none	# 1st combat whilst unarmed, with Kung Fu Hustler
+807	Fast as Lightning	lightning.gif	e5da19b3764183b04d100fabe8978416	good	none	# 10th combat whilst unarmed, with Kung Fu Hustler
+808	A Little Bit Frightening	scaredeyes.gif	346ada2be15421d61362feb7efe73249	good	none	# 20th combat whilst unarmed, with Kung Fu Hustler
+809	Expert Timing	watch.gif	8026f881e7284dc03b962eef338210d8	good	none	# 30th combat whilst unarmed, with Kung Fu Hustler
 810
 811
 812
@@ -1284,12 +1284,12 @@
 1282	Saucegoggles	ma6buff4.gif	8d75b802b6aac66fc4ed8d92db72b852	good	none	# as level 15+ Sauceror, with Sauceror Mini-Adventurer familiar
 1283	Shoesauce	ma6buff5.gif	0db1bd6c9c71155d4135315c5918a5e8	good	none	# as level 15+ Disco Bandit, with Sauceror Mini-Adventurer familiar
 1284	Corona de la Salsa	ma6buff6.gif	b312ea34332e90129f68db802e524796	good	none	# as level 15+ Accordion Thief, with Sauceror Mini-Adventurer familiar
-1285	Frio Como Helado	ma4buff1.gif	0d0f83e49e119df106d45167bad6f9f3	good	nohookah	# as Seal Clubber, with Accordion Thief Mini-Adventurer familiar
-1286	Concha de Tortuga	ma4buff2.gif	da927c80982e09e26a63bb31b38c997b	good	nohookah	# as Turtle Tamer, with Accordion Thief Mini-Adventurer familiar
-1287	Riqueza de Pasta	ma4buff3.gif	4a4443b3e84e765e7ecdaf1944bd6304	good	nohookah	# as Pastamancer, with Accordion Thief Mini-Adventurer familiar
-1288	Cafeter&iacute;a Brujer&iacute;a	ma4buff4.gif	8983c8a24e162c4912277aa87c5f4826	good	nohookah	# as Sauceror, with Accordion Thief Mini-Adventurer familiar
-1289	Carne Obsesionada	ma4buff5.gif	d7ea19ce09aed28865d5b8552aa68725	good	nohookah	# as Disco Bandit, with Accordion Thief Mini-Adventurer familiar
-1290	Bailando, Fernando	ma4buff6.gif	4d1e69c40571a26b51cca3bb04dcb662	good	nohookah	# as Accordion Thief, with Accordion Thief Mini-Adventurer familiar
+1285	Frio Como Helado	ma4buff1.gif	0d0f83e49e119df106d45167bad6f9f3	good	none	# as Seal Clubber, with Accordion Thief Mini-Adventurer familiar
+1286	Concha de Tortuga	ma4buff2.gif	da927c80982e09e26a63bb31b38c997b	good	none	# as Turtle Tamer, with Accordion Thief Mini-Adventurer familiar
+1287	Riqueza de Pasta	ma4buff3.gif	4a4443b3e84e765e7ecdaf1944bd6304	good	none	# as Pastamancer, with Accordion Thief Mini-Adventurer familiar
+1288	Cafeter&iacute;a Brujer&iacute;a	ma4buff4.gif	8983c8a24e162c4912277aa87c5f4826	good	none	# as Sauceror, with Accordion Thief Mini-Adventurer familiar
+1289	Carne Obsesionada	ma4buff5.gif	d7ea19ce09aed28865d5b8552aa68725	good	none	# as Disco Bandit, with Accordion Thief Mini-Adventurer familiar
+1290	Bailando, Fernando	ma4buff6.gif	4d1e69c40571a26b51cca3bb04dcb662	good	none	# as Accordion Thief, with Accordion Thief Mini-Adventurer familiar
 1291	Macho, Macho Dog	hotdog_macho.gif	2f5f13814f9198966e689bfe93098a5b	good	none	eat 1 savage macho dog
 1292	Inner Dog	jarl_deluxedog.gif	73abfb2ae600af8c38acb21f444ccb4d	good	none	eat 1 one with everything
 1293	Top Dog	hotdog_sly.gif	0f072510150a80baaa64627b794a7139	good	none	eat 1 sly dog
@@ -2406,7 +2406,7 @@
 2404	Color of the God Lobster	godlob_rod.gif	577be6fa4852f48c8be181e9261032f5	neutral	none	# Challenge God Lobster with Rod and get blessing
 2405	Carapace of the God Lobster	godlob_robe.gif	870bf8253a4b7118decd9a8fd019886e	good	none	# Challenge God Lobster with Robe and get blessing
 2406	Taste of the God Lobster	godlob_crown.gif	7a540633409b261fe7c3ab1016edde76	neutral	none	# Challenge God Lobster with Crown and get blessing
-2407	Gettin' the Goods	og.gif	aefae2edd0e7b84fdcc09db52621e96b	good	none	chew 1 gaseous gravy
+2407	Gettin' the Goods	og.gif	aefae2edd0e7b84fdcc09db52621e96b	good	nohookah	chew 1 gaseous gravy
 2408	Remaining Alive	shieldpotion.gif	9ef3c5d6e80f63851f4377007f5cde98	good	none	use 1 Shielding Potion
 2409	Feeling Punchy	fistpotion.gif	f5d4dfa4d0ba433027d377e5ca5fb087	good	none	use 1 Punching Potion
 2410	Bastille Budgeteer	strboost.gif	bb197326a5de61d4d4df5257c5bd0705	good	none	# Use Bastille Batallion
@@ -2448,9 +2448,9 @@
 2446	Slightly Mutated	vglob2.gif	53bd0e4774833233c6bdd382969ca4a2	good	none	use 1 mutated candy lump
 2447	Standard Cheer	mochiball.gif	0a44269adec20e7f6c44972e7e290a15	good	none	use 1 government-issued candy
 2448	Bubblin' Rage	bubbles2.gif	5b95ed4a336e3fb2c2957d7deffca38b	good	none	use 1 Pneumo bar
-2449	Wolf Form	wolfmask.gif	4f8c211be81ee34a6b3c3cb2e06218c9	good	none	cast 1 Wolf Form
-2450	Mist Form	puff.gif	7807830b4765b2cc589c16c5834cc7cb	good	none	cast 1 Mist Form
-2451	Bats Form	batflock.gif	a728291f873e6a4bab2dbd2be3ea4cd4	good	none	cast 1 Flock of Bats Form
+2449	Wolf Form	wolfmask.gif	4f8c211be81ee34a6b3c3cb2e06218c9	good	nohookah	cast 1 Wolf Form
+2450	Mist Form	puff.gif	7807830b4765b2cc589c16c5834cc7cb	good	nohookah	cast 1 Mist Form
+2451	Bats Form	batflock.gif	a728291f873e6a4bab2dbd2be3ea4cd4	good	nohookah	cast 1 Flock of Bats Form
 2452	Ceaseless Snarling	grrrrr.gif	c0bdbfa756eae55c97f5dee410738968	neutral	none	cast 1 Ceaseless Snarl
 2453	Cloak of Shadows	wtbcloak.gif	ce633af52a20df1ae6ede331651d29b1	neutral	none	cast 1 Blood Cloak
 2454	Spectral Awareness	elements.gif	4aa3a730e7347d5d51252cde422c5ecf	good	none	cast 1 Spectral Awareness
@@ -2461,9 +2461,9 @@
 2459	The Best a Pirate Can Get	pr_shavingcream.gif	579f7b8ec468f4120a9e9c4efbe44169	good	none	use 1 pirate shaving cream
 2460	Mint-Condition Breath	pr_mintleaf.gif	41aabe6bd233a3239d32834219e5a658	good	none	use 1 huge mint leaf
 2461	Pewtershot	pr_shavings.gif	2ec98f6b5ba231f82d6cf5d4b24f0082	good	none	chew 1 pewter shavings
-2462	Wolfish Form	wolfmask.gif	6555961182dfaffbe6e745f610eab032	good	none	# use Become a Wolf with Vampyre Cloake equipped outside Dark Gyffte
-2463	Misty Form	puff.gif	abd6b0c8dcf218f7a8ce96d6ade8300f	good	none	# use Become a Cloud of Mist with Vampyre Cloake equipped outside Dark Gyffte
-2464	Bat-Adjacent Form	bat.gif	f3d87b2cab931ca81c9b08ffdb16a7cf	good	none	# use Become a Bat with Vampyre Cloake equipped outside Dark Gyffte
+2462	Wolfish Form	wolfmask.gif	6555961182dfaffbe6e745f610eab032	good	nohookah	# use Become a Wolf with Vampyre Cloake equipped outside Dark Gyffte
+2463	Misty Form	puff.gif	abd6b0c8dcf218f7a8ce96d6ade8300f	good	nohookah	# use Become a Cloud of Mist with Vampyre Cloake equipped outside Dark Gyffte
+2464	Bat-Adjacent Form	bat.gif	f3d87b2cab931ca81c9b08ffdb16a7cf	good	nohookah	# use Become a Bat with Vampyre Cloake equipped outside Dark Gyffte
 2465	Icy Composition	pr_icemolecule.gif	105624ec56315e81a67249913d6003fd	good	none	chew 1 oversized ice molecule
 2466	Tiki Toughness	pr_tiki1_1.gif	1478ae44e314cb5c9cbc5698378745d2	good	none	drink 1 Island Landslide|drink 1 Skull Punch|drink 1 Scorpion Bowl
 2467	Tiki Thoughtfulness	pr_tiki2_2.gif	f10b22f26778a43113677e601d1ac2c6	good	none	drink 1 Island Thunderstorm|drink 1 Electric Punch|drink 1 Turtle Bowl
@@ -2498,25 +2498,25 @@
 2496	The More You Eat	franksbeans.gif	e74b9deafaee13c8c35cfbf8b3d865ed	good	none	eat 1 campfire beans
 2497	Just Like Me, They Want to Be	soupbowl.gif	ace65aa58faa1e731ee0bfdb07fa3871	good	none	eat 1 campfire stew
 2498	Coffee Achiever	coffeecup.gif	df349ed07a74d9ff6e00d794d0ae9f50	good	none	eat 1 campfire coffee
-2499	That's Just Cloud-Talk, Man	puff.gif	0e4df48fbd74c17071e74bda5d337161	good	none
-2500	Smile of the Mongoose	const1.gif	53db113a18633034025164e78b76c510	good	none
-2501	Smile of the Wallaby	const2.gif	cddee20a242185001f832c863235619a	good	none
-2502	Smile of the Vole	const3.gif	3138897dbdb3fef8bdac982c8b146b2f	good	none
-2503	Smile of the Platypus	const4.gif	d51097292995fe2fab7f7ba8406e1221	good	none
-2504	Smile of the Opossum	const5.gif	a5ec2ad150c0f82c1b5d8eedc915f0d2	good	none
-2505	Smile of the Marmot	const6.gif	b9779ab75ed2d3236e14f938e7f8f97e	good	none
-2506	Smile of the Wombat	const7.gif	d18213568e8d1ebce441999e3016f160	good	none
-2507	Smile of the Blender	const8.gif	64bc68fc99828b49785f8dc1eab613f8	good	none
-2508	Smile of the Packrat	const9.gif	d725eebccdc585f9b547fcbf01fa6add	good	none
-2509	Big Smile of the Mongoose	const1.gif	ecc5dda83b98f3daf129a511ec1f8fb9	good	none
-2510	Big Smile of the Wallaby	const2.gif	d5cf7710a84d8977d51e574432459ae5	good	none
-2511	Big Smile of the Vole	const3.gif	382c3c5599435b72ae4b8d07f0d05222	good	none
-2512	Big Smile of the Platypus	const4.gif	fae6632deb49a89b15c1e477ec9f559f	good	none
-2513	Big Smile of the Opossum	const5.gif	938cf22538092603d2060891ad82bff0	good	none
-2514	Big Smile of the Marmot	const6.gif	339dbc25ede82c251ea2f523947ea96d	good	none
-2515	Big Smile of the Wombat	const7.gif	def481a320876018461fb7a0a6792d2a	good	none
-2516	Big Smile of the Blender	const8.gif	3311b637173b590b2ac75e9a5ccb175c	good	none
-2517	Big Smile of the Packrat	const9.gif	97c18428c097b8c132ace1cd46e13f73	good	none
+2499	That's Just Cloud-Talk, Man	puff.gif	0e4df48fbd74c17071e74bda5d337161	good	nohookah
+2500	Smile of the Mongoose	const1.gif	53db113a18633034025164e78b76c510	good	nohookah
+2501	Smile of the Wallaby	const2.gif	cddee20a242185001f832c863235619a	good	nohookah
+2502	Smile of the Vole	const3.gif	3138897dbdb3fef8bdac982c8b146b2f	good	nohookah
+2503	Smile of the Platypus	const4.gif	d51097292995fe2fab7f7ba8406e1221	good	nohookah
+2504	Smile of the Opossum	const5.gif	a5ec2ad150c0f82c1b5d8eedc915f0d2	good	nohookah
+2505	Smile of the Marmot	const6.gif	b9779ab75ed2d3236e14f938e7f8f97e	good	nohookah
+2506	Smile of the Wombat	const7.gif	d18213568e8d1ebce441999e3016f160	good	nohookah
+2507	Smile of the Blender	const8.gif	64bc68fc99828b49785f8dc1eab613f8	good	nohookah
+2508	Smile of the Packrat	const9.gif	d725eebccdc585f9b547fcbf01fa6add	good	nohookah
+2509	Big Smile of the Mongoose	const1.gif	ecc5dda83b98f3daf129a511ec1f8fb9	good	nohookah
+2510	Big Smile of the Wallaby	const2.gif	d5cf7710a84d8977d51e574432459ae5	good	nohookah
+2511	Big Smile of the Vole	const3.gif	382c3c5599435b72ae4b8d07f0d05222	good	nohookah
+2512	Big Smile of the Platypus	const4.gif	fae6632deb49a89b15c1e477ec9f559f	good	nohookah
+2513	Big Smile of the Opossum	const5.gif	938cf22538092603d2060891ad82bff0	good	nohookah
+2514	Big Smile of the Marmot	const6.gif	339dbc25ede82c251ea2f523947ea96d	good	nohookah
+2515	Big Smile of the Wombat	const7.gif	def481a320876018461fb7a0a6792d2a	good	nohookah
+2516	Big Smile of the Blender	const8.gif	3311b637173b590b2ac75e9a5ccb175c	good	nohookah
+2517	Big Smile of the Packrat	const9.gif	97c18428c097b8c132ace1cd46e13f73	good	nohookah
 2518	Rainbowolin	rrainbow.gif	c3bcc68a9fee113409c239dd343c2c17	good	none	pillkeeper element
 2519	Hulkien	getbig.gif	52ce8577fb2af0bbb477d8ccda02794e	good	none	pillkeeper stat
 2520	Fidoxene	pill5.gif	fda85b95057d6eda312515fb0394e1b9	neutral	none	pillkeeper familiar
