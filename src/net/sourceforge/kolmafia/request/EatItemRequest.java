@@ -193,6 +193,10 @@ public class EatItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_drippyNuggetUsed" ) ? 0 : 1;
 
+		case ItemPool.DRIPPY_PLUM:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_drippyPlumUsed" ) ? 0 : 1;
+
 		case ItemPool.MAGICAL_SAUSAGE:
 			UseItemRequest.limiter = "daily limit";
 			return 23 - Preferences.getInteger( "_sausagesEaten" );
@@ -1024,6 +1028,11 @@ public class EatItemRequest
 
 		case ItemPool.DRIPPY_NUGGET:
 			Preferences.setBoolean( "_drippyNuggetUsed", true );
+			Preferences.increment( "drippyJuice", 5 );
+			return;
+
+		case ItemPool.DRIPPY_PLUM:
+			Preferences.setBoolean( "_drippyPlumUsed", true );
 			Preferences.increment( "drippyJuice", 5 );
 			return;
 

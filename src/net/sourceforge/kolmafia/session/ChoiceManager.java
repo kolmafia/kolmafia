@@ -11854,6 +11854,9 @@ public abstract class ChoiceManager
 			// You flush some of the vile bat-things out of the rafters and into the nearby forest.  No way that'll come back to bite you in the ass!
 			// 3 = Check the bucket under the sink
 			// You look in the bucket and find a few Driplets.  You collect them and put the bucket back under the sink.
+			// 4 - Pick a nasty fruit
+			// In the backyard of the house, you notice a strange fruit tree you hadn't seen before.  It's maybe... plums?  Kinda hard to tell, what with everything being made out of the same gross stuff.
+			// You pluck the least nasty-looking plum(?) from the tree and pocket it.
 			if ( text.contains( "vile bat-things" ) )
 			{
 				Preferences.setBoolean( "drippyBatsUnlocked", true );
