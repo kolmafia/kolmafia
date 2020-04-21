@@ -11824,7 +11824,8 @@ public abstract class ChoiceManager
 				if ( matcher.find() )
 				{
 					String phylum = matcher.group( 1 );
-					Preferences.setString( "redSnapperPhylum", phylum );
+					String fixed = phylum.equals( "merkin" ) ? "mer-kin" : phylum;
+					Preferences.setString( "redSnapperPhylum", fixed );
 					Preferences.setInteger( "redSnapperProgress", 0 );
 				}
 			}
@@ -11850,6 +11851,7 @@ public abstract class ChoiceManager
 			// Even though the house doesn't have a door, you check under the mat for a key anyway.  You don't find one, but you <i>do</i> find a little puddle of those Driplet things Jeremy told you about.
 			// 1 = Keep Exploring
 			// In one of the side rooms of the house, you find a giant spiral shell stuck to the wall.  You pry it loose -- Jeremy will probably want to see this.
+			// In one of the back rooms, you find a workbench covered in drippy woodworking supplies.
 			// 2 = Dislodge some bats
 			// You flush some of the vile bat-things out of the rafters and into the nearby forest.  No way that'll come back to bite you in the ass!
 			// 3 = Check the bucket under the sink
@@ -11857,9 +11859,16 @@ public abstract class ChoiceManager
 			// 4 - Pick a nasty fruit
 			// In the backyard of the house, you notice a strange fruit tree you hadn't seen before.  It's maybe... plums?  Kinda hard to tell, what with everything being made out of the same gross stuff.
 			// You pluck the least nasty-looking plum(?) from the tree and pocket it.
+			// 5 - Check out the woodworking bench
+			// You use the tools to carve your truncheon into a sharp stake.
 			if ( text.contains( "vile bat-things" ) )
 			{
 				Preferences.setBoolean( "drippyBatsUnlocked", true );
+			}
+			if ( text.contains( "sharp-stake" ) )
+			{
+				// *** Replaces a drippy truncheon with a drippy stake.
+				// *** which one? weapon, off-hand, inventory
 			}
 			// 9 = Leave
 			break;
