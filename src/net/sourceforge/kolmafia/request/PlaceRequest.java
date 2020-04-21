@@ -161,6 +161,7 @@ public class PlaceRequest
 				if ( responseText.contains( "You show Jeremy the big snail shell you found" ) )
 				{
 					Preferences.setBoolean( "drippyShieldUnlocked", true );
+					ResultProcessor.removeItem( ItemPool.DRIPPY_SNAIL_SHELL );
 				}
 			}
 		}
