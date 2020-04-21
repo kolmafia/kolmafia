@@ -153,6 +153,9 @@ public class QuestManager
 			case AdventurePool.KNOB_SHAFT:
 				handleKnobShaftChange( responseText );
 				break;
+			case AdventurePool.ARRRBORETUM:
+				handleArrrboretumChange( responseText );
+				break;
 			case AdventurePool.EXTREME_SLOPE:
 				handleExtremityChange( responseText );
 				break;
@@ -500,6 +503,16 @@ public class QuestManager
 			{
 				ResultProcessor.processItem( ItemPool.STRANGE_CUBE, -1 );
 			}
+		}
+	}
+
+	private static void handleArrrboretumChange( String responseText )
+	{
+		if ( !responseText.contains( "Plant a Tree, Plant a Tree!" ) &&
+		     !responseText.contains( "Stumped" ) &&
+		     !responseText.contains( "Timbarrr!" ) )
+		{
+			Preferences.increment( "_saplingsPlanted" );
 		}
 	}
 
