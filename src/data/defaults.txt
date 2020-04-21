@@ -1773,6 +1773,7 @@ user	_saberForceUses	0
 user	_saberMod	0
 user	_saltGrainsConsumed	0
 user	_sandwormCharge	0
+user	_saplingsPlanted	0
 user	_sausageFights	0
 user	_sausagesEaten	0
 user	_sausagesMade	0

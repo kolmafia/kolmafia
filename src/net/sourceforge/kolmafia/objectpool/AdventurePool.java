@@ -91,6 +91,7 @@ public class AdventurePool
 	public static final int YULETIDE = 163;
 	public static final String HOBOPOLIS_SEWERS_ID = "166";
 	public static final int HOBOPOLIS_TOWN_SQUARE = 167;
+	public static final int ARRRBORETUM = 174;
 	public static final String MINE_OFFICE_ID = "176";
 	public static final int JUNKYARD_BARREL = 182;
 	public static final String JUNKYARD_BARREL_ID = "182";
