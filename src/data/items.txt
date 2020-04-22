@@ -10475,10 +10475,10 @@
 10447	drippy caviar	170861825	drippycaviar.gif	food	t	0
 10448	drippy plum(?)	438609796	drippyplum.gif	food	t	0
 10449	drippy stake	268844563	drippystake.gif	weapon	t	0
-10450
+10450	The Eye of the Thing in the Basement	821203372	dripeye.gif	usable		0
 10451	drippy khakis	426201773	drippykhakis.gif	pants	t	0
 10452	drippy shield	727176523	drippyshield.gif	offhand		0
-10453
+10453	The Fingernail of the Thing in the Basement	970216971	dripnail.gif	none		0
 10454	coin	196730418	mario_coin.gif	none	q	0
 10455	mushroom	370949382	mario_mushroom1.gif	multiple, combat	q	0
 10456	deluxe mushroom	187611344	mario_mushroom2.gif	multiple, combat	q	0

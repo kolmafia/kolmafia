@@ -11852,6 +11852,7 @@ public abstract class ChoiceManager
 			// 1 = Keep Exploring
 			// In one of the side rooms of the house, you find a giant spiral shell stuck to the wall.  You pry it loose -- Jeremy will probably want to see this.
 			// In one of the back rooms, you find a workbench covered in drippy woodworking supplies.
+			// Underneath a shattered bed frame in one of the back rooms, you find a trap door in the floor. You press your ear to it and hear some... Thing... slithering around underneath it.
 			// 2 = Dislodge some bats
 			// You flush some of the vile bat-things out of the rafters and into the nearby forest.  No way that'll come back to bite you in the ass!
 			// 3 = Check the bucket under the sink
@@ -11861,6 +11862,7 @@ public abstract class ChoiceManager
 			// You pluck the least nasty-looking plum(?) from the tree and pocket it.
 			// 5 - Check out the woodworking bench
 			// You use the tools to carve your truncheon into a sharp stake.
+			// 6 - Go down to the basement
 			if ( text.contains( "vile bat-things" ) )
 			{
 				Preferences.setBoolean( "drippyBatsUnlocked", true );

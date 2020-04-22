@@ -213,6 +213,9 @@
 188	Implode Universe	light.gif	5	50	0
 189	The Spirit of Taking	sack1.gif	3	50	10
 190	Visit your Favorite Bird	favoritebird.gif	3	50	20
+191	Drippy Eye-Sprout	dripeye2.gif	0	0	0
+192	Drippy Eye-Stone	dripeye1.gif	0	0	0
+193	Drippy Eye-Beetle	dripeye3.gif	0	0	0
 
 # Skills available to Clubbers
 

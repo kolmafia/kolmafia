@@ -7421,6 +7421,9 @@ Skill	Disco Bravado	Experience: [I-max(I-1,0)/2]
 Skill	Disco Greed	Item Drop: [10*I]
 Skill	Double-Eidetic Memory	Experience Percent (Muscle): +10, Experience Percent (Mysticality): +10, Experience Percent (Moxie): +10
 # Double-Fisted Skull Smashing
+# Drippy Eye-Beetle: It is awful!
+# Drippy Eye-Sprout: It tickles!
+# Drippy Eye-Stone: It is irritating!
 Skill	Easy Riding	Experience (Moxie): +5
 Skill	Elbows	Weapon Damage: +11
 Skill	Eldritch Intellect	Spooky Spell Damage: +1, Spooky Resistance: +1
