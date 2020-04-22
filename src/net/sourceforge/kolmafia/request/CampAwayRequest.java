@@ -167,6 +167,11 @@ public class CampAwayRequest
 					Preferences.increment( "_campAwayCloudBuffs" );
 				}
 			}
+			else
+			{
+				Preferences.setInteger( "_campAwayCloudBuffs", 1 );
+				Preferences.setInteger( "_campAwaySmileBuffs", 3 );
+			}	
 		}
 	}
 
