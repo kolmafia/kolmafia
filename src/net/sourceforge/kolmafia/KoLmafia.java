@@ -1386,19 +1386,15 @@ public abstract class KoLmafia
 		}
 		finally
 		{
-			if ( checkpoint != null )
-			{
-				checkpoint.restore();
-			}
 			if ( request instanceof KoLAdventure && !wasAdventuring )
 			{
 				KoLmafia.isAdventuring = false;
 				NamedListenerRegistry.fireChange( "(adventuring)" );
-
 				if ( RecoveryManager.isRecoveryPossible() )
 				{
-					RecoveryManager.runBetweenBattleChecks( false );
+					RecoveryManager.recoverHP();
 				}
+				checkpoint.restore();
 			}
 		}
 	}
