@@ -6512,6 +6512,14 @@ public class UseItemRequest
 			}
 			Preferences.increment( "aminoAcidsUsed", 1, 3, false );
 			break;
+
+		case ItemPool.EYE_OF_THE_THING:
+			// Horrified, you throw the Eye on the ground and stomp it into goo before it can do any more damage.
+			if ( !responseText.contains( "stomp it into goo" ) )
+			{
+				return;
+			}
+			break;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
