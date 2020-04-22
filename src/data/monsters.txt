@@ -30,7 +30,7 @@ ancient protector spirit (The Hidden Apartment Building)	442	protspirit.gif	HP: 
 ancient protector spirit (The Hidden Hospital)	443	protspirit.gif	HP: 80 Def: 142 Atk: 162 Init: 10 Phys: 100 P: undead GHOST Manuel: "ancient protector spirit"	dripping stone sphere (c100)
 ancient protector spirit (The Hidden Office Building)	444	protspirit.gif	HP: 80 Def: 140 Atk: 160 Init: 10 Phys: 100 P: undead GHOST Manuel: "ancient protector spirit"	crackling stone sphere (c100)
 ancient protector spirit (The Hidden Bowling Alley)	445	protspirit.gif	HP: 80 Def: 144 Atk: 156 Init: 10 Phys: 100 P: undead GHOST Manuel: "ancient protector spirit"	scorched stone sphere (c100)
-ancient protector spirit (obsolete)	446	protspirit.gif	HP: 80 Def: 144 Atk: 160 Init: 10 Phys: 100 P: undead GHOST Manuel: "ancient protector spirit"  Wiki: "ancient protector spirit"	obsidian dagger (c100)
+ancient protector spirit (obsolete)	446	protspirit.gif	HP: 80 Def: 144 Atk: 160 Init: 10 Phys: 100 P: undead GHOST Manuel: "ancient protector spirit" Wiki: "ancient protector spirit"	obsidian dagger (c100)
 # ---
 Anemone combatant	766	anemone.gif	HP: 600 Def: 585 Atk: 400 Init: 25 Meat: 100 "Majorly Poisoned" P: fish	anemone nematocyst (n25)
 anglerbush	381	anglerbush.gif	Atk: 22 Def: 21 HP: 25 Init: 300 P: plant	meat stack (35)
@@ -108,7 +108,7 @@ breakdancing raver	855	breakdancer.gif	Atk: 140 Def: 126 HP: 150 Init: 10000 P: 
 briefcase bat	46	casebat.gif	Atk: 17 Def: 15 HP: 11 Init: 60 Meat: 28 P: beast	bat guano (10)	briefcase (40)	sonar-in-a-biscuit (10)
 broodling seal	794	babyseal.gif	NOCOPY FREE Atk: 80 Def: 90 HP: 100 Init: -10000 P: demon	severed flipper (35)
 Brutus, the toga-clad lout	518	togafrat.gif	NOCOPY Atk: 200 Def: 180 HP: 280 Init: 60 Meat: 250 E: sleaze P: orc	wreath of laurels (100)	white class ring (30)	kick-ass kicks (0)
-Bubblemint Twins	1240	twins_bubble.gif	Atk: 93 Def: 83 HP: 90 Init: 40 Meat: 64 P: dude	dress pants (5)	that gum you like (25)
+Bubblemint Twins	1240	twins_bubble.gif	Atk: 93 Def: 83 HP: 90 Init: 40 Meat: 65 P: dude	dress pants (5)	that gum you like (25)
 bugbear-in-the-box	108	binbox.gif	Atk: 16 Def: 16 HP: 11 Init: 70 Meat: 15 P: beast	box (20)	bugbear beanie (10)	bugbear bungguard (10)
 bugged bugbear	258	bugbugbear.gif	HP: 14 Def: 16 Atk: 17 Init: 50 P: beast	gnoll teeth (30)	gnoll lips (30)	software glitch (p25)
 Bullet Bill	121	bulletbill.gif	Atk: 25 Def: 22 HP: 15 Init: 60 P: construct	black pixel (70)	black pixel (70)	black pixel (70)
@@ -176,7 +176,7 @@ curmudgeonly pirate	623	curmpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 P: pirat
 Dad Sea Monkee	1379	dad_machine.gif	BOSS Atk: 42000 Def: 42000 HP: 4200 Init: 10000 P: horror
 daft punk	870	daftpunk.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: dude
 dairy goat	83	biggoat.gif	Atk: 68 Def: 61 HP: 50 Init: 80 Meat: 50 P: beast	glass of goat's milk (20)	goat cheese (40)	Shivering Ch&egrave;vre (c0)
-dairy ooze	69	ooze.gif	Atk: 13 Def: 11 HP: 8 Init: 60 Meat: 12 P: slime	mana curds (n100)
+dairy ooze	69	ooze.gif	Atk: 13 Def: 11 HP: 8 Init: 60 Meat: 14 P: slime	mana curds (n100)
 dancing mushroom guy	1806	mush_dancing.gif	Atk: 20 Def: 35 HP: 20 Init: 100 P: plant	cool spore pod (0)	cool mushroom (0)
 Danglin' Chad	519	chad.gif	NOCOPY Atk: 210 Def: 189 HP: 320 Init: 80 Meat: 300 E: sleaze P: orc	Danglin' Chad's loincloth (100)	white class ring (30)	beer helmet (0)	bejeweled pledge pin (0)	distressed denim pants (0)	kick-ass kicks (0)
 decent lumberjack	233	lumberjack.gif	Atk: 35 Def: 31 HP: 35 Init: 60 Meat: 20 P: dude	poutine (30)	disbelief suspenders (10)	jack flapper (10)	manly bloomers (p15)
@@ -615,7 +615,7 @@ Safari Jack, Small-Game Hunter	702	safarijack.gif	WANDERER Atk: 115 Def: 103 HP:
 salamander	334	salamander.gif	HP: [3] Def: [2] Atk: [3] Init: -10000 Meat: 10 P: beast	salamander spleen (100)
 sassy pirate	104	pirate1.gif	Atk: 61 Def: 54 HP: 51 Init: 60 Meat: 20 P: pirate	crowbarrr (10)	flaregun (30)	sunken chest (15)	swashbuckling pants (10)
 scary clown	111	clown.gif	Atk: 19 Def: 17 HP: 15 Init: 80 E: spooky Meat: 25 P: horror	big red clown nose (10)	bloody clown pants (10)	long skinny balloon (40)	big bass drum (4)	clown skin (10)	polka-dot bow tie (p5)
-scary pirate	307	zompirate.gif	Atk: 150 Def: 135 HP: 200 Init: 10000 E: spooky Meat: 45 P: pirate	cursed breeches (n0)	cursed cutlass (n0)	cursed eyepatch (n0)	folder (skull and crossbones) (c0)
+scary pirate	307	zompirate.gif	Atk: 150 Def: 135 HP: 200 Init: 10000 E: spooky Meat: 45 P: pirate Wiki: "scary pirate (cursed)" 	cursed breeches (n0)	cursed cutlass (n0)	cursed eyepatch (n0)	folder (skull and crossbones) (c0)
 school of many	1374	schoolofmany.gif	Atk: 625 Def: 600 HP: 20000 Init: 100 P: horror	rough fish scale (n20)	rough fish scale (n10)	dull fish scale (n40)	dull fish scale (n20)	jagged tooth (n15)	jagged tooth (n5)
 school of wizardfish	717	wizardfish.gif	Atk: 300 Def: 270 HP: 400 Init: 100 Meat: 200 P: fish	dull fish scale (n15)	fishy wand (c0)	glistening fish meat (n5)	folder (Seawolf) (c0)
 scimitarfish	723	scimitarfish.gif	Atk: 400 Def: 292 HP: 550 Init: 200 Meat: 220 P: fish	dull fish scale (n15)	fish scimitar (n2)
@@ -644,7 +644,7 @@ skeleton with a mop	999	mopskeleton.gif	Atk: 8 Def: 7 HP: 7 Init: 50 P: undead	b
 Skelter Butleton, the Butler Skeleton	408	buttleton.gif	NOCOPY Atk: 170 Def: 153 HP: 180 Init: 50 ED: spooky P: undead	silver shrimp fork (100)
 Skinflute	353	skinflute.gif	Atk: 158 Def: 142 HP: 150 Init: 70 E: sleaze P: constellation	star (30)	star (30)	line (30)	line (30)
 skleleton	29	skeleton.gif	Atk: 18 Def: 16 HP: 10 Init: 60 E: spooky P: undead	loose teeth (30)	skeleton bone (40)	skeleton bone (20)
-skullbat	45	skullbat.gif	Atk: 16 Def: 14 HP: 10 Init: 60 EA: spooky Meat: 30 P: beast	broken skull (40)	loose teeth (20)	sonar-in-a-biscuit (15)	smoking talon (c0)
+skullbat	45	skullbat.gif	Atk: 16 Def: 14 HP: 10 Init: 60 EA: spooky Meat: 28 P: beast	broken skull (40)	loose teeth (20)	sonar-in-a-biscuit (15)	smoking talon (c0)
 skulldozer	1239	skulldozer.gif	NOCOPY Scale: 5 Cap: 10000 Floor: 300 Init: -10000 E: spooky P: undead	skulldozer egg (0)
 skullery maid	377	skullery.gif	Atk: 20 Def: 18 HP: 20 Init: 50 Meat: 5 E: spooky P: undead	bottle of popskull (30)	dishrag (5)	Skullery Maid's Knee (c0)
 sleeping Knob Goblin Guard	152	kg_sleepingguard.gif	Atk: 0 Def: 0 HP: 1 Init: -10000 Meat: 5 P: goblin	viking helmet (32)	Knob Goblin pants (8)	Knob Goblin scimitar (32)
@@ -748,7 +748,7 @@ The Master Of Thieves	-92	masterat.gif	ULTRARARE NOMANUEL Atk: 70 Def: 63 HP: 70
 The Nuge	1534	thenuge.gif	NOCOPY ULTRARARE NOMANUEL Atk: 155 Def: 150 HP: 180 Init: 10000 P: dude	The Nuge's favorite crossbow (100)
 The Snake With Like Ten Heads	1516	snakeboss3.gif	Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE E: sleaze	The Eye of the Stars (n100)
 The Temporal Bandit	-90	timebandit.gif	NOCOPY ULTRARARE NOMANUEL Atk: 35 Def: 31 HP: 35 Init: 10000 P: dude	Counterclockwise Watch (100)
-The Thing in the Basement	-24	drippything1.gif	NOMANUEL Atk: 300 Def: 300 HP: 320 Init: -10000 P: horror 
+The Thing in the Basement	-24	drippything1.gif	NOMANUEL Atk: [300] Def: [300] HP: [320] Init: -10000 P: horror 
 The Unknown Seal Clubber	1775	unknownghost.gif	Atk: 25 Def: 25 HP: 15 P: undead E: spooky Init: -10000 GHOST	Bjorn's Hammer (100)
 The Unknown Turtle Tamer	1776	unknownghost.gif	Atk: 25 Def: 25 HP: 15 P: undead E: spooky Init: -10000 GHOST	Mace of the Tortoise (100)
 The Unknown Pastamancer	1777	unknownghost.gif	Atk: 25 Def: 25 HP: 15 P: undead E: spooky Init: -10000 GHOST	Pasta Spoon of Peril (100)
@@ -1977,7 +1977,7 @@ mowing lawn gnome	915	lawngnome2.gif	Atk: 55 Def: 49 HP: 85 Init: 50 P: humanoid
 The Landscaper	917	landscaper.gif	NOCOPY BOSS Atk: 100 Def: 90 HP: 100000 Init: -10000 EA: hot Phys: 100 P: demon	The Landscaper's leafblower (100)
 
 # Professor Jacking's laboratory (antique record album March-April 2010)
-Professor Jacking	939	profjacking.gif	NOCOPY Atk: 85 Def: 76 HP: 200 Init: 85 P: dude
+Professor Jacking	939	profjacking.gif	NOCOPY Atk: 85 Def: 76 HP: 200 Init: 85 Meat: 200 P: dude
 Castle in the Clouds in the Sky	943	thecastle.gif	Atk: 75 Def: 81 HP: 200 Init: 10 P: construct	tiny goth giant (0)
 cruel dust mote	940	dustmote.gif	Atk: 75 Def: 67 HP: 100 Init: 40 P: weird	boulder (0)
 Fearsome Wacken	946	wacken.gif	NOCOPY Atk: 90 Def: 81 HP: 200 Init: 60 P: beast	Crazyleg's razor (100)
