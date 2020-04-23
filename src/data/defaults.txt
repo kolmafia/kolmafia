@@ -1516,6 +1516,7 @@ user	_feelinTheRhythm	0
 user	_fingertrapArrows	0
 user	_firedJokestersGun	false
 user	_fireStartingKitUsed	false
+user	_fireworkUsed	false
 user	_fishyPipeUsed	false
 user	_floristPlantsUsed
 user	_floundryItemCreated	false

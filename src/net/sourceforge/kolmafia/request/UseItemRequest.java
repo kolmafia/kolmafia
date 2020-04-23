@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -1226,6 +1227,15 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_sewingKitUsed" ) ? 0 : 1;
 
+		case ItemPool.M282:
+		case ItemPool.SNAKE:
+		case ItemPool.SPARKLER:
+		case ItemPool.GREEN_ROCKET:
+		{
+			boolean dependenceDay = HolidayDatabase.getHoliday().contains( "Dependence Day" );
+			boolean fireworkUsed = Preferences.getBoolean( "_fireworkUsed" );
+			return ( dependenceDay && !fireworkUsed ) ? 1 : 0;
+		}		
 		}
 
 		if ( restorationMaximum < Long.MAX_VALUE )
@@ -2642,6 +2652,7 @@ public class UseItemRequest
 		case ItemPool.SPARKLER:
 		case ItemPool.SNAKE:
 		case ItemPool.M282:
+		case ItemPool.GREEN_ROCKET:
 
 			// "You've already celebrated the Fourth of Bor, and
 			// now it's time to get back to work."
@@ -2656,6 +2667,7 @@ public class UseItemRequest
 				return;
 			}
 
+			Preferences.setBoolean( "_fireworkUsed", true );
 			break;
 
 		case ItemPool.GONG:
