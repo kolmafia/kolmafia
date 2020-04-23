@@ -393,6 +393,7 @@ public class NPCStoreDatabase
 			case ItemPool.M282:
 			case ItemPool.SNAKE:
 			case ItemPool.SPARKLER:
+			case ItemPool.GREEN_ROCKET:
 				return holiday.contains( "Dependence Day" );
 			case ItemPool.FOAM_NOODLE:
 			case ItemPool.INFLATABLE_DUCK:
