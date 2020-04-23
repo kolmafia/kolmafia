@@ -3042,6 +3042,7 @@ public class ItemPool
 	public static final int AMULET_COIN = 9824;
 	public static final int RAZOR_FANG = 9825;
 	public static final int SMOKE_BALL = 9826;
+	public static final int GREEN_RCKET = 9827;
 	public static final int FR_MEMBER = 9835;
 	public static final int FR_GUEST = 9836;
 	public static final int FANTASY_REALM_GEM = 9837;
