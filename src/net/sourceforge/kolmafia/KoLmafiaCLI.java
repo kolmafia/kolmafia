@@ -728,6 +728,7 @@ public class KoLmafiaCLI
 			register( "checkprofile" ).
 			register( "checkpulverization" ).
 			register( "checkshields" ).
+			register( "checkskills" ).
 			register( "checkzapgroups" );
 		new ChessCommand().register( "chess" );
 		new ChoiceCommand().register( "choice" );

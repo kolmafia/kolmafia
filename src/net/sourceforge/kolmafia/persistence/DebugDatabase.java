@@ -76,6 +76,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
@@ -1763,6 +1764,7 @@ public class DebugDatabase
 		if ( text == null )
 		{
 			report.println( "# *** " + name + " (" + outfitId + ") has malformed description text." );
+			DebugDatabase.rawOutfits.set( outfitId, null );
 			return;
 		}
 
@@ -1954,6 +1956,7 @@ public class DebugDatabase
 		if ( text == null )
 		{
 			report.println( "# *** " + name + " (" + effectId + ") has malformed description text." );
+			DebugDatabase.rawEffects.set( effectId, null );
 			return;
 		}
 
@@ -1964,7 +1967,7 @@ public class DebugDatabase
 		}
 
 		String descriptionName = DebugDatabase.parseName( text );
-		// Kludge to adjust known defecting effect descriptions
+		// Kludge to adjust known defective effect descriptions
 		if ( effectId == 1659 )
 		{
 			descriptionName = StringUtilities.globalStringReplace( descriptionName, "  ", " " );
@@ -2014,96 +2017,6 @@ public class DebugDatabase
 			path.startsWith( prefix2 ) ?
 			path.substring( prefix2.length() ) :
 			path;
-	}
-
-	// Grants Skill: <a class=hand onClick='javascript:poop("desc_skill.php?whichskill=163&self=true","skill", 350, 300)'><b>Gingerbread Mob Hit</b></a>
-	private static final Pattern SKILL_ID_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
-	public static final int parseSkillId( final String text )
-	{
-		Matcher matcher = DebugDatabase.SKILL_ID_PATTERN.matcher( text );
-		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
-	}
-
-	private static final Pattern SKILL_TYPE_PATTERN = Pattern.compile( "<b>Type:</b> (.*?)<br>" );
-	public static final String parseSkillType( final String text )
-	{
-		Matcher matcher = DebugDatabase.SKILL_TYPE_PATTERN.matcher( text );
-		return matcher.find() ? matcher.group( 1 ) : "";
-	}
-
-	private static final Pattern SKILL_MP_COST_PATTERN = Pattern.compile( "<b>MP Cost:</b> (\\d+)" );
-	public static final long parseSkillMPCost( final String text )
-	{
-		Matcher matcher = DebugDatabase.SKILL_MP_COST_PATTERN.matcher( text );
-		return matcher.find() ? StringUtilities.parseLong( matcher.group( 1 ) ) : 0;
-	}
-
-	// Gives Effect: <b><a class=nounder href="desc_effect.php?whicheffect=69dcf3d8fe46c29e7fb6075d06448c95">Your Fifteen Minutes</a>
-	private static final Pattern SKILL_EFFECT_PATTERN = Pattern.compile( "Gives Effect: .*?whicheffect=([^\">]*).*?>([^<]*)" );
-	public static final String parseSkillEffectName( final String text )
-	{
-		Matcher matcher = DebugDatabase.SKILL_EFFECT_PATTERN.matcher( text );
-		return matcher.find() ? matcher.group( 2 ) : "";
-	}
-
-	public static final String parseSkillEffectId( final String text )
-	{
-		Matcher matcher = DebugDatabase.SKILL_EFFECT_PATTERN.matcher( text );
-		return matcher.find() ? matcher.group( 1 ) : "";
-	}
-
-	private static final Pattern SKILL_EFFECT_DURATION_PATTERN = Pattern.compile( "\\((\\d+) Adventures?\\)" );
-	public static final int parseSkillEffectDuration( final String text )
-	{
-		Matcher matcher = DebugDatabase.SKILL_EFFECT_DURATION_PATTERN.matcher( text );
-		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
-	}
-
-	private static final GenericRequest DESC_SKILL_REQUEST = new GenericRequest( "desc_skill.php" );
-
-	public static final String skillDescriptionText( final int skillId )
-	{
-		return DebugDatabase.skillDescriptionText( DebugDatabase.rawSkillDescriptionText( skillId ) );
-	}
-
-	public static final String readSkillDescriptionText( final int skillId )
-	{
-		DebugDatabase.DESC_SKILL_REQUEST.clearDataFields();
-		DebugDatabase.DESC_SKILL_REQUEST.addFormField( "whichskill", String.valueOf( skillId ) );;
-		RequestThread.postRequest( DebugDatabase.DESC_SKILL_REQUEST );
-		return DebugDatabase.DESC_SKILL_REQUEST.responseText;
-	}
-
-	private static final String rawSkillDescriptionText( final int skillId )
-	{
-		String previous = DebugDatabase.rawSkills.get( skillId );
-		if ( previous != null && !previous.equals( "" ) )
-		{
-			return previous;
-		}
-
-		String text = DebugDatabase.readSkillDescriptionText( skillId );
-		DebugDatabase.rawSkills.set( skillId, text );
-
-		return text;
-	}
-
-	private static final Pattern SKILL_DATA_PATTERN = Pattern.compile( "<div id=\"description\"[^>]*>(.*?)</div>", Pattern.DOTALL );
-
-	private static final String skillDescriptionText( final String rawText )
-	{
-		if ( rawText == null )
-		{
-			return null;
-		}
-
-		Matcher matcher = DebugDatabase.SKILL_DATA_PATTERN.matcher( rawText );
-		if ( !matcher.find() )
-		{
-			return null;
-		}
-
-		return matcher.group( 1 );
 	}
 
 	// href="desc_effect.php?whicheffect=138ba5cbeccb6334a1d473710372e8d6"
@@ -2234,7 +2147,6 @@ public class DebugDatabase
 		DebugDatabase.logModifierDatum( "Effect", name, known, unknown, report );
 	}
 
-
 	// **********************************************************
 
 	// Support for the "checkskills" command, which compares KoLmafia's
@@ -2244,7 +2156,271 @@ public class DebugDatabase
 	private static final String SKILL_HTML = "skillhtml.txt";
 	private static final String SKILL_DATA = "skilldata.txt";
 	private static final StringArray rawSkills = new StringArray();
-	private static final ItemMap skills = new ItemMap( "Skills", 0 );
+	private static final ItemMap passiveSkills = new ItemMap( "Passive Skills", 0 );
+
+	public static final void checkSkills( final int skillId )
+	{
+		RequestLogger.printLine( "Loading previous data..." );
+		DebugDatabase.loadScrapeData( rawSkills, SKILL_HTML );
+
+		RequestLogger.printLine( "Checking internal data..." );
+
+		PrintStream report = DebugDatabase.openReport( SKILL_DATA );
+
+		DebugDatabase.passiveSkills.clear();
+
+		if ( skillId == 0 )
+		{
+			DebugDatabase.checkSkills( report );
+		}
+		else
+		{
+			DebugDatabase.checkSkill( skillId, report );
+		}
+
+		DebugDatabase.checkSkillModifiers( report );
+
+		report.close();
+	}
+
+	private static final void checkSkills(final PrintStream report )
+	{
+		Set<Integer> keys = SkillDatabase.idKeySet();
+		for ( Integer value : keys )
+		{
+			int id = value.intValue();
+			if ( id < 1 )
+			{
+				continue;
+			}
+
+			DebugDatabase.checkSkill( id, report );
+		}
+
+		DebugDatabase.saveScrapeData( keys.iterator(), rawSkills, SKILL_HTML );
+	}
+
+	private static final void checkSkill( final int skillId, final PrintStream report )
+	{
+		String name = SkillDatabase.getSkillName( skillId );
+		if ( name == null )
+		{
+			return;
+		}
+
+		// Kludge: KoL returns 500 (Internal Server Error) for campground summoning skills
+		switch ( skillId )
+		{
+		case SkillPool.SNOWCONE:
+		case SkillPool.STICKER:
+		case SkillPool.SUGAR:
+		case SkillPool.CLIP_ART:
+		case SkillPool.RAD_LIB:
+		case SkillPool.SMITHSNESS:
+		case SkillPool.CANDY_HEART:
+		case SkillPool.PARTY_FAVOR:
+		case SkillPool.LOVE_SONG:
+		case SkillPool.BRICKOS:
+		case SkillPool.DICE:
+		case SkillPool.RESOLUTIONS:
+		case SkillPool.TAFFY:
+		case SkillPool.HILARIOUS:
+		case SkillPool.TASTEFUL:
+		case SkillPool.CARDS:
+		case SkillPool.GEEKY:
+		case SkillPool.CONFISCATOR:
+			return;
+		}
+
+		String rawText = DebugDatabase.rawSkillDescriptionText( skillId );
+
+		if ( rawText == null )
+		{
+			report.println( "# *** " + name + " (" + skillId + ") has no description." );
+			return;
+		}
+
+		String text = DebugDatabase.skillDescriptionText( rawText );
+		if ( text == null )
+		{
+			report.println( "# *** " + name + " (" + skillId + ") not found." );
+			DebugDatabase.rawSkills.set( skillId, null );
+			return;
+		}
+
+		String descriptionImage = DebugDatabase.parseImage( rawText );
+		if ( !descriptionImage.equals( SkillDatabase.getSkillImage( skillId ) ) )
+		{
+			report.println( "# *** " + name + " (" + skillId + ") has image of " + descriptionImage + "." );
+		}
+
+		String type = DebugDatabase.parseSkillType( text );
+		if ( type.equals( "Passive" ) )
+		{
+			DebugDatabase.passiveSkills.put( name, text );
+		}
+	}
+
+	// Grants Skill: <a class=hand onClick='javascript:poop("desc_skill.php?whichskill=163&self=true","skill", 350, 300)'><b>Gingerbread Mob Hit</b></a>
+	private static final Pattern SKILL_ID_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
+	public static final int parseSkillId( final String text )
+	{
+		Matcher matcher = DebugDatabase.SKILL_ID_PATTERN.matcher( text );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+	}
+
+	private static final Pattern SKILL_TYPE_PATTERN = Pattern.compile( "<b>Type:</b> (.*?)<br>" );
+	public static final String parseSkillType( final String text )
+	{
+		Matcher matcher = DebugDatabase.SKILL_TYPE_PATTERN.matcher( text );
+		return matcher.find() ? matcher.group( 1 ) : "";
+	}
+
+	private static final Pattern SKILL_MP_COST_PATTERN = Pattern.compile( "<b>MP Cost:</b> (\\d+)" );
+	public static final long parseSkillMPCost( final String text )
+	{
+		Matcher matcher = DebugDatabase.SKILL_MP_COST_PATTERN.matcher( text );
+		return matcher.find() ? StringUtilities.parseLong( matcher.group( 1 ) ) : 0;
+	}
+
+	// Gives Effect: <b><a class=nounder href="desc_effect.php?whicheffect=69dcf3d8fe46c29e7fb6075d06448c95">Your Fifteen Minutes</a>
+	private static final Pattern SKILL_EFFECT_PATTERN = Pattern.compile( "Gives Effect: .*?whicheffect=([^\">]*).*?>([^<]*)" );
+	public static final String parseSkillEffectName( final String text )
+	{
+		Matcher matcher = DebugDatabase.SKILL_EFFECT_PATTERN.matcher( text );
+		return matcher.find() ? matcher.group( 2 ) : "";
+	}
+
+	public static final String parseSkillEffectId( final String text )
+	{
+		Matcher matcher = DebugDatabase.SKILL_EFFECT_PATTERN.matcher( text );
+		return matcher.find() ? matcher.group( 1 ) : "";
+	}
+
+	private static final Pattern SKILL_EFFECT_DURATION_PATTERN = Pattern.compile( "\\((\\d+) Adventures?\\)" );
+	public static final int parseSkillEffectDuration( final String text )
+	{
+		Matcher matcher = DebugDatabase.SKILL_EFFECT_DURATION_PATTERN.matcher( text );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+	}
+
+	private static final GenericRequest DESC_SKILL_REQUEST = new GenericRequest( "desc_skill.php" );
+
+	public static final String skillDescriptionText( final int skillId )
+	{
+		return DebugDatabase.skillDescriptionText( DebugDatabase.rawSkillDescriptionText( skillId ) );
+	}
+
+	public static final String readSkillDescriptionText( final int skillId )
+	{
+		DebugDatabase.DESC_SKILL_REQUEST.clearDataFields();
+		DebugDatabase.DESC_SKILL_REQUEST.addFormField( "whichskill", String.valueOf( skillId ) );
+		DebugDatabase.DESC_SKILL_REQUEST.addFormField( "self", "true" );
+		RequestThread.postRequest( DebugDatabase.DESC_SKILL_REQUEST );
+		return DebugDatabase.DESC_SKILL_REQUEST.responseText;
+	}
+
+	private static final String rawSkillDescriptionText( final int skillId )
+	{
+		String previous = DebugDatabase.rawSkills.get( skillId );
+		if ( previous != null && !previous.equals( "" ) )
+		{
+			return previous;
+		}
+
+		String text = DebugDatabase.readSkillDescriptionText( skillId );
+		DebugDatabase.rawSkills.set( skillId, text );
+
+		return text;
+	}
+
+	private static final Pattern SKILL_DATA_PATTERN = Pattern.compile( "<div id=\"description\"[^>]*>(.*)</div>", Pattern.DOTALL );
+
+	private static final String skillDescriptionText( final String rawText )
+	{
+		if ( rawText == null )
+		{
+			return null;
+		}
+
+		Matcher matcher = DebugDatabase.SKILL_DATA_PATTERN.matcher( rawText );
+		if ( !matcher.find() )
+		{
+			return null;
+		}
+
+		return matcher.group( 1 );
+	}
+
+	private static final void checkSkillModifiers( final PrintStream report )
+	{
+		RequestLogger.printLine( "Checking modifiers..." );
+
+		DebugDatabase.checkSkillModifierMap( report, DebugDatabase.passiveSkills );
+	}
+
+	private static final void checkSkillModifierMap( final PrintStream report, final ItemMap imap )
+	{
+		Map<String, String> map = imap.getMap();
+		if ( map.size() == 0 )
+		{
+			return;
+		}
+
+		String tag = imap.getTag();
+
+		report.println();
+		report.println( "# " + tag + " section of modifiers.txt" );
+		report.println();
+
+		Object[] keys = map.keySet().toArray();
+		for ( int i = 0; i < keys.length; ++i )
+		{
+			String name = (String) keys[ i ];
+			String text = map.get( name );
+			DebugDatabase.checkSkillModifierDatum( name, text, report );
+		}
+	}
+
+	private static final Pattern SKILL_ENCHANTMENT_PATTERN =
+		Pattern.compile( "<font color=blue size=2><b>(.*)</b></font>", Pattern.DOTALL );
+
+	public static final void parseSkillEnchantments( final String text, final ModifierList known, final ArrayList<String> unknown )
+	{
+		DebugDatabase.parseStandardEnchantments( text, known, unknown, DebugDatabase.SKILL_ENCHANTMENT_PATTERN );
+	}
+
+	public static final String parseSkillEnchantments( final String text, final ArrayList<String> unknown )
+	{
+		ModifierList known = new ModifierList();
+		DebugDatabase.parseSkillEnchantments( text, known, unknown );
+		return DebugDatabase.createModifierString( known );
+	}
+
+	public static final String parseSkillEnchantments( final String text )
+	{
+		ArrayList<String> unknown = new ArrayList<String>();
+		return DebugDatabase.parseSkillEnchantments( text, unknown );
+	}
+
+	private static final void checkSkillModifierDatum( final String name, final String text, final PrintStream report )
+	{
+		ModifierList known = new ModifierList();
+		ArrayList<String> unknown = new ArrayList<String>();
+
+		// Get the known and unknown modifiers from the effect description
+		DebugDatabase.parseSkillEnchantments( text, known, unknown );
+
+		// Compare to what is already registered.
+		// Log differences and substitute formulas, as appropriate.
+		DebugDatabase.checkModifiers( "Skill", name, known, true, report );
+
+		// Print the modifiers in the format modifiers.txt expects.
+		if ( known.size() > 0 || unknown.size() > 0 )
+		{
+			DebugDatabase.logModifierDatum( "Skill", name, known, unknown, report );
+		}
+	}
 
 	// **********************************************************
 

@@ -136,7 +136,7 @@
 110	Shrap	junkjagged.gif	5	0	0
 111	Psychokinetic Hug	reassured.gif	4	0	10
 112	Unoffendable	seenitall.gif	0	0	0
-113	Grease Up	reassured.gif	3	15	10
+113	Grease Up	groosegrease.gif	3	15	10
 114	Sloppy Secrets	knifefork.gif	0	0	0
 115	Alien Source Code	dna.gif	0	0	0
 116	Hollow Leg	hollowleg.gif	0	0	0
@@ -721,8 +721,8 @@
 7199	Blow Wolf Whistle	wolfwhistle.gif	5	0	0
 7200	Unload Tommy Gun	tommygun.gif	5	0	0
 7201	Mug for the Audience	mug.gif	5	0	0
-7202	Pull Voice Box String	Voicebox.gif	5	0	0
-7203	Shovel Hot Coal	Coalshovel.gif	5	0	0
+7202	Pull Voice Box String	voicebox.gif	5	0	0
+7203	Shovel Hot Coal	coalshovel.gif	5	0	0
 7204	Unleash the Greash	unleashgreash.gif	5	0	0
 7205	Heat Space	spaceheater.gif	5	0	0
 7206	Consult the Helix Fossil	foss_amm.gif	5	0	0
@@ -1310,7 +1310,7 @@
 23059	Oversized Right Kidney	kidney.gif	0	0	0
 23060	Beating Human Heart	heart.gif	0	0	0
 23061	Left Brain Hemisphere	realbrain.gif	0	0	0
-23062	Right Brain Hemisphere	realbrain.gif	0	0	0
+23062	Right Brain Hemisphere	realbrain2.gif	0	0	0
 23063	Parasympathetic Nervous System	lightning.gif	0	0	0
 23064	Sympathetic Nervous System	jigawatts.gif	0	0	0
 23065	Spinal Cord	clspine.gif	0	0	0

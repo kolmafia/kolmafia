@@ -47,6 +47,7 @@ import java.util.TreeMap;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -401,6 +402,11 @@ public class SkillDatabase
 			}
 		}
 		return skillName;
+	}
+
+	static final Set<Integer> idKeySet()
+	{
+		return SkillDatabase.nameById.keySet();
 	}
 
 	/**
@@ -2115,6 +2121,17 @@ public class SkillDatabase
 		return buffer.toString();
 	}
 
+	public static final void registerSkill( final int skillId )
+	{
+		// Load the description text for this skill
+		String text = DebugDatabase.readSkillDescriptionText( skillId );
+		if ( text == null )
+		{
+			return;
+		}
+		SkillDatabase.registerSkill( text, skillId, null );
+	}
+
 	public static final void registerSkill( final int skillId, String skillName )
 	{
 		// Load the description text for this skill
@@ -2161,6 +2178,13 @@ public class SkillDatabase
 		printMe = SkillDatabase.skillString( skillId, skillName, image, type, mp, duration, level );
 		RequestLogger.printLine( printMe );
 		RequestLogger.updateSessionLog( printMe );
+
+		// Passive skills have modifiers
+		if ( type == 0 )
+		{
+			// Let modifiers database do what it wishes with this skill
+			Modifiers.registerSkill( skillName, text );
+		}
 
 		printMe = "--------------------";
 		RequestLogger.printLine( printMe );

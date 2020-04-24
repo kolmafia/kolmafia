@@ -570,6 +570,19 @@ public class TestCommand
 			return;
 		}
 
+		if ( command.equals( "newskill" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test newskill skillId" );
+				return;
+			}
+
+			int skillId = StringUtilities.parseInt( split[ 1 ].trim() );
+			SkillDatabase.registerSkill( skillId );
+			return;
+		}
+
 		if ( command.equals( "numberology" ) )
 		{
 			if ( split.length < 3 )
