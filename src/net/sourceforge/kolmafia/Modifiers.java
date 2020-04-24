@@ -4592,6 +4592,14 @@ public class Modifiers
 		Modifiers.registerObject( "Effect", name, unknown, known );
 	}
 
+	public static final void registerSkill( final String name, final String text )
+	{
+		// Examine the effect description and decide what it is.
+		ArrayList<String> unknown = new ArrayList<String>();
+		String known = DebugDatabase.parseSkillEnchantments( text, unknown );
+		Modifiers.registerObject( "Skill", name, unknown, known );
+	}
+
 	public static final void registerOutfit( final String name, final String text )
 	{
 		// Examine the outfit description and decide what it is.

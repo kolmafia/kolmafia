@@ -242,6 +242,14 @@ public class CheckDataCommand
 			return;
 		}
 
+		if ( command.equals( "checkskills" ) )
+		{
+			int itemId = StringUtilities.parseInt( parameters );
+			DebugDatabase.checkSkills( itemId );
+			RequestLogger.printLine( "Internal skill data checked." );
+			return;
+		}
+
 		if ( command.equals( "checkzapgroups" ) )
 		{
 			DebugDatabase.checkZapGroups();
