@@ -176,7 +176,7 @@ curmudgeonly pirate	623	curmpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 P: pirat
 Dad Sea Monkee	1379	dad_machine.gif	BOSS Atk: 42000 Def: 42000 HP: 4200 Init: 10000 P: horror
 daft punk	870	daftpunk.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: dude
 dairy goat	83	biggoat.gif	Atk: 68 Def: 61 HP: 50 Init: 80 Meat: 50 P: beast	glass of goat's milk (20)	goat cheese (40)	Shivering Ch&egrave;vre (c0)
-dairy ooze	69	ooze.gif	Atk: 13 Def: 11 HP: 8 Init: 60 Meat: 14 P: slime	mana curds (n100)
+dairy ooze	69	ooze.gif	Atk: 13 Def: 11 HP: 8 Init: 60 Meat: 12 P: slime	mana curds (n100)
 dancing mushroom guy	1806	mush_dancing.gif	Atk: 20 Def: 35 HP: 20 Init: 100 P: plant	cool spore pod (0)	cool mushroom (0)
 Danglin' Chad	519	chad.gif	NOCOPY Atk: 210 Def: 189 HP: 320 Init: 80 Meat: 300 E: sleaze P: orc	Danglin' Chad's loincloth (100)	white class ring (30)	beer helmet (0)	bejeweled pledge pin (0)	distressed denim pants (0)	kick-ass kicks (0)
 decent lumberjack	233	lumberjack.gif	Atk: 35 Def: 31 HP: 35 Init: 60 Meat: 20 P: dude	poutine (30)	disbelief suspenders (10)	jack flapper (10)	manly bloomers (p15)
@@ -200,8 +200,8 @@ dopey 7-Foot Dwarf	1150	dwarf_dopey.gif	Atk: 53 Def: 47 HP: 40 Init: 50 Meat: 40
 doughbat	42	doughbat.gif	Atk: 14 Def: 12 HP: 8 Init: 60 EA: sleaze Meat: 20 P: beast	sonar-in-a-biscuit (10)	wad of dough (30)
 Dr. Awkward	453	drawkward.gif	NOCOPY BOSS Atk: 175 Def: 157 HP: 200 Init: -10000 P: dude	Drowsy Sword (n100)	Staff of Fats (n100)	fumble formula (p5)
 Drab Bard	130	braddarb.gif	Atk: 136 Def: 124 HP: 170 Init: 40 Meat: 80 P: dude	drab sonata (30)	guitar pick (15)	olive (40)	glass of warm milk (c0)	accordionoid rocca (a0)
-drippy bat	2163	drippybat.gif	Atk: [200] Def: [200] HP: [120] Init: 100 P: beast
-drippy tree	2162	drippytree.gif	Atk: [150] Def: [150] HP: [100] Init: -10000 P: plant
+drippy bat	2163	drippybat.gif	Atk: [200] Def: [200] HP: [120] Init: 100 P: beast	Driplet (n100)
+drippy tree	2162	drippytree.gif	Atk: [150] Def: [150] HP: [100] Init: -10000 P: plant	Driplet (n0)
 drowned sailor	744	drownedsailor.gif	Atk: 400 Def: 405 HP: 700 Init: 50 E: spooky Meat: 150 P: undead	moist sailor's cap (n2)	rusty compass (n2)	rusty speargun (n2)	salt water taffy (c0)
 drunk duck	566	ducknicedrunk.gif	Atk: 165 Def: 157 HP: 170 Init: 40 Meat: 200 P: beast	bottle of gin (0)	bottle of rum (0)	bottle of tequila (0)	bottle of vodka (0)	bottle of whiskey (0)	boxed wine (0)	duct tape (0)
 drunk goat	82	drunkgoat.gif	Atk: 68 Def: 61 HP: 50 Init: 70 Meat: 45 P: beast	bottle of whiskey (25)	goat beard (5)
@@ -296,7 +296,7 @@ ghost of Elizabeth Spookyraven	1564	elizabeth.gif	NOCOPY Scale: 5 Cap: 300 Init:
 ghuol	30	ghuol_reg.gif	Atk: 19 Def: 17 HP: 10 E: spooky Init: 60 Meat: 34 P: undead	ghuol egg (25)	ghuol ears (25)
 giant amorphous blob	2033	xoblob_big.gif	Atk: 10000 Def: 9000 HP: 20000 Init: 500 P: slime
 giant giant giant centipede	462	centipede.gif	Atk: 142 Def: 124 HP: 142 Init: 50 Meat: 150 P: bug	centipede eggs (20)	handful of sand (25)	handful of sand (15)
-giant giant moth	72	moth.gif	Atk: 16 Def: 14 HP: 11 Init: 60 Meat: 15 P: bug	giant giant moth dust (n100)
+giant giant moth	72	moth.gif	Atk: 16 Def: 14 HP: 11 Init: 60 Meat: 16 P: bug	giant giant moth dust (n100)
 giant mob of baby spiders	1584	manyspiders.gif	Atk: 36 Def: 31 HP: 37 Init: 50 P: bug Meat: 20
 giant rubber spider	1622	rubberspider.gif	NOCOPY FREE Scale: 3 Cap: 1000 Init: -10000 P: bug	rubber nubbin (100)
 giant sandworm	458	sandworm.gif	NOCOPY Atk: 175 Def: 166 HP: 200 Init: 60 Meat: 250 P: bug	spices (10)	spices (10)	spices (10)	spice melange (n0)
@@ -785,7 +785,7 @@ upgraded ram	384	ram.gif	Atk: 106 Def: 93 HP: 95 Init: 50 Meat: 100 ED: cold P: 
 uppercase Q	937	upper_q.gif	Atk: 61 Def: 51 HP: 81 Init: 80 P: dude	left parenthesis (40)	right parenthesis (10)	dollar sign (p20)
 urchin urchin	733	urchin.gif	Atk: 400 Def: 315 HP: 600 Init: 20 P: fish	mermaid's purse (0)	bazookafish bubble gum (0)	underwater slingshot (0)
 vampire bat	350	regbat.gif	Atk: 17 Def: 14 HP: 10 Init: 60 Meat: 40 P: beast	bat wing (15)	batgut (15)	sonar-in-a-biscuit (10)
-vampire clam	75	vampclam.gif	Atk: 40 Def: 17 HP: 14 Init: 60 Meat: 20 P: undead	vampire chowder (100)	vampire pearl (p35)
+vampire clam	75	vampclam.gif	Atk: 40 Def: 17 HP: 14 Init: 60 Meat: 18 P: undead	vampire chowder (100)	vampire pearl (p35)
 vampire duck	564	duckvampire.gif	Atk: 175 Def: 153 HP: 190 Init: 50 Meat: 150 E: spooky P: beast	frightful feather (10)	duct tape (5)	vampire glitter (c0)
 vegetable gremlin	550	gremlinveg.gif	Atk: 168 Def: 154 HP: 170 Init: 60 Meat: 50 P: humanoid	gremlin juice (3)	molybdenum screwdriver (c0)
 vegetable gremlin (tool)	551	gremlinveg.gif	Atk: 168 Def: 154 HP: 170 Init: 60 Meat: 50 P: humanoid Manuel: "vegetable gremlin" Wiki: "vegetable gremlin (quest)"	gremlin juice (3)	molybdenum screwdriver (c0)
@@ -2075,7 +2075,7 @@ Caveman Dan	1621	cavedan.gif	NOCOPY NOMANUEL Scale: 10 Cap: 2000 Floor: 25 Init:
 Moonshriner	1618	moonshriner.gif	Scale: 1 Cap: 1000 Init: -10000 P: dude Meat: 20	throwing candy (20)	4-dimensional fez (2)
 unstill	1619	unstill.gif	Scale: 1 Cap: 1000 Init: -10000 P: construct	unquiet spirits (20)	super-absorbent tarp (2)
 banjoccultist	1620	banjowizard.gif	Scale: 1 Cap: 1000 Init: -10000 P: dude Meat: 10	blue grass (20)	banjo kazoo mount (2)
-hep cat	1616	hepcat.gif	Scale: 1 Cap: 1000 Init: -10000 P: dude Meat: 20	jive turkey leg (20)	hep waders (2)	baloney rotgut (c0)
+hep cat	1616	hepcat.gif	Scale: 1 Cap: 1000 Init: -10000 P: dude Meat: 10	jive turkey leg (20)	hep waders (2)	baloney rotgut (c0)
 cigarette girl	1617	ciggirl.gif	Scale: 1 Cap: 1000 Init: -10000 P: dude Meat: 25	candy cigarette (20)	birdbone corset (2)	carton of gaspers (c0)
 Mob Penguin entrepreneur	1615	peng_ent.gif	Scale: 1 Cap: 1000 Init: -10000 P: penguin Meat: 40	legitimate business on the beach (20)	law-abiding citizen cane (2)
 
