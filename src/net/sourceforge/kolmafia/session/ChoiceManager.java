@@ -7657,8 +7657,7 @@ public abstract class ChoiceManager
 
 	public static void postChoice0( final String urlString, final GenericRequest request )
 	{
-		// chat and desc_ and questlog requests can come at any time
-		if ( request.isChatRequest || request.isDescRequest || request.isQuestLogRequest )
+		if ( ChoiceManager.nonInterruptingRequest( urlString, request ) )
 		{
 			return;
 		}
@@ -7710,6 +7709,14 @@ public abstract class ChoiceManager
 		}
 	}
 
+	public static boolean nonInterruptingRequest( final String urlString, final GenericRequest request )
+	{
+		return  request.isChatRequest ||
+			request.isDescRequest ||
+			request.isQuestLogRequest ||
+			urlString.startsWith( "main.php?checkbfast" );
+	}
+
 	private static final Pattern SKELETON_PATTERN = Pattern.compile( "You defeated <b>(\\d+)</b> skeletons" );
 	private static final Pattern FOG_PATTERN = Pattern.compile( "<font.*?><b>(.*?)</b></font>" );
 
@@ -7721,8 +7728,7 @@ public abstract class ChoiceManager
 
 	public static void postChoice1( final String urlString, final GenericRequest request )
 	{
-		// chat and desc_ and questlog requests can come at any time
-		if ( request.isChatRequest || request.isDescRequest || request.isQuestLogRequest )
+		if ( ChoiceManager.nonInterruptingRequest( urlString, request ) )
 		{
 			return;
 		}
@@ -11867,10 +11873,9 @@ public abstract class ChoiceManager
 			{
 				Preferences.setBoolean( "drippyBatsUnlocked", true );
 			}
-			if ( text.contains( "sharp-stake" ) )
+			if ( text.contains( "sharp stake" ) )
 			{
-				// *** Replaces a drippy truncheon with a drippy stake.
-				// *** which one? weapon, off-hand, inventory
+				EquipmentManager.discardEquipment( ItemPool.DRIPPY_TRUNCHEON );
 			}
 			// 9 = Leave
 			break;
@@ -11969,8 +11974,7 @@ public abstract class ChoiceManager
 
 	public static void postChoice2( final String urlString, final GenericRequest request )
 	{
-		// chat and desc_ and questlog requests can come at any time
-		if ( request.isChatRequest || request.isDescRequest || request.isQuestLogRequest )
+		if ( ChoiceManager.nonInterruptingRequest( urlString, request ) )
 		{
 			return;
 		}
