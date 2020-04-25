@@ -77,14 +77,11 @@ import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
-import net.sourceforge.kolmafia.session.GuildUnlockManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.swingui.GenericFrame;
-
-import net.sourceforge.kolmafia.textui.command.CouncilCommand;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -1027,10 +1024,19 @@ public class KoLAdventure
 			return;
 		}
 
-		if ( this.adventureId.equals( AdventurePool.SHROUDED_PEAK_ID ) ||
-		     this.adventureId.equals( AdventurePool.ICY_PEAK_ID ) )
+		if ( this.adventureId.equals( AdventurePool.SHROUDED_PEAK_ID ) )
 		{
 			if ( KoLCharacter.getElementalResistanceLevels( Element.COLD ) < 5 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You need more cold protection" );
+				this.isValidAdventure = false;
+			}
+			return;
+		}
+
+		if ( this.adventureId.equals( AdventurePool.ICY_PEAK_ID ) )
+		{
+			if ( KoLCharacter.getElementalResistanceLevels( Element.COLD ) < 1 )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You need more cold protection" );
 				this.isValidAdventure = false;
