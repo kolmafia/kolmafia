@@ -11856,7 +11856,10 @@ public abstract class ChoiceManager
 			// 1 = Explore the House
 			// Even though the house doesn't have a door, you check under the mat for a key anyway.  You don't find one, but you <i>do</i> find a little puddle of those Driplet things Jeremy told you about.
 			// 1 = Keep Exploring
+			// Just inside the door of the house, you discover a colony of nasty bat-looking things nesting in the rafters.
 			// In one of the side rooms of the house, you find a giant spiral shell stuck to the wall.  You pry it loose -- Jeremy will probably want to see this.
+			// In the house's kitchen, you find a bucket underneath a dripping sink pipe. The oddly-solid drops make a -thunk-... -thunk-... -thunk-... sound as they fall.
+			// In the backyard of the house, you notice a strange fruit tree you hadn't seen before. It's maybe... plums? Kinda hard to tell, what with everything being made out of the same gross stuff.
 			// In one of the back rooms, you find a workbench covered in drippy woodworking supplies.
 			// Underneath a shattered bed frame in one of the back rooms, you find a trap door in the floor. You press your ear to it and hear some... Thing... slithering around underneath it.
 			// 2 = Dislodge some bats
@@ -11864,7 +11867,6 @@ public abstract class ChoiceManager
 			// 3 = Check the bucket under the sink
 			// You look in the bucket and find a few Driplets.  You collect them and put the bucket back under the sink.
 			// 4 - Pick a nasty fruit
-			// In the backyard of the house, you notice a strange fruit tree you hadn't seen before.  It's maybe... plums?  Kinda hard to tell, what with everything being made out of the same gross stuff.
 			// You pluck the least nasty-looking plum(?) from the tree and pocket it.
 			// 5 - Check out the woodworking bench
 			// You use the tools to carve your truncheon into a sharp stake.
