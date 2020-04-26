@@ -221,8 +221,11 @@ public abstract class KoLmafiaASH
 			RequestLogger.printLine( "Multiple matching scripts in your current namespace." );
 			return null;
 		}
+
 		if ( findScriptFile.size() == 1 )
+		{
 			return getInterpreter( findScriptFile.get( 0 ) );
+		}
 
 		return null;
 	}

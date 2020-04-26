@@ -1154,6 +1154,14 @@ public class GenericRequest
 			return false;
 		}
 
+		String functionName = "main";
+		int atsign = scriptName.indexOf( "@" );
+		if ( atsign != -1 )
+		{
+			functionName = scriptName.substring( 0, atsign );
+			scriptName = scriptName.substring( atsign + 1 );
+		}
+
 		List<File> scriptFiles = KoLmafiaCLI.findScriptFile( scriptName );
 		Interpreter interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
 		if ( interpreter != null )
@@ -1166,13 +1174,13 @@ public class GenericRequest
 			int oldTurns = KoLCharacter.getCurrentRun();
 
 			File scriptFile = scriptFiles.get( 0 );
-			KoLmafiaASH.logScriptExecution( "Starting counter script: ", scriptFile.getName(), interpreter );
-			Value v = interpreter.execute( "main", new String[]
+			KoLmafiaASH.logScriptExecution( "Starting counter script: ", scriptName, interpreter );
+			Value v = interpreter.execute( functionName, new String[]
 			{
 				expired.getLabel(),
 				String.valueOf( expired.getTurnsRemaining() )
 			} );
-			KoLmafiaASH.logScriptExecution( "Finished counter script: ", scriptFile.getName(), interpreter );
+			KoLmafiaASH.logScriptExecution( "Finished counter script: ", scriptName, interpreter );
 
 			// If the counter script used adventures, we need to
 			// run between-battle actions for the next adventure,
