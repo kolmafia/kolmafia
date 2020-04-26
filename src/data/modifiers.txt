@@ -4300,7 +4300,7 @@ Familiar	Hobo Monkey	Leprechaun: 1.25
 Familiar	Jumpsuited Hound Dog	Fairy: 1.25, Combat Rate: [min(5,floor(W/6))]
 Familiar	Llama Lama	Volleyball: 0.5
 Familiar	Magic Dragonfish	Spell Damage Percent: [min(2*W,100^env(underwater)*100)]
-Familiar	Mechanical Songbird	Fairy: [1.0+0.5*zone(Dreadsylvania)]
+Familiar	Mechanical Songbird	Fairy Effectiveness: [1.0+0.5*zone(Dreadsylvania)]
 Familiar	Mini-Adventurer	Volleyball: [pref(miniAdvClass,1)*max(0,min(L-4,1))+pref(miniAdvClass,2)], Leprechaun: [pref(miniAdvClass,3)*max(0,min(L-9,1))+pref(miniAdvClass,4)], Fairy: [pref(miniAdvClass,5)*max(0,min(L-4,1))+pref(miniAdvClass,6)*max(0,min(L-9,1))], Sombrero: [pref(miniAdvClass,6)*max(0,min(L-14,1))]
 Familiar	Mini-Crimbot	Experience: [3*pref(crimbotChassis,Smile-O-Matic)], Initiative: [30*pref(crimbotPropulsion,V-TOP Frictionless Monocycle Wheel)], Item Drop: [20*pref(crimbotPropulsion,Lambada-Class Dancing Legs)]
 Familiar	Mu	Hot Resistance: [floor((W+19)/20)], Cold Resistance: [floor((W+15)/20)], Spooky Resistance: [floor((W+11)/20)], Stench Resistance: [floor((W+7)/20)], Sleaze Resistance: [floor((W+3)/20)]
