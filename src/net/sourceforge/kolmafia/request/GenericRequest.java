@@ -1173,13 +1173,15 @@ public class GenericRequest
 			KoLAdventure current = KoLAdventure.lastVisitedLocation;
 			int oldTurns = KoLCharacter.getCurrentRun();
 
-			File scriptFile = scriptFiles.get( 0 );
-			KoLmafiaASH.logScriptExecution( "Starting counter script: ", scriptName, interpreter );
-			Value v = interpreter.execute( functionName, new String[]
+			String [] arguments = new String[]
 			{
 				expired.getLabel(),
 				String.valueOf( expired.getTurnsRemaining() )
-			} );
+			};
+			boolean executeTopLevel = functionName.equals( "main" );
+
+			KoLmafiaASH.logScriptExecution( "Starting counter script: ", scriptName, interpreter );
+			Value v = interpreter.execute( functionName, arguments, executeTopLevel );
 			KoLmafiaASH.logScriptExecution( "Finished counter script: ", scriptName, interpreter );
 
 			// If the counter script used adventures, we need to
