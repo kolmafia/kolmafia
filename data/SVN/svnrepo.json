@@ -207,6 +207,15 @@
    "longDesc": "Automates Fernswarthy's Basement: <ul><li>Creates and switches oufits</li><li>Uses cheapest buffs needed for necessary buffing</li><li>User perference to use Dr. Lucifer or other food/drink/spleen items.</li></ul>See thread for full list of options."
  },
  {
+   "repo": "https://svn.code.sf.net/p/veracity0/code/arrrbor-day/",
+   "author": "Veracity",
+   "name": "Arrrbor Day",
+   "forumThread": "https://kolmafia.us/showthread.php?24900",
+   "shortDesc": "Automate Arrrbor Day",
+   "category": "adventure",
+   "longDesc": "Visit the Arrrboretum, collect last Arrrbor Day's prize and adventure to set up the prize of your choice to collect next Arrrbor Day."
+ },
+ {
    "repo": "https://svn.code.sf.net/p/autobhh/code/",
    "author": "Theraze, izchak, Raorn, zarqon",
    "name": "Bounty",

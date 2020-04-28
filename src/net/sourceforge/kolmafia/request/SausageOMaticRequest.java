@@ -86,11 +86,14 @@ public class SausageOMaticRequest
 		}
 
 		// Work out meat stacks needed to make requested sausages
-		int denseStacksNeeded = (int) Math.max( Math.floor( ( meatNeeded - grinderUnits ) / 1000 ), 0 );
-		int stacksNeeded = (int) Math.max( Math.floor( ( meatNeeded - grinderUnits - denseStacksNeeded * 1000 ) / 100 ), 0 );
-		int pasteNeeded = (int) Math.max( Math.ceil( (double) ( meatNeeded - grinderUnits - denseStacksNeeded * 1000 - stacksNeeded * 100 ) / 10 ), 0 );
+		int denseStacksNeeded = (int) Math.floor( ( meatNeeded - grinderUnits ) / 1000 );
+		int stacksNeeded = (int) Math.floor( ( meatNeeded - grinderUnits - denseStacksNeeded * 1000 ) / 100 );
+		int pasteNeeded = (int) Math.ceil( (double) ( meatNeeded - grinderUnits - denseStacksNeeded * 1000 - stacksNeeded * 100 ) / 10 );
 
-		KoLmafia.updateDisplay( "Meat needed: " + ( Math.max( meatNeeded - grinderUnits, 0 ) ) + ", Dense: " + denseStacksNeeded + ", Stacks: " + stacksNeeded + ", Paste: " + pasteNeeded );
+		KoLmafia.updateDisplay( "Meat needed: " + Math.max( meatNeeded - grinderUnits, 0 ) +
+					", Dense: " + Math.max( denseStacksNeeded, 0 ) +
+					", Stacks: " + Math.max( stacksNeeded, 0 ) +
+					", Paste: " + Math.max( pasteNeeded, 0 ) );
 
 		InventoryManager.retrieveItem( ItemPool.DENSE_STACK, denseStacksNeeded );
 		InventoryManager.retrieveItem( ItemPool.MEAT_STACK, stacksNeeded );

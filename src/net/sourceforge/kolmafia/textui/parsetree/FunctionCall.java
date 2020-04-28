@@ -77,6 +77,12 @@ public class FunctionCall
 	}
 
 	@Override
+	public Type getRawType()
+	{
+		return this.target.getType();
+	}
+
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
