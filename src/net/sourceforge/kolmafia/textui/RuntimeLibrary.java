@@ -1976,6 +1976,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "current_hit_stat", DataTypes.STAT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "current_round", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "monster_element", DataTypes.ELEMENT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.MONSTER_TYPE };
@@ -8390,6 +8393,11 @@ public abstract class RuntimeLibrary
 	public static Value current_hit_stat( Interpreter interpreter )
 	{
 		return EquipmentManager.getHitStatType() == Stat.MOXIE ? DataTypes.MOXIE_VALUE : DataTypes.MUSCLE_VALUE;
+	}
+
+	public static Value current_round( Interpreter interpreter )
+	{
+		return new Value( FightRequest.getCurrentRound() );
 	}
 
 	public static Value monster_element( Interpreter interpreter )
