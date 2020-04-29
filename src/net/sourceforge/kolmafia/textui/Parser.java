@@ -41,6 +41,7 @@ import java.io.LineNumberReader;
 import java.io.PrintStream;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -903,6 +904,7 @@ public class Parser
 				throw this.parseException( "Expression expected" );
 			}
 
+			rhs = this.coerceTypedefValue( t, rhs, scope );
 			if ( !Operator.validCoercion( ltype, rhs.getType(), "assign" ) )
 			{
 				throw this.parseException( "Cannot store " + rhs.getType() + " in " + variableName + " of type " + ltype );
@@ -923,6 +925,94 @@ public class Parser
 		scope.addCommand( new Assignment( lhs, rhs ), this );
 
 		return result;
+	}
+
+	private Value coerceTypedefValue( Type ltype, Value rhs, final BasicScope scope )
+	{
+		if ( ltype == null )
+		{
+			return rhs;
+		}
+
+		// A typedef can overload a coercion function to a basic type or a typedef
+		Type rtype = rhs.getRawType();
+		if ( ltype instanceof TypeDef || ltype instanceof RecordType )
+		{
+			if ( ltype.getName().equals( rtype.getName() ) )
+			{
+				return rhs;
+			}
+
+			// Look for a function:  LTYPE to_LTYPE( RTYPE )
+			String name = "to_" + ltype.getName();
+			List<Value> params = Collections.singletonList( rhs );
+			Function target = scope.findFunction( name, params );
+			if ( target != null && target.getType().equals( ltype ) )
+			{
+				return new FunctionCall( target, params, this );
+			}
+		}
+
+		if ( ltype instanceof AggregateType )
+		{
+			return rhs;
+		}
+
+		if ( rtype instanceof TypeDef || rtype instanceof RecordType )
+		{
+			if ( ltype.getName().equals( rtype.getName() ) )
+			{
+				return rhs;
+			}
+
+			// Look for a function:  LTYPE to_LTYPE( RTYPE )
+			String name = "to_" + ltype.getName();
+			List<Value> params = Collections.singletonList( rhs );
+			Function target = scope.findFunction( name, params );
+			if ( target != null && target.getType().equals( ltype ) )
+			{
+				return new FunctionCall( target, params, this );
+			}
+		}
+
+		// No overloaded coercions found for typedefs or records
+		return rhs;
+	}
+
+	private List<Value> coerceTypedefParameters( Function target, List<Value>params, BasicScope scope )
+	{
+		List<Value> retval = new ArrayList<>();
+
+		Iterator<VariableReference> refIterator = target.getVariableReferences().iterator();
+		Iterator<Value> valIterator = params.iterator();
+		VariableReference vararg = null;
+		VarArgType varargType = null;
+
+		while ( ( vararg != null || refIterator.hasNext() ) && valIterator.hasNext() )
+		{
+			// A VarArg parameter will consume all remaining values
+			VariableReference currentParam = ( vararg != null ) ? vararg : refIterator.next();
+			Type paramType = currentParam.getRawType();
+
+			// If have found a vararg, remember it.
+			if ( vararg == null && paramType instanceof VarArgType )
+			{
+				vararg = currentParam;
+				varargType = ((VarArgType) paramType);
+			}
+
+			// If we are matching a vararg, coerce to data type
+			if ( vararg != null )
+			{
+				paramType = varargType.getDataType();
+			}
+
+			Value currentValue = valIterator.next();
+			Value coercedValue = this.coerceTypedefValue( paramType, currentValue, scope );
+			retval.add( coercedValue );
+		}
+
+		return retval;
 	}
 
 	private boolean parseTypedef( final Scope parentScope )
@@ -1188,6 +1278,7 @@ public class Parser
 			if ( isArray )
 			{
 				// The value must have the correct data type
+				lhs = this.coerceTypedefValue( data, lhs, scope );
 				if ( !Operator.validCoercion( dataType, lhs.getType(), "assign" ) )
 				{
 					throw this.parseException( "Invalid array literal" );
@@ -1231,6 +1322,8 @@ public class Parser
 			}
 
 			// Check that each type is valid via validCoercion
+			lhs = this.coerceTypedefValue( index, lhs, scope );
+			rhs = this.coerceTypedefValue( data, rhs, scope );
 			if ( !Operator.validCoercion( index, lhs.getType(), "assign" ) ||
 			     !Operator.validCoercion( data, rhs.getType(), "assign" ) )
 			{
@@ -1422,9 +1515,11 @@ public class Parser
 				throw this.parseException( "Expression expected" );
 			}
 
+			value = this.coerceTypedefValue( expectedType, value, parentScope );
 			if ( expectedType != null && !Operator.validCoercion( expectedType, value.getType(), "return" ) )
 			{
 				throw this.parseException( "Cannot return " + value.getType() + " value from " + expectedType + " function");
+
 			}
 
 			return new FunctionReturn( value, expectedType );
@@ -2270,12 +2365,14 @@ public class Parser
 				}
 
 				Type ltype = t.getBaseType();
+				rhs = this.coerceTypedefValue( t, rhs, scope );
 				Type rtype = rhs.getType();
 
 				if ( !Operator.validCoercion( ltype, rtype, "assign" ) )
 				{
 					throw this.parseException( "Cannot store " + rtype + " in " + name + " of type " + ltype );
 				}
+
 			}
 
 			Assignment initializer = new Assignment( lhs, rhs );
@@ -2478,6 +2575,7 @@ public class Parser
 
 				if ( val != DataTypes.VOID_VALUE )
 				{
+					val = this.coerceTypedefValue( types[param], val, scope );
 					Type given = val.getType();
 					if ( !Operator.validCoercion( expected, given, "assign" ) )
 					{
@@ -2538,6 +2636,7 @@ public class Parser
 			throw this.undefinedFunctionException( name, params );
 		}
 
+		params = this.coerceTypedefParameters( target, params, scope );
 		FunctionCall call = new FunctionCall( target, params, this );
 
 		return parsePostCall( scope, call );
@@ -2726,6 +2825,7 @@ public class Parser
 			throw this.parseException( "Internal error" );
 		}
 
+		rhs = this.coerceTypedefValue( lhs.getType(), rhs, scope );
 		if ( !oper.validCoercion( lhs.getType(), rhs.getType() ) )
 		{
 			String error =
@@ -2959,6 +3059,7 @@ public class Parser
 					throw this.parseException( "Value expected" );
 				}
 
+				rhs = this.coerceTypedefValue( lhs.getType(), rhs, scope );
 				if ( !oper.validCoercion( lhs.getType(), rhs.getType() ) )
 				{
 					throw this.parseException( "Cannot choose between " + lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ")" );
@@ -2982,6 +3083,7 @@ public class Parser
 				if ( oper.equals( "+" ) && ( ltype.equals( DataTypes.TYPE_STRING ) || rtype.equals( DataTypes.TYPE_STRING ) ) )
 				{
 					// String concatenation
+					rhs = this.coerceTypedefValue( ltype, rhs, scope );
 					if ( lhs instanceof Concatenate )
 					{
 						Concatenate conc = (Concatenate) lhs;
@@ -2992,12 +3094,13 @@ public class Parser
 						lhs = new Concatenate( lhs, rhs );
 					}
 				}
-				else if ( !oper.validCoercion( ltype, rtype ) )
-				{
-					throw this.parseException( "Cannot apply operator " + oper + " to " + lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ")" );
-				}
 				else
 				{
+					rhs = this.coerceTypedefValue( ltype, rhs, scope );
+					if ( !oper.validCoercion( ltype, rhs.getType() ) )
+					{
+						throw this.parseException( "Cannot apply operator " + oper + " to " + lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ")" );
+					}
 					lhs = new Operation( lhs, rhs, oper );
 				}
 			}
