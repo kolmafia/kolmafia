@@ -64,6 +64,12 @@ public class FunctionInvocation
 	}
 
 	@Override
+	public Type getRawType()
+	{
+		return this.type;
+	}
+
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
