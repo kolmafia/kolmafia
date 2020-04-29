@@ -960,7 +960,8 @@ public class Parser
 
 		if ( rtype instanceof TypeDef || rtype instanceof RecordType )
 		{
-			if ( ltype.getName().equals( rtype.getName() ) )
+			// DataTypes.TYPE_ANY has no name
+			if ( ltype.getName() == null || ltype.getName().equals( rtype.getName() ) )
 			{
 				return rhs;
 			}
