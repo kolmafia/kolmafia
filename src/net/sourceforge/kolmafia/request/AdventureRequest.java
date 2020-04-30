@@ -739,12 +739,12 @@ public class AdventureRequest
 				image.startsWith( "dvstenchwolf" ) ? "stench werewolf" :
 				image.startsWith( "dvstenchzom" ) ? "stench zombie" :
 				// Hobopolis
-				image.startsWith( "nhobo" ) ? "Normal Hobo" :
-				image.startsWith( "hothobo" ) ? "Hot Hobo" :
-				image.startsWith( "coldhobo" ) ? "Cold Hobo" :
-				image.startsWith( "stenchhobo" ) ? "Stench Hobo" :
-				image.startsWith( "spookyhobo" ) ? "Spooky Hobo" :
-				image.startsWith( "slhobo" ) ? "Sleaze Hobo" :
+				image.startsWith( "nhobo" ) ? "Normal hobo" :
+				image.startsWith( "hothobo" ) ? "Hot hobo" :
+				image.startsWith( "coldhobo" ) ? "Cold hobo" :
+				image.startsWith( "stenchhobo" ) ? "Stench hobo" :
+				image.startsWith( "spookyhobo" ) ? "Spooky hobo" :
+				image.startsWith( "slhobo" ) ? "Sleaze hobo" :
 				// Slime Tube
 				image.startsWith( "slime1" ) ? "Slime" :
 				image.startsWith( "slime2" ) ? "Slime Hand" :
