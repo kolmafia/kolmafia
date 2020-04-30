@@ -45,6 +45,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -946,7 +947,7 @@ public class Parser
 			// Look for a function:  LTYPE to_LTYPE( RTYPE )
 			String name = "to_" + ltype.getName();
 			List<Value> params = Collections.singletonList( rhs );
-			Function target = scope.findFunction( name, params );
+			Function target = scope.findFunction( name, params, MatchType.EXACT );
 			if ( target != null && target.getType().equals( ltype ) )
 			{
 				return new FunctionCall( target, params, this );
@@ -969,7 +970,7 @@ public class Parser
 			// Look for a function:  LTYPE to_LTYPE( RTYPE )
 			String name = "to_" + ltype.getName();
 			List<Value> params = Collections.singletonList( rhs );
-			Function target = scope.findFunction( name, params );
+			Function target = scope.findFunction( name, params, MatchType.EXACT );
 			if ( target != null && target.getType().equals( ltype ) )
 			{
 				return new FunctionCall( target, params, this );
@@ -982,10 +983,8 @@ public class Parser
 
 	private List<Value> coerceTypedefParameters( Function target, List<Value>params, BasicScope scope )
 	{
-		List<Value> retval = new ArrayList<>();
-
-		Iterator<VariableReference> refIterator = target.getVariableReferences().iterator();
-		Iterator<Value> valIterator = params.iterator();
+		ListIterator<VariableReference> refIterator = target.getVariableReferences().listIterator();
+		ListIterator<Value> valIterator = params.listIterator();
 		VariableReference vararg = null;
 		VarArgType varargType = null;
 
@@ -1010,10 +1009,10 @@ public class Parser
 
 			Value currentValue = valIterator.next();
 			Value coercedValue = this.coerceTypedefValue( paramType, currentValue, scope );
-			retval.add( coercedValue );
+			valIterator.set( coercedValue );
 		}
 
-		return retval;
+		return params;
 	}
 
 	private boolean parseTypedef( final Scope parentScope )

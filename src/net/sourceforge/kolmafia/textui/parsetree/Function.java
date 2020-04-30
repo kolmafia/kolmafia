@@ -109,6 +109,7 @@ public abstract class Function
 
 	public enum MatchType
 	{
+		ANY,
 		EXACT,
 		BASE,
 		COERCE;

@@ -169,6 +169,11 @@ public abstract class BasicScope
 
 	public final Function findFunction( final String name, List<Value> params )
 	{
+		return this.findFunction( name, params, MatchType.ANY );
+	}
+
+	public final Function findFunction( final String name, List<Value> params, MatchType matchType )
+	{
 		// Functions with no params are fine.
 		if ( params == null )
 		{
@@ -181,88 +186,97 @@ public abstract class BasicScope
 
 		Function result = null;
 
-		// Exact, no vararg, user functions
-		result = this.findFunction( this, userFunctions, name, params, MatchType.EXACT, false );
-		if ( result != null )
+		if ( matchType == MatchType.ANY || matchType == MatchType.EXACT )
 		{
-			return result;
+			// Exact, no vararg, user functions
+			result = this.findFunction( this, userFunctions, name, params, MatchType.EXACT, false );
+			if ( result != null )
+			{
+				return result;
+			}
+
+			// Exact, no vararg, library functions
+			result = this.findFunction( null, libraryFunctions, name, params, MatchType.EXACT, false );
+			if ( result != null )
+			{
+				return result;
+			}
+
+			// Exact, vararg, user functions
+			result = this.findFunction( this, userFunctions, name, params, MatchType.EXACT, true );
+			if ( result != null )
+			{
+				return result;
+			}
+
+			// Exact, vararg, library functions
+			result = this.findFunction( null, libraryFunctions, name, params, MatchType.EXACT, true );
+			if ( result != null )
+			{
+				return result;
+			}
 		}
 
-		// Exact, no vararg, library functions
-		result = this.findFunction( null, libraryFunctions, name, params, MatchType.EXACT, false );
-		if ( result != null )
+		if ( matchType == MatchType.ANY || matchType == MatchType.BASE )
 		{
-			return result;
+			// Base, no vararg, user functions
+			result = this.findFunction( this, userFunctions, name, params, MatchType.BASE, false );
+			if ( result != null )
+			{
+				return result;
+			}
+
+			// Base, no vararg, library functions
+			result = this.findFunction( null, libraryFunctions, name, params, MatchType.BASE, false );
+			if ( result != null )
+			{
+				return result;
+			}
+
+			// Base, vararg, user functions
+			result = this.findFunction( this, userFunctions, name, params, MatchType.BASE, true );
+			if ( result != null )
+			{
+				return result;
+			}
+
+			// Base, vararg, library functions
+			result = this.findFunction( null, libraryFunctions, name, params, MatchType.BASE, true );
+			if ( result != null )
+			{
+				return result;
+			}
 		}
 
-		// Exact, vararg, user functions
-		result = this.findFunction( this, userFunctions, name, params, MatchType.EXACT, true );
-		if ( result != null )
+		if ( matchType == MatchType.ANY || matchType == MatchType.COERCE )
 		{
-			return result;
-		}
+			// Coerce, no vararg, user functions
+			result = this.findFunction( this, userFunctions, name, params, MatchType.COERCE, false );
+			if ( result != null )
+			{
+				return result;
+			}
 
-		// Exact, vararg, library functions
-		result = this.findFunction( null, libraryFunctions, name, params, MatchType.EXACT, true );
-		if ( result != null )
-		{
-			return result;
-		}
+			// Coerce, no vararg, library functions
+			result = this.findFunction( null, libraryFunctions, name, params, MatchType.COERCE, false );
+			if ( result != null )
+			{
+				return result;
+			}
 
-		// Base, no vararg, user functions
-		result = this.findFunction( this, userFunctions, name, params, MatchType.BASE, false );
-		if ( result != null )
-		{
-			return result;
-		}
+			// Coerce, vararg, user functions
+			result = this.findFunction( this, userFunctions, name, params, MatchType.COERCE, true );
+			if ( result != null )
+			{
+				return result;
+			}
 
-		// Base, no vararg, library functions
-		result = this.findFunction( null, libraryFunctions, name, params, MatchType.BASE, false );
-		if ( result != null )
-		{
-			return result;
-		}
-
-		// Base, vararg, user functions
-		result = this.findFunction( this, userFunctions, name, params, MatchType.BASE, true );
-		if ( result != null )
-		{
-			return result;
-		}
-
-		// Base, vararg, library functions
-		result = this.findFunction( null, libraryFunctions, name, params, MatchType.BASE, true );
-		if ( result != null )
-		{
-			return result;
-		}
-
-		// Coerce, no vararg, user functions
-		result = this.findFunction( this, userFunctions, name, params, MatchType.COERCE, false );
-		if ( result != null )
-		{
-			return result;
-		}
-
-		// Coerce, no vararg, library functions
-		result = this.findFunction( null, libraryFunctions, name, params, MatchType.COERCE, false );
-		if ( result != null )
-		{
-			return result;
-		}
-
-		// Coerce, vararg, user functions
-		result = this.findFunction( this, userFunctions, name, params, MatchType.COERCE, true );
-		if ( result != null )
-		{
-			return result;
-		}
-
-		// Coerce, vararg, library functions
-		result = this.findFunction( null, libraryFunctions, name, params, MatchType.COERCE, true );
-		if ( result != null )
-		{
-			return result;
+			// Coerce, vararg, library functions
+			result = this.findFunction( null, libraryFunctions, name, params, MatchType.COERCE, true );
+			if ( result != null )
+			{
+				return result;
+			}
 		}
 
 		return null;
