@@ -42,7 +42,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
-
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -114,6 +114,22 @@ public abstract class MineDecorator
 	
 	public static final void parseResponse( final String location, final String responseText )
 	{
+		if (
+			KoLCharacter.hasSkill( "Unaccompanied Miner" ) &&
+			StandardRequest.isAllowed( "Skills", "Unaccompanied Miner" ) &&
+			Preferences.getInteger( "_unaccompaniedMinerUsed" ) < 5
+		)
+		{
+			if ( responseText.contains( "Mining a chunk of the cavern wall takes" ) )
+			{
+				Preferences.setInteger( "_unaccompaniedMinerUsed", 5 );
+			}
+			else if ( responseText.contains( "You start digging. You hit the rock with all your might." ) )
+			{
+				Preferences.increment( "_unaccompaniedMinerUsed" );
+			}
+		}
+
 		if ( Preferences.getInteger( "lastMiningReset" ) != KoLCharacter.getAscensions() )
 		{
 			for ( int i = 1; i < 10; ++i )
