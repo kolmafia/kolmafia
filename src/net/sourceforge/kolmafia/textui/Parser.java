@@ -3059,7 +3059,6 @@ public class Parser
 					throw this.parseException( "Value expected" );
 				}
 
-				rhs = this.coerceTypedefValue( lhs.getType(), rhs, scope );
 				if ( !oper.validCoercion( lhs.getType(), rhs.getType() ) )
 				{
 					throw this.parseException( "Cannot choose between " + lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ")" );
