@@ -58,6 +58,13 @@ public class TernaryExpression
 	}
 
 	@Override
+	public Type getRawType()
+	{
+		// Ternary expressions have no real operator
+		return this.lhs.getType();
+	}
+
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		interpreter.traceIndent();
