@@ -2179,7 +2179,7 @@ Item	hors d'oeuvre tray	Initiative: +15, Damage Reduction: 5
 # hot plate: Damages Attacking Opponent
 Item	hot plate	Hot Damage: +3, Damage Reduction: 3
 # HP-35 Calculator: Makes you look altruistic
-Item	hypnodisk	Item Drop: +25
+Item	hypnodisk	Item Drop: +30
 Item	ice baby	Experience: +3, Softcore Only
 Item	ice bucket	Item Drop: +20, Lasts Until Rollover
 Item	Idol of Ak'gyxoth	Moxie: +43, Mana Cost: -1
@@ -2961,7 +2961,7 @@ Item	Ice-Cold Beerring	Sleaze Resistance: +3, Stench Resistance: +3, Single Equi
 Item	Iiti Kitty phone charm	Spooky Damage: +15, Single Equip
 Item	imitation nice watch	Adventures: +3, Single Equip, Nonstackable Watch
 Item	imp unity ring	Hot Damage: +5, Hot Spell Damage: +5
-Item	incredibly dense meat gem	Meat Drop: +50, Moxie: +5, Maximum MP: +10
+Item	incredibly dense meat gem	Meat Drop: +60, Moxie: +5, Maximum MP: +10
 Item	infernal insoles	Hot Resistance: +1, Initiative: +10
 # inflatable duck
 Item	intergalactic pom poms	Moxie: +20, Initiative: +30
@@ -10044,9 +10044,10 @@ Item	jug of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 50
 Item	jug of Sneaky Pete's Mojo	Free Pull
 # Junk-Bond: Weakens enemies somewhat and briefly stuns them
 Item	Keese berry	Effect: "Berry Defensive", Effect Duration: 20
+Item	kerosene-soaked skip	Free Pull
+# kidnapped orphan: Take it downtown to Gotpork Orphanage
 # killing feather: Deals 100-120 Physical Damage
 # killing jar: Weakens enemies somewhat and briefly stuns them
-# kidnapped orphan: Take it downtown to Gotpork Orphanage
 Item	Kissin' Cousins	Skill: "Awesome Balls of Fire"
 # kite: Weakens enemies somewhat and briefly stuns them
 Item	kitten burglar	Free Pull

@@ -612,7 +612,7 @@
 585	gnocchetti di Nietzsche	866439200	bowl.gif	food	t,d	61	bowls of gnocchetti di Nietzsche
 586	ridiculously huge sword	762459396	nicesword.gif	weapon	t,d	155
 587	super-spiky hair gel	629447779	balm.gif	potion, multiple	t,d	112
-588	soft green echo eyedrop antidote	516563740	powder.gif	none	t,d	118
+588	soft green echo eyedrop antidote	516563740	powder.gif	none, fancy	t,d	118
 589	cocoa eggshell fragment	395963455	fragment.gif	food	t,d	114
 590	large cocoa eggshell fragment	732184689	lfragment.gif	food	t,d	214
 591	cocoa egg	961226683	chocegg.gif	grow	t,d	403
@@ -1603,7 +1603,7 @@
 1576	Gordon Bennett	906458312	chamfluteu.gif	drink	t,d	160	Gordons Bennett
 1577	tangarita	798649121	daquiri.gif	drink	t,d	160
 1578	mandarina colada	651195970	daquiri.gif	drink	t,d	160
-1579	gimlet	237514263	fruitym.gif	drink	t,d	160	gimlis
+1579	gimlet	237514263	fruitym.gif	drink, fancy	t,d	160	gimlis
 1580	yellow brick road	252231956	fruitym.gif	drink	t,d	160
 1581	vodka stratocaster	936760207	cocostraw.gif	drink	t,d	160
 1582	Neuromancer	803710671	cocostraw.gif	drink	t,d	160	neuromancers
@@ -3656,7 +3656,7 @@
 3629	burrowgrub hive	325140798	grubhive.gif	reusable		0
 3630	dusty Crimbo crate	863133643	crate.gif	multiple	t	0
 3631	Gummi-DNA	280911764	dna.gif	potion, multiple, candy2	t,d	30
-3632	radioactive chew toy	811567210	radbone.gif	familiar	t,d	70
+3632	radioactive chew toy	811567210	radbone.gif	familiar	t,d	75
 3633	elven socks	237976715	socks.gif	accessory	t,d	30	pairs of elven socks
 3634	cheap elven gloves	797319795	glove.gif	accessory	t,d	30	pairs of cheap elven gloves
 3635	festive holiday hat	404814593	crimbohat.gif	hat	t	0
@@ -9564,8 +9564,8 @@
 9536	magical pony: Spectrum Dash	391123089	pony1.gif	none	g,d	5	magical ponies named Spectrum Dash
 9537	pocket wish	560865539	whitecard.gif	usable	t	0	pocket wishes
 9538	dropped scrap of paper	452049528	page.gif	reusable	d	1001	dropped scraps of paper
-9539	hunk of granite	715880131	bigrock.gif	none	t,d	0	hunks of granite
-9540	shovelful of dirt	224067704	powderpile1.gif	none	t,d	0	shovelfuls of dirt
+9539	hunk of granite	715880131	bigrock.gif	none	t,d	1	hunks of granite
+9540	shovelful of dirt	224067704	powderpile1.gif	none	t,d	1	shovelfuls of dirt
 9541	xo-skeleton-in-a-box	173076297	xobox.gif	grow	t	0	xo-skeletons-in-boxes
 9542	exo-xo-skeleton-skeleton	721163885	xominiskel.gif	familiar	t,d	75
 9543	X	889321363	xox.gif	none	t,d	1	Xes
