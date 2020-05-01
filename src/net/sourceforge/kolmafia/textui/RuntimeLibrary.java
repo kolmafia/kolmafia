@@ -1678,8 +1678,15 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.MATCHER_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "group", DataTypes.STRING_TYPE, params ) );
 
+		params = new Type[] { DataTypes.MATCHER_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "group", DataTypes.STRING_TYPE, params ) );
+
 		params = new Type[] { DataTypes.MATCHER_TYPE };
 		functions.add( new LibraryFunction( "group_count", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.MATCHER_TYPE };
+		functions.add( new LibraryFunction( "group_names", new 
+			AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ), params ) );
 
 		params = new Type[] { DataTypes.MATCHER_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "replace_first", DataTypes.STRING_TYPE, params ) );
@@ -6987,18 +6994,37 @@ public abstract class RuntimeLibrary
 	public static Value group( Interpreter interpreter, final Value matcher, final Value group )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
-		int index = (int) group.intValue();
+		Type type = group.getType();
 		try
 		{
-			return new Value( m.group( index ) );
+			if ( type.equals( DataTypes.INT_TYPE ) )
+			{
+				int index = (int) group.intValue();
+
+				try {
+					return new Value( m.group( index ) );
+				}
+				catch ( IndexOutOfBoundsException e )
+				{
+					throw interpreter.runtimeException( "Group " + index + " requested, but pattern only has " + m.groupCount() + " groups" );
+				}
+			}
+			else
+			{
+				String name = group.toString();
+
+				try {
+					return new Value( m.group( name ) );
+				}
+				catch ( IllegalArgumentException e )
+				{
+					throw interpreter.runtimeException( "Group " + name + " requested, but that group name was not found" );
+				}
+			}
 		}
 		catch ( IllegalStateException e )
 		{
 			throw interpreter.runtimeException( "No match attempted or previous match failed" );
-		}
-		catch ( IndexOutOfBoundsException e )
-		{
-			throw interpreter.runtimeException( "Group " + index + " requested, but pattern only has " + m.groupCount() + " groups" );
 		}
 	}
 
@@ -7006,6 +7032,24 @@ public abstract class RuntimeLibrary
 	{
 		Matcher m = (Matcher) matcher.rawValue();
 		return new Value( m.groupCount() );
+	}
+
+	static final Pattern GROUP_NAME_PATTERN = Pattern.compile( "\\(\\?<([a-zA-Z][a-zA-Z0-9]*)>" );
+	public static Value group_names( Interpreter interpreter, final Value matcher )
+	{
+		Matcher m = (Matcher) matcher.rawValue();
+		Pattern p = m.pattern();
+		Matcher names = RuntimeLibrary.GROUP_NAME_PATTERN.matcher( p.toString() );
+
+		AggregateType type = new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE );
+		MapValue value = new MapValue( type );
+
+		while ( names.find() )
+		{
+			value.aset( new Value( names.group(1) ), DataTypes.TRUE_VALUE );
+		}
+
+		return value;
 	}
 
 	public static Value replace_first( Interpreter interpreter, final Value matcher, final Value replacement )
