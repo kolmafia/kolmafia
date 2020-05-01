@@ -547,7 +547,7 @@
 545	Refuse Reflux	hob-o.gif	3d5c6b7bd5ab7dc8dc4efc85f8d20548	good	none	use 1 garbage-juice-flavored Hob-O
 546	Scariberi	hob-o.gif	20d098090ca8f63f8243f081d3e085e6	good	none	use 1 strawberry-flavored Hob-O
 547	Less Pervious	wallshield.gif	657b63025b771054cdceeb9f427e605f	good	none	use 1 STYX deodorant body spray
-548	Haiku State of Mind	575.gif	664ce35d26fbd678641624e892feb31d	good	none	# using The 17 Cuts combat skill
+548	Haiku State of Mind	575.gif	664ce35d26fbd678641624e892feb31d	neutral	none	# using The 17 Cuts combat skill
 549	Fishy	fish.gif	17c22c50b2943cf6162d2c001e01cad3	good	none	skate lutz
 550	Cranberry Cordiality	cran.gif	f3f908946ea0a80e40d92e7db920e77d	good	none	use 1 cranberry cordial
 551	Blackberry Politeness	blackberry.gif	192d4ba46ffe2402b2ff321bafa2db43	good	none	use 1 blackberry polite
@@ -562,7 +562,7 @@
 560	It's Electric!	electric.gif	769be7a70eab7e99640316f78c7d7c33	good	none	use 1 eel battery
 561	Crocodile Tear	raindrop.gif	1244fd2f71f838ce95600e79cec2177c	good	none	use 1 temporary teardrop tattoo
 562	Swimming with Sharks	sharkfin.gif	a56c246742def1df7013e3941f14a3f0	good	none	use 1 shark cartilage
-563	Brined Liver	liver.gif	171f81071d987397e6aae6867f6d0314	good	none	drink 1 salinated mint julep
+563	Brined Liver	liver.gif	171f81071d987397e6aae6867f6d0314	good	nohookah	drink 1 salinated mint julep
 564	Down With Chow	tempura2.gif	9543bd48d5cc121188fd937512b82bfb	good	none	eat 1 tempura broccoli
 565	Low on the Hog	meat.gif	7e8174fcddbf31f4aabc5511eb9064fa	good	none	eat 1 tempura cauliflower
 566
