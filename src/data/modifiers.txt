@@ -5265,11 +5265,7 @@ Effect	Curiosity of Br'er Tarrypin	Experience (familiar): +1
 # Curse Magnet: Curses!
 Effect	Curse of Clumsiness	Pickpocket Chance: -50
 Effect	Curse of Dullness	Weapon Damage: -50, Spell Damage: -50, Ranged Damage: -50
-# Curse of Exposure: Total Hot Vulnerability (-9)
-# Curse of Exposure: Total Cold Vulnerability (-9)
-# Curse of Exposure: Total Stench Vulnerability (-9)
-# Curse of Exposure: Total Spooky Vulnerability (-9)
-# Curse of Exposure: Total Sleaze Vulnerability (-9)
+Effect	Curse of Exposure	Cold Resistance: -9, Hot Resistance: -9, Sleaze Resistance: -9, Spooky Resistance: -9, Stench Resistance: -9
 Effect	Curse of Forgetfulness	Experience: -25
 Effect	Curse of Hollowness	Maximum HP: -200, Maximum MP: -200
 # Curse of Impotence: -50% Damage vs. Bugbears
