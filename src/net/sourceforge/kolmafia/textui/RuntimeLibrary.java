@@ -7483,7 +7483,7 @@ public abstract class RuntimeLibrary
 	{
 		String playerId = playerIdValue.toString();
 
-		return new Value( ContactManager.getPlayerName(playerId) );
+		return new Value( ContactManager.getPlayerName( playerId, true ) );
 	}
 
 	// Quest completion functions.
