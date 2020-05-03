@@ -291,6 +291,8 @@ public class DebugDatabase
 		new ItemMap( "Accessories", KoLConstants.EQUIP_ACCESSORY ),
 		new ItemMap( "Containers", KoLConstants.EQUIP_CONTAINER ),
 		new ItemMap( "Familiar Items", KoLConstants.EQUIP_FAMILIAR ),
+		new ItemMap( "Potions", KoLConstants.CONSUME_POTION ),
+		new ItemMap( "Avatar Potions", KoLConstants.CONSUME_AVATAR ),
 		new ItemMap( "Everything Else", -1 ),
 	};
 
@@ -1156,6 +1158,8 @@ public class DebugDatabase
 		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_EAT ), false );
 		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_DRINK ), false );
 		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_SPLEEN ), false );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_POTION ), false );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_AVATAR ), false );
 		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( -1 ), false );
 	}
 
