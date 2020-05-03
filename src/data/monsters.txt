@@ -60,7 +60,7 @@ bar	202	bar.gif	Atk: 3 Def: 2 HP: 5 Init: 50 Meat: 15 P: beast	bar skin (25)	bar
 Baron von Ratsworth	286	ratsworth.gif	NOCOPY BOSS HP: [HP*1.25] Def: [MUS+min(13,3+A)] Atk: [MOX+min(13,3+A)] Init: 80 P: beast	Baron von Ratsworth's monocle (c100)	Baron von Ratsworth's money clip (c100)	Baron von Ratsworth's tophat (c100)
 baseball bat	43	ballbat.gif	Atk: 15 Def: 13 HP: 9 Init: 60 Meat: 20 P: beast	baseball (30)	sonar-in-a-biscuit (10)
 BASIC Elemental	87	basicgolem.gif	Atk: 50 Def: 45 HP: 40 Init: 60 P: elemental	GOTO (30)
-basic lihc	2153	lich.gif	Atk: 55 Def: 50 HP: 54 Init: 50 E: spooky P: undead	bottle of vodka	boxed wine
+basic lihc	2153	lich.gif	Atk: 55 Def: 50 HP: 54 Init: 50 E: spooky P: undead	bottle of vodka (30)	boxed wine (30)
 batrat	150	batrat.gif	Atk: 23 Def: 20 HP: 20 Init: 60 Meat: 22 P: beast	bat wing (15)	bat guano (15)	batgut (15)	sonar-in-a-biscuit (15)
 Batsnake	1517	snakeboss5.gif	Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE E: stench	The Stankara Stone (0)
 Battlie Knight Ghost	1257	aboo_wars.gif	Atk: 76 Def: 64 HP: 40 Init: -10000 Phys: 100 E: spooky P: undead GHOST	A-Boo clue (c15)	Battlie Light Saver (15)	Whoompa Fur Pants (5)	ectoplasmic orbs (0)
@@ -1681,7 +1681,7 @@ lava golem	1793	lavagolem.gif	Atk: 70 Def: 70 HP: 150 P: construct E: hot Init: 
 Mr. Cheeng	1815	mrcheeng.gif	Atk: 180 Def: 220 HP: 400 P: dude Init: 100	Mr. Cheeng's 'stache (n100)	Mr. Cheeng's spectacles (n100)
 
 # The Velvet / Gold Mine (That 70s Volcano August 2015)
-healing crystal golem	1788	crystalgolem.gif	Atk: 70 Def: 70 HP: 150 P: construct E: hot Init: 70 Phys: 50	glowing New Age crystal (5)	New Age healing crystal (0)	New Age healing crystal (0)
+healing crystal golem	1788	crystalgolem.gif	Atk: 70 Def: 70 HP: 150 P: construct E: hot Init: 70 Phys: 50	glowing New Age crystal (5)	New Age healing crystal (20)	New Age healing crystal (15)
 mine overseer (female)	1787	mineboss2.gif	Atk: 50 Def: 50 HP: 100 P: dude E: hot Init: 50 Manuel: "mine overseer"	fireproof megaphone (0)	Gold Velvet&trade; whiskey (0)
 mine overseer (male)	1785	mineboss1.gif	Atk: 50 Def: 50 HP: 100 P: dude E: hot Init: 50 Manuel: "mine overseer"	fireproof megaphone (0)	Gold Velvet&trade; whiskey (0)
 mine worker (female)	1784	mineworker1.gif	Atk: 50 Def: 50 HP: 100 P: dude E: hot Init: 50 Manuel: "mine worker"	broken high-temperature mining drill (0)	high-temperature mining mask (0)	mineapple (0)
