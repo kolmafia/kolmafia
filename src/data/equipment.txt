@@ -1730,7 +1730,7 @@ Chalice of the Malkovich Prince	0	none
 chalk chalice	50	none
 charged druidic orb	0	none
 charged magnet	30	none
-chipped coffee mug	0	none
+chipped coffee mug	50	none
 Cloaca-Cola shield	70	none	shield
 clockwork detective skull	80	Mox: 25
 clownskin buckler	60	Mus: 15	shield
@@ -1749,7 +1749,7 @@ Crimbo Elf creepy bobble-head	20	none
 Crimbo light-up Rudolph doll	20	none
 Crimbo stogie-scented room odorizer	20	none
 Crimbo tree flocker	20	none
-crumbling rabbit's foot	0	none
+crumbling rabbit's foot	50	none
 crumbling skull	0	none
 cuddly teddy bear	125	Mys: 47
 cup of infinite pencils	150	Mus: 175
@@ -1768,7 +1768,7 @@ detour shield	100	Mus: 35	shield
 Diamond HP-35 Calculator	0	none
 Dinsey's radar dish	240	Mus: 100	shield
 dirty rigging rope	100	Mus: 30
-discarded finger painting	0	none
+discarded finger painting	50	none
 disturbing fanfic	60	Mys: 15
 double-ice box	70	Mys: 20
 drippy shield	0	none
@@ -1798,9 +1798,9 @@ fireproof megaphone	10	none
 fishbone catcher's mitt	20	none
 flaming talons	90	Mys: 30
 fleshy lump	50	none	shield
-flickering flashlight	0	none
+flickering flashlight	50	none
 flimsy clipboard	50	Mus: 10	shield
-flimsy ski pole	0	none
+flimsy ski pole	50	none
 foon	30	none
 foon of fearfulness	50	Mys: 10
 foon of fleshiness	50	Mys: 10
@@ -1822,7 +1822,7 @@ glass pie plate	120	none	shield
 glow-in-the-dark stuffed burrowgrub	0	none
 glowing esca	200	Mys: 85
 glowstick on a string	150	Mox: 60
-glued-together crystal ball	0	none
+glued-together crystal ball	50	none
 gnauga hide buckler	90	Mus: 30	shield
 Golden HP-35 Calculator	0	none
 golden sausage	0	none
@@ -1909,7 +1909,7 @@ marinara jug	160	Mys: 150
 marble mignonette bowl	120	Mys: 40
 marionette	110	Mys: 40
 marionette collective	110	Mys: 40
-martini dregs	0	none
+martini dregs	50	none
 meat shield	60	Mus: 15	shield
 Medallion of the Ventrilo Prince	0	none
 Mer-kin begsign	200	Mus: 85
@@ -1951,7 +1951,7 @@ off-hand balloon	10	none
 oil lamp	120	Mus: 45
 Ol' Scratch's ash can	200	Mys: 200
 Ol' Scratch's stove door	240	Mus: 200	shield
-old pizza box	0	none	shield
+old pizza box	100	none	shield
 old school flying disc	220	Mus: 200	shield
 Operation Patriot Shield	240	none	shield
 optimal spreadsheet	10	none
@@ -1959,7 +1959,7 @@ orcish stud-finder	85	Mys: 27
 ornate dowsing rod	10	none
 Oscus's garbage can lid	240	Mus: 200	shield
 Ouija Board, Ouija Board	120	none	shield
-outmoded fidget toy	0	none
+outmoded fidget toy	50	none
 ox-head shield	250	Mus: 10	shield
 oyster basket	10	none
 oyster egg balloon	100	Mys: 35
@@ -2018,7 +2018,7 @@ Royal scepter	100	none
 rubber baby doll	100	none
 rubber ribcage	120	Mus: 45	shield
 rusty compass	60	Mys: 15
-rusty kettle bell	0	none
+rusty kettle bell	50	none
 rusty old lantern	200	Mys: 85
 rxr shield	100	Mus: 35	shield
 sawblade shield	180	Mus: 75	shield

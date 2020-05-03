@@ -59,11 +59,11 @@ import net.sourceforge.kolmafia.utilities.HTMLListEntry;
 
 public class ContactManager
 {
-	private static final HashMap seenPlayerIds = new HashMap();
-	private static final HashMap seenPlayerNames = new HashMap();
+	private static final HashMap<String, String> seenPlayerIds = new HashMap<>();
+	private static final HashMap<String, String> seenPlayerNames = new HashMap<>();
 
-	private static final SortedListModel<String> mailContacts = new SortedListModel<String>();
-	private static final SortedListModel chatContacts = new SortedListModel();
+	private static final SortedListModel<String> mailContacts = new SortedListModel<>();
+	private static final SortedListModel<HTMLListEntry> chatContacts = new SortedListModel<>();
 
 	private static ContactListFrame contactsFrame = null;
 
@@ -97,7 +97,7 @@ public class ContactManager
 	 * Replaces the current contact list with the given contact list. This is used after every call to /friends or /who.
 	 */
 
-	public static final void updateContactList( final String title, final Map contacts )
+	public static final void updateContactList( final String title, final Map<String, Boolean> contacts )
 	{
 		if ( !ChatManager.isRunning() )
 		{
@@ -106,13 +106,9 @@ public class ContactManager
 
 		ContactManager.chatContacts.clear();
 
-		Iterator entryIterator = contacts.entrySet().iterator();
-
-		while ( entryIterator.hasNext() )
+		for ( Entry<String, Boolean> entry : contacts.entrySet() )
 		{
-			Entry entry = (Entry) entryIterator.next();
-
-			String playerName = ( (String) entry.getKey() ).toLowerCase();
+			String playerName = entry.getKey().toLowerCase();
 			String color = entry.getValue() == Boolean.TRUE ? "black" : "gray";
 
 			ContactManager.chatContacts.add( new HTMLListEntry( playerName, color ) );
@@ -187,7 +183,7 @@ public class ContactManager
 			return null;
 		}
 
-		String playerId = (String) ContactManager.seenPlayerIds.get( playerName.toLowerCase() );
+		String playerId = ContactManager.seenPlayerIds.get( playerName.toLowerCase() );
 
 		if ( playerId != null )
 		{
@@ -224,7 +220,7 @@ public class ContactManager
 			return null;
 		}
 
-		String playerName = (String) ContactManager.seenPlayerNames.get( playerId );
+		String playerName = ContactManager.seenPlayerNames.get( playerId );
 
 		if ( playerName != null )
 		{
