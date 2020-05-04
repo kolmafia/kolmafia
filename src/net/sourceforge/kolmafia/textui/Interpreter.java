@@ -609,6 +609,7 @@ public class Interpreter
 				continue;
 			}
 			s.append( KoLConstants.LINE_BREAK);
+			s.append( "\u00A0\u00A0at " );
 			s.append( current.name );
 			s.append( " (" );
 			s.append( fileName );
