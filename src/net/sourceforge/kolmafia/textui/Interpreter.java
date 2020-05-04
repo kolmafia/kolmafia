@@ -608,7 +608,7 @@ public class Interpreter
 				lineNumber = current.lineNumber;
 				continue;
 			}
-			s.append( "\n\u00A0\u00A0at " );
+			s.append( KoLConstants.LINE_BREAK);
 			s.append( current.name );
 			s.append( " (" );
 			s.append( fileName );
