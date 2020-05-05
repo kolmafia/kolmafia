@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.request.GMartRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.GotporkOrphanageRequest;
 import net.sourceforge.kolmafia.request.GotporkPDRequest;
+import net.sourceforge.kolmafia.request.GuzzlrRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
 import net.sourceforge.kolmafia.request.LTTRequest;
@@ -147,6 +148,7 @@ public abstract class CoinmasterRegistry
 		GMartRequest.GMART,
 		GotporkOrphanageRequest.GOTPORK_ORPHANAGE,
 		GotporkPDRequest.GOTPORK_PD,
+		GuzzlrRequest.GUZZLR,
 		HermitRequest.HERMIT,
 		IsotopeSmitheryRequest.ISOTOPE_SMITHERY,
 		LTTRequest.LTT,

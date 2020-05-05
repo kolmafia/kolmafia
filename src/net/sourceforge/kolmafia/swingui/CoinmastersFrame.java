@@ -115,6 +115,7 @@ import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GotporkOrphanageRequest;
 import net.sourceforge.kolmafia.request.GotporkPDRequest;
+import net.sourceforge.kolmafia.request.GuzzlrRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
 import net.sourceforge.kolmafia.request.LTTRequest;
@@ -223,6 +224,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel gmartPanel = null;
 	private CoinmasterPanel gotporkOrphanagePanel = null;
 	private CoinmasterPanel gotporkPDPanel = null;
+	private CoinmasterPanel guzzlrPanel = null;
 	private CoinmasterPanel hermitPanel = null;
 	private CoinmasterPanel isotopeSmitheryPanel = null;
 	private CoinmasterPanel lttPanel = null;
@@ -534,6 +536,11 @@ public class CoinmastersFrame
 		yourCampfirePanel = new YourCampfirePanel();
 		panel.add( yourCampfirePanel );
 		this.selectorPanel.addPanel( yourCampfirePanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		guzzlrPanel = new GuzzlrPanel();
+		panel.add( guzzlrPanel );
+		this.selectorPanel.addPanel( guzzlrPanel.getPanelSelector(), panel );
 
 		// Events coinmasters
 		this.selectorPanel.addSeparator();
@@ -1521,6 +1528,15 @@ public class CoinmastersFrame
 		public YourCampfirePanel()
 		{
 			super( YourCampfireRequest.YOUR_CAMPFIRE );
+		}
+	}
+
+	private class GuzzlrPanel
+		extends CoinmasterPanel
+	{
+		public GuzzlrPanel()
+		{
+			super( GuzzlrRequest.GUZZLR );
 		}
 	}
 
