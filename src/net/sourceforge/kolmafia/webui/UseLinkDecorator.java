@@ -1198,6 +1198,9 @@ public abstract class UseLinkDecorator
 					return UseLinkDecorator.svenLink( itemId );
 				}
 
+			case ItemPool.GUZZLRBUCK:
+				return new UseLink( itemId, 1, "Let's Guzzle", "shop.php?whichshop=guzzlr" );
+
 			case ItemPool.BARLEY:
 			case ItemPool.HOPS:
 			case ItemPool.FANCY_BEER_BOTTLE:

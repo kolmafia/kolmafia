@@ -101,7 +101,7 @@ public class AshSingleLineCommand
 			RequestLogger.printLine( indent + keys[ i ] + " => " + v );
 			if ( v instanceof CompositeValue )
 			{
-				this.dump( (CompositeValue) v, indent + "&nbsp;&nbsp;" );
+				this.dump( (CompositeValue) v, indent + "\u00A0\u00A0" );
 			}
 		}
 	}
