@@ -216,6 +216,7 @@
 191	Drippy Eye-Sprout	dripeye2.gif	0	0	0
 192	Drippy Eye-Stone	dripeye1.gif	0	0	0
 193	Drippy Eye-Beetle	dripeye3.gif	0	0	0
+194	Always Never Not Guzzling	ggeyes.gif	0	0	0
 
 # Skills available to Clubbers
 
