@@ -584,10 +584,10 @@ public class ChoiceUtilities
 				for ( Map.Entry<String,Map<String, String>> select : choiceSelects.entrySet() )
 				{
 					Map<String, String> options = select.getValue();
-					RequestLogger.printLine( "&nbsp;&nbsp;select = <b>" + select.getKey() + "</b> (" + options.size() + " options)" );
+					RequestLogger.printLine( "\u00A0\u00A0select = <b>" + select.getKey() + "</b> (" + options.size() + " options)" );
 					for ( Map.Entry<String, String> option : options.entrySet() )
 					{
-						RequestLogger.printLine( "&nbsp;&nbsp;&nbsp;&nbsp;" + option.getKey() + " => " + option.getValue() );
+						RequestLogger.printLine( "\u00A0\u00A0\u00A0\u00A0" + option.getKey() + " => " + option.getValue() );
 					}
 				}
 			}
@@ -596,7 +596,7 @@ public class ChoiceUtilities
 			{
 				for ( String name : choiceTexts )
 				{
-					RequestLogger.printLine( "&nbsp;&nbsp;text = <b>" + name + "</b>" );
+					RequestLogger.printLine( "\u00A0\u00A0text = <b>" + name + "</b>" );
 				}
 			}
 		}
