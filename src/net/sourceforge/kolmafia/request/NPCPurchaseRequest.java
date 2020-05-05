@@ -672,6 +672,12 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "guzzlr" ) )
+		{
+			GuzzlrRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		if ( shopId.equals( "trapper" ) )
 		{
 			TrapperRequest.parseResponse( urlString, responseText );
@@ -1161,6 +1167,11 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "driparmory" ) )
 			{
 				return DripArmoryRequest.registerRequest( urlString, true );
+			}
+
+			if ( shopId.equals( "guzzlr" ) )
+			{
+				return GuzzlrRequest.registerRequest( urlString );
 			}
 
 			if ( shopId.equals( "shore" ) )
