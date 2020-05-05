@@ -3209,6 +3209,7 @@ public class ItemPool
 	public static final int HOUSE_SIZED_MUSHROOM = 10497;
 	public static final int RED_PLUMBERS_BOOTS = 10501;
 	public static final int GUZZLR_TABLET = 10533;
+	public static final int GUZZLRBUCK = 10535;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

@@ -985,3 +985,12 @@ Mushroom District Gear Shop	buy	100	frosty button	ROW1149
 
 Drip Institute Armory	buy	30	drippy khakis	ROW1130
 Drip Institute Armory	buy	50	drippy shield	ROW1132
+
+# Guzzlr
+
+Guzzlr Company Store Website	buy	100	Guzzlr hat	ROW1153
+Guzzlr Company Store Website	buy	100	Guzzlr pants	ROW1155
+Guzzlr Company Store Website	buy	100	Guzzlr shoes	ROW1154
+Guzzlr Company Store Website	buy	500	Guzzlr souvenir stein	ROW1156
+Guzzlr Company Store Website	buy	1000	Never Don't Stop Not Striving	ROW1158
+Guzzlr Company Store Website	buy	2000	Guzzlr tattoo kit	ROW1157
