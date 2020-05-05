@@ -1095,6 +1095,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.GOVERNMENT_REQUISITION_FORM:
 			case ItemPool.CAMPFIRE_SMOKE:
 			case ItemPool.BURNT_STICK:
+			case ItemPool.GUZZLR_TABLET:
 
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.

@@ -164,6 +164,7 @@ Grimacite gasmask	150	Mox: 40
 Grimacite goggles	125	Mox: 47
 grungy bandana	150	Mox: 60
 guard turtle shell	160	Mox: 65
+Guzzlr hat	100	none
 Hairpiece On Fire	100	none
 hangman's hood	250	Mus: 200
 hardened slime hat	200	Mox: 200
@@ -522,6 +523,7 @@ Greatest American Pants	100	none
 Greaves of the Murk Lord	120	none
 Grimacite gaiters	150	Mox: 40
 Grimacite greaves	125	Mox: 47
+Guzzlr pants	100	none
 gym shorts	100	Mox: 35
 hardened slime pants	200	Mox: 200
 hep waders	50	none
@@ -1833,6 +1835,7 @@ green LavaCo Lamp&trade;	100	Mox: 35
 green peawee marble	201	Mys: 85
 Grey Guanon	60	Mys: 15
 grisly shield	200	Mus: 150	shield
+Guzzlr souvenir stein	0	none
 Half a Purse	100	none
 hand of Mr. Cards	10	none
 handmade hobby horse	20	none
@@ -2472,6 +2475,7 @@ grumpy old man charrrm bracelet	150	Mys: 60
 gummi bowtie	0	none
 gumshoes	50	Mus: 10
 guts necklace	225	Mys: 200
+Guzzlr shoes	0	none
 haggis socks	10	none
 hamethyst bracelet	50	Mys: 10
 hamethyst earring	50	Mys: 10

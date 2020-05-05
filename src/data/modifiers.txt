@@ -256,6 +256,7 @@ Item	Grimacite gasmask	Weapon Damage: +15, Muscle Percent: [10*G], Familiar Effe
 Item	Grimacite goggles	Adventures: +3, Mysticality Percent: [10*G], Familiar Effect: "1xVolley, 1xLep, cap 31"
 Item	grungy bandana	Stench Damage: +10, Sleaze Damage: +10, Familiar Effect: "1xVolley, 0.5xPotato, cap 37"
 Item	guard turtle shell	Maximum HP: +50, Familiar Effect: "atk, 1xFairy, cap 40"
+# Item Guzzlr hat: Earn 25% more stats from Guzzlr deliveries
 # Hairpiece On Fire: (+Maximum MP based on Smithsness)
 Item	Hairpiece On Fire	Cold Resistance: +2, Adventures: +4, Smithsness: +5, Maximum MP: [K], Familiar Effect: "atk, 1xPotato, cap 25"
 Item	hangman's hood	Muscle: +50, Weapon Damage: +50, Damage Reduction: 10
@@ -661,6 +662,7 @@ Item	Greatest American Pants	Muscle Percent: +10, Mysticality Percent: +10, Moxi
 Item	Greaves of the Murk Lord	HP Regen Min: 2, HP Regen Max: 5, Familiar Weight: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Familiar Effect: "1xBarrr, cap 30"
 Item	Grimacite gaiters	Adventures: +3, Mysticality Percent: [10*G], Familiar Effect: "3xBarrr, 2xGhoul, cap 37"
 Item	Grimacite greaves	Initiative: +20, Moxie Percent: [10*G], Familiar Effect: "2xBarrr, 3xGhoul, cap 37"
+# Item Guzzlr pants: Get more Guzzlrbucks for successful deliveries
 Item	gym shorts	PvP Fights: +2, Initiative: +20, Familiar Effect: "sleaze atk, 1xGhuol, cap 25"
 Item	hardened slime pants	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Never Fumble, Moxie Percent: +20, Familiar Effect: "atk, 1xPotato"
 Item	hep waders	Maximum Hooch: +3, Familiar Effect: "1xPotato, 1xVolley, cap 12"
@@ -2143,6 +2145,7 @@ Item	green peawee marble	Stench Spell Damage: +30
 # Grey Guanon: Deals <font color=green>Stench Damage</font> every round
 Item	Grey Guanon	Stench Damage: +5
 Item	grisly shield	Weapon Damage: +50, PvP Fights: +5, Slime Hates It: +1, Damage Reduction: 13
+Item	Guzzlr souvenir stein	Booze Drop: +50
 # Half a Purse: (+Meat Drops based on Smithsness)
 Item	Half a Purse	Experience: +1, Damage Reduction: 3, Smithsness: +5, Meat Drop: [2*K]
 # hand of Mr. Cards: Can be thrown
@@ -2914,6 +2917,8 @@ Item	grumpy old man charrrm bracelet	Monster Level: +7, Single Equip
 Item	gummi bowtie	Moxie: +5
 Item	gumshoes	Muscle Percent: +25, Experience (Muscle): +2, Single Equip
 Item	guts necklace	Stench Resistance: +4, Single Equip
+# Item Guzzlr shoes: Make Guzzlr deliveries in less time
+Item	Guzzlr shoes	Single Equip
 # haggis socks: Allows you to deliver disgusting kicks
 Item	haggis socks	Initiative: +5, Single Equip
 Item	hamethyst bracelet	Muscle: +3, Critical Hit Percent: +5, Single Equip
@@ -7341,6 +7346,7 @@ Skill	Adrenal Gland	Spooky Resistance: +2
 Skill	Algebra	Mysticality: +25
 Skill	Alien Source Code	Maximum MP: +5
 Skill	Aluminum Nerves	MP Regen Min: 8, MP Regen Max: 10
+Skill	Always Never Not Guzzling	Booze Drop: +25
 # Ambidextrous Funkslinging: You can use two combat items per round
 Skill	Amphibian Sympathy	Familiar Weight: +5
 Skill	Animal Magnetism	Moxie Controls MP, MP Regen Min: 8, MP Regen Max: 10
@@ -7849,6 +7855,7 @@ Outfit	Gladiatorial Glad Rags	Adventures: +6
 Outfit	Gnauga Hides	Damage Reduction: 3
 Outfit	Grass Guise	HP Regen Min: 1, HP Regen Max: 3
 Outfit	Grimy Reaper's Vestments	Spooky Damage: +100, Spooky Spell Damage: +100
+Outfit	Guzzlr Uniform	Initiative: +25
 Outfit	Hateful Habiliment	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Outfit	High-Radiation Mining Gear	Cold Resistance: +3
 Outfit	Hodgman's Regal Frippery	Hobo Power: +25
@@ -10539,6 +10546,7 @@ Item	grolblin rum	Lasts Until Rollover
 # groupie lipstick: Deals 150-250 <font color=blueviolet>Sleaze Damage</font>
 # Gummi-Memory: Your future Gelatinous Noob runs will start with 5 extra skills (up to 20)
 # gun parts: Maybe you can make a gun out of them?
+Item	Guzzlr tablet	Free Pull
 Item	Gygaxian Libram	Skill: "Summon Dice"
 # gyroscope: Briefly distracts enemies
 # half of a gold tooth: It's gross.  Just sell it.
@@ -10831,6 +10839,7 @@ Item	nasty haunch	Lasts Until Rollover
 # naughty paper shuriken: (if the monster is wearing pants)
 Item	nervous tick egg	Free Pull
 # Neverending Party favor: Contains fabulous prizes!
+Item	Never Don't Stop Not Striving	Skill: "Always Never Not Guzzling"
 Item	Neverending Party invitation envelope	Free Pull
 # New Age healing crystal: Restores 500 HP
 # New Age healing crystal: (and briefly stuns your opponent)
