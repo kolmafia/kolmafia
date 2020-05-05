@@ -70,7 +70,7 @@ public class GuzzlrRequest
 			GuzzlrRequest.GUZZLRBUCK,
 			null,
 			GuzzlrRequest.itemRows,
-			"shop.php?whichshop=campfire",
+			"shop.php?whichshop=guzzlr",
 			"buyitem",
 			GuzzlrRequest.buyItems,
 			GuzzlrRequest.buyPrices,
