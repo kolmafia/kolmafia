@@ -10559,7 +10559,7 @@
 10531
 10532	Guzzlr application	189491478	guzzlrapp.gif	usable	t	0
 10533	Guzzlr tablet	413321705	guzzlrtablet.gif	usable		0
-10534
+10534	Guzzlr cocktail set	898668946	guzzlrcock.gif	none, fancy		0
 10535	Guzzlrbuck	736222283	guzzlrbuck.gif	usable		0	Guzzlrbucks
 10536	Guzzlr hat	202471786	guzzlrhat.gif	hat		0
 10537	Guzzlr shoes	620760390	guzzlrshoes.gif	accessory		0
@@ -10570,5 +10570,5 @@
 10542
 10543
 10544
-10545
+10545	Buttery Boy	125648673	butterdrink.gif	drink	t	0
 10546	Never Don't Stop Not Striving	531168605	book4.gif	usable	t	0
