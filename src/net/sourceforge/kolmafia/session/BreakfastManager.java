@@ -679,7 +679,7 @@ public class BreakfastManager
 			return;
 		}
 
-		// Can't use Pocket Wishes in G Lover
+		// Can't use genie bottle in G Lover
 		if ( KoLCharacter.inGLover() )
 		{
 			return;

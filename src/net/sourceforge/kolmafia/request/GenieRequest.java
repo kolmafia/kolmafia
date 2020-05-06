@@ -174,6 +174,8 @@ public class GenieRequest
 			return;
 		}
 
+		InventoryManager.retrieveItem( itemId, 1, true, false, false );
+
 		GenericRequest useRequest = new GenericRequest( "inv_use.php" );
 		useRequest.addFormField( "whichitem", String.valueOf( itemId ) );
 		if ( this.getAdventuresUsed() > 0 )
