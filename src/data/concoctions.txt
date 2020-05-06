@@ -3171,3 +3171,7 @@ red plumber's boots	MUSE	red coin (11)
 # Guzzlr tablet
 
 Buttery Boy	MIX	Guzzlr cocktail set	Dish of Clarified Butter
+Ghiaccio Colada	MIX	Guzzlr cocktail set	cold wad
+Nog-on-the-Cob	MIX	Guzzlr cocktail set	robin's egg
+Sourfinger	MIX	Guzzlr cocktail set	mangled finger
+Steamboat	MIX	Guzzlr cocktail set	miniature boiler

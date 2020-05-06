@@ -201,7 +201,6 @@ Dreadsylvanian grimlet	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Fear (+5 C
 Dreadsylvanian hot toddy	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Heat (+5 Cold/Spooky Res)
 Dreadsylvanian slithery nipple	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Sheen (+5 Hot/Stench Res)
 dream of a dog	2	8	EPIC	10	20	20	20
-glass of drippy wine	5	1		5	0	0	0	5 µg of Drippy Juice
 drive-by shooting	1	3	EPIC	5-7	10-30	10-30	10-30	40 Drive-By Shot (40 Cold Damage, 40 Cold Spell Damage)
 Drunken Astrophysicist	2	8	awesome	8-9	5-15	30-50	5-15	15 Heisenberglary (+/- all stats)
 Drunken Neurologist	2	4	awesome	6-7	5-10	25-30	5-10	10 Heisenberglary (+/- all stats)
@@ -285,6 +284,7 @@ fuzzbump	4	4	good	10-14	34-36	0	0
 Fuzzy Tentacle	2	4	awesome	6-7	0	20-30	0	10 Void Between the Stars (+50 Cold Damage)
 gamma nog	3	1	awesome	9-12	10-20	10-20	10-20
 Gets-You-Drunk	2	1	awesome	8-10	60-100	60-100	60-100	Spooky damage for 3 combats then 8-10 adventures
+Ghiaccio Colada	3	1	awesome	0	0	0	0	Unspaded
 ghost beer	1	1	awesome	4-5	0	10-20	0	50 Booooooze (+100% Myst, 11 DR)
 giant glass of brandy	3	5	awesome	8-11	25-40	25-40	25-40	LARP membership card (1 time)
 gibson	3	3	good	5-10	0	0	16-20
@@ -299,6 +299,7 @@ ginger beer	2	1	EPIC	10-12	10-30	10-30	10-30
 gingerbread wine	3	4	good	8-10	8-10	8-10	8-10	30 Sprinkle in Your Eye (+25% Sprinkle drop)
 glass of &quot;milk&quot;	1	1	good	2-3	75-100	0	0
 glass of bourbon	1	5	EPIC	5-6	10-20	10-20	10-20
+glass of drippy wine	5	1		5	0	0	0	5 µg of Drippy Juice
 glass of herbal tequila	3	6	awesome	11-13	0	0	25-75	50 Herbal Pert
 gloomy mushroom wine	3	7	awesome	12-17	12-15	13-15	12-15	20 Gothy (+20 Myst, -10 Mus/Mox)
 Gnollish sangria	1	3	EPIC	5-7	40-80	0	0	40 Strength of the Gnoll (+40 Mus)
@@ -451,6 +452,7 @@ nega-mushroom wine	2	1	awesome	8-10	0	30-40	0	50 Double Negavision (+50% item dr
 Neuromancer	4	6	awesome	14-18	25-27	0	16-20
 New Zealand iced tea	2	4	awesome	6-8	20-30	0	0	20 New Zeal (+40 HP, +20 MP)
 Newark	1	3	awesome	4-6	10-20	10-20	10-20	40 Hobo Powering Up! (+10 Hobo Power)
+Nog-on-the-Cob	3	1	awesome	0	0	0	0	Unspaded
 non-aged vinegar	2	4	awesome	6-7	5-10	5-10	5-10	40 Sour Grapes (+40% item drop)
 nothingtini	1	1	good	2-4	0	0	0	40 Nothing Happened (+20 Monster Level)
 ocean motion	4	4	good	10-14	25-27	8-10	0
@@ -591,6 +593,7 @@ snifter of thoroughly aged brandy	2	1	decent	2-6	0	8-10	0
 Sockdollager	2	1	awesome	6-8	0	0	0	25 In a Lather (+20 Prismatic Dam, +40 Prismatic Spell Dam, +20 Ranged/Weapon Dam, +50% Weapon Dam, +40 Spell Dam, +50% Spell Dam)
 soft green echo eyedrop antidote martini	4	5	awesome	11-15	5-10	5-10	35-40
 soilzerac	1	1	good	2-4	0	0	0	40 Here's Mud in Your Eye (+50 Meat Drop)
+Sourfinger	3	1	awesome	0	0	0	0	Unspaded
 soy cordial	5	6	EPIC	28-35	55-61	38-50	35-52	2 Electrolyte Fantastic (+10% mys exp)
 soyburger juice	2	3	crappy	2-4	0	0	0	gain Oversaturated Palate or lose Deadened Palate
 space port	2	5	good	5-6	10-20	10-20	10-20
@@ -604,6 +607,7 @@ spooky eggnog	3	3	good	5-10	0	16-30	16-30
 spooky mushroom wine	3	6	awesome	10-14	0	0	4-6
 stale cheer wine	3	1	awesome	11-13	0	0	0	20-30 crystalline cheer
 stealth bomber	3	6	awesome	9-12	10-20	0	10-20
+Steamboat	3	1	awesome	0	0	0	0	Unspaded
 steel margarita	5	5		0	0	0	0	Liver of Steel skill
 stepmom's booze	3	5	decent	4-6	0	5-10	5-10	KOLHS
 stinkwater	3	24	EPIC	25-29	20-30	20-30	20-30

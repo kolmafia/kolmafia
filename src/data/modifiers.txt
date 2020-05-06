@@ -6295,6 +6295,7 @@ Effect	On a Roll	Food Drop: +25
 Effect	On Pins and Needles	Initiative: +23
 Effect	On Smellier Tides	Stench Resistance: +1
 Effect	On the Homeo Path	Avatar: "War Hippy Homeopath"
+Effect	On the Rocks	Cold Resistance: +3, Cold Damage: +30, Damage Reduction: 10
 Effect	On the Shoulders of Giants	Mysticality Percent: +200
 # On the Trail
 Effect	On the Trolley	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
@@ -6835,6 +6836,7 @@ Effect	Stark Raven Mad	Avatar: "raven"
 Effect	Starry-Eyed	Muscle Percent: [+5*U], Mysticality Percent: [+5*U], Moxie Percent: [+5*U]
 Effect	stats.enq	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Staying Frosty	Cold Damage: +100
+Effect	Steamed	Hot Resistance: +3, Hot Damage: +30, Item Drop: +20
 Effect	Steely-Eyed Squint	Item Drop: [mod(Item Drop)]
 Effect	Stemonitis Storm	Maximum MP: +50, MP Regen Min: 5, MP Regen Max: 10
 # Stenchform: P. U.
@@ -6888,6 +6890,7 @@ Effect	Sugar High	Mysticality Percent: +30
 Effect	Sugar Rush	Initiative: +20, Muscle Percent: +5, Moxie Percent: +5, Mysticality Percent: -10
 Effect	Sugar Smacks	Muscle Percent: +30
 Effect	Sugary Tongue	Moxie Percent: +30
+Effect	Sulfurous Sinuses	Stench Resistance: +3, Stench Damage: +30, Meat Drop: +40
 Effect	Sunburned	Muscle: -2, Moxie: -2
 Effect	Supafly	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +30, Sleaze Damage: +10, Sleaze Resistance: +2
 Effect	Super Accuracy	Critical Hit Percent: +30
@@ -7111,6 +7114,7 @@ Effect	Toothy Grin	Familiar Weight: +5
 Effect	Top Dog	Moxie Percent: +50, Pickpocket Chance: +10
 Effect	Tortious	Monster Level: +10
 Effect	Total Protonic Reversal	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
+Effect	Touched	Spooky Resistance: +3, Spooky Damage: +30, Experience: +3
 Effect	Touched by a Ghost	Muscle Percent: [-(30+T)], Mysticality Percent: [-(30+T)], Moxie Percent: [-(30+T)]
 Effect	Towering Strength	Muscle Percent: [100+2*min(50,pref(chessboardsCleared))]
 Effect	Toxic Vengeance	Muscle: [-T], Mysticality: [-T], Moxie: [-T], Stench Damage: [3*T], Spell Damage Percent: [3*T]
@@ -8490,6 +8494,7 @@ Item	French bronilla brogurt	Effect: "French Bronilla Brogueishness", Effect Dur
 Item	Friendly Turkey	Effect: "Turkey-Friendly", Effect Duration: 25
 Item	Fromage Pinotage	Effect: "Some Cheese with Your Wine", Effect Duration: 20
 Item	Fuzzy Tentacle	Effect: "Void Between the Stars", Effect Duration: 10
+Item	Ghiaccio Colada	Effect: "On the Rocks", Effect Duration: 20
 Item	ghost beer	Damage Reduction: 11, Effect: "Booooooze", Effect Duration: 50
 Item	gingerbread wine	Effect: "Sprinkle in Your Eye", Effect Duration: 30
 # glass of drippy wine: Puts 5 &micro;g of Drippy Juice into your blood
@@ -8563,6 +8568,7 @@ Item	natto-infused sake	Effect: "Ninja, Please", Effect Duration: 30
 Item	nega-mushroom wine	Effect: "Double Negavision", Effect Duration: 50
 Item	New Zealand iced tea	Effect: "New Zeal", Effect Duration: 20
 Item	Newark	Effect: "Hobo Powering Up!", Effect Duration: 40
+Item	Nog-on-the-Cob	Effect: "Sulfurous Sinuses", Effect Duration: 20
 Item	non-aged vinegar	Effect: "Sour Grapes", Effect Duration: 40
 Item	nothingtini	Effect: "Nothing Happened", Effect Duration: 40
 Item	oozenog	Effect: "Festive Radiation", Effect Duration: 10
@@ -8623,8 +8629,10 @@ Item	Smuggler's Punch	Effect: "Tiki Temerity", Effect Duration: 30
 Item	snakebite	Effect: "Sweet Tooth", Effect Duration: 30
 Item	Sockdollager	Effect: "In a Lather", Effect Duration: 25
 Item	soilzerac	Effect: "Here's Mud in Your Eye", Effect Duration: 40
+Item	Sourfinger	Effect: "Touched", Effect Duration: 20
 Item	soy cordial	Effect: "Electrolyte Fantastic", Effect Duration: 2
 Item	soyburger juice	Effect: "Oversaturated Palate", Effect Duration: 1
+Item	Steamboat	Effect: "Steamed", Effect Duration: 20
 Item	Strikes Again Bigmouth	Effect: "Smithsness Cheer", Effect Duration: 50
 Item	Suffering Sinner	Effect: "Heart Aflame", Effect Duration: 5
 Item	Suppurating Sinner	Effect: "Heart Aflame", Effect Duration: 10
