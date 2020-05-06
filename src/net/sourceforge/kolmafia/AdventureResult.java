@@ -537,6 +537,19 @@ public class AdventureResult
 		}
 	}
 
+	public String getDisambiguatedName()
+	{
+		if ( ( this.priority == AdventureResult.ITEM_PRIORITY &&
+		       ItemDatabase.getItemIds( this.name, 1, false ).length > 1 ) ||
+		     ( this.priority == AdventureResult.EFFECT_PRIORITY &&
+		       EffectDatabase.getEffectIds( this.name, false ).length > 1 ) )
+		{
+			return "[" + String.valueOf( this.id ) + "]" + this.name;
+		}
+
+		return this.name;
+	}
+
 	public String getDataName()
 	{
 		return this.name;
@@ -978,12 +991,17 @@ public class AdventureResult
 
 		String conditionType = this.getConditionType();
 
-		if ( !conditionType.equals( "item" ) && !conditionType.equals( "pirate insult" ) )
+		if ( conditionType.equals( "pirate insult" ) )
 		{
-			return this.getLongCount() + " " + conditionType;
+			return "+" + this.getLongCount() + " " + this.name;
 		}
 
-		return "+" + this.getLongCount() + " " + this.name.replaceAll( "[,\"]", "" );
+		if ( conditionType.equals( "item" ) )
+		{
+			return "+" + this.getLongCount() + " " + this.getDisambiguatedName().replaceAll( "[,\"]", "" );
+		}
+
+		return this.getLongCount() + " " + conditionType;
 	}
 
 	/**

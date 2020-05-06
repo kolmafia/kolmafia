@@ -141,7 +141,7 @@ public class GoalManager
 
 		if ( goal.getCount() > 0 )
 		{
-			RequestLogger.printLine( "Condition added: " + goal );
+			RequestLogger.printLine( "Condition added: " + goal.toConditionString() );
 		}
 		else
 		{
