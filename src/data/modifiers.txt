@@ -5092,6 +5092,7 @@ Effect	Bustle Hustlin'	Pool Skill: +5
 Effect	Busy Bein' Delicious	Moxie: +5
 Effect	Butt-Rock Hair	Moxie Percent: +15
 Effect	Buttermilk Boogie	Moxie Percent: +50, Initiative: +50, HP Regen Min: 20, HP Regen Max: 40
+Effect	Buttery, Boy	Sleaze Resistance: +3, Sleaze Damage: +30, Moxie Percent: +100
 Effect	Buttons Rouged, Louisiana	Avatar: "man with the red buttons"
 Effect	Buy!  Sell!  Buy!  Sell!	Meat Drop: [max(0,202-2*T)]
 Effect	Buzzard Breath	Stench Damage: +30, Spooky Damage: +30
@@ -8408,6 +8409,7 @@ Item	bottle of sewage schnapps	Effect: "Majorly Poisoned", Effect Duration: 20
 Item	broberry brogurt	Effect: "Broberry Brotality", Effect Duration: 40
 Item	brocolate brogurt	Effect: "Brocolate Brostidigitation", Effect Duration: 40
 Item	Bustle Hustler	Effect: "Bustle Hustlin'", Effect Duration: 40
+Item	Buttery Boy	Effect: "Buttery, Boy", Effect Duration: 20
 Item	Buttery Knob	Effect: "Gutterminded", Effect Duration: 5
 Item	buzzing mushroom wine	Effect: "Stemonitis Storm", Effect Duration: 80
 Item	Caipiranha	Effect: "Fishy", Effect Duration: 5

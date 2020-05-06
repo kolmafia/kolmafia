@@ -118,6 +118,7 @@ brocolate brogurt	3	11	EPIC	15-18	0	100-200	0	40 Brocolate Brostidigitation (+10
 bucket of wine	10	5	decent	16-20	10-50	10-50	10-50
 bungle in the jungle	4	7	awesome	13-17	40-99	54-118	31-122
 Bustle Hustler	1	4	good	3	20-40	20-40	20-40	40 Bustle Hustlin' (+5 Pool skill)
+Buttery Boy	3	1	awesome	0	0	0	0	Unspaded
 Buttery Knob	2	1	good	4-5	0	0	10-20	5 Gutterminded (+50 Sleaze Dam)
 buzzing mushroom wine	4	3	EPIC	22-26	0	50-100	0	80 Stemonitis Storm
 caipifruta	3	3	good	5-10	16-20	0	0

@@ -3167,3 +3167,7 @@ mushroom cap	SUSE	mushroom slab
 
 # Path of the Plumber
 red plumber's boots	MUSE	red coin (11)
+
+# Guzzlr tablet
+
+Buttery Boy	MIX	Guzzlr cocktail set	Dish of Clarified Butter

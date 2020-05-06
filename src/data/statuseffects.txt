@@ -2567,3 +2567,8 @@
 2565	Mushed	gmush4.gif	54a72761df9d08794b38a0692ba22e18	neutral	none
 2566	Piranha Power	piranhaplant.gif	3d155e040e97f6c33724872265b5d243	good	none	use 1 piranha pollen
 2567	Mush-Maw	gmush3.gif	4bc3e6784775746fae40f1f019dd0ec0	neutral	none	chew 1 mushroom tea
+2568
+2569
+2570
+2571
+2572	Buttery, Boy	butterdrink.gif	a439ede8c90a1dc9c568eaad244d6757	neutral	none	drink 1 Buttery Boy
