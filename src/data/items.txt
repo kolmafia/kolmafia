@@ -10566,9 +10566,9 @@
 10538	Guzzlr pants	254620570	guzzlrpants.gif	pants		0
 10539	Guzzlr souvenir stein	552484359	guzzlrstein.gif	offhand		0
 10540	Guzzlr tattoo kit	531405424	guzzlrtat.gif	usable		0
-10541
-10542
-10543
-10544
+10541	Ghiaccio Colada	662254751	iceorb.gif	drink	t	0
+10542	Sourfinger	601851963	fingerdrink.gif	drink	t	0
+10543	Nog-on-the-Cob	894624313	jarl_egg.gif	drink	t	0
+10544	Steamboat	820155184	stench.gif	drink	t	0
 10545	Buttery Boy	125648673	butterdrink.gif	drink	t	0
 10546	Never Don't Stop Not Striving	531168605	book4.gif	usable	t	0
