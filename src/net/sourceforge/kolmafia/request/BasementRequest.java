@@ -1145,8 +1145,8 @@ public class BasementRequest
 
 		if ( responseText.indexOf( "Collapse That Waveform" ) != -1 )
 		{
-			// X-dimensional Horror
-			BasementRequest.basementMonster = "X-dimensional Horror";
+			// X-dimensional horror
+			BasementRequest.basementMonster = "X-dimensional horror";
 			BasementRequest.basementTestString = BasementRequest.monsterLevelString() + "<br>Blocks physical attacks";
 			return true;
 		}
