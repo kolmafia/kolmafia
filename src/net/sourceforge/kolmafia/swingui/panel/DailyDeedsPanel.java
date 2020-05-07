@@ -3168,7 +3168,7 @@ public class DailyDeedsPanel
 			if ( gl ) addFightCounter( buffer, Preferences.getInteger( "_godLobsterFights" ) + "/3 god lobster" );
 			if ( lv ) addFightCounter( buffer, ( Preferences.getBoolean( "_loveTunnelUsed" ) ? 3 : 0 ) + "/3 lov" );
 			if ( np ) addFightCounter( buffer, Preferences.getInteger( "_neverendingPartyFreeTurns" ) + "/10 party" );
-			if ( np ) addFightCounter( buffer, Preferences.getInteger( "_voteFreeFights" ) + "/3 vote" );
+			if ( vb ) addFightCounter( buffer, Preferences.getInteger( "_voteFreeFights" ) + "/3 vote" );
 			if ( et ) addFightCounter( buffer, "tentacle" );
 			buffer.append( "</html>" );
 
