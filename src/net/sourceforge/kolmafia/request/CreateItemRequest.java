@@ -850,15 +850,16 @@ public class CreateItemRequest
 			RequestLogger.updateSessionLog( "Your " + servant + " blew up" );
 		}
 
+		int turnsSaved = 0;
+		Matcher freeTurn;
+
+		// Remove from Jackhammer, then Warbear Anvil, then Thor's Pliers
 		if ( mode.equals( "smith" ) )
 		{
-			int turnsSaved = 0;
-
-			// Remove from Jackhammer, then Warbear Anvil, then Thor's Pliers, then Rapid Prototyping, then Corner Cutter
-			Matcher freeTurn = JACKHAMMER_PATTERN.matcher( responseText );
+			freeTurn = JACKHAMMER_PATTERN.matcher( responseText );
 			while ( freeTurn.find() )
 			{
-				int jackhammerTurnsSaved = Math.min( 3 - Preferences.getInteger( "_legionJackhammerCrafting" ), created );
+				int jackhammerTurnsSaved = Math.min( 3 - Preferences.getInteger( "_legionJackhammerCrafting" ), created - turnsSaved );
 				Preferences.increment( "_legionJackhammerCrafting", created, 3, false );
 				turnsSaved += jackhammerTurnsSaved;
 			}
@@ -876,40 +877,22 @@ public class CreateItemRequest
 				Preferences.increment( "_thorsPliersCrafting", created - turnsSaved, 10, false );
 				turnsSaved += thorsPliersTurnsSaved;
 			}
-			freeTurn = RAPID_PROTOTYPING_PATTERN.matcher( responseText );
-			while ( freeTurn.find() )
-			{
-				int rapidPrototypingTurnsSaved = Math.min( 5 - Preferences.getInteger( "_rapidPrototypingUsed" ), created - turnsSaved );
-				Preferences.increment( "_rapidPrototypingUsed", created - turnsSaved, 5, false );
-				turnsSaved += rapidPrototypingTurnsSaved;
-			}
-			freeTurn = CORNER_CUTTER_PATTERN.matcher( responseText );
-			while ( freeTurn.find() )
-			{
-				int expertCornerCutterTurnsSaved = Math.min( 5 - Preferences.getInteger( "_expertCornerCutterUsed" ), created - turnsSaved );
-				Preferences.increment( "_expertCornerCutterUsed", created - turnsSaved, 5, false );
-				turnsSaved += expertCornerCutterTurnsSaved;
-			}
 		}
-		else
-		{
-			int turnsSaved = 0;
 
-			// Remove from Rapid Prototyping, then Corner Cutter
-			Matcher freeTurn = RAPID_PROTOTYPING_PATTERN.matcher( responseText );
-			while ( freeTurn.find() )
-			{
-				int rapidPrototypingTurnsSaved = Math.min( 5 - Preferences.getInteger( "_rapidPrototypingUsed" ), created );
-				Preferences.increment( "_rapidPrototypingUsed", created, 5, false );
-				turnsSaved += rapidPrototypingTurnsSaved;
-			}
-			freeTurn = CORNER_CUTTER_PATTERN.matcher( responseText );
-			while ( freeTurn.find() )
-			{
-				int expertCornerCutterTurnsSaved = Math.min( 5 - Preferences.getInteger( "_expertCornerCutterUsed" ), created - turnsSaved );
-				Preferences.increment( "_expertCornerCutterUsed", created - turnsSaved, 5, false );
-				turnsSaved += expertCornerCutterTurnsSaved;
-			}
+		// Remove from Rapid Prototyping, then Corner Cutter
+		freeTurn = RAPID_PROTOTYPING_PATTERN.matcher( responseText );
+		while ( freeTurn.find() )
+		{
+			int rapidPrototypingTurnsSaved = Math.min( 5 - Preferences.getInteger( "_rapidPrototypingUsed" ), created - turnsSaved );
+			Preferences.increment( "_rapidPrototypingUsed", created - turnsSaved, 5, false );
+			turnsSaved += rapidPrototypingTurnsSaved;
+		}
+		freeTurn = CORNER_CUTTER_PATTERN.matcher( responseText );
+		while ( freeTurn.find() )
+		{
+			int expertCornerCutterTurnsSaved = Math.min( 5 - Preferences.getInteger( "_expertCornerCutterUsed" ), created - turnsSaved );
+			Preferences.increment( "_expertCornerCutterUsed", created - turnsSaved, 5, false );
+			turnsSaved += expertCornerCutterTurnsSaved;
 		}
 
 		return created;
