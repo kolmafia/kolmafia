@@ -886,7 +886,9 @@ public class CreateItemRequest
 			freeTurn = CORNER_CUTTER_PATTERN.matcher( responseText );
 			while ( freeTurn.find() )
 			{
+				int expertCornerCutterTurnsSaved = Math.min( 5 - Preferences.getInteger( "_expertCornerCutterUsed" ), created - turnsSaved );
 				Preferences.increment( "_expertCornerCutterUsed", created - turnsSaved, 5, false );
+				turnsSaved += expertCornerCutterTurnsSaved;
 			}
 		}
 		else
@@ -904,7 +906,9 @@ public class CreateItemRequest
 			freeTurn = CORNER_CUTTER_PATTERN.matcher( responseText );
 			while ( freeTurn.find() )
 			{
+				int expertCornerCutterTurnsSaved = Math.min( 5 - Preferences.getInteger( "_expertCornerCutterUsed" ), created - turnsSaved );
 				Preferences.increment( "_expertCornerCutterUsed", created - turnsSaved, 5, false );
+				turnsSaved += expertCornerCutterTurnsSaved;
 			}
 		}
 
