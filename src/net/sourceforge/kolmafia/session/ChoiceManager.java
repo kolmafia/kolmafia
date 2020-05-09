@@ -9978,10 +9978,13 @@ public abstract class ChoiceManager
 
 		case 1065:
 			// Lending a Hand (and a Foot)
-			if ( text.contains( "freakin' starving, here" ) )
+			if ( ChoiceManager.lastDecision == 1 )
 			{
 				QuestDatabase.setQuestProgress( Quest.ARMORER, QuestDatabase.STARTED );
-				ResultProcessor.removeItem( ItemPool.NO_HANDED_PIE );
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.ARMORER, QuestDatabase.STARTED );
 			}
 			break;
 
@@ -18275,7 +18278,10 @@ public abstract class ChoiceManager
 		case 1025: // Reconfigure your Mini-Crimbot
 		case 1051: // The Book of the Undying
 		case 1053: // The Servants' Quarters
+		case 1059: // Helping Make Ends Meat
 		case 1063: // Adjust your 'Edpiece
+		case 1064: // The Doctor is Out.  Of Herbs.
+		case 1065: // Lending a Hand (and a Foot)
 		case 1066: // Employee Assignment Kiosk
 		case 1067: // Maint Misbehavin'
 		case 1076: // Mayo Minder&trade;
