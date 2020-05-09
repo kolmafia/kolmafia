@@ -10562,8 +10562,8 @@
 10534	Guzzlr cocktail set	898668946	guzzlrcock.gif	none, fancy		0
 10535	Guzzlrbuck	736222283	guzzlrbuck.gif	usable		0	Guzzlrbucks
 10536	Guzzlr hat	202471786	guzzlrhat.gif	hat		0
-10537	Guzzlr shoes	620760390	guzzlrshoes.gif	accessory		0
-10538	Guzzlr pants	254620570	guzzlrpants.gif	pants		0
+10537	Guzzlr shoes	620760390	guzzlrshoes.gif	accessory		0	pairs of Guzzlr shoes
+10538	Guzzlr pants	254620570	guzzlrpants.gif	pants		0	pairs of Guzzlr pants
 10539	Guzzlr souvenir stein	552484359	guzzlrstein.gif	offhand		0
 10540	Guzzlr tattoo kit	531405424	guzzlrtat.gif	usable		0
 10541	Ghiaccio Colada	662254751	iceorb.gif	drink	t	0
@@ -10571,4 +10571,4 @@
 10543	Nog-on-the-Cob	894624313	jarl_egg.gif	drink	t	0
 10544	Steamboat	820155184	stench.gif	drink	t	0
 10545	Buttery Boy	125648673	butterdrink.gif	drink	t	0
-10546	Never Don't Stop Not Striving	531168605	book4.gif	usable	t	0
+10546	Never Don't Stop Not Striving	531168605	book4.gif	usable	t	0	copies of Never Don't Stop Not Striving
