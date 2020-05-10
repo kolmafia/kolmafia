@@ -301,7 +301,7 @@ public abstract class BasicScope
 		BasicScope parent = scope.getParentScope();
 		if ( parent != null )
 		{
-			return parent.findFunction( name, params );
+			return parent.findFunction( name, params, match );
 		}
 
 		return null;
