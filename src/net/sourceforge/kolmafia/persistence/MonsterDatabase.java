@@ -538,6 +538,7 @@ public class MonsterDatabase
 		};
 			
 		MonsterDatabase.saveMonster( alias, cloned );
+		MonsterDatabase.addMonsterToName( cloned );
 		MONSTER_ALIASES.add( alias );
 	}
 
