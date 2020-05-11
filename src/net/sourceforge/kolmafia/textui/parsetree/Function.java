@@ -42,6 +42,7 @@ import java.util.List;
 
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.Parser;
 
@@ -243,12 +244,25 @@ public abstract class Function
 			switch ( match )
 			{
 			case EXACT:
-				if ( !currentParam.getRawType().equals( currentValue.getRawType() ) )
+			{
+				Type rawParamType = currentParam.getRawType();
+				Type rawValueType = currentValue.getRawType();
+				if ( rawParamType.equals( rawValueType ) )
 				{
-					matched = false;
+					break;
 				}
+				// param isa "strict_string" and value isa "string" or "buffer"
+				// counts as an exact match.
+				int rawParamTypeCode = rawParamType.getType();
+				int rawValueTypeCode = rawValueType.getType();
+				if ( ( rawParamTypeCode == DataTypes.TYPE_STRICT_STRING ) &&
+				     ( rawValueTypeCode == DataTypes.TYPE_STRING || rawValueTypeCode == DataTypes.TYPE_BUFFER ) )
+				{
+					break;
+				}
+				matched = false;
 				break;
-						
+			}			
 			case BASE:
 				if ( !paramType.equals( valueType ) )
 				{
