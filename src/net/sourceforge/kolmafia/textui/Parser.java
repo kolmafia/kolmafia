@@ -938,7 +938,7 @@ public class Parser
 
 		// A typedef can overload a coercion function to a basic type or a typedef
 		Type rtype = rhs.getRawType();
-		if ( ltype instanceof TypeDef || ltype instanceof RecordType || !( ltype instanceof AggregateType ) )
+		if ( ltype instanceof TypeDef || ltype instanceof RecordType )
 		{
 			if ( ltype.getName().equals( rtype.getName() ) )
 			{
