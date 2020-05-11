@@ -2957,6 +2957,7 @@ public class Parser
 				throw this.parseException( "Value expected" );
 			}
 
+			lhs = this.autoCoerceValue( DataTypes.BOOLEAN_TYPE, lhs, scope );
 			lhs = new Operation( lhs, new Operator( operator, this ) );
 			if ( lhs.getType() != DataTypes.BOOLEAN_TYPE )
 			{
@@ -3083,7 +3084,14 @@ public class Parser
 				if ( oper.equals( "+" ) && ( ltype.equals( DataTypes.TYPE_STRING ) || rtype.equals( DataTypes.TYPE_STRING ) ) )
 				{
 					// String concatenation
-					rhs = this.autoCoerceValue( ltype, rhs, scope );
+					if ( !ltype.equals( DataTypes.TYPE_STRING ) )
+					{
+						lhs = this.autoCoerceValue( DataTypes.STRING_TYPE, lhs, scope );
+					}
+					if ( !rtype.equals( DataTypes.TYPE_STRING ) )
+					{
+						rhs = this.autoCoerceValue( DataTypes.STRING_TYPE, rhs, scope );
+					}
 					if ( lhs instanceof Concatenate )
 					{
 						Concatenate conc = (Concatenate) lhs;
