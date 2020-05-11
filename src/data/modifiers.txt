@@ -256,7 +256,7 @@ Item	Grimacite gasmask	Weapon Damage: +15, Muscle Percent: [10*G], Familiar Effe
 Item	Grimacite goggles	Adventures: +3, Mysticality Percent: [10*G], Familiar Effect: "1xVolley, 1xLep, cap 31"
 Item	grungy bandana	Stench Damage: +10, Sleaze Damage: +10, Familiar Effect: "1xVolley, 0.5xPotato, cap 37"
 Item	guard turtle shell	Maximum HP: +50, Familiar Effect: "atk, 1xFairy, cap 40"
-# Item Guzzlr hat: Earn 25% more stats from Guzzlr deliveries
+# Guzzlr hat: Earn 25% more stats from Guzzlr deliveries
 # Hairpiece On Fire: (+Maximum MP based on Smithsness)
 Item	Hairpiece On Fire	Cold Resistance: +2, Adventures: +4, Smithsness: +5, Maximum MP: [K], Familiar Effect: "atk, 1xPotato, cap 25"
 Item	hangman's hood	Muscle: +50, Weapon Damage: +50, Damage Reduction: 10
@@ -662,7 +662,7 @@ Item	Greatest American Pants	Muscle Percent: +10, Mysticality Percent: +10, Moxi
 Item	Greaves of the Murk Lord	HP Regen Min: 2, HP Regen Max: 5, Familiar Weight: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Familiar Effect: "1xBarrr, cap 30"
 Item	Grimacite gaiters	Adventures: +3, Mysticality Percent: [10*G], Familiar Effect: "3xBarrr, 2xGhoul, cap 37"
 Item	Grimacite greaves	Initiative: +20, Moxie Percent: [10*G], Familiar Effect: "2xBarrr, 3xGhoul, cap 37"
-# Item Guzzlr pants: Get more Guzzlrbucks for successful deliveries
+# Guzzlr pants: Get more Guzzlrbucks for successful deliveries
 Item	gym shorts	PvP Fights: +2, Initiative: +20, Familiar Effect: "sleaze atk, 1xGhuol, cap 25"
 Item	hardened slime pants	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Never Fumble, Moxie Percent: +20, Familiar Effect: "atk, 1xPotato"
 Item	hep waders	Maximum Hooch: +3, Familiar Effect: "1xPotato, 1xVolley, cap 12"
@@ -2917,8 +2917,10 @@ Item	grumpy old man charrrm bracelet	Monster Level: +7, Single Equip
 Item	gummi bowtie	Moxie: +5
 Item	gumshoes	Muscle Percent: +25, Experience (Muscle): +2, Single Equip
 Item	guts necklace	Stench Resistance: +4, Single Equip
-# Item Guzzlr shoes: Make Guzzlr deliveries in less time
+# Guzzlr shoes: Make Guzzlr deliveries in less time
 Item	Guzzlr shoes	Single Equip
+# Guzzlr tablet: Dispatches you to deliver booze to clients
+Item	Guzzlr tablet	Item Drop: +10, Maximum HP: +10, Maximum MP: +10, Booze Drop: +1, MP Regen Min: 1, MP Regen Max: 2, HP Regen Min: 3, HP Regen Max: 6, Free Pull
 # haggis socks: Allows you to deliver disgusting kicks
 Item	haggis socks	Initiative: +5, Single Equip
 Item	hamethyst bracelet	Muscle: +3, Critical Hit Percent: +5, Single Equip
@@ -3255,7 +3257,7 @@ Item	Red Balloon of Valor	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +11
 Item	Red Fox glove	Critical Hit Percent: +5, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Attacks Can't Miss, Single Equip
 Item	red masque	Spooky Damage: +15, Maximum HP: +30, Single Equip
 Item	red plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
-# Item red plumber's boots: Lets you unleash powerful jump attacks
+# red plumber's boots: Lets you unleash powerful jump attacks
 Item	red plumber's boots	Single Equip
 # Red Roger's red left foot: Gain more FunPoints during PirateRealm island adventures
 Item	Red Roger's red left foot	Single Equip
@@ -3830,7 +3832,7 @@ Item	Cloak of Dire Shadows	Maximum MP: +40, Meat Drop: +10, Muscle Percent: +5, 
 Item	cod cape	Stench Damage: +25, Combat Rate: +5
 Item	dice-shaped backpack	Random Monster Modifiers: +1
 Item	Drapes-You-Regally	Meat Drop: +20, Booze Drop: +20, Hat Drop: +20, Class: "Disco Bandit"
-# Item Drip harness: Allows you to enter The Drip
+# Drip harness: Allows you to enter The Drip
 Item	Drip harness	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100
 Item	Drunkula's cape	Adventures: +3, Candy Drop: +20, Accessory Drop: +20, Class: "Sauceror"
 Item	Duke Vampire's regal cloak	Moxie: +15, Moxie Percent: +25, Initiative: +50, Single Equip
@@ -8099,7 +8101,7 @@ Item	bread roll	Effect: "Thanksgetting", Effect Duration: 20
 Item	brown sugar cane	Effect: "Sugar Rush", Effect Duration: 3
 Item	bucket of honey	Effect: "Sugar Rush", Effect Duration: 50
 # bu&ntilde;uelos Jaliscos: NOTE: This item will stop working when Crimbo 2019 is over.
-# Item	bu&ntilde;uelos Jaliscos	Effect: "Fishy", Effect Duration: 30
+# bu&ntilde;uelos Jaliscos	Effect: "Fishy", Effect Duration: 30
 Item	C.H.U.M. chum	Effect: "Majorly Poisoned", Effect Duration: 20
 Item	campfire baked potato	Effect: "Trial by Campfire", Effect Duration: 60
 Item	campfire beans	Effect: "The More You Eat", Effect Duration: 40
@@ -8178,7 +8180,7 @@ Item	fireman's lunch	Effect: "You're Not Cooking", Effect Duration: 20
 # fishelada: NOTE: This item will stop working when Crimbo 2019 is over.
 # fishelada	Effect: "Fishy", Effect Duration: 30
 # flan del mar: NOTE: This item will stop working when Crimbo 2019 is over.
-# Item	flan del mar	Effect: "Festively Brined", Effect Duration: 30
+# flan del mar	Effect: "Festively Brined", Effect Duration: 30
 Item	flower petal pie	Effect: "Flower Power", Effect Duration: 3
 Item	foie gras	Effect: "Beaten Up", Effect Duration: 1
 Item	forbidden danish	Effect: "Danish Cunning", Effect Duration: 30
@@ -10556,7 +10558,6 @@ Item	grolblin rum	Lasts Until Rollover
 # groupie lipstick: Deals 150-250 <font color=blueviolet>Sleaze Damage</font>
 # Gummi-Memory: Your future Gelatinous Noob runs will start with 5 extra skills (up to 20)
 # gun parts: Maybe you can make a gun out of them?
-Item	Guzzlr tablet	Free Pull
 Item	Gygaxian Libram	Skill: "Summon Dice"
 # gyroscope: Briefly distracts enemies
 # half of a gold tooth: It's gross.  Just sell it.
