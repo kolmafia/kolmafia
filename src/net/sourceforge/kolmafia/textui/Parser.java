@@ -905,7 +905,7 @@ public class Parser
 				throw this.parseException( "Expression expected" );
 			}
 
-			rhs = this.coerceTypedefValue( t, rhs, scope );
+			rhs = this.autoCoerceValue( t, rhs, scope );
 			if ( !Operator.validCoercion( ltype, rhs.getType(), "assign" ) )
 			{
 				throw this.parseException( "Cannot store " + rhs.getType() + " in " + variableName + " of type " + ltype );
@@ -928,16 +928,17 @@ public class Parser
 		return result;
 	}
 
-	private Value coerceTypedefValue( Type ltype, Value rhs, final BasicScope scope )
+	private Value autoCoerceValue( Type ltype, Value rhs, final BasicScope scope )
 	{
-		if ( ltype == null )
+		// DataTypes.TYPE_ANY has no name
+		if ( ltype == null || ltype.getName() == null)
 		{
 			return rhs;
 		}
 
 		// A typedef can overload a coercion function to a basic type or a typedef
 		Type rtype = rhs.getRawType();
-		if ( ltype instanceof TypeDef || ltype instanceof RecordType )
+		if ( ltype instanceof TypeDef || ltype instanceof RecordType || !( ltype instanceof AggregateType ) )
 		{
 			if ( ltype.getName().equals( rtype.getName() ) )
 			{
@@ -962,7 +963,7 @@ public class Parser
 		if ( rtype instanceof TypeDef || rtype instanceof RecordType )
 		{
 			// DataTypes.TYPE_ANY has no name
-			if ( ltype.getName() == null || ltype.getName().equals( rtype.getName() ) )
+			if ( ltype.getName().equals( rtype.getName() ) )
 			{
 				return rhs;
 			}
@@ -981,7 +982,7 @@ public class Parser
 		return rhs;
 	}
 
-	private List<Value> coerceTypedefParameters( Function target, List<Value>params, BasicScope scope )
+	private List<Value> autoCoerceParameters( Function target, List<Value>params, BasicScope scope )
 	{
 		ListIterator<VariableReference> refIterator = target.getVariableReferences().listIterator();
 		ListIterator<Value> valIterator = params.listIterator();
@@ -1008,7 +1009,7 @@ public class Parser
 			}
 
 			Value currentValue = valIterator.next();
-			Value coercedValue = this.coerceTypedefValue( paramType, currentValue, scope );
+			Value coercedValue = this.autoCoerceValue( paramType, currentValue, scope );
 			valIterator.set( coercedValue );
 		}
 
@@ -1278,7 +1279,7 @@ public class Parser
 			if ( isArray )
 			{
 				// The value must have the correct data type
-				lhs = this.coerceTypedefValue( data, lhs, scope );
+				lhs = this.autoCoerceValue( data, lhs, scope );
 				if ( !Operator.validCoercion( dataType, lhs.getType(), "assign" ) )
 				{
 					throw this.parseException( "Invalid array literal" );
@@ -1322,8 +1323,8 @@ public class Parser
 			}
 
 			// Check that each type is valid via validCoercion
-			lhs = this.coerceTypedefValue( index, lhs, scope );
-			rhs = this.coerceTypedefValue( data, rhs, scope );
+			lhs = this.autoCoerceValue( index, lhs, scope );
+			rhs = this.autoCoerceValue( data, rhs, scope );
 			if ( !Operator.validCoercion( index, lhs.getType(), "assign" ) ||
 			     !Operator.validCoercion( data, rhs.getType(), "assign" ) )
 			{
@@ -1515,7 +1516,7 @@ public class Parser
 				throw this.parseException( "Expression expected" );
 			}
 
-			value = this.coerceTypedefValue( expectedType, value, parentScope );
+			value = this.autoCoerceValue( expectedType, value, parentScope );
 			if ( expectedType != null && !Operator.validCoercion( expectedType, value.getType(), "return" ) )
 			{
 				throw this.parseException( "Cannot return " + value.getType() + " value from " + expectedType + " function");
@@ -2365,7 +2366,7 @@ public class Parser
 				}
 
 				Type ltype = t.getBaseType();
-				rhs = this.coerceTypedefValue( t, rhs, scope );
+				rhs = this.autoCoerceValue( t, rhs, scope );
 				Type rtype = rhs.getType();
 
 				if ( !Operator.validCoercion( ltype, rtype, "assign" ) )
@@ -2575,7 +2576,7 @@ public class Parser
 
 				if ( val != DataTypes.VOID_VALUE )
 				{
-					val = this.coerceTypedefValue( types[param], val, scope );
+					val = this.autoCoerceValue( types[param], val, scope );
 					Type given = val.getType();
 					if ( !Operator.validCoercion( expected, given, "assign" ) )
 					{
@@ -2636,7 +2637,7 @@ public class Parser
 			throw this.undefinedFunctionException( name, params );
 		}
 
-		params = this.coerceTypedefParameters( target, params, scope );
+		params = this.autoCoerceParameters( target, params, scope );
 		FunctionCall call = new FunctionCall( target, params, this );
 
 		return parsePostCall( scope, call );
@@ -2825,7 +2826,7 @@ public class Parser
 			throw this.parseException( "Internal error" );
 		}
 
-		rhs = this.coerceTypedefValue( lhs.getType(), rhs, scope );
+		rhs = this.autoCoerceValue( lhs.getType(), rhs, scope );
 		if ( !oper.validCoercion( lhs.getType(), rhs.getType() ) )
 		{
 			String error =
@@ -3082,7 +3083,7 @@ public class Parser
 				if ( oper.equals( "+" ) && ( ltype.equals( DataTypes.TYPE_STRING ) || rtype.equals( DataTypes.TYPE_STRING ) ) )
 				{
 					// String concatenation
-					rhs = this.coerceTypedefValue( ltype, rhs, scope );
+					rhs = this.autoCoerceValue( ltype, rhs, scope );
 					if ( lhs instanceof Concatenate )
 					{
 						Concatenate conc = (Concatenate) lhs;
@@ -3095,7 +3096,7 @@ public class Parser
 				}
 				else
 				{
-					rhs = this.coerceTypedefValue( ltype, rhs, scope );
+					rhs = this.autoCoerceValue( ltype, rhs, scope );
 					if ( !oper.validCoercion( ltype, rhs.getType() ) )
 					{
 						throw this.parseException( "Cannot apply operator " + oper + " to " + lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ")" );
