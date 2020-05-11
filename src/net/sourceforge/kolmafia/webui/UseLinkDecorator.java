@@ -1095,7 +1095,6 @@ public abstract class UseLinkDecorator
 			case ItemPool.GOVERNMENT_REQUISITION_FORM:
 			case ItemPool.CAMPFIRE_SMOKE:
 			case ItemPool.BURNT_STICK:
-			case ItemPool.GUZZLR_TABLET:
 
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.
@@ -1137,8 +1136,8 @@ public abstract class UseLinkDecorator
 
 			case ItemPool.LATTE_MUG:
 
-				// Not inline, since the redirection to an
-				// adventure doesn't work ajaxified.
+				// Not inline, since the redirection to a choice
+				// doesn't work ajaxified.
 
 				return new UseLink( itemId, 1, "use", "main.php?latte=1", false );
 
@@ -1536,6 +1535,13 @@ public abstract class UseLinkDecorator
 			case ItemPool.COMEDY_PROP:
 				uses.add( new UseLink( itemId, itemCount, "visit mourn", "pandamonium.php?action=mourn&whichitem=" ) );
 				break;
+			
+			case ItemPool.GUZZLR_TABLET:
+			{
+				// Not inline, since the redirection to a choice
+				// doesn't work ajaxified.
+				uses.add( new UseLink( itemId, 1, "tap", "inventory.php?tap=guzzlr", false ) );
+			}
 			}
 
 			if ( uses.size() == 1 )

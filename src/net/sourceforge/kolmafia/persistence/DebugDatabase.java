@@ -1373,7 +1373,7 @@ public class DebugDatabase
 	}
 
 	private static final Pattern ITEM_ENCHANTMENT_PATTERN =
-		Pattern.compile( "<font color=\"?blue\"?>(?!\\(awesome\\)|<p>)(.*)(?:<br>)?</font>", Pattern.DOTALL );
+		Pattern.compile( "<font color=\"?blue\"?>(?!\\(awesome\\)|<p>)(.*)(?:<br>)?</font>(?:<br />)?", Pattern.DOTALL );
 
  	public static final void parseItemEnchantments( String text, final ModifierList known, final ArrayList<String> unknown, final int type )
 	{
@@ -1577,6 +1577,7 @@ public class DebugDatabase
 			"<b>NOTE:</b> Items that reduce the MP cost of skills will not do so by more than 3 points, in total." );
 		StringUtilities.globalStringReplace( enchantments, "<br>", "\n" );
 		StringUtilities.globalStringReplace( enchantments, "<Br>", "\n" );
+		StringUtilities.globalStringReplace( enchantments, "<br />", "\n" );
 		// Following from bogus HTML in Two Crazy Random Summer
 		StringUtilities.globalStringReplace( enchantments, "</font></b></center>", "\n" );
 		// Following from bogus HTML for mime army infiltration glove
