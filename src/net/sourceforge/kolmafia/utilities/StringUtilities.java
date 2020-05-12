@@ -1083,6 +1083,27 @@ public class StringUtilities
 		return rv == null ? text : rv;
 	}
 
+	public static final String toTitleCase( final String s )
+	{
+		boolean found = false;
+		char[] chars = s.toLowerCase().toCharArray();
+
+		for ( int i = 0; i < chars.length; ++i )
+		{
+			if ( !found && Character.isLetter( chars[ i ] ) )
+			{
+				chars[ i ] = Character.toUpperCase( chars[ i ] );
+				found = true;
+			}
+			else if ( Character.isWhitespace( chars[ i ] ) )
+			{
+				found = false;
+			}
+		}
+
+		return String.valueOf( chars );
+	}
+
 	public static final String leetify( final String text )
 	{
 		// It makes no sense to leetify character entities, so convert

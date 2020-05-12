@@ -646,6 +646,12 @@ user	guideToSafariAvailable	true
 user	guideToSafariCost	1000
 user	guyMadeOfBeesCount	0
 user	guyMadeOfBeesDefeated	false
+user	guzzlrBronzeDeliveries	0
+user	guzzlrGoldDeliveries	0
+user	guzzlrPlatinumDeliveries	0
+user	guzzlrQuestBooze	
+user	guzzlrQuestLocation	
+user	guzzlrQuestTier	
 user	haciendaLayout	000000000000000000
 user	hardcorePVPWarning	false
 user	harvestGardenHardcore	none
@@ -1040,6 +1046,7 @@ user	questG06Delivery	unstarted
 user	questG07Myst	unstarted
 user	questG08Moxie	unstarted
 user	questG09Muscle	unstarted
+user	questGuzzlr	unstarted
 user	questI01Scapegoat	unstarted
 user	questI02Beat	unstarted
 user	questL02Larva	unstarted
@@ -1566,6 +1573,9 @@ user	_grimstoneMaskDropsCrown	0
 user	_grooseCharge	0
 user	_grooseDrops	0
 user	_guildManualUsed	false
+user	_guzzlrGoldDeliveries	0
+user	_guzzlrPlatinumDeliveries	0
+user	_guzzlrQuestAbandoned	false
 user	_hardKnocksDiplomaUsed	false
 user	_hareAdv	0
 user	_hareCharge	0
