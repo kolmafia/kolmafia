@@ -151,6 +151,7 @@ public class QuestDatabase
 		NEW_YOU( "questEUNewYou" ),
 		PARTY_FAIR( "_questPartyFair" ),
 		DOCTOR_BAG( "questDoctorBag" ),
+		GUZZLR( "questGuzzlr" ),
 		;
 
 		private final String pref;
@@ -194,6 +195,8 @@ public class QuestDatabase
 	public static final Pattern PARTY_FAIR_FOOD_PATTERN_2 = Pattern.compile( "Take the (\\d+) (.*?) to Geraldine" );
 	public static final Pattern DOCTOR_BAG_ITEM_PATTERN = Pattern.compile( "Acquire (a|an) (.*?)\\." );
 	public static final Pattern DOCTOR_BAG_LOCATION_PATTERN = Pattern.compile( "Take (a|an) (.*?) to the patient in <a(?:.*?)><b>(.*?)</b></a>\\." );
+	public static final Pattern GUZZLR_BOOZE_PATTERN = Pattern.compile( "Acquire (a|an) (.*?) for your Guzzlr client\\." );
+	public static final Pattern GUZZLR_LOCATION_PATTERN = Pattern.compile( "Deliver the (.*?) to your Guzzlr client: (.*?) in (.*)\\." );
 
 	private static String[][] questLogData = null;
 	private static String[][] councilData = null;
@@ -404,6 +407,12 @@ public class QuestDatabase
 		if ( pref.equals( Quest.DOCTOR_BAG.getPref() ) )
 		{
 			return handleDoctorBag( details );
+		}
+
+		// Get Guzzlr quest target
+		if ( pref.equals( Quest.GUZZLR.getPref() ) )
+		{
+			return handleGuzzlr( details );
 		}
 
 		// Special handling, as there are versions with one, two, or three paragraphs
@@ -984,7 +993,7 @@ public class QuestDatabase
 			{
 				Preferences.setString( "doctorBagQuestItem", matcher.group( 2 ) );
 			}
-			return "started";
+			return QuestDatabase.STARTED;
 		}
 		if ( details.contains( "to the patient" ) )
 		{
@@ -996,6 +1005,49 @@ public class QuestDatabase
 			}
 			return "step1";
 		}
+		return "";
+	}
+
+	private static String handleGuzzlr( String details )
+	{
+		if ( details.contains( "Craft a personalized Guzzlr cocktail." ) )
+		{
+			Preferences.setString( "guzzlrQuestTier", "platinum" );
+			return QuestDatabase.STARTED;
+		}
+		else if ( details.contains( "Acquire " ) )
+		{
+			Matcher matcher = QuestDatabase.GUZZLR_BOOZE_PATTERN.matcher( details );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "guzzlrQuestBooze", matcher.group( 2 ) );
+			}
+			return QuestDatabase.STARTED;
+		}
+		else if ( details.contains( "to your Guzzlr client" ) )
+		{
+			Matcher matcher = QuestDatabase.GUZZLR_LOCATION_PATTERN.matcher( details );
+			if ( matcher.find() )
+			{
+				String booze = matcher.group( 1 );
+				int boozeId = ItemDatabase.getItemId( booze );
+
+				if ( boozeId >= 10541 && boozeId <= 10545 )
+				{
+					Preferences.setString( "guzzlrQuestTier", "platinum" );
+					Preferences.setString( "guzzlrQuestBooze", "Guzzlr cocktail set" );
+				}
+				else
+				{
+					Preferences.setString( "guzzlrQuestBooze", booze );
+				}
+
+				
+				Preferences.setString( "guzzlrQuestLocation", matcher.group( 3 ) );
+			}
+			return "step1";
+		}
+
 		return "";
 	}
 

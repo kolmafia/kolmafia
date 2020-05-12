@@ -289,6 +289,8 @@ public abstract class ChoiceManager
 	private static final Pattern RED_SNAPPER_PATTERN = Pattern.compile( "guiding you towards: <b>(.*?)</b>.  You've found <b>(\\d+)</b> of them" );
 	private static final Pattern MUSHROOM_COSTUME_PATTERN = Pattern.compile( "<form.*?name=option value=(\\d).*?type=submit value=\"(.*?) Costume\".*?>(\\d+) coins<.*?</form>" );
 	private static final Pattern MUSHROOM_BADGE_PATTERN = Pattern.compile( "Current cost: (\\d+) coins." );
+	private static final Pattern GUZZLR_TIER_PATTERN = Pattern.compile( "You have completed ([0-9,]+) (Bronze|Gold|Platinum) Tier deliveries" );
+	private static final Pattern GUZZLR_QUEST_PATTERN = Pattern.compile( "<p>You are currently tasked with taking a (.*?) to (.*?) in (.*?)\\.<p>" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -7725,6 +7727,8 @@ public abstract class ChoiceManager
 	private static final Pattern FRAT_RATIONING_PATTERN = Pattern.compile( "You toss the (.*?) off the edge of the floating battlefield and (\\d+) frat boys? jumps? off after it." );
 	// You toss the mana curds into the crowd.  10 hippies dive onto it, greedily consume it, and pass out.
 	private static final Pattern HIPPY_RATIONING_PATTERN = Pattern.compile( "You toss the (.*?) into the crowd.  (\\d+) hippies dive onto it, greedily consume it, and pass out." );
+	// You select a Gold Tier client, Norma "Smelly" Jackson, a hobo from The Oasis.
+	private static final Pattern GUZZLR_LOCATION_PATTERN = Pattern.compile( "You select a (Bronze|Gold|Platinum) Tier client, (.*?) a (.*?) from (.*?)\\.<p>" );
 
 	public static void postChoice1( final String urlString, final GenericRequest request )
 	{
@@ -11948,6 +11952,71 @@ public abstract class ChoiceManager
 			CampgroundRequest.setCampgroundItem( new Mushroom( mushroomLevel ) );
 			Preferences.setBoolean( "_mushroomGardenVisited", true );
 		}
+		case 1412:
+			// Is There A Doctor In The House?
+			switch ( ChoiceManager.lastDecision )
+			{
+			case 1:
+				// Abandon
+				Preferences.setBoolean( "_guzzlrQuestAbandoned", true );
+
+				Preferences.setString( "guzzlrQuestBooze", "" );
+				Preferences.setString( "guzzlrQuestLocation", "" );
+				Preferences.setString( "guzzlrQuestTier", "" );
+				QuestDatabase.setQuestProgress( Quest.GUZZLR, QuestDatabase.UNSTARTED );
+			case 2:
+			case 3:
+			case 4: {
+				Matcher locationMatcher = GUZZLR_LOCATION_PATTERN.matcher( text );
+				Matcher boozeMatcher = DESCID_PATTERN.matcher( text );
+
+				if ( locationMatcher.find() )
+				{
+					String tier = locationMatcher.group( 1 ).toLowerCase();
+
+					// If we didn't capture from the ouput we can determine from the choice
+					if ( tier.equals( "" ) )
+					{
+						tier = ChoiceManager.lastDecision == 2 ? "bronze" :
+							   ChoiceManager.lastDecision == 3 ? "gold" :
+							   "platinum";
+					}
+
+					Preferences.setString( "guzzlrQuestTier", tier );
+					Preferences.setString( "guzzlrQuestLocation", locationMatcher.group( 4 ) );
+				}
+
+
+				if ( boozeMatcher.find() )
+				{
+					int itemId = ItemDatabase.getItemIdFromDescription( boozeMatcher.group( 1 ) );
+					Preferences.setString( "guzzlrQuestBooze", ItemDatabase.getItemName( itemId ) );
+				}
+
+				if ( Preferences.getString( "guzzlrQuestBooze" ) == "" || Preferences.getString( "guzzlrQuestLocation" ) == "" )
+				{
+					RequestThread.postRequest( new QuestLogRequest() );
+				}
+				
+				int itemId = ItemDatabase.getItemId( Preferences.getString( "guzzlrQuestBooze" ) );
+
+				if ( itemId > 0 && itemId != ItemPool.GUZZLR_COCKTAIL_SET )
+				{
+					if ( InventoryManager.getCount( itemId ) > 0 )
+					{
+						QuestDatabase.setQuestProgress( Quest.GUZZLR, "step1" );
+					}
+					else
+					{
+						QuestDatabase.setQuestProgress( Quest.GUZZLR, QuestDatabase.STARTED );
+					}
+				}
+				else
+				{
+					QuestDatabase.setQuestProgress( Quest.GUZZLR, QuestDatabase.STARTED );
+				}
+			}
+			}
 		}
 
 		// Certain choices cost meat or items when selected
@@ -15399,6 +15468,60 @@ public abstract class ChoiceManager
 			CampgroundRequest.setCampgroundItem( new Mushroom( newLevel ) );
 			break;
 		}
+		case 1412:
+			Matcher tierMatcher = GUZZLR_TIER_PATTERN.matcher( text );
+			while ( tierMatcher.find() )
+			{
+				Preferences.setInteger( "guzzlr" + tierMatcher.group( 2 ) + "Deliveries", StringUtilities.parseInt( tierMatcher.group( 1 ) ) );	
+			}
+
+			if ( text.contains( "You are currently tasked with" ) )
+			{
+				Matcher alreadyMatcher = GUZZLR_QUEST_PATTERN.matcher( text );
+				if ( alreadyMatcher.find() )
+				{
+					Preferences.setString( "guzzlrQuestBooze", alreadyMatcher.group(1) );
+					Preferences.setString( "guzzlrQuestLocation", alreadyMatcher.group(3) );
+				}
+
+				int itemId = ItemDatabase.getItemId( Preferences.getString( "guzzlrQuestBooze" ) );
+
+				if ( itemId > 0 )
+				{
+					if ( InventoryManager.getCount( itemId ) > 0 )
+					{
+						QuestDatabase.setQuestProgress( Quest.GUZZLR, "step1" );
+					}
+					else
+					{
+						QuestDatabase.setQuestProgress( Quest.GUZZLR, QuestDatabase.STARTED );
+					}
+				}
+				else
+				{
+					QuestDatabase.setQuestProgress( Quest.GUZZLR, QuestDatabase.STARTED );
+				}
+
+				Preferences.setBoolean( "_guzzlrQuestAbandoned", ( ChoiceManager.findChoiceDecisionIndex( "Abandon Client", text ) == "0" ) );
+
+				break;
+			}
+
+			// If we have unlocked Gold Tier but cannot accept one, we must have already accepted three.
+			boolean unlockedGoldTier = Preferences.getInteger( "guzzlrBronzeDeliveries" ) >= 5;
+			if (unlockedGoldTier && ChoiceManager.findChoiceDecisionIndex( "Gold Tier", text ) == "0" )
+			{
+				Preferences.setInteger( "_guzzlrGoldDeliveries", 3 );
+			}
+
+			// If we have unlocked Platinum Tier but cannot accept one, we must have already accepted one.
+			boolean unlockedPlatinumTier = Preferences.getInteger( "guzzlrGoldDeliveries" ) >= 5;
+			if (unlockedPlatinumTier && ChoiceManager.findChoiceDecisionIndex( "Platinum Tier", text ) == "0" )
+			{
+				Preferences.setInteger( "_guzzlrPlatinumDeliveries", 1 );
+			}
+
+			break;
 		}
 
 		// Do this after special classes (like WumpusManager) have a

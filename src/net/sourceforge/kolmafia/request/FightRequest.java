@@ -4534,6 +4534,46 @@ public class FightRequest
 				Preferences.increment( "_holoWristProgress" );
 			}
 
+			if ( QuestDatabase.isQuestLaterThan( Quest.GUZZLR, QuestDatabase.UNSTARTED ) &&
+				 responseText.contains( "You finally manage to track down" ) )
+			{
+				String tier = Preferences.getString( "guzzlrQuestTier" );
+				int itemId = ItemDatabase.getItemId( Preferences.getString( "guzzlrQuestBooze" ) );
+
+				// For platinum deliveries, the cocktail with the highest item number is taken
+				if ( itemId == ItemPool.GUZZLR_COCKTAIL_SET )
+				{
+					tier = "platinum";
+
+					for ( int i = 10545; i >= 10541; i-- )
+					{
+						if ( InventoryManager.getCount( i ) > 0 )
+						{
+							ResultProcessor.processItem( i, -1 );
+							break;
+						}
+					}
+				}
+				else
+				{
+					ResultProcessor.processItem( itemId, -1 );
+				}
+
+				if ( tier != null && !tier.equals( "" ) )
+				{
+					if ( tier != "bronze" )
+					{
+						Preferences.increment ( "_guzzlr" + StringUtilities.toTitleCase( tier ) + "Deliveries", tier == "gold" ? 3 : 1 );
+					}
+					Preferences.increment( "guzzlr" + StringUtilities.toTitleCase( tier ) + "Deliveries" );
+				}
+
+				Preferences.setString( "guzzlrQuestBooze", "" );
+				Preferences.setString( "guzzlrQuestLocation", "" );
+				Preferences.setString( "guzzlrQuestTier", "" );
+				QuestDatabase.setQuestProgress( Quest.GUZZLR, QuestDatabase.UNSTARTED );
+			}
+
 			if ( responseText.contains( "FREEFREEFREE" ) )
 			{
 				String updateMessage = "This combat did not cost a turn";

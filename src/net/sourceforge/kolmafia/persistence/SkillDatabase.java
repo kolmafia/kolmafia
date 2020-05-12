@@ -1816,27 +1816,6 @@ public class SkillDatabase
 		return list;
 	}
 
-	public static final String toTitleCase( final String s )
-	{
-		boolean found = false;
-		char[] chars = s.toLowerCase().toCharArray();
-
-		for ( int i = 0; i < chars.length; ++i )
-		{
-			if ( !found && Character.isLetter( chars[ i ] ) )
-			{
-				chars[ i ] = Character.toUpperCase( chars[ i ] );
-				found = true;
-			}
-			else if ( Character.isWhitespace( chars[ i ] ) )
-			{
-				found = false;
-			}
-		}
-
-		return String.valueOf( chars );
-	}
-
 	/**
 	 * Returns whether or not an item with a given name exists in the database; this is useful in the event that an item
 	 * is encountered which is not tradeable (and hence, should not be displayed).
@@ -1912,7 +1891,7 @@ public class SkillDatabase
 			}
 
 			SkillDatabase.appendSkillList(
-				buffer, appendHTML, SkillDatabase.toTitleCase( SkillDatabase.CATEGORIES[ i ] ),
+				buffer, appendHTML, StringUtilities.toTitleCase( SkillDatabase.CATEGORIES[ i ] ),
 				categories[ i ] );
 			printedList = true;
 		}
@@ -1933,7 +1912,7 @@ public class SkillDatabase
 			buffer.append( "<u><b>" );
 		}
 
-		buffer.append( SkillDatabase.toTitleCase( listName ) );
+		buffer.append( StringUtilities.toTitleCase( listName ) );
 
 		if ( appendHTML )
 		{
