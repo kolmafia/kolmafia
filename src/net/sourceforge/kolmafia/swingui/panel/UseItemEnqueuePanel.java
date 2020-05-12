@@ -1046,6 +1046,14 @@ public class UseItemEnqueuePanel
 				}
 			}
 
+			if ( KoLCharacter.isPlumber() )
+			{
+				if ( UseItemEnqueuePanel.this.booze )
+				{
+					return false;
+				}
+			}
+
 			// Vampyres, and only Vampyres can eat/drink bag of blood concoctions
 			if ( KoLCharacter.isVampyre() )
 			{
