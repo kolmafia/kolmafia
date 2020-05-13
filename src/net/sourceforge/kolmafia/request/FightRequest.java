@@ -4561,7 +4561,7 @@ public class FightRequest
 
 				if ( tier != null && !tier.equals( "" ) )
 				{
-					if ( tier != "bronze" )
+					if ( !tier.equals( "bronze" ) )
 					{
 						Preferences.increment ( "_guzzlr" + StringUtilities.toTitleCase( tier ) + "Deliveries", tier == "gold" ? 3 : 1 );
 					}
