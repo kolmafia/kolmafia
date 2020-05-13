@@ -128,16 +128,6 @@ public abstract class Function
 		{
 			Type paramType1 = it1.next().getRawType();
 			Type paramType2 = it2.next().getRawType();
-
-			if ( ( paramType1 instanceof TypeDef && paramType2 instanceof TypeDef ) )
-			{
-				if ( !paramType1.getName().equals( paramType2.getName() ) )
-				{
-					return false;
-				}
-				continue;
-			}
-
 			if ( !paramType1.equals( paramType2 ) )
 			{
 				return false;
@@ -240,7 +230,6 @@ public abstract class Function
 		{
 			VariableReference currentParam = refIterator.next();
 			Type paramType = currentParam.getType();
-			Type rawParamType = currentParam.getRawType();
 
 			if ( paramType == null || paramType instanceof VarArgType )
 			{
@@ -250,17 +239,11 @@ public abstract class Function
 
 			Value currentValue = valIterator.next();
 			Type valueType = currentValue.getType();
-			Type rawValueType = currentValue.getRawType();
 
 			switch ( match )
 			{
 			case EXACT:
-				if ( rawParamType instanceof TypeDef && rawValueType instanceof TypeDef &&
-				     !rawParamType.getName().equals( rawValueType.getName() ) )
-				{
-					matched = false;
-				}
-				else if ( !rawParamType.equals( rawValueType ) )
+				if ( !currentParam.getRawType().equals( currentValue.getRawType() ) )
 				{
 					matched = false;
 				}
@@ -322,12 +305,7 @@ public abstract class Function
 			switch ( match )
 			{
 			case EXACT:
-				if ( paramType instanceof TypeDef && valueType instanceof TypeDef &&
-				     !paramType.getName().equals( valueType.getName() ) )
-				{
-					matched = false;
-				}
-				else if ( !paramType.equals( valueType ) )
+				if ( !paramType.equals( valueType ) )
 				{
 					matched = false;
 				}

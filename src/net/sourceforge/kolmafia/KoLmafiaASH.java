@@ -344,7 +344,7 @@ public abstract class KoLmafiaASH
 				description.append( sep );
 				sep = ", ";
 
-				description.append( var.getType() );
+				description.append( var.getRawType() );
 
 				if ( var.getName() != null )
 				{
@@ -356,7 +356,6 @@ public abstract class KoLmafiaASH
 			description.append( " )" );
 
 			RequestLogger.printLine( description.toString() );
-
 		}
 	}
 
