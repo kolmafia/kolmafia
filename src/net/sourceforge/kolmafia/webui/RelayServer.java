@@ -150,20 +150,28 @@ public class RelayServer
 
 	public void run()
 	{
-		RelayServer.port = 60080;
+		boolean startedSuccessfully = true;
+		Integer minPort = 60080;
+		Integer maxPort = minPort + 10;
+		RelayServer.port = minPort;
 		while ( !this.openServerSocket() )
 		{
-			if ( RelayServer.port <= 60089 )
+			if ( RelayServer.port < maxPort )
 			{
 				++RelayServer.port;
 			}
 			else
 			{
-				KoLmafia.quit();
+				KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "Failed to find free port in range " + minPort + " to " + maxPort + "." );
+				startedSuccessfully = false;
+				break;
 			}
 		}
 
-		RelayServer.listening = true;
+		if ( startedSuccessfully )
+		{
+			RelayServer.listening = true;
+		}
 
 		while ( RelayServer.listening )
 		{
