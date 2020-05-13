@@ -7728,7 +7728,7 @@ public abstract class ChoiceManager
 	// You toss the mana curds into the crowd.  10 hippies dive onto it, greedily consume it, and pass out.
 	private static final Pattern HIPPY_RATIONING_PATTERN = Pattern.compile( "You toss the (.*?) into the crowd.  (\\d+) hippies dive onto it, greedily consume it, and pass out." );
 	// You select a Gold Tier client, Norma "Smelly" Jackson, a hobo from The Oasis.
-	private static final Pattern GUZZLR_LOCATION_PATTERN = Pattern.compile( "You select a (Bronze|Gold|Platinum) Tier client, (.*?) a (.*?) from (.*?)\\.<p>" );
+	private static final Pattern GUZZLR_LOCATION_PATTERN = Pattern.compile( "You select a (Bronze|Gold|Platinum) Tier client, (.*?), an? (.*?) from (.*?)\\.<p>" );
 
 	public static void postChoice1( final String urlString, final GenericRequest request )
 	{
@@ -11970,22 +11970,23 @@ public abstract class ChoiceManager
 				Matcher locationMatcher = GUZZLR_LOCATION_PATTERN.matcher( text );
 				Matcher boozeMatcher = DESCID_PATTERN.matcher( text );
 
+				String tier = "";
+
 				if ( locationMatcher.find() )
 				{
-					String tier = locationMatcher.group( 1 ).toLowerCase();
-
-					// If we didn't capture from the ouput we can determine from the choice
-					if ( tier.equals( "" ) )
-					{
-						tier = ChoiceManager.lastDecision == 2 ? "bronze" :
-							   ChoiceManager.lastDecision == 3 ? "gold" :
-							   "platinum";
-					}
-
-					Preferences.setString( "guzzlrQuestTier", tier );
+					tier = locationMatcher.group( 1 ).toLowerCase();
 					Preferences.setString( "guzzlrQuestLocation", locationMatcher.group( 4 ) );
 				}
 
+				// If we didn't capture from the ouput we can determine from the choice
+				if ( tier.equals( "" ) )
+				{
+					tier = ChoiceManager.lastDecision == 2 ? "bronze" :
+							ChoiceManager.lastDecision == 3 ? "gold" :
+							"platinum";
+				}
+
+				Preferences.setString( "guzzlrQuestTier", tier );
 
 				if ( boozeMatcher.find() )
 				{
