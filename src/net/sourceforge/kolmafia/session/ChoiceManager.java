@@ -11951,9 +11951,18 @@ public abstract class ChoiceManager
 			CampgroundRequest.clearCrop();
 			CampgroundRequest.setCampgroundItem( new Mushroom( mushroomLevel ) );
 			Preferences.setBoolean( "_mushroomGardenVisited", true );
+			break;
 		}
+
 		case 1412:
-			// Is There A Doctor In The House?
+		{
+			// Guzzlr Client Selection
+
+			if ( text.contains( "Welcome, valued Guzzlr team member!") )
+			{
+				return;
+			}
+
 			switch ( ChoiceManager.lastDecision )
 			{
 			case 1:
@@ -12018,6 +12027,9 @@ public abstract class ChoiceManager
 				}
 			}
 			}
+
+			break;
+		}
 		}
 
 		// Certain choices cost meat or items when selected
