@@ -69,8 +69,9 @@ public class TypeDef
 		return new TypeInitializer( this.base.getBaseType() );
 	}
 
-	public boolean equals( final Type type )
+	@Override
+	public boolean equals( final Type o )
 	{
-		return this.getBaseType() == type.getBaseType();
+		return o instanceof TypeDef && this.name.equals( ( (TypeDef) o ).name );
 	}
 }
