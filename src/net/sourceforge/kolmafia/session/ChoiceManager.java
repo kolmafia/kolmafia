@@ -4238,7 +4238,7 @@ public abstract class ChoiceManager
 			"FantasyRealm", "choiceAdventure1297", "Stick to the Crypt",
 			new Object[] { new Option( "acquire hero's skull", 1, "hero's skull" ),
 				       new Option( "acquire 40-60 Rubees&trade;", 2, "Rubee&trade;" ),
-				       new Option( "acquire arrest warrant (with FantasyRealm Warrior's Helm)", 3, "arrest warrant" ),
+				       new Option( "acquire arrest warrant (with FantasyRealm Rogue's Mask)", 3, "arrest warrant" ),
 				       new Option( "leave", 6 ) } ),
 
 		// Choice 1298 is The "Phoenix"
