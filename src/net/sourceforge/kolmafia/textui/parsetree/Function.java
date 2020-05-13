@@ -126,10 +126,19 @@ public abstract class Function
 
 		while ( it1.hasNext() && it2.hasNext() )
 		{
-			VariableReference param1 = it1.next();
-			VariableReference param2 = it2.next();
+			Type paramType1 = it1.next().getRawType();
+			Type paramType2 = it2.next().getRawType();
 
-			if ( !param1.getRawType().equals( param2.getRawType() ) )
+			if ( ( paramType1 instanceof TypeDef && paramType2 instanceof TypeDef ) )
+			{
+				if ( !paramType1.getName().equals( paramType2.getName() ) )
+				{
+					return false;
+				}
+				continue;
+			}
+
+			if ( !paramType1.equals( paramType2 ) )
 			{
 				return false;
 			}
@@ -231,6 +240,7 @@ public abstract class Function
 		{
 			VariableReference currentParam = refIterator.next();
 			Type paramType = currentParam.getType();
+			Type rawParamType = currentParam.getRawType();
 
 			if ( paramType == null || paramType instanceof VarArgType )
 			{
@@ -240,29 +250,22 @@ public abstract class Function
 
 			Value currentValue = valIterator.next();
 			Type valueType = currentValue.getType();
+			Type rawValueType = currentValue.getRawType();
 
 			switch ( match )
 			{
 			case EXACT:
-			{
-				Type rawParamType = currentParam.getRawType();
-				Type rawValueType = currentValue.getRawType();
-				if ( rawParamType.equals( rawValueType ) )
+				if ( rawParamType instanceof TypeDef && rawValueType instanceof TypeDef &&
+				     !rawParamType.getName().equals( rawValueType.getName() ) )
 				{
-					break;
+					matched = false;
 				}
-				// param isa "strict_string" and value isa "string" or "buffer"
-				// counts as an exact match.
-				int rawParamTypeCode = rawParamType.getType();
-				int rawValueTypeCode = rawValueType.getType();
-				if ( ( rawParamTypeCode == DataTypes.TYPE_STRICT_STRING ) &&
-				     ( rawValueTypeCode == DataTypes.TYPE_STRING || rawValueTypeCode == DataTypes.TYPE_BUFFER ) )
+				else if ( !rawParamType.equals( rawValueType ) )
 				{
-					break;
+					matched = false;
 				}
-				matched = false;
 				break;
-			}			
+
 			case BASE:
 				if ( !paramType.equals( valueType ) )
 				{
@@ -319,7 +322,12 @@ public abstract class Function
 			switch ( match )
 			{
 			case EXACT:
-				if ( !paramType.equals( valueType ) )
+				if ( paramType instanceof TypeDef && valueType instanceof TypeDef &&
+				     !paramType.getName().equals( valueType.getName() ) )
+				{
+					matched = false;
+				}
+				else if ( !paramType.equals( valueType ) )
 				{
 					matched = false;
 				}

@@ -2826,7 +2826,7 @@ public class Parser
 			throw this.parseException( "Internal error" );
 		}
 
-		rhs = this.autoCoerceValue( lhs.getType(), rhs, scope );
+		rhs = this.autoCoerceValue( lhs.getRawType(), rhs, scope );
 		if ( !oper.validCoercion( lhs.getType(), rhs.getType() ) )
 		{
 			String error =
@@ -3759,14 +3759,6 @@ public class Parser
 				this.currentLine = this.currentLine.substring( i + 1 ); //+1 to get rid of ']' token
 				this.currentToken = null;
 				String input = resultString.toString().trim();
-
-				// Make sure that only ASCII characters appear in the string
-				// *** No longer necessary?
-				// if ( !input.matches( "^\\p{ASCII}*$" ) )
-				// {
-				//	throw this.parseException( "Typed constant $" + type.toString() + "[" + input + "] contains non-ASCII characters" );
-				// }
-
 				return parseLiteral( type, input );
 			}
 			else
@@ -4045,8 +4037,10 @@ public class Parser
 	{
 		String revision = this.parseDirective( "since" );
 		if ( revision != null )
+		{
 			// enforce "since" directives RIGHT NOW at parse time
 			this.enforceSince( revision );
+		}
 	}
 
 	private String parseImport()
