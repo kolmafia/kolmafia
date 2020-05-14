@@ -2517,6 +2517,10 @@ public class DebugDatabase
 			{
 				for (Integer id : ItemDatabase.descriptionIdKeySet())
 				{
+					if ( !KoLmafia.permitsContinue() )
+					{
+						break;
+					}
 					if (id < 0)
 					{
 						continue;
