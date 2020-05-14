@@ -936,18 +936,21 @@ public class Parser
 			return rhs;
 		}
 
-		// A typedef can overload a coercion function to a basic type or a typedef
+		// If the types are the same no coercion needed
+		// A TypeDef or a RecordType match names for equal.
 		Type rtype = rhs.getRawType();
+		if ( ltype.equals( rtype ) )
+		{
+			return rhs;
+		}
+
+		// Look for a function:  LTYPE to_LTYPE( RTYPE )
+		String name = "to_" + ltype.getName();
+		List<Value> params = Collections.singletonList( rhs );
+
+		// A typedef can overload a coercion function to a basic type or a typedef
 		if ( ltype instanceof TypeDef || ltype instanceof RecordType )
 		{
-			if ( ltype.getName().equals( rtype.getName() ) )
-			{
-				return rhs;
-			}
-
-			// Look for a function:  LTYPE to_LTYPE( RTYPE )
-			String name = "to_" + ltype.getName();
-			List<Value> params = Collections.singletonList( rhs );
 			Function target = scope.findFunction( name, params, MatchType.EXACT );
 			if ( target != null && target.getType().equals( ltype ) )
 			{
@@ -962,15 +965,6 @@ public class Parser
 
 		if ( rtype instanceof TypeDef || rtype instanceof RecordType )
 		{
-			// DataTypes.TYPE_ANY has no name
-			if ( ltype.getName().equals( rtype.getName() ) )
-			{
-				return rhs;
-			}
-
-			// Look for a function:  LTYPE to_LTYPE( RTYPE )
-			String name = "to_" + ltype.getName();
-			List<Value> params = Collections.singletonList( rhs );
 			Function target = scope.findFunction( name, params, MatchType.EXACT );
 			if ( target != null && target.getType().equals( ltype ) )
 			{
