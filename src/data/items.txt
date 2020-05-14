@@ -10568,7 +10568,7 @@
 10540	Guzzlr tattoo kit	531405424	guzzlrtat.gif	usable		0
 10541	Ghiaccio Colada	662254751	iceorb.gif	drink	t	0
 10542	Sourfinger	601851963	fingerdrink.gif	drink	t	0
-10543	Nog-on-the-Cob	894624313	jarl_egg.gif	drink	t	0
+10543	Nog-on-the-Cob	894624313	jarl_egg.gif	drink	t	0	Nogs-on-the-Cobs
 10544	Steamboat	820155184	stench.gif	drink	t	0
 10545	Buttery Boy	125648673	butterdrink.gif	drink	t	0
 10546	Never Don't Stop Not Striving	531168605	book4.gif	usable	t	0	copies of Never Don't Stop Not Striving
