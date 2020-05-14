@@ -2753,6 +2753,16 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.RESOLUTION_KINDER:
+		case ItemPool.RESOLUTION_ADVENTUROUS:
+		case ItemPool.RESOLUTION_LUCKIER:
+			if ( RequestLogger.getLastURLString().startsWith( "campground.php" ) ||
+			     RequestLogger.getLastURLString().startsWith( "skills.php" ) )
+			{
+				Preferences.increment( "_resolutionRareSummons" );
+			}
+			break;
+			
 		case ItemPool.YELLOW_TAFFY:
 			if ( RequestLogger.getLastURLString().startsWith( "campground.php" ) ||
 			     RequestLogger.getLastURLString().startsWith( "skills.php" ) )
@@ -2771,6 +2781,7 @@ public class ResultProcessor
 			}
 			break;
 
+			
 		case ItemPool.BOSS_HELM:
 		case ItemPool.BOSS_CLOAK:
 		case ItemPool.BOSS_SWORD:
