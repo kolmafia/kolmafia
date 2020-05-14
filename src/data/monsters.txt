@@ -515,7 +515,7 @@ Ninja Snowman Janitor	339	ninjamop.gif	Atk: 80 Def: 81 HP: 70 Init: 60 ED: cold 
 Ninja Snowman Weaponmaster	340	ninjacloud.gif	Atk: 90 Def: 81 HP: 80 Init: 75 ED: cold P: elemental	ridiculously overelaborate ninja weapon (5)	frigid ninja stars (20)	frozen nunchaku (5)	frigid hanky&#363; (0)	frigid mote (p5)
 novelty tropical skeleton	1746	tropicalskel.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 E: spooky P: undead	cherry (0)	cherry (0)	grapefruit (0)	grapefruit (0)	orange (0)	orange (0)	strawberry (0)	strawberry (0)	lemon (0)	lemon (0)	novelty fruit hat (c0)
 nurse shark	769	nurseshark.gif	Atk: 450 Def: 405 HP: 800 Init: 50 Meat: 200 P: fish	blank prescription sheet (c11)	nurse's hat (n5)	sea salt scrubs (c5)	slug of rum (21)
-oasis monster	459	whirlwind.gif	Atk: 132 Def: 123 HP: 139 Init: 40 Meat: 100 P: dude	displaced fish (20)	palm frond (10)	Supernova Champagne (20)	wonderwall shield (4)	carbonated water lily (10)	hot date (5)
+oasis monster	459	whirlwind.gif	Atk: 132 Def: 123 HP: 139 Init: 40 Meat: 100 P: elemental	displaced fish (20)	palm frond (10)	Supernova Champagne (20)	wonderwall shield (4)	carbonated water lily (10)	hot date (5)
 octopus gardener	738	octopus.gif	Atk: 425 Def: 360 HP: 600 Init: 200 Meat: 100 P: fish	octopus's spade (n2)	sea radish (c3)	soggy seed packet (n30)	straw hat (n2)
 Octorok	117	octorok.gif	Atk: 25 Def: 22 HP: 15 Init: 60 P: beast	red pixel (80)	red pixel (70)	red pixel (60)
 off-duty Knob Goblin Elite Guard	1058	kg_offdutyguard.gif	Atk: 30 Def: 22 HP: 30 Init: 50 Meat: 50 P: goblin	Cobb's Knob Wurstbrau (15)	Knob Goblin elite pants (10)	Knob Goblin elite polearm (10)	Knob Goblin elite shirt (10)	knob bugle (10)
