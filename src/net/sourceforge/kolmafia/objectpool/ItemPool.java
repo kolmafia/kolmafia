@@ -1721,7 +1721,9 @@ public class ItemPool
 	public static final int FUDGECYCLE = 5460;
 	public static final int FUDGE_CUBE = 5461;
 	public static final int RESOLUTION_BOOK = 5463;
+	public static final int RESOLUTION_KINDER = 5470;
 	public static final int RESOLUTION_ADVENTUROUS = 5471;
+	public static final int RESOLUTION_LUCKIER = 5472;
 	public static final int RED_DRUNKI_BEAR = 5482;
 	public static final int GREEN_DRUNKI_BEAR = 5483;
 	public static final int YELLOW_DRUNKI_BEAR = 5484;

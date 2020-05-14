@@ -1773,6 +1773,7 @@ user	_reflexHammerUsed	0
 user	_relativityMonster	false
 user	_requestSandwichSucceeded	false
 user	_resolutionAdv	0
+user	_resolutionRareSummons	0
 user	_rhinestonesAcquired	false
 user	_riftletAdv	0
 user	_roboDrinks
