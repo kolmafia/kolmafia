@@ -1871,7 +1871,7 @@ public class QuestManager
 
 	/** After we win a fight, some quests may need to be updated.  Centralize handling for it here.
 	 * @param responseText The text from (at least) the winning round of the fight
-	 * @param monster The monster which <s>died</s>got beaten up.
+	 * @param monsterName The monster which <s>died</s>got beaten up.
 	 */
 	public static void updateQuestData( String responseText, String monsterName )
 	{
@@ -2499,7 +2499,8 @@ public class QuestManager
 			if ( LighterMatcher.find() )
 			{
 				int flamingProtesters = StringUtilities.parseInt( LighterMatcher.group( 1 ) );
-				Preferences.increment( "zeppelinProtestors", flamingProtesters );
+				//Lighter defeats the protester being attacked as well as the nearby group
+				Preferences.increment( "zeppelinProtestors", flamingProtesters + 1);
 				RequestLogger.printLine( "Set fire to " + flamingProtesters + " protesters" );
 			}
 			else
@@ -2869,7 +2870,7 @@ public class QuestManager
 
 	/** After we start a fight, some quests may need to be updated.  Centralize handling for it here.
 	 * @param responseText The text from (at least) the first round of the fight
-	 * @param monster The monster
+	 * @param monsterName The monster
 	 */
 	public static void updateQuestFightStarted( final String responseText, final String monsterName )
 	{
