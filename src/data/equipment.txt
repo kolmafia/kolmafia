@@ -2476,7 +2476,7 @@ gummi bowtie	0	none
 gumshoes	50	Mus: 10
 guts necklace	225	Mys: 200
 Guzzlr shoes	100	none
-Guzzlr tablet	0	none
+Guzzlr tablet	100	none
 haggis socks	10	none
 hamethyst bracelet	50	Mys: 10
 hamethyst earring	50	Mys: 10
