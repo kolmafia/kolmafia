@@ -10572,3 +10572,26 @@
 10544	Steamboat	820155184	stench.gif	drink	t	0
 10545	Buttery Boy	125648673	butterdrink.gif	drink	t	0
 10546	Never Don't Stop Not Striving	531168605	book4.gif	usable	t	0	copies of Never Don't Stop Not Striving
+10547	clown car key	241161852	key_clowncar.gif	accessory	q	0
+10548	batting cage key	582744022	dv_key.gif	accessory	q	0
+10549	aqu&iacute;	392460162	keya.gif	accessory	q	0
+10550	knob labinet key	983500301	officekey.gif	accessory	q	0
+10551	weremoose key	532768985	key_moose.gif	accessory	q	0
+10552	peg key	678622446	key_peg.gif	accessory	q	0
+10553
+10554	rabbit's foot key	684873843	key_rabbit.gif	accessory	q	0
+10555
+10556
+10557	anchovy can key	396606960	sardinekey.gif	accessory	q	0
+10558
+10559
+10560
+10561	demonic key	409693160	key_demon.gif	accessory	q	0
+10562	key sausage	152514568	key_sausage.gif	accessory	q	0
+10563	knob treasury key	365973803	gripkey.gif	accessory	q	0
+10564	scrap metal key	344873489	key_scrap.gif	accessory	q	0
+10565	black rose key	290965377	key_rose.gif	accessory	q	0
+10566	music box key	913381837	srkey1.gif	accessory	q	0
+10567	actual skeleton key	459045873	key_actualskel.gif	accessory	q	0
+10568	deep-fried key	696073003	key_deepfried.gif	accessory	q	0
+10569	discarded bike lock key	218758389	key_bike.gif	accessory	q	0

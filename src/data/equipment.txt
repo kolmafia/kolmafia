@@ -2181,6 +2181,7 @@ zoological sample kit	10	none
 
 acid-squirting flower	50	Mys: 10
 actual reality goggles	10	none
+actual skeleton key	0	none
 aerogel anvil	50	none
 aerogel apron	50	none
 aerogel ascot	50	none
@@ -2189,6 +2190,7 @@ Aluminum Epsilon of Humility	200	Mys: 85
 amber aviator shades	200	Mys: 85
 amulet of extreme plot significance	100	Mys: 35
 Amulet of Yendor	10	none
+anchovy can key	0	none
 anemoney clip	80	Mys: 15
 Ankh of Badahnkadh	165	Mys: 67
 ankleweights	100	Mys: 35
@@ -2199,6 +2201,7 @@ anti-earplugs	10	none
 antique nutcracker beard	150	Mys: 30
 antique nutcracker boots	150	Mus: 30
 antique nutcracker epaulets	150	Mox: 30
+aqu&iacute;	0	none
 aquamariner's necklace	200	Mys: 85
 aquamariner's ring	200	Mys: 85
 arrrgyle socks	70	Mys: 20
@@ -2230,6 +2233,7 @@ barrel beryl nose ring	125	Mys: 30
 barrel beryl ring	125	Mys: 30
 barrel hoop earring	100	none
 batskin belt	0	none
+batting cage key	0	none
 battle broom	200	Mys: 10
 bauxite bow-tie	150	Mys: 10
 Beach Comb	150	none
@@ -2250,6 +2254,7 @@ big red clown nose	50	Mys: 10
 bitter bowtie	160	Mox: 65
 black belt	150	Mys: 60
 black glass	0	none
+black rose key	0	none
 blackberry combat boots	180	Mus: 75
 blackberry galoshes	180	Mox: 60
 blackberry moccasins	180	Mys: 75
@@ -2309,6 +2314,7 @@ Choker of the Ultragoth	150	Mys: 60
 Claw of the Infernal Seal	150	Mus: 45
 Claybender glasses	100	Mys: 35
 clingfilm slippers	150	Mys: 60
+clown car key	0	none
 clown shoes	50	Mys: 10
 clownskin belt	50	Mys: 10
 club necklace	10	none
@@ -2339,12 +2345,15 @@ dark hamethyst ring	125	Mus: 47
 dark porquoise ring	125	Mox: 47
 dead guy's memento	200	Mys: 200
 dead guy's watch	50	Mys: 10
+deep-fried key	0	none
 defective Golden Mr. Accessory	0	none
+demonic key	0	none
 depleted Grimacite astrolabe	80	Mys: 25
 depleted Grimacite grappling hook	80	Mys: 25
 depleted Grimacite weightlifting belt	80	Mys: 25
 dethklok	30	none
 diamond necklace	10	none
+discarded bike lock key	0	none
 dice belt buckle	10	none
 dice ring	10	none
 dice sunglasses	10	none
@@ -2532,7 +2541,10 @@ Juju Mojo Mask	100	none
 Junior Adventurer's merit badge	30	none
 Junior LAAAAME merit badge	10	none
 junk band	60	Mys: 15
+key sausage	0	none
 kick-ass kicks	160	Mys: 65
+knob labinet key	0	none
+knob treasury key	0	none
 knobby kneepads	20	none
 KoL Con 8-Bit power bracelet	0	none
 KoL Con X Bingo Card	0	none
@@ -2625,6 +2637,7 @@ Mudflap-Girl Earring	150	Mys: 60
 Mudflap-Girl Necklace	150	Mys: 60
 Mudflap-Girl Ring	150	Mys: 60
 mushroom badge	100	none
+music box key	0	none
 musty moccasins	160	Mox: 65
 mysterious silver lapel pin	0	none
 natty blue ascot	200	Mys: 10
@@ -2670,6 +2683,7 @@ peace-sign necklace	70	Mys: 20
 pearl diver's necklace	200	Mys: 85
 pearl diver's ring	200	Mys: 85
 pearl necklace	0	Mox: 37
+peg key	0	none
 Pendant of Fire	150	Mys: 60
 Pendant of Gargalesis	150	Mys: 60
 perfume-soaked bandana	75	Mys: 15
@@ -2742,6 +2756,7 @@ Radio KoL Flashlight	0	none
 Radio KoL Keychain	0	none
 Radio KoL Maracas	0	none
 Radio KoL Patch	0	none
+rabbit's foot key	0	none
 rainbow pearl earring	0	Mys: 200
 rainbow pearl necklace	0	Mys: 200
 rainbow pearl ring	0	Mys: 200
@@ -2799,6 +2814,7 @@ sardine can key	200	Mus: 50
 Sasq&trade; watch	50	Mys: 10
 scabrous seal epaulets	0	none
 Scandalously Skimpy Bikini	0	Mys: 10
+scrap metal key	0	none
 screwing pooch	85	Mys: 27
 sea holster	200	Mys: 85
 seal medal	0	none
@@ -3202,6 +3218,7 @@ water wings for babies	10	none
 water-polo mitt	200	Mys: 85
 wax face	50	none
 wax hand	50	none
+weremoose key	0	none
 whalebone corset	55	Mys: 12
 wheel	30	none
 white belt	40	Mys: 5

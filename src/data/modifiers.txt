@@ -2553,6 +2553,7 @@ Item	zoological sample kit	Lasts Until Rollover
 Item	acid-squirting flower	Single Equip
 # actual reality goggles: Reveals peoples' true nature
 Item	actual reality goggles	Single Equip, Free Pull
+Item	actual skeleton key	Damage Absorption: +100, Damage Reduction: 10
 # aerogel anvil: Gives a chance of generating extra Fury
 Item	aerogel anvil	Weapon Damage Percent: +25, Never Fumble, Single Equip
 # aerogel apron: Weapon of the Pastalord can be even messier
@@ -2565,6 +2566,7 @@ Item	amber aviator shades	Mysticality Percent: +5, Moxie Percent: +5, Sleaze Dam
 Item	amulet of extreme plot significance	Maximum MP: +30
 # Amulet of Yendor: Prevents Level Teleporting
 Item	Amulet of Yendor	Mana Cost: +3, Initiative: -10, Single Equip
+Item	anchovy can key	Food Drop: +100
 # anemoney clip: +50% Meat Drops (Underwater only)
 Item	anemoney clip	Meat Drop: [25+50*env(underwater)], Single Equip
 Item	Ankh of Badahnkadh	Spell Damage Percent: +25, Single Equip
@@ -2577,6 +2579,7 @@ Item	antique Canadian lantern	Item Drop: [15+15*loc(The Canadian Wildlife Preser
 Item	antique nutcracker beard	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Mysticality Percent: +15, Single Equip
 Item	antique nutcracker boots	Weapon Damage: +15, Muscle Percent: +15, Single Equip
 Item	antique nutcracker epaulets	HP Regen Min: 6, HP Regen Max: 12, Moxie Percent: +15, Single Equip
+Item	aqu&iacute;	Hot Resistance: +3, Hot Damage: +15, Hot Spell Damage: +30
 # aquamariner's necklace: Makes you a better diver
 Item	aquamariner's necklace	MP Regen Min: 10, MP Regen Max: 15, Meat Drop: +15, Single Equip, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 # aquamariner's ring: Makes you a better diver
@@ -2617,6 +2620,7 @@ Item	barrel beryl nose ring	Mysticality: +10, Spell Damage: +20
 Item	barrel beryl ring	Moxie: +10, Initiative: +20
 Item	barrel hoop earring	Mysticality Percent: +25, Item Drop: +50, MP Regen Min: 5, MP Regen Max: 10, Lasts Until Rollover
 Item	batskin belt	Muscle: +3, Mysticality: +3, Moxie: +3
+Item	batting cage key	Stench Resistance: +3, Stench Damage: +15, Stench Spell Damage: +30
 Item	battle broom	Experience (Mysticality): +5, MP Regen Min: 5, MP Regen Max: 10, Mysticality Percent: +50, Spell Damage Percent: +100, Spell Critical Percent: +10, Single Equip, Lasts Until Rollover
 Item	bauxite bow-tie	Mysticality: +11, Maximum MP: [23+floor(pref(daycareToddlers)^0.35)], Spell Damage: [37+floor(pref(daycareToddlers)^0.35)], Single Equip
 Item	Beach Comb	Moxie Percent: +20, MP Regen Min: 8, MP Regen Max: 12, Familiar Weight: +5, Single Equip
@@ -2639,6 +2643,7 @@ Item	big red clown nose	Maximum HP: +7, Clowniness: 25
 Item	bitter bowtie	Cold Resistance: +1, Meat Drop: +10, Synergetic
 Item	black belt	Muscle: +7, Weapon Damage: +7, Single Equip
 # black glass
+Item	black rose key	Familiar Weight: +5, Experience (familiar): +2
 Item	blackberry combat boots	Muscle: +10, Maximum HP: +45, Weapon Damage: +5, Single Equip
 Item	blackberry galoshes	Muscle: +7, Mysticality: +7, Moxie: +7, Single Equip
 Item	blackberry moccasins	Moxie: +8, Initiative: +25, Damage Reduction: 3, Single Equip
@@ -2711,6 +2716,7 @@ Item	Claw of the Infernal Seal	Muscle: +11, HP Regen Min: 20, HP Regen Max: 25, 
 # Claybender glasses: +15 Damage vs. Ghosts
 Item	Claybender glasses	Item Drop: +4, Single Equip
 Item	clingfilm slippers	Spell Damage: +15, Single Equip
+Item	clown car key	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, Monster Level: +10
 Item	clown shoes	Maximum MP: +7, Clowniness: 25
 Item	clownskin belt	Maximum MP: +15, Clowniness: 50
 # club necklace
@@ -2749,7 +2755,9 @@ Item	dark hamethyst ring	Muscle: +15
 Item	dark porquoise ring	Moxie: +15
 Item	dead guy's memento	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Adventures: +5, Single Equip, Nonstackable Watch
 Item	dead guy's watch	Adventures: +1, Single Equip, Nonstackable Watch
+Item	deep-fried key	Sleaze Resistance: +3, Sleaze Damage: +15, Sleaze Spell Damage: +30
 Item	defective Golden Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +14
+Item	demonic key	Experience Percent (Mysticality): +20, Mysticality: +5, Mana Cost: -1
 Item	depleted Grimacite astrolabe	Mysticality Percent: [5*G], PvP Fights: [G], Single Equip
 Item	depleted Grimacite grappling hook	Moxie Percent: [5*G], Adventures: [G], Single Equip
 Item	depleted Grimacite weightlifting belt	Muscle Percent: [5*G], Adventures: [G], Single Equip
@@ -2763,6 +2771,7 @@ Item	Dinsey's glove	Moxie Percent: +30, Single Equip
 Item	Dinsey's oculus	Initiative: +40, Muscle Percent: +30, Single Equip
 Item	dirty hobo gloves	Stench Damage: +2, Single Equip
 Item	disbelief suspenders	Sleaze Resistance: +1
+Item	discarded bike lock key	Maximum MP: +10, MP Regen Min: 4, MP Regen Max: 5
 Item	discarded bowtie	Combat Rate: -5, Monster Level: -10, Lasts Until Rollover
 Item	disembodied smile	Spooky Damage: +2, Single Equip
 # diving muff: Makes you a better diver
@@ -2985,7 +2994,10 @@ Item	Juju Mojo Mask	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent
 Item	Junior Adventurer's merit badge	Muscle: +3, Mysticality: +3, Moxie: +3, Single Equip
 Item	Junior LAAAAME merit badge	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	junk band	Spell Damage: +11
+Item	key sausage	Combat Rate: -10
 Item	kick-ass kicks	Sleaze Damage: +10, Moxie: +3, Single Equip
+Item	knob labinet key	Experience Percent (Muscle): +20, Muscle: +5, Mana Cost: -1
+Item	knob treasury key	Pickpocket Chance: +20, Meat Drop: +50
 Item	knobby kneepads	Weapon Damage: +3
 Item	KoL Con 8-Bit power bracelet	Muscle: +8
 Item	KoL Con X Bingo Card	HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5
@@ -3108,6 +3120,7 @@ Item	Mudflap-Girl Earring	Stench Resistance: +3, Hot Resistance: +3, Single Equi
 Item	Mudflap-Girl Necklace	Muscle: +3, Mysticality: +3, Moxie: +3, Sleaze Spell Damage: +40, Single Equip
 Item	Mudflap-Girl Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Sleaze Damage: +40, Single Equip
 Item	mushroom badge	Mysticality: +40, Muscle: -20, Moxie: -20, Monster Level: -25, Single Equip
+Item	music box key	Combat Rate: +10
 Item	musty moccasins	Stench Resistance: +1, Item Drop: +5, Synergetic
 Item	mysterious silver lapel pin	HP Regen Min: 5, HP Regen Max: 9, Meat Drop: +5, Single Equip
 Item	natty blue ascot	Meat Drop: +20
@@ -3165,6 +3178,7 @@ Item	pearl diver's necklace	Critical Hit Percent: +4, Monster Level: +20, Single
 # pearl diver's ring: +20% Item Drops from Monsters (Underwater only)
 Item	pearl diver's ring	Critical Hit Percent: +3, Monster Level: +15, Single Equip, Item Drop: [20*env(underwater)]
 Item	pearl necklace	Sleaze Damage: +23, Sleaze Spell Damage: +37, Moxie Percent: +69, Single Equip
+Item	peg key	Experience: +5
 Item	Pendant of Fire	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Spell Damage: +40, Single Equip
 Item	Pendant of Gargalesis	MP Regen Min: 6, MP Regen Max: 10
 Item	perfume-soaked bandana	Stench Resistance: +4, Spooky Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Single Equip
@@ -3239,6 +3253,7 @@ Item	Putrid Pendant	Muscle: +3, Mysticality: +3, Moxie: +3, Stench Spell Damage:
 Item	pygmy nose-bone	Moxie: +7, Single Equip
 Item	quicksilver ring	Initiative: +40, Single Equip
 Item	Quiets-Your-Steps	Combat Rate: -5, Pickpocket Chance: +50, Initiative: -50, Single Equip
+Item	rabbit's foot key	Muscle: +10, Mysticality: +10, Moxie: +10
 Item	Radio KoL Antenna Ball	Experience: +1
 Item	Radio KoL Bottle Opener	Meat Drop: +15
 Item	Radio KoL Coffee Mug	Muscle: +10, Mysticality: +10, Moxie: +10, Hot Damage: +10
@@ -3312,6 +3327,7 @@ Item	sardine can key	Cold Damage: +40, Hot Resistance: +4, Food Drop: +60
 Item	Sasq&trade; watch	PvP Fights: +3, Adventures: +6, Rollover Effect: "The Rich Get Richer", Rollover Effect Duration: 30, Single Equip, Nonstackable Watch
 Item	scabrous seal epaulets	Maximum HP: +20, HP Regen Min: 8, HP Regen Max: 10, Single Equip
 Item	Scandalously Skimpy Bikini	Four Songs, Single Equip
+Item	scrap metal key	Experience Percent (Moxie): +20, Moxie: +5, Mana Cost: -1
 Item	screwing pooch	Item Drop: +3
 Item	sea holster	Ranged Damage: +20, Critical Hit Percent: +4, Never Fumble, Single Equip
 # seal medal: 25% chance to gain an extra gallon of Fury when you gain a gallon of Fury.
@@ -3760,6 +3776,7 @@ Item	water wings for babies	Maximum HP: +10, Monster Level: -15
 Item	water-polo mitt	Weapon Damage: +30, Single Equip
 Item	wax face	Maximum MP: +20, Spell Damage Percent: +25
 Item	wax hand	Maximum HP: +40, Weapon Damage Percent: +25
+Item	weremoose key	Spooky Resistance: +3, Spooky Damage: +15, Spooky Spell Damage: +30
 Item	whalebone corset	Maximum HP: -10, Damage Reduction: 5, Single Equip
 Item	wheel	Initiative: +10
 Item	white belt	Muscle: +3, Weapon Damage: +3, Single Equip
