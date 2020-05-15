@@ -188,6 +188,7 @@ public abstract class KoLCharacter
 	public static final String CRAZY_RANDOM_TWO = "Two Crazy Random Summer";
 	public static final String KINGDOM_OF_EXPLOATHING = "Kingdom of Exploathing";
 	public static final String PATH_OF_THE_PLUMBER = "Path of the Plumber";
+	public static final String LOWKEY = "Low Key Summer";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
@@ -4234,6 +4235,11 @@ public abstract class KoLCharacter
 	public static final boolean isPlumber()
 	{
 		return KoLCharacter.ascensionPath.equals( PATH_OF_THE_PLUMBER );
+	}
+
+	public static final boolean isLowkey()
+	{
+		return KoLCharacter.ascensionPath.equals( LOWKEY );
 	}
 
 	public static final boolean isUnarmed()

@@ -869,6 +869,7 @@ public class AscensionHistoryRequest
 				pathName.equals( "Two Crazy Random Summer" ) ? AscensionSnapshot.CRAZY_RANDOM_SUMMER_TWO :
 				pathName.equals( "Kingdom of Exploathing" ) ? AscensionSnapshot.KINGDOM_OF_EXPLOATHING :
 				pathName.equals( "Path of the Plumber" ) ? AscensionSnapshot.PATH_OF_THE_PLUMBER :
+				pathName.equals( "Low Key Summer" ) ? AscensionSnapshot.LOWKEY :
 				AscensionSnapshot.UNKNOWN_PATH;
 		}
 

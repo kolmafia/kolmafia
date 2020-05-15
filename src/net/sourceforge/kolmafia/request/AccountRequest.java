@@ -166,7 +166,7 @@ public class AccountRequest
 
 	public static final void parseAccountData( final String location, final String responseText )
 	{
-		if ( location.indexOf( "action=" ) != -1 )
+		if ( location.contains( "action=" ) )
 		{
 			AccountRequest.parseAction( location, responseText );
 			return;
@@ -208,7 +208,7 @@ public class AccountRequest
 	private static boolean getCheckbox( final String flag, final String responseText )
 	{
 		String test = "checked=\"checked\"  name=\"" + flag + "\"";
-		return responseText.indexOf( test ) != -1;
+		return responseText.contains( test );
 	}
 
 	private static String fancyMenuStyle = "<input type=\"radio\" value=\"fancy\" checked=\"checked\"  name=\"menu\"/>Icons";
@@ -218,9 +218,9 @@ public class AccountRequest
 	{
 		// Top Menu Style
 		GenericRequest.topMenuStyle =
-			responseText.indexOf( fancyMenuStyle ) != -1 ?
+			responseText.contains( fancyMenuStyle ) ?
 			GenericRequest.MENU_FANCY :
-			responseText.indexOf( compactMenuStyle ) != -1 ?
+			responseText.contains( compactMenuStyle ) ?
 			GenericRequest.MENU_COMPACT :
 			GenericRequest.MENU_NORMAL;
 
@@ -279,7 +279,7 @@ public class AccountRequest
 		// is also found here through the presence of buttons.
 
 		// <input class=button name="action" type=submit value="Drop Hardcore">
-		boolean isHardcore = responseText.indexOf( "<input class=button name=\"action\" type=submit value=\"Drop Hardcore\">" ) != -1;
+		boolean isHardcore = responseText.contains( "<input class=button name=\"action\" type=submit value=\"Drop Hardcore\">" );
 		KoLCharacter.setHardcore( isHardcore );
 
 		// <input class=button name="action" type=submit value="Drop Bad Moon">
@@ -301,7 +301,7 @@ public class AccountRequest
 
 		boolean recalled =
 			KoLCharacter.kingLiberated() &&
-			responseText.indexOf( "<input class=button name=\"action\" type=\"submit\" value=\"Recall Skills\">") == -1;
+			!responseText.contains( "<input class=button name=\"action\" type=\"submit\" value=\"Recall Skills\">" );
 		KoLCharacter.setSkillsRecalled( recalled );
 	}
 
@@ -488,7 +488,7 @@ public class AccountRequest
 		// account.php?actions[]=unhardcore&action=Drop+Hardcore&unhardcoreconfirm=1&tab=account&pwd
 		if ( action.equals( "Drop+Hardcore" ) )
 		{
-			if ( location.indexOf( "unhardcoreconfirm=1" ) != -1 )
+			if ( location.contains( "unhardcoreconfirm=1" ) )
 			{
 				// Dropping Hardcore
 				KoLCharacter.setHardcore( false );
@@ -508,7 +508,7 @@ public class AccountRequest
 		// account.php?actions[]=unbadmoon&action=Drop+Bad+Moon&unbadmoonconfirm=1&tab=account&pwd
 		if ( action.equals( "Drop+Bad+Moon" ) )
 		{
-			if ( location.indexOf( "unbadmoonconfirm=1" ) != -1 )
+			if ( location.contains( "unbadmoonconfirm=1" ) )
 			{
 				// Dropping Bad Moon
 				KoLCharacter.setSign( "None" );
@@ -749,6 +749,10 @@ public class AccountRequest
 		else if ( path.equals( "38" ) )
 		{
 			path = "Path of the Plumber";
+		}
+		else if ( path.equals( "39" ) )
+		{
+			path = "Low Key Summer";
 		}
 		KoLCharacter.setPath( path );
 

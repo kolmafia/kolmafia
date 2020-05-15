@@ -66,7 +66,6 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CouncilRequest;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
@@ -529,6 +528,10 @@ public class ValhallaManager
 		else if ( KoLCharacter.isPlumber() )
 		{
 			sessionStream.print( "Path of the Plumber " );
+		}
+		else if ( KoLCharacter.isLowkey() )
+		{
+			sessionStream.print( "Low Key Summer" );
 		}
 		else if ( KoLCharacter.getRestricted() )
 		{
