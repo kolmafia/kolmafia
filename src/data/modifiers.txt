@@ -10746,6 +10746,7 @@ Item	machine elf capsule	Free Pull
 # mafia filofax: Organize some quiet moments in an area
 # magical mystery juice: Restores an amount of MP that increases as you level up
 # magnolia blossom: Restores 15-30 HP and MP
+Item	Manual of Lock Picking	Skill: "Lock Picking"
 Item	Manual of Numberology	Skill: "Calculate the Universe"
 Item	Manual of Transcendent Olfaction	Skill: "Transcendent Olfaction"
 Item	map to Dolph Bossin's hideout	Free Pull
