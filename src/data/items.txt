@@ -10595,3 +10595,5 @@
 10567	actual skeleton key	459045873	key_actualskel.gif	accessory	q	0
 10568	deep-fried key	696073003	key_deepfried.gif	accessory	q	0
 10569	discarded bike lock key	218758389	key_bike.gif	accessory	q	0
+10570
+10571	Manual of Lock Picking	902924641	book3.gif	usable	t	0
