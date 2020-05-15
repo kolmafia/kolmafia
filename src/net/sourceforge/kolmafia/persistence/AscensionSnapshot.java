@@ -92,6 +92,7 @@ public class AscensionSnapshot
 	public static final int CRAZY_RANDOM_SUMMER_TWO = 36;
 	public static final int KINGDOM_OF_EXPLOATHING = 37;
 	public static final int PATH_OF_THE_PLUMBER = 38;
+	public static final int LOWKEY = 39;
 
 	public static final int UNKNOWN_CLASS = -1;
 	public static final int SEAL_CLUBBER = 1;
@@ -629,6 +630,7 @@ public class AscensionSnapshot
 				       pathFilter == AscensionSnapshot.CRAZY_RANDOM_SUMMER_TWO ? "Two Crazy Random Summer " : 
 				       pathFilter == AscensionSnapshot.KINGDOM_OF_EXPLOATHING ? "Kingdom of Exploathing " :
 				       pathFilter == AscensionSnapshot.PATH_OF_THE_PLUMBER ? "Path of the Plumber " :
+				       pathFilter == AscensionSnapshot.LOWKEY ? "Low Key Summer" :
 				       "" );
 
 			strbuf.append( "Ascensions (Out of " );

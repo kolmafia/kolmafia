@@ -155,7 +155,7 @@ public class AfterLifeRequest
 		{
 			// afterlife.php?action=returnskill&classid=6&skillid=27&hc=1
 			// <td>Skill permanence returned.</td>
-			delta = urlString.indexOf( "hc=1" ) == -1 ? 100 : 200;
+			delta = !urlString.contains( "hc=1" ) ? 100 : 200;
 		}
 		else if ( action.equals( "buydeli" ) )
 		{
@@ -603,6 +603,9 @@ public class AfterLifeRequest
 				break;
 			case 38:
 				builder.append( "a Path of the Plumber" );
+				break;
+			case 39:
+				builder.append( "a Low Key Summer" );
 				break;
 			default:
 				builder.append( "(Path " );
