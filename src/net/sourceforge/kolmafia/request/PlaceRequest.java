@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.TowerDoorManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -268,7 +269,7 @@ public class PlaceRequest
 		}
 		else if ( place.equals( "nstower_door" ) )
 		{
-			SorceressLairManager.parseTowerDoorResponse( action, responseText );
+			TowerDoorManager.parseTowerDoorResponse( action, responseText );
 		}
 		else if ( place.equals( "orc_chasm" ) )
 		{
