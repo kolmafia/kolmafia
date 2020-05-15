@@ -202,6 +202,7 @@ import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.session.TavernManager;
+import net.sourceforge.kolmafia.session.TowerDoorManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 
 import net.sourceforge.kolmafia.svn.SVNManager;
@@ -7526,7 +7527,7 @@ public abstract class RuntimeLibrary
 
 	public static Value tower_door( Interpreter interpreter )
 	{
-		SorceressLairManager.towerDoorScript();
+		TowerDoorManager.towerDoorScript();
 		return RuntimeLibrary.continueValue();
 	}
 

@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.session.GourdManager;
 import net.sourceforge.kolmafia.session.GuildUnlockManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
+import net.sourceforge.kolmafia.session.TowerDoorManager;
 
 public class CompleteQuestCommand
 	extends AbstractCommand
@@ -69,7 +70,7 @@ public class CompleteQuestCommand
 
 		if ( command.equals( "door" ) )
 		{
-			SorceressLairManager.towerDoorScript();
+			TowerDoorManager.towerDoorScript();
 			return;
 		}
 

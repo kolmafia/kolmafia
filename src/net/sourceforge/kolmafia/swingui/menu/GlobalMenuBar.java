@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.session.LeafletManager;
 import net.sourceforge.kolmafia.session.LogoutManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
+import net.sourceforge.kolmafia.session.TowerDoorManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
 
@@ -187,7 +188,7 @@ public class GlobalMenuBar
 		questsMenu.add( new InvocationMenuItem( "Hedge Maze (Gopher & Duck)", SorceressLairManager.class, "hedgeMazeGopherDuckScript" ) );
 		questsMenu.add( new InvocationMenuItem( "Hedge Maze (Chihuahua Herd & Kiwi)", SorceressLairManager.class, "hedgeMazeChihuahuaKiwiScript" ) );
 		questsMenu.add( new InvocationMenuItem( "Hedge Maze (Nugglets)", SorceressLairManager.class, "hedgeMazeNuggletsScript" ) );
-		questsMenu.add( new InvocationMenuItem( "Tower Door", SorceressLairManager.class, "towerDoorScript" ) );
+		questsMenu.add( new InvocationMenuItem( "Tower Door", TowerDoorManager.class, "towerDoorScript" ) );
 
 		// Add script and bookmark menus, which use the
 		// listener-driven static final lists.

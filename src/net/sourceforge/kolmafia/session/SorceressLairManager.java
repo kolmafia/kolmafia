@@ -82,9 +82,6 @@ public abstract class SorceressLairManager
 	// Patterns for repeated usage.
 	private static final Pattern MAP_PATTERN = Pattern.compile( "usemap=\"#(\\w+)\"" );
 
-	// Items for the tower doorway
-	private static final AdventureResult UNIVERSAL_KEY = ItemPool.get( ItemPool.UNIVERSAL_KEY, 1 );
-
 	// Items for the shadow battle
 	private static final AdventureResult [] HEALING_ITEMS = new AdventureResult[]
 	{
@@ -329,61 +326,6 @@ public abstract class SorceressLairManager
 		return "(" + test + ")";
 	}
 
-
-	private static class Lock
-	{
-		final AdventureResult key;	// The key that fits the lock
-		final String action;		// The action name for the lock
-		final boolean special;		// True if normal retrieve_item will not work
-						// to get the key in Kingdom of Exploathing
-
-		public Lock( int itemId, String action, boolean special )
-		{
-			this.key = ItemPool.get( itemId, 1 );
-			this.action = action;
-			this.special = special;
-		}
-	}
-
-	private static final Lock[] LOCK_DATA =
-	{
-		new Lock( ItemPool.BORIS_KEY, "ns_lock1", true ),
-		new Lock( ItemPool.JARLSBERG_KEY, "ns_lock2", true ),
-		new Lock( ItemPool.SNEAKY_PETE_KEY, "ns_lock3", true ),
-		new Lock( ItemPool.STAR_KEY, "ns_lock4", false ),
-		new Lock( ItemPool.DIGITAL_KEY, "ns_lock5", true ),
-		new Lock( ItemPool.SKELETON_KEY, "ns_lock6", false ),
-	};
-
-	public static AdventureResult actionToKey( final String action )
-	{
-		for ( Lock lock : SorceressLairManager.LOCK_DATA )
-		{
-			if ( action.equals( lock.action ) )
-			{
-				return lock.key;
-			}
-		}
-		return null;
-	}
-
-	public static String keyToAction( final AdventureResult key )
-	{
-		return SorceressLairManager.keyToAction( key.getName() );
-	}
-
-	public static String keyToAction( final String keyName )
-	{
-		for ( Lock lock : SorceressLairManager.LOCK_DATA )
-		{
-			if ( keyName.equals( lock.key.getName() ) )
-			{
-				return lock.action;
-			}
-		}
-		return null;
-	}
-
 	private static final Pattern RANK_PATTERN = Pattern.compile( "<b>#(\\d+)</b>" );
 	private static final Pattern OPTIMISM_PATTERN = Pattern.compile( "You feel (.*?) about your chances in the (.*?) Adventurer contest" );
 	private static final Pattern ENTERED_PATTERN = Pattern.compile( "&quot;You already entered the (.*?) Adventurer contest.*?&quot;", Pattern.DOTALL );
@@ -626,94 +568,6 @@ public abstract class SorceressLairManager
 		SorceressLairManager.parseTower( responseText );
 	}
 
-	public static void parseTowerDoorResponse( final String action, final String responseText )
-	{
-		if ( action == null || action.equals( "" ) )
-		{
-			SorceressLairManager.parseTowerDoor( responseText );
-			return;
-		}
-
-		if ( action.equals( "ns_doorknob" ) )
-		{
-			// You turn the knob and the door vanishes. I guess it was made out of the same material as those weird lock plates.
-			if ( responseText.contains( "You turn the knob and the door vanishes" ) )
-			{
-				QuestDatabase.setQuestProgress( Quest.FINAL, "step6" );
-			}
-			return;
-		}
-
-		AdventureResult key = SorceressLairManager.actionToKey( action );
-
-		if ( key == null )
-		{
-			return;
-		}
-
-		AdventureResult item =
-			responseText.contains( "universal key" ) ?
-			SorceressLairManager.UNIVERSAL_KEY :
-			key;
-
-		// You place Boris's key in the lock and turn it. You hear a
-		// jolly bellowing in the distance as the lock vanishes, along
-		// with the metal plate it was attached to. Huh.
-
-		// You put Jarlsberg's key in the lock and turn it. You hear a
-		// nasal, sort of annoying laugh in the distance as the lock
-		// vanishes in a puff of rotten-egg-smelling smoke.
-
-		// You put the key in the lock and hear the roar of a
-		// motorcycle behind you. By the time you turn around to check
-		// out the cool motorcycle guy he's gone, but when you turn
-		// back to the lock it is <i>also</i> gone.
-
-		// You put the key in and turn it. There is a flash of
-		// brilliant starlight accompanied by a competent but not
-		// exceptional drum solo, and when both have faded, the lock is
-		// gone.
-
-		// You put the skeleton key in the lock and turn it. The key,
-		// the lock, and the metal plate the lock is attached to all
-		// crumble to dust. And rust, in the case of the metal.
-
-		// You put the digital key in the lock and turn it. A familiar
-		// sequence of eight tones plays as the lock disappears.
-
-		if ( responseText.contains( "the lock vanishes" ) ||
-		     responseText.contains( "turn back to the lock" ) ||
-		     responseText.contains( "the lock is gone" ) ||
-		     responseText.contains( "crumble to dust" ) ||
-		     responseText.contains( "the lock disappears" ) )
-		{
-			ResultProcessor.processResult( item.getNegation() );
-			String keys = Preferences.getString( "nsTowerDoorKeysUsed" );
-			Preferences.setString( "nsTowerDoorKeysUsed", keys + ( keys.equals( "" ) ? "" : "," ) + key.getDataName() );
-		}
-	}
-
-	public static void parseTowerDoor( String responseText )
-	{
-		// Based on which locks are absent, deduce which keys have been used.
-
-		StringBuilder buffer = new StringBuilder();
-
-		for ( Lock lock : SorceressLairManager.LOCK_DATA )
-		{
-			if ( !responseText.contains( lock.action ) )
-			{
-				if ( buffer.length() > 0 )
-				{
-					buffer.append( "," );
-				}
-				buffer.append( lock.key.getDataName() );
-			}
-		}
-
-		Preferences.setString( "nsTowerDoorKeysUsed", buffer.toString() );
-	}
-
 	public static boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "place.php" ) )
@@ -777,26 +631,7 @@ public abstract class SorceressLairManager
 		}
 		else if ( place.equals( "nstower_door" ) )
 		{
-			String action = GenericRequest.getAction( urlString );
-			if ( action == null )
-			{
-				String prefix = "[" + KoLAdventure.getAdventureCount() + "] ";
-				RequestLogger.printLine();
-				RequestLogger.updateSessionLog();
-				message =  prefix + "Tower Door";
-			}
-			else
-			{
-				message =
-					action.equals( "ns_lock1" ) ? "Tower Door: Boris's lock" :
-					action.equals( "ns_lock2" ) ? "Tower Door: Jarlsberg's lock" :
-					action.equals( "ns_lock3" ) ? "Tower Door: Sneaky Pete's lock" :
-					action.equals( "ns_lock4" ) ? "Tower Door: star lock" :
-					action.equals( "ns_lock5" ) ? "Tower Door: digital lock" :
-					action.equals( "ns_lock6" ) ? "Tower Door: skeleton lock" :
-					action.equals( "ns_doorknob" ) ? "Tower Door: doorknob" :
-					null;
-			}
+			return TowerDoorManager.registerTowerDoorRequest( urlString );
 		}
 		else
 		{
@@ -1372,94 +1207,6 @@ public abstract class SorceressLairManager
 		else
 		{
 			KoLmafia.updateDisplay( "Hedge Maze not complete. Unexpected quest status: " + Quest.FINAL.getPref() + " = " + status );
-		}
-	}
-
-	public static final void towerDoorScript()
-	{
-		// Is the Tower Door open? Go look at the tower.
-		RequestThread.postRequest( new PlaceRequest( "nstower" ) );
-
-		String status = Quest.FINAL.getStatus();
-		if ( !status.equals( "step5" ) )
-		{
-			String message =
-				status.equals( QuestDatabase.UNSTARTED ) ?
-				"You haven't been given the quest to fight the Sorceress!" :
-				QuestDatabase.isQuestLaterThan( status, "step5" ) ?
-				"You have already opened the Tower Door." :
-				"You haven't reached the Tower Door yet.";
-
-			KoLmafia.updateDisplay( MafiaState.ERROR, message );
-			return;
-		}
-
-		// Look at the door to decide what remains to be done
-		RequestThread.postRequest( new PlaceRequest( "nstower_door" ) );
-
-		String keys = Preferences.getString( "nsTowerDoorKeysUsed" );
-
-		ArrayList<Lock> needed = new ArrayList<Lock>();
-		for ( Lock lock : SorceressLairManager.LOCK_DATA )
-		{
-			if ( !keys.contains( lock.key.getName() ) )
-			{
-				needed.add( lock );
-			}
-		}
-
-		// If we have any locks left to open, acquire the correct key and unlock them
-		if ( needed.size() > 0 )
-		{
-			// First acquire all needed keys
-			CoinmasterData coinmaster = CoinmasterRegistry.findCoinmaster( "Cosmic Ray's Bazaar" );
-			boolean exploathing = KoLCharacter.isKingdomOfExploathing();
-			for ( Lock lock : needed )
-			{
-				AdventureResult key = lock.key;
-				boolean have = InventoryManager.hasItem( key );
-				if ( !have && lock.special && exploathing )
-				{
-					// We have to get this from Cosmic Ray's Bazaar
-					AdventureResult[] itemList = new AdventureResult[1];
-					itemList[0] = key;
-					CoinMasterRequest request = coinmaster.getRequest( true, itemList );
-					RequestThread.postRequest( request );
-					have = InventoryManager.hasItem( key );
-				}
-				else
-				{
-					// If we have the key, move it to inventory.
-					// Otherwise, acquire it.
-					have = InventoryManager.retrieveItem( key );
-				}
-				if ( !have )
-				{
-					KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to acquire " + key );
-					return;
-				}
-			}
-
-			// Then unlock each lock
-			for ( Lock lock : needed )
-			{
-				RequestThread.postRequest( new PlaceRequest( "nstower_door", lock.action ) );
-				keys = Preferences.getString( "nsTowerDoorKeysUsed" );
-				if ( !keys.contains( lock.key.getName() ) )
-				{
-					KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to open lock using " + lock.key );
-					return;
-				}
-			}
-		}
-
-		// Now turn the doorknob
-		RequestThread.postRequest( new PlaceRequest( "nstower_door", "ns_doorknob", true ) );
-
-		status = Quest.FINAL.getStatus();
-		if ( status.equals( "step6" ) )
-		{
-			KoLmafia.updateDisplay( "Tower Door open!" );
 		}
 	}
 }
