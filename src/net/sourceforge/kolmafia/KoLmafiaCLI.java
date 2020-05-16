@@ -993,6 +993,8 @@ public class KoLmafiaCLI
 		new ThrowItemCommand().register( "throw" );
 		new TimeSpinnerCommand().register( "timespinner" );
 		new ToggleCommand().register( "toggle" );
+		new TowerDoorCommand().register( "tower" ).
+			register( "lowkey" );
 		new TrainFamiliarCommand().register( "train" );
 		new TryStatement().register( "try" );
 		new UnaliasCommand().register( "unalias" );
