@@ -64,6 +64,11 @@ public class TowerDoorCommand
 
 		for ( Lock lock : TowerDoorManager.getLocks() )
 		{
+			if ( lock.isDoorknob() )
+			{
+				continue;
+			}
+
 			AdventureResult key = lock.getKey();
 
 			output.append( "<tr>" );

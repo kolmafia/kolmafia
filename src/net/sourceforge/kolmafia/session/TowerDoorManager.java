@@ -34,7 +34,9 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
@@ -65,6 +67,8 @@ public abstract class TowerDoorManager
 	// Items for the tower doorway
 	private static final AdventureResult UNIVERSAL_KEY = ItemPool.get( ItemPool.UNIVERSAL_KEY, 1 );
 
+	private static final Map<String, Lock> actionToLock = new HashMap<>();
+
 	public static class Lock
 	{
 		final String name;		// The name of the lock
@@ -74,25 +78,30 @@ public abstract class TowerDoorManager
 		final boolean special;		// True if normal retrieve_item will not work
 						// to get the key in Kingdom of Exploathing
 
+		// Normal Tower Door
 		public Lock( String name, int itemId, String action, boolean special )
 		{
 			this.name = name;
-			this.key = ItemPool.get( itemId, 1 );
+			this.key = ( itemId == -1 ) ? null : ItemPool.get( itemId, 1 );
 			this.location = null;
 			this.action = action;
 			this.special = special;
+			TowerDoorManager.actionToLock.put( action, this );
 		}
 
+		// Low-Key Tower Door
 		public Lock( String name, int itemId, String location, String action )
 		{
 			this.name = name;
-			this.key = ItemPool.get( itemId, 1 );
+			this.key = ( itemId == -1 ) ? null : ItemPool.get( itemId, 1 );
 			this.location =
 				( location != null ) ? 
 				AdventureDatabase.getAdventure( location ) :
 				null;
 			this.action = action;
 			this.special = false;
+			String prefix = ( key == null ) ? "" :  "nstower_doow";
+			TowerDoorManager.actionToLock.put( prefix + action, this );
 		}
 
 		public String getName()
@@ -108,6 +117,11 @@ public abstract class TowerDoorManager
 		public String getLocation()
 		{
 			return this.location == null ? "" : this.location.getAdventureName();
+		}
+
+		public boolean isDoorknob()
+		{
+			return this.key == null;
 		}
 
 		public boolean haveKey()
@@ -136,7 +150,8 @@ public abstract class TowerDoorManager
 		new Lock( "Star Lock", ItemPool.STAR_KEY, "ns_lock4", false ),
 		new Lock( "Digital Lock", ItemPool.DIGITAL_KEY, "ns_lock5", true ),
 		new Lock( "Skeleton Lock", ItemPool.SKELETON_KEY, "ns_lock6", false ),
-		// new Lock( "Doorknob", null, null, "ns_doorknob" ),
+		// Doorknob
+		new Lock( "Doorknob", -1, null, "ns_doorknob" ),
 	};
 
 	// place.php?whichplace=nstower_doorlowkey
@@ -149,8 +164,9 @@ public abstract class TowerDoorManager
 		new Lock( "Star Lock", ItemPool.STAR_KEY, null, "ns_lock4_lk" ),
 		new Lock( "Digital Lock", ItemPool.DIGITAL_KEY, null, "ns_lock5_lk" ),
 		new Lock( "Skeleton Lock", ItemPool.SKELETON_KEY, null, "ns_lock6_lk" ),
-		// new Lock( "Doorknob", null, null, "ns_doorknob_lk" ),
-		// Low-Key Locks: action=nstower_doow + "key15"
+		// Doorknob
+		new Lock( "Doorknob", -1, null, "ns_doorknob_lk" ),
+		// Low-Key Locks:
 		new Lock( "Polka Dotted Lock", ItemPool.CLOWN_CAR_KEY, "The \"Fun\" House", "lock1" ),
 		new Lock( "Bat-Winged Lock", ItemPool.BATTING_CAGE_KEY, "Bat Hole Entrance", "lock2" ),
 		new Lock( "Taco Locko", ItemPool.AQUI, "South of the Border", "lock3" ),
@@ -181,33 +197,15 @@ public abstract class TowerDoorManager
 		return KoLCharacter.isLowkey() ? LOW_KEY_LOCK_DATA : LOCK_DATA;
 	}
 
-	public static AdventureResult actionToKey( final String action )
+	private static String getDoorPlace()
 	{
-		for ( Lock lock : TowerDoorManager.LOCK_DATA )
-		{
-			if ( action.equals( lock.action ) )
-			{
-				return lock.key;
-			}
-		}
-		return null;
+		return KoLCharacter.isLowkey() ? "nstower_doorlowkey" : "nstower_door";
 	}
 
-	public static String keyToAction( final AdventureResult key )
+	private static AdventureResult actionToKey( final String action )
 	{
-		return TowerDoorManager.keyToAction( key.getName() );
-	}
-
-	public static String keyToAction( final String keyName )
-	{
-		for ( Lock lock : TowerDoorManager.LOCK_DATA )
-		{
-			if ( keyName.equals( lock.key.getName() ) )
-			{
-				return lock.action;
-			}
-		}
-		return null;
+		Lock lock = TowerDoorManager.actionToLock.get( action );
+		return lock == null ? null : lock.key;
 	}
 
 	public static void parseTowerDoorResponse( final String action, final String responseText )
@@ -218,7 +216,7 @@ public abstract class TowerDoorManager
 			return;
 		}
 
-		if ( action.equals( "ns_doorknob" ) )
+		if ( action.equals( "ns_doorknob" ) || action.equals( "ns_doorknob_lk" ) )
 		{
 			// You turn the knob and the door vanishes. I guess it was made out of the same material as those weird lock plates.
 			if ( responseText.contains( "You turn the knob and the door vanishes" ) )
@@ -240,30 +238,59 @@ public abstract class TowerDoorManager
 			TowerDoorManager.UNIVERSAL_KEY :
 			key;
 
-		// You place Boris's key in the lock and turn it. You hear a
-		// jolly bellowing in the distance as the lock vanishes, along
-		// with the metal plate it was attached to. Huh.
+		// Boris's Lock: You place Boris's key in the lock and turn
+		// it. You hear a jolly bellowing in the distance as the lock
+		// vanishes, along with the metal plate it was attached
+		// to. Huh.
 
-		// You put Jarlsberg's key in the lock and turn it. You hear a
-		// nasal, sort of annoying laugh in the distance as the lock
-		// vanishes in a puff of rotten-egg-smelling smoke.
+		// Jarlsberg's Lock: You put Jarlsberg's key in the lock and
+		// turn it. You hear a nasal, sort of annoying laugh in the
+		// distance as the lock vanishes in a puff of
+		// rotten-egg-smelling smoke.
 
-		// You put the key in the lock and hear the roar of a
-		// motorcycle behind you. By the time you turn around to check
-		// out the cool motorcycle guy he's gone, but when you turn
-		// back to the lock it is <i>also</i> gone.
+		// Sneaky Pete's Lock: You put the key in the lock and hear the
+		// roar of a motorcycle behind you. By the time you turn around
+		// to check out the cool motorcycle guy he's gone, but when you
+		// turn back to the lock it is <i>also</i> gone.
 
-		// You put the key in and turn it. There is a flash of
-		// brilliant starlight accompanied by a competent but not
+		// Star Lock: You put the key in and turn it. There is a flash
+		// of brilliant starlight accompanied by a competent but not
 		// exceptional drum solo, and when both have faded, the lock is
 		// gone.
 
-		// You put the skeleton key in the lock and turn it. The key,
-		// the lock, and the metal plate the lock is attached to all
-		// crumble to dust. And rust, in the case of the metal.
+		// Skeleton Lock: You put the skeleton key in the lock and turn
+		// it. The key, the lock, and the metal plate the lock is
+		// attached to all crumble to dust. And rust, in the case of
+		// the metal.
 
-		// You put the digital key in the lock and turn it. A familiar
-		// sequence of eight tones plays as the lock disappears.
+		// Digital Lock: You put the digital key in the lock and turn
+		// it. A familiar sequence of eight tones plays as the lock
+		// disappears.
+
+		// *** Need the responses for the 23 new Low-Key locks:
+		// Polka Dotted Lock
+		// Bat-Winged Lock
+		// Taco Locko
+		// Lockenmeyer Flask
+		// Antlered Lock
+		// Lock with one Eye
+		// Trolling Lock
+		// Rabbit-Eared Lock
+		// Mine Cart Shaped Lock
+		// Frigid Lock
+		// Anchovy Can
+		// Cactus-Shaped-Hole Lock
+		// Boat Prow Lock
+		// Barnacley Lock
+		// Infernal Lock
+		// Sausage With a Hole
+		// Golden Lock
+		// Junky Lock
+		// Spooky Lock
+		// Crib-Shaped Lock
+		// Boney Lock
+		// Loaf of Bread with Keyhole
+		// Overgrown Lock
 
 		if ( responseText.contains( "the lock vanishes" ) ||
 		     responseText.contains( "turn back to the lock" ) ||
@@ -283,8 +310,12 @@ public abstract class TowerDoorManager
 
 		StringBuilder buffer = new StringBuilder();
 
-		for ( Lock lock : TowerDoorManager.LOCK_DATA )
+		for ( Lock lock : TowerDoorManager.getLocks() )
 		{
+			if ( lock.isDoorknob() )
+			{
+				continue;
+			}
 			if ( !responseText.contains( lock.action ) )
 			{
 				if ( buffer.length() > 0 )
@@ -312,15 +343,12 @@ public abstract class TowerDoorManager
 		}
 		else
 		{
-			message =
-				action.equals( "ns_lock1" ) ? "Tower Door: Boris's lock" :
-				action.equals( "ns_lock2" ) ? "Tower Door: Jarlsberg's lock" :
-				action.equals( "ns_lock3" ) ? "Tower Door: Sneaky Pete's lock" :
-				action.equals( "ns_lock4" ) ? "Tower Door: star lock" :
-				action.equals( "ns_lock5" ) ? "Tower Door: digital lock" :
-				action.equals( "ns_lock6" ) ? "Tower Door: skeleton lock" :
-				action.equals( "ns_doorknob" ) ? "Tower Door: doorknob" :
-				null;
+			Lock lock = TowerDoorManager.actionToLock.get( action );
+			if ( lock == null )
+			{
+				return true;
+			}
+			message = "Tower Door: " + lock.name;
 		}
 
 		if ( message == null )
@@ -353,14 +381,22 @@ public abstract class TowerDoorManager
 			return;
 		}
 
+		String place = TowerDoorManager.getDoorPlace();
+		Lock doorknob = null;
+
 		// Look at the door to decide what remains to be done
-		RequestThread.postRequest( new PlaceRequest( "nstower_door" ) );
+		RequestThread.postRequest( new PlaceRequest( place ) );
 
 		String keys = Preferences.getString( "nsTowerDoorKeysUsed" );
 
 		ArrayList<Lock> needed = new ArrayList<Lock>();
-		for ( Lock lock : TowerDoorManager.LOCK_DATA )
+		for ( Lock lock : TowerDoorManager.getLocks() )
 		{
+			if ( lock.isDoorknob() )
+			{
+				doorknob = lock;
+				continue;
+			}
 			if ( !keys.contains( lock.key.getName() ) )
 			{
 				needed.add( lock );
@@ -377,7 +413,18 @@ public abstract class TowerDoorManager
 			{
 				AdventureResult key = lock.key;
 				boolean have = InventoryManager.hasItem( key );
-				if ( !have && lock.special && exploathing )
+				if ( have )
+				{
+					// If we have the key, move it to inventory.
+					// Otherwise, acquire it.
+					have = InventoryManager.retrieveItem( key );
+				}
+				else if ( lock.location != null )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "Adventure in " + lock.location + " until you find a " + key );
+					return;
+				}
+				else if ( lock.special && exploathing )
 				{
 					// We have to get this from Cosmic Ray's Bazaar
 					AdventureResult[] itemList = new AdventureResult[1];
@@ -385,12 +432,6 @@ public abstract class TowerDoorManager
 					CoinMasterRequest request = coinmaster.getRequest( true, itemList );
 					RequestThread.postRequest( request );
 					have = InventoryManager.hasItem( key );
-				}
-				else
-				{
-					// If we have the key, move it to inventory.
-					// Otherwise, acquire it.
-					have = InventoryManager.retrieveItem( key );
 				}
 				if ( !have )
 				{
@@ -402,7 +443,7 @@ public abstract class TowerDoorManager
 			// Then unlock each lock
 			for ( Lock lock : needed )
 			{
-				RequestThread.postRequest( new PlaceRequest( "nstower_door", lock.action ) );
+				RequestThread.postRequest( new PlaceRequest( place, lock.action ) );
 				keys = Preferences.getString( "nsTowerDoorKeysUsed" );
 				if ( !keys.contains( lock.key.getName() ) )
 				{
@@ -413,7 +454,7 @@ public abstract class TowerDoorManager
 		}
 
 		// Now turn the doorknob
-		RequestThread.postRequest( new PlaceRequest( "nstower_door", "ns_doorknob", true ) );
+		RequestThread.postRequest( new PlaceRequest( place, doorknob.action, true ) );
 
 		status = Quest.FINAL.getStatus();
 		if ( status.equals( "step6" ) )

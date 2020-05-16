@@ -629,7 +629,7 @@ public abstract class SorceressLairManager
 			RequestLogger.printLine();
 			RequestLogger.updateSessionLog();
 		}
-		else if ( place.equals( "nstower_door" ) )
+		else if ( place.equals( "nstower_door" ) || place.equals( "nstower_doorlowkey" ) )
 		{
 			return TowerDoorManager.registerTowerDoorRequest( urlString );
 		}
