@@ -2418,7 +2418,7 @@ Item	snow mobile	Maximum MP: +20, Lasts Until Rollover
 Item	snowstick	Cold Spell Damage: +80
 Item	sock monkey	Moxie: +3
 Item	Solstice Shield	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie Percent: [5*G], Damage Absorption: +20
-Item	sommelier's towel	Booze Drop: +50
+Item	sommelier's towel	Booze Drop: +30
 Item	sonar fishfinder	Fishing Skill: +5
 # space shield: Deflects Invader Bullets
 Item	space shield	Damage Reduction: 9

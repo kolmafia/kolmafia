@@ -73,9 +73,9 @@ public abstract class TowerDoorManager
 		final boolean special;		// True if normal retrieve_item will not work
 						// to get the key in Kingdom of Exploathing
 
-		public Lock( int itemId, String action, boolean special )
+		public Lock( String name, int itemId, String action, boolean special )
 		{
-			this.name = "";
+			this.name = name;
 			this.key = ItemPool.get( itemId, 1 );
 			this.location = null;
 			this.action = action;
@@ -95,41 +95,53 @@ public abstract class TowerDoorManager
 		}
 	}
 
+	// place.php?whichplace=nstower_door
 	private static final Lock[] LOCK_DATA =
 	{
-		new Lock( ItemPool.BORIS_KEY, "ns_lock1", true ),
-		new Lock( ItemPool.JARLSBERG_KEY, "ns_lock2", true ),
-		new Lock( ItemPool.SNEAKY_PETE_KEY, "ns_lock3", true ),
-		new Lock( ItemPool.STAR_KEY, "ns_lock4", false ),
-		new Lock( ItemPool.DIGITAL_KEY, "ns_lock5", true ),
-		new Lock( ItemPool.SKELETON_KEY, "ns_lock6", false ),
+		new Lock( "Boris's Lock", ItemPool.BORIS_KEY, "ns_lock1", true ),
+		new Lock( "Jarlsberg's Lock", ItemPool.JARLSBERG_KEY, "ns_lock2", true ),
+		new Lock( "Sneaky Pete's's Lock", ItemPool.SNEAKY_PETE_KEY, "ns_lock3", true ),
+		new Lock( "Star Lock", ItemPool.STAR_KEY, "ns_lock4", false ),
+		new Lock( "Digital Lock", ItemPool.DIGITAL_KEY, "ns_lock5", true ),
+		new Lock( "Skeleton Lock", ItemPool.SKELETON_KEY, "ns_lock6", false ),
+		// new Lock( "Doorknob", null, null, "ns_doorknob" ),
 	};
 
+	// place.php?whichplace=nstower_doorlowkey
 	private static final Lock[] LOW_KEY_LOCK_DATA =
 	{
-		new Lock( "Polka Dotted Lock", ItemPool.CLOWN_CAR_KEY, "The \"Fun\" House",  "" ),
-		new Lock( "Lock with one Eye", ItemPool.PEG_KEY, "The Obligatory Pirate's Cove",  "" ),
-		new Lock( "Frigid Lock", ItemPool.ICE_KEY, "The Icy Peak",  "" ),
-		new Lock( "Infernal Lock", ItemPool.DEMONIC_KEY, "Pandamonium Slums",  "" ),
-		new Lock( "Rabbit-Eared Lock", ItemPool.RABBITS_FOOT_KEY, "The Dire Warren",  "" ),
-		new Lock( "Antlered Lock", ItemPool.WEREMOOSE_KEY, "Cobb's Knob Menagerie, Level 2",  "" ),
-		new Lock( "Loaf of Bread with Keyhole", ItemPool.DEEP_FRIED_KEY, "Madness Bakery",  "" ),
-		new Lock( "Trolling Lock", ItemPool.KEKEKEY, "The Valley of Rof L'm Fao", "" ),
-		new Lock( "Barnacley Lock", ItemPool.TREASURE_CHEST_KEY, "Belowdecks", "" ),
-		new Lock( "Crib-Shaped Lock", ItemPool.MUSIC_BOX_KEY, "The Haunted Nursery",  "" ),
-		new Lock( "Boney Lock", ItemPool.ACTUAL_SKELETON_KEY, "The Skeleton Store",  "" ),
-		new Lock( "Bat-Winged Lock", ItemPool.BATTING_CAGE_KEY, "Bat Hole Entrance",  "" ),
-		new Lock( "Anchovy Can", ItemPool.ANCHOVY_CAN_KEY, "The Haunted Pantry",  "" ),
-		new Lock( "Boat Prow Lock", ItemPool.F_C_LE_SH_C_LE_K_Y, "The F'c'le", "" ),
-		new Lock( "Cactus-Shaped-Hole Lock", ItemPool.CACTUS_KEY, "The Arid, Extra-Dry Desert",  "" ),
-		new Lock( "Sausage With a Hole", ItemPool.KEY_SAUSAGE, "Cobb's Knob Kitchens",  "" ),
-		new Lock( "Mine Cart Shaped Lock", ItemPool.KNOB_SHAFT_SKATE_KEY, "The Knob Shaft",  "" ),
-		new Lock( "Spooky Lock", ItemPool.BLACK_ROSE_KEY, "The Haunted Conservatory",  "" ),
-		new Lock( "Junky Lock", ItemPool.SCRAP_METAL_KEY, "The Old Landfill",  "" ),
-		new Lock( "Overgrown Lock", ItemPool.DISCARDED_BIKE_LOCK_KEY, "The Overgrown Lot",  "" ),
-		new Lock( "Taco Locko", ItemPool.AQUI, "South of the Border",  "" ),
-		new Lock( "Lockenmeyer Flask", ItemPool.KNOB_LABINET_KEY, "Cobb's Knob Laboratory",  "" ),
-		new Lock( "Golden Lock", ItemPool.KNOB_TREASURY_KEY, "Cobb's Knob Treasury",  "" ),
+		// Standard Locks:
+		new Lock( "Boris's Lock", ItemPool.BORIS_KEY, null, "ns_lock1_lk" ),
+		new Lock( "Jarlsberg's Lock", ItemPool.JARLSBERG_KEY, null, "ns_lock2_lk" ),
+		new Lock( "Sneaky Pete's Lock", ItemPool.SNEAKY_PETE_KEY, null, "ns_lock3_lk" ),
+		new Lock( "Star Lock", ItemPool.STAR_KEY, null, "ns_lock4_lk" ),
+		new Lock( "Digital Lock", ItemPool.DIGITAL_KEY, null, "ns_lock5_lk" ),
+		new Lock( "Skeleton Lock", ItemPool.SKELETON_KEY, null, "ns_lock6_lk" ),
+		// new Lock( "Doorknob", null, null, "ns_doorknob_lk" ),
+		// Low-Key Locks: action=nstower_doow + "key15"
+		new Lock( "Polka Dotted Lock", ItemPool.CLOWN_CAR_KEY, "The \"Fun\" House", "lock1" ),
+		new Lock( "Bat-Winged Lock", ItemPool.BATTING_CAGE_KEY, "Bat Hole Entrance", "lock2" ),
+		new Lock( "Taco Locko", ItemPool.AQUI, "South of the Border", "lock3" ),
+		new Lock( "Lockenmeyer Flask", ItemPool.KNOB_LABINET_KEY, "Cobb's Knob Laboratory", "lock4" ),
+		new Lock( "Antlered Lock", ItemPool.WEREMOOSE_KEY, "Cobb's Knob Menagerie, Level 2", "lock5" ),
+		new Lock( "Lock with one Eye", ItemPool.PEG_KEY, "The Obligatory Pirate's Cove", "lock6" ),
+		new Lock( "Trolling Lock", ItemPool.KEKEKEY, "The Valley of Rof L'm Fao", "lock7" ),
+		new Lock( "Rabbit-Eared Lock", ItemPool.RABBITS_FOOT_KEY, "The Dire Warren", "lock8" ),
+		new Lock( "Mine Cart Shaped Lock", ItemPool.KNOB_SHAFT_SKATE_KEY, "The Knob Shaft", "lock9" ),
+		new Lock( "Frigid Lock", ItemPool.ICE_KEY, "The Icy Peak", "lock10" ),
+		new Lock( "Anchovy Can", ItemPool.ANCHOVY_CAN_KEY, "The Haunted Pantry", "lock11" ),
+		new Lock( "Cactus-Shaped-Hole Lock", ItemPool.CACTUS_KEY, "The Arid, Extra-Dry Desert", "lock12" ),
+		new Lock( "Boat Prow Lock", ItemPool.F_C_LE_SH_C_LE_K_Y, "The F'c'le", "lock13" ),
+		new Lock( "Barnacley Lock", ItemPool.TREASURE_CHEST_KEY, "Belowdecks", "lock14" ),
+		new Lock( "Infernal Lock", ItemPool.DEMONIC_KEY, "Pandamonium Slums", "lock15" ),
+		new Lock( "Sausage With a Hole", ItemPool.KEY_SAUSAGE, "Cobb's Knob Kitchens", "lock16" ),
+		new Lock( "Golden Lock", ItemPool.KNOB_TREASURY_KEY, "Cobb's Knob Treasury", "lock17" ),
+		new Lock( "Junky Lock", ItemPool.SCRAP_METAL_KEY, "The Old Landfill", "lock18" ),
+		new Lock( "Spooky Lock", ItemPool.BLACK_ROSE_KEY, "The Haunted Conservatory", "lock19" ),
+		new Lock( "Crib-Shaped Lock", ItemPool.MUSIC_BOX_KEY, "The Haunted Nursery", "lock20" ),
+		new Lock( "Boney Lock", ItemPool.ACTUAL_SKELETON_KEY, "The Skeleton Store", "lock21" ),
+		new Lock( "Loaf of Bread with Keyhole", ItemPool.DEEP_FRIED_KEY, "Madness Bakery", "lock22" ),
+		new Lock( "Overgrown Lock", ItemPool.DISCARDED_BIKE_LOCK_KEY, "The Overgrown Lot", "lock23" ),
 	};
 
 	public static AdventureResult actionToKey( final String action )
