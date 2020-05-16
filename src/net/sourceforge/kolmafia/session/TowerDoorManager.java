@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -64,7 +65,7 @@ public abstract class TowerDoorManager
 	// Items for the tower doorway
 	private static final AdventureResult UNIVERSAL_KEY = ItemPool.get( ItemPool.UNIVERSAL_KEY, 1 );
 
-	private static class Lock
+	public static class Lock
 	{
 		final String name;		// The name of the lock
 		final AdventureResult key;	// The key that fits the lock
@@ -92,6 +93,37 @@ public abstract class TowerDoorManager
 				null;
 			this.action = action;
 			this.special = false;
+		}
+
+		public String getName()
+		{
+			return this.name;
+		}
+
+		public AdventureResult getKey()
+		{
+			return this.key;
+		}
+
+		public String getLocation()
+		{
+			return this.location == null ? "" : this.location.getAdventureName();
+		}
+
+		public boolean haveKey()
+		{
+			return this.key.getCount( KoLConstants.inventory ) > 0 || KoLCharacter.hasEquipped( this.key );
+		}
+
+		public boolean usedKey()
+		{
+			return Preferences.getString( "nsTowerDoorKeysUsed" ).contains( this.key.getName() );
+		}
+
+		public String keyEnchantments()
+		{
+			Modifiers mods = Modifiers.getItemModifiers( key.getItemId() );
+			return mods == null ? "" :  mods.getString( "Modifiers" );
 		}
 	}
 
@@ -143,6 +175,11 @@ public abstract class TowerDoorManager
 		new Lock( "Loaf of Bread with Keyhole", ItemPool.DEEP_FRIED_KEY, "Madness Bakery", "lock22" ),
 		new Lock( "Overgrown Lock", ItemPool.DISCARDED_BIKE_LOCK_KEY, "The Overgrown Lot", "lock23" ),
 	};
+
+	public static Lock[] getLocks()
+	{
+		return KoLCharacter.isLowkey() ? LOW_KEY_LOCK_DATA : LOCK_DATA;
+	}
 
 	public static AdventureResult actionToKey( final String action )
 	{
