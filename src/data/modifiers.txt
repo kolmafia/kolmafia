@@ -2677,6 +2677,7 @@ Item	brown plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 Item	bugbear detector	Single Equip
 Item	burning paper slippers	Cold Resistance: +3, Maximum HP: +25, Maximum MP: +25, Initiative: +50, Single Equip, Lasts Until Rollover
 Item	C.A.R.N.I.V.O.R.E. button	Monster Level: +15
+Item	cactus key	Maximum HP: +20, HP Regen Min: 9, HP Regen Max: 10
 Item	candy dress shoes	Maximum HP: +20, Weapon Damage: +15, Critical Hit Percent: +10, Single Equip
 Item	candy necklace	Candy Drop: +10, Single Equip, Raveosity: +1
 Item	candy necktie	Initiative: +20, Ranged Damage: +15, Pickpocket Chance: +10, Single Equip
@@ -2813,6 +2814,7 @@ Item	exclusive ultra-rare item	Muscle: +15, Mysticality: +15, Moxie: +15
 Item	expensive camera	Initiative: +20, Reduce Enemy Defense: 10, Single Equip
 Item	eXtreme mittens	Weapon Damage: +6
 Item	eXtreme nose ring	Muscle: +4, Mysticality: +4, Moxie: +4
+Item	f'c'le sh'c'le k'y	Monster Level: +20, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Item	fancy black tie	Muscle Percent: +15, Single Equip
 Item	fancy boots	Plumber Stat: "Moxie", Plumber Power: 2, Single Equip
 Item	Fancy Jeff's fancy pocket square	Moxie Percent: +25, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
@@ -2966,6 +2968,7 @@ Item	Hodgman's bow tie	Muscle Percent: +20, Mysticality Percent: +20, Moxie Perc
 Item	Hodgman's lucky sock	Hobo Power: +50, Single Equip
 Item	hopping socks	Slime Resistance: +1, Accessory Drop: +20, Maximum HP: +200, Maximum MP: +200, Single Equip
 Item	&quot;I Voted!&quot; sticker	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Lasts Until Rollover
+Item	ice key	Cold Resistance: +3, Cold Damage: +15, Cold Spell Damage: +30
 Item	ice skates	Initiative: +15, Meat Drop: +15, Single Equip, Softcore Only
 Item	Ice-Cold Aluminum Necklace	Muscle: +3, Mysticality: +3, Moxie: +3, Cold Spell Damage: +40, Single Equip
 Item	Ice-Cold Beer Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Cold Damage: +40, Single Equip
@@ -2994,9 +2997,11 @@ Item	Juju Mojo Mask	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent
 Item	Junior Adventurer's merit badge	Muscle: +3, Mysticality: +3, Moxie: +3, Single Equip
 Item	Junior LAAAAME merit badge	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	junk band	Spell Damage: +11
+Item	kekekey	Meat Drop: +50
 Item	key sausage	Combat Rate: -10
 Item	kick-ass kicks	Sleaze Damage: +10, Moxie: +3, Single Equip
 Item	knob labinet key	Experience Percent (Muscle): +20, Muscle: +5, Mana Cost: -1
+Item	knob shaft skate key	HP Regen Min: 9, HP Regen Max: 12, MP Regen Min: 9, MP Regen Max: 12, Adventures: +3
 Item	knob treasury key	Pickpocket Chance: +20, Meat Drop: +50
 Item	knobby kneepads	Weapon Damage: +3
 Item	KoL Con 8-Bit power bracelet	Muscle: +8
@@ -3719,6 +3724,7 @@ Item	toy train	Meat Drop: +10, Single Equip
 Item	training belt	Weapon Damage Percent: -50, Monster Level: +25, Muscle Percent: +25, Single Equip
 Item	training legwarmers	Spell Damage Percent: -50, Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Mysticality Percent: +25, Single Equip
 Item	Treads of Loathing	Adventures: +6, PvP Fights: +6, Sleaze Resistance: +5, Single Equip, Cloathing
+Item	treasure chest key	Item Drop: +30, Meat Drop: +30
 Item	tube sock	Moxie: +20, Single Equip
 Item	Uncle Buck	Maximum HP: +15, Softcore Only
 Item	Uncle Hobo's belt	Mysticality Percent: +15, Meat Drop: +25, Single Equip

@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
@@ -65,16 +66,32 @@ public abstract class TowerDoorManager
 
 	private static class Lock
 	{
+		final String name;		// The name of the lock
 		final AdventureResult key;	// The key that fits the lock
+		final KoLAdventure location;	// Where to find the kay
 		final String action;		// The action name for the lock
 		final boolean special;		// True if normal retrieve_item will not work
 						// to get the key in Kingdom of Exploathing
 
 		public Lock( int itemId, String action, boolean special )
 		{
+			this.name = "";
 			this.key = ItemPool.get( itemId, 1 );
+			this.location = null;
 			this.action = action;
 			this.special = special;
+		}
+
+		public Lock( String name, int itemId, String location, String action )
+		{
+			this.name = name;
+			this.key = ItemPool.get( itemId, 1 );
+			this.location =
+				( location != null ) ? 
+				AdventureDatabase.getAdventure( location ) :
+				null;
+			this.action = action;
+			this.special = false;
 		}
 	}
 
@@ -86,6 +103,33 @@ public abstract class TowerDoorManager
 		new Lock( ItemPool.STAR_KEY, "ns_lock4", false ),
 		new Lock( ItemPool.DIGITAL_KEY, "ns_lock5", true ),
 		new Lock( ItemPool.SKELETON_KEY, "ns_lock6", false ),
+	};
+
+	private static final Lock[] LOW_KEY_LOCK_DATA =
+	{
+		new Lock( "Polka Dotted Lock", ItemPool.CLOWN_CAR_KEY, "The \"Fun\" House",  "" ),
+		new Lock( "Lock with one Eye", ItemPool.PEG_KEY, "The Obligatory Pirate's Cove",  "" ),
+		new Lock( "Frigid Lock", ItemPool.ICE_KEY, "The Icy Peak",  "" ),
+		new Lock( "Infernal Lock", ItemPool.DEMONIC_KEY, "Pandamonium Slums",  "" ),
+		new Lock( "Rabbit-Eared Lock", ItemPool.RABBITS_FOOT_KEY, "The Dire Warren",  "" ),
+		new Lock( "Antlered Lock", ItemPool.WEREMOOSE_KEY, "Cobb's Knob Menagerie, Level 2",  "" ),
+		new Lock( "Loaf of Bread with Keyhole", ItemPool.DEEP_FRIED_KEY, "Madness Bakery",  "" ),
+		new Lock( "Trolling Lock", ItemPool.KEKEKEY, "The Valley of Rof L'm Fao", "" ),
+		new Lock( "Barnacley Lock", ItemPool.TREASURE_CHEST_KEY, "Belowdecks", "" ),
+		new Lock( "Crib-Shaped Lock", ItemPool.MUSIC_BOX_KEY, "The Haunted Nursery",  "" ),
+		new Lock( "Boney Lock", ItemPool.ACTUAL_SKELETON_KEY, "The Skeleton Store",  "" ),
+		new Lock( "Bat-Winged Lock", ItemPool.BATTING_CAGE_KEY, "Bat Hole Entrance",  "" ),
+		new Lock( "Anchovy Can", ItemPool.ANCHOVY_CAN_KEY, "The Haunted Pantry",  "" ),
+		new Lock( "Boat Prow Lock", ItemPool.F_C_LE_SH_C_LE_K_Y, "The F'c'le", "" ),
+		new Lock( "Cactus-Shaped-Hole Lock", ItemPool.CACTUS_KEY, "The Arid, Extra-Dry Desert",  "" ),
+		new Lock( "Sausage With a Hole", ItemPool.KEY_SAUSAGE, "Cobb's Knob Kitchens",  "" ),
+		new Lock( "Mine Cart Shaped Lock", ItemPool.KNOB_SHAFT_SKATE_KEY, "The Knob Shaft",  "" ),
+		new Lock( "Spooky Lock", ItemPool.BLACK_ROSE_KEY, "The Haunted Conservatory",  "" ),
+		new Lock( "Junky Lock", ItemPool.SCRAP_METAL_KEY, "The Old Landfill",  "" ),
+		new Lock( "Overgrown Lock", ItemPool.DISCARDED_BIKE_LOCK_KEY, "The Overgrown Lot",  "" ),
+		new Lock( "Taco Locko", ItemPool.AQUI, "South of the Border",  "" ),
+		new Lock( "Lockenmeyer Flask", ItemPool.KNOB_LABINET_KEY, "Cobb's Knob Laboratory",  "" ),
+		new Lock( "Golden Lock", ItemPool.KNOB_TREASURY_KEY, "Cobb's Knob Treasury",  "" ),
 	};
 
 	public static AdventureResult actionToKey( final String action )
