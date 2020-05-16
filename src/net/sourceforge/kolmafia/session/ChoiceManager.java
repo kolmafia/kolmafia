@@ -7728,7 +7728,7 @@ public abstract class ChoiceManager
 	// You toss the mana curds into the crowd.  10 hippies dive onto it, greedily consume it, and pass out.
 	private static final Pattern HIPPY_RATIONING_PATTERN = Pattern.compile( "You toss the (.*?) into the crowd.  (\\d+) hippies dive onto it, greedily consume it, and pass out." );
 	// You select a Gold Tier client, Norma "Smelly" Jackson, a hobo from The Oasis.
-	private static final Pattern GUZZLR_LOCATION_PATTERN = Pattern.compile( "You select a (Bronze|Gold|Platinum) Tier client, (.*?), an? (.*?) from (.*?)\\.<p>" );
+	private static final Pattern GUZZLR_LOCATION_PATTERN = Pattern.compile( "You select a (Bronze|Gold|Platinum) Tier client, (.*?), +an? (.*?) from (.*?)\\.<p>" );
 
 	public static void postChoice1( final String urlString, final GenericRequest request )
 	{
