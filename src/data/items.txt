@@ -10578,14 +10578,14 @@
 10550	knob labinet key	983500301	officekey.gif	accessory	q	0
 10551	weremoose key	532768985	key_moose.gif	accessory	q	0
 10552	peg key	678622446	key_peg.gif	accessory	q	0
-10553
+10553	kekekey	125431143	key_ascii.gif	accessory	q	0
 10554	rabbit's foot key	684873843	key_rabbit.gif	accessory	q	0
-10555
-10556
+10555	knob shaft skate key	619151733	key_skate.gif	accessory	q	0
+10556	ice key	419743614	key_ice.gif	accessory	q	0
 10557	anchovy can key	396606960	sardinekey.gif	accessory	q	0
-10558
-10559
-10560
+10558	cactus key	387687738	key_cactus.gif	accessory	q	0
+10559	f'c'le sh'c'le k'y	945799969	srkey4.gif	accessory	q	0
+10560	treasure chest key	171516238	fernkey.gif	accessory	q	0
 10561	demonic key	409693160	key_demon.gif	accessory	q	0
 10562	key sausage	152514568	key_sausage.gif	accessory	q	0
 10563	knob treasury key	365973803	gripkey.gif	accessory	q	0

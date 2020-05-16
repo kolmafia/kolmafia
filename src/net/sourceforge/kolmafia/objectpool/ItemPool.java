@@ -3213,6 +3213,29 @@ public class ItemPool
 	public static final int GUZZLR_TABLET = 10533;
 	public static final int GUZZLR_COCKTAIL_SET = 10534;
 	public static final int GUZZLRBUCK = 10535;
+	public static final int CLOWN_CAR_KEY = 10547;
+	public static final int BATTING_CAGE_KEY = 10548;
+	public static final int AQUI = 10549;
+	public static final int KNOB_LABINET_KEY = 10550;
+	public static final int WEREMOOSE_KEY = 10551;
+	public static final int PEG_KEY = 10552;
+	public static final int KEKEKEY = 10553;
+	public static final int RABBITS_FOOT_KEY = 10554;
+	public static final int KNOB_SHAFT_SKATE_KEY = 10555;
+	public static final int ICE_KEY = 10556;
+	public static final int ANCHOVY_CAN_KEY = 10557;
+	public static final int CACTUS_KEY = 10558;
+	public static final int F_C_LE_SH_C_LE_K_Y = 10559;
+	public static final int TREASURE_CHEST_KEY = 10560;
+	public static final int DEMONIC_KEY = 10561;
+	public static final int KEY_SAUSAGE = 10562;
+	public static final int KNOB_TREASURY_KEY = 10563;
+	public static final int SCRAP_METAL_KEY = 10564;
+	public static final int BLACK_ROSE_KEY = 10565;
+	public static final int MUSIC_BOX_KEY = 10566;
+	public static final int ACTUAL_SKELETON_KEY = 10567;
+	public static final int DEEP_FRIED_KEY = 10568;
+	public static final int DISCARDED_BIKE_LOCK_KEY = 10569;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
