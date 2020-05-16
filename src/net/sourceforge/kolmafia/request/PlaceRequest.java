@@ -267,7 +267,7 @@ public class PlaceRequest
 		{
 			SorceressLairManager.parseTowerResponse( action, responseText );
 		}
-		else if ( place.equals( "nstower_door" ) )
+		else if ( place.equals( "nstower_door" ) || place.equals( "nstower_doorlowkey" ) )
 		{
 			TowerDoorManager.parseTowerDoorResponse( action, responseText );
 		}
