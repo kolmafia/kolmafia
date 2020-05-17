@@ -65,7 +65,7 @@ public class TimeSpinnerCommand
 {
 	public TimeSpinnerCommand()
 	{
-		this.usage = " list (food|monsters [<filter>]) | eat <foodname> | prank <target<> [msg=<message>] - Use the Time-Spinner";
+		this.usage = " list (food|monsters [<filter>]) | eat <foodname> | prank <target> msg=<message>] - Use the Time-Spinner";
 	}
 
 	@Override
