@@ -86,7 +86,7 @@ public abstract class TowerDoorManager
 			this.action = action;
 			this.location = null;
 			this.special = false;
-			TowerDoorManager.actionToLock.put( action, this );
+			TowerDoorManager.actionToLock.put( this.action, this );
 		}
 
 		// Locks with keys that may not be "retrievable"
@@ -97,7 +97,7 @@ public abstract class TowerDoorManager
 			this.action = action;
 			this.location = null;
 			this.special = special;
-			TowerDoorManager.actionToLock.put( action, this );
+			TowerDoorManager.actionToLock.put( this.action, this );
 		}
 
 		// Low-Key Tower Door locks
@@ -105,11 +105,11 @@ public abstract class TowerDoorManager
 		{
 			this.name = name;
 			this.key = ( itemId == -1 ) ? null : ItemPool.get( itemId, 1 );
-			this.action = action;
+			String prefix = "nstower_doow";
+			this.action = prefix + action;
 			this.location = AdventureDatabase.getAdventure( location );
 			this.special = false;
-			String prefix = "nstower_doow";
-			TowerDoorManager.actionToLock.put( prefix + action, this );
+			TowerDoorManager.actionToLock.put( this.action, this );
 		}
 
 		public String getName()
@@ -124,13 +124,17 @@ public abstract class TowerDoorManager
 
 		public String getAction()
 		{
-			String prefix = ( this.location == null ) ? "" :  "nstower_doow";
-			return prefix + this.action;
+			return this.action;
 		}
 
 		public String getLocation()
 		{
 			return ( this.location == null ) ? "" : this.location.getAdventureName();
+		}
+
+		public boolean isSpecial()
+		{
+			return this.special;
 		}
 
 		public boolean isDoorknob()
@@ -223,6 +227,63 @@ public abstract class TowerDoorManager
 		return lock == null ? null : lock.key;
 	}
 
+	// Frank looks at the lock. "Okay, Boss, for this you're gonna need
+	// Boris's key. You know the guy -- Boris? Musclebound hero of the
+	// Times of Old? There's a shrine to him over in the Dungeoneer's
+	// Association. That's where I'd go, if I were you. Or even if I were
+	// me and I were still alive."
+	//
+	// Frank looks at the complex lock. "Okay what we got here is
+	// Jarlsberg's lock, and what you're gonna need is -- you guessed it --
+	// Jarlsberg's key. Man, that guy was annoying. Always thinkin' he was
+	// so smart. Anyway if I were you, I'd go check out the Dungeoneer's
+	// Assocation in the mountains. They keep a shrine to the obnoxious
+	// nerd there."
+	//
+	// Frank looks at the lock. "Oh man, Boss. For this you're gonna need
+	// Sneaky Pete's key. That guy thought he was so cool. And, y'know, I
+	// guess he was pretty cool. Anyway they got a shrine to him over at
+	// the Dungeoneer's Association. I'd start there."
+	//
+	// Frank looks at the lock. "Okay, Chief. For this one, you're gonna
+	// need a key made of stars. I know, I know, it sounded like hippy crap
+	// to me, too. But you're gonna need to make your way to the Hole in
+	// the Sky. Don't worry. It sounds scary, but it's actually hilarious."
+	//
+	// Frank looks at the lock. "Alright, Boss, this one's gonna be
+	// interesting. You need a digital key. And the only way to get one is
+	// to talk to that crackpot... er... crackpot in Forest Village. You
+	// know the one. I'd point at myself and spin my finger in a circle if
+	// I had a finger."
+	//
+	// Frank looks at the lock. "Heya Boss, for this one you're gonna need
+	// a skeleton key. Get it? Well, no, if you had it you'd have used
+	// it. You can make one out of bits of skeletons from the Cemetary."
+	//
+	// (Polka Dotted Lock)
+	// (Bat-Winged Lock)
+	// This lock looks like a taco. A lock-o taco.
+	// (Lockenmeyer Flask)
+	// (Antlered Lock)
+	// (Lock with one Eye)
+	// (Trolling Lock)
+	// This lock is weirdly rabbit-shaped.
+	// (Mine Cart Shaped Lock)
+	// (Frigid Lock)
+	// This lock is shaped like a can of anchovies. Spooky sardines.
+	// This lock is shaped like a pyramid, and has a cactus-shaped keyhole.
+	// (Boat Prow Lock)
+	// (Barnacley Lock)
+	// (Infernal Lock)
+	// (Sausage with a Hole)
+	// (Golden Lock)
+	// (Junky Lock)
+	// This lock is shaped like a haunted flower vase.
+	// (Crib-Shaped Lock)
+	// This lock is shaped like a ribcage with a pricetag on it..
+	// This lock is shaped like a loaf of mentally-unstable bread.
+	// This lock is made of grass and weeds.
+
 	public static void parseTowerDoorResponse( final String action, final String responseText )
 	{
 		if ( action == null || action.equals( "" ) )
@@ -233,6 +294,7 @@ public abstract class TowerDoorManager
 
 		if ( action.equals( "ns_doorknob" ) || action.equals( "ns_doorknob_lk" ) )
 		{
+			// You reach for the doorknob, but then you remember some unfinished business that you need to finish up for the council.
 			// You turn the knob and the door vanishes. I guess it was made out of the same material as those weird lock plates.
 			if ( responseText.contains( "You turn the knob and the door vanishes" ) )
 			{
