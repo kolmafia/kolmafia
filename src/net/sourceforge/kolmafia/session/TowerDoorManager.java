@@ -303,8 +303,19 @@ public abstract class TowerDoorManager
 
 		if ( action.equals( "ns_doorknob" ) || action.equals( "ns_doorknob_lk" ) )
 		{
-			// You reach for the doorknob, but then you remember some unfinished business that you need to finish up for the council.
-			// You turn the knob and the door vanishes. I guess it was made out of the same material as those weird lock plates.
+			// You reach for the doorknob, but then you remember
+			// some unfinished business that you need to finish up
+			// for the council.
+			// 
+			// There's at least one lock left locked. Unless you're
+			// some kind of wizard, you can't go through a locked
+			// door. Actually, in this case, even if you are some
+			// kind of wizard you can't do that.
+			// 
+			// You turn the knob and the door vanishes. I guess it
+			// was made out of the same material as those weird
+			// lock plates.
+
 			if ( responseText.contains( "You turn the knob and the door vanishes" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.FINAL, "step6" );
@@ -353,6 +364,11 @@ public abstract class TowerDoorManager
 		// it. A familiar sequence of eight tones plays as the lock
 		// disappears.
 
+		// Low-Key locks:
+		//
+		// You insert the appropriate key and it turns easily. Then
+		// both the lock and the key disappear.
+
 		// *** Need the responses for the 23 new Low-Key locks:
 		// Polka Dotted Lock
 		// Bat-Winged Lock
@@ -382,7 +398,8 @@ public abstract class TowerDoorManager
 		     responseText.contains( "turn back to the lock" ) ||
 		     responseText.contains( "the lock is gone" ) ||
 		     responseText.contains( "crumble to dust" ) ||
-		     responseText.contains( "the lock disappears" ) )
+		     responseText.contains( "the lock disappears" ) ||
+		     responseText.contains( "the lock and the key disappear" ) )
 		{
 			ResultProcessor.processResult( item.getNegation() );
 			String keys = Preferences.getString( "nsTowerDoorKeysUsed" );
@@ -403,7 +420,8 @@ public abstract class TowerDoorManager
 				continue;
 			}
 
-			if ( !responseText.contains( lock.action ) )
+			// Distinguish between "key1" and "key10"
+			if ( !responseText.contains( lock.action + " " ) )
 			{
 				if ( buffer.length() > 0 )
 				{
