@@ -848,6 +848,7 @@ user	libramSkillsSoftcore	none
 user	libramSummons	0
 user	libraryCardUsed	false
 user	lightsOutAutomation	1
+user	lockPicked	false
 user	loginRecoveryHardcore	false
 user	loginRecoverySoftcore	true
 user	longConMonster	
