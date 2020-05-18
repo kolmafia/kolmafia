@@ -7716,7 +7716,11 @@ public abstract class ChoiceManager
 		return  request.isChatRequest ||
 			request.isDescRequest ||
 			request.isQuestLogRequest ||
-			urlString.startsWith( "main.php?checkbfast" );
+			urlString.startsWith( "main.php?checkbfast" ) ||
+			// Lock Picking
+			urlString.equals( "skillz.php?oneskillz=195" ) ||
+			// Seek out a Bird
+			urlString.equals( "skillz.php?oneskillz=7323" );
 	}
 
 	private static final Pattern SKELETON_PATTERN = Pattern.compile( "You defeated <b>(\\d+)</b> skeletons" );
@@ -12030,6 +12034,10 @@ public abstract class ChoiceManager
 
 			break;
 		}
+
+		case 1414:
+			Preferences.setBoolean( "lockPicked", true );
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
@@ -12070,13 +12078,6 @@ public abstract class ChoiceManager
 		// any time, but we do them in automation during result
 		// processing and they do not count as "walking away"
 		if ( urlString.startsWith( "diary.php" ) )
-		{
-			return;
-		}
-
-		// The following is returned as part of the seventh casting of
-		// "Seek out a Bird". The actual choice will show up later
-		if ( urlString.equals( "skillz.php?oneskillz=7323" ) )
 		{
 			return;
 		}

@@ -970,6 +970,10 @@ public class UseSkillRequest
 			maximumCast = powerAvailable / cost;
 			break;
 		}
+
+		case SkillPool.LOCK_PICKING:
+			maximumCast = Preferences.getBoolean( "lockPicked" ) ? 0 : 1;
+			break;
 		}
 
 		return maximumCast;
