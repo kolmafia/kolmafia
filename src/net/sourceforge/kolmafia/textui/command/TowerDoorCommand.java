@@ -44,12 +44,13 @@ public class TowerDoorCommand
 {
 	public TowerDoorCommand()
 	{
-		this.usage = " - List status of the Tower Door in the Sorceress's Lair.";
+		this.usage = " [needed] - List status of the Tower Door in the Sorceress's Lair.";
 	}
 
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
+		boolean needed = parameters.trim().equals( "needed" );
 		StringBuilder output = new StringBuilder();
 
 		output.append( "<table border=2 cols=4>" );
@@ -69,6 +70,13 @@ public class TowerDoorCommand
 				continue;
 			}
 
+			boolean have = lock.haveKey();
+			boolean used = lock.usedKey();
+			if ( needed && ( have || used ) )
+			{
+				continue;
+			}
+
 			AdventureResult key = lock.getKey();
 
 			output.append( "<tr>" );
@@ -82,8 +90,6 @@ public class TowerDoorCommand
 			output.append( "</td>" );
 
 			output.append( "<td>" );
-			boolean have = lock.haveKey();
-			boolean used = lock.usedKey();
 			output.append( have ? "yes" : "no" );
 			output.append( "/" );
 			output.append( used ? "yes" : "no" );
