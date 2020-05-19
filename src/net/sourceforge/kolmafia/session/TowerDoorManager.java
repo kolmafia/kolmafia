@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 public abstract class TowerDoorManager
 {
@@ -449,6 +450,97 @@ public abstract class TowerDoorManager
 		return true;
 	}
 
+	private static int legendKeyIndex( AdventureResult key )
+	{
+		switch ( key.getItemId() )
+		{
+		case ItemPool.BORIS_KEY:
+			return 1;
+		case ItemPool.JARLSBERG_KEY:
+			return 2;
+		case ItemPool.SNEAKY_PETE_KEY:
+			return 3;
+		}
+		return 0;
+	}
+
+	public static boolean retrieveKey( Lock lock )
+	{
+		if ( lock.isDoorknob() )
+		{
+			return true;
+		}
+
+		AdventureResult key = lock.key;
+
+		// Keys are quest items. They are either in inventory or are equipped.
+		if ( InventoryManager.getCount( key ) > 0 )
+		{
+			// In inventory.
+			return true;
+		}
+
+		if ( KoLCharacter.hasEquipped( key ) )
+		{
+			// Equipped. Move to inventory and remove from checkpoints.
+			return InventoryManager.retrieveItem( key, true, true );
+		}
+
+		// Need to create. If you have to adventure, no can do.
+		if ( lock.location != null )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Adventure in " + lock.location + " until you find a " + key );
+			return false;
+		}
+
+		// If this is a legend key and you can Pick Locks, pick this one.
+		int option = TowerDoorManager.legendKeyIndex( key );
+		if ( option > 0 && KoLCharacter.hasSkill( "Lock Picking" ) && !Preferences.getBoolean( "lockPicked" ) )
+		{
+			int previous = Preferences.getInteger( "choiceAdventure1414" );
+			try
+			{
+				UseSkillRequest request = UseSkillRequest.getInstance( "Lock Picking" );
+				Preferences.setInteger( "choiceAdventure1414", option );
+				RequestThread.postRequest( request );
+				if ( !InventoryManager.hasItem( key ) )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to pick " + key );
+					return false;
+				}
+			}
+			finally
+			{
+				Preferences.setInteger( "choiceAdventure1414", previous );
+			}
+		}
+
+		// If this is a special key and we're in Kingdom of Exploathing,
+		// buy it from Cosmic Ray's Bazaar
+		if ( lock.special && KoLCharacter.isKingdomOfExploathing() )
+		{
+			CoinmasterData coinmaster = CoinmasterRegistry.findCoinmaster( "Cosmic Ray's Bazaar" );
+			AdventureResult[] itemList = new AdventureResult[1];
+			itemList[0] = key;
+			CoinMasterRequest request = coinmaster.getRequest( true, itemList );
+			RequestThread.postRequest( request );
+			if ( !InventoryManager.hasItem( key ) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to acquire " + key );
+				return false;
+			}
+		}
+
+		// We should be able to "create" the key. Attempt to do so.
+		if ( !InventoryManager.retrieveItem( key ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to create " + key );
+			return false;
+		}
+
+		return true;
+	}
+
 	public static final void towerDoorScript()
 	{
 		// Is the Tower Door open? Go look at the tower.
@@ -476,7 +568,7 @@ public abstract class TowerDoorManager
 
 		String keys = Preferences.getString( "nsTowerDoorKeysUsed" );
 
-		ArrayList<Lock> needed = new ArrayList<Lock>();
+		ArrayList<Lock> needed = new ArrayList<>();
 		for ( Lock lock : TowerDoorManager.getLocks() )
 		{
 			if ( lock.isDoorknob() )
@@ -494,35 +586,10 @@ public abstract class TowerDoorManager
 		if ( needed.size() > 0 )
 		{
 			// First acquire all needed keys
-			CoinmasterData coinmaster = CoinmasterRegistry.findCoinmaster( "Cosmic Ray's Bazaar" );
-			boolean exploathing = KoLCharacter.isKingdomOfExploathing();
 			for ( Lock lock : needed )
 			{
-				AdventureResult key = lock.key;
-				boolean have = InventoryManager.hasItem( key );
-				if ( have )
+				if ( !retrieveKey( lock ) )
 				{
-					// If we have the key, move it to inventory.
-					// Otherwise, acquire it.
-					have = InventoryManager.retrieveItem( key );
-				}
-				else if ( lock.location != null )
-				{
-					KoLmafia.updateDisplay( MafiaState.ERROR, "Adventure in " + lock.location + " until you find a " + key );
-					return;
-				}
-				else if ( lock.special && exploathing )
-				{
-					// We have to get this from Cosmic Ray's Bazaar
-					AdventureResult[] itemList = new AdventureResult[1];
-					itemList[0] = key;
-					CoinMasterRequest request = coinmaster.getRequest( true, itemList );
-					RequestThread.postRequest( request );
-					have = InventoryManager.hasItem( key );
-				}
-				if ( !have )
-				{
-					KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to acquire " + key );
 					return;
 				}
 			}
@@ -534,7 +601,7 @@ public abstract class TowerDoorManager
 				keys = Preferences.getString( "nsTowerDoorKeysUsed" );
 				if ( !keys.contains( lock.key.getName() ) )
 				{
-					KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to open lock using " + lock.key );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to open " + lock.name + " using " + lock.key );
 					return;
 				}
 			}
