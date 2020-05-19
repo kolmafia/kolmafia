@@ -63,7 +63,7 @@ public class GuzzlrRequest
 			GuzzlrRequest.master,
 			"guzzlr",
 			GuzzlrRequest.class,
-			"Guzzlrbucks",
+			"Guzzlrbuck",
 			null,
 			false,
 			GuzzlrRequest.GUZZLR_PATTERN,
