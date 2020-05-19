@@ -4948,7 +4948,7 @@ Effect	Berry Defensive	Damage Reduction: 10, Damage Absorption: +100
 Effect	Berry Elemental	Cold Resistance: +1, Hot Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
 Effect	Berry Experiential	Experience: +6
 Effect	Berry Statistical	Muscle Percent: +66, Mysticality Percent: +100, Moxie Percent: +66
-Effect	Berry Thorny	Weapon Damage: +15
+# Berry Thorny: Damages Attacking Opponents
 Effect	Bestial Sympathy	Familiar Weight: +3
 Effect	Beta Carotene Overdose	Item Drop: +50
 Effect	Better Off Bread	Avatar: "Bread Golem"
@@ -8648,8 +8648,6 @@ Item	slug of rum	Effect: "Brined Liver", Effect Duration: 10
 Item	slug of shochu	Effect: "Brined Liver", Effect Duration: 10
 Item	slug of vodka	Effect: "Brined Liver", Effect Duration: 10
 Item	smooth mushroom wine	Effect: "Gyromitra Gymnastics", Effect Duration: 80
-# *** KoL bug: Smuggler's Punch grants Tiki Thoughtfulness, but should grant Tiki Temerity
-# *** Bug reported and acknowledged
 Item	Smuggler's Punch	Effect: "Tiki Temerity", Effect Duration: 30
 Item	snakebite	Effect: "Sweet Tooth", Effect Duration: 30
 Item	Sockdollager	Effect: "In a Lather", Effect Duration: 25

@@ -269,26 +269,26 @@ public abstract class TowerDoorManager
 	// a skeleton key. Get it? Well, no, if you had it you'd have used
 	// it. You can make one out of bits of skeletons from the Cemetary."
 	//
-	// (Polka Dotted Lock)
-	// (Bat-Winged Lock)
+	// This lock is covered with brightly-colored greasepaint.
+	// This lock is shaped like a bat.
 	// This lock looks like a taco. A lock-o taco.
-	// (Lockenmeyer Flask)
-	// (Antlered Lock)
-	// (Lock with one Eye)
-	// (Trolling Lock)
+	// This lock looks like an Erlenmeyer flask.
+	// This lock has antlers on it.
+	// This lock is wearing an eyepatch.
+	// The keyhole on this lock looks like an exclamation point in parentheses.
 	// This lock is weirdly rabbit-shaped.
-	// (Mine Cart Shaped Lock)
-	// (Frigid Lock)
+	// This lock is shaped like a half-height mine cart.
+	// This lock is just an ice cube with a lock shackle on it.
 	// This lock is shaped like a can of anchovies. Spooky sardines.
 	// This lock is shaped like a pyramid, and has a cactus-shaped keyhole.
-	// (Boat Prow Lock)
-	// (Barnacley Lock)
-	// (Infernal Lock)
-	// (Sausage with a Hole)
-	// (Golden Lock)
-	// (Junky Lock)
+	// This lock is shaped like the front of a pirate ship.
+	// This lock is shaped like the bottom of a pirate ship.
+	// This lock is made of brimstone.
+	// This lock is shaped like a sausage. And also made of sausage.
+	// This lock is shaped like a treasure chest, and it tastes like goblins. You had to lick it to figure out what kind of treasure chest it was.
+	// This lock is made out of random chunks of scrap metal.
 	// This lock is shaped like a haunted flower vase.
-	// (Crib-Shaped Lock)
+	// This lock is shaped like a terrifying self-rocking cradle.
 	// This lock is shaped like a ribcage with a pricetag on it..
 	// This lock is shaped like a loaf of mentally-unstable bread.
 	// This lock is made of grass and weeds.
@@ -368,31 +368,6 @@ public abstract class TowerDoorManager
 		//
 		// You insert the appropriate key and it turns easily. Then
 		// both the lock and the key disappear.
-
-		// *** Need the responses for the 23 new Low-Key locks:
-		// Polka Dotted Lock
-		// Bat-Winged Lock
-		// Taco Locko
-		// Lockenmeyer Flask
-		// Antlered Lock
-		// Lock with one Eye
-		// Trolling Lock
-		// Rabbit-Eared Lock
-		// Mine Cart Shaped Lock
-		// Frigid Lock
-		// Anchovy Can
-		// Cactus-Shaped-Hole Lock
-		// Boat Prow Lock
-		// Barnacley Lock
-		// Infernal Lock
-		// Sausage With a Hole
-		// Golden Lock
-		// Junky Lock
-		// Spooky Lock
-		// Crib-Shaped Lock
-		// Boney Lock
-		// Loaf of Bread with Keyhole
-		// Overgrown Lock
 
 		if ( responseText.contains( "the lock vanishes" ) ||
 		     responseText.contains( "turn back to the lock" ) ||
