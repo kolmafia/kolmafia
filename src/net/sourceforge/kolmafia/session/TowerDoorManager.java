@@ -597,7 +597,10 @@ public abstract class TowerDoorManager
 			// Then unlock each lock
 			for ( Lock lock : needed )
 			{
-				RequestThread.postRequest( new PlaceRequest( place, lock.action ) );
+				// Must use GET for low-key locks, at least
+				PlaceRequest request = new PlaceRequest( place, lock.action );
+				request.constructURLString( request.getFullURLString(), false );
+				RequestThread.postRequest( request );
 				keys = Preferences.getString( "nsTowerDoorKeysUsed" );
 				if ( !keys.contains( lock.key.getName() ) )
 				{
