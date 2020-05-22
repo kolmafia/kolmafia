@@ -179,8 +179,8 @@ public class MonsterManuelManager
 			}
 
 			// Don't bother checking image for (shadow opponent) and You the Adventurer
-			// noart.gif is used for monsters with variable images
-			if ( id != 210 && id != 1669 && !image.equals( "noart.gif" ) && !monster.hasImage( image ) )
+			// noart.gif and qmark.gif are used for monsters with variable images
+			if ( id != 210 && id != 1669 && !image.equals( "noart.gif" ) && !image.equals( "qmark.gif" ) && !monster.hasImage( image ) )
 			{
 				RequestLogger.printLine( "Manuel says that '" + name + "' (" + id + ") has unrecognized image '" + image + "'" );
 			}

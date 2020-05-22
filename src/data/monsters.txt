@@ -22,7 +22,7 @@ alert mariachi	860	mar_alert.gif	HP: 250 Def: 180 Atk: 200 Init: 300 P: dude NOB
 Alphabet Giant	176	giant_alphabet.gif	Atk: 145 Def: 130 HP: 150 Init: 80 Meat: 150 P: humanoid	heavy D (40)	original G (40)
 amateur ninja	716	ninja.gif	Atk: 4 Def: 5 HP: 5 Init: 75 Meat: 20 P: dude	bargain flash powder (20)	cheap plastic blowgun (10)	third-hand nunchaku (10)
 amok putty	1539	amokputty.gif	Scale: 1 Cap: 89 Floor: 6 Init: 100 P: slime	amok pudding (0)	amok putter (0)
-ancestral Spookyraven portrait	1554	srpainting2.gif	Atk: 81 Def: 82 HP: 75 Init: 25 P: construct	painting of a glass of wine (15)	ornate picture frame (15)	ancient oil painting of yourself (5)
+ancestral Spookyraven portrait	1554	srpainting1.gif,srpainting2.gif	Atk: 81 Def: 82 HP: 75 Init: 25 P: construct	painting of a glass of wine (15)	ornate picture frame (15)	ancient oil painting of yourself (5)
 ancient insane monk	534	pebbleman.gif	Atk: 4 Def: 3 HP: 6 Init: 50 P: dude	Bash-&#332;s cereal (15)	bottle of sake (25)	haiku challenge map (c0)	little round pebble (p55)	Fu Manchu Wax (c0)
 ancient protector spirit	0	protspirit.gif	HP: 80 Def: 145 Atk: 158 Init: 10 Phys: 100 P: undead GHOST
 # --- ancient protector spirits are distinguishable only by location/drop
@@ -1525,8 +1525,8 @@ White Bone Demon	1319	whitebonedemon.gif	NOCOPY Atk: 100 Def: 100 HP: 180 Init: 
 procedurally-generated skeleton	1323	bigskeleton.gif	NOCOPY Init: -10000 P: undead
 
 # Video Game dungeon (GameInformPowerDailyPro magazine February 2013)
-Video Game Boss	1331	qmark.gif	Scale: 5 Init: -10000 P: construct
-Video Game Miniboss	1330	qmark.gif	Scale: 3 Init: -10000 P: construct
+Video Game Boss	1331	faq_boss1.gif,faq_boss2.gif,faq_boss3.gif,faq_boss4.gif,faq_boss5.gif,faq_boss6.gif	Scale: 5 Init: -10000 P: construct
+Video Game Miniboss	1330	faq_miniboss1.gif,faq_miniboss2.gif,faq_miniboss3.gif,faq_miniboss4.gif,faq_miniboss5.gif,faq_miniboss6.gif	Scale: 3 Init: -10000 P: construct
 Video Game Minion (moderate)	1328	qmark.gif	Scale: -2 Init: -10000 P: construct
 Video Game Minion (strong)	1329	qmark.gif	Scale: 1 Init: -10000 P: construct
 Video Game Minion (weak)	1327	qmark.gif	Scale: -7 Init: -10000 P: construct
@@ -1577,7 +1577,7 @@ steaming straw house	1470	straw_hot.gif	FREE Init: -10000 P: construct E: hot
 Sloppy Seconds Burger	1566	ssd_burger.gif	Scale: 5 Cap: 11111 Init: -10000 Meat: 250 P: weird E: sleaze NOBANISH	Meat-inflating powder (0)
 Sloppy Seconds Cocktail	1567	ssd_cocktail.gif	Scale: 5 Cap: 11111 Init: -10000 P: weird E: sleaze NOBANISH	bottle of vodka (0)	bottle of rum (0)	bottle of tequila (0)
 Sloppy Seconds Sundae	1568	ssd_sundae.gif	Scale: 5 Cap: 11111 Init: -10000 P: weird E: sleaze NOBANISH	possessed sugar cube (0)
-Fun-Guy Playmate	1569	fun-gal1.gif	HP: [30] Def: [30] Atk: [30] Exp: 30 Init: -10000 P: plant E: sleaze	sleight-of-hand mushroom (0)	Fun-Guy spore (5)	pencil thin mushroom (c0)
+Fun-Guy Playmate	1569	fun-gal1.gif,fun-gal2.gif,fun-gal3.gif,fun-gal4.gif,fun-gal5.gif,fun-gal6.gif	HP: [30] Def: [30] Atk: [30] Exp: 30 Init: -10000 P: plant E: sleaze	sleight-of-hand mushroom (0)	Fun-Guy spore (5)	pencil thin mushroom (c0)
 broctopus	1571	broctopus.gif	Atk: 375 Def: 300 HP: 500 Init: 50 Meat: 100 P: fish E: sleaze	BROS Energy Drink (25)	8-billed baseball cap (5)
 cocktail shrimp	1572	cocktailshrimp.gif	Atk: 350 Def: 325 HP: 400 Init: 75 P: fish Meat: 50 E: sleaze	giant shrimp fork (5)	shrimp cocktail (25)
 taco fish	1573	tacofish.gif	Atk: 350 Def: 400 HP: 500 Init: 50 Meat: 150 P: fish E: sleaze
