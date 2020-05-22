@@ -3566,6 +3566,10 @@ public class ResultProcessor
 				
 			}
 			break;
+
+		case ItemPool.BLACK_MAP:
+			QuestDatabase.setQuestProgress( Quest.BLACK, "step1" );
+			break;
 		}
 
 		// Gaining items can achieve goals.

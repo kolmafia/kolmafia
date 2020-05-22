@@ -3141,7 +3141,7 @@ public class Modifiers
 			return;
 		}
 
-		ArrayList<Florist> plants = FloristRequest.getPlants( Modifiers.currentLocation );
+		List<Florist> plants = FloristRequest.getPlants( Modifiers.currentLocation );
 		if ( plants == null )
 		{
 			return;
