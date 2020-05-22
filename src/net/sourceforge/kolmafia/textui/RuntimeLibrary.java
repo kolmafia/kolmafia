@@ -5605,11 +5605,8 @@ public abstract class RuntimeLibrary
 		AggregateType type = new AggregateType( plantType, DataTypes.LOCATION_TYPE );
 		MapValue value = new MapValue( type );
 
-		Set locations = FloristRequest.floristPlants.keySet();
-		Iterator iterator = locations.iterator();
-		while ( iterator.hasNext() )
+		for ( String loc :  FloristRequest.floristPlants.keySet() )
 		{
-			String loc = (String) iterator.next();
 			Value location = DataTypes.parseLocationValue( loc, false );
 			if ( location == null )
 			{
@@ -5617,7 +5614,7 @@ public abstract class RuntimeLibrary
 				// matched to a location in KoLmafia
 				continue;
 			}
-			ArrayList<Florist> plants = FloristRequest.getPlants( loc );
+			List<Florist> plants = FloristRequest.getPlants( loc );
 			if ( plants.size() == 0 )
 			{
 				continue;

@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import java.util.regex.Matcher;
@@ -85,7 +86,7 @@ public class FloristRequest
 		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : -1;
 	}
 
-	public static final Map<String, ArrayList<Florist>> floristPlants = new HashMap<String, ArrayList<Florist>>();
+	public static final Map<String, List<Florist>> floristPlants = new HashMap<>();
 
 	public enum Florist
 	{
@@ -271,7 +272,7 @@ public class FloristRequest
 		FloristRequest.haveFlorist = haveFlorist;
 	}
 
-	public static final ArrayList<Florist> getPlants( String location )
+	public static final List<Florist> getPlants( String location )
 	{
 		if ( floristPlants.containsKey( location ) )
 		{
@@ -337,7 +338,7 @@ public class FloristRequest
 			Matcher matcher = FloristRequest.FLOWER_PATTERN.matcher( responseText );
 			while ( matcher.find() )
 			{
-				ArrayList<Florist> plantList = new ArrayList<Florist>();
+				List<Florist> plantList = new ArrayList<>();
 				String location = matcher.group( 1 );
 				int flower1 = StringUtilities.parseInt( matcher.group( 2 ) );
 				int flower2 = StringUtilities.parseInt( matcher.group( 3 ) );
@@ -368,11 +369,11 @@ public class FloristRequest
 			FloristRequest.clearTerritorial( location );
 		}
 
-		ArrayList<Florist> plants = FloristRequest.getPlants( location );
+		List<Florist> plants = FloristRequest.getPlants( location );
 
 		if ( plants == null )
 		{
-			plants = new ArrayList<Florist>();
+			plants = new ArrayList<>();
 		}
 		plants.add( plant );
 
@@ -390,7 +391,7 @@ public class FloristRequest
 
 	private static final void clearTerritorial( final String location )
 	{
-		ArrayList<Florist> plants = FloristRequest.getPlants( location );
+		List<Florist> plants = FloristRequest.getPlants( location );
 		if ( plants == null )
 		{
 			return;
@@ -410,7 +411,7 @@ public class FloristRequest
 
 	private static final void digPlant( final String location, final int digIndex )
 	{
-		ArrayList<Florist> plants = FloristRequest.getPlants( location );
+		List<Florist> plants = FloristRequest.getPlants( location );
 		if ( plants == null )
 		{
 			return;

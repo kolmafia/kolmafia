@@ -5715,7 +5715,7 @@ public abstract class ChoiceManager
 			// Check for Florist
 			if ( FloristRequest.haveFlorist() )
 			{
-				ArrayList<Florist> plants = FloristRequest.getPlants( "Twin Peak" );
+				List<Florist> plants = FloristRequest.getPlants( "Twin Peak" );
 				if ( plants != null )
 				{
 					for ( Florist plant : plants )
