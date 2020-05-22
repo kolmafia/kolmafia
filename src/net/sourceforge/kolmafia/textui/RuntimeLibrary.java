@@ -5607,8 +5607,8 @@ public abstract class RuntimeLibrary
 
 		for ( String loc :  FloristRequest.floristPlants.keySet() )
 		{
-			Value location = DataTypes.parseLocationValue( loc, false );
-			if ( location == null )
+			Value location = DataTypes.parseLocationValue( loc, true );
+			if ( location == DataTypes.LOCATION_INIT )
 			{
 				// The location string from KoL couldn't be
 				// matched to a location in KoLmafia
