@@ -94,7 +94,7 @@ public class AdventureRequest
 	private static final Pattern AREA_PATTERN = Pattern.compile( "(adv|snarfblat)=(\\d*)", Pattern.DOTALL );
 
 	// <img id='monpic' src="http://images.kingdomofloathing.com/adventureimages/ssd_sundae.gif" width=100 height=100>
-	private static final Pattern MONSTER_IMAGE = Pattern.compile( "<img +id='monpic'.*?adventureimages/(.*?)\\.gif" );
+	private static final Pattern MONSTER_IMAGE = Pattern.compile( "<img +id='monpic'.*?adventureimages/(.*?\\.gif)" );
 
 	private static final GenericRequest ZONE_UNLOCK = new GenericRequest( "" );
 
@@ -649,12 +649,6 @@ public class AdventureRequest
 			return BasementRequest.basementMonster;
 		}
 
-		// If the monster has random modifiers, remove and save them
-		String encounter =  AdventureRequest.handleRandomModifiers( encounterToCheck.trim(), responseText );
-		encounter = AdventureRequest.handleIntergnat( encounter );
-		encounter = AdventureRequest.handleNuclearAutumn( encounter );
-		encounter = AdventureRequest.handleMask( encounter );
-
 		// Adventuring in the Wumpus cave while temporarily blind is
 		// stupid, but since we won't clear the cave after defeating it
 		// if we can't recognize it, allow for it
@@ -663,6 +657,20 @@ public class AdventureRequest
 			return "wumpus";
 		}
 
+		// Time Pranks
+		if ( responseText.contains( "A figure steps out from behind this morning and says" ) )
+		{
+			// SBIP will ruin that text, but so will the staph, and probably other stuff too.
+			// Not going to worry about those.
+			return "time-spinner prank";
+		}
+
+		// If the monster has random modifiers, remove and save them
+		String encounter =  AdventureRequest.handleRandomModifiers( encounterToCheck.trim(), responseText );
+		encounter = AdventureRequest.handleIntergnat( encounter );
+		encounter = AdventureRequest.handleNuclearAutumn( encounter );
+		encounter = AdventureRequest.handleMask( encounter );
+
 		// Disambiguate via responseText, if possible
 		encounter = ConsequenceManager.disambiguateMonster( encounter, responseText );
 		if ( MonsterDatabase.findMonster( encounter ) != null )
@@ -670,227 +678,93 @@ public class AdventureRequest
 			return encounter;
 		}
 
+		// LT&T monsters can have different names
+		if ( encounter.equals( "vengeful ghost" ) ||
+		     encounter.equals( "shrieking ghost" ) )
+		{
+			return "restless ghost";
+		}
+		if ( encounter.equals( "professional gunman" ) ||
+		     encounter.equals( "trained mercenary" ) )
+		{
+			return "hired gun";
+		}
+
 		// For monsters that have a randomly-generated name, identify them by the image they use instead
-
-		String override = null;
-		String image = null;
-
-		Matcher monster = AdventureRequest.MONSTER_IMAGE.matcher( responseText );
-		if ( monster.find() )
+		Matcher matcher = AdventureRequest.MONSTER_IMAGE.matcher( responseText );
+		String image = matcher.find() ? matcher.group( 1 ) : null;
+		
+		if ( image == null )
 		{
-			image = monster.group( 1 );
+			return encounter;
 		}
 
-		// You'd think that the following could/should be:
-		// - in MonsterDatabase
-		// - a Map lookup
-		if ( image != null )
-		{
-			// Always-available monsters are listed above obsolete monsters
-			// to get a quicker match on average.  Obsolete monsters can
-			// still be fought due to the Fax Machine.  Due to monster copying,
-			// any of these monsters can show up in any zone, or in no zone.
-			override =
-				// The Copperhead Club
-				image.startsWith( "coppertender" ) ? "Copperhead Club bartender" :
-				// Spookyraven
-				image.startsWith( "srpainting" ) ? "ancestral Spookyraven portrait" :
-				// Spring Break Beach
-				image.startsWith( "ssd_burger" ) ? "Sloppy Seconds Burger" :
-				image.startsWith( "ssd_cocktail" ) ? "Sloppy Seconds Cocktail" :
-				image.startsWith( "ssd_sundae" ) ? "Sloppy Seconds Sundae" :
-				image.startsWith( "fun-gal" ) ? "Fun-Guy Playmate" :
-				// VYKEA
-				image.startsWith( "vykfemale" ) ? "VYKEA viking (female)" :
-				image.startsWith( "vykmale" ) ? "VYKEA viking (male)" :
-				// The Old Landfill
-				image.startsWith( "js_bender" ) ? "junksprite bender" :
-				image.startsWith( "js_melter" ) ? "junksprite melter" :
-				image.startsWith( "js_sharpener" ) ? "junksprite sharpener" :
-				// Dreadsylvania
-				image.startsWith( "dvcoldbear" ) ? "cold bugbear" :
-				image.startsWith( "dvcoldghost" ) ? "cold ghost" :
-				image.startsWith( "dvcoldskel" ) ? "cold skeleton" :
-				image.startsWith( "dvcoldvamp" ) ? "cold vampire" :
-				image.startsWith( "dvcoldwolf" ) ? "cold werewolf" :
-				image.startsWith( "dvcoldzom" ) ? "cold zombie" :
-				image.startsWith( "dvhotbear" ) ? "hot bugbear" :
-				image.startsWith( "dvhotghost" ) ? "hot ghost" :
-				image.startsWith( "dvhotskel" ) ? "hot skeleton" :
-				image.startsWith( "dvhotvamp" ) ? "hot vampire" :
-				image.startsWith( "dvhotwolf" ) ? "hot werewolf" :
-				image.startsWith( "dvhotzom" ) ? "hot zombie" :
-				image.startsWith( "dvsleazebear" ) ? "sleaze bugbear" :
-				image.startsWith( "dvsleazeghost" ) ? "sleaze ghost" :
-				image.startsWith( "dvsleazeskel" ) ? "sleaze skeleton" :
-				image.startsWith( "dvsleazevamp" ) ? "sleaze vampire" :
-				image.startsWith( "dvsleazewolf" ) ? "sleaze werewolf" :
-				image.startsWith( "dvsleazezom" ) ? "sleaze zombie" :
-				image.startsWith( "dvspookybear" ) ? "spooky bugbear" :
-				image.startsWith( "dvspookyghost" ) ? "spooky ghost (Dreadsylvanian)" :
-				image.startsWith( "dvspookyskel" ) ? "spooky skeleton" :
-				image.startsWith( "dvspookyvamp" ) ? "spooky vampire (Dreadsylvanian)" :
-				image.startsWith( "dvspookywolf" ) ? "spooky werewolf" :
-				image.startsWith( "dvspookyzom" ) ? "spooky zombie" :
-				image.startsWith( "dvstenchbear" ) ? "stench bugbear" :
-				image.startsWith( "dvstenchghost" ) ? "stench ghost" :
-				image.startsWith( "dvstenchskel" ) ? "stench skeleton" :
-				image.startsWith( "dvstenchvamp" ) ? "stench vampire" :
-				image.startsWith( "dvstenchwolf" ) ? "stench werewolf" :
-				image.startsWith( "dvstenchzom" ) ? "stench zombie" :
-				// Hobopolis
-				image.startsWith( "nhobo" ) ? "Normal hobo" :
-				image.startsWith( "hothobo" ) ? "Hot hobo" :
-				image.startsWith( "coldhobo" ) ? "Cold hobo" :
-				image.startsWith( "stenchhobo" ) ? "Stench hobo" :
-				image.startsWith( "spookyhobo" ) ? "Spooky hobo" :
-				image.startsWith( "slhobo" ) ? "Sleaze hobo" :
-				// Slime Tube
-				image.startsWith( "slime1" ) ? "Slime" :
-				image.startsWith( "slime2" ) ? "Slime Hand" :
-				image.startsWith( "slime3" ) ? "Slime Mouth" :
-				image.startsWith( "slime4" ) ? "Slime Construct" :
-				image.startsWith( "slime5" ) ? "Slime Colossus" :
-				// GamePro Bosses
-				image.startsWith( "faq_boss" ) ? "Video Game Boss" :
-				image.startsWith( "faq_miniboss" ) ? "Video Game Miniboss" :
-				// KOLHS
-				image.startsWith( "shopteacher" ) ? "X-fingered Shop Teacher" :
-				// Actually Ed the Undying
-				image.startsWith( "../otherimages/classav" ) ? "You the Adventurer" :
-				image.startsWith( "wingedyeti" ) && KoLCharacter.isEd() ? "Your winged yeti" :
-				// Trick or Treat
-				image.startsWith( "vandalkid" ) ? "vandal kid" :
-				image.startsWith( "paulblart" ) ? "suburban security civilian" :
-				image.startsWith( "tooold" ) ? "kid who is too old to be Trick-or-Treating" :
-				// Bugbear Invasion
-				image.startsWith( "bb_caveman" ) ? "angry cavebugbear" :
-				// Crimbo 2012 wandering elves
-				image.startsWith( "tacoelf_sign" ) ? "sign-twirling Crimbo elf" :
-				image.startsWith( "tacoelf_taco" ) ? "taco-clad Crimbo elf" :
-				image.startsWith( "tacoelf_cart" ) ? "tacobuilding elf" :
-				// Crimbobokutown Toy Factory
-				image.startsWith( "animelf1" ) ? "tiny-screwing animelf" :
-				image.startsWith( "animelf2" ) ? "plastic-extruding animelf" :
-				image.startsWith( "animelf3" ) ? "circuit-soldering animelf" :
-				image.startsWith( "animelf4" ) ? "quality control animelf" :
-				image.startsWith( "animelf5" ) ? "toy assembling animelf" :
-				// Elf Alley
-				image.startsWith( "elfhobo" ) ? "Hobelf" :
-				// Haunted Sorority House
-				image.startsWith( "sororeton" ) ? "sexy sorority skeleton" :
-				image.startsWith( "sororpire" ) ? "sexy sorority vampire" :
-				image.startsWith( "sororwolf" ) ? "sexy sorority werewolf" :
-				image.startsWith( "sororeton" ) ? "sexy sorority skeleton" :
-				image.startsWith( "sororbie" ) ? "sexy sorority zombie" :
-				image.startsWith( "sororghost" ) ? "sexy sorority ghost" :
-				// Lord Flameface's Castle Entryway
-				image.startsWith( "fireservant" ) ? "Servant Of Lord Flameface" :
-				// Abyssal Portals
-				image.startsWith( "generalseal" ) ? "general seal" :
-				// Crimbo 13
-				image.startsWith( "warbear1" ) ? "Warbear Foot Soldier" :
-				image.startsWith( "warbear2" ) ? "Warbear Officer" :
-				image.startsWith( "warbear3" ) ? "High-Ranking Warbear Officer" :
-				// Crashed Space Beast
-				image.startsWith( "spacebeast" ) ? "space beast" :
-				// Roman Forum
-				image.startsWith( "gladiator" ) ? "Gladiator" :
-				image.startsWith( "madiator" ) ? "Madiator" :
-				image.startsWith( "radiator" ) ? "Radiator" :
-				image.startsWith( "sadiator" ) ? "Sadiator" :
-				// Spelunky
-				image.startsWith( "spelunkbeeq" ) ? "queen bee (spelunky)" :
-				image.startsWith( "spelunkghost" ) ? "ghost (Spelunky)" :
-				// Globe Theatre Main Stage
-				image.startsWith( "richardx" ) ? "Richard X" :
-				// BatFellow
-				image.startsWith( "henchman" ) ? "very [adjective] henchman" :
-				image.startsWith( "henchwoman" ) ? "very [adjective] henchwoman" :
-				// Tres de Mayo
-				image.startsWith( "reveler" ) ? "Cinco de Mayo reveler" :
-				// The Source
-				image.startsWith( "sourceagents" ) ? "One Thousand Source Agents" :
-				image.startsWith( "sourceagent" ) ? "Source Agent" :
-				// KoL Con 13
-				// female needs checking before male
-				image.startsWith( "congoerf" ) ? "stumbling-drunk congoer (female)" :
-				image.startsWith( "congoer" ) ? "stumbling-drunk congoer (male)" :
-				// Eldritch Incursion
-				image.startsWith( "eldtentacle" ) ? "Eldritch Tentacle" :
-				// License to Adventure
-				image.startsWith( "bond_minion" ) ? "Villainous Minion" :
-				image.startsWith( "bond_sidekick" ) ? "Villainous Henchperson" :
-				image.startsWith( "bond_villain" ) ? "Villainous Villain" :
-				// Crimbo 2017
-				image.startsWith( "mimefunc" ) ? "cheerless mime functionary" :
-				image.startsWith( "mimesci" ) ? "cheerless mime scientist" :
-				image.startsWith( "mimebat" ) ? "cheerless mime soldier" :
-				image.startsWith( "mimeseer" ) ? "cheerless mime vizier" :
-				image.startsWith( "mimeexec" ) ? "cheerless mime executive" :
-				// Dark Gyffte
-				image.startsWith( "stevebelmont" ) ? "Steve Belmont" :
-				image.startsWith( "ricardobelmont" ) ? "Ricardo Belmont" :
-				image.startsWith( "jaydenbelmont" ) ? "Jayden Belmont" :
-				image.startsWith( "travisbelmont" ) ? "Travis Belmont" :
-				null;
-		}
+		// Handle monsters that cannot be identified using a
+		// simple map lookup since the image is shared
 
-		// These monsters cannot be identified by their image
-		if ( override == null )
+		if ( KoLCharacter.isEd() )
 		{
-			switch ( KoLAdventure.lastAdventureId() )
+			if ( image.startsWith( "../otherimages/classav" ) )
 			{
-			// Video Game Minions need to be checked for after checking for Video Game bosses
-			case 319:
-				override = "Video Game Minion (weak)";
-				break;
-			case 320:
-				override = "Video Game Minion (moderate)";
-				break;
-			case 321:
-				override = "Video Game Minion (strong)";
-				break;
-			case 458:
-				if ( responseText.contains( "dmtmonster_part1.png" ) )
-				{
-					override = "Performer of Actions";
-				}
-				else if ( responseText.contains( "dmtmonster_part4.png" ) )
-				{
-					override = "Thinker of Thoughts";
-				}
-				else if ( responseText.contains( "dmtmonster_part6.png" ) )
-				{
-					override = "Perceiver of Sensations";
-				}
-				break;
+				return "You the Adventurer";
+			}
+			// Also Groar
+			if ( image.equals( "wingedyeti.gif" ) )
+			{
+				return "Your winged yeti";
 			}
 		}
 
-		if ( override == null )
+		// This is twitch content, but shares image with hired gun, so detection moved here
+		if ( image.equals( "outlawboss.gif" ) )
 		{
-			// LT&T monsters can have different names
-			override = encounter.equals( "professional gunman" ) || encounter.contains( "trained mercenary" ) ? "hired gun" :
-				encounter.equals( "vengeful ghost" ) || encounter.contains( "shrieking ghost" ) ? "restless ghost" :
-				// This is twitch content, but shares image with hired gun, so detection moved here
-				image != null && image.startsWith( "outlawboss" ) ? "outlaw leader" :
-				null;
+			return "outlaw leader";
 		}
 
-		if ( override == null )
+		if ( image.startsWith( "faq_boss" ) )
 		{
-			if ( responseText.contains( "A figure steps out from behind this morning and says" ) )
+			return "Video Game Boss";
+		}
+
+		if ( image.startsWith( "faq_miniboss" ) )
+		{
+			return "Video Game Miniboss";
+		}
+
+		// Identify some monsters by the zone they appear in
+		switch ( KoLAdventure.lastAdventureId() )
+		{
+		case 319:
+			// Video Game Level 1
+			return "Video Game Minion (weak)";
+		case 320:
+			// Video Game Level 2
+			return "Video Game Minion (moderate)";
+		case 321:
+			// Video Game Level 3
+			return "Video Game Minion (strong)";
+		case 458:
+			// Deep Machine Tunnels
+			if ( responseText.contains( "dmtmonster_part1.png" ) )
 			{
-				// SBIP will ruin that text, but so will the staph, and probably other stuff too.
-				// Not going to worry about those.
-				override = "time-spinner prank";
+				return "Performer of Actions";
 			}
+			else if ( responseText.contains( "dmtmonster_part4.png" ) )
+			{
+				return "Thinker of Thoughts";
+			}
+			else if ( responseText.contains( "dmtmonster_part6.png" ) )
+			{
+				return "Perceiver of Sensations";
+			}
+			break;
 		}
 
-		if ( override != null )
+		MonsterData monster = MonsterDatabase.findMonsterByImage( image );
+
+		if ( monster != null )
 		{
-			return override;
+			return monster.getName();
 		}
 
 		return encounter;
