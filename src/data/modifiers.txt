@@ -5504,6 +5504,7 @@ Effect	Expert Vacationer	Experience Percent (Muscle): [25*zone(Elemental Interna
 Effect	Extended Toes	Combat Rate: -5
 Effect	Extra Backbone	Muscle: +5, Experience (Muscle): +1
 Effect	Extra Sensory Perception	Item Drop: +50
+Effect	Extra Spongy	Damage Absorption: +30
 Effect	Extra Terrestrial	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
 Effect	Extra-Sharp Weapon	Weapon Damage Percent: +30
 Effect	Extra-Thick Blood	HP Regen Min: 5, HP Regen Max: 10
@@ -9381,6 +9382,7 @@ Item	magicberry tablets	Effect: "Magic Tongue", Effect Duration: 1
 Item	Mallomarbles	Effect: "Marbles in Your Mouth", Effect Duration: 20
 Item	mangled finger	Effect: "It Tickles!  It Tickles!", Effect Duration: 20
 Item	mariachi toothpaste	Effect: "Gleaming White Teeth", Effect Duration: 20
+Item	marshroom	Effect: "Extra Spongy", Effect Duration: 5
 Item	Marvin's marvelous pill	Effect: "Pharmaceutically Cool", Effect Duration: 10
 Item	marzipan skull	Effect: "Sugar Rush", Effect Duration: 5, Effect: "Hardly Poisoned at All", Effect Duration: 5, Effect: "Hombre Muerto Caminando", Effect Duration: 5
 Item	Mayo de Mayo&trade; mayo	Effect: "Force of Mayo Be With You", Effect Duration: 5

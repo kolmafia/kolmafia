@@ -10597,3 +10597,4 @@
 10569	discarded bike lock key	218758389	key_bike.gif	accessory	q	0
 10570	Thwaitgold keyhole spider statuette	702235179	thwaitkeyspider.gif	none		0
 10571	Manual of Lock Picking	902924641	book3.gif	usable	t	0
+10572	marshroom	650215239	marshroom.gif	potion, usable	t,d	3
