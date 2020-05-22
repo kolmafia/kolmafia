@@ -3554,6 +3554,18 @@ public class ResultProcessor
 			KoLCharacter.addAvailableSkill( "CHEAT CODE: Invisible Avatar" );
 			KoLCharacter.addAvailableSkill( "CHEAT CODE: Triple Size" );
 			break;
+
+		case ItemPool.POWDER_PUFF:
+		case ItemPool.FINEST_GOWN:
+		case ItemPool.DANCING_SHOES:
+			if ( InventoryManager.hasItem( ItemPool.POWDER_PUFF ) &&
+			     InventoryManager.hasItem( ItemPool.FINEST_GOWN ) &&
+			     InventoryManager.hasItem( ItemPool.DANCING_SHOES ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_DANCE, "step2" );
+				
+			}
+			break;
 		}
 
 		// Gaining items can achieve goals.
