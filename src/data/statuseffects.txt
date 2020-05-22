@@ -2572,3 +2572,4 @@
 2570	Sulfurous Sinuses	jarl_egg.gif	a962cc494b0d078eea5525b36c84c497	neutral	none	drink 1 Nog-on-the-Cob
 2571	Steamed	stench.gif	4ec1356a4339c91dc2ac87b7d29d7b41	neutral	none	drink 1 Steamboat
 2572	Buttery, Boy	butterdrink.gif	a439ede8c90a1dc9c568eaad244d6757	neutral	none	drink 1 Buttery Boy
+2573	Extra Spongy	marshroom.gif	6ee0a39cfe8c7b65a83965deaead1e11	neutral	none	use 1 marshroom
