@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.LeafletRequest;
 import net.sourceforge.kolmafia.textui.command.CouncilCommand;
 
@@ -289,6 +290,8 @@ public abstract class LeafletManager
 		String extra =
 			LeafletManager.trophy ? " (trophy available)" : LeafletManager.magic != null ? " (magic invoked)" : "";
 		KoLmafia.updateDisplay( "Strange leaflet completed" + extra + "." );
+
+		Preferences.setBoolean( "leafletCompleted", true );
 
 		if ( LeafletManager.magic != null )
 		{
