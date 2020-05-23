@@ -2694,7 +2694,8 @@ public class KoLAdventure
 		switch ( KoLAdventure.lastAdventureId() )
 		{
 		case AdventurePool.THE_DRIPPING_TREES:
-			Preferences.decrement( "drippyJuice", 1, 0 );
+			Preferences.increment( "dripAdventuresSinceAscension" );
+			Preferences.decrement( "drippyJuice" );
 			break;
 		}
 	}

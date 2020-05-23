@@ -11884,7 +11884,7 @@ public abstract class ChoiceManager
 			// 6 - Go down to the basement
 			if ( text.contains( "vile bat-things" ) )
 			{
-				Preferences.setBoolean( "drippyBatsUnlocked", true );
+				Preferences.increment( "drippyBatsUnlocked", 7 );
 			}
 			if ( text.contains( "sharp stake" ) )
 			{
