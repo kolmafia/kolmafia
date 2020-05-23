@@ -843,6 +843,7 @@ user	latteModifier
 user	latteUnlocks	cinnamon,pumpkin,vanilla
 user	lawOfAveragesAvailable	true
 user	lawOfAveragesCost	1000
+user	leafletCompleted	false
 user	libramSkillsHardcore	none
 user	libramSkillsSoftcore	none
 user	libramSummons	0

@@ -688,6 +688,7 @@ public class ValhallaManager
 		Preferences.setString( "copperheadClubHazard", "none" );
 		Preferences.setInteger( "drippyJuice", 0 );
 		Preferences.setBoolean( "lockPicked", false );
+		Preferences.setBoolean( "leafletCompleted", false );
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );
 		Preferences.setString( "crappyCameraMonster", "" );
