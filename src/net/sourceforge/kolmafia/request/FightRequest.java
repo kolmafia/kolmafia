@@ -468,6 +468,7 @@ public class FightRequest
 		CONJOINED_ZMOMBIE( "conjoined zmombie" ),
 		CYRUS_THE_VIRUS( "Cyrus the Virus" ),
 		DAD_SEA_MONKEE( "Dad Sea Monkee" ),
+		DRIPPY_BAT( "drippy bat" ),
 		FAMILY_OF_KOBOLDS( "family of kobolds" ),
 		GARGANTULIHC( "gargantulihc" ),
 		GIANT_OCTOPUS( "giant octopus" ),
@@ -540,6 +541,7 @@ public class FightRequest
 		FightRequest.specialMonsters.put( "conjoined zmombie", SpecialMonster.CONJOINED_ZMOMBIE );
 		FightRequest.specialMonsters.put( "Cyrus the Virus", SpecialMonster.CYRUS_THE_VIRUS );
 		FightRequest.specialMonsters.put( "Dad Sea Monkee", SpecialMonster.DAD_SEA_MONKEE );
+		FightRequest.specialMonsters.put( "drippy bat", SpecialMonster.DRIPPY_BAT );
 		FightRequest.specialMonsters.put( "family of kobolds", SpecialMonster.FAMILY_OF_KOBOLDS );
 		FightRequest.specialMonsters.put( "gargantulihc", SpecialMonster.GARGANTULIHC );
 		FightRequest.specialMonsters.put( "giant octopus", SpecialMonster.GIANT_OCTOPUS );
@@ -2730,6 +2732,10 @@ public class FightRequest
 
 				case DAD_SEA_MONKEE:
 					DadManager.solve( responseText );
+					break;
+
+				case DRIPPY_BAT:
+					Preferences.decrement( "drippyBatsUnlocked" );
 					break;
 
 				case PIRANHA_PLANT:
