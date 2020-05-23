@@ -11882,6 +11882,7 @@ public abstract class ChoiceManager
 			// 5 - Check out the woodworking bench
 			// You use the tools to carve your truncheon into a sharp stake.
 			// 6 - Go down to the basement
+			// 9 = Leave
 			if ( text.contains( "vile bat-things" ) )
 			{
 				Preferences.increment( "drippyBatsUnlocked", 7 );
@@ -11890,7 +11891,22 @@ public abstract class ChoiceManager
 			{
 				EquipmentManager.discardEquipment( ItemPool.DRIPPY_TRUNCHEON );
 			}
-			// 9 = Leave
+
+			// Since this choice appears on a schedule - the 16th
+			// adventure in The Drippy Trees and then every 15
+			// turns thereafter - "fix" the adventure count as needed.
+			int advs = Preferences.getInteger( "dripAdventuresSinceAscension" );
+			if ( advs < 16 )
+			{
+				Preferences.setInteger( "dripAdventuresSinceAscension", 16 );
+				advs = 16;
+			}
+			int mod = ( advs - 1 ) % 15;
+			if ( mod != 0 )
+			{
+				Preferences.increment( "dripAdventuresSinceAscension", 15 - mod );
+			}
+
 			break;
 		}
 
