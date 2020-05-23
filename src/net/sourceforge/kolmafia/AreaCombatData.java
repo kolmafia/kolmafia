@@ -857,11 +857,6 @@ public class AreaCombatData
 	public double areaCombatPercent()
 	{
 		// Some areas have fixed non-combats, if we're tracking this, handle them here.
-		if ( this.zone.equals( "Barf Mountain" ) )
-		{
-			return Preferences.getBoolean( "dinseyRollercoasterNext" ) ? 0 : 100;
-		}
-
 		if ( this.zone.equals( "The Defiled Alcove" ) && Preferences.getInteger( "cyrptAlcoveEvilness" ) <= 25 )
 		{
 			return 100;
@@ -878,9 +873,22 @@ public class AreaCombatData
 		{
 			return 100;
 		}
+
+		if ( this.zone.equals( "Barf Mountain" ) )
+		{
+			return Preferences.getBoolean( "dinseyRollercoasterNext" ) ? 0 : 100;
+		}
+
 		if ( this.zone.equals( "Investigating a Plaintive Telegram" ) )
 		{
 			return Preferences.getInteger( "lttQuestStageCount" ) == 9 || QuestDatabase.isQuestStep( Quest.TELEGRAM, QuestDatabase.STARTED ) ? 0 : 100;
+		}
+
+		if ( this.zone.equals( "The Dripping Trees" ) )
+		{
+			// Non-Combat on turn 16, 31, 46, ...
+			int advs = Preferences.getInteger( "dripAdventuresSinceAscension" );
+			return ( advs > 0 && ( advs % 15 ) == 0 ) ? 0 : 100;
 		}
 
 		// If we don't have the data, pretend it's all combat

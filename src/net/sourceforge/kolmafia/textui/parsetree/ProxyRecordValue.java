@@ -1207,6 +1207,7 @@ public class ProxyRecordValue
 	{
 		public static RecordType _type = new RecordBuilder()
 			.add( "nocombats", DataTypes.BOOLEAN_TYPE )
+			.add( "combat_percent", DataTypes.FLOAT_TYPE )
 			.add( "zone", DataTypes.STRING_TYPE )
 			.add( "parent", DataTypes.STRING_TYPE )
 			.add( "parentdesc", DataTypes.STRING_TYPE )
@@ -1229,6 +1230,11 @@ public class ProxyRecordValue
 		public boolean get_nocombats()
 		{
 			return ( (KoLAdventure) this.content ).isNonCombatsOnly();
+		}
+
+		public double get_combat_percent()
+		{
+			return ( (KoLAdventure) this.content ).getAreaSummary().areaCombatPercent();
 		}
 
 		public String get_zone()
