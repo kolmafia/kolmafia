@@ -404,7 +404,7 @@ public class DataTypes
 			return returnDefault ? DataTypes.LOCATION_INIT : null;
 		}
 
-		return new Value( DataTypes.LOCATION_TYPE, content.getAdventureName(), (Object) content );
+		return DataTypes.makeLocationValue( content );
 	}
 
 	public static final Value parseLocationValue( final int adv, final boolean returnDefault )
@@ -420,8 +420,12 @@ public class DataTypes
 			return returnDefault ? DataTypes.LOCATION_INIT : null;
 		}
 
-		return new Value( DataTypes.LOCATION_TYPE, content.getAdventureName(),
-			(Object) content );
+		return DataTypes.makeLocationValue( content );
+	}
+
+	public static final Value makeLocationValue( final KoLAdventure adventure )
+	{
+		return new Value( DataTypes.LOCATION_TYPE, adventure.getAdventureName(), (Object) adventure );
 	}
 
 	public static final int classToInt( final String name )
