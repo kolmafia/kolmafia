@@ -94,7 +94,8 @@ public class AdventureDatabase
 
 	private static final StringArray[] adventureTable = new StringArray[ 4 ];
 	private static final Map<String, AreaCombatData> areaCombatData = new HashMap<>();
-	private static final Map<String, KoLAdventure> adventureLookup = new HashMap<>();
+	private static final Map<String, KoLAdventure> adventureByURL = new HashMap<>();
+	private static final Map<String, KoLAdventure> adventureByName = new HashMap<>();
 	private static final Map<String, String> environmentLookup = new HashMap<>();
 	private static final Map<String, String> zoneLookup = new HashMap<>();
 	private static final Map<String, String> conditionLookup = new HashMap<>();
@@ -374,7 +375,8 @@ public class AdventureDatabase
 	{
 		AdventureDatabase.adventures.clear();
 		AdventureDatabase.allAdventures.clear();
-		AdventureDatabase.adventureLookup.clear();
+		AdventureDatabase.adventureByURL.clear();
+		AdventureDatabase.adventureByName.clear();
 
 		for ( int i = 0; i < AdventureDatabase.adventureTable[ 0 ].size(); ++i )
 		{
@@ -397,6 +399,7 @@ public class AdventureDatabase
 	{
 		AdventureDatabase.adventures.add( location );
 		AdventureDatabase.allAdventures.add( location );
+		AdventureDatabase.adventureByName.put( location.getAdventureName(), location );
 
 		GenericRequest request = location.getRequest();
 
@@ -413,18 +416,18 @@ public class AdventureDatabase
 			return;
 		}
 
-		AdventureDatabase.adventureLookup.put( url, location );
+		AdventureDatabase.adventureByURL.put( url, location );
 
 		if ( url.contains( "snarfblat=" ) )
 		{
 			// The map of the Bat Hole has a bogus URL for the Boss Bat's lair
 			if ( url.contains( "snarfblat=34" ) )
 			{
-				AdventureDatabase.adventureLookup.put( url + ";", location );
+				AdventureDatabase.adventureByURL.put( url + ";", location );
 			}
 
 			url = StringUtilities.singleStringReplace( url, "snarfblat=", "adv=" );
-			AdventureDatabase.adventureLookup.put( url, location );
+			AdventureDatabase.adventureByURL.put( url, location );
 		}
 	}
 
@@ -440,7 +443,7 @@ public class AdventureDatabase
 
 	public static final KoLAdventure getAdventureByURL( String adventureURL )
 	{
-		if ( AdventureDatabase.adventureLookup.isEmpty() )
+		if ( AdventureDatabase.adventureByURL.isEmpty() )
 		{
 			AdventureDatabase.refreshAdventureList();
 		}
@@ -453,13 +456,13 @@ public class AdventureDatabase
 		// Barrel smashes count as adventures.
 		if ( adventureURL.startsWith( "barrel.php" ) )
 		{
-			return AdventureDatabase.adventureLookup.get( "barrel.php" );
+			return AdventureDatabase.adventureByURL.get( "barrel.php" );
 		}
 
 		// Visiting the basement counts as an adventure
 		if ( adventureURL.startsWith( "basement.php" ) )
 		{
-			return AdventureDatabase.adventureLookup.get( "basement.php" );
+			return AdventureDatabase.adventureByURL.get( "basement.php" );
 		}
 
 		// Visiting the tavern cellar might count as an adventure
@@ -471,7 +474,7 @@ public class AdventureDatabase
 			{
 				return null;
 			}
-			return AdventureDatabase.adventureLookup.get( "cellar.php" );
+			return AdventureDatabase.adventureByURL.get( "cellar.php" );
 		}
 
 		// Mining in disguise count as adventures.
@@ -482,7 +485,7 @@ public class AdventureDatabase
 			{
 				return null;
 			}
-			return AdventureDatabase.adventureLookup.get( "mining.php?" + mine );
+			return AdventureDatabase.adventureByURL.get( "mining.php?" + mine );
 		}
 
 		if ( adventureURL.startsWith( "place.php" ) )
@@ -490,7 +493,7 @@ public class AdventureDatabase
 			// Adventuring in the Lower Chamber
 			if ( adventureURL.contains( "action=pyramid_state" ) )
 			{
-				return AdventureDatabase.getAdventure( "The Lower Chambers" );
+				return AdventureDatabase.getAdventureByName( "The Lower Chambers" );
 			}
 
 			if ( adventureURL.contains( "whichplace=nstower" ) )
@@ -506,7 +509,7 @@ public class AdventureDatabase
 						stat.equals( Stat.MOXIE.toString() ) ?
 						"Smoothest Adventurer Contest" :
 						"A Crowd of (Stat) Adventurers";
-					return AdventureDatabase.getAdventure( adventure );
+					return AdventureDatabase.getAdventureByName( adventure );
 				}
 				if ( adventureURL.contains( "action=ns_01_crowd3" ) )
 				{
@@ -609,7 +612,7 @@ public class AdventureDatabase
 		adventureURL = GenericRequest.removeField( adventureURL, "blech" );
 		adventureURL = StringUtilities.singleStringReplace( adventureURL, "action=ignorewarning&whichzone", "snarfblat" );
 
-		KoLAdventure location = AdventureDatabase.adventureLookup.get( adventureURL );
+		KoLAdventure location = AdventureDatabase.adventureByURL.get( adventureURL );
 		if ( location != null )
 		{
 			// *** Why exclude these?
@@ -626,16 +629,33 @@ public class AdventureDatabase
 		return null;
 	}
 
-	public static final KoLAdventure getAdventure( final String adventureName )
+	public static final KoLAdventure getAdventureByName( String name )
 	{
-		if ( AdventureDatabase.adventureLookup.isEmpty() )
+		// Exact match, as supplied by KoL
+		if ( name == null || name.equals( "" ) )
+		{
+			return null;
+		}
+
+		if ( AdventureDatabase.adventureByName.isEmpty() )
 		{
 			AdventureDatabase.refreshAdventureList();
 		}
 
+		return AdventureDatabase.adventureByName.get( name );
+	}
+
+	public static final KoLAdventure getAdventure( final String adventureName )
+	{
+		// Fuzzy matching
 		if ( adventureName == null || adventureName.equals( "" ) )
 		{
 			return null;
+		}
+
+		if ( AdventureDatabase.allAdventures.isEmpty() )
+		{
+			AdventureDatabase.refreshAdventureList();
 		}
 
 		return AdventureDatabase.allAdventures.find( adventureName );
@@ -1086,6 +1106,11 @@ public class AdventureDatabase
 		public int size()
 		{
 			return this.internalList.size();
+		}
+
+		public boolean isEmpty()
+		{
+			return this.internalList.size() == 0;
 		}
 	}
 }

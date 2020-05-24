@@ -127,6 +127,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase.Candy;
@@ -5607,13 +5608,14 @@ public abstract class RuntimeLibrary
 
 		for ( String loc :  FloristRequest.floristPlants.keySet() )
 		{
-			Value location = DataTypes.parseLocationValue( loc, true );
-			if ( location == DataTypes.LOCATION_INIT )
+			KoLAdventure adventure = AdventureDatabase.getAdventureByName( loc );
+			if ( adventure == null )
 			{
 				// The location string from KoL couldn't be
-				// matched to a location in KoLmafia
+				// matched to a current location
 				continue;
 			}
+
 			List<Florist> plants = FloristRequest.getPlants( loc );
 			if ( plants.size() == 0 )
 			{
@@ -5625,6 +5627,8 @@ public abstract class RuntimeLibrary
 			{
 				plantValue.aset( new Value( i ), new Value( plants.get( i ).toString() ) );
 			}
+
+			Value location = DataTypes.makeLocationValue( adventure );
 			value.aset( location, plantValue );
 		}
 
