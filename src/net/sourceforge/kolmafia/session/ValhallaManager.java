@@ -596,6 +596,7 @@ public class ValhallaManager
 		Preferences.setString( "snowsuit", "" );
 		Preferences.setInteger( "guyMadeOfBeesCount", 0 );
 		Preferences.setBoolean( "guyMadeOfBeesDefeated", false );
+		Preferences.setInteger( "frenchGuardTurtlesFreed", 0 );
 		Preferences.setInteger( "guardTurtlesFreed", 0 );
 		Preferences.setBoolean( "hermitHax0red", false );
 		Preferences.setInteger( "carboLoading", 0 );
