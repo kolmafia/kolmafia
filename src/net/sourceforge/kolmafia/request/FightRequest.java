@@ -3580,6 +3580,11 @@ public class FightRequest
 			ResultProcessor.processItem( ItemPool.RED_BUTTON, 1 - StringUtilities.parseInt( redButtonMatcher.group( 1 ) ) );
 		}
 
+
+		// The turtle appears to suffer some kind of mental breakdown
+		// -- it collapses to the ground, sobbing. You help it to its
+		// feet and escort it out of the compound.
+		//
 		// The turtle blinks at you with gratitude for freeing it from
 		// its brainwashing, and trudges off over the horizon.
 		// ...Eventually.
@@ -3590,12 +3595,7 @@ public class FightRequest
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
 		}
-
-		// The turtle appears to suffer some kind of mental breakdown
-		// -- it collapses to the ground, sobbing. You help it to its
-		// feet and escort it out of the compound.
-
-		if ( responseText.contains( "some kind of mental breakdown" ) )
+		else if ( responseText.contains( "some kind of mental breakdown" ) )
 		{
 			int free = Preferences.increment( "frenchGuardTurtlesFreed" );
 			String message = "Freed French guard turtle #" + free;
