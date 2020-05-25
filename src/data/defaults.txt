@@ -585,6 +585,7 @@ user	fossilW	0
 user	frAlways	false
 user	fratboysDefeated	0
 user	frCemetaryUnlocked	false
+user	frenchGuardTurtlesFreed	0
 user	friarsBlessingReceived	false
 user	frMountainsUnlocked	false
 user	frSwampUnlocked	false

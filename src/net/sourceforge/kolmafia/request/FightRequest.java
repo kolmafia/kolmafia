@@ -3024,7 +3024,9 @@ public class FightRequest
 		Matcher fightMatcher = fightPattern.matcher( responseText );
 		int fightCount = 0;
 		while( fightMatcher.find() )
+		{
 			fightCount++;
+		}
 
 		boolean stillInBattle = finalRound && !won &&
 			( FightRequest.pokefam ?
@@ -3578,10 +3580,22 @@ public class FightRequest
 			ResultProcessor.processItem( ItemPool.RED_BUTTON, 1 - StringUtilities.parseInt( redButtonMatcher.group( 1 ) ) );
 		}
 
+		// The turtle appears to suffer some kind of mental breakdown
+		// -- it collapses to the ground, sobbing. You help it to its
+		// feet and escort it out of the compound.
+
+		if ( responseText.contains( "some kind of mental breakdown" ) )
+		{
+			int free = Preferences.increment( "frenchGuardTurtlesFreed" );
+			String message = "Freed French guard turtle #" + free;
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+		}
+
 		// The turtle blinks at you with gratitude for freeing it from
 		// its brainwashing, and trudges off over the horizon.
 		// ...Eventually.
-		if ( responseText.contains( "freeing it from its brainwashing" ) )
+		if ( responseText.contains( "freeing it from its brainwashing" ))
 		{
 			int free = Preferences.increment( "guardTurtlesFreed" );
 			String message = "Freed guard turtle #" + free;
