@@ -1412,7 +1412,7 @@ public class EquipmentRequest
 
 	public static final void parseEquipment( final String location, final String responseText )
 	{
-		if ( location.contains( "onlyitem=" ) )
+		if ( location.contains( "onlyitem=" ) || location.contains( "ajax=1" ) || location.contains( "ftext=" ) )
 		{
 			return;
 		}
