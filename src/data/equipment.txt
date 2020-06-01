@@ -189,6 +189,7 @@ irate sombrero	45	Mox: 7
 iron helmet	100	Mox: 20
 ironic knit cap	40	Mox: 5
 isotophat	100	Mox: 35
+Iunion Crown	100	none
 Jarlsberg's hat	30	none
 jewel-eyed wizard hat	10	none
 Kentucky-style derby	20	none
