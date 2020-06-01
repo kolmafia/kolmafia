@@ -285,6 +285,8 @@ Item	irate sombrero	Weapon Damage: +3, Familiar Effect: "1xPotato, 3xLep, cap 11
 Item	iron helmet	Cold Resistance: +2, MP Regen Min: 1, MP Regen Max: 2, Initiative: +10, Familiar Effect: "atk, 1xFairy, cap 25"
 Item	ironic knit cap	Maximum MP: +20, Mysticality: +1, Familiar Effect: "1xVolley, 2xPotato, cap 10"
 Item	isotophat	Stench Damage: +10, Stench Spell Damage: +20, Familiar Effect: "stench atk, cap 25"
+# Item Iunion Crown: Becomes more powerful as you adventure each day
+Item	Iunion Crown	Muscle: +10, Mysticality: +10, Moxie: +10, Item Drop: +10, Initiative: +10
 Item	Jarlsberg's hat	Mysticality: +5, MP Regen Min: 4, MP Regen Max: 5, Experience (Mysticality): +1
 # jewel-eyed wizard hat: Regenerate MP Based on Level
 # jewel-eyed wizard hat: +5 Duration to Buffs You Cast
@@ -10095,6 +10097,7 @@ Item	avatar of the Unconscious Collective	Free Pull
 Item	bad penguin egg	Free Pull
 # bag of airline peanuts: Deals 6-10 Physical Damage
 # bag of gross foreign snacks: Deals <font color=green>Stench Damage</font> every round to every monster you fight today in the zone where you used it
+Item	bag of Iunion stones	Free Pull
 # bag of park garbage: Maybe there's something valuable inside?
 # ball: Lets You Escape From Combat
 # ballpark hot daub: Deals 450-500 <font color=red>Hot Damage</font>, also briefly stuns enemies and weakens them a lot

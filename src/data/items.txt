@@ -10598,3 +10598,5 @@
 10570	Thwaitgold keyhole spider statuette	702235179	thwaitkeyspider.gif	none		0
 10571	Manual of Lock Picking	902924641	book3.gif	usable	t	0
 10572	marshroom	650215239	marshroom.gif	potion, usable	t,d	3
+10573	bag of Iunion stones	389793817	iunionbag.gif	usable	t	0
+10574	Iunion Crown	789074173	iunioncrown.gif	hat		0
