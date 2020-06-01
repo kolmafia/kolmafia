@@ -3118,6 +3118,7 @@ public class ItemPool
 	public static final int CRIMBO_CANDLE = 10072;
 	public static final int CHALK_CHUNKS = 10088;
 	public static final int MARBLE_MOECULES = 10096;
+	public static final int PARAFFIN_PSEUDOACCORDION = 10103;
 	public static final int PARAFFIN_PIECES = 10104;
 	public static final int TERRA_COTTA_TIDBITS = 10112;
 	public static final int TRYPTOPHAN_DART = 10159;

@@ -225,6 +225,7 @@ public class UseSkillRequest
 		new BuffTool( ItemPool.CALAVERA_CONCERTINA, 2, false, KoLCharacter.ACCORDION_THIEF ),
 		new BuffTool( ItemPool.BEER_BATTERED_ACCORDION, 1, false, KoLCharacter.ACCORDION_THIEF ),
 		new BuffTool( ItemPool.STOLEN_ACCORDION, 0, false, KoLCharacter.ACCORDION_THIEF ),
+		new BuffTool( ItemPool.PARAFFIN_PSEUDOACCORDION, 0, false, null ),
 		new BuffTool( ItemPool.TOY_ACCORDION, 0, false, null ),
 	};
 
