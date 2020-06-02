@@ -1577,6 +1577,7 @@ user	_grimstoneMaskDropsCrown	0
 user	_grooseCharge	0
 user	_grooseDrops	0
 user	_guildManualUsed	false
+user	_guzzlrDeliveries	0
 user	_guzzlrGoldDeliveries	0
 user	_guzzlrPlatinumDeliveries	0
 user	_guzzlrQuestAbandoned	false
