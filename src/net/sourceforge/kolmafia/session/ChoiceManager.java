@@ -11977,12 +11977,6 @@ public abstract class ChoiceManager
 		case 1412:
 		{
 			// Guzzlr Client Selection
-
-			if ( text.contains( "Welcome, valued Guzzlr team member!") )
-			{
-				return;
-			}
-
 			switch ( ChoiceManager.lastDecision )
 			{
 			case 1:
@@ -12015,7 +12009,14 @@ public abstract class ChoiceManager
 							"platinum";
 				}
 
+				// Remember the tier of the current quest
 				Preferences.setString( "guzzlrQuestTier", tier );
+
+				// Increment the number of gold or platinum deliveres STARTED today
+				if ( !tier.equals( "bronze" ) )
+				{
+					Preferences.increment ( "_guzzlr" + StringUtilities.toTitleCase( tier ) + "Deliveries", tier == "gold" ? 3 : 1 );
+				}
 
 				if ( boozeMatcher.find() )
 				{

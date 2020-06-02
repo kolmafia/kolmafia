@@ -4579,15 +4579,17 @@ public class FightRequest
 					ResultProcessor.processItem( itemId, -1 );
 				}
 
+				// Increment number of completed deliveries for this tier
 				if ( tier != null && !tier.equals( "" ) )
 				{
-					if ( !tier.equals( "bronze" ) )
-					{
-						Preferences.increment ( "_guzzlr" + StringUtilities.toTitleCase( tier ) + "Deliveries", tier == "gold" ? 3 : 1 );
-					}
 					Preferences.increment( "guzzlr" + StringUtilities.toTitleCase( tier ) + "Deliveries" );
 				}
 
+				// Increment the number of completed deliveries today.
+				// Useful for determining how many combats the next delivery will take.
+				Preferences.increment( "_guzzlrDeliveries" );
+
+				// Reset the quest
 				Preferences.setString( "guzzlrQuestBooze", "" );
 				Preferences.setString( "guzzlrQuestLocation", "" );
 				Preferences.setString( "guzzlrQuestTier", "" );
