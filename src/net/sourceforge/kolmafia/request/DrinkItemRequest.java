@@ -61,7 +61,6 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;

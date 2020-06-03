@@ -68,7 +68,6 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.combat.Macrofier;
@@ -99,10 +98,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
-import net.sourceforge.kolmafia.request.FamTeamRequest;
 import net.sourceforge.kolmafia.request.FamTeamRequest.PokeBoost;
-import net.sourceforge.kolmafia.request.SpelunkyRequest;
 
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BatManager;
@@ -122,6 +118,7 @@ import net.sourceforge.kolmafia.session.MonsterManuelManager;
 import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.SpadingManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.WumpusManager;
 
@@ -2957,6 +2954,9 @@ public class FightRequest
 
 		// Perform other processing for the final round
 		FightRequest.updateRoundData( macroMatcher );
+
+		// Report combat round to spading manager
+		SpadingManager.processCombatRound( responseText );
 
 		if ( responseText.contains( "Macro Abort" ) ||
 		     responseText.contains( "Macro abort" ) ||
@@ -7483,7 +7483,7 @@ public class FightRequest
 			FightRequest.handleGlitchMonster( status, str );
 
 			// Only the first Meat drop after the WINWINWIN comment is the
-			// monster's drop. Don't do meatDropSpading for later drops.
+			// monster's drop. Don't do meat drop handling for later drops.
 			status.won = false;
 
 			return false;

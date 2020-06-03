@@ -91,6 +91,7 @@ import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.SpadingManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 
 import net.sourceforge.kolmafia.swingui.GenericFrame;
@@ -2240,15 +2241,18 @@ public class UseItemRequest
 		case KoLConstants.CONSUME_DRINK:
 		case KoLConstants.CONSUME_DRINK_HELPER:
 			DrinkItemRequest.parseConsumption( item, helper, responseText );
+			SpadingManager.processConsumeDrink( responseText );
 			return;
 
 		case KoLConstants.CONSUME_EAT:
 		case KoLConstants.CONSUME_FOOD_HELPER:
 			EatItemRequest.parseConsumption( item, helper, responseText );
+			SpadingManager.processConsumeEat( responseText );
 			return;
 
 		case KoLConstants.CONSUME_SPLEEN:
 			SpleenItemRequest.parseConsumption( item, helper, responseText );
+			SpadingManager.processConsumeSpleen( responseText );
 			return;
 		}
 
@@ -2261,6 +2265,7 @@ public class UseItemRequest
 		if ( inebriety > 0 )
 		{
 			DrinkItemRequest.parseConsumption( item, helper, responseText );
+			SpadingManager.processConsumeDrink( responseText );
 			return;
 		}
 
@@ -2268,6 +2273,7 @@ public class UseItemRequest
 		if ( fullness > 0 || itemId == ItemPool.MAGICAL_SAUSAGE )
 		{
 			EatItemRequest.parseConsumption( item, helper, responseText );
+			SpadingManager.processConsumeEat( responseText );
 			return;
 		}
 
@@ -2275,6 +2281,7 @@ public class UseItemRequest
 		if ( spleenHit > 0 )
 		{
 			SpleenItemRequest.parseConsumption( item, helper, responseText );
+			SpadingManager.processConsumeSpleen( responseText );
 			return;
 		}
 
