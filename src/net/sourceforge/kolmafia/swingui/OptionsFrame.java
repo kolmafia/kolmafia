@@ -2190,12 +2190,12 @@ public class OptionsFrame
 		private ScriptSelectPanel loginScript;
 		private ScriptSelectPanel logoutScript;
 
-		private ScriptSelectPanel recoveryScript;
-		private ScriptSelectPanel betweenBattleScript;
 		private ScriptSelectPanel afterAdventureScript;
+		private ScriptSelectPanel betweenBattleScript;
 		private ScriptSelectPanel choiceAdventureScript;
 		private ScriptSelectPanel counterScript;
 		private ScriptSelectPanel familiarScript;
+		private ScriptSelectPanel recoveryScript;
 
 		private ScriptSelectPanel kingLiberatedScript;
 		private ScriptSelectPanel preAscensionScript;
@@ -2203,8 +2203,9 @@ public class OptionsFrame
 
 		private ScriptSelectPanel beforePVPScript;
 		private ScriptSelectPanel buyScript;
-		private ScriptSelectPanel plantingScript;
 		private ScriptSelectPanel chatbotScript;
+		private ScriptSelectPanel plantingScript;
+		private ScriptSelectPanel spadingScript;
 
 		public ScriptPanel()
 		{
@@ -2287,66 +2288,70 @@ public class OptionsFrame
 			list.add( this.beforePVPScript );
 			list.add( this.buyScript );
 			list.add( this.plantingScript );
+			list.add( this.spadingScript );
 			list.add( this.chatbotScript );
 		}
 
 		private void initialize()
 		{
-			this.loginScript = new ScriptSelectPanel( new CollapsibleTextArea( "On Login:" ) );
-			this.logoutScript = new ScriptSelectPanel( new CollapsibleTextArea( "On Logout:" ) );
-			this.recoveryScript = new ScriptSelectPanel( new CollapsibleTextArea( "Recovery:" ) );
-			this.betweenBattleScript = new ScriptSelectPanel( new CollapsibleTextArea( "Pre-Adventure:" ) );
 			this.afterAdventureScript = new ScriptSelectPanel( new CollapsibleTextArea( "Post-Adventure:" ) );
+			this.beforePVPScript = new ScriptSelectPanel( new CollapsibleTextArea( "Before PvP:" ) );
+			this.betweenBattleScript = new ScriptSelectPanel( new CollapsibleTextArea( "Pre-Adventure:" ) );
+			this.buyScript = new ScriptSelectPanel( new CollapsibleTextArea( "Buy Script:" ) );
+			this.chatbotScript = new ScriptSelectPanel( new CollapsibleTextArea( "Chatbot Script:" ) );
 			this.choiceAdventureScript = new ScriptSelectPanel( new CollapsibleTextArea( "Choice-Adventure:" ) );
 			this.counterScript = new ScriptSelectPanel( new CollapsibleTextArea( "Counter Script:" ) );
 			this.familiarScript = new ScriptSelectPanel( new CollapsibleTextArea( "Familiar Script: " ) );
 			this.kingLiberatedScript = new ScriptSelectPanel( new CollapsibleTextArea( "King Freed:" ) );
-			this.preAscensionScript = new ScriptSelectPanel( new CollapsibleTextArea( "Pre-Ascension:" ) );
-			this.postAscensionScript = new ScriptSelectPanel( new CollapsibleTextArea( "Post-Ascension:" ) );
-			this.beforePVPScript = new ScriptSelectPanel( new CollapsibleTextArea( "Before PvP:" ) );
-			this.buyScript = new ScriptSelectPanel( new CollapsibleTextArea( "Buy Script:" ) );
+			this.loginScript = new ScriptSelectPanel( new CollapsibleTextArea( "On Login:" ) );
+			this.logoutScript = new ScriptSelectPanel( new CollapsibleTextArea( "On Logout:" ) );
 			this.plantingScript = new ScriptSelectPanel( new CollapsibleTextArea( "Planting:" ) );
-			this.chatbotScript = new ScriptSelectPanel( new CollapsibleTextArea( "Chatbot Script:" ) );
+			this.postAscensionScript = new ScriptSelectPanel( new CollapsibleTextArea( "Post-Ascension:" ) );
+			this.preAscensionScript = new ScriptSelectPanel( new CollapsibleTextArea( "Pre-Ascension:" ) );
+			this.recoveryScript = new ScriptSelectPanel( new CollapsibleTextArea( "Recovery:" ) );
+			this.spadingScript = new ScriptSelectPanel( new CollapsibleTextArea( "Spading:" ) );
 		}
 
 		@Override
 		public void actionConfirmed()
 		{
-			Preferences.setString( "loginScript", this.loginScript.getText() );
-			Preferences.setString( "logoutScript", this.logoutScript.getText() );
-			Preferences.setString( "recoveryScript", this.recoveryScript.getText() );
-			Preferences.setString( "betweenBattleScript", this.betweenBattleScript.getText() );
 			Preferences.setString( "afterAdventureScript", this.afterAdventureScript.getText() );
+			Preferences.setString( "beforePVPScript", this.beforePVPScript.getText() );
+			Preferences.setString( "betweenBattleScript", this.betweenBattleScript.getText() );
+			Preferences.setString( "buyScript", this.buyScript.getText() );
+			Preferences.setString( "chatbotScript", this.chatbotScript.getText() );
 			Preferences.setString( "choiceAdventureScript", this.choiceAdventureScript.getText() );
 			Preferences.setString( "counterScript", this.counterScript.getText() );
 			Preferences.setString( "familiarScript", this.familiarScript.getText() );
 			Preferences.setString( "kingLiberatedScript", this.kingLiberatedScript.getText() );
-			Preferences.setString( "preAscensionScript", this.preAscensionScript.getText() );
-			Preferences.setString( "postAscensionScript", this.postAscensionScript.getText() );
-			Preferences.setString( "beforePVPScript", this.beforePVPScript.getText() );
-			Preferences.setString( "buyScript", this.buyScript.getText() );
+			Preferences.setString( "loginScript", this.loginScript.getText() );
+			Preferences.setString( "logoutScript", this.logoutScript.getText() );
 			Preferences.setString( "plantingScript", this.plantingScript.getText() );
-			Preferences.setString( "chatbotScript", this.chatbotScript.getText() );
+			Preferences.setString( "postAscensionScript", this.postAscensionScript.getText() );
+			Preferences.setString( "preAscensionScript", this.preAscensionScript.getText() );
+			Preferences.setString( "recoveryScript", this.recoveryScript.getText() );
+			Preferences.setString( "spadingScript", this.spadingScript.getText() );
 		}
 
 		@Override
 		public void actionCancelled()
 		{
-			this.loginScript.setText( Preferences.getString( "loginScript" ) );
-			this.logoutScript.setText( Preferences.getString( "logoutScript" ) );
-			this.recoveryScript.setText( Preferences.getString( "recoveryScript" ) );
-			this.betweenBattleScript.setText( Preferences.getString( "betweenBattleScript" ) );
 			this.afterAdventureScript.setText( Preferences.getString( "afterAdventureScript" ) );
+			this.beforePVPScript.setText( Preferences.getString( "beforePVPScript" ) );
+			this.betweenBattleScript.setText( Preferences.getString( "betweenBattleScript" ) );
+			this.buyScript.setText( Preferences.getString( "buyScript" ) );
+			this.chatbotScript.setText( Preferences.getString( "chatbotScript" ) );
 			this.choiceAdventureScript.setText( Preferences.getString( "choiceAdventureScript" ) );
 			this.counterScript.setText( Preferences.getString( "counterScript" ) );
 			this.familiarScript.setText( Preferences.getString( "familiarScript" ) );
 			this.kingLiberatedScript.setText( Preferences.getString( "kingLiberatedScript" ) );
-			this.preAscensionScript.setText( Preferences.getString( "preAscensionScript" ) );
-			this.postAscensionScript.setText( Preferences.getString( "postAscensionScript" ) );
-			this.beforePVPScript.setText( Preferences.getString( "beforePVPScript" ) );
-			this.buyScript.setText( Preferences.getString( "buyScript" ) );
+			this.loginScript.setText( Preferences.getString( "loginScript" ) );
+			this.logoutScript.setText( Preferences.getString( "logoutScript" ) );
 			this.plantingScript.setText( Preferences.getString( "plantingScript" ) );
-			this.chatbotScript.setText( Preferences.getString( "chatbotScript" ) );
+			this.postAscensionScript.setText( Preferences.getString( "postAscensionScript" ) );
+			this.preAscensionScript.setText( Preferences.getString( "preAscensionScript" ) );
+			this.recoveryScript.setText( Preferences.getString( "recoveryScript" ) );
+			this.spadingScript.setText( Preferences.getString( "spadingScript" ) );
 		}
 	}
 

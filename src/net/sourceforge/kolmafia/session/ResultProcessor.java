@@ -973,43 +973,43 @@ public class ResultProcessor
 			return true;
 		}
 
-		if ( won && nunnery )
+		if ( won )
 		{
-			IslandManager.addNunneryMeat( result );
-			return false;
-		}
-
-		if ( won && Preferences.getBoolean( "meatDropSpading" ) )
-		{
-			int drop = result.getCount();
-			if ( !ResultProcessor.possibleMeatDrop( drop, 0 ) )
+			if ( nunnery )
 			{
-				StringBuffer buf = new StringBuffer( "Alert - possible unknown meat bonus:" );
-				if ( KoLCharacter.currentNumericModifier( Modifiers.SPORADIC_MEATDROP ) != 0.0f )
+				IslandManager.addNunneryMeat( result );
+				return false;
+			}
+
+			if ( SpadingManager.hasSpadingScript() )
+			{
+				int drop = result.getCount();
+				if ( !ResultProcessor.possibleMeatDrop( drop, 0 ) )
 				{
-					buf.append( " (sporadic!)" );
-				}
-				if ( KoLCharacter.currentNumericModifier( Modifiers.MEAT_BONUS ) != 0.0f )
-				{
-					buf.append( " (ant tool!)" );
-				}
-				for ( int i = 1; i <= 100 && buf.length() < 80; ++i )
-				{
-					if ( ResultProcessor.possibleMeatDrop( drop, i ) )
+					StringBuffer buf = new StringBuffer( "Alert - possible unknown meat bonus:" );
+					if ( KoLCharacter.currentNumericModifier( Modifiers.SPORADIC_MEATDROP ) != 0.0f )
 					{
-						buf.append( " +" );
-						buf.append( i );
+						buf.append( " (sporadic!)" );
 					}
-					if ( ResultProcessor.possibleMeatDrop( drop, -i ) )
+					if ( KoLCharacter.currentNumericModifier( Modifiers.MEAT_BONUS ) != 0.0f )
 					{
-						buf.append( " -" );
-						buf.append( i );
+						buf.append( " (ant tool!)" );
 					}
+					for ( int i = 1; i <= 100 && buf.length() < 80; ++i )
+					{
+						if ( ResultProcessor.possibleMeatDrop( drop, i ) )
+						{
+							buf.append( " +" );
+							buf.append( i );
+						}
+						if ( ResultProcessor.possibleMeatDrop( drop, -i ) )
+						{
+							buf.append( " -" );
+							buf.append( i );
+						}
+					}
+					SpadingManager.processMeatDrop( buf.toString() );
 				}
-				RequestLogger.updateSessionLog( "Spade " + buf );
-				buf.insert( 0, "<font color=green>\u2660" );
-				buf.append( "</font>" );
-				RequestLogger.printLine( buf.toString() );
 			}
 		}
 

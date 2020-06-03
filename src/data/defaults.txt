@@ -907,7 +907,6 @@ user	mayoInMouth
 user	mayoLevel	0
 user	mayoMinderSetting	
 user	meansuckerPrice	400
-user	meatDropSpading	false
 user	merkinQuestPath	none
 user	merkinLockkeyMonster
 user	merkinVocabularyMastery	0
@@ -1258,6 +1257,7 @@ user	spacegateVaccine2	false
 user	spacegateVaccine3	false
 user	spaceInvaderDefeated	false
 user	spadingData
+user	spadingScript
 user	spelunkyHints	false
 user	spelunkyNextNoncombat	1
 user	spelunkySacrifices	0
