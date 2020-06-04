@@ -1635,10 +1635,10 @@ garbage tourist	1760	garbagetourist.gif	Atk: 100 Def: 100 HP: 100 E: stench P: e
 horrible tourist family	1759	stenchfamily.gif	Atk: 100 Def: 100 HP: 100 E: stench P: dude Init: -10000 Meat: 250 NOBANISH	expensive camera (15)	filthy child leash (5)	bag of gross foreign snacks (20)
 
 # Pirates of the Garbage Barges (Dinseylandfill April 2015)
-filthy pirate	1761	stinkpirate1.gif	Atk: 150 Def: 150 HP: 100 E: stench P: pirate Init: -10000 NOBANISH	dirty rigging rope (0)	grogpagne (0)	plunge-leg (c0)
-fishy pirate	1763	stinkpirate3.gif	Atk: 150 Def: 150 HP: 100 E: stench P: pirate Init: -10000 NOBANISH	beard incense (0)	perfume-soaked bandana (0)	bucket of fish juice (c0)
-funky pirate	1762	stinkpirate2.gif	Atk: 150 Def: 150 HP: 100 E: stench P: pirate Init: -10000 NOBANISH	nasty snuff (0)	sewage-clogged pistol (0)	funky eyepatch (c0)
-flashy pirate	1764	flashypirate.gif	Atk: 200 Def: 200 HP: 150 E: stench P: construct Init: -10000 NOBANISH	beard incense (0)	dirty rigging rope (0)	grogpagne (0)	nasty snuff (0)	perfume-soaked bandana (0)	sewage-clogged pistol (0)	flashy pirate dreadlocks (c0)
+filthy pirate	1761	stinkpirate1.gif	Atk: 150 Def: 150 HP: 100 E: stench P: pirate Init: -10000 NOBANISH	dirty rigging rope (5)	grogpagne (15)	plunge-leg (c10)
+fishy pirate	1763	stinkpirate3.gif	Atk: 150 Def: 150 HP: 100 E: stench P: pirate Init: -10000 NOBANISH	beard incense (15)	perfume-soaked bandana (5)	bucket of fish juice (c10)
+funky pirate	1762	stinkpirate2.gif	Atk: 150 Def: 150 HP: 100 E: stench P: pirate Init: -10000 NOBANISH	nasty snuff (15)	sewage-clogged pistol (5)	funky eyepatch (c10)
+flashy pirate	1764	flashypirate.gif	Atk: 200 Def: 200 HP: 150 E: stench P: construct Init: -10000 NOBANISH	beard incense (15)	dirty rigging rope (5)	grogpagne (15)	nasty snuff (15)	perfume-soaked bandana (5)	sewage-clogged pistol (5)	flashy pirate dreadlocks (c10)
 
 # Toxic Teacups (Dinseylandfill April 2015)
 toxic beastie	1765	toxbeast1.gif,toxbeast2.gif,toxbeast3.gif,toxbeast4.gif	Scale: [5+55*pref(dinseySafetyProtocolsLoose)] Cap: [11111+11111*pref(dinseySafetyProtocolsLoose)] Floor: 50 Init: -10000 E: stench P: slime	toxic globule (0)	toxic globule (0)	toxic globule (0)
