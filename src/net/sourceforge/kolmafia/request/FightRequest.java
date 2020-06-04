@@ -2956,7 +2956,7 @@ public class FightRequest
 		FightRequest.updateRoundData( macroMatcher );
 
 		// Report combat round to spading manager
-		SpadingManager.processCombatRound( responseText );
+		SpadingManager.processCombatRound( MonsterStatusTracker.getLastMonsterName(), responseText );
 
 		if ( responseText.contains( "Macro Abort" ) ||
 		     responseText.contains( "Macro abort" ) ||

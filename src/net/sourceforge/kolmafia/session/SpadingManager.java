@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.session;
 import java.io.File;
 import java.util.List;
 
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -71,32 +72,39 @@ public class SpadingManager
 		return SpadingManager.getScriptName() != null;
 	}
 
-	public static boolean processCombatRound( final String responseText )
+	public static boolean processCombatRound( final String monsterName, final String responseText )
 	{
-		return SpadingManager.invokeSpadingScript( SpadingEvent.COMBAT_ROUND, responseText );
+		return SpadingManager.invokeSpadingScript( SpadingEvent.COMBAT_ROUND, monsterName, responseText );
 	}
 
 	public static boolean processMeatDrop( final String meatDrop )
 	{
-		return SpadingManager.invokeSpadingScript( SpadingEvent.MEAT_DROP, meatDrop );
+		return SpadingManager.invokeSpadingScript( SpadingEvent.MEAT_DROP, "", meatDrop );
 	}
 
-	public static boolean processConsumeDrink( final String responseText )
+	public static boolean processConsume( final int consumptionType, final String itemName, final String responseText )
 	{
-		return SpadingManager.invokeSpadingScript( SpadingEvent.CONSUME_DRINK, responseText );
+		SpadingEvent event = null;
+
+		switch ( consumptionType )
+		{
+		case KoLConstants.CONSUME_EAT:
+			event = SpadingEvent.CONSUME_EAT;
+			break;
+		case KoLConstants.CONSUME_DRINK:
+			event = SpadingEvent.CONSUME_DRINK;
+			break;
+		case KoLConstants.CONSUME_SPLEEN:
+			event = SpadingEvent.CONSUME_SPLEEN;
+			break;
+		default:
+			return false;
+		}
+
+		return SpadingManager.invokeSpadingScript( event, itemName, responseText );
 	}
 
-	public static boolean processConsumeEat( final String responseText )
-	{
-		return SpadingManager.invokeSpadingScript( SpadingEvent.CONSUME_EAT, responseText );
-	}
-
-	public static boolean processConsumeSpleen( final String responseText )
-	{
-		return SpadingManager.invokeSpadingScript( SpadingEvent.CONSUME_SPLEEN, responseText );
-	}
-
-	private static boolean invokeSpadingScript( final SpadingEvent event, final String responseText )
+	private static boolean invokeSpadingScript( final SpadingEvent event, final String meta, final String responseText )
 	{
 		String scriptName = SpadingManager.getScriptName();
 
@@ -115,9 +123,10 @@ public class SpadingManager
 
 		File scriptFile = scriptFiles.get( 0 );
 
-		Object[] parameters = new Object[2];
+		Object[] parameters = new Object[3];
 		parameters[0] = event.toString();
-		parameters[1] = responseText;
+		parameters[1] = meta;
+		parameters[2] = responseText;
 
 		KoLmafiaASH.logScriptExecution( "Starting spading script: ", scriptFile.getName(), interpreter );
 

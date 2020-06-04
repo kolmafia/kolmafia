@@ -2236,23 +2236,23 @@ public class UseItemRequest
 		}
 
 		int consumptionType = UseItemRequest.getConsumptionType( item );
+
+		SpadingManager.processConsume( consumptionType, item.getDisambiguatedName(), responseText );
+
 		switch ( consumptionType )
 		{
 		case KoLConstants.CONSUME_DRINK:
 		case KoLConstants.CONSUME_DRINK_HELPER:
 			DrinkItemRequest.parseConsumption( item, helper, responseText );
-			SpadingManager.processConsumeDrink( responseText );
 			return;
 
 		case KoLConstants.CONSUME_EAT:
 		case KoLConstants.CONSUME_FOOD_HELPER:
 			EatItemRequest.parseConsumption( item, helper, responseText );
-			SpadingManager.processConsumeEat( responseText );
 			return;
 
 		case KoLConstants.CONSUME_SPLEEN:
 			SpleenItemRequest.parseConsumption( item, helper, responseText );
-			SpadingManager.processConsumeSpleen( responseText );
 			return;
 		}
 
@@ -2260,12 +2260,11 @@ public class UseItemRequest
 
 		// At least one item - the ice stein - is neither a drink nor a
 		// drink helper, but acts like a drink. Delegate.
-
+ 
 		int inebriety = ConsumablesDatabase.getInebriety( name );
 		if ( inebriety > 0 )
 		{
 			DrinkItemRequest.parseConsumption( item, helper, responseText );
-			SpadingManager.processConsumeDrink( responseText );
 			return;
 		}
 
@@ -2273,7 +2272,6 @@ public class UseItemRequest
 		if ( fullness > 0 || itemId == ItemPool.MAGICAL_SAUSAGE )
 		{
 			EatItemRequest.parseConsumption( item, helper, responseText );
-			SpadingManager.processConsumeEat( responseText );
 			return;
 		}
 
@@ -2281,7 +2279,6 @@ public class UseItemRequest
 		if ( spleenHit > 0 )
 		{
 			SpleenItemRequest.parseConsumption( item, helper, responseText );
-			SpadingManager.processConsumeSpleen( responseText );
 			return;
 		}
 
