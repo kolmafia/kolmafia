@@ -13958,6 +13958,8 @@ public abstract class ChoiceManager
 			return;
 		}
 
+		SpadingManager.processChoice( urlString, text );
+
 		if ( text.contains( "charpane.php" ) )
 		{
 			// Since a charpane refresh was requested, a turn might have been spent
@@ -14056,6 +14058,8 @@ public abstract class ChoiceManager
 			ChoiceManager.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( request.getURLString(), text );
 			return;
 		}
+
+		SpadingManager.processChoiceVisit( ChoiceManager.lastChoice, text );
 
 		// Must do this BEFORE we decorate the response text
 		ChoiceManager.setCanWalkAway( ChoiceManager.lastChoice );
