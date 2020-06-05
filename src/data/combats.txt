@@ -321,17 +321,17 @@ The Gourd!	100	tin can conspirator	goblin conspirator	spider conspirator	canned 
 The Haiku Dungeon	90	amateur ninja	ancient insane monk	ferocious bugbear	gelatinous cube	Knob Goblin poseur
 The Hallowed Halls	100	sporto	wastoid	dweebie	motorhead
 The Hatching Chamber	100	larval filthworm
-The Haunted Ballroom	80	floating platter of hors d'oeuvres	ghastly organist: 0	zombie waltzers	tapdancing skeleton
-The Haunted Bathroom	75	claw-foot bathtub	malevolent hair clog	toilet papergeist	Guy Made Of Bees: 0	cosmetics wraith: 0
+The Haunted Ballroom	90	floating platter of hors d'oeuvres	ghastly organist: 0	zombie waltzers	tapdancing skeleton
+The Haunted Bathroom	90	claw-foot bathtub	malevolent hair clog	toilet papergeist	Guy Made Of Bees: 0	cosmetics wraith: 0
 The Haunted Bedroom	-1	Wardr&ouml;b nightstand	animated mahogany nightstand	animated ornate nightstand	animated rustic nightstand	elegant animated nightstand	remains of a jilted mistress: 0
-The Haunted Billiards Room	100	chalkdust wraith	pooltergeist	hustled spectre: 0	pooltergeist (ultra-rare): -1
+The Haunted Billiards Room	85	chalkdust wraith	pooltergeist	hustled spectre: 0	pooltergeist (ultra-rare): -1
 The Haunted Boiler Room	-1	coaltergeist	monstrous boiler	steam elemental	Bram the Stoker: 0
 The Haunted Conservatory	100	anglerbush	confused goth music student	man-eating plant	skeletal cat	skeletal hamster	skeletal monkey	The ghost of Lord Montague Spookyraven: 0
-The Haunted Gallery	80	guy with a pitchfork, and his wife	cubist bull	empty suit of armor	knight (Snake): 0	knight (Wolf): 0	ghost of Elizabeth Spookyraven: 0	The ghost of Waldo the Carpathian: 0
+The Haunted Gallery	90	guy with a pitchfork, and his wife	cubist bull	empty suit of armor	knight (Snake): 0	knight (Wolf): 0	ghost of Elizabeth Spookyraven: 0	The ghost of Waldo the Carpathian: 0
 The Haunted Kitchen	100	demonic icebox	paper towelgeist	possessed silverware drawer	skullery maid	zombie chef	The Icewoman: 0
 The Haunted Laboratory	-1	Jacob's adder	model skeleton	the gunk	Stephen Spookyraven: 0
 The Haunted Laundry Room	-1	cabinet of Dr. Limpieza	plaid ghost	possessed laundry press
-The Haunted Library	75	banshee librarian	bookbat	writing desk
+The Haunted Library	85	banshee librarian	bookbat	writing desk
 The Haunted Nursery	-1	creepy doll	possessed toy chest	spooky music box
 The Haunted Pantry	80	possessed can of tomatoes	fiendish can of asparagus	flame-broiled meat blob: 1o	overdone flame-broiled meat blob: 1e	undead elbow macaroni
 The Haunted Sorority House	-1	sexy sorority ghost	sexy sorority skeleton	sexy sorority vampire	sexy sorority werewolf	sexy sorority zombie
