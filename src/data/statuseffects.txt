@@ -672,7 +672,7 @@
 670
 671	Finstrong	sharkfin.gif	b5d70211928b246813b3180d445d4d4c	good	nohookah	skate comet
 672	Busker Do	sanddollar.gif	c240d44cd36c02e344e8a9d7bdc354ea	neutral	none	skate band shell
-673	Familial Ties	ties.gif	6b328c67b22420567accd3a9b6424ad8	good	nohookah	skate eels
+673	Familial Ties	ties.gif	6b328c67b22420567accd3a9b6424ad8	good	none	skate eels
 674	Swimming Head	loop.gif	8626f8671845ddcf2758099d159f4cbd	good	none	skate merry-go-round
 675	Existential Torment	confused.gif	923a6a502a859e5b7946af1228f18764	neutral	none	summon 8
 676	Spangled Star	tinystars.gif	c369319642dfc3e85b43bbd33a587069	neutral	none	use 1 groupie spangles
@@ -1341,7 +1341,7 @@
 1339	Nerd is the Word	nerdint.gif	e45f7eeddd4f3afe1c4883d8d98c6d33	good	nohookah	# using Mysticality combat skills in The Hallowed Halls
 1340	Greaser Lightnin'	greaserint.gif	43060d043c807a8717c216f19e4a5b73	good	nohookah	# using Moxie combat skills in The Hallowed Halls
 1341	Ogred and Oublietted	oandomodule.gif	4859a8d90141d3bbfdc62d8acdc1f923	good	none	use 1 Ogres and Oubliettes&trade; module
-1342	Slicked-Back Do	greaserint.gif	f9c4145cc96ab8b3479d3eb88696da8b	good	nohookah	use 1 hair oil
+1342	Slicked-Back Do	greaserint.gif	f9c4145cc96ab8b3479d3eb88696da8b	good	none	use 1 hair oil
 1343	Armor-Plated	scrapmetal.gif	af863a714dd04140f2d4efdaa64d57d5	good	none	use 1 scrap metal
 1344	Uncaged Power	faraday.gif	42a059ec52faec3eae460b5290f38b0f	good	none	# rollover effect from Giant Faraday Cage
 1345	Truthful	angry.gif	91efff803038276ed174097fcbf3f0c2	neutral	none	use 1 sodium pentasomething
@@ -1608,7 +1608,7 @@
 1606	Human-Constellation Hybrid	dna.gif	27ec1336404210e9257b5054c59ae624	good	none	use 1 Gene Tonic: Constellation
 1607	Human-Hobo Hybrid	dna.gif	c902209f9a321a70cfcb822c2a7411ee	good	none	use 1 Gene Tonic: Hobo
 1608	Spookyravin'	potion6.gif	07ca1f54611227fd3b2568a101d1f43b	good	none	use 1 Stephen's secret formula
-1609	Dancin' Fool	dancingshoes.gif	57f460f9d9ae98f086c984a6491e3386	good	nohookah	# choosing The Dance Class at The Haunted Gallery after first time
+1609	Dancin' Fool	dancingshoes.gif	57f460f9d9ae98f086c984a6491e3386	good	none	# choosing The Dance Class at The Haunted Gallery after first time
 1610	Swordholder	swords.gif	d8cd2af4589547387589ba03454d442a	good	none	# choosing Oath of the Horatii at The Haunted Gallery
 1611	Is This Your Card?	carddeck.gif	96279d2043979e41a7fa0cfde64f4c9a	good	none	# choosing Witches' Sabbath at The Haunted Gallery
 1612	Sleight of Mind	sleightshroom.gif	a58bb0f5431e4b3a83ac5fcbe74b8959	neutral	none	use 1 sleight-of-hand mushroom
@@ -2431,7 +2431,7 @@
 2429	Boxing Day Breakfast	eggglass.gif	82b912ba7b550e00e6529772bca864c2	good	nohookah	eat 1 glass of raw eggs
 2430	Boxing Day Drinking	boxingpunch.gif	8c721354cb390dbdac0f9a7a75c2c5e5	good	nohookah	drink 1 punch-drunk punch
 2431	Boxing Day Glow	boxingspray.gif	e09d89ad6b19f75a8fd3c5524c925b72	good	nohookah	chew 1 body spradium
-2432	Muddled	honeyglob.gif	e1657d0f246533ee1c465c16aa4ecd8e	neutral	none	daycare muscle
+2432	Muddled	honeyglob.gif	e1657d0f246533ee1c465c16aa4ecd8e	good	none	daycare muscle
 2433	Uncucumbered	gash.gif	569272fa0c2817e352e809107c311669	good	none	daycare mysticality
 2434	Ten out of Ten	nicenail.gif	bced94ef5dc8f51e25ab354f4c3e7a48	good	none	daycare moxie
 2435	Flagrantly Fragrant	scentedcandle.gif	e6bdedcd75e40108d4aa649f250cb78d	good	none	daycare regen
@@ -2499,15 +2499,15 @@
 2497	Just Like Me, They Want to Be	soupbowl.gif	ace65aa58faa1e731ee0bfdb07fa3871	good	none	eat 1 campfire stew
 2498	Coffee Achiever	coffeecup.gif	df349ed07a74d9ff6e00d794d0ae9f50	good	none	eat 1 campfire coffee
 2499	That's Just Cloud-Talk, Man	puff.gif	0e4df48fbd74c17071e74bda5d337161	good	nohookah
-2500	Smile of the Mongoose	const1.gif	53db113a18633034025164e78b76c510	good	nohookah
-2501	Smile of the Wallaby	const2.gif	cddee20a242185001f832c863235619a	good	nohookah
-2502	Smile of the Vole	const3.gif	3138897dbdb3fef8bdac982c8b146b2f	good	nohookah
-2503	Smile of the Platypus	const4.gif	d51097292995fe2fab7f7ba8406e1221	good	nohookah
-2504	Smile of the Opossum	const5.gif	a5ec2ad150c0f82c1b5d8eedc915f0d2	good	nohookah
-2505	Smile of the Marmot	const6.gif	b9779ab75ed2d3236e14f938e7f8f97e	good	nohookah
-2506	Smile of the Wombat	const7.gif	d18213568e8d1ebce441999e3016f160	good	nohookah
-2507	Smile of the Blender	const8.gif	64bc68fc99828b49785f8dc1eab613f8	good	nohookah
-2508	Smile of the Packrat	const9.gif	d725eebccdc585f9b547fcbf01fa6add	good	nohookah
+2500	Smile of the Mongoose	const1.gif	53db113a18633034025164e78b76c510	good	none
+2501	Smile of the Wallaby	const2.gif	cddee20a242185001f832c863235619a	good	none
+2502	Smile of the Vole	const3.gif	3138897dbdb3fef8bdac982c8b146b2f	good	none
+2503	Smile of the Platypus	const4.gif	d51097292995fe2fab7f7ba8406e1221	good	none
+2504	Smile of the Opossum	const5.gif	a5ec2ad150c0f82c1b5d8eedc915f0d2	good	none
+2505	Smile of the Marmot	const6.gif	b9779ab75ed2d3236e14f938e7f8f97e	good	none
+2506	Smile of the Wombat	const7.gif	d18213568e8d1ebce441999e3016f160	good	none
+2507	Smile of the Blender	const8.gif	64bc68fc99828b49785f8dc1eab613f8	good	none
+2508	Smile of the Packrat	const9.gif	d725eebccdc585f9b547fcbf01fa6add	good	none
 2509	Big Smile of the Mongoose	const1.gif	ecc5dda83b98f3daf129a511ec1f8fb9	good	nohookah
 2510	Big Smile of the Wallaby	const2.gif	d5cf7710a84d8977d51e574432459ae5	good	nohookah
 2511	Big Smile of the Vole	const3.gif	382c3c5599435b72ae4b8d07f0d05222	good	nohookah
@@ -2560,16 +2560,16 @@
 2558	Warmed Up	mario_juggle.gif	9fea199e3a5fd92b82e46f9e0ecc203c	neutral	none
 2559	Heated Up	mario_juggle.gif	7ff2479058ced96de968b27a32df19e1	good	none
 2560	Half-Sized	mario_halfsize.gif	a2e799db00f83234a97fe1ab9d38ee88	bad	none
-2561	Fizzy Fizzy	mario_soda.gif	8e2c240a3b8a8330268136b316d334d4	neutral	none	use 1 fizzy soda
+2561	Fizzy Fizzy	mario_soda.gif	8e2c240a3b8a8330268136b316d334d4	good	none	use 1 fizzy soda
 2562	Juicy Health	mario_juice.gif	e2504ca258d4680a65dfd5e17a86585c	good	none	use 1 healthy juice
 2563	Blooper Inked	mario_ink.gif	e63d22a94a7e60c5b1c4e4b5383b64cd	neutral	none	use 1 blooper ink
 2564
 2565	Mushed	gmush4.gif	54a72761df9d08794b38a0692ba22e18	neutral	none
 2566	Piranha Power	piranhaplant.gif	3d155e040e97f6c33724872265b5d243	good	none	use 1 piranha pollen
 2567	Mush-Maw	gmush3.gif	4bc3e6784775746fae40f1f019dd0ec0	neutral	none	chew 1 mushroom tea
-2568	On the Rocks	iceorb.gif	b460c98d02897446bc487d69855dceb9	neutral	none	drink 1 Ghiaccio Colada
-2569	Touched	fingerdrink.gif	29c659a6ece1b7cf85432905b6b946b9	neutral	none	drink 1 Sourfinger
-2570	Sulfurous Sinuses	jarl_egg.gif	a962cc494b0d078eea5525b36c84c497	neutral	none	drink 1 Nog-on-the-Cob
-2571	Steamed	stench.gif	4ec1356a4339c91dc2ac87b7d29d7b41	neutral	none	drink 1 Steamboat
-2572	Buttery, Boy	butterdrink.gif	a439ede8c90a1dc9c568eaad244d6757	neutral	none	drink 1 Buttery Boy
+2568	On the Rocks	iceorb.gif	b460c98d02897446bc487d69855dceb9	good	none	drink 1 Ghiaccio Colada
+2569	Touched	fingerdrink.gif	29c659a6ece1b7cf85432905b6b946b9	good	none	drink 1 Sourfinger
+2570	Sulfurous Sinuses	jarl_egg.gif	a962cc494b0d078eea5525b36c84c497	good	none	drink 1 Nog-on-the-Cob
+2571	Steamed	stench.gif	4ec1356a4339c91dc2ac87b7d29d7b41	good	none	drink 1 Steamboat
+2572	Buttery, Boy	butterdrink.gif	a439ede8c90a1dc9c568eaad244d6757	good	none	drink 1 Buttery Boy
 2573	Extra Spongy	marshroom.gif	6ee0a39cfe8c7b65a83965deaead1e11	neutral	none	use 1 marshroom
