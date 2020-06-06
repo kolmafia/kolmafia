@@ -402,7 +402,7 @@ public class LoginRequest
 
 		if ( LoginRequest.isTimingIn )
 		{
-			KoLmafia.timein( name );
+			LoginManager.timein( name );
 		}
 		else
 		{
