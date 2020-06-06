@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
@@ -87,14 +88,50 @@ public class LoginManager
 		}
 	}
 
-	private static void doLogin( String name )
+	public static final void timein( final String username )
+	{
+		// See if we are timing in across rollover.
+		// api.php has rollover time in it
+		RequestThread.postRequest( new ApiRequest( "status" ) );
+
+		// Assume if rollover has changed by an hour, it is a new rollover.
+		// Time varies slightly between servers by a few seconds.
+		long lastRollover = Preferences.getLong( "lastCounterDay" );
+		long newRollover = KoLCharacter.getRollover();
+		if ( ( newRollover - lastRollover  ) > 3600 )
+		{
+			// This is the first login after rollover.
+			// Treat it as a full login
+			LoginManager.login( username );
+			return;
+		}
+
+		// Save the current user settings to disk
+		Preferences.reset( null );
+
+		// Reload the current user's preferences
+		Preferences.reset( username );
+
+		// Close existing session log and reopen it
+		RequestLogger.closeSessionLog();
+		RequestLogger.openSessionLog();
+
+		// The password hash changes for each session
+		PasswordHashRequest request = new PasswordHashRequest( "lchat.php" );
+		RequestThread.postRequest( request );
+
+		// Some things aren't properly set by KoL until main.php is loaded
+		RequestThread.postRequest( new GenericRequest( "main.php" ) );
+	}
+
+	private static void doLogin( String username )
 	{
 		LoginRequest.isLoggingIn( true );
 
 		try
 		{
 			ConcoctionDatabase.deferRefresh( true );
-			LoginManager.initialize( name );
+			LoginManager.initialize( username );
 		}
 		finally
 		{
@@ -119,7 +156,7 @@ public class LoginManager
 			SVNManager.doUpdate();
 		}
 
-		if ( Preferences.getBoolean( name, "getBreakfast" ) )
+		if ( Preferences.getBoolean( username, "getBreakfast" ) )
 		{
 			int today = HolidayDatabase.getPhaseStep();
 			BreakfastManager.getBreakfast( Preferences.getInteger( "lastBreakfast" ) != today );
@@ -224,7 +261,7 @@ public class LoginManager
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "log", "snapshot" );
 		}
 
-		// If the password hash is non-null, then that means you
+		// If the password hash is empty, then that means you
 		// might be mid-transition.
 
 		if ( GenericRequest.passwordHash.equals( "" ) )
@@ -251,25 +288,24 @@ public class LoginManager
 			KoLmafiaGUI.constructFrame( "LocalRelayServer" );
 		}
 
-		String updateText;
-
-		String holiday = HolidayDatabase.getHoliday( true );
-		String moonEffect = HolidayDatabase.getMoonEffect();
-
-		if ( holiday.equals( "" ) )
-		{
-			updateText = moonEffect;
-		}
-		else
-		{
-			updateText = holiday + ", " + moonEffect;
-		}
-
-		KoLmafia.updateDisplay( updateText );
+		LoginManager.showCurrentHoliday();
 
 		if ( MailManager.hasNewMessages() )
 		{
 			KoLmafia.updateDisplay( "You have new mail." );
 		}
 	}
+
+	public static void showCurrentHoliday()
+	{
+		String holiday = HolidayDatabase.getHoliday( true );
+		String moonEffect = HolidayDatabase.getMoonEffect();
+		String updateText =
+			( holiday.equals( "" ) ) ?
+			moonEffect :
+			holiday + ", " + moonEffect;
+
+		KoLmafia.updateDisplay( updateText );
+	}
+
 }

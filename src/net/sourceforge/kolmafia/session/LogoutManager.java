@@ -174,13 +174,17 @@ public class LogoutManager
 		BuffBotHome.setBuffBotActive( false );
 		ChatManager.dispose();
 
-		// Run on-logout scripts
-
-		String scriptSetting = Preferences.getString( "logoutScript" );
-		if ( !scriptSetting.equals( "" ) )
+		// It we submitted a request during rollover, we are already
+		// logged out and cannot do game actions
+		if ( GenericRequest.sessionId != null )
 		{
-			KoLmafia.updateDisplay( "Executing logout script..." );
-			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
+			// Run on-logout scripts
+			String scriptSetting = Preferences.getString( "logoutScript" );
+			if ( !scriptSetting.equals( "" ) )
+			{
+				KoLmafia.updateDisplay( "Executing logout script..." );
+				KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
+			}
 		}
 
 		if ( Preferences.getBoolean( "sharePriceData" ) )

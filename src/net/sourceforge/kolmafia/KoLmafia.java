@@ -96,6 +96,7 @@ import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
+import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
@@ -112,6 +113,7 @@ import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.InternalChatRequest;
+import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.PeeVPeeRequest;
@@ -137,6 +139,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.LightsOutManager;
 import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.session.LogoutManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
@@ -660,37 +663,7 @@ public abstract class KoLmafia
 
 		StaticEntity.setContinuationState( MafiaState.CONTINUE );
 	}
-
-	public static final void timein( final String name )
-	{
-		// Save the current user settings to disk
-		Preferences.reset( null );
-
-		// Load the JSON string first, so we can use it, if necessary.
-		ActionBarManager.loadJSONString();
-
-		// Reload the current user's preferences
-		Preferences.reset( name );
-
-		// The password hash changes for each session
-		GenericRequest.passwordHash = "";
-		PasswordHashRequest request = new PasswordHashRequest( "lchat.php" );
-		RequestThread.postRequest( request );
-
-		// Just in case it's a new day...
-
-		// Close existing session log and reopen it
-		RequestLogger.closeSessionLog();
-		RequestLogger.openSessionLog();
-
-		// Some things aren't properly set by KoL until main.php is loaded
-		RequestThread.postRequest( new GenericRequest( "main.php" ) );
-
-		// Get current moon phases
-		RequestThread.postRequest( new MoonPhaseRequest() );
-		KoLCharacter.setHoliday( HolidayDatabase.getHoliday() );
-	}
-
+ 
 	public static final void resetCounters()
 	{
 		Preferences.setLong( "lastCounterDay", KoLCharacter.getRollover() );
