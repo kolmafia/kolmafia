@@ -673,9 +673,10 @@ public class AdventureRequest
 
 		// Disambiguate via responseText, if possible
 		encounter = ConsequenceManager.disambiguateMonster( encounter, responseText );
-		if ( MonsterDatabase.findMonster( encounter ) != null )
+		MonsterData monster = MonsterDatabase.findMonster( encounter );
+		if ( monster != null )
 		{
-			return encounter;
+			return monster.getName();
 		}
 
 		// LT&T monsters can have different names
@@ -760,7 +761,7 @@ public class AdventureRequest
 			break;
 		}
 
-		MonsterData monster = MonsterDatabase.findMonsterByImage( image );
+		monster = MonsterDatabase.findMonsterByImage( image );
 
 		if ( monster != null )
 		{

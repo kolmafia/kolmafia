@@ -631,11 +631,25 @@ public class MonsterDatabase
 	{
 		// Look for case-sensitive exact match
 		String keyName = CombatActionManager.encounterKey( name, false );
-		MonsterData match = (MonsterData) MonsterDatabase.MONSTER_DATA.get( keyName );
+		MonsterData match = MonsterDatabase.MONSTER_DATA.get( keyName );
 
 		if ( match != null )
 		{
 			return match;
+		}
+
+		// If we are looking for an exact match, try again with "the"
+		// or "The" removed from the front; there are plenty of monsters
+		// with either of those - and CombatActionManager.encounterKey
+		// therefore does not remove them - but KoL sometimes includes such.
+		if ( !trySubstrings && matchCase )
+		{
+			if ( keyName.startsWith( "the " ) ||
+			     keyName.startsWith( "The " ) )
+			{
+				return MonsterDatabase.MONSTER_DATA.get( keyName.substring( 4 ) );
+			}
+			return null;
 		}
 
 		// Look for case-sensitive fuzzy match
