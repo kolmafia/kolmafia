@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AscensionPath;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -490,131 +492,13 @@ public class AfterLifeRequest
 			{
 				return true;
 			}
-			int path = StringUtilities.parseInt( m.group( 1 ) );
+
+			int pathId = StringUtilities.parseInt( m.group( 1 ) );
+			Path path = AscensionPath.idToPath( pathId );
 
 			builder.append( " on " );
-
-			switch ( path )
-			{
-			case 0:
-				builder.append( "no" );
-				break;
-			case 1:
-				builder.append( "a Boozetafarians" );
-				break;
-			case 2:
-				builder.append( "a Teetotaler" );
-				break;
-			case 3:
-				builder.append( "an Oxygenarian" );
-				break;
-			case 4:
-				builder.append( "a Bees Hate You" );
-				break;
-			case 6:
-				builder.append( "a Way of the Surprising Fist" );
-				break;
-			case 7:
-				builder.append( "a Trendy" );
-				break;
-			case 8:
-				builder.append( "an Avatar of Boris" );
-				break;
-			case 9:
-				builder.append( "a Bugbear Invasion" );
-				break;
-			case 10:
-				builder.append( "a Zombie Slayer" );
-				break;
-			case 11:
-				builder.append( "a Class Act" );
-				break;
-			case 12:
-				builder.append( "an Avatar of Jarlsberg" );
-				break;
-			case 14:
-				builder.append( "a BIG!" );
-				break;
-			case 15:
-				builder.append( "a KOLHS" );
-				break;
-			case 16:
-				builder.append( "a Class Act II: A Class For Pigs" );
-				break;
-			case 17:
-				builder.append( "an Avatar of Sneaky Pete" );
-				break;
-			case 18:
-				builder.append( "a Slow and Steady" );
-				break;
-			case 19:
-				builder.append( "a Heavy Rains" );
-				break;
-			case 21:
-				builder.append( "a Picky" );
-				break;
-			case 22:
-				builder.append( "the Standard" );
-				break;
-			case 23:
-				builder.append( "an Actually Ed the Undying" );
-				break;
-			case 24:
-				builder.append( "the One Crazy Random Summer" );
-				break;
-			case 25:
-				builder.append( "a Community Service" );
-				break;
-			case 26:
-				builder.append( "an Avatar of West of Loathing" );
-				break;
-			case 27:
-				builder.append( "a The Source" );
-				break;
-			case 28:
-				builder.append( "a Nuclear Autumn" );
-				break;
-			case 29:
-				builder.append( "a Gelatinous Noob" );
-				break;
-			case 30:
-				builder.append( "a License to Adventure" );
-				break;
-			case 31:
-				builder.append( "a Live. Ascend. Repeat." );
-				break;
-			case 32:
-				builder.append( "a Pocket Familiars" );
-				break;
-			case 33:
-				builder.append( "a G-Lover" );
-				break;
-			case 34:
-				builder.append( "a Disguises Delimit" );
-				break;
-			case 35:
-				builder.append( "a Dark Gyffte" );
-				break;
-			case 36:
-				builder.append( "a Two Crazy Random Summer" );
-				break;
-			case 37:
-				builder.append( "a Kingdom of Exploathing" );
-				break;
-			case 38:
-				builder.append( "a Path of the Plumber" );
-				break;
-			case 39:
-				builder.append( "a Low Key Summer" );
-				break;
-			default:
-				builder.append( "(Path " );
-				builder.append( String.valueOf( path ) );
-				builder.append( ")" );
-				break;
-			}
-
-			builder.append( " path," );
+			builder.append( path.description() );
+			builder.append( "," );
 
 			builder.append( " banking " );
 			builder.append( String.valueOf( karma ) );

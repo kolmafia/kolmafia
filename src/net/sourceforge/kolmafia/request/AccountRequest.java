@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AscensionPath;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -530,15 +532,15 @@ public class AccountRequest
 			if ( location.contains( "unpathconfirm=1" ) )
 			{
 				// Dropping challenge path
-				String oldPath = KoLCharacter.getPath();
-				KoLCharacter.setPath( "None" );
+				Path oldPath = KoLCharacter.getPath();
+				KoLCharacter.setPath( Path.NONE );
 				RequestLogger.updateSessionLog();
 				RequestLogger.updateSessionLog( "Dropped " + oldPath );
 				RequestLogger.updateSessionLog();
 
 				// If we were in Beecore, we need to check the Telescope again
 				// Ditto for Bugbear Invasion
-				if ( oldPath.equals( "Bees Hate You" ) || oldPath.equals( "Bugbear Invasion" ) )
+				if ( oldPath == Path.BEES_HATE_YOU || oldPath == Path.BUGBEAR_INVASION )
 				{
 					Preferences.setInteger( "lastTelescopeReset", -1 );
 					KoLCharacter.checkTelescope();
@@ -605,155 +607,8 @@ public class AccountRequest
 		String sign = JSON.getString( "sign" );
 		KoLCharacter.setSign( sign );
 
-		String path = JSON.getString( "path" );
-		if ( path.equals( "0" ) )
-		{
-			path = "None";
-		}
-		else if ( path.equals( "1" ) )
-		{
-			path = "Boozetafarian";
-		}
-		else if ( path.equals( "2" ) )
-		{
-			path = "Teetotaler";
-		}
-		else if ( path.equals( "3" ) )
-		{
-			path = "Oxygenarian";
-		}
-		else if ( path.equals( "4" ) )
-		{
-			path = "Bees Hate You";
-		}
-		else if ( path.equals( "6" ) )
-		{
-			path = "Way of the Surprising Fist";
-		}
-		else if ( path.equals( "7" ) )
-		{
-			path = "Trendy";
-		}
-		else if ( path.equals( "8" ) )
-		{
-			path = "Avatar of Boris";
-		}
-		else if ( path.equals( "9" ) )
-		{
-			path = "Bugbear Invasion";
-		}
-		else if ( path.equals( "10" ) )
-		{
-			path = "Zombie Slayer";
-		}
-		else if ( path.equals( "11" ) )
-		{
-			path = "Class Act";
-		}
-		else if ( path.equals( "12" ) )
-		{
-			path = "Avatar of Jarlsberg";
-		}
-		else if ( path.equals( "14" ) )
-		{
-			path = "BIG!";
-		}
-		else if ( path.equals( "15" ) )
-		{
-			path = "KOLHS";
-		}
-		else if ( path.equals( "16" ) )
-		{
-			path = "Class Act II: A Class For Pigs";
-		}
-		else if ( path.equals( "17" ) )
-		{
-			path = "Avatar of Sneaky Pete";
-		}
-		else if ( path.equals( "18" ) )
-		{
-			path = "Slow and Steady";
-		}
-		else if ( path.equals( "19" ) )
-		{
-			path = "Heavy Rains";
-		}
-		else if ( path.equals( "21" ) )
-		{
-			path = "Picky";
-		}
-		else if ( path.equals( "22" ) )
-		{
-			path = "Standard";
-		}
-		else if ( path.equals( "23" ) )
-		{
-			path = "Actually Ed the Undying";
-		}
-		else if ( path.equals( "24" ) )
-		{
-			path = "One Crazy Random Summer";
-		}
-		else if ( path.equals( "25" ) )
-		{
-			path = "Community Service";
-		}
-		else if ( path.equals( "26" ) )
-		{
-			path = "Avatar of West of Loathing";
-		}
-		else if ( path.equals( "27" ) )
-		{
-			path = "The Source";
-		}
-		else if ( path.equals( "28" ) )
-		{
-			path = "Nuclear Autumn";
-		}
-		else if ( path.equals( "29" ) )
-		{
-			path = "Gelatinous Noob";
-		}
-		else if ( path.equals( "30" ) )
-		{
-			path = "License to Adventure";
-		}
-		else if ( path.equals( "31" ) )
-		{
-			path = "Live. Ascend. Repeat.";
-		}
-		else if ( path.equals( "32" ) )
-		{
-			path = "Pocket Familiars";
-		}
-		else if ( path.equals( "33" ) )
-		{
-			path = "G-Lover";
-		}
-		else if ( path.equals( "34" ) )
-		{
-			path = "Disguises Delimit";
-		}
-		else if ( path.equals( "35" ) )
-		{
-			path = "Dark Gyffte";
-		}
-		else if ( path.equals( "36" ) )
-		{
-			path = "Two Crazy Random Summer";
-		}
-		else if ( path.equals( "37" ) )
-		{
-			path = "Kingdom of Exploathing";
-		}
-		else if ( path.equals( "38" ) )
-		{
-			path = "Path of the Plumber";
-		}
-		else if ( path.equals( "39" ) )
-		{
-			path = "Low Key Summer";
-		}
+		int pathId = JSON.getInt( "path" );
+		Path path = AscensionPath.idToPath( pathId );
 		KoLCharacter.setPath( path );
 
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1 || sign.equals( "Bad Moon" );

@@ -48,6 +48,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -320,7 +321,7 @@ public class MonsterDatabase
 		MonsterDatabase.addMapping( plumberMap, "The Big Wisniewski", 2172 );
 		MonsterDatabase.addMapping( plumberMap, "The Man", 2173 );
 		MonsterDatabase.addMapping( plumberMap, "Naughty Sorceress", "Wa%playername/lowercase%" );
-		MonsterDatabase.MONSTER_PATH_MAP.put( KoLCharacter.PATH_OF_THE_PLUMBER, plumberMap );
+		MonsterDatabase.MONSTER_PATH_MAP.put( Path.PATH_OF_THE_PLUMBER.getName(), plumberMap );
 
 		Map<MonsterData, MonsterData> darkGyffteMap = new TreeMap<>();
 		MonsterDatabase.addMapping( darkGyffteMap, "Boss Bat", "Steve Belmont" );
@@ -334,7 +335,7 @@ public class MonsterDatabase
 		MonsterDatabase.addMapping( darkGyffteMap, "The Man", "Chad Alacarte" );
 		MonsterDatabase.addMapping( darkGyffteMap, "Your Shadow", "Your Lack of Reflection" );
 		MonsterDatabase.addMapping( darkGyffteMap, "Naughty Sorceress", "%alucard%" );
-		MonsterDatabase.MONSTER_PATH_MAP.put( KoLCharacter.DARK_GYFFTE, darkGyffteMap );
+		MonsterDatabase.MONSTER_PATH_MAP.put( Path.DARK_GYFFTE.getName(), darkGyffteMap );
 
 		Map<MonsterData, MonsterData> pocketFamiliarsMap = new TreeMap<>();
 		// These are all "Jerry Bradford"
@@ -348,7 +349,7 @@ public class MonsterDatabase
 		MonsterDatabase.addMapping( pocketFamiliarsMap, "The Big Wisniewski", 2057 );
 		MonsterDatabase.addMapping( pocketFamiliarsMap, "The Man", 2058 );
 		MonsterDatabase.addMapping( pocketFamiliarsMap, "Naughty Sorceress", 2059 );
-		MonsterDatabase.MONSTER_PATH_MAP.put( KoLCharacter.POKEFAM, pocketFamiliarsMap );
+		MonsterDatabase.MONSTER_PATH_MAP.put( Path.POKEFAM.getName(), pocketFamiliarsMap );
 
 		Map<MonsterData, MonsterData> heavyRainsMap = new TreeMap<>();
 		MonsterDatabase.addMapping( heavyRainsMap, "Boss Bat", "Aquabat" );
@@ -361,7 +362,7 @@ public class MonsterDatabase
 		MonsterDatabase.addMapping( heavyRainsMap, "The Big Wisniewski", "Big Wisnaqua" );
 		MonsterDatabase.addMapping( heavyRainsMap, "The Man", "The Aquaman" );
 		MonsterDatabase.addMapping( heavyRainsMap, "Naughty Sorceress", "The Rain King" );
-		MonsterDatabase.MONSTER_PATH_MAP.put( KoLCharacter.HEAVY_RAINS, heavyRainsMap );
+		MonsterDatabase.MONSTER_PATH_MAP.put( Path.HEAVY_RAINS.getName(), heavyRainsMap );
 
 		Map<MonsterData, MonsterData> actuallyEdMap = new TreeMap<>();
 		MonsterDatabase.addMapping( actuallyEdMap, "Boss Bat", "Boss Bat?" );
@@ -369,7 +370,7 @@ public class MonsterDatabase
 		MonsterDatabase.addMapping( actuallyEdMap, "Bonerdagon", "Donerbagon" );
 		MonsterDatabase.addMapping( actuallyEdMap, "Groar", "Your winged yeti" );
 		MonsterDatabase.addMapping( actuallyEdMap, "Naughty Sorceress", "You the Adventurer" );
-		MonsterDatabase.MONSTER_PATH_MAP.put( KoLCharacter.ACTUALLY_ED_THE_UNDYING, actuallyEdMap );
+		MonsterDatabase.MONSTER_PATH_MAP.put( Path.ACTUALLY_ED_THE_UNDYING.getName(), actuallyEdMap );
 
 	}
 

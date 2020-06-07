@@ -44,6 +44,7 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
@@ -156,39 +157,10 @@ public abstract class KoLCharacter
 	public static final String COWPUNCHER = "Cow Puncher";
 	public static final String BEANSLINGER = "Beanslinger";
 	public static final String SNAKE_OILER = "Snake Oiler";
+	public static final String ZOMBIE_SLAYER = "Zombie Slayer";
+	public static final String GELATINOUS_NOOB = "Gelatinous Noob";
 	public static final String VAMPYRE = "Vampyre";
 	public static final String PLUMBER = "Plumber";
-
-	// Paths
-	public static final String BEES_HATE_YOU = "Bees Hate You";
-	public static final String SURPRISING_FIST = "Way of the Surprising Fist";
-	public static final String TRENDY = "Trendy";
-	public static final String BUGBEAR_INVASION = "Bugbear Invasion";
-	public static final String ZOMBIE_SLAYER = "Zombie Slayer";
-	public static final String CLASS_ACT = "Class Act";
-	public static final String BIG = "BIG!";
-	public static final String KOLHS = "KOLHS";
-	public static final String CLASS_ACT_II = "Class Act II: A Class For Pigs";
-	public static final String SLOW_AND_STEADY = "Slow and Steady";
-	public static final String HEAVY_RAINS = "Heavy Rains";
-	public static final String PICKY = "Picky";
-	public static final String ACTUALLY_ED_THE_UNDYING = "Actually Ed the Undying";
-	public static final String CRAZY_RANDOM = "One Crazy Random Summer";
-	public static final String COMMUNITY_SERVICE = "Community Service";
-	public static final String WEST_OF_LOATHING = "Avatar of West of Loathing";
-	public static final String THE_SOURCE = "The Source";
-	public static final String NUCLEAR_AUTUMN = "Nuclear Autumn";
-	public static final String GELATINOUS_NOOB = "Gelatinous Noob";
-	public static final String LICENSE = "License to Adventure";
-	public static final String LIVE_ASCEND_REPEAT = "Live. Ascend. Repeat.";
-	public static final String POKEFAM = "Pocket Familiars";
-	public static final String GLOVER = "G-Lover";
-	public static final String DISGUISES_DELIMIT = "Disguises Delimit";
-	public static final String DARK_GYFFTE = "Dark Gyffte";
-	public static final String CRAZY_RANDOM_TWO = "Two Crazy Random Summer";
-	public static final String KINGDOM_OF_EXPLOATHING = "Kingdom of Exploathing";
-	public static final String PATH_OF_THE_PLUMBER = "Path of the Plumber";
-	public static final String LOWKEY = "Low Key Summer";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
@@ -363,7 +335,7 @@ public abstract class KoLCharacter
 	private static int ascensionSignIndex = 0;
 	private static ZodiacType ascensionSignType = ZodiacType.NONE;
 	private static ZodiacZone ascensionSignZone = ZodiacZone.NONE;
-	private static String ascensionPath = NONE;
+	private static Path ascensionPath = Path.NONE;
 	private static int consumptionRestriction = AscensionSnapshot.NOPATH;
 
 	// Things which can change over the course of playing
@@ -590,7 +562,7 @@ public abstract class KoLCharacter
 		KoLCharacter.ascensionSignIndex = 0;
 		KoLCharacter.ascensionSignType = ZodiacType.NONE;
 		KoLCharacter.ascensionSignZone = ZodiacZone.NONE;
-		KoLCharacter.ascensionPath = NONE;
+		KoLCharacter.ascensionPath = Path.NONE;
 		KoLCharacter.consumptionRestriction = AscensionSnapshot.NOPATH;
 
 		KoLCharacter.mindControlLevel = 0;
@@ -3592,39 +3564,39 @@ public abstract class KoLCharacter
 			return;
 		}
 
-		String oldPath = KoLCharacter.ascensionPath;
+		Path oldPath = KoLCharacter.ascensionPath;
 		boolean wasInHardcore = KoLCharacter.isHardcore;
 		boolean restricted = KoLCharacter.getRestricted();
 
 		Preferences.setBoolean( "kingLiberated", true );
 
 		// Assign "points" to paths that grant them
-		if ( oldPath.equals( AVATAR_OF_BORIS ) )
+		if ( oldPath == Path.AVATAR_OF_BORIS )
 		{
 			int borisPoints = wasInHardcore ? 2 : 1;
 			Preferences.increment( "borisPoints", borisPoints );
 		}
-		else if ( oldPath.equals( AVATAR_OF_JARLSBERG ) )
+		else if ( oldPath == Path.AVATAR_OF_JARLSBERG )
 		{
 			int jarlsbergPoints = wasInHardcore ? 2 : 1;
 			Preferences.increment( "jarlsbergPoints", jarlsbergPoints );
 		}
-		else if ( oldPath.equals( AVATAR_OF_SNEAKY_PETE ) )
+		else if ( oldPath == Path.AVATAR_OF_SNEAKY_PETE )
 		{
 			int sneakyPetePoints = wasInHardcore ? 2 : 1;
 			Preferences.increment( "sneakyPetePoints", sneakyPetePoints );
 		}
-		else if ( oldPath.equals( ACTUALLY_ED_THE_UNDYING ) )
+		else if ( oldPath == Path.ACTUALLY_ED_THE_UNDYING )
 		{
 			int edPoints = wasInHardcore ? 2 : 1;
 			Preferences.increment( "edPoints", edPoints );
 		}
-		else if ( oldPath.equals( ZOMBIE_SLAYER ) )
+		else if ( oldPath == Path.ZOMBIE_SLAYER )
 		{
 			int zombiePoints = wasInHardcore ? 2 : 1;
 			Preferences.increment( "zombiePoints", zombiePoints );
 		}
-		else if ( oldPath.equals( WEST_OF_LOATHING ) )
+		else if ( oldPath == Path.AVATAR_OF_WEST_OF_LOATHING )
 		{
 			int points = wasInHardcore ? 2 : 1;
 			if ( KoLCharacter.classtype == KoLCharacter.BEANSLINGER )
@@ -3640,41 +3612,41 @@ public abstract class KoLCharacter
 				Preferences.increment( "awolPointsSnakeoiler", points, 10, false );
 			}
 		}
-		else if ( oldPath.equals( THE_SOURCE ) )
+		else if ( oldPath == Path.THE_SOURCE )
 		{
 			int sourcePoints = wasInHardcore ? 2 : 1;
 			Preferences.increment( "sourcePoints", sourcePoints );
 		}
-		else if ( oldPath.equals( GELATINOUS_NOOB ) )
+		else if ( oldPath == Path.GELATINOUS_NOOB )
 		{
 			int noobPoints = wasInHardcore ? 2 : 1;
 			Preferences.increment( "noobPoints", noobPoints, 20, false );
 		}
-		else if ( oldPath.equals( LICENSE ) )
+		else if ( oldPath == Path.LICENSE_TO_ADVENTURE )
 		{
 			int bondPoints = wasInHardcore ? 2 : 1;
 			Preferences.increment( "bondPoints", bondPoints, 24, false );
 		}
-		else if ( oldPath.equals( GLOVER ) )
+		else if ( oldPath == Path.GLOVER )
 		{
 			int gloverPoints = wasInHardcore ? 2 : 1;
 			Preferences.increment( "gloverPoints", gloverPoints, 11, false );
 		}
-		else if ( oldPath.equals( DISGUISES_DELIMIT ) )
+		else if ( oldPath == Path.DISGUISES_DELIMIT )
 		{
 			int masksUnlocked = wasInHardcore ? 2 : 1;
 			Preferences.increment( "masksUnlocked", masksUnlocked, 25, false );
 		}
-		else if ( oldPath.equals( DARK_GYFFTE ) )
+		else if ( oldPath == Path.DARK_GYFFTE )
 		{
 			int gyfftePoints = wasInHardcore ? 2 : 1;
 			Preferences.increment( "darkGyfftePoints", gyfftePoints, 23, false );
 		}
-		else if ( oldPath.equals( CRAZY_RANDOM_TWO ) )
+		else if ( oldPath == Path.CRAZY_RANDOM_SUMMER_TWO )
 		{
 			TCRSDatabase.resetModifiers();
 		}
-		else if ( oldPath.equals( PATH_OF_THE_PLUMBER ) )
+		else if ( oldPath == Path.PATH_OF_THE_PLUMBER )
 		{
 			int plumberPoints = wasInHardcore ? 2 : 1;
 			Preferences.increment( "plumberPoints", plumberPoints, 22, false );
@@ -3691,7 +3663,7 @@ public abstract class KoLCharacter
 		CharPaneRequest.liberateKing();
 
 		// We are no longer subject to consumption restrictions
-		KoLCharacter.setPath( NONE );
+		KoLCharacter.setPath( Path.NONE );
 
 		// Storage is freely available
 		KoLConstants.storage.addAll( KoLConstants.freepulls );
@@ -3708,14 +3680,7 @@ public abstract class KoLCharacter
 
 		// If leaving a path with a unique class, finish when player picks a new class.
 		// We can't interrupt choice.php with (most) requests.
-		if ( oldPath.equals( AVATAR_OF_BORIS ) ||
-		     oldPath.equals( ZOMBIE_SLAYER ) ||
-		     oldPath.equals( AVATAR_OF_JARLSBERG ) ||
-		     oldPath.equals( AVATAR_OF_SNEAKY_PETE ) ||
-		     oldPath.equals( ACTUALLY_ED_THE_UNDYING ) ||
-		     oldPath.equals( GELATINOUS_NOOB ) ||
-		     oldPath.equals( DARK_GYFFTE ) ||
-		     oldPath.equals( PATH_OF_THE_PLUMBER ) )
+		if ( oldPath.isAvatar() )
 		{
 			return;
 		}
@@ -3728,7 +3693,7 @@ public abstract class KoLCharacter
 			KoLCharacter.checkTelescope();
 		}
 
-		if ( oldPath.equals( NUCLEAR_AUTUMN ) )
+		if ( oldPath == Path.NUCLEAR_AUTUMN )
 		{
 			// We haven't previously seen our campground
 			RequestThread.postRequest( new CampgroundRequest( "inspectdwelling" ) );
@@ -3738,8 +3703,8 @@ public abstract class KoLCharacter
 		}
 
 		// If we were in a path that grants skills only while on the path, rest them
-		if ( oldPath.equals( HEAVY_RAINS ) ||
-		     oldPath.equals( NUCLEAR_AUTUMN ) )
+		if ( oldPath == Path.HEAVY_RAINS ||
+		     oldPath == Path.NUCLEAR_AUTUMN )
 		{
 			KoLCharacter.resetSkills();
 		}
@@ -3747,13 +3712,13 @@ public abstract class KoLCharacter
 		// If we were in Hardcore or a path that alters skills, automatically recall skills
 		if ( restricted ||
 		     wasInHardcore ||
-		     oldPath.equals( TRENDY ) ||
-		     oldPath.equals( CLASS_ACT ) ||
-		     oldPath.equals( SURPRISING_FIST ) ||
-		     oldPath.equals( CLASS_ACT_II ) ||
-		     oldPath.equals( HEAVY_RAINS ) ||
-		     oldPath.equals( PICKY ) ||
-		     oldPath.equals( NUCLEAR_AUTUMN ) 
+		     oldPath == Path.TRENDY ||
+		     oldPath == Path.CLASS_ACT ||
+		     oldPath == Path.SURPRISING_FIST ||
+		     oldPath == Path.CLASS_ACT_II ||
+		     oldPath == Path.HEAVY_RAINS ||
+		     oldPath == Path.PICKY ||
+		     oldPath == Path.NUCLEAR_AUTUMN 
 			)
 		{
 			RequestThread.postRequest( new CharSheetRequest() );
@@ -3761,16 +3726,16 @@ public abstract class KoLCharacter
 		}
 
 		if ( restricted ||
-		     oldPath.equals( TRENDY ) ||
-		     oldPath.equals( HEAVY_RAINS ) ||
-		     oldPath.equals( NUCLEAR_AUTUMN )
+		     oldPath == Path.TRENDY ||
+		     oldPath == Path.HEAVY_RAINS ||
+		     oldPath == Path.NUCLEAR_AUTUMN
 			)
 		{
 			// Retrieve the bookshelf
 			RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
 		}
 		if ( restricted ||
-		     oldPath.equals( LICENSE ) )
+		     oldPath == Path.LICENSE_TO_ADVENTURE )
 		{
 			// All familiars can now be used
 			RequestThread.postRequest( new FamiliarRequest() );
@@ -3791,17 +3756,17 @@ public abstract class KoLCharacter
 		}
 
 		// Stop expecting Path-related Wandering Monsters
-		if ( oldPath.equals( BEES_HATE_YOU ) )
+		if ( oldPath == Path.BEES_HATE_YOU )
 		{
 			TurnCounter.stopCounting( "Bee window begin" );
 			TurnCounter.stopCounting( "Bee window end" );
 		}
-		else if ( oldPath.equals( HEAVY_RAINS ) )
+		else if ( oldPath == Path.HEAVY_RAINS )
 		{
 			TurnCounter.stopCounting( "Rain Monster window begin" );
 			TurnCounter.stopCounting( "Rain Monster window end" );
 		}
-		else if ( oldPath.equals( WEST_OF_LOATHING ) )
+		else if ( oldPath == Path.AVATAR_OF_WEST_OF_LOATHING )
 		{
 			TurnCounter.stopCounting( "WoL Monster window begin" );
 			TurnCounter.stopCounting( "WoL Monster window end" );
@@ -4068,7 +4033,7 @@ public abstract class KoLCharacter
 	 * @return String
 	 */
 
-	public static final String getPath()
+	public static final Path getPath()
 	{
 		return KoLCharacter.ascensionPath;
 	}
@@ -4077,169 +4042,169 @@ public abstract class KoLCharacter
 	{
 		// All Beecore restrictions are lifted once you free the King
 		return !KoLCharacter.kingLiberated() &&
-			KoLCharacter.ascensionPath.equals( BEES_HATE_YOU );
+			KoLCharacter.ascensionPath == Path.BEES_HATE_YOU;
 	}
 
 	public static final boolean inFistcore()
 	{
 		// All Fistcore restrictions are lifted once you free the King
 		return !KoLCharacter.kingLiberated() &&
-			KoLCharacter.ascensionPath.equals( SURPRISING_FIST );
+			KoLCharacter.ascensionPath == Path.SURPRISING_FIST;
 	}
 
 	public static final boolean isTrendy()
 	{
 		// All Trendy restrictions are lifted once you free the King
 		return !KoLCharacter.kingLiberated() &&
-			KoLCharacter.ascensionPath.equals( TRENDY );
+			KoLCharacter.ascensionPath == Path.TRENDY;
 	}
 
 	public static final boolean inAxecore()
 	{
 		// Which, if any, Axecore restrictions are lifted when you free the king?
-		return KoLCharacter.ascensionPath.equals( AVATAR_OF_BORIS );
+		return KoLCharacter.ascensionPath == Path.AVATAR_OF_BORIS;
 	}
 
 	public static final boolean inBugcore()
 	{
 		// Which, if any, Bugbear Invasion restrictions are lifted when you free the king?
-		return KoLCharacter.ascensionPath.equals( BUGBEAR_INVASION );
+		return KoLCharacter.ascensionPath == Path.BUGBEAR_INVASION;
 	}
 
 	public static final boolean inZombiecore()
 	{
 		// Which, if any, Zombiecore restrictions are lifted when you free the king?
-		return KoLCharacter.ascensionPath.equals( ZOMBIE_SLAYER );
+		return KoLCharacter.ascensionPath == Path.ZOMBIE_SLAYER;
 	}
 
 	public static final boolean inClasscore()
 	{
-		return KoLCharacter.ascensionPath.equals( CLASS_ACT );
+		return KoLCharacter.ascensionPath == Path.CLASS_ACT;
 	}
 
 	public static final boolean isJarlsberg()
 	{
-		return KoLCharacter.ascensionPath.equals( AVATAR_OF_JARLSBERG );
+		return KoLCharacter.ascensionPath == Path.AVATAR_OF_JARLSBERG;
 	}
 
 	public static final boolean inBigcore()
 	{
-		return KoLCharacter.ascensionPath.equals( BIG );
+		return KoLCharacter.ascensionPath == Path.BIG;
 	}
 
 	public static final boolean inHighschool()
 	{
-		return KoLCharacter.ascensionPath.equals( KOLHS );
+		return KoLCharacter.ascensionPath == Path.KOLHS;
 	}
 
 	public static final boolean inClasscore2()
 	{
-		return KoLCharacter.ascensionPath.equals( CLASS_ACT_II );
+		return KoLCharacter.ascensionPath == Path.CLASS_ACT_II;
 	}
 
 	public static final boolean isSneakyPete()
 	{
-		return KoLCharacter.ascensionPath.equals( AVATAR_OF_SNEAKY_PETE );
+		return KoLCharacter.ascensionPath == Path.AVATAR_OF_SNEAKY_PETE;
 	}
 
 	public static final boolean inSlowcore()
 	{
-		return KoLCharacter.ascensionPath.equals( SLOW_AND_STEADY );
+		return KoLCharacter.ascensionPath == Path.SLOW_AND_STEADY;
 	}
 
 	public static final boolean inRaincore()
 	{
-		return KoLCharacter.ascensionPath.equals( HEAVY_RAINS );
+		return KoLCharacter.ascensionPath == Path.HEAVY_RAINS;
 	}
 
 	public static final boolean isPicky()
 	{
-		return KoLCharacter.ascensionPath.equals( PICKY );
+		return KoLCharacter.ascensionPath == Path.PICKY;
 	}
 
 	public static final boolean isEd()
 	{
-		return KoLCharacter.ascensionPath.equals( ACTUALLY_ED_THE_UNDYING );
+		return KoLCharacter.ascensionPath == Path.ACTUALLY_ED_THE_UNDYING;
 	}
 
 	public static final boolean isCrazyRandom()
 	{
-		return KoLCharacter.ascensionPath.equals( CRAZY_RANDOM );
+		return KoLCharacter.ascensionPath == Path.CRAZY_RANDOM_SUMMER;
 	}
 
 	public static final boolean isCrazyRandomTwo()
 	{
-		return KoLCharacter.ascensionPath.equals( CRAZY_RANDOM_TWO );
+		return KoLCharacter.ascensionPath == Path.CRAZY_RANDOM_SUMMER_TWO;
 	}
 
 	public static final boolean isCommunityService()
 	{
-		return KoLCharacter.ascensionPath.equals( COMMUNITY_SERVICE );
+		return KoLCharacter.ascensionPath == Path.COMMUNITY_SERVICE;
 	}
 
 	public static final boolean isWestOfLoathing()
 	{
-		return KoLCharacter.ascensionPath.equals( WEST_OF_LOATHING );
+		return KoLCharacter.ascensionPath == Path.AVATAR_OF_WEST_OF_LOATHING;
 	}
 
 	public static final boolean inTheSource()
 	{
-		return KoLCharacter.ascensionPath.equals( THE_SOURCE );
+		return KoLCharacter.ascensionPath == Path.THE_SOURCE;
 	}
 
 	public static final boolean inNuclearAutumn()
 	{
-		return KoLCharacter.ascensionPath.equals( NUCLEAR_AUTUMN );
+		return KoLCharacter.ascensionPath == Path.NUCLEAR_AUTUMN;
 	}
 
 	public static final boolean inNoobcore()
 	{
-		return KoLCharacter.ascensionPath.equals( GELATINOUS_NOOB );
+		return KoLCharacter.ascensionPath == Path.GELATINOUS_NOOB;
 	}
 
 	public static final boolean inBondcore()
 	{
-		return KoLCharacter.ascensionPath.equals( LICENSE );
+		return KoLCharacter.ascensionPath == Path.LICENSE_TO_ADVENTURE;
 	}
 
 	public static final boolean inLAR()
 	{
-		return KoLCharacter.ascensionPath.equals( LIVE_ASCEND_REPEAT );
+		return KoLCharacter.ascensionPath == Path.LIVE_ASCEND_REPEAT;
 	}
 
 	public static final boolean inPokefam()
 	{
-		return KoLCharacter.ascensionPath.equals( POKEFAM );
+		return KoLCharacter.ascensionPath == Path.POKEFAM;
 	}
 
 	public static final boolean inGLover()
 	{
-		return KoLCharacter.ascensionPath.equals( GLOVER );
+		return KoLCharacter.ascensionPath == Path.GLOVER;
 	}
 
 	public static final boolean inDisguise()
 	{
-		return KoLCharacter.ascensionPath.equals( DISGUISES_DELIMIT );
+		return KoLCharacter.ascensionPath == Path.DISGUISES_DELIMIT;
 	}
 
 	public static final boolean inDarkGyffte()
 	{
-		return KoLCharacter.ascensionPath.equals( DARK_GYFFTE );
+		return KoLCharacter.ascensionPath == Path.DARK_GYFFTE;
 	}
 
 	public static final boolean isKingdomOfExploathing()
 	{
-		return KoLCharacter.ascensionPath.equals( KINGDOM_OF_EXPLOATHING );
+		return KoLCharacter.ascensionPath == Path.KINGDOM_OF_EXPLOATHING;
 	}
 
 	public static final boolean isPlumber()
 	{
-		return KoLCharacter.ascensionPath.equals( PATH_OF_THE_PLUMBER );
+		return KoLCharacter.ascensionPath == Path.PATH_OF_THE_PLUMBER;
 	}
 
 	public static final boolean isLowkey()
 	{
-		return KoLCharacter.ascensionPath.equals( LOWKEY );
+		return KoLCharacter.ascensionPath == Path.LOWKEY;
 	}
 
 	public static final boolean isUnarmed()
@@ -4261,15 +4226,15 @@ public abstract class KoLCharacter
 		}
 	}
 
-	public static final void setPath( final String path )
+	public static final void setPath( final Path path )
 	{
 		KoLCharacter.ascensionPath = path;
 		int restriction =
-			path.equals( "Oxygenarian" ) ?
+			path == Path.OXYGENARIAN ?
 			AscensionSnapshot.OXYGENARIAN :
-			path.equals( "Boozetafarian" ) ?
+			path == Path.BOOZETAFARIAN ?
 			AscensionSnapshot.BOOZETAFARIAN :
-			path.equals( "Teetotaler" ) ?
+			path == Path.TEETOTALER ?
 			AscensionSnapshot.TEETOTALER :
 			AscensionSnapshot.NOPATH;
 		KoLCharacter.consumptionRestriction = restriction;
@@ -6332,7 +6297,7 @@ public abstract class KoLCharacter
 		// Path specific modifiers
 
 		// Add modifiers from Current Path
-		newModifiers.add( Modifiers.getModifiers( "Path", KoLCharacter.ascensionPath ) );
+		newModifiers.add( Modifiers.getModifiers( "Path", KoLCharacter.ascensionPath.toString() ) );
 
 		// If Sneaky Pete, add Motorbike effects
 
