@@ -11987,6 +11987,7 @@ public abstract class ChoiceManager
 				Preferences.setString( "guzzlrQuestLocation", "" );
 				Preferences.setString( "guzzlrQuestTier", "" );
 				QuestDatabase.setQuestProgress( Quest.GUZZLR, QuestDatabase.UNSTARTED );
+				break;
 			case 2:
 			case 3:
 			case 4: {
@@ -12046,6 +12047,7 @@ public abstract class ChoiceManager
 				{
 					QuestDatabase.setQuestProgress( Quest.GUZZLR, QuestDatabase.STARTED );
 				}
+				break;
 			}
 			}
 
