@@ -70,7 +70,7 @@ public class Operator
 	private int operStrength()
 	{
 		if (this.operator.equals(Parser.POST_INCREMENT) ||
-				this.operator.equals(Parser.POST_DECREMENT))
+		    this.operator.equals(Parser.POST_DECREMENT))
 		{
 			return 14;
 		}
@@ -79,8 +79,8 @@ public class Operator
 		     this.operator.equals( "~" ) ||
 		     this.operator.equals( "contains" ) ||
 		     this.operator.equals( "remove" ) ||
-				this.operator.equals(Parser.PRE_INCREMENT) ||
-				this.operator.equals(Parser.PRE_DECREMENT))
+		     this.operator.equals(Parser.PRE_INCREMENT) ||
+		     this.operator.equals(Parser.PRE_DECREMENT))
 		{
 			return 13;
 		}
@@ -180,10 +180,10 @@ public class Operator
 			this.operator.equals( "/" ) ||
 			this.operator.equals( "%" ) ||
 			this.operator.equals( "**" ) ||
-				this.operator.equals(Parser.PRE_INCREMENT) ||
-				this.operator.equals(Parser.PRE_DECREMENT) ||
-				this.operator.equals(Parser.POST_INCREMENT) ||
-				this.operator.equals(Parser.POST_DECREMENT);
+			this.operator.equals(Parser.PRE_INCREMENT) ||
+			this.operator.equals(Parser.PRE_DECREMENT) ||
+			this.operator.equals(Parser.POST_INCREMENT) ||
+			this.operator.equals(Parser.POST_DECREMENT);
 	}
 
 	public boolean isBoolean()
