@@ -2934,7 +2934,7 @@ public abstract class RuntimeLibrary
 	public static Value path_name_to_id( Interpreter interpreter, final Value value )
 	{
 		Path path = AscensionPath.nameToPath( value.toString() );
-		return DataTypes.makeIntValue( path.getId() );
+		return DataTypes.makeIntValue( path == null ? -1 : path.getId() );
 	}
 
 	public static Value path_id_to_name( Interpreter interpreter, final Value value )
