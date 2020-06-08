@@ -1198,7 +1198,13 @@ public abstract class UseLinkDecorator
 				}
 
 			case ItemPool.GUZZLRBUCK:
-				return new UseLink( itemId, 1, "Let's Guzzle", "shop.php?whichshop=guzzlr" );
+			{
+				ArrayList<UseLink> uses = new ArrayList<UseLink>();
+				uses.add( new UseLink( itemId, 1, "Let's Guzzle", "shop.php?whichshop=guzzlr" ) );
+				uses.add( new UseLink( itemId, 1, "tap", "inventory.php?tap=guzzlr", false ) );
+
+				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
+			}
 
 			case ItemPool.BARLEY:
 			case ItemPool.HOPS:
