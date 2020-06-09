@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia.session;
 
 import java.io.PrintStream;
 
+import net.sourceforge.kolmafia.AscensionPath;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -409,150 +411,9 @@ public class ValhallaManager
 			sessionStream.print( "Softcore " );
 		}
 
-		if ( KoLCharacter.inBeecore() )
-		{
-			sessionStream.print( "Bees Hate You " );
-		}
-		else if ( KoLCharacter.inFistcore() )
-		{
-			sessionStream.print( "Way of the Surprising Fist " );
-		}
-		else if ( KoLCharacter.isTrendy() )
-		{
-			sessionStream.print( "Trendy " );
-		}
-		else if ( KoLCharacter.inAxecore() )
-		{
-			sessionStream.print( "Avatar of Boris " );
-		}
-		else if ( KoLCharacter.inBugcore() )
-		{
-			sessionStream.print( "Bugbear Invasion " );
-		}
-		else if ( KoLCharacter.inZombiecore() )
-		{
-			sessionStream.print( "Zombie Slayer " );
-		}
-		else if ( KoLCharacter.inClasscore() )
-		{
-			sessionStream.print( "Class Act " );
-		}
-		else if ( KoLCharacter.isJarlsberg() )
-		{
-			sessionStream.print( "Avatar of Jarlsberg " );
-		}
-		else if ( KoLCharacter.inBigcore() )
-		{
-			sessionStream.print( "BIG! " );
-		}
-		else if ( KoLCharacter.inHighschool() )
-		{
-			sessionStream.print( "KOLHS " );
-		}
-		else if ( KoLCharacter.inClasscore2() )
-		{
-			sessionStream.print( "Class Act II: A Class For Pigs " );
-		}
-		else if ( KoLCharacter.isSneakyPete() )
-		{
-			sessionStream.print( "Avatar of Sneaky Pete " );
-		}
-		else if ( KoLCharacter.inSlowcore() )
-		{
-			sessionStream.print( "Slow and Steady " );
-		}
-		else if ( KoLCharacter.inRaincore() )
-		{
-			sessionStream.print( "Heavy Rains " );
-		}
-		else if ( KoLCharacter.isPicky() )
-		{
-			sessionStream.print( "Picky " );
-		}
-		else if ( KoLCharacter.isEd() )
-		{
-			sessionStream.print( "Actually Ed the Undying " );
-		}
-		else if ( KoLCharacter.isCrazyRandom() )
-		{
-			sessionStream.print( "One Crazy Random Summer " );
-		}
-		else if ( KoLCharacter.isCommunityService() )
-		{
-			sessionStream.print( "Community Service " );
-		}
-		else if ( KoLCharacter.isWestOfLoathing() )
-		{
-			sessionStream.print( "Avatar of West of Loathing " );
-		}
-		else if ( KoLCharacter.inTheSource() )
-		{
-			sessionStream.print( "The Source " );
-		}
-		else if ( KoLCharacter.inNuclearAutumn() )
-		{
-			sessionStream.print( "Nuclear Autumn " );
-		}
-		else if ( KoLCharacter.inNoobcore() )
-		{
-			sessionStream.print( "Gelatinous Noob " );
-		}
-		else if ( KoLCharacter.inBondcore() )
-		{
-			sessionStream.print( "License to Adventure " );
-		}
-		else if ( KoLCharacter.inLAR() )
-		{
-			sessionStream.print( "Live. Adventure. Repeat. " );
-		}
-		else if ( KoLCharacter.inPokefam() )
-		{
-			sessionStream.print( "Pocket Familiars " );
-		}
-		else if ( KoLCharacter.inGLover() )
-		{
-			sessionStream.print( "G-Lover " );
-		}
-		else if ( KoLCharacter.inDisguise() )
-		{
-			sessionStream.print( "Disguises Delimit " );
-		}
-		else if ( KoLCharacter.isVampyre() )
-		{
-			sessionStream.print( "Dark Gyffte " );
-		}
-		else if ( KoLCharacter.isCrazyRandomTwo() )
-		{
-			sessionStream.print( "Two Crazy Random Summer " );
-		}
-		else if ( KoLCharacter.isPlumber() )
-		{
-			sessionStream.print( "Path of the Plumber " );
-		}
-		else if ( KoLCharacter.isLowkey() )
-		{
-			sessionStream.print( "Low Key Summer" );
-		}
-		else if ( KoLCharacter.getRestricted() )
-		{
-			sessionStream.print( "Standard " );
-		}
-		else if ( KoLCharacter.canEat() && KoLCharacter.canDrink() )
-		{
-			sessionStream.print( "No-Path " );
-		}
-		else if ( KoLCharacter.canEat() )
-		{
-			sessionStream.print( "Teetotaler " );
-		}
-		else if ( KoLCharacter.canDrink() )
-		{
-			sessionStream.print( "Boozetafarian " );
-		}
-		else
-		{
-			sessionStream.print( "Oxygenarian " );
-		}
+		Path path = KoLCharacter.getPath();
+		String pathName = ( path == Path.NONE ) ? "No-Path " : path.getName() + " ";
+		sessionStream.print( pathName );
 
 		sessionStream.println( KoLCharacter.getClassType() );
 
