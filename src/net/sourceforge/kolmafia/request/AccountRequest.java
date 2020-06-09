@@ -615,7 +615,7 @@ public class AccountRequest
 		KoLCharacter.setHardcore( hardcore );
 
 		// This isn't safe in Ed after defeating adventurer, but if we're Ed we haven't freed ralph!
-		if ( !path.equals( "Actually Ed the Undying" ) )
+		if ( path != Path.ACTUALLY_ED_THE_UNDYING )
 		{
 			boolean liberated = JSON.getInt( "freedralph" ) == 1;
 			KoLCharacter.setKingLiberated( liberated );
