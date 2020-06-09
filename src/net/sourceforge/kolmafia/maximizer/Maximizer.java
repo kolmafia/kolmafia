@@ -143,6 +143,8 @@ public class Maximizer
 	{
 		KoLmafia.forceContinue();
 		String maxMe = (String) MaximizerFrame.expressionSelect.getSelectedItem();
+		RequestLogger.printLine("Maximizer: " + maxMe);
+		RequestLogger.updateSessionLog("Maximizer: " + maxMe);
 		KoLConstants.maximizerMList.addItem( maxMe );
 		Maximizer.eval = new Evaluator( maxMe );
 
