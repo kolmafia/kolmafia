@@ -215,6 +215,7 @@ Dyspepsi-Cola General	293	colaoff2.gif	Atk: 30 Def: 27 HP: 40 Init: 50 P: dude	D
 Dyspepsi-Cola Knight	291	colasol2.gif	Atk: 30 Def: 27 HP: 35 Init: 50 P: dude	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi grenade (5)
 Dyspepsi-Cola Soldier	290	colasol2.gif	Atk: 30 Def: 27 HP: 30 Init: 50 P: dude	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi grenade (5)	lucky lighter (p5)
 eagle	1529	eagle.gif	Atk: 145 Def: 135 HP: 140 Init: 75 P: beast	eagle's milk (20)	eagle feather (15)
+Ed the Undying	473	ed.gif,ed2.gif,ed3.gif,ed4.gif,ed5.gif,ed6.gif,ed7.gif	NOCOPY Atk: 180 Def: 162 HP: 1 Init: -10000 P: undead
 Ed the Undying (1)	0	ed.gif	BOSS NOMANUEL HP: 256 Def: 162 Atk: 180 Exp: [75+ML/3] Init: 10000 P: undead
 Ed the Undying (2)	0	ed2.gif	BOSS NOMANUEL HP: 256 Def: 162 Atk: 180 Exp: [75+ML/3] Init: -10000 P: undead
 Ed the Undying (3)	0	ed3.gif	BOSS NOMANUEL HP: 128 Def: 162 Atk: 180 Exp: [75+ML/3] Init: -10000 P: undead
@@ -505,8 +506,6 @@ Neptune flytrap	740	flytrap.gif	Atk: 450 Def: 360 HP: 700 Init: 125 "Really Quit
 newt	333	newt.gif	HP: [3] Def: [2] Atk: [3] Init: -10000 Meat: 10 P: beast	eye of newt (100)
 Next-generation Frat Boy	516	emofrat.gif	NOCOPY Atk: 190 Def: 171 HP: 200 Init: 20 Meat: 150 E: sleaze P: orc	beaten-up Chucks (100)	white class ring (30)	beer helmet (0)	distressed denim pants (0)	kick-ass kicks (0)
 ninja dressed as a waiter	1512	ninjawaiter.gif	Atk: 150 Def: 150 HP: 155 Init: 100 P: dude	crappy waiter disguise (30)	throwing knife (10)	throwing fork (10)	throwing spoon (10)	ninja fear powder (c0)
-# We cannot distinguish Ninja Snowman (Hilt) from Ninja Snowman (Mask) by image
-Ninja Snowman (Hilt/Mask)	0	snowman.gif	Atk: 85 Def: 76 HP: 70 Init: 60 E: cold P: elemental	cold ninja mask (10)	frigid ninja stars (20)	frozen nunchaku (5)	icy katana hilt (15)
 Ninja Snowman (Chopsticks)	338	ninjarice.gif	Atk: 85 Def: 76 HP: 70 Init: 60 ED: cold P: elemental Manuel: "Ninja Snowman"	frigid ninja stars (20)	rice bowl (5)	chopsticks (5)	pentatonic accordion (a0)
 Ninja Snowman (Hilt)	137	snowman.gif	Atk: 85 Def: 76 HP: 70 Init: 60 E: cold P: elemental Manuel: "Ninja Snowman"	frigid ninja stars (20)	frozen nunchaku (5)	icy katana hilt (15)
 Ninja Snowman (Mask)	100	snowman.gif	Atk: 85 Def: 76 HP: 70 Init: 60 E: cold P: elemental Manuel: "Ninja Snowman"	cold ninja mask (10)	frigid ninja stars (20)	frozen nunchaku (5)
@@ -2532,118 +2531,3 @@ eXtreme Sports Orcs	336	wcorcs.gif	Atk: 39 Def: 34 HP: 30 Init: 60 E: sleaze Mea
 giant pair of tweezers	38	tweezers.gif	Atk: 16 Def: 14 HP: 8 Init: 60 P: construct
 Gnollish Sorceress	17	gnollmage.gif	HP: 5 Def: 9 Atk: 11 Meat: 22 Init: 60 P: humanoid	gnoll teeth (5)	gnoll lips (5)
 Knob Goblin Elite Guardsman	79	kg_guardcaptain.gif	Atk: 30 Def: 25 HP: 30 P: goblin Init: 90 Meat: 50	Knob Goblin elite helm (5)	Knob Goblin elite pants (5)	Knob Goblin elite polearm (5)	knob bugle (5)	Knob Goblin elite shirt (c5)
-
-# These are KoL monster names that we disambiguate via consequences.txt.
-# With the 1337 random attribute, KoL will leetify these names.
-# Therefore, we put them here so they end up in our LEET_MONSTER_MAP
-
-Orcish Frat Boy	0		DUMMY
-Ninja Snowman	0		DUMMY
-
-the darkness	0		DUMMY
-
-Trippy Floating Head	0		DUMMY
-
-Gorgolok, the Infernal Seal	0		DUMMY
-Stella, the Turtle Poacher	0		DUMMY
-Spaghetti Elemental	0		DUMMY
-Lumpy, the Sinister Sauceblob	0		DUMMY
-the Spirit of New Wave	0		DUMMY
-Somerset Lopez, Dread Mariachi	0		DUMMY
-
-Ed the Undying	473	ed.gif,ed2.gif,ed3.gif,ed4.gif,ed5.gif,ed6.gif,ed7.gif	NOCOPY Atk: 180 Def: 162 HP: 1 Init: -10000 P: undead
-
-Shadow Lemming Trampler	0		DUMMY
-Shadow Tern Slapper	0		DUMMY
-Shadow Puffin Intimidator	0		DUMMY
-Shadow Ermine Thumper	0		DUMMY
-Shadow Penguin Frightener	0		DUMMY
-Shadow Malamute Basher	0		DUMMY
-Shadow Narwhal Pummeler	0		DUMMY
-Shadow Otter Crusher	0		DUMMY
-Shadow Caribou Smacker	0		DUMMY
-Shadow Moose Harasser	0		DUMMY
-Shadow Reindeer Threatener	0		DUMMY
-Shadow Ox Wrestler	0		DUMMY
-Shadow Walrus Bludgeoner	0		DUMMY
-Shadow Whale Boxer	0		DUMMY
-Shadow Seal Clubber	0		DUMMY
-Shadow Toad Coach	0		DUMMY
-Shadow Skink Trainer	0		DUMMY
-Shadow Frog Director	0		DUMMY
-Shadow Gecko Supervisor	0		DUMMY
-Shadow Newt Herder	0		DUMMY
-Shadow Frog Boss	0		DUMMY
-Shadow Iguana Driver	0		DUMMY
-Shadow Salamander Subduer	0		DUMMY
-Shadow Bullfrog Overseer	0		DUMMY
-Shadow Rattlesnake Chief	0		DUMMY
-Shadow Crocodile Lord	0		DUMMY
-Shadow Cobra Commander	0		DUMMY
-Shadow Alligator Subjugator	0		DUMMY
-Shadow Asp Master	0		DUMMY
-Shadow Turtle Tamer	0		DUMMY
-Shadow Dough Acolyte	0		DUMMY
-Shadow Yeast Scholar	0		DUMMY
-Shadow Noodle Neophyte	0		DUMMY
-Shadow Starch Savant	0		DUMMY
-Shadow Carbohydrate Cognoscenti	0		DUMMY
-Shadow Spaghetti Sage	0		DUMMY
-Shadow Macaroni Magician	0		DUMMY
-Shadow Vermicelli Enchanter	0		DUMMY
-Shadow Linguini Thaumaturge	0		DUMMY
-Shadow Ravioli Sorcerer	0		DUMMY
-Shadow Manicotti Magus	0		DUMMY
-Shadow Spaghetti Spellbinder	0		DUMMY
-Shadow Cannelloni Conjurer	0		DUMMY
-Shadow Angel-Hair Archmage	0		DUMMY
-Shadow Pastamancer	0		DUMMY
-Shadow Allspice Acolyte	0		DUMMY
-Shadow Cilantro Seer	0		DUMMY
-Shadow Parsley Enchanter	0		DUMMY
-Shadow Sage Sage	0		DUMMY
-Shadow Rosemary Diviner	0		DUMMY
-Shadow Thyme Wizard	0		DUMMY
-Shadow Tarragon Thaumaturge	0		DUMMY
-Shadow Oreganoccultist	0		DUMMY
-Shadow Basillusionist	0		DUMMY
-Shadow Coriander Conjurer	0		DUMMY
-Shadow Bay Leaf Brujo	0		DUMMY
-Shadow Sesame Soothsayer	0		DUMMY
-Shadow Marinara Mage	0		DUMMY
-Shadow Alfredo Archmage	0		DUMMY
-Shadow Sauceror	0		DUMMY
-Shadow Funk Footpad	0		DUMMY
-Shadow Rhythm Rogue	0		DUMMY
-Shadow Chill Crook	0		DUMMY
-Shadow Jiggy Grifter	0		DUMMY
-Shadow Beat Snatcher	0		DUMMY
-Shadow Sample Swindler	0		DUMMY
-Shadow Move Buster	0		DUMMY
-Shadow Jam Horker	0		DUMMY
-Shadow Groove Filcher	0		DUMMY
-Shadow Vibe Robber	0		DUMMY
-Shadow Boogie Brigand	0		DUMMY
-Shadow Flow Purloiner	0		DUMMY
-Shadow Jive Pillager	0		DUMMY
-Shadow Rhymer and Stealer	0		DUMMY
-Shadow Disco Bandit	0		DUMMY
-Shadow Polka Criminal	0		DUMMY
-Shadow Mariachi Larcenist	0		DUMMY
-Shadow Zydeco Rogue	0		DUMMY
-Shadow Chord Horker	0		DUMMY
-Shadow Chromatic Crook	0		DUMMY
-Shadow Squeezebox Scoundrel	0		DUMMY
-Shadow Concertina Con Artist	0		DUMMY
-Shadow Button Box Burglar	0		DUMMY
-Shadow Hurdy-Gurdy Hooligan	0		DUMMY
-Shadow Sub-Sub-Apprentice Accordion Thief	0		DUMMY
-Shadow Sub-Apprentice Accordion Thief	0		DUMMY
-Shadow Pseudo-Apprentice Accordion Thief	0		DUMMY
-Shadow Hemi-Apprentice Accordion Thief	0		DUMMY
-Shadow Apprentice Accordion Thief	0		DUMMY
-Shadow Accordion Thief	0		DUMMY
-Shadow Avatar of Boris	0		DUMMY
-Shadow Zombie Master	0		DUMMY
-Shadow Avatar of Jarlsberg	0		DUMMY
-Shadow Avatar of Sneaky Pete	0		DUMMY

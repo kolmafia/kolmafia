@@ -527,7 +527,9 @@ public class AdventureRequest
 		{
 			if ( type.equals( "Combat" ) )
 			{
-				encounter = AdventureRequest.translateGenericType( encounter, responseText );
+				// encounter = AdventureRequest.translateGenericType( encounter, responseText );
+				MonsterData monster = AdventureRequest.extractMonster( encounter, responseText );
+				encounter = monster.getName();
 				// Only queue normal monster encounters
 				if ( !EncounterManager.ignoreSpecialMonsters &&
 				     !EncounterManager.isWanderingMonster( encounter ) &&
@@ -569,12 +571,6 @@ public class AdventureRequest
 	{
 		fromName = from;
 		toName = to;
-	}
-
-	public static final String parseMonsterEncounter( final String responseText )
-	{
-		String encounter = AdventureRequest.parseCombatEncounter( responseText );
-		return AdventureRequest.translateGenericType( encounter, responseText );
 	}
 
 	private static final Pattern [] MONSTER_NAME_PATTERNS =
@@ -641,134 +637,63 @@ public class AdventureRequest
 		return name;
 	}
 
-	public static final String translateGenericType( final String encounterToCheck, final String responseText )
+	// <!-- MONSTERID: 112 -->
+	private static final Pattern MONSTERID_PATTERN = Pattern.compile( "<!-- MONSTERID: (\\d+) -->" );
+
+	private static final MonsterData WUMPUS = MonsterDatabase.findMonster( "wumpus" );
+	private static final MonsterData THE_DARKNESS = MonsterDatabase.findMonster( "the darkness (blind)" );
+
+	public static final MonsterData extractMonster( final String encounterToCheck, final String responseText )
 	{
-		if ( KoLAdventure.lastLocationName != null &&
-		     KoLAdventure.lastLocationName.startsWith( "Fernswarthy's Basement" ) )
+		// KoL now provides MONSTERID in fight responseText.
+		// It does not do this is you are blind and only if you are blind.
+		Matcher m = MONSTERID_PATTERN.matcher( responseText );
+		if ( !m.find() )
 		{
-			return BasementRequest.basementMonster;
+			// Adventuring in the Wumpus cave while temporarily blind is
+			// stupid, but since we won't clear the cave after defeating it
+			// if we can't recognize it, allow for it
+			return WumpusManager.isWumpus() ? WUMPUS : THE_DARKNESS;
 		}
 
-		// Adventuring in the Wumpus cave while temporarily blind is
-		// stupid, but since we won't clear the cave after defeating it
-		// if we can't recognize it, allow for it
-		if ( WumpusManager.isWumpus() )
-		{
-			return "wumpus";
-		}
+		int monsterId = StringUtilities.parseInt( m.group( 1 ) );
+		MonsterData monster = MonsterDatabase.findMonsterById( monsterId );
 
-		// Time Pranks
-		if ( responseText.contains( "A figure steps out from behind this morning and says" ) )
-		{
-			// SBIP will ruin that text, but so will the staph, and probably other stuff too.
-			// Not going to worry about those.
-			return "time-spinner prank";
-		}
-
-		// If the monster has random modifiers, remove and save them
+		// We need to calculate random modifiers and masks, since those
+		// will be added to the MonsterData
 		String encounter =  AdventureRequest.handleRandomModifiers( encounterToCheck.trim(), responseText );
 		encounter = AdventureRequest.handleIntergnat( encounter );
 		encounter = AdventureRequest.handleNuclearAutumn( encounter );
 		encounter = AdventureRequest.handleMask( encounter );
 
-		// Disambiguate via responseText, if possible
+		// Do we know this monster id?
+		if ( monster != null )
+		{
+			// Yes. send through ConsequenceManager
+			String monsterName = monster.getName();
+			String disambiguated = ConsequenceManager.disambiguateMonster( monsterName, responseText );;
+			if ( !monsterName.equals( disambiguated ) )
+			{
+				return MonsterDatabase.findMonster( disambiguated );
+			}
+			return monster;
+		}
+
+		// No! Is this a monster for which we have a pseudo-ID?
 		encounter = ConsequenceManager.disambiguateMonster( encounter, responseText );
-		MonsterData monster = MonsterDatabase.findMonster( encounter );
+		monster = MonsterDatabase.findMonster( encounter );
 		if ( monster != null )
 		{
-			return monster.getName();
+			String message = "*** Monster '" + encounter + "' has monsterId = " + monsterId;
+			RequestLogger.printLine( message);
+			RequestLogger.updateSessionLog( message );
+			return monster;
 		}
 
-		// LT&T monsters can have different names
-		if ( encounter.equals( "vengeful ghost" ) ||
-		     encounter.equals( "shrieking ghost" ) )
-		{
-			return "restless ghost";
-		}
-		if ( encounter.equals( "professional gunman" ) ||
-		     encounter.equals( "trained mercenary" ) )
-		{
-			return "hired gun";
-		}
-
-		// For monsters that have a randomly-generated name, identify them by the image they use instead
-		Matcher matcher = AdventureRequest.MONSTER_IMAGE.matcher( responseText );
-		String image = matcher.find() ? matcher.group( 1 ) : null;
-		
-		if ( image == null )
-		{
-			return encounter;
-		}
-
-		// Handle monsters that cannot be identified using a
-		// simple map lookup since the image is shared
-
-		if ( KoLCharacter.isEd() )
-		{
-			if ( image.startsWith( "../otherimages/classav" ) )
-			{
-				return "You the Adventurer";
-			}
-			// Also Groar
-			if ( image.equals( "wingedyeti.gif" ) )
-			{
-				return "Your winged yeti";
-			}
-		}
-
-		// This is twitch content, but shares image with hired gun, so detection moved here
-		if ( image.equals( "outlawboss.gif" ) )
-		{
-			return "outlaw leader";
-		}
-
-		if ( image.startsWith( "faq_boss" ) )
-		{
-			return "Video Game Boss";
-		}
-
-		if ( image.startsWith( "faq_miniboss" ) )
-		{
-			return "Video Game Miniboss";
-		}
-
-		// Identify some monsters by the zone they appear in
-		switch ( KoLAdventure.lastAdventureId() )
-		{
-		case 319:
-			// Video Game Level 1
-			return "Video Game Minion (weak)";
-		case 320:
-			// Video Game Level 2
-			return "Video Game Minion (moderate)";
-		case 321:
-			// Video Game Level 3
-			return "Video Game Minion (strong)";
-		case 458:
-			// Deep Machine Tunnels
-			if ( responseText.contains( "dmtmonster_part1.png" ) )
-			{
-				return "Performer of Actions";
-			}
-			else if ( responseText.contains( "dmtmonster_part4.png" ) )
-			{
-				return "Thinker of Thoughts";
-			}
-			else if ( responseText.contains( "dmtmonster_part6.png" ) )
-			{
-				return "Perceiver of Sensations";
-			}
-			break;
-		}
-
-		monster = MonsterDatabase.findMonsterByImage( image );
-
-		if ( monster != null )
-		{
-			return monster.getName();
-		}
-
-		return encounter;
+		// It's a brand-new monster. Register it
+		Matcher i = AdventureRequest.MONSTER_IMAGE.matcher( responseText );
+		String image = i.find() ? i.group( 1 ) : null;
+		return MonsterDatabase.registerMonster( encounter, monsterId, image );
 	}
 
 	private static final String parseChoiceEncounter( final String urlString, final int choice, final String responseText )

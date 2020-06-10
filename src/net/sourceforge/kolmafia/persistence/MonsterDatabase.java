@@ -820,6 +820,17 @@ public class MonsterDatabase
 		return monster;
 	}
 
+	// Register an unknown monster
+	public static final MonsterData registerMonster( final String name, final int id, final String image )
+	{
+		String[] images = { image };
+		MonsterData monster = MonsterDatabase.registerMonster( name, id, images, "" );
+		MonsterDatabase.MONSTER_DATA.put( name, monster );
+		MonsterDatabase.OLD_MONSTER_DATA.put( name.toLowerCase(), monster );
+		MonsterDatabase.LEET_MONSTER_DATA.put( StringUtilities.leetify( name ), monster );
+		return monster;
+	}
+
 	// Register an unknown monster from Manuel
 	public static final MonsterData registerMonster( final String name, final int id, final String image, final String attributes )
 	{
