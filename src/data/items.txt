@@ -10560,7 +10560,7 @@
 10532	Guzzlr application	189491478	guzzlrapp.gif	usable	t	0
 10533	Guzzlr tablet	413321705	guzzlrtablet.gif	accessory, usable		0
 10534	Guzzlr cocktail set	898668946	guzzlrcock.gif	none, fancy		0
-10535	Guzzlrbuck	736222283	guzzlrbuck.gif	usable		0	Guzzlrbucks
+10535	Guzzlrbuck	736222283	guzzlrbuck.gif	none		0	Guzzlrbucks
 10536	Guzzlr hat	202471786	guzzlrhat.gif	hat		0
 10537	Guzzlr shoes	620760390	guzzlrshoes.gif	accessory		0	pairs of Guzzlr shoes
 10538	Guzzlr pants	254620570	guzzlrpants.gif	pants		0	pairs of Guzzlr pants

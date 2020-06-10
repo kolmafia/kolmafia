@@ -746,16 +746,18 @@ public class EatItemRequest
 		boolean timeSpinnerUsed = EatItemRequest.timeSpinnerUsed;
 		EatItemRequest.timeSpinnerUsed = false;
 
+		int itemId = item.getItemId();
+
 		// Special handling for fortune cookies, since you can smash
 		// them, as well as eat them
-		if ( item.getItemId() == ItemPool.FORTUNE_COOKIE &&
+		if ( itemId == ItemPool.FORTUNE_COOKIE &&
 		     responseText.contains( "You brutally smash the fortune cookie" ) )
 		{
 			ResultProcessor.processResult( item.getNegation() );
 			return;
 		}
 
-		if ( item.getItemId() == ItemPool.CARTON_OF_SNAKE_MILK &&
+		if ( itemId == ItemPool.CARTON_OF_SNAKE_MILK &&
 		     responseText.contains( "cream cheese" ) )
 		{
 			ResultProcessor.processResult( item.getNegation() );
@@ -783,7 +785,7 @@ public class EatItemRequest
 		{
 			UseItemRequest.lastUpdate = "You may only eat one of those per day.";
 			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
-			if ( item.getItemId() == ItemPool.AFFIRMATION_COOKIE )
+			if ( itemId == ItemPool.AFFIRMATION_COOKIE )
 			{
 				Preferences.setBoolean( "_affirmationCookieEaten", true );
 			}
@@ -928,9 +930,10 @@ public class EatItemRequest
 		// The food was consumed successfully
 		EatItemRequest.handleFoodHelper( item.getName(), item.getCount(), responseText );
 
-		EatItemRequest.updateTimeSpinner( item.getItemId(), timeSpinnerUsed );
+		EatItemRequest.updateTimeSpinner( itemId, timeSpinnerUsed );
 
-		if ( !timeSpinnerUsed )
+		int attrs = ItemDatabase.getAttributes( itemId );
+		if ( !timeSpinnerUsed && ( (attrs & ItemDatabase.ATTR_REUSABLE) == 0 ))
 		{
 			ResultProcessor.processResult( item.getNegation() );
 		}
@@ -944,7 +947,7 @@ public class EatItemRequest
 
 		// Perform item-specific processing
 
-		switch ( item.getItemId() )
+		switch ( itemId )
 		{
 		case ItemPool.FORTUNE_COOKIE:
 		case ItemPool.QUANTUM_TACO:
