@@ -781,7 +781,7 @@
 779	Super Vision	xrayspecs.gif	1db6a8bc75e423151c6e0817932dad99	good	none	gap vision
 780	Super Speed	fast.gif	593bd8b1ccbb628a02230246b4e4873d	good	none	gap speed
 781	Super Accuracy	reticle.gif	8ac1abc08fb9969463ecd9a965621b46	good	none	gap accuracy
-782	Burning, Man	fire.gif	f93ba9c2aba47c4e296f20823bb8d1ac	neutral	none	summon 9
+782	Burning, Man	fire.gif	f93ba9c2aba47c4e296f20823bb8d1ac	good	nohookah	summon 9
 783	Pie in the Sky	pie.gif	d3fb9bf83be3023e45185af67c3ff185	good	none	eat 1 badass pie
 784	Sole Soul	plexipips.gif	92275ab4fe615788255274e22f2aec8f	good	none	use 1 PlexiPips
 785	Over the Ocean	waxbottle.gif	788941793e466a01a391e386a63fcbf3	good	none	use 1 Wax Flask
