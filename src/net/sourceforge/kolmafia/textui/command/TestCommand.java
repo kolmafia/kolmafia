@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -1098,10 +1099,11 @@ public class TestCommand
 				KoLAdventure.setLastAdventure( AdventureDatabase.getAdventure( adventureName ) );
 				String encounter = split.length > 3 ? split[ 3 ].trim() : AdventureRequest.parseCombatEncounter( responseText );
 				FightRequest.setCurrentEncounter( encounter );
-				String monster = AdventureRequest.translateGenericType( encounter, responseText );
-				MonsterStatusTracker.setNextMonsterName( monster );
+				MonsterData monster = AdventureRequest.extractMonster( encounter, responseText );
+				String monsterName = monster.getName();
+				MonsterStatusTracker.setNextMonsterName( monsterName );
 				FightRequest.currentRound = round;
-				FightRequest.updateCombatData( "fight.php", monster, responseText );
+				FightRequest.updateCombatData( "fight.php", monsterName, responseText );
 				FightRequest.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( "fight.php", responseText );
 			}
 			else
@@ -1145,9 +1147,11 @@ public class TestCommand
 
 		if ( command.equals( "monster" ) )
 		{
-			String encounter = AdventureRequest.parseMonsterEncounter( TestCommand.contents );
-			RequestLogger.printLine( encounter );
-			MonsterStatusTracker.setNextMonsterName( encounter );
+			String responseText = TestCommand.contents;
+			String encounter = AdventureRequest.parseCombatEncounter( responseText );
+			MonsterData monster = AdventureRequest.extractMonster( encounter, responseText );
+			RequestLogger.printLine( monster.getName() );
+			MonsterStatusTracker.setNextMonsterName( monster.getName() );
 			TestCommand.contents = null;
 			return;
 		}
