@@ -803,7 +803,7 @@ Item	swashbuckling pants	Moxie: +4, Familiar Effect: "3xPotato, 1.5xFairy, cap 2
 Item	terra cotta trousers	Muscle Percent: +20, Familiar Weight: +5
 Item	the Archwizard's briefs	Mysticality: +15, Mysticality Percent: +25, Maximum MP: +100
 Item	The Emperor's new pants	Moxie: [L]
-Item	The Ghoul King's ghoulottes	Muscle: +15, Muscle Percent: +25, Maximum HP: +100, Single Equip
+Item	The Ghoul King's ghoulottes	Muscle: +15, Muscle Percent: +25, Maximum HP: +100
 Item	The Jokester's pants	HP Regen Min: 6, HP Regen Max: 8, Moxie Percent: +20, Never Fumble
 Item	The Necbromancer's Shorts	Cold Resistance: +3, Sleaze Resistance: +3, Booze Drop: +30, Familiar Effect: "atk, 2xGhuol"
 # The Sagittarian's leisure pants: Disco Bandit Combat Skills weaken enemies by an additional 20%
@@ -855,7 +855,7 @@ Item	warbear officer greaves	WarBear Armor Penetration: +40, Familiar Effect: "a
 Item	warbear party pants	Initiative: +25, Maximum HP: +50, Maximum MP: +50, Familiar Effect: "1xPotato, 1xGhoul, cap 12"
 Item	Warms-Your-Tush	Hot Damage: +50, Cold Resistance: +5, Spooky Resistance: +1, Class: "Disco Bandit", Familiar Effect: "1xVolley, 1xPotato"
 Item	wax pants	Moxie: +7, Initiative: +10, Familiar Effect: "atk, 3xBarrr, cap 12"
-Item	weasel stomping pants	Initiative: +25, Candy Drop: +25, Single Equip, Familiar Effect: "1xGhoul, cap 20"
+Item	weasel stomping pants	Initiative: +25, Candy Drop: +25, Familiar Effect: "1xGhoul, cap 20"
 Item	weedy skirt	Maximum HP: +400, HP Regen Min: 25, HP Regen Max: 50, Initiative: +25, Familiar Effect: "atk, 1xFairy"
 Item	white satin pants	Sleaze Resistance: +2, Familiar Effect: "atk, 2xPotato, cap 10"
 Item	whittled shorts	Muscle: +10, Mysticality: +10, Moxie: +10, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 10
@@ -969,7 +969,7 @@ Item	Professor What T-Shirt	MP Regen Min: 1, MP Regen Max: 2
 Item	psycho sweater	Weapon Damage Percent: +20, Spell Damage Percent: +20
 Item	punk rock jacket	Moxie: +8, Damage Reduction: 5
 Item	Quartet of Flare Masters Jacket	PvP Fights: +2, Rollover Effect: "Eldritch Concentration", Rollover Effect Duration: 1
-Item	Radio Free Jersey	Muscle: +10, Mysticality: +10, Moxie: +10, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Single Equip
+Item	Radio Free Jersey	Muscle: +10, Mysticality: +10, Moxie: +10, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3
 Item	red coat	Ranged Damage: +25, Initiative: -25
 Item	red shirt	Monster Level: +20, Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 # red-and-green sweater: Shocking!
@@ -980,7 +980,7 @@ Item	shark jumper	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: 
 Item	shoe ad T-shirt	Muscle: +5, Mysticality: +5, Moxie: +5, Adventures: +3
 # SMOOCH breastplate: Damages Attacking Opponent
 Item	SMOOCH breastplate	Damage Absorption: +40
-Item	smooth velvet bra	Maximum HP: +20, HP Regen Min: 5, HP Regen Max: 10, Single Equip
+Item	smooth velvet bra	Maximum HP: +20, HP Regen Min: 5, HP Regen Max: 10
 Item	smooth velvet shirt	Disco Style: +1
 Item	snailmail hauberk	Damage Absorption: +60, HP Regen Min: 6, HP Regen Max: 14, MP Regen Min: 6, MP Regen Max: 14
 Item	snakeskin jacket	Moxie: +15, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
@@ -3860,7 +3860,7 @@ Item	Drapes-You-Regally	Meat Drop: +20, Booze Drop: +20, Hat Drop: +20, Class: "
 # Drip harness: Allows you to enter The Drip
 Item	Drip harness	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100
 Item	Drunkula's cape	Adventures: +3, Candy Drop: +20, Accessory Drop: +20, Class: "Sauceror"
-Item	Duke Vampire's regal cloak	Moxie: +15, Moxie Percent: +25, Initiative: +50, Single Equip
+Item	Duke Vampire's regal cloak	Moxie: +15, Moxie Percent: +25, Initiative: +50
 Item	elf army poncho	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Lasts Until Rollover
 # fiberglass frock: Makes it so dealing Cold damage causes ongoing additional Cold damage
 Item	fiberglass frock	Experience (Mysticality): +3, Maximum MP: +20
@@ -3915,7 +3915,7 @@ Item	shellacked shell	Maximum HP: +5, HP Regen Min: 2, HP Regen Max: 3, Class: "
 Item	shocked shell	Class: "Turtle Tamer"
 Item	Size XI Wizard's Robe	Booze Drop: +11, Food Drop: +11, Candy Drop: +11
 Item	smoker's cloak	Monster Level: +10, Initiative: +20, Stench Damage: +30
-Item	spant backplate	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Damage Absorption: +100, Single Equip
+Item	spant backplate	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Damage Absorption: +100
 # spiky back shell: Enemies take 40-50 when they hit you
 Item	super-absorbent tarp	Maximum Hooch: +2
 Item	T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	Wiki Name: "Bugged baio"
