@@ -56,6 +56,7 @@ public class SpadingManager
 		CONSUME_SPLEEN,
 		CONSUME_USE,
 		CONSUME_MULTIPLE,
+		CONSUME_REUSABLE,
 		MEAT_DROP,
 		;
 
@@ -73,6 +74,8 @@ public class SpadingManager
 				return SpadingEvent.CONSUME_USE;
 			case KoLConstants.CONSUME_MULTIPLE:
 				return SpadingEvent.CONSUME_MULTIPLE;
+			case KoLConstants.INFINITE_USES:
+				return SpadingEvent.CONSUME_REUSABLE;
 			default:
 				return null;
 			}

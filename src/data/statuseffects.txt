@@ -2422,8 +2422,8 @@
 2420	Unrunnable Face	mascara2.gif	717c38b91a319f392117b4b146cffd2b	good	none	use 1 runproof mascara
 2421	Lifted Spirits	partyballoon.gif	6b9a5c708de930de26abd253ef3bbea3	good	none	chew 1 party balloon
 2422	Party on Your Skin	pspray.gif	fab174669704d9035c34ece248025a3e	good	none	chew 1 Party-in-a-Can&trade;
-2423	Haunted Stomach	stomach.gif	ef1b25b8e0f245d41b922077054275c0	good	nohookah	eat either 1 ghostly ectoplasm, 1 haunted orange, 1 haunted pizza, 1 haunted cherry pie, 1 haunted Hell ramen
-2424	Haunted Liver	liver.gif	0d5c5c3c6f465b61c8977fcb783b44bb	good	nohookah	drink either 1 haunted bottle of vodka, 1 haunted martini, 1 haunted eggnog, 1 haunted gimlet
+2423	Haunted Stomach	stomach.gif	ef1b25b8e0f245d41b922077054275c0	good	none	eat either 1 ghostly ectoplasm, 1 haunted orange, 1 haunted pizza, 1 haunted cherry pie, 1 haunted Hell ramen
+2424	Haunted Liver	liver.gif	0d5c5c3c6f465b61c8977fcb783b44bb	good	none	drink either 1 haunted bottle of vodka, 1 haunted martini, 1 haunted eggnog, 1 haunted gimlet
 2425	On Safari	jackmoustache.gif	ed711b284292daad806d1888ba0beefb	neutral	none	cast 1 Experience Safari
 2426	Yeast-Hungry	c18cracker.gif	5f13f6deef105b64ef50c877a4391f24	good	nohookah	eat 1 traditional Crimbo cookie
 2427	Long Winter's Napped	sleepy.gif	f75c88dafc22e34f7ba064a3a4278328	good	none	# First adventure in The Canadian Wildlife Preserve
