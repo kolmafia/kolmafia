@@ -354,7 +354,7 @@ public class ResultProcessor
 
 	public static LinkedList<AdventureResult> parseItems( final String results )
 	{
-		LinkedList<AdventureResult> items = new LinkedList<AdventureResult>();
+		LinkedList<AdventureResult> items = new LinkedList<>();
 
 		// Item names have a lot of extra adjectives in Two Crazy Random Summer
 		boolean crazyRandomAdjectives = KoLCharacter.isCrazyRandomTwo();
@@ -432,7 +432,7 @@ public class ResultProcessor
 	{
 		// Pre-process all effect matches and add them to the passed in list of effects.
 
-		LinkedList<AdventureResult> effects = new LinkedList<AdventureResult>();
+		LinkedList<AdventureResult> effects = new LinkedList<>();
 
 		Matcher effectMatcher = ResultProcessor.EFFECT_TABLE_PATTERN.matcher( results );
 		while ( effectMatcher.find() )
@@ -510,7 +510,7 @@ public class ResultProcessor
 		// Register new items.
 		// Check multi-usability and plurals
 
-		LinkedList<AdventureResult> items = new LinkedList<AdventureResult>();
+		LinkedList<AdventureResult> items = new LinkedList<>();
 		results = ResultProcessor.processItems( combatResults, results, items );
 
 		// Process effects similarly, saving them to a list of effects.
@@ -547,7 +547,7 @@ public class ResultProcessor
 			ResultProcessor.processFamiliarWeightGain( plainTextResult );
 		}
 
-		LinkedList<String> parsedResults = new LinkedList<String>( Arrays.asList( plainTextResult.split( KoLConstants.LINE_BREAK ) ) );
+		LinkedList<String> parsedResults = new LinkedList<>( Arrays.asList( plainTextResult.split( KoLConstants.LINE_BREAK ) ) );
 		boolean shouldRefresh = false;
 
 		while ( parsedResults.size() > 0 )
@@ -986,7 +986,7 @@ public class ResultProcessor
 				int drop = result.getCount();
 				if ( !ResultProcessor.possibleMeatDrop( drop, 0 ) )
 				{
-					StringBuffer buf = new StringBuffer( "Alert - possible unknown meat bonus:" );
+					StringBuilder buf = new StringBuilder( "Alert - possible unknown meat bonus:" );
 					if ( KoLCharacter.currentNumericModifier( Modifiers.SPORADIC_MEATDROP ) != 0.0f )
 					{
 						buf.append( " (sporadic!)" );
@@ -3485,7 +3485,7 @@ public class ResultProcessor
 		case ItemPool.NO_HAT:
 			{
 				String rawText = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( itemId ), true );
-				String mod = DebugDatabase.parseItemEnchantments( rawText, new ArrayList<String>(), KoLConstants.EQUIP_HAT );
+				String mod = DebugDatabase.parseItemEnchantments( rawText, new ArrayList<>(), KoLConstants.EQUIP_HAT );
 				Modifiers.overrideModifier( "Item:[" + itemId + "]", mod );
 				Preferences.setString( "_noHatModifier", mod );
 			}
@@ -3569,6 +3569,13 @@ public class ResultProcessor
 
 		case ItemPool.BLACK_MAP:
 			QuestDatabase.setQuestProgress( Quest.BLACK, "step1" );
+			break;
+
+		case ItemPool.VOLCOINO:
+			if ( combatResults && KoLCharacter.hasEquipped( ItemPool.get( ItemPool.LUCKY_GOLD_RING, 1 ) ) )
+			{
+				Preferences.setBoolean( "_luckyGoldRingVolcoino", true );
+			}
 			break;
 		}
 

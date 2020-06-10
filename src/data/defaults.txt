@@ -1681,6 +1681,7 @@ user	_longConUsed	0
 user	_lookingGlass	false
 user	_loveChocolatesUsed	0
 user	_loveTunnelUsed	false
+user	_luckyGoldRingVolcoino	false
 user	_lunchBreak	false
 user	_lupineHormonesUsed	false
 user	_lyleFavored	false

@@ -3133,6 +3133,7 @@ public class ItemPool
 	public static final int PIRATE_REALM_FUN_LOG = 10225;
 	public static final int PIRATE_FORK = 10227;
 	public static final int SCURVY_AND_SOBRIETY_PREVENTION = 10228;
+	public static final int LUCKY_GOLD_RING = 10229;
 	public static final int FOURTH_SABER = 10251;
 	public static final int RING = 10252;
 	public static final int HEWN_MOON_RUNE_SPOON = 10254;
@@ -3355,7 +3356,7 @@ public class ItemPool
 			ItemDatabase.registerItemAlias( id, testName, null );
 		}
 
-		HashSet<String> possibilities = new HashSet<String>();
+		HashSet<String> possibilities = new HashSet<>();
 		for ( int i = 0; i < strings.length; ++i )
 		{
 			possibilities.add(strings[i][0]);
@@ -3430,7 +3431,7 @@ public class ItemPool
 			return;
 		}
 
-		ArrayList<Integer> possible = new ArrayList<Integer>();
+		ArrayList<Integer> possible = new ArrayList<>();
 		int unknown = 0;
 
 		for ( int i = minId; i <= maxId; ++i ) 
