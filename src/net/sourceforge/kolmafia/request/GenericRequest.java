@@ -2860,21 +2860,20 @@ public class GenericRequest
 		// Most places, this is signaled by the message "Your (or your)
 		// ten-leaf clover disappears in a puff of smoke."
 		//
-		// In the Spooky Forest's Lucky, Lucky! encounter, the message is
-		// "Your ten-leaf clover disappears into the leprechaun's pocket"
-		//
 		// The Hippy Camp (In Disguise)'s A Case of the Baskets, the message is
 		// "Like the smoke your ten-leaf clover disappears in a puff of"
+		//
+		// In the Spooky Forest's Lucky, Lucky! encounter, the message is
+		// "Your ten-leaf clover disappears into the leprechaun's pocket"
 		//
 		// The Orcish Frat House:
 		// Pretty good timing, it seems. Your ten-leaf clover
 		// disappears in a cloud of smoke and alcohol fumes.
 
 		if ( this.responseText.contains( "clover" ) &&
-		     ( this.responseText.contains( "puff of smoke" ) ||
+		     ( this.responseText.contains( "disappears in a puff of" ) ||
 		       this.responseText.contains( "into the leprechaun's pocket" ) ||
-		       this.responseText.contains( "cloud of smoke and alcohol fumes" ) ||
-		       this.responseText.contains( "disappears in a puff of" ) ) )
+		       this.responseText.contains( "cloud of smoke and alcohol fumes" ) ) )
 		{
 			ResultProcessor.processItem( ItemPool.TEN_LEAF_CLOVER, -1 );
 		}
