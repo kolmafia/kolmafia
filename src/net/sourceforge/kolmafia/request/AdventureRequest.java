@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 
@@ -650,9 +651,14 @@ public class AdventureRequest
 		Matcher m = MONSTERID_PATTERN.matcher( responseText );
 		if ( !m.find() )
 		{
+			if ( !responseText.contains( "darkness.gif" ) )
+			{
+				// KoL bug or error in the regexp. Or both.
+				StaticEntity.printDebugText( "MONSTERID not found", responseText );
+			}
 			// Adventuring in the Wumpus cave while temporarily blind is
-			// stupid, but since we won't clear the cave after defeating it
-			// if we can't recognize it, allow for it
+			// foolish, but since we won't clear the cave after defeating
+			// it if we can't recognize it, allow for it
 			return WumpusManager.isWumpus() ? WUMPUS : THE_DARKNESS;
 		}
 
