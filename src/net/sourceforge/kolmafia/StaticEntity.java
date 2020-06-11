@@ -442,6 +442,29 @@ public abstract class StaticEntity
 		}
 	}
 
+	public static final void printDebugText( final String message, final String text )
+	{
+		boolean shouldOpenStream = !RequestLogger.isDebugging();
+		try
+		{
+			if ( shouldOpenStream )
+			{
+				RequestLogger.openDebugLog();
+			}
+			KoLmafia.updateDisplay( message );
+			RequestLogger.updateSessionLog( message );
+			RequestLogger.updateDebugLog( message );
+			RequestLogger.updateDebugLog( text );
+		}
+		finally
+		{
+			if ( shouldOpenStream )
+			{
+				RequestLogger.closeDebugLog();
+			}
+		}
+	}
+
 	private static final void printStackTrace( final Throwable t, final String message, final PrintStream ostream )
 	{
 		ostream.println( t.getClass() + ": " + t.getMessage() );
