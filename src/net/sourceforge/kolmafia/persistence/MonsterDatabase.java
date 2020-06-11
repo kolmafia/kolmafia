@@ -430,19 +430,12 @@ public class MonsterDatabase
 			{
 				monster.doneWithItems();
 
-				// "dummy" monsters are KoL monsters names that
-				// we always disambiguate into other monsters.
-				// We need them only for 1337 name translation
-
-				if ( !monster.isDummy() )
+				MonsterDatabase.saveMonster( name, monster);
+				for ( String image : monster.getImages() )
 				{
-					MonsterDatabase.saveMonster( name, monster);
-					for ( String image : monster.getImages() )
-					{
-						MonsterDatabase.MONSTER_IMAGES.put( image, monster );
-					}
-					MonsterDatabase.registerMonsterId( id, name, monster );
+					MonsterDatabase.MONSTER_IMAGES.put( image, monster );
 				}
+				MonsterDatabase.registerMonsterId( id, name, monster );
 
 				MonsterDatabase.LEET_MONSTER_DATA.put( StringUtilities.leetify( name ), monster );
 			}
@@ -906,7 +899,6 @@ public class MonsterDatabase
 		boolean boss = false;
 		boolean noBanish = false;
 		boolean noCopy = false;
-		boolean dummy = false;
 		EnumSet<EncounterType> type = EnumSet.noneOf( EncounterType.class );
 		int physical = 0;
 		String manuelName = null;
@@ -1173,12 +1165,6 @@ public class MonsterDatabase
 					continue;
 				}
 
-				else if ( option.equals( "DUMMY" ) )
-				{
-					dummy = true;
-					continue;
-				}
-
 				else if ( option.equals( "NOMANUEL" ) )
 				{
 					continue;
@@ -1214,7 +1200,7 @@ public class MonsterDatabase
 					   attackElement, defenseElement,
 					   physical,
 					   meat, minSprinkles, maxSprinkles, phylum, poison,
-					   boss, noBanish, noCopy, dummy, type,
+					   boss, noBanish, noCopy, type,
 					   images, manuelName, wikiName,
 					   subTypes, attributes );
 
