@@ -1197,15 +1197,6 @@ public abstract class UseLinkDecorator
 					return UseLinkDecorator.svenLink( itemId );
 				}
 
-			case ItemPool.GUZZLRBUCK:
-			{
-				ArrayList<UseLink> uses = new ArrayList<UseLink>();
-				uses.add( new UseLink( itemId, 1, "Let's Guzzle", "shop.php?whichshop=guzzlr" ) );
-				uses.add( new UseLink( itemId, 1, "tap", "inventory.php?tap=guzzlr", false ) );
-
-				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
-			}
-
 			case ItemPool.BARLEY:
 			case ItemPool.HOPS:
 			case ItemPool.FANCY_BEER_BOTTLE:
@@ -1671,6 +1662,14 @@ public abstract class UseLinkDecorator
 				"shop.php?whichshop=exploathing" :
 				"shop.php?whichshop=damachine";
 			break;
+
+		case ItemPool.GUZZLRBUCK:
+		{
+			ArrayList<UseLink> uses = new ArrayList<UseLink>();
+			uses.add( new UseLink( itemId, 1, "Let's Guzzle", "shop.php?whichshop=guzzlr" ) );
+			uses.add( new UseLink( itemId, 1, "tap", "inventory.php?tap=guzzlr", false ) );
+			return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
+		}
 			
 		// Subject 37 File goes to Cell #37
 		case ItemPool.SUBJECT_37_FILE:
