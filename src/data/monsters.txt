@@ -286,7 +286,7 @@ Furry Giant	172	giant_furry.gif	Atk: 135 Def: 121 HP: 150 Init: 40 Meat: 150 EA:
 G imp	125	gimp.gif	Atk: 46 Def: 41 HP: 46 Init: 60 E: hot Meat: 30 P: demon	hot wing (30)	Imp Ale (30)	leather mask (5)	vitamin G pill (0)
 ganger	737	ganger.gif	Atk: 375 Def: 360 HP: 800 Init: 100 Meat: 240 P: fish	dull fish scale (n15)	ganger bandana (n3)	temporary teardrop tattoo (c9)
 gargantulihc	194	gargantulihc.gif	Atk: 71 Def: 65 HP: 120 Exp: [53+ML/3] Init: 60 E: spooky P: undead	lihc eye (0)	lihc eye (0)	lihc face (0)
-gaudy pirate	633	cleanpirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate Meat: 108	costume sword (5)	enormous hoop earring (10)	gold lam&eacute; pants (5)	gaudy key (c100)
+gaudy pirate	633	cleanpirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate Meat: 108	costume sword (5)	enormous hoop earring (10)	gold lam&eacute; pants (5)
 gaunt ghuol	190	ghuol_skinny.gif	Atk: 55 Def: 50 HP: 50 Init: 50 E: spooky Meat: 20 P: undead	ghuol ears (20)	ghuol egg (20)	dieting pill (10)
 gelatinous cube	532	gelcube.gif	Atk: 3 Def: 2 HP: 6 Init: 50 Meat: 25 P: slime	Orcish meat locker (25)	rusty metal ring (25)	rusty metal shaft (25)
 generic duck	544	duckgeneric.gif	Atk: 167 Def: 154 HP: 180 Init: 40 Meat: 75 P: beast
