@@ -82,7 +82,6 @@ public class MonsterData
 	private final boolean noBanish;
 	private final boolean noCopy;
 	private final boolean noManuel;
-	private final boolean dummy;
 	private boolean transformed; // from CLEESH and such
 	private final EnumSet<EncounterType> type;
 	private final String image;
@@ -209,7 +208,7 @@ public class MonsterData
 			    final int physicalResistance,
 			    final int meat, final Object minSprinkles, final Object maxSprinkles,
 			    final Phylum phylum, final int poison,
-			    final boolean boss, final boolean noBanish, final boolean noCopy, final boolean dummy,
+			    final boolean boss, final boolean noBanish, final boolean noCopy,
 			    final EnumSet<EncounterType> type, final String[] images,
 			    final String manuelName, final String wikiName, final List<String> subTypes,
 			    final String attributes )
@@ -238,7 +237,6 @@ public class MonsterData
 		this.boss = boss;
 		this.noBanish = noBanish;
 		this.noCopy = noCopy;
-		this.dummy = dummy;
 		this.transformed = false;
 		this.type = type;
 		this.image = images.length > 0 ? images[ 0 ] : "";
@@ -296,7 +294,6 @@ public class MonsterData
 		this.boss = monster.boss;
 		this.noBanish = monster.noBanish;
 		this.noCopy = monster.noCopy;
-		this.dummy = monster.dummy;
 		this.transformed = monster.transformed;
 		this.type = monster.type;
 		this.image = monster.image;
@@ -972,11 +969,6 @@ public class MonsterData
 	public boolean isNoCopy()
 	{
 		return this.noCopy;
-	}
-
-	public boolean isDummy()
-	{
-		return this.dummy;
 	}
 
 	public EnumSet<EncounterType> getType()

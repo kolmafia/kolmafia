@@ -1363,7 +1363,6 @@ public class ProxyRecordValue
 			.add( "poison", DataTypes.EFFECT_TYPE )
 			.add( "boss", DataTypes.BOOLEAN_TYPE )
 			.add( "copyable", DataTypes.BOOLEAN_TYPE )
-			.add( "dummy", DataTypes.BOOLEAN_TYPE )
 			.add( "image", DataTypes.STRING_TYPE )
 			.add( "images",
 				new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ) )
@@ -1499,11 +1498,6 @@ public class ProxyRecordValue
 		public boolean get_copyable()
 		{
 			return !( ( (MonsterData) this.content ).isNoCopy() );
-		}
-
-		public boolean get_dummy()
-		{
-			return ( (MonsterData) this.content ).isDummy();
 		}
 
 		public String get_image()
