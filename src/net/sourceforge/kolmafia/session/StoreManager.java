@@ -299,7 +299,13 @@ public abstract class StoreManager
 	public static final void update( String storeText, final int type )
 	{
 		// Strip introductory "header" from the string so that we can simplify the matcher.
-		storeText = storeText.substring( storeText.indexOf( "in Mall:</b></td></tr>" ) + 22 );
+		String headerEnd = "in Mall:</b></td></tr>";
+		int index = storeText.indexOf( headerEnd );
+		if ( index != -1 )
+		{
+			storeText = storeText.substring( index + headerEnd.length() );
+		}
+
 		StoreManager.potentialEarnings = 0;
 		ArrayList<SoldItem> newItems = new ArrayList<SoldItem>();
 
