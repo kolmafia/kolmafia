@@ -646,31 +646,41 @@ public class AdventureRequest
 
 	public static final MonsterData extractMonster( final String encounterToCheck, final String responseText )
 	{
+		// We need to extract the random modifiers and masks, since
+		// those will be added to the MonsterData
+		String encounter =  AdventureRequest.handleRandomModifiers( encounterToCheck.trim(), responseText );
+		encounter = AdventureRequest.handleIntergnat( encounter );
+		encounter = AdventureRequest.handleNuclearAutumn( encounter );
+		encounter = AdventureRequest.handleMask( encounter );
+
 		// KoL now provides MONSTERID in fight responseText.
 		// It does not do this is you are blind and only if you are blind.
 		Matcher m = MONSTERID_PATTERN.matcher( responseText );
 		if ( !m.find() )
 		{
-			if ( !responseText.contains( "darkness.gif" ) )
+			if ( responseText.contains( "darkness.gif" ) )
 			{
-				// KoL bug or error in the regexp. Or both.
-				StaticEntity.printDebugText( "MONSTERID not found", responseText );
+				// Adventuring in the Wumpus cave while temporarily blind is
+				// foolish, but since we won't clear the cave after defeating
+				// it if we can't recognize it, allow for it
+				return WumpusManager.isWumpus() ? WUMPUS : THE_DARKNESS;
 			}
-			// Adventuring in the Wumpus cave while temporarily blind is
-			// foolish, but since we won't clear the cave after defeating
-			// it if we can't recognize it, allow for it
-			return WumpusManager.isWumpus() ? WUMPUS : THE_DARKNESS;
+
+			// KoL will not return the MONSTERID if it is already
+			// in a fight but the user forces it to redirect back
+			// to it by trying to go to a different location,
+			// causing you to "twiddle your thumbs". This also
+			// happens if you logout and login while in a fight
+
+			// StaticEntity.printDebugText( "MONSTERID not found", responseText );
+
+			encounter = ConsequenceManager.disambiguateMonster( encounter, responseText );
+			MonsterData monster = MonsterDatabase.findMonster( encounter );
+			return ( monster != null ) ? monster : MonsterDatabase.registerMonster( encounter );
 		}
 
 		int monsterId = StringUtilities.parseInt( m.group( 1 ) );
 		MonsterData monster = MonsterDatabase.findMonsterById( monsterId );
-
-		// We need to calculate random modifiers and masks, since those
-		// will be added to the MonsterData
-		String encounter =  AdventureRequest.handleRandomModifiers( encounterToCheck.trim(), responseText );
-		encounter = AdventureRequest.handleIntergnat( encounter );
-		encounter = AdventureRequest.handleNuclearAutumn( encounter );
-		encounter = AdventureRequest.handleMask( encounter );
 
 		// Do we know this monster id?
 		if ( monster != null )
