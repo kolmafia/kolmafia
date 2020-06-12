@@ -631,6 +631,14 @@ public class RequestLogger
 
 	private static final void doRegister( final GenericRequest request, final String urlString )
 	{
+		// If we are in a fight, don't even look at things which are
+		// not fight.php, since they will immediately redirect to
+		// continue the fight.
+		if ( FightRequest.currentRound != 0 && !urlString.startsWith( "fight.php" ) )
+		{
+			return;
+		}
+
 		RequestLogger.lastURLString = urlString;
 
 		if ( urlString.startsWith( "api" ) ||
