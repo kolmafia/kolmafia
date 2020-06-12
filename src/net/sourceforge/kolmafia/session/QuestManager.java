@@ -1021,7 +1021,11 @@ public class QuestManager
 			     location.contains( AdventurePool.ICE_HOLE_ID ) ||
 			     location.contains( "whichplace=airport_cold" ) )
 			{
-				Preferences.setBoolean( "_coldAirportToday", true );
+				if ( !responseText.contains( "You don't know where that is." ) &&
+				     !responseText.contains( "That isn't a place you can go." ) )
+				{
+					Preferences.setBoolean( "_coldAirportToday", true );
+				}
 			}
 			else if ( location.contains( "whichplace=airport" ) )
 			{
@@ -1042,7 +1046,11 @@ public class QuestManager
 			     location.contains( AdventurePool.BUBBLIN_CALDERA_ID ) ||
 			     location.contains( "whichplace=airport_hot" ) )
 			{
-				Preferences.setBoolean( "_hotAirportToday", true );
+				if ( !responseText.contains( "You don't know where that is." ) &&
+				     !responseText.contains( "That isn't a place you can go." ) )
+				{
+					Preferences.setBoolean( "_hotAirportToday", true );
+				}
 			}
 			else if ( location.contains( "whichplace=airport" ) )
 			{
@@ -1062,7 +1070,11 @@ public class QuestManager
 			     location.contains( AdventurePool.YACHT_ID ) ||
 			     location.contains( "whichplace=airport_sleaze" ) )
 			{
-				Preferences.setBoolean( "_sleazeAirportToday", true );
+				if ( !responseText.contains( "You don't know where that is." ) &&
+				     !responseText.contains( "That isn't a place you can go." ) )
+				{
+					Preferences.setBoolean( "_sleazeAirportToday", true );
+				}
 			}
 			else if ( location.contains( "whichplace=airport" ) )
 			{
@@ -1082,7 +1094,11 @@ public class QuestManager
 			     location.contains( AdventurePool.DEEP_DARK_JUNGLE_ID ) ||
 			     location.contains( "whichplace=airport_spooky" ) )
 			{
-				Preferences.setBoolean( "_spookyAirportToday", true );
+				if ( !responseText.contains( "You don't know where that is." ) &&
+				     !responseText.contains( "That isn't a place you can go." ) )
+				{
+					Preferences.setBoolean( "_spookyAirportToday", true );
+				}
 			}
 			else if ( location.contains( "whichplace=airport" ) )
 			{
@@ -1103,7 +1119,11 @@ public class QuestManager
 			     location.contains( AdventurePool.LIQUID_WASTE_SLUICE_ID ) ||
 			     location.contains( "whichplace=airport_stench" ) )
 			{
-				Preferences.setBoolean( "_stenchAirportToday", true );
+				if ( !responseText.contains( "You don't know where that is." ) &&
+				     !responseText.contains( "That isn't a place you can go." ) )
+				{
+					Preferences.setBoolean( "_stenchAirportToday", true );
+				}
 			}
 			else if ( location.contains( "whichplace=airport" ) )
 			{

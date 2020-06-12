@@ -2499,6 +2499,18 @@ public class KoLAdventure
 			"Drippy Juice supply",
 			"You've run out of Drippy Juice.",
 		},
+
+		// Elemental Airport airplanes
+		{
+			"You don't know where that is\\.",
+			"You can't get there from here.",
+		},
+
+		// That isn't a place you can go.
+		{
+			"That isn't a place you can go\\.",
+			"You can't get there from here.",
+		},
 	};
 
 	public static final int findAdventureFailure( String responseText )
