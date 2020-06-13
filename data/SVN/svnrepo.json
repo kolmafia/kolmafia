@@ -135,15 +135,6 @@
    "longDesc": "Maximizes player for maximum turns with gear on hand.  Checks ALL daily deeds, Does all daily deeds that don't require user input.  Checks your Source Terminal for usage, and informs you if you're missing any upgrades.  Runs SNOJO Adventures if any are available, Runs 5 (free) adventures in the mines (if Unattended Minor skill is found), Checks Spacegate to see if any turns are remaining (or if it was even opened).  Grabs Cop dollars (if available), and Time Spinner items (if available)  Works in STANDARD, HARDCORE, and NON-STANDARD ascensions, and in AFTERCORE TOO!  Script will only spend a minimal amount of meat, just to buy a 'bag of park garbage', if none are in inventory, and charter is available.  And MUCH MUCH more!  It's easily customizable too!"
  },
  {
-   "repo": "https://github.com/soolar/sl_ascend/trunk/RELEASE/",
-   "author": "soolar, cheesecookie",
-   "name": "SL_Ascend",
-   "forumThread": "https://kolmafia.us/showthread.php?23498-sl_ascend-a-cc_ascend-fork",
-   "shortDesc": "Automated ascenscion",
-   "category": "action",
-   "longDesc": "soolar's fork of cheesecookie's cc_ascend"
- },
- {
    "repo": "https://svn.code.sf.net/p/fluxxdog-coding/code/trunk/superdrinks/",
    "author": "fluxxdog",
    "name": "Superdrinks for Fun and Profit",
@@ -223,6 +214,15 @@
    "shortDesc": "Automatic Bounty Hunter Hunter",
    "category": "adventure",
    "longDesc": "The purpose of this script is to automatically go to the Bounty Hunter Hunter, accept bounties, hunt them and turn in the completed bounties for lucre."
+ },
+ {
+   "repo": "https://github.com/Loathing-Associates-Scripting-Society/autoscend/branches/master/RELEASE/",
+   "author": "Loathing Associates Scripting Society",
+   "name": "autoscend",
+   "forumThread": "https://kolmafia.us/showthread.php?25070",
+   "shortDesc": "Automated Ascension",
+   "category": "adventure",
+   "longDesc": "The collaborative continuation of sl_ascend/cc_ascend"
  },
  {
    "repo": "https://svn.code.sf.net/p/bumcheekascend/code/bumcheekascend/",
@@ -331,6 +331,15 @@
    "shortDesc": "Automates the agua de vida quests",
    "category": "adventure",
    "longDesc": "A script to automatically complete:<ol><li><b>Primordial Fear</b>: Be Cyrus's punching bag</li><li><b>Hyboria</b>: Krakrox does manly things <i>(includes Hunt the Wumpus)</i></li><li><b>Future</b>: Collect elemental essences</li></ol>...and get you a nifty <i>Secret from the Future</i>."
+ },
+ {
+   "repo": "https://github.com/soolar/sl_ascend/trunk/RELEASE/",
+   "author": "soolar, cheesecookie",
+   "name": "SL_Ascend",
+   "forumThread": "https://kolmafia.us/showthread.php?23498-sl_ascend-a-cc_ascend-fork",
+   "shortDesc": "Automated ascenscion",
+   "category": "adventure",
+   "longDesc": "soolar's fork of cheesecookie's cc_ascend"
  },
  {
    "repo": "https://svn.code.sf.net/p/slimetube/code/",
