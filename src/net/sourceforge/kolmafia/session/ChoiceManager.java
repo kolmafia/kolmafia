@@ -2634,8 +2634,10 @@ public abstract class ChoiceManager
 		// The Fast and the Furry-ous
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure669", "Basement Furry",
-			new Object[] { "Open Ground Floor with titanium umbrella, otherwise Neckbeard Choice", "200 Moxie substats",
-				"???", "skip adventure and guarantees this adventure will reoccur" } ),
+			new Object[] { "Open Ground Floor with titanium umbrella, otherwise Neckbeard Choice",
+				       "200 Moxie substats",
+				       "???",
+				       "skip adventure and guarantee this adventure will reoccur" } ),
 
 		// You Don't Mess Around with Gym
 		new ChoiceAdventure(
@@ -2643,7 +2645,8 @@ public abstract class ChoiceManager
 			new Object[] { new Option( "massive dumbbell, then skip adventure", "massive dumbbell" ),
 				       "Muscle stats",
 				       "Items",
-				       "Open Ground Floor with amulet, otherwise skip" } ),
+				       "Open Ground Floor with amulet, otherwise skip",
+				       "skip adventure and guarantee this adventure will reoccur" } ),
 
 		// Out in the Open Source
 		new ChoiceAdventure(
