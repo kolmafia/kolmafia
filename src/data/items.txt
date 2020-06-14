@@ -10539,9 +10539,9 @@
 10511	old pizza box	463349451	lhmpizzabox.gif	offhand	q	0
 10512	chipped coffee mug	559241043	lhmmug.gif	offhand	q	0
 10513	Left-Hand Man action figure	125983737	lhmlarva.gif	offhand	t	0
-10514
-10515
-10516
+10514	drippy seed	887922515	dripseed.gif	none	t	0
+10515	drippy grub	887349658	dripgrub.gif	none	t	0
+10516	drippy bezoar	613325917	dripbezoar.gif	none	t	0
 10517
 10518
 10519
@@ -10549,9 +10549,9 @@
 10521
 10522
 10523
-10524
-10525
-10526
+10524	drippy stein	740756675	dripstein.gif	none	t	0
+10525	drippy pilsner	358128961	dripbeer.gif	drink	t	0
+10526	drippy staff	589991028	dripstaff.gif	weapon	t	0
 10527
 10528
 10529
@@ -10600,3 +10600,4 @@
 10572	marshroom	650215239	marshroom.gif	potion, usable	t,d	3
 10573	bag of Iunion stones	389793817	iunionbag.gif	usable	t	0
 10574	Iunion Crown	789074173	iunioncrown.gif	hat		0
+10575	drippy candy bar	937545686	dripcandybar.gif	none	t	0

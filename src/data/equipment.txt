@@ -1064,6 +1064,7 @@ dreadlock whip	40	Mus: 5	1-handed whip
 dripping meat crossbow	50	Mox: 10	2-handed crossbow
 dripping meat staff	50	Mus: 10	2-handed staff
 dripping meat sword	50	Mus: 10	1-handed sword
+drippy staff	0	Mus: 0	1-handed staff
 drippy stake	5	Mus: 0	1-handed knife
 drippy truncheon	5	Mus: 0	1-handed club
 Drowsy Sword	175	Mus: 66	2-handed sword

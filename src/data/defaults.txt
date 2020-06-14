@@ -1502,6 +1502,7 @@ user	_donhosCasts	0
 user	_dreamJarDrops	0
 user	_drippyCaviarUsed	false
 user	_drippyNuggetUsed	false
+user	_drippyPilsnerUsed	false
 user	_drippyPlumUsed	false
 user	_drippyWineUsed	false
 user	_drunkPygmyBanishes	0
