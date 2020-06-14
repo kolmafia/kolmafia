@@ -654,10 +654,11 @@ public class AdventureRequest
 		encounter = AdventureRequest.handleMask( encounter );
 
 		// KoL now provides MONSTERID in fight responseText.
-		// It does not do this is you are blind and only if you are blind.
 		Matcher m = MONSTERID_PATTERN.matcher( responseText );
+
 		if ( !m.find() )
 		{
+			// It does not do this if and only if you are blind.
 			if ( responseText.contains( "darkness.gif" ) )
 			{
 				// Adventuring in the Wumpus cave while temporarily blind is
@@ -666,13 +667,16 @@ public class AdventureRequest
 				return WumpusManager.isWumpus() ? WUMPUS : THE_DARKNESS;
 			}
 
+			// StaticEntity.printDebugText( "MONSTERID not found", responseText );
+
 			// KoL will not return the MONSTERID if it is already
 			// in a fight but the user forces it to redirect back
 			// to it by trying to go to a different location,
 			// causing you to "twiddle your thumbs". This also
 			// happens if you logout and login while in a fight
-
-			// StaticEntity.printDebugText( "MONSTERID not found", responseText );
+			//
+			// This has been bug reported and a fix in pending.
+			// Until then. try an exact lookup of the encounter.
 
 			encounter = ConsequenceManager.disambiguateMonster( encounter, responseText );
 			MonsterData monster = MonsterDatabase.findMonster( encounter );
@@ -685,7 +689,9 @@ public class AdventureRequest
 		// Do we know this monster id?
 		if ( monster != null )
 		{
-			// Yes. send through ConsequenceManager
+			// Yes. Send through ConsequenceManager. This is how we
+			// disambiguate Ed the Undying into Ed the Undying (4),
+			// for example.
 			String monsterName = monster.getName();
 			String disambiguated = ConsequenceManager.disambiguateMonster( monsterName, responseText );;
 			if ( !monsterName.equals( disambiguated ) )
@@ -698,18 +704,25 @@ public class AdventureRequest
 		// No! Is this a monster for which we have a pseudo-ID?
 		encounter = ConsequenceManager.disambiguateMonster( encounter, responseText );
 		monster = MonsterDatabase.findMonster( encounter );
+		String image = null;
 		if ( monster != null )
 		{
-			String message = "*** Monster '" + encounter + "' has monsterId = " + monsterId;
-			RequestLogger.printLine( message);
-			RequestLogger.updateSessionLog( message );
-			return monster;
+			// Yes. We've learned the actual monsterId!
+			MonsterDatabase.setMonsterId( monster, monsterId );
+			image = monster.getImage();
+		}
+		else
+		{
+			// It's a brand-new monster. Register it.
+			Matcher i = AdventureRequest.MONSTER_IMAGE.matcher( responseText );
+			image = i.find() ? i.group( 1 ) : "";
+			monster =  MonsterDatabase.registerMonster( encounter, monsterId, image );
 		}
 
-		// It's a brand-new monster. Register it
-		Matcher i = AdventureRequest.MONSTER_IMAGE.matcher( responseText );
-		String image = i.find() ? i.group( 1 ) : null;
-		return MonsterDatabase.registerMonster( encounter, monsterId, image );
+		String message = "*** Monster '" + encounter + "' has monsterId = " + monsterId + " and image '" + image + "'";
+		RequestLogger.printLine( message);
+		RequestLogger.updateSessionLog( message );
+		return monster;
 	}
 
 	private static final String parseChoiceEncounter( final String urlString, final int choice, final String responseText )

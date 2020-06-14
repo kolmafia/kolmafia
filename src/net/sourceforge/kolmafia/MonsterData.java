@@ -608,6 +608,11 @@ public class MonsterData
 		return this.id;
 	}
 
+	public void setId( int newId )
+	{
+		this.id = newId;
+	}
+
 	public String getManuelName()
 	{
 		return this.manuelName == null ? this.name : this.manuelName;

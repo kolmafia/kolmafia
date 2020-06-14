@@ -404,7 +404,7 @@ public class MonsterDatabase
 			int id = StringUtilities.isNumeric( idString ) ? StringUtilities.parseInt( idString ) : 0;
 			String [] images = imageString.split( "\\s*,\\s*" );
 
-			MonsterData monster = MonsterDatabase.registerMonster( name, id, images, attributes );
+			MonsterData monster = MonsterDatabase.newMonster( name, id, images, attributes );
 			if ( monster == null )
 			{
 				continue;
@@ -804,12 +804,21 @@ public class MonsterDatabase
 	}
 
 	// Register an unknown monster
-	public static final MonsterData registerMonster( final String name )
+	public static final void registerMonster( final MonsterData monster )
 	{
-		MonsterData monster = MonsterDatabase.registerMonster( name, 0, new String[0], "" );
+		int id = monster.getId();
+		String name = monster.getName();
 		MonsterDatabase.MONSTER_DATA.put( name, monster );
 		MonsterDatabase.OLD_MONSTER_DATA.put( name.toLowerCase(), monster );
 		MonsterDatabase.LEET_MONSTER_DATA.put( StringUtilities.leetify( name ), monster );
+		MonsterDatabase.registerMonsterId( id, name, monster );
+		MonsterDatabase.saveCanonicalNames();
+	}
+
+	public static final MonsterData registerMonster( final String name )
+	{
+		MonsterData monster = MonsterDatabase.newMonster( name, 0, new String[0], "" );
+		MonsterDatabase.registerMonster( monster );
 		return monster;
 	}
 
@@ -817,10 +826,8 @@ public class MonsterDatabase
 	public static final MonsterData registerMonster( final String name, final int id, final String image )
 	{
 		String[] images = { image };
-		MonsterData monster = MonsterDatabase.registerMonster( name, id, images, "" );
-		MonsterDatabase.MONSTER_DATA.put( name, monster );
-		MonsterDatabase.OLD_MONSTER_DATA.put( name.toLowerCase(), monster );
-		MonsterDatabase.LEET_MONSTER_DATA.put( StringUtilities.leetify( name ), monster );
+		MonsterData monster = MonsterDatabase.newMonster( name, id, images, "" );
+		MonsterDatabase.registerMonster( monster );
 		return monster;
 	}
 
@@ -828,10 +835,17 @@ public class MonsterDatabase
 	public static final MonsterData registerMonster( final String name, final int id, final String image, final String attributes )
 	{
 		String[] images = { image };
-		MonsterData monster = MonsterDatabase.registerMonster( name, id, images, attributes );
-		MonsterDatabase.registerMonsterId( id, name, monster );
-		MonsterDatabase.saveCanonicalNames();
+		MonsterData monster = MonsterDatabase.newMonster( name, id, images, attributes );
+		MonsterDatabase.registerMonster( monster );
 		return monster;
+	}
+
+	public static final void setMonsterId( MonsterData monster, int newMonsterId )
+	{
+		int oldMonsterId = monster.getId();
+		MonsterDatabase.MONSTER_IDS.remove( oldMonsterId );
+		MonsterDatabase.MONSTER_IDS.put( newMonsterId, monster );
+		monster.setId( newMonsterId );
 	}
 
 	private static final void registerMonsterId( final int id, final String name, final MonsterData monster )
@@ -871,7 +885,7 @@ public class MonsterDatabase
 		return MonsterDatabase.MONSTER_IDS.entrySet();
 	}
 
-	public static final MonsterData registerMonster( final String name, final int id, final String[] images, final String attributes )
+	public static final MonsterData newMonster( final String name, final int id, final String[] images, final String attributes )
 	{
 		MonsterData monster = MonsterDatabase.findMonster( name );
 		if ( monster != null && monster.getId() == id )
