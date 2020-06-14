@@ -1100,8 +1100,8 @@ public class TestCommand
 				String encounter = split.length > 3 ? split[ 3 ].trim() : AdventureRequest.parseCombatEncounter( responseText );
 				FightRequest.setCurrentEncounter( encounter );
 				MonsterData monster = AdventureRequest.extractMonster( encounter, responseText );
+				MonsterStatusTracker.setNextMonster( monster );
 				String monsterName = monster.getName();
-				MonsterStatusTracker.setNextMonsterName( monsterName );
 				FightRequest.currentRound = round;
 				FightRequest.updateCombatData( "fight.php", monsterName, responseText );
 				FightRequest.lastDecoratedResponseText = RequestEditorKit.getFeatureRichHTML( "fight.php", responseText );
@@ -1150,8 +1150,8 @@ public class TestCommand
 			String responseText = TestCommand.contents;
 			String encounter = AdventureRequest.parseCombatEncounter( responseText );
 			MonsterData monster = AdventureRequest.extractMonster( encounter, responseText );
+			MonsterStatusTracker.setNextMonster( monster );
 			RequestLogger.printLine( monster.getName() );
-			MonsterStatusTracker.setNextMonsterName( monster.getName() );
 			TestCommand.contents = null;
 			return;
 		}

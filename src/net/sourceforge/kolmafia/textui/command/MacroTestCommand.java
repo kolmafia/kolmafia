@@ -33,10 +33,13 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -67,7 +70,8 @@ public class MacroTestCommand
 
 			if ( parameters.length() > 0 )
 			{
-				MonsterStatusTracker.setNextMonsterName( parameters );
+				MonsterData monster = MonsterDatabase.findMonster( parameters );
+				MonsterStatusTracker.setNextMonster( monster );
 			}
 		}
 		

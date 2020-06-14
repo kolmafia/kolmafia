@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.combat.CombatActionManager;
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -528,8 +529,14 @@ public class AdventureRequest
 		{
 			if ( type.equals( "Combat" ) )
 			{
-				// encounter = AdventureRequest.translateGenericType( encounter, responseText );
 				MonsterData monster = AdventureRequest.extractMonster( encounter, responseText );
+
+				// In Ed we'll only set the monster name the first time we encounter the monster
+				if ( !KoLCharacter.isEd() || Preferences.getInteger( "_edDefeats" ) == 0 )
+				{
+					MonsterStatusTracker.setNextMonster( monster );
+				}
+
 				encounter = monster.getName();
 				// Only queue normal monster encounters
 				if ( !EncounterManager.ignoreSpecialMonsters &&
