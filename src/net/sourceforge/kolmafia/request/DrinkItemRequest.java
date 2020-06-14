@@ -153,6 +153,10 @@ public class DrinkItemRequest
 
 		switch ( itemId )
 		{
+		case ItemPool.DRIPPY_PILSNER:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_drippyPilsnerUsed" ) ? 0 : 1;
+
 		case ItemPool.DRIPPY_WINE:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_drippyWineUsed" ) ? 0 : 1;
@@ -917,6 +921,11 @@ public class DrinkItemRequest
 
 		case ItemPool.BLOODWEISER:
 			Preferences.increment( "bloodweiserDrunk", item.getCount() );
+			return;
+
+		case ItemPool.DRIPPY_PILSNER:
+			Preferences.setBoolean( "_drippyPilsnerUsed", true );
+			Preferences.increment( "drippyJuice", 5 );
 			return;
 
 		case ItemPool.DRIPPY_WINE:

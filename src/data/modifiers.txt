@@ -1260,6 +1260,7 @@ Item	dreadlock whip	Sleaze Damage: +5, Stench Damage: +5, Monster Level: +10
 Item	dripping meat crossbow	Moxie: +2
 Item	dripping meat staff	Mysticality: +2
 Item	dripping meat sword	Muscle: +2
+# drippy staff: Fires blasts of energy that can damage Drip creatures
 # drippy stake: +40 Damage vs. creatures of The Drip
 Item	drippy stake	Single Equip
 # drippy truncheon: +30 Damage vs. creatures of The Drip
@@ -10408,6 +10409,7 @@ Item	doppelshifter egg	Free Pull
 Item	dragon aluminum ore	Lasts Until Rollover
 # Dreadsylvanian seed pod: Fully restores your HP and removes negative status effects
 Item	dreaming Jung man	Free Pull
+# drippy candy bar: It's too hard to chew
 # drone self-destruct chip: Deals 55-60 <font color=red>Hot Damage</font>
 # droopy doll eye: Deals 60-80 <font color=gray>Spooky Damage</font>
 # Drunkula's bell: Summons bats that deal <font color=blue>Cold Damage</font> based on your Mysticality
