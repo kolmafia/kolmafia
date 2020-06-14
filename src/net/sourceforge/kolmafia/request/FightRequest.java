@@ -91,6 +91,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -2540,17 +2541,6 @@ public class FightRequest
 			if ( responseText.contains( "stomps in place restlessly" ) )
 			{
 				FightRequest.canStomp = true;
-			}
-
-			// If this is the first round, then register the
-			// opponent you are fighting against.
-
-			encounter = ConsequenceManager.disambiguateMonster( encounter, responseText );
-
-			// In Ed we'll only set the monster name when we have won or abandoned the fight
-			if ( !KoLCharacter.isEd() || Preferences.getInteger( "_edDefeats" ) == 0 )
-			{
-				MonsterStatusTracker.setNextMonsterName( CombatActionManager.encounterKey( encounter, false ) );
 			}
 
 			MonsterData monster = MonsterStatusTracker.getLastMonster();
@@ -6825,9 +6815,10 @@ public class FightRequest
 			if ( m.find() )
 			{
 				FightRequest.clearInstanceData( true );
-				String newMonster = m.group( 1 );
-				MonsterStatusTracker.setNextMonsterName( CombatActionManager.encounterKey( newMonster, false ), true );
-				FightRequest.logText( "your opponent becomes " + newMonster + "!", status );
+				String newMonsterName = m.group( 1 );
+				MonsterData monster = MonsterDatabase.findMonster( CombatActionManager.encounterKey( newMonsterName, false ) );
+				MonsterStatusTracker.transformMonster( monster );
+				FightRequest.logText( "your opponent becomes " + newMonsterName + "!", status );
 			}
 
 			return;

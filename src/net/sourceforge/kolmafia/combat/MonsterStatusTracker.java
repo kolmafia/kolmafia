@@ -89,63 +89,31 @@ public class MonsterStatusTracker
 		return MonsterStatusTracker.lastMonsterName;
 	}
 
-	public static final void setNextMonsterName( String monsterName )
+	public static void transformMonster( MonsterData monster )
 	{
-		MonsterStatusTracker.setNextMonsterName( monsterName, false );
+		MonsterData newMonster = monster.transform();
+		// This is not correct; if you had random modifiers, your new
+		// monster will have the same number of them - but different.
+		// This gets rid of the old ones, at least.
+		// *** Read new random modifers from next fight round.
+		MonsterData.lastRandomModifiers.clear();
+		MonsterStatusTracker.setNextMonster( newMonster );
 	}
 
-	public static final void setNextMonsterName( String monsterName, final boolean transformed )
+	public static void setNextMonster( MonsterData monster )
 	{
 		MonsterStatusTracker.reset();
-
-		MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName );
-
-		if ( MonsterStatusTracker.monsterData == null && EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() == ItemPool.SWORD_PREPOSITIONS )
-		{
-			monsterName = StringUtilities.lookupPrepositions( monsterName );
-			MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName );
-		}
-
-		if ( MonsterStatusTracker.monsterData == null )
-		{
-			if ( monsterName.startsWith( "the " ) || monsterName.startsWith( "The " ))
-			{
-				MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName.substring( 4 ) );
-				if ( MonsterStatusTracker.monsterData != null )
-				{
-					monsterName = monsterName.substring( 4 );
-				}
-			}
-			else if ( monsterName.startsWith( "el " ) || monsterName.startsWith( "la " ) || monsterName.startsWith( "El " ) || monsterName.startsWith( "La " ) )
-			{
-				MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName.substring( 3 ) );
-				if ( MonsterStatusTracker.monsterData != null )
-				{
-					monsterName = monsterName.substring( 3 );
-				}
-			}
-		}
-
-		if ( MonsterStatusTracker.monsterData == null )
-		{
-			// Temporarily register the unknown monster so that
-			// consult scripts can see it as such	
-			MonsterStatusTracker.monsterData = MonsterDatabase.registerMonster( monsterName );
-		}
+		MonsterStatusTracker.monsterData = monster;
 
 		// If we saved an array of random modifiers, apply them
 		MonsterStatusTracker.monsterData = MonsterStatusTracker.monsterData.handleRandomModifiers();
 		MonsterStatusTracker.monsterData = MonsterStatusTracker.monsterData.handleMonsterLevel();
-		if ( transformed )
-		{
-			MonsterStatusTracker.monsterData = MonsterStatusTracker.monsterData.transform();
-		}
 
 		MonsterStatusTracker.originalHealth = MonsterStatusTracker.monsterData.getHP();
 		MonsterStatusTracker.originalAttack = MonsterStatusTracker.monsterData.getAttack();
 		MonsterStatusTracker.originalDefense = MonsterStatusTracker.monsterData.getDefense();
 
-		MonsterStatusTracker.lastMonsterName = monsterName;
+		MonsterStatusTracker.lastMonsterName = monster.getName();
 	}
 
 	public static final boolean dropsItem( int itemId )
