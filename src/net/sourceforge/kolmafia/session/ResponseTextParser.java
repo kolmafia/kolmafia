@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.session;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -591,16 +592,20 @@ public class ResponseTextParser
 				// not an equipment page. Check for that, too.
 				else
 				{
+					AdventureResult item = UseItemRequest.getLastItemUsed();
 					UseItemRequest.parseConsumption( responseText, false );
+					SpadingManager.processConsumeItem( item, responseText );
 				}
 			}
 
 			// If there is a consumption message, parse it
 			else if ( location.contains( "action=message" ) )
 			{
+				AdventureResult item = UseItemRequest.getLastItemUsed();
 				UseItemRequest.parseConsumption( responseText, false );
 				AWOLQuartermasterRequest.parseResponse( location, responseText );
 				BURTRequest.parseResponse( location, responseText );
+				SpadingManager.processConsumeItem( item, responseText );
 			}
 
 			// If there is a bricko message, parse it
@@ -655,7 +660,9 @@ public class ResponseTextParser
 			    location.startsWith( "inv_familiar.php" ) )
 		          && location.contains( "whichitem" ) )
 		{
+			AdventureResult item = UseItemRequest.getLastItemUsed();
 			UseItemRequest.parseConsumption( responseText, false );
+			SpadingManager.processConsumeItem( item, responseText );
 		}
 
 		else if ( location.startsWith( "knoll_mushrooms.php" ) )
@@ -711,7 +718,9 @@ public class ResponseTextParser
 
 		else if ( ( location.startsWith( "multiuse.php" ) || location.startsWith( "skills.php" ) ) && location.contains( "useitem" ) )
 		{
+			AdventureResult item = UseItemRequest.getLastItemUsed();
 			UseItemRequest.parseConsumption( responseText, false );
+			SpadingManager.processConsumeItem( item, responseText );
 		}
 
 		else if ( location.startsWith( "pandamonium.php" ) )
@@ -784,7 +793,9 @@ public class ResponseTextParser
 		{
 			if ( location.contains( "action=useditem" ) )
 			{
+				AdventureResult item = UseItemRequest.getLastItemUsed();
 				UseItemRequest.parseConsumption( responseText, false );
+				SpadingManager.processConsumeItem( item, responseText );
 			}
 		}
 

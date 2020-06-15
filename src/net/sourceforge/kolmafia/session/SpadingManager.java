@@ -36,11 +36,13 @@ package net.sourceforge.kolmafia.session;
 import java.io.File;
 import java.util.List;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
 
@@ -57,6 +59,7 @@ public class SpadingManager
 		CONSUME_USE,
 		CONSUME_MULTIPLE,
 		CONSUME_REUSABLE,
+		CONSUME_MESSAGE,
 		MEAT_DROP,
 		;
 
@@ -76,6 +79,8 @@ public class SpadingManager
 				return SpadingEvent.CONSUME_MULTIPLE;
 			case KoLConstants.INFINITE_USES:
 				return SpadingEvent.CONSUME_REUSABLE;
+			case KoLConstants.MESSAGE_DISPLAY:
+				return SpadingEvent.CONSUME_MESSAGE;
 			default:
 				return null;
 			}
@@ -128,6 +133,18 @@ public class SpadingManager
 		}
 
 		return SpadingManager.invokeSpadingScript( event, itemName, responseText );
+	}
+
+	public static boolean processConsumeItem( final AdventureResult item, final String responseText )
+	{
+		if ( item == null )
+		{
+			return false;
+		}
+
+		int consumptionType = UseItemRequest.getConsumptionType( item );
+
+		return SpadingManager.processConsume( consumptionType, item.getDisambiguatedName(), responseText );
 	}
 
 	private static boolean invokeSpadingScript( final SpadingEvent event, final String meta, final String responseText )
