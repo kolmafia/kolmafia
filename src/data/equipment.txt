@@ -2196,6 +2196,7 @@ anchovy can key	10	none
 anemoney clip	80	Mys: 15
 Ankh of Badahnkadh	165	Mys: 67
 ankleweights	100	Mys: 35
+annealed drippy orb	0	none
 anniversary balsa wood socks	10	none
 anniversary burlap belt	10	none
 Annual Ascot	0	none

@@ -2707,6 +2707,12 @@ public class KoLAdventure
 		{
 		case AdventurePool.THE_DRIPPING_TREES:
 			Preferences.increment( "dripAdventuresSinceAscension" );
+			Preferences.increment( "drippingTreesAdventuresSinceAscension" );
+			Preferences.decrement( "drippyJuice" );
+			break;
+		case AdventurePool.THE_DRIPPING_HALL:
+			Preferences.increment( "dripAdventuresSinceAscension" );
+			Preferences.increment( "drippingHallAdventuresSinceAscension" );
 			Preferences.decrement( "drippyJuice" );
 			break;
 		}

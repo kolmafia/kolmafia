@@ -528,6 +528,8 @@ user	dreadScroll6	0
 user	dreadScroll7	0
 user	dreadScroll8	0
 user	dripAdventuresSinceAscension	0
+user	drippingHallAdventuresSinceAscension	0
+user	drippingTreesAdventuresSinceAscension	0
 user	drippyBatsUnlocked	0
 user	drippyJuice	0
 user	drippyShieldUnlocked	false

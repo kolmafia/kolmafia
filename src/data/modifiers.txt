@@ -2574,6 +2574,7 @@ Item	anchovy can key	Food Drop: +100
 Item	anemoney clip	Meat Drop: [25+50*env(underwater)], Single Equip
 Item	Ankh of Badahnkadh	Spell Damage Percent: +25, Single Equip
 Item	ankleweights	PvP Fights: +4, Experience: +1, Single Equip
+# annealed drippy orb: Limited protection from damage in The Drip
 Item	anniversary balsa wood socks	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	anniversary burlap belt	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	Annual Ascot	Muscle Percent: +12, Mysticality Percent: +12, Moxie Percent: +12

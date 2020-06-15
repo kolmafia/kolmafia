@@ -887,7 +887,7 @@ public class AreaCombatData
 		if ( this.zone.equals( "The Dripping Trees" ) )
 		{
 			// Non-Combat on turn 16, 31, 46, ...
-			int advs = Preferences.getInteger( "dripAdventuresSinceAscension" );
+			int advs = Preferences.getInteger( "drippingTreesAdventuresSinceAscension" );
 			return ( advs > 0 && ( advs % 15 ) == 0 ) ? 0 : 100;
 		}
 

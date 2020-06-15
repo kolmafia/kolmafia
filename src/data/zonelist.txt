@@ -37,6 +37,7 @@ Cyrpt	Cyrpt	Defiled Cyrpt
 
 Woods	Woods	Distant Woods
 HiddenCity	Woods	Hidden City
+The Drip	Woods	The Drip
 
 Friars	Friars	Deep Fat Friar's
 Pandamonium	Pandamonium	Pandamonium
@@ -124,7 +125,6 @@ Sorceress	Unsorted	Sorceress Lair
 Holiday	Unsorted	Holiday Zones
 Crimbo19	Holiday	Christmas 2019
 Tammy's Offshore Platform	Crimbo19	Crimbo 19 Underwater
-
 Override	Unsorted	Discoveries
 
 Events	Events	Events
