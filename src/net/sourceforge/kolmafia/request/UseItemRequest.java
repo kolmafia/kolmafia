@@ -302,6 +302,11 @@ public class UseItemRequest
 		}
 	}
 
+	public static final AdventureResult getLastItemUsed()
+	{
+		return UseItemRequest.lastItemUsed;
+	}
+
 	public static void setLastItemUsed( final AdventureResult item )
 	{
 		UseItemRequest.lastItemUsed = item;
@@ -1967,6 +1972,7 @@ public class UseItemRequest
 		UseItemRequest.currentItemId = this.itemUsed.getItemId();
 		UseItemRequest.parseConsumption( this.responseText, true );
 		ResponseTextParser.learnRecipe( this.getURLString(), this.responseText );
+		SpadingManager.processConsumeItem( this.itemUsed, this.responseText );
 	}
 
 	public static final void parseBricko( final String responseText )
@@ -2236,8 +2242,6 @@ public class UseItemRequest
 		}
 
 		int consumptionType = UseItemRequest.getConsumptionType( item );
-
-		SpadingManager.processConsume( consumptionType, item.getDisambiguatedName(), responseText );
 
 		switch ( consumptionType )
 		{
