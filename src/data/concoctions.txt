@@ -3175,3 +3175,15 @@ Ghiaccio Colada	MIX_FANCY	Guzzlr cocktail set	cold wad
 Nog-on-the-Cob	MIX_FANCY	Guzzlr cocktail set	robin's egg
 Sourfinger	MIX_FANCY	Guzzlr cocktail set	mangled finger
 Steamboat	MIX_FANCY	Guzzlr cocktail set	miniature boiler
+
+# Drip Institute
+
+drippy salt	COMBINE	Drip Institute petri dish	drippy bezoar
+drippy enzyme	COMBINE	Drip Institute petri dish	drippy grub
+drippy ichor	COMBINE	Drip Institute petri dish	drippy seed
+
+salty drippy candy bar	COMBINE	drippy salt	drippy ichor
+writhing drippy candy bar	COMBINE	drippy candy bar	drippy ichor
+
+drippy pigment	COMBINE	drippy enzyme	drippy ichor
+# lustrous drippy orb	COMBINE	drippy pigment	drippy orb
