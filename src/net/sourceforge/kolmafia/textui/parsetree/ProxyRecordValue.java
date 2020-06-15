@@ -275,6 +275,10 @@ public class ProxyRecordValue
 			.add( "reusable", DataTypes.BOOLEAN_TYPE )
 			.add( "multi", DataTypes.BOOLEAN_TYPE )
 			.add( "fancy", DataTypes.BOOLEAN_TYPE )
+			.add( "pasteable", DataTypes.BOOLEAN_TYPE )
+			.add( "smithable", DataTypes.BOOLEAN_TYPE )
+			.add( "cookable", DataTypes.BOOLEAN_TYPE )
+			.add( "mixable", DataTypes.BOOLEAN_TYPE )
 			.add( "candy", DataTypes.BOOLEAN_TYPE )
 			.add( "candy_type", DataTypes.STRING_TYPE )
 			.add( "chocolate", DataTypes.BOOLEAN_TYPE )
@@ -444,6 +448,26 @@ public class ProxyRecordValue
 		public boolean get_fancy()
 		{
 			return ItemDatabase.isFancyItem( (int) this.contentLong );
+		}
+
+		public boolean get_pasteable()
+		{
+			return ItemDatabase.isPasteable( (int) this.contentLong );
+		}
+
+		public boolean get_smithable()
+		{
+			return ItemDatabase.isSmithable( (int) this.contentLong );
+		}
+
+		public boolean get_cookable()
+		{
+			return ItemDatabase.isCookable( (int) this.contentLong );
+		}
+
+		public boolean get_mixable()
+		{
+			return ItemDatabase.isMixable( (int) this.contentLong );
 		}
 
 		public boolean get_candy()

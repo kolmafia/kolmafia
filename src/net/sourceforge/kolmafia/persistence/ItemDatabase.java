@@ -246,6 +246,10 @@ public class ItemDatabase
 	public static final int ATTR_MATCHABLE = 0x00010000;
 	public static final int ATTR_FANCY = 0x00020000;
 	public static final int ATTR_CHOCOLATE = 0x00040000;
+	public static final int ATTR_PASTE = 0x00080000;
+	public static final int ATTR_SMITH = 0x00100000;
+	public static final int ATTR_COOK = 0x00200000;
+	public static final int ATTR_MIX = 0x00400000;
 
 	private static final HashMap<String, Integer> PRIMARY_USE = new HashMap<String, Integer>();
 	private static final HashMap<Integer, String> INVERSE_PRIMARY_USE = new HashMap<Integer, String>();
@@ -325,6 +329,10 @@ public class ItemDatabase
 		ItemDatabase.defineSecondaryUse( "matchable", ItemDatabase.ATTR_MATCHABLE );
 		ItemDatabase.defineSecondaryUse( "fancy", ItemDatabase.ATTR_FANCY );
 		ItemDatabase.defineSecondaryUse( "chocolate", ItemDatabase.ATTR_CHOCOLATE );
+		ItemDatabase.defineSecondaryUse( "paste", ItemDatabase.ATTR_PASTE );
+		ItemDatabase.defineSecondaryUse( "smith", ItemDatabase.ATTR_SMITH );
+		ItemDatabase.defineSecondaryUse( "cook", ItemDatabase.ATTR_COOK );
+		ItemDatabase.defineSecondaryUse( "mix", ItemDatabase.ATTR_MIX );
 	}
 
 	private static final Set secondaryUsageEntrySet = INVERSE_SECONDARY_USE.entrySet();
@@ -1917,6 +1925,50 @@ public class ItemDatabase
 	public static final boolean isBountyItem( final int itemId )
 	{
 		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_BOUNTY );
+	}
+
+	/**
+	 * Returns true if the item is a Meat Pasting Component ingredient, otherwise false
+	 *
+	 * @return true if item is a Meat Pasting Component
+	 */
+
+	public static final boolean isPasteable( final int itemId )
+	{
+		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_PASTE );
+	}
+
+	/**
+	 * Returns true if the item is a Meatsmithing Component, otherwise false
+	 *
+	 * @return true if item is a Meatsmithing Component
+	 */
+
+	public static final boolean isSmithable( final int itemId )
+	{
+		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_SMITH );
+	}
+
+	/**
+	 * Returns true if the item is a Cooking Ingredient, otherwise false
+	 *
+	 * @return true if item is a Cooking Ingredient
+	 */
+
+	public static final boolean isCookable( final int itemId )
+	{
+		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_COOK );
+	}
+
+	/**
+	 * Returns true if the item is a Cocktailcrafting Ingredient, otherwise false
+	 *
+	 * @return true if item is a Cocktailcrafting ingredient
+	 */
+
+	public static final boolean isMixable( int itemId )
+	{
+		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_MIX );
 	}
 
 	/**

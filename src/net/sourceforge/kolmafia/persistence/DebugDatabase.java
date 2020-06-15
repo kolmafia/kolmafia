@@ -434,6 +434,11 @@ public class DebugDatabase
 			report.println( "# *** " + name + " (" + itemId + ") has secondary usage of " + secondary + " but is described as " + descSecondary + "." );
 		}
 
+		// Adjust crafting attributes to match description
+		int crafting = ( ItemDatabase.ATTR_FANCY | ItemDatabase.ATTR_PASTE | ItemDatabase.ATTR_SMITH | ItemDatabase.ATTR_COOK | ItemDatabase.ATTR_MIX );
+		attrs &= ~crafting;
+		attrs |= descAttrs & crafting;
+
 		// If description says it's a potion, make that the primary
 		// type and move usability and multiusability into attributes
 		if ( descPrimary == KoLConstants.CONSUME_POTION )
@@ -755,6 +760,22 @@ public class DebugDatabase
 		{
 			attributes |= ItemDatabase.ATTR_FANCY;
 		}
+		if ( text.contains( "Meat Pasting component" ) )
+		{
+			attributes |= ItemDatabase.ATTR_PASTE;
+		}
+		if ( text.contains( "Meatsmithing component" ) )
+		{
+			attributes |= ItemDatabase.ATTR_SMITH;
+		}
+		if ( text.contains( "Cooking ingredient" ) )
+		{
+			attributes |= ItemDatabase.ATTR_COOK;
+		}
+		if ( text.contains( "Cocktailcrafting ingredient" ) )
+		{
+			attributes |= ItemDatabase.ATTR_MIX;
+		}
 		return attributes;
 	}
 
@@ -837,6 +858,34 @@ public class DebugDatabase
 		// If the item is a (Fancy Cooking ingredient) or (Fancy Cocktailcrafting ingredient)
 		// we must mark the item with ATTR_FANCY
 		if ( ( descAttrs & ItemDatabase.ATTR_FANCY ) != ( attrs & ItemDatabase.ATTR_FANCY ) )
+		{
+			return false;
+		}
+
+		// If the item is a Meat Pasting component
+		// we must mark the item with ATTR_PASTE
+		if ( ( descAttrs & ItemDatabase.ATTR_PASTE ) != ( attrs & ItemDatabase.ATTR_PASTE ) )
+		{
+			return false;
+		}
+
+		// If the item is a Meatsmithing component
+		// we must mark the item with ATTR_SMITH
+		if ( ( descAttrs & ItemDatabase.ATTR_SMITH ) != ( attrs & ItemDatabase.ATTR_SMITH ) )
+		{
+			return false;
+		}
+
+		// If the item is a Cooking ingredient
+		// we must mark the item with ATTR_COOK
+		if ( ( descAttrs & ItemDatabase.ATTR_COOK ) != ( attrs & ItemDatabase.ATTR_COOK ) )
+		{
+			return false;
+		}
+
+		// If the item is a Cocktailcrafting ingredient
+		// we must mark the item with ATTR_MIX
+		if ( ( descAttrs & ItemDatabase.ATTR_MIX ) != ( attrs & ItemDatabase.ATTR_MIX ) )
 		{
 			return false;
 		}
