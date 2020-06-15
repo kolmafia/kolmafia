@@ -4420,6 +4420,14 @@ public abstract class ChoiceManager
 			               new Option( "get waterlogged items", 2 ),
 			               new Option( "fail at life", 3 ) } ),
 
+		// Choice 1411 is The Hall in the Hall
+		new ChoiceAdventure(
+			"The Drip", "choiceAdventure1311", "The Hall in the Hall",
+			new Object[] { new Option( "drippy pool table", 1 ),
+			               new Option( "drippy vending machine", 2 ),
+			               new Option( "drippy humanoid", 3 ),
+			               new Option( "drippy keg", 4 ),
+			               new Option( "Driplets", 5 ) } ),
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -11896,18 +11904,18 @@ public abstract class ChoiceManager
 			}
 
 			// Since this choice appears on a schedule - the 16th
-			// adventure in The Drippy Trees and then every 15
+			// adventure in The Dripping Trees and then every 15
 			// turns thereafter - "fix" the adventure count as needed.
-			int advs = Preferences.getInteger( "dripAdventuresSinceAscension" );
+			int advs = Preferences.getInteger( "drippingTreesAdventuresSinceAscension" );
 			if ( advs < 16 )
 			{
-				Preferences.setInteger( "dripAdventuresSinceAscension", 16 );
+				Preferences.setInteger( "drippingTreesAdventuresSinceAscension", 16 );
 				advs = 16;
 			}
 			int mod = ( advs - 1 ) % 15;
 			if ( mod != 0 )
 			{
-				Preferences.increment( "dripAdventuresSinceAscension", 15 - mod );
+				Preferences.increment( "drippingTreesAdventuresSinceAscension", 15 - mod );
 			}
 
 			break;
@@ -11974,6 +11982,33 @@ public abstract class ChoiceManager
 			CampgroundRequest.clearCrop();
 			CampgroundRequest.setCampgroundItem( new Mushroom( mushroomLevel ) );
 			Preferences.setBoolean( "_mushroomGardenVisited", true );
+			break;
+		}
+
+		case 1411:
+		{
+			// The Hall in the Hall
+			// 1 = Door #1
+			// 2 = Door #2
+			// 3 = Door #3
+			// 4 - Door #4
+			// 5 - DOOR #5
+
+			// Since this choice appears on a schedule - the 12th
+			// adventure in The Dripping Hall and then every 12
+			// turns thereafter - "fix" the adventure count as needed.
+			int advs = Preferences.getInteger( "drippingHallAdventuresSinceAscension" );
+			if ( advs < 12 )
+			{
+				Preferences.setInteger( "drippingHallAdventuresSinceAscension", 12 );
+				advs = 12;
+			}
+			int mod = advs % 12;
+			if ( mod != 0 )
+			{
+				Preferences.increment( "drippingHallAdventuresSinceAscension", 12 - mod );
+			}
+
 			break;
 		}
 

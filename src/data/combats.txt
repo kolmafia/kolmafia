@@ -291,6 +291,7 @@ The Dire Warren	100	fluffy bunny
 The Dive Bar	100	lounge lizardfish	Mer-kin tippler	nurse shark
 The Don's Crimbo Compound	100	Black-and-White-Ops Penguin	Cement Cobbler Penguin	Mesmerizing Penguin	Mob Penguin Arsonist	Mob Penguin Caporegime	Mob Penguin Demolitionist	Mob Penguin Goon (2009)	Mob Penguin Kneecapper	Undercover Penguin	Don Crimbo: 0
 The Dragon's Moor	0	Sewage Treatment Dragon: 0
+The Dripping Hall	100	drippy reveler
 The Dripping Trees	100	drippy tree	drippy bat
 The Druidic Campsite	100	druid plants
 The Dungeons of Doom	70	swarm of killer bees	acid blob	mind flayer	large kobold	Quantum Mechanic	mimic: 0	The Master Of Thieves: -1

@@ -549,6 +549,8 @@ public class ValhallaManager
 		Preferences.setString( "cyrusAdjectives", "" );
 		Preferences.setString( "copperheadClubHazard", "none" );
 		Preferences.setInteger( "dripAdventuresSinceAscension", 0 );
+		Preferences.setInteger( "drippingHallAdventuresSinceAscension", 0 );
+		Preferences.setInteger( "drippingTreesAdventuresSinceAscension", 0 );
 		Preferences.setInteger( "drippyJuice", 0 );
 		Preferences.setBoolean( "lockPicked", false );
 		Preferences.setBoolean( "leafletCompleted", false );
