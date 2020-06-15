@@ -423,6 +423,7 @@ The Crimbo Cafe	crimbo19	ojo de pez burrito	50	ROW1104
 Drip Institute Cafeteria	dripcafeteria	drippy nugget	10000	ROW1131
 Drip Institute Cafeteria	dripcafeteria	glass of drippy wine	10000	ROW1151
 Drip Institute Cafeteria	dripcafeteria	drippy caviar	1000000	ROW1152
+Drip Institute Cafeteria	dripcafeteria	Drip Institute petri dish	5000	ROW1159
 
 Drip Institute Armory	driparmory	Drip harness	50000	ROW1128
 Drip Institute Armory	driparmory	drippy truncheon	20000	ROW1129
