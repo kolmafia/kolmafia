@@ -102,6 +102,11 @@ public class Macrofier
 		}
 	}
 
+	public static boolean usingCombatFilter()
+	{
+		return Macrofier.macroInterpreter != null;
+	}
+
 	private static boolean isSimpleAction( String action )
 	{
 		if ( action.startsWith( "consult" ) )
