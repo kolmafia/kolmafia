@@ -39,6 +39,8 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
+import net.sourceforge.kolmafia.combat.Macrofier;
+
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 
 import net.sourceforge.kolmafia.moods.RecoveryManager;
@@ -1330,7 +1332,9 @@ public class KoLAdventure
 
 		// Make sure that our chosen combat choices will work in the chosen zone.
 
-		if ( this.request instanceof AdventureRequest && !this.isNonCombatsOnly() )
+		if ( this.request instanceof AdventureRequest &&
+		     !this.isNonCombatsOnly() &&
+		     !Macrofier.usingCombatFilter() )
 		{
 			String action = Preferences.getString( "battleAction" );
 
