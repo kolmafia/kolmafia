@@ -10600,6 +10600,7 @@
 10572	marshroom	650215239	marshroom.gif	potion, usable	t,d	3
 10573	bag of Iunion stones	389793817	iunionbag.gif	usable	t	0
 10574	Iunion Crown	789074173	iunioncrown.gif	hat		0
-10575	drippy candy bar	937545686	dripcandybar.gif	none, paste	t	0
-10576	salty drippy candy bar	538019890	dripcandybar.gif	potion, usable	t	0
-10577	writhing drippy candy bar	488307339	dripcandybar.gif	potion, usable	t	0
+10575	drippy candy bar	937545686	dripcandybar.gif	none, candy, paste	t	0
+10576	salty drippy candy bar	538019890	dripcandybar.gif	potion, candy, usable	t	0
+10577	writhing drippy candy bar	488307339	dripcandybar.gif	potion, candy, usable	t	0
+10578	gooey drippy candy bar	983785368	dripcandybar.gif	potion, candy, usable	t	0
