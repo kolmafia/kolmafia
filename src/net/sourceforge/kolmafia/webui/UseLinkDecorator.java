@@ -1893,6 +1893,16 @@ public abstract class UseLinkDecorator
 			useLocation = "guild.php?place=ocg";
 			break;
 
+		// Link to the impassable rubble when you have 6 fizzing spore pods
+		case ItemPool.FIZZING_SPORE_POD:
+			if ( InventoryManager.getCount( ItemPool.FIZZING_SPORE_POD ) >= 6 &&
+				 QuestDatabase.isQuestBefore( Quest.NEMESIS, "step15" ) )
+			{
+				useType = "BOOOOOOM!";
+				useLocation = "place.php?whichplace=nemesiscave&action=nmcave_rubble";
+			}
+			break;
+
 		// Link to the untinker if you find an abridged dictionary.
 
 		case ItemPool.ABRIDGED:
