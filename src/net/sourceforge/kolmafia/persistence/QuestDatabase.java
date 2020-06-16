@@ -1316,6 +1316,16 @@ public class QuestDatabase
 		return Preferences.getString( quest.getPref() ).equals( second );
 	}
 
+	public static boolean isQuestBefore( Quest quest, String first )
+	{
+		if ( quest == null )
+		{
+			return false;
+		}
+
+		return QuestDatabase.isQuestLaterThan( first, Preferences.getString( quest.getPref() ) );
+	}
+
 	public static boolean isQuestLaterThan( Quest quest, String second )
 	{
 		if ( quest == null )
