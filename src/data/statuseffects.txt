@@ -2572,6 +2572,6 @@
 2570	Sulfurous Sinuses	jarl_egg.gif	a962cc494b0d078eea5525b36c84c497	good	none	drink 1 Nog-on-the-Cob
 2571	Steamed	stench.gif	4ec1356a4339c91dc2ac87b7d29d7b41	good	none	drink 1 Steamboat
 2572	Buttery, Boy	butterdrink.gif	a439ede8c90a1dc9c568eaad244d6757	good	none	drink 1 Buttery Boy
-2573	Extra Spongy	marshroom.gif	6ee0a39cfe8c7b65a83965deaead1e11	neutral	none	use 1 marshroom
+2573	Extra Spongy	marshroom.gif	6ee0a39cfe8c7b65a83965deaead1e11	good	none	use 1 marshroom
 2574	Bit-o-Salt	dripcandybar.gif	cf50b018fa9f021a014aa12715d0c82f	neutral	none	use 1 salty drippy candy bar
 2575	Slithering Mounds	dripcandybar.gif	63c611c1e773bc0516d1664ec5f1916c	neutral	none	use 1 writhing drippy candy bar

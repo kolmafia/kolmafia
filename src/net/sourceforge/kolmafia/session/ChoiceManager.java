@@ -14747,6 +14747,14 @@ public abstract class ChoiceManager
 			break;
 		}
 
+		case 1075:
+		{
+			// Mmmmmmayonnaise
+			TurnCounter.stopCounting( "Mmmmmmayonnaise window begin" );
+			TurnCounter.stopCounting( "Mmmmmmayonnaise window end" );
+			break;
+		}
+
 		case 1076:
 		{
 			// Mayo Minder&trade;

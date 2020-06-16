@@ -302,6 +302,6 @@
 273	Pet Coral	petcoral.gif	none,underwater	piece of coral		0	0	0	0
 274	Pocket Professor	lilprofessoron.gif	item0,mp1	packaged Pocket Professor	Pocket Professor memory chip	0	2	2	3
 275	Red-Nosed Snapper	redsnapper.gif	item0,underwater	red-spotted snapper roe	tinsel fin	3	3	3	3
-276	Antique Nutcracker	nutcfigure.gif	stat0,drop	antique nutcracker figure	nutcracking pliers	1	2	3	2
+276	Antique Nutcracker	nutcfigure.gif	stat0,drop	antique nutcracker figure	nutcracking pliers	1	2	3	2	clothes
 277	Piranha Plant	piranhaplant.gif	combat,stat0	pristine piranha seed	plastic piranha pot	3	3	3	3
 278	Left-Hand Man	lhmlarva.gif	none	sinistral homunculus		1	1	1	1
