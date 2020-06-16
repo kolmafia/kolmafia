@@ -163,6 +163,11 @@ public class TurnCounter
 		return remain;
 	}
 
+	public void resetForRun()
+	{
+		this.value = this.getTurnsRemaining();
+	}
+
 	public static int turnsRemaining( final String label )
 	{
 		synchronized ( TurnCounter.relayCounters )

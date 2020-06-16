@@ -749,6 +749,15 @@ public abstract class KoLmafia
 		TurnCounter.stopCounting( "Taco Elf window begin" );
 		TurnCounter.stopCounting( "Taco Elf window end" );
 		TurnCounter.stopCounting( "Latte Monster" );
+
+		// Adjust Mmmmmmayonnaise counters for next run
+		for ( TurnCounter counter : TurnCounter.getCounters() )
+		{
+			if ( counter.getLabel().startsWith( "Mmmmmmayonnaise window " ) )
+			{
+				counter.resetForRun();
+			}
+		}
 	}
 
 	public static void refreshSession()
