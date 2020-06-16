@@ -8234,6 +8234,10 @@ public class FightRequest
 			return false;
 		}
 
+		// This counter is not added to resetCounters() as it persists across ascension
+		TurnCounter.startCounting( 300, "Mmmmmmayonnaise window begin loc=* type=wander", "lparen.gif" );
+		TurnCounter.startCounting( 400, "Mmmmmmayonnaise window end loc=* type=wander", "rparen.gif" );
+
 		FightRequest.logText( "The mayo wasp deposits an egg in your abdomen!", status );
 		return true;
 	}
