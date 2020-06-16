@@ -674,16 +674,12 @@ public class AdventureRequest
 				return WumpusManager.isWumpus() ? WUMPUS : THE_DARKNESS;
 			}
 
-			// StaticEntity.printDebugText( "MONSTERID not found", responseText );
+			// As of 16-June-2020, KoL will provide MONSTERID with
+			// every round of combat. If it fails to do so when you
+			// are not blind, That would be a bug. Log it and
+			// attempt to identify the monster by name.
 
-			// KoL will not return the MONSTERID if it is already
-			// in a fight but the user forces it to redirect back
-			// to it by trying to go to a different location,
-			// causing you to "twiddle your thumbs". This also
-			// happens if you logout and login while in a fight
-			//
-			// This has been bug reported and a fix in pending.
-			// Until then. try an exact lookup of the encounter.
+			StaticEntity.printDebugText( "MONSTERID not found", responseText );
 
 			encounter = ConsequenceManager.disambiguateMonster( encounter, responseText );
 			MonsterData monster = MonsterDatabase.findMonster( encounter );
