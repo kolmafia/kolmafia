@@ -3045,6 +3045,7 @@ Item	lucky cat collar	Meat Drop: +7, Single Equip
 Item	lucky gold ring	Single Equip
 Item	lucky rabbit's foot	Item Drop: +7, Meat Drop: +7
 Item	lucky rabbitfish fin	HP Regen Min: 10, HP Regen Max: 12, MP Regen Min: 10, MP Regen Max: 12, Familiar Weight: +5, Fishing Skill: +5, Single Equip
+# lustrous drippy orb: Increases Driplet drops from monsters
 Item	LWA ring	MP Regen Min: 2, MP Regen Max: 3
 Item	LyleCo premium monocle	Rubee Drop: 1, Single Equip
 Item	Mafia bow tie	Muscle: +20, Moxie: +20

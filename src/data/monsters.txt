@@ -201,7 +201,7 @@ doughbat	42	doughbat.gif	Atk: 14 Def: 12 HP: 8 Init: 60 EA: sleaze Meat: 20 P: b
 Dr. Awkward	453	drawkward.gif	NOCOPY BOSS Atk: 175 Def: 157 HP: 200 Init: -10000 P: dude	Drowsy Sword (n100)	Staff of Fats (n100)	fumble formula (p5)
 Drab Bard	130	braddarb.gif	Atk: 136 Def: 124 HP: 170 Init: 40 Meat: 80 P: dude	drab sonata (30)	guitar pick (15)	olive (40)	glass of warm milk (c0)	accordionoid rocca (a0)
 drippy bat	2163	drippybat.gif	Atk: [200] Def: [200] HP: [120] Init: 100 P: beast	Driplet (n100)
-drippy reveler	2176	drippyreveler.gif	Atk: [200] Def: [200] HP: [150] Init: 100 P: humanoid	Driplet (n0)
+drippy reveler	2176	drippyreveler.gif	Atk: [200] Def: [200] HP: [150] Init: 100 P: humanoid	Driplet (n0)	drippy stein (0)
 drippy tree	2162	drippytree.gif	Atk: [150] Def: [150] HP: [100] Init: -10000 P: plant	Driplet (n0)
 drowned sailor	744	drownedsailor.gif	Atk: 400 Def: 405 HP: 700 Init: 50 E: spooky Meat: 150 P: undead	moist sailor's cap (n2)	rusty compass (n2)	rusty speargun (n2)	salt water taffy (c0)
 drunk duck	566	ducknicedrunk.gif	Atk: 165 Def: 157 HP: 170 Init: 40 Meat: 200 P: beast	bottle of gin (0)	bottle of rum (0)	bottle of tequila (0)	bottle of vodka (0)	bottle of whiskey (0)	boxed wine (0)	duct tape (0)

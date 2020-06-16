@@ -10554,7 +10554,7 @@
 10526	drippy staff	589991028	dripstaff.gif	weapon	t	0
 10527
 10528	drippy orb	356478594	driporb.gif	accessory, paste	t	0
-10529
+10529	lustrous drippy orb	948286429	driporb.gif	accessory		0
 10530
 10531	annealed drippy orb	588928279	driporb.gif	accessory		0
 10532	Guzzlr application	189491478	guzzlrapp.gif	usable	t	0

@@ -4422,7 +4422,7 @@ public abstract class ChoiceManager
 
 		// Choice 1411 is The Hall in the Hall
 		new ChoiceAdventure(
-			"The Drip", "choiceAdventure1311", "The Hall in the Hall",
+			"The Drip", "choiceAdventure1411", "The Hall in the Hall",
 			new Object[] { new Option( "drippy pool table", 1 ),
 			               new Option( "drippy vending machine", 2 ),
 			               new Option( "drippy humanoid", 3 ),
