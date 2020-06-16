@@ -1837,7 +1837,7 @@ green LavaCo Lamp&trade;	100	Mox: 35
 green peawee marble	201	Mys: 85
 Grey Guanon	60	Mys: 15
 grisly shield	200	Mus: 150	shield
-Guzzlr souvenir stein	0	none
+Guzzlr souvenir stein	100	none
 Half a Purse	100	none
 hand of Mr. Cards	10	none
 handmade hobby horse	20	none
@@ -1885,7 +1885,7 @@ LARP carp	0	none
 latte lovers member's mug	0	none
 lead umbrella	0	none
 left bear arm	0	none
-Left-Hand Man action figure	0	none
+Left-Hand Man action figure	50	none
 left-handed melodica	160	Mox: 150
 lemonade marble	204	Mys: 85
 little black book	160	Mys: 65
@@ -2582,6 +2582,7 @@ lucky Crimbo tiki necklace	10	none
 lucky gold ring	0	none
 lucky rabbit's foot	60	Mys: 15
 lucky rabbitfish fin	150	Mys: 30
+lustrous drippy orb	0	none
 LWA ring	10	none
 LyleCo premium monocle	10	none
 Mafia bow tie	0	Mys: 35
