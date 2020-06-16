@@ -139,7 +139,7 @@
 111	basic meat crossbow	924348153	crossbow.gif	weapon, smith	t,d	25
 112	meatloaf helmet	750234288	meatloaf.gif	hat	t,d	175
 113	dripping meat sword	927483696	dripsword.gif	weapon, smith	t,d	55
-114	dripping meat staff	370429104	dripstaff.gif	weapon, smith	t,d	55	dripping meat staves
+114	dripping meat staff	370429104	olddripstaff.gif	weapon, smith	t,d	55	dripping meat staves
 115	dripping meat crossbow	650388175	dripbow.gif	weapon, smith	t,d	55
 116	Bugfinder Blade	606633733	nicesword.gif	weapon		0
 117	Gnollish plunger	342452294	plunger.gif	weapon, paste	t,d	40
