@@ -9179,7 +9179,8 @@ public abstract class ChoiceManager
 
 		case 890:
 			// Lights Out in the Storage Room
-			if ( text.contains( "BUT AIN'T NO ONE CAN GET A STAIN OUT LIKE OLD AGNES!" ) )
+			if ( text.contains( "BUT AIN'T NO ONE CAN GET A STAIN OUT LIKE OLD AGNES!" ) &&
+			     !Preferences.getString( "nextSpookyravenElizabethRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenElizabethRoom", "The Haunted Laundry Room" );
 			}
@@ -9187,7 +9188,8 @@ public abstract class ChoiceManager
 
 		case 891:
 			// Lights Out in the Laundry Room
-			if ( text.contains( "DO YOU SEE THE STAIN UPON MY TOWEL?" ) )
+			if ( text.contains( "DO YOU SEE THE STAIN UPON MY TOWEL?" ) &&
+			     !Preferences.getString( "nextSpookyravenElizabethRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenElizabethRoom", "The Haunted Bathroom" );
 			}
@@ -9195,7 +9197,8 @@ public abstract class ChoiceManager
 
 		case 892:
 			// Lights Out in the Bathroom
-			if ( text.contains( "THE STAIN HAS BEEN LIFTED" ) )
+			if ( text.contains( "THE STAIN HAS BEEN LIFTED" ) &&
+			     !Preferences.getString( "nextSpookyravenElizabethRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenElizabethRoom", "The Haunted Kitchen" );
 			}
@@ -9203,7 +9206,8 @@ public abstract class ChoiceManager
 
 		case 893:
 			// Lights Out in the Kitchen
-			if ( text.contains( "If You Give a Demon a Brownie" ) )
+			if ( text.contains( "If You Give a Demon a Brownie" ) &&
+			     !Preferences.getString( "nextSpookyravenElizabethRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenElizabethRoom", "The Haunted Library" );
 			}
@@ -9211,7 +9215,8 @@ public abstract class ChoiceManager
 
 		case 894:
 			// Lights Out in the Library
-			if ( text.contains( "If You Give a Demon a Brownie" ) )
+			if ( text.contains( "If You Give a Demon a Brownie" ) &&
+			     !Preferences.getString( "nextSpookyravenElizabethRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenElizabethRoom", "The Haunted Ballroom" );
 			}
@@ -9219,7 +9224,8 @@ public abstract class ChoiceManager
 
 		case 895:
 			// Lights Out in the Ballroom
-			if ( text.contains( "The Flowerbed of Unearthly Delights" ) )
+			if ( text.contains( "The Flowerbed of Unearthly Delights" ) &&
+			     !Preferences.getString( "nextSpookyravenElizabethRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenElizabethRoom", "The Haunted Gallery" );
 			}
@@ -9234,7 +9240,8 @@ public abstract class ChoiceManager
 
 		case 897:
 			// Lights Out in the Bedroom
-			if ( text.contains( "restock his medical kit in the nursery" ) )
+			if ( text.contains( "restock his medical kit in the nursery" ) &&
+			     !Preferences.getString( "nextSpookyravenStephenRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenStephenRoom", "The Haunted Nursery" );
 			}
@@ -9242,7 +9249,8 @@ public abstract class ChoiceManager
 
 		case 898:
 			// Lights Out in the Nursery
-			if ( text.contains( "This afternoon we're burying Crumbles" ) )
+			if ( text.contains( "This afternoon we're burying Crumbles" ) &&
+			     !Preferences.getString( "nextSpookyravenStephenRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenStephenRoom", "The Haunted Conservatory" );
 			}
@@ -9250,7 +9258,8 @@ public abstract class ChoiceManager
 
 		case 899:
 			// Lights Out in the Conservatory
-			if ( text.contains( "an engraved portrait of Crumbles" ) )
+			if ( text.contains( "Crumbles isn't buried very deep" ) &&
+			     !Preferences.getString( "nextSpookyravenStephenRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenStephenRoom", "The Haunted Billiards Room" );
 			}
@@ -9258,7 +9267,8 @@ public abstract class ChoiceManager
 
 		case 900:
 			// Lights Out in the Billiards Room
-			if ( text.contains( "The wolf head has a particularly nasty expression on its face" ) )
+			if ( text.contains( "The wolf head has a particularly nasty expression on its face" ) &&
+			     !Preferences.getString( "nextSpookyravenStephenRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenStephenRoom", "The Haunted Wine Cellar" );
 			}
@@ -9266,7 +9276,8 @@ public abstract class ChoiceManager
 
 		case 901:
 			// Lights Out in the Wine Cellar
-			if ( text.contains( "Crumbles II (Wolf)" ) )
+			if ( text.contains( "Crumbles II (Wolf)" ) &&
+			     !Preferences.getString( "nextSpookyravenStephenRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenStephenRoom", "The Haunted Boiler Room" );
 			}
@@ -9274,7 +9285,8 @@ public abstract class ChoiceManager
 
 		case 902:
 			// Lights Out in the Boiler Room
-			if ( text.contains( "CRUMBLES II" ) )
+			if ( text.contains( "CRUMBLES II" ) &&
+			     !Preferences.getString( "nextSpookyravenStephenRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenStephenRoom", "The Haunted Laboratory" );
 			}
