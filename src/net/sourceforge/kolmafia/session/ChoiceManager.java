@@ -3184,7 +3184,7 @@ public abstract class ChoiceManager
 			new Object[] { new Option( "background history", 1 ),
 				       new Option( "cocktailcrafting recipe", 2 ),
 				       new Option( "muscle substats", 3 ),
-				       new Option( "dictionary (?)", 4, "dictionary" ),
+				       new Option( "dictionary", 4, "dictionary" ),
 				       new Option( "skip", 5 ) } ),
 
 		// Choice 890 is Lights Out in the Storage Room
