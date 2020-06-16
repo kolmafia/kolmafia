@@ -3186,7 +3186,8 @@ drippy pigment	COMBINE	drippy enzyme	drippy ichor
 drippy flux	COMBINE	drippy enzyme	drippy salt
 
 salty drippy candy bar	COMBINE	drippy candy bar	drippy salt
+gooey drippy candy bar	COMBINE	drippy candy bar	drippy enzyme
 writhing drippy candy bar	COMBINE	drippy candy bar	drippy ichor
 
-# lustrous drippy orb	COMBINE	drippy orb	drippy pigment
+lustrous drippy orb	COMBINE	drippy orb	drippy pigment
 annealed drippy orb	COMBINE	drippy orb	drippy flux

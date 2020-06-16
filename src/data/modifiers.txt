@@ -6759,6 +6759,7 @@ Effect	Smugness	Moxie: +5
 Effect	SNAPPED INTO IT	Avatar: "Macho Man"
 Effect	Snarl of the Timberwolf	Spooky Damage: +10
 Effect	Sneaky Serpentine Subtlety	Moxie Percent: +100
+# Effect Snichors: Limited protection from damage in The Drip
 Effect	Snobby	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Snow Fortified	Item Drop: +25, Meat Drop: +50, Maximum MP: +50, Maximum HP: +100
 Effect	Snow Shoes	Combat Rate: -5
@@ -9238,6 +9239,7 @@ Item	go-go potion	Effect: "Go-Gone", Effect Duration: 20
 Item	goblin water	Effect: "Wet and Greedy", Effect Duration: 100
 Item	Good 'n' Quiet	Effect: "Quiet 'n' Good", Effect Duration: 10
 Item	Good 'n' Slimy	Effect: "Sugar Rush", Effect Duration: 5
+Item	gooey drippy candy bar	Effect: "Snichors", Effect Duration: 10
 Item	gourmet gourami oil	Effect: "Fishy, Oily", Effect Duration: 40
 Item	government	Effect: "I See Everything Thrice!", Effect Duration: 10
 Item	government-issued candy	Effect: "Standard Cheer", Effect Duration: 20
