@@ -1582,7 +1582,7 @@ public abstract class KoLmafia
 
 		RequestLogger.printLine();
 		RequestThread.postRequest( adventure );
-		while ( true )
+		while ( !KoLmafia.refusesContinue() )
 		{
 			if ( FightRequest.inMultiFight || FightRequest.fightFollowsChoice )
 			{
@@ -1592,6 +1592,10 @@ public abstract class KoLmafia
 			if ( FightRequest.choiceFollowsFight )
 			{
 				RequestThread.postRequest( new GenericRequest( "choice.php" ) );
+				// Fall through
+			}
+			if ( ChoiceManager.handlingChoice )
+			{
 				ChoiceManager.gotoGoal();
 				continue;
 			}
