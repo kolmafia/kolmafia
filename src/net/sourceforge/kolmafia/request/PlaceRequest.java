@@ -154,6 +154,14 @@ public class PlaceRequest
 				}
 			}
 		}
+		else if ( place.equals( "drip" ) )
+		{
+			// You can't enter The Drip without wearing one of those harnesses Jeremy told you about.
+			if ( responseText.contains( "otherimages/drip/hall.gif" ) )
+			{
+				Preferences.setBoolean( "drippingHallUnlocked", true );
+			}
+		}
 		else if ( place.equals( "dripfacility" ) )
 		{
 			if ( action.equals( "drip_jeremy" ) )
@@ -163,6 +171,14 @@ public class PlaceRequest
 				{
 					Preferences.setBoolean( "drippyShieldUnlocked", true );
 					ResultProcessor.removeItem( ItemPool.DRIPPY_SNAIL_SHELL );
+				}
+				// Oooh, that big fingernail, that's interesting.
+				// I'll send it up to the Armory right away.
+				// In the meantime, our scouts have cleared the way to another section of the Drip.
+				// There's some kind of big building there. Go check it out, would you?
+				if ( responseText.contains( "Oooh, that big fingernail, that's interesting" ) )
+				{
+					Preferences.setBoolean( "drippingHallUnlocked", true );
 				}
 			}
 		}

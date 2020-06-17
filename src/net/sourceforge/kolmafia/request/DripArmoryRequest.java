@@ -94,14 +94,15 @@ public class DripArmoryRequest
 			)
 		{
 			@Override
-			public final boolean availableItem( final int itemId )
+			public final boolean canBuyItem( final int itemId )
 			{
 				switch ( itemId )
 				{
 				case ItemPool.DRIPPY_SHIELD:
-					return Preferences.getBoolean( "drippyShieldAvailable" );
+					return  Preferences.getBoolean( "drippyShieldUnlocked" ) &&
+						!InventoryManager.hasItem( ItemPool.DRIPPY_SHIELD );
 				}
-				return super.availableItem( itemId );
+				return super.canBuyItem( itemId );
 			}
 		};
 

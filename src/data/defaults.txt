@@ -529,6 +529,7 @@ user	dreadScroll7	0
 user	dreadScroll8	0
 user	dripAdventuresSinceAscension	0
 user	drippingHallAdventuresSinceAscension	0
+user	drippingHallUnlocked	false
 user	drippingTreesAdventuresSinceAscension	0
 user	drippyBatsUnlocked	0
 user	drippyJuice	0
@@ -1502,6 +1503,10 @@ user	_dnaHybrid	false
 user	_dnaPotionsMade	0
 user	_donhosCasts	0
 user	_dreamJarDrops	0
+user	_drippingHallDoor1	false
+user	_drippingHallDoor2	false
+user	_drippingHallDoor3	false
+user	_drippingHallDoor4	false
 user	_drippyCaviarUsed	false
 user	_drippyNuggetUsed	false
 user	_drippyPilsnerUsed	false
