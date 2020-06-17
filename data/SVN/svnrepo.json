@@ -63,6 +63,15 @@
    "longDesc": "EatDrink.ash will attempt to fill you up with the finest vittles, firewater, and spleenables that the kingdom has to offer - and that you can afford. It considers things like prices, the relative value of adventures and stats, whether you have to pull or purchase the item, and so on. It even ends your day with a bang by overdrinking (if you tell it to)."
  },
  {
+   "repo": "https://github.com/gausie/excavator/trunk/RELEASE/",
+   "author": "gausie",
+   "name": "Excavator",
+   "forumThread": "https://kolmafia.us/showthread.php?25076",
+   "shortDesc": "Collect spading data and send to Spading Central",
+   "category": "action",
+   "longDesc": "Set this as your spadingScript to collect and transmit data for use in current spading projects."
+ },
+ {
    "repo": "https://github.com/Ezandora/Far-Future/branches/Release/",
    "author": "Ezandora",
    "name": "Far Future",

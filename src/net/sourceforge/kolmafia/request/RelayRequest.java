@@ -791,6 +791,7 @@ public class RelayRequest
 
 		this.lastModified = imageFile.lastModified();
 		this.rawByteBuffer = ByteBufferUtilities.read( imageFile );
+		this.headers.add( "Access-Control-Allow-Origin: *" );
 		this.pseudoResponse( "HTTP/1.1 200 OK", "" );
 	}
 
