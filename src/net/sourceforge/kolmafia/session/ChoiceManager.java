@@ -12000,11 +12000,21 @@ public abstract class ChoiceManager
 		case 1411:
 		{
 			// The Hall in the Hall
-			// 1 = Door #1
-			// 2 = Door #2
-			// 3 = Door #3
-			// 4 - Door #4
-			// 5 - DOOR #5
+			switch ( ChoiceManager.lastDecision )
+			{
+			case 1:
+				Preferences.setBoolean( "_drippingHallDoor1", true );
+				break;
+			case 2:
+				Preferences.setBoolean( "_drippingHallDoor2", true );
+				break;
+			case 3:
+				Preferences.setBoolean( "_drippingHallDoor3", true );
+				break;
+			case 4:
+				Preferences.setBoolean( "_drippingHallDoor4", true );
+				break;
+			}
 
 			// Since this choice appears on a schedule - the 12th
 			// adventure in The Dripping Hall and then every 12
