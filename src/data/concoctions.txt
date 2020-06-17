@@ -3183,6 +3183,7 @@ drippy enzyme	COMBINE	Drip Institute petri dish	drippy grub
 drippy ichor	COMBINE	Drip Institute petri dish	drippy seed
 
 drippy pigment	COMBINE	drippy enzyme	drippy ichor
+drippy bromide	COMBINE	drippy ichor	drippy salt
 drippy flux	COMBINE	drippy enzyme	drippy salt
 
 salty drippy candy bar	COMBINE	drippy candy bar	drippy salt
@@ -3190,4 +3191,5 @@ gooey drippy candy bar	COMBINE	drippy candy bar	drippy enzyme
 writhing drippy candy bar	COMBINE	drippy candy bar	drippy ichor
 
 lustrous drippy orb	COMBINE	drippy orb	drippy pigment
+gory dripping orb	COMBINE	drippy orb	drippy bromide
 annealed drippy orb	COMBINE	drippy orb	drippy flux

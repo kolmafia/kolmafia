@@ -2907,6 +2907,7 @@ Item	gold skull ring	PvP Fights: +7, Single Equip
 # gold wedding ring: 75% Chance of Preventing Negative Status Attacks
 Item	gold wedding ring	Adventures: +1, Single Equip
 Item	Golden Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
+# gory dripping orb: +5 Damage vs. creatures of The Drip
 # government-issued necktie: +25% Damage vs. Zombies
 Item	government-issued necktie	Experience Percent (Mysticality): +10, Meat Drop: [5*G], Single Equip
 Item	government-issued night-vision goggles	Item Drop: +5, Monster Level: +5, Single Equip
