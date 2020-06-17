@@ -10547,7 +10547,7 @@
 10519	drippy enzyme	477272458	dripenzyme.gif	none, paste	t	0
 10520	drippy salt	705439485	dripsalt.gif	none, paste	t	0
 10521	drippy pigment	368684057	drippigment.gif	none, paste	t	0
-10522
+10522	drippy bromide	539282386	dripbromide.gif	none, paste	t	0
 10523	drippy flux	679987750	dripflux.gif	none, paste	t	0
 10524	drippy stein	740756675	dripstein.gif	none	t	0
 10525	drippy pilsner	358128961	dripbeer.gif	drink	t	0
@@ -10555,7 +10555,7 @@
 10527
 10528	drippy orb	356478594	driporb.gif	accessory, paste	t	0
 10529	lustrous drippy orb	948286429	driporb.gif	accessory		0
-10530
+10530	gory dripping orb	359437502	driporb.gif	accessory		0
 10531	annealed drippy orb	588928279	driporb.gif	accessory		0
 10532	Guzzlr application	189491478	guzzlrapp.gif	usable	t	0
 10533	Guzzlr tablet	413321705	guzzlrtablet.gif	accessory, usable		0
