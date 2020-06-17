@@ -771,6 +771,8 @@ public class RelayRequest
 			"http://www.kingdomofloathing.com/favicon.ico" :
 			filename.startsWith( "images" ) ?
 			KoLmafia.imageServerPrefix() + filename.substring( 6 ) :
+			filename.startsWith( "iii" ) ?
+			KoLmafia.imageServerPrefix() + filename.substring( 3 ) :
 			filename;
 	}
 
@@ -3572,8 +3574,7 @@ public class RelayRequest
 
 		// Check to see if it's a request from the local images folder.
 		// If it is, go ahead and send it.
-
-		if ( path.startsWith( "images/" ) || path.endsWith( "favicon.ico" ) )
+		if ( path.startsWith( "images/" ) || path.startsWith( "iii/" ) || path.endsWith( "favicon.ico" ) )
 		{
 			if ( path.startsWith( "images/playerpics/" ) )
 			{
