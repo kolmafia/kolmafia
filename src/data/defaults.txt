@@ -552,6 +552,7 @@ user	essenceOfBearAvailable	true
 user	essenceOfBearCost	1000
 user	EVEDirections	LLRLR0
 user	expressCardUsed	false
+user	extraCosmeticModifiers	
 user	extraRolloverAdventures	0
 user	falloutShelterChronoUsed	false
 user	falloutShelterCoolingTankUsed	false
@@ -1302,6 +1303,7 @@ user	summonAnnoyanceCost	11
 user	superficiallyInterestedMonster
 user	suppressInappropriateNags	false
 user	suppressPotentialMalware	false
+user	suppressPowerPixellation	false
 user	sweetSynthesisBlacklist	chocolate cigar,fudge bunny,gummi ammonite,gummi belemnite,gummi trilobite,powdered candy sushi set,radio button candy,Ultra Mega Sour Ball,vitachoconutriment capsule
 user	tacoDanCocktailSauce	0
 user	tacoDanFishMeat	0
