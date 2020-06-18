@@ -169,7 +169,7 @@ public class MonsterData
 		{ "zoom", "restless" },
 	};
 
-	public static final Map<String, String> crazySummerModifiers = new HashMap<String, String>();
+	public static final Map<String, String> crazySummerModifiers = new HashMap<>();
 	static
 	{
 		for ( String[] mapping : MonsterData.crazyModifierMapping )
@@ -178,12 +178,73 @@ public class MonsterData
 		}
 	};
 
+	private static final String[][] cosmeticModifiers =
+	{
+		{ "askew", null },
+		{ "blinking", null },
+		{ "blue", null },
+		{ "blurry", null },
+		{ "bouncing", null },
+		{ "cgreen", null },
+		{ "crimbo", null },
+		{ "deeppurple", null },
+		{ "drunk", "ol_drunk.gif:0:0" },
+		{ "electric", "ol_electric.gif:0:-0" },
+		{ "flies", "ol_flies.gif:0:-0" },
+		{ "flip", null },
+		{ "floating", null },
+		{ "frozen", "ice_overlay.png:0:0" },
+		{ "ghostly", null },
+		{ "gold", null },
+		{ "gray", null },
+		{ "green", null },
+		{ "haunted", "ol_haunted.gif:0:-0" },
+		{ "hopping", null },
+		{ "huge", null },
+		{ "jitter", null },
+		{ "lazy", null },
+		{ "mirror", null },
+		{ "obscene", "ol_censored.png:0:0" },
+		{ "patriotic", null },
+		{ "pixellated", null },
+		{ "pulse", null },
+		{ "purple", null },
+		{ "quacking", "ol_quack.gif:0:0" },
+		{ "rainbow", null },
+		{ "red", null },
+		{ "rotate", null },
+		{ "shakes", null },
+		{ "short", null },
+		{ "shy", null },
+		{ "skinny", null },
+		{ "somersault", null },
+		{ "sparkling", "ol_sparkles.gif:0:0" },
+		{ "spinning", null },
+		{ "swearing", "ol_qbert.gif:0:0" },
+		{ "wet", "water5.png:0:0" },
+		{ "wobble", null },
+		{ "xray", null },
+		{ "yellow", null },
+		{ "zoom", null },
+	};
+
+	public static final Map<String, String> cosmeticModifierImages = new HashMap<>();
+	static
+	{
+		for ( String[] mapping : MonsterData.cosmeticModifiers )
+		{
+			MonsterData.cosmeticModifierImages.put( mapping[0], mapping[1] );
+		}
+		MonsterData.cosmeticModifierImages.put( "powerPixel", null );
+		MonsterData.cosmeticModifierImages.put( "drippy", null );
+	};
+
 	private static final String[] extraModifierNames =
 	{
 		"powerPixel"
 	};
 
-	public static final Set<String> extraModifiers = new HashSet<String>();
+	public static final Set<String> extraModifiers = new HashSet<>();
 	static
 	{
 		for ( String name : MonsterData.extraModifierNames )
