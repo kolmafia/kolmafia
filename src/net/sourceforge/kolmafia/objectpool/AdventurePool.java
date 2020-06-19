@@ -288,6 +288,7 @@ public class AdventurePool
 	public static final int THE_DRIPPING_TREES = 542;
 	public static final int YOUR_MUSHROOM_GARDEN = 543;
 	public static final int THE_DRIPPING_HALL = 544;
+	public static final String THE_DRIPPING_HALL_ID = "544";
 	public static final String LOWER_CHAMBER_ID = "pyramid_state";
 	public static final String SUMMONING_CHAMBER_ID = "manor4_chamber";
 	public static final String ELDRITCH_FISSURE_ID = "town_eincursion";
