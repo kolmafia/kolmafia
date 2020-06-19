@@ -3216,6 +3216,7 @@ public class ItemPool
 	public static final int RED_PLUMBERS_BOOTS = 10501;
 	public static final int DRIPPY_STEIN = 10524;
 	public static final int DRIPPY_PILSNER = 10525;
+	public static final int DRIPPY_STAFF = 10526;
 	public static final int GUZZLR_TABLET = 10533;
 	public static final int GUZZLR_COCKTAIL_SET = 10534;
 	public static final int GUZZLRBUCK = 10535;

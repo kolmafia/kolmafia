@@ -5314,6 +5314,10 @@ public abstract class ChoiceManager
 		case 1049:
 			// Tomb of the Unknown Your Class Here
 			return ChoiceManager.dynamicChoiceSpoilers( choice, "Tomb of the Unknown Your Class Here" );
+
+		case 1411:
+			// The Hall in the Hall
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "The Hall in the Hall" );
 		}
 			
 		return null;
@@ -5337,7 +5341,7 @@ public abstract class ChoiceManager
 		return result;
 	}
 
-	private static final Object[] dynamicChoiceOptions( final int choice )
+	public static final Object[] dynamicChoiceOptions( final int choice )
 	{
 		Object[] result;
 		switch ( choice )
@@ -6971,6 +6975,44 @@ public abstract class ChoiceManager
 				result[ i ] = ( i == decision - 1 ) ? "right answer" : "wrong answer";
 			}
 
+			return result;
+		}
+
+		case 1411:
+		{
+			// The Hall in the Hall
+			result = new String[ 5 ];
+			{
+				boolean haveStaff = InventoryManager.getCount( ItemPool.DRIPPY_STAFF ) > 0;
+				int poolSkill = (int) KoLCharacter.currentNumericModifier( "Pool Skill" );
+				int inebriety = KoLCharacter.getInebriety();
+				int totalPoolSkill = poolSkill + ( inebriety > 10 ? 10 - 2 * (inebriety - 10 ) : inebriety );
+				StringBuilder buf = new StringBuilder();
+				buf.append( haveStaff ? "M" : "A drippy staff and m" );
+				buf.append( "aybe a drippy orb (Pool Skill at current inebriety = " );
+				buf.append( Integer.valueOf( totalPoolSkill ) );
+				buf.append( ")" );
+				result[ 0 ] = buf.toString();
+			}
+			result[ 1 ] = "Buy a drippy candy bar for 10,000 Meat or get Driplets";
+			{
+				String item =
+					KoLCharacter.hasSkill( "Drippy Eye-Sprout" ) ?
+					"a drippy seed" :
+					KoLCharacter.hasSkill( "Drippy Eye-Stone" ) ?
+					"a drippy bezoar" :
+					KoLCharacter.hasSkill( "Drippy Eye-Beetle" ) ?
+					"a drippy grub" :
+					"nothing";
+				result[ 2 ] = "Get " + item;
+			}
+			{
+				int steins = InventoryManager.getCount( ItemPool.DRIPPY_STEIN );
+				result[ 3 ] = ( steins > 0 ) ?
+					"Trade a drippy stein for a drippy pilsner" :
+					"Get nothing";
+			}
+			result[ 4 ] = "Get some Driplets";
 			return result;
 		}
 		}
