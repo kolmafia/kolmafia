@@ -61,6 +61,7 @@ public class SpadingManager
 		CONSUME_REUSABLE,
 		CONSUME_MESSAGE,
 		MEAT_DROP,
+		PVP,
 		;
 
 		public static SpadingEvent fromKoLConstant( final int constant)
@@ -145,6 +146,11 @@ public class SpadingManager
 		int consumptionType = UseItemRequest.getConsumptionType( item );
 
 		return SpadingManager.processConsume( consumptionType, item.getDisambiguatedName(), responseText );
+	}
+
+	public static boolean processPeeVPee( final String location, final String responseText )
+	{
+		return SpadingManager.invokeSpadingScript( SpadingEvent.PVP, location, responseText );
 	}
 
 	private static boolean invokeSpadingScript( final SpadingEvent event, final String meta, final String responseText )
