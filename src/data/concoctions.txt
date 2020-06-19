@@ -3191,5 +3191,5 @@ gooey drippy candy bar	COMBINE	drippy candy bar	drippy enzyme
 writhing drippy candy bar	COMBINE	drippy candy bar	drippy ichor
 
 lustrous drippy orb	COMBINE	drippy orb	drippy pigment
-gory dripping orb	COMBINE	drippy orb	drippy bromide
+gory drippy orb	COMBINE	drippy orb	drippy bromide
 annealed drippy orb	COMBINE	drippy orb	drippy flux

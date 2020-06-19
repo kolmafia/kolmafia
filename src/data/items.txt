@@ -10555,7 +10555,7 @@
 10527
 10528	drippy orb	356478594	driporb.gif	accessory, paste	t	0
 10529	lustrous drippy orb	948286429	driporb.gif	accessory		0
-10530	gory dripping orb	359437502	driporb.gif	accessory		0
+10530	gory drippy orb	359437502	driporb.gif	accessory		0
 10531	annealed drippy orb	588928279	driporb.gif	accessory		0
 10532	Guzzlr application	189491478	guzzlrapp.gif	usable	t	0
 10533	Guzzlr tablet	413321705	guzzlrtablet.gif	accessory, usable		0
