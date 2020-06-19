@@ -2470,7 +2470,7 @@ gold detective badge	40	none
 gold skull ring	50	Mus: 20
 gold wedding ring	0	none
 Golden Mr. Accessory	0	none
-gory dripping orb	0	none
+gory drippy orb	0	none
 government-issued necktie	50	none
 government-issued night-vision goggles	25	none
 GPS-tracking wristwatch	10	none

@@ -652,7 +652,7 @@
 650	Stimulated Brain	realbrain.gif	1c0167101ac3939ac0bca1d271f07262	good	none	use 1 neurostim pill
 651	Stimulated Body	swarmer.gif	b9c435f279d09dbe1719bd935cf85020	good	none	use 1 physiostim pill
 652
-653	Bitterskin	bitterskin.gif	d94d955ab2d6b053c25ca2e567b6bbfa	good	none	use 1 bitter pill
+653	Bitterskin	bitterskin.gif	d94d955ab2d6b053c25ca2e567b6bbfa	neutral	none	use 1 bitter pill
 654	Mighty Shout	breath.gif	6526584640bf272feded10f8963ce523	good	none	# using Mighty Shout combat skill
 655	Pasty	proteintube.gif	950efe4d4bc5f179cfa4b911e1764dab	good	none	eat 1 protein paste
 656	Cake Caked	cupcakecup.gif	8b39e6f6fcd95bb55c7958863934af10	good	none	eat 1 cupcake-in-a-cup
