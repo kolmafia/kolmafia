@@ -52,7 +52,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-
+import net.sourceforge.kolmafia.session.SpadingManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PeeVPeeRequest
@@ -291,6 +291,8 @@ public class PeeVPeeRequest
 				{
 					PeeVPeeRequest.parseStatLoss( responseText );
 				}
+
+				SpadingManager.processPeeVPee( location, responseText );
 			}
 			else if ( !PvpManager.stancesKnown )
 			{
