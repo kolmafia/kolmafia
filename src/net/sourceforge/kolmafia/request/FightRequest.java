@@ -478,6 +478,7 @@ public class FightRequest
 		PYGMY_WITCH_LAWYER( "pygmy witch lawyer" ),
 		SAUSAGE_GOBLIN( "sausage goblin" ),
 		TIME_SPINNER_PRANK( "time-spinner prank" ),
+		DRIPPY_REVELER( "drippy reveler" ),
 
 		// Categories of monsters
 		BEE( "bee" ),
@@ -551,6 +552,7 @@ public class FightRequest
 		FightRequest.specialMonsters.put( "pygmy witch lawyer", SpecialMonster.PYGMY_WITCH_LAWYER );
 		FightRequest.specialMonsters.put( "sausage goblin", SpecialMonster.SAUSAGE_GOBLIN );
 		FightRequest.specialMonsters.put( "time-spinner prank", SpecialMonster.TIME_SPINNER_PRANK );
+		FightRequest.specialMonsters.put( "drippy reveler", SpecialMonster.DRIPPY_REVELER );
 
 		FightRequest.specialMonsters.put( "angry bassist", SpecialMonster.HIPSTER );
 		FightRequest.specialMonsters.put( "blue-haired girl", SpecialMonster.HIPSTER );
@@ -2747,6 +2749,13 @@ public class FightRequest
 					}
 					break;
 				}
+
+				case DRIPPY_REVELER:
+					if ( !EncounterManager.ignoreSpecialMonsters )
+					{
+						Preferences.increment( "drippingHallAdventuresSinceAscension" );
+					}
+					break;
 
 				case FAMILY_OF_KOBOLDS:
 					// Remove 100 D4's from inventory

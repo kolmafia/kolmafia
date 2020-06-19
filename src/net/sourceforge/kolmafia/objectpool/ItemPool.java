@@ -3181,6 +3181,7 @@ public class ItemPool
 	public static final int TEMPURA_GREEN_AND_RED_BEAN = 10425;
 	public static final int BIRD_A_DAY_CALENDAR = 10434;
 	public static final int POWERFUL_GLOVE = 10438;
+	public static final int DRIP_HARNESS = 10441;
 	public static final int DRIPPY_TRUNCHEON = 10442;
 	public static final int DRIPLET = 10443;
 	public static final int DRIPPY_SNAIL_SHELL = 10444;
@@ -3213,6 +3214,7 @@ public class ItemPool
 	public static final int COLOSSAL_FREE_RANGE_MUSHROOM = 10488;
 	public static final int HOUSE_SIZED_MUSHROOM = 10497;
 	public static final int RED_PLUMBERS_BOOTS = 10501;
+	public static final int DRIPPY_STEIN = 10524;
 	public static final int DRIPPY_PILSNER = 10525;
 	public static final int GUZZLR_TABLET = 10533;
 	public static final int GUZZLR_COCKTAIL_SET = 10534;

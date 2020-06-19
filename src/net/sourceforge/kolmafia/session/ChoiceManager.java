@@ -4428,6 +4428,14 @@ public abstract class ChoiceManager
 			               new Option( "drippy humanoid", 3 ),
 			               new Option( "drippy keg", 4 ),
 			               new Option( "Driplets", 5 ) } ),
+
+		// Choice 1415 is Revolting Vending
+		new ChoiceAdventure(
+			"The Drip", "choiceAdventure1415", "Revolting Vending",
+			new Object[] { new Option( "drippy candy bar", 1, "drippy candy bar" ),
+			               new Option( "Driplets", 2 ) } ),
+		new Object[]{ IntegerPool.get(1415), IntegerPool.get(1),
+		  new AdventureResult( AdventureResult.MEAT, -10000 ) },
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -12013,13 +12021,22 @@ public abstract class ChoiceManager
 				break;
 			case 4:
 				Preferences.setBoolean( "_drippingHallDoor4", true );
+
+				// If you acquire drippy pilsner, uses a drippy stein
+				if ( text.contains( "drippy pilsner" ) )
+				{
+					ResultProcessor.processItem( ItemPool.DRIPPY_STEIN, -1 );
+				}
 				break;
 			}
+
+			// This only advances upon defeating a dripping reveler
+			// or encountering this choice
+			int advs = Preferences.increment( "drippingHallAdventuresSinceAscension" );
 
 			// Since this choice appears on a schedule - the 12th
 			// adventure in The Dripping Hall and then every 12
 			// turns thereafter - "fix" the adventure count as needed.
-			int advs = Preferences.getInteger( "drippingHallAdventuresSinceAscension" );
 			if ( advs < 12 )
 			{
 				Preferences.setInteger( "drippingHallAdventuresSinceAscension", 12 );
@@ -14011,7 +14028,6 @@ public abstract class ChoiceManager
 			// Your Quest is Over
 			ChoiceManager.handleAfterAvatar();
 			break;
-
 		}
 
 		if ( ChoiceManager.handlingChoice )

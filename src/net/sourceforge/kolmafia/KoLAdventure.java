@@ -734,6 +734,12 @@ public class KoLAdventure
 			return;
 		}
 
+		if ( this.adventureId.equals( AdventurePool.THE_DRIPPING_HALL_ID ) )
+		{
+			this.isValidAdventure = Preferences.getBoolean( "drippingHallUnlocked" );
+			return;
+		}
+
 		if ( this.adventureId.equals( AdventurePool.EDGE_OF_THE_SWAMP_ID ) )
 		{
 			this.isValidAdventure = QuestDatabase.isQuestLaterThan( Quest.SWAMP, "unstarted" );
@@ -1125,12 +1131,30 @@ public class KoLAdventure
 			return;
 		}
 
+		if ( this.zone.equals( "The Drip" ) )
+		{
+			AdventureResult harness = ItemPool.get( ItemPool.DRIP_HARNESS, 1 );
+			if ( !InventoryManager.hasItem( harness ) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You need a Drip harness to go there" );
+				this.isValidAdventure = false;
+				return;
+			}
+
+			if ( !KoLCharacter.hasEquipped( harness ) )
+			{
+				InventoryManager.retrieveItem( harness );
+				RequestThread.postRequest( new EquipmentRequest( harness ) );
+			}
+
+			this.isValidAdventure = true;
+			return;
+		}
+
 		// The following are all things you can get day passes for.
 		// The betweenBattleScript might have done that for you.
 		
-		if ( this.adventureId.equals( AdventurePool.ICE_HOTEL_ID ) ||
-		     this.adventureId.equals( AdventurePool.VYKEA_ID ) ||
-		     this.adventureId.equals( AdventurePool.ICE_HOLE_ID ) )
+		if ( this.zone.equals( "The Glaciest" ) )
 		{
 			boolean unlocked = Preferences.getBoolean( "coldAirportAlways" ) || Preferences.getBoolean( "_coldAirportToday" );
 			if ( !unlocked )
@@ -1144,10 +1168,7 @@ public class KoLAdventure
 			return;
 		}
 
-		if ( this.adventureId.equals( AdventurePool.SMOOCH_ARMY_HQ_ID ) ||
-		     this.adventureId.equals( AdventurePool.VELVET_GOLD_MINE_ID ) ||
-		     this.adventureId.equals( AdventurePool.LAVACO_LAMP_FACTORY_ID ) ||
-		     this.adventureId.equals( AdventurePool.BUBBLIN_CALDERA_ID ) )
+		if ( this.zone.equals( "That 70s Volcano" ) )
 		{
 			boolean unlocked = Preferences.getBoolean( "hotAirportAlways" ) || Preferences.getBoolean( "_hotAirportToday" );
 			if ( !unlocked )
@@ -1161,9 +1182,7 @@ public class KoLAdventure
 			return;
 		}
 
-		if ( this.adventureId.equals( AdventurePool.FUN_GUY_MANSION_ID ) ||
-		     this.adventureId.equals( AdventurePool.SLOPPY_SECONDS_DINER_ID ) ||
-		     this.adventureId.equals( AdventurePool.YACHT_ID ) )
+		if ( this.zone.equals( "Spring Break Beach" ) )
 		{
 			boolean unlocked = Preferences.getBoolean( "sleazeAirportAlways" ) || Preferences.getBoolean( "_sleazeAirportToday" );
 			if ( !unlocked )
@@ -1177,9 +1196,7 @@ public class KoLAdventure
 			return;
 		}
 
-		if ( this.adventureId.equals( AdventurePool.DR_WEIRDEAUX_ID ) ||
-		     this.adventureId.equals( AdventurePool.SECRET_GOVERNMENT_LAB_ID ) ||
-		     this.adventureId.equals( AdventurePool.DEEP_DARK_JUNGLE_ID ) )
+		if ( this.zone.equals( "Conspiracy Island" ) )
 		{
 			boolean unlocked = Preferences.getBoolean( "spookyAirportAlways" ) || Preferences.getBoolean( "_spookyAirportToday" );
 			if ( !unlocked )
@@ -1194,10 +1211,7 @@ public class KoLAdventure
 			return;
 		}
 
-		if ( this.adventureId.equals( AdventurePool.BARF_MOUNTAIN_ID ) ||
-		     this.adventureId.equals( AdventurePool.GARBAGE_BARGES_ID ) ||
-		     this.adventureId.equals( AdventurePool.TOXIC_TEACUPS_ID ) ||
-		     this.adventureId.equals( AdventurePool.LIQUID_WASTE_SLUICE_ID ) )
+		if ( this.zone.equals( "Dinseylandfill" ) )
 		{
 			boolean unlocked = Preferences.getBoolean( "stenchAirportAlways" ) || Preferences.getBoolean( "_stenchAirportToday" );
 			if ( !unlocked )
@@ -1232,11 +1246,7 @@ public class KoLAdventure
 			return;
 		}
 
-		if ( this.adventureId.equals( AdventurePool.GINGERBREAD_CIVIC_CENTER_ID ) ||
-		     this.adventureId.equals( AdventurePool.GINGERBREAD_TRAIN_STATION_ID ) ||
-		     this.adventureId.equals( AdventurePool.GINGERBREAD_INDUSTRIAL_ZONE_ID ) ||
-		     this.adventureId.equals( AdventurePool.GINGERBREAD_RETAIL_DISTRICT_ID ) ||
-		     this.adventureId.equals( AdventurePool.GINGERBREAD_SEWERS_ID ) )
+		if ( this.zone.equals( "Gingerbread City" ) )
 		{
 			boolean unlocked = Preferences.getBoolean( "gingerbreadCityAvailable" ) || Preferences.getBoolean( "_gingerbreadCityToday" );
 			if ( !unlocked )
@@ -2716,7 +2726,6 @@ public class KoLAdventure
 			break;
 		case AdventurePool.THE_DRIPPING_HALL:
 			Preferences.increment( "dripAdventuresSinceAscension" );
-			Preferences.increment( "drippingHallAdventuresSinceAscension" );
 			Preferences.decrement( "drippyJuice" );
 			break;
 		}
