@@ -781,8 +781,19 @@ public class MonsterDatabase
 		return monsterIds;
 	}
 
-	public static final MonsterData findMonsterByImage( final String image )
+	public static final MonsterData findMonsterByImage( String image )
 	{
+		int slashIndex = image.indexOf( "/" );
+		while ( slashIndex != -1 )
+		{
+			image = image.substring( slashIndex + 1 );
+			MonsterData monster = MonsterDatabase.MONSTER_IMAGES.get( image );
+			if ( monster != null )
+			{
+				return monster;
+			}
+			slashIndex = image.indexOf( "/" );
+		}
 		return MonsterDatabase.MONSTER_IMAGES.get( image );
 	}
 

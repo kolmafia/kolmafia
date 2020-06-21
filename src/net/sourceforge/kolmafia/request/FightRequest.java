@@ -207,8 +207,9 @@ public class FightRequest
 	public static final Pattern SKILL_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern ITEM1_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern ITEM2_PATTERN = Pattern.compile( "whichitem2=(\\d+)" );
+	// <script>newpic("https://s3.amazonaws.com/images.kingdomofloathing.com/adventureimages/newt.gif", "a newt",100,100);</script>
 	private static final Pattern CLEESH_PATTERN =
-		Pattern.compile( "newpic\\(\".*?\", \"(.*?)\".*?\\)" );
+		Pattern.compile( "newpic\\(\"(.*?)\", \"(.*?)\".*?\\);" );
 	private static final Pattern WORN_STICKER_PATTERN =
 		Pattern.compile( "A sticker falls off your weapon, faded and torn" );
 	private static final Pattern BEEP_PATTERN =
@@ -6836,12 +6837,35 @@ public class FightRequest
 		if ( name.equals( "script" ) )
 		{
 			Matcher m = CLEESH_PATTERN.matcher( node.getText() );
-			if ( m.find() )
+			if ( !m.find() )
 			{
-				FightRequest.clearInstanceData( true );
-				String newMonsterName = m.group( 1 );
-				FightRequest.logText( "your opponent becomes " + newMonsterName + "!", status );
+				return;
 			}
+
+			String monsterName = m.group( 2 );
+
+			FightRequest.clearInstanceData( true );
+			FightRequest.logText( "your opponent becomes " + monsterName + "!", status );
+
+			// We'll identify the monster via MONSTERID next round,
+			// but try looking it up now.
+			//
+			// If we find it, we can set last_monster().
+
+			MonsterData monster = MonsterDatabase.findMonster( CombatActionManager.encounterKey( monsterName, false ) );
+			if ( monster == null )
+			{
+				String image = m.group(1);
+				monster = MonsterDatabase.findMonsterByImage( image );
+			}
+
+			if ( monster == null )
+			{
+				return;
+			}
+
+			monster = monster.transform();
+			MonsterStatusTracker.setNextMonster( monster );
 
 			return;
 		}
