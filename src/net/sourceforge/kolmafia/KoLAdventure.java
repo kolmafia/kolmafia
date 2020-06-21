@@ -425,7 +425,7 @@ public class KoLAdventure
 	{
 		this.isValidAdventure = false;
 
-		if ( Limitmode.limitZone( this.zone ) )
+		if ( Limitmode.limitAdventure( this ) )
 		{
 			return;
 		}

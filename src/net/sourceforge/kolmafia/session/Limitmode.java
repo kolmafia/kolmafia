@@ -207,8 +207,13 @@ public class Limitmode
 	{
 		while ( true )
 		{
+			if ( zoneName.equals( "Spelunky Area" ) || zoneName.equals( "Batfellow Area" ) )
+			{
+				return zoneName;
+			}
+
 			String parent = AdventureDatabase.getParentZone( zoneName );
-			if ( parent == null )
+			if ( parent == null || parent.equals( zoneName ) )
 			{
 				return zoneName;
 			}
@@ -224,19 +229,20 @@ public class Limitmode
 	public static final boolean limitZone( String zoneName )
 	{
 		String limitmode = KoLCharacter.getLimitmode();
+		String rootZone = Limitmode.rootZone( zoneName );
 		if ( limitmode == null )
 		{
-			return zoneName.equals( "Spelunky Area" ) || zoneName.equals( "Batfellow Area" );
+			return rootZone.equals( "Spelunky Area" ) || rootZone.equals( "Batfellow Area" );
 		}
 
 		if ( limitmode == Limitmode.SPELUNKY )
 		{
-			return !Limitmode.rootZone( zoneName ).equals( "Spelunky Area" );
+			return !rootZone.equals( "Spelunky Area" );
 		}
 
 		if ( limitmode == Limitmode.BATMAN )
 		{
-			return !Limitmode.rootZone( zoneName ).equals( "Batfellow Area" );
+			return !rootZone.equals( "Batfellow Area" );
 		}
 
 		if ( limitmode == Limitmode.ED )
