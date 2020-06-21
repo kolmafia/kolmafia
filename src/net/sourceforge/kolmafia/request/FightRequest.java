@@ -2472,9 +2472,16 @@ public class FightRequest
 
 		if ( FightRequest.transformed )
 		{
+			// Reparse the encounter, since random modifiers,
+			// intergnat, etc. could have changed the name.
+			encounter = AdventureRequest.parseCombatEncounter( responseText );
 			MonsterData newMonster = AdventureRequest.extractMonster( encounter, responseText );
 			MonsterStatusTracker.transformMonster( newMonster );
-			FightRequest.transformed = false;
+			// Leave "transformed" set to force us to keep creating
+			// the monster from MONSTERID, ocrs modifiers, etc.,
+			// since KoL does not update those on the next
+			// response, but on a following one. I have a pending
+			// bug report to KoL about this.
 		}
 
 		MonsterData monster = MonsterStatusTracker.getLastMonster();

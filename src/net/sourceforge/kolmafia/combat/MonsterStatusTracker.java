@@ -92,11 +92,6 @@ public class MonsterStatusTracker
 	public static void transformMonster( MonsterData monster )
 	{
 		MonsterData newMonster = monster.transform();
-		// This is not correct; if you had random modifiers, your new
-		// monster will have the same number of them - but different.
-		// This gets rid of the old ones, at least.
-		// *** Read new random modifers from next fight round.
-		MonsterData.lastRandomModifiers.clear();
 		MonsterStatusTracker.setNextMonster( newMonster );
 	}
 
