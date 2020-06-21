@@ -2947,6 +2947,17 @@ public abstract class KoLCharacter
 		return (int) KoLCharacter.currentModifiers.get( Modifiers.POOL_SKILL );
 	}
 
+	public static int estimatedPoolSkill()
+	{
+		int equip = KoLCharacter.getPoolSkill();
+		int training  = Preferences.getInteger( "poolSkill" );
+		int semiRare = Preferences.getInteger( "poolSharkCount" );
+		int semiRareBonus = (int) Math.min( 10, Math.floor( 2 * Math.sqrt( semiRare ) ) );
+		int inebriety = KoLCharacter.inebriety;
+		int inebrietyBonus = ( inebriety > 10 ? 10 - 2 * (inebriety - 10 ) : inebriety );
+		return equip + training + semiRareBonus + inebrietyBonus;
+	}
+
 	/**
 	 * Accessor method to retrieve the total Hobo Power
 	 *

@@ -6984,12 +6984,13 @@ public abstract class ChoiceManager
 			result = new String[ 5 ];
 			{
 				boolean haveStaff = InventoryManager.getCount( ItemPool.DRIPPY_STAFF ) > 0;
-				int poolSkill = (int) KoLCharacter.currentNumericModifier( "Pool Skill" );
 				int inebriety = KoLCharacter.getInebriety();
-				int totalPoolSkill = poolSkill + ( inebriety > 10 ? 10 - 2 * (inebriety - 10 ) : inebriety );
+				int totalPoolSkill = KoLCharacter.estimatedPoolSkill();
 				StringBuilder buf = new StringBuilder();
 				buf.append( haveStaff ? "M" : "A drippy staff and m" );
-				buf.append( "aybe a drippy orb (Pool Skill at current inebriety = " );
+				buf.append( "aybe a drippy orb (Pool Skill at " );
+				buf.append( Integer.valueOf( inebriety ) );
+				buf.append( " inebriety = " );
 				buf.append( Integer.valueOf( totalPoolSkill ) );
 				buf.append( ")" );
 				result[ 0 ] = buf.toString();
