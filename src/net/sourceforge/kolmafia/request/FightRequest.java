@@ -186,6 +186,7 @@ public class FightRequest
 	public static String lastResponseText = "";
 	public static String lastDecoratedResponseText = "";
 	public static String currentEncounter = "";
+	private static boolean transformed = false;
 	private static boolean haveFought = false;
 	private static boolean shouldRefresh = false;
 	private static boolean initializeAfterFight = false;
@@ -2468,7 +2469,17 @@ public class FightRequest
 		}
 
 		boolean autoAttacked = false;
-		SpecialMonster special = FightRequest.specialMonsterCategory( encounter );
+
+		if ( FightRequest.transformed )
+		{
+			MonsterData newMonster = AdventureRequest.extractMonster( encounter, responseText );
+			MonsterStatusTracker.transformMonster( newMonster );
+			FightRequest.transformed = false;
+		}
+
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
+		String monsterName = monster != null ? monster.getName() : "";
+		SpecialMonster special = FightRequest.specialMonsterCategory( monsterName );
 
 		if ( FightRequest.currentRound == 0 )
 		{
@@ -2544,9 +2555,6 @@ public class FightRequest
 			{
 				FightRequest.canStomp = true;
 			}
-
-			MonsterData monster = MonsterStatusTracker.getLastMonster();
-			String monsterName = monster != null ? monster.getName() : "";
 
 			QuestManager.updateQuestFightStarted( responseText, monsterName );
 
@@ -6825,8 +6833,6 @@ public class FightRequest
 			{
 				FightRequest.clearInstanceData( true );
 				String newMonsterName = m.group( 1 );
-				MonsterData monster = MonsterDatabase.findMonster( CombatActionManager.encounterKey( newMonsterName, false ) );
-				MonsterStatusTracker.transformMonster( monster );
 				FightRequest.logText( "your opponent becomes " + newMonsterName + "!", status );
 			}
 
@@ -8425,6 +8431,7 @@ public class FightRequest
 
 	private static final void clearInstanceData( final boolean transform )
 	{
+		FightRequest.transformed = transform;
 		FightRequest.fightFollowsChoice = false;
 
 		FightRequest.castNoodles = false;
