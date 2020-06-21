@@ -896,6 +896,7 @@ public class PlaceRequest
 			if ( action.equals( "pal_drlabel" ) || action.equals( "pal_droffice" ) )
 			{
 				message = "Visiting Dr. Awkward's office";
+				turns = true;
 			}
 			else if ( action.equals( "pal_mrlabel" ) || action.equals( "pal_mroffice" ) )
 			{
