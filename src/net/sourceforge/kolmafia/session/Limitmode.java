@@ -37,6 +37,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -202,14 +203,25 @@ public class Limitmode
 		return false;
 	}
 
-	public static final boolean limitAdventure( KoLAdventure adventure )
+	private static final String rootZone( String zoneName )
 	{
-		String parent = adventure.getParentZone();
-		String zone = parent.equals( "Batfellow Area" ) ? parent : adventure.getZone();
-		return Limitmode.limitZone( zone );
+		while ( true )
+		{
+			String parent = AdventureDatabase.getParentZone( zoneName );
+			if ( parent == null )
+			{
+				return zoneName;
+			}
+			zoneName = parent;
+		}
 	}
 
-	public static final boolean limitZone( final String zoneName )
+	public static final boolean limitAdventure( KoLAdventure adventure )
+	{
+		return Limitmode.limitZone( adventure.getZone() );
+	}
+
+	public static final boolean limitZone( String zoneName )
 	{
 		String limitmode = KoLCharacter.getLimitmode();
 		if ( limitmode == null )
@@ -219,12 +231,12 @@ public class Limitmode
 
 		if ( limitmode == Limitmode.SPELUNKY )
 		{
-			return !zoneName.equals( "Spelunky Area" );
+			return !Limitmode.rootZone( zoneName ).equals( "Spelunky Area" );
 		}
 
 		if ( limitmode == Limitmode.BATMAN )
 		{
-			return !zoneName.equals( "Batfellow Area" );
+			return !Limitmode.rootZone( zoneName ).equals( "Batfellow Area" );
 		}
 
 		if ( limitmode == Limitmode.ED )

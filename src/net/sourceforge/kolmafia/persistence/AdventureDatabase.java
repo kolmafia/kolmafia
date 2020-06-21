@@ -676,6 +676,12 @@ public class AdventureDatabase
 		return zoneLookup.get( location );
 	}
 
+	public static final String getParentZone( final String zone )
+	{
+		String parent = PARENT_ZONES.get( zone );
+		return parent.equals( zone ) ? null : parent;
+	}
+
 	public static final AdventureResult getBounty( final KoLAdventure adventure )
 	{
 		String adventureName = adventure.getAdventureName();
