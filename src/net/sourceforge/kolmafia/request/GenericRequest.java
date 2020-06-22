@@ -2860,6 +2860,8 @@ public class GenericRequest
 		// Most places, this is signaled by the message "Your (or your)
 		// ten-leaf clover disappears in a puff of smoke."
 		//
+		// Some places, it "vanishes in a puff of smoke."
+		//
 		// The Hippy Camp (In Disguise)'s A Case of the Baskets, the message is
 		// "Like the smoke your ten-leaf clover disappears in a puff of"
 		//
@@ -2872,6 +2874,7 @@ public class GenericRequest
 
 		if ( this.responseText.contains( "clover" ) &&
 		     ( this.responseText.contains( "disappears in a puff of" ) ||
+		       this.responseText.contains( "vanishes in a puff of smoke" ) ||
 		       this.responseText.contains( "into the leprechaun's pocket" ) ||
 		       this.responseText.contains( "cloud of smoke and alcohol fumes" ) ) )
 		{
