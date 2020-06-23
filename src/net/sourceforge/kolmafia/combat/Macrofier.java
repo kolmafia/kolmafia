@@ -159,6 +159,11 @@ public class Macrofier
 			// top-level code in that file.
 			Value returnValue = Macrofier.macroInterpreter.execute( macroOverride, parameters, false );
 
+			if ( KoLmafia.refusesContinue() )
+			{
+				return "abort";
+			}
+
 			if ( returnValue == null || returnValue.getType().equals( DataTypes.TYPE_VOID ) )
 			{
 				String message = "Macro override \"" + macroOverride + "\" returned void.";
