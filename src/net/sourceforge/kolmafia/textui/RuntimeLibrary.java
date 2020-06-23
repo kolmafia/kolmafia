@@ -3427,12 +3427,20 @@ public abstract class RuntimeLibrary
 			String filter = filterFunction.toString();
 			Macrofier.setMacroOverride( filter, interpreter );
 
-			return RuntimeLibrary.adventure( interpreter, arg1, arg2 );
+			RuntimeLibrary.adventure( interpreter, arg1, arg2 );
 		}
 		finally
 		{
 			Macrofier.resetMacroOverride();
 		}
+
+		if ( KoLmafia.refusesContinue() )
+		{
+			RuntimeLibrary.abort( interpreter, "Combat filter function aborted execution" );
+			return DataTypes.VOID_VALUE;
+		}
+
+		return RuntimeLibrary.continueValue();
 	}
 
 	public static Value adv1( Interpreter interpreter, final Value locationValue, final Value adventuresUsedValue, final Value filterFunction )
@@ -3458,6 +3466,12 @@ public abstract class RuntimeLibrary
 			KoLmafia.redoSkippedAdventures = redoSkippedAdventures;
 			Macrofier.resetMacroOverride();
 			adventure.overrideAdventuresUsed( -1 );
+		}
+
+		if ( KoLmafia.refusesContinue() )
+		{
+			RuntimeLibrary.abort( interpreter, "Combat filter function aborted execution" );
+			return DataTypes.VOID_VALUE;
 		}
 
 		return RuntimeLibrary.continueValue();
@@ -6137,6 +6151,12 @@ public abstract class RuntimeLibrary
 		finally
 		{
 			Macrofier.resetMacroOverride();
+		}
+
+		if ( KoLmafia.refusesContinue() )
+		{
+			RuntimeLibrary.abort( interpreter, "Combat filter function aborted execution" );
+			return DataTypes.VOID_VALUE;
 		}
 
 		String response = FightRequest.lastResponseText;
