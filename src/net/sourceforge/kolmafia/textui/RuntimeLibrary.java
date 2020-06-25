@@ -3434,9 +3434,8 @@ public abstract class RuntimeLibrary
 			Macrofier.resetMacroOverride();
 		}
 
-		if ( KoLmafia.refusesContinue() )
+		if (interpreter.getState().equals(Interpreter.STATE_EXIT))
 		{
-			RuntimeLibrary.abort( interpreter, "Combat filter function aborted execution" );
 			return DataTypes.VOID_VALUE;
 		}
 
@@ -3468,9 +3467,8 @@ public abstract class RuntimeLibrary
 			adventure.overrideAdventuresUsed( -1 );
 		}
 
-		if ( KoLmafia.refusesContinue() )
+		if (interpreter.getState().equals(Interpreter.STATE_EXIT))
 		{
-			RuntimeLibrary.abort( interpreter, "Combat filter function aborted execution" );
 			return DataTypes.VOID_VALUE;
 		}
 
@@ -6153,9 +6151,8 @@ public abstract class RuntimeLibrary
 			Macrofier.resetMacroOverride();
 		}
 
-		if ( KoLmafia.refusesContinue() )
+		if (interpreter.getState().equals(Interpreter.STATE_EXIT))
 		{
-			RuntimeLibrary.abort( interpreter, "Combat filter function aborted execution" );
 			return DataTypes.VOID_VALUE;
 		}
 
