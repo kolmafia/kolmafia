@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
+import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
@@ -1205,6 +1206,11 @@ public class AdventureRequest
 		if ( this.override >= 0 )
 		{
 			return this.override;
+		}
+		String limitmode = KoLCharacter.getLimitmode();
+		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN )
+		{
+			return 0;
 		}
 		if ( this.adventureId.equals( AdventurePool.THE_SHORE_ID ) )
 		{
