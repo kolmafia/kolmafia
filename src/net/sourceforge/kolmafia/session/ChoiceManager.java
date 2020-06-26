@@ -12055,6 +12055,11 @@ public abstract class ChoiceManager
 			{
 			case 1:
 				Preferences.setBoolean( "_drippingHallDoor1", true );
+				// If you acquire a drippy org, count it
+				if ( text.contains( "drippy orb" ) )
+				{
+					Preferences.increment( "drippyOrbsClaimed" );
+				}
 				break;
 			case 2:
 				Preferences.setBoolean( "_drippingHallDoor2", true );

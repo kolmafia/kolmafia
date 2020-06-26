@@ -533,6 +533,7 @@ user	drippingHallUnlocked	false
 user	drippingTreesAdventuresSinceAscension	0
 user	drippyBatsUnlocked	0
 user	drippyJuice	0
+user	drippyOrbsClaimed	0
 user	drippyShieldUnlocked	false
 user	drunkenSwagger	0
 user	edDefeatAbort	2
