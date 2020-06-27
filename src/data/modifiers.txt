@@ -2277,7 +2277,7 @@ Item	mole skin notebook	Moxie: +1
 Item	moxie magnet	Moxie Controls MP
 Item	Mr. Balloon	Muscle: +3, Mysticality: +3, Moxie: +3
 # Mr. Haggis: Haggis!
-Item	mushroom shield	Muscle: +40, Mysticality: -20, Moxie: -20, Combat Rate: +5, Damage Reduction: 6
+Item	mushroom shield	Muscle: +40, Mysticality: -20, Moxie: -20, Combat Rate: +10, Damage Reduction: 6
 # Mylar balloon
 # naughty fortune teller: + Some Stats Per Fight
 Item	naughty fortune teller	Softcore Only
@@ -2537,7 +2537,7 @@ Item	washboard shield	Damage Absorption: +50, Class: "Turtle Tamer", Damage Redu
 Item	Whatsian Ionic Pliers	HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5
 # white balloon
 Item	white satin shield	Moxie: +2, Damage Reduction: 5
-Item	whittled walking stick	Adventures: +3, PvP Fights: +6, Combat Rate: +5, Item Drop: +20
+Item	whittled walking stick	Adventures: +3, PvP Fights: +6, Combat Rate: +10, Item Drop: +20
 # wicker clicker: Cadenza will briefly stun opponents
 Item	wicker clicker	Experience (Moxie): +2, MP Regen Min: 2, MP Regen Max: 4
 Item	wicker shield	Moxie: +6, Damage Reduction: 11
@@ -10595,6 +10595,7 @@ Item	grolblin rum	Lasts Until Rollover
 # groupie lipstick: Deals 150-250 <font color=blueviolet>Sleaze Damage</font>
 # Gummi-Memory: Your future Gelatinous Noob runs will start with 5 extra skills (up to 20)
 # gun parts: Maybe you can make a gun out of them?
+Item	Guzzlr application	Free Pull
 Item	Gygaxian Libram	Skill: "Summon Dice"
 # gyroscope: Briefly distracts enemies
 # half of a gold tooth: It's gross.  Just sell it.
