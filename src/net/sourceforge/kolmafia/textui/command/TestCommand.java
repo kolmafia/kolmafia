@@ -252,6 +252,22 @@ public class TestCommand
 			return;
 		}
 
+		if ( command.equals( "choicespoilers" ) )
+		{
+			if ( split.length < 2 || !StringUtilities.isNumeric( split[ 1 ] ) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test choicespoilers CHOICE" );
+				return;
+			}
+			int choice = StringUtilities.parseInt( split[ 1 ] );
+			Object[] spoilers = ChoiceManager.dynamicChoiceOptions( choice );
+			for ( int i = 0; i < spoilers.length; ++i )
+			{
+				RequestLogger.printLine( "Option " + ( i + 1 ) + ": " + spoilers[ i ] );
+			}
+			return;
+		}
+
 		if ( command.equals( "cookies" ) )
 		{
 			if ( GenericRequest.serverCookies.size() == 0 )
