@@ -12060,6 +12060,12 @@ public abstract class ChoiceManager
 				{
 					Preferences.increment( "drippyOrbsClaimed" );
 				}
+				else
+				{
+					int known = Preferences.getInteger( "drippyOrbsClaimed" );
+					int min = KoLCharacter.estimatedPoolSkill() / 20;
+					Preferences.setInteger( "drippyOrbsClaimed", Math.max( known, min ) );
+				}
 				break;
 			case 2:
 				Preferences.setBoolean( "_drippingHallDoor2", true );
