@@ -261,9 +261,12 @@ public class TestCommand
 			}
 			int choice = StringUtilities.parseInt( split[ 1 ] );
 			Object[] spoilers = ChoiceManager.dynamicChoiceOptions( choice );
-			for ( int i = 0; i < spoilers.length; ++i )
+			if ( spoilers != null )
 			{
-				RequestLogger.printLine( "Option " + ( i + 1 ) + ": " + spoilers[ i ] );
+				for ( int i = 0; i < spoilers.length; ++i )
+				{
+					RequestLogger.printLine( "Option " + ( i + 1 ) + ": " + spoilers[ i ] );
+				}
 			}
 			return;
 		}
