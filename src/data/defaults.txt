@@ -474,6 +474,7 @@ user	dampOldBootPurchased	false
 user	darkGyfftePoints	0
 user	daycareEquipment	0
 user	daycareInstructors	0
+user	daycareLastScavenge	0
 user	daycareOpen	false
 user	daycareToddlers	0
 user	dbNemesisSkill1	0

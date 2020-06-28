@@ -280,7 +280,7 @@ public abstract class ChoiceManager
 	private static final Pattern URL_VOTE_PATTERN = Pattern.compile( "local\\[\\]=(\\d)" );
 	private static final Pattern EARLY_DAYCARE_PATTERN = Pattern.compile( "mostly empty. (.*?) toddlers are training with (.*?) instructor" );
 	private static final Pattern DAYCARE_PATTERN = Pattern.compile( "(?:Looks like|Probably around) (.*?) pieces in all. (.*?) toddlers are training with (.*?) instructor" );
-	private static final Pattern DAYCARE_RECRUITS_PATTERN = Pattern.compile( "<font color=blue><b>[(.*?) Meat]</b></font>" );	
+	private static final Pattern DAYCARE_RECRUITS_PATTERN = Pattern.compile( "<font color=blue><b>[(.*?) Meat]</b></font>" );
 	private static final Pattern DAYCARE_RECRUIT_PATTERN = Pattern.compile( "attract (.*?) new children" );
 	private static final Pattern DAYCARE_EQUIPMENT_PATTERN = Pattern.compile( "manage to find (.*?) used" );
 	private static final Pattern DAYCARE_ITEM_PATTERN = Pattern.compile( "<td valign=center>You lose an item: </td>(?:.*?)<b>(.*?)</b> \\((.*?)\\)</td>" );
@@ -11667,8 +11667,14 @@ public abstract class ChoiceManager
 				Matcher matcher = ChoiceManager.DAYCARE_EQUIPMENT_PATTERN.matcher( text );
 				if ( matcher.find() )
 				{
+					AdventureResult effect = EffectPool.get( EffectPool.BOXING_DAY_BREAKFAST, 0 );
+					boolean haveBreakfast = effect.getCount( KoLConstants.activeEffects ) > 0;
+					String countString = matcher.group( 1 );
+					int equipment = StringUtilities.parseInt( countString.replaceAll( ",", "" ) );
+					Preferences.setInteger( "daycareLastScavenge", equipment / ( haveBreakfast? 2 : 1 ) );
+
 					message1 = "Activity: Scavenge for gym equipment";
-					message2 = "You have found " + matcher.group( 1 ) + " pieces of gym equipment";
+					message2 = "You have found " + countString + " pieces of gym equipment";
 					Preferences.increment( "_daycareGymScavenges" );
 				}
 			}
@@ -15471,6 +15477,8 @@ public abstract class ChoiceManager
 			{
 				Preferences.setInteger( "_daycareRecruits", ( recruitsToday.group( 1 ).replaceAll( ",", "" ) ).length() - 3 );
 			}
+			// *** Update _daycareScavenges
+			// *** Update daycareInstructorCost (new)
 			break;
 		}
 
