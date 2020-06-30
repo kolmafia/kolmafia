@@ -1779,6 +1779,7 @@ user	_prToday	false
 user	_psychoJarFilled	false
 user	_psychoJarUsed	false
 user	_psychokineticHugUsed	false
+user	_questESp
 user	_questPartyFair	unstarted
 user	_questPartyFairProgress
 user	_questPartyFairQuest
