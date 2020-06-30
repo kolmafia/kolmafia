@@ -14715,7 +14715,7 @@ public abstract class ChoiceManager
 
 			Matcher staticMatcher = ChoiceManager.RADIO_STATIC_PATTERN.matcher( text );
 
-			ArrayList<String> snippets = new ArrayList<String>();
+			String snippet = ".*";
 
 			while ( staticMatcher.find() )
 			{
@@ -14733,19 +14733,9 @@ public abstract class ChoiceManager
 						continue;
 					}
 
-					if ( part.substring( part.length() - 1 ) == " " )
-					{
-						part = part.substring( 0, part.length() - 1 );
-					}
-
-					if ( part.substring( part.length() - 3 ) == "..." )
-					{
-						part = part.substring( 0, part.length() - 3 );
-					}
-
+					part = part.replaceAll( "\\.* *$", "" );
 					part = part.replace( "  ", " " );
-
-					snippets.add( part );
+					snippet += Pattern.quote( part ) + ".*";
 				}
 			}
 
@@ -14757,18 +14747,7 @@ public abstract class ChoiceManager
 			{
 				Map.Entry<Quest, String> entry = iterator.next();
 
-				boolean matches = true;
-
-				for ( String snippet : snippets )
-				{
-					if ( entry.getValue().contains( snippet ) )
-					{
-						matches = false;
-						break;
-					}
-				}
-
-				if ( matches )
+				if ( Pattern.matches( snippet, entry.getValue() ) )
 				{
 					if ( todaysQuest == null )
 					{
