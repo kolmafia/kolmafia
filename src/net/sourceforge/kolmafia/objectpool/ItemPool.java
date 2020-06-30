@@ -3220,6 +3220,7 @@ public class ItemPool
 	public static final int GUZZLR_TABLET = 10533;
 	public static final int GUZZLR_COCKTAIL_SET = 10534;
 	public static final int GUZZLRBUCK = 10535;
+	public static final int GUZZLR_SHOES = 10537;
 	public static final int CLOWN_CAR_KEY = 10547;
 	public static final int BATTING_CAGE_KEY = 10548;
 	public static final int AQUI = 10549;
