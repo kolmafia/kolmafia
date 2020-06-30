@@ -43,10 +43,12 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.TreeMap;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -241,6 +243,7 @@ public abstract class ChoiceManager
 	private static final Pattern LYNYRD_PATTERN = Pattern.compile( "(?:scare|group of|All) <b>(\\d+)</b> (?:of the protesters|protesters|of them)" );
 	private static final Pattern PINK_WORD_PATTERN = Pattern.compile( "scrawled in lipstick on a cocktail napkin:  <b><font color=pink>(.*?)</font></b>" );
 	private static final Pattern OMEGA_PATTERN = Pattern.compile( "<br>Current power level: (\\d+)%</td>" );
+	private static final Pattern RADIO_STATIC_PATTERN = Pattern.compile( "<p>(?!(?:<form|</center>))(.+?)(?=<[^i</])" );
 	private static final Pattern STILL_PATTERN = Pattern.compile( "toss (.*?) cocktail onions into the still" );
 	private static final Pattern QTY_PATTERN = Pattern.compile( "qty(\\d+)=(\\d+)" );
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "itemid(\\d+)=(\\d+)" );
@@ -363,6 +366,19 @@ public abstract class ChoiceManager
 		{	"Put the Toy Boat on the Side of the Tub", "+4 crayon, -1 crew" }, { "Cover the Ship in Bubbles", "Block fearsome giant squid, -13-20 bubbles" },
 		{	"Pull the Drain Plug", "-8 crew, -3 crayons, -17 bubbles, increase NC rate" }, { "Open a New Bathtub Crayon Box", "+3 crayons" },
 		{	"Sing a Bathtime Tune", "+3 crayons, +16 bubbles, -2 crew" }, { "Surround Bubbles with Crayons", "+5 crew, -6-16 bubbles, -2 crayons" },
+	};
+
+	public static final Map<Quest, String> conspiracyQuestMessages = new HashMap<>();
+	static
+	{
+		ChoiceManager.conspiracyQuestMessages.put( Quest.CLIPPER, "&quot;Attention any available operative. Attention any available operative. A reward has been posted for DNA evidence gathered from Lt. Weirdeaux's subjects inside Site 15. The DNA is to be gathered via keratin extraction. Message repeats.&quot;" );
+    	ChoiceManager.conspiracyQuestMessages.put( Quest.EVE, "&quot;Attention Operative 01-A-A. General Sitterson reports a... situation involving experiment E-V-E-6. Military intervention has been requested. Message repeats.&quot;" );
+    	ChoiceManager.conspiracyQuestMessages.put( Quest.FAKE_MEDIUM, "&quot;Attention Operative EC-T-1. An outside client has expressed interest in the acquisition of an ESP suppression collar from the laboratory. Operationally significant sums of money are involved. Message repeats.&quot;" );
+    	ChoiceManager.conspiracyQuestMessages.put( Quest.GORE, "&quot;Attention any available operative. Attention any available operative. Laboratory overseer General Sitterson reports unacceptable levels of environmental gore. Several elevator shafts are already fully clogged, limiting staff mobility, and several surveillance camera lenses have been rendered opaque, placing the validity of experimental data at risk. Immediate janitorial assistance is requested. Message repeats.&quot;" );
+    	ChoiceManager.conspiracyQuestMessages.put( Quest.JUNGLE_PUN, "&quot;Attention any available operative. Attention any available operative. The director of Project Buena Vista has posted a significant bounty for the collection of jungle-related puns. Repeat: Jungle-related puns. Non-jungle puns or jungle non-puns will not be accepted. Non-jungle non-puns, by order of the director, are to be rewarded with summary execution. Message repeats.&quot;" );
+    	ChoiceManager.conspiracyQuestMessages.put( Quest.OUT_OF_ORDER, "&quot;Attention Operative QZ-N-0. Colonel Kurzweil at Jungle Interior Camp 4 reports the theft of Project T. L. B. materials. Requests immediate assistance. Is confident that it has not yet been removed from the jungle. Message repeats.&quot;" );
+    	ChoiceManager.conspiracyQuestMessages.put( Quest.SERUM, "&quot;Attention Operative 21-B-M. Emergency deployment orders have been executed due to a shortage of experimental serum P-00. Repeat: P Zero Zero. Lt. Weirdeaux is known to have P-00 manufacturing facilities inside the Site 15 mansion. Message repeats.&quot;" );
+    	ChoiceManager.conspiracyQuestMessages.put( Quest.SMOKES, "&quot;Attention Operative 00-A-6. Colonel Kurzweil at Jungle Interior Camp 4 reports that they have run out of smokes. Repeat: They have run out of smokes. Requests immediate assistance. Message repeats.&quot;" );
 	};
 
 	public static class Option
@@ -14689,6 +14705,89 @@ public abstract class ChoiceManager
 			// as soon as the next adventure is started
 			TurnCounter.stopCounting( "Spookyraven Lights Out" );
 			Preferences.setInteger( "lastLightsOutTurn", KoLCharacter.getTurnsPlayed() );
+			break;
+
+		case 984:
+			if ( text.contains( "Awaiting mission") )
+			{
+				break;
+			}
+
+			Matcher staticMatcher = ChoiceManager.RADIO_STATIC_PATTERN.matcher( text );
+
+			ArrayList<String> snippets = new ArrayList<String>();
+
+			while ( staticMatcher.find() )
+			{
+				String section = staticMatcher.group( 1 );
+
+        		if ( section.contains( "You turn the biggest knob on the radio" ) )
+        		{
+            		continue;
+				}
+
+				for ( String part : section.split( "&lt;.*?&gt;" ) )
+				{
+					if ( part.startsWith( "&lt;" ) || part.length() < 3 )
+					{
+						continue;
+					}
+
+					if ( part.substring( part.length() - 1 ) == " " )
+					{
+						part = part.substring( 0, part.length() - 1 );
+					}
+
+					if ( part.substring( part.length() - 3 ) == "..." )
+					{
+						part = part.substring( 0, part.length() - 3 );
+					}
+
+					part = part.replace( "  ", " " );
+
+					snippets.add( part );
+				}
+			}
+
+			Iterator<Entry<Quest, String>> iterator = conspiracyQuestMessages.entrySet().iterator();
+
+			Quest todaysQuest = null;
+
+			while ( iterator.hasNext() )
+			{
+				Map.Entry<Quest, String> entry = iterator.next();
+
+				boolean matches = true;
+
+				for ( String snippet : snippets )
+				{
+					if ( entry.getValue().contains( snippet ) )
+					{
+						matches = false;
+						break;
+					}
+				}
+
+				if ( matches )
+				{
+					if ( todaysQuest == null )
+					{
+						todaysQuest = entry.getKey();
+					}
+					else
+					{
+						// Multiple matches
+						todaysQuest = null;
+						break;
+					}
+				}
+			}
+
+			if ( todaysQuest != null )
+			{
+				Preferences.setString( "_questESp", todaysQuest.getPref() );
+			}
+
 			break;
 
 		case 986:
