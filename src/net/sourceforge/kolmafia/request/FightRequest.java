@@ -4570,7 +4570,18 @@ public class FightRequest
 			}
 
 			if ( QuestDatabase.isQuestLaterThan( Quest.GUZZLR, QuestDatabase.UNSTARTED ) &&
-				 responseText.contains( "You finally manage to track down" ) )
+			     Preferences.getString( "guzzlrQuestLocation" ).equals( KoLAdventure.lastLocationName ) )
+			{
+				int incr = Math.max( 3, 10 - Preferences.getInteger( "_guzzlrDeliveries" ) );
+				if ( KoLCharacter.hasEquipped( ItemPool.GUZZLR_SHOES ) )
+				{
+					incr = (int) Math.floor( 1.5 * incr );
+				}
+				Preferences.increment( "guzzlrDeliveryProgress", incr );
+			}
+
+			if ( QuestDatabase.isQuestLaterThan( Quest.GUZZLR, QuestDatabase.UNSTARTED ) &&
+			     responseText.contains( "You finally manage to track down" ) )
 			{
 				String tier = Preferences.getString( "guzzlrQuestTier" );
 				int itemId = ItemDatabase.getItemId( Preferences.getString( "guzzlrQuestBooze" ) );
@@ -4608,6 +4619,7 @@ public class FightRequest
 				Preferences.setString( "guzzlrQuestBooze", "" );
 				Preferences.setString( "guzzlrQuestLocation", "" );
 				Preferences.setString( "guzzlrQuestTier", "" );
+				Preferences.setInteger( "guzzlrDeliveryProgress", 0 );
 				QuestDatabase.setQuestProgress( Quest.GUZZLR, QuestDatabase.UNSTARTED );
 			}
 

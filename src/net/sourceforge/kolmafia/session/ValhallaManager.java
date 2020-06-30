@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia.session;
 
 import java.io.PrintStream;
 
-import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -449,6 +448,7 @@ public class ValhallaManager
 		Preferences.setString( "dnaSyringe", "" );
 		Preferences.setString( "edPiece", "" );
 		Preferences.setInteger( "eldritchTentaclesFought", 0 );
+		Preferences.setInteger( "guzzlrDeliveryProgress", 0 );
 		Preferences.setBoolean( "itemBoughtPerAscension637", false );
 		Preferences.setBoolean( "itemBoughtPerAscension8266", false );
 		Preferences.setString( "mayoInMouth", "" );

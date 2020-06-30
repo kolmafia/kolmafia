@@ -655,6 +655,7 @@ user	guideToSafariCost	1000
 user	guyMadeOfBeesCount	0
 user	guyMadeOfBeesDefeated	false
 user	guzzlrBronzeDeliveries	0
+user	guzzlrDeliveryProgress	0
 user	guzzlrGoldDeliveries	0
 user	guzzlrPlatinumDeliveries	0
 user	guzzlrQuestBooze	
