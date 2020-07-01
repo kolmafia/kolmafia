@@ -83,14 +83,14 @@ public class FamiliarData
 	private static final Pattern CURRENT_FAMILIAR_PATTERN =
 		Pattern.compile( ".*?<img (?:onClick='fam\\((\\d+)\\)')? .*?src=\"[^>]*?(?:images.kingdomofloathing.com|/images)/(?:item|other)images/([^\"]*?)\".*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, ([\\d,]+) kills?\\)(.*?)(?:</form)>" );
 
-	// <tr class="frow expired" data-stats="1" data-other="1"><td valign=center>&nbsp;</td><td valign=center><img src="http://images.kingdomofloathing.com/itemimages/crayongoth.gif" class="hand fam" onClick='fam(160)'></td><td valign=top style='padding-top: .45em;'><b>Raven 'Raven' Ravengrrl</b>, the 1-pound Artistic Goth Kid (0 exp, 32,443 kills) <font size="1"><br />&nbsp;&nbsp;&nbsp;&nbsp;<a class="fave" href="familiar.php?group=0&action=fave&famid=160&pwd=4438585275374d322da30a77b73cb7d5">[unfavorite]</a></font></td></tr>
-
 	private static final Pattern FROW_PATTERN =
 		Pattern.compile( "<tr class=\"frow .*?</tr>" );
 
-	// 1=image 2=id 3=name 4=race 5=exp 6=kills 7=extra
+	// <tr class="frow " data-meat="1" data-other="1"><td valign=center><input type=radio name=newfam value=211></td><td valign=center><img onClick='fam(211)' src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/robotender.gif" width=30 height=30 border=0></td><td valign=top style='padding-top: .45em;'><b>Frudolph</b>, the 20-pound Robortender (26,336 exp, 81,162 kills) <font size="1"><br />&nbsp;&nbsp;&nbsp;&nbsp;<a class="fave" href="familiar.php?&action=hatseat&famid=211&pwd=4dffb982670edd69a851735088639201">[put in Crown of Thrones]</a>&nbsp;&nbsp;<a class="fave" href="familiar.php?group=0&action=fave&famid=211&pwd=4dffb982670edd69a851735088639201">[unfavorite]</a>&nbsp;&nbsp;<a class="fave" href="familiar.php?&action=newfam&newfam=211&pwd=4dffb982670edd69a851735088639201">[take with you]</a></font></td><td valign=center nowrap><center><b>(</b><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/toggleswitch2.gif" class=hand onClick='descitem(431660273)' align=middle><b>)</b><br><font size=1><a href='familiar.php?pwd=4dffb982670edd69a851735088639201&action=unequip&famid=211'>[unequip]</a></font></center></td></tr>
+
+	// 1=id 2=image 3=name 4=race 5=exp 6=kills 7=extra
 	private static final Pattern FAMILIAR_PATTERN =
-		Pattern.compile( "\".*?<img src=\"[^>]*?(?:images.kingdomofloathing.com|/images)/itemimages/([^\"]*?)\" class=(?:\"hand fam\"|hand) onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, ([\\d,]+) kills?\\)(.*?)(?:</tr>)" );
+		Pattern.compile( ".*?<img onClick='fam\\((\\d+)\\)' src=\"[^>]*?/itemimages/([^\"]*?)\".*?>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, ([\\d,]+) kills?\\)(.*?)(?:</tr>)" );
 
 	private static final Pattern DESCID_PATTERN = Pattern.compile( "descitem\\((.*?)\\)" );
 	private static final Pattern SHRUB_TOPPER_PATTERN = Pattern.compile( "span title=\"(.*?)-heavy" );
@@ -470,7 +470,7 @@ public class FamiliarData
 				continue;
 			}
 
-			FamiliarData familiar = FamiliarData.registerFamiliar( familiarMatcher, false );
+			FamiliarData familiar = FamiliarData.registerFamiliar( familiarMatcher, true );
 
 			if ( frow.contains( "kick out of Crown of Thrones" ) )
 			{
