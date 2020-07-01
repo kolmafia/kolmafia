@@ -6107,6 +6107,7 @@ public class FightRequest
 		public boolean hookah = false;
 		public boolean meteors;
 		public String location;
+		public int monsterId;
 
 		public TagStatus()
 		{
@@ -6176,6 +6177,9 @@ public class FightRequest
 			this.name = isBatfellow ? "Batfellow" : KoLCharacter.getUserName();
 
 			this.location = KoLAdventure.lastLocationName == null ? "" : KoLAdventure.lastLocationName;
+
+			// The most recent monsterId string we parsed
+			this.monsterId = 0;
 		}
 
 		public void setFamiliar( final String image )
@@ -6858,26 +6862,6 @@ public class FightRequest
 
 			FightRequest.clearInstanceData( true );
 			FightRequest.logText( "your opponent becomes " + monsterName + "!", status );
-
-			// We'll identify the monster via MONSTERID next round,
-			// but try looking it up now.
-			//
-			// If we find it, we can set last_monster().
-
-			MonsterData monster = MonsterDatabase.findMonster( CombatActionManager.encounterKey( monsterName, false ) );
-			if ( monster == null )
-			{
-				String image = m.group(1);
-				monster = MonsterDatabase.findMonsterByImage( image );
-			}
-
-			if ( monster == null )
-			{
-				return;
-			}
-
-			monster = monster.transform();
-			MonsterStatusTracker.setNextMonster( monster );
 
 			return;
 		}
@@ -7939,7 +7923,7 @@ public class FightRequest
 
 	private static void processComment( CommentNode object, TagStatus status )
 	{
-		String content = object.getContent();
+		String content = object.getContent().trim();
 		if ( content.equals( "familiarmessage" ) )
 		{
 			status.famaction = true;
@@ -7950,6 +7934,27 @@ public class FightRequest
 			FightRequest.currentRound = 0;
 			FightRequest.won = true;
 			status.won = true;
+		}
+		else if ( content.startsWith( "MONSTERID:" ) )
+		{
+			String idstr = content.substring( 10 ).trim();
+			int lastMonsterId = status.monsterId;
+			int monsterId = StringUtilities.parseInt( idstr );
+			status.monsterId = monsterId;
+
+			// If this is a change, transform the monster
+			if ( lastMonsterId != monsterId )
+			{
+				MonsterData monster = MonsterDatabase.findMonsterById( monsterId );
+
+				if ( monster == null )
+				{
+					return;
+				}
+
+				monster = monster.transform();
+				MonsterStatusTracker.setNextMonster( monster );
+			}
 		}
 		// macroaction: comment handled elsewhere
 	}
