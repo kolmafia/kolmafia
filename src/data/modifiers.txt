@@ -10104,6 +10104,7 @@ Item	Asleep in the Cemetery	Skill: "Creepy Lullaby"
 Item	astral badger	Free Pull
 Item	Autobiography Of Dynamite Superman Jones (used)	Class: "Disco Bandit", Skill: "Kung Fu Hustler"
 Item	avatar of the Unconscious Collective	Free Pull
+Item	baby camelCalf	Free Pull
 Item	bad penguin egg	Free Pull
 # bag of airline peanuts: Deals 6-10 Physical Damage
 # bag of gross foreign snacks: Deals <font color=green>Stench Damage</font> every round to every monster you fight today in the zone where you used it

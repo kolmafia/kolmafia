@@ -10604,3 +10604,4 @@
 10576	salty drippy candy bar	538019890	dripcandybar.gif	potion, candy, usable	t	0
 10577	writhing drippy candy bar	488307339	dripcandybar.gif	potion, candy, usable	t	0
 10578	gooey drippy candy bar	983785368	dripcandybar.gif	potion, candy, usable	t	0
+10579	baby camelCalf	713270299	camelcalf.gif	grow	t	0
