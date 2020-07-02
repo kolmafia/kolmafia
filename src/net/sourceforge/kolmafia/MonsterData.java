@@ -1037,6 +1037,11 @@ public class MonsterData
 		return this.noCopy;
 	}
 
+	public boolean isDrippy()
+	{
+		return this.subTypes.contains( "drippy" );
+	}
+
 	public EnumSet<EncounterType> getType()
 	{
 		// Only the first 10 Snowmen are free
@@ -1722,6 +1727,11 @@ public class MonsterData
 		if ( this.attributes.contains( "SNAKE" ) )
 		{
 			buffer.append( "<br />This monster is a snake. " );
+		}
+
+		if ( this.attributes.contains( "DRIPPY" ) )
+		{
+			buffer.append( "<br />This monster is of The Drip. " );
 		}
 
 		int minMeat = this.getMinMeat();

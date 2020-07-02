@@ -1204,6 +1204,11 @@ public class MonsterDatabase
 					subTypes.add( option.toLowerCase() );
 					continue;
 				}
+				else if ( option.equals( "DRIPPY" ) )
+				{
+					subTypes.add( option.toLowerCase() );
+					continue;
+				}
 
 				RequestLogger.printLine( "Monster: \"" + name + "\": unknown option: " + option );
 			}
