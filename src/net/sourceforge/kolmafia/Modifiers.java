@@ -852,6 +852,17 @@ public class Modifiers
 		  null,
 		  Pattern.compile( "Plumber Power: " + EXPR )
 		},
+		{ "Drippy Damage",
+		  new Object[] {
+			Pattern.compile( "([+-]\\d+) Damage vs. creatures of The Drip" ),
+			Pattern.compile( "([+-]\\d+) Damage against Drip creatures" ),
+		  },
+		  Pattern.compile( "Drippy Damage: " + EXPR )
+		},
+		{ "Drippy Resistance",
+		  null,
+		  Pattern.compile( "Drippy Resistance: " + EXPR )
+		},
 	};
 
 	public static final int DOUBLE_MODIFIERS = Modifiers.doubleModifiers.length;

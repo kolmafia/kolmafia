@@ -8363,7 +8363,6 @@ public abstract class RuntimeLibrary
 		}
 
 		// http://kol.coldfront.net/thekolwiki/index.php/Damage
-
 		int attack = monster.getAttack() + attackModifier;
 		int defenseStat = KoLCharacter.getAdjustedMoxie();
 
