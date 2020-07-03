@@ -4000,6 +4000,7 @@ Item	cute bow from beyond the stars	Familiar Weight: +5
 Item	das boot	Familiar Weight: -10, Underwater Familiar, Generic, Familiar Effect: "adventure underwater"
 Item	dental pliers	Familiar Weight: +5
 Item	diamond-studded fronts	Familiar Weight: +5
+# dromedary drinking helmet: Improves the efficiency of your Melodramedary's drinking
 Item	even more tinsel	Familiar Weight: +5
 # evil teddy bear sewing kit: Teddy Bear loses less stuffing when hit
 Item	exo-xo-skeleton-skeleton	Familiar Weight: +5
