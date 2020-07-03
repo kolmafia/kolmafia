@@ -1190,8 +1190,10 @@ public class CharPaneRequest
 				CharPaneRequest.checkSnowsuit( image );
 			}
 			// Left-Hand Man's image is composed of body + an item image
+			// Melodramedary's image has left, middle, right images
 			// Perhaps we could handle this, but let's not bother
-			else if ( familiarId != FamiliarPool.LEFT_HAND )
+			else if ( familiarId != FamiliarPool.LEFT_HAND &&
+				  familiarId != FamiliarPool.MELODRAMEDARY )
 			{
 				KoLCharacter.setFamiliarImage( directory, image );
 				CharPaneRequest.checkMedium( responseText );
@@ -1849,7 +1851,10 @@ public class CharPaneRequest
 			KoLCharacter.setFamiliar( familiar );
 
 			String image = JSON.getString( "familiarpic" );
-			KoLCharacter.setFamiliarImage( image.equals( "" ) ? null : image + ".gif" );
+ 			if ( famId != FamiliarPool.MELODRAMEDARY )
+			{
+				KoLCharacter.setFamiliarImage( image.equals( "" ) ? null : image + ".gif" );
+			}
 
 			int weight = JSON.getInt( "famlevel" );
 			boolean feasted = JSON.getInt( "familiar_wellfed" ) == 1;
