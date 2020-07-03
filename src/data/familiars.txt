@@ -305,4 +305,4 @@
 276	Antique Nutcracker	nutcfigure.gif	stat0,drop	antique nutcracker figure	nutcracking pliers	1	2	3	2	clothes
 277	Piranha Plant	piranhaplant.gif	combat,stat0	pristine piranha seed	plastic piranha pot	3	3	3	3
 278	Left-Hand Man	lhmlarva.gif	none	sinistral homunculus		1	1	1	1
-279	Melodramedary	camelcalf.gif	stats0,hp1,mp1	baby camelCalf	dromedary drinking helmet	0	0	0	0
+279	Melodramedary	camelcalf.gif	stats0,hp1,mp1	baby camelCalf	dromedary drinking helmet	3	3	0	0

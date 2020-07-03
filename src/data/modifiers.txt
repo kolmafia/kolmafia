@@ -6840,6 +6840,7 @@ Effect	Spiritually Awake	MP Regen Min: 2, MP Regen Max: 4
 Effect	Spiritually Aware	MP Regen Min: 5, MP Regen Max: 7
 Effect	Spiritually Awash	MP Regen Min: 8, MP Regen Max: 10
 Effect	Spiro Gyro	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+Effect	Spit Upon	Weapon Damage Percent: +100, Spell Damage Percent: +100, Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Spooky Blur	Spooky Damage: +30, Spooky Spell Damage: +30, Initiative: +20
 # Spooky Breath: Can breathe terrifying air in combat
 Effect	Spooky Demeanor	Muscle Percent: +10, Mysticality Percent: +30, Moxie Percent: +20, Spooky Damage: +10, Spooky Resistance: +2

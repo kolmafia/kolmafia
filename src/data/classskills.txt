@@ -859,6 +859,9 @@
 7335	Spin Jump	mario_spinjump.gif	5	0	0
 7336	Multi-Bounce	mario_multibounce.gif	5	0	0
 7337	Plumber Jump	mario_boots2.gif	5	30	0
+7338	Drip Blast	dripstaff.gif	5	0	0
+7339	%fn, spit on them!		5	0	0
+7340	%fn, spit on me!		5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
