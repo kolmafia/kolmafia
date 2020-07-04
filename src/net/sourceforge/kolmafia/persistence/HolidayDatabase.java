@@ -1246,6 +1246,11 @@ public class HolidayDatabase
 			return "St. Sneaky Pete's Day";
 		}
 
+		if ( stringDate.endsWith( "0704" ) )
+		{
+			return "Dependence Day";
+		}
+
 		if ( stringDate.equals( HolidayDatabase.easter ) )
 		{
 			return "Oyster Egg Day";
