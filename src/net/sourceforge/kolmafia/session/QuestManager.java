@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
@@ -2493,7 +2494,9 @@ public class QuestManager
 			{
 				break;
 			}
+
 			int explored = 1;
+
 			if ( KoLCharacter.hasEquipped( ItemPool.UV_RESISTANT_COMPASS ) )
 			{
 				explored += 1;
@@ -2502,6 +2505,12 @@ public class QuestManager
 			{
 				explored += 2;
 			}
+
+			if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.MELODRAMEDARY )
+			{
+				explored += 1;
+			}
+
 			if ( Preferences.getString( "peteMotorbikeHeadlight" ).equals( "Blacklight Bulb" ) )
 			{
 				explored += 2;
@@ -2511,6 +2520,7 @@ public class QuestManager
 				// Universal GPS doesn't help on the first turn.  Probably a KoL bug, but it probably won't get fixed.
 				explored += 2;
 			}
+
 			QuestManager.incrementDesertExploration( explored );
 			break;
 
