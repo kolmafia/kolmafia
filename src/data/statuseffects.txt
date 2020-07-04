@@ -2577,3 +2577,4 @@
 2575	Slithering Mounds	dripcandybar.gif	63c611c1e773bc0516d1664ec5f1916c	neutral	none	use 1 writhing drippy candy bar
 2576	Snichors	dripcandybar.gif	9665bea0ac2f9da379254b1e417581ec	neutral	none	use 1 gooey drippy candy bar
 2577	Spit Upon	nopic.gif	75884cd963a369a27b0b37343a01c2ed	neutral	none
+2578	Entauntauned	nopic.gif	297ee9fadfb5560e5142e0b3a88456db	neutral	none
