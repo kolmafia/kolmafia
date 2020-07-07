@@ -214,67 +214,51 @@ public class IslandDecorator
 	public enum GremlinTool
 	{
 		HAMMER( ItemPool.MOLYBDENUM_HAMMER,
-			"batwinged gremlin (tool)",
 			"batwinged gremlin",
-			AdventurePool.JUNKYARD_BARREL,
 			"It whips out a hammer" ),
 		WRENCH( ItemPool.MOLYBDENUM_WRENCH,
-			"erudite gremlin (tool)",
 			"erudite gremlin",
-			AdventurePool.JUNKYARD_TIRES,
 			"He whips out a crescent wrench"),
 		PLIERS( ItemPool.MOLYBDENUM_PLIERS,
-			"spider gremlin (tool)",
 			"spider gremlin",
-			AdventurePool.JUNKYARD_REFRIGERATOR,
 			"It whips out a pair of pliers" ),
 		SCREWDRIVER( ItemPool.MOLYBDENUM_SCREWDRIVER,
-			     "vegetable gremlin (tool)",
 			     "vegetable gremlin",
-			     AdventurePool.JUNKYARD_CAR,
 			     "It whips out a screwdriver");
 
 		public final AdventureResult tool;
-		public final MonsterData goodMonster;
-		public final MonsterData badMonster;
-		public final int locationId;
+		public final MonsterData goodGremlin;
+		public final MonsterData badGremlin;
 		public final String message;
 
-		private GremlinTool( int toolId, String good, String bad, int locationId, String message )
+		private GremlinTool( int toolId, String gremlin, String message )
 		{
 			this.tool= ItemPool.get( toolId, 1 );
-			this.goodMonster = MonsterDatabase.findMonster( good );
-			this.badMonster = MonsterDatabase.findMonster( bad );
-			this.locationId = locationId;
+			this.goodGremlin = MonsterDatabase.findMonster( gremlin + " (tool)" );
+			this.badGremlin = MonsterDatabase.findMonster( gremlin );
 			this.message = message;
 		}
 	}
 
-	private static final Map<Integer, GremlinTool> goodMonsters = new HashMap<>();
-	private static final Map<Integer, GremlinTool> badMonsters = new HashMap<>();
+	private static final Map<Integer, GremlinTool> goodGremlins = new HashMap<>();
+	private static final Map<Integer, GremlinTool> badGremlins = new HashMap<>();
 
 	static
 	{
 		for ( GremlinTool tool : GremlinTool.values() )
 		{
-			goodMonsters.put( tool.goodMonster.getId(), tool );
-			badMonsters.put( tool.badMonster.getId(), tool );
+			goodGremlins.put( tool.goodGremlin.getId(), tool );
+			badGremlins.put( tool.badGremlin.getId(), tool );
 		}
 	};
 
 	public static final void decorateGremlinFight( final MonsterData monster, final StringBuffer buffer )
 	{
-		GremlinTool tool = goodMonsters.get( monster.getId() );
+		GremlinTool tool = goodGremlins.get( monster.getId() );
 
 		if ( tool == null )
 		{
 			// This is not a gremlin which drops a tool
-			return;
-		}
-
-		// We only color the tool if the monster is in the correct zone
-		if ( tool.locationId != KoLAdventure.lastAdventureId() )
-		{
 			return;
 		}
 
@@ -321,7 +305,7 @@ public class IslandDecorator
 
 	public static final void appendMissingGremlinTool( MonsterData monster, final StringBuffer buffer )
 	{
-		GremlinTool tool = badMonsters.get( monster.getId() );
+		GremlinTool tool = badGremlins.get( monster.getId() );
 		if ( tool != null )
 		{
 			buffer.append( "<br />This gremlin does <b>NOT</b> have a " ).append( tool.tool.getName() );
