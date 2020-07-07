@@ -340,6 +340,12 @@ public class IslandManager
 		return IslandManager.currentJunkyardLocation;
 	}
 
+	public static final boolean junkyardQuestActive()
+	{
+		return  InventoryManager.hasItem( ItemPool.MOLYBDENUM_MAGNET ) &&
+			Preferences.getString( "sidequestJunkyardCompleted" ).equals( "none" );
+	}
+
 	public static final String warProgress()
 	{
 		return Preferences.getString( "warProgress" );
