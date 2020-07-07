@@ -262,6 +262,12 @@ public class IslandDecorator
 			return;
 		}
 
+		// We only color the tool if the junkyard quest is active
+		if ( !IslandManager.junkyardQuestActive() )
+		{
+			return;
+		}
+
 		// We only color the tool if we don't already have it
 		if ( KoLConstants.inventory.contains( tool.tool ) )
 		{
@@ -306,10 +312,24 @@ public class IslandDecorator
 	public static final void appendMissingGremlinTool( MonsterData monster, final StringBuffer buffer )
 	{
 		GremlinTool tool = badGremlins.get( monster.getId() );
-		if ( tool != null )
+		if ( tool == null )
 		{
-			buffer.append( "<br />This gremlin does <b>NOT</b> have a " ).append( tool.tool.getName() );
+			return;
 		}
+
+		// Only mention the tool if the junkyard quest is active
+		if ( !IslandManager.junkyardQuestActive() )
+		{
+			return;
+		}
+
+		// Don't mention the missing tool if we already have the tool
+		if ( InventoryManager.hasItem( tool.tool ) )
+		{
+			return;
+		}
+
+		buffer.append( "<br />This gremlin does <b>NOT</b> have a " ).append( tool.tool.getName() );
 	}
 
 	private static final String victoryMessageHTML( final int last, final int current )
