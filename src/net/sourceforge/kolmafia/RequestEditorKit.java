@@ -1488,7 +1488,7 @@ public class RequestEditorKit
 
 		if ( monsterName.contains( "gremlin" ) )
 		{
-			IslandDecorator.decorateGremlinFight( monsterName, buffer );
+			IslandDecorator.decorateGremlinFight( monster, buffer );
 		}
 
 		switch ( KoLAdventure.lastAdventureId() )
@@ -1728,7 +1728,7 @@ public class RequestEditorKit
 			}
 		}
 
-		IslandDecorator.appendMissingGremlinTool( monsterData );
+		IslandDecorator.appendMissingGremlinTool( monster, monsterData );
 
 		if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
 		{
