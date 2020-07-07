@@ -2478,11 +2478,7 @@ public class FightRequest
 			encounter = AdventureRequest.parseCombatEncounter( responseText );
 			MonsterData newMonster = AdventureRequest.extractMonster( encounter, responseText );
 			MonsterStatusTracker.transformMonster( newMonster );
-			// Leave "transformed" set to force us to keep creating
-			// the monster from MONSTERID, ocrs modifiers, etc.,
-			// since KoL does not update those on the next
-			// response, but on a following one. I have a pending
-			// bug report to KoL about this.
+			FightRequest.transformed = false;
 		}
 
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
