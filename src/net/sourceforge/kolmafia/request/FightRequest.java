@@ -6140,6 +6140,7 @@ public class FightRequest
 
 			this.monster = MonsterStatusTracker.getLastMonster();
 			this.monsterName = this.monster != null ? monster.getName() : "";
+			this.monsterId = this.monster != null ? monster.getId() : 0;
 
 			this.encounter = FightRequest.currentEncounter;
 
@@ -6172,9 +6173,6 @@ public class FightRequest
 			this.name = isBatfellow ? "Batfellow" : KoLCharacter.getUserName();
 
 			this.location = KoLAdventure.lastLocationName == null ? "" : KoLAdventure.lastLocationName;
-
-			// The most recent monsterId string we parsed
-			this.monsterId = 0;
 		}
 
 		public void setFamiliar( final String image )
