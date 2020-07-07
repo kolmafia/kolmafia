@@ -109,8 +109,6 @@ public class IslandManager
 	private static final Pattern JUNKYARD_PATTERN =
 		Pattern.compile( "(?:The last time I saw my|muttering something about a(?: pair of)?) (.*?)(?:, it was|, they were| and) (.*?)[.<]", Pattern.DOTALL );
 
-	private static String missingGremlinTool = null;
-
 	// Data about current fight
 	private static boolean fratboy = false;
 	private static int lastFratboysDefeated = 0;
@@ -326,16 +324,10 @@ public class IslandManager
 
 	public static final void resetGremlinTool()
 	{
-		IslandManager.missingGremlinTool = null;
 		IslandManager.currentJunkyardTool = "";
 		Preferences.setString( "currentJunkyardTool", "" );
 		IslandManager.currentJunkyardLocation = "Yossarian";
 		Preferences.setString( "currentJunkyardLocation", "Yossarian" );
-	}
-
-	public static final String missingGremlinTool()
-	{
-		return IslandManager.missingGremlinTool;
 	}
 
 	public static final String currentJunkyardTool()
@@ -393,42 +385,10 @@ public class IslandManager
 
 	public static final void startFight()
 	{
-		IslandManager.missingGremlinTool = null;
 	}
 
 	public static void handleGremlin( final String responseText )
 	{
-		// Batwinged Gremlin has molybdenum hammer OR
-		// "It does a bombing run over your head..."
-
-		// Erudite Gremlin has molybdenum crescent wrench OR
-		// "He uses the random junk around him to make an automatic
-		// eyeball-peeler..."
-
-		// Spider Gremlin has molybdenum pliers OR
-		// "It bites you in the fibula with its mandibles..."
-
-		// Vegetable Gremlin has molybdenum screwdriver OR
-		// "It picks a beet off of itself and beats you with it..."
-		// "It picks a radish off of itself and tosses it at you..."
-
-		String text = responseText;
-		if ( text.contains( "bombing run" ) )
-		{
-			IslandManager.missingGremlinTool = "molybdenum hammer";
-		}
-		else if ( text.contains( "eyeball-peeler" ) )
-		{
-			IslandManager.missingGremlinTool = "molybdenum crescent wrench";
-		}
-		else if ( text.contains( "fibula" ) )
-		{
-			IslandManager.missingGremlinTool = "molybdenum pliers";
-		}
-		else if ( text.contains( "off of itself" ) )
-		{
-			IslandManager.missingGremlinTool = "molybdenum screwdriver";
-		}
 	}
 
 	public static final void addNunneryMeat( final AdventureResult result )

@@ -3396,11 +3396,6 @@ public class FightRequest
 			blindIndex = responseText.indexOf( "... something.</div>", blindIndex + 1 );
 		}
 
-		if ( monsterName.endsWith( "gremlin" ) )
-		{
-			IslandManager.handleGremlin( responseText );
-		}
-
 		switch ( KoLAdventure.lastAdventureId() )
 		{
 		case AdventurePool.FRAT_UNIFORM_BATTLEFIELD:
@@ -8501,10 +8496,9 @@ public class FightRequest
 		FightRequest.desiredScroll = null;
 		FightRequest.won = false;
 
-		// In Ed we'll only clear the monster status and Gremlins when we have won or abandoned the fight
+		// In Ed we'll only clear the monster status when we have won or abandoned the fight
 		if ( !KoLCharacter.isEd() || Preferences.getInteger( "_edDefeats" ) == 0 )
 		{
-			IslandManager.startFight();
 			MonsterStatusTracker.reset();
 		}
 

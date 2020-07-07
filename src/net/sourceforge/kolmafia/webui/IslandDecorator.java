@@ -33,6 +33,10 @@
 
 package net.sourceforge.kolmafia.webui;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -207,105 +211,120 @@ public class IslandDecorator
 		return message.toString();
 	}
 
-	private static final String[] GREMLIN_TOOLS =
+	public enum GremlinTool
 	{
-		"It whips out a hammer",
-		"He whips out a crescent wrench",
-		"It whips out a pair of pliers",
-		"It whips out a screwdriver",
-	};
-
-	private static final Object[][] TOOL_MONSTERS =
-	{
-		{
+		HAMMER( ItemPool.MOLYBDENUM_HAMMER,
+			"batwinged gremlin (tool)",
 			"batwinged gremlin",
 			AdventurePool.JUNKYARD_BARREL,
-			ItemPool.MOLYBDENUM_HAMMER
-		},
-
-		{
+			"It whips out a hammer" ),
+		WRENCH( ItemPool.MOLYBDENUM_WRENCH,
+			"erudite gremlin (tool)",
 			"erudite gremlin",
 			AdventurePool.JUNKYARD_TIRES,
-			ItemPool.MOLYBDENUM_WRENCH
-		},
-
-		{
+			"He whips out a crescent wrench"),
+		PLIERS( ItemPool.MOLYBDENUM_PLIERS,
+			"spider gremlin (tool)",
 			"spider gremlin",
 			AdventurePool.JUNKYARD_REFRIGERATOR,
-			ItemPool.MOLYBDENUM_PLIERS
-		},
+			"It whips out a pair of pliers" ),
+		SCREWDRIVER( ItemPool.MOLYBDENUM_SCREWDRIVER,
+			     "vegetable gremlin (tool)",
+			     "vegetable gremlin",
+			     AdventurePool.JUNKYARD_CAR,
+			     "It whips out a screwdriver");
 
+		public final AdventureResult tool;
+		public final MonsterData goodMonster;
+		public final MonsterData badMonster;
+		public final int locationId;
+		public final String message;
+
+		private GremlinTool( int toolId, String good, String bad, int locationId, String message )
 		{
-			"vegetable gremlin",
-			AdventurePool.JUNKYARD_CAR,
-			ItemPool.MOLYBDENUM_SCREWDRIVER
+			this.tool= ItemPool.get( toolId, 1 );
+			this.goodMonster = MonsterDatabase.findMonster( good );
+			this.badMonster = MonsterDatabase.findMonster( bad );
+			this.locationId = locationId;
+			this.message = message;
+		}
+	}
+
+	private static final Map<Integer, GremlinTool> goodMonsters = new HashMap<>();
+	private static final Map<Integer, GremlinTool> badMonsters = new HashMap<>();
+
+	static
+	{
+		for ( GremlinTool tool : GremlinTool.values() )
+		{
+			goodMonsters.put( tool.goodMonster.getId(), tool );
+			badMonsters.put( tool.badMonster.getId(), tool );
 		}
 	};
 
-	public static final void decorateGremlinFight( final String monster, final StringBuffer buffer )
+	public static final void decorateGremlinFight( final MonsterData monster, final StringBuffer buffer )
 	{
-		// Color the tool in the monster spoiler text
-		int loc = KoLAdventure.lastAdventureId();
-		if ( IslandManager.missingGremlinTool() == null )
+		GremlinTool tool = goodMonsters.get( monster.getId() );
+
+		if ( tool == null )
 		{
-			for ( int i = 0; i < IslandDecorator.TOOL_MONSTERS.length; ++i )
-			{
-				if ( !monster.startsWith( (String) IslandDecorator.TOOL_MONSTERS[i][0] ) )
-				{
-					continue;
-				}
-				if ( loc != 0 && loc != (Integer) IslandDecorator.TOOL_MONSTERS[i][1] )
-				{
-					break;
-				}
-				if ( KoLConstants.inventory.contains( ItemPool.get( (Integer) IslandDecorator.TOOL_MONSTERS[i][2], 1 ) ) )
-				{
-					break;
-				}
-				String zoneTool = ItemDatabase.getItemName( (Integer) IslandDecorator.TOOL_MONSTERS[i][2] );
-				StringUtilities.singleStringReplace( buffer,
-								     zoneTool,
-								     "<font color=#DD00FF>" + zoneTool + "</font>" );
-				break;
-			}
+			// This is not a gremlin which drops a tool
+			return;
 		}
 
-		for ( int i = 0; i < IslandDecorator.GREMLIN_TOOLS.length; ++i )
+		// We only color the tool if the monster is in the correct zone
+		if ( tool.locationId != KoLAdventure.lastAdventureId() )
 		{
-			String tool = IslandDecorator.GREMLIN_TOOLS[ i ];
-			if ( buffer.indexOf( tool ) != -1 )
+			return;
+		}
+
+		// We only color the tool if we don't already have it
+		if ( KoLConstants.inventory.contains( tool.tool ) )
+		{
+			return;
+		}
+
+		// Color the tool in the monster spoiler text
+
+		String toolName = tool.tool.getName();
+		StringUtilities.singleStringReplace( buffer,
+						     toolName,
+						     "<font color=#DD00FF>" + toolName + "</font>" );
+
+		// Is the monster presenting the tool?
+		String message = tool.message;
+		if ( buffer.indexOf( message ) != -1 )
+		{
+			// Make the message pink
+			StringUtilities.singleStringReplace( buffer, message, "<font color=#DD00FF>" + message + "</font>" );
+
+			// If we already have the molybdenum magnet selected
+			// (which should only be possible if we are
+			// funkslinging), cool. Otherwise, get magnet on the
+			// first combat item dropdown.
+
+			String select1 = "<option picurl=magnet2 selected value=2497>";
+			String select2 = "<option selected value=2497>";
+
+			if ( buffer.indexOf( select1 ) == -1 && buffer.indexOf( select2 ) == -1 )
 			{
-				// Make the message pink
-				StringUtilities.singleStringReplace( buffer, tool, "<font color=#DD00FF>" + tool + "</font>" );
-				String select1 = "<option picurl=magnet2 selected value=2497>";
-				String select2 = "<option selected value=2497>";
+				// Unselect battle actions in dropdowns on the fight page
+				StringUtilities.globalStringReplace( buffer, " selected ", " " );
 
-				// If we already have the molybdenum magnet
-				// selected (which should only be possible if
-				// we are funkslinging), cool. Otherwise, get
-				// rid of current selection(s) and select the
-				// magnet on the first combat item dropdown.
-
-				if ( buffer.indexOf( select1 ) == -1 && buffer.indexOf( select2 ) == -1 )
-				{
-					// Unselect battle actions in dropdowns on the fight page
-					StringUtilities.globalStringReplace( buffer, " selected ", " " );
-
-					// Select the molybdenum magnet
-					// <option picurl=magnet2 selected value=2497>molybdenum magnet (1)</option>
-					String search = "<option picurl=magnet2 value=2497>";
-					StringUtilities.singleStringReplace( buffer, search, select1 );
-				}
-				break;
+				// Select the molybdenum magnet
+				// <option picurl=magnet2 selected value=2497>molybdenum magnet (1)</option>
+				String search = "<option picurl=magnet2 value=2497>";
+				StringUtilities.singleStringReplace( buffer, search, select1 );
 			}
 		}
 	}
 
-	public static final void appendMissingGremlinTool( final StringBuffer buffer )
+	public static final void appendMissingGremlinTool( MonsterData monster, final StringBuffer buffer )
 	{
-		if ( IslandManager.missingGremlinTool() != null )
+		GremlinTool tool = badMonsters.get( monster.getId() );
+		if ( tool != null )
 		{
-			buffer.append( "<br />This gremlin does <b>NOT</b> have a " ).append( IslandManager.missingGremlinTool() );
+			buffer.append( "<br />This gremlin does <b>NOT</b> have a " ).append( tool.tool.getName() );
 		}
 	}
 
