@@ -324,7 +324,7 @@ public class IslandDecorator
 		}
 
 		// Don't mention the missing tool if we already have the tool
-		if ( InventoryManager.hasItem( tool.tool ) )
+		if ( KoLConstants.inventory.contains( tool.tool ) )
 		{
 			return;
 		}
