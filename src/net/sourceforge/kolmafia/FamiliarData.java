@@ -98,6 +98,15 @@ public class FamiliarData
 	private static final Pattern FAMILIAR_PATTERN =
 		Pattern.compile( ".*?name=newfam value=(\\d+).*?<img .*?src=\"[^>]*?/(?:item|other)images/([^\"]*?)\".*?>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, ([\\d,]+) kills?\\)(.*?)(?:</tr>)" );
 
+	// <tr class="frow " data-stats="1" data-meat="1" data-items="1"><td valign=center>&nbsp;</td><td valign=center><img onClick='fam(192)' src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/goldmonkey.gif" width=30 height=30 border=0></td><td valign=top style='padding-top: .45em;'><b>Ignominious Uncguary</b>, the 1-pound Golden Monkey (0 exp, 7,832 kills) <font size="1"><br />&nbsp;&nbsp;&nbsp;&nbsp;<a class="fave" href="familiar.php?&action=hatseat&famid=192&pwd=44a0b1bb745243778eb07661a35b0956">[put in Crown of Thrones]</a>&nbsp;&nbsp;<a class="fave" href="familiar.php?&action=backpack&famid=0&pwd=44a0b1bb745243778eb07661a35b0956">[kick out of Buddy Bjorn]</a>&nbsp;&nbsp;<a class="fave" href="familiar.php?group=0&action=fave&famid=192&pwd=44a0b1bb745243778eb07661a35b0956">[unfavorite]</a>&nbsp;&nbsp;<a class="fave" href="familiar.php?&action=newfam&newfam=192&pwd=44a0b1bb745243778eb07661a35b0956">[take with you]</a></font></td><td valign=center nowrap><center><b>(</b><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/goldbanana.gif" class=hand onClick='descitem(986943479)' align=middle><b>)</b><br><font size=1><a href='familiar.php?pwd=44a0b1bb745243778eb07661a35b0956&action=unequip&famid=192'>[unequip]</a></font></center></td></tr>
+
+	// 1=id 2=image 3=name 4=race 5=exp 6=kills 7=extra
+	private static final Pattern RIDER_PATTERN =
+		Pattern.compile( ".*'fam\\((\\d+)\\)' src=\"[^>]*?/(?:item|other)images/([^\"]*?)\".*?>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, ([\\d,]+) kills?\\)(.*?)(?:</tr>)" );
+
+	// <table><tr><td>In Your Crown of Thrones:</td><td><img onClick='fam(159)' src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/medium_0.gif" width=30 height=30 border=0></td><td><b>Psychic Grrl</b></td><td>&nbsp;&nbsp;<a href="familiar.php?&action=hatseat&famid=0&pwd=44a0b1bb745243778eb07661a35b0956"><font size=1>[kick out]</font></a></td></tr></table>
+	// <table><tr><td>In Your Buddy Bjorn:</td><td><img onClick='fam(192)' src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/goldmonkey.gif" width=30 height=30 border=0></td><td><b>Ignominious Uncguary</b></td><td>&nbsp;&nbsp;<a href="familiar.php?&action=backpack&famid=0&pwd=44a0b1bb745243778eb07661a35b0956"><font size=1>[kick out]</font></a></td></tr></table>
+
 	private static final Pattern DESCID_PATTERN = Pattern.compile( "descitem\\((.*?)\\)" );
 	private static final Pattern SHRUB_TOPPER_PATTERN = Pattern.compile( "span title=\"(.*?)-heavy" );
 	private static final Pattern SHRUB_LIGHT_PATTERN = Pattern.compile( "Deals (.*?) damage" );
@@ -471,20 +480,25 @@ public class FamiliarData
 			}
 
 			Matcher familiarMatcher = FamiliarData.FAMILIAR_PATTERN.matcher( frow );
-			if ( !familiarMatcher.find() )
+			if ( familiarMatcher.find() )
 			{
+				FamiliarData familiar = FamiliarData.registerFamiliar( familiarMatcher, true );
 				continue;
 			}
 
-			FamiliarData familiar = FamiliarData.registerFamiliar( familiarMatcher, true );
-
-			if ( frow.contains( "kick out of Crown of Thrones" ) )
+			familiarMatcher = FamiliarData.RIDER_PATTERN.matcher( frow );
+			if ( familiarMatcher.find() )
 			{
-				KoLCharacter.setEnthroned( familiar );
-			}
-			else if ( frow.contains( "kick out of Buddy Bjorn" ) )
-			{
-				KoLCharacter.setBjorned( familiar );
+				FamiliarData familiar = FamiliarData.registerFamiliar( familiarMatcher, true );
+				if ( frow.contains( "kick out of Crown of Thrones" ) )
+				{
+					KoLCharacter.setEnthroned( familiar );
+				}
+				else if ( frow.contains( "kick out of Buddy Bjorn" ) )
+				{
+					KoLCharacter.setBjorned( familiar );
+				}
+				continue;
 			}
 		}
 
