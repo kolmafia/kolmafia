@@ -635,10 +635,10 @@ public class FightRequest
 		FightRequest.specialMonsters.put( "Inebriated Tofurkey", SpecialMonster.HOLIDAY );
 		FightRequest.specialMonsters.put( "Plastered Can of Cranberry Sauce", SpecialMonster.HOLIDAY );
 		FightRequest.specialMonsters.put( "Soused Stuffing Golem", SpecialMonster.HOLIDAY );
-		FightRequest.specialMonsters.put( "El Novio Cad&aacute;ver", SpecialMonster.HOLIDAY );
-		FightRequest.specialMonsters.put( "El Padre Cad&aacute;ver", SpecialMonster.HOLIDAY );
-		FightRequest.specialMonsters.put( "La Novia Cad&aacute;ver", SpecialMonster.HOLIDAY );
-		FightRequest.specialMonsters.put( "La Persona Inocente Cad&aacute;ver", SpecialMonster.HOLIDAY );
+		FightRequest.specialMonsters.put( "Novio Cad&aacute;ver", SpecialMonster.HOLIDAY );
+		FightRequest.specialMonsters.put( "Padre Cad&aacute;ver", SpecialMonster.HOLIDAY );
+		FightRequest.specialMonsters.put( "Novia Cad&aacute;ver", SpecialMonster.HOLIDAY );
+		FightRequest.specialMonsters.put( "Persona Inocente Cad&aacute;ver", SpecialMonster.HOLIDAY );
 		FightRequest.specialMonsters.put( "ambulatory pirate", SpecialMonster.HOLIDAY );
 		FightRequest.specialMonsters.put( "migratory pirate", SpecialMonster.HOLIDAY );
 		FightRequest.specialMonsters.put( "peripatetic pirate", SpecialMonster.HOLIDAY );
