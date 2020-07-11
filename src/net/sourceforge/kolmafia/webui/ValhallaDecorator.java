@@ -480,7 +480,7 @@ public class ValhallaDecorator
 				( cropType == CropType.PEPPERMINT ) ? "Peppermint" :
 				( cropType == CropType.SKELETON ) ? "Skeleton" :
 				( cropType == CropType.BEER ) ? "Beer Garden" :
-				( cropType == CropType.WINTER ) ? "Winder Garden" :
+				( cropType == CropType.WINTER ) ? "Winter Garden" :
 				( cropType == CropType.THANKSGARDEN ) ? "Thanksgarden" :
 				( cropType == CropType.GRASS ) ? "Grass" :
 				( cropType == CropType.MUSHROOM ) ? "Mushroom" :
