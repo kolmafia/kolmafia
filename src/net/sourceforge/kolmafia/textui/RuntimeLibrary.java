@@ -1334,6 +1334,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "attack", DataTypes.BUFFER_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "twiddle", DataTypes.BUFFER_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "steal", DataTypes.BUFFER_TYPE, params ) );
 
 		params = new Type[] {};
@@ -5908,6 +5911,11 @@ public abstract class RuntimeLibrary
 	public static Value attack( Interpreter interpreter )
 	{
 		return RuntimeLibrary.visit_url( interpreter, "fight.php?action=attack" );
+	}
+
+	public static Value twiddle( Interpreter interpreter )
+	{
+		return RuntimeLibrary.visit_url( interpreter, "fight.php?action=twiddle" );
 	}
 
 	public static Value steal( Interpreter interpreter )

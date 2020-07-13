@@ -1175,6 +1175,14 @@ public class FightRequest
 
 	private void updateCurrentAction()
 	{
+		// We use this to force the fight page to be reloaded
+		if ( FightRequest.nextAction.startsWith( "twiddle" ) )
+		{
+			++FightRequest.macroPrefixLength;
+			this.addFormField( "action", "twiddle" );
+			return;
+		}
+
 		if ( FightRequest.shouldUseAntidote() )
 		{
 			FightRequest.nextAction = String.valueOf( ItemPool.ANTIDOTE );
@@ -1250,12 +1258,6 @@ public class FightRequest
 			}
 			FightRequest.nextAction = "attack";
 			this.addFormField( "action", FightRequest.nextAction );
-			return;
-		}
-
-		if ( FightRequest.nextAction.startsWith( "twiddle" ) )
-		{
-			++FightRequest.macroPrefixLength;
 			return;
 		}
 
@@ -2479,6 +2481,13 @@ public class FightRequest
 			MonsterData newMonster = AdventureRequest.extractMonster( encounter, responseText );
 			MonsterStatusTracker.transformMonster( newMonster );
 			FightRequest.transformed = false;
+		}
+
+		// If you twiddled, nothing more to do with this round.  We may
+		// have reparsed the monster, but the round does not advance.
+		if ( responseText.contains( "You twiddle your thumbs." ) )
+		{
+			return;
 		}
 
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
@@ -10931,6 +10940,11 @@ public class FightRequest
 				action.append( "jiggles the " );
 				action.append( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getName() );
 			}
+		}
+		else if ( urlString.contains( "twiddle" ) )
+		{
+			FightRequest.nextAction = "twiddle";
+			return true;
 		}
 		else
 		{
