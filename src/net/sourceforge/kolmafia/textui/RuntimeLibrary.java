@@ -207,7 +207,7 @@ import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TowerDoorManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
-
+import net.sourceforge.kolmafia.session.UnusualConstructManager;
 import net.sourceforge.kolmafia.svn.SVNManager;
 import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 
@@ -2090,6 +2090,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "dad_sea_monkee_weakness", DataTypes.ELEMENT_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "unusual_construct_disc", DataTypes.ITEM_TYPE, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "flush_monster_manuel_cache", DataTypes.BOOLEAN_TYPE, params ) );
@@ -8939,6 +8942,11 @@ public abstract class RuntimeLibrary
 			return new Value( DataTypes.ELEMENT_TYPE, "sleaze", element );
 		}
 		return DataTypes.ELEMENT_INIT;
+	}
+
+	public static Value unusual_construct_disc( Interpreter interpreter )
+	{
+		return DataTypes.makeItemValue( UnusualConstructManager.disc(), true );
 	}
 
 	public static Value flush_monster_manuel_cache( Interpreter interpreter )

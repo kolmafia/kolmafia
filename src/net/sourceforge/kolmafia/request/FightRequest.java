@@ -121,6 +121,7 @@ import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SpadingManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.session.UnusualConstructManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
@@ -469,6 +470,7 @@ public class FightRequest
 		CYRUS_THE_VIRUS( "Cyrus the Virus" ),
 		DAD_SEA_MONKEE( "Dad Sea Monkee" ),
 		DRIPPY_BAT( "drippy bat" ),
+		DRIPPY_REVELER( "drippy reveler" ),
 		FAMILY_OF_KOBOLDS( "family of kobolds" ),
 		GARGANTULIHC( "gargantulihc" ),
 		GIANT_OCTOPUS( "giant octopus" ),
@@ -480,7 +482,7 @@ public class FightRequest
 		PYGMY_WITCH_LAWYER( "pygmy witch lawyer" ),
 		SAUSAGE_GOBLIN( "sausage goblin" ),
 		TIME_SPINNER_PRANK( "time-spinner prank" ),
-		DRIPPY_REVELER( "drippy reveler" ),
+		UNUSUAL_CONSTRUCT( "unusual construct" ),
 
 		// Categories of monsters
 		BEE( "bee" ),
@@ -538,23 +540,24 @@ public class FightRequest
 			return;
 		}
 
+		FightRequest.specialMonsters.put( "%monster%", SpecialMonster.GLITCH_MONSTER );
 		FightRequest.specialMonsters.put( "Ancient Protector Spirit", SpecialMonster.ANCIENT_PROTECTOR_SPIRIT );
 		FightRequest.specialMonsters.put( "conjoined zmombie", SpecialMonster.CONJOINED_ZMOMBIE );
 		FightRequest.specialMonsters.put( "Cyrus the Virus", SpecialMonster.CYRUS_THE_VIRUS );
 		FightRequest.specialMonsters.put( "Dad Sea Monkee", SpecialMonster.DAD_SEA_MONKEE );
 		FightRequest.specialMonsters.put( "drippy bat", SpecialMonster.DRIPPY_BAT );
+		FightRequest.specialMonsters.put( "drippy reveler", SpecialMonster.DRIPPY_REVELER );
 		FightRequest.specialMonsters.put( "family of kobolds", SpecialMonster.FAMILY_OF_KOBOLDS );
 		FightRequest.specialMonsters.put( "gargantulihc", SpecialMonster.GARGANTULIHC );
 		FightRequest.specialMonsters.put( "giant octopus", SpecialMonster.GIANT_OCTOPUS );
 		FightRequest.specialMonsters.put( "giant skeelton", SpecialMonster.GIANT_SKEELTON );
-		FightRequest.specialMonsters.put( "%monster%", SpecialMonster.GLITCH_MONSTER );
 		FightRequest.specialMonsters.put( "huge ghoul", SpecialMonster.HUGE_GHUOL );
 		FightRequest.specialMonsters.put( "piranha plant", SpecialMonster.PIRANHA_PLANT );
 		FightRequest.specialMonsters.put( "pygmy janitor", SpecialMonster.PYGMY_JANITOR );
 		FightRequest.specialMonsters.put( "pygmy witch lawyer", SpecialMonster.PYGMY_WITCH_LAWYER );
 		FightRequest.specialMonsters.put( "sausage goblin", SpecialMonster.SAUSAGE_GOBLIN );
 		FightRequest.specialMonsters.put( "time-spinner prank", SpecialMonster.TIME_SPINNER_PRANK );
-		FightRequest.specialMonsters.put( "drippy reveler", SpecialMonster.DRIPPY_REVELER );
+		FightRequest.specialMonsters.put( "unusual construct", SpecialMonster.UNUSUAL_CONSTRUCT );
 
 		FightRequest.specialMonsters.put( "angry bassist", SpecialMonster.HIPSTER );
 		FightRequest.specialMonsters.put( "blue-haired girl", SpecialMonster.HIPSTER );
@@ -2742,6 +2745,10 @@ public class FightRequest
 
 				case DAD_SEA_MONKEE:
 					DadManager.solve( responseText );
+					break;
+
+				case UNUSUAL_CONSTRUCT:
+					UnusualConstructManager.solve( responseText );
 					break;
 
 				case DRIPPY_BAT:
