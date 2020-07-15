@@ -37,7 +37,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLAdventure;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
 
@@ -55,7 +54,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-
+import net.sourceforge.kolmafia.session.UnusualConstructManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FightDecorator
@@ -441,96 +440,15 @@ public class FightDecorator
 
 	private static final void decorateUnusualConstruct( final StringBuffer buffer )
 	{
-		Pattern COLOR_PATTERN = Pattern.compile( "(?:LANO|ROUTING) ([a-zA-Z]*)" );
-		Matcher matcher = COLOR_PATTERN.matcher( buffer );
-		String colorWord = null;
-		if ( matcher.find() )
+		int disc = UnusualConstructManager.disc();
+
+		if ( disc == 0 )
 		{
-			colorWord = matcher.group( 1 );
-		}
-		else
-		{
-			// Something went wrong
-			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.SEAL_TOOTH ) );
-			return;
-		}
-		if ( colorWord.equals( "CHO" )
-		  || colorWord.equals( "FUNI" )
-		  || colorWord.equals( "TAZAK" )
-		  || colorWord.equals( "CANARY" )
-		  || colorWord.equals( "CITRINE" )
-		  || colorWord.equals( "GOLD" )
-		   )
-		{
-			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.STRANGE_DISC_YELLOW ) );
-			return;
+			// Change to a bogus result to avoid being misleading, until full support is added.
+			disc = ItemPool.SEAL_TOOTH;
 		}
 
-		if ( colorWord.equals( "CHAKRO" )
-		  || colorWord.equals( "ZEVE" )
-		  || colorWord.equals( "ZEVESTANO" )
-		  || colorWord.equals( "CRIMSON" )
-		  || colorWord.equals( "RUBY" )
-		  || colorWord.equals( "VERMILLION" )
-		   )
-		{
-			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.STRANGE_DISC_RED ) );
-			return;
-		}
-
-		if ( colorWord.equals( "BUPABU" )
-		  || colorWord.equals( "PATA" )
-		  || colorWord.equals( "SOM" )
-		  || colorWord.equals( "OBSIDIAN" )
-		  || colorWord.equals( "EBONY" )
-		  || colorWord.equals( "JET" )
-		   )
-		{
-			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.STRANGE_DISC_BLACK ) );
-			return;
-		}
-
-		if ( colorWord.equals( "BE" )
-		  || colorWord.equals( "ZAKSOM" )
-		  || colorWord.equals( "ZEVEBENI" )
-		  || colorWord.equals( "JADE" )
-		  || colorWord.equals( "VERDIGRIS" )
-		  || colorWord.equals( "EMERALD" )
-		   )
-		{
-			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.STRANGE_DISC_GREEN ) );
-			return;
-		}
-
-		if ( colorWord.equals( "BELA" )
-		  || colorWord.equals( "BULAZAK" )
-		  || colorWord.equals( "BU" )
-		  || colorWord.equals( "FUFUGAKRO" )
-		  || colorWord.equals( "ULTRAMARINE" )
-		  || colorWord.equals( "SAPPHIRE" )
-		  || colorWord.equals( "COBALT" )
-		   )
-		{
-			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.STRANGE_DISC_BLUE ) );
-			return;
-		}
-
-		if ( colorWord.equals( "NIPA" )
-		  || colorWord.equals( "PACHA" )
-		  || colorWord.equals( "SOMPAPA" )
-		  || colorWord.equals( "IVORY" )
-		  || colorWord.equals( "ALABASTER" )
-		  || colorWord.equals( "PEARL" )
-		   )
-		{
-			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.STRANGE_DISC_WHITE ) );
-			return;
-		}
-
-		// If we made it this far, then we don't recognize the word yet.  Change to a bogus result to avoid
-		// being misleading, until full support is added.
-
-		RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.SEAL_TOOTH ) );
+		RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( disc ) );
 	}
 
 	private static final String END_TAG = "<a name=\"end\"></a>";
