@@ -2140,9 +2140,15 @@ public class FightRequest
 		return text;
 	}
 
+	private static final String removeWordReplacements( String text )
+	{
+		return text.replaceAll( "<i title=\"([A-Za-z]+)\">[A-Za-z]+</i>", "$1" );
+	}
+
 	public static final boolean processResults( final String urlString, final String encounter, String responseText )
 	{
 		responseText = FightRequest.removeGothy( responseText );
+		responseText = FightRequest.removeWordReplacements( responseText );
 		FightRequest.updateCombatData( urlString, encounter, responseText );
 		FightRequest.parseCombatItems( responseText );
 		FightRequest.parseAvailableCombatSkills( responseText );
