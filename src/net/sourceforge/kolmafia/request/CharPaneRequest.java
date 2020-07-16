@@ -1843,7 +1843,12 @@ public class CharPaneRequest
 				KoLCharacter.setCompanion( null );
 			}
 		}
-		else
+		else if ( KoLCharacter.isEd() )
+		{
+			// No familiar, but may have a servant.  Unfortunately,
+			// details of such are not in api.php
+		}
+		else if ( !KoLCharacter.isSneakyPete() && !KoLCharacter.inBondcore() && !KoLCharacter.isVampyre() )
 		{
 			int famId = JSON.getInt( "familiar" );
 			int famExp = JSON.getInt( "familiarexp" );
