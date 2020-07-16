@@ -115,6 +115,73 @@ public class FriarRequest
 			Preferences.setBoolean( "friarsBlessingReceived", true );
 			Preferences.setInteger( "lastFriarCeremonyAscension", Preferences.getInteger( "knownAscensions" ));
 			QuestDatabase.setQuestProgress( Quest.FRIAR, QuestDatabase.FINISHED );
+			return;
+		}
+
+		// First visit to friars, not as Ed:
+		//
+		// Please, Adventurer, help us! We were performing a ritual at
+		// our Infernal Gate, and Brother Starfish dropped the
+		// butterknife. All of the infernal creatures escaped our
+		// grasp, and have tainted our grove. Please clean the taint!
+		// Collect the three items necessary to perform the ritual
+		// which will banish these fiends back to their own realm.
+		//
+		// First visit, as Ed:
+		//
+		// In the midst of the grove, you encounter three men in brown
+		// robes and funny haircuts, who are conversing in hushed and
+		// worried tones. One of them notices you as you approach, and
+		// raises his arms in supplication.
+		//
+		// Subsequent visit, without all the items:
+		//
+		// One of the monks shakes his head at you. "You don't have all
+		// the ritual items yet. Please hurry, the infestation can only
+		// get worse."
+		//
+		// Subsequent visit, with all the items:
+		//
+		// You've got all three of the ritual items, Adventurer! Hurry
+		// to the center of the circle, and perform the ritual!
+		if ( responseText.contains( "We were performing a ritual" ) ||
+		     responseText.contains( "raises his arms in supplication" ) || 
+		     responseText.contains( "don't have all the ritual items yet" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.FRIAR, "step1" );
+			return;
+		}
+
+		if ( responseText.contains( "You've got all three of the ritual items" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.FRIAR, "step2" );
+			return;
+		}
+
+		// Visiting the standing stones without all the items:
+		//
+		// Hmm. You don't appear to have all of the elements necessary
+		// to perform the ritual.
+		// 
+		if ( responseText.contains( "don't appear to have all of the elements" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.FRIAR, "step1" );
+			return;
+		}
+
+		// Visiting the standing stones with all the items, not as Ed:
+		//
+		// Oh, and listen. Don't be a stranger -- drop by and visit us,
+		// and maybe get a blessing. We're good at blessings.
+		//
+		// Visiting the standing stones with all the items, as Ed:
+		//
+		// Please return to us if there's ever anything we can do for
+		// you in return. We're good at blessings, for instance.
+		if ( responseText.contains( "We're good at blessings" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.FRIAR, QuestDatabase.FINISHED );
+			return;
 		}
 	}
 
