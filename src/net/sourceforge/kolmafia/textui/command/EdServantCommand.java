@@ -139,7 +139,7 @@ public class EdServantCommand
 			output.append( "<td>" );
 			if ( file != null )
 			{
-				output.append( "<img src=\"/images/" );
+				output.append( "<img src=\"/" );
 				output.append( image );
 				output.append( "\" alt = \"" );
 				output.append( type );
