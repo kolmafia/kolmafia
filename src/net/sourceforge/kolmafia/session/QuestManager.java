@@ -251,13 +251,6 @@ public class QuestManager
 				}
 			}
 		}
-		else if ( location.startsWith( "beanstalk" ) )
-		{
-			if ( responseText.contains( "airship.gif" ) )
-			{
-				QuestDatabase.setQuestIfBetter( Quest.GARBAGE, "step1" );
-			}
-		}
 		else if ( location.startsWith( "barrel" ) )
 		{
 			BarrelDecorator.parseResponse( location, responseText );
@@ -336,6 +329,13 @@ public class QuestManager
 			else if ( location.contains( "whichplace=bathole" ) )
 			{
 				handleBatholeChange( responseText );
+			}
+			else if ( location.contains( "whichplace=beanstalk" ) )
+			{
+				if ( responseText.contains( "otherimages/stalktop/beanstalk.gif" ) )
+				{
+					QuestDatabase.setQuestIfBetter( Quest.GARBAGE, "step1" );
+				}
 			}
 			else if ( location.contains( "whichplace=desertbeach" ) )
 			{
