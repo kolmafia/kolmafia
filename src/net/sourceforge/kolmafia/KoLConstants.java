@@ -131,7 +131,7 @@ public interface KoLConstants
 		},
 		{
 			"Spookyraven",
-			"manor.php"
+			"place.php?whichplace=manor1"
 		},
 		{
 			"Cobb's Knob",
@@ -147,7 +147,7 @@ public interface KoLConstants
 		},
 		{
 			"The Beanstalk",
-			"beanstalk.php"
+			"place.php?whichplace=beanstalk"
 		},
 		{
 			"Elemental International Airport",
@@ -155,7 +155,7 @@ public interface KoLConstants
 		},
 		{
 			"The Sea",
-			"thesea.php"
+			"place.php?whichplace=thesea"
 		},
 	};
 
