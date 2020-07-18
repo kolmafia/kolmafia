@@ -47,6 +47,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
@@ -105,6 +107,11 @@ public class FunALogRequest
 				return unlockedItems.contains( ItemDatabase.getItemName( itemId ) );
 			}
 		};
+
+	static
+	{
+		ConcoctionPool.set( new Concoction( "FunPoint", "availableFunPoints" ) );
+	};
 
 	private static String unlockedItems= ""; 
 
