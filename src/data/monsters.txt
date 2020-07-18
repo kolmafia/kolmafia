@@ -993,7 +993,7 @@ X-dimensional horror	592	dimhorror.gif	NOCOPY HP: [1.7*ceil(BL^1.4)+ML] Def: [2*
 # Hobopolis
 
 C. H. U. M.	682	chum1.gif,chum2.gif,chum3.gif,chum4.gif,chum5.gif	Atk: 260 Def: 229 HP: 200 Init: -10000 P: humanoid	bottle of sewage schnapps (0)	C.H.U.M. lantern (0)	C.H.U.M. knife (0)	sewer nuggets (0)	C.H.U.M. chum (p40)
-C. H. U. M. chieftain	715	chumchief.gif	SEMIRARE Atk: 330 Def: 270 HP: 400 Init: 40 P: humanoid	C.H.U.M. knife (0)	bottle of sewage schnapps (0)	bottle of sewage schnapps (0)	sewer nuggets (0)	sewer nuggets (0)	C.H.U.M. chum (p40)
+C. H. U. M. chieftain	715	chumchief.gif	SEMIRARE Atk: 330 Def: 270 HP: 400 Init: 40 P: humanoid	C.H.U.M. knife (2)	bottle of sewage schnapps (30)	bottle of sewage schnapps (30)	sewer nuggets (40)	sewer nuggets (40)	C.H.U.M. chum (p40)
 giant zombie goldfish	681	zomfish.gif	Atk: 250 Def: 229 HP: 250 Init: 60 P: undead	decaying goldfish liver (0)	sewer nuggets (0)	sewer nuggets (0)
 sewer gator	679	sewergator.gif	Atk: 245 Def: 225 HP: 300 Init: 60 Meat: 75 P: beast	gator skin (0)	sewer nuggets (0)	sewer nuggets (0)
 Normal hobo	651	nhobo1.gif,nhobo2.gif,nhobo3.gif,nhobo4.gif,nhobo5.gif,nhobo6.gif,nhobo7.gif,nhobo8.gif,nhobo9.gif,nhobo10.gif,nhobo11.gif,nhobo12.gif,nhobo13.gif,nhobo14.gif,nhobo15.gif,nhobo16.gif,nhobo17.gif,nhobo18.gif	Atk: 300 Def: 270 HP: 400 Init: 100 P: hobo	hobo nickel (c15)	Mr. Joe's bangles (0)	corncob pipe (0)	panhandle panhandling hat (0)	frayed rope belt (0)	cup of infinite pencils (0)	'WILL WORK FOR BOOZE' sign (0)	lucky bottlecap (0)	rusty piece of rebar (0)
@@ -1641,7 +1641,7 @@ funky pirate	1762	stinkpirate2.gif	Atk: 150 Def: 150 HP: 100 E: stench P: pirate
 flashy pirate	1764	flashypirate.gif	Atk: 200 Def: 200 HP: 150 E: stench P: construct Init: -10000 NOBANISH	beard incense (15)	dirty rigging rope (5)	grogpagne (15)	nasty snuff (15)	perfume-soaked bandana (5)	sewage-clogged pistol (5)	flashy pirate dreadlocks (c10)
 
 # Toxic Teacups (Dinseylandfill April 2015)
-toxic beastie	1765	toxbeast1.gif,toxbeast2.gif,toxbeast3.gif,toxbeast4.gif	Scale: [5+55*pref(dinseySafetyProtocolsLoose)] Cap: [11111+11111*pref(dinseySafetyProtocolsLoose)] Floor: 50 Init: -10000 E: stench P: slime	toxic globule (0)	toxic globule (0)	toxic globule (0)
+toxic beastie	1765	toxbeast1.gif,toxbeast2.gif,toxbeast3.gif,toxbeast4.gif	Scale: [5+55*pref(dinseySafetyProtocolsLoose)] Cap: [11111+11111*pref(dinseySafetyProtocolsLoose)] Floor: 50 Init: -10000 E: stench P: slime	toxic globule (35)	toxic globule (5)	toxic globule (5)
 
 # Uncle Gator's Country Fun-Time Liquid Waste Sluice (Dinseylandfill April 2015)
 C<i>bzzt</i>er the Grisly Bear	1766	animbear.gif	Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 11111 Floor: 100 MLMult: [3+2*pref(dinseyAudienceEngagement)] E: stench P: construct Init: -10000 NOBANISH Wiki: "Cbzzter the Grisly Bear"	jar of swamp honey (0)	backwoods banjo (c0)
