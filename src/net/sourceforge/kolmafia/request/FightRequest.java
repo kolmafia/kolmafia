@@ -2463,6 +2463,31 @@ public class FightRequest
 	}
 
 	public static final Pattern ONTURN_PATTERN = Pattern.compile( "onturn = (\\d+)" );
+
+	private static void synchronizeRoundNumber( final String responseText, final boolean logit )
+	{
+		Matcher m = ONTURN_PATTERN.matcher( responseText );
+		if ( m.find() )
+		{
+			int round = StringUtilities.parseInt( m.group(1) );
+			if ( round == FightRequest.currentRound )
+			{
+				return;
+			}
+
+			if ( logit )
+			{
+				RequestLogger.printLine( "KoLmafia thinks it is round " + FightRequest.currentRound +
+							 " but KoL thinks it is round " + round );
+			}
+
+			// Synchronize with KoL
+			int delta = FightRequest.currentRound - round;
+			FightRequest.currentRound = round;
+			FightRequest.preparatoryRounds -= delta;
+		}
+	}
+
 	public static final Pattern ROUND_PATTERN = Pattern.compile( "<b>\"Round (\\d+)!\"</b>" );
 	private static final Pattern CHAMBER_PATTERN = Pattern.compile( "chamber <b>#(\\d+)</b>" );
 
@@ -2496,6 +2521,8 @@ public class FightRequest
 		// have reparsed the monster, but the round does not advance.
 		if ( responseText.contains( "You twiddle your thumbs." ) )
 		{
+			FightRequest.synchronizeRoundNumber( responseText, false );
+			FightRequest.shouldRefresh = false;
 			return;
 		}
 
@@ -2957,21 +2984,7 @@ public class FightRequest
 		++FightRequest.currentRound;
 
 		// Sanity check: compare our round with what KoL claims it is
-		Matcher m = ONTURN_PATTERN.matcher( responseText );
-		if ( m.find() )
-		{
-			int round = StringUtilities.parseInt( m.group(1) );
-			if ( round != FightRequest.currentRound )
-			{
-				RequestLogger.printLine( "KoLmafia thinks it is round " + FightRequest.currentRound +
-							 " but KoL thinks it is round " + round );
-			}
-
-			// Synchronize with KoL
-			int delta = FightRequest.currentRound - round;
-			FightRequest.currentRound = round;
-			FightRequest.preparatoryRounds -= delta;
-		}
+		FightRequest.synchronizeRoundNumber( responseText, true );
 
 		// Assume this response does not warrant a refresh
 		FightRequest.shouldRefresh = false;
