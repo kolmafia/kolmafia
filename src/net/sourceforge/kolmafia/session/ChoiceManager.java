@@ -15094,7 +15094,6 @@ public abstract class ChoiceManager
 		case 1207:	// Midnight in the Industrial Zone
 		case 1208:	// Upscale Noon
 		case 1209:	// Upscale Midnight
-		case 1210:	// Civic Planning Office
 		case 1215:	// Setting the Clock
 		{
 			Preferences.increment( "_gingerbreadCityTurns" );
