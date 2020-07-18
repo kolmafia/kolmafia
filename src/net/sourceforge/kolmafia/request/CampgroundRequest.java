@@ -809,6 +809,14 @@ public class CampgroundRequest
 			request.constructURLString( redirect, false );
 			RequestThread.postRequest( request );
 
+			// Turtle Taming can preempt The Mushy Center
+			if ( ChoiceManager.lastChoice != 1410 )
+			{
+				// Take the default (only) option.
+				ChoiceManager.gotoGoal();
+				continue;
+			}
+
 			// We have reached The Mushy Center.
 			// Look at which options are available.
 
