@@ -198,6 +198,7 @@ public class NumberologyManager
 	public static final boolean calculateTheUniverse( final int seed )
 	{
 		NumberologyRequest request = new NumberologyRequest( seed );
+		// This will automate a fight
 		request.run();
 		return KoLmafia.permitsContinue();
 	}

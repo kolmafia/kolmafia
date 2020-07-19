@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -165,8 +166,7 @@ public class NumberologyRequest
 			return false;
 		}
 
-		String message = "numberology " + NumberologyManager.numberology( seed );
-
+		String message = "[" + KoLAdventure.getAdventureCount() + "] numberology " + NumberologyManager.numberology( seed );
 		RequestLogger.printLine( message );
 		RequestLogger.updateSessionLog( message );
 

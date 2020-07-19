@@ -2287,10 +2287,33 @@ public class GenericRequest
 			     this instanceof ChateauRequest ||
 			     this instanceof DeckOfEveryCardRequest ||
 			     this instanceof GenieRequest ||
+			     this instanceof NumberologyRequest ||
 			     this instanceof UseSkillRequest )
 			{
 				this.redirectHandled = true;
 				FightRequest.INSTANCE.run( this.redirectLocation );
+
+				// Clingy monsters or Eldritch Attunement can lead to a multi-fight
+				// Using the Force can leave you in a choice.
+				while ( !KoLmafia.refusesContinue() )
+				{
+					if ( FightRequest.inMultiFight || FightRequest.fightFollowsChoice )
+					{
+						FightRequest.INSTANCE.run();
+						continue;
+					}
+					if ( FightRequest.choiceFollowsFight )
+					{
+						RequestThread.postRequest( new GenericRequest( "choice.php" ) );
+						// Fall through
+					}
+					if ( ChoiceManager.handlingChoice )
+					{
+						ChoiceManager.gotoGoal();
+						continue;
+					}
+					break;
+				}
 				if ( FightRequest.currentRound == 0 && !FightRequest.inMultiFight && !FightRequest.choiceFollowsFight )
 				{
 					KoLmafia.executeAfterAdventureScript();
