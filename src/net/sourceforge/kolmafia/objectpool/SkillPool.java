@@ -324,6 +324,8 @@ public class SkillPool
 	public static final int FIREBALL_BARRAGE_COMBAT = 7333;
 	public static final int SPIN_JUMP_COMBAT = 7335;
 	public static final int MULTI_BOUNCE_COMBAT = 7336;
+	public static final int SPIT_ON_THEM = 7339;
+	public static final int SPIT_ON_ME = 7340;
 	public static final int GOOD_SINGING_VOICE = 11016;
 	public static final int BANISHING_SHOUT = 11020;
 	public static final int DEMAND_SANDWICH = 11021;
