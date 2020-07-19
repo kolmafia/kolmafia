@@ -50,6 +50,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
@@ -200,6 +202,7 @@ public class SwaggerShopRequest
 
 	static
 	{
+		ConcoctionPool.set( new Concoction( "swagger", "availableSwagger" ) );
 		SWAGGER_SHOP.plural = "swagger";
 	}
 
