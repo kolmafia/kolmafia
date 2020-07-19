@@ -108,7 +108,5 @@ public class GapCommand
 		RequestThread.postRequest( new GenericRequest( "inventory.php?action=activatesuperpants" ));
 		RequestThread.postRequest( new GenericRequest( "choice.php?pwd&whichchoice=508&option=" + choicenumber
 			+ "&choiceform" + choicenumber + "=" + buffname ) );
-
-		Preferences.increment( "_gapBuffs", 1 );
 	}
 }

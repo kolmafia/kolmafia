@@ -12492,6 +12492,14 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 508:
+			// Pants-Gazing
+			if ( text.contains( "You acquire an effect" ) )
+			{
+				Preferences.increment( "_gapBuffs", 1 );
+			}
+			break;
+
 		case 517:
 			// Mr. Alarm, I presarm
 			QuestDatabase.setQuestIfBetter( Quest.PALINDOME, "step3" );
