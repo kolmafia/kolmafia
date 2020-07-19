@@ -6099,10 +6099,12 @@ public class FightRequest
 	{
 		public String name;
 		public String familiar;
+		public String familiarName;
 		public String enthroned;
 		public String enthronedName;
 		public String bjorned;
 		public String bjornedName;
+		public final boolean camel;
 		public final boolean doppel;
 		public final boolean crimbo;
 		public String diceMessage;
@@ -6140,12 +6142,14 @@ public class FightRequest
 			FamiliarData current = KoLCharacter.getFamiliar();
 			int familiarId = current.getId();
 			this.familiar = current.getImageLocation();
+			this.familiarName = current.getName();
+			this.camel = (familiarId == FamiliarPool.MELODRAMEDARY );
 			this.doppel =
 				( familiarId == FamiliarPool.DOPPEL ) ||
 				KoLCharacter.hasEquipped( ItemPool.TINY_COSTUME_WARDROBE, EquipmentManager.FAMILIAR );
 			this.crimbo = (familiarId == FamiliarPool.CRIMBO_SHRUB );
 
-			this.diceMessage = ( current.getId() == FamiliarPool.DICE ) ? ( current.getName() + " begins to roll." ) : null;
+			this.diceMessage = ( current.getId() == FamiliarPool.DICE ) ? ( familiarName + " begins to roll." ) : null;
 
 			FamiliarData enthroned = KoLCharacter.getEnthroned();
 			String enthronedName = enthroned.getName();
@@ -7155,6 +7159,13 @@ public class FightRequest
 					FightRequest.logText( str, status );
 				}
 
+				boolean camelAction = status.camel && str.contains( status.familiarName );
+				if ( camelAction && status.logFamiliar )
+				{
+					// Melodramedary action
+					FightRequest.handleMelodramedary( str, status );
+				}
+
 				int damage = FightRequest.parseNormalDamage( str );
 				if ( damage != 0 )
 				{
@@ -8141,6 +8152,39 @@ public class FightRequest
 		}
 
 		return true;
+	}
+				
+	public static final Pattern SPIT_PATTERN = Pattern.compile( "\\((\\d+)% full\\)" );
+	private static void handleMelodramedary( String str, TagStatus status )
+	{
+		// You hear a loud <i>schlurrrrrk!</i> noise, and turn to see Gogarth sucking the liquid out of a dented beer keg he found somewhere. (20% full)
+		if ( str.contains( "smiles at you" ) )
+		{
+			// Don't log stat gain bonus
+			return;
+		}
+
+		if ( str.contains( "spits a tremendous globule of saliva at your foe" ) )
+		{
+			Preferences.setInteger( "camelSpit", 0 );
+		}
+
+		if ( str.contains( "obligingly -- " ) )
+		{
+			str = str + " too obligingly -- spits in your face.";
+			Preferences.setInteger( "camelSpit", 0 );
+		}
+
+		if ( str.contains( "sucking the liquid" ) )
+		{
+			str = "You hear a loud schlurrrrrk! " + str;
+			Matcher m = SPIT_PATTERN.matcher( str );
+			if ( m.find() )
+			{
+				Preferences.setInteger( "camelSpit", StringUtilities.parseInt( m.group( 1 ) ) );
+			}
+		}
+		FightRequest.logText( str, status );
 	}
 
 	private static boolean processFumble( String text, TagStatus status )

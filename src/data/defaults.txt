@@ -374,6 +374,7 @@ user	burnoutsDefeated	0
 user	burrowgrubHiveUsed	false
 user	burrowgrubSummonsRemaining	0
 user	buyScript
+user	camelSpit	0
 user	cameraMonster
 user	camerasUsed	0
 user	campAwayDecoration	0
