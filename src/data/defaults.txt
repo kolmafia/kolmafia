@@ -659,6 +659,7 @@ user	guzzlrBronzeDeliveries	0
 user	guzzlrDeliveryProgress	0
 user	guzzlrGoldDeliveries	0
 user	guzzlrPlatinumDeliveries	0
+user	guzzlrQuestClient	
 user	guzzlrQuestBooze	
 user	guzzlrQuestLocation	
 user	guzzlrQuestTier	
