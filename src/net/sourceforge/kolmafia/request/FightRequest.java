@@ -4596,7 +4596,8 @@ public class FightRequest
 			}
 
 			if ( QuestDatabase.isQuestLaterThan( Quest.GUZZLR, QuestDatabase.UNSTARTED ) &&
-			     Preferences.getString( "guzzlrQuestLocation" ).equals( KoLAdventure.lastLocationName ) )
+				 Preferences.getString( "guzzlrQuestLocation" ).equals( KoLAdventure.lastLocationName ) &&
+				 responseText.contains( Preferences.getString( "guzzlrQuestClient" ) ) )
 			{
 				int incr = Math.max( 3, 10 - Preferences.getInteger( "_guzzlrDeliveries" ) );
 				if ( KoLCharacter.hasEquipped( ItemPool.GUZZLR_SHOES ) )
@@ -4643,6 +4644,7 @@ public class FightRequest
 
 				// Reset the quest
 				Preferences.setString( "guzzlrQuestBooze", "" );
+				Preferences.setString( "guzzlrQuestClient", "" );
 				Preferences.setString( "guzzlrQuestLocation", "" );
 				Preferences.setString( "guzzlrQuestTier", "" );
 				Preferences.setInteger( "guzzlrDeliveryProgress", 0 );

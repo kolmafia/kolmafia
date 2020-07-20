@@ -1042,7 +1042,7 @@ public class QuestDatabase
 					Preferences.setString( "guzzlrQuestBooze", booze );
 				}
 
-				
+				Preferences.setString( "guzzlrQuestClient", matcher.group( 2 ) );
 				Preferences.setString( "guzzlrQuestLocation", matcher.group( 3 ) );
 			}
 			return "step1";

@@ -12137,6 +12137,7 @@ public abstract class ChoiceManager
 				Preferences.setBoolean( "_guzzlrQuestAbandoned", true );
 
 				Preferences.setString( "guzzlrQuestBooze", "" );
+				Preferences.setString( "guzzlrQuestClient", "" );
 				Preferences.setString( "guzzlrQuestLocation", "" );
 				Preferences.setString( "guzzlrQuestTier", "" );
 				QuestDatabase.setQuestProgress( Quest.GUZZLR, QuestDatabase.UNSTARTED );
@@ -12152,6 +12153,7 @@ public abstract class ChoiceManager
 				if ( locationMatcher.find() )
 				{
 					tier = locationMatcher.group( 1 ).toLowerCase();
+					Preferences.setString( "guzzlrQuestClient", locationMatcher.group( 2 ) );
 					Preferences.setString( "guzzlrQuestLocation", locationMatcher.group( 4 ) );
 				}
 
@@ -15748,8 +15750,9 @@ public abstract class ChoiceManager
 				Matcher alreadyMatcher = GUZZLR_QUEST_PATTERN.matcher( text );
 				if ( alreadyMatcher.find() )
 				{
-					Preferences.setString( "guzzlrQuestBooze", alreadyMatcher.group(1) );
-					Preferences.setString( "guzzlrQuestLocation", alreadyMatcher.group(3) );
+					Preferences.setString( "guzzlrQuestBooze", alreadyMatcher.group( 1 ) );
+					Preferences.setString( "guzzlrQuestClient", alreadyMatcher.group( 2 ) );
+					Preferences.setString( "guzzlrQuestLocation", alreadyMatcher.group( 3 ) );
 				}
 
 				int itemId = ItemDatabase.getItemId( Preferences.getString( "guzzlrQuestBooze" ) );
