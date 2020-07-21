@@ -8188,7 +8188,7 @@
 8160	mouse skull	170482813	mouseskull.gif	potion, multiple	t,d	25
 8161	really thick spine	879878605	bigspine.gif	potion, multiple	t,d	25
 8162	oversized skullcap	853613051	bighelmet.gif	hat	t,d	25
-8163	three-legged pants	582529200	3legpants.gif	pants	t,d	25
+8163	three-legged pants	582529200	3legpants.gif	pants	t,d	25	trios of three-legged pants
 8164	remaindered axe	225226001	headlessaxe.gif	weapon	t,d	25
 8165	low-budget shield	474565785	woodyshield.gif	offhand	t,d	25
 8166	cr&ecirc;epy mask	630652168	crepemask.gif	hat	t,d	25
@@ -10604,5 +10604,5 @@
 10576	salty drippy candy bar	538019890	dripcandybar.gif	potion, candy, usable	t	0
 10577	writhing drippy candy bar	488307339	dripcandybar.gif	potion, candy, usable	t	0
 10578	gooey drippy candy bar	983785368	dripcandybar.gif	potion, candy, usable	t	0
-10579	baby camelCalf	713270299	camelcalf.gif	grow	t	0
+10579	baby camelCalf	713270299	camelcalf.gif	grow	t	0	baby camelCalves
 10580	dromedary drinking helmet	715417602	camelhelmet.gif	familiar	t,d	75
