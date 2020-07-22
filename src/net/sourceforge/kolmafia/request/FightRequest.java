@@ -2780,10 +2780,6 @@ public class FightRequest
 					DadManager.solve( responseText );
 					break;
 
-				case UNUSUAL_CONSTRUCT:
-					UnusualConstructManager.solve( responseText );
-					break;
-
 				case DRIPPY_BAT:
 					Preferences.decrement( "drippyBatsUnlocked" );
 					break;
@@ -3130,6 +3126,12 @@ public class FightRequest
 		if ( DiscoMatcher.find() )
 		{
 			KoLCharacter.setDiscoMomentum( StringUtilities.parseInt( DiscoMatcher.group( 1 ) ) );
+		}
+		
+		// Parse unusual construct puzzle
+		if ( special == SpecialMonster.UNUSUAL_CONSTRUCT )
+		{
+			UnusualConstructManager.solve( responseText );
 		}
 
 		// Check for equipment breakage that can happen at any time.
