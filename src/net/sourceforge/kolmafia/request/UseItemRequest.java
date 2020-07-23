@@ -4617,6 +4617,14 @@ public class UseItemRequest
 			Preferences.setBoolean( "outrageousSombreroUsed", true );
 			return;
 
+		case ItemPool.TRAPEZOID:
+			if ( responseText.contains( "you put it on the ground at your campsite" ) )
+			{
+				CampgroundRequest.setCampgroundItem( ItemPool.TRAPEZOID, 1 );
+				break;
+			}
+			return;
+
 		case ItemPool.GRUB:
 		case ItemPool.MOTH:
 		case ItemPool.FIRE_ANT:

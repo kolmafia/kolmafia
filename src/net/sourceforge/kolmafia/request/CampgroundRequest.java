@@ -183,6 +183,7 @@ public class CampgroundRequest
 		ItemPool.HAUNTED_DOGHOUSE,
 		ItemPool.WITCHESS_SET,
 		ItemPool.SOURCE_TERMINAL,
+		ItemPool.TRAPEZOID,
 
 		// Special item that aids resting
 		ItemPool.COMFY_BLANKET,
@@ -1175,6 +1176,8 @@ public class CampgroundRequest
 		findImage( responseText, "doghouse.gif", ItemPool.HAUNTED_DOGHOUSE );
 		findImage( responseText, "chesstable.gif", ItemPool.WITCHESS_SET );
 		findImage( responseText, "campterminal.gif", ItemPool.SOURCE_TERMINAL );
+		findImage( responseText, "portal1.gif", ItemPool.TRAPEZOID );
+		findImage( responseText, "portal2.gif", ItemPool.TRAPEZOID );
 
 		if ( responseText.contains( "campterminal.gif" ) && Preferences.getString( "sourceTerminalEducateKnown" ).equals( "" ) )
 		{
