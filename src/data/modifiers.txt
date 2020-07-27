@@ -11002,6 +11002,7 @@ Item	plump purple mushroom	Lasts Until Rollover
 # pog #10 (hobo): Does all sorts of crazy things
 # pog #11 (Naughty Sorceress): Does all sorts of crazy things
 Item	poisoned druidic s'more	Lasts Until Rollover
+Item	Pok&eacute;fam Guide to Capturing All of Them	Free Pull
 # poltergeist-in-the-jar-o: Deals 200-250 Physical Damage
 # pool of liquid metal: Does various things
 # pool torpedo: Deals 250-250 Physical Damage
