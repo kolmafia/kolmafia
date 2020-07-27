@@ -479,7 +479,7 @@
 477	Afternoon Insight	snowflakes.gif	8e7a70c89d678195f247989106e68eb2	good	none	# vitachoconutriment capsule
 478	Fancy Feasted	monocle.gif	c7c091c77690a7e032874840412e3b17	good	none	# vitachoconutriment capsule
 479	Chock Full o' Nanites	swarmer.gif	01d86c4d48b69892609d2465725401c3	good	none	# nanite-infested items
-480	The Spirit of Crimbo	happy.gif	580764ad51eaf4541322b61d91c5bc74	good	none	# have Uncle Crimbo's hat equipped at rollover
+480	The Spirit of Crimbo	happy.gif	580764ad51eaf4541322b61d91c5bc74	neutral	none	# have Uncle Crimbo's hat equipped at rollover
 481	Mallowed Out	roastmallow.gif	1f7d77ed2bed543ff97b5e539aa490e9	good	none	eat 1 roasted marshmallow
 482	Fitter, Happier	drone1.gif	cbb07636ac67293a88827364a955d84d	good	none	# bizarre construct: BUFF TARGET
 483	Eye of the Seal	eyeball.gif	65b4d02c0fa6d2243ad53008a91c9482	good	none	use 1 seal eyeball
@@ -1829,7 +1829,7 @@
 1827	Nasty, Nasty Breath	breath.gif	f1a32ff15752950db12b68f6a482ee46	good	none	use 1 nasty gum
 1828	Rotten Memories	dinseybrain.gif	af58c92657da238027c76d6084ba8a7c	good	none	cast 1 Rotten Memories
 1829	Force of Mayo Be With You	blankoutglob.gif	0156026f7efd2eed62873dd94bcbe203	good	nohookah	mayosoak
-1830	Tropical Contact High	palmtree.gif	d06f1760057989a93364a6c92d993827	good	none	use 1 Kokomo Resort Pass
+1830	Tropical Contact High	palmtree.gif	d06f1760057989a93364a6c92d993827	neutral	none	use 1 Kokomo Resort Pass
 1831	Curse of Randomness	dice.gif	ebff503e89d748c3d54cf9ba1fd9d63c	neutral	none	use 1 powdered dice
 1832	Pill Power	powerpill.gif	4a93d9928ab62c1801436fc9a633f833	good	none	use either 1 miniature power pill, 1 power pill
 1833	Nigh-Invincible	pixelstar.gif	7077db973135b6c3b5aa1083723bbef1	good	none	use 1 pixel star
@@ -2577,4 +2577,4 @@
 2575	Slithering Mounds	dripcandybar.gif	63c611c1e773bc0516d1664ec5f1916c	neutral	none	use 1 writhing drippy candy bar
 2576	Snichors	dripcandybar.gif	9665bea0ac2f9da379254b1e417581ec	neutral	none	use 1 gooey drippy candy bar
 2577	Spit Upon	nopic.gif	75884cd963a369a27b0b37343a01c2ed	neutral	none
-2578	Entauntauned	nopic.gif	297ee9fadfb5560e5142e0b3a88456db	neutral	none
+2578	Entauntauned	batgut.gif	297ee9fadfb5560e5142e0b3a88456db	neutral	none
