@@ -1083,8 +1083,11 @@ public class CharPaneRequest
 
 	private static final Pattern compactLastAdventurePattern =
 		Pattern.compile( "<td align=right><a onclick=[^<]+ title=\"Last Adventure: ([^\"]+)\" target=mainpane href=\"([^\"]*)\">.*?</a>:</td>" );
+
+	// <a onclick='if (top.mainpane.focus) top.mainpane.focus();' class=nounder href="place.php?whichplace=airport_stench" target=mainpane>Last Adventure:</a></b></font><br><table cellspacing=0 cellpadding=0><tr><td><font size=2><a onclick='if (top.mainpane.focus) top.mainpane.focus();' target=mainpane href="adventure.php?snarfblat=442">Barf Mountain</a><br></font></td></tr></table>
+
 	private static final Pattern expandedLastAdventurePattern =
-		Pattern.compile( "<a.*href=\"([^\"]*)\".*>Last Adventure:</a>.*?<a.*?href=\"([^\"]*)\">([^<]*)</a>.*?</table>" );
+		Pattern.compile( "<a .*?href=\"([^\"]*)\"[^>]*>Last Adventure:</a>.*?<a .*?href=\"([^\"]*)\">([^<]*)</a>.*?</table>" );
 
 	private static final void setLastAdventure( final String responseText )
 	{
