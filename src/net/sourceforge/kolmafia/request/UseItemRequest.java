@@ -533,7 +533,10 @@ public class UseItemRequest
 		}
 
 		long restorationMaximum = Long.MAX_VALUE;
-		if ( RestoresDatabase.isRestore( itemId ) )
+
+		// User may want to use this for its effect, rather than
+		// restoration, so don't limit potions
+		if ( !ItemDatabase.isPotion( itemId ) && RestoresDatabase.isRestore( itemId ) )
 		{
 			// If neither HP or MP is usable in this path, unusable item
 			if ( RestoresDatabase.getHPAverage( itemName ) == 0 &&
