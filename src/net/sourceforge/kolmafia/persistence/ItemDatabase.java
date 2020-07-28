@@ -2134,7 +2134,11 @@ public class ItemDatabase
 		{
 			return false;
 		}
-		int itemId = item.getItemId();
+		return ItemDatabase.isPotion( item.getItemId() );
+	}
+
+	public static final boolean isPotion( final int itemId )
+	{
 		int useType = ItemDatabase.useTypeById.get( itemId );
 		return ( useType == KoLConstants.CONSUME_POTION || useType == KoLConstants.CONSUME_AVATAR );
 	}
