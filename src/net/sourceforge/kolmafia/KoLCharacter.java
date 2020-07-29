@@ -836,8 +836,8 @@ public abstract class KoLCharacter
 		}
 
 		if ( KoLCharacter.isFullnessIncreased &&
-		     ( KoLCharacter.getPath().equals( "None" ) || 
-		       KoLCharacter.getPath().equals( "Teetotaler" ) ) )
+		     ( KoLCharacter.getPath() == Path.NONE ||
+		       KoLCharacter.getPath() == Path.TEETOTALER ) )
 		{
 			// Challenge paths do not give bonus fullness for Feast of Boris.
 			// Check for paths that give bonus fullness instead of excluding all other paths.
@@ -3577,91 +3577,68 @@ public abstract class KoLCharacter
 
 		Path oldPath = KoLCharacter.ascensionPath;
 		boolean wasInHardcore = KoLCharacter.isHardcore;
+		int points = wasInHardcore ? 2 : 1;
 		boolean restricted = KoLCharacter.getRestricted();
 
 		Preferences.setBoolean( "kingLiberated", true );
 
 		// Assign "points" to paths that grant them
-		if ( oldPath == Path.AVATAR_OF_BORIS )
+		switch ( oldPath )
 		{
-			int borisPoints = wasInHardcore ? 2 : 1;
-			Preferences.increment( "borisPoints", borisPoints );
-		}
-		else if ( oldPath == Path.AVATAR_OF_JARLSBERG )
-		{
-			int jarlsbergPoints = wasInHardcore ? 2 : 1;
-			Preferences.increment( "jarlsbergPoints", jarlsbergPoints );
-		}
-		else if ( oldPath == Path.AVATAR_OF_SNEAKY_PETE )
-		{
-			int sneakyPetePoints = wasInHardcore ? 2 : 1;
-			Preferences.increment( "sneakyPetePoints", sneakyPetePoints );
-		}
-		else if ( oldPath == Path.ACTUALLY_ED_THE_UNDYING )
-		{
-			int edPoints = wasInHardcore ? 2 : 1;
-			Preferences.increment( "edPoints", edPoints );
-		}
-		else if ( oldPath == Path.ZOMBIE_SLAYER )
-		{
-			int zombiePoints = wasInHardcore ? 2 : 1;
-			Preferences.increment( "zombiePoints", zombiePoints );
-		}
-		else if ( oldPath == Path.AVATAR_OF_WEST_OF_LOATHING )
-		{
-			int points = wasInHardcore ? 2 : 1;
-			if ( KoLCharacter.classtype == KoLCharacter.BEANSLINGER )
-			{
-				Preferences.increment( "awolPointsBeanslinger", points, 10, false );
-			}
-			else if ( KoLCharacter.classtype == KoLCharacter.COWPUNCHER )
-			{
-				Preferences.increment( "awolPointsCowpuncher", points, 10, false );
-			}
-			else if ( KoLCharacter.classtype == KoLCharacter.SNAKE_OILER )
-			{
-				Preferences.increment( "awolPointsSnakeoiler", points, 10, false );
-			}
-		}
-		else if ( oldPath == Path.THE_SOURCE )
-		{
-			int sourcePoints = wasInHardcore ? 2 : 1;
-			Preferences.increment( "sourcePoints", sourcePoints );
-		}
-		else if ( oldPath == Path.GELATINOUS_NOOB )
-		{
-			int noobPoints = wasInHardcore ? 2 : 1;
-			Preferences.increment( "noobPoints", noobPoints, 20, false );
-		}
-		else if ( oldPath == Path.LICENSE_TO_ADVENTURE )
-		{
-			int bondPoints = wasInHardcore ? 2 : 1;
-			Preferences.increment( "bondPoints", bondPoints, 24, false );
-		}
-		else if ( oldPath == Path.GLOVER )
-		{
-			int gloverPoints = wasInHardcore ? 2 : 1;
-			Preferences.increment( "gloverPoints", gloverPoints, 11, false );
-		}
-		else if ( oldPath == Path.DISGUISES_DELIMIT )
-		{
-			int masksUnlocked = wasInHardcore ? 2 : 1;
-			Preferences.increment( "masksUnlocked", masksUnlocked, 25, false );
-		}
-		else if ( oldPath == Path.DARK_GYFFTE )
-		{
-			int gyfftePoints = wasInHardcore ? 2 : 1;
-			Preferences.increment( "darkGyfftePoints", gyfftePoints, 23, false );
-		}
-		else if ( oldPath == Path.CRAZY_RANDOM_SUMMER_TWO )
-		{
-			TCRSDatabase.resetModifiers();
-		}
-		else if ( oldPath == Path.PATH_OF_THE_PLUMBER )
-		{
-			int plumberPoints = wasInHardcore ? 2 : 1;
-			Preferences.increment( "plumberPoints", plumberPoints, 22, false );
-			KoLCharacter.removePlumberQuestItems();
+			case AVATAR_OF_BORIS:
+				Preferences.increment( "borisPoints", points );
+				break;
+			case AVATAR_OF_JARLSBERG:
+				Preferences.increment( "jarlsbergPoints", points );
+				break;
+			case AVATAR_OF_SNEAKY_PETE:
+				Preferences.increment( "sneakyPetePoints", points );
+				break;
+			case ACTUALLY_ED_THE_UNDYING:
+				Preferences.increment( "edPoints", points );
+				break;
+			case ZOMBIE_SLAYER:
+				Preferences.increment( "zombiePoints", points );
+				break;
+			case AVATAR_OF_WEST_OF_LOATHING:
+				if ( KoLCharacter.classtype == KoLCharacter.BEANSLINGER )
+				{
+					Preferences.increment( "awolPointsBeanslinger", points, 10, false );
+				}
+				else if ( KoLCharacter.classtype == KoLCharacter.COWPUNCHER )
+				{
+					Preferences.increment( "awolPointsCowpuncher", points, 10, false );
+				}
+				else if ( KoLCharacter.classtype == KoLCharacter.SNAKE_OILER )
+				{
+					Preferences.increment( "awolPointsSnakeoiler", points, 10, false );
+				}
+				break;
+			case THE_SOURCE:
+				Preferences.increment( "sourcePoints", points );
+				break;
+			case GELATINOUS_NOOB:
+				Preferences.increment( "noobPoints", points, 20, false );
+				break;
+			case LICENSE_TO_ADVENTURE:
+				Preferences.increment( "bondPoints", points, 24, false );
+				break;
+			case GLOVER:
+				Preferences.increment( "gloverPoints", points, 11, false );
+				break;
+			case DISGUISES_DELIMIT:
+				Preferences.increment( "masksUnlocked", points, 25, false );
+				break;
+			case DARK_GYFFTE:
+				Preferences.increment( "darkGyfftePoints", points, 23, false );
+				break;
+			case CRAZY_RANDOM_SUMMER_TWO:
+				TCRSDatabase.resetModifiers();
+				break;
+			case PATH_OF_THE_PLUMBER:
+				Preferences.increment( "plumberPoints", points, 22, false );
+				KoLCharacter.removePlumberQuestItems();
+				break;
 		}
 
 		// We are no longer in Hardcore
