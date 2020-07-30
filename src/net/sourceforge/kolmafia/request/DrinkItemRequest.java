@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
@@ -522,19 +523,17 @@ public class DrinkItemRequest
 
 	private static final boolean askAboutOde( String itemName, final int inebriety, final int count, final int shotglass )
 	{
-		int myUserId = KoLCharacter.getUserId();
-
 		// Can't use ode if shotglass brings inebriety to 0
 		if ( inebriety * count - shotglass == 0 )
 		{
 			return true;
 		}
 
-		String note = ConsumablesDatabase.getNotes( itemName );
-		String advGain = ConsumablesDatabase.getAdvRangeByName( itemName );
 		// If the item doesn't give any adventures, it won't benefit from ode
+		String advGain = ConsumablesDatabase.getAdvRangeByName( itemName );
 		if ( advGain.equals( "0" ) )
 		{
+			String note = ConsumablesDatabase.getNotes( itemName );
 			if ( note == null || ( note != null && !note.contains( "Unspaded" ) ) )
 			{
 				return true;
@@ -546,23 +545,17 @@ public class DrinkItemRequest
 			return true;
 		}
 
+		int myUserId = KoLCharacter.getUserId();
+
 		// If we are not in Nuclear Autumn or don't have 7th Floor, don't even consider Drunk and Avuncular
 		if ( !KoLCharacter.inNuclearAutumn() || Preferences.getInteger( "falloutShelterLevel" ) < 7 )
 		{
 			DrinkItemRequest.askedAboutDrunkAvuncular = myUserId;
 		}
 
-		boolean skipOdeNag = ( DrinkItemRequest.askedAboutOde == myUserId ||
-								DrinkItemRequest.ignorePrompt == myUserId );
-		boolean skipDrunkAvuncularNag = ( DrinkItemRequest.askedAboutDrunkAvuncular == myUserId ||
-								DrinkItemRequest.ignorePrompt == myUserId );
-
-		// Check if character can cast Ode.
-		UseSkillRequest ode = UseSkillRequest.getInstance( "The Ode to Booze" );
-		boolean canOde = KoLConstants.availableSkills.contains( ode ) && UseSkillRequest.hasAccordion();
-		boolean requestBuffOde = KoLCharacter.canInteract() && Preferences.getBoolean( "odeBuffbotCheck" );
-
 		// Check for Drunk and Avuncular
+		boolean skipDrunkAvuncularNag = ( DrinkItemRequest.askedAboutDrunkAvuncular == myUserId ||
+						  DrinkItemRequest.ignorePrompt == myUserId );
 		if ( !skipDrunkAvuncularNag )
 		{
 			// See if already have Drunk and Avuncular effect
@@ -580,25 +573,28 @@ public class DrinkItemRequest
 			}
 		}
 
-		// Check for Ode
-		if ( canOde || requestBuffOde )
+		// See if already have enough turns of Ode to Booze
+		int odeTurns = ConsumablesDatabase.ODE.getCount( KoLConstants.activeEffects );
+		int consumptionTurns = count * inebriety - shotglass;
+
+		if ( consumptionTurns <= odeTurns )
 		{
-			// See if already have enough turns of Ode to Booze
-			int odeTurns = ConsumablesDatabase.ODE.getCount( KoLConstants.activeEffects );
-			int consumptionTurns = count * inebriety - shotglass;
+			return true;
+		}
 
-			if ( consumptionTurns <= odeTurns )
-			{
-				return true;
-			}
+		// Check if character can cast Ode.
+		UseSkillRequest ode = UseSkillRequest.getInstance( "The Ode to Booze" );
+		boolean canOde = !KoLCharacter.inGLover() && KoLConstants.availableSkills.contains( ode ) && UseSkillRequest.hasAccordion();
+		boolean shouldOde = canOde && KoLCharacter.canInteract();
 
+		if ( shouldOde )
+		{
 			// Cast Ode automatically if you have enough mana,
 			// when you are out of Ronin/HC
-			long odeCost = SkillDatabase.getMPConsumptionById( 6014 );
-			while ( KoLCharacter.canInteract() &&
-				odeTurns < consumptionTurns &&
+			long odeCost = SkillDatabase.getMPConsumptionById( SkillPool.ODE_TO_BOOZE );
+			while ( odeTurns < consumptionTurns &&
 				KoLCharacter.getCurrentMP() >= odeCost &&
-				KoLmafia.permitsContinue() && canOde )
+				KoLmafia.permitsContinue() )
 			{
 				ode.setBuffCount( 1 );
 				RequestThread.postRequest( ode );
@@ -610,15 +606,23 @@ public class DrinkItemRequest
 				}
 				odeTurns = newTurns;
 			}
+		}
 
-			if ( consumptionTurns <= odeTurns )
-			{
-				return true;
-			}
+		if ( consumptionTurns <= odeTurns )
+		{
+			return true;
+		}
+
+		boolean requestBuffOde = KoLCharacter.canInteract() && Preferences.getBoolean( "odeBuffbotCheck" );
+		if ( canOde || requestBuffOde )
+		{
+			boolean skipOdeNag = ( DrinkItemRequest.askedAboutOde == myUserId ||
+					       DrinkItemRequest.ignorePrompt == myUserId );
 
 			String message = odeTurns > 0 ?
 				"The Ode to Booze will run out before you finish drinking that. Are you sure?" :
 				"Are you sure you want to drink without ode?";
+
 			if ( !skipOdeNag && !InputFieldUtilities.confirm( message ) )
 			{
 				return false;
