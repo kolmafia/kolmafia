@@ -1114,42 +1114,42 @@ public class ConsumablesDatabase
 	{
 		String name = ItemDatabase.getItemName( itemId );
 		String notes = ConsumablesDatabase.getNotes( name );
-		return notes.contains( "MARTINI" );
+		return notes != null && notes.contains( "MARTINI" );
 	}
 
 	public static final boolean isLasagna( final int itemId )
 	{
 		String name = ItemDatabase.getItemName( itemId );
 		String notes = ConsumablesDatabase.getNotes( name );
-		return notes.contains( "LASAGNA" );
+		return notes != null && notes.contains( "LASAGNA" );
 	}
 
 	public static final boolean isSaucy( final int itemId )
 	{
 		String name = ItemDatabase.getItemName( itemId );
 		String notes = ConsumablesDatabase.getNotes( name );
-		return notes.contains( "SAUCY" );
+		return notes != null && notes.contains( "SAUCY" );
 	}
 
 	public static final boolean isPizza( final int itemId )
 	{
 		String name = ItemDatabase.getItemName( itemId );
 		String notes = ConsumablesDatabase.getNotes( name );
-		return notes.contains( "PIZZA" );
+		return notes != null && notes.contains( "PIZZA" );
 	}
 
 	public static final boolean isBeans( final int itemId )
 	{
 		String name = ItemDatabase.getItemName( itemId );
 		String notes = ConsumablesDatabase.getNotes( name );
-		return notes.contains( "BEANS" );
+		return notes != null && notes.contains( "BEANS" );
 	}
 
 	public static final boolean isWine( final int itemId )
 	{
 		String name = ItemDatabase.getItemName( itemId );
 		String notes = ConsumablesDatabase.getNotes( name );
-		return notes.contains( "WINE" );
+		return notes != null && notes.contains( "WINE" );
 	}
 
 	// Support for astral consumables and other level dependant consumables
