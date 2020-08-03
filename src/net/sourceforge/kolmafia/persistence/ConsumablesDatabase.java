@@ -1112,167 +1112,44 @@ public class ConsumablesDatabase
 
 	public static final boolean isMartini( final int itemId )
 	{
-		switch ( itemId )
-		{
-		case ItemPool.DRY_MARTINI:
-		case ItemPool.DRY_VODKA_MARTINI:
-		case ItemPool.GIBSON:
-		case ItemPool.MARTINI:
-		case ItemPool.ROCKIN_WAGON:
-		case ItemPool.SOFT_GREEN_ECHO_ANTIDOTE_MARTINI:
-		case ItemPool.VODKA_GIBSON:
-		case ItemPool.VODKA_MARTINI:
-			return true;
-		}
-		return false;
+		String name = ItemDatabase.getItemName( itemId );
+		String notes = ConsumablesDatabase.getNotes( name );
+		return notes.contains( "MARTINI" );
 	}
 
 	public static final boolean isLasagna( final int itemId )
 	{
-		switch ( itemId )
-		{
-		case ItemPool.FISHY_FISH_LASAGNA:
-		case ItemPool.GNAT_LASAGNA:
-		case ItemPool.LONG_PORK_LASAGNA:
-			return true;
-		}
-		return false;
+		String name = ItemDatabase.getItemName( itemId );
+		String notes = ConsumablesDatabase.getNotes( name );
+		return notes.contains( "LASAGNA" );
 	}
 
 	public static final boolean isSaucy( final int itemId )
 	{
-		switch ( itemId )
-		{
-		case ItemPool.COLD_HI_MEIN:
-		case ItemPool.HOT_HI_MEIN:
-		case ItemPool.SLEAZY_HI_MEIN:
-		case ItemPool.SPOOKY_HI_MEIN:
-		case ItemPool.STINKY_HI_MEIN:
-		case ItemPool.HELL_RAMEN:
-		case ItemPool.HAUNTED_HELL_RAMEN:
-		case ItemPool.FETTUCINI_INCONNU:
-		case ItemPool.SPAGHETTI_WITH_SKULLHEADS:
-		case ItemPool.GNOCCHETTI_DI_NIETZSCHE:
-		case ItemPool.SPAGHETTI_CON_CALAVERAS:
-		case ItemPool.FLEETWOOD_MAC_N_CHEESE:
-		case ItemPool.LINGUINI_IMMONDIZIA_BIANCO:
-		case ItemPool.SHELLS_A_LA_SHELLFISH:
-		case ItemPool.FETTRIS:
-		case ItemPool.FUSILLOCYBIN:
-		case ItemPool.PRESCRIPTION_NOODLES:
-			return true;
-		}
-		return false;
+		String name = ItemDatabase.getItemName( itemId );
+		String notes = ConsumablesDatabase.getNotes( name );
+		return notes.contains( "SAUCY" );
 	}
 
 	public static final boolean isPizza( final int itemId )
 	{
-		// Could just detect pizza in the name, but KoL tends to break that in time
-		switch ( itemId )
-		{
-		case ItemPool.PLAIN_PIZZA:
-		case ItemPool.SAUSAGE_PIZZA:
-		case ItemPool.GOAT_CHEESE_PIZZA:
-		case ItemPool.MUSHROOM_PIZZA:
-		case ItemPool.WHITE_CHOCOLATE_AND_TOMATO_PIZZA:
-		case ItemPool.SLICE_OF_PIZZA:
-		case ItemPool.INCREDIBLE_PIZZA:
-			return true;
-		}
-		return false;
+		String name = ItemDatabase.getItemName( itemId );
+		String notes = ConsumablesDatabase.getNotes( name );
+		return notes.contains( "PIZZA" );
 	}
 
 	public static final boolean isBeans( final int itemId )
 	{
-		switch ( itemId )
-		{
-		case ItemPool.MUS_BEANS_PLATE:
-		case ItemPool.MYS_BEANS_PLATE:
-		case ItemPool.MOX_BEANS_PLATE:
-		case ItemPool.HOT_BEANS_PLATE:
-		case ItemPool.COLD_BEANS_PLATE:
-		case ItemPool.SPOOKY_BEANS_PLATE:
-		case ItemPool.STENCH_BEANS_PLATE:
-		case ItemPool.SLEAZE_BEANS_PLATE:
-		case ItemPool.PREMIUM_BEANS_PLATE:
-			return true;
-		}
-		return false;
+		String name = ItemDatabase.getItemName( itemId );
+		String notes = ConsumablesDatabase.getNotes( name );
+		return notes.contains( "BEANS" );
 	}
 
 	public static final boolean isWine( final int itemId )
 	{
-		switch ( itemId )
-		{
-		case ItemPool.BB_WINE_COOLER:
-		case ItemPool.BEIGNET_MILGRANET:
-		case ItemPool.BILGE_WINE:
-		case ItemPool.BLACKFLY_CHARDONNAY:
-		case ItemPool.BLOOD_RED_MUSHROOM_WINE:
-		case ItemPool.BORDEAUX_MARTEAUX:
-		case ItemPool.BOTTLE_OF_REALPAGNE:
-		case ItemPool.BOTTLE_OF_WINE:
-		case ItemPool.BOXED_CHAMPAGNE:
-		case ItemPool.BUCKET_OF_WINE:
-		case ItemPool.BUZZING_MUSHROOM_WINE:
-		case ItemPool.CANTEEN_OF_WINE:
-		case ItemPool.CARROT_CLARET:
-		case ItemPool.COMPLEX_MUSHROOM_WINE:
-		case ItemPool.COOKING_SHERRY:
-		case ItemPool.COOL_MUSHROOM_WINE:
-		case ItemPool.CRIMBCO_WINE:
-		case ItemPool.CRUELTY_FREE_WINE:
-		case ItemPool.FROMAGE_PINOTAGE:
-		case ItemPool.DUSTY_BOTTLE_OF_MERLOT:
-		case ItemPool.DUSTY_BOTTLE_OF_PORT:
-		case ItemPool.DUSTY_BOTTLE_OF_PINOT_NOIR:
-		case ItemPool.DUSTY_BOTTLE_OF_ZINFANDEL:
-		case ItemPool.DUSTY_BOTTLE_OF_MARSALA:
-		case ItemPool.DUSTY_BOTTLE_OF_MUSCAT:
-		case ItemPool.EXPENSIVE_CHAMPAGNE:
-		case ItemPool.FLASK_OF_PORT:
-		case ItemPool.FLAMING_MUSHROOM_WINE:
-		case ItemPool.FLAT_CHAMPAGNE:
-		case ItemPool.FLAT_MUSHROOM_WINE:
-		case ItemPool.FRUITY_WINE:
-		case ItemPool.GINGERBREAD_WINE:
-		case ItemPool.GLOOMY_MUSHROOM_WINE:
-		case ItemPool.HIGH_END_GINGER_WINE:
-		case ItemPool.ICY_MUSHROOM_WINE:
-		case ItemPool.KNOB_MUSHROOM_WINE:
-		case ItemPool.KNOLL_MUSHROOM_WINE:
-		case ItemPool.LAUNDRY_SHERRY:
-		case ItemPool.LUMINEUX_LIMNIO:
-		case ItemPool.MAGNUM_OF_FANCY_CHAMPAGNE:
-		case ItemPool.MID_LEVEL_MEDIEVAL_MEAD:
-		case ItemPool.MISSING_WINE:
-		case ItemPool.MORTO_MORETO:
-		case ItemPool.MULLED_BERRY_WINE:
-		case ItemPool.MUSCHAT:
-		case ItemPool.OILY_MUSHROOM_WINE:
-		case ItemPool.OVERPOWERING_MUSHROOM_WINE:
-		case ItemPool.PINOT_RENOIR:
-		case ItemPool.PLUM_WINE:
-		case ItemPool.POINTY_MUSHROOM_WINE :
-		case ItemPool.PSYCHOTIC_TRAIN_WINE:
-		case ItemPool.RED_RED_WINE:
-		case ItemPool.SACRAMENTO_WINE:
-		case ItemPool.SMOOTH_MUSHROOM_WINE:
-		case ItemPool.SPACE_PORT:
-		case ItemPool.SPOOKY_MUSHROOM_WINE:
-		case ItemPool.STINKY_MUSHROOM_WINE:
-		case ItemPool.SUPERNOVA_CHAMPAGNE:
-		case ItemPool.SWIRLING_MUSHROOM_WINE:
-		case ItemPool.TEMPS_TEMPRANILLO:
-		case ItemPool.THISTLE_WINE:
-		case ItemPool.WARBEAR_FEASTING_MEAD:
-		case ItemPool.WARBEAR_BEARSERKER_MEAD:
-		case ItemPool.WARBEAR_BLIZZARD_MEAD:
-		case ItemPool.WHITE_WINE:
-		case ItemPool.YE_OLDE_MEAD:
-			return true;
-		}
-		return false;
+		String name = ItemDatabase.getItemName( itemId );
+		String notes = ConsumablesDatabase.getNotes( name );
+		return notes.contains( "WINE" );
 	}
 
 	// Support for astral consumables and other level dependant consumables
