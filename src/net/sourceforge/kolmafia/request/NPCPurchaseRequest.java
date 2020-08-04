@@ -469,6 +469,10 @@ public class NPCPurchaseRequest
 				{
 					shopName = nameMatcher.group(1);
 				}
+				if ( shopName.equals( "Results:" ) && nameMatcher.find() )
+				{
+					shopName = nameMatcher.group(1);
+				}
 				if ( currency.equals( "Meat" ) )
 				{
 					String printMe;
