@@ -309,7 +309,7 @@ public class UseItemCommand
 							// UseItemRequest doesn't really have a "sim" mode, but we can do a pretty good approximation
 							// by checking if maximumUses > 0 and we can physically retrieve the item.
 							return	UseItemRequest.maximumUses( currentMatch.getItemId() ) > 0 &&
-								!InventoryManager.simRetrieveItem( currentMatch ).equalsIgnoreCase( "fail" );
+								!InventoryManager.simRetrieveItem( currentMatch, true, true, false ).equalsIgnoreCase( "fail" );
 						}
 						RequestThread.postRequest( request );
 						while ( FightRequest.inMultiFight && KoLmafia.permitsContinue() )
