@@ -10606,3 +10606,6 @@
 10578	gooey drippy candy bar	983785368	dripcandybar.gif	potion, candy, usable	t	0
 10579	baby camelCalf	713270299	camelcalf.gif	grow	t	0	baby camelCalves
 10580	dromedary drinking helmet	715417602	camelhelmet.gif	familiar	t,d	75
+10581	packaged SpinMaster&trade; lathe	778319583	lathebox.gif	usable	t	0
+10582	SpinMaster&trade; lathe	885327941	lathe.gif	usable		0
+10583	flimsy hardwood scraps	303504638	lathescraps.gif	none	t,d	5
