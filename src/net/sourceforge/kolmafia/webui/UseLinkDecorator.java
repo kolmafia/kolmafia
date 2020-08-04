@@ -2225,7 +2225,7 @@ public abstract class UseLinkDecorator
 			useType = "assemble";
 			useLocation = "shop.php?whichshop=spant";
 			break;
-			
+
 		case ItemPool.RUBEE:
 			useType = "spend";
 			if ( KoLCharacter.hasEquipped( ItemPool.FANTASY_REALM_GEM ) )
@@ -2240,6 +2240,11 @@ public abstract class UseLinkDecorator
 			int slimeCount = InventoryManager.getCount( itemId );
 			useType = "use (" + slimeCount + ")";
 			useLocation = "shop.php?whichshop=voteslime";
+			break;
+
+		case ItemPool.SPINMASTER:
+			useType = "lathe";
+			useLocation = "shop.php?whichshop=lathe";
 			break;
 
 		default:

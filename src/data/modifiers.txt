@@ -10937,6 +10937,7 @@ Item	orphan baby yeti	Free Pull
 # pacification grenade: Weakens enemies somewhat
 Item	Pack of Every Card	Free Pull
 Item	packaged Pocket Professor	Free Pull
+Item	packaged SpinMaster&trade; lathe	Free Pull
 # PADL Phone: Summons Frat Army Aid
 # paint bomb: Deals 5-10 Prismatic Damage
 # paint bomb: (keeps dealing damage every round)

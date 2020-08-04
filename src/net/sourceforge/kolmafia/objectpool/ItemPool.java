@@ -3245,6 +3245,7 @@ public class ItemPool
 	public static final int DEEP_FRIED_KEY = 10568;
 	public static final int DISCARDED_BIKE_LOCK_KEY = 10569;
 	public static final int MANUAL_OF_LOCK_PICKING = 10571;
+	public static final int SPINMASTER = 10582;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
