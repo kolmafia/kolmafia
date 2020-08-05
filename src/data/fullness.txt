@@ -218,7 +218,7 @@ CRIMBCO Reconstituted Gruel	3	1		4-5	0	0	0	lose 10% boredom
 CRIMBCOIDS mints	1	1	good	3	10-20	10-20	10-20
 CRIMBCOLOAF	3	1	decent	4-5	15-20	15-20	15-20
 Crimbo pie	3	7	awesome	8-14	25-45	0	0
-Crimbo salad	2	1	good	5-7	10-20	0	0	40 Salad Days (+50 HP, +2 muscle stats/fight)
+Crimbo salad	2	1	good	5-7	10-20	0	0	40 Salad Days (+50 HP, +2 muscle stats/fight), SALAD
 Crimboysters Rockefeller	3	1	EPIC	18-21	10-40	10-40	10-40
 crudles	5	9	awesome	18-22	25-30	0	0
 cup of lukewarm tea	1	1	crappy	1	0	0	0	20 Jittery (+1-3 MP Regen)
@@ -232,15 +232,15 @@ dead meat bun	3	4	decent	5	10	0	0
 decent brain	1	1	decent	2	3-5	3-5	3-5	Zombie Slayer
 dehydrated caviar	1	2	decent	2	0	0	15
 delicious noodles	3	3	good	6-9	0	0	9-25
-delicious salad	3	1	decent	3-5	0	0	0	25% chance of tattoo
+delicious salad	3	1	decent	3-5	0	0	0	25% chance of tattoo, SALAD
 delicious spicy noodles	3	5	awesome	9-11	0	29-33	0
-delicious star salad	3	1	decent	4	4	4	4	gain 3-5 stars
+delicious star salad	3	1	decent	4	4	4	4	gain 3-5 stars, SALAD
 delicious swamp muck	5	4	decent	7-8	20-30	20-30	20-30
 deluxe layer cake	10	10	awesome	42-48	200-400	200-400	200-400
 denastified haunch	1	1	awesome	3-5	5-10	5-10	5-10	30 Faerie Fortune (+1 Rubee drop)
 desiccated apricot	1	2	decent	2	15-17	0	0
 devil dog	3	1	awesome	11-13	0	0	0	+5 PvP fights, 30 Devil Inside (+30 Hot Damage, +3 Cold/Spooky Res)
-devil hair pasta	4	6	awesome	11-14	13	13	13
+devil hair pasta	4	6	awesome	11-14	13	13	13	SAUCY
 devil's-food cake	3	1	crappy	3	0	0	0
 deviled egg	1	5	EPIC	5-6	2-4	2-4	2-4
 diabolic pizza	3	1		0	0	0	0	Unspaded, PIZZA
@@ -497,7 +497,7 @@ Knoll mushroom	2	1	crappy	1-3	0	0	0
 Knoll shroomkabob	2	1	decent	2-5	6-11	0	0
 Knoll stir-fry	2	3	good	4-7	14-18	0	0
 knuckle sandwich	3	5	good	7-10	22-40	22-40	22-40	20 Cruisin' for a Bruisin' (+100% weapon dmg)
-Kudzu salad	2	4	EPIC	16-20	10-20	10-20	10-20
+Kudzu salad	2	4	EPIC	16-20	10-20	10-20	10-20	SALAD
 kumquat	1	2	decent	2	0	0	0
 large cocoa eggshell fragment	1	1	decent	2	0	0	0
 laser-broiled pear	1	1	awesome	3-4	8-10	8-10	8-10
@@ -509,13 +509,13 @@ leftovers sandwich	1	1	good	2-3	5-15	5-15	5-15
 lemon	1	1	crappy	1	0	0	0
 lemon meringue pie	3	2	decent	3-9	8-10	0	0
 lemon popsicle	1	1	decent	2	0	0	0
-libertagliatelle	5	10	awesome	19-22	0	35-40	0
+libertagliatelle	5	10	awesome	19-22	0	35-40	0	SAUCY
 licorice garrote	1	4	good	1-5	10-20	10-20	10-20	5 Sugar Rush
 lihc eye pie	4	2	decent	5-12	0	11-12	0	5 Eye of the Lihc (+1 spooky res)
 lime	1	2	decent	2	0	0	0
 limp broccoli	2	5	good	4-6	10-20	10-20	10-20	100 Nutrient-Rich (+4 exp, +50% HP, +25% MP)
 linguini immondizia bianco	5	8	awesome	17-20	0	0	25-30	SAUCY
-linguini of the sea	5	10	awesome	19-22	0	0	35-40
+linguini of the sea	5	10	awesome	19-22	0	0	35-40	SAUCY
 liquid bread	1	4	EPIC	5-6	5-10	5-10	5-10	20 Comprehensively Nourished (+2 experience)
 liver and let pie	2	1	good	5-7	5-10	5-10	5-10
 liver popsicle	1	1	decent	2	0	0	0
@@ -591,7 +591,7 @@ nega-mushroom	2	1	awesome	8-10	0	30-40	0	50 Negavision (+25% item drop)
 neutron lollipop	3	1	awesome	9-12	10-20	10-20	10-20
 New and Improved CRIMBCO Reconstituted Gruel	4	1		7-8	0	0	0	lose 20% boredom
 nut-shaped Crimbo cookie	2	1	awesome	7-11	0	0	0	20 Nut-Rition (+100% all stats)
-nutty organic salad	3	11	awesome	12-15	0	31-40	0
+nutty organic salad	3	11	awesome	12-15	0	31-40	0	SALAD
 occult jelly donut	1	4	awesome	3-5	0	40-60	0	30 Filled With Magic (+100% spell dmg)
 oily golden mushroom	0	1	crappy	0	0	0	0	Unspaded
 ojo de pez burrito	3	1	good	0	0	0	0	Unspaded 30 Fish-Eye View
@@ -673,7 +673,7 @@ pr0n m4nic0tti	4	3	good	10-12	0	0	28-32
 pr0n stir-fry	2	4	awesome	5-8	7-12	0	8-12
 pr0n taco	2	1	decent	2-5	0	0	11-33
 prescription noodles	5	11	awesome	20-23	0	0	40-45	SAUCY
-primitive alien salad	1	1	good	2-3	5-25	5-25	5-25
+primitive alien salad	1	1	good	2-3	5-25	5-25	5-25	SALAD
 primitive candy cane	1	1	good	3-4	0	0	0
 protein paste	2	7	good	4-8	38-60	0	0	10 Pasty (+50% mus)
 pumpkin pie	3	2	EPIC	16-18	12-24	12-24	12-24
@@ -791,7 +791,7 @@ Sogg-Os	1	11	EPIC	5	1-100	1-100	1-100
 Soylent Red and Green	3	5		4-5	0	0	0
 space chowder	6	1	awesome	20-22	0	0	0
 space jam toast	1	1	decent	1-3	0	50	0
-spagecialetti	4	6	awesome	11-14	13	13	13
+spagecialetti	4	6	awesome	11-14	13	13	13	SAUCY
 spaghetti breakfast	1	1		6.0	0	0	0
 spaghetti con calaveras	6	6	awesome	23-27	47-52	0	0	10 Eso S&iacute; Que Es, SAUCY
 spaghetti with ghost balls	5	9	awesome	18-22	0	0	25-30
@@ -841,7 +841,7 @@ suddenly salad!	5	1	EPIC	60-80	0	220-400	0
 suggestive strozzapreti	5	7	awesome	16-19	0	0	20-30
 sun-dried tofu	2	3	crappy	2-4	0	0	0	gain Deadened Palate or lose Oversaturated Palate
 super ka-bob	3	11	awesome	12-15	30-38	0	0
-super salad	3	11	awesome	13-16	30-50	32-40	31-40
+super salad	3	11	awesome	13-16	30-50	32-40	31-40	SALAD
 Swedish massage fish	1	4	good	3	20-40	20-40	20-40	40 Like a Fish to Walter (+5 Fishing skill)
 sweet party mix	1	4	EPIC	5-6	0	0	0
 sweet roll Alabama	4	4	good	9-11	15-20	5-10	0	30 Helping Comes Second (+20 Meat Drop, +25 Food Drop, +25 Booze Drop, +25 Candy Drop)
@@ -929,7 +929,7 @@ toe jam toast	1	1	decent	1-3	0	0	50
 tofu casserole	3	1	decent	3-8	0	0	0
 tofu stir-fry	1	4	good	1-5	4-5	4-6	0
 tofu taco	1	1	decent	2	0	4-20	0
-tofu wonton	3	12	awesome	11-18	20-30	50-80	20-30
+tofu wonton	3	12	awesome	11-18	20-30	50-80	20-30	SALAD
 tofurkey gravy	2	5	awesome	3-10	72-75	0	0
 tofurkey leg	3	5	awesome	7-14	70-74	0	0
 tofurkey nugget	3	1	good	4-11	30-33	0	0
@@ -944,7 +944,7 @@ triangular CRIMBCOOKIE	2	1	awesome	8-10	0	0	0	10 Triangle, Man (+10% mus)
 tricky dragon roll	3	1		9-14	20-30	0	8-16	45/55 Fishy
 Trollhouse cookies	2	1	decent	2-3	4-6	0	0
 tube of cranberry Go-Goo	3	1	awesome	8-14	0	0	31-34
-turkish mostaccioli	5	10	awesome	19-22	35-40	0	0
+turkish mostaccioli	5	10	awesome	19-22	35-40	0	0	SAUCY
 Turnip and Rutabaga Pie	5	1	good	12-13	0	0	0	30 Healthy, Elfy, and Wise (8-10 HP Regen)
 turtle soup	1	2	good	2-3	9-15	0	0	10 A Little Bit Evil (+2 ML), 10 Souper Vengeful (+3 lbs)
 twigs and gravel	3	1		3-6	5-6	5-6	5-6
