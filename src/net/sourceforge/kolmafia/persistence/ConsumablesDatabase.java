@@ -1110,46 +1110,56 @@ public class ConsumablesDatabase
 		return range == null ? "+0.0" : range;
 	}
 
-	public static final boolean isMartini( final int itemId )
+	public static final boolean hasAttribute( final int itemId, final String attribute )
 	{
 		String name = ItemDatabase.getItemName( itemId );
 		String notes = ConsumablesDatabase.getNotes( name );
-		return notes != null && notes.contains( "MARTINI" );
+		return notes != null && notes.contains( attribute );
+	}
+
+	public static final boolean isMartini( final int itemId )
+	{
+		return hasAttribute( itemId, "MARTINI" );
 	}
 
 	public static final boolean isLasagna( final int itemId )
 	{
-		String name = ItemDatabase.getItemName( itemId );
-		String notes = ConsumablesDatabase.getNotes( name );
-		return notes != null && notes.contains( "LASAGNA" );
+		return hasAttribute( itemId, "LASAGNA" );
 	}
 
 	public static final boolean isSaucy( final int itemId )
 	{
-		String name = ItemDatabase.getItemName( itemId );
-		String notes = ConsumablesDatabase.getNotes( name );
-		return notes != null && notes.contains( "SAUCY" );
+		return hasAttribute( itemId, "SAUCY" );
 	}
 
 	public static final boolean isPizza( final int itemId )
 	{
-		String name = ItemDatabase.getItemName( itemId );
-		String notes = ConsumablesDatabase.getNotes( name );
-		return notes != null && notes.contains( "PIZZA" );
+		return hasAttribute( itemId, "PIZZA" );
 	}
 
 	public static final boolean isBeans( final int itemId )
 	{
-		String name = ItemDatabase.getItemName( itemId );
-		String notes = ConsumablesDatabase.getNotes( name );
-		return notes != null && notes.contains( "BEANS" );
+		return hasAttribute( itemId, "BEANS" );
 	}
 
 	public static final boolean isWine( final int itemId )
 	{
-		String name = ItemDatabase.getItemName( itemId );
-		String notes = ConsumablesDatabase.getNotes( name );
-		return notes != null && notes.contains( "WINE" );
+		return hasAttribute( itemId, "WINE" );
+	}
+
+	public static final boolean isSalad( final int itemId )
+	{
+		return hasAttribute( itemId, "SALAD" );
+	}
+
+	public static final boolean isBeer( final int itemId )
+	{
+		return hasAttribute( itemId, "BEER" );
+	}
+
+	public static final boolean isCannedBeer( final int itemId )
+	{
+		return hasAttribute( itemId, "CANNED" );
 	}
 
 	// Support for astral consumables and other level dependant consumables
