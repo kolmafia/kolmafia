@@ -57,29 +57,71 @@ Copyright (C) 2003-2007 Apple, Inc., All Rights Reserved
 
 package apple.dts.samplecode.osxadapter;
 
+import java.awt.Desktop;
+import java.awt.Desktop.Action;
+
 import java.awt.Image;
 import java.awt.Window;
 import java.lang.reflect.*;
 
+public class OSXAdapter implements InvocationHandler
+{
+	static Object application = null;
+	static Desktop desktop = null;		// Since Java 6
+	static Object taskbar = null;		// Since Java 9
 
-public class OSXAdapter implements InvocationHandler {
+	// If we are running Java 9 or later, the following objects provide everything we need:
+	//
+	// java.awt.Desktop
+	// java.awt.Taskbar
+	//
+	// If we running an earlier version, the following object provides what we need:
+	//
+	// com.apple.eawt.Application
+	//
+	// That package is disabled starting with Java 14
 
-    protected Object targetObject;
-    protected Method targetMethod;
-    protected String proxySignature;
-    
-    static Object macOSXApplication;
+	static boolean useDesktopAndTaskbar = false;
 
 	static 
 	{
 		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
 		{
+			for ( Desktop.Action c : Desktop.Action.values() )
+			{
+				// These were added in Java 9
+				//
+				// APP_ABOUT
+				// APP_PREFERENCES
+				// APP_QUIT_HANDLER
+				//
+				// If we find any of them, we can use the Java 9 Desktop and Taskbar objects
+
+				String ename = c.toString();
+				if ( ename.equals( "APP_ABOUT" ) )
+				{
+					useDesktopAndTaskbar = true;
+				}
+			}
+
 			try
 			{
-				Class applicationClass = Class.forName( "com.apple.eawt.Application" );
-				if ( macOSXApplication == null )
+				if ( useDesktopAndTaskbar )
 				{
-					macOSXApplication = applicationClass.getConstructor( ( Class[] ) null ).newInstance( ( Object[ ]) null );
+					// Desktop was introduced in Java 6. We are in at least Java 8,
+					// so we can fetch it directly.
+					desktop = Desktop.getDesktop();
+
+					// Desktop was introduced in Java 9. We are compiled for Java 8,
+					// so even though we know we have a Taskbar, we must use reflection.
+					Class taskbarClass = Class.forName( "java.awt.Taskbar" );
+					Method getTaskbarMethod = taskbarClass.getMethod( "getTaskbar", null );
+					taskbar = getTaskbarMethod.invoke( null, null );
+				}
+				else
+				{
+					Class applicationClass = Class.forName( "com.apple.eawt.Application" );
+					application = applicationClass.getConstructor( ( Class[] ) null ).newInstance( ( Object[ ]) null );
 				}
 			}
 			catch ( ClassNotFoundException cnfe )
@@ -95,194 +137,297 @@ public class OSXAdapter implements InvocationHandler {
 		}
 	}
 
-    // Pass this method an Object and Method equipped to perform application shutdown logic
-    // The method passed should return a boolean stating whether or not the quit should occur
-    public static void setQuitHandler(Object target, Method quitHandler) {
-        setHandler(new OSXAdapter("handleQuit", target, quitHandler));
-    }
+	protected String proxySignature;
+	protected Object targetObject;
+	protected Method targetMethod;
     
-    // Pass this method an Object and Method equipped to display application info
-    // They will be called when the About menu item is selected from the application menu
-    public static void setAboutHandler(Object target, Method aboutHandler) {
-        boolean enableAboutMenu = (target != null && aboutHandler != null);
-        if (enableAboutMenu) {
-            setHandler(new OSXAdapter("handleAbout", target, aboutHandler));
-        }
-        // If we're setting a handler, enable the About menu item by calling
-        // com.apple.eawt.Application reflectively
-        try {
-            Method enableAboutMethod = macOSXApplication.getClass().getDeclaredMethod("setEnabledAboutMenu", new Class[] { boolean.class });
-            enableAboutMethod.invoke(macOSXApplication, new Object[] { Boolean.valueOf(enableAboutMenu) });
-        } catch (Exception ex) {
-            System.err.println("OSXAdapter could not access the About Menu");
-            ex.printStackTrace();
-        }
-    }
-    
-    // Pass this method an Object and a Method equipped to display application options
-    // They will be called when the Preferences menu item is selected from the application menu
-    public static void setPreferencesHandler(Object target, Method prefsHandler) {
-        boolean enablePrefsMenu = (target != null && prefsHandler != null);
-        if (enablePrefsMenu) {
-            setHandler(new OSXAdapter("handlePreferences", target, prefsHandler));
-        }
-        // If we're setting a handler, enable the Preferences menu item by calling
-        // com.apple.eawt.Application reflectively
-        try {
-            Method enablePrefsMethod = macOSXApplication.getClass().getDeclaredMethod("setEnabledPreferencesMenu", new Class[] { boolean.class });
-            enablePrefsMethod.invoke(macOSXApplication, new Object[] { Boolean.valueOf(enablePrefsMenu) });
-        } catch (Exception ex) {
-            System.err.println("OSXAdapter could not access the About Menu");
-            ex.printStackTrace();
-        }
-    }
-    
-    // Pass this method an Object and a Method equipped to handle document events from the Finder
-    // Documents are registered with the Finder via the CFBundleDocumentTypes dictionary in the 
-    // application bundle's Info.plist
-    public static void setFileHandler(Object target, Method fileHandler) {
-        setHandler(new OSXAdapter("handleOpenFile", target, fileHandler) {
-            // Override OSXAdapter.callTarget to send information on the
-            // file to be opened
-            @Override
-	public boolean callTarget(Object appleEvent) {
-                if (appleEvent != null) {
-                    try {
-                        Method getFilenameMethod = appleEvent.getClass().getDeclaredMethod("getFilename", (Class[])null);
-                        String filename = (String) getFilenameMethod.invoke(appleEvent, (Object[])null);
-                        this.targetMethod.invoke(this.targetObject, new Object[] { filename });
-                    } catch (Exception ex) {
-                        
-                    }
-                }
-                return true;
-            }
-        });
-    }
-    
-    // setHandler creates a Proxy object from the passed OSXAdapter and adds it as an ApplicationListener
-    public static void setHandler(OSXAdapter adapter) {
-        try {
-            Class applicationClass = Class.forName("com.apple.eawt.Application");
-            if (macOSXApplication == null) {
-				return;
-            }
-            Class applicationListenerClass = Class.forName("com.apple.eawt.ApplicationListener");
-            Method addListenerMethod = applicationClass.getDeclaredMethod("addApplicationListener", new Class[] { applicationListenerClass });
-            // Create a proxy object around this handler that can be reflectively added as an Apple ApplicationListener
-            Object osxAdapterProxy = Proxy.newProxyInstance(OSXAdapter.class.getClassLoader(), new Class[] { applicationListenerClass }, adapter);
-            addListenerMethod.invoke(macOSXApplication, new Object[] { osxAdapterProxy });
-        } catch (ClassNotFoundException cnfe) {
-            System.err.println("This version of Mac OS X does not support the Apple EAWT.  ApplicationEvent handling has been disabled (" + cnfe + ")");
-        } catch (Exception ex) {  // Likely a NoSuchMethodException or an IllegalAccessException loading/invoking eawt.Application methods
-            System.err.println("Mac OS X Adapter could not talk to EAWT:");
-            ex.printStackTrace();
-        }
-    }
+	// Each OSXAdapter has the name of the EAWT method it intends to listen for (handleAbout, for example),
+	// the Object that will ultimately perform the task, and the Method to be called on that Object
+	protected OSXAdapter(String proxySignature, Object target, Method handler) {
+		this.proxySignature = proxySignature;
+		this.targetObject = target;
+		this.targetMethod = handler;
+	}
 
-    // Each OSXAdapter has the name of the EAWT method it intends to listen for (handleAbout, for example),
-    // the Object that will ultimately perform the task, and the Method to be called on that Object
-    protected OSXAdapter(String proxySignature, Object target, Method handler) {
-        this.proxySignature = proxySignature;
-        this.targetObject = target;
-        this.targetMethod = handler;
-    }
+	// Pass this method an Object and Method equipped to perform application shutdown logic
+	// The method passed should return a boolean stating whether or not the quit should occur
+	public static void setQuitHandler(Object target, Method quitHandler) {
+		boolean handleQuit = (target != null && quitHandler != null);
+		if (!handleQuit) {
+			return;
+		}
+
+		if ( desktop != null )
+		{
+			OSXAdapter adapter = new OSXAdapter("handleQuitRequestWith", target, quitHandler);
+			try {
+				Class quitHandlerClass = Class.forName("java.awt.desktop.QuitHandler");
+				// Create a proxy object around this handler
+				Method setQuitHandlerMethod = desktop.getClass().getDeclaredMethod("setQuitHandler", new Class[] { quitHandlerClass });
+				Object osxAdapterProxy = Proxy.newProxyInstance(OSXAdapter.class.getClassLoader(), new Class[] { quitHandlerClass }, adapter);
+				setQuitHandlerMethod.invoke(desktop, new Object[] { osxAdapterProxy });
+			} catch (ClassNotFoundException cnfe) {
+				System.err.println("Internal error: could not find QuitHandler class (" + cnfe + ")");
+			} catch (Exception ex) {  // Likely a NoSuchMethodException or an IllegalAccessException loading/invoking eawt.Application methods
+				System.err.println("Internal error: could not set QuitHandler (" + ex + ")");
+				ex.printStackTrace();
+			}
+		}
+		else if (application != null)
+		{
+			setHandler(new OSXAdapter("handleQuit", target, quitHandler));
+		}
+	}
     
-    // Override this method to perform any operations on the event 
-    // that comes with the various callbacks
-    // See setFileHandler above for an example
-    public boolean callTarget(Object appleEvent) throws InvocationTargetException, IllegalAccessException {
-        Object result = targetMethod.invoke(targetObject, (Object[])null);
-        if (result == null) {
-            return true;
-        }
-        return Boolean.valueOf(result.toString()).booleanValue();
-    }
+	// Pass this method an Object and Method equipped to display application info
+	// They will be called when the About menu item is selected from the application menu
+	public static void setAboutHandler(Object target, Method aboutHandler) {
+		boolean enableAboutMenu = (target != null && aboutHandler != null);
+		if (!enableAboutMenu) {
+			return;
+		}
+
+		OSXAdapter adapter = new OSXAdapter("handleAbout", target, aboutHandler);
+
+		if ( desktop != null )
+		{
+			try {
+				Class aboutHandlerClass = Class.forName("java.awt.desktop.AboutHandler");
+				// Create a proxy object around this handler
+				Method setAboutHandlerMethod = desktop.getClass().getDeclaredMethod("setAboutHandler", new Class[] { aboutHandlerClass });
+				Object osxAdapterProxy = Proxy.newProxyInstance(OSXAdapter.class.getClassLoader(), new Class[] { aboutHandlerClass }, adapter);
+				setAboutHandlerMethod.invoke(desktop, new Object[] { osxAdapterProxy });
+			} catch (ClassNotFoundException cnfe) {
+				System.err.println("Internal error: could not find AboutHandler class (" + cnfe + ")");
+			} catch (Exception ex) {  // Likely a NoSuchMethodException or an IllegalAccessException loading/invoking eawt.Application methods
+				System.err.println("Internal error: could not set AboutHandler (" + ex + ")");
+				ex.printStackTrace();
+			}
+		}
+		else if (application != null)
+		{
+			setHandler( adapter );
+			// If we're setting a handler, enable the About menu item by calling
+			// com.apple.eawt.Application reflectively
+			try {
+				Method enableAboutMethod = application.getClass().getDeclaredMethod("setEnabledAboutMenu", new Class[] { boolean.class });
+				enableAboutMethod.invoke(application, new Object[] { Boolean.valueOf(enableAboutMenu) });
+			} catch (Exception ex) {
+				System.err.println("OSXAdapter could not access the About Menu");
+				ex.printStackTrace();
+			}
+		}
+	}
     
-    // InvocationHandler implementation
-    // This is the entry point for our proxy object; it is called every time an ApplicationListener method is invoked
-    public Object invoke (Object proxy, Method method, Object[] args) throws Throwable {
-        if (isCorrectMethod(method, args)) {
-            boolean handled = callTarget(args[0]);
-            setApplicationEventHandled(args[0], handled);
-        }
-        // All of the ApplicationListener methods are void; return null regardless of what happens
-        return null;
-    }
+	// Pass this method an Object and a Method equipped to display application options
+	// They will be called when the Preferences menu item is selected from the application menu
+	public static void setPreferencesHandler(Object target, Method prefsHandler) {
+		boolean enablePrefsMenu = (target != null && prefsHandler != null);
+		if (!enablePrefsMenu) {
+			return;
+		}
+
+		OSXAdapter adapter = new OSXAdapter("handlePreferences", target, prefsHandler);
+
+		if ( desktop != null )
+		{
+			try {
+				Class preferencesHandlerClass = Class.forName("java.awt.desktop.PreferencesHandler");
+				// Create a proxy object around this handler
+				Method setPreferencesHandlerMethod = desktop.getClass().getDeclaredMethod("setPreferencesHandler", new Class[] { preferencesHandlerClass });
+				Object osxAdapterProxy = Proxy.newProxyInstance(OSXAdapter.class.getClassLoader(), new Class[] { preferencesHandlerClass }, adapter);
+				setPreferencesHandlerMethod.invoke(desktop, new Object[] { osxAdapterProxy });
+			} catch (ClassNotFoundException cnfe) {
+				System.err.println("Internal error: could not find PreferencesHandler class (" + cnfe + ")");
+			} catch (Exception ex) {  // Likely a NoSuchMethodException or an IllegalAccessException loading/invoking eawt.Application methods
+				System.err.println("Internal error: could not set PreferencesHandler (" + ex + ")");
+				ex.printStackTrace();
+			}
+		}
+		else if (application != null)
+		{
+			setHandler( adapter );
+			// If we're setting a handler, enable the Preferences menu item by calling
+			// com.apple.eawt.Application reflectively
+			try {
+				Method enablePrefsMethod = application.getClass().getDeclaredMethod("setEnabledPreferencesMenu", new Class[] { boolean.class });
+				enablePrefsMethod.invoke(application, new Object[] { Boolean.valueOf(enablePrefsMenu) });
+			} catch (Exception ex) {
+				System.err.println("OSXAdapter could not access the Preferences Menu");
+				ex.printStackTrace();
+			}
+		}
+	}
+
+	// Pass this method an Object and a Method equipped to handle document events from the Finder
+	// Documents are registered with the Finder via the CFBundleDocumentTypes dictionary in the 
+	// application bundle's Info.plist
+	public static void setFileHandler(Object target, Method fileHandler) {
+		if (application == null) {
+			return;
+		}
+		setHandler(new OSXAdapter("handleOpenFile", target, fileHandler) {
+				// Override OSXAdapter.callTarget to send information on the
+				// file to be opened
+				@Override
+				public boolean callTarget(Object[] args) {
+					Object appleEvent = args[0];
+					if (appleEvent != null) {
+						try {
+							Method getFilenameMethod = appleEvent.getClass().getDeclaredMethod("getFilename", (Class[])null);
+							String filename = (String) getFilenameMethod.invoke(appleEvent, (Object[])null);
+							this.targetMethod.invoke(this.targetObject, new Object[] { filename });
+						} catch (Exception ex) {
+						}
+					}
+					return true;
+				}
+			});
+	}
     
-    // Compare the method that was called to the intended method when the OSXAdapter instance was created
-    // (e.g. handleAbout, handleQuit, handleOpenFile, etc.)
-    protected boolean isCorrectMethod(Method method, Object[] args) {
-        return (targetMethod != null && proxySignature.equals(method.getName()) && args.length == 1);
-    }
-    
-    // It is important to mark the ApplicationEvent as handled and cancel the default behavior
-    // This method checks for a boolean result from the proxy method and sets the event accordingly
-    protected void setApplicationEventHandled(Object event, boolean handled) {
-        if (event != null) {
-            try {
-                Method setHandledMethod = event.getClass().getDeclaredMethod("setHandled", new Class[] { boolean.class });
-                // If the target method returns a boolean, use that as a hint
-                setHandledMethod.invoke(event, new Object[] { Boolean.valueOf(handled) });
-            } catch (Exception ex) {
-                System.err.println("OSXAdapter was unable to handle an ApplicationEvent: " + event);
-                ex.printStackTrace();
+	// setHandler creates a Proxy object from the passed OSXAdapter and adds it as an ApplicationListener
+	public static void setHandler(OSXAdapter adapter) {
+            if (application == null) {
+		    return;
             }
-        }
-    }
+	    try {
+		    Class applicationClass = Class.forName("com.apple.eawt.Application");
+		    Class applicationListenerClass = Class.forName("com.apple.eawt.ApplicationListener");
+		    Method addListenerMethod = applicationClass.getDeclaredMethod("addApplicationListener", new Class[] { applicationListenerClass });
+		    // Create a proxy object around this handler that can be reflectively added as an Apple ApplicationListener
+		    Object osxAdapterProxy = Proxy.newProxyInstance(OSXAdapter.class.getClassLoader(), new Class[] { applicationListenerClass }, adapter);
+		    addListenerMethod.invoke(application, new Object[] { osxAdapterProxy });
+	    } catch (ClassNotFoundException cnfe) {
+		    System.err.println("This version of Mac OS X does not support the Apple EAWT.  ApplicationEvent handling has been disabled (" + cnfe + ")");
+	    } catch (Exception ex) {  // Likely a NoSuchMethodException or an IllegalAccessException loading/invoking eawt.Application methods
+		    System.err.println("Mac OS X Adapter could not talk to EAWT:");
+		    ex.printStackTrace();
+	    }
+	}
     
-    // KoLmafia extensions below this point
+	// Override this method to perform any operations on the event 
+	// that comes with the various callbacks
+	// See setFileHandler above for an example
+	public boolean callTarget(Object [] args) throws InvocationTargetException, IllegalAccessException {
+		Object result = targetMethod.invoke(targetObject, (Object[])null);
+		if (result == null) {
+			return true;
+		}
+		return Boolean.valueOf(result.toString()).booleanValue();
+	}
     
-    private static Method badgeMethod;
-    private static Object[] badgeParams;
-    
-    public static void setDockIconBadge( String badge )
-    {
-    	if ( macOSXApplication == null ) return;
-        try
-        {
-        	if ( badgeParams == null )
-        	{
-        		badgeParams = new Object[ 1 ];
-				badgeMethod = macOSXApplication.getClass().getDeclaredMethod( "setDockIconBadge", new Class[] { String.class } );
-			}
-			if ( badgeMethod != null )
+	// InvocationHandler implementation
+	// This is the entry point for our proxy object; it is called every time an ApplicationListener method is invoked
+	public Object invoke (Object proxy, Method method, Object[] args) throws Throwable {
+		if (isCorrectMethod(method, args)) {
+			boolean handled = callTarget(args);
+			if ( !useDesktopAndTaskbar )
 			{
-				badgeParams[ 0 ] = badge;
-				badgeMethod.invoke( macOSXApplication, badgeParams );
+				setApplicationEventHandled(args[0], handled);
 			}
-        }
-        catch (Exception ex) {
-            // Ignore errors - they're expected under OSX 10.4 and earlier.
-        }
-    }
+		}
+		// All of the ApplicationListener methods are void; return null regardless of what happens
+		return null;
+	}
+    
+	// Compare the method that was called to the intended method when the OSXAdapter instance was created
+	// (e.g. handleAbout, handleQuit, handleOpenFile, etc.)
+	protected boolean isCorrectMethod(Method method, Object[] args) {
+		return (targetMethod != null && proxySignature.equals(method.getName()));
+	}
+    
+	// It is important to mark the ApplicationEvent as handled and cancel the default behavior
+	// This method checks for a boolean result from the proxy method and sets the event accordingly
+	protected void setApplicationEventHandled(Object event, boolean handled) {
+		if (event != null) {
+			try {
+				Method setHandledMethod = event.getClass().getDeclaredMethod("setHandled", new Class[] { boolean.class });
+				// If the target method returns a boolean, use that as a hint
+				setHandledMethod.invoke(event, new Object[] { Boolean.valueOf(handled) });
+			} catch (Exception ex) {
+				System.err.println("OSXAdapter was unable to handle an ApplicationEvent: " + event);
+				ex.printStackTrace();
+			}
+		}
+	}
+    
+	// KoLmafia extensions below this point
+    
+	private static Method badgeMethod;
+	private static Object[] badgeParams = new Object[ 1 ];
+    
+	public static void setDockIconBadge( String badge )
+	{
+		badgeParams[ 0 ] = badge;
+
+		if ( taskbar != null )
+		{
+			try
+			{
+				if ( badgeMethod == null )
+				{
+					badgeMethod = taskbar.getClass().getDeclaredMethod( "setIconBadge", new Class[] { String.class } );
+				}
+				badgeMethod.invoke( taskbar, badgeParams );
+			}
+			catch ( Exception ex )
+			{
+				// Ignore errors - they're expected under OSX 10.4 and earlier.
+			}
+
+		}
+		else if ( application != null )
+		{
+			try
+			{
+				if ( badgeMethod == null )
+				{
+					badgeMethod = application.getClass().getDeclaredMethod( "setDockIconBadge", new Class[] { String.class } );
+				}
+				badgeMethod.invoke( application, badgeParams );
+			}
+			catch (Exception ex) {
+				// Ignore errors - they're expected under OSX 10.4 and earlier.
+			}
+		}
+	}
 
 	private static Method iconMethod;
-	private static Object[] iconParams;
+	private static Object[] iconParams = new Object[ 1 ];;
 
 	public static void setDockIconImage( Image icon )
 	{
-		if ( macOSXApplication == null )
-			return;
-		try
+		iconParams[ 0 ] = icon;
+
+		if ( taskbar != null )
 		{
-			if ( iconParams == null )
+			try
 			{
-				iconParams = new Object[ 1 ];
-				iconMethod = macOSXApplication.getClass().getDeclaredMethod( "setDockIconImage", new Class[]
+				if ( iconMethod == null )
 				{
-					Image.class
-				} );
+					iconMethod = taskbar.getClass().getDeclaredMethod( "setIconImage", new Class[] { Image.class } );
+				}
+				iconMethod.invoke( taskbar, iconParams );
 			}
-			if ( iconMethod != null )
+			catch ( Exception ex )
 			{
-				iconParams[ 0 ] = icon;
-				iconMethod.invoke( macOSXApplication, iconParams );
+				// Ignore errors - they're expected under OSX 10.4 and earlier.
 			}
 		}
-		catch ( Exception ex )
+		else if ( application != null )
 		{
-			// Ignore errors - they're expected under OSX 10.4 and earlier.
+			try
+			{
+				if ( iconMethod == null )
+				{
+					iconMethod = application.getClass().getDeclaredMethod( "setDockIconImage", new Class[] { Image.class } );
+				}
+				iconMethod.invoke( application, iconParams );
+			}
+			catch ( Exception ex )
+			{
+				// Ignore errors - they're expected under OSX 10.4 and earlier.
+			}
 		}
 	}
 
@@ -292,8 +437,16 @@ public class OSXAdapter implements InvocationHandler {
 
 	public static void setWindowCanFullScreen( Window window, boolean canFullScreen )
 	{
-		if ( macOSXApplication == null )
+		// This is the default for Java 9 and later
+		if ( useDesktopAndTaskbar )
+		{
 			return;
+		}
+
+		if ( application == null )
+		{
+			return;
+		}
 		try
 		{
 			if ( macOSXFullScreenUtilities == null )
