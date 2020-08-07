@@ -862,6 +862,9 @@
 7338	Drip Blast	dripstaff.gif	5	0	0
 7339	%fn, spit on them!	camelspit_up.gif	5	0	0
 7340	%fn, spit on me!	camelspit_down.gif	5	0	0
+7341	Disarming Thrust	latheepee.gif	5	0	0
+7342	Barrage of Tears	lathewand.gif	5	0	0
+7343	Poison Dart	latheblowgun.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

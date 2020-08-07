@@ -1573,6 +1573,11 @@ public class ResultProcessor
 		case ItemPool.GG_TOKEN:
 			// You can go to spaaace with a transponder
 		case ItemPool.TRANSPORTER_TRANSPONDER:
+			// Lathe-worthy woods
+		case ItemPool.FLIMSY_HARDWOOD_SCRAPS:
+		case ItemPool.DREADSYLVANIAN_HEMLOCK:
+		case ItemPool.SWEATY_BALSAM:
+		case ItemPool.WORMWOOD_STICK:
 			NamedListenerRegistry.fireChange( "(coinmaster)" );
 			break;
 

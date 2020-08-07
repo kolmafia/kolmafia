@@ -994,3 +994,11 @@ Guzzlr Company Store Website	buy	100	Guzzlr shoes	ROW1154
 Guzzlr Company Store Website	buy	500	Guzzlr souvenir stein	ROW1156
 Guzzlr Company Store Website	buy	1000	Never Don't Stop Not Striving	ROW1158
 Guzzlr Company Store Website	buy	2000	Guzzlr tattoo kit	ROW1157
+
+# SpinMaster Lathe
+
+SpinMaster&trade; lathe	buy	1	beechwood blowgun	ROW1163
+SpinMaster&trade; lathe	buy	1	birch battery	ROW1160
+SpinMaster&trade; lathe	buy	1	ebony epee	ROW1161
+SpinMaster&trade; lathe	buy	1	maple magnet	ROW1164
+SpinMaster&trade; lathe	buy	1	weeping willow wand	ROW1162

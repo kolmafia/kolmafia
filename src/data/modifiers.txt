@@ -269,6 +269,7 @@ Item	heavy crown	Muscle: +5, Mysticality: +5, Moxie: +5, Familiar Damage: +5, In
 Item	Helm of the Scream Emperor	MP Regen Min: 1, MP Regen Max: 3, Experience: +2, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Familiar Effect: "spooky atk, 1xFairy, cap 30"
 Item	helm of the white knight	HP Regen Min: 2, HP Regen Max: 5, MP Regen Min: 2, MP Regen Max: 5, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Familiar Effect: "atk, 1xVolley, cap 15"
 Item	helmet turtle	Muscle: +1, Familiar Effect: "atk, cap 2"
+Item	hemlock helm	Muscle Percent: +100, Monster Level: +30, PvP Fights: +5
 Item	high-temperature mining mask	Hot Resistance: +4, Item Drop: -100, Familiar Effect: "atk, cap 25"
 Item	Hodgman's porkpie hat	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Hobo Power: +25, Familiar Effect: "atk, 0.5xVolley, 0.5xFairy"
 Item	Hollandaise helmet	Spell Damage: +1, Familiar Effect: "atk, cap 2"
@@ -760,6 +761,7 @@ Item	power pants	Maximum PP: +1
 Item	primitive alien loincloth	Initiative: +50, Stench Damage: +25, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4
 Item	psychic's pslacks	PvP Fights: +3, HP Regen Min: 5, HP Regen Max: 10
 Item	pteruges	Weapon Damage: +10, Familiar Effect: "1xFairy, atk, cap 25"
+Item	purpleheart &quot;pants&quot;	Moxie Percent: +100, Initiative: +50, Adventures: +5
 Item	pygmy briefs	Stench Damage: +5, Sleaze Damage: +5, Familiar Effect: "atk, 1xVolley, cap 41"
 Item	Radio Free Pants	Mysticality: +20, Familiar Effect: "1xVolley, 1xGhoul, 1xLep, cap 37"
 Item	ratskin pajama pants	PvP Fights: +2, Adventures: +4, Rollover Effect: "Pajama Party", Rollover Effect Duration: 40
@@ -1082,6 +1084,8 @@ Item	bat whip	Spell Damage: +10, Monster Level: +5
 Item	batblade	Weapon Damage: +15
 Item	battery-powered drill	Spell Damage Percent: +100, Maximum HP: +50, Maximum MP: +50, Monster Level: +10, Meat Drop: +10
 Item	beaver spear	Muscle: +5, Weapon Damage: +10
+# beechwood blowgun: Lets you fire poison darts at your foes
+Item	beechwood blowgun	Ranged Damage Percent: +100, Moxie: +25, Experience (Moxie): +5, Lasts Until Rollover
 Item	beer bong	Stench Damage: +15, Monster Level: +5
 Item	beer-a-pult	Stench Damage: +10, Sleaze Damage: +10
 Item	beer-battered accordion	Sleaze Damage: [2*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 6
@@ -1270,6 +1274,8 @@ Item	duck-on-a-string	Weapon Damage: +5, Item Drop: +5
 Item	duct tape sword	Damage Absorption: +40, Item Drop: +5
 Item	dueling banjo	Moxie: +4, Monster Level: +5
 # dwarvish war mattock: Magical Blue Glow
+# ebony epee: Lets you disarm your foes
+Item	ebony epee	Weapon Damage Percent: +100, Muscle: +25, Experience (Muscle): +5, Lasts Until Rollover
 Item	eggbeater	Spell Damage: +7
 # El Vibrato energy spear
 Item	eldritch hammer	Maximum MP: +40, Monster Level: +10, Weapon Damage Percent: +50
@@ -1907,6 +1913,8 @@ Item	war tongs	Hot Damage: +10, Hot Spell Damage: +10
 Item	warbear exhaust manifold	Stench Damage: [10*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10
 # warbear oil pan: Lets you sling hot grease!
 Item	warbear oil pan	Hot Spell Damage: +10, Sleaze Spell Damage: +10, Class: "Sauceror"
+# weeping willow wand: Lets you blast your foes with tears
+Item	weeping willow wand	Spell Damage Percent: +100, Mysticality: +25, Experience (Mysticality): +5, Lasts Until Rollover
 Item	weighted paperclip chain	Weapon Damage: +12
 Item	western-style skinning knife	Weapon Damage: +5, Hat Drop: +10
 Item	White Dragon Fang	Muscle Percent: +9, Mysticality Percent: +9, Moxie Percent: +9, Spooky Damage: +9, Stench Damage: +9, Hot Damage: +9, Cold Damage: +9, Sleaze Damage: +9, MP Regen Min: 9, MP Regen Max: 9
@@ -2237,6 +2245,7 @@ Item	mad scientist's sock monkey	Moxie: +3
 Item	magic lamp	Mysticality: +5
 Item	magical ice cubes	Cold Damage: +1
 Item	makeshift castanets	DB Combat Damage: +10, Class: "Disco Bandit"
+Item	maple magnet	Maximum HP: +100, Weapon Drop: +50, Accessory Drop: +50, Lasts Until Rollover
 # marble mignonette bowl: Damages enemies who hit you
 Item	marble mignonette bowl	MP Regen Min: 4, MP Regen Max: 8, Cold Spell Damage: +40
 Item	marinara jug	Spell Damage: +30, Class: "Sauceror"
@@ -2643,6 +2652,7 @@ Item	bewitching boots	Meat Drop: +10, Synergetic
 Item	BGE pocket calendar	Adventures: +3, Single Equip
 Item	BGE tiny plastic toy	Familiar Weight: +3, Single Equip
 Item	big red clown nose	Maximum HP: +7, Clowniness: 25
+Item	birch battery	Maximum MP: +100, MP Regen Min: 15, MP Regen Max: 20, Lasts Until Rollover
 Item	bitter bowtie	Cold Resistance: +1, Meat Drop: +10, Synergetic
 Item	black belt	Muscle: +7, Weapon Damage: +7, Single Equip
 # black glass
@@ -3807,6 +3817,7 @@ Item	work boots	Plumber Stat: "Moxie", Plumber Power: 1, Single Equip
 # worksite credentials: Grants access to worksites
 Item	worksite credentials	Adventures: +1, Single Equip
 Item	World's Best Adventurer sash	Muscle: [min(100,A+1)], Mysticality: [min(100,A+1)], Moxie: [min(100,A+1)]
+Item	wormwood wedding ring	Mysticality Percent: +100, Meat Drop: +50, Spooky Damage: +30, Spooky Spell Damage: +30, Spooky Resistance: +3
 Item	woven baling wire bracelets	Spell Damage: +15, Mana Cost: -1
 Item	wrench bracelet	Muscle: +5, Weapon Damage: +9
 # Wrist-Boy: Allows use of holo-records
@@ -3843,6 +3854,7 @@ Item	auxiliary backbone	PvP Fights: +3
 Item	back shell	Damage Absorption: +200, Damage Reduction: 20
 # bakelite backpack: Makes Accordion Bash knock loose some Meat
 Item	bakelite backpack	Monster Level: +10, Candy Drop: +20
+Item	balsam barrel	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50, Item Drop: +15, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
 Item	barskin cloak	Muscle: +7
 Item	black cloak	Spell Damage: +10
 Item	bony back shell	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
