@@ -997,8 +997,9 @@ Guzzlr Company Store Website	buy	2000	Guzzlr tattoo kit	ROW1157
 
 # SpinMaster Lathe
 
-SpinMaster&trade; lathe	buy	1	beechwood blowgun	ROW1163
-SpinMaster&trade; lathe	buy	1	birch battery	ROW1160
-SpinMaster&trade; lathe	buy	1	ebony epee	ROW1161
-SpinMaster&trade; lathe	buy	1	maple magnet	ROW1164
-SpinMaster&trade; lathe	buy	1	weeping willow wand	ROW1162
+Your SpinMaster&trade; lathe	buy	1	beechwood blowgun	ROW1163
+Your SpinMaster&trade; lathe	buy	1	birch battery	ROW1160
+Your SpinMaster&trade; lathe	buy	1	ebony epee	ROW1161
+Your SpinMaster&trade; lathe	buy	1	maple magnet	ROW1164
+Your SpinMaster&trade; lathe	buy	1	weeping willow wand	ROW1162
+Your SpinMaster&trade; lathe	buy	1	hemlock helm	ROW1165

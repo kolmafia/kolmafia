@@ -3248,8 +3248,13 @@ public class ItemPool
 	public static final int SPINMASTER = 10582;
 	public static final int FLIMSY_HARDWOOD_SCRAPS = 10583;
 	public static final int DREADSYLVANIAN_HEMLOCK = 10589;
+	public static final int HEMLOCK_HELM = 10590;
 	public static final int SWEATY_BALSAM = 10591;
+	public static final int BALSAM_BARREL = 10592;
+	public static final int ANCIENT_REDWOOD = 10593;
+	public static final int REDWOOD_RAIN_STICK = 10594;
 	public static final int WORMWOOD_STICK = 10597;
+	public static final int WORMWOOD_WEDDING_RING = 10598;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

@@ -160,3 +160,4 @@
 157	Antique Nutcracker Outfit	nutctat.gif	antique nutcracker hat, antique nutcracker sword, antique nutcracker drumstick, antique nutcracker cape, antique nutcracker waistcoat, antique nutcracker pants, antique nutcracker beard, antique nutcracker epaulets, antique nutcracker boots
 158	Mushroom Masquerade	mushtat.gif	mushroom cap, mushroom shield, mushroom pants, mushroom badge
 159	Guzzlr Uniform	guzzlrtat.gif	Guzzlr hat, Guzzlr shoes, Guzzlr pants
+160	Lathed Livery	lathetat.gif	hemlock helm, balsam barrel, purpleheart &quot;pants&quot;, wormwood wedding ring

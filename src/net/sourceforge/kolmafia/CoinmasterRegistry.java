@@ -92,6 +92,7 @@ import net.sourceforge.kolmafia.request.SHAWARMARequest;
 import net.sourceforge.kolmafia.request.ShoeRepairRequest;
 import net.sourceforge.kolmafia.request.ShoreGiftShopRequest;
 import net.sourceforge.kolmafia.request.SpacegateFabricationRequest;
+import net.sourceforge.kolmafia.request.SpinMasterLatheRequest;
 import net.sourceforge.kolmafia.request.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.TacoDanRequest;
 import net.sourceforge.kolmafia.request.TerrifiedEagleInnRequest;
@@ -169,6 +170,7 @@ public abstract class CoinmasterRegistry
 		ShoeRepairRequest.SHOE_REPAIR,
 		ShoreGiftShopRequest.SHORE_GIFT_SHOP,
 		SpacegateFabricationRequest.SPACEGATE_STORE,
+		SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE,
 		SwaggerShopRequest.SWAGGER_SHOP,
 		TacoDanRequest.TACO_DAN,
 		TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN,

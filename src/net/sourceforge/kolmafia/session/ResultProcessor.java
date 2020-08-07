@@ -1577,6 +1577,7 @@ public class ResultProcessor
 		case ItemPool.FLIMSY_HARDWOOD_SCRAPS:
 		case ItemPool.DREADSYLVANIAN_HEMLOCK:
 		case ItemPool.SWEATY_BALSAM:
+		case ItemPool.ANCIENT_REDWOOD:
 		case ItemPool.WORMWOOD_STICK:
 			NamedListenerRegistry.fireChange( "(coinmaster)" );
 			break;

@@ -10608,7 +10608,7 @@
 10580	dromedary drinking helmet	715417602	camelhelmet.gif	familiar	t,d	75
 10581	packaged SpinMaster&trade; lathe	778319583	lathebox.gif	usable	t	0
 10582	SpinMaster&trade; lathe	885327941	lathe.gif	none, reusable		0
-10583	flimsy hardwood scraps	303504638	lathescraps.gif	none	t,d	5
+10583	flimsy hardwood scraps	303504638	lathescraps.gif	none	t,d	5	bundles of flimsy hardwood scraps
 10584	birch battery	329627496	lathebattery.gif	accessory	q	0
 10585	ebony epee	673552059	latheepee.gif	weapon	q	0
 10586	weeping willow wand	149923505	lathewand.gif	weapon	q	0
@@ -10618,8 +10618,8 @@
 10590	hemlock helm	979885846	hemhelm.gif	hat		0
 10591	sweaty balsam	141827718	balsam.gif	none	t	0
 10592	balsam barrel	455917648	balsambarrel.gif	container		0
-10593
-10594
+10593	ancient redwood	677533689	redwood.gif	none	t	0
+10594	redwood rain stick	369089236	redwoodstick.gif	none, usable	d	500
 10595
 10596	purpleheart &quot;pants&quot;	272177127	purpleheartpants.gif	pants		0
 10597	wormwood stick	754621473	wormwood.gif	none	t	0

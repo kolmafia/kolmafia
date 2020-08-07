@@ -184,6 +184,7 @@ import net.sourceforge.kolmafia.request.SliemceRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.SpacegateFabricationRequest;
 import net.sourceforge.kolmafia.request.SpantRequest;
+import net.sourceforge.kolmafia.request.SpinMasterLatheRequest;
 import net.sourceforge.kolmafia.request.StarChartRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
@@ -1633,6 +1634,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof SpantRequest || isExternal ) && SpantRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof SpinMasterLatheRequest || isExternal ) && SpinMasterLatheRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

@@ -139,6 +139,7 @@ import net.sourceforge.kolmafia.request.ShoeRepairRequest;
 import net.sourceforge.kolmafia.request.ShoreGiftShopRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.SpacegateFabricationRequest;
+import net.sourceforge.kolmafia.request.SpinMasterLatheRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.TacoDanRequest;
@@ -244,6 +245,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel shoeRepairPanel = null;
 	private CoinmasterPanel shoreGiftShopPanel = null;
 	private CoinmasterPanel spacegateFabricationPanel = null;
+	private CoinmasterPanel spinMasterLathePanel = null;
 	private CoinmasterPanel swaggerShopPanel = null;
 	private CoinmasterPanel tacoDanPanel = null;
 	private CoinmasterPanel terrifiedEagleInnPanel = null;
@@ -541,6 +543,11 @@ public class CoinmastersFrame
 		guzzlrPanel = new GuzzlrPanel();
 		panel.add( guzzlrPanel );
 		this.selectorPanel.addPanel( guzzlrPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		spinMasterLathePanel = new SpinMasterLathePanel();
+		panel.add( spinMasterLathePanel );
+		this.selectorPanel.addPanel( spinMasterLathePanel.getPanelSelector(), panel );
 
 		// Events coinmasters
 		this.selectorPanel.addSeparator();
@@ -1537,6 +1544,29 @@ public class CoinmastersFrame
 		public GuzzlrPanel()
 		{
 			super( GuzzlrRequest.GUZZLR );
+		}
+	}
+
+	private class SpinMasterLathePanel
+		extends CoinmasterPanel
+	{
+		public SpinMasterLathePanel()
+		{
+			super( SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE );
+		}
+
+		@Override
+		public void setTitle( final StringBuffer buffer )
+		{
+			this.standardTitle( buffer );
+			for ( AdventureResult currency : this.data.currencies() )
+			{
+				buffer.append( " (" );
+				buffer.append( String.valueOf( InventoryManager.getCount( currency ) ) );
+				buffer.append( " " );
+				buffer.append( currency.getName() );
+				buffer.append( ")" );
+			}
 		}
 	}
 

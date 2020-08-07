@@ -436,6 +436,36 @@ public class NPCPurchaseRequest
 	private static final Pattern SHOP_NAME_PATTERN = Pattern.compile(  "bgcolor=blue><b>(.*?)</b>" , Pattern.DOTALL );
 	private static final Pattern BLOOD_MAYO_PATTERN = Pattern.compile( "blood mayonnaise concentration: (\\d+) mayograms" );
 
+	public static final void learnNPCStoreItem( final String shopName, final String shopId, final String name, final String cost, final String row )
+	{
+		String printMe;
+		// Print what goes in npcstores.txt
+		printMe = "--------------------";
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
+		printMe = shopName + "\t" + shopId + "\t" + name + "\t" + cost + "\tROW" + row;
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
+		printMe = "--------------------";
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
+	}
+
+	public static final void learnCoinmasterItem( final String shopName, final String name, final String cost, final String row )
+	{
+		String printMe;
+		// Print what goes in coinmasters.txt
+		printMe = "--------------------";
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
+		printMe = shopName + "\tbuy\t" + cost + "\t" + name + "\tROW" + row;
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
+		printMe = "--------------------";
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
+	}
+
 	public static final void parseShopResponse( final String urlString, final String responseText )
 	{
 		if ( !urlString.startsWith( "shop.php" ) )
@@ -475,31 +505,11 @@ public class NPCPurchaseRequest
 				}
 				if ( currency.equals( "Meat" ) )
 				{
-					String printMe;
-					// Print what goes in npcstores.txt
-					printMe = "--------------------";
-					RequestLogger.printLine( printMe );
-					RequestLogger.updateSessionLog( printMe );
-					printMe = shopName + "\t" + shopId + "\t" + name + "\t" + cost + "\tROW" + row;
-					RequestLogger.printLine( printMe );
-					RequestLogger.updateSessionLog( printMe );
-					printMe = "--------------------";
-					RequestLogger.printLine( printMe );
-					RequestLogger.updateSessionLog( printMe );
+					NPCPurchaseRequest.learnNPCStoreItem( shopName, shopId, name, cost, row );
 				}
 				else
 				{
-					String printMe;
-					// Print what goes in coinmasters.txt
-					printMe = "--------------------";
-					RequestLogger.printLine( printMe );
-					RequestLogger.updateSessionLog( printMe );
-					printMe = shopName + "\tbuy\t" + cost + "\t" + name + "\tROW" + row;
-					RequestLogger.printLine( printMe );
-					RequestLogger.updateSessionLog( printMe );
-					printMe = "--------------------";
-					RequestLogger.printLine( printMe );
-					RequestLogger.updateSessionLog( printMe );
+					NPCPurchaseRequest.learnCoinmasterItem( shopName, name, cost, row );
 				}
 				ItemDatabase.registerItem( id, name, desc );
 			}
@@ -921,6 +931,12 @@ public class NPCPurchaseRequest
 		if ( shopId.equals( "piraterealm" ) )
 		{
 			FunALogRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		if ( shopId.equals( "lathe" ) )
+		{
+			SpinMasterLatheRequest.parseResponse( urlString, responseText );
 			return;
 		}
 

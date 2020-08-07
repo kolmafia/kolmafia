@@ -196,29 +196,7 @@ public class FunALogRequest
 				rows.put( itemId, row );
 
 				// Print a coinmasters.txt line for it
-				StringBuilder builder = new StringBuilder();
-				builder.append( master );
-				builder.append( "\t" );
-				builder.append( "buy" );
-				builder.append( "\t" );
-				builder.append( String.valueOf( price ) );
-				builder.append( "\t" );
-				builder.append( itemName );
-				builder.append( "\t" );
-				builder.append( "ROW" );
-				builder.append( String.valueOf( row ) );
-
-				String printMe = "--------------------";
-				RequestLogger.printLine( printMe );
-				RequestLogger.updateSessionLog( printMe );
-
-				printMe = builder.toString();
-				RequestLogger.printLine( printMe );
-				RequestLogger.updateSessionLog( printMe );
-
-				printMe = "--------------------";
-				RequestLogger.printLine( printMe );
-				RequestLogger.updateSessionLog( printMe );
+				NPCPurchaseRequest.learnCoinmasterItem( master, itemName, String.valueOf( price ), String.valueOf( row ) );
 			}
 		}
 
