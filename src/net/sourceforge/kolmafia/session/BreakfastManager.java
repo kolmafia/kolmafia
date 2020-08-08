@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -72,6 +73,7 @@ import net.sourceforge.kolmafia.request.GenieRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.IslandRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
+import net.sourceforge.kolmafia.request.SpinMasterLatheRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -151,6 +153,7 @@ public class BreakfastManager
 					KoLmafia.updateDisplay( MafiaState.ABORT, "Breakfast aborted." );
 					return;
 				}
+				collectHardwood();
 				useSpinningWheel();
 				visitBigIsland();
 				visitVolcanoIsland();
@@ -409,6 +412,11 @@ public class BreakfastManager
 			// Mushrooms need to be fertilized each day
 			CampgroundRequest.fertilizeCrop();
 		}
+	}
+
+	public static void collectHardwood()
+	{
+		CoinMasterRequest.visit( SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE );
 	}
 
 	public static void useSpinningWheel()

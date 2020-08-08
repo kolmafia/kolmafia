@@ -10614,11 +10614,11 @@
 10586	weeping willow wand	149923505	lathewand.gif	weapon	q	0
 10587	beechwood blowgun	835216330	latheblowgun.gif	weapon	q	0
 10588	maple magnet	935934321	lathemagnet.gif	offhand	q	0
-10589	Dreadsylvanian hemlock	381111095	hemlock.gif	none	t	0
+10589	Dreadsylvanian hemlock	381111095	hemlock.gif	none	t	0	bundles of Dreadsylvanian hemlock
 10590	hemlock helm	979885846	hemhelm.gif	hat		0
-10591	sweaty balsam	141827718	balsam.gif	none	t	0
+10591	sweaty balsam	141827718	balsam.gif	none	t	0	bundles of sweaty balsam
 10592	balsam barrel	455917648	balsambarrel.gif	container		0
-10593	ancient redwood	677533689	redwood.gif	none	t	0
+10593	ancient redwood	677533689	redwood.gif	none	t	0	bundles of ancient redwood
 10594	redwood rain stick	369089236	redwoodstick.gif	none, usable	d	500
 10595
 10596	purpleheart &quot;pants&quot;	272177127	purpleheartpants.gif	pants		0
