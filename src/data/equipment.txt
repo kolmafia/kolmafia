@@ -1915,7 +1915,7 @@ mad scientist's sock monkey	110	Mys: 40
 magic lamp	30	none
 magical ice cubes	30	none
 makeshift castanets	160	Mox: 150
-maple magnet	0	none
+maple magnet	100	none
 marinara jug	160	Mys: 150
 marble mignonette bowl	120	Mys: 40
 marionette	110	Mys: 40
@@ -2260,7 +2260,7 @@ bezoar ring	100	Mys: 35
 BGE pocket calendar	0	none
 BGE tiny plastic toy	0	none
 big red clown nose	50	Mys: 10
-birch battery	0	none
+birch battery	100	none
 bitter bowtie	160	Mox: 65
 black belt	150	Mys: 60
 black glass	0	none

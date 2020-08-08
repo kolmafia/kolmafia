@@ -1004,5 +1004,6 @@ Your SpinMaster&trade; lathe	buy	1	maple magnet	ROW1164
 Your SpinMaster&trade; lathe	buy	1	weeping willow wand	ROW1162
 Your SpinMaster&trade; lathe	buy	1	hemlock helm	ROW1165
 Your SpinMaster&trade; lathe	buy	1	balsam barrel	ROW1166
-Your SpinMaster&trade; lathe	buy	1	redwood rain stick	ROW1167
+Your SpinMaster&trade; lathe	buy	1	purpleheart &quot;pants&quot;	ROW1168
 Your SpinMaster&trade; lathe	buy	1	wormwood wedding ring	ROW1169
+Your SpinMaster&trade; lathe	buy	1	redwood rain stick	ROW1167

@@ -123,6 +123,7 @@ public class SpinMasterLatheRequest
 	public static final AdventureResult DREADSYLVANIAN_HEMLOCK = ItemPool.get( ItemPool.DREADSYLVANIAN_HEMLOCK, 1 );
 	public static final AdventureResult SWEATY_BALSAM = ItemPool.get( ItemPool.SWEATY_BALSAM, 1 );
 	public static final AdventureResult ANCIENT_REDWOOD = ItemPool.get( ItemPool.ANCIENT_REDWOOD, 1 );
+	public static final AdventureResult PURPLEHEART_LOGS = ItemPool.get( ItemPool.PURPLEHEART_LOGS, 1 );
 	public static final AdventureResult WORMWOOD_STICK = ItemPool.get( ItemPool.WORMWOOD_STICK, 1 );
 
 	// Manually set up the map and change the currency, as need
@@ -147,6 +148,9 @@ public class SpinMasterLatheRequest
 				break;
 			case ItemPool.REDWOOD_RAIN_STICK:
 				cost = ANCIENT_REDWOOD.getInstance( price );
+				break;
+			case ItemPool.PURPLEHEART_PANTS:
+				cost = PURPLEHEART_LOGS.getInstance( price );
 				break;
 			case ItemPool.WORMWOOD_WEDDING_RING:
 				cost = WORMWOOD_STICK.getInstance( price );
@@ -262,6 +266,8 @@ public class SpinMasterLatheRequest
 		data.registerPurchaseRequests();
 		NamedListenerRegistry.fireChange( "(coinmaster)" );
 
+		Preferences.setBoolean( "_spinmasterLatheVisited", true );
+
 		int itemId = CoinMasterRequest.extractItemId( data, location );
 		if ( itemId == -1 )
 		{
@@ -269,7 +275,6 @@ public class SpinMasterLatheRequest
 			CoinMasterRequest.parseBalance( data, responseText );
 			return;
 		}
-		Preferences.setBoolean( "_spinmasterLatheVisited", true );
 
 		CoinMasterRequest.parseResponse( data, location, responseText );
 	}

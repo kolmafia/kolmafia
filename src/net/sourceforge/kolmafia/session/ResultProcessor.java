@@ -1579,6 +1579,7 @@ public class ResultProcessor
 		case ItemPool.SWEATY_BALSAM:
 		case ItemPool.ANCIENT_REDWOOD:
 		case ItemPool.WORMWOOD_STICK:
+		case ItemPool.PURPLEHEART_LOGS:
 			NamedListenerRegistry.fireChange( "(coinmaster)" );
 			break;
 
