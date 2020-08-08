@@ -416,7 +416,10 @@ public class BreakfastManager
 
 	public static void collectHardwood()
 	{
-		CoinMasterRequest.visit( SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE );
+		if ( InventoryManager.hasItem( SpinMasterLatheRequest.SPINMASTER ) )
+		{
+			CoinMasterRequest.visit( SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE );
+		}
 	}
 
 	public static void useSpinningWheel()
