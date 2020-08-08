@@ -247,7 +247,7 @@ public class BreakfastManager
 
 		AdventureResultArray closetItems = useCloset ? new AdventureResultArray() : null;
 		AdventureResultArray storageItems = useStorage ? new AdventureResultArray() : null;
-		ArrayList<UseItemRequest> requests = new ArrayList<UseItemRequest>();
+		ArrayList<UseItemRequest> requests = new ArrayList<>();
 
 		for ( AdventureResult toy : toys )
 		{
@@ -416,7 +416,7 @@ public class BreakfastManager
 
 	public static void collectHardwood()
 	{
-		if ( InventoryManager.hasItem( SpinMasterLatheRequest.SPINMASTER ) )
+		if ( InventoryManager.hasItem( SpinMasterLatheRequest.SPINMASTER ) && !Preferences.getBoolean( "_spinmasterLatheVisited" ) )
 		{
 			CoinMasterRequest.visit( SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE );
 		}
@@ -565,7 +565,7 @@ public class BreakfastManager
 	{
 		String suffix = KoLCharacter.canInteract() ? "Softcore" : "Hardcore";
 		String name = Preferences.getString( setting + suffix );
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 
 		if ( name.equals( "none" ) || name.equals( "" ) )
 		{

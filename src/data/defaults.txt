@@ -1866,6 +1866,7 @@ user	_spaghettiBreakfastEaten	false
 user	_speakeasyDrinksDrunk	0
 user	_spelunkerCharges	0
 user	_spelunkingTalesDrops	0
+user	_spinmasterLatheVisited	false
 user	_spinningWheel	false
 user	_spookyAirportToday	false
 user	_spookyJellyUses	0

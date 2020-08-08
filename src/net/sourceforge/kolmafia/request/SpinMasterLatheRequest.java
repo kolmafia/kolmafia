@@ -48,11 +48,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
-import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLConstants.MafiaState;
-import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 
@@ -61,6 +56,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -217,9 +214,9 @@ public class SpinMasterLatheRequest
 		// Refresh the Coin Master inventory every time we visit.
 
 		CoinmasterData data = SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE;
-		List<AdventureResult> items = new ArrayList<AdventureResult>();
-		Map<Integer, AdventureResult> costs = new TreeMap<Integer, AdventureResult>();
-		Map<Integer, Integer> rows = new TreeMap<Integer, Integer>();
+		List<AdventureResult> items = new ArrayList<>();
+		Map<Integer, AdventureResult> costs = new TreeMap<>();
+		Map<Integer, Integer> rows = new TreeMap<>();
 
 		SpinMasterLatheRequest.unlockedItems.clear();
 
@@ -272,6 +269,7 @@ public class SpinMasterLatheRequest
 			CoinMasterRequest.parseBalance( data, responseText );
 			return;
 		}
+		Preferences.setBoolean( "_spinmasterLatheVisited", true );
 
 		CoinMasterRequest.parseResponse( data, location, responseText );
 	}
