@@ -3254,7 +3254,7 @@ wool sock	100	Mox: 10
 work boots	0	none
 worksite credentials	0	Mox: 30
 World's Best Adventurer sash	100	none
-wormwood wedding ring	0	Mys: 50
+wormwood wedding ring	200	Mys: 50
 woven baling wire bracelets	180	Mys: 75
 wrench bracelet	180	Mys: 75
 Wrist-Boy	0	none
@@ -3283,7 +3283,7 @@ antique nutcracker cape	150	Mys: 30
 auxiliary backbone	0	Mus: 75
 back shell	0	none
 bakelite backpack	120	Mus: 40
-balsam barrel	0	Mus: 50
+balsam barrel	200	Mus: 50
 barskin cloak	25	Mys: 75
 black cloak	120	Mys: 75
 bony back shell	0	none

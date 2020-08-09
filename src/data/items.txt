@@ -10619,7 +10619,7 @@
 10591	sweaty balsam	141827718	balsam.gif	none	t	0	bundles of sweaty balsam
 10592	balsam barrel	455917648	balsambarrel.gif	container		0
 10593	ancient redwood	677533689	redwood.gif	none	t	0	bundles of ancient redwood
-10594	redwood rain stick	369089236	redwoodstick.gif	none, usable	d	500
+10594	redwood rain stick	369089236	redwoodstick.gif	potion, reusable	d	500
 10595	purpleheart logs	957549571	purpleheart.gif	none	t	0	pairs of purpleheart logs
 10596	purpleheart &quot;pants&quot;	272177127	purpleheartpants.gif	pants		0	pairs of purpleheart &quot;pants&quot
 10597	wormwood stick	754621473	wormwood.gif	none	t	0

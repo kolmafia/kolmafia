@@ -2945,7 +2945,7 @@ Item	guts necklace	Stench Resistance: +4, Single Equip
 # Guzzlr shoes: Make Guzzlr deliveries in less time
 Item	Guzzlr shoes	Single Equip
 # Guzzlr tablet: Dispatches you to deliver booze to clients
-Item	Guzzlr tablet	Item Drop: +10, Maximum HP: +10, Maximum MP: +10, Booze Drop: [min(50,1+floor(pref(guzzlrBronzeDeliveries)/4))], MP Regen Min: [min(7,1+floor((sqrt(pref(guzzlrPlatinumDeliveries))))+floor(pref(guzzlrPlatinumDeliveries)/30))], MP Regen Max: [min(8,2+floor((sqrt(pref(guzzlrPlatinumDeliveries))))+floor(pref(guzzlrPlatinumDeliveries)/30))], HP Regen Min: 3, HP Regen Max: 6, Free Pull
+Item	Guzzlr tablet	Item Drop: +10, Maximum HP: +10, Maximum MP: +10, Booze Drop: [min(50,1+floor(pref(guzzlrBronzeDeliveries)/4))], MP Regen Min: [min(7,1+floor((sqrt(pref(guzzlrPlatinumDeliveries))))+floor(pref(guzzlrPlatinumDeliveries)/30))], MP Regen Max: [min(8,2+floor((sqrt(pref(guzzlrPlatinumDeliveries))))+floor(pref(guzzlrPlatinumDeliveries)/30))], HP Regen Min: 3, HP Regen Max: 6
 # haggis socks: Allows you to deliver disgusting kicks
 Item	haggis socks	Initiative: +5, Single Equip
 Item	hamethyst bracelet	Muscle: +3, Critical Hit Percent: +5, Single Equip

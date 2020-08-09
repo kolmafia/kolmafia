@@ -75,8 +75,6 @@ public class SpinMasterLatheRequest
 	// itemId to item/count of currency; an AdventureResult.
 	private static final Map<Integer, AdventureResult> buyCosts = new TreeMap<>();
 
-	private static final Set<Integer> unlockedItems = new HashSet<>();
-
 	public static final CoinmasterData YOUR_SPINMASTER_LATHE =
 		new CoinmasterData(
 			SpinMasterLatheRequest.master,
@@ -106,11 +104,6 @@ public class SpinMasterLatheRequest
 			true
 			)
 		{
-			@Override
-			public final boolean availableItem( final int itemId )
-			{
-				return unlockedItems.contains( itemId );
-			}
 			@Override
 			public AdventureResult itemBuyPrice( final int itemId )
 			{
@@ -218,17 +211,12 @@ public class SpinMasterLatheRequest
 		// Refresh the Coin Master inventory every time we visit.
 
 		CoinmasterData data = SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE;
-		List<AdventureResult> items = new ArrayList<>();
-		Map<Integer, AdventureResult> costs = new TreeMap<>();
-		Map<Integer, Integer> rows = new TreeMap<>();
-
-		SpinMasterLatheRequest.unlockedItems.clear();
 
 		Matcher matcher = ITEM_PATTERN.matcher( responseText );
+		boolean changed = false;
 		while ( matcher.find() )
 		{
 			int itemId = StringUtilities.parseInt( matcher.group(1) );
-			Integer iitemId = IntegerPool.get( itemId );
 			String descId = matcher.group(2);
 			String itemName = matcher.group(3);
 			String currency = matcher.group(4);
@@ -241,30 +229,24 @@ public class SpinMasterLatheRequest
 				ItemDatabase.registerItem( itemId, itemName, descId );
 			}
 
-			// Add it to the unlocked items
-			SpinMasterLatheRequest.unlockedItems.add( itemId );
-
-			AdventureResult item = ItemPool.get( itemId, PurchaseRequest.MAX_QUANTITY );
-			items.add( item );
-			AdventureResult cost = ItemPool.get( currency, price );
-			costs.put( iitemId, cost );
+			Integer iitemId = IntegerPool.get( itemId );
 			if ( !SpinMasterLatheRequest.itemRows.containsKey( iitemId ) )
 			{
+				AdventureResult item = ItemPool.get( itemId, PurchaseRequest.MAX_QUANTITY );
+				SpinMasterLatheRequest.buyItems.add( item );
+				AdventureResult cost = ItemPool.get( currency, price );
+				SpinMasterLatheRequest.buyCosts.put( iitemId, cost );
+				SpinMasterLatheRequest.itemRows.put( iitemId, IntegerPool.get( row ) );
 				NPCPurchaseRequest.learnCoinmasterItem( master, itemName, String.valueOf( price ), String.valueOf( row ) );
+				CoinmastersDatabase.registerPurchaseRequest( data, item, cost );
+				changed = true;
 			}
-			rows.put( iitemId, IntegerPool.get( row ) );
 		}
 
-		SpinMasterLatheRequest.buyItems.clear();
-		SpinMasterLatheRequest.buyItems.addAll( items );
-		SpinMasterLatheRequest.buyCosts.clear();
-		SpinMasterLatheRequest.buyCosts.putAll( costs );
-		SpinMasterLatheRequest.itemRows.clear();
-		SpinMasterLatheRequest.itemRows.putAll( rows );
-
-		// Register the purchase requests, now that we know what is available
-		data.registerPurchaseRequests();
-		NamedListenerRegistry.fireChange( "(coinmaster)" );
+		if ( changed )
+		{
+			NamedListenerRegistry.fireChange( "(coinmaster)" );
+		}
 
 		Preferences.setBoolean( "_spinmasterLatheVisited", true );
 
