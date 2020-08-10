@@ -54,7 +54,7 @@ import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.Profiler;
-
+import net.sourceforge.kolmafia.textui.Python;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -63,6 +63,7 @@ public class CallScriptCommand
 	extends AbstractCommand
 {
 	private static final Pattern ASHNAME_PATTERN = Pattern.compile( "\\.ash", Pattern.CASE_INSENSITIVE );
+	private static final Pattern PYNAME_PATTERN = Pattern.compile( "\\.py", Pattern.CASE_INSENSITIVE );
 
 	public CallScriptCommand()
 	{
@@ -187,6 +188,13 @@ public class CallScriptCommand
 				// Add name, without path, to MRU list
 				KoLConstants.scriptMList.addItem( scriptFile.getName() );
 				GenericFrame.compileScripts( true );
+			}
+
+			if ( CallScriptCommand.PYNAME_PATTERN.matcher( scriptFile.getPath() ).find() )
+			{
+				Python.execute( scriptFile.getPath() );
+
+				return;
 			}
 
 			// Allow the ".ash" to appear anywhere in the filename
