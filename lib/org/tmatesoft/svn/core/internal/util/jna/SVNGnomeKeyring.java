@@ -11,9 +11,11 @@
  */
 package org.tmatesoft.svn.core.internal.util.jna;
 
-import java.util.Arrays;
-import java.util.List;
-
+import com.sun.jna.Memory;
+import com.sun.jna.Pointer;
+import com.sun.jna.Structure;
+import com.sun.jna.ptr.IntByReference;
+import com.sun.jna.ptr.PointerByReference;
 import org.tmatesoft.svn.core.SVNErrorCode;
 import org.tmatesoft.svn.core.SVNErrorMessage;
 import org.tmatesoft.svn.core.SVNException;
@@ -24,11 +26,8 @@ import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
 import org.tmatesoft.svn.util.SVNDebugLog;
 import org.tmatesoft.svn.util.SVNLogType;
 
-import com.sun.jna.Memory;
-import com.sun.jna.Pointer;
-import com.sun.jna.Structure;
-import com.sun.jna.ptr.IntByReference;
-import com.sun.jna.ptr.PointerByReference;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author TMate Software Ltd.
@@ -209,7 +208,7 @@ public class SVNGnomeKeyring {
                     passwordData = new Memory(keyringUTF8Password.length + 1);
                     passwordData.write(0, keyringUTF8Password, 0, keyringUTF8Password.length);
                     passwordData.setByte(keyringUTF8Password.length, (byte) 0);
-    	            gnomeKeyringLibrary.gnome_keyring_unlock(keyringName, passwordData.getPointer(0), DONE_CALLBACK, context.getPointer(), null);
+    	            gnomeKeyringLibrary.gnome_keyring_unlock(keyringName, passwordData, DONE_CALLBACK, context.getPointer(), null);
     	            gLibrary.g_main_loop_run(context.loop);
     	            context.read();
                 } finally {
@@ -331,7 +330,7 @@ public class SVNGnomeKeyring {
                 passwordData = new Memory(utf8Password.length + 1);
                 passwordData.write(0, utf8Password, 0, utf8Password.length);
                 passwordData.setByte(utf8Password.length, (byte) 0);
-                result = gnomeKeyringLibrary.gnome_keyring_set_network_password_sync(null, userName, realm, null, null, null, null, 0, passwordData.getPointer(0), itemId);
+                result = gnomeKeyringLibrary.gnome_keyring_set_network_password_sync(null, userName, realm, null, null, null, null, 0, passwordData, itemId);
             } finally {
                 if (passwordData != null) {
                     passwordData.clear();

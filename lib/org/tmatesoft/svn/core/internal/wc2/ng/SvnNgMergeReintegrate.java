@@ -178,7 +178,7 @@ public class SvnNgMergeReintegrate extends SvnNgOperationRunner<Void, SvnMerge>{
             
             if (yc == null || !(yc.getPath() != null && yc.getStartRevision() >= 0)) {
                 SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CLIENT_NOT_READY_TO_MERGE, 
-                        "''{0}''@''{1}'' must be ancestrally related to ''{2}''@''{3}''", url1, new Long(rev1), url2, new Long(rev2));
+                        "''{0}''@''{1}'' must be ancestrally related to ''{2}''@''{3}''", url1, rev1, url2, rev2);
                 SVNErrorManager.error(err, SVNLogType.WC);
             }
             
@@ -196,7 +196,7 @@ public class SvnNgMergeReintegrate extends SvnNgOperationRunner<Void, SvnMerge>{
                     SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CLIENT_NOT_READY_TO_MERGE, 
                             "Reintegrate can only be used if revisions {0} through {1} were " +
                             "previously merged from {2} to the reintegrate source, but this is " +
-                            "not the case:\n{3}", new Object[] {new Long(yc.getStartRevision() + 1), new Long(rev2), targetUrl, catalog});
+                            "not the case:\n{3}", new Object[] {yc.getStartRevision() + 1, rev2, targetUrl, catalog});
                     SVNErrorManager.error(err, SVNLogType.WC);
                 }
             }
@@ -362,7 +362,7 @@ public class SvnNgMergeReintegrate extends SvnNgOperationRunner<Void, SvnMerge>{
         SVNLocationSegment yc = getRepositoryAccess().getYoungestCommonAncestor(sourceUrl, sourceRev, targetUrl, targetRev);
         if (!(yc != null && yc.getPath() != null && yc.getStartRevision() >= 0)) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CLIENT_NOT_READY_TO_MERGE, 
-                    "''{0}''@''{1}'' must be ancestrally related to ''{2}''@''{3}''", sourceUrl, new Long(sourceRev), targetUrl, new Long(targetRev));
+                    "''{0}''@''{1}'' must be ancestrally related to ''{2}''@''{3}''", sourceUrl, sourceRev, targetUrl, targetRev);
             SVNErrorManager.error(err, SVNLogType.WC);
         }
         

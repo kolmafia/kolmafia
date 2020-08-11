@@ -21,7 +21,8 @@ public class SvnRepositoryCreateImpl extends SvnRepositoryOperationRunner<SVNURL
                 getOperation().isPre15Compatible(), 
                 getOperation().isPre16Compatible(), 
                 getOperation().isPre17Compatible(),
-                getOperation().isWith17Compatible());
+                getOperation().isWith17Compatible(),
+                getOperation().isPre10Compatible());
     }
 
     

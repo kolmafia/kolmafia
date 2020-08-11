@@ -748,7 +748,7 @@ public abstract class SVNMergeDriver extends SVNBasicDelegate implements ISVNMer
                 if (!(youngestAncestorPath != null && SVNRevision.isValidRevisionNumber(youngestAncestorRevision))) {
                     SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CLIENT_NOT_READY_TO_MERGE, 
                             "''{0}@{1}'' must be ancestrally related to ''{2}@{3}''", 
-                            new Object[] { url1[0], new Long(rev1[0]), url2, new Long(rev2)});
+                            new Object[] { url1[0], rev1[0], url2, rev2});
                     SVNErrorManager.error(err, SVNLogType.WC);
                 }
                 
@@ -1666,7 +1666,7 @@ public abstract class SVNMergeDriver extends SVNBasicDelegate implements ISVNMer
                         fullURL = fullURL.appendPath(path, false);
                         SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CLIENT_NOT_READY_TO_MERGE, 
                         "At least one revision (r{0}) not yet merged from ''{1}''", 
-                        new Object[] { new Long(dirEntry.getRevision()), fullURL });
+                        new Object[] {dirEntry.getRevision(), fullURL });
                         SVNErrorManager.error(err, SVNLogType.DEFAULT);
                     }
                 }
@@ -1826,7 +1826,7 @@ public abstract class SVNMergeDriver extends SVNBasicDelegate implements ISVNMer
         if (!(youngestCommonAncestorPath != null && SVNRevision.isValidRevisionNumber(leftRev[0]))) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CLIENT_NOT_READY_TO_MERGE, 
                     "''{0}@{1}'' must be ancestrally related to ''{2}@{3}''", 
-                    new Object[] { sourceURL, new Long(sourceRev), targetURL, new Long(targetRev) });
+                    new Object[] { sourceURL, sourceRev, targetURL, targetRev});
             SVNErrorManager.error(err, SVNLogType.DEFAULT);
         }
         Map unmergedCatalog = findUnmergedMergeInfo(neverSynched, youngestMergedRev, leftRev, mergeInfoCatalog, segmentsMap, sourceReposRelPath, 
@@ -2323,7 +2323,7 @@ public abstract class SVNMergeDriver extends SVNBasicDelegate implements ISVNMer
         repository.log(new String[] { "" }, youngestRev, oldestRev, false, false, 0, false, new String[0], 
                 new ISVNLogEntryHandler() {
             public void handleLogEntry(SVNLogEntry logEntry) throws SVNException {
-                changedRevs.add(new Long(logEntry.getRevision()));
+                changedRevs.add(logEntry.getRevision());
             }
         });
         

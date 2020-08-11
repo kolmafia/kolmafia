@@ -12,12 +12,7 @@
 
 package org.tmatesoft.svn.core.internal.io.dav;
 
-import org.tmatesoft.svn.core.SVNErrorCode;
-import org.tmatesoft.svn.core.SVNErrorMessage;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNProperties;
-import org.tmatesoft.svn.core.SVNProperty;
-import org.tmatesoft.svn.core.SVNPropertyValue;
+import org.tmatesoft.svn.core.*;
 import org.tmatesoft.svn.core.internal.util.SVNEncodingUtil;
 import org.tmatesoft.svn.core.internal.util.SVNPathUtil;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
@@ -41,6 +36,7 @@ class DAVResource {
     private DAVConnection myConnection;
     private SVNProperties myProperties;
     private boolean myIsAdded;
+    private String myCustomURL;
 
     public DAVResource(ISVNWorkspaceMediator mediator, DAVConnection connection, String path, long revision) {
         this(mediator, connection, path, revision, false);
@@ -106,7 +102,7 @@ class DAVResource {
         String path = myURL;
         if (myRevision >= 0) {
             // get baseline collection url for revision from public url.
-            DAVBaselineInfo info = DAVUtil.getBaselineInfo(myConnection, null, path, myRevision, false, false, null);
+            DAVBaselineInfo info = DAVUtil.getStableURL(myConnection, null, path, myRevision, false, false, null);
             path = SVNPathUtil.append(info.baselineBase, info.baselinePath);
         }
         // get "checked-in" property from baseline collection or from HEAD, this will be vURL.
@@ -157,7 +153,15 @@ class DAVResource {
     public SVNProperties getProperties() {
         return myProperties;
     }
-    
+
+    public String getCustomURL() {
+        return myCustomURL;
+    }
+
+    public void setCustomURL(String customURL) {
+        this.myCustomURL = customURL;
+    }
+
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("[");

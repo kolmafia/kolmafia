@@ -348,9 +348,11 @@ public class SvnNgLogMergeInfo extends SvnNgOperationRunner<SVNLogEntry, SvnLogM
                     if (nearestAncestorMergeInfo != null && ancestorIsSelf && logEntry.getChangedPaths().get(changedPath).getType() != 'M') {
                         //
                         SVNMergeRangeList rlist = nearestAncestorMergeInfo.get(changedPath);
-                        SVNMergeRange youngestRange = rlist.getRanges()[rlist.getSize() - 1];
-                        if (youngestRange.getEndRevision() > logEntry.getRevision()) {
-                            continue;
+                        if (rlist != null) {
+                            SVNMergeRange youngestRange = rlist.getRanges()[rlist.getSize() - 1];
+                            if (youngestRange.getEndRevision() > logEntry.getRevision()) {
+                                continue;
+                            }
                         }
                     }
                     boolean foundThisRevision = false;

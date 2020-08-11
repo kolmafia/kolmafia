@@ -60,7 +60,7 @@ public class SVNDumpStreamParser {
                 version = Integer.parseInt(line);
                 if (version > SVNAdminHelper.DUMPFILE_FORMAT_VERSION) {
                     SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.STREAM_MALFORMED_DATA, 
-                            "Unsupported dumpfile version: {0}", new Integer(version));
+                            "Unsupported dumpfile version: {0}", new Object[]{version});
                     SVNErrorManager.error(err, SVNLogType.FSFS);
                 }
             } catch (NumberFormatException nfe) {

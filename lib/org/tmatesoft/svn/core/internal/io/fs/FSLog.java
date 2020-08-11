@@ -227,13 +227,13 @@ public class FSLog {
                     if (revisions == null) {
                         revisions = new LinkedList();
                     }
-                    revisions.addLast(new Long(currentRev));
+                    revisions.addLast(currentRev);
                     
                     if (mergeInfo != null) {
                         if (revMergeInfo == null) {
                             revMergeInfo = new TreeMap();
                         }
-                        revMergeInfo.put(new Long(currentRev), mergeInfo);
+                        revMergeInfo.put(currentRev, mergeInfo);
                     }
                 }
             }
@@ -248,7 +248,7 @@ public class FSLog {
                 long rev = ((Long) revisions.get(revisions.size() - i - 1)).longValue();
                 
                 if (revMergeInfo != null) {
-                    mergeInfo = (Map[]) revMergeInfo.get(new Long(rev));
+                    mergeInfo = (Map[]) revMergeInfo.get(rev);
                     if (mergeInfo != null && mergeInfo.length == 2) {
                         hasChildren = !mergeInfo[0].isEmpty() || !mergeInfo[1].isEmpty();
                     }
@@ -324,10 +324,10 @@ public class FSLog {
         }
         if (revisionIsInteresting) {
             if (handlingMergedRevision && nestedMerges != null) {
-                if (nestedMerges.contains(new Long(revision))) {
+                if (nestedMerges.contains(revision)) {
                     return;
                 }
-                nestedMerges.add(new Long(revision));
+                nestedMerges.add(revision);
             }
             myHandler.handleLogEntry(logEntry);
         }

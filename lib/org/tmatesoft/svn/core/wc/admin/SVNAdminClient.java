@@ -220,7 +220,7 @@ public class SVNAdminClient extends SVNAdminBasicClient {
      * @since                              1.1.0
      */
     public SVNURL doCreateRepository(File path, String uuid, boolean enableRevisionProperties, boolean force) throws SVNException {
-        return SVNRepositoryFactory.createLocalRepository(path, uuid, enableRevisionProperties, force);
+        return doCreateRepository(path, uuid, enableRevisionProperties, force, false);
     }
 
     /**
@@ -300,12 +300,20 @@ public class SVNAdminClient extends SVNAdminBasicClient {
      */
     public SVNURL doCreateRepository(File path, String uuid, boolean enableRevisionProperties, boolean force,
             boolean pre14Compatible, boolean pre15Compatible, boolean pre16Compatible) throws SVNException {
-        return SVNRepositoryFactory.createLocalRepository(path, uuid, enableRevisionProperties, force, pre14Compatible, pre15Compatible, pre16Compatible);
+        return doCreateRepository(path, uuid, enableRevisionProperties, force, pre14Compatible, pre15Compatible, pre16Compatible, false, false);
     }
 
     public SVNURL doCreateRepository(File path, String uuid, boolean enableRevisionProperties, boolean force,
             boolean pre14Compatible, boolean pre15Compatible, boolean pre16Compatible, boolean pre17Compatible, boolean with17Compatible) throws SVNException {
-        return SVNRepositoryFactory.createLocalRepository(path, uuid, enableRevisionProperties, force, pre14Compatible, pre15Compatible, pre16Compatible, pre17Compatible, with17Compatible);
+        return doCreateRepository(path, uuid, enableRevisionProperties, force, pre14Compatible, pre15Compatible, pre16Compatible, pre17Compatible, with17Compatible,
+                false);
+    }
+
+    public SVNURL doCreateRepository(File path, String uuid, boolean enableRevisionProperties, boolean force,
+                                     boolean pre14Compatible, boolean pre15Compatible, boolean pre16Compatible, boolean pre17Compatible, boolean with17Compatible,
+                                     boolean pre110Compatible) throws SVNException {
+        return SVNRepositoryFactory.createLocalRepository(path, uuid, enableRevisionProperties, force, pre14Compatible, pre15Compatible, pre16Compatible, pre17Compatible, with17Compatible,
+                pre110Compatible);
     }
 
     /**

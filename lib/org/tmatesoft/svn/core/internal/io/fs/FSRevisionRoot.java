@@ -47,7 +47,7 @@ public class FSRevisionRoot extends FSRoot {
     public Map getChangedPaths() throws SVNException {
         FSFile file = getOwner().getPackOrRevisionFSFile(getRevision());
         try {
-            loadOffsets(file);
+            loadOffsets(file, FSID.ITEM_INDEX_CHANGES);
             file.seek(myChangesOffset);
             return fetchAllChanges(file, true);
         } finally {
@@ -97,14 +97,23 @@ public class FSRevisionRoot extends FSRoot {
 
     public FSRevisionNode getRootRevisionNode() throws SVNException {
         if (myRootRevisionNode == null) {
-            FSFile file = getOwner().getPackOrRevisionFSFile(getRevision());
-            try {
-                loadOffsets(file);
-                file.seek(myRootOffset);
-                Map headers = file.readHeader();
-                myRootRevisionNode = FSRevisionNode.fromMap(headers);
-            } finally {
-                file.close();
+            if (false && isUseLogAddressing()) {
+                FSRevisionNode rootRevisionNode = new FSRevisionNode();
+                rootRevisionNode.setId(FSID.createRevId(null, null, myRevision, FSID.ITEM_INDEX_ROOT_NODE));
+                rootRevisionNode.setType(SVNNodeKind.DIR);
+                rootRevisionNode.setPredecessorId(null);
+                rootRevisionNode.setCreatedPath("/");
+                myRootRevisionNode = rootRevisionNode;
+            } else {
+                FSFile file = getOwner().getPackOrRevisionFSFile(getRevision());
+                try {
+                    loadOffsets(file, FSID.ITEM_INDEX_ROOT_NODE);
+                    file.seek(myRootOffset);
+                    Map headers = file.readHeader();
+                    myRootRevisionNode = FSRevisionNode.fromMap(headers);
+                } finally {
+                    file.close();
+                }
             }
         }
         return myRootRevisionNode;
@@ -192,15 +201,28 @@ public class FSRevisionRoot extends FSRoot {
         return node.getCreatedRevision();
     }
     
-    private void loadOffsets(FSFile file) throws SVNException {
-        if (myRootOffset >= 0) {
+    private void loadOffsets(FSFile file, long itemIndex) throws SVNException {
+        if (myRootOffset >= 0 && itemIndex == FSID.ITEM_INDEX_ROOT_NODE) {
+            return;
+        }
+        if (myChangesOffset >= 0 && itemIndex == FSID.ITEM_INDEX_CHANGES) {
             return;
         }
         long[] rootOffset = { -1 };
         long[] changesOffset = { -1 };
-        FSRepositoryUtil.loadRootChangesOffset(getOwner(), getRevision(), file, rootOffset, changesOffset);
-        myRootOffset = rootOffset[0];
-        myChangesOffset = changesOffset[0];
+        if (isUseLogAddressing()) {
+            FSRepositoryUtil.loadRootChangesOffsetLogicalAddressing(getOwner(), getRevision(), file, itemIndex, rootOffset, changesOffset);
+            if (itemIndex == FSID.ITEM_INDEX_ROOT_NODE) {
+                myRootOffset = rootOffset[0];
+            }
+            if (itemIndex == FSID.ITEM_INDEX_CHANGES) {
+                myChangesOffset = changesOffset[0];
+            }
+        } else {
+            FSRepositoryUtil.loadRootChangesOffset(getOwner(), getRevision(), file, rootOffset, changesOffset);
+            myRootOffset = rootOffset[0];
+            myChangesOffset = changesOffset[0];
+        }
     }
 
 }

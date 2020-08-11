@@ -823,7 +823,7 @@ public class SVNLookClient extends SVNAdminBasicClient {
             FSRoot root = fsfs.createRevisionRoot(revNum);
             long baseRevision = revNum - 1;
             if (!SVNRevision.isValidRevisionNumber(baseRevision)) {
-                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_NO_SUCH_REVISION, "Invalid base revision {0}", new Long(baseRevision));
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_NO_SUCH_REVISION, "Invalid base revision {0}", baseRevision);
                 SVNErrorManager.error(err, SVNLogType.FSFS);
             }
             SVNNodeEditor editor = generateDeltaTree(fsfs, root, baseRevision);

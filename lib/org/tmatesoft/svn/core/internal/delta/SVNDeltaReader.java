@@ -19,6 +19,8 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.zip.InflaterInputStream;
 
+import net.jpountz.lz4.LZ4Factory;
+import net.jpountz.lz4.LZ4FastDecompressor;
 import org.tmatesoft.svn.core.SVNErrorCode;
 import org.tmatesoft.svn.core.SVNErrorMessage;
 import org.tmatesoft.svn.core.SVNException;
@@ -74,7 +76,7 @@ public class SVNDeltaReader {
                 return;
             }
             if (myBuffer.get(0) != 'S' || myBuffer.get(1) != 'V' || myBuffer.get(2) != 'N' ||
-                    (myBuffer.get(3) != '\0' && myBuffer.get(3) != '\1')) {
+                    (myBuffer.get(3) != '\0' && myBuffer.get(3) != '\1' && myBuffer.get(3) != '\2')) {
                 SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.SVNDIFF_CORRUPT_WINDOW, "Svndiff has invalid header");
                 SVNErrorManager.error(err, SVNLogType.DEFAULT);
             }
@@ -118,14 +120,14 @@ public class SVNDeltaReader {
             }
             myLastSourceOffset = sourceOffset;
             myLastSourceLength = sourceLength;
-            SVNDiffWindow window = null;
+            SVNDiffWindow window;
             int allDataLength = newDataLength + instructionsLength;
-            if (myVersion == 1) {
+            if (myVersion == 1 || myVersion == 2) {
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 int bufferPosition = myBuffer.position();
                 try {
-                    instructionsLength = deflate(instructionsLength, out);
-                    newDataLength = deflate(newDataLength, out);
+                    instructionsLength = deflate(instructionsLength, out, myVersion);
+                    newDataLength = deflate(newDataLength, out, myVersion);
                 } catch (IOException e) {
                     SVNDebugLog.getDefaultLog().logSevere(SVNLogType.DEFAULT, e);
                     SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.IO_ERROR, e);
@@ -155,10 +157,10 @@ public class SVNDeltaReader {
         }
     }
     
-    private int deflate(int compressedLength, OutputStream out) throws IOException {
+    private int deflate(int compressedLength, OutputStream out, int version) throws IOException {
         int originalPosition = myBuffer.position();
         int uncompressedLength = readOffset();
-        // substract offset length from the total length.
+        // subtract offset length from the total length.
         if (uncompressedLength == (compressedLength - (myBuffer.position() - originalPosition))) {
             int offset = myBuffer.arrayOffset() + myBuffer.position();
             out.write(myBuffer.array(), offset, uncompressedLength);
@@ -166,14 +168,19 @@ public class SVNDeltaReader {
             byte[] uncompressedData = new byte[uncompressedLength];
             byte[] compressed = myBuffer.array();
             int offset = myBuffer.arrayOffset() + myBuffer.position();
-            InputStream in = new InflaterInputStream(new ByteArrayInputStream(compressed, offset, compressedLength));
-            int read = 0;
-            while(read < uncompressedLength) {
-                int r = in.read(uncompressedData, read, uncompressedLength - read);
-                if (r < 0) {
-                    break;
+            if (version == 1) {
+                final InputStream in = new InflaterInputStream(new ByteArrayInputStream(compressed, offset, compressedLength));
+                int read = 0;
+                while (read < uncompressedLength) {
+                    int r = in.read(uncompressedData, read, uncompressedLength - read);
+                    if (r < 0) {
+                        break;
+                    }
+                    read += r;
                 }
-                read += r;
+            } else if (version == 2) {
+                final LZ4FastDecompressor dc = LZ4Factory.fastestInstance().fastDecompressor();
+                dc.decompress(compressed, offset, uncompressedData, 0, uncompressedLength);
             }
             out.write(uncompressedData);
         }

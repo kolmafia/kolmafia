@@ -418,6 +418,18 @@ public class SVNWCClient extends SVNBasicClient {
     	cleanup.run();
     }
 
+    public void doCleanup(File path, boolean deleteWCProperties, boolean breakLocks, boolean vacuumPristines, boolean removeUnversionedItems, boolean removeIgnoredItems, boolean includeExternals) throws SVNException {
+    	SvnCleanup cleanup = getOperationsFactory().createCleanup();
+    	cleanup.setSingleTarget(SvnTarget.fromFile(path));
+    	cleanup.setDeleteWCProperties(deleteWCProperties);
+        cleanup.setBreakLocks(breakLocks);
+        cleanup.setVacuumPristines(vacuumPristines);
+        cleanup.setRemoveUnversionedItems(removeUnversionedItems);
+        cleanup.setRemoveIgnoredItems(removeIgnoredItems);
+        cleanup.setIncludeExternals(includeExternals);
+    	cleanup.run();
+    }
+
     /**
      * Sets <code>propName</code> to <code>propValue</code> on <code>path</code>
      * . A <code>propValue</code> of <span class="javakeyword">null</span> will

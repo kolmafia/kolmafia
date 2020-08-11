@@ -23,10 +23,10 @@ import org.tmatesoft.svn.core.wc2.SvnCat;
 import org.tmatesoft.svn.core.wc2.SvnTarget;
 import org.tmatesoft.svn.util.SVNLogType;
 
-public class SvnRemoteCat extends SvnRemoteOperationRunner<Void, SvnCat> {
+public class SvnRemoteCat extends SvnRemoteOperationRunner<SVNProperties, SvnCat> {
 
     @Override
-    protected Void run() throws SVNException {
+    protected SVNProperties run() throws SVNException {
     	SVNRevision revision = getOperation().getRevision() == null || !getOperation().getRevision().isValid() ? 
     			SVNRevision.HEAD : getOperation().getRevision();
     	SvnTarget target = getOperation().getFirstTarget();
@@ -52,10 +52,10 @@ public class SvnRemoteCat extends SvnRemoteOperationRunner<Void, SvnCat> {
             SVNErrorManager.error(err, SVNLogType.WC);
         }
         checkCancelled();
+        SVNProperties properties = new SVNProperties();
         if (!getOperation().isExpandKeywords()) {
-            repos.getFile("", revNumber, null, new SVNCancellableOutputStream(getOperation().getOutput(), this));
+            repos.getFile("", revNumber, properties, new SVNCancellableOutputStream(getOperation().getOutput(), this));
         } else {
-            SVNProperties properties = new SVNProperties();
             repos.getFile("", revNumber, properties, null);
             checkCancelled();
             String mimeType = properties.getStringValue(SVNProperty.MIME_TYPE);
@@ -95,7 +95,7 @@ public class SvnRemoteCat extends SvnRemoteOperationRunner<Void, SvnCat> {
                     SVNErrorManager.error(SVNErrorMessage.create(SVNErrorCode.IO_ERROR, e.getMessage()), SVNLogType.WC);
                 }
             } else {
-                repos.getFile("", revNumber, null, new SVNCancellableOutputStream(getOperation().getOutput(), getOperation().getEventHandler()));
+                repos.getFile("", revNumber, properties, new SVNCancellableOutputStream(getOperation().getOutput(), getOperation().getEventHandler()));
             }
         }
         try {
@@ -103,6 +103,6 @@ public class SvnRemoteCat extends SvnRemoteOperationRunner<Void, SvnCat> {
         } catch (IOException e) {
             SVNErrorManager.error(SVNErrorMessage.create(SVNErrorCode.IO_ERROR, e.getMessage()), SVNLogType.WC);
         }
-        return null;
+        return properties;
     }
 }

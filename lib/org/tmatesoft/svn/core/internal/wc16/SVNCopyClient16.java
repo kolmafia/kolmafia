@@ -2,6 +2,8 @@ package org.tmatesoft.svn.core.internal.wc16;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 import org.tmatesoft.svn.core.SVNCommitInfo;
 import org.tmatesoft.svn.core.SVNDepth;
@@ -15,6 +17,7 @@ import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.internal.util.SVNEncodingUtil;
 import org.tmatesoft.svn.core.internal.wc.SVNCopyDriver;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
+import org.tmatesoft.svn.core.internal.wc.SVNExternal;
 import org.tmatesoft.svn.core.internal.wc.SVNPath;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.wc.DefaultSVNCommitHandler;
@@ -30,6 +33,7 @@ import org.tmatesoft.svn.core.wc.SVNCopySource;
 import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.core.wc.SVNWCClient;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
+import org.tmatesoft.svn.core.wc2.SvnTarget;
 import org.tmatesoft.svn.util.SVNLogType;
 
 /**
@@ -294,6 +298,10 @@ public class SVNCopyClient16 extends SVNCopyDriver {
      * @since 1.2, SVN 1.5
      */
     public void doCopy(SVNCopySource[] sources, File dst, boolean isMove, boolean makeParents, boolean failWhenDstExists) throws SVNException {
+        doCopy(sources, dst, isMove, makeParents, failWhenDstExists, false, null);
+    }
+
+    private void doCopy(SVNCopySource[] sources, File dst, boolean isMove, boolean makeParents, boolean failWhenDstExists, boolean pinExternals, Map<SvnTarget, List<SVNExternal>> externalsToPin) throws SVNException {
         if (sources.length > 1 && failWhenDstExists) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CLIENT_MULTIPLE_SOURCES_DISALLOWED);
             SVNErrorManager.error(err, SVNLogType.DEFAULT);
@@ -303,7 +311,7 @@ public class SVNCopyClient16 extends SVNCopyDriver {
             return;
         }
         try {
-            setupCopy(sources, new SVNPath(dst.getAbsolutePath(), false, false), isMove, makeParents, null, null, getCommitHandler(), getCommitParameters(), getExternalsHandler());
+            setupCopy(sources, new SVNPath(dst.getAbsolutePath(), false, false), isMove, makeParents, pinExternals, externalsToPin, null, null, getCommitHandler(), getCommitParameters(), getExternalsHandler());
         } catch (SVNException e) {
             SVNErrorCode err = e.getErrorMessage().getErrorCode();
             if (!failWhenDstExists && sources.length == 1 && (err == SVNErrorCode.ENTRY_EXISTS || err == SVNErrorCode.FS_ALREADY_EXISTS)) {
@@ -313,7 +321,7 @@ public class SVNCopyClient16 extends SVNCopyDriver {
                     baseName = SVNEncodingUtil.uriDecode(baseName);
                 }
                 try {
-                    setupCopy(sources, new SVNPath(new File(dst, baseName).getAbsolutePath(), false, false), isMove, makeParents, null, null, getCommitHandler(), getCommitParameters(), getExternalsHandler());
+                    setupCopy(sources, new SVNPath(new File(dst, baseName).getAbsolutePath(), false, false), isMove, makeParents, pinExternals, externalsToPin, null, null, getCommitHandler(), getCommitParameters(), getExternalsHandler());
                 } catch (SVNException second) {
                     throw second;
                 }
@@ -428,6 +436,11 @@ public class SVNCopyClient16 extends SVNCopyDriver {
      */
     public SVNCommitInfo doCopy(SVNCopySource[] sources, SVNURL dst, boolean isMove, boolean makeParents, boolean failWhenDstExists, String commitMessage, SVNProperties revisionProperties)
             throws SVNException {
+        return doCopy(sources, dst, isMove, makeParents, failWhenDstExists, false, null, commitMessage, revisionProperties);
+    }
+
+    public SVNCommitInfo doCopy(SVNCopySource[] sources, SVNURL dst, boolean isMove, boolean makeParents, boolean failWhenDstExists, boolean pinExternals, Map<SvnTarget, List<SVNExternal>> externalsToPin, String commitMessage, SVNProperties revisionProperties)
+            throws SVNException {
         if (sources.length > 1 && failWhenDstExists) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CLIENT_MULTIPLE_SOURCES_DISALLOWED);
             SVNErrorManager.error(err, SVNLogType.DEFAULT);
@@ -437,7 +450,7 @@ public class SVNCopyClient16 extends SVNCopyDriver {
             return SVNCommitInfo.NULL;
         }
         try {
-            return setupCopy(sources, new SVNPath(dst.toString(), false, false), isMove, makeParents, commitMessage, revisionProperties, getCommitHandler(), getCommitParameters(), getExternalsHandler());
+            return setupCopy(sources, new SVNPath(dst.toString(), false, false), isMove, makeParents, pinExternals, externalsToPin, commitMessage, revisionProperties, getCommitHandler(), getCommitParameters(), getExternalsHandler());
         } catch (SVNException e) {
             SVNErrorCode err = e.getErrorMessage().getErrorCode();
             if (!failWhenDstExists && sources.length == 1 && (err == SVNErrorCode.ENTRY_EXISTS || err == SVNErrorCode.FS_ALREADY_EXISTS)) {
@@ -447,7 +460,7 @@ public class SVNCopyClient16 extends SVNCopyDriver {
                     baseName = SVNEncodingUtil.uriEncode(baseName);
                 }
                 try {
-                    return setupCopy(sources, new SVNPath(dst.appendPath(baseName, true).toString(), false, false), isMove, makeParents, commitMessage, revisionProperties, getCommitHandler(),
+                    return setupCopy(sources, new SVNPath(dst.appendPath(baseName, true).toString(), false, false), isMove, makeParents, pinExternals, externalsToPin, commitMessage, revisionProperties, getCommitHandler(),
                             getCommitParameters(), getExternalsHandler());
                 } catch (SVNException second) {
                     throw second;

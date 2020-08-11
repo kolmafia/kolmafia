@@ -23,6 +23,7 @@ import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.NodeInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbRevert;
 import org.tmatesoft.svn.core.wc.*;
 import org.tmatesoft.svn.core.wc2.*;
+import org.tmatesoft.svn.util.SVNDebugLog;
 import org.tmatesoft.svn.util.SVNLogType;
 
 public class SvnNgAdd extends SvnNgOperationRunner<Void, SvnScheduleForAddition> {
@@ -264,8 +265,11 @@ public class SvnNgAdd extends SvnNgOperationRunner<Void, SvnScheduleForAddition>
     private void doRevert(File path) {
         try {
             try {
-                getWcContext().getDb().opRevert(path, SVNDepth.EMPTY);
-                SvnNgRevert.restore(getWcContext(), path, SVNDepth.EMPTY, false, true, null);
+                getWcContext().getDb().opRevert(path, SVNDepth.EMPTY, false);
+                SvnNgRevert.restore(getWcContext(), path, SVNDepth.EMPTY, false, false, true, null);
+            } catch (SVNException e) {
+                SVNDebugLog.getDefaultLog().logError(SVNLogType.WC, e);
+                throw e;
             } finally {
                 SvnWcDbRevert.dropRevertList(getWcContext(), path);
             }

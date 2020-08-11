@@ -429,7 +429,7 @@ public class FSRevisionNode {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_CORRUPT, "Malformed text rep offset line in node-rev");
             SVNErrorManager.error(err, SVNLogType.FSFS);
         }
-        rep.setOffset(offset);
+        rep.setItemIndex(offset);
 
         representation = representation.substring(delimiterInd + 1);
         delimiterInd = representation.indexOf(' ');
@@ -506,22 +506,25 @@ public class FSRevisionNode {
             SVNErrorManager.error(err, SVNLogType.FSFS);
         }
         hexSHA1Digest = representation.substring(0, delimiterInd);
-        if (hexSHA1Digest.length() != 40 || SVNFileUtil.fromHexDigest(hexSHA1Digest) == null) {
-            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_CORRUPT, "Malformed text rep offset line in node-rev");
-            SVNErrorManager.error(err, SVNLogType.FSFS);
+        if (!"-".equals(hexSHA1Digest)) {
+            if (hexSHA1Digest.length() != 40 || SVNFileUtil.fromHexDigest(hexSHA1Digest) == null) {
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_CORRUPT, "Malformed text rep offset line in node-rev");
+                SVNErrorManager.error(err, SVNLogType.FSFS);
+            }
+            rep.setSHA1HexDigest(hexSHA1Digest);
         }
-        rep.setSHA1HexDigest(hexSHA1Digest);
-        
+
         representation = representation.substring(delimiterInd + 1);
         delimiterInd = representation.indexOf(' ');
-        String uniquifier = null;
+        String uniquifier;
         if (delimiterInd != -1) {
             uniquifier = representation.substring(0, delimiterInd);
         } else {
             uniquifier = representation;
         }
-        
-        rep.setUniquifier(uniquifier);
+        if (!"-".equals(uniquifier)) {
+            rep.setUniquifier(uniquifier);
+        }
     }
 
     private static void parseCopyFrom(String copyfrom, FSRevisionNode revNode) throws SVNException {

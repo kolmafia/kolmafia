@@ -18,9 +18,12 @@ import java.nio.ByteBuffer;
 import java.util.Iterator;
 import java.util.zip.DeflaterOutputStream;
 
+import net.jpountz.lz4.LZ4Compressor;
+import net.jpountz.lz4.LZ4Factory;
 import org.tmatesoft.svn.core.SVNErrorCode;
 import org.tmatesoft.svn.core.SVNErrorMessage;
 import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.internal.delta.SVNDeltaCompression;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
 import org.tmatesoft.svn.util.SVNLogType;
@@ -46,23 +49,37 @@ import org.tmatesoft.svn.util.SVNLogType;
 public class SVNDiffWindow {
     
     /**
-     * Bytes of the delta header of an uncompressed diff window. 
+     * Bytes of the delta header of an uncompressed diff window.
+     * @deprecated Use {@link SVNDeltaCompression#None} instead.
      */
-    public static final byte[] SVN_HEADER = new byte[] {'S', 'V', 'N', '\0'};
+    @Deprecated
+    public static final byte[] SVN_HEADER = SVNDeltaCompression.None.getHeader();
 
     /**
      * Bytes of the delta header of a compressed diff window.
-     * @since 1.1, new in Subversion 1.4 
+     * @since 1.1, new in Subversion 1.4
+     * @deprecated  Use {@link SVNDeltaCompression#Zlib} instead.
      */
-    public static final byte[] SVN1_HEADER = new byte[] {'S', 'V', 'N', '\1'};
-    
+    @Deprecated
+    public static final byte[] SVN1_HEADER = SVNDeltaCompression.Zlib.getHeader();
+
+    /**
+     * Bytes of the delta header of an LZ4 compressed diff window.
+     * @since 1.10, new in Subversion 1.10
+     * @deprecated Use {@link SVNDeltaCompression#LZ4} instead.
+     */
+    public static final byte[] SVN2_HEADER = SVNDeltaCompression.LZ4.getHeader();
+
     /**
      * An empty window (in particular, its instructions length = 0). Corresponds 
      * to the case of an empty delta, so, it's passed to a delta consumer to 
      * create an empty file. 
      */
     public static final SVNDiffWindow EMPTY = new SVNDiffWindow(0,0,0,0,0);
-    
+
+    /** {@link LZ4Compressor} claims to be thread-safe, so we only create one instance of it. */
+    private static final LZ4Compressor LZ4_COMPRESSOR = LZ4Factory.fastestInstance().fastCompressor();
+
     private final long mySourceViewOffset;
     private final int mySourceViewLength;
     private final int myTargetViewLength;
@@ -434,27 +451,32 @@ public class SVNDiffWindow {
      * @throws IOException   if an I/O error occurs
      */
     public void writeTo(OutputStream os, boolean writeHeader) throws IOException {
-        writeTo(os, writeHeader, false);
+        writeTo(os, writeHeader, SVNDeltaCompression.None);
     }
-    
+
+    /**
+     * @since      1.1
+     * @deprecated use {@link #writeTo(OutputStream, boolean, SVNDeltaCompression)} instead.
+     */
+    @Deprecated
+    public void writeTo(OutputStream os, boolean writeHeader, boolean compress) throws IOException {
+        writeTo(os, writeHeader, SVNDeltaCompression.fromLegacyCompress(compress));
+    }
+
     /**
      * Formats and writes this window bytes to the specified output stream.
-     * 
+     *
      * @param os              an output stream to write the window to
      * @param writeHeader     if <span class="javakeyword">true</span> a window
-     *                        header will be also written
-     * @param compress        if <span class="javakeyword">true</span> writes  
-     *                        compressed window bytes using {@link #SVN1_HEADER} 
-     *                        to indicate that (if <code>writeHeader</code> is 
-     *                        <span class="javakeyword">true</span>), otherwise 
-     *                        non-compressed window is written with {@link #SVN_HEADER} 
-     *                        (again if <code>writeHeader</code> is <span class="javakeyword">true</span>) 
+     *                        header will be also written, depending on compression algorithm
+     * @param compression     compression algorithm to use when writing window bytes
+     *                        (again if <code>writeHeader</code> is <span class="javakeyword">true</span>)
      * @throws IOException
-     * @since                 1.1
+     * @since                 1.10
      */
-    public void writeTo(OutputStream os, boolean writeHeader, boolean compress) throws IOException {
+    public void writeTo(OutputStream os, boolean writeHeader, SVNDeltaCompression compression) throws IOException {
         if (writeHeader) {
-            os.write(compress ? SVN1_HEADER : SVN_HEADER);
+            os.write(compression.getHeader());
         }
         if (!hasInstructions()) {
             return;
@@ -468,10 +490,11 @@ public class SVNDiffWindow {
         ByteBuffer newData = null;
         int instLength = 0;
         int dataLength = 0;
-        if (compress) {
-            instructions = inflate(myData, myDataOffset, myInstructionsLength);
+
+        if (compression != SVNDeltaCompression.None) {
+            instructions = inflate(myData, myDataOffset, myInstructionsLength, compression);
             instLength = instructions.remaining();
-            newData = inflate(myData, myDataOffset + myInstructionsLength, myNewDataLength);
+            newData = inflate(myData, myDataOffset + myInstructionsLength, myNewDataLength, compression);
             dataLength = newData.remaining();
             SVNDiffInstruction.writeInt(offsets, instLength);
             SVNDiffInstruction.writeInt(offsets, dataLength);
@@ -479,8 +502,10 @@ public class SVNDiffWindow {
             SVNDiffInstruction.writeInt(offsets, myInstructionsLength);
             SVNDiffInstruction.writeInt(offsets, myNewDataLength);
         }
+
         os.write(offsets.array(), offsets.arrayOffset(), offsets.position());
-        if (compress) {
+
+        if (compression != SVNDeltaCompression.None) {
             os.write(instructions.array(), instructions.arrayOffset(), instructions.remaining());
             os.write(newData.array(), newData.arrayOffset(), newData.remaining());
         } else {
@@ -490,7 +515,7 @@ public class SVNDiffWindow {
             }
         }
     }
-    
+
     /**
      * Returns the total amount of new data and instruction bytes.
      * 
@@ -541,25 +566,31 @@ public class SVNDiffWindow {
         return clone;
     }
     
-    private static ByteBuffer inflate(byte[] src, int offset, int length) throws IOException {
+    private static ByteBuffer inflate(byte[] src, int offset, int length, SVNDeltaCompression compression) throws IOException {
         final ByteBuffer buffer = ByteBuffer.allocate(length*2 + 2);
         SVNDiffInstruction.writeInt(buffer, length);
         if (length < 512) {
             buffer.put(src, offset, length);
         } else {
-            DeflaterOutputStream out = new DeflaterOutputStream(new OutputStream() {
-                public void write(int b) throws IOException {
-                    buffer.put((byte) (b & 0xFF));
-                }
-                public void write(byte[] b, int off, int len) throws IOException {
-                    buffer.put(b, off, len);
-                }
-                public void write(byte[] b) throws IOException {
-                    write(b, 0, b.length);
-                }
-            });
-            out.write(src, offset, length);
-            out.finish();
+            if (compression == SVNDeltaCompression.LZ4) {
+                LZ4_COMPRESSOR.compress(ByteBuffer.wrap(src, offset, length), buffer);
+            } else if (compression == SVNDeltaCompression.Zlib) {
+                DeflaterOutputStream out = new DeflaterOutputStream(new OutputStream() {
+                    public void write(int b) throws IOException {
+                        buffer.put((byte) (b & 0xFF));
+                    }
+
+                    public void write(byte[] b, int off, int len) throws IOException {
+                        buffer.put(b, off, len);
+                    }
+
+                    public void write(byte[] b) throws IOException {
+                        write(b, 0, b.length);
+                    }
+                });
+                out.write(src, offset, length);
+                out.finish();
+            }
             if (buffer.position() >= length) {
                 buffer.clear();
                 SVNDiffInstruction.writeInt(buffer, length);

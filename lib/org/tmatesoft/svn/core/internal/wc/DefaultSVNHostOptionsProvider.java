@@ -15,6 +15,7 @@ import java.io.File;
 import java.util.Map;
 
 import org.tmatesoft.svn.core.SVNURL;
+import org.tmatesoft.svn.core.wc.ISVNConfigEventHandler;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 /**
@@ -26,6 +27,7 @@ public class DefaultSVNHostOptionsProvider implements ISVNHostOptionsProvider {
     private final File myConfigDirectory;
     private SVNCompositeConfigFile myServersFile;
     private Map myServersOptions;
+    private ISVNConfigEventHandler myConfigEventHandler;
 
     public DefaultSVNHostOptionsProvider() {
         this(null);
@@ -41,11 +43,13 @@ public class DefaultSVNHostOptionsProvider implements ISVNHostOptionsProvider {
 
     protected SVNCompositeConfigFile getServersFile() {
         if (myServersFile == null) {
-            SVNConfigFile.createDefaultConfiguration(myConfigDirectory);
             SVNConfigFile userConfig = new SVNConfigFile(new File(myConfigDirectory, "servers"));
             SVNConfigFile systemConfig = new SVNConfigFile(new File(SVNFileUtil.getSystemConfigurationDirectory(), "servers"));
             myServersFile = new SVNCompositeConfigFile(systemConfig, userConfig);
             myServersFile.setGroupsToOptions(myServersOptions);
+            if (myConfigEventHandler != null) {
+                myConfigEventHandler.onLoad(null, myServersFile);
+            }
         }
         return myServersFile;
     }

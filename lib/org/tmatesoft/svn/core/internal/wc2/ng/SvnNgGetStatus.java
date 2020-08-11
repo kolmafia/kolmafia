@@ -32,6 +32,10 @@ public class SvnNgGetStatus extends SvnNgOperationRunner<SvnStatus, SvnGetStatus
     protected SvnStatus run(SVNWCContext context) throws SVNException {
         File directoryPath;
         String targetName;
+        boolean checkWorkingCopy = getOperation().isCheckWorkingCopy();
+        if (!getOperation().isRemote()) {
+            checkWorkingCopy = true;
+        }
         
         SVNNodeKind kind = context.readKind(getFirstTarget(), false);
         SVNDepth depth = getOperation().getDepth();
@@ -94,9 +98,9 @@ public class SvnNgGetStatus extends SvnNgOperationRunner<SvnStatus, SvnGetStatus
                 checkCancelled();
                 editor.closeEdit();
             } else {
-                editor = new SVNRemoteStatusEditor17(directoryPath, targetName, context, 
+                editor = new SVNRemoteStatusEditor17(directoryPath, targetName, context,
                         getOperation().getOptions(), getOperation().isReportIgnored(), getOperation().isReportAll(),
-                        depth, this);
+                        depth, checkWorkingCopy, this);
                 editor.setFileListHook(getOperation().getFileListHook());
                 
                 SVNRepository locksRepos = getRepositoryAccess().createRepository(url, null, false);
@@ -176,6 +180,7 @@ public class SvnNgGetStatus extends SvnNgOperationRunner<SvnStatus, SvnGetStatus
                 getStatus.setReportExternals(getOperation().isReportExternals());
                 getStatus.setReceiver(getOperation().getReceiver());
                 getStatus.setFileListHook(getOperation().getFileListHook());
+                getStatus.setCheckWorkingCopy(getOperation().isCheckWorkingCopy());
 
                 getStatus.run();
             } catch (SVNException e) {

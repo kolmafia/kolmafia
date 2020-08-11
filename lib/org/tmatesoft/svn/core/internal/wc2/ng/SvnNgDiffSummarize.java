@@ -56,15 +56,15 @@ public class SvnNgDiffSummarize extends SvnNgOperationRunner<SvnDiffStatus, SvnD
         final boolean useAncestry = !getOperation().isIgnoreAncestry();
 
         if (source != null) {
-            doDiff(source, getOperation().getStartRevision(), source, getOperation().getEndRevision(), source.getPegRevision(), depth, useAncestry, handler);
+            doDiff(source, getOperation().getStartRevision(), source, getOperation().getEndRevision(), source.getPegRevision(), depth, useAncestry, getOperation().isRecurseIntoDeletedDirectories(), handler);
         } else {
-            doDiff(firstSource, firstSource.getResolvedPegRevision(), secondSource, secondSource.getResolvedPegRevision(), SVNRevision.UNDEFINED, depth, useAncestry, handler);
+            doDiff(firstSource, firstSource.getResolvedPegRevision(), secondSource, secondSource.getResolvedPegRevision(), SVNRevision.UNDEFINED, depth, useAncestry, getOperation().isRecurseIntoDeletedDirectories(), handler);
         }
         return null;
     }
 
 
-    private void doDiff(SvnTarget target1, SVNRevision revision1, SvnTarget target2, SVNRevision revision2, SVNRevision pegRevision, SVNDepth depth, boolean useAncestry, ISVNDiffStatusHandler handler) throws SVNException {
+    private void doDiff(SvnTarget target1, SVNRevision revision1, SvnTarget target2, SVNRevision revision2, SVNRevision pegRevision, SVNDepth depth, boolean useAncestry, boolean recurseIntoDeletedDirectories, ISVNDiffStatusHandler handler) throws SVNException {
         if ((revision1 == SVNRevision.UNDEFINED) || (revision2 == SVNRevision.UNDEFINED)) {
             SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.CLIENT_BAD_REVISION, "Not all required revisions are specified");
             SVNErrorManager.error(errorMessage, SVNLogType.WC);
@@ -85,13 +85,13 @@ public class SvnNgDiffSummarize extends SvnNgOperationRunner<SvnDiffStatus, SvnD
             if (isRepos2) {
                 doDiffReposRepos(target1.getURL(), target1.getFile(), revision1,
                         target2.getURL(), target2.getFile(), revision2,
-                        pegRevision, depth, useAncestry, handler);
+                        pegRevision, depth, useAncestry, recurseIntoDeletedDirectories, handler);
             } else {
-                doDiffReposWC(target1, revision1, target2, revision2, pegRevision, false, depth, useAncestry, handler);
+                doDiffReposWC(target1, revision1, target2, revision2, pegRevision, false, depth, useAncestry, recurseIntoDeletedDirectories, handler);
             }
         } else {
             if (isRepos2) {
-                doDiffReposWC(target2, revision2, target1, revision1, pegRevision, true, depth, useAncestry, handler);
+                doDiffReposWC(target2, revision2, target1, revision1, pegRevision, true, depth, useAncestry, recurseIntoDeletedDirectories, handler);
             } else {
                 if (revision1 == SVNRevision.WORKING && revision2 == SVNRevision.WORKING) {
                     File path1 = target1.getFile();
@@ -116,18 +116,19 @@ public class SvnNgDiffSummarize extends SvnNgOperationRunner<SvnDiffStatus, SvnD
     }
 
     private void doDiffURL(SVNURL url, File path, SVNRevision startRevision, SVNRevision endRevision, SVNRevision pegRevision,
-                           SVNDepth depth, boolean useAncestry, ISVNDiffStatusHandler handler) throws SVNException {
+                           SVNDepth depth, boolean useAncestry, boolean recurseIntoDeletedDirectories, ISVNDiffStatusHandler handler) throws SVNException {
         if (handler == null) {
             return;
         }
         doDiffReposRepos(url, path, startRevision,
                 url, path, endRevision,
-                pegRevision, depth, useAncestry, handler);
+                pegRevision, depth, useAncestry, recurseIntoDeletedDirectories, handler);
     }
 
     private void doDiffReposRepos(SVNURL url1, File path1, SVNRevision revision1,
                                   SVNURL url2, File path2, SVNRevision revision2,
                                   SVNRevision pegRevision, SVNDepth depth, boolean useAncestry,
+                                  boolean recurseIntoDeletedDirectories,
                                   ISVNDiffStatusHandler handler) throws SVNException {
 
         if (revision1 == SVNRevision.UNDEFINED || revision2 == SVNRevision.UNDEFINED) {
@@ -230,7 +231,7 @@ public class SvnNgDiffSummarize extends SvnNgOperationRunner<SvnDiffStatus, SvnD
         }
 
         ISvnDiffCallback oldCallback = new SvnDiffSummarizeCallback(path1 != null ? SVNFileUtil.createFilePath(path1.getParentFile(), target1) : SVNFileUtil.createFilePath(new File("").getAbsolutePath(), target1), false, anchor1, nonDir ? basePath.getParentFile() : basePath, handler);
-        ISvnDiffCallback2 callback = new SvnDiffCallbackWrapper(oldCallback, true, nonDir ? basePath.getParentFile() : basePath);
+        ISvnDiffCallback2 callback = new SvnDiffCallbackWrapper(oldCallback, recurseIntoDeletedDirectories, nonDir ? basePath.getParentFile() : basePath);
 
         if (kind2 == SVNNodeKind.NONE) {
             SVNURL tmpUrl;
@@ -281,9 +282,10 @@ public class SvnNgDiffSummarize extends SvnNgOperationRunner<SvnDiffStatus, SvnD
     private void doDiffReposWC(SvnTarget target1, SVNRevision revision1,
                                SvnTarget target2, SVNRevision revision2,
                                SVNRevision pegRevision, boolean reverse, SVNDepth depth, boolean useAncestry,
+                               boolean recurseIntoDeletedDirectories,
                                ISVNDiffStatusHandler handler) throws SVNException {//TODO: changelists?
 
-        SvnNgDiffUtil.doDiffSummarizeReposWC(target1, revision1, pegRevision, target2, revision2, reverse, getRepositoryAccess(), getWcContext(), false, depth, useAncestry, getOperation().getApplicableChangelists(), false, null, handler, this);
+        SvnNgDiffUtil.doDiffSummarizeReposWC(target1, revision1, pegRevision, target2, revision2, reverse, getRepositoryAccess(), getWcContext(), false, depth, useAncestry, recurseIntoDeletedDirectories, getOperation().getApplicableChangelists(), false, null, handler, this);
     }
 
     private void doDiffWCWC(SvnTarget target1, SVNRevision revision1,
@@ -308,7 +310,7 @@ public class SvnNgDiffSummarize extends SvnNgOperationRunner<SvnDiffStatus, SvnD
         SVNURL baseUrl = kind == SVNNodeKind.DIR ? getRepositoryAccess().getTargetURL(target1) : getRepositoryAccess().getTargetURL(SvnTarget.fromFile(SVNFileUtil.getParentFile(target1.getFile())));
         ISvnDiffCallback callback = new SvnDiffSummarizeCallback(path1, false, baseUrl, basePath, handler);
 
-        SvnNgDiffUtil.doDiffWCWC(path1, getRepositoryAccess(), getWcContext(), depth, useAncestry, getOperation().getApplicableChangelists(), false, false, null, callback, getOperation().getEventHandler());
+        SvnNgDiffUtil.doDiffWCWC(path1, getRepositoryAccess(), getWcContext(), depth, useAncestry, getOperation().isRecurseIntoDeletedDirectories(), getOperation().getApplicableChangelists(), false, false, null, callback, getOperation().getEventHandler());
     }
 
     private SVNURL resolvePeggedDiffTargetUrl(SVNURL url, File path, SVNRevision pegRevision, SVNRevision revision) throws SVNException {

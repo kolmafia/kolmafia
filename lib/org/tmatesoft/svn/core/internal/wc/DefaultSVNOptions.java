@@ -37,11 +37,8 @@ import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.internal.io.svn.ISVNConnector;
 import org.tmatesoft.svn.core.internal.io.svn.SVNTunnelConnector;
 import org.tmatesoft.svn.core.internal.util.SVNHashMap;
-import org.tmatesoft.svn.core.wc.ISVNConflictHandler;
-import org.tmatesoft.svn.core.wc.ISVNMerger;
-import org.tmatesoft.svn.core.wc.ISVNMergerFactory;
-import org.tmatesoft.svn.core.wc.ISVNOptions;
-import org.tmatesoft.svn.core.wc.SVNWCUtil;
+import org.tmatesoft.svn.core.io.ISVNTunnelProvider;
+import org.tmatesoft.svn.core.wc.*;
 
 /**
  * @version 1.3
@@ -92,11 +89,13 @@ public class DefaultSVNOptions implements ISVNOptions, ISVNMergerFactory {
     private SVNCompositeConfigFile myConfigFile;
     private ISVNMergerFactory myMergerFactory;
     private ISVNConflictHandler myConflictResolver;
+    private ISVNTunnelProvider myTunnelProvider;
 
     private String myKeywordLocale = DEFAULT_LOCALE;
     private String myKeywordTimezone = DEFAULT_TIMEZONE;
     private SimpleDateFormat myKeywordDateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss' 'ZZZZ' ('E', 'dd' 'MMM' 'yyyy')'");
     private Map myConfigOptions;
+    private ISVNConfigEventHandler myConfigEventHandler;
 
     public DefaultSVNOptions() {
         this(null, true);
@@ -510,6 +509,10 @@ public class DefaultSVNOptions implements ISVNOptions, ISVNMergerFactory {
         myMergerFactory = mergerFactory;
     }
 
+    public void setTunnelProvider(ISVNTunnelProvider tunnelProvider) {
+        this.myTunnelProvider = tunnelProvider;
+    }
+
     /**
      * Returns the value of a property from the <i>[svnkit]</i> section
      * of the <i>config</i> file.
@@ -556,6 +559,10 @@ public class DefaultSVNOptions implements ISVNOptions, ISVNMergerFactory {
         myConflictResolver = resolver;
     }
 
+    public void setConfigEventHandler(ISVNConfigEventHandler configEventHandler) {
+        this.myConfigEventHandler = configEventHandler;
+    }
+
     public ISVNConflictHandler getConflictResolver() {
         return myConflictResolver;
     }
@@ -576,16 +583,20 @@ public class DefaultSVNOptions implements ISVNOptions, ISVNMergerFactory {
     }
 
     public ISVNConnector createTunnelConnector(SVNURL url) {
-	    String subProtocolName = url.getProtocol().substring("svn+".length());
-        if (subProtocolName == null) {
-            return null;
+        if (myTunnelProvider != null) {
+            return myTunnelProvider.createTunnelConnector(url);
+        } else {
+            String subProtocolName = url.getProtocol().substring("svn+".length());
+            if (subProtocolName == null) {
+                return null;
+            }
+            Map tunnels = getConfigFile().getProperties("tunnels");
+            final String tunnel = (String) tunnels.get(subProtocolName);
+            if (tunnel == null) {
+                return null;
+            }
+            return new SVNTunnelConnector(subProtocolName, tunnel);
         }
-        Map tunnels = getConfigFile().getProperties("tunnels");
-	    final String tunnel = (String)tunnels.get(subProtocolName);
-	    if (tunnel == null) {
-		    return null;
-	    }
-	    return new SVNTunnelConnector(subProtocolName, tunnel);
     }
 
     public DateFormat getKeywordDateFormat() {
@@ -786,11 +797,16 @@ public class DefaultSVNOptions implements ISVNOptions, ISVNMergerFactory {
 
     private SVNCompositeConfigFile getConfigFile() {
         if (myConfigFile == null) {
-            SVNConfigFile.createDefaultConfiguration(myConfigDirectory);
+            if (!myIsReadonly) {
+                SVNConfigFile.createDefaultConfiguration(myConfigDirectory);
+            }
             SVNConfigFile userConfig = new SVNConfigFile(new File(myConfigDirectory, "config"));
             SVNConfigFile systemConfig = new SVNConfigFile(new File(SVNFileUtil.getSystemConfigurationDirectory(), "config"));
             myConfigFile = new SVNCompositeConfigFile(systemConfig, userConfig);
             myConfigFile.setGroupsToOptions(myConfigOptions);
+            if (myConfigEventHandler != null) {
+                myConfigEventHandler.onLoad(myConfigFile, null);
+            }
         }
         return myConfigFile;
     }
@@ -902,6 +918,19 @@ public class DefaultSVNOptions implements ISVNOptions, ISVNMergerFactory {
         value = value.trim();
         return YES.equalsIgnoreCase(value) || "true".equalsIgnoreCase(value)
                 || "on".equalsIgnoreCase(value);
+    }
+
+    public static long getLongValue(String value, long defaultValue) {
+        if (value == null) {
+            return defaultValue;
+        }
+        value = value.trim();
+        try {
+            return Long.parseLong(value);
+        } catch (NumberFormatException e) {
+            //ignore
+        }
+        return defaultValue;
     }
 
 }

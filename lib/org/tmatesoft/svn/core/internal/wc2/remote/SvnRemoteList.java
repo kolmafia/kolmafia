@@ -206,8 +206,10 @@ public class SvnRemoteList extends SvnRemoteOperationRunner<SVNDirEntry, SvnList
                 doList(repository, externalItem.getRevision().getNumber(), handler, fetchLocks, depth, entryFields, externalParentUrl, externalItem.getPath());
             } catch (SVNException e) {
                 if (e.getErrorMessage().getErrorCode() != SVNErrorCode.CANCELLED) {
-                    SVNEvent event = SVNEventFactory.createSVNEvent(new File(externalItem.getPath()), SVNNodeKind.UNKNOWN, null, -1, SVNEventAction.FAILED_EXTERNAL, SVNEventAction.FAILED_EXTERNAL, e.getErrorMessage(), null);
-                    getOperation().getEventHandler().handleEvent(event, UNKNOWN);
+                    if (getOperation().getEventHandler() != null) {
+                        SVNEvent event = SVNEventFactory.createSVNEvent(new File(externalItem.getPath()), SVNNodeKind.UNKNOWN, null, -1, SVNEventAction.FAILED_EXTERNAL, SVNEventAction.FAILED_EXTERNAL, e.getErrorMessage(), null);
+                        getOperation().getEventHandler().handleEvent(event, UNKNOWN);
+                    }
                 } else {
                     throw e;
                 }

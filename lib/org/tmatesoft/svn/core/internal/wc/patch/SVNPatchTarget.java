@@ -655,7 +655,7 @@ public class SVNPatchTarget {
         }
 
         if (target.currentLine == target.lines.size() + 1) {
-            final Long mark = new Long(target.stream.getSeekPosition());
+            final Long mark = target.stream.getSeekPosition();
             target.lines.add(mark);
         }
 

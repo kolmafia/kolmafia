@@ -10,14 +10,10 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.tmatesoft.svn.core.*;
-import org.tmatesoft.svn.core.internal.util.SVNDate;
-import org.tmatesoft.svn.core.internal.util.SVNEncodingUtil;
-import org.tmatesoft.svn.core.internal.util.SVNMergeInfoUtil;
-import org.tmatesoft.svn.core.internal.util.SVNPathUtil;
-import org.tmatesoft.svn.core.internal.util.SVNSkel;
-import org.tmatesoft.svn.core.internal.util.SVNURLUtil;
+import org.tmatesoft.svn.core.internal.util.*;
 import org.tmatesoft.svn.core.internal.wc.*;
 import org.tmatesoft.svn.core.internal.wc.admin.SVNTranslator;
+import org.tmatesoft.svn.core.internal.wc17.SVNExternalsStore;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext.SVNWCNodeReposInfo;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext.UniqueFileInfo;
@@ -379,6 +375,11 @@ public class SvnNgReposToWcCopy extends SvnNgOperationRunner<Void, SvnCopy> {
                 try {
                     SVNFileUtil.deleteFile(dstPath);
                     SVNFileUtil.ensureDirectoryExists(dstPath);
+
+                    if (getOperation().isPinExternals()) {
+                        ignoreExternals = true;
+                    }
+
                     SvnCheckout co = getOperation().getOperationFactory().createCheckout();
                     co.setSingleTarget(SvnTarget.fromFile(dstPath));
                     co.setSource(SvnTarget.fromURL(pair.sourceOriginal, pair.sourcePegRevision));
@@ -439,6 +440,33 @@ public class SvnNgReposToWcCopy extends SvnNgOperationRunner<Void, SvnCopy> {
                 copyForeign(pair.source, pair.dst, pair.sourcePegRevision, pair.sourceRevision, SVNDepth.INFINITY, false, true);
                 sleepForTimestamp();
                 return rev;
+            }
+
+            if (getOperation().isPinExternals()) {
+                SVNURL repositoryRoot = repository.getRepositoryRoot(false);
+                final Structure<RevisionsPair> sourceRevision = getRepositoryAccess().getRevisionNumber(repository, null, pair.sourceRevision, null);
+                final long sourceRevisionNumber = sourceRevision.lng(RevisionsPair.revNumber);
+                final Map<String, SVNPropertyValue> pinnedExternals = SVNExternalsUtil.resolvePinnedExternals(getWcContext(), getRepositoryAccess(), getOperation().getExternalsToPin(), SvnTarget.fromURL(pair.source), SvnTarget.fromFile(pair.dst), sourceRevisionNumber, repository, repositoryRoot);
+
+                for (Map.Entry<String, SVNPropertyValue> entry : pinnedExternals.entrySet()) {
+                    String dstRelPath = entry.getKey();
+                    SVNPropertyValue externalsPropertyValue = entry.getValue();
+
+                    File localAbsPath = SVNFileUtil.createFilePath(pair.dst, dstRelPath);
+
+                    SvnNgPropertiesManager.setProperty(getWcContext(), localAbsPath, SVNProperty.EXTERNALS, externalsPropertyValue, SVNDepth.EMPTY, true, null, null);
+                }
+                SVNExternalsStore externalsStore = new SVNExternalsStore();
+                getWcContext().getDb().gatherExternalDefinitions(pair.dst, externalsStore);
+
+                SvnCheckout svnCheckout = getOperation().getOperationFactory().createCheckout();
+//                svnCheckout.setIgnoreExternals(ignoreExternals);
+
+                SvnNgCheckout checkout = new SvnNgCheckout();
+                checkout.setOperation(svnCheckout);
+                checkout.setWcContext(getWcContext());
+                checkout.setRepositoryAccess(getRepositoryAccess());
+                checkout.handleExternals(externalsStore.getNewExternals(), externalsStore.getDepths(), repositoryRoot, pair.dst, repositoryRoot, SVNDepth.INFINITY, false);
             }
         } else {
             String relativePath = "";
@@ -742,6 +770,8 @@ public class SvnNgReposToWcCopy extends SvnNgOperationRunner<Void, SvnCopy> {
         SVNRepository repos = repository;
         if (repos == null) {
             repos = getRepositoryAccess().createRepository(url, null, false);
+        } else {
+            repos.setLocation(url, false);
         }
         SVNURL oldLocation = null;
         try {

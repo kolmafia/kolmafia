@@ -37,6 +37,8 @@ public class SvnRevert extends SvnOperation<Void> {
 
     private boolean revertMissingDirectories;
     private boolean preserveModifiedCopies;
+    private boolean clearChangelists;
+    private boolean metadataOnly;
 
     protected SvnRevert(SvnOperationFactory factory) {
         super(factory);
@@ -57,6 +59,22 @@ public class SvnRevert extends SvnOperation<Void> {
 
     public void setPreserveModifiedCopies(boolean preserveModifiedCopies) {
         this.preserveModifiedCopies = preserveModifiedCopies;
+    }
+
+    public boolean isClearChangelists() {
+        return clearChangelists;
+    }
+
+    public void setClearChangelists(boolean clearChangelists) {
+        this.clearChangelists = clearChangelists;
+    }
+
+    public boolean isMetadataOnly() {
+        return metadataOnly;
+    }
+
+    public void setMetadataOnly(boolean metadataOnly) {
+        this.metadataOnly = metadataOnly;
     }
 
     @Override

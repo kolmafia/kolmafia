@@ -108,7 +108,7 @@ public abstract class SVNRepositoryFactory {
 
     private static final Map myFactoriesMap = new SVNHashMap();
     private static final String REPOSITORY_TEMPLATE_PATH = "/org/tmatesoft/svn/core/io/repository/template.jar";
-    
+
     static {
         FSRepositoryFactory.setup();
         SVNRepositoryFactoryImpl.setup();
@@ -214,7 +214,7 @@ public abstract class SVNRepositoryFactory {
             }
         }
         if ("file".equalsIgnoreCase(url.getProtocol())) {
-            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_LOCAL_REPOS_OPEN_FAILED, "Unable to open an ra_local session to URL");
+            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_LOCAL_REPOS_OPEN_FAILED, "Unable to open repository ''{0}''", new Object[]{url});
             SVNErrorManager.error(err, SVNLogType.NETWORK);
         }
         SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.BAD_URL, "Unable to create SVNRepository object for ''{0}''", url);
@@ -436,10 +436,16 @@ public abstract class SVNRepositoryFactory {
          return createLocalRepository(path, uuid, enableRevisionProperties,
                  force, pre14Compatible, pre15Compatible, pre16Compatible, false, false);
      }
+    public static SVNURL createLocalRepository(File path, String uuid, boolean enableRevisionProperties,
+                                               boolean force, boolean pre14Compatible, boolean pre15Compatible, boolean pre16Compatible,
+                                               boolean pre17Compatible, boolean with17Compatible) throws SVNException {
+        return createLocalRepository(path, uuid, enableRevisionProperties, force, pre14Compatible, pre15Compatible, pre16Compatible,
+                pre17Compatible, with17Compatible, true);
+    }
 
      public static SVNURL createLocalRepository(File path, String uuid, boolean enableRevisionProperties,
             boolean force, boolean pre14Compatible, boolean pre15Compatible, boolean pre16Compatible,
-            boolean pre17Compatible, boolean with17Compatible) throws SVNException {
+            boolean pre17Compatible, boolean with17Compatible, boolean pre10Compatible) throws SVNException {
         SVNFileType fType = SVNFileType.getType(path);
         if (fType != SVNFileType.NONE) {
             if (fType == SVNFileType.DIRECTORY) {
@@ -525,23 +531,10 @@ public abstract class SVNRepositoryFactory {
                     SVNFileUtil.setExecutable(hookFile, true);
                 }
             }
-            // generate and write UUID.
-            File uuidFile = new File(path, "db/uuid");
-            if (uuid == null || uuid.length() != 36) {
-                byte[] uuidBytes = SVNUUIDGenerator.generateUUID();
-                uuid = SVNUUIDGenerator.formatUUID(uuidBytes);
-            }
-            uuid += '\n';
-            try {
-                uuidOS = SVNFileUtil.openFileForWriting(uuidFile);
-                uuidOS.write(uuid.getBytes("US-ASCII"));
-            } catch (IOException e) {
-                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.IO_ERROR, "Error writing repository UUID to ''{0}''", uuidFile);
-                err.setChildErrorMessage(SVNErrorMessage.create(SVNErrorCode.IO_ERROR, e.getLocalizedMessage()));
-                SVNErrorManager.error(err, SVNLogType.FSFS);
-            }
-
             int fsFormat = FSFS.DB_FORMAT;
+            if (pre10Compatible) {
+                fsFormat = FSFS.DB_FORMAT_PRE_10;
+            }
             if( FSFS.DB_FORMAT_PRE_17_USE_AS_DEFAULT && !with17Compatible ) {
                 fsFormat = FSFS.DB_FORMAT_PRE_17;
             }
@@ -588,6 +581,30 @@ public abstract class SVNRepositoryFactory {
             } else {
                 final File currentTxnLockFile = new File(path, "db/" + FSFS.TXN_CURRENT_LOCK_FILE);
                 SVNFileUtil.createEmptyFile(currentTxnLockFile);
+            }
+
+            // generate and write UUID.
+            File uuidFile = new File(path, "db/uuid");
+            if (uuid == null || uuid.length() != 36) {
+                uuid = SVNUUIDGenerator.generateUUIDString();
+            }
+            if (fsFormat >= FSFS.MIN_INSTANCE_UUID_FORMAT) {
+                String instanceUuid;
+                do {
+                    instanceUuid = SVNUUIDGenerator.generateUUIDString();
+                } while(instanceUuid.equals(uuid));
+                uuid += '\n' + instanceUuid + '\n';
+            } else {
+                uuid += '\n';
+            }
+
+            try {
+                uuidOS = SVNFileUtil.openFileForWriting(uuidFile);
+                uuidOS.write(uuid.getBytes("US-ASCII"));
+            } catch (IOException e) {
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.IO_ERROR, "Error writing repository UUID to ''{0}''", uuidFile);
+                err.setChildErrorMessage(SVNErrorMessage.create(SVNErrorCode.IO_ERROR, e.getLocalizedMessage()));
+                SVNErrorManager.error(err, SVNLogType.FSFS);
             }
 
             long maxFilesPerDir = 0;
@@ -682,7 +699,7 @@ public abstract class SVNRepositoryFactory {
 
             if (fsFormat >= FSFS.MIN_REP_SHARING_FORMAT) {
                 File repCacheFile = new File(path, FSFS.DB_DIR + "/" + FSFS.REP_CACHE_DB);
-                FSRepresentationCacheUtil.create(repCacheFile);
+                FSRepresentationCacheUtil.create(fsFormat, repCacheFile);
             }
 
             /* Create the revprops directory. */

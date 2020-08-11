@@ -17,6 +17,7 @@ import java.security.cert.CertificateParsingException;
 import java.security.cert.X509Certificate;
 import java.util.Collection;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.Iterator;
 
 
@@ -27,22 +28,30 @@ import java.util.Iterator;
 public class SVNSSLUtil {
     
     public static StringBuffer getServerCertificatePrompt(X509Certificate cert, String realm, String hostName) {
+        return getServerCertificatePrompt(cert, realm, hostName, EnumSet.noneOf(SVNCertificateFailureKind.class));
+    }
+
+    public static StringBuffer getServerCertificatePrompt(X509Certificate cert, String realm, String hostName, EnumSet<SVNCertificateFailureKind> trustCertificateFailureKinds) {
         int failures = getServerCertificateFailures(cert, hostName);
+        int trustMask = SVNCertificateFailureKind.createMask(trustCertificateFailureKinds);
+
+        failures &= ~trustMask;
+
         StringBuffer prompt = new StringBuffer();
         prompt.append("Error validating server certificate for '");
         prompt.append(realm);
         prompt.append("':\n");
-        if ((failures & 8) != 0) {
+        if ((failures & SVNCertificateFailureKind.UNKNOWN_CA.getCode()) != 0) {
             prompt.append(" - The certificate is not issued by a trusted authority. Use the\n" +
                           "   fingerprint to validate the certificate manually!\n");
         }
-        if ((failures & 4) != 0) {
+        if ((failures & SVNCertificateFailureKind.CN_MISMATCH.getCode()) != 0) {
             prompt.append(" - The certificate hostname does not match.\n");
         }
-        if ((failures & 2) != 0) {
+        if ((failures & SVNCertificateFailureKind.EXPIRED.getCode()) != 0) {
             prompt.append(" - The certificate has expired.\n");
         }
-        if ((failures & 1) != 0) {
+        if ((failures & SVNCertificateFailureKind.NOT_YET_VALID.getCode()) != 0) {
             prompt.append(" - The certificate is not yet valid.\n");
         }
         getServerCertificateInfo(cert, prompt);
@@ -146,12 +155,8 @@ public class SVNSSLUtil {
 
         private static final long serialVersionUID = 4845L;
 
-        public CertificateNotTrustedException() {
-            super();
-        }
-
-        public CertificateNotTrustedException(String msg) {
-            super(msg);
+        public CertificateNotTrustedException(String msg, Throwable parent) {
+            super(msg, parent);
         }
     }
 

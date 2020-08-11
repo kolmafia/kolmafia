@@ -11,77 +11,31 @@
  */
 package org.tmatesoft.svn.core.internal.io.dav.http;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.EOFException;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.ConnectException;
-import java.net.CookieHandler;
-import java.net.HttpURLConnection;
-import java.net.Socket;
-import java.net.SocketTimeoutException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.UnknownHostException;
-import java.text.ParseException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.zip.GZIPInputStream;
-
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.SSLException;
-import javax.net.ssl.SSLHandshakeException;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.TrustManager;
-import javax.xml.parsers.FactoryConfigurationError;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.tmatesoft.svn.core.SVNCancelException;
-import org.tmatesoft.svn.core.SVNErrorCode;
-import org.tmatesoft.svn.core.SVNErrorMessage;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNURL;
-import org.tmatesoft.svn.core.auth.BasicAuthenticationManager;
-import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
-import org.tmatesoft.svn.core.auth.ISVNAuthenticationManagerExt;
-import org.tmatesoft.svn.core.auth.ISVNProxyManager;
-import org.tmatesoft.svn.core.auth.ISVNProxyManagerEx;
-import org.tmatesoft.svn.core.auth.SVNAuthentication;
-import org.tmatesoft.svn.core.auth.SVNPasswordAuthentication;
+import org.tmatesoft.svn.core.*;
+import org.tmatesoft.svn.core.auth.*;
 import org.tmatesoft.svn.core.internal.io.dav.handlers.DAVErrorHandler;
 import org.tmatesoft.svn.core.internal.util.ChunkedInputStream;
 import org.tmatesoft.svn.core.internal.util.FixedSizeInputStream;
 import org.tmatesoft.svn.core.internal.util.SVNSSLUtil;
 import org.tmatesoft.svn.core.internal.util.SVNSocketFactory;
-import org.tmatesoft.svn.core.internal.wc.DefaultSVNAuthenticationManager;
-import org.tmatesoft.svn.core.internal.wc.IOExceptionWrapper;
-import org.tmatesoft.svn.core.internal.wc.SVNCancellableOutputStream;
-import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
-import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
+import org.tmatesoft.svn.core.internal.wc.*;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.util.ISVNDebugLog;
 import org.tmatesoft.svn.util.SVNDebugLog;
 import org.tmatesoft.svn.util.SVNLogType;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXNotRecognizedException;
-import org.xml.sax.SAXNotSupportedException;
-import org.xml.sax.SAXParseException;
+import org.xml.sax.*;
 import org.xml.sax.helpers.DefaultHandler;
+
+import javax.net.ssl.*;
+import javax.xml.parsers.FactoryConfigurationError;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.*;
+import java.net.*;
+import java.text.ParseException;
+import java.util.*;
+import java.util.zip.GZIPInputStream;
 
 /**
  * @version 1.3
@@ -490,7 +444,7 @@ public class HTTPConnection implements IHTTPConnection {
                       final SSLSession session = ((SSLSocket)mySocket).getSession();
                       if (session != null) {
                         myRepository.getDebugLog().logFine(SVNLogType.NETWORK, "Connected to " + myRepository.getLocation() + " using " + session.getProtocol());
-	                      myLogSSLParams = false;
+                        myLogSSLParams = false;
                       }
                     }
                     try {
@@ -504,6 +458,18 @@ public class HTTPConnection implements IHTTPConnection {
                             continue;
                         }
                         throw (IOException) new IOException(pe.getMessage()).initCause(pe);
+                    } catch (SocketException e) {
+                        //the same as previous (EOFException)
+                        if (!"Broken pipe".equals(e.getMessage())) {
+                            throw e;
+                        }
+                        myRepository.getDebugLog().logFine(SVNLogType.NETWORK, e);
+                        // retry, EOF always means closed connection.
+                        if (retryCount > 0) {
+                            close();
+                            continue;
+                        }
+                        throw (SocketException) new SocketException(e.getMessage()).initCause(e);
                     } finally {
                         retryCount--;
                     }
@@ -514,6 +480,7 @@ public class HTTPConnection implements IHTTPConnection {
                 }
                 myNextRequestTimeout = request.getNextRequestTimeout();
                 myLastStatus = request.getStatus();
+                myLastStatus.setHeader(request.getResponseHeader());
             } catch (SSLHandshakeException ssl) {
                 myRepository.getDebugLog().logFine(SVNLogType.NETWORK, ssl);
                 close();
@@ -697,10 +664,14 @@ public class HTTPConnection implements IHTTPConnection {
                     if (!ntlmAuth.allowPropmtForCredentials()) {
                         continue;
                     }
+                    httpAuth = null;
                }
 
-                if (negoAuth != null && !negoAuth.needsLogin()) {
-                    continue;
+                if (negoAuth != null) {
+                    if (!negoAuth.needsLogin()) {
+                        continue;
+                    }
+                    httpAuth = null;
                 }
 
                 if (authManager == null) {
@@ -729,26 +700,22 @@ public class HTTPConnection implements IHTTPConnection {
                 continue;
             } else if (myLastStatus.getCode() == HttpURLConnection.HTTP_MOVED_PERM || myLastStatus.getCode() == HttpURLConnection.HTTP_MOVED_TEMP) {
                 String newLocation = request.getResponseHeader().getFirstHeaderValue(HTTPHeader.LOCATION_HEADER);
-                if (newLocation == null) {
-                    err = request.getErrorMessage();
-                    break;
-                }
-                int hostIndex = newLocation.indexOf("://");
-                if (hostIndex > 0) {
-                    hostIndex += 3;
-                    hostIndex = newLocation.indexOf("/", hostIndex);
-                }
-                if (hostIndex > 0 && hostIndex < newLocation.length()) {
-                    String newPath = newLocation.substring(hostIndex);
-                    if (newPath.endsWith("/") &&
-                            !newPath.endsWith("//") && !path.endsWith("/") &&
-                            newPath.substring(0, newPath.length() - 1).equals(path)) {
-                        path += "//";
-                        continue;
+                if (newLocation != null) {
+                    int hostIndex = newLocation.indexOf("://");
+                    if (hostIndex > 0) {
+                        hostIndex += 3;
+                        hostIndex = newLocation.indexOf("/", hostIndex);
+                    }
+                    if (hostIndex > 0 && hostIndex < newLocation.length()) {
+                        String newPath = newLocation.substring(hostIndex);
+                        if (newPath.endsWith("/") &&
+                                !newPath.endsWith("//") && !path.endsWith("/") &&
+                                newPath.substring(0, newPath.length() - 1).equals(path)) {
+                            path += "//";
+                            continue;
+                        }
                     }
                 }
-                err = request.getErrorMessage();
-                close();
             } else if (request.getErrorMessage() != null) {
                 err = request.getErrorMessage();
             } else {
@@ -819,22 +786,21 @@ public class HTTPConnection implements IHTTPConnection {
     }
 
     private boolean isClearCredentialsOnClose(HTTPAuthentication auth) {
-        return !(auth instanceof HTTPBasicAuthentication || auth instanceof HTTPDigestAuthentication
-                || auth instanceof HTTPNegotiateAuthentication);
+        return !(auth instanceof HTTPBasicAuthentication || auth instanceof HTTPDigestAuthentication || auth instanceof HTTPNegotiateAuthentication);
     }
 
-	private HTTPSSLKeyManager createKeyManager() {
-		if (!myIsSecured) {
-			return null;
-		}
+    private HTTPSSLKeyManager createKeyManager() {
+        if (!myIsSecured) {
+            return null;
+        }
 
-		SVNURL location = myRepository.getLocation();
-		ISVNAuthenticationManager authManager = myRepository.getAuthenticationManager();
-		String sslRealm = "<" + location.getProtocol() + "://" + location.getHost() + ":" + location.getPort() + ">";
-		return new HTTPSSLKeyManager(authManager, sslRealm, location);
-	}
+        SVNURL location = myRepository.getLocation();
+        ISVNAuthenticationManager authManager = myRepository.getAuthenticationManager();
+        String sslRealm = "<" + location.getProtocol() + "://" + location.getHost() + ":" + location.getPort() + ">";
+        return new HTTPSSLKeyManager(authManager, sslRealm, location);
+    }
 
-	public SVNErrorMessage readData(HTTPRequest request, OutputStream dst) throws IOException {
+    public SVNErrorMessage readData(HTTPRequest request, OutputStream dst) throws IOException {
         InputStream stream = createInputStream(request.getResponseHeader(), getInputStream());
         byte[] buffer = getBuffer();
         boolean willCloseConnection = false;

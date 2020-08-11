@@ -11,11 +11,11 @@
  */
 package org.tmatesoft.svn.core.auth;
 
-import java.io.File;
-
 import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.internal.util.SVNEncodingUtil;
 import org.tmatesoft.svn.core.internal.wc.SVNFileType;
+
+import java.io.File;
 
 /**
  * The <b>SVNSSLAuthentication</b> class represents user's credentials used 
@@ -172,7 +172,7 @@ public class SVNSSLAuthentication extends SVNAuthentication {
         if (myCertificatePath != null) {
             return myCertificatePath;
         }
-        return myCertificate.getAbsolutePath();
+        return null;
     }
     
     public void setCertificatePath(String path) {

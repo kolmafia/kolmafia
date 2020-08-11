@@ -14,6 +14,8 @@ package org.tmatesoft.svn.core.wc;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.internal.util.SVNHashMap;
 import org.tmatesoft.svn.core.internal.wc.admin.SVNWCAccess;
+import org.tmatesoft.svn.core.internal.wc2.compat.SvnCodec;
+import org.tmatesoft.svn.core.wc2.SvnCommitPacket;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,11 +36,13 @@ import java.util.Map;
  * @see     SVNCommitItem
  */
 public class SVNCommitPacket {
+
     /**
      * This constant denotes an empty commit items storage (contains no
      * {@link SVNCommitItem} objects).
      */
-    public static final SVNCommitPacket EMPTY = new SVNCommitPacket((SVNWCAccess)null, new SVNCommitItem[0], null);
+    public static final SVNCommitPacket EMPTY = SvnCodec.commitPacket(null, new SvnCommitPacket());
+
 
     private SVNCommitItem[] myCommitItems;
     private Map myLockTokens;

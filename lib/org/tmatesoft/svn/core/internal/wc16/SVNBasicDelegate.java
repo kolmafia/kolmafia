@@ -863,12 +863,12 @@ public class SVNBasicDelegate implements ISVNEventHandler {
                 throw e;
             }
         }
-        SVNLocationEntry startPath = (SVNLocationEntry) locations.get(new Long(startRevisionNumber));
-        SVNLocationEntry endPath = (SVNLocationEntry) locations.get(new Long(endRevisionNumber));
+        SVNLocationEntry startPath = (SVNLocationEntry) locations.get(startRevisionNumber);
+        SVNLocationEntry endPath = (SVNLocationEntry) locations.get(endRevisionNumber);
         if (startPath == null) {
             Object source = path != null ? (Object) path : (Object) url;
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CLIENT_UNRELATED_RESOURCES, "Unable to find repository location for ''{0}'' in revision ''{1}''", new Object[] {
-                    source, new Long(startRevisionNumber)
+                    source, startRevisionNumber
             });
             SVNErrorManager.error(err, SVNLogType.WC);
         }
@@ -876,7 +876,7 @@ public class SVNBasicDelegate implements ISVNEventHandler {
             Object source = path != null ? (Object) path : (Object) url;
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CLIENT_UNRELATED_RESOURCES, "The location for ''{0}'' for revision {1} does not exist in the "
                     + "repository or refers to an unrelated object", new Object[] {
-                    source, new Long(endRevisionNumber)
+                    source, endRevisionNumber
             });
             SVNErrorManager.error(err, SVNLogType.WC);
         }
@@ -895,7 +895,7 @@ public class SVNBasicDelegate implements ISVNEventHandler {
         final SVNNodeKind kind = repos.checkPath("", pegRevision);
         if (kind == SVNNodeKind.NONE) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_NOT_FOUND, "path ''{0}'' doesn't exist at revision {1}", new Object[] {
-                    path, new Long(pegRevision)
+                    path, pegRevision
             });
             SVNErrorManager.error(err, SVNLogType.WC);
         }
@@ -914,13 +914,13 @@ public class SVNBasicDelegate implements ISVNEventHandler {
         String endPath = handler.myEndPath == null ? handler.myCurrentPath : handler.myEndPath;
         if (pegPath == null) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_NOT_FOUND, "path ''{0}'' in revision {1} is an unrelated object", new Object[] {
-                    path, new Long(logStart)
+                    path, logStart
             });
             SVNErrorManager.error(err, SVNLogType.WC);
         }
         Map result = new SVNHashMap();
-        result.put(new Long(startRevision), new SVNLocationEntry(-1, startPath));
-        result.put(new Long(endRevision), new SVNLocationEntry(-1, endPath));
+        result.put(startRevision, new SVNLocationEntry(-1, startPath));
+        result.put(endRevision, new SVNLocationEntry(-1, endPath));
         return result;
     }
 
@@ -957,7 +957,7 @@ public class SVNBasicDelegate implements ISVNEventHandler {
                 prevPath = path;
             } else {
                 SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CLIENT_UNRELATED_RESOURCES, "Missing changed-path information for ''{0}'' in revision {1}", new Object[] {
-                        path, new Long(logEntry.getRevision())
+                        path, logEntry.getRevision()
                 });
                 SVNErrorManager.error(err, SVNLogType.WC);
             }

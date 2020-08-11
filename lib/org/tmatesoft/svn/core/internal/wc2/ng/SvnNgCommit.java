@@ -27,6 +27,7 @@ import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgCommitUtil.ISvnUrlKindCallbac
 import org.tmatesoft.svn.core.io.ISVNEditor;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.wc.ISVNEventHandler;
+import org.tmatesoft.svn.core.wc.SVNEvent;
 import org.tmatesoft.svn.core.wc.SVNEventAction;
 import org.tmatesoft.svn.core.wc2.SvnChecksum;
 import org.tmatesoft.svn.core.wc2.SvnCommit;
@@ -178,7 +179,9 @@ public class SvnNgCommit extends SvnNgOperationRunner<SVNCommitInfo, SvnCommit> 
 
                             if (!foundDeleteHalf) {
                                 SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.ILLEGAL_TARGET, "Cannot commit ''{0}'' because it was moved from " +
-                                        "''{1}'' which is not part of the commit; both " + "sides of the move must be committed together", item.getPath(), deleteOpRootAbsPath);
+                                        "''{1}'' which is not part of the commit; both " + "sides of the move must be committed together",
+                                        SVNFileUtil.getFilePath(item.getPath()),
+                                        SVNFileUtil.getFilePath(deleteOpRootAbsPath)); //SVNFileUtil.getFilePath() <--- prevents from converting to relative paths
                                 SVNErrorManager.error(errorMessage, SVNLogType.WC);
                             }
                         }
@@ -243,8 +246,12 @@ public class SvnNgCommit extends SvnNgOperationRunner<SVNCommitInfo, SvnCommit> 
                 SVNCommitter17 committer = new SVNCommitter17(context, committables, repositoryRootUrl, mediator.getTmpFiles(), md5Checksums, sha1Checksums);
                 SVNCommitUtil.driveCommitEditor(committer, committables.keySet(), commitEditor, -1);
                 committer.sendTextDeltas(commitEditor);
+                SVNEvent event = SVNEventFactory.createSVNEvent(null, SVNNodeKind.UNKNOWN, null, SVNRepository.INVALID_REVISION, SVNEventAction.COMMIT_FINALIZING, SVNEventAction.COMMIT_FINALIZING, null, null);
+                event.setURL(baseURL);
+                handleEvent(event);
                 info = commitEditor.closeEdit();
                 commitEditor = null;
+
                 if (info.getErrorMessage() == null || info.getErrorMessage().getErrorCode() == SVNErrorCode.REPOS_POST_COMMIT_HOOK_FAILED) {
                     // do some post processing, make sure not to unlock wc (to dipose packet) in case there
                     // is an error on post processing.

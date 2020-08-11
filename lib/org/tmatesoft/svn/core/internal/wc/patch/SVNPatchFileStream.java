@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import org.tmatesoft.svn.core.SVNErrorCode;
 import org.tmatesoft.svn.core.SVNErrorMessage;
 import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.internal.util.BufferedRandomAccessFile;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
 import org.tmatesoft.svn.util.SVNLogType;
@@ -45,6 +46,7 @@ public class SVNPatchFileStream {
     private long end = -1;
 
     private RandomAccessFile file;
+    private BufferedRandomAccessFile bufferedFile;
 
     private SVNPatchFileLineFilter lineFilter;
     private SVNPatchFileLineTransformer lineTransformer;
@@ -104,8 +106,10 @@ public class SVNPatchFileStream {
                 if (file == null) {
                     if (write) {
                         file = SVNFileUtil.openRAFileForWriting(path, false);
+                        bufferedFile = null;
                     } else {
                         file = SVNFileUtil.openRAFileForReading(path);
+                        bufferedFile = new BufferedRandomAccessFile(file);
                     }
                 }
             }
@@ -154,7 +158,7 @@ public class SVNPatchFileStream {
     private void checkPos(long pos) throws SVNException {
         if (!isPosValid(pos)) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.IO_ERROR, "Bad position for file ''{0}'': {1}. Range is {2}..{3}.", new Object[] {
-                    path, new Long(pos), new Long(start), new Long(end)
+                    path, pos, start, end
             });
             SVNErrorManager.error(err, Level.FINE, SVNLogType.DEFAULT);
         }
@@ -198,65 +202,74 @@ public class SVNPatchFileStream {
         boolean eol;
         boolean filtered;
 
-        do {
+        bufferedFile.loadPosition();
+        try {
+            do {
 
-            c = -1;
-            eol = false;
-            filtered = false;
+                c = -1;
+                eol = false;
+                filtered = false;
 
-            input.setLength(0);
-            if (eolStr != null) {
-                eolStr.setLength(0);
-            }
+                input.setLength(0);
+                if (eolStr != null) {
+                    eolStr.setLength(0);
+                }
 
-            while (!eol) {
-                switch (c = file.read()) {
-                    case -1:
-                        eol = true;
-                        break;
-                    case '\n':
-                        if (detectEol && eolStr != null) {
-                            eolStr.append((char) c);
-                        }
-                        eol = true;
-                        break;
-                    case '\r':
-                        if (detectEol && eolStr != null) {
-                            eolStr.append((char) c);
-                        }
-                        long cur = file.getFilePointer();
-                        final int c2 = file.read();
-                        if (c2 != '\n') {
-                            file.seek(cur);
-                        } else {
+                while (!eol) {
+                    switch (c = bufferedFile.read()) {
+                        case -1:
+                            eol = true;
+                            break;
+                        case '\n':
                             if (detectEol && eolStr != null) {
-                                eolStr.append((char) c2);
+                                eolStr.append((char) c);
                             }
-                        }
-                        eol = true;
-                        break;
-                    default:
-                        input.append((char) c);
-                        break;
+                            eol = true;
+                            break;
+                        case '\r':
+                            if (detectEol && eolStr != null) {
+                                eolStr.append((char) c);
+                            }
+                            long cur = bufferedFile.getFilePointer();
+                            final int c2 = bufferedFile.read();
+                            if (c2 != '\n') {
+                                bufferedFile.seek(cur);
+                            } else {
+                                if (detectEol && eolStr != null) {
+                                    eolStr.append((char) c2);
+                                }
+                            }
+                            eol = true;
+                            break;
+                        default:
+                            input.append((char) c);
+                            break;
+                    }
                 }
+
+                if (lineFilter != null) {
+                    filtered = lineFilter.lineFilter(input.toString());
+                    if (filtered) {
+                        input.setLength(0);
+                    }
+                }
+
+            } while (filtered && !isEOF());
+
+            if (lineTransformer != null) {
+                final String line = lineTransformer.lineTransformer(input.toString());
+                input.setLength(0);
+                input.append(line);
             }
 
-            if (lineFilter != null) {
-                filtered = lineFilter.lineFilter(input.toString());
-                if(filtered) {
-                    input.setLength(0);
-                }
+            return input.length() == 0 && c == -1 && isEOF();
+        } finally {
+            try {
+                bufferedFile.savePosition();
+            } catch (Throwable th) {
+                //
             }
-
-        } while (filtered && !isEOF());
-
-        if (lineTransformer != null) {
-            final String line = lineTransformer.lineTransformer(input.toString());
-            input.setLength(0);
-            input.append(line);
         }
-
-        return input.length() == 0 && c == -1 && isEOF();
     }
 
 }

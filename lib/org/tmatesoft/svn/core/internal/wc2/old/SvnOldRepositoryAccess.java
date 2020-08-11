@@ -196,6 +196,8 @@ public class SvnOldRepositoryAccess extends SvnRepositoryAccess {
                 if (repos == null) {
                     repos = createRepository(url, null, false);
                     closeRepository = true;
+                } else {
+                    repos.setLocation(url, false);
                 }
                 Structure<RevisionsPair> revPair = getRevisionNumber(repos, path != null ? SvnTarget.fromFile(path) : null, pegRevision, null); 
                 pegRevisionNumber[0] = revPair.lng(RevisionsPair.revNumber);

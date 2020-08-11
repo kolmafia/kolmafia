@@ -285,11 +285,18 @@ public class SVNEventAction {
      * area is upgraded to a newer one.
      */
     public static final SVNEventAction UPGRADE = createEventAction(-2, "wc_upgrade");
+
     /**
      * An working copy directory was upgraded to the latest format
      * @since New in 1.7. 
      */
     public static final SVNEventAction UPGRADED_PATH = createEventAction(50, "upgraded_path");
+
+    /**
+     * The server has instructed the client to follow a URL redirection.
+     * @since SVN 1.7.
+     */
+    public static final SVNEventAction URL_REDIRECT = createEventAction(59, "url_redirect");
 
     /**
      * Denotes that tried adding a path that already exists.
@@ -464,6 +471,11 @@ public class SVNEventAction {
     /**
      * @since 1.7, SVN 1.7
      */
+    public static final SVNEventAction FAILED_NO_PARENT = createEventAction(65, "failed_no_parent");
+
+    /**
+     * @since 1.7, SVN 1.7
+     */
     public static final SVNEventAction FAILED_LOCKED = createEventAction(66, "failed_locked");
     /**
      * @since 1.7, SVN 1.7
@@ -478,35 +490,55 @@ public class SVNEventAction {
     /**
      * @since 1.8, SVN 1.8
      */
-    public static final SVNEventAction RESOLVER_STARTING = createEventAction(70, "resolver_starting");
+    public static final SVNEventAction RESOLVER_STARTING = createEventAction(71, "resolver_starting");
 
     /**
      * @since 1.8, SVN 1.8
      */
-    public static final SVNEventAction RESOLVER_DONE = createEventAction(71, "resolver_done");
+    public static final SVNEventAction RESOLVER_DONE = createEventAction(72, "resolver_done");
 
     /**
      * @since 1.8, SVN 1.8
      */
-    public static final SVNEventAction MOVE_BROKEN = createEventAction(72, "move_broken");
-
-    /**
-     * @since 1.8, SVN 1.8
-     */
-    public static final SVNEventAction FAILED_OBSTRUCTION = createEventAction(73, "failed_obstruction");
+    public static final SVNEventAction FAILED_OBSTRUCTION = createEventAction(70, "failed_obstruction");
 
     /**
      * @since 1.7, SVN 1.7
      */
-    public static final SVNEventAction FAILED_CONFLICT = createEventAction(74, "failed_conflict");
+    public static final SVNEventAction FAILED_CONFLICT = createEventAction(62, "failed_conflict");
 
     /**
      * @since 1.7, SVN 1.7
      */
-    public static final SVNEventAction FAILED_MISSING = createEventAction(75, "failed_missing");
+    public static final SVNEventAction FAILED_MISSING = createEventAction(63, "failed_missing");
 
     /**
      * @since 1.8, SVN 1.8
      */
-    public static final SVNEventAction FOREIGN_COPY_BEGIN = createEventAction(76, "foreign_copy_begin");
+    public static final SVNEventAction FOREIGN_COPY_BEGIN = createEventAction(74, "foreign_copy_begin");
+
+    /**
+     * @since 1.8, SVN 1.8
+     */
+    public static final SVNEventAction MOVE_BROKEN = createEventAction(75, "move_broken");
+
+    /**
+     * @since 1.9, SVN 1.9
+     */
+    public static final SVNEventAction CLEANUP_EXTERNAL = createEventAction(76, "cleanup_external");
+
+    /**
+     * @since 1.9, SVN 1.9
+     */
+    public static final SVNEventAction FAILED_REQUIRES_TARGET = createEventAction(77, "failed_requires_target");
+
+    /**
+     * @since 1.9, SVN 1.9
+     */
+    public static final SVNEventAction INFO_EXTERNAL = createEventAction(78, "info_external");
+
+    /**
+     * @since 1.9, SVN 1.9
+     */
+    public static final SVNEventAction COMMIT_FINALIZING = createEventAction(79, "commit_finalizing");
 }

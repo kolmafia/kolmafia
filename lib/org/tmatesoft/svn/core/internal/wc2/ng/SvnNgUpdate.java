@@ -31,13 +31,16 @@ public class SvnNgUpdate extends SvnNgAbstractUpdate<long[], SvnUpdate> {
             }
             targets[j++] = target.getFile();
         }
-        
+
+        boolean foundValidTarget = false;
+
         for (int i = 0; i < targets.length; i++) {
             checkCancelled();
             try {
-                result[i] = update(getWcContext(), targets[i], getOperation().getRevision(), getOperation().getDepth(), getOperation().isDepthIsSticky(), 
-                        getOperation().isIgnoreExternals(), getOperation().isAllowUnversionedObstructions(), 
+                result[i] = update(getWcContext(), targets[i], getOperation().getRevision(), getOperation().getDepth(), getOperation().isDepthIsSticky(),
+                        getOperation().isIgnoreExternals(), getOperation().isAllowUnversionedObstructions(),
                         getOperation().isTreatAddsAsModifications(), getOperation().isMakeParents(), false, false);
+                foundValidTarget = true;
             } catch (SVNException e) {
                 if (e.getErrorMessage().getErrorCode() != SVNErrorCode.WC_NOT_WORKING_COPY) {
                     throw e;
@@ -46,6 +49,11 @@ public class SvnNgUpdate extends SvnNgAbstractUpdate<long[], SvnUpdate> {
                 handleEvent(SVNEventFactory.createSVNEvent(targets[i], SVNNodeKind.NONE, null, -1, SVNEventAction.UPDATE_COMPLETED, null, null, null));
             }
         }
+        if (!foundValidTarget) {
+            SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.WC_NOT_WORKING_COPY, "None of the targets are working copies");
+            SVNErrorManager.error(errorMessage, SVNLogType.WC);
+        }
+
         sleepForTimestamp();
         return result;
     }

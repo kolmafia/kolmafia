@@ -12,43 +12,25 @@
 
 package org.tmatesoft.svn.core.internal.io.dav;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Map;
-
-import org.tmatesoft.svn.core.SVNErrorCode;
-import org.tmatesoft.svn.core.SVNErrorMessage;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNLock;
-import org.tmatesoft.svn.core.SVNProperty;
-import org.tmatesoft.svn.core.SVNPropertyValue;
-import org.tmatesoft.svn.core.SVNURL;
+import org.tmatesoft.svn.core.*;
 import org.tmatesoft.svn.core.internal.io.dav.handlers.DAVGetLocksHandler;
 import org.tmatesoft.svn.core.internal.io.dav.handlers.DAVLockHandler;
 import org.tmatesoft.svn.core.internal.io.dav.handlers.DAVMergeHandler;
 import org.tmatesoft.svn.core.internal.io.dav.handlers.DAVOptionsHandler;
-import org.tmatesoft.svn.core.internal.io.dav.http.HTTPConnection;
-import org.tmatesoft.svn.core.internal.io.dav.http.HTTPHeader;
-import org.tmatesoft.svn.core.internal.io.dav.http.HTTPStatus;
-import org.tmatesoft.svn.core.internal.io.dav.http.IHTTPConnection;
-import org.tmatesoft.svn.core.internal.io.dav.http.IHTTPConnectionFactory;
-import org.tmatesoft.svn.core.internal.util.SVNDate;
-import org.tmatesoft.svn.core.internal.util.SVNEncodingUtil;
-import org.tmatesoft.svn.core.internal.util.SVNHashMap;
-import org.tmatesoft.svn.core.internal.util.SVNPathUtil;
-import org.tmatesoft.svn.core.internal.util.SVNUUIDGenerator;
-import org.tmatesoft.svn.core.internal.util.SVNXMLUtil;
+import org.tmatesoft.svn.core.internal.io.dav.http.*;
+import org.tmatesoft.svn.core.internal.util.*;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.io.ISVNWorkspaceMediator;
 import org.tmatesoft.svn.core.io.SVNCapability;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.util.SVNLogType;
 import org.xml.sax.helpers.DefaultHandler;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.util.*;
 
 
 /**
@@ -69,12 +51,29 @@ public class DAVConnection {
     protected boolean myKeepLocks;
     protected Map myLocks;
     protected Map myCapabilities;
+    //HTTPv2 stuff:
+    protected boolean myHttpV2Enabled;
+    protected String myMeResource;
+    protected String myRevStub;
+    protected String myRevRootStub;
+    protected String myTxnStub;
+    protected String myTxnRootStub;
+    protected String myVtxnStub;
+    protected String myVtxnRootStub;
+    protected String myUUID;
+    protected String myServerAllowsBulk;
+    protected long myLatestRevision;
+    protected List<String> mySupportedPosts;
+    protected SVNURL myRepositoryRoot;
+
     protected IHTTPConnectionFactory myConnectionFactory;
     private HTTPStatus myLastStatus;
 
     public DAVConnection(IHTTPConnectionFactory connectionFactory, SVNRepository repository) {
         myRepository = repository;
         myConnectionFactory = connectionFactory;
+        myLatestRevision = SVNRepository.INVALID_REVISION;
+        myHttpV2Enabled = (repository instanceof DAVRepository) && ((DAVRepository) repository).isHttpV2Enabled();
     }
 
     public boolean isReportResponseSpooled() {
@@ -97,7 +96,12 @@ public class DAVConnection {
         myActivityCollectionURL = null;
     }
 
+
     public void open(DAVRepository repository) throws SVNException {
+        open(repository, null);
+    }
+
+    public void open(DAVRepository repository, SVNURL[] correctedUrl) throws SVNException {
         if (myHttpConnection == null) {
             myHttpConnection = myConnectionFactory.createHTTPConnection(repository);
             if (repository.getSpoolLocation() != null) {
@@ -106,19 +110,23 @@ public class DAVConnection {
                     ((HTTPConnection) myHttpConnection).setSpoolDirectory(repository.getSpoolLocation());
                 }
             }
-            exchangeCapabilities();
+            exchangeCapabilities(correctedUrl);
         }
     }
 
     public void fetchRepositoryRoot(DAVRepository repository) throws SVNException {
         if (!repository.hasRepositoryRoot()) {
-            String rootPath = repository.getLocation().getURIEncodedPath();
-            DAVBaselineInfo info = DAVUtil.getBaselineInfo(this, repository, rootPath, -1, false, false, null);
-            // remove relative part from the path
-            rootPath = rootPath.substring(0, rootPath.length() - info.baselinePath.length());
-            SVNURL location = repository.getLocation();
-            SVNURL url = location.setPath(rootPath, true);
-            repository.setRepositoryRoot(url);
+            if (hasHttpV2Support()) {
+                repository.setRepositoryRoot(myRepositoryRoot);
+            } else {
+                String rootPath = repository.getLocation().getURIEncodedPath();
+                DAVBaselineInfo info = DAVUtil.getBaselineInfo(this, repository, rootPath, -1, false, false, null);
+                // remove relative part from the path
+                rootPath = rootPath.substring(0, rootPath.length() - info.baselinePath.length());
+                SVNURL location = repository.getLocation();
+                SVNURL url = location.setPath(rootPath, true);
+                repository.setRepositoryRoot(url);
+            }
         }
     }
 
@@ -136,6 +144,12 @@ public class DAVConnection {
         beforeCall();
         IHTTPConnection httpConnection = getConnection();
         return performHttpRequest(httpConnection, "PROPFIND", path, header, body, -1, 0, null, handler);
+    }
+
+    public HTTPStatus doOptions(String path) throws SVNException {
+        beforeCall();
+        IHTTPConnection httpConnection = getConnection();
+        return performHttpRequest(httpConnection, "OPTIONS", path, null, DAVOptionsHandler.OPTIONS_REQUEST, 200, 0, null, null);
     }
 
     public SVNLock doGetLock(String path, DAVRepository repos) throws SVNException {
@@ -191,14 +205,18 @@ public class DAVConnection {
         return handler.getLocks();
     }
 
-    public SVNLock doLock(String repositoryPath, String path, DAVRepository repos, String comment, boolean force, long revision) throws SVNException {
+    public SVNLock doLock(String repositoryPath, String path, DAVRepository repos, String comment, boolean force, long revision,
+                          long timeout) throws SVNException {
         beforeCall();
-        DAVBaselineInfo info = DAVUtil.getBaselineInfo(this, repos, path, -1, false, true, null);
 
         StringBuffer body = DAVLockHandler.generateSetLockRequest(null, comment);
         HTTPHeader header = new HTTPHeader();
         header.setHeaderValue(HTTPHeader.DEPTH_HEADER, "0");
-        header.setHeaderValue(HTTPHeader.TIMEOUT_HEADER, "Infinite");
+        if (timeout <= 0) {
+            header.setHeaderValue(HTTPHeader.TIMEOUT_HEADER, "Infinite");
+        } else {
+            header.setHeaderValue(HTTPHeader.TIMEOUT_HEADER, "Second-" + Long.toString(timeout));
+        }
         header.setHeaderValue(HTTPHeader.CONTENT_TYPE_HEADER, "text/xml; charset=\"utf-8\"");
 
         if (revision >= 0) {
@@ -222,6 +240,10 @@ public class DAVConnection {
                 SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_OUT_OF_DATE, "Lock request failed: {0} {1}",
                         new Object[] {myLastStatus.getCode(), myLastStatus.getReason()});
                 SVNErrorManager.error(err, SVNLogType.CLIENT);
+            } else if (myLastStatus.getCode() == 403) {
+                SVNErrorManager.error(
+                        SVNErrorMessage.create(SVNErrorCode.RA_DAV_FORBIDDEN, "Lock request failed failed on ''{0}'' (403 Forbidden)", path),
+                        SVNLogType.NETWORK);
             }
             if (myLastStatus.getError() != null) {
                 myLastStatus.getError().setChildErrorMessage(null); //  subversion doesn't have a child message for lock
@@ -593,6 +615,24 @@ public class DAVConnection {
         }
     }
 
+    public HTTPStatus doPost(String path, String mimeType, byte[] body) throws SVNException {
+        beforeCall();
+        IHTTPConnection httpConnection = getConnection();
+        HTTPHeader header = new HTTPHeader();
+        if (mimeType != null) {
+            header.setHeaderValue(HTTPHeader.CONTENT_TYPE_HEADER, mimeType);
+        }
+        HTTPStatus status = performHttpRequest(httpConnection, "POST", path, header, body, 404, 201, null, null);
+        return status;
+    }
+
+    public HTTPStatus doHead(String path) throws SVNException {
+        beforeCall();
+        IHTTPConnection httpConnection = getConnection();
+        HTTPStatus status = performHttpRequest(httpConnection, "HEAD", path, null, (StringBuffer)null, 404, 0, null, null);
+        return status;
+    }
+
     public void close()  {
         if (myHttpConnection != null) {
             myHttpConnection.close();
@@ -615,7 +655,7 @@ public class DAVConnection {
 
     public String getCapabilityResponse(SVNCapability capability) throws SVNException {
     	if (myCapabilities == null || myCapabilities.get(capability) == null) {
-    		exchangeCapabilities();
+    		exchangeCapabilities(null);
     	}
         return (String) myCapabilities.get(capability);
     }
@@ -624,21 +664,80 @@ public class DAVConnection {
         myCapabilities.put(capability, capResult);
     }
 
+    public boolean hasHttpV2Support() {
+        return myHttpV2Enabled && myMeResource != null;
+    }
+
+    public String getMeResource() {
+        return myMeResource;
+    }
+
+    public List<String> getSupportedPosts() {
+        return mySupportedPosts;
+    }
+
+    public String getTxnStub() {
+        return myTxnStub;
+    }
+
+    public String getTxnRootStub() {
+        return myTxnRootStub;
+    }
+
+    public String getVtxnStub() {
+        return myVtxnStub;
+    }
+
+    public String getVtxnRootStub() {
+        return myVtxnRootStub;
+    }
+
     protected IHTTPConnection getConnection() {
         return myHttpConnection;
     }
 
-    protected void exchangeCapabilities() throws SVNException {
+    protected void exchangeCapabilities(SVNURL[] correctedUrl) throws SVNException {
         String path = SVNEncodingUtil.uriEncode(getLocation().getPath());
         IHTTPConnection httpConnection = getConnection();
         HTTPStatus status = performHttpRequest(httpConnection, "OPTIONS", path, null, DAVOptionsHandler.OPTIONS_REQUEST, 200, 0, null, null);
+
+        if (DAVRepository.ourRedirectsEnabled && correctedUrl != null && status.getCode() == 301) {
+            final String newLocation = status.getHeader().getFirstHeaderValue(HTTPHeader.LOCATION_HEADER);
+            if (newLocation == null || newLocation.length() == 0) {
+                final SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.RA_DAV_RESPONSE_HEADER_BADNESS, "Location header not set on redirect response");
+                SVNErrorManager.error(errorMessage, SVNLogType.NETWORK);
+            } else if (SVNPathUtil.isURL(newLocation)) {
+                correctedUrl[0] = SVNURL.parseURIEncoded(newLocation);
+            } else {
+                final SVNURL currentLocation = getLocation();
+                correctedUrl[0] = SVNURL.create(currentLocation.getProtocol(), currentLocation.getUserInfo(), currentLocation.getHost(), currentLocation.getPort(),
+                        newLocation, /*URI encoded*/false);
+            }
+            return;
+        } else if (status.getCode() >= 300 && status.getCode() < 399) {
+            final String location = status.getHeader() != null ? status.getHeader().getFirstHeaderValue("Location") : null;
+
+            String message;
+            SVNErrorMessage errorMessage;
+            if (location != null) {
+                message = status.getCode() == HttpURLConnection.HTTP_MOVED_PERM ? "Repository moved permanently to ''{0}''; please relocate" :
+                        "Repository moved temporarily to ''{0}''; please relocate";
+                errorMessage = SVNErrorMessage.create(SVNErrorCode.RA_DAV_RELOCATED, message, location);
+            } else {
+                message = status.getCode() == HttpURLConnection.HTTP_MOVED_PERM ? "Repository moved permanently; please relocate" :
+                        "Repository moved temporarily; please relocate";
+                errorMessage = SVNErrorMessage.create(SVNErrorCode.RA_DAV_RELOCATED, message);
+            }
+            SVNErrorManager.error(errorMessage, SVNLogType.NETWORK);
+        }
+
         if (status.getCode() == 200) {
-        	parseCapabilities(status);
+            parseCapabilities(status);
         } else {
-        	SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_DAV_OPTIONS_REQ_FAILED,
-        			"OPTIONS request (for capabilities) got HTTP response code {0}",
-        			new Integer(status.getCode()));
-        	SVNErrorManager.error(err, SVNLogType.NETWORK);
+            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_DAV_OPTIONS_REQ_FAILED,
+                    "OPTIONS request (for capabilities) got HTTP response code {0}",
+                    new Object[]{status.getCode()});
+            SVNErrorManager.error(err, SVNLogType.NETWORK);
         }
     }
 
@@ -646,7 +745,7 @@ public class DAVConnection {
         return myRepository;
     }
 
-    private void parseCapabilities(HTTPStatus status) {
+    protected void parseCapabilities(HTTPStatus status) {
         if (myCapabilities == null) {
             myCapabilities = new SVNHashMap();
         }
@@ -657,27 +756,108 @@ public class DAVConnection {
         myCapabilities.put(SVNCapability.INHERITED_PROPS, DAV_CAPABILITY_NO);
         myCapabilities.put(SVNCapability.EPHEMERAL_PROPS, DAV_CAPABILITY_NO);
 
-    	Collection capValues = status.getHeader().getHeaderValues(HTTPHeader.DAV_HEADER);
+        HTTPHeader header = status.getHeader();
+        Collection capValues = header.getHeaderValues(HTTPHeader.DAV_HEADER);
     	if (capValues != null) {
     		for (Iterator valuesIter = capValues.iterator(); valuesIter.hasNext();) {
-                String value = (String) valuesIter.next();
-    			if (DAVElement.DEPTH_OPTION.equalsIgnoreCase(value)) {
-    				myCapabilities.put(SVNCapability.DEPTH, DAV_CAPABILITY_YES);
-    			} else if (DAVElement.MERGE_INFO_OPTION.equalsIgnoreCase(value)) {
-    				myCapabilities.put(SVNCapability.MERGE_INFO, DAV_CAPABILITY_SERVER_YES);
-    			} else if (DAVElement.LOG_REVPROPS_OPTION.equalsIgnoreCase(value)) {
-    				myCapabilities.put(SVNCapability.LOG_REVPROPS, DAV_CAPABILITY_YES);
-    			} else if (DAVElement.PARTIAL_REPLAY_OPTION.equalsIgnoreCase(value)) {
-    				myCapabilities.put(SVNCapability.PARTIAL_REPLAY, DAV_CAPABILITY_YES);
-    			} else if (DAVElement.ATOMIC_REVPROPS_OPTION.equalsIgnoreCase(value)) {
-                    myCapabilities.put(SVNCapability.ATOMIC_REVPROPS, DAV_CAPABILITY_YES);
-                } else if (DAVElement.INHERITED_PROPS_OPTION.equalsIgnoreCase(value)) {
-                    myCapabilities.put(SVNCapability.INHERITED_PROPS, DAV_CAPABILITY_YES);
-                } else if (DAVElement.EPHEMERAL_PROPS_OPTION.equalsIgnoreCase(value)) {
-                    myCapabilities.put(SVNCapability.EPHEMERAL_PROPS, DAV_CAPABILITY_YES);
+                String values = (String) valuesIter.next();
+                final String[] valuesArray = values.split(",");
+                for (String value : valuesArray) {
+                    value = value.trim();
+                    if (DAVElement.DEPTH_OPTION.equalsIgnoreCase(value)) {
+                        myCapabilities.put(SVNCapability.DEPTH, DAV_CAPABILITY_YES);
+                    } else if (DAVElement.MERGE_INFO_OPTION.equalsIgnoreCase(value)) {
+                        myCapabilities.put(SVNCapability.MERGE_INFO, DAV_CAPABILITY_SERVER_YES);
+                    } else if (DAVElement.LOG_REVPROPS_OPTION.equalsIgnoreCase(value)) {
+                        myCapabilities.put(SVNCapability.LOG_REVPROPS, DAV_CAPABILITY_YES);
+                    } else if (DAVElement.PARTIAL_REPLAY_OPTION.equalsIgnoreCase(value)) {
+                        myCapabilities.put(SVNCapability.PARTIAL_REPLAY, DAV_CAPABILITY_YES);
+                    } else if (DAVElement.ATOMIC_REVPROPS_OPTION.equalsIgnoreCase(value)) {
+                        myCapabilities.put(SVNCapability.ATOMIC_REVPROPS, DAV_CAPABILITY_YES);
+                    } else if (DAVElement.INHERITED_PROPS_OPTION.equalsIgnoreCase(value)) {
+                        myCapabilities.put(SVNCapability.INHERITED_PROPS, DAV_CAPABILITY_YES);
+                    } else if (DAVElement.EPHEMERAL_PROPS_OPTION.equalsIgnoreCase(value)) {
+                        myCapabilities.put(SVNCapability.EPHEMERAL_PROPS, DAV_CAPABILITY_YES);
+                    }
                 }
 			}
     	}
+
+        Map<String, List<String>> rawHeaders = header.getRawHeaders();
+        for (Map.Entry<String, List<String>> entry : rawHeaders.entrySet()) {
+            String headerName = entry.getKey();
+            if (headerName.toUpperCase().startsWith("SVN")) {
+                List<String> values = entry.getValue();
+                if (values == null) {
+                    continue;
+                }
+                String firstValue = (values != null && values.size() > 0) ? values.get(0) : null;
+
+                if (mySupportedPosts == null) {
+                    mySupportedPosts = Collections.singletonList("create-txn");
+                }
+
+                if (DAVElement.SVN_ROOT_URI_HEADER.equals(headerName)) {
+                    try {
+                        myRepositoryRoot = myRepository.getLocation().setPath(firstValue, false);
+                    } catch (SVNException e) {
+                        myRepositoryRoot = null;
+                    }
+                } else if (DAVElement.SVN_ME_RESOURCE_HEADER.equals(headerName)) {
+                    myMeResource = firstValue;
+                } else if (DAVElement.SVN_REV_STUB_HEADER.equals(headerName)) {
+                    myRevStub = firstValue;
+                } else if (DAVElement.SVN_REV_ROOT_STUB_HEADER.equals(headerName)) {
+                    myRevRootStub = firstValue;
+                } else if (DAVElement.SVN_TXN_STUB_HEADER.equals(headerName)) {
+                    myTxnStub = firstValue;
+                } else if (DAVElement.SVN_TXN_ROOT_STUB_HEADER.equals(headerName)) {
+                    myTxnRootStub = firstValue;
+                } else if (DAVElement.SVN_VTXN_STUB_HEADER.equals(headerName)) {
+                    myVtxnStub = firstValue;
+                } else if (DAVElement.SVN_VTXN_ROOT_STUB_HEADER.equals(headerName)) {
+                    myVtxnRootStub = firstValue;
+                } else if (DAVElement.SVN_REPOS_UUID_HEADER.equals(headerName)) {
+                    myUUID = firstValue;
+                } else if (DAVElement.SVN_YOUNGEST_REV_HEADER.equals(headerName)) {
+                    try {
+                        myLatestRevision = Long.parseLong(firstValue);
+                    } catch (NumberFormatException e) {
+                        myLatestRevision = -1;
+                    }
+                } else if (DAVElement.SVN_ALLOW_BULK_UPDATES_HEADER.equals(headerName)) {
+                    myServerAllowsBulk = firstValue;
+                } else if (DAVElement.SVN_SUPPORTED_POSTS_HEADER.equals(headerName)) {
+                    mySupportedPosts = new ArrayList<String>();
+                    for (String value : values) {
+                        final String[] supportedPosts = value.split(",");
+                        for (String supportedPost : supportedPosts) {
+                            mySupportedPosts.add(supportedPost.trim());
+                        }
+                    }
+                } else if (DAVElement.SVN_REPOSITORY_MERGEINFO_HEADER.equals(headerName)) {
+                    if (DAV_CAPABILITY_YES.equals(firstValue)) {
+                        myCapabilities.put(SVNCapability.MERGE_INFO, DAV_CAPABILITY_YES);
+                    } else if (DAV_CAPABILITY_NO.equals(firstValue)) {
+                        myCapabilities.put(SVNCapability.MERGE_INFO, DAV_CAPABILITY_NO);
+                    }
+                }
+            }
+        }
+    }
+
+    protected String getRelativePath(String origPath) {
+        if (myRepositoryRoot == null) {
+            assert !hasHttpV2Support();
+
+            throw new UnsupportedOperationException();
+        }
+        String rootPath = myRepositoryRoot.getURIEncodedPath();
+        return SVNPathUtil.getPathAsChild(rootPath, origPath);
+    }
+
+    protected String getRelativePath() {
+        return getRelativePath(myRepository.getLocation().getURIEncodedPath());
     }
 
     private String getActivityCollectionURL(String path, boolean force) throws SVNException {
@@ -712,6 +892,16 @@ public class DAVConnection {
 
     private void beforeCall() {
         myLastStatus = null;
+    }
+
+    private HTTPStatus performHttpRequest(IHTTPConnection httpConnection, String method, String path, HTTPHeader header, byte[] body, int ok1, int ok2, OutputStream dst, DefaultHandler handler) throws SVNException {
+        myLastStatus = null;
+        try {
+            myLastStatus = httpConnection.request(method, path, header, body != null ? new ByteArrayInputStream(body) : null, ok1, ok2, dst, handler);
+            return myLastStatus;
+        } finally {
+            myLastStatus = httpConnection.getLastStatus();
+        }
     }
 
     private HTTPStatus performHttpRequest(IHTTPConnection httpConnection, String method, String path, HTTPHeader header, StringBuffer body, int ok1, int ok2, OutputStream dst, DefaultHandler handler) throws SVNException {

@@ -3,12 +3,15 @@ package org.tmatesoft.svn.core.wc2;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 import org.tmatesoft.svn.core.SVNCommitInfo;
 import org.tmatesoft.svn.core.SVNErrorCode;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
+import org.tmatesoft.svn.core.internal.wc.SVNExternal;
 import org.tmatesoft.svn.core.wc.DefaultSVNCommitParameters;
 import org.tmatesoft.svn.core.wc.ISVNEventHandler;
 import org.tmatesoft.svn.core.wc.ISVNExternalsHandler;
@@ -103,13 +106,15 @@ import org.tmatesoft.svn.core.wc2.hooks.ISvnExternalsHandler;
  * @version 1.7
  */
 public class SvnRemoteCopy extends AbstractSvnCommit {
-    
-    private boolean move;
-    private boolean makeParents;
-    private boolean failWhenDstExists;
-    private ISvnExternalsHandler externalsHandler;
-    private ISvnCommitParameters commitParameters;
-    private boolean disableLocalModifications;
+
+     private boolean move;
+     private boolean makeParents;
+     private boolean failWhenDstExists;
+     private ISvnExternalsHandler externalsHandler;
+     private ISvnCommitParameters commitParameters;
+     private boolean disableLocalModifications;
+     private boolean pinExternals;
+     private Map<SvnTarget, List<SVNExternal>> externalsToPin;
 
     private Collection<SvnCopySource> sources;
     
@@ -270,6 +275,22 @@ public class SvnRemoteCopy extends AbstractSvnCommit {
     public void setCommitParameters(ISvnCommitParameters commitParameters) {
         this.commitParameters = commitParameters;
     }
+
+     public boolean isPinExternals() {
+         return pinExternals;
+     }
+
+     public void setPinExternals(boolean pinExternals) {
+         this.pinExternals = pinExternals;
+     }
+
+     public Map<SvnTarget, List<SVNExternal>> getExternalsToPin() {
+         return externalsToPin;
+     }
+
+     public void setExternalsToPin(Map<SvnTarget, List<SVNExternal>> externalsToPin) {
+         this.externalsToPin = externalsToPin;
+     }
 
      /**
       * Gets whether the operation changes working copy

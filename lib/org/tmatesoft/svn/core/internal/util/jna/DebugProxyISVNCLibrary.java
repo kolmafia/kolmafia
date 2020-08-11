@@ -36,6 +36,12 @@ public class DebugProxyISVNCLibrary implements ISVNCLibrary {
         return readlink;
     }
 
+    public int __lxstat(int ver, String path, Pointer stat) {
+        int i = myLibrary.__lxstat(ver, path, stat);
+        myDebugLog.log(SVNLogType.NATIVE_CALL, "CALLED ISVNCLibrary#__lxstat(" + ver + ", " + path + ", " + toStringNullable(stat) + ") = " + i, Level.INFO);
+        return i;
+    }
+
     public int __lxstat64(int ver, String path, Pointer stat) {
         int i = myLibrary.__lxstat64(ver, path, stat);
         myDebugLog.log(SVNLogType.NATIVE_CALL, "CALLED ISVNCLibrary#__lxstat64(" + ver + ", " + path + ", " + toStringNullable(stat) + ") = " + i, Level.INFO);
@@ -88,5 +94,23 @@ public class DebugProxyISVNCLibrary implements ISVNCLibrary {
         int getgid = myLibrary.getgid();
         myDebugLog.log(SVNLogType.NATIVE_CALL, "CALLED ISVNCLibrary#getgid() = " + getgid, Level.INFO);
         return getgid;
+    }
+
+    public int flock(int fd, int operation) {
+        final int error = myLibrary.flock(fd, operation);
+        myDebugLog.log(SVNLogType.NATIVE_CALL, "CALLED ISVNCLibrary#flock(" + fd + ", " + operation + ") = " + error, Level.INFO);
+        return error;
+    }
+
+    public int open(String path, int oflag, int mode) {
+        final int fd = myLibrary.open(path, oflag, mode);
+        myDebugLog.log(SVNLogType.NATIVE_CALL, "CALLED ISVNCLibrary#open(" + path + ", " + oflag + ", " + mode + ") = " + fd, Level.INFO);
+        return fd;
+    }
+
+    public int close(int fd) {
+        final int error = myLibrary.close(fd);
+        myDebugLog.log(SVNLogType.NATIVE_CALL, "CALLED ISVNCLibrary#close(" + fd + ") = " + error, Level.INFO);
+        return error;
     }
 }

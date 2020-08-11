@@ -63,9 +63,11 @@ public class SvnGetStatus extends SvnReceivingOperation<SvnStatus> {
     private ISvnFileListHook fileListHook;
     private boolean collectParentExternals;
     private long remoteRevision;
+    private boolean checkWorkingCopy;
 
     protected SvnGetStatus(SvnOperationFactory factory) {
         super(factory);
+        checkWorkingCopy = true;
     }
 
     /**
@@ -243,6 +245,14 @@ public class SvnGetStatus extends SvnReceivingOperation<SvnStatus> {
      */
     public long getRemoteRevision() {
         return this.remoteRevision;
+    }
+
+    public boolean isCheckWorkingCopy() {
+        return checkWorkingCopy;
+    }
+
+    public void setCheckWorkingCopy(boolean checkWorkingCopy) {
+        this.checkWorkingCopy = checkWorkingCopy;
     }
 
     @Override

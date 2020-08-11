@@ -661,7 +661,7 @@ public class SVNUpdateEditor17 implements ISVNUpdateEditor {
                 reason == SVNConflictReason.MOVED_AWAY ||
                 reason == SVNConflictReason.REPLACED) {
             if (action != SVNConflictAction.EDIT && action != SVNConflictAction.DELETE && action != SVNConflictAction.REPLACE) {
-                SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.WC_FOUND_CONFLICT, "Unexpected attempt to add a node at path '{{0}}'",
+                SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.WC_FOUND_CONFLICT, "Unexpected attempt to add a node at path ''{0}''",
                         localAbspath);
                 SVNErrorManager.error(errorMessage, SVNLogType.WC);
             }
@@ -669,7 +669,7 @@ public class SVNUpdateEditor17 implements ISVNUpdateEditor {
                 reason == SVNConflictReason.MOVED_HERE) {
             if (action != SVNConflictAction.ADD) {
                 SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.WC_FOUND_CONFLICT, "Unexpected attempt to edit, delete, or replace " +
-                        "a node at path '{{0}}'", localAbspath);
+                        "a node at path ''{0}''", localAbspath);
                 SVNErrorManager.error(errorMessage, SVNLogType.WC);
             }
         }

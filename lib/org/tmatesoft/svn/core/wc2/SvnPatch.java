@@ -10,6 +10,7 @@ public class SvnPatch extends SvnOperation<Void> {
     private boolean reverse;
     private boolean ignoreWhitespace;
     private boolean removeTempFiles;
+    private ISvnPatchHandler patchHandler;
 
     protected SvnPatch(SvnOperationFactory factory) {
         super(factory);
@@ -61,5 +62,13 @@ public class SvnPatch extends SvnOperation<Void> {
 
     public void setRemoveTempFiles(boolean removeTempFiles) {
         this.removeTempFiles = removeTempFiles;
+    }
+
+    public ISvnPatchHandler getPatchHandler() {
+        return patchHandler;
+    }
+
+    public void setPatchHandler(ISvnPatchHandler patchHandler) {
+        this.patchHandler = patchHandler;
     }
 }

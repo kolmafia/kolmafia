@@ -660,7 +660,7 @@ public class SVNAdminArea14 extends SVNAdminArea {
                     }
                     entries.put(entry.getName(), entry);
                 } catch (SVNException svne) {
-                    SVNErrorMessage err = svne.getErrorMessage().wrap("Error at entry {0} in entries file for ''{1}'':", new Object[]{new Integer(entryNumber), getRoot()});
+                    SVNErrorMessage err = svne.getErrorMessage().wrap("Error at entry {0} in entries file for ''{1}'':", new Object[]{entryNumber, getRoot()});
                     SVNErrorManager.error(err, svne, SVNLogType.WC);
                 }
                 ++entryNumber;

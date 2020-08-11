@@ -121,7 +121,7 @@ public class DefaultLoadHandler implements ISVNLoadHandler {
                 }
             }
 
-            myRevisionsMap.put(new Long(oldRevision), new Long(newRevision));
+            myRevisionsMap.put(oldRevision, newRevision);
             if (baton.myDatestamp != null) {
                 myFSFS.setRevisionProperty(newRevision, SVNRevisionProperty.DATE, baton.myDatestamp);
             }
@@ -391,7 +391,7 @@ public class DefaultLoadHandler implements ISVNLoadHandler {
             return false;
         } 
         long srcRevision = nodeBaton.myCopyFromRevision - myCurrentRevisionBaton.myRevisionOffset;
-        Long copyFromRevision = new Long(nodeBaton.myCopyFromRevision);
+        Long copyFromRevision = nodeBaton.myCopyFromRevision;
         
         if (myRevisionsMap.containsKey(copyFromRevision)) {
             Long revision = (Long) myRevisionsMap.get(copyFromRevision);
@@ -399,7 +399,7 @@ public class DefaultLoadHandler implements ISVNLoadHandler {
         }
         
         if (!SVNRevision.isValidRevisionNumber(srcRevision)) {
-            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_NO_SUCH_REVISION, "Relative source revision {0} is not available in current repository", new Long(srcRevision));
+            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_NO_SUCH_REVISION, "Relative source revision {0} is not available in current repository", srcRevision);
             SVNErrorManager.error(err, SVNLogType.FSFS);
         }
         
@@ -497,11 +497,11 @@ public class DefaultLoadHandler implements ISVNLoadHandler {
             SVNMergeRange[] ranges = rangeList.getRanges();
             for (int i = 0; i < ranges.length; i++) {
                 SVNMergeRange range = ranges[i];
-                Long revFromMap = (Long) myRevisionsMap.get(new Long(range.getStartRevision()));
+                Long revFromMap = (Long) myRevisionsMap.get(range.getStartRevision());
                 if (revFromMap != null && SVNRevision.isValidRevisionNumber(revFromMap.longValue())) {
                     range.setStartRevision(revFromMap.longValue());
                 }
-                revFromMap = (Long) myRevisionsMap.get(new Long(range.getEndRevision()));
+                revFromMap = (Long) myRevisionsMap.get(range.getEndRevision());
                 if (revFromMap != null && SVNRevision.isValidRevisionNumber(revFromMap.longValue())) {
                     range.setEndRevision(revFromMap.longValue());
                 }

@@ -3,21 +3,12 @@ package org.tmatesoft.svn.core.internal.wc2.ng;
 import java.io.File;
 import java.util.*;
 
-import org.tmatesoft.svn.core.SVNDepth;
-import org.tmatesoft.svn.core.SVNErrorCode;
-import org.tmatesoft.svn.core.SVNErrorMessage;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNNodeKind;
-import org.tmatesoft.svn.core.SVNProperties;
-import org.tmatesoft.svn.core.SVNURL;
+import org.tmatesoft.svn.core.*;
 import org.tmatesoft.svn.core.internal.util.SVNDate;
+import org.tmatesoft.svn.core.internal.wc.SVNExternalsUtil;
 import org.tmatesoft.svn.core.internal.util.SVNPathUtil;
 import org.tmatesoft.svn.core.internal.util.SVNSkel;
-import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
-import org.tmatesoft.svn.core.internal.wc.SVNEventFactory;
-import org.tmatesoft.svn.core.internal.wc.SVNFileListUtil;
-import org.tmatesoft.svn.core.internal.wc.SVNFileType;
-import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
+import org.tmatesoft.svn.core.internal.wc.*;
 import org.tmatesoft.svn.core.internal.wc17.SVNStatusEditor17;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCUtils;
@@ -370,9 +361,27 @@ public class SvnNgWcToWcCopy extends SvnNgOperationRunner<Void, SvnCopy> {
             dstAncestor = context.acquireWriteLock(dstAncestor, false, true);
             try {
                 for (SvnCopyPair copyPair : copyPairs) {
+                    Map<String, SVNPropertyValue> pinnedExternals = null;
+
                     checkCancelled();
+                    if (getOperation().isPinExternals()) {
+                        final Structure<StructureFields.NodeOriginInfo> nodeOrigin = getWcContext().getNodeOrigin(copyPair.source, false, StructureFields.NodeOriginInfo.reposRootUrl);
+                        final SVNURL reposRootUrl = nodeOrigin.get(StructureFields.NodeOriginInfo.reposRootUrl);
+                        pinnedExternals = resolvePinnedExternals(getOperation().getExternalsToPin(), copyPair, null, reposRootUrl);
+                    }
+
                     File dstPath = SVNFileUtil.createFilePath(copyPair.dstParent, copyPair.baseName);
                     sleepForTimeStamp = sleepForTimeStamp || copy(context, copyPair.source, dstPath, getOperation().isMetadataOnly() || getOperation().isVirtual());
+
+                    if (pinnedExternals != null) {
+                        for (Map.Entry<String, SVNPropertyValue> entry : pinnedExternals.entrySet()) {
+                            String dstRelPath = entry.getKey();
+                            SVNPropertyValue externalsPropval = entry.getValue();
+
+                            File localAbsPath = SVNFileUtil.createFilePath(copyPair.dst, dstRelPath);
+                            SvnNgPropertiesManager.setProperty(getWcContext(), localAbsPath, SVNProperty.EXTERNALS, externalsPropval, SVNDepth.EMPTY, true, null, null);
+                        }
+                    }
                 }
             } finally {
                 context.releaseWriteLock(dstAncestor);
@@ -380,6 +389,10 @@ public class SvnNgWcToWcCopy extends SvnNgOperationRunner<Void, SvnCopy> {
         }
         
         return false;
+    }
+
+    private Map<String, SVNPropertyValue> resolvePinnedExternals(Map<SvnTarget, List<SVNExternal>> externalsToPin, SvnCopyPair copyPair, SVNRepository svnRepository, SVNURL reposRootUrl) throws SVNException {
+        return SVNExternalsUtil.resolvePinnedExternals(getWcContext(), getRepositoryAccess(), externalsToPin, SvnTarget.fromFile(copyPair.source), SvnTarget.fromFile(copyPair.dst), -1, svnRepository, reposRootUrl);
     }
 
     private boolean move(Collection<SvnCopyPair> pairs) throws SVNException {
@@ -849,7 +862,7 @@ public class SvnNgWcToWcCopy extends SvnNgOperationRunner<Void, SvnCopy> {
             return true;
         }
 
-        final SvnStatus svnStatus = SVNStatusEditor17.internalStatus(context, source);
+        final SvnStatus svnStatus = SVNStatusEditor17.internalStatus(context, source, true);
         return svnStatus != null && svnStatus.getNodeStatus() == SVNStatusType.STATUS_REPLACED;
     }
 

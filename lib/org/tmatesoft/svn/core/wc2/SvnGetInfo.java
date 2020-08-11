@@ -52,6 +52,7 @@ public class SvnGetInfo extends SvnReceivingOperation<SvnInfo> {
 
     private boolean fetchExcluded;
     private boolean fetchActualOnly;
+    private boolean includeExternals;
     
     @Override
     public void initDefaults() {
@@ -95,7 +96,15 @@ public class SvnGetInfo extends SvnReceivingOperation<SvnInfo> {
     public boolean isFetchActualOnly() {
         return fetchActualOnly;
     }
-    
+
+    public boolean isIncludeExternals() {
+        return includeExternals;
+    }
+
+    public void setIncludeExternals(boolean includeExternals) {
+        this.includeExternals = includeExternals;
+    }
+
     @Override
     protected void ensureArgumentsAreValid() throws SVNException {
         if (getFirstTarget().getPegRevision() == null || getFirstTarget().getPegRevision() == SVNRevision.UNDEFINED)

@@ -1,10 +1,39 @@
 package org.tmatesoft.svn.core.internal.wc2.ng;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.RandomAccessFile;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.zip.DeflaterOutputStream;
+
 import de.regnis.q.sequence.line.diff.QDiffGenerator;
 import de.regnis.q.sequence.line.diff.QDiffGeneratorFactory;
 import de.regnis.q.sequence.line.diff.QDiffManager;
 import de.regnis.q.sequence.line.diff.QDiffUniGenerator;
-import org.tmatesoft.svn.core.*;
+import org.tmatesoft.svn.core.ISVNCanceller;
+import org.tmatesoft.svn.core.SVNErrorCode;
+import org.tmatesoft.svn.core.SVNErrorMessage;
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.SVNMergeRangeList;
+import org.tmatesoft.svn.core.SVNProperties;
+import org.tmatesoft.svn.core.SVNProperty;
+import org.tmatesoft.svn.core.SVNPropertyValue;
 import org.tmatesoft.svn.core.internal.util.SVNHashMap;
 import org.tmatesoft.svn.core.internal.util.SVNMergeInfoUtil;
 import org.tmatesoft.svn.core.internal.util.SVNPathUtil;
@@ -17,10 +46,15 @@ import org.tmatesoft.svn.core.wc.SVNDiffOptions;
 import org.tmatesoft.svn.core.wc2.SvnTarget;
 import org.tmatesoft.svn.util.SVNLogType;
 
-import java.io.*;
-import java.util.*;
-
 public class SvnDiffGenerator implements ISvnDiffGenerator {
+
+    private static final String B85_LENGTHS_TABLE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+                    "abcdefghijklmnopqrstuvwxyz";
+    public static final String B85_TABLE = "0123456789" +
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+            "abcdefghijklmnopqrstuvwxyz" +
+            "!#$%&()*+-;<=>?@^_`{|}~";
+
 
     protected static final String WC_REVISION_LABEL = "(working copy)";
     protected static final String PROPERTIES_SEPARATOR = "___________________________________________________________________";
@@ -49,6 +83,7 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
     private ISVNOptions options;
     private boolean propertiesOnly;
     private boolean ignoreProperties;
+    private ISVNCanceller canceller;
 
     private String getDisplayPath(SvnTarget target) {
         String relativePath;
@@ -428,9 +463,7 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
                 return;
             }
 
-
-
-            displayBinary(mimeType1, mimeType2, outputStream, leftIsBinary, rightIsBinary);
+            displayBinary(leftFile, rightFile, mimeType1, mimeType2, outputStream, leftIsBinary, rightIsBinary);
 
             return;
         }
@@ -455,20 +488,49 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
         }
     }
 
-    private void displayBinary(String mimeType1, String mimeType2, OutputStream outputStream, boolean leftIsBinary, boolean rightIsBinary) throws SVNException {
-        displayCannotDisplayFileMarkedBinary(outputStream);
+    private void displayBinary(File leftFile, File rightFile, String mimeType1, String mimeType2, OutputStream outputStream, boolean leftIsBinary, boolean rightIsBinary) throws SVNException {
+        try {
+            if (useGitFormat) {
+                displayString(outputStream, "GIT binary patch\n");
 
-        if (leftIsBinary && !rightIsBinary) {
-            displayMimeType(outputStream, mimeType1);
-        } else if (!leftIsBinary && rightIsBinary) {
-            displayMimeType(outputStream, mimeType2);
-        } else if (leftIsBinary && rightIsBinary) {
-            if (mimeType1.equals(mimeType2)) {
-                displayMimeType(outputStream, mimeType1);
+                //write right file first as base85 encoded gzipped content
+                final DeflatingInputStream rightGzipInputStream = createCompressed(rightFile);
+                try {
+                    writeLiteral(rightFile == null ? 0 : rightFile.length(), rightGzipInputStream, outputStream);
+                } finally {
+                    SVNFileUtil.closeFile(rightGzipInputStream);
+                }
+                outputStream.write('\n');
+
+                final DeflatingInputStream leftGzipInputStream = createCompressed(leftFile);
+                try {
+                    writeLiteral(leftFile == null ? 0 : leftFile.length(), leftGzipInputStream, outputStream);
+                } finally {
+                    SVNFileUtil.closeFile(leftGzipInputStream);
+                }
             } else {
-                displayMimeTypes(outputStream, mimeType1, mimeType2);
+                displayCannotDisplayFileMarkedBinary(outputStream);
+
+                if (leftIsBinary && !rightIsBinary) {
+                    displayMimeType(outputStream, mimeType1);
+                } else if (!leftIsBinary && rightIsBinary) {
+                    displayMimeType(outputStream, mimeType2);
+                } else if (leftIsBinary && rightIsBinary) {
+                    if (mimeType1.equals(mimeType2)) {
+                        displayMimeType(outputStream, mimeType1);
+                    } else {
+                        displayMimeTypes(outputStream, mimeType1, mimeType2);
+                    }
+                }
             }
+        } catch (IOException e) {
+            final SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.IO_ERROR, e);
+            SVNErrorManager.error(errorMessage, SVNLogType.CLIENT);
         }
+    }
+
+    private DeflatingInputStream createCompressed(File file) throws IOException {
+        return new DeflatingInputStream(file == null ? SVNFileUtil.DUMMY_IN : new BufferedInputStream(new FileInputStream(file)));
     }
 
     private void internalDiff(SvnTarget target, OutputStream outputStream, String displayPath, File file1, File file2, String label1, String label2, SvnDiffCallback.OperationKind operation, String copyFromPath, String revision1, String revision2) throws SVNException {
@@ -1163,6 +1225,62 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
         return options;
     }
 
+    public void setCanceller(ISVNCanceller canceller) {
+        this.canceller = canceller;
+    }
+
+    private void writeLiteral(long uncompressedSize, DeflatingInputStream inputStream, OutputStream outputStream) throws IOException {
+        displayString(outputStream, String.format("literal %s\n", uncompressedSize));
+
+        final byte[] chunk = new byte[52];
+
+        int bytesRead;
+        do {
+            checkCancelled();
+
+            bytesRead = 0;
+            int rd = 0;
+            do {
+                rd = inputStream.read(chunk, bytesRead, chunk.length - bytesRead);
+                if (rd < 0) {
+                    break;
+                }
+                bytesRead += rd;
+            } while (bytesRead < chunk.length);
+
+            if (bytesRead == 0) {
+                //nothing to read
+                break;
+            }
+            final char lengthChar = B85_LENGTHS_TABLE.charAt(bytesRead - 1);
+            displayString(outputStream, String.valueOf(lengthChar));
+
+            int left = bytesRead;
+            int nextOffset = 0;
+            long info = 0;
+
+            final byte[] five = new byte[5];
+
+            while (left != 0) {
+                for (int n = 24; n >= 0 && left != 0; n -= 8, nextOffset++, left--) {
+                    info |= ((long)((int)chunk[nextOffset] & 0xff)) << n;
+                }
+                for (int n = 4; n >= 0; n--) {
+                    five[n] = (byte) B85_TABLE.charAt((int) (info % 85));
+                    info /= 85;
+                }
+                outputStream.write(five);
+            }
+            outputStream.write('\n');
+        } while (bytesRead == chunk.length);
+    }
+
+    private void checkCancelled() {
+        if (canceller != null) {
+            checkCancelled();
+        }
+    }
+
     private class EmptyDetectionOutputStream extends OutputStream {
 
         private final OutputStream outputStream;
@@ -1203,6 +1321,132 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
         @Override
         public void close() throws IOException {
             outputStream.close();
+        }
+    }
+
+    private static class DeflatingInputStream extends InputStream {
+
+        private final InputStream inputStream;
+        private final byte[] uncompressed;
+        private final byte[] compressed;
+        private int compressedOffset;
+        private int compressedLength;
+        private final byte[] singleByteBuffer;
+        private final DeflaterOutputStream deflaterOutputStream;
+        private boolean finished;
+
+        private DeflatingInputStream(InputStream inputStream) throws IOException {
+            this.inputStream = inputStream;
+            this.uncompressed = new byte[1024];
+            this.compressed = new byte[16384];
+            this.compressedOffset = 0;
+            this.compressedLength = 0;
+            this.singleByteBuffer = new byte[1];
+            this.deflaterOutputStream = createCompressingOutputStream();
+        }
+
+        private DeflaterOutputStream createCompressingOutputStream() throws IOException {
+            return new DeflaterOutputStream(new OutputStream() {
+                @Override
+                public void write(int b) throws IOException {
+                    if (compressedOffset + compressedLength == compressed.length) {
+                        //no space available
+                        throwNoSpaceAvailable();
+                    } else {
+                        compressed[compressedOffset + compressedLength] = (byte) b;
+                        compressedLength++;
+                    }
+                }
+
+                @Override
+                public void write(byte[] b) throws IOException {
+                    write(b, 0, b.length);
+                }
+
+                @Override
+                public void write(byte[] b, int off, int len) throws IOException {
+                    if (compressedOffset + compressedLength + len > compressed.length) {
+                        throwNoSpaceAvailable();
+                    } else {
+                        System.arraycopy(b, off, compressed, compressedOffset, len);
+                        compressedLength += len;
+                    }
+                }
+
+                private void throwNoSpaceAvailable() throws IOException {
+                    throw new IOException("No space available in the compressed data buffer");
+                }
+            });
+        }
+
+        @Override
+        public int read() throws IOException {
+            final int read = read(singleByteBuffer, 0, 1);
+            if (read < 0) {
+                return read;
+            } else {
+                return singleByteBuffer[0] & 0xff;
+            }
+        }
+
+        @Override
+        public int read(byte[] b) throws IOException {
+            return read(b, 0, b.length);
+        }
+
+        @Override
+        public int read(byte[] b, int off, int len) throws IOException {
+            if (finished) {
+                return -1;
+            }
+            while (compressedLength == 0) {
+                final int uncompressedLength = inputStream.read(uncompressed);
+                if (uncompressedLength < 0) {
+                    //input data finished
+                    deflaterOutputStream.finish();
+                    break;
+                } else {
+                    //this will fill compressed array
+                    deflaterOutputStream.write(uncompressed, 0, uncompressedLength);
+                }
+            }
+
+            if (compressedLength > 0) {
+                //use already buffered data
+                int readLength = Math.min(len, compressedLength);
+                System.arraycopy(compressed, compressedOffset, b, off, readLength);
+                compressedLength -= readLength;
+
+                if (compressedLength == 0) {
+                    compressedOffset = 0;
+                } else {
+                    compressedOffset += readLength;
+                }
+                return readLength;
+            } else {
+                finished = true;
+                return -1;
+            }
+        }
+
+        private void moveCompressedDataToBeginning() {
+            System.arraycopy(compressed, compressedOffset, compressed, 0, compressedLength);
+            compressedOffset = 0;
+        }
+
+        @Override
+        public void close() throws IOException {
+            inputStream.close();
+        }
+
+        @Override
+        public void reset() throws IOException {
+            inputStream.reset();
+        }
+
+        @Override
+        public boolean markSupported() {
+            return inputStream.markSupported();
         }
     }
 }

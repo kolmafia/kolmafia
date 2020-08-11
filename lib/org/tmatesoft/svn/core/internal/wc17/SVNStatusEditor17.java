@@ -11,26 +11,53 @@
  */
 package org.tmatesoft.svn.core.internal.wc17;
 
-import org.tmatesoft.svn.core.*;
-import org.tmatesoft.svn.core.internal.db.SVNSqlJetDb;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.tmatesoft.svn.core.SVNCommitInfo;
+import org.tmatesoft.svn.core.SVNDepth;
+import org.tmatesoft.svn.core.SVNErrorCode;
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.SVNLock;
+import org.tmatesoft.svn.core.SVNNodeKind;
+import org.tmatesoft.svn.core.SVNProperties;
+import org.tmatesoft.svn.core.SVNProperty;
+import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.internal.db.SVNSqlJetDb.Mode;
 import org.tmatesoft.svn.core.internal.util.SVNHashMap;
 import org.tmatesoft.svn.core.internal.wc.SVNFileListUtil;
 import org.tmatesoft.svn.core.internal.wc.SVNFileType;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
-import org.tmatesoft.svn.core.internal.wc17.SVNWCContext.SVNWCSchedule;
-import org.tmatesoft.svn.core.internal.wc17.SVNWCContext.ScheduleInternalInfo;
-import org.tmatesoft.svn.core.internal.wc17.db.*;
-import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.*;
+import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb;
+import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.SVNWCDbInfo;
+import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.SVNWCDbKind;
+import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.SVNWCDbStatus;
+import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.WCDbAdditionInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.WCDbAdditionInfo.AdditionInfoField;
+import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.WCDbBaseInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.WCDbBaseInfo.BaseInfoField;
+import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.WCDbDeletionInfo;
+import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.WCDbInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.WCDbInfo.InfoField;
+import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.WCDbRepositoryInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.WCDbRepositoryInfo.RepositoryInfoField;
+import org.tmatesoft.svn.core.internal.wc17.db.SVNWCDb;
 import org.tmatesoft.svn.core.internal.wc17.db.SVNWCDb.DirParsedInfo;
-import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.ExternalNodeInfo;
+import org.tmatesoft.svn.core.internal.wc17.db.SVNWCDbRoot;
+import org.tmatesoft.svn.core.internal.wc17.db.Structure;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.InheritedProperties;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.MovedInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.NodeOriginInfo;
+import org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbProperties;
+import org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbShared;
 import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgPropertiesManager;
 import org.tmatesoft.svn.core.wc.ISVNOptions;
 import org.tmatesoft.svn.core.wc.SVNStatusType;
@@ -38,9 +65,6 @@ import org.tmatesoft.svn.core.wc2.ISvnObjectReceiver;
 import org.tmatesoft.svn.core.wc2.SvnStatus;
 import org.tmatesoft.svn.core.wc2.SvnTarget;
 import org.tmatesoft.svn.core.wc2.hooks.ISvnFileListHook;
-
-import java.io.File;
-import java.util.*;
 
 /**
  * @version 1.3
@@ -324,7 +348,7 @@ public class SVNStatusEditor17 {
                     (pathKind != null && 
                             info.recordedSize != -1 &&
                             info.recordedModTime != 0 &&
-                            info.recordedModTime == fileTime &&
+                            SVNFileUtil.compareFileTimestamps(info.recordedModTime, fileTime) &&
                             info.recordedSize == fileSize)) {
                     text_modified_p = false;
                 } else {
@@ -761,8 +785,9 @@ public class SVNStatusEditor17 {
             result.relPath = additionInfo.reposRelPath;
             result.uuid = additionInfo.reposUuid;
             result.rootUrl = additionInfo.reposRootUrl;
-        } else if (info.haveBase) {
-            WCDbRepositoryInfo repoInfo = context.getDb().scanBaseRepository(localAbsPath, RepositoryInfoField.relPath, RepositoryInfoField.rootUrl, RepositoryInfoField.uuid);
+        } else {
+            WCDbRepositoryInfo repoInfo = context.getDb().readRepositoryInfo(localAbsPath, RepositoryInfoField.relPath, RepositoryInfoField.rootUrl, RepositoryInfoField.uuid);
+//            WCDbRepositoryInfo repoInfo = context.getDb().scanBaseRepository(localAbsPath, RepositoryInfoField.relPath, RepositoryInfoField.rootUrl, RepositoryInfoField.uuid);
             result.relPath = repoInfo.relPath;
             result.uuid = repoInfo.uuid;
             result.rootUrl = repoInfo.rootUrl;
@@ -770,15 +795,38 @@ public class SVNStatusEditor17 {
         return result;        
     }
 
-    public static SvnStatus internalStatus(SVNWCContext context, File localAbsPath) throws SVNException {
+    public static SvnStatus internalStatus(SVNWCContext context, File localAbsPath, boolean checkWorkingCopy) throws SVNException {
     
         SVNWCDbKind node_kind;
         SVNWCDbStatus node_status = null;
         boolean conflicted;
-    
+
+        SVNNodeKind kind = SVNNodeKind.UNKNOWN;
+
         assert (SVNWCDb.isAbsolute(localAbsPath));
-    
-        SVNNodeKind kind = SVNFileType.getNodeKind(SVNFileType.getType(localAbsPath));
+        SVNWCDbInfo info;
+        try {
+            info = context.getDb().readSingleInfo(localAbsPath, !checkWorkingCopy, InfoField.values());
+            if (checkWorkingCopy) {
+                //TODO: case sensitive
+                kind = SVNFileType.getNodeKind(SVNFileType.getType(localAbsPath));
+            }
+            node_status = info.status;
+            node_kind = info.kind;
+            conflicted = info.conflicted;
+
+        } catch (SVNException e) {
+            if (e.getErrorMessage().getErrorCode() != SVNErrorCode.WC_PATH_NOT_FOUND) {
+                throw e;
+            }
+            info = null;
+            node_kind = SVNWCDbKind.Unknown;
+            conflicted = false;
+            if (checkWorkingCopy) {
+                kind = SVNFileType.getNodeKind(SVNFileType.getType(localAbsPath));
+            }
+        }
+        /*
         try {
             WCDbInfo info = context.getDb().readInfo(localAbsPath, InfoField.status, InfoField.kind, InfoField.conflicted);
             node_status = info.status;
@@ -791,6 +839,7 @@ public class SVNStatusEditor17 {
             node_kind = SVNWCDbKind.Unknown;
             conflicted = false;
         }
+        */
         if (node_status == SVNWCDbStatus.ServerExcluded || 
             node_status == SVNWCDbStatus.NotPresent || 
             node_status == SVNWCDbStatus.Excluded) {
@@ -820,21 +869,39 @@ public class SVNStatusEditor17 {
         
         WCDbRepositoryInfo reposInfo = new WCDbRepositoryInfo();
         if (SVNFileUtil.getFileDir(localAbsPath) != null && !isRoot) {
-    
+
             File parent_abspath = SVNFileUtil.getFileDir(localAbsPath);
-            try {
-                WCDbInfo parent_info = context.getDb().readInfo(parent_abspath, InfoField.reposRelPath, InfoField.reposRootUrl, InfoField.reposUuid);
-                reposInfo.relPath  = parent_info.reposRelPath;
-                reposInfo.rootUrl  = parent_info.reposRootUrl;
-                reposInfo.uuid = parent_info.reposUuid;
-            } catch (SVNException e) {
-                if (e.getErrorMessage().getErrorCode() == SVNErrorCode.WC_PATH_NOT_FOUND || e.getErrorMessage().getErrorCode() == SVNErrorCode.WC_NOT_WORKING_COPY)
+            if (checkWorkingCopy) {
+                try {
+                    WCDbInfo parent_info = context.getDb().readInfo(parent_abspath, InfoField.reposRelPath, InfoField.reposRootUrl, InfoField.reposUuid);
+                    reposInfo.relPath = parent_info.reposRelPath;
+                    reposInfo.rootUrl = parent_info.reposRootUrl;
+                    reposInfo.uuid = parent_info.reposUuid;
+                } catch (SVNException e) {
+                    if (e.getErrorMessage().getErrorCode() == SVNErrorCode.WC_PATH_NOT_FOUND || e.getErrorMessage().getErrorCode() == SVNErrorCode.WC_NOT_WORKING_COPY)
                 /* || SVN_WC__ERR_IS_NOT_CURRENT_WC(err)) */ {
-                    reposInfo.relPath  = null;
-                    reposInfo.rootUrl  = null;
-                    reposInfo.uuid = null;
-                } else {
-                    throw e;
+                        reposInfo.relPath = null;
+                        reposInfo.rootUrl = null;
+                        reposInfo.uuid = null;
+                    } else {
+                        throw e;
+                    }
+                }
+            } else {
+                try {
+                    WCDbBaseInfo parent_info = context.getDb().getBaseInfo(parent_abspath, BaseInfoField.reposRelPath, BaseInfoField.reposRootUrl, BaseInfoField.reposUuid);
+                    reposInfo.relPath = parent_info.reposRelPath;
+                    reposInfo.rootUrl = parent_info.reposRootUrl;
+                    reposInfo.uuid = parent_info.reposUuid;
+                } catch (SVNException e) {
+                    if (e.getErrorMessage().getErrorCode() == SVNErrorCode.WC_PATH_NOT_FOUND || e.getErrorMessage().getErrorCode() == SVNErrorCode.WC_NOT_WORKING_COPY)
+                /* || SVN_WC__ERR_IS_NOT_CURRENT_WC(err)) */ {
+                        reposInfo.relPath = null;
+                        reposInfo.rootUrl = null;
+                        reposInfo.uuid = null;
+                    } else {
+                        throw e;
+                    }
                 }
             }
         } 

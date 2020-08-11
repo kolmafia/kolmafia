@@ -11,41 +11,27 @@
  */
 package org.tmatesoft.svn.core.internal.io.dav.http;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.Socket;
-import java.security.KeyStore;
-import java.security.Principal;
-import java.security.PrivateKey;
-import java.security.Provider;
-import java.security.Security;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.X509KeyManager;
-
-import org.tmatesoft.svn.core.SVNAuthenticationException;
-import org.tmatesoft.svn.core.SVNCancelException;
-import org.tmatesoft.svn.core.SVNErrorCode;
-import org.tmatesoft.svn.core.SVNErrorMessage;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNURL;
-import org.tmatesoft.svn.core.auth.BasicAuthenticationManager;
-import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
-import org.tmatesoft.svn.core.auth.SVNAuthentication;
-import org.tmatesoft.svn.core.auth.SVNPasswordAuthentication;
-import org.tmatesoft.svn.core.auth.SVNSSLAuthentication;
+import org.tmatesoft.svn.core.*;
+import org.tmatesoft.svn.core.auth.*;
 import org.tmatesoft.svn.core.internal.wc.ISVNSSLPasspharsePromptSupport;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
 import org.tmatesoft.svn.util.SVNDebugLog;
 import org.tmatesoft.svn.util.SVNLogType;
+
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.X509KeyManager;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.Socket;
+import java.security.*;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @version 1.3
@@ -111,11 +97,7 @@ public final class HTTPSSLKeyManager implements X509KeyManager {
     }
 
     public static KeyManager[] loadClientCertificate(byte[] clientCert, char[] clientCertPassword) throws SVNException {
-        if (clientCertPassword == null || clientCertPassword.length == 0) {
-            // Client certificates without an passphrase can't be received from Java Keystores. 
-            throw new SVNException(SVNErrorMessage.create(SVNErrorCode.RA_NOT_AUTHORIZED, "No client certificate passphrase supplied (did you forget to specify?).\n" +
-                    "Note that client certificates with empty passphrases can''t be used. In this case please re-create the certificate with a passphrase."));
-        }
+        clientCertPassword = clientCertPassword == null ? new char[0] : clientCertPassword;
         KeyManager[] result = null;
         KeyStore keyStore = null;
         final InputStream is = new ByteArrayInputStream(clientCert);
@@ -152,11 +134,7 @@ public final class HTTPSSLKeyManager implements X509KeyManager {
     }
 
     public static KeyManager[] loadClientCertificate(File clientCertFile, char[] clientCertPassword) throws SVNException {
-        if (clientCertPassword == null || clientCertPassword.length == 0) {
-            // Client certificates without an passphrase can't be received from Java Keystores. 
-            throw new SVNException(SVNErrorMessage.create(SVNErrorCode.RA_NOT_AUTHORIZED, "No client certificate passphrase supplied (did you forget to specify?).\n" +
-                    "Note that client certificates with empty passphrases can''t be used. In this case please re-create the certificate with a passphrase."));
-        }
+        clientCertPassword = clientCertPassword == null ? new char[0] : clientCertPassword;
         KeyManager[] result = null;
         KeyStore keyStore = null;
         if (clientCertFile != null && clientCertFile.getName().startsWith(SVNSSLAuthentication.MSCAPI)) {
@@ -440,9 +418,11 @@ public final class HTTPSSLKeyManager implements X509KeyManager {
         final Exception exception = myException;
         myException = null;
         if (exception instanceof SVNException) {
-            throw (SVNException)exception;
+            throw (SVNException) exception;
         } else if (exception != null) {
             throw new SVNException(SVNErrorMessage.UNKNOWN_ERROR_MESSAGE, exception);
+        } if (errorMessage != null && isNonInteractive()) {
+            throw new SVNException(errorMessage);
         }
     }
     
@@ -468,14 +448,26 @@ public final class HTTPSSLKeyManager implements X509KeyManager {
         }
 
         for (; ;) {
-            if (myIsFirstRequest) {
-                myAuthentication = (SVNSSLAuthentication)authenticationManager.getFirstAuthentication(ISVNAuthenticationManager.SSL, realm, url);
-                myIsFirstRequest = false;
-            } else {
-                myAuthentication = (SVNSSLAuthentication)authenticationManager.getNextAuthentication(ISVNAuthenticationManager.SSL, realm, url);
+            try {
+                if (myIsFirstRequest) {
+                    myAuthentication = (SVNSSLAuthentication) authenticationManager.getFirstAuthentication(ISVNAuthenticationManager.SSL, realm, url);
+                    myIsFirstRequest = false;
+                } else {
+                    myAuthentication = (SVNSSLAuthentication) authenticationManager.getNextAuthentication(ISVNAuthenticationManager.SSL, realm, url);
+                }
+            } catch (SVNAuthenticationException e) {
+                if (isNonInteractive()) {
+                    myKeyManagers = new KeyManager[0];
+                    return true;
+                }
+                throw e;
             }
 
             if (myAuthentication == null) {
+                if (isNonInteractive()) {
+                    myKeyManagers = new KeyManager[0];
+                    return true;
+                }
                 SVNErrorManager.cancel("SSL authentication with client certificate cancelled", SVNLogType.NETWORK);
             }
 
@@ -510,6 +502,15 @@ public final class HTTPSSLKeyManager implements X509KeyManager {
             myKeyManagers = keyManagers;
             return true;
         }
+    }
+
+    private boolean isNonInteractive() {
+        final boolean implementsPrompt = authenticationManager instanceof ISVNSSLPasspharsePromptSupport;
+        if (!implementsPrompt) {
+            return true;
+        }
+        final boolean isPromptEnabled = ((ISVNSSLPasspharsePromptSupport) authenticationManager).isSSLPassphrasePromtSupported();
+        return !isPromptEnabled;
     }
 
     private static List<X509KeyManager> getX509KeyManagers(KeyManager[] keyManagers) {

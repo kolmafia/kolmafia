@@ -84,9 +84,11 @@ public class SvnDiffSummarize extends SvnReceivingOperation<SvnDiffStatus> {
     private SVNRevision endRevision;
     
     private boolean ignoreAncestry;
+    private boolean recurseIntoDeletedDirectories;
 
     protected SvnDiffSummarize(SvnOperationFactory factory) {
         super(factory);
+        setRecurseIntoDeletedDirectories(true);
     }
     
     /**
@@ -148,6 +150,14 @@ public class SvnDiffSummarize extends SvnReceivingOperation<SvnDiffStatus> {
     }
     public void setIgnoreAncestry(boolean ignoreAncestry) {
         this.ignoreAncestry = ignoreAncestry;
+    }
+
+    public boolean isRecurseIntoDeletedDirectories() {
+        return recurseIntoDeletedDirectories;
+    }
+
+    public void setRecurseIntoDeletedDirectories(boolean recurseIntoDeletedDirectories) {
+        this.recurseIntoDeletedDirectories = recurseIntoDeletedDirectories;
     }
 
     @Override

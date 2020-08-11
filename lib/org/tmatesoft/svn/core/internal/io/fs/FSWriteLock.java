@@ -12,14 +12,12 @@
 package org.tmatesoft.svn.core.internal.io.fs;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.channels.FileLock;
 import java.util.Map;
 
 import org.tmatesoft.svn.core.SVNErrorCode;
 import org.tmatesoft.svn.core.SVNErrorMessage;
 import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.internal.util.SVNDoubleLock;
 import org.tmatesoft.svn.core.internal.util.SVNHashMap;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.internal.wc.SVNFileType;
@@ -41,8 +39,7 @@ public class FSWriteLock {
     private static final int REPOS_LOCK = 3;
     
     private File myLockFile;
-    private RandomAccessFile myLockRAFile;
-    private FileLock myLock;
+    private SVNDoubleLock myLock;
     private String myToken;
     private int myLockType;
     private boolean myIsShared;
@@ -116,9 +113,8 @@ public class FSWriteLock {
             if (type == SVNFileType.UNKNOWN || type == SVNFileType.NONE) {
                 SVNFileUtil.createEmptyFile(myLockFile);
             }
-            myLockRAFile = new RandomAccessFile(myLockFile, "rw");
-            myLock = myLockRAFile.getChannel().lock(0L, Long.MAX_VALUE, myIsShared);
-        } catch (IOException ioe) {
+            myLock = SVNDoubleLock.obtain(myLockFile, !myIsShared);
+        } catch (SVNException ioe) {
             unlock();
             errorOccured = true;
             childError = ioe;
@@ -148,16 +144,9 @@ public class FSWriteLock {
 
     public synchronized void unlock() throws SVNException {
         if (myLock != null) {
-            try {
-                myLock.release();
-            } catch (IOException ioex) {
-                SVNErrorMessage error = SVNErrorMessage.create(SVNErrorCode.IO_ERROR, 
-                        "Unexpected error while releasing file lock on ''{0}''", myLockFile);
-                SVNErrorManager.error(error, ioex, SVNLogType.FSFS);
-            }
+            myLock.release();
             myLock = null;
         }
-        SVNFileUtil.closeFile(myLockRAFile);
     }
 
     public String toString() {

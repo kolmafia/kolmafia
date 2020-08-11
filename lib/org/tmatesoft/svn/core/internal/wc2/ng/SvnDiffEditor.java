@@ -51,7 +51,7 @@ public class SvnDiffEditor implements ISVNEditor, ISVNUpdateEditor {
     private final SVNDeltaProcessor deltaProcessor;
     private final SvnDiffCallbackResult result;
 
-    public SvnDiffEditor(File anchorAbspath, String target, ISvnDiffCallback callback, SVNDepth depth, SVNWCContext context, boolean reverseOrder, boolean useTextBase, boolean showCopiesAsAdds, boolean ignoreAncestry, Collection<String> changelists, boolean useGitDiffFormat, ISVNCanceller canceller) {
+    public SvnDiffEditor(File anchorAbspath, String target, ISvnDiffCallback callback, SVNDepth depth, SVNWCContext context, boolean reverseOrder, boolean useTextBase, boolean showCopiesAsAdds, boolean ignoreAncestry, boolean recurseIntoDeletedDirectories, Collection<String> changelists, boolean useGitDiffFormat, ISVNCanceller canceller) {
         if (useGitDiffFormat) {
             showCopiesAsAdds = true;
         }
@@ -62,7 +62,7 @@ public class SvnDiffEditor implements ISVNEditor, ISVNUpdateEditor {
         this.target = target;
         this.diffPristine = useTextBase;
         this.showCopiesAsAdds = showCopiesAsAdds;
-        this.callback = new SvnDiffCallbackWrapper(callback, true, anchorAbspath);
+        this.callback = new SvnDiffCallbackWrapper(callback, recurseIntoDeletedDirectories, anchorAbspath);
         if (!showCopiesAsAdds) {
             this.callback = new SvnCopyAsChangedDiffCallback(this.callback);
         }
@@ -454,7 +454,7 @@ public class SvnDiffEditor implements ISVNEditor, ISVNUpdateEditor {
         reposProps.removeNullValues();
 
         File reposFile = currentEntry.tempFile;
-        if (reposFile == null) {
+        if (reposFile == null && !currentEntry.skip) {
             assert currentEntry.baseChecksum != null;
             reposFile = SvnWcDbPristines.getPristinePath(getWcRoot(), currentEntry.baseChecksum);
         }
@@ -530,10 +530,16 @@ public class SvnDiffEditor implements ISVNEditor, ISVNUpdateEditor {
     }
 
     public OutputStream textDeltaChunk(String path, SVNDiffWindow diffWindow) throws SVNException {
+        if (currentEntry.skip) {
+            return null;
+        }
         return deltaProcessor.textDeltaChunk(diffWindow);
     }
 
     public void textDeltaEnd(String path) throws SVNException {
+        if (currentEntry.skip) {
+            return;
+        }
         final String checksum = deltaProcessor.textDeltaEnd();
         currentEntry.resultChecksum = new SvnChecksum(SvnChecksum.Kind.md5, checksum);
     }
@@ -653,6 +659,10 @@ public class SvnDiffEditor implements ISVNEditor, ISVNUpdateEditor {
 
                 if (!info.haveBase) {
                     localOnly = true;
+
+                    if (info.status == ISVNWCDb.SVNWCDbStatus.Deleted) {
+                        continue;
+                    }
                 } else if (info.status == ISVNWCDb.SVNWCDbStatus.Normal) {
                     baseKind = info.kind;
                 } else if (info.status == ISVNWCDb.SVNWCDbStatus.Deleted && (!diffPristine || !info.haveMoreWork)) {

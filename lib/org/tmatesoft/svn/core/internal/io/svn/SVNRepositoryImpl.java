@@ -70,6 +70,7 @@ import org.tmatesoft.svn.core.io.SVNFileRevision;
 import org.tmatesoft.svn.core.io.SVNLocationEntry;
 import org.tmatesoft.svn.core.io.SVNLocationSegment;
 import org.tmatesoft.svn.core.io.SVNRepository;
+import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.util.SVNLogType;
 import org.tmatesoft.svn.util.Version;
 
@@ -352,7 +353,7 @@ public class SVNRepositoryImpl extends SVNRepository implements ISVNReporter {
     }
 
     public long getFile(String path, long revision, SVNProperties properties, OutputStream contents) throws SVNException {
-        Long rev = revision > 0 ? new Long(revision) : null;
+        Long rev = revision > 0 ? revision : null;
         try {
             openConnection();
             Object[] buffer = new Object[]{"get-file", getLocationRelativePath(path), rev,
@@ -586,6 +587,13 @@ public class SVNRepositoryImpl extends SVNRepository implements ISVNReporter {
         Long srev = getRevisionObject(startRevision);
         Long erev = getRevisionObject(endRevision);
         SVNDeltaReader deltaReader = new SVNDeltaReader();
+
+        if (((startRevision > endRevision) ||
+                !SVNRevision.isValidRevisionNumber(startRevision))
+                && !hasCapability(SVNCapability.GET_FILE_REVS_REVERSED)) {
+            SVNErrorManager.error(SVNErrorMessage.create(SVNErrorCode.RA_NOT_IMPLEMENTED), SVNLogType.NETWORK);
+        }
+
         try {
             openConnection();
             Object[] buffer = new Object[]{"get-file-revs",
@@ -707,7 +715,7 @@ public class SVNRepositoryImpl extends SVNRepository implements ISVNReporter {
             if (revisionPropertyNames != null && revisionPropertyNames.length > 0) {
                 Object[] realBuffer = new Object[]{"log", repositoryPaths, getRevisionObject(startRevision),
                         getRevisionObject(endRevision), Boolean.valueOf(changedPaths),
-                        Boolean.valueOf(strictNode), new Long(limit > 0 ? limit : 0),
+                        Boolean.valueOf(strictNode), limit > 0 ? limit : 0,
                         Boolean.valueOf(includeMergedRevisions), "revprops", revisionPropertyNames};
                 for (int i = 0; i < revisionPropertyNames.length; i++) {
                     String propName = revisionPropertyNames[i];
@@ -723,7 +731,7 @@ public class SVNRepositoryImpl extends SVNRepository implements ISVNReporter {
             } else {
                 buffer = new Object[]{"log",
                         repositoryPaths, getRevisionObject(startRevision), getRevisionObject(endRevision),
-                        Boolean.valueOf(changedPaths), Boolean.valueOf(strictNode), new Long(limit > 0 ? limit : 0),
+                        Boolean.valueOf(changedPaths), Boolean.valueOf(strictNode), limit > 0 ? limit : 0,
                         Boolean.valueOf(includeMergedRevisions), "all-revprops"};
 
                 write("(w((*s)(n)(n)wwnww()))", buffer);
@@ -894,6 +902,7 @@ public class SVNRepositoryImpl extends SVNRepository implements ISVNReporter {
             if (defaultRevisionProperties != null) {
                 defaultRevisionProperties.put(SVNRevisionProperty.SVN_TXN_CLIENT_COMPAT_VERSION, Version.getSVNVersion());
                 defaultRevisionProperties.put(SVNRevisionProperty.SVN_TXN_USER_AGENT, Version.getUserAgent());
+                defaultRevisionProperties.put(SVNRevisionProperty.LOG, logMessage);
             }
             if (locks != null) {
                 if (defaultRevisionProperties != null) {
@@ -1579,7 +1588,12 @@ public class SVNRepositoryImpl extends SVNRepository implements ISVNReporter {
 	    }
 		try {
         	openConnection();
-        	return myConnection.hasCapability(capability.toString());
+
+            final String capabilityName = capability == SVNCapability.GET_FILE_REVS_REVERSED
+                    ? "file-revs-reverse"
+                    : capability.toString();
+
+            return myConnection.hasCapability(capabilityName);
         } catch (SVNException e) {
             closeSession();
             throw e;

@@ -1,25 +1,43 @@
 package org.tmatesoft.svn.core.internal.wc2.patch;
 
-import org.tmatesoft.svn.core.*;
-import org.tmatesoft.svn.core.internal.util.SVNDate;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
+import org.tmatesoft.svn.core.ISVNCanceller;
+import org.tmatesoft.svn.core.SVNErrorCode;
+import org.tmatesoft.svn.core.SVNErrorMessage;
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.SVNNodeKind;
+import org.tmatesoft.svn.core.SVNProperties;
+import org.tmatesoft.svn.core.SVNProperty;
+import org.tmatesoft.svn.core.SVNPropertyValue;
 import org.tmatesoft.svn.core.internal.util.SVNPathUtil;
-import org.tmatesoft.svn.core.internal.wc.*;
-import org.tmatesoft.svn.core.internal.wc.admin.SVNTranslator;
-import org.tmatesoft.svn.core.internal.wc.patch.*;
-import org.tmatesoft.svn.core.internal.wc17.SVNStatusEditor17;
+import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
+import org.tmatesoft.svn.core.internal.wc.SVNEventFactory;
+import org.tmatesoft.svn.core.internal.wc.SVNFileType;
+import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
+import org.tmatesoft.svn.core.internal.wc.SVNPropertiesManager;
+import org.tmatesoft.svn.core.internal.wc.patch.SVNPatchFileStream;
+import org.tmatesoft.svn.core.internal.wc.patch.SVNPatchTarget;
+import org.tmatesoft.svn.core.internal.wc.patch.SVNPatchTargetInfo;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext;
-import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb;
-import org.tmatesoft.svn.core.internal.wc2.ng.*;
+import org.tmatesoft.svn.core.internal.wc2.ng.SvnDiffCallback;
 import org.tmatesoft.svn.core.wc.ISVNEventHandler;
 import org.tmatesoft.svn.core.wc.SVNEvent;
 import org.tmatesoft.svn.core.wc.SVNEventAction;
 import org.tmatesoft.svn.core.wc.SVNStatusType;
-import org.tmatesoft.svn.core.wc2.SvnScheduleForAddition;
-import org.tmatesoft.svn.core.wc2.SvnStatus;
+import org.tmatesoft.svn.core.wc2.ISvnPatchHandler;
 import org.tmatesoft.svn.util.SVNLogType;
-
-import java.io.*;
-import java.util.*;
 
 public class SvnPatchTarget extends SvnTargetContent {
 
@@ -43,12 +61,17 @@ public class SvnPatchTarget extends SvnTargetContent {
     private boolean symlink;
     private boolean replaced;
     private boolean locallyDeleted;
+    private boolean obstructed;
     private SVNNodeKind kindOnDisk;
     private SVNNodeKind dbKind;
+    private SvnDiffCallback.OperationKind operation;
+    private boolean gitSymlinkFormat;
+    private File originalContentFile;
 
     private boolean hasLocalModifications;
     private boolean hadRejects;
     private boolean hadPropRejects;
+    private boolean hadAlreadyApplied;
     private boolean executable;
     private File canonPathFromPatchfile;
     private String eolStr;
@@ -57,12 +80,17 @@ public class SvnPatchTarget extends SvnTargetContent {
     private SVNPatchFileStream patchedStream;
     private SVNPatchFileStream rejectStream;
 
+
     public SvnPatchTarget() {
         this.propTargets = new HashMap<String, SvnPropertiesPatchTarget>();
     }
 
     public boolean isFiltered() {
         return filtered;
+    }
+
+    public void setFiltered(boolean filtered) {
+        this.filtered = filtered;
     }
 
     public boolean isSkipped() {
@@ -133,46 +161,133 @@ public class SvnPatchTarget extends SvnTargetContent {
         this.rejectStream = rejectStream;
     }
 
-    public static SvnPatchTarget applyPatch(SvnPatch patch, File workingCopyDirectory, int stripCount, SVNWCContext context, boolean ignoreWhitespace, boolean removeTempFiles) throws SVNException, IOException {
-        SvnPatchTarget target = initPatchTarget(patch, workingCopyDirectory, stripCount, removeTempFiles, context);
+    @Deprecated
+    public static SvnPatchTarget applyPatch(SvnPatch patch, File workingCopyDirectory, int stripCount, SVNWCContext context, boolean ignoreWhitespace, boolean removeTempFiles, ISvnPatchHandler patchHandler) throws SVNException, IOException {
+        final SvnWcPatchContext patchContext = new SvnWcPatchContext(context);
+        return applyPatch(patch, workingCopyDirectory, stripCount, new ArrayList<SVNPatchTargetInfo>(), patchContext, ignoreWhitespace, removeTempFiles, patchHandler);
+    }
+
+    public static SvnPatchTarget applyPatch(SvnPatch patch, File workingCopyDirectory, int stripCount, List<SVNPatchTargetInfo> targetInfos, ISvnPatchContext patchContext, boolean ignoreWhitespace, boolean removeTempFiles, ISvnPatchHandler patchHandler) throws SVNException, IOException {
+        SvnPatchTarget target = initPatchTarget(patch, workingCopyDirectory, stripCount, removeTempFiles, targetInfos, patchContext);
         if (target.isSkipped()) {
             return target;
         }
-        List<SvnDiffHunk> hunks = patch.getHunks();
-        for (SvnDiffHunk hunk : hunks) {
-            SvnHunkInfo hunkInfo;
-            int fuzz = 0;
-            do {
-                hunkInfo = target.getHunkInfo(hunk, target, fuzz, ignoreWhitespace, false);
-                fuzz++;
-            } while (hunkInfo.isRejected() && fuzz <= MAX_FUZZ && !hunkInfo.isAlreadyApplied());
-
-            target.addHunkInfo(hunkInfo);
-        }
-
-        for (SvnHunkInfo hunkInfo : target.getHunkInfos()) {
-            if (hunkInfo.isAlreadyApplied()) {
-                continue;
-            } else if (hunkInfo.isRejected()) {
-                rejectHunk(target, hunkInfo.getHunk(), null);
-            } else {
-                applyHunk(target, target, hunkInfo, null);
+        if (patchHandler != null) {
+            final boolean filtered = patchHandler.singlePatch(target.getCanonPathFromPatchfile(), target.getPatchedAbsPath(), target.getRejectAbsPath());
+            if (filtered) {
+                target.setFiltered(true);
+                return target;
             }
         }
+        List<SvnDiffHunk> hunks = patch.getHunks();
+        if (hunks.size() > 0) {
+            for (SvnDiffHunk hunk : hunks) {
+                SvnHunkInfo hunkInfo;
+                int fuzz = 0;
+                do {
+                    hunkInfo = target.getHunkInfo(hunk, target, fuzz, ignoreWhitespace, false);
+                    fuzz++;
+                } while (hunkInfo.isRejected() && fuzz <= MAX_FUZZ && !hunkInfo.isAlreadyApplied());
 
-        if (target.getKindOnDisk() == SVNNodeKind.FILE) {
-            copyLinesToTarget(target, 0);
-            if (!target.isEof()) {
+                target.addHunkInfo(hunkInfo);
+            }
+
+            for (SvnHunkInfo hunkInfo : target.getHunkInfos()) {
+                if (hunkInfo.isAlreadyApplied()) {
+                    target.setHadAlreadyApplied(true);
+                    continue;
+                } else if (hunkInfo.isRejected()) {
+                    rejectHunk(target, hunkInfo.getHunk(), null);
+                } else {
+                    applyHunk(target, target, hunkInfo, null);
+                }
+            }
+
+            if (target.getKindOnDisk() == SVNNodeKind.FILE) {
+                copyLinesToTarget(target, 0);
+                if (!target.isEof()) {
+                    target.setSkipped(true);
+                }
+            }
+        } else if (patch.getBinaryPatch() != null) {
+            InputStream originalFileInputStream;
+            if (target.getOriginalContentFile() != null) {
+                originalFileInputStream = new BufferedInputStream(new FileInputStream(target.getOriginalContentFile()));
+            } else {
+                originalFileInputStream = SVNFileUtil.DUMMY_IN;
+            }
+            boolean same;
+            InputStream binaryDiffOriginalStream = null;
+            try {
+                binaryDiffOriginalStream = patch.getBinaryPatch().getBinaryDiffOriginalStream();
+                same = areStreamsSame(originalFileInputStream, binaryDiffOriginalStream);
+            } finally {
+                SVNFileUtil.closeFile(binaryDiffOriginalStream);
+                SVNFileUtil.closeFile(originalFileInputStream);
+            }
+
+            if (same) {
+                target.setHasTextChanges(true);
+            } else {
+                if (target.getOriginalContentFile() != null) {
+                    originalFileInputStream = new BufferedInputStream(new FileInputStream(target.getOriginalContentFile()));
+                } else {
+                    originalFileInputStream = SVNFileUtil.DUMMY_IN;
+                }
+                InputStream binaryDiffResultStream;
+                try {
+                    binaryDiffResultStream = patch.getBinaryPatch().getBinaryDiffResultStream();
+                    same = areStreamsSame(originalFileInputStream, binaryDiffResultStream);
+                    if (same) {
+                        target.setHadAlreadyApplied(true);
+                    }
+                } finally {
+                    SVNFileUtil.closeFile(binaryDiffOriginalStream);
+                    SVNFileUtil.closeFile(originalFileInputStream);
+                }
+            }
+
+            if (same) {
+                InputStream binaryDiffResultStream = null;
+                FileOutputStream fileOutputStream = null;
+                try {
+                    binaryDiffResultStream = patch.getBinaryPatch().getBinaryDiffResultStream();
+                    fileOutputStream = new FileOutputStream(target.getPatchedAbsPath());
+                    copyStream(binaryDiffResultStream, fileOutputStream);
+                    fileOutputStream.flush();
+                } finally {
+                    SVNFileUtil.closeFile(binaryDiffResultStream);
+                    SVNFileUtil.closeFile(fileOutputStream);
+                }
+            } else {
                 target.setSkipped(true);
             }
+        } else if (target.getMoveTargetAbsPath() != null) {
+            if (target.getKindOnDisk() == SVNNodeKind.FILE) {
+                copyLinesToTarget(target, 0);
+                if (!target.isEof()) {
+                    target.setSkipped(true);
+                }
+            }
         }
+
+        if (target.hadRejects() || target.isLocallyDeleted()) {
+            target.setDeleted(false);
+        }
+
+        if (target.isAdded() &&
+                !(target.isLocallyDeleted() || target.getDbKind() == SVNNodeKind.NONE)) {
+            target.setAdded(false);
+        }
+
+        target.setSpecial(target.isSymlink());
 
         for (Map.Entry<String, SvnPropertiesPatch> entry : patch.getPropPatches().entrySet()) {
             final String propName = entry.getKey();
             final SvnPropertiesPatch propPatch = entry.getValue();
 
             if (SVNProperty.SPECIAL.equals(propName)) {
-                target.setSpecial(true);
+                target.setSpecial(propPatch.getOperation() != SvnDiffCallback.OperationKind.Deleted);
             }
 
             final Map<String, SvnPropertiesPatchTarget> propTargets = target.getPropTargets();
@@ -191,26 +306,98 @@ public class SvnPatchTarget extends SvnTargetContent {
             }
         }
 
-        final Map<String, SvnPropertiesPatchTarget> propTargets = target.getPropTargets();
+        if (patch.getNewExecutableBit() != null &&
+                patch.getNewExecutableBit() != patch.getOldExecutableBit() &&
+                (target.getPropTargets().get(SVNProperty.EXECUTABLE) != null) &&
+                (patch.getPropPatches().get(SVNProperty.EXECUTABLE) == null)) {
+            final SvnPropertiesPatchTarget propTarget = target.getPropTargets().get(SVNProperty.EXECUTABLE);
+            final SvnDiffHunk hunk;
+            if (patch.getNewExecutableBit() == Boolean.TRUE) {
+                hunk = createAddsSingleLine(patch,
+                        SVNPropertyValue.getPropertyAsString(SVNProperty.getValueOfBooleanProperty(SVNProperty.EXECUTABLE)),
+                        patchContext, workingCopyDirectory);
+            } else {
+                hunk = createDeletesSingleLine(patch,
+                        SVNPropertyValue.getPropertyAsString(SVNProperty.getValueOfBooleanProperty(SVNProperty.EXECUTABLE)),
+                        patchContext, workingCopyDirectory);
+            }
+            final SvnHunkInfo hunkInfo = target.getHunkInfo(hunk, propTarget, 0, ignoreWhitespace, true);
+            propTarget.addHunkInfo(hunkInfo);
+        }
+
+        if (patch.getNewSymlinkBit() != null &&
+                patch.getNewSymlinkBit() != patch.getOldSymlinkBit() &&
+                (target.getPropTargets().get(SVNProperty.SPECIAL) != null) &&
+                (patch.getPropPatches().get(SVNProperty.SPECIAL) == null)) {
+            final SvnPropertiesPatchTarget propTarget = target.getPropTargets().get(SVNProperty.SPECIAL);
+            final SvnDiffHunk hunk;
+            if (patch.getNewSymlinkBit() == Boolean.TRUE) {
+                hunk = createAddsSingleLine(patch,
+                        SVNPropertyValue.getPropertyAsString(SVNProperty.getValueOfBooleanProperty(SVNProperty.SPECIAL)),
+                        patchContext, workingCopyDirectory);
+                target.setSpecial(true);
+            } else {
+                hunk = createDeletesSingleLine(patch,
+                        SVNPropertyValue.getPropertyAsString(SVNProperty.getValueOfBooleanProperty(SVNProperty.SPECIAL)),
+                        patchContext, workingCopyDirectory);
+                target.setSpecial(false);
+            }
+            final SvnHunkInfo hunkInfo = target.getHunkInfo(hunk, propTarget, 0, ignoreWhitespace, true);
+            propTarget.addHunkInfo(hunkInfo);
+        }
+
+        if (target.isDeleted() ||
+                (!target.isAdded() &&
+                        (target.isLocallyDeleted() || target.getDbKind() == SVNNodeKind.NONE))) {
+            for (Map.Entry<String, SvnPropertiesPatchTarget> entry : target.getPropTargets().entrySet()) {
+                final SvnPropertiesPatchTarget propTarget = entry.getValue();
+
+                if (propTarget.getOperation() == SvnDiffCallback.OperationKind.Deleted) {
+                    continue;
+                }
+
+                for (SvnHunkInfo hunkInfo : propTarget.getHunkInfos()) {
+                    if (hunkInfo.isAlreadyApplied() || hunkInfo.isRejected()) {
+                        continue;
+                    } else {
+                        hunkInfo.setRejected(true);
+                        propTarget.setSkipped(true);
+
+                        if (!target.isDeleted() && !target.isAdded()) {
+                            target.setSkipped(true);
+                        }
+                    }
+                }
+            }
+        }
+
+        final SortedMap<String, SvnPropertiesPatchTarget> propTargets = new TreeMap<String, SvnPropertiesPatchTarget>(target.getPropTargets());
         for (Map.Entry<String, SvnPropertiesPatchTarget> entry : propTargets.entrySet()) {
             SvnPropertiesPatchTarget propTarget = entry.getValue();
+
+            boolean appliedOne = false;
 
             final List<SvnHunkInfo> hunkInfos = propTarget.getHunkInfos();
 
             for (SvnHunkInfo hunkInfo : hunkInfos) {
                 if (hunkInfo.isAlreadyApplied()) {
+                    target.setHadAlreadyApplied(true);
                     continue;
                 } else if (hunkInfo.isRejected()) {
                     rejectHunk(target, hunkInfo.getHunk(), propTarget.getName());
                 } else {
                     applyHunk(target, propTarget, hunkInfo, propTarget.getName());
+                    appliedOne = true;
                 }
             }
+            if (!appliedOne) {
+                propTarget.setSkipped(true);
+            }
 
-            if (propTarget.isExisted()) {
+            if (appliedOne && propTarget.isExisted()) {
                 copyLinesToTarget(propTarget, 0);
                 if (!propTarget.isEof()) {
-                    target.setSkipped(true);
+                    propTarget.setSkipped(true);
                 }
             }
         }
@@ -222,33 +409,39 @@ public class SvnPatchTarget extends SvnTargetContent {
 
             target.getPatchedStream().close();
         }
+        return target;
+    }
 
-        if (!target.isSkipped()) {
-            long patchedFileSize = SVNFileUtil.getFileLength(target.getPatchedAbsPath());
-            long workingFileSize;
-            if (target.getKindOnDisk() == SVNNodeKind.FILE) {
-                workingFileSize = SVNFileUtil.getFileLength(target.getAbsPath());
-            } else {
-                workingFileSize = 0;
+    private static void copyStream(InputStream sourceStream, FileOutputStream targetStream) throws IOException {
+        final byte[] buffer = new byte[8192];
+        while (true) {
+            final int bytesRead = sourceStream.read(buffer);
+            if (bytesRead < 0) {
+                break;
             }
+            targetStream.write(buffer, 0, bytesRead);
+        }
+    }
 
-            if (patchedFileSize == 0 && workingFileSize > 0) {
-                target.setDeleted(target.getDbKind() == SVNNodeKind.FILE);
-            } else if (patchedFileSize == 0 && workingFileSize == 0) {
-                if (target.getKindOnDisk() == SVNNodeKind.NONE &&
-                        !target.hasPropChanges() &&
-                        !target.isAdded()) {
-                    target.setSkipped(true);
-                }
-            } else if (patchedFileSize > 0 && workingFileSize == 0) {
-                if (target.isLocallyDeleted()) {
-                    target.setReplaced(true);
-                } else if (target.getDbKind() == SVNNodeKind.NONE) {
-                    target.setAdded(true);
+    private static boolean areStreamsSame(InputStream stream1, InputStream stream2) throws IOException {
+        final int bufferLength = 8192;
+        final byte[] buffer1 = new byte[bufferLength];
+        final byte[] buffer2 = new byte[bufferLength];
+        while (true) {
+            final int bytesRead1 = SvnPatch.readFully(stream1, buffer1, 0, bufferLength);
+            final int bytesRead2 = SvnPatch.readFully(stream2, buffer2, 0, bufferLength);
+            if (bytesRead1 < 0) {
+                return bytesRead2 < 0;
+            }
+            if (bytesRead1 != bytesRead2) {
+                return false;
+            }
+            for (int i = 0; i < bytesRead1; i++) {
+                if (buffer1[i] != buffer2[i]) {
+                    return false;
                 }
             }
         }
-        return target;
     }
 
     private static void rejectHunk(SvnPatchTarget target, SvnDiffHunk hunk, String propName) throws SVNException {
@@ -425,26 +618,24 @@ public class SvnPatchTarget extends SvnTargetContent {
         while ((target.getCurrentLine() < line || line == 0) && !target.isEof()) {
             String targetLine = target.readLine();
             if (!target.isEof()) {
-                targetLine = targetLine + target.getEolStr();
+                if (target.getEolStr() != null) {
+                    targetLine = targetLine + target.getEolStr();
+                }
             }
             target.getWriteCallback().write(target.getWriteBaton(), targetLine);
         }
     }
 
-    private static SvnPatchTarget initPatchTarget(SvnPatch patch, File workingCopyDirectory, int stripCount, boolean removeTempFiles, SVNWCContext context) throws SVNException, IOException {
-        boolean hasPropChanges = false;
-        boolean propChangesOnly = false;
+    private static SvnPatchTarget initPatchTarget(SvnPatch patch,
+                                                  File workingCopyDirectory,
+                                                  int stripCount,
+                                                  boolean removeTempFiles,
+                                                  List<SVNPatchTargetInfo> targetsInfo,
+                                                  ISvnPatchContext patchContext) throws SVNException, IOException {
+        boolean hasTextChanges = false;
+        boolean followMoves;
 
-        for (Map.Entry<String, SvnPropertiesPatch> entry : patch.getPropPatches().entrySet()) {
-            final SvnPropertiesPatch propPatch = entry.getValue();
-            if (!hasPropChanges) {
-                hasPropChanges = propPatch.getHunks().size() > 0;
-            } else {
-                break;
-            }
-        }
-
-        propChangesOnly = hasPropChanges && patch.getHunks().size() == 0;
+        hasTextChanges = (patch.getHunks() != null && patch.getHunks().size() > 0) || patch.getBinaryPatch() != null;
 
         SvnPatchTarget target = new SvnPatchTarget();//empty lists are created in the constructor
         target.setCurrentLine(1);
@@ -453,44 +644,26 @@ public class SvnPatchTarget extends SvnTargetContent {
         target.setDbKind(SVNNodeKind.NONE);
         target.setKindOnDisk(SVNNodeKind.NONE);
 
-        target.resolveTargetPath(chooseTargetFilename(patch), workingCopyDirectory, stripCount, propChangesOnly, context);
+        target.setOperation(patch.getOperation());
+
+        if (patch.getOperation() == SvnDiffCallback.OperationKind.Added ||
+                patch.getOperation() == SvnDiffCallback.OperationKind.Moved) {
+            followMoves = false;
+        } else if (patch.getOperation() == SvnDiffCallback.OperationKind.Unchanged &&
+                patch.getHunks() != null && patch.getHunks().size() == 1) {
+            final SvnDiffHunk hunk = patch.getHunks().get(0);
+            followMoves = hunk.getDirectedOriginalStart() != 0;
+        } else {
+            followMoves = true;
+        }
+
+        target.resolveTargetPath(chooseTargetFilename(patch), workingCopyDirectory,
+                stripCount, hasTextChanges, followMoves, targetsInfo, patchContext);
+
         if (!target.isSkipped()) {
-            if (target.isSymlink()) {
-                target.setExisted(true);
-
-                target.setReadBaton(new SymlinkReadBaton(target.getAbsPath()));
-
-                final SymlinkCallbacks symlinkCallbacks = new SymlinkCallbacks(workingCopyDirectory, context);
-                target.setReadLineCallback(symlinkCallbacks);
-                target.setTellCallback(symlinkCallbacks);
-                target.setSeekCallback(symlinkCallbacks);
-            } else if (target.getKindOnDisk() == SVNNodeKind.FILE) {
-                target.setHasLocalModifications(context.isTextModified(target.getAbsPath(), false));
-                target.setExecutable(SVNFileUtil.isExecutable(target.getAbsPath()));
-
-                final Map<String, byte[]> keywords = new HashMap<String, byte[]>();
-                SVNWCContext.SVNEolStyle[] eolStyle = (SVNWCContext.SVNEolStyle[]) new SVNWCContext.SVNEolStyle[1];
-                String[] eolStr = new String[1];
-
-                if (target.getKeywords() != null) {
-                    keywords.putAll(target.getKeywords());
-                }
-                eolStyle[0] = target.getEolStyle();
-                eolStr[0] = target.getEolStr();
-                obtainEolAndKeywordsForFile(keywords, eolStyle, eolStr, context, target.getAbsPath());
-
-                target.setKeywords(keywords);
-                target.setEolStyle(eolStyle[0]);
-                target.setEolStr(eolStr[0]);
-
-                RegularCallbacks regularCallbacks = new RegularCallbacks();
-
-                target.setExisted(true);
-                target.setReadLineCallback(regularCallbacks);
-                target.setSeekCallback(regularCallbacks);
-                target.setTellCallback(regularCallbacks);
-                target.setStream(SVNPatchFileStream.openReadOnly(target.getAbsPath()));
-                target.setReadBaton(target.getStream());
+            if (patch.getOldSymlinkBit() == Boolean.TRUE ||
+                    patch.getNewSymlinkBit() == Boolean.TRUE) {
+                target.setGitSymlinkFormat(true);
             }
 
             if (patch.getOperation() == SvnDiffCallback.OperationKind.Added) {
@@ -511,84 +684,293 @@ public class SvnPatchTarget extends SvnTargetContent {
                     if (moveTargetRelPath == null) {
                         target.setSkipped(true);
                         target.setAbsPath(null);
-                        return null;
+                        return target;
                     }
                 } else {
                     moveTargetRelPath = moveTargetPath;
                 }
 
                 boolean underRoot = isUnderRoot(workingCopyDirectory, moveTargetRelPath);
+                target.setMoveTargetAbsPath(SVNFileUtil.createFilePath(workingCopyDirectory, moveTargetRelPath));
                 if (!underRoot) {
                     target.setSkipped(true);
                     target.setAbsPath(null);
                     return target;
-                } else {
-                    target.setAbsPath(SVNFileUtil.createFilePath(workingCopyDirectory, moveTargetRelPath));
                 }
+                final SVNFileType typeOnDisk = patchContext.getKindOnDisk(target.getMoveTargetAbsPath());
+                final SVNNodeKind kindOnDisk = SVNFileType.getNodeKind(typeOnDisk);
+                final SVNNodeKind wcKind = patchContext.readKind(target.getMoveTargetAbsPath(), true, false);
 
-                SVNNodeKind kindOnDisk = SVNFileType.getNodeKind(SVNFileType.getType(target.getMoveTargetAbsPath()));
-                SVNNodeKind wcKind = context.readKind(target.getMoveTargetAbsPath(), false);
+                if (wcKind == SVNNodeKind.FILE || wcKind == SVNNodeKind.DIR) {
+                    File movedFromAbsPath;
+                    try {
+                        movedFromAbsPath = patchContext.wasNodeMovedHere(target.getMoveTargetAbsPath());
+                    } catch (SVNException e) {
+                        if (e.getErrorMessage().getErrorCode() == SVNErrorCode.WC_PATH_NOT_FOUND) {
+                            movedFromAbsPath = null;
+                        } else {
+                            throw e;
+                        }
+                    }
 
-                if (kindOnDisk != SVNNodeKind.NONE || wcKind != SVNNodeKind.NONE) {
+                    if (movedFromAbsPath != null && movedFromAbsPath.equals(target.getAbsPath())) {
+                        target.setAbsPath(target.getMoveTargetAbsPath());
+                        target.setMoveTargetAbsPath(null);
+                        target.setOperation(SvnDiffCallback.OperationKind.Modified);
+                        target.setLocallyDeleted(false);
+                        target.setDbKind(wcKind);
+                        target.setKindOnDisk(kindOnDisk);
+                        target.setSpecial(typeOnDisk == SVNFileType.SYMLINK);
+                        target.setHadAlreadyApplied(true);
+                    } else {
+                        target.setSkipped(true);
+                        target.setMoveTargetAbsPath(null);
+                        return target;
+                    }
+                } else if (kindOnDisk == SVNNodeKind.NONE || targetIsAdded(targetsInfo, target.getMoveTargetAbsPath())) {
                     target.setSkipped(true);
-                    target.setAbsPath(null);
+                    target.setMoveTargetAbsPath(null);
                     return target;
                 }
             }
-            if (!target.isSymlink()) {
-                File uniqueFile = createTempFile(workingCopyDirectory, context); //TODO: remove temp files
+
+            if (target.isSymlink()) {
+                target.setExisted(true);
+
+                target.setReadBaton(new SymlinkReadBaton(target.getAbsPath()));
+
+                final SymlinkCallbacks symlinkCallbacks = new SymlinkCallbacks(workingCopyDirectory, patchContext);
+                target.setReadLineCallback(symlinkCallbacks);
+                target.setTellCallback(symlinkCallbacks);
+                target.setSeekCallback(symlinkCallbacks);
+            } else if (target.getKindOnDisk() == SVNNodeKind.FILE) {
+                target.setHasLocalModifications(patchContext.isTextModified(target.getAbsPath(), false));
+                target.setExecutable(patchContext.isExecutable(target.getAbsPath()));
+
+                final Map<String, byte[]> keywords = new HashMap<String, byte[]>();
+                SVNWCContext.SVNEolStyle[] eolStyle = (SVNWCContext.SVNEolStyle[]) new SVNWCContext.SVNEolStyle[1];
+                String[] eolStr = new String[1];
+
+                if (target.getKeywords() != null) {
+                    keywords.putAll(target.getKeywords());
+                }
+                eolStyle[0] = target.getEolStyle();
+                eolStr[0] = target.getEolStr();
+                obtainEolAndKeywordsForFile(keywords, eolStyle, eolStr, patchContext, target.getAbsPath());
+
+                target.setKeywords(keywords);
+                target.setEolStyle(eolStyle[0]);
+                target.setEolStr(eolStr[0]);
+
+                RegularCallbacks regularCallbacks = new RegularCallbacks();
+
+                target.setExisted(true);
+                target.setReadLineCallback(regularCallbacks);
+                target.setSeekCallback(regularCallbacks);
+                target.setTellCallback(regularCallbacks);
+                target.setStream(SVNPatchFileStream.openReadOnly(target.getAbsPath()));
+                target.setReadBaton(target.getStream());
+            }
+
+            if (target.isSymlink()) {
+                File uniqueFile = patchContext.createTempFile(workingCopyDirectory);
+                target.setPatchedAbsPath(uniqueFile);
+                target.setWriteBaton(uniqueFile);
+                target.setWriteCallback(new SymlinkCallbacks(workingCopyDirectory, patchContext));
+                target.setOriginalContentFile(null);
+            } else if (target.getKindOnDisk() == SVNNodeKind.FILE) {
+                File uniqueFile = patchContext.createTempFile(workingCopyDirectory);
                 target.setPatchedAbsPath(uniqueFile);
                 target.setPatchedStream(SVNPatchFileStream.openForWrite(uniqueFile));
                 target.setWriteBaton(target.getPatchedStream());
                 target.setWriteCallback(new RegularWriteCallback());
+                target.setOriginalContentFile(target.getAbsPath());
+                target.setExecutable(SVNFileUtil.isExecutable(target.getAbsPath()));
             } else {
-                File uniqueFile = createTempFile(workingCopyDirectory, context);
+                File uniqueFile = patchContext.createTempFile(workingCopyDirectory);
                 target.setPatchedAbsPath(uniqueFile);
-                target.setWriteBaton(uniqueFile);
-                target.setWriteCallback(new SymlinkCallbacks(workingCopyDirectory, context));
+                target.setPatchedStream(SVNPatchFileStream.openForWrite(uniqueFile));
+                target.setWriteBaton(target.getPatchedStream());
+                target.setWriteCallback(new RegularWriteCallback());
             }
 
-            target.setRejectAbsPath(createTempFile(workingCopyDirectory, context));
+            target.setRejectAbsPath(patchContext.createTempFile(workingCopyDirectory));
             target.setRejectStream(SVNPatchFileStream.openForWrite(target.getRejectAbsPath()));
 
-            String diffHeader = "--- " + target.getCanonPathFromPatchfile() + "\n" + "+++ " + target.getCanonPathFromPatchfile() + "\n";
-            SVNFileUtil.writeToFile(target.getRejectAbsPath(), diffHeader, "UTF-8");
-
-            target.getRejectStream().write(diffHeader);
-
             if (!target.isSkipped()) {
-                Map<String, SvnPropertiesPatch> propPatches = patch.getPropPatches();
+                final Map<String, SvnPropertiesPatch> propPatches = patch.getPropPatches();
                 for (Map.Entry<String, SvnPropertiesPatch> entry : propPatches.entrySet()) {
-                    String propName = entry.getKey();
-                    SvnPropertiesPatch propPatch = entry.getValue();
+                    final String propName = entry.getKey();
+                    final SvnPropertiesPatch propPatch = entry.getValue();
 
-                    SvnPropertiesPatchTarget propTarget = SvnPropertiesPatchTarget.initPropTarget(propName, propPatch.getOperation(), context, target.getAbsPath());
+                    SvnPropertiesPatchTarget propTarget = SvnPropertiesPatchTarget.initPropTarget(propName, propPatch.getOperation(), patchContext, target.getAbsPath());
                     target.putPropTarget(propName, propTarget);
+                }
+
+                if (patch.getNewExecutableBit() != null &&
+                        patch.getNewExecutableBit() != patch.getOldExecutableBit()) {
+                    final SvnDiffCallback.OperationKind operation;
+                    if (patch.getNewExecutableBit() == Boolean.TRUE) {
+                        operation = SvnDiffCallback.OperationKind.Added;
+                    } else if (patch.getNewExecutableBit() == Boolean.FALSE) {
+                        if (patch.getOldExecutableBit() == Boolean.TRUE) {
+                            operation = SvnDiffCallback.OperationKind.Deleted;
+                        } else {
+                            operation = SvnDiffCallback.OperationKind.Unchanged;
+                        }
+                    } else {
+                        operation = SvnDiffCallback.OperationKind.Unchanged;
+                    }
+
+                    if (operation != SvnDiffCallback.OperationKind.Unchanged) {
+                        SvnPropertiesPatchTarget propTarget = target.getPropTargets().get(SVNProperty.EXECUTABLE);
+                        if (propTarget != null && operation != propTarget.getOperation()) {
+                            final SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.INVALID_INPUT,
+                                    "Invalid patch: specifies " +
+                                            "contradicting mode changes and " +
+                                            "{0} changes (for ''{1}'')",
+                                    SVNProperty.EXECUTABLE, target.getAbsPath());
+                            SVNErrorManager.error(errorMessage, SVNLogType.WC);
+                        } else if (propTarget == null) {
+                            propTarget = SvnPropertiesPatchTarget.initPropTarget(
+                                    SVNProperty.EXECUTABLE, operation, patchContext, target.getAbsPath());
+                            target.putPropTarget(SVNProperty.EXECUTABLE, propTarget);
+                        }
+                    }
+                }
+
+                if (patch.getNewSymlinkBit() != null &&
+                        patch.getNewSymlinkBit() != patch.getOldSymlinkBit()) {
+                    final SvnDiffCallback.OperationKind operation;
+
+                    if (patch.getNewSymlinkBit() == Boolean.TRUE) {
+                        operation = SvnDiffCallback.OperationKind.Added;
+                    } else if (patch.getNewSymlinkBit() == Boolean.FALSE) {
+                        if (patch.getOldSymlinkBit() == Boolean.TRUE) {
+                            operation = SvnDiffCallback.OperationKind.Deleted;
+                        } else {
+                            operation = SvnDiffCallback.OperationKind.Unchanged;
+                        }
+                    } else {
+                        operation = SvnDiffCallback.OperationKind.Unchanged;
+                    }
+
+                    if (operation != SvnDiffCallback.OperationKind.Unchanged) {
+                        SvnPropertiesPatchTarget propTarget = target.getPropTargets().get(SVNProperty.EXECUTABLE);
+                        if (propTarget != null && operation != propTarget.getOperation()) {
+                            final SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.INVALID_INPUT,
+                                    "Invalid patch: specifies " +
+                                            "contradicting mode changes and " +
+                                            "{0} changes (for ''{1}'')",
+                                    SVNProperty.SPECIAL, target.getAbsPath());
+                            SVNErrorManager.error(errorMessage, SVNLogType.WC);
+                        } else if (propTarget == null) {
+                            propTarget = SvnPropertiesPatchTarget.initPropTarget(
+                                    SVNProperty.SPECIAL, operation, patchContext, target.getAbsPath());
+                            target.putPropTarget(SVNProperty.SPECIAL, propTarget);
+                        }
+                    }
                 }
             }
         }
 
+        if ((target.isLocallyDeleted() || target.getDbKind() == SVNNodeKind.NONE) &&
+                !target.isAdded() &&
+                target.getOperation() == SvnDiffCallback.OperationKind.Unchanged) {
+            boolean maybeAdd = false;
+
+            if (patch.getHunks() != null && patch.getHunks().size() == 1) {
+                final SvnDiffHunk hunk = patch.getHunks().get(0);
+                if (hunk.getDirectedOriginalStart() == 0) {
+                    maybeAdd = true;
+                }
+            } else if (patch.getPropPatches() != null && patch.getPropPatches().size() > 0) {
+                boolean allAdd = true;
+                final Map<String, SvnPropertiesPatch> propPatches = patch.getPropPatches();
+                for (Map.Entry<String, SvnPropertiesPatch> entry : propPatches.entrySet()) {
+                    final SvnPropertiesPatch propPatch = entry.getValue();
+                    if (propPatch.getOperation() != SvnDiffCallback.OperationKind.Added) {
+                        allAdd = false;
+                        break;
+                    }
+                }
+                maybeAdd = allAdd;
+            }
+
+            if (maybeAdd) {
+                target.setAdded(true);
+            }
+        } else if (!target.isDeleted() && !target.isAdded() && target.getOperation() == SvnDiffCallback.OperationKind.Unchanged) {
+            boolean maybeDelete = false;
+
+            if (patch.getHunks() != null && patch.getHunks().size() == 1) {
+                final SvnDiffHunk hunk = patch.getHunks().get(0);
+                if (hunk.getDirectedModifiedStart() == 0) {
+                    maybeDelete = true;
+                }
+            }
+
+            if (maybeDelete) {
+                target.setDeleted(true);
+            }
+        }
+
+        if (target.getRejectStream() != null) {
+            File leftSrc = target.getCanonPathFromPatchfile();
+            File rightSrc = target.getCanonPathFromPatchfile();
+
+            if (target.isAdded()) {
+                leftSrc = SVNFileUtil.createFilePath("/dev/null");
+            }
+            if (target.isDeleted()) {
+                rightSrc = SVNFileUtil.createFilePath("/dev/null");
+            }
+            target.getRejectStream().write(
+                    "--- " + leftSrc + "\n" +
+                            "+++ " + rightSrc + "\n");
+        }
         return target;
+    }
+
+    protected static boolean targetIsAdded(List<SVNPatchTargetInfo> targetsInfo, File localAbsPath) {
+        for (int i = targetsInfo.size() - 1; i >= 0; i--) {
+            final SVNPatchTargetInfo targetInfo = targetsInfo.get(i);
+
+            final String info = SVNPathUtil.getPathAsChild(SVNFileUtil.getFilePath(targetInfo.getLocalAbsPath()),
+                    SVNFileUtil.getFilePath(localAbsPath));
+
+            if (info != null && info.length() == 0) {
+                return targetInfo.isAdded();
+            } else if (info != null) {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    protected static boolean targetIsDeleted(List<SVNPatchTargetInfo> targetsInfo, File localAbsPath) {
+        for (int i = targetsInfo.size() - 1; i >= 0; i--) {
+            final SVNPatchTargetInfo targetInfo = targetsInfo.get(i);
+
+            final String info = SVNPathUtil.getPathAsChild(SVNFileUtil.getFilePath(targetInfo.getLocalAbsPath()),
+                    SVNFileUtil.getFilePath(localAbsPath));
+
+            if (info != null) {
+                return targetInfo.isDeleted();
+            }
+        }
+        return false;
     }
 
     private static void obtainEolAndKeywordsForFile(Map<String, byte[]> keywords,
                                              SVNWCContext.SVNEolStyle[] eolStyle,
                                              String[] eolStr,
-                                             SVNWCContext context, File localAbsPath) throws SVNException {
-        final SVNProperties actualProps = context.getActualProps(localAbsPath);
+                                             ISvnPatchContext patchContext, File localAbsPath) throws SVNException {
+        final SVNProperties actualProps = patchContext.getActualProps(localAbsPath);
         SVNPropertyValue keywordsVal = actualProps.getSVNPropertyValue(SVNProperty.KEYWORDS);
         if (keywordsVal != null) {
-            ISVNWCDb.WCDbInfo nodeChangedInfo = context.getNodeChangedInfo(localAbsPath);
-            long changedRev = nodeChangedInfo.changedRev;
-            SVNDate changedDate = nodeChangedInfo.changedDate;
-            String changedAuthor = nodeChangedInfo.changedAuthor;
-
-            SVNURL url = context.getNodeUrl(localAbsPath);
-            SVNWCContext.SVNWCNodeReposInfo nodeReposInfo = context.getNodeReposInfo(localAbsPath);
-            SVNURL reposRootUrl = nodeReposInfo.reposRootUrl;
-
             if (keywords != null) {
-                keywords.putAll(SVNTranslator.computeKeywords(SVNPropertyValue.getPropertyAsString(keywordsVal), url == null ? null : url.toString(), reposRootUrl  == null ? null : reposRootUrl.toString(), changedAuthor, changedDate.format(), String.valueOf(changedRev), null));
+                keywords.putAll(patchContext.computeKeywords(localAbsPath, keywordsVal));
             }
         }
         SVNPropertyValue eolStyleVal = actualProps.getSVNPropertyValue(SVNProperty.EOL_STYLE);
@@ -604,11 +986,17 @@ public class SvnPatchTarget extends SvnTargetContent {
         }
     }
 
-    private void resolveTargetPath(File pathFromPatchFile, File workingCopyDirectory, int stripCount, boolean propChangesOnly, SVNWCContext context) throws SVNException, IOException {
+    private void resolveTargetPath(File pathFromPatchFile,
+                                   File workingCopyDirectory,
+                                   int stripCount,
+                                   boolean hasTextChanges,
+                                   boolean followMoves,
+                                   List<SVNPatchTargetInfo> targetsInfo,
+                                   ISvnPatchContext patchContext) throws SVNException, IOException {
         final File canonPathFromPatchfile = pathFromPatchFile;
         setCanonPathFromPatchfile(canonPathFromPatchfile);
 
-        if (!propChangesOnly && SVNFileUtil.getFilePath(canonPathFromPatchfile).length() == 0) {
+        if (hasTextChanges && SVNFileUtil.getFilePath(canonPathFromPatchfile).length() == 0) {
             setSkipped(true);
             setAbsPath(null);
             setRelPath(SVNFileUtil.createFilePath(""));
@@ -645,64 +1033,20 @@ public class SvnPatchTarget extends SvnTargetContent {
             setAbsPath(SVNFileUtil.createFilePath(workingCopyDirectory, getRelPath()));
         }
 
-
-        SvnStatus status;
-        try {
-            status = SVNStatusEditor17.internalStatus(context, getAbsPath());
-
-            if (status.getNodeStatus() == SVNStatusType.STATUS_IGNORED ||
-                    status.getNodeStatus() == SVNStatusType.STATUS_UNVERSIONED ||
-                    status.getNodeStatus() == SVNStatusType.MISSING ||
-                    status.getNodeStatus() == SVNStatusType.OBSTRUCTED ||
-                    status.isConflicted()) {
-                setSkipped(true);
-                return;
-            } else if (status.getNodeStatus() == SVNStatusType.STATUS_DELETED) {
-                setLocallyDeleted(true);
-            }
-        } catch (SVNException e) {
-            if (e.getErrorMessage().getErrorCode() != SVNErrorCode.WC_PATH_NOT_FOUND) {
-                throw e;
-            }
+        if (targetIsDeleted(targetsInfo, getAbsPath())) {
             setLocallyDeleted(true);
             setDbKind(SVNNodeKind.NONE);
-            status = null;
+            return;
         }
 
-        if (status != null && status.getKind() != SVNNodeKind.UNKNOWN) {
-            setDbKind(status.getKind());
-        } else {
-            setDbKind(SVNNodeKind.NONE);
-        }
-
-        SVNFileType fileType = SVNFileType.getType(getAbsPath());
-        setSymlink(fileType == SVNFileType.SYMLINK);
-        setKindOnDisk(SVNFileType.getNodeKind(fileType));
-
-        if (isLocallyDeleted()) {
-            SVNWCContext.NodeMovedAway nodeMovedAway = context.nodeWasMovedAway(getAbsPath());
-            if (nodeMovedAway != null && nodeMovedAway.movedToAbsPath != null) {
-                setAbsPath(nodeMovedAway.movedToAbsPath);
-                setRelPath(SVNFileUtil.skipAncestor(workingCopyDirectory, nodeMovedAway.movedToAbsPath));
-
-                assert getRelPath() != null && getRelPath().getPath().length() > 0;
-
-                setLocallyDeleted(false);
-                fileType = SVNFileType.getType(getAbsPath());
-                setSymlink(fileType == SVNFileType.SYMLINK);
-                setKindOnDisk(SVNFileType.getNodeKind(fileType));
-            } else if (getKindOnDisk() != SVNNodeKind.NONE) {
-                setSkipped(true);
-                return;
-            }
-        }
+        patchContext.resolvePatchTargetStatus(this, workingCopyDirectory, followMoves, targetsInfo);
     }
 
     private static boolean isUnderRoot(File workingCopyDirectory, File relPath) throws SVNException {
         File fullPath = SVNFileUtil.createFilePath(workingCopyDirectory, relPath);
         try {
             String workingCopyDirectoryPath = SVNFileUtil.getFilePath(workingCopyDirectory.getCanonicalFile());
-            String canonicalFullPath = fullPath.getCanonicalPath();
+            String canonicalFullPath = SVNFileUtil.getFilePath(fullPath.getCanonicalFile());
             return canonicalFullPath.equals(workingCopyDirectoryPath) || SVNPathUtil.isAncestor(workingCopyDirectoryPath, canonicalFullPath);
         } catch (IOException e) {
             SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.IO_ERROR, e);
@@ -712,10 +1056,10 @@ public class SvnPatchTarget extends SvnTargetContent {
     }
 
     private static File chooseTargetFilename(SvnPatch patch) {
-        if (patch.getOldFileName().getPath().equals("/dev/null")) {
+        if (patch.getOldFileName() == SvnPatch.DEV_NULL) {
             return patch.getNewFileName();
         }
-        if (patch.getNewFileName().getPath().equals("/dev/null")) {
+        if (patch.getNewFileName() == SvnPatch.DEV_NULL) {
             return patch.getOldFileName();
         }
         if (patch.getOperation() == SvnDiffCallback.OperationKind.Moved) {
@@ -740,85 +1084,90 @@ public class SvnPatchTarget extends SvnTargetContent {
         propTargets.put(propName, propTarget);
     }
 
-    private static File createTempFile(File workingCopyDirectory, SVNWCContext context) throws SVNException {
-        return SVNFileUtil.createUniqueFile(context.getDb().getWCRootTempDir(workingCopyDirectory), "", "", true);
+    @Deprecated
+    public void installPatchedTarget(File workingCopyDirectory, boolean dryRun, SVNWCContext context) throws SVNException {
+        final SvnWcPatchContext patchContext = new SvnWcPatchContext(context);
+        final ArrayList<SVNPatchTargetInfo> targetInfos = new ArrayList<SVNPatchTargetInfo>();
+        installPatchedTarget(workingCopyDirectory, dryRun, patchContext, targetInfos);
     }
 
-    public void installPatchedTarget(File workingCopyDirectory, boolean dryRun, SVNWCContext context) throws SVNException {
+    public void installPatchedTarget(File workingCopyDirectory, boolean dryRun, ISvnPatchContext patchContext, List<SVNPatchTargetInfo> targetInfos) throws SVNException {
         if (isDeleted()) {
             if (!dryRun) {
-                SvnNgRemove.delete(context, getAbsPath(), null, false, false, null);
+                patchContext.delete(getAbsPath());
             }
         } else {
-            if (isAdded() || isReplaced()) {
+            if (isAdded()) {
                 File parentAbsPath = SVNFileUtil.getParentFile(getAbsPath());
 
-                SVNNodeKind parentDbKind = context.readKind(parentAbsPath, false);
+                SVNNodeKind parentDbKind = patchContext.readKind(parentAbsPath, false, false);
 
                 if (parentDbKind == SVNNodeKind.DIR || parentDbKind == SVNNodeKind.FILE) {
                     if (parentDbKind != SVNNodeKind.DIR) {
                         setSkipped(true);
                     } else {
-                        if (SVNFileType.getType(parentAbsPath) != SVNFileType.DIRECTORY) {
+                        if (patchContext.getKindOnDisk(parentAbsPath) != SVNFileType.DIRECTORY) {
                             setSkipped(true);
                         }
                     }
                 } else {
-                    createMissingParents(workingCopyDirectory, context, dryRun);
+                    createMissingParents(workingCopyDirectory, patchContext, dryRun, targetInfos);
                 }
             } else {
-                SVNNodeKind wcKind = context.readKind(getAbsPath(), false);
+                SVNNodeKind wcKind = patchContext.readKind(getAbsPath(), false, false);
 
                 if (getKindOnDisk() == SVNNodeKind.NONE || wcKind != getKindOnDisk()) {
                     setSkipped(true);
+                    if (wcKind != getKindOnDisk()) {
+                        setObstructed(true);
+                    }
                 }
             }
 
             if (!dryRun && !isSkipped()) {
                 if (isSpecial()) {
                     //setPatchedStream(SVNFileUtil.openFileForReading(getPatchedAbsPath()));
-                    String linkName = SVNFileUtil.readFile(getPatchedAbsPath());
-                    if (linkName.startsWith("link ")) {
-                        linkName = linkName.substring("link ".length());
+                    String symlinkTarget;
+                    if (patchContext.getKindOnDisk(getPatchedAbsPath()) == SVNFileType.FILE) {
+                        symlinkTarget = SVNFileUtil.readFile(getPatchedAbsPath());
+
+                        assert symlinkTarget != null;
+                        if (!gitSymlinkFormat) {
+                            assert symlinkTarget.startsWith("link ");
+                            symlinkTarget = symlinkTarget.substring("link ".length());
+                        }
+                        patchContext.writeSymlinkContent(getAbsPath(), symlinkTarget);
+                    } else {
+                        assert patchContext.getKindOnDisk(getPatchedAbsPath()) == SVNFileType.SYMLINK;
+                        patchContext.copySymlink(getPatchedAbsPath(), getAbsPath());
                     }
-                    if (linkName.endsWith("\n")) {
-                        linkName = linkName.substring(0, linkName.length() - "\n".length());
-                    }
-                    if (linkName.endsWith("\r")) {
-                        linkName = linkName.substring(0, linkName.length() - "\r".length());
-                    }
-                    SVNFileUtil.createSymlink(getAbsPath(), linkName);
                 } else {
                     //TODO: a special method for special files? atomicity?
                     File dst = getMoveTargetAbsPath() != null ? getMoveTargetAbsPath() : getAbsPath();
                     if (SVNFileType.getType(getPatchedAbsPath()) == SVNFileType.SYMLINK) {
                         SVNFileUtil.deleteFile(dst);
-                        SVNFileUtil.copySymlink(getPatchedAbsPath(), dst);
+                        patchContext.copySymlink(getPatchedAbsPath(), dst);
                     } else {
                         boolean repairEol = getEolStyle() == SVNWCContext.SVNEolStyle.Fixed || getEolStyle() == SVNWCContext.SVNEolStyle.Native;
-                        SVNTranslator.translate(getPatchedAbsPath(), dst, null, getEolStr() == null ? null : getEolStr().getBytes(), getKeywords(), false, true);
+                        patchContext.translate(getPatchedAbsPath(), dst, null, getEolStr() == null ? null : getEolStr().getBytes(), getKeywords(), false, true);
                     }
                 }
 
-                if (isAdded() || isReplaced()) {
-                    SvnNgAdd add = new SvnNgAdd();
-                    add.setWcContext(context);
-                    add.addFromDisk(getAbsPath(), null, false);
+                if (isAdded()) {
+                    patchContext.add(getAbsPath());
                 }
 
-                SVNFileUtil.setExecutable(getMoveTargetAbsPath() != null ? getMoveTargetAbsPath() : getAbsPath(), isExecutable());
+                patchContext.setExecutable(getMoveTargetAbsPath() != null ? getMoveTargetAbsPath() : getAbsPath(), isExecutable());
 
                 if (getMoveTargetAbsPath() != null) {
-                    SvnNgWcToWcCopy svnNgWcToWcCopy = new SvnNgWcToWcCopy();
-                    svnNgWcToWcCopy.setWcContext(context);
-                    svnNgWcToWcCopy.move(context, getAbsPath(), getMoveTargetAbsPath(), true);
-                    SVNFileUtil.deleteFile(getAbsPath());
+                    patchContext.move(getAbsPath(), getMoveTargetAbsPath());
+                    patchContext.delete(getAbsPath());
                 }
             }
         }
     }
 
-    private void createMissingParents(File workingCopyDirectory,  SVNWCContext context, boolean dryRun) throws SVNException {
+    private void createMissingParents(File workingCopyDirectory,  ISvnPatchContext patchContext, boolean dryRun, List<SVNPatchTargetInfo> targetInfos) throws SVNException {
         File localAbsPath = workingCopyDirectory;
         File relPath = getRelPath();
         String relPathString = SVNFileUtil.getFilePath(relPath);
@@ -827,7 +1176,7 @@ public class SvnPatchTarget extends SvnTargetContent {
 
         for (String component : components) {
             localAbsPath = SVNFileUtil.createFilePath(localAbsPath, component);
-            SVNNodeKind wcKind = context.readKind(localAbsPath, true);
+            SVNNodeKind wcKind = patchContext.readKind(localAbsPath, false, true);
 
             SVNNodeKind diskKind = SVNFileType.getNodeKind(SVNFileType.getType(localAbsPath));
             if (diskKind == SVNNodeKind.FILE || wcKind == SVNNodeKind.FILE) {
@@ -863,48 +1212,58 @@ public class SvnPatchTarget extends SvnTargetContent {
                 String component = components[i];
                 localAbsPath = SVNFileUtil.createFilePath(localAbsPath, component);
 
+                if (targetIsAdded(targetInfos, localAbsPath)) {
+                    continue;
+                }
+                final SVNPatchTargetInfo targetInfo = new SVNPatchTargetInfo(localAbsPath, true, false);
+                targetInfos.add(targetInfo);
+
                 if (dryRun) {
-                    ISVNEventHandler eventHandler = context.getEventHandler();
+                    ISVNEventHandler eventHandler = patchContext.getEventHandler();
                     if (eventHandler != null) {
                         SVNEvent event = SVNEventFactory.createSVNEvent(localAbsPath, SVNNodeKind.DIR, null, -1, SVNEventAction.ADD, SVNEventAction.ADD, null, null);
                         eventHandler.handleEvent(event, ISVNEventHandler.UNKNOWN);
                     }
                 } else {
-                    ISVNCanceller canceller = context.getEventHandler();
+                    ISVNCanceller canceller = patchContext.getEventHandler();
                     if (canceller != null) {
                         canceller.checkCancelled();
                     }
-                    SvnNgAdd add = new SvnNgAdd();
-                    add.setWcContext(context);
-                    add.addFromDisk(localAbsPath, null, true);
+                    patchContext.add(localAbsPath);
                 }
             }
         }
     }
 
+    @Deprecated
     public void installPatchedPropTarget(boolean dryRun, SVNWCContext context) throws SVNException {
+        final SvnWcPatchContext patchContext = new SvnWcPatchContext(context);
+        installPatchedPropTarget(dryRun, patchContext);
+    }
+    public void installPatchedPropTarget(boolean dryRun, ISvnPatchContext patchContext) throws SVNException {
         final Map<String, SvnPropertiesPatchTarget> propTargets = getPropTargets();
         for (Map.Entry<String, SvnPropertiesPatchTarget> entry : propTargets.entrySet()) {
             SvnPropertiesPatchTarget propTarget = entry.getValue();
-            ISVNCanceller canceller = context.getEventHandler();
+            ISVNCanceller canceller = patchContext.getEventHandler();
             if (canceller != null) {
                 canceller.checkCancelled();
             }
 
+            if (propTarget.isSkipped()) {
+                continue;
+            }
+
             if (propTarget.getOperation() == SvnDiffCallback.OperationKind.Deleted) {
                 if (!dryRun) {
-                    SvnNgPropertiesManager.setProperty(context, getAbsPath(), propTarget.getName(), null, SVNDepth.EMPTY, true, null, null);
+                    patchContext.setProperty(getAbsPath(), propTarget.getName(), null);
                 }
                 continue;
             }
 
             if (!hasTextChanges() && getKindOnDisk() == SVNNodeKind.NONE && !isAdded()) {
                 if (!dryRun) {
-                    SVNFileUtil.createEmptyFile(getAbsPath());
-
-                    SvnNgAdd add = new SvnNgAdd();
-                    add.setWcContext(context);
-                    add.addFromDisk(getAbsPath(), null, false);
+                    SVNFileUtil.createEmptyFile(absPath);
+                    patchContext.add(getAbsPath());
                 }
                 setAdded(true);
             }
@@ -921,7 +1280,7 @@ public class SvnPatchTarget extends SvnTargetContent {
                 if (dryRun) {
                     SVNPropertyValue canonicalPropertyValue = SVNPropertiesManager.validatePropertyValue(getAbsPath(), getDbKind(), propTarget.getName(), propVal, true, null, null);
                 } else {
-                    SvnNgPropertiesManager.setProperty(context, getAbsPath(), propTarget.getName(), propVal, SVNDepth.EMPTY, true, null, null);
+                    patchContext.setProperty(getAbsPath(), propTarget.getName(), propVal);
                 }
             } catch (SVNException e) {
                 if (e.getErrorMessage().getErrorCode() == SVNErrorCode.ILLEGAL_TARGET ||
@@ -952,8 +1311,13 @@ public class SvnPatchTarget extends SvnTargetContent {
         }
     }
 
+    @Deprecated
     public void sendPatchNotification(SVNWCContext context) throws SVNException {
-        ISVNEventHandler eventHandler = context.getEventHandler();
+        sendPatchNotification(new SvnWcPatchContext(context));
+    }
+
+    public void sendPatchNotification(ISvnPatchContext patchContext) throws SVNException {
+        ISVNEventHandler eventHandler = patchContext.getEventHandler();
         if (eventHandler == null) {
             return;
         }
@@ -979,10 +1343,10 @@ public class SvnPatchTarget extends SvnTargetContent {
         SVNStatusType propState = SVNStatusType.UNKNOWN;
 
         if (action == SVNEventAction.SKIP) {
-            if (getDbKind() == SVNNodeKind.NONE || getDbKind() == SVNNodeKind.UNKNOWN) {
-                contentState = SVNStatusType.MISSING;
-            } else if (getDbKind() == SVNNodeKind.DIR) {
+            if (isObstructed()) {
                 contentState = SVNStatusType.OBSTRUCTED;
+            } else if (getDbKind() == SVNNodeKind.NONE || getDbKind() == SVNNodeKind.UNKNOWN) {
+                contentState = SVNStatusType.MISSING;
             } else {
                 contentState = SVNStatusType.UNKNOWN;
             }
@@ -993,6 +1357,8 @@ public class SvnPatchTarget extends SvnTargetContent {
                 contentState = SVNStatusType.MERGED;
             } else if (hasTextChanges()) {
                 contentState = SVNStatusType.CHANGED;
+            } else if (hadAlreadyApplied()) {
+                contentState =SVNStatusType.MERGED;
             }
 
             if (hadPropRejects()) {
@@ -1007,7 +1373,7 @@ public class SvnPatchTarget extends SvnTargetContent {
 
         if (action == SVNEventAction.PATCH) {
             for (SvnHunkInfo hunkInfo : getHunkInfos()) {
-                sendHunkNotification(hunkInfo, null, context);
+                sendHunkNotification(hunkInfo, null, patchContext);
             }
             final Map<String, SvnPropertiesPatchTarget> propTargets = getPropTargets();
             for (Map.Entry<String, SvnPropertiesPatchTarget> entry : propTargets.entrySet()) {
@@ -1017,7 +1383,7 @@ public class SvnPatchTarget extends SvnTargetContent {
                 for (SvnHunkInfo hunkInfo : hunks) {
                     if (propTarget.getOperation() != SvnDiffCallback.OperationKind.Added &&
                             propTarget.getOperation() != SvnDiffCallback.OperationKind.Deleted) {
-                        sendHunkNotification(hunkInfo, propTarget.getName(), context);
+                        sendHunkNotification(hunkInfo, propTarget.getName(), patchContext);
                     }
                 }
             }
@@ -1028,7 +1394,7 @@ public class SvnPatchTarget extends SvnTargetContent {
         }
     }
 
-    private void sendHunkNotification(SvnHunkInfo hunkInfo, String propName, SVNWCContext context) throws SVNException {
+    private void sendHunkNotification(SvnHunkInfo hunkInfo, String propName, ISvnPatchContext patchContext) throws SVNException {
         SVNEventAction action;
         if (hunkInfo.isAlreadyApplied()) {
             action = SVNEventAction.PATCH_HUNK_ALREADY_APPLIED;
@@ -1042,7 +1408,7 @@ public class SvnPatchTarget extends SvnTargetContent {
         event.setInfo(hunkInfo);
         event.setPropertyName(propName);
 
-        ISVNEventHandler eventHandler = context.getEventHandler();
+        ISVNEventHandler eventHandler = patchContext.getEventHandler();
         if (eventHandler != null) {
             eventHandler.handleEvent(event, ISVNEventHandler.UNKNOWN);
         }
@@ -1052,7 +1418,7 @@ public class SvnPatchTarget extends SvnTargetContent {
         return hasLocalModifications;
     }
 
-    private boolean hadRejects() {
+    public boolean hadRejects() {
         return hadRejects;
     }
 
@@ -1060,7 +1426,15 @@ public class SvnPatchTarget extends SvnTargetContent {
         this.hadRejects = hadRejects;
     }
 
-    private boolean hadPropRejects() {
+    public boolean hadAlreadyApplied() {
+        return hadAlreadyApplied;
+    }
+
+    public void setHadAlreadyApplied(boolean hadAlreadyApplied) {
+        this.hadAlreadyApplied = hadAlreadyApplied;
+    }
+
+    public boolean hadPropRejects() {
         return hadPropRejects;
     }
 
@@ -1088,6 +1462,14 @@ public class SvnPatchTarget extends SvnTargetContent {
         return locallyDeleted;
     }
 
+    public boolean isObstructed() {
+        return obstructed;
+    }
+
+    public void setObstructed(boolean obstructed) {
+        this.obstructed = obstructed;
+    }
+
     public SVNNodeKind getKindOnDisk() {
         return kindOnDisk;
     }
@@ -1096,12 +1478,20 @@ public class SvnPatchTarget extends SvnTargetContent {
         return dbKind;
     }
 
+    public SvnDiffCallback.OperationKind getOperation() {
+        return operation;
+    }
+
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
 
     public void setDbKind(SVNNodeKind dbKind) {
         this.dbKind = dbKind;
+    }
+
+    public void setOperation(SvnDiffCallback.OperationKind operation) {
+        this.operation = operation;
     }
 
     public void setKindOnDisk(SVNNodeKind kindOnDisk) {
@@ -1196,6 +1586,78 @@ public class SvnPatchTarget extends SvnTargetContent {
         this.stream = stream;
     }
 
+    public void setGitSymlinkFormat(boolean gitSymlinkFormat) {
+        this.gitSymlinkFormat = gitSymlinkFormat;
+    }
+
+    public void setMoveTargetAbsPath(File moveTargetAbsPath) {
+        this.moveTargetAbsPath = moveTargetAbsPath;
+    }
+
+    public void setOriginalContentFile(File originalContentFile) {
+        this.originalContentFile = originalContentFile;
+    }
+
+    public File getOriginalContentFile() {
+        return originalContentFile;
+    }
+
+    public static SvnDiffHunk createAddsSingleLine(SvnPatch patch, String line, ISvnPatchContext patchContext, File workingCopyDirectory) throws IOException, SVNException {
+        return addOrDeleteSingleLine(patch, line, !patch.isReverse(), patchContext, workingCopyDirectory);
+    }
+    
+    public static SvnDiffHunk createDeletesSingleLine(SvnPatch patch, String line, ISvnPatchContext patchContext, File workingCopyDirectory) throws IOException, SVNException {
+        return addOrDeleteSingleLine(patch, line, patch.isReverse(), patchContext, workingCopyDirectory);
+    }
+
+    private static SvnDiffHunk addOrDeleteSingleLine(SvnPatch patch, String line, boolean add, ISvnPatchContext patchContext, File workingCopyDirectory) throws SVNException, IOException {
+        final String[] hunkHeader = {"@@ -1 +0,0 @@\n", "@@ -0,0 +1 @@\n"};
+        final int headerLength = hunkHeader[add ? 1 : 0].length();
+        final int len = line.length();
+        final int end = headerLength + (1 + len);
+
+        final StringBuilder stringBuilder = new StringBuilder(end + 1);
+
+        final SvnDiffHunk hunk = new SvnDiffHunk();
+        hunk.setPatch(patch);
+        if (add) {
+            hunk.setOriginalTextRange(new SvnDiffHunk.Range(0, 0, 0));
+            hunk.setOriginalNoFinalEol(false);
+            hunk.setModifiedTextRange(new SvnDiffHunk.Range(headerLength, end, headerLength));
+            hunk.setModifiedNoFinalEol(true);
+            hunk.setOriginalStart(0);
+            hunk.setOriginalLength(0);
+            hunk.setModifiedStart(1);
+            hunk.setModifiedLength(1);
+        } else {
+            hunk.setOriginalTextRange(new SvnDiffHunk.Range(headerLength, end, headerLength));
+            hunk.setOriginalNoFinalEol(true);
+            hunk.setModifiedTextRange(new SvnDiffHunk.Range(0, 0, 0));
+            hunk.setModifiedNoFinalEol(false);
+            hunk.setOriginalStart(1);
+            hunk.setOriginalLength(1);
+            hunk.setModifiedStart(0);
+            hunk.setModifiedLength(0);
+        }
+        hunk.setLeadingContext(0);
+        hunk.setTrailingContext(0);
+        stringBuilder.append(hunkHeader[add ? 1 : 0]);
+        stringBuilder.append(add ? '+' : '-');
+        stringBuilder.append(line);
+        stringBuilder.append('\n');
+        stringBuilder.append("\\ No newline at end of hunk\n");
+        final String buf = stringBuilder.toString();
+
+        hunk.setDiffTextRange(new SvnDiffHunk.Range(headerLength, buf.length(), headerLength));
+
+        File uniqueFile = patchContext.createTempFile(workingCopyDirectory);
+        final SVNPatchFileStream patchFileStream = SVNPatchFileStream.openForWrite(uniqueFile);
+        hunk.setPatchFileStream(patchFileStream);
+        patchFileStream.write(buf);
+
+        return hunk;
+
+    }
     private static class RegularWriteCallback implements IWriteCallback {
         public void write(Object writeBaton, String s) throws SVNException {
             SVNPatchFileStream outputStream = (SVNPatchFileStream) writeBaton;
@@ -1211,11 +1673,11 @@ public class SvnPatchTarget extends SvnTargetContent {
     private static class SymlinkCallbacks implements IWriteCallback, IRealLineCallback, ISeekCallback, ITellCallback {
 
         private File workingCopyDirectory;
-        private SVNWCContext context;
+        private ISvnPatchContext patchContext;
 
-        public SymlinkCallbacks(File workingCopyDirectory, SVNWCContext context) {
+        public SymlinkCallbacks(File workingCopyDirectory, ISvnPatchContext patchContext) {
             this.workingCopyDirectory = workingCopyDirectory;
-            this.context = context;
+            this.patchContext = patchContext;
         }
 
         public void write(Object writeBaton, String s) throws SVNException {
@@ -1223,12 +1685,8 @@ public class SvnPatchTarget extends SvnTargetContent {
                 SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.IO_WRITE_ERROR, "Invalid link representation");
                 SVNErrorManager.error(errorMessage, SVNLogType.WC);
             }
-            s = s.substring("link ".length());
             File targetAbsPath = (File) writeBaton;
-            if (SVNFileType.getType(targetAbsPath) == SVNFileType.FILE) {
-                SVNFileUtil.deleteFile(targetAbsPath);
-            }
-            SVNFileUtil.createSymlink(targetAbsPath, s);
+            patchContext.writeSymlinkContent(targetAbsPath, s.substring("link ".length()));
         }
 
         public String readLine(Object baton, String[] eolStr, boolean[] eof) throws SVNException {
@@ -1242,9 +1700,7 @@ public class SvnPatchTarget extends SvnTargetContent {
             if (symlinkReadBaton.isAtEof()) {
                 return null;
             } else {
-                String symlinkName = SVNFileUtil.getSymlinkName(symlinkReadBaton.getAbsPath());
-                String symlinkContent = "link " + symlinkName;
-                return symlinkContent;
+                return patchContext.readSymlinkContent(symlinkReadBaton.getAbsPath());
             }
         }
 

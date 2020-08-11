@@ -121,6 +121,9 @@ public class SVNTreeConflictUtil {
     }
 
     private static boolean isValidConflict(SVNSkel skel) throws SVNException {
+        if (skel == null) {
+            return false;
+        }
         if (skel.getListSize() != 8 || !skel.getChild(0).contentEquals("conflict")) {
             return false;
         }
@@ -227,11 +230,24 @@ public class SVNTreeConflictUtil {
     }
 
     public static String getHumanReadableConflictDescription(SVNTreeConflictDescription treeConflict) {
+        SVNNodeKind incomingKind = SVNNodeKind.UNKNOWN;
+        if (treeConflict.getConflictAction() == SVNConflictAction.EDIT || treeConflict.getConflictAction() == SVNConflictAction.DELETE) {
+            if (treeConflict.getSourceLeftVersion() != null) {
+                incomingKind = treeConflict.getSourceLeftVersion().getKind();
+            }
+        } else if (treeConflict.getConflictAction() == SVNConflictAction.ADD || treeConflict.getConflictAction() == SVNConflictAction.REPLACE) {
+            if (treeConflict.getSourceRightVersion() != null) {
+                incomingKind = treeConflict.getSourceRightVersion().getKind();
+            }
+        }
         final String reasonStr = getReasonString(treeConflict);
-        final String actionStr = getActionString(treeConflict);
+        final String actionStr = getActionString(incomingKind, treeConflict);
         final String operationStr = treeConflict.getOperation().getName();
-        final String kindStr = treeConflict.getNodeKind().toString();
-        final String description = String.format("local %s %s, incoming %s %s upon %s", kindStr, reasonStr, kindStr, actionStr, operationStr);
+        String kindWithSpaceStr = getNodeKindString(treeConflict.getNodeKind());
+        if (kindWithSpaceStr.length() > 0) {
+            kindWithSpaceStr = kindWithSpaceStr + " ";
+        }
+        final String description = String.format("local %s%s, incoming %s upon %s", kindWithSpaceStr, reasonStr, actionStr, operationStr);
         return description;
     }
 
@@ -253,34 +269,69 @@ public class SVNTreeConflictUtil {
     }
 
     private static String getReasonString(SVNTreeConflictDescription treeConflict) {
-        final SVNConflictReason reason = treeConflict.getConflictReason();        
+        final SVNConflictReason reason = treeConflict.getConflictReason();
         if (reason == SVNConflictReason.EDITED) {
             return "edit";
         } else if (reason == SVNConflictReason.OBSTRUCTED) {
             return "obstruction";
         } else if (reason == SVNConflictReason.DELETED) {
             return "delete";
-        } else if (reason == SVNConflictReason.ADDED) {
-            return "add";
         } else if (reason == SVNConflictReason.MISSING) {
-            return "missing";
+            if (treeConflict.getOperation() == SVNOperation.MERGE) {
+                return "missing or deleted or moved away";
+            } else {
+                return "missing";
+            }
         } else if (reason == SVNConflictReason.UNVERSIONED) {
             return "unversioned";
+        } else if (reason == SVNConflictReason.ADDED) {
+            return "add";
+        } else if (reason == SVNConflictReason.REPLACED) {
+            return "replace";
+        } else if (reason == SVNConflictReason.MOVED_AWAY) {
+            return "moved away";
+        } else if (reason == SVNConflictReason.MOVED_HERE) {
+            return "moved here";
         }
         return null;
     }
 
-    private static String getActionString(SVNTreeConflictDescription treeConflict) {
-        SVNConflictAction action = treeConflict.getConflictAction();
-        if (action == SVNConflictAction.ADD) {
-            return "add";
-        } else if (action == SVNConflictAction.EDIT) {
-            return "edit";
-        } else if (action == SVNConflictAction.DELETE) {
-            return "delete";
-        } else if (action == SVNConflictAction.REPLACE) {
-            return "replace";
+    private static String getActionString(SVNNodeKind incomingKind, SVNTreeConflictDescription treeConflict) {
+        if (incomingKind == SVNNodeKind.FILE) {
+            SVNConflictAction action = treeConflict.getConflictAction();
+            if (action == SVNConflictAction.ADD) {
+                return "file add";
+            } else if (action == SVNConflictAction.EDIT) {
+                return "file edit";
+            } else if (action == SVNConflictAction.DELETE) {
+                return "file delete or move";
+            } else if (action == SVNConflictAction.REPLACE) {
+                return "replace with file";
+            }
+        } else if (incomingKind == SVNNodeKind.DIR) {
+            SVNConflictAction action = treeConflict.getConflictAction();
+            if (action == SVNConflictAction.ADD) {
+                return "dir add";
+            } else if (action == SVNConflictAction.EDIT) {
+                return "dir edit";
+            } else if (action == SVNConflictAction.DELETE) {
+                return "dir delete or move";
+            } else if (action == SVNConflictAction.REPLACE) {
+                return "replace with dir";
+            }
+        } else if (incomingKind == SVNNodeKind.NONE || incomingKind == SVNNodeKind.UNKNOWN) {
+            SVNConflictAction action = treeConflict.getConflictAction();
+            if (action == SVNConflictAction.ADD) {
+                return "add";
+            } else if (action == SVNConflictAction.EDIT) {
+                return "edit";
+            } else if (action == SVNConflictAction.DELETE) {
+                return "delete or move";
+            } else if (action == SVNConflictAction.REPLACE) {
+                return "replace";
+            }
         }
+
         return null;
     }
 

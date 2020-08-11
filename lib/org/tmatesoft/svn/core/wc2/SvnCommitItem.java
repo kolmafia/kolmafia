@@ -7,6 +7,7 @@ import java.util.Map;
 import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.SVNPropertyValue;
 import org.tmatesoft.svn.core.SVNURL;
+import org.tmatesoft.svn.core.io.SVNRepository;
 
 /**
  * Provides information about a committed 
@@ -38,10 +39,10 @@ public class SvnCommitItem {
     private File path;
     private SVNNodeKind kind;
     private SVNURL url;
-    private long revision;
+    private long revision = SVNRepository.INVALID_REVISION;
     
     private SVNURL copyFromUrl;
-    private long copyFromRevision;
+    private long copyFromRevision = SVNRepository.INVALID_REVISION;
 
     private File movedFromAbsPath;
     

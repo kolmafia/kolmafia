@@ -142,8 +142,15 @@ public class FSRecoverer {
         if (revNode.getTextRepresentation().getRevision() != rev) {
             return;
         }
-
-        revFile.seek(revNode.getTextRepresentation().getOffset());
+        long off;
+        long itemIndex = revNode.getTextRepresentation().getItemIndex();
+        if (myOwner.isUseLogAddressing()) {
+            throw new UnsupportedOperationException("TODO");
+//            off = lookupOffsetInIndex(itemIndex);
+        } else {
+            off = itemIndex;
+        }
+        revFile.seek(off);
         FSInputStream.FSRepresentationState repState = FSInputStream.readRepresentationLine(revFile);
         if (repState.myIsDelta) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_CORRUPT, 

@@ -1,11 +1,10 @@
 package org.tmatesoft.svn.core.internal.wc2.ng;
 
-import java.io.File;
-
 import org.tmatesoft.svn.core.SVNErrorCode;
 import org.tmatesoft.svn.core.SVNErrorMessage;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNURL;
+import org.tmatesoft.svn.core.internal.util.SVNPathRevision;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext;
@@ -21,6 +20,8 @@ import org.tmatesoft.svn.core.wc2.ISvnOperationOptionsProvider;
 import org.tmatesoft.svn.core.wc2.SvnCopySource;
 import org.tmatesoft.svn.core.wc2.SvnTarget;
 import org.tmatesoft.svn.util.SVNLogType;
+
+import java.io.File;
 
 public class SvnNgRepositoryAccess extends SvnRepositoryAccess {
 
@@ -39,10 +40,10 @@ public class SvnNgRepositoryAccess extends SvnRepositoryAccess {
         SVNRevision pegRev = resolvedRevisions[0];
         SVNRevision startRev = resolvedRevisions[1];
         SVNRepository repository = createRepository(url, baseDirectory);
+        Structure<LocationsInfo> locationsInfo = getLocations(repository, target, pegRev, startRev, SVNRevision.UNDEFINED);
         if (target.isURL() && !url.equals(repository.getLocation())) {
             url = repository.getLocation();
         }
-        Structure<LocationsInfo> locationsInfo = getLocations(repository, target, pegRev, startRev, SVNRevision.UNDEFINED);
         long rev = locationsInfo.lng(LocationsInfo.startRevision);
         url = locationsInfo.<SVNURL>get(LocationsInfo.startUrl);
         locationsInfo.release();
@@ -225,6 +226,20 @@ public class SvnNgRepositoryAccess extends SvnRepositoryAccess {
         origin.release();
         localCopySource = SvnCopySource.create(SvnTarget.fromURL(url, pegRevision), revision);
         return localCopySource;
+    }
+
+    public SVNPathRevision resolveRevisionAndUrl(SVNRepository svnRepository, SvnTarget svnTarget, SVNRevision pegRevision, SVNRevision revision) throws SVNException {
+        SVNRevision startRevision = revision;
+
+        SVNRevision[] svnRevisions = resolveRevisions(pegRevision, revision, svnTarget.isURL(), true);
+        pegRevision = svnRevisions[0];
+        startRevision = svnRevisions[1];
+
+        Structure<LocationsInfo> locationsInfoStructure = getLocations(svnRepository, svnTarget, pegRevision, startRevision, SVNRevision.UNDEFINED);
+        SVNURL url = locationsInfoStructure.get(LocationsInfo.startUrl);
+        long rev = locationsInfoStructure.lng(LocationsInfo.startRevision);
+
+        return SVNPathRevision.createWithRepository(svnRepository, url, rev);
     }
     
     protected SVNURL getTargetURL(SvnTarget target) throws SVNException {

@@ -1667,7 +1667,7 @@ public abstract class SVNAdminArea {
                 "Unexpected format number:\n" +
                 "   expected: {0}\n" +
                 "     actual: {1}",
-                new Object[] { new Integer(getFormatVersion()), new Integer(format) });
+                new Object[] {getFormatVersion(), format});
         SVNErrorManager.error(err, SVNLogType.WC);
     }
     

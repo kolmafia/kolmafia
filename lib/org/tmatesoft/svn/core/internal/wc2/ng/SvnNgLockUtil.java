@@ -101,7 +101,7 @@ public class SvnNgLockUtil {
                 if (info.myRevision == SVNRevision.UNDEFINED) {
                     lockPaths.put(encodedPath, null);
                 } else {
-                    lockPaths.put(encodedPath, new Long(info.myRevision.getNumber()));
+                    lockPaths.put(encodedPath, info.myRevision.getNumber());
                 }
             } else {
                 lockPaths.put(encodedPath, info.myToken);

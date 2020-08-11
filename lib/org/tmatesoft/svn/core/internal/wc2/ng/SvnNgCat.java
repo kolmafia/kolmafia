@@ -23,10 +23,10 @@ import java.io.InputStream;
 import java.util.Date;
 import java.util.Map;
 
-public class SvnNgCat extends SvnNgOperationRunner<Void, SvnCat> {
+public class SvnNgCat extends SvnNgOperationRunner<SVNProperties, SvnCat> {
 
     @Override
-    protected Void run(SVNWCContext context) throws SVNException {
+    protected SVNProperties run(SVNWCContext context) throws SVNException {
         SVNURL reposRootUrl = null;
         SVNNodeKind kind = context.readKind(getFirstTarget(), false);
         if (kind == SVNNodeKind.UNKNOWN || kind == SVNNodeKind.NONE) {
@@ -51,7 +51,7 @@ public class SvnNgCat extends SvnNgOperationRunner<Void, SvnCat> {
             } else {
                 source = SVNFileUtil.openFileForReading(getFirstTarget());
                 properties = context.getDb().readProperties(getFirstTarget());
-                SvnStatus status = SVNStatusEditor17.internalStatus(context, getFirstTarget());
+                SvnStatus status = SVNStatusEditor17.internalStatus(context, getFirstTarget(), true);
                 localModifications = status.getTextStatus() != SVNStatusType.STATUS_NORMAL;
             }
             if (properties == null) {
@@ -106,8 +106,6 @@ public class SvnNgCat extends SvnNgOperationRunner<Void, SvnCat> {
         } finally {
             SVNFileUtil.closeFile(source);
         }        
-        return null;
-        
+        return properties;
     }
-
 }

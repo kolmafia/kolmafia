@@ -29,6 +29,7 @@ import org.tmatesoft.svn.core.auth.BasicAuthenticationManager;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManagerExt;
 import org.tmatesoft.svn.core.auth.SVNAuthentication;
+import org.tmatesoft.svn.core.internal.delta.SVNDeltaCompression;
 import org.tmatesoft.svn.core.internal.util.SVNHashSet;
 import org.tmatesoft.svn.core.internal.wc.SVNClassLoader;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
@@ -46,7 +47,7 @@ public class SVNConnection {
     private OutputStream myOutputStream;
     private InputStream myInputStream;
     private SVNRepositoryImpl myRepository;
-    private boolean myIsSVNDiff1;
+    private SVNDeltaCompression myDeltaCompression = SVNDeltaCompression.None;
     private boolean myIsCommitRevprops;
     private boolean myIsReopening = false;
     private boolean myIsCredentialsReceived = false;
@@ -58,6 +59,7 @@ public class SVNConnection {
     
     private static final String EDIT_PIPELINE = "edit-pipeline";
     private static final String SVNDIFF1 = "svndiff1";
+    private static final String ACCEPTS_SVNDIFF2 = "accepts-svndiff2";
     private static final String ABSENT_ENTRIES = "absent-entries";
     private static final String COMMIT_REVPROPS = "commit-revprops";
     private static final String MERGE_INFO = "mergeinfo";
@@ -89,9 +91,20 @@ public class SVNConnection {
     public String getRealm() {
         return myRealm;
     }
-    
+
+    /**
+     * @deprecated use {@link #getDeltaCompression()} instead
+     */
+    @Deprecated
     public boolean isSVNDiff1() {
-        return myIsSVNDiff1;
+        return myDeltaCompression == SVNDeltaCompression.Zlib;
+    }
+
+    /**
+     * @since 1.10
+     */
+    public SVNDeltaCompression getDeltaCompression() {
+        return myDeltaCompression;
     }
 
     public boolean isCommitRevprops() {
@@ -151,12 +164,16 @@ public class SVNConnection {
             SVNErrorManager.error(SVNErrorMessage.create(SVNErrorCode.RA_SVN_BAD_VERSION, 
             		"Server does not support edit pipelining"), SVNLogType.NETWORK);
         }
-        
-        
-        myIsSVNDiff1 = SVNReader.hasValue(items, 3, SVNDIFF1);
+
+        if (SVNReader.hasValue(items, 3, ACCEPTS_SVNDIFF2)) {
+            myDeltaCompression = SVNDeltaCompression.LZ4;
+        } else if (SVNReader.hasValue(items, 3, SVNDIFF1)) {
+            myDeltaCompression = SVNDeltaCompression.Zlib;
+        }
+
         myIsCommitRevprops = SVNReader.hasValue(items, 3, COMMIT_REVPROPS);
 
-        write("(n(wwwwww)s)", new Object[]{"2", EDIT_PIPELINE, SVNDIFF1, ABSENT_ENTRIES, DEPTH, MERGE_INFO, LOG_REVPROPS, 
+        write("(n(wwwwwww)s)", new Object[]{"2", EDIT_PIPELINE, SVNDIFF1, ACCEPTS_SVNDIFF2, ABSENT_ENTRIES, DEPTH, MERGE_INFO, LOG_REVPROPS,
                 repository.getLocation().toString()});
     }
 
@@ -323,7 +340,7 @@ public class SVNConnection {
         write("(w(", buffer);
         for (; error != null; error = error.getChildErrorMessage()) {
             String message = error.getMessage() == null ? "" : error.getMessage();
-            buffer = new Object[]{new Long(error.getErrorCode().getCode()), message, "", new Integer(0)};
+            buffer = new Object[]{(long) error.getErrorCode().getCode(), message, "", 0};
             write("(nssn)", buffer);
         }
         write(")", null);

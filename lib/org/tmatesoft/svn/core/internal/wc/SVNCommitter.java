@@ -361,10 +361,16 @@ public class SVNCommitter implements ISVNCommitPathHandler {
         throw e;
     }
 
-    public static SVNCommitInfo commit(Collection tmpFiles, Map commitItems, String repositoryRoot, ISVNEditor commitEditor) throws SVNException {
+    public static SVNCommitInfo commit(Collection tmpFiles, Map commitItems, SVNURL url, ISVNEditor commitEditor, ISVNEventHandler eventHandler) throws SVNException {
+        String repositoryRoot = url.getPath();
         SVNCommitter committer = new SVNCommitter(commitItems, repositoryRoot, tmpFiles);
         SVNCommitUtil.driveCommitEditor(committer, commitItems.keySet(), commitEditor, -1);
         committer.sendTextDeltas(commitEditor);
+        SVNEvent event = SVNEventFactory.createSVNEvent(null, SVNNodeKind.UNKNOWN, null, SVNRepository.INVALID_REVISION, SVNEventAction.COMMIT_FINALIZING, SVNEventAction.COMMIT_FINALIZING, null, null);
+        event.setURL(url);
+        if (eventHandler != null) {
+            eventHandler.handleEvent(event, -1);
+        }
         return commitEditor.closeEdit();
     }
 

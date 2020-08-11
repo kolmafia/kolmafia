@@ -1,16 +1,16 @@
 package org.tmatesoft.svn.core.internal.wc2.patch;
 
-import org.tmatesoft.svn.core.ISVNCanceller;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.internal.util.SVNFormatUtil;
-import org.tmatesoft.svn.core.internal.wc.admin.SVNTranslator;
-import org.tmatesoft.svn.core.internal.wc17.SVNWCContext;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.tmatesoft.svn.core.ISVNCanceller;
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.internal.util.SVNFormatUtil;
+import org.tmatesoft.svn.core.internal.wc.admin.SVNTranslator;
+import org.tmatesoft.svn.core.internal.wc17.SVNWCContext;
 
 public class SvnTargetContent {
 
@@ -150,6 +150,14 @@ public class SvnTargetContent {
         int leadingContext = hunk.getLeadingContext();
         int trailingContext = hunk.getTrailingContext();
         int hunkLength;
+        int fuzzPenalty = hunk.getFuzzPenalty();
+
+        if (fuzzPenalty > fuzz) {
+            return matched;
+        } else {
+            fuzz -= fuzzPenalty;
+        }
+
         if (matchModified) {
             hunk.resetModifiedText();
             hunkLength = hunk.getDirectedModifiedLength();

@@ -71,12 +71,12 @@ public class FSRepresentationCacheUtil {
         return null;
     }
 
-    public static void create(File path) throws SVNException {
+    public static void create(int format, File path) throws SVNException {
         if (!isAvailable()) {
             return;
         }
         if (ourRepCacheManagerFactory != null) {
-            ourRepCacheManagerFactory.createRepresentationCache(path);
+            ourRepCacheManagerFactory.createRepresentationCache(format, path);
         }
     }
     
