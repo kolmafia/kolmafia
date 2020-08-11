@@ -272,13 +272,13 @@ public class SVNUpdateClient16 extends SVNBasicDelegate {
                 setEventPathPrefix("");
                 handlePathListItem(path);
                 long rev = doUpdate(path, revision, depth, allowUnversionedObstructions, depthIsSticky);
-                revisions.add(new Long(rev));
+                revisions.add(rev);
             } catch (SVNException svne) {
                 if (svne.getErrorMessage().getErrorCode() == SVNErrorCode.WC_NOT_DIRECTORY) {
                     SVNEvent skipEvent = SVNEventFactory.createSVNEvent(path, SVNNodeKind.UNKNOWN, null, SVNRepository.INVALID_REVISION, SVNEventAction.SKIP, SVNEventAction.UPDATE_COMPLETED, null,
                             null);
                     dispatchEvent(skipEvent);
-                    revisions.add(new Long(-1));
+                    revisions.add((long) -1);
                     continue;
                 }
                 throw svne;

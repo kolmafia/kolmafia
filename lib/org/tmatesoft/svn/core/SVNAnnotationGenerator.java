@@ -100,6 +100,7 @@ public class SVNAnnotationGenerator implements ISVNFileRevisionHandler {
     private String myPath;
 
     private long myCurrentRevision;
+    private SVNProperties myCurrentRevisionProperties;
     private String myCurrentAuthor;
     private Date myCurrentDate;
     private boolean myIsCurrentResultOfMerge;
@@ -114,6 +115,7 @@ public class SVNAnnotationGenerator implements ISVNFileRevisionHandler {
     private SVNDeltaProcessor myDeltaProcessor;
     private ISVNEventHandler myCancelBaton;
     private long myStartRevision;
+    private long myEndRevision;
     private boolean myIsForce;
     private boolean myIncludeMergedRevisions;
     private SVNDiffOptions myDiffOptions;
@@ -121,7 +123,10 @@ public class SVNAnnotationGenerator implements ISVNFileRevisionHandler {
     private ISVNAnnotateHandler myFileHandler;
     private String myEncoding;
     private boolean myIsLastRevisionReported;
-    
+    private boolean myIsBackwards;
+    private long myLatestRevision;
+    private SVNProperties myLatestRevisionProperties;
+
     /**
      * Constructs an annotation generator object. 
      * 
@@ -211,7 +216,15 @@ public class SVNAnnotationGenerator implements ISVNFileRevisionHandler {
         myFileHandler = handler;
         myEncoding = encoding;
     }
-    
+
+    public void setBackwards(boolean backwards) {
+        this.myIsBackwards = backwards;
+    }
+
+    public void setEndRevision(long revision) {
+        this.myEndRevision = revision;
+    }
+
     /**
      * Handles a next revision.
      * @param fileRevision
@@ -229,13 +242,26 @@ public class SVNAnnotationGenerator implements ISVNFileRevisionHandler {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CLIENT_IS_BINARY_FILE, "Cannot calculate blame information for binary file ''{0}''", myPath);
             SVNErrorManager.error(err, SVNLogType.DEFAULT);
         }
-        if (fileRevision.getRevision() < myStartRevision) {
-            myCurrentRevision = SVNRepository.INVALID_REVISION;
-        } else {
+        myCurrentRevisionProperties = null;
+        if (myIsBackwards) {
+            myCurrentRevision = myLatestRevision;
+            myCurrentRevisionProperties = myLatestRevisionProperties;
+            if (fileRevision.getRevision() >= Math.min(myStartRevision, myEndRevision)) {
+                myLatestRevision = fileRevision.getRevision();
+                myLatestRevisionProperties = fileRevision.getRevisionProperties();
+            }
+        } else if (fileRevision.isResultOfMerge() || (fileRevision.getRevision() >= Math.min(myStartRevision, myEndRevision))) {
+            assert fileRevision.getRevision() <= 1 + Math.max(myStartRevision, myEndRevision);
+
             myCurrentRevision = fileRevision.getRevision();
+            myCurrentRevisionProperties = fileRevision.getRevisionProperties();
+        } else {
+            myCurrentRevision = SVNRepository.INVALID_REVISION;
+
         }
+
         boolean known = fileRevision.getRevision() >= myStartRevision;
-        SVNProperties props = fileRevision.getRevisionProperties();
+        SVNProperties props = myCurrentRevisionProperties;
         if (myCancelBaton != null) {
             File file = SVNPathUtil.isURL(myPath) ? null : new File(myPath);
             SVNEvent event = SVNEventFactory.createSVNEvent(file, SVNNodeKind.NONE, null, myCurrentRevision, SVNEventAction.ANNOTATE, null, null, null, props, null);

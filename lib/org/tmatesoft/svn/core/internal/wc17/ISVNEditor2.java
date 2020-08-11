@@ -29,6 +29,6 @@ public interface ISVNEditor2 {
     void move(String srcPath, long srcRevision, String dstPath, long replacesRev) throws SVNException;
     void rotate(List<String> relPaths, List<String> revisions) throws SVNException;
 
-    void complete();
-    void abort();
+    void complete() throws SVNException;
+    void abort() throws SVNException;
 }

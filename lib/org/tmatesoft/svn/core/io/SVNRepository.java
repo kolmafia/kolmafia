@@ -11,41 +11,7 @@
  */
 package org.tmatesoft.svn.core.io;
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
-import org.tmatesoft.svn.core.ISVNCanceller;
-import org.tmatesoft.svn.core.ISVNDirEntryHandler;
-import org.tmatesoft.svn.core.ISVNLogEntryHandler;
-import org.tmatesoft.svn.core.SVNAuthenticationException;
-import org.tmatesoft.svn.core.SVNDepth;
-import org.tmatesoft.svn.core.SVNDirEntry;
-import org.tmatesoft.svn.core.SVNErrorCode;
-import org.tmatesoft.svn.core.SVNErrorMessage;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNLock;
-import org.tmatesoft.svn.core.SVNLogEntry;
-import org.tmatesoft.svn.core.SVNLogEntryPath;
-import org.tmatesoft.svn.core.SVNMergeInfo;
-import org.tmatesoft.svn.core.SVNMergeInfoInheritance;
-import org.tmatesoft.svn.core.SVNNodeKind;
-import org.tmatesoft.svn.core.SVNProperties;
-import org.tmatesoft.svn.core.SVNProperty;
-import org.tmatesoft.svn.core.SVNPropertyValue;
-import org.tmatesoft.svn.core.SVNRevisionProperty;
-import org.tmatesoft.svn.core.SVNURL;
+import org.tmatesoft.svn.core.*;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.internal.io.fs.FSRepositoryUtil;
 import org.tmatesoft.svn.core.internal.util.SVNHashMap;
@@ -55,9 +21,15 @@ import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
 import org.tmatesoft.svn.core.io.diff.SVNDeltaGenerator;
 import org.tmatesoft.svn.core.io.diff.SVNDiffWindow;
+import org.tmatesoft.svn.core.wc.ISVNEventHandler;
 import org.tmatesoft.svn.util.ISVNDebugLog;
 import org.tmatesoft.svn.util.SVNDebugLog;
 import org.tmatesoft.svn.util.SVNLogType;
+
+import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.*;
 
 /**
  * The abstract class <b>SVNRepository</b> provides an interface for protocol
@@ -157,6 +129,7 @@ public abstract class SVNRepository {
     protected String myRepositoryUUID;
     protected SVNURL myRepositoryRoot;
     protected SVNURL myLocation;
+    protected Set<SVNURL> myOriginalLocations; //after redirect url1->url2->url3->url4 save url1,url2,url3 in this set
     
     private int myLockCount;
     private Thread myLocker;
@@ -165,12 +138,14 @@ public abstract class SVNRepository {
     private ISVNTunnelProvider myTunnelProvider;
     private ISVNDebugLog myDebugLog;
     private ISVNCanceller myCanceller;
+    private ISVNEventHandler myEventHandler;
     private Collection myConnectionListeners;
 
     protected SVNRepository(SVNURL location, ISVNSession options) {
         myLocation = location;
         myOptions = options;
         myConnectionListeners = new SVNHashSet();
+        myOriginalLocations = new HashSet<SVNURL>();
     }
 	
     /**
@@ -228,31 +203,41 @@ public abstract class SVNRepository {
             if (url == null) {
                 return;
             } else if (!url.getProtocol().equals(myLocation.getProtocol())) {
-                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_NOT_IMPLEMENTED, "SVNRepository URL could not be changed from ''{0}'' to ''{1}''; create new SVNRepository instance instead", new Object[] {myLocation, url});
-                SVNErrorManager.error(err, SVNLogType.NETWORK);
-            }
-            if (forceReconnect) {
-                closeSession();
-                myRepositoryRoot = null;
-                myRepositoryUUID = null;
-            } else if (myRepositoryRoot == null) {
-                // no way to check whether repos is the same. just compare urls
-                if (!(url.toString().startsWith(myLocation.toString() + "/") || url.equals(getLocation()))) {
-                    closeSession();
-                    myRepositoryRoot = null;
-                    myRepositoryUUID = null;
+                if (!myOriginalLocations.contains(url)) {
+                    SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_NOT_IMPLEMENTED, "SVNRepository URL could not be changed from ''{0}'' to ''{1}''; create new SVNRepository instance instead", new Object[]{myLocation, url});
+                    SVNErrorManager.error(err, SVNLogType.NETWORK);
+                } else {
+                    //it's ok, we know that once setLocation() is called for this url,
+                    //it would be redirected to the current location anyway, so do nothing
                 }
-            } else if (url.toString().startsWith(myRepositoryRoot.toString() + "/") || myRepositoryRoot.equals(url)) {
-                // just do nothing, we are still below old root.
-            } else {
-                closeSession();
-                myRepositoryRoot = null;
-                myRepositoryUUID = null;
             }
-            myLocation = url;
+            setLocationInternal(url, forceReconnect);
         } finally {
             unlock();
         }
+    }
+
+    protected void setLocationInternal(SVNURL url, boolean forceReconnect) throws SVNException {
+
+        if (forceReconnect) {
+            closeSession();
+            myRepositoryRoot = null;
+            myRepositoryUUID = null;
+        } else if (myRepositoryRoot == null) {
+            // no way to check whether repos is the same. just compare urls
+            if (!(url.toString().startsWith(myLocation.toString() + "/") || url.equals(getLocation()))) {
+                closeSession();
+                myRepositoryRoot = null;
+                myRepositoryUUID = null;
+            }
+        } else if (url.toString().startsWith(myRepositoryRoot.toString() + "/") || myRepositoryRoot.equals(url)) {
+            // just do nothing, we are still below old root.
+        } else {
+            closeSession();
+            myRepositoryRoot = null;
+            myRepositoryUUID = null;
+        }
+        myLocation = url;
     }
 
     /**
@@ -401,7 +386,25 @@ public abstract class SVNRepository {
     public ISVNCanceller getCanceller() {
         return myCanceller == null ? ISVNCanceller.NULL : myCanceller;
     }
-    
+
+    /**
+     * Sets a event handler to this object.
+     *
+     * @since 1.8.14
+     */
+    public void setEventHandler(ISVNEventHandler myEventHandler) {
+        this.myEventHandler = myEventHandler;
+    }
+
+    /**
+     * Returns the event handler, stored in this object.
+     *
+     * @since 1.8.14
+     */
+    public ISVNEventHandler getEventHandler() {
+        return myEventHandler;
+    }
+
     /**
      * Caches identification parameters (UUID, rood directory location) 
      * of the repository with which this driver is working.
@@ -1518,7 +1521,7 @@ public abstract class SVNRepository {
         final Map result = entries != null ? entries : new SVNHashMap();
         getLocations(path, pegRevision, revisions, new ISVNLocationEntryHandler() {
             public void handleLocationEntry(SVNLocationEntry locationEntry) {
-                result.put(new Long(locationEntry.getRevision()), locationEntry);
+                result.put(locationEntry.getRevision(), locationEntry);
             } 
         });
         return result;        
@@ -2194,16 +2197,20 @@ public abstract class SVNRepository {
      * @throws SVNException 
      * @since                             1.2.0
      */
-    public void checkoutFiles(long revision, String[] paths, ISVNFileCheckoutTarget fileCheckoutHandler) throws SVNException {
+    public void checkoutFiles(long revision, final String[] paths, ISVNFileCheckoutTarget fileCheckoutHandler) throws SVNException {
         final long lastRev = revision >= 0 ? revision : getLatestRevision();
-        final List pathsList = new ArrayList(Arrays.asList(paths));
-        Collections.sort(pathsList, SVNPathUtil.PATH_COMPARATOR);
         ISVNReporterBaton reporterBaton = new ISVNReporterBaton() {
             public void report(ISVNReporter reporter) throws SVNException {
-                reporter.setPath("", null, lastRev, SVNDepth.INFINITY, false);
-                for (Iterator ps = pathsList.iterator(); ps.hasNext();) {
-                    String path = (String) ps.next();
-                    reporter.deletePath(path);
+                if (paths != null && paths.length > 0) {
+                    final List pathsList = new ArrayList(Arrays.asList(paths));
+                    Collections.sort(pathsList, SVNPathUtil.PATH_COMPARATOR);
+                    reporter.setPath("", null, lastRev, SVNDepth.INFINITY, false);
+                    for (Iterator ps = pathsList.iterator(); ps.hasNext(); ) {
+                        String path = (String) ps.next();
+                        reporter.deletePath(path);
+                    }
+                } else {
+                    reporter.setPath("", null, lastRev, SVNDepth.INFINITY, true);
                 }
                 reporter.finishReport();
             }
@@ -2911,13 +2918,13 @@ public abstract class SVNRepository {
     }
     
     protected static Long getRevisionObject(long revision) {
-        return isValidRevision(revision) ? new Long(revision) : null;
+        return isValidRevision(revision) ? revision : null;
     }
     
     protected static void assertValidRevision(long revision) throws SVNException {
         if (!isValidRevision(revision)) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CLIENT_BAD_REVISION, 
-                    "Invalid revision number ''{0}''", new Long(revision));
+                    "Invalid revision number ''{0}''", revision);
             SVNErrorManager.error(err, SVNLogType.NETWORK);
         }
     }
@@ -3069,7 +3076,7 @@ public abstract class SVNRepository {
         if (kind == SVNNodeKind.NONE) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_NOT_FOUND, 
                     "Path ''{0}'' doesn''t exist in revision {1}", 
-                    new Object[] { reposAbsPath, new Long(pegRevision) });
+                    new Object[] { reposAbsPath, pegRevision});
             SVNErrorManager.error(err, SVNLogType.NETWORK);
         }
 
@@ -3091,7 +3098,7 @@ public abstract class SVNRepository {
         if (kind == SVNNodeKind.NONE) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_NOT_FOUND, 
                     "Path ''{0}'' doesn''t exist in revision {1}", 
-                    new Object[] { reposAbsPath, new Long(pegRevision) });
+                    new Object[] { reposAbsPath, pegRevision});
             SVNErrorManager.error(err, SVNLogType.NETWORK);
         }
         if (revisions == null || revisions.length == 0) {
@@ -3117,7 +3124,7 @@ public abstract class SVNRepository {
         if (locationsLogHandler.myLastPath != null) {
             for (int i = 0; i < revisions.length; i++) {
                 long rev = revisions[i];
-                Long revObject = new Long(rev);
+                Long revObject = rev;
                 if (handler != null && !locationsLogHandler.myProcessedRevisions.contains(revObject)) {
                     handler.handleLocationEntry(new SVNLocationEntry(rev, locationsLogHandler.myLastPath));
                     locationsLogHandler.myProcessedRevisions.add(revObject);
@@ -3128,14 +3135,14 @@ public abstract class SVNRepository {
         if (locationsLogHandler.myPegPath == null) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.UNKNOWN, 
                     "Unable to find repository location for ''{0}'' in revision {1}", 
-                    new Object[] { reposAbsPath, new Long(pegRevision) });
+                    new Object[] { reposAbsPath, pegRevision});
             SVNErrorManager.error(err, SVNLogType.NETWORK);
         }
         
         if (!reposAbsPath.equals(locationsLogHandler.myPegPath)) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CLIENT_UNRELATED_RESOURCES, 
                     "''{0}'' in revision {1} is an unrelated object",
-                    new Object[] { reposAbsPath, new Long(youngest) });
+                    new Object[] { reposAbsPath, youngest});
             SVNErrorManager.error(err, SVNLogType.NETWORK);
         }
         return locationsLogHandler.myProcessedRevisions.size();
@@ -3263,7 +3270,7 @@ public abstract class SVNRepository {
             } else {
                 SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CLIENT_UNRELATED_RESOURCES, 
                         "Missing changed-path information for ''{0}'' in revision {1}", 
-                        new Object[] { path, new Long(revision) });
+                        new Object[] { path, revision});
                 SVNErrorManager.error(err, SVNLogType.NETWORK);
             }
         }
@@ -3424,7 +3431,7 @@ public abstract class SVNRepository {
                 if (logEntry.getRevision() <= nextRev) {
                     if (myLocationsHandler != null) {
                         myLocationsHandler.handleLocationEntry(new SVNLocationEntry(nextRev, currentPath));
-                        myProcessedRevisions.add(new Long(nextRev));
+                        myProcessedRevisions.add(nextRev);
                     }
                     myRevisionsCount--;
                 } else {

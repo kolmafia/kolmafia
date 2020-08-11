@@ -166,7 +166,7 @@ public class SVNRepositoryReplicator implements ISVNEventHandler {
         long dstLatestRevision = dst.getLatestRevision();
 
         if (dstLatestRevision != fromRevision - 1) {
-            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.UNSUPPORTED_FEATURE, "The target repository''s latest revision must be ''{0}''", new Long(fromRevision - 1));
+            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.UNSUPPORTED_FEATURE, "The target repository''s latest revision must be ''{0}''", fromRevision - 1);
             SVNErrorManager.error(err, SVNLogType.FSFS);
         }
 
@@ -207,10 +207,10 @@ public class SVNRepositoryReplicator implements ISVNEventHandler {
             checkCancelled();
 
             if (currentRevision[0] == null || currentRevision[0].getChangedPaths() == null) {
-                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.UNKNOWN, "Revision ''{0}'' does not contain information on changed paths; probably access is denied", new Long(i));
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.UNKNOWN, "Revision ''{0}'' does not contain information on changed paths; probably access is denied", i);
                 SVNErrorManager.error(err, SVNLogType.FSFS);
             } else if (currentRevision[0].getDate() == null) {
-                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.UNKNOWN, "Revision ''{0}'' does not contain commit date; probably access is denied", new Long(i));
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.UNKNOWN, "Revision ''{0}'' does not contain commit date; probably access is denied", i);
                 SVNErrorManager.error(err, SVNLogType.FSFS);
             }
 

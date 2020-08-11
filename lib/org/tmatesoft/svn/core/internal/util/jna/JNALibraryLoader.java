@@ -200,7 +200,6 @@ class JNALibraryLoader {
         if (library == null) {
             return null;
         }
-
         ISVNKernel32Library.OSVERSIONINFO osInfo = null;
         synchronized (library) {
             try {
@@ -217,9 +216,10 @@ class JNALibraryLoader {
             }
         }
 
-        if (osInfo.dwPlatformId.intValue() == ISVNKernel32Library.VER_PLATFORM_WIN32_NT) {
+        final int dwPlatformId = osInfo.dwPlatformId.intValue();
+        if (dwPlatformId == ISVNKernel32Library.VER_PLATFORM_WIN32_NT) {
             return "Security";
-        } else if (osInfo.dwPlatformId.intValue() == ISVNKernel32Library.VER_PLATFORM_WIN32_WINDOWS) {
+        } else if (dwPlatformId == ISVNKernel32Library.VER_PLATFORM_WIN32_WINDOWS) {
             return "Secur32";
         }
         return null;

@@ -113,6 +113,27 @@ public class SVNWCUtils {
         return n;
     }
 
+    public static File relpathPrefix(File relpath, long maxComponents) {
+        return SVNFileUtil.createFilePath(relpathPrefix(SVNFileUtil.getFilePath(relpath), maxComponents));
+    }
+
+    public static String relpathPrefix(String relpath, long maxComponents) {
+        if (maxComponents <= 0) {
+            return "";
+        }
+
+        int i = 0;
+        for (; i < relpath.length(); i++) {
+            if (relpath.charAt(i) == '/') {
+                maxComponents--;
+                if (maxComponents == 0) {
+                    break;
+                }
+            }
+        }
+        return relpath.substring(0, i);
+    }
+
     public static class UnserializedFileExternalInfo {
 
         public String path = null;
@@ -164,11 +185,7 @@ public class SVNWCUtils {
         }
         childPath = childPath.replace(File.separatorChar, '/');
         parentPath = parentPath.replace(File.separatorChar, '/');
-        if (!childPath.startsWith(parentPath + '/')) {
-            return null;
-        }
-
-        return childPath.substring(parentPath.length() + 1);
+        return SVNPathUtil.getPathAsChild(parentPath, childPath);
     }
 
     public static boolean isAncestor(File parent, File child) {
@@ -181,10 +198,7 @@ public class SVNWCUtils {
         final String parentPath = parent.getPath().replace(File.separatorChar, '/');
         final String childPath = child.getPath().replace(File.separatorChar, '/');
 
-        if ("".equals(parentPath)) {
-            return !childPath.startsWith("/");
-        }
-        return childPath.startsWith(parentPath + "/");
+        return SVNPathUtil.isAncestor(parentPath, childPath);
     }
 
     public static File skipAncestor(File parent, File child) {

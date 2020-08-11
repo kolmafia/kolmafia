@@ -338,6 +338,10 @@ public class SVNWCClient16 extends SVNBasicDelegate {
      * @see #doGetFileContents(SVNURL,SVNRevision,SVNRevision,boolean,OutputStream)
      */
     public void doGetFileContents(File path, SVNRevision pegRevision, SVNRevision revision, boolean expandKeywords, OutputStream dst) throws SVNException {
+        doGetFileContents(path, pegRevision, revision, expandKeywords, null, dst);
+    }
+
+    public void doGetFileContents(File path, SVNRevision pegRevision, SVNRevision revision, boolean expandKeywords, SVNProperties properties, OutputStream dst) throws SVNException {
         if (dst == null) {
             return;
         }
@@ -348,7 +352,7 @@ public class SVNWCClient16 extends SVNBasicDelegate {
         }
         if ((!pegRevision.isValid() || pegRevision == SVNRevision.BASE || pegRevision == SVNRevision.WORKING)
                 && (!revision.isValid() || revision == SVNRevision.BASE || revision == SVNRevision.WORKING)) {
-            doGetLocalFileContents(path, dst, revision, expandKeywords);
+            doGetLocalFileContents(path, dst, revision, expandKeywords, properties);
         } else {
             SVNRepository repos = createRepository(null, path, null, pegRevision, revision, null);
             checkCancelled();
@@ -360,9 +364,11 @@ public class SVNWCClient16 extends SVNBasicDelegate {
             }
             checkCancelled();
             if (!expandKeywords) {
-                repos.getFile("", revNumber, null, new SVNCancellableOutputStream(dst, this));
+                repos.getFile("", revNumber, properties, new SVNCancellableOutputStream(dst, this));
             } else {
-                SVNProperties properties = new SVNProperties();
+                if (properties == null) {
+                    properties = new SVNProperties();
+                }
                 repos.getFile("", revNumber, properties, null);
                 checkCancelled();
                 String keywords = properties.getStringValue(SVNProperty.KEYWORDS);
@@ -427,6 +433,10 @@ public class SVNWCClient16 extends SVNBasicDelegate {
      * @see #doGetFileContents(File,SVNRevision,SVNRevision,boolean,OutputStream)
      */
     public void doGetFileContents(SVNURL url, SVNRevision pegRevision, SVNRevision revision, boolean expandKeywords, OutputStream dst) throws SVNException {
+        doGetFileContents(url, pegRevision, revision, expandKeywords, null, dst);
+    }
+
+    public void doGetFileContents(SVNURL url, SVNRevision pegRevision, SVNRevision revision, boolean expandKeywords, SVNProperties properties, OutputStream dst) throws SVNException {
         revision = revision == null || !revision.isValid() ? SVNRevision.HEAD : revision;
         SVNRepository repos = createRepository(url, null, null, pegRevision, revision, null);
         checkCancelled();
@@ -440,9 +450,11 @@ public class SVNWCClient16 extends SVNBasicDelegate {
         }
         checkCancelled();
         if (!expandKeywords) {
-            repos.getFile("", revNumber, null, new SVNCancellableOutputStream(dst, this));
+            repos.getFile("", revNumber, properties, new SVNCancellableOutputStream(dst, this));
         } else {
-            SVNProperties properties = new SVNProperties();
+            if (properties == null) {
+                properties = new SVNProperties();
+            }
             repos.getFile("", revNumber, properties, null);
             checkCancelled();
             String mimeType = properties.getStringValue(SVNProperty.MIME_TYPE);
@@ -833,7 +845,7 @@ public class SVNWCClient16 extends SVNBasicDelegate {
         SVNNodeKind kind = repos.checkPath("", revNumber);
         if (kind == SVNNodeKind.NONE) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_NOT_FOUND, "Path ''{0}'' does not exist in revision {1}", new Object[] {
-                    url.getPath(), new Long(revNumber)
+                    url.getPath(), revNumber
             });
             SVNErrorManager.error(err, SVNLogType.WC);
         }
@@ -898,6 +910,9 @@ public class SVNWCClient16 extends SVNBasicDelegate {
                 commitEditor.changeDirProperty(propName, propValue);
             }
             commitEditor.closeDir();
+            SVNEvent event = SVNEventFactory.createSVNEvent(null, SVNNodeKind.UNKNOWN, null, SVNRepository.INVALID_REVISION, SVNEventAction.COMMIT_FINALIZING, SVNEventAction.COMMIT_FINALIZING, null, null);
+            event.setURL(url);
+            handleEvent(event, -1);
             commitInfo = commitEditor.closeEdit();
         } catch (SVNException svne) {
             commitEditor.abortEdit();
@@ -2762,7 +2777,7 @@ public class SVNWCClient16 extends SVNBasicDelegate {
                 SVNNodeKind urlKind = repos.checkPath("", revNum[0]);
                 if (urlKind == SVNNodeKind.NONE) {
                     SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_ILLEGAL_URL, "URL ''{0}'' non-existent in revision {1}", new Object[] {
-                            url, new Long(revNum[0])
+                            url, revNum[0]
                     });
                     SVNErrorManager.error(err, SVNLogType.WC);
                 }
@@ -2778,7 +2793,7 @@ public class SVNWCClient16 extends SVNBasicDelegate {
                 }
                 if (rootEntry == null) {
                     SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_ILLEGAL_URL, "URL ''{0}'' non-existent in revision {1}", new Object[] {
-                            url, new Long(revNum[0])
+                            url, revNum[0]
                     });
                     SVNErrorManager.error(err, SVNLogType.WC);
                 }
@@ -2788,7 +2803,7 @@ public class SVNWCClient16 extends SVNBasicDelegate {
         }
         if (rootEntry == null || rootEntry.getKind() == SVNNodeKind.NONE) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_ILLEGAL_URL, "URL ''{0}'' non-existent in revision ''{1}''", new Object[] {
-                    url, new Long(revNum[0])
+                    url, revNum[0]
             });
             SVNErrorManager.error(err, SVNLogType.WC);
         }
@@ -3416,7 +3431,7 @@ public class SVNWCClient16 extends SVNBasicDelegate {
                 if (info.myRevision == SVNRevision.UNDEFINED) {
                     lockPaths.put(encodedPath, null);
                 } else {
-                    lockPaths.put(encodedPath, new Long(info.myRevision.getNumber()));
+                    lockPaths.put(encodedPath, info.myRevision.getNumber());
                 }
             } else {
                 lockPaths.put(encodedPath, info.myToken);
@@ -3945,7 +3960,7 @@ public class SVNWCClient16 extends SVNBasicDelegate {
         return tokens;
     }
 
-    private void doGetLocalFileContents(File path, OutputStream dst, SVNRevision revision, boolean expandKeywords) throws SVNException {
+    private void doGetLocalFileContents(File path, OutputStream dst, SVNRevision revision, boolean expandKeywords, SVNProperties outputProperties) throws SVNException {
         SVNWCAccess wcAccess = createWCAccess();
         InputStream input = null;
         boolean hasMods = false;
@@ -3965,6 +3980,9 @@ public class SVNWCClient16 extends SVNBasicDelegate {
                 input = SVNFileUtil.openFileForReading(area.getFile(path.getName()), SVNLogType.WC);
                 hasMods = area.hasPropModifications(name) || area.hasTextModifications(name, true);
                 properties = area.getProperties(name);
+            }
+            if (outputProperties != null) {
+                outputProperties.putAll(properties.asMap());
             }
             String charsetProp = properties.getStringPropertyValue(SVNProperty.CHARSET);
             String mimeType = properties.getStringPropertyValue(SVNProperty.MIME_TYPE);

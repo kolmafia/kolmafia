@@ -1,13 +1,13 @@
 package org.tmatesoft.svn.core.internal.wc2.patch;
 
+import java.io.IOException;
+
 import org.tmatesoft.svn.core.SVNErrorCode;
 import org.tmatesoft.svn.core.SVNErrorMessage;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.internal.wc.patch.SVNPatchFileStream;
 import org.tmatesoft.svn.util.SVNLogType;
-
-import java.io.IOException;
 
 public class SvnDiffHunk implements Comparable<SvnDiffHunk> {
 
@@ -26,6 +26,12 @@ public class SvnDiffHunk implements Comparable<SvnDiffHunk> {
 
     private int leadingContext;
     private int trailingContext;
+
+    private boolean originalNoFinalEol;
+    private boolean modifiedNoFinalEol;
+
+    private int originalFuzz;
+    private int modifiedFuzz;
 
     public void resetDiffText() {
         this.diffTextRange.current = diffTextRange.start;
@@ -156,15 +162,22 @@ public class SvnDiffHunk implements Comparable<SvnDiffHunk> {
 
     public String readLineOriginalText(String[] eolStr, boolean[] eof) throws SVNException {
         return readLineOriginalOrModified(patch.isReverse() ? modifiedTextRange : originalTextRange,
-                eolStr, eof, patch.isReverse() ? '-' : '+');
+                eolStr, eof, patch.isReverse() ? '-' : '+',
+                patch.isReverse() ? modifiedNoFinalEol : originalNoFinalEol);
     }
 
     public String readLineModifiedText(String[] eolStr, boolean[] eof) throws SVNException {
         return readLineOriginalOrModified(patch.isReverse() ? originalTextRange : modifiedTextRange,
-                eolStr, eof, patch.isReverse() ? '+' : '-');
+                eolStr, eof, patch.isReverse() ? '+' : '-',
+                patch.isReverse() ? originalNoFinalEol : modifiedNoFinalEol);
     }
 
-    private String readLineOriginalOrModified(Range range, String[] eolStr, boolean[] eof, char forbidden) throws SVNException {
+    private String readLineOriginalOrModified(Range range, String[] eolStr, boolean[] eof, char forbidden, boolean noFinalEol) throws SVNException {
+        //TODO respect "noFinalEol"
+        final String[] eolp = new String[1];
+        if (eolStr == null) {
+            eolStr = eolp;
+        }
         try {
             if (range.current >= range.end) {
                 eof[0] = true;
@@ -215,6 +228,17 @@ public class SvnDiffHunk implements Comparable<SvnDiffHunk> {
             } else {
                 result = str;
             }
+            if (!filtered && eof[0] && eolStr[0] == null && str.length() > 0) {
+                if (!noFinalEol && eolStr != eolp) {
+                    patchFileStream.setSeekPosition(0);
+                    str = readLine(patchFileStream, eolStr, eof);
+                    assert eolStr[0] != null;
+
+                    result = str;
+                }
+                eof[0] = false;
+            }
+
             patchFileStream.setSeekPosition(pos);
             return result;
         } catch (IOException e) {
@@ -273,6 +297,34 @@ public class SvnDiffHunk implements Comparable<SvnDiffHunk> {
 
     public void decreaseModifiedLength() {
         modifiedLength--;
+    }
+
+    public void setOriginalNoFinalEol(boolean originalNoFinalEol) {
+        this.originalNoFinalEol = originalNoFinalEol;
+    }
+
+    public void setModifiedNoFinalEol(boolean modifiedNoFinalEol) {
+        this.modifiedNoFinalEol = modifiedNoFinalEol;
+    }
+
+    public int getFuzzPenalty() {
+        return patch.isReverse() ? originalFuzz : modifiedFuzz;
+    }
+
+    public int getOriginalFuzz() {
+        return originalFuzz;
+    }
+
+    public void setOriginalFuzz(int originalFuzz) {
+        this.originalFuzz = originalFuzz;
+    }
+
+    public int getModifiedFuzz() {
+        return modifiedFuzz;
+    }
+
+    public void setModifiedFuzz(int modifiedFuzz) {
+        this.modifiedFuzz = modifiedFuzz;
     }
 
     static class Range {

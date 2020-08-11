@@ -21,13 +21,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
+import java.util.*;
 
 import org.tmatesoft.svn.core.internal.util.SVNHashMap;
-import java.util.Map;
 
 import org.tmatesoft.svn.core.SVNException;
 
@@ -48,6 +44,22 @@ public class SVNConfigFile {
     
     protected String[] getLines() {
         return myLines;
+    }
+
+    public Set getGroupNames() {
+        Set groupNames = new HashSet();
+        load();
+        boolean groupMatched = false;
+        for (int i = 0; i < myLines.length; i++) {
+            String line = myLines[i];
+            if (line == null) {
+                continue;
+            }
+            if (matchGroup(line, null)) {
+                groupNames.add(line.trim().substring("[".length(), line.length() - "]".length()).trim()); //remove [ ] from line to get group name
+            }
+        }
+        return groupNames;
     }
 
     public Map getProperties(String groupName) {

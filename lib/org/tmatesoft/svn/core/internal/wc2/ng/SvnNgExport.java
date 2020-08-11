@@ -156,7 +156,7 @@ public class SvnNgExport extends SvnNgOperationRunner<Long, SvnExport> {
             properties = getWcContext().getPristineProps(from);
         } else {
             properties = getWcContext().getDb().readProperties(from);
-            SvnStatus fromStatus = SVNStatusEditor17.internalStatus(getWcContext(), from);
+            SvnStatus fromStatus = SVNStatusEditor17.internalStatus(getWcContext(), from, true);
             modified = fromStatus.getTextStatus() != SVNStatusType.STATUS_NORMAL;
             source = from;
         }

@@ -1,18 +1,27 @@
 package org.tmatesoft.svn.core.internal.wc2.ng;
 
-import org.tmatesoft.svn.core.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.tmatesoft.svn.core.SVNDepth;
+import org.tmatesoft.svn.core.SVNErrorCode;
+import org.tmatesoft.svn.core.SVNErrorMessage;
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.internal.util.SVNPathUtil;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.internal.wc.SVNEventFactory;
 import org.tmatesoft.svn.core.internal.wc.SVNFileType;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
-import org.tmatesoft.svn.core.internal.wc.patch.SVNPatch;
-import org.tmatesoft.svn.core.internal.wc.patch.SVNPatchFileStream;
 import org.tmatesoft.svn.core.internal.wc.patch.SVNPatchTargetInfo;
 import org.tmatesoft.svn.core.internal.wc17.SVNStatusEditor17;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext;
 import org.tmatesoft.svn.core.internal.wc2.patch.SvnPatchFile;
 import org.tmatesoft.svn.core.internal.wc2.patch.SvnPatchTarget;
+import org.tmatesoft.svn.core.internal.wc2.patch.SvnWcPatchContext;
 import org.tmatesoft.svn.core.wc.ISVNEventHandler;
 import org.tmatesoft.svn.core.wc.SVNEventAction;
 import org.tmatesoft.svn.core.wc.SVNStatusType;
@@ -21,12 +30,6 @@ import org.tmatesoft.svn.core.wc2.SvnPatch;
 import org.tmatesoft.svn.core.wc2.SvnStatus;
 import org.tmatesoft.svn.core.wc2.SvnTarget;
 import org.tmatesoft.svn.util.SVNLogType;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class SvnNgPatch extends SvnNgOperationRunner<Void, SvnPatch> {
     @Override
@@ -80,6 +83,7 @@ public class SvnNgPatch extends SvnNgOperationRunner<Void, SvnPatch> {
     }
 
     private void applyPatches(File patchFile, File workingCopyDirectory, boolean dryRun, int stripCount, boolean reverse, boolean ignoreWhitespace, boolean removeTempFiles, SVNWCContext context) throws SVNException, IOException {
+        final SvnWcPatchContext patchContext = new SvnWcPatchContext(context);
         final SvnPatchFile svnPatchFile = SvnPatchFile.openReadOnly(patchFile);
         try {
             final List<SVNPatchTargetInfo> targetInfos = new ArrayList<SVNPatchTargetInfo>(); //can we use SVNPatchTarget instead of SVNPatchTargetInfo
@@ -88,20 +92,23 @@ public class SvnNgPatch extends SvnNgOperationRunner<Void, SvnPatch> {
                 checkCancelled();
                 patch = org.tmatesoft.svn.core.internal.wc2.patch.SvnPatch.parseNextPatch(svnPatchFile, reverse, ignoreWhitespace);
                 if (patch != null) {
-                    SvnPatchTarget target = SvnPatchTarget.applyPatch(patch, workingCopyDirectory, stripCount, context, ignoreWhitespace, removeTempFiles);
+                    SvnPatchTarget target = SvnPatchTarget.applyPatch(patch, workingCopyDirectory, stripCount, targetInfos, patchContext, ignoreWhitespace, removeTempFiles, getOperation().getPatchHandler());
+                    //here we could check "filtered = patchHandler.singlePatch(target.getCanonPathFromPatchfile(), target.getPatchedAbsPath(), target.getRejectAbsPath());"
+                    //but this is already done in SvnPatchTarget.applyPatch()
                     if (!target.isFiltered()) {
-                        SVNPatchTargetInfo targetInfo = new SVNPatchTargetInfo(target.getAbsPath(), target.isDeleted());
+                        SVNPatchTargetInfo targetInfo = new SVNPatchTargetInfo(
+                                target.getAbsPath(), target.isAdded(), target.isDeleted());
                         if (!target.isSkipped()) {
-                            targetInfos.add(targetInfo);
                             if (target.hasTextChanges() || target.isAdded() || target.getMoveTargetAbsPath() != null || target.isDeleted()) {
-                                target.installPatchedTarget(workingCopyDirectory, dryRun, context);
+                                target.installPatchedTarget(workingCopyDirectory, dryRun, patchContext, targetInfos);
                             }
                             if (target.hasPropChanges() && !target.isDeleted()) {
-                                target.installPatchedPropTarget(dryRun, context);
+                                target.installPatchedPropTarget(dryRun, patchContext);
                             }
                             target.writeOutRejectedHunks(dryRun);
+                            targetInfos.add(targetInfo);
                         }
-                        target.sendPatchNotification(context);
+                        target.sendPatchNotification(patchContext);
                         if (target.isDeleted() && !target.isSkipped()) {
                             checkAncestorDelete(targetInfo.getLocalAbsPath(), targetInfos, workingCopyDirectory, context, dryRun);
                         }
@@ -143,7 +150,7 @@ public class SvnNgPatch extends SvnNgOperationRunner<Void, SvnPatch> {
             if (!dryRun) {
                 SvnNgRemove.delete(context, dirAbsPath, null, false, false, null);
             }
-            SVNPatchTargetInfo targetInfo = new SVNPatchTargetInfo(dirAbsPath, true);
+            SVNPatchTargetInfo targetInfo = new SVNPatchTargetInfo(dirAbsPath, false, true);
             targetsInfo.add(targetInfo);
 
             final ISVNEventHandler eventHandler = context.getEventHandler();

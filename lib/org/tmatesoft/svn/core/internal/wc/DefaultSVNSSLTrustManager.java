@@ -1,9 +1,18 @@
 package org.tmatesoft.svn.core.internal.wc;
 
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.SVNProperties;
+import org.tmatesoft.svn.core.SVNURL;
+import org.tmatesoft.svn.core.auth.ISVNAuthenticationProvider;
+import org.tmatesoft.svn.core.internal.util.SVNBase64;
+import org.tmatesoft.svn.core.internal.util.SVNHashMap;
+import org.tmatesoft.svn.core.internal.util.SVNSSLUtil;
+import org.tmatesoft.svn.util.SVNDebugLog;
+import org.tmatesoft.svn.util.SVNLogType;
+
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
-
 import java.io.File;
 import java.io.InputStream;
 import java.security.KeyStore;
@@ -17,16 +26,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
-
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNProperties;
-import org.tmatesoft.svn.core.SVNURL;
-import org.tmatesoft.svn.core.auth.ISVNAuthenticationProvider;
-import org.tmatesoft.svn.core.internal.util.SVNBase64;
-import org.tmatesoft.svn.core.internal.util.SVNHashMap;
-import org.tmatesoft.svn.core.internal.util.SVNSSLUtil;
-import org.tmatesoft.svn.util.SVNDebugLog;
-import org.tmatesoft.svn.util.SVNLogType;
 
 /**
  * @author TMate Software Ltd.
@@ -163,7 +162,7 @@ public class DefaultSVNSSLTrustManager implements X509TrustManager {
 					myAuthManager.getRuntimeAuthStorage().putData("svn.ssl.server", myRealm, data);
 					return;
 				}
-				throw new SVNSSLUtil.CertificateNotTrustedException("svn: Server SSL certificate for '" + myRealm + "' rejected");
+				throw new SVNSSLUtil.CertificateNotTrustedException("svn: Server SSL certificate for '" + myRealm + "' rejected", exception);
 			}
 			// like as tmp. accepted.
         }
@@ -211,9 +210,9 @@ public class DefaultSVNSSLTrustManager implements X509TrustManager {
         map.put("ascii_cert", data);
         map.put("svn:realmstring", realm);
         map.put("failures", Integer.toString(failures));
-        
+
 		SVNFileUtil.deleteFile(file);
-        
+
         File tmpFile = SVNFileUtil.createUniqueFile(myAuthDirectory, "auth", ".tmp", true);
         try {
             SVNWCProperties.setProperties(SVNProperties.wrap(map), file, tmpFile, SVNWCProperties.SVN_HASH_TERMINATOR);

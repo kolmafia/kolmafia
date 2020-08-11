@@ -99,7 +99,7 @@ public abstract class SVNAdminAreaFactory implements Comparable {
                 } else if (version < factory.getSupportedVersion()) {
                     SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_UNSUPPORTED_FORMAT, 
                             "Working copy format of {0} is too old ({1}); please check out your working copy again", 
-                            new Object[] {path, new Integer(version)});
+                            new Object[] {path, version});
                     SVNErrorManager.error(err, SVNLogType.WC);
                 } 
             } catch (SVNException e) {
@@ -142,7 +142,7 @@ public abstract class SVNAdminAreaFactory implements Comparable {
                     } else if (wcFormatVersion < factory.getSupportedVersion()) {                        
                         SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_UNSUPPORTED_FORMAT,
                                 "Working copy format of {0} is too old ({1}); please check out your working copy again",
-                                new Object[]{path, new Integer(wcFormatVersion)});
+                                new Object[]{path, wcFormatVersion});
                         SVNErrorManager.error(err, SVNLogType.WC);
                     }
                 } catch (SVNException e) {
@@ -277,7 +277,7 @@ public abstract class SVNAdminAreaFactory implements Comparable {
             }
             if (!entry.isScheduledForDeletion()) {
                 if (entry.getRevision() != revision) {
-                    SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_OBSTRUCTED_UPDATE, "Revision {0} doesn''t match existing revision {1} in ''{2}''", new Object[]{new Long(revision), new Long(entry.getRevision()), dir});
+                    SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_OBSTRUCTED_UPDATE, "Revision {0} doesn''t match existing revision {1} in ''{2}''", new Object[]{revision, entry.getRevision(), dir});
                     SVNErrorManager.error(err, SVNLogType.WC);
                 }
                 if (!url.equals(entry.getURL())) {

@@ -336,6 +336,10 @@ public class SvnNgRemoteDiffEditor2 implements ISVNEditor {
     }
 
     public OutputStream textDeltaChunk(String path, SVNDiffWindow diffWindow) throws SVNException {
+        FileBaton fb = fileBaton;
+        if (fb.skip) {
+            return null;
+        }
         if (!this.textDeltas) {
             return null;
         }
@@ -343,10 +347,13 @@ public class SvnNgRemoteDiffEditor2 implements ISVNEditor {
     }
 
     public void textDeltaEnd(String path) throws SVNException {
+        FileBaton fb = fileBaton;
+        if (fb.skip) {
+            return;
+        }
         if (!this.textDeltas) {
             return;
         }
-        FileBaton fb = fileBaton;
         fb.resultMd5Checksum = deltaProcessor.textDeltaEnd();
     }
 

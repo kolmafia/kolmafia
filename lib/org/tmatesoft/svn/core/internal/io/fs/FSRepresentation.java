@@ -11,7 +11,13 @@
  */
 package org.tmatesoft.svn.core.internal.io.fs;
 
+import org.tmatesoft.svn.core.SVNErrorCode;
+import org.tmatesoft.svn.core.SVNErrorMessage;
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.io.SVNRepository;
+import org.tmatesoft.svn.core.wc2.SvnChecksum;
+import org.tmatesoft.svn.util.SVNLogType;
 
 /**
  * @version 1.3
@@ -23,8 +29,53 @@ public class FSRepresentation {
     public static final String REP_PLAIN = "PLAIN";
     public static final String REP_TRAILER = "ENDREP";
 
+    public static FSRepresentation parse(String representationString) throws SVNException {
+        final String[] fields = representationString.split(" ");
+        if (fields.length != 5 && fields.length != 7) {
+            SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.FS_CORRUPT, "Malformed text representation offset line in node-rev");
+            SVNErrorManager.error(errorMessage, SVNLogType.FSFS);
+        }
+
+        try {
+            long revision = Long.parseLong(fields[0]);
+            long itemIndex = Long.parseLong(fields[1]);
+            long size = Long.parseLong(fields[2]);
+            long expandedSize = Long.parseLong(fields[3]);
+            final String md5Checksum = fields[4];
+
+            final FSRepresentation representation = new FSRepresentation();
+            representation.setRevision(revision);
+            representation.setItemIndex(itemIndex);
+            representation.setSize(size);
+            representation.setExpandedSize(expandedSize);
+            representation.setMD5HexDigest(md5Checksum);
+
+            if (fields.length == 7) {
+                final String sha1Checksum = fields[5];
+
+                final String[] transactionWithUniquifier = fields[6].split("/_");
+                if (transactionWithUniquifier.length != 2) {
+                    SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.FS_CORRUPT, "Malformed text representation offset line in node-rev");
+                    SVNErrorManager.error(errorMessage, SVNLogType.FSFS);
+                }
+
+                final String txnId = transactionWithUniquifier[0];
+
+                representation.setSHA1HexDigest(sha1Checksum);
+                representation.setTxnId(txnId);
+                representation.setUniquifier(fields[6]);
+            }
+            return representation;
+
+        } catch (NumberFormatException e) {
+            SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.FS_CORRUPT, "Malformed text representation offset line in node-rev");
+            SVNErrorManager.error(errorMessage, SVNLogType.FSFS);
+        }
+        return null;
+    }
+
     private long myRevision;
-    private long myOffset;
+    private long myItemIndex;
     private long mySize;
     private long myExpandedSize;
     private String myMD5HexDigest;
@@ -34,7 +85,7 @@ public class FSRepresentation {
     
     public FSRepresentation(FSRepresentation representation) {
         myRevision = representation.myRevision;
-        myOffset = representation.myOffset;
+        myItemIndex = representation.myItemIndex;
         mySize = representation.mySize;
         myExpandedSize = representation.myExpandedSize;
         myMD5HexDigest = representation.myMD5HexDigest;
@@ -45,7 +96,7 @@ public class FSRepresentation {
 
     public FSRepresentation() {
         myRevision = SVNRepository.INVALID_REVISION;
-        myOffset = -1;
+        myItemIndex = -1;
         mySize = -1;
         myExpandedSize = -1;
     }
@@ -54,8 +105,8 @@ public class FSRepresentation {
         myRevision = rev;
     }
 
-    public void setOffset(long offset) {
-        myOffset = offset;
+    public void setItemIndex(long itemIndex) {
+        myItemIndex = itemIndex;
     }
 
     public void setSize(long size) {
@@ -90,8 +141,8 @@ public class FSRepresentation {
         return myRevision;
     }
 
-    public long getOffset() {
-        return myOffset;
+    public long getItemIndex() {
+        return myItemIndex;
     }
 
     public long getSize() {
@@ -123,7 +174,7 @@ public class FSRepresentation {
         if (myRevision != rep.myRevision) {
             return false;
         }
-        if (myOffset != rep.myOffset) {
+        if (myItemIndex != rep.myItemIndex) {
             return false;
         }
         if (myUniquifier == rep.myUniquifier) {
@@ -137,9 +188,9 @@ public class FSRepresentation {
 
     public String getStringRepresentation(int dbFormat) {
         if (dbFormat < FSFS.MIN_REP_SHARING_FORMAT || mySHA1HexDigest == null || myUniquifier == null) {
-            return myRevision + " " + myOffset + " " + mySize + " " + myExpandedSize + " " + myMD5HexDigest;
+            return myRevision + " " + myItemIndex + " " + mySize + " " + myExpandedSize + " " + myMD5HexDigest;
         }
-        return myRevision + " " + myOffset + " " + mySize + " " + myExpandedSize + " " + myMD5HexDigest + " " + 
+        return myRevision + " " + myItemIndex + " " + mySize + " " + myExpandedSize + " " + myMD5HexDigest + " " +
                mySHA1HexDigest + " " + myUniquifier;
     }
     

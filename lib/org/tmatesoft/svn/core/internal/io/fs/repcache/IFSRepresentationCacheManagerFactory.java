@@ -26,6 +26,6 @@ public interface IFSRepresentationCacheManagerFactory {
     
     public IFSRepresentationCacheManager openRepresentationCache(FSFS fsfs) throws SVNException;
     
-    public void createRepresentationCache(File path) throws SVNException;
+    public void createRepresentationCache(int format, File path) throws SVNException;
 
 }

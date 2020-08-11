@@ -14,14 +14,12 @@ package org.tmatesoft.svn.core.internal.io.fs;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 import org.tmatesoft.svn.core.ISVNCanceller;
 import org.tmatesoft.svn.core.SVNErrorCode;
@@ -55,6 +53,7 @@ import org.tmatesoft.svn.util.SVNLogType;
 public class FSRepositoryUtil {
     
     public static final int MAX_KEY_SIZE = 200;
+    private static final int BYTES_IN_LONG = Long.SIZE / 8;
 
     private static final ThreadLocal<byte[]> ourCopyBuffer = new ThreadLocal<byte[]>() {
         @Override
@@ -267,6 +266,16 @@ public class FSRepositoryUtil {
         }
     }
     
+    public static void loadRootChangesOffsetLogicalAddressing(FSFS fsfs, long revision, FSFile file, long index, long[] rootOffset, long[] changesOffset) throws SVNException {
+        final long offset = fsfs.lookupOffsetInIndex(file, revision, index);
+        if (rootOffset != null) {
+            rootOffset[0] = offset;
+        }
+        if (changesOffset != null) {
+            changesOffset[0] = offset;
+        }
+    }
+
     public static void loadRootChangesOffset(FSFS fsfs, long revision, FSFile file, long[] rootOffset, long[] changesOffset) throws SVNException {
         ByteBuffer buffer = ByteBuffer.allocate(64);
         long offset = 0; 
@@ -374,7 +383,7 @@ public class FSRepositoryUtil {
         if (nextKeyLength >= MAX_KEY_SIZE) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.UNKNOWN, 
                     "FATAL error: new key length is greater than the threshold {0}", 
-                    new Integer(MAX_KEY_SIZE));
+                    new Object[]{MAX_KEY_SIZE});
             SVNErrorManager.error(err, SVNLogType.FSFS);
         }
         if (carry) {
@@ -391,14 +400,14 @@ public class FSRepositoryUtil {
                     "unreleased dev builds; see " +
                     "http://subversion.apache.org" +
                     "/docs/release-notes/1.7#revprop-packing",  
-                    new Integer(FSFS.MIN_PACKED_REVPROP_SQLITE_DEV_FORMAT));
+                    new Object[]{FSFS.MIN_PACKED_REVPROP_SQLITE_DEV_FORMAT});
             SVNErrorManager.error(err, SVNLogType.FSFS);
         }
         if (format < FSFS.DB_FORMAT_LOW || format > FSFS.DB_FORMAT) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_UNSUPPORTED_FORMAT, 
                     "Expected FS format between ''{0}'' and ''{1}''; found format ''{2}''", 
-                    new Object[] {new Integer(FSFS.DB_FORMAT_LOW), new Integer(FSFS.DB_FORMAT), 
-                    new Integer(format)});
+                    new Object[] {FSFS.DB_FORMAT_LOW, FSFS.DB_FORMAT,
+                            format});
             SVNErrorManager.error(err, SVNLogType.FSFS);
         }
     }
@@ -421,7 +430,53 @@ public class FSRepositoryUtil {
             }
         }
     }
-    
+
+    public static long align(long size, long boundary) {
+        return (size + boundary - 1) & ~(boundary - 1);
+    }
+
+    public static long readLongLittleEndian(RandomAccessFile randomAccessFile) throws IOException {
+        final byte[] buffer = new byte[BYTES_IN_LONG];
+        final int bytesRead = randomAccessFile.read(buffer, 0, BYTES_IN_LONG);
+        if (bytesRead < 0) {
+            return bytesRead;
+        }
+        long value = 0;
+        for (int i = BYTES_IN_LONG - 1; i >= 0; i--) {
+            value = (value << 8) + (buffer[i] & 0xffL);
+        }
+        return value;
+    }
+
+    public static void writeLongLittleEndian(RandomAccessFile randomAccessFile, long value) throws IOException {
+        final byte[] buffer = new byte[BYTES_IN_LONG];
+        for (int i = 0; i < BYTES_IN_LONG; i++) {
+            buffer[i] = (byte) value;
+            value >>= 8;
+        }
+        randomAccessFile.write(buffer, 0, BYTES_IN_LONG);
+    }
+
+    public static int encodeInt(byte[] bytes, long value) {
+        return encodeUnsignedInt(bytes, value < 0 ? -1 - 2 * value : 2 * value);
+    }
+
+    public static int encodeUnsignedInt(byte[] bytes, long value) {
+        //TODO: reuse some code?
+        value = value & 0x00000000ffffffffL;
+
+        int i = 0;
+
+        while (value >= 0x80) {
+            bytes[i] = (byte) ((value % 0x80) + 0x80);
+            value /= 0x80;
+            i++;
+        }
+
+        bytes[i] = (byte) (value % 0x80);
+        return i + 1;
+    }
+
     private static boolean areRepresentationsEqual(FSRevisionNode revNode1, FSRevisionNode revNode2, boolean forProperties) {
         if(revNode1 == revNode2){
             return true;
@@ -430,5 +485,4 @@ public class FSRepositoryUtil {
         }
         return FSRepresentation.compareRepresentations(forProperties ? revNode1.getPropsRepresentation() : revNode1.getTextRepresentation(), forProperties ? revNode2.getPropsRepresentation() : revNode2.getTextRepresentation());
     }
-
 }

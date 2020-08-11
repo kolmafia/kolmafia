@@ -96,7 +96,7 @@ public class SvnRemoteGetInfo extends SvnRemoteOperationRunner<SvnInfo, SvnGetIn
                 }
                 SVNNodeKind urlKind = repository.checkPath("", revNum);
                 if (urlKind == SVNNodeKind.NONE) {
-                    SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_ILLEGAL_URL, "URL ''{0}'' non-existent in revision {1}", new Object[] { url, new Long(revNum) });
+                    SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_ILLEGAL_URL, "URL ''{0}'' non-existent in revision {1}", new Object[] { url, revNum});
                     SVNErrorManager.error(err, SVNLogType.WC);
                 }
                 
@@ -112,7 +112,7 @@ public class SvnRemoteGetInfo extends SvnRemoteOperationRunner<SvnInfo, SvnGetIn
                     }
                 }
                 if (rootEntry == null) {
-                    SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_ILLEGAL_URL, "URL ''{0}'' non-existent in revision {1}", new Object[] { url, new Long(revNum)});
+                    SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_ILLEGAL_URL, "URL ''{0}'' non-existent in revision {1}", new Object[] { url, revNum});
                     SVNErrorManager.error(err, SVNLogType.WC);
                 }
             } else {
@@ -120,7 +120,7 @@ public class SvnRemoteGetInfo extends SvnRemoteOperationRunner<SvnInfo, SvnGetIn
             }
         }
         if (rootEntry == null || rootEntry.getKind() == SVNNodeKind.NONE) {
-            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_ILLEGAL_URL, "URL ''{0}'' non-existent in revision {1}", new Object[] { url, new Long(revNum) });
+            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_ILLEGAL_URL, "URL ''{0}'' non-existent in revision {1}", new Object[] { url, revNum});
             SVNErrorManager.error(err, SVNLogType.WC);
         }
         

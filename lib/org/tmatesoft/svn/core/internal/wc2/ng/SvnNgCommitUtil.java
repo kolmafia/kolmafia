@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.tmatesoft.svn.core.*;
+import org.tmatesoft.svn.core.internal.db.SVNSqlJetDb;
 import org.tmatesoft.svn.core.internal.util.SVNPathUtil;
 import org.tmatesoft.svn.core.internal.util.SVNURLUtil;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
@@ -30,6 +31,7 @@ import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.WCDbBaseInfo.BaseInfoFie
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.NodeInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.NodeOriginInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbReader.ReplaceInfo;
+import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.wc.*;
 import org.tmatesoft.svn.core.wc2.*;
 import org.tmatesoft.svn.util.SVNLogType;
@@ -89,7 +91,7 @@ public class SvnNgCommitUtil {
         for (String target : targets) {
             i++;
             File targetPath = SVNFileUtil.createFilePath(baseDirPath, target);
-            SVNNodeKind kind = context.readKind(targetPath, false);
+            SVNNodeKind kind = context.readKind(targetPath, true, true);
             if (kind == SVNNodeKind.NONE) {
                 try {
                     Structure<NodeInfo> nodeInfoStructure = context.getDb().readInfo(targetPath, NodeInfo.status);
@@ -112,8 +114,16 @@ public class SvnNgCommitUtil {
                     SVNErrorManager.error(err, SVNLogType.WC);
                 }
             }
-            SVNWCNodeReposInfo reposInfo = context.getNodeReposInfo(targetPath);
-            SVNURL repositoryRootUrl = reposInfo.reposRootUrl;
+            SVNURL repositoryRootUrl;
+            try {
+                SVNWCNodeReposInfo reposInfo = context.getNodeReposInfo(targetPath);
+                repositoryRootUrl = reposInfo.reposRootUrl;
+            } catch (SVNException e) {
+                if (e.getErrorMessage().getErrorCode() != SVNErrorCode.WC_PATH_NOT_FOUND) {
+                    throw e;
+                }
+                repositoryRootUrl = null;
+            }
 
             boolean added = context.isNodeAdded(targetPath);
             if (added) {
@@ -149,10 +159,17 @@ public class SvnNgCommitUtil {
         
         for(File danglingParent : danglers.keySet()) {
             if (!packet.hasItem(danglingParent)) {
-                // TODO fail no parent event
-                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.ILLEGAL_TARGET, 
+                File danglingChild = danglers.get(danglingParent);
+
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.ILLEGAL_TARGET,
                         "''{0}'' is not known to exist in the repository and is not part of the commit, yet its child ''{1}'' is part of the commit",
-                        danglingParent.getAbsolutePath(), danglers.get(danglingParent).getAbsolutePath());
+                        danglingParent.getAbsolutePath(), danglingChild.getAbsolutePath());
+
+                ISVNEventHandler eventHandler = context.getEventHandler();
+                if (eventHandler != null) {
+                    SVNEvent event = SVNEventFactory.createSVNEvent(danglingChild, SVNNodeKind.UNKNOWN, null, SVNRepository.INVALID_REVISION, SVNStatusType.UNKNOWN, SVNStatusType.UNKNOWN, SVNStatusType.LOCK_UNKNOWN, SVNEventAction.FAILED_NO_PARENT, SVNEventAction.FAILED_NO_PARENT, err, null);
+                    eventHandler.handleEvent(event, -1);
+                }
                 SVNErrorManager.error(err, SVNLogType.WC);
             }
         }
@@ -651,7 +668,7 @@ public class SvnNgCommitUtil {
                 }
             }
 
-            if (matchesChangeLists && (isHarvestRoot || this.changeLists != null) && (stateFlags != 0) && isAdded && this.danglers != null) {
+            if (matchesChangeLists && (isHarvestRoot || this.changeLists != null) && (stateFlags != 0) && (isAdded || (isDeleted && isOpRoot && status.isCopied())) && this.danglers != null) {
                 Map<File, File> danglers = this.danglers;
                 File parentAbsPath = SVNFileUtil.getParentFile(localAbsPath);
 
@@ -821,24 +838,29 @@ public class SvnNgCommitUtil {
     }
     
     private static void bailOnTreeConflictedAncestor(SVNWCContext context, File firstAbspath) throws SVNException {
-        File localAbspath;
-        File parentAbspath;
-        boolean wcRoot;
+        SVNWCDb.DirParsedInfo pdh = ((SVNWCDb) context.getDb()).parseDir(firstAbspath, SVNSqlJetDb.Mode.ReadOnly);
+        SVNWCDbRoot wcRoot = pdh.wcDbDir.getWCRoot();
+
+        File localAbsPath = SVNFileUtil.getFileDir(firstAbspath);
+
         boolean treeConflicted;
-        localAbspath = firstAbspath;
-        while (true) {
-            wcRoot = context.checkWCRoot(localAbspath, false).wcRoot;
-            if (wcRoot) {
-                break;
-            }
-            parentAbspath = SVNFileUtil.getFileDir(localAbspath);
-            treeConflicted = context.getConflicted(parentAbspath, false, false, true).treeConflicted;
+        while (SVNPathUtil.isAncestor(SVNFileUtil.getFilePath(wcRoot.getAbsPath()), SVNFileUtil.getFilePath(localAbsPath))) {
+            treeConflicted = context.getConflicted(localAbsPath, false, false, true).treeConflicted;
             if (treeConflicted) {
-                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_FOUND_CONFLICT, "Aborting commit: ''{0}'' remains in tree-conflict", localAbspath);
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_FOUND_CONFLICT, "Aborting commit: ''{0}'' remains in tree-conflict", localAbsPath);
+                ISVNEventHandler eventHandler = context.getEventHandler();
+                if (eventHandler != null) {
+                    SVNEvent event = SVNEventFactory.createSVNEvent(localAbsPath, SVNNodeKind.UNKNOWN, null, SVNRepository.INVALID_REVISION, SVNStatusType.UNKNOWN, SVNStatusType.UNKNOWN, SVNStatusType.LOCK_UNKNOWN, SVNEventAction.FAILED_CONFLICT, SVNEventAction.FAILED_CONFLICT, err, null);
+                    eventHandler.handleEvent(event, -1);
+                }
                 SVNErrorManager.error(err, SVNLogType.WC);
                 return;
             }
-            localAbspath = parentAbspath;
+            if (localAbsPath.getParentFile() == null || localAbsPath.getParentFile().equals(localAbsPath)) {
+                break;
+            } else {
+                localAbsPath = SVNFileUtil.getFileDir(localAbsPath);
+            }
         }
     }
 

@@ -52,11 +52,13 @@ public class SVNRemoteStatusEditor17 extends SVNStatusEditor17 implements ISVNEd
     private File myTargetAbsPath;
     
     private boolean myIsMarkingDeleted;
+    private boolean myIsCheckWorkingCopy;
 
-    public SVNRemoteStatusEditor17(File anchorAbsPath, String targetBaseName, SVNWCContext wcContext, ISVNOptions options, boolean includeIgnored, boolean reportAll, SVNDepth depth,
+    public SVNRemoteStatusEditor17(File anchorAbsPath, String targetBaseName, SVNWCContext wcContext, ISVNOptions options, boolean includeIgnored, boolean reportAll, SVNDepth depth, boolean checkWorkingCopy,
             ISvnObjectReceiver<SvnStatus> realHandler) throws SVNException {
         super(SVNFileUtil.createFilePath(anchorAbsPath, targetBaseName), wcContext, options, includeIgnored, reportAll, depth, realHandler);
-        myAnchorStatus = internalStatus(wcContext, anchorAbsPath);
+        myAnchorStatus = internalStatus(wcContext, anchorAbsPath, checkWorkingCopy);
+        myIsCheckWorkingCopy = checkWorkingCopy;
         myAnchorAbsPath = anchorAbsPath;
         myTargetBaseName = targetBaseName;
         myTargetAbsPath = SVNFileUtil.createFilePath(anchorAbsPath, targetBaseName);
@@ -104,7 +106,7 @@ public class SVNRemoteStatusEditor17 extends SVNStatusEditor17 implements ISVNEd
                 return;
 
             /* Use the public API to get a statstruct, and put it into the hash. */
-            statstruct = internalStatus(myWCContext, localAbsPath);
+            statstruct = internalStatus(myWCContext, localAbsPath, myIsCheckWorkingCopy);
             if (statstruct.getNodeStatus() == SVNStatusType.STATUS_UNVERSIONED || statstruct.getNodeStatus() == SVNStatusType.STATUS_NONE) {
                 statstruct.setWorkingCopyFormat(myAnchorStatus.getWorkingCopyFormat());
             }
@@ -256,7 +258,7 @@ public class SVNRemoteStatusEditor17 extends SVNStatusEditor17 implements ISVNEd
 
             /* Now do the status reporting. */
             WCDbRepositoryInfo dirReposInfo = new WCDbRepositoryInfo();
-            if (dirReposInfo != null) {
+            if (dirReposInfo != null && dir_status != null) {
                 dirReposInfo.rootUrl = dir_status.getRepositoryRootUrl();
                 dirReposInfo.relPath = SVNFileUtil.createFilePath(dir_status.getRepositoryRelativePath());
                 dirReposInfo.uuid = dir_status.getRepositoryUuid();
@@ -449,7 +451,7 @@ public class SVNRemoteStatusEditor17 extends SVNStatusEditor17 implements ISVNEd
         if (statstruct == null) {
             if (reposNodeStatus != SVNStatusType.STATUS_ADDED)
                 return;
-            statstruct = internalStatus(myWCContext, localAbsPath);
+            statstruct = internalStatus(myWCContext, localAbsPath, myIsCheckWorkingCopy);
             statstruct.setRepositoryLock(reposLock);
             if (statstruct.getNodeStatus() == SVNStatusType.STATUS_UNVERSIONED || statstruct.getNodeStatus() == SVNStatusType.STATUS_NONE) {
                 statstruct.setWorkingCopyFormat(myAnchorStatus.getWorkingCopyFormat());

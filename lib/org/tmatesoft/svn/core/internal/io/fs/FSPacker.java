@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 import org.tmatesoft.svn.core.ISVNCanceller;
 import org.tmatesoft.svn.core.SVNErrorCode;
@@ -24,6 +25,7 @@ import org.tmatesoft.svn.core.internal.io.fs.revprop.SVNFSFSPackedRevProps;
 import org.tmatesoft.svn.core.internal.io.fs.revprop.SVNFSFSPackedRevPropsManifest;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
+import org.tmatesoft.svn.core.internal.wc.SVNMergeInfoManager;
 import org.tmatesoft.svn.core.wc.ISVNEventHandler;
 import org.tmatesoft.svn.core.wc.admin.ISVNAdminEventHandler;
 import org.tmatesoft.svn.core.wc.admin.SVNAdminEvent;
@@ -139,6 +141,15 @@ public class FSPacker {
 
         SVNFileUtil.deleteAll(packDir, false, myCanceller);
 
+        if (fsfs.isUseLogAddressing()) {
+            SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.FS_UNSUPPORTED_FORMAT, "Logical addressing is unsupported for FS format ''{0}''", new Object[]{fsfs.getDBFormat()});
+            SVNErrorManager.error(errorMessage, SVNLogType.FSFS);
+        } else {
+            packPhysicallyAddressed(fsfs, shard, shardPath, packFile, manifestFile);
+        }
+    }
+
+    private void packPhysicallyAddressed(FSFS fsfs, long shard, File shardPath, File packFile, File manifestFile) throws SVNException {
         long startRev = shard * fsfs.getMaxFilesPerDirectory();
         long endRev = (shard + 1) * fsfs.getMaxFilesPerDirectory() - 1;
         long nextOffset = 0;
@@ -167,7 +178,6 @@ public class FSPacker {
             SVNFileUtil.closeFile(packFileOS);
             SVNFileUtil.closeFile(manifestFileOS);
         }
-
     }
 
     private void firePackEvent(long shard, boolean start) throws SVNException {
@@ -237,5 +247,4 @@ public class FSPacker {
         final File packFile = new File(packPath, packName);
         packedRevProps.writeToFile(packFile, compressPackedRevprops);
     }
-
 }

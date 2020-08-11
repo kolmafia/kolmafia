@@ -55,7 +55,7 @@ public class SVNErrorCode implements Serializable {
      * @return a corresponding <b>SVNErrorCode</b>.
      */
     public static SVNErrorCode getErrorCode(int code) {
-        SVNErrorCode errorCode = (SVNErrorCode) ourErrorCodes.get(new Integer(code));
+        SVNErrorCode errorCode = (SVNErrorCode) ourErrorCodes.get(code);
         if (errorCode == null) {
             errorCode = UNKNOWN;
         }
@@ -66,7 +66,7 @@ public class SVNErrorCode implements Serializable {
         myCategory = category;
         myCode = category + index;
         myDescription = description;
-        ourErrorCodes.put(new Integer(myCode), this);
+        ourErrorCodes.put(myCode, this);
     }
     
     /**
@@ -131,7 +131,7 @@ public class SVNErrorCode implements Serializable {
     }
     
     private Object readResolve() {
-        return ourErrorCodes.get(new Integer(myCode));
+        return ourErrorCodes.get(myCode);
     }
     
     /**
@@ -392,7 +392,12 @@ public class SVNErrorCode implements Serializable {
     public static final SVNErrorCode FS_REP_BEING_WRITTEN = new SVNErrorCode(FS_CATEGORY, 44, "Representation is being written");
     public static final SVNErrorCode FS_TXN_NAME_TOO_LONG = new SVNErrorCode(FS_CATEGORY, 45, "The generated transaction name is too long");
     public static final SVNErrorCode FS_NO_SUCH_NODE_ORIGIN = new SVNErrorCode(FS_CATEGORY, 46, "Filesystem has no such node origin record");
-    
+    public static final SVNErrorCode FS_INDEX_CORRUPTION = new SVNErrorCode(FS_CATEGORY, 54, "Corrupt index file");
+    public static final SVNErrorCode FS_INDEX_REVISION = new SVNErrorCode(FS_CATEGORY, 55, "Revision not covered by index");
+    public static final SVNErrorCode FS_INDEX_OVERFLOW = new SVNErrorCode(FS_CATEGORY, 56, "Item index too large for this revision");
+    public static final SVNErrorCode FS_CONTAINER_INDEX = new SVNErrorCode(FS_CATEGORY, 57, "Container index out of range");
+    public static final SVNErrorCode FS_INDEX_INCONSISTENT = new SVNErrorCode(FS_CATEGORY, 58, "Index files are inconsistent");
+
     public static final SVNErrorCode REPOS_LOCKED = new SVNErrorCode(REPOS_CATEGORY, 0, "The repository is locked, perhaps for db recovery");
     public static final SVNErrorCode REPOS_HOOK_FAILURE = new SVNErrorCode(REPOS_CATEGORY, 1, "A repository hook failed");
     public static final SVNErrorCode REPOS_BAD_ARGS = new SVNErrorCode(REPOS_CATEGORY, 2, "Incorrect arguments supplied");
@@ -439,7 +444,9 @@ public class SVNErrorCode implements Serializable {
     public static final SVNErrorCode RA_DAV_PROPPATCH_FAILED = new SVNErrorCode(RA_DAV_CATEGORY, 8, "Failed to execute WebDAV PROPPATCH");
     public static final SVNErrorCode RA_DAV_MALFORMED_DATA = new SVNErrorCode(RA_DAV_CATEGORY, 9, "Malformed network data");
     public static final SVNErrorCode RA_DAV_RESPONSE_HEADER_BADNESS = new SVNErrorCode(RA_DAV_CATEGORY, 10, "Unable to extract data from response header");
-    
+    public static final SVNErrorCode RA_DAV_PRECONDITION_FAILED = new SVNErrorCode(RA_DAV_CATEGORY, 14, "The server state conflicts with the requested preconditions");
+    public static final SVNErrorCode RA_DAV_METHOD_NOT_ALLOWED = new SVNErrorCode(RA_DAV_CATEGORY, 15, "The URL doesn't allow the requested method");
+
     /**
      * @since 1.2.0, SVN 1.5
      */
@@ -640,7 +647,68 @@ public class SVNErrorCode implements Serializable {
      * @since  1.3, SVN 1.6
      */
     public static final SVNErrorCode UNSUPPORTED_SCHEMA = new SVNErrorCode(MISC_CATEGORY, 32, "Unsupported schema found in SQLite db");
-    
+    /**
+     * @since  1.3, SVN 1.7
+     */
+    public static final SVNErrorCode SQLITE_BUSY = new SVNErrorCode(MISC_CATEGORY, 33, "The SQLite db is busy");
+    /**
+     * @since  1.3, SVN 1.7
+     */
+    public static final SVNErrorCode SQLITE_RESETTING_FOR_ROLLBACK = new SVNErrorCode(MISC_CATEGORY, 34, "SQLite busy at transaction rollback; " +
+            "resetting all busy SQLite statements to allow rollback");
+    /**
+     * @since  1.3, SVN 1.7
+     */
+    public static final SVNErrorCode SQLITE_CONSTRAINT = new SVNErrorCode(MISC_CATEGORY, 35, "Constraint error in SQLite db");
+    /**
+     * @since  1.3, SVN 1.8
+     */
+    public static final SVNErrorCode TOO_MANY_MEMCACHED_SERVERS = new SVNErrorCode(MISC_CATEGORY, 36, "Too many memcached servers configured");
+    /**
+     * @since  1.3, SVN 1.8
+     */
+    public static final SVNErrorCode MALFORMED_VERSION_STRING = new SVNErrorCode(MISC_CATEGORY, 37, "Failed to parse version number string");
+    /**
+     * @since  1.3, SVN 1.8
+     */
+    public static final SVNErrorCode CORRUPTED_ATOMIC_STORAGE = new SVNErrorCode(MISC_CATEGORY, 38, "Atomic data storage is corrupt");
+    /**
+     * @since  1.3, SVN 1.8
+     */
+    public static final SVNErrorCode UTF8PROC_ERROR = new SVNErrorCode(MISC_CATEGORY, 39, "utf8proc library error");
+    /**
+     * @since  1.3, SVN 1.8
+     */
+    public static final SVNErrorCode UTF8_GLOB = new SVNErrorCode(MISC_CATEGORY, 40, "Bad arguments to SQL operators GLOB or LIKE");
+    /**
+     * @since  1.3, SVN 1.9
+     */
+    public static final SVNErrorCode CORRUPT_PACKED_DATA = new SVNErrorCode(MISC_CATEGORY, 41, "Packed data stream is corrupt");
+    /**
+     * @since  1.3, SVN 1.9
+     */
+    public static final SVNErrorCode COMPOSED_ERROR = new SVNErrorCode(MISC_CATEGORY, 42, "Additional errors:");
+    /**
+     * @since  1.3, SVN 1.9
+     */
+    public static final SVNErrorCode INVALID_INPUT = new SVNErrorCode(MISC_CATEGORY, 43, "Parser error: invalid input");
+    /**
+     * @since  1.3, SVN 1.10
+     */
+    public static final SVNErrorCode SQLITE_ROLLBACK_FAILED = new SVNErrorCode(MISC_CATEGORY, 44, "SQLite transaction rollback failed");
+    /**
+     * @since  1.3, SVN 1.10
+     */
+    public static final SVNErrorCode LZ4_COMPRESSION_FAILED = new SVNErrorCode(MISC_CATEGORY, 45, "LZ4 compression failed");
+    /**
+     * @since  1.3, SVN 1.10
+     */
+    public static final SVNErrorCode LZ4_DECOMPRESSION_FAILED = new SVNErrorCode(MISC_CATEGORY, 46, "LZ4 decompression failed");
+
+
+
+
+
     public static final SVNErrorCode CL_ARG_PARSING_ERROR = new SVNErrorCode(CL_CATEGORY, 0, "Client error in parsing arguments");
     public static final SVNErrorCode CL_INSUFFICIENT_ARGS = new SVNErrorCode(CL_CATEGORY, 1, "Not enough args provided");
     public static final SVNErrorCode CL_MUTUALLY_EXCLUSIVE_ARGS = new SVNErrorCode(CL_CATEGORY, 2, "Mutually exclusive arguments specified");

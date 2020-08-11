@@ -81,46 +81,46 @@ class HTTPNTLMAuthentication extends HTTPAuthentication {
     
     private static Map<Long, String> ourFlags = new TreeMap<Long, String>();
     static {
-        ourFlags.put(new Long(NEGOTIATE_UNICODE), "0x00000001 (Negotiate Unicode)");
-        ourFlags.put(new Long(NEGOTIATE_OEM), "0x00000002 (Negotiate OEM)");
-        ourFlags.put(new Long(REQUEST_TARGET), "0x00000004 (Request Target)");
-        ourFlags.put(new Long(0x00000008L), "0x00000008 (Unknown)");
-        ourFlags.put(new Long(NEGOTIATE_SIGN), "0x00000010 (Negotiate Sign)");
-        ourFlags.put(new Long(NEGOTIATE_SEAL), "0x00000020 (Negotiate Seal)");
-        ourFlags.put(new Long(NEGOTIATE_DATAGRAM_STYLE), "0x00000040 (Negotiate Datagram Style)");
-        ourFlags.put(new Long(NEGOTIATE_LAN_MANAGER_KEY), "0x00000080 (Negotiate Lan Manager Key)");
-        ourFlags.put(new Long(NEGOTIATE_NETWARE), "0x00000100 (Negotiate Netware)");
-        ourFlags.put(new Long(NEGOTIATE_NTLM), "0x00000200 (Negotiate NTLM)");
-        ourFlags.put(new Long(0x00000400L), "0x00000400 (Unknown)");
-        ourFlags.put(new Long(0x00000800L), "0x00000800 (Unknown)");
-        ourFlags.put(new Long(NEGOTIATE_DOMAIN_SUPPLIED), "0x00001000 (Negotiate Domain Supplied)");
-        ourFlags.put(new Long(NEGOTIATE_WORKSTATION_SUPPLIED), "0x00002000 (Negotiate Workstation Supplied)");
-        ourFlags.put(new Long(NEGOTIATE_LOCAL_CALL), "0x00004000 (Negotiate Local Call)");
-        ourFlags.put(new Long(NEGOTIATE_ALWAYS_SIGN), "0x00008000 (Negotiate Always Sign)");
-        ourFlags.put(new Long(TARGET_TYPE_DOMAIN), "0x00010000 (Target Type Domain)");
-        ourFlags.put(new Long(TARGET_TYPE_SERVER), "0x00020000 (Target Type Server)");
-        ourFlags.put(new Long(TARGET_TYPE_SHARE), "0x00040000 (Target Type Share)");
-        ourFlags.put(new Long(NEGOTIATE_NTLM2_KEY), "0x00080000 (Negotiate NTLM2 Key)");
-        ourFlags.put(new Long(REQUEST_INIT_RESPONSE), "0x00100000 (Request Init Response)");
-        ourFlags.put(new Long(REQUEST_ACCEPT_RESPONSE), "0x00200000 (Request Accept Response)");
-        ourFlags.put(new Long(REQUEST_NON_NT_SESSION_KEY), "0x00400000 (Request Non-NT Session Key)");
-        ourFlags.put(new Long(NEGOTIATE_TARGET_INFO), "0x00800000 (Negotiate Target Info)");
-        ourFlags.put(new Long(0x01000000L), "0x01000000 (Unknown)");
-        ourFlags.put(new Long(0x02000000L), "0x02000000 (Unknown)");
-        ourFlags.put(new Long(0x04000000L), "0x04000000 (Unknown)");
-        ourFlags.put(new Long(0x08000000L), "0x08000000 (Unknown)");
-        ourFlags.put(new Long(0x10000000L), "0x10000000 (Unknown)");
-        ourFlags.put(new Long(NEGOTIATE_128), "0x20000000 (Negotiate 128)");
-        ourFlags.put(new Long(NEGOTIATE_KEY_EXCHANGE), "0x40000000 (Negotiate Key Exchange)");
-        ourFlags.put(new Long(NEGOTIATE_56), "0x80000000 (Negotiate 56)");
+        ourFlags.put(NEGOTIATE_UNICODE, "0x00000001 (Negotiate Unicode)");
+        ourFlags.put(NEGOTIATE_OEM, "0x00000002 (Negotiate OEM)");
+        ourFlags.put(REQUEST_TARGET, "0x00000004 (Request Target)");
+        ourFlags.put(0x00000008L, "0x00000008 (Unknown)");
+        ourFlags.put(NEGOTIATE_SIGN, "0x00000010 (Negotiate Sign)");
+        ourFlags.put(NEGOTIATE_SEAL, "0x00000020 (Negotiate Seal)");
+        ourFlags.put(NEGOTIATE_DATAGRAM_STYLE, "0x00000040 (Negotiate Datagram Style)");
+        ourFlags.put(NEGOTIATE_LAN_MANAGER_KEY, "0x00000080 (Negotiate Lan Manager Key)");
+        ourFlags.put(NEGOTIATE_NETWARE, "0x00000100 (Negotiate Netware)");
+        ourFlags.put(NEGOTIATE_NTLM, "0x00000200 (Negotiate NTLM)");
+        ourFlags.put(0x00000400L, "0x00000400 (Unknown)");
+        ourFlags.put(0x00000800L, "0x00000800 (Unknown)");
+        ourFlags.put(NEGOTIATE_DOMAIN_SUPPLIED, "0x00001000 (Negotiate Domain Supplied)");
+        ourFlags.put(NEGOTIATE_WORKSTATION_SUPPLIED, "0x00002000 (Negotiate Workstation Supplied)");
+        ourFlags.put(NEGOTIATE_LOCAL_CALL, "0x00004000 (Negotiate Local Call)");
+        ourFlags.put(NEGOTIATE_ALWAYS_SIGN, "0x00008000 (Negotiate Always Sign)");
+        ourFlags.put(TARGET_TYPE_DOMAIN, "0x00010000 (Target Type Domain)");
+        ourFlags.put(TARGET_TYPE_SERVER, "0x00020000 (Target Type Server)");
+        ourFlags.put(TARGET_TYPE_SHARE, "0x00040000 (Target Type Share)");
+        ourFlags.put(NEGOTIATE_NTLM2_KEY, "0x00080000 (Negotiate NTLM2 Key)");
+        ourFlags.put(REQUEST_INIT_RESPONSE, "0x00100000 (Request Init Response)");
+        ourFlags.put(REQUEST_ACCEPT_RESPONSE, "0x00200000 (Request Accept Response)");
+        ourFlags.put(REQUEST_NON_NT_SESSION_KEY, "0x00400000 (Request Non-NT Session Key)");
+        ourFlags.put(NEGOTIATE_TARGET_INFO, "0x00800000 (Negotiate Target Info)");
+        ourFlags.put(0x01000000L, "0x01000000 (Unknown)");
+        ourFlags.put(0x02000000L, "0x02000000 (Unknown)");
+        ourFlags.put(0x04000000L, "0x04000000 (Unknown)");
+        ourFlags.put(0x08000000L, "0x08000000 (Unknown)");
+        ourFlags.put(0x10000000L, "0x10000000 (Unknown)");
+        ourFlags.put(NEGOTIATE_128, "0x20000000 (Negotiate 128)");
+        ourFlags.put(NEGOTIATE_KEY_EXCHANGE, "0x40000000 (Negotiate Key Exchange)");
+        ourFlags.put(NEGOTIATE_56, "0x80000000 (Negotiate 56)");
     }
 
     private static Map<Integer, String> ourTargetInfoTypes = new TreeMap<Integer, String>();
     static {
-        ourTargetInfoTypes.put(new Integer(1), "Server Name");
-        ourTargetInfoTypes.put(new Integer(2), "Domain Name");
-        ourTargetInfoTypes.put(new Integer(3), "DNS Host Name");
-        ourTargetInfoTypes.put(new Integer(4), "DNS Domain Name");
+        ourTargetInfoTypes.put(1, "Server Name");
+        ourTargetInfoTypes.put(2, "Domain Name");
+        ourTargetInfoTypes.put(3, "DNS Host Name");
+        ourTargetInfoTypes.put(4, "DNS Domain Name");
     }
     
     protected int myState;
@@ -224,8 +224,8 @@ class HTTPNTLMAuthentication extends HTTPAuthentication {
             SVNErrorManager.error(err, SVNLogType.NETWORK);
         } else if (type != 2) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_DAV_REQUEST_FAILED, 
-                    "NTLM HTTP auth: expected type 2 message instead of ''(0, number, integer}''", 
-                    new Long(type));
+                    "NTLM HTTP auth: expected type 2 message instead of ''(0, number, integer}''",
+                    type);
             SVNErrorManager.error(err, SVNLogType.NETWORK);
         }
         
@@ -331,8 +331,6 @@ class HTTPNTLMAuthentication extends HTTPAuthentication {
         } else {
             myIsNegotiateLocalCall = false;
         }
-        System.out.println("negotiate local calls: " + myIsNegotiateLocalCall);
-
         if ((flags & NEGOTIATE_TARGET_INFO) != 0) {
             int tgtInfoSecurityBufferOffset = containsContext ? 40: 32;
             
@@ -375,7 +373,7 @@ class HTTPNTLMAuthentication extends HTTPAuthentication {
                 targetInfoOffset += 2;
                 int subblockLength = toInt(subblockLengthBytes);
 
-                String typeDescription = (String)ourTargetInfoTypes.get(new Integer(targetInfoType));
+                String typeDescription = (String)ourTargetInfoTypes.get(targetInfoType);
                 if (typeDescription != null) {
                     String info;
                     try {

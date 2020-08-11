@@ -31,6 +31,11 @@ import org.tmatesoft.svn.core.SVNErrorCode;
 public class SvnCleanup extends SvnOperation<Void> {
 	
 	private boolean deleteWCProperties;
+    private boolean vacuumPristines;
+    private boolean removeUnversionedItems;
+    private boolean removeIgnoredItems;
+    private boolean includeExternals;
+    private boolean breakLocks;
 
     protected SvnCleanup(SvnOperationFactory factory) {
         super(factory);
@@ -54,6 +59,46 @@ public class SvnCleanup extends SvnOperation<Void> {
      */
     public void setDeleteWCProperties(boolean deleteWCProperties) {
         this.deleteWCProperties = deleteWCProperties;
+    }
+
+    public boolean isVacuumPristines() {
+        return vacuumPristines;
+    }
+
+    public void setVacuumPristines(boolean vacuumPristines) {
+        this.vacuumPristines = vacuumPristines;
+    }
+
+    public boolean isRemoveUnversionedItems() {
+        return removeUnversionedItems;
+    }
+
+    public void setRemoveUnversionedItems(boolean removeUnversionedItems) {
+        this.removeUnversionedItems = removeUnversionedItems;
+    }
+
+    public boolean isRemoveIgnoredItems() {
+        return removeIgnoredItems;
+    }
+
+    public void setRemoveIgnoredItems(boolean removeIgnoredItems) {
+        this.removeIgnoredItems = removeIgnoredItems;
+    }
+
+    public boolean isIncludeExternals() {
+        return includeExternals;
+    }
+
+    public void setIncludeExternals(boolean includeExternals) {
+        this.includeExternals = includeExternals;
+    }
+
+    public void setBreakLocks(boolean breakLocks) {
+        this.breakLocks = breakLocks;
+    }
+
+    public boolean isBreakLocks() {
+        return breakLocks;
     }
 
     /**

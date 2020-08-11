@@ -27,6 +27,7 @@ import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.SVNProperties;
 import org.tmatesoft.svn.core.SVNPropertyValue;
 import org.tmatesoft.svn.core.internal.delta.SVNDeltaCombiner;
+import org.tmatesoft.svn.core.internal.delta.SVNDeltaCompression;
 import org.tmatesoft.svn.core.internal.io.fs.CountingOutputStream;
 import org.tmatesoft.svn.core.internal.io.fs.FSFS;
 import org.tmatesoft.svn.core.internal.io.fs.FSRepositoryUtil;
@@ -353,9 +354,9 @@ public class SVNDumpEditor implements ISVNEditor {
                             public OutputStream textDeltaChunk(String path, SVNDiffWindow diffWindow) throws SVNException {
                                 try {
                                     if (diffWindow != null) {
-                                        diffWindow.writeTo(countingStream, !isHeaderWritten, false);
+                                        diffWindow.writeTo(countingStream, !isHeaderWritten);
                                     } else {
-                                        SVNDiffWindow.EMPTY.writeTo(countingStream, !isHeaderWritten, false);
+                                        SVNDiffWindow.EMPTY.writeTo(countingStream, !isHeaderWritten);
                                     }
                                 } catch (IOException ioe) {
                                     SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.IO_ERROR, ioe.getLocalizedMessage());

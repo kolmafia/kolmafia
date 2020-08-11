@@ -11,9 +11,7 @@
  */
 package org.tmatesoft.svn.core.internal.delta;
 
-import java.util.Map;
-
-import org.tmatesoft.svn.core.internal.util.SVNHashMap;
+import org.tmatesoft.svn.core.internal.util.SVNIntMap;
 
 /**
  * @version 1.3
@@ -29,7 +27,7 @@ public class SVNXDeltaAlgorithm extends SVNDeltaAlgorithm {
             return;
         }
         PseudoAdler32 bAdler = new PseudoAdler32();
-        Map aMatchesTable = createMatchesTable(a, aLength, MATCH_BLOCK_SIZE, bAdler);
+        SVNIntMap aMatchesTable = createMatchesTable(a, aLength, MATCH_BLOCK_SIZE, bAdler);
         bAdler.reset();
         bAdler.add(b, 0, MATCH_BLOCK_SIZE);
 
@@ -67,8 +65,8 @@ public class SVNXDeltaAlgorithm extends SVNDeltaAlgorithm {
         }
     }
     
-    private static Match findMatch(Map matchesTable, PseudoAdler32 checksum, byte[] a, int aLength, byte[] b, int bLength, int bPos, Match previousInsertion) {
-        Match existingMatch = (Match) matchesTable.get(new Integer(checksum.getValue()));
+    private static Match findMatch(SVNIntMap matchesTable, PseudoAdler32 checksum, byte[] a, int aLength, byte[] b, int bLength, int bPos, Match previousInsertion) {
+        Match existingMatch = (Match) matchesTable.get(checksum.getValue());
         if (existingMatch == null) {
             return null;
         }
@@ -99,12 +97,12 @@ public class SVNXDeltaAlgorithm extends SVNDeltaAlgorithm {
         return existingMatch;
     }
     
-    private static Map createMatchesTable(byte[] data, int dataLength, int blockLength, PseudoAdler32 adler32) {
-        Map matchesTable = new SVNHashMap();
+    private static SVNIntMap createMatchesTable(byte[] data, int dataLength, int blockLength, PseudoAdler32 adler32) {
+        SVNIntMap matchesTable = new SVNIntMap();
         for(int i = 0; i < dataLength; i+= blockLength) {
             int length = i + blockLength >= dataLength ? dataLength - i : blockLength;
             adler32.add(data, i, length);
-            Integer checksum = new Integer(adler32.getValue());
+            int checksum = adler32.getValue();
             if (!matchesTable.containsKey(checksum)) {
                 matchesTable.put(checksum, new Match(i, length));
             }

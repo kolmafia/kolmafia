@@ -11,13 +11,6 @@
  */
 package org.tmatesoft.svn.core.internal.wc;
 
-import java.io.File;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.net.ssl.TrustManager;
-
 import org.tmatesoft.svn.core.SVNAuthenticationException;
 import org.tmatesoft.svn.core.SVNErrorCode;
 import org.tmatesoft.svn.core.SVNErrorMessage;
@@ -34,7 +27,12 @@ import org.tmatesoft.svn.core.auth.SVNUserNameAuthentication;
 import org.tmatesoft.svn.core.internal.util.SVNEncodingUtil;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
-import org.tmatesoft.svn.util.SVNLogType;
+
+import javax.net.ssl.TrustManager;
+import java.io.File;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -191,7 +189,7 @@ public class DefaultSVNAuthenticationManager implements ISVNAuthenticationManage
                 return auth;
             }
             if (i == 3) {
-                SVNErrorManager.cancel("authentication cancelled", SVNLogType.WC);
+                SVNErrorManager.cancelAuthentication(myPreviousErrorMessage, myPreviousAuthentication);
             }
         }
         // end of probe. if we were asked for username for ssh and didn't find anything
@@ -229,7 +227,7 @@ public class DefaultSVNAuthenticationManager implements ISVNAuthenticationManage
                 return auth;
             }
             if (i == 3) {
-                SVNErrorManager.cancel("authentication cancelled", SVNLogType.WC);
+                SVNErrorManager.cancelAuthentication(myPreviousErrorMessage, myPreviousAuthentication);
             }
         }
         SVNErrorManager.authenticationFailed("Authentication required for ''{0}''", realm);

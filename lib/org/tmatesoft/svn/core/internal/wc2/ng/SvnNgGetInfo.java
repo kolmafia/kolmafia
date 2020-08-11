@@ -15,6 +15,8 @@ import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.internal.util.SVNDate;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
+import org.tmatesoft.svn.core.internal.wc.SVNEventFactory;
+import org.tmatesoft.svn.core.internal.wc.SVNFileType;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext.ISVNWCNodeHandler;
@@ -22,30 +24,22 @@ import org.tmatesoft.svn.core.internal.wc17.SVNWCContext.SVNWCNodeReposInfo;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext.SVNWCSchedule;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext.ScheduleInternalInfo;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCUtils;
-import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb;
+import org.tmatesoft.svn.core.internal.wc17.db.*;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.SVNWCDbKind;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.SVNWCDbStatus;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.WCDbBaseInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.WCDbBaseInfo.BaseInfoField;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.WCDbInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.WCDbInfo.InfoField;
-import org.tmatesoft.svn.core.internal.wc17.db.SVNWCDb;
-import org.tmatesoft.svn.core.internal.wc17.db.Structure;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.AdditionInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.DeletionInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.MovedInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.NodeOriginInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.PristineInfo;
-import org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbShared;
 import org.tmatesoft.svn.core.internal.wc2.SvnWcGeneration;
-import org.tmatesoft.svn.core.wc.SVNConflictDescription;
-import org.tmatesoft.svn.core.wc.SVNTreeConflictDescription;
-import org.tmatesoft.svn.core.wc2.SvnChecksum;
-import org.tmatesoft.svn.core.wc2.SvnGetInfo;
-import org.tmatesoft.svn.core.wc2.SvnInfo;
-import org.tmatesoft.svn.core.wc2.SvnSchedule;
-import org.tmatesoft.svn.core.wc2.SvnTarget;
-import org.tmatesoft.svn.core.wc2.SvnWorkingCopyInfo;
+import org.tmatesoft.svn.core.io.SVNRepository;
+import org.tmatesoft.svn.core.wc.*;
+import org.tmatesoft.svn.core.wc2.*;
 import org.tmatesoft.svn.util.SVNLogType;
 
 public class SvnNgGetInfo extends SvnNgOperationRunner<SvnInfo, SvnGetInfo> implements ISVNWCNodeHandler {
@@ -67,7 +61,15 @@ public class SvnNgGetInfo extends SvnNgOperationRunner<SvnInfo, SvnGetInfo> impl
         hasRootTreeConflict = false;
         isFirstInfo = true;
         getTreeConflicts().clear();
-        
+
+        SVNDepth depth = getOperation().getDepth();
+        if (depth == SVNDepth.UNKNOWN) {
+            depth = SVNDepth.EMPTY;
+        }
+
+        final SVNRevision revision = getOperation().getRevision();
+        final SVNRevision pegRevision = getOperation().getFirstTarget().getPegRevision();
+
         if (getOperation().isFetchActualOnly()) {
             SVNTreeConflictDescription treeConflict = context.getDb().opReadTreeConflict(getFirstTarget());
             if (treeConflict != null) {
@@ -75,14 +77,23 @@ public class SvnNgGetInfo extends SvnNgOperationRunner<SvnInfo, SvnGetInfo> impl
                 getTreeConflicts().put(getFirstTarget(), treeConflict);
             }
         }
-        
+
         try {
-            context.nodeWalkChildren(getFirstTarget(), this, getOperation().isFetchExcluded(), getOperation().getDepth(), getOperation().getApplicableChangelists());
+            context.nodeWalkChildren(getFirstTarget(), this, getOperation().isFetchExcluded(), depth, getOperation().getApplicableChangelists());
         } catch (SVNException e) {
             if (!(e.getErrorMessage().getErrorCode() == SVNErrorCode.WC_PATH_NOT_FOUND && hasRootTreeConflict)) {
                 throw e;
             }
         }
+        if (revision == SVNRevision.UNDEFINED && pegRevision == SVNRevision.UNDEFINED) {
+            if (getOperation().isIncludeExternals() && depth.isRecursive()) {
+                final Map<File, File> externals = context.getDb().getExternalsDefinedBelow(getFirstTarget());
+                if (externals != null) {
+                    doExternalsInfo(externals, depth);
+                }
+            }
+        }
+
         SVNWCNodeReposInfo reposInfo = null; 
         if (!getTreeConflicts().isEmpty()) {
             reposInfo = getWcContext().getNodeReposInfo(getFirstTarget());
@@ -92,7 +103,7 @@ public class SvnNgGetInfo extends SvnNgOperationRunner<SvnInfo, SvnGetInfo> impl
         }
         for (File target: getTreeConflicts().keySet()) {
             SVNTreeConflictDescription treeConflict = getTreeConflicts().get(target);
-            if (isDepthIncludes(getFirstTarget(), getOperation().getDepth(), target, treeConflict.getNodeKind())) {
+            if (isDepthIncludes(getFirstTarget(), depth, target, treeConflict.getNodeKind())) {
                 SvnInfo unversionedInfo = buildUnversionedInfo(target);
                 Collection<SVNConflictDescription> conflicts = new ArrayList<SVNConflictDescription>(1);
                 conflicts.add(treeConflict);
@@ -105,6 +116,36 @@ public class SvnNgGetInfo extends SvnNgOperationRunner<SvnInfo, SvnGetInfo> impl
             }
         }
         return getOperation().first();
+    }
+
+    private void doExternalsInfo(Map<File, File> externals, SVNDepth depth) throws SVNException {
+        for (Map.Entry<File, File> entry : externals.entrySet()) {
+            final File localAbsPath = entry.getKey();
+            final File definingAbsPath = entry.getValue();
+
+            final Structure<StructureFields.ExternalNodeInfo> externalNodeInfoStructure = SvnWcDbExternals.readExternal(getWcContext(), localAbsPath, definingAbsPath, StructureFields.ExternalNodeInfo.kind, StructureFields.ExternalNodeInfo.revision);
+            if (externalNodeInfoStructure != null) {
+                ISVNWCDb.SVNWCDbKind externalKind = externalNodeInfoStructure.get(StructureFields.ExternalNodeInfo.kind);
+                long optRev = externalNodeInfoStructure.lng(StructureFields.ExternalNodeInfo.revision);
+
+                if (externalKind != SVNWCDbKind.Dir) {
+                    continue;
+                }
+                final SVNNodeKind kind = SVNFileType.getNodeKind(SVNFileType.getType(localAbsPath));
+                if (kind != SVNNodeKind.DIR) {
+                    continue;
+                }
+                handleEvent(SVNEventFactory.createSVNEvent(localAbsPath, SVNNodeKind.UNKNOWN, null, SVNRepository.INVALID_REVISION, SVNStatusType.UNKNOWN, SVNStatusType.UNKNOWN, SVNStatusType.LOCK_UNKNOWN, SVNEventAction.INFO_EXTERNAL, SVNEventAction.INFO_EXTERNAL, null, null));
+
+                final SvnOperationFactory operationFactory = getOperation().getOperationFactory();
+                final SvnGetInfo getInfo = operationFactory.createGetInfo();
+                getInfo.setSingleTarget(SvnTarget.fromFile(localAbsPath));
+                getInfo.setFetchExcluded(getOperation().isFetchExcluded());
+                getInfo.setFetchActualOnly(getOperation().isFetchActualOnly());
+                getInfo.setIncludeExternals(getOperation().isIncludeExternals());
+                getInfo.run();
+            }
+        }
     }
 
     public void nodeFound(File localAbspath, SVNWCDbKind kind) throws SVNException {
@@ -226,6 +267,11 @@ public class SvnNgGetInfo extends SvnNgOperationRunner<SvnInfo, SvnGetInfo> impl
             info.setLastChangedAuthor(pristineInfo.text(PristineInfo.changed_author));
             wcInfo.setDepth(pristineInfo.<SVNDepth>get(PristineInfo.depth));
             wcInfo.setChecksum(pristineInfo.<SvnChecksum>get(PristineInfo.checksum));
+
+            if (pristineInfo.get(PristineInfo.status) == SVNWCDbStatus.Deleted) {
+                wcInfo.setDepth(SVNDepth.EXCLUDE);
+                info.setKind(SVNNodeKind.UNKNOWN);
+            }
             
             pristineInfo.release();
 

@@ -11,11 +11,20 @@
  */
 package org.tmatesoft.svn.core.internal.wc;
 
-import org.tmatesoft.svn.core.*;
-import org.tmatesoft.svn.core.auth.*;
+import org.tmatesoft.svn.core.SVNErrorMessage;
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.SVNProperties;
+import org.tmatesoft.svn.core.SVNPropertyValue;
+import org.tmatesoft.svn.core.SVNURL;
+import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
+import org.tmatesoft.svn.core.auth.ISVNAuthenticationProvider;
+import org.tmatesoft.svn.core.auth.SVNAuthentication;
+import org.tmatesoft.svn.core.auth.SVNPasswordAuthentication;
+import org.tmatesoft.svn.core.auth.SVNSSHAuthentication;
+import org.tmatesoft.svn.core.auth.SVNSSLAuthentication;
+import org.tmatesoft.svn.core.auth.SVNUserNameAuthentication;
 import org.tmatesoft.svn.core.internal.util.SVNHashMap;
 import org.tmatesoft.svn.core.internal.util.jna.SVNJNAUtil;
-import org.tmatesoft.svn.util.SVNLogType;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -101,7 +110,7 @@ public class DefaultSVNPersistentAuthenticationProvider implements ISVNAuthentic
             if (authFile.isFile()) {
                 SVNWCProperties props = new SVNWCProperties(authFile, "");
                 try {
-                    SVNPasswordAuthentication auth = readSSLPassphrase(realm, props);
+                    SVNPasswordAuthentication auth = readSSLPassphrase(realm, props, url);
                     if (auth != null) {
                         matchedAuths.put(auth.getUserName(), auth);
                     }
@@ -124,7 +133,7 @@ public class DefaultSVNPersistentAuthenticationProvider implements ISVNAuthentic
         return null;
     }
 
-    private SVNPasswordAuthentication readSSLPassphrase(String expectedCertificatePath, SVNWCProperties props) throws SVNException {
+    private SVNPasswordAuthentication readSSLPassphrase(String expectedCertificatePath, SVNWCProperties props, SVNURL url) throws SVNException {
         SVNProperties values = props.asMap();
         try {
             String storedRealm = values.getStringValue("svn:realmstring");
@@ -147,7 +156,7 @@ public class DefaultSVNPersistentAuthenticationProvider implements ISVNAuthentic
             } else {
                 passphrase = SVNPropertyValue.getPropertyAsChars(values.getSVNPropertyValue("passphrase"));
             }
-            return SVNPasswordAuthentication.newInstance(storedRealm, passphrase, false, null, false);
+            return SVNPasswordAuthentication.newInstance(storedRealm, passphrase, false, url, false);
         } finally {
             if (values != null) {
                 values.clear();
@@ -243,10 +252,8 @@ public class DefaultSVNPersistentAuthenticationProvider implements ISVNAuthentic
 
                 if (ISVNAuthenticationManager.PASSWORD.equals(kind)) {
                     char[] password = readPassword(realm, userName, passwordStorage, values);
-                    if (password == null) {
-                        return SVNPasswordAuthentication.newInstance(userName, password, authMayBeStored, null, true);
-                    }
-                    return SVNPasswordAuthentication.newInstance(userName, password, authMayBeStored, url, false);
+                    return SVNPasswordAuthentication.newInstance(userName, password, authMayBeStored, url, password == null);
+
                 } else if (ISVNAuthenticationManager.SSH.equals(kind)) {
                     // get port from config file or system property?
                     int portNumber;
@@ -309,8 +316,7 @@ public class DefaultSVNPersistentAuthenticationProvider implements ISVNAuthentic
             dir.mkdirs();
         }
         if (!dir.isDirectory()) {
-            SVNErrorMessage error = SVNErrorMessage.create(SVNErrorCode.IO_ERROR, "Cannot create directory ''{0}''", dir.getAbsolutePath());
-            SVNErrorManager.error(error, SVNLogType.DEFAULT);
+            return;
         }
         if (!ISVNAuthenticationManager.SSL.equals(kind) && ("".equals(auth.getUserName()) || auth.getUserName() == null)) {
             return;

@@ -9,8 +9,10 @@ import org.tmatesoft.svn.core.SVNException;
  * @version 1.7
  */
 public class SvnChecksum {
-    
-	/**
+
+    public static final String SHA1_EMPTY = "da39a3ee5e6b4b0d3255bfef95601890afd80709";
+
+    /**
 	 * Describes the kind of used hash algorithm for computing the checksum. This can be:
 	 * <ul>
 	 * <li>sha1 - sha1 algorithm

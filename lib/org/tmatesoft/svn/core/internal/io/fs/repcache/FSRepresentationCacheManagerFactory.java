@@ -28,8 +28,8 @@ public class FSRepresentationCacheManagerFactory implements IFSRepresentationCac
      * @param path
      * @throws SVNException
      */
-    public void createRepresentationCache(File path) throws SVNException {
-        FSRepresentationCacheManager.createRepresentationCache(path);
+    public void createRepresentationCache(int format, File path) throws SVNException {
+        FSRepresentationCacheManager.createRepresentationCache(format, path);
     }
 
     /**

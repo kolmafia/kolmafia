@@ -1,6 +1,8 @@
 package org.tmatesoft.svn.core.internal.wc2.ng;
 
 import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,6 +61,7 @@ import org.tmatesoft.svn.core.wc2.AbstractSvnUpdate;
 import org.tmatesoft.svn.core.wc2.SvnOperationFactory;
 import org.tmatesoft.svn.core.wc2.SvnRelocate;
 import org.tmatesoft.svn.core.wc2.SvnTarget;
+import org.tmatesoft.svn.util.SVNDebugLog;
 import org.tmatesoft.svn.util.SVNLogType;
 
 public abstract class SvnNgAbstractUpdate<V, T extends AbstractSvnUpdate<V>> extends SvnNgOperationRunner<V, T> {
@@ -66,7 +69,8 @@ public abstract class SvnNgAbstractUpdate<V, T extends AbstractSvnUpdate<V>> ext
     protected long update(SVNWCContext wcContext, File localAbspath, SVNRevision revision, SVNDepth depth, boolean depthIsSticky, boolean ignoreExternals, boolean allowUnversionedObstructions, boolean addsAsMoodifications, boolean makeParents, boolean innerUpdate, boolean sleepForTimestamp) throws SVNException {
         
         assert ! (innerUpdate && makeParents);
-        
+
+        Throwable throwable = null;
         File lockRootPath = null;
         File anchor;
         try {
@@ -116,10 +120,22 @@ public abstract class SvnNgAbstractUpdate<V, T extends AbstractSvnUpdate<V>> ext
                 }
             }
             return updateRevision;
-            
+        } catch (Throwable th) {
+            throwable = th;
+            return throwThrowable(th);
         } finally {
             if (lockRootPath != null) {
-                wcContext.releaseWriteLock(lockRootPath);
+                try {
+                    wcContext.releaseWriteLock(lockRootPath);
+                } catch (Throwable th) {
+                    if (throwable == null) {
+                        //rethrow the exception only if the main exception is not thrown
+                        throwThrowable(th);
+                    } else {
+                        //log the exception in order not to lose it
+                        SVNDebugLog.getDefaultLog().logError(SVNLogType.WC, th);
+                    }
+                }
             }
         }
     }
@@ -521,9 +537,15 @@ public abstract class SvnNgAbstractUpdate<V, T extends AbstractSvnUpdate<V>> ext
         checkout(url, localAbsPath, pegRevision, revision, SVNDepth.INFINITY, false, false, false, targetWorkingCopyFormat);
         
         SVNWCNodeReposInfo nodeRepositoryInfo = getWcContext().getNodeReposInfo(localAbsPath);
-        getWcContext().getDb().registerExternal(definingPath, localAbsPath, SVNNodeKind.DIR, 
+
+        // To fix error 'Field 'def_repos_relpath' must be not NULL' when connecting an external which points to an external repository root
+        String pathAsChild = SVNPathUtil.getPathAsChild(nodeRepositoryInfo.reposRootUrl.getPath(), url.getPath());
+        if (pathAsChild == null) {
+            pathAsChild = "";
+        }
+        getWcContext().getDb().registerExternal(definingPath, localAbsPath, SVNNodeKind.DIR,
                 nodeRepositoryInfo.reposRootUrl, nodeRepositoryInfo.reposUuid, 
-                SVNFileUtil.createFilePath(SVNPathUtil.getPathAsChild(nodeRepositoryInfo.reposRootUrl.getPath(), url.getPath())), 
+                SVNFileUtil.createFilePath(pathAsChild),
                 SVNWCContext.INVALID_REVNUM, 
                 SVNWCContext.INVALID_REVNUM);
     }
@@ -886,6 +908,14 @@ public abstract class SvnNgAbstractUpdate<V, T extends AbstractSvnUpdate<V>> ext
 
         public boolean hasConflicts() {
             return conflicts.size() > 0;
+        }
+    }
+    
+    private static long throwThrowable(Throwable th) throws SVNException {
+        if (th instanceof SVNException) {
+            throw (SVNException)th;
+        } else {
+            throw new RuntimeException(th);
         }
     }
 }

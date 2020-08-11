@@ -31,6 +31,7 @@ import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
 import org.tmatesoft.svn.core.io.ISVNEditor;
 import org.tmatesoft.svn.core.io.diff.SVNDiffWindow;
+import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.util.SVNLogType;
 
 /**
@@ -87,6 +88,10 @@ class SVNCommitEditor implements ISVNEditor {
         DirBaton dirBaton = new DirBaton(myNextToken++);
 
         if (copyFromPath != null) {
+            if (!SVNRevision.isValidRevisionNumber(copyFromRevision)) {
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_SVN_MALFORMED_DATA, "Got source path but no source revision for ''{0}''", path);
+                SVNErrorManager.error(err, SVNLogType.NETWORK);
+            }
             String rootURL = myRepository.getRepositoryRoot(false).toString();
             copyFromPath = SVNPathUtil.append(rootURL, SVNEncodingUtil.uriEncode(myRepository.getRepositoryPath(copyFromPath)));
             myConnection.write("(w(sss(sn)))", new Object[]{"add-dir", path,
@@ -169,7 +174,7 @@ class SVNCommitEditor implements ISVNEditor {
         String fileToken = (String) myFilesToTokens.get(path);
 
         try {
-            diffWindow.writeTo(myConnection.getDeltaStream(fileToken), myDiffWindowCount == 0, myConnection.isSVNDiff1());
+            diffWindow.writeTo(myConnection.getDeltaStream(fileToken), myDiffWindowCount == 0, myConnection.getDeltaCompression());
             myDiffWindowCount++;
             return SVNFileUtil.DUMMY_OUT;
         } catch (IOException e) {
@@ -243,7 +248,7 @@ class SVNCommitEditor implements ISVNEditor {
     }
 
     private static Long getRevisionObject(long rev) {
-        return rev >= 0 ? new Long(rev) : null;
+        return rev >= 0 ? rev : null;
     }
 
     private final static class DirBaton {

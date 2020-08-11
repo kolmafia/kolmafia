@@ -51,6 +51,7 @@ import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.internal.util.SVNFormatUtil;
 import org.tmatesoft.svn.core.internal.util.SVNPathUtil;
 import org.tmatesoft.svn.core.internal.util.SVNUUIDGenerator;
+import org.tmatesoft.svn.core.internal.util.SVNVersion;
 import org.tmatesoft.svn.core.internal.util.jna.SVNJNAUtil;
 import org.tmatesoft.svn.core.internal.util.jna.SVNOS2Util;
 import org.tmatesoft.svn.core.internal.wc.admin.SVNTranslator;
@@ -78,6 +79,8 @@ public class SVNFileUtil {
     public static final boolean isOS2;
     public static final boolean isOSX;
     public static final boolean isBSD;
+    /* FreeBSD project has changed STAT structure in release 12.0 */
+    public static final boolean isIno64;
     public static boolean isLinux;
     public static final boolean isSolaris;
     public static final boolean isOpenVMS;
@@ -159,6 +162,15 @@ public class SVNFileUtil {
 
         is32Bit = "32".equals(System.getProperty("sun.arch.data.model", "32"));
         is64Bit = "64".equals(System.getProperty("sun.arch.data.model", "64"));
+
+        if (isBSD && "freebsd".equals(osNameLC)) {
+            final SVNVersion version12 = SVNVersion.parse("12.0-CURRENT");
+            final SVNVersion version = SVNVersion.parse(System.getProperty("os.version"));
+            isIno64 = (version != null) && (version12 != null) &&
+                    (version12.compareTo(version) <= 0);
+        } else {
+            isIno64 = false;
+        }
 
         if (isOpenVMS) {
             setAdminDirectoryName("_svn");
@@ -262,6 +274,14 @@ public class SVNFileUtil {
             return null;
         }
         String path = file.getAbsolutePath();
+        if (File.separatorChar == '\\') {
+            if ("\\".equals(path) && file.getPath().startsWith("\\\\")) {
+                return null;
+            }
+            if (file.getPath().equals("\\")) {
+                return null;
+            }
+        }
         path = path.replace(File.separatorChar, '/');
         path = SVNPathUtil.canonicalizePath(path);
         int up = 0;
@@ -510,7 +530,7 @@ public class SVNFileUtil {
 
     public static void writeVersionFile(File file, int version) throws SVNException {
         if (version < 0) {
-            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.INCORRECT_PARAMS, "Version {0} is not non-negative", new Integer(version));
+            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.INCORRECT_PARAMS, "Version {0} is not non-negative", new Object[]{version});
             SVNErrorManager.error(err, Level.FINE, SVNLogType.WC);
         }
 
@@ -1389,7 +1409,7 @@ public class SVNFileUtil {
             int hi = Character.digit(hexDigest.charAt(2 * i), 16) << 4;
 
             int lo = Character.digit(hexDigest.charAt(2 * i + 1), 16);
-            Integer ib = new Integer(hi | lo);
+            Integer ib = hi | lo;
             byte b = ib.byteValue();
 
             digest[i] = b;
@@ -2287,29 +2307,8 @@ public class SVNFileUtil {
     }
 
     public static long getFileLastModified(File file) {
-        if (symlinksSupported()) {
-            SVNFileType type = SVNFileType.getType(file);
-            if (type == SVNFileType.SYMLINK) {
-                Long lastModified = SVNJNAUtil.getSymlinkLastModified(file);
-                if (lastModified != null) {
-                    return lastModified;
-                }
-                try {
-                    String output = execCommand(new String[]{
-                            STAT_COMMAND, "-c", "%Y", file.getAbsolutePath()
-                    });
-                    if (output != null) {
-                        try {
-                            return Long.parseLong(output) * 1000;
-                        } catch (NumberFormatException e) {
-                        }
-                    }
-                } catch (Throwable th) {
-                    SVNDebugLog.getDefaultLog().logFinest(SVNLogType.DEFAULT, th);
-                }
-            }
-        }
-        return file.lastModified();
+        //use getFileLastModifiedMicros instead
+        return getFileLastModifiedMicros(file) / 1000;
     }
     
     private static Method java7readAttributesMethod = null;
@@ -2321,7 +2320,10 @@ public class SVNFileUtil {
     private static Class<?> java7BasciFileAttributesClazz = null;
     private static Class<?> java7FileTimeClazz = null;
     private static Object java7noFollowLinksParam= null;
-    
+    private static boolean lastModifiedHasMicrosecondPrecision = false;
+
+    private static final int[] MICROSECOND_PRECISION_JAVA_VERSION = {1, 9};
+
     static {
         final ClassLoader loader = SVNFileUtil.class.getClassLoader();
         try {
@@ -2336,13 +2338,33 @@ public class SVNFileUtil {
             } else {
                 java7noFollowLinksParam = Array.newInstance(linkOption, 0);
             }
-            java7readAttributesMethod = filesClazz.getMethod("readAttributes", 
+            java7readAttributesMethod = filesClazz.getMethod("readAttributes",
                     pathClazz, Class.class, java7noFollowLinksParam.getClass());
             java7toPathMethod = File.class.getMethod("toPath");
             java7lastModifiedTimeMethod = java7BasciFileAttributesClazz.getMethod("lastModifiedTime");
             java7setLastModifiedTimeMethod = filesClazz.getMethod("setLastModifiedTime", pathClazz, java7FileTimeClazz);
             java7toTimeMethod = java7FileTimeClazz.getMethod("to", TimeUnit.class);
             java7fromTimeMethod = java7FileTimeClazz.getMethod("from", Long.TYPE, TimeUnit.class);
+
+            final String javaVersion = System.getProperty("java.version");
+            if (javaVersion != null) {
+                final String[] versionParts = javaVersion.split("\\.");
+                if (versionParts.length >= 2) {
+                    try {
+                        final int majorVersion = Integer.parseInt(versionParts[0]);
+                        final int minorVersion = Integer.parseInt(versionParts[1]);
+
+                        if (majorVersion > MICROSECOND_PRECISION_JAVA_VERSION[0] ||
+                                (majorVersion == MICROSECOND_PRECISION_JAVA_VERSION[0] &&
+                                        minorVersion >= MICROSECOND_PRECISION_JAVA_VERSION[1])) {
+                            lastModifiedHasMicrosecondPrecision = true;
+                        }
+                    } catch (NumberFormatException e) {
+                        //
+                    }
+                }
+            }
+
         } catch (ClassNotFoundException e) {
             java7BasciFileAttributesClazz = null;
         } catch (NoSuchMethodException e) {
@@ -2352,8 +2374,35 @@ public class SVNFileUtil {
         }
     }
 
+    private static Long getLastModifiedMicrosJava7(File file) {
+        try {
+            final Object path = java7toPathMethod.invoke(file);
+            if (path != null) {
+                final Object attrs = java7readAttributesMethod.invoke(null,
+                        path,
+                        java7BasciFileAttributesClazz,
+                        java7noFollowLinksParam);
+
+                if (attrs != null) {
+                    final Object time = java7lastModifiedTimeMethod.invoke(attrs);
+                    if (time != null) {
+                        final Object result = java7toTimeMethod.invoke(time, TimeUnit.MICROSECONDS);
+                        if (result instanceof Long) {
+                            return (Long) result;
+                        }
+                    }
+                }
+            }
+        } catch (SecurityException e) {
+        } catch (IllegalAccessException e) {
+        } catch (IllegalArgumentException e) {
+        } catch (InvocationTargetException e) {
+        }
+        return null;
+    }
+
     public static void setFileLastModifiedMicros(File file, long timeInMicros) {
-        if (java7BasciFileAttributesClazz != null && timeInMicros >=0 && file != null) {
+        if (lastModifiedHasMicrosecondPrecision && java7BasciFileAttributesClazz != null && timeInMicros >=0 && file != null) {
             try {
                 final Object path = java7toPathMethod.invoke(file);
                 if (path != null) {
@@ -2373,31 +2422,78 @@ public class SVNFileUtil {
     }
     
     public static long getFileLastModifiedMicros(File file) {
-        if (java7BasciFileAttributesClazz != null) {
-            try {
-                final Object path = java7toPathMethod.invoke(file);
-                if (path != null) {
-                    final Object attrs = java7readAttributesMethod.invoke(null, 
-                            path, 
-                            java7BasciFileAttributesClazz, 
-                            java7noFollowLinksParam);
-                    
-                    if (attrs != null) {
-                        final Object time = java7lastModifiedTimeMethod.invoke(attrs);
-                        if (time != null) {
-                            final Object result = java7toTimeMethod.invoke(time, TimeUnit.MICROSECONDS);
-                            if (result instanceof Long) {
-                                return (Long) result;
-                            }
-                        }
-                    }
-                }
-            } catch (SecurityException e) {
-            } catch (IllegalAccessException e) {
-            } catch (IllegalArgumentException e) {
-            } catch (InvocationTargetException e) {
+        // we have 2 options:
+        // if the file is a symlink, the approaches are: Java 9 -> JNA -> Java 7 -> 'stat' -> File.lastModified
+        // if the file is regular, the approaches are: Java 9 -> JNA -> Java 7 -> File.lastModified
+
+        //1. Try using Java 7 API when possible and when this approach gives enough precision (>= Java 9)
+        if (lastModifiedHasMicrosecondPrecision && java7BasciFileAttributesClazz != null) {
+            final Long timeMicros = getLastModifiedMicrosJava7(file);
+            if (timeMicros != null) {
+                return timeMicros;
             }
         }
-        return getFileLastModified(file) * 1000;
+        //2. If this is not possible, try using JNA-based solution
+        if (SVNJNAUtil.isJNAPresent()) {
+            final Long timeMicros = SVNJNAUtil.getLastModifiedMicros(file);
+            //in case of fail the method returns null:
+            if (timeMicros != null) {
+                return timeMicros;
+            }
+        }
+        //3. If the previous approach didn't succeed, try Java 7 if it's available
+        //(even if it doesn't have good precision)
+        if (java7BasciFileAttributesClazz != null) {
+            final Long timeMicros = getLastModifiedMicrosJava7(file);
+            if (timeMicros != null) {
+                return timeMicros;
+            }
+        }
+        //4. For symlinks executing 'stat' would be better than File#lastModified
+        //because it doesn't follow symlinks
+        //but for regular files it doesn't give any advantages as it has 1 second precision at the best case
+        if (symlinksSupported()) {
+            SVNFileType type = SVNFileType.getType(file);
+            if (type == SVNFileType.SYMLINK) {
+                Long timeSecs = getLastModifiedSecsStatCommand(file);
+                if (timeSecs != null) {
+                    return timeSecs * 1000000;
+                }
+            }
+        }
+
+        //5. Finally all other methods failed
+        //use File#lastModified as fallback
+        //for symlinks it returns the target's last modified time
+        //but we don't have better options anyway
+        return file.lastModified() * 1000;
+    }
+
+    private static Long getLastModifiedSecsStatCommand(File file) {
+        try {
+            String output = execCommand(new String[]{
+                    STAT_COMMAND, "-c", "%Y", file.getAbsolutePath()
+            });
+            if (output != null) {
+                try {
+                    return Long.parseLong(output);
+                } catch (NumberFormatException e) {
+                }
+            }
+        } catch (Throwable th) {
+            SVNDebugLog.getDefaultLog().logFinest(SVNLogType.DEFAULT, th);
+        }
+        return null;
+    }
+
+    public static boolean compareFileTimestamps(long microseconds1, long microseconds2) {
+        if ((lastModifiedHasMicrosecondPrecision && java7BasciFileAttributesClazz != null) ||
+                (SVNJNAUtil.isJNAPresent() && !isWindows)) {
+            //only JNA on Unix and Java 9 have microseconds precision
+            return microseconds1 == microseconds2;
+        } else {
+            //older Java and may have problems with precision (seconds only) as well as 'stat' command
+            return (microseconds1 / 1000000) == (microseconds2 / 1000000);
+        }
     }
 }

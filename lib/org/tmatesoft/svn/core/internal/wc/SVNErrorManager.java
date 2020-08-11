@@ -11,15 +11,17 @@
  */
 package org.tmatesoft.svn.core.internal.wc;
 
-import java.util.logging.Level;
-
+import org.tmatesoft.svn.core.SVNAuthenticationCancelledException;
 import org.tmatesoft.svn.core.SVNAuthenticationException;
 import org.tmatesoft.svn.core.SVNCancelException;
 import org.tmatesoft.svn.core.SVNErrorCode;
 import org.tmatesoft.svn.core.SVNErrorMessage;
 import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.auth.SVNAuthentication;
 import org.tmatesoft.svn.util.SVNDebugLog;
 import org.tmatesoft.svn.util.SVNLogType;
+
+import java.util.logging.Level;
 
 
 /**
@@ -35,6 +37,10 @@ public class SVNErrorManager {
     public static void cancel(String message, Level logLevel, SVNLogType logType) throws SVNCancelException {
         SVNDebugLog.getDefaultLog().log(logType, message, logLevel);
         throw new SVNCancelException(SVNErrorMessage.create(SVNErrorCode.CANCELLED, message));
+    }
+
+    public static void cancelAuthentication(SVNErrorMessage errorMessage, SVNAuthentication auth) throws SVNCancelException {
+        throw new SVNAuthenticationCancelledException(errorMessage, auth);
     }
 
     public static void authenticationFailed(String message, Object messageObject) throws SVNAuthenticationException {

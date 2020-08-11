@@ -449,7 +449,7 @@ public class DefaultSVNRepositoryPool implements ISVNRepositoryPool, ISVNSession
     public void connectionClosed(final SVNRepository repository) {
         // start inactivity timer.
         synchronized (myInactiveRepositories) {
-            myInactiveRepositories.put(repository, new Long(System.currentTimeMillis()));
+            myInactiveRepositories.put(repository, System.currentTimeMillis());
             // schedule timeout cleanup.
         }
     }

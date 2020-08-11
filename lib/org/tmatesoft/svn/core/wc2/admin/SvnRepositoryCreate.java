@@ -13,9 +13,11 @@ public class SvnRepositoryCreate extends SvnRepositoryOperation<SVNURL> {
     private boolean pre16Compatible;
     private boolean pre17Compatible;
     private boolean with17Compatible;
-        
+	private boolean pre10Compatible;
+
     public SvnRepositoryCreate(SvnOperationFactory factory) {
         super(factory);
+        setPre10Compatible(true);
     }
     
     public String getUuid() {
@@ -40,6 +42,14 @@ public class SvnRepositoryCreate extends SvnRepositoryOperation<SVNURL> {
 
 	public void setForce(boolean force) {
 		this.force = force;
+	}
+
+	public boolean isPre10Compatible() {
+		return pre10Compatible;
+	}
+
+	public void setPre10Compatible(boolean pre10Compatible) {
+		this.pre10Compatible= pre10Compatible;
 	}
 
 	public boolean isPre15Compatible() {

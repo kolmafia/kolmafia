@@ -61,6 +61,22 @@ public class DAVElement {
     public static final String INHERITED_PROPS_OPTION = SVN_DAV_PROPERTY_NAMESPACE + "svn/inherited-props";
     public static final String EPHEMERAL_PROPS_OPTION = SVN_DAV_PROPERTY_NAMESPACE + "svn/ephemeral-txnprops";
 
+    public static final String SVN_ROOT_URI_HEADER = "SVN-Repository-Root";
+    public static final String SVN_ME_RESOURCE_HEADER = "SVN-Me-Resource";
+    public static final String SVN_REV_STUB_HEADER = "SVN-Rev-Stub";
+    public static final String SVN_REV_ROOT_STUB_HEADER = "SVN-Rev-Root-Stub";
+    public static final String SVN_TXN_STUB_HEADER = "SVN-Txn-Stub";
+    public static final String SVN_TXN_ROOT_STUB_HEADER = "SVN-Txn-Root-Stub";
+    public static final String SVN_VTXN_STUB_HEADER = "SVN-VTxn-Stub";
+    public static final String SVN_VTXN_ROOT_STUB_HEADER = "SVN-VTxn-Root-Stub";
+    public static final String SVN_TXN_NAME_HEADER = "SVN-Txn-Name";
+    public static final String SVN_VTXN_NAME_HEADER = "SVN-VTxn-Name";
+    public static final String SVN_REPOS_UUID_HEADER = "SVN-Repository-UUID";
+    public static final String SVN_YOUNGEST_REV_HEADER = "SVN-Youngest-Rev";
+    public static final String SVN_ALLOW_BULK_UPDATES_HEADER = "SVN-Allow-Bulk-Updates";
+    public static final String SVN_SUPPORTED_POSTS_HEADER = "SVN-Supported-Posts";
+    public static final String SVN_REPOSITORY_MERGEINFO_HEADER = "SVN-Repository-MergeInfo";
+
     public static final DAVElement ACTIVITY = getElement(DAV_NAMESPACE, "activity");
     public static final DAVElement VERSION_HISTORY = getElement(DAV_NAMESPACE, "version-history");
     public static final DAVElement DISPLAY_NAME = getElement(DAV_NAMESPACE, "displayname");

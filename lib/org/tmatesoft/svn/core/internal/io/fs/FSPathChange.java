@@ -36,8 +36,9 @@ public class FSPathChange extends SVNLogEntryPath {
     private FSPathChangeKind myChangeKind;
     boolean isTextModified;
     boolean arePropertiesModified;
+    Boolean isMergeInfoModified;
     
-    public FSPathChange(String path, FSID id, FSPathChangeKind kind, boolean textModified, boolean propsModified, String copyfromPath, long copyfromRevision,
+    public FSPathChange(String path, FSID id, FSPathChangeKind kind, boolean textModified, boolean propsModified, Boolean mergeInfoModified, String copyfromPath, long copyfromRevision,
             SVNNodeKind pathKind) {
         super(path, FSPathChangeKind.getType(kind), copyfromPath, copyfromRevision, pathKind);
         myPath = path;
@@ -45,6 +46,7 @@ public class FSPathChange extends SVNLogEntryPath {
         myChangeKind = kind;
         isTextModified = textModified;
         arePropertiesModified = propsModified;
+        isMergeInfoModified = mergeInfoModified;
     }
 
     public String getPath(){
@@ -66,7 +68,15 @@ public class FSPathChange extends SVNLogEntryPath {
     public void setTextModified(boolean textModified) {
         isTextModified = textModified;
     }
-    
+
+    public Boolean getMergeInfoModified() {
+        return isMergeInfoModified;
+    }
+
+    public void setMergeInfoModified(Boolean mergeInfoModified) {
+        this.isMergeInfoModified = mergeInfoModified;
+    }
+
     public FSPathChangeKind getChangeKind() {
         return myChangeKind;
     }
@@ -171,7 +181,29 @@ public class FSPathChange extends SVNLogEntryPath {
             SVNErrorManager.error(err, SVNLogType.FSFS);
         }
 
-        String pathStr = changeLine.substring(delimiterInd + 1);
+        changeLine = changeLine.substring(delimiterInd + 1);
+
+        Boolean mergeInfoModBool = null;
+        if (!changeLine.startsWith("/")) {
+            //this can mean further options like "mergeinfo modifications"
+            delimiterInd = changeLine.indexOf(' ');
+            if (delimiterInd == -1) {
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_CORRUPT, "Invalid changes line in rev-file");
+                SVNErrorManager.error(err, SVNLogType.FSFS);
+            }
+            String mergeInfoModeStr = changeLine.substring(0, delimiterInd);
+            if (FSPathChange.FLAG_TRUE.equals(mergeInfoModeStr)) {
+                mergeInfoModBool = true;
+            } else if (FSPathChange.FLAG_FALSE.equals(mergeInfoModeStr)) {
+                mergeInfoModBool = false;
+            } else {
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_CORRUPT, "Invalid prop-mod flag in rev-file");
+                SVNErrorManager.error(err, SVNLogType.FSFS);
+            }
+            changeLine = changeLine.substring(delimiterInd + 1);
+        }
+
+        String pathStr = changeLine;
         
         String copyfromPath = null;
         long copyfromRevision = SVNRepository.INVALID_REVISION;
@@ -191,7 +223,7 @@ public class FSPathChange extends SVNLogEntryPath {
             copyfromPath = copyfromLine.substring(delimiterInd + 1);
         }
 
-        return new FSPathChange(pathStr, nodeRevID, changesKind, textModeBool, propModeBool, copyfromPath, copyfromRevision, nodeKind);
+        return new FSPathChange(pathStr, nodeRevID, changesKind, textModeBool, propModeBool, mergeInfoModBool, copyfromPath, copyfromRevision, nodeKind);
     }
 
 }

@@ -29,6 +29,7 @@ import org.tmatesoft.svn.core.internal.wc2.SvnRepositoryAccess.RevisionsPair;
 import org.tmatesoft.svn.core.internal.wc2.SvnWcGeneration;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.wc.SVNRevision;
+import org.tmatesoft.svn.core.wc2.ISvnObjectReceiver;
 import org.tmatesoft.svn.core.wc2.SvnGetProperties;
 import org.tmatesoft.svn.core.wc2.SvnInheritedProperties;
 import org.tmatesoft.svn.core.wc2.SvnTarget;
@@ -58,8 +59,13 @@ public class SvnRemoteGetProperties extends SvnRemoteOperationRunner<SVNProperti
         SvnTarget reposTarget = target;
         SVNRevision revision = getOperation().getRevision();
         SVNRevision pegRevision = target.getResolvedPegRevision();
-        if (pegRevision.isLocal() && target.isFile()) {
-            final File localAbsPath = getOperation().getFirstTarget().getFile();            
+
+        if (pegRevision.isLocal() || revision.isLocal()) {
+            if (!target.isFile()) {
+                SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.CLIENT_VERSIONED_PATH_REQUIRED);
+                SVNErrorManager.error(errorMessage, SVNLogType.WC);
+            }
+            final File localAbsPath = getOperation().getFirstTarget().getFile();
             final Structure<NodeOriginInfo> origin = getWcContext().getNodeOrigin(localAbsPath, false, 
                     NodeOriginInfo.isCopy, NodeOriginInfo.copyRootAbsPath, 
                     NodeOriginInfo.reposRelpath, NodeOriginInfo.reposRootUrl,
@@ -115,12 +121,12 @@ public class SvnRemoteGetProperties extends SvnRemoteOperationRunner<SVNProperti
                 getOperation().getTargetInheritedPropertiesReceiver().receive(target, result);
             }
         }
-        remotePropertyGet(url, kind, "", repository, revnum, getOperation().getDepth());
+        remotePropertyGet(url, kind, "", repository, revnum, getOperation().getDepth(), getOperation());
         
         return getOperation().first();
     }
     
-    private void remotePropertyGet(SVNURL url, SVNNodeKind kind, String path, SVNRepository repos, long revNumber, SVNDepth depth) throws SVNException {
+    public static void remotePropertyGet(SVNURL url, SVNNodeKind kind, String path, SVNRepository repos, long revNumber, SVNDepth depth, ISvnObjectReceiver<SVNProperties> receiver) throws SVNException {
         SVNURL fullURL = url.appendPath(path, false);
         SVNProperties props = new SVNProperties();
         final Collection<SVNDirEntry> dirEntries = new LinkedList<SVNDirEntry>();
@@ -144,7 +150,7 @@ public class SvnRemoteGetProperties extends SvnRemoteOperationRunner<SVNProperti
                 }                
             }
             if (!props.isEmpty()) {
-                getOperation().receive(SvnTarget.fromURL(fullURL), props);
+                receiver.receive(SvnTarget.fromURL(fullURL), props);
             }
         }
         
@@ -156,7 +162,7 @@ public class SvnRemoteGetProperties extends SvnRemoteOperationRunner<SVNProperti
                     if (depth == SVNDepth.IMMEDIATES) {
                         depthBelow = SVNDepth.EMPTY;
                     }
-                    remotePropertyGet(url, entry.getKind(), entryPath, repos, revNumber, depthBelow);
+                    remotePropertyGet(url, entry.getKind(), entryPath, repos, revNumber, depthBelow, receiver);
                 }
             }
         }

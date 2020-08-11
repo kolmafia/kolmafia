@@ -7,12 +7,7 @@ import java.io.OutputStream;
 import java.util.Date;
 import java.util.Map;
 
-import org.tmatesoft.svn.core.SVNAnnotationGenerator;
-import org.tmatesoft.svn.core.SVNErrorCode;
-import org.tmatesoft.svn.core.SVNErrorMessage;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNProperties;
-import org.tmatesoft.svn.core.SVNProperty;
+import org.tmatesoft.svn.core.*;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
 import org.tmatesoft.svn.core.internal.wc.admin.SVNTranslator;
@@ -56,7 +51,7 @@ public class SvnRemoteAnnotate extends SvnRemoteOperationRunner<SvnAnnotateItem,
         }
 		
 		Structure<RepositoryInfo> repositoryInfo = getRepositoryAccess().createRepositoryFor(
-				getOperation().getFirstTarget(), getOperation().getEndRevision(), getOperation().getFirstTarget().getResolvedPegRevision(),null);
+                getOperation().getFirstTarget(), getOperation().getEndRevision(), getOperation().getFirstTarget().getResolvedPegRevision(), null);
     	
     	SVNRepository repository = repositoryInfo.<SVNRepository>get(RepositoryInfo.repository);
 		repositoryInfo.release();
@@ -67,12 +62,13 @@ public class SvnRemoteAnnotate extends SvnRemoteOperationRunner<SvnAnnotateItem,
         pair = getRepositoryAccess().getRevisionNumber(repository, getOperation().getFirstTarget(), getOperation().getEndRevision(), pair);
         long endRev = pair.lng(RevisionsPair.revNumber);
         pair.release();
-        
-        if (endRev < startRev) {
-            SVNErrorManager.error(SVNErrorMessage.create(SVNErrorCode.CLIENT_BAD_REVISION, "Start revision must precede end revision"), SVNLogType.DEFAULT);
-        }
 
-        if (!getOperation().isIgnoreMimeType()) {
+        long latestEnd = Math.max(startRev, endRev);
+
+        final SVNURL newLocation = getRepositoryAccess().resolveUrl(getOperation().getFirstTarget(), repository, getOperation().getFirstTarget().getPegRevision(), SVNRevision.create(latestEnd));
+        repository.setLocation(newLocation, false);
+
+        if (!getOperation().isIgnoreMimeType() && startRev < endRev) {
             SvnOperationFactory operationFactory = getOperation().getOperationFactory();
             ISVNEventHandler oldEventHandler = operationFactory.getEventHandler();
             operationFactory.setEventHandler(null);
@@ -106,13 +102,15 @@ public class SvnRemoteAnnotate extends SvnRemoteOperationRunner<SvnAnnotateItem,
     	
     	SVNAnnotationGenerator generator = new SVNAnnotationGenerator(path, tmpFile, startRev, 
     			getOperation().isIgnoreMimeType(), getOperation().isUseMergeHistory(), getOperation().getDiffOptions(), getOperation().getInputEncoding(), this, this);
+        generator.setBackwards(startRev > endRev);
+        generator.setEndRevision(endRev);
     	
        try {
     	   	repository.getFileRevisions("", startRev > 0 ? startRev - 1 : startRev, endRev, getOperation().isUseMergeHistory(), generator);
 
     	   	if (getOperation().getEndRevision() == SVNRevision.WORKING) {
     	   	    File target = getOperation().getFirstTarget().getFile();
-                SvnStatus status = SVNStatusEditor17.internalStatus(getWcContext(), target);
+                SvnStatus status = SVNStatusEditor17.internalStatus(getWcContext(), target, true);
                 if (status.getTextStatus() != SVNStatusType.STATUS_NORMAL) {
                     SVNProperties properties = getWcContext().getActualProps(target);
                     String keywords = properties.getStringValue(SVNProperty.KEYWORDS);

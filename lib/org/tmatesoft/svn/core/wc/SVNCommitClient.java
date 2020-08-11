@@ -949,7 +949,11 @@ public class SVNCommitClient extends SVNBasicClient {
                 SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.UNSUPPORTED_FEATURE, "Commit packets created by different commit operations may not be mixed.");
                 SVNErrorManager.error(err, SVNLogType.WC);
             }
-        }        
+        }
+        if (sharedOperation == null) {
+            //no valid packets
+            return new SVNCommitInfo[0];
+        }
         // dispose packets that were collected, but are not part of this commit request.
         final SvnCommitPacket[] operationPackets = sharedOperation.splitCommitPackets(sharedOperation.isCombinePackets());
         final Set<SvnCommitPacket> userPacketsSet = new HashSet<SvnCommitPacket>();

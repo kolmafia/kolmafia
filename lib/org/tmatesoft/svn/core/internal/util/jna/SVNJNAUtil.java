@@ -11,14 +11,14 @@
  */
 package org.tmatesoft.svn.core.internal.util.jna;
 
+import java.io.File;
+
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.internal.wc.ISVNGnomeKeyringPasswordProvider;
 import org.tmatesoft.svn.core.internal.wc.SVNFileType;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
 import org.tmatesoft.svn.util.SVNDebugLog;
 import org.tmatesoft.svn.util.SVNLogType;
-
-import java.io.File;
 
 
 /**
@@ -112,6 +112,13 @@ public class SVNJNAUtil {
         return null;
     }
 
+    public static Long getLastModifiedMicros(File file) {
+        if (isJNAPresent()) {
+            return SVNLinuxUtil.getLastModifiedMicros(file);
+        }
+        return null;
+    }
+
     // linux and win32.
     public static boolean setWritable(File file) {
         if (isJNAPresent()) {
@@ -133,6 +140,20 @@ public class SVNJNAUtil {
     public static boolean moveFile(File src, File dst) {
         if (isJNAPresent()) {
             return SVNWin32Util.moveFile(src, dst);
+        }
+        return false;
+    }
+
+    public static int flock(File file, boolean exclusive) {
+        if (isJNAPresent()) {
+            return SVNLinuxUtil.flock(file, exclusive);
+        }
+        return -1;
+    }
+
+    public static boolean unflock(int fd) {
+        if (isJNAPresent()) {
+            return SVNLinuxUtil.unflock(fd);
         }
         return false;
     }

@@ -1379,6 +1379,7 @@ public class SVNLogClient16 extends SVNBasicDelegate {
     private void doAnnotate(String path, long startRev, File tmpFile, SVNRepository repos, long endRev, boolean ignoreMimeType, ISVNAnnotateHandler handler, String inputEncoding,
             boolean includeMergedRevisions) throws SVNException {
         SVNAnnotationGenerator generator = new SVNAnnotationGenerator(path, tmpFile, startRev, ignoreMimeType, includeMergedRevisions, getDiffOptions(), inputEncoding, handler, this);
+        generator.setEndRevision(endRev);
         boolean useSpool = handler != null && !handler.getClass().getName().startsWith("org.tmatesoft.svn.");
         boolean oldSpool = false;
         if (useSpool && repos instanceof DAVRepository) {

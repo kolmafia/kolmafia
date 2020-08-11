@@ -1,39 +1,21 @@
 package org.tmatesoft.svn.core.internal.wc2;
 
-import java.io.File;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
-import org.tmatesoft.svn.core.SVNErrorCode;
-import org.tmatesoft.svn.core.SVNErrorMessage;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNMergeInfo;
-import org.tmatesoft.svn.core.SVNMergeInfoInheritance;
-import org.tmatesoft.svn.core.SVNMergeRange;
-import org.tmatesoft.svn.core.SVNMergeRangeList;
-import org.tmatesoft.svn.core.SVNURL;
+import org.tmatesoft.svn.core.*;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
 import org.tmatesoft.svn.core.internal.wc.SVNMergeDriver;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext;
 import org.tmatesoft.svn.core.internal.wc17.db.Structure;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgRepositoryAccess;
-import org.tmatesoft.svn.core.internal.wc2.old.SvnOldRepositoryAccess;
-import org.tmatesoft.svn.core.io.ISVNLocationSegmentHandler;
-import org.tmatesoft.svn.core.io.SVNLocationEntry;
-import org.tmatesoft.svn.core.io.SVNLocationSegment;
-import org.tmatesoft.svn.core.io.SVNRepository;
-import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
+import org.tmatesoft.svn.core.io.*;
 import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.core.wc2.ISvnOperationOptionsProvider;
 import org.tmatesoft.svn.core.wc2.SvnCopySource;
 import org.tmatesoft.svn.core.wc2.SvnTarget;
 import org.tmatesoft.svn.util.SVNLogType;
+
+import java.io.File;
+import java.util.*;
 
 public abstract class SvnRepositoryAccess {
     
@@ -77,7 +59,18 @@ public abstract class SvnRepositoryAccess {
     
     public abstract Structure<UrlInfo> getURLFromPath(SvnTarget path, SVNRevision revision, SVNRepository repository) throws SVNException;
 
-    
+    public SVNURL resolveUrl(SvnTarget target, SVNRepository repository, SVNRevision pegRevision, SVNRevision revision) throws SVNException {
+        SVNRevision[] resolvedRevisions = resolveRevisions(pegRevision, revision, target.isURL(), true);
+        SVNRevision pegRev = resolvedRevisions[0];
+        SVNRevision startRev = resolvedRevisions[1];
+
+        Structure<LocationsInfo> locationsInfo = getLocations(repository, target, pegRev, startRev, SVNRevision.UNDEFINED);
+        SVNURL url = locationsInfo.<SVNURL>get(LocationsInfo.startUrl);
+        locationsInfo.release();
+
+        return url;
+    }
+
     protected SVNRevision[] resolveRevisions(SVNRevision pegRevision, SVNRevision revision, boolean isURL, boolean noticeLocalModifications) {
         if (!pegRevision.isValid()) {
             if (isURL) {
@@ -116,6 +109,7 @@ public abstract class SvnRepositoryAccess {
             }
         }
         repository.setCanceller(getOperationOptionsProvider().getCanceller());
+        repository.setEventHandler(getOperationOptionsProvider().getEventHandler());
         return repository;
     }
 
@@ -177,8 +171,10 @@ public abstract class SvnRepositoryAccess {
         
         if (repository == null) {
             repository = createRepository(url, null, true);
+        } else {
+            repository.setLocation(url, false);
         }
-    
+
         Structure<RevisionsPair> pair = null;
         if (pegRevisionNumber < 0) {
             pair = getRevisionNumber(repository, path, revision, pair);
@@ -199,6 +195,7 @@ public abstract class SvnRepositoryAccess {
         if (end != SVNRevision.UNDEFINED) {
             result.set(LocationsInfo.startRevision, endRevisionNumber);
         }
+        url = repository.getLocation();
         if (startRevisionNumber == pegRevisionNumber && (endRevisionNumber == pegRevisionNumber || !SVNRevision.isValidRevisionNumber(endRevisionNumber))) {
             result.set(LocationsInfo.startUrl, url);
             result.set(LocationsInfo.endUrl, url);
@@ -211,12 +208,12 @@ public abstract class SvnRepositoryAccess {
                 
         Map<?,?> locations = repository.getLocations("", (Map<?,?>) null, pegRevisionNumber, revisionsRange);
         
-        SVNLocationEntry startPath = (SVNLocationEntry) locations.get(new Long(startRevisionNumber));
-        SVNLocationEntry endPath = (SVNLocationEntry) locations.get(new Long(endRevisionNumber));
+        SVNLocationEntry startPath = (SVNLocationEntry) locations.get(startRevisionNumber);
+        SVNLocationEntry endPath = (SVNLocationEntry) locations.get(endRevisionNumber);
         if (startPath == null) {
             Object source = path != null ? (Object) path : (Object) url;
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CLIENT_UNRELATED_RESOURCES, "Unable to find repository location for ''{0}'' in revision ''{1}''", new Object[] {
-                    source, new Long(startRevisionNumber)
+                    source, startRevisionNumber
             });
             SVNErrorManager.error(err, SVNLogType.WC);
         }
@@ -224,7 +221,7 @@ public abstract class SvnRepositoryAccess {
             Object source = path != null ? (Object) path : (Object) url;
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CLIENT_UNRELATED_RESOURCES, "The location for ''{0}'' for revision {1} does not exist in the "
                     + "repository or refers to an unrelated object", new Object[] {
-                    source, new Long(endRevisionNumber)
+                    source, endRevisionNumber
             });
             SVNErrorManager.error(err, SVNLogType.WC);
         }

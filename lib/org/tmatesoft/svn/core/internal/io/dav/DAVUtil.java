@@ -15,12 +15,8 @@ package org.tmatesoft.svn.core.internal.io.dav;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.tmatesoft.svn.core.SVNErrorCode;
-import org.tmatesoft.svn.core.SVNErrorMessage;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNProperties;
-import org.tmatesoft.svn.core.SVNProperty;
-import org.tmatesoft.svn.core.SVNPropertyValue;
+import org.tmatesoft.svn.core.*;
+import org.tmatesoft.svn.core.internal.io.dav.handlers.DAVOptionsHandler;
 import org.tmatesoft.svn.core.internal.io.dav.handlers.DAVPropertiesHandler;
 import org.tmatesoft.svn.core.internal.io.dav.http.HTTPHeader;
 import org.tmatesoft.svn.core.internal.io.dav.http.HTTPStatus;
@@ -29,6 +25,8 @@ import org.tmatesoft.svn.core.internal.util.SVNHashMap;
 import org.tmatesoft.svn.core.internal.util.SVNPathUtil;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.io.ISVNEditor;
+import org.tmatesoft.svn.core.io.SVNRepository;
+import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.util.SVNLogType;
 
 /**
@@ -61,7 +59,7 @@ public class DAVUtil {
             header.setHeaderValue(HTTPHeader.DEPTH_HEADER, "infinity");
         } else {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_DAV_MALFORMED_DATA, 
-                    "Invalid PROPFIND depth value: ''{0}''", new Integer(depth));
+                    "Invalid PROPFIND depth value: ''{0}''", new Object[]{depth});
             SVNErrorManager.error(err, SVNLogType.NETWORK);
         }
         if (label != null) {
@@ -178,12 +176,31 @@ public class DAVUtil {
         return vcc.getString();
     }
 
+    public static DAVBaselineInfo getStableURL(DAVConnection connection, DAVRepository repos, String path, long revision,
+                                                  boolean includeType, boolean includeRevision, DAVBaselineInfo info) throws SVNException {
+        if (connection.hasHttpV2Support()) {
+            info = info == null ? new DAVBaselineInfo() : info;
+            if (SVNRevision.isValidRevisionNumber(revision)) {
+                info.revision = revision;
+            } else {
+                info.revision = getLatestRevisionHttpV2(connection);
+            }
+            info.baselineBase = SVNPathUtil.append(connection.myRevRootStub, String.valueOf(info.revision));
+            info.baselinePath = connection.getRelativePath(path);
+            return info;
+        } else {
+            return getBaselineInfo(connection, repos, path, revision, includeType, includeRevision, info);
+        }
+    }
+
     public static DAVBaselineInfo getBaselineInfo(DAVConnection connection, DAVRepository repos, String path, long revision,
                                                   boolean includeType, boolean includeRevision, DAVBaselineInfo info) throws SVNException {
+        info = info == null ? new DAVBaselineInfo() : info;
+
         DAVElement[] properties = includeRevision ? DAVElement.BASELINE_PROPERTIES : new DAVElement[] {DAVElement.BASELINE_COLLECTION};
         DAVProperties baselineProperties = getBaselineProperties(connection, repos, path, revision, properties);
 
-        info = info == null ? new DAVBaselineInfo() : info;
+
         info.baselinePath = baselineProperties.getURL();
         SVNPropertyValue baseValue = baselineProperties.getPropertyValue(DAVElement.BASELINE_COLLECTION);
         info.baselineBase = baseValue == null ? null : baseValue.getString();
@@ -221,34 +238,63 @@ public class DAVUtil {
     }
 
     public static DAVProperties getBaselineProperties(DAVConnection connection, DAVRepository repos, String path, long revision, DAVElement[] elements) throws SVNException {
-        DAVProperties properties = null;
-        String loppedPath = "";
-        properties = findStartingProperties(connection, repos, path);
-        SVNPropertyValue vccValue = properties.getPropertyValue(DAVElement.VERSION_CONTROLLED_CONFIGURATION);
-        if (vccValue == null) {
-            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_DAV_REQUEST_FAILED, 
-                    "The VCC property was not found on the resource");
-            SVNErrorManager.error(err, SVNLogType.NETWORK);
-        }
-        loppedPath = properties.getLoppedPath();
-        SVNPropertyValue baselineRelativePathValue = properties.getPropertyValue(DAVElement.BASELINE_RELATIVE_PATH);
-        if (baselineRelativePathValue == null) {
-            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_DAV_REQUEST_FAILED, 
-                    "The relative-path property was not found on the resource");
-            SVNErrorManager.error(err, SVNLogType.NETWORK);
-        }
-        String baselineRelativePath = SVNEncodingUtil.uriEncode(baselineRelativePathValue.getString());
-        baselineRelativePath = SVNPathUtil.append(baselineRelativePath, loppedPath);
-        String label = null;
-        String vcc = vccValue.getString();
-        if (revision < 0) {
-            vcc = getPropertyValue(connection, vcc, null, DAVElement.CHECKED_IN);
+        final boolean httpV2Enabled = (repos != null) ? repos.isHttpV2Enabled() :
+                ((DAVRepository) connection.getRepository()).isHttpV2Enabled();
+        if (httpV2Enabled) {
+            if (revision < 0) {
+                revision = getLatestRevisionHttpV2(connection);
+            }
+            String propFindPath = connection.myRevStub + "/" + revision;
+            return getResourceProperties(connection, propFindPath, String.valueOf(SVNRepository.INVALID_REVISION), elements);
         } else {
-            label = Long.toString(revision);
+            DAVProperties properties = null;
+
+            String loppedPath = "";
+            properties = findStartingProperties(connection, repos, path);
+            SVNPropertyValue vccValue = properties.getPropertyValue(DAVElement.VERSION_CONTROLLED_CONFIGURATION);
+            if (vccValue == null) {
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_DAV_REQUEST_FAILED,
+                        "The VCC property was not found on the resource");
+                SVNErrorManager.error(err, SVNLogType.NETWORK);
+            }
+            loppedPath = properties.getLoppedPath();
+            SVNPropertyValue baselineRelativePathValue = properties.getPropertyValue(DAVElement.BASELINE_RELATIVE_PATH);
+            if (baselineRelativePathValue == null) {
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_DAV_REQUEST_FAILED,
+                        "The relative-path property was not found on the resource");
+                SVNErrorManager.error(err, SVNLogType.NETWORK);
+            }
+            String baselineRelativePath = SVNEncodingUtil.uriEncode(baselineRelativePathValue.getString());
+            baselineRelativePath = SVNPathUtil.append(baselineRelativePath, loppedPath);
+            String label = null;
+            String vcc = vccValue.getString();
+            if (revision < 0) {
+                vcc = getPropertyValue(connection, vcc, null, DAVElement.CHECKED_IN);
+            } else {
+                label = Long.toString(revision);
+            }
+            properties = getResourceProperties(connection, vcc, label, elements);
+            properties.setURL(baselineRelativePath);
+            return properties;
         }
-        properties = getResourceProperties(connection, vcc, label, elements);
-        properties.setURL(baselineRelativePath);
-        return properties;
+    }
+
+    public static long getLatestRevisionHttpV2(DAVConnection davConnection) throws SVNException {
+        davConnection.myLatestRevision = SVNRepository.INVALID_REVISION;
+
+        HTTPStatus status = davConnection.doOptions(davConnection.getLocation().getPath());
+        if (status.getCode() != 200) {
+            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_DAV_OPTIONS_REQ_FAILED,
+                    "OPTIONS request (for latest revision) got HTTP response code {0}",
+                    new Object[]{status.getCode()});
+            SVNErrorManager.error(err, SVNLogType.NETWORK);
+        }
+        davConnection.parseCapabilities(status);
+        if (!SVNRevision.isValidRevisionNumber(davConnection.myLatestRevision)) {
+            SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.RA_DAV_OPTIONS_REQ_FAILED, "The OPTIONS response did not include the youngest revision");
+            SVNErrorManager.error(errorMessage, SVNLogType.NETWORK);
+        }
+        return davConnection.myLatestRevision;
     }
 
     public static SVNProperties filterProperties(DAVProperties source, SVNProperties target) {
@@ -344,5 +390,62 @@ public class DAVUtil {
             propName = SVNProperty.SVNKIT_SHA1_CHECKSUM;
         }
         return propName;
+    }
+
+    public static SVNErrorMessage createUnexpectedStatusErrorMessage(HTTPStatus httpStatus, String method, String path) {
+        final int code = httpStatus.getCode();
+        final String location = httpStatus.getHeader().getFirstHeaderValue(HTTPHeader.LOCATION_HEADER);
+        if (code != 405) {
+            SVNErrorMessage errorMessage = createDefaultUnexpectedStatusErrorMessage(httpStatus, path, location);
+            if (errorMessage != null) {
+                return errorMessage;
+            }
+        }
+        switch (code) {
+            case 201:
+                return SVNErrorMessage.create(SVNErrorCode.RA_DAV_REQUEST_FAILED, "Path ''{0}'' unexpectedly created", path);
+            case 204:
+                return SVNErrorMessage.create(SVNErrorCode.FS_ALREADY_EXISTS, "Path ''{0}'' already exists", path);
+            case 405:
+                return SVNErrorMessage.create(SVNErrorCode.RA_DAV_METHOD_NOT_ALLOWED, "The HTTP method ''{0}'' is not allowed on ''{1}''", method, path);
+            default:
+                return SVNErrorMessage.create(SVNErrorCode.RA_DAV_REQUEST_FAILED, "Unexpected HTTP status {0} ''{1}'' on ''{2}'' request to ''{3}''", code, httpStatus.getReason(), method, path);
+        }
+    }
+
+    private static SVNErrorMessage createDefaultUnexpectedStatusErrorMessage(HTTPStatus httpStatus, String path, String location) {
+        final int code = httpStatus.getCode();
+        switch (code) {
+            case 301:
+            case 302:
+            case 303:
+            case 307:
+            case 308:
+                return SVNErrorMessage.create(SVNErrorCode.RA_DAV_RELOCATED, (code == 301) ? "Repository moved permanently to ''{0}''" : "Repository moved temporarily to '%s'", location);
+            case 403:
+                return SVNErrorMessage.create(SVNErrorCode.RA_DAV_FORBIDDEN, "Access to ''{0}'' forbidden", path);
+            case 404:
+                return SVNErrorMessage.create(SVNErrorCode.FS_NOT_FOUND, "''{0}'' path not found", path);
+            case 405:
+                return SVNErrorMessage.create(SVNErrorCode.RA_DAV_METHOD_NOT_ALLOWED, "HTTP method is not allowed on ''{0}''", path);
+            case 409:
+                return SVNErrorMessage.create(SVNErrorCode.FS_CONFLICT, "''{0}'' conflicts", path);
+            case 412:
+                return SVNErrorMessage.create(SVNErrorCode.RA_DAV_PRECONDITION_FAILED, "Precondition on ''{0}'' failed", path);
+            case 423:
+                return SVNErrorMessage.create(SVNErrorCode.FS_NO_LOCK_TOKEN, "''{0}'': no lock token available", path);
+            case 411:
+                return SVNErrorMessage.create(SVNErrorCode.RA_DAV_REQUEST_FAILED, "DAV request failed: 411 Content length required. The server or an intermediate proxy does not accept " +
+                        "chunked encoding. Try setting 'http-chunked-requests' to 'auto' or 'no' in your client configuration.");
+            case 500:
+                return SVNErrorMessage.create(SVNErrorCode.RA_DAV_REQUEST_FAILED, "Unexpected server error {0} ''{1}'' on ''{2}''", code, httpStatus.getReason(), path);
+            case 501:
+                return SVNErrorMessage.create(SVNErrorCode.UNSUPPORTED_FEATURE, "The requested feature is not supported by '%s'", path);
+        }
+
+        if (code >= 300 || code <= 199) {
+            return SVNErrorMessage.create(SVNErrorCode.RA_DAV_REQUEST_FAILED, "Unexpected HTTP status {0} ''{1}'' on ''{2}''", code, httpStatus.getReason(), path);
+        }
+        return null;
     }
 }

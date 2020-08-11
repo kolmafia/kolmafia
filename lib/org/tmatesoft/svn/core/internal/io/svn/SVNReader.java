@@ -85,7 +85,7 @@ public class SVNReader {
                     } else if (svnItem.getKind() == SVNItem.WORD) {
                         list.set(i, svnItem.getWord());
                     } else if (svnItem.getKind() == SVNItem.NUMBER) {
-                        list.set(i, new Long(svnItem.getNumber()));
+                        list.set(i, svnItem.getNumber());
                     }
                 }
             }
@@ -317,7 +317,7 @@ public class SVNReader {
             }
 
             if ((ch == 'n' || ch == 'r') && item.getKind() == SVNItem.NUMBER) {
-                values.add(new Long(item.getNumber()));
+                values.add(item.getNumber());
             } else if (ch == 's' && item.getKind() == SVNItem.BYTES) {
                 try {
                     values.add(new String(item.getBytes(), UTF8_CHARSET_STRING));
@@ -350,7 +350,7 @@ public class SVNReader {
                         break;
                     case'r':
                     case'n':
-                        values.add(new Long(SVNRepository.INVALID_REVISION));
+                        values.add(SVNRepository.INVALID_REVISION);
                         break;
                     case's':
                     case'w':

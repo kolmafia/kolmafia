@@ -253,12 +253,12 @@ public class FSHooks {
                     actionName + " blocked by {0} hook (exit code {1})" : "{0} hook failed (exit code {1})";
             if (stdErrMessage != null && stdErrMessage.length() > 0) {
                 errorMessage += " with output:\n{2}";
-                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.REPOS_HOOK_FAILURE, errorMessage, new Object[] {hookName, new Integer(rc), stdErrMessage});
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.REPOS_HOOK_FAILURE, errorMessage, new Object[] {hookName, rc, stdErrMessage});
                 SVNErrorManager.error(err, SVNLogType.FSFS);
             } else {
                 errorMessage += " with no output.";
             }
-            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.REPOS_HOOK_FAILURE, errorMessage, new Object[] {hookName, new Integer(rc)});
+            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.REPOS_HOOK_FAILURE, errorMessage, new Object[] {hookName, rc});
             SVNErrorManager.error(err, SVNLogType.FSFS);
         }
         return null;

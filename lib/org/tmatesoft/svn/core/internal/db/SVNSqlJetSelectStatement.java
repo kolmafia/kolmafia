@@ -54,7 +54,7 @@ public class SVNSqlJetSelectStatement extends SVNSqlJetTableStatement {
     protected ISqlJetCursor openCursor() throws SVNException {
         try {
             Object[] where = getWhere();
-            if (isPathScoped()) {
+            if (isPathScoped() && isPathScopeInIndex()) {
                 where = new Object[] {where[0], getPathScope()};
                 return getTable().scope(getIndexName(), where, null);
             }
@@ -85,6 +85,11 @@ public class SVNSqlJetSelectStatement extends SVNSqlJetTableStatement {
 
     protected boolean isStrictiDescendant() {
         return false;
+    }
+
+    protected boolean isPathScopeInIndex() throws SVNException {
+        final Enum<?> rowPathField = getRowPathField();
+        return rowPathField == getDefaultRowPathField();
     }
 
     protected String getIndexName() {
@@ -153,6 +158,10 @@ public class SVNSqlJetSelectStatement extends SVNSqlJetTableStatement {
     }
 
     protected Enum<?> getRowPathField() throws SVNException {
+        return getDefaultRowPathField();
+    }
+
+    private Enum<?> getDefaultRowPathField() {
         if (SVNWCDbSchema.NODES__Indices.I_NODES_PARENT.toString().equals(getIndexName())) {
             return SVNWCDbSchema.NODES__Fields.parent_relpath;
         }

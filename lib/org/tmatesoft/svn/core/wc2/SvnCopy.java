@@ -1,11 +1,10 @@
 package org.tmatesoft.svn.core.wc2;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.*;
 
 import org.tmatesoft.svn.core.SVNErrorCode;
 import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.internal.wc.SVNExternal;
 
 /**
  * Represents copy operation.
@@ -162,6 +161,8 @@ public class SvnCopy extends SvnOperation<Void> {
     private boolean disjoint;
     private boolean allowMixedRevisions;
     private boolean metadataOnly;
+    private boolean pinExternals;
+    private Map<SvnTarget, List<SVNExternal>> externalsToPin;
 
     protected SvnCopy(SvnOperationFactory factory) {
         super(factory);
@@ -331,5 +332,21 @@ public class SvnCopy extends SvnOperation<Void> {
 
     public void setMetadataOnly(boolean metadataOnly) {
         this.metadataOnly = metadataOnly;
+    }
+
+    public boolean isPinExternals() {
+        return pinExternals;
+    }
+
+    public void setPinExternals(boolean pinExternals) {
+        this.pinExternals = pinExternals;
+    }
+
+    public Map<SvnTarget, List<SVNExternal>> getExternalsToPin() {
+        return externalsToPin;
+    }
+
+    public void setExternalsToPin(Map<SvnTarget, List<SVNExternal>> externalsToPin) {
+        this.externalsToPin = externalsToPin;
     }
 }

@@ -1197,13 +1197,14 @@ public class SVNCommitClient16 extends SVNBasicDelegate {
                 SVNRepository repository = createRepository(baseURL, firstItem.getFile(), firstItem.getWCAccess(), true);
                 SVNCommitMediator mediator = new SVNCommitMediator(commitables);
                 tmpFiles = mediator.getTmpFiles();
-                String repositoryRoot = repository.getRepositoryRoot(true).getPath();
+                SVNURL repositoryRootUrl = repository.getRepositoryRoot(true);
+                String repositoryRoot = repositoryRootUrl.getPath();
                 SVNPropertiesManager.validateRevisionProperties(revisionProperties);
                 commitEditor = repository.getCommitEditor(commitMessage, lockTokens, keepLocks, revisionProperties, mediator);
                 for (int i = 0; i < commitPacket.getCommitItems().length; i++) {
                     commitPacket.getCommitItems()[i].getWCAccess().setEventHandler(getEventDispatcher());
                 }
-                info = SVNCommitter.commit(mediator.getTmpFiles(), commitables, repositoryRoot, commitEditor);
+                info = SVNCommitter.commit(mediator.getTmpFiles(), commitables, repositoryRootUrl, commitEditor, getEventDispatcher());
                 Collection processedItems = new SVNHashSet();
                 Collection explicitCommitPaths = new SVNHashSet();
                 for (Iterator urls = commitables.keySet().iterator(); urls.hasNext();) {

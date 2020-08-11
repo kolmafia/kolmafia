@@ -67,14 +67,14 @@ public class SVNFSFSPackedRevPropsManifest {
         final String oldName = packNames.get(start);
         final int pos = oldName.indexOf('.');
         if (pos < 0) {
-            SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.FS_CORRUPT, "Packed file '{{0}}' misses a tag", oldName);
+            SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.FS_CORRUPT, "Packed file ''{0}'' misses a tag", oldName);
             SVNErrorManager.error(errorMessage, SVNLogType.FSFS);
         }
         long tag = -1;
         try {
             tag = Long.valueOf(oldName.substring(pos + ".".length()));
         } catch (NumberFormatException e) {
-            SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.FS_CORRUPT, "Packed file '{{0}}' misses a tag", oldName);
+            SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.FS_CORRUPT, "Packed file ''{0}'' misses a tag", oldName);
             SVNErrorManager.error(errorMessage, SVNLogType.FSFS);
         }
 

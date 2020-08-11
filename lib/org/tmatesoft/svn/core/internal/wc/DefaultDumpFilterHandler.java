@@ -166,7 +166,7 @@ public class DefaultDumpFilterHandler implements ISVNLoadHandler {
                     } catch (NumberFormatException nfe) {
                         SVNErrorManager.error(SVNErrorMessage.create(SVNErrorCode.INCOMPLETE_DATA, nfe), SVNLogType.FSFS);
                     }
-                    RevisionItem reNumberedCopyFromValue = (RevisionItem) myRenumberHistory.get(new Long(copyFromOriginalRevision));
+                    RevisionItem reNumberedCopyFromValue = (RevisionItem) myRenumberHistory.get(copyFromOriginalRevision);
                     if (reNumberedCopyFromValue == null || 
                             !SVNRevision.isValidRevisionNumber(reNumberedCopyFromValue.myRevision)) {
                         SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.NODE_UNEXPECTED_KIND, 
@@ -346,7 +346,7 @@ public class DefaultDumpFilterHandler implements ISVNLoadHandler {
             writeDumpData(myOutputStream, propsBuffer.toByteArray());
             
             if (myIsDoRenumberRevisions) {
-                myRenumberHistory.put(new Long(revisionBaton.myOriginalRevision), 
+                myRenumberHistory.put(revisionBaton.myOriginalRevision,
                         new RevisionItem(revisionBaton.myActualRevision, false));
                 myLastLiveRevision = revisionBaton.myActualRevision;
             }
@@ -359,7 +359,7 @@ public class DefaultDumpFilterHandler implements ISVNLoadHandler {
         } else {
             myDroppedRevisionsCount++;
             if (myIsDoRenumberRevisions) {
-                myRenumberHistory.put(new Long(revisionBaton.myOriginalRevision), 
+                myRenumberHistory.put(revisionBaton.myOriginalRevision,
                         new RevisionItem(myLastLiveRevision, true));
             }
             
@@ -430,14 +430,14 @@ public class DefaultDumpFilterHandler implements ISVNLoadHandler {
                 for (int i = 0; i < rangeList.getSize(); i++) {
                     SVNMergeRange range = ranges[i];
                     
-                    RevisionItem revItemStart = (RevisionItem) myRenumberHistory.get(new Long(range.getStartRevision()));
+                    RevisionItem revItemStart = (RevisionItem) myRenumberHistory.get(range.getStartRevision());
                     if (revItemStart == null || !SVNRevision.isValidRevisionNumber(revItemStart.myRevision)) {
                         SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.NODE_UNEXPECTED_KIND, 
                                 "No valid revision range 'start' in filtered stream");
                         SVNErrorManager.error(err, SVNLogType.FSFS);
                     }
 
-                    RevisionItem revItemEnd = (RevisionItem) myRenumberHistory.get(new Long(range.getEndRevision()));
+                    RevisionItem revItemEnd = (RevisionItem) myRenumberHistory.get(range.getEndRevision());
                     if (revItemEnd == null || !SVNRevision.isValidRevisionNumber(revItemEnd.myRevision)) {
                         SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.NODE_UNEXPECTED_KIND, 
                                 "No valid revision range 'end' in filtered stream");

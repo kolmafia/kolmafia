@@ -414,7 +414,7 @@ public class SVNWCManager {
             if (!entry.isScheduledForDeletion()) {
                 if (entry.getRevision() != revision) {
                     SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_OBSTRUCTED_UPDATE, "Revision {0} doesn''t match existing revision {1} in ''{2}''",
-                            new Object[]{new Long(revision), new Long(entry.getRevision()), path});
+                            new Object[]{revision, entry.getRevision(), path});
                     SVNErrorManager.error(err, SVNLogType.WC);
                 }
                 if (!entry.getURL().equals(url)) {

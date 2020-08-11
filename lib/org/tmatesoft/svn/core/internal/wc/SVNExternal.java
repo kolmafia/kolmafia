@@ -25,6 +25,7 @@ import org.tmatesoft.svn.core.SVNErrorMessage;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNProperty;
 import org.tmatesoft.svn.core.SVNURL;
+import org.tmatesoft.svn.core.internal.util.SVNDate;
 import org.tmatesoft.svn.core.internal.util.SVNPathUtil;
 import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.util.SVNDebugLog;
@@ -40,6 +41,7 @@ public class SVNExternal {
     private SVNRevision myRevision;
     private SVNRevision myPegRevision;
     private String myURL;
+    private String myRawURL; //non-canonicalized string used in the property value
     private String myPath;
     private SVNURL myResolvedURL;
     private boolean myIsRevisionExplicit;
@@ -56,6 +58,7 @@ public class SVNExternal {
             boolean isRevisionExplicit, boolean isPegRevisionExplicit, boolean isNewFormat) {
         myPath = target;
         myURL = url;
+        myRawURL = url;
         myRevision = revision;
         myPegRevision = pegRevision;
         myIsRevisionExplicit = isRevisionExplicit;
@@ -83,6 +86,12 @@ public class SVNExternal {
         return myRawValue;
     }
 
+    //use getUnresolvedUrl() instead; use getRawURL() only if you really know what it returns
+    @Deprecated
+    protected String getRawURL() {
+        return myRawURL;
+    }
+
     public boolean isRevisionExplicit() {
         return myIsRevisionExplicit;
     }
@@ -93,6 +102,10 @@ public class SVNExternal {
     
     public boolean isNewFormat() {
         return myIsNewFormat;
+    }
+
+    public int getFormat() {
+        return isNewFormat() ? 2 : 1;
     }
 
     public SVNURL getResolvedURL() {
@@ -237,6 +250,7 @@ public class SVNExternal {
             
                 SVNPath path = new SVNPath(token0, true);
                 external.myURL = schemeRelative ? "//" + path.getTarget() : path.getTarget();
+                external.myRawURL = ((schemeRelative ? "//" : "") + (token0.contains("@") ? token0.substring(0, token0.lastIndexOf('@')) : token0));
                 external.myPegRevision = path.getPegRevision();
                 if (external.myPegRevision == SVNRevision.BASE) {
                     external.myPegRevision = SVNRevision.HEAD;
@@ -250,6 +264,7 @@ public class SVNExternal {
             } else {
                 external.myPath = token0;
                 external.myURL = token1;
+                external.myRawURL = token1;
                 external.myPegRevision = external.myRevision;
             }
             
@@ -355,6 +370,28 @@ public class SVNExternal {
             }
         }
         return paths;
+    }
+
+    public String getRevisionString() {
+        return isRevisionExplicit() ? formatRevisionString("-r", getRevision()) : null;
+    }
+
+    public String getPegRevisionString() {
+        return isPegRevisionExplicit() ? formatRevisionString("@", getPegRevision()) : null;
+    }
+
+    private String formatRevisionString(String revisionPrefix, SVNRevision revision) {
+        if (revision == null) {
+            return null;
+        } else if (revision == SVNRevision.HEAD) {
+            return revisionPrefix + "HEAD";
+        } else if (revision.getDate() != null) {
+            return revisionPrefix + "{" + SVNDate.formatDate(revision.getDate(), true) + "}";
+        } else if (SVNRevision.isValidRevisionNumber(revision.getNumber())) {
+            return revisionPrefix + revision.getNumber();
+        } else {
+            return null;
+        }
     }
 
     private static class ExternalTokenizer implements Iterator {

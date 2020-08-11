@@ -30,6 +30,11 @@ public class SVNWCDbSelectMovedHereChildren extends SVNSqlJetSelectFieldsStateme
     }
 
     @Override
+    protected Enum<?> getRowPathField() throws SVNException {
+        return SVNWCDbSchema.NODES__Fields.moved_to;
+    }
+
+    @Override
     protected String getPathScope() {
         return (String)getBind(2);
     }

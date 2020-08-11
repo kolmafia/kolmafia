@@ -81,12 +81,10 @@ public class FSDeltaConsumer implements ISVNDeltaConsumer {
 
         InputStream sourceStream = null;
         OutputStream targetStream = null;
-        
-        int dbFormat = myFSFS.getDBFormat();
-        
+
         try {
             sourceStream = FSInputStream.createDeltaStream(getCombiner(), node, myFSFS);
-            targetStream = FSOutputStream.createStream(node, myTxnRoot, myTargetStream, dbFormat >= 2);
+            targetStream = FSOutputStream.createStream(node, myTxnRoot, myTargetStream, myFSFS.getDeltaCompression());
             if (myDeltaProcessor == null) {
                 myDeltaProcessor = new SVNDeltaProcessor();
             }
@@ -98,7 +96,7 @@ public class FSDeltaConsumer implements ISVNDeltaConsumer {
             myTargetStream = (FSOutputStream) targetStream;
         }
 
-        myCommitter.addChange(fullPath, node.getId(), FSPathChangeKind.FS_PATH_CHANGE_MODIFY, true, false, SVNRepository.INVALID_REVISION, null, SVNNodeKind.FILE);
+        myCommitter.addChange(fullPath, node.getId(), FSPathChangeKind.FS_PATH_CHANGE_MODIFY, true, false, false, SVNRepository.INVALID_REVISION, null, SVNNodeKind.FILE);
     }
 
     public void applyText(String path) throws SVNException {
@@ -114,12 +112,10 @@ public class FSDeltaConsumer implements ISVNDeltaConsumer {
 
         InputStream sourceStream = null;
         OutputStream targetStream = null;
-        
-        int dbFormat = myFSFS.getDBFormat();
-        
+
         try {
             sourceStream = SVNFileUtil.DUMMY_IN;
-            targetStream = FSOutputStream.createStream(node, myTxnRoot, myTargetStream, dbFormat >= 2);
+            targetStream = FSOutputStream.createStream(node, myTxnRoot, myTargetStream, myFSFS.getDeltaCompression());
             if (myDeltaProcessor == null) {
                 myDeltaProcessor = new SVNDeltaProcessor();
             }
@@ -130,7 +126,7 @@ public class FSDeltaConsumer implements ISVNDeltaConsumer {
             myTargetStream = (FSOutputStream) targetStream;
         }
 
-        myCommitter.addChange(fullPath, node.getId(), FSPathChangeKind.FS_PATH_CHANGE_MODIFY, true, false, SVNRepository.INVALID_REVISION, null, SVNNodeKind.FILE);
+        myCommitter.addChange(fullPath, node.getId(), FSPathChangeKind.FS_PATH_CHANGE_MODIFY, true, false, false, SVNRepository.INVALID_REVISION, null, SVNNodeKind.FILE);
     }
     
     public OutputStream textDeltaChunk(String path, SVNDiffWindow diffWindow) throws SVNException {
@@ -152,7 +148,7 @@ public class FSDeltaConsumer implements ISVNDeltaConsumer {
     public void abort() throws SVNException {
         if (myTargetStream != null) {
             try {
-                myTargetStream.closeStreams(-1);
+                myTargetStream.closeStreams();
             } catch (IOException e) {
                 SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.IO_ERROR, e);
                 SVNErrorManager.error(err, SVNLogType.FSFS);

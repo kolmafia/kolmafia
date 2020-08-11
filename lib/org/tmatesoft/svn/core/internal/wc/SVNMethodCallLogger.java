@@ -60,10 +60,10 @@ public class SVNMethodCallLogger implements InvocationHandler {
             return "Logger: " + myTarget.toString();
         }
         if (OBJECT_HASHCODE.equals(method)) {
-            return new Integer(myTarget.hashCode());
+            return myTarget.hashCode();
         }
         if (OBJECT_EQUALS.equals(method)) {
-            return new Boolean(myTarget.equals(args[0]));
+            return myTarget.equals(args[0]);
         }
         
         Object result = null;

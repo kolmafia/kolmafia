@@ -11,14 +11,15 @@
  */
 package org.tmatesoft.svn.core.internal.util.jna;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.sun.jna.NativeLong;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 import com.sun.jna.WString;
+import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.win32.StdCallLibrary;
+
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -28,28 +29,27 @@ import com.sun.jna.win32.StdCallLibrary;
 interface ISVNKernel32Library extends StdCallLibrary {
     
     public static class OSVERSIONINFO extends Structure {
-        public NativeLong dwOSVersionInfoSize;
-        public NativeLong dwMajorVersion;
-        public NativeLong dwMinorVersion;
-        public NativeLong dwBuildNumber;
-        public NativeLong dwPlatformId;
+        public WinDef.DWORD dwOSVersionInfoSize;
+        public WinDef.DWORD dwMajorVersion;
+        public WinDef.DWORD dwMinorVersion;
+        public WinDef.DWORD dwBuildNumber;
+        public WinDef.DWORD dwPlatformId;
         public char[] szCSDVersion; 
         
         public OSVERSIONINFO() {
-            dwMajorVersion = new NativeLong(0);
-            dwMinorVersion = new NativeLong(0);
-            dwBuildNumber = new NativeLong(0);
-            dwPlatformId = new NativeLong(0);
+            dwMajorVersion = new WinDef.DWORD(0);
+            dwMinorVersion = new WinDef.DWORD(0);
+            dwBuildNumber = new WinDef.DWORD(0);
+            dwPlatformId = new WinDef.DWORD(0);
             szCSDVersion = new char[128];
             for (int i = 0; i < szCSDVersion.length; i++) {
                 szCSDVersion[i] = 0;
             }
-            dwOSVersionInfoSize = new NativeLong(this.size());
+            dwOSVersionInfoSize = new WinDef.DWORD(size());
         }
         
         protected List<String> getFieldOrder() {
-            return Arrays.asList("dwMajorVersion", "dwMinorVersion", "dwBuildNumber", 
-                    "dwPlatformId", "szCSDVersion", "dwOSVersionInfoSize");
+            return Arrays.asList("dwOSVersionInfoSize", "dwMajorVersion", "dwMinorVersion", "dwBuildNumber", "dwPlatformId", "szCSDVersion");
         }
 
     }

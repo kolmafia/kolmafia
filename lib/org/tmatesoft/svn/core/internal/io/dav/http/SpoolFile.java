@@ -260,11 +260,15 @@ public class SpoolFile {
         }
 
         private File createNextFile() throws IOException {
-            File file = File.createTempFile("svnkit.", ".spool", myDirectory);
-            file.createNewFile();
-            return file;
+            try {
+                File file = File.createTempFile("svnkit.", ".spool", myDirectory);
+                file.createNewFile();
+                return file;
+            } catch (IOException e) {
+                throw new IOException("Cannot create a temporary spool file in the directory " +
+                        (myDirectory != null ? myDirectory.getAbsolutePath() : System.getProperty("java.io.tmpdir")) +
+                        ": " + e.getLocalizedMessage(), e);
+            }
         }
-
     }
-
 }

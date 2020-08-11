@@ -11,7 +11,9 @@
  */
 package org.tmatesoft.svn.core.internal.wc;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -50,7 +52,17 @@ public class SVNCompositeConfigFile {
     public void setGroupsToOptions(Map groupToOptions) {
         myGroupsToOptions = groupToOptions;
     }
-    
+
+    public Set getGroupNames() {
+        final HashSet groupNames = new HashSet();
+        groupNames.addAll(mySystemFile.getGroupNames());
+        groupNames.addAll(myUserFile.getGroupNames());
+        if (myGroupsToOptions != null) {
+            groupNames.add(myGroupsToOptions.keySet());
+        }
+        return groupNames;
+    }
+
     public String getPropertyValue(String groupName, String propertyName) {
         String value = null;
         if (myGroupsToOptions != null) {

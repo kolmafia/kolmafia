@@ -1,6 +1,8 @@
 package org.tmatesoft.svn.core.wc2;
 
 import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -174,6 +176,7 @@ import org.tmatesoft.svn.core.wc2.admin.SvnRepositorySyncInfo;
 import org.tmatesoft.svn.core.wc2.admin.SvnRepositorySynchronize;
 import org.tmatesoft.svn.core.wc2.admin.SvnRepositoryUpgrade;
 import org.tmatesoft.svn.core.wc2.admin.SvnRepositoryVerify;
+import org.tmatesoft.svn.util.SVNDebugLog;
 import org.tmatesoft.svn.util.SVNLogType;
 
 /**
@@ -1222,6 +1225,7 @@ public class SvnOperationFactory implements ISvnOperationOptionsProvider {
 
     protected Object run(SvnOperation<?> operation) throws SVNException {
         ISvnOperationRunner<?, SvnOperation<?>> runner = getImplementation(operation);
+        SVNException svnException = null;
         if (runner != null) {
             SVNWCContext wcContext = null;
             runLevel++;
@@ -1238,15 +1242,27 @@ public class SvnOperationFactory implements ISvnOperationOptionsProvider {
                 assertRefCount(operation, wcContext);
                 return result;
             } catch (SVNException e) {
+                svnException = e;
                 getOperationHandler().afterOperationFailure(operation);
                 throw e;
             } finally {
                 runLevel--;
                 if (runLevel == 0) {
-                    if (wcContext != null) {
-                        wcContext.setSqliteJournalMode(null);
+                    try {
+                        if (wcContext != null) {
+                            wcContext.setSqliteJournalMode(null);
+                        }
+                        releaseWcContext(wcContext);
+                    } catch (Throwable th) {
+                        if (svnException == null) {
+                            if (th instanceof SVNException) {
+                                //noinspection ThrowFromFinallyBlock
+                                throw (SVNException) th;
+                            } else {
+                                SVNDebugLog.getDefaultLog().logError(SVNLogType.CLIENT, th);
+                            }
+                        }
                     }
-                    releaseWcContext(wcContext);
                 }
             }
         }
@@ -1328,7 +1344,7 @@ public class SvnOperationFactory implements ISvnOperationOptionsProvider {
             int format = SVNAdminAreaFactory.checkWC(wcPath, true);
             if (format > 0) {
                 SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_UPGRADE_REQUIRED, "Working copy ''{0}'' is too old (format {1}, created  by Subversion 1.6)",
-                        new Object[] {wcPath, new Integer(format)});
+                        new Object[] {wcPath, format});
                 SVNErrorManager.error(err, SVNLogType.WC);
             }
         }

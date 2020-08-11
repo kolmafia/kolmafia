@@ -113,7 +113,7 @@ public class SVNAdminHelper {
         }
         
         if (revNumber > youngestRevision) {
-            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CL_ARG_PARSING_ERROR, "Revisions must not be greater than the youngest revision ({0})", new Long(youngestRevision));
+            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CL_ARG_PARSING_ERROR, "Revisions must not be greater than the youngest revision ({0})", youngestRevision);
             SVNErrorManager.error(err, SVNLogType.FSFS);
         }
         return revNumber;

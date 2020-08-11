@@ -153,7 +153,7 @@ public class SVNReplicationEditor implements ISVNEditor {
         } else {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.UNKNOWN, 
                     "Expected that path ''{0}'' is deleted in revision {1}", 
-                    new Object[]{absPath, new Long(myPreviousRevision)});
+                    new Object[]{absPath, myPreviousRevision});
             SVNErrorManager.error(err, SVNLogType.FSFS);
         }
         if (!myDeletedPaths.contains(path)) {

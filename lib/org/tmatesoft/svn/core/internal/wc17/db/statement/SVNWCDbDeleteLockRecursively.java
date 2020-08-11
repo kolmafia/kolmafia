@@ -33,6 +33,11 @@ public class SVNWCDbDeleteLockRecursively extends SVNSqlJetDeleteStatement {
     }
 
     @Override
+    protected Enum<?> getRowPathField() throws SVNException {
+        return SVNWCDbSchema.LOCK__Fields.repos_relpath;
+    }
+
+    @Override
     protected Object[] getWhere() throws SVNException {
         return new Object[] {getBind(1)};
     }

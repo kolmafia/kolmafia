@@ -152,11 +152,13 @@ public class SvnDiff extends SvnOperation<Void> {
     private boolean ignoreContentType;
     private File relativeToDirectory;
     private boolean useGitDiffFormat;
+    private boolean recurseIntoDeletedDirectories;
 
     protected SvnDiff(SvnOperationFactory factory) {
         super(factory);
 
         setIgnoreAncestry(true);
+        setRecurseIntoDeletedDirectories(true);
     }
 
     /**
@@ -382,6 +384,14 @@ public class SvnDiff extends SvnOperation<Void> {
      */
     public void setUseGitDiffFormat(boolean useGitDiffFormat) {
         this.useGitDiffFormat = useGitDiffFormat;
+    }
+
+    public boolean isRecurseIntoDeletedDirectories() {
+        return recurseIntoDeletedDirectories;
+    }
+
+    public void setRecurseIntoDeletedDirectories(boolean recurseIntoDeletedDirectories) {
+        this.recurseIntoDeletedDirectories = recurseIntoDeletedDirectories;
     }
 
     @Override

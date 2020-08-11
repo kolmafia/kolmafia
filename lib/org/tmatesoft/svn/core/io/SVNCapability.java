@@ -60,6 +60,7 @@ public class SVNCapability {
 
 	public static final SVNCapability EPHEMERAL_PROPS = new SVNCapability("ephemeral-txnprops");
 
+	public static final SVNCapability GET_FILE_REVS_REVERSED = new SVNCapability("get-file-revs-reversed");
 
 	private String myName;
 

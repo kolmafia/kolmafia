@@ -4,6 +4,7 @@ import java.io.OutputStream;
 
 import org.tmatesoft.svn.core.SVNErrorCode;
 import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.SVNProperties;
 import org.tmatesoft.svn.core.wc.SVNRevision;
 
 /**
@@ -44,7 +45,7 @@ import org.tmatesoft.svn.core.wc.SVNRevision;
  * @author TMate Software Ltd.
  * @version 1.7
  */
-public class SvnCat extends SvnOperation<Void> {
+public class SvnCat extends SvnOperation<SVNProperties> {
 
     private boolean expandKeywords;
     private OutputStream output;

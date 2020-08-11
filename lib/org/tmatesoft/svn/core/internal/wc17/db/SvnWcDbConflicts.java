@@ -642,6 +642,9 @@ public class SvnWcDbConflicts extends SvnWcDbShared {
     }
 
     private static SVNSkel readConflictOperation(SVNSkel conflictSkel) {
+        if (conflictSkel == null) {
+            return null;
+        }
         return conflictSkel.first();
     }
 

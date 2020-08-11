@@ -193,6 +193,7 @@ public class FSCommitEditor implements ISVNEditor {
         SVNProperties properties = null;
         boolean done = false;
         boolean haveRealChanges = false;
+        boolean mergeInfoModifications = false;
         for (Iterator<String> propNames = propNamesToValues.nameSet().iterator(); propNames.hasNext();) {
             String propName = (String)propNames.next();
             SVNPropertyValue propValue = propNamesToValues.getSVNPropertyValue(propName);
@@ -229,6 +230,7 @@ public class FSCommitEditor implements ISVNEditor {
                     parentPath.getRevNode().setHasMergeInfo(propValue != null);
                     myCommitter.incrementMergeInfoUpTree(parentPath, increment);
                 }
+                mergeInfoModifications = true;
             }
 
             if (propValue == null) {
@@ -244,7 +246,7 @@ public class FSCommitEditor implements ISVNEditor {
 
         if (haveRealChanges) {
             myTxnRoot.setProplist(parentPath.getRevNode(), properties);
-            myCommitter.addChange(path, parentPath.getRevNode().getId(), FSPathChangeKind.FS_PATH_CHANGE_MODIFY, false, true, SVNRepository.INVALID_REVISION, null, kind);
+            myCommitter.addChange(path, parentPath.getRevNode().getId(), FSPathChangeKind.FS_PATH_CHANGE_MODIFY, false, true, mergeInfoModifications, SVNRepository.INVALID_REVISION, null, kind);
         }
     }
 

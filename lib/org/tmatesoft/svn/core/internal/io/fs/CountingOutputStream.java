@@ -11,6 +11,9 @@
  */
 package org.tmatesoft.svn.core.internal.io.fs;
 
+import org.tmatesoft.svn.core.internal.io.fs.index.FSFnv1aOutputStream;
+import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
+
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -22,25 +25,38 @@ import java.io.OutputStream;
 public class CountingOutputStream extends FilterOutputStream {
 
     private long myPosition;
+    private FSFnv1aOutputStream myFnv1ChecksumOutputStream;
 
     public CountingOutputStream(OutputStream stream, long offset) {
         super(stream);
         myPosition = offset >= 0 ? offset : 0;
+        myFnv1ChecksumOutputStream = new FSFnv1aOutputStream(SVNFileUtil.DUMMY_OUT);
     }
 
     public void write(byte[] b, int off, int len) throws IOException {
+        myFnv1ChecksumOutputStream.write(b, off, len);
         out.write(b, off, len);
         myPosition += len;
     }
 
     public void write(int b) throws IOException {
+        myFnv1ChecksumOutputStream.write(b);
         out.write(b);
         myPosition++;
     }
 
     public void write(byte[] b) throws IOException {
+        myFnv1ChecksumOutputStream.write(b);
         out.write(b);
         myPosition += b.length;
+    }
+
+    public void resetChecksum() {
+        myFnv1ChecksumOutputStream.resetChecksum();
+    }
+
+    public int finalizeChecksum() {
+        return myFnv1ChecksumOutputStream.finalizeChecksum();
     }
 
     public long getPosition() {

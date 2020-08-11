@@ -14,6 +14,7 @@ package org.tmatesoft.svn.core.internal.io.fs;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ import org.tmatesoft.svn.core.SVNProperties;
 import org.tmatesoft.svn.core.SVNProperty;
 import org.tmatesoft.svn.core.SVNPropertyValue;
 import org.tmatesoft.svn.core.SVNRevisionProperty;
+import org.tmatesoft.svn.core.internal.io.fs.index.*;
 import org.tmatesoft.svn.core.internal.util.SVNDate;
 import org.tmatesoft.svn.core.internal.util.SVNPathUtil;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
@@ -236,7 +238,7 @@ public class FSTransactionRoot extends FSRoot {
         
         SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.IO_UNIQUE_NAMES_EXHAUSTED, 
                 "Unable to create transaction directory in ''{0}'' for revision {1}", 
-                new Object[] { parent, new Long(revision) });
+                new Object[] { parent, revision});
         SVNErrorManager.error(err, SVNLogType.FSFS);
         return null;    
     }
@@ -283,13 +285,13 @@ public class FSTransactionRoot extends FSRoot {
         if (node.getMergeInfoCount() < 0) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_CORRUPT, 
                     "Can''t increment mergeinfo count on node-revision {0} to negative value {1}",
-                    new Object[] { node.getId(), new Long(node.getMergeInfoCount()) });
+                    new Object[] { node.getId(), node.getMergeInfoCount()});
             SVNErrorManager.error(err, SVNLogType.FSFS);
         }
         if (node.getMergeInfoCount() > 1 && node.getType() == SVNNodeKind.FILE) {
-            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_CORRUPT, 
+            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_CORRUPT,
                     "Can''t increment mergeinfo count on *file* node-revision {0} to {1} (> 1)",
-                    new Object[] { node.getId(), new Long(node.getMergeInfoCount()) });
+                    new Object[]{node.getId(), node.getMergeInfoCount()});
             SVNErrorManager.error(err, SVNLogType.FSFS);
         }
         getOwner().putTxnRevisionNode(node.getId(), node);
@@ -340,9 +342,9 @@ public class FSTransactionRoot extends FSRoot {
 
         File propsFile = getTransactionRevNodePropsFile(node.getId());
         SVNWCProperties.setProperties(properties, propsFile,
-                                    SVNFileUtil.createUniqueFile(propsFile.getParentFile(), 
-                                                                 ".props", ".tmp", false), 
-                                    SVNWCProperties.SVN_HASH_TERMINATOR);
+                SVNFileUtil.createUniqueFile(propsFile.getParentFile(),
+                        ".props", ".tmp", false),
+                SVNWCProperties.SVN_HASH_TERMINATOR);
 
         if (node.getPropsRepresentation() == null || !node.getPropsRepresentation().isTxn()) {
             FSRepresentation mutableRep = new FSRepresentation();
@@ -436,7 +438,9 @@ public class FSTransactionRoot extends FSRoot {
             idString = FSPathChangeKind.ACTION_RESET;
         }
 
-        String output = idString + " " + changeString + " " + SVNProperty.toString(pathChange.isTextModified()) + " " + SVNProperty.toString(pathChange.arePropertiesModified()) + " "
+        final boolean includeMergeInfoModifications = getOwner().getDBFormat() >= FSFS.MIN_MERGEINFO_IN_CHANGED_FORMAT;
+        String mergeInfoString = includeMergeInfoModifications ? SVNProperty.toString(pathChange.getMergeInfoModified() == Boolean.TRUE) + " " : "";
+        String output = idString + " " + changeString + " " + SVNProperty.toString(pathChange.isTextModified()) + " " + SVNProperty.toString(pathChange.arePropertiesModified()) + " " + mergeInfoString
                 + pathChange.getPath() + "\n";
         changesFile.write(output.getBytes("UTF-8"));
 
@@ -455,6 +459,28 @@ public class FSTransactionRoot extends FSRoot {
         Map changedPaths = getChangedPaths();
         boolean includeNodeKind = getOwner().getDBFormat() >= FSFS.MIN_KIND_IN_CHANGED_FORMAT;
 
+        if (getOwner().isUseLogAddressing()) {
+            protoFile.resetChecksum();
+        }
+
+        writeChanges(protoFile, changedPaths, includeNodeKind, true);
+
+        if (getOwner().isUseLogAddressing()) {
+            long size = protoFile.getPosition() - offset;
+            FSP2LProtoIndex.ItemType itemType = FSP2LProtoIndex.ItemType.CHANGES;
+            long revision = SVNRepository.INVALID_REVISION;
+            long number = FSID.ITEM_INDEX_CHANGES;
+            int checksum = protoFile.finalizeChecksum();
+
+            FSP2LEntry entry = new FSP2LEntry(offset, size, itemType, checksum, revision, number);
+            storeP2LIndexEntry(entry);
+            storeL2PIndexEntry(entry.getOffset(), FSID.ITEM_INDEX_CHANGES);
+        }
+
+        return offset;
+    }
+
+    private void writeChanges(CountingOutputStream protoFile, Map changedPaths, boolean includeNodeKind, boolean terminateList) throws SVNException, IOException {
         for (Iterator paths = changedPaths.keySet().iterator(); paths.hasNext();) {
             String path = (String) paths.next();
             FSPathChange change = (FSPathChange) changedPaths.get(path);
@@ -466,7 +492,9 @@ public class FSTransactionRoot extends FSRoot {
             }
             writeChangeEntry(protoFile, change, includeNodeKind);
         }
-        return offset;
+        if (terminateList) {
+            protoFile.write('\n');
+        }
     }
 
     public String[] readNextIDs() throws SVNException {
@@ -507,7 +535,7 @@ public class FSTransactionRoot extends FSRoot {
     }
 
     public FSID writeFinalRevision(FSID newId, final CountingOutputStream protoFile, long revision, FSID id, 
-            String startNodeId, String startCopyId, Collection<FSRepresentation> representations) throws SVNException, IOException {
+            String startNodeId, String startCopyId, Collection<FSRepresentation> representations, boolean atRoot) throws SVNException, IOException {
         newId = null;
         if (!id.isTxn()) {
             return newId;
@@ -519,7 +547,7 @@ public class FSTransactionRoot extends FSRoot {
             for (Iterator entries = namesToEntries.values().iterator(); entries.hasNext();) {
                 FSEntry dirEntry = (FSEntry) entries.next();
                 newId = writeFinalRevision(newId, protoFile, revision, dirEntry.getId(), 
-                        startNodeId, startCopyId, representations);
+                        startNodeId, startCopyId, representations, false);
                 if (newId != null && newId.getRevision() == revision) {
                     dirEntry.setId(newId);
                 }
@@ -530,9 +558,9 @@ public class FSTransactionRoot extends FSRoot {
                 textRep.setTxnId(null);
                 textRep.setRevision(revision);
                 try {
-                    textRep.setOffset(protoFile.getPosition());
+                    textRep.setItemIndex(protoFile.getPosition());
                     final MessageDigest checksum = MessageDigest.getInstance("MD5");
-                    long size = writeHashRepresentation(unparsedEntries, protoFile, checksum);
+                    long size = writeHashRepresentation(textRep, unparsedEntries, protoFile, checksum, FSP2LProtoIndex.ItemType.DIR_REP);
                     String hexDigest = SVNFileUtil.toHexDigest(checksum);
                     textRep.setSize(size);
                     textRep.setMD5HexDigest(hexDigest);
@@ -552,12 +580,13 @@ public class FSTransactionRoot extends FSRoot {
         }
 
         if (revNode.getPropsRepresentation() != null && revNode.getPropsRepresentation().isTxn()) {
+            FSP2LProtoIndex.ItemType itemType = revNode.getType() == SVNNodeKind.DIR ? FSP2LProtoIndex.ItemType.DIR_PROPS : FSP2LProtoIndex.ItemType.FILE_PROPS;
             SVNProperties props = revNode.getProperties(owner);
             FSRepresentation propsRep = revNode.getPropsRepresentation();
             try {
-                propsRep.setOffset(protoFile.getPosition());
+                propsRep.setItemIndex(protoFile.getPosition());
                 final MessageDigest checksum = MessageDigest.getInstance("MD5");
-                long size = writeHashRepresentation(props, protoFile, checksum);
+                long size = writeHashRepresentation(propsRep, props, protoFile, checksum, itemType);
                 String hexDigest = SVNFileUtil.toHexDigest(checksum);
                 propsRep.setSize(size);
                 propsRep.setMD5HexDigest(hexDigest);
@@ -572,6 +601,7 @@ public class FSTransactionRoot extends FSRoot {
         }
 
         long myOffset = protoFile.getPosition();
+
         String myNodeId = null;
         String nodeId = revNode.getId().getNodeID();
 
@@ -602,15 +632,33 @@ public class FSTransactionRoot extends FSRoot {
             revNode.setCopyRootRevision(revision);
         }
 
-        newId = FSID.createRevId(myNodeId, myCopyId, revision, myOffset);
+        long itemIndex;
+        if (getOwner().isUseLogAddressing() && atRoot) {
+            itemIndex = FSID.ITEM_INDEX_ROOT_NODE;
+            storeL2PIndexEntry(myOffset, itemIndex);
+        } else {
+            itemIndex = allocateItemIndex(myOffset);
+        }
+
+        newId = FSID.createRevId(myNodeId, myCopyId, revision, itemIndex);
         revNode.setId(newId);
-        getOwner().writeTxnNodeRevision(protoFile, revNode);
+
+        final FSFnv1aOutputStream checksumOutputStream = new FSFnv1aOutputStream(protoFile);
+
+        getOwner().writeTxnNodeRevision(checksumOutputStream, revNode);
         if (representations != null && revNode.getTextRepresentation() != null && revNode.getType() == SVNNodeKind.FILE && 
                 revNode.getTextRepresentation().getRevision() == revision) {
             representations.add(revNode.getTextRepresentation());
         }
         revNode.setIsFreshTxnRoot(false);
         getOwner().putTxnRevisionNode(id, revNode);
+
+        if (getOwner().isUseLogAddressing()) {
+            final int checksum = checksumOutputStream.finalizeChecksum();
+            final FSP2LEntry entry = new FSP2LEntry(myOffset, protoFile.getPosition() - myOffset, FSP2LProtoIndex.ItemType.NODEREV, checksum, SVNRepository.INVALID_REVISION, itemIndex);
+            storeP2LIndexEntry(entry);
+        }
+
         return newId;
     }
 
@@ -656,14 +704,42 @@ public class FSTransactionRoot extends FSRoot {
         return new File(getOwner().getTransactionDir(id.getTxnID()), FSFS.PATH_PREFIX_NODE + id.getNodeID() + "." + id.getCopyID() + FSFS.TXN_PATH_EXT_CHILDREN);
     }
 
-    public File getTransactionProtoRevFile() {
+    public File getWritableTransactionProtoRevFile() throws SVNException {
         if (myTxnRevFile == null) {
-            myTxnRevFile = getOwner().getTransactionProtoRevFile(myTxnID);
+            final FSFS fsfs = getOwner();
+            myTxnRevFile = fsfs.getTransactionProtoRevFile(myTxnID);
+            if (fsfs.isUseLogAddressing()) {
+                final FSP2LProtoIndex index = FSP2LProtoIndex.open(fsfs, myTxnID, true);
+                assert index != null;
+                try {
+                    final long actualLength = myTxnRevFile.length();
+                    final long indexedLength = index.readNextOffset();
+                    if (indexedLength < actualLength) {
+                        RandomAccessFile randomAccessFile = null;
+                        try {
+                            randomAccessFile = new RandomAccessFile(myTxnRevFile, "rw");
+                            randomAccessFile.setLength(indexedLength);
+                        } catch (IOException e) {
+                            SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.IO_ERROR, e);
+                            SVNErrorManager.error(errorMessage, SVNLogType.FSFS);
+                        } finally {
+                            SVNFileUtil.closeFile(randomAccessFile);
+                        }
+                    } else if (indexedLength > actualLength) {
+                        SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.FS_INDEX_INCONSISTENT, "p2l proto index offset {0} beyond protorev file size {1} for TXN {2}", new Object[]{indexedLength, actualLength, myTxnID});
+                        SVNErrorManager.error(errorMessage, SVNLogType.FSFS);
+                    }
+                } finally {
+                    if (index != null) {
+                        index.close();
+                    }
+                }
+            }
         }
         return myTxnRevFile;
     }
 
-    public File getTransactionChangesFile() {
+    public File getTransactionChangesFile() throws SVNException {
         if (myTxnChangesFile == null) {
             myTxnChangesFile = new File(getOwner().getTransactionDir(myTxnID), "changes");
         }
@@ -679,14 +755,103 @@ public class FSTransactionRoot extends FSRoot {
         return "_" + curNodeId;
     }
 
-    private long writeHashRepresentation(SVNProperties hashContents, OutputStream protoFile, MessageDigest digest) throws IOException, SVNException {
+    public long allocateItemIndex(long offset) throws SVNException {
+        final FSFS fsfs = getOwner();
+        final String txnID = getTxnID();
+
+        if (fsfs.isUseLogAddressing()) {
+            final FSTransactionItemIndex itemIndexFile = FSTransactionItemIndex.open(fsfs, txnID);
+            assert itemIndexFile != null;
+            try {
+                final long itemIndex = itemIndexFile.allocateItemIndex(offset);
+                storeL2PIndexEntry(offset, itemIndex);
+                return itemIndex;
+            } finally {
+                if (itemIndexFile != null) {
+                    itemIndexFile.close();
+                }
+            }
+        } else {
+            return offset;
+        }
+    }
+
+    public void storeL2PIndexEntry(long offset, long itemIndex) throws SVNException {
+        final FSFS fsfs = getOwner();
+        final String txnID = getTxnID();
+
+        if (fsfs.isUseLogAddressing()) {
+            final FSL2PProtoIndex protoIndex = FSL2PProtoIndex.open(fsfs, txnID, true);
+            assert protoIndex != null;
+            try {
+                protoIndex.addEntry(offset, itemIndex);
+            } finally {
+                if (protoIndex != null) {
+                    protoIndex.close();
+                }
+            }
+        }
+    }
+
+    public void storeP2LIndexEntry(FSP2LEntry entry) throws SVNException {
+        final FSFS fsfs = getOwner();
+        final String txnID = getTxnID();
+
+        if (getOwner().isUseLogAddressing()) {
+            final FSP2LProtoIndex protoIndex = FSP2LProtoIndex.open(fsfs, txnID, true);
+            assert protoIndex != null;
+            try {
+                protoIndex.writeEntry(entry);
+            } finally {
+                if (protoIndex != null) {
+                    protoIndex.close();
+                }
+            }
+        }
+    }
+
+    private long writeHashRepresentation(FSRepresentation representation, SVNProperties hashContents, CountingOutputStream protoFile, MessageDigest digest, FSP2LProtoIndex.ItemType itemType) throws IOException, SVNException {
+        final long offset = protoFile.getPosition();
         HashRepresentationStream targetFile = new HashRepresentationStream(protoFile, digest);
+        protoFile.resetChecksum();
         String header = FSRepresentation.REP_PLAIN + "\n";
         protoFile.write(header.getBytes("UTF-8"));
         SVNWCProperties.setProperties(hashContents, targetFile, SVNWCProperties.SVN_HASH_TERMINATOR);
-        String trailer = FSRepresentation.REP_TRAILER + "\n";
-        protoFile.write(trailer.getBytes("UTF-8"));
-        return targetFile.mySize;
+
+        /*
+        FSRepresentation oldRepresentation = FSOutputStream.getSharedRepresentation();
+        if (oldRepresentation != null) {
+            //TODO how can we do that with a stream? without that the whole optimization has no sense
+            SVNFileUtil.truncate(protoFile, offset);
+
+            representation.setTxnId(oldRepresentation.getTxnId());
+            representation.setMD5HexDigest(oldRepresentation.getMD5HexDigest());
+            representation.setSHA1HexDigest(oldRepresentation.getSHA1HexDigest());
+            representation.setItemIndex(oldRepresentation.getItemIndex());
+            representation.setUniquifier(oldRepresentation.getUniquifier());
+            representation.setExpandedSize(oldRepresentation.getExpandedSize());
+            representation.setSize(oldRepresentation.getSize());
+            representation.setRevision(oldRepresentation.getRevision());
+        } else {
+        */
+            String trailer = FSRepresentation.REP_TRAILER + "\n";
+            protoFile.write(trailer.getBytes("UTF-8"));
+            if (getOwner().isUseLogAddressing()) {
+                final long itemIndex = allocateItemIndex(offset);
+                final long size = protoFile.getPosition() - offset;
+                final long revision = SVNRepository.INVALID_REVISION;
+                final long number = itemIndex;
+                final int checksum = protoFile.finalizeChecksum();
+
+                representation.setItemIndex(itemIndex);
+
+                FSP2LEntry entry = new FSP2LEntry(offset, size, itemType, checksum, revision, number);
+                storeP2LIndexEntry(entry);
+            }
+            return targetFile.mySize;
+        /*
+        }
+        */
     }
 
     private static String addKeys(String key1, String key2) {

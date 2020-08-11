@@ -130,7 +130,7 @@ public class FSMergerBySequence {
 		                    local.forward();
 		                    latest.forward();
 		                    merged = true;
-						} else if (style == SVNDiffConflictChoiceStyle.CHOOSE_MODIFIED_LATEST) {
+						} else if (style == SVNDiffConflictChoiceStyle.CHOOSE_MODIFIED_LATEST || style == SVNDiffConflictChoiceStyle.CHOOSE_MODIFIED_ORIGINAL_LATEST) {
 						    baseLineIndex = createConflict(result, localStartBlock, local.current(), latestStartBlock, latest.current(), 
 						            localLines, latestLines, baseLineIndex, transformedLocalLines, style);
 	                        local.forward();
@@ -332,27 +332,31 @@ public class FSMergerBySequence {
 		final int latestFrom = Math.max(0, latestStart.getRightFrom() - (latestStart.getLeftFrom() - minBaseFrom));
 		final int latestTo = Math.min(latestLines.getLineCount() - 1, latestEnd.getRightTo() + (maxBaseTo - latestEnd.getLeftTo()));
 
-		if (style == SVNDiffConflictChoiceStyle.CHOOSE_MODIFIED_LATEST) {
+		if (style == SVNDiffConflictChoiceStyle.CHOOSE_MODIFIED_LATEST || style == SVNDiffConflictChoiceStyle.CHOOSE_MODIFIED_ORIGINAL_LATEST) {
 	        writeBytesAndEol(result, myConflictStart);
 		}
 
-		if (style == SVNDiffConflictChoiceStyle.CHOOSE_MODIFIED || style == SVNDiffConflictChoiceStyle.CHOOSE_MODIFIED_LATEST) {
+		if (style == SVNDiffConflictChoiceStyle.CHOOSE_MODIFIED || style == SVNDiffConflictChoiceStyle.CHOOSE_MODIFIED_LATEST || style == SVNDiffConflictChoiceStyle.CHOOSE_MODIFIED_ORIGINAL_LATEST) {
 	        for (int index = localFrom; index <= localTo; index++) {
 	            writeLine(result, localLines.getLine(index));
 	        }
 		}
+
+		if (style == SVNDiffConflictChoiceStyle.CHOOSE_MODIFIED_ORIGINAL_LATEST) {
+			writeBytesAndEol(result, myOriginalMarker);
+		}
 		
-		if (style == SVNDiffConflictChoiceStyle.CHOOSE_MODIFIED_LATEST) {
+		if (style == SVNDiffConflictChoiceStyle.CHOOSE_MODIFIED_LATEST || style == SVNDiffConflictChoiceStyle.CHOOSE_MODIFIED_ORIGINAL_LATEST) {
 	        writeBytesAndEol(result, myConflictSeparator);
 		}
 
-		if (style == SVNDiffConflictChoiceStyle.CHOOSE_LATEST || style == SVNDiffConflictChoiceStyle.CHOOSE_MODIFIED_LATEST) {
+		if (style == SVNDiffConflictChoiceStyle.CHOOSE_LATEST || style == SVNDiffConflictChoiceStyle.CHOOSE_MODIFIED_LATEST || style == SVNDiffConflictChoiceStyle.CHOOSE_MODIFIED_ORIGINAL_LATEST) {
 	        for (int index = latestFrom; index <= latestTo; index++) {
 	            writeLine(result, latestLines.getLine(index));
 	        }
 		}
 		
-		if (style == SVNDiffConflictChoiceStyle.CHOOSE_MODIFIED_LATEST) {
+		if (style == SVNDiffConflictChoiceStyle.CHOOSE_MODIFIED_LATEST || style == SVNDiffConflictChoiceStyle.CHOOSE_MODIFIED_ORIGINAL_LATEST) {
 	        writeBytesAndEol(result, myConflictEnd);
 		}
 

@@ -11,19 +11,23 @@
  */
 package org.tmatesoft.svn.core.internal.util.jna;
 
+import java.io.File;
+
 import com.sun.jna.Memory;
 import org.tmatesoft.svn.core.internal.wc.SVNFileType;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
 import org.tmatesoft.svn.util.SVNDebugLog;
 import org.tmatesoft.svn.util.SVNLogType;
 
-import java.io.File;
-
 /**
  * @version 1.3
  * @author TMate Software Ltd.
  */
 public class SVNLinuxUtil {
+
+    private static final int LOCK_SH = 1;
+    private static final int LOCK_EX = 2;
+    private static final int LOCK_UN = 8;
 
     private static Memory ourSharedMemory;
     private static final boolean ourIsDashStat = Boolean.getBoolean("svnkit.jna.dash_stat");
@@ -56,9 +60,14 @@ public class SVNLinuxUtil {
                     if (ourIsDashStat && SVNFileUtil.isBSD) {
                         rc = cLibrary._lstat(path, ourSharedMemory);
                     } else {
-                        rc = SVNFileUtil.isOSX || SVNFileUtil.isBSD || SVNFileUtil.isSolaris || (SVNFileUtil.isLinux && SVNFileUtil.is32Bit) ?
-                            cLibrary.lstat(path, ourSharedMemory) :
-                            cLibrary.__lxstat64(0, path, ourSharedMemory);
+                        if (SVNFileUtil.isLinux && SVNFileUtil.is32Bit) {
+                            rc = cLibrary.__lxstat(3, path, ourSharedMemory);
+                        } else if (SVNFileUtil.isOSX || SVNFileUtil.isBSD || SVNFileUtil.isSolaris) {
+                            rc = cLibrary.lstat(path, ourSharedMemory);
+                        }
+                        else {
+                            rc = cLibrary.__lxstat64(0, path, ourSharedMemory);
+                        }
                     }
                 }
                 if (rc < 0) {
@@ -110,9 +119,14 @@ public class SVNLinuxUtil {
                     if (ourIsDashStat && SVNFileUtil.isBSD) {
                         rc = cLibrary._lstat(path, ourSharedMemory);
                     } else {
-                        rc = SVNFileUtil.isOSX || SVNFileUtil.isBSD || SVNFileUtil.isSolaris || (SVNFileUtil.isLinux && SVNFileUtil.is32Bit) ?
-                            cLibrary.lstat(path, ourSharedMemory) :
-                            cLibrary.__lxstat64(0, path, ourSharedMemory);
+                        if (SVNFileUtil.isLinux && SVNFileUtil.is32Bit) {
+                            rc = cLibrary.__lxstat(3, path, ourSharedMemory);
+                        } else if (SVNFileUtil.isOSX || SVNFileUtil.isBSD || SVNFileUtil.isSolaris) {
+                            rc = cLibrary.lstat(path, ourSharedMemory);
+                        }
+                        else {
+                            rc = cLibrary.__lxstat64(0, path, ourSharedMemory);
+                        }
                     }
                 }
                 if (rc < 0) {
@@ -175,6 +189,10 @@ public class SVNLinuxUtil {
 
 
     public static Long getSymlinkLastModified(File file) {
+        return getLastModifiedMicros(file) / 1000;
+    }
+
+    public static Long getLastModifiedMicros(File file) {
         if (file == null || ourSharedMemory == null) {
             return null;
         }
@@ -194,16 +212,27 @@ public class SVNLinuxUtil {
                     if (ourIsDashStat && SVNFileUtil.isBSD) {
                         rc = cLibrary._lstat(path, ourSharedMemory);
                     } else {
-                        rc = SVNFileUtil.isOSX || SVNFileUtil.isBSD || SVNFileUtil.isSolaris || (SVNFileUtil.isLinux && SVNFileUtil.is32Bit) ?
-                            cLibrary.lstat(path, ourSharedMemory) :
-                            cLibrary.__lxstat64(0, path, ourSharedMemory);
+                        if (SVNFileUtil.isLinux && SVNFileUtil.is32Bit) {
+                            rc = cLibrary.__lxstat(3, path, ourSharedMemory);
+                        } else if (SVNFileUtil.isOSX || SVNFileUtil.isBSD || SVNFileUtil.isSolaris) {
+                            rc = cLibrary.lstat(path, ourSharedMemory);
+                        }
+                        else {
+                            rc = cLibrary.__lxstat64(0, path, ourSharedMemory);
+                        }
                     }
                 }
                 if (rc < 0) {
                     return null;
                 }
 
-                return ourSharedMemory.getLong(getFileLastModifiedOffset()) * 1000;
+                final long timeSeconds = SVNFileUtil.is32Bit ?
+                        ourSharedMemory.getInt(getFileLastModifiedOffset()) :
+                        ourSharedMemory.getLong(getFileLastModifiedOffset());
+                final long timeNanoseconds = SVNFileUtil.is32Bit ?
+                        ourSharedMemory.getInt(getFileLastModifiedOffsetNanos()) :
+                        ourSharedMemory.getLong(getFileLastModifiedOffsetNanos());
+                return timeSeconds * 1000000 + timeNanoseconds / 1000;
             }
         } catch (Throwable th) {
             //
@@ -232,9 +261,14 @@ public class SVNLinuxUtil {
                     if (ourIsDashStat && SVNFileUtil.isBSD) {
                         rc = cLibrary._lstat(path, ourSharedMemory);
                     } else {
-                        rc = SVNFileUtil.isOSX || SVNFileUtil.isBSD || SVNFileUtil.isSolaris || (SVNFileUtil.isLinux && SVNFileUtil.is32Bit) ?
-                            cLibrary.lstat(path, ourSharedMemory) :
-                            cLibrary.__lxstat64(0, path, ourSharedMemory);
+                        if (SVNFileUtil.isLinux && SVNFileUtil.is32Bit) {
+                            rc = cLibrary.__lxstat(3, path, ourSharedMemory);
+                        } else if (SVNFileUtil.isOSX || SVNFileUtil.isBSD || SVNFileUtil.isSolaris) {
+                            rc = cLibrary.lstat(path, ourSharedMemory);
+                        }
+                        else {
+                            rc = cLibrary.__lxstat64(0, path, ourSharedMemory);
+                        }
                     }
                 }
                 if (rc < 0) {
@@ -291,9 +325,14 @@ public class SVNLinuxUtil {
                     if (ourIsDashStat && SVNFileUtil.isBSD) {
                         rc = cLibrary._lstat(path, ourSharedMemory);
                     } else {
-                        rc = SVNFileUtil.isOSX || SVNFileUtil.isBSD || SVNFileUtil.isSolaris || (SVNFileUtil.isLinux && SVNFileUtil.is32Bit) ?
-                            cLibrary.lstat(path, ourSharedMemory) :
-                            cLibrary.__lxstat64(0, path, ourSharedMemory);
+                        if (SVNFileUtil.isLinux && SVNFileUtil.is32Bit) {
+                            rc = cLibrary.__lxstat(3, path, ourSharedMemory);
+                        } else if (SVNFileUtil.isOSX || SVNFileUtil.isBSD || SVNFileUtil.isSolaris) {
+                            rc = cLibrary.lstat(path, ourSharedMemory);
+                        }
+                        else {
+                            rc = cLibrary.__lxstat64(0, path, ourSharedMemory);
+                        }
                     }
                 }
                 if (rc < 0) {
@@ -396,6 +435,61 @@ public class SVNLinuxUtil {
         return false;
     }
 
+    /**
+     * Unlike corresponding C function, it opens the file, locks it with
+     * BSD lock (FLOCK) and returns the descriptor that can be used to unlock
+     * (@see unflock())
+     * @param file file to lock
+     * @param exclusive true for exclusive lock, false for shared lock
+     * @return integer file descriptor that can be used to unlock the file
+     */
+    public static int flock(File file, boolean exclusive) {
+        try {
+            final ISVNCLibrary cLibrary = JNALibraryLoader.getCLibrary();
+            if (cLibrary == null) {
+                return -1;
+            }
+            synchronized (cLibrary) {
+                //noinspection OctalInteger
+                final int O_CREAT = getFileCreationConstant();
+                final int O_RDWR = getReadWriteConstant();
+                final int fd = cLibrary.open(file.getAbsolutePath(), O_RDWR | O_CREAT, 0644);
+                if (fd < 0) {
+                    return -1;
+                }
+                final int rc = cLibrary.flock(fd, exclusive ? LOCK_EX : LOCK_SH);
+                if (rc != 0) {
+                    cLibrary.close(fd);
+                    return -1;
+                }
+                return fd;
+            }
+        } catch (Throwable th) {
+            //
+        }
+        return -1;
+    }
+
+    public static boolean unflock(int fd) {
+        try {
+            final ISVNCLibrary cLibrary = JNALibraryLoader.getCLibrary();
+            if (cLibrary == null) {
+                return false;
+            }
+            synchronized (cLibrary) {
+                final int rc = cLibrary.flock(fd, LOCK_UN);
+                if (rc != 0) {
+                    return false;
+                }
+                cLibrary.close(fd);
+                return true;
+            }
+        } catch (Throwable th) {
+            //
+        }
+        return false;
+    }
+
     private static int getFileModeOffset() {
         if (SVNFileUtil.isLinux && SVNFileUtil.is64Bit) {
             return 24;
@@ -412,8 +506,11 @@ public class SVNLinuxUtil {
         if (SVNFileUtil.isSolaris && SVNFileUtil.is32Bit) {
             return 20;
         }
-        if (SVNFileUtil.isBSD) {
+        if (SVNFileUtil.isBSD && !SVNFileUtil.isIno64) {
             return 8;
+        }
+        if (SVNFileUtil.isBSD && SVNFileUtil.isIno64) {
+            return 24;
         }
         return 16;
     }
@@ -444,23 +541,41 @@ public class SVNLinuxUtil {
     }
 
     private static int getFileLastModifiedOffset() {
+        int groupOffset = getFileGroupIDOffset();
         if (SVNFileUtil.isLinux && SVNFileUtil.is64Bit) {
             return 88;
         }
         if (SVNFileUtil.isLinux && SVNFileUtil.is32Bit) {
             return 64;
         }
-        if (SVNFileUtil.isBSD) {
+        if (SVNFileUtil.isBSD && !SVNFileUtil.isIno64) {
             return 32;
+        }
+        if (SVNFileUtil.isBSD && SVNFileUtil.isIno64) {
+            return 48;
         }
         if (SVNFileUtil.isSolaris) {
             //64bit
             return 64;
         }
         if (SVNFileUtil.isOSX) {
-            return 48;
+            return 40;
         }
         return 88;
     }
+
+    private static int getFileLastModifiedOffsetNanos() {
+        return SVNFileUtil.is32Bit ?
+                getFileLastModifiedOffset() + 4 :
+                getFileLastModifiedOffset() + 8;
+    }
     
+    private static int getReadWriteConstant() {
+        return 2;
+    }
+
+    private static int getFileCreationConstant() {
+        //on Linux it's 64 both in 32bit and 6bit mode
+        return SVNFileUtil.isOSX ? 512 : 64;
+    }
 }

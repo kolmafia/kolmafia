@@ -11,12 +11,8 @@
  */
 package org.tmatesoft.svn.core.internal.delta;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.Iterator;
-import java.util.zip.InflaterInputStream;
-
+import net.jpountz.lz4.LZ4Factory;
+import net.jpountz.lz4.LZ4FastDecompressor;
 import org.tmatesoft.svn.core.SVNErrorCode;
 import org.tmatesoft.svn.core.SVNErrorMessage;
 import org.tmatesoft.svn.core.SVNException;
@@ -27,6 +23,12 @@ import org.tmatesoft.svn.core.io.diff.SVNDiffInstruction;
 import org.tmatesoft.svn.core.io.diff.SVNDiffWindow;
 import org.tmatesoft.svn.util.SVNDebugLog;
 import org.tmatesoft.svn.util.SVNLogType;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.Iterator;
+import java.util.zip.InflaterInputStream;
 
 
 /**
@@ -106,10 +108,10 @@ public class SVNDeltaCombiner {
         }
         myReadWindowBuffer.position(0);
         myReadWindowBuffer.limit(myReadWindowBuffer.capacity());
-        if (version == 1) {
+        if (version == 1 || version == 2) {
             // decompress instructions and new data, put back to the buffer.
             try {
-                int[] lenghts = decompress(instructionsLength, dataLength);
+                int[] lenghts = decompress(instructionsLength, dataLength, version);
                 instructionsLength = lenghts[0];
                 dataLength = lenghts[1];
             } catch (IOException e) {
@@ -122,7 +124,7 @@ public class SVNDeltaCombiner {
         return window;
     }
 
-    private int[] decompress(int instructionsLength, int dataLength) throws IOException {
+    private int[] decompress(int instructionsLength, int dataLength, int version) throws IOException {
         int originalPosition = myReadWindowBuffer.position();
         int realInstructionsLength = readOffset(myReadWindowBuffer);
         byte[] instructionsData = new byte[realInstructionsLength];
@@ -136,10 +138,15 @@ public class SVNDeltaCombiner {
             byte[] compressedData = new byte[compressedLength];
             System.arraycopy(myReadWindowBuffer.array(), myReadWindowBuffer.arrayOffset() + myReadWindowBuffer.position(), compressedData, 0, compressedLength);
             myReadWindowBuffer.position(myReadWindowBuffer.position() + compressedLength);
-            InflaterInputStream is = new InflaterInputStream(new ByteArrayInputStream(compressedData));
-            int read = 0;
-            while(read < realInstructionsLength) {
-                read += is.read(instructionsData, read, realInstructionsLength - read);
+            if (version == 1) {
+                final InflaterInputStream is = new InflaterInputStream(new ByteArrayInputStream(compressedData));
+                int read = 0;
+                while (read < realInstructionsLength) {
+                    read += is.read(instructionsData, read, realInstructionsLength - read);
+                }
+            } else if (version == 2) {
+                final LZ4FastDecompressor dc = LZ4Factory.fastestInstance().fastDecompressor();
+                dc.decompress(compressedData, 0, instructionsData, 0, realInstructionsLength);
             }
         }
         if (dataLength > 0) {
@@ -154,10 +161,15 @@ public class SVNDeltaCombiner {
                 byte[] compressedData = new byte[compressedLength];
                 System.arraycopy(myReadWindowBuffer.array(), myReadWindowBuffer.arrayOffset() + myReadWindowBuffer.position(), compressedData, 0, compressedLength);
                 myReadWindowBuffer.position(myReadWindowBuffer.position() + compressedLength);
-                InflaterInputStream is = new InflaterInputStream(new ByteArrayInputStream(compressedData));
-                int read = 0;
-                while(read < realDataLength) {
-                    read += is.read(data, read, realDataLength - read);
+                if (version == 1) {
+                    final InflaterInputStream is = new InflaterInputStream(new ByteArrayInputStream(compressedData));
+                    int read = 0;
+                    while (read < realDataLength) {
+                        read += is.read(data, read, realDataLength - read);
+                    }
+                } else if (version == 2) {
+                    final LZ4FastDecompressor dc = LZ4Factory.fastestInstance().fastDecompressor();
+                    dc.decompress(compressedData, 0, data, 0, realDataLength);
                 }
             }
         }

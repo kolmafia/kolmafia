@@ -3093,12 +3093,12 @@ public class SVNDiffClient16 extends SVNMergeDriver {
             kind2 = repository2.checkPath("", rev2);
             if (kind1 == SVNNodeKind.NONE) {
                 SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_NOT_FOUND, "''{0}'' was not found in the repository at revision {1}", new Object[] {
-                        url1, new Long(rev1)
+                        url1, rev1
                 });
                 SVNErrorManager.error(err, SVNLogType.WC);
             } else if (kind2 == SVNNodeKind.NONE) {
                 SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_NOT_FOUND, "''{0}'' was not found in the repository at revision {1}", new Object[] {
-                        url2, new Long(rev2)
+                        url2, rev2
                 });
                 SVNErrorManager.error(err, SVNLogType.WC);
             }
@@ -3167,12 +3167,12 @@ public class SVNDiffClient16 extends SVNMergeDriver {
             kind2 = repository2.checkPath("", rev2);
             if (kind1 == SVNNodeKind.NONE) {
                 SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_NOT_FOUND, "''{0}'' was not found in the repository at revision {1}", new Object[] {
-                        url1, new Long(rev1)
+                        url1, rev1
                 });
                 SVNErrorManager.error(err, SVNLogType.WC);
             } else if (kind2 == SVNNodeKind.NONE) {
                 SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_NOT_FOUND, "''{0}'' was not found in the repository at revision {1}", new Object[] {
-                        url2, new Long(rev2)
+                        url2, rev2
                 });
                 SVNErrorManager.error(err, SVNLogType.WC);
             }

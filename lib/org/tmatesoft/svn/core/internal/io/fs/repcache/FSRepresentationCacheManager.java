@@ -40,12 +40,11 @@ import org.tmatesoft.svn.util.SVNLogType;
 public class FSRepresentationCacheManager implements IFSRepresentationCacheManager {
     
     public static final String REP_CACHE_TABLE = "rep_cache";
-    private static final int REP_CACHE_DB_FORMAT =  1;
     private static final String REP_CACHE_DB_SQL =  "create table rep_cache (hash text not null primary key, " +
                                                     "                        revision integer not null, " + 
                                                     "                        offset integer not null, " + 
                                                     "                        size integer not null, " +
-                                                    "                        expanded_size integer not null); ";
+                                                    "                        expanded_size integer not null) without rowid;";
 
     private SqlJetDb myRepCacheDB;
     private ISqlJetTable myTable;
@@ -57,7 +56,7 @@ public class FSRepresentationCacheManager implements IFSRepresentationCacheManag
             cacheObj.myRepCacheDB = SqlJetDb.open(fsfs.getRepositoryCacheFile(), true);
             cacheObj.myRepCacheDB.setSafetyLevel(SqlJetSafetyLevel.OFF);
             
-            checkFormat(cacheObj.myRepCacheDB);
+            checkFormat(fsfs.getDBFormat(), cacheObj.myRepCacheDB);
             cacheObj.myTable = cacheObj.myRepCacheDB.getTable(REP_CACHE_TABLE);
         } catch (SqlJetException e) {
             SVNDebugLog.getDefaultLog().logError(SVNLogType.FSFS, e);
@@ -67,11 +66,11 @@ public class FSRepresentationCacheManager implements IFSRepresentationCacheManag
         return cacheObj;
     }
     
-    public static void createRepresentationCache(File path) throws SVNException {
+    public static void createRepresentationCache(int format, File path) throws SVNException {
         SqlJetDb db = null;
         try {
             db = SqlJetDb.open(path, true);
-            checkFormat(db);
+            checkFormat(format, db);
         } catch (SqlJetException e) {
             SVNDebugLog.getDefaultLog().logError(SVNLogType.FSFS, e);
         } finally {
@@ -85,20 +84,21 @@ public class FSRepresentationCacheManager implements IFSRepresentationCacheManag
         }
     }
 
-    private static void checkFormat(final SqlJetDb db) throws SqlJetException {
+    private static void checkFormat(final int fsFormat, final SqlJetDb db) throws SqlJetException {
+        final int schemaVersion = FSFS.getRepCacheSchemaFormat(fsFormat);
         db.runWithLock(new ISqlJetRunnableWithLock() {
             public Object runWithLock(SqlJetDb db) throws SqlJetException {
                 int version = db.getOptions().getUserVersion();
-                if (version < REP_CACHE_DB_FORMAT) {
+                if (version < schemaVersion) {
                     db.getOptions().setAutovacuum(true);
                     db.runWriteTransaction(new ISqlJetTransaction() {
                         public Object run(SqlJetDb db) throws SqlJetException {
-                            db.getOptions().setUserVersion(REP_CACHE_DB_FORMAT);
+                            db.getOptions().setUserVersion(schemaVersion);
                             db.createTable(FSRepresentationCacheManager.REP_CACHE_DB_SQL);
                             return null;
                         }
                     });
-                } else if (version > REP_CACHE_DB_FORMAT) {
+                } else if (version > schemaVersion) {
                     throw new SqlJetException("Schema format " + version + " not recognized");   
                 }
                 return null;
@@ -114,13 +114,13 @@ public class FSRepresentationCacheManager implements IFSRepresentationCacheManag
         }
         FSRepresentation oldRep = getRepresentationByHash(representation.getSHA1HexDigest());
         if (oldRep != null) {
-            if (rejectDup && (oldRep.getRevision() != representation.getRevision() || oldRep.getOffset() != representation.getOffset() ||
+            if (rejectDup && (oldRep.getRevision() != representation.getRevision() || oldRep.getItemIndex() != representation.getItemIndex() ||
                     oldRep.getSize() != representation.getSize() || oldRep.getExpandedSize() != representation.getExpandedSize())) {
                 SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_CORRUPT, "Representation key for checksum ''{0}'' exists in " + 
                         "filesystem ''{1}'' with a different value ({2},{3},{4},{5}) than what we were about to store ({6},{7},{8},{9})", 
                         new Object[] { representation.getSHA1HexDigest(), myFSFS.getRepositoryRoot(), String.valueOf(oldRep.getRevision()), 
-                        String.valueOf(oldRep.getOffset()), String.valueOf(oldRep.getSize()), String.valueOf(oldRep.getExpandedSize()), 
-                        String.valueOf(representation.getRevision()), String.valueOf(representation.getOffset()), 
+                        String.valueOf(oldRep.getItemIndex()), String.valueOf(oldRep.getSize()), String.valueOf(oldRep.getExpandedSize()),
+                        String.valueOf(representation.getRevision()), String.valueOf(representation.getItemIndex()),
                         String.valueOf(representation.getSize()), String.valueOf(representation.getExpandedSize()) });
                 SVNErrorManager.error(err, SVNLogType.FSFS);
             }
@@ -128,9 +128,9 @@ public class FSRepresentationCacheManager implements IFSRepresentationCacheManag
         }
         
         try {
-            myTable.insert(new Object[] { representation.getSHA1HexDigest(), new Long(representation.getRevision()),
-                    new Long(representation.getOffset()), new Long(representation.getSize()), 
-                    new Long(representation.getExpandedSize()) });
+            myTable.insert(new Object[] { representation.getSHA1HexDigest(), representation.getRevision(),
+                    representation.getItemIndex(), representation.getSize(),
+                    representation.getExpandedSize()});
         } catch (SqlJetException e) {
             SVNErrorManager.error(convertError(e), SVNLogType.FSFS);
         }
@@ -155,7 +155,7 @@ public class FSRepresentationCacheManager implements IFSRepresentationCacheManag
         if (cache != null) {
             FSRepresentation representation = new FSRepresentation();
             representation.setExpandedSize(cache.getExpandedSize());
-            representation.setOffset(cache.getOffset());
+            representation.setItemIndex(cache.getOffset());
             representation.setRevision(cache.getRevision());
             representation.setSize(cache.getSize());
             representation.setSHA1HexDigest(cache.getHash());

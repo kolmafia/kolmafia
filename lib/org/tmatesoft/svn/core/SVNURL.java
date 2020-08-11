@@ -170,7 +170,7 @@ public class SVNURL {
             dPort = (Integer) DEFAULT_PORTS.get(protocol);
         }
         if (dPort != null) {
-            return dPort.intValue();
+            return dPort;
         }
         return -1;
     }
@@ -178,11 +178,11 @@ public class SVNURL {
     private static final Map DEFAULT_PORTS = new SVNHashMap();
     
     static {
-        DEFAULT_PORTS.put("svn", new Integer(3690));
-        DEFAULT_PORTS.put("svn+ssh", new Integer(22));
-        DEFAULT_PORTS.put("http", new Integer(80));
-        DEFAULT_PORTS.put("https", new Integer(443));
-        DEFAULT_PORTS.put("file", new Integer(0));
+        DEFAULT_PORTS.put("svn", 3690);
+        DEFAULT_PORTS.put("svn+ssh", 22);
+        DEFAULT_PORTS.put("http", 80);
+        DEFAULT_PORTS.put("https", 443);
+        DEFAULT_PORTS.put("file", 0);
     }
     
     /**
@@ -196,7 +196,7 @@ public class SVNURL {
         if (protocolName != null) {
             synchronized (DEFAULT_PORTS) {
                 if (defaultPort >= 0) {
-                    DEFAULT_PORTS.put(protocolName, new Integer(defaultPort));
+                    DEFAULT_PORTS.put(protocolName, defaultPort);
                 } else {
                     DEFAULT_PORTS.remove(protocolName);
                 }

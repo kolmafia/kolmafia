@@ -396,7 +396,7 @@ public abstract class SVNSqlJetStatement {
         if (val == null)
             return null;
         final SVNSkel skel = SVNSkel.parse(val);
-        if (!skel.isValidPropList()) {
+        if (skel == null || !skel.isValidPropList()) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_MALFORMED_SKEL, "proplist");
             SVNErrorManager.error(err, SVNLogType.FSFS);
         }
@@ -408,7 +408,7 @@ public abstract class SVNSqlJetStatement {
             return null;
         }
         final SVNSkel skel = SVNSkel.parse(val);
-        if (!skel.isValidInheritedProperties()) {
+        if (skel == null || !skel.isValidInheritedProperties()) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_MALFORMED_SKEL, "inhertied-props");
             SVNErrorManager.error(err, SVNLogType.FSFS);
         }

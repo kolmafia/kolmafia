@@ -613,7 +613,7 @@ public class SVNMergeInfoUtil {
                 mergeInfo.charAt(0) != '*') {
                 SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.MERGE_INFO_PARSE_ERROR, 
                         "Invalid character ''{0}'' found in revision list", 
-                        new Character(mergeInfo.charAt(0)));
+                        Character.valueOf(mergeInfo.charAt(0)));
                 SVNErrorManager.error(err, SVNLogType.DEFAULT);
             }
             
@@ -624,12 +624,12 @@ public class SVNMergeInfoUtil {
                 if (startRev > endRev) {
                     SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.MERGE_INFO_PARSE_ERROR, 
                             "Unable to parse reversed revision range ''{0}-{1}''",
-                            new Object[] { new Long(startRev), new Long(endRev) });
+                            new Object[] {startRev, endRev});
                     SVNErrorManager.error(err, SVNLogType.DEFAULT);
                 } else if (startRev == endRev) {
                     SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.MERGE_INFO_PARSE_ERROR, 
                             "Unable to parse revision range ''{0}-{1}'' with same start and end revisions",
-                            new Object[] { new Long(startRev), new Long(endRev) });
+                            new Object[] {startRev, endRev});
                     SVNErrorManager.error(err, SVNLogType.DEFAULT);
                 }
                 range.setEndRevision(endRev);

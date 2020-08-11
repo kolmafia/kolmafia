@@ -348,7 +348,7 @@ public class DAVEditorHandler extends BasicDAVDeltaHandler {
             }
             
             String bcURL = attrs.getValue(BC_URL_ATTR);
-            if (!myIsReceiveAll && bcURL != null) {
+            if (!myIsReceiveAll && bcURL != null && !myIsAddPropsIncluded) {
                 DAVElement[] elements = null;
                 Map propsMap = new SVNHashMap();
                 DAVUtil.getProperties(getConnection(), DAVUtil.getPathFromURL(bcURL), 1, null, elements, propsMap);

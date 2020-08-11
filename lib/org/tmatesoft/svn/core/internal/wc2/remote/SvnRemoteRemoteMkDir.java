@@ -26,6 +26,7 @@ import org.tmatesoft.svn.core.internal.wc2.SvnRemoteOperationRunner;
 import org.tmatesoft.svn.core.io.ISVNEditor;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.wc.ISVNEventHandler;
+import org.tmatesoft.svn.core.wc.SVNEvent;
 import org.tmatesoft.svn.core.wc.SVNEventAction;
 import org.tmatesoft.svn.core.wc2.SvnCommitItem;
 import org.tmatesoft.svn.core.wc2.SvnRemoteMkDir;
@@ -136,6 +137,9 @@ public class SvnRemoteRemoteMkDir extends SvnRemoteOperationRunner<SVNCommitInfo
         SVNCommitInfo info;
         try {
             SVNCommitUtil.driveCommitEditor(creater, paths, commitEditor, -1);
+            SVNEvent event = SVNEventFactory.createSVNEvent(null, SVNNodeKind.UNKNOWN, null, SVNRepository.INVALID_REVISION, SVNEventAction.COMMIT_FINALIZING, SVNEventAction.COMMIT_FINALIZING, null, null);
+            event.setURL(rootURL);
+            handleEvent(event);
             info = commitEditor.closeEdit();
         } catch (SVNException e) {
             try {

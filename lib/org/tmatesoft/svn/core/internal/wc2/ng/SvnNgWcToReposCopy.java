@@ -19,13 +19,11 @@ import org.tmatesoft.svn.core.SVNProperties;
 import org.tmatesoft.svn.core.SVNProperty;
 import org.tmatesoft.svn.core.SVNPropertyValue;
 import org.tmatesoft.svn.core.SVNURL;
+import org.tmatesoft.svn.core.internal.wc.SVNExternalsUtil;
 import org.tmatesoft.svn.core.internal.util.SVNMergeInfoUtil;
 import org.tmatesoft.svn.core.internal.util.SVNPathUtil;
 import org.tmatesoft.svn.core.internal.util.SVNURLUtil;
-import org.tmatesoft.svn.core.internal.wc.SVNCommitUtil;
-import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
-import org.tmatesoft.svn.core.internal.wc.SVNExternal;
-import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
+import org.tmatesoft.svn.core.internal.wc.*;
 import org.tmatesoft.svn.core.internal.wc17.SVNCommitter17;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCUtils;
@@ -36,11 +34,10 @@ import org.tmatesoft.svn.core.internal.wc2.SvnWcGeneration;
 import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgCommitUtil.ISvnUrlKindCallback;
 import org.tmatesoft.svn.core.io.ISVNEditor;
 import org.tmatesoft.svn.core.io.SVNRepository;
+import org.tmatesoft.svn.core.wc.SVNEvent;
+import org.tmatesoft.svn.core.wc.SVNEventAction;
 import org.tmatesoft.svn.core.wc.SVNRevision;
-import org.tmatesoft.svn.core.wc2.SvnCommitItem;
-import org.tmatesoft.svn.core.wc2.SvnCommitPacket;
-import org.tmatesoft.svn.core.wc2.SvnCopySource;
-import org.tmatesoft.svn.core.wc2.SvnRemoteCopy;
+import org.tmatesoft.svn.core.wc2.*;
 import org.tmatesoft.svn.core.wc2.hooks.ISvnCommitHandler;
 import org.tmatesoft.svn.util.SVNLogType;
 
@@ -199,13 +196,34 @@ public class SvnNgWcToReposCopy extends SvnNgOperationRunner<SVNCommitInfo, SvnR
                 mergeInfo = wcMergeInfo;
             }
             String extendedMergeInfoValue = null;
-            if (wcMergeInfo != null) {
+            if (mergeInfo != null) {
                 extendedMergeInfoValue = SVNMergeInfoUtil.formatMergeInfoToString(wcMergeInfo, null);
                 item.addOutgoingProperty(SVNProperty.MERGE_INFO, SVNPropertyValue.create(extendedMergeInfoValue));
             }
             // append externals changes
             if (externals != null && !externals.isEmpty()) {
                 includeExternalsChanges(repository, packet, externals, svnCopyPair);
+            }
+            if (getOperation().isPinExternals()) {
+                final Map<String, SVNPropertyValue> pinnedExternals = SVNExternalsUtil.resolvePinnedExternals(getWcContext(), getRepositoryAccess(), getOperation().getExternalsToPin(), SvnTarget.fromFile(svnCopyPair.source), SvnTarget.fromURL(svnCopyPair.dst), -1, repository, repositoryRoot);
+                for (Map.Entry<String, SVNPropertyValue> entry : pinnedExternals.entrySet()) {
+                    final String dstRelPath = entry.getKey();
+                    final SVNPropertyValue externalsPropertyValue = entry.getValue();
+
+                    SVNURL dstUrl;
+
+                    boolean dstIsUrl = true;//TODO: can we really copy path-to-path as wc to repos?
+                    if (dstIsUrl) {
+                        dstUrl = svnCopyPair.dst;
+                    } else {
+                        File dstAbsPath = null;//TODO
+                        dstUrl = getWcContext().getNodeUrl(dstAbsPath);
+                    }
+                    final SVNURL commitUrl = dstUrl.appendPath(dstRelPath, false);
+                    final File srcAbsPath = SVNFileUtil.createFilePath(svnCopyPair.source, dstRelPath);
+
+                    queuePropChangeCommitItems(srcAbsPath, commitUrl, packet, SVNProperty.EXTERNALS, externalsPropertyValue, repositoryRoot);
+                }
             }
         }
 
@@ -225,9 +243,36 @@ public class SvnNgWcToReposCopy extends SvnNgOperationRunner<SVNCommitInfo, SvnR
         SVNCommitter17 committer = new SVNCommitter17(getWcContext(), committables, repositoryRoot, null, null, null);
         SVNCommitUtil.driveCommitEditor(committer, committables.keySet(), commitEditor, -1);
         committer.sendTextDeltas(commitEditor);
+        SVNEvent event = SVNEventFactory.createSVNEvent(null, SVNNodeKind.UNKNOWN, null, SVNRepository.INVALID_REVISION, SVNEventAction.COMMIT_FINALIZING, SVNEventAction.COMMIT_FINALIZING, null, null);
+        event.setURL(url);
+        handleEvent(event);
         SVNCommitInfo info = commitEditor.closeEdit();
         deleteDeleteFiles(committer, getOperation().getCommitParameters());
         return info;
+    }
+
+    private void queuePropChangeCommitItems(File localAbsPath, SVNURL commitUrl, SvnCommitPacket packet, String propName, SVNPropertyValue externalsPropertyValue, SVNURL repositoryRoot) {
+        SvnCommitItem item = null;
+
+        Collection<SvnCommitItem> items = packet.getItems(repositoryRoot);
+
+        for (SvnCommitItem existingItem : items) {
+            if (existingItem.getUrl().equals(commitUrl)) {
+                item = existingItem;
+                break;
+            }
+        }
+        if (item == null) {
+            item = new SvnCommitItem();
+            item.setPath(localAbsPath);
+            item.setUrl(commitUrl);
+            item.setKind(SVNNodeKind.DIR);
+            item.setFlags(SvnCommitItem.PROPS_MODIFIED);
+            packet.addItem(item, repositoryRoot);
+        } else {
+            item.setFlags(item.getFlags() | SvnCommitItem.PROPS_MODIFIED);
+        }
+        item.addOutgoingProperty(propName, externalsPropertyValue);
     }
 
     private String buildErrorMessageWithDebugInformation(SvnCommitPacket oldPacket) {

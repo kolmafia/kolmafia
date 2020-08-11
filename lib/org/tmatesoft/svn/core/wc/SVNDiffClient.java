@@ -74,6 +74,7 @@ public class SVNDiffClient extends SVNBasicClient {
     private boolean gitDiffFormat;
     private boolean showCopiesAsAdds;
     private boolean myIsAllowMixedRevisions;
+    private boolean recurseIntoDeletedDirectories;
     private ISVNDiffGenerator diffGenerator;
     private SVNDiffOptions diffOptions;
 
@@ -137,6 +138,7 @@ public class SVNDiffClient extends SVNBasicClient {
     protected void initDefaults() {
         setDiffGenerator(null);
         setMergeOptions(null);
+        setRecurseIntoDeletedDirectories(true);
     }
 
     /**
@@ -240,6 +242,7 @@ public class SVNDiffClient extends SVNBasicClient {
         diff.setSource(SvnTarget.fromURL(url, pegRevision), rN, rM);
         diff.setDepth(SVNDepth.getInfinityOrEmptyDepth(recursive));
         diff.setIgnoreAncestry(!useAncestry);
+        diff.setRecurseIntoDeletedDirectories(isRecurseIntoDeletedDirectories());
         diff.setOutput(result);
         diff.setShowCopiesAsAdds(isShowCopiesAsAdds());
         diff.setUseGitDiffFormat(isGitDiffFormat());
@@ -298,6 +301,7 @@ public class SVNDiffClient extends SVNBasicClient {
         diff.setSource(SvnTarget.fromURL(url, pegRevision), rN, rM);
         diff.setDepth(depth);
         diff.setIgnoreAncestry(!useAncestry);
+        diff.setRecurseIntoDeletedDirectories(isRecurseIntoDeletedDirectories());
         diff.setOutput(result);
         diff.setShowCopiesAsAdds(isShowCopiesAsAdds());
         diff.setUseGitDiffFormat(isGitDiffFormat());
@@ -356,6 +360,7 @@ public class SVNDiffClient extends SVNBasicClient {
         diff.setSource(SvnTarget.fromFile(path, pegRevision), rN, rM);
         diff.setDepth(SVNDepth.getInfinityOrEmptyDepth(recursive));
         diff.setIgnoreAncestry(!useAncestry);
+        diff.setRecurseIntoDeletedDirectories(isRecurseIntoDeletedDirectories());
         diff.setOutput(result);
         diff.setShowCopiesAsAdds(isShowCopiesAsAdds());
         diff.setUseGitDiffFormat(isGitDiffFormat());
@@ -397,6 +402,7 @@ public class SVNDiffClient extends SVNBasicClient {
             diff.setSource(SvnTarget.fromFile(path, pegRevision), rN, rM);
             diff.setDepth(depth);
             diff.setIgnoreAncestry(!useAncestry);
+            diff.setRecurseIntoDeletedDirectories(isRecurseIntoDeletedDirectories());
             diff.setOutput(result);
             diff.setApplicalbeChangelists(changeLists);
             diff.setShowCopiesAsAdds(isShowCopiesAsAdds());
@@ -469,6 +475,7 @@ public class SVNDiffClient extends SVNBasicClient {
         diff.setSource(SvnTarget.fromFile(path, pegRevision), rN, rM);
         diff.setDepth(depth);
         diff.setIgnoreAncestry(!useAncestry);
+        diff.setRecurseIntoDeletedDirectories(isRecurseIntoDeletedDirectories());
         diff.setOutput(result);
         diff.setApplicalbeChangelists(changeLists);
         diff.setShowCopiesAsAdds(isShowCopiesAsAdds());
@@ -518,6 +525,7 @@ public class SVNDiffClient extends SVNBasicClient {
         diff.setSources(SvnTarget.fromURL(url1, rN), SvnTarget.fromURL(url2, rM));
         diff.setDepth(SVNDepth.getInfinityOrEmptyDepth(recursive));
         diff.setIgnoreAncestry(!useAncestry);
+        diff.setRecurseIntoDeletedDirectories(isRecurseIntoDeletedDirectories());
         diff.setOutput(result);
         diff.setShowCopiesAsAdds(isShowCopiesAsAdds());
         diff.setUseGitDiffFormat(isGitDiffFormat());
@@ -614,6 +622,7 @@ public class SVNDiffClient extends SVNBasicClient {
         diff.setSources(SvnTarget.fromURL(url1, rN), SvnTarget.fromURL(url2, rM));
         diff.setDepth(depth);
         diff.setIgnoreAncestry(!useAncestry);
+        diff.setRecurseIntoDeletedDirectories(isRecurseIntoDeletedDirectories());
         diff.setOutput(result);
         diff.setShowCopiesAsAdds(isShowCopiesAsAdds());
         diff.setUseGitDiffFormat(isGitDiffFormat());
@@ -672,6 +681,7 @@ public class SVNDiffClient extends SVNBasicClient {
         diff.setSources(SvnTarget.fromFile(path1, rN), SvnTarget.fromURL(url2, rM));
         diff.setDepth(SVNDepth.getInfinityOrEmptyDepth(recursive));
         diff.setIgnoreAncestry(!useAncestry);
+        diff.setRecurseIntoDeletedDirectories(isRecurseIntoDeletedDirectories());
         diff.setOutput(result);
         diff.setShowCopiesAsAdds(isShowCopiesAsAdds());
         diff.setUseGitDiffFormat(isGitDiffFormat());
@@ -788,6 +798,7 @@ public class SVNDiffClient extends SVNBasicClient {
         diff.setSources(SvnTarget.fromFile(path1, rN), SvnTarget.fromURL(url2, rM));
         diff.setDepth(depth);
         diff.setIgnoreAncestry(!useAncestry);
+        diff.setRecurseIntoDeletedDirectories(isRecurseIntoDeletedDirectories());
         diff.setOutput(result);
         diff.setApplicalbeChangelists(changeLists);
         diff.setShowCopiesAsAdds(isShowCopiesAsAdds());
@@ -847,6 +858,7 @@ public class SVNDiffClient extends SVNBasicClient {
         diff.setSources(SvnTarget.fromURL(url1, rN), SvnTarget.fromFile(path2, rM));
         diff.setDepth(SVNDepth.getInfinityOrEmptyDepth(recursive));
         diff.setIgnoreAncestry(!useAncestry);
+        diff.setRecurseIntoDeletedDirectories(isRecurseIntoDeletedDirectories());
         diff.setOutput(result);
         diff.setShowCopiesAsAdds(isShowCopiesAsAdds());
         diff.setUseGitDiffFormat(isGitDiffFormat());
@@ -962,6 +974,7 @@ public class SVNDiffClient extends SVNBasicClient {
         diff.setSources(SvnTarget.fromURL(url1, rN), SvnTarget.fromFile(path2, rM));
         diff.setDepth(depth);
         diff.setIgnoreAncestry(!useAncestry);
+        diff.setRecurseIntoDeletedDirectories(isRecurseIntoDeletedDirectories());
         diff.setOutput(result);
         diff.setApplicalbeChangelists(changeLists);
         diff.setShowCopiesAsAdds(isShowCopiesAsAdds());
@@ -1040,6 +1053,7 @@ public class SVNDiffClient extends SVNBasicClient {
         diff.setSources(SvnTarget.fromFile(path1, rN), SvnTarget.fromFile(path2, rM));
         diff.setDepth(SVNDepth.getInfinityOrEmptyDepth(recursive));
         diff.setIgnoreAncestry(!useAncestry);
+        diff.setRecurseIntoDeletedDirectories(isRecurseIntoDeletedDirectories());
         diff.setOutput(result);
         diff.setShowCopiesAsAdds(isShowCopiesAsAdds());
         diff.setUseGitDiffFormat(isGitDiffFormat());
@@ -1158,6 +1172,7 @@ public class SVNDiffClient extends SVNBasicClient {
         diff.setSources(SvnTarget.fromFile(path1, rN), SvnTarget.fromFile(path2, rM));
         diff.setDepth(depth);
         diff.setIgnoreAncestry(!useAncestry);
+        diff.setRecurseIntoDeletedDirectories(isRecurseIntoDeletedDirectories());
         diff.setOutput(result);
         diff.setApplicalbeChangelists(changeLists);
         diff.setShowCopiesAsAdds(isShowCopiesAsAdds());
@@ -3224,6 +3239,7 @@ public class SVNDiffClient extends SVNBasicClient {
         diffSummarize.setSource(source, rN, rM);
         diffSummarize.setDepth(depth);
         diffSummarize.setIgnoreAncestry(!useAncestry);
+        diffSummarize.setRecurseIntoDeletedDirectories(isRecurseIntoDeletedDirectories());
         diffSummarize.setReceiver(SvnCodec.diffStatusReceiver(handler));
         diffSummarize.run();
     }
@@ -3233,12 +3249,21 @@ public class SVNDiffClient extends SVNBasicClient {
         diffSummarize.setSources(source1, source2);
         diffSummarize.setDepth(depth);
         diffSummarize.setIgnoreAncestry(!useAncestry);
+        diffSummarize.setRecurseIntoDeletedDirectories(isRecurseIntoDeletedDirectories());
         diffSummarize.setReceiver(SvnCodec.diffStatusReceiver(handler));
         diffSummarize.run();
     }
 
     public void setAllowMixedRevisionsWCForMerge(boolean allowMixedRevisions) {
         myIsAllowMixedRevisions = allowMixedRevisions;
+    }
+
+    public boolean isRecurseIntoDeletedDirectories() {
+        return recurseIntoDeletedDirectories;
+    }
+
+    public void setRecurseIntoDeletedDirectories(boolean recurseIntoDeletedDirectories) {
+        this.recurseIntoDeletedDirectories = recurseIntoDeletedDirectories;
     }
 
     public boolean isShowCopiesAsAdds() {
