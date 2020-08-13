@@ -118,6 +118,7 @@ public class SpinMasterLatheRequest
 	public static final AdventureResult ANCIENT_REDWOOD = ItemPool.get( ItemPool.ANCIENT_REDWOOD, 1 );
 	public static final AdventureResult PURPLEHEART_LOGS = ItemPool.get( ItemPool.PURPLEHEART_LOGS, 1 );
 	public static final AdventureResult WORMWOOD_STICK = ItemPool.get( ItemPool.WORMWOOD_STICK, 1 );
+	public static final AdventureResult DRIPWOOD_SLAB = ItemPool.get( ItemPool.DRIPWOOD_SLAB, 1 );
 
 	// Manually set up the map and change the currency, as need
 	static
@@ -147,6 +148,9 @@ public class SpinMasterLatheRequest
 				break;
 			case ItemPool.WORMWOOD_WEDDING_RING:
 				cost = WORMWOOD_STICK.getInstance( price );
+				break;
+			case ItemPool.DRIPPY_DIADEM:
+				cost = DRIPWOOD_SLAB.getInstance( price );
 				break;
 			}
 			buyCosts.put( itemId, cost );

@@ -176,6 +176,8 @@ Item	double-ice cap	MP Regen Min: 5, MP Regen Max: 9, Cold Damage: +10, Familiar
 Item	draggin' ball hat	Moxie: +6, Muscle: -3, Familiar Effect: "atk, 1xVolley, cap 25"
 Item	dreadful fedora	Spooky Damage: +25, Spooky Spell Damage: +25, Kruegerand Drop: 5, Familiar Effect: "spooky atk, 1xLep"
 Item	driftwood hat	Moxie: +5, Moxie Percent: +1, Damage Absorption: +1, Damage Reduction: 1, Ranged Damage: +1, Ranged Damage Percent: +1, Initiative: +1, Experience (Moxie): +2, Experience Percent (Moxie): +1, Lasts Until Rollover
+# drippy diadem: Significant protection from damage in The Drip
+Item	drippy diadem		Drippy Resistance: +15
 Item	duct tape fedora	Mysticality: +12, Maximum MP: +40, Familiar Effect: "1xBarrr, 1xLep, cap 48"
 # dwarvish war helmet: Heads Up!
 Item	dwarvish war helmet	Familiar Effect: "atk, 1xFairy, cap 41"
