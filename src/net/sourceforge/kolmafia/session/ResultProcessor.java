@@ -1580,6 +1580,7 @@ public class ResultProcessor
 		case ItemPool.ANCIENT_REDWOOD:
 		case ItemPool.WORMWOOD_STICK:
 		case ItemPool.PURPLEHEART_LOGS:
+		case ItemPool.DRIPWOOD_SLAB:
 			NamedListenerRegistry.fireChange( "(coinmaster)" );
 			break;
 

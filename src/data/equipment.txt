@@ -94,6 +94,7 @@ double-ice cap	70	Mox: 20
 draggin' ball hat	100	Mox: 35
 dreadful fedora	200	Mox: 200
 driftwood hat	50	Mox: 10
+drippy diadem	100	none
 duct tape fedora	195	Mox: 82
 dwarvish war helmet	165	Mox: 67
 Dyspepsi-Cola helmet	30	none

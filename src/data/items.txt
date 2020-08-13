@@ -10624,3 +10624,5 @@
 10596	purpleheart &quot;pants&quot;	272177127	purpleheartpants.gif	pants		0	pairs of purpleheart &quot;pants&quot
 10597	wormwood stick	754621473	wormwood.gif	none	t	0
 10598	wormwood wedding ring	189727155	wormwoodring.gif	accessory		0
+10599	Dripwood slab	429328231	dripwood.gif	none	t	0
+10600	drippy diadem	516307518	dripdiadem.gif	hat		0
