@@ -1791,6 +1791,7 @@ user	_raindohCopiesMade	0
 user	_rainStickUsed	false
 user	_rapidPrototypingUsed	0
 user	_raveStealCount	0
+user	_redwoodRainStickUsed	false
 user	_reflexHammerUsed	0
 user	_relativityMonster	false
 user	_requestSandwichSucceeded	false
