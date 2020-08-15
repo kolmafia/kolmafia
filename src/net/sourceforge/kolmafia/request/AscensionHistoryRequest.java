@@ -870,6 +870,7 @@ public class AscensionHistoryRequest
 				pathName.equals( "Kingdom of Exploathing" ) ? AscensionSnapshot.KINGDOM_OF_EXPLOATHING :
 				pathName.equals( "Path of the Plumber" ) ? AscensionSnapshot.PATH_OF_THE_PLUMBER :
 				pathName.equals( "Low Key Summer" ) ? AscensionSnapshot.LOWKEY :
+				pathName.equals( "Grey Goo" ) ? AscensionSnapshot.GREY_GOO :
 				AscensionSnapshot.UNKNOWN_PATH;
 		}
 

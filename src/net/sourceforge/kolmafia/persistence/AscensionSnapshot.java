@@ -54,6 +54,8 @@ public class AscensionSnapshot
 {
 	public static final int NO_FILTER = 0;
 
+	// It's likely this list can be refactored out of the code, with
+	// AscensionPath existing.  Some day.
 	public static final int UNKNOWN_PATH = -1;
 	public static final int NOPATH = 998;
 	public static final int TEETOTALER = 1;
@@ -93,6 +95,7 @@ public class AscensionSnapshot
 	public static final int KINGDOM_OF_EXPLOATHING = 37;
 	public static final int PATH_OF_THE_PLUMBER = 38;
 	public static final int LOWKEY = 39;
+	public static final int GREY_GOO = 40;
 
 	public static final int UNKNOWN_CLASS = -1;
 	public static final int SEAL_CLUBBER = 1;
