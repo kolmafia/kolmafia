@@ -36,8 +36,8 @@ package net.sourceforge.kolmafia.textui;
 import java.io.File;
 
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
-import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -69,14 +69,12 @@ public class NamespaceInterpreter
 
 		if ( !shouldRefresh )
 		{
-			TreeMap imports = this.parser.getImports();
-			Iterator it = imports.entrySet().iterator();
+			Map<File, Long> imports = this.parser.getImports();
 
-			while ( it.hasNext() && !shouldRefresh )
+			for ( Entry<File, Long> entry : imports.entrySet() )
 			{
-				Entry entry = (Entry) it.next();
-				File file = (File) entry.getKey();
-				Long date = (Long) entry.getValue();
+				File file = entry.getKey();
+				Long date = entry.getValue();
 				shouldRefresh = date.longValue() != file.lastModified();
 			}
 		}
@@ -92,9 +90,7 @@ public class NamespaceInterpreter
 	private boolean refresh( String importString )
 	{
 		this.scope = new Scope( new VariableList(), Parser.getExistingFunctionScope() );
-
-		TreeMap imports = this.parser.getImports();
-		imports.clear();
+		this.parser.getImports().clear();
 	
 		if ( importString.length() > 0 )
 		{

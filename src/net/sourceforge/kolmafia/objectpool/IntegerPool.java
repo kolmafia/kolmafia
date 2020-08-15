@@ -50,7 +50,7 @@ public class IntegerPool
 	{
 		for ( int i = 0; i < IntegerPool.RANGE; ++i )
 		{
-			IntegerPool.CACHE[ i ] = new Integer( IntegerPool.MIN_VALUE + i );
+			IntegerPool.CACHE[ i ] = IntegerPool.MIN_VALUE + i;
 		}
 	}
 
@@ -74,13 +74,13 @@ public class IntegerPool
 		if ( i < IntegerPool.MIN_VALUE )
 		{
 			++cacheMissLows;
-			return new Integer( i );
+			return i;
 		}
 
 		if ( i > IntegerPool.MAX_VALUE )
 		{
 			++cacheMissHighs;
-			return new Integer( i );
+			return i;
 		}
 
 		++cacheHits;

@@ -41,8 +41,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
-import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -80,7 +80,7 @@ public class Interpreter
 	public static final String STATE_CONTINUE = "CONTINUE";
 	public static final String STATE_EXIT = "EXIT";
 
-	private static Stack interpreterStack = new Stack();
+	private static Stack<Interpreter> interpreterStack = new Stack<>();
 
 	private String currentState = Interpreter.STATE_NORMAL;
 	private boolean exiting = false;
@@ -141,17 +141,17 @@ public class Interpreter
 		this.parser = new Parser();
 		this.scope = new Scope( new VariableList(), Parser.getExistingFunctionScope() );
 		this.hadPendingState = false;
-		this.frameStack = new ArrayList<CallFrame>();
-		this.unusedCallFrames = new ArrayList<CallFrame>();
+		this.frameStack = new ArrayList<>();
+		this.unusedCallFrames = new ArrayList<>();
 	}
 
 	private Interpreter( final Interpreter source, final File scriptFile )
 	{
-		this.parser = new Parser( scriptFile, null, source.getImports() );
+		this.parser = new Parser( scriptFile, source.getImports() );
 		this.scope = source.scope;
 		this.hadPendingState = false;
-		this.frameStack = new ArrayList<CallFrame>();
-		this.unusedCallFrames = new ArrayList<CallFrame>();
+		this.frameStack = new ArrayList<>();
+		this.unusedCallFrames = new ArrayList<>();
 	}
 
 	public void initializeRelayScript( final RelayRequest request )
@@ -206,7 +206,7 @@ public class Interpreter
 		return this.parser.getFileName();
 	}
 
-	public TreeMap getImports()
+	public Map<File, Long> getImports()
 	{
 		return this.parser.getImports();
 	}
@@ -238,7 +238,7 @@ public class Interpreter
 			return;
 		}
 
-		Interpreter current = (Interpreter) Interpreter.interpreterStack.peek();
+		Interpreter current = Interpreter.interpreterStack.peek();
 
 		current.hadPendingState = true;
 	}
@@ -250,7 +250,7 @@ public class Interpreter
 			return;
 		}
 
-		Interpreter current = (Interpreter) Interpreter.interpreterStack.peek();
+		Interpreter current = Interpreter.interpreterStack.peek();
 
 		current.hadPendingState = false;
 	}
@@ -267,7 +267,7 @@ public class Interpreter
 			return true;
 		}
 
-		Interpreter current = (Interpreter) Interpreter.interpreterStack.peek();
+		Interpreter current = Interpreter.interpreterStack.peek();
 
 		return !current.hadPendingState;
 	}

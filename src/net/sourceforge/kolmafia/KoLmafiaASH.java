@@ -38,8 +38,8 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
-import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -248,7 +248,7 @@ public abstract class KoLmafiaASH
 		if ( !createInterpreter )
 		{
 			Interpreter interpreter = (Interpreter) KoLmafiaASH.INTERPRETERS.get( toExecute );
-			TreeMap imports = interpreter.getImports();
+			Map imports = interpreter.getImports();
 
 			Iterator it = imports.entrySet().iterator();
 

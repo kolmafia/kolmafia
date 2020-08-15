@@ -61,7 +61,7 @@ public class CoinmasterData
 {
 	private final String master;
 	private final String nickname;
-	private final Class requestClass;
+	private final Class<? extends CoinMasterRequest> requestClass;
 	// The token(s) that you exchange for items.
 	// One, for now
 	private String token;
@@ -96,7 +96,7 @@ public class CoinmasterData
 	public CoinmasterData( 
 		final String master,
 		final String nickname,
-		final Class requestClass,
+		final Class<? extends CoinMasterRequest> requestClass,
 		final String token,
 		final String tokenTest,
 		final boolean positiveTest,
@@ -172,7 +172,7 @@ public class CoinmasterData
 		return this.nickname;
 	}
 
-	public final Class getRequestClass()
+	public final Class<? extends CoinMasterRequest> getRequestClass()
 	{
 		return this.requestClass;
 	}
@@ -504,14 +504,14 @@ public class CoinmasterData
 
 	public CoinMasterRequest getRequest()
 	{
-		Class requestClass = this.getRequestClass();
+		Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
 		Class [] parameters = new Class[ 0 ] ;
 
 		try
 		{
-			Constructor constructor = requestClass.getConstructor( parameters );
+			Constructor<? extends CoinMasterRequest> constructor = requestClass.getConstructor( parameters );
 			Object [] initargs = new Object[ 0 ];
-			return (CoinMasterRequest) constructor.newInstance( initargs );
+			return constructor.newInstance( initargs );
 		}
 		catch ( Exception e )
 		{
@@ -521,18 +521,18 @@ public class CoinmasterData
 
 	public CoinMasterRequest getRequest( final boolean buying, final AdventureResult [] items )
 	{
-		Class requestClass = this.getRequestClass();
+		Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
 		Class [] parameters = new Class[ 2 ] ;
 		parameters[ 0 ] = boolean.class;
 		parameters[ 1 ] = AdventureResult[].class;
 
 		try
 		{
-			Constructor constructor = requestClass.getConstructor( parameters );
+			Constructor<? extends CoinMasterRequest> constructor = requestClass.getConstructor( parameters );
 			Object [] initargs = new Object[ 2 ];
 			initargs[ 0 ] = buying;
 			initargs[ 1 ] = items;
-			return (CoinMasterRequest) constructor.newInstance( initargs );
+			return constructor.newInstance( initargs );
 		}
 		catch ( Exception e )
 		{
@@ -549,7 +549,7 @@ public class CoinmasterData
 	{
 		// Returns an error reason or null
 
-		Class requestClass = this.getRequestClass();
+		Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
 		Class [] parameters = new Class[ 0 ] ;
 
 		try
@@ -568,7 +568,7 @@ public class CoinmasterData
 	{
 		// Returns an error reason or null
 
-		Class requestClass = this.getRequestClass();
+		Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
 		Class [] parameters = new Class[ 0 ] ;
 
 		try
@@ -587,7 +587,7 @@ public class CoinmasterData
 	{
 		// Returns an error reason or null
 
-		Class requestClass = this.getRequestClass();
+		Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
 		Class [] parameters = new Class[ 0 ] ;
 
 		try

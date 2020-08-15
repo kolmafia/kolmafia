@@ -1133,12 +1133,12 @@ public class CreateItemRequest
 
 		// Sort ingredients by their creatability, so that if the overall creation
 		// is going to fail, it should do so immediately, without wasted effort.
-		Arrays.sort( ingredients, new Comparator() {
-			public int compare( Object o1, Object o2 )
+		Arrays.sort( ingredients, new Comparator<AdventureResult>() {
+			public int compare( AdventureResult o1, AdventureResult o2 )
 			{
-				Concoction left = ConcoctionPool.get( (AdventureResult) o1 );
+				Concoction left = ConcoctionPool.get( o1 );
 				if ( left == null ) return -1;
-				Concoction right = ConcoctionPool.get( (AdventureResult) o2 );
+				Concoction right = ConcoctionPool.get( o2 );
 				if ( right == null ) return 1;
 				return  left.creatable < right.creatable ? -1 :
 					left.creatable < right.creatable ? 1 :
