@@ -46,6 +46,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -142,7 +143,7 @@ public class Parser
 
 	private String fullLine;
 
-	private TreeMap<File, Long> imports;
+	private Map<File, Long> imports;
 	private Function mainMethod = null;
 	private String notifyRecipient = null;
 
@@ -151,9 +152,14 @@ public class Parser
 		this( null, null, null );
 	}
 
-	public Parser( final File scriptFile, final InputStream stream, final TreeMap<File, Long> imports )
+	public Parser( final File scriptFile, final Map<File, Long> imports )
 	{
-		this.imports = ( imports != null ) ? imports : new TreeMap<File, Long>();
+		this( scriptFile, null, imports );
+	}
+
+	public Parser( final File scriptFile, final InputStream stream, final Map<File, Long> imports )
+	{
+		this.imports = ( imports != null ) ? imports : new TreeMap<>();
 
 		if ( scriptFile != null )
 		{
@@ -245,7 +251,7 @@ public class Parser
 		return this.lineNumber;
 	}
 
-	public TreeMap<File, Long> getImports()
+	public Map<File, Long> getImports()
 	{
 		return this.imports;
 	}
@@ -1867,7 +1873,7 @@ public class Parser
 		int currentIndex = 0;
 		Integer currentInteger = null;
 
-		TreeMap<Value, Integer> labels = new TreeMap<Value, Integer>();
+		Map<Value, Integer> labels = new TreeMap<>();
 		boolean constantLabels = true;
 
 		while ( true )
@@ -2535,7 +2541,7 @@ public class Parser
 
 		this.readToken(); //name
 
-		List params = new ArrayList<Value>();
+		List<Value> params = new ArrayList<>();
 		String [] names = target.getFieldNames();
 		Type [] types = target.getFieldTypes();
 		int param = 0;

@@ -57,6 +57,7 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.swing.JCheckBox;
@@ -123,7 +124,7 @@ public abstract class GenericFrame
 	private boolean packedOnce = false;
 	private boolean exists = true;
 
-	private HashMap listenerMap;
+	private Map<JComponent, WeakReference<ActionListener>> listenerMap;
 	private GlobalMenuBar menuBar;
 
 	private FramePanel framePanel;
@@ -250,22 +251,22 @@ public abstract class GenericFrame
 	{
 		if ( this.listenerMap == null )
 		{
-			this.listenerMap = new HashMap();
+			this.listenerMap = new HashMap<>();
 		}
 
 		component.addActionListener( listener );
-		this.listenerMap.put( component, new WeakReference( listener ) );
+		this.listenerMap.put( component, new WeakReference<ActionListener>( listener ) );
 	}
 
 	protected void addActionListener( final JComboBox component, final ActionListener listener )
 	{
 		if ( this.listenerMap == null )
 		{
-			this.listenerMap = new HashMap();
+			this.listenerMap = new HashMap<>();
 		}
 
 		component.addActionListener( listener );
-		this.listenerMap.put( component, new WeakReference( listener ) );
+		this.listenerMap.put( component, new WeakReference<ActionListener>( listener ) );
 	}
 
 	protected void removeActionListener( final JComponent component, final ActionListener listener )
@@ -475,17 +476,11 @@ public abstract class GenericFrame
 
 		if ( this.listenerMap != null )
 		{
-			Object[] entries = this.listenerMap.entrySet().toArray();
-
-			for ( int i = 0; i < entries.length; ++i )
+			for ( Entry<JComponent, WeakReference<ActionListener>> entry : this.listenerMap.entrySet() )
 			{
-				Entry entry = (Entry) entries[ i ];
-
-				JComponent component = (JComponent) entry.getKey();
-
-				WeakReference reference = (WeakReference) entry.getValue();
-
-				ActionListener listener = (ActionListener) reference.get();
+				JComponent component = entry.getKey();
+				WeakReference<ActionListener> reference = entry.getValue();
+				ActionListener listener = reference.get();
 
 				if ( listener != null )
 				{

@@ -74,8 +74,8 @@ public abstract class TransferItemRequest
 	private static boolean updateDisplayOnFailure = true;
 
 	public AdventureResult[] attachments;
-	public List source = KoLConstants.inventory;
-	public List destination = new ArrayList();
+	public List<AdventureResult> source = KoLConstants.inventory;
+	public List<AdventureResult> destination = new ArrayList<>();
 	public boolean isSubInstance = false;
 
 	public TransferItemRequest( final String formSource )
@@ -149,7 +149,7 @@ public abstract class TransferItemRequest
 		// Generate the subinstances. Subclasses can override how this
 		// is done. The first request will have the Meat, if any.
 
-		ArrayList subinstances = this.generateSubInstances();
+		ArrayList<TransferItemRequest> subinstances = this.generateSubInstances();
 
 		// Run the subinstances.
 		TransferItemRequest[] requests = new TransferItemRequest[ subinstances.size() ];
@@ -171,7 +171,7 @@ public abstract class TransferItemRequest
 		}
 	}
 
-	public ArrayList generateSubInstances()
+	public ArrayList<TransferItemRequest> generateSubInstances()
 	{
 		ArrayList<TransferItemRequest> subinstances = new ArrayList<TransferItemRequest>();
 
@@ -402,7 +402,7 @@ public abstract class TransferItemRequest
 	}
 
 	public static final void transferItems( final String urlString,
-		final List source, final List destination,
+		final List<AdventureResult> source, final List<AdventureResult> destination,
 		final int defaultQuantity )
 	{
 		TransferItemRequest.transferItems(
@@ -414,7 +414,7 @@ public abstract class TransferItemRequest
 
 	public static final void transferItems( final String urlString,
 		final Pattern itemPattern, final Pattern quantityPattern,
-		final List source, final List destination,
+		final List<AdventureResult> source, final List<AdventureResult> destination,
 		final int defaultQuantity )
 	{
 		AdventureResultArray itemList = TransferItemRequest.getItemList( urlString, itemPattern, quantityPattern, source, defaultQuantity );
@@ -428,7 +428,7 @@ public abstract class TransferItemRequest
 	}
 
 	public static final int transferItems( AdventureResultArray itemList,
-		final List source, final List destination )
+		final List<AdventureResult> source, final List<AdventureResult> destination )
 	{
 		int count = 0;
 		for ( int i = 0; i < itemList.size(); ++i )
@@ -476,7 +476,7 @@ public abstract class TransferItemRequest
 
 	public static final AdventureResultArray getItemList( final String urlString,
 							      final Pattern itemPattern, final Pattern quantityPattern,
-							      final List source, final int defaultQuantity )
+							      final List<AdventureResult> source, final int defaultQuantity )
 	{
 		AdventureResultArray itemList = new AdventureResultArray();
 
@@ -518,7 +518,7 @@ public abstract class TransferItemRequest
 
 	public static final AdventureResultArray getItemList( final String urlString,
 							      final Pattern itemPattern, final Pattern quantityPattern,
-							      final List source )
+							      final List<AdventureResult> source )
 	{
 		// Return only items that are on the source list - no default
 
@@ -566,7 +566,7 @@ public abstract class TransferItemRequest
 
 	public static final void transferItems( final String responseText,
 						final Pattern itemPattern,
-						final List source, final List destination )
+						final List<AdventureResult> source, final List<AdventureResult> destination )
 	{
 		AdventureResultArray itemList = TransferItemRequest.getItemList( responseText, itemPattern );
 
@@ -656,13 +656,13 @@ public abstract class TransferItemRequest
 	}
 
 	public static final boolean registerRequest( final String command, final String urlString,
-		final List source, final int defaultQuantity )
+		final List<AdventureResult> source, final int defaultQuantity )
 	{
 		return TransferItemRequest.registerRequest(
 			command, urlString, source, defaultQuantity, null );
 	}
 
-	public static final boolean registerRequest( final String command, final String urlString, final List source, final int defaultQuantity, final String meatField )
+	public static final boolean registerRequest( final String command, final String urlString, final List<AdventureResult> source, final int defaultQuantity, final String meatField )
 	{
 		return TransferItemRequest.registerRequest(
 			command, urlString,
@@ -673,7 +673,7 @@ public abstract class TransferItemRequest
 
 	public static final boolean registerRequest( final String command, final String urlString,
 		final Pattern itemPattern, final Pattern quantityPattern,
-		final List source, final int defaultQuantity )
+		final List<AdventureResult> source, final int defaultQuantity )
 	{
 		return TransferItemRequest.registerRequest(
 			command, urlString,
@@ -683,7 +683,7 @@ public abstract class TransferItemRequest
 
 	public static final boolean registerRequest( final String command, final String urlString,
 						     final Pattern itemPattern, final Pattern quantityPattern,
-						     final List source, final int defaultQuantity,
+						     final List<AdventureResult> source, final int defaultQuantity,
 						     final String meatField )
 	{
 		Matcher recipientMatcher = TransferItemRequest.RECIPIENT_PATTERN.matcher( urlString );

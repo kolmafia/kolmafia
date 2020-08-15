@@ -66,25 +66,25 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CoinmastersDatabase
 {
 	// Map from Integer( itemId ) -> CoinMasterPurchaseRequest
-	public static final HashMap<Integer, CoinMasterPurchaseRequest> COINMASTER_ITEMS = new HashMap<Integer, CoinMasterPurchaseRequest>();
+	public static final Map<Integer, CoinMasterPurchaseRequest> COINMASTER_ITEMS = new HashMap<>();
 
 	// Map from String -> LockableListModel
-	public static final TreeMap<String,LockableListModel<AdventureResult>> items = new TreeMap();
+	public static final Map<String,LockableListModel<AdventureResult>> items = new TreeMap<>();
 
 	// Map from String -> LockableListModel
-	public static final TreeMap<String,LockableListModel<AdventureResult>> buyItems = new TreeMap();
+	public static final Map<String,LockableListModel<AdventureResult>> buyItems = new TreeMap<>();
 
 	// Map from String -> Map from Integer -> Integer
-	public static final TreeMap<String, Map<Integer, Integer>> buyPrices = new TreeMap<String, Map<Integer, Integer>>();
+	public static final Map<String, Map<Integer, Integer>> buyPrices = new TreeMap<>();
 
 	// Map from String -> LockableListModel
-	public static final TreeMap<String,LockableListModel<AdventureResult>> sellItems = new TreeMap();
+	public static final Map<String,LockableListModel<AdventureResult>> sellItems = new TreeMap<>();
 
 	// Map from String -> Map from Integer -> Integer
-	public static final TreeMap<String, Map<Integer, Integer>> sellPrices = new TreeMap<String, Map<Integer, Integer>>();
+	public static final Map<String, Map<Integer, Integer>> sellPrices = new TreeMap<>();
 
 	// Map from String -> Map from Integer -> Integer
-	public static final TreeMap<String, Map<Integer, Integer>> itemRows = new TreeMap<String, Map<Integer, Integer>>();
+	public static final Map<String, Map<Integer, Integer>> itemRows = new TreeMap<>();
 
 	public static final LockableListModel<AdventureResult> getItems( final String key )
 	{

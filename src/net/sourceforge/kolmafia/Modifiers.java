@@ -50,6 +50,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -4222,21 +4223,21 @@ public class Modifiers
 		RequestLogger.printLine( "Writing data override: " + output );
 
 		// One map per equipment category
-		Map hats = new TreeMap();
-		Map weapons = new TreeMap();
-		Map offhands = new TreeMap();
-		Map shirts = new TreeMap();
-		Map pants = new TreeMap();
-		Map accessories = new TreeMap();
-		Map containers = new TreeMap();
-		Map famitems = new TreeMap();
-		Map sixguns = new TreeMap();
-		Map bedazzlements = new TreeMap();
-		Map cards = new TreeMap();
-		Map folders = new TreeMap();
-		Map freepulls = new TreeMap();
-		Map potions = new TreeMap();
-		Map wikiname = new TreeMap();
+		Set<String> hats = new TreeSet<>();
+		Set<String> weapons = new TreeSet<>();
+		Set<String> offhands = new TreeSet<>();
+		Set<String> shirts = new TreeSet<>();
+		Set<String> pants = new TreeSet<>();
+		Set<String> accessories = new TreeSet<>();
+		Set<String> containers = new TreeSet<>();
+		Set<String> famitems = new TreeSet<>();
+		Set<String> sixguns = new TreeSet<>();
+		Set<String> bedazzlements = new TreeSet<>();
+		Set<String> cards = new TreeSet<>();
+		Set<String> folders = new TreeSet<>();
+		Set<String> freepulls = new TreeSet<>();
+		Set<String> potions = new TreeSet<>();
+		Set<String> wikiname = new TreeSet<>();
 
 		// Iterate over all items and assign item id to category
 		Iterator it = ItemDatabase.dataNameEntrySet().iterator();
@@ -4250,40 +4251,40 @@ public class Modifiers
 			switch ( type )
 			{
 			case KoLConstants.EQUIP_HAT:
-				hats.put( name, null );
+				hats.add( name );
 				break;
 			case KoLConstants.EQUIP_PANTS:
-				pants.put( name, null );
+				pants.add( name );
 				break;
 			case KoLConstants.EQUIP_SHIRT:
-				shirts.put( name, null );
+				shirts.add( name );
 				break;
 			case KoLConstants.EQUIP_WEAPON:
-				weapons.put( name, null );
+				weapons.add( name );
 				break;
 			case KoLConstants.EQUIP_OFFHAND:
-				offhands.put( name, null );
+				offhands.add( name );
 				break;
 			case KoLConstants.EQUIP_ACCESSORY:
-				accessories.put( name, null );
+				accessories.add( name );
 				break;
 			case KoLConstants.EQUIP_CONTAINER:
-				containers.put( name, null );
+				containers.add( name );
 				break;
 			case KoLConstants.EQUIP_FAMILIAR:
-				famitems.put( name, null );
+				famitems.add( name );
 				break;
 			case KoLConstants.CONSUME_SIXGUN:
-				sixguns.put( name, null );
+				sixguns.add( name );
 				break;
 			case KoLConstants.CONSUME_STICKER:
-				bedazzlements.put( name, null );
+				bedazzlements.add( name );
 				break;
 			case KoLConstants.CONSUME_CARD:
-				cards.put( name, null );
+				cards.add( name );
 				break;
 			case KoLConstants.CONSUME_FOLDER:
-				folders.put( name, null );
+				folders.add( name );
 				break;
 			default:
 				Modifiers mods = Modifiers.getModifiers( "Item", name );
@@ -4293,23 +4294,23 @@ public class Modifiers
 				}
 				if ( !mods.getString( Modifiers.EFFECT ).equals( "" ) )
 				{
-					potions.put( name, null );
+					potions.add( name );
 				}
 				else if ( mods.getBoolean( Modifiers.FREE_PULL ) )
 				{
-					freepulls.put( name, null );
+					freepulls.add( name );
 				}
 				else if ( !mods.getString( Modifiers.WIKI_NAME).equals( "" ) )
 				{
-					wikiname.put( name, null );
+					wikiname.add( name );
 				}
 				break;
 			}
 		}
 
 		// Make a map of familiars
-		Map familiars = new TreeMap();
-		familiars.put( "Familiar:(none)", null );
+		Set<String> familiars = new TreeSet<>();
+		familiars.add( "Familiar:(none)" );
 
 		it = FamiliarDatabase.entrySet().iterator();
 		while ( it.hasNext() )
@@ -4318,12 +4319,12 @@ public class Modifiers
 			String name = (String) entry.getValue();
 			if ( Modifiers.getModifiers( "Familiar", name ) != null )
 			{
-				familiars.put( name, null );
+				familiars.add( name );
 			}
 		}
 
 		// Make a map of campground items
-		Map campground = new TreeMap();
+		Set<String> campground = new TreeSet<>();
 
 		for ( int i = 0; i < CampgroundRequest.campgroundItems.length; ++i )
 		{
@@ -4340,12 +4341,12 @@ public class Modifiers
 			// pull section
 			else if ( itemId != ItemPool.TOILET_PAPER )
 			{
-				campground.put( name, null );
+				campground.add( name );
 			}
 		}
 
 		// Make a map of status effects
-		Map effects = new TreeMap();
+		Set<String> effects = new TreeSet<>();
 
 		it = EffectDatabase.entrySet().iterator();
 		while ( it.hasNext() )
@@ -4354,11 +4355,11 @@ public class Modifiers
 			Integer key = (Integer) entry.getKey();
 			String name = (String) entry.getValue();
 			// Skip effect which is also an item
-			effects.put( name, null );
+			effects.add( name );
 		}
 
 		// Make a map of passive skills
-		Map passives = new TreeMap();
+		Set<String> passives = new TreeSet<>();
 
 		it = SkillDatabase.entrySet().iterator();
 		while ( it.hasNext() )
@@ -4368,12 +4369,12 @@ public class Modifiers
 			String name = (String) entry.getValue();
 			if ( SkillDatabase.isPassive( key.intValue() ) )
 			{
-				passives.put( name, null );
+				passives.add( name );
 			}
 		}
 
 		// Make a map of outfits
-		Map outfits = new TreeMap();
+		Set<String> outfits = new TreeSet<>();
 		int outfitCount = EquipmentDatabase.getOutfitCount();
 
 		for ( int i = 1; i <= outfitCount; ++i )
@@ -4381,29 +4382,29 @@ public class Modifiers
 			SpecialOutfit outfit = EquipmentDatabase.getOutfit( i );
 			if ( outfit != null )
 			{
-				outfits.put( outfit.getName(), null );
+				outfits.add( outfit.getName() );
 			}
 		}
 
 		// Make a map of zodiac signs
-		Map zodiacs = new TreeMap();
+		Set<String> zodiacs = new TreeSet<>();
 		int signCount = KoLCharacter.ZODIACS.length;
 
 		for ( int i = 0; i < signCount; ++i )
 		{
 			String key = KoLCharacter.ZODIACS[ i ];
 			String name = key;
-			zodiacs.put( name, null );
+			zodiacs.add( name );
 		}
 
 		// Make a map of stat days
-		Map statdays = new TreeMap();
-		statdays.put( "Muscle Day", null );
-		statdays.put( "Mysticality Day", null );
-		statdays.put( "Moxie Day", null );
+		Set<String> statdays = new TreeSet<>();
+		statdays.add( "Muscle Day" );
+		statdays.add( "Mysticality Day" );
+		statdays.add( "Moxie Day" );
 
 		// Make a map of zones
-		Map zones = new TreeMap();
+		Set<String> zones = new TreeSet<>();
 
 		it = AdventureDatabase.ZONE_DESCRIPTIONS.keySet().iterator();
 		while ( it.hasNext() )
@@ -4412,12 +4413,12 @@ public class Modifiers
 			String name = key;
 			if ( Modifiers.getModifiers( "Zone", name ) != null )
 			{
-				zones.put( name, null );
+				zones.add( name );
 			}
 		}
 
 		// Make a map of locations
-		Map locations = new TreeMap();
+		Set<String> locations = new TreeSet<>();
 
 		it = AdventureDatabase.getAsLockableListModel().iterator();
 		while ( it.hasNext() )
@@ -4426,38 +4427,38 @@ public class Modifiers
 			String name = key.getAdventureName();
 			if ( Modifiers.getModifiers( "Loc", name ) != null )
 			{
-				locations.put( name, null );
+				locations.add( name );
 			}
 		}
 
 		// Make a map of synergies
-		Map synergies = new TreeMap();
+		Set<String> synergies = new TreeSet<>();
 
 		it = Modifiers.synergies.iterator();
 		while ( it.hasNext() )
 		{
 			String name = (String) it.next();
 			int mask = ((Integer) it.next()).intValue();
-			synergies.put( name, null );
+			synergies.add( name );
 		}
 
 		// Make a map of mutexes
-		Map mutexes = new TreeMap();
+		Set<String> mutexes = new TreeSet<>();
 
 		it = Modifiers.mutexes.iterator();
 		while ( it.hasNext() )
 		{
 			String name = (String) it.next();
-			mutexes.put( name, null );
+			mutexes.add( name );
 		}
 
 		// Make a map of maximization categories
-		Map maximization = new TreeMap();
+		Set<String> maximization = new TreeSet<>();
 		int maximizationCount = Maximizer.maximizationCategories.length;
 
 		for ( int i = 0; i < maximizationCount; ++i )
 		{
-			maximization.put( Maximizer.maximizationCategories[i], null );
+			maximization.add( Maximizer.maximizationCategories[i] );
 		}
 
 		// Open the output file
@@ -4520,20 +4521,18 @@ public class Modifiers
 		writer.close();
 	}
 
-	private static void writeModifierCategory( final PrintStream writer, final Map map, final String type, final String tag )
+	private static void writeModifierCategory( final PrintStream writer, final Set<String> set, final String type, final String tag )
 	{
 		writer.println( "# " + tag + " section of modifiers.txt" );
-		Modifiers.writeModifierCategory( writer, map, type );
+		Modifiers.writeModifierCategory( writer, set, type );
 	}
 
-	private static void writeModifierCategory( final PrintStream writer, final Map map, final String type )
+	private static void writeModifierCategory( final PrintStream writer, final Set<String> set, final String type )
 	{
 		writer.println();
 
-		Object[] keys = map.keySet().toArray();
-		for ( int i = 0; i < keys.length; ++i )
+		for ( String name : set )
 		{
-			String name = (String) keys[ i ];
 			String lookup = Modifiers.getLookupName( type, name );
 			Object modifiers = Modifiers.modifiersByName.get( lookup );
 			Modifiers.writeModifierItem( writer, type, name, modifiers );

@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -441,11 +442,11 @@ public class MonsterData
 
 			if ( modifier.equals( "askew" ) )
 			{
-				monster.attack = new Integer( monster.getRawAttack() * 11 / 10 );
+				monster.attack = IntegerPool.get( monster.getRawAttack() * 11 / 10 );
 			}
 			else if ( modifier.equals( "bouncing" ) )
 			{
-				monster.attack = new Integer( monster.getRawAttack() * 3 / 2 );
+				monster.attack = IntegerPool.get( monster.getRawAttack() * 3 / 2 );
 			}
 			else if ( modifier.equals( "broke" ) )
 			{
@@ -453,13 +454,13 @@ public class MonsterData
 			}
 			else if ( modifier.equals( "cloned" ) )
 			{
-				monster.health = new Integer( monster.getRawHP() * 2 );
-				monster.attack = new Integer( monster.getRawAttack() * 2 );
-				monster.defense = new Integer( monster.getRawDefense() * 2 );
+				monster.health = IntegerPool.get( monster.getRawHP() * 2 );
+				monster.attack = IntegerPool.get( monster.getRawAttack() * 2 );
+				monster.defense = IntegerPool.get( monster.getRawDefense() * 2 );
 			}
 			else if ( modifier.equals( "dancin'" ) )
 			{
-				monster.defense = new Integer( monster.getRawDefense() * 3 / 2 );
+				monster.defense = IntegerPool.get( monster.getRawDefense() * 3 / 2 );
 			}
 			else if ( modifier.equals( "filthy" ) )
 			{
@@ -467,7 +468,7 @@ public class MonsterData
 			}
 			else if ( modifier.equals( "floating" ) )
 			{
-				monster.defense = new Integer( monster.getRawDefense() * 3 / 2 );
+				monster.defense = IntegerPool.get( monster.getRawDefense() * 3 / 2 );
 			}
 			else if ( modifier.equals( "foul-mouthed" ) )
 			{
@@ -475,7 +476,7 @@ public class MonsterData
 			}
 			else if ( modifier.equals( "fragile" ) )
 			{
-				monster.health = new Integer( 1 );
+				monster.health = IntegerPool.get( 1 );
 			}
 			else if ( modifier.equals( "frozen" ) )
 			{
@@ -499,9 +500,9 @@ public class MonsterData
 			}
 			else if ( modifier.equals( "huge" ) )
 			{
-				monster.health = new Integer( monster.getRawHP() * 2 );
-				monster.attack = new Integer( monster.getRawAttack() * 2 );
-				monster.defense = new Integer( monster.getRawDefense() * 2 );
+				monster.health = IntegerPool.get( monster.getRawHP() * 2 );
+				monster.attack = IntegerPool.get( monster.getRawAttack() * 2 );
+				monster.defense = IntegerPool.get( monster.getRawDefense() * 2 );
 			}
 			else if ( modifier.equals( "ice-cold" ) )
 			{
@@ -522,13 +523,13 @@ public class MonsterData
 			}
 			else if ( modifier.equals( "short" ) )
 			{
-				monster.health = new Integer( monster.getRawHP() / 2 );
-				monster.defense = new Integer( monster.getRawDefense() * 2 );
+				monster.health = IntegerPool.get( monster.getRawHP() / 2 );
+				monster.defense = IntegerPool.get( monster.getRawDefense() * 2 );
 			}
 			else if ( modifier.equals( "skinny" ) )
 			{
-				monster.health = new Integer( monster.getRawHP() / 2 );
-				monster.defense = new Integer( monster.getRawDefense() / 2 );
+				monster.health = IntegerPool.get( monster.getRawHP() / 2 );
+				monster.defense = IntegerPool.get( monster.getRawDefense() / 2 );
 			}
 			else if ( modifier.equals( "sleazy" ) )
 			{
@@ -551,23 +552,23 @@ public class MonsterData
 			}
 			else if ( modifier.equals( "throbbing" ) )
 			{
-				monster.health = new Integer( monster.getRawHP() * 2 );
+				monster.health = IntegerPool.get( monster.getRawHP() * 2 );
 			}
 			else if ( modifier.equals( "tiny" ) )
 			{
-				monster.health = new Integer( monster.getRawHP() / 10 );
-				monster.attack = new Integer( monster.getRawAttack() / 10 );
-				monster.defense = new Integer( monster.getRawDefense() / 10 );
+				monster.health = IntegerPool.get( monster.getRawHP() / 10 );
+				monster.attack = IntegerPool.get( monster.getRawAttack() / 10 );
+				monster.defense = IntegerPool.get( monster.getRawDefense() / 10 );
 			}
 			else if ( modifier.equals( "turgid" ) )
 			{
-				monster.health = new Integer( monster.getRawHP() * 5 );
+				monster.health = IntegerPool.get( monster.getRawHP() * 5 );
 			}
 			else if ( modifier.equals( "unlucky" ) )
 			{
-				monster.health = new Integer( 13 );
-				monster.attack = new Integer( 13 );
-				monster.defense = new Integer( 13 );
+				monster.health = IntegerPool.get( 13 );
+				monster.attack = IntegerPool.get( 13 );
+				monster.defense = IntegerPool.get( 13 );
 			}
 			else if ( modifier.equals( "wet" ) )
 			{
@@ -577,27 +578,27 @@ public class MonsterData
 			// Non-OCRS modifiers
 			else if ( modifier.equals( "mutant" ) )
 			{
-				monster.health = new Integer( monster.getRawHP() * 6 / 5 );
-				monster.attack = new Integer( monster.getRawAttack() * 6 / 5 );
-				monster.defense = new Integer( monster.getRawDefense() * 6 / 5 );
+				monster.health = IntegerPool.get( monster.getRawHP() * 6 / 5 );
+				monster.attack = IntegerPool.get( monster.getRawAttack() * 6 / 5 );
+				monster.defense = IntegerPool.get( monster.getRawDefense() * 6 / 5 );
 			}
 			else if ( this.scale == null && ( modifier.equals( "Mr. mask" ) || modifier.equals( "Bonerdagon mask" ) ) )
 			{
-				monster.health = new Integer( monster.getRawHP() * 2 );
-				monster.attack = new Integer( monster.getRawAttack() * 2 );
-				monster.defense = new Integer( monster.getRawDefense() * 2 );
+				monster.health = IntegerPool.get( monster.getRawHP() * 2 );
+				monster.attack = IntegerPool.get( monster.getRawAttack() * 2 );
+				monster.defense = IntegerPool.get( monster.getRawDefense() * 2 );
 			}
 			else if ( modifier.equals( "ninja mask" ) )
 			{
-				monster.initiative = new Integer( 10000 );
+				monster.initiative = IntegerPool.get( 10000 );
 			}
 			else if ( this.scale == null && modifier.equals( "opera mask" ) )
 			{
-				monster.attack = new Integer( monster.getRawAttack() * 2 );
+				monster.attack = IntegerPool.get( monster.getRawAttack() * 2 );
 			}
 			else if ( this.scale == null && modifier.equals( "bandit mask" ) )
 			{
-				monster.defense = new Integer( monster.getRawDefense() * 4 );
+				monster.defense = IntegerPool.get( monster.getRawDefense() * 4 );
 			}
 			else if ( modifier.equals( "fencing mask" ) )
 			{
@@ -609,9 +610,9 @@ public class MonsterData
 			}
 			else if ( this.scale == null && modifier.equals( "Naughty Sorceress mask" ) )
 			{
-				monster.health = new Integer( monster.getRawHP() * 3 );
-				monster.attack = new Integer( monster.getRawAttack() * 3 );
-				monster.defense = new Integer( monster.getRawDefense() * 3 );
+				monster.health = IntegerPool.get( monster.getRawHP() * 3 );
+				monster.attack = IntegerPool.get( monster.getRawAttack() * 3 );
+				monster.defense = IntegerPool.get( monster.getRawDefense() * 3 );
 			}
 		}
 
@@ -1261,7 +1262,7 @@ public class MonsterData
 				probability += coefficients[ j ] / ( j + 1 );
 			}
 
-			this.pocketRates.add( new Double( probability ) );
+			this.pocketRates.add( probability );
 		}
 	}
 

@@ -732,7 +732,7 @@ public class GenericRequest
 		int index = this.formURLString.indexOf( "?" );
 		if ( index == -1 )
 		{
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 
 		String[] tokens = this.formURLString.substring( index + 1 ).split( "&" );

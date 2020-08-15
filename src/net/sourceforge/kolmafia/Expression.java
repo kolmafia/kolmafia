@@ -810,7 +810,7 @@ public class Expression
 			}
 			else
 			{
-				return this.literal( new Double( v ), '#' );
+				return this.literal( v, '#' );
 			}
 		}
 		if ( this.optional( "-" ) )

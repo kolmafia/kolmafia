@@ -51,12 +51,12 @@ public class AdventureResultArray
 
 	public AdventureResultArray()
 	{
-		this.internalList = new ArrayList<AdventureResult>();
+		this.internalList = new ArrayList<>();
 	}
 
-	public AdventureResultArray( final List data )
+	public AdventureResultArray( final List<AdventureResult> data )
 	{
-		this.internalList = new ArrayList<AdventureResult>( data );
+		this.internalList = new ArrayList<>( data );
 	}
 
 	public Iterator<AdventureResult> iterator()
