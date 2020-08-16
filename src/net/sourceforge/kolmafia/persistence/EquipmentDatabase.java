@@ -1155,7 +1155,7 @@ public class EquipmentDatabase
 			}
 
 			this.internalList.set( index, value );
-			this.internalSet.add( new Integer( index ) );
+			this.internalSet.add( Integer.valueOf( index ) );
 		}
 
 		public int size()

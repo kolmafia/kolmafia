@@ -583,8 +583,8 @@ public class ConsumablesDatabase
 	private static final void addAdventureRange( final String name, int unitCost, final boolean gainEffect1, final boolean gainEffect2, final boolean gainEffect3, final boolean gainEffect4, final double result )
 	{
 		// Remove adventure gains from zodiac signs
-		ConsumablesDatabase.getAdventureMap( false, gainEffect1, gainEffect2, gainEffect3, gainEffect4 ).put( name, new Double( result ) );
-		ConsumablesDatabase.getAdventureMap( true, gainEffect1, gainEffect2, gainEffect3, gainEffect4 ).put( name, new Double( result / ( unitCost == 0 ? 1 : unitCost ) ) );
+		ConsumablesDatabase.getAdventureMap( false, gainEffect1, gainEffect2, gainEffect3, gainEffect4 ).put( name, Double.valueOf( result ) );
+		ConsumablesDatabase.getAdventureMap( true, gainEffect1, gainEffect2, gainEffect3, gainEffect4 ).put( name, Double.valueOf( result / ( unitCost == 0 ? 1 : unitCost ) ) );
 	}
 
 	private static final Map<String, Double> getAdventureMap( final boolean perUnit,

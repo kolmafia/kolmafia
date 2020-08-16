@@ -592,15 +592,15 @@ public class Value
 	{
 		if ( this.getType().equals( DataTypes.TYPE_BOOLEAN ) )
 		{
-			return new Boolean( this.contentLong > 0 );
+			return Boolean.valueOf( this.contentLong > 0 );
 		}
 		else if ( this.getType().equals( DataTypes.TYPE_INT ) )
 		{
-			return new Long( this.contentLong );
+			return Long.valueOf( this.contentLong );
 		}
 		else if ( this.getType().equals( DataTypes.TYPE_FLOAT ) )
 		{
-			return new Double( Double.longBitsToDouble( this.contentLong ) );
+			return Double.valueOf( Double.longBitsToDouble( this.contentLong ) );
 		}
 		else
 		{
