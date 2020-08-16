@@ -574,3 +574,14 @@ PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Storm Island
 PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Red Roger's Fortress
 PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Jack's Hideout
 PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	The Temple
+
+# Grey Goo path
+
+The Grey Goo Impact Site	adventure=545	Env: unknown Stat: 0	The Goo Fields
+The Grey Goo Impact Site	adventure=546	Env: unknown Stat: 0	The Goo-Choked Fun House
+The Grey Goo Impact Site	adventure=547	Env: unknown Stat: 0	The Goo-Coated Knob
+The Grey Goo Impact Site	adventure=548	Env: unknown Stat: 0	The Goo-Spewing Bat Hole
+The Grey Goo Impact Site	adventure=549	Env: unknown Stat: 0	The Goo-Bedecked Beanstalk
+The Grey Goo Impact Site	adventure=550	Env: unknown Stat: 0	The Goo-Shrouded Palindome
+The Grey Goo Impact Site	adventure=551	Env: unknown Stat: 0	The Goo-Girded Garves
+The Grey Goo Impact Site	adventure=552	Env: unknown Stat: 0	The Goo-Splattered Tower Ruins

@@ -119,12 +119,12 @@ Slums (Moderate Crime)	Batfellow Area	Slums (Moderate Crime)
 Industrial District (High Crime)	Batfellow Area	Industrial District (High Crime)
 Downtown	Batfellow Area	Downtown
 
+The Grey Goo Impact Site	The Grey Goo Impact Site	Grey Goo Path
+
 Unsorted	Unsorted	No Category
 Sorceress	Unsorted	Sorceress Lair
 
 Holiday	Unsorted	Holiday Zones
-Crimbo19	Holiday	Christmas 2019
-Tammy's Offshore Platform	Crimbo19	Crimbo 19 Underwater
 Override	Unsorted	Discoveries
 
 Events	Events	Events
@@ -145,4 +145,6 @@ Crimbo15	Removed	Christmas 2015
 Crimbo16	Removed	Christmas 2016
 Crimbo17	Removed	Christmas 2017
 Crimbo18	Removed	Christmas 2018
+Crimbo19	Removed	Christmas 2019
+Tammy's Offshore Platform	Removed	Crimbo 19 Underwater
 WhiteWed	Removed	White Wednesday

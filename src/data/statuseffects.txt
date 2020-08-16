@@ -2579,3 +2579,4 @@
 2577	Spit Upon	camelspit_down.gif	75884cd963a369a27b0b37343a01c2ed	neutral	none
 2578	Entauntauned	batgut.gif	297ee9fadfb5560e5142e0b3a88456db	neutral	none
 2579	You Have Ever Seen The Rain	saucedrops.gif	1811ff37102a4be344fc634b73d30d34	neutral	none	use 1 redwood rain stick
+2580	Goo Vibrations	greygooball.gif	e31c54ee309cf40ebc6f7c00982ad46f	neutral	none
