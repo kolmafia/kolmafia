@@ -906,7 +906,7 @@ public abstract class VolcanoMazeManager
 				{
 					continue;
 				}
-				Integer ival = new Integer( coord );
+				Integer ival = Integer.valueOf( coord );
 				list.add( ival );
 				this.board[ ival.intValue() ] = true;
 			}
@@ -1104,7 +1104,7 @@ public abstract class VolcanoMazeManager
 				int square = pos( row, col );
 				if ( map == null || map.inMap( square ) )
 				{
-					list.add( new Integer( square ) );
+					list.add( Integer.valueOf( square ) );
 				}
 			}
 		}

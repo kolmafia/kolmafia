@@ -417,7 +417,7 @@ public class Parser
 			}
 		}
 
-		this.imports.put( scriptFile, new Long( scriptFile.lastModified() ) );
+		this.imports.put( scriptFile, Long.valueOf( scriptFile.lastModified() ) );
 
 		if ( parser.mainMethod != null )
 		{	// Make imported script's main() available under a different name

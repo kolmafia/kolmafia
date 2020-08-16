@@ -7312,7 +7312,7 @@ public abstract class ChoiceManager
 		File scriptFile = scriptFiles.get( 0 );
 
 		Object[] parameters = new Object[2];
-		parameters[0] = new Integer( choice );
+		parameters[0] = Integer.valueOf( choice );
 		parameters[1] = responseText;
 
 		KoLmafiaASH.logScriptExecution( "Starting choice adventure script: ", scriptFile.getName(), interpreter );

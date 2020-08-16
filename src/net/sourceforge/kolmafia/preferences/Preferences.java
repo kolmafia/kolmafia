@@ -669,7 +669,7 @@ public class Preferences
 
 		if ( !(value instanceof Long) )
 		{
-			value = new Long( StringUtilities.parseLong( value.toString() ) );
+			value = Long.valueOf( StringUtilities.parseLong( value.toString() ) );
 			map.put( name, value );
 		}
 
@@ -707,7 +707,7 @@ public class Preferences
 
 		if ( !(value instanceof Double) )
 		{
-			value = new Double( StringUtilities.parseDouble( value.toString() ) );
+			value = Double.valueOf( StringUtilities.parseDouble( value.toString() ) );
 			map.put( name, value );
 		}
 
@@ -780,7 +780,7 @@ public class Preferences
 		long old = Preferences.getLong( user, name );
 		if ( old != value )
 		{
-			Preferences.setObject( user, name, String.valueOf( value ), new Long( value ) );
+			Preferences.setObject( user, name, String.valueOf( value ), Long.valueOf( value ) );
 		}
 	}
 
@@ -798,7 +798,7 @@ public class Preferences
 		double old = Preferences.getDouble( user, name );
 		if ( old != value )
 		{
-			Preferences.setObject( user, name, String.valueOf( value ), new Double( value ) );
+			Preferences.setObject( user, name, String.valueOf( value ), Double.valueOf( value ) );
 		}
 	}
 

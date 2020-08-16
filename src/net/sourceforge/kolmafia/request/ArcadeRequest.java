@@ -316,7 +316,7 @@ public class ArcadeRequest
 		Matcher matcher = CHOICE_PATTERN.matcher( responseText );
 		while ( matcher.find() )
 		{
-			options.add( new Integer( matcher.group( 1 ) ) );
+			options.add( Integer.valueOf( matcher.group( 1 ) ) );
 			names.add( StringUtilities.globalStringReplace( matcher.group( 2 ), "&nbsp;", "" ) );
 		}
 		ArcadeRequest.indices = new Integer [ options.size() ];

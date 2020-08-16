@@ -2840,11 +2840,11 @@ public abstract class RuntimeLibrary
 			Object arg;
 			if ( val.getType().equals( DataTypes.TYPE_FLOAT ) )
 			{
-				arg = new Double( val.floatValue() );
+				arg = Double.valueOf( val.floatValue() );
 			}
 			else
 			{
-				arg = new Long( val.intValue() );
+				arg = Long.valueOf( val.intValue() );
 			}
 			return new Value( String.format( fmt.toString(), arg ) );
 		}

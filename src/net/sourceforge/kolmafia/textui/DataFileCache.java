@@ -301,7 +301,7 @@ public class DataFileCache
 			DataFileCache.dataFileDataCache.remove( filename );
 		}
 	
-		DataFileCache.dataFileTimestampCache.put( filename, new Long( modifiedTime ) );
+		DataFileCache.dataFileTimestampCache.put( filename, Long.valueOf( modifiedTime ) );
 		DataFileCache.dataFileDataCache.put( filename, data );
 	}
 }
