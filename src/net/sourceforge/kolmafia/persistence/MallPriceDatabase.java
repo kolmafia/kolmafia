@@ -339,11 +339,11 @@ public class MallPriceDatabase
 
 	public static class PriceArray
 	{
-		private final ArrayList<Price> internalList = new ArrayList<Price>();
+		private final ArrayList<Price> internalList = new ArrayList<>();
 
 		public Price get( final int index )
 		{
-			return index < 0 || index >= this.internalList.size() ? null : (Price) this.internalList.get( index );
+			return index < 0 || index >= this.internalList.size() ? null : this.internalList.get( index );
 		}
 
 		public void set( final int index, final Price value )

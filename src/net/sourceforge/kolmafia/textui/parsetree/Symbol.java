@@ -63,6 +63,6 @@ public abstract class Symbol
 		{
 			return 1;
 		}
-		return this.name.compareToIgnoreCase( ( (Symbol) o ).name );
+		return this.name.compareToIgnoreCase( o.name );
 	}
 }

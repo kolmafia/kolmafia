@@ -286,7 +286,7 @@ public class SwaggerShopRequest
 		// Refresh the Coin Master inventory every time we visit.
 
 		LockableListModel<AdventureResult> items = SwaggerShopRequest.buyItems;
-		Map prices = SwaggerShopRequest.buyPrices;
+		Map<Integer, Integer> prices = SwaggerShopRequest.buyPrices;
 		items.clear();
 		prices.clear();
 

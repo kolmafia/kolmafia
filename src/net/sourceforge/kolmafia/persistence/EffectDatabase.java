@@ -835,7 +835,7 @@ public class EffectDatabase
 				return null;
 			}
 
-			effectName = (String) matchingNames.get( 0 );
+			effectName = matchingNames.get( 0 );
 		}
 
 		if ( effectName == null )

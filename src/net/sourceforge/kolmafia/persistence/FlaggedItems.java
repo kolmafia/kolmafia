@@ -370,16 +370,13 @@ public class FlaggedItems
 
 	public static final void saveFlaggedItemList()
 	{
-		AdventureResult item;
-
 		PrintStream ostream = LogStream.openStream( FlaggedItems.itemFlagsFile, true );
 
 		ostream.println( " > junk" );
 		ostream.println();
 
-		for ( int i = 0; i < KoLConstants.junkList.size(); ++i )
+		for ( AdventureResult item : KoLConstants.junkList )
 		{
-			item = (AdventureResult) KoLConstants.junkList.get( i );
 			if ( !KoLConstants.singletonList.contains( item ) )
 			{
 				ostream.println( item.getName() );
@@ -390,9 +387,8 @@ public class FlaggedItems
 		ostream.println( " > singleton" );
 		ostream.println();
 
-		for ( int i = 0; i < KoLConstants.singletonList.size(); ++i )
+		for ( AdventureResult item : KoLConstants.singletonList )
 		{
-			item = (AdventureResult) KoLConstants.singletonList.get( i );
 			ostream.println( item.getName() );
 		}
 
@@ -400,9 +396,8 @@ public class FlaggedItems
 		ostream.println( " > mementos" );
 		ostream.println();
 
-		for ( int i = 0; i < KoLConstants.mementoList.size(); ++i )
+		for ( AdventureResult item : KoLConstants.mementoList )
 		{
-			item = (AdventureResult) KoLConstants.mementoList.get( i );
 			ostream.println( item.getName() );
 		}
 
@@ -410,9 +405,8 @@ public class FlaggedItems
 		ostream.println( " > profitable" );
 		ostream.println();
 
-		for ( int i = 0; i < KoLConstants.profitableList.size(); ++i )
+		for ( AdventureResult item : KoLConstants.profitableList )
 		{
-			item = (AdventureResult) KoLConstants.profitableList.get( i );
 			ostream.println( item.getCount() + " " + item.getName() );
 		}
 

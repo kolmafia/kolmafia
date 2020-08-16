@@ -302,13 +302,13 @@ public class MallSearchRequest
 		// Check for any items which are not available in NPC stores and
 		// known not to be tradeable to see if there's an exact match.
 
-		Iterator itemIterator = itemNames.iterator();
+		Iterator<String> itemIterator = itemNames.iterator();
 		int npcItemCount = 0;
 		int untradeableCount = 0;
 
 		while ( itemIterator.hasNext() )
 		{
-			String itemName = (String) itemIterator.next();
+			String itemName = itemIterator.next();
 			int itemId = ItemDatabase.getItemId( itemName );
 			boolean untradeable = !ItemDatabase.isTradeable( itemId );
 
@@ -352,7 +352,7 @@ public class MallSearchRequest
 		{
 			if ( !exact )
 			{
-				this.searchString = "\"" + MallSearchRequest.getSearchString( (String) itemNames.get( 0 ) ) + "\"";
+				this.searchString = "\"" + MallSearchRequest.getSearchString( itemNames.get( 0 ) ) + "\"";
 			}
 			this.addFormField( "pudnuggler", this.searchString );
 		}

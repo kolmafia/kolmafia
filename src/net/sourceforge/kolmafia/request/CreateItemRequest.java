@@ -433,7 +433,7 @@ public class CreateItemRequest
 
 	public int compareTo( final CreateItemRequest o )
 	{
-		return o == null ? -1 : this.getName().compareToIgnoreCase( ( (CreateItemRequest) o ).getName() );
+		return o == null ? -1 : this.getName().compareToIgnoreCase( o.getName() );
 	}
 
 	/**
@@ -1128,8 +1128,7 @@ public class CreateItemRequest
 			}
 		}
 
-		AdventureResult[] ingredients = (AdventureResult[]) ConcoctionDatabase.getIngredients(
-			this.concoction.getIngredients() ).clone();
+		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( this.concoction.getIngredients() ).clone();
 
 		// Sort ingredients by their creatability, so that if the overall creation
 		// is going to fail, it should do so immediately, without wasted effort.

@@ -116,9 +116,9 @@ public class AscensionHistoryRequest
 	public int compareTo( final AscensionHistoryRequest o )
 	{
 		return  o == null || !( o instanceof AscensionHistoryRequest ) ? -1 :
-			typeComparator == AscensionSnapshot.NORMAL ? ( (AscensionHistoryRequest) o ).softcoreCount - this.softcoreCount :
-			typeComparator == AscensionSnapshot.HARDCORE ? ( (AscensionHistoryRequest) o ).hardcoreCount - this.hardcoreCount :
-			( (AscensionHistoryRequest) o ).casualCount - this.casualCount;
+			typeComparator == AscensionSnapshot.NORMAL ? o.softcoreCount - this.softcoreCount :
+			typeComparator == AscensionSnapshot.HARDCORE ? o.hardcoreCount - this.hardcoreCount :
+			o.casualCount - this.casualCount;
 	}
 
 	@Override
@@ -1021,12 +1021,10 @@ public class AscensionHistoryRequest
 				return -1;
 			}
 
-			AscensionDataField adf = (AscensionDataField) o;
-
 			// First, compare the number of days between
 			// ascension runs.
 
-			int dayDifference = this.dayCount - adf.dayCount;
+			int dayDifference = this.dayCount - o.dayCount;
 			if ( dayDifference != 0 )
 			{
 				return dayDifference;
@@ -1035,7 +1033,7 @@ public class AscensionHistoryRequest
 			// Next, compare the number of turns it took
 			// in order to complete the ascension.
 
-			int turnDifference = this.turnCount - adf.turnCount;
+			int turnDifference = this.turnCount - o.turnCount;
 			if ( turnDifference != 0 )
 			{
 				return turnDifference;
@@ -1045,11 +1043,11 @@ public class AscensionHistoryRequest
 			// compare the timestamp.  Later, this will also
 			// take the 60-day sliding window into account.
 
-			if ( this.timestamp.before( adf.timestamp ) )
+			if ( this.timestamp.before( o.timestamp ) )
 			{
 				return -1;
 			}
-			if ( this.timestamp.after( adf.timestamp ) )
+			if ( this.timestamp.after( o.timestamp ) )
 			{
 				return 1;
 			}
@@ -1058,7 +1056,7 @@ public class AscensionHistoryRequest
 			// in levels, and return that -- effectively, if all
 			// comparable elements are the same, then they are equal.
 
-			return this.level - adf.level;
+			return this.level - o.level;
 		}
 	}
 }

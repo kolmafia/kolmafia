@@ -1030,14 +1030,12 @@ public class HolidayDatabase
 				return -1;
 			}
 
-			HolidayEntry other = (HolidayEntry) o;
-
-			if ( this.offset != other.offset )
+			if ( this.offset != o.offset )
 			{
-				return this.offset - other.offset;
+				return this.offset - o.offset;
 			}
 
-			return this.name.compareTo( other.name );
+			return this.name.compareTo( o.name );
 		}
 
 		@Override

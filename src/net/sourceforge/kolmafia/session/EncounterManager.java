@@ -65,8 +65,6 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 
-
-
 public abstract class EncounterManager
 {
 	// Types of special encounters
@@ -167,7 +165,7 @@ public abstract class EncounterManager
 			return;
 		}
 
-		RegisteredEncounter previousAdventure = (RegisteredEncounter) LockableListFactory.lastElement( KoLConstants.adventureList );
+		RegisteredEncounter previousAdventure = LockableListFactory.lastElement( KoLConstants.adventureList );
 
 		if ( previousAdventure != null && previousAdventure.name.equals( adventureName ) )
 		{
@@ -593,9 +591,9 @@ public abstract class EncounterManager
 				return -1;
 			}
 
-			if ( this.type == null || ( (RegisteredEncounter) o ).type == null || this.type.equals( ( (RegisteredEncounter) o ).type ) )
+			if ( this.type == null || o.type == null || this.type.equals( o.type ) )
 			{
-				return this.name.compareToIgnoreCase( ( (RegisteredEncounter) o ).name );
+				return this.name.compareToIgnoreCase( o.name );
 			}
 
 			return this.type.equals( "Combat" ) ? 1 : -1;

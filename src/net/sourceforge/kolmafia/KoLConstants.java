@@ -74,7 +74,7 @@ public interface KoLConstants
 	public static final String VERSION_NAME = "KoLmafia v20.7";
 	public static final String VERSION_DATE = "Released on July 30, 2020";
 	public static final boolean RELEASED = true;
-	public static final String REVISION = null;
+	public static final String REVISION = "20302M";
 
 	// General constants used for calculations and formatting of
 	// strings, as well as for string parsing.
@@ -112,7 +112,7 @@ public interface KoLConstants
 	// Generic constants which indicate null values.  Used in
 	// order to preserve memory.
 
-	public static final Class[] NOPARAMS = new Class[ 0 ];
+	public static final Class<?>[] NOPARAMS = new Class<?>[ 0 ];
 
 	// Menus rendered in the relay browser and the KoLmafia mini-browser.
 	// Ensures that the two menus always contain the same information.

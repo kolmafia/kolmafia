@@ -297,7 +297,7 @@ public class RelayRequest
 
 		for ( int i = 0; i < KoLConstants.junkList.size(); ++i )
 		{
-			if ( ( (AdventureResult) KoLConstants.junkList.get( i ) ).getItemId() == itemId )
+			if ( KoLConstants.junkList.get( i ).getItemId() == itemId )
 			{
 				return true;
 			}
@@ -809,7 +809,7 @@ public class RelayRequest
 			RelayRequest.overrideMap.put( filename, RelayRequest.findRelayFile( filename ) );
 		}
 
-		File override = (File) RelayRequest.overrideMap.get( filename );
+		File override = RelayRequest.overrideMap.get( filename );
 		if ( override == null )
 		{
 			this.sendNotFound();

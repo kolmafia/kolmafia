@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -1001,26 +1003,26 @@ public class DwarfFactoryRequest
 
 	private static String[] getUnlaminatedNumbers()
 	{
-		ArrayList numbers = new ArrayList();
+		ArrayList<String> numbers = new ArrayList<>();
 		// lastDwarfOfficeItem3212=H,QEG,BFD,OJI,JED
 		DwarfFactoryRequest.getItemNumbers( numbers, ItemPool.DWARVISH_DOCUMENT, 4 );
 		DwarfFactoryRequest.getItemNumbers( numbers, ItemPool.DWARVISH_PAPER, 4 );
 		DwarfFactoryRequest.getItemNumbers( numbers, ItemPool.DWARVISH_PARCHMENT, 4 );
-		return (String[])numbers.toArray( new String[ numbers.size() ] );
+		return numbers.toArray( new String[ numbers.size() ] );
 	}
 
 	private static String[] getLaminatedNumbers()
 	{
-		ArrayList numbers = new ArrayList();
+		ArrayList<String> numbers = new ArrayList<>();
 		// lastDwarfOfficeItem3208=B,HGIG,MGDE,PJD
 		DwarfFactoryRequest.getItemNumbers( numbers, ItemPool.SMALL_LAMINATED_CARD, 3 );
 		DwarfFactoryRequest.getItemNumbers( numbers, ItemPool.LITTLE_LAMINATED_CARD, 3 );
 		DwarfFactoryRequest.getItemNumbers( numbers, ItemPool.NOTBIG_LAMINATED_CARD, 3 );
 		DwarfFactoryRequest.getItemNumbers( numbers, ItemPool.UNLARGE_LAMINATED_CARD, 3 );
-		return (String[])numbers.toArray( new String[ numbers.size() ] );
+		return numbers.toArray( new String[ numbers.size() ] );
 	}
 
-	private static void getItemNumbers( final ArrayList list, final int itemId, final int count )
+	private static void getItemNumbers( final ArrayList<String> list, final int itemId, final int count )
 	{
 		String setting = DwarfFactoryRequest.getItemSetting( itemId );
 		String[] splits = setting.split( "," );
@@ -1193,8 +1195,8 @@ public class DwarfFactoryRequest
 
 	public static class DwarfNumberTranslator
 	{
-		private final HashMap digitMap = new HashMap();
-		private final HashMap charMap = new HashMap();
+		private final Map<Character, Integer> digitMap = new HashMap<>();
+		private final Map<Integer, Character> charMap = new HashMap<>();
 
 		public DwarfNumberTranslator()
 		{
@@ -1219,7 +1221,7 @@ public class DwarfFactoryRequest
 
 		private void mapCharacter( final char c, final int i )
 		{
-			Character code = new Character( Character.toUpperCase( c ) );
+			Character code = Character.valueOf( Character.toUpperCase( c ) );
 			Integer val = IntegerPool.get( i );
 			this.mapCharacter( code, val );
 		}
@@ -1232,12 +1234,12 @@ public class DwarfFactoryRequest
 
 		public Integer getDigit( final Character code )
 		{
-			return (Integer) this.digitMap.get( code );
+			return this.digitMap.get( code );
 		}
 
 		public Integer getDigit( final char c )
 		{
-			return this.getDigit( new Character( c ) );
+			return this.getDigit( Character.valueOf( c ) );
 		}
 
 		public String digitString()
@@ -1245,7 +1247,7 @@ public class DwarfFactoryRequest
 			StringBuffer valueBuilder = new StringBuffer();
 			for ( int i = 0; i < 7; ++i )
 			{
-				Character code = (Character)this.charMap.get( IntegerPool.get( i ) );
+				Character code = this.charMap.get( IntegerPool.get( i ) );
 				valueBuilder.append( code == null ? '-' : code.charValue() );
 			}
 			return valueBuilder.toString();
@@ -1261,7 +1263,7 @@ public class DwarfFactoryRequest
 			int number = 0;
 			for ( int i = 0; i < string.length(); ++i )
 			{
-				Integer val = (Integer) this.digitMap.get( new Character( string.charAt( i ) ) );
+				Integer val = this.digitMap.get( Character.valueOf( string.charAt( i ) ) );
 				if ( val == null )
 				{
 					return -1;
@@ -1273,12 +1275,12 @@ public class DwarfFactoryRequest
 
 		// Methods for solving the digit code
 
-		private final ArrayList numbers = new ArrayList();
-		private final ArrayList digits = new ArrayList();
+		private final ArrayList<String> numbers = new ArrayList<>();
+		private final ArrayList<Character> digits = new ArrayList<>();
 
 		private void addNewDigit( final char ch )
 		{
-			Character digit = new Character( ch );
+			Character digit = Character.valueOf( ch );
 			if ( !this.digits.contains( digit ) )
 			{
 				this.digits.add( digit );
@@ -1290,7 +1292,7 @@ public class DwarfFactoryRequest
 			// See if it's a new number
 			for ( int i = 0; i < this.numbers.size(); ++i )
 			{
-				String old = (String)this.numbers.get(i);
+				String old = this.numbers.get(i);
 				if ( old.equals( number) )
 				{
 					return;
@@ -1344,7 +1346,7 @@ public class DwarfFactoryRequest
 
 			for ( int i = 0; i < this.numbers.size(); ++i )
 			{
-				String val = (String)this.numbers.get(i);
+				String val = this.numbers.get(i);
 
 				// We only deduce digits from 3-digit numbers.
 				if ( val.length() < 3 )
@@ -1433,7 +1435,7 @@ public class DwarfFactoryRequest
 
 		// Step 2: Deduce digits from the dice game
 
-		private final ArrayList rolls = new ArrayList();
+		private final ArrayList<String> rolls = new ArrayList<>();
 
 		public void addRoll( final String roll )
 		{
@@ -1446,7 +1448,7 @@ public class DwarfFactoryRequest
 			// See if it's a new roll
 			for ( int i = 0; i < this.rolls.size(); ++i )
 			{
-				String old = (String)this.rolls.get(i);
+				String old = this.rolls.get(i);
 				if ( old.equals( roll) )
 				{
 					return;
@@ -1483,7 +1485,7 @@ public class DwarfFactoryRequest
 			this.matchDigitPermutations();
 		}
 
-		private HashSet permutations = new HashSet();
+		private Set<String> permutations = new HashSet<>();
 
 		private void matchDigitPermutations()
 		{
@@ -1512,7 +1514,7 @@ public class DwarfFactoryRequest
 			int old_perms = this.permutations.size();
 			for ( int i = 0; i < this.rolls.size() && this.permutations.size() > 1; ++i )
 			{
-				this.checkPermutations( (String) this.rolls.get( i ) );
+				this.checkPermutations( this.rolls.get( i ) );
 				int new_perms = this.permutations.size();
 
 				if ( old_perms > new_perms )
@@ -1544,7 +1546,7 @@ public class DwarfFactoryRequest
 			// If we know the character that goes in this position,
 			// generate only the permutations that have that
 			// character in that position.
-			Character val = (Character) this.charMap.get( IntegerPool.get( index ) );
+			Character val = this.charMap.get( IntegerPool.get( index ) );
 			if ( val != null )
 			{
 				this.generatePermutations( prefix + val.charValue() );
@@ -1553,7 +1555,7 @@ public class DwarfFactoryRequest
 
 			for ( int i = 0; i < 7; ++i )
 			{
-				Character rune = (Character) this.digits.get( i );
+				Character rune = this.digits.get( i );
 
 				// If we're already using this character, skip
 				char ch = rune.charValue();
@@ -1564,7 +1566,7 @@ public class DwarfFactoryRequest
 
 				// If we know this rune, only use it in the
 				// correct position.
-				Integer j = (Integer) this.digitMap.get( rune );
+				Integer j = this.digitMap.get( rune );
 				if ( j != null && j.intValue() != index )
 				{
 					continue;
@@ -1592,10 +1594,10 @@ public class DwarfFactoryRequest
 			int low = roll.charAt( 7 ) - '0';
 			int val = ( high * 7) + low;
 
-			Iterator it = this.permutations.iterator();
+			Iterator<String> it = this.permutations.iterator();
 			while ( it.hasNext() )
 			{
-				String permutation = (String) it.next();
+				String permutation = it.next();
 				if ( !this.validPermutation( permutation, d1, d2, d3, d4, val ) )
 				{
 					it.remove();
@@ -1632,7 +1634,7 @@ public class DwarfFactoryRequest
 				return;
 			}
 
-			String [] strings = (String []) this.permutations.toArray( new String [ 1 ] );
+			String [] strings = this.permutations.toArray( new String [ 1 ] );
 			String digits = strings[0];
 			for ( int i = 0; i < 7; ++i )
 			{
@@ -2028,8 +2030,8 @@ public class DwarfFactoryRequest
 		public static final int WEAPON = 2;
 
 		private DwarfNumberTranslator digits;
-		private HashMap itemMap = new HashMap();
-		private HashMap runeMap = new HashMap();
+		private Map<Character, Integer> itemMap = new HashMap<>();
+		private Map<Integer, Character> runeMap = new HashMap<>();
 
 		// Indexed by [item]
 		private char [] equipment = new char[3];
@@ -2054,7 +2056,7 @@ public class DwarfFactoryRequest
 				String value = Preferences.getString( setting );
 				if ( value.length() == 1 )
 				{
-					Character rune = new Character( value.charAt( 0 ) );
+					Character rune = Character.valueOf( value.charAt( 0 ) );
 					Integer id = IntegerPool.get( itemId );
 					this.itemMap.put( rune, id );
 					this.runeMap.put( id, rune );
@@ -2181,13 +2183,13 @@ public class DwarfFactoryRequest
 
 		private int findItem( final char rune )
 		{
-			Integer val = (Integer) this.itemMap.get( new Character( rune ) );
+			Integer val = this.itemMap.get( Character.valueOf( rune ) );
 			return val == null ? -1 : val.intValue();
 		}
 
 		private char findRune( final int itemId )
 		{
-			Character val = (Character) this.runeMap.get( IntegerPool.get( itemId ) );
+			Character val = this.runeMap.get( IntegerPool.get( itemId ) );
 			return val == null ? 0 : val.charValue();
 		}
 

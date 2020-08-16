@@ -443,7 +443,7 @@ public class ClanLogRequest
 
 		public int compareTo( final StashLogEntry o )
 		{
-			return o == null || !( o instanceof StashLogEntry ) ? -1 : this.timestamp.before( ( (StashLogEntry) o ).timestamp ) ? 1 : this.timestamp.after( ( (StashLogEntry) o ).timestamp ) ? -1 : 0;
+			return o == null || !( o instanceof StashLogEntry ) ? -1 : this.timestamp.before( o.timestamp ) ? 1 : this.timestamp.after( o.timestamp ) ? -1 : 0;
 		}
 
 		@Override

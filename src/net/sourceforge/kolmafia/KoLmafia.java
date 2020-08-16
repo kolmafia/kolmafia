@@ -317,7 +317,7 @@ public abstract class KoLmafia
 
 		// All dates are presented as if the day began at rollover.
 
-		TimeZone koltime = (TimeZone) TimeZone.getTimeZone( "GMT-0330" );
+		TimeZone koltime = TimeZone.getTimeZone( "GMT-0330" );
 
 		KoLConstants.DAILY_FORMAT.setTimeZone( koltime );
 
@@ -1985,7 +1985,7 @@ public abstract class KoLmafia
 
 		for ( int i = firstIndex; i < purchases.length && remaining > 0 && KoLmafia.permitsContinue(); ++i )
 		{
-			PurchaseRequest currentRequest = (PurchaseRequest) purchases[ i ];
+			PurchaseRequest currentRequest = purchases[ i ];
 			AdventureResult item = currentRequest.getItem();
 			itemId = item.getItemId();
 

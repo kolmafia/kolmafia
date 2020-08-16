@@ -209,7 +209,7 @@ public class MallPurchaseRequest
 	@Override
 	public int getCurrentCount()
 	{
-		List list = KoLCharacter.canInteract() ? KoLConstants.inventory : KoLConstants.storage;
+		List<AdventureResult> list = KoLCharacter.canInteract() ? KoLConstants.inventory : KoLConstants.storage;
 		return this.item.getCount( list );
 	}
 

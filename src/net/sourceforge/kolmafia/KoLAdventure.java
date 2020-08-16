@@ -148,8 +148,8 @@ public class KoLAdventure
 		this.normalString = this.zone + ": " + this.adventureName;
 		this.lowercaseString = this.normalString.toLowerCase();
 
-		this.parentZone = (String) AdventureDatabase.PARENT_ZONES.get( zone );
-		this.parentZoneDescription = (String) AdventureDatabase.ZONE_DESCRIPTIONS.get( this.parentZone );
+		this.parentZone = AdventureDatabase.PARENT_ZONES.get( zone );
+		this.parentZoneDescription = AdventureDatabase.ZONE_DESCRIPTIONS.get( this.parentZone );
 
 		this.environment = AdventureDatabase.getEnvironment( adventureName );
 
@@ -2743,16 +2743,14 @@ public class KoLAdventure
 			return 1;
 		}
 
-		KoLAdventure ka = (KoLAdventure) o;
-
 		// Put things with no evade rating at bottom of list.
 
 		int evade1 = this.areaSummary == null ? Integer.MAX_VALUE : this.areaSummary.minEvade();
-		int evade2 = ka.areaSummary == null ? Integer.MAX_VALUE : ka.areaSummary.minEvade();
+		int evade2 = o.areaSummary == null ? Integer.MAX_VALUE : o.areaSummary.minEvade();
 
 		if ( evade1 == evade2 )
 		{
-			return this.adventureName.compareTo( ka.adventureName );
+			return this.adventureName.compareTo( o.adventureName );
 		}
 
 		return evade1 - evade2;

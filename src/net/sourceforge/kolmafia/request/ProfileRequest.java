@@ -693,14 +693,12 @@ public class ProfileRequest
 			return -1;
 		}
 
-		ProfileRequest pr = (ProfileRequest) o;
-
-		if ( this.getPvpRank().intValue() != pr.getPvpRank().intValue() )
+		if ( this.getPvpRank().intValue() != o.getPvpRank().intValue() )
 		{
-			return this.getPvpRank().intValue() - pr.getPvpRank().intValue();
+			return this.getPvpRank().intValue() - o.getPvpRank().intValue();
 		}
 
-		return this.getPlayerLevel().intValue() - pr.getPlayerLevel().intValue();
+		return this.getPlayerLevel().intValue() - o.getPlayerLevel().intValue();
 	}
 
 	private static final Pattern WHO_PATTERN = Pattern.compile( "who=(\\d+)" );

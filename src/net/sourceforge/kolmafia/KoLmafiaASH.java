@@ -247,16 +247,16 @@ public abstract class KoLmafiaASH
 
 		if ( !createInterpreter )
 		{
-			Interpreter interpreter = (Interpreter) KoLmafiaASH.INTERPRETERS.get( toExecute );
-			Map imports = interpreter.getImports();
+			Interpreter interpreter = KoLmafiaASH.INTERPRETERS.get( toExecute );
+			Map<File, Long> imports = interpreter.getImports();
 
-			Iterator it = imports.entrySet().iterator();
+			Iterator<Entry<File, Long>> it = imports.entrySet().iterator();
 
 			while ( it.hasNext() && !createInterpreter )
 			{
-				Entry entry = (Entry) it.next();
-				File file = (File) entry.getKey();
-				Long timestamp = (Long) entry.getValue();
+				Entry<File, Long> entry = it.next();
+				File file = entry.getKey();
+				Long timestamp = entry.getValue();
 				createInterpreter = timestamp != file.lastModified();
 			}
 		}

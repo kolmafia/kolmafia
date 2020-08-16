@@ -47,6 +47,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -690,7 +691,7 @@ public class ConcoctionDatabase
 			return null;
 		}
 
-		QueuedConcoction qc = (QueuedConcoction)queue.remove( queue.size() - 1 );
+		QueuedConcoction qc = queue.remove( queue.size() - 1 );
 		Concoction c = qc.getConcoction();
 		int quantity = qc.getCount();
 
@@ -699,11 +700,9 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.queuedInebriety -= c.getInebriety() * quantity;
 		ConcoctionDatabase.queuedSpleenHit -= c.getSpleenHit() * quantity;
 
-		ArrayList ingredients = qc.getIngredients();
-		for ( int i = 0; i < ingredients.size(); ++i )
+		for ( AdventureResult ingredient : qc.getIngredients() )
 		{
-			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, ( (AdventureResult) ingredients.get( i ) ).getNegation() );
+			AdventureResult.addOrRemoveResultToList( queuedIngredients, ingredient.getNegation() );
 		}
 
 		int meat = qc.getMeat();
@@ -781,7 +780,7 @@ public class ConcoctionDatabase
 		// Is the new last item Mayo ?
 		if ( !queue.isEmpty() )
 		{
-			QueuedConcoction lqc = (QueuedConcoction)queue.get( queue.size() - 1 );
+			QueuedConcoction lqc = queue.get( queue.size() - 1 );
 			Concoction lc = lqc.getConcoction();
 			int id = lc.getItemId();
 			if ( ConcoctionDatabase.isMayo( id ) )
@@ -1205,26 +1204,25 @@ public class ConcoctionDatabase
 
 		if ( includeCloset )
 		{
-			for ( int i = 0; i < KoLConstants.closet.size(); ++i )
+			for ( AdventureResult item : KoLConstants.closet )
 			{
-				AdventureResult.addResultToList( availableIngredients, (AdventureResult) KoLConstants.closet.get( i ) );
+				AdventureResult.addResultToList( availableIngredients, item );
 			}
 		}
 
 		if ( includeStorage )
 		{
-			for ( int i = 0; i < KoLConstants.storage.size(); ++i )
+			for ( AdventureResult item : KoLConstants.storage )
 			{
-				AdventureResult.addResultToList( availableIngredients, (AdventureResult) KoLConstants.storage.get( i ) );
+				AdventureResult.addResultToList( availableIngredients, item );
 			}
 		}
 
 		if ( includeStash )
 		{
-			List stash = ClanManager.getStash();
-			for ( int i = 0; i < stash.size(); ++i )
+			for ( AdventureResult item : ClanManager.getStash() )
 			{
-				AdventureResult.addResultToList( availableIngredients, (AdventureResult) stash.get( i ) );
+				AdventureResult.addResultToList( availableIngredients, item );
 			}
 		}
 
@@ -1232,9 +1230,7 @@ public class ConcoctionDatabase
 		{
 			if ( ingredient.isItem() )
 			{
-				AdventureResult.addResultToList(
-					availableIngredients,
-					ingredient.getNegation() );
+				AdventureResult.addResultToList( availableIngredients, ingredient.getNegation() );
 			}
 		}
 
@@ -1242,9 +1238,7 @@ public class ConcoctionDatabase
 		{
 			if ( ingredient.isItem() )
 			{
-				AdventureResult.addResultToList(
-					availableIngredients,
-					ingredient.getNegation() );
+				AdventureResult.addResultToList( availableIngredients, ingredient.getNegation() );
 			}
 		}
 
@@ -1252,9 +1246,7 @@ public class ConcoctionDatabase
 		{
 			if ( ingredient.isItem() )
 			{
-				AdventureResult.addResultToList(
-					availableIngredients,
-					ingredient.getNegation() );
+				AdventureResult.addResultToList( availableIngredients, ingredient.getNegation() );
 			}
 		}
 
@@ -1262,9 +1254,7 @@ public class ConcoctionDatabase
 		{
 			if ( ingredient.isItem() )
 			{
-				AdventureResult.addResultToList(
-					availableIngredients,
-					ingredient.getNegation() );
+				AdventureResult.addResultToList( availableIngredients, ingredient.getNegation() );
 			}
 		}
 
@@ -1324,11 +1314,8 @@ public class ConcoctionDatabase
 			return;
 		}
 
-		List uses = ConcoctionDatabase.getKnownUses( itemId );
-
-		for ( int i = 0; i < uses.size(); ++i )
+		for ( AdventureResult use : ConcoctionDatabase.getKnownUses( itemId ) )
 		{
-			AdventureResult use = (AdventureResult) uses.get( i );
 			CraftingType method = ConcoctionDatabase.getMixingMethod( use.getItemId() );
 			EnumSet<CraftingRequirements> requirements = ConcoctionDatabase.getRequirements( use.getItemId() );
 			
@@ -1339,9 +1326,9 @@ public class ConcoctionDatabase
 			}
 		}
 
-		for ( int i = 0; i < CoinmasterRegistry.COINMASTERS.length; ++i )
+		for ( CoinmasterData coinmaster : CoinmasterRegistry.COINMASTERS )
 		{
-			AdventureResult item = CoinmasterRegistry.COINMASTERS[ i ].getItem();
+			AdventureResult item = coinmaster.getItem();
 			if ( item != null && itemId == item.getItemId() )
 			{
 				ConcoctionDatabase.setRefreshNeeded( false );

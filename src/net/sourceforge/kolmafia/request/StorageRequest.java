@@ -126,7 +126,7 @@ public class StorageRequest
 				}
 
 				AdventureResult item = ItemPool.get( itemId, count );
-				ArrayList list =
+				List<AdventureResult> list =
 					KoLCharacter.canInteract() ? items :
 					StorageRequest.isFreePull( item ) ? freepulls :
 					StorageRequest.isNoPull( item ) ? nopulls :
@@ -246,18 +246,18 @@ public class StorageRequest
 		return "amt";
 	}
 
-	public List getItems()
+	public List<AdventureResult> getItems()
 	{
-		List itemList = new ArrayList();
+		List<AdventureResult> itemList = new ArrayList<>();
 
 		if ( this.attachments == null )
 		{
 			return itemList;
 		}
 
-		for ( int i = 0; i < this.attachments.length; ++i )
+		for ( AdventureResult item : this.attachments )
 		{
-			itemList.add( this.attachments[ i ] );
+			itemList.add( item );
 		}
 
 		return itemList;
@@ -594,7 +594,7 @@ public class StorageRequest
 
 			AdventureResult item = ItemPool.get( name, count );
 
-			List source;
+			List<AdventureResult> source;
 
 			if ( KoLConstants.freepulls.contains( item ) )
 			{

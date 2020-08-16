@@ -508,9 +508,9 @@ public class UseSkillRequest
 		}
 
 		long  mpDifference =
-			SkillDatabase.getMPConsumptionById( this.skillId ) - SkillDatabase.getMPConsumptionById( ( (UseSkillRequest) o ).skillId );
+			SkillDatabase.getMPConsumptionById( this.skillId ) - SkillDatabase.getMPConsumptionById( o.skillId );
 
-		return mpDifference < 0 ? -1 : mpDifference > 0 ? 1 : this.skillName.compareToIgnoreCase( ( (UseSkillRequest) o ).skillName );
+		return mpDifference < 0 ? -1 : mpDifference > 0 ? 1 : this.skillName.compareToIgnoreCase( o.skillName );
 	}
 
 	public int getSkillId()

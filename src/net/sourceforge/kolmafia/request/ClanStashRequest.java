@@ -77,7 +77,7 @@ public class ClanStashRequest
 	{
 		super( "clan_stash.php" );
 		this.moveType = ClanStashRequest.REFRESH_ONLY;
-		this.destination = new ArrayList();
+		this.destination = new ArrayList<AdventureResult>();
 	}
 
 	/**
@@ -92,7 +92,7 @@ public class ClanStashRequest
 		this.addFormField( "action", "contribute" );
 
 		this.moveType = ClanStashRequest.MEAT_TO_STASH;
-		this.destination = new ArrayList();
+		this.destination = new ArrayList<AdventureResult>();
 	}
 
 	public ClanStashRequest( AdventureResult attachment, final int moveType )
@@ -155,18 +155,18 @@ public class ClanStashRequest
 		return this.moveType;
 	}
 
-	public List getItems()
+	public List<AdventureResult> getItems()
 	{
-		List itemList = new ArrayList();
+		List<AdventureResult> itemList = new ArrayList<>();
 
 		if ( this.attachments == null )
 		{
 			return itemList;
 		}
 
-		for ( int i = 0; i < this.attachments.length; ++i )
+		for ( AdventureResult item : this.attachments )
 		{
-			itemList.add( this.attachments[ i ] );
+			itemList.add( item );
 		}
 
 		return itemList;

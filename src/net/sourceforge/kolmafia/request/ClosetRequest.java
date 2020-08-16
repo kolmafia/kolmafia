@@ -245,18 +245,18 @@ public class ClosetRequest
 		return "quantity";
 	}
 
-	public List getItems()
+	public List<AdventureResult> getItems()
 	{
-		List itemList = new ArrayList();
+		List<AdventureResult> itemList = new ArrayList<>();
 
 		if ( this.attachments == null )
 		{
 			return itemList;
 		}
 
-		for ( int i = 0; i < this.attachments.length; ++i )
+		for ( AdventureResult item: this.attachments )
 		{
-			itemList.add( this.attachments[ i ] );
+			itemList.add( item );
 		}
 
 		return itemList;

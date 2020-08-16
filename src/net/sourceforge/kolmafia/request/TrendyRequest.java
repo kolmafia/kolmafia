@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -46,12 +47,12 @@ public class TrendyRequest
 {
 	// Types: "Items", "Campground", Bookshelf", "Familiars", "Skills", "Clan Item".
 
-	private final static HashMap itemMap = new HashMap();
-	private final static HashMap campgroundMap = new HashMap();
-	private final static HashMap bookshelfMap = new HashMap();
-	private final static HashMap familiarMap = new HashMap();
-	private final static HashMap skillMap = new HashMap();
-	private final static HashMap clanMap = new HashMap();
+	private final static Map<String, Boolean> itemMap = new HashMap<>();
+	private final static Map<String, Boolean> campgroundMap = new HashMap<>();
+	private final static Map<String, Boolean> bookshelfMap = new HashMap<>();
+	private final static Map<String, Boolean> familiarMap = new HashMap<>();
+	private final static Map<String, Boolean> skillMap = new HashMap<>();
+	private final static Map<String, Boolean> clanMap = new HashMap<>();
 
 	private static final TrendyRequest INSTANCE = new TrendyRequest();
 	private static boolean running = false;
@@ -77,7 +78,7 @@ public class TrendyRequest
 		}
 	}
 
-	private static HashMap typeToMap( final String type )
+	private static Map<String, Boolean> typeToMap( final String type )
 	{
 		return	type.equals( "Items" ) ? TrendyRequest.itemMap :
 			type.equals( "Campground" ) ? TrendyRequest.campgroundMap :
@@ -88,16 +89,16 @@ public class TrendyRequest
 			null;
 	}
 
-	private static boolean isTrendy( final HashMap map, final String key )
+	private static boolean isTrendy( final Map<String, Boolean> map, final String key )
 	{
 		TrendyRequest.initialize();
-		Boolean value = (Boolean)map.get( key.toLowerCase() );
+		Boolean value = map.get( key.toLowerCase() );
 		return value == null || value.booleanValue();
 	}
 
 	public static boolean isTrendy( final String type, final String key )
 	{
-		HashMap map = TrendyRequest.typeToMap( type );
+		Map<String, Boolean> map = TrendyRequest.typeToMap( type );
 		return map != null && TrendyRequest.isTrendy( map, key );
 	}
 
@@ -179,7 +180,7 @@ public class TrendyRequest
 		while ( matcher.find() )
 		{
 			String type = matcher.group( 3 );
-			HashMap map = TrendyRequest. typeToMap( type );
+			Map<String, Boolean> map = TrendyRequest.typeToMap( type );
 			if ( map == null )
 			{
 				// Report it?

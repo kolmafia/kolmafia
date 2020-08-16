@@ -272,7 +272,7 @@ public class Expression
 			case '^':
 				double base = s[ --sp ];
 				double expt = s[ --sp ];
-				v = (double) Math.pow( base, expt );
+				v = Math.pow( base, expt );
 				if ( Double.isNaN( v ) || Double.isInfinite( v ) )
 				{
 					throw new ArithmeticException( "Invalid exponentiation: cannot take " + base + " ** " + expt );
@@ -283,10 +283,10 @@ public class Expression
 				v = Math.abs( s[ --sp ] );
 				break;
 			case 'c':
-				v = (double) Math.ceil( s[ --sp ] );
+				v = Math.ceil( s[ --sp ] );
 				break;
 			case 'f':
-				v = (double) Math.floor( s[ --sp ] );
+				v = Math.floor( s[ --sp ] );
 				break;
 			case 'm':
 				v = Math.min( s[ --sp ], s[ --sp ] );
@@ -314,7 +314,7 @@ public class Expression
 				}
 				break;
 			case 's':
-				v = (double) Math.sqrt( s[ --sp ] );
+				v = Math.sqrt( s[ --sp ] );
 				if ( Double.isNaN(v) )
 				{
 					throw new ArithmeticException( "Can't take square root of a negative value" );

@@ -362,8 +362,6 @@ public class Value
 			throw new ClassCastException();
 		}
 
-		Value it = (Value) o;
-
 		if ( this.getType() == DataTypes.BOOLEAN_TYPE ||
 		     this.getType() == DataTypes.INT_TYPE ||
 		     this.getType() == DataTypes.ITEM_TYPE ||
@@ -375,14 +373,14 @@ public class Value
 		     this.getType() == DataTypes.THRALL_TYPE ||
 		     this.getType() == DataTypes.SERVANT_TYPE )
 		{
-			return this.contentLong < it.contentLong ? -1 : this.contentLong == it.contentLong ? 0 : 1;
+			return this.contentLong < o.contentLong ? -1 : this.contentLong == o.contentLong ? 0 : 1;
 		}
 
 		if ( this.getType() == DataTypes.VYKEA_TYPE )
 		{
 			// Let the underlying data type itself decide
 			VYKEACompanionData v1 = (VYKEACompanionData)( this.content );
-			VYKEACompanionData v2 = (VYKEACompanionData)( it.content );
+			VYKEACompanionData v2 = (VYKEACompanionData)( o.content );
 			return v1.compareTo( v2 );
 		}
 
@@ -390,24 +388,24 @@ public class Value
 		{
 			return Double.compare(
 				Double.longBitsToDouble( this.contentLong ),
-				Double.longBitsToDouble( it.contentLong ) );
+				Double.longBitsToDouble( o.contentLong ) );
 		}
 
 		if ( this.getType() == DataTypes.MONSTER_TYPE )
 		{
 			// If we know a monster ID, compare it
-			if ( this.contentLong != 0 || it.contentLong != 0 )
+			if ( this.contentLong != 0 || o.contentLong != 0 )
 			{
-				return this.contentLong < it.contentLong ? -1 : this.contentLong == it.contentLong ? 0 : 1;
+				return this.contentLong < o.contentLong ? -1 : this.contentLong == o.contentLong ? 0 : 1;
 			}
 			// Otherwise, must compare names
 		}
 
-		if ( this.contentString != null && it.contentString != null )
+		if ( this.contentString != null && o.contentString != null )
 		{
 			return  ignoreCase ?
-				this.contentString.compareToIgnoreCase( it.contentString ) :
-				this.contentString.compareTo( it.contentString );
+				this.contentString.compareToIgnoreCase( o.contentString ) :
+				this.contentString.compareTo( o.contentString );
 		}
 
 		return -1;

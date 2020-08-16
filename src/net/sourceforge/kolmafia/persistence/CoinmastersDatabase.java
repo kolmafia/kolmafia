@@ -144,7 +144,7 @@ public class CoinmastersDatabase
 
 	private static final Map<Integer, Integer> getOrMakeMap( final String key, final Map<String, Map<Integer, Integer>> map )
 	{
-		Map<Integer, Integer> retval = (Map<Integer, Integer>) map.get( key );
+		Map<Integer, Integer> retval = map.get( key );
 		if ( retval == null )
 		{
 			retval = CoinmastersDatabase.getNewMap();
@@ -155,7 +155,7 @@ public class CoinmastersDatabase
 
 	public static final Map<Integer, Integer> invert( final Map<Integer, Integer> map )
 	{
-		Map<Integer, Integer> retval = new TreeMap<Integer, Integer>();
+		Map<Integer, Integer> retval = new TreeMap<>();
 		for ( Entry<Integer, Integer> entry : map.entrySet() )
 		{
 			retval.put(entry.getValue(), entry.getKey());
@@ -243,23 +243,23 @@ public class CoinmastersDatabase
 		return PurchaseRequest.MAX_QUANTITY;
 	}
 
-	public static final int getPrice( final int itemId, final Map prices )
+	public static final int getPrice( final int itemId, final Map<Integer, Integer> prices )
 	{
 		if ( itemId == -1 )
 		{
 			return 0;
 		}
-		Integer price = (Integer) prices.get( (Integer) itemId );
+		Integer price = prices.get( itemId );
 		return ( price == null ) ? 0 : price.intValue();
 	}
 
 	public static final void clearPurchaseRequests( CoinmasterData data )
 	{
 		// Clear all purchase requests for a particular Coin Master
-		Iterator it = CoinmastersDatabase.COINMASTER_ITEMS.values().iterator();
+		Iterator<CoinMasterPurchaseRequest> it = CoinmastersDatabase.COINMASTER_ITEMS.values().iterator();
 		while ( it.hasNext() )
 		{
-			CoinMasterPurchaseRequest request = (CoinMasterPurchaseRequest) it.next();
+			CoinMasterPurchaseRequest request = it.next();
 			if ( request.getData() == data )
 			{
 				it.remove();
@@ -307,7 +307,7 @@ public class CoinmastersDatabase
 	public static final CoinMasterPurchaseRequest getPurchaseRequest( final int itemId )
 	{
 		Integer id = IntegerPool.get( itemId );
-		CoinMasterPurchaseRequest request =  (CoinMasterPurchaseRequest) CoinmastersDatabase.COINMASTER_ITEMS.get( id );
+		CoinMasterPurchaseRequest request = CoinmastersDatabase.COINMASTER_ITEMS.get( id );
 
 		if ( request == null )
 		{
