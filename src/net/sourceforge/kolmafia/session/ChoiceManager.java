@@ -47,7 +47,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
-import java.util.TreeMap;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -4348,10 +4347,10 @@ public abstract class ChoiceManager
 		// Choice 1324 is It Hasn't Ended, It's Just Paused
 		new ChoiceAdventure(
 			"Town", "choiceAdventure1324", "Neverending Party Pause",
-			new Object[] { new Option( "to bedroom", 1 ),
-				       new Option( "to kitchen", 2 ),
-				       new Option( "to back yard", 3 ),
-				       new Option( "to basement", 4 ),
+			new Object[] { new Option( "Full HP/MP heal, +Mys Exp (20adv), clear partiers (quest), DJ meat (quest), megawoots (quest)", 1 ),
+				       new Option( "Mys stats, +Mus Exp (20 adv), snacks quest, burn trash (quest)", 2 ),
+				       new Option( "Mox stats, +30 ML (50 adv), clear partiers (quest), booze quest", 3 ),
+				       new Option( "Mus stats, +Mox Exp (20 adv), chainsaw, megawoots (quest)", 4 ),
 				       new Option( "fight random partier", 5 ) } ),
 
 		// Choice 1325 is A Room With a View...  Of a Bed
