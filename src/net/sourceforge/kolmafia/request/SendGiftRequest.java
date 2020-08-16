@@ -127,7 +127,7 @@ public class SendGiftRequest
 		this.message = CharacterEntities.unescape( message );
 		this.desiredCapacity = desiredCapacity;
 
-		this.wrappingType = (GiftWrapper) SendGiftRequest.PACKAGES.get( desiredCapacity );
+		this.wrappingType = SendGiftRequest.PACKAGES.get( desiredCapacity );
 		this.maxCapacity = this.wrappingType.maxCapacity;
 		this.materialCost = this.wrappingType.materialCost;
 
@@ -143,7 +143,7 @@ public class SendGiftRequest
 		if ( isFromStorage )
 		{
 			this.source = KoLConstants.storage;
-			this.destination = new ArrayList();
+			this.destination = new ArrayList<AdventureResult>();
 		}
 	}
 
@@ -202,7 +202,7 @@ public class SendGiftRequest
 		return responseText.indexOf( "<td>Package sent.</td>" ) != -1;
 	}
 
-	private static final List source( final String urlString )
+	private static final List<AdventureResult> source( final String urlString )
 	{
 		return urlString.indexOf( "fromwhere=1" ) != -1 ? KoLConstants.storage : KoLConstants.inventory;
 	}
@@ -219,7 +219,7 @@ public class SendGiftRequest
 
 		for ( int i = 0; i < SendGiftRequest.PACKAGES.size(); ++i )
 		{
-			GiftWrapper wrappingType = (GiftWrapper) SendGiftRequest.PACKAGES.get( i );
+			GiftWrapper wrappingType = SendGiftRequest.PACKAGES.get( i );
 			if ( wrappingType.radio == type )
 			{
 				return wrappingType.materialCost;
@@ -242,7 +242,7 @@ public class SendGiftRequest
 			return false;
 		}
 
-		List source = SendGiftRequest.source( urlString );
+		List<AdventureResult> source = SendGiftRequest.source( urlString );
 
 		int cost = SendGiftRequest.getMaterialCost( urlString );
 		long meat = TransferItemRequest.transferredMeat( urlString, "sendmeat" );

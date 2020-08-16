@@ -109,7 +109,7 @@ public class FalloutShelterRequest
 		int i = KoLConstants.falloutShelter.indexOf( item );
 		if ( i != -1 )
 		{
-			AdventureResult old = (AdventureResult)KoLConstants.falloutShelter.get( i );
+			AdventureResult old = KoLConstants.falloutShelter.get( i );
 			if ( old.getCount() == item.getCount() )
 			{
 				return;

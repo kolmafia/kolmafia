@@ -111,7 +111,7 @@ public class BasementRequest
 	private static Element badelement1 = Element.NONE, badelement2 = Element.NONE, badelement3 = Element.NONE;
 	private static AdventureResult badeffect1 = null, badeffect2 = null, badeffect3 = null;
 
-	private static ArrayList<AdventureResult> desirableEffects = new ArrayList<AdventureResult>();
+	private static List<AdventureResult> desirableEffects = new ArrayList<>();
 
 	private static int level1, level2;
 	private static double resistance1, resistance2;
@@ -395,20 +395,17 @@ public class BasementRequest
 
 	private static final void changeBasementOutfit( final String name )
 	{
-		Object currentTest;
-		String currentTestString;
-
 		// Find desired outfit. Skip "No Change" entry at index 0.
-		List available = EquipmentManager.getCustomOutfits();
+		List<SpecialOutfit> available = EquipmentManager.getCustomOutfits();
 		int count = available.size();
 		for ( int i = 1; i < count; ++i )
 		{
-			currentTest = available.get( i );
-			currentTestString = currentTest.toString().toLowerCase();
+			SpecialOutfit currentTest = available.get( i );
+			String currentTestString = currentTest.toString().toLowerCase();
 
-			if ( currentTestString.indexOf( name ) != -1 )
+			if ( currentTestString.contains( name ) )
 			{
-				RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) currentTest ) );
+				RequestThread.postRequest( new EquipmentRequest( currentTest ) );
 				// Restoring to the original outfit after Basement auto-adventuring is
 				// slow and pointless - you're going to want something related to the
 				// current outfit to continue, not the original one.
@@ -598,7 +595,7 @@ public class BasementRequest
 		// total elemental damage is roughly 4.48 * x^1.4.  Assume the worst-case.
 
 		double damage1 =
-			( (double) Math.pow( BasementRequest.basementLevel, 1.4 ) * 4.48 + 8.0 ) * BasementRequest.SAFETY_MARGIN;
+			( Math.pow( BasementRequest.basementLevel, 1.4 ) * 4.48 + 8.0 ) * BasementRequest.SAFETY_MARGIN;
 		double damage2 = damage1;
 
 		BasementRequest.level1 = KoLCharacter.getElementalResistanceLevels( BasementRequest.element1 );
@@ -755,7 +752,7 @@ public class BasementRequest
 		// stat requirement is x^1.4 + 2.  Assume the worst-case.
 
 		double statRequirement =
-			( (double) Math.pow( BasementRequest.basementLevel, 1.4 ) + 2.0 ) * BasementRequest.SAFETY_MARGIN;
+			( Math.pow( BasementRequest.basementLevel, 1.4 ) + 2.0 ) * BasementRequest.SAFETY_MARGIN;
 
 		BasementRequest.basementTestString = "Buffed Muscle";
 		BasementRequest.basementTestCurrent = KoLCharacter.getAdjustedMuscle();
@@ -774,7 +771,7 @@ public class BasementRequest
 		// stat requirement is x^1.4 + 2.  Assume the worst-case.
 
 		double statRequirement =
-			( (double) Math.pow( BasementRequest.basementLevel, 1.4 ) + 2.0 ) * BasementRequest.SAFETY_MARGIN;
+			( Math.pow( BasementRequest.basementLevel, 1.4 ) + 2.0 ) * BasementRequest.SAFETY_MARGIN;
 
 		BasementRequest.basementTestString = "Buffed Mysticality";
 		BasementRequest.basementTestCurrent = KoLCharacter.getAdjustedMysticality();
@@ -793,7 +790,7 @@ public class BasementRequest
 		// stat requirement is x^1.4 + 2.  Assume the worst-case.
 
 		double statRequirement =
-			( (double) Math.pow( BasementRequest.basementLevel, 1.4 ) + 2.0 ) * BasementRequest.SAFETY_MARGIN;
+			( Math.pow( BasementRequest.basementLevel, 1.4 ) + 2.0 ) * BasementRequest.SAFETY_MARGIN;
 
 		BasementRequest.basementTestString = "Buffed Moxie";
 		BasementRequest.basementTestCurrent = KoLCharacter.getAdjustedMoxie();
@@ -899,7 +896,7 @@ public class BasementRequest
 		// drain requirement is 1.67 * x^1.4 Assume worst-case.
 
 		double drainRequirement =
-			(double) Math.pow( BasementRequest.basementLevel, 1.4 ) * 1.67 * BasementRequest.SAFETY_MARGIN;
+			Math.pow( BasementRequest.basementLevel, 1.4 ) * 1.67 * BasementRequest.SAFETY_MARGIN;
 
 		BasementRequest.basementTestString = "Maximum MP";
 		BasementRequest.basementTestCurrent = KoLCharacter.getMaximumMP();
@@ -927,7 +924,7 @@ public class BasementRequest
 		// drain requirement is 10.0 * x^1.4. Assume worst-case.
 
 		double drainRequirement =
-			(double) Math.pow( BasementRequest.basementLevel, 1.4 ) * 10.0 * BasementRequest.SAFETY_MARGIN;
+			Math.pow( BasementRequest.basementLevel, 1.4 ) * 10.0 * BasementRequest.SAFETY_MARGIN;
 
 		BasementRequest.basementTestString = "Maximum HP";
 		BasementRequest.basementTestCurrent = KoLCharacter.getMaximumHP();
@@ -937,7 +934,7 @@ public class BasementRequest
 		BasementRequest.secondaryBoost = Modifiers.MUS;
 
 		double damageAbsorb =
-			1.0 - ( (double) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0 ) - 1.0 ) / 10.0;
+			1.0 - ( Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0 ) - 1.0 ) / 10.0;
 		double healthRequirement = drainRequirement * damageAbsorb;
 
 		BasementRequest.basementTestValue = (int) healthRequirement;
@@ -1000,7 +997,7 @@ public class BasementRequest
 			}
 
 			double damageAbsorb =
-				1.0 - ( (double) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0 ) - 1.0 ) / 10.0;
+				1.0 - ( Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0 ) - 1.0 ) / 10.0;
 			double healthRequirement = drainRequirement * damageAbsorb;
 
 			if ( KoLCharacter.getMaximumHP() < healthRequirement )
@@ -1010,7 +1007,7 @@ public class BasementRequest
 					BasementRequest.changeBasementOutfit( "gauntlet" );
 
 					damageAbsorb =
-						1.0 - ( (double) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0 ) - 1.0 ) / 10.0;
+						1.0 - ( Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0 ) - 1.0 ) / 10.0;
 					healthRequirement = drainRequirement * damageAbsorb;
 					BasementRequest.basementTestValue = (int) healthRequirement;
 				}
@@ -1089,7 +1086,7 @@ public class BasementRequest
 	private static final String monsterLevelString()
 	{
 		double level =
-			2.0 * (double) Math.pow( BasementRequest.basementLevel, 1.4 ) + KoLCharacter.getMonsterLevelAdjustment();
+			2.0 * Math.pow( BasementRequest.basementLevel, 1.4 ) + KoLCharacter.getMonsterLevelAdjustment();
 		return "Monster: Attack/Defense = " + (int) level;
 	}
 
@@ -1246,16 +1243,13 @@ public class BasementRequest
 		}
 	}
 
-	private static final void getStatBoosters( final ArrayList<AdventureResult> sourceList, final ArrayList<StatBooster> targetList )
+	private static final void getStatBoosters( final List<AdventureResult> sourceList, final List<StatBooster> targetList )
 	{
 		// Cache skills to avoid lots of string lookups
 		StatBooster.checkSkills();
 
-		Iterator<AdventureResult> it = sourceList.iterator();
-
-		while ( it.hasNext() )
+		for ( AdventureResult effect : sourceList )
 		{
-			AdventureResult effect = it.next();
 			if ( !BasementRequest.wantEffect( effect ) )
 			{
 				continue;
@@ -1270,13 +1264,10 @@ public class BasementRequest
 		}
 	}
 
-	private static final void addDesirableEffects( final ArrayList<AdventureResult> sourceList )
+	private static final void addDesirableEffects( final List<AdventureResult> sourceList )
 	{
-		Iterator<AdventureResult> it = sourceList.iterator();
-
-		while ( it.hasNext() )
+		for ( AdventureResult effect : sourceList )
 		{
-			AdventureResult effect = it.next();
 			if ( BasementRequest.wantEffect( effect ) && !BasementRequest.desirableEffects.contains( effect ) )
 			{
 				BasementRequest.desirableEffects.add( effect );
@@ -1303,9 +1294,9 @@ public class BasementRequest
 		return true;
 	}
 
-	public static final ArrayList<StatBooster> getStatBoosters()
+	public static final List<StatBooster> getStatBoosters()
 	{
-		ArrayList<StatBooster> targetList = new ArrayList<StatBooster>();
+		List<StatBooster> targetList = new ArrayList<>();
 
 		BasementRequest.getStatBoosters( BasementRequest.desirableEffects, targetList );
 

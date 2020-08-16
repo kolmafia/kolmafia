@@ -370,7 +370,7 @@ public class CoinmasterData
 			return 0;
 		}
 
-		Integer price = (Integer) this.buyPrices.get( itemId );
+		Integer price = this.buyPrices.get( itemId );
 		return price != null ? price.intValue() : 0;
 	}
 
@@ -420,7 +420,7 @@ public class CoinmasterData
 	{
 		if ( this.sellPrices != null )
 		{
-			Integer price = (Integer) this.sellPrices.get( itemId );
+			Integer price = this.sellPrices.get( itemId );
 			return price != null ? price.intValue() : 0;
 		}
 		return 0;
@@ -505,7 +505,7 @@ public class CoinmasterData
 	public CoinMasterRequest getRequest()
 	{
 		Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
-		Class [] parameters = new Class[ 0 ] ;
+		Class<?> [] parameters = new Class<?>[ 0 ] ;
 
 		try
 		{
@@ -522,7 +522,7 @@ public class CoinmasterData
 	public CoinMasterRequest getRequest( final boolean buying, final AdventureResult [] items )
 	{
 		Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
-		Class [] parameters = new Class[ 2 ] ;
+		Class<?> [] parameters = new Class<?>[ 2 ] ;
 		parameters[ 0 ] = boolean.class;
 		parameters[ 1 ] = AdventureResult[].class;
 
@@ -550,7 +550,7 @@ public class CoinmasterData
 		// Returns an error reason or null
 
 		Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
-		Class [] parameters = new Class[ 0 ] ;
+		Class<?> [] parameters = new Class<?>[ 0 ] ;
 
 		try
 		{
@@ -569,7 +569,7 @@ public class CoinmasterData
 		// Returns an error reason or null
 
 		Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
-		Class [] parameters = new Class[ 0 ] ;
+		Class<?> [] parameters = new Class<?>[ 0 ] ;
 
 		try
 		{
@@ -588,7 +588,7 @@ public class CoinmasterData
 		// Returns an error reason or null
 
 		Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
-		Class [] parameters = new Class[ 0 ] ;
+		Class<?> [] parameters = new Class<?>[ 0 ] ;
 
 		try
 		{

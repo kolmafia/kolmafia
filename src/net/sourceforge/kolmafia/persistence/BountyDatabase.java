@@ -246,7 +246,7 @@ public class BountyDatabase
 		}
 		
 		String numberString = BountyDatabase.numberByName.get( name );
-		return numberString == null ? 0 : (int) StringUtilities.parseInt( numberString );
+		return numberString == null ? 0 : StringUtilities.parseInt( numberString );
 	}
 
 	public static final String getMonster( String name )

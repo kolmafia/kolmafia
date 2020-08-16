@@ -268,7 +268,7 @@ public abstract class TransferItemRequest
 		if ( meatAttachment > 0 )
 		{
 			// Attach all the Meat to the first request
-			TransferItemRequest first = (TransferItemRequest) subinstances.get(0);
+			TransferItemRequest first = subinstances.get(0);
 			first.addFormField( this.getMeatField(), String.valueOf( meatAttachment ) );
 
 		}
@@ -317,7 +317,7 @@ public abstract class TransferItemRequest
 
 		for ( int i = 1; i <= this.attachments.length; ++i )
 		{
-			AdventureResult it = (AdventureResult) this.attachments[ i - 1 ];
+			AdventureResult it = this.attachments[ i - 1 ];
 			if ( it != null && it.isItem() )
 			{
 				this.attachItem( it, i );
@@ -352,7 +352,7 @@ public abstract class TransferItemRequest
 
 		for ( int i = 0; i < this.attachments.length; ++i )
 		{
-			AdventureResult item = (AdventureResult) this.attachments[ i ];
+			AdventureResult item = this.attachments[ i ];
 			KoLmafia.updateDisplay( MafiaState.ERROR,
 						"Transfer failed for " + item.toString() );
 		}
@@ -713,7 +713,7 @@ public abstract class TransferItemRequest
 		boolean addedItem = false;
 		for ( int i = 0; i < itemList.size(); ++i )
 		{
-			AdventureResult item = ( (AdventureResult) itemList.get( i ) );
+			AdventureResult item = itemList.get( i );
 			String name = item.getName();
 			int quantity = item.getCount();
 

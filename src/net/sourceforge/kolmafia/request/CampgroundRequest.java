@@ -519,7 +519,7 @@ public class CampgroundRequest
 		int i = KoLConstants.campground.indexOf( item );
 		if ( i != -1 )
 		{
-			AdventureResult old = (AdventureResult)KoLConstants.campground.get( i );
+			AdventureResult old = KoLConstants.campground.get( i );
 			if ( old.getCount() == item.getCount() )
 			{
 				return;

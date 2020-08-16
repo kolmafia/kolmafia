@@ -165,7 +165,7 @@ public class MrStoreRequest
 
 		CoinmasterData data = MrStoreRequest.MR_STORE;
 		LockableListModel<AdventureResult> items = MrStoreRequest.buyItems;
-		Map costs = MrStoreRequest.buyCosts;
+		Map<Integer, AdventureResult> costs = MrStoreRequest.buyCosts;
 		items.clear();
 		costs.clear();
 

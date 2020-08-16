@@ -89,7 +89,7 @@ public class UneffectRequest
 	private static final Pattern ID1_PATTERN = Pattern.compile( "whicheffect=(\\d+)" );
 	private static final Pattern ID2_PATTERN = Pattern.compile( "whichbuff=(\\d+)" );
 
-	public static final HashMap<String,String> EFFECT_SKILL = new HashMap<String,String>();
+	public static final Map<String,String> EFFECT_SKILL = new HashMap<>();
 
 	static
 	{
@@ -349,10 +349,10 @@ public class UneffectRequest
 		return null;
 	}
 
-	private static Set REMOVABLE_BY_SKILL;
+	private static Set<Entry<String, Set<Integer>>> REMOVABLE_BY_SKILL;
 	private static final Map<String, Set<Integer>> removeWithSkillMap = new LinkedHashMap<String, Set<Integer>>();
 
-	private static Set REMOVABLE_BY_ITEM;
+	private static Set<Entry<Integer, Set<Integer>>> REMOVABLE_BY_ITEM;
 	private static final Map<Integer, Set<Integer>> removeWithItemMap = new LinkedHashMap<Integer, Set<Integer>>();
 
 	public static final void reset()
@@ -570,18 +570,18 @@ public class UneffectRequest
 
 	public static String getUneffectSkill( final int effectId )
 	{
-		Iterator skillIterator = UneffectRequest.REMOVABLE_BY_SKILL.iterator();
-		while ( skillIterator.hasNext() )
+		Integer effect = Integer.valueOf( effectId );
+
+		for ( Entry<String, Set<Integer>> removable : UneffectRequest.REMOVABLE_BY_SKILL )
 		{
-			Entry removable = (Entry) skillIterator.next();
-			Set removables = (Set) removable.getValue();
+			Set<Integer> removables = removable.getValue();
 
 			if ( !removables.contains( effectId ) )
 			{
 				continue;
 			}
 
-			String skillName =  (String) removable.getKey();
+			String skillName = removable.getKey();
 
 			if ( KoLCharacter.inGLover() && !KoLCharacter.hasGs( skillName ) )
 			{
@@ -644,18 +644,16 @@ public class UneffectRequest
 
 		// See if it can be removed by a skill.
 
-		Iterator skillIterator = UneffectRequest.REMOVABLE_BY_SKILL.iterator();
-		while ( skillIterator.hasNext() )
+		for ( Entry<String, Set<Integer>> removable : UneffectRequest.REMOVABLE_BY_SKILL )
 		{
-			Entry removable = (Entry) skillIterator.next();
-			Set removables = (Set) removable.getValue();
+			Set<Integer> removables = removable.getValue();
 
 			if ( !removables.contains( effectId ) )
 			{
 				continue;
 			}
 
-			skillName = (String) removable.getKey();
+			skillName = removable.getKey();
 
 			// If Shake It Off can remove it, so can Hot Tub
 			if ( skillName.equals( "Shake It Off" ) )
@@ -688,18 +686,16 @@ public class UneffectRequest
 
 		boolean hasRemedy = InventoryManager.hasItem( ItemPool.REMEDY ) || InventoryManager.hasItem( ItemPool.ANCIENT_CURE_ALL );
 
-		Iterator itemIterator = UneffectRequest.REMOVABLE_BY_ITEM.iterator();
-		while ( itemIterator.hasNext() )
+		for ( Entry<Integer, Set<Integer>> removable : UneffectRequest.REMOVABLE_BY_ITEM )
 		{
-			Entry removable = (Entry) itemIterator.next();
-			Set removables = (Set) removable.getValue();
+			Set<Integer> removables = removable.getValue();
 
 			if ( !removables.contains( effectId ) )
 			{
 				continue;
 			}
 
-			int itemId = ( (Integer) removable.getKey() ).intValue();
+			int itemId = removable.getKey().intValue();
 			String itemName = ItemDatabase.getItemName( itemId );
 
 			if ( InventoryManager.hasItem( itemId ) ||
@@ -730,7 +726,7 @@ public class UneffectRequest
 			return;
 		}
 
-		AdventureResult effect = (AdventureResult) KoLConstants.activeEffects.get( index );
+		AdventureResult effect = KoLConstants.activeEffects.get( index );
 
 		if ( !UneffectRequest.isRemovable( this.effectId ) )
 		{

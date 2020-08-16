@@ -2854,12 +2854,10 @@ public class DebugDatabase
 		DebugDatabase.checkShields( KoLConstants.storage );
 	}
 
-	public static final void checkShields( final Collection items )
+	public static final void checkShields( final Collection<AdventureResult> items )
 	{
-		Iterator it = items.iterator();
-		while ( it.hasNext() )
+		for ( AdventureResult item : items )
 		{
-			AdventureResult item = (AdventureResult)it.next();
 			int itemId = item.getItemId();
 			if ( !EquipmentDatabase.getItemType( itemId ).equals( "shield" ) )
 			{
@@ -2905,12 +2903,8 @@ public class DebugDatabase
 		RequestLogger.printLine( "Loading previous data..." );
 		DebugDatabase.loadScrapeData( rawItems, ITEM_HTML );
 
-		Set keys = ItemDatabase.descriptionIdKeySet();
-		Iterator it = keys.iterator();
-
-		while ( it.hasNext() )
+		for ( Integer id : ItemDatabase.descriptionIdKeySet() )
 		{
-			Integer id = ( (Integer) it.next() );
 			int itemId = id.intValue();
 			if ( itemId < 1 || !ItemDatabase.isUsable( itemId ) || ItemDatabase.isEquipment( itemId ) )
 			{
@@ -2950,7 +2944,7 @@ public class DebugDatabase
 		DebugDatabase.checkConsumables( report, ConsumablesDatabase.spleenHitByName, "spleenhit" );
 	}
 
-	private static final void checkConsumables( final PrintStream report, final Map map, final String tag )
+	private static final void checkConsumables( final PrintStream report, final Map<String, Integer> map, final String tag )
 	{
 		if ( map.size() == 0 )
 		{
@@ -2961,11 +2955,9 @@ public class DebugDatabase
 		report.println( "# Consumption data in " + tag + ".txt" );
 		report.println( "#" );
 
-		Object[] keys = map.keySet().toArray();
-		for ( int i = 0; i < keys.length; ++i )
+		for ( String name : map.keySet() )
 		{
-			String name = (String) keys[ i ];
-			int size = ((Integer) map.get( name ) ).intValue();
+			int size = map.get( name ).intValue();
 			DebugDatabase.checkConsumable( report, name, size );
 		}
 	}

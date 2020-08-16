@@ -60,7 +60,7 @@ public class FunctionList
 	public Function[] findFunctions( String name )
 	{
 		name = name.toLowerCase();
-		return (Function[]) this.list.subMap( name + '\0', name + '\1' ).values().toArray( new Function[ 0 ] );
+		return this.list.subMap( name + '\0', name + '\1' ).values().toArray( new Function[ 0 ] );
 	}
 
 	public boolean isEmpty()

@@ -93,7 +93,7 @@ public class EdBaseRequest
 			// Assume that the displayed value includes one point
 			// for your current run + any accumulated points + points gained by levelling
 			int levelPoints = Math.min( 15, KoLCharacter.getLevel() );
-			levelPoints = levelPoints - (int) ( levelPoints / 3 );
+			levelPoints = levelPoints - ( levelPoints / 3 );
 			int skillsKnown = 0;
 			for ( int i = 17000 ; i <= 17020 ; i++ )
 			{

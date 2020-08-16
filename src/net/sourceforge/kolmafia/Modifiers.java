@@ -1396,12 +1396,12 @@ public class Modifiers
 		}
 		rv[ Modifiers.BUFFED_HP ] = Math.max( hp, mus );
 
-		int mpbase = (int) rv[ Modifiers.BUFFED_MYS ];
+		int mpbase = rv[ Modifiers.BUFFED_MYS ];
 		if ( this.getBoolean( Modifiers.MOXIE_CONTROLS_MP ) ||
-			(this.getBoolean( Modifiers.MOXIE_MAY_CONTROL_MP ) &&
-				(int) rv[ Modifiers.BUFFED_MOX ] > mpbase) )
+			( this.getBoolean( Modifiers.MOXIE_MAY_CONTROL_MP ) &&
+			  rv[ Modifiers.BUFFED_MOX ] > mpbase) )
 		{
-			mpbase = (int) rv[ Modifiers.BUFFED_MOX ];
+			mpbase = rv[ Modifiers.BUFFED_MOX ];
 		}
 		C = KoLCharacter.isMysticalityClass() ? 1.5 : 1.0;
 		int mp = (int) Math.ceil( mpbase * ( C + this.get( Modifiers.MP_PCT ) / 100.0 ) ) + (int) this.get( Modifiers.MP );
@@ -1410,7 +1410,7 @@ public class Modifiers
 		return rv;
 	}
 
-	public static final Iterator getAllModifiers()
+	public static final Iterator<String> getAllModifiers()
 	{
 		return Modifiers.modifiersByName.keySet().iterator();
 	}
@@ -1557,35 +1557,30 @@ public class Modifiers
 		return -1;
 	}
 
-	public static ArrayList<AdventureResult> getPotentialChanges( final int index )
+	public static List<AdventureResult> getPotentialChanges( final int index )
 	{
 		ArrayList<AdventureResult> available = new ArrayList<AdventureResult>();
 
-		Modifiers currentTest;
-		Object[] check = Modifiers.modifiersByName.keySet().toArray();
-
-		boolean hasEffect;
-		AdventureResult currentEffect;
-
-		for ( int i = 0; i < check.length; ++i )
+		for ( String check : Modifiers.modifiersByName.keySet() )
 		{
-			String effectName = ( (String) check[ i ] ).replace( "Effect:", "" );
+			String effectName = check.replace( "Effect:", "" );
 			int effectId = EffectDatabase.getEffectId( effectName );
+
 			if ( effectId == -1 )
 			{
 				continue;
 			}
 
-			currentTest = Modifiers.getEffectModifiers( effectId );
-			double value = ( (Modifiers) currentTest ).get( index );
+			Modifiers currentTest = Modifiers.getEffectModifiers( effectId );
+			double value = currentTest.get( index );
 
 			if ( value == 0.0 )
 			{
 				continue;
 			}
 
-			currentEffect = EffectPool.get( effectId );
-			hasEffect = KoLConstants.activeEffects.contains( currentEffect );
+			AdventureResult currentEffect = EffectPool.get( effectId );
+			boolean hasEffect = KoLConstants.activeEffects.contains( currentEffect );
 
 			if ( value > 0.0 && !hasEffect )
 			{

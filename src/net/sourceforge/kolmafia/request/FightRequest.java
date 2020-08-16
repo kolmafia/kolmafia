@@ -4510,7 +4510,7 @@ public class FightRequest
 					// Current theory is that heist message can happen even when the charge is reached from sleepmask trigger later
 					// in the combat text. And that it resets charge to next heist to 0. We round to catch other small errors too.
 					int charge = Preferences.getInteger( "_catBurglarCharge" ) + 1;
-					Preferences.setInteger( "_catBurglarCharge", (int) Math.round( charge / 10 ) * 10 );
+					Preferences.setInteger( "_catBurglarCharge", Math.round( charge / 10 ) * 10 );
 				}
 				int catBurglarCharge = Preferences.getInteger( "_catBurglarCharge" );
 				familiar.setCharges( catBurglarCharge );

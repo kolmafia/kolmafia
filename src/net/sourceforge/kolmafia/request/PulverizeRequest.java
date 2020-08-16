@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -61,7 +62,7 @@ public class PulverizeRequest
 	extends GenericRequest
 {
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "smashitem=(\\d+)" );
-	private static final HashMap UPGRADES = new HashMap();
+	private static final Map<String, String> UPGRADES = new HashMap<>();
 	static {
 		UPGRADES.put( "powder", "nuggets" );
 		UPGRADES.put( "nuggets", "wad" );
@@ -161,7 +162,7 @@ public class PulverizeRequest
 			int qty = this.item.getCount();
 			String name = this.item.getName();
 			int space = name.lastIndexOf( " " ) + 1;
-			String upgrade = (String) PulverizeRequest.UPGRADES.get(
+			String upgrade = PulverizeRequest.UPGRADES.get(
 				name.substring( space ) );
 			if ( upgrade != null )
 			{

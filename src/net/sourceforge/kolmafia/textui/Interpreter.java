@@ -88,7 +88,7 @@ public class Interpreter
 	public Profiler profiler;
 
 	// key, then aggregate, then iterator for every active foreach loop
-	public ArrayList iterators = new ArrayList();
+	public ArrayList<Object> iterators = new ArrayList<>();
 
 	// For use in runtime error messages
 	private String fileName;

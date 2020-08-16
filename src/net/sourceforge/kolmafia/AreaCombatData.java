@@ -476,12 +476,12 @@ public class AreaCombatData
 
 	public MonsterData getMonster( final int i )
 	{
-		return (MonsterData) this.monsters.get( i );
+		return this.monsters.get( i );
 	}
 
 	public MonsterData getSuperlikelyMonster( final int i )
 	{
-		return (MonsterData) this.superlikelyMonsters.get( i );
+		return this.superlikelyMonsters.get( i );
 	}
 
 	public boolean hasMonster( final MonsterData m )
@@ -1098,7 +1098,7 @@ public class AreaCombatData
 		}
 	}
 
-	private void appendItemList( final StringBuffer buffer, final List items, final List pocketRates, boolean fullString )
+	private void appendItemList( final StringBuffer buffer, final List<AdventureResult> items, final List<Double> pocketRates, boolean fullString )
 	{
 		if ( items.size() == 0 )
 		{
@@ -1111,7 +1111,7 @@ public class AreaCombatData
 
 		for ( int i = 0; i < items.size(); ++i )
 		{
-			AdventureResult item = (AdventureResult) items.get( i );
+			AdventureResult item = items.get( i );
 
 			if ( !fullString )
 			{
@@ -1175,7 +1175,7 @@ public class AreaCombatData
 				}
 			}
 
-			double stealRate = Math.min( ( (Double) pocketRates.get( i ) ).doubleValue() * pocketModifier, 1.0 );
+			double stealRate = Math.min( pocketRates.get( i ).doubleValue() * pocketModifier, 1.0 );
 			int rawDropRate = item.getCount() >> 16;
 			double dropRate = Math.min( rawDropRate * ( itemModifier + itemBonus ), 100.0 );
 			double effectiveDropRate = stealRate * 100.0 + ( 1.0 - stealRate ) * dropRate;

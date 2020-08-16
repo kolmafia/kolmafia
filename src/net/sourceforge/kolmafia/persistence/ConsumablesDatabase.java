@@ -91,7 +91,7 @@ public class ConsumablesDatabase
 	private static final Map<String, String> qualityByName = new HashMap<String, String>();
 	private static final Map<String, String> notesByName = new HashMap<String, String>();
 
-	private static final Map[][][][][] advsByName = new HashMap[ 2 ][ 2 ][ 2 ][ 2 ][ 2 ];
+	private static final Map<String, Double>[][][][][] advsByName = new HashMap[ 2 ][ 2 ][ 2 ][ 2 ][ 2 ];
 	private static final Map<String, String> advRangeByName = new HashMap<String, String>();
 	private static final Map<String, Integer> unitCostByName = new HashMap<String, Integer>();
 	private static final Map<String, Integer> advStartByName = new HashMap<String, Integer>();
@@ -118,7 +118,7 @@ public class ConsumablesDatabase
 					{
 						for ( int i5 = 0; i5 <= 1; ++i5 )
 						{
-							ConsumablesDatabase.advsByName[ i1 ][ i2 ][ i3 ][ i4 ][ i5 ] = new HashMap();
+							ConsumablesDatabase.advsByName[ i1 ][ i2 ][ i3 ][ i4 ][ i5 ] = new HashMap<>();
 						}
 					}
 				}
@@ -1052,7 +1052,7 @@ public class ConsumablesDatabase
 		muscleFactor *= ConsumablesDatabase.conditionalStatMultiplier( name );
 		int statUnit = ConsumablesDatabase.getStatUnit( name );
 		int statBonus = ConsumablesDatabase.conditionalExtraStats( name );
-		String range = (String) ConsumablesDatabase.extractStatRange( muscle, muscleFactor, statUnit, statBonus );
+		String range = ConsumablesDatabase.extractStatRange( muscle, muscleFactor, statUnit, statBonus );
 		return range == null ? "+0.0" : range;
 	}
 
@@ -1079,7 +1079,7 @@ public class ConsumablesDatabase
 		mysticalityFactor *= ConsumablesDatabase.conditionalStatMultiplier( name );
 		int statUnit = ConsumablesDatabase.getStatUnit( name );
 		int statBonus = ConsumablesDatabase.conditionalExtraStats( name );
-		String range = (String) ConsumablesDatabase.extractStatRange( mysticality, mysticalityFactor, statUnit, statBonus );
+		String range = ConsumablesDatabase.extractStatRange( mysticality, mysticalityFactor, statUnit, statBonus );
 		return range == null ? "+0.0" : range;
 	}
 
@@ -1106,7 +1106,7 @@ public class ConsumablesDatabase
 		moxieFactor *= ConsumablesDatabase.conditionalStatMultiplier( name );
 		int statUnit = ConsumablesDatabase.getStatUnit( name );
 		int statBonus = ConsumablesDatabase.conditionalExtraStats( name );
-		String range = (String) ConsumablesDatabase.extractStatRange( moxie, moxieFactor, statUnit, statBonus );
+		String range = ConsumablesDatabase.extractStatRange( moxie, moxieFactor, statUnit, statBonus );
 		return range == null ? "+0.0" : range;
 	}
 
@@ -1296,10 +1296,10 @@ public class ConsumablesDatabase
 		int size = 1;
 		// We don't consider queued cookies as you can't eat two in same day anyway
 		int count = Math.min( 4, Preferences.getInteger( "affirmationCookiesEaten" ) + 1 );
-		String adventures = String.valueOf( (int) ( ( 2 * count ) + 1 ) );
-		String muscle = String.valueOf( (int) ( 30 * count ) );
-		String mysticality = String.valueOf( (int) ( 30 * count ) );
-		String moxie = String.valueOf( (int) ( 30 * count ) );
+		String adventures = String.valueOf( 2 * count + 1 );
+		String muscle = String.valueOf( 30 * count );
+		String mysticality = String.valueOf( 30 * count );
+		String moxie = String.valueOf( 30 * count );
 		String note = "";
 		ConsumablesDatabase.setConsumptionData( name, size, 1, "good", adventures, muscle, mysticality, moxie, note );
 	}

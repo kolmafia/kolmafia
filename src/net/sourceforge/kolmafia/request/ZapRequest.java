@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.request;
 import java.io.BufferedReader;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -72,7 +73,7 @@ public class ZapRequest
 
 	private static final BooleanArray isZappable = new BooleanArray();
 	private static final SortedListModel<AdventureResult> zappableItems = new SortedListModel<AdventureResult>();
-	private static final HashMap zapGroups = new HashMap();
+	private static final Map<Integer, String[]> zapGroups = new HashMap<>();
 
 	private AdventureResult item;
 
@@ -147,7 +148,7 @@ public class ZapRequest
 	{
 		ZapRequest.initializeList();
 
-		String[] rv = (String[]) ZapRequest.zapGroups.get( IntegerPool.get( itemId ) );
+		String[] rv = ZapRequest.zapGroups.get( IntegerPool.get( itemId ) );
 		if ( rv == null ) return new String[ 0 ];
 		return rv;
 	}

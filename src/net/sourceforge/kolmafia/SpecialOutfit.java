@@ -416,7 +416,7 @@ public class SpecialOutfit
 			return -1;
 		}
 
-		return this.outfitName.compareToIgnoreCase( ( (SpecialOutfit) o ).outfitName );
+		return this.outfitName.compareToIgnoreCase( o.outfitName );
 	}
 
 	/**

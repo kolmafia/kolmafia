@@ -468,7 +468,7 @@ public class Type
 	{
 		if ( this.allValues != null ) return this.allValues;
 		
-		ArrayList<Value> list = new ArrayList<Value>();
+		List<Value> list = new ArrayList<Value>();
 		switch ( this.type )
 		{
 		case DataTypes.TYPE_BOOLEAN:
@@ -536,12 +536,12 @@ public class Type
 		return this.allValues;
 	}
 	
-	private void addValues( ArrayList<Value> results, String[] values )
+	private void addValues( List<Value> results, String[] values )
 	{
 		this.addValues( results, values, 0, -1 );
 	}
 
-	private void addValues( ArrayList<Value> results, String[] values, int start, int stop )
+	private void addValues( List<Value> results, String[] values, int start, int stop )
 	{
 		if ( stop == -1 ) stop = values.length;
 		for ( int i = start; i < stop; ++i )
@@ -551,7 +551,7 @@ public class Type
 		}
 	}
 
-	private void addValues( ArrayList<Value> results, Collection values )
+	private void addValues( List<Value> results, Collection values )
 	{
 		for ( Object o : values )
 		{

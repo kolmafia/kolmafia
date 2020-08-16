@@ -211,7 +211,7 @@ public class TurnCounter
 			return -1;
 		}
 
-		return this.value - ( (TurnCounter) o ).value;
+		return this.value - o.value;
 	}
 
 	public static final void clearCounters()

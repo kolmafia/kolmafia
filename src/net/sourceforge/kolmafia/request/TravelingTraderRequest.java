@@ -229,7 +229,7 @@ public class TravelingTraderRequest
 		// Learn new trade items by simply visiting the Traveling Trader
 
 		LockableListModel<AdventureResult> items = TravelingTraderRequest.buyItems;
-		Map prices = TravelingTraderRequest.buyPrices;
+		Map<Integer, Integer> prices = TravelingTraderRequest.buyPrices;
 		items.clear();
 		prices.clear();
 
@@ -249,10 +249,8 @@ public class TravelingTraderRequest
 
 			// Add it to the Traveling Trader inventory
 			AdventureResult offering = ItemPool.get( id, 1 );
-			String cname = StringUtilities.getCanonicalName( name );
-			Integer iprice = IntegerPool.get( price );
 			items.add( offering );
-			prices.put( cname, iprice );
+			prices.put( id, price );
 		}
 
 		// Register the purchase requests, now that we know what is available

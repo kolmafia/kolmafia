@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia.webui;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -140,12 +139,8 @@ public class BasementDecorator
 
 		// Add outfits. Skip the "No Change" entry at index 0.
 
-		List outfits = EquipmentManager.getCustomOutfits();
-		int count = outfits.size();
-		for ( int i = 1; i < count; ++i )
+		for ( SpecialOutfit outfit : EquipmentManager.getCustomOutfits() )
 		{
-			SpecialOutfit outfit = (SpecialOutfit) outfits.get( i );
-
 			changes.append( "<option value=\"outfit " );
 			changes.append( outfit.getName() );
 			changes.append( "\">outfit " );
@@ -153,9 +148,8 @@ public class BasementDecorator
 			changes.append( "</option>" );
 		}
 
-		for ( Iterator i = KoLCharacter.getFamiliarList().iterator(); i.hasNext(); )
+		for ( FamiliarData fam : KoLCharacter.getFamiliarList() )
 		{
-			FamiliarData fam = (FamiliarData) i.next();
 			boolean useful = false;
 			switch ( fam.getId() )
 			{
@@ -191,7 +185,7 @@ public class BasementDecorator
 
 		// Add effects
 
-		ArrayList listedEffects = BasementRequest.getStatBoosters();
+		List<StatBooster> listedEffects = BasementRequest.getStatBoosters();
 
 		if ( !listedEffects.isEmpty() )
 		{
@@ -226,9 +220,8 @@ public class BasementDecorator
 				changes.append( ">eat 1 Jumbo Dr. Lucifer (mp restore)</option>" );
 			}
 
-			for ( int i = 0; i < listedEffects.size(); ++i )
+			for ( StatBooster booster : listedEffects )
 			{
-				StatBooster booster = (StatBooster) listedEffects.get( i );
 				BasementDecorator.appendBasementEffect( changes, booster );
 			}
 
@@ -473,7 +466,7 @@ public class BasementDecorator
 		{
 			if ( this.effectiveBoost == 0.0 )
 			{
-				if ( ( (StatBooster) o ).effectiveBoost != 0.0 )
+				if ( o.effectiveBoost != 0.0 )
 				{
 					return -1;
 				}
@@ -481,24 +474,24 @@ public class BasementDecorator
 				{
 					return -1;
 				}
-				if ( ( (StatBooster) o ).isElementalImmunity )
+				if ( o.isElementalImmunity )
 				{
 					return 1;
 				}
-				return this.name.compareToIgnoreCase( ( (StatBooster) o ).name );
+				return this.name.compareToIgnoreCase( o.name );
 			}
 
-			if ( ( (StatBooster) o ).effectiveBoost == 0.0 )
+			if ( o.effectiveBoost == 0.0 )
 			{
 				return 1;
 			}
 
-			if ( this.effectiveBoost != ( (StatBooster) o ).effectiveBoost )
+			if ( this.effectiveBoost != o.effectiveBoost )
 			{
-				return this.effectiveBoost > ( (StatBooster) o ).effectiveBoost ? -1 : 1;
+				return this.effectiveBoost > o.effectiveBoost ? -1 : 1;
 			}
 
-			return this.name.compareToIgnoreCase( ( (StatBooster) o ).name );
+			return this.name.compareToIgnoreCase( o.name );
 		}
 
 		public String getName()

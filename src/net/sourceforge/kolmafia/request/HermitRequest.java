@@ -440,7 +440,7 @@ public class HermitRequest
 		}
 		else
 		{
-			AdventureResult old = (AdventureResult) KoLConstants.hermitItems.get( index );
+			AdventureResult old = KoLConstants.hermitItems.get( index );
 			int oldCount = old.getCount();
 			if ( oldCount != count )
 			{
@@ -513,7 +513,7 @@ public class HermitRequest
 		}
 
 		int index = KoLConstants.hermitItems.indexOf( CLOVER );
-		return index < 0 ? 0 : ( (AdventureResult) KoLConstants.hermitItems.get( index ) ).getCount();
+		return index < 0 ? 0 : KoLConstants.hermitItems.get( index ).getCount();
 	}
 
 	public static final boolean isCloverDay()
@@ -526,7 +526,7 @@ public class HermitRequest
 		int index = KoLConstants.hermitItems.indexOf( HermitRequest.CLOVER ); 	 
 		if ( index != -1 ) 	 
 		{ 	 
-			AdventureResult clover = ( AdventureResult)KoLConstants.hermitItems.get( index ); 	 
+			AdventureResult clover = KoLConstants.hermitItems.get( index ); 	 
 			KoLConstants.hermitItems.set( index, HermitRequest.CLOVER.getInstance( clover.getCount() + 1 ) );
 		}
 		else

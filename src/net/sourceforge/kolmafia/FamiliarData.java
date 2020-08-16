@@ -1347,11 +1347,8 @@ public class FamiliarData
 		}
 
 		FamiliarData current = KoLCharacter.getFamiliar();
-		List familiars = KoLCharacter.getFamiliarList();
-		int count = familiars.size();
-		for ( int i = 0; i < count; ++i )
+		for ( FamiliarData familiar : KoLCharacter.getFamiliarList() )
 		{
-			FamiliarData familiar = (FamiliarData) familiars.get( i );
 			if ( !familiar.equals( current ) )
 			{
 				AdventureResult equipped = familiar.getItem();

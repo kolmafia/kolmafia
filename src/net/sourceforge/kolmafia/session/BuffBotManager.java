@@ -190,7 +190,7 @@ public abstract class BuffBotManager
 		// Because the new concept allows multiple buffs
 		// to have the same price, store things in a list.
 
-		Offering castList = (Offering) BuffBotManager.buffCostMap.get( newPrice );
+		Offering castList = BuffBotManager.buffCostMap.get( newPrice );
 
 		// If this price has never existing before, go
 		// ahead and add a new list to the data structure.
@@ -280,7 +280,7 @@ public abstract class BuffBotManager
 			// First, append the buff to the setting string, then
 			// print the buff to the XML tree.
 
-			currentCast = (Offering) BuffBotManager.buffCostTable.get( i );
+			currentCast = BuffBotManager.buffCostTable.get( i );
 			settings.println( currentCast.toSettingString() );
 
 			for ( int j = 0; j < currentCast.buffs.length; ++j )
@@ -491,7 +491,7 @@ public abstract class BuffBotManager
 
 		if ( !BuffBotManager.sendList.isEmpty() )
 		{
-			SendMailRequest sending = (SendMailRequest) BuffBotManager.sendList.get( 0 );
+			SendMailRequest sending = BuffBotManager.sendList.get( 0 );
 			BuffBotHome.update(
 				BuffBotHome.NOCOLOR,
 				"Sending queued message to " + ContactManager.getPlayerName( sending.getRecipient() ) + "..." );
@@ -556,7 +556,7 @@ public abstract class BuffBotManager
 
 	private static final Offering extractRequest( final KoLMailMessage message, final int meatSent )
 	{
-		Offering castList = (Offering) BuffBotManager.buffCostMap.get( IntegerPool.get( meatSent ) );
+		Offering castList = BuffBotManager.buffCostMap.get( IntegerPool.get( meatSent ) );
 
 		// If what is sent does not match anything in the buff table,
 		// handle it.  Once it gets beyond this point, it is known to
@@ -1074,40 +1074,38 @@ public abstract class BuffBotManager
 				return -1;
 			}
 
-			Offering off = (Offering) o;
-
 			// First, buffpacks should come before standard offerings
-			if ( ( this.turns.length == 1 || off.turns.length == 1 ) && this.turns.length != off.turns.length )
+			if ( ( this.turns.length == 1 || o.turns.length == 1 ) && this.turns.length != o.turns.length )
 			{
-				return off.turns.length - this.turns.length;
+				return o.turns.length - this.turns.length;
 			}
 
 			// If a buffpack, compare price
-			if ( this.turns.length > 1 && off.turns.length > 1 )
+			if ( this.turns.length > 1 && o.turns.length > 1 )
 			{
-				return this.price - off.price;
+				return this.price - o.price;
 			}
 
 			// Compare the Id of the lowest Id buffs
-			if ( this.lowestBuffId != off.lowestBuffId )
+			if ( this.lowestBuffId != o.lowestBuffId )
 			{
-				return this.lowestBuffId - off.lowestBuffId;
+				return this.lowestBuffId - o.lowestBuffId;
 			}
 
 			// Next compare turns
-			if ( this.turns[ 0 ] != off.turns[ 0 ] )
+			if ( this.turns[ 0 ] != o.turns[ 0 ] )
 			{
-				return this.turns[ 0 ] - off.turns[ 0 ];
+				return this.turns[ 0 ] - o.turns[ 0 ];
 			}
 
 			// Next compare price
-			if ( this.price != off.price )
+			if ( this.price != o.price )
 			{
-				return this.price - off.price;
+				return this.price - o.price;
 			}
 
 			// Then, compare the names of the bots
-			return this.botName.compareToIgnoreCase( off.botName );
+			return this.botName.compareToIgnoreCase( o.botName );
 		}
 	}
 }

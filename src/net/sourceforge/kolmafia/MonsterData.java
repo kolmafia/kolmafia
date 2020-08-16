@@ -699,7 +699,7 @@ public class MonsterData
 			ml = ml < 0 ? 0 : ml;
 			hp = (int) Math.floor( ( hp + ml ) * 0.75 * getBeeosity() );
 			hp = hp < floor ? floor : hp;
-			return (int) Math.max( 1, hp );
+			return Math.max( 1, hp );
 		}
 		if ( this.health == null )
 		{
@@ -768,7 +768,7 @@ public class MonsterData
 
 			attack = (int) Math.floor( ( attack + ml ) * getBeeosity() );
 			attack = attack < floor ? floor : attack;
-			return (int) Math.max( 1, attack );
+			return Math.max( 1, attack );
 		}
 		if ( this.attack == null )
 		{
@@ -806,7 +806,7 @@ public class MonsterData
 			int cap = evaluate( this.cap, MonsterData.DEFAULT_CAP );
 			int floor = evaluate( this.floor, MonsterData.DEFAULT_FLOOR);
 			attack = attack > cap ? cap : attack < floor ? floor : attack;
-			return (int) Math.max( 1, attack );
+			return Math.max( 1, attack );
 		}
 
 		if ( this.attack == null )
@@ -1102,7 +1102,7 @@ public class MonsterData
 		return this.items;
 	}
 
-	public List getPocketRates()
+	public List<Double> getPocketRates()
 	{
 		return this.pocketRates;
 	}
@@ -1123,13 +1123,13 @@ public class MonsterData
 		return this.shouldSteal( GoalManager.getGoals() );
 	}
 
-	private boolean shouldSteal( final List checklist )
+	private boolean shouldSteal( final List<AdventureResult> checklist )
 	{
 		double dropModifier = AreaCombatData.getDropRateModifier();
 
-		for ( int i = 0; i < checklist.size(); ++i )
+		for ( AdventureResult item : checklist )
 		{
-			if ( this.shouldStealItem( (AdventureResult) checklist.get( i ), dropModifier ) )
+			if ( this.shouldStealItem( item, dropModifier ) )
 			{
 				return true;
 			}
@@ -1152,7 +1152,7 @@ public class MonsterData
 
 		if ( itemIndex != -1 )
 		{
-			item = (AdventureResult) this.items.get( itemIndex );
+			item = this.items.get( itemIndex );
 			switch ( (char) item.getCount() & 0xFFFF )
 			{
 			case 'p':
@@ -1221,7 +1221,7 @@ public class MonsterData
 
 			for ( int j = 0; j < this.items.size(); ++j )
 			{
-				AdventureResult item = (AdventureResult) this.items.get( j );
+				AdventureResult item = this.items.get( j );
 				probability = (item.getCount() >> 16) / 100.0;
 				switch ( (char) item.getCount() & 0xFFFF )
 				{
@@ -1283,7 +1283,7 @@ public class MonsterData
 			experience = experience > cap ? cap : experience < floor ? floor : experience;
 			int ml = ML();
 			ml = ml < 0 ? 0 : ml;
-			return (double) Math.max( 1, ( experience / 8.0 + ml / 6.0 ) * xpMultiplier );
+			return Math.max( 1, ( experience / 8.0 + ml / 6.0 ) * xpMultiplier );
 		}
 		if ( this.experience == null )
 		{

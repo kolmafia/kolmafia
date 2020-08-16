@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -147,9 +148,9 @@ public class AutoSellRequest
 	}
 
 	@Override
-	public ArrayList generateSubInstances()
+	public ArrayList<TransferItemRequest> generateSubInstances()
 	{
-		ArrayList<TransferItemRequest> subinstances = new ArrayList<TransferItemRequest>();
+		ArrayList<TransferItemRequest> subinstances = new ArrayList<>();
 
 		if ( KoLmafia.refusesContinue() )
 		{
@@ -167,7 +168,7 @@ public class AutoSellRequest
 
 		AdventureResultArray all = new AdventureResultArray();
 		AdventureResultArray allButOne = new AdventureResultArray();
-		HashSet<AdventureResult> others = new HashSet<AdventureResult>();
+		Set<AdventureResult> others = new HashSet<AdventureResult>();
 
 		for ( int index = 0; index < this.attachments.length; ++index )
 		{
@@ -205,7 +206,7 @@ public class AutoSellRequest
 
 			if ( !allowSingleton && KoLConstants.singletonList.contains( item ) )
 			{
-				availableCount = this.keepSingleton( item, availableCount );
+				availableCount = TransferItemRequest.keepSingleton( item, availableCount );
 			}
 
 			if ( availableCount <= 0 )
@@ -238,12 +239,12 @@ public class AutoSellRequest
 		while ( others.size() > 0 )
 		{
 			AdventureResultArray sublist = new AdventureResultArray();
-			Iterator it = others.iterator();
+			Iterator<AdventureResult> it = others.iterator();
 
 			int count = -1;
 			while ( it.hasNext() )
 			{
-				AdventureResult item = (AdventureResult)it.next();
+				AdventureResult item = it.next();
 				int icount = item.getCount();
 				if ( count == -1 )
 				{

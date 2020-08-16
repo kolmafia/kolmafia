@@ -42,6 +42,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
@@ -661,7 +662,7 @@ public class MonsterDatabase
 		if ( !matchCase )
 		{
 			keyName = CombatActionManager.encounterKey( name );
-			return (MonsterData) MonsterDatabase.OLD_MONSTER_DATA.get( keyName );
+			return MonsterDatabase.OLD_MONSTER_DATA.get( keyName );
 		}
 
 		return null;
@@ -876,7 +877,7 @@ public class MonsterDatabase
 		MonsterDatabase.addMonsterToName( monster );
 	}
 
-	public static final Set<Map.Entry<String, MonsterData>> entrySet()
+	public static final Set<Entry<String, MonsterData>> entrySet()
 	{
 		return MonsterDatabase.MONSTER_DATA.entrySet();
 	}

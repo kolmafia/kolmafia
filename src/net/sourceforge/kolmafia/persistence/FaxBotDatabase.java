@@ -322,7 +322,7 @@ public class FaxBotDatabase
 			this.monstersByCategory = new SortedListModel[ this.categories.size() ];
 			for ( int i = 0; i < this.categories.size(); ++i )
 			{
-				String category = (String)categories.get( i );
+				String category = categories.get( i );
 				SortedListModel<Monster> model = new SortedListModel<Monster>();
 				this.monstersByCategory[ i ] = model;
 				for ( Monster monster : monsters )
@@ -366,8 +366,7 @@ public class FaxBotDatabase
 				return -1;
 			}
 
-			FaxBot that = (FaxBot) o;
-			return this.name.compareTo( that.name );
+			return this.name.compareTo( o.name );
 		}
 	}
 
@@ -448,8 +447,7 @@ public class FaxBotDatabase
 				return -1;
 			}
 
-			Monster that = (Monster) o;
-			return this.name.compareToIgnoreCase( that.name );
+			return this.name.compareToIgnoreCase( o.name );
 		}
 	}
 

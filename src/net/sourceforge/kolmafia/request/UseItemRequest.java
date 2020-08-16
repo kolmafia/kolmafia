@@ -7393,7 +7393,7 @@ public class UseItemRequest
 
 	static private void parseEVHelmet( String responseText )
 	{
-		List pieces = Arrays.asList( responseText.split( "(<.*?>)+" ) );
+		List<String> pieces = Arrays.asList( responseText.split( "(<.*?>)+" ) );
 		int start = pieces.indexOf( "KROKRO LAZAK FULA:" );
 		if ( start == -1 )
 		{
