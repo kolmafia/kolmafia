@@ -67,7 +67,7 @@ public class RecordInitializer
 				continue;
 			}
 
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "Field #" + (fieldCount + 1) + ": " + fieldValue.toQuotedString() );
 			}
@@ -85,7 +85,7 @@ public class RecordInitializer
 				return null;
 			}
 
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + value.toQuotedString() );
 			}

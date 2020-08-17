@@ -68,7 +68,7 @@ public class Concatenate
 	public Value execute( final Interpreter interpreter )
 	{
 		interpreter.traceIndent();
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "Concatenate:" );
 		}
@@ -80,7 +80,7 @@ public class Concatenate
 		for ( Value arg : this.strings )
 		{
 			interpreter.traceIndent();
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "Arg " + (++count) + ": " + arg );
 			}
@@ -92,7 +92,7 @@ public class Concatenate
 				value = DataTypes.VOID_VALUE;
 			}
 
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + value.toQuotedString() );
 			}
@@ -110,7 +110,7 @@ public class Concatenate
 
 		Value result = new Value( buffer.toString() );
 
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "<- " + result );
 		}

@@ -77,7 +77,7 @@ public class JavaForLoop
 
 		interpreter.traceIndent();
 
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( this.toString() );
 		}
@@ -85,7 +85,7 @@ public class JavaForLoop
 		// For all variable references, bind to initial value
 		for ( Assignment initializer : initializers )
 		{
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "Initialize: " + initializer.getLeftHandSide() );
 			}
@@ -98,7 +98,7 @@ public class JavaForLoop
 				value = DataTypes.VOID_VALUE;
 			}
 
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + value );
 			}
@@ -113,7 +113,7 @@ public class JavaForLoop
 		while ( true )
 		{
 			// Test the exit condition
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "Test: " + this.condition );
 			}
@@ -121,7 +121,7 @@ public class JavaForLoop
 			Value conditionResult = this.condition.execute( interpreter );
 			interpreter.captureValue( conditionResult );
 
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + conditionResult );
 			}
@@ -164,7 +164,7 @@ public class JavaForLoop
 					interpreter.setState( Interpreter.STATE_EXIT );
 				}
 
-				if ( interpreter.isTracing() )
+				if ( Interpreter.isTracing() )
 				{
 					interpreter.trace( "[" + interpreter.getState() + "] <- " + iresult.toQuotedString() );
 				}

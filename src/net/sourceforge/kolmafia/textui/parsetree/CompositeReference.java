@@ -123,7 +123,7 @@ public class CompositeReference
 		this.index = null;
 
 		interpreter.traceIndent();
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "AREF: " + this.slice.toString() );
 		}
@@ -135,7 +135,7 @@ public class CompositeReference
 			Value exp = (Value) it.next();
 
 			interpreter.traceIndent();
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "Key #" + ( i + 1 ) + ": " + exp.toQuotedString() );
 			}
@@ -147,7 +147,7 @@ public class CompositeReference
 				this.index = DataTypes.VOID_VALUE;
 			}
 
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + this.index.toQuotedString() );
 			}
@@ -174,7 +174,7 @@ public class CompositeReference
 
 				this.slice = result;
 
-				if ( interpreter.isTracing() )
+				if ( Interpreter.isTracing() )
 				{
 					interpreter.trace( "AREF <- " + this.slice.toString() );
 				}
@@ -201,7 +201,7 @@ public class CompositeReference
 			}
 
 			interpreter.traceIndent();
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "AREF <- " + result.toQuotedString() );
 			}
@@ -234,7 +234,7 @@ public class CompositeReference
 					this.slice.aset( this.index, currentValue, interpreter );
 				}
 
-				if ( interpreter.isTracing() )
+				if ( Interpreter.isTracing() )
 				{
 					interpreter.trace( "AREF <- " + currentValue.toQuotedString() );
 				}
@@ -244,7 +244,7 @@ public class CompositeReference
 
 			this.slice.aset( this.index, newValue, interpreter );
 
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "ASET: " + newValue.toQuotedString() );
 			}
@@ -269,7 +269,7 @@ public class CompositeReference
 				result = this.slice.initialValue( this.index );
 			}
 			interpreter.traceIndent();
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "remove <- " + result.toQuotedString() );
 			}
@@ -289,7 +289,7 @@ public class CompositeReference
 			result = this.slice.aref( index, interpreter ) != null;
 		}
 		interpreter.traceIndent();
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "contains <- " + result );
 		}

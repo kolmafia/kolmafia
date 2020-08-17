@@ -76,7 +76,7 @@ public class IncDec
 		Value value;
 
 		interpreter.traceIndent();
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "Eval: " + this.lhs );
 		}
@@ -84,14 +84,14 @@ public class IncDec
 		value = this.lhs.execute( interpreter );
 		interpreter.captureValue( value );
 
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "Orig: " + value );
 		}
 
 		Value newValue = this.oper.applyTo( interpreter, value );
 
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "New: " + newValue );
 		}
