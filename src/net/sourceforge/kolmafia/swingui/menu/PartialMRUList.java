@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.swingui.menu;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.util.Collections;
 import java.util.LinkedList;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
@@ -57,7 +58,7 @@ public class PartialMRUList
 	extends ScriptMRUList
 	implements Listener
 {
-	private final LinkedList<String> defaultList = new LinkedList<String>();
+	private final LinkedList<String> defaultList = new LinkedList<>();
 	private final String pDefaultList;
 
 	/**
@@ -81,7 +82,7 @@ public class PartialMRUList
 			renderer = new ComboSeparatorsRenderer( new DefaultListCellRenderer() )
 			{
 				@Override
-				protected boolean addSeparatorAfter( JList list, Object value, int index )
+				protected boolean addSeparatorAfter( JList<?> list, Object value, int index )
 				{
 					if ( PartialMRUList.this.maxMRU < 0 )
 						return false;
@@ -101,7 +102,7 @@ public class PartialMRUList
 	 * @see net.sourceforge.kolmafia.swingui.menu.ScriptMRUList#updateJComboData(javax.swing.JComboBox)
 	 */
 	@Override
-	public void updateJComboData( JComboBox jcb )
+	public void updateJComboData( JComboBox<Object> jcb )
 	{
 		if ( !isInit )
 		{
@@ -145,19 +146,19 @@ public class PartialMRUList
 	 * @author Santhosh Kumar T
 	 * @email santhosh.tekuri@gmail.com
 	 */
-	abstract class ComboSeparatorsRenderer
-		implements ListCellRenderer
+	abstract static class ComboSeparatorsRenderer
+		implements ListCellRenderer<Object>
 	{
-		private ListCellRenderer delegate;
-		private JPanel separatorPanel = new JPanel( new BorderLayout() );
-		private JSeparator separator = new JSeparator();
+		private final ListCellRenderer<Object> delegate;
+		private final JPanel separatorPanel = new JPanel( new BorderLayout() );
+		private final JSeparator separator = new JSeparator();
 
-		public ComboSeparatorsRenderer( ListCellRenderer delegate )
+		public ComboSeparatorsRenderer( ListCellRenderer<Object> delegate )
 		{
 			this.delegate = delegate;
 		}
 
-		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected,
+		public Component getListCellRendererComponent( final JList<?> list, Object value, int index, boolean isSelected,
 			boolean cellHasFocus )
 		{
 			Component comp = delegate.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
@@ -172,16 +173,13 @@ public class PartialMRUList
 				return comp;
 		}
 
-		protected abstract boolean addSeparatorAfter( JList list, Object value, int index );
+		protected abstract boolean addSeparatorAfter( JList<?> list, Object value, int index );
 	}
 
 	public void update()
 	{
 		String[] newlist = Preferences.getString( this.pDefaultList ).split( " \\| " );
 		this.defaultList.clear();
-		for ( String it : newlist )
-		{
-			this.defaultList.add( it );
-		}
+		Collections.addAll(this.defaultList, newlist);
 	}
 }

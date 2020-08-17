@@ -49,10 +49,10 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 public class ScriptMRUList
 {
 	protected int maxMRU = 16;
-	protected final LinkedList<String> mruList = new LinkedList<String>();
-	protected boolean isInit = false;
-	private String prefList = null;
-	private String prefLen = null;
+	protected final LinkedList<String> mruList = new LinkedList<>();
+	protected boolean isInit;
+	private final String prefList;
+	private final String prefLen;
 
 	public ScriptMRUList( String pList, String pLen )
 	{
@@ -71,7 +71,7 @@ public class ScriptMRUList
 			if ( ( oldValues != null ) && ( !oldValues.equals( "" ) ) )
 			{
 				// First to last, delimited by semi-colon.  Split and insert.
-				String items[] = oldValues.split( ";" );
+				String[] items = oldValues.split( ";" );
 				for ( int i = ( items.length - 1 ); i >= 0; i-- )
 				{
 					mruList.addFirst( items[i] );
@@ -113,8 +113,8 @@ public class ScriptMRUList
 				mruList.removeLast();
 			}
 			// save the new list as a preference
-			Object mruArray [] = mruList.toArray();
-			StringBuffer pref = new StringBuffer();
+			Object[] mruArray = mruList.toArray();
+			StringBuilder pref = new StringBuilder();
 			pref.append( mruArray[0].toString() );
 			int count = mruList.size();
 			if ( count > 1 )
@@ -142,7 +142,7 @@ public class ScriptMRUList
 			return new File[ 0 ];
 		}
 		File [] result = new File [count];
-		Object mruArray [] = mruList.toArray();
+		Object[] mruArray = mruList.toArray();
 		for (int i = 0; i < count; i++)
 		{
 			result[i] = new File( mruArray[i].toString() );
@@ -150,7 +150,7 @@ public class ScriptMRUList
 		return result;
 	}
 	
-	public void updateJComboData( JComboBox jcb)
+	public void updateJComboData( JComboBox<Object> jcb)
 	{
 		if ( !isInit )
 		{
@@ -160,7 +160,7 @@ public class ScriptMRUList
 		if ( count >= 1 )
 		{
 			jcb.removeAllItems();
-			Object mruArray [] = mruList.toArray();
+			Object[] mruArray = mruList.toArray();
 			for (int i = 0; i < count; i++)
 			{
 				jcb.insertItemAt( mruArray[i], i);
