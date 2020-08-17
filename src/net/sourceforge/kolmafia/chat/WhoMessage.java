@@ -37,16 +37,16 @@ import java.util.Map;
 
 public class WhoMessage extends EventMessage
 {
-	private Map contacts;
+	private Map<String, Boolean> contacts;
 
-	public WhoMessage( Map contacts, String spacedContent )
+	public WhoMessage( Map<String, Boolean> contacts, String spacedContent )
 	{
 		super( spacedContent, null );
 
 		this.contacts = contacts;
 	}
 
-	public Map getContacts()
+	public Map<String, Boolean> getContacts()
 	{
 		return this.contacts;
 	}

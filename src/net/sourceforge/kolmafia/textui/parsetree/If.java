@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
@@ -44,17 +44,12 @@ import net.sourceforge.kolmafia.textui.Interpreter;
 public class If
 	extends Conditional
 {
-	private final ArrayList elseLoops;
+	private final List<Conditional> elseLoops;
 
 	public If( final Scope scope, final Value condition )
 	{
 		super( scope, condition );
-		this.elseLoops = new ArrayList();
-	}
-
-	public Iterator getElseLoops()
-	{
-		return this.elseLoops.iterator();
+		this.elseLoops = new ArrayList<>();
 	}
 
 	public void addElseLoop( final Conditional elseLoop )
@@ -73,12 +68,8 @@ public class If
 
 		// Conditional failed. Move to else clauses
 
-		Iterator it = this.elseLoops.iterator();
-		Conditional elseLoop;
-
-		while ( it.hasNext() )
+		for ( Conditional elseLoop : this.elseLoops )
 		{
-			elseLoop = (Conditional) it.next();
 			result = elseLoop.execute( interpreter );
 
 			if ( interpreter.getState() != Interpreter.STATE_NORMAL || result == DataTypes.TRUE_VALUE )
@@ -105,36 +96,34 @@ public class If
 		this.getCondition().print( stream, indent + 1 );
 		this.getScope().print( stream, indent + 1 );
 
-		Iterator it = this.getElseLoops();
-		while ( it.hasNext() )
+		for ( Conditional currentElse : this.elseLoops )
 		{
-			Conditional currentElse = (Conditional) it.next();
 			currentElse.print( stream, indent );
 		}
 	}
 	
 	@Override
 	public boolean assertBarrier()
-	{	// Summary: an If returns if every contained block of code
+	{
+		// Summary: an If returns if every contained block of code
 		// returns, and the final block is an Else (not an ElseIf).
 		if ( !this.getScope().assertBarrier() )
 		{
 			return false;
 		}
 		
-		Iterator it = this.elseLoops.iterator();
-		Conditional elseLoop = null;
+		Conditional current = null;
 
-		while ( it.hasNext() )
+		for ( Conditional elseLoop : this.elseLoops )
 		{
-			elseLoop = (Conditional) it.next();
 			if ( !elseLoop.getScope().assertBarrier() )
 			{
 				return false;
 			}
+			current = elseLoop;
 		}
 	
-		return elseLoop instanceof Else;
+		return current instanceof Else;
 	}
 	
 	@Override
@@ -145,11 +134,8 @@ public class If
 			return true;
 		}
 		
-		Iterator it = this.elseLoops.iterator();
-
-		while ( it.hasNext() )
+		for ( Conditional elseLoop : this.elseLoops )
 		{
-			Conditional elseLoop = (Conditional) it.next();
 			if ( elseLoop.getScope().assertBreakable() )
 			{
 				return true;

@@ -56,7 +56,7 @@ public class ClanStashCommand
 	@Override
 	public void run( final String cmd, String parameters )
 	{
-		List list = null;
+		List<AdventureResult> list = null;
 		int direction = ClanStashRequest.ITEMS_TO_STASH;
 
 		int space = parameters.indexOf( " " );

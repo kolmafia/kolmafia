@@ -1202,10 +1202,10 @@ public class ProxyRecordValue
 		public Value get_all()
 		{
 			ArrayList<Value> rv = new ArrayList<Value>();
-			Iterator i = EffectDatabase.getAllActions( (int) this.contentLong );
+			Iterator<String> i = EffectDatabase.getAllActions( (int) this.contentLong );
 			while ( i.hasNext() )
 			{
-				rv.add( new Value( (String) i.next() ) );
+				rv.add( new Value( i.next() ) );
 			}
 			return new PluralValue( DataTypes.STRING_TYPE, rv );
 		}

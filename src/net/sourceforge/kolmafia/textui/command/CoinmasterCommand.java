@@ -95,7 +95,7 @@ public class CoinmasterCommand
 			return;
 		}
 
-		List source = isBuy ? null : KoLConstants.inventory;
+		List<AdventureResult> source = isBuy ? null : KoLConstants.inventory;
 		AdventureResult[] itemList = ItemFinder.getMatchingItemList( parameters, source );
 
 		if ( itemList.length == 0 )

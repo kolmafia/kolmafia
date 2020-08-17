@@ -358,7 +358,7 @@ public class Type
 				return null;
 			}
 
-			ArrayList<String> names = new ArrayList<String>();
+			ArrayList<String> names = new ArrayList<>();
 			int currentId = (int)value.contentLong;
 			String name =
 				this.type == DataTypes.TYPE_ITEM ?
@@ -468,7 +468,7 @@ public class Type
 	{
 		if ( this.allValues != null ) return this.allValues;
 		
-		List<Value> list = new ArrayList<Value>();
+		List<Value> list = new ArrayList<>();
 		switch ( this.type )
 		{
 		case DataTypes.TYPE_BOOLEAN:
@@ -551,7 +551,7 @@ public class Type
 		}
 	}
 
-	private void addValues( List<Value> results, Collection values )
+	private void addValues( List<Value> results, Collection<?> values )
 	{
 		for ( Object o : values )
 		{
@@ -559,7 +559,7 @@ public class Type
 			{	// Some of the database entrySet() methods return
 				// Integer:String mappings, others String:<something>.
 				// We prefer the former, but can handle either
-				Map.Entry e = (Map.Entry) o;
+				Map.Entry<?,?> e = (Map.Entry<?,?>) o;
 				o = e.getKey();
 			}
 			if ( o instanceof KoLAdventure )

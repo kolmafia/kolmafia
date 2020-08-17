@@ -68,11 +68,11 @@ public class ChangeCombatScriptCommand
 			}
 
 			boolean foundScript = false;
-			Iterator iterator = CombatActionManager.getAvailableLookups().iterator();
+			Iterator<String> iterator = CombatActionManager.getAvailableLookups().iterator();
 
 			while ( iterator.hasNext() && !foundScript )
 			{
-				String script = (String) iterator.next();
+				String script = iterator.next();
 
 				if ( script.equalsIgnoreCase( parameters ) )
 				{
@@ -86,7 +86,7 @@ public class ChangeCombatScriptCommand
 
 			while ( iterator.hasNext() && !foundScript )
 			{
-				String script = (String) iterator.next();
+				String script = iterator.next();
 
 				if ( script.toLowerCase().indexOf( parameters ) != -1 )
 				{

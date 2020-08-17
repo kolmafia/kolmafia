@@ -154,7 +154,7 @@ public class SortBy
 	}
 	
 	private static class Pair
-	implements Comparable<Pair>
+		implements Comparable<Pair>
 	{
 		public Value key, value;
 		
@@ -166,7 +166,7 @@ public class SortBy
 		
 		public int compareTo( Pair o )
 		{
-			return this.key.compareTo( ((Pair) o).key );
+			return this.key.compareTo( o.key );
 		}
 	}
 }

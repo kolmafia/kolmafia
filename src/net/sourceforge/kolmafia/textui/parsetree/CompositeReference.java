@@ -128,11 +128,11 @@ public class CompositeReference
 			interpreter.trace( "AREF: " + this.slice.toString() );
 		}
 
-		Iterator it = this.indices.iterator();
+		Iterator<Value> it = this.indices.iterator();
 
 		for ( int i = 0; it.hasNext(); ++i )
 		{
-			Value exp = (Value) it.next();
+			Value exp = it.next();
 
 			interpreter.traceIndent();
 			if ( Interpreter.isTracing() )

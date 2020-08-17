@@ -77,7 +77,7 @@ public class CleanupJunkRequest
 		AdventureResult currentItem;
 
 		AdventureResult[] itemsArray = new AdventureResult[ KoLConstants.junkList.size() ];
-		AdventureResult[] items = (AdventureResult[])KoLConstants.junkList.toArray( itemsArray );
+		AdventureResult[] items = KoLConstants.junkList.toArray( itemsArray );
 
 		// Before doing anything else, go through the list of items
 		// which are traditionally used and use them. Also, if the item

@@ -68,7 +68,7 @@ public class AutoMallCommand
 
 		AdventureResult currentItem;
 		AdventureResult[] itemsArray = new AdventureResult[ KoLConstants.profitableList.size() ];
-		AdventureResult[] items = (AdventureResult[])KoLConstants.profitableList.toArray( itemsArray );
+		AdventureResult[] items = KoLConstants.profitableList.toArray( itemsArray );
 
 		AdventureResultArray sellList = new AdventureResultArray();
 
