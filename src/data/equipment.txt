@@ -1153,7 +1153,7 @@ giant needle	150	Mus: 60	2-handed spear
 giant safety pin	155	Mus: 62	1-handed spear
 giant shrimp fork	200	Mus: 85	2-handed staff
 giant spider leg	75	Mus: 22	2-handed club
-giant turkey leg	200	Mus: 200	3-handed club
+giant turkey leg	200	Mus: 75	3-handed club
 gift-a-pult	50	Mox: 0	2-handed giftapult
 gingerbread gavel	50	Mus: 0	1-handed club
 gingerbread pistol	80	Mox: 10	1-handed pistol
