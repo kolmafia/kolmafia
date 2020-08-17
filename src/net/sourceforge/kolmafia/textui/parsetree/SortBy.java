@@ -77,7 +77,7 @@ public class SortBy
 		}
 
 		interpreter.traceIndent();
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( this.toString() );
 		}
@@ -100,7 +100,7 @@ public class SortBy
 			this.indexvar.setValue( interpreter, index );
 			Value value = map.aref( index, interpreter );
 			this.valuevar.setValue( interpreter, value );
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "Element #" + i + ": " + index + " = " + value );
 			}
@@ -111,7 +111,7 @@ public class SortBy
 				return null;
 			}
 			interpreter.captureValue( sortkey );
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "Key = " + sortkey );
 			}

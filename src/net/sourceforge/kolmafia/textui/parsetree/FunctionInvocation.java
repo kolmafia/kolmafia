@@ -80,7 +80,7 @@ public class FunctionInvocation
 
 		interpreter.traceIndent();
 
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "Invoke: " + this );
 			interpreter.trace( "Function name: " + this.name );
@@ -89,7 +89,7 @@ public class FunctionInvocation
 		// Get the function name
 		Value funcValue = this.name.execute( interpreter );
 
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + funcValue );
 		}

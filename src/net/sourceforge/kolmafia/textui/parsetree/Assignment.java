@@ -95,7 +95,7 @@ public class Assignment
 		else
 		{
 			interpreter.traceIndent();
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "Eval: " + this.rhs );
 			}
@@ -103,7 +103,7 @@ public class Assignment
 			value = this.rhs.execute( interpreter );
 			interpreter.captureValue( value );
 
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "Set: " + value );
 			}

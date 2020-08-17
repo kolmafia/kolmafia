@@ -92,7 +92,7 @@ public class FunctionReturn
 		}
 
 		interpreter.traceIndent();
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "Eval: " + this.returnValue );
 		}
@@ -100,7 +100,7 @@ public class FunctionReturn
 		Value result = this.returnValue.execute( interpreter );
 		interpreter.captureValue( result );
 
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "Returning: " + result );
 		}

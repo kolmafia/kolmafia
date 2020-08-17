@@ -87,7 +87,7 @@ public class ForEachLoop
 		}
 
 		interpreter.traceIndent();
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( this.toString() );
 		}
@@ -155,7 +155,7 @@ public class ForEachLoop
 			// Bind variable to key
 			variable.setValue( interpreter, key );
 
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "Key: " + key );
 			}

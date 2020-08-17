@@ -68,13 +68,13 @@ public class TernaryExpression
 	public Value execute( final Interpreter interpreter )
 	{
 		interpreter.traceIndent();
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "Operator: ?:" );
 		}
 
 		interpreter.traceIndent();
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "Condition: " + conditional );
 		}
@@ -85,7 +85,7 @@ public class TernaryExpression
 		{
 			conditionResult = DataTypes.VOID_VALUE;
 		}
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + conditionResult.toQuotedString() );
 		}
@@ -112,7 +112,7 @@ public class TernaryExpression
 		}
 
 		interpreter.traceIndent();
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( tag + expression );
 		}
@@ -124,7 +124,7 @@ public class TernaryExpression
 			executeResult = DataTypes.VOID_VALUE;
 		}
 
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + executeResult.toQuotedString() );
 		}
@@ -140,7 +140,7 @@ public class TernaryExpression
 		{
 			executeResult = executeResult.toStringValue();
 		}
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "<- " + executeResult );
 		}

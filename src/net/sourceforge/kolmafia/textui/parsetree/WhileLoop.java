@@ -66,14 +66,14 @@ public class WhileLoop
 		}
 
 		interpreter.traceIndent();
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( this.toString() );
 		}
 
 		while ( true )
 		{
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "Test: " + this.condition );
 			}
@@ -81,7 +81,7 @@ public class WhileLoop
 			Value conditionResult = this.condition.execute( interpreter );
 			interpreter.captureValue( conditionResult );
 
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + conditionResult );
 			}

@@ -8650,7 +8650,7 @@ public abstract class RuntimeLibrary
 			{
 				MonsterData monster = data.getSuperlikelyMonster( i );
 				int monsterJumpChance = monster.getJumpChance();
-				if ( jumpChance > monsterJumpChance && data.superlikelyChance( monster.getName() ) > 0 )
+				if ( jumpChance > monsterJumpChance && AreaCombatData.superlikelyChance( monster.getName() ) > 0 )
 				{
 					jumpChance = monsterJumpChance;
 				}

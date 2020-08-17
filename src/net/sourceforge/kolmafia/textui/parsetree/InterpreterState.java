@@ -57,7 +57,7 @@ public abstract class InterpreterState
 	@Override
 	public Value execute( final Interpreter interpreter )
 	{
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.traceIndent();
 			interpreter.trace( this.toString() );

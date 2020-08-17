@@ -64,7 +64,7 @@ public class Try
 
 		Value result = DataTypes.VOID_VALUE;
 		interpreter.traceIndent();
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "Entering try body" );
 		}
@@ -84,7 +84,7 @@ public class Try
 				KoLmafia.forceContinue();
 				interpreter.setState( Interpreter.STATE_NORMAL );
 
-				if ( interpreter.isTracing() )
+				if ( Interpreter.isTracing() )
 				{
 					interpreter.trace( "Entering finally, saved state: " + oldState );
 				}

@@ -647,7 +647,7 @@ public class Interpreter
 
 	private void indentLine(final int indent )
 	{
-		if ( isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			Interpreter.indentLine( traceStream, indent );
 		}
