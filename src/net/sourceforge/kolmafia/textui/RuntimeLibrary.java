@@ -2283,7 +2283,7 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "get_fuel", DataTypes.INT_TYPE, params ) );
 	}
 
-	public static Method findMethod( final String name, final Class[] args )
+	public static Method findMethod( final String name, final Class<?>[] args )
 		throws NoSuchMethodException
 	{
 		return RuntimeLibrary.class.getMethod( name, args );
@@ -2410,18 +2410,18 @@ public abstract class RuntimeLibrary
 		LinkedHashMap<String, LinkedHashMap<String, StringBuilder>> batched = interpreter.batched;
 		if ( batched != null )
 		{
-			Iterator i1 = batched.entrySet().iterator();
+			Iterator<Entry<String,LinkedHashMap<String,StringBuilder>>> i1 = batched.entrySet().iterator();
 			while ( i1.hasNext() && KoLmafia.permitsContinue() )
 			{
-				Map.Entry e1 = (Map.Entry) i1.next();
-				String cmd = (String) e1.getKey();
-				LinkedHashMap<String, StringBuilder> prefixes = (LinkedHashMap<String, StringBuilder>) e1.getValue();
-				Iterator i2 = prefixes.entrySet().iterator();
+				Entry<String,LinkedHashMap<String,StringBuilder>> e1 = i1.next();
+				String cmd = e1.getKey();
+				LinkedHashMap<String, StringBuilder> prefixes = e1.getValue();
+				Iterator<Entry<String,StringBuilder>> i2 = prefixes.entrySet().iterator();
 				while ( i2.hasNext() && KoLmafia.permitsContinue() )
 				{
-					Map.Entry e2 = (Map.Entry) i2.next();
-					String prefix = (String) e2.getKey();
-					String params = ((StringBuilder) e2.getValue()).toString();
+					Entry<String,StringBuilder> e2 = i2.next();
+					String prefix = e2.getKey();
+					String params = e2.getValue().toString();
 					KoLmafiaCLI.DEFAULT_SHELL.executeCommand( cmd, prefix.equals( "" ) ? params : (prefix + " " + params) );
 				}
 			}
@@ -4177,7 +4177,7 @@ public abstract class RuntimeLibrary
 		}
 		else
 		{
-			List list = StoreManager.getSoldItemList();
+			List<SoldItem> list = StoreManager.getSoldItemList();
 			SoldItem soldItem = new SoldItem( itemId, 0, 0, 0, 0 );
 			int index = list.indexOf( soldItem );
 
@@ -4186,7 +4186,7 @@ public abstract class RuntimeLibrary
 				return RuntimeLibrary.continueValue();
 			}
 
-			soldItem = (SoldItem) list.get( index );
+			soldItem = list.get( index );
 
 			int count = soldItem.getQuantity();
 
@@ -5183,7 +5183,7 @@ public abstract class RuntimeLibrary
 			return DataTypes.ZERO_VALUE;
 		}
 
-		item = (SoldItem) list.get( index );
+		item = list.get( index );
 		return new Value( item.getQuantity() );
 	}
 
@@ -5194,8 +5194,7 @@ public abstract class RuntimeLibrary
 			RequestThread.postRequest( new ClanStashRequest() );
 		}
 
-		List stash = ClanManager.getStash();
-
+		List<AdventureResult> stash = ClanManager.getStash();
 		AdventureResult item = ItemPool.get( (int) arg.intValue(), 0 );
 		return new Value( item.getCount( stash ) );
 	}
@@ -7517,11 +7516,9 @@ public abstract class RuntimeLibrary
 			{
 				WhoMessage message = (WhoMessage) chatMessage;
 
-				Iterator entryIterator = message.getContacts().entrySet().iterator();
-				while ( entryIterator.hasNext() )
+				for ( Entry<String, Boolean> entry : message.getContacts().entrySet() )
 				{
-					Entry entry = (Entry) entryIterator.next();
-					value.aset( new Value( (String) entry.getKey() ) , new Value( entry.getValue() == Boolean.TRUE ) );
+					value.aset( new Value( entry.getKey() ), DataTypes.makeBooleanValue( entry.getValue().booleanValue() ) );
 				}
 
 				break;
@@ -7603,7 +7600,7 @@ public abstract class RuntimeLibrary
 
 	public static Value round( Interpreter interpreter, final Value arg )
 	{
-		return new Value( (long) Math.round( arg.floatValue() ) );
+		return new Value( Math.round( arg.floatValue() ) );
 	}
 
 	public static Value truncate( Interpreter interpreter, final Value arg )
@@ -8609,7 +8606,7 @@ public abstract class RuntimeLibrary
 		{
 			return DataTypes.FALSE_VALUE;
 		}
-		return DataTypes.makeBooleanValue( BanishManager.isBanished( (String) monster.getName() ) );
+		return DataTypes.makeBooleanValue( BanishManager.isBanished( monster.getName() ) );
 	}
 
 	public static Value jump_chance( Interpreter interpreter )
@@ -8742,14 +8739,13 @@ public abstract class RuntimeLibrary
 	public static Value item_drops( Interpreter interpreter )
 	{
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
-		List data = monster == null ? new ArrayList() : monster.getItems();
+		List<AdventureResult> data = monster == null ? new ArrayList<>() : monster.getItems();
 
 		MapValue value = new MapValue( DataTypes.ITEM_TO_INT_TYPE );
-		AdventureResult result;
 
 		for ( int i = 0; i < data.size(); ++i )
 		{
-			result = (AdventureResult) data.get( i );
+			AdventureResult result = data.get( i );
 			value.aset(
 				DataTypes.makeItemValue( result.getItemId(), true ),
 				DataTypes.parseIntValue( String.valueOf( result.getCount() >> 16 ), true ) );
@@ -8761,14 +8757,13 @@ public abstract class RuntimeLibrary
 	public static Value item_drops( Interpreter interpreter, final Value arg )
 	{
 		MonsterData monster = (MonsterData) arg.rawValue();
-		List data = monster == null ? new ArrayList() : monster.getItems();
+		List<AdventureResult> data = monster == null ? new ArrayList<>() : monster.getItems();
 
 		MapValue value = new MapValue( DataTypes.ITEM_TO_INT_TYPE );
-		AdventureResult result;
 
 		for ( int i = 0; i < data.size(); ++i )
 		{
-			result = (AdventureResult) data.get( i );
+			AdventureResult result = data.get( i );
 			value.aset(
 				DataTypes.makeItemValue( result.getItemId(), true ),
 				DataTypes.parseIntValue( String.valueOf( result.getCount() >> 16 ), true ) );
@@ -8789,13 +8784,13 @@ public abstract class RuntimeLibrary
 
 	public static Value item_drops_array( Interpreter interpreter, MonsterData monster )
 	{
-		List data = monster == null ? new ArrayList() : monster.getItems();
+		List<AdventureResult> data = monster == null ? new ArrayList<>() : monster.getItems();
 		int dropCount = data.size();
 		AggregateType type = new AggregateType( RuntimeLibrary.itemDropRec, dropCount );
 		ArrayValue value = new ArrayValue( type );
 		for ( int i = 0; i < dropCount; ++i )
 		{
-			AdventureResult result = (AdventureResult) data.get( i );
+			AdventureResult result = data.get( i );
 			int count = result.getCount();
 			char dropType = (char) (count & 0xFFFF);
 			RecordValue rec = (RecordValue) value.aref( new Value( i ) );

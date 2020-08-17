@@ -100,10 +100,10 @@ public class AsdonMartinCommand
 
 	private static final int currentDriveStyle()
 	{
-		List active = KoLConstants.activeEffects;
+		List<AdventureResult> active = KoLConstants.activeEffects;
 		for ( int i = 0; i < DRIVESTYLE.length; ++i )
 		{
-			if ( active.contains( (AdventureResult) DRIVESTYLE[i][2] ) )
+			if ( active.contains( DRIVESTYLE[i][2] ) )
 			{
 				Integer index = (Integer) DRIVESTYLE[i][1];
 				return index.intValue();

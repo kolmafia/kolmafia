@@ -35,11 +35,12 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class TypeList
 	implements Iterable<Type>
 {
-	private ArrayList<Type> list = new ArrayList<Type>();
+	private List<Type> list = new ArrayList<>();
 
 	public boolean add( final Type n )
 	{
@@ -65,7 +66,7 @@ public class TypeList
 		return null;
 	}
 
-	public Iterator iterator()
+	public Iterator<Type> iterator()
 	{
 		return list.iterator();
 	}

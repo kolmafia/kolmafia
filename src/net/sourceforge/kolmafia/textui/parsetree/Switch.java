@@ -52,9 +52,9 @@ public class Switch
 	private final Integer [] offsets;
 	private final int defaultIndex;
 	private final SwitchScope scope;
-	private final Map labels;
+	private final Map<Value, Integer> labels;
 
-	public Switch( final Value condition, final List<Value> tests, final List<Integer> offsets, final int defaultIndex, final SwitchScope scope, final Map labels )
+	public Switch( final Value condition, final List<Value> tests, final List<Integer> offsets, final int defaultIndex, final SwitchScope scope, final Map<Value, Integer> labels )
 	{
 		this.condition = condition;
 		this.tests = tests.toArray( new Value[tests.size()] );
@@ -112,7 +112,7 @@ public class Switch
 
 		if ( labels != null )
 		{
-			Integer mapped = (Integer)labels.get( value );
+			Integer mapped = labels.get( value );
 			if ( mapped != null )
 			{
 				offset = mapped.intValue();

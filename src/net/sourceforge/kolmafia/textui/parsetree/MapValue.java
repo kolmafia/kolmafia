@@ -60,17 +60,23 @@ public class MapValue
 			new TreeMap<Value,Value>();
 	}
 
+	@SuppressWarnings("unchecked") 
+	private Map<Value,Value> getMap()
+	{
+		return (Map<Value,Value>) this.content;
+	}
+
 	@Override
 	public Value aref( final Value key, final Interpreter interpreter )
 	{
-		Map<Value,Value> map = (Map<Value,Value>) this.content;
+		Map<Value,Value> map = this.getMap();
 		return map.get( key );
 	}
 
 	@Override
 	public void aset( final Value key, Value val, final Interpreter interpreter )
 	{
-		Map<Value,Value> map = (Map<Value,Value>) this.content;
+		Map<Value,Value> map = this.getMap();
 
 		Type dataType = this.getDataType();
 		Type baseType = dataType.getBaseType();
@@ -121,8 +127,12 @@ public class MapValue
 
 			// This is removing the current element of a foreach iterator.
 			// That works.
-			Iterator it = (Iterator) interpreter.iterators.get( i + 2 );
+
+			// Return the current value
 			Value rv = this.aref( key, interpreter );
+
+			@SuppressWarnings("unchecked") 
+			Iterator<Value> it = (Iterator<Value>) interpreter.iterators.get( i + 2 );
 			it.remove();
 
 			// NULL-out the key associated with this iterator in
@@ -132,44 +142,44 @@ public class MapValue
 			return rv;
 		}
 		
-		Map<Value,Value> map = (Map<Value,Value>) this.content;
+		Map<Value,Value> map = this.getMap();
 		return map.remove( key );
 	}
 
 	@Override
 	public void clear()
 	{
-		Map<Value,Value> map = (Map<Value,Value>) this.content;
+		Map<Value,Value> map = this.getMap();
 		map.clear();
 	}
 
 	@Override
 	public int count()
 	{
-		Map<Value,Value> map = (Map<Value,Value>) this.content;
+		Map<Value,Value> map = this.getMap();
 		return map.size();
 	}
 
 	@Override
 	public boolean contains( final Value key )
 	{
-		Map<Value,Value> map = (Map<Value,Value>) this.content;
+		Map<Value,Value> map = this.getMap();
 		return map.containsKey( key );
 	}
 
 	@Override
 	public Value[] keys()
 	{
-		Set set = ( (Map<Value,Value>) this.content ).keySet();
+		Set<Value> set = this.getMap().keySet();
 		Value[] keys = new Value[ set.size() ];
 		set.toArray( keys );
 		return keys;
 	}
 
 	@Override
-	public Iterator iterator()
+	public Iterator<Value> iterator()
 	{
-		Set set = ( (Map<Value,Value>) this.content ).keySet();
+		Set<Value> set = this.getMap().keySet();
 		return set.iterator();
 	}
 }

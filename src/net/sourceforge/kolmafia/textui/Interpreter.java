@@ -587,9 +587,10 @@ public class Interpreter
 		return frame;
 	}
 
+	@SuppressWarnings("unchecked") 
 	public List<CallFrame> getCallFrames()
 	{
-		return (ArrayList<CallFrame>) frameStack.clone();
+		return (List<CallFrame>) frameStack.clone();
 	}
 
 	private String getStackTrace()

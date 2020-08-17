@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -137,7 +138,7 @@ public class AutoAttackCommand
 			}
 			else
 			{
-				List combatSkills = SkillDatabase.getSkillsByType( SkillDatabase.COMBAT );
+				List<UseSkillRequest> combatSkills = SkillDatabase.getSkillsByType( SkillDatabase.COMBAT );
 				String skillName = SkillDatabase.getSkillName( attackName, combatSkills );
 
 				if ( skillName != null )

@@ -86,16 +86,16 @@ public class BjornifyCommand
 			return;
 		}
 
-		List familiarList = KoLCharacter.getFamiliarList();
+		List<FamiliarData> familiarList = KoLCharacter.getFamiliarList();
 
 		String[] familiars = new String[ familiarList.size() ];
 		for ( int i = 0; i < familiarList.size(); ++i )
 		{
-			FamiliarData familiar = (FamiliarData) familiarList.get( i );
+			FamiliarData familiar = familiarList.get( i );
 			familiars[ i ] = StringUtilities.getCanonicalName( familiar.getRace() );
 		}
 
-		List matchList = StringUtilities.getMatchingNames( familiars, parameters );
+		List<String> matchList = StringUtilities.getMatchingNames( familiars, parameters );
 
 		if ( matchList.size() > 1 )
 		{
@@ -106,13 +106,13 @@ public class BjornifyCommand
 		}
 		else if ( matchList.size() == 1 )
 		{
-			String race = (String) matchList.get( 0 );
+			String race = matchList.get( 0 );
 			FamiliarData change = null;
 			for ( int i = 0; i < familiars.length; ++i )
 			{
 				if ( race.equals( familiars[ i ] ) )
 				{
-					change = (FamiliarData) familiarList.get( i );
+					change = familiarList.get( i );
 					break;
 				}
 			}

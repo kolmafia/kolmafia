@@ -38,6 +38,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -58,7 +59,7 @@ import net.sourceforge.kolmafia.session.StoreManager;
 
 public class ComparisonShopCommand
 	extends AbstractCommand
-	implements Comparator
+	implements Comparator<AdventureResult>
 {
 	public ComparisonShopCommand()
 	{
@@ -78,7 +79,7 @@ public class ComparisonShopCommand
 			parameters = parameters.substring( 0, pos ).trim();
 		}
 		String[] pieces = parameters.split( "\\s*,\\s*" );
-		TreeSet<String> names = new TreeSet<String>();
+		TreeSet<String> names = new TreeSet<>();
 		for ( int i = 0; i < pieces.length; ++i )
 		{
 			String piece = pieces[ i ];
@@ -110,11 +111,12 @@ public class ComparisonShopCommand
 			RequestLogger.printList( Arrays.asList( names.toArray() ) );
 			return;
 		}
-		ArrayList<AdventureResult> results = new ArrayList<AdventureResult>();
-		Iterator i = names.iterator();
-		while ( i.hasNext() )
+
+		List<AdventureResult> results = new ArrayList<>();
+
+		for ( String name : names )
 		{
-			int itemId = ItemDatabase.getItemId( (String) i.next() );
+			int itemId = ItemDatabase.getItemId( name );
 			AdventureResult item = ItemPool.get( itemId );
 			if ( !ItemDatabase.isTradeable( itemId ) || StoreManager.getMallPrice( item ) <= 0 )
 			{
@@ -138,19 +140,18 @@ public class ComparisonShopCommand
 		}
 		if ( commands != null )
 		{
-			this.CLI.executeLine( commands.replaceAll( "\\bit\\b", ( (AdventureResult) results.get( 0 ) ).getName() ) );
+			this.CLI.executeLine( commands.replaceAll( "\\bit\\b", results.get( 0 ).getName() ) );
 			return;
 		}
-		i = results.iterator();
-		while ( i.hasNext() )
+
+		for ( AdventureResult item : results )
 		{
-			AdventureResult item = (AdventureResult) i.next();
 			RequestLogger.printLine( item.getName() + " @ " + KoLConstants.COMMA_FORMAT.format( StoreManager.getMallPrice( item ) ) );
 		}
 	}
 
-	public int compare( final Object o1, final Object o2 )
+	public int compare( final AdventureResult o1, final AdventureResult o2 )
 	{
-		return StoreManager.getMallPrice( (AdventureResult) o1 ) - StoreManager.getMallPrice( (AdventureResult) o2 );
+		return StoreManager.getMallPrice( o1 ) - StoreManager.getMallPrice( o2 );
 	}
 }

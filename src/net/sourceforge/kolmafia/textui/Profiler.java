@@ -38,6 +38,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import net.sourceforge.kolmafia.KoLConstants;
 
@@ -51,8 +52,7 @@ public class Profiler
 	
 	private Profiler next;	// linked list
 	private static Profiler freeList;
-	private static HashMap<String, Profiler> totals =
-		new HashMap<String, Profiler>();
+	private static Map<String, Profiler> totals = new HashMap<>();
 	
 	private Profiler()
 	{
@@ -77,7 +77,7 @@ public class Profiler
 	
 	public void finish()
 	{
-		Profiler existing = (Profiler) Profiler.totals.get( this.name );
+		Profiler existing = Profiler.totals.get( this.name );
 		if ( existing != null )
 		{
 			++existing.count;

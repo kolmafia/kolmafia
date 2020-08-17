@@ -58,7 +58,7 @@ import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 
 public class DataFileCache
 {
-	private static final RollingLinkedList recentlyUsedList = new RollingLinkedList( 500 ); 
+	private static final RollingLinkedList<String> recentlyUsedList = new RollingLinkedList<>( 500 ); 
 	private static final Map<String, Long> dataFileTimestampCache = Collections.synchronizedMap(new HashMap<String, Long>());
 	private static final Map<String, byte[]> dataFileDataCache = Collections.synchronizedMap(new HashMap<String, byte[]>());
 
@@ -210,7 +210,7 @@ public class DataFileCache
 
 		if ( cacheModifiedTime != null && cacheModifiedTime.longValue() == modifiedTime )
 		{
-			return (byte[]) dataFileDataCache.get( filename );
+			return dataFileDataCache.get( filename );
 		}
 
 		InputStream istream = null;
@@ -293,7 +293,7 @@ public class DataFileCache
 
 	private static void updateCache( String filename, long modifiedTime, byte[] data )
 	{
-		Object recentlyUsedCheck = DataFileCache.recentlyUsedList.update( filename );
+		String recentlyUsedCheck = DataFileCache.recentlyUsedList.update( filename );
 		
 		if ( recentlyUsedCheck != null )
 		{
