@@ -1819,6 +1819,12 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.FLOAT_TYPE };
 		functions.add( new LibraryFunction( "square_root", DataTypes.FLOAT_TYPE, params ) );
 
+		params = new Type[] { DataTypes.FLOAT_TYPE };
+		functions.add( new LibraryFunction( "log_n", DataTypes.FLOAT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.FLOAT_TYPE, DataTypes.FLOAT_TYPE };
+		functions.add( new LibraryFunction( "log_n", DataTypes.FLOAT_TYPE, params ) );
+
 		// Versions of min and max that return int (if both arguments
 		// are int) or float (if at least one arg is a float)
 		//
@@ -7683,6 +7689,16 @@ public abstract class RuntimeLibrary
 			}
 			return new Value( max );
 		}
+	}
+
+	public static Value log_n( Interpreter interpreter, final Value arg, final Value base )
+	{
+		return new Value( Math.log( arg.floatValue() ) / Math.log( base.floatValue() ) );
+	}
+
+	public static Value log_n( Interpreter interpreter, final Value arg )
+	{
+		return new Value( Math.log( arg.floatValue() ) );
 	}
 
 	// Settings-type functions.
