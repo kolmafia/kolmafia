@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -49,6 +50,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.ListModel;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -108,21 +110,21 @@ public class GearChangeFrame
 	private JCheckBox weapon1H;
 	private JRadioButton[] offhandTypes;
 	private final EquipmentComboBox[] equipment;
-	private final SortedListModel hats = new SortedListModel();
-	private final SortedListModel shirts = new SortedListModel();
-	private final SortedListModel containers = new SortedListModel();
-	private final SortedListModel pants = new SortedListModel();
-	private final SortedListModel weapons = new SortedListModel();
-	private final SortedListModel offhands = new SortedListModel();
-	private final SortedListModel accessories1 = new SortedListModel();
-	private final SortedListModel accessories2 = new SortedListModel();
-	private final SortedListModel accessories3 = new SortedListModel();
-	private final SortedListModel familiars = new SortedListModel();
-	private final SortedListModel crownFamiliars = new SortedListModel();
-	private final SortedListModel bjornFamiliars = new SortedListModel();
-	private final SortedListModel bootskins = new SortedListModel();
-	private final SortedListModel bootspurs = new SortedListModel();
-	private final SortedListModel sixguns = new SortedListModel();
+	private final SortedListModel<AdventureResult> hats = new SortedListModel<>();
+	private final SortedListModel<AdventureResult> shirts = new SortedListModel<>();
+	private final SortedListModel<AdventureResult> containers = new SortedListModel<>();
+	private final SortedListModel<AdventureResult> pants = new SortedListModel<>();
+	private final SortedListModel<AdventureResult> weapons = new SortedListModel<>();
+	private final SortedListModel<AdventureResult> offhands = new SortedListModel<>();
+	private final SortedListModel<AdventureResult> accessories1 = new SortedListModel<>();
+	private final SortedListModel<AdventureResult> accessories2 = new SortedListModel<>();
+	private final SortedListModel<AdventureResult> accessories3 = new SortedListModel<>();
+	private final SortedListModel<FamiliarData> familiars = new SortedListModel<>();
+	private final SortedListModel<FamiliarData> crownFamiliars = new SortedListModel<>();
+	private final SortedListModel<FamiliarData> bjornFamiliars = new SortedListModel<>();
+	private final SortedListModel<AdventureResult> bootskins = new SortedListModel<>();
+	private final SortedListModel<AdventureResult> bootspurs = new SortedListModel<>();
+	private final SortedListModel<AdventureResult> sixguns = new SortedListModel<>();
 
 	private final EquipmentPanel equipmentPanel;
 	private final CustomizablePanel customizablePanel;
@@ -141,11 +143,11 @@ public class GearChangeFrame
 
 		this.equipment = new EquipmentComboBox[ EquipmentManager.ALL_SLOTS ];
 
-		List[] lists = EquipmentManager.getEquipmentLists();
+		List<AdventureResult> [] lists = EquipmentManager.getEquipmentLists();
 		// We maintain our own lists of valid hats, pants, weapons and offhand items
 		for ( int i = 0; i < this.equipment.length; ++i )
 		{
-			LockableListModel list;
+			LockableListModel<AdventureResult> list;
 			switch ( i )
 			{
 			case EquipmentManager.HAT:
@@ -185,7 +187,7 @@ public class GearChangeFrame
 				list = this.sixguns;
 				break;
 			default:
-				list = (LockableListModel) lists[ i ];
+				list = (LockableListModel<AdventureResult>) lists[ i ];
 				break;
 			}
 
@@ -455,7 +457,7 @@ public class GearChangeFrame
 		{
 			super( "change gear", "save as outfit", new Dimension( 120, 20 ), new Dimension( 320, 20 ) );
 
-			ArrayList rows = new ArrayList<VerifiableElement>();
+			ArrayList<VerifiableElement> rows = new ArrayList<>();
 			VerifiableElement element;
 
 			rows.add( new VerifiableElement( "Hat:", GearChangeFrame.this.equipment[ EquipmentManager.HAT ] ) );
@@ -529,7 +531,7 @@ public class GearChangeFrame
 			rows.add( new VerifiableElement( "Custom:", GearChangeFrame.this.customSelect ) );
 
 			VerifiableElement[] elements = new VerifiableElement[ rows.size() ];
-			elements = (VerifiableElement[])rows.toArray( elements );
+			elements = rows.toArray( elements );
 
 			this.setContent( elements );
 
@@ -652,7 +654,7 @@ public class GearChangeFrame
 		{
 			super( "change gear", new Dimension( 120, 20 ), new Dimension( 300, 20 ) );
 
-			ArrayList rows = new ArrayList<VerifiableElement>();
+			ArrayList<VerifiableElement> rows = new ArrayList<>();
 			VerifiableElement element;
 
 			rows.add(  new VerifiableElement( "Crown of Thrones:", GearChangeFrame.this.crownSelect ) );
@@ -697,7 +699,7 @@ public class GearChangeFrame
 			rows.add( new VerifiableElement( "Boot Spur:", GearChangeFrame.this.equipment[ EquipmentManager.BOOTSPUR ] ) );
 
 			VerifiableElement[] elements = new VerifiableElement[ rows.size() ];
-			elements = (VerifiableElement[])rows.toArray( elements );
+			elements = rows.toArray( elements );
 
 			this.setContent( elements );
 
@@ -1022,9 +1024,9 @@ public class GearChangeFrame
 	}
 
 	private class EquipmentComboBox
-		extends JComboBox
+		extends JComboBox<AdventureResult>
 	{
-		public EquipmentComboBox( final LockableListModel model, final int slot )
+		public EquipmentComboBox( final LockableListModel<AdventureResult> model, final int slot )
 		{
 			super( model );
 
@@ -1043,8 +1045,8 @@ public class GearChangeFrame
 			@Override
 			protected void execute()
 			{
-				LockableListModel model = (LockableListModel) EquipmentComboBox.this.getModel();
-				if ( model.isEmpty() )
+				ComboBoxModel<AdventureResult> model = EquipmentComboBox.this.getModel();
+				if ( model.getSize() == 0 )
 				{
 					return;
 				}
@@ -1058,7 +1060,7 @@ public class GearChangeFrame
 	}
 
 	private class OutfitComboBox
-		extends JComboBox
+		extends JComboBox<SpecialOutfit>
 	{
 		public OutfitComboBox( final LockableListModel<SpecialOutfit> model )
 		{
@@ -1074,8 +1076,8 @@ public class GearChangeFrame
 			@Override
 			protected void execute()
 			{
-				LockableListModel<SpecialOutfit> model = (LockableListModel<SpecialOutfit>) OutfitComboBox.this.getModel();
-				if ( model.isEmpty() )
+				ComboBoxModel<SpecialOutfit> model = OutfitComboBox.this.getModel();
+				if ( model.getSize() == 0 )
 				{
 					return;
 				}
@@ -1090,7 +1092,7 @@ public class GearChangeFrame
 				}
 				synchronized ( GearChangeFrame.class )
 				{
-					RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) outfit ) );
+					RequestThread.postRequest( new EquipmentRequest( outfit ) );
 				}
 
 				OutfitComboBox.this.setSelectedItem( null );
@@ -1121,9 +1123,9 @@ public class GearChangeFrame
 	}
 
 	private class CarriedFamiliarComboBox
-		extends JComboBox
+		extends JComboBox<FamiliarData>
 	{
-		public CarriedFamiliarComboBox( final LockableListModel model )
+		public CarriedFamiliarComboBox( final LockableListModel<FamiliarData> model )
 		{
 			super( model );
 			DefaultListCellRenderer renderer = ListCellRendererFactory.getFamiliarRenderer();
@@ -1135,7 +1137,7 @@ public class GearChangeFrame
 		extends CarriedFamiliarComboBox
 		implements Listener
 	{
-		public ThroneComboBox( final LockableListModel model )
+		public ThroneComboBox( final LockableListModel<FamiliarData> model )
 		{
 			super( model );
 			NamedListenerRegistry.registerNamedListener( "(throne)", this );
@@ -1157,7 +1159,7 @@ public class GearChangeFrame
 		extends CarriedFamiliarComboBox
 		implements Listener
 	{
-		public BjornComboBox( final LockableListModel model )
+		public BjornComboBox( final LockableListModel<FamiliarData> model )
 		{
 			super( model );
 			NamedListenerRegistry.registerNamedListener( "(bjorn)", this );
@@ -1176,9 +1178,9 @@ public class GearChangeFrame
 	}
 
 	private class FamiliarComboBox
-		extends JComboBox
+		extends JComboBox<FamiliarData>
 	{
-		public FamiliarComboBox( final LockableListModel model )
+		public FamiliarComboBox( final LockableListModel<FamiliarData> model )
 		{
 			super( model );
 			this.addActionListener( new ChangeFamiliarListener() );
@@ -1190,8 +1192,8 @@ public class GearChangeFrame
 			@Override
 			protected void execute()
 			{
-				LockableListModel model = (LockableListModel) FamiliarComboBox.this.getModel();
-				if ( model.isEmpty() )
+				ComboBoxModel<FamiliarData> model = FamiliarComboBox.this.getModel();
+				if ( model.getSize() == 0 )
 				{
 					return;
 				}
@@ -1240,7 +1242,7 @@ public class GearChangeFrame
 			hatItem = currentHat;
 		}
 
-		List hatItems = this.validHatItems( currentHat );
+		List<AdventureResult> hatItems = this.validHatItems( currentHat );
 		this.updateEquipmentList( this.hats, hatItems, hatItem );
 		this.equipment[ EquipmentManager.HAT ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.HAT ) );
 
@@ -1251,7 +1253,7 @@ public class GearChangeFrame
 			pantsItem = currentPants;
 		}
 
-		List pantsItems = this.validPantsItems( currentPants );
+		List<AdventureResult> pantsItems = this.validPantsItems( currentPants );
 		this.updateEquipmentList( this.pants, pantsItems, pantsItem );
 		this.equipment[ EquipmentManager.PANTS ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.PANTS ) );
 
@@ -1262,7 +1264,7 @@ public class GearChangeFrame
 			shirtItem = currentShirt;
 		}
 
-		List shirtItems = this.validShirtItems( currentShirt );
+		List<AdventureResult> shirtItems = this.validShirtItems( currentShirt );
 		this.updateEquipmentList( this.shirts, shirtItems, shirtItem );
 		this.equipment[ EquipmentManager.SHIRT ].setEnabled( this.isEnabled && KoLCharacter.isTorsoAware() && !Limitmode.limitSlot( EquipmentManager.SHIRT ) );
 
@@ -1273,7 +1275,7 @@ public class GearChangeFrame
 			containerItem = currentContainer;
 		}
 
-		List containerItems = this.validContainerItems( currentContainer );
+		List<AdventureResult> containerItems = this.validContainerItems( currentContainer );
 		this.updateEquipmentList( this.containers, containerItems, containerItem );
 		this.equipment[ EquipmentManager.CONTAINER ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.CONTAINER ) );
 
@@ -1284,7 +1286,7 @@ public class GearChangeFrame
 			weaponItem = currentWeapon;
 		}
 
-		List weaponItems = this.validWeaponItems( currentWeapon );
+		List<AdventureResult> weaponItems = this.validWeaponItems( currentWeapon );
 		this.updateEquipmentList( this.weapons, weaponItems, weaponItem );
 		this.equipment[ EquipmentManager.WEAPON ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.WEAPON ) );
 
@@ -1320,7 +1322,7 @@ public class GearChangeFrame
 				}
 			}
 
-			List offhandItems = this.validOffhandItems( weaponItem, offhandItem );
+			List<AdventureResult> offhandItems = this.validOffhandItems( weaponItem, offhandItem );
 			this.updateEquipmentList( this.offhands, offhandItems, offhandItem );
 			this.equipment[ EquipmentManager.OFFHAND ].setEnabled( this.isEnabled );
 		}
@@ -1333,7 +1335,7 @@ public class GearChangeFrame
 			accessory1Item = currentAccessory1;
 		}
 
-		List accessory1Items = this.validAccessoryItems( currentAccessory1 );
+		List<AdventureResult> accessory1Items = this.validAccessoryItems( currentAccessory1 );
 		this.updateEquipmentList( this.accessories1, accessory1Items, accessory1Item );
 		this.equipment[ EquipmentManager.ACCESSORY1 ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.ACCESSORY1 ) );
 
@@ -1344,7 +1346,7 @@ public class GearChangeFrame
 			accessory2Item = currentAccessory2;
 		}
 
-		List accessory2Items = this.validAccessoryItems( currentAccessory2 );
+		List<AdventureResult> accessory2Items = this.validAccessoryItems( currentAccessory2 );
 		this.updateEquipmentList( this.accessories2, accessory2Items, accessory2Item );
 		this.equipment[ EquipmentManager.ACCESSORY2 ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.ACCESSORY2 ) );
 
@@ -1355,7 +1357,7 @@ public class GearChangeFrame
 			accessory3Item = currentAccessory3;
 		}
 
-		List accessory3Items = this.validAccessoryItems( currentAccessory3 );
+		List<AdventureResult> accessory3Items = this.validAccessoryItems( currentAccessory3 );
 		this.updateEquipmentList( this.accessories3, accessory3Items, accessory3Item );
 		this.equipment[ EquipmentManager.ACCESSORY3 ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.ACCESSORY3 ) );
 
@@ -1384,11 +1386,11 @@ public class GearChangeFrame
 			selectedBjornFamiliar = bjornedFamiliar;
 		}
 
-		this.updateEquipmentList( this.familiars, this.validFamiliars( currentFamiliar ), selectedFamiliar );
+		this.updateFamiliarList( this.familiars, this.validFamiliars( currentFamiliar ), selectedFamiliar );
 		this.equipment[ EquipmentManager.FAMILIAR ].setEnabled( this.isEnabled && !Limitmode.limitFamiliars() && !KoLCharacter.inPokefam() );
-		this.updateEquipmentList( this.crownFamiliars, this.carriableFamiliars( currentFamiliar, bjornedFamiliar ), selectedThroneFamiliar );
+		this.updateFamiliarList( this.crownFamiliars, this.carriableFamiliars( currentFamiliar, bjornedFamiliar ), selectedThroneFamiliar );
 		this.equipment[ EquipmentManager.CROWNOFTHRONES ].setEnabled( this.isEnabled && !Limitmode.limitFamiliars() && !KoLCharacter.inPokefam() );
-		this.updateEquipmentList( this.bjornFamiliars, this.carriableFamiliars( currentFamiliar, enthronedFamiliar ), selectedBjornFamiliar );
+		this.updateFamiliarList( this.bjornFamiliars, this.carriableFamiliars( currentFamiliar, enthronedFamiliar ), selectedBjornFamiliar );
 		this.equipment[ EquipmentManager.BUDDYBJORN ].setEnabled( this.isEnabled && !Limitmode.limitFamiliars() && !KoLCharacter.inPokefam() );
 
 		AdventureResult bootskinItem = (AdventureResult) this.equipment[ EquipmentManager.BOOTSKIN ].getSelectedItem();
@@ -1397,7 +1399,7 @@ public class GearChangeFrame
 		{
 			bootskinItem = currentBootskin;
 		}
-		List bootskinItems = this.validBootskinItems( currentBootskin );
+		List<AdventureResult> bootskinItems = this.validBootskinItems( currentBootskin );
 		this.updateEquipmentList( this.bootskins, bootskinItems, bootskinItem );
 		this.equipment[ EquipmentManager.BOOTSKIN ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.BOOTSKIN ) );
 
@@ -1407,7 +1409,7 @@ public class GearChangeFrame
 		{
 			bootspurItem = currentBootspur;
 		}
-		List bootspurItems = this.validBootspurItems( currentBootspur );
+		List<AdventureResult> bootspurItems = this.validBootspurItems( currentBootspur );
 		this.updateEquipmentList( this.bootspurs, bootspurItems, bootspurItem );
 		this.equipment[ EquipmentManager.BOOTSPUR ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.BOOTSPUR ) );
 
@@ -1417,7 +1419,7 @@ public class GearChangeFrame
 		{
 			sixgunItem = currentSixgun;
 		}
-		List sixgunItems = this.validSixgunItems( currentSixgun );
+		List<AdventureResult> sixgunItems = this.validSixgunItems( currentSixgun );
 		this.updateEquipmentList( this.sixguns, sixgunItems, sixgunItem );
 		this.equipment[ EquipmentManager.HOLSTER ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.HOLSTER ) );
 
@@ -1425,14 +1427,13 @@ public class GearChangeFrame
 		this.customSelect.setEnabled( this.isEnabled && !Limitmode.limitOutfits() );
 	}
 
-	private List validHatItems( final AdventureResult currentHat )
+	private List<AdventureResult> validHatItems( final AdventureResult currentHat )
 	{
-		List<AdventureResult> items = new ArrayList<AdventureResult>();
+		List<AdventureResult> items = new ArrayList<>();
 
 		// Search inventory for hats
-		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
+		for ( AdventureResult currentItem : KoLConstants.inventory )
 		{
-			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
 			addHat( items, currentItem );
 		}
 
@@ -1457,22 +1458,19 @@ public class GearChangeFrame
 
 	private void addHat( final List<AdventureResult> items, final AdventureResult item )
 	{
-		if ( !addItem( items, item, KoLConstants.EQUIP_HAT ) )
+		if ( addItem( items, item, KoLConstants.EQUIP_HAT ) )
 		{
-			return;
+			items.add( item );
 		}
-
-		items.add( item );
 	}
 
-	private List validPantsItems( final AdventureResult currentPants )
+	private List<AdventureResult> validPantsItems( final AdventureResult currentPants )
 	{
-		List<AdventureResult> items = new ArrayList<AdventureResult>();
+		List<AdventureResult> items = new ArrayList<>();
 
 		// Search inventory for pantss
-		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
+		for ( AdventureResult currentItem : KoLConstants.inventory )
 		{
-			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
 			addPants( items, currentItem );
 		}
 
@@ -1497,22 +1495,19 @@ public class GearChangeFrame
 
 	private void addPants( final List<AdventureResult> items, final AdventureResult item )
 	{
-		if ( !addItem( items, item, KoLConstants.EQUIP_PANTS ) )
+		if ( addItem( items, item, KoLConstants.EQUIP_PANTS ) )
 		{
-			return;
+			items.add( item );
 		}
-
-		items.add( item );
 	}
 
-	private List validShirtItems( final AdventureResult currentShirt )
+	private List<AdventureResult> validShirtItems( final AdventureResult currentShirt )
 	{
-		List<AdventureResult> items = new ArrayList<AdventureResult>();
+		List<AdventureResult> items = new ArrayList<>();
 
 		// Search inventory for shirts
-		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
+		for ( AdventureResult currentItem : KoLConstants.inventory )
 		{
-			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
 			addShirts( items, currentItem );
 		}
 
@@ -1530,22 +1525,19 @@ public class GearChangeFrame
 
 	private void addShirts( final List<AdventureResult> items, final AdventureResult item )
 	{
-		if ( !addItem( items, item, KoLConstants.EQUIP_SHIRT ) )
+		if ( addItem( items, item, KoLConstants.EQUIP_SHIRT ) )
 		{
-			return;
+			items.add( item );
 		}
-
-		items.add( item );
 	}
 
 	private List<AdventureResult> validContainerItems( final AdventureResult currentContainer )
 	{
-		List<AdventureResult> items = new ArrayList<AdventureResult>();
+		List<AdventureResult> items = new ArrayList<>();
 
 		// Search inventory for containers
-		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
+		for ( AdventureResult currentItem : KoLConstants.inventory )
 		{
-			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
 			addContainers( items, currentItem );
 		}
 
@@ -1563,17 +1555,15 @@ public class GearChangeFrame
 
 	private void addContainers( final List<AdventureResult> items, final AdventureResult item )
 	{
-		if ( !addItem( items, item, KoLConstants.EQUIP_CONTAINER ) )
+		if ( addItem( items, item, KoLConstants.EQUIP_CONTAINER ) )
 		{
-			return;
+			items.add( item );
 		}
-
-		items.add( item );
 	}
 
-	private List validWeaponItems( final AdventureResult currentWeapon )
+	private List<AdventureResult> validWeaponItems( final AdventureResult currentWeapon )
 	{
-		List<AdventureResult> items = new ArrayList<AdventureResult>();
+		List<AdventureResult> items = new ArrayList<>();
 
 		if ( KoLCharacter.inFistcore() )
 		{
@@ -1589,9 +1579,8 @@ public class GearChangeFrame
 		}
 
 		// Search inventory for weapons
-		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
+		for ( AdventureResult currentItem : KoLConstants.inventory )
 		{
-			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
 			addWeapon( items, currentItem );
 		}
 
@@ -1616,27 +1605,20 @@ public class GearChangeFrame
 
 	private void addWeapon( final List<AdventureResult> items, final AdventureResult item )
 	{
-		if ( !addItem( items, item, KoLConstants.EQUIP_WEAPON ) )
+		if ( addItem( items, item, KoLConstants.EQUIP_WEAPON ) &&
+		     filterWeapon( item ) )
 		{
-			return;
+			items.add( item );
 		}
-
-		if ( !filterWeapon( item ) )
-		{
-			return;
-		}
-
-		items.add( item );
 	}
 
-	private List validAccessoryItems( final AdventureResult currentAccessory )
+	private List<AdventureResult> validAccessoryItems( final AdventureResult currentAccessory )
 	{
-		List<AdventureResult> items = new ArrayList<AdventureResult>();
+		List<AdventureResult> items = new ArrayList<>();
 
 		// Search inventory for accessories
-		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
+		for ( AdventureResult currentItem : KoLConstants.inventory )
 		{
-			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
 			addAccessories( items, currentItem );
 		}
 
@@ -1654,15 +1636,13 @@ public class GearChangeFrame
 
 	private void addAccessories( final List<AdventureResult> items, final AdventureResult item )
 	{
-		if ( !addItem( items, item, KoLConstants.EQUIP_ACCESSORY ) )
+		if ( addItem( items, item, KoLConstants.EQUIP_ACCESSORY ) )
 		{
-			return;
+			items.add( item );
 		}
-
-		items.add( item );
 	}
 
-	private boolean addItem( final List items, final AdventureResult item, final int type )
+	private boolean addItem( final List<AdventureResult> items, final AdventureResult item, final int type )
 	{
 		// Only add it once
 		if ( items.contains( item ) )
@@ -1707,9 +1687,9 @@ public class GearChangeFrame
 		return false;
 	}
 
-	private List validOffhandItems( final AdventureResult weapon, final AdventureResult offhandItem )
+	private List<AdventureResult> validOffhandItems( final AdventureResult weapon, final AdventureResult offhandItem )
 	{
-		List<AdventureResult> items = new ArrayList<AdventureResult>();
+		List<AdventureResult> items = new ArrayList<>();
 
 		// In Fistcore, you must have both hands free.
 		// In Axecore, you can equip only Trusty, a two-handed axe
@@ -1733,9 +1713,8 @@ public class GearChangeFrame
 
 		// Search inventory for suitable items
 
-		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
+		for ( AdventureResult currentItem : KoLConstants.inventory )
 		{
-			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
 			// Fake hands are handled specially
 			if ( currentItem.getItemId() == ItemPool.FAKE_HAND )
 			{
@@ -1842,9 +1821,9 @@ public class GearChangeFrame
 		return false;
 	}
 
-	private List validFamiliars( final FamiliarData currentFamiliar )
+	private List<FamiliarData> validFamiliars( final FamiliarData currentFamiliar )
 	{
-		List<FamiliarData> familiars = new ArrayList<FamiliarData>();
+		List<FamiliarData> familiars = new ArrayList<>();
 
 		for ( FamiliarData fam : KoLCharacter.getFamiliarList() )
 		{
@@ -1882,9 +1861,9 @@ public class GearChangeFrame
 		return familiar.canEquip();
 	}
 
-	private List carriableFamiliars( final FamiliarData exclude1, final FamiliarData exclude2 )
+	private List<FamiliarData> carriableFamiliars( final FamiliarData exclude1, final FamiliarData exclude2 )
 	{
-		List<FamiliarData> familiars = new ArrayList<FamiliarData>();
+		List<FamiliarData> familiars = new ArrayList<>();
 
 		for ( FamiliarData fam : KoLCharacter.getFamiliarList() )
 		{
@@ -1926,12 +1905,11 @@ public class GearChangeFrame
 
 	private List<AdventureResult> validBootskinItems( final AdventureResult currentBootskin )
 	{
-		List<AdventureResult> items = new ArrayList<AdventureResult>();
+		List<AdventureResult> items = new ArrayList<>();
 
 		// Search inventory for containers
-		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
+		for ( AdventureResult currentItem : KoLConstants.inventory )
 		{
-			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
 			addBootskins( items, currentItem );
 		}
 
@@ -1950,22 +1928,19 @@ public class GearChangeFrame
 
 	private void addBootskins( final List<AdventureResult> items, final AdventureResult item )
 	{
-		if ( !addItem( items, item, KoLConstants.CONSUME_BOOTSKIN ) )
+		if ( addItem( items, item, KoLConstants.CONSUME_BOOTSKIN ) )
 		{
-			return;
+			items.add( item );
 		}
-
-		items.add( item );
 	}
 
 	private List<AdventureResult> validBootspurItems( final AdventureResult currentBootspur )
 	{
-		List<AdventureResult> items = new ArrayList<AdventureResult>();
+		List<AdventureResult> items = new ArrayList<>();
 
 		// Search inventory for containers
-		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
+		for ( AdventureResult currentItem : KoLConstants.inventory )
 		{
-			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
 			addBootspurs( items, currentItem );
 		}
 
@@ -1984,22 +1959,19 @@ public class GearChangeFrame
 
 	private void addBootspurs( final List<AdventureResult> items, final AdventureResult item )
 	{
-		if ( !addItem( items, item, KoLConstants.CONSUME_BOOTSPUR ) )
+		if ( addItem( items, item, KoLConstants.CONSUME_BOOTSPUR ) )
 		{
-			return;
+			items.add( item );
 		}
-
-		items.add( item );
 	}
 
 	private List<AdventureResult> validSixgunItems( final AdventureResult currentSixgun )
 	{
-		List<AdventureResult> items = new ArrayList<AdventureResult>();
+		List<AdventureResult> items = new ArrayList<>();
 
 		// Search inventory for sixguns
-		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
+		for ( AdventureResult currentItem : KoLConstants.inventory )
 		{
-			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
 			addSixgun( items, currentItem );
 		}
 
@@ -2016,21 +1988,26 @@ public class GearChangeFrame
 
 	private void addSixgun( final List<AdventureResult> items, final AdventureResult item )
 	{
-		if ( !addItem( items, item, KoLConstants.CONSUME_SIXGUN ) )
+		if ( addItem( items, item, KoLConstants.CONSUME_SIXGUN ) )
 		{
-			return;
+			items.add( item );
 		}
-
-		items.add( item );
 	}
 
-	private void updateEquipmentList( final LockableListModel currentItems, final List newItems, final Object equippedItem )
+	private void updateEquipmentList( final LockableListModel<AdventureResult> currentItems, final List<AdventureResult> newItems, final AdventureResult equippedItem )
 	{
 		currentItems.retainAll( newItems );
 		newItems.removeAll( currentItems );
 		currentItems.addAll( newItems );
-
 		currentItems.setSelectedItem( equippedItem );
+	}
+
+	private void updateFamiliarList( final LockableListModel<FamiliarData> currentFamiliars, final List<FamiliarData> newFamiliars, final FamiliarData activeFamiliar )
+	{
+		currentFamiliars.retainAll( newFamiliars );
+		newFamiliars.removeAll( currentFamiliars );
+		currentFamiliars.addAll( newFamiliars );
+		currentFamiliars.setSelectedItem( activeFamiliar );
 	}
 
 	private class FakeHandsSpinner

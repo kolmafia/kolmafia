@@ -128,7 +128,7 @@ public class EquipmentManager
 	private static List<AdventureResult> equipment = LockableListFactory.getInstance( AdventureResult.class );
 	private static final List<AdventureResult> accessories = LockableListFactory.getInstance( AdventureResult.class );
 	private static final List<AdventureResult>[] equipmentLists = new List[ EquipmentManager.ALL_SLOTS ];
-	private static final ArrayList<AdventureResult>[] historyLists = new ArrayList[ EquipmentManager.ALL_SLOTS ];
+	private static final List<AdventureResult>[] historyLists = new List[ EquipmentManager.ALL_SLOTS ];
 
 	private static int fakeHandCount = 0;
 	private static int stinkyCheeseLevel = 0;
@@ -152,7 +152,7 @@ public class EquipmentManager
 		for ( int i = 0; i < EquipmentManager.ALL_SLOTS; ++i )
 		{
 			EquipmentManager.equipment.add( EquipmentRequest.UNEQUIP );
-			EquipmentManager.historyLists[ i ] = new ArrayList<AdventureResult>();
+			EquipmentManager.historyLists[ i ] = new ArrayList<>();
 
 			switch ( i )
 			{
@@ -230,7 +230,7 @@ public class EquipmentManager
 	public static AdventureResult[] allEquipment()
 	{
 		AdventureResult[] array = new AdventureResult[ EquipmentManager.ALL_SLOTS ];
-		array = (AdventureResult[]) EquipmentManager.equipment.toArray( array );
+		array = EquipmentManager.equipment.toArray( array );
 		array[ EquipmentManager.FAMILIAR ] = EquipmentManager.getFamiliarItem();
 		return array;
 	}
@@ -434,7 +434,7 @@ public class EquipmentManager
 			}
 			else
 			{
-				item = (AdventureResult) EquipmentManager.accessories.get( index );
+				item = EquipmentManager.accessories.get( index );
 			}
 			break;
 
@@ -1416,10 +1416,10 @@ public class EquipmentManager
 			KoLmafia.updateDisplay( MafiaState.PENDING, msg );
 			return;
 		}
-		ArrayList list = EquipmentManager.historyLists[ slot ];
+		List<AdventureResult> list = EquipmentManager.historyLists[ slot ];
 		for ( int i = list.size() - 1; i >= 0; --i )
 		{
-			AdventureResult prev = (AdventureResult) list.get( i );
+			AdventureResult prev =  list.get( i );
 			if ( prev.equals( EquipmentRequest.UNEQUIP ) ||
 				prev.equals( item ) ||
 				!InventoryManager.hasItem( prev ) ||
@@ -1631,7 +1631,7 @@ public class EquipmentManager
 
 		if ( type >= 0 && type < equipment.size() )
 		{
-			return (AdventureResult) equipment.get( type );
+			return equipment.get( type );
 		}
 
 		return EquipmentRequest.UNEQUIP;
@@ -1843,9 +1843,8 @@ public class EquipmentManager
 		WeaponType weaponType = EquipmentManager.getWeaponType();
 		FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
 
-		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
+		for ( AdventureResult currentItem : KoLConstants.inventory )
 		{
-			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
 			String currentItemName = currentItem.getName();
 
 			int itemId = currentItem.getItemId();

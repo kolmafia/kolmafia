@@ -51,7 +51,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 public class LockableListFactory
 {
 	/**
-	 * Get an instance of LockableListModel if in a Swingless environment, else get a List
+	 * Get an instance of LockableListModel if in a Swing environment, else get a List
 	 * @param E Class
 	 * @return  LockableListModel<E> or an ArrayList if Swing cannot be loaded
 	 */
