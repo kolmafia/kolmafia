@@ -923,7 +923,7 @@ public class ListCellRendererFactory
 				}
 				else
 				{
-					stringForm = "<html><font color=gray>" + ar.getName() + "</font></html>";
+					stringForm = "<font color=gray>" + ar.getName() + "</font>";
 				}
 			}
 			else
@@ -968,13 +968,13 @@ public class ListCellRendererFactory
 
 				if ( !EquipmentManager.canEquip( ar.getName() ) )
 				{
-					stringForm = "<html><font color=gray>" + stringForm + "</font></html>";
+					stringForm = "<font color=gray>" + stringForm + "</font>";
 				}
 			}
 
 			JLabel defaultComponent =
 				(JLabel) super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
-			defaultComponent.setText( stringForm );
+			defaultComponent.setText( "<html>" + stringForm + "</html>" );
 			return defaultComponent;
 		}
 	}
