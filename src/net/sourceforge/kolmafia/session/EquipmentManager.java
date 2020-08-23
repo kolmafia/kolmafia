@@ -178,7 +178,7 @@ public class EquipmentManager
 		}
 
 		EquipmentManager.accessories.clear();
-		GearChangeFrame.clearWeaponLists();
+		GearChangeFrame.clearEquipmentModels();
 
 		EquipmentManager.equipment.clear();
 
@@ -320,43 +320,8 @@ public class EquipmentManager
 				AdventureResult.addResultToList( EquipmentManager.equipmentLists[ equipmentType ], item );
 			}
 
-			switch ( equipmentType )
-			{
-			case EquipmentManager.HAT:
-				GearChangeFrame.updateHats();
-				break;
-			case EquipmentManager.WEAPON:
-			case EquipmentManager.OFFHAND:
-				GearChangeFrame.updateWeapons();
-				break;
-			case EquipmentManager.SHIRT:
-				GearChangeFrame.updateShirts();
-				break;
-			case EquipmentManager.CONTAINER:
-				GearChangeFrame.updateContainers();
-				break;
-			case EquipmentManager.PANTS:
-				GearChangeFrame.updatePants();
-				break;
-			case EquipmentManager.ACCESSORY1:
-				GearChangeFrame.updateAccessories1();
-				break;
-			case EquipmentManager.ACCESSORY2:
-				GearChangeFrame.updateAccessories2();
-				break;
-			case EquipmentManager.ACCESSORY3:
-				GearChangeFrame.updateAccessories3();
-				break;
-			case EquipmentManager.BOOTSKIN:
-				GearChangeFrame.updateBootskins();
-				break;
-			case EquipmentManager.BOOTSPUR:
-				GearChangeFrame.updateBootspurs();
-				break;
-			case EquipmentManager.HOLSTER:
-				GearChangeFrame.updateSixguns();
-				break;
-			}
+			EquipmentManager.checkFamiliar( equipmentType );
+			GearChangeFrame.updateSlot( equipmentType );
 		}
 
 		if ( EquipmentDatabase.getOutfitWithItem( item.getItemId() ) != -1 )
@@ -453,62 +418,8 @@ public class EquipmentManager
 
 		// Certain equipment slots require special update handling
 		// in addition to the above code.
-
-		switch ( slot )
-		{
-		case EquipmentManager.WEAPON:
-		case EquipmentManager.OFFHAND:
-			EquipmentManager.checkFamiliar( slot );
-			GearChangeFrame.updateWeapons();
-			break;
-
-		case EquipmentManager.HAT:
-			EquipmentManager.checkFamiliar( slot );
-			GearChangeFrame.updateHats();
-			break;
-
-		case EquipmentManager.PANTS:
-			EquipmentManager.checkFamiliar( slot );
-			GearChangeFrame.updatePants();
-			break;
-
-		case EquipmentManager.SHIRT:
-			GearChangeFrame.updateShirts();
-			break;
-
-		case EquipmentManager.CONTAINER:
-			GearChangeFrame.updateContainers();
-			break;
-
-		case EquipmentManager.ACCESSORY1:
-			GearChangeFrame.updateAccessories1();
-			break;
-
-		case EquipmentManager.ACCESSORY2:
-			GearChangeFrame.updateAccessories2();
-			break;
-
-		case EquipmentManager.ACCESSORY3:
-			GearChangeFrame.updateAccessories3();
-			break;
-
-		case EquipmentManager.FAMILIAR:
-			EquipmentManager.checkFamiliar( slot );
-			KoLCharacter.currentFamiliar.setItem( item );
-			break;
-
-		case EquipmentManager.BOOTSKIN:
-			GearChangeFrame.updateBootskins();
-			break;
-
-		case EquipmentManager.BOOTSPUR:
-			GearChangeFrame.updateBootspurs();
-			break;
-
-		case EquipmentManager.HOLSTER:
-			GearChangeFrame.updateSixguns();
-			break;
-		}
+		EquipmentManager.checkFamiliar( slot );
+		GearChangeFrame.updateSlot( slot );
 
 		// Certain items provide additional skills when equipped.
 		// Handle the addition / removal of those skills here.
