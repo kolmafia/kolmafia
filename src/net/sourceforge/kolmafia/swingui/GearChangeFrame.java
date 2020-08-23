@@ -51,6 +51,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.ListModel;
+import javax.swing.SwingUtilities;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -109,22 +110,13 @@ public class GearChangeFrame
 	private JRadioButton[] weaponTypes;
 	private JCheckBox weapon1H;
 	private JRadioButton[] offhandTypes;
+
 	private final EquipmentComboBox[] equipment;
-	private final SortedListModel<AdventureResult> hats = new SortedListModel<>();
-	private final SortedListModel<AdventureResult> shirts = new SortedListModel<>();
-	private final SortedListModel<AdventureResult> containers = new SortedListModel<>();
-	private final SortedListModel<AdventureResult> pants = new SortedListModel<>();
-	private final SortedListModel<AdventureResult> weapons = new SortedListModel<>();
-	private final SortedListModel<AdventureResult> offhands = new SortedListModel<>();
-	private final SortedListModel<AdventureResult> accessories1 = new SortedListModel<>();
-	private final SortedListModel<AdventureResult> accessories2 = new SortedListModel<>();
-	private final SortedListModel<AdventureResult> accessories3 = new SortedListModel<>();
+	private final SortedListModel<AdventureResult>[] equipmentModels;
+
 	private final SortedListModel<FamiliarData> familiars = new SortedListModel<>();
 	private final SortedListModel<FamiliarData> crownFamiliars = new SortedListModel<>();
 	private final SortedListModel<FamiliarData> bjornFamiliars = new SortedListModel<>();
-	private final SortedListModel<AdventureResult> bootskins = new SortedListModel<>();
-	private final SortedListModel<AdventureResult> bootspurs = new SortedListModel<>();
-	private final SortedListModel<AdventureResult> sixguns = new SortedListModel<>();
 
 	private final EquipmentPanel equipmentPanel;
 	private final CustomizablePanel customizablePanel;
@@ -142,49 +134,30 @@ public class GearChangeFrame
 		super( "Gear Changer" );
 
 		this.equipment = new EquipmentComboBox[ EquipmentManager.ALL_SLOTS ];
+		this.equipmentModels = new SortedListModel[ EquipmentManager.ALL_SLOTS ];
 
 		List<AdventureResult> [] lists = EquipmentManager.getEquipmentLists();
-		// We maintain our own lists of valid hats, pants, weapons and offhand items
+
 		for ( int i = 0; i < this.equipment.length; ++i )
 		{
 			LockableListModel<AdventureResult> list;
+
+			// We maintain our own lists for certain slots
 			switch ( i )
 			{
 			case EquipmentManager.HAT:
-				list = this.hats;
-				break;
 			case EquipmentManager.PANTS:
-				list = this.pants;
-				break;
 			case EquipmentManager.SHIRT:
-				list = this.shirts;
-				break;
 			case EquipmentManager.CONTAINER:
-				list = this.containers;
-				break;
 			case EquipmentManager.WEAPON:
-				list = this.weapons;
-				break;
 			case EquipmentManager.OFFHAND:
-				list = this.offhands;
-				break;
 			case EquipmentManager.ACCESSORY1:
-				list = this.accessories1;
-				break;
 			case EquipmentManager.ACCESSORY2:
-				list = this.accessories2;
-				break;
 			case EquipmentManager.ACCESSORY3:
-				list = this.accessories3;
-				break;
 			case EquipmentManager.BOOTSKIN:
-				list = this.bootskins;
-				break;
 			case EquipmentManager.BOOTSPUR:
-				list = this.bootspurs;
-				break;
 			case EquipmentManager.HOLSTER:
-				list = this.sixguns;
+				list = this.equipmentModels[ i ] = new SortedListModel<AdventureResult>();
 				break;
 			default:
 				list = (LockableListModel<AdventureResult>) lists[ i ];
@@ -867,135 +840,20 @@ public class GearChangeFrame
 		GearChangeFrame.INSTANCE.equipmentPanel.hideOrShowElements();
 	}
 
-	public static final void updateHats()
+	public static final void updateSlot( final int slot )
 	{
 		if ( GearChangeFrame.INSTANCE == null )
 		{
 			return;
 		}
 
-		GearChangeFrame.INSTANCE.hats.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.HAT ) );
-
-		GearChangeFrame.INSTANCE.ensureValidSelections();
-	}
-
-	public static final void updatePants()
-	{
-		if ( GearChangeFrame.INSTANCE == null )
+		LockableListModel<AdventureResult> model = GearChangeFrame.INSTANCE.equipmentModels[slot];
+		if ( model == null )
 		{
 			return;
 		}
 
-		GearChangeFrame.INSTANCE.pants.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.PANTS ) );
-
-		GearChangeFrame.INSTANCE.ensureValidSelections();
-	}
-
-	public static final void updateShirts()
-	{
-		if ( GearChangeFrame.INSTANCE == null )
-		{
-			return;
-		}
-
-		GearChangeFrame.INSTANCE.shirts.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.SHIRT ) );
-
-		GearChangeFrame.INSTANCE.ensureValidSelections();
-	}
-
-	public static final void updateContainers()
-	{
-		if ( GearChangeFrame.INSTANCE == null )
-		{
-			return;
-		}
-
-		GearChangeFrame.INSTANCE.containers.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.CONTAINER ) );
-
-		GearChangeFrame.INSTANCE.ensureValidSelections();
-	}
-
-	public static final void updateWeapons()
-	{
-		if ( GearChangeFrame.INSTANCE == null )
-		{
-			return;
-		}
-
-		GearChangeFrame.INSTANCE.weapons.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.WEAPON ) );
-		GearChangeFrame.INSTANCE.offhands.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.OFFHAND ) );
-
-		GearChangeFrame.INSTANCE.ensureValidSelections();
-	}
-
-	public static final void updateAccessories1()
-	{
-		if ( GearChangeFrame.INSTANCE == null )
-		{
-			return;
-		}
-
-		GearChangeFrame.INSTANCE.accessories1.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.ACCESSORY1 ) );
-
-		GearChangeFrame.INSTANCE.ensureValidSelections();
-	}
-
-	public static final void updateAccessories2()
-	{
-		if ( GearChangeFrame.INSTANCE == null )
-		{
-			return;
-		}
-
-		GearChangeFrame.INSTANCE.accessories2.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.ACCESSORY2 ) );
-
-		GearChangeFrame.INSTANCE.ensureValidSelections();
-	}
-
-	public static final void updateAccessories3()
-	{
-		if ( GearChangeFrame.INSTANCE == null )
-		{
-			return;
-		}
-
-		GearChangeFrame.INSTANCE.accessories3.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.ACCESSORY3 ) );
-
-		GearChangeFrame.INSTANCE.ensureValidSelections();
-	}
-
-	public static final void updateBootskins()
-	{
-		if ( GearChangeFrame.INSTANCE == null )
-		{
-			return;
-		}
-
-		GearChangeFrame.INSTANCE.bootskins.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.BOOTSKIN ) );
-
-		GearChangeFrame.INSTANCE.ensureValidSelections();
-	}
-
-	public static final void updateBootspurs()
-	{
-		if ( GearChangeFrame.INSTANCE == null )
-		{
-			return;
-		}
-
-		GearChangeFrame.INSTANCE.bootspurs.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.BOOTSPUR ) );
-
-		GearChangeFrame.INSTANCE.ensureValidSelections();
-	}
-
-	public static final void updateSixguns()
-	{
-		if ( GearChangeFrame.INSTANCE == null )
-		{
-			return;
-		}
-
-		GearChangeFrame.INSTANCE.sixguns.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.HOLSTER ) );
+		model.setSelectedItem( EquipmentManager.getEquipment( slot ) );
 
 		GearChangeFrame.INSTANCE.ensureValidSelections();
 	}
@@ -1012,15 +870,21 @@ public class GearChangeFrame
 		GearChangeFrame.INSTANCE.sticker3Label.setText( "Sticker (" + st3 + "): " );
 	}
 
-	public static final void clearWeaponLists()
+	public static final void clearEquipmentModels()
 	{
 		if ( GearChangeFrame.INSTANCE == null )
 		{
 			return;
 		}
 
-		GearChangeFrame.INSTANCE.weapons.clear();
-		GearChangeFrame.INSTANCE.offhands.clear();
+		for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
+		{
+			LockableListModel<AdventureResult> model = GearChangeFrame.INSTANCE.equipmentModels[ slot ];
+			if ( model != null )
+			{
+				model.clear();
+			}
+		}
 	}
 
 	private class EquipmentComboBox
@@ -1235,131 +1099,45 @@ public class GearChangeFrame
 			return;
 		}
 
-		AdventureResult hatItem = (AdventureResult) this.equipment[ EquipmentManager.HAT ].getSelectedItem();
-		AdventureResult currentHat = EquipmentManager.getEquipment( EquipmentManager.HAT );
-		if ( hatItem == null )
+		// For all the slots that we maintain a custom list, update the model specially
+		for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
 		{
-			hatItem = currentHat;
-		}
-
-		List<AdventureResult> hatItems = this.validHatItems( currentHat );
-		this.updateEquipmentList( this.hats, hatItems, hatItem );
-		this.equipment[ EquipmentManager.HAT ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.HAT ) );
-
-		AdventureResult pantsItem = (AdventureResult) this.equipment[ EquipmentManager.PANTS ].getSelectedItem();
-		AdventureResult currentPants = EquipmentManager.getEquipment( EquipmentManager.PANTS );
-		if ( pantsItem == null )
-		{
-			pantsItem = currentPants;
-		}
-
-		List<AdventureResult> pantsItems = this.validPantsItems( currentPants );
-		this.updateEquipmentList( this.pants, pantsItems, pantsItem );
-		this.equipment[ EquipmentManager.PANTS ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.PANTS ) );
-
-		AdventureResult shirtItem = (AdventureResult) this.equipment[ EquipmentManager.SHIRT ].getSelectedItem();
-		AdventureResult currentShirt = EquipmentManager.getEquipment( EquipmentManager.SHIRT );
-		if ( shirtItem == null )
-		{
-			shirtItem = currentShirt;
-		}
-
-		List<AdventureResult> shirtItems = this.validShirtItems( currentShirt );
-		this.updateEquipmentList( this.shirts, shirtItems, shirtItem );
-		this.equipment[ EquipmentManager.SHIRT ].setEnabled( this.isEnabled && KoLCharacter.isTorsoAware() && !Limitmode.limitSlot( EquipmentManager.SHIRT ) );
-
-		AdventureResult containerItem = (AdventureResult) this.equipment[ EquipmentManager.CONTAINER ].getSelectedItem();
-		AdventureResult currentContainer = EquipmentManager.getEquipment( EquipmentManager.CONTAINER );
-		if ( containerItem == null )
-		{
-			containerItem = currentContainer;
-		}
-
-		List<AdventureResult> containerItems = this.validContainerItems( currentContainer );
-		this.updateEquipmentList( this.containers, containerItems, containerItem );
-		this.equipment[ EquipmentManager.CONTAINER ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.CONTAINER ) );
-
-		AdventureResult weaponItem = (AdventureResult) this.equipment[ EquipmentManager.WEAPON ].getSelectedItem();
-		AdventureResult currentWeapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
-		if ( weaponItem == null )
-		{
-			weaponItem = currentWeapon;
-		}
-
-		List<AdventureResult> weaponItems = this.validWeaponItems( currentWeapon );
-		this.updateEquipmentList( this.weapons, weaponItems, weaponItem );
-		this.equipment[ EquipmentManager.WEAPON ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.WEAPON ) );
-
-		int weaponHands = EquipmentDatabase.getHands( weaponItem.getItemId() );
-
-		if ( KoLCharacter.inFistcore() )
-		{
-			this.equipment[ EquipmentManager.WEAPON ].setEnabled( false );
-			this.equipment[ EquipmentManager.OFFHAND ].setEnabled( false );
-		}
-		else if ( weaponHands > 1 )
-		{
-			// Equipping 2 or more handed weapon: nothing in off-hand
-			this.equipment[ EquipmentManager.OFFHAND ].setSelectedItem( EquipmentRequest.UNEQUIP );
-			this.equipment[ EquipmentManager.OFFHAND ].setEnabled( false );
-		}
-		else
-		{
-			AdventureResult offhandItem = (AdventureResult) this.equipment[ EquipmentManager.OFFHAND ].getSelectedItem();
-			AdventureResult currentOffhand = EquipmentManager.getEquipment( EquipmentManager.OFFHAND );
-			if ( offhandItem == null )
+			LockableListModel<AdventureResult> model = equipmentModels[ slot ];
+			if ( model == null )
 			{
-				offhandItem = currentOffhand;
+				continue;
 			}
+			AdventureResult item = (AdventureResult) this.equipment[ slot ].getSelectedItem();
 
-			if ( EquipmentDatabase.getHands( offhandItem.getItemId() ) > 0 )
+			if ( slot == EquipmentManager.WEAPON || slot == EquipmentManager.OFFHAND )
 			{
-				// Weapon in offhand. Must have compatible
-				// weapon in weapon hand
-				if ( weaponHands == 0 || EquipmentDatabase.getWeaponType( weaponItem.getItemId() ) != EquipmentDatabase.getWeaponType( offhandItem.getItemId() ) )
+				if ( KoLCharacter.inFistcore() )
 				{
-					offhandItem = EquipmentRequest.UNEQUIP;
+					this.equipment[ slot ].setEnabled( false );
+					continue;
 				}
 			}
 
-			List<AdventureResult> offhandItems = this.validOffhandItems( weaponItem, offhandItem );
-			this.updateEquipmentList( this.offhands, offhandItems, offhandItem );
-			this.equipment[ EquipmentManager.OFFHAND ].setEnabled( this.isEnabled );
+			AdventureResult currentItem = EquipmentManager.getEquipment( slot );
+			if ( item == null )
+			{
+				item = currentItem;
+			}
+
+			List<AdventureResult> items = this.validItems( slot, currentItem );
+			this.updateEquipmentList( model, items, item );
+			this.equipment[ slot ].setEnabled( this.isEnabled && !Limitmode.limitSlot( slot ) );
+
+			if ( slot == EquipmentManager.WEAPON )
+			{
+				// Equipping 2 or more handed weapon: nothing in off-hand
+				if ( EquipmentDatabase.getHands( item.getItemId() ) > 1 )
+				{
+					this.equipment[ EquipmentManager.OFFHAND ].setSelectedItem( EquipmentRequest.UNEQUIP );
+					this.equipment[ EquipmentManager.OFFHAND ].setEnabled( false );
+				}
+			}
 		}
-		this.equipment[ EquipmentManager.OFFHAND ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.OFFHAND ) );
-
-		AdventureResult accessory1Item = (AdventureResult) this.equipment[ EquipmentManager.ACCESSORY1 ].getSelectedItem();
-		AdventureResult currentAccessory1 = EquipmentManager.getEquipment( EquipmentManager.ACCESSORY1 );
-		if ( accessory1Item == null )
-		{
-			accessory1Item = currentAccessory1;
-		}
-
-		List<AdventureResult> accessory1Items = this.validAccessoryItems( currentAccessory1 );
-		this.updateEquipmentList( this.accessories1, accessory1Items, accessory1Item );
-		this.equipment[ EquipmentManager.ACCESSORY1 ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.ACCESSORY1 ) );
-
-		AdventureResult accessory2Item = (AdventureResult) this.equipment[ EquipmentManager.ACCESSORY2 ].getSelectedItem();
-		AdventureResult currentAccessory2 = EquipmentManager.getEquipment( EquipmentManager.ACCESSORY2 );
-		if ( accessory2Item == null )
-		{
-			accessory2Item = currentAccessory2;
-		}
-
-		List<AdventureResult> accessory2Items = this.validAccessoryItems( currentAccessory2 );
-		this.updateEquipmentList( this.accessories2, accessory2Items, accessory2Item );
-		this.equipment[ EquipmentManager.ACCESSORY2 ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.ACCESSORY2 ) );
-
-		AdventureResult accessory3Item = (AdventureResult) this.equipment[ EquipmentManager.ACCESSORY3 ].getSelectedItem();
-		AdventureResult currentAccessory3 = EquipmentManager.getEquipment( EquipmentManager.ACCESSORY3 );
-		if ( accessory3Item == null )
-		{
-			accessory3Item = currentAccessory3;
-		}
-
-		List<AdventureResult> accessory3Items = this.validAccessoryItems( currentAccessory3 );
-		this.updateEquipmentList( this.accessories3, accessory3Items, accessory3Item );
-		this.equipment[ EquipmentManager.ACCESSORY3 ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.ACCESSORY3 ) );
 
 		FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
 		FamiliarData selectedFamiliar = (FamiliarData) this.familiars.getSelectedItem();
@@ -1393,38 +1171,63 @@ public class GearChangeFrame
 		this.updateFamiliarList( this.bjornFamiliars, this.carriableFamiliars( currentFamiliar, enthronedFamiliar ), selectedBjornFamiliar );
 		this.equipment[ EquipmentManager.BUDDYBJORN ].setEnabled( this.isEnabled && !Limitmode.limitFamiliars() && !KoLCharacter.inPokefam() );
 
-		AdventureResult bootskinItem = (AdventureResult) this.equipment[ EquipmentManager.BOOTSKIN ].getSelectedItem();
-		AdventureResult currentBootskin = EquipmentManager.getEquipment( EquipmentManager.BOOTSKIN );
-		if ( bootskinItem == null )
-		{
-			bootskinItem = currentBootskin;
-		}
-		List<AdventureResult> bootskinItems = this.validBootskinItems( currentBootskin );
-		this.updateEquipmentList( this.bootskins, bootskinItems, bootskinItem );
-		this.equipment[ EquipmentManager.BOOTSKIN ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.BOOTSKIN ) );
-
-		AdventureResult bootspurItem = (AdventureResult) this.equipment[ EquipmentManager.BOOTSPUR ].getSelectedItem();
-		AdventureResult currentBootspur = EquipmentManager.getEquipment( EquipmentManager.BOOTSPUR );
-		if ( bootspurItem == null )
-		{
-			bootspurItem = currentBootspur;
-		}
-		List<AdventureResult> bootspurItems = this.validBootspurItems( currentBootspur );
-		this.updateEquipmentList( this.bootspurs, bootspurItems, bootspurItem );
-		this.equipment[ EquipmentManager.BOOTSPUR ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.BOOTSPUR ) );
-
-		AdventureResult sixgunItem = (AdventureResult) this.equipment[ EquipmentManager.HOLSTER ].getSelectedItem();
-		AdventureResult currentSixgun = EquipmentManager.getEquipment( EquipmentManager.HOLSTER );
-		if ( sixgunItem == null )
-		{
-			sixgunItem = currentSixgun;
-		}
-		List<AdventureResult> sixgunItems = this.validSixgunItems( currentSixgun );
-		this.updateEquipmentList( this.sixguns, sixgunItems, sixgunItem );
-		this.equipment[ EquipmentManager.HOLSTER ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.HOLSTER ) );
-
 		this.outfitSelect.setEnabled( this.isEnabled && !Limitmode.limitOutfits() );
 		this.customSelect.setEnabled( this.isEnabled && !Limitmode.limitOutfits() );
+	}
+
+	private List<AdventureResult> validItems( final int slot, final AdventureResult currentItem )
+	{
+		List<AdventureResult> items = new ArrayList<>();
+
+		switch ( slot )
+		{
+		case EquipmentManager.HAT:
+			return validHatItems( currentItem );
+		case EquipmentManager.WEAPON:
+			return validWeaponItems( currentItem );
+		case EquipmentManager.OFFHAND:
+			return validOffhandItems( currentOrSelectedItem( EquipmentManager.WEAPON ), currentItem );
+		case EquipmentManager.SHIRT:
+			return validShirtItems( currentItem );
+		case EquipmentManager.CONTAINER:
+			return validContainerItems( currentItem );
+		case EquipmentManager.PANTS:
+			return validPantsItems( currentItem );
+		case EquipmentManager.ACCESSORY1:
+		case EquipmentManager.ACCESSORY2:
+		case EquipmentManager.ACCESSORY3:
+			return validAccessoryItems( currentItem );
+		case EquipmentManager.BOOTSKIN:
+			return validBootskinItems( currentItem );
+		case EquipmentManager.BOOTSPUR:
+			return validBootspurItems( currentItem );
+		case EquipmentManager.HOLSTER:
+			return validSixgunItems( currentItem );
+		}
+
+		// Search inventory for specified equipment type
+		int consumption = EquipmentManager.equipmentTypeToConsumeFilter( slot );
+		for ( AdventureResult item : KoLConstants.inventory )
+		{
+			addItem( items, item, consumption );
+		}
+
+		// Add the current item
+		addItem( items, currentItem, consumption );
+
+		// Add "(none)"
+		if ( !items.contains( EquipmentRequest.UNEQUIP ) )
+		{
+			items.add( EquipmentRequest.UNEQUIP );
+		}
+
+		return items;
+	}
+
+	private AdventureResult currentOrSelectedItem( final int slot )
+	{
+		AdventureResult item = (AdventureResult) this.equipment[ slot ].getSelectedItem();
+		return ( item != null ) ? item : EquipmentManager.getEquipment( slot );
 	}
 
 	private List<AdventureResult> validHatItems( final AdventureResult currentHat )
@@ -1508,11 +1311,11 @@ public class GearChangeFrame
 		// Search inventory for shirts
 		for ( AdventureResult currentItem : KoLConstants.inventory )
 		{
-			addShirts( items, currentItem );
+			addShirt( items, currentItem );
 		}
 
 		// Add the current shirt
-		addShirts( items, currentShirt );
+		addShirt( items, currentShirt );
 
 		// Add "(none)"
 		if ( !items.contains( EquipmentRequest.UNEQUIP ) )
@@ -1523,7 +1326,7 @@ public class GearChangeFrame
 		return items;
 	}
 
-	private void addShirts( final List<AdventureResult> items, final AdventureResult item )
+	private void addShirt( final List<AdventureResult> items, final AdventureResult item )
 	{
 		if ( addItem( items, item, KoLConstants.EQUIP_SHIRT ) )
 		{
@@ -1538,11 +1341,11 @@ public class GearChangeFrame
 		// Search inventory for containers
 		for ( AdventureResult currentItem : KoLConstants.inventory )
 		{
-			addContainers( items, currentItem );
+			addContainer( items, currentItem );
 		}
 
 		// Add the current container
-		addContainers( items, currentContainer );
+		addContainer( items, currentContainer );
 
 		// Add "(none)"
 		if ( !items.contains( EquipmentRequest.UNEQUIP ) )
@@ -1553,7 +1356,7 @@ public class GearChangeFrame
 		return items;
 	}
 
-	private void addContainers( final List<AdventureResult> items, final AdventureResult item )
+	private void addContainer( final List<AdventureResult> items, final AdventureResult item )
 	{
 		if ( addItem( items, item, KoLConstants.EQUIP_CONTAINER ) )
 		{
@@ -1612,59 +1415,6 @@ public class GearChangeFrame
 		}
 	}
 
-	private List<AdventureResult> validAccessoryItems( final AdventureResult currentAccessory )
-	{
-		List<AdventureResult> items = new ArrayList<>();
-
-		// Search inventory for accessories
-		for ( AdventureResult currentItem : KoLConstants.inventory )
-		{
-			addAccessories( items, currentItem );
-		}
-
-		// Add the current accessory
-		addAccessories( items, currentAccessory );
-
-		// Add "(none)"
-		if ( !items.contains( EquipmentRequest.UNEQUIP ) )
-		{
-			items.add( EquipmentRequest.UNEQUIP );
-		}
-
-		return items;
-	}
-
-	private void addAccessories( final List<AdventureResult> items, final AdventureResult item )
-	{
-		if ( addItem( items, item, KoLConstants.EQUIP_ACCESSORY ) )
-		{
-			items.add( item );
-		}
-	}
-
-	private boolean addItem( final List<AdventureResult> items, final AdventureResult item, final int type )
-	{
-		// Only add it once
-		if ( items.contains( item ) )
-		{
-			return false;
-		}
-
-		// Only add items of specified type
-		if ( type != ItemDatabase.getConsumptionType( item.getItemId() ) )
-		{
-			return false;
-		}
-
-		// Make sure we meet requirements in Limitmode, otherwise show (greyed out)
-		if ( KoLCharacter.getLimitmode() != null && !EquipmentManager.canEquip( item.getName() ) )
-		{
-			return false;
-		}
-
-		return true;
-	}
-
 	private boolean filterWeapon( final AdventureResult weapon )
 	{
 		if ( this.weapon1H.isSelected() && EquipmentDatabase.getHands( weapon.getItemId() ) > 1 )
@@ -1687,6 +1437,36 @@ public class GearChangeFrame
 		return false;
 	}
 
+	private List<AdventureResult> validAccessoryItems( final AdventureResult currentAccessory )
+	{
+		List<AdventureResult> items = new ArrayList<>();
+
+		// Search inventory for accessories
+		for ( AdventureResult currentItem : KoLConstants.inventory )
+		{
+			addAccessory( items, currentItem );
+		}
+
+		// Add the current accessory
+		addAccessory( items, currentAccessory );
+
+		// Add "(none)"
+		if ( !items.contains( EquipmentRequest.UNEQUIP ) )
+		{
+			items.add( EquipmentRequest.UNEQUIP );
+		}
+
+		return items;
+	}
+
+	private void addAccessory( final List<AdventureResult> items, final AdventureResult item )
+	{
+		if ( addItem( items, item, KoLConstants.EQUIP_ACCESSORY ) )
+		{
+			items.add( item );
+		}
+	}
+
 	private List<AdventureResult> validOffhandItems( final AdventureResult weapon, final AdventureResult offhandItem )
 	{
 		List<AdventureResult> items = new ArrayList<>();
@@ -1699,8 +1479,7 @@ public class GearChangeFrame
 			return items;
 		}
 
-		// Find all offhand items that are compatible with the selected
-		// weapon.
+		// Find all offhand items that are compatible with the selected weapon.
 
 		// We can have weapons if we can dual wield and there is
 		// one-handed weapon in the main hand
@@ -1733,12 +1512,6 @@ public class GearChangeFrame
 			items.add( offhandItem );
 		}
 
-		// Add anything your Left-Hand Man is wearing unless it is your current familiar
-		FamiliarData leftHand = KoLCharacter.findFamiliar( FamiliarPool.LEFT_HAND );
-		if ( leftHand != null && leftHand != KoLCharacter.getFamiliar() )
-		{
-			items.add( leftHand.getItem() );
-		}
 
 		// Possibly add the current off-hand item
 		AdventureResult currentOffhand = EquipmentManager.getEquipment( EquipmentManager.OFFHAND );
@@ -1819,88 +1592,6 @@ public class GearChangeFrame
 		}
 
 		return false;
-	}
-
-	private List<FamiliarData> validFamiliars( final FamiliarData currentFamiliar )
-	{
-		List<FamiliarData> familiars = new ArrayList<>();
-
-		for ( FamiliarData fam : KoLCharacter.getFamiliarList() )
-		{
-			// Only add it once
-			if ( familiars.contains( fam ) )
-			{
-				continue;
-			}
-
-			if ( filterFamiliar( fam ) )
-			{
-				familiars.add( fam );
-			}
-		}
-
-		// Add the current familiar
-
-		if ( !familiars.contains( currentFamiliar ) &&
-		     filterFamiliar( currentFamiliar ) )
-		{
-			familiars.add( currentFamiliar );
-		}
-
-		// Add "(none)"
-		if ( !familiars.contains( FamiliarData.NO_FAMILIAR ) )
-		{
-			familiars.add( FamiliarData.NO_FAMILIAR );
-		}
-
-		return familiars;
-	}
-
-	private boolean filterFamiliar( final FamiliarData familiar )
-	{
-		return familiar.canEquip();
-	}
-
-	private List<FamiliarData> carriableFamiliars( final FamiliarData exclude1, final FamiliarData exclude2 )
-	{
-		List<FamiliarData> familiars = new ArrayList<>();
-
-		for ( FamiliarData fam : KoLCharacter.getFamiliarList() )
-		{
-			// Cannot carry a familiar if it is current familiar or is carried elsewhere
-			if ( fam == exclude1 || fam == exclude2 )
-			{
-				continue;
-			}
-
-			// Certain familiars cannot be carried
-			if ( !fam.canCarry() )
-			{
-				continue;
-			}
-
-			// Certain familiars can not be equipped in certain paths
-			if ( !fam.canEquip() )
-			{
-				continue;
-			}
-
-			// Only add it once
-			if ( familiars.contains( fam ) )
-			{
-				continue;
-			}
-
-			familiars.add( fam );
-		}
-
-		// Add "(none)"
-		if ( !familiars.contains( FamiliarData.NO_FAMILIAR ) )
-		{
-			familiars.add( FamiliarData.NO_FAMILIAR );
-		}
-
-		return familiars;
 	}
 
 	private List<AdventureResult> validBootskinItems( final AdventureResult currentBootskin )
@@ -1994,12 +1685,158 @@ public class GearChangeFrame
 		}
 	}
 
-	private void updateEquipmentList( final LockableListModel<AdventureResult> currentItems, final List<AdventureResult> newItems, final AdventureResult equippedItem )
+	private boolean addItem( final List<AdventureResult> items, final AdventureResult item )
+	{
+		// Only add it once
+		if ( items.contains( item ) )
+		{
+			return false;
+		}
+
+		// Make sure we meet requirements in Limitmode, otherwise show (greyed out)
+		if ( KoLCharacter.getLimitmode() != null && !EquipmentManager.canEquip( item.getName() ) )
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	private boolean addItem( final List<AdventureResult> items, final AdventureResult item, final int type )
+	{
+		// Only add it once
+		if ( items.contains( item ) )
+		{
+			return false;
+		}
+
+		// Only add items of specified type
+		if ( type != ItemDatabase.getConsumptionType( item.getItemId() ) )
+		{
+			return false;
+		}
+
+		// Make sure we meet requirements in Limitmode, otherwise show (greyed out)
+		if ( KoLCharacter.getLimitmode() != null && !EquipmentManager.canEquip( item.getName() ) )
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	private static void updateEquipmentListInternal( final LockableListModel<AdventureResult> currentItems, final List<AdventureResult> newItems, final AdventureResult equippedItem )
 	{
 		currentItems.retainAll( newItems );
 		newItems.removeAll( currentItems );
 		currentItems.addAll( newItems );
 		currentItems.setSelectedItem( equippedItem );
+	}
+
+	private void updateEquipmentList( final LockableListModel<AdventureResult> currentItems, final List<AdventureResult> newItems, final AdventureResult equippedItem )
+	{
+		if ( SwingUtilities.isEventDispatchThread() )
+		{
+			updateEquipmentListInternal( currentItems, newItems, equippedItem );
+		}
+		else
+		{
+			try
+			{
+				SwingUtilities.invokeAndWait( new Runnable()
+				{
+					public void run()
+					{
+						updateEquipmentListInternal( currentItems, newItems, equippedItem );
+					}
+				} );
+			}
+			catch ( Exception ie )
+			{
+			}
+		}
+	}
+
+	private List<FamiliarData> validFamiliars( final FamiliarData currentFamiliar )
+	{
+		List<FamiliarData> familiars = new ArrayList<>();
+
+		for ( FamiliarData fam : KoLCharacter.getFamiliarList() )
+		{
+			// Only add it once
+			if ( familiars.contains( fam ) )
+			{
+				continue;
+			}
+
+			if ( filterFamiliar( fam ) )
+			{
+				familiars.add( fam );
+			}
+		}
+
+		// Add the current familiar
+
+		if ( !familiars.contains( currentFamiliar ) &&
+		     filterFamiliar( currentFamiliar ) )
+		{
+			familiars.add( currentFamiliar );
+		}
+
+		// Add "(none)"
+		if ( !familiars.contains( FamiliarData.NO_FAMILIAR ) )
+		{
+			familiars.add( FamiliarData.NO_FAMILIAR );
+		}
+
+		return familiars;
+	}
+
+	private boolean filterFamiliar( final FamiliarData familiar )
+	{
+		return familiar.canEquip();
+	}
+
+	private List<FamiliarData> carriableFamiliars( final FamiliarData exclude1, final FamiliarData exclude2 )
+	{
+		List<FamiliarData> familiars = new ArrayList<>();
+
+		for ( FamiliarData fam : KoLCharacter.getFamiliarList() )
+		{
+			// Cannot carry a familiar if it is current familiar or is carried elsewhere
+			if ( fam == exclude1 || fam == exclude2 )
+			{
+				continue;
+			}
+
+			// Certain familiars cannot be carried
+			if ( !fam.canCarry() )
+			{
+				continue;
+			}
+
+			// Certain familiars can not be equipped in certain paths
+			if ( !fam.canEquip() )
+			{
+				continue;
+			}
+
+			// Only add it once
+			if ( familiars.contains( fam ) )
+			{
+				continue;
+			}
+
+			familiars.add( fam );
+		}
+
+		// Add "(none)"
+		if ( !familiars.contains( FamiliarData.NO_FAMILIAR ) )
+		{
+			familiars.add( FamiliarData.NO_FAMILIAR );
+		}
+
+		return familiars;
 	}
 
 	private void updateFamiliarList( final LockableListModel<FamiliarData> currentFamiliars, final List<FamiliarData> newFamiliars, final FamiliarData activeFamiliar )
