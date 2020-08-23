@@ -318,10 +318,9 @@ public class EquipmentManager
 			if ( equipmentType != -1 )
 			{
 				AdventureResult.addResultToList( EquipmentManager.equipmentLists[ equipmentType ], item );
+				EquipmentManager.checkFamiliar( equipmentType );
+				GearChangeFrame.updateSlot( equipmentType );
 			}
-
-			EquipmentManager.checkFamiliar( equipmentType );
-			GearChangeFrame.updateSlot( equipmentType );
 		}
 
 		if ( EquipmentDatabase.getOutfitWithItem( item.getItemId() ) != -1 )
