@@ -1695,7 +1695,7 @@ public class RequestEditorKit
 			}
 		}
 
-		String bounty = BountyDatabase.getNameByMonster( MonsterDatabase.findMonster( monsterName ).getName() );
+		String bounty = BountyDatabase.getNameByMonster( monsterName );
 		if ( bounty != null )
 		{
 			monsterData.append( items.isEmpty() ? "<br />Drops: " : ", " );

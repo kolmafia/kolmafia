@@ -1271,6 +1271,28 @@ Bowser	2172	bowser.gif	NOCOPY BOSS Atk: 300 Def: 300 HP: 400 Init: 50 P: beast
 Bowser	2173	bowser.gif	NOCOPY BOSS Atk: 300 Def: 300 HP: 400 Init: 50 P: beast
 Wa%playername/lowercase%	2174	waplayer.gif	NOCOPY BOSS Atk: 300 Def: 300 HP: 1000 Init: 10000 P: dude	red coin (n100)
 
+# Grey Goo
+
+a massive prism of grey goo	2193	goo_prism.gif	Atk: 10 Def: 10 HP: 1000 Init: -10000 P: construct
+goo bone	2194	goo_bone1.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+goo clown	2188	goo_clown1.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+goo grid	2195	goo_grid1.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+goo-covered beanstalk segment	2191	goo_stalk1.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+goog	2192	goog1.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: construct
+grey goo bat	2190	goo_bat1.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+grey goo cross	2182	goo_plus.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+grey goo heart	2183	goo_heart.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+grey goo hexagon	2180	goo_hexagon.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+grey goo hourglass	2184	goo_hourglass.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+grey goo octagon	2185	goo_octagon.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+grey goo orb	2177	goo_orb.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+grey goo square	2181	goo_bigsquare.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+grey goo squiggle	2186	goo_s.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+grey goo star	2187	goo_star.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+grey goo torus	2178	goo_torus.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+grey goo triangle	2179	goo_triangle.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+grey gooblin	2189	goo_blin1.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+
 # Glitch Season
 %monster%	2140	nopic.gif	NOCOPY Atk: [pref(glitchItemImplementationCount)*5+1] Def: [pref(glitchItemImplementationCount)*5] HP: [pref(glitchItemImplementationCount)*5+1] Init: 1 P: construct
 

@@ -2539,6 +2539,7 @@ Iiti Kitty phone charm	165	Mys: 67
 imitation nice watch	100	Mys: 35
 imp unity ring	45	Mys: 15
 incredibly dense meat gem	200	none
+inert grey goo ring	0	none
 infernal insoles	60	Mys: 15
 inflatable duck	10	none
 intergalactic pom poms	0	none
