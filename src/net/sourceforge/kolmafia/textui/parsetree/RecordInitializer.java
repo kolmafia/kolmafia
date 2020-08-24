@@ -53,6 +53,7 @@ public class RecordInitializer
 	public Value execute( final Interpreter interpreter )
 	{
 		RecordType type = (RecordType) this.type;
+		Type [] types = type.getFieldTypes();
 		RecordValue record = (RecordValue) type.initialValue();
 		Value[] content = (Value []) record.rawValue();
 
@@ -85,12 +86,25 @@ public class RecordInitializer
 				return null;
 			}
 
+			// Perform type coercion, just as an Assignment does
+			Type fieldType = types[ fieldCount ];
+			Value coercedValue =
+				fieldType.equals( DataTypes.TYPE_STRING ) ?
+				value.toStringValue() :
+				fieldType.equals( DataTypes.TYPE_INT ) ?
+				value.toIntValue() :
+				fieldType.equals( DataTypes.TYPE_FLOAT ) ?
+				value.toFloatValue() :
+				fieldType.equals( DataTypes.TYPE_BOOLEAN ) ?
+				value.toBooleanValue() :
+				value;
+
 			if ( Interpreter.isTracing() )
 			{
-				interpreter.trace( "[" + interpreter.getState() + "] <- " + value.toQuotedString() );
+				interpreter.trace( "[" + interpreter.getState() + "] <- " + coercedValue.toQuotedString() );
 			}
 
-			content[ fieldCount ] = value;
+			content[ fieldCount ] = coercedValue;
 			fieldCount++;
 		}
 
