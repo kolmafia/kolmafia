@@ -1049,6 +1049,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "shop_amount", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "shop_limit", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "stash_amount", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
@@ -5168,11 +5171,11 @@ public abstract class RuntimeLibrary
 		return new Value( item.getCount( KoLConstants.collection ) );
 	}
 
-	public static Value shop_amount( Interpreter interpreter, final Value arg )
+	private static SoldItem getSoldItem( int itemId )
 	{
 		if ( !KoLCharacter.hasStore() )
 		{
-			return DataTypes.ZERO_VALUE;
+			return null;
 		}
 
 		if ( !StoreManager.soldItemsRetrieved )
@@ -5180,17 +5183,40 @@ public abstract class RuntimeLibrary
 			RequestThread.postRequest( new ManageStoreRequest() );
 		}
 
-		SoldItem item = new SoldItem( (int) arg.intValue(), 0, 0, 0, 0 );
+		SoldItem item = new SoldItem( itemId, 0, 0, 0, 0 );
 
 		List<SoldItem> list = StoreManager.getSoldItemList();
 		int index = list.indexOf( item );
 		if ( index < 0 )
 		{
+			return null;
+		}
+
+		return list.get( index );
+	}
+
+	public static Value shop_amount( Interpreter interpreter, final Value arg )
+	{
+		SoldItem item = getSoldItem( (int) arg.intValue() );
+
+		if ( item == null )
+		{
 			return DataTypes.ZERO_VALUE;
 		}
 
-		item = list.get( index );
 		return new Value( item.getQuantity() );
+	}
+
+	public static Value shop_limit( Interpreter interpreter, final Value arg )
+	{
+		SoldItem item = getSoldItem( (int) arg.intValue() );
+
+		if ( item == null )
+		{
+			return DataTypes.ZERO_VALUE;
+		}
+
+		return new Value( item.getLimit() );		
 	}
 
 	public static Value stash_amount( Interpreter interpreter, final Value arg )
