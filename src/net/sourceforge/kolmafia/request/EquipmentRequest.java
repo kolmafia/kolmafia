@@ -1556,10 +1556,6 @@ public class EquipmentRequest
 			{
 				switch ( i )
 				{
-				case EquipmentManager.FAMILIAR:
-					// Omit familiar items, since inventory
-					// is handled by familiar.setItem()
-					continue;
 				case EquipmentManager.HOLSTER:
 					// No inventory swapping for holstered sixguns
 					continue;
@@ -1587,8 +1583,14 @@ public class EquipmentRequest
 		switch ( type )
 		{
 		case EquipmentManager.FAMILIAR:
-			// Inventory is handled by familiar.setItem()
+		{
+			FamiliarData familiar = KoLCharacter.getFamiliar();
+			if ( familiar != FamiliarData.NO_FAMILIAR )
+			{
+				familiar.setItem( newItem );
+			}
 			break;
+		}
 
 		case EquipmentManager.HOLSTER:
 			// Does not change inventory

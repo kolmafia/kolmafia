@@ -847,6 +847,11 @@ public class GearChangeFrame
 			return;
 		}
 
+		if ( slot < 0 || slot >= EquipmentManager.ALL_SLOTS )
+		{
+			return;
+		}
+
 		LockableListModel<AdventureResult> model = GearChangeFrame.INSTANCE.equipmentModels[slot];
 		if ( model == null )
 		{

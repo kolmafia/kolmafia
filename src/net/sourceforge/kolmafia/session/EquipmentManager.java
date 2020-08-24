@@ -318,7 +318,6 @@ public class EquipmentManager
 			if ( equipmentType != -1 )
 			{
 				AdventureResult.addResultToList( EquipmentManager.equipmentLists[ equipmentType ], item );
-				EquipmentManager.checkFamiliar( equipmentType );
 				GearChangeFrame.updateSlot( equipmentType );
 			}
 		}
