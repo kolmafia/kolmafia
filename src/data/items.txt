@@ -10626,3 +10626,5 @@
 10598	wormwood wedding ring	189727155	wormwoodring.gif	accessory		0
 10599	Dripwood slab	429328231	dripwood.gif	none	t	0
 10600	drippy diadem	516307518	dripdiadem.gif	hat		0
+10601	Thwaitgold slug statuette	655416395	thwaitslug.gif	none		0
+10602	inert grey goo ring	613175985	greygooring.gif	accessory	t	0

@@ -765,6 +765,13 @@ public class PlaceRequest
 				message = "Visiting a Science Tent";
 			}
 		}
+		else if ( place.equals( "greygoo" ) )
+		{
+			if ( action.equals( "goo_prism" ) )
+			{
+				message = "Visiting a Prism of Goo";
+			}
+		}
 		else if ( place.equals( "highlands" ) )
 		{
 			if ( action.equals( "highlands_dude" ) )
