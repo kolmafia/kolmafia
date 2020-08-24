@@ -841,7 +841,7 @@ public class CompactSidePane
 		}
 		else
 		{
-			this.roninLabel.setText( "(Ronin for " + ( 1000 - KoLCharacter.getCurrentRun() ) + ")" );
+			this.roninLabel.setText( "(Ronin for " + KoLCharacter.roninLeft() + ")" );
 		}
 
 		if ( limitmode != Limitmode.SPELUNKY )

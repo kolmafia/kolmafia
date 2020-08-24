@@ -3826,6 +3826,16 @@ public abstract class KoLCharacter
 		return KoLCharacter.inRonin;
 	}
 
+	public static int initialRonin()
+	{
+		return KoLCharacter.inGoocore() ? 10000 : 1000;
+	}
+
+	public static int roninLeft()
+	{
+		return KoLCharacter.inRonin ? ( KoLCharacter.initialRonin() - KoLCharacter.getCurrentRun() ) : 0;
+	}
+
 	public static final void setSkillsRecalled( final boolean skillsRecalled )
 	{
 		if ( KoLCharacter.skillsRecalled != skillsRecalled )
@@ -4193,6 +4203,11 @@ public abstract class KoLCharacter
 	public static final boolean isLowkey()
 	{
 		return KoLCharacter.ascensionPath == Path.LOWKEY;
+	}
+
+	public static final boolean inGoocore()
+	{
+		return KoLCharacter.ascensionPath == Path.GREY_GOO;
 	}
 
 	public static final boolean isUnarmed()

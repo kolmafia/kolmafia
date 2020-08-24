@@ -770,6 +770,7 @@ public class PlaceRequest
 			if ( action.equals( "goo_prism" ) )
 			{
 				message = "Visiting a Prism of Goo";
+				turns = true;
 			}
 		}
 		else if ( place.equals( "highlands" ) )
