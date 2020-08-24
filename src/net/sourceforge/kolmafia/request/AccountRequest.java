@@ -493,9 +493,10 @@ public class AccountRequest
 			if ( location.contains( "unhardcoreconfirm=1" ) )
 			{
 				// Dropping Hardcore
+				boolean inRonin = KoLCharacter.roninLeft() > 0;
 				KoLCharacter.setHardcore( false );
-				KoLCharacter.setRonin( KoLCharacter.getCurrentRun() < 1000 );
-				CharPaneRequest.setInteraction( KoLCharacter.getCurrentRun() >= 1000 );
+				KoLCharacter.setRonin( inRonin  );
+				CharPaneRequest.setInteraction( !inRonin );
 				RequestLogger.updateSessionLog();
 				RequestLogger.updateSessionLog( "Dropped Hardcore. Wimp." );
 				RequestLogger.updateSessionLog();
