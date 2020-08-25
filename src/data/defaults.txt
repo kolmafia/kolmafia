@@ -1166,6 +1166,7 @@ user	semirareLocation
 user	serverAddsCustomCombat	false
 user	sexChanges	0
 user	SHAWARMAInitiativeUnlocked	false
+user	shenInitiationDay	0
 user	shenQuestItem	
 user	showGainsPerUnit	false
 user	showIgnoringStorePrices	false
