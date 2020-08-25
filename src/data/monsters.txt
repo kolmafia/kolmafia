@@ -1274,12 +1274,12 @@ Wa%playername/lowercase%	2174	waplayer.gif	NOCOPY BOSS Atk: 300 Def: 300 HP: 100
 # Grey Goo
 
 a massive prism of grey goo	2193	goo_prism.gif	Atk: 10 Def: 10 HP: 1000 Init: -10000 P: construct
-goo bone	2194	goo_bone1.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
-goo clown	2188	goo_clown1.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
-goo grid	2195	goo_grid1.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
-goo-covered beanstalk segment	2191	goo_stalk1.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
-goog	2192	goog1.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: construct
-grey goo bat	2190	goo_bat1.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+goo bone	2194	goo_bone1.gif,goo_bone2.gif,goo_bone3.gif,goo_bone4.gif,goo_bone5.gif,goo_bone6.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+goo clown	2188	goo_clown1.gif,goo_clown2.gif,goo_clown3.gif,goo_clown4.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+goo grid	2195	goo_grid1.gif,goo_grid2.gif,goo_grid3.gif,goo_grid4.gif,goo_grid5.gif,goo_grid6.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+goo-covered beanstalk segment	2191	goo_stalk1.gif,goo_stalk2.gif,goo_stalk3.gif,goo_stalk4.gif,goo_stalk5.gif,goo_stalk6.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+goog	2192	goog1.gif,goog2.gif,goog3.gif,goog4.gif,goog5.gif,goog6.gif,goog7.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: construct
+grey goo bat	2190	goo_bat1.gif,goo_bat2.gif,goo_bat3.gif,goo_bat4.gif,goo_bat5.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
 grey goo cross	2182	goo_plus.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
 grey goo heart	2183	goo_heart.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
 grey goo hexagon	2180	goo_hexagon.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
@@ -1291,7 +1291,7 @@ grey goo squiggle	2186	goo_s.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
 grey goo star	2187	goo_star.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
 grey goo torus	2178	goo_torus.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
 grey goo triangle	2179	goo_triangle.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
-grey gooblin	2189	goo_blin1.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+grey gooblin	2189	goo_blin1.gif,goo_blin2.gif,goo_blin3.gif,goo_blin4.gif,goo_blin5.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
 
 # Glitch Season
 %monster%	2140	nopic.gif	NOCOPY Atk: [pref(glitchItemImplementationCount)*5+1] Def: [pref(glitchItemImplementationCount)*5] HP: [pref(glitchItemImplementationCount)*5+1] Init: 1 P: construct
