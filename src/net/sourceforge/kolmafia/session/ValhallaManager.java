@@ -549,6 +549,7 @@ public class ValhallaManager
 		Preferences.setInteger( "aminoAcidsUsed", 0 );
 		Preferences.setString( "cyrusAdjectives", "" );
 		Preferences.setString( "copperheadClubHazard", "none" );
+		Preferences.setInteger( "shenInitiationDay", 0 );
 		Preferences.setInteger( "dripAdventuresSinceAscension", 0 );
 		Preferences.setInteger( "drippingHallAdventuresSinceAscension", 0 );
 		Preferences.setInteger( "drippingTreesAdventuresSinceAscension", 0 );

@@ -9193,6 +9193,7 @@ public abstract class ChoiceManager
 		case 851:
 			// Shen Copperhead, Nightclub Owner
 			QuestDatabase.setQuestProgress( Quest.SHEN, "step1" );
+			Preferences.setInteger( "shenInitiationDay", KoLCharacter.getCurrentDays() );
 			if ( Preferences.getString( "shenQuestItem" ) == "" )
 			{
 				// We didn't recognise quest text before accepting quest, so get it from quest log
