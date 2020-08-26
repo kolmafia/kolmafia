@@ -10628,3 +10628,4 @@
 10600	drippy diadem	516307518	dripdiadem.gif	hat		0
 10601	Thwaitgold slug statuette	655416395	thwaitslug.gif	none		0
 10602	inert grey goo ring	613175985	greygooring.gif	accessory	t	0
+10603	fistful of wood shavings	725899167	scpowder.gif	none, combat	t,d	5

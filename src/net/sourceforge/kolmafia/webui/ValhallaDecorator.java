@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.session.BanishManager;
@@ -181,6 +182,12 @@ public class ValhallaDecorator
 			}
 
 			if ( !SkillDatabase.isPermable( skillId ) )
+			{
+				continue;
+			}
+
+			// You can ascend in Goocore without breaking Ronin
+			if ( !StandardRequest.isNotRestricted( "Skills", skillName ) )
 			{
 				continue;
 			}
