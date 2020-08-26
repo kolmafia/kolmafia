@@ -10518,6 +10518,7 @@ Item	figurine of an armored seal	Class: "Seal Clubber"
 # fish-oil smoke bomb: Lets you escape from combat without spending an Adventure
 Item	fishy pipe	Effect: "Fishy", Effect Duration: 10
 Item	fist turkey outline	Free Pull
+# fistful of wood shavings: Stops Enemy From Attacking and Weakens it Very Slightly
 # fizzing spore pod: Deals 20-40 physical damage
 # flaming feather: Deals 80-120 <font color=red>Hot Damage</font>
 # flaregun: Deals Various Kinds of Naval Damage
