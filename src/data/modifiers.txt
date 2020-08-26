@@ -10158,6 +10158,7 @@ Item	beautiful rainbow	Skill: "Belch The Rainbow"
 # beer bomb: Deals 55-75 Physical Damage
 # beer-scented teddy bear: Restores 15-20 MP
 Item	Benetton's Medley of Diversity	Skill: "Benetton's Medley of Diversity"
+Item	Better Shrooms and Gardens catalog	Free Pull
 Item	Biddy Cracker's Old-Fashioned Cookbook	Skill: "Eggsplosion"
 # big boom: Deals 80-120 Physical Damage
 # big glob of skin: Restores half of your missing Hit Points
