@@ -3126,6 +3126,14 @@ public class Modifiers
 			if ( KoLCharacter.hasSkill( skill ) )
 			{
 				String name = skill.getSkillName();
+
+				// G-Lover shows passives on the char sheet,
+				// even though they are ineffective.
+				if ( KoLCharacter.inGLover() && !KoLCharacter.hasGs( name ) )
+				{
+					continue;
+				}
+
 				this.add( Modifiers.getModifiers( "Skill", name ) );
 			}
 		}
