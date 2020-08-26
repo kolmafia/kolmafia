@@ -144,7 +144,6 @@ import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 
 public abstract class KoLCharacter
 {
-	private static final Pattern B_PATTERN = Pattern.compile( "[Bb]" );
 	private static final String NONE = "None";
 
 	// Classes
@@ -317,6 +316,9 @@ public abstract class KoLCharacter
 	public static final int MALE = -1;
 	public static final int FEMALE = 1;
 
+	// Create this early before subsequent initializers want to look at it.
+	private static final Modifiers currentModifiers = new Modifiers();
+
 	// Things that cannot be changed
 
 	private static String username = "";
@@ -472,8 +474,6 @@ public abstract class KoLCharacter
 
 	// Status pane data which is rendered whenever
 	// the user changes equipment, effects, and familiar
-
-	private static final Modifiers currentModifiers = new Modifiers();
 
 	public static final void reset( final String newUserName )
 	{
@@ -3016,6 +3016,7 @@ public abstract class KoLCharacter
 		return bees;
 	}
 
+	private static final Pattern B_PATTERN = Pattern.compile( "[Bb]" );
 	public static final int getBeeosity( String name )
 	{
 		int bees = 0;
