@@ -740,7 +740,7 @@ The Clownlord Beelzebozo	569	beelzebozo.gif	NOCOPY BOSS Atk: 27 Def: 27 HP: 40 I
 the darkness (blind)	0	darkness.gif	NOMANUEL
 the former owner of the Skeleton Store	1755	skelmanager.gif	Atk: 5 Def: 5 HP: 8 Init: -10000 E: spooky P: undead	check to the Meatsmith (c100)	invisibility cream (c0)
 The Frattlesnake	1515	snakeboss2.gif	Atk: 160 Def: 160 HP: 175 P: beast SNAKE E: sleaze Init: 50	The Lacrosse Stick of Lacoronado (n100)
-the ghost of Phil Bunion	1352	bunionghost.gif	Atk: 72 Def: 68 HP: 60 Init: 40 Phys: 100 P: undead E: spooky Meat: 35 GHOST	spectral axe (0)	Phil Bunion's axe (c0)
+the ghost of Phil Bunion	1352	bunionghost.gif	Atk: 72 Def: 68 HP: 60 Init: 40 Phys: 100 P: undead E: spooky Meat: 30 GHOST	spectral axe (c100)	Phil Bunion's axe (c100)
 the gunk	1548	thegunk.gif	Atk: 81 Def: 81 HP: 80 Init: -10000 Meat: 50 P: slime	gunky chicken (0)	the funk (0)	half-melted spoon (0)
 The Man	555	theman.gif	NOCOPY BOSS Atk: 250 Def: 225 HP: 2000 Init: 60 ED: sleaze P: dude	really dense meat stack (100)
 The Mariachi With No Name	706	darkmariachi.gif	WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 Meat: 50 P: dude	secret tropical island volcano lair map (100)	The Mariachi's guitar case (100)	stray chihuahua (100)
