@@ -239,6 +239,12 @@ public class DwarfFactoryRequest
 	{
 		KoLCharacter.ensureUpdatedDwarfFactory();
 
+		// KoL will not give us an item if it thinks we are overdrunk
+		if ( itemId == -1 )
+		{
+			return;
+		}
+
 		// If we are looking at runes for ore or equipment and we know
 		// the complete list of ore runes or equipment runes because
 		// we've looked at an office item, we can eliminate runes not
