@@ -99,11 +99,11 @@ public class AreaCombatData
 	public AreaCombatData( String zone, final int combats )
 	{
 		this.zone = zone;
-		this.monsters = new ArrayList<MonsterData>();
-		this.superlikelyMonsters = new ArrayList<MonsterData>();
-		this.baseWeightings = new ArrayList<Integer>();
-		this.currentWeightings = new ArrayList<Integer>();
-		this.rejection = new ArrayList<Integer>();
+		this.monsters = new ArrayList<>();
+		this.superlikelyMonsters = new ArrayList<>();
+		this.baseWeightings = new ArrayList<>();
+		this.currentWeightings = new ArrayList<>();
+		this.rejection = new ArrayList<>();
 		this.combats = combats;
 		this.weights = 0.0;
 		this.minHit = Integer.MAX_VALUE;
@@ -150,6 +150,13 @@ public class AreaCombatData
 				KoLCharacter.getFamiliar().getId() == FamiliarPool.NOSY_NOSE )
 			{
 				currentWeighting += baseWeighting;
+			}
+			// If Red Snapper tracks its phylum, and is current familiar, add two to encounter pool
+			String monsterPhylum = monster.getPhylum().toString();
+			if ( Preferences.getString( "redSnapperPhylum" ).equals( monsterPhylum ) &&
+				KoLCharacter.getFamiliar().getId() == FamiliarPool.RED_SNAPPER )
+			{
+				currentWeighting += 2 * baseWeighting;
 			}
 			// If Gallapagosian Mating Call used, add one to encounter pool
 			if ( Preferences.getString( "_gallapagosMonster" ).equals( monsterName ) )
