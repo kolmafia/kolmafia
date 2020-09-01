@@ -92,6 +92,7 @@ public class SwaggerShopRequest
 		SAFARI( "safari", ItemPool.GUIDE_TO_SAFARI, "guideToSafari" ),
 		GLITCH( "glitch", ItemPool.GLITCH_ITEM, "glitchItem" ),
 		AVERAGE( "average", ItemPool.LAW_OF_AVERAGES, "lawOfAverages" ),
+		SEASONING( "Seasoning", ItemPool.UNIVERSAL_SEASONING, "universalSeasoning" ),
 		// Pseudo-season to handle Essence of Annoyance
 		NONE( "none", ItemPool.ESSENCE_OF_ANNOYANCE, "essenceOfAnnoyance" );
 			
@@ -263,8 +264,9 @@ public class SwaggerShopRequest
 	// You've earned 349 swagger during a safari season!
 	// You've earned -61 swagger during a glitch season!
 	// You've earned -0 swagger during an average season.
+	// You've earned 600 swagger during a Seasoning!
 
-	private static final Pattern SEASON_PATTERN = Pattern.compile( "You've earned -?([\\d,]+) swagger during (?:a |an |)(pirate|holiday|ice|drunken|bear|numeric|optimal|school|safari|glitch|average) season" );
+	private static final Pattern SEASON_PATTERN = Pattern.compile( "You've earned -?([\\d,]+) swagger during (?:a |an |)(pirate|holiday|ice|drunken|bear|numeric|optimal|school|safari|glitch|average|Seasoning)(?: season)?" );
 
 	// <tr><td><img style='vertical-align: middle' class=hand src='http://images.kingdomofloathing.com/itemimages/radio.gif' onclick='descitem(475026869)'></td><td valign=center><b><span onclick='descitem(475026869)'>Huggler Radio<span>&nbsp;&nbsp;&nbsp;&nbsp;</b></td><td><form style="padding:0;margin:0;"><input type="hidden" name="action" value="buy" /><input type="hidden" name="place" value="shop" /><input type="hidden" name="pwd" value="0c6efe5fe0c70235b340073785255041" /><input type="hidden" name="whichitem" value="5656" /><input type="submit" class="button" value="Buy (50 swagger)" /></form></td></tr>
 

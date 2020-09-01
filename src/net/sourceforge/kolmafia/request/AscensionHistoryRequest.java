@@ -942,6 +942,7 @@ public class AscensionHistoryRequest
 					columns[ 8 ].contains( "puff" ) ? AscensionSnapshot.KINGDOM_OF_EXPLOATHING :
 					columns[ 8 ].contains( "mario_mushroom1" ) ? AscensionSnapshot.PATH_OF_THE_PLUMBER :
 					columns[ 8 ].contains( "littlelock" ) ? AscensionSnapshot.LOWKEY :
+					columns[ 8 ].contains( "greygooball" ) ? AscensionSnapshot.GREY_GOO :
 					AscensionSnapshot.NOPATH;
 			}
 			catch ( Exception e )

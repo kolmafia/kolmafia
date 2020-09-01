@@ -3259,6 +3259,7 @@ public class ItemPool
 	public static final int WORMWOOD_WEDDING_RING = 10598;
 	public static final int DRIPWOOD_SLAB = 10599;
 	public static final int DRIPPY_DIADEM = 10600;
+	public static final int UNIVERSAL_SEASONING = 10640;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
