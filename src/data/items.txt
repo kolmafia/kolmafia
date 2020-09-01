@@ -10629,3 +10629,40 @@
 10601	Thwaitgold slug statuette	655416395	thwaitslug.gif	none		0
 10602	inert grey goo ring	613175985	greygooring.gif	accessory	t	0
 10603	fistful of wood shavings	725899167	scpowder.gif	none, combat	t,d	5	fistsful of wood shavings
+10604
+10605
+10606
+10607
+10608
+10609
+10610
+10611
+10612
+10613
+10614
+10615
+10616
+10617
+10618
+10619
+10620
+10621
+10622
+10623
+10624
+10625
+10626
+10627
+10628
+10629
+10630
+10631
+10632
+10633
+10634
+10635
+10636
+10637
+10638
+10639
+10640	Universal Seasoning	607903571	spice.gif	usable		0
