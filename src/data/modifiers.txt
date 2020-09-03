@@ -288,7 +288,7 @@ Item	irate sombrero	Weapon Damage: +3, Familiar Effect: "1xPotato, 3xLep, cap 11
 Item	iron helmet	Cold Resistance: +2, MP Regen Min: 1, MP Regen Max: 2, Initiative: +10, Familiar Effect: "atk, 1xFairy, cap 25"
 Item	ironic knit cap	Maximum MP: +20, Mysticality: +1, Familiar Effect: "1xVolley, 2xPotato, cap 10"
 Item	isotophat	Stench Damage: +10, Stench Spell Damage: +20, Familiar Effect: "stench atk, cap 25"
-# Item Iunion Crown: Becomes more powerful as you adventure each day
+# Iunion Crown: Becomes more powerful as you adventure each day
 Item	Iunion Crown	Muscle: +10, Mysticality: +10, Moxie: +10, Item Drop: +10, Initiative: +10
 Item	Jarlsberg's hat	Mysticality: +5, MP Regen Min: 4, MP Regen Max: 5, Experience (Mysticality): +1
 # jewel-eyed wizard hat: Regenerate MP Based on Level
@@ -587,7 +587,7 @@ Item	burning paper jorts	Sleaze Resistance: +3, Maximum HP: +25, Maximum MP: +25
 Item	burnt snowpants	Cold Resistance: +2, Hot Damage: +10, Familiar Effect: "1.5xPotato, cap 25"
 Item	Can-Can skirt	Muscle Percent: +10, Familiar Effect: "1.5xFairy, 2xPotato, cap 22"
 Item	cane-mail pants	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 1, HP Regen Max: 4, MP Regen Min: 1, MP Regen Max: 4, PvP Fights: +3, Familiar Effect: "atk, 2xBarrr, cap 25"
-# Item Cargo Cultist Shorts: 666 Pockets to Explore
+# Cargo Cultist Shorts: 666 Pockets to Explore
 Item	Cargo Cultist Shorts	Muscle: +6, Mysticality: +6, Moxie: +6, Monster Level: +6, Initiative: +66, Food Drop: +66, Maximum HP Percent: +66, Maximum MP Percent: +66, Free Pull
 Item	Cerebral Culottes	Mysticality: +10, Familiar Effect: "3xBarrr, 1xGhoul, cap 22"
 Item	chain-mail monokini	Familiar Effect: "sleaze atk, 4xBarrr, cap 7"
@@ -2995,7 +2995,7 @@ Item	Iiti Kitty phone charm	Spooky Damage: +15, Single Equip
 Item	imitation nice watch	Adventures: +3, Single Equip, Nonstackable Watch
 Item	imp unity ring	Hot Damage: +5, Hot Spell Damage: +5
 Item	incredibly dense meat gem	Meat Drop: +60, Moxie: +5, Maximum MP: +10
-# Item inert grey goo ring: Definitely Safe
+# inert grey goo ring: Definitely Safe
 Item	inert grey goo ring	Maximum HP: +10, Maximum MP: +10
 Item	infernal insoles	Hot Resistance: +1, Initiative: +10
 # inflatable duck
@@ -6693,6 +6693,7 @@ Effect	Shrieking Weasel	Monster Level: +30
 Effect	Shrimpin' Ain't Easy	Familiar Weight: +5
 # Side Affectation: Extra-Vulnerable to Hot and Stench
 Effect	Side Affectation	Spooky Resistance: +2, Hot Vulnerability, Stench Vulnerability
+Effect	Sigils of Yeg	Spell Damage Percent: +200
 Effect	Silence of the God Lobster	Combat Rate: -5
 # Silent Hunting: You do not gain Fury
 Effect	Silent Hunting	Initiative: +100
@@ -9839,6 +9840,8 @@ Item	yellow candy heart	Effect: "Heart of Yellow", Effect Duration: 10
 Item	yellow pixel potion	Effect: "WAKKA WAKKA WAKKA", Effect Duration: 20
 Item	yellow seashell	Effect: "Boisterous Oysterous", Effect Duration: 20
 Item	yellow snowcone	Effect: "Yellow Tongue", Effect Duration: 20
+Item	Yeg's Motel hand soap	Effect: "Sigils of Yeg", Effect Duration: 20
+Item	Yeg's Motel mouthwash	Effect: "Breath of Yeg", Effect Duration: 20
 Item	Yolo&trade; chocolates	Effect: "Yoloswagyoloswag", Effect Duration: 5
 Item	Yummy Tummy bean	Effect: "Sugar Rush", Effect Duration: 3
 
@@ -11511,6 +11514,7 @@ Item	yellow puck with a bow on it	Free Pull
 # yellowcake bomb: Vaporizes an enemy and causes all of its items to drop
 # yo: Deals 15-20 Physical Damage
 # yo-yo: Deals 30-40 Physical Damage
+# Yeg's Motel sewing kit: Restores all HP
 # your own black heart: Restores all HP and MP
 Item	yuletide troll chrysalis	Free Pull
 # Zombo's empty eye: Deals 150-200 <font color=gray>Spooky Damage</font>
