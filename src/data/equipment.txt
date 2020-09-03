@@ -456,6 +456,7 @@ burning paper jorts	100	none
 burnt snowpants	100	Mox: 10
 Can-Can skirt	90	Mox: 15
 cane-mail pants	100	none
+Cargo Cultist Shorts	100	none
 Cerebral Culottes	90	Mox: 30
 chain-mail monokini	30	none
 chalk chinos	50	none
