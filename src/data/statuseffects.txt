@@ -2333,8 +2333,8 @@
 2331	Noise Cancelled	echo.gif	b801fb016e420c27d463841cc9825ea0	bad	none	eat either 1 shushed potatoes, 1 muffled muffuletta, 1 hushed puppy
 2332	Old Time Hydration	glassofwater.gif	61ac2e8fef83b9aae67b1c45184a964d	good	none	eat 1 temperance whiskey
 2333	Slightly Cursed, Mostly Lucky	wishbone.gif	744905696229e8ac6521ad39fa8f9ee8	good	none	use 1 cursed wishbone
-2334
-2335
+2334	All Branned Up	earthmuffin2.gif	334411c8acc75203f0e0732f45449def	neutral	none	eat 1 bran muffin
+2335	All Blued Up	earthmuffin3.gif	26970f0f61804a65dcda1784f794c141	neutral	none	eat 1 blueberry muffin
 2336	Silent Hunting	silenthunter.gif	0efb8c6d453e759ca2c600663640606d	good	none	cast 1 Silent Hunter
 2337	Nearly Silent Hunting	silenthunter.gif	1d67f1c5e45b5dc5e3a574ea69bd2d7c	good	none	cast 1 Silent Hunter
 2338	Quiet Determination	quietresolve.gif	6b018d046a7e757d582972a4c6947adb	good	none	cast 1 Quiet Determination
@@ -2593,3 +2593,4 @@
 2591
 2591	Sigils of Yeg	yeg_sigils.gif	90fca24c71336a9d068f8ebdfd590026	neutral	none	use 1 Yeg's Motel hand soap
 2592	Breath of Yeg	yeg_breath.gif	6cfee0050e393ded4a718abbbfb12a91	neutral	none	use 1 Yeg's Motel mouthwash
+2598	All Chipped Up	earthpan3.gif	2ce277562fd55d6fabbfcc516c8e1249	neutral	none	eat 1 chocolate chip muffin
