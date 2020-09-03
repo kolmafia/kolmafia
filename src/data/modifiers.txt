@@ -4832,6 +4832,9 @@ Effect	Al Dente Inferno	Maximum MP: +20, MP Regen Min: 18, MP Regen Max: 20
 Effect	Alacri Tea	Initiative: +50
 Effect	Alchemical, Brother	Mysticality Percent: +30
 Effect	Alien Resurrection	Avatar: "illegal alien"
+Effect	All Blued Up	Meat Drop: +60, MP Regen Min: 2, MP Regen Max: 3, HP Regen Min: 5, HP Regen Max: 10
+Effect	All Branned Up	Item Drop: +40, MP Regen Min: 5, MP Regen Max: 7
+Effect	All Chipped Up	Meat Drop: +30, Item Drop: +20, MP Regen Min: 4, MP Regen Max: 5, HP Regen Min: 3, HP Regen Max: 6
 # All Covered In Whatsit: More likely to fumble
 # All Covered In Whatsit: Continually take damage
 Effect	All Dolled Up	Avatar: "cigarette girl"
@@ -8144,6 +8147,7 @@ Item	bishop cookie	Effect: "Mitre Cut", Effect Duration: 30
 Item	Black Angus blackburger	Effect: "The Power of Negative Thinking", Effect Duration: 100
 Item	black forest cake	Effect: "Sugar Rush", Effect Duration: 5
 Item	blob-shaped Crimbo cookie	Effect: "Amorphous Cheer", Effect Duration: 10
+Item	blueberry muffin	Effect: "All Blued Up", Effect Duration: 25
 Item	blunt cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 Item	bowl of Bounty-Os	Effect: "Broken Fast", Effect Duration: 20
 Item	bowl of eyeballs	Effect: "Your Eyes are Peeled!", Effect Duration: 30
@@ -8152,6 +8156,7 @@ Item	bowl of eyeballs	Effect: "Your Eyes are Peeled!", Effect Duration: 30
 Item	bowl of mummy guts	Effect: "Guts Feeling", Effect Duration: 30
 Item	bowl of Tastee-Wheet&trade;	Effect: "Video... Games?", Effect Duration: 5
 Item	Brain Food Pastaco	Effect: "Omphalotus Omnipresence", Effect Duration: 40
+Item	bran muffin	Effect: "All Branned Up", Effect Duration: 25
 Item	bread line	Effect: "Bread-Lined", Effect Duration: 40
 Item	bread roll	Effect: "Thanksgetting", Effect Duration: 20
 Item	brown sugar cane	Effect: "Sugar Rush", Effect Duration: 3
@@ -8180,6 +8185,7 @@ Item	chaos popcorn	Effect Duration: 5
 Item	cheezburger	Effect: "Yes, Can Haz", Effect Duration: 50
 Item	chilly dog	Effect: "Chill Out, Dog", Effect Duration: 30
 Item	Choco-Mint patty	Effect: "Alpine Mintiness", Effect Duration: 25
+Item	chocolate chip muffin	Effect: "All Chipped Up", Effect Duration: 25
 Item	circular CRIMBCOOKIE	Effect: "Mystic Circle", Effect Duration: 10
 Item	cold hi mein	Effect: "Cold Breath", Effect Duration: 5
 # cold mashed potatoes: Selling Price: <b>1 Meat.</b><p><center><b><font color=blue>Deals <font color=blue>Cold Damage</font> based on your Mysticality when used as a combat item

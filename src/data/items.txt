@@ -9622,8 +9622,8 @@
 9594	cursed wishbone	171358842	wishbone.gif	potion, usable	t	0
 9595	Racisto Ruidoso	385624590	martini.gif	drink	t	0
 9596	earthenware muffin tin	250517792	earthmuffin.gif	none	t	0
-9597
-9598
+9597	bran muffin	389891167	earthmuffin2.gif	food	t	0
+9598	blueberry muffin	808171237	earthmuffin3.gif	food	t	0
 9599	silent A	285486613	silenta.gif	none	t,d	0
 9600	silent B	448034897	silentb.gif	none	t,d	0
 9601	silent C	384523841	silentc.gif	none	t,d	0
@@ -10652,11 +10652,11 @@
 10624
 10625	onyx rook	720938437	chess9.gif	usable	t,d	6
 10626	onyx bishop	367188176	chess8.gif	usable	t,d	6
-10627
+10627	onyx knight	222984309	chess12.gif	usable	t,d	6
 10628	onyx pawn	148938500	chess7.gif	usable	t,d	6
 10629	alabaster king	306987049	chess4.gif	usable	t,d	6
 10630	alabaster queen	675056992	chess5.gif	usable	t,d	6
-10631
+10631	alabaster rook	124592362	chess3.gif	usable	t,d	6
 10632
 10633
 10634	alabaster pawn	223233962	chess1.gif	usable	t,d	6
@@ -10666,3 +10666,6 @@
 10638
 10639
 10640	Universal Seasoning	607903571	spice.gif	usable		0
+10641
+10642
+10643	chocolate chip muffin	918943586	earthpan3.gif	food	t	0
