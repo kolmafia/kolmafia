@@ -2591,4 +2591,5 @@
 2589
 2590
 2591
+2591	Sigils of Yeg	yeg_sigils.gif	90fca24c71336a9d068f8ebdfd590026	neutral	none	use 1 Yeg's Motel hand soap
 2592	Breath of Yeg	yeg_breath.gif	6cfee0050e393ded4a718abbbfb12a91	neutral	none	use 1 Yeg's Motel mouthwash
