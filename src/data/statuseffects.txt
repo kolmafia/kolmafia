@@ -2589,8 +2589,9 @@
 2587
 2588
 2589
-2590
+2590	Rictus of Yeg	teeth.gif	d230c29f0e2ea6f4032042bb10660660	neutral	none	use 1 Yeg's Motel toothbrush
 2591
 2591	Sigils of Yeg	yeg_sigils.gif	90fca24c71336a9d068f8ebdfd590026	neutral	none	use 1 Yeg's Motel hand soap
 2592	Breath of Yeg	yeg_breath.gif	6cfee0050e393ded4a718abbbfb12a91	neutral	none	use 1 Yeg's Motel mouthwash
+2596	Finding Stuff	eyes.gif	bc571a98e78b819e9342aff772f12052	neutral	none
 2598	All Chipped Up	earthpan3.gif	2ce277562fd55d6fabbfcc516c8e1249	neutral	none	eat 1 chocolate chip muffin

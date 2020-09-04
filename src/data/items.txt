@@ -10631,20 +10631,20 @@
 10603	fistful of wood shavings	725899167	scpowder.gif	none, combat	t,d	5	fistsful of wood shavings
 10604	Yeg's Motel ashtray	695921497	yeg_ashtray.gif	none, combat	t,d	6
 10605	Yeg's Motel alarm clock	834539301	yeg_clock.gif	usable	t,d	6
-10606
+10606	Yeg's Motel toothbrush	948291485	yeg_toothbrush.gif	potion, usable	t,d	6
 10607	Yeg's Motel hand soap	330502223	yeg_soap.gif	potion, usable	t,d	6
 10608	Yeg's Motel sewing kit	328995099	yeg_sewingkit.gif	usable, combat	t,d	6
-10609
+10609	Yeg's Motel pillow mint	417610771	yeg_mint.gif	food	t,d	6
 10610
 10611	Yeg's Motel mouthwash	595241727	yeg_mouthwash.gif	potion, usable	t,d	6
 10612
 10613
 10614
 10615	Yeg's Motel stationery	406602327	yeg_stationery.gif	none	t,d	6
-10616
+10616	Yeg's Motel minibar key	744475647	yeg_key.gif	usable	t,d	6
 10617
 10618
-10619
+10619	uncanny desk bell	415192942	yeg_bell.gif	usable	t	0
 10620	nasty desk bell	435477364	yeg_bell.gif	usable	t	0
 10621	greasy desk bell	830753684	yeg_bell.gif	usable	t	0
 10622

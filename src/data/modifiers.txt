@@ -5591,6 +5591,7 @@ Effect	Filled with Magic	Spell Damage Percent: +100
 # Filthworm Drone Stench
 # Filthworm Guard Stench
 # Filthworm Larva Stench
+Effect	Finding Stuff	Item Drop: +30
 # Finstrong: Makes you a better diver
 Effect	Fishing For Knowledge	Fishing Skill: +5
 Effect	Finstrong	Initiative Penalty: [30*env(underwater)], Item Drop Penalty: [30*env(underwater)], Meat Drop Penalty: [30*env(underwater)]
@@ -11513,6 +11514,7 @@ Item	wussiness potion	Effect: "Wussiness", Effect Duration: 3
 Item	X-32-F snowman crate	Free Pull
 Item	xo-skeleton-in-a-box	Free Pull
 # Ye Olde Medieval Insult: Weakens enemies somewhat and briefly stuns them
+Item	Yeg's Motel toothbrush	Effect: "Rictus of Yeg", Effect Duration: 50
 # yellow plastic oyster egg: Grants a Random Beneficial Effect
 Item	yellow puck	Free Pull
 Item	yellow puck with a bow on it	Free Pull
