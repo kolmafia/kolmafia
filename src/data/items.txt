@@ -10642,7 +10642,7 @@
 10614
 10615	Yeg's Motel stationery	406602327	yeg_stationery.gif	none	t,d	6
 10616	Yeg's Motel minibar key	744475647	yeg_key.gif	usable	t,d	6
-10617
+10617	sizzling desk bell	748843407	yeg_bell.gif	usable	t	0
 10618
 10619	uncanny desk bell	415192942	yeg_bell.gif	usable	t	0
 10620	nasty desk bell	435477364	yeg_bell.gif	usable	t	0
@@ -10657,7 +10657,7 @@
 10629	alabaster king	306987049	chess4.gif	usable	t,d	6
 10630	alabaster queen	675056992	chess5.gif	usable	t,d	6
 10631	alabaster rook	124592362	chess3.gif	usable	t,d	6
-10632
+10632	alabaster bishop	576617018	chess2.gif	usable	t,d	6
 10633
 10634	alabaster pawn	223233962	chess1.gif	usable	t,d	6
 10635	bagged Cargo Cultist Shorts	190234623	cultistshortsbag.gif	usable	t	0
