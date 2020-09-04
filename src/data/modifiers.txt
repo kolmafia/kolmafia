@@ -5101,6 +5101,7 @@ Effect	Brawnee's Anthem of Absorption	Damage Reduction: [L^1.2]
 Effect	Bread Burps	Maximum MP: +10, MP Regen Min: 4, MP Regen Max: 5
 Effect	Bread-Lined	Muscle Percent: +50, Weapon Damage: +25
 Effect	Breakfast Clubbed	Monster Level: [min(25,T)]
+Effect	Breath of Yeg	Spooky Damage: +100, Spooky Spell Damage: +100
 Effect	Brewed Up	Initiative: +200
 Effect	Bricked-In	Maximum HP: +50
 Effect	Bright!	Maximum MP: +100
@@ -6594,6 +6595,7 @@ Effect	Resting Beach Face	Initiative: +50
 Effect	Retrograde Relaxation	HP Regen Min: 8, HP Regen Max: 10
 Effect	Rhinestoned	Moxie: [T]
 # Riboflavin': Pickin' Pockets like a G
+Effect	Rictus of Yeg	Weapon Damage Percent: +200
 Effect	Ringing Ears	Muscle Percent: +20, Mysticality Percent: -20
 Effect	RIP AND TEAR	Avatar: "Space Marine"
 Effect	Ripping, Dripping	Weapon Damage Percent: +50
@@ -9849,6 +9851,7 @@ Item	yellow seashell	Effect: "Boisterous Oysterous", Effect Duration: 20
 Item	yellow snowcone	Effect: "Yellow Tongue", Effect Duration: 20
 Item	Yeg's Motel hand soap	Effect: "Sigils of Yeg", Effect Duration: 20
 Item	Yeg's Motel mouthwash	Effect: "Breath of Yeg", Effect Duration: 20
+Item	Yeg's Motel toothbrush	Effect: "Rictus of Yeg", Effect Duration: 50
 Item	Yolo&trade; chocolates	Effect: "Yoloswagyoloswag", Effect Duration: 5
 Item	Yummy Tummy bean	Effect: "Sugar Rush", Effect Duration: 3
 
@@ -11514,7 +11517,6 @@ Item	wussiness potion	Effect: "Wussiness", Effect Duration: 3
 Item	X-32-F snowman crate	Free Pull
 Item	xo-skeleton-in-a-box	Free Pull
 # Ye Olde Medieval Insult: Weakens enemies somewhat and briefly stuns them
-Item	Yeg's Motel toothbrush	Effect: "Rictus of Yeg", Effect Duration: 50
 # yellow plastic oyster egg: Grants a Random Beneficial Effect
 Item	yellow puck	Free Pull
 Item	yellow puck with a bow on it	Free Pull
