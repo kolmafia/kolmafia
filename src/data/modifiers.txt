@@ -1021,6 +1021,7 @@ Item	wumpus-hair sweater	Muscle: +3, Mysticality: +3, Moxie: +3, Maximum HP: +30
 Item	Xiblaxian stealth vest	Combat Rate: -5, Muscle Percent: +20
 Item	yak anorak	MP Regen Min: 3, MP Regen Max: 4
 Item	Ye Olde Navy Fleece	Meat Drop: +10
+Item	Yeg's Motel bathrobe	Spooky Damage: +50, Muscle Percent: +66, Lasts Until Rollover
 
 # Weapons section of modifiers.txt
 
@@ -10539,6 +10540,7 @@ Item	fishy pipe	Effect: "Fishy", Effect Duration: 10
 Item	fist turkey outline	Free Pull
 # fistful of wood shavings: Stops Enemy From Attacking and Weakens it Very Slightly
 # fizzing spore pod: Deals 20-40 physical damage
+# flame orb: Burn up an enemy and none of its items
 # flaming feather: Deals 80-120 <font color=red>Hot Damage</font>
 # flaregun: Deals Various Kinds of Naval Damage
 Item	flask of holy water	Lasts Until Rollover
