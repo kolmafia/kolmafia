@@ -409,6 +409,7 @@ X-ray goggles	0	none
 Xiblaxian stealth cowl	100	none
 yabba dabba doo rag	110	Mox: 40
 yak toupee	100	Mox: 35
+Yeg's Motel shower cap	66	none
 yellow plastic hard hat	90	Mox: 30
 yellow traffic cone	60	Mox: 15
 Ze&trade; goggles	30	none

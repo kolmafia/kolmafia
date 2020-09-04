@@ -10637,7 +10637,7 @@
 10609	Yeg's Motel pillow mint	417610771	yeg_mint.gif	food	t,d	6
 10610	Yeg's Motel disposable razor	225432177	yeg_razor.gif	none, combat	t,d	6
 10611	Yeg's Motel mouthwash	595241727	yeg_mouthwash.gif	potion, usable	t,d	6
-10612
+10612	Yeg's Motel shower cap	269778885	yeg_showercap.gif	hat	q	0
 10613	Yeg's Motel bathrobe	644237102	yeg_robe.gif	shirt	q	0
 10614
 10615	Yeg's Motel stationery	406602327	yeg_stationery.gif	none	t,d	6
@@ -10663,7 +10663,7 @@
 10635	bagged Cargo Cultist Shorts	190234623	cultistshortsbag.gif	usable	t	0
 10636	Cargo Cultist Shorts	749790865	cultistshorts.gif	pants		0
 10637
-10638
+10638	flask of moonshine	316918980	flask.gif	drink	t,d	6
 10639
 10640	Universal Seasoning	607903571	spice.gif	usable		0
 10641

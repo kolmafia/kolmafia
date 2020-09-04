@@ -537,6 +537,7 @@ Item	wumpus-hair wig	Moxie: -5, Stench Damage: +20, Stench Spell Damage: +20, Fa
 Item	Xiblaxian stealth cowl	Combat Rate: -5, Mysticality Percent: +20, Familiar Effect: "spooky atk, cap 25"
 Item	yabba dabba doo rag	Stench Resistance: +4, HP Regen Min: 5, HP Regen Max: 10, Familiar Effect: "atk, 1xVolley, cap 27"
 Item	yak toupee	MP Regen Min: 3, MP Regen Max: 4, Familiar Effect: "atk, 1xPotato, cap 25"
+Item	Yeg's Motel shower cap	Spooky Resistance: +5, Moxie Percent: +66, Lasts Until Rollover
 Item	yellow plastic hard hat	Familiar Effect: "atk, cap 22"
 Item	yellow traffic cone	Moxie: +3, Sleaze Resistance: +2, Familiar Effect: "1xVolley, 1xLep, cap 15"
 # Ze&trade; goggles: +25% Item Drops from Monsters (Underwater only)
@@ -4926,6 +4927,7 @@ Effect	Bandananit	Avatar: "dirty thieving brigand"
 Effect	Bandersnatched	Moxie: +5, Ranged Damage: +10 
 Effect	Banono	Stench Damage: +40, Stench Spell Damage: +40
 Effect	Barbecue Saucy	Muscle: +15, Moxie: +15
+Effect	Barely Visible	Combat Rate: -10
 # Barfpits: Deals Stench Damage every round
 Effect	Bark of the Dog	Initiative: +50, Experience (Moxie): +2
 Effect	Barking Dogs	Muscle Percent: -50, Initiative: -50
@@ -7240,6 +7242,7 @@ Effect	Vampin'	Avatar: "sexy vampire"
 # Venomous Weapon: Causes your regular attacks to poison foes
 Effect	Vented Item	Weapon Damage: +25
 Effect	Vented Spleen	Weapon Damage: +25
+Effect	Very Attractive	Combat Rate: +10
 Effect	Very Clean Guns	Ranged Damage: +20
 Effect	Very Clean Teeth	Moxie: +1
 Effect	Video Game Hot Dog	Item Drop: +25, Meat Drop: +25
