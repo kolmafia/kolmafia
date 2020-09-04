@@ -1,0 +1,117 @@
+
+1	Stats
+2	Effect	Radium Radicality (50)
+3	Item	puce paisley oyster egg
+4	Item	onyx knight
+5	Effect	Super Vision (40)
+6	Effect	Just the Brown Ones (20)	The wisdom... of the future (20)
+7	Message
+8	Item	creepy nursery rhyme
+9	Effect	Power Ballad of the Arrowsmith (20)
+10	Effect	Heal thy Nanoself (20)	Space Cowboy (30)
+11	Effect	Spooky Hand (20)
+12	Stats
+13	Effect	Vitamin-Maxed (40)	Wisdom...of the future (20)
+14	Item	off-white paisley oyster egg
+15	Effect	Black Eyes (80)
+16	Item	Wax Flask
+17	Item	handful of nuts and berries
+18	Effect	Sourpuss (40)	Fire Down Below (10)
+19	Item	pixellated candy heart
+20	Item	holly-flavored Hob-O
+21	Effect	Extra-thick Blood (40)	It's Soporiffic! (40)
+22	Item	Aerheads
+23	Effect	Spooky Hand (20)
+24	Effect	Just the Brown Ones (40)	The Halls of Muscularity (20)
+25	Item	Whenchamacallit bar
+26	Item	Yeg's Motel mouthwash
+27	Item	baconstone
+28	Item	handful of honey
+29	Item	orange
+30	Monster	bookbat
+31	Effect	Vitamin-Maxed (40)	Cholestoriffic (10)
+32	Effect	Tetanus (10)	Vented Spleen (40)
+33	Item	lemon
+34	Effect	Finding Stuff (20)
+35	Effect	Well-Swabbed Ear (60)
+36	Effect	Milk Studly (40)	Caloriffic (10)
+37	Stats
+38	Item	fat wallet
+39	Effect	Nasty, Nasty Breath (50)
+40	Stats
+41	Item	papaya
+42	Effect	Spooky Hand (20)
+43	Effect	Nasty Hand (20)
+44	Item	candied kobold
+45	Message
+46	Item	alabaster pawn
+47	Monster	dairy goat
+48	Effect	Mystic Pickleness (40)	Spicy Mouth (40)
+49	Effect	Discomfited (60)
+50	Item	fruitfilm
+51	Item	lavender plastic oyster egg
+52	Stats
+53	Effect	Very Attractive (20)
+54	Meat
+55	Item	red-hot jawbreaker
+56	Effect	Sizzlin' Hand (20)
+57	Effect	Bruised Jaw (5)
+58	Effect	Cholestoriffic (20)
+59	Effect	Vented Spleen (80)
+60	Item	Boss Drops
+61	Effect	Just the Brown Ones (40)	Fire Down Below (10)
+62	Effect	Foul Hand (20)
+63	Item	Atomic Pop
+64	Effect	Scariberi (20)
+65	Item	kiwi
+66	Effect	Sleazy Hands (10)
+67	Item	virgin jello shot
+68	Effect	The Halls of Muscularity (40)
+69	Stats
+70	Effect	Dweeby (40)	The Strength... of the Future (20)
+71	Item	Senior Mints
+72	Effect	Sizzlin' Hand (20)
+73	Effect	It's Soporiffic! (40)	Vented Spleen (40)
+74	Item	Mallomarbles
+75	Item	sugar-coated pine cone
+76	Item	Sugar Cog
+77	Effect	Sourpuss (40)	The Halls of Moxiousness (20)
+78	Item	cocoa chondrule
+79	Item	Bit O' Quail Spleen
+80	Effect	Heal Thy Nanoself (20)	Blood-Rich (30)
+81	Item	candy cane
+82	Message
+83	Item	pile of candy
+84	Item	Yeg's Motel shower cap
+85	Effect	Foul Hand (20)
+86	Effect	Finding Stuff (20)
+87	Item	candy crayons
+88	Item	onyx king
+# Hmmm... multiple items are possible then
+89	Item	line	star (3)
+
+136	Monster	Knob Goblin Elite Guardsman
+143	Monster	dirty old lihc
+191	Monster	batrat
+220	Monster	lobsterfrogman
+235	Monster	modern zmobie
+250	Monster	Blooper
+267	Monster	creepy clown
+279	Monster	Hellion
+299	Monster	Knob Goblin Harem Girl
+306	Monster	big creepy spider
+317	Monster	Camel's Toe
+363	Monster	pufferfish
+383	Monster	Skinflute
+402	Monster	Fruit Golem
+425	Monster	eXtreme Orcish snowboarder
+428	Monster	Mob Penguin Thug
+443	Monster	War Hippy (space) cadet
+448	Monster	completely different spider
+452	Monster	pygmy shaman
+490	Monster	Booze Giant
+565	Monster	mountain man
+568	Monster	War Pledge
+589	Monster	Green Ops Soldier
+646	Monster	1335 HaXx0r
+666	Monster	smut orc pervert
