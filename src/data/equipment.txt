@@ -847,6 +847,7 @@ wumpus-hair sweater	110	Mus: 40
 Xiblaxian stealth vest	100	none
 yak anorak	115	Mus: 42
 Ye Olde Navy Fleece	100	Mus: 35
+Yeg's Motel bathrobe	66	none
 
 # Weapons section of equipment.txt
 
