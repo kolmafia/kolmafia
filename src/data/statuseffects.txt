@@ -2581,14 +2581,14 @@
 2579	You Have Ever Seen The Rain	saucedrops.gif	1811ff37102a4be344fc634b73d30d34	neutral	none	use 1 redwood rain stick
 2580	Goo Vibrations	greygooball.gif	e31c54ee309cf40ebc6f7c00982ad46f	neutral	none
 2581
-2582
+2582	Joke-Mad	angry.gif	90db65d923857548df90f5e4990201cd	neutral	none
 2583
 2584
 2585
 2586
 2587
 2588
-2589
+2589	You Pray To Yeg Your Soul To Keep	yeg_clock.gif	dabb80c4580c1c318df5af5be6e7ea5c	neutral	none
 2590	Rictus of Yeg	teeth.gif	d230c29f0e2ea6f4032042bb10660660	neutral	none	use 1 Yeg's Motel toothbrush
 2591
 2591	Sigils of Yeg	yeg_sigils.gif	90fca24c71336a9d068f8ebdfd590026	neutral	none	use 1 Yeg's Motel hand soap
