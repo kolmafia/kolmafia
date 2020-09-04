@@ -5654,6 +5654,7 @@ Effect	Fortunate Resolve	Item Drop: +10, Meat Drop: +10, Spell Damage: +10, Init
 # Fortunate, Son: FantasyRealm enemies drop 2-3 aditional Rubees
 Effect	Fortunate, Son	Rubee Drop: 2.5
 Effect	Fortune of the Wheel	Item Drop: +100
+Effect	Foul Hand	Stench Resistance: +5
 Effect	Fratty Flavor	Moxie: +15
 Effect	Freaked Out	Spooky Damage: +10, Damage Reduction: -2
 Effect	Free Bird	Mysticality: +20
@@ -5676,6 +5677,7 @@ Effect	Frosty	Initiative: +100, Item Drop: +100, Meat Drop: +200, Monster Level:
 # Frosty the Hitman: +0-2 <font color=gray>Spooky Damage</font>
 # Frosty the Hitman: +0-2 <font color=green>Stench Damage</font>
 # Frosty the Hitman: +0-2 <font color=blueviolet>Sleaze Damage</font>
+Effect	Frosty Hand	Cold Resistance: +5
 Effect	Frown	Combat Rate: +5
 Effect	Frozen Hands	Cold Damage: +11
 Effect	Frozen Shoulders	Cold Spell Damage: +11, Hot Resistance: +3
@@ -6279,6 +6281,7 @@ Effect	Nanoballsy	Moxie Percent: +25, Initiative: +20, Pickpocket Chance: +30
 Effect	Nanobrainy	Mysticality Percent: +50, Spell Damage: +20, MP Regen Min: 2, MP Regen Max: 4
 Effect	Nanobrawny	Muscle Percent: +25, Weapon Damage: +10, HP Regen Min: 4, HP Regen Max: 8
 Effect	Nas Tea	Stench Damage: +30
+Effect	Nasty Hand	Sleaze Resistance: +5
 Effect	Nasty, Nasty Breath	Stench Damage: +40, Stench Spell Damage: +40
 Effect	Natural 1	Initiative: -100
 Effect	Natural 20	Initiative: +100
@@ -6716,6 +6719,7 @@ Effect	Simulation Stimulation	Experience (Moxie): +5
 Effect	Singer's Faithful Ocelot	Item Drop: +10
 # Single-Eyed Vision
 Effect	Sinuses For Miles	Meat Drop: +200
+Effect	Sizzlin' Hand	Hot Resistance: +5
 Effect	Sizzling with Fury	Hot Damage: +25, Initiative: +60
 Effect	Skeletal Buddy	Experience: +2
 # Skeletal Cleric
@@ -6873,6 +6877,7 @@ Effect	Spooky Blur	Spooky Damage: +30, Spooky Spell Damage: +30, Initiative: +20
 # Spooky Breath: Can breathe terrifying air in combat
 Effect	Spooky Demeanor	Muscle Percent: +10, Mysticality Percent: +30, Moxie Percent: +20, Spooky Damage: +10, Spooky Resistance: +2
 Effect	Spooky Flavor	Spooky Damage: +10, Spooky Resistance: +2
+Effect	Spooky Hand	Spooky Resistance: +5
 Effect	Spooky Hands	Spooky Damage: +10, Spooky Spell Damage: +20, Cold Resistance: +2, Sleaze Resistance: +2
 Effect	Spooky Jellied	Experience: +5, Spooky Damage: +5, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Effect	Spooky Weapon	Spooky Damage: +3
@@ -7278,6 +7283,7 @@ Effect	Warm Belly	Hot Damage: [+3*D]
 Effect	Warm Shoulders	Familiar Weight: +5, Experience (familiar): +5
 Effect	Warmed Up	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Warriors, Come out to Playyyy	WarBear Armor Penetration: +60
+Effect	Wary	Initiative: +30
 Effect	Wasabi Sinuses	Experience: -1, Meat Drop: +40, Item Drop: -20
 Effect	Wasabi With You	Weapon Damage Percent: +150
 Effect	Wassailing You	Familiar Weight: +5
