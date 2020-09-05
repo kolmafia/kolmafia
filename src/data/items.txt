@@ -10643,7 +10643,7 @@
 10615	Yeg's Motel stationery	406602327	yeg_stationery.gif	none	t,d	6
 10616	Yeg's Motel minibar key	744475647	yeg_key.gif	usable	t,d	6
 10617	sizzling desk bell	748843407	yeg_bell.gif	usable	t	0
-10618
+10618	frost-rimed desk bell	597229520	yeg_bell.gif	usable	t	0
 10619	uncanny desk bell	415192942	yeg_bell.gif	usable	t	0
 10620	nasty desk bell	435477364	yeg_bell.gif	usable	t	0
 10621	greasy desk bell	830753684	yeg_bell.gif	usable	t	0
@@ -10662,9 +10662,9 @@
 10634	alabaster pawn	223233962	chess1.gif	usable	t,d	6
 10635	bagged Cargo Cultist Shorts	190234623	cultistshortsbag.gif	usable	t	0
 10636	Cargo Cultist Shorts	749790865	cultistshorts.gif	pants		0
-10637
+10637	complicated device	539406330	gymcard.gif	offhand		0
 10638	flask of moonshine	316918980	flask.gif	drink	t,d	6
-10639
+10639	sea-worn candlestick	727071839	seacandle.gif	weapon		0
 10640	Universal Seasoning	607903571	spice.gif	usable		0
 10641
 10642	flame orb	690359871	flame.gif	none, combat	t,d	6
