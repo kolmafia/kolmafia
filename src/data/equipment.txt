@@ -1439,6 +1439,7 @@ scepter of the Skeleton Lord	300	Mys: 50	2-handed staff
 scorpion whip	20	Mus: 0	1-handed whip
 scratch 'n' sniff crossbow	100	Mox: 0	1-handed crossbow
 scratch 'n' sniff sword	100	Mus: 0	1-handed sword
+sea-worn candlestick	200	Mus: 50	1-handed club
 seal-clubbing club	10	Mus: 0	1-handed club
 sealhide whip	35	Mus: 2	1-handed whip
 Seeger's Unstoppable Banjo	200	Mox: 60	2-handed banjo
@@ -1752,6 +1753,7 @@ Codex of Capsaicin Conjuration	30	none
 coffin lid	50	Mus: 10	shield
 Cold Stone of Hatred	200	Mus: 125
 collapsible baton	200	Mys: 85
+complicated device	0	Mys: 200
 Cookbook of the Damned	30	none
 cosmetic football	50	none
 creepy doll head	100	Mys: 35

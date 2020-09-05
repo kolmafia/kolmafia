@@ -1688,6 +1688,7 @@ Item	scepter of the Skeleton Lord	Moxie Percent: +50, Adventures: +3, PvP Fights
 Item	scorpion whip	Weapon Damage: +13
 Item	scratch 'n' sniff crossbow	none, Breakable
 Item	scratch 'n' sniff sword	none, Breakable
+Item	sea-worn candlestick	PvP Fights: +5, Meat Drop: +25, Sleaze Resistance: +3
 # seal-clubbing club
 Item	sealhide whip	Cold Damage: +25
 # Seeger's Unstoppable Banjo: Special Attack:  Funk Bluegrass Fusion
@@ -2053,6 +2054,7 @@ Item	Codex of Capsaicin Conjuration	Spell Damage: +10
 Item	coffin lid	Spooky Resistance: +1, Damage Reduction: 3
 Item	Cold Stone of Hatred	Mysticality Percent: +20, Reduce Enemy Defense: 10, Spell Damage Percent: +60
 Item	collapsible baton	Mysticality Percent: +10, Spell Critical Percent: +5
+Item	complicated device	Experience: +1, Hot Damage: +1, Cold Damage: +1, Stench Damage: +1, Spooky Damage: +1, Sleaze Damage: +1, Hot Spell Damage: +11, Cold Spell Damage: +11, Stench Spell Damage: +11, Spooky Spell Damage: +11, Sleaze Spell Damage: +11, Monster Level: +11, Initiative: +11, Damage Reduction: 11, Damage Absorption: +11, Meat Drop: +11, Item Drop: +11, Muscle: +11, Mysticality: +11, Moxie: +11, Muscle Percent: +11, Mysticality Percent: +11, Moxie Percent: +11, Maximum HP: +111, Maximum MP: +111, Maximum HP Percent: +111, Maximum MP Percent: +111
 # Cookbook of the Damned: All Spells Cast Are Stinky
 Item	Cookbook of the Damned	Spell Damage: +10
 Item	cosmetic football	Muscle: +10
@@ -6905,6 +6907,7 @@ Effect	Standard Issue Bravery	Muscle: +30, Mysticality: +30, Moxie: +30
 Effect	Stands Alone	Stench Damage: +10
 Effect	Stark Raven Mad	Avatar: "raven"
 Effect	Starry-Eyed	Muscle Percent: [+5*U], Mysticality Percent: [+5*U], Moxie Percent: [+5*U]
+Effect	Started Your Day Right	Experience: +3, Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
 Effect	stats.enq	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Staying Frosty	Cold Damage: +100
 Effect	Steamed	Hot Resistance: +3, Hot Damage: +30, Item Drop: +20
