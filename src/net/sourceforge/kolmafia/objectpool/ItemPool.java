@@ -3259,6 +3259,19 @@ public class ItemPool
 	public static final int WORMWOOD_WEDDING_RING = 10598;
 	public static final int DRIPWOOD_SLAB = 10599;
 	public static final int DRIPPY_DIADEM = 10600;
+	public static final int FANCY_CHESS_SET = 10622;
+	public static final int ONYX_KING = 10623;
+	public static final int ONYX_QUEEN = 10624;
+	public static final int ONYX_ROOK = 10625;
+	public static final int ONYX_BISHOP = 10626;
+	public static final int ONYX_KNIGHT = 10627;
+	public static final int ONYX_PAWN = 10628;
+	public static final int ALABASTER_KING = 10629;
+	public static final int ALABASTER_QUEEN = 10630;
+	public static final int ALABASTER_ROOK = 10631;
+	public static final int ALABASTER_BISHOP = 10632;
+	public static final int ALABASTER_KNIGHT = 10633;
+	public static final int ALABASTER_PAWN = 10634;
 	public static final int UNIVERSAL_SEASONING = 10640;
 
 	public static final AdventureResult get( String itemName, int count )

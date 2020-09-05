@@ -10647,7 +10647,7 @@
 10619	uncanny desk bell	415192942	yeg_bell.gif	usable	t	0
 10620	nasty desk bell	435477364	yeg_bell.gif	usable	t	0
 10621	greasy desk bell	830753684	yeg_bell.gif	usable	t	0
-10622
+10622	fancy chess set	690214457	fancychess.gif	reusable		0
 10623	onyx king	375154276	chess10.gif	usable	t,d	6
 10624	onyx queen	572328846	chess11.gif	usable	t,d	6
 10625	onyx rook	720938437	chess9.gif	usable	t,d	6

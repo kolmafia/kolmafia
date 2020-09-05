@@ -1536,6 +1536,7 @@ user	_etchedHourglassUsed	false
 user	_eternalCarBatteryUsed	false
 user	_everfullGlassUsed	false
 user	_expertCornerCutterUsed	0
+user	_fancyChessSetUsed	false
 user	_falloutShelterSpaUsed	false
 user	_fancyHotDogEaten	false
 user	_favoriteBirdVisited	false
