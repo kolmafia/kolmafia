@@ -1249,6 +1249,10 @@ public class UseItemRequest
 			boolean fireworkUsed = Preferences.getBoolean( "_fireworkUsed" );
 			return ( dependenceDay && !fireworkUsed ) ? 1 : 0;
 		}		
+
+		case ItemPool.FANCY_CHESS_SET:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_fancyChessSetUsed" ) ? 0 : 1;
 		}
 
 		if ( restorationMaximum < Long.MAX_VALUE )
@@ -6560,6 +6564,51 @@ public class UseItemRequest
 				return;
 			}
 			break;
+
+		case ItemPool.FANCY_CHESS_SET:
+			// You don't have time for a game of chess right now. (You need to have 10 Adventures to use this item.)
+			if ( responseText.contains( "You don't have time for a game of chess right now" ) )
+			{
+				return;
+			}
+			// You sit down at the chessboard, and the white pieces begin to move of their own accord. You play black.
+			if ( responseText.contains( "You sit down at the chessboard" ) )
+			{
+				Preferences.setBoolean( "_fancyChessSetUsed", true );
+			}
+			// *** What is the message for "you've already played today?
+			return;
+
+		case ItemPool.ONYX_KING:
+		case ItemPool.ONYX_QUEEN:
+		case ItemPool.ONYX_ROOK:
+		case ItemPool.ONYX_BISHOP:
+		case ItemPool.ONYX_KNIGHT:
+		case ItemPool.ONYX_PAWN:
+		case ItemPool.ALABASTER_KING:
+		case ItemPool.ALABASTER_QUEEN:
+		case ItemPool.ALABASTER_ROOK:
+		case ItemPool.ALABASTER_BISHOP:
+		case ItemPool.ALABASTER_KNIGHT:
+		case ItemPool.ALABASTER_PAWN:
+			// You don't have a full set of chess pieces, and you don't know any chess variants that can be played with fewer than 32 of them.
+			// You find a fancy checkerboard in a nearby dumpster and assemble a complete chess set.
+			if ( responseText.contains( "assemble a complete chess set" ) )
+			{
+				ResultProcessor.processItem( ItemPool.ONYX_KING, -1 );
+				ResultProcessor.processItem( ItemPool.ONYX_QUEEN, -1 );
+				ResultProcessor.processItem( ItemPool.ONYX_ROOK, -2 );
+				ResultProcessor.processItem( ItemPool.ONYX_BISHOP, -2 );
+				ResultProcessor.processItem( ItemPool.ONYX_KNIGHT, -2 );
+				ResultProcessor.processItem( ItemPool.ONYX_PAWN, -8 );
+				ResultProcessor.processItem( ItemPool.ALABASTER_KING, -1 );
+				ResultProcessor.processItem( ItemPool.ALABASTER_QUEEN, -1 );
+				ResultProcessor.processItem( ItemPool.ALABASTER_ROOK, -2 );
+				ResultProcessor.processItem( ItemPool.ALABASTER_BISHOP, -2 );
+				ResultProcessor.processItem( ItemPool.ALABASTER_KNIGHT, -2 );
+				ResultProcessor.processItem( ItemPool.ALABASTER_PAWN, -8 );
+			}
+			return;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )

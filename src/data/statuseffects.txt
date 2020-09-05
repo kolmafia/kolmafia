@@ -2587,7 +2587,7 @@
 2585	Foul Hand	pocket.gif	45ecc3be7f43ed1d9de42551173d8cd1	neutral	none
 2586	Spooky Hand	pocket.gif	c2937792ecaa5be142451d3bb041e899	neutral	none
 2587	Nasty Hand	pocket.gif	c241a3f73465ddcd21c04758eebdb0a6	neutral	none
-2588
+2588	Yeg's Glory	yeg_blessing.gif	7d23263e4e1317b82a0e4b210fc38a66	neutral	none
 2589	You Pray To Yeg Your Soul To Keep	yeg_clock.gif	dabb80c4580c1c318df5af5be6e7ea5c	neutral	none
 2590	Rictus of Yeg	teeth.gif	d230c29f0e2ea6f4032042bb10660660	neutral	none	use 1 Yeg's Motel toothbrush
 2591	Sigils of Yeg	yeg_sigils.gif	90fca24c71336a9d068f8ebdfd590026	neutral	none	use 1 Yeg's Motel hand soap
