@@ -3213,12 +3213,8 @@ public class GenericRequest
 			break;
 
 		case ItemPool.RONALD_SHELTER_MAP:
-			itemName = "Map to Safety Shelter Ronald Prime";
-			consumed = true;
-			break;
-
 		case ItemPool.GRIMACE_SHELTER_MAP:
-			itemName = "Map to Safety Shelter Grimace Prime";
+			itemName = item.getName();
 			consumed = true;
 			break;
 

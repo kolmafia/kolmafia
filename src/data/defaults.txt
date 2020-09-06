@@ -380,6 +380,7 @@ user	camerasUsed	0
 user	campAwayDecoration	0
 user	canteenUnlocked	false
 user	carboLoading	0
+user	cargoPocketsEmptied
 user	catBurglarBankHeists	0
 user	cellarLayout	0
 user	chaosButterflyThrown	false
@@ -1452,6 +1453,7 @@ user	_campAwaySmileBuffs	0
 user	_canSeekBirds	false
 user	_candySummons	0
 user	_carboLoaded	false
+user	_cargoPocketEmptied	false
 user	_carnieCandyDrops	0
 user	_carrotNoseDrops	0
 user	_catBurglarCharge	0

@@ -640,6 +640,8 @@ public class ValhallaManager
 		Preferences.setInteger( "sausageGrinderUnits", 0 );
 		// Hewn Moon Rune Spoon
 		Preferences.setBoolean( "moonTuned", false );
+		// Cargo Cultist Shorts
+		Preferences.setString( "cargoPocketsEmptied", "" );
 		// Community Service
 		Preferences.setString( "csServicesPerformed", "" );	
 		// AWOL

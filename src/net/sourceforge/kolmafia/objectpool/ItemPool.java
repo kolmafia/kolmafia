@@ -3277,6 +3277,7 @@ public class ItemPool
 	public static final int ALABASTER_BISHOP = 10632;
 	public static final int ALABASTER_KNIGHT = 10633;
 	public static final int ALABASTER_PAWN = 10634;
+	public static final int CARGO_CULTIST_SHORTS = 10636;
 	public static final int UNIVERSAL_SEASONING = 10640;
 
 	public static final AdventureResult get( String itemName, int count )
