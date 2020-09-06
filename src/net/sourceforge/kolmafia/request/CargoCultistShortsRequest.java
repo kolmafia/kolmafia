@@ -61,6 +61,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CargoCultistShortsRequest
 	extends GenericRequest
 {
+	public static Set<Integer> lastPockets = new TreeSet<>();
+
 	int pocket = 0;
 
 	public CargoCultistShortsRequest()
@@ -121,7 +123,7 @@ public class CargoCultistShortsRequest
 			return;
 		}
 
-		if ( Preferences.getBoolean( "_cargoPocketEmptied" ) )
+		if ( this.pocket != 0 && Preferences.getBoolean( "_cargoPocketEmptied" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You've already looted a pocket from your Cargo Cultist Shorts today" );
 			return;
@@ -153,7 +155,7 @@ public class CargoCultistShortsRequest
 		}
 
 		// If we have already emptied this pocket this ascension, it is not available.
-		Set<Integer> pockets = CargoCultistShortsRequest.parseAvailablePockets( responseText );
+		Set<Integer> pockets = CargoCultistShortsRequest.lastPockets;
 
 		if ( pockets.contains( this.pocket ) )
 		{
@@ -232,6 +234,8 @@ public class CargoCultistShortsRequest
 		}
 
 		Preferences.setString( "cargoPocketsEmptied", buffer.toString() );
+
+		CargoCultistShortsRequest.lastPockets = pockets;
 
 		return pockets;
 	}

@@ -710,6 +710,7 @@ public class KoLmafiaCLI
 			register( "camp" ).
 			register( "campground" );
 		new ChangeCombatScriptCommand().register( "ccs" );
+		new CargoCultCommand(). register( "cargo" );
 		new CheckDataCommand().
 			register( "newdata" ).
 			register( "checkcandy" ).
