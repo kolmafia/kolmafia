@@ -3369,6 +3369,15 @@ public class GenericRequest
 			itemName = "[glitch season reward name]";
 			break;
 
+		case ItemPool.SIZZLING_DESK_BELL:
+		case ItemPool.FROST_RIMED_DESK_BELL:
+		case ItemPool.UNCANNY_DESK_BELL:
+		case ItemPool.NASTY_DESK_BELL:
+		case ItemPool.GREASY_DESK_BELL:
+			itemName = item.getName();
+			consumed = true;
+			break;
+
 		default:
 			return;
 		}
