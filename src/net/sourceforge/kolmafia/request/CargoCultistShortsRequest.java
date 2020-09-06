@@ -181,7 +181,22 @@ public class CargoCultistShortsRequest
 		// Pick the pocket!
 		super.run();
 
-		// Some pockets redirect to a fight.
+		// Some pockets redirect to a fight. If not, we'll be here.
+
+		responseText = this.responseText;
+		if ( responseText == null )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "I/O error" );
+			return;
+		}
+
+		// It seems like the power of the pockets has been exhausted for the day.
+		if ( responseText.contains( "the power of the pockets has been exhausted for the day" ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You already picked a pocket today." );
+			return;
+		}
+
 		// Those that did not, might leave us in the choice
 
 		if ( ChoiceManager.handlingChoice )
