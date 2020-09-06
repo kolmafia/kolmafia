@@ -3259,6 +3259,11 @@ public class ItemPool
 	public static final int WORMWOOD_WEDDING_RING = 10598;
 	public static final int DRIPWOOD_SLAB = 10599;
 	public static final int DRIPPY_DIADEM = 10600;
+	public static final int SIZZLING_DESK_BELL = 10617;
+	public static final int FROST_RIMED_DESK_BELL = 10618;
+	public static final int UNCANNY_DESK_BELL = 10619;
+	public static final int NASTY_DESK_BELL = 10620;
+	public static final int GREASY_DESK_BELL = 10621;
 	public static final int FANCY_CHESS_SET = 10622;
 	public static final int ONYX_KING = 10623;
 	public static final int ONYX_QUEEN = 10624;
