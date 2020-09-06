@@ -99,6 +99,7 @@ import net.sourceforge.kolmafia.request.BeachCombRequest;
 import net.sourceforge.kolmafia.request.BeerPongRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest.Mushroom;
+import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest;
@@ -12212,6 +12213,14 @@ public abstract class ChoiceManager
 		case 1414:
 			Preferences.setBoolean( "lockPicked", true );
 			break;
+
+		case 1420:
+			// Cargo Cultist Shorts
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setBoolean( "_cargoPocketEmptied", true );
+			}
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
@@ -15793,6 +15802,11 @@ public abstract class ChoiceManager
 			}
 
 			break;
+
+		case 1420:
+			// Cargo Cultist Shorts
+			CargoCultistShortsRequest.parseAvailablePockets( text );
+			break;
 		}
 
 		// Do this after special classes (like WumpusManager) have a
@@ -18729,6 +18743,7 @@ public abstract class ChoiceManager
 		case 1396: // Adjusting Your Fish
 		case 1407: // Mushroom District Costume Shop
 		case 1408: // Mushroom District Badge Shop
+		case 1420: // What has it got in its pocketses?
 			return true;
 
 		default:

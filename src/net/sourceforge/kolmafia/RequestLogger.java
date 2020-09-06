@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.CampAwayRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CanteenRequest;
+import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ChemiCorpRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
@@ -752,6 +753,13 @@ public class RequestLogger
 
 		// The Clan Lounge Swimming Pool is an instance of choice.php
 		if ( ( request instanceof ClanLoungeSwimmingPoolRequest || isExternal ) && ClanLoungeSwimmingPoolRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		// The Cargo Cultist Shorts is an instance of choice.php
+		if ( ( request instanceof CargoCultistShortsRequest || isExternal ) && CargoCultistShortsRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
