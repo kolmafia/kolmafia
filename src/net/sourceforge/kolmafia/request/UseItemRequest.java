@@ -6572,11 +6572,12 @@ public class UseItemRequest
 				return;
 			}
 			// You sit down at the chessboard, and the white pieces begin to move of their own accord. You play black.
-			if ( responseText.contains( "You sit down at the chessboard" ) )
+			// Your poor heart can't handle more than one high-stakes chess game per day.
+			if ( responseText.contains( "You sit down at the chessboard" ) ||
+			     responseText.contains( "Your poor heart can't handle" ))
 			{
 				Preferences.setBoolean( "_fancyChessSetUsed", true );
 			}
-			// *** What is the message for "you've already played today?
 			return;
 
 		case ItemPool.ONYX_KING:
