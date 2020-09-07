@@ -10631,7 +10631,7 @@
 10603	fistful of wood shavings	725899167	scpowder.gif	none, combat	t,d	5	fistsful of wood shavings
 10604	Yeg's Motel ashtray	695921497	yeg_ashtray.gif	none, combat	t,d	6
 10605	Yeg's Motel alarm clock	834539301	yeg_clock.gif	usable	t,d	6
-10606	Yeg's Motel toothbrush	948291485	yeg_toothbrush.gif	potion, usable	t,d	6
+10606	Yeg's Motel toothbrush	948291485	yeg_toothbrush.gif	potion, usable	t,d	6	Yeg's Motel toothbrushes
 10607	Yeg's Motel hand soap	330502223	yeg_soap.gif	potion, usable	t,d	6
 10608	Yeg's Motel sewing kit	328995099	yeg_sewingkit.gif	usable, combat	t,d	6
 10609	Yeg's Motel pillow mint	417610771	yeg_mint.gif	food	t,d	6
@@ -10660,10 +10660,10 @@
 10632	alabaster bishop	576617018	chess2.gif	usable	t,d	6
 10633	alabaster knight	204800076	chess6.gif	usable	t,d	6
 10634	alabaster pawn	223233962	chess1.gif	usable	t,d	6
-10635	bagged Cargo Cultist Shorts	190234623	cultistshortsbag.gif	usable	t	0
-10636	Cargo Cultist Shorts	749790865	cultistshorts.gif	pants		0
+10635	bagged Cargo Cultist Shorts	190234623	cultistshortsbag.gif	usable	t	0	bagged pairs of Cargo Cultist Shorts
+10636	Cargo Cultist Shorts	749790865	cultistshorts.gif	pants		0	pairs of Cargo Cultist Shorts
 10637	complicated device	539406330	gymcard.gif	offhand		0
-10638	flask of moonshine	316918980	flask.gif	drink	t,d	6
+10638	flask of moonshine	316918980	flask.gif	drink	t,d	6	flasks of moonshine
 10639	sea-worn candlestick	727071839	seacandle.gif	weapon		0
 10640	Universal Seasoning	607903571	spice.gif	usable		0
 10641

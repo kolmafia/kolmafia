@@ -1983,7 +1983,7 @@ Glass Jack Hummel	2135	pr_glassjack.gif	Atk: 100 Def: 100 HP: 200 Init: 50 P: co
 # Cargo Cultist Shorts (Sep 2020)
 Astrologer of Shub-Jigguwatt	2200	ccs_astrologer.gif	Scale: 0 E: sleaze Init: -10000 P: constellation	star chart (n100)	star (n100)	star (n100)	line (n100)	line (n100)
 Burning Daughter	2196	ccs_daughter.gif	Scale: 0 E: hot Init: -10000 P: elemental	fire (n100)	fire (n100)	flame orb (n100)
-Chosen of Yog-Urt	2199	ccs_disciple.gif	Scale: 0 E: stench Init: -10000 P: horror	bowl of cottage cheese (n100)	bowl of cottage cheese (n100)	bowl of cottage cheese (n100)	glass of goat's milk (n100)	glass of goat's milk (n100)
+Chosen of Yog-Urt	2199	ccs_disciple.gif	Scale: 0 E: stench Init: -10000 P: horror	bowl of cottage cheese (n100)	bowl of cottage cheese (n100)	bowl of cottage cheese (n0)	glass of goat's milk (n100)	glass of goat's milk (n100)
 Herald of Fridgr	2197	ccs_herald.gif	Scale: 0 E: cold Init: -10000 P: dude	cold wad (n100)	cold nuggets (n100)	cold nuggets (n100)	cold powder (n100)	cold powder (n100)
 Tentacle of Sssshhsssblllrrggghsssssggggrrgglsssshhssslblg	2198	ccs_tentacle.gif	Scale: 0 E: spooky Init: -10000 P: horror
 

@@ -1420,6 +1420,23 @@ public abstract class UseLinkDecorator
 				uses.add( useLink );
 				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
 			}
+
+			case ItemPool.CARGO_CULTIST_SHORTS:
+			{
+				UseLink equipLink = new UseLink( itemId, itemCount,
+								 getEquipmentSpeculation( "equip", itemId, -1 ),
+								 "inv_equip.php?which=2&action=equip&whichitem=" );
+				// inventory.pvp?action=pocket
+				UseLink pocketLink = new UseLink( itemId, 1,
+								  "pockets",
+								  "inventory.php?action=pocket",
+								  false );
+				ArrayList<UseLink> uses = new ArrayList<UseLink>();
+				uses.add( equipLink );
+				uses.add( pocketLink );
+				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
+			}
+
 			}
 
 			// Don't offer an "equip" link for weapons or offhands
