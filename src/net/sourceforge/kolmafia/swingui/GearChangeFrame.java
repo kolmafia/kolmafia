@@ -154,6 +154,7 @@ public class GearChangeFrame
 			case EquipmentManager.ACCESSORY1:
 			case EquipmentManager.ACCESSORY2:
 			case EquipmentManager.ACCESSORY3:
+			case EquipmentManager.FAMILIAR:
 			case EquipmentManager.BOOTSKIN:
 			case EquipmentManager.BOOTSPUR:
 			case EquipmentManager.HOLSTER:
@@ -374,7 +375,7 @@ public class GearChangeFrame
 			if ( i == Modifiers.WIKI_NAME ||
 			     i == Modifiers.MODIFIERS ||
 			     i == Modifiers.OUTFIT ||
-			     i == Modifiers.FAMILIAR_EFFCT )
+			     i == Modifiers.FAMILIAR_EFFECT )
 			{
 				continue;
 			}
@@ -1145,6 +1146,11 @@ public class GearChangeFrame
 			lists[ slot ] = items;
 		}
 
+		// Certain familiars can carry non-familiar-items
+		FamiliarData myFamiliar = KoLCharacter.getFamiliar();
+		int specialFamiliarType = myFamiliar.specialEquipmentType();
+		boolean specialFamiliar = ( specialFamiliarType != KoLConstants.NO_CONSUME );
+
 		// Look at every item in inventory
 		for ( AdventureResult item : KoLConstants.inventory )
 		{
@@ -1201,6 +1207,11 @@ public class GearChangeFrame
 				}
 				break;
 			}
+
+			if ( specialFamiliar && (consumption == specialFamiliarType ) && myFamiliar.canEquip( item ) )
+			{
+				lists[ EquipmentManager.FAMILIAR ].add( item );
+			}
 		}
 
 		// Add current equipment
@@ -1219,13 +1230,36 @@ public class GearChangeFrame
 			}
 
 			// If a non-current familiar has an appropriate item, add it.
-			FamiliarData familiar = familiarCarryingEquipment( slot );
-			if ( familiar != null && familiar != KoLCharacter.getFamiliar() )
+			if ( slot != EquipmentManager.FAMILIAR )
 			{
-				AdventureResult familiarItem = familiar.getItem();
-				if ( !items.contains( familiarItem ) && this.filterItem( familiarItem, slot ) )
+				FamiliarData familiar = familiarCarryingEquipment( slot );
+				if ( familiar != null && familiar != KoLCharacter.getFamiliar() )
 				{
-					items.add( familiarItem );
+					AdventureResult familiarItem = familiar.getItem();
+					if ( !items.contains( familiarItem ) && this.filterItem( familiarItem, slot ) )
+					{
+						items.add( familiarItem );
+					}
+				}
+			}
+		}
+
+		// Add stealable familiar equipment
+		if ( myFamiliar != FamiliarData.NO_FAMILIAR )
+		{
+			List<AdventureResult> items = lists[ EquipmentManager.FAMILIAR ];
+			for ( FamiliarData familiar : KoLCharacter.familiars )
+			{
+				if ( familiar == myFamiliar )
+				{
+					continue;
+				}
+				AdventureResult famItem = familiar.getItem();
+				if ( famItem != EquipmentRequest.UNEQUIP &&
+				     myFamiliar.canEquip( famItem ) &&
+				     !items.contains( famItem ) )
+				{
+					items.add( famItem );
 				}
 			}
 		}
@@ -1264,8 +1298,13 @@ public class GearChangeFrame
 				return false;
 			}
 			break;
-			// The following lists are in EquipmentManager
 		case KoLConstants.EQUIP_FAMILIAR:
+			if ( !KoLCharacter.getFamiliar().canEquip( item ) )
+			{
+				return false;
+			}
+			break;
+			// The following lists are in EquipmentManager
 		case KoLConstants.CONSUME_STICKER:
 		case KoLConstants.CONSUME_CARD:
 		case KoLConstants.CONSUME_FOLDER:

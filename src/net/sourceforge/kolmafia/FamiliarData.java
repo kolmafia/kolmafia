@@ -1205,6 +1205,23 @@ public class FamiliarData
 		return false;
 	}
 
+	public int specialEquipmentType()
+	{
+		switch ( this.id )
+		{
+		case FamiliarPool.HATRACK:
+			return KoLConstants.EQUIP_HAT;
+		case FamiliarPool.HAND:
+			return KoLConstants.EQUIP_WEAPON;
+		case FamiliarPool.LEFT_HAND:
+			return KoLConstants.EQUIP_OFFHAND;
+		case FamiliarPool.SCARECROW:
+			return KoLConstants.EQUIP_PANTS;
+		default:
+			return KoLConstants.NO_CONSUME;
+		}
+	}
+
 	public static boolean lockableItem( final AdventureResult item )
 	{
 		if ( item == null || item == EquipmentRequest.UNEQUIP )
