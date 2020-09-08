@@ -3427,6 +3427,11 @@ public class GenericRequest
 			name = "Genie Wish";
 			break;
 
+		case 1420:
+			name = "Cargo Cultist Shorts";
+			Preferences.setBoolean( CargoCultistShortsRequest.PICKED_POCKET_PROPERTY, true );
+			break;
+
 		default:
 			return;
 		}
