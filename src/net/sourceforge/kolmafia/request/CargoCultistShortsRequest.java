@@ -45,11 +45,14 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -105,37 +108,48 @@ public class CargoCultistShortsRequest
 	// *** The following should be in the Cargo Cultist Shorts pocket database
 	// *** For now, I'm putting this here, since we need to know which pockets lead to fights.
 
-	public static final Map<Integer, String> freeFights = new HashMap<>();
+	public static final Map<Integer, MonsterData> freeFights = new HashMap<>();
+
+	private static void registerMonsterPocket( int pocket, String monsterName )
+	{
+		MonsterData monster = MonsterDatabase.findMonster( monsterName );
+		if ( monster == null )
+		{
+			RequestLogger.printLine( "Pocket " + pocket + " leads to unknown monster '" + monsterName + "'"  );
+			return;
+		}
+		CargoCultistShortsRequest.freeFights.put( 30,  monster );
+	}
 
 	static
 	{
-		CargoCultistShortsRequest.freeFights.put( 30,  "bookbat" );
-		CargoCultistShortsRequest.freeFights.put( 47,  "dairy goat" );
-		CargoCultistShortsRequest.freeFights.put( 136, "Knob Goblin Elite Guardsman" );
-		CargoCultistShortsRequest.freeFights.put( 143, "dirty old lihc" );
-		CargoCultistShortsRequest.freeFights.put( 191, "batrat" );
-		CargoCultistShortsRequest.freeFights.put( 220, "lobsterfrogman" );
-		CargoCultistShortsRequest.freeFights.put( 235, "modern zmobie" );
-		CargoCultistShortsRequest.freeFights.put( 250, "Blooper" );
-		CargoCultistShortsRequest.freeFights.put( 267, "creepy clown" );
-		CargoCultistShortsRequest.freeFights.put( 279, "Hellion" );
-		CargoCultistShortsRequest.freeFights.put( 299, "Knob Goblin Harem Girl" );
-		CargoCultistShortsRequest.freeFights.put( 306, "big creepy spider" );
-		CargoCultistShortsRequest.freeFights.put( 317, "Camel's Toe" );
-		CargoCultistShortsRequest.freeFights.put( 363, "pufferfish" );
-		CargoCultistShortsRequest.freeFights.put( 383, "Skinflute" );
-		CargoCultistShortsRequest.freeFights.put( 402, "Fruit Golem" );
-		CargoCultistShortsRequest.freeFights.put( 425, "eXtreme Orcish snowboarder" );
-		CargoCultistShortsRequest.freeFights.put( 428, "Mob Penguin Thug" );
-		CargoCultistShortsRequest.freeFights.put( 443, "War Hippy (space) cadet" );
-		CargoCultistShortsRequest.freeFights.put( 448, "completely different spider" );
-		CargoCultistShortsRequest.freeFights.put( 452, "pygmy shaman" );
-		CargoCultistShortsRequest.freeFights.put( 490, "Booze Giant" );
-		CargoCultistShortsRequest.freeFights.put( 565, "mountain man" );
-		CargoCultistShortsRequest.freeFights.put( 568, "War Pledge" );
-		CargoCultistShortsRequest.freeFights.put( 589, "Green Ops Soldier" );
-		CargoCultistShortsRequest.freeFights.put( 646, "1335 HaXx0r" );
-		CargoCultistShortsRequest.freeFights.put( 666, "smut orc pervert" );
+		registerMonsterPocket( 30,  "bookbat" );
+		registerMonsterPocket( 47,  "dairy goat" );
+		registerMonsterPocket( 136, "Knob Goblin Elite Guardsman" );
+		registerMonsterPocket( 143, "dirty old lihc" );
+		registerMonsterPocket( 191, "batrat" );
+		registerMonsterPocket( 220, "lobsterfrogman" );
+		registerMonsterPocket( 235, "modern zmobie" );
+		registerMonsterPocket( 250, "Blooper" );
+		registerMonsterPocket( 267, "creepy clown" );
+		registerMonsterPocket( 279, "Hellion" );
+		registerMonsterPocket( 299, "Knob Goblin Harem Girl" );
+		registerMonsterPocket( 306, "big creepy spider" );
+		registerMonsterPocket( 317, "Camel's Toe" );
+		registerMonsterPocket( 363, "pufferfish" );
+		registerMonsterPocket( 383, "Skinflute" );
+		registerMonsterPocket( 402, "Fruit Golem" );
+		registerMonsterPocket( 425, "eXtreme Orcish snowboarder" );
+		registerMonsterPocket( 428, "Mob Penguin Thug" );
+		registerMonsterPocket( 443, "War Hippy (space) cadet" );
+		registerMonsterPocket( 448, "completely different spider" );
+		registerMonsterPocket( 452, "pygmy shaman" );
+		registerMonsterPocket( 490, "Booze Giant" );
+		registerMonsterPocket( 565, "mountain man" );
+		registerMonsterPocket( 568, "War Pledge" );
+		registerMonsterPocket( 589, "Green Ops Soldier" );
+		registerMonsterPocket( 646, "1335 HaXx0r" );
+		registerMonsterPocket( 666, "smut orc pervert" );
 	};
 
 	// *** End of temporary code
@@ -165,13 +179,13 @@ public class CargoCultistShortsRequest
 		return true;
 	}
 
-	public static String getMonsterFight( final String urlString )
+	public static MonsterData getMonsterFight( final String urlString )
 	{
 		int pocket = CargoCultistShortsRequest.extractPocketFromURL( urlString );
 		return CargoCultistShortsRequest.getMonsterFight( pocket );
 	}
 
-	public static String getMonsterFight( final int pocket )
+	public static MonsterData getMonsterFight( final int pocket )
 	{
 		return CargoCultistShortsRequest.freeFights.get( pocket );
 	}

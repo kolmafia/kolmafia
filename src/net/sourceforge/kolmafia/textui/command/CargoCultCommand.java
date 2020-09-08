@@ -37,6 +37,7 @@ import java.util.Set;
 
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -106,14 +107,14 @@ public class CargoCultCommand
 		Set<Integer> pockets = CargoCultistShortsRequest.pickedPockets;
 		if ( pockets.size() == 0 )
 		{
-			KoLmafia.updateDisplay( "You have not picked any pockets yet during this ascension." );
+			RequestLogger.printLine( "You have not picked any pockets yet during this ascension." );
 			return;
 		}
 
-		KoLmafia.updateDisplay( "You have picked the following pockets during this ascension:" );
+		RequestLogger.printLine( "You have picked the following pockets during this ascension:" );
 		for ( Integer pocket : pockets )
 		{
-			KoLmafia.updateDisplay( String.valueOf( pocket ) );
+			RequestLogger.printLine( String.valueOf( pocket ) );
 		}
 	}
 
