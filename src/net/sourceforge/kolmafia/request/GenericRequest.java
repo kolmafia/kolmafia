@@ -3429,7 +3429,7 @@ public class GenericRequest
 
 		case 1420:
 			name = "Cargo Cultist Shorts";
-			Preferences.setBoolean( CargoCultistShortsRequest.PICKED_POCKET_PROPERTY, true );
+			CargoCultistShortsRequest.registerPocketFight( location );
 			break;
 
 		default:
