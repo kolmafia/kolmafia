@@ -1378,7 +1378,10 @@ public abstract class KoLmafia
 				{
 					RecoveryManager.recoverHP();
 				}
-				checkpoint.restore();
+				if ( checkpoint != null )
+				{
+					checkpoint.restore();
+				}
 			}
 		}
 	}
