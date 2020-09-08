@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -100,6 +102,44 @@ public class CargoCultistShortsRequest
 		Preferences.setString( EMPTY_POCKETS_PROPERTY, buffer.toString() );
 	}
 
+	// *** The following should be in the Cargo Cultist Shorts pocket database
+	// *** For now, I'm putting this here, since we need to know which pockets lead to fights.
+
+	public static final Map<Integer, String> freeFights = new HashMap<>();
+
+	static
+	{
+		CargoCultistShortsRequest.freeFights.put( 30,  "bookbat" );
+		CargoCultistShortsRequest.freeFights.put( 47,  "dairy goat" );
+		CargoCultistShortsRequest.freeFights.put( 136, "Knob Goblin Elite Guardsman" );
+		CargoCultistShortsRequest.freeFights.put( 143, "dirty old lihc" );
+		CargoCultistShortsRequest.freeFights.put( 191, "batrat" );
+		CargoCultistShortsRequest.freeFights.put( 220, "lobsterfrogman" );
+		CargoCultistShortsRequest.freeFights.put( 235, "modern zmobie" );
+		CargoCultistShortsRequest.freeFights.put( 250, "Blooper" );
+		CargoCultistShortsRequest.freeFights.put( 267, "creepy clown" );
+		CargoCultistShortsRequest.freeFights.put( 279, "Hellion" );
+		CargoCultistShortsRequest.freeFights.put( 299, "Knob Goblin Harem Girl" );
+		CargoCultistShortsRequest.freeFights.put( 306, "big creepy spider" );
+		CargoCultistShortsRequest.freeFights.put( 317, "Camel's Toe" );
+		CargoCultistShortsRequest.freeFights.put( 363, "pufferfish" );
+		CargoCultistShortsRequest.freeFights.put( 383, "Skinflute" );
+		CargoCultistShortsRequest.freeFights.put( 402, "Fruit Golem" );
+		CargoCultistShortsRequest.freeFights.put( 425, "eXtreme Orcish snowboarder" );
+		CargoCultistShortsRequest.freeFights.put( 428, "Mob Penguin Thug" );
+		CargoCultistShortsRequest.freeFights.put( 443, "War Hippy (space) cadet" );
+		CargoCultistShortsRequest.freeFights.put( 448, "completely different spider" );
+		CargoCultistShortsRequest.freeFights.put( 452, "pygmy shaman" );
+		CargoCultistShortsRequest.freeFights.put( 490, "Booze Giant" );
+		CargoCultistShortsRequest.freeFights.put( 565, "mountain man" );
+		CargoCultistShortsRequest.freeFights.put( 568, "War Pledge" );
+		CargoCultistShortsRequest.freeFights.put( 589, "Green Ops Soldier" );
+		CargoCultistShortsRequest.freeFights.put( 646, "1335 HaXx0r" );
+		CargoCultistShortsRequest.freeFights.put( 666, "smut orc pervert" );
+	};
+
+	// *** End of temporary code
+
 	int pocket = 0;
 
 	public CargoCultistShortsRequest()
@@ -125,23 +165,15 @@ public class CargoCultistShortsRequest
 		return true;
 	}
 
-	@Override
-	public int getAdventuresUsed()
-	{
-		return CargoCultistShortsRequest.getAdventuresUsed( this.pocket );
-	}
-
-	public static int getAdventuresUsed( final String urlString )
+	public static String getMonsterFight( final String urlString )
 	{
 		int pocket = CargoCultistShortsRequest.extractPocketFromURL( urlString );
-		return CargoCultistShortsRequest.getAdventuresUsed( pocket );
+		return CargoCultistShortsRequest.getMonsterFight( pocket );
 	}
 
-	public static int getAdventuresUsed( final int pocket )
+	public static String getMonsterFight( final int pocket )
 	{
-		// Only (some) pockets that lead to a fight take a turn.
-		// *** And which ones are those?
-		return 0;
+		return CargoCultistShortsRequest.freeFights.get( pocket );
 	}
 
 	@Override
@@ -164,6 +196,23 @@ public class CargoCultistShortsRequest
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You've already looted a pocket from your Cargo Cultist Shorts today" );
 			return;
+		}
+
+		Set<Integer> pockets = CargoCultistShortsRequest.pickedPockets;
+		if ( this.pocket != 0 && pockets.contains( this.pocket ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You've already emptied that pocket this ascension." );
+			return;
+		}
+
+		// If we are requesting a pocket which leads to a free fight,
+		// recover first.
+		if ( this.pocket != 0 && this.getMonsterFight( this.pocket ) != null )
+		{
+			// set location to "None" for the benefit of
+			// betweenBattleScripts
+			Preferences.setString( "nextAdventure", "None" );
+			RecoveryManager.runBetweenBattleChecks( true );
 		}
 
 		GenericRequest useRequest = new GenericRequest( "inventory.php" );
@@ -193,7 +242,6 @@ public class CargoCultistShortsRequest
 
 		// If we have already emptied this pocket this ascension, it is not available.
 		// ChoiceManager called parseAvailablePockets, which updated our Set
-		Set<Integer> pockets = CargoCultistShortsRequest.pickedPockets;
 
 		if ( pockets.contains( this.pocket ) )
 		{
@@ -201,19 +249,6 @@ public class CargoCultistShortsRequest
 			this.constructURLString( "choice.php?whichchoice=1420&option=2", true );
 			super.run();
 			return;
-		}
-
-		// The pocket is available. Assume it works.
-		Preferences.setBoolean( PICKED_POCKET_PROPERTY, true );
-
-		// If we are picking a pocket which is known to lead to a
-		// fight, recover first.
-		if ( this.getAdventuresUsed() > 0 )
-		{
-			// set location to "None" for the benefit of
-			// betweenBattleScripts
-			Preferences.setString( "nextAdventure", "None" );
-			RecoveryManager.runBetweenBattleChecks( true );
 		}
 
 		// Pick the pocket!
