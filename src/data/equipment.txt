@@ -3275,6 +3275,7 @@ Xiblaxian xeno-detection goggles	100	none
 Xlyinia's notebook	0	none
 ye olde golde frontes	40	Mox: 5
 Yearbook Club Camera	0	none
+Yeg's Motel slippers	66	none
 yellow glowstick	20	none
 Yellow Moon of Compassion	200	Mys: 85
 your cowboy boots	50	none
