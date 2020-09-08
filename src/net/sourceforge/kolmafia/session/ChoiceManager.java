@@ -12218,7 +12218,7 @@ public abstract class ChoiceManager
 			// Cargo Cultist Shorts
 			if ( ChoiceManager.lastDecision == 1 )
 			{
-				Preferences.setBoolean( "_cargoPocketEmptied", true );
+				CargoCultistShortsRequest.parsePocketPick( urlString, text );
 			}
 			break;
 		}

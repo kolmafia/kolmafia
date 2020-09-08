@@ -94,6 +94,7 @@ import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
@@ -988,6 +989,7 @@ public abstract class KoLmafia
 		// Items that need to be checked every time
 		InventoryManager.checkKGB();
 		InventoryManager.checkBirdOfTheDay();
+		CargoCultistShortsRequest.loadPockets();
 
 		// Check items that vary per person
 		// These won't actually generate a server hit if the item

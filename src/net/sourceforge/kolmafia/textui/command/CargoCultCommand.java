@@ -38,7 +38,11 @@ import java.util.Set;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
+
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -47,51 +51,70 @@ public class CargoCultCommand
 {
 	public CargoCultCommand()
 	{
-		this.usage = " [pocket] - get status of Cargo Cult Shorts, or pick a pocket.";
+		this.usage = " inspect | [pocket] - get status of Cargo Cult Shorts, or pick a pocket.";
 	}
 
 	@Override
 	public void run( final String cmd, String parameters )
 	{
+		if ( InventoryManager.getAccessibleCount( ItemPool.CARGO_CULTIST_SHORTS ) == 0 )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't own a pair of Cargo Cultist Shorts" );
+			return;
+		}
+
 		if ( parameters.equals( "" ) )
+		{
+			this.printPockets();
+			return;
+		}
+
+		if ( parameters.equals( "inspect" ) )
 		{
 			CargoCultistShortsRequest visit = new CargoCultistShortsRequest();
 			visit.run();
+
 			if ( !KoLmafia.permitsContinue() )
 			{
 				return;
 			}
 
-			Set<Integer> pockets = CargoCultistShortsRequest.lastPockets;
-			if ( pockets.size() == 0 )
+			this.printPockets();
+			return;
+		}
+
+		if ( StringUtilities.isNumeric( parameters ) )
+		{
+			int pocket = StringUtilities.parseInt( parameters );
+
+			if ( pocket < 1 || pocket > 666 )
 			{
-				KoLmafia.updateDisplay( "You have not picked any pockets yet during this ascension." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Pocket must be from 1-666" );
 				return;
 			}
 
-			KoLmafia.updateDisplay( "You have picked the following pockets during this ascension:" );
-			for ( Integer pocket : pockets )
-			{
-				KoLmafia.updateDisplay( String.valueOf( pocket ) );
-			}
+			CargoCultistShortsRequest pick = new CargoCultistShortsRequest( pocket );
+			pick.run();
 			return;
 		}
 
-		if ( !StringUtilities.isNumeric( parameters ) )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Specify a pocket # from 1-666" );
-			return;
-		}
-
-		int pocket = StringUtilities.parseInt( parameters );
-
-		if ( pocket < 1 || pocket > 666 )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Pocket must be from 1-666" );
-			return;
-		}
-
-		CargoCultistShortsRequest pick = new CargoCultistShortsRequest( pocket );
-		pick.run();
+		KoLmafia.updateDisplay( MafiaState.ERROR, "Specify a pocket # from 1-666" );
 	}
+
+	private void printPockets()
+	{
+		Set<Integer> pockets = CargoCultistShortsRequest.pickedPockets;
+		if ( pockets.size() == 0 )
+		{
+			KoLmafia.updateDisplay( "You have not picked any pockets yet during this ascension." );
+			return;
+		}
+
+		KoLmafia.updateDisplay( "You have picked the following pockets during this ascension:" );
+		for ( Integer pocket : pockets )
+		{
+			KoLmafia.updateDisplay( String.valueOf( pocket ) );
+		}
+	}
+
 }

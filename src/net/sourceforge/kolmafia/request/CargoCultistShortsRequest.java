@@ -61,7 +61,45 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CargoCultistShortsRequest
 	extends GenericRequest
 {
-	public static Set<Integer> lastPockets = new TreeSet<>();
+	public static final String EMPTY_POCKETS_PROPERTY = "cargoPocketsEmptied";
+	public static final String PICKED_POCKET_PROPERTY = "_cargoPocketEmptied";
+
+	public static final Set<Integer> pickedPockets = new TreeSet<>();
+
+	public static void loadPockets()
+	{
+		Set<Integer> pockets = CargoCultistShortsRequest.pickedPockets;
+		pockets.clear();
+
+		for ( String pocket : Preferences.getString( EMPTY_POCKETS_PROPERTY ).split( " *, *" ) )
+		{
+			if ( StringUtilities.isNumeric( pocket ) )
+			{
+				int num = StringUtilities.parseInt( pocket );
+				if ( num >= 1 && num <= 666 )
+				{
+					pockets.add( Integer.valueOf( num ) );
+				}
+			}
+		}
+	}
+
+	public static void savePockets()
+	{
+		Set<Integer> pockets = CargoCultistShortsRequest.pickedPockets;
+
+		StringBuilder buffer = new StringBuilder();
+		for ( Integer pocket : pockets )
+		{
+			if ( buffer.length() > 0 )
+			{
+				buffer.append( "," );
+			}
+			buffer.append( pocket );
+		}
+
+		Preferences.setString( EMPTY_POCKETS_PROPERTY, buffer.toString() );
+	}
 
 	int pocket = 0;
 
@@ -123,7 +161,7 @@ public class CargoCultistShortsRequest
 			return;
 		}
 
-		if ( this.pocket != 0 && Preferences.getBoolean( "_cargoPocketEmptied" ) )
+		if ( this.pocket != 0 && Preferences.getBoolean( PICKED_POCKET_PROPERTY ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You've already looted a pocket from your Cargo Cultist Shorts today" );
 			return;
@@ -155,7 +193,8 @@ public class CargoCultistShortsRequest
 		}
 
 		// If we have already emptied this pocket this ascension, it is not available.
-		Set<Integer> pockets = CargoCultistShortsRequest.lastPockets;
+		// ChoiceManager called parseAvailablePockets, which updated our Set
+		Set<Integer> pockets = CargoCultistShortsRequest.pickedPockets;
 
 		if ( pockets.contains( this.pocket ) )
 		{
@@ -166,7 +205,7 @@ public class CargoCultistShortsRequest
 		}
 
 		// The pocket is available. Assume it works.
-		Preferences.setBoolean( "_cargoPocketEmptied", true );
+		Preferences.setBoolean( PICKED_POCKET_PROPERTY, true );
 
 		// If we are picking a pocket which is known to lead to a
 		// fight, recover first.
@@ -182,6 +221,7 @@ public class CargoCultistShortsRequest
 		super.run();
 
 		// Some pockets redirect to a fight. If not, we'll be here.
+		// ChoiceManager called parsePocketPick, which updated our Set
 
 		responseText = this.responseText;
 		if ( responseText == null )
@@ -209,15 +249,16 @@ public class CargoCultistShortsRequest
 	// <form method="post" action="choice.php" style="display: inline">
 	public static final Pattern AVAILABLE_POCKET_PATTERN = Pattern.compile( "<form method=\"post\" action=\"choice.php\" style=\"display: inline\">.*?name=\"pocket\" value=\"(\\d+)\".*?</form>", Pattern.DOTALL );
 
-	public static Set<Integer> parseAvailablePockets( final String responseText )
+	public static void parseAvailablePockets( final String responseText )
 	{
-		Set<Integer> pockets = new TreeSet<>();
-
 		// Iterate over the pockets in the form and remove them from the set of all pockets
 		if ( !responseText.contains( "There appear to be 666 pockets on these shorts." ) )
 		{
-			return pockets;
+			return;
 		}
+
+		Set<Integer> pockets = CargoCultistShortsRequest.pickedPockets;
+		pockets.clear();
 
 		Matcher pocketMatcher = CargoCultistShortsRequest.AVAILABLE_POCKET_PATTERN.matcher( responseText );
 		int expected = 1;
@@ -237,22 +278,41 @@ public class CargoCultistShortsRequest
 			pockets.add( Integer.valueOf( ++pocket ) );
 		}
 
-		// What remains is the set of pockets we have emptied.
-		StringBuilder buffer = new StringBuilder();
-		for ( Integer emptied : pockets )
+		// Save the set of pockets we have emptied in the property
+		CargoCultistShortsRequest.savePockets();
+	}
+
+	public static void parsePocketPick( final String urlString, final String responseText )
+	{
+		int pocket = CargoCultistShortsRequest.extractPocketFromURL( urlString );
+
+		if ( pocket < 1 || pocket > 666 )
 		{
-			if ( buffer.length() > 0 )
-			{
-				buffer.append( "," );
-			}
-			buffer.append( emptied );
+			return;
 		}
 
-		Preferences.setString( "cargoPocketsEmptied", buffer.toString() );
+		// You decide to leave your pockets unplundered for now
+		if ( responseText.contains( "leave your pockets unplundered" ) )
+		{
+			return;
+		}
 
-		CargoCultistShortsRequest.lastPockets = pockets;
+		// It seems like the power of the pockets has been exhausted for the day.
+		if ( responseText.contains( "the power of the pockets has been exhausted for the day" ) )
+		{
+			Preferences.setBoolean( PICKED_POCKET_PROPERTY, true );
+			return;
+		}
 
-		return pockets;
+		// *** What is the message if you've already opened that pocket?
+		// *** It doesn't really matter; we'll mark it as picked.
+
+		if ( !CargoCultistShortsRequest.pickedPockets.contains( pocket ) )
+		{
+			Preferences.setBoolean( PICKED_POCKET_PROPERTY, true );
+			CargoCultistShortsRequest.pickedPockets.add( pocket );
+			CargoCultistShortsRequest.savePockets();
+		}
 	}
 
 	public static final Pattern URL_POCKET_PATTERN = Pattern.compile( "pocket=(\\d+)" );
