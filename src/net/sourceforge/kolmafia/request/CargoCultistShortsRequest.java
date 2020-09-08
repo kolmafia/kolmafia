@@ -314,6 +314,14 @@ public class CargoCultistShortsRequest
 		}
 	}
 
+	public static void registerPocketFight( final String urlString )
+	{
+		int pocket = CargoCultistShortsRequest.extractPocketFromURL( urlString );
+		Preferences.setBoolean( PICKED_POCKET_PROPERTY, true );
+		CargoCultistShortsRequest.pickedPockets.add( pocket );
+		CargoCultistShortsRequest.savePockets();
+	}
+
 	public static final Pattern URL_POCKET_PATTERN = Pattern.compile( "pocket=(\\d+)" );
 	public static int extractPocketFromURL( final String urlString )
 	{
