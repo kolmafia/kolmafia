@@ -10639,7 +10639,7 @@
 10611	Yeg's Motel mouthwash	595241727	yeg_mouthwash.gif	potion, usable	t,d	6
 10612	Yeg's Motel shower cap	269778885	yeg_showercap.gif	hat	q	0
 10613	Yeg's Motel bathrobe	644237102	yeg_robe.gif	shirt	q	0
-10614	Yeg's Motel slippers	489971334	yeg_slippers.gif	accessory	q	0
+10614	Yeg's Motel slippers	489971334	yeg_slippers.gif	accessory	q	0	pairs of Yeg's Motel slippers
 10615	Yeg's Motel stationery	406602327	yeg_stationery.gif	none	t,d	6
 10616	Yeg's Motel minibar key	744475647	yeg_key.gif	usable	t,d	6
 10617	sizzling desk bell	748843407	yeg_bell.gif	usable	t	0

@@ -1123,7 +1123,7 @@ public class Modifiers
 	public static final int STAT_TUNING = 6;
 	public static final int EFFECT = 7;
 	public static final int EQUIPS_ON = 8;
-	public static final int FAMILIAR_EFFCT = 9;
+	public static final int FAMILIAR_EFFECT = 9;
 	public static final int JIGGLE = 10;
 	public static final int EQUALIZE_MUSCLE = 11;
 	public static final int EQUALIZE_MYST = 12;
