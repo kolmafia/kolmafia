@@ -40,7 +40,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -328,11 +327,8 @@ public class CargoCultistShortsRequest
 	{
 		if ( urlString.equals( "inventory.php?action=pocket" ) )
 		{
-			String message = "[" + KoLAdventure.getAdventureCount() + "] Cargo Cultist Shorts";
-			RequestLogger.printLine();
+			String  message = "Inspecting Cargo Cultist Shorts";
 			RequestLogger.printLine( message );
-
-			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( message );
 			return true;
 		}
