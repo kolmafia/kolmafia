@@ -352,15 +352,21 @@ public class CargoCultistShortsRequest
 			return;
 		}
 
-		// *** What is the message if you've already opened that pocket?
-		// *** It doesn't really matter; we'll mark it as picked.
-
+		// The pocket was not rejected
 		if ( !CargoCultistShortsRequest.pickedPockets.contains( pocket ) )
 		{
-			Preferences.setBoolean( PICKED_POCKET_PROPERTY, true );
 			CargoCultistShortsRequest.pickedPockets.add( pocket );
 			CargoCultistShortsRequest.savePockets();
 		}
+
+		// That pocket is empty.
+		if ( responseText.contains( "That pocket is empty" ) )
+		{
+			return;
+		}
+
+		// Successful pick
+		Preferences.setBoolean( PICKED_POCKET_PROPERTY, true );
 	}
 
 	public static void registerPocketFight( final String urlString )
