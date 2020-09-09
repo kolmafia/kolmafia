@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import java.util.regex.Matcher;
@@ -67,6 +68,8 @@ public class CargoCultistShortsRequest
 {
 	public static final String EMPTY_POCKETS_PROPERTY = "cargoPocketsEmptied";
 	public static final String PICKED_POCKET_PROPERTY = "_cargoPocketEmptied";
+	public static final String POCKET_SCRAPS_PROPERTY = "cargoPocketScraps";
+	public static final String POCKET_WATERLOGGED_SCRAPS_PROPERTY = "cargoPocketWaterloggedScraps";
 
 	public static final Set<Integer> pickedPockets = new TreeSet<>();
 
@@ -150,6 +153,43 @@ public class CargoCultistShortsRequest
 		registerMonsterPocket( 589, "Green Ops Soldier" );
 		registerMonsterPocket( 646, "1335 HaXx0r" );
 		registerMonsterPocket( 666, "smut orc pervert" );
+	};
+
+	public static final Set<Integer> paperScraps = new TreeSet<>();
+	public static final Set<Integer> waterloggedPaperScraps = new TreeSet<>();
+
+	static
+	{
+		paperScraps.add( 7 );
+		paperScraps.add( 172 );
+		paperScraps.add( 222 );
+		paperScraps.add( 251 );
+		paperScraps.add( 282 );
+		paperScraps.add( 373 );
+		paperScraps.add( 602 );
+
+		waterloggedPaperScraps.add( 45 );
+		waterloggedPaperScraps.add( 82 );
+		waterloggedPaperScraps.add( 108 );
+		waterloggedPaperScraps.add( 153 );
+		waterloggedPaperScraps.add( 181 );
+		waterloggedPaperScraps.add( 245 );
+		waterloggedPaperScraps.add( 246 );
+		waterloggedPaperScraps.add( 330 );
+		waterloggedPaperScraps.add( 375 );
+		waterloggedPaperScraps.add( 405 );
+		waterloggedPaperScraps.add( 444 );
+		waterloggedPaperScraps.add( 457 );
+		waterloggedPaperScraps.add( 502 );
+		waterloggedPaperScraps.add( 520 );
+		waterloggedPaperScraps.add( 531 );
+		waterloggedPaperScraps.add( 540 );
+		waterloggedPaperScraps.add( 561 );
+		waterloggedPaperScraps.add( 623 );
+		waterloggedPaperScraps.add( 628 );
+		waterloggedPaperScraps.add( 632 );
+		waterloggedPaperScraps.add( 640 );
+		waterloggedPaperScraps.add( 658 );
 	};
 
 	// *** End of temporary code
@@ -330,6 +370,45 @@ public class CargoCultistShortsRequest
 		CargoCultistShortsRequest.savePockets();
 	}
 
+	// This pocket contains a scrap of paper that reads: <b>XTNQ: Ga</b>
+	// This pocket contains a waterlogged scrap of paper that reads: <b>QDL XLR KVSJGGJV QRGL</b>
+	public static final Pattern SCRAP_PATTERN = Pattern.compile( "This pocket contains a (waterlogged )?scrap of paper that reads: <b>([^<]+)</b>>" );
+
+	private static void checkScrapPocket( int pocket, String responseText )
+	{
+		Matcher scrapMatcher = SCRAP_PATTERN.matcher( responseText );
+		if ( !scrapMatcher.find() )
+		{
+			return;
+		}
+
+		String printit = scrapMatcher.group( 0 );
+		RequestLogger.printLine( printit );
+		RequestLogger.updateSessionLog( printit );
+
+		boolean waterlogged = scrapMatcher.group( 1 ) != null;
+		Set<Integer> scrapSet = waterlogged ? waterloggedPaperScraps : paperScraps;
+
+		if ( !scrapSet.contains( pocket ) )
+		{
+			String prefix = waterlogged ? "waterlogged " : " ";
+			printit = "*** Pocket " + pocket + " unexpectedly contains a " + prefix + "scrap of paper.";
+			RequestLogger.printLine( printit );
+			RequestLogger.updateSessionLog( printit );
+		}
+
+		String property = waterlogged ? POCKET_WATERLOGGED_SCRAPS_PROPERTY: POCKET_SCRAPS_PROPERTY;
+		StringBuilder buffer = new StringBuilder( Preferences.getString( property ) );
+		if ( buffer.length() > 0 )
+		{
+			buffer.append( "," );
+		}
+		buffer.append( String.valueOf( pocket ) );
+		buffer.append( ":" );
+		buffer.append( scrapMatcher.group( 2 ) );
+		Preferences.setString( property, buffer.toString() );
+	}
+
 	public static void parsePocketPick( final String urlString, final String responseText )
 	{
 		int pocket = CargoCultistShortsRequest.extractPocketFromURL( urlString );
@@ -368,6 +447,8 @@ public class CargoCultistShortsRequest
 
 		// Successful pick
 		Preferences.setBoolean( PICKED_POCKET_PROPERTY, true );
+
+		CargoCultistShortsRequest.checkScrapPocket( pocket, responseText );
 	}
 
 	public static void registerPocketFight( final String urlString )

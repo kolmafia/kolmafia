@@ -381,6 +381,8 @@ user	campAwayDecoration	0
 user	canteenUnlocked	false
 user	carboLoading	0
 user	cargoPocketsEmptied
+user	cargoPocketScraps
+user	cargoPocketWaterloggedScraps
 user	catBurglarBankHeists	0
 user	cellarLayout	0
 user	chaosButterflyThrown	false
