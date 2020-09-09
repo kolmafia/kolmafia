@@ -642,6 +642,8 @@ public class ValhallaManager
 		Preferences.setBoolean( "moonTuned", false );
 		// Cargo Cultist Shorts
 		Preferences.setString( "cargoPocketsEmptied", "" );
+		Preferences.setString( "cargoPocketScraps", "" );
+		Preferences.setString( "cargoPocketWaterloggedScraps", "" );
 		// Community Service
 		Preferences.setString( "csServicesPerformed", "" );	
 		// AWOL
