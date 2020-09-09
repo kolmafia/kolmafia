@@ -401,7 +401,7 @@ public class CargoCultistShortsRequest
 		StringBuilder buffer = new StringBuilder( Preferences.getString( property ) );
 		if ( buffer.length() > 0 )
 		{
-			buffer.append( "," );
+			buffer.append( "|" );
 		}
 		buffer.append( String.valueOf( pocket ) );
 		buffer.append( ":" );
