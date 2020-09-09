@@ -7791,7 +7791,8 @@ public abstract class ChoiceManager
 
 	public static boolean nonInterruptingRequest( final String urlString, final GenericRequest request )
 	{
-		return  request.isChatRequest ||
+		return  request.isExternalRequest ||
+			request.isChatRequest ||
 			request.isDescRequest ||
 			request.isQuestLogRequest ||
 			urlString.startsWith( "main.php?checkbfast" ) ||

@@ -334,6 +334,7 @@ public class CargoCultistShortsRequest
 	{
 		int pocket = CargoCultistShortsRequest.extractPocketFromURL( urlString );
 
+		// That's not a pocket.
 		if ( pocket < 1 || pocket > 666 )
 		{
 			return;
