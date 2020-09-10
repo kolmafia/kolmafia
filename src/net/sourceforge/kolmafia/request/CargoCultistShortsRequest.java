@@ -69,7 +69,6 @@ public class CargoCultistShortsRequest
 	public static final String EMPTY_POCKETS_PROPERTY = "cargoPocketsEmptied";
 	public static final String PICKED_POCKET_PROPERTY = "_cargoPocketEmptied";
 	public static final String POCKET_SCRAPS_PROPERTY = "cargoPocketScraps";
-	public static final String POCKET_WATERLOGGED_SCRAPS_PROPERTY = "cargoPocketWaterloggedScraps";
 
 	public static final Set<Integer> pickedPockets = new TreeSet<>();
 
@@ -156,7 +155,6 @@ public class CargoCultistShortsRequest
 	};
 
 	public static final Set<Integer> paperScraps = new TreeSet<>();
-	public static final Set<Integer> waterloggedPaperScraps = new TreeSet<>();
 
 	static
 	{
@@ -167,29 +165,6 @@ public class CargoCultistShortsRequest
 		paperScraps.add( 282 );
 		paperScraps.add( 373 );
 		paperScraps.add( 602 );
-
-		waterloggedPaperScraps.add( 45 );
-		waterloggedPaperScraps.add( 82 );
-		waterloggedPaperScraps.add( 108 );
-		waterloggedPaperScraps.add( 153 );
-		waterloggedPaperScraps.add( 181 );
-		waterloggedPaperScraps.add( 245 );
-		waterloggedPaperScraps.add( 246 );
-		waterloggedPaperScraps.add( 330 );
-		waterloggedPaperScraps.add( 375 );
-		waterloggedPaperScraps.add( 405 );
-		waterloggedPaperScraps.add( 444 );
-		waterloggedPaperScraps.add( 457 );
-		waterloggedPaperScraps.add( 502 );
-		waterloggedPaperScraps.add( 520 );
-		waterloggedPaperScraps.add( 531 );
-		waterloggedPaperScraps.add( 540 );
-		waterloggedPaperScraps.add( 561 );
-		waterloggedPaperScraps.add( 623 );
-		waterloggedPaperScraps.add( 628 );
-		waterloggedPaperScraps.add( 632 );
-		waterloggedPaperScraps.add( 640 );
-		waterloggedPaperScraps.add( 658 );
 	};
 
 	// *** End of temporary code
@@ -376,6 +351,11 @@ public class CargoCultistShortsRequest
 
 	private static void checkScrapPocket( int pocket, String responseText )
 	{
+		// Waterlogged scraps encode a poem, which has been solved.
+		// We'll log the scrap in your session log, in case you want to
+		// try solving it, but it's not per-character, so doesn't need
+		// to be saved in a property.
+
 		Matcher scrapMatcher = SCRAP_PATTERN.matcher( responseText );
 		if ( !scrapMatcher.find() )
 		{
@@ -387,17 +367,12 @@ public class CargoCultistShortsRequest
 		RequestLogger.updateSessionLog( printit );
 
 		boolean waterlogged = scrapMatcher.group( 1 ) != null;
-		Set<Integer> scrapSet = waterlogged ? waterloggedPaperScraps : paperScraps;
-
-		if ( !scrapSet.contains( pocket ) )
+		if ( waterlogged )
 		{
-			String prefix = waterlogged ? "waterlogged " : " ";
-			printit = "*** Pocket " + pocket + " unexpectedly contains a " + prefix + "scrap of paper.";
-			RequestLogger.printLine( printit );
-			RequestLogger.updateSessionLog( printit );
+			return;
 		}
 
-		String property = waterlogged ? POCKET_WATERLOGGED_SCRAPS_PROPERTY: POCKET_SCRAPS_PROPERTY;
+		String property = POCKET_SCRAPS_PROPERTY;
 		StringBuilder buffer = new StringBuilder( Preferences.getString( property ) );
 		if ( buffer.length() > 0 )
 		{
@@ -406,7 +381,11 @@ public class CargoCultistShortsRequest
 		buffer.append( String.valueOf( pocket ) );
 		buffer.append( ":" );
 		buffer.append( scrapMatcher.group( 2 ) );
-		Preferences.setString( property, buffer.toString() );
+		String pockets = buffer.toString();
+		Preferences.setString( property, pockets );
+
+		// All 7 scraps will reveal a demon name
+		SummoningChamberRequest.updateYegName( pockets );
 	}
 
 	public static void parsePocketPick( final String urlString, final String responseText )

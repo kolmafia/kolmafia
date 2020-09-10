@@ -643,7 +643,7 @@ public class ValhallaManager
 		// Cargo Cultist Shorts
 		Preferences.setString( "cargoPocketsEmptied", "" );
 		Preferences.setString( "cargoPocketScraps", "" );
-		Preferences.setString( "cargoPocketWaterloggedScraps", "" );
+		Preferences.setString( "demonName13", "" );
 		// Community Service
 		Preferences.setString( "csServicesPerformed", "" );	
 		// AWOL
