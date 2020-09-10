@@ -2592,7 +2592,7 @@
 2590	Rictus of Yeg	teeth.gif	d230c29f0e2ea6f4032042bb10660660	neutral	none	use 1 Yeg's Motel toothbrush
 2591	Sigils of Yeg	yeg_sigils.gif	90fca24c71336a9d068f8ebdfd590026	neutral	none	use 1 Yeg's Motel hand soap
 2592	Breath of Yeg	yeg_breath.gif	6cfee0050e393ded4a718abbbfb12a91	neutral	none	use 1 Yeg's Motel mouthwash
-2593
+2593	Yeg's Power	yeg_blessing.gif	5540baf46ed3a15e3b7abdf07d1af4a0	neutral	none	summon 13
 2594	Barely Visible	pocket.gif	ca9f21774a3b01ecfee07b90c6731ab9	neutral	none
 2595	Very Attractive	louder.gif	c3e2a8c1687a3573d1ee3c76b91c1098	neutral	none
 2596	Finding Stuff	eyes.gif	bc571a98e78b819e9342aff772f12052	neutral	none
