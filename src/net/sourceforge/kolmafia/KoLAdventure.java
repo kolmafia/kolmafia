@@ -105,6 +105,7 @@ public class KoLAdventure
 		{ "Strange Cube", "The Pleasures of the Flesh" },
 		{ "Battlefield", "Infernal Thirst" },
 		{ null, "Jacked In" },
+		{ null, "Yeg's Power" },
 	};
 
 	public static final AdventureResult BEATEN_UP = EffectPool.get( EffectPool.BEATEN_UP, 4 );

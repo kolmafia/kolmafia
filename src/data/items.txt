@@ -10632,7 +10632,7 @@
 10604	Yeg's Motel ashtray	695921497	yeg_ashtray.gif	none, combat	t,d	6
 10605	Yeg's Motel alarm clock	834539301	yeg_clock.gif	usable	t,d	6
 10606	Yeg's Motel toothbrush	948291485	yeg_toothbrush.gif	potion, usable	t,d	6	Yeg's Motel toothbrushes
-10607	Yeg's Motel hand soap	330502223	yeg_soap.gif	potion, usable	t,d	6
+10607	Yeg's Motel hand soap	330502223	yeg_soap.gif	potion, usable	t,d	6	bars of Yeg's Motel hand soap
 10608	Yeg's Motel sewing kit	328995099	yeg_sewingkit.gif	usable, combat	t,d	6
 10609	Yeg's Motel pillow mint	417610771	yeg_mint.gif	food	t,d	6
 10610	Yeg's Motel disposable razor	225432177	yeg_razor.gif	none, combat	t,d	6

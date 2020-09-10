@@ -33,6 +33,9 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,6 +53,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SummoningChamberRequest
 	extends GenericRequest
@@ -231,5 +236,36 @@ public class SummoningChamberRequest
 		// throw "Neil" on the front to mark that this is finished
 		demonName = "Neil " + demonName;
 		Preferences.setString( "demonName12", demonName );
+	}
+
+	public static void updateYegName( String property )
+	{
+		// 373, 322, 7, 602, 172, 251, 282
+		String[] pockets = property.split( "|" );
+		if ( pockets.length != 7 )
+		{
+			return;
+		}
+
+		Map<Integer, String> syllables = new HashMap<>();
+		for ( String pocket : pockets )
+		{
+			String[] parts = pocket.split( ": *" );
+			int key = StringUtilities.parseInt( parts[0] );
+			String syllable = parts[2].trim();
+			syllables.put( key, syllable );
+		}
+
+		StringBuilder name = new StringBuilder();
+		name.append( syllables.get( 373 ) );
+		name.append( syllables.get( 322 ) );
+		name.append( syllables.get(   7 ) );
+		name.append( syllables.get( 602 ) );
+		name.append( syllables.get( 172 ) );
+		name.append( syllables.get( 251 ) );
+		name.append( syllables.get( 282 ) );
+
+		String demonName = StringUtilities.globalStringReplace( name.toString(), "_", " " );
+		Preferences.setString( "demonName13", demonName );
 	}
 }
