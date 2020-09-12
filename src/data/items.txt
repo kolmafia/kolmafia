@@ -10636,7 +10636,7 @@
 10608	Yeg's Motel sewing kit	328995099	yeg_sewingkit.gif	usable, combat	t,d	6
 10609	Yeg's Motel pillow mint	417610771	yeg_mint.gif	food	t,d	6
 10610	Yeg's Motel disposable razor	225432177	yeg_razor.gif	none, combat	t,d	6
-10611	Yeg's Motel mouthwash	595241727	yeg_mouthwash.gif	potion, usable	t,d	6
+10611	Yeg's Motel mouthwash	595241727	yeg_mouthwash.gif	potion, usable	t,d	6	bottles of Yeg's Motel mouthwash
 10612	Yeg's Motel shower cap	269778885	yeg_showercap.gif	hat	q	0
 10613	Yeg's Motel bathrobe	644237102	yeg_robe.gif	shirt	q	0
 10614	Yeg's Motel slippers	489971334	yeg_slippers.gif	accessory	q	0	pairs of Yeg's Motel slippers
