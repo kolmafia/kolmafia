@@ -120,7 +120,7 @@ public class CargoCultistShortsRequest
 			RequestLogger.printLine( "Pocket " + pocket + " leads to unknown monster '" + monsterName + "'"  );
 			return;
 		}
-		CargoCultistShortsRequest.freeFights.put( 30,  monster );
+		CargoCultistShortsRequest.freeFights.put( pocket,  monster );
 	}
 
 	static
@@ -152,6 +152,21 @@ public class CargoCultistShortsRequest
 		registerMonsterPocket( 589, "Green Ops Soldier" );
 		registerMonsterPocket( 646, "1335 HaXx0r" );
 		registerMonsterPocket( 666, "smut orc pervert" );
+	};
+
+	public static final Map<Integer, Integer> meatPockets = new TreeMap<>();
+
+	static
+	{
+		meatPockets.put( 577, 118 );
+		meatPockets.put( 149, 245 );
+		meatPockets.put( 115, 351 );
+		meatPockets.put( 139, 451 );
+		meatPockets.put( 554, 566 );
+		meatPockets.put( 504, 678 );
+		meatPockets.put(  54, 725 );
+		meatPockets.put( 484, 872 );
+		meatPockets.put( 621, 917 );
 	};
 
 	public static final Set<Integer> paperScraps = new TreeSet<>();
@@ -388,6 +403,31 @@ public class CargoCultistShortsRequest
 		SummoningChamberRequest.updateYegName( pockets );
 	}
 
+	// <span class='guts'>You pull a note out of your pocket.  It's wrapped around a pile of meat.<blockquote style='border: 1px solid black; text-align: center; padding: 1em'>Being at the level of the narrowest part of the torso</blockquote><center><table><tr><td><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/meat.gif" height=30 width=30 alt="Meat"></td><td valign=center>You gain 917 Meat.</td></tr></table></center></span>
+
+	public static final Pattern MEAT_NOTE_PATTERN = Pattern.compile( "(You pull a note out of your pocket.  It's wrapped around a pile of meat.).*?<blockquote[^>]*>([^<]*)<" );
+
+	private static void checkMeatNotePocket( int pocket, String responseText )
+	{
+		// Notes wrapped around Meat are a puzzle, which has been solved.
+		// We'll log the note in your session log, in case you want to
+		// try solving it, but it's not per-character, so doesn't need
+		// to be saved in a property.
+
+		Matcher noteMatcher = MEAT_NOTE_PATTERN.matcher( responseText );
+		if ( !noteMatcher.find() )
+		{
+			return;
+		}
+
+		String printit = noteMatcher.group( 1 ) + ":";
+		RequestLogger.printLine( printit );
+		RequestLogger.updateSessionLog( printit );
+		printit = "\"" + noteMatcher.group( 2 ) + "\"";
+		RequestLogger.printLine( printit );
+		RequestLogger.updateSessionLog( printit );
+	}
+
 	public static void parsePocketPick( final String urlString, final String responseText )
 	{
 		int pocket = CargoCultistShortsRequest.extractPocketFromURL( urlString );
@@ -428,6 +468,7 @@ public class CargoCultistShortsRequest
 		Preferences.setBoolean( PICKED_POCKET_PROPERTY, true );
 
 		CargoCultistShortsRequest.checkScrapPocket( pocket, responseText );
+		CargoCultistShortsRequest.checkMeatNotePocket( pocket, responseText );
 	}
 
 	public static void registerPocketFight( final String urlString )
