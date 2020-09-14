@@ -96,6 +96,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.CampAwayRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -1171,6 +1172,24 @@ public class TestCommand
 			MonsterData monster = AdventureRequest.extractMonster( encounter, responseText );
 			MonsterStatusTracker.setNextMonster( monster );
 			RequestLogger.printLine( monster.getName() );
+			TestCommand.contents = null;
+			return;
+		}
+
+		if ( command.equals( "pocket" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test pocket POCKET" );
+				return;
+			}
+			String pocket = split[ 1 ].trim();
+			if ( !StringUtilities.isNumeric( pocket ) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "POCKET must be an integer" );
+				return;
+			}
+			CargoCultistShortsRequest.parsePocketPick( "pocket=" + pocket, TestCommand.contents );
 			TestCommand.contents = null;
 			return;
 		}
