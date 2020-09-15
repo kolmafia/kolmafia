@@ -537,6 +537,7 @@ Item	wumpus-hair wig	Moxie: -5, Stench Damage: +20, Stench Spell Damage: +20, Fa
 Item	Xiblaxian stealth cowl	Combat Rate: -5, Mysticality Percent: +20, Familiar Effect: "spooky atk, cap 25"
 Item	yabba dabba doo rag	Stench Resistance: +4, HP Regen Min: 5, HP Regen Max: 10, Familiar Effect: "atk, 1xVolley, cap 27"
 Item	yak toupee	MP Regen Min: 3, MP Regen Max: 4, Familiar Effect: "atk, 1xPotato, cap 25"
+# Yeg's Motel shower cap: Extremely fragile (will be destroyed if you are hit in combat)
 Item	Yeg's Motel shower cap	Spooky Resistance: +5, Moxie Percent: +66, Lasts Until Rollover
 Item	yellow plastic hard hat	Familiar Effect: "atk, cap 22"
 Item	yellow traffic cone	Moxie: +3, Sleaze Resistance: +2, Familiar Effect: "1xVolley, 1xLep, cap 15"
@@ -1022,6 +1023,7 @@ Item	wumpus-hair sweater	Muscle: +3, Mysticality: +3, Moxie: +3, Maximum HP: +30
 Item	Xiblaxian stealth vest	Combat Rate: -5, Muscle Percent: +20
 Item	yak anorak	MP Regen Min: 3, MP Regen Max: 4
 Item	Ye Olde Navy Fleece	Meat Drop: +10
+# Yeg's Motel bathrobe: Extremely fragile (will be destroyed if you are hit in combat)
 Item	Yeg's Motel bathrobe	Spooky Damage: +50, Muscle Percent: +66, Lasts Until Rollover
 
 # Weapons section of modifiers.txt
@@ -3847,6 +3849,7 @@ Item	Xiblaxian xeno-detection goggles	Meat Drop: +15, Single Equip
 Item	Xlyinia's notebook	Muscle: +15, Mysticality: +15, Moxie: +15
 Item	ye olde golde frontes	Muscle: +15, Class: "Disco Bandit", Single Equip
 Item	Yearbook Club Camera	Muscle: [5*min(pref(yearbookCameraUpgrades),1)+5*max(min(pref(yearbookCameraUpgrades)-3,1),0)+5*max(min(pref(yearbookCameraUpgrades)-6,1),0)], Mysticality: [5*max(min(pref(yearbookCameraUpgrades)-1,1),0)+5*max(min(pref(yearbookCameraUpgrades)-4,1),0)+5*max(min(pref(yearbookCameraUpgrades)-7,1),0)], Moxie: [5*max(min(pref(yearbookCameraUpgrades)-2,1),0)+5*max(min(pref(yearbookCameraUpgrades)-5,1),0)+5*max(min(pref(yearbookCameraUpgrades)-8,1),0)], Maximum HP: [20*max(min(pref(yearbookCameraUpgrades)-9,1),0)], Maximum MP: [10*max(min(pref(yearbookCameraUpgrades)-10,1),0)], HP Regen Min: [4*max(min(pref(yearbookCameraUpgrades)-11,1),0)], HP Regen Max: [5*max(min(pref(yearbookCameraUpgrades)-11,1),0)], MP Regen Min: [2*max(min(pref(yearbookCameraUpgrades)-12,1),0)], MP Regen Max: [3*max(min(pref(yearbookCameraUpgrades)-12,1),0)], Adventures: [5*max(min(pref(yearbookCameraUpgrades)-13,1),0)], PvP Fights: [5*max(min(pref(yearbookCameraUpgrades)-14,1),0)], Damage Reduction: [5*max(min(pref(yearbookCameraUpgrades)-15,1),0)], Hot Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Cold Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Spooky Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Stench Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Sleaze Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Initiative: [10*max(min(pref(yearbookCameraUpgrades)-17,1),0)], Meat Drop: [20*max(min(pref(yearbookCameraUpgrades)-18,1),0)], Item Drop: [10*max(min(pref(yearbookCameraUpgrades)-19,1),0)]
+# Yeg's Motel slippers: Extremely fragile (will be destroyed if you are hit in combat)
 Item	Yeg's Motel slippers	Spooky Spell Damage: +100, Mysticality Percent: +66, Single Equip, Lasts Until Rollover
 Item	yellow glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 Item	Yellow Moon of Compassion	Muscle: +9, Mysticality: +9, Moxie: +9, Item Drop: +7, Single Equip
@@ -11536,6 +11539,8 @@ Item	wussiness potion	Effect: "Wussiness", Effect Duration: 3
 Item	X-32-F snowman crate	Free Pull
 Item	xo-skeleton-in-a-box	Free Pull
 # Ye Olde Medieval Insult: Weakens enemies somewhat and briefly stuns them
+# Yeg's Motel disposable razor: Deals 50% of a monster's current Hit Points in Physical Damage
+# Yeg's Motel sewing kit: Restores all HP
 # yellow plastic oyster egg: Grants a Random Beneficial Effect
 Item	yellow puck	Free Pull
 Item	yellow puck with a bow on it	Free Pull
@@ -11543,7 +11548,6 @@ Item	yellow puck with a bow on it	Free Pull
 # yellowcake bomb: Vaporizes an enemy and causes all of its items to drop
 # yo: Deals 15-20 Physical Damage
 # yo-yo: Deals 30-40 Physical Damage
-# Yeg's Motel sewing kit: Restores all HP
 # your own black heart: Restores all HP and MP
 Item	yuletide troll chrysalis	Free Pull
 # Zombo's empty eye: Deals 150-200 <font color=gray>Spooky Damage</font>
