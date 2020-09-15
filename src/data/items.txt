@@ -3016,7 +3016,7 @@
 2988	bit of clingfilm	531316933	clingfilm.gif	multiple	d	60	bits of clingfilm
 2989	clingfilm trousers	469451960	clingpants.gif	pants	d	155	pairs of clingfilm trousers
 2990	clingfilm cap	694192113	clinghat.gif	hat	d	155
-2991	clingfilm slippers	341276647	clingslippers.gif	accessory	d	155
+2991	clingfilm slippers	341276647	clingslippers.gif	accessory	d	155	pairs of clingfilm slippers
 2992	clingfilm tangle	317790457	clingtangle.gif	none, combat	d	150
 2993	vinegar-soaked lemon slice	462198783	lemonslice.gif	food	t,d	61
 2994	true grit	788941481	disease.gif	potion, multiple	t,d	70
