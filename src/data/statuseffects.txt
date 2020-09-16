@@ -2596,5 +2596,6 @@
 2594	Barely Visible	pocket.gif	ca9f21774a3b01ecfee07b90c6731ab9	neutral	nohookah
 2595	Very Attractive	louder.gif	c3e2a8c1687a3573d1ee3c76b91c1098	neutral	nohookah
 2596	Finding Stuff	eyes.gif	bc571a98e78b819e9342aff772f12052	neutral	nohookah
+2597	Yeg's Keeping	yeg_blessing.gif	6d4a6243a23f3fbd8bbb41da7185a475	neutral	nohookah
 2598	All Chipped Up	earthpan3.gif	2ce277562fd55d6fabbfcc516c8e1249	neutral	none	eat 1 chocolate chip muffin
 2599	Started Your Day Right	earthmuffin.gif	23f075072c301838c8a00335467f07b5	neutral	none
