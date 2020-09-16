@@ -7377,6 +7377,7 @@ Effect	Xiblaxian Sympathizer	Avatar: "Xiblaxian political prisoner"
 Effect	Yeah, It's Just Gasoline	Hot Damage: +50, Hot Spell Damage: +50, Cold Resistance: +5, Spooky Resistance: +5
 Effect	Yeast-Hungry	Food Drop: +50
 Effect	Yeg's Glory	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100, Experience: +10, Familiar Weight: +5
+Effect	Yeg's Keeping	Muscle Percent: +666, Mysticality Percent: +666, Moxie Percent: +666
 Effect	Yeg's Power	Maximum HP: +666, Maximum MP: +666
 # Yellow Tongue: Eww.
 # Yes, Can Haz: Effect Cat is Not Amused
