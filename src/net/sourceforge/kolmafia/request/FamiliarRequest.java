@@ -608,7 +608,7 @@ public class FamiliarRequest
 				return false;
 			}
 
-			FamiliarData familiar = KoLCharacter.findFamiliar( FamiliarRequest.getWhichFam( urlString ) );
+			FamiliarData familiar = KoLCharacter.findFamiliar( FamiliarRequest.getFamId( urlString ) );
 			FamiliarData current = KoLCharacter.getFamiliar();
 
 			if ( current.equals( familiar ) )
