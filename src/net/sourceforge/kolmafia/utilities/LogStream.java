@@ -44,6 +44,7 @@ import javax.swing.SwingUtilities;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -54,17 +55,17 @@ public class LogStream
 {
 	private File proxy;
 
-	public static final PrintStream openStream( final String filename, final boolean forceNewFile )
+	public static PrintStream openStream(final String filename, final boolean forceNewFile )
 	{
 		return LogStream.openStream( new File( KoLConstants.ROOT_LOCATION, filename ), forceNewFile );
 	}
 
-	public static final PrintStream openStream( final File file, final boolean forceNewFile )
+	public static PrintStream openStream(final File file, final boolean forceNewFile )
 	{
 		return LogStream.openStream( file, forceNewFile, "UTF-8" );
 	}
 
-	public static final PrintStream openStream( final File file, final boolean forceNewFile, final String encoding )
+	public static PrintStream openStream(final File file, final boolean forceNewFile, final String encoding )
 	{
 		OutputStream ostream = DataUtilities.getOutputStream( file, !forceNewFile );
 		PrintStream pstream = openStream( ostream, encoding );
@@ -81,14 +82,14 @@ public class LogStream
 			if ( KoLDesktop.instanceExists() )
 			{
 				newStream.proxy = file;
-				SwingUtilities.invokeLater( (LogStream) newStream );
+				SwingUtilities.invokeLater(newStream);
 			}
 
 			newStream.println();
 			newStream.println();
 			newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 
-			StringBuffer versionData = new StringBuffer();
+			StringBuilder versionData = new StringBuilder();
 			versionData.append( StaticEntity.getVersion( true ) );
 			versionData.append( ", " );
 			versionData.append( System.getProperty( "os.name" ) );
@@ -112,6 +113,10 @@ public class LogStream
 			newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 			newStream.println( " Timestamp: " + ( new Date() ).toString() );
 			newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+			newStream.println( " User: " + KoLCharacter.getUserName());
+			newStream.println( " Current run: " + KoLCharacter.getCurrentRun());
+			newStream.println( " MRU Script: " + KoLConstants.scriptMList.getFirst());
+			newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 			newStream.println();
 			newStream.println();
 		}
@@ -119,7 +124,7 @@ public class LogStream
 		return newStream;
 	}
 	
-	public static final PrintStream openStream( final OutputStream ostream, final String encoding )
+	public static PrintStream openStream(final OutputStream ostream, final String encoding )
 	{
 		try
 		{
