@@ -506,6 +506,10 @@ public class FamiliarRequest
 				RequestThread.postRequest( new GenericRequest( "main.php?talktoreanimator=1" ) );
 			}
 
+			// Remove granted skills from the familiar we put back
+			FamiliarData changeFrom = KoLCharacter.getFamiliar();
+			EquipmentManager.removeConditionalSkills( EquipmentManager.FAMILIAR, changeFrom.getItem() );
+
 			// If we have a familiar item locked and the new familiar can
 			// equip it, it was automatically transferred.
 
@@ -515,8 +519,7 @@ public class FamiliarRequest
 			{
 				if ( changeTo.canEquip( lockedItem ) )
 				{
-					FamiliarData familiar = KoLCharacter.getFamiliar();
-					FamiliarRequest.unequipFamiliar( familiar );
+					FamiliarRequest.unequipFamiliar( changeFrom );
 					FamiliarRequest.equipFamiliar( changeTo, lockedItem );
 					EquipmentManager.lockFamiliarItem( lockedItem );
 				}
@@ -525,6 +528,9 @@ public class FamiliarRequest
 					EquipmentManager.lockFamiliarItem( false );
 				}
 			}
+
+			// Add granted skills from the familiar we took out
+			EquipmentManager.addConditionalSkills( EquipmentManager.FAMILIAR, changeTo.getItem() );
 
 			KoLCharacter.setFamiliar( changeTo );
 			EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
