@@ -1583,15 +1583,6 @@ public class EquipmentRequest
 		switch ( type )
 		{
 		case EquipmentManager.FAMILIAR:
-		{
-			FamiliarData familiar = KoLCharacter.getFamiliar();
-			if ( familiar != FamiliarData.NO_FAMILIAR )
-			{
-				familiar.setItem( newItem );
-			}
-			break;
-		}
-
 		case EquipmentManager.HOLSTER:
 			// Does not change inventory
 			break;
@@ -1616,6 +1607,15 @@ public class EquipmentRequest
 		// items are properly selected in the dropdowns.
 
 		EquipmentManager.setEquipment( type, newItem );
+
+		if ( type == EquipmentManager.FAMILIAR )
+		{
+			FamiliarData familiar = KoLCharacter.getFamiliar();
+			if ( familiar != FamiliarData.NO_FAMILIAR )
+			{
+				familiar.setItem( newItem );
+			}
+		}
 
 		return refresh;
 	}
