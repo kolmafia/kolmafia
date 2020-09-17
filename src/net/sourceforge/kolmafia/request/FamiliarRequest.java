@@ -577,9 +577,17 @@ public class FamiliarRequest
 				return false;
 			}
 
-			int whichfam = FamiliarRequest.getWhichFam( urlString );
-			int whichitem = GenericRequest.getWhichItem( urlString );
-			FamiliarRequest.equipFamiliar( whichfam, whichitem );
+			FamiliarData familiar = KoLCharacter.findFamiliar( FamiliarRequest.getWhichFam( urlString ) );
+			FamiliarData current = KoLCharacter.getFamiliar();
+			AdventureResult item = ItemPool.get( GenericRequest.getWhichItem( urlString ), 1 );
+
+			if ( current.equals( familiar ) )
+			{
+				EquipmentManager.removeConditionalSkills( EquipmentManager.FAMILIAR, current.getItem() );
+				EquipmentManager.addConditionalSkills( EquipmentManager.FAMILIAR, item );
+			}
+
+			FamiliarRequest.equipFamiliar( familiar, item );
 			EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
 
 			return true;
@@ -600,8 +608,15 @@ public class FamiliarRequest
 				return false;
 			}
 
-			int famid = FamiliarRequest.getFamId( urlString );
-			FamiliarRequest.unequipFamiliar( famid );
+			FamiliarData familiar = KoLCharacter.findFamiliar( FamiliarRequest.getWhichFam( urlString ) );
+			FamiliarData current = KoLCharacter.getFamiliar();
+
+			if ( current.equals( familiar ) )
+			{
+				EquipmentManager.removeConditionalSkills( EquipmentManager.FAMILIAR, current.getItem() );
+			}
+
+			FamiliarRequest.unequipFamiliar( familiar );
 			EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
 
 			return true;
@@ -965,6 +980,8 @@ public class FamiliarRequest
 		AdventureResult item = ItemPool.get( itemId, 1 );
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "Equip " + fam.getRace() + " with " + item.getName() );
+		EquipmentManager.removeConditionalSkills( EquipmentManager.FAMILIAR, fam.getItem() );
+		EquipmentManager.addConditionalSkills( EquipmentManager.FAMILIAR, item );
 		FamiliarRequest.equipFamiliar( fam, itemId );
 	}
 
@@ -973,6 +990,7 @@ public class FamiliarRequest
 		FamiliarData fam = KoLCharacter.getFamiliar();
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "Unequip " + fam.getRace() );
+		EquipmentManager.removeConditionalSkills( EquipmentManager.FAMILIAR, fam.getItem() );
 		FamiliarRequest.unequipFamiliar( fam );
 	}
 }
