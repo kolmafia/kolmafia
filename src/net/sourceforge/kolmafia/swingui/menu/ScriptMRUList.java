@@ -34,13 +34,9 @@
 package net.sourceforge.kolmafia.swingui.menu;
 
 import java.io.File;
-
 import java.util.LinkedList;
-
 import javax.swing.JComboBox;
-
 import net.sourceforge.kolmafia.KoLCharacter;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
 /**
  * Maintains a most recently used list of scripts
@@ -167,5 +163,14 @@ public class ScriptMRUList
 			}
 			jcb.setSelectedIndex( 0 );
 		}
+	}
+
+	public String getFirst()
+	{
+		String NONE = "Unknown";
+		if ( !isInit ) return NONE;
+		if ( maxMRU <= 0 ) return NONE;
+		if ( mruList.size() < 1 ) return NONE;
+		return mruList.getFirst();
 	}
 }
