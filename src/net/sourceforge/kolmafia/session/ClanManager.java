@@ -287,7 +287,7 @@ public abstract class ClanManager
 
 	public static final LockableListModel<AdventureResult> getStash()
 	{
-		if ( !ClanManager.isStashRetrieved() )
+		if ( !ClanManager.isStashRetrieved() && !GenericRequest.abortIfInFightOrChoice( true ) )
 		{
 			RequestThread.postRequest( new ClanStashRequest() );
 		}

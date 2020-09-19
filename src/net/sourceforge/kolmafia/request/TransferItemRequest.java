@@ -305,6 +305,12 @@ public abstract class TransferItemRequest
 	@Override
 	public void run()
 	{
+		// Abort early if in a fight or choice
+		if ( GenericRequest.abortIfInFightOrChoice() )
+		{
+			return;
+		}
+
 		// First, check to see how many attachments are to be
 		// transferred. If there are too many, then you'll need to
 		// break up the request

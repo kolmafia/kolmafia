@@ -3586,60 +3586,60 @@ public abstract class KoLCharacter
 		// Assign "points" to paths that grant them
 		switch ( oldPath )
 		{
-			case AVATAR_OF_BORIS:
-				Preferences.increment( "borisPoints", points );
-				break;
-			case AVATAR_OF_JARLSBERG:
-				Preferences.increment( "jarlsbergPoints", points );
-				break;
-			case AVATAR_OF_SNEAKY_PETE:
-				Preferences.increment( "sneakyPetePoints", points );
-				break;
-			case ACTUALLY_ED_THE_UNDYING:
-				Preferences.increment( "edPoints", points );
-				break;
-			case ZOMBIE_SLAYER:
-				Preferences.increment( "zombiePoints", points );
-				break;
-			case AVATAR_OF_WEST_OF_LOATHING:
-				if ( KoLCharacter.classtype == KoLCharacter.BEANSLINGER )
-				{
-					Preferences.increment( "awolPointsBeanslinger", points, 10, false );
-				}
-				else if ( KoLCharacter.classtype == KoLCharacter.COWPUNCHER )
-				{
-					Preferences.increment( "awolPointsCowpuncher", points, 10, false );
-				}
-				else if ( KoLCharacter.classtype == KoLCharacter.SNAKE_OILER )
-				{
-					Preferences.increment( "awolPointsSnakeoiler", points, 10, false );
-				}
-				break;
-			case THE_SOURCE:
-				Preferences.increment( "sourcePoints", points );
-				break;
-			case GELATINOUS_NOOB:
-				Preferences.increment( "noobPoints", points, 20, false );
-				break;
-			case LICENSE_TO_ADVENTURE:
-				Preferences.increment( "bondPoints", points, 24, false );
-				break;
-			case GLOVER:
-				Preferences.increment( "gloverPoints", points, 11, false );
-				break;
-			case DISGUISES_DELIMIT:
-				Preferences.increment( "masksUnlocked", points, 25, false );
-				break;
-			case DARK_GYFFTE:
-				Preferences.increment( "darkGyfftePoints", points, 23, false );
-				break;
-			case CRAZY_RANDOM_SUMMER_TWO:
-				TCRSDatabase.resetModifiers();
-				break;
-			case PATH_OF_THE_PLUMBER:
-				Preferences.increment( "plumberPoints", points, 22, false );
-				KoLCharacter.removePlumberQuestItems();
-				break;
+		case AVATAR_OF_BORIS:
+			Preferences.increment( "borisPoints", points );
+			break;
+		case AVATAR_OF_JARLSBERG:
+			Preferences.increment( "jarlsbergPoints", points );
+			break;
+		case AVATAR_OF_SNEAKY_PETE:
+			Preferences.increment( "sneakyPetePoints", points );
+			break;
+		case ACTUALLY_ED_THE_UNDYING:
+			Preferences.increment( "edPoints", points );
+			break;
+		case ZOMBIE_SLAYER:
+			Preferences.increment( "zombiePoints", points );
+			break;
+		case AVATAR_OF_WEST_OF_LOATHING:
+			if ( KoLCharacter.classtype == KoLCharacter.BEANSLINGER )
+			{
+				Preferences.increment( "awolPointsBeanslinger", points, 10, false );
+			}
+			else if ( KoLCharacter.classtype == KoLCharacter.COWPUNCHER )
+			{
+				Preferences.increment( "awolPointsCowpuncher", points, 10, false );
+			}
+			else if ( KoLCharacter.classtype == KoLCharacter.SNAKE_OILER )
+			{
+				Preferences.increment( "awolPointsSnakeoiler", points, 10, false );
+			}
+			break;
+		case THE_SOURCE:
+			Preferences.increment( "sourcePoints", points );
+			break;
+		case GELATINOUS_NOOB:
+			Preferences.increment( "noobPoints", points, 20, false );
+			break;
+		case LICENSE_TO_ADVENTURE:
+			Preferences.increment( "bondPoints", points, 24, false );
+			break;
+		case GLOVER:
+			Preferences.increment( "gloverPoints", points, 11, false );
+			break;
+		case DISGUISES_DELIMIT:
+			Preferences.increment( "masksUnlocked", points, 25, false );
+			break;
+		case DARK_GYFFTE:
+			Preferences.increment( "darkGyfftePoints", points, 23, false );
+			break;
+		case CRAZY_RANDOM_SUMMER_TWO:
+			TCRSDatabase.resetModifiers();
+			break;
+		case PATH_OF_THE_PLUMBER:
+			Preferences.increment( "plumberPoints", points, 22, false );
+			KoLCharacter.removePlumberQuestItems();
+			break;
 		}
 
 		// We are no longer in Hardcore
@@ -5517,6 +5517,11 @@ public abstract class KoLCharacter
 
 	public static final void setFamiliar( final FamiliarData familiar )
 	{
+		if ( KoLCharacter.currentFamiliar.equals( familiar ) )
+		{
+			return;
+		}
+
 		KoLCharacter.currentFamiliar = KoLCharacter.addFamiliar( familiar );
 
 		if ( KoLCharacter.currentFamiliar.equals( KoLCharacter.currentEnthroned ) )
