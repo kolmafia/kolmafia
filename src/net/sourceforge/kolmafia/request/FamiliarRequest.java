@@ -929,33 +929,9 @@ public class FamiliarRequest
 		return false;
 	}
 
-	private static final void equipFamiliar( final int familiarId, final int itemId )
-	{
-		FamiliarData familiar = familiarId == -1 ? KoLCharacter.getFamiliar() : KoLCharacter.findFamiliar( familiarId );
-		if ( familiar != null )
-		{
-			FamiliarRequest.equipFamiliar( familiar, itemId );
-		}
-	}
-
-	private static final void equipFamiliar( FamiliarData familiar, final int itemId )
-	{
-		AdventureResult item = ItemPool.get( itemId, 1 );
-		FamiliarRequest.equipFamiliar( familiar, item );
-	}
-
 	private static final void equipFamiliar( FamiliarData familiar, final AdventureResult item )
 	{
 		familiar.setItem( item );
-	}
-
-	private static final void unequipFamiliar( final int familiarId )
-	{
-		FamiliarData familiar = familiarId == -1 ? KoLCharacter.getFamiliar() : KoLCharacter.findFamiliar( familiarId );
-		if ( familiar != null )
-		{
-			FamiliarRequest.unequipFamiliar( familiar );
-		}
 	}
 
 	private static final void unequipFamiliar( FamiliarData familiar )
@@ -982,7 +958,7 @@ public class FamiliarRequest
 		RequestLogger.updateSessionLog( "Equip " + fam.getRace() + " with " + item.getName() );
 		EquipmentManager.removeConditionalSkills( EquipmentManager.FAMILIAR, fam.getItem() );
 		EquipmentManager.addConditionalSkills( EquipmentManager.FAMILIAR, item );
-		FamiliarRequest.equipFamiliar( fam, itemId );
+		FamiliarRequest.equipFamiliar( fam, ItemPool.get( itemId, 1 ) );
 	}
 
 	public static final void unequipCurrentFamiliar()
