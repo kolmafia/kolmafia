@@ -408,8 +408,8 @@ Events	place=town_eicfight2	Env: outdoor	An Eldritch Horror
 Events	adventure=496	Env: outdoor nowander	Monorail Work Site
 Events	adventure=508	Env: outdoor nowander	A Monorail Station
 
-The Drip	adventure=542	Env: outdoor	The Dripping Trees
-The Drip	adventure=544	Env: indoor	The Dripping Hall
+The Drip	adventure=542	Env: outdoor nowander	The Dripping Trees
+The Drip	adventure=544	Env: indoor nowander	The Dripping Hall
 
 Twitch	adventure=410	Env: underground Stat: 0	The Cave Before Time
 Twitch	adventure=411	Env: indoor Stat: 0	An Illicit Bohemian Party
