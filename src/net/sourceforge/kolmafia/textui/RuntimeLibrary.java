@@ -360,6 +360,12 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "print_html", DataTypes.VOID_TYPE, params ) );
 
+		params = new Type[] { DataTypes.ANY_TYPE };
+		functions.add( new LibraryFunction( "dump", DataTypes.VOID_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ANY_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "dump", DataTypes.VOID_TYPE, params ) );
+
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "abort", DataTypes.VOID_TYPE, params ) );
 
@@ -2475,6 +2481,21 @@ public abstract class RuntimeLibrary
 		return parameters;
 	}
 
+	private static String addColorDecoration( final String string, final Value color )
+	{
+		String colorString = color.toString();
+
+		if ( colorString.isEmpty() )
+		{
+			return string;
+		}
+
+		colorString = StringUtilities.globalStringDelete( colorString, "\"" );
+		colorString = StringUtilities.globalStringDelete( colorString, "<" );
+		
+		return "<font color=\"" + colorString + "\">" + string + "</font>";
+	}
+
 	public static Value logprint( Interpreter interpreter, final Value string )
 	{
 		String parameters = RuntimeLibrary.cleanString( string );
@@ -2501,14 +2522,7 @@ public abstract class RuntimeLibrary
 
 	public static Value print( Interpreter interpreter, final Value string )
 	{
-		String parameters = RuntimeLibrary.cleanString( string );
-
-		RequestLogger.getSessionStream().println( "> " + parameters );
-
-		parameters = StringUtilities.globalStringReplace( parameters, "<", "&lt;" );
-
-		RequestLogger.printLine( parameters );
-
+		RuntimeLibrary.print( interpreter, string, new Value( "" ) );
 		return DataTypes.VOID_VALUE;
 	}
 
@@ -2519,13 +2533,9 @@ public abstract class RuntimeLibrary
 		RequestLogger.getSessionStream().println( "> " + parameters );
 
 		parameters = StringUtilities.globalStringReplace( parameters, "<", "&lt;" );
+		parameters = RuntimeLibrary.addColorDecoration( parameters, color );
 
-		String colorString = color.toString();
-
-		colorString = StringUtilities.globalStringDelete( colorString, "\"" );
-		colorString = StringUtilities.globalStringDelete( colorString, "<" );
-
-		RequestLogger.printLine( "<font color=\"" + colorString + "\">" + parameters + "</font>" );
+		RequestLogger.printLine( parameters );
 
 		return DataTypes.VOID_VALUE;
 	}
@@ -2534,6 +2544,53 @@ public abstract class RuntimeLibrary
 	{
 		RequestLogger.printLine( string.toString() );
 		return DataTypes.VOID_VALUE;
+	}
+
+	public static Value dump( Interpreter interpreter, final Value arg )
+	{
+		RuntimeLibrary.dump( interpreter, arg, new Value( "" ) );
+		return DataTypes.VOID_VALUE;
+	}
+
+	public static Value dump( Interpreter interpreter, final Value arg, final Value color )
+	{
+		RuntimeLibrary.print( interpreter, new Value( arg.toString() ), color );
+
+		Value val = Value.asProxy( arg );
+		if ( val instanceof CompositeValue )
+		{
+			RuntimeLibrary.dump( (CompositeValue) val, "", color, true );
+		}
+
+		return DataTypes.VOID_VALUE;
+	}
+
+	public static void dump( final CompositeValue obj )
+	{ // When coming from AshSingleLineCommand.java; don't add to the session logs.
+		RuntimeLibrary.dump( obj, "", new Value( "" ), false );
+	}
+
+	private static void dump( final CompositeValue obj, final String indent, final Value color, final boolean addToSessionStream )
+	{
+		Value[] keys = obj.keys();
+		for ( int i = 0; i < keys.length; ++i )
+		{
+			Value v = obj.aref( keys[ i ] );
+			String line = indent + keys[ i ] + " => " + v;
+
+			if ( addToSessionStream )
+			{
+				RuntimeLibrary.print( new Interpreter(), new Value ( line ), color );
+			}
+			else
+			{
+				RequestLogger.printLine( line );
+			}
+			if ( v instanceof CompositeValue )
+			{
+				RuntimeLibrary.dump( (CompositeValue) v, indent + "\u00A0\u00A0", color, addToSessionStream );
+			}
+		}
 	}
 
 	public static Value abort( Interpreter interpreter )
