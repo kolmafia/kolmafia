@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 
 import net.sourceforge.kolmafia.textui.parsetree.CompositeValue;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
@@ -88,21 +89,7 @@ public class AshSingleLineCommand
 		rv = Value.asProxy( rv );
 		if ( rv instanceof CompositeValue )
 		{
-			this.dump( (CompositeValue) rv, "" );
-		}
-	}
-
-	private void dump( final CompositeValue obj, final String indent )
-	{
-		Value[] keys = obj.keys();
-		for ( int i = 0; i < keys.length; ++i )
-		{
-			Value v = obj.aref( keys[ i ] );
-			RequestLogger.printLine( indent + keys[ i ] + " => " + v );
-			if ( v instanceof CompositeValue )
-			{
-				this.dump( (CompositeValue) v, indent + "\u00A0\u00A0" );
-			}
+			RuntimeLibrary.dump( (CompositeValue) rv );
 		}
 	}
 }
