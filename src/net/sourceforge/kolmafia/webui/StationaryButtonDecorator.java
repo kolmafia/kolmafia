@@ -223,6 +223,17 @@ public class StationaryButtonDecorator
 				// Also add spacers to the header
 				labelIndex = buffer.indexOf( "<tbody><tr class=label><td></td><td></td><td>1</td><td>2</td>" ) + 23;
 				buffer.insert( labelIndex, "<td></td><td></td>" );
+
+				// Modify the 'overflow' div, after the 'content_' div, to prevent the appearance of an inner scroll bar due to use link decorations
+				int content_Index = buffer.indexOf( "id='content_'" );
+				int overflowIndex = buffer.indexOf( "<div style='overflow: auto'><center><!--faaaaaaart-->", content_Index );
+				if ( overflowIndex != -1 )
+				{
+					// Replace 'auto' into 'visible'
+					overflowIndex += 22;
+					buffer.replace( overflowIndex, overflowIndex + 4, "visible" );
+				}
+
 				return;
 			}
 
@@ -316,7 +327,7 @@ public class StationaryButtonDecorator
 				CAB.append( "<div id='effdiv' style='display: none;'></div>" );
 
 				// *** Start of 'overflow' div
-				CAB.append( "<div style='overflow: auto;'>" );
+				CAB.append( "<div style='overflow: visible;'>" );
 
 				insertIndex = buffer.indexOf( "<body>" ) + 6;
 				buffer.insert( insertIndex, CAB.toString() );
