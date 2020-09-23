@@ -1242,6 +1242,42 @@ public class TestCommand
 			return;
 		}
 
+		if ( command.equals( "take-choice" ) )
+		{
+			if ( split.length < 3 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test take-choice CHOICE DECISION [FIELD=VALUE]..." );
+				return;
+			}
+
+			GenericRequest request = new GenericRequest( "choice.php" );
+			request.addFormField( "whichchoice", split[1] );
+			request.addFormField( "option", split[2] );
+			// Rest of arguments are in form
+			for ( int index = 3 ; index < split.length; ++index )
+			{
+				String field = split[ index ];
+				int equals = field.indexOf( "=" );
+				if ( equals != -1 )
+				{
+					String name = field.substring( 0, equals );
+					String value = field.substring( equals + 1 );
+					request.addFormField( name, value );
+				}
+			}
+
+			String urlString = request.getURLString();
+
+			request.responseText = TestCommand.contents;
+			TestCommand.contents = null;
+
+			ChoiceManager.preChoice( request );
+			ChoiceManager.postChoice0( urlString, request );
+			ChoiceManager.postChoice1( urlString, request );
+			ChoiceManager.postChoice2( urlString, request );
+			return;
+		}
+
 		if ( command.equals( "taleofdread" ) )
 		{
 			String tale = TaleOfDreadCommand.extractTale( TestCommand.contents );
