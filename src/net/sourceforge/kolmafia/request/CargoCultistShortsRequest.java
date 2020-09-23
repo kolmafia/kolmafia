@@ -361,8 +361,9 @@ public class CargoCultistShortsRequest
 	}
 
 	// This pocket contains a scrap of paper that reads: <b>XTNQ: Ga</b>
+	// This pocket contains a scrap of paper that reads: <B>ESUQQ: Go</b>
 	// This pocket contains a waterlogged scrap of paper that reads: <b>QDL XLR KVSJGGJV QRGL</b>
-	public static final Pattern SCRAP_PATTERN = Pattern.compile( "This pocket contains a (waterlogged )?scrap of paper that reads: <b>([^<]+)</b>>" );
+	public static final Pattern SCRAP_PATTERN = Pattern.compile( "This pocket contains a (waterlogged )?scrap of paper that reads: <[Bb]>([^<]+)</[Bb]>" );
 
 	private static void checkScrapPocket( int pocket, String responseText )
 	{
