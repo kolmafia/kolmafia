@@ -2300,7 +2300,10 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "get_fuel", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.CLASS_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE };
-		functions.add( new LibraryFunction( "voting_booth_initiatives", new AggregateType( DataTypes.STRING_TYPE, DataTypes.STRING_TYPE ), params ) );
+		functions.add( new LibraryFunction( "voting_booth_initiatives", new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ), params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "voting_booth_initiatives", new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ), params ) );
 	}
 
 	public static Method findMethod( final String name, final Class<?>[] args )
@@ -9644,12 +9647,12 @@ public abstract class RuntimeLibrary
 
 	public static Value voting_booth_initiatives( Interpreter interpreter, final Value clss, final Value path, final Value daycount )
 	{
-		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, DataTypes.STRING_TYPE );
+		AggregateType type = new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE );
 		MapValue value = new MapValue( type );
 
 		for ( Modifier modifier : VotingBoothManager.getInitiatives( (int) clss.intValue(), (int) path.intValue(), (int) daycount.intValue() ) )
 		{
-			value.aset( new Value( modifier.getName() ), new Value( modifier.getValue() ) );
+			value.aset( new Value( modifier.toString() ), DataTypes.TRUE_VALUE );
 		}
 
 		return value;
