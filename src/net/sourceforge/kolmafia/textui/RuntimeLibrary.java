@@ -99,6 +99,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.Modifiers.Modifier;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.MonsterExpression;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -208,6 +209,7 @@ import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TowerDoorManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.UnusualConstructManager;
+import net.sourceforge.kolmafia.session.VotingBoothManager;
 import net.sourceforge.kolmafia.svn.SVNManager;
 import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 
@@ -2296,6 +2298,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "get_fuel", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.CLASS_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "voting_booth_initiatives", new AggregateType( DataTypes.STRING_TYPE, DataTypes.STRING_TYPE ), params ) );
 	}
 
 	public static Method findMethod( final String name, final Class<?>[] args )
@@ -9635,5 +9640,18 @@ public abstract class RuntimeLibrary
 	public static Value get_fuel( Interpreter interpreter )
 	{
 		return new Value( CampgroundRequest.getFuel() );
+	}
+
+	public static Value voting_booth_initiatives( Interpreter interpreter, final Value clss, final Value path, final Value daycount )
+	{
+		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, DataTypes.STRING_TYPE );
+		MapValue value = new MapValue( type );
+
+		for ( Modifier modifier : VotingBoothManager.getInitiatives( (int) clss.intValue(), (int) path.intValue(), (int) daycount.intValue() ) )
+		{
+			value.aset( new Value( modifier.getName() ), new Value( modifier.getValue() ) );
+		}
+
+		return value;
 	}
 }
