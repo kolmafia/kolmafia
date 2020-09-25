@@ -340,7 +340,7 @@ public class TableCellFactory
 			{
 				return maxHP;
 			}
-			return IntegerPool.get( (int) hpRestore );
+			return (long) hpRestore;
 		case 5:
 			double mpRestore = RestoresDatabase.getMPAverage( advresult.getName() );
 			if ( mpRestore <= 0 )
@@ -352,7 +352,7 @@ public class TableCellFactory
 			{
 				return maxMP;
 			}
-			return IntegerPool.get( (int) mpRestore );
+			return (long) mpRestore;
 		default:
 			return null;
 		}
