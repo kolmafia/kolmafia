@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia.swingui.widget;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
-import java.awt.SystemColor;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -79,7 +78,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -97,7 +95,6 @@ import net.sourceforge.kolmafia.persistence.InstalledScript;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Script;
 import net.sourceforge.kolmafia.persistence.ScriptManager;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -120,7 +117,6 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
 
 import com.centerkey.BareBonesBrowserLaunch;
@@ -402,37 +398,23 @@ public class ShowDescriptionTable
 		{
 			Object o1val = TableCellFactory.get( this.column, this.model, o1, this.flags, false, true );
 			Object o2val = TableCellFactory.get( this.column, this.model, o2, this.flags, false, true );
-			if ( o1val instanceof Integer )
+
+			if ( o1val == null) return (( o2val == null) ? 0 : -1);
+			if ( o2val == null) return 1;
+
+			String o1class = o1val.getClass().getSimpleName();
+
+			if (o1class.equals("String"))
 			{
-				if ( o2val == null )
-				{
-					return 1;
-				}
-				Integer a1 = (Integer) o1val;
-				Integer a2 = (Integer) o2val;
-				return a1.compareTo( a2 );
-			}
-			if ( o2val instanceof Integer )
-			{
-				// o1val was null
-				return -1;
-			}
-			if ( o1val instanceof String )
-			{
-				if ( o2val == null )
-				{
-					return 1;
-				}
 				String a1 = (String) o1val;
-				String a2 = (String) o2val;
-				return a1.compareToIgnoreCase( a2 );
+				String a2 = o2val.toString();
+				return a1.compareToIgnoreCase(a2);
 			}
-			if ( o2val instanceof String )
-			{
-				// o1val was null
-				return -1;
-			}
-			return 0;
+
+			long a1 = Long.parseLong(o1val.toString());
+			long a2 = Long.parseLong(o2val.toString());
+
+			return Long.compare(a1, a2);
 		}
 	}
 
