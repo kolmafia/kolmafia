@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -389,19 +390,51 @@ public class CargoCultistShortsRequest
 		}
 
 		String property = POCKET_SCRAPS_PROPERTY;
-		StringBuilder buffer = new StringBuilder( Preferences.getString( property ) );
-		if ( buffer.length() > 0 )
+		String value = Preferences.getString( property );
+
+		// Backwards compatibility: original implementation would store
+		// something like: "7:ESUQQ: Go"
+		//
+		// Since ESUQQ is "three" - and the number strings do not vary
+		// from character to character - convert to only have "7:Go"
+
+		Map<Integer, String> map = new TreeMap<>();
+
+		// Add the current pocket to the map
+		String current = scrapMatcher.group( 2 );
+		int colon = current.indexOf( ":" );
+		if ( colon != -1 )
 		{
-			buffer.append( "|" );
+			map.put( pocket, current.substring( colon + 1 ).trim() );
 		}
-		buffer.append( String.valueOf( pocket ) );
-		buffer.append( ":" );
-		buffer.append( scrapMatcher.group( 2 ) );
-		String pockets = buffer.toString();
-		Preferences.setString( property, pockets );
+
+		// Add already seen pockets to the map
+		for ( String item : value.split( "\\|" ) )
+		{
+			String[] parts = item.split( ": *" );
+			int key = StringUtilities.parseInt( parts[0] );
+			String syllable = parts.length == 3 ? parts[2] : parts[ 1 ];
+			map.put( key, syllable.trim() );
+		}
+
+		// Rebuild the value of the property
+		StringBuilder buffer = new StringBuilder();
+		for ( Entry<Integer, String> entry : map.entrySet() )
+		{
+			if ( buffer.length() > 0 )
+			{
+				buffer.append( "|" );
+			}
+			buffer.append( String.valueOf( entry.getKey() ) );
+			buffer.append( ":" );
+			buffer.append( entry.getValue() );
+		}
+
+		String newValue = buffer.toString();
+		Preferences.setString( property, newValue );
 
 		// All 7 scraps will reveal a demon name
-		SummoningChamberRequest.updateYegName( pockets );
+		SummoningChamberRequest.updateYegName( newValue );
 	}
 
 	// <span class='guts'>You pull a note out of your pocket.  It's wrapped around a pile of meat.<blockquote style='border: 1px solid black; text-align: center; padding: 1em'>Being at the level of the narrowest part of the torso</blockquote><center><table><tr><td><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/meat.gif" height=30 width=30 alt="Meat"></td><td valign=center>You gain 917 Meat.</td></tr></table></center></span>

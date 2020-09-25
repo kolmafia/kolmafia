@@ -241,7 +241,7 @@ public class SummoningChamberRequest
 	public static void updateYegName( String property )
 	{
 		// 373, 322, 7, 602, 172, 251, 282
-		String[] pockets = property.split( "|" );
+		String[] pockets = property.split( "\\|" );
 		if ( pockets.length != 7 )
 		{
 			return;
@@ -252,8 +252,8 @@ public class SummoningChamberRequest
 		{
 			String[] parts = pocket.split( ": *" );
 			int key = StringUtilities.parseInt( parts[0] );
-			String syllable = parts[2].trim();
-			syllables.put( key, syllable );
+			String syllable = parts.length == 3 ? parts[2] : parts[ 1 ];
+			syllables.put( key, syllable.trim() );
 		}
 
 		StringBuilder name = new StringBuilder();
