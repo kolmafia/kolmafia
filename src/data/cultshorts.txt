@@ -1,690 +1,712 @@
 1
-# Stats	MUSCLE	MYSTICALITY	MOXIE
-# Effect	EFFECT (DURATION)	[EFFECT (DURATION)]
-# Buff	EFFECT (DURATION)
-# Drugs	EFFECT (DURATION)
-# Lozenge	EFFECT (DURATION)
-# Joke 	JOKE    (implies Joke-Mad (20))
-# Item	ITEM	[ITEM]
+# Stats		MUSCLE	MYSTICALITY	MOXIE
+#
+# Monster	MONSTER
+#
+# Effect	EFFECT (DURATION)
+#
+# Buff		EFFECT (DURATION)
+# Element	EFFECT (DURATION)
+# Joke	 	JOKE    (implies Joke-Mad (20))
+#
+# Candy1	EFFECT (DURATION)
+# Candy2	EFFECT (DURATION)
+# Chips1	EFFECT (DURATION)
+# Gum1		EFFECT (DURATION)
+# Lens1		EFFECT (DURATION)
+# Needle1	EFFECT (DURATION)
+# Teeth1	EFFECT (DURATION)
+#
+# Candy		EFFECT (DURATION)	EFFECT (DURATION)
+# Chips		EFFECT (DURATION)	EFFECT (DURATION)
+# Gum		EFFECT (DURATION)	EFFECT (DURATION)
+# Lens		EFFECT (DURATION)	EFFECT (DURATION)
+# Needle	EFFECT (DURATION)	EFFECT (DURATION)
+# Teeth		EFFECT (DURATION)	EFFECT (DURATION)
+#
+# Item		ITEM	[ITEM]
+#
 # Avatar	ITEM
-# Bell	ITEM
-# Booze	ITEM
-# Candy	ITEM
-# Chess	ITEM
-# Chocolate	ITEM
-# Currency	ITEM
-# Fruit	ITEM
-# Oyster ITEM
-# Pixel	ITEM
-# Yeg	Item
-# Scrap	NUMBER	(demon name puzzle)
-# Poem	MESSAGE	(waterlogged poem)
-# Meat	MEAT	CLUE	(meat-wrapped puzzle)
+# Bell		ITEM
+# Booze		ITEM
+# Cash		ITEM
+# Chess		ITEM
+# Choco		ITEM
+# Food		ITEM
+# Fruit 	ITEM
+# Oyster	ITEM
+# Potion	ITEM
+# Yeg		ITEM
+#
+# Scrap		NUMBER	(demon name puzzle)
+# Poem		MESSAGE	(waterlogged poem)
+# Meat		MEAT	CLUE	(meat-wrapped puzzle)
+#
 # Unknown
 #
 1	Stats	100	100	100
-2	Effect	Radium Radicality (50)
+2	Chips1	Radium Radicality (50)
 3	Oyster	puce paisley oyster egg
 4	Chess	onyx knight
 5	Effect	Super Vision (40)
-6	Effect	Just the Brown Ones (20)	The Wisdom... of the Future (20)
-7	Message	3
+6	Candy	Just the Brown Ones (20)	The Wisdom... of the Future (20)
+7	Scrap	3
 8	Avatar	creepy nursery rhyme
 9	Buff	Power Ballad of the Arrowsmith (20)
-10	Effect	Heal thy Nanoself (20)	Space Cowboy (30)
-11	Effect	Spooky Hand (20)
+10	Needle	Heal Thy Nanoself (20)	Space Cowboy (30)
+11	Element	Spooky Hand (20)
 12	Stats	80	80	120
-13	Effect	Vitamin-Maxed (40)	Wisdom...of the Future (20)
+13	Candy	Vitamin-Maxed (40)	Wisdom...of the Future (20)
 14	Oyster	off-white paisley oyster egg
 15	Effect	Black Eyes (80)
-16	Candy	Wax Flask
-17	Item	handful of nuts and berries
-18	Effect	Sourpuss (40)	Fire Down Below (10)
-19	Candy	pixellated candy heart
-20	Candy	holly-flavored Hob-O
-21	Effect	Extra-thick Blood (40)	It's Soporiffic! (40)
-22	Candy	Aerheads
-23	Effect	Spooky Hand (20)
-24	Effect	Just the Brown Ones (40)	The Halls of Muscularity (20)
-25	Candy	Whenchamacallit bar
+16	Potion	Wax Flask
+17	Food	handful of nuts and berries
+18	Candy	Sourpuss (40)	Fire Down Below (10)
+19	Potion	pixellated candy heart
+20	Potion	holly-flavored Hob-O
+21	Needle	Extra-thick Blood (40)	It's Soporiffic! (40)
+22	Potion	Aerheads
+23	Element	Spooky Hand (20)
+24	Candy	Just the Brown Ones (40)	The Halls of Muscularity (20)
+25	Potion	Whenchamacallit bar
 26	Yeg	Yeg's Motel mouthwash
 27	Item	baconstone
 28	Item	handful of honey
 29	Fruit	orange
 30	Monster	bookbat
-31	Effect	Vitamin-Maxed (40)	Cholestoriffic (10)
-32	Effect	Tetanus (10)	Vented Spleen (40)
+31	Candy	Vitamin-Maxed (40)	Cholestoriffic (10)
+32	Needle	Tetanus (10)	Vented Spleen (40)
 33	Fruit	lemon
 34	Effect	Finding Stuff (20)
 35	Effect	Well-Swabbed Ear (60)
-36	Effect	Milk Studly (40)	Caloriffic (10)
+36	Candy	Milk Studly (40)	Cholestoriffic (10)
 37	Stats	0	250	0
-38	Currency	fat wallet
-39	Effect	Nasty, Nasty Breath (50)
-40	Stats	200	25	25
+38	Cash	fat wallet
+39	Gum1	Nasty, Nasty Breath (50)
+40	Stats	200	30	25
 41	Fruit	papaya
-42	Effect	Spooky Hand (20)
-43	Effect	Nasty Hand (20)
-44	Candy	candied kobold
+42	Element	Spooky Hand (20)
+43	Element	Nasty Hand (20)
+44	Potion	candied kobold
 45	Poem	QDL XQROX ALOL OMTDQ, QDL DJZC ARX QMTDQ
 46	Chess	alabaster pawn
 47	Monster	dairy goat
-48	Effect	Mystic Pickleness (40)	Spicy Mouth (40)
-49	Effect	Discomfited (60)
-50	Candy	fruitfilm
+48	Gum	Mystic Pickleness (40)	Spicy Mouth (40)
+49	Candy1	Discomfited (60)
+50	Potion	fruitfilm
 51	Oyster	lavender plastic oyster egg
 52	Stats	250	50	0
 53	Effect	Very Attractive (20)
 54	Meat	725	One guilty of the wrongful performance of a normally lawful act
-55	Candy	red-hot jawbreaker
-56	Effect	Sizzlin' Hand (20)
+55	Avatar	red-hot jawbreaker
+56	Element	Sizzlin' Hand (20)
 57	Effect	Bruised Jaw (5)
-58	Effect	Cholestoriffic (20)
-59	Effect	Vented Spleen (80)
-60	Candy	Boss Drops
-61	Effect	Just the Brown Ones (40)	Fire Down Below (10)
-62	Effect	Foul Hand (20)
-63	Candy	Atomic Pop
-64	Effect	Scariberi (20)
+58	Candy2	Cholestoriffic (20)
+59	Needle1	Vented Spleen (80)
+60	Potion	Boss Drops
+61	Candy	Just the Brown Ones (40)	Fire Down Below (10)
+62	Element	Foul Hand (20)
+63	Potion	Atomic Pop
+64	Candy2	Scariberi (20)
 65	Fruit	kiwi
 66	Effect	Sleazy Hands (10)
-67	Candy	virgin jello shot
-68	Lozenge	The Halls of Muscularity (40)
-69	Stats	120	112	90
-70	Effect	Dweeby (40)	The Strength... of the Future (20)
-71	Candy	Senior Mints
-72	Effect	Sizzlin' Hand (20)
-73	Effect	It's Soporiffic! (40)	Vented Spleen (40)
-74	Candy	Mallomarbles
-75	Candy	sugar-coated pine cone
-76	Candy	Sugar Cog
-77	Effect	Sourpuss (40)	The Halls of Moxiousness (20)
-78	Candy	cocoa chondrule
-79	Candy	Bit O' Quail Spleen
-80	Effect	Heal Thy Nanoself (20)	Blood-Rich (30)
-81	Candy	candy cane
+67	Potion	virgin jello shot
+68	Candy2	The Halls of Muscularity (40)
+69	Stats	120	80	90
+70	Candy	Dweeby (40)	The Strength... of the Future (20)
+71	Potion	Senior Mints
+72	Element	Sizzlin' Hand (20)
+73	Needle	It's Soporiffic! (40)	Vented Spleen (40)
+74	Potion	Mallomarbles
+75	Potion	sugar-coated pine cone
+76	Potion	Sugar Cog
+77	Candy	Sourpuss (40)	The Halls of Moxiousness (20)
+78	Potion	cocoa chondrule
+79	Potion	Bit O' Quail Spleen
+80	Needle	Heal Thy Nanoself (20)	Blood-Rich (30)
+81	Food	candy cane
 82	Poem	FORPL QDL QDMOQLLV XRMZJOX ALOL
-83	Candy	pile of candy
+83	Potion	pile of candy
 84	Yeg	Yeg's Motel shower cap
-85	Effect	Foul Hand (20)
+85	Element	Foul Hand (20)
 86	Effect	Finding Stuff (20)
-87	Candy	candy crayons
+87	Potion	candy crayons
 88	Chess	onyx king
 89	Stats	25	25	200
-90	Effect	Sourpuss (40)	Cholestoriffic (10)
+90	Candy	Sourpuss (40)	Cholestoriffic (10)
 91      Item	handful of sand
 92	Effect	Artificially Sweet (40)
-93	Candy	strawberry-flavored Hob-O
+93	Potion	strawberry-flavored Hob-O
 94	Booze	boxed wine
 95	Effect	Thick-Skinned (60)
-96	Effect	Gleaming White Teeth (30)	Winning Smile (20)
+96	Teeth	Gleaming White Teeth (30)	Winning Smile (20)
 97	Unknown
 98	Effect	Wary (20)
-99	Effect	Extra-Thick Blood (40)	Vented Spleen (40)
+99	Needle	Extra-Thick Blood (40)	Vented Spleen (40)
 100	Effect	Pork Power (80)
-101	Candy	Spechunky bar
+101	Potion	Spechunky bar
 102	Effect	Fresh Scent (50
-103	Stats	70	140	35
-104	Candy	Wint-O-Fresh mint
+103	Stats	70	140	40
+104	Element	Frosty Hand (20)
 105	Chess	onyx pawn
-106	Candy	Rock Pops
-107	Effect	Just the Brown Ones (40)	The Halls of Mysticality (20)
+106	Potion	Rock Pops
+107	Candy	Just the Brown Ones (40)	The Halls of Mysticality (20)
 108	Poem	R PJIRTL JH QAJ ILROX
-109	Currency	handful of tips
+109	Cash	handful of tips
 110	Effect	Mallowed Out (110)
 111	Chess	alabaster rook
 112	Joke	"Q: What is a skeleton's favorite competitive college sport? A: Skeleton crew."
-113	Item	ectoplasm <i>au jus</i>
-114	Effect	Sourpuss (40)	The Wisdom... of the Future (20)
-115	Meat	51	Perilous or likely to do harm
-116	Candy	honey-dipped locust
-117	Effect	Vitamin-Maxed (40)	The Strength ... of the Future (20)
+113	Avatar	ectoplasm <i>au jus</i>
+114	Candy	Sourpuss (40)	The Wisdom... of the Future (20)
+115	Meat	351	Perilous or likely to do harm
+116	Item	honey-dipped locust
+117	Candy	Vitamin-Maxed (40)	The Strength ... of the Future (20)
 118	Effect	Coldfinger (10)
 119	Joke	"Q: How does a skeleton know what's about to happen? A: He feels it in his bones."
-120	Effect	Frosty Hand (20)
+120	Element	Frosty Hand (20)
 121	Yeg	Yeg's motel alarm clock
-122	Item	ghuol egg
-123	Candy	candy brain
+122	Food	ghuol egg
+123	Potion	candy brain
 124	Buff	Carlweather's Cantata of Confrontation (20)
-125	Effect	Spicy Limeness (40)	Spicy Mouth (40)
-126	Effect	Blood Rich (30)	Extra-Thick Blood (40)
-127	Effect	Whitened Teeth (40)	Gleaming Teeth (30)
-128	Effect	Night Vision (20)	20/20 Vision (40)
+125	Gum	Spicy Limeness (40)	Spicy Mouth (40)
+126	Needle	Blood-Rich (30)	Extra-Thick Blood (40)
+127	Teeth	Whitened Teeth (40)	Gleaming Teeth (30)
+128	Lens	Night Vision (20)	20/20 Vision (40)
 129	Item	handful of numbers
 130	Yeg	Yeg's Motel stationery
-131	Effect	Vitamin-Maxed (40)	Refuse Reflux (10)
+131	Candy	Vitamin-Maxed (40)	Refuse Reflux (10)
 132	Yeg	Yeg's Motel Slippers
 133	Stats	50	150	50
-134	Effect	Nasty Hand (20)
+134	Element	Nasty Hand (20)
 135	Avatar	unholy water
 136	Monster	Knob Goblin Elite Guardsman
 137	Oyster	yellow polka-dot oyster egg
-138	Effect	Spooky Hand (20)
+138	Element	Spooky Hand (20)
 139	Meat	451	Overflowing with enthusiasm
-140	Effect	Milk Studly (80)
-141	Currency	ancient vinyl coin purse
-142	Candy	frostbite-flavored Hob-O
+140	Candy1	Milk Studly (80)
+141	Cash	ancient vinyl coin purse
+142	Potion	frostbite-flavored Hob-O
 143	Monster	dirty old lihc
 144	Item	heavy necklace chain
-145	Candy	Gummi-DNA
-146	Candy	abandoned candy
-147	Lozenge	The Halls of Mysticality (40)
-148	Effect	Blood Rich (60)
+145	Potion	Gummi-DNA
+146	Potion	abandoned candy
+147	Candy2	The Halls of Mysticality (40)
+148	Needle1	Blood-Rich (60)
 149	Meat	245	A bittersweet longing for people or things from the past
-150	Effect	Heal Thy Nanoself (20)	Vented Spleen (40)
+150	Needle	Heal Thy Nanoself (20)	Vented Spleen (40)
 151	Effect	Eye of the Seal (80)
-152	Effect	Discomfited (30)	The Wisdom ... of the Future (20)
+152	Candy	Discomfited (30)	The Wisdom ... of the Future (20)
 153	Poem	OLLU JH JYJVL, FOMGXQJVL XQMVUMVT
 154	Effect	Very Attractive (20)
 155	Effect	Hippy Stench (50)
 156	Effect	Sticky FIngers (10)
-157	Item	collection of tiny spooky objects
+157	Cash	collection of tiny spooky objects
 158	Item	handful of moss
-159	Effect	Ocelot Eyes (0)
+159	Effect	Ocelot Eyes (80)
 160	Effect	Frozen Hands (50)
 161	Stats	250	0	0
-162	Effect	Discomfited (30)	The Style ... of the Future (20)
+162	Candy	Discomfited (30)	The Style ... of the Future (20)
 163	Joke	"Q: Why didn't the skeleton go to school? A: His heart wasn't in it."
-164	Effect	Seeing Colors (20)	20/20 Vision (40)
+164	Lens	Seeing Colors (20)	20/20 Vision (40)
 165	Unknown
 166	Unknown
-167	Pixel	green pixel (5)
+167	Item	green pixel (5)
 168	Avatar	shamanic ham
-169	Candy	candy chalk
-170	Effect	Milk Studly (40)	The Halls of Moxiousness (20)
+169	Potion	candy chalk
+170	Candy	Milk Studly (40)	The Halls of Moxiousness (20)
 171	Item	lihc eye
-172	Puzzle	5
-173	Candy	Hersey&trade; SMOOCH
-174	Effect	Dweeby (40)	Cholestoriffic (10
-175	Candy	porcelain candy dish
-176	Stats	25	200	25
+172	Scrap	5
+173	Potion	Hersey&trade; SMOOCH
+174	Candy	Dweeby (40)	Cholestoriffic (10
+175	Potion	porcelain candy dish
+176	Stats	30	200	25
 177	Yeg	Yeg's Motel hand soap
-178	Effect	Frosty Hand (20)
-179	Effect	It's Soporiffic! (80)
-180	Drugs	The Wisdom ... of the Future (40)
+178	Element	Frosty Hand (20)
+179	Needle1	It's Soporiffic! (80)
+180	Candy2	The Wisdom ... of the Future (40)
 181	Poem	QDL XUI RVC ARQLO XDROLC JVL HRSL
-182	Stats	25	25	200
+182	Stats	30	30	200
 183	Stats	0	200	50
 184	Item	star (4)
 185	Effect	Twinklebritches (80)
 186	Effect	Danish Cunning (60)
 187	Item	handful of bees
 188	Joke	"Q: Why do skeletons tell so many jokes? A: Because they're very humerus."
-189	Chocolate	chocolate stolen accordion
+189	Choco	chocolate stolen accordion
 190	Oyster	black striped oyster egg
 191	Monster	batrat
-192	Effect	Nasty Hand (20)
-193	Effect	Tetanus (10)
-194	Stats	0	125	125
+192	Element	Nasty Hand (20)
+193	Needle1	Tetanus (10)
+194	Stats	0	130	130
 195	Effect	Funky Coal Patina (80)
 196	Item	skeleton key
 197	Chess	onyx rook
-198	Drugs	The Style ... of the Future (40)
+198	Candy2	The Style ... of the Future (40)
 199	Item	line	star (3)
 200	Effect	Abominably Slippery (50)
-201	Effect	Discomfited (30)	Scariberi (10)
-202	Effect	Just the Brown Ones (40)	Cholestorrific (10)
-203	Candy	polyeaster egg
-204	Effect	Sourpuss (40)	The Halls of Mysticality (20)
-205	Stats	40	60	150
+201	Candy	Discomfited (30)	Scariberi (10)
+202	Candy	Just the Brown Ones (40)	Cholestorrific (10)
+203	Potion	polyeaster egg
+204	Candy	Sourpuss (40)	The Halls of Mysticality (20)
+205	Stats	40	70	140
 206	Effect	Dragged Through the Coals (10)
 207	Item	star	line (3)
-208	Candy	nasty gum
+208	Potion	nasty gum
 209	Joke	"Q: What do you call a skeleton who won't go to work? A: Lazy bones."
 210	Stats	30	200	30
-211	Effect	Just the Brown Ones (40)	Refuse Reflux (10)
+211	Candy	Just the Brown Ones (40)	Refuse Reflux (10)
 212	Oyster	blue paisley oyster egg
 213	Effect	Overconfident (20)
-214	Effect	Sizzlin' Hand (20)
-215	Effect	Vitamin-Maxed (40)	The Halls of Moxiousness (20)
-216	Effect	Foul Hand (20)
-217	Candy	Yolo&trade; chocolates
+214	Element	Sizzlin' Hand (20)
+215	Candy	Vitamin-Maxed (40)	The Halls of Moxiousness (20)
+216	Element	Foul Hand (20)
+217	Potion	Yolo&trade; chocolates
 218	Yeg	Yeg's Motel bathrobe
 219	Effect	Wreathed in Smoke (40)
 220	Monster	lobsterfrogman
-221	Effect	Sizzlin' Hand (20)
-222	Puzzle	2
+221	Element	Sizzlin' Hand (20)
+222	Scrap	2
 223	Oyster	yellow plastic oyster egg
-224	Effect	Foul Hand (20)
-225	Stat	120	80	80
+224	Element	Foul Hand (20)
+225	Stat	120	90	80
 226	Effect	Incensed (80)
 227	Effect	Cold Hands (10)
-228	Effect	Discomfited (30)	Fire Down Below (10)
-229	Candy	Take Eleven Bar
-230	Effect	Very Clean Teeth (40)	Gleaming White Teeth (30)
-231	Effect	Sizzlin' Hand (20)
-232	Effect	Nasty Hand (20)
+228	Candy	Discomfited (30)	Fire Down Below (10)
+229	Potion	Take Eleven Bar
+230	Teeth	Very Clean Teeth (40)	Gleaming White Teeth (30)
+231	Element	Sizzlin' Hand (20)
+232	Element	Nasty Hand (20)
 233	Booze	bottle of gin
 234	Buff	The Sonata of Sneakiness (20)
 235	Monster	modern zmobie
 236	Effect	Chocolate Reign (80)
-237	Candy	Pneumo bar
+237	Potion	Pneumo bar
 238	Effect	Finding Stuff (20)
-239	Effect	Sizzlin' Hand (20)
-240	Effect	Frosty Hand (20)
-241	Effect	Vitamin-Maxed (40)	The Style ... of the Future (20)
+239	Element	Sizzlin' Hand (20)
+240	Element	Frosty Hand (20)
+241	Candy	Vitamin-Maxed (40)	The Style ... of the Future (20)
 242	Buff	Ode to Booze (20)
 243	Effect	Clumsy (10)
 244	Effect	Itchy Trigger Finger (30
 245	Poem	VJ CMOL SOJA SRALC MQX VRGL
 246	Poem	LGFROUMVT JV QDRQ QKLXCRI HJO
 247	Buff	Stevedave's Shanty of Superiority (20)
-248	Candy	Comet Drop
+248	Potion	Comet Drop
 249	Fruit	cranberries
 250	Monster	Blooper
-251	Puzzle	6
+251	Scrap	6
 252	Item	gnoll teeth (2)
-253	Effect	Sizzlin' Hand (20)
-254	Effect	Milk Studly (40)	Fire Down Below (10)
+253	Element	Sizzlin' Hand (20)
+254	Candy	Milk Studly (40)	Fire Down Below (10)
 255	Oyster	mauve plastic oyster egg
-256	Effect	Frosty Hand (20)
-257	Effect	Nasty Hand (20)
-258	Effect	Foul Hand (20)
+256	Element	Frosty Hand (20)
+257	Element	Nasty Hand (20)
+258	Element	Foul Hand (20)
 259	Effect	Wary (20)
 260	Joke	"Q: Why didn’t the skeleton cross the road? A: He didn't have the guts."
-261	Effect	Tetanus (10)	Heal Thy Nanoself (20)
-262	Candy	8-bit banana
+261	Needle	Tetanus (10)	Heal Thy Nanoself (20)
+262	Potion	8-bit banana
 263	Effect	Celestial Sheen (50)
-264	Effect	Nasty Hand (20)
-265	Candy	elderly jawbreaker
-266	Effect	Spicy Limeness (40)	Nasty, Nasty Breath (20)
+264	Element	Nasty Hand (20)
+265	Potion	elderly jawbreaker
+266	Gum	Spicy Limeness (40)	Nasty, Nasty Breath (20)
 267	Monster	creepy clown
 268	Fruit	blackberry
-269	Effect	Discomfited (30)	The Halls of Mysticality (20)
-270	Effect	Very Clean Teeth (90)
+269	Candy	Discomfited (30)	The Halls of Mysticality (20)
+270	Teeth1	Very Clean Teeth (90)
 271	Effect	Sludgesick (80)
 272	Joke	"Q: What did the skeleton chef say? A: Bone Apetit!"
-273	Effect	Space Cowboy (30)	Vented Spleen (40)
+273	Needle	Space Cowboy (30)	Vented Spleen (40)
 274	Effect	Finding Stuff (20)
 275	Chess	alabaster knight
 276	Oyster	mauve paisley oyster egg
 277	Stats	0	0	250
 278	Effect	Muscularrr (80)
 279	Monster	Hellion
-280	Candy	marshroom
-281	Item	CSA Discount Card
-282	Puzzle	7
+280	Potion	marshroom
+281	Cash	CSA Discount Card
+282	Scrap	7
 283	Stats	40	140	70
 284	Yeg	Yeg's Motel toothbrush
 285	Buff	Fat Leon's Phat Loot Lyric (20)
-286	Candy	licorice snake
-287	Candy	daub-breaker
-288	Effect	Discomfited (30)	Refuse Reflux (10)
+286	Potion	licorice snake
+287	Potion	daub-breaker
+288	Candy	Discomfited (30)	Refuse Reflux (10)
 289	Effect	Stinking Cloud (80)
 290	Effect	Litterbug (20)
-291	Stats	150	60	40
+291	Stats	140	70	40
 292	Booze	bottle of vodka
 293	Effect	Stuck-Up Hair (50)
 294	Oyster	off-white striped oyster egg
-295	Effect	Wintergreen Warmongery (20)	Also Schmeckt Zarathustra (20)
+295	Chips	Wintergreen Warmongery (20)	Also Schmeckt Zarathustra (20)
 296	Buff	Aloysius' Antiphon of Aptitude (20)
 297	Effect	Wary (20)
-298	Candy	chocolate-covered caviar
+298	Potion	chocolate-covered caviar
 299	Monster	Knob Goblin Harem Girl
 300	Fruit	lime
-301	Pixel	red pixel (5)
-302	Effect	Tetanus (10)	Extra-Thick Blood (40)
+301	Item	red pixel (5)
+302	Needle	Tetanus (10)	Extra-Thick Blood (40)
 303	Avatar	tube of villain white
-304	Candy	Shrubble Bubble
-305	Effect	Vitamin-Maxed (40)	The Halls of Muscularity (20)
+304	Potion	Shrubble Bubble
+305	Candy	Vitamin-Maxed (40)	The Halls of Muscularity (20)
 306	Monster	big creepy spider
 307	Joke	"Q: What instrument does a skeleton play? A: The trombone."
 308	Oyster	red paisley oyster egg
-309	Effect	Tetanus (10)	Space Cowboy (30)
-310	Candy	Cold Hots candy
-311	Candy	Tasty Fun Good rice candy
-312	Effect	Wintergreen Warmongery (50)
+309	Needle	Tetanus (10)	Space Cowboy (30)
+310	Potion	Cold Hots candy
+311	Potion	Tasty Fun Good rice candy
+312	Chips1	Wintergreen Warmongery (50)
 313	Oyster	yellow paisley oyster egg
-314	Effect	Nasty Hand (20)
+314	Element	Nasty Hand (20)
 315	Oyster	yellow striped oyster egg
-316	Effect	Just the Brown Ones (40)	Tundra Mouth (10)
+316	Candy	Just the Brown Ones (40)	Tundra Mouth (10)
 317	Monster	Camel's Toe
 318	Effect	Missing FIngers (10)
-319	Effect	Tetanus (10)	It's Soporiffic! (40)
-320	Effect	Milk Studly (20)	Refuse Reflux (10)
-321	Effect	Milk Studly (40)	The Strength ... of the Future (20)
+319	Needle	Tetanus (10)	It's Soporiffic! (40)
+320	Candy	Milk Studly (20)	Refuse Reflux (10)
+321	Candy	Milk Studly (40)	The Strength ... of the Future (20)
 322	Yeg	Yeg's Motel disposable razor
-323	Effect	Foul Hand (20)
+323	Element	Foul Hand (20)
 324	Booze	flask of moonshine
-325	Candy	honey stick
-326	Effect	Blood-Rich (30)	Vented Spleen (40)
+325	Potion	honey stick
+326	Needle	Blood-Rich (30)	Vented Spleen (40)
 327	Booze	bottle of whiskey
-328	Effect	Dweeby (80)
-329	Effect	Space Cowboy (30)	It's Soporiffic! (40)
-330	Poem	WJLG SKQ JHH FI XDMW XMVUMVT
+328	Candy1	Dweeby (80)
+329	Needle	Space Cowboy (30)	It's Soporiffic! (40)
+330	Poem	[WJLG SKQ JHH FI XDMW XMVUMVT]
 331	Item	extra-fancy ring setting
-332	Effect	Foul Hand (20)
-333	Candy	Tallowcreme Halloween Pumpkin
-334	Effect	Dweeby (40)	The Halls of Muscularity (20)
+332	Element	Foul Hand (20)
+333	Potion	Tallowcreme Halloween Pumpkin
+334	Candy	Dweeby (40)	The Halls of Muscularity (20)
 335	Oyster	black paisley oyster egg
 336	Effect	Very Attractive (20)
-337	Effect	Spooky Hand (20)
-338	Currency	black pension check
-339	Effect	Night Vision (50)
+337	Element	Spooky Hand (20)
+338	Cash	black pension check
+339	Lens1	Night Vision (50)
 340	Effect	Wary (20)
-341	Effect	Sourpuss (40)	The Style ... of the Future (20)
-342	Drugs	The Strength ... of the Future (40)
+341	Candy	Sourpuss (40)	The Style ... of the Future (20)
+342	Candy2	The Strength ... of the Future (40)
 343	Effect	Filthworm Drone Stench (5)
 344	Avatar	alien autoautopsy kit
 345	Unknown
-346	Candy	steal this candy
+346	Potion	Steal This Candy
 347	Effect	Barely Visible (20)
-348	Item	glass of warm milk
-349	Effect	Sourpuss (80)
+348	Avatar	glass of warm milk
+349	Candy1	Sourpuss (80)
 350	Item	handful of drink tickets
 351	Avatar	bucket of fish juice
 352	Effect	It's Electric (50)
-353	Candy	bone bons
+353	Potion	bone bons
 354	Avatar	Shivering Ch&egrave;vre
-355	Candy	Everlasting Deckswabber
+355	Potion	Everlasting Deckswabber
 356     Oyster	black plastic oyster egg
-357	Effect	Very Clean Teeth (40)	Winning Smile (20)
-358	Stats	140	140	0
-359	Effect	Dweeby (40)	The Halls of Moxiousness (20)
+357	Teeth	Very Clean Teeth (40)	Winning Smile (20)
+358	Stats	130	130	0
+359	Candy	Dweeby (40)	The Halls of Moxiousness (20)
 360	Effect	What's That Smell? (80)
 361	Effect	Bored Stiff (10)
-362	Candy	candy UFOs
+362	Potion	candy UFOs
 363	Monster	pufferfish
-364	Effect	Night Vision (30)	Seeing Colors (20)
+364	Lens	Night Vision (30)	Seeing Colors (20)
 365	Effect	Jazz Hands (80)
 366	Avatar	infrablack lipstick
-367	Effect	Foul Hand (20)
-368	Effect	Spicy Mouth (80)
-369	Candy	ribbon candy
+367	Element	Foul Hand (20)
+368	Gum1	Spicy Mouth (80)
+369	Potion	ribbon candy
 370	Joke	"Q: Why don't skeletons watch horror movies? A: They don't have the stomach for it."
-371	Effect	Sizzlin' Hand (20
-372	Effect	Foul Hand (20)
-373	Puzzle	1
+371	Element	Sizzlin' Hand (20
+372	Element	Foul Hand (20)
+373	Scrap	1
 374	Booze	bottle of tequila
 375	Poem	ROL RWQ QJ FL JKO TORPLX
 376	Fruit	strawberry
 377	Effect	Wary (20)
 378	Stat	50	50	150
-379	Lozenge	The Halls of Moxiousness (40)
-380	Effect	Sourpuss (40)	The Strength ... of the Future (20)
-381	Chocolate	chocolate seal-clubbing club
+379	Candy2	The Halls of Moxiousness (40)
+380	Candy	Sourpuss (40)	The Strength ... of the Future (20)
+381	Choco	chocolate seal-clubbing club
 382	Effect	Stinky Hands (10)
 383	Monster	Skinflute
-384	Effect	Just the Brown Ones (80)
-385	Effect Spooky Hand (20)
+384	Candy1	Just the Brown Ones (80)
+385	Element	Spooky Hand (20)
 386	Effect	Hot Hands (10)
 387	Joke	"Q: What did the skeleton bring to the picnic? A: Spare ribs."
-388	Effect	Milk Studly (40)	The Style ... of the Future (20)
-389	Candy	Drizzlers&trade; Black Licorice
+388	Candy	Milk Studly (40)	The Style ... of the Future (20)
+389	Potion	Drizzlers&trade; Black Licorice
 390	Oyster	puce plastic oyster egg
-391	Effect	Sourpuss (40)	The Halls of Muscularity (20)
-392	Candy	Plexipips
-393	Effect	Fire Down Below (20)
-394	Effect	Milk Studly (40)	The Wisdom ... of the Future (20)
+391	Candy	Sourpuss (40)	The Halls of Muscularity (20)
+392	Potion	Plexipips
+393	Candy2	Fire Down Below (20)
+394	Candy	Milk Studly (40)	The Wisdom ... of the Future (20)
 395	Effect	Wary (20)
 396	Fruit	tangerine
-397	Candy	sterno-flavored Hob-O
+397	Potion	sterno-flavored Hob-O
 398	Effect	Wary (20)
-399	Candy	Bit O' Ectoplasm
-400	Effect	Milk Studly (40)	Tundra Mouth (10)
-401	Effect	Radium Radicality (20)	Also Schmeckt Zarathustra (20)
+399	Potion	Bit O' Ectoplasm
+400	Candy	Milk Studly (40)	Tundra Mouth (10)
+401	Chips	Radium Radicality (20)	Also Schmeckt Zarathustra (20)
 402	Monster	Fruit Golem
 403	Item	precious piercing post
-404	Candy	Wint-O-Fresh mint
+404	Potion	Wint-O-Fresh mint
 405	Poem	R ORTMVT SISZJVL GMOOJOMVT
-406	Effect	Just the Brown Ones (40)	Scariberi (10)
+406	Candy	Just the Brown Ones (40)	Scariberi (10)
 407	Avatar	illuminati earpiece
 408	Avatar	forest spirit rattle
 409	Yeg	Yeg's Motel ashtray
-410	Effect	Frosty Hand (20)
+410	Element	Frosty Hand (20)
 411	Avatar	eldritch dough
 412	Buff	Ur-Kel's Aria of Annoyance (20)
 413	Fruit	grapes
-414	Candy	candy skeleton
+414	Potion	candy skeleton
 415	Oyster	red-striped oyster egg
-416	Effect	Heal Thy Nanoself (50)
-417	Currency	old leather wallet
-418	Effect	Seeing Colors (50
-419	Currency	old coin purse
+416	Needle1	Heal Thy Nanoself (50)
+417	Cash	old leather wallet
+418	Lens	Seeing Colors (50
+419	Cash	old coin purse
 420	Effect	Burning Hands (30)
 421	Stat	70	40	140
-422	Effect	Vitamin-Maxed (40)	Tundra Mouth (10)
-423	Candy	garbage-juice-flavored Hob-O
+422	Candy	Vitamin-Maxed (40)	Tundra Mouth (10)
+423	Potion	garbage-juice-flavored Hob-O
 424	Effect	Wary (20)
 425	Monster	eXtreme Orcish snowboarder
 426	Booze	bottle of rum
 427	Oyster	blue striped oyster egg
 428	Monster	Mob Penguin Thug
-429	Item	handful of walnuts
-430	Chocolate	chocolate disco ball
-431	Candy	alphabet gum
-432	Effect	Foul Hand (20)
+429	Food	handful of walnuts
+430	Choco	chocolate disco ball
+431	Potion	alphabet gum
+432	Element	Foul Hand (20)
 433	Joke	"Q: What did the skeleton serve his tea in? A: Bone china."
-434     Currency	Warm Subject gift certificate
-435	Effect	Just the Brown Ones (40)	The Halls of Moxiousness (20)
-436	Effect	Nasty Hand (20)
+434     Cash	Warm Subject gift certificate
+435	Candy	Just the Brown Ones (40)	The Halls of Moxiousness (20)
+436	Element	Nasty Hand (20)
 437	Joke	"Q: Why do skeletons stay so calm? A: Because nothing gets under their skin."
-438	Chocolate	chocolate saucepan
+438	Choco	chocolate saucepan
 439	Yeg	Yeg's Motel pillow mint
-440	Effect	Also Schmeckt Zarathustra (50)
-441	Effect	Dweeby (40)	Refuse Reflux (10)
+440	Chips1	Also Schmeckt Zarathustra (50)
+441	Candy	Dweeby (40)	Refuse Reflux (10)
 442	Unknown
 443	Monster	War Hippy (space) cadet
 444	Poem	QDL QJA'OMVT GRXQ XQJOG-DLAV
 445	Oyster	lavendar striped oyster egg
-446	Effect	Spooky Hand
+446	Element	Spooky Hand (20)
 447	Effect	Assaulted with Pepper (40)
 448	Monster	completely different spider
-449	Effect	Radium Radicality (20)	Wintergreen Warmongery (20)
-450	Candy	sugar sphere
+449	Chips	Radium Radicality (20)	Wintergreen Warmongery (20)
+450	Potion	sugar sphere
 451	Effect	Knob Goblin Perfume (20)
 452	Monster	pygmy shaman
 453	Oyster	mauve striped oyster egg
 454	Stats	130	0	130
-455	Candy	Gummi-Gnauga
-456	Candy	Pain Dip
+455	Potion	Gummi-Gnauga
+456	Potion	Pain Dip
 457	Poem	SJGWRXX ADMOZMVT, XRMZX KVHKOZMVT
-458	Effect	Spicy Limeness (40)	Mystic Pickleness (40)
+458	Gum	Spicy Limeness (40)	Mystic Pickleness (40)
 459	Stats	80	120	80
-460	Candy	leftover chocolate bar
-461	Effect	Heal Thy Nanoself (20)	Extra-Thick Blood (40)
+460	Potion	leftover chocolate bar
+461	Needle	Heal Thy Nanoself (20)	Extra-Thick Blood (40)
 462	Oyster	red plastic oyster egg
-463	Candy	mystery lollipop
-464	Effect	Frosty Hand
-465	Effect	Vitamin-Maxed (40)	The Halls of Mysticality (20)
+463	Potion	mystery lollipop
+464	Element	Frosty Hand (20)
+465	Candy	Vitamin-Maxed (40)	The Halls of Mysticality (20)
 466	Effect	Mystically Oiled (50)
-467	Candy	Good 'n' Slimy
-468	Stats	150	75	50
+467	Potion	Good 'n' Slimy
+468	Stats	150	50	50
 469	Effect	Bloody Hand (10)
 470	Effect	Barely Visible (20)
 471	Effect	Sticky Hand (30)
-472	Candy	fry-oil-flavored Hob-O
+472	Potion	fry-oil-flavored Hob-O
 473	Oyster	off-white polka-dot oyster egg
 474	Fruit	kumquat
 475	Oyster	blue polka-dot oyster egg
 476	Avatar	Smart Bone Dust
-477	Chocolate	chocolate turtle totem
-478	Item	pigeon egg
+477	Choco	chocolate turtle totem
+478	Food	pigeon egg
 479	Effect	Barely Visible (20)
-480	Effect	Spicy Limeness (80)
+480	Gum1	Spicy Limeness (80)
 481	Item	handful of juicy garbage
-482	Effect	Discomfited (30)	Cholestoriffic (10)
-483	Candy	government-issued candy
+482	Candy	Discomfited (30)	Cholestoriffic (10)
+483	Potion	government-issued candy
 484	Meat	872	A beating with a cane made of the thin pliable stems of a climbing palm
-485	Candy	nanite-infested candy cane
-486	Effect	Dweeby (40)	Scariberi (10)
-487	Effect	Vitamin-Maxed (40)	Fire Down Below (10)
-488	Candy	Wrotz
+485	Food	nanite-infested candy cane
+486	Candy	Dweeby (40)	Scariberi (10)
+487	Candy	Vitamin-Maxed (40)	Fire Down Below (10)
+488	Potion	Wrotz
 489	Fruit	grapefruit
 490	Monster	Booze Giant
-491	Gabarbar
+491	Potion	Gabarbar
 492	Oyster	puce striped oyster egg
-493	Item	handful of pine needles
+493	Potion	handful of pine needles
 494	Effect	Vinegavotte (50)
 495	Avatar	ravenous eye
 496	Effect	Barking Mad (40)
-497	Effect	Dweeby (40)	The Style ... of the Future (20)
+497	Candy	Dweeby (40)	The Style ... of the Future (20)
 498     Avatar	enchanted muesli
-499	Effect	Spooky Hand (20)
+499	Element	Spooky Hand (20)
 500	Stats	90	80	120
-501	Effect	Space Cowboy (60)
+501	Needle1	Space Cowboy (60)
 502	Poem	XQORVTL XLRX, MQ XLLGX, QDL SRWQRMV ADLLYLC
-503	Effect	Dweeby (40)	Fire Down Below (10)
+503	Candy	Dweeby (40)	Fire Down Below (10)
 504	Meat	678	A larval insect that burrows into and feeds on the internal tissue of the principal photosynthetic organ of plants)
 505	Effect	Wary (20)
 506	Chess	onyx queen
 507	Effect	Smokin' (50)
-508	Effect	Extra-Thick Blood (40)	Space Cowboy (30)
+508	Needle	Extra-Thick Blood (40)	Space Cowboy (30)
 509	Effect	Jittery (90)
-510	Pixel	blue pixel (5)
-511	Effect	Vitamin-Maxed (80)
-512	Currency	Gathered Meat-Clip
+510	Item	blue pixel (5)
+511	Candy1	Vitamin-Maxed (80)
+512	Cash	Gathered Meat-Clip
 513	Joke	"Q: What instruments can a skeleton NOT play? A: His organs."
-514	Effect	Frosty Hand (20)
-515	Stats	140	40	105
-516	Effect	Spooky Hand (20)
+514	Element	Frosty Hand (20)
+515	Stats	140	40	70
+516	Element	Spooky Hand (20)
 517	Bell	sizzling desk bell
-518	Candy	Hot 'n' Scarys
+518	Potion	Hot 'n' Scarys
 519	Effect	First Eye Blind (10)
 520	Poem	QDRQ XVLLOLC AMQD ZMTDQVMVT QLLQD
 521	Effect	Nuts about Candy (80)
-522	Effect	Blood-Rich (30)	It's Soporiffic! (40)
+522	Needle	Blood-Rich (30)	It's Soporiffic! (40)
 523	Chess	alabaster king
-524	Item	SMOOCH bottlecap
-525	Candy	piece of after eight
+524	Cash	SMOOCH bottlecap
+525	Potion	piece of after eight
 526	Buff	Brawnee's Anthem of Absorption (20)
-527	Effect	Sourpuss (40)	Refuse Reflux (10)
-528	Effect	Dweeby (40)	The Wisdom ... of the Future (20)
-529	Candy	children of the candy corn
+527	Candy	Sourpuss (40)	Refuse Reflux (10)
+528	Candy	Dweeby (40)	The Wisdom ... of the Future (20)
+529	Potion	children of the candy corn
 530	Effect	Wary (20)
 531	Poem	QDJKTD ALQ FLDMVC QDL LROX
-532	Item	handful of hand chalk
+532	Potion	handful of hand chalk
 533	Bell	greasy desk bell
 534	Oyster	red polka-dot oyster egg
-535	Effect	Frosty Hand (20)
+535	Element	Frosty Hand (20)
 536	Avatar	conjured ice cream
 537	Chess	onyx bishop
-538	Effect	Whitened Teeth (80)
-539	Effect	Tetanus (10)	Blood-Rich (30)
+538	Teeth1	Whitened Teeth (80)
+539	Needle	Tetanus (10)	Blood-Rich (30)
 540	Poem	QDL XAMOZMVT WJJZ FLVLRQD
 541	Item	handful of sawdust
 542	Buff	Polka of Plenty (20
 543	Effect	Hairy Palms (50)
 544	Effect	Slimy Hands (50)
 545	Stats	200	30	30
-546	Candy	Elvish delight
-547	Effect	Gleaming White Teeth (60)
-548	Candy	worst candy
+546	Potion	Elvish delight
+547	Teeth1	Gleaming White Teeth (60)
+548	Potion	worst candy
 549	Effect	Saucefingers (10)
-550	Effect	20/20 Vision (80)
+550	Lens1	20/20 Vision (80)
 551	Item	line (4)
 552	Effect	Very Attractive (20)
-553	Effect	Whitened Teeth (40)	Winning Smile (20)
+553	Teeth	Whitened Teeth (40)	Winning Smile (20)
 554	Meat	566	An instrument composed of wooden bars played with two small mallets
-555	Effect	Milk Studly (40)	Scariberi (10)
+555	Candy	Milk Studly (40)	Scariberi (10)
 556	Effect	Well-Rested (60)
-557	Item	goat cheese (2)
-558	Effect	Sourpuss (40)	Tundra Mouth (10)
+557	Food	goat cheese (2)
+558	Candy	Sourpuss (40)	Tundra Mouth (10)
 559	Avatar	vial of swamp vapors
-560	Effect	Dweeby (40)	Tundra Mouth (10)
+560	Candy	Dweeby (40)	Tundra Mouth (10)
 561	Poem	OLSJTVMYL QDRQ GJJV
-562	Effect	Frosty Hand (20)
-563	Effect	Discomfited (30)	The Hlls of Muscularity (20)
+562	Element	Frosty Hand (20)
+563	Candy	Discomfited (30)	The Hlls of Muscularity (20)
 564	Effect	Barely Visible (20)
 565	Monster	mountain man
-566	Candy	Now and Earlier
+566	Potion	Now and Earlier
 567	Chess	alabaster bishop
 568	Monster	War Pledge
 569	Item	loose teeth
 570	Fruit	cherry
-571	Candy	orange and black Crimboween candy
-572	Candy	mutated cany lump
-573	Effect	Mystic Pickleness (80)
+571	Potion	orange and black Crimboween candy
+572	Potion	mutated candy lump
+573	Gum1	Mystic Pickleness (80)
 574	Oyster	lavender polka-dot oyster egg
-575	Effect	Tundra Mouth (20)
-576	Effect	Heal Thy Nanoself (20)	It's Soporiffic! (40)
+575	Candy2	Tundra Mouth (20)
+576	Needle	Heal Thy Nanoself (20)	It's Soporiffic! (40)
 577	Meat    118  To enrage, anger or annoy
-578	Candy	chocolate filthy lucre
-579	Effect	Sizzlin' Hand (20)
-580	Candy	Angry Farmer's Wife Candy
+578	Potion	chocolate filthy lucre
+579	Element	Sizzlin' Hand (20)
+580	Potion	Angry Farmer's Wife Candy
 581	Oyster	off-white plastic oyster egg
 582	Effect	Carrrsmic (80)
 583	Effect	Finding Stuff (20)
-584	Effect	Extra-Thick Blood (80)
-585	Stats	100	120	100
-586	Effect	Nasty Hand (20)
+584	Needle1	Extra-Thick Blood (80)
+585	Stats	90	120	90
+586	Element	Nasty Hand (20)
 587	Bell	frost-rimed desk bell
 588	Effect	Barely Visible (20)
 589	Monster	Green Ops Soldier
 590	Bell	uncanny desk bell
-591	Candy	chocolate filthy lucre
+591	Teeth1	Winning Smile (50)
 592	Effect	Go-Gone (50)
-593	Effect	Discomfited (30)	The Halls of Moxiousness (20)
+593	Candy	Discomfited (30)	The Halls of Moxiousness (20)
 594	Avatar	skeleton beans
-595	Effect	Mystic Pickleness (40)	Nasty, Nasty Breath (20)
-596	Effect	Just the Brown Ones (40)	The Strength ... of the Future (20)
+595	Gum	Mystic Pickleness (40)	Nasty, Nasty Breath (20)
+596	Candy	Just the Brown Ones (40)	The Strength ... of the Future (20)
 597	Avatar	haunted flame
-598	Effect	Foul Hand (20)
+598	Element	Foul Hand (20)
 599	Fruit	raspberry
 600	Item	cursed piece of thirteen
 601	Avatar	child-sized dracula cloak
-602	Puzzle	4
-603	Effect	20-20 Sight (60)
-604	Candy	Necbro wafers
+602	Scrap	4
+603	Lens1	20-20 Vision (60)
+604	Potion	Necbro wafers
 605	Oyster	puce polka-dot oyster egg
 606	Stats	50	0	200
 607	Avatar	tiny canopic jar
-608	Effect	Sizzlin' Hand
+608	Element	Sizzlin' Hand (20)
 609	Item	line (2)	star (20)
-610	Effect	Vitamin-Maxed (10)	Scariberi (10)
-611	Effect	Milk Studly (40)	The Halls of Muscularity (20)
+610	Candy	Vitamin-Maxed (10)	Scariberi (10)
+611	Candy	Milk Studly (40)	The Halls of Muscularity (20)
 612	Monster	bugbear-in-the-box
 613	Effect	Crotchety, Pining (40)
-614	Effect	Discomfited (30)	Tundra Mouth (10)
-615	Effect	Sourpuss (40)	Scariberi (10)
+614	Candy	Discomfited (30)	Tundra Mouth (10)
+615	Candy	Sourpuss (40)	Scariberi (10)
 616	Avatar	skeletal banana
 617	Effect	Medieval Mage Mayhem (60)
 618	Oyster	black polka-dot oyster egg
-619	Effect	Whitened Teeth (40)	Very Clean Teeth (40)
-620	Effect	Spooky Hand (20)
+619	Teeth	Whitened Teeth (40)	Very Clean Teeth (40)
+620	Element	Spooky Hand (20)
 621	Meat	917	Being at the level of the narrowest part of the torso
 622	Oyster	mauve polka-dot oyster egg
 623	Poem	DJA HJOQKVLX XDMHQ, HJO QDKOXCRI'X TMHQ:
-624	Effect	Nasty Hand (20)
-625	Effect	Spicy Mouth (40)	Nasty, Nasty Breath (20)
+624	Element	Nasty Hand (20)
+625	Gum	Spicy Limeness (40)	Nasty, Nasty Breath (20)
 626	Effect	Very Attractive (20)
-627	Candy	dubious peppermint
+627	Potion	dubious peppermint
 628	Poem	M CJ VJQ, XRMC QDL VRPMTRQJO
 629	Oyster	blue plastic oyster egg
-630	Candy	Wickers bar
+630	Potion	Wickers bar
 631	Item	rusty metal key
 632	Poem	VJ FZRSU SRQ SOJXXLC QDL TOLRQ XDMW'X WRQD
 633	Effect	Strong Grip (60)
-634	Effect	Spooky Hand (20)
-635	Effect	Nasty Hand (20)
-636	Candy	cursed chocolate doubloon
-637	Effect	Refuse Reflux (20)
-638	Effect	Just the Brown Ones (40)	The Style ... of the Future (20)
-639	Candy	rainbow jellybean
+634	Element	Spooky Hand (20)
+635	Element	Nasty Hand (20)
+636	Potion	cursed chocolate doubloon
+637	Candy2	Refuse Reflux (20)
+638	Candy	Just the Brown Ones (40)	The Style ... of the Future (20)
+639	Potion	rainbow jellybean
 640	Poem	QDL XLR KVSJGGJV QRGL
 641	Effect	SPooky Hands (10)
 642	Yeg	Yeg's Motel sewing kit
-643	Candy	Finnish Fish
+643	Potion	Finnish Fish
 644	Effect	Ancestral Disapproval (80)
 645	Effect	Old School Pompadour (50)
 646	Monster	1335 HaXx0r
 647	Effect	Cold, Dead Hands (0)
-648	Effect	Dweeby (40)	The Halls of Mysticality (20)
-649	Candy	violent pastilles
-650	Effect	Milk Studly (40)	The Halls of Mysticality (20)
+648	Candy	Dweeby (40)	The Halls of Mysticality (20)
+649	Potion	violent pastilles
+650	Candy	Milk Studly (40)	The Halls of Mysticality (20)
 651	Chess	alabaster queen
-652	Effect	Sizzlin' Hand (20)
+652	Element	Sizzlin' Hand (20)
 653	Bell	nasty desk bell
-654	Chocolate	chocolate pasta spoon
+654	Choco	chocolate pasta spoon
 655	Effect	Charrrming (80)
 656	Effect	Wary (20
 657	Effect	One for Tea (50)
 658	Poem	GRMV CLSU XZMSU AMQD ARPLX
-659	Effect	Blood-Rich (30)	Space Cowboy (30)
+659	Needle	Blood-Rich (30)	Space Cowboy (30)
 660	Yeg	Yeg's Motel minibar key
 661	Oyster	lavender paisley oyster egg
-662	Candy	Glo-Pop
-663	Effect	Frosty Hand (20)
+662	Potion	Glo-Pop
+663	Element	Frosty Hand (20)
 664	Unknown
-665	Effect	Discomfited (30)	The Strength ... of the Future (20)
+665	Candy	Discomfited (30)	The Strength ... of the Future (20)
 666	Monster	smut orc pervert
