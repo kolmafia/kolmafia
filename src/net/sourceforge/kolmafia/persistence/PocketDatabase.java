@@ -84,21 +84,21 @@ public class PocketDatabase
 		LENS( "Lens", "contact lenses (2 effects)" ),
 		NEEDLE( "Needle", "needles (2 effects)" ),
 		TEETH( "Teeth", "teeth (2 effects)" ),
-		ITEM( "Item", "miscellaneous item" ),	
+		ITEM( "Item", "one miscellaneous item" ),	
 		ITEM2( "Item2", "two miscellaneous item" ),	
-		AVATAR( "Avatar", "avatar potion" ),
-		BELL( "Bell", "desk bell" ),
+		AVATAR( "Avatar", "an avatar potion" ),
+		BELL( "Bell", "a desk bell" ),
 		BOOZE( "Booze" ),
-		CASH( "Cash", "usable for meat" ),
-		CHESS( "Chess", "chess piece" ),
-		CHOCO( "Choco", "chocolate" ),
+		CASH( "Cash", "an item that is usable for meat" ),
+		CHESS( "Chess", "a chess piece" ),
+		CHOCO( "Choco", "some chocolate" ),
 		FOOD( "Food" ),
 		FRUIT( "Fruit" ),
-		OYSTER( "Oyster", "oyster egg" ),
-		POTION( "Potion" ),
-		YEG( "Yeg", "Yeg's Motel item" ),
+		OYSTER( "Oyster", "an oyster egg" ),
+		POTION( "Potion", "a potion" ),
+		YEG( "Yeg", "an item from Yeg's Motel" ),
 		SCRAP( "Scrap", "part of demon name" ),
-		POEM( "Poem", "half line of encrypted poem" ),
+		POEM( "Poem", "a encrypted line of a poem" ),
 		MEAT( "Meat", "Meat and puzzle clue" );
 
 		private final String tag;
@@ -280,7 +280,7 @@ public class PocketDatabase
 		@Override
 		public String toString()
 		{
-			return "an encrypted half line of a poem: " + this.text;
+			return "an encrypted line of a poem: " + this.text;
 		}
 	}
 
@@ -328,7 +328,7 @@ public class PocketDatabase
 		{
 			String name = this.item1.getName();
 			int count = this.item1.getCount();
-			return "an item: " + name + ( count == 1  ? "" : " (" + count + ")" );
+			return this.type.toString() + ": " + name + ( count == 1  ? "" : " (" + count + ")" );
 		}
 	}
 
