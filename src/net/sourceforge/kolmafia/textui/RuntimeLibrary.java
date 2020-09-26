@@ -2257,6 +2257,9 @@ public abstract class RuntimeLibrary
 
 		// Sweet Synthesis
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "update_candy_prices", DataTypes.VOID_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "candy_for_tier", new AggregateType( DataTypes.ITEM_TYPE, 0 ), params ) );
 
@@ -9391,6 +9394,12 @@ public abstract class RuntimeLibrary
 	}
 
 	// Sweet Synthesis
+
+	public static Value update_candy_prices( Interpreter interpreter )
+	{
+		CandyDatabase.updatePrices();
+		return DataTypes.VOID_VALUE;
+	}
 
 	public static Value candy_for_tier( Interpreter interpreter, final Value arg )
 	{
