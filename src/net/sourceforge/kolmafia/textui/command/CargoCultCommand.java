@@ -41,6 +41,9 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.PocketDatabase;
+import net.sourceforge.kolmafia.persistence.PocketDatabase.Pocket;
+
 import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -70,7 +73,10 @@ public class CargoCultCommand
 			return;
 		}
 
-		if ( parameters.equals( "inspect" ) )
+		String[] split = parameters.split( " +" );
+		String command = split[ 0 ];
+
+		if ( command.equals( "inspect" ) )
 		{
 			CargoCultistShortsRequest visit = new CargoCultistShortsRequest();
 			visit.run();
@@ -84,22 +90,62 @@ public class CargoCultCommand
 			return;
 		}
 
-		if ( StringUtilities.isNumeric( parameters ) )
+		if ( command.equals( "pocket" ) )
 		{
-			int pocket = StringUtilities.parseInt( parameters );
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "cargo pocket POCKET" );
+				return;
+			}
+			int pocket = parsePocket( split[ 1 ] );
+			if ( pocket != 0 )
+			{
+				Pocket data = PocketDatabase.pocketByNumber( pocket );
+				if ( data == null )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "No data for pocket #" + pocket );
+				}
+				else
+				{
+					RequestLogger.printLine( "Pocket #" + pocket + " contains " + data.toString() );
+				}
+				return;
+			}
+			// Error message already produced
+			return;
+		}
+
+		if ( StringUtilities.isNumeric( command ) )
+		{
+			int pocket = parsePocket( command );
+			if ( pocket != 0 )
+			{
+				CargoCultistShortsRequest pick = new CargoCultistShortsRequest( pocket );
+				pick.run();
+				return;
+			}
+			// Error message already produced
+			return;
+		}
+	}
+
+	private int parsePocket( String input )
+	{
+		if ( StringUtilities.isNumeric( input ) )
+		{
+			int pocket = StringUtilities.parseInt( input );
 
 			if ( pocket < 1 || pocket > 666 )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Pocket must be from 1-666" );
-				return;
+				return 0;
 			}
 
-			CargoCultistShortsRequest pick = new CargoCultistShortsRequest( pocket );
-			pick.run();
-			return;
+			return pocket;
 		}
 
 		KoLmafia.updateDisplay( MafiaState.ERROR, "Specify a pocket # from 1-666" );
+		return 0;
 	}
 
 	private void printPockets()

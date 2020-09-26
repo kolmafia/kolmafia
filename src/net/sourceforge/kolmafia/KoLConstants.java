@@ -351,6 +351,7 @@ public interface KoLConstants
 	public static final int COMBATS_VERSION = 1;
 	public static final int CONCOCTIONS_VERSION = 3;
 	public static final int CONSEQUENCES_VERSION = 1;
+	public static final int CULTSHORTS_VERSION = 1;
 	public static final int DEFAULTS_VERSION = 1;
 	public static final int ENCOUNTERS_VERSION = 1;
 	public static final int EQUIPMENT_VERSION = 2;
