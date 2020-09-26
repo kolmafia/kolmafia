@@ -1119,13 +1119,7 @@ public class SynthesizePanel
 			// On the other hand, if we update all candies individually, it will
 			// take more server hits, but cached prices will not require a hit.
 
-			CandyDatabase.categorizeCandies();
-
-			StoreManager.getMallPrices( CandyDatabase.potionCandies, 0.0f );
-			StoreManager.getMallPrices( CandyDatabase.foodCandies, 0.0f );
-			StoreManager.getMallPrices( CandyDatabase.otherCandies, 0.0f );
-
-			// Update all visible candies
+			CandyDatabase.updatePrices();
 			SynthesizePanel.this.update();
 
 			KoLmafia.updateDisplay( "All prices are less than one hour old." );

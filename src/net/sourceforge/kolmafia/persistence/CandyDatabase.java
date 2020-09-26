@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.StoreManager;
 
 public class CandyDatabase
 {
@@ -103,6 +104,14 @@ public class CandyDatabase
 		CandyDatabase.potionCandies = potions.toArray( new AdventureResult[ potions.size() ] );
 		CandyDatabase.foodCandies = foods.toArray( new AdventureResult[ foods.size() ] );
 		CandyDatabase.otherCandies = others.toArray( new AdventureResult[ others.size() ] );
+	}
+
+	public static void updatePrices()
+	{
+		CandyDatabase.categorizeCandies();
+		StoreManager.getMallPrices( CandyDatabase.potionCandies, 0.0f );
+		StoreManager.getMallPrices( CandyDatabase.foodCandies, 0.0f );
+		StoreManager.getMallPrices( CandyDatabase.otherCandies, 0.0f );
 	}
 
 	public static void registerCandy( final Integer itemId, final String type )
