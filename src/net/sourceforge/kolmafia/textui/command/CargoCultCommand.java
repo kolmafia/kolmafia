@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -95,6 +97,36 @@ public class CargoCultCommand
 			return;
 		}
 
+		if ( command.equals( "jokes" ) )
+		{
+			printPocketMap( PocketDatabase.jokePockets );
+			return;
+		}
+
+		if ( command.equals( "meat" ) )
+		{
+			printPocketList( PocketDatabase.meatClues );
+			return;
+		}
+
+		if ( command.equals( "poem" ) )
+		{
+			printPocketList( PocketDatabase.poemVerses );
+			return;
+		}
+
+		if ( command.equals( "scraps" ) )
+		{
+			Map<Integer, String> known = CargoCultistShortsRequest.knownScrapPockets();
+			for ( Pocket p : PocketDatabase.scrapSyllables )
+			{
+				Integer pocket = p.getPocket();
+				String syllable = known.get( pocket );
+				RequestLogger.printLine( "Pocket #" + pocket + ": " + p.toString() + ( syllable == null ? "" : " = " + syllable ) );
+			}
+			return;
+		}
+
 		if ( InventoryManager.getAccessibleCount( ItemPool.CARGO_CULTIST_SHORTS ) == 0 )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't own a pair of Cargo Cultist Shorts" );
@@ -146,6 +178,22 @@ public class CargoCultCommand
 
 		KoLmafia.updateDisplay( MafiaState.ERROR, "Specify a pocket # from 1-666" );
 		return 0;
+	}
+
+	private void printPocketList( final List<Pocket> list )
+	{
+		for ( Pocket p : list )
+		{
+			RequestLogger.printLine( "Pocket #" + p.getPocket() + ": " + p.toString() );
+		}
+	}
+
+	private void printPocketMap( final Map<Integer, Pocket> map )
+	{
+		for ( Pocket p : map.values() )
+		{
+			RequestLogger.printLine( "Pocket #" + p.getPocket() + ": " + p.toString() );
+		}
 	}
 
 	private void printPockets()
