@@ -48,6 +48,9 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.PocketDatabase;
+import net.sourceforge.kolmafia.persistence.PocketDatabase.Pocket;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -257,13 +260,10 @@ public class SummoningChamberRequest
 		}
 
 		StringBuilder name = new StringBuilder();
-		name.append( syllables.get( 373 ) );
-		name.append( syllables.get( 322 ) );
-		name.append( syllables.get(   7 ) );
-		name.append( syllables.get( 602 ) );
-		name.append( syllables.get( 172 ) );
-		name.append( syllables.get( 251 ) );
-		name.append( syllables.get( 282 ) );
+		for ( Pocket pocket : PocketDatabase.scrapSyllables )
+		{
+			name.append( syllables.get( pocket.getPocket() ) );
+		}
 
 		String demonName = StringUtilities.globalStringReplace( name.toString(), "_", " " );
 		Preferences.setString( "demonName13", demonName );
