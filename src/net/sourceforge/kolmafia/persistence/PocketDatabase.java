@@ -62,23 +62,23 @@ public class PocketDatabase
 		UNKNOWN( "Unknown" ),
 		STATS( "Stats" ),
 		MONSTER( "Monster" ),
-		EFFECT( "Effect" ),
-		BUFF( "Buff", "accordion buff" ),
-		ELEMENT( "Element", "elemental resistance" ),
+		EFFECT( "Effect", "an effect" ),
+		BUFF( "Buff", "an accordion buff" ),
+		ELEMENT( "Element", "an elemental resistance effect" ),
 		JOKE( "Joke" ),
-		CANDY1( "Candy1", "candy (type 1)" ),
-		CANDY2( "Candy2", "candy (type 2)" ),
-		CHIPS1( "Chips1", "potato chips (1 effect)" ),
-		GUM1( "Gum1", "gum (1 effect)" ),
-		LENS1( "Lens1", "contact lenses (1 effect)" ),
-		NEEDLE1( "Needle1", "needles (1 effect)" ),
-		TEETH1( "Teeth1", "teeth (1 effect)" ),
-		CANDY( "Candy", "candy (2 effects)" ),
-		CHIPS( "Chips", "potato chips (2 effects)" ),
-		GUM( "Gum", "gum (2 effects)" ),
-		LENS( "Lens", "contact lenses (2 effects)" ),
-		NEEDLE( "Needle", "needles (2 effects)" ),
-		TEETH( "Teeth", "teeth (2 effects)" ),
+		CANDY1( "Candy1", "a type 1 candy effect" ),
+		CANDY2( "Candy2", "a type 2 candy effect" ),
+		CHIPS1( "Chips1", "a potato chip effect" ),
+		GUM1( "Gum1", "a gum effect" ),
+		LENS1( "Lens1", "a contact lens effect" ),
+		NEEDLE1( "Needle1", "a needles effect" ),
+		TEETH1( "Teeth1", "a teeth effect" ),
+		CANDY( "Candy", "2 candy effects" ),
+		CHIPS( "Chips", "2 potato chip effects" ),
+		GUM( "Gum", "2 gum effects" ),
+		LENS( "Lens", "2 contact lens effects" ),
+		NEEDLE( "Needle", "2 needles effects" ),
+		TEETH( "Teeth", "2 teeth effects" ),
 		ITEM( "Item", "an item" ),	
 		ITEM2( "Item2", "two items" ),	
 		AVATAR( "Avatar", "an avatar potion" ),
@@ -370,10 +370,22 @@ public class PocketDatabase
 			return this.effect1;
 		}
 
+		protected static final String normalizeEffectName( AdventureResult effect )
+		{
+			String name = effect.getName();
+			int num = effect.getEffectId();
+			int[] effectIds = EffectDatabase.getEffectIds( name, false );
+			if ( effectIds != null && effectIds.length > 1 )
+			{
+				name = "[" + String.valueOf( num ) + "]" + name;
+			}
+			return name;
+		}		
+
 		@Override
 		public String toString()
 		{
-			return "an effect: " + this.effect1.getName() + " (" + this.effect1.getCount() + ")";
+			return this.type.toString() + ": " + this.normalizeEffectName( this.effect1 ) + " (" + this.effect1.getCount() + ")";
 		}
 	}
 
@@ -396,7 +408,7 @@ public class PocketDatabase
 		@Override
 		public String toString()
 		{
-			return "two effects: " + this.effect1.getName() + " (" + this.effect1.getCount() + ") and " + this.effect2.getName() + " (" + this.effect2.getCount() + ")";
+			return this.type.toString() + ": " + this.normalizeEffectName( this.effect1 ) + " (" + this.effect1.getCount() + ") and " + this.normalizeEffectName( this.effect2 ) + " (" + this.effect2.getCount() + ")";
 		}
 	}
 
@@ -807,6 +819,11 @@ public class PocketDatabase
 			}
 			int scrap = StringUtilities.parseInt( scrapString );
 			return new ScrapPocket( pocketId, scrap );
+		}
+		case UNKNOWN:
+		{
+			RequestLogger.printLine( "Pocket " + pocketId + " is unknown" );
+			return new Pocket( pocketId, type );
 		}
 		}
 
