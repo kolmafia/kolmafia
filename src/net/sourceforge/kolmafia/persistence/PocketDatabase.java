@@ -37,6 +37,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.PrintStream;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -93,7 +96,7 @@ public class PocketDatabase
 		POTION( "Potion", "a potion" ),
 		YEG( "Yeg", "an item from Yeg's Motel" ),
 		SCRAP( "Scrap", "part of demon name" ),
-		POEM( "Poem", "an encrypted line of a poem" ),
+		POEM( "Poem", "an encrypted half-line of a poem" ),
 		MEAT( "Meat", "Meat and a puzzle clue" );
 
 		private final String tag;
@@ -259,12 +262,19 @@ public class PocketDatabase
 	public static class PoemPocket
 		extends Pocket
 	{
+		private final int index;
 		private final String text;
 
-		public PoemPocket( int pocket, String text )
+		public PoemPocket( int pocket, int index, String text )
 		{
 			super( pocket, PocketType.POEM );
+			this.index = index;
 			this.text = text;
+		}
+
+		public int getIndex()
+		{
+			return this.index;
 		}
 
 		public String getText()
@@ -275,7 +285,7 @@ public class PocketDatabase
 		@Override
 		public String toString()
 		{
-			return "an encrypted line of a poem: " + this.text;
+			return "encrypted half-line #" + this.index + " of a poem: " + this.text;
 		}
 	}
 
@@ -478,6 +488,9 @@ public class PocketDatabase
 	public static final Map<Integer, Pocket> poemPockets = new TreeMap<>();
 	public static final Map<Integer, Pocket> scrapPockets = new TreeMap<>();
 	public static final Map<Integer, Pocket> unknownPockets = new TreeMap<>();
+
+	public static final List<Pocket> poemVerses = new ArrayList<Pocket>( Arrays.asList( new Pocket[23] ) );
+	public static final List<Pocket> scrapSyllables = new ArrayList<Pocket>( Arrays.asList( new Pocket[8] ) );
 
 	static
 	{
@@ -796,13 +809,20 @@ public class PocketDatabase
 		}
 		case POEM:
 		{
-			if ( data.length < 3 )
+			if ( data.length < 4 )
 			{
-				RequestLogger.printLine( "Pocket " + pocketId + " must have a text string" );
+				RequestLogger.printLine( "Pocket " + pocketId + " must have an integer and a text string" );
 				return null;
 			}
-			String text = data[ 2 ];
-			return new PoemPocket( pocketId, text );
+			String indexString = data[ 2 ];
+			if ( !StringUtilities.isNumeric( indexString ) )
+			{
+				RequestLogger.printLine( "Pocket " + pocketId + " has bad index value: " + indexString );
+				return null;
+			}
+			int index = StringUtilities.parseInt( indexString );
+			String text = data[ 3 ];
+			return new PoemPocket( pocketId, index, text );
 		}
 		case SCRAP:
 		{
@@ -992,9 +1012,11 @@ public class PocketDatabase
 			break;
 		case POEM:
 			PocketDatabase.poemPockets.put( key, pocket );
+			PocketDatabase.poemVerses.set( ((PoemPocket) pocket).index, pocket );
 			break;
 		case SCRAP:
 			PocketDatabase.scrapPockets.put( key, pocket );
+			PocketDatabase.scrapSyllables.set( ((ScrapPocket) pocket).scrap, pocket );
 			break;
 		case UNKNOWN:
 			PocketDatabase.unknownPockets.put( key, pocket );

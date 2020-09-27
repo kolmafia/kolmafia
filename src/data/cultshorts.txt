@@ -39,7 +39,7 @@
 # Yeg		ITEM
 #
 # Scrap		NUMBER	(demon name puzzle)
-# Poem		MESSAGE	(waterlogged poem)
+# Poem		NUMBER	MESSAGE	(waterlogged poem)
 # Meat		MEAT	CLUE	(meat-wrapped puzzle)
 #
 # Unknown
@@ -88,7 +88,7 @@
 42	Element	Spooky Hand (20)
 43	Element	Nasty Hand (20)
 44	Potion	candied kobold
-45	Poem	QDL XQROX ALOL OMTDQ, QDL DJZC ARX QMTDQ
+45	Poem	7	QDL XQROX ALOL OMTDQ, QDL DJZC ARX QMTDQ
 46	Chess	alabaster pawn
 47	Monster	dairy goat
 48	Gum	Mystic Pickleness (40)	Spicy Mouth (40)
@@ -125,7 +125,7 @@
 79	Potion	Bit O' Quail Spleen
 80	Needle	Heal Thy Nanoself (20)	Blood-Rich (30)
 81	Food	candy cane
-82	Poem	FORPL QDL QDMOQLLV XRMZJOX ALOL
+82	Poem	1	FORPL QDL QDMOQLLV XRMZJOX ALOL
 83	Potion	pile of candy
 84	Yeg	Yeg's Motel shower cap
 85	Element	Foul Hand (20)
@@ -151,7 +151,7 @@
 105	Chess	onyx pawn
 106	Potion	Rock Pops
 107	Candy	Just the Brown Ones (40)	The Halls of Mysticality (20)
-108	Poem	R PJIRTL JH QAJ ILROX
+108	Poem	4	R PJIRTL JH QAJ ILROX
 109	Cash	handful of tips
 110	Effect	Mallowed Out (110)
 111	Chess	alabaster rook
@@ -196,7 +196,7 @@
 150	Needle	Heal Thy Nanoself (20)	Vented Spleen (40)
 151	Effect	Eye of the Seal (80)
 152	Candy	Discomfited (30)	The Wisdom... of the Future (20)
-153	Poem	OLLU JH JYJVL, FOMGXQJVL XQMVUMVT
+153	Poem	21	OLLU JH JYJVL, FOMGXQJVL XQMVUMVT
 154	Effect	Very Attractive (20)
 155	Effect	Hippy Stench (50)
 156	Effect	Sticky FIngers (10)
@@ -224,7 +224,7 @@
 178	Element	Frosty Hand (20)
 179	Needle1	It's Soporiffic! (80)
 180	Candy2	The Wisdom... of the Future (40)
-181	Poem	QDL XUI RVC ARQLO XDROLC JVL HRSL
+181	Poem	17	QDL XUI RVC ARQLO XDROLC JVL HRSL
 182	Stats	30	30	200
 183	Stats	0	200	50
 184	Item	star (4)
@@ -288,8 +288,8 @@
 242	Buff	Ode to Booze (20)
 243	Effect	Clumsy (10)
 244	Effect	Itchy Trigger Finger (30)
-245	Poem	VJ CMOL SOJA SRALC MQX VRGL
-246	Poem	LGFROUMVT JV QDRQ QKLXCRI HJO
+245	Poem	6	VJ CMOL SOJA SRALC MQX VRGL,
+246	Poem	3	LGFROUMVT JV QDRQ QKLXCRI HJO
 247	Buff	Stevedave's Shanty of Superiority (20)
 248	Potion	Comet Drop
 249	Fruit	cranberries
@@ -373,7 +373,7 @@
 327	Booze	bottle of whiskey
 328	Candy1	Dweeby (80)
 329	Needle	Space Cowboy (30)	It's Soporiffic! (40)
-330	Poem	[WJLG SKQ JHH FI XDMW XMVUMVT]
+330	Poem	22	[WJLG SKQ JHH FI XDMW XMVUMVT]
 331	Item	extra-fancy ring setting
 332	Element	Foul Hand (20)
 333	Potion	Tallowcreme Halloween Pumpkin
@@ -418,7 +418,7 @@
 372	Element	Foul Hand (20)
 373	Scrap	1
 374	Booze	bottle of tequila
-375	Poem	ROL RWQ QJ FL JKO TORPLX
+375	Poem	16	ROL RWQ QJ FL JKO TORPLX
 376	Fruit	strawberry
 377	Effect	Wary (20)
 378	Stats	50	50	150
@@ -448,7 +448,7 @@
 402	Monster	Fruit Golem
 403	Item	precious piercing post
 404	Potion	Wint-O-Fresh mint
-405	Poem	R ORTMVT SISZJVL GMOOJOMVT
+405	Poem	19	R ORTMVT SISZJVL GMOOJOMVT
 406	Candy	Just the Brown Ones (40)	Scariberi (10)
 407	Avatar	illuminati earpiece
 408	Avatar	forest spirit rattle
@@ -487,7 +487,7 @@
 441	Candy	Dweeby (40)	Refuse Reflux (10)
 442	Unknown
 443	Monster	War Hippy (space) cadet
-444	Poem	QDL QJA'OMVT GRXQ XQJOG-DLAV
+444	Poem	10	QDL QJA'OMVT GRXQ XQJOG-DLAV
 445	Oyster	lavender striped oyster egg
 446	Element	Spooky Hand (20)
 447	Effect	Assaulted with Pepper (40)
@@ -500,7 +500,7 @@
 454	Stats	130	0	130
 455	Potion	Gummi-Gnauga
 456	Potion	Pain Dip
-457	Poem	SJGWRXX ADMOZMVT, XRMZX KVHKOZMVT
+457	Poem	13	SJGWRXX ADMOZMVT, XRMZX KVHKOZMVT
 458	Gum	Spicy Limeness (40)	Mystic Pickleness (40)
 459	Stats	80	120	80
 460	Potion	leftover chocolate bar
@@ -545,7 +545,7 @@
 499	Element	Spooky Hand (20)
 500	Stats	90	80	120
 501	Needle1	Space Cowboy (60)
-502	Poem	XQORVTL XLRX, MQ XLLGX, QDL SRWQRMV ADLLYLC
+502	Poem	15	XQORVTL XLRX, MQ XLLGX, QDL SRWQRMV ADLLYLC
 503	Candy	Dweeby (40)	Fire Down Below (10)
 504	Meat	678	A larval insect that burrows into and feeds on the internal tissue of the principal photosynthetic organ of plants)
 505	Effect	Wary (20)
@@ -563,7 +563,7 @@
 517	Bell	sizzling desk bell
 518	Potion	Hot 'n' Scarys
 519	Effect	First Eye Blind (10)
-520	Poem	QDRQ XVLLOLC AMQD ZMTDQVMVT QLLQD
+520	Poem	18	QDRQ XVLLOLC AMQD ZMTDQVMVT QLLQD
 521	Effect	Nuts about Candy (80)
 522	Needle	Blood-Rich (30)	It's Soporiffic! (40)
 523	Chess	alabaster king
@@ -574,7 +574,7 @@
 528	Candy	Dweeby (40)	The Wisdom... of the Future (20)
 529	Potion	children of the candy corn
 530	Effect	Wary (20)
-531	Poem	QDJKTD ALQ FLDMVC QDL LROX
+531	Poem	2	QDJKTD ALQ FLDMVC QDL LROX
 532	Potion	handful of hand chalk
 533	Bell	greasy desk bell
 534	Oyster	red polka-dot oyster egg
@@ -583,7 +583,7 @@
 537	Chess	onyx bishop
 538	Teeth1	Whitened Teeth (80)
 539	Needle	Tetanus (10)	Blood-Rich (30)
-540	Poem	QDL XAMOZMVT WJJZ FLVLRQD
+540	Poem	20	QDL XAMOZMVT WJJZ FLVLRQD
 541	Item	handful of sawdust
 542	Buff	Polka of Plenty (20)
 543	Effect	Hairy Palms (50)
@@ -604,7 +604,7 @@
 558	Candy	Sourpuss (40)	Tundra Mouth (10)
 559	Avatar	vial of swamp vapors
 560	Candy	Dweeby (40)	Tundra Mouth (10)
-561	Poem	OLSJTVMYL QDRQ GJJV
+561	Poem	12	OLSJTVMYL QDRQ GJJV
 562	Element	Frosty Hand (20)
 563	Candy	Discomfited (30)	The Halls of Muscularity (20)
 564	Effect	Barely Visible (20)
@@ -666,16 +666,16 @@
 620	Element	Spooky Hand (20)
 621	Meat	917	Being at the level of the narrowest part of the torso
 622	Oyster	mauve polka-dot oyster egg
-623	Poem	DJA HJOQKVLX XDMHQ, HJO QDKOXCRI'X TMHQ:
+623	Poem	9	DJA HJOQKVLX XDMHQ, HJO QDKOXCRI'X TMHQ:
 624	Element	Nasty Hand (20)
 625	Gum	Spicy Limeness (40)	Nasty, Nasty Breath (20)
 626	Effect	Very Attractive (20)
 627	Potion	dubious peppermint
-628	Poem	M CJ VJQ, XRMC QDL VRPMTRQJO
+628	Poem	11	M CJ VJQ, XRMC QDL VRPMTRQJO
 629	Oyster	blue plastic oyster egg
 630	Potion	Wickers bar
 631	Item	rusty metal key
-632	Poem	VJ FZRSU SRQ SOJXXLC QDL TOLRQ XDMW'X WRQD
+632	Poem	5	VJ FZRSU SRQ SOJXXLC QDL TOLRQ XDMW'X WRQD
 633	Effect	Strong Grip (60)
 634	Element	Spooky Hand (20)
 635	Element	Nasty Hand (20)
@@ -683,7 +683,7 @@
 637	Candy2	Refuse Reflux (20)
 638	Candy	Just the Brown Ones (40)	The Style... of the Future (20)
 639	Potion	rainbow jellybean
-640	Poem	QDL XLR KVSJGGJV QRGL
+640	Poem	8	QDL XLR KVSJGGJV QRGL
 641	Effect	SPooky Hands (10)
 642	Yeg	Yeg's Motel sewing kit
 643	Potion	Finnish Fish
@@ -701,7 +701,7 @@
 655	Effect	Charrrming (80)
 656	Effect	Wary (20)
 657	Effect	One for Tea (50)
-658	Poem	GRMV CLSU XZMSU AMQD ARPLX
+658	Poem	14	GRMV CLSU XZMSU AMQD ARPLX
 659	Needle	Blood-Rich (30)	Space Cowboy (30)
 660	Yeg	Yeg's Motel minibar key
 661	Oyster	lavender paisley oyster egg
