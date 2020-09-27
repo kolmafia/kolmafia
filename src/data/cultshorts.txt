@@ -208,8 +208,8 @@
 162	Candy	Discomfited (30)	The Style... of the Future (20)
 163	Joke	"Q: Why didn't the skeleton go to school? A: His heart wasn't in it."
 164	Lens	Seeing Colors (20)	20/20 Vision (40)
-165	Unknown
-166	Unknown
+165	Effect	Extra Terrestrial (20)
+166	Effect	Coming Up Roses (20)
 167	Item	green pixel (5)
 168	Avatar	shamanic ham
 169	Potion	candy chalk
