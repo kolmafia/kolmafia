@@ -241,28 +241,25 @@ public class SummoningChamberRequest
 		Preferences.setString( "demonName12", demonName );
 	}
 
-	public static void updateYegName( String property )
+	public static void updateYegName( Map<Integer, String> syllables )
 	{
-		// 373, 322, 7, 602, 172, 251, 282
-		String[] pockets = property.split( "\\|" );
-		if ( pockets.length != 7 )
+		// We don't have a demon name without all seven syllables
+		if ( syllables.size() != 7 )
 		{
 			return;
-		}
-
-		Map<Integer, String> syllables = new HashMap<>();
-		for ( String pocket : pockets )
-		{
-			String[] parts = pocket.split( ": *" );
-			int key = StringUtilities.parseInt( parts[0] );
-			String syllable = parts.length == 3 ? parts[2] : parts[ 1 ];
-			syllables.put( key, syllable.trim() );
 		}
 
 		StringBuilder name = new StringBuilder();
 		for ( Pocket pocket : PocketDatabase.scrapSyllables )
 		{
-			name.append( syllables.get( pocket.getPocket() ) );
+			String syllable = syllables.get( pocket.getPocket() );
+			if ( syllable == null )
+			{
+				// Unexpected; the only pockets that should be
+				// in the map are the demon name scraps
+				return;
+			}
+			name.append( syllable );
 		}
 
 		String demonName = StringUtilities.globalStringReplace( name.toString(), "_", " " );

@@ -115,7 +115,7 @@ public class CargoCultCommand
 			return;
 		}
 
-		if ( command.equals( "scraps" ) )
+		if ( command.equals( "scraps" ) || command.equals( "demon" ) )
 		{
 			Map<Integer, String> known = CargoCultistShortsRequest.knownScrapPockets();
 			for ( Pocket p : PocketDatabase.scrapSyllables )

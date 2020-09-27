@@ -140,7 +140,7 @@
 94	Booze	boxed wine
 95	Effect	Thick-Skinned (60)
 96	Teeth	Gleaming White Teeth (30)	Winning Smile (20)
-97	Unknown
+97	Effect	Smile of the Vole (20)
 98	Effect	Wary (20)
 99	Needle	Extra-Thick Blood (40)	Vented Spleen (40)
 100	Effect	Pork Power (80)

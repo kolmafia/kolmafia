@@ -497,54 +497,6 @@ public class PocketDatabase
 	{
 		PocketDatabase.reset();
 		RequestLogger.printLine( "Pockets loaded: " + allPockets.size() );
-
-		/*
-		if ( uncategorizedPockets.size() > 0 )
-		{
-			RequestLogger.printLine( "Uncategorized pockets: " + uncategorizedPockets.size() );
-		}
-
-		RequestLogger.printLine( "Stats pockets: " + statsPockets.size() );
-
-		RequestLogger.printLine( "Monster pockets: " + monsterPockets.size() );
-
-		RequestLogger.printLine( "One Effect pockets: " + oneEffectPockets.size() );
-		RequestLogger.printLine( "Accordion Buff pockets: " + buffPockets.size() );
-		RequestLogger.printLine( "Elemental Resistance pockets: " + elementPockets.size() );
-		RequestLogger.printLine( "Candy1 pockets: " + candy1Pockets.size() );
-		RequestLogger.printLine( "Candy2 pockets: " + candy2Pockets.size() );
-		RequestLogger.printLine( "Chips1 pockets: " + chips1Pockets.size() );
-		RequestLogger.printLine( "Gum1 pockets: " + gum1Pockets.size() );
-		RequestLogger.printLine( "Lens1 pockets: " + lens1Pockets.size() );
-		RequestLogger.printLine( "Needle1 pockets: " + needle1Pockets.size() );
-		RequestLogger.printLine( "Teeth1 pockets: " + teeth1Pockets.size() );
-		RequestLogger.printLine( "Candy pockets: " + candyPockets.size() );
-		RequestLogger.printLine( "Chips pockets: " + chipsPockets.size() );
-		RequestLogger.printLine( "Gum pockets: " + gumPockets.size() );
-		RequestLogger.printLine( "Lens pockets: " + lensPockets.size() );
-		RequestLogger.printLine( "Needle pockets: " + needlePockets.size() );
-		RequestLogger.printLine( "Teeth pockets: " + teethPockets.size() );
-
-		RequestLogger.printLine( "One Item pockets: " + oneItemPockets.size() );
-		RequestLogger.printLine( "Two Item pockets: " + twoItemPockets.size() );
-		RequestLogger.printLine( "Avatar Potion Pockets: " + avatarPockets.size() );
-		RequestLogger.printLine( "Desk Bell pockets: " + bellPockets.size() );
-		RequestLogger.printLine( "Booze pockets: " + boozePockets.size() );
-		RequestLogger.printLine( "Cash pockets: " + cashPockets.size() );
-		RequestLogger.printLine( "Chess Piece pockets: " + chessPockets.size() );
-		RequestLogger.printLine( "Chocolate pockets: " + chocoPockets.size() );
-		RequestLogger.printLine( "Food pockets: " + foodPockets.size() );
-		RequestLogger.printLine( "Fruit pockets: " + fruitPockets.size() );
-		RequestLogger.printLine( "Oyster Egg pockets: " + oysterPockets.size() );
-		RequestLogger.printLine( "Potion pockets: " + potionPockets.size() );
-		RequestLogger.printLine( "Yeg's Motel item pockets: " + yegPockets.size() );
-
-		RequestLogger.printLine( "Joke pockets: " + jokePockets.size() );
-		RequestLogger.printLine( "Meat pockets: " + meatPockets.size() );
-		RequestLogger.printLine( "Poem pockets: " + poemPockets.size() );
-		RequestLogger.printLine( "Scrap pockets: " + scrapPockets.size() );
-		RequestLogger.printLine( "Unknown pockets: " + unknownPockets.size() );
-		*/
 	}
 
 	private static void reset()

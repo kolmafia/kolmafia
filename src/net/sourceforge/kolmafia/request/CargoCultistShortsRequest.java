@@ -314,33 +314,21 @@ public class CargoCultistShortsRequest
 			return;
 		}
 
-		String property = POCKET_SCRAPS_PROPERTY;
-		String value = Preferences.getString( property );
+		// Extract the syllable from the message on the scrap
+		String syllable = scrapMatcher.group( 2 );
+		int colon = syllable.indexOf( ":" );
+		if ( colon == -1 )
+		{
+			// Unexpected
+			return;
+		}
+		syllable = syllable.substring( colon + 1 ).trim();
 
-		// Backwards compatibility: original implementation would store
-		// something like: "7:ESUQQ: Go"
-		//
-		// Since ESUQQ is "three" - and the number strings do not vary
-		// from character to character - convert to only have "7:Go"
-
-		Map<Integer, String> map = new TreeMap<>();
+		// Get a map from pocket -> syllable for previously seen pockets
+		Map<Integer, String> map = knownScrapPockets();
 
 		// Add the current pocket to the map
-		String current = scrapMatcher.group( 2 );
-		int colon = current.indexOf( ":" );
-		if ( colon != -1 )
-		{
-			map.put( pocket, current.substring( colon + 1 ).trim() );
-		}
-
-		// Add already seen pockets to the map
-		for ( String item : value.split( "\\|" ) )
-		{
-			String[] parts = item.split( ": *" );
-			int key = StringUtilities.parseInt( parts[0] );
-			String syllable = parts.length == 3 ? parts[2] : parts[ 1 ];
-			map.put( key, syllable.trim() );
-		}
+		map.put( pocket, syllable );
 
 		// Rebuild the value of the property
 		StringBuilder buffer = new StringBuilder();
@@ -356,16 +344,22 @@ public class CargoCultistShortsRequest
 		}
 
 		String newValue = buffer.toString();
-		Preferences.setString( property, newValue );
+		Preferences.setString( POCKET_SCRAPS_PROPERTY, newValue );
 
 		// All 7 scraps will reveal a demon name
-		SummoningChamberRequest.updateYegName( newValue );
+		SummoningChamberRequest.updateYegName( map );
 	}
 
 	public static Map<Integer, String> knownScrapPockets()
 	{
 		String value = Preferences.getString( POCKET_SCRAPS_PROPERTY );
 		Map<Integer, String> map = new TreeMap<>();
+
+		// Backwards compatibility: original implementation would store
+		// something like: "7:ESUQQ: Go"
+		//
+		// Since ESUQQ is "three" - and the number strings do not vary
+		// from character to character - convert to only have "7:Go"
 
 		for ( String item : value.split( "\\|" ) )
 		{
