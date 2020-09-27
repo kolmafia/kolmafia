@@ -355,6 +355,11 @@ public class CargoCultistShortsRequest
 		String value = Preferences.getString( POCKET_SCRAPS_PROPERTY );
 		Map<Integer, String> map = new TreeMap<>();
 
+		if ( value.equals( "" ) )
+		{
+			return map;
+		}
+
 		// Backwards compatibility: original implementation would store
 		// something like: "7:ESUQQ: Go"
 		//
