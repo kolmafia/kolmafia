@@ -37,13 +37,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.PrintStream;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -84,8 +79,8 @@ public class PocketDatabase
 		LENS( "Lens", "contact lenses (2 effects)" ),
 		NEEDLE( "Needle", "needles (2 effects)" ),
 		TEETH( "Teeth", "teeth (2 effects)" ),
-		ITEM( "Item", "one miscellaneous item" ),	
-		ITEM2( "Item2", "two miscellaneous item" ),	
+		ITEM( "Item", "an item" ),	
+		ITEM2( "Item2", "two items" ),	
 		AVATAR( "Avatar", "an avatar potion" ),
 		BELL( "Bell", "a desk bell" ),
 		BOOZE( "Booze" ),
@@ -98,8 +93,8 @@ public class PocketDatabase
 		POTION( "Potion", "a potion" ),
 		YEG( "Yeg", "an item from Yeg's Motel" ),
 		SCRAP( "Scrap", "part of demon name" ),
-		POEM( "Poem", "a encrypted line of a poem" ),
-		MEAT( "Meat", "Meat and puzzle clue" );
+		POEM( "Poem", "an encrypted line of a poem" ),
+		MEAT( "Meat", "Meat and a puzzle clue" );
 
 		private final String tag;
 		private final String name;
@@ -432,51 +427,52 @@ public class PocketDatabase
 
 	// Here are the data structures for retrieving pocket data
 
-	static final Map<Integer, Pocket> allPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> uncategorizedPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> allPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> uncategorizedPockets = new TreeMap<>();
 
-	static final Map<Integer, Pocket> statsPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> monsterPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> oneEffectPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> buffPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> elementPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> candy1Pockets = new TreeMap<>();
-	static final Map<Integer, Pocket> candy2Pockets = new TreeMap<>();
-	static final Map<Integer, Pocket> chips1Pockets = new TreeMap<>();
-	static final Map<Integer, Pocket> gum1Pockets = new TreeMap<>();
-	static final Map<Integer, Pocket> lens1Pockets = new TreeMap<>();
-	static final Map<Integer, Pocket> needle1Pockets = new TreeMap<>();
-	static final Map<Integer, Pocket> teeth1Pockets = new TreeMap<>();
-	static final Map<Integer, Pocket> candyPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> chipsPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> gumPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> lensPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> needlePockets = new TreeMap<>();
-	static final Map<Integer, Pocket> teethPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> oneItemPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> twoItemPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> avatarPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> bellPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> boozePockets = new TreeMap<>();
-	static final Map<Integer, Pocket> cashPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> chessPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> chocoPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> foodPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> fruitPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> oysterPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> potionPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> yegPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> jokePockets = new TreeMap<>();
-	static final Map<Integer, Pocket> meatPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> poemPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> scrapPockets = new TreeMap<>();
-	static final Map<Integer, Pocket> unknownPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> statsPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> monsterPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> oneEffectPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> buffPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> elementPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> candy1Pockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> candy2Pockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> chips1Pockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> gum1Pockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> lens1Pockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> needle1Pockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> teeth1Pockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> candyPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> chipsPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> gumPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> lensPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> needlePockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> teethPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> oneItemPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> twoItemPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> avatarPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> bellPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> boozePockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> cashPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> chessPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> chocoPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> foodPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> fruitPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> oysterPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> potionPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> yegPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> jokePockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> meatPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> poemPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> scrapPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> unknownPockets = new TreeMap<>();
 
 	static
 	{
 		PocketDatabase.reset();
 		RequestLogger.printLine( "Pockets loaded: " + allPockets.size() );
 
+		/*
 		if ( uncategorizedPockets.size() > 0 )
 		{
 			RequestLogger.printLine( "Uncategorized pockets: " + uncategorizedPockets.size() );
@@ -488,7 +484,7 @@ public class PocketDatabase
 
 		RequestLogger.printLine( "One Effect pockets: " + oneEffectPockets.size() );
 		RequestLogger.printLine( "Accordion Buff pockets: " + buffPockets.size() );
-		RequestLogger.printLine( "Elemental Protection Effect pockets: " + elementPockets.size() );
+		RequestLogger.printLine( "Elemental Resistance pockets: " + elementPockets.size() );
 		RequestLogger.printLine( "Candy1 pockets: " + candy1Pockets.size() );
 		RequestLogger.printLine( "Candy2 pockets: " + candy2Pockets.size() );
 		RequestLogger.printLine( "Chips1 pockets: " + chips1Pockets.size() );
@@ -522,6 +518,7 @@ public class PocketDatabase
 		RequestLogger.printLine( "Poem pockets: " + poemPockets.size() );
 		RequestLogger.printLine( "Scrap pockets: " + scrapPockets.size() );
 		RequestLogger.printLine( "Unknown pockets: " + unknownPockets.size() );
+		*/
 	}
 
 	private static void reset()
@@ -995,5 +992,11 @@ public class PocketDatabase
 	public static Pocket pocketByNumber( int pocket )
 	{
 		return PocketDatabase.allPockets.get( IntegerPool.get( pocket ) );
+	}
+
+	public static MonsterData monsterByNumber( int pocket )
+	{
+		Pocket mp = PocketDatabase.monsterPockets.get( IntegerPool.get( pocket ) );
+		return mp == null ? null : ((MonsterPocket)mp).getMonster();
 	}
 }
