@@ -52,9 +52,11 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.PocketDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -108,83 +110,6 @@ public class CargoCultistShortsRequest
 		Preferences.setString( EMPTY_POCKETS_PROPERTY, buffer.toString() );
 	}
 
-	// *** The following should be in the Cargo Cultist Shorts pocket database
-	// *** For now, I'm putting this here, since we need to know which pockets lead to fights.
-
-	public static final Map<Integer, MonsterData> freeFights = new HashMap<>();
-
-	private static void registerMonsterPocket( int pocket, String monsterName )
-	{
-		MonsterData monster = MonsterDatabase.findMonster( monsterName );
-		if ( monster == null )
-		{
-			RequestLogger.printLine( "Pocket " + pocket + " leads to unknown monster '" + monsterName + "'"  );
-			return;
-		}
-		CargoCultistShortsRequest.freeFights.put( pocket,  monster );
-	}
-
-	static
-	{
-		registerMonsterPocket( 30,  "bookbat" );
-		registerMonsterPocket( 47,  "dairy goat" );
-		registerMonsterPocket( 136, "Knob Goblin Elite Guardsman" );
-		registerMonsterPocket( 143, "dirty old lihc" );
-		registerMonsterPocket( 191, "batrat" );
-		registerMonsterPocket( 220, "lobsterfrogman" );
-		registerMonsterPocket( 235, "modern zmobie" );
-		registerMonsterPocket( 250, "Blooper" );
-		registerMonsterPocket( 267, "creepy clown" );
-		registerMonsterPocket( 279, "Hellion" );
-		registerMonsterPocket( 299, "Knob Goblin Harem Girl" );
-		registerMonsterPocket( 306, "big creepy spider" );
-		registerMonsterPocket( 317, "Camel's Toe" );
-		registerMonsterPocket( 363, "pufferfish" );
-		registerMonsterPocket( 383, "Skinflute" );
-		registerMonsterPocket( 402, "Fruit Golem" );
-		registerMonsterPocket( 425, "eXtreme Orcish snowboarder" );
-		registerMonsterPocket( 428, "Mob Penguin Thug" );
-		registerMonsterPocket( 443, "War Hippy (space) cadet" );
-		registerMonsterPocket( 448, "completely different spider" );
-		registerMonsterPocket( 452, "pygmy shaman" );
-		registerMonsterPocket( 490, "Booze Giant" );
-		registerMonsterPocket( 565, "mountain man" );
-		registerMonsterPocket( 568, "War Pledge" );
-		registerMonsterPocket( 589, "Green Ops Soldier" );
-		registerMonsterPocket( 646, "1335 HaXx0r" );
-		registerMonsterPocket( 666, "smut orc pervert" );
-	};
-
-	public static final Map<Integer, Integer> meatPockets = new TreeMap<>();
-
-	static
-	{
-		meatPockets.put( 577, 118 );
-		meatPockets.put( 149, 245 );
-		meatPockets.put( 115, 351 );
-		meatPockets.put( 139, 451 );
-		meatPockets.put( 554, 566 );
-		meatPockets.put( 504, 678 );
-		meatPockets.put(  54, 725 );
-		meatPockets.put( 484, 872 );
-		meatPockets.put( 621, 917 );
-	};
-
-	public static final Set<Integer> paperScraps = new TreeSet<>();
-
-	static
-	{
-		paperScraps.add( 7 );
-		paperScraps.add( 172 );
-		paperScraps.add( 222 );
-		paperScraps.add( 251 );
-		paperScraps.add( 282 );
-		paperScraps.add( 373 );
-		paperScraps.add( 602 );
-	};
-
-	// *** End of temporary code
-
 	int pocket = 0;
 
 	public CargoCultistShortsRequest()
@@ -218,7 +143,7 @@ public class CargoCultistShortsRequest
 
 	public static MonsterData getMonsterFight( final int pocket )
 	{
-		return CargoCultistShortsRequest.freeFights.get( pocket );
+		return PocketDatabase.monsterByNumber( pocket );
 	}
 
 	@Override

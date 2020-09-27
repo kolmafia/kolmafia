@@ -61,12 +61,6 @@ public class CargoCultCommand
 	@Override
 	public void run( final String cmd, String parameters )
 	{
-		if ( InventoryManager.getAccessibleCount( ItemPool.CARGO_CULTIST_SHORTS ) == 0 )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't own a pair of Cargo Cultist Shorts" );
-			return;
-		}
-
 		if ( parameters.equals( "" ) )
 		{
 			this.printPockets();
@@ -75,20 +69,6 @@ public class CargoCultCommand
 
 		String[] split = parameters.split( " +" );
 		String command = split[ 0 ];
-
-		if ( command.equals( "inspect" ) )
-		{
-			CargoCultistShortsRequest visit = new CargoCultistShortsRequest();
-			visit.run();
-
-			if ( !KoLmafia.permitsContinue() )
-			{
-				return;
-			}
-
-			this.printPockets();
-			return;
-		}
 
 		if ( command.equals( "pocket" ) )
 		{
@@ -112,6 +92,26 @@ public class CargoCultCommand
 				return;
 			}
 			// Error message already produced
+			return;
+		}
+
+		if ( InventoryManager.getAccessibleCount( ItemPool.CARGO_CULTIST_SHORTS ) == 0 )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't own a pair of Cargo Cultist Shorts" );
+			return;
+		}
+
+		if ( command.equals( "inspect" ) )
+		{
+			CargoCultistShortsRequest visit = new CargoCultistShortsRequest();
+			visit.run();
+
+			if ( !KoLmafia.permitsContinue() )
+			{
+				return;
+			}
+
+			this.printPockets();
 			return;
 		}
 
