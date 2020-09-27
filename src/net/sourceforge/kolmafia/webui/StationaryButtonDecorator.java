@@ -226,12 +226,22 @@ public class StationaryButtonDecorator
 
 				// Modify the 'overflow' div, after the 'content_' div, to prevent the appearance of an inner scroll bar due to use link decorations
 				int content_Index = buffer.indexOf( "id='content_'" );
-				int overflowIndex = buffer.indexOf( "<div style='overflow: auto'><center><!--faaaaaaart-->", content_Index );
+				int overflowIndex = buffer.indexOf( "<div style='overflow: auto'><center>", content_Index );
 				if ( overflowIndex != -1 )
 				{
-					// Replace 'auto' into 'visible'
-					overflowIndex += 22;
-					buffer.replace( overflowIndex, overflowIndex + 4, "visible" );
+					// What we're searching for is a bit general/vague... could happen to not be where we think, AND is (instead) somewhere else...
+					// To prevent accidentally replacing the wrong thing, try to limit the searches upto the monster image, if present (what if it's not?).
+					boolean outOfBounds = false;
+					int monsterpicIndex = buffer.indexOf( "id=\"monsterpic\"" , content_Index );
+					if ( monsterpicIndex != -1 && overflowIndex > monsterpicIndex )
+						outOfBounds = true;
+
+					if ( !outOfBounds )
+					{
+						// Replace 'auto' into 'visible'
+						overflowIndex += 22;
+						buffer.replace( overflowIndex, overflowIndex + 4, "visible" );
+					}
 				}
 
 				return;

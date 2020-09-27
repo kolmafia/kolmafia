@@ -1580,7 +1580,7 @@ public abstract class UseLinkDecorator
 	private static final String getSpeculation( String label, Modifiers mods )
 	{
 		String id = "whatif" + UseLinkDecorator.equipSequence++;
-		String table = SpeculateCommand.getHTML( mods, "id='" + id + "' style='background-color: white; visibility: hidden; position: absolute; right: 0px; top: 1.2em;'" );
+		String table = SpeculateCommand.getHTML( mods, "id='" + id + "' style='background-color: white; visibility: hidden; position: absolute; z-index: 1; right: 0px; top: 1.2em;'" );
 		if ( table == null ) return label;
 		return "<span style='position: relative;' onMouseOver=\"document.getElementById('" + id + "').style.visibility='visible';\" onMouseOut=\"document.getElementById('" + id + "').style.visibility='hidden';\">" + table + label + "</span>";
 	}
