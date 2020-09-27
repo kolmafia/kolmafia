@@ -489,8 +489,9 @@ public class PocketDatabase
 	public static final Map<Integer, Pocket> scrapPockets = new TreeMap<>();
 	public static final Map<Integer, Pocket> unknownPockets = new TreeMap<>();
 
-	public static final List<Pocket> poemVerses = new ArrayList<Pocket>( Arrays.asList( new Pocket[23] ) );
-	public static final List<Pocket> scrapSyllables = new ArrayList<Pocket>( Arrays.asList( new Pocket[8] ) );
+	public static final List<Pocket> poemVerses = new ArrayList<Pocket>( Arrays.asList( new Pocket[22] ) );
+	public static final List<Pocket> scrapSyllables = new ArrayList<Pocket>( Arrays.asList( new Pocket[7] ) );
+	public static final List<Pocket> meatClues = new ArrayList<Pocket>( Arrays.asList( new Pocket[9] ) );
 
 	static
 	{
@@ -1009,14 +1010,15 @@ public class PocketDatabase
 			break;
 		case MEAT:
 			PocketDatabase.meatPockets.put( key, pocket );
+			PocketDatabase.meatClues.set( ((MeatPocket) pocket).meat / 100 - 1, pocket );
 			break;
 		case POEM:
 			PocketDatabase.poemPockets.put( key, pocket );
-			PocketDatabase.poemVerses.set( ((PoemPocket) pocket).index, pocket );
+			PocketDatabase.poemVerses.set( ((PoemPocket) pocket).index - 1, pocket );
 			break;
 		case SCRAP:
 			PocketDatabase.scrapPockets.put( key, pocket );
-			PocketDatabase.scrapSyllables.set( ((ScrapPocket) pocket).scrap, pocket );
+			PocketDatabase.scrapSyllables.set( ((ScrapPocket) pocket).scrap - 1, pocket );
 			break;
 		case UNKNOWN:
 			PocketDatabase.unknownPockets.put( key, pocket );
