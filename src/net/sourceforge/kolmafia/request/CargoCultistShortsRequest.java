@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase;
+import net.sourceforge.kolmafia.persistence.PocketDatabase.Pocket;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -328,23 +329,10 @@ public class CargoCultistShortsRequest
 		Map<Integer, String> map = knownScrapPockets();
 
 		// Add the current pocket to the map
-		map.put( pocket, syllable );
+		map.put( IntegerPool.get( pocket ), syllable );
 
 		// Rebuild the value of the property
-		StringBuilder buffer = new StringBuilder();
-		for ( Entry<Integer, String> entry : map.entrySet() )
-		{
-			if ( buffer.length() > 0 )
-			{
-				buffer.append( "|" );
-			}
-			buffer.append( String.valueOf( entry.getKey() ) );
-			buffer.append( ":" );
-			buffer.append( entry.getValue() );
-		}
-
-		String newValue = buffer.toString();
-		Preferences.setString( POCKET_SCRAPS_PROPERTY, newValue );
+		saveScrapPockets( map );
 
 		// All 7 scraps will reveal a demon name
 		SummoningChamberRequest.updateYegName( map );
@@ -376,6 +364,33 @@ public class CargoCultistShortsRequest
 
 		return map;
 	}
+
+	public static void saveScrapPockets( final Map<Integer, String> map )
+	{
+		// Rebuild the setting in the order the syllables are used
+
+		StringBuilder value = new StringBuilder();
+		for ( Pocket p : PocketDatabase.scrapSyllables )
+		{
+			Integer pocket = p.getPocket();
+			String syllable = map.get( pocket );
+			if ( syllable == null )
+			{
+				continue;
+			}
+
+			if ( value.length() > 0 )
+			{
+				value.append( "|" );
+			}
+			value.append( String.valueOf( pocket ) );
+			value.append( ":" );
+			value.append( syllable );
+		}
+
+		Preferences.setString( POCKET_SCRAPS_PROPERTY, value.toString() );
+	}
+
 
 	// <span class='guts'>You pull a note out of your pocket.  It's wrapped around a pile of meat.<blockquote style='border: 1px solid black; text-align: center; padding: 1em'>Being at the level of the narrowest part of the torso</blockquote><center><table><tr><td><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/meat.gif" height=30 width=30 alt="Meat"></td><td valign=center>You gain 917 Meat.</td></tr></table></center></span>
 
