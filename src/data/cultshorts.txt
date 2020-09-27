@@ -707,6 +707,6 @@
 661	Oyster	lavender paisley oyster egg
 662	Potion	Glo-Pop
 663	Element	Frosty Hand (20)
-664	Unknown
+664	Effect	Waxing Mystical (20)
 665	Candy	Discomfited (30)	The Strength... of the Future (20)
 666	Monster	smut orc pervert

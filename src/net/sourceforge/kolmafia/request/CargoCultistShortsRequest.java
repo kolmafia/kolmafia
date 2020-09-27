@@ -362,6 +362,22 @@ public class CargoCultistShortsRequest
 		SummoningChamberRequest.updateYegName( newValue );
 	}
 
+	public static Map<Integer, String> knownScrapPockets()
+	{
+		String value = Preferences.getString( POCKET_SCRAPS_PROPERTY );
+		Map<Integer, String> map = new TreeMap<>();
+
+		for ( String item : value.split( "\\|" ) )
+		{
+			String[] parts = item.split( ": *" );
+			int key = StringUtilities.parseInt( parts[0] );
+			String syllable = parts.length == 3 ? parts[2] : parts[ 1 ];
+			map.put( key, syllable.trim() );
+		}
+
+		return map;
+	}
+
 	// <span class='guts'>You pull a note out of your pocket.  It's wrapped around a pile of meat.<blockquote style='border: 1px solid black; text-align: center; padding: 1em'>Being at the level of the narrowest part of the torso</blockquote><center><table><tr><td><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/meat.gif" height=30 width=30 alt="Meat"></td><td valign=center>You gain 917 Meat.</td></tr></table></center></span>
 
 	public static final Pattern MEAT_NOTE_PATTERN = Pattern.compile( "(You pull a note out of your pocket.  It's wrapped around a pile of meat.).*?<blockquote[^>]*>([^<]*)<" );

@@ -443,7 +443,7 @@ public class PocketDatabase
 		@Override
 		public String toString()
 		{
-			return "an annoying (20 turns of Joke-Mad) joke: " + this.joke;
+			return "Joke-Mad (20) and a joke: " + this.joke;
 		}
 	}
 
