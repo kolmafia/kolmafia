@@ -39,6 +39,7 @@ import java.io.PrintStream;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -62,7 +63,6 @@ public class PocketDatabase
 {
 	public enum PocketType
 	{
-		UNKNOWN( "Unknown" ),
 		STATS( "Stats" ),
 		MONSTER( "Monster" ),
 		EFFECT( "Effect", "an effect" ),
@@ -103,10 +103,12 @@ public class PocketDatabase
 		private final String tag;
 		private final String name;
 
+		// Pockets self-add themselves to this map
+		private final Map<Integer, Pocket> pockets = new TreeMap<>();
+
 		private PocketType( String tag )
 		{
-			this.tag = tag;
-			this.name = tag.toLowerCase();
+			this( tag, tag.toLowerCase() );
 		}
 
 		private PocketType( String tag, String name )
@@ -120,27 +122,39 @@ public class PocketDatabase
 			return this.tag;
 		}
 
+		public void addPocket( Pocket pocket )
+		{
+			this.pockets.put( pocket.getPocket(), pocket );
+		}
+
+		public Map<Integer, Pocket> getPockets()
+		{
+			return this.pockets;
+		}
+
+		public Pocket getPocket( int pocket )
+		{
+			return this.pockets.get( IntegerPool.get( pocket ) );
+		}
+
 		@Override
 		public String toString()
 		{
 			return this.name;
 		}
+	}
 
-		public static PocketType fromTag( String tag )
+	private final static Map<String, PocketType> tagToPocketType = new HashMap<>();
+	static
+	{
+		for ( PocketType type : PocketType.values() )
 		{
-			if ( tag != null )
-			{
-				for ( PocketType type : PocketType.values() )
-				{
-					if ( tag.equals( type.tag ) )
-					{
-						return type;
-					}
-				}
-			}
-			return null;
+			PocketDatabase.tagToPocketType.put( type.getTag(), type );
 		}
 	}
+
+	// Pockets self-add themselves to this map
+	public static final Map<Integer, Pocket> allPockets = new TreeMap<>();
 
 	public static class Pocket
 	{
@@ -149,8 +163,12 @@ public class PocketDatabase
 
 		public Pocket( int pocket, PocketType type )
 		{
-			this.pocket = pocket;
+			this.pocket = IntegerPool.get( pocket );
 			this.type = type;
+			// Add to map of all pockets
+			PocketDatabase.allPockets.put( this.pocket, this );
+			// Add to map of pockets of this type
+			type.addPocket( this );
 		}
 
 		public Integer getPocket()
@@ -448,48 +466,7 @@ public class PocketDatabase
 		}
 	}
 
-	// Here are the data structures for retrieving pocket data
-
-	public static final Map<Integer, Pocket> allPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> uncategorizedPockets = new TreeMap<>();
-
-	public static final Map<Integer, Pocket> statsPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> monsterPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> oneEffectPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> restorationPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> buffPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> elementPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> candy1Pockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> candy2Pockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> chips1Pockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> gum1Pockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> lens1Pockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> needle1Pockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> teeth1Pockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> candyPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> chipsPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> gumPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> lensPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> needlePockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> teethPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> oneItemPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> twoItemPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> avatarPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> bellPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> boozePockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> cashPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> chessPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> chocoPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> foodPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> fruitPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> oysterPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> potionPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> yegPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> jokePockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> meatPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> poemPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> scrapPockets = new TreeMap<>();
-	public static final Map<Integer, Pocket> unknownPockets = new TreeMap<>();
+	// Here are additional data structures for retrieving pocket data
 
 	public static final List<Pocket> poemVerses = new ArrayList<Pocket>( Arrays.asList( new Pocket[22] ) );
 	public static final List<Pocket> scrapSyllables = new ArrayList<Pocket>( Arrays.asList( new Pocket[7] ) );
@@ -520,7 +497,7 @@ public class PocketDatabase
 				}
 
 				String tag = data[ 1 ];
-				PocketType type = PocketType.fromTag( tag );
+				PocketType type = PocketDatabase.tagToPocketType.get( tag );
 				if ( type == null )
 				{
 					RequestLogger.printLine( "Pocket " + pocketId + " has bogus pocket type: " + tag );
@@ -796,11 +773,6 @@ public class PocketDatabase
 			int scrap = StringUtilities.parseInt( scrapString );
 			return new ScrapPocket( pocketId, scrap );
 		}
-		case UNKNOWN:
-		{
-			RequestLogger.printLine( "Pocket " + pocketId + " is unknown" );
-			return new Pocket( pocketId, type );
-		}
 		}
 
 		return new Pocket( pocketId, type );
@@ -858,134 +830,27 @@ public class PocketDatabase
 
 	private static boolean addToDatabase( Pocket pocket )
 	{
-		Integer key = pocket.getPocket();
-		if ( PocketDatabase.allPockets.containsKey( key ) )
-		{
-			RequestLogger.printLine( "Duplicate pocket id: " + key );
-			return false;
-		}
-		PocketDatabase.allPockets.put( key, pocket );
+		// Add to additional List/Set/Map as needed
 		switch ( pocket.getType() )
 		{
-		case STATS:
-			PocketDatabase.statsPockets.put( key, pocket );
-			break;
-		case MONSTER:
-			PocketDatabase.monsterPockets.put( key, pocket );
-			break;
-		case EFFECT:
-			PocketDatabase.oneEffectPockets.put( key, pocket );
-			break;
-		case RESTORE:
-			PocketDatabase.restorationPockets.put( key, pocket );
-			break;
-		case BUFF:
-			PocketDatabase.buffPockets.put( key, pocket );
-			break;
-		case ELEMENT:
-			PocketDatabase.elementPockets.put( key, pocket );
-			break;
-		case JOKE:
-			PocketDatabase.jokePockets.put( key, pocket );
-			break;
-		case CANDY1:
-			PocketDatabase.candy1Pockets.put( key, pocket );
-			break;
-		case CANDY2:
-			PocketDatabase.candy2Pockets.put( key, pocket );
-			break;
-		case CHIPS1:
-			PocketDatabase.chips1Pockets.put( key, pocket );
-			break;
-		case GUM1:
-			PocketDatabase.gum1Pockets.put( key, pocket );
-			break;
-		case LENS1:
-			PocketDatabase.lens1Pockets.put( key, pocket );
-			break;
-		case NEEDLE1:
-			PocketDatabase.needle1Pockets.put( key, pocket );
-			break;
-		case TEETH1:
-			PocketDatabase.teeth1Pockets.put( key, pocket );
-			break;
-		case CANDY:
-			PocketDatabase.candyPockets.put( key, pocket );
-			break;
-		case CHIPS:
-			PocketDatabase.chipsPockets.put( key, pocket );
-			break;
-		case GUM:
-			PocketDatabase.gumPockets.put( key, pocket );
-			break;
-		case LENS:
-			PocketDatabase.lensPockets.put( key, pocket );
-			break;
-		case NEEDLE:
-			PocketDatabase.needlePockets.put( key, pocket );
-			break;
-		case TEETH:
-			PocketDatabase.teethPockets.put( key, pocket );
-			break;
-		case ITEM:
-			PocketDatabase.oneItemPockets.put( key, pocket );
-			break;
-		case ITEM2:
-			PocketDatabase.twoItemPockets.put( key, pocket );
-			break;
-		case AVATAR:
-			PocketDatabase.avatarPockets.put( key, pocket );
-			break;
-		case BELL:
-			PocketDatabase.bellPockets.put( key, pocket );
-			break;
-		case BOOZE:
-			PocketDatabase.boozePockets.put( key, pocket );
-			break;
-		case CASH:
-			PocketDatabase.cashPockets.put( key, pocket );
-			break;
-		case CHESS:
-			PocketDatabase.chessPockets.put( key, pocket );
-			break;
-		case CHOCO:
-			PocketDatabase.chocoPockets.put( key, pocket );
-			break;
-		case FOOD:
-			PocketDatabase.foodPockets.put( key, pocket );
-			break;
-		case FRUIT:
-			PocketDatabase.fruitPockets.put( key, pocket );
-			break;
-		case OYSTER:
-			PocketDatabase.oysterPockets.put( key, pocket );
-			break;
-		case POTION:
-			PocketDatabase.potionPockets.put( key, pocket );
-			break;
-		case YEG:
-			PocketDatabase.yegPockets.put( key, pocket );
-			break;
 		case MEAT:
-			PocketDatabase.meatPockets.put( key, pocket );
 			PocketDatabase.meatClues.set( ((MeatPocket) pocket).meat / 100 - 1, pocket );
 			break;
 		case POEM:
-			PocketDatabase.poemPockets.put( key, pocket );
 			PocketDatabase.poemVerses.set( ((PoemPocket) pocket).index - 1, pocket );
 			break;
 		case SCRAP:
-			PocketDatabase.scrapPockets.put( key, pocket );
 			PocketDatabase.scrapSyllables.set( ((ScrapPocket) pocket).scrap - 1, pocket );
-			break;
-		case UNKNOWN:
-			PocketDatabase.unknownPockets.put( key, pocket );
-			break;
-		default:
-			PocketDatabase.uncategorizedPockets.put( key, pocket );
 			break;
 		}
 		return true;
+	}
+
+	// External files should use this, rather than fetching the map
+	// directly from the enum, to force pockets to be loaded.
+	public static Map<Integer, Pocket> getPockets( PocketType type )
+	{
+		return type.getPockets();
 	}
 
 	public static Pocket pocketByNumber( int pocket )
@@ -995,7 +860,7 @@ public class PocketDatabase
 
 	public static MonsterData monsterByNumber( int pocket )
 	{
-		Pocket mp = PocketDatabase.monsterPockets.get( IntegerPool.get( pocket ) );
+		Pocket mp = PocketType.MONSTER.getPocket( pocket );
 		return mp == null ? null : ((MonsterPocket)mp).getMonster();
 	}
 }
