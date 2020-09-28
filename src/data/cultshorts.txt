@@ -3,6 +3,7 @@
 #
 # Monster	MONSTER
 #
+# Common	EFFECT (DURATION)
 # Effect	EFFECT (DURATION)
 #
 # Buff		EFFECT (DURATION)
@@ -77,7 +78,7 @@
 31	Candy	Vitamin-Maxed (40)	Cholestoriffic (10)
 32	Needle	Tetanus (10)	Vented Spleen (40)
 33	Fruit	lemon
-34	Effect	Finding Stuff (20)
+34	Common	Finding Stuff (20)
 35	Effect	Well-Swabbed Ear (60)
 36	Candy	Milk Studly (40)	Cholestoriffic (10)
 37	Stats	0	250	0
@@ -96,7 +97,7 @@
 50	Item	fruitfilm
 51	Oyster	lavender plastic oyster egg
 52	Stats	250	50	0
-53	Effect	Very Attractive (20)
+53	Common	Very Attractive (20)
 54	Meat	725	One guilty of the wrongful performance of a normally lawful act
 55	Avatar	red-hot jawbreaker
 56	Element	Sizzlin' Hand (20)
@@ -129,7 +130,7 @@
 83	Potion	pile of candy
 84	Yeg	Yeg's Motel shower cap
 85	Element	Foul Hand (20)
-86	Effect	Finding Stuff (20)
+86	Common	Finding Stuff (20)
 87	Potion	candy crayons
 88	Chess	onyx king
 89	Stats	25	25	200
@@ -141,7 +142,7 @@
 95	Effect	Thick-Skinned (60)
 96	Teeth	Gleaming White Teeth (30)	Winning Smile (20)
 97	Restore	Smile of the Vole (20)
-98	Effect	Wary (20)
+98	Common	Wary (20)
 99	Needle	Extra-Thick Blood (40)	Vented Spleen (40)
 100	Effect	Pork Power (80)
 101	Potion	Spechunky bar
@@ -197,7 +198,7 @@
 151	Effect	Eye of the Seal (80)
 152	Candy	Discomfited (30)	The Wisdom... of the Future (20)
 153	Poem	21	OLLU JH JYJVL, FOMGXQJVL XQMVUMVT
-154	Effect	Very Attractive (20)
+154	Common	Very Attractive (20)
 155	Effect	Hippy Stench (50)
 156	Effect	Sticky FIngers (10)
 157	Cash	collection of tiny spooky objects
@@ -281,7 +282,7 @@
 235	Monster	modern zmobie
 236	Effect	[800]Chocolate Reign (80)
 237	Potion	Pneumo bar
-238	Effect	Finding Stuff (20)
+238	Common	Finding Stuff (20)
 239	Element	Sizzlin' Hand (20)
 240	Element	Frosty Hand (20)
 241	Candy	Vitamin-Maxed (40)	The Style... of the Future (20)
@@ -302,7 +303,7 @@
 256	Element	Frosty Hand (20)
 257	Element	Nasty Hand (20)
 258	Element	Foul Hand (20)
-259	Effect	Wary (20)
+259	Common	Wary (20)
 260	Joke	"Q: Why didn’t the skeleton cross the road? A: He didn't have the guts."
 261	Needle	Tetanus (10)	Heal Thy Nanoself (20)
 262	Potion	8-bit banana
@@ -317,7 +318,7 @@
 271	Effect	Sludgesick (80)
 272	Joke	"Q: What did the skeleton chef say? A: Bone Apetit!"
 273	Needle	Space Cowboy (30)	Vented Spleen (40)
-274	Effect	Finding Stuff (20)
+274	Common	Finding Stuff (20)
 275	Chess	alabaster knight
 276	Oyster	mauve paisley oyster egg
 277	Stats	0	0	250
@@ -340,7 +341,7 @@
 294	Oyster	off-white striped oyster egg
 295	Chips	Wintergreen Warmongery (20)	Also Schmeckt Zarathustra (20)
 296	Buff	Aloysius' Antiphon of Aptitude (20)
-297	Effect	Wary (20)
+297	Common	Wary (20)
 298	Potion	chocolate-covered caviar
 299	Monster	Knob Goblin Harem Girl
 300	Fruit	lime
@@ -379,18 +380,18 @@
 333	Potion	Tallowcreme Halloween Pumpkin
 334	Candy	Dweeby (40)	The Halls of Muscularity (20)
 335	Oyster	black paisley oyster egg
-336	Effect	Very Attractive (20)
+336	Common	Very Attractive (20)
 337	Element	Spooky Hand (20)
 338	Cash	black pension check
 339	Lens1	Night Vision (50)
-340	Effect	Wary (20)
+340	Common	Wary (20)
 341	Candy	Sourpuss (40)	The Style... of the Future (20)
 342	Candy2	The Strength... of the Future (40)
 343	Effect	Filthworm Drone Stench (5)
 344	Avatar	alien autoautopsy kit
 345	Restore	Glo-Face (20)
 346	Potion	Steal This Candy
-347	Effect	Barely Visible (20)
+347	Common	Barely Visible (20)
 348	Avatar	glass of warm milk
 349	Candy1	Sourpuss (80)
 350	Item	handful of drink tickets
@@ -420,7 +421,7 @@
 374	Booze	bottle of tequila
 375	Poem	16	ROL RWQ QJ FL JKO TORPLX
 376	Fruit	strawberry
-377	Effect	Wary (20)
+377	Common	Wary (20)
 378	Stats	50	50	150
 379	Candy2	The Halls of Moxiousness (40)
 380	Candy	Sourpuss (40)	The Strength... of the Future (20)
@@ -438,10 +439,10 @@
 392	Potion	Plexipips
 393	Candy2	Fire Down Below (20)
 394	Candy	Milk Studly (40)	The Wisdom... of the Future (20)
-395	Effect	Wary (20)
+395	Common	Wary (20)
 396	Fruit	tangerine
 397	Potion	sterno-flavored Hob-O
-398	Effect	Wary (20)
+398	Common	Wary (20)
 399	Potion	Bit O' Ectoplasm
 400	Candy	Milk Studly (40)	Tundra Mouth (10)
 401	Chips	Radium Radicality (20)	Also Schmeckt Zarathustra (20)
@@ -467,7 +468,7 @@
 421	Stats	70	40	140
 422	Candy	Vitamin-Maxed (40)	Tundra Mouth (10)
 423	Potion	garbage-juice-flavored Hob-O
-424	Effect	Wary (20)
+424	Common	Wary (20)
 425	Monster	eXtreme Orcish snowboarder
 426	Booze	bottle of rum
 427	Oyster	blue striped oyster egg
@@ -513,7 +514,7 @@
 467	Potion	Good 'n' Slimy
 468	Stats	150	50	50
 469	Effect	Bloody Hand (10)
-470	Effect	Barely Visible (20)
+470	Common	Barely Visible (20)
 471	Effect	Sticky Hands (30)
 472	Potion	fry-oil-flavored Hob-O
 473	Oyster	off-white polka-dot oyster egg
@@ -522,7 +523,7 @@
 476	Avatar	Smart Bone Dust
 477	Choco	chocolate turtle totem
 478	Food	pigeon egg
-479	Effect	Barely Visible (20)
+479	Common	Barely Visible (20)
 480	Gum1	Spicy Limeness (80)
 481	Item	handful of juicy garbage
 482	Candy	Discomfited (30)	Cholestoriffic (10)
@@ -548,7 +549,7 @@
 502	Poem	15	XQORVTL XLRX, MQ XLLGX, QDL SRWQRMV ADLLYLC
 503	Candy	Dweeby (40)	Fire Down Below (10)
 504	Meat	678	A larval insect that burrows into and feeds on the internal tissue of the principal photosynthetic organ of plants)
-505	Effect	Wary (20)
+505	Common	Wary (20)
 506	Chess	onyx queen
 507	Effect	Smokin' (50)
 508	Needle	Extra-Thick Blood (40)	Space Cowboy (30)
@@ -573,7 +574,7 @@
 527	Candy	Sourpuss (40)	Refuse Reflux (10)
 528	Candy	Dweeby (40)	The Wisdom... of the Future (20)
 529	Potion	children of the candy corn
-530	Effect	Wary (20)
+530	Common	Wary (20)
 531	Poem	2	QDJKTD ALQ FLDMVC QDL LROX
 532	Potion	handful of hand chalk
 533	Bell	greasy desk bell
@@ -595,7 +596,7 @@
 549	Effect	Saucefingers (10)
 550	Lens1	20/20 Vision (80)
 551	Item	line (4)
-552	Effect	Very Attractive (20)
+552	Common	Very Attractive (20)
 553	Teeth	Whitened Teeth (40)	Winning Smile (20)
 554	Meat	566	An instrument composed of wooden bars played with two small mallets
 555	Candy	Milk Studly (40)	Scariberi (10)
@@ -607,7 +608,7 @@
 561	Poem	12	OLSJTVMYL QDRQ GJJV
 562	Element	Frosty Hand (20)
 563	Candy	Discomfited (30)	The Halls of Muscularity (20)
-564	Effect	Barely Visible (20)
+564	Common	Barely Visible (20)
 565	Monster	mountain man
 566	Potion	Now and Earlier
 567	Chess	alabaster bishop
@@ -626,12 +627,12 @@
 580	Potion	Angry Farmer's Wife Candy
 581	Oyster	off-white plastic oyster egg
 582	Effect	Carrrsmic (80)
-583	Effect	Finding Stuff (20)
+583	Common	Finding Stuff (20)
 584	Needle1	Extra-Thick Blood (80)
 585	Stats	90	120	90
 586	Element	Nasty Hand (20)
 587	Bell	frost-rimed desk bell
-588	Effect	Barely Visible (20)
+588	Common	Barely Visible (20)
 589	Monster	Green Ops Soldier
 590	Bell	uncanny desk bell
 591	Teeth1	Winning Smile (50)
@@ -668,8 +669,8 @@
 622	Oyster	mauve polka-dot oyster egg
 623	Poem	9	DJA HJOQKVLX XDMHQ, HJO QDKOXCRI'X TMHQ:
 624	Element	Nasty Hand (20)
-625	Gum	Spicy Limeness (40)	Nasty, Nasty Breath (20)
-626	Effect	Very Attractive (20)
+625	Gum	Spicy Mouth (40)	Nasty, Nasty Breath (20)
+626	Common	Very Attractive (20)
 627	Potion	dubious peppermint
 628	Poem	11	M CJ VJQ, XRMC QDL VRPMTRQJO
 629	Oyster	blue plastic oyster egg
@@ -699,7 +700,7 @@
 653	Bell	nasty desk bell
 654	Choco	chocolate pasta spoon
 655	Effect	Charrrming (80)
-656	Effect	Wary (20)
+656	Common	Wary (20)
 657	Effect	One for Tea (50)
 658	Poem	14	GRMV CLSU XZMSU AMQD ARPLX
 659	Needle	Blood-Rich (30)	Space Cowboy (30)

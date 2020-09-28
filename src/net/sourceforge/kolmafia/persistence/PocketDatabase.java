@@ -65,7 +65,8 @@ public class PocketDatabase
 	{
 		STATS( "stats" ),
 		MONSTER( "monster" ),
-		EFFECT( "effect", "an effect" ),
+		COMMON( "common", "a common effect" ),
+		EFFECT( "effect", "a rare effect" ),
 		RESTORE( "restore", "a full HP/MP restoration and an effect" ),
 		BUFF( "buff", "an accordion buff" ),
 		ELEMENT( "element", "an elemental resistance effect" ),
@@ -585,6 +586,7 @@ public class PocketDatabase
 			}
 			return new MonsterPocket( pocketId, monster );
 		}
+		case COMMON:
 		case EFFECT:
 		case RESTORE:
 		case BUFF:
