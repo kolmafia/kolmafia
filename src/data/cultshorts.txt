@@ -95,7 +95,7 @@
 47	Monster	dairy goat
 48	Gum	Mystic Pickleness (40)	Spicy Mouth (40)
 49	Candy1	Discomfited (60)
-50	Potion	fruitfilm
+50	Item	fruitfilm
 51	Oyster	lavender plastic oyster egg
 52	Stats	250	50	0
 53	Effect	Very Attractive (20)
