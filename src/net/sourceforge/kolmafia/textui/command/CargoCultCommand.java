@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.PocketDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.Pocket;
+import net.sourceforge.kolmafia.persistence.PocketDatabase.PocketType;
 
 import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
 
@@ -99,7 +100,7 @@ public class CargoCultCommand
 
 		if ( command.equals( "jokes" ) )
 		{
-			printPocketMap( PocketDatabase.jokePockets );
+			printPocketMap( PocketDatabase.getPockets( PocketType.JOKE ) );
 			return;
 		}
 

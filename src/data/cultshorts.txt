@@ -44,8 +44,6 @@
 # Poem		NUMBER	MESSAGE	(waterlogged poem)
 # Meat		MEAT	CLUE	(meat-wrapped puzzle)
 #
-# Unknown
-#
 1	Stats	100	100	100
 2	Chips1	Radium Radicality (50)
 3	Oyster	puce paisley oyster egg
