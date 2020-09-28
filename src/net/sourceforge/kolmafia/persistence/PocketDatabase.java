@@ -66,6 +66,7 @@ public class PocketDatabase
 		STATS( "Stats" ),
 		MONSTER( "Monster" ),
 		EFFECT( "Effect", "an effect" ),
+		RESTORE( "Restore", "a full HP/MP restoration and an effect" ),
 		BUFF( "Buff", "an accordion buff" ),
 		ELEMENT( "Element", "an elemental resistance effect" ),
 		JOKE( "Joke" ),
@@ -455,6 +456,7 @@ public class PocketDatabase
 	public static final Map<Integer, Pocket> statsPockets = new TreeMap<>();
 	public static final Map<Integer, Pocket> monsterPockets = new TreeMap<>();
 	public static final Map<Integer, Pocket> oneEffectPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> restorationPockets = new TreeMap<>();
 	public static final Map<Integer, Pocket> buffPockets = new TreeMap<>();
 	public static final Map<Integer, Pocket> elementPockets = new TreeMap<>();
 	public static final Map<Integer, Pocket> candy1Pockets = new TreeMap<>();
@@ -607,6 +609,7 @@ public class PocketDatabase
 			return new MonsterPocket( pocketId, monster );
 		}
 		case EFFECT:
+		case RESTORE:
 		case BUFF:
 		case ELEMENT:
 		case CANDY1:
@@ -872,6 +875,9 @@ public class PocketDatabase
 			break;
 		case EFFECT:
 			PocketDatabase.oneEffectPockets.put( key, pocket );
+			break;
+		case RESTORE:
+			PocketDatabase.restorationPockets.put( key, pocket );
 			break;
 		case BUFF:
 			PocketDatabase.buffPockets.put( key, pocket );

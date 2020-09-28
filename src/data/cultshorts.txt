@@ -7,7 +7,8 @@
 #
 # Buff		EFFECT (DURATION)
 # Element	EFFECT (DURATION)
-# Joke	 	JOKE    (implies Joke-Mad (20))
+# Joke	 	JOKE    	(implies Joke-Mad (20))
+# Restore	EFFECT (DURATION)	(Full HP/MP restore)
 #
 # Candy1	EFFECT (DURATION)
 # Candy2	EFFECT (DURATION)
@@ -24,7 +25,8 @@
 # Needle	EFFECT (DURATION)	EFFECT (DURATION)
 # Teeth		EFFECT (DURATION)	EFFECT (DURATION)
 #
-# Item		ITEM	[ITEM]
+# Item		ITEM
+# Item2		ITEM	ITEM
 #
 # Avatar	ITEM
 # Bell		ITEM
@@ -38,7 +40,7 @@
 # Potion	ITEM
 # Yeg		ITEM
 #
-# Scrap		NUMBER	(demon name puzzle)
+# Scrap		NUMBER		(demon name puzzle)
 # Poem		NUMBER	MESSAGE	(waterlogged poem)
 # Meat		MEAT	CLUE	(meat-wrapped puzzle)
 #
@@ -140,7 +142,7 @@
 94	Booze	boxed wine
 95	Effect	Thick-Skinned (60)
 96	Teeth	Gleaming White Teeth (30)	Winning Smile (20)
-97	Effect	Smile of the Vole (20)
+97	Restore	Smile of the Vole (20)
 98	Effect	Wary (20)
 99	Needle	Extra-Thick Blood (40)	Vented Spleen (40)
 100	Effect	Pork Power (80)
@@ -208,8 +210,8 @@
 162	Candy	Discomfited (30)	The Style... of the Future (20)
 163	Joke	"Q: Why didn't the skeleton go to school? A: His heart wasn't in it."
 164	Lens	Seeing Colors (20)	20/20 Vision (40)
-165	Effect	Extra Terrestrial (20)
-166	Effect	Coming Up Roses (20)
+165	Restore	Extra Terrestrial (20)
+166	Restore	Coming Up Roses (20)
 167	Item	green pixel (5)
 168	Avatar	shamanic ham
 169	Potion	candy chalk
@@ -388,7 +390,7 @@
 342	Candy2	The Strength... of the Future (40)
 343	Effect	Filthworm Drone Stench (5)
 344	Avatar	alien autoautopsy kit
-345	Unknown
+345	Restore	Glo-Face (20)
 346	Potion	Steal This Candy
 347	Effect	Barely Visible (20)
 348	Avatar	glass of warm milk
@@ -485,7 +487,7 @@
 439	Yeg	Yeg's Motel pillow mint
 440	Chips1	Also Schmeckt Zarathustra (50)
 441	Candy	Dweeby (40)	Refuse Reflux (10)
-442	Unknown
+442	Restore	Uncaged Power (20)
 443	Monster	War Hippy (space) cadet
 444	Poem	10	QDL QJA'OMVT GRXQ XQJOG-DLAV
 445	Oyster	lavender striped oyster egg
@@ -707,6 +709,6 @@
 661	Oyster	lavender paisley oyster egg
 662	Potion	Glo-Pop
 663	Element	Frosty Hand (20)
-664	Effect	Waxing Mystical (20)
+664	Restore	Waxing Mystical (20)
 665	Candy	Discomfited (30)	The Strength... of the Future (20)
 666	Monster	smut orc pervert
