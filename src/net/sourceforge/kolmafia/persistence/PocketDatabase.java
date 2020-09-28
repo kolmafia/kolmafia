@@ -63,42 +63,42 @@ public class PocketDatabase
 {
 	public enum PocketType
 	{
-		STATS( "Stats" ),
-		MONSTER( "Monster" ),
-		EFFECT( "Effect", "an effect" ),
-		RESTORE( "Restore", "a full HP/MP restoration and an effect" ),
-		BUFF( "Buff", "an accordion buff" ),
-		ELEMENT( "Element", "an elemental resistance effect" ),
-		JOKE( "Joke" ),
-		CANDY1( "Candy1", "a type 1 candy effect" ),
-		CANDY2( "Candy2", "a type 2 candy effect" ),
-		CHIPS1( "Chips1", "a potato chip effect" ),
-		GUM1( "Gum1", "a gum effect" ),
-		LENS1( "Lens1", "a contact lens effect" ),
-		NEEDLE1( "Needle1", "a needles effect" ),
-		TEETH1( "Teeth1", "a teeth effect" ),
-		CANDY( "Candy", "2 candy effects" ),
-		CHIPS( "Chips", "2 potato chip effects" ),
-		GUM( "Gum", "2 gum effects" ),
-		LENS( "Lens", "2 contact lens effects" ),
-		NEEDLE( "Needle", "2 needles effects" ),
-		TEETH( "Teeth", "2 teeth effects" ),
-		ITEM( "Item", "an item" ),	
-		ITEM2( "Item2", "two items" ),	
-		AVATAR( "Avatar", "an avatar potion" ),
-		BELL( "Bell", "a desk bell" ),
-		BOOZE( "Booze" ),
-		CASH( "Cash", "an item that is usable for meat" ),
-		CHESS( "Chess", "a chess piece" ),
-		CHOCO( "Choco", "some chocolate" ),
-		FOOD( "Food" ),
-		FRUIT( "Fruit" ),
-		OYSTER( "Oyster", "an oyster egg" ),
-		POTION( "Potion", "a potion" ),
-		YEG( "Yeg", "an item from Yeg's Motel" ),
-		SCRAP( "Scrap", "part of demon name" ),
-		POEM( "Poem", "an encrypted half-line of a poem" ),
-		MEAT( "Meat", "Meat and a puzzle clue" );
+		STATS( "stats" ),
+		MONSTER( "monster" ),
+		EFFECT( "effect", "an effect" ),
+		RESTORE( "restore", "a full HP/MP restoration and an effect" ),
+		BUFF( "buff", "an accordion buff" ),
+		ELEMENT( "element", "an elemental resistance effect" ),
+		JOKE( "joke" ),
+		CANDY1( "candy1", "a type 1 candy effect" ),
+		CANDY2( "candy2", "a type 2 candy effect" ),
+		CHIPS1( "chips1", "a potato chip effect" ),
+		GUM1( "gum1", "a gum effect" ),
+		LENS1( "lens1", "a contact lens effect" ),
+		NEEDLE1( "needle1", "a needles effect" ),
+		TEETH1( "teeth1", "a teeth effect" ),
+		CANDY( "candy", "2 candy effects" ),
+		CHIPS( "chips", "2 potato chip effects" ),
+		GUM( "gum", "2 gum effects" ),
+		LENS( "lens", "2 contact lens effects" ),
+		NEEDLE( "needle", "2 needles effects" ),
+		TEETH( "teeth", "2 teeth effects" ),
+		ITEM( "item", "an item" ),	
+		ITEM2( "item2", "two items" ),	
+		AVATAR( "avatar", "an avatar potion" ),
+		BELL( "bell", "a desk bell" ),
+		BOOZE( "booze" ),
+		CASH( "cash", "an item that is usable for meat" ),
+		CHESS( "chess", "a chess piece" ),
+		CHOCO( "choco", "some chocolate" ),
+		FOOD( "food" ),
+		FRUIT( "fruit" ),
+		OYSTER( "oyster", "an oyster egg" ),
+		POTION( "potion", "a potion" ),
+		YEG( "yeg", "an item from Yeg's Motel" ),
+		SCRAP( "scrap", "part of demon name" ),
+		POEM( "poem", "an encrypted half-line of a poem" ),
+		MEAT( "meat", "Meat and a puzzle clue" );
 
 		private final String tag;
 		private final String name;
@@ -108,7 +108,7 @@ public class PocketDatabase
 
 		private PocketType( String tag )
 		{
-			this( tag, tag.toLowerCase() );
+			this( tag, tag );
 		}
 
 		private PocketType( String tag, String name )
@@ -497,7 +497,7 @@ public class PocketDatabase
 				}
 
 				String tag = data[ 1 ];
-				PocketType type = PocketDatabase.tagToPocketType.get( tag );
+				PocketType type = PocketDatabase.tagToPocketType.get( tag.toLowerCase() );
 				if ( type == null )
 				{
 					RequestLogger.printLine( "Pocket " + pocketId + " has bogus pocket type: " + tag );
@@ -851,6 +851,11 @@ public class PocketDatabase
 	public static Map<Integer, Pocket> getPockets( PocketType type )
 	{
 		return type.getPockets();
+	}
+
+	public static PocketType getPocketType( String tag )
+	{
+		return PocketDatabase.tagToPocketType.get( tag.toLowerCase() );
 	}
 
 	public static Pocket pocketByNumber( int pocket )
