@@ -128,6 +128,24 @@ public class CargoCultCommand
 			return;
 		}
 
+		if ( command.equals( "count" ) )
+		{
+			if ( split.length < 3 || !split[ 1 ].equals( "type" ) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "cargo count type TYPE" );
+				return;
+			}
+			String tag = split[ 2 ];
+			Map<Integer, Pocket> pockets = getPockets( tag );
+			if ( pockets == null )
+			{
+				// Error message already issued
+				return;
+			}
+			RequestLogger.printLine( "There are " + pockets.size() + " " + tag + " pockets." );
+			return;
+		}
+
 		if ( InventoryManager.getAccessibleCount( ItemPool.CARGO_CULTIST_SHORTS ) == 0 )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't own a pair of Cargo Cultist Shorts" );
@@ -160,6 +178,17 @@ public class CargoCultCommand
 			// Error message already produced
 			return;
 		}
+	}
+
+	private Map<Integer, Pocket> getPockets( String tag )
+	{
+		PocketType type = PocketDatabase.getPocketType( tag );
+		if ( type == null )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "What is type '" + tag + "'?" );
+			return null;
+		}
+		return PocketDatabase.getPockets( type );
 	}
 
 	private int parsePocket( String input )
