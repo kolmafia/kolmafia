@@ -264,5 +264,9 @@ public class SummoningChamberRequest
 
 		String demonName = StringUtilities.globalStringReplace( name.toString(), "_", " " );
 		Preferences.setString( "demonName13", demonName );
+
+		String message = "Yeg name (demon13): '" + demonName + "'";
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
 	}
 }
