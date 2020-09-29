@@ -41,8 +41,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -471,6 +473,7 @@ public class PocketDatabase
 	// Here are additional data structures for retrieving pocket data
 
 	public static List<Pocket> scrapSyllables;
+	public static Map<String, Set<OneEffectPocket>> effectPockets = new HashMap<>();
 
 	static
 	{
@@ -838,6 +841,33 @@ public class PocketDatabase
 		// Add to additional List/Set/Map as needed
 		switch ( pocket.getType() )
 		{
+		case COMMON:
+		case EFFECT:
+		case BUFF:
+		case ELEMENT:
+		case JOKE:
+		case RESTORE:
+		case CANDY1:
+		case CANDY2:
+		case CHIPS1:
+		case GUM1:
+		case LENS1:
+		case NEEDLE1:
+		case TEETH1:
+		{
+			OneEffectPocket oep = (OneEffectPocket) pocket;
+			String effectName = oep.getEffect1().getName();
+			Set<OneEffectPocket> pockets =
+				PocketDatabase.effectPockets.containsKey( effectName ) ?
+				PocketDatabase.effectPockets.get( effectName ) :
+				new HashSet<>();
+			if ( pockets.size() == 0 )
+			{
+				PocketDatabase.effectPockets.put( effectName, pockets );
+			}
+			pockets.add( oep );
+			break;
+		}
 		}
 		return true;
 	}
@@ -846,7 +876,7 @@ public class PocketDatabase
 	// directly from the enum, to force pockets to be loaded.
 	public static Map<Integer, Pocket> getPockets( PocketType type )
 	{
-		return type.getPockets();
+		return type == null ? null : type.getPockets();
 	}
 
 	public static PocketType getPocketType( String tag )
