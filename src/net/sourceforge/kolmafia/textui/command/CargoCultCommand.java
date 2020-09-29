@@ -109,25 +109,7 @@ public class CargoCultCommand
 			return;
 		}
 
-		if ( command.equals( "jokes" ) )
-		{
-			printPocketMap( PocketDatabase.getPockets( PocketType.JOKE ) );
-			return;
-		}
-
-		if ( command.equals( "meat" ) )
-		{
-			printPockets( PocketDatabase.meatClues );
-			return;
-		}
-
-		if ( command.equals( "poem" ) )
-		{
-			printPockets( PocketDatabase.poemVerses );
-			return;
-		}
-
-		if ( command.equals( "scraps" ) || command.equals( "demon" ) )
+		if ( command.equals( "demon" ) )
 		{
 			Map<Integer, String> known = CargoCultistShortsRequest.knownScrapPockets();
 			for ( Pocket p : PocketDatabase.scrapSyllables )
@@ -229,6 +211,11 @@ public class CargoCultCommand
 		return ( type == null ) ? null : PocketDatabase.getPockets( type );
 	}
 
+	private Collection<Pocket> sortPockets( PocketType type )
+	{
+		return sortPockets( type, PocketDatabase.getPockets( type ) );
+	}
+
 	private Collection<Pocket> sortPockets( PocketType type, Map<Integer, Pocket> pockets )
 	{
 		// PocketType is derivable from the first pocket in the
@@ -237,8 +224,8 @@ public class CargoCultCommand
 		switch ( type )
 		{
 		case SCRAP:
-			// Sort on scrap index
-			return values.stream().sorted( Comparator.comparing(p -> ((ScrapPocket) p).getScrap() ) ).collect( Collectors.toList() );
+			// Sort on scrap index. Already done, since it is used elsewhere.
+			return PocketDatabase.scrapSyllables;
 		case MEAT:
 			// Sort on Meat
 			return values.stream().sorted( Comparator.comparing(p -> ((MeatPocket) p).getMeat() ) ).collect( Collectors.toList() );
