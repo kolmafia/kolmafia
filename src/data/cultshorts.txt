@@ -691,7 +691,7 @@
 644	Effect	Ancestral Disapproval (80)
 645	Effect	Old School Pompadour (50)
 646	Monster	1335 HaXx0r
-647	Effect	Cold, Dead Hands (0)
+647	Effect	Cold, Dead Hands (20)
 648	Candy	Dweeby (40)	The Halls of Mysticality (20)
 649	Potion	violent pastilles
 650	Candy	Milk Studly (40)	The Halls of Mysticality (20)

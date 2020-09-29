@@ -160,14 +160,13 @@ public class CargoCultCommand
 			return;
 		}
 
-		if ( InventoryManager.getAccessibleCount( ItemPool.CARGO_CULTIST_SHORTS ) == 0 )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't own a pair of Cargo Cultist Shorts" );
-			return;
-		}
-
 		if ( command.equals( "inspect" ) )
 		{
+			if ( !haveCargoShorts() )
+			{
+				return;
+			}
+
 			CargoCultistShortsRequest visit = new CargoCultistShortsRequest();
 			visit.run();
 
@@ -182,107 +181,34 @@ public class CargoCultCommand
 
 		if ( StringUtilities.isNumeric( command ) )
 		{
-			int pocket = parsePocket( command );
-			if ( pocket != 0 )
+			if ( !haveCargoShorts() )
 			{
-				CargoCultistShortsRequest pick = new CargoCultistShortsRequest( pocket );
-				pick.run();
 				return;
 			}
-			// Error message already produced
+
+			int pocket = parsePocket( command );
+			if ( pocket == 0 )
+			{
+				// Error message already produced
+				return;
+			}
+
+			CargoCultistShortsRequest pick = new CargoCultistShortsRequest( pocket );
+			pick.run();
 			return;
 		}
+
+		KoLmafia.updateDisplay( MafiaState.ERROR, "What does '" + parameters + "' mean?" );
 	}
 
-	private PocketType getPocketType( String tag )
+	private boolean haveCargoShorts()
 	{
-		PocketType type = PocketDatabase.getPocketType( tag );
-		if ( type == null )
+		if ( InventoryManager.getAccessibleCount( ItemPool.CARGO_CULTIST_SHORTS ) == 0 )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "What is type '" + tag + "'?" );
-			return null;
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't own a pair of Cargo Cultist Shorts" );
+			return false;
 		}
-		return type;
-	}
-
-	private Map<Integer, Pocket> getPockets( String tag )
-	{
-		PocketType type = getPocketType( tag );
-		return ( type == null ) ? null : PocketDatabase.getPockets( type );
-	}
-
-	private Collection<Pocket> sortPockets( PocketType type )
-	{
-		return sortPockets( type, PocketDatabase.getPockets( type ) );
-	}
-
-	private Collection<Pocket> sortPockets( PocketType type, Map<Integer, Pocket> pockets )
-	{
-		// PocketType is derivable from the first pocket in the
-		// collection, but easy enough to pass it in.
-		Collection<Pocket> values = pockets.values();
-		switch ( type )
-		{
-		case SCRAP:
-			// Sort on scrap index. Already done, since it is used elsewhere.
-			return PocketDatabase.scrapSyllables;
-		case MEAT:
-			// Sort on Meat
-			return values.stream().sorted( Comparator.comparing(p -> ((MeatPocket) p).getMeat() ) ).collect( Collectors.toList() );
-		case POEM:
-			// Sort on line index
-			return values.stream().sorted( Comparator.comparing(p -> ((PoemPocket) p).getIndex() ) ).collect( Collectors.toList() );
-		case MONSTER:
-			// Monsters sort on monster name
-			return values.stream().sorted( Comparator.comparing(p -> ((MonsterPocket) p).getMonster().getName().toLowerCase() ) ).collect( Collectors.toList() );
-		case ITEM:
-		case AVATAR:
-		case BELL:
-		case BOOZE:
-		case CASH:
-		case CHESS:
-		case CHOCO:
-		case FOOD:
-		case FRUIT:
-		case OYSTER:
-		case POTION:
-		case YEG:
-			// Single items sort on item name
-			return values.stream().sorted( Comparator.comparing(p -> ((OneItemPocket) p).getItem().getName() ) ).collect( Collectors.toList() );
-		case EFFECT:
-		case RESTORE:
-		case BUFF:
-		case CANDY1:
-		case CANDY2:
-		case CHIPS1:
-		case GUM1:
-		case LENS1:
-		case NEEDLE1:
-		case TEETH1:
-			// Single effects with single sources sort on effect name
-			return values.stream().sorted( Comparator.comparing(p -> ((OneEffectPocket) p).getEffect1().getName() ) ).collect( Collectors.toList() );
-		case COMMON:
-		case ELEMENT:
-			// Single effects with multiple sources sort first on effect name then  on pocket number then
-			return values.stream().sorted( Comparator.comparing(p -> ((OneEffectPocket) p).getEffect1().getName()).thenComparing(p -> ((Pocket) p).getPocket() ) ).collect( Collectors.toList() );
-		case ITEM2:
-			// Sort first on item 1 then on item 2
-			return values.stream().sorted( Comparator.comparing(p -> ((TwoItemPocket) p).getItem().getName()).thenComparing(p -> ((TwoItemPocket) p).getItem2().getName() ) ).collect( Collectors.toList() );
-		case CANDY:
-		case CHIPS:
-		case GUM:
-		case LENS:
-		case NEEDLE:
-		case TEETH:
-			// Sort first on effect 1 then on effect 2
-			return values.stream().sorted( Comparator.comparing(p -> ((TwoEffectPocket) p).getEffect1().getName()).thenComparing(p -> ((TwoEffectPocket) p).getEffect2().getName() ) ).collect( Collectors.toList() );
-		case STATS:
-			// *** What here?
-		case JOKE:
-		default:
-			// Pocket number is good enough
-			return values.stream().sorted( Comparator.comparing(Pocket::getPocket) ).collect( Collectors.toList() );
-		}
+		return true;
 	}
 
 	private int parsePocket( String input )
@@ -304,17 +230,29 @@ public class CargoCultCommand
 		return 0;
 	}
 
+	private PocketType getPocketType( String tag )
+	{
+		PocketType type = PocketDatabase.getPocketType( tag );
+		if ( type == null )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "What is type '" + tag + "'?" );
+			return null;
+		}
+		return type;
+	}
+
+	private Map<Integer, Pocket> getPockets( String tag )
+	{
+		PocketType type = getPocketType( tag );
+		return ( type == null ) ? null : PocketDatabase.getPockets( type );
+	}
+
 	private void printPockets( final Collection<Pocket> pockets )
 	{
 		for ( Pocket p : pockets )
 		{
 			RequestLogger.printLine( "Pocket #" + p.getPocket() + ": " + p.toString() );
 		}
-	}
-
-	private void printPocketMap( final Map<Integer, Pocket> map )
-	{
-		printPockets( map.values() );
 	}
 
 	private void printPickedPockets()
@@ -333,4 +271,106 @@ public class CargoCultCommand
 		}
 	}
 
+	private Collection<Pocket> sortPockets( PocketType type )
+	{
+		return sortPockets( type, PocketDatabase.getPockets( type ) );
+	}
+
+	private List<Pocket> sortPockets( PocketType type, Map<Integer, Pocket> pockets )
+	{
+		// PocketType is derivable from the first pocket in the
+		// collection, but since caller always knows it, pass in
+		switch ( type )
+		{
+		case SCRAP:
+			// Sort on scrap index. Previously created, since it is used elsewhere.
+			return PocketDatabase.scrapSyllables;
+		case MEAT:
+			// Sort on Meat
+			return pockets.values()
+				.stream()
+				.sorted( Comparator.comparing(p -> ((MeatPocket) p).getMeat() ) )
+				.collect( Collectors.toList() );
+		case POEM:
+			// Sort on line index
+			return pockets.values()
+				.stream()
+				.sorted( Comparator.comparing(p -> ((PoemPocket) p).getIndex() ) )
+				.collect( Collectors.toList() );
+		case MONSTER:
+			// Sort on monster name
+			return pockets.values()
+				.stream()
+				.sorted( Comparator.comparing(p -> ((MonsterPocket) p).getMonster().getName().toLowerCase() ) )
+				.collect( Collectors.toList() );
+		case ITEM:
+		case AVATAR:
+		case BELL:
+		case BOOZE:
+		case CASH:
+		case CHESS:
+		case CHOCO:
+		case FOOD:
+		case FRUIT:
+		case OYSTER:
+		case POTION:
+		case YEG:
+			// Single items sort on item name
+			return pockets.values()
+				.stream()
+				.sorted( Comparator.comparing(p -> ((OneItemPocket) p).getItem().getName() ) )
+				.collect( Collectors.toList() );
+		case EFFECT:
+		case RESTORE:
+		case BUFF:
+		case CANDY1:
+		case CANDY2:
+		case CHIPS1:
+		case GUM1:
+		case LENS1:
+		case NEEDLE1:
+		case TEETH1:
+			// Single effects with a single sources sort on effect name
+			return pockets.values()
+				.stream()
+				.sorted( Comparator.comparing(p -> ((OneEffectPocket) p).getEffect1().getName() ) )
+				.collect( Collectors.toList() );
+		case COMMON:
+		case ELEMENT:
+			// Single effects with multiple sources sort first on effect name then on pocket number then
+			return pockets.values()
+				.stream()
+				.sorted( Comparator.comparing(p -> ((OneEffectPocket) p).getEffect1().getName())
+					 	   .thenComparing(p -> ((Pocket) p).getPocket() ) )
+				.collect( Collectors.toList() );
+		case ITEM2:
+			// Sort first on item 1 then on item 2
+			return pockets.values()
+				.stream()
+				.sorted( Comparator.comparing(p -> ((TwoItemPocket) p).getItem().getName())
+					 	   .thenComparing(p -> ((TwoItemPocket) p).getItem2().getName() ) )
+				.collect( Collectors.toList() );
+		case CANDY:
+		case CHIPS:
+		case GUM:
+		case LENS:
+		case NEEDLE:
+		case TEETH:
+			// Sort first on effect 1 then on effect 2
+			return pockets.values()
+				.stream()
+				.sorted( Comparator.comparing(p -> ((TwoEffectPocket) p).getEffect1().getName())
+					 	   .thenComparing(p -> ((TwoEffectPocket) p).getEffect2().getName() ) )
+				.collect( Collectors.toList() );
+		case STATS:
+			// *** What here?
+		case JOKE:
+		default:
+			// Pocket number is good enough
+			return pockets.values()
+				.stream()
+				.sorted( Comparator.comparing(Pocket::getPocket) )
+				.collect( Collectors.toList() );
+		}
+	}
 }
