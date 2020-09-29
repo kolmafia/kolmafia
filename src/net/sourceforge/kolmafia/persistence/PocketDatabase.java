@@ -39,10 +39,11 @@ import java.io.PrintStream;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -105,7 +106,7 @@ public class PocketDatabase
 		private final String name;
 
 		// Pockets self-add themselves to this map
-		private final Map<Integer, Pocket> pockets = new TreeMap<>();
+		private final Map<Integer, Pocket> pockets = new HashMap<>();
 
 		private PocketType( String tag )
 		{
@@ -155,7 +156,7 @@ public class PocketDatabase
 	}
 
 	// Pockets self-add themselves to this map
-	public static final Map<Integer, Pocket> allPockets = new TreeMap<>();
+	public static final Map<Integer, Pocket> allPockets = new HashMap<>();
 
 	public static class Pocket
 	{
@@ -469,13 +470,15 @@ public class PocketDatabase
 
 	// Here are additional data structures for retrieving pocket data
 
-	public static final List<Pocket> poemVerses = new ArrayList<Pocket>( Arrays.asList( new Pocket[22] ) );
-	public static final List<Pocket> scrapSyllables = new ArrayList<Pocket>( Arrays.asList( new Pocket[7] ) );
-	public static final List<Pocket> meatClues = new ArrayList<Pocket>( Arrays.asList( new Pocket[9] ) );
+	public static List<Pocket> scrapSyllables;
 
 	static
 	{
 		PocketDatabase.reset();
+		PocketDatabase.scrapSyllables = PocketDatabase.getPockets( PocketType.SCRAP).values()
+			.stream()
+			.sorted( Comparator.comparing(p -> ((ScrapPocket) p).getScrap() ) )
+			.collect( Collectors.toList() );
 		RequestLogger.printLine( "Pockets loaded: " + allPockets.size() );
 	}
 
@@ -835,15 +838,6 @@ public class PocketDatabase
 		// Add to additional List/Set/Map as needed
 		switch ( pocket.getType() )
 		{
-		case MEAT:
-			PocketDatabase.meatClues.set( ((MeatPocket) pocket).meat / 100 - 1, pocket );
-			break;
-		case POEM:
-			PocketDatabase.poemVerses.set( ((PoemPocket) pocket).index - 1, pocket );
-			break;
-		case SCRAP:
-			PocketDatabase.scrapSyllables.set( ((ScrapPocket) pocket).scrap - 1, pocket );
-			break;
 		}
 		return true;
 	}
