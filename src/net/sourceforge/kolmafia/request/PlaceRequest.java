@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.SpadingManager;
 import net.sourceforge.kolmafia.session.TowerDoorManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -500,6 +501,8 @@ public class PlaceRequest
 		{
 			Preferences.setBoolean( "getawayCampsiteUnlocked", responseText.contains( "campaway" ) );
 		}
+
+		SpadingManager.processPlace( urlString, responseText );
 	}
 
 	public static boolean registerRequest( final String urlString )
