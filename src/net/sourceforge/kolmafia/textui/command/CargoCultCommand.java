@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.PocketDatabase;
@@ -92,21 +93,15 @@ public class CargoCultCommand
 				KoLmafia.updateDisplay( MafiaState.ERROR, "cargo pocket POCKET" );
 				return;
 			}
-			int pocket = parsePocket( split[ 1 ] );
-			if ( pocket != 0 )
+
+			Pocket pocket = parsePocket( split[ 1 ] );
+			if ( pocket == null )
 			{
-				Pocket data = PocketDatabase.pocketByNumber( pocket );
-				if ( data == null )
-				{
-					KoLmafia.updateDisplay( MafiaState.ERROR, "No data for pocket #" + pocket );
-				}
-				else
-				{
-					RequestLogger.printLine( "Pocket #" + pocket + " contains " + data.toString() );
-				}
+				// Error message already produced
 				return;
 			}
-			// Error message already produced
+
+			RequestLogger.printLine( "Pocket #" + pocket + " contains " + pocket.toString() );
 			return;
 		}
 
@@ -236,26 +231,84 @@ public class CargoCultCommand
 			return;
 		}
 
+		if ( command.equals( "monster" ) )
+		{
+			String monster = parseName( "monster", parameters );
+			MonsterPocket pocket = getMonsterPocket( monster );
+			pickPocket( checking, pocket );
+			return;
+		}
+
+		if ( command.equals( "effect" ) )
+		{
+			String effect = parseName( "effect", parameters );
+			Set<OneResultPocket> pockets = getEffectPockets( effect );
+			Pocket pocket = firstUnpickedPocket( effect, pockets );
+			pickPocket( checking, pocket );
+			return;
+		}
+
+		if (command.equals( "item" ) )
+		{
+			String item = parseName( "item", parameters );
+			Set<OneResultPocket> pockets = getItemPockets( item );
+			Pocket pocket = firstUnpickedPocket( item, pockets );
+			pickPocket( checking, pocket );
+			return;
+		}
+
 		if ( StringUtilities.isNumeric( command ) )
 		{
-			if ( !haveCargoShorts() )
-			{
-				return;
-			}
-
-			int pocket = parsePocket( command );
-			if ( pocket == 0 )
-			{
-				// Error message already produced
-				return;
-			}
-
-			CargoCultistShortsRequest pick = new CargoCultistShortsRequest( pocket );
-			pick.run();
+			Pocket pocket = parsePocket( command );
+			pickPocket( checking, pocket );
 			return;
 		}
 
 		KoLmafia.updateDisplay( MafiaState.ERROR, "What does '" + parameters + "' mean?" );
+	}
+
+	private Pocket firstUnpickedPocket( String name, Set<OneResultPocket> pockets )
+	{
+		if ( pockets == null )
+		{
+			// Error message already issued
+			return null;
+		}
+
+		Set<Integer> picked = CargoCultistShortsRequest.pickedPockets;
+		for ( Pocket pocket : sortResults( name, pockets ) )
+		{
+			if ( !picked.contains( IntegerPool.get( pocket.getPocket() ) ) )
+			{
+				return pocket;
+			}
+		}
+
+		KoLmafia.updateDisplay( MafiaState.ERROR, "No unpicked pockets contain '" + name + "'." );
+		return null;
+	}
+
+	private void pickPocket( boolean checking, Pocket pocket )
+	{
+		if ( pocket == null )
+		{
+			// Error message already produced
+			return;
+		}
+
+		if ( checking )
+		{
+			printPocket( pocket );
+			return;
+		}
+
+		if ( !haveCargoShorts() )
+		{
+			return;
+		}
+
+		CargoCultistShortsRequest pick = new CargoCultistShortsRequest( pocket.getPocket() );
+		pick.run();
 	}
 
 	private boolean haveCargoShorts()
@@ -268,23 +321,22 @@ public class CargoCultCommand
 		return true;
 	}
 
-	private int parsePocket( String input )
+	private Pocket parsePocket( String input )
 	{
 		if ( !StringUtilities.isNumeric( input ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Specify a pocket # from 1-666" );
-			return 0;
+			return null;
 		}
 
 		int pocket = StringUtilities.parseInt( input );
-
 		if ( pocket < 1 || pocket > 666 )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Pocket must be from 1-666" );
-			return 0;
+			return null;
 		}
 
-		return pocket;
+		return PocketDatabase.pocketByNumber( pocket );
 	}
 
 	private PocketType parsePocketType( String tag )
