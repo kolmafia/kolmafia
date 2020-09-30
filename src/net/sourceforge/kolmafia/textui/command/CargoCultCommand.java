@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.persistence.PocketDatabase.MeatPocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.MonsterPocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.OneResultPocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.PoemPocket;
+import net.sourceforge.kolmafia.persistence.PocketDatabase.StatsPocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.ScrapPocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.TwoResultPocket;
 
@@ -119,7 +120,7 @@ public class CargoCultCommand
 
 		if ( command.equals( "count" ) || command.equals( "list" ) )
 		{
-			String usage = "cargo " + command + " ( type TYPE | effect EFFECT )";
+			String usage = "cargo " + command + " ( type TYPE | monster MONSTER | item ITEM | effect EFFECT | stat STAT )";
 			if ( split.length < 3 )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, usage );
@@ -205,6 +206,24 @@ public class CargoCultCommand
 				}
 				break;
 			}
+			case "stat":
+			{
+				String stat = parseName( "stat", parameters );
+				Set<StatsPocket> pockets = getStatsPockets( stat );
+				if ( pockets == null )
+				{
+					// Error message already issued
+					return;
+				}
+				boolean plural = pockets.size() != 1;
+				RequestLogger.printLine( "There " + ( plural ? "are " : "is " ) + pockets.size() + " pocket" + ( plural ? "s" : "" ) + " that contain" + ( plural ? "" : "s" ) + " '" + stat + "' stats." );
+				if ( command.equals( "list" ) )
+				{
+					List<Pocket> sorted = sortStats( stat, pockets );
+					printPockets( sorted );
+				}
+				break;
+			}
 			default:
 				KoLmafia.updateDisplay( MafiaState.ERROR, usage );
 				return;
@@ -243,7 +262,8 @@ public class CargoCultCommand
 		{
 			String effect = parseName( "effect", parameters );
 			Set<OneResultPocket> pockets = getEffectPockets( effect );
-			Pocket pocket = firstUnpickedPocket( effect, pockets );
+			List<Pocket> sorted = sortResults( effect, pockets );
+			Pocket pocket = firstUnpickedPocket( effect, sorted );
 			pickPocket( checking, pocket );
 			return;
 		}
@@ -252,7 +272,18 @@ public class CargoCultCommand
 		{
 			String item = parseName( "item", parameters );
 			Set<OneResultPocket> pockets = getItemPockets( item );
-			Pocket pocket = firstUnpickedPocket( item, pockets );
+			List<Pocket> sorted = sortResults( item, pockets );
+			Pocket pocket = firstUnpickedPocket( item, sorted );
+			pickPocket( checking, pocket );
+			return;
+		}
+
+		if (command.equals( "stat" ) )
+		{
+			String stat = parseName( "stat", parameters );
+			Set<StatsPocket> pockets = getStatsPockets( stat );
+			List<Pocket> sorted = sortStats( stat, pockets );
+			Pocket pocket = firstUnpickedPocket( stat, sorted );
 			pickPocket( checking, pocket );
 			return;
 		}
@@ -267,7 +298,7 @@ public class CargoCultCommand
 		KoLmafia.updateDisplay( MafiaState.ERROR, "What does '" + parameters + "' mean?" );
 	}
 
-	private Pocket firstUnpickedPocket( String name, Set<OneResultPocket> pockets )
+	private Pocket firstUnpickedPocket( String name, List<Pocket> pockets )
 	{
 		if ( pockets == null )
 		{
@@ -276,7 +307,7 @@ public class CargoCultCommand
 		}
 
 		Set<Integer> picked = CargoCultistShortsRequest.pickedPockets;
-		for ( Pocket pocket : sortResults( name, pockets ) )
+		for ( Pocket pocket : pockets )
 		{
 			if ( !picked.contains( IntegerPool.get( pocket.getPocket() ) ) )
 			{
@@ -395,6 +426,16 @@ public class CargoCultCommand
 		return pockets;
 	}
 
+	private Set<StatsPocket> getStatsPockets( String stat )
+	{
+		Set<StatsPocket> pockets = PocketDatabase.statsPockets.get( stat.toLowerCase() );
+		if ( pockets == null )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Your shorts do not produce stat '" + stat + "'." );
+		}
+		return pockets;
+	}
+
 	private void printPockets( final Collection<Pocket> pockets )
 	{
 		for ( Pocket p : pockets )
@@ -505,7 +546,7 @@ public class CargoCultCommand
 					 	   .thenComparing(p -> ((TwoResultPocket) p).getResult2().getName() ) )
 				.collect( Collectors.toList() );
 		case STATS:
-			// *** What here?
+			// I can't think of a rational full ordering for stats
 		case JOKE:
 		default:
 			// Pocket number is good enough
@@ -514,6 +555,16 @@ public class CargoCultCommand
 				.sorted( Comparator.comparing(Pocket::getPocket) )
 				.collect( Collectors.toList() );
 		}
+	}
+
+	private List<Pocket> sortStats( String stat, Set<StatsPocket> pockets )
+	{
+		return pockets
+			.stream()
+			.filter( p -> ((StatsPocket) p).getCount( stat ) > 0 )
+			.sorted( Comparator.comparing(p -> ((StatsPocket) p).getCount( stat ) ).reversed()
+				 .thenComparing(p -> ((Pocket) p).getPocket() ) )
+			.collect( Collectors.toList() );
 	}
 
 	private List<Pocket> sortResults( String name, Set<OneResultPocket> pockets )

@@ -96,7 +96,7 @@
 49	Candy1	Discomfited (60)
 50	Item	fruitfilm
 51	Oyster	lavender plastic oyster egg
-52	Stats	250	50	0
+52	Stats	200	50	0
 53	Common	Very Attractive (20)
 54	Meat	725	One guilty of the wrongful performance of a normally lawful act
 55	Avatar	red-hot jawbreaker
