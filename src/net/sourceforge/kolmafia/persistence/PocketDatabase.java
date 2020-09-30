@@ -335,82 +335,40 @@ public class PocketDatabase
 		}
 	}
 
-	public static class OneItemPocket
+	public static class OneResultPocket
 		extends Pocket
 	{
-		protected final AdventureResult item1;
+		protected final AdventureResult result1;
 
-		public OneItemPocket( int pocket, PocketType type, AdventureResult item1 )
+		public OneResultPocket( int pocket, PocketType type, AdventureResult result1 )
 		{
 			super( pocket, type );
-			this.item1 = item1;
+			this.result1 = result1;
 		}
 
-		public AdventureResult getItem()
+		public AdventureResult getResult1()
 		{
-			return this.item1;
+			return this.result1;
 		}
 
-		@Override
-		public String toString()
+		public int getCount( String name )
 		{
-			String name = this.item1.getName();
-			int count = this.item1.getCount();
-			return this.type.toString() + ": " + name + ( count == 1  ? "" : " (" + count + ")" );
-		}
-	}
-
-	public static class TwoItemPocket
-		extends OneItemPocket
-	{
-		protected final AdventureResult item2;
-
-		public TwoItemPocket( int pocket, PocketType type, AdventureResult item1, AdventureResult item2 )
-		{
-			super( pocket, type, item1 );
-			this.item2 = item2;
+			return  this.result1.getName().equals( name ) ?
+				this.result1.getCount() :
+				0;
 		}
 
-		public AdventureResult getItem2()
+		protected String normalizeResultName( AdventureResult result )
 		{
-			return this.item2;
-		}
-
-		@Override
-		public String toString()
-		{
-			String name1 = this.item1.getName();
-			int count1 = this.item1.getCount();
-			String name2 = this.item2.getName();
-			int count2 = this.item2.getCount();
-			return "two items: " + name1 + ( count1 == 1  ? "" : " (" + count1 + ")" ) + " and " + name2 + ( count2 == 1  ? "" : " (" + count2 + ")" );
-		}
-	}
-
-	public static class OneEffectPocket
-		extends Pocket
-	{
-		protected final AdventureResult effect1;
-
-		public OneEffectPocket( int pocket, PocketType type, AdventureResult effect1 )
-		{
-			super( pocket, type );
-			this.effect1 = effect1;
-		}
-
-		public AdventureResult getEffect1()
-		{
-			return this.effect1;
-		}
-
-		protected static final String normalizeEffectName( AdventureResult effect )
-		{
-			String name = effect.getName();
-			int num = effect.getEffectId();
-			int[] effectIds = EffectDatabase.getEffectIds( name, false );
-			if ( effectIds != null && effectIds.length > 1 )
+			String name = result.getName();
+			if ( result.isStatusEffect() )
 			{
-				name = "[" + String.valueOf( num ) + "]" + name;
+				int num = result.getEffectId();
+				int[] effectIds = EffectDatabase.getEffectIds( name, false );
+				if ( effectIds != null && effectIds.length > 1 )
+				{
+					name = "[" + String.valueOf( num ) + "]" + name;
+				}
 			}
 			return name;
 		}		
@@ -418,37 +376,46 @@ public class PocketDatabase
 		@Override
 		public String toString()
 		{
-			return this.type.toString() + ": " + this.normalizeEffectName( this.effect1 ) + " (" + this.effect1.getCount() + ")";
+			return this.type.toString() + ": " + this.normalizeResultName( this.result1 ) + " (" + this.result1.getCount() + ")";
 		}
 	}
 
-	public static class TwoEffectPocket
-		extends OneEffectPocket
+	public static class TwoResultPocket
+		extends OneResultPocket
 	{
-		protected final AdventureResult effect2;
+		protected final AdventureResult result2;
 
-		public TwoEffectPocket( int pocket, PocketType type, AdventureResult effect1, AdventureResult effect2 )
+		public TwoResultPocket( int pocket, PocketType type, AdventureResult result1, AdventureResult result2 )
 		{
-			super( pocket, type, effect1 );
-			this.effect2 = effect2;
+			super( pocket, type, result1 );
+			this.result2 = result2;
 		}
 
-		public AdventureResult getEffect2()
+		public AdventureResult getResult2()
 		{
-			return this.effect2;
+			return this.result2;
+		}
+
+		public int getCount( String name )
+		{
+			return  this.result1.getName().equals( name ) ?
+				this.result1.getCount() :
+				this.result2.getName().equals( name ) ?
+				this.result2.getCount() :
+				0;
 		}
 
 		@Override
 		public String toString()
 		{
-			return this.type.toString() + ": " + this.normalizeEffectName( this.effect1 ) + " (" + this.effect1.getCount() + ") and " + this.normalizeEffectName( this.effect2 ) + " (" + this.effect2.getCount() + ")";
+			return this.type.toString() + ": " + this.normalizeResultName( this.result1 ) + " (" + this.result1.getCount() + ") and " + this.normalizeResultName( this.result2 ) + " (" + this.result2.getCount() + ")";
 		}
 	}
 
 	private static final AdventureResult JOKE_MAD = EffectPool.get( EffectPool.JOKE_MAD, 20 );
 
 	public static class JokePocket
-		extends OneEffectPocket
+		extends OneResultPocket
 	{
 		protected final String joke;
 
@@ -473,7 +440,9 @@ public class PocketDatabase
 	// Here are additional data structures for retrieving pocket data
 
 	public static List<Pocket> scrapSyllables;
-	public static Map<String, Set<OneEffectPocket>> effectPockets = new HashMap<>();
+	public static Map<String, Set<OneResultPocket>> effectPockets = new HashMap<>();
+	public static Map<String, Set<OneResultPocket>> itemPockets = new HashMap<>();
+	public static Map<String, MonsterPocket> monsterPockets = new HashMap<>();
 
 	static
 	{
@@ -621,7 +590,7 @@ public class PocketDatabase
 			{
 				RequestLogger.printLine( "Pocket " + pocketId + " has effect duration 0: " + effect1String );
 			}
-			return new OneEffectPocket( pocketId, type, effect1 );
+			return new OneResultPocket( pocketId, type, effect1 );
 		}
 		case CANDY:
 		case CHIPS:
@@ -657,7 +626,7 @@ public class PocketDatabase
 			{
 				RequestLogger.printLine( "Pocket " + pocketId + " has effect duration 0: " + effect2String );
 			}
-			return new TwoEffectPocket( pocketId, type, effect1, effect2 );
+			return new TwoResultPocket( pocketId, type, effect1, effect2 );
 		}
 		case ITEM:
 		case AVATAR:
@@ -688,7 +657,7 @@ public class PocketDatabase
 			{
 				RequestLogger.printLine( "Pocket " + pocketId + " has item count 0: " + item1String );
 			}
-			return new OneItemPocket( pocketId, type, item1 );
+			return new OneResultPocket( pocketId, type, item1 );
 		}
 		case ITEM2:
 		{
@@ -719,7 +688,7 @@ public class PocketDatabase
 			{
 				RequestLogger.printLine( "Pocket " + pocketId + " has item count 0: " + item2String );
 			}
-			return new TwoItemPocket( pocketId, type, item1, item2 );
+			return new TwoResultPocket( pocketId, type, item1, item2 );
 		}
 		case JOKE:
 		{
@@ -855,21 +824,73 @@ public class PocketDatabase
 		case NEEDLE1:
 		case TEETH1:
 		{
-			OneEffectPocket oep = (OneEffectPocket) pocket;
-			String effectName = oep.getEffect1().getName();
-			Set<OneEffectPocket> pockets =
-				PocketDatabase.effectPockets.containsKey( effectName ) ?
-				PocketDatabase.effectPockets.get( effectName ) :
-				new HashSet<>();
-			if ( pockets.size() == 0 )
-			{
-				PocketDatabase.effectPockets.put( effectName, pockets );
-			}
-			pockets.add( oep );
+			OneResultPocket orp = (OneResultPocket) pocket;
+			PocketDatabase.addResultPocket( PocketDatabase.effectPockets, orp.getResult1().getName(), orp );
+			break;
+		}
+		case CANDY:
+		case CHIPS:
+		case GUM:
+		case LENS:
+		case NEEDLE:
+		case TEETH:
+		{
+			TwoResultPocket trp = (TwoResultPocket) pocket;
+			PocketDatabase.addResultPocket( PocketDatabase.effectPockets, trp.getResult1().getName(), trp );
+			PocketDatabase.addResultPocket( PocketDatabase.effectPockets, trp.getResult2().getName(), trp );
+			break;
+		}
+		case ITEM:
+		case AVATAR:
+		case BELL:
+		case BOOZE:
+		case CASH:
+		case CHESS:
+		case CHOCO:
+		case FOOD:
+		case FRUIT:
+		case OYSTER:
+		case POTION:
+		case YEG:
+		{
+			OneResultPocket orp = (OneResultPocket) pocket;
+			PocketDatabase.addResultPocket( PocketDatabase.itemPockets, orp.getResult1().getName(), orp );
+			break;
+		}
+		case ITEM2:
+		{
+			TwoResultPocket trp = (TwoResultPocket) pocket;
+			PocketDatabase.addResultPocket( PocketDatabase.itemPockets, trp.getResult1().getName(), trp );
+			PocketDatabase.addResultPocket( PocketDatabase.itemPockets, trp.getResult2().getName(), trp );
+			break;
+		}
+		case MONSTER:
+		{
+			MonsterPocket mp = (MonsterPocket) pocket;
+			PocketDatabase.addMonsterPocket( mp );
 			break;
 		}
 		}
 		return true;
+	}
+
+	private static void addResultPocket( Map<String, Set<OneResultPocket>> pocketMap, String name, OneResultPocket orp )
+	{
+		Set<OneResultPocket> pockets =
+			pocketMap.containsKey( name ) ?
+			pocketMap.get( name ) :
+			new HashSet<>();
+		if ( pockets.size() == 0 )
+		{
+			pocketMap.put( name, pockets );
+		}
+		pockets.add( orp );
+	}
+
+	private static void addMonsterPocket( MonsterPocket mp )
+	{
+		String monsterName = mp.getMonster().getName();
+		PocketDatabase.monsterPockets.put( monsterName.toLowerCase(), mp );
 	}
 
 	// External files should use this, rather than fetching the map

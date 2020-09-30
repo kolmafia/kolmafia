@@ -243,7 +243,7 @@
 196	Item	skeleton key
 197	Chess	onyx rook
 198	Candy2	The Style... of the Future (40)
-199	Item2	line	star (3)
+199	Item2	star (3)	line
 200	Effect	Abominably Slippery (50)
 201	Candy	Discomfited (30)	Scariberi (10)
 202	Candy	Just the Brown Ones (40)	Cholestoriffic (10)
@@ -653,7 +653,7 @@
 606	Stats	50	0	200
 607	Avatar	tiny canopic jar
 608	Element	Sizzlin' Hand (20)
-609	Item2	line (2)	star (2)
+609	Item2	star (2)	line (2)
 610	Candy	Vitamin-Maxed (10)	Scariberi (10)
 611	Candy	Milk Studly (40)	The Halls of Muscularity (20)
 612	Monster	bugbear-in-the-box

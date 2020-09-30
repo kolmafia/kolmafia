@@ -42,6 +42,7 @@ import java.util.stream.Collectors;
 
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -51,12 +52,10 @@ import net.sourceforge.kolmafia.persistence.PocketDatabase.Pocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.PocketType;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.MeatPocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.MonsterPocket;
-import net.sourceforge.kolmafia.persistence.PocketDatabase.OneEffectPocket;
-import net.sourceforge.kolmafia.persistence.PocketDatabase.OneItemPocket;
+import net.sourceforge.kolmafia.persistence.PocketDatabase.OneResultPocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.PoemPocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.ScrapPocket;
-import net.sourceforge.kolmafia.persistence.PocketDatabase.TwoEffectPocket;
-import net.sourceforge.kolmafia.persistence.PocketDatabase.TwoItemPocket;
+import net.sourceforge.kolmafia.persistence.PocketDatabase.TwoResultPocket;
 
 import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
 
@@ -75,6 +74,8 @@ public class CargoCultCommand
 	@Override
 	public void run( final String cmd, String parameters )
 	{
+		boolean checking = KoLmafiaCLI.isExecutingCheckOnlyCommand;
+		
 		if ( parameters.equals( "" ) )
 		{
 			this.printPickedPockets();
@@ -121,52 +122,12 @@ public class CargoCultCommand
 			return;
 		}
 
-		if ( command.equals( "count" ) )
+		if ( command.equals( "count" ) || command.equals( "list" ) )
 		{
-			String cusage = "cargo count ( type TYPE | effect EFFECT )";
+			String usage = "cargo " + command + " ( type TYPE | effect EFFECT )";
 			if ( split.length < 3 )
 			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, cusage );
-				return;
-			}
-			switch ( split[ 1 ] )
-			{
-			case "type":
-			{
-				String tag = split[ 2 ];
-				Map<Integer, Pocket> pockets = getPockets( tag );
-				if ( pockets == null )
-				{
-					// Error message already issued
-					return;
-				}
-				RequestLogger.printLine( "There are " + pockets.size() + " " + tag + " pockets." );
-				return;
-			}
-			case "effect":
-			{
-				String effect = parseEffectName( parameters );
-				Set<OneEffectPocket> pockets = getEffectPockets( effect );
-				if ( pockets == null )
-				{
-					// Error message already issued
-					return;
-				}
-				boolean plural = pockets.size() != 1;
-				RequestLogger.printLine( "There " + ( plural ? "are " : "is " ) + pockets.size() + " pocket" + ( plural ? "s" : "" ) + " that grant" + ( plural ? "" : "s" ) + " only the '" + effect + "' effect." );
-				return;
-			}
-			}
-			KoLmafia.updateDisplay( MafiaState.ERROR, cusage );
-			return;
-		}
-
-		if ( command.equals( "list" ) )
-		{
-			String lusage = "cargo list ( type TYPE | effect EFFECT )";
-			if ( split.length < 3 )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, lusage );
+				KoLmafia.updateDisplay( MafiaState.ERROR, usage );
 				return;
 			}
 			switch ( split[ 1 ] )
@@ -181,15 +142,42 @@ public class CargoCultCommand
 					return;
 				}
 				Map<Integer, Pocket> pockets = PocketDatabase.getPockets( type );
+				if ( pockets == null )
+				{
+					// Error message already issued
+					return;
+				}
 				RequestLogger.printLine( "There are " + pockets.size() + " " + tag + " pockets." );
-				List<Pocket> sorted = sortPockets( type, pockets );
-				printPockets( sorted );
-				return;
+				if ( command.equals( "list" ) )
+				{
+					List<Pocket> sorted = sortPockets( type, pockets );
+					printPockets( sorted );
+				}
+				break;
+			}
+			case "monster":
+			{
+				String monster = parseName( "monster", parameters );
+				MonsterPocket pocket = getMonsterPocket( monster );
+				if ( pocket == null )
+				{
+					// Error message already issued
+					return;
+				}
+				if ( command.equals( "count" ) )
+				{
+					RequestLogger.printLine( "There is one pocket that contains a '" + monster + "'." );
+				}
+				else
+				{
+					printPocket( pocket );
+				}
+				break;
 			}
 			case "effect":
 			{
-				String effect = parseEffectName( parameters );
-				Set<OneEffectPocket> pockets = getEffectPockets( effect );
+				String effect = parseName( "effect", parameters );
+				Set<OneResultPocket> pockets = getEffectPockets( effect );
 				if ( pockets == null )
 				{
 					// Error message already issued
@@ -197,12 +185,35 @@ public class CargoCultCommand
 				}
 				boolean plural = pockets.size() != 1;
 				RequestLogger.printLine( "There " + ( plural ? "are " : "is " ) + pockets.size() + " pocket" + ( plural ? "s" : "" ) + " that grant" + ( plural ? "" : "s" ) + " only the '" + effect + "' effect." );
-				List<Pocket> sorted = sortEffects( pockets );
-				printPockets( sorted );
+				if ( command.equals( "list" ) )
+				{
+					List<Pocket> sorted = sortResults( effect, pockets );
+					printPockets( sorted );
+				}
+				break;
+			}
+			case "item":
+			{
+				String item = parseName( "item", parameters );
+				Set<OneResultPocket> pockets = getItemPockets( item );
+				if ( pockets == null )
+				{
+					// Error message already issued
+					return;
+				}
+				boolean plural = pockets.size() != 1;
+				RequestLogger.printLine( "There " + ( plural ? "are " : "is " ) + pockets.size() + " pocket" + ( plural ? "s" : "" ) + " that contain" + ( plural ? "" : "s" ) + " a '" + item + "'." );
+				if ( command.equals( "list" ) )
+				{
+					List<Pocket> sorted = sortResults( item, pockets );
+					printPockets( sorted );
+				}
+				break;
+			}
+			default:
+				KoLmafia.updateDisplay( MafiaState.ERROR, usage );
 				return;
 			}
-			}
-			KoLmafia.updateDisplay( MafiaState.ERROR, lusage );
 			return;
 		}
 
@@ -287,9 +298,9 @@ public class CargoCultCommand
 		return type;
 	}
 
-	private String parseEffectName( String parameters )
+	private String parseName( String type, String parameters )
 	{
-		int index = parameters.indexOf( "effect " );
+		int index = parameters.indexOf( type + " " );
 		if ( index == -1 )
 		{
 			return "";
@@ -302,12 +313,32 @@ public class CargoCultCommand
 		return PocketDatabase.getPockets( parsePocketType( tag ) );
 	}
 
-	private Set<OneEffectPocket> getEffectPockets( String effectName )
+	private MonsterPocket getMonsterPocket( String monsterName )
 	{
-		Set<OneEffectPocket> pockets = PocketDatabase.effectPockets.get( effectName );
+		MonsterPocket pocket = PocketDatabase.monsterPockets.get( monsterName.toLowerCase() );
+		if ( pocket == null )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Your shorts do not contain a monster named '" + monsterName + "'." );
+		}
+		return pocket;
+	}
+
+	private Set<OneResultPocket> getEffectPockets( String effectName )
+	{
+		Set<OneResultPocket> pockets = PocketDatabase.effectPockets.get( effectName );
 		if ( pockets == null )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Your shorts do not contain an effect named '" + effectName + "'." );
+		}
+		return pockets;
+	}
+
+	private Set<OneResultPocket> getItemPockets( String itemName )
+	{
+		Set<OneResultPocket> pockets = PocketDatabase.itemPockets.get( itemName );
+		if ( pockets == null )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Your shorts do not contain an item named '" + itemName + "'." );
 		}
 		return pockets;
 	}
@@ -316,8 +347,13 @@ public class CargoCultCommand
 	{
 		for ( Pocket p : pockets )
 		{
-			RequestLogger.printLine( "Pocket #" + p.getPocket() + ": " + p.toString() );
+			printPocket( p );
 		}
+	}
+
+	private void printPocket( final Pocket p )
+	{
+		RequestLogger.printLine( "Pocket #" + p.getPocket() + ": " + p.toString() );
 	}
 
 	private void printPickedPockets()
@@ -348,7 +384,7 @@ public class CargoCultCommand
 		switch ( type )
 		{
 		case SCRAP:
-			// Sort on scrap index. Previously created, since it is used elsewhere.
+			// Sort on scrap index. Created at database load, since it is used elsewhere.
 			return PocketDatabase.scrapSyllables;
 		case MEAT:
 			// Sort on Meat
@@ -380,11 +416,6 @@ public class CargoCultCommand
 		case OYSTER:
 		case POTION:
 		case YEG:
-			// Single items sort on item name
-			return pockets.values()
-				.stream()
-				.sorted( Comparator.comparing(p -> ((OneItemPocket) p).getItem().getName() ) )
-				.collect( Collectors.toList() );
 		case EFFECT:
 		case RESTORE:
 		case BUFF:
@@ -395,37 +426,31 @@ public class CargoCultCommand
 		case LENS1:
 		case NEEDLE1:
 		case TEETH1:
-			// Single effects with a single source sort on effect name
+			// Single results with a single source sort on effect name
 			return pockets.values()
 				.stream()
-				.sorted( Comparator.comparing(p -> ((OneEffectPocket) p).getEffect1().getName() ) )
+				.sorted( Comparator.comparing(p -> ((OneResultPocket) p).getResult1().getName() ) )
 				.collect( Collectors.toList() );
 		case COMMON:
 		case ELEMENT:
-			// Single effects with multiple sources sort first on effect name then on pocket number then
+			// Single effects with multiple sources sort first on effect name then on pocket number
 			return pockets.values()
 				.stream()
-				.sorted( Comparator.comparing(p -> ((OneEffectPocket) p).getEffect1().getName())
+				.sorted( Comparator.comparing(p -> ((OneResultPocket) p).getResult1().getName())
 					 	   .thenComparing(p -> ((Pocket) p).getPocket() ) )
 				.collect( Collectors.toList() );
 		case ITEM2:
-			// Sort first on item 1 then on item 2
-			return pockets.values()
-				.stream()
-				.sorted( Comparator.comparing(p -> ((TwoItemPocket) p).getItem().getName())
-					 	   .thenComparing(p -> ((TwoItemPocket) p).getItem2().getName() ) )
-				.collect( Collectors.toList() );
 		case CANDY:
 		case CHIPS:
 		case GUM:
 		case LENS:
 		case NEEDLE:
 		case TEETH:
-			// Sort first on effect 1 then on effect 2
+			// Two results sort first on result 1 then on result 2
 			return pockets.values()
 				.stream()
-				.sorted( Comparator.comparing(p -> ((TwoEffectPocket) p).getEffect1().getName() )
-					 	   .thenComparing(p -> ((TwoEffectPocket) p).getEffect2().getName() ) )
+				.sorted( Comparator.comparing(p -> ((TwoResultPocket) p).getResult1().getName() )
+					 	   .thenComparing(p -> ((TwoResultPocket) p).getResult2().getName() ) )
 				.collect( Collectors.toList() );
 		case STATS:
 			// *** What here?
@@ -439,11 +464,11 @@ public class CargoCultCommand
 		}
 	}
 
-	private List<Pocket> sortEffects( Set<OneEffectPocket> pockets )
+	private List<Pocket> sortResults( String name, Set<OneResultPocket> pockets )
 	{
 		return pockets
 			.stream()
-			.sorted( Comparator.comparing(p -> ((OneEffectPocket) p).getEffect1().getCount() ).reversed()
+			.sorted( Comparator.comparing(p -> ((OneResultPocket) p).getCount( name ) ).reversed()
 				 .thenComparing(p -> ((Pocket) p).getPocket() ) )
 			.collect( Collectors.toList() );
 	}
