@@ -62,6 +62,7 @@ public class SpadingManager
 		CONSUME_MESSAGE,
 		MEAT_DROP,
 		PVP,
+		PLACE,
 		;
 
 		public static SpadingEvent fromKoLConstant( final int constant)
@@ -151,6 +152,11 @@ public class SpadingManager
 	public static boolean processPeeVPee( final String location, final String responseText )
 	{
 		return SpadingManager.invokeSpadingScript( SpadingEvent.PVP, location, responseText );
+	}
+
+	public static boolean processPlace( final String url, final String responseText )
+	{
+		return SpadingManager.invokeSpadingScript( SpadingEvent.PLACE, url, responseText );
 	}
 
 	private static boolean invokeSpadingScript( final SpadingEvent event, final String meta, final String responseText )
