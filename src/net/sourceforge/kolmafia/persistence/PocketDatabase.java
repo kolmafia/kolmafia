@@ -222,6 +222,19 @@ public class PocketDatabase
 			return this.moxie;
 		}
 
+		public int getCount( String name )
+		{
+			return  name == null ?
+				0 :
+				name.equals( "muscle" ) ?
+				this.muscle :
+				name.equals( "mysticality" ) ?
+				this.mysticality :
+				name.equals( "moxie" ) ?
+				this.moxie :
+				0;
+		}
+
 		@Override
 		public String toString()
 		{
@@ -443,6 +456,7 @@ public class PocketDatabase
 	public static Map<String, Set<OneResultPocket>> effectPockets = new HashMap<>();
 	public static Map<String, Set<OneResultPocket>> itemPockets = new HashMap<>();
 	public static Map<String, MonsterPocket> monsterPockets = new HashMap<>();
+	public static Map<String, Set<StatsPocket>> statsPockets = new HashMap<>();
 
 	static
 	{
@@ -870,6 +884,14 @@ public class PocketDatabase
 			PocketDatabase.addMonsterPocket( mp );
 			break;
 		}
+		case STATS:
+		{
+			StatsPocket sp = (StatsPocket) pocket;
+			PocketDatabase.addStatsPocket( "muscle", sp.getMuscle(), sp );
+			PocketDatabase.addStatsPocket( "mysticality", sp.getMysticality(), sp );
+			PocketDatabase.addStatsPocket( "moxie", sp.getMoxie(), sp );
+			break;
+		}
 		}
 		return true;
 	}
@@ -885,6 +907,25 @@ public class PocketDatabase
 			pocketMap.put( name, pockets );
 		}
 		pockets.add( orp );
+	}
+
+	private static void addStatsPocket( String name, int stat, StatsPocket sp )
+	{
+		if ( stat == 0 )
+		{
+			return;
+		}
+
+		Map<String, Set<StatsPocket>> pocketMap = PocketDatabase.statsPockets;
+		Set<StatsPocket> pockets =
+			pocketMap.containsKey( name ) ?
+			pocketMap.get( name ) :
+			new HashSet<>();
+		if ( pockets.size() == 0 )
+		{
+			pocketMap.put( name, pockets );
+		}
+		pockets.add( sp );
 	}
 
 	private static void addMonsterPocket( MonsterPocket mp )
