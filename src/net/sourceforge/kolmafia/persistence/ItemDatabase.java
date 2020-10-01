@@ -1332,9 +1332,19 @@ public class ItemDatabase
 		return itemIds;
 	}
 
+	public static String getDataName( final int itemId )
+	{
+		return ItemDatabase.getDataName( IntegerPool.get( itemId ) );
+	}
+
 	public static String getDataName( final Integer itemId )
 	{
 		return ItemDatabase.dataNameById.get( itemId );
+	}
+
+	public static String getDisplayName( final int itemId )
+	{
+		return ItemDatabase.getDisplayName( IntegerPool.get( itemId ) );
 	}
 
 	public static String getDisplayName( final Integer itemId )
