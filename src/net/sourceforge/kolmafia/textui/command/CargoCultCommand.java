@@ -43,11 +43,15 @@ import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.Pocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.PocketType;
@@ -153,7 +157,7 @@ public class CargoCultCommand
 			}
 			case "monster":
 			{
-				String monster = parseName( "monster", parameters );
+				String monster = parseMonster( parameters );
 				MonsterPocket pocket = getMonsterPocket( monster );
 				if ( pocket == null )
 				{
@@ -172,7 +176,7 @@ public class CargoCultCommand
 			}
 			case "effect":
 			{
-				String effect = parseName( "effect", parameters );
+				String effect = parseEffect( parameters );
 				Set<OneResultPocket> pockets = getEffectPockets( effect );
 				if ( pockets == null )
 				{
@@ -190,7 +194,7 @@ public class CargoCultCommand
 			}
 			case "item":
 			{
-				String item = parseName( "item", parameters );
+				String item = parseItem( parameters );
 				Set<OneResultPocket> pockets = getItemPockets( item );
 				if ( pockets == null )
 				{
@@ -208,7 +212,7 @@ public class CargoCultCommand
 			}
 			case "stat":
 			{
-				String stat = parseName( "stat", parameters );
+				String stat = parseStat( parameters );
 				Set<StatsPocket> pockets = getStatsPockets( stat );
 				if ( pockets == null )
 				{
@@ -252,39 +256,51 @@ public class CargoCultCommand
 
 		if ( command.equals( "monster" ) )
 		{
-			String monster = parseName( "monster", parameters );
+			String monster = parseMonster( parameters );
 			MonsterPocket pocket = getMonsterPocket( monster );
-			pickPocket( checking, pocket );
+			if ( pocket != null )
+			{
+				pickPocket( checking, pocket );
+			}
 			return;
 		}
 
 		if ( command.equals( "effect" ) )
 		{
-			String effect = parseName( "effect", parameters );
+			String effect = parseEffect( parameters );
 			Set<OneResultPocket> pockets = getEffectPockets( effect );
-			List<Pocket> sorted = sortResults( effect, pockets );
-			Pocket pocket = firstUnpickedPocket( effect, sorted );
-			pickPocket( checking, pocket );
+			if ( pockets != null )
+			{
+				List<Pocket> sorted = sortResults( effect, pockets );
+				Pocket pocket = firstUnpickedPocket( effect, sorted );
+				pickPocket( checking, pocket );
+			}
 			return;
 		}
 
 		if (command.equals( "item" ) )
 		{
-			String item = parseName( "item", parameters );
+			String item = parseItem( parameters );
 			Set<OneResultPocket> pockets = getItemPockets( item );
-			List<Pocket> sorted = sortResults( item, pockets );
-			Pocket pocket = firstUnpickedPocket( item, sorted );
-			pickPocket( checking, pocket );
+			if ( pockets != null )
+			{
+				List<Pocket> sorted = sortResults( item, pockets );
+				Pocket pocket = firstUnpickedPocket( item, sorted );
+				pickPocket( checking, pocket );
+			}
 			return;
 		}
 
 		if (command.equals( "stat" ) )
 		{
-			String stat = parseName( "stat", parameters );
+			String stat = parseStat( parameters );
 			Set<StatsPocket> pockets = getStatsPockets( stat );
-			List<Pocket> sorted = sortStats( stat, pockets );
-			Pocket pocket = firstUnpickedPocket( stat, sorted );
-			pickPocket( checking, pocket );
+			if ( pockets != null )
+			{
+				List<Pocket> sorted = sortStats( stat, pockets );
+				Pocket pocket = firstUnpickedPocket( stat, sorted );
+				pickPocket( checking, pocket );
+			}
 			return;
 		}
 
@@ -381,6 +397,82 @@ public class CargoCultCommand
 		return type;
 	}
 
+	private String parseMonster( String parameters )
+	{
+		String name = parseName( "monster", parameters );
+		MonsterData monster;
+		if ( StringUtilities.isNumeric( name ) )
+		{
+			int monsterId = StringUtilities.parseInt( parameters );
+			monster = MonsterDatabase.findMonsterById( monsterId );
+			if ( monster == null )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "What is monster #" + monsterId + "?" );
+				return null;
+			}
+			return monster.getName();
+		}
+		monster = MonsterDatabase.findMonster( name, false, false );
+		if ( monster == null )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "What is monster '" + name + "'?" );
+			return null;
+		}
+		return monster.getName();
+	}
+
+	private String parseEffect( String parameters )
+	{
+		String name = parseName( "effect", parameters );
+		int effectId;
+		if ( StringUtilities.isNumeric( name ) )
+		{
+			effectId = StringUtilities.parseInt( parameters );
+			name = EffectDatabase.getEffectName( effectId );
+			if ( name == null )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "What is effect #" + effectId + "?" );
+			}
+			return name;
+		}
+		effectId = EffectDatabase.getEffectId( name, false );
+		if ( effectId == -1 )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "What is effect '" + name + "'?" );
+			return null;
+		}
+		return EffectDatabase.getEffectName( effectId );
+	}
+
+	private String parseItem( String parameters )
+	{
+		String name = parseName( "item", parameters );
+		int itemId;
+		if ( StringUtilities.isNumeric( name ) )
+		{
+			itemId = StringUtilities.parseInt( parameters );
+			name = ItemDatabase.getDataName( itemId );
+			if ( name == null )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "What is item #" + itemId + "?" );
+			}
+			return name;
+		}
+		itemId = ItemDatabase.getItemId( name, 1, true );
+		if ( itemId == -1 )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "What is item '" + name + "'?" );
+			return null;
+		}
+		return ItemDatabase.getDataName( itemId );
+	}
+
+	private String parseStat( String parameters )
+	{
+		String name = parseName( "stat", parameters );
+		return name;
+	}
+
 	private String parseName( String type, String parameters )
 	{
 		int index = parameters.indexOf( type + " " );
@@ -398,6 +490,11 @@ public class CargoCultCommand
 
 	private MonsterPocket getMonsterPocket( String monsterName )
 	{
+		if ( monsterName == null )
+		{
+			// Error message already produced
+			return null;
+		}
 		MonsterPocket pocket = PocketDatabase.monsterPockets.get( monsterName.toLowerCase() );
 		if ( pocket == null )
 		{
@@ -408,6 +505,11 @@ public class CargoCultCommand
 
 	private Set<OneResultPocket> getEffectPockets( String effectName )
 	{
+		if ( effectName == null )
+		{
+			// Error message already produced
+			return null;
+		}
 		Set<OneResultPocket> pockets = PocketDatabase.effectPockets.get( effectName );
 		if ( pockets == null )
 		{
@@ -418,6 +520,11 @@ public class CargoCultCommand
 
 	private Set<OneResultPocket> getItemPockets( String itemName )
 	{
+		if ( itemName == null )
+		{
+			// Error message already produced
+			return null;
+		}
 		Set<OneResultPocket> pockets = PocketDatabase.itemPockets.get( itemName );
 		if ( pockets == null )
 		{
@@ -428,6 +535,11 @@ public class CargoCultCommand
 
 	private Set<StatsPocket> getStatsPockets( String stat )
 	{
+		if ( stat == null )
+		{
+			// Error message already produced
+			return null;
+		}
 		Set<StatsPocket> pockets = PocketDatabase.statsPockets.get( stat.toLowerCase() );
 		if ( pockets == null )
 		{
