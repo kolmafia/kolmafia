@@ -200,7 +200,7 @@
 153	Poem	21	OLLU JH JYJVL, FOMGXQJVL XQMVUMVT
 154	Common	Very Attractive (20)
 155	Effect	Hippy Stench (50)
-156	Effect	Sticky FIngers (10)
+156	Effect	Sticky Fingers (10)
 157	Cash	collection of tiny spooky objects
 158	Item	handful of moss
 159	Effect	Ocelot Eyes (80)
@@ -362,7 +362,7 @@
 315	Oyster	yellow striped oyster egg
 316	Candy	Just the Brown Ones (40)	Tundra Mouth (10)
 317	Monster	Camel's Toe
-318	Effect	Missing FIngers (10)
+318	Effect	Missing Fingers (10)
 319	Needle	Tetanus (10)	It's Soporiffic! (40)
 320	Candy	Milk Studly (20)	Refuse Reflux (10)
 321	Candy	Milk Studly (40)	The Strength... of the Future (20)
@@ -685,7 +685,7 @@
 638	Candy	Just the Brown Ones (40)	The Style... of the Future (20)
 639	Potion	rainbow jellybean
 640	Poem	8	QDL XLR KVSJGGJV QRGL
-641	Effect	SPooky Hands (10)
+641	Effect	Spooky Hands (10)
 642	Yeg	Yeg's Motel sewing kit
 643	Potion	Finnish Fish
 644	Effect	Ancestral Disapproval (80)
@@ -701,7 +701,7 @@
 654	Choco	chocolate pasta spoon
 655	Effect	Charrrming (80)
 656	Common	Wary (20)
-657	Effect	One for Tea (50)
+657	Effect	One For Tea (50)
 658	Poem	14	GRMV CLSU XZMSU AMQD ARPLX
 659	Needle	Blood-Rich (30)	Space Cowboy (30)
 660	Yeg	Yeg's Motel minibar key
