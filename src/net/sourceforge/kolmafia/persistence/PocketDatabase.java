@@ -59,6 +59,8 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
+
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -452,11 +454,19 @@ public class PocketDatabase
 
 	// Here are additional data structures for retrieving pocket data
 
+	public static final Map<String, Set<OneResultPocket>> effectPockets = new HashMap<>();
+	public static final Map<String, Set<OneResultPocket>> itemPockets = new HashMap<>();
+	public static final Map<String, MonsterPocket> monsterPockets = new HashMap<>();
+	public static final Map<String, Set<StatsPocket>> statsPockets = new HashMap<>();
+
+	public static final Set<Integer> allEffectPockets = new HashSet<>();
+	public static final Set<Integer> allItemPockets = new HashSet<>();
+	public static final Set<Integer> allMonsterPockets = new HashSet<>();
+	public static final Set<Integer> allStatsPockets = new HashSet<>();
+
+	public static List<Pocket> meatPockets;
+	public static List<Pocket> poemHalfLines;;
 	public static List<Pocket> scrapSyllables;
-	public static Map<String, Set<OneResultPocket>> effectPockets = new HashMap<>();
-	public static Map<String, Set<OneResultPocket>> itemPockets = new HashMap<>();
-	public static Map<String, MonsterPocket> monsterPockets = new HashMap<>();
-	public static Map<String, Set<StatsPocket>> statsPockets = new HashMap<>();
 
 	static
 	{
@@ -465,7 +475,24 @@ public class PocketDatabase
 			.stream()
 			.sorted( Comparator.comparing(p -> ((ScrapPocket) p).getScrap() ) )
 			.collect( Collectors.toList() );
+		PocketDatabase.poemHalfLines = PocketDatabase.getPockets( PocketType.POEM).values()
+			.stream()
+			.sorted( Comparator.comparing(p -> ((PoemPocket) p).getIndex() ) )
+			.collect( Collectors.toList() );
+		PocketDatabase.meatPockets = PocketDatabase.getPockets( PocketType.MEAT).values()
+			.stream()
+			.sorted( Comparator.comparing(p -> ((MeatPocket) p).getMeat() ) )
+			.collect( Collectors.toList() );
 		RequestLogger.printLine( "Pockets loaded: " + allPockets.size() );
+		int categorized =
+			allEffectPockets.size() +
+			allItemPockets.size() +
+			allMonsterPockets.size() +
+			allStatsPockets.size() +
+			meatPockets.size() +
+			poemHalfLines.size() +
+			scrapSyllables.size();
+		RequestLogger.printLine( "Pockets categorized: " + categorized );
 	}
 
 	private static void reset()
@@ -840,6 +867,7 @@ public class PocketDatabase
 		{
 			OneResultPocket orp = (OneResultPocket) pocket;
 			PocketDatabase.addResultPocket( PocketDatabase.effectPockets, orp.getResult1().getName(), orp );
+			PocketDatabase.allEffectPockets.add( orp.getPocket() );
 			break;
 		}
 		case CANDY:
@@ -852,6 +880,7 @@ public class PocketDatabase
 			TwoResultPocket trp = (TwoResultPocket) pocket;
 			PocketDatabase.addResultPocket( PocketDatabase.effectPockets, trp.getResult1().getName(), trp );
 			PocketDatabase.addResultPocket( PocketDatabase.effectPockets, trp.getResult2().getName(), trp );
+			PocketDatabase.allEffectPockets.add( trp.getPocket() );
 			break;
 		}
 		case ITEM:
@@ -869,6 +898,7 @@ public class PocketDatabase
 		{
 			OneResultPocket orp = (OneResultPocket) pocket;
 			PocketDatabase.addResultPocket( PocketDatabase.itemPockets, orp.getResult1().getName(), orp );
+			PocketDatabase.allItemPockets.add( orp.getPocket() );
 			break;
 		}
 		case ITEM2:
@@ -876,12 +906,14 @@ public class PocketDatabase
 			TwoResultPocket trp = (TwoResultPocket) pocket;
 			PocketDatabase.addResultPocket( PocketDatabase.itemPockets, trp.getResult1().getName(), trp );
 			PocketDatabase.addResultPocket( PocketDatabase.itemPockets, trp.getResult2().getName(), trp );
+			PocketDatabase.allItemPockets.add( trp.getPocket() );
 			break;
 		}
 		case MONSTER:
 		{
 			MonsterPocket mp = (MonsterPocket) pocket;
 			PocketDatabase.addMonsterPocket( mp );
+			PocketDatabase.allMonsterPockets.add( mp.getPocket() );
 			break;
 		}
 		case STATS:
@@ -890,6 +922,7 @@ public class PocketDatabase
 			PocketDatabase.addStatsPocket( "muscle", sp.getMuscle(), sp );
 			PocketDatabase.addStatsPocket( "mysticality", sp.getMysticality(), sp );
 			PocketDatabase.addStatsPocket( "moxie", sp.getMoxie(), sp );
+			PocketDatabase.allStatsPockets.add( sp.getPocket() );
 			break;
 		}
 		}
@@ -932,6 +965,130 @@ public class PocketDatabase
 	{
 		String monsterName = mp.getMonster().getName();
 		PocketDatabase.monsterPockets.put( monsterName.toLowerCase(), mp );
+	}
+
+	// Sorting lists and maps of pockets
+
+	public static List<Pocket> sortPockets( PocketType type )
+	{
+		return sortPockets( type, PocketDatabase.getPockets( type ) );
+	}
+
+	public static List<Pocket> sortPockets( PocketType type, Map<Integer, Pocket> pockets )
+	{
+		// PocketType is derivable from the first pocket in the
+		// collection, but since caller always knows it, pass in
+		switch ( type )
+		{
+		case SCRAP:
+			// Sort on scrap index. Created at database load, since it is used elsewhere.
+			return PocketDatabase.scrapSyllables;
+		case MEAT:
+			// Sort on Meat
+			return PocketDatabase.meatPockets;
+		case POEM:
+			// Sort on line index
+			return PocketDatabase.poemHalfLines;
+		case MONSTER:
+			// Sort on monster name
+			return pockets.values()
+				.stream()
+				.sorted( Comparator.comparing(p -> ((MonsterPocket) p).getMonster().getName().toLowerCase() ) )
+				.collect( Collectors.toList() );
+		case ITEM:
+		case AVATAR:
+		case BELL:
+		case BOOZE:
+		case CASH:
+		case CHESS:
+		case CHOCO:
+		case FOOD:
+		case FRUIT:
+		case OYSTER:
+		case POTION:
+		case YEG:
+		case EFFECT:
+		case RESTORE:
+		case BUFF:
+		case CANDY1:
+		case CANDY2:
+		case CHIPS1:
+		case GUM1:
+		case LENS1:
+		case NEEDLE1:
+		case TEETH1:
+			// Single results with a single source sort on effect name
+			return pockets.values()
+				.stream()
+				.sorted( Comparator.comparing(p -> ((OneResultPocket) p).getResult1().getName() ) )
+				.collect( Collectors.toList() );
+		case COMMON:
+		case ELEMENT:
+			// Single effects with multiple sources sort first on effect name then on pocket number
+			return pockets.values()
+				.stream()
+				.sorted( Comparator.comparing(p -> ((OneResultPocket) p).getResult1().getName())
+					 	   .thenComparing(p -> ((Pocket) p).getPocket() ) )
+				.collect( Collectors.toList() );
+		case ITEM2:
+		case CANDY:
+		case CHIPS:
+		case GUM:
+		case LENS:
+		case NEEDLE:
+		case TEETH:
+			// Two results sort first on result 1 then on result 2
+			return pockets.values()
+				.stream()
+				.sorted( Comparator.comparing(p -> ((TwoResultPocket) p).getResult1().getName() )
+					 	   .thenComparing(p -> ((TwoResultPocket) p).getResult2().getName() ) )
+				.collect( Collectors.toList() );
+		case STATS:
+			// I can't think of a rational full ordering for stats
+		case JOKE:
+		default:
+			// Pocket number is good enough
+			return pockets.values()
+				.stream()
+				.sorted( Comparator.comparing(Pocket::getPocket) )
+				.collect( Collectors.toList() );
+		}
+	}
+
+	public static List<Pocket> sortStats( String stat, Set<StatsPocket> pockets )
+	{
+		return pockets
+			.stream()
+			.filter( p -> ((StatsPocket) p).getCount( stat ) > 0 )
+			.sorted( Comparator.comparing(p -> ((StatsPocket) p).getCount( stat ) ).reversed()
+				 .thenComparing(p -> ((Pocket) p).getPocket() ) )
+			.collect( Collectors.toList() );
+	}
+
+	public static List<Pocket> sortResults( String name, Set<OneResultPocket> pockets )
+	{
+		return pockets
+			.stream()
+			.sorted( Comparator.comparing(p -> ((OneResultPocket) p).getCount( name ) ).reversed()
+				 .thenComparing(p -> ((Pocket) p).getPocket() ) )
+			.collect( Collectors.toList() );
+	}
+
+	public static Pocket firstUnpickedPocket( String name, List<Pocket> pockets )
+	{
+		if ( pockets != null )
+		{
+			Set<Integer> picked = CargoCultistShortsRequest.pickedPockets;
+			for ( Pocket pocket : pockets )
+			{
+				if ( !picked.contains( IntegerPool.get( pocket.getPocket() ) ) )
+				{
+					return pocket;
+				}
+			}
+		}
+
+		return null;
 	}
 
 	// External files should use this, rather than fetching the map

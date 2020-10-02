@@ -150,7 +150,7 @@ public class CargoCultCommand
 				RequestLogger.printLine( "There are " + pockets.size() + " " + tag + " pockets." );
 				if ( command.equals( "list" ) )
 				{
-					List<Pocket> sorted = sortPockets( type, pockets );
+					List<Pocket> sorted = PocketDatabase.sortPockets( type, pockets );
 					printPockets( sorted );
 				}
 				break;
@@ -184,10 +184,10 @@ public class CargoCultCommand
 					return;
 				}
 				boolean plural = pockets.size() != 1;
-				RequestLogger.printLine( "There " + ( plural ? "are " : "is " ) + pockets.size() + " pocket" + ( plural ? "s" : "" ) + " that grant" + ( plural ? "" : "s" ) + " only the '" + effect + "' effect." );
+				RequestLogger.printLine( "There " + ( plural ? "are " : "is " ) + pockets.size() + " pocket" + ( plural ? "s" : "" ) + " that grant" + ( plural ? "" : "s" ) + " the '" + effect + "' effect." );
 				if ( command.equals( "list" ) )
 				{
-					List<Pocket> sorted = sortResults( effect, pockets );
+					List<Pocket> sorted = PocketDatabase.sortResults( effect, pockets );
 					printPockets( sorted );
 				}
 				break;
@@ -205,7 +205,7 @@ public class CargoCultCommand
 				RequestLogger.printLine( "There " + ( plural ? "are " : "is " ) + pockets.size() + " pocket" + ( plural ? "s" : "" ) + " that contain" + ( plural ? "" : "s" ) + " a '" + item + "'." );
 				if ( command.equals( "list" ) )
 				{
-					List<Pocket> sorted = sortResults( item, pockets );
+					List<Pocket> sorted = PocketDatabase.sortResults( item, pockets );
 					printPockets( sorted );
 				}
 				break;
@@ -223,7 +223,7 @@ public class CargoCultCommand
 				RequestLogger.printLine( "There " + ( plural ? "are " : "is " ) + pockets.size() + " pocket" + ( plural ? "s" : "" ) + " that contain" + ( plural ? "" : "s" ) + " '" + stat + "' stats." );
 				if ( command.equals( "list" ) )
 				{
-					List<Pocket> sorted = sortStats( stat, pockets );
+					List<Pocket> sorted = PocketDatabase.sortStats( stat, pockets );
 					printPockets( sorted );
 				}
 				break;
@@ -271,7 +271,7 @@ public class CargoCultCommand
 			Set<OneResultPocket> pockets = getEffectPockets( effect );
 			if ( pockets != null )
 			{
-				List<Pocket> sorted = sortResults( effect, pockets );
+				List<Pocket> sorted = PocketDatabase.sortResults( effect, pockets );
 				Pocket pocket = firstUnpickedPocket( effect, sorted );
 				pickPocket( checking, pocket );
 			}
@@ -284,7 +284,7 @@ public class CargoCultCommand
 			Set<OneResultPocket> pockets = getItemPockets( item );
 			if ( pockets != null )
 			{
-				List<Pocket> sorted = sortResults( item, pockets );
+				List<Pocket> sorted = PocketDatabase.sortResults( item, pockets );
 				Pocket pocket = firstUnpickedPocket( item, sorted );
 				pickPocket( checking, pocket );
 			}
@@ -297,7 +297,7 @@ public class CargoCultCommand
 			Set<StatsPocket> pockets = getStatsPockets( stat );
 			if ( pockets != null )
 			{
-				List<Pocket> sorted = sortStats( stat, pockets );
+				List<Pocket> sorted = PocketDatabase.sortStats( stat, pockets );
 				Pocket pocket = firstUnpickedPocket( stat, sorted );
 				pickPocket( checking, pocket );
 			}
@@ -322,17 +322,12 @@ public class CargoCultCommand
 			return null;
 		}
 
-		Set<Integer> picked = CargoCultistShortsRequest.pickedPockets;
-		for ( Pocket pocket : pockets )
+		Pocket result = PocketDatabase.firstUnpickedPocket( name, pockets );
+		if ( result == null )
 		{
-			if ( !picked.contains( IntegerPool.get( pocket.getPocket() ) ) )
-			{
-				return pocket;
-			}
+			KoLmafia.updateDisplay( MafiaState.ERROR, "No unpicked pockets contain '" + name + "'." );
 		}
-
-		KoLmafia.updateDisplay( MafiaState.ERROR, "No unpicked pockets contain '" + name + "'." );
-		return null;
+		return result;
 	}
 
 	private void pickPocket( boolean checking, Pocket pocket )
@@ -575,116 +570,5 @@ public class CargoCultCommand
 		{
 			RequestLogger.printLine( String.valueOf( pocket ) );
 		}
-	}
-
-	private List<Pocket> sortPockets( PocketType type )
-	{
-		return sortPockets( type, PocketDatabase.getPockets( type ) );
-	}
-
-	private List<Pocket> sortPockets( PocketType type, Map<Integer, Pocket> pockets )
-	{
-		// PocketType is derivable from the first pocket in the
-		// collection, but since caller always knows it, pass in
-		switch ( type )
-		{
-		case SCRAP:
-			// Sort on scrap index. Created at database load, since it is used elsewhere.
-			return PocketDatabase.scrapSyllables;
-		case MEAT:
-			// Sort on Meat
-			return pockets.values()
-				.stream()
-				.sorted( Comparator.comparing(p -> ((MeatPocket) p).getMeat() ) )
-				.collect( Collectors.toList() );
-		case POEM:
-			// Sort on line index
-			return pockets.values()
-				.stream()
-				.sorted( Comparator.comparing(p -> ((PoemPocket) p).getIndex() ) )
-				.collect( Collectors.toList() );
-		case MONSTER:
-			// Sort on monster name
-			return pockets.values()
-				.stream()
-				.sorted( Comparator.comparing(p -> ((MonsterPocket) p).getMonster().getName().toLowerCase() ) )
-				.collect( Collectors.toList() );
-		case ITEM:
-		case AVATAR:
-		case BELL:
-		case BOOZE:
-		case CASH:
-		case CHESS:
-		case CHOCO:
-		case FOOD:
-		case FRUIT:
-		case OYSTER:
-		case POTION:
-		case YEG:
-		case EFFECT:
-		case RESTORE:
-		case BUFF:
-		case CANDY1:
-		case CANDY2:
-		case CHIPS1:
-		case GUM1:
-		case LENS1:
-		case NEEDLE1:
-		case TEETH1:
-			// Single results with a single source sort on effect name
-			return pockets.values()
-				.stream()
-				.sorted( Comparator.comparing(p -> ((OneResultPocket) p).getResult1().getName() ) )
-				.collect( Collectors.toList() );
-		case COMMON:
-		case ELEMENT:
-			// Single effects with multiple sources sort first on effect name then on pocket number
-			return pockets.values()
-				.stream()
-				.sorted( Comparator.comparing(p -> ((OneResultPocket) p).getResult1().getName())
-					 	   .thenComparing(p -> ((Pocket) p).getPocket() ) )
-				.collect( Collectors.toList() );
-		case ITEM2:
-		case CANDY:
-		case CHIPS:
-		case GUM:
-		case LENS:
-		case NEEDLE:
-		case TEETH:
-			// Two results sort first on result 1 then on result 2
-			return pockets.values()
-				.stream()
-				.sorted( Comparator.comparing(p -> ((TwoResultPocket) p).getResult1().getName() )
-					 	   .thenComparing(p -> ((TwoResultPocket) p).getResult2().getName() ) )
-				.collect( Collectors.toList() );
-		case STATS:
-			// I can't think of a rational full ordering for stats
-		case JOKE:
-		default:
-			// Pocket number is good enough
-			return pockets.values()
-				.stream()
-				.sorted( Comparator.comparing(Pocket::getPocket) )
-				.collect( Collectors.toList() );
-		}
-	}
-
-	private List<Pocket> sortStats( String stat, Set<StatsPocket> pockets )
-	{
-		return pockets
-			.stream()
-			.filter( p -> ((StatsPocket) p).getCount( stat ) > 0 )
-			.sorted( Comparator.comparing(p -> ((StatsPocket) p).getCount( stat ) ).reversed()
-				 .thenComparing(p -> ((Pocket) p).getPocket() ) )
-			.collect( Collectors.toList() );
-	}
-
-	private List<Pocket> sortResults( String name, Set<OneResultPocket> pockets )
-	{
-		return pockets
-			.stream()
-			.sorted( Comparator.comparing(p -> ((OneResultPocket) p).getCount( name ) ).reversed()
-				 .thenComparing(p -> ((Pocket) p).getPocket() ) )
-			.collect( Collectors.toList() );
 	}
 }

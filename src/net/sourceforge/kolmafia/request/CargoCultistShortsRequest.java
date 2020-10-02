@@ -391,7 +391,6 @@ public class CargoCultistShortsRequest
 		Preferences.setString( POCKET_SCRAPS_PROPERTY, value.toString() );
 	}
 
-
 	// <span class='guts'>You pull a note out of your pocket.  It's wrapped around a pile of meat.<blockquote style='border: 1px solid black; text-align: center; padding: 1em'>Being at the level of the narrowest part of the torso</blockquote><center><table><tr><td><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/meat.gif" height=30 width=30 alt="Meat"></td><td valign=center>You gain 917 Meat.</td></tr></table></center></span>
 
 	public static final Pattern MEAT_NOTE_PATTERN = Pattern.compile( "(You pull a note out of your pocket.  It's wrapped around a pile of meat.).*?<blockquote[^>]*>([^<]*)<" );
