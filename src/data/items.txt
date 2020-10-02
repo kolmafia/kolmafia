@@ -10669,3 +10669,5 @@
 10641
 10642	flame orb	690359871	flame.gif	none, combat	t,d	6
 10643	chocolate chip muffin	918943586	earthpan3.gif	food	t	0
+10644	Comprehensive Cartographic Compendium	888457946	cccbook.gif	usable	t	0
+10645	Comprehensive Cartographic Compendium (well-read)	234229420	cccbook.gif	usable		0

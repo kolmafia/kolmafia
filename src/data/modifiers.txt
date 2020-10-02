@@ -10348,6 +10348,9 @@ Item	Comma Chameleon egg	Free Pull
 # complex alien plant sample: Worth 10 pages of Spacegate Research
 # complex alien zoological sample: Worth 10 pages of Spacegate Research
 # complimentary Dinsey refreshments: Ya eat 'em.  Well, tourists do.
+# Comprehensive Cartographic Compendium: Imparts deep cartographic knowledge
+Item	Comprehensive Cartographic Compendium	Free Pull
+# Comprehensive Cartographic Compendium (well-read): Imparts deep cartographic knowledge
 # confidence-building hug: Increases the damage of your bat-punches and bat-kicks
 # continental juice bar: Produces 3 random potions each day
 Item	control crystal	Free Pull

@@ -218,6 +218,7 @@
 193	Drippy Eye-Beetle	dripeye3.gif	0	0	0
 194	Always Never Not Guzzling	ggeyes.gif	0	0	0
 195	Lock Picking	keya.gif	3	5	0
+196	Comprehensive Cartography	cccbook.gif	0	0	0
 
 # Skills available to Clubbers
 
