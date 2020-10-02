@@ -182,8 +182,10 @@ public class EffectDatabase
 				return "good";
 			case EffectDatabase.BAD:
 				return "bad";
-			default:
+			case EffectDatabase.NEUTRAL:
 				return "neutral";
+			default:
+				return "";
  		}
 	}
 
@@ -216,7 +218,8 @@ public class EffectDatabase
 
 	public static final int getQuality( final int effectId )
 	{
-		return EffectDatabase.qualityById.get( effectId );
+		Integer quality = ( effectId == -1 ) ? -1 : EffectDatabase.qualityById.get( effectId );
+		return quality == null ? -1 : quality;
 	}
 
 	public static final String getQualityDescription( final int effectId )
@@ -232,21 +235,13 @@ public class EffectDatabase
 	public static final boolean hasAttribute( final String name, final String attribute )
 	{
 		int effectId = EffectDatabase.getEffectId( name );
-		if ( effectId == -1 )
-		{
-			return false;
-		}
-		return EffectDatabase.hasAttribute( effectId, attribute );
+		return ( effectId == -1 ) ? false : EffectDatabase.hasAttribute( effectId, attribute );
 	}
 
 	public static final boolean hasAttribute( final int effectId, final String attribute )
 	{
 		List<String> attrs = EffectDatabase.getEffectAttributes( effectId );
-		if ( attrs == null )
-		{
-			return false;
-		}
-		return attrs.contains( attribute );
+		return ( attrs == null ) ? false : attrs.contains( attribute );
 	}
 
 	public static final String getDefaultAction( final int effectId )
@@ -725,7 +720,7 @@ public class EffectDatabase
 			String image = EffectDatabase.imageById.get( nextInteger );
 			String descId = EffectDatabase.descriptionById.get( nextInteger );
 			String quality = EffectDatabase.describeQuality( EffectDatabase.qualityById.get( nextInteger ) );
-			String attributesString = attributes == null ? "none" : String.join( ",", attributes );
+			String attributesString = ( attributes == null ) ? "none" : String.join( ",", attributes );
 
 			String defaultAction = EffectDatabase.defaultActions.get( nextInteger );
 			EffectDatabase.writeEffect( writer, effectId, name, image, descId, quality, attributesString, defaultAction );
