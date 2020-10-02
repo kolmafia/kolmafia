@@ -1191,7 +1191,8 @@ public class ProxyRecordValue
 
 		public String get_attributes()
 		{
-			return String.join( ",", EffectDatabase.getEffectAttributes( (int) this.contentLong ) );
+			List<String> attrs = EffectDatabase.getEffectAttributes( (int) this.contentLong );
+			return ( attrs == null ) ? "" : String.join( ",", attrs );
 		}
 
 		public String get_note()
