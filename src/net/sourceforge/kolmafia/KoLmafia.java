@@ -1542,10 +1542,10 @@ public abstract class KoLmafia
 			}
 			else if ( adventureName.equals( "An Eldritch Fissure" ) ||
 				  adventureName.equals( "An Eldritch Horror" ) ||
-				  adventureName.equals( "Trick-or-Treating" ) )
+				  adventureName.equals( "Trick-or-Treating" ) ||
+				  adventureName.equals( "The Tunnel of L.O.V.E." ) )
 			{
-				// You're allowed to explore eldritch fissures
-				// or go trick-or-treating even while falling
+				// There are a few adventures you can do even while falling
 				// down drunk
 			}
 			else if ( !holiday.contains( "St. Sneaky Pete's Day" ) && !holiday.contains( "Drunksgiving" ) )
