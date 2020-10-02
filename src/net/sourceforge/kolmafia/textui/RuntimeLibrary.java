@@ -46,6 +46,7 @@ import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.GregorianCalendar;
@@ -149,6 +150,16 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.PocketDatabase;
+import net.sourceforge.kolmafia.persistence.PocketDatabase.MeatPocket;
+import net.sourceforge.kolmafia.persistence.PocketDatabase.MonsterPocket;
+import net.sourceforge.kolmafia.persistence.PocketDatabase.OneResultPocket;
+import net.sourceforge.kolmafia.persistence.PocketDatabase.Pocket;
+import net.sourceforge.kolmafia.persistence.PocketDatabase.PoemPocket;
+import net.sourceforge.kolmafia.persistence.PocketDatabase.PocketType;
+import net.sourceforge.kolmafia.persistence.PocketDatabase.ScrapPocket;
+import net.sourceforge.kolmafia.persistence.PocketDatabase.StatsPocket;
+import net.sourceforge.kolmafia.persistence.PocketDatabase.TwoResultPocket;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -157,6 +168,7 @@ import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
+import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
@@ -267,12 +279,19 @@ public abstract class RuntimeLibrary
 
 	private static final AggregateType ItemSetType = new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.INT_TYPE );
 
+	private static final AggregateType PocketListType = new AggregateType( DataTypes.INT_TYPE, DataTypes.INT_TYPE );
+	private static final AggregateType PocketSetType = new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.INT_TYPE );
+	private static final AggregateType PocketEffectsType = new AggregateType( DataTypes.INT_TYPE, DataTypes.EFFECT_TYPE );
+	private static final AggregateType PocketItemsType = new AggregateType( DataTypes.INT_TYPE, DataTypes.ITEM_TYPE );
+	private static final AggregateType PocketStatsType = new AggregateType( DataTypes.INT_TYPE, DataTypes.STAT_TYPE );
+	private static final AggregateType IndexedTextType = new AggregateType( DataTypes.STRING_TYPE, DataTypes.INT_TYPE );
+
 	private static final AggregateType SelectMapType = new AggregateType( DataTypes.STRING_TO_STRING_TYPE, DataTypes.STRING_TYPE );
 
 	public static final FunctionList functions = new FunctionList();
 
 	// *** Why can't the following go in KoLConstants?
-	public static final Set<String> frameNames = new HashSet<String>();
+	public static final Set<String> frameNames = new HashSet<>();
 	static
 	{
 		for ( String[] frame : KoLConstants.FRAME_NAMES )
@@ -2307,6 +2326,95 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "voting_booth_initiatives", new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ), params ) );
+
+		// Cargo Cultist Shorts support
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "picked_pockets", PocketSetType, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "picked_scraps", PocketSetType, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "monster_pockets", PocketSetType, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "effect_pockets", PocketSetType, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "item_pockets", PocketSetType, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "stats_pockets", PocketSetType, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "meat_pockets", PocketListType, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "poem_pockets", PocketListType, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "scrap_pockets", PocketListType, params ) );
+
+		params = new Type[ ] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "pocket_monster", DataTypes.MONSTER_TYPE, params ) );
+
+		params = new Type[ ] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "pocket_effects", PocketEffectsType, params ) );
+
+		params = new Type[ ] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "pocket_items", PocketItemsType, params ) );
+
+		params = new Type[ ] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "pocket_stats", PocketStatsType, params ) );
+
+		params = new Type[ ] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "pocket_scrap", IndexedTextType, params ) );
+
+		params = new Type[ ] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "pocket_poem", IndexedTextType, params ) );
+
+		params = new Type[ ] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "pocket_meat", IndexedTextType, params ) );
+
+		params = new Type[ ] { DataTypes.MONSTER_TYPE };
+		functions.add( new LibraryFunction( "potential_pockets", PocketListType, params ) );
+
+		params = new Type[ ] { DataTypes.EFFECT_TYPE };
+		functions.add( new LibraryFunction( "potential_pockets", PocketListType, params ) );
+
+		params = new Type[ ] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "potential_pockets", PocketListType, params ) );
+
+		params = new Type[ ] { DataTypes.STAT_TYPE };
+		functions.add( new LibraryFunction( "potential_pockets", PocketListType, params ) );
+
+		params = new Type[ ] { DataTypes.MONSTER_TYPE };
+		functions.add( new LibraryFunction( "available_pocket", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[ ] { DataTypes.EFFECT_TYPE };
+		functions.add( new LibraryFunction( "available_pocket", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[ ] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "available_pocket", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[ ] { DataTypes.STAT_TYPE };
+		functions.add( new LibraryFunction( "available_pocket", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[ ] { DataTypes.MONSTER_TYPE };
+		functions.add( new LibraryFunction( "pick_pocket", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[ ] { DataTypes.EFFECT_TYPE };
+		functions.add( new LibraryFunction( "pick_pocket", PocketEffectsType, params ) );
+
+		params = new Type[ ] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "pick_pocket", PocketItemsType, params ) );
+
+		params = new Type[ ] { DataTypes.STAT_TYPE };
+		functions.add( new LibraryFunction( "pick_pocket", PocketStatsType, params ) );
+
+		params = new Type[ ] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "pick_pocket", DataTypes.BOOLEAN_TYPE, params ) );
 	}
 
 	public static Method findMethod( final String name, final Class<?>[] args )
@@ -6370,7 +6478,7 @@ public abstract class RuntimeLibrary
 	{
 		boolean slotThenItem = arg1.getType().equals( DataTypes.SLOT_TYPE );
 
-		String slot = slotThenItem ? arg1.toString() : arg2.toString();;
+		String slot = slotThenItem ? arg1.toString() : arg2.toString();
 		Value item = slotThenItem ? arg2 : arg1;
 
 		if ( item.equals( DataTypes.ITEM_INIT ) )
@@ -9664,6 +9772,290 @@ public abstract class RuntimeLibrary
 			value.aset( new Value( modifier.toString() ), DataTypes.TRUE_VALUE );
 		}
 
+		return value;
+	}
+
+	// pocket_set picked_pockets();
+	public static Value picked_pockets( Interpreter interpreter )
+	{
+		return makePocketSet( CargoCultistShortsRequest.pickedPockets );
+	}
+
+	// pocket_set picked_scraps()
+	public static Value picked_scraps( Interpreter interpreter )
+	{
+		return makePocketSet( CargoCultistShortsRequest.knownScrapPockets().keySet() );
+	}
+
+	// pocket_set monster_pockets();
+	public static Value monster_pockets( Interpreter interpreter )
+	{
+		return makePocketSet( PocketDatabase.allMonsterPockets );
+	}
+
+	// pocket_set effect_pockets();
+	public static Value effect_pockets( Interpreter interpreter )
+	{
+		return makePocketSet( PocketDatabase.allEffectPockets );
+	}
+
+	// pocket_set item_pockets();
+	public static Value item_pockets( Interpreter interpreter )
+	{
+		return makePocketSet( PocketDatabase.allItemPockets );
+	}
+
+	// pocket_set stats_pockets();
+	public static Value stats_pockets( Interpreter interpreter )
+	{
+		return makePocketSet( PocketDatabase.allStatsPockets );
+	}
+
+	// pocket_list meat_pockets();
+	public static Value meat_pockets( Interpreter interpreter )
+	{
+		return makePocketList( PocketDatabase.meatPockets );
+	}
+
+	// pocket_list poem_pockets();
+	public static Value poem_pockets( Interpreter interpreter )
+	{
+		return makePocketList( PocketDatabase.poemHalfLines );
+	}
+
+	// pocket_list scrap_pockets();
+	public static Value scrap_pockets( Interpreter interpreter )
+	{
+		return makePocketList( PocketDatabase.scrapSyllables );
+	}
+
+	// monster pocket_monster( pocket p );
+	public static Value pocket_monster( Interpreter interpreter, final Value pocket )
+	{
+		Pocket p = PocketDatabase.pocketByNumber( (int)pocket.intValue() );
+		if ( p instanceof MonsterPocket )
+		{
+			MonsterPocket mp = (MonsterPocket)p;
+			return DataTypes.makeMonsterValue( mp.getMonster() );
+		}
+		return DataTypes.MONSTER_INIT;
+	}
+
+	// pocket_effects pocket_effects( pocket p );
+	public static Value pocket_effects( Interpreter interpreter, final Value pocket )
+	{
+		return makePocketEffects( (int) pocket.intValue() );
+	}
+
+	// pocket_items pocket_items( pocket p );
+	public static Value pocket_items( Interpreter interpreter, final Value pocket )
+	{
+		return makePocketItems( (int) pocket.intValue() );
+	}
+
+	// pocket_stats pocket_stats( pocket p );
+	public static Value pocket_stats( Interpreter interpreter, final Value pocket )
+	{
+		return makePocketStats( (int) pocket.intValue() );
+	}
+
+	// indexed_text pocket_scrap( pocket p );
+	public static Value pocket_scrap( Interpreter interpreter, final Value pocket )
+	{
+		return makeIndexedText( (int) pocket.intValue() );
+	}
+
+	// indexed_text pocket_poem( pocket p );
+	public static Value pocket_poem( Interpreter interpreter, final Value pocket )
+	{
+		return makeIndexedText( (int) pocket.intValue() );
+	}
+
+	// int pocket_meat( pocket p );
+	public static Value pocket_meat( Interpreter interpreter, final Value pocket )
+	{
+		return makeIndexedText( (int) pocket.intValue() );
+	}
+
+	// pocket_list potential_pockets( monster m );
+	// pocket_list potential_pockets( effect e );
+	// pocket_list potential_pockets( item e );
+	// pocket_list potential_pockets( stat s );
+	public static Value potential_pockets( Interpreter interpreter, final Value arg )
+	{
+		List<Pocket> sorted = sortedPockets( arg.getType(), arg.toString() );
+		return makePocketList( sorted );
+	}
+
+	private static List<Pocket> sortedPockets( Type type, String name )
+	{
+		if ( type.equals( DataTypes.TYPE_EFFECT ) )
+		{
+			Set<OneResultPocket> pockets = PocketDatabase.effectPockets.get( name );
+			if ( pockets != null )
+			{
+				return PocketDatabase.sortResults( name, pockets );
+			}
+		}
+		else if ( type.equals( DataTypes.TYPE_ITEM ) )
+		{
+			Set<OneResultPocket> pockets = PocketDatabase.itemPockets.get( name );
+			if ( pockets != null )
+			{
+				return PocketDatabase.sortResults( name, pockets );
+			}
+		}
+		else if ( type.equals( DataTypes.TYPE_MONSTER ) )
+		{
+			MonsterPocket pocket = PocketDatabase.monsterPockets.get( name.toLowerCase() );
+			if ( pocket != null )
+			{
+				return Collections.singletonList( pocket );
+			}
+		}
+		else if ( type.equals( DataTypes.TYPE_STAT ) )
+		{
+			name = name.toLowerCase();
+			Set<StatsPocket> pockets = PocketDatabase.statsPockets.get( name );;
+			if ( pockets != null )
+			{
+				return PocketDatabase.sortStats( name, pockets );
+			}
+		}
+
+		return Collections.emptyList();
+	}
+
+	// pocket available_pocket( monster m );
+	// pocket available_pocket( effect e );
+	// pocket available_pocket( item i );
+	// pocket available_pocket( stat s );
+	public static Value available_pocket( Interpreter interpreter, final Value arg )
+	{
+		String name = arg.toString();
+		List<Pocket> sorted = sortedPockets( arg.getType(), name );
+		Pocket pocket = PocketDatabase.firstUnpickedPocket( name, sorted );
+		return ( pocket == null ) ? DataTypes.ZERO_VALUE : new Value( pocket.getPocket() );
+	}
+
+	// boolean pick_pocket(pocket p );
+	// boolean pick_pocket( monster m );
+	// boolean pick_pocket( effect e );
+	// boolean pick_pocket( item i );
+	// boolean pick_pocket( stat s );
+	public static Value pick_pocket( Interpreter interpreter, final Value arg )
+	{
+		return DataTypes.FALSE_VALUE;
+	}
+
+	private static Value makePocketSet( Set<Integer> pockets )
+	{
+		MapValue value = new MapValue( PocketSetType );
+		for ( Integer pocket : pockets )
+		{
+			value.aset( new Value( pocket ), DataTypes.TRUE_VALUE );
+		}
+		return value;
+	}
+
+	private static Value makePocketList( List<Pocket> pockets )
+	{
+		MapValue value = new MapValue( PocketListType );
+		int index = 0;
+		for ( Pocket pocket : pockets )
+		{
+			value.aset( new Value( index++ ), new Value( pocket.getPocket() ) );
+		}
+		return value;
+	}
+
+	private static Value makePocketEffects( int pocket )
+	{
+		MapValue value = new MapValue( PocketEffectsType );
+		Pocket p = PocketDatabase.pocketByNumber( pocket );
+		if ( p != null && PocketDatabase.allEffectPockets.contains( p.getPocket() ) )
+		{
+			if ( p instanceof OneResultPocket )
+			{
+				OneResultPocket orp = (OneResultPocket ) p;
+				value.aset( DataTypes.makeEffectValue( orp.getResult1().getEffectId(), true ), new Value( orp.getResult1().getCount() ) );
+			}
+			if ( p instanceof TwoResultPocket )
+			{
+				TwoResultPocket trp = (TwoResultPocket ) p;
+				value.aset( DataTypes.makeEffectValue( trp.getResult2().getEffectId(), true ), new Value( trp.getResult2().getCount() ) );
+			}
+		}
+		return value;
+	}
+
+	private static Value makePocketItems( int pocket )
+	{
+		MapValue value = new MapValue( PocketItemsType );
+		Pocket p = PocketDatabase.pocketByNumber( pocket );
+		if ( p != null && PocketDatabase.allItemPockets.contains( p.getPocket() ) )
+		{
+			if ( p instanceof OneResultPocket )
+			{
+				OneResultPocket orp = (OneResultPocket ) p;
+				value.aset( DataTypes.makeItemValue( orp.getResult1().getItemId(), true ), new Value( orp.getResult1().getCount() ) );
+			}
+			if ( p instanceof TwoResultPocket )
+			{
+				TwoResultPocket trp = (TwoResultPocket ) p;
+				value.aset( DataTypes.makeItemValue( trp.getResult2().getItemId(), true ), new Value( trp.getResult2().getCount() ) );
+			}
+		}
+		return value;
+	}
+
+	private static Value makePocketStats( int pocket )
+	{
+		MapValue value = new MapValue( PocketStatsType );
+		Pocket p = PocketDatabase.pocketByNumber( pocket );
+		if ( p != null && PocketDatabase.allStatsPockets.contains( p.getPocket() ) )
+		{
+			StatsPocket sp = (StatsPocket) p;
+			value.aset( DataTypes.MUSCLE_VALUE, new Value( sp.getMuscle() ) );
+			value.aset( DataTypes.MYSTICALITY_VALUE, new Value( sp.getMysticality() ) );
+			value.aset( DataTypes.MOXIE_VALUE, new Value( sp.getMoxie() ) );
+		}
+		return value;
+	}
+
+	private static Value makeIndexedText( int pocket )
+	{
+		MapValue value = new MapValue( IndexedTextType );
+		Pocket p = PocketDatabase.pocketByNumber( pocket );
+		if ( p != null )
+		{
+			switch ( p.getType() )
+			{
+			case SCRAP:
+			{
+				ScrapPocket sp = (ScrapPocket) p;
+				Map<Integer, String> knownScraps = CargoCultistShortsRequest.knownScrapPockets();
+				String syllable =
+					knownScraps.containsKey( sp.getPocket() ) ?
+					knownScraps.get( sp.getPocket() ) :
+					"";
+				value.aset( new Value( sp.getScrap() ), new Value( syllable ) );
+				break;
+			}
+			case POEM:
+			{
+				PoemPocket pp = (PoemPocket) p;
+				value.aset( new Value( pp.getIndex() ), new Value( pp.getText() ) );
+				break;
+			}
+			case MEAT:
+			{
+				MeatPocket mp = (MeatPocket) p;
+				value.aset( new Value( mp.getMeat() ), new Value( mp.getText() ) );
+				break;
+			}
+			}
+		}
 		return value;
 	}
 }
