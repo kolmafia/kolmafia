@@ -5178,6 +5178,9 @@ Effect	Carol of the Hells	Spell Damage Percent: +100
 Effect	Carol of the Thrills	Experience: +3
 Effect	Carrion' On	Meat Drop: +60
 Effect	Carrrsmic	Mysticality Percent: +10
+Effect	Cartographically Aware	Initiative: +30
+Effect	Cartographically Charged	Maximum MP Percent: +10, MP Regen Min: 3, MP Regen Max: 6
+Effect	Cartographically Rooted	Maximum HP Percent: +20, HP Regen Min: 6, HP Regen Max: 12
 Effect	Castaway Physique	Muscle Percent: +25
 Effect	Cat Class, Cat Style	Moxie Percent: +20
 Effect	Cat-Alyzed	Moxie: +10

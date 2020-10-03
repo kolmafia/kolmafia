@@ -2599,3 +2599,6 @@
 2597	Yeg's Keeping	yeg_blessing.gif	6d4a6243a23f3fbd8bbb41da7185a475	neutral	nohookah
 2598	All Chipped Up	earthpan3.gif	2ce277562fd55d6fabbfcc516c8e1249	neutral	none	eat 1 chocolate chip muffin
 2599	Started Your Day Right	earthmuffin.gif	23f075072c301838c8a00335467f07b5	neutral	none
+2600	Cartographically Charged	cccbook.gif	69fc775608852c35e28b1eafa32ba87f	neutral	none
+2601	Cartographically Aware	cccbook.gif	ca5cbe045400b9be1d084424a408cf74	neutral	none
+2602	Cartographically Rooted	cccbook.gif	e32bae43b054695fd4e2c1b0b3c141fc	neutral	none
