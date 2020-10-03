@@ -2361,6 +2361,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "joke_pockets", PocketSetType, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "restoration_pockets", PocketSetType, params ) );
+
 		params = new Type[ ] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "pocket_monster", DataTypes.MONSTER_TYPE, params ) );
 
@@ -9842,6 +9845,13 @@ public abstract class RuntimeLibrary
 	{
 
 		return makePocketSet( PocketDatabase.getPockets( PocketType.JOKE ).keySet() );
+	}
+
+	// pocket_set restoration_pockets();
+	public static Value restoration_pockets( Interpreter interpreter )
+	{
+
+		return makePocketSet( PocketDatabase.getPockets( PocketType.RESTORE ).keySet() );
 	}
 
 	// monster pocket_monster( pocket p );
