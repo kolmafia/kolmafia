@@ -79,7 +79,7 @@ blood-soaked sponge cake	1	1	EPIC	23	25-30	25-30	25-30	Vampyre
 bloodstick	1	1	EPIC	11	5-10	5-10	5-10	Vampyre
 blue velvet cake	3	1	crappy	3	0	0	0
 blueberry-frosted king cake	3	1	crappy	3	0	0	0	blue plastic baby
-blueberry muffin	1	1	awesome	0	0	0	0	Unspaded
+blueberry muffin	1	1	awesome	4-5	150	150	150	25 All Blued Up (+60% Meat Drop, 2-3 MP Regen, 5-10 HP Regen)
 blunt cat claw	1	4	awesome	3-5	45-75	0	0	30 Feline Ferocity (+100% weapon dmg)
 bone meal	2	6	awesome	7-9	12-20	12-20	12-20
 boring spaghetti	4	5	good	10-14	0	20-25	0
@@ -102,7 +102,7 @@ bowl of unidentifiable goo	5	1		9-16	9-10	9-10	9-10
 Brain Food Pastaco	2	3	EPIC	11-12	0	60-100	0	40 Omphalotus Omnipresence (+40 Mys)
 brain-meltingly-hot chicken wings	1	10	good	2-4	15-30	15-30	0	lose 5-8 HP
 brains casserole	5	1	decent	6-14	0	8-10	0	Zombie Slayer
-bran muffin	1	1	awesome	0	0	0	0	Unspaded
+bran muffin	1	1	awesome	4-5	150	150	150	25 All Branned Up (+40% Item Drop, 5-7 MP Regen)
 bread line	2	1	good	5-7	10-20	0	0	40 Bread-Lined (+50% Muscle, +25 Weapon damage)
 bread roll	2	1	awesome	8-10	0	0	10-20	leftovers, 20 Thanksgetting (Variable +meat, +item, +familiar weight, +all res)
 breakfast mess	2	2	decent	3-5	1-5	1-5	1-5
@@ -160,7 +160,7 @@ chocolate Ogre Chieftain	1	1	decent	2	70-90	0	0
 chocolate Spider Queen	1	1	decent	2	0	0	70-90
 chocolate-covered scarab beetle	2	5	awesome	7-10	25-40	25-40	25-40
 chocolate-frosted king cake	3	1	crappy	3	0	0	0	red plastic baby
-chocolate chip muffin	1	1	awesome	0	0	0	0	Unspaded
+chocolate chip muffin	1	1	awesome	4-5	150	150	150	25 All Chipped Up (+30% Meat Drop, +20% Item Drop, 4-5 MP Regen, 3-6 HP Regen)
 chorizo brownies	3	2	decent	3-9	0	0	0
 chorizo taco	1	1	decent	2	3-5	0	0
 cinnamon cannoli	1	4	awesome	4-5	15-25	15-25	15-25

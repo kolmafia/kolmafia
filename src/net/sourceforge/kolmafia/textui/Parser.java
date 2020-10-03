@@ -337,6 +337,7 @@ public class Parser
 		reservedWords.add( "case" );
 		reservedWords.add( "default" );
 		reservedWords.add( "try" );
+		reservedWords.add( "catch" );
 		reservedWords.add( "finally" );
 		reservedWords.add( "static" );
 
