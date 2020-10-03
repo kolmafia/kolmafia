@@ -1775,6 +1775,11 @@ public abstract class UseLinkDecorator
 		case ItemPool.GREEN_PIXEL:
 		case ItemPool.BLUE_PIXEL:
 
+			if ( KoLCharacter.isKingdomOfExploathing() )
+			{
+				// Cannot combine RGB pixels
+				return null;
+			}
 			int whiteCount = CreateItemRequest.getInstance( ItemPool.WHITE_PIXEL ).getQuantityPossible() + InventoryManager.getCount( ItemPool.WHITE_PIXEL );
 			useType = whiteCount + " white";
 			useLocation = "place.php?whichplace=forestvillage&action=fv_mystic";
