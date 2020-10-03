@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.maximizer;
 
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -63,6 +64,9 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.persistence.PocketDatabase;
+import net.sourceforge.kolmafia.persistence.PocketDatabase.OneResultPocket;
+import net.sourceforge.kolmafia.persistence.PocketDatabase.Pocket;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -1016,6 +1020,46 @@ public class Maximizer
 						spleenCost = 3;
 					}
 					duration = 30;
+				}
+				else if ( cmd.startsWith( "cargo effect " ) )
+				{
+					// Must be available in your current path
+					if ( !StandardRequest.isAllowed( "Items", "Cargo Cultist Shorts" ) )
+					{
+						continue;
+					}
+					// You must have the cargo shorts
+					if ( !InventoryManager.hasItem( ItemPool.CARGO_CULTIST_SHORTS ) )
+					{
+						if ( includeAll )
+						{
+							text = "(acquire a pair of Cargo Cultist Shorts for " + name + ")";
+							cmd = "";
+						}
+						else continue;
+					}
+					else if ( Preferences.getBoolean( "_cargoPocketEmptied" ) )
+					{
+						cmd = "";
+					}
+					else
+					{
+						// Find an unpicked pocket with the effect
+						Set<OneResultPocket> pockets = PocketDatabase.effectPockets.get( name );
+						List<Pocket> sorted = PocketDatabase.sortResults( name, pockets );
+						Pocket pocket = PocketDatabase.firstUnpickedPocket( sorted );
+						if ( pocket == null )
+						{
+							// You have used all the pockets with this effect this ascension
+							cmd = "";
+						}
+						else
+						{
+							// It's available
+							duration = ((OneResultPocket) pocket).getCount( name );
+						}
+					}
+					usesRemaining = Preferences.getBoolean( "_cargoPocketEmptied" ) ? 0 : 1;
 				}
 				else if ( cmd.startsWith( "friars " ) )
 				{
