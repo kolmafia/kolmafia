@@ -322,7 +322,7 @@ public class CargoCultCommand
 			return null;
 		}
 
-		Pocket result = PocketDatabase.firstUnpickedPocket( name, pockets );
+		Pocket result = PocketDatabase.firstUnpickedPocket( pockets );
 		if ( result == null )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "No unpicked pockets contain '" + name + "'." );
