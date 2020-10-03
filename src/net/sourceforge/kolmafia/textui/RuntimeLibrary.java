@@ -46,6 +46,7 @@ import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.EnumSet;
@@ -151,6 +152,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase;
+import net.sourceforge.kolmafia.persistence.PocketDatabase.JokePocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.MeatPocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.MonsterPocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.OneResultPocket;
@@ -2356,6 +2358,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "scrap_pockets", PocketListType, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "joke_pockets", PocketSetType, params ) );
+
 		params = new Type[ ] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "pocket_monster", DataTypes.MONSTER_TYPE, params ) );
 
@@ -2376,6 +2381,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[ ] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "pocket_meat", IndexedTextType, params ) );
+
+		params = new Type[ ] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "pocket_joke", DataTypes.STRING_TYPE, params ) );
 
 		params = new Type[ ] { DataTypes.MONSTER_TYPE };
 		functions.add( new LibraryFunction( "potential_pockets", PocketListType, params ) );
@@ -9829,6 +9837,13 @@ public abstract class RuntimeLibrary
 		return makePocketList( PocketDatabase.scrapSyllables );
 	}
 
+	// pocket_set joke_pockets();
+	public static Value joke_pockets( Interpreter interpreter )
+	{
+
+		return makePocketSet( PocketDatabase.getPockets( PocketType.JOKE ).keySet() );
+	}
+
 	// monster pocket_monster( pocket p );
 	public static Value pocket_monster( Interpreter interpreter, final Value pocket )
 	{
@@ -9877,6 +9892,18 @@ public abstract class RuntimeLibrary
 		return makeIndexedText( (int) pocket.intValue() );
 	}
 
+	// int pocket_meat( pocket p );
+	public static Value pocket_joke( Interpreter interpreter, final Value pocket )
+	{
+		Pocket p = PocketDatabase.pocketByNumber( (int) pocket.intValue() );
+		if ( p != null && p.getType() == PocketType.JOKE )
+		{
+			JokePocket jp = (JokePocket) p;
+			return new Value( jp.getJoke() );
+		}
+		return DataTypes.STRING_INIT;
+	}
+
 	// pocket_list potential_pockets( monster m );
 	// pocket_list potential_pockets( effect e );
 	// pocket_list potential_pockets( item e );
@@ -9885,6 +9912,41 @@ public abstract class RuntimeLibrary
 	{
 		List<Pocket> sorted = sortedPockets( arg.getType(), arg.toString() );
 		return makePocketList( sorted );
+	}
+
+	// pocket available_pocket( monster m );
+	// pocket available_pocket( effect e );
+	// pocket available_pocket( item i );
+	// pocket available_pocket( stat s );
+	public static Value available_pocket( Interpreter interpreter, final Value arg )
+	{
+		List<Pocket> sorted = sortedPockets( arg.getType(), arg.toString() );
+		Pocket pocket = PocketDatabase.firstUnpickedPocket( sorted );
+		return ( pocket == null ) ? DataTypes.ZERO_VALUE : new Value( pocket.getPocket() );
+	}
+
+	// boolean pick_pocket( int p );
+	// boolean pick_pocket( monster m );
+	// boolean pick_pocket( effect e );
+	// boolean pick_pocket( item i );
+	// boolean pick_pocket( stat s );
+	public static Value pick_pocket( Interpreter interpreter, final Value arg )
+	{
+		Type type = arg.getType();
+		Pocket pocket =
+			type.equals( DataTypes.TYPE_INT ) ?
+			PocketDatabase.pocketByNumber( (int)arg.intValue() ):
+			PocketDatabase.firstUnpickedPocket( RuntimeLibrary.sortedPockets( type, arg.toString() ) );
+
+		if ( pocket == null )
+		{
+			return DataTypes.FALSE_VALUE;
+		}
+
+		CargoCultistShortsRequest pick = new CargoCultistShortsRequest( pocket.getPocket() );
+		pick.run();
+
+		return RuntimeLibrary.continueValue();
 	}
 
 	private static List<Pocket> sortedPockets( Type type, String name )
@@ -9926,29 +9988,7 @@ public abstract class RuntimeLibrary
 		return Collections.emptyList();
 	}
 
-	// pocket available_pocket( monster m );
-	// pocket available_pocket( effect e );
-	// pocket available_pocket( item i );
-	// pocket available_pocket( stat s );
-	public static Value available_pocket( Interpreter interpreter, final Value arg )
-	{
-		String name = arg.toString();
-		List<Pocket> sorted = sortedPockets( arg.getType(), name );
-		Pocket pocket = PocketDatabase.firstUnpickedPocket( name, sorted );
-		return ( pocket == null ) ? DataTypes.ZERO_VALUE : new Value( pocket.getPocket() );
-	}
-
-	// boolean pick_pocket(pocket p );
-	// boolean pick_pocket( monster m );
-	// boolean pick_pocket( effect e );
-	// boolean pick_pocket( item i );
-	// boolean pick_pocket( stat s );
-	public static Value pick_pocket( Interpreter interpreter, final Value arg )
-	{
-		return DataTypes.FALSE_VALUE;
-	}
-
-	private static Value makePocketSet( Set<Integer> pockets )
+	private static Value makePocketSet( Collection<Integer> pockets )
 	{
 		MapValue value = new MapValue( PocketSetType );
 		for ( Integer pocket : pockets )

@@ -1074,7 +1074,7 @@ public class PocketDatabase
 			.collect( Collectors.toList() );
 	}
 
-	public static Pocket firstUnpickedPocket( String name, List<Pocket> pockets )
+	public static Pocket firstUnpickedPocket( List<Pocket> pockets )
 	{
 		if ( pockets != null )
 		{
