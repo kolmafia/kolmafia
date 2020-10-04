@@ -14220,6 +14220,10 @@ public abstract class ChoiceManager
 		KoLmafia.resetAfterAvatar();
 	}
 
+
+	// Looks like your order for a <muffin type> muffin is not yet ready.
+	public static final Pattern MUFFIN_TYPE_PATTERN = Pattern.compile( "Looks like your order for a (.*? muffin) is not yet ready" );
+
 	public static void visitChoice( final GenericRequest request )
 	{
 		String text = request.responseText;
@@ -15425,6 +15429,38 @@ public abstract class ChoiceManager
 			else
 			{
 				Preferences.setString( "_horsery", "" );
+			}
+			break;
+		}
+
+		case 1308:
+		{
+			// place.php?whichplace=monorail&action=monorail_downtown
+			//
+			// On a Downtown Train
+			//
+			// Everything you do at this location uses this choice
+			// adventure #. As you select options, you stay in the
+			// same choice, but the available options change.
+			//
+			// We must deduce what is happening by looking at the
+			// response text
+			
+			// Looks like your order for a <muffin type> muffin is not yet ready.
+			Matcher muffinMatcher = MUFFIN_TYPE_PATTERN.matcher( text );
+			if ( muffinMatcher.find() )
+			{
+				Preferences.setString( "muffinOnOrder", muffinMatcher.group( 1 ) );
+			}
+			// "Sorry, you placed your order a lifetime ago, so we had to throw out the actual baked good. Here's your earthenware cookware.
+			else if ( text.contains( "you placed your order a lifetime ago" ) )
+			{
+				Preferences.setString( "muffinOnOrder", "none" );
+			}
+			// You spot your order from the other day, neatly labelled on the pickup shelf.
+			else if ( text.contains( "You spot your order from the other day" ) )
+			{
+				Preferences.setString( "muffinOnOrder", "none" );
 			}
 			break;
 		}
