@@ -870,6 +870,11 @@ public class PlaceRequest
 			{
 				message = "Visiting Lyle, LyleCo CEO";
 			}
+			else if ( action.equals( "monorail_downtown" ) )
+			{
+				message = "Train to Downtown";
+				turns = true;
+			}
 		}
 		else if ( place.equals( "mountains" ) )
 		{
