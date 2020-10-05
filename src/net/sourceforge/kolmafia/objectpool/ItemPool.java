@@ -2986,6 +2986,7 @@ public class ItemPool
 	public static final int PORTABLE_PANTOGRAM = 9573;
 	public static final int PANTOGRAM_PANTS = 9574;
 	public static final int MUMMING_TRUNK = 9592;
+	public static final int EARTHENWARE_MUFFIN_TIN = 9596;
 	public static final int CRYSTALLINE_CHEER = 9625;
 	public static final int WAREHOUSE_KEY = 9627;
 	public static final int MIME_SCIENCE_VOL_1 = 9635;
