@@ -287,8 +287,14 @@ public class ValhallaDecorator
 			buffer.append( "<nobr><a href=\"dwarfcontraption.php\">acquire dwarvish war outfit piece</a></nobr><br>" );
 		}
 
-		if ( InventoryManager.hasItem( ItemPool.RAT_WHISKER )
-			&& Preferences.getString( Quest.ARTIST.getPref() ).equals( QuestDatabase.FINISHED ) )
+		if ( InventoryManager.hasItem( ItemPool.EARTHENWARE_MUFFIN_TIN ) &&
+		     Preferences.getString( "muffinOnOrder" ).equals( "" ) )
+		{
+			buffer.append( "<nobr><a href=\"place.php?whichplace=monorail&action=monorail_downtown\">order a muffin at the Breakfast Counter</a></nobr><br>" );
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.RAT_WHISKER ) &&
+		     Preferences.getString( Quest.ARTIST.getPref() ).equals( QuestDatabase.FINISHED ) )
 		{
 			buffer.append( "<nobr><a href=\"place.php?whichplace=town_wrong&action=townwrong_artist_quest&subaction=whiskers\">" );
 			buffer.append( "trade in rat whiskers for meat</a></nobr><br>" );
