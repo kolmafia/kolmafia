@@ -288,7 +288,7 @@ public class ValhallaDecorator
 		}
 
 		if ( InventoryManager.hasItem( ItemPool.EARTHENWARE_MUFFIN_TIN ) &&
-		     Preferences.getString( "muffinOnOrder" ).equals( "" ) )
+		     Preferences.getString( "muffinOnOrder" ).equals( "none" ) )
 		{
 			buffer.append( "<nobr><a href=\"place.php?whichplace=monorail&action=monorail_downtown\">order a muffin at the Breakfast Counter</a></nobr><br>" );
 		}
