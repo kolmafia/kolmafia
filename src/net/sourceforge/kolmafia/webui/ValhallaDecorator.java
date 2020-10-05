@@ -293,6 +293,11 @@ public class ValhallaDecorator
 			buffer.append( "<nobr><a href=\"place.php?whichplace=monorail&action=monorail_downtown\">order a muffin at the Breakfast Counter</a></nobr><br>" );
 		}
 
+		if ( InventoryManager.hasItem( ItemPool.BLUEBERRY_MUFFIN ) || InventoryManager.hasItem( ItemPool.BRAN_MUFFIN ) || InventoryManager.hasItem( ItemPool.CHOCOLATE_CHIP_MUFFIN ) )
+		{
+			buffer.append( "<nobr><a href=\"inventory.php?which=1\">eat your muffin and request a new one</a></nobr><br>" );
+		}
+
 		if ( InventoryManager.hasItem( ItemPool.RAT_WHISKER ) &&
 		     Preferences.getString( Quest.ARTIST.getPref() ).equals( QuestDatabase.FINISHED ) )
 		{

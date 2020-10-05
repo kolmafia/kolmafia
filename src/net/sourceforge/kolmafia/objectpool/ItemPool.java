@@ -2987,6 +2987,8 @@ public class ItemPool
 	public static final int PANTOGRAM_PANTS = 9574;
 	public static final int MUMMING_TRUNK = 9592;
 	public static final int EARTHENWARE_MUFFIN_TIN = 9596;
+	public static final int BRAN_MUFFIN = 9597;
+	public static final int BLUEBERRY_MUFFIN = 9598;
 	public static final int CRYSTALLINE_CHEER = 9625;
 	public static final int WAREHOUSE_KEY = 9627;
 	public static final int MIME_SCIENCE_VOL_1 = 9635;
@@ -3280,6 +3282,7 @@ public class ItemPool
 	public static final int ALABASTER_PAWN = 10634;
 	public static final int CARGO_CULTIST_SHORTS = 10636;
 	public static final int UNIVERSAL_SEASONING = 10640;
+	public static final int CHOCOLATE_CHIP_MUFFIN = 10643;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
