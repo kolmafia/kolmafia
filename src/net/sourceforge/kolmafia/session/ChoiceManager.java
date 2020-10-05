@@ -15497,6 +15497,11 @@ public abstract class ChoiceManager
 			{
 				Preferences.setString( "muffinOnOrder", "none" );
 			}
+			// (If we have an earthenware muffin tin and the "order" buttons are present)
+			else if ( text.contains( "Order a blueberry muffin" ) )
+			{
+				Preferences.setString( "muffinOnOrder", "none" );
+			}
 			break;
 		}
 
