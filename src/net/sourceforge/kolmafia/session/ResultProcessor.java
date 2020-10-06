@@ -916,6 +916,26 @@ public class ResultProcessor
 		return true;
 	}
 
+	public static boolean processIntrinsic( boolean combatResults, String acquisition, AdventureResult result, List<AdventureResult> data )
+	{
+		if ( data != null )
+		{
+			AdventureResult.addResultToList( data, result );
+			return false;
+		}
+
+		String effectName = result.getName();
+		String message = acquisition + " " + effectName;
+
+		RequestLogger.printLine( message );
+		if ( Preferences.getBoolean( "logStatusEffects" ) )
+		{
+			RequestLogger.updateSessionLog( message );
+		}
+
+		return ResultProcessor.processResult( combatResults, result );
+	}
+
 	public static boolean processGainLoss( String lastToken, final List<AdventureResult> data )
 	{
 		int periodIndex = lastToken.indexOf( "." );

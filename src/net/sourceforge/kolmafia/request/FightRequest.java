@@ -7381,48 +7381,63 @@ public class FightRequest
 			Matcher m = EFF_PATTERN.matcher( onclick );
 			if ( m.find() )
 			{
-				// Gain/loss of effect
+				// Gain/loss of effect or intrinsic
 				status.shouldRefresh = true;
+
 				String descId = m.group( 1 );
 				int effectId = EffectDatabase.getEffectIdFromDescription( descId );
 				if ( effectId == -1 )
 				{
 					return false;
 				}
+
+				int colon = str.indexOf( ":" );
+				String acquisition = str.substring( 0, colon + 1 );
+
+				if ( acquisition.contains( "intrinsic" ) )
+				{
+					AdventureResult intrinsic =
+						acquisition.startsWith( "You lose" ) ?
+						EffectPool.get( effectId, 0 ) :
+						EffectPool.get( effectId, Integer.MAX_VALUE );
+					ResultProcessor.processIntrinsic( true, acquisition, intrinsic, (List<AdventureResult>) null );
+					return false;
+				}
+
 				Matcher d = DURATION_PATTERN.matcher( str );
 				int duration = d.find() ? StringUtilities.parseInt( d.group( 1 ) ) : 1;
 				AdventureResult result = EffectPool.get( effectId, duration );
-				if ( str.startsWith( "You lose" ) )
+				
+				ResultProcessor.processEffect( true, acquisition, result, (List<AdventureResult>) null );
+
+				if ( acquisition.startsWith( "You lose" ) )
 				{
-					ResultProcessor.processEffect( true, "You lose an effect:", result, (List<AdventureResult>) null );
+					return false;
 				}
-				else
+
+				if ( status.hookah )
 				{
-					if ( status.hookah )
+					String message = null;
+					int quality = EffectDatabase.getQuality(effectId );
+
+					if ( EffectDatabase.hasAttribute( effectId, "nohookah" ) )
 					{
-						String message = null;
-						int quality = EffectDatabase.getQuality(effectId );
-
-						if ( EffectDatabase.hasAttribute( effectId, "nohookah" ) )
-						{
-							message = result.getName() + " is available from the hookah, but KoLmafia thought it was not";
-						}
-						else if ( quality != EffectDatabase.GOOD )
-						{
-							message = result.getName() + " is good quality, but KoLmafia thought it was " + EffectDatabase.getQualityDescription( effectId );
-						}
-
-						if ( message != null )
-						{
-							RequestLogger.printLine(message);
-							RequestLogger.updateSessionLog(message);
-						}
-
-						status.hookah = false;
+						message = result.getName() + " is available from the hookah, but KoLmafia thought it was not";
+					}
+					else if ( quality != EffectDatabase.GOOD )
+					{
+						message = result.getName() + " is good quality, but KoLmafia thought it was " + EffectDatabase.getQualityDescription( effectId );
 					}
 
-					ResultProcessor.processEffect( true, "You acquire an effect:", result, (List<AdventureResult>) null );
+					if ( message != null )
+					{
+						RequestLogger.printLine(message);
+						RequestLogger.updateSessionLog(message);
+					}
+
+					status.hookah = false;
 				}
+
 				if ( effectId == EffectPool.HAIKU_STATE_OF_MIND )
 				{
 					FightRequest.haiku = true;
