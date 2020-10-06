@@ -472,6 +472,10 @@ public class ResultProcessor
 			{
 				duration = 0;
 			}
+			else if ( acquisition.startsWith( "You acquire an intrinsic" ) )
+			{
+				duration = Integer.MAX_VALUE;
+			}
 			else if ( acquisition.contains( "lose some of an effect" ) )
 			{
 				duration = -StringUtilities.parseInt( effectMatcher.group( 4 ) );
