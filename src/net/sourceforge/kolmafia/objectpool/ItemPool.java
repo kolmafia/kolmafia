@@ -2975,6 +2975,8 @@ public class ItemPool
 	public static final int CORKED_GENIE_BOTTLE = 9528;
 	public static final int GENIE_BOTTLE = 9529;
 	public static final int POCKET_WISH = 9537;
+	public static final int SHOVELFUL_OF_EARTH = 9539;
+	public static final int HUNK_OF_GRANITE = 9540;
 	public static final int X = 9543;
 	public static final int O = 9544;
 	public static final int MAFIA_PINKY_RING = 9546;

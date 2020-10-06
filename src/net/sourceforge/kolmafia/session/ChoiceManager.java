@@ -7728,36 +7728,6 @@ public abstract class ChoiceManager
 			}
 			break;
 
-		case 1308:
-		{
-			// place.php?whichplace=monorail&action=monorail_downtown
-			//
-			// On a Downtown Train
-			//
-			// Everything you do at this location uses this choice
-			// adventure #. As you select options, you stay in the
-			// same choice, but the available options change.
-			//
-			// We must deduce what is happening by looking at the
-			// response text
-
-			// We are about to submit a choice. If we are buying a
-			// muffin, remove the muffin tin here, since the
-			// response is indistinguishable from simply visiting
-			// the Breakfast Counter with a muffin on order.
-			//
-			// Therefore, look at the previous response. If it is
-			// selling muffins and our decision says we are buying
-			// a muffin, remove the muffin tin.
-
-			if ( ChoiceManager.lastResponseText.contains( "Order a blueberry muffin" ) &&
-			     ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 3 )
-			{
-				ResultProcessor.processResult( ItemPool.get( ItemPool.EARTHENWARE_MUFFIN_TIN, -1 ) );
-			}
-			break;
-		}
-
 		case 1345:
 			// Blech House
 			Preferences.setInteger( "smutOrcNoncombatProgress", 0 );
@@ -7816,6 +7786,36 @@ public abstract class ChoiceManager
 				RequestLogger.registerLocation( "The Black Forest" );
 			}
 			break;
+
+		case 1308:
+		{
+			// place.php?whichplace=monorail&action=monorail_downtown
+			//
+			// On a Downtown Train
+			//
+			// Everything you do at this location uses this choice
+			// adventure #. As you select options, you stay in the
+			// same choice, but the available options change.
+			//
+			// We must deduce what is happening by looking at the
+			// response text
+
+			// We submitted a choice. If we are buying a muffin,
+			// remove the muffin tin here, since the response is
+			// indistinguishable from simply visiting the Breakfast
+			// Counter with a muffin on order.
+			//
+			// Therefore, look at the previous response. If it is
+			// selling muffins and we jut bought a muffin, remove
+			// the muffin tin.
+
+			if ( ChoiceManager.lastResponseText.contains( "Order a blueberry muffin" ) &&
+			     text.contains( "muffin is not yet ready" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.EARTHENWARE_MUFFIN_TIN, -1 ) );
+			}
+			break;
+		}
 		}
 	}
 
@@ -15501,6 +15501,13 @@ public abstract class ChoiceManager
 			else if ( text.contains( "Order a blueberry muffin" ) )
 			{
 				Preferences.setString( "muffinOnOrder", "none" );
+			}
+
+			// "Excellent! Here's your muffin tin! Stop by any time to order a muffin!"
+			if ( text.contains( "Here's your muffin tin!" ) )
+			{
+				ResultProcessor.processItem( ItemPool.SHOVELFUL_OF_EARTH, -10 );
+				ResultProcessor.processItem( ItemPool.HUNK_OF_GRANITE, -10 );
 			}
 			break;
 		}
