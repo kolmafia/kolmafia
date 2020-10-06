@@ -2285,6 +2285,7 @@ public class GenericRequest
 
 			if ( this instanceof UseItemRequest ||
 			     this instanceof CampgroundRequest ||
+			     this instanceof CargoCultistShortsRequest ||
 			     this instanceof ChateauRequest ||
 			     this instanceof DeckOfEveryCardRequest ||
 			     this instanceof GenieRequest ||
