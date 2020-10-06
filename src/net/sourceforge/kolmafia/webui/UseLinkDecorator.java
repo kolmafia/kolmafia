@@ -517,7 +517,8 @@ public abstract class UseLinkDecorator
 	private static final boolean addEffectLink( String location, Matcher useLinkMatcher, StringBuffer buffer, LinkedList<AdventureResult> effects )
 	{
 		String message = useLinkMatcher.group(0);
-		if ( !message.contains( "You acquire an effect" ) )
+		if ( !message.contains( "You acquire an effect" ) &&
+		     !message.contains( "You acquire an intrinsic" ) )
 		{
 			return false;
 		}
