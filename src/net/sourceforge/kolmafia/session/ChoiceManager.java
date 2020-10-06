@@ -7809,7 +7809,8 @@ public abstract class ChoiceManager
 			// selling muffins and we jut bought a muffin, remove
 			// the muffin tin.
 
-			if ( ChoiceManager.lastResponseText.contains( "Order a blueberry muffin" ) &&
+			if ( ChoiceManager.lastResponseText != null &&
+			     ChoiceManager.lastResponseText.contains( "Order a blueberry muffin" ) &&
 			     text.contains( "muffin is not yet ready" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.EARTHENWARE_MUFFIN_TIN, -1 ) );
