@@ -226,8 +226,8 @@ public abstract class BadMoonManager
 		},
 		{
 			"Oil Be Seeing You",
-			"The Deep Fat Friars' Gate",
-			null,
+			"Pandamonium Slums",
+			"completed Azazel Quest",
 			EffectPool.get( EffectPool.BASTED, 10 ),
 			"+10 Sleaze Damage, Damage Reduction -2",
 			BadMoonManager.DAMAGE1,
