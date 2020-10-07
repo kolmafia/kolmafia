@@ -1454,6 +1454,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "can_equip", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.FAMILIAR_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "can_equip", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "equip", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -6477,6 +6480,13 @@ public abstract class RuntimeLibrary
 		}
 		
 		return DataTypes.makeBooleanValue( EquipmentManager.canEquip( ItemDatabase.getItemName( itemId ) ) );
+	}
+
+	public static Value can_equip( Interpreter interpreter, final Value familiar, final Value item )
+	{
+		AdventureResult it = ItemPool.get( (int) item.intValue() );
+		FamiliarData fam = new FamiliarData( (int) familiar.intValue() );
+		return fam == null ? DataTypes.FALSE_VALUE : DataTypes.makeBooleanValue( fam.canEquip( it ) );
 	}
 
 	public static Value equip( Interpreter interpreter, final Value item )
