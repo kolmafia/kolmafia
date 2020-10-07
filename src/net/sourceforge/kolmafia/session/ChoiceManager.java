@@ -10503,6 +10503,7 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 1 )
 			{
 				Preferences.setBoolean( "_gingerbreadClockAdvanced", true );
+				Preferences.increment( "_gingerbreadCityTurns" );
 			}
 			break;
 
@@ -13746,6 +13747,15 @@ public abstract class ChoiceManager
 
 		case 1202:
 			// Noon in the Civic Center
+
+			// You knock the column over and collect the sprinkles from its shattered remains.
+			// A booming voice from behind you startles you. "YOU ARE IN CONTEMPT OF COURT!"
+			if ( text.contains( "CONTEMPT OF COURT!" ) )
+			{
+				Preferences.setBoolean( "_gingerbreadColumnDestroyed", true );
+				break;
+			}
+
 			// You bribe the clerk and he lets you into the office with a sneer. And a key. The key was probably the important part.
 			if ( text.contains( "bribe the clerk" ) )
 			{
@@ -15149,7 +15159,6 @@ public abstract class ChoiceManager
 		case 1207:	// Midnight in the Industrial Zone
 		case 1208:	// Upscale Noon
 		case 1209:	// Upscale Midnight
-		case 1215:	// Setting the Clock
 		{
 			Preferences.increment( "_gingerbreadCityTurns" );
 			break;
