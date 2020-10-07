@@ -1568,44 +1568,23 @@ public class RequestEditorKit
 			return;
 		}
 
-		StringBuffer monsterData = new StringBuffer( "<font size=2 color=gray>" );
+		// KoL has some buggy situations (an army of toddlers killing
+		// the monster, for example) where there is no monster image.
+		// Don't bother annotating in such cases
 		int nameIndex = buffer.indexOf( "<span id='monname" );
-		int insertionPointForData;
-
-		if ( nameIndex != -1 )
+		if ( nameIndex == -1 )
 		{
-			int combatIndex = buffer.indexOf( "</span>", nameIndex );
-			if ( combatIndex == -1 )
-			{
-				return;
-			}
-			insertionPointForData = combatIndex + 7;
-		}
-		else
-		{
-			// find bold "Combat"
-			insertionPointForData = buffer.indexOf( "<b>" );
-			if ( insertionPointForData == -1 )
-			{
-				return;
-			}
-			// find bold monster name
-			nameIndex = buffer.indexOf( "<b>", insertionPointForData + 4 );
-			if ( nameIndex == -1 )
-			{
-				return;
-			}
-			buffer.insert( nameIndex, "<span id='monname'>" );
-			// find end of monster
-			int combatIndex = buffer.indexOf( "</td>", nameIndex );
-			if ( combatIndex == -1 )
-			{
-				return;
-			}
-			buffer.insert( combatIndex, "</span>" );
-			insertionPointForData = combatIndex + 7;
+			return;
 		}
 
+		int combatIndex = buffer.indexOf( "</span>", nameIndex );
+		if ( combatIndex == -1 )
+		{
+			return;
+		}
+		int insertionPointForData = combatIndex + 7;
+
+		StringBuffer monsterData = new StringBuffer( "<font size=2 color=gray>" );
 		monsterData.append( "<br />HP: " );
 		monsterData.append( MonsterStatusTracker.getMonsterHealth() );
 		monsterData.append( ", Atk: " );
