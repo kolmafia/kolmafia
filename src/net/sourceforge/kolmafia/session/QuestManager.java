@@ -699,7 +699,8 @@ public class QuestManager
 
 	private static void handleGingerbreadCityChange( final String location, final String responseText )
 	{
-		if ( !Preferences.getBoolean( "gingerbreadCityAvailable" ) )
+		if ( !Preferences.getBoolean( "gingerbreadCityAvailable" ) &&
+		     !responseText.contains( "That's not a real place." ) )
 		{
 			Preferences.setBoolean( "_gingerbreadCityToday", true );
 		}
@@ -714,6 +715,10 @@ public class QuestManager
 		if ( responseText.contains( "digitalclock.gif" ) )
 		{
 			Preferences.setBoolean( "gingerAdvanceClockUnlocked", true );
+		}
+		if ( responseText.contains( "Infrastructure Failure" ) )
+		{
+			Preferences.increment( "_gingerbreadCityTurns" );
 		}
 	}
 
