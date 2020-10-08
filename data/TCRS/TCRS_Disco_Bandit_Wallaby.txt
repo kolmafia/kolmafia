@@ -9453,6 +9453,9 @@
 9593	temperance whiskey	1	good	
 9594	triple-cold-filtered wishbone	0		Effect: "Piratastic", Effect Duration: 28
 9595	lousy irresponsibly strong huge Racisto Ruidoso	7	decent	
+9596	earthenware muffin tin	0		
+9597	tasty bran muffin	3	awesome	
+9598	rotten blueberry muffin	3	crappy	
 9599	silent A	0		
 9600	upside-down silent B	0		
 9601	silent C	0		
@@ -10379,3 +10382,65 @@
 10578	oxidized spinning gooey drippy candy bar	0		Effect: "Egg-headedness", Effect Duration: 62
 10579	baby camelCalf	0		Free Pull
 10580	wobbly dromedary drinking helmet	0		
+10581	lime green packaged SpinMaster&trade; lathe	0		Free Pull
+10582	bouncing SpinMaster&trade; lathe	0		
+10583	flimsy hardwood scraps	0		
+10584	wholesome sage birch battery	0		Mysticality Percent: +10, Maximum HP Percent: +10, Lasts Until Rollover
+10585	ebony epee of the brute of Calamity Jane of the empath	0		Muscle Percent: +30, Critical Hit Percent: +15, Familiar Weight: +5, Lasts Until Rollover
+10586	zippy Da Vinci's thinker's weeping willow wand	0		Mysticality: +10, Experience (Mysticality): +5, Initiative: +20, Lasts Until Rollover
+10587	fireproof coward's steel-toed beechwood blowgun	0		Damage Reduction: 9, Monster Level: -20, Hot Resistance: +3, Lasts Until Rollover
+10588	frightening vibrating hale maple magnet	0		Maximum HP: +20, Maximum MP Percent: +10, Spooky Damage: +5, Lasts Until Rollover
+10589	Dreadsylvanian hemlock	0		
+10590	reassuring ribald hardened hemlock helm	0		Damage Reduction: 3, Sleaze Damage: +10, Spooky Resistance: +1
+10591	sweaty balsam	0		
+10592	fuchsia ghostly nasty sinister balsam barrel of the brute	0		Muscle Percent: +30, Spell Damage: +10, Stench Damage: +5
+10593	redwood	0		
+10594	aerosolized colloidal teal redwood rain stick	0		Effect: "Arresistible", Effect Duration: 11
+10595	purpleheart logs	0		
+10596	scorching purpleheart &quot;pants&quot; of the scaredy-cat of the empath	0		Monster Level: -15, Familiar Weight: +5, Hot Damage: +25
+10597	wormwood stick	0		
+10598	supercharged quilted occult Samson's wormwood wedding ring of temperance	0		Experience (Muscle): +5, Spell Damage Percent: +25, Damage Absorption: +40, Maximum MP Percent: +30, Sleaze Resistance: +5, Single Equip
+10599	upside-down Dripwood slab	0		
+10600	drippy diadem	0		
+10601	Thwaitgold slug statuette	0		
+10602	upside-down lion tamer's inert grey goo ring	0		Experience (familiar): +2
+10603	fistful of wood shavings	0		
+10604	Yeg's Motel ashtray	0		
+10605	Yeg's Motel alarm clock	0		
+10606	triple-cold-filtered Yeg's Motel toothbrush	0		Effect: "Hopped Up on Goofballs", Effect Duration: 34
+10607	altered Yeg's Motel hand soap	0		Effect: "Broken Fast", Effect Duration: 57
+10608	Yeg's Motel sewing kit	0		
+10609	tasty Yeg's Motel pillow mint	4	awesome	
+10610	spinning Yeg's Motel disposable razor	0		
+10611	galvanized narrow Yeg's Motel mouthwash	0		Effect: "Elemental Flavor", Effect Duration: 58
+10612	spinning coward's hale Yeg's Motel shower cap	0		Maximum HP: +20, Monster Level: -20, Lasts Until Rollover
+10613	pulsating shaking Jim Carey's stylish Yeg's Motel bathrobe	0		Moxie: +25, Monster Level: +25, Lasts Until Rollover
+10614	fuchsia frightening Yeg's Motel slippers of the pedagogue	0		Experience: +3, Spooky Damage: +5, Single Equip, Lasts Until Rollover
+10615	yellow Yeg's Motel stationery	0		
+10616	Yeg's Motel minibar key	0		
+10617	sizzling desk bell	0		
+10618	pulsating frost-rimed desk bell	0		
+10619	purple uncanny desk bell	0		
+10620	upside-down purple nasty desk bell	0		
+10621	greasy desk bell	0		
+10622	chess set	0		
+10623	onyx king	0		
+10624	purple onyx queen	0		
+10625	narrow pulsating onyx rook	0		
+10626	green onyx bishop	0		
+10627	twirling onyx knight	0		
+10628	onyx pawn	0		
+10629	alabaster king	0		
+10630	alabaster queen	0		
+10631	yellow alabaster rook	0		
+10632	alabaster bishop	0		
+10633	wobbly alabaster knight	0		
+10634	alabaster pawn	0		
+10635	bagged Cargo Cultist Shorts	0		Free Pull
+10636	wobbly fortified weightlifter's Cargo Cultist Shorts of Gandalf of incineration	0		Muscle: +15, Damage Absorption: +60, Spell Critical Percent: +20, Hot Spell Damage: +50
+10637	jittery complicated device	0		
+10638	bad special flask of moonshine	3	decent	Effect: "Jackasses' Symphony of Destruction", Effect Duration: 45
+10639	Fonzie's Newton's sea-worn candlestick of wisdom	0		Mysticality: +15, Experience (Mysticality): +3, Experience (Moxie): +1
+10640	Universal Seasoning	0		
+10642	flame orb	0		
+10643	half-sized rotten chocolate chip muffin	2	crappy	
