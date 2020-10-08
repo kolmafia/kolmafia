@@ -84,7 +84,7 @@
 37	Stats	0	250	0
 38	Cash	fat wallet
 39	Gum1	Nasty, Nasty Breath (50)
-40	Stats	200	30	25
+40	Stats	200	25	25
 41	Fruit	papaya
 42	Element	Spooky Hand (20)
 43	Element	Nasty Hand (20)
@@ -220,7 +220,7 @@
 173	Potion	Hersey&trade; SMOOCH
 174	Candy	Dweeby (40)	Cholestoriffic (10)
 175	Potion	porcelain candy dish
-176	Stats	30	200	25
+176	Stats	25	200	25
 177	Yeg	Yeg's Motel hand soap
 178	Element	Frosty Hand (20)
 179	Needle1	It's Soporiffic! (80)
