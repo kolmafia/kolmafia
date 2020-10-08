@@ -191,20 +191,30 @@ public class UneffectRequest
 
 	public static final boolean isShruggable( final int effectId )
 	{
-		if ( effectId >= EffectPool.TIMER1 && effectId <= EffectPool.TIMER10 )
+		switch ( effectId )
 		{
-			return true;
-		}
-
-		if ( effectId == EffectPool.JUST_THE_BEST_ANAPESTS || effectId == EffectPool.REASSURED )
-		{
-			return true;
-		}
-
-		if ( effectId == EffectPool.RECORD_HUNGER ||
-		     effectId == EffectPool.DRUNK_AVUNCULAR ||
-		     ( effectId >= EffectPool.SHRIEKING_WEASEL && effectId <= EffectPool.SUPERDRIFTING ) )
-		{
+		case EffectPool.TIMER1:
+		case EffectPool.TIMER2:
+		case EffectPool.TIMER3:
+		case EffectPool.TIMER4:
+		case EffectPool.TIMER5:
+		case EffectPool.TIMER6:
+		case EffectPool.TIMER7:
+		case EffectPool.TIMER8:
+		case EffectPool.TIMER9:
+		case EffectPool.TIMER10:
+		case EffectPool.JUST_THE_BEST_ANAPESTS:
+		case EffectPool.REASSURED:
+		case EffectPool.RECORD_HUNGER:
+		case EffectPool.DRUNK_AVUNCULAR:
+		case EffectPool.SHRIEKING_WEASEL:
+		case EffectPool.POWER_MAN:
+		case EffectPool.LUCKY_STRUCK:
+		case EffectPool.MINISTRATIONS_IN_THE_DARK:
+		case EffectPool.SUPERDRIFTING:
+		case EffectPool.CARTOGRAPHICALLY_CHARGED:
+		case EffectPool.CARTOGRAPHICALLY_AWARE:
+		case EffectPool.CARTOGRAPHICALLY_ROOTED:
 			return true;
 		}
 

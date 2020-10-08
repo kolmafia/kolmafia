@@ -314,6 +314,9 @@ public class EffectPool
 	public static final int RECORD_HUNGER = 2128;
 	public static final int DRUNK_AVUNCULAR = 2129;
 	public static final int SHRIEKING_WEASEL = 2131;
+	public static final int POWER_MAN = 2132;
+	public static final int LUCKY_STRUCK = 2133;
+	public static final int MINISTRATIONS_IN_THE_DARK = 2134;
 	public static final int SUPERDRIFTING = 2135;
 	public static final int SYNTHESIS_HOT = 2165;
 	public static final int SYNTHESIS_COLD = 2166;
@@ -353,6 +356,9 @@ public class EffectPool
 	public static final int BLESSING_OF_YOUR_FAVORITE_BIRD = 2552;
 	public static final int FIZZY_FIZZY = 2561;
 	public static final int JOKE_MAD = 2582;
+	public static final int CARTOGRAPHICALLY_CHARGED = 2600;
+	public static final int CARTOGRAPHICALLY_AWARE = 2601;
+	public static final int CARTOGRAPHICALLY_ROOTED = 2602;
 
 	public static final AdventureResult CURSE1_EFFECT = EffectPool.get( EffectPool.ONCE_CURSED );
 	public static final AdventureResult CURSE2_EFFECT = EffectPool.get( EffectPool.TWICE_CURSED );
