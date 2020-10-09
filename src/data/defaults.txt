@@ -886,6 +886,7 @@ user	manaBurningTrigger	-0.05
 user	manorDrawerCount	0
 user	manualOfNumberologyAvailable	true
 user	manualOfNumberologyCost	1000
+user	mappingMonsters	false
 user	mapToAnemoneMinePurchased	false
 user	mapToKokomoAvailable	true
 user	mapToKokomoCost	1234
@@ -1718,6 +1719,7 @@ user	_madTeaParty	false
 user	_mafiaMiddleFingerRingUsed	false
 user	_mafiaThumbRingAdvs	0
 user	_managerialManipulationUsed	false
+user	_monstersMapped	0
 user	_mayflowerDrops	0
 user	_mayflySummons	0
 user	_mayoDeviceRented	false
