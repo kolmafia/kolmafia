@@ -3757,6 +3757,10 @@ public class UseItemRequest
 				return;
 			}
 
+			TurnCounter.startCounting( 1, "Wormwood loc=151 loc=152 loc=153 place.php?whichplace=wormwood", "tinybottle.gif" );
+			TurnCounter.startCounting( 5, "Wormwood loc=151 loc=152 loc=153 place.php?whichplace=wormwood", "tinybottle.gif" );
+			TurnCounter.startCounting( 9, "Wormwood loc=151 loc=152 loc=153 place.php?whichplace=wormwood", "tinybottle.gif" );
+
 			break;
 
 		case ItemPool.DUSTY_ANIMAL_SKULL:

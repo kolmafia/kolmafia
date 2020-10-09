@@ -1038,31 +1038,7 @@ public class CharPaneRequest
 		KoLConstants.activeEffects.addAll( visibleEffects );
 		LockableListFactory.sort( KoLConstants.activeEffects );
 
-		CharPaneRequest.startCounters();
 		CharPaneRequest.checkChilledToTheBone();
-	}
-
-	private static final void startCounters()
-	{
-		if ( TurnCounter.isCounting( "Wormwood" ) )
-		{
-			return;
-		}
-
-		int absintheCount = CharPaneRequest.ABSINTHE.getCount( KoLConstants.activeEffects );
-
-		if ( absintheCount > 8 )
-		{
-			TurnCounter.startCounting( absintheCount - 9, "Wormwood loc=151 loc=152 loc=153 place.php?whichplace=wormwood", "tinybottle.gif" );
-		}
-		else if ( absintheCount > 4 )
-		{
-			TurnCounter.startCounting( absintheCount - 5, "Wormwood loc=151 loc=152 loc=153 place.php?whichplace=wormwood", "tinybottle.gif" );
-		}
-		else if ( absintheCount > 0 )
-		{
-			TurnCounter.startCounting( absintheCount - 1, "Wormwood loc=151 loc=152 loc=153 place.php?whichplace=wormwood", "tinybottle.gif" );
-		}
 	}
 
 	private static final void checkChilledToTheBone()
@@ -1958,9 +1934,6 @@ public class CharPaneRequest
 		KoLConstants.activeEffects.clear();
 		KoLConstants.activeEffects.addAll( visibleEffects );
 		LockableListFactory.sort( KoLConstants.activeEffects );
-
-		// If we are Absinthe Minded, start absinthe counters
-		CharPaneRequest.startCounters();
 
 		CharPaneRequest.checkChilledToTheBone();
 
