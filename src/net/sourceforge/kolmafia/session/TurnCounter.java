@@ -62,7 +62,7 @@ public class TurnCounter
 	implements Comparable<TurnCounter>
 {
 	private static final ArrayList<TurnCounter> relayCounters = new ArrayList<TurnCounter>();
-	private static final HashSet<String> ALL_LOCATIONS = new HashSet<String>();
+	private static final HashSet<String> ALL_LOCATIONS = new HashSet<>();
 
 	private int value;
 	private final String image;
@@ -90,9 +90,14 @@ public class TurnCounter
 			}
 			else if ( word.startsWith( "loc=" ) )
 			{
+				if ( this.exemptions == TurnCounter.ALL_LOCATIONS )
+				{
+					continue;
+				}
+
 				if ( this.exemptions == null )
 				{
-					this.exemptions = new HashSet<String>();
+					this.exemptions = new HashSet<>();
 				}
 				this.exemptions.add( word.substring( 4 ) );
 			}
@@ -121,7 +126,7 @@ public class TurnCounter
 	public boolean isExempt( final String adventureId )
 	{
 		if ( this.exemptions == TurnCounter.ALL_LOCATIONS ||
-			(this.exemptions != null && this.exemptions.contains( adventureId )) )
+		     (this.exemptions != null && this.exemptions.contains( adventureId )) )
 		{
 			return true;
 		}
@@ -607,8 +612,10 @@ public class TurnCounter
 				TurnCounter counter = it.next();
 				if ( counter.parsedLabel.equals( label ) && counter.exemptions == TurnCounter.ALL_LOCATIONS )
 				{
-					counter.exemptions = null;
 					counter.label = counter.label.replace( " loc=*", "" );
+
+					// Reload the counter, since it may have had its own exceptions in addition to the " loc=*"
+					counter = new TurnCounter( counter.value, counter.label, counter.image );
 				}
 			}
 
@@ -625,7 +632,7 @@ public class TurnCounter
 			while ( it.hasNext() )
 			{
 				TurnCounter counter = it.next();
-				if ( counter.parsedLabel.equals( label ) && counter.exemptions == null )
+				if ( counter.parsedLabel.equals( label ) && counter.exemptions != TurnCounter.ALL_LOCATIONS )
 				{
 					counter.exemptions = TurnCounter.ALL_LOCATIONS;
 					counter.label += " loc=*";
