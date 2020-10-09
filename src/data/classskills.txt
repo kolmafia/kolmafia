@@ -866,6 +866,7 @@
 7341	Disarming Thrust	latheepee.gif	5	0	0
 7342	Barrage of Tears	lathewand.gif	5	0	0
 7343	Poison Dart	latheblowgun.gif	5	0	0
+7344	Map the Monsters	cccbook.gif	3	1	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

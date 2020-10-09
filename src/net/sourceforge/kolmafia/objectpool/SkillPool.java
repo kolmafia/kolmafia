@@ -123,6 +123,7 @@ public class SkillPool
 	public static final int IMPLODE_UNIVERSE = 188;
 	public static final int VISIT_YOUR_FAVORITE_BIRD = 190;
 	public static final int LOCK_PICKING = 195;
+	public static final int COMPREHENSIVE_CARTOGRAPHY = 196;
 	public static final int WALRUS_TONGUE = 1010;
 	public static final int BATTER_UP = 1014;
 	public static final int CLOBBER = 1022;
@@ -326,6 +327,7 @@ public class SkillPool
 	public static final int MULTI_BOUNCE_COMBAT = 7336;
 	public static final int SPIT_ON_THEM = 7339;
 	public static final int SPIT_ON_ME = 7340;
+	public static final int MAP_THE_MONSTERS = 7344;
 	public static final int GOOD_SINGING_VOICE = 11016;
 	public static final int BANISHING_SHOUT = 11020;
 	public static final int DEMAND_SANDWICH = 11021;

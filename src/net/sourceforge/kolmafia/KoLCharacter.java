@@ -4766,8 +4766,8 @@ public abstract class KoLCharacter
 				}
 				break;
 
-				// Plumber passive skills that grant Plumber
-				// combat skills with the same name
+			// Plumber passive skills that grant Plumber
+			// combat skills with the same name
 			case SkillPool.HAMMER_THROW:
 				KoLCharacter.addAvailableCombatSkill( SkillPool.HAMMER_THROW_COMBAT );
 				KoLCharacter.addCombatSkill( skill.getSkillName() );
@@ -4791,6 +4791,11 @@ public abstract class KoLCharacter
 			case SkillPool.MULTI_BOUNCE:
 				KoLCharacter.addAvailableCombatSkill( SkillPool.MULTI_BOUNCE_COMBAT );
 				KoLCharacter.addCombatSkill( skill.getSkillName() );
+				break;
+
+			// Comprehensive Cartography grants Map the Monsters
+			case SkillPool.COMPREHENSIVE_CARTOGRAPHY:
+				KoLCharacter.addAvailableSkill( SkillPool.MAP_THE_MONSTERS );
 				break;
 			}
 			break;

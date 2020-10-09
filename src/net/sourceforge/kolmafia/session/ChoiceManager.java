@@ -12254,6 +12254,13 @@ public abstract class ChoiceManager
 				CargoCultistShortsRequest.parsePocketPick( urlString, text );
 			}
 			break;
+
+		case 1435:
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setBoolean( "mappingMonsters", false );
+			}
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
