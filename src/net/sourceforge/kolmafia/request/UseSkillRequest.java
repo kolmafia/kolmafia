@@ -2081,7 +2081,10 @@ public class UseSkillRequest
 			return true;
 		}
 
-		if ( responseText.contains( "You don't have that skill" ) )
+		if (
+			responseText.contains( "You don't have that skill" ) ||
+			responseText.contains( "you don't seem to have that skill" )
+		)
 		{
 			UseSkillRequest.lastUpdate = "That skill is unavailable.";
 			return true;
@@ -2705,6 +2708,11 @@ public class UseSkillRequest
 		case SkillPool.INVISIBLE_AVATAR:
 		case SkillPool.TRIPLE_SIZE:
 			Preferences.increment( "_powerfulGloveBatteryPowerUsed", 5, 100, false );
+			break;
+
+		case SkillPool.MAP_THE_MONSTERS:
+			Preferences.increment( "_monstersMapped", 1, 3, false );
+			Preferences.setBoolean( "mappingMonsters", true );
 			break;
 		}
 
