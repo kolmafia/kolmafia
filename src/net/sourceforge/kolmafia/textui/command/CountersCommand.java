@@ -42,7 +42,7 @@ public class CountersCommand
 {
 	public CountersCommand()
 	{
-		this.usage = " [ clear | add <number> [<title> <img>] | warn <title> | nowarn <title> ] - show, clear, or add to current turn counters," +
+		this.usage = " [ clear | add <number> [<title> <img>] | stop <title> | warn <title> | nowarn <title> ] - show, clear, or add to current turn counters," +
 		             " or set an existing counter to (not) warn you when it expires.";
 	}
 
@@ -80,6 +80,12 @@ public class CountersCommand
 			}
 
 			TurnCounter.startCounting( StringUtilities.parseInt( parameters ), title, image );
+		}
+
+		else if ( parameters.startsWith( "stop " ) )
+		{
+			parameters = parameters.substring( 5 ).trim();
+			TurnCounter.stopCounting( parameters );
 		}
 
 		else if ( parameters.startsWith( "warn " ) )
