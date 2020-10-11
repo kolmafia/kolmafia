@@ -1,5 +1,7 @@
 /.settings
 /.settings/*
+/bin
+/bin/*
 /build
 /build/*
 /dist
