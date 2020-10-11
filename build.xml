@@ -156,10 +156,7 @@
 			</fileset>
 		</copy>
 
-		<replace
-			file="${KoLConstants}"
-			token="REVISION = null"
-			value="REVISION = &quot;${revision}&quot;" />
+                <antcall target="set.version" />
 
 		<javac
 			compiler="modern"
@@ -178,15 +175,7 @@
 			includeantruntime="false"
 			errorProperty="compile.failed" />
 
-		<replace
-			file="${KoLConstants}"
-			token="REVISION = &quot;${revision}&quot;"
-			value="REVISION = null" />
-
-		<replace
-			file="${KoLConstants}"
-			token="RELEASED = false"
-			value="RELEASED = true" />
+                <antcall target="unset.properties" />
 
 		<fail if="compile.failed" message="Failed to compile KoLmafia source code" />
 
@@ -357,12 +346,8 @@
 
 	<target name="debug" depends="start,version">
 
-		<replace
-			file="${KoLConstants}"
-			token="RELEASED = true"
-			value="RELEASED = false" />
-
-		<antcall target="jar" />
+          <antcall target="set.released.false" />
+	  <antcall target="jar" />
 
 	</target>
 
@@ -372,10 +357,7 @@
 
 	<target name="daily" depends="clean,init,update,version">
 
-		<replace
-			file="${KoLConstants}"
-			token="RELEASED = true"
-			value="RELEASED = false" />
+		<antcall target="set.released.false"/>
 
 		<antcall target="compile" />
 
@@ -393,6 +375,50 @@
 				<include name="*.jar"/>
 			</zipgroupfileset>
 		</jar>
+
+	</target>
+
+	<!-- ============================================ -->
+	<!--  update KoLConstants.java for Daily Builds   -->
+	<!-- ============================================ -->
+
+	<target name="set.released.false" depends="version">
+
+		<replaceregexp
+				file="${KoLConstants}"
+				match="RELEASED = .*;"
+				replace="RELEASED = false;" />
+
+	</target>
+
+	<!-- ============================================ -->
+	<!--  update KoLConstants.java for Daily Builds   -->
+	<!-- ============================================ -->
+
+	<target name="set.version" depends="version">
+
+		<replaceregexp
+				file="${KoLConstants}"
+				match="${version.rev.pattern}"
+				replace="String REVISION = &quot;${revision}&quot;;" />
+
+	</target>
+
+	<!-- ============================================== -->
+	<!--  update KoLConstants.java after Daily Builds   -->
+	<!-- ============================================== -->
+
+	<target name="unset.properties" depends="version">
+
+		<replaceregexp
+				file="${KoLConstants}"
+				match="${version.rev.pattern}"
+				replace="${version.rev}" />
+
+		<replaceregexp
+				file="${KoLConstants}"
+				match="RELEASED = .*;"
+				replace="RELEASED = true;" />
 
 	</target>
 
