@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.textui.parsetree.MapValue;
 import net.sourceforge.kolmafia.textui.parsetree.Assignment;
 import net.sourceforge.kolmafia.textui.parsetree.BasicScope;
 import net.sourceforge.kolmafia.textui.parsetree.BasicScript;
+import net.sourceforge.kolmafia.textui.parsetree.Catch;
 import net.sourceforge.kolmafia.textui.parsetree.CompositeReference;
 import net.sourceforge.kolmafia.textui.parsetree.Concatenate;
 import net.sourceforge.kolmafia.textui.parsetree.Conditional;
@@ -1149,6 +1150,11 @@ public class Parser
 			// try doesn't have a ; token
 			return result;
 		}
+		else if ( ( result = this.parseCatch( functionType, scope, allowBreak, allowContinue ) ) != null )
+		{
+			// standalone catch doesn't have a ; token
+			return result;
+		}
 		else if ( ( result = this.parseStatic( functionType, scope ) ) != null )
 		{
 			// try doesn't have a ; token
@@ -2016,6 +2022,21 @@ public class Parser
 		Scope finalClause = this.parseBlockOrSingleCommand( functionType, null, body, false, allowBreak, allowContinue );
 
 		return new Try( body, finalClause );
+	}
+
+	private Catch parseCatch( final Type functionType, final BasicScope parentScope,
+				  final boolean allowBreak, final boolean allowContinue )
+	{
+		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "catch" ) )
+		{
+			return null;
+		}
+
+		this.readToken(); // catch
+
+		Scope body = this.parseBlockOrSingleCommand( functionType, null, parentScope, false, allowBreak, allowContinue );
+
+		return new Catch( body );
 	}
 
 	private Scope parseStatic( final Type functionType, final BasicScope parentScope )
