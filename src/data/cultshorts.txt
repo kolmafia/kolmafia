@@ -56,7 +56,7 @@
 9	Buff	Power Ballad of the Arrowsmith (20)
 10	Needle	Heal Thy Nanoself (20)	Space Cowboy (30)
 11	Element	Spooky Hand (20)
-12	Stats	80	80	120
+12	Stats	80	90	120
 13	Candy	Vitamin-Maxed (40)	The Wisdom... of the Future (20)
 14	Oyster	off-white paisley oyster egg
 15	Effect	Black Eyes (80)
