@@ -37,16 +37,17 @@ import java.io.PrintStream;
 
 import net.sourceforge.kolmafia.KoLmafia;
 
+import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
-public class Catch
-        extends ParseTreeNode
+public class CatchValue
+        extends Value
 {
-	private final Scope body;
+	private final Value value;
 
-	public Catch( final Scope body )
+	public CatchValue( final Value value )
 	{
-		this.body = body;
+		this.value = value;
 	}
 
 	@Override
@@ -61,22 +62,22 @@ public class Catch
 		interpreter.traceIndent();
 		if ( Interpreter.isTracing() )
 		{
-			interpreter.trace( "Entering catch body" );
+			interpreter.trace( "Evaluating catch value" );
 		}
 		
 		KoLmafia.lastMessage = "";
-		Value value = this.body.execute( interpreter );
+		Value capture = this.value.execute( interpreter );
 		
 		// We may have thrown and caught an error within the catch block.
 		// Return message only if currently cannot continue.
 		String message = KoLmafia.permitsContinue() ? "" : KoLmafia.lastMessage;
 
 		// Capture the value, permitting continuation
-		interpreter.captureValue( value );
+		interpreter.captureValue( capture );
 
 		if ( Interpreter.isTracing() )
 		{
-			interpreter.trace( "Continue: " + value );
+			interpreter.trace( "Returns: " + message );
 		}
 		interpreter.traceUnindent();
 
@@ -88,23 +89,11 @@ public class Catch
 	
 		return new Value( message );
 	}
-	
-	@Override
-	public boolean assertBarrier()
-	{
-		return this.body.assertBarrier();
-	}
-	
-	@Override
-	public boolean assertBreakable()
-	{
-		return this.body.assertBreakable();
-	}
 
 	@Override
 	public String toString()
 	{
-		return "catch";
+	    return "catch " + this.value.toString() ;
 	}
 
 	@Override
@@ -112,7 +101,6 @@ public class Catch
 	{
 		Interpreter.indentLine( stream, indent );
 		stream.println( "<CATCH>" );
-
-		this.body.print( stream, indent + 1 );
+		this.value.print( stream, indent + 1 );
 	}
 }
