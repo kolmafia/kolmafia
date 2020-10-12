@@ -132,15 +132,17 @@ public class CargoCultCommand
 
 		if ( command.equals( "count" ) || command.equals( "list" ) )
 		{
-			String usage = "cargo " + command + " ( type TYPE | monster MONSTER | item ITEM | effect EFFECT | stat STAT )";
+			String usage = "cargo " + command + " ( type TYPE | unpicked TYPE | monster MONSTER | item ITEM | effect EFFECT | stat STAT )";
 			if ( split.length < 3 )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, usage );
 				return;
 			}
-			switch ( split[ 1 ] )
+			String subset = split[ 1 ];
+			switch ( subset )
 			{
 			case "type":
+			case "unpicked":
 			{
 				String tag = split[ 2 ];
 				PocketType type = parsePocketType( tag );
@@ -155,7 +157,13 @@ public class CargoCultCommand
 					// Error message already issued
 					return;
 				}
-				RequestLogger.printLine( "There are " + pockets.size() + " " + tag + " pockets." );
+				String modifier = " ";
+				if ( subset.equals( "unpicked" ) )
+				{
+					pockets = PocketDatabase.removePickedPockets( pockets );
+					modifier = " unpicked ";
+				}
+				RequestLogger.printLine( "There are " + pockets.size() +  modifier + tag + " pockets." );
 				if ( command.equals( "list" ) )
 				{
 					List<Pocket> sorted = PocketDatabase.sortPockets( type, pockets );
