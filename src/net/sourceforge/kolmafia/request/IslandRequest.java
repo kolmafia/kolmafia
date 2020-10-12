@@ -336,6 +336,16 @@ public class IslandRequest
 			return;
 		}
 
+		if ( action.equals( "farmer" ) )
+		{
+			if ( responseText.contains( "Ach, here ye are" ) ||
+				 responseText.contains( "already got yer stuff today" ) )
+			{
+				Preferences.setBoolean( "_hippyFarmItemsCollected", true );
+			}
+			return;
+		}
+
 		if ( action.equals( "pyro" ) )
 		{
 			// "The Lighthouse Keeper's eyes light up as he sees your
