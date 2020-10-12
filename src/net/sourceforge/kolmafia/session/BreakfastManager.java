@@ -847,6 +847,10 @@ public class BreakfastManager
 
 	public static void visitFarmer()
 	{
+		if ( Preferences.getBoolean( "_hippyFarmItemsCollected" ) )
+		{
+			return;
+		}
 		IslandRequest request = IslandRequest.getFarmerRequest();
 		if ( request != null )
 		{
