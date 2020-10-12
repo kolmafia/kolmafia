@@ -78,8 +78,8 @@ public class CargoCultCommand
 		this.usage =
 			"[?] # | monster MONSTER | effect EFFECT | item ITEM | stat STAT - pick pocket from your shorts" +
 			KoLConstants.LINE_BREAK + "cargo pocket # - describe contents of specified pocket" +
-			KoLConstants.LINE_BREAK + "cargo count ( type TYPE | monster MONSTER | effect EFFECT | item ITEM | stat STAT ) - count matching pockets" +
-			KoLConstants.LINE_BREAK + "cargo list ( type TYPE | monster MONSTER | effect EFFECT | item ITEM | stat STAT ) - list matching pockets" +
+			KoLConstants.LINE_BREAK + "cargo count ( type TYPE | unpicked TYPE | monster MONSTER | effect EFFECT | item ITEM | stat STAT ) - count matching pockets" +
+			KoLConstants.LINE_BREAK + "cargo list ( type TYPE | unpicked TYPE |monster MONSTER | effect EFFECT | item ITEM | stat STAT ) - list matching pockets" +
 			KoLConstants.LINE_BREAK + "cargo inspect - check which pockets you've picked" +
 			KoLConstants.LINE_BREAK + "cargo demon - check which demon name syllables you've collected" +
 			KoLConstants.LINE_BREAK + "cargo - list which pockets you've picked so far during this ascension";
