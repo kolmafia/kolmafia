@@ -339,9 +339,9 @@ public class IslandRequest
 		if ( action.equals( "farmer" ) )
 		{
 			if ( responseText.contains( "Ach, here ye are" ) ||
-				 responseText.contains( "already got yer stuff today" ) )
+			     responseText.contains( "already got yer stuff today" ) )
 			{
-				Preferences.setBoolean( "_hippyFarmItemsCollected", true );
+				Preferences.setBoolean( "_farmerItemsCollected", true );
 			}
 			return;
 		}
