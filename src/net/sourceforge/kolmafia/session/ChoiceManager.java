@@ -4748,6 +4748,10 @@ public abstract class ChoiceManager
 			// Daily Loathing Ballot
 			ChoiceManager.decorateVote( buffer );
 			break;
+		case 1435:
+			// Leading Yourself Right to Them
+			ChoiceManager.decorateMonsterMap( buffer );
+			break;
 		}
 	}
 
@@ -4930,6 +4934,23 @@ public abstract class ChoiceManager
 			}
 	
 			count++;
+		}
+	}
+
+	public static final Pattern MAPPED_MONSTER_PATTERN = Pattern.compile( "(<input type=\"hidden\" name=\"heyscriptswhatsupwinkwink\" value=\"(\\d+)\" />\\s+<input type=\"submit\" class=\"button\" value=\").*?(\" />\\s+</form>)" );
+
+	public static final void decorateMonsterMap( final StringBuffer buffer )
+	{
+		Matcher matcher = ChoiceManager.MAPPED_MONSTER_PATTERN.matcher( buffer.toString() );
+
+		while ( matcher.find() )
+		{
+			String find = matcher.group( 0 );
+			Integer monsterId = Integer.parseInt( matcher.group( 2 ) );
+			String monsterName = MonsterDatabase.getMonsterName( monsterId );
+
+			String replace = matcher.group( 1 ) + monsterName + matcher.group( 3 );
+			StringUtilities.singleStringReplace( buffer, find, replace );
 		}
 	}
 
