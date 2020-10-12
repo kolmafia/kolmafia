@@ -44,6 +44,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -965,6 +966,17 @@ public class PocketDatabase
 	{
 		String monsterName = mp.getMonster().getName();
 		PocketDatabase.monsterPockets.put( monsterName.toLowerCase(), mp );
+	}
+
+	// Filtering lists and maps of pockets
+
+	public static Map<Integer, Pocket> removePickedPockets( Map<Integer, Pocket> pockets )
+	{
+		Set<Integer> picked = CargoCultistShortsRequest.pickedPockets;
+		return pockets.entrySet()
+			.stream()
+			.filter( e -> !picked.contains( e.getKey() ) )
+			.collect( Collectors.toMap( Entry::getKey, Entry::getValue ) );
 	}
 
 	// Sorting lists and maps of pockets
