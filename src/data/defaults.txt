@@ -1545,6 +1545,7 @@ user	_expertCornerCutterUsed	0
 user	_fancyChessSetUsed	false
 user	_falloutShelterSpaUsed	false
 user	_fancyHotDogEaten	false
+user	_farmerItemsCollected	false
 user	_favoriteBirdVisited	false
 user	_favorRareSummons	0
 user	_feastedFamiliars
@@ -1612,7 +1613,6 @@ user	_hardKnocksDiplomaUsed	false
 user	_hareAdv	0
 user	_hareCharge	0
 user	_highTopPumps	0
-user	_hippyFarmItemsCollected	false
 user	_hippyMeatCollected	false
 user	_hipsterAdv	0
 user	_hoardedCandyDropsCrown	0

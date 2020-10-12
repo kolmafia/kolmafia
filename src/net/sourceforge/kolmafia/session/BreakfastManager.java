@@ -763,11 +763,15 @@ public class BreakfastManager
 		SpecialOutfit hippy = EquipmentDatabase.getAvailableOutfit( OutfitPool.WAR_HIPPY_OUTFIT );
 		SpecialOutfit fratboy = EquipmentDatabase.getAvailableOutfit( OutfitPool.WAR_FRAT_OUTFIT );
 
-		String lighthouse = Preferences.getString( "sidequestLighthouseCompleted" );
-		SpecialOutfit lighthouseOutfit = sidequestOutfit( lighthouse, hippy, fratboy );
-
-		String farm = Preferences.getString( "sidequestFarmCompleted" );
-		SpecialOutfit farmOutfit = sidequestOutfit( farm, hippy, fratboy );
+		SpecialOutfit lighthouseOutfit =
+			InventoryManager.getCount( ItemPool.GUNPOWDER ) > 0 ?
+			sidequestOutfit( "sidequestLighthouseCompleted", hippy, fratboy ) :
+			null;
+		
+		SpecialOutfit farmOutfit =
+			!Preferences.getBoolean( "_farmerItemsCollected" ) ?
+			sidequestOutfit( "sidequestFarmCompleted", hippy, fratboy ) :
+			null;
 
 		// If we can't get to (or don't need to get to) either
 		// sidequest location, nothing more to do.
@@ -834,7 +838,7 @@ public class BreakfastManager
 		}
 	}
 
-	public static void visitHippy()
+	private static void visitHippy()
 	{
 		if ( Preferences.getBoolean( "_hippyMeatCollected" ) )
 		{
@@ -845,12 +849,8 @@ public class BreakfastManager
 		KoLmafia.forceContinue();
 	}
 
-	public static void visitFarmer()
+	private static void visitFarmer()
 	{
-		if ( Preferences.getBoolean( "_hippyFarmItemsCollected" ) )
-		{
-			return;
-		}
 		IslandRequest request = IslandRequest.getFarmerRequest();
 		if ( request != null )
 		{
@@ -879,8 +879,9 @@ public class BreakfastManager
 		return outfit;
 	}
 
-	public static SpecialOutfit sidequestOutfit( String winner, final SpecialOutfit hippy, final SpecialOutfit fratboy )
+	private static SpecialOutfit sidequestOutfit( String property, final SpecialOutfit hippy, final SpecialOutfit fratboy )
 	{
+		String winner = Preferences.getString( property );
 		if ( winner.equals( "hippy" ) )
 		{
 			return hippy;
