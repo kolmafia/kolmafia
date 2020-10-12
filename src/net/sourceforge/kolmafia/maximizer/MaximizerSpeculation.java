@@ -926,7 +926,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 		this.calculated = false;
 		this.scored = false;
 		this.tiebreakered = false;
-		if ( this.compareTo( Maximizer.best ) > 0 )
+		if ((Maximizer.best == null) || ( this.compareTo( Maximizer.best ) > 0 ))
 		{
 			Maximizer.best = (MaximizerSpeculation) this.clone();
 		}
