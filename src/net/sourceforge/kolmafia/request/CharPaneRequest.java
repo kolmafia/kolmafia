@@ -221,8 +221,9 @@ public class CharPaneRequest
 		CharPaneRequest.compactCharacterPane = responseText.contains( "<br>Lvl. " );
 
 		// If we are in Valhalla, do special processing
-		if ( KoLCharacter.getLimitmode() == null && ( responseText.contains( "otherimages/spirit.gif" ) ||
-		     responseText.contains( "<br>Lvl. <img" ) ) )
+		if ( KoLCharacter.getLimitmode() == null &&
+		     ( responseText.contains( "otherimages/spirit.gif" ) ||
+		       responseText.contains( "<br>Lvl. <img" ) ) )
 		{
 			processValhallaCharacterPane( responseText );
 			return true;

@@ -2252,6 +2252,45 @@ public class GenericRequest
 			return true;
 		}
 
+		if ( this.redirectLocation.startsWith( "login.php" ) )
+		{
+			if ( this instanceof LoginRequest )
+			{
+				this.constructURLString( this.redirectLocation, false );
+				return false;
+			}
+
+			if ( this.formURLString.startsWith( "logout.php" ) )
+			{
+				return true;
+			}
+
+			if ( this.isChatRequest )
+			{
+				RequestLogger.printLine( "You are logged out.  Chat will no longer update." );
+				GenericRequest.ignoreChatRequest = true;
+				return false;
+			}
+
+			String oldpwd = GenericRequest.passwordHashValue;
+			if ( LoginRequest.executeTimeInRequest( this.getURLString(), this.redirectLocation ) )
+			{
+				if ( this.data.isEmpty() )
+				{
+					String newpwd = GenericRequest.passwordHashValue;
+					this.formURLString = StringUtilities.singleStringReplace( this.formURLString, oldpwd, newpwd );
+					this.formURL = null;
+				}
+				else
+				{
+					this.dataChanged = true;
+				}
+				return false;
+			}
+
+			return true;
+		}
+
 		// If this is a redirect from valhalla, we are reincarnating
 		if ( this.formURLString.startsWith( "afterlife.php" ) )
 		{
@@ -2332,45 +2371,6 @@ public class GenericRequest
 		if ( this.redirectLocation.startsWith( "messages.php?results=Message" ) )
 		{
 			SendMailRequest.parseTransfer( this.getURLString() );
-		}
-
-		if ( this.redirectLocation.startsWith( "login.php" ) )
-		{
-			if ( this instanceof LoginRequest )
-			{
-				this.constructURLString( this.redirectLocation, false );
-				return false;
-			}
-
-			if ( this.formURLString.startsWith( "logout.php" ) )
-			{
-				return true;
-			}
-
-			if ( this.isChatRequest )
-			{
-				RequestLogger.printLine( "You are logged out.  Chat will no longer update." );
-				GenericRequest.ignoreChatRequest = true;
-				return false;
-			}
-
-			String oldpwd = GenericRequest.passwordHashValue;
-			if ( LoginRequest.executeTimeInRequest( this.getURLString(), this.redirectLocation ) )
-			{
-				if ( this.data.isEmpty() )
-				{
-					String newpwd = GenericRequest.passwordHashValue;
-					this.formURLString = StringUtilities.singleStringReplace( this.formURLString, oldpwd, newpwd );
-					this.formURL = null;
-				}
-				else
-				{
-					this.dataChanged = true;
-				}
-				return false;
-			}
-
-			return true;
 		}
 
 		if ( this instanceof RelayRequest )
