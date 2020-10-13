@@ -4462,8 +4462,8 @@ public abstract class ChoiceManager
 		// Choice 1428 is Your Neck of the Woods
 		new ChoiceAdventure(
 			"The Dark Neck of the Woods", "choiceAdventure1428", "Your Neck of the Woods",
-			new Object[] { new Option( "gain 1000 meat", 2 ),
-				       new Option( "advance quest", 1 ) } ),	
+			new Object[] { new Option( "advance quest 1 step and gain 1000 meat", 1 ),
+				       new Option( "advance quest 2 steps", 2 ) } ),	
 
 		// Choice 1429 is No Nook Unknown
 		new ChoiceAdventure(
