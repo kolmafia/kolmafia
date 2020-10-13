@@ -4457,62 +4457,62 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Guano Junction", "choiceAdventure1427", "The Hidden Junction",
 			new Object[] { new Option( "fight screambat", 1 ),
-					   new Option( "gain ~360 meat", 2 )} ),
+				       new Option( "gain ~360 meat", 2 ) } ),
 
 		// Choice 1428 is Your Neck of the Woods
 		new ChoiceAdventure(
 			"The Dark Neck of the Woods", "choiceAdventure1428", "Your Neck of the Woods",
-			new Object[] { new Option( "advance quest", 1 ),
-					   new Option( "gain 1000 meat", 2 )} ),	
+			new Object[] { new Option( "gain 1000 meat", 2 ),
+				       new Option( "advance quest", 1 ) } ),	
 
 		// Choice 1429 is No Nook Unknown
 		new ChoiceAdventure(
 			"Defiled Nook", "choiceAdventure1429", "No Nook Unknown",
 			new Object[] { new Option( "acquire 2 evil eyes", 1 ),
-					   new Option( "fight party skeleton", 2 )} ),
+				       new Option( "fight party skeleton", 2 ) } ),
 
 		// Choice 1430 is Ghostly Memories
 		new ChoiceAdventure(
 			"Ghostly Memories", "choiceAdventure1430", "A-Boo Peak",
 			new Object[] { new Option( "the Horror, spooky/cold res recommended", 1 ),
-						new Option( "fight oil baron", 2 ),
-						new Option( "lost overlook lodge", 3 )} ),
+				       new Option( "fight oil baron", 2 ),
+				       new Option( "lost overlook lodge", 3 ) } ),
 
 		// Choice 1431 is Here There Be Giants
 		new ChoiceAdventure(
 			"Here There Be Giants", "choiceAdventure1431", "The Castle in the Clouds in the Sky (Top Floor)",
 			new Object[] { new Option( "complete trash quest, unlock HiTS", 1 ),
-						new Option( "fight goth giant, acquire black candles", 2 ),
-						new Option( "fight raver, restore hp/mp", 3 ),
-						new Option( "complete quest w/ mohawk wig, gain ~500 meat", 4 )} ),
+				       new Option( "fight goth giant, acquire black candles", 2 ),
+				       new Option( "fight raver, restore hp/mp", 3 ),
+				       new Option( "complete quest w/ mohawk wig, gain ~500 meat", 4 ) } ),
 
 		// Choice 1432 is Mob Maptality
 		new ChoiceAdventure(
 			"Mob Maptality", "choiceAdventure1432", "A Mob of Zeppelin Protesters",
 			new Object[] { new Option( "creep protestors (more with sleaze damage/sleaze spell damage)", 1 ),
-						new Option( "scare protestors (more with lynyrd gear)", 2 ),
-						new Option( "set fire to protestors (more with Flamin' Whatshisname)", 3 )} ),
+				       new Option( "scare protestors (more with lynyrd gear)", 2 ),
+				       new Option( "set fire to protestors (more with Flamin' Whatshisname)", 3 ) } ),
 
 		// Choice 1433 is Hippy camp verge of war Sneaky Sneaky
 		new ChoiceAdventure(
 			"Sneaky Sneaky", "choiceAdventure1433", "The Hippy Camp (Verge of War)",
 			new Object[] { new Option( "fight a war hippy drill sargent", 1 ),
-						new Option( "fight a war hippy space cadet", 2 ),
-						new Option( "start the war)", 3 )} ),
+				       new Option( "fight a war hippy space cadet", 2 ),
+				       new Option( "start the war)", 3 ) } ),
 
 		// Choice 1434 is frat camp verge of war Sneaky Sneaky
 		new ChoiceAdventure(
 			"Sneaky Sneaky", "choiceAdventure1434", "The Frat Camp (Verge of War)",
 			new Object[] { new Option( "fight a war pledge/acquire sake bombers", 1 ),
-						new Option( "start the war", 2 ),
-						new Option( "fight a frat warrior drill sergeant/acquire beer bombs", 3 )} ),
+				       new Option( "start the war", 2 ),
+				       new Option( "fight a frat warrior drill sergeant/acquire beer bombs", 3 ) } ),
 
 		// Choice 1436 is Billiards Room Options
 		new ChoiceAdventure(
 			"Billiards Room Options", "choiceAdventure1436", "The Haunted Billiards Room",
 			new Object[] { new Option( "aquire pool cue", 1 ),
-						new Option( "play pool with the ghost", 2 ),
-						new Option( "fight a chalkdust wraith", 3 )} )
+				       new Option( "play pool with the ghost", 2 ),
+				       new Option( "fight a chalkdust wraith", 3 ) } )
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
