@@ -765,15 +765,28 @@ public abstract class KoLmafia
 	{
 		KoLmafia.setIsRefreshing( true );
 
+		// Start out fetching the status using the KoL API. This
+		// provides data from a lot of different standard pages
+
+		// We are in Valhalla if this redirects to afterlife.php
+		String redirection = ApiRequest.updateStatus();
+		if ( redirection != null && redirection.startsWith( "afterlife.php" ) )
+		{
+			// In Valhalla, ApiRequest parsed the charpane for us.
+			KoLmafia.updateDisplay( "Welcome to Valhalla!" );
+			KoLmafia.setIsRefreshing( false );
+			return;
+		}
+
+		// If api.php did not redirect, we've loaded a lot of data,
+		// including ascension status
+
 		// Load saved counters before any requests are made, since both
 		// charpane and charsheet requests can set them.
 
 		CharPaneRequest.reset();
 		KoLCharacter.setCurrentRun( 0 );
 		TurnCounter.loadCounters();
-
-		// Get ascension status as it isn't yet set
-		RequestThread.postRequest( new ApiRequest( "status" ) );
 
 		boolean shouldResetCounters = false;
 		boolean shouldResetGlobalCounters = false;
@@ -789,6 +802,7 @@ public abstract class KoLmafia
 			Preferences.setInteger( "knownAscensions", ascensions );
 			ValhallaManager.resetPerAscensionCounters();
 			shouldResetCounters = true;
+			KoLCharacter.setGuildStoreOpen( false );
 		}
 		else if ( knownAscensions == -1 )
 		{
@@ -841,20 +855,6 @@ public abstract class KoLmafia
 
 		// Initialize pulverization data from original item enchantments
 		EquipmentDatabase.initializePulverization();
-
-		// Start out fetching the status using the KoL API. This
-		// provides data from a lot of different standard pages
-
-		// We are in Valhalla if this redirects to afterlife.php
-		String redirection = ApiRequest.updateStatus();
-		if ( redirection != null && redirection.startsWith( "afterlife.php" ) )
-		{
-			// In Valhalla, parse the CharPane and abort further processing
-			KoLmafia.updateDisplay( "Welcome to Valhalla!" );
-			RequestThread.postRequest( new CharPaneRequest() );
-			KoLCharacter.setGuildStoreOpen( false );
-			return;
-		}
 
 		// Reset monsters that depend on player name. Do this before we
 		// look at the char sheet; we'll bail early if we are in a
@@ -1432,7 +1432,7 @@ public abstract class KoLmafia
 			KoLmafia.executeRequestOnce( request, currentIteration, totalIterations, items, creatables, wasAdventuring );
 
 			// If updates are suppressed, turn counter doesn't change, so we get stuck in an infinite loop
-			// Avoid by API update in that case.
+			// Avoid an API update in that case.
 			if ( GenericRequest.updateSuppressed() )
 			{
 				ApiRequest.updateStatus( true );

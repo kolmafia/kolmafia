@@ -125,7 +125,7 @@ public abstract class InventoryManager
 	public static void refresh()
 	{
 		// Retrieve the contents of inventory via api.php
-		RequestThread.postRequest( new ApiRequest( "inventory" ) );
+		ApiRequest.updateInventory();
 	}
 
 	public static final void parseInventory( final JSONObject JSON )

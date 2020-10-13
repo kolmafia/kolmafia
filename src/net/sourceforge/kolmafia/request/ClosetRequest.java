@@ -80,7 +80,7 @@ public class ClosetRequest
 		// and items from api.php
 
 		RequestThread.postRequest( new ClosetRequest( REFRESH ) );
-		RequestThread.postRequest( new ApiRequest( "closet" ) );
+		ApiRequest.updateCloset();
 	}
 
 	public static final void parseCloset( final JSONObject JSON )

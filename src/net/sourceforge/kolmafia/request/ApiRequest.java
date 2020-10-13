@@ -58,6 +58,8 @@ public class ApiRequest
 {
 	private static final ApiRequest INSTANCE = new ApiRequest( "status" );
 	private static final ApiRequest INVENTORY = new ApiRequest( "inventory" );
+	private static final ApiRequest CLOSET = new ApiRequest( "closet" );
+	private static final ApiRequest STORAGE = new ApiRequest( "storage" );
 	private static final CharPaneRequest CHARPANE = new CharPaneRequest();
 
 	private String what;
@@ -91,6 +93,12 @@ public class ApiRequest
 		this( what, String.valueOf( id ) );
 	}
 
+	public static String updateStatusFromCharpane()
+	{
+		ApiRequest.CHARPANE.run();
+		return ApiRequest.CHARPANE.redirectLocation;
+	}
+
 	public static String updateStatus()
 	{
 		return ApiRequest.updateStatus( false );
@@ -98,11 +106,22 @@ public class ApiRequest
 
 	public synchronized static String updateStatus( final boolean silent )
 	{
-		// If in limitmode, Noobcore, PokeFam, and Disguises Delimit API status doesn't contain the full information, so use Character Sheet instead
-		if ( KoLCharacter.getLimitmode() != null || KoLCharacter.inNoobcore() || KoLCharacter.inPokefam() || KoLCharacter.inDisguise() )
+		// api.php doesn't work at all in Valhalla
+		if ( CharPaneRequest.inValhalla() )
 		{
-			ApiRequest.CHARPANE.run();
-			return ApiRequest.CHARPANE.redirectLocation;
+			ApiRequest.updateStatusFromCharpane();
+			return "afterlife.php";
+		}
+
+		// If in limitmode, Noobcore, PokeFam, and Disguises Delimit,
+		// API status doesn't contain the full information, so use
+		// Character Sheet instead.
+		if ( KoLCharacter.getLimitmode() != null ||
+		     KoLCharacter.inNoobcore() ||
+		     KoLCharacter.inPokefam() ||
+		     KoLCharacter.inDisguise() )
+		{
+			return ApiRequest.updateStatusFromCharpane();
 		}
 		ApiRequest.INSTANCE.silent = silent;
 		ApiRequest.INSTANCE.run();
@@ -119,6 +138,30 @@ public class ApiRequest
 		ApiRequest.INVENTORY.silent = silent;
 		ApiRequest.INVENTORY.run();
 		return ApiRequest.INVENTORY.redirectLocation;
+	}
+
+	public static String updateCloset()
+	{
+		return ApiRequest.updateCloset( false );
+	}
+
+	public synchronized static String updateCloset( final boolean silent )
+	{
+		ApiRequest.CLOSET.silent = silent;
+		ApiRequest.CLOSET.run();
+		return ApiRequest.CLOSET.redirectLocation;
+	}
+
+	public static String updateStorage()
+	{
+		return ApiRequest.updateStorage( false );
+	}
+
+	public synchronized static String updateStorage( final boolean silent )
+	{
+		ApiRequest.STORAGE.silent = silent;
+		ApiRequest.STORAGE.run();
+		return ApiRequest.STORAGE.redirectLocation;
 	}
 
 	@Override

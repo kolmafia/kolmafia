@@ -85,7 +85,7 @@ public class StorageRequest
 		// and items from api.php
 
 		RequestThread.postRequest( new StorageRequest( REFRESH ) );
-		RequestThread.postRequest( new ApiRequest( "storage" ) );
+		ApiRequest.updateStorage();
 		StorageRequest.updateSettings();
 	}
 
