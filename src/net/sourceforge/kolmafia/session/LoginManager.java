@@ -90,9 +90,26 @@ public class LoginManager
 
 	public static final void timein( final String username )
 	{
+		// Save the current user settings to disk
+		Preferences.reset( null );
+
+		// Reload the current user's preferences
+		Preferences.reset( username );
+
+		// Close existing session log and reopen it
+		RequestLogger.closeSessionLog();
+		RequestLogger.openSessionLog();
+
+		// The password hash changes for each session
+		RequestThread.postRequest( new PasswordHashRequest( "lchat.php" ) );
+
 		// See if we are timing in across rollover.
 		// api.php has rollover time in it
-		RequestThread.postRequest( new ApiRequest( "status" ) );
+		String redirection = ApiRequest.updateStatus();
+		if ( redirection != null && redirection.startsWith( "afterlife.php" ) )
+		{
+			return;
+		}
 
 		// Assume if rollover has changed by an hour, it is a new rollover.
 		// Time varies slightly between servers by a few seconds.
@@ -105,20 +122,6 @@ public class LoginManager
 			LoginManager.login( username );
 			return;
 		}
-
-		// Save the current user settings to disk
-		Preferences.reset( null );
-
-		// Reload the current user's preferences
-		Preferences.reset( username );
-
-		// Close existing session log and reopen it
-		RequestLogger.closeSessionLog();
-		RequestLogger.openSessionLog();
-
-		// The password hash changes for each session
-		PasswordHashRequest request = new PasswordHashRequest( "lchat.php" );
-		RequestThread.postRequest( request );
 
 		// Some things aren't properly set by KoL until main.php is loaded
 		RequestThread.postRequest( new GenericRequest( "main.php" ) );
