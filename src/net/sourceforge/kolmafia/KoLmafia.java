@@ -1024,7 +1024,7 @@ public abstract class KoLmafia
 		ContactManager.updateMailContacts();
 
 		// Get current list of restricted items
-		StandardRequest.initialize();
+		StandardRequest.initialize( true );
 
 		KoLmafia.updateDisplay( "Session data refreshed." );
 
