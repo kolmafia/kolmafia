@@ -71,9 +71,20 @@ public class StandardRequest
 		StandardRequest.clanSet.clear();
 	}
 
-	public static void initialize()
+	public static void initialize( final boolean force )
 	{
-		if ( !StandardRequest.initialized && !GenericRequest.passwordHash.equals( "" ) && KoLCharacter.getLimitmode() == null )
+		// If we are not logged or are under a Limitmode, don't do this.
+		if ( GenericRequest.passwordHash.equals( "" ) || KoLCharacter.getLimitmode() != null )
+		{
+			return;
+		}
+
+		if ( force )
+		{
+			StandardRequest.reset();
+		}
+
+		if ( !StandardRequest.initialized )
 		{
 			RequestThread.postRequest( new StandardRequest() );
 		}
@@ -92,7 +103,7 @@ public class StandardRequest
 
 	private static boolean isNotRestricted( final Set<String> set, final String key )
 	{
-		StandardRequest.initialize();
+		StandardRequest.initialize( false );
 		return !set.contains( key.toLowerCase() );
 	}
 
