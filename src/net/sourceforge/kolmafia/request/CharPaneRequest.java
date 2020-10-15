@@ -147,6 +147,11 @@ public class CharPaneRequest
 		return CharPaneRequest.inValhalla;
 	}
 
+	public static final void setInValhalla( final boolean inValhalla )
+	{
+		CharPaneRequest.inValhalla = inValhalla;
+	}
+
 	public static final void liberateKing()
 	{
 		// Set variables without making requests

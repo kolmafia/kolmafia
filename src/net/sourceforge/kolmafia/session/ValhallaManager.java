@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CouncilRequest;
@@ -247,6 +248,7 @@ public class ValhallaManager
 	{
 		ItemDatabase.reset();
 
+		CharPaneRequest.setInValhalla( false );
 		KoLmafia.refreshSession();
 
 		EquipmentManager.updateEquipmentLists();
