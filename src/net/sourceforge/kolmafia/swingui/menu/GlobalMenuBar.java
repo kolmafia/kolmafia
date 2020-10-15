@@ -139,9 +139,6 @@ public class GlobalMenuBar
 		peopleMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", "BuffRequestFrame" ) );
 
 		peopleMenu.add( new JSeparator() );
-		peopleMenu.add( new RelayBrowserMenuItem( "Radio KoL", "http://radio-kol.net/64/" ) );
-
-		peopleMenu.add( new JSeparator() );
 		peopleMenu.add( new DisplayFrameMenuItem( "Request a Fax", "FaxRequestFrame" ) );
 
 		// Add in common tasks menu
