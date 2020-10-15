@@ -733,7 +733,7 @@
 731	Smoky Third Eye	zomboeye.gif	5591b2d4198456fc6a9d584ad65542fc	good	none	hatter 10
 732	Full Bottle in front of Me	wine.gif	7f7bf04b109cad766fa8994dc1a1062c	good	none	hatter 11
 733	Thick-Skinned	balm.gif	3542fecc143611d7850447ee982c48a5	good	none	hatter 12|cargo effect Thick-Skinned
-734	20-20 Second Sight	glasseye.gif	2158b56c85250de3ec8d3631092b47d1	good	none	hatter 13
+734	20-20 Second Sight	glasseye.gif	2158b56c85250de3ec8d3631092b47d1	good	none	hatter 13|cargo effect 20-20 Second Sight
 735	Slimy Hands	glove.gif	d5030e0c82d9e372eb1cdf95446b9b0d	good	none	hatter 14|cargo effect Slimy Hands
 736	Bottle in front of Me	missingwine.gif	96725b7d3308d6495e1b4fa49648f121	good	none	hatter 15
 737	Fan-Cooled	palmfan.gif	4f824ddf25b79c18c1d55d4da9282b95	good	none	hatter 16

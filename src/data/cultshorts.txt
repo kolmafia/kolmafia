@@ -647,7 +647,7 @@
 600	Item	cursed piece of thirteen
 601	Avatar	child-sized dracula cloak
 602	Scrap	4
-603	Lens1	20/20 Vision (60)
+603	Lens1	20-20 Second Sight (60)
 604	Potion	Necbro wafers
 605	Oyster	puce polka-dot oyster egg
 606	Stats	50	0	200
