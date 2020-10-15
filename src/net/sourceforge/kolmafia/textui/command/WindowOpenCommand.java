@@ -71,11 +71,5 @@ public class WindowOpenCommand
 			KoLmafiaGUI.constructFrame( "GearChangeFrame" );
 			return;
 		}
-
-		if ( command.equals( "radio" ) )
-		{
-			RelayLoader.openSystemBrowser( "http://209.9.238.5:8794/listen.pls" );
-			return;
-		}
 	}
 }
