@@ -78,6 +78,7 @@ public class CargoCultCommand
 		this.usage =
 			"[?] # | monster MONSTER | effect EFFECT | item ITEM | stat STAT - pick pocket from your shorts" +
 			KoLConstants.LINE_BREAK + "cargo pocket # - describe contents of specified pocket" +
+			KoLConstants.LINE_BREAK + "cargo pick # - pick the specified pocket" +
 			KoLConstants.LINE_BREAK + "cargo count ( type TYPE | unpicked TYPE | monster MONSTER | effect EFFECT | item ITEM | stat STAT ) - count matching pockets" +
 			KoLConstants.LINE_BREAK + "cargo list ( type TYPE | unpicked TYPE |monster MONSTER | effect EFFECT | item ITEM | stat STAT ) - list matching pockets" +
 			KoLConstants.LINE_BREAK + "cargo inspect - check which pockets you've picked" +
@@ -114,7 +115,7 @@ public class CargoCultCommand
 				return;
 			}
 
-			RequestLogger.printLine( "Pocket #" + pocket + " contains " + pocket.toString() );
+			RequestLogger.printLine( "Pocket #" + pocket.getPocket() + " contains " + pocket.toString() );
 			return;
 		}
 
@@ -317,6 +318,18 @@ public class CargoCultCommand
 				Pocket pocket = firstUnpickedPocket( stat, sorted );
 				pickPocket( checking, pocket );
 			}
+			return;
+		}
+
+		if ( command.equals( "pick" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "cargo pick POCKET" );
+				return;
+			}
+			Pocket pocket = parsePocket( split[ 1 ] );
+			pickPocket( checking, pocket );
 			return;
 		}
 
