@@ -456,7 +456,8 @@ public class CharPaneRequest
 		// Last time we checked the char sheet or api.php, he was still
 		// in ronin. See if he still is.
 		// Spending turns does not let you break Ronin in Pocket Familiars
-		if ( KoLCharacter.getCurrentRun() >= 1000 && !KoLCharacter.inPokefam() )
+		if ( KoLCharacter.getCurrentRun() >= KoLCharacter.initialRonin() &&
+		     !KoLCharacter.inPokefam() )
 		{
 			return true;
 		}
