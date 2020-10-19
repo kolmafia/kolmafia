@@ -607,6 +607,15 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "now_to_string", DataTypes.STRING_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "now_to_int", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "date_to_timestamp", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "timestamp_to_date", DataTypes.STRING_TYPE, params ) );
+
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "format_date_time", DataTypes.STRING_TYPE, params ) );
 
@@ -3395,6 +3404,46 @@ public abstract class RuntimeLibrary
 		Calendar timestamp = new GregorianCalendar();
 		SimpleDateFormat dateFormat = new SimpleDateFormat( dateFormatValue.toString() );
 		return new Value( dateFormat.format( timestamp.getTime() ) );
+	}
+
+	public static Value now_to_int( Interpreter interpreter )
+	{
+		Calendar timestamp = new GregorianCalendar();
+		return new Value( timestamp.getTimeInMillis() );
+	}
+
+	public static Value date_to_timestamp( Interpreter interpreter, Value inFormat, Value dateTimeString )
+	{
+		try
+		{
+			SimpleDateFormat dateFormat = new SimpleDateFormat( inFormat.toString() );
+			Date inDate = dateFormat.parse( dateTimeString.toString() );
+			return new Value( inDate.getTime() );
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			interpreter.runtimeException( "Bad parameter(s) passed to date_to_timestamp" );
+		}
+
+		return new Value();
+	}
+
+	public static Value timestamp_to_date( Interpreter interpreter, Value timestamp, Value outFormat )
+	{
+		try
+		{
+			Date in = new Date( timestamp.toIntValue().intValue() );
+			SimpleDateFormat dateFormat = new SimpleDateFormat( outFormat.toString() );
+			return new Value( dateFormat.format( in ) );
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			interpreter.runtimeException( "Bad parameter(s) passed to timestamp_to_date" );
+		}
+
+		return new Value();
 	}
 
 	public static Value format_date_time( Interpreter interpreter, Value inFormat, Value dateTimeString, Value outFormat )
