@@ -1341,7 +1341,7 @@
 1339	Nerd is the Word	nerdint.gif	e45f7eeddd4f3afe1c4883d8d98c6d33	good	nohookah	# using Mysticality combat skills in The Hallowed Halls
 1340	Greaser Lightnin'	greaserint.gif	43060d043c807a8717c216f19e4a5b73	good	nohookah	# using Moxie combat skills in The Hallowed Halls
 1341	Ogred and Oublietted	oandomodule.gif	4859a8d90141d3bbfdc62d8acdc1f923	good	none	use 1 Ogres and Oubliettes&trade; module
-1342	Slicked-Back Do	greaserint.gif	f9c4145cc96ab8b3479d3eb88696da8b	good	nohookah	use 1 hair oil
+1342	Slicked-Back Do	greaserint.gif	f9c4145cc96ab8b3479d3eb88696da8b	good	none	use 1 hair oil
 1343	Armor-Plated	scrapmetal.gif	af863a714dd04140f2d4efdaa64d57d5	good	none	use 1 scrap metal
 1344	Uncaged Power	faraday.gif	42a059ec52faec3eae460b5290f38b0f	good	none	cargo effect Uncaged Power|# rollover effect from Giant Faraday Cage
 1345	Truthful	angry.gif	91efff803038276ed174097fcbf3f0c2	neutral	none	use 1 sodium pentasomething
@@ -2333,8 +2333,8 @@
 2331	Noise Cancelled	echo.gif	b801fb016e420c27d463841cc9825ea0	bad	none	eat either 1 shushed potatoes, 1 muffled muffuletta, 1 hushed puppy
 2332	Old Time Hydration	glassofwater.gif	61ac2e8fef83b9aae67b1c45184a964d	good	none	eat 1 temperance whiskey
 2333	Slightly Cursed, Mostly Lucky	wishbone.gif	744905696229e8ac6521ad39fa8f9ee8	good	none	use 1 cursed wishbone
-2334	All Branned Up	earthmuffin2.gif	334411c8acc75203f0e0732f45449def	neutral	none	eat 1 bran muffin
-2335	All Blued Up	earthmuffin3.gif	26970f0f61804a65dcda1784f794c141	neutral	none	eat 1 blueberry muffin
+2334	All Branned Up	earthmuffin2.gif	334411c8acc75203f0e0732f45449def	good	none	eat 1 bran muffin
+2335	All Blued Up	earthmuffin3.gif	26970f0f61804a65dcda1784f794c141	good	none	eat 1 blueberry muffin
 2336	Silent Hunting	silenthunter.gif	0efb8c6d453e759ca2c600663640606d	good	none	cast 1 Silent Hunter
 2337	Nearly Silent Hunting	silenthunter.gif	1d67f1c5e45b5dc5e3a574ea69bd2d7c	good	none	cast 1 Silent Hunter
 2338	Quiet Determination	quietresolve.gif	6b018d046a7e757d582972a4c6947adb	good	none	cast 1 Quiet Determination
@@ -2576,17 +2576,17 @@
 2574	Bit-o-Salt	dripcandybar.gif	cf50b018fa9f021a014aa12715d0c82f	neutral	none	use 1 salty drippy candy bar
 2575	Slithering Mounds	dripcandybar.gif	63c611c1e773bc0516d1664ec5f1916c	neutral	none	use 1 writhing drippy candy bar
 2576	Snichors	dripcandybar.gif	9665bea0ac2f9da379254b1e417581ec	neutral	none	use 1 gooey drippy candy bar
-2577	Spit Upon	camelspit_down.gif	75884cd963a369a27b0b37343a01c2ed	neutral	none
+2577	Spit Upon	camelspit_down.gif	75884cd963a369a27b0b37343a01c2ed	good	none
 2578	Entauntauned	batgut.gif	297ee9fadfb5560e5142e0b3a88456db	neutral	none
-2579	You Have Ever Seen The Rain	saucedrops.gif	1811ff37102a4be344fc634b73d30d34	neutral	none	use 1 redwood rain stick
+2579	You Have Ever Seen The Rain	saucedrops.gif	1811ff37102a4be344fc634b73d30d34	good	none	use 1 redwood rain stick
 2580	Goo Vibrations	greygooball.gif	e31c54ee309cf40ebc6f7c00982ad46f	neutral	none
-2581	Wary	nopic.gif	796f91fe28ae74fa96189fa17bbf37d7	neutral	nohookah	cargo effect Wary
+2581	Wary	nopic.gif	796f91fe28ae74fa96189fa17bbf37d7	good	none	cargo effect Wary
 2582	Joke-Mad	angry.gif	90db65d923857548df90f5e4990201cd	neutral	nohookah	cargo effect Joke-Mad
-2583	Sizzlin' Hand	pocket.gif	8065d54cd3fb8d39583c7f2a426ddd8a	neutral	nohookah	cargo effect Sizzlin' Hand
-2584	Frosty Hand	pocket.gif	5e365d8957c31ca063c4aa66c0b60640	neutral	nohookah	cargo effect Frosty Hand
-2585	Foul Hand	pocket.gif	45ecc3be7f43ed1d9de42551173d8cd1	neutral	nohookah	cargo effect Foul Hand
-2586	Spooky Hand	pocket.gif	c2937792ecaa5be142451d3bb041e899	neutral	nohookah	cargo effect Spooky Hand
-2587	Nasty Hand	pocket.gif	c241a3f73465ddcd21c04758eebdb0a6	neutral	nohookah	cargo effect Nasty Hand
+2583	Sizzlin' Hand	pocket.gif	8065d54cd3fb8d39583c7f2a426ddd8a	good	nohookah	cargo effect Sizzlin' Hand
+2584	Frosty Hand	pocket.gif	5e365d8957c31ca063c4aa66c0b60640	good	none	cargo effect Frosty Hand
+2585	Foul Hand	pocket.gif	45ecc3be7f43ed1d9de42551173d8cd1	good	none	cargo effect Foul Hand
+2586	Spooky Hand	pocket.gif	c2937792ecaa5be142451d3bb041e899	good	none	cargo effect Spooky Hand
+2587	Nasty Hand	pocket.gif	c241a3f73465ddcd21c04758eebdb0a6	good	none	cargo effect Nasty Hand
 2588	Yeg's Glory	yeg_blessing.gif	7d23263e4e1317b82a0e4b210fc38a66	neutral	nohookah
 2589	You Pray To Yeg Your Soul To Keep	yeg_clock.gif	dabb80c4580c1c318df5af5be6e7ea5c	neutral	nohookah
 2590	Rictus of Yeg	teeth.gif	d230c29f0e2ea6f4032042bb10660660	neutral	nohookah	use 1 Yeg's Motel toothbrush
@@ -2595,10 +2595,10 @@
 2593	Yeg's Power	yeg_blessing.gif	5540baf46ed3a15e3b7abdf07d1af4a0	neutral	nohookah	summon 13
 2594	Barely Visible	pocket.gif	ca9f21774a3b01ecfee07b90c6731ab9	neutral	nohookah	cargo effect Barely Visible
 2595	Very Attractive	louder.gif	c3e2a8c1687a3573d1ee3c76b91c1098	neutral	nohookah	cargo effect Very Attractive
-2596	Finding Stuff	eyes.gif	bc571a98e78b819e9342aff772f12052	neutral	nohookah	cargo effect Finding Stuff
+2596	Finding Stuff	eyes.gif	bc571a98e78b819e9342aff772f12052	good	none	cargo effect Finding Stuff
 2597	Yeg's Keeping	yeg_blessing.gif	6d4a6243a23f3fbd8bbb41da7185a475	neutral	nohookah
-2598	All Chipped Up	earthpan3.gif	2ce277562fd55d6fabbfcc516c8e1249	neutral	none	eat 1 chocolate chip muffin
-2599	Started Your Day Right	earthmuffin.gif	23f075072c301838c8a00335467f07b5	neutral	none
-2600	Cartographically Charged	cccbook.gif	69fc775608852c35e28b1eafa32ba87f	neutral	none
-2601	Cartographically Aware	cccbook.gif	ca5cbe045400b9be1d084424a408cf74	neutral	none
-2602	Cartographically Rooted	cccbook.gif	e32bae43b054695fd4e2c1b0b3c141fc	neutral	none
+2598	All Chipped Up	earthpan3.gif	2ce277562fd55d6fabbfcc516c8e1249	good	none	eat 1 chocolate chip muffin
+2599	Started Your Day Right	earthmuffin.gif	23f075072c301838c8a00335467f07b5	good	none
+2600	Cartographically Charged	cccbook.gif	69fc775608852c35e28b1eafa32ba87f	good	none
+2601	Cartographically Aware	cccbook.gif	ca5cbe045400b9be1d084424a408cf74	good	none
+2602	Cartographically Rooted	cccbook.gif	e32bae43b054695fd4e2c1b0b3c141fc	good	none
