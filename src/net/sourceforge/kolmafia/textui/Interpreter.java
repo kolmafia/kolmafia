@@ -351,8 +351,9 @@ public class Interpreter
 		}
 		catch ( Exception e )
 		{
-			StaticEntity.printStackTrace( e, "", true );
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Script execution aborted (" + e.getMessage() + "): " + Parser.getLineAndFile( this.fileName, this.lineNumber ) );
+			String lineAndFile = Parser.getLineAndFile( this.fileName, this.lineNumber );
+			StaticEntity.printStackTrace( e, lineAndFile, true );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Script execution aborted (" + e.getMessage() + "): " + lineAndFile );
 		}
 		return DataTypes.VOID_VALUE;
 	}

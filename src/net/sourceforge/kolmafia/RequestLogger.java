@@ -39,6 +39,7 @@ import java.util.Date;
 import java.util.List;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
@@ -226,6 +227,7 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 
+import net.sourceforge.kolmafia.swingui.menu.DebugLogMenuItem;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.NullStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -549,12 +551,14 @@ public class RequestLogger
 		RequestLogger.debugStream =
 			RequestLogger.openStream(
 				"DEBUG_" + KoLConstants.DAILY_FORMAT.format( new Date() ) + ".txt", RequestLogger.debugStream, true );
+		NamedListenerRegistry.fireChange("(debug)");
 	}
 
 	public static final void closeDebugLog()
 	{
 		RequestLogger.closeStream( RequestLogger.debugStream );
 		RequestLogger.debugStream = NullStream.INSTANCE;
+		NamedListenerRegistry.fireChange("(debug)");
 	}
 
 	public static final void updateDebugLog()
