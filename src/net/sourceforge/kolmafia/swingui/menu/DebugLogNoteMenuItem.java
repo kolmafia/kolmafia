@@ -35,39 +35,50 @@ package net.sourceforge.kolmafia.swingui.menu;
 
 import net.sourceforge.kolmafia.RequestLogger;
 
-import net.sourceforge.kolmafia.listener.Listener;
-import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
-public class DebugLogMenuItem
-	extends ThreadedMenuItem
-	implements Listener
-{
-	public DebugLogMenuItem()
-	{
-		super( RequestLogger.isDebugging() ? "Stop Debug Log" : "Start Debug Log", null );
-		this.setAction( new DebugLogListener() );
-		NamedListenerRegistry.registerNamedListener( "(debug)", this );
-	}
-	public void update()
-	{
-		DebugLogMenuItem.this.setText( RequestLogger.isDebugging() ? "Stop Debug Log" : "Start Debug Log" );
-	}
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-	private class DebugLogListener
+public class DebugLogNoteMenuItem
+	extends ThreadedMenuItem
+{
+	public DebugLogNoteMenuItem()
+	{
+		super( "Add Note to Debug Log", new DebugLogNoteListener() );
+	}
+	private static class DebugLogNoteListener
 		extends ThreadedListener
 	{
 		@Override
 		protected void execute()
-		{
-			if ( RequestLogger.isDebugging() )
-			{
-				RequestLogger.closeDebugLog();
-			}
-			else
+		{			
+		//Pop up a dialog to get a note, and then send it to the debug log.
+		String userNote = InputFieldUtilities.input( "Enter note for debug log" );
+		if (userNote == null || userNote.equals("")) return;
+		java.util.Date noteTime = new java.util.Date();
+		if ( ! RequestLogger.isDebugging() )
 			{
 				RequestLogger.openDebugLog();
+				RequestLogger.updateDebugLog( "-----User Note: "
+						+ noteTime
+						+ "-----\n"
+						+ userNote
+						+ "\n-----" );
+
+				RequestLogger.closeDebugLog();
 			}
+			else 
+			{
+				RequestLogger.updateDebugLog( "-----User Note: "
+						+ noteTime
+						+ "-----\n"
+						+ userNote
+						+ "\n-----" );
+			
+			}
+
+		
 		}
 	}
 }

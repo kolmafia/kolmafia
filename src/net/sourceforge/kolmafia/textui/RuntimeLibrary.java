@@ -367,6 +367,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "logprint", DataTypes.VOID_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		
+		functions.add( new LibraryFunction( "debugprint", DataTypes.VOID_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "traceprint", DataTypes.VOID_TYPE, params ) );
@@ -2642,6 +2645,20 @@ public abstract class RuntimeLibrary
 	{
 		String parameters = RuntimeLibrary.cleanString( string );
 		RequestLogger.getSessionStream().println( "> " + parameters );
+		return DataTypes.VOID_VALUE;
+	}
+	public static Value debugprint( Interpreter interpreter, final Value string )
+	{
+		if ( RequestLogger.isDebugging() )
+		{
+			String parameters = RuntimeLibrary.cleanString( string );
+			java.util.Date noteTime = new java.util.Date();
+			RequestLogger.updateDebugLog( "-----User Note: "
+					+ noteTime
+					+ "-----\n"
+					+ parameters
+					+ "\n-----" );		}
+
 		return DataTypes.VOID_VALUE;
 	}
 
