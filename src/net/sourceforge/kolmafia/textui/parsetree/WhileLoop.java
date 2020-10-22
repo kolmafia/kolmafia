@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
 
 public class WhileLoop
 	extends Loop
@@ -61,7 +62,7 @@ public class WhileLoop
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( Interpreter.STATE_EXIT );
+			interpreter.setState( InterpreterState.EXIT );
 			return null;
 		}
 
@@ -99,14 +100,14 @@ public class WhileLoop
 
 			Value result = super.execute( interpreter );
 
-			if ( interpreter.getState() == Interpreter.STATE_BREAK )
+			if ( interpreter.getState() == InterpreterState.BREAK )
 			{
-				interpreter.setState( Interpreter.STATE_NORMAL );
+				interpreter.setState( InterpreterState.NORMAL );
 				interpreter.traceUnindent();
 				return DataTypes.VOID_VALUE;
 			}
 
-			if ( interpreter.getState() != Interpreter.STATE_NORMAL )
+			if ( interpreter.getState() != InterpreterState.NORMAL )
 			{
 				interpreter.traceUnindent();
 				return result;

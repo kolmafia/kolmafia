@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
 
 public class FunctionReturn
 	extends ParseTreeNode
@@ -77,17 +78,17 @@ public class FunctionReturn
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( Interpreter.STATE_EXIT );
+			interpreter.setState( InterpreterState.EXIT );
 		}
 
-		if ( interpreter.getState() == Interpreter.STATE_EXIT )
+		if ( interpreter.getState() == InterpreterState.EXIT )
 		{
 			return null;
 		}
 
 		if ( this.returnValue == null )
 		{
-			interpreter.setState( Interpreter.STATE_RETURN );
+			interpreter.setState( InterpreterState.RETURN );
 			return null;
 		}
 
@@ -111,9 +112,9 @@ public class FunctionReturn
 			return null;
 		}
 
-		if ( interpreter.getState() != Interpreter.STATE_EXIT )
+		if ( interpreter.getState() != InterpreterState.EXIT )
 		{
-			interpreter.setState( Interpreter.STATE_RETURN );
+			interpreter.setState( InterpreterState.RETURN );
 		}
 		
 		if ( this.expectedType == null )

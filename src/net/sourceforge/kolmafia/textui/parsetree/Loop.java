@@ -37,6 +37,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
 
 public abstract class Loop
 	extends ParseTreeNode
@@ -60,27 +61,27 @@ public abstract class Loop
 
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( Interpreter.STATE_EXIT );
+			interpreter.setState( InterpreterState.EXIT );
 		}
 
-		if ( interpreter.getState() == Interpreter.STATE_EXIT )
+		if ( interpreter.getState() == InterpreterState.EXIT )
 		{
 			return null;
 		}
 
-		if ( interpreter.getState() == Interpreter.STATE_BREAK )
+		if ( interpreter.getState() == InterpreterState.BREAK )
 		{
 			// Stay in state; subclass exits loop
 			return DataTypes.VOID_VALUE;
 		}
 
-		if ( interpreter.getState() == Interpreter.STATE_CONTINUE )
+		if ( interpreter.getState() == InterpreterState.CONTINUE )
 		{
 			// Done with this iteration
-			interpreter.setState( Interpreter.STATE_NORMAL );
+			interpreter.setState( InterpreterState.NORMAL );
 		}
 
-		if ( interpreter.getState() == Interpreter.STATE_RETURN )
+		if ( interpreter.getState() == InterpreterState.RETURN )
 		{
 			// Stay in state; subclass exits loop
 			return result;

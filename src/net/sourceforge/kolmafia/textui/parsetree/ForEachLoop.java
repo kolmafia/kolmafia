@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
 import net.sourceforge.kolmafia.textui.Parser;
 
 public class ForEachLoop
@@ -82,7 +83,7 @@ public class ForEachLoop
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( Interpreter.STATE_EXIT );
+			interpreter.setState( InterpreterState.EXIT );
 			return null;
 		}
 
@@ -95,7 +96,7 @@ public class ForEachLoop
 		// Evaluate the aggref to get the slice
 		AggregateValue slice = (AggregateValue) this.aggregate.execute( interpreter );
 		interpreter.captureValue( slice );
-		if ( interpreter.getState() == Interpreter.STATE_EXIT )
+		if ( interpreter.getState() == InterpreterState.EXIT )
 		{
 			interpreter.traceUnindent();
 			return null;
@@ -106,9 +107,9 @@ public class ForEachLoop
 		ListIterator<VariableReference> it = this.variableReferences.listIterator();
 		Value retval = this.executeSlice( interpreter, slice, it, it.next() );
 
-		if ( interpreter.getState() == Interpreter.STATE_BREAK )
+		if ( interpreter.getState() == InterpreterState.BREAK )
 		{
-			interpreter.setState( Interpreter.STATE_NORMAL );
+			interpreter.setState( InterpreterState.NORMAL );
 		}
 
 		return retval;
@@ -188,7 +189,7 @@ public class ForEachLoop
 				result = super.execute( interpreter );
 			}
 
-			if ( interpreter.getState() == Interpreter.STATE_NORMAL )
+			if ( interpreter.getState() == InterpreterState.NORMAL )
 			{
 				continue;
 			}

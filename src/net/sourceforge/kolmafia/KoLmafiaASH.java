@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
 import net.sourceforge.kolmafia.textui.NamespaceInterpreter;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 
@@ -365,7 +366,7 @@ public abstract class KoLmafiaASH
 		{
 			if ( i.getRelayRequest() != null )
 			{
-				i.setState( Interpreter.STATE_EXIT );
+				i.setState( InterpreterState.EXIT );
 			}
 		}
 	}
