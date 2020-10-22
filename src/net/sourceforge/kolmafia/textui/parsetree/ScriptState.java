@@ -37,13 +37,14 @@ import java.io.PrintStream;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
 
-public abstract class InterpreterState
+public abstract class ScriptState
 	extends ParseTreeNode
 {
-	private String state;
+	private InterpreterState state;
 
-	public InterpreterState( final String state )
+	public ScriptState( final InterpreterState state )
 	{
 		this.state = state;
 	}
@@ -51,7 +52,7 @@ public abstract class InterpreterState
 	@Override
 	public String toString()
 	{
-		return this.state;
+		return this.state.toString();
 	}
 
 	@Override

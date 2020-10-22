@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
 import net.sourceforge.kolmafia.textui.Parser;
 
 public class IncDec
@@ -68,7 +69,7 @@ public class IncDec
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( Interpreter.STATE_EXIT );
+			interpreter.setState( InterpreterState.EXIT );
 			return null;
 		}
 
@@ -100,7 +101,7 @@ public class IncDec
 
 		interpreter.traceUnindent();
 
-		if ( interpreter.getState() == Interpreter.STATE_EXIT )
+		if ( interpreter.getState() == InterpreterState.EXIT )
 		{
 			return null;
 		}

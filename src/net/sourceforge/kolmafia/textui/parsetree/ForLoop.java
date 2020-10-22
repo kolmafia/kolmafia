@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
 import net.sourceforge.kolmafia.textui.Parser;
 
 public class ForLoop
@@ -96,7 +97,7 @@ public class ForLoop
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( Interpreter.STATE_EXIT );
+			interpreter.setState( InterpreterState.EXIT );
 			return null;
 		}
 
@@ -202,14 +203,14 @@ public class ForLoop
 			// Execute the scope
 			Value result = super.execute( interpreter );
 
-			if (interpreter.getState().equals(Interpreter.STATE_BREAK))
+			if ( interpreter.getState() == InterpreterState.BREAK )
 			{
-				interpreter.setState( Interpreter.STATE_NORMAL );
+				interpreter.setState( InterpreterState.NORMAL );
 				interpreter.traceUnindent();
 				return DataTypes.VOID_VALUE;
 			}
 
-			if (!interpreter.getState().equals(Interpreter.STATE_NORMAL))
+			if ( interpreter.getState() != InterpreterState.NORMAL )
 			{
 				interpreter.traceUnindent();
 				return result;

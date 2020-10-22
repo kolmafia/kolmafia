@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
 import net.sourceforge.kolmafia.textui.Parser;
 
 public class SortBy
@@ -72,7 +73,7 @@ public class SortBy
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( Interpreter.STATE_EXIT );
+			interpreter.setState( InterpreterState.EXIT );
 			return null;
 		}
 
@@ -85,7 +86,7 @@ public class SortBy
 		AggregateValue map = (AggregateValue) this.aggregate.execute( interpreter );
 		interpreter.captureValue( map );
 
-		if ( interpreter.getState() == Interpreter.STATE_EXIT )
+		if ( interpreter.getState() == InterpreterState.EXIT )
 		{
 			interpreter.traceUnindent();
 			return null;
@@ -105,7 +106,7 @@ public class SortBy
 				interpreter.trace( "Element #" + i + ": " + index + " = " + value );
 			}
 			Value sortkey = this.expr.execute( interpreter );
-			if ( interpreter.getState() == Interpreter.STATE_EXIT )
+			if ( interpreter.getState() == InterpreterState.EXIT )
 			{
 				interpreter.traceUnindent();
 				return null;

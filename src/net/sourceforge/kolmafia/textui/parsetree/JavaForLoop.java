@@ -41,7 +41,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Parser;
+import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
 
 public class JavaForLoop
 	extends Loop
@@ -71,7 +71,7 @@ public class JavaForLoop
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( Interpreter.STATE_EXIT );
+			interpreter.setState( InterpreterState.EXIT );
 			return null;
 		}
 
@@ -103,7 +103,7 @@ public class JavaForLoop
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + value );
 			}
 
-			if ( interpreter.getState() == Interpreter.STATE_EXIT )
+			if ( interpreter.getState() == InterpreterState.EXIT )
 			{
 				interpreter.traceUnindent();
 				return null;
@@ -140,14 +140,14 @@ public class JavaForLoop
 			// Execute the loop body
 			Value result = super.execute( interpreter );
 
-			if ( interpreter.getState() == Interpreter.STATE_BREAK )
+			if ( interpreter.getState() == InterpreterState.BREAK )
 			{
-				interpreter.setState( Interpreter.STATE_NORMAL );
+				interpreter.setState( InterpreterState.NORMAL );
 				interpreter.traceUnindent();
 				return DataTypes.VOID_VALUE;
 			}
 
-			if ( interpreter.getState() != Interpreter.STATE_NORMAL )
+			if ( interpreter.getState() != InterpreterState.NORMAL )
 			{
 				interpreter.traceUnindent();
 				return result;
@@ -161,7 +161,7 @@ public class JavaForLoop
 				// Abort processing now if command failed
 				if ( !KoLmafia.permitsContinue() )
 				{
-					interpreter.setState( Interpreter.STATE_EXIT );
+					interpreter.setState( InterpreterState.EXIT );
 				}
 
 				if ( Interpreter.isTracing() )
@@ -169,7 +169,7 @@ public class JavaForLoop
 					interpreter.trace( "[" + interpreter.getState() + "] <- " + iresult.toQuotedString() );
 				}
 
-				if ( interpreter.getState() != Interpreter.STATE_NORMAL )
+				if ( interpreter.getState() != InterpreterState.NORMAL )
 				{
 					interpreter.traceUnindent();
 					return DataTypes.VOID_VALUE;

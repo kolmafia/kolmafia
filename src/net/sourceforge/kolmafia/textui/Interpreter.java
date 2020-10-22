@@ -74,15 +74,18 @@ public class Interpreter
 
 	// Variables used during execution
 
-	public static final String STATE_NORMAL = "NORMAL";
-	public static final String STATE_RETURN = "RETURN";
-	public static final String STATE_BREAK = "BREAK";
-	public static final String STATE_CONTINUE = "CONTINUE";
-	public static final String STATE_EXIT = "EXIT";
+	public enum InterpreterState
+	{
+		NORMAL,
+		RETURN,
+		BREAK,
+		CONTINUE,
+		EXIT
+	}
 
-	private static Stack<Interpreter> interpreterStack = new Stack<>();
+	private static final Stack<Interpreter> interpreterStack = new Stack<>();
 
-	private String currentState = Interpreter.STATE_NORMAL;
+	private InterpreterState currentState = InterpreterState.NORMAL;
 	private boolean exiting = false;
 	private int traceIndentation = 0;
 	public Profiler profiler;
@@ -101,9 +104,9 @@ public class Interpreter
 	LinkedHashMap<String, LinkedHashMap<String, StringBuilder>> batched;
 
 	// For ASH stack traces.
-	private ArrayList<CallFrame> frameStack;
+	private final ArrayList<CallFrame> frameStack;
 	// Limit object churn across function calls.
-	private ArrayList<CallFrame> unusedCallFrames;
+	private final ArrayList<CallFrame> unusedCallFrames;
 
 	public static final int STACK_LIMIT = 10;
 
@@ -140,15 +143,6 @@ public class Interpreter
 	{
 		this.parser = new Parser();
 		this.scope = new Scope( new VariableList(), Parser.getExistingFunctionScope() );
-		this.hadPendingState = false;
-		this.frameStack = new ArrayList<>();
-		this.unusedCallFrames = new ArrayList<>();
-	}
-
-	private Interpreter( final Interpreter source, final File scriptFile )
-	{
-		this.parser = new Parser( scriptFile, source.getImports() );
-		this.scope = source.scope;
 		this.hadPendingState = false;
 		this.frameStack = new ArrayList<>();
 		this.unusedCallFrames = new ArrayList<>();
@@ -216,16 +210,16 @@ public class Interpreter
 		return this.scope.getFunctions();
 	}
 
-	public String getState()
+	public InterpreterState getState()
 	{
 		return this.currentState;
 	}
 
-	public void setState( final String state )
+	public void setState( final InterpreterState state )
 	{
 		this.currentState = state;
 
-		if (state.equals(STATE_EXIT) && Preferences.getBoolean( "printStackOnAbort" ) )
+		if (state == InterpreterState.EXIT && Preferences.getBoolean( "printStackOnAbort" ) )
 		{
 			this.printStackTrace();
 		}
@@ -324,7 +318,7 @@ public class Interpreter
 		String notifyList = Preferences.getString( "previousNotifyList" );
 		String notifyRecipient = this.parser.getNotifyRecipient();
 
-		if ( notifyRecipient != null && notifyList.indexOf( currentScript ) == -1 )
+		if ( notifyRecipient != null && !notifyList.contains( currentScript ) )
 		{
 			Preferences.setString( "previousNotifyList", notifyList + currentScript );
 
@@ -366,7 +360,7 @@ public class Interpreter
 
 		Interpreter.interpreterStack.push( this );
 
-		this.currentState = Interpreter.STATE_NORMAL;
+		this.currentState = InterpreterState.NORMAL;
 		this.exiting = false;
 		this.resetTracing();
 
@@ -396,7 +390,7 @@ public class Interpreter
 			result = topScope.execute( this );
 		}
 
-		if (this.currentState.equals(Interpreter.STATE_EXIT))
+		if ( this.currentState == InterpreterState.EXIT )
 		{
 			return result;
 		}
@@ -521,7 +515,7 @@ public class Interpreter
 
 	// ************** Call  Stack ***************
 
-	public class CallFrame
+	public static class CallFrame
 	{
 		private String name;
 		private int lineNumber;
@@ -693,14 +687,14 @@ public class Interpreter
 		if ( KoLmafia.refusesContinue() || value == null )
 		{
 			// User aborted
-			this.setState( STATE_EXIT );
+			this.setState( InterpreterState.EXIT );
 			return;
 		}
 
 		// Even if an error occurred, since we captured the result,
 		// permit further execution.
 
-		this.setState( STATE_NORMAL );
+		this.setState( InterpreterState.NORMAL );
 		KoLmafia.forceContinue();
 	}
 

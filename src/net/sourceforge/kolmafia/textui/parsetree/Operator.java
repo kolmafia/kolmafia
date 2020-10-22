@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.VYKEACompanionData;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
 import net.sourceforge.kolmafia.textui.Parser;
 
 public class Operator
@@ -250,7 +251,7 @@ public class Operator
 		return Operator.validCoercion( lhs, rhs, this.toString() );
 	}
 
-	public static final boolean validCoercion( Type lhs, Type rhs, final String oper )
+	public static boolean validCoercion( Type lhs, Type rhs, final String oper )
 	{
 		// Resolve aliases
 		lhs = lhs.getBaseType();
@@ -550,7 +551,7 @@ public class Operator
 		}
 		interpreter.traceUnindent();
 
-		if (interpreter.getState().equals(Interpreter.STATE_EXIT))
+		if ( interpreter.getState() == InterpreterState.EXIT )
 		{
 			interpreter.traceUnindent();
 			return null;
@@ -656,7 +657,7 @@ public class Operator
 		}
 		interpreter.traceUnindent();
 
-		if (interpreter.getState().equals(Interpreter.STATE_EXIT))
+		if ( interpreter.getState() == InterpreterState.EXIT )
 		{
 			interpreter.traceUnindent();
 			return null;
@@ -696,7 +697,7 @@ public class Operator
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + rightValue.toQuotedString() );
 			}
 			interpreter.traceUnindent();
-			if (interpreter.getState().equals(Interpreter.STATE_EXIT))
+			if ( interpreter.getState() == InterpreterState.EXIT )
 			{
 				interpreter.traceUnindent();
 				return null;
@@ -736,7 +737,7 @@ public class Operator
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + rightValue.toQuotedString() );
 			}
 			interpreter.traceUnindent();
-			if (interpreter.getState().equals(Interpreter.STATE_EXIT))
+			if ( interpreter.getState() == InterpreterState.EXIT )
 			{
 				interpreter.traceUnindent();
 				return null;
@@ -774,7 +775,7 @@ public class Operator
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + rightValue.toQuotedString() );
 			}
 			interpreter.traceUnindent();
-			if (interpreter.getState().equals(Interpreter.STATE_EXIT))
+			if ( interpreter.getState() == InterpreterState.EXIT )
 			{
 				interpreter.traceUnindent();
 				return null;
@@ -805,7 +806,7 @@ public class Operator
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + rightValue.toQuotedString() );
 		}
 		interpreter.traceUnindent();
-		if (interpreter.getState().equals(Interpreter.STATE_EXIT))
+		if ( interpreter.getState() == InterpreterState.EXIT )
 		{
 			interpreter.traceUnindent();
 			return null;

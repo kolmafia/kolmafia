@@ -37,8 +37,9 @@ import java.io.PrintStream;
 
 import net.sourceforge.kolmafia.KoLmafia;
 
-import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.ScriptException;
 
 public class CatchValue
         extends Value
@@ -55,7 +56,7 @@ public class CatchValue
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( Interpreter.STATE_EXIT );
+			interpreter.setState( InterpreterState.EXIT );
 			return null;
 		}
 
@@ -64,30 +65,47 @@ public class CatchValue
 		{
 			interpreter.trace( "Evaluating catch value" );
 		}
-		
-		KoLmafia.lastMessage = "";
-		Value capture = this.value.execute( interpreter );
-		
+
+		String errorMessage = "";
+		Value scopeValue = null;
+
+		try
+		{
+			KoLmafia.lastMessage = "";
+			scopeValue = this.value.execute( interpreter );
+		}
+		catch ( ScriptException se )
+		{
+			errorMessage = "SCRIPT: " + se.getMessage();
+		}
+		catch ( Exception e )
+		{
+			errorMessage = "JAVA: " + e.getMessage();
+		}
+
 		// We may have thrown and caught an error within the catch block.
 		// Return message only if currently cannot continue.
-		String message = KoLmafia.permitsContinue() ? "" : KoLmafia.lastMessage;
-
-		// Capture the value, permitting continuation
-		interpreter.captureValue( capture );
+		if ( errorMessage.equals( "" ) && !KoLmafia.permitsContinue() )
+		{
+			// Capture the value, permitting continuation
+			errorMessage = "CAPTURE: " + KoLmafia.lastMessage;
+			interpreter.captureValue( scopeValue );
+		}
 
 		if ( Interpreter.isTracing() )
 		{
-			interpreter.trace( "Returns: " + message );
+			interpreter.trace( "Returning '" + errorMessage + "'" );
 		}
+
 		interpreter.traceUnindent();
 
 		// If user aborted or exited, don't catch it
-		if ( interpreter.getState() == Interpreter.STATE_EXIT )
+		if ( interpreter.getState() == InterpreterState.EXIT )
 		{
 			return null;
 		}
-	
-		return new Value( message );
+
+		return new Value( errorMessage );
 	}
 
 	@Override

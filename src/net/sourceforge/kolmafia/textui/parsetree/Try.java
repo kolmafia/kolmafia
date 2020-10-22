@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
 
 public class Try
 	extends ParseTreeNode
@@ -56,9 +57,10 @@ public class Try
 	@Override
 	public Value execute( final Interpreter interpreter )
 	{
+		// We can't catch script ABORTs
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( Interpreter.STATE_EXIT );
+			interpreter.setState( InterpreterState.EXIT );
 			return null;
 		}
 
@@ -73,16 +75,25 @@ public class Try
 		{
 			result = this.body.execute( interpreter );
 		}
+		catch ( Exception e )
+		{
+			// *** Here is where we wuld look at catch blocks and find which, if any
+			// *** will handle this exception.
+			//
+			// If no catch block swallows this error, propagate it upwards
+			interpreter.traceUnindent();
+			throw e;
+		}
 		finally
 		{
 			if ( this.finalClause != null )
 			{
-				String oldState = interpreter.getState();
+				InterpreterState oldState = interpreter.getState();
 				boolean userAborted = StaticEntity.userAborted;
 				MafiaState continuationState = StaticEntity.getContinuationState();
 
 				KoLmafia.forceContinue();
-				interpreter.setState( Interpreter.STATE_NORMAL );
+				interpreter.setState( InterpreterState.NORMAL );
 
 				if ( Interpreter.isTracing() )
 				{

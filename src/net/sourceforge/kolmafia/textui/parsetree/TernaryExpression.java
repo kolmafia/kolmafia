@@ -37,6 +37,7 @@ import java.io.PrintStream;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
 
 public class TernaryExpression
 	extends Expression
@@ -91,7 +92,7 @@ public class TernaryExpression
 		}
 		interpreter.traceUnindent();
 
-		if ( interpreter.getState() == Interpreter.STATE_EXIT )
+		if ( interpreter.getState() == InterpreterState.EXIT )
 		{
 			interpreter.traceUnindent();
 			return null;
@@ -130,7 +131,7 @@ public class TernaryExpression
 		}
 		interpreter.traceUnindent();
 
-		if ( interpreter.getState() == Interpreter.STATE_EXIT )
+		if ( interpreter.getState() == InterpreterState.EXIT )
 		{
 			interpreter.traceUnindent();
 			return null;

@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
 
 public class Else
 	extends Conditional
@@ -53,7 +54,7 @@ public class Else
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( Interpreter.STATE_EXIT );
+			interpreter.setState( InterpreterState.EXIT );
 			return null;
 		}
 
@@ -65,7 +66,7 @@ public class Else
 		Value result = this.scope.execute( interpreter );
 		interpreter.traceUnindent();
 
-		if ( interpreter.getState() != Interpreter.STATE_NORMAL )
+		if ( interpreter.getState() != InterpreterState.NORMAL )
 		{
 			return result;
 		}

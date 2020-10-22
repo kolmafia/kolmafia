@@ -228,6 +228,7 @@ import net.sourceforge.kolmafia.svn.SVNManager;
 import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 
 import net.sourceforge.kolmafia.textui.Interpreter.CallFrame;
+import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
 
 import net.sourceforge.kolmafia.textui.command.ConditionalStatement;
 import net.sourceforge.kolmafia.textui.command.SetPreferencesCommand;
@@ -2767,7 +2768,7 @@ public abstract class RuntimeLibrary
 	private static Value abort( Interpreter interpreter, final String string )
 	{
 		KoLmafia.updateDisplay( MafiaState.ABORT, string );
-		interpreter.setState( Interpreter.STATE_EXIT );
+		interpreter.setState( InterpreterState.EXIT );
 		return DataTypes.VOID_VALUE;
 	}
 
@@ -3705,7 +3706,7 @@ public abstract class RuntimeLibrary
 			Macrofier.resetMacroOverride();
 		}
 
-		if (interpreter.getState().equals(Interpreter.STATE_EXIT))
+		if ( interpreter.getState() == InterpreterState.EXIT )
 		{
 			return DataTypes.VOID_VALUE;
 		}
@@ -3738,7 +3739,7 @@ public abstract class RuntimeLibrary
 			adventure.overrideAdventuresUsed( -1 );
 		}
 
-		if (interpreter.getState().equals(Interpreter.STATE_EXIT))
+		if ( interpreter.getState() == InterpreterState.EXIT )
 		{
 			return DataTypes.VOID_VALUE;
 		}
@@ -6449,7 +6450,7 @@ public abstract class RuntimeLibrary
 			Macrofier.resetMacroOverride();
 		}
 
-		if (interpreter.getState().equals(Interpreter.STATE_EXIT))
+		if ( interpreter.getState() == InterpreterState.EXIT )
 		{
 			return DataTypes.VOID_VALUE;
 		}
