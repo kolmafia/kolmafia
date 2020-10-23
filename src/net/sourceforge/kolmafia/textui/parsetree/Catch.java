@@ -37,6 +37,7 @@ import java.io.PrintStream;
 
 import net.sourceforge.kolmafia.KoLmafia;
 
+import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
 import net.sourceforge.kolmafia.textui.ScriptException;
@@ -46,14 +47,10 @@ public class Catch
 {
 	private final ParseTreeNode node;
 
-	public Catch( final Scope body )
+	public Catch( final ParseTreeNode node  )
 	{
-		this.node = body;
-	}
-
-	public Catch( final Value value )
-	{
-		this.node = value;
+		super( DataTypes.STRING_TYPE );
+		this.node = node;
 	}
 
 	@Override
