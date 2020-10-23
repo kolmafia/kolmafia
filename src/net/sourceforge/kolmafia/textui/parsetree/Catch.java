@@ -42,13 +42,18 @@ import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
 import net.sourceforge.kolmafia.textui.ScriptException;
 
 public class Catch
-        extends ParseTreeNode
+        extends Value
 {
-	private final Scope body;
+	private final ParseTreeNode node;
 
 	public Catch( final Scope body )
 	{
-		this.body = body;
+		this.node = body;
+	}
+
+	public Catch( final Value value )
+	{
+		this.node = value;
 	}
 
 	@Override
@@ -63,7 +68,7 @@ public class Catch
 		interpreter.traceIndent();
 		if ( Interpreter.isTracing() )
 		{
-			interpreter.trace( "Entering catch body" );
+			interpreter.trace( "Evaluating catch body" );
 		}
 
 		String errorMessage = "";
@@ -72,7 +77,7 @@ public class Catch
 		try
 		{
 			KoLmafia.lastMessage = "";
-			scopeValue = this.body.execute( interpreter );
+			scopeValue = this.node.execute( interpreter );
 		}
 		catch ( ScriptException se )
 		{
@@ -82,7 +87,7 @@ public class Catch
 		{
 			errorMessage = "JAVA: " + e.getMessage();
 		}
-		
+
 		// We may have thrown and caught an error within the catch block.
 		// Return message only if currently cannot continue.
 		if ( errorMessage.equals( "" ) && !KoLmafia.permitsContinue() )
@@ -104,20 +109,20 @@ public class Catch
 		{
 			return null;
 		}
-	
+
 		return new Value( errorMessage );
 	}
 	
 	@Override
 	public boolean assertBarrier()
 	{
-		return this.body.assertBarrier();
+		return this.node.assertBarrier();
 	}
 	
 	@Override
 	public boolean assertBreakable()
 	{
-		return this.body.assertBreakable();
+		return this.node.assertBreakable();
 	}
 
 	@Override
@@ -131,7 +136,6 @@ public class Catch
 	{
 		Interpreter.indentLine( stream, indent );
 		stream.println( "<CATCH>" );
-
-		this.body.print( stream, indent + 1 );
+		this.node.print( stream, indent + 1 );
 	}
 }
