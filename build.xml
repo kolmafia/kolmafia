@@ -29,7 +29,7 @@
 
 	<target name="update">
 
-		<exec executable="svn" failifexecutionfails="false">
+		<exec executable="svn" failifexecutionfails="${svn.fail.on.error}">
 			<arg value="update" />
 			<arg value="${root}" />
 		</exec>
