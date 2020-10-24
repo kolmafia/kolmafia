@@ -33,9 +33,12 @@
 
 package net.sourceforge.kolmafia;
 
+import java.awt.Frame;
+
 import java.util.ArrayList;
 
 import javax.swing.JTabbedPane;
+
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
 import net.sourceforge.kolmafia.chat.ChatManager;
@@ -90,7 +93,7 @@ public class KoLmafiaGUI
 	 * default look and feel of all <code>JFrame</code> objects to decorated.
 	 */
 
-	static final void initialize()
+	static void initialize()
 	{
 		KoLmafiaGUI.initializeLoginInterface();
 
@@ -111,7 +114,7 @@ public class KoLmafiaGUI
 		}
 	}
 
-	public static final void checkFrameSettings()
+	public static void checkFrameSettings()
 	{
 		String frameSetting = Preferences.getString( "initialFrames" );
 		String desktopSetting = Preferences.getString( "initialDesktop" );
@@ -173,18 +176,18 @@ public class KoLmafiaGUI
 
 		if ( !frameSetting.equals( "" ) )
 		{
-			for ( int i = 0; i < frameArray.length; ++i )
+			for ( String s : frameArray )
 			{
-				if ( !initialFrameList.contains( frameArray[ i ] ) )
+				if ( !initialFrameList.contains( s ) )
 				{
-					initialFrameList.add( frameArray[ i ] );
+					initialFrameList.add( s );
 				}
 			}
 		}
 
-		for ( int i = 0; i < desktopArray.length; ++i )
+		for ( String s : desktopArray )
 		{
-			initialFrameList.remove( desktopArray[ i ] );
+			initialFrameList.remove( s );
 		}
 
 		if ( !initialFrameList.isEmpty() && !Preferences.getBoolean( "relayBrowserOnly" ) )
@@ -192,9 +195,19 @@ public class KoLmafiaGUI
 			String[] initialFrames = new String[ initialFrameList.size() ];
 			initialFrameList.toArray( initialFrames );
 
-			for ( int i = 0; i < initialFrames.length; ++i )
+			for ( String initialFrame : initialFrames )
 			{
-				KoLmafiaGUI.constructFrame( initialFrames[ i ] );
+				KoLmafiaGUI.constructFrame( initialFrame );
+			}
+			String lastOne = initialFrames[initialFrames.length - 1];
+			Frame[] frames = Frame.getFrames();
+			for ( Frame f : frames )
+			{
+				if ( f.getClass().getName().endsWith( lastOne ))
+				{
+					f.requestFocus();
+					break;
+				}
 			}
 		}
 
@@ -204,7 +217,7 @@ public class KoLmafiaGUI
 		LoginFrame.disposeInstance();
 	}
 
-	public static final void constructFrame( final String frameName )
+	public static void constructFrame( final String frameName )
 	{
 		if ( frameName.equals( "" ) )
 		{
@@ -249,7 +262,7 @@ public class KoLmafiaGUI
 		}
 	}
 
-	public static final void constructFrame( final Class frameClass )
+	public static void constructFrame( final Class frameClass )
 	{
 		// Now, test to see if any requests need to be run before
 		// you fall into the event dispatch thread.
