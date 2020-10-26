@@ -672,7 +672,7 @@ public class SkillDatabase
 		{
 			return 11000;
 		}
-		if ( name == KoLCharacter.ZOMBIE_SLAYER )
+		if ( name == KoLCharacter.ZOMBIE_MASTER )
 		{
 			return 12000;
 		}
