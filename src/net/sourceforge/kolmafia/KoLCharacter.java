@@ -156,7 +156,6 @@ public abstract class KoLCharacter
 	public static final String COWPUNCHER = "Cow Puncher";
 	public static final String BEANSLINGER = "Beanslinger";
 	public static final String SNAKE_OILER = "Snake Oiler";
-	public static final String ZOMBIE_SLAYER = "Zombie Slayer";
 	public static final String GELATINOUS_NOOB = "Gelatinous Noob";
 	public static final String VAMPYRE = "Vampyre";
 	public static final String PLUMBER = "Plumber";
@@ -1623,27 +1622,35 @@ public abstract class KoLCharacter
 			classtype == 25 ? KoLCharacter.PLUMBER :
 			"Unknown";
 
-		KoLCharacter.classtype = classname;
 		KoLCharacter.setClassName( classname );
 	}
 
 	public static final void setClassName( final String classname )
 	{
 		KoLCharacter.classname = classname;
-		KoLCharacter.classtype = KoLCharacter.getClassType();
-		KoLCharacter.tripleReagent = KoLCharacter.classtype == KoLCharacter.SAUCEROR;
 
-		if ( KoLCharacter.classtype == KoLCharacter.ASTRAL_SPIRIT )
+		String originalClassType = KoLCharacter.classtype;
+		String newClassType = KoLCharacter.getClassType();
+
+		// We can use == on Strings since getClassType will return a
+		// constant string. It would be cleaner to have an enum.
+		if ( originalClassType != newClassType )
 		{
-			return;
+			KoLCharacter.classtype = newClassType;
+			KoLCharacter.tripleReagent = KoLCharacter.classtype == KoLCharacter.SAUCEROR;
+
+			if ( KoLCharacter.classtype == KoLCharacter.ASTRAL_SPIRIT )
+			{
+				return;
+			}
+
+			// If we have an actual class, we have a mainstat.
+			// Reset concoction mainstat gains to reflect this.
+			ConcoctionDatabase.resetConcoctionStatGains();
+
+			// Allow or disallow special fight actions
+			FightRequest.initialize();
 		}
-
-		// If we have an actual class, we have a mainstat.
-		// Reset concoction mainstat gains to reflect this.
-		ConcoctionDatabase.resetConcoctionStatGains();
-
-		// Allow or disallow special fight actions
-		FightRequest.initialize();
 	}
 
 	static final int getReagentPotionDuration()
