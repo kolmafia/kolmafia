@@ -1622,35 +1622,27 @@ public abstract class KoLCharacter
 			classtype == 25 ? KoLCharacter.PLUMBER :
 			"Unknown";
 
-		KoLCharacter.setClassName( classname );
+		KoLCharacter.classtype = classname;
+		KoLCharacter.classname = classname;
 	}
 
 	public static final void setClassName( final String classname )
 	{
 		KoLCharacter.classname = classname;
+		KoLCharacter.classtype = getClassType();
+		KoLCharacter.tripleReagent = KoLCharacter.classtype == KoLCharacter.SAUCEROR;
 
-		String originalClassType = KoLCharacter.classtype;
-		String newClassType = KoLCharacter.getClassType();
-
-		// We can use == on Strings since getClassType will return a
-		// constant string. It would be cleaner to have an enum.
-		if ( originalClassType != newClassType )
+		if ( KoLCharacter.classtype == KoLCharacter.ASTRAL_SPIRIT )
 		{
-			KoLCharacter.classtype = newClassType;
-			KoLCharacter.tripleReagent = KoLCharacter.classtype == KoLCharacter.SAUCEROR;
-
-			if ( KoLCharacter.classtype == KoLCharacter.ASTRAL_SPIRIT )
-			{
-				return;
-			}
-
-			// If we have an actual class, we have a mainstat.
-			// Reset concoction mainstat gains to reflect this.
-			ConcoctionDatabase.resetConcoctionStatGains();
-
-			// Allow or disallow special fight actions
-			FightRequest.initialize();
+			return;
 		}
+
+		// If we have an actual class, we have a mainstat.
+		// Reset concoction mainstat gains to reflect this.
+		ConcoctionDatabase.resetConcoctionStatGains();
+
+		// Allow or disallow special fight actions
+		FightRequest.initialize();
 	}
 
 	static final int getReagentPotionDuration()
@@ -1706,6 +1698,7 @@ public abstract class KoLCharacter
 			classname.equals( KoLCharacter.SNAKE_OILER ) ? KoLCharacter.SNAKE_OILER :
 			classname.equals( KoLCharacter.GELATINOUS_NOOB ) ? KoLCharacter.GELATINOUS_NOOB :
 			classname.equals( KoLCharacter.VAMPYRE ) ? KoLCharacter.VAMPYRE :
+			classname.equals( KoLCharacter.PLUMBER ) ? KoLCharacter.PLUMBER :
 			KoLCharacter.SEAL_CLUBBER_RANKS.contains( classname ) ? KoLCharacter.SEAL_CLUBBER :
 			KoLCharacter.TURTLE_TAMER_RANKS.contains( classname ) ? KoLCharacter.TURTLE_TAMER :
 			KoLCharacter.PASTAMANCER_RANKS.contains( classname ) ? KoLCharacter.PASTAMANCER :
