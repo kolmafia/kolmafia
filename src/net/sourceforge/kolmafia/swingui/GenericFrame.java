@@ -302,23 +302,42 @@ public abstract class GenericFrame
 		JComponentUtilities.addGlobalHotKey( this.getRootPane(), KeyEvent.VK_ESCAPE, new WorldPeaceListener() );
 		JComponentUtilities.addGlobalHotKey( this.getRootPane(), KeyEvent.VK_F5, new RefreshSessionListener() );
 
+		int platform_META_DOWN= (  System.getProperty( "os.name" ).startsWith( "Mac" ) )
+					? KeyEvent.META_DOWN_MASK
+					: KeyEvent.CTRL_DOWN_MASK;
 		JComponentUtilities.addGlobalHotKey(
-			this.getRootPane(), KeyEvent.VK_PAGE_UP, InputEvent.CTRL_MASK, new TabForwardListener() );
+			this.getRootPane(),
+			KeyEvent.VK_W,
+			platform_META_DOWN, // CMD on MacOS, CTRL on others...
+			new CloseWindowListener() );
 		JComponentUtilities.addGlobalHotKey(
-			this.getRootPane(), KeyEvent.VK_PAGE_DOWN, InputEvent.CTRL_MASK, new TabBackwardListener() );
+			this.getRootPane(), KeyEvent.VK_PAGE_UP, InputEvent.CTRL_DOWN_MASK, new TabForwardListener() );
+		JComponentUtilities.addGlobalHotKey(
+			this.getRootPane(), KeyEvent.VK_PAGE_DOWN, InputEvent.CTRL_DOWN_MASK, new TabBackwardListener() );
+
 	}
 
 	public void removeHotKeys()
 	{
 		this.getRootPane().unregisterKeyboardAction( KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE, 0 ) );
 		this.getRootPane().unregisterKeyboardAction( KeyStroke.getKeyStroke( KeyEvent.VK_F5, 0 ) );
+		this.getRootPane().unregisterKeyboardAction( KeyStroke.getKeyStroke( KeyEvent.VK_W, KeyEvent.META_DOWN_MASK ) );
+		this.getRootPane().unregisterKeyboardAction( KeyStroke.getKeyStroke( KeyEvent.VK_W, KeyEvent.CTRL_DOWN_MASK ) );
 
 		this.getRootPane().unregisterKeyboardAction(
-			KeyStroke.getKeyStroke( KeyEvent.VK_PAGE_UP, InputEvent.CTRL_MASK ) );
+			KeyStroke.getKeyStroke( KeyEvent.VK_PAGE_UP, InputEvent.CTRL_DOWN_MASK ) );
 		this.getRootPane().unregisterKeyboardAction(
-			KeyStroke.getKeyStroke( KeyEvent.VK_PAGE_DOWN, InputEvent.CTRL_MASK ) );
+			KeyStroke.getKeyStroke( KeyEvent.VK_PAGE_DOWN, InputEvent.CTRL_DOWN_MASK ) );
 	}
 
+	private class CloseWindowListener
+		implements ActionListener
+	{
+		public void actionPerformed( final ActionEvent e )
+		{
+			dispose();
+		}
+	}
 	private class TabForwardListener
 		implements ActionListener
 	{
