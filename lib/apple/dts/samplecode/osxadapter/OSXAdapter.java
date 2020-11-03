@@ -63,6 +63,7 @@ import java.awt.Desktop.Action;
 import java.awt.Image;
 import java.awt.Window;
 import java.lang.reflect.*;
+import java.util.Arrays;
 
 public class OSXAdapter implements InvocationHandler
 {
@@ -82,8 +83,9 @@ public class OSXAdapter implements InvocationHandler
 	// That package is disabled starting with Java 14
 
 	static boolean useDesktopAndTaskbar = false;
+	static boolean isBadgeIconSupported;
 
-	static 
+	static
 	{
 		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
 		{
@@ -112,11 +114,30 @@ public class OSXAdapter implements InvocationHandler
 					// so we can fetch it directly.
 					desktop = Desktop.getDesktop();
 
-					// Desktop was introduced in Java 9. We are compiled for Java 8,
+					// Taskbar was introduced in Java 9. We are compiled for Java 8,
 					// so even though we know we have a Taskbar, we must use reflection.
 					Class taskbarClass = Class.forName( "java.awt.Taskbar" );
 					Method getTaskbarMethod = taskbarClass.getMethod( "getTaskbar", null );
 					taskbar = getTaskbarMethod.invoke( null, null );
+
+					// Some JDKs don't allow badge updates.  I'm looking at you, JDK 11+ on Catalina
+					// Use reflection on the isSupported() method to find out if we can just go home early...
+					Method isSupportedMethod;
+					Object[] featureParams = new Object[1];
+
+					Class[] tbClasses = taskbarClass.getDeclaredClasses();
+
+					Class tbFeatureClass = Arrays.stream( tbClasses )
+							  .filter(x-> x.getName().contains( "Feature" ))
+							  .findFirst()
+							  .get();
+
+					Enum TB_FEAT = Enum.valueOf( tbFeatureClass, "ICON_BADGE_TEXT" );
+					featureParams[0] = TB_FEAT;
+					isSupportedMethod = taskbarClass.getMethod( "isSupported", tbFeatureClass);
+					Object isBadgeable = isSupportedMethod.invoke( taskbar, featureParams );
+					isBadgeIconSupported = (boolean) isBadgeable;
+
 				}
 				else
 				{
@@ -131,7 +152,6 @@ public class OSXAdapter implements InvocationHandler
 			catch ( Exception ex )
 			{ // Likely a NoSuchMethodException or an IllegalAccessException loading/invoking eawt.Application
 				// methods
-				System.err.println( "Mac OS X Adapter could not talk to EAWT:" );
 				ex.printStackTrace();
 			}
 		}
@@ -355,9 +375,11 @@ public class OSXAdapter implements InvocationHandler
     
 	private static Method badgeMethod;
 	private static Object[] badgeParams = new Object[ 1 ];
-    
+
 	public static void setDockIconBadge( String badge )
 	{
+		if ( !isBadgeIconSupported ) return;
+
 		badgeParams[ 0 ] = badge;
 
 		if ( taskbar != null )
@@ -373,6 +395,9 @@ public class OSXAdapter implements InvocationHandler
 			catch ( Exception ex )
 			{
 				// Ignore errors - they're expected under OSX 10.4 and earlier.
+				// except we haven't been running on 10.4 since 2015, surface the error...
+				ex.printStackTrace();
+
 			}
 
 		}
