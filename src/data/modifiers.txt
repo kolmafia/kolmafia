@@ -11001,6 +11001,7 @@ Item	orphan baby yeti	Free Pull
 # ovoid leather thing: Deals 80-100 Physical Damage
 # pacification grenade: Weakens enemies somewhat
 Item	Pack of Every Card	Free Pull
+Item	packaged knock-off retro superhero cape	Free Pull
 Item	packaged Pocket Professor	Free Pull
 Item	packaged SpinMaster&trade; lathe	Free Pull
 # PADL Phone: Summons Frat Army Aid
