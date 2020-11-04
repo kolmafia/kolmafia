@@ -2054,6 +2054,14 @@ public class FightRequest
 			{
 				super.run();
 
+				if ( responseText.contains( "Macro Abort" ) ||
+					responseText.contains( "Macro abort" ) ||
+					responseText.contains( "macro abort" ) ||
+					responseText.contains( "Could not match item(s) for use" ) )
+				{
+					FightRequest.nextAction = "abort";
+				}
+
 				// If the fight is over, we don't care whether a macro aborted, say.
 				if ( FightRequest.currentRound == 0 )
 				{
