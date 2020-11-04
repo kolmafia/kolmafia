@@ -482,6 +482,17 @@ public interface KoLConstants
 		GRIMOIRE,
 		LIBRAM
 	}
+	// for maximizer these are things we can filer on...
+	public enum filterType
+	{
+		EQUIP,
+		CAST,
+		USABLE,
+		BOOZE,
+		FOOD,
+		SPLEEN,
+		OTHER
+	}
 
 	// Cannot be "used" in any way by itself
 	public static final int NO_CONSUME = 0;

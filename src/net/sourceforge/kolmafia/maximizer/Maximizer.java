@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.maximizer;
 
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -143,7 +144,7 @@ public class Maximizer
 		return !Maximizer.best.failed;
 	}
 
-	public static void maximize( int equipLevel, int maxPrice, int priceLevel, boolean includeAll, int filterLevel )
+	public static void maximize( int equipLevel, int maxPrice, int priceLevel, boolean includeAll, EnumMap<KoLConstants.filterType,Boolean> filter )
 	{
 		KoLmafia.forceContinue();
 		String maxMe = (String) MaximizerFrame.expressionSelect.getSelectedItem();
@@ -151,9 +152,10 @@ public class Maximizer
 		RequestLogger.updateSessionLog("Maximizer: " + maxMe);
 		KoLConstants.maximizerMList.addItem( maxMe );
 		Maximizer.eval = new Evaluator( maxMe );
+		Integer filterCount = Math.toIntExact( filter.values().stream().filter( v -> v ).count() );
 
 		// parsing error
-		if ( !KoLmafia.permitsContinue() )
+		if ( !KoLmafia.permitsContinue() || !filter.containsValue( true ) )
 		{
 			return;
 		}
@@ -170,7 +172,7 @@ public class Maximizer
 		Maximizer.firstTime = false;
 
 		Maximizer.boosts.clear();
-		if ( equipLevel != 0 && filterLevel < 2 )
+		if ( equipLevel != 0 && filter.getOrDefault(KoLConstants.filterType.EQUIP, false) )
 		{
 			Maximizer.best = new MaximizerSpeculation();
 			Maximizer.best.getScore();
@@ -223,7 +225,7 @@ public class Maximizer
 			KoLCharacter.getCurrentModifiers() );
 
 		// Show only equipment
-		if ( filterLevel == 1 )
+		if ( filter.getOrDefault(KoLConstants.filterType.EQUIP, true )  && filterCount == 1 )
 		{
 			return;
 		}
@@ -290,7 +292,7 @@ public class Maximizer
 							cmd = "closet take 1 \u00B6" + itemId + ";" + cmd;
 						}
 						// Should be only hitting this after Ronin I think
-						else if ( method.equals( "pull" ) ) 
+						else if ( method.equals( "pull" ) )
 						{
 							cmd = "pull 1 \u00B6" + itemId + ";" + cmd;
 						}
@@ -430,7 +432,7 @@ public class Maximizer
 						cmd = "closet take 1 \u00B6" + itemId + ";" + cmd;
 					}
 					// Should be only hitting this after Ronin I think
-					else if ( method.equals( "pull" ) ) 
+					else if ( method.equals( "pull" ) )
 					{
 						cmd = "pull 1 \u00B6" + itemId + ";" + cmd;
 					}
@@ -505,7 +507,7 @@ public class Maximizer
 				Maximizer.boosts.add( new Boost( cmd, text, item, delta ) );
 			}
 
-			if ( lookup.startsWith( "Horsery:" ) && ( filterLevel == 0 || filterLevel == 7 ) )
+			if ( lookup.startsWith( "Horsery:" ) && filter.getOrDefault( KoLConstants.filterType.OTHER, false ) )
 			{
 				String cmd, text;
 				int price = 0;
@@ -544,7 +546,7 @@ public class Maximizer
 				Maximizer.boosts.add( new Boost( cmd, text, name, delta ) );
 			}
 
-			if ( lookup.startsWith( "BoomBox:" ) && ( filterLevel == 0 || filterLevel == 7 ) )
+			if ( lookup.startsWith( "BoomBox:" ) && filter.getOrDefault(KoLConstants.filterType.OTHER, false ) )
 			{
 				String cmd, text;
 				String name = lookup.substring( 8 );
@@ -701,47 +703,29 @@ public class Maximizer
 				AdventureResult item = null;
 
 				// Check filters
-				if	( filterLevel != 0 )
+
+				String basecommand = cmd.trim().contains(" ") ? cmd.split(" ")[0] : cmd;
+
+				switch (basecommand)
 				{
-					if ( cmd.startsWith( "cast " ) )
-					{
-						if ( filterLevel != 2 )
-						{
-							continue;
-						}
-					}
-					else if ( cmd.startsWith( "chew " ) )
-					{
-						if ( filterLevel != 6 )
-						{
-							continue;
-						}
-					}
-					else if ( cmd.startsWith( "drink " ) )
-					{
-						if ( filterLevel != 4 )
-						{
-							continue;
-						}
-					}
-					else if ( cmd.startsWith( "eat " ) )
-					{
-						if ( filterLevel != 5 )
-						{
-							continue;
-						}
-					}
-					else if ( cmd.startsWith( "use " ) )
-					{
-						if ( filterLevel != 3 )
-						{
-							continue;
-						}
-					}
-					else if ( filterLevel != 7 )
-					{
-						continue;
-					}
+				case "cast":
+					if ( !filter.getOrDefault( KoLConstants.filterType.CAST , false) ) continue;
+					break;
+				case "chew":
+					if ( !filter.getOrDefault( KoLConstants.filterType.SPLEEN , false) ) continue;
+					break;
+				case "drink":
+					if ( !filter.getOrDefault( KoLConstants.filterType.BOOZE, false ) ) continue;
+					break;
+				case "eat":
+					if ( !filter.getOrDefault( KoLConstants.filterType.FOOD, false ) ) continue;
+					break;
+				case "use":
+					if ( !filter.getOrDefault( KoLConstants.filterType.USABLE, false ) ) continue;
+					break;
+				default:
+					if ( !filter.getOrDefault( KoLConstants.filterType.OTHER, false ) ) continue;
+
 				}
 
 				if ( cmd.startsWith( "#" ) )	// usage note, no command
@@ -1894,7 +1878,7 @@ public class Maximizer
 								cmd = "closet take 1 \u00B6" + itemId + ";" + cmd;
 							}
 							// Should be only hitting this after Ronin I think
-							else if ( method.equals( "pull" ) ) 
+							else if ( method.equals( "pull" ) )
 							{
 								cmd = "pull 1 \u00B6" + itemId + ";" + cmd;
 							}
@@ -2182,6 +2166,34 @@ public class Maximizer
 		}
 
 		Maximizer.boosts.sort();
+	}
+
+	//convert the old method to use the new method, in case it gets called from elsewhere...
+	public static void maximize( int equipLevel, int maxPrice, int priceLevel, boolean includeAll, int filterLevel )
+	{
+		EnumMap<KoLConstants.filterType, Boolean> filters;
+		filters = new EnumMap<>( KoLConstants.filterType.class );
+
+		KoLConstants.filterType filterName;
+
+		// known filter levels are 1-7
+		if ( filterLevel >= 1 && filterLevel <= 7 )
+		{
+		filterName= KoLConstants.filterType.values()[filterLevel -1 ];
+			filters.put( filterName, true );
+		}
+		else
+		{
+			//covers filterLevel 0 and catchall...
+			filters.put( KoLConstants.filterType.EQUIP, true );
+			filters.put( KoLConstants.filterType.CAST, true );
+			filters.put( KoLConstants.filterType.USABLE, true );
+			filters.put( KoLConstants.filterType.BOOZE, true );
+			filters.put( KoLConstants.filterType.FOOD, true );
+			filters.put( KoLConstants.filterType.SPLEEN, true );
+			filters.put( KoLConstants.filterType.OTHER, true );
+		}
+		maximize( equipLevel, maxPrice, priceLevel, includeAll, filters );
 	}
 
 	private static int emitSlot( int slot, int equipLevel, int maxPrice, int priceLevel, double current )
