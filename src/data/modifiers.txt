@@ -11493,6 +11493,7 @@ Item	unpowered Robortender	Free Pull
 # unstable laser battery: Briefly stuns enemies
 Item	unused walkie-talkie	Free Pull
 Item	unwound cymbal-playing monkey	Free Pull
+Item	unwrapped knock-off retro superhero cape	Muscle Percent: [30*pref(retroCapeSuperhero,vampire)], Maximum HP: [50*pref(retroCapeSuperhero,vampire)], Cold Resistance: [3*pref(retroCapeSuperhero,vampire)*pref(retroCapeWashingInstructions,hold)], Hot Resistance: [3*pref(retroCapeSuperhero,vampire)*pref(retroCapeWashingInstructions,hold)], Sleaze Resistance: [3*pref(retroCapeSuperhero,vampire)*pref(retroCapeWashingInstructions,hold)], Spooky Resistance: [3*pref(retroCapeSuperhero,vampire)*pref(retroCapeWashingInstructions,hold)], Stench Resistance: [3*pref(retroCapeSuperhero,vampire)*pref(retroCapeWashingInstructions,hold)], Experience (Muscle): [3*pref(retroCapeSuperhero,vampire)*pref(retroCapeWashingInstructions,thrill)], Mysticality Percent: [30*pref(retroCapeSuperhero,heck)], Maximum MP: [50*pref(retroCapeSuperhero,heck)], Experience (Mysticality): [3*pref(retroCapeSuperhero,heck)*pref(retroCapeWashingInstructions,thrill)], Moxie Percent: [30*pref(retroCapeSuperhero,robot)], Maximum HP: [25*pref(retroCapeSuperhero,robot)], Maximum MP: [25*pref(retroCapeSuperhero,robot)], Experience (Moxie): [3*pref(retroCapeSuperhero,robot)*pref(retroCapeWashingInstructions,thrill)]
 Item	Valentine	Free Pull
 # valuable coin: Worth a lot!
 Item	vampire glitter	Class: "Pastamancer"

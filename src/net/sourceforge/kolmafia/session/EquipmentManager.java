@@ -868,6 +868,14 @@ public class EquipmentManager
 		case ItemPool.RED_PLUMBERS_BOOTS:
 			KoLCharacter.removeAvailableSkill( "Plumber Jump" );
 			break;
+		case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
+			KoLCharacter.removeAvailableSkill( "Smooch of the Daywalker" );
+			KoLCharacter.removeAvailableSkill( "Slay the Dead" );
+			KoLCharacter.removeAvailableSkill( "Unleash the Devil's Kiss" );
+			KoLCharacter.removeAvailableSkill( "Deploy Robo-Handcuffs" );
+			KoLCharacter.removeAvailableSkill( "Blow a Robo-Kiss" );
+			KoLCharacter.removeAvailableSkill( "Precision Shot" );
+			break;
 		}
 	}
 
@@ -1185,6 +1193,20 @@ public class EquipmentManager
 			break;
 		case ItemPool.RED_PLUMBERS_BOOTS:
 			KoLCharacter.addAvailableSkill( "Plumber Jump" );
+			break;
+		case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
+			KoLCharacter.addAvailableSkill( "Smooch of the Daywalker" );
+			if ( EquipmentManager.wieldingSword() )
+			{
+				KoLCharacter.addAvailableSkill( "Slay the Dead" );
+			}
+			KoLCharacter.addAvailableSkill( "Unleash the Devil's Kiss" );
+			KoLCharacter.addAvailableSkill( "Deploy Robo-Handcuffs" );
+			KoLCharacter.addAvailableSkill( "Blow a Robo-Kiss" );
+			if ( EquipmentManager.wieldingGun() )
+			{
+				KoLCharacter.addAvailableSkill( "Precision Shot" );
+			}
 			break;
 		}
 	}
@@ -2142,6 +2164,27 @@ public class EquipmentManager
 	{
 		String type = EquipmentDatabase.getItemType( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() );
 		return type.equals( "accordion" );
+	}
+
+	public static final boolean wieldingSword()
+	{
+		return EquipmentManager.wieldingSword( true );
+	}
+
+	public static final boolean wieldingSword( final boolean includeEffect )
+	{
+		String type = EquipmentDatabase.getItemType( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() );
+		return type.equals( "sword" ) && ( !includeEffect || !KoLConstants.activeEffects.contains( EquipmentManager.IRON_PALMS ) );
+	}
+
+	public static final boolean wieldingGun()
+	{
+		String type = EquipmentDatabase.getItemType( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() );
+		return (
+			type.contains( "gun" ) ||
+			type.contains( "rifle" ) ||
+			type.contains( "pistol" )
+		);
 	}
 
 	/**

@@ -482,9 +482,15 @@ public class ResponseTextParser
 				String descid = m.group( 1 );
 				ConsequenceManager.parseItemDesc( descid, responseText );
 				int itemId = ItemDatabase.getItemIdFromDescription( descid );
-				if ( itemId == ItemPool.YEARBOOK_CAMERA )
+
+				switch ( itemId )
 				{
-					ItemDatabase.parseYearbookCamera( responseText );
+					case ItemPool.YEARBOOK_CAMERA:
+						ItemDatabase.parseYearbookCamera( responseText );
+						break;
+					case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
+						ItemDatabase.parseRetroCape( responseText );
+						break;
 				}
 			}
 		}

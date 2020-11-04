@@ -2519,6 +2519,53 @@ public class ItemDatabase
 		return upgrades;
 	}
 
+	public static void parseRetroCape( final String desc )
+	{
+		String superhero = null;
+
+		if ( desc.contains( "Vampire Slicer" ) )
+		{
+			superhero = "vampire";
+		}
+		else if ( desc.contains( "Heck General" ) )
+		{
+			superhero = "heck";
+		}
+		else if ( desc.contains( "Robot Police" ) )
+		{
+			superhero = "robot";
+		}
+
+		String washingInstructions = null;
+
+		if ( desc.contains( "Hold Me" ) )
+		{
+			washingInstructions = "hold";
+		}
+		else if ( desc.contains( "Thrill Me" ) )
+		{
+			washingInstructions = "thrill";
+		}
+		else if ( desc.contains( "Kiss Me" ) )
+		{
+			washingInstructions = "kiss";
+		}
+		else if ( desc.contains( "Kill Me" ) )
+		{
+			washingInstructions = "kill";
+		}
+
+		if ( superhero != null )
+		{
+			Preferences.setString( "retroCapeSuperhero", superhero );
+		}
+
+		if ( washingInstructions != null )
+		{
+			Preferences.setString( "retroCapeWashingInstructions", washingInstructions );
+		}
+	}
+
 	public static boolean unusableInBeecore( final int itemId )
 	{
 		switch ( itemId )
