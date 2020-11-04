@@ -3361,6 +3361,7 @@ Time Bandit Time Towel	10	none
 Time Cape	100	none
 Time Cloak	100	none
 toy jet pack	175	Mys: 75
+unwrapped knock-off retro superhero cape	0	none
 vampyric cloake	100	none
 whatsit-covered turtle shell	50	Mus: 20
 wicker slicker	50	none
