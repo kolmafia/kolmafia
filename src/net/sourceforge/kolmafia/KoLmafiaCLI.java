@@ -941,6 +941,7 @@ public class KoLmafiaCLI
 			register( "restaurant" ).
 			registerSubstring( "brewery" );
 		new RestoresCommand().register( "restores" );
+		new RetroCapeCommand().register( "retrocape" );
 		new SaveAsMoodCommand().register( "save as mood" );
 		new SearchMallCommand().register( "searchmall" );
 		new SendMessageCommand().

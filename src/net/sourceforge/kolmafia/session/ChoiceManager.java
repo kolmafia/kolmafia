@@ -12348,16 +12348,16 @@ public abstract class ChoiceManager
 			switch ( ChoiceManager.lastDecision )
 			{
 				case 2:
-					Preferences.setString( "retroCapeWashingInstructions", "Hold Me" );
+					Preferences.setString( "retroCapeWashingInstructions", "hold" );
 					break;
 				case 3:
-					Preferences.setString( "retroCapeWashingInstructions", "Thrill Me" );
+					Preferences.setString( "retroCapeWashingInstructions", "thrill" );
 					break;
 				case 4:
-					Preferences.setString( "retroCapeWashingInstructions", "Kiss Me" );
+					Preferences.setString( "retroCapeWashingInstructions", "kiss" );
 					break;
 				case 5:
-					Preferences.setString( "retroCapeWashingInstructions", "Kill Me" );
+					Preferences.setString( "retroCapeWashingInstructions", "kill" );
 					break;
 			}
 			break;
@@ -12366,13 +12366,13 @@ public abstract class ChoiceManager
 			switch ( ChoiceManager.lastDecision )
 			{
 				case 1:
-					Preferences.setString( "retroCapeSuperhero", "Vampire Slicer" );
+					Preferences.setString( "retroCapeSuperhero", "vampire" );
 					break;
 				case 2:
-					Preferences.setString( "retroCapeSuperhero", "Heck General" );
+					Preferences.setString( "retroCapeSuperhero", "heck" );
 					break;
 				case 3:
-					Preferences.setString( "retroCapeSuperhero", "Robot Police" );
+					Preferences.setString( "retroCapeSuperhero", "robot" );
 					break;
 			}
 			break;
@@ -18955,6 +18955,7 @@ public abstract class ChoiceManager
 		case 1407: // Mushroom District Costume Shop
 		case 1408: // Mushroom District Badge Shop
 		case 1420: // What has it got in its pocketses?
+		case 1437: // Setup Your knock-off retro superhero cape
 			return true;
 
 		default:
