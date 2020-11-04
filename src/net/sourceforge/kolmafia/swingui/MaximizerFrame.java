@@ -38,11 +38,16 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.InputStream;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -50,11 +55,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.Enumeration;
 import java.util.Iterator;
 
@@ -76,11 +82,10 @@ import net.sourceforge.kolmafia.maximizer.MaximizerSpeculation;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 
-import net.sourceforge.kolmafia.preferences.PreferenceListenerCheckBox;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
+import net.sourceforge.kolmafia.swingui.panel.ScrollableFilteredPanel;
 
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
@@ -102,11 +107,11 @@ public class MaximizerFrame
 		expressionSelect.setEditable( true );
 		KoLConstants.maximizerMList.updateJComboData( expressionSelect );
 	}
-	private SmartButtonGroup equipmentSelect, mallSelect, filterSelect;
+	private SmartButtonGroup equipmentSelect, mallSelect;
 	private AutoHighlightTextField maxPriceField;
-	private JCheckBox includeAll;
-	private PreferenceListenerCheckBox verboseSelect;
 	private final ShowDescriptionList boostList;
+	private EnumMap<KoLConstants.filterType, Boolean> activeFilters;
+	private EnumMap<KoLConstants.filterType, JCheckBox> filterButtons;
 	private JLabel listTitle = null;
 
 	private static String HELP_STRING;
@@ -126,6 +131,7 @@ public class MaximizerFrame
 
 		this.boostList = new ShowDescriptionList( Maximizer.boosts, 12 );
 		this.boostList.addListSelectionListener( this );
+		this.activeFilters = new EnumMap<>( KoLConstants.filterType.class);
 
 		wrapperPanel.add( new BoostsPanel( this.boostList ), BorderLayout.CENTER );
 
@@ -142,6 +148,10 @@ public class MaximizerFrame
 				KoLConstants.maximizerMList.updateJComboData( expressionSelect );
 			}
 		}
+		for ( KoLConstants.filterType f : KoLConstants.filterType.values() )
+		{
+			activeFilters.put(f, true);
+		}
 	}
 
 	@Override
@@ -155,7 +165,7 @@ public class MaximizerFrame
 		double current = Maximizer.eval.getScore(
 			KoLCharacter.getCurrentModifiers() );
 		boolean failed = Maximizer.eval.failed;
-		Object[] items = this.boostList.getSelectedValues();
+		Object[] items = this.boostList.getSelectedValuesList().toArray();
 
 		StringBuffer buff = new StringBuffer( "Current score: " );
 		buff.append( KoLConstants.FLOAT_FORMAT.format( current ) );
@@ -171,11 +181,11 @@ public class MaximizerFrame
 		else
 		{
 			MaximizerSpeculation spec = new MaximizerSpeculation();
-			for ( int i = 0; i < items.length; ++i )
+			for ( Object item : items )
 			{
-				if ( items[ i ] instanceof Boost )
+				if ( item instanceof Boost )
 				{
-					((Boost) items[ i ]).addTo( spec );
+					((Boost) item).addTo( spec );
 				}
 			}
 			double score = spec.getScore();
@@ -203,21 +213,26 @@ public class MaximizerFrame
 
 	public void maximize()
 	{
-		Maximizer.maximize( this.equipmentSelect.getSelectedIndex(),
+		// equipLevel is equipmentSelect + 1 because I don't want to re-base the index
+		// but I did remove the prior first option.  In future, we should change this
+		// to something that's not positionally based..
+		Maximizer.maximize( this.equipmentSelect.getSelectedIndex() + 1,
 			InputFieldUtilities.getValue( this.maxPriceField ),
 			this.mallSelect.getSelectedIndex(),
 			Preferences.getBoolean( "maximizerIncludeAll" ),
-			this.filterSelect.getSelectedIndex() );
+			this.activeFilters );
 
 		this.valueChanged( null );
 	}
 
 	private class MaximizerPanel
 		extends GenericPanel
+		implements ItemListener, ActionListener
 	{
 		public MaximizerPanel()
 		{
 			super( "update", "help", new Dimension( 80, 20 ), new Dimension( 450, 20 ) );
+			filterButtons = new EnumMap(KoLConstants.filterType.class);
 
 			MaximizerFrame.this.maxPriceField = new AutoHighlightTextField();
 			JComponentUtilities.setComponentSize( MaximizerFrame.this.maxPriceField, 80, -1 );
@@ -228,7 +243,6 @@ public class MaximizerFrame
 
 			JPanel equipPanel = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
 			MaximizerFrame.this.equipmentSelect = new SmartButtonGroup( equipPanel );
-			MaximizerFrame.this.equipmentSelect.add( new JRadioButton( "none" ) );
 			MaximizerFrame.this.equipmentSelect.add( new JRadioButton( "on hand" ) );
 			MaximizerFrame.this.equipmentSelect.add( new JRadioButton( "creatable" ) );
 			MaximizerFrame.this.equipmentSelect.add( new PullableRadioButton( "pullable/buyable" ) );
@@ -242,35 +256,98 @@ public class MaximizerFrame
 			MaximizerFrame.this.mallSelect.add( new JRadioButton( "all consumables" ) );
 			MaximizerFrame.this.mallSelect.setSelectedIndex( Preferences.getInteger( "maximizerPriceLevel" ) );
 
-			JPanel filterPanel = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
-			MaximizerFrame.this.filterSelect = new SmartButtonGroup( filterPanel );
-			MaximizerFrame.this.filterSelect.add( new JRadioButton( "none", true ) );
-			MaximizerFrame.this.filterSelect.add( new JRadioButton( "equip" ) );
-			MaximizerFrame.this.filterSelect.add( new JRadioButton( "cast" ) );
-			MaximizerFrame.this.filterSelect.add( new JRadioButton( "usable" ) );
-			MaximizerFrame.this.filterSelect.add( new JRadioButton( "booze" ) );
-			MaximizerFrame.this.filterSelect.add( new JRadioButton( "food" ) );
-			MaximizerFrame.this.filterSelect.add( new JRadioButton( "spleen" ) );
-			MaximizerFrame.this.filterSelect.add( new JRadioButton( "other" ) );
+			KoLConstants.filterType[] TopRowFilters = new KoLConstants.filterType[] {KoLConstants.filterType.EQUIP, KoLConstants.filterType.CAST, KoLConstants.filterType.OTHER };
+			// JPanel filterPanel= new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
+			JPanel filterCheckboxTopPanel= new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
+			JPanel filterCheckboxBottomPanel= new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
 
-			JTextArea message = new JTextArea( "Other options available under menu General -> Preferences, tab General - Maximizer." );
-			message.setColumns( 40 );
-			message.setLineWrap( true );
-			message.setWrapStyleWord( true );
-			message.setEditable( false );
-			message.setOpaque( false );
-			message.setFont( KoLGUIConstants.DEFAULT_FONT );
+			JPanel filterPanelTopRow = new JPanel( new BorderLayout() );
+			JPanel filterPanelBottomRow = new JPanel( new BorderLayout() );
+
+			JButton filterAllButton = new JButton("Set All Filters");
+			JButton filterNoneButton = new JButton("Clear Filters");
+			filterAllButton.addActionListener( this );
+			filterNoneButton.addActionListener( this );
+			filterAllButton.setPreferredSize(new Dimension(110, 20));
+			filterNoneButton.setPreferredSize(new Dimension(110, 20));
+
+			filterPanelTopRow.add(filterAllButton, BorderLayout.EAST);
+			filterPanelBottomRow.add(filterNoneButton, BorderLayout.EAST);
+
+
+			Boolean defaultCheck;
+			for (
+				KoLConstants.filterType fType :KoLConstants.filterType.values() )
+			{
+				switch( fType ){
+				case BOOZE:
+					defaultCheck = ( KoLCharacter.canDrink() && KoLCharacter.getInebriety() < KoLCharacter.getInebrietyLimit() );
+					break;
+				case FOOD:
+					defaultCheck = ( KoLCharacter.canEat() &&  KoLCharacter.getFullness()  < KoLCharacter.getFullnessLimit() );
+					break;
+				case SPLEEN:
+					defaultCheck = ( KoLCharacter.getSpleenUse()  < KoLCharacter.getSpleenLimit() );
+					break;
+				default:
+					defaultCheck = true;
+				}
+				filterButtons.put( fType, new JCheckBox (fType.toString().toLowerCase(), defaultCheck) );
+				filterButtons.get(fType).addItemListener( this );
+
+				if ( Arrays.stream( TopRowFilters ).anyMatch( fType::equals) )
+				{
+					filterCheckboxTopPanel.add(filterButtons.get( fType ) );
+				}
+				else
+				{
+					filterCheckboxBottomPanel.add(filterButtons.get( fType ) );
+
+				}
+				updateFilter( fType, defaultCheck );
+			}
+			filterPanelTopRow.add(filterCheckboxTopPanel, BorderLayout.CENTER);
+			filterPanelBottomRow.add(filterCheckboxBottomPanel, BorderLayout.CENTER);
 
 			VerifiableElement[] elements = new VerifiableElement[ 5 ];
 			elements[ 0 ] = new VerifiableElement( "Maximize: ", MaximizerFrame.expressionSelect );
 			elements[ 1 ] = new VerifiableElement( "Equipment: ", equipPanel );
 			elements[ 2 ] = new VerifiableElement( "Max price: ", mallPanel );
-			elements[ 3 ] = new VerifiableElement( "Filters: ", filterPanel );
-			elements[ 4 ] = new VerifiableElement( message );
+			elements[ 3 ] = new VerifiableElement( "Filters: ", filterPanelTopRow );
+			elements[ 4 ] = new VerifiableElement( filterPanelBottomRow );
+			elements[ 3 ].getLabel().setToolTipText( "Other options available under menu General -> Preferences, tab General - Maximizer." );
 
 			this.setContent( elements );
+			expressionSelect.requestFocus();
 		}
 
+		@Override
+		public void itemStateChanged( ItemEvent e )
+		{
+			JCheckBox changedBox = (JCheckBox) e.getSource();
+			KoLConstants.filterType thisFilter =null;
+			boolean updatedValue =  ( e.getStateChange() == ItemEvent.SELECTED );
+			try
+			{
+				for ( KoLConstants.filterType fType: KoLConstants.filterType.values() )
+				{
+					if ( fType.name().equalsIgnoreCase( changedBox.getText() ))
+					{
+						thisFilter = fType;
+						break;
+					}
+				}
+
+				if ( !(thisFilter == null) ) updateFilter( thisFilter, updatedValue );
+
+			}
+			catch( Exception ex)
+			{
+				// This should log the error
+				// System.out.println(updatedFilter + ": "+ updatedValue);
+				// System.out.println ("State Change Error: " + ex.getMessage() );
+			}
+		}
 		@Override
 		public void actionConfirmed()
 		{
@@ -287,6 +364,40 @@ public class MaximizerFrame
 			JComponentUtilities.setComponentSize( content, -1, 500 );
 			JOptionPane.showMessageDialog( this, content, "Modifier Maximizer help",
 				JOptionPane.PLAIN_MESSAGE );
+		}
+
+		@Override
+		public void actionPerformed( ActionEvent e )
+		{
+			JButton SourceButton = (JButton) e.getSource();
+			Boolean filterOn = (SourceButton.getText().equalsIgnoreCase( "Set All Filters" ));
+			updateCheckboxes( filterOn );
+		}
+	}
+
+	private void updateCheckboxes ( Boolean filterAll )
+	{
+		for ( KoLConstants.filterType fType: KoLConstants.filterType.values())
+		{
+			filterButtons.get(fType).setSelected ( filterAll );
+		}
+	}
+	protected void updateFilter( KoLConstants.filterType f, Boolean value)
+	{
+		try
+		{
+			if ( activeFilters.containsKey( f ) )
+			{
+				activeFilters.replace( f, value );
+			}
+			else
+			{
+				activeFilters.put( f, value );
+			}
+		}
+		catch (Exception Ex)
+		{
+			// This should probably log the error...
 		}
 	}
 
@@ -315,7 +426,7 @@ public class MaximizerFrame
 			else
 			{
 				buf.append( " (" );
-				buf.append( String.valueOf( pulls ) );
+				buf.append( pulls );
 				buf.append( " pull" );
 				if ( pulls != 1 )
 				{
@@ -328,7 +439,7 @@ public class MaximizerFrame
 	}
 
 	private class BoostsPanel
-		extends ScrollablePanel
+		extends ScrollableFilteredPanel
 	{
 		private final ShowDescriptionList elementList;
 
@@ -367,13 +478,14 @@ public class MaximizerFrame
 		{
 			KoLmafia.forceContinue();
 			boolean any = false;
-			Object[] boosts = this.elementList.getSelectedValues();
-			for ( int i = 0; i < boosts.length; ++i )
+			Object[] boosts = this.elementList.getSelectedValuesList().toArray();
+			for ( Object boost : boosts )
 			{
-				if ( boosts[ i ] instanceof Boost )
+				if ( boost instanceof Boost )
 				{
-					boolean did = ((Boost) boosts[ i ]).execute( false );
-					if ( !KoLmafia.permitsContinue() ) return;
+					boolean did = ((Boost) boost).execute( false );
+					if ( !KoLmafia.permitsContinue() )
+						return;
 					any |= did;
 				}
 			}
