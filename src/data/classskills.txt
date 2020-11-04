@@ -867,6 +867,12 @@
 7342	Barrage of Tears	lathewand.gif	5	0	0
 7343	Poison Dart	latheblowgun.gif	5	0	0
 7344	Map the Monsters	cccbook.gif	3	1	0
+7347	Smooch of the Daywalker	lips.gif	5	0	0
+7348	Slay the Dead	hkatana.gif	5	0	0
+7353	Deploy Robo-Handcuffs	handcuffs.gif	5	0	0
+7351	Unleash the Devil's Kiss	lips.gif	5	0	0
+7355	Blow a Robo-Kiss	lips.gif	5	0	0
+7356	Precision Shot		5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

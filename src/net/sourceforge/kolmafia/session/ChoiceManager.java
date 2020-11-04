@@ -12343,8 +12343,41 @@ public abstract class ChoiceManager
 				Preferences.setBoolean( "mappingMonsters", false );
 			}
 			break;
+		case 1437:
+			// Configuring the retro cape washing instructions
+			switch ( ChoiceManager.lastDecision )
+			{
+				case 2:
+					Preferences.setString( "retroCapeWashingInstructions", "Hold Me" );
+					break;
+				case 3:
+					Preferences.setString( "retroCapeWashingInstructions", "Thrill Me" );
+					break;
+				case 4:
+					Preferences.setString( "retroCapeWashingInstructions", "Kiss Me" );
+					break;
+				case 5:
+					Preferences.setString( "retroCapeWashingInstructions", "Kill Me" );
+					break;
+			}
+			break;
+		case 1438:
+			// Configuring the retro cape superhero
+			switch ( ChoiceManager.lastDecision )
+			{
+				case 1:
+					Preferences.setString( "retroCapeSuperhero", "Vampire Slicer" );
+					break;
+				case 2:
+					Preferences.setString( "retroCapeSuperhero", "Heck General" );
+					break;
+				case 3:
+					Preferences.setString( "retroCapeSuperhero", "Robot Police" );
+					break;
+			}
+			break;
 		}
-
+		
 		// Certain choices cost meat or items when selected
 		ChoiceManager.payCost( ChoiceManager.lastChoice, ChoiceManager.lastDecision );
 	}
