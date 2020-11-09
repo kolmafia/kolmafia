@@ -12344,38 +12344,36 @@ public abstract class ChoiceManager
 			}
 			break;
 		case 1437:
+		{
 			// Configuring the retro cape washing instructions
-			switch ( ChoiceManager.lastDecision )
+			String instructions =
+				ChoiceManager.lastDecision == 2 ? "hold" :
+				ChoiceManager.lastDecision == 3 ? "thrill" :
+				ChoiceManager.lastDecision == 4 ? "kiss" :
+				ChoiceManager.lastDecision == 5 ? "kill" :
+				null;
+			if ( instructions != null )
 			{
-				case 2:
-					Preferences.setString( "retroCapeWashingInstructions", "hold" );
-					break;
-				case 3:
-					Preferences.setString( "retroCapeWashingInstructions", "thrill" );
-					break;
-				case 4:
-					Preferences.setString( "retroCapeWashingInstructions", "kiss" );
-					break;
-				case 5:
-					Preferences.setString( "retroCapeWashingInstructions", "kill" );
-					break;
+				Preferences.setString( "retroCapeWashingInstructions", instructions );
+				ItemDatabase.setCapeSkills();
 			}
 			break;
+		}
 		case 1438:
+		{
 			// Configuring the retro cape superhero
-			switch ( ChoiceManager.lastDecision )
+			String hero =
+				ChoiceManager.lastDecision == 1 ? "vampire" :
+				ChoiceManager.lastDecision == 2 ? "heck" :
+				ChoiceManager.lastDecision == 3 ? "robot" :
+				null;
+			if ( hero != null )
 			{
-				case 1:
-					Preferences.setString( "retroCapeSuperhero", "vampire" );
-					break;
-				case 2:
-					Preferences.setString( "retroCapeSuperhero", "heck" );
-					break;
-				case 3:
-					Preferences.setString( "retroCapeSuperhero", "robot" );
-					break;
+				Preferences.setString( "retroCapeSuperhero", hero );
+				ItemDatabase.setCapeSkills();
 			}
 			break;
+		}
 		}
 		
 		// Certain choices cost meat or items when selected

@@ -869,12 +869,7 @@ public class EquipmentManager
 			KoLCharacter.removeAvailableSkill( "Plumber Jump" );
 			break;
 		case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
-			KoLCharacter.removeAvailableSkill( "Smooch of the Daywalker" );
-			KoLCharacter.removeAvailableSkill( "Slay the Dead" );
-			KoLCharacter.removeAvailableSkill( "Unleash the Devil's Kiss" );
-			KoLCharacter.removeAvailableSkill( "Deploy Robo-Handcuffs" );
-			KoLCharacter.removeAvailableSkill( "Blow a Robo-Kiss" );
-			KoLCharacter.removeAvailableSkill( "Precision Shot" );
+			ItemDatabase.setCapeSkills();
 			break;
 		}
 	}
@@ -1195,18 +1190,7 @@ public class EquipmentManager
 			KoLCharacter.addAvailableSkill( "Plumber Jump" );
 			break;
 		case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
-			KoLCharacter.addAvailableSkill( "Smooch of the Daywalker" );
-			if ( EquipmentManager.wieldingSword() )
-			{
-				KoLCharacter.addAvailableSkill( "Slay the Dead" );
-			}
-			KoLCharacter.addAvailableSkill( "Unleash the Devil's Kiss" );
-			KoLCharacter.addAvailableSkill( "Deploy Robo-Handcuffs" );
-			KoLCharacter.addAvailableSkill( "Blow a Robo-Kiss" );
-			if ( EquipmentManager.wieldingGun() )
-			{
-				KoLCharacter.addAvailableSkill( "Precision Shot" );
-			}
+			ItemDatabase.setCapeSkills();
 			break;
 		}
 	}
