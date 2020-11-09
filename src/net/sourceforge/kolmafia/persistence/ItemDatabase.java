@@ -78,6 +78,8 @@ import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
 
+import net.sourceforge.kolmafia.session.EquipmentManager;
+
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.LogStream;
@@ -2563,6 +2565,51 @@ public class ItemDatabase
 		if ( washingInstructions != null )
 		{
 			Preferences.setString( "retroCapeWashingInstructions", washingInstructions );
+		}
+
+		ItemDatabase.setCapeSkills();
+	}
+
+	public static void setCapeSkills()
+	{
+		// Assume no skills are available
+		KoLCharacter.removeAvailableSkill( "Smooch of the Daywalker" );
+		KoLCharacter.removeAvailableSkill( "Slay the Dead" );
+		KoLCharacter.removeAvailableSkill( "Unleash the Devil's Kiss" );
+		KoLCharacter.removeAvailableSkill( "Deploy Robo-Handcuffs" );
+		KoLCharacter.removeAvailableSkill( "Blow a Robo-Kiss" );
+		KoLCharacter.removeAvailableSkill( "Precision Shot" );
+
+		// If the cape is not equipped, that is correct
+		if ( !KoLCharacter.hasEquipped( ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE, EquipmentManager.CONTAINER ) )
+		{
+			return;
+		}
+
+		// It is equipped. Add available skills
+		switch ( Preferences.getString( "retroCapeSuperhero" ) )
+		{
+		case "vampire":
+			// Add Vampire Slicer skills
+			KoLCharacter.addAvailableSkill( "Smooch of the Daywalker" );
+			if ( EquipmentManager.wieldingSword() )
+			{
+				KoLCharacter.addAvailableSkill( "Slay the Dead" );
+			}
+			break;
+		case "heck":
+			// Add Heck General skills
+			KoLCharacter.addAvailableSkill( "Unleash the Devil's Kiss" );
+			break;
+		case "robot":
+			// Add Robot Police skills
+			KoLCharacter.addAvailableSkill( "Deploy Robo-Handcuffs" );
+			KoLCharacter.addAvailableSkill( "Blow a Robo-Kiss" );
+			if ( EquipmentManager.wieldingGun() )
+			{
+				KoLCharacter.addAvailableSkill( "Precision Shot" );
+			}
+			break;
 		}
 	}
 

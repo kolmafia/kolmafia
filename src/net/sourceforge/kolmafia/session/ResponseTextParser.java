@@ -485,12 +485,12 @@ public class ResponseTextParser
 
 				switch ( itemId )
 				{
-					case ItemPool.YEARBOOK_CAMERA:
-						ItemDatabase.parseYearbookCamera( responseText );
-						break;
-					case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
-						ItemDatabase.parseRetroCape( responseText );
-						break;
+				case ItemPool.YEARBOOK_CAMERA:
+					ItemDatabase.parseYearbookCamera( responseText );
+					break;
+				case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
+					ItemDatabase.parseRetroCape( responseText );
+					break;
 				}
 			}
 		}
