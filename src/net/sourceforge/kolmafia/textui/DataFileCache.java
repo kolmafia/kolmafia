@@ -129,10 +129,19 @@ public class DataFileCache
 			return file;
 		}
 
-		file = new File( KoLConstants.DATA_LOCATION, filename );
 		try
 		{
-			if ( file.getCanonicalPath().startsWith( KoLConstants.DATA_LOCATION.getCanonicalPath() ) )
+			boolean withinAllowedParent = false;
+
+			for ( int i = 0; i < parents.length; ++i )
+			{
+				if ( file.getCanonicalPath().startsWith( parents[ i ].getCanonicalPath() ) )
+				{
+					withinAllowedParent = true;
+				}
+			}
+
+			if ( withinAllowedParent )
 			{
 				return file;
 			}
