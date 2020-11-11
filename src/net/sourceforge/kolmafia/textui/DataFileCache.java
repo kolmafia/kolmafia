@@ -141,18 +141,18 @@ public class DataFileCache
 				}
 			}
 
-			if ( withinAllowedParent )
+			if ( !withinAllowedParent )
 			{
-				return file;
+				file = new File( KoLConstants.DATA_LOCATION, filename );
 			}
+
+			return file;
 		}
 		catch ( IOException e )
 		{
 			return null;
 		}
 
-		KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, filename + " is not within KoLmafia's directories." );
-		return null;
 	}
 
 	private static boolean checkFile( File[] parents, File file, boolean checkExists )
@@ -213,13 +213,15 @@ public class DataFileCache
 			return new byte[0];
 		}
 
+		String sanitizedFilename = input.getPath().substring( KoLConstants.ROOT_LOCATION.getPath().length() + 1 );
+
 		long modifiedTime = input.lastModified();
 
-		Long cacheModifiedTime = dataFileTimestampCache.get( filename );
+		Long cacheModifiedTime = dataFileTimestampCache.get( sanitizedFilename );
 
 		if ( cacheModifiedTime != null && cacheModifiedTime.longValue() == modifiedTime )
 		{
-			return dataFileDataCache.get( filename );
+			return dataFileDataCache.get( sanitizedFilename );
 		}
 
 		InputStream istream = null;
@@ -234,15 +236,10 @@ public class DataFileCache
 			{
 			}
 		}
-		
+
 		if ( istream == null )
 		{
-			istream = DataUtilities.getInputStream( "data", filename );
-
-			if ( istream instanceof ByteArrayInputStream )
-			{
-				istream = DataUtilities.getInputStream( "", filename );
-			}
+			istream = DataUtilities.getInputStream( "", sanitizedFilename );
 		}
 
 		byte[] data = ByteBufferUtilities.read( istream );
@@ -252,9 +249,9 @@ public class DataFileCache
 			//If the cause was a lack of synchronization then this message should never be displayed.  If it is displayed
 			//then the hypothesis about synchronization (or the fix) was incorrect.  In any event we want to see this
 			//message and the NPE if data is null.
-			RequestLogger.printLine("getBytes returning null for file " + filename + ".");
+			RequestLogger.printLine("getBytes returning null for file " + sanitizedFilename + ".");
 		}
-		DataFileCache.updateCache( filename, modifiedTime, data );
+		DataFileCache.updateCache( sanitizedFilename, modifiedTime, data );
 		return data;
 	}
 
