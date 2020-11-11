@@ -909,6 +909,7 @@ user	maximizerCombinationLimit	0
 user	maximizerCreateOnHand	false
 user	maximizerCurrentMallPrices	false
 user	maximizerEquipmentLevel	1
+user    maximizerEquipmentScope 0
 user	maximizerFoldables	true
 user	maximizerIncludeAll	false
 user	maximizerMaxPrice	0

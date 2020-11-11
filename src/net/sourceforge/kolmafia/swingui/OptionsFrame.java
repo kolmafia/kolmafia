@@ -781,7 +781,6 @@ public class OptionsFrame
 
 			JPanel equipPanel = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
 			this.equipmentSelect = new SmartButtonGroup( equipPanel );
-			this.equipmentSelect.add( new JRadioButton( "none" ) );
 			this.equipmentSelect.add( new JRadioButton( "on hand" ) );
 			this.equipmentSelect.add( new JRadioButton( "creatable" ) );
 			this.equipmentSelect.add( new JRadioButton( "pullable/buyable" ) );
@@ -834,7 +833,7 @@ public class OptionsFrame
 			Preferences.setBoolean( "verboseMaximizer", this.verboseBox.isSelected() );
 			Preferences.setBoolean( "maximizerIncludeAll", this.incAllBox.isSelected() );
 			Preferences.setBoolean( "maximizerCreateOnHand", this.createBox.isSelected() );
-			Preferences.setInteger( "maximizerEquipmentLevel", this.equipmentSelect.getSelectedIndex() );
+			Preferences.setInteger( "maximizerEquipmentScope", this.equipmentSelect.getSelectedIndex() );
 			Preferences.setInteger( "maximizerMaxPrice", (int) InputFieldUtilities.getValue( this.priceField, 0 ) );
 			Preferences.setInteger( "maximizerPriceLevel", this.priceSelect.getSelectedIndex() );
 		}
@@ -851,7 +850,7 @@ public class OptionsFrame
 			this.verboseBox.setSelected( Preferences.getBoolean( "verboseMaximizer" ) );
 			this.incAllBox.setSelected( Preferences.getBoolean( "maximizerIncludeAll" ) );
 			this.createBox.setSelected( Preferences.getBoolean( "maximizerCreateOnHand" ) );
-			this.equipmentSelect.setSelectedIndex( Preferences.getInteger( "maximizerEquipmentLevel" ) );
+			this.equipmentSelect.setSelectedIndex( Preferences.getInteger( "maximizerEquipmentScope" ) );
 			this.priceField.setText( Preferences.getString( "maximizerMaxPrice" ) );
 			this.priceSelect.setSelectedIndex( Preferences.getInteger( "maximizerPriceLevel" ) );
 		}
