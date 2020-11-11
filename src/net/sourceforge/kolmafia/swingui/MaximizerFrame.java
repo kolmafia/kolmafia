@@ -63,6 +63,7 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.Properties;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -246,7 +247,20 @@ public class MaximizerFrame
 			MaximizerFrame.this.equipmentSelect.add( new JRadioButton( "on hand" ) );
 			MaximizerFrame.this.equipmentSelect.add( new JRadioButton( "creatable" ) );
 			MaximizerFrame.this.equipmentSelect.add( new PullableRadioButton( "pullable/buyable" ) );
-			MaximizerFrame.this.equipmentSelect.setSelectedIndex( Preferences.getInteger( "maximizerEquipmentLevel" ) );
+
+			if ( ! Preferences.getBoolean( "maximizerUseScope" ) )
+			{
+				Integer maximizerEquipmentLevel = Preferences.getInteger( "maximizerEquipmentLevel" );
+				if ( maximizerEquipmentLevel == 0 )
+				{
+					// no longer supported...
+					maximizerEquipmentLevel = 1;
+				}
+				Preferences.setInteger( "maximizerEquipmentScope", maximizerEquipmentLevel -1 );
+				Preferences.setBoolean( "maximizerUseScope",true );
+			}
+
+			MaximizerFrame.this.equipmentSelect.setSelectedIndex( Preferences.getInteger( "maximizerEquipmentScope" ) );
 
 			JPanel mallPanel = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
 			mallPanel.add( MaximizerFrame.this.maxPriceField );
@@ -275,27 +289,26 @@ public class MaximizerFrame
 			filterPanelBottomRow.add(filterNoneButton, BorderLayout.EAST);
 
 
-			Boolean defaultCheck;
-			for (
-				KoLConstants.filterType fType :KoLConstants.filterType.values() )
+			Boolean usageUnderLimit;
+			for ( KoLConstants.filterType fType : KoLConstants.filterType.values() )
 			{
 				switch( fType ){
 				case BOOZE:
-					defaultCheck = ( KoLCharacter.canDrink() && KoLCharacter.getInebriety() < KoLCharacter.getInebrietyLimit() );
+					usageUnderLimit = ( KoLCharacter.canDrink() && KoLCharacter.getInebriety() < KoLCharacter.getInebrietyLimit() );
 					break;
 				case FOOD:
-					defaultCheck = ( KoLCharacter.canEat() &&  KoLCharacter.getFullness()  < KoLCharacter.getFullnessLimit() );
+					usageUnderLimit = ( KoLCharacter.canEat() &&  KoLCharacter.getFullness() < KoLCharacter.getFullnessLimit() );
 					break;
 				case SPLEEN:
-					defaultCheck = ( KoLCharacter.getSpleenUse()  < KoLCharacter.getSpleenLimit() );
+					usageUnderLimit = ( KoLCharacter.getSpleenUse() < KoLCharacter.getSpleenLimit() );
 					break;
 				default:
-					defaultCheck = true;
+					usageUnderLimit = true;
 				}
-				filterButtons.put( fType, new JCheckBox (fType.toString().toLowerCase(), defaultCheck) );
+				filterButtons.put( fType, new JCheckBox (fType.toString().toLowerCase(), usageUnderLimit) );
 				filterButtons.get(fType).addItemListener( this );
 
-				if ( Arrays.stream( TopRowFilters ).anyMatch( fType::equals) )
+				if ( Arrays.asList( TopRowFilters ).contains( fType ) )
 				{
 					filterCheckboxTopPanel.add(filterButtons.get( fType ) );
 				}
@@ -304,7 +317,7 @@ public class MaximizerFrame
 					filterCheckboxBottomPanel.add(filterButtons.get( fType ) );
 
 				}
-				updateFilter( fType, defaultCheck );
+				updateFilter( fType, usageUnderLimit );
 			}
 			filterPanelTopRow.add(filterCheckboxTopPanel, BorderLayout.CENTER);
 			filterPanelBottomRow.add(filterCheckboxBottomPanel, BorderLayout.CENTER);
@@ -327,25 +340,17 @@ public class MaximizerFrame
 			JCheckBox changedBox = (JCheckBox) e.getSource();
 			KoLConstants.filterType thisFilter =null;
 			boolean updatedValue =  ( e.getStateChange() == ItemEvent.SELECTED );
-			try
+			for ( KoLConstants.filterType fType: KoLConstants.filterType.values() )
 			{
-				for ( KoLConstants.filterType fType: KoLConstants.filterType.values() )
+				if ( fType.name().equalsIgnoreCase( changedBox.getText() ))
 				{
-					if ( fType.name().equalsIgnoreCase( changedBox.getText() ))
-					{
-						thisFilter = fType;
-						break;
-					}
+					thisFilter = fType;
+					break;
 				}
-
-				if ( !(thisFilter == null) ) updateFilter( thisFilter, updatedValue );
-
 			}
-			catch( Exception ex)
+			if ( !( thisFilter == null ) )
 			{
-				// This should log the error
-				// System.out.println(updatedFilter + ": "+ updatedValue);
-				// System.out.println ("State Change Error: " + ex.getMessage() );
+				updateFilter( thisFilter, updatedValue );
 			}
 		}
 		@Override
