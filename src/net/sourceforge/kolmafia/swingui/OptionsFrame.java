@@ -41,6 +41,7 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -743,7 +744,7 @@ public class OptionsFrame
 		private JTextField combinationsField;
 		private JTextField mruField;
 		private JTextField priceField;
-		private JCheckBox currentMallBox, noAdvBox, alwaysCurrentBox, foldBox, verboseBox, incAllBox, createBox;
+		private JCheckBox currentMallBox, noAdvBox, alwaysCurrentBox, foldBox, verboseBox, incAllBox, createBox, singleFilterBox;
 		private SmartButtonGroup equipmentSelect, priceSelect;
 		
 		public MaximizerOptionsPanel()
@@ -770,7 +771,9 @@ public class OptionsFrame
 			this.incAllBox.addFocusListener( this );
 			this.createBox = new JCheckBox();
 			this.createBox.addFocusListener( this );
-			
+			this.singleFilterBox = new JCheckBox();
+			this.singleFilterBox.addFocusListener( this );
+
 			// Feels kludgy, but makes sure that column width for text fields are respected
 			JPanel combinationsPanel = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
 			combinationsPanel.add( combinationsField );
@@ -791,7 +794,7 @@ public class OptionsFrame
 			this.priceSelect.add( new JRadioButton( "buyable only" ) );
 			this.priceSelect.add( new JRadioButton( "all consumables" ) );
 
-			VerifiableElement[] elements = new VerifiableElement[ 12 ];
+			VerifiableElement[] elements = new VerifiableElement[ 13 ];
 
 			elements[ 0 ] = new VerifiableElement( "Consider items by default: ", equipPanel, false );
 			elements[ 1 ] = new VerifiableElement( "Consider foldable items in Maximizer by default", SwingConstants.LEFT, this.foldBox );
@@ -805,6 +808,7 @@ public class OptionsFrame
 			elements[ 9 ] = new VerifiableElement( "Show cost, turns of effect and number of casts/items remaining", SwingConstants.LEFT, this.verboseBox );
 			elements[ 10 ] = new VerifiableElement( "Show all, effects with no direct source, skills you don't have, etc.", SwingConstants.LEFT, this.incAllBox );
 			elements[ 11 ] = new VerifiableElement( "Recent maximizer string buffer", SwingConstants.LEFT, mruPanel );
+			elements[ 12 ] = new VerifiableElement( "Treat filter checkboxes as an exclusive group (will close Maximizer)", SwingConstants.LEFT, this.singleFilterBox );
 
 			this.actionCancelled();
 			this.setContent( elements );
@@ -836,6 +840,20 @@ public class OptionsFrame
 			Preferences.setInteger( "maximizerEquipmentScope", this.equipmentSelect.getSelectedIndex() );
 			Preferences.setInteger( "maximizerMaxPrice", (int) InputFieldUtilities.getValue( this.priceField, 0 ) );
 			Preferences.setInteger( "maximizerPriceLevel", this.priceSelect.getSelectedIndex() );
+
+			if (this.singleFilterBox.isSelected() != Preferences.getBoolean( "maximizerSingleFilter" ))
+			{
+				// redraw Maximizer
+				Frame[] frames = Frame.getFrames();
+				for ( Frame f : frames )
+				{
+					if ( f.getTitle().contains( "Modifier Maximizer" ) )
+					{
+						f.dispose();
+					}
+				}
+			}
+			Preferences.setBoolean(  "maximizerSingleFilter" , this.singleFilterBox.isSelected() );
 		}
 
 		@Override
@@ -853,6 +871,7 @@ public class OptionsFrame
 			this.equipmentSelect.setSelectedIndex( Preferences.getInteger( "maximizerEquipmentScope" ) );
 			this.priceField.setText( Preferences.getString( "maximizerMaxPrice" ) );
 			this.priceSelect.setSelectedIndex( Preferences.getInteger( "maximizerPriceLevel" ) );
+			this.singleFilterBox.setSelected( Preferences.getBoolean( "maximizerSingleFilter" ) );
 		}
 
 		public void focusLost( final FocusEvent e )
