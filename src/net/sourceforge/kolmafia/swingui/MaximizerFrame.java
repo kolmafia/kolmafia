@@ -285,10 +285,11 @@ public class MaximizerFrame
 			filterAllButton.setPreferredSize(new Dimension(110, 20));
 			filterNoneButton.setPreferredSize(new Dimension(110, 20));
 
-			filterPanelTopRow.add(filterAllButton, BorderLayout.EAST);
-			filterPanelBottomRow.add(filterNoneButton, BorderLayout.EAST);
-
-
+			if ( ! Preferences.getBoolean( "maximizerSingleFilter" ))
+			{
+				filterPanelTopRow.add( filterAllButton, BorderLayout.LINE_END );
+				filterPanelBottomRow.add( filterNoneButton, BorderLayout.LINE_END );
+			}
 			Boolean usageUnderLimit;
 			for ( KoLConstants.filterType fType : KoLConstants.filterType.values() )
 			{
@@ -304,6 +305,11 @@ public class MaximizerFrame
 					break;
 				default:
 					usageUnderLimit = true;
+				}
+				Boolean isLastUsedFilter = Preferences.getString( "maximizerLastSingleFilter" ).equalsIgnoreCase( fType.name() );
+				if ( Preferences.getBoolean( "maximizerSingleFilter" ) )
+				{
+					usageUnderLimit = isLastUsedFilter;
 				}
 				filterButtons.put( fType, new JCheckBox (fType.toString().toLowerCase(), usageUnderLimit) );
 				filterButtons.get(fType).addItemListener( this );
@@ -340,17 +346,46 @@ public class MaximizerFrame
 			JCheckBox changedBox = (JCheckBox) e.getSource();
 			KoLConstants.filterType thisFilter =null;
 			boolean updatedValue =  ( e.getStateChange() == ItemEvent.SELECTED );
-			for ( KoLConstants.filterType fType: KoLConstants.filterType.values() )
+			if ( Preferences.getBoolean( "maximizerSingleFilter" ) )
 			{
-				if ( fType.name().equalsIgnoreCase( changedBox.getText() ))
+				if ( ! changedBox.isSelected() )
 				{
-					thisFilter = fType;
-					break;
+					return;
 				}
+				// selecting a filter turns off all others, as if it was a radio button
+				Boolean singleSelect;
+
+				for ( KoLConstants.filterType fType : KoLConstants.filterType.values() )
+				{
+					singleSelect = (fType.toString().equalsIgnoreCase( changedBox.getText() ));
+
+					filterButtons.get( fType ).setSelected( singleSelect );
+
+					if ( activeFilters.containsKey( changedBox.getText() ) )
+					{
+						activeFilters.replace( fType, singleSelect );
+					}
+					else
+					{
+						activeFilters.put( fType, singleSelect );
+					}
+				}
+				Preferences.setString( "maximizerLastSingleFilter", changedBox.getText() );
 			}
-			if ( !( thisFilter == null ) )
+			else
 			{
-				updateFilter( thisFilter, updatedValue );
+				for ( KoLConstants.filterType fType : KoLConstants.filterType.values() )
+				{
+					if ( fType.name().equalsIgnoreCase( changedBox.getText() ) )
+					{
+						thisFilter = fType;
+						break;
+					}
+				}
+				if ( !(thisFilter == null) )
+				{
+					updateFilter( thisFilter, updatedValue );
+				}
 			}
 		}
 		@Override
