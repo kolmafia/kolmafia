@@ -4508,7 +4508,7 @@ public abstract class KoLCharacter
 
 	public static final boolean knollAvailable()
 	{
-		return KoLCharacter.ascensionSignZone == ZodiacZone.KNOLL && !Limitmode.limitZone( "MusSign" ) && !KoLCharacter.isKingdomOfExploathing();
+		return KoLCharacter.ascensionSignZone == ZodiacZone.KNOLL && !Limitmode.limitZone( "MusSign" ) && !KoLCharacter.isKingdomOfExploathing() && !KoLCharacter.inGoocore();
 	}
 
 	/**
