@@ -406,6 +406,9 @@ public class ResultProcessor
 	// <table><tr><td><img class=hand src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/discoleer.gif" onClick='eff("bc3d4aad3454fcd82c066ef3949749ca");' width=30 height=30></td><td valign=center class=effect>You lose an effect: <b>Disco Leer</b></td></tr></table>
 	// <table><tr><td><img class=hand src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/scharm.gif" onClick='eff("81d92825729f8b3a913133c18e37a74c");' width=30 height=30 alt="Ancient Annoying Serpent Poison" title="Ancient Annoying Serpent Poison"></td><td valign=center class=effect>You lose an intrinsic: <b>Ancient Annoying Serpent Poison</b><br></td></tr></table>
 
+	// <table><tr><td><img class=hand src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/lump.gif" onClick='eff("87613dd8cce26a5557db77ab059bf039");' width=30 height=30 alt="Discomfited" title="Discomfited"></td><td valign=center class=effect>You acquire an effect: <b>Discomfited</b><br>(duration: 30 Adventures)</td></tr></table>
+	// <table><tr><td><img class=hand src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/strboost.gif" onClick='eff("332e06d519892d99db38ab7f918b1edf");' width=30 height=30 alt="The Strength...  of the Future" title="The Strength...  of the Future"></td><td valign=center class=effect>You acquire an effect: <b>The Strength...  of the Future</b><br>(duration: 20 Adventures)</td></tr></table>
+
 	public static Pattern BIRD_PATTERN = Pattern.compile( "Blessing of the (.*)" );
 	public static void updateBird( int effectId, String effectName, String property )
 	{
@@ -457,11 +460,6 @@ public class ResultProcessor
 			else if ( effectId == EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD )
 			{
 				ResultProcessor.updateBird( EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, effectName, "yourFavoriteBird" );
-			}
-			// If KoL changed the effect name, treat it as an unknown effect.
-			else if ( !decodedNamesEqual( effectName, EffectDatabase.getEffectName( effectId ) ) )
-			{
-				effectId = EffectDatabase.learnEffectId( effectName, descId );
 			}
 
 			String acquisition = effectMatcher.group( 2 );
@@ -812,6 +810,8 @@ public class ResultProcessor
 	{
 		// Sacr&eacute; Mental
 		// Sacré Mental
+		// The Strength... of the Future
+		// The Strength...  of the Future
 		return  name1.equals( name2 ) ||
 			StringUtilities.getEntityDecode( name1 ).equals( StringUtilities.getEntityDecode( name2 ) );
 	}
