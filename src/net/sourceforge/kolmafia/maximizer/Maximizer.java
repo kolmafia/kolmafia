@@ -123,7 +123,7 @@ public class Maximizer
 	public static boolean maximize( String maximizerString, int maxPrice, int priceLevel, boolean isSpeculationOnly )
 	{
 		MaximizerFrame.expressionSelect.setSelectedItem( maximizerString );
-		int equipLevel = isSpeculationOnly ? 1 : -1;
+		int equipLevel = isSpeculationOnly ? 0 : -1;
 
 		// iECOC has to be turned off before actually maximizing as
 		// it would cause all item lookups during the process to just
@@ -2215,7 +2215,7 @@ public class Maximizer
 				if ( equipLevel == -1 )
 				{	// called from CLI
 					boost.execute( true );
-					if ( !KoLmafia.permitsContinue() ) equipLevel = 1;
+					if ( !KoLmafia.permitsContinue() ) equipLevel = 0;
 				}
 				else
 				{
