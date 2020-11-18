@@ -993,14 +993,23 @@ public class PocketDatabase
 		switch ( type )
 		{
 		case SCRAP:
-			// Sort on scrap index. Created at database load, since it is used elsewhere.
-			return PocketDatabase.scrapSyllables;
+			// Sort on scrap index.
+			return pockets.values()
+				      .stream()
+				      .sorted( Comparator.comparing(p -> ((ScrapPocket) p).getScrap() ) )
+				      .collect( Collectors.toList() );
 		case MEAT:
 			// Sort on Meat
-			return PocketDatabase.meatPockets;
+			return pockets.values()
+				      .stream()
+				      .sorted( Comparator.comparing(p -> ((MeatPocket) p).getMeat() ) )
+				      .collect( Collectors.toList() );
 		case POEM:
 			// Sort on line index
-			return PocketDatabase.poemHalfLines;
+			return pockets.values()
+				      .stream()
+				      .sorted( Comparator.comparing(p -> ((PoemPocket) p).getIndex() ) )
+				      .collect( Collectors.toList() );
 		case MONSTER:
 			// Sort on monster name
 			return pockets.values()

@@ -164,7 +164,7 @@ public class CargoCultCommand
 					pockets = PocketDatabase.removePickedPockets( pockets );
 					modifier = " unpicked ";
 				}
-				RequestLogger.printLine( "There are " + pockets.size() +  modifier + tag + " pockets." );
+				RequestLogger.printLine( "There are " + pockets.size() + modifier + tag + " pockets." );
 				if ( command.equals( "list" ) )
 				{
 					List<Pocket> sorted = PocketDatabase.sortPockets( type, pockets );
