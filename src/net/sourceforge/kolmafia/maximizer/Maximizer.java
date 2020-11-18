@@ -123,7 +123,7 @@ public class Maximizer
 	public static boolean maximize( String maximizerString, int maxPrice, int priceLevel, boolean isSpeculationOnly )
 	{
 		MaximizerFrame.expressionSelect.setSelectedItem( maximizerString );
-		int equipLevel = isSpeculationOnly ? 0 : -1;
+		int equipScope = isSpeculationOnly ? 0 : -1;
 
 		// iECOC has to be turned off before actually maximizing as
 		// it would cause all item lookups during the process to just
@@ -131,7 +131,7 @@ public class Maximizer
 
 		KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
 
-		Maximizer.maximize( equipLevel, maxPrice, priceLevel, false, 0 );
+		Maximizer.maximize( equipScope, maxPrice, priceLevel, false, 0 );
 
 		if ( !KoLmafia.permitsContinue() )
 		{
@@ -144,7 +144,7 @@ public class Maximizer
 		return !Maximizer.best.failed;
 	}
 
-	public static void maximize( int equipLevel, int maxPrice, int priceLevel, boolean includeAll, EnumMap<KoLConstants.filterType,Boolean> filter )
+	public static void maximize( int equipScope, int maxPrice, int priceLevel, boolean includeAll, EnumMap<KoLConstants.filterType,Boolean> filter )
 	{
 		KoLmafia.forceContinue();
 		String maxMe = (String) MaximizerFrame.expressionSelect.getSelectedItem();
@@ -172,7 +172,7 @@ public class Maximizer
 		Maximizer.firstTime = false;
 
 		Maximizer.boosts.clear();
-		if ( equipLevel != 0 && filter.getOrDefault(KoLConstants.filterType.EQUIP, false) )
+		if ( filter.getOrDefault(KoLConstants.filterType.EQUIP, false) )
 		{
 			Maximizer.best = new MaximizerSpeculation();
 			Maximizer.best.getScore();
@@ -183,7 +183,7 @@ public class Maximizer
 			Maximizer.bestUpdate = System.currentTimeMillis() + 5000;
 			try
 			{
-				Maximizer.eval.enumerateEquipment( equipLevel, maxPrice, priceLevel );
+				Maximizer.eval.enumerateEquipment( equipScope, maxPrice, priceLevel );
 			}
 			catch ( MaximizerExceededException e )
 			{
@@ -207,7 +207,7 @@ public class Maximizer
 				if ( Maximizer.best.equipment[ slot ].getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE &&
 					EquipmentManager.getEquipment( slot ).getItemId() != ItemPool.SPECIAL_SAUCE_GLOVE )
 				{
-					equipLevel = Maximizer.emitSlot( slot, equipLevel, maxPrice, priceLevel, current );
+					equipScope = Maximizer.emitSlot( slot, equipScope, maxPrice, priceLevel, current );
 					alreadyDone[ slot ] = true;
 				}
 			}
@@ -216,7 +216,7 @@ public class Maximizer
 			{
 				if ( !alreadyDone[ slot ] )
 				{
-					equipLevel = Maximizer.emitSlot( slot, equipLevel, maxPrice, priceLevel, current );
+					equipScope = Maximizer.emitSlot( slot, equipScope, maxPrice, priceLevel, current );
 				}
 			}
 		}
@@ -270,7 +270,7 @@ public class Maximizer
 				int count = 0;
 				for ( int itemId : itemList )
 				{
-					CheckedItem checkedItem = new CheckedItem( itemId, equipLevel, maxPrice, priceLevel );
+					CheckedItem checkedItem = new CheckedItem( itemId, equipScope, maxPrice, priceLevel );
 					// We won't include unavailable items, as this just gets far too large
 					String cmd, text;
 					int price = 0;
@@ -282,7 +282,7 @@ public class Maximizer
 					}
 					else if ( checkedItem.initial > 0 )
 					{
-						String method = InventoryManager.simRetrieveItem( item, equipLevel == -1, false );
+						String method = InventoryManager.simRetrieveItem( item, equipScope == -1, false );
 						if ( !method.equals( "have" ) )
 						{
 							text = method + " & " + text;
@@ -410,7 +410,7 @@ public class Maximizer
 					continue;
 				}
 				// Check if we have access to item
-				CheckedItem checkedItem = new CheckedItem( itemId, equipLevel, maxPrice, priceLevel );
+				CheckedItem checkedItem = new CheckedItem( itemId, equipScope, maxPrice, priceLevel );
 				// We won't include unavailable items, as this just gets far too large
 				String cmd, text;
 				int price = 0;
@@ -422,7 +422,7 @@ public class Maximizer
 				}
 				else if ( checkedItem.initial > 0 )
 				{
-					String method = InventoryManager.simRetrieveItem( item, equipLevel == -1, false );
+					String method = InventoryManager.simRetrieveItem( item, equipScope == -1, false );
 					if ( !method.equals( "have" ) )
 					{
 						text = method + " & " + text;
@@ -1857,18 +1857,18 @@ public class Maximizer
 					{
 						int itemId = item.getItemId();
 						// Outside Ronin/Hardcore, always show all purchasable
-						int showLevel = equipLevel;
+						int showScope = equipScope;
 						if ( KoLCharacter.canInteract() )
 						{
-							showLevel = 3;
+							showScope = 2;
 						}
-						CheckedItem checkedItem = new CheckedItem( itemId, showLevel, maxPrice, priceLevel );
+						CheckedItem checkedItem = new CheckedItem( itemId, showScope, maxPrice, priceLevel );
 						if ( checkedItem.inventory > 0 )
 						{
 						}
 						else if ( checkedItem.initial > 0 )
 						{
-							String method = InventoryManager.simRetrieveItem( item, equipLevel == -1, false );
+							String method = InventoryManager.simRetrieveItem( item, equipScope == -1, false );
 							if ( !method.equals( "have" ) )
 							{
 								text = method + " & " + text;
@@ -2171,6 +2171,19 @@ public class Maximizer
 	//convert the old method to use the new method, in case it gets called from elsewhere...
 	public static void maximize( int equipLevel, int maxPrice, int priceLevel, boolean includeAll, int filterLevel )
 	{
+		if ( ! Preferences.getBoolean( "maximizerUseScope" ) )
+		{
+			Integer maximizerEquipmentLevel = Preferences.getInteger( "maximizerEquipmentLevel" );
+			if ( maximizerEquipmentLevel == 0 )
+			{
+				// no longer supported...
+				maximizerEquipmentLevel = 1;
+			}
+			Preferences.setInteger( "maximizerEquipmentScope", maximizerEquipmentLevel - 1 );
+			Preferences.setBoolean( "maximizerUseScope", true );
+		}
+
+
 		EnumMap<KoLConstants.filterType, Boolean> filters;
 		filters = new EnumMap<>( KoLConstants.filterType.class );
 
@@ -2196,7 +2209,7 @@ public class Maximizer
 		maximize( equipLevel, maxPrice, priceLevel, includeAll, filters );
 	}
 
-	private static int emitSlot( int slot, int equipLevel, int maxPrice, int priceLevel, double current )
+	private static int emitSlot( int slot, int equipScope, int maxPrice, int priceLevel, double current )
 	{
 		if ( slot == EquipmentManager.FAMILIAR )
 		{	// Insert any familiar switch at this point
@@ -2212,10 +2225,10 @@ public class Maximizer
 					KoLConstants.MODIFIER_FORMAT.format( delta ) + ")";
 
 				Boost boost = new Boost( cmd, text, fam, delta );
-				if ( equipLevel == -1 )
+				if ( equipScope == -1 )
 				{	// called from CLI
 					boost.execute( true );
-					if ( !KoLmafia.permitsContinue() ) equipLevel = 0;
+					if ( !KoLmafia.permitsContinue() ) equipScope = 0;
 				}
 				else
 				{
@@ -2259,12 +2272,12 @@ public class Maximizer
 		{
 			if ( slot >= EquipmentManager.SLOTS ||
 			     curr.equals( EquipmentRequest.UNEQUIP ) ||
-			     equipLevel == -1 )
+			     equipScope == -1 )
 			{
-				return equipLevel;
+				return equipScope;
 			}
 			Maximizer.boosts.add( new Boost( "", "keep " + slotname + ": " + item.getName(), -1, item, 0.0 ) );
-			return equipLevel;
+			return equipScope;
 		}
 		MaximizerSpeculation spec = new MaximizerSpeculation();
 		spec.equip( slot, item );
@@ -2326,7 +2339,7 @@ public class Maximizer
 			}
 			text = text + " (";
 
-			CheckedItem checkedItem = new CheckedItem( itemId, equipLevel, maxPrice, priceLevel );
+			CheckedItem checkedItem = new CheckedItem( itemId, equipScope, maxPrice, priceLevel );
 
 			int price = 0;
 
@@ -2336,7 +2349,7 @@ public class Maximizer
 
 			// If we're running from command line then execute them straight away,
 			// so we have to count how much we've used in 'earlier' items
-			if ( equipLevel == -1 )
+			if ( equipScope == -1 )
 			{
 				for ( int piece = EquipmentManager.HAT ; piece < slot ; piece++ )
 				{
@@ -2394,7 +2407,7 @@ public class Maximizer
 				// This may look odd, but we need an item, not a checked item
 				// The count of a checked item includes creatable, buyable, pullable etc.
 				String method = InventoryManager.simRetrieveItem( ItemPool.get( item.getItemId(), count + 1 ),
-					equipLevel == -1, false );
+					equipScope == -1, false );
 				if ( !method.equals( "have" ) )
 				{
 					text = method + " & " + text;
@@ -2491,12 +2504,12 @@ public class Maximizer
 		}
 
 		Boost boost = new Boost( cmd, text, slot, item, delta, enthroned, bjorned, edPiece, snowsuit );
-		if ( equipLevel == -1 )
+		if ( equipScope == -1 )
 		{	// called from CLI
 			boost.execute( true );
 			if ( !KoLmafia.permitsContinue() )
 			{
-				equipLevel = 1;
+				equipScope = 0;
 				Maximizer.boosts.add( boost );
 			}
 		}
@@ -2504,7 +2517,7 @@ public class Maximizer
 		{
 			Maximizer.boosts.add( boost );
 		}
-		return equipLevel;
+		return equipScope;
 	}
 
 	private static boolean excludedTCRSItem( int itemId )
