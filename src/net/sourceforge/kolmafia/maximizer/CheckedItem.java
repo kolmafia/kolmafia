@@ -58,7 +58,7 @@ import net.sourceforge.kolmafia.session.StoreManager;
 public class CheckedItem
 	extends AdventureResult
 {
-	public CheckedItem( int itemId, int equipLevel, int maxPrice, int priceLevel )
+	public CheckedItem( int itemId, int equipScope, int maxPrice, int priceLevel )
 	{
 		super( itemId, 1, false );
 
@@ -106,9 +106,9 @@ public class CheckedItem
 			}
 		}
 
-		boolean skillCreateCheck = Preferences.getBoolean( "maximizerCreateOnHand" ) && equipLevel == 1 &&
+		boolean skillCreateCheck = Preferences.getBoolean( "maximizerCreateOnHand" ) && equipScope == 0 &&
 									!ItemDatabase.isEquipment( itemId );
-		if ( this.initial >= 3 || ( equipLevel < 2 && !skillCreateCheck ) )
+		if ( this.initial >= 3 || ( equipScope < 1 && !skillCreateCheck ) )
 		{
 			return;
 		}
@@ -133,7 +133,7 @@ public class CheckedItem
 			}
 		}
 
-		if ( this.getCount() >= 3 || equipLevel < 3 )
+		if ( this.getCount() >= 3 || equipScope < 2 )
 		{
 			return;
 		}

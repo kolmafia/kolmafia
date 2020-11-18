@@ -1094,7 +1094,7 @@ public class Evaluator
 		return false;
 	}
 
-	void enumerateEquipment( int equipLevel, int maxPrice, int priceLevel )
+	void enumerateEquipment( int equipScope, int maxPrice, int priceLevel )
 		throws MaximizerInterruptedException
 	{
 		// Items automatically considered regardless of their score -
@@ -1237,7 +1237,7 @@ public class Evaluator
 						familiarMods = new Modifiers();
 					}
 				}
-				item = new CheckedItem( id, equipLevel, maxPrice, priceLevel );
+				item = new CheckedItem( id, equipScope, maxPrice, priceLevel );
 
 				switch ( this.checkConstraints( familiarMods ) )
 				{
@@ -1276,7 +1276,7 @@ public class Evaluator
 				}
 				if ( item == null )
 				{
-					item = new CheckedItem( id, equipLevel, maxPrice, priceLevel );
+					item = new CheckedItem( id, equipScope, maxPrice, priceLevel );
 				}
 
 				switch ( this.checkConstraints( familiarMods ) )
@@ -1297,7 +1297,7 @@ public class Evaluator
 			if ( !EquipmentManager.canEquip( id ) ) continue;
 			if ( item == null )
 			{
-				item = new CheckedItem( id, equipLevel, maxPrice, priceLevel );
+				item = new CheckedItem( id, equipScope, maxPrice, priceLevel );
 			}
 
 			if ( item.getCount() == 0 )
@@ -1717,7 +1717,7 @@ public class Evaluator
 			// Make sure best is better than secondBest !
 			MaximizerSpeculation best = new MaximizerSpeculation();
 			MaximizerSpeculation secondBest = new MaximizerSpeculation();
-			CheckedItem item = new CheckedItem( ItemPool.HATSEAT, equipLevel, maxPrice, priceLevel );
+			CheckedItem item = new CheckedItem( ItemPool.HATSEAT, equipScope, maxPrice, priceLevel );
 			best.attachment = secondBest.attachment = item;
 			best.equipment[ EquipmentManager.HAT ] = secondBest.equipment[ EquipmentManager.HAT ] = item;
 			best.setEnthroned( bestCarriedFamiliar );
@@ -1734,7 +1734,7 @@ public class Evaluator
 		{
 			MaximizerSpeculation best = new MaximizerSpeculation();
 			MaximizerSpeculation secondBest = new MaximizerSpeculation();
-			CheckedItem item = new CheckedItem( ItemPool.HATSEAT, equipLevel, maxPrice, priceLevel );
+			CheckedItem item = new CheckedItem( ItemPool.HATSEAT, equipScope, maxPrice, priceLevel );
 			best.attachment = secondBest.attachment = item;
 			best.equipment[ EquipmentManager.HAT ] = secondBest.equipment[ EquipmentManager.HAT ] = item;
 			best.setEnthroned( bestCarriedFamiliar );
@@ -1787,12 +1787,12 @@ public class Evaluator
 			// Check each card in sleeve to see if they are worthwhile
 			for ( int c = 4967; c <= 5007; c++ )
 			{
-				CheckedItem card = new CheckedItem( c, equipLevel, maxPrice, priceLevel );
+				CheckedItem card = new CheckedItem( c, equipScope, maxPrice, priceLevel );
 				AdventureResult equippedCard = EquipmentManager.getEquipment( EquipmentManager.CARDSLEEVE );
 				if ( card.getCount() > 0 || ( equippedCard != null && c == equippedCard.getItemId() ) )
 				{
 					MaximizerSpeculation spec = new MaximizerSpeculation();
-					CheckedItem sleeve = new CheckedItem( ItemPool.CARD_SLEEVE, equipLevel, maxPrice, priceLevel );
+					CheckedItem sleeve = new CheckedItem( ItemPool.CARD_SLEEVE, equipScope, maxPrice, priceLevel );
 					spec.attachment = sleeve;
 					spec.equipment[ EquipmentManager.OFFHAND ] = sleeve;
 					spec.equipment[ EquipmentManager.CARDSLEEVE ] = card;
@@ -1818,7 +1818,7 @@ public class Evaluator
 			{
 				// Assume best is current edPiece
 				MaximizerSpeculation best = new MaximizerSpeculation();
-				CheckedItem edPiece = new CheckedItem( ItemPool.CROWN_OF_ED, equipLevel, maxPrice, priceLevel );
+				CheckedItem edPiece = new CheckedItem( ItemPool.CROWN_OF_ED, equipScope, maxPrice, priceLevel );
 				best.attachment = edPiece;
 				bestEdPiece = Preferences.getString( "edPiece" );
 				best.equipment[ EquipmentManager.HAT ] = edPiece;
@@ -1852,7 +1852,7 @@ public class Evaluator
 		{
 			// Assume best is current Snowsuit
 			MaximizerSpeculation best = new MaximizerSpeculation();
-			CheckedItem snowsuit = new CheckedItem( ItemPool.SNOW_SUIT, equipLevel, maxPrice, priceLevel );
+			CheckedItem snowsuit = new CheckedItem( ItemPool.SNOW_SUIT, equipScope, maxPrice, priceLevel );
 			best.attachment = snowsuit;
 			bestSnowsuit = Preferences.getString( "snowsuit" );
 			best.equipment[ EquipmentManager.FAMILIAR ] = snowsuit;
@@ -1892,7 +1892,7 @@ public class Evaluator
 			// If we currently have nothing equipped, also consider leaving nothing equipped
 			if ( EquipmentManager.getEquipment( Evaluator.toUseSlot( slot ) ) == EquipmentRequest.UNEQUIP )
 			{
-				ranked[ slot ].add( new CheckedItem( 0, equipLevel, maxPrice, priceLevel ) );
+				ranked[ slot ].add( new CheckedItem( 0, equipScope, maxPrice, priceLevel ) );
 			}
 
 			for ( CheckedItem item : checkedItemList )
@@ -2322,7 +2322,7 @@ public class Evaluator
 							break;
 						}
 					}
-					CheckedItem outfitItem = new CheckedItem( outfitItemId, equipLevel, maxPrice, priceLevel );
+					CheckedItem outfitItem = new CheckedItem( outfitItemId, equipScope, maxPrice, priceLevel );
 					outfitSpec.equipment[ newSlot ] = outfitItem;
 				}
 				if ( outfitSpec.compareTo( compareSpec ) <= 0 && !this.posOutfits.contains( outfit.getName() ) )
@@ -2499,7 +2499,7 @@ public class Evaluator
 			// Blunt object fix for only having a foldable that might be neede elsewhere
 			if ( automatic[ slot ].size() == 1 && ItemDatabase.getFoldGroup( automatic[ slot ].get( 0 ).getName() ) != null )
 			{
-				automatic[ slot ].add( new CheckedItem( 0, equipLevel, maxPrice, priceLevel ) );
+				automatic[ slot ].add( new CheckedItem( 0, equipScope, maxPrice, priceLevel ) );
 			}
 
 			if ( this.dump > 0 )

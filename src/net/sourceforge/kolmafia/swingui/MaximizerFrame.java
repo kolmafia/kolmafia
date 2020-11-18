@@ -214,10 +214,7 @@ public class MaximizerFrame
 
 	public void maximize()
 	{
-		// equipLevel is equipmentSelect + 1 because I don't want to re-base the index
-		// but I did remove the prior first option.  In future, we should change this
-		// to something that's not positionally based..
-		Maximizer.maximize( this.equipmentSelect.getSelectedIndex() + 1,
+		Maximizer.maximize( this.equipmentSelect.getSelectedIndex(),
 			InputFieldUtilities.getValue( this.maxPriceField ),
 			this.mallSelect.getSelectedIndex(),
 			Preferences.getBoolean( "maximizerIncludeAll" ),
