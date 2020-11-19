@@ -388,7 +388,14 @@ public class QuestManager
 				// If here at all, Necklace and Dance quests are complete and second floor and basement open
 				QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED );
 				QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED );
-				QuestDatabase.setQuestIfBetter( Quest.MANOR, "step1" );
+				if ( responseText.contains( "sr_brickhole.gif" ) )
+				{
+					QuestDatabase.setQuestIfBetter( Quest.MANOR, "step3" );
+				}
+				else
+				{
+					QuestDatabase.setQuestIfBetter( Quest.MANOR, "step1" );
+				}
 				// Legacy code support
 				Preferences.setInteger( "lastSecondFloorUnlock", KoLCharacter.getAscensions() );
 				if ( responseText.contains( "Cold as ice and twice as smooth" ) )
