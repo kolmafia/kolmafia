@@ -39,8 +39,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class If
 	extends Conditional
@@ -59,10 +59,10 @@ public class If
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		Value result = super.execute( interpreter );
-		if ( interpreter.getState() != InterpreterState.NORMAL || result == DataTypes.TRUE_VALUE )
+		if ( interpreter.getState() != ScriptRuntime.State.NORMAL || result == DataTypes.TRUE_VALUE )
 		{
 			return result;
 		}
@@ -73,7 +73,7 @@ public class If
 		{
 			result = elseLoop.execute( interpreter );
 
-			if ( interpreter.getState() != InterpreterState.NORMAL || result == DataTypes.TRUE_VALUE )
+			if ( interpreter.getState() != ScriptRuntime.State.NORMAL || result == DataTypes.TRUE_VALUE )
 			{
 				return result;
 			}
@@ -91,7 +91,7 @@ public class If
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		stream.println( "<IF>" );
 
 		this.getCondition().print( stream, indent + 1 );

@@ -54,7 +54,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 
@@ -920,7 +920,7 @@ public class FamiliarRequest
 			return false;
 		}
 
-		Interpreter interpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( scriptName ) );
+		AshRuntime interpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( scriptName ) );
 		if ( interpreter != null )
 		{
 			Value v = interpreter.execute( "main", null );

@@ -36,8 +36,8 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public abstract class Loop
 	extends ParseTreeNode
@@ -55,33 +55,33 @@ public abstract class Loop
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		Value result = this.scope.execute( interpreter );
 
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( InterpreterState.EXIT );
+			interpreter.setState( ScriptRuntime.State.EXIT );
 		}
 
-		if ( interpreter.getState() == InterpreterState.EXIT )
+		if ( interpreter.getState() == ScriptRuntime.State.EXIT )
 		{
 			return null;
 		}
 
-		if ( interpreter.getState() == InterpreterState.BREAK )
+		if ( interpreter.getState() == ScriptRuntime.State.BREAK )
 		{
 			// Stay in state; subclass exits loop
 			return DataTypes.VOID_VALUE;
 		}
 
-		if ( interpreter.getState() == InterpreterState.CONTINUE )
+		if ( interpreter.getState() == ScriptRuntime.State.CONTINUE )
 		{
 			// Done with this iteration
-			interpreter.setState( InterpreterState.NORMAL );
+			interpreter.setState( ScriptRuntime.State.NORMAL );
 		}
 
-		if ( interpreter.getState() == InterpreterState.RETURN )
+		if ( interpreter.getState() == ScriptRuntime.State.RETURN )
 		{
 			// Stay in state; subclass exits loop
 			return result;

@@ -38,9 +38,9 @@ import java.io.PrintStream;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.Parser;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class Operator
 	extends ParseTreeNode
@@ -324,7 +324,7 @@ public class Operator
 		return false;
 	}
 
-	private Value compareValues( final Interpreter interpreter, Value leftValue, Value rightValue )
+	private Value compareValues( final AshRuntime interpreter, Value leftValue, Value rightValue )
 	{
 		Type ltype = leftValue.getType();
 		Type rtype = rightValue.getType();
@@ -392,7 +392,7 @@ public class Operator
 		}
 
 		Value result = bool ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "<- " + result );
 		}
@@ -400,7 +400,7 @@ public class Operator
 		return result;
 	}
 
-	private Value performArithmetic( final Interpreter interpreter, Value leftValue, Value rightValue )
+	private Value performArithmetic( final AshRuntime interpreter, Value leftValue, Value rightValue )
 	{
 		Type ltype = leftValue.getType();
 		Type rtype = rightValue.getType();
@@ -497,7 +497,7 @@ public class Operator
 			result = DataTypes.makeIntValue( val );
 		}
 
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "<- " + result );
 		}
@@ -505,10 +505,10 @@ public class Operator
 		return result;
 	}
 
-	public Value applyTo( final Interpreter interpreter, final Value lhs )
+	public Value applyTo( final AshRuntime interpreter, final Value lhs )
 	{
 		interpreter.traceIndent();
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "Operator: " + this.operator );
 		}
@@ -517,14 +517,14 @@ public class Operator
 		if ( this.operator.equals( "remove" ) )
 		{
 			CompositeReference operand = (CompositeReference) lhs;
-                        if ( Interpreter.isTracing() )
+                        if ( AshRuntime.isTracing() )
                         {
                                 interpreter.traceIndent();
                                 interpreter.trace( "Operand: " + operand );
                                 interpreter.traceUnindent();
                         }
 			Value result = operand.removeKey( interpreter );
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "<- " + result );
 			}
@@ -533,7 +533,7 @@ public class Operator
 		}
 
 		interpreter.traceIndent();
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "Operand: " + lhs );
 		}
@@ -545,13 +545,13 @@ public class Operator
 			leftValue = DataTypes.VOID_VALUE;
 		}
 
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + leftValue.toQuotedString() );
 		}
 		interpreter.traceUnindent();
 
-		if ( interpreter.getState() == InterpreterState.EXIT )
+		if (interpreter.getState().equals(ScriptRuntime.State.EXIT))
 		{
 			interpreter.traceUnindent();
 			return null;
@@ -622,7 +622,7 @@ public class Operator
 			throw interpreter.runtimeException( "Internal error: unknown unary operator \"" + this.operator + "\"", this.fileName, this.lineNumber );
 		}
 
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "<- " + result );
 		}
@@ -631,16 +631,16 @@ public class Operator
 		return result;
 	}
 
-	public Value applyTo( final Interpreter interpreter, final Value lhs, final Value rhs )
+	public Value applyTo( final AshRuntime interpreter, final Value lhs, final Value rhs )
 	{
 		interpreter.traceIndent();
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "Operator: " + this.operator );
 		}
 
 		interpreter.traceIndent();
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "Operand 1: " + lhs );
 		}
@@ -651,13 +651,13 @@ public class Operator
 		{
 			leftValue = DataTypes.VOID_VALUE;
 		}
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + leftValue.toQuotedString() );
 		}
 		interpreter.traceUnindent();
 
-		if ( interpreter.getState() == InterpreterState.EXIT )
+		if (interpreter.getState().equals(ScriptRuntime.State.EXIT))
 		{
 			interpreter.traceUnindent();
 			return null;
@@ -674,7 +674,7 @@ public class Operator
 		{
 			if ( leftValue.intValue() == 1 )
 			{
-				if ( Interpreter.isTracing() )
+				if ( AshRuntime.isTracing() )
 				{
 					interpreter.trace( "<- " + DataTypes.TRUE_VALUE );
 				}
@@ -682,7 +682,7 @@ public class Operator
 				return DataTypes.TRUE_VALUE;
 			}
 			interpreter.traceIndent();
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "Operand 2: " + rhs );
 			}
@@ -692,17 +692,17 @@ public class Operator
 			{
 				rightValue = DataTypes.VOID_VALUE;
 			}
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + rightValue.toQuotedString() );
 			}
 			interpreter.traceUnindent();
-			if ( interpreter.getState() == InterpreterState.EXIT )
+			if (interpreter.getState().equals(ScriptRuntime.State.EXIT))
 			{
 				interpreter.traceUnindent();
 				return null;
 			}
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "<- " + rightValue );
 			}
@@ -715,14 +715,14 @@ public class Operator
 			if ( leftValue.intValue() == 0 )
 			{
 				interpreter.traceUnindent();
-				if ( Interpreter.isTracing() )
+				if ( AshRuntime.isTracing() )
 				{
 					interpreter.trace( "<- " + DataTypes.FALSE_VALUE );
 				}
 				return DataTypes.FALSE_VALUE;
 			}
 			interpreter.traceIndent();
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "Operand 2: " + rhs );
 			}
@@ -732,17 +732,17 @@ public class Operator
 			{
 				rightValue = DataTypes.VOID_VALUE;
 			}
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + rightValue.toQuotedString() );
 			}
 			interpreter.traceUnindent();
-			if ( interpreter.getState() == InterpreterState.EXIT )
+			if (interpreter.getState().equals(ScriptRuntime.State.EXIT))
 			{
 				interpreter.traceUnindent();
 				return null;
 			}
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "<- " + rightValue );
 			}
@@ -760,7 +760,7 @@ public class Operator
 		if ( this.operator.equals( "contains" ) )
 		{
 			interpreter.traceIndent();
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "Operand 2: " + rhs );
 			}
@@ -770,18 +770,18 @@ public class Operator
 			{
 				rightValue = DataTypes.VOID_VALUE;
 			}
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + rightValue.toQuotedString() );
 			}
 			interpreter.traceUnindent();
-			if ( interpreter.getState() == InterpreterState.EXIT )
+			if (interpreter.getState().equals(ScriptRuntime.State.EXIT))
 			{
 				interpreter.traceUnindent();
 				return null;
 			}
 			Value result = DataTypes.makeBooleanValue( leftValue.contains( rightValue ) );
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "<- " + result );
 			}
@@ -791,7 +791,7 @@ public class Operator
 
 		// Binary operators
 		interpreter.traceIndent();
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "Operand 2: " + rhs );
 		}
@@ -801,12 +801,12 @@ public class Operator
 		{
 			rightValue = DataTypes.VOID_VALUE;
 		}
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + rightValue.toQuotedString() );
 		}
 		interpreter.traceUnindent();
-		if ( interpreter.getState() == InterpreterState.EXIT )
+		if (interpreter.getState().equals(ScriptRuntime.State.EXIT))
 		{
 			interpreter.traceUnindent();
 			return null;
@@ -829,7 +829,7 @@ public class Operator
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		return null;
 	}
@@ -837,7 +837,7 @@ public class Operator
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		stream.println( "<OPER " + this.operator + ">" );
 	}
 }

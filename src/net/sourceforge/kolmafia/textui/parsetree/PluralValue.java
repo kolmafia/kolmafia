@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.TreeSet;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,19 +56,19 @@ public class PluralValue
 	}
 
 	@Override
-	public Value aref( final Value key, final Interpreter interpreter )
+	public Value aref( final Value key, final AshRuntime interpreter )
 	{
 		return DataTypes.makeBooleanValue( this.contains( key ) );
 	}
 
 	@Override
-	public void aset( final Value key, final Value val, final Interpreter interpreter )
+	public void aset( final Value key, final Value val, final AshRuntime interpreter )
 	{
 		throw interpreter.runtimeException( "Cannot modify constant value" );
 	}
 
 	@Override
-	public Value remove( final Value key, final Interpreter interpreter )
+	public Value remove( final Value key, final AshRuntime interpreter )
 	{
 		throw interpreter.runtimeException( "Cannot modify constant value" );
 	}

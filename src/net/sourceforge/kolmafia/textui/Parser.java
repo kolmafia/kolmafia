@@ -4513,7 +4513,7 @@ public class Parser
 
 		for ( Value current : indices )
 		{
-			Interpreter.indentLine( stream, indent );
+			AshRuntime.indentLine( stream, indent );
 			stream.println( "<KEY>" );
 			current.print( stream, indent + 1 );
 		}

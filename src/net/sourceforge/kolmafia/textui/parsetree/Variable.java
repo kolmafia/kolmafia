@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.ScriptException;
 
 public class Variable
@@ -81,7 +81,7 @@ public class Variable
 		this.isStatic = true;
 	}
 
-	public Value getValue( final Interpreter interpreter )
+	public Value getValue( final AshRuntime interpreter )
 	{
 		if ( this.expression != null )
 		{
@@ -91,27 +91,27 @@ public class Variable
 		return this.content;
 	}
 
-	public Type getValueType( final Interpreter interpreter )
+	public Type getValueType( final AshRuntime interpreter )
 	{
 		return this.getValue( interpreter ).getType();
 	}
 
-	public Object rawValue( final Interpreter interpreter )
+	public Object rawValue( final AshRuntime interpreter )
 	{
 		return this.getValue( interpreter ).rawValue();
 	}
 
-	public long intValue( final Interpreter interpreter )
+	public long intValue( final AshRuntime interpreter )
 	{
 		return this.getValue( interpreter ).intValue();
 	}
 
-	public Value toStringValue( final Interpreter interpreter )
+	public Value toStringValue( final AshRuntime interpreter )
 	{
 		return this.getValue( interpreter ).toStringValue();
 	}
 
-	public double floatValue( final Interpreter interpreter )
+	public double floatValue( final AshRuntime interpreter )
 	{
 		return this.getValue( interpreter ).floatValue();
 	}
@@ -127,7 +127,7 @@ public class Variable
 		this.expression = null;
 	}
 
-	public void setValue( Interpreter interpreter, final Value targetValue )
+	public void setValue( AshRuntime interpreter, final Value targetValue )
 	{
 		if ( this.getBaseType().equals( DataTypes.ANY_TYPE ) || this.getBaseType().equals( targetValue.getType() ) )
 		{
@@ -156,7 +156,7 @@ public class Variable
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		return getValue( interpreter );
 	}
@@ -164,7 +164,7 @@ public class Variable
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		stream.println( "<VAR " + this.getType() + " " + this.getName() + ">" );
 	}
 }

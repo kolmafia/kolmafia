@@ -38,8 +38,8 @@ import java.io.PrintStream;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class FunctionReturn
 	extends ParseTreeNode
@@ -74,26 +74,26 @@ public class FunctionReturn
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( InterpreterState.EXIT );
+			interpreter.setState( ScriptRuntime.State.EXIT );
 		}
 
-		if ( interpreter.getState() == InterpreterState.EXIT )
+		if ( interpreter.getState() == ScriptRuntime.State.EXIT )
 		{
 			return null;
 		}
 
 		if ( this.returnValue == null )
 		{
-			interpreter.setState( InterpreterState.RETURN );
+			interpreter.setState( ScriptRuntime.State.RETURN );
 			return null;
 		}
 
 		interpreter.traceIndent();
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "Eval: " + this.returnValue );
 		}
@@ -101,7 +101,7 @@ public class FunctionReturn
 		Value result = this.returnValue.execute( interpreter );
 		interpreter.captureValue( result );
 
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "Returning: " + result );
 		}
@@ -112,9 +112,9 @@ public class FunctionReturn
 			return null;
 		}
 
-		if ( interpreter.getState() != InterpreterState.EXIT )
+		if ( interpreter.getState() != ScriptRuntime.State.EXIT )
 		{
-			interpreter.setState( InterpreterState.RETURN );
+			interpreter.setState( ScriptRuntime.State.RETURN );
 		}
 		
 		if ( this.expectedType == null )
@@ -149,7 +149,7 @@ public class FunctionReturn
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		stream.println( "<RETURN " + this.getType() + ">" );
 		if ( !this.getType().equals( DataTypes.TYPE_VOID ) )
 		{

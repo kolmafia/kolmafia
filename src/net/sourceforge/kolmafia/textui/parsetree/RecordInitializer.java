@@ -36,8 +36,8 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.util.List;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class RecordInitializer
 	extends TypeInitializer
@@ -51,7 +51,7 @@ public class RecordInitializer
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		RecordType type = (RecordType) this.type;
 		Type [] types = type.getFieldTypes();
@@ -69,7 +69,7 @@ public class RecordInitializer
 				continue;
 			}
 
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "Field #" + (fieldCount + 1) + ": " + fieldValue.toQuotedString() );
 			}
@@ -81,7 +81,7 @@ public class RecordInitializer
 				value = DataTypes.VOID_VALUE;
 			}
 
-			if ( interpreter.getState() == InterpreterState.EXIT )
+			if ( interpreter.getState() == ScriptRuntime.State.EXIT )
 			{
 				interpreter.traceUnindent();
 				return null;
@@ -100,7 +100,7 @@ public class RecordInitializer
 				value.toBooleanValue() :
 				value;
 
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + coercedValue.toQuotedString() );
 			}

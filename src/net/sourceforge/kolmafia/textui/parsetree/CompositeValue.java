@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.ScriptException;
 
 import org.json.JSONException;
@@ -63,7 +63,7 @@ public class CompositeValue
 		return this.aref( key, null );
 	}
 
-	public Value aref( final Value key, final Interpreter interpreter )
+	public Value aref( final Value key, final AshRuntime interpreter )
 	{
 		return null;
 	}
@@ -73,11 +73,11 @@ public class CompositeValue
 		this.aset( key, val, null );
 	}
 
-	public void aset( final Value key, final Value val, final Interpreter interpreter )
+	public void aset( final Value key, final Value val, final AshRuntime interpreter )
 	{
 	}
 
-	public Value remove( final Value key, final Interpreter interpreter )
+	public Value remove( final Value key, final AshRuntime interpreter )
 	{
 		return null;
 	}

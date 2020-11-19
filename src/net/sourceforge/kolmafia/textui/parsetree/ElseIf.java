@@ -35,7 +35,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 
 public class ElseIf
 	extends Conditional
@@ -54,7 +54,7 @@ public class ElseIf
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		stream.println( "<ELSE IF>" );
 		this.getCondition().print( stream, indent + 1 );
 		this.getScope().print( stream, indent + 1 );

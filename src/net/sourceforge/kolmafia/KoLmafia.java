@@ -159,7 +159,7 @@ import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
 
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -1388,7 +1388,7 @@ public abstract class KoLmafia
 
 	private static void executeRequest( final Runnable request, final int totalIterations, final boolean wasAdventuring )
 	{
-		Interpreter.forgetPendingState();
+		AshRuntime.forgetPendingState();
 
 		// Begin the adventuring process, or the request execution
 		// process (whichever is applicable).
@@ -1480,7 +1480,7 @@ public abstract class KoLmafia
 		}
 		else if ( StaticEntity.getContinuationState() == MafiaState.PENDING )
 		{
-			Interpreter.rememberPendingState();
+			AshRuntime.rememberPendingState();
 			KoLmafia.forceContinue();
 		}
 	}

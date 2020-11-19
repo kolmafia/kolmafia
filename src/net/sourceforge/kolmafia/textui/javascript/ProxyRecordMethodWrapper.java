@@ -31,67 +31,50 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.textui.command;
+package net.sourceforge.kolmafia.textui.javascript;
 
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import org.mozilla.javascript.BaseFunction;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
+
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.StaticEntity;
 
-import net.sourceforge.kolmafia.textui.AshRuntime;
-
-import net.sourceforge.kolmafia.utilities.ByteArrayStream;
-
-public class AshMultiLineCommand
-	extends AbstractCommand
+public class ProxyRecordMethodWrapper extends BaseFunction
 {
-	public AshMultiLineCommand()
+	private Method method;
+
+	public ProxyRecordMethodWrapper( Method method )
 	{
-		this.usage = " - embed an ASH script in a CLI script.";
+		this.method = method;
 	}
 
 	@Override
-	public void run( final String cmd, final String parameters )
+	public Object call( Context cx, Scriptable scope, Scriptable thisObj, Object[] args )
 	{
-		ByteArrayStream ostream = new ByteArrayStream();
-
-		String currentLine = this.CLI.getNextLine( null );
-
-		while ( currentLine != null && !currentLine.equals( "</inline-ash-script>" ) )
+		if ( Thread.interrupted() || !KoLmafia.permitsContinue() )
 		{
-			try
-			{
-				ostream.write( currentLine.getBytes() );
-				ostream.write( KoLConstants.LINE_BREAK.getBytes() );
-			}
-			catch ( Exception e )
-			{
-				// Byte array output streams do not throw errors,
-				// other than out of memory errors.
-
-				StaticEntity.printStackTrace( e );
-			}
-
-			currentLine = this.CLI.getNextLine( null );
+			throw new ScriptInterruptException();
 		}
 
-		if ( currentLine == null )
+		if ( !( thisObj instanceof EnumeratedWrapper ) )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Unterminated inline ASH script." );
-			return;
+			return null;
 		}
-
-		AshRuntime interpreter = new AshRuntime();
-		interpreter.validate( null, ostream.getByteArrayInputStream() );
 
 		try
 		{
-			interpreter.cloneRelayScript( this.callerController );
-			interpreter.execute( "main", null );
+			return method.invoke( ((EnumeratedWrapper) thisObj).getWrapped().asProxy() );
 		}
-		finally
+		catch ( IllegalAccessException e )
 		{
-			interpreter.finishRelayScript();
+			return null;
+		}
+		catch ( InvocationTargetException e )
+		{
+			return null;
 		}
 	}
 }

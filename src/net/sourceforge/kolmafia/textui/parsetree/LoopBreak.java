@@ -33,14 +33,14 @@
 
 package net.sourceforge.kolmafia.textui.parsetree;
 
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class LoopBreak
 	extends ScriptState
 {
 	public LoopBreak()
 	{
-		super( InterpreterState.BREAK );
+		super( ScriptRuntime.State.BREAK );
 	}
 	
 	@Override

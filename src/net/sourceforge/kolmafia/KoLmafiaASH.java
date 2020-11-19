@@ -44,9 +44,9 @@ import java.util.Map.Entry;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.NamespaceInterpreter;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 
 import net.sourceforge.kolmafia.textui.parsetree.Function;
@@ -60,20 +60,20 @@ public abstract class KoLmafiaASH
 	private static final HashMap<String, File> relayScriptMap = new HashMap<String, File>();
 
 	private static final HashMap<File, Long> TIMESTAMPS = new HashMap<File, Long>();
-	private static final HashMap<File, Interpreter> INTERPRETERS = new HashMap<File, Interpreter>();
+	private static final HashMap<File, AshRuntime> INTERPRETERS = new HashMap<File, AshRuntime>();
 
-	public static final Interpreter NAMESPACE_INTERPRETER = new NamespaceInterpreter();
+	public static final AshRuntime NAMESPACE_INTERPRETER = new NamespaceInterpreter();
 
-	public static final void logScriptExecution( final String prefix, final String scriptName, Interpreter script )
+	public static final void logScriptExecution( final String prefix, final String scriptName, AshRuntime script )
 	{
 		KoLmafiaASH.logScriptExecution( prefix, scriptName, "", script );
 	}
 
-	public static final void logScriptExecution( final String prefix, final String scriptName, final String postfix, Interpreter script )
+	public static final void logScriptExecution( final String prefix, final String scriptName, final String postfix, AshRuntime script )
 	{
 		boolean isDebugging = RequestLogger.isDebugging();
 		boolean isTracing = RequestLogger.isTracing();
-		boolean scriptIsTracing = Interpreter.isTracing();
+		boolean scriptIsTracing = AshRuntime.isTracing();
 
 		if ( !isDebugging && !isTracing && !scriptIsTracing )
 		{
@@ -160,7 +160,7 @@ public abstract class KoLmafiaASH
 
 	private static final boolean getClientHTML( final RelayRequest request, final File toExecute )
 	{
-		Interpreter relayScript = KoLmafiaASH.getInterpreter( toExecute );
+		AshRuntime relayScript = KoLmafiaASH.getInterpreter( toExecute );
 		if ( relayScript == null )
 		{
 			return false;
@@ -214,7 +214,7 @@ public abstract class KoLmafiaASH
 	}
 
 	// Convenience method so that callers can just do getInterpreter( KoLMafiaCLI.findScriptFile() )
-	public static Interpreter getInterpreter( List<File> findScriptFile )
+	public static AshRuntime getInterpreter( List<File> findScriptFile )
 	{
 		if ( findScriptFile.size() > 1 )
 		{
@@ -231,7 +231,7 @@ public abstract class KoLmafiaASH
 		return null;
 	}
 
-	public static final Interpreter getInterpreter( final File toExecute )
+	public static final AshRuntime getInterpreter( final File toExecute )
 	{
 		if ( toExecute == null )
 		{
@@ -248,7 +248,7 @@ public abstract class KoLmafiaASH
 
 		if ( !createInterpreter )
 		{
-			Interpreter interpreter = KoLmafiaASH.INTERPRETERS.get( toExecute );
+			AshRuntime interpreter = KoLmafiaASH.INTERPRETERS.get( toExecute );
 			Map<File, Long> imports = interpreter.getImports();
 
 			Iterator<Entry<File, Long>> it = imports.entrySet().iterator();
@@ -265,7 +265,7 @@ public abstract class KoLmafiaASH
 		if ( createInterpreter )
 		{
 			KoLmafiaASH.TIMESTAMPS.remove( toExecute );
-			Interpreter interpreter = new Interpreter();
+			AshRuntime interpreter = new AshRuntime();
 
 			if ( !interpreter.validate( toExecute, null ) )
 			{
@@ -279,7 +279,7 @@ public abstract class KoLmafiaASH
 		return KoLmafiaASH.INTERPRETERS.get( toExecute );
 	}
 
-	public static void showUserFunctions( final Interpreter interpreter, final String filter )
+	public static void showUserFunctions( final AshRuntime interpreter, final String filter )
 	{
 		KoLmafiaASH.showFunctions( interpreter.getFunctions(), filter.toLowerCase(), false );
 	}
@@ -362,11 +362,11 @@ public abstract class KoLmafiaASH
 
 	public static final void stopAllRelayInterpreters()
 	{
-		for ( Interpreter i : KoLmafiaASH.INTERPRETERS.values() )
+		for ( AshRuntime i : KoLmafiaASH.INTERPRETERS.values() )
 		{
 			if ( i.getRelayRequest() != null )
 			{
-				i.setState( InterpreterState.EXIT );
+				i.setState( ScriptRuntime.State.EXIT );
 			}
 		}
 	}

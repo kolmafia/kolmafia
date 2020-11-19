@@ -40,7 +40,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 
 public class MapValue
 	extends AggregateValue
@@ -60,6 +60,12 @@ public class MapValue
 			new TreeMap<Value,Value>();
 	}
 
+	public MapValue( final AggregateType type, Map<?, ?> value )
+	{
+		super( type );
+		this.content = value;
+	}
+
 	@SuppressWarnings("unchecked") 
 	private Map<Value,Value> getMap()
 	{
@@ -67,14 +73,14 @@ public class MapValue
 	}
 
 	@Override
-	public Value aref( final Value key, final Interpreter interpreter )
+	public Value aref( final Value key, final AshRuntime interpreter )
 	{
 		Map<Value,Value> map = this.getMap();
 		return map.get( key );
 	}
 
 	@Override
-	public void aset( final Value key, Value val, final Interpreter interpreter )
+	public void aset( final Value key, Value val, final AshRuntime interpreter )
 	{
 		Map<Value,Value> map = this.getMap();
 
@@ -107,7 +113,7 @@ public class MapValue
 	}
 
 	@Override
-	public Value remove( final Value key, final Interpreter interpreter )
+	public Value remove( final Value key, final AshRuntime interpreter )
 	{
 		// Look through all active foreach loops since they are
 		// implemented via iterators and you must use that iterator's

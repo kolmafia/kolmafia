@@ -36,8 +36,8 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class TernaryExpression
 	extends Expression
@@ -66,16 +66,16 @@ public class TernaryExpression
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		interpreter.traceIndent();
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "Operator: ?:" );
 		}
 
 		interpreter.traceIndent();
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "Condition: " + conditional );
 		}
@@ -86,13 +86,13 @@ public class TernaryExpression
 		{
 			conditionResult = DataTypes.VOID_VALUE;
 		}
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + conditionResult.toQuotedString() );
 		}
 		interpreter.traceUnindent();
 
-		if ( interpreter.getState() == InterpreterState.EXIT )
+		if ( interpreter.getState() == ScriptRuntime.State.EXIT )
 		{
 			interpreter.traceUnindent();
 			return null;
@@ -113,7 +113,7 @@ public class TernaryExpression
 		}
 
 		interpreter.traceIndent();
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( tag + expression );
 		}
@@ -125,13 +125,13 @@ public class TernaryExpression
 			executeResult = DataTypes.VOID_VALUE;
 		}
 
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + executeResult.toQuotedString() );
 		}
 		interpreter.traceUnindent();
 
-		if ( interpreter.getState() == InterpreterState.EXIT )
+		if ( interpreter.getState() == ScriptRuntime.State.EXIT )
 		{
 			interpreter.traceUnindent();
 			return null;
@@ -141,7 +141,7 @@ public class TernaryExpression
 		{
 			executeResult = executeResult.toStringValue();
 		}
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "<- " + executeResult );
 		}
@@ -159,7 +159,7 @@ public class TernaryExpression
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		stream.println( "<OPER ?:>" );
 		this.conditional.print( stream, indent + 1 );
 		super.print( stream, indent );

@@ -43,9 +43,9 @@ import java.util.List;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.Parser;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class ForEachLoop
 	extends Loop
@@ -79,16 +79,16 @@ public class ForEachLoop
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( InterpreterState.EXIT );
+			interpreter.setState( ScriptRuntime.State.EXIT );
 			return null;
 		}
 
 		interpreter.traceIndent();
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( this.toString() );
 		}
@@ -96,7 +96,7 @@ public class ForEachLoop
 		// Evaluate the aggref to get the slice
 		AggregateValue slice = (AggregateValue) this.aggregate.execute( interpreter );
 		interpreter.captureValue( slice );
-		if ( interpreter.getState() == InterpreterState.EXIT )
+		if ( interpreter.getState() == ScriptRuntime.State.EXIT )
 		{
 			interpreter.traceUnindent();
 			return null;
@@ -107,15 +107,15 @@ public class ForEachLoop
 		ListIterator<VariableReference> it = this.variableReferences.listIterator();
 		Value retval = this.executeSlice( interpreter, slice, it, it.next() );
 
-		if ( interpreter.getState() == InterpreterState.BREAK )
+		if ( interpreter.getState() == ScriptRuntime.State.BREAK )
 		{
-			interpreter.setState( InterpreterState.NORMAL );
+			interpreter.setState( ScriptRuntime.State.NORMAL );
 		}
 
 		return retval;
 	}
 
-	private Value executeSlice( final Interpreter interpreter, final AggregateValue slice,
+	private Value executeSlice( final AshRuntime interpreter, final AggregateValue slice,
 				    final ListIterator<VariableReference> it, final VariableReference variable )
 	{
 		// Get the next key variable
@@ -156,7 +156,7 @@ public class ForEachLoop
 			// Bind variable to key
 			variable.setValue( interpreter, key );
 
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "Key: " + key );
 			}
@@ -189,7 +189,7 @@ public class ForEachLoop
 				result = super.execute( interpreter );
 			}
 
-			if ( interpreter.getState() == InterpreterState.NORMAL )
+			if ( interpreter.getState() == ScriptRuntime.State.NORMAL )
 			{
 				continue;
 			}
@@ -227,7 +227,7 @@ public class ForEachLoop
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		stream.println( "<FOREACH>" );
 
 		for ( VariableReference current : this.getVariableReferences() )

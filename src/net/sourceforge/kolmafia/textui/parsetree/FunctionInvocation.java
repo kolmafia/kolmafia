@@ -39,9 +39,9 @@ import java.util.List;
 
 import net.sourceforge.kolmafia.KoLmafia;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.Parser;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class FunctionInvocation
 	extends FunctionCall
@@ -71,17 +71,17 @@ public class FunctionInvocation
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( InterpreterState.EXIT );
+			interpreter.setState( ScriptRuntime.State.EXIT );
 			return null;
 		}
 
 		interpreter.traceIndent();
 
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "Invoke: " + this );
 			interpreter.trace( "Function name: " + this.name );
@@ -90,7 +90,7 @@ public class FunctionInvocation
 		// Get the function name
 		Value funcValue = this.name.execute( interpreter );
 
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + funcValue );
 		}
@@ -133,7 +133,7 @@ public class FunctionInvocation
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		stream.println( "<INVOKE " + this.name.toString() + ">" );
 		this.type.print( stream, indent + 1 );
 

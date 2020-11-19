@@ -110,7 +110,7 @@ import net.sourceforge.kolmafia.session.ValhallaManager;
 
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 
@@ -1163,7 +1163,7 @@ public class GenericRequest
 		}
 
 		List<File> scriptFiles = KoLmafiaCLI.findScriptFile( scriptName );
-		Interpreter interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
+		AshRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
 		if ( interpreter != null )
 		{
 			// Clear abort state so counter script and between
@@ -1886,7 +1886,7 @@ public class GenericRequest
 
 	private boolean postClientData()
 	{
-		if ( this.shouldUpdateDebugLog() || RequestLogger.isTracing() || Interpreter.isTracing() )
+		if ( this.shouldUpdateDebugLog() || RequestLogger.isTracing() || AshRuntime.isTracing() )
 		{
 			if ( this.shouldUpdateDebugLog() )
 			{
@@ -1896,9 +1896,9 @@ public class GenericRequest
 			{
 				RequestLogger.trace( "Requesting: " + this.requestURL() );
 			}
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
-				Interpreter.println( "Requesting: " + this.requestURL() );
+				AshRuntime.println( "Requesting: " + this.requestURL() );
 			}
 		}
 
@@ -2086,7 +2086,7 @@ public class GenericRequest
 			return true;
 		}
 
-		if ( this.shouldUpdateDebugLog() || RequestLogger.isTracing() || Interpreter.isTracing() )
+		if ( this.shouldUpdateDebugLog() || RequestLogger.isTracing() || AshRuntime.isTracing() )
 		{
 			if ( this.shouldUpdateDebugLog() )
 			{
@@ -2096,9 +2096,9 @@ public class GenericRequest
 			{
 				RequestLogger.trace( "Retrieved: " + this.requestURL() );
 			}
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
-				Interpreter.println( "Retrieved: " + this.requestURL() );
+				AshRuntime.println( "Retrieved: " + this.requestURL() );
 			}
 		}
 

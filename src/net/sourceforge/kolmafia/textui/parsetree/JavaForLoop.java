@@ -40,8 +40,8 @@ import java.util.List;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class JavaForLoop
 	extends Loop
@@ -67,17 +67,17 @@ public class JavaForLoop
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( InterpreterState.EXIT );
+			interpreter.setState( ScriptRuntime.State.EXIT );
 			return null;
 		}
 
 		interpreter.traceIndent();
 
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( this.toString() );
 		}
@@ -85,7 +85,7 @@ public class JavaForLoop
 		// For all variable references, bind to initial value
 		for ( Assignment initializer : initializers )
 		{
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "Initialize: " + initializer.getLeftHandSide() );
 			}
@@ -98,12 +98,12 @@ public class JavaForLoop
 				value = DataTypes.VOID_VALUE;
 			}
 
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + value );
 			}
 
-			if ( interpreter.getState() == InterpreterState.EXIT )
+			if ( interpreter.getState() == ScriptRuntime.State.EXIT )
 			{
 				interpreter.traceUnindent();
 				return null;
@@ -113,7 +113,7 @@ public class JavaForLoop
 		while ( true )
 		{
 			// Test the exit condition
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "Test: " + this.condition );
 			}
@@ -121,7 +121,7 @@ public class JavaForLoop
 			Value conditionResult = this.condition.execute( interpreter );
 			interpreter.captureValue( conditionResult );
 
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + conditionResult );
 			}
@@ -140,14 +140,14 @@ public class JavaForLoop
 			// Execute the loop body
 			Value result = super.execute( interpreter );
 
-			if ( interpreter.getState() == InterpreterState.BREAK )
+			if ( interpreter.getState() == ScriptRuntime.State.BREAK )
 			{
-				interpreter.setState( InterpreterState.NORMAL );
+				interpreter.setState( ScriptRuntime.State.NORMAL );
 				interpreter.traceUnindent();
 				return DataTypes.VOID_VALUE;
 			}
 
-			if ( interpreter.getState() != InterpreterState.NORMAL )
+			if ( interpreter.getState() != ScriptRuntime.State.NORMAL )
 			{
 				interpreter.traceUnindent();
 				return result;
@@ -161,15 +161,15 @@ public class JavaForLoop
 				// Abort processing now if command failed
 				if ( !KoLmafia.permitsContinue() )
 				{
-					interpreter.setState( InterpreterState.EXIT );
+					interpreter.setState( ScriptRuntime.State.EXIT );
 				}
 
-				if ( Interpreter.isTracing() )
+				if ( AshRuntime.isTracing() )
 				{
 					interpreter.trace( "[" + interpreter.getState() + "] <- " + iresult.toQuotedString() );
 				}
 
-				if ( interpreter.getState() != InterpreterState.NORMAL )
+				if ( interpreter.getState() != ScriptRuntime.State.NORMAL )
 				{
 					interpreter.traceUnindent();
 					return DataTypes.VOID_VALUE;
@@ -190,7 +190,7 @@ public class JavaForLoop
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		stream.println( "<FOR>" );
 
 		for ( Assignment initializer : initializers )
@@ -200,7 +200,7 @@ public class JavaForLoop
 		this.getCondition().print( stream, indent + 1 );
 		for ( ParseTreeNode incrementer : this.incrementers )
 		{
-			Interpreter.indentLine( stream, indent + 1 );
+			AshRuntime.indentLine( stream, indent + 1 );
 			stream.println( "<ITERATE>" );
 			incrementer.print( stream, indent + 2 );
 		}

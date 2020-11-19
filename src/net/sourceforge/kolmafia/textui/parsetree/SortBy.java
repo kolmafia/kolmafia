@@ -42,9 +42,9 @@ import java.util.Arrays;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.Parser;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class SortBy
 	extends ParseTreeNode
@@ -69,16 +69,16 @@ public class SortBy
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( InterpreterState.EXIT );
+			interpreter.setState( ScriptRuntime.State.EXIT );
 			return null;
 		}
 
 		interpreter.traceIndent();
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( this.toString() );
 		}
@@ -86,7 +86,7 @@ public class SortBy
 		AggregateValue map = (AggregateValue) this.aggregate.execute( interpreter );
 		interpreter.captureValue( map );
 
-		if ( interpreter.getState() == InterpreterState.EXIT )
+		if ( interpreter.getState() == ScriptRuntime.State.EXIT )
 		{
 			interpreter.traceUnindent();
 			return null;
@@ -101,18 +101,18 @@ public class SortBy
 			this.indexvar.setValue( interpreter, index );
 			Value value = map.aref( index, interpreter );
 			this.valuevar.setValue( interpreter, value );
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "Element #" + i + ": " + index + " = " + value );
 			}
 			Value sortkey = this.expr.execute( interpreter );
-			if ( interpreter.getState() == InterpreterState.EXIT )
+			if ( interpreter.getState() == ScriptRuntime.State.EXIT )
 			{
 				interpreter.traceUnindent();
 				return null;
 			}
 			interpreter.captureValue( sortkey );
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "Key = " + sortkey );
 			}
@@ -148,7 +148,7 @@ public class SortBy
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		stream.println( "<SORT>" );
 		this.aggregate.print( stream, indent + 1 );
 		this.expr.print( stream, indent + 1 );

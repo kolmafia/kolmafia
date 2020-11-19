@@ -40,7 +40,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 
 import net.sourceforge.kolmafia.textui.parsetree.CompositeValue;
@@ -65,13 +65,13 @@ public class AshSingleLineCommand
 
 		ByteArrayInputStream istream = new ByteArrayInputStream( ( parameters + KoLConstants.LINE_BREAK ).getBytes() );
 
-		Interpreter interpreter = new Interpreter();
+		AshRuntime interpreter = new AshRuntime();
 		interpreter.validate( null, istream );
 		Value rv;
 
 		try
 		{
-			interpreter.cloneRelayScript( this.interpreter );
+			interpreter.cloneRelayScript( this.callerController );
 			rv = interpreter.execute( "main", null );
 		}
 		finally

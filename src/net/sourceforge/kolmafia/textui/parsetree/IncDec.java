@@ -38,9 +38,9 @@ import java.io.PrintStream;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.Parser;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class IncDec
 	extends Value
@@ -65,11 +65,11 @@ public class IncDec
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( InterpreterState.EXIT );
+			interpreter.setState( ScriptRuntime.State.EXIT );
 			return null;
 		}
 
@@ -77,7 +77,7 @@ public class IncDec
 		Value value;
 
 		interpreter.traceIndent();
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "Eval: " + this.lhs );
 		}
@@ -85,14 +85,14 @@ public class IncDec
 		value = this.lhs.execute( interpreter );
 		interpreter.captureValue( value );
 
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "Orig: " + value );
 		}
 
 		Value newValue = this.oper.applyTo( interpreter, value );
 
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "New: " + newValue );
 		}
@@ -101,7 +101,7 @@ public class IncDec
 
 		interpreter.traceUnindent();
 
-		if ( interpreter.getState() == InterpreterState.EXIT )
+		if ( interpreter.getState() == ScriptRuntime.State.EXIT )
 		{
 			return null;
 		}
@@ -130,7 +130,7 @@ public class IncDec
 			operStr == Parser.POST_INCREMENT ? "POST-INCREMENT" :
 			operStr == Parser.POST_DECREMENT ? "POST-DECREMENT" :
 			"UNKNOWN";
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		stream.println( "<" + type + " " + this.lhs.getName() + ">" );
 		VariableReference lhs = this.getLeftHandSide();
 		Parser.printIndices( lhs.getIndices(), stream, indent + 1 );

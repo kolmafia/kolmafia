@@ -36,8 +36,8 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public abstract class Conditional
 	extends ParseTreeNode
@@ -62,17 +62,17 @@ public abstract class Conditional
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( InterpreterState.EXIT );
+			interpreter.setState( ScriptRuntime.State.EXIT );
 			return null;
 		}
 
 		interpreter.traceIndent();
 
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( this.toString() );
 			interpreter.trace( "Test: " + this.condition );
@@ -81,7 +81,7 @@ public abstract class Conditional
 		Value conditionResult = this.condition.execute( interpreter );
 		interpreter.captureValue( conditionResult );
 
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + conditionResult );
 		}
@@ -98,7 +98,7 @@ public abstract class Conditional
 
 			interpreter.traceUnindent();
 
-			if ( interpreter.getState() != InterpreterState.NORMAL )
+			if ( interpreter.getState() != ScriptRuntime.State.NORMAL )
 			{
 				return result;
 			}

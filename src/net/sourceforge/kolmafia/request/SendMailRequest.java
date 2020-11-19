@@ -40,7 +40,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 
@@ -64,7 +64,7 @@ public class SendMailRequest
 		this.isInternal = true;
 	}
 
-	public SendMailRequest( final String recipient, final Interpreter script )
+	public SendMailRequest( final String recipient, final AshRuntime script )
 	{
 		super( "sendmessage.php" );
 

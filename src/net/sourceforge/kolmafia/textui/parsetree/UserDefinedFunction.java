@@ -42,7 +42,7 @@ import java.util.Stack;
 
 import net.sourceforge.kolmafia.StaticEntity;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 
 public class UserDefinedFunction
@@ -69,7 +69,7 @@ public class UserDefinedFunction
 		return this.scope;
 	}
 
-	private void saveBindings( Interpreter interpreter )
+	private void saveBindings( AshRuntime interpreter )
 	{
 		if ( this.scope == null )
 		{
@@ -92,7 +92,7 @@ public class UserDefinedFunction
 		this.callStack.push( values );
 	}
 
-	private void restoreBindings( Interpreter interpreter )
+	private void restoreBindings( AshRuntime interpreter )
 	{
 		if ( this.scope == null )
 		{
@@ -115,7 +115,7 @@ public class UserDefinedFunction
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter, Object[] values )
+	public Value execute( final AshRuntime interpreter, Object[] values )
 	{
 		if ( StaticEntity.isDisabled( this.getName() ) )
 		{

@@ -83,7 +83,7 @@ import net.sourceforge.kolmafia.swingui.ContactListFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.TabbedChatFrame;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -707,7 +707,7 @@ public abstract class ChatManager
 		}
 
 		List<File> scriptFiles = KoLmafiaCLI.findScriptFile( scriptName );
-		Interpreter interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
+		AshRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
 		if ( interpreter == null )
 		{
 			return;

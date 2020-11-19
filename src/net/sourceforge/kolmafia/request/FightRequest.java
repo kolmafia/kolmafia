@@ -124,7 +124,7 @@ import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.UnusualConstructManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -1087,7 +1087,7 @@ public class FightRequest
 			String scriptName = FightRequest.nextAction.substring( "consult".length() ).trim();
 			List<File> scriptFiles = KoLmafiaCLI.findScriptFile( scriptName );
 
-			Interpreter consultInterpreter = KoLmafiaASH.getInterpreter( scriptFiles );
+			AshRuntime consultInterpreter = KoLmafiaASH.getInterpreter( scriptFiles );
 			if ( consultInterpreter != null )
 			{
 				int initialRound = FightRequest.currentRound;

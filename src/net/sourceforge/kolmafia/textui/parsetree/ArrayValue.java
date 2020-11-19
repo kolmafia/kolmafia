@@ -38,7 +38,7 @@ import java.io.PrintStream;
 import java.util.List;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -78,7 +78,7 @@ public class ArrayValue
 	}
 
 	@Override
-	public Value aref( final Value key, final Interpreter interpreter )
+	public Value aref( final Value key, final AshRuntime interpreter )
 	{
 		Value[] array = (Value[]) this.content;
 		int index = (int) key.intValue();
@@ -90,7 +90,7 @@ public class ArrayValue
 	}
 
 	@Override
-	public void aset( final Value key, final Value val, final Interpreter interpreter )
+	public void aset( final Value key, final Value val, final AshRuntime interpreter )
 	{
 		Value[] array = (Value[]) this.content;
 		int index = (int) key.intValue();
@@ -128,7 +128,7 @@ public class ArrayValue
 	}
 
 	@Override
-	public Value remove( final Value key, final Interpreter interpreter )
+	public Value remove( final Value key, final AshRuntime interpreter )
 	{
 		Value[] array = (Value[]) this.content;
 		int index = (int) key.intValue();

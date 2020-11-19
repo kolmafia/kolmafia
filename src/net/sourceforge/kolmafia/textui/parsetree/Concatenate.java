@@ -38,8 +38,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class Concatenate
 	extends Expression
@@ -65,10 +65,10 @@ public class Concatenate
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		interpreter.traceIndent();
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "Concatenate:" );
 		}
@@ -80,7 +80,7 @@ public class Concatenate
 		for ( Value arg : this.strings )
 		{
 			interpreter.traceIndent();
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "Arg " + (++count) + ": " + arg );
 			}
@@ -92,13 +92,13 @@ public class Concatenate
 				value = DataTypes.VOID_VALUE;
 			}
 
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + value.toQuotedString() );
 			}
 			interpreter.traceUnindent();
 
-			if ( interpreter.getState() == InterpreterState.EXIT )
+			if ( interpreter.getState() == ScriptRuntime.State.EXIT )
 			{
 				interpreter.traceUnindent();
 				return null;
@@ -110,7 +110,7 @@ public class Concatenate
 
 		Value result = new Value( buffer.toString() );
 
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "<- " + result );
 		}
@@ -142,7 +142,7 @@ public class Concatenate
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		stream.println( "<CONCATENATE>" );
 		for ( Value string : this.strings )
 		{

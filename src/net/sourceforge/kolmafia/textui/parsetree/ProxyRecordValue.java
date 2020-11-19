@@ -71,7 +71,7 @@ import net.sourceforge.kolmafia.persistence.TCRSDatabase;
 import net.sourceforge.kolmafia.request.FightRequest;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 
 public class ProxyRecordValue
 	extends RecordValue
@@ -86,7 +86,7 @@ public class ProxyRecordValue
 	}
 
 	@Override
-	public Value aref( final Value key, final Interpreter interpreter )
+	public Value aref( final Value key, final AshRuntime interpreter )
 	{
 		int index = ( (RecordType) this.type ).indexOf( key );
 		if ( index < 0 )
@@ -97,7 +97,7 @@ public class ProxyRecordValue
 	}
 
 	@Override
-	public Value aref( final int index, final Interpreter interpreter )
+	public Value aref( final int index, final AshRuntime interpreter )
 	{
 		RecordType type = (RecordType) this.type;
 		int size = type.fieldCount();
@@ -169,19 +169,19 @@ public class ProxyRecordValue
 	}
 
 	@Override
-	public void aset( final Value key, final Value val, final Interpreter interpreter )
+	public void aset( final Value key, final Value val, final AshRuntime interpreter )
 	{
 		throw interpreter.runtimeException( "Cannot assign to a proxy record field" );
 	}
 
 	@Override
-	public void aset( final int index, final Value val, final Interpreter interpreter )
+	public void aset( final int index, final Value val, final AshRuntime interpreter )
 	{
 		throw interpreter.runtimeException( "Cannot assign to a proxy record field" );
 	}
 
 	@Override
-	public Value remove( final Value key, final Interpreter interpreter )
+	public Value remove( final Value key, final AshRuntime interpreter )
 	{
 		throw interpreter.runtimeException( "Cannot assign to a proxy record field" );
 	}

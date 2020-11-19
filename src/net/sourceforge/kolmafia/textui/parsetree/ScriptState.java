@@ -36,15 +36,15 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public abstract class ScriptState
 	extends ParseTreeNode
 {
-	private InterpreterState state;
+	private ScriptRuntime.State state;
 
-	public ScriptState( final InterpreterState state )
+	public ScriptState( final ScriptRuntime.State state )
 	{
 		this.state = state;
 	}
@@ -56,9 +56,9 @@ public abstract class ScriptState
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.traceIndent();
 			interpreter.trace( this.toString() );
@@ -71,7 +71,7 @@ public abstract class ScriptState
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		stream.println( "<COMMAND " + this.state + ">" );
 	}
 	
