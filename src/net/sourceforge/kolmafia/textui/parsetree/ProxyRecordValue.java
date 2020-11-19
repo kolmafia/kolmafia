@@ -294,212 +294,451 @@ public class ProxyRecordValue
 			super( _type, obj );
 		}
 
+		/**
+		 * Returns the name of the Item.
+		 *
+		 * @return The name
+		 */
 		public String get_name()
 		{
 			return ItemDatabase.getDataName( (int) this.contentLong );
 		}
 
+		/**
+		 * Returns the name of the Item as it appears in your current Two Crazy Random Summer run.
+		 * If you are not in a TCRS run, the regular Item name is returned.
+		 *
+		 * @return The TCRS name
+		 */
 		public String get_tcrs_name()
 		{
 			return TCRSDatabase.getTCRSName( (int) this.contentLong );
 		}
 
+		/**
+		 * Returns the plural of the Item.
+		 * If the official plural is not known, returns the name of the Item with an "s" appended.
+		 *
+		 * @return The plural
+		 */
 		public String get_plural()
 		{
 			return ItemDatabase.getPluralName( (int) this.contentLong );
 		}
 
+		/**
+		 * Returns the descid of the Item.
+		 * This is the identifier used to see the description of the Item.
+		 *
+		 * @return The descid
+		 */
 		public String get_descid()
 		{
 			return ItemDatabase.getDescriptionId( (int) this.contentLong );
 		}
 
+		/**
+		 * Returns the filename of the image associated with the Item.
+		 *
+		 * @return The filename of the image
+		 */
 		public String get_image()
 		{
 			return ItemDatabase.getImage( (int) this.contentLong );
 		}
 
+		/**
+		 * Returns the filename of the small image associated with the Item.
+		 * For items with an image that is usually larger than 30x30, returns their 30x30 equivalent.
+		 * <p>
+		 * For example, "folders" from the "over-the-shoulder Folder Holder" will normally return a 100x100
+		 * image but a 30x30 image here.
+		 *
+		 * @return The filename of the small image
+		 */
 		public String get_smallimage()
 		{
 			return ItemDatabase.getSmallImage( (int) this.contentLong );
 		}
 
+		/**
+		 * Returns the level requirement for consuming or equipping the Item.
+		 *
+		 * @return The level requirement
+		 */
 		public Integer get_levelreq()
 		{
 			return ConsumablesDatabase.getLevelReqByName( this.contentString );
 		}
 
+		/**
+		 * Returns the quality of the Item if it is a consumable, or blank otherwise.
+		 * Quality can be one of "decent", "crappy", "good", "awesome" or "EPIC".
+		 *
+		 * @return The quality
+		 */
 		public String get_quality()
 		{
 			return ConsumablesDatabase.getQuality( this.contentString );
 		}
 
+		/**
+		 * Returns the range of adventures gained from consuming the Item.
+		 * The string will either contain the adventures for invariant gains, or a hyphen-separated minimum and
+		 * maximum for variant gains.
+		 *
+		 * @return The range of adventures gained
+		 */
 		public String get_adventures()
 		{
 			return ConsumablesDatabase.getAdvRangeByName( this.contentString );
 		}
 
+		/**
+		 * Returns the range of muscle substats gained from consuming the Item.
+		 * The string will either contain the substats for invariant gains, or a hyphen-separated minimum and
+		 * maximum for variant gains. Note that substat gains can be negative.
+		 *
+		 * @return The range of muscle substats gained
+		 */
 		public String get_muscle()
 		{
 			return ConsumablesDatabase.getMuscleByName( this.contentString );
 		}
 
+		/**
+		 * Returns the range of mysticality substats gained from consuming the Item.
+		 * The string will either contain the substats for invariant gains, or a hyphen-separated minimum and
+		 * maximum for variant gains. Note that substat gains can be negative.
+		 *
+		 * @return The range of mysticality substats gained
+		 */
 		public String get_mysticality()
 		{
 			return ConsumablesDatabase.getMysticalityByName( this.contentString );
 		}
 
+		/**
+		 * Returns the range of moxie substats gained from consuming the Item.
+		 * The string will either contain the substats for invariant gains, or a hyphen-separated minimum and
+		 * maximum for variant gains. Note that substat gains can be negative.
+		 *
+		 * @return The range of moxie substats gained
+		 */
 		public String get_moxie()
 		{
 			return ConsumablesDatabase.getMoxieByName( this.contentString );
 		}
 
+		/**
+		 * Returns the stomach size of Item.
+		 * If the Item is not edible, returns 0.
+		 *
+		 * @return The stomach size
+		 */
 		public int get_fullness()
 		{
 			return ConsumablesDatabase.getFullness( this.contentString );
 		}
 
+		/**
+		 * Returns the liver size of Item.
+		 * If the Item is not drinkable, returns 0.
+		 *
+		 * @return The liver size
+		 */
 		public int get_inebriety()
 		{
 			return ConsumablesDatabase.getInebriety( this.contentString );
 		}
 
+		/**
+		 * Returns the spleen size of Item.
+		 * If the Item is not chewable, returns 0.
+		 *
+		 * @return The spleen size
+		 */
 		public int get_spleen()
 		{
 			return ConsumablesDatabase.getSpleenHit( this.contentString );
 		}
 
+		/**
+		 * Returns the minimum HP restored by consuming this Item.
+		 *
+		 * @return The minimum HP restored
+		 */
 		public long get_minhp()
 		{
 			return RestoresDatabase.getHPMin( this.contentString );
 		}
 
+		/**
+		 * Returns the maximum HP restored by consuming this Item.
+		 *
+		 * @return The maximum HP restored
+		 */
 		public long get_maxhp()
 		{
 			return RestoresDatabase.getHPMax( this.contentString );
 		}
 
+		/**
+		 * Returns the minimum MP restored by consuming this Item.
+		 *
+		 * @return The minimum MP restored
+		 */
 		public long get_minmp()
 		{
 			return RestoresDatabase.getMPMin( this.contentString );
 		}
 
+		/**
+		 * Returns the maximum MP restored by consuming this Item.
+		 *
+		 * @return The maximum MP restored
+		 */
 		public long get_maxmp()
 		{
 			return RestoresDatabase.getMPMax( this.contentString );
 		}
 
+		/**
+		 * Returns the number of daily uses remaining for this Item.
+		 *
+		 * @return The number of daily uses left
+		 */
 		public int get_dailyusesleft()
 		{
 			return RestoresDatabase.getUsesLeft( this.contentString );
 		}
 
+		/**
+		 * Returns any notes that exist for the Item.
+		 * Examples of (comma-separated) contents are:
+		 * <ul>
+		 *  <li>The name and duration of any effects granted by consumption, if applicable.</li>
+		 *  <li>Items dropped when the item is consumed, if applicable.</li>
+		 *  <li>Tags relevant to game mechanics (such as "MARTINI", "BEER" and "SAUCY")</li>
+		 *  <li>"Unspaded"</li>
+		 * </ul>
+		 *
+		 * @return The notes
+		 */
 		public String get_notes()
 		{
 			return ConsumablesDatabase.getNotes( this.contentString );
 		}
 
+		/**
+		 * Returns `true` if the Item is a quest item, else `false`.
+		 *
+		 * @return Whether the Item is a quest item
+		 */
 		public boolean get_quest()
 		{
 			return ItemDatabase.isQuestItem( (int) this.contentLong );
 		}
 
+		/**
+		 * Returns `true` if the Item is a gift item, else `false`.
+		 *
+		 * @return Whether the Item is a gift item
+		 */
 		public boolean get_gift()
 		{
 			return ItemDatabase.isGiftItem( (int) this.contentLong );
 		}
 
+		/**
+		 * Returns `true` if the Item is tradeable, else `false`.
+		 *
+		 * @return Whether the Item is tradeable
+		 */
 		public boolean get_tradeable()
 		{
 			return ItemDatabase.isTradeable( (int) this.contentLong );
 		}
 
+		/**
+		 * Returns `true` if the Item is discardable, else `false`.
+		 *
+		 * @return Whether the Item is a discardable
+		 */
 		public boolean get_discardable()
 		{
 			return ItemDatabase.isDiscardable( (int) this.contentLong );
 		}
 
+		/**
+		 * Returns `true` if the Item usable in combat, else `false`.
+		 * This returns `true` whether the item is consumed by being used or not Items.
+		 *
+		 * @return Whether the Item is usable in combat
+		 */
 		public boolean get_combat()
 		{
 			return ItemDatabase.getAttribute( (int) this.contentLong, ItemDatabase.ATTR_COMBAT | ItemDatabase.ATTR_COMBAT_REUSABLE );
 		}
 
+		/**
+		 * Returns `true` if the Item is usable in combat and is not consumed when doing so, else `false`.
+		 *
+		 * @return Whether the Item is combat reusable
+		 */
 		public boolean get_combat_reusable()
 		{
 			return ItemDatabase.getAttribute( (int) this.contentLong, ItemDatabase.ATTR_COMBAT_REUSABLE );
 		}
 
+		/**
+		 * Returns `true` if the Item is usable, else `false`.
+		 * This returns `true` whether the Item is consumed by being used or not.
+		 *
+		 * @return Whether the Item is usable
+		 */
 		public boolean get_usable()
 		{
 			return ItemDatabase.isUsable( (int) this.contentLong );
 		}
 
+		/**
+		 * Returns `true` if the Item is usable and is not consumed when doing so, else `false`.
+		 *
+		 * @return Whether the Item is reusable
+		 */
 		public boolean get_reusable()
 		{
 			int id = (int) this.contentLong;
 			return ItemDatabase.getConsumptionType( id ) == KoLConstants.INFINITE_USES || ItemDatabase.getAttribute( id, ItemDatabase.ATTR_REUSABLE );
 		}
 
+		/**
+		 * Returns `true` if the Item is multiusable, else `false`.
+		 *
+		 * @return Whether the Item is multiusable
+		 */
 		public boolean get_multi()
 		{
 			return ItemDatabase.isMultiUsable( (int) this.contentLong );
 		}
 
+		/**
+		 * Returns `true` if the Item is a "fancy" ingredient, else `false`.
+		 *
+		 * @return Whether the Item is a "fancy" ingredient
+		 */
 		public boolean get_fancy()
 		{
 			return ItemDatabase.isFancyItem( (int) this.contentLong );
 		}
 
+		/**
+		 * Returns `true` if the Item is a meatpasting ingredient, else `false`.
+		 *
+		 * @return Whether the Item is a meatpasting ingredient
+		 */
 		public boolean get_pasteable()
 		{
 			return ItemDatabase.isPasteable( (int) this.contentLong );
 		}
 
+		/**
+		 * Returns `true` if the Item is a meatsmithing ingredient, else `false`.
+		 *
+		 * @return Whether the Item is a meatsmithing ingredient
+		 */
 		public boolean get_smithable()
 		{
 			return ItemDatabase.isSmithable( (int) this.contentLong );
 		}
 
+		/**
+		 * Returns `true` if the Item is a cooking ingredient, else `false`.
+		 *
+		 * @return Whether the Item is a cooking ingredient
+		 */
 		public boolean get_cookable()
 		{
 			return ItemDatabase.isCookable( (int) this.contentLong );
 		}
 
+		/**
+		 * Returns `true` if the Item is a cocktailcrafting ingredient, else `false`.
+		 *
+		 * @return Whether the Item is a cocktailcrafting ingredient
+		 */
 		public boolean get_mixable()
 		{
 			return ItemDatabase.isMixable( (int) this.contentLong );
 		}
 
+		/**
+		 * Returns `true` if the Item is a candy, else `false`.
+		 *
+		 * @return Whether the Item is a candy
+		 */
 		public boolean get_candy()
 		{
 			return ItemDatabase.isCandyItem( (int) this.contentLong );
 		}
 
+		/**
+		 * Returns the candy type of the Item if it is a candy, or blank otherwise.
+		 * Candy type can be one of "simple", "complex" or "unspaded".
+		 *
+		 * @return The candy type
+		 */
 		public String get_candy_type()
 		{
 			return CandyDatabase.getCandyType( (int) this.contentLong );
 		}
 
+		/**
+		 * Returns `true` if the Item is a chocolate, else `false`.
+		 *
+		 * @return Whether the Item is a chocolate
+		 */
 		public boolean get_chocolate()
 		{
 			return ItemDatabase.isChocolateItem( (int) this.contentLong );
 		}
 
+		/**
+		 * Returns which Coinmaster sells this Item, if any.
+		 *
+		 * @return The coinmaster who sells this Item
+		 */
 		public CoinmasterData get_seller()
 		{
 			return CoinmasterRegistry.findSeller( (int) this.contentLong );
 		}
 
+		/**
+		 * Returns which Coinmaster buys this Item, if any.
+		 *
+		 * @return The Coinmaster who buys this Item
+		 */
 		public CoinmasterData get_buyer()
 		{
 			return CoinmasterRegistry.findBuyer( (int) this.contentLong );
 		}
 
+		/**
+		 * Returns the length of the Item's display name
+		 *
+		 * @return The length of the display name
+		 */
 		public int get_name_length()
 		{
 			return ItemDatabase.getNameLength( (int) this.contentLong );
 		}
 
+		/**
+		 * Returns the noob Skill granted by absorbing this Item.
+		 *
+		 * @return The noob Skill granted
+		 */
 		public Value get_noob_skill()
 		{
 			return DataTypes.makeSkillValue( ItemDatabase.getNoobSkillId( (int) this.contentLong ), true );
