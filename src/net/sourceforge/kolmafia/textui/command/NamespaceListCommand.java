@@ -42,7 +42,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 
 public class NamespaceListCommand
 	extends AbstractCommand
@@ -67,7 +67,7 @@ public class NamespaceListCommand
 				continue;
 			}
 
-			Interpreter interpreter = KoLmafiaASH.getInterpreter( f );
+			AshRuntime interpreter = KoLmafiaASH.getInterpreter( f );
 			if ( interpreter != null )
 			{
 				KoLmafiaASH.showUserFunctions( interpreter, parameters );

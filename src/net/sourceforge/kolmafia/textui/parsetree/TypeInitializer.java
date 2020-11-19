@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.parsetree;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 
 public class TypeInitializer
 	extends Value
@@ -52,7 +52,7 @@ public class TypeInitializer
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		return this.type.initialValue();
 	}

@@ -40,10 +40,10 @@ import java.util.List;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.Profiler;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class FunctionCall
 	extends Value
@@ -84,11 +84,11 @@ public class FunctionCall
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( InterpreterState.EXIT );
+			interpreter.setState( ScriptRuntime.State.EXIT );
 			return null;
 		}
 
@@ -101,7 +101,7 @@ public class FunctionCall
 
 		for ( Value paramValue : this.params )
 		{
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "Param #" + paramCount + ": " + paramValue.toQuotedString() );
 			}
@@ -113,12 +113,12 @@ public class FunctionCall
 				value = DataTypes.VOID_VALUE;
 			}
 
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + value.toQuotedString() );
 			}
 
-			if ( interpreter.getState() == InterpreterState.EXIT )
+			if ( interpreter.getState() == ScriptRuntime.State.EXIT )
 			{
 				interpreter.traceUnindent();
 				return null;
@@ -127,7 +127,7 @@ public class FunctionCall
 			values[ paramCount++ ] = value;
 		}
 
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "Entering function " + this.target.getName() );
 		}
@@ -161,14 +161,14 @@ public class FunctionCall
 			result = this.target.execute( interpreter, values );
 		}
 
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "Function " + this.target.getName() + " returned: " + result );
 		}
 
-		if ( interpreter.getState() != InterpreterState.EXIT )
+		if ( interpreter.getState() != ScriptRuntime.State.EXIT )
 		{
-			interpreter.setState( InterpreterState.NORMAL );
+			interpreter.setState( ScriptRuntime.State.NORMAL );
 		}
 
 		interpreter.traceUnindent();
@@ -186,7 +186,7 @@ public class FunctionCall
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		stream.println( "<CALL " + this.getTarget().getName() + ">" );
 
 		for ( Value current : this.params )

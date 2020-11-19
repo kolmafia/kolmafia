@@ -33,19 +33,19 @@
 
 package net.sourceforge.kolmafia.textui.parsetree;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class ScriptExit
 	extends ScriptState
 {
 	public ScriptExit()
 	{
-		super( InterpreterState.EXIT );
+		super( ScriptRuntime.State.EXIT );
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		super.execute( interpreter );
 		interpreter.setExiting();

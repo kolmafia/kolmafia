@@ -40,8 +40,8 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class Try
 	extends ParseTreeNode
@@ -55,18 +55,18 @@ public class Try
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		// We can't catch script ABORTs
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( InterpreterState.EXIT );
+			interpreter.setState( ScriptRuntime.State.EXIT );
 			return null;
 		}
 
 		Value result = DataTypes.VOID_VALUE;
 		interpreter.traceIndent();
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "Entering try body" );
 		}
@@ -88,14 +88,14 @@ public class Try
 		{
 			if ( this.finalClause != null )
 			{
-				InterpreterState oldState = interpreter.getState();
+				ScriptRuntime.State oldState = interpreter.getState();
 				boolean userAborted = StaticEntity.userAborted;
 				MafiaState continuationState = StaticEntity.getContinuationState();
 
 				KoLmafia.forceContinue();
-				interpreter.setState( InterpreterState.NORMAL );
+				interpreter.setState( ScriptRuntime.State.NORMAL );
 
-				if ( Interpreter.isTracing() )
+				if ( AshRuntime.isTracing() )
 				{
 					interpreter.trace( "Entering finally, saved state: " + oldState );
 				}
@@ -137,14 +137,14 @@ public class Try
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		stream.println( "<TRY>" );
 
 		this.body.print( stream, indent + 1 );
 		
 		if ( this.finalClause != null )
 		{
-			Interpreter.indentLine( stream, indent );
+			AshRuntime.indentLine( stream, indent );
 			stream.println( "<FINALLY>" );
 
 			this.finalClause.print( stream, indent + 1 );

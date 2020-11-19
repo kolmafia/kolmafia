@@ -38,9 +38,9 @@ import java.io.PrintStream;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.Parser;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class ForLoop
 	extends Loop
@@ -93,17 +93,17 @@ public class ForLoop
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( InterpreterState.EXIT );
+			interpreter.setState( ScriptRuntime.State.EXIT );
 			return null;
 		}
 
 		interpreter.traceIndent();
 
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( this.toString() );
 			interpreter.trace( "Initial: " + this.initial );
@@ -113,7 +113,7 @@ public class ForLoop
 		Value initialValue = this.initial.execute( interpreter );
 		interpreter.captureValue( initialValue );
 
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + initialValue );
 		}
@@ -124,7 +124,7 @@ public class ForLoop
 			return null;
 		}
 
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "Last: " + this.last );
 		}
@@ -133,7 +133,7 @@ public class ForLoop
 		Value lastValue = this.last.execute( interpreter );
 		interpreter.captureValue( lastValue );
 
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + lastValue );
 		}
@@ -144,7 +144,7 @@ public class ForLoop
 			return null;
 		}
 
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "Increment: " + this.increment );
 		}
@@ -153,7 +153,7 @@ public class ForLoop
 		Value incrementValue = this.increment.execute( interpreter );
 		interpreter.captureValue( incrementValue );
 
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + incrementValue );
 		}
@@ -203,14 +203,14 @@ public class ForLoop
 			// Execute the scope
 			Value result = super.execute( interpreter );
 
-			if ( interpreter.getState() == InterpreterState.BREAK )
+			if ( interpreter.getState() == ScriptRuntime.State.BREAK )
 			{
-				interpreter.setState( InterpreterState.NORMAL );
+				interpreter.setState( ScriptRuntime.State.NORMAL );
 				interpreter.traceUnindent();
 				return DataTypes.VOID_VALUE;
 			}
 
-			if ( interpreter.getState() != InterpreterState.NORMAL )
+			if ( interpreter.getState() != ScriptRuntime.State.NORMAL )
 			{
 				interpreter.traceUnindent();
 				return result;
@@ -233,7 +233,7 @@ public class ForLoop
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		int direction = this.getDirection();
 		stream.println( "<FOR " + ( direction < 0 ? "downto" : direction > 0 ? "upto" : "to" ) + " >" );
 		this.getVariable().print( stream, indent + 1 );

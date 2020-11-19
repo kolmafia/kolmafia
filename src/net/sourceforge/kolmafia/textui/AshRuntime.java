@@ -67,25 +67,16 @@ import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.NullStream;
 
-public class Interpreter
+public class AshRuntime implements ScriptRuntime
 {
 	protected Parser parser;
 	protected Scope scope;
 
 	// Variables used during execution
 
-	public enum InterpreterState
-	{
-		NORMAL,
-		RETURN,
-		BREAK,
-		CONTINUE,
-		EXIT
-	}
+	private static final Stack<AshRuntime> interpreterStack = new Stack<>();
 
-	private static final Stack<Interpreter> interpreterStack = new Stack<>();
-
-	private InterpreterState currentState = InterpreterState.NORMAL;
+	private ScriptRuntime.State currentState = ScriptRuntime.State.NORMAL;
 	private boolean exiting = false;
 	private int traceIndentation = 0;
 	public Profiler profiler;
@@ -119,27 +110,27 @@ public class Interpreter
 
 	public static boolean isTracing()
 	{
-		return Interpreter.traceStream != NullStream.INSTANCE;
+		return AshRuntime.traceStream != NullStream.INSTANCE;
 	}
 
 	public static void openTraceStream()
 	{
-		Interpreter.traceStream =
-			RequestLogger.openStream( "ASH_" + KoLConstants.DAILY_FORMAT.format( new Date() ) + ".txt", Interpreter.traceStream, true );
+		AshRuntime.traceStream =
+			RequestLogger.openStream( "ASH_" + KoLConstants.DAILY_FORMAT.format( new Date() ) + ".txt", AshRuntime.traceStream, true );
 	}
 
 	public static void println(final String string )
 	{
-		Interpreter.traceStream.println( string );
+		AshRuntime.traceStream.println( string );
 	}
 
 	public static void closeTraceStream()
 	{
-		RequestLogger.closeStream( Interpreter.traceStream );
-		Interpreter.traceStream = NullStream.INSTANCE;
+		RequestLogger.closeStream( AshRuntime.traceStream );
+		AshRuntime.traceStream = NullStream.INSTANCE;
 	}
 
-	public Interpreter()
+	public AshRuntime()
 	{
 		this.parser = new Parser();
 		this.scope = new Scope( new VariableList(), Parser.getExistingFunctionScope() );
@@ -164,11 +155,13 @@ public class Interpreter
 		KoLmafia.forceContinue();
 	}
 
+	@Override
 	public RelayRequest getRelayRequest()
 	{
 		return this.relayRequest;
 	}
 
+	@Override
 	public StringBuffer getServerReplyBuffer()
 	{
 		return this.serverReplyBuffer;
@@ -180,7 +173,7 @@ public class Interpreter
 		this.serverReplyBuffer = null;
 	}
 
-	public void cloneRelayScript( final Interpreter caller )
+	public void cloneRelayScript( final ScriptRuntime caller )
 	{
 		this.finishRelayScript();
 		if ( caller != null )
@@ -210,16 +203,17 @@ public class Interpreter
 		return this.scope.getFunctions();
 	}
 
-	public InterpreterState getState()
+	@Override
+	public ScriptRuntime.State getState()
 	{
 		return this.currentState;
 	}
 
-	public void setState( final InterpreterState state )
+	public void setState( final ScriptRuntime.State state )
 	{
 		this.currentState = state;
 
-		if (state == InterpreterState.EXIT && Preferences.getBoolean( "printStackOnAbort" ) )
+		if (state == ScriptRuntime.State.EXIT && Preferences.getBoolean( "printStackOnAbort" ) )
 		{
 			this.printStackTrace();
 		}
@@ -227,24 +221,24 @@ public class Interpreter
 
 	public static void rememberPendingState()
 	{
-		if ( Interpreter.interpreterStack.isEmpty() )
+		if ( AshRuntime.interpreterStack.isEmpty() )
 		{
 			return;
 		}
 
-		Interpreter current = Interpreter.interpreterStack.peek();
+		AshRuntime current = AshRuntime.interpreterStack.peek();
 
 		current.hadPendingState = true;
 	}
 
 	public static void forgetPendingState()
 	{
-		if ( Interpreter.interpreterStack.isEmpty() )
+		if ( AshRuntime.interpreterStack.isEmpty() )
 		{
 			return;
 		}
 
-		Interpreter current = Interpreter.interpreterStack.peek();
+		AshRuntime current = AshRuntime.interpreterStack.peek();
 
 		current.hadPendingState = false;
 	}
@@ -256,12 +250,12 @@ public class Interpreter
 			return false;
 		}
 
-		if ( Interpreter.interpreterStack.isEmpty() )
+		if ( AshRuntime.interpreterStack.isEmpty() )
 		{
 			return true;
 		}
 
-		Interpreter current = Interpreter.interpreterStack.peek();
+		AshRuntime current = AshRuntime.interpreterStack.peek();
 
 		return !current.hadPendingState;
 	}
@@ -293,7 +287,7 @@ public class Interpreter
 			this.parser = new Parser( scriptFile, stream, null );
 			this.scope = parser.parse();
 			this.resetTracing();
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				this.printScope( this.scope );
 			}
@@ -358,9 +352,9 @@ public class Interpreter
 		Function main;
 		Value result = null;
 
-		Interpreter.interpreterStack.push( this );
+		AshRuntime.interpreterStack.push( this );
 
-		this.currentState = InterpreterState.NORMAL;
+		this.currentState = ScriptRuntime.State.NORMAL;
 		this.exiting = false;
 		this.resetTracing();
 
@@ -383,14 +377,14 @@ public class Interpreter
 
 		if ( executeTopLevel )
 		{
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				this.trace( "Executing top-level commands" );
 			}
 			result = topScope.execute( this );
 		}
 
-		if ( this.currentState == InterpreterState.EXIT )
+		if (this.currentState == ScriptRuntime.State.EXIT)
 		{
 			return result;
 		}
@@ -398,7 +392,7 @@ public class Interpreter
 		// Now execute main function, if any
 		if ( main != null )
 		{
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				this.trace( "Executing main function" );
 			}
@@ -416,7 +410,7 @@ public class Interpreter
 			result = main.execute( this, values );
 			this.popFrame();
 		}
-		Interpreter.interpreterStack.pop();
+		AshRuntime.interpreterStack.pop();
 
 		return result;
 	}
@@ -600,20 +594,20 @@ public class Interpreter
 			CallFrame current = popFrame();
 			if ( fileName == null )
 			{
-				fileName = current.fileName;
-				lineNumber = current.lineNumber;
+				fileName = current.getFileName();
+				lineNumber = current.getLineNumber();
 				continue;
 			}
 			s.append( KoLConstants.LINE_BREAK);
 			s.append( "\u00A0\u00A0at " );
-			s.append( current.name );
+			s.append( current.getName() );
 			s.append( " (" );
 			s.append( fileName );
 			s.append( ":" );
 			s.append( lineNumber );
 			s.append( ")" );
-			fileName = current.fileName;
-			lineNumber = current.lineNumber;
+			fileName = current.getFileName();
+			lineNumber = current.getLineNumber();
 		}
 
 		frameStack.clear();
@@ -622,7 +616,7 @@ public class Interpreter
 
 	public void printStackTrace()
 	{
-		// We may attempt to print the stack trace multiple times if in STATE_EXIT.
+		// We may attempt to print the stack trace multiple times if in RuntimeController.State.EXIT.
 		if ( this.frameStack.size() > 0 )
 		{
 			String stackTrace = this.getStackTrace();
@@ -643,9 +637,9 @@ public class Interpreter
 
 	private void indentLine(final int indent )
 	{
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
-			Interpreter.indentLine( traceStream, indent );
+			AshRuntime.indentLine( traceStream, indent );
 		}
 	}
 
@@ -661,7 +655,7 @@ public class Interpreter
 
 	public final void trace( final String string )
 	{
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			this.indentLine( this.traceIndentation );
 			traceStream.println( string );
@@ -687,17 +681,18 @@ public class Interpreter
 		if ( KoLmafia.refusesContinue() || value == null )
 		{
 			// User aborted
-			this.setState( InterpreterState.EXIT );
+			this.setState( ScriptRuntime.State.EXIT );
 			return;
 		}
 
 		// Even if an error occurred, since we captured the result,
 		// permit further execution.
 
-		this.setState( InterpreterState.NORMAL );
+		this.setState( ScriptRuntime.State.NORMAL );
 		KoLmafia.forceContinue();
 	}
 
+	@Override
 	public final ScriptException runtimeException( final String message )
 	{
 		return this.runtimeException( message, this.fileName, this.lineNumber );
@@ -708,6 +703,7 @@ public class Interpreter
 		return new ScriptException( message + " " + Parser.getLineAndFile( fileName, lineNumber ) + this.getStackTrace() );
 	}
 
+	@Override
 	public final ScriptException runtimeException2( final String message1, final String message2 )
 	{
 		return runtimeException2( message1, message2, this.fileName, this.lineNumber );
@@ -721,5 +717,15 @@ public class Interpreter
 	public final ScriptException undefinedFunctionException( final String name, final List<Value> params )
 	{
 		return this.runtimeException( Parser.undefinedFunctionMessage( name, params ) );
+	}
+
+	@Override
+	public LinkedHashMap<String, LinkedHashMap<String, StringBuilder>> getBatched() {
+		return batched;
+	}
+
+	@Override
+	public void setBatched(LinkedHashMap<String, LinkedHashMap<String, StringBuilder>> batched) {
+		this.batched = batched;
 	}
 }

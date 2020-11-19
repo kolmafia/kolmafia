@@ -43,9 +43,9 @@ import java.util.List;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.Parser;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 
 import net.sourceforge.kolmafia.textui.parsetree.Function.MatchType;
@@ -498,10 +498,10 @@ public abstract class BasicScope
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		stream.println( "<SCOPE>" );
 
-		Interpreter.indentLine( stream, indent + 1 );
+		AshRuntime.indentLine( stream, indent + 1 );
 		stream.println( "<TYPES>" );
 
 		for ( Type currentType : types )
@@ -509,7 +509,7 @@ public abstract class BasicScope
 			currentType.print( stream, indent + 2 );
 		}
 
-		Interpreter.indentLine( stream, indent + 1 );
+		AshRuntime.indentLine( stream, indent + 1 );
 		stream.println( "<VARIABLES>" );
 
 		for ( Variable currentVar : this.variables )
@@ -517,7 +517,7 @@ public abstract class BasicScope
 			currentVar.print( stream, indent + 2 );
 		}
 
-		Interpreter.indentLine( stream, indent + 1 );
+		AshRuntime.indentLine( stream, indent + 1 );
 		stream.println( "<FUNCTIONS>" );
 
 		for ( Function currentFunc: this.functions )
@@ -525,7 +525,7 @@ public abstract class BasicScope
 			currentFunc.print( stream, indent + 2 );
 		}
 
-		Interpreter.indentLine( stream, indent + 1 );
+		AshRuntime.indentLine( stream, indent + 1 );
 		stream.println( "<COMMANDS>" );
 
 		Iterator<ParseTreeNode> it = this.getCommands();
@@ -537,7 +537,7 @@ public abstract class BasicScope
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		// Yield control at the top of the scope to
 		// allow other tasks to run and keyboard input -
@@ -568,7 +568,7 @@ public abstract class BasicScope
 				// Abort processing now if command failed
 				if ( !KoLmafia.permitsContinue() )
 				{
-					interpreter.setState( InterpreterState.EXIT );
+					interpreter.setState( ScriptRuntime.State.EXIT );
 				}
 
 				if ( result == null )
@@ -576,12 +576,12 @@ public abstract class BasicScope
 					result = DataTypes.VOID_VALUE;
 				}
 
-				if ( Interpreter.isTracing() )
+				if ( AshRuntime.isTracing() )
 				{
 					interpreter.trace( "[" + interpreter.getState() + "] <- " + result.toQuotedString() );
 				}
 
-				if ( interpreter.getState() != InterpreterState.NORMAL )
+				if ( interpreter.getState() != ScriptRuntime.State.NORMAL )
 				{
 					break;
 				}

@@ -70,4 +70,9 @@ public class TypeList
 	{
 		return list.iterator();
 	}
+
+	public boolean contains( final Type type )
+	{
+		return list.contains( type );
+	}
 }

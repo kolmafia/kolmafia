@@ -74,7 +74,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LightsOutManager;
 import net.sourceforge.kolmafia.session.VoteMonsterManager;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 
@@ -864,7 +864,7 @@ public class RecoveryManager
 		}
 
 		List<File> scriptFiles = KoLmafiaCLI.findScriptFile( scriptName );
-		Interpreter interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
+		AshRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
 		if ( interpreter != null )
 		{
 			File scriptFile = scriptFiles.get( 0 );

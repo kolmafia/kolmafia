@@ -33,65 +33,39 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.textui.RuntimeLibrary;
+import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
+import net.sourceforge.kolmafia.textui.parsetree.CompositeValue;
+import net.sourceforge.kolmafia.textui.parsetree.Value;
 
-import net.sourceforge.kolmafia.textui.AshRuntime;
-
-import net.sourceforge.kolmafia.utilities.ByteArrayStream;
-
-public class AshMultiLineCommand
+public class JavaScriptCommand
 	extends AbstractCommand
 {
-	public AshMultiLineCommand()
+	public JavaScriptCommand()
 	{
-		this.usage = " - embed an ASH script in a CLI script.";
+		this.flags = KoLmafiaCLI.FULL_LINE_CMD;
+		this.usage = " <statement> - test a line of JavaScript code without having to edit a script.";
 	}
 
 	@Override
-	public void run( final String cmd, final String parameters )
+	public void run( final String cmd, String parameters )
 	{
-		ByteArrayStream ostream = new ByteArrayStream();
+		JavascriptRuntime runtime = new JavascriptRuntime( parameters );
+		Value returnValue = runtime.execute( new String[] {} );
 
-		String currentLine = this.CLI.getNextLine( null );
-
-		while ( currentLine != null && !currentLine.equals( "</inline-ash-script>" ) )
+		if ( cmd.endsWith( "q" ) )
 		{
-			try
-			{
-				ostream.write( currentLine.getBytes() );
-				ostream.write( KoLConstants.LINE_BREAK.getBytes() );
-			}
-			catch ( Exception e )
-			{
-				// Byte array output streams do not throw errors,
-				// other than out of memory errors.
-
-				StaticEntity.printStackTrace( e );
-			}
-
-			currentLine = this.CLI.getNextLine( null );
-		}
-
-		if ( currentLine == null )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Unterminated inline ASH script." );
 			return;
 		}
 
-		AshRuntime interpreter = new AshRuntime();
-		interpreter.validate( null, ostream.getByteArrayInputStream() );
+		KoLmafia.updateDisplay( "Returned: " + returnValue );
 
-		try
+		returnValue = Value.asProxy( returnValue );
+		if ( returnValue instanceof CompositeValue )
 		{
-			interpreter.cloneRelayScript( this.callerController );
-			interpreter.execute( "main", null );
-		}
-		finally
-		{
-			interpreter.finishRelayScript();
+			RuntimeLibrary.dump( (CompositeValue) returnValue );
 		}
 	}
 }

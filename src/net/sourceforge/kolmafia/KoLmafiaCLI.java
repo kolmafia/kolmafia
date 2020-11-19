@@ -59,8 +59,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.LoginRequest;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
-
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.command.*;
 
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
@@ -318,7 +317,7 @@ public class KoLmafiaCLI
 		this.executeLine( line, null );
 	}
 
-	public void executeLine( String line, final Interpreter interpreter )
+	public void executeLine( String line, final ScriptRuntime controller )
 	{
 		if ( line == null || KoLmafia.refusesContinue() )
 		{
@@ -447,7 +446,7 @@ public class KoLmafiaCLI
 				return;
 			}
 
-			this.executeCommand( command, trimmed, interpreter );
+			this.executeCommand( command, trimmed, controller );
 			KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
 		}
 
@@ -540,13 +539,13 @@ public class KoLmafiaCLI
 		this.executeCommand( command, parameters, null );
 	}
 
-	private void executeCommand( String command, String parameters, Interpreter interpreter )
+	private void executeCommand( String command, String parameters, ScriptRuntime caller )
 	{
 		Integer requestId = RequestThread.openRequestSequence();
 
 		try
 		{
-			this.doExecuteCommand( command, parameters, interpreter );
+			this.doExecuteCommand( command, parameters, caller );
 		}
 		catch ( Exception e )
 		{
@@ -558,7 +557,7 @@ public class KoLmafiaCLI
 		}
 	}
 
-	private void doExecuteCommand( String command, String parameters, Interpreter interpreter )
+	private void doExecuteCommand( String command, String parameters, ScriptRuntime caller )
 	{
 		String lcommand = command.toLowerCase();
 
@@ -592,10 +591,10 @@ public class KoLmafiaCLI
 			}
 
 			handler.CLI = this;
-			handler.interpreter = interpreter;
+			handler.callerController = caller;
 			handler.run( lcommand, parameters );
 			handler.CLI = null;
-			handler.interpreter = null;
+			handler.callerController = null;
 
 			return;
 		}
@@ -603,7 +602,7 @@ public class KoLmafiaCLI
 		// If all else fails, then assume that the
 		// person was trying to call a script.
 
-		CallScriptCommand.call( "call", command + " " + parameters, interpreter );
+		CallScriptCommand.call( "call", command + " " + parameters, caller );
 	}
 
 	public void elseRuns( final boolean shouldRun )
@@ -859,6 +858,11 @@ public class KoLmafiaCLI
 			register( "soak" );
 		new IfStatement().register( "if" );
 		new ItemTraceCommand().register( "itrace" );
+		new JavaScriptCommand().
+			register( "js" ).
+			register( "jsq" ).
+			register( "javascript" ).
+			register( "javascriptq" );
 		new JukeboxCommand().register( "jukebox" );
 		new KitchenCommand().registerSubstring( "kitchen" );
 		new LatteCommand().register( "latte" );

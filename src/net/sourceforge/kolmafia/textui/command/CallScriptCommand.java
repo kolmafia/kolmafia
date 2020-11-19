@@ -52,9 +52,10 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.Profiler;
-
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -63,6 +64,7 @@ public class CallScriptCommand
 	extends AbstractCommand
 {
 	private static final Pattern ASHNAME_PATTERN = Pattern.compile( "\\.ash", Pattern.CASE_INSENSITIVE );
+	private static final Pattern JSNAME_PATTERN = Pattern.compile( "\\.js", Pattern.CASE_INSENSITIVE );
 
 	public CallScriptCommand()
 	{
@@ -72,10 +74,10 @@ public class CallScriptCommand
 	@Override
 	public void run( final String command, final String parameters )
 	{
-		CallScriptCommand.call( command, parameters, this.interpreter );
+		CallScriptCommand.call( command, parameters, this.callerController );
 	}
 
-	public static void call( final String command, String parameters, Interpreter caller )
+	public static void call( final String command, String parameters, ScriptRuntime caller )
 	{
 		try
 		{
@@ -199,7 +201,7 @@ public class CallScriptCommand
 
 				if ( command.equals( "validate" ) || command.equals( "verify" ) || command.equals( "check" ) )
 				{
-					Interpreter interpreter = KoLmafiaASH.getInterpreter( scriptFile );
+					AshRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFile );
 					if ( interpreter != null )
 					{
 						RequestLogger.printLine();
@@ -214,7 +216,7 @@ public class CallScriptCommand
 
 				if ( command.equals( "profile" ) )
 				{
-					Interpreter interpreter = KoLmafiaASH.getInterpreter( scriptFile );
+					AshRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFile );
 					if ( interpreter != null )
 					{
 						Profiler prof = Profiler.create( "toplevel" );
@@ -242,7 +244,7 @@ public class CallScriptCommand
 				// If there's an alternate namespace being
 				// used, then be sure to switch.
 
-				Interpreter interpreter = KoLmafiaASH.getInterpreter( scriptFile );
+				AshRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFile );
 				if ( interpreter != null )
 				{
 					try
@@ -262,6 +264,16 @@ public class CallScriptCommand
 						interpreter.finishRelayScript();
 					}
 				}
+			}
+			else if ( CallScriptCommand.JSNAME_PATTERN.matcher( scriptFile.getPath() ).find() )
+			{
+				if ( !command.equals("call") )
+				{
+					KoLmafia.updateDisplay(
+						MafiaState.ERROR, "Cannot use command " + command + " with JavaScript scripts." );
+				}
+				JavascriptRuntime runtime = new JavascriptRuntime( scriptFile );
+				runtime.execute( arguments );
 			}
 			else
 			{

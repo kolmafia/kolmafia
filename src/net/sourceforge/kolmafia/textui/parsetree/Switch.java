@@ -41,8 +41,8 @@ import java.util.Map;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class Switch
 	extends ParseTreeNode
@@ -75,21 +75,21 @@ public class Switch
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( InterpreterState.EXIT );
+			interpreter.setState( ScriptRuntime.State.EXIT );
 			return null;
 		}
 
 		interpreter.traceIndent();
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( this.toString() );
 		}
 
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "Value: " + this.condition );
 		}
@@ -97,7 +97,7 @@ public class Switch
 		Value value = this.condition.execute( interpreter );
 		interpreter.captureValue( value );
 
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + value );
 		}
@@ -123,7 +123,7 @@ public class Switch
 			for ( int index = 0; index < tests.length; ++index )
 			{
 				Value test = tests[ index ];
-				if ( Interpreter.isTracing() )
+				if ( AshRuntime.isTracing() )
 				{
 					interpreter.trace( "test: " + test );
 				}
@@ -131,7 +131,7 @@ public class Switch
 				Value result = test.execute( interpreter );
 				interpreter.captureValue( result );
 
-				if ( Interpreter.isTracing() )
+				if ( AshRuntime.isTracing() )
 				{
 					interpreter.trace( "[" + interpreter.getState() + "] <- " + result );
 				}
@@ -155,14 +155,14 @@ public class Switch
 			this.scope.setOffset( offset );
 			Value result = this.scope.execute( interpreter );
 
-			if ( interpreter.getState() == InterpreterState.BREAK )
+			if ( interpreter.getState() == ScriptRuntime.State.BREAK )
 			{
-				interpreter.setState( InterpreterState.NORMAL );
+				interpreter.setState( ScriptRuntime.State.NORMAL );
 				interpreter.traceUnindent();
 				return DataTypes.VOID_VALUE;
 			}
 
-			if ( interpreter.getState() != InterpreterState.NORMAL )
+			if ( interpreter.getState() != ScriptRuntime.State.NORMAL )
 			{
 				interpreter.traceUnindent();
 				return result;
@@ -182,7 +182,7 @@ public class Switch
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		stream.println( "<SWITCH" + (labels != null ? " (OPTIMIZED)" : "" ) + ">" );
 		this.getCondition().print( stream, indent + 1 );
 		this.getScope().print( stream, indent + 1, tests, offsets, defaultIndex );

@@ -251,6 +251,7 @@ public class DataTypes
 	public static final Value SERVANT_INIT = new Value( DataTypes.SERVANT_TYPE, 0, "none", (Object) null );
 	public static final Value VYKEA_INIT = new Value( DataTypes.VYKEA_TYPE, 0, "none", VYKEACompanionData.NO_COMPANION );
 
+	public static final TypeList enumeratedTypes = new TypeList();
 	public static final TypeList simpleTypes = new TypeList();
 
 	static
@@ -264,22 +265,27 @@ public class DataTypes
 		simpleTypes.add( DataTypes.MATCHER_TYPE );
 		simpleTypes.add( DataTypes.AGGREGATE_TYPE );
 
-		simpleTypes.add( DataTypes.ITEM_TYPE );
-		simpleTypes.add( DataTypes.LOCATION_TYPE );
-		simpleTypes.add( DataTypes.CLASS_TYPE );
-		simpleTypes.add( DataTypes.STAT_TYPE );
-		simpleTypes.add( DataTypes.SKILL_TYPE );
-		simpleTypes.add( DataTypes.EFFECT_TYPE );
-		simpleTypes.add( DataTypes.FAMILIAR_TYPE );
-		simpleTypes.add( DataTypes.SLOT_TYPE );
-		simpleTypes.add( DataTypes.MONSTER_TYPE );
-		simpleTypes.add( DataTypes.ELEMENT_TYPE );
-		simpleTypes.add( DataTypes.COINMASTER_TYPE );
-		simpleTypes.add( DataTypes.PHYLUM_TYPE );
-		simpleTypes.add( DataTypes.BOUNTY_TYPE );
-		simpleTypes.add( DataTypes.THRALL_TYPE );
-		simpleTypes.add( DataTypes.SERVANT_TYPE );
-		simpleTypes.add( DataTypes.VYKEA_TYPE );
+		enumeratedTypes.add( DataTypes.ITEM_TYPE );
+		enumeratedTypes.add( DataTypes.LOCATION_TYPE );
+		enumeratedTypes.add( DataTypes.CLASS_TYPE );
+		enumeratedTypes.add( DataTypes.STAT_TYPE );
+		enumeratedTypes.add( DataTypes.SKILL_TYPE );
+		enumeratedTypes.add( DataTypes.EFFECT_TYPE );
+		enumeratedTypes.add( DataTypes.FAMILIAR_TYPE );
+		enumeratedTypes.add( DataTypes.SLOT_TYPE );
+		enumeratedTypes.add( DataTypes.MONSTER_TYPE );
+		enumeratedTypes.add( DataTypes.ELEMENT_TYPE );
+		enumeratedTypes.add( DataTypes.COINMASTER_TYPE );
+		enumeratedTypes.add( DataTypes.PHYLUM_TYPE );
+		enumeratedTypes.add( DataTypes.BOUNTY_TYPE );
+		enumeratedTypes.add( DataTypes.THRALL_TYPE );
+		enumeratedTypes.add( DataTypes.SERVANT_TYPE );
+		enumeratedTypes.add( DataTypes.VYKEA_TYPE );
+
+		for ( Type type : enumeratedTypes )
+		{
+			simpleTypes.add( type );
+		}
 	}
 
 	// For each simple data type X, we supply:

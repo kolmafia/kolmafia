@@ -37,7 +37,7 @@ import java.io.PrintStream;
 
 import java.util.List;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 
 public class VariableReference
 	extends Value
@@ -87,12 +87,12 @@ public class VariableReference
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		return this.target.getValue( interpreter );
 	}
 
-	public Value getValue( Interpreter interpreter )
+	public Value getValue( AshRuntime interpreter )
 	{
 		return this.target.getValue( interpreter );
 	}
@@ -102,12 +102,12 @@ public class VariableReference
 		this.target.forceValue( targetValue );
 	}
 
-	public Value setValue( final Interpreter interpreter, final Value targetValue )
+	public Value setValue( final AshRuntime interpreter, final Value targetValue )
 	{
 		return this.setValue( interpreter, targetValue, null );
 	}
 
-	public Value setValue( Interpreter interpreter, final Value targetValue, final Operator oper )
+	public Value setValue( AshRuntime interpreter, final Value targetValue, final Operator oper )
 	{
 		Value newValue = targetValue;
 		if ( oper != null )
@@ -131,7 +131,7 @@ public class VariableReference
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		stream.println( "<VARREF> " + this.getName() );
 	}
 }

@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 
 public class MapLiteral
 	extends AggregateLiteral
@@ -53,7 +53,7 @@ public class MapLiteral
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		this.aggr = (AggregateValue)this.type.initialValue();
 

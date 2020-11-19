@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 
 public class RecordValue
 	extends CompositeValue
@@ -66,7 +66,7 @@ public class RecordValue
 	}
 
 	@Override
-	public Value aref( final Value key, final Interpreter interpreter )
+	public Value aref( final Value key, final AshRuntime interpreter )
 	{
 		int index = ( (RecordType) this.type ).indexOf( key );
 		if ( index < 0 )
@@ -77,7 +77,7 @@ public class RecordValue
 		return array[ index ];
 	}
 
-	public Value aref( final int index, final Interpreter interpreter )
+	public Value aref( final int index, final AshRuntime interpreter )
 	{
 		RecordType type = (RecordType) this.type;
 		int size = type.fieldCount();
@@ -90,7 +90,7 @@ public class RecordValue
 	}
 
 	@Override
-	public void aset( final Value key, final Value val, final Interpreter interpreter )
+	public void aset( final Value key, final Value val, final AshRuntime interpreter )
 	{
 		int index = ( (RecordType) this.type ).indexOf( key );
 		if ( index < 0 )
@@ -101,7 +101,7 @@ public class RecordValue
 		this.aset( index, val, interpreter );
 	}
 
-	public void aset( final int index, final Value val, final Interpreter interpreter )
+	public void aset( final int index, final Value val, final AshRuntime interpreter )
 	{
 		RecordType type = (RecordType) this.type;
 		int size = type.fieldCount();
@@ -137,7 +137,7 @@ public class RecordValue
 	}
 
 	@Override
-	public Value remove( final Value key, final Interpreter interpreter )
+	public Value remove( final Value key, final AshRuntime interpreter )
 	{
 		int index = ( (RecordType) this.type ).indexOf( key );
 		if ( index < 0 )

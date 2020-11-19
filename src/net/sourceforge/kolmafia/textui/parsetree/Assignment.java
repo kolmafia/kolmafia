@@ -38,9 +38,9 @@ import java.io.PrintStream;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.Parser;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class Assignment
 	extends Value
@@ -79,11 +79,11 @@ public class Assignment
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( InterpreterState.EXIT );
+			interpreter.setState( ScriptRuntime.State.EXIT );
 			return null;
 		}
 
@@ -96,7 +96,7 @@ public class Assignment
 		else
 		{
 			interpreter.traceIndent();
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "Eval: " + this.rhs );
 			}
@@ -104,14 +104,14 @@ public class Assignment
 			value = this.rhs.execute( interpreter );
 			interpreter.captureValue( value );
 
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "Set: " + value );
 			}
 			interpreter.traceUnindent();
 		}
 
-		if ( interpreter.getState() == InterpreterState.EXIT )
+		if ( interpreter.getState() == ScriptRuntime.State.EXIT )
 		{
 			return null;
 		}
@@ -150,13 +150,13 @@ public class Assignment
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		stream.println( "<ASSIGN " + this.lhs.getName() + ">" );
 		VariableReference lhs = this.getLeftHandSide();
 		Parser.printIndices( lhs.getIndices(), stream, indent + 1 );
 		if ( this.oper != null )
 		{
-			Interpreter.indentLine( stream, indent );
+			AshRuntime.indentLine( stream, indent );
 			stream.println( "<OPER " + this.oper.operator + "=>" );
 		}
 		this.getRightHandSide().print( stream, indent + 1 );

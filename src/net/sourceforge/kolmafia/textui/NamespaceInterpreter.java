@@ -50,7 +50,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.textui.parsetree.VariableList;
 
 public class NamespaceInterpreter
-	extends Interpreter
+	extends AshRuntime
 {
 	private String lastImportString;
 

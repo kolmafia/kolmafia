@@ -43,7 +43,7 @@ import java.util.List;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.Parser;
 
 public abstract class Function
@@ -357,7 +357,7 @@ public abstract class Function
 		return false;
 	}
 
-	public void printDisabledMessage( Interpreter interpreter )
+	public void printDisabledMessage( AshRuntime interpreter )
 	{
 		try
 		{
@@ -385,7 +385,7 @@ public abstract class Function
 		}
 	}
 
-	public Object[] bindVariableReferences( Interpreter interpreter, Object[] values )
+	public Object[] bindVariableReferences( AshRuntime interpreter, Object[] values )
 	{
 		List<Object> newValues = new ArrayList<>();
 
@@ -433,8 +433,11 @@ public abstract class Function
 
 			paramCount++;
 
-			// Bind parameter to new value
-			paramVarRef.setValue( interpreter, value );
+			if (interpreter != null)
+			{
+				// Bind parameter to new value
+				paramVarRef.setValue( interpreter, value );
+			}
 
 			// Add to new values list
 			newValues.add( value );
@@ -446,7 +449,7 @@ public abstract class Function
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		// Dereference variables and pass Values to function
 		Object[] values = new Object[ this.variableReferences.size() + 1];
@@ -461,12 +464,12 @@ public abstract class Function
 		return this.execute( interpreter, values );
 	}
 
-	public abstract Value execute( final Interpreter interpreter, Object[] values );
+	public abstract Value execute( final AshRuntime interpreter, Object[] values );
 
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		stream.println( "<FUNC " + this.type + " " + this.getName() + ">" );
 
 		for ( VariableReference current : this.variableReferences )

@@ -41,9 +41,9 @@ import java.util.Iterator;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.Parser;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class CompositeReference
 	extends VariableReference
@@ -101,7 +101,7 @@ public class CompositeReference
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		interpreter.setLineAndFile( this.fileName, this.lineNumber );
 		return this.getValue( interpreter );
@@ -112,11 +112,11 @@ public class CompositeReference
 	// When done, this.slice has the final slice and this.index has
 	// the final evaluated index.
 
-	private boolean getSlice( final Interpreter interpreter )
+	private boolean getSlice( final AshRuntime interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( InterpreterState.EXIT );
+			interpreter.setState( ScriptRuntime.State.EXIT );
 			return false;
 		}
 
@@ -124,7 +124,7 @@ public class CompositeReference
 		this.index = null;
 
 		interpreter.traceIndent();
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "AREF: " + this.slice.toString() );
 		}
@@ -136,7 +136,7 @@ public class CompositeReference
 			Value exp = it.next();
 
 			interpreter.traceIndent();
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "Key #" + ( i + 1 ) + ": " + exp.toQuotedString() );
 			}
@@ -148,13 +148,13 @@ public class CompositeReference
 				this.index = DataTypes.VOID_VALUE;
 			}
 
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + this.index.toQuotedString() );
 			}
 			interpreter.traceUnindent();
 
-			if ( interpreter.getState() == InterpreterState.EXIT )
+			if ( interpreter.getState() == ScriptRuntime.State.EXIT )
 			{
 				interpreter.traceUnindent();
 				return false;
@@ -175,7 +175,7 @@ public class CompositeReference
 
 				this.slice = result;
 
-				if ( Interpreter.isTracing() )
+				if ( AshRuntime.isTracing() )
 				{
 					interpreter.trace( "AREF <- " + this.slice.toString() );
 				}
@@ -188,7 +188,7 @@ public class CompositeReference
 	}
 
 	@Override
-	public synchronized Value getValue( final Interpreter interpreter )
+	public synchronized Value getValue( final AshRuntime interpreter )
 	{
 		interpreter.setLineAndFile( this.fileName, this.lineNumber );
 		// Iterate through indices to final slice
@@ -202,7 +202,7 @@ public class CompositeReference
 			}
 
 			interpreter.traceIndent();
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "AREF <- " + result.toQuotedString() );
 			}
@@ -215,7 +215,7 @@ public class CompositeReference
 	}
 
 	@Override
-	public synchronized Value setValue( Interpreter interpreter, final Value targetValue, final Operator oper )
+	public synchronized Value setValue( AshRuntime interpreter, final Value targetValue, final Operator oper )
 	{
 		interpreter.setLineAndFile( this.fileName, this.lineNumber );
 		// Iterate through indices to final slice
@@ -235,7 +235,7 @@ public class CompositeReference
 					this.slice.aset( this.index, currentValue, interpreter );
 				}
 
-				if ( Interpreter.isTracing() )
+				if ( AshRuntime.isTracing() )
 				{
 					interpreter.trace( "AREF <- " + currentValue.toQuotedString() );
 				}
@@ -245,7 +245,7 @@ public class CompositeReference
 
 			this.slice.aset( this.index, newValue, interpreter );
 
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "ASET: " + newValue.toQuotedString() );
 			}
@@ -258,7 +258,7 @@ public class CompositeReference
 		return null;
 	}
 
-	public synchronized Value removeKey( final Interpreter interpreter )
+	public synchronized Value removeKey( final AshRuntime interpreter )
 	{
 		interpreter.setLineAndFile( this.fileName, this.lineNumber );
 		// Iterate through indices to final slice
@@ -270,7 +270,7 @@ public class CompositeReference
 				result = this.slice.initialValue( this.index );
 			}
 			interpreter.traceIndent();
-			if ( Interpreter.isTracing() )
+			if ( AshRuntime.isTracing() )
 			{
 				interpreter.trace( "remove <- " + result.toQuotedString() );
 			}
@@ -280,7 +280,7 @@ public class CompositeReference
 		return null;
 	}
 
-	public boolean contains( final Interpreter interpreter, final Value index )
+	public boolean contains( final AshRuntime interpreter, final Value index )
 	{
 		interpreter.setLineAndFile( this.fileName, this.lineNumber );
 		boolean result = false;
@@ -290,7 +290,7 @@ public class CompositeReference
 			result = this.slice.aref( index, interpreter ) != null;
 		}
 		interpreter.traceIndent();
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "contains <- " + result );
 		}
@@ -307,7 +307,7 @@ public class CompositeReference
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		stream.println( "<AGGREF " + this.getName() + ">" );
 		Parser.printIndices( this.getIndices(), stream, indent + 1 );
 	}

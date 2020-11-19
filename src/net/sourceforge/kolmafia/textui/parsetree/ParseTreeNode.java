@@ -35,11 +35,11 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 
 public abstract class ParseTreeNode
 {
-	public abstract Value execute( final Interpreter interpreter );
+	public abstract Value execute( final AshRuntime interpreter );
 	public abstract void print( final PrintStream stream, final int indent );
 	
 	// A barrier is any code construct that is fundamentally incapable of

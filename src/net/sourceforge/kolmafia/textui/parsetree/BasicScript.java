@@ -38,7 +38,7 @@ import java.io.PrintStream;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 
 import net.sourceforge.kolmafia.utilities.ByteArrayStream;
 
@@ -58,7 +58,7 @@ public class BasicScript
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		KoLmafiaCLI script = new KoLmafiaCLI( this.data.getByteArrayInputStream() );
 		script.listenForCommands();

@@ -38,8 +38,8 @@ import java.io.PrintStream;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Interpreter.InterpreterState;
+import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class Else
 	extends Conditional
@@ -50,23 +50,23 @@ public class Else
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final AshRuntime interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
-			interpreter.setState( InterpreterState.EXIT );
+			interpreter.setState( ScriptRuntime.State.EXIT );
 			return null;
 		}
 
 		interpreter.traceIndent();
-		if ( Interpreter.isTracing() )
+		if ( AshRuntime.isTracing() )
 		{
 			interpreter.trace( "else" );
 		}
 		Value result = this.scope.execute( interpreter );
 		interpreter.traceUnindent();
 
-		if ( interpreter.getState() != InterpreterState.NORMAL )
+		if ( interpreter.getState() != ScriptRuntime.State.NORMAL )
 		{
 			return result;
 		}
@@ -83,7 +83,7 @@ public class Else
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		stream.println( "<ELSE>" );
 		this.getScope().print( stream, indent + 1 );
 	}

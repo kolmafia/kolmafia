@@ -38,7 +38,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.Parser;
 
 public class SwitchScope
@@ -110,10 +110,10 @@ public class SwitchScope
 
 	public void print( final PrintStream stream, final int indent, Value [] tests, Integer [] offsets, int defaultIndex )
 	{
-		Interpreter.indentLine( stream, indent );
+		AshRuntime.indentLine( stream, indent );
 		stream.println( "<SCOPE>" );
 
-		Interpreter.indentLine( stream, indent + 1 );
+		AshRuntime.indentLine( stream, indent + 1 );
 		stream.println( "<VARIABLES>" );
 
 		for ( Variable currentVar : this.getVariables() )
@@ -121,7 +121,7 @@ public class SwitchScope
 			currentVar.print( stream, indent + 2 );
 		}
 
-		Interpreter.indentLine( stream, indent + 1 );
+		AshRuntime.indentLine( stream, indent + 1 );
 		stream.println( "<COMMANDS>" );
 
 		int commandCount = this.commands.size();
@@ -139,7 +139,7 @@ public class SwitchScope
 					break;
 				}
 
-				Interpreter.indentLine( stream, indent + 1 );
+				AshRuntime.indentLine( stream, indent + 1 );
 				stream.println( "<CASE>" );
 				test.print( stream, indent + 2 );
 				testIndex++;
@@ -147,7 +147,7 @@ public class SwitchScope
 
                         if ( defaultIndex == index )
                         {
-                                Interpreter.indentLine( stream, indent + 1 );
+                                AshRuntime.indentLine( stream, indent + 1 );
                                 stream.println( "<DEFAULT>" );
                         }
 
