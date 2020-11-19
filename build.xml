@@ -165,7 +165,6 @@
 			release="8"
 			srcdir="${src}"
 			destdir="${build}"
-			classpath="${build}"
 			failonerror="false"
 			debug="on"
 			debuglevel="lines,vars,source"
@@ -173,7 +172,14 @@
 			encoding="utf-8"
 			nowarn="on"
 			includeantruntime="false"
-			errorProperty="compile.failed" />
+			errorProperty="compile.failed">
+			<classpath>
+				<pathelement path="${build}"/>
+				<fileset dir="${src}/jar">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
 
                 <antcall target="unset.properties" />
 
@@ -243,6 +249,9 @@
 				<attribute name="Main-Class" value="${main}" />
 			</manifest>
 			<zipgroupfileset dir="${lib}/jar">
+				<include name="*.jar"/>
+			</zipgroupfileset>
+			<zipgroupfileset dir="${src}/jar">
 				<include name="*.jar"/>
 			</zipgroupfileset>
 		</jar>
@@ -372,6 +381,9 @@
 				<attribute name="Main-Class" value="${main}" />
 			</manifest>
 			<zipgroupfileset dir="${lib}/jar">
+				<include name="*.jar"/>
+			</zipgroupfileset>
+			<zipgroupfileset dir="${src}/jar">
 				<include name="*.jar"/>
 			</zipgroupfileset>
 		</jar>
