@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.ScriptException;
+import net.sourceforge.kolmafia.textui.parsetree.Symbol;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EcmaError;
@@ -65,6 +66,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class JavascriptRuntime
 	implements ScriptRuntime
@@ -131,10 +133,9 @@ public class JavascriptRuntime
 		this.scriptString = scriptString;
 	}
 
-	private void initRuntimeLibrary( Context cx, Scriptable scope )
+	public static List<net.sourceforge.kolmafia.textui.parsetree.Function> getFunctions()
 	{
-		Scriptable stdLib = cx.newObject(scope);
-		Set<String> functionNameSet = new TreeSet<>();
+		List<net.sourceforge.kolmafia.textui.parsetree.Function> functions = new ArrayList<>();
 		for ( net.sourceforge.kolmafia.textui.parsetree.Function libraryFunction : RuntimeLibrary.functions )
 		{
 			// Blacklist a number of types.
@@ -146,13 +147,23 @@ public class JavascriptRuntime
 			}
 			if ( allTypes.contains( DataTypes.MATCHER_TYPE ) ) continue;
 
-			functionNameSet.add(libraryFunction.getName());
+			functions.add(libraryFunction);
 		}
-		for ( String libraryFunctionName : functionNameSet )
+		return functions;
+	}
+
+	private void initRuntimeLibrary( Context cx, Scriptable scope )
+	{
+		Set<String> uniqueFunctionNames = new TreeSet<>( getFunctions().stream().map( Symbol::getName ).collect( Collectors.toList() ) );
+
+		Scriptable stdLib = cx.newObject(scope);
+
+		for ( String libraryFunctionName : uniqueFunctionNames )
 		{
 			ScriptableObject.putProperty( stdLib, toCamelCase( libraryFunctionName ),
-				new JavascriptAshStub( this, libraryFunctionName ) );
+						      new JavascriptAshStub( this, libraryFunctionName ) );
 		}
+
 		ScriptableObject.putProperty( scope, "Lib", stdLib );
 	}
 

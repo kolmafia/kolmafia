@@ -75,9 +75,9 @@ public class KoLmafiaCLI
 	private static final Pattern HEAD_PATTERN = Pattern.compile( "<head>.*?</head>", Pattern.DOTALL );
 	private static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
 
-	private LinkedList<String> queuedLines = new LinkedList<String>();
-	private CommandRetrieverThread retriever = new CommandRetrieverThread();
-	private CommandProcessorThread processor = new CommandProcessorThread();
+	private final LinkedList<String> queuedLines = new LinkedList<>();
+	private final CommandRetrieverThread retriever = new CommandRetrieverThread();
+	private final CommandProcessorThread processor = new CommandProcessorThread();
 
 	public String previousLine = null;
 	public String currentLine = null;
@@ -89,8 +89,8 @@ public class KoLmafiaCLI
 	public static boolean isExecutingCheckOnlyCommand = false;
 
 	// Flag values for Commands:
-	public static int FULL_LINE_CMD = 1;
-	public static int FLOW_CONTROL_CMD = 2;
+	public static final int FULL_LINE_CMD = 1;
+	public static final int FLOW_CONTROL_CMD = 2;
 
 	/**
 	 * Constructs a new <code>KoLmafiaCLI</code> object. All data fields are initialized to their default values, the
@@ -187,7 +187,7 @@ public class KoLmafiaCLI
 							KoLmafiaCLI.this.queuedLines.clear();
 						}
 					}
-					else if ( line.length() == 0 || line.startsWith( "#" ) || line.startsWith( "//" ) || line.startsWith( "\'" ) )
+					else if ( line.length() == 0 || line.startsWith( "#" ) || line.startsWith( "//" ) || line.startsWith( "'" ) )
 					{
 						synchronized ( KoLmafiaCLI.this.queuedLines )
 						{
@@ -495,7 +495,6 @@ public class KoLmafiaCLI
 				int flags = handler == null ? 0 : handler.flags;
 				if ( flags == KoLmafiaCLI.FULL_LINE_CMD )
 				{
-					line = "";
 					break;
 				}
 				if ( flags == KoLmafiaCLI.FLOW_CONTROL_CMD )
@@ -863,6 +862,7 @@ public class KoLmafiaCLI
 			register( "jsq" ).
 			register( "javascript" ).
 			register( "javascriptq" );
+		new JsRefCommand().register( "jsref" );
 		new JukeboxCommand().register( "jukebox" );
 		new KitchenCommand().registerSubstring( "kitchen" );
 		new LatteCommand().register( "latte" );
@@ -1102,9 +1102,9 @@ public class KoLmafiaCLI
 	}
 
 	// we return ALL matches, let callers decide whether to error if there is no unique match. (they probably should)
-	public static final List<File> findScriptFile( final String filename )
+	public static List<File> findScriptFile( final String filename )
 	{
-		List<File> matches = new ArrayList<File>();
+		List<File> matches = new ArrayList<>();
 
 		File absoluteFile = new File( filename );
 
@@ -1119,7 +1119,7 @@ public class KoLmafiaCLI
 		return findScriptFile( filename, matches );
 	}
 
-	private static final List<File> findScriptFile( final String filename, List<File> matches )
+	private static List<File> findScriptFile( final String filename, List<File> matches )
 	{
 		File scriptFile = new File( KoLConstants.ROOT_LOCATION, filename );
 
@@ -1161,7 +1161,7 @@ public class KoLmafiaCLI
 		return matches;
 	}
 
-	private static final void findScriptFile( final File directory, final String filename, List<File> matches )
+	private static void findScriptFile( final File directory, final String filename, List<File> matches )
 	{
 		File scriptFile = new File( directory, filename );
 
@@ -1172,11 +1172,11 @@ public class KoLmafiaCLI
 		}
 
 		File[] contents = DataUtilities.listFiles( directory );
-		for ( int i = 0; i < contents.length; ++i )
+		for ( File content : contents )
 		{
-			if ( contents[ i ].isDirectory() )
+			if ( content.isDirectory() )
 			{
-				KoLmafiaCLI.findScriptFile( contents[ i ], filename, matches );
+				KoLmafiaCLI.findScriptFile( content, filename, matches );
 			}
 		}
 	}
@@ -1187,9 +1187,9 @@ public class KoLmafiaCLI
 		StringBuilder buf = new StringBuilder();
 		buf.append( "<select onchange='if (this.selectedIndex>0) { top.mainpane.location=this.options[this.selectedIndex].value; this.options[0].selected=true;}'><option>-run script-</option>" );
 		File[] files = DataUtilities.listFiles( KoLConstants.RELAY_LOCATION );
-		for ( int i = 0; i < files.length; ++i )
+		for ( File file : files )
 		{
-			String name = files[ i ].getName();
+			String name = file.getName();
 			if ( name.startsWith( "relay_" ) && name.endsWith( ".ash" ) )
 			{
 				any = true;
@@ -1197,7 +1197,7 @@ public class KoLmafiaCLI
 				buf.append( name );
 				buf.append( "'>" );
 				name = name.replace( "_", " " );
-				buf.append( name.substring( 6, name.length() - 4 ) );
+				buf.append( name, 6, name.length() - 4 );
 				buf.append( "</option>" );
 			}
 		}

@@ -55,8 +55,8 @@ import net.sourceforge.kolmafia.textui.parsetree.Function.MatchType;
 public class JavascriptAshStub
 	extends BaseFunction
 {
-	private ScriptRuntime controller;
-	private String ashFunctionName;
+	private final ScriptRuntime controller;
+	private final String ashFunctionName;
 	
 	public JavascriptAshStub( ScriptRuntime controller, String ashFunctionName )
 	{
@@ -152,7 +152,7 @@ public class JavascriptAshStub
 			throw controller.runtimeException( Parser.undefinedFunctionMessage( ashFunctionName, ashArgs ) );
 		}
 
-		List<Object> ashArgsWithInterpreter = new ArrayList<Object>();
+		List<Object> ashArgsWithInterpreter = new ArrayList<>();
 		ashArgsWithInterpreter.add(controller);
 		ashArgsWithInterpreter.addAll(ashArgs);
 		Value ashReturnValue = ashFunction.executeWithoutInterpreter( controller, ashArgsWithInterpreter.toArray() );
