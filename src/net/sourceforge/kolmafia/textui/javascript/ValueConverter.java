@@ -73,14 +73,29 @@ public class ValueConverter {
 		for ( Value key : mapValue.keys() )
 		{
 			Value value = mapValue.aref( key );
-			String keyString = key.contentString;
-			if ( key.getType().equals( DataTypes.INT_TYPE ) )
+			String keyString = null;
+			if ( key.getType().equals(DataTypes.STRING_TYPE) )
+			{
+				keyString = key.contentString;
+			}
+			else if ( key.getType().equals( DataTypes.INT_TYPE ) )
 			{
 				keyString = Long.toString( key.contentLong );
 			}
-			else if ( !key.getType().equals( DataTypes.STRING_TYPE ) )
+			else if ( DataTypes.enumeratedTypes.contains( key.getType() ) )
 			{
-				throw new ScriptException( "Maps may only have string keys." );
+				if ( key.contentString.length() > 0 )
+				{
+					keyString = key.contentString;
+				}
+				else if ( key.contentLong > 0 )
+				{
+					keyString = Long.toString( key.contentLong );
+				}
+			}
+			else 
+			{
+				throw new ScriptException( "Maps may only have keys of type string, int or an enumerated type." );
 			}
 			ScriptableObject.putProperty( result, keyString, asJava( value ) );
 		}
