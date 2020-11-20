@@ -39,7 +39,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import org.mozilla.javascript.ConsString;
 import org.mozilla.javascript.Context;
@@ -54,12 +53,13 @@ import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
 import net.sourceforge.kolmafia.textui.parsetree.MapValue;
 import net.sourceforge.kolmafia.textui.parsetree.ProxyRecordValue;
+import net.sourceforge.kolmafia.textui.parsetree.RecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 
 public class ValueConverter {
-	private Context cx;
-	private Scriptable scope;
+	private final Context cx;
+	private final Scriptable scope;
 
 	public ValueConverter( Context cx, Scriptable scope )
 	{
@@ -74,11 +74,31 @@ public class ValueConverter {
 		{
 			Value value = mapValue.aref( key );
 			String keyString = key.contentString;
-			if ( value.getType().equals( DataTypes.INT_TYPE ) )
+			if ( key.getType().equals( DataTypes.INT_TYPE ) )
 			{
-				keyString = Long.toString(key.contentLong);
+				keyString = Long.toString( key.contentLong );
 			}
-			else if ( !value.getType().equals( DataTypes.STRING_TYPE ) )
+			else if ( !key.getType().equals( DataTypes.STRING_TYPE ) )
+			{
+				throw new ScriptException( "Maps may only have string keys." );
+			}
+			ScriptableObject.putProperty( result, keyString, asJava( value ) );
+		}
+		return result;
+	}
+
+	private Scriptable asObject( RecordValue recordValue )
+	{
+		Scriptable result = cx.newObject( scope );
+		for ( Value key : recordValue.keys() )
+		{
+			Value value = recordValue.aref( key );
+			String keyString = key.contentString;
+			if ( key.getType().equals( DataTypes.INT_TYPE ) )
+			{
+				keyString = Long.toString( key.contentLong );
+			}
+			else if ( !key.getType().equals( DataTypes.STRING_TYPE ) )
 			{
 				throw new ScriptException( "Maps may only have string keys." );
 			}
@@ -89,12 +109,7 @@ public class ValueConverter {
 
 	private Scriptable asNativeArray( ArrayValue arrayValue )
 	{
-		return cx.newArray( scope,
-			Arrays.asList( (Value[]) arrayValue.content )
-				.stream()
-				.map( value -> asJava( value ) )
-				.collect( Collectors.toList() )
-				.toArray() );
+		return cx.newArray( scope, Arrays.stream( (Value[]) arrayValue.content ).map( this::asJava ).toArray() );
 	}
 
 	public Object asJava( Value value )
@@ -141,6 +156,10 @@ public class ValueConverter {
 		{
 			return new EnumeratedWrapper( value.asProxy().getClass(), value );
 		}
+		else if ( value instanceof RecordValue )
+		{
+			return asObject( (RecordValue) value );
+		}
 		else
 		{
 			// record type, ...?
@@ -179,7 +198,7 @@ public class ValueConverter {
 	{
 		if ( nativeObject.size() == 0 )
 		{
-			if ( typeHint != null && typeHint instanceof AggregateType && ((AggregateType) typeHint).getSize() < 0 )
+			if ( typeHint instanceof AggregateType && ((AggregateType) typeHint).getSize() < 0 )
 			{
 				AggregateType aggregateTypeHint = (AggregateType) typeHint;
 				return new MapValue( new AggregateType( aggregateTypeHint.getDataType(), aggregateTypeHint.getIndexType() ) );
@@ -204,7 +223,7 @@ public class ValueConverter {
 			break;
 		}
 
-		Map<Value, Value> underlyingMap = new TreeMap<Value, Value>();
+		Map<Value, Value> underlyingMap = new TreeMap<>();
 		for ( Entry<?, ?> entry : nativeObject.entrySet() )
 		{
 			Value key = fromJava( entry.getKey() );
@@ -226,16 +245,11 @@ public class ValueConverter {
 		return new MapValue( new AggregateType( dataType, indexType ), underlyingMap );
 	}
 
-	private MapValue convertNativeObject( NativeObject nativeObject )
-	{
-		return convertNativeObject( nativeObject, null );
-	}
-
 	private ArrayValue convertNativeArray( NativeArray nativeArray, Type typeHint )
 	{
 		if ( nativeArray.size() == 0 )
 		{
-			if ( typeHint != null && typeHint instanceof AggregateType && ((AggregateType) typeHint).getSize() >= 0 )
+			if ( typeHint instanceof AggregateType && ((AggregateType) typeHint).getSize() >= 0 )
 			{
 				AggregateType aggregateTypeHint = (AggregateType) typeHint;
 				return new ArrayValue( new AggregateType( aggregateTypeHint.getDataType(), 0) );
@@ -248,7 +262,7 @@ public class ValueConverter {
 
 		Type elementType = fromJava( nativeArray.get( 0 ) ).getType();
 		List<Value> result = new ArrayList<>();
-		for ( Object element : (NativeArray) nativeArray )
+		for ( Object element : nativeArray )
 		{
 			result.add( fromJava( element ) );
 		}
@@ -288,7 +302,7 @@ public class ValueConverter {
 		}
 		else if ( object instanceof NativeObject )
 		{
-			return convertNativeObject( (NativeObject) object );
+			return convertNativeObject( (NativeObject) object, typeHint );
 		}
 		else if ( object instanceof NativeArray )
 		{
