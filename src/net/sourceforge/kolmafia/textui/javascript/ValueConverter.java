@@ -308,6 +308,10 @@ public class ValueConverter {
 		{
 			return convertNativeArray( (NativeArray) object, typeHint );
 		}
+		else if ( object instanceof Value )
+		{
+			return (Value) object;
+		}
 		else
 		{
 			return null;
