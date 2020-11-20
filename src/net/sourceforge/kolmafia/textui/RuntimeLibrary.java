@@ -2777,7 +2777,7 @@ public abstract class RuntimeLibrary
 
 	public static Value cli_execute( ScriptRuntime controller, final Value string )
 	{
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( string.toString() );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( string.toString(), controller );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -2787,7 +2787,7 @@ public abstract class RuntimeLibrary
 		PrintStream out = new PrintStream( ostream );
 
 		RequestLogger.openCustom( out );
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( string.toString() );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( string.toString(), controller );
 		RequestLogger.closeCustom();
 
 		return new Value( ostream.toString() );
