@@ -92,6 +92,8 @@ public class TurnCounter
 			{
 				if ( this.exemptions == TurnCounter.ALL_LOCATIONS )
 				{
+					this.parsedLabel = this.parsedLabel.substring( 0, pos ).trim();
+					pos = this.parsedLabel.lastIndexOf( " " );
 					continue;
 				}
 
