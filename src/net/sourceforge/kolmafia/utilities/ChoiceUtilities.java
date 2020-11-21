@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia.utilities;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -183,7 +182,7 @@ public class ChoiceUtilities
 			return rv;
 		}
 
-		Object[][] possibleDecisions = ChoiceManager.choiceSpoilers( ChoiceManager.lastChoice );
+		Object[][] possibleDecisions = ChoiceManager.choiceSpoilers( ChoiceManager.lastChoice, null );
 		if ( possibleDecisions == null )
 		{
 			return rv;
@@ -468,13 +467,13 @@ public class ChoiceUtilities
 			if ( field.equals( "" ) )
 			{
 			}
-			else if ( field.indexOf( "=" ) != -1 )
+			else if (field.contains("="))
 			{
 				extras.add( field );
 			}
 			else
 			{
-				errors.append( "Invalid extra field: '" + field + "'; no value supplied.\n" );
+				errors.append("Invalid extra field: '").append(field).append("'; no value supplied.\n");
 			}
 		}
 
@@ -499,7 +498,7 @@ public class ChoiceUtilities
 			// Otherwise, list all unexpected extra fields
 			for ( String extra : extras )
 			{
-				errors.append( "Choice option " + choiceOption + "does not require '" + extra + "'.\n" );
+				errors.append("Choice option ").append(choiceOption).append("does not require '").append(extra).append("'.\n");
 			}
 			return errors.toString();
 		}
@@ -528,11 +527,11 @@ public class ChoiceUtilities
 				if ( supplied == null )
 				{
 					// Did not supply a value for a field
-					errors.append( "Choice option " + choiceOption + " requires '" + name + "' but not supplied.\n" );
+					errors.append("Choice option ").append(choiceOption).append(" requires '").append(name).append("' but not supplied.\n");
 				}
 				else if ( !values.contains( supplied) )
 				{
-					errors.append( "Choice option " + choiceOption + " requires '" + name + "' but '" + supplied + "' is not a valid value.\n" );
+					errors.append("Choice option ").append(choiceOption).append(" requires '").append(name).append("' but '").append(supplied).append("' is not a valid value.\n");
 				}
 				else
 				{
@@ -550,7 +549,7 @@ public class ChoiceUtilities
 				if ( supplied == null )
 				{
 					// Did not supply a value for a field
-					errors.append( "Choice option " + choiceOption + " requires '" + name + "' but not supplied.\n" );
+					errors.append("Choice option ").append(choiceOption).append(" requires '").append(name).append("' but not supplied.\n");
 				}
 				else
 				{
@@ -563,7 +562,7 @@ public class ChoiceUtilities
 		for ( Map.Entry<String, String> supplied : suppliedFields.entrySet() )
 		{
 			String name = supplied.getKey();
-			errors.append( "Choice option " + choiceOption + "does not require '" + name + "'.\n" );
+			errors.append("Choice option ").append(choiceOption).append("does not require '").append(name).append("'.\n");
 		}
 
 		return ( errors.length() > 0 ) ? errors.toString() : null;

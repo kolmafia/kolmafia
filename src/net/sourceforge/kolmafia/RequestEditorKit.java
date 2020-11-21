@@ -64,9 +64,6 @@ import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.ImageView;
 
-import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.MonsterData;
-
 import net.sourceforge.kolmafia.chat.ChatPoller;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -142,7 +139,8 @@ public class RequestEditorKit
 	extends HTMLEditorKit
 {
 	private static final Pattern FORM_PATTERN = Pattern.compile( "name=choiceform(\\d+)" );
-	private static final Pattern OPTION_PATTERN = Pattern.compile( "name=option value=(\\d+)" );
+	public static final Pattern OPTION_PATTERN = Pattern.compile( "name=option value=(\\d+)" );
+	public static final Pattern BUTTON_TEXT_PATTERN = Pattern.compile( "type=['\"]?submit['\"]? value=['\"](.*?)['\"]", Pattern.DOTALL );
 	private static final Pattern OUTFIT_FORM_PATTERN = Pattern.compile( "<form name=outfit.*?</form>", Pattern.DOTALL );
 	private static final Pattern OPTGROUP_PATTERN = Pattern.compile( "<optgroup label=['\"]([^']*)['\"]>(.*?)</optgroup>", Pattern.DOTALL );
 	private static final Pattern NOLABEL_CUSTOM_OUTFITS_PATTERN = Pattern.compile( "\\(select an outfit\\)</option>(<option.*?)<optgroup", Pattern.DOTALL );
@@ -1171,7 +1169,7 @@ public class RequestEditorKit
 		// Iterate over all ocrs modifiers. We should only manipulate
 		// the cosmetic ones, but we can add or delete those at will.
 
-		StringBuffer ocrs = new StringBuffer();
+		StringBuilder ocrs = new StringBuilder();
 		String delimiter = "";
 
 		Matcher matcher = RequestEditorKit.OCRS_PATTERN.matcher( buffer );
@@ -2070,7 +2068,7 @@ public class RequestEditorKit
 		}
 
 		// Find the options for the choice we've encountered
-		Object[][] spoilers = ChoiceManager.choiceSpoilers( choice );
+		Object[][] spoilers = ChoiceManager.choiceSpoilers( choice, buffer );
 
 		// Some choices we don't mark up with spoilers
 		if ( ChoiceManager.noRelayChoice( choice ) )
@@ -2123,7 +2121,7 @@ public class RequestEditorKit
 				buffer.append( currentSection.substring( pos + 7 ) );
 			}
 
-			// Start spoiler text
+			// Build spoiler text
 			while ( i > 0 )
 			{
 				// Say what the choice will give you
@@ -2135,38 +2133,37 @@ public class RequestEditorKit
 					break;
 				}
 
-				String name = spoiler.toString();
-				if ( name.equals( "" ) )
-				{
-					break;
-				}
+				StringBuilder spoilerBuffer = new StringBuilder( spoiler.toString() );
 
-				buffer.append( "<br><font size=-1>(" );
-				buffer.append( name );
-	
 				// If this decision has an item associated with it, annotate it
 				if ( spoiler instanceof ChoiceManager.Option )
 				{
 					AdventureResult item = ((ChoiceManager.Option)spoiler).getItem();
-	
+
 					// If this decision leads to an item...
 					if ( item != null )
 					{
 						// List # in inventory
-						buffer.append( "<img src=\"/images/itemimages/magnify.gif\" valign=middle onclick=\"descitem('" );
-						buffer.append( ItemDatabase.getDescriptionId( item.getItemId() ) );
-						buffer.append( "');\">" );
-	
+						spoilerBuffer.append( "<img src=\"/images/itemimages/magnify.gif\" valign=middle onclick=\"descitem('" );
+						spoilerBuffer.append( ItemDatabase.getDescriptionId( item.getItemId() ) );
+						spoilerBuffer.append( "');\">" );
+
 						int available = KoLCharacter.hasEquipped( item ) ? 1 : 0;
 						available += item.getCount( KoLConstants.inventory );
-	
-						buffer.append( available );
-						buffer.append( " in inventory" );
+
+						spoilerBuffer.append( available );
+						spoilerBuffer.append( " in inventory" );
 					}
 				}
-	
-				// Finish spoiler text
-				buffer.append( ")</font>" );
+
+				if ( spoilerBuffer.length() != 0 )
+				{
+					// Add spoiler text
+					buffer.append( "<br><font size=-1>(" );
+					buffer.append( spoilerBuffer );
+					buffer.append( ")</font>" );
+				}
+
 				break;
 			}
 			buffer.append( "</form>" );
@@ -2791,12 +2788,10 @@ public class RequestEditorKit
 				StringBuilder actionString = new StringBuilder();
 				actionString.append( action );
 
-				for ( int i = 0; i < elements.length; ++i )
-				{
-					if ( elements[ i ] != null )
-					{
-						actionString.append( '&' );
-						actionString.append( elements[ i ] );
+				for (String element : elements) {
+					if (element != null) {
+						actionString.append('&');
+						actionString.append(element);
 					}
 				}
 
@@ -2810,11 +2805,9 @@ public class RequestEditorKit
 				formSubmitter.constructURLString( action );
 				if ( elements[ 0 ].length() > 0 )
 				{
-					for ( int i = 0; i < elements.length; ++i )
-					{
-						if ( elements[ i ] != null )
-						{
-							formSubmitter.addEncodedFormField( elements[ i ] );
+					for (String element : elements) {
+						if (element != null) {
+							formSubmitter.addEncodedFormField(element);
 						}
 					}
 				}
@@ -2845,12 +2838,10 @@ public class RequestEditorKit
 			}
 
 			Frame[] frames = Frame.getFrames();
-			for ( int i = 0; i < frames.length; ++i )
-			{
-				if ( frames[ i ] instanceof RequestFrame &&
-					((RequestFrame) frames[ i ]).mainDisplay == c )
-				{
-					return (RequestFrame) frames[ i ];
+			for (Frame frame : frames) {
+				if (frame instanceof RequestFrame &&
+						((RequestFrame) frame).mainDisplay == c) {
+					return (RequestFrame) frame;
 				}
 			}
 			return null;

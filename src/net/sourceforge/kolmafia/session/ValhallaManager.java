@@ -77,6 +77,7 @@ import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.MonorailManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
 
 import net.sourceforge.kolmafia.utilities.AdventureResultArray;
@@ -361,7 +362,7 @@ public class ValhallaManager
 		}
 	}
 
-	private static final void resetMoonsignCafes()
+	private static void resetMoonsignCafes()
 	{
 		// Change available items if they've changed due to ascension.
 		if ( KoLCharacter.inBadMoon() && KoLConstants.kitchenItems.isEmpty() )
@@ -390,7 +391,7 @@ public class ValhallaManager
 		}
 	}
 
-	private static final void logNewAscension()
+	private static void logNewAscension()
 	{
 		PrintStream sessionStream = RequestLogger.getSessionStream();
 
@@ -431,7 +432,7 @@ public class ValhallaManager
 		sessionStream.println();
 	}
 
-	public static final void resetPerAscensionCounters()
+	public static void resetPerAscensionCounters()
 	{
 		Preferences.setString( "banishingShoutMonsters", "" );
 		Preferences.setFloat( "slimelingFullness", 0.0F );
@@ -559,6 +560,7 @@ public class ValhallaManager
 		Preferences.setInteger( "drippyJuice", 0 );
 		Preferences.setBoolean( "lockPicked", false );
 		Preferences.setBoolean( "leafletCompleted", false );
+		MonorailManager.resetMuffinOrder();
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );
 		Preferences.setString( "crappyCameraMonster", "" );
