@@ -447,7 +447,7 @@ public abstract class ChoiceManager
 		private final int ordering;
 
 		private final Object[] options;
-		private Object[][] spoilers;
+		private final Object[][] spoilers;
 
 		public ChoiceAdventure( final String zone, final String setting, final String name, final Object[] options )
 		{
@@ -4954,7 +4954,7 @@ public abstract class ChoiceManager
 		}
 	}
 
-	public static final Object[][] choiceSpoilers( final int choice )
+	public static final Object[][] choiceSpoilers( final int choice, final StringBuffer buffer )
 	{
 		Object[][] spoilers;
 
@@ -4974,6 +4974,13 @@ public abstract class ChoiceManager
 
 		// Nope. See if it's in the Louvre
 		spoilers = LouvreManager.choiceSpoilers( choice );
+		if ( spoilers != null )
+		{
+			return spoilers;
+		}
+
+		// Nope. See if it's On a Downtown Train
+		spoilers = MonorailManager.choiceSpoilers( choice, buffer );
 		if ( spoilers != null )
 		{
 			return spoilers;
@@ -7882,20 +7889,25 @@ public abstract class ChoiceManager
 			// We must deduce what is happening by looking at the
 			// response text
 
-			// We submitted a choice. If we are buying a muffin,
-			// remove the muffin tin here, since the response is
-			// indistinguishable from simply visiting the Breakfast
-			// Counter with a muffin on order.
-			//
-			// Therefore, look at the previous response. If it is
-			// selling muffins and we jut bought a muffin, remove
-			// the muffin tin.
 
-			if ( ChoiceManager.lastResponseText != null &&
-			     ChoiceManager.lastResponseText.contains( "Order a blueberry muffin" ) &&
-			     text.contains( "muffin is not yet ready" ) )
+			if ( text.contains( "muffin is not yet ready" ) )
 			{
-				ResultProcessor.processResult( ItemPool.get( ItemPool.EARTHENWARE_MUFFIN_TIN, -1 ) );
+				Preferences.setBoolean( "_muffinOrderedToday", true );
+
+				// We submitted a choice. If we are buying a muffin,
+				// remove the muffin tin here, since the response is
+				// indistinguishable from simply visiting the Breakfast
+				// Counter with a muffin on order.
+				//
+				// Therefore, look at the previous response. If it is
+				// selling muffins and we jut bought a muffin, remove
+				// the muffin tin.
+
+				if ( ChoiceManager.lastResponseText != null &&
+				     ChoiceManager.lastResponseText.contains( "Order a blueberry muffin" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.EARTHENWARE_MUFFIN_TIN, -1 ) );
+				}
 			}
 			break;
 		}
@@ -18374,7 +18386,7 @@ public abstract class ChoiceManager
 	private static final String choiceDescription( final int choice, final int decision )
 	{
 		// If we have spoilers for this choice, use that
-		Object[][] spoilers = ChoiceManager.choiceSpoilers( choice );
+		Object[][] spoilers = ChoiceManager.choiceSpoilers( choice, null );
 		if ( spoilers != null && spoilers.length > 2 )
 		{
 			Object spoiler = ChoiceManager.choiceSpoiler( choice, decision, spoilers[ 2 ] );
