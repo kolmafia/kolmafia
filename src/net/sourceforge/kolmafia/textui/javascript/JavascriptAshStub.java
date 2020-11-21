@@ -105,6 +105,12 @@ public class JavascriptAshStub
 			throw new ScriptInterruptException();
 		}
 
+		if ( ashFunctionName.equals( "to_string" ) && args.length == 0 )
+		{
+			// Special case, since we accidentally override JS's built-in toString.
+			return "[runtime library]";
+		}
+
 		ValueConverter coercer = new ValueConverter( cx, scope );
 
 		// Find library function matching arguments, in two stages.
