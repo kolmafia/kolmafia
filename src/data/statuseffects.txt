@@ -2580,7 +2580,7 @@
 2578	Entauntauned	batgut.gif	297ee9fadfb5560e5142e0b3a88456db	neutral	none
 2579	You Have Ever Seen The Rain	saucedrops.gif	1811ff37102a4be344fc634b73d30d34	good	none	use 1 redwood rain stick
 2580	Goo Vibrations	greygooball.gif	e31c54ee309cf40ebc6f7c00982ad46f	neutral	none
-2581	Wary	nopic.gif	796f91fe28ae74fa96189fa17bbf37d7	good	none	cargo effect Wary
+2581	Wary	archedeyebrow.gif	796f91fe28ae74fa96189fa17bbf37d7	good	none	cargo effect Wary
 2582	Joke-Mad	angry.gif	90db65d923857548df90f5e4990201cd	neutral	nohookah	cargo effect Joke-Mad
 2583	Sizzlin' Hand	pocket.gif	8065d54cd3fb8d39583c7f2a426ddd8a	good	nohookah	cargo effect Sizzlin' Hand
 2584	Frosty Hand	pocket.gif	5e365d8957c31ca063c4aa66c0b60640	good	none	cargo effect Frosty Hand

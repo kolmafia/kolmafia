@@ -5748,6 +5748,7 @@ Effect	Godfather of Soul Patch	Avatar: "funky pirate"
 Effect	Going Ape	Item Drop: +30
 Effect	Goldentongue	Moxie Percent: +100
 Effect	Gonna Get You, Sucker	Muscle: +5, Mysticality: +5, Moxie: +5
+Effect	Goo Vibrations	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 Effect	Good Chance of Surviving Hell	Hot Resistance: +5
 Effect	Good Karma	Mysticality: +5
 Effect	Good Motivator	Initiative: +25
@@ -9874,8 +9875,8 @@ Item	yellow candy heart	Effect: "Heart of Yellow", Effect Duration: 10
 Item	yellow pixel potion	Effect: "WAKKA WAKKA WAKKA", Effect Duration: 20
 Item	yellow seashell	Effect: "Boisterous Oysterous", Effect Duration: 20
 Item	yellow snowcone	Effect: "Yellow Tongue", Effect Duration: 20
-Item	Yeg's Motel hand soap	Effect: "Sigils of Yeg", Effect Duration: 20
-Item	Yeg's Motel mouthwash	Effect: "Breath of Yeg", Effect Duration: 20
+Item	Yeg's Motel hand soap	Effect: "Sigils of Yeg", Effect Duration: 50
+Item	Yeg's Motel mouthwash	Effect: "Breath of Yeg", Effect Duration: 50
 Item	Yeg's Motel toothbrush	Effect: "Rictus of Yeg", Effect Duration: 50
 Item	Yolo&trade; chocolates	Effect: "Yoloswagyoloswag", Effect Duration: 5
 Item	Yummy Tummy bean	Effect: "Sugar Rush", Effect Duration: 3
