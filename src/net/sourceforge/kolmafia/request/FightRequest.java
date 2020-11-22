@@ -8276,6 +8276,12 @@ public class FightRequest
 			evilness++;
 		}
 
+		// You trench cape ripples as an evil draft blows and then quiets, it feels less evil in here!
+		if ( text.contains( "an evil draft blows" ) )
+		{
+			evilness++;
+		}
+
 		// The evil of the nightmare fuel in your system is in a different phase
 		// from the evil emanations in this area, so they cancel each other out a bit.
 		if ( text.contains( "the nightmare fuel" ) )
