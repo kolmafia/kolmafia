@@ -1,5 +1,16 @@
 <project name="KoLmafia" default="debug" basedir=".">
+<description>
+KoLmafia is an open-source Java-based helper application for the browser-based game Kingdom of Loathing.
 
+KoLmafia enriches the Kingdom of Loathing interface with additional features and shortcuts and also allows
+you to load or develop your own automation scripts to complete repetitive tasks easily.
+KoLmafia is documented at https://wiki.kolmafia.us
+
+Kingdom of Loathing is available at https//www.kingdomofloathing.com
+
+All code copyright the respective sourcecode rightsholders.  Please see copyright statements in the code for more details.
+
+</description>
 	<!-- ========================================== -->
 	<!--  set the global properties for this build  -->
 	<!-- ========================================== -->
@@ -11,6 +22,14 @@
 	<available file=".svn" property="using.svn" />
 	<available file=".git" property="using.gitsvn" />
 
+	<target name="help" description="Prints the main targets and their uses">
+		<java classname="org.apache.tools.ant.Main">
+			<arg value="-emacs" />
+			<arg value="-projecthelp" />
+		</java>
+
+	</target>
+	
 	<!-- ========================================== -->
 	<!--  create directories used by other targets  -->
 	<!-- ========================================== -->
@@ -27,7 +46,7 @@
 	<!--  update files from the repository  -->
 	<!-- ================================== -->
 
-	<target name="update">
+	<target name="update" description="Executes the svn update command in the project root directory">
 
 		<exec executable="svn" failifexecutionfails="${svn.fail.on.error}">
 			<arg value="update" />
@@ -203,7 +222,7 @@
 		</javac>
 	</target>
 
-	<target name="test" depends="test-compile">
+	<target name="test" depends="test-compile" description="Compiles, runs, and reports the results of all JUnit tests in the test directory">
 		<junit printsummary="on" haltonfailure="yes" fork="true" dir="${test}/root">
 			<jvmarg value="-Dline.separator=&#10;"/>
 			<jvmarg value="-DuseCWDasROOT=true" />
@@ -353,10 +372,10 @@
 	<!--  generate the alpha testing JAR  -->
 	<!-- ================================ -->
 
-	<target name="debug" depends="start,version">
+	<target name="debug" depends="start,version" description="Generates a KoLmafia jar from current sources for alpha testing">
 
-          <antcall target="set.released.false" />
-	  <antcall target="jar" />
+		<antcall target="set.released.false" />
+		<antcall target="jar" />
 
 	</target>
 
@@ -364,7 +383,7 @@
 	<!--  generate a daily build JAR  -->
 	<!-- ============================ -->
 
-	<target name="daily" depends="clean,init,update,version">
+	<target name="daily" depends="clean,init,update,version" description="Cleans the dist directory, updates source from SVN, and builds the KoLmafia daily jar">
 
 		<antcall target="set.released.false"/>
 
@@ -461,7 +480,8 @@
 	<!--  generate the distribution  -->
 	<!-- =========================== -->
 
-	<target name="dist" depends="clean,init,tar,jar,jsmooth,dmg">
+	<target name="dist" depends="clean,init,tar,jar,jsmooth,dmg" description="Cleans the output directories, builds KoLmafia jar, and creates distributable packages for unix, MacOS, and Windows platforms">
+
 	</target>
 
 
@@ -469,7 +489,8 @@
 	<!--  runs program with all needed libraries in the path  -->
 	<!-- ==================================================== -->
 
-	<target name="exec" depends="compile">
+	<target name="exec" depends="compile" description="Compiles and launches KoLmafia">
+
 		<java fork="true" classname="${main}" classpath="${build}" dir="${dist}">
 			<jvmarg line="${exec.vmoptions}" />
 		</java>
@@ -480,7 +501,8 @@
 	<!--  runs program with all needed libraries in the path using JRebel  -->
 	<!-- ================================================================= -->
 
-	<target name="exec-jrebel" depends="compile">
+	<target name="exec-jrebel" depends="compile" description="Compiles and launches KoLmafia using JRebel">
+
 		<copy
 			todir="${build}"
 			overwrite="true"
@@ -501,16 +523,37 @@
 	<!--  generates the release notes for the archive  -->
 	<!-- ============================================= -->
 
-	<target name="notes" depends="jar">
+	<target name="notes" depends="init" description="Creates release notes file from svn revision history">
 
-		<exec executable="svn" failifexecutionfails="false" output="${logfile}">
+		<exec executable="svn" failifexecutionfails="true" output="${logfile}">
 			<arg value="log" />
 			<arg value="-r" />
 			<arg value="${svn.revision.base}:HEAD" />
 			<arg value="${root}" />
 		</exec>
 
-		<java fork="true" classname="net.sourceforge.kolmafia.utilities.ReleaseNotes" classpath="${jarfile}" dir="${dist}" />
+		<replaceregexp file="${logfile}"
+					   match="----.*"
+					   replace=""
+					   flags="g"
+					   byline="true" />
+		<replaceregexp file="${logfile}"
+					   match="(\r?\n)\r?\n+"
+					   replace="\1"
+					   flags="g" />
+		<replaceregexp file="${logfile}"
+					   match="r(\d+).*"
+					   replace="${line.separator}Revision: [url=https://sourceforge.net/p/kolmafia/code/\1]\1[/url]"
+					   flags="g"
+					   byline="true" />
+
+
+		<concat destfile="${docs}/release.txt"
+				force="no">
+			<filelist dir="${util}"
+					  files="release-header.txt"/>
+			<filelist files="${logfile}"/>
+		</concat>
 
 		<delete file="${logfile}" failonerror="false" />
 	</target>
@@ -519,7 +562,7 @@
 	<!--  generate the javadocs from sourcecode  -->
 	<!-- ======================================= -->
 
-	<target name="javadoc" depends="init">
+	<target name="javadoc" depends="init" description="Generates javadoc files for KoLmafia">
 
 		<mkdir dir="${docs}" />
 		<mkdir dir="${docs}/api" />
