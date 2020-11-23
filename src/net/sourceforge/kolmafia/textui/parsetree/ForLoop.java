@@ -103,7 +103,7 @@ public class ForLoop
 
 		interpreter.traceIndent();
 
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( this.toString() );
 			interpreter.trace( "Initial: " + this.initial );
@@ -113,7 +113,7 @@ public class ForLoop
 		Value initialValue = this.initial.execute( interpreter );
 		interpreter.captureValue( initialValue );
 
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + initialValue );
 		}
@@ -124,7 +124,7 @@ public class ForLoop
 			return null;
 		}
 
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "Last: " + this.last );
 		}
@@ -133,7 +133,7 @@ public class ForLoop
 		Value lastValue = this.last.execute( interpreter );
 		interpreter.captureValue( lastValue );
 
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + lastValue );
 		}
@@ -144,7 +144,7 @@ public class ForLoop
 			return null;
 		}
 
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "Increment: " + this.increment );
 		}
@@ -153,7 +153,7 @@ public class ForLoop
 		Value incrementValue = this.increment.execute( interpreter );
 		interpreter.captureValue( incrementValue );
 
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + incrementValue );
 		}

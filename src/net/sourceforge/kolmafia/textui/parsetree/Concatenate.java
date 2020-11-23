@@ -68,7 +68,7 @@ public class Concatenate
 	public Value execute( final AshRuntime interpreter )
 	{
 		interpreter.traceIndent();
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "Concatenate:" );
 		}
@@ -80,7 +80,7 @@ public class Concatenate
 		for ( Value arg : this.strings )
 		{
 			interpreter.traceIndent();
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				interpreter.trace( "Arg " + (++count) + ": " + arg );
 			}
@@ -92,7 +92,7 @@ public class Concatenate
 				value = DataTypes.VOID_VALUE;
 			}
 
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + value.toQuotedString() );
 			}
@@ -110,7 +110,7 @@ public class Concatenate
 
 		Value result = new Value( buffer.toString() );
 
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "<- " + result );
 		}

@@ -58,7 +58,7 @@ public abstract class ScriptState
 	@Override
 	public Value execute( final AshRuntime interpreter )
 	{
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.traceIndent();
 			interpreter.trace( this.toString() );

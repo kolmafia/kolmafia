@@ -3700,10 +3700,7 @@ public abstract class RuntimeLibrary
 		try
 		{
 			String filter = filterFunction.toString();
-			if (controller instanceof AshRuntime)
-			{
-				Macrofier.setMacroOverride( filter, (AshRuntime) controller );
-			}
+			Macrofier.setMacroOverride( filter, controller );
 
 			RuntimeLibrary.adventure( controller, arg1, arg2 );
 		}
@@ -3733,10 +3730,7 @@ public abstract class RuntimeLibrary
 		try
 		{
 			adventure.overrideAdventuresUsed( (int) adventuresUsedValue.intValue() );
-			if (controller instanceof AshRuntime)
-			{
-				Macrofier.setMacroOverride( filterFunction.toString(), (AshRuntime) controller );
-			}
+			Macrofier.setMacroOverride( filterFunction.toString(), controller );
 			KoLmafia.redoSkippedAdventures = false;
 
 			KoLmafia.makeRequest( adventure, 1 );
@@ -6451,10 +6445,7 @@ public abstract class RuntimeLibrary
 		try
 		{
 			String filter = filterFunction.toString();
-			if (controller instanceof AshRuntime)
-			{
-				Macrofier.setMacroOverride( filter, (AshRuntime) controller );
-			}
+			Macrofier.setMacroOverride( filter, controller );
 			RequestThread.postRequest( FightRequest.INSTANCE );
 		}
 		finally

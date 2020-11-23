@@ -35,13 +35,14 @@ package net.sourceforge.kolmafia.textui.javascript;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.textui.parsetree.ProxyRecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
+import net.sourceforge.kolmafia.textui.parsetree.ProxyRecordValue.MonsterProxy;
+import net.sourceforge.kolmafia.textui.AbstractRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.ScriptException;
 import net.sourceforge.kolmafia.textui.parsetree.Symbol;
@@ -60,7 +61,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -69,20 +70,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class JavascriptRuntime
-	implements ScriptRuntime
+	extends AbstractRuntime
 {
 	static Map<Thread, JavascriptRuntime> runningRuntimes = new ConcurrentHashMap<>();
 
 	private File scriptFile = null;
 	private String scriptString = null;
 
-	private State runtimeState = State.EXIT;
-
-	// For relay scripts.
-	private RelayRequest relayRequest = null;
-	private StringBuffer serverReplyBuffer = null;
-
-	private LinkedHashMap<String, LinkedHashMap<String, StringBuilder>> batched;
+	private Scriptable currentTopScope = null;
 
 	public static String toCamelCase( String name )
 	{
@@ -145,9 +140,12 @@ public class JavascriptRuntime
 			{
 				allTypes.add( variableReference.getType() );
 			}
-			if ( allTypes.contains( DataTypes.MATCHER_TYPE ) ) continue;
+			if ( allTypes.contains( DataTypes.MATCHER_TYPE ) )
+			{
+				continue;
+			}
 
-			functions.add(libraryFunction);
+			functions.add( libraryFunction );
 		}
 		return functions;
 	}
@@ -156,12 +154,11 @@ public class JavascriptRuntime
 	{
 		Set<String> uniqueFunctionNames = new TreeSet<>( getFunctions().stream().map( Symbol::getName ).collect( Collectors.toList() ) );
 
-		Scriptable stdLib = cx.newObject(scope);
+		Scriptable stdLib = cx.newObject( scope );
 
 		for ( String libraryFunctionName : uniqueFunctionNames )
 		{
-			ScriptableObject.putProperty( stdLib, toCamelCase( libraryFunctionName ),
-						      new JavascriptAshStub( this, libraryFunctionName ) );
+			ScriptableObject.putProperty( stdLib, toCamelCase( libraryFunctionName ), new JavascriptAshStub( this, libraryFunctionName ) );
 		}
 
 		ScriptableObject.putProperty( scope, "Lib", stdLib );
@@ -191,30 +188,58 @@ public class JavascriptRuntime
 		}
 	}
 
-	public Value execute( String[] arguments )
+	public Value execute( final String functionName, final Object[] arguments, final boolean executeTopLevel )
 	{
+		if ( !executeTopLevel )
+		{
+			if ( currentTopScope == null )
+			{
+				throw new ScriptException( "Cannot run with executeTopLevel = false without running once first." );
+			}
+			return executeRun( functionName, arguments, executeTopLevel );
+		}
+
 		// TODO: Support for requesting user arguments if missing.
 		Context cx = Context.enter();
-		cx.setLanguageVersion( Context.VERSION_ES6 );
-		runningRuntimes.put( Thread.currentThread(), this );
-
-		if ( arguments == null )
-		{
-			arguments = new String[] {};
-		}
 
 		try
 		{
+			cx.setLanguageVersion( Context.VERSION_ES6 );
+			runningRuntimes.put( Thread.currentThread(), this );
+
+			// TODO: Use a shared parent scope and initialize this with that as a prototype.
 			Scriptable scope = cx.initSafeStandardObjects();
+			currentTopScope = scope;
 
-			initRuntimeLibrary(cx, scope);
-			initEnumeratedTypes(cx, scope);
+			initRuntimeLibrary( cx, scope );
+			initEnumeratedTypes( cx, scope );
 
-			setState(State.NORMAL);
+			setState( State.NORMAL );
 
-			Object returnValue = null;
+			return executeRun( functionName, arguments, executeTopLevel );
+		}
+		finally
+		{
+			EnumeratedWrapperPrototype.cleanup( cx );
+			currentTopScope = null;
+			runningRuntimes.remove( Thread.currentThread() );
+			Context.exit();
+		}
+	}
 
-			try
+	private Value executeRun( final String functionName, final Object[] arguments, final boolean executeTopLevel )
+	{
+		Context cx = Context.getCurrentContext();
+		Scriptable scope = currentTopScope;
+
+		Object[] argumentsNonNull = arguments != null ? arguments : new Object[] {};
+		Object[] runArguments = Arrays.stream( argumentsNonNull ).map( o -> o instanceof MonsterData ? new EnumeratedWrapper( MonsterProxy.class, DataTypes.makeMonsterValue( (MonsterData) o ) ) : o ).toArray();
+
+		Object returnValue = null;
+
+		try
+		{
+			if ( executeTopLevel )
 			{
 				if ( scriptFile != null )
 				{
@@ -243,8 +268,7 @@ public class JavascriptRuntime
 							}
 							catch ( IOException e )
 							{
-								KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR,
-									"JavaScript file I/O error: " + e.getMessage() );
+								KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "JavaScript file I/O error: " + e.getMessage() );
 							}
 						}
 					}
@@ -253,55 +277,47 @@ public class JavascriptRuntime
 				{
 					returnValue = cx.evaluateString( scope, scriptString, "command line", 1, null );
 				}
-				Object mainFunction = scope.get( "main", scope );
+			}
+			if ( functionName != null )
+			{
+				Object mainFunction = scope.get( functionName, scope );
 				if ( mainFunction instanceof Function )
 				{
-					returnValue = ( (Function) mainFunction ).call( cx, scope, cx.newObject(scope), arguments );
+					returnValue = ((Function) mainFunction).call( cx, scope, cx.newObject( scope ), runArguments );
 				}
 			}
-			catch ( ScriptInterruptException e )
-			{
-				// This only happens on world peace. Fall through and exit the interpreter.
-			}
-			catch ( WrappedException e )
-			{
-				Throwable unwrapped = e.getWrappedException();
-				KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR,
-					unwrapped.getMessage() + "\n" + e.getScriptStackTrace() );
-			}
-			catch ( EvaluatorException e )
-			{
-				KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR,
-					"JavaScript evaluator exception: " + e.getMessage() + "\n" + e.getScriptStackTrace() );
-			}
-			catch ( EcmaError e )
-			{
-				KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR,
-					"JavaScript error: " + e.getErrorMessage() + "\n" + e.getScriptStackTrace() ); 
-			}
-			catch ( JavaScriptException e )
-			{
-				KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR,
-					"JavaScript exception: " + e.getMessage() + "\n" + e.getScriptStackTrace() );
-			}
-			catch ( ScriptException e )
-			{
-				KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR,
-					"Script exception: " + e.getMessage() );
-			}
-			finally
-			{
-				setState(State.EXIT);
-			}
-
-			return new ValueConverter( cx, scope ).fromJava( returnValue );
+		}
+		catch ( ScriptInterruptException e )
+		{
+			// This only happens on world peace. Fall through and exit the interpreter.
+		}
+		catch ( WrappedException e )
+		{
+			Throwable unwrapped = e.getWrappedException();
+			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, unwrapped.getMessage() + "\n" + e.getScriptStackTrace() );
+		}
+		catch ( EvaluatorException e )
+		{
+			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "JavaScript evaluator exception: " + e.getMessage() + "\n" + e.getScriptStackTrace() );
+		}
+		catch ( EcmaError e )
+		{
+			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "JavaScript error: " + e.getErrorMessage() + "\n" + e.getScriptStackTrace() );
+		}
+		catch ( JavaScriptException e )
+		{
+			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "JavaScript exception: " + e.getMessage() + "\n" + e.getScriptStackTrace() );
+		}
+		catch ( ScriptException e )
+		{
+			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "Script exception: " + e.getMessage() );
 		}
 		finally
 		{
-			runningRuntimes.remove( Thread.currentThread() );
-			EnumeratedWrapperPrototype.cleanup( cx );
-			Context.exit();
+			setState( State.EXIT );
 		}
+
+		return new ValueConverter( cx, scope ).fromJava( returnValue );
 	}
 
 	public static void interruptAll()
@@ -322,41 +338,5 @@ public class JavascriptRuntime
 	public ScriptException runtimeException2( final String message1, final String message2 )
 	{
 		return new ScriptException( Context.reportRuntimeError( message1 + " " + message2 ).getMessage() );
-	}
-
-	@Override
-	public RelayRequest getRelayRequest()
-	{
-		return relayRequest;
-	}
-
-	@Override
-	public StringBuffer getServerReplyBuffer()
-	{
-		return serverReplyBuffer;
-	}
-
-	@Override
-	public State getState()
-	{
-		return runtimeState;
-	}
-
-	@Override
-	public void setState(final State newState)
-	{
-		runtimeState = newState;
-	}
-
-	@Override
-	public LinkedHashMap<String, LinkedHashMap<String, StringBuilder>> getBatched()
-	{
-		return batched;
-	}
-
-	@Override
-	public void setBatched( LinkedHashMap<String, LinkedHashMap<String, StringBuilder>> batched )
-	{
-		this.batched = batched;
 	}
 }

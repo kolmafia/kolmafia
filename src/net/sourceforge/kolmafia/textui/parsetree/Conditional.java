@@ -72,7 +72,7 @@ public abstract class Conditional
 
 		interpreter.traceIndent();
 
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( this.toString() );
 			interpreter.trace( "Test: " + this.condition );
@@ -81,7 +81,7 @@ public abstract class Conditional
 		Value conditionResult = this.condition.execute( interpreter );
 		interpreter.captureValue( conditionResult );
 
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + conditionResult );
 		}

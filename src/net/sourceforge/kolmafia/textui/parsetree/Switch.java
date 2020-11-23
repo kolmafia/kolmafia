@@ -84,12 +84,12 @@ public class Switch
 		}
 
 		interpreter.traceIndent();
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( this.toString() );
 		}
 
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "Value: " + this.condition );
 		}
@@ -97,7 +97,7 @@ public class Switch
 		Value value = this.condition.execute( interpreter );
 		interpreter.captureValue( value );
 
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + value );
 		}
@@ -122,8 +122,8 @@ public class Switch
 		{
 			for ( int index = 0; index < tests.length; ++index )
 			{
-				Value test = tests[ index ];
-				if ( AshRuntime.isTracing() )
+				Value test = tests[index];
+				if ( ScriptRuntime.isTracing() )
 				{
 					interpreter.trace( "test: " + test );
 				}
@@ -131,7 +131,7 @@ public class Switch
 				Value result = test.execute( interpreter );
 				interpreter.captureValue( result );
 
-				if ( AshRuntime.isTracing() )
+				if ( ScriptRuntime.isTracing() )
 				{
 					interpreter.trace( "[" + interpreter.getState() + "] <- " + result );
 				}

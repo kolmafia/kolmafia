@@ -74,8 +74,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LightsOutManager;
 import net.sourceforge.kolmafia.session.VoteMonsterManager;
 
-import net.sourceforge.kolmafia.textui.AshRuntime;
-
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 
 public class RecoveryManager
@@ -864,16 +863,12 @@ public class RecoveryManager
 		}
 
 		List<File> scriptFiles = KoLmafiaCLI.findScriptFile( scriptName );
-		AshRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
+		ScriptRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
 		if ( interpreter != null )
 		{
 			File scriptFile = scriptFiles.get( 0 );
 			KoLmafiaASH.logScriptExecution( "Starting recovery script: ", scriptFile.getName(), interpreter );
-			Value v = interpreter.execute( "main", new String[]
-			{
-				type,
-				String.valueOf( needed )
-			} );
+			Value v = interpreter.execute( "main", new String[] {type, String.valueOf( needed )} );
 			KoLmafiaASH.logScriptExecution( "Finished recovery script: ", scriptFile.getName(), interpreter );
 			return v != null && v.intValue() != 0;
 		}

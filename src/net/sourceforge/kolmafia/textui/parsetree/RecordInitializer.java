@@ -69,7 +69,7 @@ public class RecordInitializer
 				continue;
 			}
 
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				interpreter.trace( "Field #" + (fieldCount + 1) + ": " + fieldValue.toQuotedString() );
 			}
@@ -88,24 +88,15 @@ public class RecordInitializer
 			}
 
 			// Perform type coercion, just as an Assignment does
-			Type fieldType = types[ fieldCount ];
-			Value coercedValue =
-				fieldType.equals( DataTypes.TYPE_STRING ) ?
-				value.toStringValue() :
-				fieldType.equals( DataTypes.TYPE_INT ) ?
-				value.toIntValue() :
-				fieldType.equals( DataTypes.TYPE_FLOAT ) ?
-				value.toFloatValue() :
-				fieldType.equals( DataTypes.TYPE_BOOLEAN ) ?
-				value.toBooleanValue() :
-				value;
+			Type fieldType = types[fieldCount];
+			Value coercedValue = fieldType.equals( DataTypes.TYPE_STRING ) ? value.toStringValue() : fieldType.equals( DataTypes.TYPE_INT ) ? value.toIntValue() : fieldType.equals( DataTypes.TYPE_FLOAT ) ? value.toFloatValue() : fieldType.equals( DataTypes.TYPE_BOOLEAN ) ? value.toBooleanValue() : value;
 
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + coercedValue.toQuotedString() );
 			}
 
-			content[ fieldCount ] = coercedValue;
+			content[fieldCount] = coercedValue;
 			fieldCount++;
 		}
 

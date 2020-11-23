@@ -64,7 +64,7 @@ public class Catch
 		}
 
 		interpreter.traceIndent();
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "Evaluating catch body" );
 		}
@@ -95,7 +95,7 @@ public class Catch
 			interpreter.captureValue( scopeValue );
 		}
 
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "Returning '" + errorMessage + "'" );
 		}

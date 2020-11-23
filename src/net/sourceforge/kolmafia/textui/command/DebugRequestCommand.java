@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.listener.ListenerRegistry;
 
 import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class DebugRequestCommand
 	extends AbstractCommand
@@ -100,11 +101,11 @@ public class DebugRequestCommand
 			command = split.length < 2 ? "" : split[ 1 ];
 			if ( command.equals( "" ) || command.equals( "on" ) )
 			{
-				AshRuntime.openTraceStream();
+				ScriptRuntime.openTraceStream();
 			}
 			else if ( command.equals( "off" ) )
 			{
-				AshRuntime.closeTraceStream();
+				ScriptRuntime.closeTraceStream();
 			}
 		}
 		else if ( command.equals( "listener" ) )

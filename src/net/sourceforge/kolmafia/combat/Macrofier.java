@@ -61,7 +61,7 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 
@@ -72,7 +72,7 @@ import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 public class Macrofier
 {
 	private static String macroOverride = null;
-	private static AshRuntime macroInterpreter = null;
+	private static ScriptRuntime macroInterpreter = null;
 
 	private static final Pattern ALLCALLS_PATTERN = Pattern.compile( "call (\\w+)" );
 	private static final Pattern ALLSUBS_PATTERN = Pattern.compile( "sub (\\w+)([\\s;\\n]+endsub)?" );
@@ -83,7 +83,7 @@ public class Macrofier
 		Macrofier.macroInterpreter = null;
 	}
 
-	public static void setMacroOverride( String macroOverride, AshRuntime interpreter )
+	public static void setMacroOverride( String macroOverride, ScriptRuntime interpreter )
 	{
 		if ( macroOverride == null || macroOverride.length() == 0 )
 		{

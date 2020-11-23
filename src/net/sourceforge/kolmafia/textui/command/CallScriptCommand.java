@@ -191,21 +191,28 @@ public class CallScriptCommand
 				GenericFrame.compileScripts( true );
 			}
 
-			// Allow the ".ash" to appear anywhere in the filename
+			// Allow the ".ash" or ".js" to appear anywhere in the filename
 			// in a case-insensitive manner.
 
-			if ( CallScriptCommand.ASHNAME_PATTERN.matcher( scriptFile.getPath() ).find() )
+			if ( CallScriptCommand.ASHNAME_PATTERN.matcher( scriptFile.getPath() ).find() || CallScriptCommand.JSNAME_PATTERN.matcher( scriptFile.getPath() ).find() )
 			{
+				ScriptRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFile );
+
+				if ( !command.equals( "call" ) && interpreter instanceof JavascriptRuntime )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "Cannot use command " + command + " with JavaScript scripts." );
+					return;
+				}
+
 				// If there's an alternate namespace being
 				// used, then be sure to switch.
 
 				if ( command.equals( "validate" ) || command.equals( "verify" ) || command.equals( "check" ) )
 				{
-					AshRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFile );
-					if ( interpreter != null )
+					if ( interpreter instanceof AshRuntime )
 					{
 						RequestLogger.printLine();
-						KoLmafiaASH.showUserFunctions( interpreter, "" );
+						KoLmafiaASH.showUserFunctions( (AshRuntime) interpreter, "" );
 
 						RequestLogger.printLine();
 						RequestLogger.printLine( "Script verification complete." );
@@ -216,18 +223,18 @@ public class CallScriptCommand
 
 				if ( command.equals( "profile" ) )
 				{
-					AshRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFile );
-					if ( interpreter != null )
+					if ( interpreter instanceof AshRuntime )
 					{
+						AshRuntime ashInterpreter = (AshRuntime) interpreter;
 						Profiler prof = Profiler.create( "toplevel" );
 						long t0 = System.nanoTime();
 						prof.net0 = t0;
-						interpreter.profiler = prof;
+						ashInterpreter.profiler = prof;
 
 						for ( int i = 0; i < runCount && KoLmafia.permitsContinue(); ++i )
 						{
 							KoLmafiaASH.logScriptExecution( "Starting ASH script: ", scriptFile.getName(), interpreter );
-							interpreter.execute( "main", arguments );
+							ashInterpreter.execute( "main", arguments );
 							KoLmafiaASH.logScriptExecution( "Finished ASH script: ", scriptFile.getName(), interpreter );
 						}
 
@@ -235,7 +242,7 @@ public class CallScriptCommand
 						prof.total = t1 - t0;
 						prof.net += t1 - prof.net0;
 						prof.finish();
-						interpreter.profiler = null;
+						ashInterpreter.profiler = null;
 						RequestLogger.printLine( Profiler.summary() );
 					}
 					return;
@@ -244,7 +251,6 @@ public class CallScriptCommand
 				// If there's an alternate namespace being
 				// used, then be sure to switch.
 
-				AshRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFile );
 				if ( interpreter != null )
 				{
 					try
@@ -254,9 +260,9 @@ public class CallScriptCommand
 
 						for ( int i = 0; i < runCount && KoLmafia.permitsContinue(); ++i )
 						{
-							KoLmafiaASH.logScriptExecution( "Starting ASH script: ", scriptFile.getName(), interpreter );
+							KoLmafiaASH.logScriptExecution( "Starting script: ", scriptFile.getName(), interpreter );
 							interpreter.execute( "main", arguments );
-							KoLmafiaASH.logScriptExecution( "Finished ASH script: ", scriptFile.getName(), interpreter );
+							KoLmafiaASH.logScriptExecution( "Finished script: ", scriptFile.getName(), interpreter );
 						}
 					}
 					finally
@@ -264,16 +270,6 @@ public class CallScriptCommand
 						interpreter.finishRelayScript();
 					}
 				}
-			}
-			else if ( CallScriptCommand.JSNAME_PATTERN.matcher( scriptFile.getPath() ).find() )
-			{
-				if ( !command.equals("call") )
-				{
-					KoLmafia.updateDisplay(
-						MafiaState.ERROR, "Cannot use command " + command + " with JavaScript scripts." );
-				}
-				JavascriptRuntime runtime = new JavascriptRuntime( scriptFile );
-				runtime.execute( arguments );
 			}
 			else
 			{

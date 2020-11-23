@@ -66,11 +66,11 @@ public class Try
 
 		Value result = DataTypes.VOID_VALUE;
 		interpreter.traceIndent();
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "Entering try body" );
 		}
-		
+
 		try
 		{
 			result = this.body.execute( interpreter );
@@ -95,7 +95,7 @@ public class Try
 				KoLmafia.forceContinue();
 				interpreter.setState( ScriptRuntime.State.NORMAL );
 
-				if ( AshRuntime.isTracing() )
+				if ( ScriptRuntime.isTracing() )
 				{
 					interpreter.trace( "Entering finally, saved state: " + oldState );
 				}
