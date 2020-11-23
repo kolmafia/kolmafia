@@ -72,7 +72,7 @@ import java.util.stream.Collectors;
 public class JavascriptRuntime
 	extends AbstractRuntime
 {
-	static Map<Thread, JavascriptRuntime> runningRuntimes = new ConcurrentHashMap<>();
+	static final Map<Thread, JavascriptRuntime> runningRuntimes = new ConcurrentHashMap<>();
 
 	private File scriptFile = null;
 	private String scriptString = null;
@@ -112,10 +112,7 @@ public class JavascriptRuntime
 			return null;
 		}
 
-		StringBuilder result = new StringBuilder();
-		result.append( Character.toUpperCase( name.charAt( 0 ) ) );
-		result.append( name.substring( 1 ) );
-		return result.toString();
+		return Character.toUpperCase( name.charAt( 0 ) ) + name.substring( 1 );
 	}
 
 	public JavascriptRuntime( File scriptFile )
@@ -152,13 +149,13 @@ public class JavascriptRuntime
 
 	private void initRuntimeLibrary( Context cx, Scriptable scope )
 	{
-		Set<String> uniqueFunctionNames = new TreeSet<>( getFunctions().stream().map( Symbol::getName ).collect( Collectors.toList() ) );
+		Set<String> uniqueFunctionNames = getFunctions().stream().map( Symbol::getName ).collect( Collectors.toCollection( TreeSet::new ) );
 
 		Scriptable stdLib = cx.newObject( scope );
 
 		for ( String libraryFunctionName : uniqueFunctionNames )
 		{
-			ScriptableObject.putProperty( stdLib, toCamelCase( libraryFunctionName ), new JavascriptAshStub( this, libraryFunctionName ) );
+			ScriptableObject.putProperty( stdLib, toCamelCase( libraryFunctionName ), new LibraryFunctionStub( this, libraryFunctionName ) );
 		}
 
 		ScriptableObject.putProperty( scope, "Lib", stdLib );
@@ -196,7 +193,7 @@ public class JavascriptRuntime
 			{
 				throw new ScriptException( "Cannot run with executeTopLevel = false without running once first." );
 			}
-			return executeRun( functionName, arguments, executeTopLevel );
+			return executeRun( functionName, arguments, false );
 		}
 
 		// TODO: Support for requesting user arguments if missing.
@@ -213,10 +210,11 @@ public class JavascriptRuntime
 
 			initRuntimeLibrary( cx, scope );
 			initEnumeratedTypes( cx, scope );
+			new SafeRequire( cx, scope ).install( scope );
 
 			setState( State.NORMAL );
 
-			return executeRun( functionName, arguments, executeTopLevel );
+			return executeRun( functionName, arguments, true );
 		}
 		finally
 		{

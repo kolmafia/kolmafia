@@ -316,6 +316,10 @@ public class ValueConverter {
 		{
 			return ((EnumeratedWrapper) object).getWrapped();
 		}
+		else if ( object instanceof AshStub )
+		{
+			return DataTypes.makeStringValue( "[function " + ((AshStub) object).getFunctionName() + "]" );
+		}
 		else if ( object instanceof NativeObject )
 		{
 			return convertNativeObject( (NativeObject) object, typeHint );
@@ -330,7 +334,7 @@ public class ValueConverter {
 		}
 		else
 		{
-			return null;
+			return DataTypes.makeStringValue( object.toString() );
 		}
 	}
 

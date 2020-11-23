@@ -58,9 +58,9 @@ import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 
 public class DataFileCache
 {
-	private static final RollingLinkedList<String> recentlyUsedList = new RollingLinkedList<>( 500 ); 
-	private static final Map<String, Long> dataFileTimestampCache = Collections.synchronizedMap(new HashMap<String, Long>());
-	private static final Map<String, byte[]> dataFileDataCache = Collections.synchronizedMap(new HashMap<String, byte[]>());
+	private static final RollingLinkedList<String> recentlyUsedList = new RollingLinkedList<>( 500 );
+	private static final Map<String, Long> dataFileTimestampCache = Collections.synchronizedMap( new HashMap<>() );
+	private static final Map<String, byte[]> dataFileDataCache = Collections.synchronizedMap( new HashMap<>() );
 
 	public static void clearCache()
 	{
@@ -68,7 +68,7 @@ public class DataFileCache
 		DataFileCache.dataFileTimestampCache.clear();
 		DataFileCache.dataFileDataCache.clear();
 	}
-	
+
 	public static File getFile( String filename, boolean readOnly )
 	{
 		if ( filename.startsWith( "http://" ) )
@@ -89,23 +89,17 @@ public class DataFileCache
 		}
 		else
 		{
-			parents = new File[]
-			{
-				KoLConstants.SCRIPT_LOCATION,
-				KoLConstants.RELAY_LOCATION,
-				KoLConstants.DATA_LOCATION,
-				KoLConstants.SESSIONS_LOCATION,
-			};
+			parents = new File[] {KoLConstants.SCRIPT_LOCATION, KoLConstants.RELAY_LOCATION, KoLConstants.DATA_LOCATION, KoLConstants.SESSIONS_LOCATION,};
 		}
 
-		for ( int i = 0; i < parents.length; ++i )
+		for ( File parent : parents )
 		{
-			File file = new File( parents[ i ], filename );
+			File file = new File( parent, filename );
 			if ( checkFile( parents, file, true ) )
 			{
 				try
 				{
-					if ( file.getCanonicalPath().startsWith( parents[ i ].getCanonicalPath() ) )
+					if ( file.getCanonicalPath().startsWith( parent.getCanonicalPath() ) )
 					{
 						return file;
 					}
@@ -119,7 +113,7 @@ public class DataFileCache
 				{
 					return null;
 				}
-				
+
 			}
 		}
 
@@ -133,17 +127,29 @@ public class DataFileCache
 		{
 			boolean withinAllowedParent = false;
 
-			for ( int i = 0; i < parents.length; ++i )
+			for ( File parent : parents )
 			{
-				if ( file.getCanonicalPath().startsWith( parents[ i ].getCanonicalPath() ) )
+				if ( file.getCanonicalPath().startsWith( parent.getCanonicalPath() ) )
 				{
 					withinAllowedParent = true;
 				}
 			}
 
-			if ( !withinAllowedParent )
+			if ( withinAllowedParent )
 			{
-				file = new File( KoLConstants.DATA_LOCATION, filename );
+				return file;
+			}
+
+			if ( readOnly )
+			{
+				return null;
+			}
+
+			file = new File( KoLConstants.DATA_LOCATION, filename );
+			if ( !file.getCanonicalPath().startsWith( KoLConstants.ROOT_LOCATION.getCanonicalPath() ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, filename + " is not within KoLmafia's directories." );
+				return null;
 			}
 
 			return file;
@@ -175,14 +181,14 @@ public class DataFileCache
 			
 			while ( file != null )
 			{
-				for ( int i = 0; i < parents.length; ++i )
+				for ( File parent : parents )
 				{
-					if ( file.equals( parents[ i ] ) )
+					if ( file.equals( parent ) )
 					{
 						return true;
 					}
 				}
-				
+
 				file = file.getParentFile();
 			}
 		}
@@ -219,7 +225,7 @@ public class DataFileCache
 
 		Long cacheModifiedTime = dataFileTimestampCache.get( sanitizedFilename );
 
-		if ( cacheModifiedTime != null && cacheModifiedTime.longValue() == modifiedTime )
+		if ( cacheModifiedTime != null && cacheModifiedTime == modifiedTime )
 		{
 			return dataFileDataCache.get( sanitizedFilename );
 		}
@@ -300,14 +306,14 @@ public class DataFileCache
 	private static void updateCache( String filename, long modifiedTime, byte[] data )
 	{
 		String recentlyUsedCheck = DataFileCache.recentlyUsedList.update( filename );
-		
+
 		if ( recentlyUsedCheck != null )
 		{
 			DataFileCache.dataFileTimestampCache.remove( filename );
 			DataFileCache.dataFileDataCache.remove( filename );
 		}
-	
-		DataFileCache.dataFileTimestampCache.put( filename, Long.valueOf( modifiedTime ) );
+
+		DataFileCache.dataFileTimestampCache.put( filename, modifiedTime );
 		DataFileCache.dataFileDataCache.put( filename, data );
 	}
 }
