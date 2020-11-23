@@ -125,7 +125,7 @@ import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
-import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
 
@@ -7391,7 +7391,7 @@ public abstract class ChoiceManager
 		}
 
 		List<File> scriptFiles = KoLmafiaCLI.findScriptFile( scriptName );
-		AshRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
+		ScriptRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
 
 		if ( interpreter == null )
 		{

@@ -67,14 +67,14 @@ public class WhileLoop
 		}
 
 		interpreter.traceIndent();
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( this.toString() );
 		}
 
 		while ( true )
 		{
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				interpreter.trace( "Test: " + this.condition );
 			}
@@ -82,7 +82,7 @@ public class WhileLoop
 			Value conditionResult = this.condition.execute( interpreter );
 			interpreter.captureValue( conditionResult );
 
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + conditionResult );
 			}

@@ -96,7 +96,7 @@ public class Assignment
 		else
 		{
 			interpreter.traceIndent();
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				interpreter.trace( "Eval: " + this.rhs );
 			}
@@ -104,7 +104,7 @@ public class Assignment
 			value = this.rhs.execute( interpreter );
 			interpreter.captureValue( value );
 
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				interpreter.trace( "Set: " + value );
 			}

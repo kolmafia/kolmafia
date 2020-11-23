@@ -78,11 +78,11 @@ public class SortBy
 		}
 
 		interpreter.traceIndent();
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( this.toString() );
 		}
-		
+
 		AggregateValue map = (AggregateValue) this.aggregate.execute( interpreter );
 		interpreter.captureValue( map );
 
@@ -97,11 +97,11 @@ public class SortBy
 		
 		for ( int i = 0; i < keys.length; ++i )
 		{
-			Value index = keys[ i ];
+			Value index = keys[i];
 			this.indexvar.setValue( interpreter, index );
 			Value value = map.aref( index, interpreter );
 			this.valuevar.setValue( interpreter, value );
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				interpreter.trace( "Element #" + i + ": " + index + " = " + value );
 			}
@@ -112,11 +112,11 @@ public class SortBy
 				return null;
 			}
 			interpreter.captureValue( sortkey );
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				interpreter.trace( "Key = " + sortkey );
 			}
-			values[ i ] = new Pair( sortkey, value );
+			values[i] = new Pair( sortkey, value );
 		}
 		
 		try

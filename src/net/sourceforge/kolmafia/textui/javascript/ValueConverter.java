@@ -47,6 +47,7 @@ import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptException;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
@@ -307,9 +308,9 @@ public class ValueConverter {
 		{
 			return DataTypes.makeStringValue( object.toString() );
 		}
-		else if ( object instanceof ProxyRecordValue )
+		else if ( object instanceof MonsterData )
 		{
-			return (ProxyRecordValue) object;
+			return DataTypes.makeMonsterValue( (MonsterData) object );
 		}
 		else if ( object instanceof EnumeratedWrapper )
 		{

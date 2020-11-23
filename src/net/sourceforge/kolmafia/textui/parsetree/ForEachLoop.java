@@ -88,7 +88,7 @@ public class ForEachLoop
 		}
 
 		interpreter.traceIndent();
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( this.toString() );
 		}
@@ -156,7 +156,7 @@ public class ForEachLoop
 			// Bind variable to key
 			variable.setValue( interpreter, key );
 
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				interpreter.trace( "Key: " + key );
 			}

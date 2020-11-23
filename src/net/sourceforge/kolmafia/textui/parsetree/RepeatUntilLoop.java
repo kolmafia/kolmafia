@@ -67,7 +67,7 @@ public class RepeatUntilLoop
 		}
 
 		interpreter.traceIndent();
-		if (AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( this.toString() );
 		}
@@ -91,7 +91,7 @@ public class RepeatUntilLoop
 				return result;
 			}
 
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				interpreter.trace( "Test: " + this.condition );
 			}
@@ -99,7 +99,7 @@ public class RepeatUntilLoop
 			conditionResult = this.condition.execute( interpreter );
 			interpreter.captureValue( conditionResult );
 
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + conditionResult );
 			}

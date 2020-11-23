@@ -110,7 +110,7 @@ import net.sourceforge.kolmafia.session.ValhallaManager;
 
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 
-import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 
@@ -1163,7 +1163,7 @@ public class GenericRequest
 		}
 
 		List<File> scriptFiles = KoLmafiaCLI.findScriptFile( scriptName );
-		AshRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
+		ScriptRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
 		if ( interpreter != null )
 		{
 			// Clear abort state so counter script and between
@@ -1173,11 +1173,7 @@ public class GenericRequest
 			KoLAdventure current = KoLAdventure.lastVisitedLocation;
 			int oldTurns = KoLCharacter.getCurrentRun();
 
-			String [] arguments = new String[]
-			{
-				expired.getLabel(),
-				String.valueOf( expired.getTurnsRemaining() )
-			};
+			String[] arguments = new String[] {expired.getLabel(), String.valueOf( expired.getTurnsRemaining() )};
 			boolean executeTopLevel = functionName.equals( "main" );
 
 			KoLmafiaASH.logScriptExecution( "Starting counter script: ", scriptName, interpreter );
@@ -1886,7 +1882,7 @@ public class GenericRequest
 
 	private boolean postClientData()
 	{
-		if ( this.shouldUpdateDebugLog() || RequestLogger.isTracing() || AshRuntime.isTracing() )
+		if ( this.shouldUpdateDebugLog() || RequestLogger.isTracing() || ScriptRuntime.isTracing() )
 		{
 			if ( this.shouldUpdateDebugLog() )
 			{
@@ -1896,9 +1892,9 @@ public class GenericRequest
 			{
 				RequestLogger.trace( "Requesting: " + this.requestURL() );
 			}
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
-				AshRuntime.println( "Requesting: " + this.requestURL() );
+				ScriptRuntime.println( "Requesting: " + this.requestURL() );
 			}
 		}
 
@@ -2086,7 +2082,7 @@ public class GenericRequest
 			return true;
 		}
 
-		if ( this.shouldUpdateDebugLog() || RequestLogger.isTracing() || AshRuntime.isTracing() )
+		if ( this.shouldUpdateDebugLog() || RequestLogger.isTracing() || ScriptRuntime.isTracing() )
 		{
 			if ( this.shouldUpdateDebugLog() )
 			{
@@ -2096,9 +2092,9 @@ public class GenericRequest
 			{
 				RequestLogger.trace( "Retrieved: " + this.requestURL() );
 			}
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
-				AshRuntime.println( "Retrieved: " + this.requestURL() );
+				ScriptRuntime.println( "Retrieved: " + this.requestURL() );
 			}
 		}
 

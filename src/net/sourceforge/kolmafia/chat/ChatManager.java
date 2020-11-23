@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.TabbedChatFrame;
 
 import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -707,32 +708,27 @@ public abstract class ChatManager
 		}
 
 		List<File> scriptFiles = KoLmafiaCLI.findScriptFile( scriptName );
-		AshRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
+		ScriptRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
 		if ( interpreter == null )
 		{
 			return;
 		}
 
 		String name = scriptFiles.get( 0 ).getName();
-		int parameterCount = interpreter.getParser().getMainMethod().getVariableReferences().size();
-		String[] scriptParameters;
+		int parameterCount = 3;
+		if ( interpreter instanceof AshRuntime )
+		{
+			parameterCount = ((AshRuntime) interpreter).getParser().getMainMethod().getVariableReferences().size();
+		}
 
+		String[] scriptParameters;
 		if ( parameterCount == 3 )
 		{
-			scriptParameters = new String[]
-			{
-				sender,
-				content,
-				channel
-			};
+			scriptParameters = new String[] {sender, content, channel};
 		}
 		else if ( channel != null && !channel.equals( "" ) )
 		{
-			scriptParameters = new String[]
-			{
-				sender,
-				content
-			};
+			scriptParameters = new String[] {sender, content};
 		}
 		else
 		{

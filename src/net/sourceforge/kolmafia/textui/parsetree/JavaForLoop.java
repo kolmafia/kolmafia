@@ -77,7 +77,7 @@ public class JavaForLoop
 
 		interpreter.traceIndent();
 
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( this.toString() );
 		}
@@ -85,7 +85,7 @@ public class JavaForLoop
 		// For all variable references, bind to initial value
 		for ( Assignment initializer : initializers )
 		{
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				interpreter.trace( "Initialize: " + initializer.getLeftHandSide() );
 			}
@@ -98,7 +98,7 @@ public class JavaForLoop
 				value = DataTypes.VOID_VALUE;
 			}
 
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + value );
 			}
@@ -113,7 +113,7 @@ public class JavaForLoop
 		while ( true )
 		{
 			// Test the exit condition
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				interpreter.trace( "Test: " + this.condition );
 			}
@@ -121,7 +121,7 @@ public class JavaForLoop
 			Value conditionResult = this.condition.execute( interpreter );
 			interpreter.captureValue( conditionResult );
 
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + conditionResult );
 			}
@@ -164,7 +164,7 @@ public class JavaForLoop
 					interpreter.setState( ScriptRuntime.State.EXIT );
 				}
 
-				if ( AshRuntime.isTracing() )
+				if ( ScriptRuntime.isTracing() )
 				{
 					interpreter.trace( "[" + interpreter.getState() + "] <- " + iresult.toQuotedString() );
 				}

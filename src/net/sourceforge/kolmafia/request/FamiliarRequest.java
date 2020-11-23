@@ -54,7 +54,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
-import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 
@@ -911,7 +911,7 @@ public class FamiliarRequest
 		// If it is something else, just log the URL
 		return false;
 	}
-	
+
 	private static final boolean invokeFamiliarScript()
 	{
 		String scriptName = Preferences.getString( "familiarScript" );
@@ -920,7 +920,7 @@ public class FamiliarRequest
 			return false;
 		}
 
-		AshRuntime interpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( scriptName ) );
+		ScriptRuntime interpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( scriptName ) );
 		if ( interpreter != null )
 		{
 			Value v = interpreter.execute( "main", null );

@@ -81,7 +81,7 @@ public class FunctionInvocation
 
 		interpreter.traceIndent();
 
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "Invoke: " + this );
 			interpreter.trace( "Function name: " + this.name );
@@ -90,7 +90,7 @@ public class FunctionInvocation
 		// Get the function name
 		Value funcValue = this.name.execute( interpreter );
 
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + funcValue );
 		}

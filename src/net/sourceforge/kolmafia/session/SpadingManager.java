@@ -43,7 +43,7 @@ import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.UseItemRequest;
-import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 
 public class SpadingManager
@@ -169,7 +169,7 @@ public class SpadingManager
 		}
 
 		List<File> scriptFiles = KoLmafiaCLI.findScriptFile( scriptName );
-		AshRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
+		ScriptRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
 
 		if ( interpreter == null )
 		{

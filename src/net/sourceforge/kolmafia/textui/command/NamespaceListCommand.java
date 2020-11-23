@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class NamespaceListCommand
 	extends AbstractCommand
@@ -58,19 +59,19 @@ public class NamespaceListCommand
 		String[] scripts = Preferences.getString( "commandLineNamespace" ).split( "," );
 		for ( int i = 0; i < scripts.length; ++i )
 		{
-			RequestLogger.printLine( scripts[ i ] );
-			List<File> matches = KoLmafiaCLI.findScriptFile( scripts[ i ] );
-			
+			RequestLogger.printLine( scripts[i] );
+			List<File> matches = KoLmafiaCLI.findScriptFile( scripts[i] );
+
 			File f = matches.size() == 1 ? matches.get( 0 ) : null;
 			if ( f == null )
 			{
 				continue;
 			}
 
-			AshRuntime interpreter = KoLmafiaASH.getInterpreter( f );
-			if ( interpreter != null )
+			ScriptRuntime interpreter = KoLmafiaASH.getInterpreter( f );
+			if ( interpreter instanceof AshRuntime )
 			{
-				KoLmafiaASH.showUserFunctions( interpreter, parameters );
+				KoLmafiaASH.showUserFunctions( (AshRuntime) interpreter, parameters );
 			}
 
 			RequestLogger.printLine();

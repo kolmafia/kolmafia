@@ -69,13 +69,13 @@ public class TernaryExpression
 	public Value execute( final AshRuntime interpreter )
 	{
 		interpreter.traceIndent();
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "Operator: ?:" );
 		}
 
 		interpreter.traceIndent();
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "Condition: " + conditional );
 		}
@@ -86,7 +86,7 @@ public class TernaryExpression
 		{
 			conditionResult = DataTypes.VOID_VALUE;
 		}
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + conditionResult.toQuotedString() );
 		}
@@ -113,7 +113,7 @@ public class TernaryExpression
 		}
 
 		interpreter.traceIndent();
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( tag + expression );
 		}
@@ -125,7 +125,7 @@ public class TernaryExpression
 			executeResult = DataTypes.VOID_VALUE;
 		}
 
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + executeResult.toQuotedString() );
 		}
@@ -141,7 +141,7 @@ public class TernaryExpression
 		{
 			executeResult = executeResult.toStringValue();
 		}
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "<- " + executeResult );
 		}

@@ -101,7 +101,7 @@ public class FunctionCall
 
 		for ( Value paramValue : this.params )
 		{
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				interpreter.trace( "Param #" + paramCount + ": " + paramValue.toQuotedString() );
 			}
@@ -113,7 +113,7 @@ public class FunctionCall
 				value = DataTypes.VOID_VALUE;
 			}
 
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + value.toQuotedString() );
 			}
@@ -124,10 +124,10 @@ public class FunctionCall
 				return null;
 			}
 
-			values[ paramCount++ ] = value;
+			values[paramCount++] = value;
 		}
 
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "Entering function " + this.target.getName() );
 		}
@@ -161,7 +161,7 @@ public class FunctionCall
 			result = this.target.execute( interpreter, values );
 		}
 
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "Function " + this.target.getName() + " returned: " + result );
 		}

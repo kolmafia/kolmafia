@@ -124,7 +124,7 @@ public class CompositeReference
 		this.index = null;
 
 		interpreter.traceIndent();
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "AREF: " + this.slice.toString() );
 		}
@@ -136,9 +136,9 @@ public class CompositeReference
 			Value exp = it.next();
 
 			interpreter.traceIndent();
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
-				interpreter.trace( "Key #" + ( i + 1 ) + ": " + exp.toQuotedString() );
+				interpreter.trace( "Key #" + (i + 1) + ": " + exp.toQuotedString() );
 			}
 
 			this.index = exp.execute( interpreter );
@@ -148,7 +148,7 @@ public class CompositeReference
 				this.index = DataTypes.VOID_VALUE;
 			}
 
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + this.index.toQuotedString() );
 			}
@@ -167,7 +167,7 @@ public class CompositeReference
 
 				// Create missing intermediate slices
 				if ( result == null )
-				{	// ...but don't actually save a proxy in the parent object
+				{        // ...but don't actually save a proxy in the parent object
 					Value temp = this.slice.initialValue( this.index );
 					this.slice.aset( this.index, temp, interpreter );
 					result = (CompositeValue) Value.asProxy( temp );
@@ -175,7 +175,7 @@ public class CompositeReference
 
 				this.slice = result;
 
-				if ( AshRuntime.isTracing() )
+				if ( ScriptRuntime.isTracing() )
 				{
 					interpreter.trace( "AREF <- " + this.slice.toString() );
 				}
@@ -202,7 +202,7 @@ public class CompositeReference
 			}
 
 			interpreter.traceIndent();
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				interpreter.trace( "AREF <- " + result.toQuotedString() );
 			}
@@ -235,7 +235,7 @@ public class CompositeReference
 					this.slice.aset( this.index, currentValue, interpreter );
 				}
 
-				if ( AshRuntime.isTracing() )
+				if ( ScriptRuntime.isTracing() )
 				{
 					interpreter.trace( "AREF <- " + currentValue.toQuotedString() );
 				}
@@ -245,7 +245,7 @@ public class CompositeReference
 
 			this.slice.aset( this.index, newValue, interpreter );
 
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				interpreter.trace( "ASET: " + newValue.toQuotedString() );
 			}
@@ -270,7 +270,7 @@ public class CompositeReference
 				result = this.slice.initialValue( this.index );
 			}
 			interpreter.traceIndent();
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				interpreter.trace( "remove <- " + result.toQuotedString() );
 			}
@@ -290,7 +290,7 @@ public class CompositeReference
 			result = this.slice.aref( index, interpreter ) != null;
 		}
 		interpreter.traceIndent();
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "contains <- " + result );
 		}

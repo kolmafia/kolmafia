@@ -93,7 +93,7 @@ public class FunctionReturn
 		}
 
 		interpreter.traceIndent();
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "Eval: " + this.returnValue );
 		}
@@ -101,7 +101,7 @@ public class FunctionReturn
 		Value result = this.returnValue.execute( interpreter );
 		interpreter.captureValue( result );
 
-		if ( AshRuntime.isTracing() )
+		if ( ScriptRuntime.isTracing() )
 		{
 			interpreter.trace( "Returning: " + result );
 		}

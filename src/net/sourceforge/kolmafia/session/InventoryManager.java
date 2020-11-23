@@ -100,7 +100,7 @@ import net.sourceforge.kolmafia.session.Limitmode;
 
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 
-import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 
@@ -1192,18 +1192,12 @@ public abstract class InventoryManager
 		}
 
 		List<File> scriptFiles = KoLmafiaCLI.findScriptFile( scriptName );
-		AshRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
+		ScriptRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
 		if ( interpreter != null )
 		{
 			File scriptFile = scriptFiles.get( 0 );
 			KoLmafiaASH.logScriptExecution( "Starting buy script: ", scriptFile.getName(), interpreter );
-			Value v = interpreter.execute( "main", new String[]
-			{
-				item.getName(),
-				String.valueOf( quantity ),
-				String.valueOf( ingredientLevel ),
-				String.valueOf( defaultBuy )
-			} );
+			Value v = interpreter.execute( "main", new String[] {item.getName(), String.valueOf( quantity ), String.valueOf( ingredientLevel ), String.valueOf( defaultBuy )} );
 			KoLmafiaASH.logScriptExecution( "Finished buy script: ", scriptFile.getName(), interpreter );
 			return v != null && v.intValue() != 0;
 		}

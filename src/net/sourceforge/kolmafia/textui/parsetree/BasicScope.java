@@ -576,7 +576,7 @@ public abstract class BasicScope
 					result = DataTypes.VOID_VALUE;
 				}
 
-				if ( AshRuntime.isTracing() )
+				if ( ScriptRuntime.isTracing() )
 				{
 					interpreter.trace( "[" + interpreter.getState() + "] <- " + result.toQuotedString() );
 				}

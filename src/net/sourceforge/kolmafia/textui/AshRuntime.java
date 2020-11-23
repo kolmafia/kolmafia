@@ -38,8 +38,6 @@ import java.io.InputStream;
 import java.io.PrintStream;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -53,7 +51,6 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 
 import net.sourceforge.kolmafia.textui.parsetree.Function;
@@ -65,9 +62,9 @@ import net.sourceforge.kolmafia.textui.parsetree.VariableList;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
-import net.sourceforge.kolmafia.utilities.NullStream;
 
-public class AshRuntime implements ScriptRuntime
+public class AshRuntime
+	extends AbstractRuntime
 {
 	protected Parser parser;
 	protected Scope scope;
@@ -76,9 +73,7 @@ public class AshRuntime implements ScriptRuntime
 
 	private static final Stack<AshRuntime> interpreterStack = new Stack<>();
 
-	private ScriptRuntime.State currentState = ScriptRuntime.State.NORMAL;
 	private boolean exiting = false;
-	private int traceIndentation = 0;
 	public Profiler profiler;
 
 	// key, then aggregate, then iterator for every active foreach loop
@@ -91,44 +86,12 @@ public class AshRuntime implements ScriptRuntime
 	// For use in LibraryFunction return values
 	private boolean hadPendingState;
 
-	// For use by RuntimeLibrary's CLI command batching feature
-	LinkedHashMap<String, LinkedHashMap<String, StringBuilder>> batched;
-
 	// For ASH stack traces.
 	private final ArrayList<CallFrame> frameStack;
 	// Limit object churn across function calls.
 	private final ArrayList<CallFrame> unusedCallFrames;
 
 	public static final int STACK_LIMIT = 10;
-
-	// For use in ASH relay scripts
-	private RelayRequest relayRequest = null;
-	private StringBuffer serverReplyBuffer = null;
-
-	// GLOBAL control of tracing
-	private static PrintStream traceStream = NullStream.INSTANCE;
-
-	public static boolean isTracing()
-	{
-		return AshRuntime.traceStream != NullStream.INSTANCE;
-	}
-
-	public static void openTraceStream()
-	{
-		AshRuntime.traceStream =
-			RequestLogger.openStream( "ASH_" + KoLConstants.DAILY_FORMAT.format( new Date() ) + ".txt", AshRuntime.traceStream, true );
-	}
-
-	public static void println(final String string )
-	{
-		AshRuntime.traceStream.println( string );
-	}
-
-	public static void closeTraceStream()
-	{
-		RequestLogger.closeStream( AshRuntime.traceStream );
-		AshRuntime.traceStream = NullStream.INSTANCE;
-	}
 
 	public AshRuntime()
 	{
@@ -137,50 +100,6 @@ public class AshRuntime implements ScriptRuntime
 		this.hadPendingState = false;
 		this.frameStack = new ArrayList<>();
 		this.unusedCallFrames = new ArrayList<>();
-	}
-
-	public void initializeRelayScript( final RelayRequest request )
-	{
-		this.relayRequest = request;
-		if ( this.serverReplyBuffer == null )
-		{
-			this.serverReplyBuffer = new StringBuffer();
-		}
-		else
-		{
-			this.serverReplyBuffer.setLength( 0 );
-		}
-
-		// Allow a relay script to execute regardless of error state
-		KoLmafia.forceContinue();
-	}
-
-	@Override
-	public RelayRequest getRelayRequest()
-	{
-		return this.relayRequest;
-	}
-
-	@Override
-	public StringBuffer getServerReplyBuffer()
-	{
-		return this.serverReplyBuffer;
-	}
-
-	public void finishRelayScript()
-	{
-		this.relayRequest = null;
-		this.serverReplyBuffer = null;
-	}
-
-	public void cloneRelayScript( final ScriptRuntime caller )
-	{
-		this.finishRelayScript();
-		if ( caller != null )
-		{
-			this.relayRequest = caller.getRelayRequest();
-			this.serverReplyBuffer = caller.getServerReplyBuffer();
-		}
 	}
 
 	public Parser getParser()
@@ -204,16 +123,11 @@ public class AshRuntime implements ScriptRuntime
 	}
 
 	@Override
-	public ScriptRuntime.State getState()
-	{
-		return this.currentState;
-	}
-
 	public void setState( final ScriptRuntime.State state )
 	{
-		this.currentState = state;
+		super.setState( state );
 
-		if (state == ScriptRuntime.State.EXIT && Preferences.getBoolean( "printStackOnAbort" ) )
+		if ( state == ScriptRuntime.State.EXIT && Preferences.getBoolean( "printStackOnAbort" ) )
 		{
 			this.printStackTrace();
 		}
@@ -266,18 +180,6 @@ public class AshRuntime implements ScriptRuntime
 		this.lineNumber = lineNumber;
 	}
 
-	private static final String indentation = " " + " " + " ";
-	public static void indentLine(final PrintStream stream, final int indent )
-	{
-		if ( stream != null && stream != NullStream.INSTANCE )
-		{
-			for ( int i = 0; i < indent; ++i )
-			{
-				stream.print( indentation );
-			}
-		}
-	}
-
 	// **************** Parsing and execution *****************
 
 	public boolean validate( final File scriptFile, final InputStream stream )
@@ -287,7 +189,7 @@ public class AshRuntime implements ScriptRuntime
 			this.parser = new Parser( scriptFile, stream, null );
 			this.scope = parser.parse();
 			this.resetTracing();
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				this.printScope( this.scope );
 			}
@@ -306,6 +208,7 @@ public class AshRuntime implements ScriptRuntime
 		}
 	}
 
+	@Override
 	public Value execute( final String functionName, final Object[] parameters )
 	{
 		String currentScript = this.getFileName() == null ? "<>" : "<" + this.getFileName() + ">";
@@ -323,6 +226,7 @@ public class AshRuntime implements ScriptRuntime
 		return this.execute( functionName, parameters, true );
 	}
 
+	@Override
 	public Value execute( final String functionName, final Object[] parameters, final boolean executeTopLevel )
 	{
 		try
@@ -354,7 +258,7 @@ public class AshRuntime implements ScriptRuntime
 
 		AshRuntime.interpreterStack.push( this );
 
-		this.currentState = ScriptRuntime.State.NORMAL;
+		setState( ScriptRuntime.State.NORMAL );
 		this.exiting = false;
 		this.resetTracing();
 
@@ -377,14 +281,14 @@ public class AshRuntime implements ScriptRuntime
 
 		if ( executeTopLevel )
 		{
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				this.trace( "Executing top-level commands" );
 			}
 			result = topScope.execute( this );
 		}
 
-		if (this.currentState == ScriptRuntime.State.EXIT)
+		if ( getState() == ScriptRuntime.State.EXIT )
 		{
 			return result;
 		}
@@ -392,16 +296,16 @@ public class AshRuntime implements ScriptRuntime
 		// Now execute main function, if any
 		if ( main != null )
 		{
-			if ( AshRuntime.isTracing() )
+			if ( ScriptRuntime.isTracing() )
 			{
 				this.trace( "Executing main function" );
 			}
 			// push to interpreter stack
 			this.pushFrame( "main" );
 
-			Object[] values = new Object[ main.getVariableReferences().size() + 1];
-			values[ 0 ] = this;
-			
+			Object[] values = new Object[main.getVariableReferences().size() + 1];
+			values[0] = this;
+
 			if ( !this.requestUserParams( main, parameters, values ) )
 			{
 				return null;
@@ -495,7 +399,7 @@ public class AshRuntime implements ScriptRuntime
 			return;
 		}
 
-		PrintStream stream = traceStream;
+		PrintStream stream = ScriptRuntime.traceStream.getStream();
 		scope.print( stream, 0 );
 
 		Function mainMethod = this.parser.getMainMethod();
@@ -628,40 +532,6 @@ public class AshRuntime implements ScriptRuntime
 		}
 	}
 
-	// **************** Tracing *****************
-
-	public final void resetTracing()
-	{
-		this.traceIndentation = 0;
-	}
-
-	private void indentLine(final int indent )
-	{
-		if ( AshRuntime.isTracing() )
-		{
-			AshRuntime.indentLine( traceStream, indent );
-		}
-	}
-
-	public final void traceIndent()
-	{
-		this.traceIndentation++ ;
-	}
-
-	public final void traceUnindent()
-	{
-		this.traceIndentation-- ;
-	}
-
-	public final void trace( final String string )
-	{
-		if ( AshRuntime.isTracing() )
-		{
-			this.indentLine( this.traceIndentation );
-			traceStream.println( string );
-		}
-	}
-
 	public final void setExiting()
 	{
 		this.exiting = true;
@@ -717,15 +587,5 @@ public class AshRuntime implements ScriptRuntime
 	public final ScriptException undefinedFunctionException( final String name, final List<Value> params )
 	{
 		return this.runtimeException( Parser.undefinedFunctionMessage( name, params ) );
-	}
-
-	@Override
-	public LinkedHashMap<String, LinkedHashMap<String, StringBuilder>> getBatched() {
-		return batched;
-	}
-
-	@Override
-	public void setBatched(LinkedHashMap<String, LinkedHashMap<String, StringBuilder>> batched) {
-		this.batched = batched;
 	}
 }
