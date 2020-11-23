@@ -262,7 +262,11 @@ public class AshRuntime
 		this.exiting = false;
 		this.resetTracing();
 
-		if ( functionName.equals( "main" ) )
+		if ( functionName == null )
+		{
+			main = null;
+		}
+		else if ( functionName.equals( "main" ) )
 		{
 			main = this.parser.getMainMethod();
 		}

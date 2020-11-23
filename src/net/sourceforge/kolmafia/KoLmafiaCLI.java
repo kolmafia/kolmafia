@@ -1154,6 +1154,7 @@ public class KoLmafiaCLI
 		if ( matches.size() == 0 && !filename.contains( "." ) )
 		{
 			findScriptFile( filename + ".ash", matches );
+			findScriptFile( filename + ".js", matches );
 			findScriptFile( filename + ".cli", matches );
 			findScriptFile( filename + ".txt", matches );
 		}
