@@ -234,6 +234,7 @@ public class RelayRequest
 		this.headers.clear();
 
 		String path = this.getBasePath();
+		String relayField = this.getFormField( "relay" );
 
 		if ( path.endsWith( ".css" ) )
 		{
@@ -263,7 +264,7 @@ public class RelayRequest
 		{
 			this.contentType = "audio/mpeg";
 		}
-		else if ( path.endsWith( ".php" ) || path.endsWith( ".html" ) || path.endsWith( ".ash" ) )
+		else if ( path.matches( ".*\\.(php|html|ash)" ) || (path.endsWith( ".js" ) && relayField != null && relayField.equals( "true" )) )
 		{
 			this.contentType = "text/html";
 		}
@@ -3584,9 +3585,10 @@ public class RelayRequest
 			return;
 		}
 
-		// If it's an ASH override script, handle it
+		// If it's an ASH/JS relay override script, handle it
 
-		if ( path.endsWith( ".ash" ) )
+		String relayField = this.getFormField( "relay" );
+		if ( path.endsWith( ".ash" ) || (path.endsWith( ".js" ) && relayField != null && relayField.equals( "true" )) )
 		{
 			if ( !KoLmafiaASH.getClientHTML( this ) )
 			{
