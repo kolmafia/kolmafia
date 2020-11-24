@@ -159,7 +159,6 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 			includeantruntime="false"
 			errorProperty="compile.failed">
 			<classpath>
-				<pathelement path="${classpath}"/>
 				<fileset dir="${lib}/jar">
 					<include name="**/*.jar"/>
 				</fileset>
@@ -216,10 +215,14 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 	<target name="test-compile" depends="compile">
 		<javac srcdir="${test}" destdir="${build}" includeantruntime="false">
 		<classpath>
-			<pathelement path="${classpath}"/>
 			<fileset dir="${lib}/testjar" includes="**/*.jar" />
 		</classpath>
 		</javac>
+		<copy todir="${build}/jar" preservelastmodified="true">
+			<fileset dir="${src}/jar">
+				<include name="**/*.jar" />
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="test" depends="test-compile" description="Compiles, runs, and reports the results of all JUnit tests in the test directory">
@@ -228,8 +231,10 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 			<jvmarg value="-DuseCWDasROOT=true" />
 			<classpath>
 				<pathelement location="${build}"/>
-				<pathelement path="${classpath}"/>
 				<fileset dir="${lib}/testjar" includes="**/*.jar" />
+				<fileset dir="${build}/jar">
+				  <include name="**/*.jar" />
+				</fileset>
 			</classpath>
 			<formatter type="brief" usefile="false" />
 			<batchtest>
@@ -408,7 +413,7 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 		</jar>
 
 	</target>
-
+	
 	<!-- ============================================ -->
 	<!--  update KoLConstants.java for Daily Builds   -->
 	<!-- ============================================ -->
@@ -480,7 +485,7 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 	<!--  generate the distribution  -->
 	<!-- =========================== -->
 
-	<target name="dist" depends="clean,init,tar,jar,jsmooth,dmg" description="Cleans the output directories, builds KoLmafia jar, and creates distributable packages for unix, MacOS, and Windows platforms">
+	<target name="dist" depends="clean,init,test,tar,jar,jsmooth,dmg" description="Cleans the output directories, builds KoLmafia jar, and creates distributable packages for unix, MacOS, and Windows platforms">
 
 	</target>
 
@@ -491,7 +496,12 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 
 	<target name="exec" depends="compile" description="Compiles and launches KoLmafia">
 
-		<java fork="true" classname="${main}" classpath="${build}" dir="${dist}">
+		<copy todir="${build}/jar" preservelastmodified="true">
+			<fileset dir="${src}/jar">
+				<include name="**/*.jar" />
+			</fileset>
+		</copy>
+		<java fork="true" classname="${main}" classpath="${build}:${build}/jar/*" dir="${dist}">
 			<jvmarg line="${exec.vmoptions}" />
 		</java>
 	</target>
@@ -514,7 +524,7 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 			match="kolmafia"
 			replace="${basedir}/${build}" />
 
-		<java fork="true" classname="${main}" classpath="${build}" dir="${dist}">
+		<java fork="true" classname="${main}" classpath="${build}:${build}/jar/*" dir="${dist}">
 			<jvmarg line="-javaagent:${jrebel.file} ${exec.vmoptions}" />
 		</java>
 	</target>
@@ -569,11 +579,14 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 
 		<javadoc sourcepath="${src}" destdir="${docs}" packagenames="*">
 
-			<link href="http://download.oracle.com/javase/1.6.0/docs/api/" />
+			<link href="https://docs.oracle.com/javase/8/docs/api/" />
 
 			<classpath>
 				<pathelement location="${lib}" />
 				<pathelement location="${build}" />
+				<fileset dir="${src}/jar">
+					<include name="**/*.jar"/>
+				</fileset>
 			</classpath>
 
 		</javadoc>
