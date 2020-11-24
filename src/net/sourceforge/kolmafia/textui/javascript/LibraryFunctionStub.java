@@ -48,50 +48,50 @@ import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 
 public class LibraryFunctionStub
-        extends AshStub
+	extends AshStub
 {
-        private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-        public LibraryFunctionStub( ScriptRuntime controller, String ashFunctionName )
-        {
-                super( controller, ashFunctionName );
-        }
+	public LibraryFunctionStub( ScriptRuntime controller, String ashFunctionName )
+	{
+		super( controller, ashFunctionName );
+	}
 
-        @Override
-        protected FunctionList getAllFunctions()
-        {
-                return RuntimeLibrary.functions;
-        }
+	@Override
+	protected FunctionList getAllFunctions()
+	{
+		return RuntimeLibrary.functions;
+	}
 
-        @Override
-        protected Value execute( Function function, List<Value> ashArgs )
-        {
-                LibraryFunction ashFunction;
-                if ( function instanceof LibraryFunction )
-                {
-                        ashFunction = (LibraryFunction) function;
-                }
-                else
-                {
-                        throw controller.runtimeException( Parser.undefinedFunctionMessage( ashFunctionName, ashArgs ) );
-                }
+	@Override
+	protected Value execute( Function function, List<Value> ashArgs )
+	{
+		LibraryFunction ashFunction;
+		if ( function instanceof LibraryFunction )
+		{
+			ashFunction = (LibraryFunction) function;
+		}
+		else
+		{
+			throw controller.runtimeException( Parser.undefinedFunctionMessage( ashFunctionName, ashArgs ) );
+		}
 
-                List<Object> ashArgsWithInterpreter = new ArrayList<>( ashArgs.size() + 1 );
-                ashArgsWithInterpreter.add( controller );
-                ashArgsWithInterpreter.addAll( ashArgs );
+		List<Object> ashArgsWithInterpreter = new ArrayList<>( ashArgs.size() + 1 );
+		ashArgsWithInterpreter.add( controller );
+		ashArgsWithInterpreter.addAll( ashArgs );
 
-                return ashFunction.executeWithoutInterpreter( controller, ashArgsWithInterpreter.toArray() );
-        }
+		return ashFunction.executeWithoutInterpreter( controller, ashArgsWithInterpreter.toArray() );
+	}
 
-        @Override
-        public Object call( Context cx, Scriptable scope, Scriptable thisObj, Object[] args )
-        {
-                if ( ashFunctionName.equals( "to_string" ) && args.length == 0 )
-                {
-                        // Special case, since we accidentally override JS's built-in toString.
-                        return "[runtime library]";
-                }
+	@Override
+	public Object call( Context cx, Scriptable scope, Scriptable thisObj, Object[] args )
+	{
+		if ( ashFunctionName.equals( "to_string" ) && args.length == 0 )
+		{
+			// Special case, since we accidentally override JS's built-in toString.
+			return "[runtime library]";
+		}
 
-                return super.call( cx, scope, thisObj, args );
-        }
+		return super.call( cx, scope, thisObj, args );
+	}
 }

@@ -55,11 +55,9 @@ import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.WrappedException;
+import org.mozilla.javascript.commonjs.module.Require;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -210,7 +208,6 @@ public class JavascriptRuntime
 
 			initRuntimeLibrary( cx, scope );
 			initEnumeratedTypes( cx, scope );
-			new SafeRequire( cx, scope ).install( scope );
 
 			setState( State.NORMAL );
 
@@ -229,6 +226,7 @@ public class JavascriptRuntime
 	{
 		Context cx = Context.getCurrentContext();
 		Scriptable scope = currentTopScope;
+		Scriptable exports = null;
 
 		Object[] argumentsNonNull = arguments != null ? arguments : new Object[] {};
 		Object[] runArguments = Arrays.stream( argumentsNonNull ).map( o -> o instanceof MonsterData ? new EnumeratedWrapper( MonsterProxy.class, DataTypes.makeMonsterValue( (MonsterData) o ) ) : o ).toArray();
@@ -239,46 +237,20 @@ public class JavascriptRuntime
 		{
 			if ( executeTopLevel )
 			{
+				Require require = new SafeRequire( cx, scope );
 				if ( scriptFile != null )
 				{
-					FileReader scriptFileReader = null;
-					try
-					{
-						scriptFileReader = new FileReader( scriptFile );
-						returnValue = cx.evaluateReader( scope, scriptFileReader, scriptFile.getName(), 0, null );
-					}
-					catch ( FileNotFoundException e )
-					{
-						KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "File not found." );
-					}
-					catch ( IOException e )
-					{
-						KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR,
-							"JavaScript file I/O error: " + e.getMessage() );
-					}
-					finally
-					{
-						if ( scriptFileReader != null )
-						{
-							try
-							{
-								scriptFileReader.close();
-							}
-							catch ( IOException e )
-							{
-								KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "JavaScript file I/O error: " + e.getMessage() );
-							}
-						}
-					}
+					exports = require.requireMain( cx, scriptFile.toURI().toString() );
 				}
 				else
 				{
+					require.install( scope );
 					returnValue = cx.evaluateString( scope, scriptString, "command line", 1, null );
 				}
 			}
 			if ( functionName != null )
 			{
-				Object mainFunction = scope.get( functionName, scope );
+				Object mainFunction = ScriptableObject.getProperty( exports != null ? exports : scope, functionName );
 				if ( mainFunction instanceof Function )
 				{
 					returnValue = ((Function) mainFunction).call( cx, scope, cx.newObject( scope ), runArguments );
