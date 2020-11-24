@@ -158,7 +158,7 @@ public abstract class AshStub
 
 		if ( returnValue instanceof Value && ((Value) returnValue).asProxy() instanceof ProxyRecordValue )
 		{
-			returnValue = new EnumeratedWrapper( returnValue.getClass(), (Value) returnValue );
+			returnValue = EnumeratedWrapper.wrap( returnValue.getClass(), (Value) returnValue );
 		}
 		else if ( !(returnValue instanceof Scriptable) )
 		{

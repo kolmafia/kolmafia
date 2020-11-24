@@ -229,7 +229,7 @@ public class JavascriptRuntime
 		Scriptable exports = null;
 
 		Object[] argumentsNonNull = arguments != null ? arguments : new Object[] {};
-		Object[] runArguments = Arrays.stream( argumentsNonNull ).map( o -> o instanceof MonsterData ? new EnumeratedWrapper( MonsterProxy.class, DataTypes.makeMonsterValue( (MonsterData) o ) ) : o ).toArray();
+		Object[] runArguments = Arrays.stream( argumentsNonNull ).map( o -> o instanceof MonsterData ? EnumeratedWrapper.wrap( MonsterProxy.class, DataTypes.makeMonsterValue( (MonsterData) o ) ) : o ).toArray();
 
 		Object returnValue = null;
 

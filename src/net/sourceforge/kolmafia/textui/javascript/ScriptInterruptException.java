@@ -38,6 +38,8 @@ import net.sourceforge.kolmafia.textui.ScriptException;
 public class ScriptInterruptException
 	extends ScriptException
 {
+	private static final long serialVersionUID = 1L;
+
 	public ScriptInterruptException()
 	{
 		super( "Script interrupted by user." );

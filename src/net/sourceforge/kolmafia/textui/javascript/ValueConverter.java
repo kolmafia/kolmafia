@@ -53,7 +53,6 @@ import net.sourceforge.kolmafia.textui.ScriptException;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
 import net.sourceforge.kolmafia.textui.parsetree.MapValue;
-import net.sourceforge.kolmafia.textui.parsetree.ProxyRecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.RecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
@@ -170,7 +169,7 @@ public class ValueConverter {
 		}
 		else if ( DataTypes.enumeratedTypes.contains( value.getType() ) )
 		{
-			return new EnumeratedWrapper( value.asProxy().getClass(), value );
+			return EnumeratedWrapper.wrap( value.asProxy().getClass(), value );
 		}
 		else if ( value instanceof RecordValue )
 		{

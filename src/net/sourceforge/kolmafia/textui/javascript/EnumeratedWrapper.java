@@ -35,7 +35,9 @@ package net.sourceforge.kolmafia.textui.javascript;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.mozilla.javascript.Context;
@@ -52,17 +54,47 @@ import net.sourceforge.kolmafia.textui.parsetree.Value;
 public class EnumeratedWrapper
 	extends ScriptableObject
 {
+	private static final long serialVersionUID = 1L;
+
+	// Make sure each wrapper is a singleton, so that equality comparison works in JS.
+	private static Map<Context, Map<Value, EnumeratedWrapper>> registry = new HashMap<>();
+
 	private Class<?> recordValueClass;
 	// NB: This wrapped value is NOT the proxy record type version.
 	// Instead, it's the plain Value that can be turned into a proxy record via asProxy.
 	private Value wrapped;
 
-	public EnumeratedWrapper( Class<?> recordValueClass, Value wrapped )
+	private EnumeratedWrapper( Class<?> recordValueClass, Value wrapped )
 	{
 		this.recordValueClass = recordValueClass;
 		this.wrapped = wrapped;
-		setPrototype( EnumeratedWrapperPrototype.getPrototypeInstance( Context.getCurrentContext(), wrapped.getType() ) );
-		sealObject();
+	}
+
+	public static EnumeratedWrapper wrap( Class<?> recordValueClass, Value wrapped )
+	{
+		Context cx = Context.getCurrentContext();
+		Map<Value, EnumeratedWrapper> subRegistry = registry.getOrDefault( cx, null );
+		if ( subRegistry == null )
+		{
+			subRegistry = new HashMap<>();
+			registry.put( cx, subRegistry );
+		}
+
+		EnumeratedWrapper existing = subRegistry.getOrDefault( wrapped, null );
+		if ( existing == null )
+		{
+			existing = new EnumeratedWrapper( recordValueClass, wrapped );
+			existing.setPrototype( EnumeratedWrapperPrototype.getPrototypeInstance( cx, wrapped.getType() ) );
+			existing.sealObject();
+			subRegistry.put( wrapped, existing );
+		}
+
+		return existing;
+	}
+
+	public static void cleanup( Context cx )
+	{
+		registry.remove( cx );
 	}
 
 	public Value getWrapped()
@@ -82,15 +114,15 @@ public class EnumeratedWrapper
 		return wrapped.toString();
 	}
 
-	public long valueOf()
+	public int valueOf()
 	{
-		return wrapped.contentLong;
+		// Rhino doesn't translate longs correctly, so this has to be an int.
+		return (int) wrapped.contentLong;
 	}
 
 	public static Object constructDefaultValue()
 	{
-		return new EnumeratedWrapper( ProxyRecordValue.ItemProxy.class,
-			new ProxyRecordValue.ItemProxy( DataTypes.makeIntValue( 1 ) ) );
+		return EnumeratedWrapper.wrap( ProxyRecordValue.ItemProxy.class, new ProxyRecordValue.ItemProxy( DataTypes.makeIntValue( 1 ) ) );
 	}
 
 	private static EnumeratedWrapper getOne( Type type, Object key )
@@ -123,7 +155,7 @@ public class EnumeratedWrapper
 			}
 		}
 
-		return new EnumeratedWrapper( proxyRecordValueClass, rawValue );
+		return EnumeratedWrapper.wrap( proxyRecordValueClass, rawValue );
 	}
 
 	public static Object genericGet( Context cx, Scriptable thisObject, Object[] args, Function functionObject )
