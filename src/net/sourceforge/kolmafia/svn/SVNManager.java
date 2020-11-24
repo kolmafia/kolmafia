@@ -112,17 +112,14 @@ public class SVNManager
 	private static final int RETRY_LIMIT = 3;
 	private static final int DEPENDENCY_RECURSION_LIMIT = 5;
 
-	private static Stack<SVNFileEvent> eventStack = new Stack<SVNFileEvent>();
-	private static TreeMap<File, Long[]> updateMessages = new TreeMap<File, Long[]>();
+	private static final Stack<SVNFileEvent> eventStack = new Stack<>();
+	private static final TreeMap<File, Long[]> updateMessages = new TreeMap<>();
 
 	private static SVNClientManager ourClientManager;
-	//private static ISVNEventHandler myCommitEventHandler;
-	private static ISVNEventHandler myUpdateEventHandler;
-	private static ISVNEventHandler myWCEventHandler;
 
-	private static Pattern SOURCEFORGE_PATTERN = Pattern.compile( "/p/(.*?)/(?:code|svn)(.*)", Pattern.DOTALL );
-	private static Pattern GOOGLECODE_HOST_PATTERN = Pattern.compile( "([^\\.]+)\\.googlecode\\.com", Pattern.DOTALL );
-	private static List<String> permissibles = Arrays.asList( "scripts", "data", "images", "relay", "ccs", "planting" );
+	private static final Pattern SOURCEFORGE_PATTERN = Pattern.compile( "/p/(.*?)/(?:code|svn)(.*)", Pattern.DOTALL );
+	private static final Pattern GOOGLECODE_HOST_PATTERN = Pattern.compile( "([^\\.]+)\\.googlecode\\.com", Pattern.DOTALL );
+	private static final List<String> permissibles = Arrays.asList( "scripts", "data", "images", "relay", "ccs", "planting" );
 
 	/**
 	 * Initializes the library to work with a repository via different protocols.
@@ -149,19 +146,20 @@ public class SVNManager
 		 */
 		ourClientManager = SVNClientManager.newInstance( options );
 
-		myUpdateEventHandler = new UpdateEventHandler();
+		//private static ISVNEventHandler myCommitEventHandler;
+		ISVNEventHandler myUpdateEventHandler = new UpdateEventHandler();
 
-		myWCEventHandler = new WCEventHandler();
+		ISVNEventHandler myWCEventHandler = new WCEventHandler();
 
 		/*
 		 * Sets a custom event handler for operations of an SVNUpdateClient instance
 		 */
-		ourClientManager.getUpdateClient().setEventHandler( myUpdateEventHandler );
+		ourClientManager.getUpdateClient().setEventHandler(myUpdateEventHandler);
 
 		/*
 		 * Sets a custom event handler for operations of an SVNWCClient instance
 		 */
-		ourClientManager.getWCClient().setEventHandler( myWCEventHandler );
+		ourClientManager.getWCClient().setEventHandler(myWCEventHandler);
 	}
 
 
@@ -254,14 +252,6 @@ public class SVNManager
 	public static long checkout( SVNURL url, SVNRevision revision, File destPath, boolean isRecursive )
 		throws SVNException
 	{
-
-		int wcFormat = Preferences.getInteger("svnFormat");
-
-		if ( wcFormat == 0 )
-		{
-			wcFormat = -1;
-		}
-
 		SVNUpdateClient updateClient = getClientManager().getUpdateClient();
 		/*
 		 * sets externals not to be ignored during the checkout
@@ -270,7 +260,7 @@ public class SVNManager
 		/*
 		 * returns the number of the revision at which the working copy is
 		 */
-		return updateClient.doCheckout( url, destPath, revision, revision, SVNDepth.fromRecurse( isRecursive ), false, wcFormat );
+		return updateClient.doCheckout( url, destPath, revision, revision, SVNDepth.fromRecurse( isRecursive ), false);
 	}
 
 	/*
@@ -303,7 +293,7 @@ public class SVNManager
 		 * returns the number of the revision wcPath was updated to
 		 */
 
-		long rev = -1;
+		long rev;
 		try
 		{
 			rev = updateClient.doUpdate( wcPath, updateToRevision, SVNDepth.fromRecurse( isRecursive ), false, false );
@@ -428,7 +418,6 @@ public class SVNManager
 			SVNRevision.create( to ), true, false, 10, new ISVNLogEntryHandler()
 		{
 			public void handleLogEntry( SVNLogEntry logEntry )
-				throws SVNException
 			{
 				RequestLogger.printLine( "Commit <b>r" + logEntry.getRevision() + "<b>:" );
 				RequestLogger.printLine( "Author: " + logEntry.getAuthor() );
@@ -586,18 +575,14 @@ public class SVNManager
 			SVN_LOCK.unlock();
 		}
 
-		Iterator< ? > iterator = entries.iterator();
-		while ( iterator.hasNext() )
-		{
-			SVNDirEntry entry = (SVNDirEntry) iterator.next();
-			if ( entry.getKind().equals( SVNNodeKind.DIR ) )
-			{
-				failed |= !permissibles.contains( entry.getName() );
-			}
-			else
+		for (Object o : entries) {
+			SVNDirEntry entry = (SVNDirEntry) o;
+			if (entry.getKind().equals(SVNNodeKind.DIR)) {
+				failed |= !permissibles.contains(entry.getName());
+			} else
 				// something other than a directory
 				// we allow a single top-level file to declare dependencies, nothing else
-				failed = !entry.getName().equals( "dependencies.txt" );
+				failed = !entry.getName().equals("dependencies.txt");
 		}
 
 		if ( failed && !quiet )
@@ -719,7 +704,7 @@ public class SVNManager
 		 * of the individual file events into one object per working copy.
 		 */
 
-		TreeMap<File, Long[]> feMap = new TreeMap<File, Long[]>();
+		TreeMap<File, Long[]> feMap = new TreeMap<>();
 
 		while ( !eventStackCopy.isEmpty() )
 		{
@@ -806,8 +791,8 @@ public class SVNManager
 			return checkExisting();
 		}
 
-		List<String> skipFiles = new ArrayList<String>();
-		List<SVNURL> skipURLs = new ArrayList<SVNURL>();
+		List<String> skipFiles = new ArrayList<>();
+		List<SVNURL> skipURLs = new ArrayList<>();
 		@SuppressWarnings( "unchecked" )
 		// no type-safe way to do this in Java 5 (6 has Deque)
 		Stack<SVNFileEvent> eventStackCopy = (Stack<SVNFileEvent>) SVNManager.eventStack.clone();
@@ -844,7 +829,7 @@ public class SVNManager
 
 		if ( skipFiles.size() > 0 )
 		{
-			SVNRepository repo = null;
+			SVNRepository repo;
 			try
 			{
 				SVN_LOCK.lock();
@@ -870,7 +855,7 @@ public class SVNManager
 					extra += 1;
 					continue;
 				}
-				message.append( "<b>file</b>: " + skipFiles.get( i ) + "<p>" );
+				message.append("<b>file</b>: ").append(skipFiles.get(i)).append("<p>");
 				try
 				{
 					SVN_LOCK.lock();
@@ -879,7 +864,7 @@ public class SVNManager
 					if ( props == null || props.getAuthor() == null )
 						message.append( "<b>author</b>: unknown<p>" );
 					else
-						message.append( "<b>author</b>: " + props.getAuthor() + "<p>" );
+						message.append("<b>author</b>: ").append(props.getAuthor()).append("<p>");
 				}
 				catch ( SVNException e )
 				{
@@ -892,7 +877,7 @@ public class SVNManager
 			}
 			if ( extra > 0 )
 			{
-				message.append( "<b>and " + extra + " more...</b>" );
+				message.append("<b>and ").append(extra).append(" more...</b>");
 			}
 			//message.append( "<br>SVN info:<p>" );
 
@@ -901,7 +886,7 @@ public class SVNManager
 				SVN_LOCK.lock();
 				SVNURL root = repo.getRepositoryRoot( false );
 
-				message.append( "<br><b>repository url</b>:" + root.getPath() + "<p>" );
+				message.append("<br><b>repository url</b>:").append(root.getPath()).append("<p>");
 			}
 			catch ( SVNException e )
 			{
@@ -930,8 +915,8 @@ public class SVNManager
 	 */
 	private static List<String> checkExisting()
 	{
-		List<String> skipFiles = new ArrayList<String>();
-		List<SVNURL> skipURLs = new ArrayList<SVNURL>();
+		List<String> skipFiles = new ArrayList<>();
+		List<SVNURL> skipURLs = new ArrayList<>();
 		@SuppressWarnings( "unchecked" )
 		// no type-safe way to do this in Java 5 (6 has Deque)
 		Stack<SVNFileEvent> eventStackCopy = (Stack<SVNFileEvent>) SVNManager.eventStack.clone();
@@ -975,7 +960,7 @@ public class SVNManager
 
 		if ( skipFiles.size() > 0 )
 		{
-			SVNRepository repo = null;
+			SVNRepository repo;
 			try
 			{
 				SVN_LOCK.lock();
@@ -998,13 +983,13 @@ public class SVNManager
 				File rebase = SVNManager.getRebase( skipFiles.get( i ) );
 				String rerebase = FileUtilities.getRelativePath( KoLConstants.ROOT_LOCATION , rebase );
 
-				message.append( "<b>file</b>: " + rerebase + "<p>" );
+				message.append("<b>file</b>: ").append(rerebase).append("<p>");
 				try
 				{
 					SVN_LOCK.lock();
 					repo.setLocation( skipURLs.get( i ), false );
 					SVNDirEntry props = repo.info( "", -1 );
-					message.append( "<b>author</b>: " + props.getAuthor() + "<p>" );
+					message.append("<b>author</b>: ").append(props.getAuthor()).append("<p>");
 				}
 				catch ( SVNException e )
 				{
@@ -1021,7 +1006,7 @@ public class SVNManager
 				SVN_LOCK.lock();
 				SVNURL root = repo.getRepositoryRoot( false );
 
-				message.append( "<br><b>repository url</b>:" + root.getPath() + "<p>" );
+				message.append("<br><b>repository url</b>:").append(root.getPath()).append("<p>");
 			}
 			catch ( SVNException e )
 			{
@@ -1107,10 +1092,7 @@ public class SVNManager
 
 	private static boolean shouldDelete( SVNFileEvent event )
 	{
-		if ( event.getEvent().getAction() == SVNEventAction.UPDATE_DELETE )
-			return true;
-
-		return false;
+		return event.getEvent().getAction() == SVNEventAction.UPDATE_DELETE;
 	}
 
 	private static boolean rebaseExists( String relpath )
@@ -1156,7 +1138,7 @@ public class SVNManager
 
 	static String getFolderUUID( SVNURL repo )
 	{
-		String remote = null;
+		String remote;
 		// first, make sure the repo is there.
 		try
 		{
@@ -1237,8 +1219,8 @@ public class SVNManager
 			public void run()
 			{
 				KoLmafia.updateDisplay( "Checking all SVN projects..." );
-				List<File> projectsToUpdate = new ArrayList<File>();
-				List<CheckStatusRunnable> checkingRunnables = new ArrayList<CheckStatusRunnable>();
+				List<File> projectsToUpdate = new ArrayList<>();
+				List<CheckStatusRunnable> checkingRunnables = new ArrayList<>();
 				for (File f : projects) 
 				{
 					if ( !KoLmafia.permitsContinue() )
@@ -1276,15 +1258,10 @@ public class SVNManager
 							}
 						}
 					} 
-					catch (InterruptedException e) 
+					catch (InterruptedException | ExecutionException e)
 					{
 						e.printStackTrace();
-					} 
-					catch (ExecutionException e)
-					{
-						e.printStackTrace();
-					}
-					finally
+					} finally
 					{
 						SVN_LOCK.unlock();
 						executor.shutdown();
@@ -1488,7 +1465,7 @@ public class SVNManager
 				public void run()
 				{
 					PauseObject p = new PauseObject();
-					p.pause( 2000 );
+					p.pause( 5000 );
 
 					recursiveDelete( project );
 				}
@@ -1720,7 +1697,7 @@ public class SVNManager
 			return;
 
 		File[] projects = KoLConstants.SVN_LOCATION.listFiles();
-		List<File> dependencyFiles = new ArrayList<File>();
+		List<File> dependencyFiles = new ArrayList<>();
 
 		if ( projects == null || projects.length == 0 )
 		{
@@ -1742,7 +1719,7 @@ public class SVNManager
 		// we have some dependencies to resolve.  We need to figure out what SVNURLs are already installed.
 		initialize();
 
-		Set<String> installed = new HashSet<String>();
+		Set<String> installed = new HashSet<>();
 
 		for ( File f : projects )
 		{
@@ -1764,7 +1741,7 @@ public class SVNManager
 
 		// Now we need to figure out the set of URLs specified by dependency files
 
-		Set<SVNURL> dependencyURLs = new HashSet<SVNURL>();
+		Set<SVNURL> dependencyURLs = new HashSet<>();
 
 		for ( File dep : dependencyFiles )
 		{
@@ -1775,7 +1752,7 @@ public class SVNManager
 			return;
 
 		// now, see if there are any files in dependencyURLs that aren't yet installed
-		Set<SVNURL> installMe = new HashSet<SVNURL>();
+		Set<SVNURL> installMe = new HashSet<>();
 
 		for ( SVNURL url : dependencyURLs )
 		{
@@ -1845,7 +1822,7 @@ public class SVNManager
 	private static Set<SVNURL> readDependencies( File dep )
 	{
 		BufferedReader reader = FileUtilities.getReader( dep );
-		Set<SVNURL> depURLs = new HashSet<SVNURL>();
+		Set<SVNURL> depURLs = new HashSet<>();
 		try
 		{
 			String[] data;
