@@ -51,6 +51,8 @@ import net.sourceforge.kolmafia.textui.parsetree.Type;
 public class EnumeratedWrapperPrototype
 	extends ScriptableObject
 {
+	private static final long serialVersionUID = 1L;
+
 	private static Map<Context, TreeMap<Type, EnumeratedWrapperPrototype>> registry = new HashMap<>();
 
 	private Class<?> recordValueClass;
@@ -124,6 +126,7 @@ public class EnumeratedWrapperPrototype
 	public static void cleanup( Context cx )
 	{
 		registry.remove( cx );
+		EnumeratedWrapper.cleanup( cx );
 	}
 
 	public static EnumeratedWrapperPrototype getPrototypeInstance( Context cx, Type type )

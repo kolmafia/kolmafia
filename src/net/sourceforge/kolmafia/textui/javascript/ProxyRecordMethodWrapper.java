@@ -42,8 +42,11 @@ import org.mozilla.javascript.Scriptable;
 
 import net.sourceforge.kolmafia.KoLmafia;
 
-public class ProxyRecordMethodWrapper extends BaseFunction
+public class ProxyRecordMethodWrapper
+	extends BaseFunction
 {
+	private static final long serialVersionUID = 1L;
+
 	private Method method;
 
 	public ProxyRecordMethodWrapper( Method method )
