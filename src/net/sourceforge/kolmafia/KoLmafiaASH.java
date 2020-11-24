@@ -126,9 +126,7 @@ public abstract class KoLmafiaASH
 			}
 		}
 
-		return  ( field2 != null && KoLmafiaASH.getClientHTML( request, script.substring( 0, script.length() - 4 ) + "." + field2 + ".ash" ) ) ||
-			( field1 != null && KoLmafiaASH.getClientHTML( request, script.substring( 0, script.length() - 4 ) + "." + field1 + ".ash" ) ) ||
-			KoLmafiaASH.getClientHTML( request, script );
+		return (field2 != null && KoLmafiaASH.getClientHTML( request, script.substring( 0, script.length() - 4 ) + "." + field2 + ".php" )) || (field1 != null && KoLmafiaASH.getClientHTML( request, script.substring( 0, script.length() - 4 ) + "." + field1 + ".php" )) || KoLmafiaASH.getClientHTML( request, script );
 	}
 
 	private static final boolean getClientHTML( final RelayRequest request, String script )
@@ -139,24 +137,32 @@ public abstract class KoLmafiaASH
 			return toExecute.exists() && KoLmafiaASH.getClientHTML( request, toExecute );
 		}
 
-		if ( !script.endsWith( ".ash" ) )
+		for ( String extension : new String[] {".ash", ".js"} )
 		{
-			if ( !script.endsWith( ".php" ) )
+			String testScript = script;
+			if ( !testScript.endsWith( extension ) )
 			{
-				return false;
+				if ( !testScript.endsWith( ".php" ) )
+				{
+					continue;
+				}
+
+				testScript = testScript.substring( 0, testScript.length() - 4 ) + extension;
 			}
 
-			script = script.substring( 0, script.length() - 4 ) + ".ash";
+			if ( FileUtilities.internalRelayScriptExists( testScript ) )
+			{
+				FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, script );
+			}
+
+			File toExecute = new File( KoLConstants.RELAY_LOCATION, testScript );
+			if ( toExecute.exists() )
+			{
+				return KoLmafiaASH.getClientHTML( request, toExecute );
+			}
 		}
 
-		if ( FileUtilities.internalRelayScriptExists( script ) )
-		{
-			FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, script );
-		}
-
-		File toExecute = new File( KoLConstants.RELAY_LOCATION, script );
-		KoLmafiaASH.relayScriptMap.put( script, toExecute );
-		return toExecute.exists() && KoLmafiaASH.getClientHTML( request, toExecute );
+		return false;
 	}
 
 	private static final boolean getClientHTML( final RelayRequest request, final File toExecute )

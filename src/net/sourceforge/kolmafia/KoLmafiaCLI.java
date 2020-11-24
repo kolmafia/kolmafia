@@ -1191,14 +1191,15 @@ public class KoLmafiaCLI
 		for ( File file : files )
 		{
 			String name = file.getName();
-			if ( name.startsWith( "relay_" ) && name.endsWith( ".ash" ) )
+			if ( name.matches( "relay_.*\\.(ash|js)" ) )
 			{
+				String displayName = name.replaceAll( "^relay_", "" ).replaceAll( "\\.(ash|js)$", "" ).replace( "_", " " );
 				any = true;
 				buf.append( "<option value='" );
 				buf.append( name );
-				buf.append( "'>" );
-				name = name.replace( "_", " " );
-				buf.append( name, 6, name.length() - 4 );
+				// This differentiates between JS files relay_x.js loaded by relay scripts, and those that are relay scripts themselves.
+				buf.append( "?relay=true'>" );
+				buf.append( displayName );
 				buf.append( "</option>" );
 			}
 		}
