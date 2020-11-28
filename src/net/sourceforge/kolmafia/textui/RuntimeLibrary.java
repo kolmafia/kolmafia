@@ -3682,7 +3682,7 @@ public abstract class RuntimeLibrary
 
 	public static Value adventure( ScriptRuntime controller, final Value arg1, final Value arg2 )
 	{
-		boolean countThenLocation = arg1.getType().equals( DataTypes.INT_TYPE );
+		boolean countThenLocation = arg1.getType().equals( DataTypes.INT_TYPE ) || arg1.getType().equals( DataTypes.FLOAT_TYPE );
 		int count = (int) ( countThenLocation ? arg1.intValue() : arg2.intValue() );
 
 		if ( count <= 0 )
@@ -3764,7 +3764,7 @@ public abstract class RuntimeLibrary
 
 	public static Value add_item_condition( ScriptRuntime controller, final Value arg1, final Value arg2 )
 	{
-		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE ) || arg1.getType().equals( DataTypes.FLOAT_TYPE );
 		int count = (int) (countThenItem ? arg1 : arg2 ).intValue();
 		int itemId = (int) (countThenItem ? arg2 : arg1 ).intValue();
 		if ( count <= 0 || itemId <= 0 )
@@ -3778,7 +3778,7 @@ public abstract class RuntimeLibrary
 
 	public static Value remove_item_condition( ScriptRuntime controller, final Value arg1, final Value arg2 )
 	{
-		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE ) || arg1.getType().equals( DataTypes.FLOAT_TYPE );
 		int count = (int) (countThenItem ? arg1 : arg2 ).intValue();
 		int itemId = (int) (countThenItem ? arg2 : arg1 ).intValue();
 
@@ -3864,7 +3864,7 @@ public abstract class RuntimeLibrary
 		int arg1Value = (int) arg1.intValue();
 		int arg2Value = (int) arg2.intValue();
 
-		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE ) || arg1.getType().equals( DataTypes.FLOAT_TYPE );
 
 		int count = countThenItem ? arg1Value : arg2Value;
 		int item = countThenItem ? arg2Value : arg1Value;
@@ -3890,7 +3890,7 @@ public abstract class RuntimeLibrary
 		int arg1Value = (int) arg1.intValue();
 		int arg2Value = (int) arg2.intValue();
 
-		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE ) || arg1.getType().equals( DataTypes.FLOAT_TYPE );
 
 		int count = countThenItem ? arg1Value : arg2Value;
 
@@ -3924,7 +3924,7 @@ public abstract class RuntimeLibrary
 		int arg1Value = (int) arg1.intValue();
 		int arg2Value = (int) arg2.intValue();
 
-		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE ) || arg1.getType().equals( DataTypes.FLOAT_TYPE );
 
 		int count = countThenItem ? arg1Value : arg2Value;
 		int item = countThenItem ? arg2Value : arg1Value;
@@ -3950,7 +3950,7 @@ public abstract class RuntimeLibrary
 		int arg1Value = (int) arg1.intValue();
 		int arg2Value = (int) arg2.intValue();
 
-		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE ) || arg1.getType().equals( DataTypes.FLOAT_TYPE );
 
 		int count = countThenItem ? arg1Value : arg2Value;
 
@@ -4172,7 +4172,7 @@ public abstract class RuntimeLibrary
 		int arg1Value = (int) arg1.intValue();
 		int arg2Value = (int) arg2.intValue();
 
-		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE ) || arg1.getType().equals( DataTypes.FLOAT_TYPE );
 
 		int count = countThenItem ? arg1Value : arg2Value;
 		int itemId = countThenItem ? arg2Value : arg1Value;
@@ -4313,7 +4313,7 @@ public abstract class RuntimeLibrary
 		int arg1Value = (int) arg1.intValue();
 		int arg2Value = (int) arg2.intValue();
 
-		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE ) || arg1.getType().equals( DataTypes.FLOAT_TYPE );
 
 		int count = countThenItem ? arg1Value : arg2Value;
 		int itemId = countThenItem ? arg2Value : arg1Value;
@@ -4346,7 +4346,7 @@ public abstract class RuntimeLibrary
 		int arg1Value = (int) arg1.intValue();
 		int arg2Value = (int) arg2.intValue();
 
-		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE ) || arg1.getType().equals( DataTypes.FLOAT_TYPE );
 
 		int count = countThenItem ? arg1Value : arg2Value;
 		int itemId = countThenItem ? arg2Value : arg1Value;
@@ -4378,7 +4378,7 @@ public abstract class RuntimeLibrary
 		int arg1Value = (int) arg1.intValue();
 		int arg2Value = (int) arg2.intValue();
 
-		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE ) || arg1.getType().equals( DataTypes.FLOAT_TYPE );
 
 		int count = countThenItem ? arg1Value : arg2Value;
 		int itemId = countThenItem ? arg2Value : arg1Value;
@@ -4470,7 +4470,7 @@ public abstract class RuntimeLibrary
 		int arg1Value = (int) arg1.intValue();
 		int arg2Value = (int) arg2.intValue();
 
-		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE ) || arg1.getType().equals( DataTypes.FLOAT_TYPE );
 
 		int count = countThenItem ? arg1Value : arg2Value;
 		int itemId = countThenItem ? arg2Value : arg1Value;
@@ -4501,7 +4501,7 @@ public abstract class RuntimeLibrary
 		int arg1Value = (int) arg1.intValue();
 		int arg2Value = (int) arg2.intValue();
 
-		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE ) || arg1.getType().equals( DataTypes.FLOAT_TYPE );
 
 		int count = countThenItem ? arg1Value : arg2Value;
 		int itemId = countThenItem ? arg2Value : arg1Value;
@@ -4531,7 +4531,7 @@ public abstract class RuntimeLibrary
 		int arg1Value = (int) arg1.intValue();
 		int arg2Value = (int) arg2.intValue();
 
-		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE ) || arg1.getType().equals( DataTypes.FLOAT_TYPE );
 
 		int count = countThenItem ? arg1Value : arg2Value;
 		int itemId = countThenItem ? arg2Value : arg1Value;
@@ -4564,7 +4564,7 @@ public abstract class RuntimeLibrary
 		int arg1Value = (int) arg1.intValue();
 		int arg2Value = (int) arg2.intValue();
 
-		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE ) || arg1.getType().equals( DataTypes.FLOAT_TYPE );
 
 		int count = countThenItem ? arg1Value : arg2Value;
 		int itemId = countThenItem ? arg2Value : arg1Value;
@@ -4597,7 +4597,7 @@ public abstract class RuntimeLibrary
 		int arg1Value = (int) arg1.intValue();
 		int arg2Value = (int) arg2.intValue();
 
-		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE ) || arg1.getType().equals( DataTypes.FLOAT_TYPE );
 
 		int count = countThenItem ? arg1Value : arg2Value;
 		int itemId = countThenItem ? arg2Value : arg1Value;
@@ -4629,7 +4629,7 @@ public abstract class RuntimeLibrary
 		int arg1Value = (int) arg1.intValue();
 		int arg2Value = (int) arg2.intValue();
 
-		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE ) || arg1.getType().equals( DataTypes.FLOAT_TYPE );
 
 		int count = countThenItem ? arg1Value : arg2Value;
 		int itemId = countThenItem ? arg2Value : arg1Value;
@@ -4648,7 +4648,7 @@ public abstract class RuntimeLibrary
 		int arg1Value = (int) arg1.intValue();
 		int arg2Value = (int) arg2.intValue();
 
-		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE );
+		boolean countThenItem = arg1.getType().equals( DataTypes.INT_TYPE ) || arg1.getType().equals( DataTypes.FLOAT_TYPE );
 
 		int count = countThenItem ? arg1Value : arg2Value;
 		int item = countThenItem ? arg2Value : arg1Value;
@@ -6080,7 +6080,7 @@ public abstract class RuntimeLibrary
 		int arg1Value = (int) arg1.intValue();
 		int arg2Value = (int) arg2.intValue();
 
-		boolean countThenSkill = arg1.getType().equals( DataTypes.INT_TYPE );
+		boolean countThenSkill = arg1.getType().equals( DataTypes.INT_TYPE ) || arg1.getType().equals( DataTypes.FLOAT_TYPE );
 
 		int count = countThenSkill ? arg1Value : arg2Value;
 		int skillId = countThenSkill ? arg2Value : arg1Value;
@@ -6140,7 +6140,7 @@ public abstract class RuntimeLibrary
 		int arg1Value = (int) arg1.intValue();
 		int arg2Value = (int) arg2.intValue();
 
-		boolean countThenSkill = arg1.getType().equals( DataTypes.INT_TYPE );
+		boolean countThenSkill = arg1.getType().equals( DataTypes.INT_TYPE ) || arg1.getType().equals( DataTypes.FLOAT_TYPE );
 
 		int count = countThenSkill ? arg1Value : arg2Value;
 		int skillId = countThenSkill ? arg2Value : arg1Value;

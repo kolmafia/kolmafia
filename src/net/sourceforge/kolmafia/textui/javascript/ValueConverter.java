@@ -73,31 +73,20 @@ public class ValueConverter {
 		for ( Value key : mapValue.keys() )
 		{
 			Value value = mapValue.aref( key );
-			String keyString = null;
-			if ( key.getType().equals(DataTypes.STRING_TYPE) )
+			if ( key.getType().equals(DataTypes.STRING_TYPE)
+				|| DataTypes.enumeratedTypes.contains( key.getType() ) && key.contentString.length() > 0 )
 			{
-				keyString = key.contentString;
+				ScriptableObject.putProperty( result, key.contentString, asJava( value ) );
 			}
-			else if ( key.getType().equals( DataTypes.INT_TYPE ) )
+			else if ( key.getType().equals( DataTypes.INT_TYPE )
+				|| DataTypes.enumeratedTypes.contains( key.getType() ) && key.contentLong > 0 )
 			{
-				keyString = Long.toString( key.contentLong );
-			}
-			else if ( DataTypes.enumeratedTypes.contains( key.getType() ) )
-			{
-				if ( key.contentString.length() > 0 )
-				{
-					keyString = key.contentString;
-				}
-				else if ( key.contentLong > 0 )
-				{
-					keyString = Long.toString( key.contentLong );
-				}
+				ScriptableObject.putProperty( result, (int) key.contentLong, asJava( value ) );
 			}
 			else 
 			{
 				throw new ScriptException( "Maps may only have keys of type string, int or an enumerated type." );
 			}
-			ScriptableObject.putProperty( result, keyString, asJava( value ) );
 		}
 		return result;
 	}
@@ -140,7 +129,7 @@ public class ValueConverter {
 		}
 		else if ( value.getType().equals( DataTypes.INT_TYPE ) )
 		{
-			return value.contentLong;
+			return (int) value.contentLong;
 		}
 		else if ( value.getType().equals( DataTypes.FLOAT_TYPE ) )
 		{

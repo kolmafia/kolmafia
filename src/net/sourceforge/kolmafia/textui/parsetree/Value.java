@@ -274,30 +274,14 @@ public class Value
 		}
 		if ( this.getType() == DataTypes.LOCATION_TYPE )
 		{
-			if ( this.content == null )
-			{	// All attribute lookups on $location[none] would generate NPEs,
-				// so instead of adding a null check to each attribute, just
-				// return a normal record with default values.
-				return new RecordValue( ProxyRecordValue.LocationProxy._type );
-			}
 			return new ProxyRecordValue.LocationProxy( this );
 		}
 		if ( this.getType() == DataTypes.MONSTER_TYPE )
 		{
-			if ( this.content == null )
-			{
-				// Ditto
-				return new RecordValue( ProxyRecordValue.MonsterProxy._type );
-			}
 			return new ProxyRecordValue.MonsterProxy( this );
 		}
 		if ( this.getType() == DataTypes.COINMASTER_TYPE )
 		{
-			if ( this.content == null )
-			{
-				// Ditto
-				return new RecordValue( ProxyRecordValue.CoinmasterProxy._type );
-			}
 			return new ProxyRecordValue.CoinmasterProxy( this );
 		}
 		if ( this.getType() == DataTypes.BOUNTY_TYPE )
