@@ -30,7 +30,7 @@ public class SafeRequire
 
 	public SafeRequire( Context cx, Scriptable nativeScope )
 	{
-		super( cx, nativeScope, new SoftCachingModuleScriptProvider( new UrlModuleSourceProvider( Arrays.asList( KoLConstants.SCRIPT_LOCATION.toURI(), KoLConstants.RELAY_LOCATION.toURI() ), null ) ), null, null, true );
+		super( cx, nativeScope, new SoftCachingModuleScriptProvider( new UrlModuleSourceProvider( Arrays.asList( KoLConstants.SCRIPT_LOCATION.toURI(), KoLConstants.RELAY_LOCATION.toURI() ), null ) ), null, new MainWarningScript(), true );
 	}
 
 	@Override
