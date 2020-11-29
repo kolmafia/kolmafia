@@ -22,7 +22,6 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.ScriptException;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.UserDefinedFunction;
-import net.sourceforge.kolmafia.textui.javascript.MainWarningScript;
 
 public class SafeRequire
 	extends Require

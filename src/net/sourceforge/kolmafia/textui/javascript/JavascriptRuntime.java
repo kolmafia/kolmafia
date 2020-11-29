@@ -46,7 +46,6 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.ScriptException;
 import net.sourceforge.kolmafia.textui.parsetree.Symbol;
-import net.sourceforge.kolmafia.textui.javascript.ObservingContextFactory;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
