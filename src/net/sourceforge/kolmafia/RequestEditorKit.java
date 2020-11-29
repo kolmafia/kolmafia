@@ -1980,7 +1980,7 @@ public class RequestEditorKit
 				return;
 			}
 		}
-		else if ( partyQuest.equals( "trash" ) )
+		else if ( partyQuest.equals( "dj" ) )
 		{
 			Matcher m = RequestEditorKit.MEAT_PATTERN.matcher( buffer );
 			if ( m.find() )
