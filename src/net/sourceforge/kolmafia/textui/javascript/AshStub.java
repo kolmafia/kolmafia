@@ -41,7 +41,6 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
 
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
@@ -105,10 +104,7 @@ public abstract class AshStub
 	@Override
 	public Object call( Context cx, Scriptable scope, Scriptable thisObj, Object[] args )
 	{
-		if ( Thread.interrupted() || !KoLmafia.permitsContinue() )
-		{
-			throw new ScriptInterruptException();
-		}
+		JavascriptRuntime.checkInterrupted();
 
 		ValueConverter coercer = new ValueConverter( cx, scope );
 
@@ -155,6 +151,8 @@ public abstract class AshStub
 
 		Value ashReturnValue = execute( function, ashArgs );
 		Object returnValue = coercer.asJava( ashReturnValue );
+
+		JavascriptRuntime.checkInterrupted();
 
 		if ( returnValue instanceof Value && ((Value) returnValue).asProxy() instanceof ProxyRecordValue )
 		{
