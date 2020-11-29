@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.EnumSet;
+import java.util.List;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -777,7 +778,18 @@ public class CreateItemRequest
 		int created = 0;
 
 		m = CRAFT_COMMENT_PATTERN.matcher( responseText );
-		while ( m.find() )
+		if ( !m.find() )
+		{
+			return 0;
+		}
+
+
+		// Multi-step crafting makes it harder to tell how many
+		// free crafts were used, so we look at the text following
+		// each craft individually for the free crafting texts.
+		List<Integer[]> craftComments = new ArrayList<Integer[]>();
+
+		do
 		{
 			// item ids can be -1, if crafting uses a single item
 			int qty = StringUtilities.parseInt( m.group( 1 ) );
@@ -831,8 +843,26 @@ public class CreateItemRequest
 				}
 			}
 
-			created = qty;
+			craftComments.add( new Integer[] { m.start(), qty } );
 		}
+		while ( m.find() );
+
+		// Parse for the end of the table we currently are in
+		int craftStart = craftComments.get( 0 )[ 0 ];
+		int craftEnd = m.regionEnd();
+		Matcher tableStartMatcher = Pattern.compile( "<table" ).matcher( responseText ).region( craftStart, craftEnd );
+		Matcher tableEndMatcher = Pattern.compile( "</table>" ).matcher( responseText ).region( craftStart, craftEnd );
+		while ( tableEndMatcher.find() )
+		{
+			// Make sure that wasn't just a table inside a table
+			if ( !tableStartMatcher.find() || tableStartMatcher.start() > tableEndMatcher.start() )
+			{
+				craftEnd = tableEndMatcher.start();
+				break;
+			}
+		}
+		craftComments.add( new Integer[] { craftEnd } );
+
 
 		if ( responseText.contains( "Smoke" ) )
 		{
@@ -850,49 +880,56 @@ public class CreateItemRequest
 			RequestLogger.updateSessionLog( "Your " + servant + " blew up" );
 		}
 
-		int turnsSaved = 0;
-		Matcher freeTurn;
 
-		// Remove from Jackhammer, then Warbear Anvil, then Thor's Pliers
-		if ( mode.equals( "smith" ) )
+		for ( int i = 0; i + 1 < craftComments.size(); ++i )
 		{
-			freeTurn = JACKHAMMER_PATTERN.matcher( responseText );
-			while ( freeTurn.find() )
-			{
-				int jackhammerTurnsSaved = Math.min( 3 - Preferences.getInteger( "_legionJackhammerCrafting" ), created - turnsSaved );
-				Preferences.increment( "_legionJackhammerCrafting", created, 3, false );
-				turnsSaved += jackhammerTurnsSaved;
-			}
-			freeTurn = AUTO_ANVIL_PATTERN.matcher( responseText );
-			while ( freeTurn.find() )
-			{
-				int autoAnvilTurnsSaved = Math.min( 5 - Preferences.getInteger( "_warbearAutoAnvilCrafting" ), created - turnsSaved );
-				Preferences.increment( "_warbearAutoAnvilCrafting", created - turnsSaved, 5, false );
-				turnsSaved += autoAnvilTurnsSaved;
-			}
-			freeTurn = THORS_PLIERS_PATTERN.matcher( responseText );
-			while ( freeTurn.find() )
-			{
-				int thorsPliersTurnsSaved = Math.min( 10 - Preferences.getInteger( "_thorsPliersCrafting" ), created - turnsSaved );
-				Preferences.increment( "_thorsPliersCrafting", created - turnsSaved, 10, false );
-				turnsSaved += thorsPliersTurnsSaved;
-			}
-		}
+			String craftSection = responseText.substring( craftComments.get( i )[ 0 ], craftComments.get( i + 1 )[ 0 ] );
+			created = craftComments.get( i )[ 1 ];
 
-		// Remove from Rapid Prototyping, then Corner Cutter
-		freeTurn = RAPID_PROTOTYPING_PATTERN.matcher( responseText );
-		while ( freeTurn.find() )
-		{
-			int rapidPrototypingTurnsSaved = Math.min( 5 - Preferences.getInteger( "_rapidPrototypingUsed" ), created - turnsSaved );
-			Preferences.increment( "_rapidPrototypingUsed", created - turnsSaved, 5, false );
-			turnsSaved += rapidPrototypingTurnsSaved;
-		}
-		freeTurn = CORNER_CUTTER_PATTERN.matcher( responseText );
-		while ( freeTurn.find() )
-		{
-			int expertCornerCutterTurnsSaved = Math.min( 5 - Preferences.getInteger( "_expertCornerCutterUsed" ), created - turnsSaved );
-			Preferences.increment( "_expertCornerCutterUsed", created - turnsSaved, 5, false );
-			turnsSaved += expertCornerCutterTurnsSaved;
+			int turnsSaved = 0;
+			Matcher freeTurn;
+
+			// Remove from Jackhammer, then Warbear Anvil, then Thor's Pliers
+			if ( mode.equals( "smith" ) )
+			{
+				freeTurn = JACKHAMMER_PATTERN.matcher( craftSection );
+				if ( freeTurn.find() )
+				{
+					int jackhammerTurnsSaved = Math.min( 3 - Preferences.getInteger( "_legionJackhammerCrafting" ), created - turnsSaved );
+					Preferences.increment( "_legionJackhammerCrafting", created, 3, false );
+					turnsSaved += jackhammerTurnsSaved;
+				}
+				freeTurn = AUTO_ANVIL_PATTERN.matcher( craftSection );
+				if ( freeTurn.find() )
+				{
+					int autoAnvilTurnsSaved = Math.min( 5 - Preferences.getInteger( "_warbearAutoAnvilCrafting" ), created - turnsSaved );
+					Preferences.increment( "_warbearAutoAnvilCrafting", created - turnsSaved, 5, false );
+					turnsSaved += autoAnvilTurnsSaved;
+				}
+				freeTurn = THORS_PLIERS_PATTERN.matcher( craftSection );
+				if ( freeTurn.find() )
+				{
+					int thorsPliersTurnsSaved = Math.min( 10 - Preferences.getInteger( "_thorsPliersCrafting" ), created - turnsSaved );
+					Preferences.increment( "_thorsPliersCrafting", created - turnsSaved, 10, false );
+					turnsSaved += thorsPliersTurnsSaved;
+				}
+			}
+
+			// Remove from Rapid Prototyping, then Corner Cutter
+			freeTurn = RAPID_PROTOTYPING_PATTERN.matcher( craftSection );
+			if ( freeTurn.find() )
+			{
+				int rapidPrototypingTurnsSaved = Math.min( 5 - Preferences.getInteger( "_rapidPrototypingUsed" ), created - turnsSaved );
+				Preferences.increment( "_rapidPrototypingUsed", created - turnsSaved, 5, false );
+				turnsSaved += rapidPrototypingTurnsSaved;
+			}
+			freeTurn = CORNER_CUTTER_PATTERN.matcher( craftSection );
+			if ( freeTurn.find() )
+			{
+				int expertCornerCutterTurnsSaved = Math.min( 5 - Preferences.getInteger( "_expertCornerCutterUsed" ), created - turnsSaved );
+				Preferences.increment( "_expertCornerCutterUsed", created - turnsSaved, 5, false );
+				turnsSaved += expertCornerCutterTurnsSaved;
+			}
 		}
 
 		return created;
