@@ -36,7 +36,9 @@ package net.sourceforge.kolmafia.textui;
 public class ScriptException
 	extends RuntimeException
 {
-	public ScriptException( final String message )
+	private static final long serialVersionUID = 1L;
+
+	public ScriptException(final String message)
 	{
 		super( message );
 	}

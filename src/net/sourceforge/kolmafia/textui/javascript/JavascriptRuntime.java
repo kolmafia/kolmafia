@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.textui.ScriptException;
 import net.sourceforge.kolmafia.textui.parsetree.Symbol;
 
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Function;
@@ -70,12 +71,16 @@ import java.util.stream.Collectors;
 public class JavascriptRuntime
 	extends AbstractRuntime
 {
+	public static final String DEFAULT_RUNTIME_LIBRARY_NAME = "__runtimeLibrary__";
+
 	static final Map<Thread, JavascriptRuntime> runningRuntimes = new ConcurrentHashMap<>();
+	static final ContextFactory contextFactory = new ObservingContextFactory();
 
 	private File scriptFile = null;
 	private String scriptString = null;
 
 	private Scriptable currentTopScope = null;
+	private Scriptable currentStdLib = null;
 
 	public static String toCamelCase( String name )
 	{
@@ -145,18 +150,26 @@ public class JavascriptRuntime
 		return functions;
 	}
 
-	private void initRuntimeLibrary( Context cx, Scriptable scope )
+	private Scriptable initRuntimeLibrary( Context cx, Scriptable scope, boolean addToTopScope )
 	{
 		Set<String> uniqueFunctionNames = getFunctions().stream().map( Symbol::getName ).collect( Collectors.toCollection( TreeSet::new ) );
 
 		Scriptable stdLib = cx.newObject( scope );
+		int attributes = ScriptableObject.DONTENUM | ScriptableObject.PERMANENT | ScriptableObject.READONLY;
 
 		for ( String libraryFunctionName : uniqueFunctionNames )
 		{
-			ScriptableObject.putProperty( stdLib, toCamelCase( libraryFunctionName ), new LibraryFunctionStub( this, libraryFunctionName ) );
+			ScriptableObject.defineProperty( stdLib, toCamelCase( libraryFunctionName ),
+				new LibraryFunctionStub( this, libraryFunctionName ), attributes );
+			if ( addToTopScope )
+			{
+				ScriptableObject.defineProperty( scope, toCamelCase( libraryFunctionName ),
+					new LibraryFunctionStub( this, libraryFunctionName ), attributes );
+			}
 		}
 
-		ScriptableObject.putProperty( scope, "Lib", stdLib );
+		ScriptableObject.defineProperty( scope, DEFAULT_RUNTIME_LIBRARY_NAME, stdLib, attributes );
+		return stdLib;
 	}
 
 	private static void initEnumeratedType( Context cx, Scriptable scope, Class<?> recordValueClass, Type valueType )
@@ -195,18 +208,20 @@ public class JavascriptRuntime
 		}
 
 		// TODO: Support for requesting user arguments if missing.
-		Context cx = Context.enter();
+		Context cx = contextFactory.enterContext();
 
 		try
 		{
 			cx.setLanguageVersion( Context.VERSION_ES6 );
+			cx.setOptimizationLevel( 1 );
 			runningRuntimes.put( Thread.currentThread(), this );
 
 			// TODO: Use a shared parent scope and initialize this with that as a prototype.
 			Scriptable scope = cx.initSafeStandardObjects();
 			currentTopScope = scope;
 
-			initRuntimeLibrary( cx, scope );
+			// If executing from GCLI (and not file), add std lib to top scope.
+			currentStdLib = initRuntimeLibrary( cx, scope, scriptFile == null );
 			initEnumeratedTypes( cx, scope );
 
 			setState( State.NORMAL );
@@ -237,7 +252,7 @@ public class JavascriptRuntime
 		{
 			if ( executeTopLevel )
 			{
-				Require require = new SafeRequire( cx, scope );
+				Require require = new SafeRequire( cx, scope, currentStdLib );
 				if ( scriptFile != null )
 				{
 					exports = require.requireMain( cx, scriptFile.toURI().toString() );
@@ -257,10 +272,6 @@ public class JavascriptRuntime
 				}
 			}
 		}
-		catch ( ScriptInterruptException e )
-		{
-			// This only happens on world peace. Fall through and exit the interpreter.
-		}
 		catch ( WrappedException e )
 		{
 			Throwable unwrapped = e.getWrappedException();
@@ -272,7 +283,7 @@ public class JavascriptRuntime
 		}
 		catch ( EcmaError e )
 		{
-			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "JavaScript error: " + e.getErrorMessage() + "\n" + e.getScriptStackTrace() );
+			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "JavaScript error: " + e.getErrorMessage() + "\n" + e.lineSource() + "\n" + e.getScriptStackTrace() );
 		}
 		catch ( JavaScriptException e )
 		{
@@ -295,6 +306,15 @@ public class JavascriptRuntime
 		for ( Thread thread : runningRuntimes.keySet() )
 		{
 			thread.interrupt();
+		}
+	}
+
+	public static void checkInterrupted()
+	{
+		if ( Thread.interrupted() || !KoLmafia.permitsContinue() )
+		{
+			KoLmafia.forceContinue();
+			throw new JavaScriptException( "Script interrupted.", null, 0 );
 		}
 	}
 

@@ -40,8 +40,6 @@ import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
-import net.sourceforge.kolmafia.KoLmafia;
-
 public class ProxyRecordMethodWrapper
 	extends BaseFunction
 {
@@ -57,11 +55,6 @@ public class ProxyRecordMethodWrapper
 	@Override
 	public Object call( Context cx, Scriptable scope, Scriptable thisObj, Object[] args )
 	{
-		if ( Thread.interrupted() || !KoLmafia.permitsContinue() )
-		{
-			throw new ScriptInterruptException();
-		}
-
 		if ( !( thisObj instanceof EnumeratedWrapper ) )
 		{
 			return null;

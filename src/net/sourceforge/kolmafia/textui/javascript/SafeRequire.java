@@ -28,9 +28,12 @@ public class SafeRequire
 {
 	private static final long serialVersionUID = 1L;
 
-	public SafeRequire( Context cx, Scriptable nativeScope )
+	private Scriptable stdLib;
+
+	public SafeRequire( Context cx, Scriptable nativeScope, Scriptable stdLib )
 	{
 		super( cx, nativeScope, new SoftCachingModuleScriptProvider( new UrlModuleSourceProvider( Arrays.asList( KoLConstants.SCRIPT_LOCATION.toURI(), KoLConstants.RELAY_LOCATION.toURI() ), null ) ), null, new MainWarningScript(), true );
+		this.stdLib = stdLib;
 	}
 
 	@Override
@@ -42,7 +45,11 @@ public class SafeRequire
 		}
 
 		String path = (String) args[0];
-		if ( path.endsWith( ".ash" ) )
+		if ( path.equals( "kolmafia" ) )
+		{
+			return stdLib;
+		}
+		else if ( path.endsWith( ".ash" ) )
 		{
 			Scriptable exports = cx.newObject( scope );
 
@@ -69,7 +76,8 @@ public class SafeRequire
 			{
 				UserDefinedFunction userDefinedFunction = (UserDefinedFunction) f;
 				UserDefinedFunctionStub stub = new UserDefinedFunctionStub( interpreter, userDefinedFunction.getName() );
-				ScriptableObject.putProperty( exports, JavascriptRuntime.toCamelCase( userDefinedFunction.getName() ), stub );
+				int attributes = ScriptableObject.DONTENUM | ScriptableObject.PERMANENT | ScriptableObject.READONLY;
+				ScriptableObject.defineProperty( exports, JavascriptRuntime.toCamelCase( userDefinedFunction.getName() ), stub, attributes );
 			}
 
 			interpreter.execute( null, null );
