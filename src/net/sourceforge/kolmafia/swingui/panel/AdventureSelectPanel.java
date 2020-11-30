@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -55,6 +56,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListDataEvent;
@@ -95,6 +97,7 @@ import net.sourceforge.kolmafia.session.GoalManager;
 
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 
+import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 
@@ -189,7 +192,9 @@ public class AdventureSelectPanel
 
 			this.countField = new AdventureCountSpinner();
 			this.countField.setHorizontalAlignment( AutoHighlightTextField.RIGHT );
-			JComponentUtilities.setComponentSize( this.countField, 56, -1 );
+			this.countField.getEditor().setBorder( BorderFactory.createEtchedBorder( EtchedBorder.LOWERED) );
+
+			JComponentUtilities.setComponentSize( this.countField, -1, -1 );
 			panel.add( this.countField );
 
 			zonePanel.add( panel, BorderLayout.EAST );
@@ -211,7 +216,7 @@ public class AdventureSelectPanel
 
 		boolean enableConditionsField = Preferences.getBoolean( "autoSetConditions" );
 		this.conditionsFieldActive.setSelected( enableConditionsField );
-		this.conditionsFieldActive.setToolTipText( "enable conditions field" );
+		this.conditionsFieldActive.setToolTipText( "enable conditions field and stop if the conditions are met" );
 		this.conditionsFieldActive.addActionListener( new EnableObjectivesListener() );
 		this.conditionField.setEnabled( enableConditionsField );
 
@@ -358,7 +363,7 @@ public class AdventureSelectPanel
 		public RedoFreeAdventuresCheckbox()
 		{
 			super();
-			this.setToolTipText( "redo free adventures" );
+			this.setToolTipText( "Don't count free adventures towards turn count maximum" );
 			this.setSelected( KoLmafia.redoSkippedAdventures );
 			this.addActionListener( this );
 			NamedListenerRegistry.registerNamedListener( "(adventuring)", this );
@@ -760,6 +765,7 @@ public class AdventureSelectPanel
 		{
 			super();
 			this.addChangeListener( this );
+			this.setToolTipText( "Number of turns to adventure in the selected zone" );
 		}
 
 		public void stateChanged( final ChangeEvent e )

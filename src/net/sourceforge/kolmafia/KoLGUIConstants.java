@@ -1,44 +1,16 @@
-/**
- * Copyright (c) 2005-2020, KoLmafia development team
- * http://kolmafia.sourceforge.net/
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *  [1] Redistributions of source code must retain the above copyright
- *      notice, this list of conditions and the following disclaimer.
- *  [2] Redistributions in binary form must reproduce the above copyright
- *      notice, this list of conditions and the following disclaimer in
- *      the documentation and/or other materials provided with the
- *      distribution.
- *  [3] Neither the name "KoLmafia" nor the names of its contributors may
- *      be used to endorse or promote products derived from this software
- *      without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
- * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
- * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
- * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
- * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
- * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
-
 package net.sourceforge.kolmafia;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -60,4 +32,78 @@ public class KoLGUIConstants
 	public static final Color ENABLED_COLOR = new Color( 192, 255, 192 );
 	public static final Color DISABLED_COLOR = null;
 
+	public static final Color ERROR_COLOR_DARK = new Color(100,23, 25  );
+	public static final Color ENABLED_COLOR_DARK = new Color( 25, 103, 23 );
+	public static final Color DISABLED_COLOR_DARK = new Color( 89,89,89);
+
+	// New Look and Feel list goes here.
+	public static final Map<String, String> FLATMAP_LIGHT_LOOKS = new TreeMap<String, String>()
+	{{
+		put( "Arc - Orange", "com.formdev.flatlaf.intellijthemes.FlatArcOrangeIJTheme" );
+		put( "Arc", "com.formdev.flatlaf.intellijthemes.FlatArcIJTheme" );
+		put( "Atom One Light Contrast", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneLightContrastIJTheme" );
+		put( "Atom One Light", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneLightIJTheme" );
+		put( "Cyan light", "com.formdev.flatlaf.intellijthemes.FlatCyanLightIJTheme" );
+		put( "FlatMap Light", "com.formdev.flatlaf.FlatLightLaf" );
+		put( "GitHub Contrast", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubContrastIJTheme" );
+		put( "GitHub", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubIJTheme" );
+		put( "Gray", "com.formdev.flatlaf.intellijthemes.FlatGrayIJTheme" );
+		put( "Light Flat", "com.formdev.flatlaf.intellijthemes.FlatLightFlatIJTheme" );
+		put( "Light Owl Contrast", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatLightOwlContrastIJTheme" );
+		put( "Light Owl", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatLightOwlIJTheme" );
+		put( "Material Lighter Contrast", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterContrastIJTheme" );
+		put( "Material Lighter", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterIJTheme" );
+		put( "Solarized Light Contrast", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatSolarizedLightContrastIJTheme" );
+		put( "Solarized Light", "com.formdev.flatlaf.intellijthemes.FlatSolarizedLightIJTheme" );
+		put( "Material Solarized Light", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatSolarizedLightIJTheme" );
+	}};
+
+	public static final Map<String, String> FLATMAP_DARK_LOOKS = new TreeMap<String, String>()
+	{{
+		put( "Arc Dark - Orange", "com.formdev.flatlaf.intellijthemes.FlatArcDarkOrangeIJTheme" );
+		put( "Arc Dark Contrast", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatArcDarkContrastIJTheme" );
+		put( "Arc Dark", "com.formdev.flatlaf.intellijthemes.FlatArcDarkIJTheme" );
+		put( "Material Arc Dark", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatArcDarkIJTheme" );
+		put( "Atom One Dark Contrast", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneDarkContrastIJTheme" );
+		put( "Atom One Dark", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneDarkIJTheme" );
+		put( "Carbon", "com.formdev.flatlaf.intellijthemes.FlatCarbonIJTheme" );
+		put( "Cobalt 2", "com.formdev.flatlaf.intellijthemes.FlatCobalt2IJTheme" );
+		put( "Flatmap Darcula", "com.formdev.flatlaf.FlatDarculaLaf" );
+		put( "Dark Flat", "com.formdev.flatlaf.intellijthemes.FlatDarkFlatIJTheme" );
+		put( "Dark Purple", "com.formdev.flatlaf.intellijthemes.FlatDarkPurpleIJTheme" );
+		put( "Dracula Contrast", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatDraculaContrastIJTheme" );
+		put( "Dracula", "com.formdev.flatlaf.intellijthemes.FlatDraculaIJTheme" );
+		put( "Dracula Theme", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatDraculaIJTheme" );
+		put( "FlatMap Dark", "com.formdev.flatlaf.FlatDarkLaf" );
+		put( "Gradianto Dark Fuchsia", "com.formdev.flatlaf.intellijthemes.FlatGradiantoDarkFuchsiaIJTheme" );
+		put( "Gradianto Deep Ocean", "com.formdev.flatlaf.intellijthemes.FlatGradiantoDeepOceanIJTheme" );
+		put( "Gradianto Midnight Blue", "com.formdev.flatlaf.intellijthemes.FlatGradiantoMidnightBlueIJTheme" );
+		put( "Gruvbox Dark Hard", "com.formdev.flatlaf.intellijthemes.FlatGruvboxDarkHardIJTheme" );
+		put( "Gruvbox Dark Medium", "com.formdev.flatlaf.intellijthemes.FlatGruvboxDarkMediumIJTheme" );
+		put( "Gruvbox Dark Soft", "com.formdev.flatlaf.intellijthemes.FlatGruvboxDarkSoftIJTheme" );
+		put( "Hiberbee Dark", "com.formdev.flatlaf.intellijthemes.FlatHiberbeeDarkIJTheme" );
+		put( "High contrast", "com.formdev.flatlaf.intellijthemes.FlatHighContrastIJTheme" );
+		put( "Material Darker Contrast", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDarkerContrastIJTheme" );
+		put( "Material Darker", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDarkerIJTheme" );
+		put( "Material Deep Ocean Contrast", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDeepOceanContrastIJTheme" );
+		put( "Material Deep Ocean", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDeepOceanIJTheme" );
+		put( "Material Design Dark", "com.formdev.flatlaf.intellijthemes.FlatMaterialDesignDarkIJTheme" );
+		put( "Material Oceanic Contrast", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialOceanicContrastIJTheme" );
+		put( "Material Oceanic", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialOceanicIJTheme" );
+		put( "Material Palenight Contrast", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialPalenightContrastIJTheme" );
+		put( "Material Palenight", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialPalenightIJTheme" );
+		put( "Monocai", "com.formdev.flatlaf.intellijthemes.FlatMonocaiIJTheme" );
+		put( "Monokai Pro Contrast", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMonokaiProContrastIJTheme" );
+		put( "Monokai Pro", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMonokaiProIJTheme" );
+		put( "Night Owl Contrast", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatNightOwlContrastIJTheme" );
+		put( "Night Owl", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatNightOwlIJTheme" );
+		put( "Nord", "com.formdev.flatlaf.intellijthemes.FlatNordIJTheme" );
+		put( "One Dark", "com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme" );
+		put( "Solarized Dark Contrast", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatSolarizedDarkContrastIJTheme" );
+		put( "Solarized Dark", "com.formdev.flatlaf.intellijthemes.FlatSolarizedDarkIJTheme" );
+		put( "Material Solarized Dark", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatSolarizedDarkIJTheme" );
+		put( "Spacegray", "com.formdev.flatlaf.intellijthemes.FlatSpacegrayIJTheme" );
+		put( "Vuesion", "com.formdev.flatlaf.intellijthemes.FlatVuesionIJTheme" );
+
+	}};
 }

@@ -47,6 +47,7 @@ import java.math.BigInteger;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -170,6 +171,9 @@ import net.sourceforge.kolmafia.utilities.SwinglessUIUtils;
 
 import net.sourceforge.kolmafia.webui.RelayLoader;
 import net.sourceforge.kolmafia.webui.RelayServer;
+
+import static net.sourceforge.kolmafia.KoLGUIConstants.FLATMAP_LIGHT_LOOKS;
+import static net.sourceforge.kolmafia.KoLGUIConstants.FLATMAP_DARK_LOOKS;
 
 public abstract class KoLmafia
 {
@@ -402,6 +406,13 @@ public abstract class KoLmafia
 			{
 				continue;
 			}
+			// Special case to allow dark menu bar on MacOSX via java
+			// This could be reworked to handle any JRE directive if needed.
+			if ( args[ i ].equalsIgnoreCase( "-NSRequiresAquaSystemAppearance" )  )
+			{
+				i++;
+				continue;
+			}
 
 			initialScript.append( args[ i ] );
 			initialScript.append( " " );
@@ -442,6 +453,10 @@ public abstract class KoLmafia
 		// preferences. Always do this.
 
 		String defaultLookAndFeel;
+
+		// Tell UIManager about Look and Feel files in external jars ( defined in KoLGUIConstants)
+		FLATMAP_LIGHT_LOOKS.forEach( ( lookName,  lookClass ) -> UIManager.installLookAndFeel( lookName , lookClass ) );
+		FLATMAP_DARK_LOOKS.forEach( ( lookName,  lookClass ) -> UIManager.installLookAndFeel( lookName , lookClass ) );
 
 		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) || System.getProperty( "os.name" ).startsWith( "Win" ) )
 		{

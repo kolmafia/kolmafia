@@ -58,6 +58,7 @@ public class LicenseDisplayListener
 		"swinglabs-license.txt",
 		"LICENSE-SVNKIT.txt",
 		"sorttable-license.txt",
+		"flatlaf-license.txt",
 		"unlicensed.htm"
 	};
 
@@ -74,6 +75,7 @@ public class LicenseDisplayListener
 		"SwingLabs",
 		"SVNKit",
 		"Sort Table",
+		"FlatMap Look and Feel",
 		"Unlicensed"
 	};
 

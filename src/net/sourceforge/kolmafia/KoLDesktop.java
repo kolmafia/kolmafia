@@ -355,38 +355,43 @@ public class KoLDesktop
 			return null;
 		}
 
+		String iconSetPrefix;
+		// instead of this the final version will get the prefix from a variable (or none for "classic" (current) icons).
+		// it would be really nice if it were a
+		iconSetPrefix = KoLmafiaGUI.isDarkTheme()? "themes/dark/": "" ;
+
 		toolbarPanel.add( Box.createVerticalStrut( 50 ) );
 
 		toolbarPanel.add( Box.createHorizontalStrut( 5 ) );
 
-		toolbarPanel.add( new DisplayFrameButton( "Council", "council.gif", "CouncilFrame" ) );
-		toolbarPanel.add( new RelayBrowserButton( "Load in Web Browser", "browser.gif", null ) );
+		toolbarPanel.add( new DisplayFrameButton( "Council", iconSetPrefix + "council.gif", "CouncilFrame" ) );
+		toolbarPanel.add( new RelayBrowserButton( "Load in Web Browser", iconSetPrefix + "browser.gif", null ) );
 
-		toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", "command.gif", "CommandDisplayFrame" ) );
-
-		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
-
-		toolbarPanel.add( new DisplayFrameButton( "KoLmafia Chat", "chat.gif", "ChatManager" ) );
-		toolbarPanel.add( new DisplayFrameButton( "Clan Manager", "clan.gif", "ClanManageFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", iconSetPrefix+ "command.gif", "CommandDisplayFrame" ) );
 
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
-		toolbarPanel.add( new DisplayFrameButton( "Daily Deeds", "hp.gif", "CharSheetFrame" ) );
-		toolbarPanel.add( new DisplayFrameButton( "Item Manager", "inventory.gif", "ItemManageFrame" ) );
-		toolbarPanel.add( new DisplayFrameButton( "Equipment Manager", "equipment.gif", "GearChangeFrame" ) );
-		toolbarPanel.add( new DisplayFrameButton( "Store Manager", "mall.gif", "StoreManageFrame" ) );
-		toolbarPanel.add( new DisplayFrameButton( "Coin Masters", "coin.gif", "CoinmastersFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "KoLmafia Chat", iconSetPrefix + "chat.gif", "ChatManager" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Clan Manager", iconSetPrefix + "clan.gif", "ClanManageFrame" ) );
 
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
-		toolbarPanel.add( new DisplayFrameButton( "Purchase Buffs", "buff.gif", "BuffRequestFrame" ) );
-		toolbarPanel.add( new DisplayFrameButton( "Modifier Maximizer", "uparrow.gif", "MaximizerFrame" ) );
-		toolbarPanel.add( new DisplayFrameButton( "Sweet Synthesis", "candypile.gif", "SynthesizeFrame" ) );
-		toolbarPanel.add( new DisplayFrameButton( "Familiar Trainer", "arena.gif", "FamiliarTrainingFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Daily Deeds", iconSetPrefix + "hp.gif", "CharSheetFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Item Manager", iconSetPrefix + "inventory.gif", "ItemManageFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Equipment Manager", iconSetPrefix + "equipment.gif", "GearChangeFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Store Manager", iconSetPrefix + "mall.gif", "StoreManageFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Coin Masters", iconSetPrefix + "coin.gif", "CoinmastersFrame" ) );
 
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
-		toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", "OptionsFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Purchase Buffs", iconSetPrefix + "buff.gif", "BuffRequestFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Modifier Maximizer", iconSetPrefix + "uparrow.gif", "MaximizerFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Sweet Synthesis", iconSetPrefix + "candypile.gif", "SynthesizeFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Familiar Trainer", iconSetPrefix + "arena.gif", "FamiliarTrainingFrame" ) );
+
+		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
+
+		toolbarPanel.add( new DisplayFrameButton( "Preferences", iconSetPrefix + "preferences.gif", "OptionsFrame" ) );
 
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 		toolbarPanel.add( Box.createHorizontalGlue() );
@@ -396,7 +401,7 @@ public class KoLDesktop
 
 		toolbarPanel.add( this.memoryUsageLabel );
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
-		toolbarPanel.add( new InvocationButton( "Collect Garbage", "trashield.gif", KoLmafia.class, "gc" ) );
+		toolbarPanel.add( new InvocationButton( "Collect Garbage", iconSetPrefix + "trashield.gif", KoLmafia.class, "gc" ) );
 
 		toolbarPanel.add( Box.createHorizontalStrut( 5 ) );
 

@@ -62,7 +62,7 @@ public abstract class OptionsPanel
 
 	public OptionsPanel()
 	{
-		this( new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
+		this( new Dimension( 130, 18 ), new Dimension( 260, 18 ) );
 	}
 
 	public OptionsPanel( final Dimension left, final Dimension right )

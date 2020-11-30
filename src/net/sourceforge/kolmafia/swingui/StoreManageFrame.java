@@ -394,7 +394,7 @@ public class StoreManageFrame
 
 		private void setHighlighters()
 		{
-			Highlighter stripe = HighlighterFactory.createSimpleStriping();
+			Highlighter stripe = HighlighterFactory.createSimpleStriping(new Color( 128, 128, 128 , 64) );
 			this.addHighlighter( stripe );
 
 			HighlightPredicate mouseOver = new HighlightPredicate()

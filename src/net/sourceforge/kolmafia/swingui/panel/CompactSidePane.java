@@ -50,6 +50,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -112,11 +113,11 @@ public class CompactSidePane
 	private final int BONUS_LABELS = 10;
 	private final JLabel[] bonusLabel = new JLabel[ BONUS_LABELS ];
 	private final JLabel[] bonusValueLabel = new JLabel[ BONUS_LABELS ];
-	private final JPopupMenu modPopup;
+	protected final JPopupMenu modPopup;
 	private final JLabel modPopLabel;
 
 	// Sneaky Pete's Motorcycle
-	private final JPopupMenu motPopup;
+	protected final JPopupMenu motPopup;
 	private final JLabel motPopLabel;
 
 	private static final AdventureResult CLUMSY = EffectPool.get( EffectPool.CLUMSY );
@@ -264,6 +265,8 @@ public class CompactSidePane
 		this.add( refreshPanel, BorderLayout.SOUTH );
 		this.add( compactCard, BorderLayout.NORTH );
 
+
+		/* We're going to try just letting the Look and Feel take care of this...
 		this.levelLabel.setForeground( Color.BLACK );
 		this.roninLabel.setForeground( Color.BLACK );
 		this.mcdLabel.setForeground( Color.BLACK );
@@ -287,6 +290,9 @@ public class CompactSidePane
 			this.bonusLabel[ i ].setForeground( Color.BLACK );
 			this.bonusValueLabel[ i ].setForeground( Color.BLACK );
 		}
+
+
+	 */
 	}
 
 	private class ModPopListener
@@ -295,8 +301,15 @@ public class CompactSidePane
 		@Override
 		public void mousePressed( MouseEvent e )
 		{
-			CompactSidePane.this.modPopup.show( e.getComponent(),
-				e.getX(), e.getY() );
+			JPopupMenu JPM = CompactSidePane.this.modPopup;
+			SwingUtilities
+				.invokeLater( () -> {
+					SwingUtilities
+						.updateComponentTreeUI( JPM );  // update components
+						      JPM.pack();
+						    } );
+				JPM.show( e.getComponent(),
+					  e.getX(), e.getY() );
 		}
 	}
 	private class FamPopListener
@@ -1199,7 +1212,7 @@ public class CompactSidePane
 		public FamiliarLabel()
 		{
 			super( " ", null, SwingConstants.CENTER );
-			this.setForeground( Color.BLACK );
+			//this.setForeground( Color.BLACK );
 			this.setVerticalTextPosition( JLabel.BOTTOM );
 			this.setHorizontalTextPosition( JLabel.CENTER );
 
@@ -1303,7 +1316,7 @@ public class CompactSidePane
 
 	private static String modifierPopupText()
 	{
-		StringBuffer buf = new StringBuffer( "<html><table border=1>" );
+		StringBuffer buf = new StringBuffer( "<html><body><table border=1>" );
 		int[] predicted = KoLCharacter.getCurrentModifiers().predict();
 		int mus = Math.max( 1, predicted[ Modifiers.BUFFED_MUS ] );
 		int mys = Math.max( 1, predicted[ Modifiers.BUFFED_MYS ] );
@@ -1379,7 +1392,7 @@ public class CompactSidePane
 		buf.append( "<br>" );
 		buf.append( KoLConstants.MODIFIER_FORMAT.format(
 			KoLCharacter.currentNumericModifier( Modifiers.RANGED_DAMAGE_PCT ) ) );
-		buf.append( "%</td></tr><tr><td>Critical</td>" );
+		buf.append( "%</td></tr><tr><td>Critical</td><td>" );
 		buf.append( KoLConstants.MODIFIER_FORMAT.format(
 			KoLCharacter.currentNumericModifier( Modifiers.CRITICAL_PCT ) ) );
 		buf.append( "%</td><td rowspan=2>MP cost:<br>" );
@@ -1495,7 +1508,7 @@ public class CompactSidePane
 			}
 			buf.append( "</td></tr>" );
 		}
-		buf.append( "</table></html>" );
+		buf.append( "</table></body></html>" );
 
 		return buf.toString();
 	}
