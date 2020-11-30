@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2005-2020, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
@@ -395,7 +395,7 @@ public class GenericRequest
 	 * Constructs a new GenericRequest which will notify the given client of any changes and will use the given URL for
 	 * data submission.
 	 * 
-	 * @param formURLString The form to be used in posting data
+	 * @param newURLString The form to be used in posting data
 	 */
 
 	public GenericRequest( final String newURLString, final boolean usePostMethod )

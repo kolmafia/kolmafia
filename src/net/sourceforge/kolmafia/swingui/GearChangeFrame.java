@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2005-2020, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
@@ -40,6 +40,7 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
@@ -53,6 +54,7 @@ import javax.swing.JRadioButton;
 import javax.swing.ListModel;
 import javax.swing.SwingUtilities;
 
+import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -158,7 +160,7 @@ public class GearChangeFrame
 			case EquipmentManager.BOOTSKIN:
 			case EquipmentManager.BOOTSPUR:
 			case EquipmentManager.HOLSTER:
-				list = this.equipmentModels[ i ] = new SortedListModel<AdventureResult>();
+				list = this.equipmentModels[ i ] = new SortedListModel<>();
 				break;
 			default:
 				list = (LockableListModel<AdventureResult>) lists[ i ];
@@ -198,7 +200,7 @@ public class GearChangeFrame
 
 		EquipmentTabPanel pane = (EquipmentTabPanel)GearChangeFrame.INSTANCE.tabs.getSelectedComponent();
 
-		Modifiers mods = null;
+		Modifiers mods;
 
 		if ( value instanceof AdventureResult )
 		{
@@ -445,11 +447,11 @@ public class GearChangeFrame
 			GearChangeFrame.this.weaponTypes[ 1 ] = new JRadioButton( "melee" );
 			GearChangeFrame.this.weaponTypes[ 2 ] = new JRadioButton( "ranged" );
 
-			for ( int i = 0; i < weaponTypes.length; ++i )
+			for ( JRadioButton weaponType : weaponTypes )
 			{
-				radioGroup1.add( GearChangeFrame.this.weaponTypes[ i ] );
-				radioPanel1.add( GearChangeFrame.this.weaponTypes[ i ] );
-				GearChangeFrame.this.weaponTypes[ i ].addActionListener( new RefilterListener() );
+				radioGroup1.add( weaponType );
+				radioPanel1.add( weaponType );
+				weaponType.addActionListener( new RefilterListener() );
 			}
 
 			GearChangeFrame.this.weapon1H = new JCheckBox( "1-hand" );
@@ -471,11 +473,11 @@ public class GearChangeFrame
 			GearChangeFrame.this.offhandTypes[ 2 ] = new JRadioButton( "shields" );
 			GearChangeFrame.this.offhandTypes[ 3 ] = new JRadioButton( "other" );
 
-			for ( int i = 0; i < offhandTypes.length; ++i )
+			for ( JRadioButton offhandType : offhandTypes )
 			{
-				radioGroup2.add( GearChangeFrame.this.offhandTypes[ i ] );
-				radioPanel2.add( GearChangeFrame.this.offhandTypes[ i ] );
-				GearChangeFrame.this.offhandTypes[ i ].addActionListener( new RefilterListener() );
+				radioGroup2.add( offhandType );
+				radioPanel2.add( offhandType );
+				offhandType.addActionListener( new RefilterListener() );
 			}
 
 			rows.add( new VerifiableElement( "", radioPanel2 ) );
@@ -655,6 +657,8 @@ public class GearChangeFrame
 
 			GearChangeFrame.this.fakeHands = new FakeHandsSpinner();
 			GearChangeFrame.this.fakeHands.setHorizontalAlignment( AutoHighlightTextField.RIGHT );
+			GearChangeFrame.this.fakeHands.getEditor().setBorder( BorderFactory.createEtchedBorder( EtchedBorder.LOWERED) );
+
 			rows.add( new VerifiableElement( "Fake Hands:", GearChangeFrame.this.fakeHands ) );
 
 			rows.add( new VerifiableElement() );
@@ -810,7 +814,7 @@ public class GearChangeFrame
 		}
 
 		int oldFakeHands = EquipmentManager.getFakeHands();
-		int newFakeHands = ((Integer)this.fakeHands.getValue()).intValue();
+		int newFakeHands = (Integer) this.fakeHands.getValue();
 		if ( oldFakeHands != newFakeHands )
 		{
 			// If we want fewer fake hands than we currently have, unequip one - which will unequip all of them.
@@ -1313,11 +1317,7 @@ public class GearChangeFrame
 			return false;
 		}
 
-		if ( KoLCharacter.getLimitmode() != null && !EquipmentManager.canEquip( item ) )
-		{
-			return false;
-		}
-		return true;
+		return KoLCharacter.getLimitmode() == null || EquipmentManager.canEquip( item );
 	}
 
 	private boolean filterWeapon( final AdventureResult weapon, final int slot )
@@ -1452,12 +1452,7 @@ public class GearChangeFrame
 		}
 
 		// Make sure we meet requirements in Limitmode, otherwise show (greyed out)
-		if ( KoLCharacter.getLimitmode() != null && !EquipmentManager.canEquip( item.getName() ) )
-		{
-			return false;
-		}
-
-		return true;
+		return KoLCharacter.getLimitmode() == null || EquipmentManager.canEquip( item.getName() );
 	}
 
 	private AdventureResult currentOrSelectedItem( final int slot )
@@ -1521,13 +1516,7 @@ public class GearChangeFrame
 		{
 			try
 			{
-				SwingUtilities.invokeAndWait( new Runnable()
-				{
-					public void run()
-					{
-						updateEquipmentModelsInternal( equipmentLists );
-					}
-				} );
+				SwingUtilities.invokeAndWait( () -> updateEquipmentModelsInternal( equipmentLists ) );
 			}
 			catch ( Exception ie )
 			{

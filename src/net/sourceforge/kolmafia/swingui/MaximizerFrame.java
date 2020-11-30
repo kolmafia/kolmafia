@@ -229,7 +229,7 @@ public class MaximizerFrame
 	{
 		public MaximizerPanel()
 		{
-			super( "update", "help", new Dimension( 80, 20 ), new Dimension( 450, 20 ) );
+			super( "update", "help", new Dimension( 80, 22 ), new Dimension( 450, 22 ) );
 			filterButtons = new EnumMap(KoLConstants.filterType.class);
 
 			MaximizerFrame.this.maxPriceField = new AutoHighlightTextField();

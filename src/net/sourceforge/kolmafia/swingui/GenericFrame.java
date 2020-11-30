@@ -255,10 +255,10 @@ public abstract class GenericFrame
 		}
 
 		component.addActionListener( listener );
-		this.listenerMap.put( component, new WeakReference<ActionListener>( listener ) );
+		this.listenerMap.put( component, new WeakReference<>( listener ) );
 	}
 
-	protected void addActionListener( final JComboBox component, final ActionListener listener )
+	protected void addActionListener( final JComboBox<?> component, final ActionListener listener )
 	{
 		if ( this.listenerMap == null )
 		{
@@ -266,7 +266,7 @@ public abstract class GenericFrame
 		}
 
 		component.addActionListener( listener );
-		this.listenerMap.put( component, new WeakReference<ActionListener>( listener ) );
+		this.listenerMap.put( component, new WeakReference<>( listener ) );
 	}
 
 	protected void removeActionListener( final JComponent component, final ActionListener listener )
@@ -277,7 +277,7 @@ public abstract class GenericFrame
 		}
 		if ( component instanceof JComboBox )
 		{
-			( (JComboBox) component ).removeActionListener( listener );
+			( (JComboBox<?>) component ).removeActionListener( listener );
 		}
 	}
 
@@ -289,7 +289,7 @@ public abstract class GenericFrame
 	public static boolean appearsInTab( String frameName )
 	{
 		String tabSetting = Preferences.getString( "initialDesktop" );
-		return tabSetting.indexOf( frameName ) != -1;
+		return tabSetting.contains( frameName );
 	}
 
 	public JTabbedPane getTabbedPane()
@@ -413,7 +413,7 @@ public abstract class GenericFrame
 
 	public JToolBar getToolbar( final boolean force )
 	{
-		JToolBar toolbarPanel = null;
+		JToolBar toolbarPanel;
 
 		if ( force )
 		{
@@ -561,6 +561,9 @@ public abstract class GenericFrame
 
 	public void addCompactPane()
 	{
+		Color sidePaneColor = (KoLmafiaGUI.isDarkTheme() )
+				      ? KoLGUIConstants.ENABLED_COLOR_DARK
+				      : KoLGUIConstants.ENABLED_COLOR;
 		if ( this.sidepane != null )
 		{
 			return;
@@ -572,7 +575,9 @@ public abstract class GenericFrame
 		this.refreshListener = new CharacterListener( this.sidepane );
 		CharacterListenerRegistry.addCharacterListener( this.refreshListener );
 
-		this.sidepane.setBackground( KoLGUIConstants.ENABLED_COLOR );
+		this.sidepane.setBackground( sidePaneColor );
+
+
 		this.framePanel.add( this.sidepane, BorderLayout.WEST );
 	}
 
@@ -678,17 +683,23 @@ public abstract class GenericFrame
 		{
 		case ABORT:
 		case ERROR:
-			color = KoLGUIConstants.ERROR_COLOR;
+			color =  (KoLmafiaGUI.isDarkTheme() )
+				 ? KoLGUIConstants.ERROR_COLOR_DARK
+				 : KoLGUIConstants.ERROR_COLOR ;
 			enabled = true;
 			break;
 
 		case ENABLE:
-			color = KoLGUIConstants.ENABLED_COLOR;
+			color =  (KoLmafiaGUI.isDarkTheme() )
+				 ? KoLGUIConstants.ENABLED_COLOR_DARK
+				 : KoLGUIConstants.ENABLED_COLOR ;
 			enabled = true;
 			break;
 
 		default:
-			color = KoLGUIConstants.DISABLED_COLOR;
+			color =  (KoLmafiaGUI.isDarkTheme() )
+				 ? KoLGUIConstants.DISABLED_COLOR_DARK
+				 : KoLGUIConstants.DISABLED_COLOR;
 			enabled = false;
 			break;
 		}
@@ -803,24 +814,25 @@ public abstract class GenericFrame
 
 	private void restorePosition()
 	{
-		int xLocation = 0;
-		int yLocation = 0;
+		int xLocation;
+		int yLocation;
 
 		Rectangle display = new Rectangle();
 		GraphicsEnvironment ge =
 			GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice[] gs = ge.getScreenDevices();
-		for (int j = 0; j < gs.length; j++) {
-			GraphicsDevice gd = gs[j];
+		for ( GraphicsDevice gd : gs )
+		{
 			GraphicsConfiguration[] gc = gd.getConfigurations();
-			for (int i = 0; i < gc.length; i++) {
-				display = display.union(gc[i].getBounds());
+			for ( GraphicsConfiguration graphicsConfiguration : gc )
+			{
+				display = display.union( graphicsConfiguration.getBounds() );
 			}
 		}
 
 		String position = Preferences.getString( this.frameName );
 
-		if ( position == null || position.indexOf( "," ) == -1 )
+		if ( position == null || !position.contains( "," ) )
 		{
 			this.setLocationRelativeTo( null );
 
@@ -860,12 +872,12 @@ public abstract class GenericFrame
 		}
 	}
 
-	public static final void createDisplay( final Class frameClass )
+	public static void createDisplay( final Class<?> frameClass )
 	{
 		KoLmafiaGUI.constructFrame( frameClass );
 	}
 
-	public static final void createDisplay( final Class frameClass, final Object[] parameters )
+	public static final void createDisplay( final Class<?> frameClass, final Object[] parameters )
 	{
 		CreateFrameRunnable creator = new CreateFrameRunnable( frameClass, parameters );
 		creator.run();
@@ -892,18 +904,18 @@ public abstract class GenericFrame
 
 		int directoryIndex = 0;
 
-		for ( int i = 0; i < scriptList.length; ++i )
+		for ( File file : scriptList )
 		{
-			if ( !ScriptMenu.shouldAddScript( scriptList[ i ] ) )
+			if ( !ScriptMenu.shouldAddScript( file ) )
 			{
 			}
-			else if ( scriptList[ i ].isDirectory() )
+			else if ( file.isDirectory() )
 			{
-				KoLConstants.scripts.add( directoryIndex++ , scriptList[ i ] );
+				KoLConstants.scripts.add( directoryIndex++, file );
 			}
 			else
 			{
-				KoLConstants.scripts.add( scriptList[ i ] );
+				KoLConstants.scripts.add( file );
 			}
 		}
 	}
@@ -923,7 +935,7 @@ public abstract class GenericFrame
 			{
 				bookmarkData.append( '|' );
 			}
-			bookmarkData.append( (String) LockableListFactory.getElementAt( KoLConstants.bookmarks, i ) );
+			bookmarkData.append( LockableListFactory.getElementAt( KoLConstants.bookmarks, i ) );
 		}
 
 		Preferences.setString( "browserBookmarks", bookmarkData.toString() );

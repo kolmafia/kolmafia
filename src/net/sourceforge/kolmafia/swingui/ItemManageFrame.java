@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2005-2020, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
@@ -40,6 +40,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -49,6 +50,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -261,7 +263,7 @@ public class ItemManageFrame
 				}
 				builder.append( s ).append( "|" );
 				builder.append( ( (ShowDescriptionTable) ( (InventoryPanel) comp ).scrollComponent )
-					.collectHeaderStates().toString() );
+					.collectHeaderStates() );
 			}
 			else if ( comp instanceof RestorativeItemPanel )
 			{
@@ -272,7 +274,7 @@ public class ItemManageFrame
 				}
 				builder.append( s ).append( "|"  );
 				builder.append( ( (ShowDescriptionTable) ( (RestorativeItemPanel) comp ).scrollComponent )
-					.collectHeaderStates().toString() );
+					.collectHeaderStates() );
 			}
 		}
 
@@ -292,7 +294,7 @@ public class ItemManageFrame
 			return;
 		}
 
-		for ( String it : rawPref.split( "\\;" ) )
+		for ( String it : rawPref.split( ";" ) )
 		{
 			if ( it.length() < 1 )
 			{
@@ -405,7 +407,7 @@ public class ItemManageFrame
 			AdventureResult[] items = new AdventureResult[ KoLConstants.singletonList.size() ];
 			for ( int i = 0; i < KoLConstants.singletonList.size(); ++i )
 			{
-				AdventureResult current = (AdventureResult) KoLConstants.singletonList.get( i );
+				AdventureResult current = KoLConstants.singletonList.get( i );
 				int icount = current.getCount( KoLConstants.inventory );
 				int ccount = current.getCount( KoLConstants.closet );
 				items[ i ] = current.getInstance( Math.min( icount, Math.max( 0, 1 - ccount ) ) );
@@ -530,8 +532,9 @@ public class ItemManageFrame
 			{
 				ItemManageFrame.pullBudgetSpinner1.setHorizontalAlignment(
 					AutoHighlightTextField.RIGHT );
+				ItemManageFrame.pullBudgetSpinner1.getEditor().setBorder( BorderFactory.createEtchedBorder( EtchedBorder.LOWERED) );
 				JComponentUtilities.setComponentSize(
-					ItemManageFrame.pullBudgetSpinner1, 56, 24 );
+					ItemManageFrame.pullBudgetSpinner1, 60, 27 );
 				box.add( ItemManageFrame.pullBudgetSpinner1 );
 				box.add( Box.createVerticalStrut( 5 ) );
 				box.add( ItemManageFrame.pullsRemainingLabel1 );
@@ -540,8 +543,9 @@ public class ItemManageFrame
 			{
 				ItemManageFrame.pullBudgetSpinner2.setHorizontalAlignment(
 					AutoHighlightTextField.RIGHT );
+				ItemManageFrame.pullBudgetSpinner2.getEditor().setBorder( BorderFactory.createEtchedBorder( EtchedBorder.LOWERED) );
 				JComponentUtilities.setComponentSize(
-					ItemManageFrame.pullBudgetSpinner2, 56, 24 );
+					ItemManageFrame.pullBudgetSpinner2, 60, 27 );
 				box.add( ItemManageFrame.pullBudgetSpinner2 );
 				box.add( Box.createVerticalStrut( 5 ) );
 				box.add( ItemManageFrame.pullsRemainingLabel2 );
@@ -640,11 +644,11 @@ public class ItemManageFrame
 
 			if ( this.isEquipmentOnly )
 			{
-				for ( int i = 0; i < items.length; ++i )
+				for ( AdventureResult item : items )
 				{
-					if ( items[ i ] != null )
+					if ( item != null )
 					{
-						RequestThread.postRequest( new EquipmentRequest( items[ i ] ) );
+						RequestThread.postRequest( new EquipmentRequest( item ) );
 					}
 				}
 			}

@@ -318,6 +318,6 @@ public class ScriptManageFrame
 	public static void doHighlighterSetup( JXTable t )
 	{
 		// light gray/blue
-		t.addHighlighter( HighlighterFactory.createSimpleStriping( new Color( 230, 240, 240 ) ) );
+		t.addHighlighter( HighlighterFactory.createSimpleStriping( new Color( 128, 128, 128 , 128) ) );
 	}
 }

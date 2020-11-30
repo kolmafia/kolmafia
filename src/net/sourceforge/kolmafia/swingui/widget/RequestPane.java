@@ -62,11 +62,6 @@ public class RequestPane
 
 		HTMLDocument currentHTML = (HTMLDocument) getDocument();
 		currentHTML.putProperty( "multiByte", Boolean.FALSE );
-		
-		// Ensure that the background is off-white so that the
-		// text is always legible.
-
-		this.setBackground( new Color( 252, 252, 252 ) );
 	}
 
 	@Override

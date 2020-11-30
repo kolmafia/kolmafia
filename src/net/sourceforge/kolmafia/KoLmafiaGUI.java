@@ -38,6 +38,7 @@ import java.awt.Frame;
 import java.util.ArrayList;
 
 import javax.swing.JTabbedPane;
+import javax.swing.UIManager;
 
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
@@ -172,7 +173,7 @@ public class KoLmafiaGUI
 		String[] frameArray = frameSetting.split( "," );
 		String[] desktopArray = desktopSetting.split( "," );
 
-		ArrayList<String> initialFrameList = new ArrayList<String>();
+		ArrayList<String> initialFrameList = new ArrayList<>();
 
 		if ( !frameSetting.equals( "" ) )
 		{
@@ -242,7 +243,7 @@ public class KoLmafiaGUI
 
 		try
 		{
-			Class frameClass = Class.forName( "net.sourceforge.kolmafia.swingui." + frameName );
+			Class<?> frameClass = Class.forName( "net.sourceforge.kolmafia.swingui." + frameName );
 			KoLmafiaGUI.constructFrame( frameClass );
 		}
 		catch ( ClassNotFoundException e )
@@ -262,7 +263,7 @@ public class KoLmafiaGUI
 		}
 	}
 
-	public static void constructFrame( final Class frameClass )
+	public static void constructFrame( final Class<?> frameClass )
 	{
 		// Now, test to see if any requests need to be run before
 		// you fall into the event dispatch thread.
@@ -393,5 +394,11 @@ public class KoLmafiaGUI
 	public static JTabbedPane getTabbedPane()
 	{
 		return Preferences.getBoolean( "useDecoratedTabs" ) ? new CloseTabbedPane() : new JTabbedPane();
+	}
+
+	public static Boolean isDarkTheme()
+	{
+		String currentTheme = UIManager.getLookAndFeel().getClass().getName();
+		return KoLGUIConstants.FLATMAP_DARK_LOOKS.containsValue( currentTheme );
 	}
 }

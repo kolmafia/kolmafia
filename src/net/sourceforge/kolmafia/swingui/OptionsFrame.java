@@ -54,6 +54,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -84,10 +85,13 @@ import javax.swing.SwingConstants;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.text.DefaultCaret;
+import javax.swing.SwingUtilities;
 
+import net.sourceforge.kolmafia.swingui.panel.CompactSidePane;
 import org.jdesktop.swingx.JXPanel;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -130,6 +134,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
 
 import tab.CloseTabPaneEnhancedUI;
+
+import static javax.swing.UIManager.getLookAndFeel;
 
 public class OptionsFrame
 	extends GenericFrame
@@ -201,7 +207,7 @@ public class OptionsFrame
 
 		public SessionLogOptionsPanel()
 		{
-			super( new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
+			super( new Dimension( 20, 20 ), new Dimension( 370, 20 ) );
 
 			String[][] options =
 			{
@@ -562,10 +568,7 @@ public class OptionsFrame
 			super( "gCLI Toolbar Buttons", new LockableListModel() );
 			String[] scriptList = Preferences.getString( "scriptList" ).split( " +\\| +" );
 
-			for ( String script : scriptList )
-			{
-				this.list.add( script );
-			}
+			this.list.addAll( Arrays.asList( scriptList ) );
 
 			JPanel extraButtons = new JPanel( new BorderLayout( 2, 2 ) );
 
@@ -672,10 +675,7 @@ public class OptionsFrame
 			super( "Modifier Maximizer Strings", new LockableListModel() );
 			String[] scriptList = Preferences.getString( "maximizerList" ).split( " +\\| +" );
 
-			for ( String script : scriptList )
-			{
-				this.list.add( script );
-			}
+			this.list.addAll( Arrays.asList( scriptList ) );
 
 			JPanel extraButtons = new JPanel( new BorderLayout( 2, 2 ) );
 			extraButtons.add( new ThreadedButton( "add", new AddMaximizerRunnable() ), BorderLayout.CENTER );
@@ -898,7 +898,7 @@ public class OptionsFrame
 
 		public ChatOptionsPanel()
 		{
-			super( new Dimension( 30, 16 ), new Dimension( 470, 16 ) );
+			super( new Dimension( 30, 17 ), new Dimension( 470, 17 ) );
 
 			String[][] options =
 			{
@@ -1052,7 +1052,7 @@ public class OptionsFrame
 					return;
 				}
 
-				KoLConstants.bookmarks.add( "New bookmark " + ( KoLConstants.bookmarks.size() + 1 ) + "|" + newName + "|" + String.valueOf( newName.indexOf( "pwd" ) != -1 ) );
+				KoLConstants.bookmarks.add( "New bookmark " + ( KoLConstants.bookmarks.size() + 1 ) + "|" + newName + "|" + newName.contains( "pwd" ) );
 			}
 		}
 
@@ -1192,25 +1192,25 @@ public class OptionsFrame
 			String[] pieces;
 
 			pieces = frameString.split( "," );
-			for ( int i = 0; i < pieces.length; ++i )
+			for ( String piece : pieces )
 			{
 				for ( String[] frame : KoLConstants.FRAME_NAMES )
 				{
-					if ( !this.startupList.contains( frame[ 0 ] ) && frame[ 1 ].equals( pieces[ i ] ) )
+					if ( !this.startupList.contains( frame[0] ) && frame[1].equals( piece ) )
 					{
-						this.startupList.add( frame[ 0 ] );
+						this.startupList.add( frame[0] );
 					}
 				}
 			}
 
 			pieces = desktopString.split( "," );
-			for ( int i = 0; i < pieces.length; ++i )
+			for ( String piece : pieces )
 			{
 				for ( String[] frame : KoLConstants.FRAME_NAMES )
 				{
-					if ( !this.desktopList.contains( frame[ 0 ] ) && frame[ 1 ].equals( pieces[ i ] ) )
+					if ( !this.desktopList.contains( frame[0] ) && frame[1].equals( piece ) )
 					{
-						this.desktopList.add( frame[ 0 ] );
+						this.desktopList.add( frame[0] );
 					}
 				}
 			}
@@ -1469,7 +1469,7 @@ public class OptionsFrame
 	private class SVNPanel
 		extends JPanel
 	{
-		private List<Component> componentQueue = new ArrayList<Component>();
+		private List<Component> componentQueue = new ArrayList<>();
 
 		public SVNPanel()
 		{
@@ -1596,13 +1596,7 @@ public class OptionsFrame
 		{
 			this.setLayout( new FlowLayout( FlowLayout.LEFT, 1, 1 ) );
 			PreferenceListenerRegistry.registerPreferenceListener( pref, this );
-			this.box.addActionListener( new ActionListener()
-			{
-				public void actionPerformed( ActionEvent e )
-				{
-					Preferences.setBoolean( pref, box.isSelected() );
-				}
-			} );
+			this.box.addActionListener( e -> Preferences.setBoolean( pref, box.isSelected() ) );
 		}
 
 		private void makeLayout( String message )
@@ -1735,19 +1729,18 @@ public class OptionsFrame
 
 			KoLmafiaGUI.checkFrameSettings();
 
-			for ( int i = 0; i < pieces.length; ++i )
+			for ( String piece : pieces )
 			{
 				for ( int j = 0; j < DailyDeedsPanel.BUILTIN_DEEDS.length; ++j )
 				{
-					if ( !this.deedsList.contains( DailyDeedsPanel.BUILTIN_DEEDS[ j ][ 1 ] )
-						&& DailyDeedsPanel.BUILTIN_DEEDS[ j ][ 1 ].equals( pieces[ i ] ) )
+					if ( !this.deedsList.contains( DailyDeedsPanel.BUILTIN_DEEDS[j][1] ) && DailyDeedsPanel.BUILTIN_DEEDS[j][1].equals( piece ) )
 					{
-						this.deedsList.add( DailyDeedsPanel.BUILTIN_DEEDS[ j ][ 1 ] );
+						this.deedsList.add( DailyDeedsPanel.BUILTIN_DEEDS[j][1] );
 					}
 				}
-				if ( pieces[ i ].split( "\\|" )[ 0 ].equals( "$CUSTOM" ) )
+				if ( piece.split( "\\|" )[0].equals( "$CUSTOM" ) )
 				{
-					this.deedsList.add( pieces[ i ] );
+					this.deedsList.add( piece );
 				}
 			}
 
@@ -1836,6 +1829,7 @@ public class OptionsFrame
 
 	protected class UserInterfacePanel
 		extends OptionsPanel
+		implements Listener
 	{
 		private JCheckBox[] optionBoxes;
 
@@ -1867,6 +1861,7 @@ public class OptionsFrame
 						{},
 						{ "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" },
 						{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
+						//{ "darkThemeToolIconOverride", "Always use dark toolbar icons with dark Look and Feel" },
 					}
 
 					:
@@ -1882,29 +1877,48 @@ public class OptionsFrame
 						{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
 					};
 
-		private final JComboBox looks, toolbars, scripts;
+		private final JComboBox looks, toolbars, toolIcons, scripts;
 
 		public UserInterfacePanel()
 		{
-			super( new Dimension( 80, 20 ), new Dimension( 280, 20 ) );
+			super( new Dimension( 80, 22 ), new Dimension( 280, 22 ) );
+			PreferenceListenerRegistry.registerPreferenceListener( "swingLookAndFeel", this );
 
 			UIManager.LookAndFeelInfo[] installed = UIManager.getInstalledLookAndFeels();
 			Object[] installedLooks = new Object[ installed.length + 1 ];
+			String CurrentLook = getLookAndFeel().getClass().getName();
+
 
 			installedLooks[ 0 ] = "Always use OS default look and feel";
 
+			this.looks = new JComboBox( );
+			this.looks.addItem(installedLooks[ 0 ] );
+
+
 			for ( int i = 0; i < installed.length; ++i )
 			{
+				// TODO: Add filter based on checkboxes (to be added) to show dark or light themes
 				installedLooks[ i + 1 ] = installed[ i ].getClassName();
+				this.looks.addItem(installed[ i ].getName());
+				if ( installed[ i ].getClassName().equalsIgnoreCase( CurrentLook ))
+				{
+					this.looks.setSelectedIndex( i + 1 );
+				}
 			}
 
-			this.looks = new JComboBox( installedLooks );
 
 			this.toolbars = new JComboBox();
 			this.toolbars.addItem( "Show global menus only" );
 			this.toolbars.addItem( "Put toolbar along top of panel" );
 			this.toolbars.addItem( "Put toolbar along bottom of panel" );
 			this.toolbars.addItem( "Put toolbar along left of panel" );
+
+			this.toolIcons = new JComboBox();
+			this.toolIcons.addItem( "Use classic toolbar icons" );
+			this.toolIcons.addItem( "Use dark toolbar icons" );
+			// add additional toolbar icon sets here...
+			// this.toolIcons.addItem( "Use modern toolbar icons" );
+			// this.toolIcons.addItem( "Use light toolbar icons" );
 
 			this.scripts = new JComboBox();
 			this.scripts.addItem( "Do not show script bar on main interface" );
@@ -1914,6 +1928,7 @@ public class OptionsFrame
 
 			elements[ 0 ] = new VerifiableElement( "Java L&F: ", this.looks );
 			elements[ 1 ] = new VerifiableElement( "Toolbar: ", this.toolbars );
+			//elements[ 2 ] = new VerifiableElement( "Toolbar Icons", this.toolIcons );
 			elements[ 2 ] = new VerifiableElement( "Scripts: ", this.scripts );
 
 			this.actionCancelled();
@@ -1944,7 +1959,8 @@ public class OptionsFrame
 
 			if ( this.looks.getSelectedIndex() > 0 )
 			{
-				lookAndFeel = (String) this.looks.getSelectedItem();
+				UIManager.LookAndFeelInfo[] installed = UIManager.getInstalledLookAndFeels();
+				lookAndFeel = installed[this.looks.getSelectedIndex() - 1].getClassName();
 			}
 
 			Preferences.setString( "swingLookAndFeel", lookAndFeel );
@@ -1971,6 +1987,39 @@ public class OptionsFrame
 			this.toolbars.setSelectedIndex( Preferences.getInteger( "toolbarPosition" ) );
 			this.scripts.setSelectedIndex( Preferences.getInteger( "scriptButtonPosition" ) == 0 ? 0 : 1 );
 		}
+
+		@Override
+		public void update()
+		{
+			String lookAndFeel = Preferences.getString( "swingLookAndFeel" );
+			String defaultLookAndFeel = ( System.getProperty( "os.name" ).startsWith( "Mac" ) || System.getProperty( "os.name" ).startsWith( "Win" ) ) ?
+						    UIManager.getSystemLookAndFeelClassName() : UIManager.getCrossPlatformLookAndFeelClassName();
+			if ( lookAndFeel.equals( "" ) )
+			{
+				lookAndFeel = defaultLookAndFeel;
+			}
+			try
+			{
+				UIManager.setLookAndFeel( lookAndFeel );
+				//This is where we invalidate the UI and re-draw it because we switched Lafs..."
+				Frame[] frames = Frame.getFrames();
+				for ( Frame f : frames )
+				{
+					SwingUtilities.invokeLater( () -> {
+						SwingUtilities.updateComponentTreeUI( f );  // update components
+						f.pack();        // adapt container size if required
+					} );
+				}
+
+			}
+			catch(Exception Ex )
+			{
+				// This is probably a case of a bad Laf option.  Try not to have one...
+				// currently just fails here if it gets UnsupportedLookAndFeelException...
+				// System.out.println("Something went wrong\n"+Ex.getMessage());
+			}
+		}
+
 
 		private class InterfaceCheckboxPanel
 			extends OptionsPanel
@@ -2096,7 +2145,7 @@ public class OptionsFrame
 			}
 			else if ( KoLConstants.USE_LINUX_STYLE_DIRECTORIES )
 			{
-				button = true;
+				// button = true;
 				path = "/";
 				helpText =
 					"If KoLmafia opens a browser other than your default, enter the name of your preferred browser here. If that doesn't work, click the button and browse to the location of your browser.";
@@ -2104,7 +2153,7 @@ public class OptionsFrame
 			else
 			// Windows
 			{
-				button = true;
+				// button = true;
 				path = "";
 				helpText =
 					"If KoLmafia opens a browser other than your default, enter the name of your preferred browser here. If that doesn't work, click the button and browse to the location of your browser.";
@@ -2128,6 +2177,7 @@ public class OptionsFrame
 			message.setEditable( false );
 			message.setOpaque( false );
 			message.setFont( KoLGUIConstants.DEFAULT_FONT );
+			message.setPreferredSize(this.getPreferredSize()  );
 
 			this.container.add( message, BorderLayout.SOUTH );
 
@@ -2155,15 +2205,14 @@ public class OptionsFrame
 		public EditorPanel()
 		{
 			AutoHighlightTextField textField = new AutoHighlightTextField();
-			boolean button = true;
-			String helpText = "";
-			String path = null;
+//			boolean button = true;
+//			String helpText = "";
+//			String path = null;
 
-			{
-				button = false;
-				path = "";
-				helpText = "The command will be invoked with the full path to the script as its only parameter.";
-			}
+			boolean	button = false;
+			String	path = "";
+			String	helpText = "The command will be invoked with the full path to the script as its only parameter.";
+
 
 			this.preferredEditor = new FileSelectPanel( textField, button );
 			if ( button )
@@ -2183,6 +2232,7 @@ public class OptionsFrame
 			message.setEditable( false );
 			message.setOpaque( false );
 			message.setFont( KoLGUIConstants.DEFAULT_FONT );
+			message.setPreferredSize(this.getPreferredSize()  );
 
 			this.container.add( message, BorderLayout.SOUTH );
 
@@ -2436,7 +2486,7 @@ public class OptionsFrame
 			String skillString = Preferences.getString( "breakfastAlways" );
 			for ( int i = 0; i < UseSkillRequest.BREAKFAST_ALWAYS_SKILLS.length; ++i )
 			{
-				this.skillOptions[ i ].setSelected( skillString.indexOf( UseSkillRequest.BREAKFAST_ALWAYS_SKILLS[ i ] ) != -1 );
+				this.skillOptions[ i ].setSelected( skillString.contains( UseSkillRequest.BREAKFAST_ALWAYS_SKILLS[i] ) );
 			}
 		}
 
@@ -2636,7 +2686,7 @@ public class OptionsFrame
 			String skillString = Preferences.getString( "breakfast" + this.breakfastType );
 			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
 			{
-				this.skillOptions[ i ].setSelected( skillString.indexOf( UseSkillRequest.BREAKFAST_SKILLS[ i ] ) != -1 );
+				this.skillOptions[ i ].setSelected( skillString.contains( UseSkillRequest.BREAKFAST_SKILLS[i] ) );
 			}
 
 			this.loginRecovery.setSelected( Preferences.getBoolean( "loginRecovery" + this.breakfastType ) );
@@ -2668,9 +2718,9 @@ public class OptionsFrame
 			super();
 			this.addItem( "No " + name );
 			this.addItem( "All " + name );
-			for ( int i = 0; i < skills.length; ++i )
+			for ( String skill : skills )
 			{
-				this.addItem( skills[ i ] );
+				this.addItem( skill );
 			}
 
 			this.preference = preference;
@@ -2786,20 +2836,32 @@ public class OptionsFrame
 
 	private class ColorOptionsPanel
 		extends OptionsPanel
+		implements Listener, ActionListener
 	{
 		JLabel crappy, decent, good, awesome, epic;
 		JLabel memento, junk, notavailable;
 
 		public ColorOptionsPanel()
 		{
-			super( new Dimension( 16, 16 ), new Dimension( 370, 16 ) );
+			super( new Dimension( 16, 17 ), new Dimension( 370, 17 ) );
+			PreferenceListenerRegistry.registerPreferenceListener( "textColors", this );
 
 			this.setContent();
 		}
 
 		private void setContent()
 		{
-			VerifiableElement[] newElements = new VerifiableElement[ 13 ];
+			JButton DefaultButton = new JButton("Default Color Set");
+			JButton DarkDefaultButton = new JButton("Dark Color Set");
+
+			JPanel ResetPanel = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
+			ResetPanel.add( DefaultButton );
+			ResetPanel.add( DarkDefaultButton );
+			DefaultButton.addActionListener( this );
+			DarkDefaultButton.addActionListener( this );
+
+
+			VerifiableElement[] newElements = new VerifiableElement[ 14 ];
 
 			newElements[ 0 ] = new VerifiableElement( "   ", SwingConstants.RIGHT, new JLabel(
 				"This panel alters the appearance of some text colors in the Mafia UI." ) );
@@ -2830,6 +2892,7 @@ public class OptionsFrame
 			this.notavailable = new FontColorChooser( "notavailable" );
 			newElements[ 12 ] = new VerifiableElement( "Not Equippable/Creatable/Available",
 				SwingConstants.LEFT, this.notavailable );
+			newElements[ 13 ] = new VerifiableElement( BorderLayout.PAGE_START, ResetPanel );
 
 			super.setContent( newElements );
 			this.readFromPref();
@@ -2840,42 +2903,37 @@ public class OptionsFrame
 			String rawPref = Preferences.getString( "textColors" );
 			String[] splitPref = rawPref.split( "\\|" );
 
-			for ( int i = 0; i < splitPref.length; ++i )
+			for ( String s : splitPref )
 			{
-				String[] it = splitPref[ i ].split( ":" );
+				String[] it = s.split( ":" );
 				if ( it.length == 2 )
 				{
-					if ( it[ 0 ].equals( "crappy" ) )
+					switch ( it[0] )
 					{
-						decodeColor( it[ 1 ], this.crappy );
-					}
-					else if ( it[ 0 ].equals( "decent" ) )
-					{
-						decodeColor( it[ 1 ], this.decent );
-					}
-					else if ( it[ 0 ].equals( "good" ) )
-					{
-						decodeColor( it[ 1 ], this.good );
-					}
-					else if ( it[ 0 ].equals( "awesome" ) )
-					{
-						decodeColor( it[ 1 ], this.awesome );
-					}
-					else if ( it[ 0 ].equals( "epic" ) )
-					{
-						decodeColor( it[ 1 ], this.epic );
-					}
-					else if ( it[ 0 ].equals( "memento" ) )
-					{
-						decodeColor( it[ 1 ], this.memento );
-					}
-					else if ( it[ 0 ].equals( "junk" ) )
-					{
-						decodeColor( it[ 1 ], this.junk );
-					}
-					else if ( it[ 0 ].equals( "notavailable" ) )
-					{
-						decodeColor( it[ 1 ], this.notavailable );
+					case "crappy":
+						decodeColor( it[1], this.crappy );
+						break;
+					case "decent":
+						decodeColor( it[1], this.decent );
+						break;
+					case "good":
+						decodeColor( it[1], this.good );
+						break;
+					case "awesome":
+						decodeColor( it[1], this.awesome );
+						break;
+					case "epic":
+						decodeColor( it[1], this.epic );
+						break;
+					case "memento":
+						decodeColor( it[1], this.memento );
+						break;
+					case "junk":
+						decodeColor( it[1], this.junk );
+						break;
+					case "notavailable":
+						decodeColor( it[1], this.notavailable );
+						break;
 					}
 				}
 			}
@@ -2949,6 +3007,46 @@ public class OptionsFrame
 			}
 		}
 
+		@Override
+		public void update()
+		{
+			try
+			{
+				//This is where we invalidate the UI and re-draw it because we switched Colors..."
+				Frame[] frames = Frame.getFrames();
+				for ( Frame f : frames )
+				{
+					SwingUtilities.invokeLater( () -> {
+						SwingUtilities.updateComponentTreeUI( f );  // update components
+						f.pack();        // adapt container size if required
+					} );
+				}
+			} catch(Exception Ex){
+				// This is probably a case of a bad Laf option.  Try not to have one...
+				// currently just fails silently if we get an UnsupportedLookAndFeelException...
+				// System.out.println("Something went wrong\n"+Ex.getMessage());
+			}
+		}
+
+		@Override
+		public void actionPerformed( ActionEvent e )
+		{
+			JButton SourceButton = (JButton) e.getSource();
+
+			if ( SourceButton.getText().startsWith( "Dark" ) )
+			{
+				Preferences.setString( "textColors","crappy\\:\\#999999|good\\:\\#00bf00|awesome\\:\\#7f7fff|epic\\:\\#cc00ff|junk\\:gray|memento\\:olive|notavailable\\:gray|decent\\:\\#cccccc" );
+			}
+			else
+			{
+				Preferences.resetToDefault( "textColors" );
+			}
+			update();
+			// SwingUtilities.invokeLater( () -> {
+			//	SwingUtilities.updateComponentTreeUI( super.getContentPane() );  // update components
+			//} );
+		}
+
 		private final class FontColorChooser
 			extends JLabel
 			implements MouseListener
@@ -2980,15 +3078,14 @@ public class OptionsFrame
 				String[] splitPref = rawPref.split( "\\|" );
 				String newProperty = property + ":" + hexString;
 
-				for ( int i = 0; i < splitPref.length; ++i )
+				for ( String s : splitPref )
 				{
-					String[] it = splitPref[ i ].split( ":" );
+					String[] it = s.split( ":" );
 					if ( it.length == 2 )
 					{
-						if ( it[ 0 ].equals( property ) )
+						if ( it[0].equals( property ) )
 						{
-							String newPref = StringUtilities.globalStringReplace( rawPref,
-								splitPref[ i ], newProperty );
+							String newPref = StringUtilities.globalStringReplace( rawPref, s, newProperty );
 							Preferences.setString( "textColors", newPref );
 							return;
 						}
