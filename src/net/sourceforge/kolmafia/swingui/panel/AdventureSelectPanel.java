@@ -180,7 +180,7 @@ public class AdventureSelectPanel
 			}
 		}
 
-		JComponentUtilities.setComponentSize( this.zoneSelect, 200, -1 );
+		JComponentUtilities.setComponentSize( this.zoneSelect, 180, -1 );
 		zonePanel.add( this.zoneSelect, BorderLayout.CENTER );
 
 		this.redoFreeAdventures = new RedoFreeAdventuresCheckbox();
@@ -194,7 +194,7 @@ public class AdventureSelectPanel
 			this.countField.setHorizontalAlignment( AutoHighlightTextField.RIGHT );
 			this.countField.getEditor().setBorder( BorderFactory.createEtchedBorder( EtchedBorder.LOWERED) );
 
-			JComponentUtilities.setComponentSize( this.countField, -1, -1 );
+			JComponentUtilities.setComponentSize( this.countField, 60, -1 );
 			panel.add( this.countField );
 
 			zonePanel.add( panel, BorderLayout.EAST );
