@@ -158,7 +158,7 @@ public class ValueConverter {
 		}
 		else if ( DataTypes.enumeratedTypes.contains( value.getType() ) )
 		{
-			return EnumeratedWrapper.wrap( value.asProxy().getClass(), value );
+			return EnumeratedWrapper.wrap( scope, value.asProxy().getClass(), value );
 		}
 		else if ( value instanceof RecordValue )
 		{
@@ -225,6 +225,14 @@ public class ValueConverter {
 				indexType = DataTypes.INT_TYPE;
 			}
 			break;
+		}
+		if ( dataType == null )
+		{
+			dataType = DataTypes.ANY_TYPE;
+		}
+		if ( indexType == null )
+		{
+			indexType = DataTypes.ANY_TYPE;
 		}
 
 		Map<Value, Value> underlyingMap = new TreeMap<>();
