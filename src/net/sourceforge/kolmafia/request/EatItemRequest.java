@@ -402,6 +402,9 @@ public class EatItemRequest
 
 		switch ( itemId )
 		{
+		case ItemPool.SMORE:
+			// Multi-eating s'mores doesn't update the smoresEaten
+			// preference correctly.
 		case ItemPool.BLACK_PUDDING:
 			// Eating a black pudding can lead to a combat with no
 			// feedback about how many were successfully eaten
@@ -470,7 +473,7 @@ public class EatItemRequest
 		// If we are not a Pastamancer, that's good enough. If we are,
 		// make sure the player isn't going to accidentally scuttle the
 		// stupid Spaghettihose trophy.
-		if ( KoLCharacter.getClassType() != KoLCharacter.PASTAMANCER )
+		if (!KoLCharacter.getClassType().equals(KoLCharacter.PASTAMANCER))
 		{
 			return true;
 		}
@@ -491,12 +494,7 @@ public class EatItemRequest
 		}
 
 		// Nag
-		if ( !InputFieldUtilities.confirm( "Eating pasta with only " + carboLoading + " levels of Carboloading will ruin your chance to get the Spaghettihose trophy. Are you sure?" ) )
-		{
-			return false;
-		}
-
-		return true;
+		return InputFieldUtilities.confirm("Eating pasta with only " + carboLoading + " levels of Carboloading will ruin your chance to get the Spaghettihose trophy. Are you sure?");
 	}
 
 	public static boolean askAboutMilk( final String name, final int count )
@@ -1158,7 +1156,7 @@ public class EatItemRequest
 
 		// You feel the canticle take hold, and feel suddenly bloated
 		// as the pasta expands in your belly.
-		if ( KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER &&
+		if (KoLCharacter.getClassType().equals(KoLCharacter.PASTAMANCER) &&
 		     responseText.contains( "feel suddenly bloated" ) )
 		{
 			Preferences.setInteger( "carboLoading", 0 );
