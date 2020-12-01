@@ -797,7 +797,11 @@ public class EquipmentDatabase
 	{
 		return EquipmentDatabase.getItemType( itemId ).equals( "knife" );
 	}
-	
+	public static final boolean isSword( final int itemId )
+	{
+		return EquipmentDatabase.getItemType( itemId ).equals( "sword" );
+	}
+
 	public static final boolean isUtensil( final int itemId )
 	{
 		return EquipmentDatabase.getItemType( itemId ).equals( "utensil" );

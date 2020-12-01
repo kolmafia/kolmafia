@@ -105,6 +105,7 @@ public class Evaluator
 	private boolean requireClub = false;
 	private boolean requireShield = false;
 	private boolean requireUtensil = false;
+	private boolean requireSword = false;
 	private boolean requireKnife = false;
 	private boolean requireAccordion = false;
 	private boolean noTiebreaker = false;
@@ -336,6 +337,11 @@ public class Evaluator
 			if ( keyword.equals( "utensil" ) )
 			{
 				this.requireUtensil = weight > 0.0;
+				continue;
+			}
+			if ( keyword.equals( "sword" ) )
+			{
+				this.requireSword = weight > 0.0;
 				continue;
 			}
 
@@ -1374,6 +1380,10 @@ public class Evaluator
 						slot = auxSlot;
 					}
 					if ( this.requireUtensil && !EquipmentDatabase.isUtensil( id ) )
+					{
+						slot = auxSlot;
+					}
+					if ( this.requireSword && !EquipmentDatabase.isSword( id ) )
 					{
 						slot = auxSlot;
 					}
