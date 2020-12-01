@@ -57,7 +57,7 @@ public class EnumeratedWrapper
 	private static final long serialVersionUID = 1L;
 
 	// Make sure each wrapper is a singleton, so that equality comparison works in JS.
-	private static Map<Context, Map<Value, EnumeratedWrapper>> registry = new HashMap<>();
+	private static Map<Scriptable, Map<Value, EnumeratedWrapper>> registry = new HashMap<>();
 
 	private Class<?> recordValueClass;
 	// NB: This wrapped value is NOT the proxy record type version.
@@ -70,21 +70,27 @@ public class EnumeratedWrapper
 		this.wrapped = wrapped;
 	}
 
-	public static EnumeratedWrapper wrap( Class<?> recordValueClass, Value wrapped )
+	public static EnumeratedWrapper wrap( Scriptable scope, Class<?> recordValueClass, Value wrapped )
 	{
-		Context cx = Context.getCurrentContext();
-		Map<Value, EnumeratedWrapper> subRegistry = registry.getOrDefault( cx, null );
+		scope = getTopLevelScope( scope );
+		Scriptable proto = scope.getPrototype();
+		while ( proto != null && proto != getObjectPrototype( scope ) ) {
+			scope = proto;
+			proto = scope.getPrototype();
+		}
+
+		Map<Value, EnumeratedWrapper> subRegistry = registry.getOrDefault( scope, null );
 		if ( subRegistry == null )
 		{
 			subRegistry = new HashMap<>();
-			registry.put( cx, subRegistry );
+			registry.put( scope, subRegistry );
 		}
 
 		EnumeratedWrapper existing = subRegistry.getOrDefault( wrapped, null );
 		if ( existing == null )
 		{
 			existing = new EnumeratedWrapper( recordValueClass, wrapped );
-			existing.setPrototype( EnumeratedWrapperPrototype.getPrototypeInstance( cx, wrapped.getType() ) );
+			existing.setPrototype( EnumeratedWrapperPrototype.getPrototypeInstance( scope, wrapped.getType() ) );
 			existing.sealObject();
 			subRegistry.put( wrapped, existing );
 		}
@@ -92,9 +98,9 @@ public class EnumeratedWrapper
 		return existing;
 	}
 
-	public static void cleanup( Context cx )
+	public static void cleanup( Scriptable scope )
 	{
-		registry.remove( cx );
+		registry.remove( scope );
 	}
 
 	public Value getWrapped()
@@ -122,10 +128,10 @@ public class EnumeratedWrapper
 
 	public static Object constructDefaultValue()
 	{
-		return EnumeratedWrapper.wrap( ProxyRecordValue.ItemProxy.class, new ProxyRecordValue.ItemProxy( DataTypes.makeIntValue( 1 ) ) );
+		return new EnumeratedWrapper( ProxyRecordValue.ItemProxy.class, new ProxyRecordValue.ItemProxy( DataTypes.makeIntValue( 1 ) ) );
 	}
 
-	private static EnumeratedWrapper getOne( Type type, Object key )
+	private static EnumeratedWrapper getOne( Scriptable scope, Type type, Object key )
 	{
 		Value rawValue = type.initialValue();
 		if ( key instanceof String )
@@ -155,7 +161,7 @@ public class EnumeratedWrapper
 			}
 		}
 
-		return EnumeratedWrapper.wrap( proxyRecordValueClass, rawValue );
+		return EnumeratedWrapper.wrap( scope, proxyRecordValueClass, rawValue );
 	}
 
 	public static Object genericGet( Context cx, Scriptable thisObject, Object[] args, Function functionObject )
@@ -176,13 +182,13 @@ public class EnumeratedWrapper
 			List<Object> result = new ArrayList<>();
 			for ( Object key : (Iterable<?>) arg )
 			{
-				result.add( getOne( type, key ) );
+				result.add( getOne( scope, type, key ) );
 			}
 			return cx.newArray( scope, result.toArray() );
 		}
 		else
 		{
-			return getOne( type, arg );
+			return getOne( scope, type, arg );
 		}
 	}
 

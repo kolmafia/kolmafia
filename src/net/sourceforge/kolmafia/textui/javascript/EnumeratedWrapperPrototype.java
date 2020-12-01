@@ -53,7 +53,7 @@ public class EnumeratedWrapperPrototype
 {
 	private static final long serialVersionUID = 1L;
 
-	private static Map<Context, TreeMap<Type, EnumeratedWrapperPrototype>> registry = new HashMap<>();
+	private static Map<Scriptable, TreeMap<Type, EnumeratedWrapperPrototype>> registry = new HashMap<>();
 
 	private Class<?> recordValueClass;
 	private Type type;
@@ -116,26 +116,32 @@ public class EnumeratedWrapperPrototype
 
 		sealObject();
 
-		if ( !registry.containsKey( cx ) )
+		if ( !registry.containsKey( scope ) )
 		{
-			registry.put( cx, new TreeMap<>() );
+			registry.put( scope, new TreeMap<>() );
 		}
-		registry.get( cx ).put( type, this );
+		registry.get( scope ).put( type, this );
 	}
 
-	public static void cleanup( Context cx )
+	public static EnumeratedWrapperPrototype getPrototypeInstance( Scriptable scope, Type type )
 	{
-		registry.remove( cx );
-		EnumeratedWrapper.cleanup( cx );
+		Scriptable topScope = ScriptableObject.getTopLevelScope( scope );
+		Object constructor = ScriptableObject.getProperty( topScope, getClassName( type ) );
+		if ( !( constructor instanceof Scriptable ) )
+		{
+			return null;
+		}
+		Object result = ScriptableObject.getProperty( (Scriptable) constructor, "prototype" );
+		return result instanceof EnumeratedWrapperPrototype ? (EnumeratedWrapperPrototype) result : null;
 	}
 
-	public static EnumeratedWrapperPrototype getPrototypeInstance( Context cx, Type type )
+	public static String getClassName( Type type )
 	{
-		return registry.get( cx ).get( type );
+		return JavascriptRuntime.capitalize( type.getName() );
 	}
 
 	public String getClassName()
 	{
-		return JavascriptRuntime.capitalize( type.getName() );
+		return EnumeratedWrapperPrototype.getClassName( type );
 	}
 }

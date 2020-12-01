@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia.textui.javascript;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.textui.parsetree.ProxyRecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
@@ -62,7 +64,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
@@ -73,7 +74,7 @@ public class JavascriptRuntime
 {
 	public static final String DEFAULT_RUNTIME_LIBRARY_NAME = "__runtimeLibrary__";
 
-	static final Map<Thread, JavascriptRuntime> runningRuntimes = new ConcurrentHashMap<>();
+	static final Set<JavascriptRuntime> runningRuntimes = ConcurrentHashMap.newKeySet();
 	static final ContextFactory contextFactory = new ObservingContextFactory();
 
 	private File scriptFile = null;
@@ -155,20 +156,20 @@ public class JavascriptRuntime
 		Set<String> uniqueFunctionNames = getFunctions().stream().map( Symbol::getName ).collect( Collectors.toCollection( TreeSet::new ) );
 
 		Scriptable stdLib = cx.newObject( scope );
-		int attributes = ScriptableObject.DONTENUM | ScriptableObject.PERMANENT | ScriptableObject.READONLY;
+		int permanentReadOnly = ScriptableObject.PERMANENT | ScriptableObject.READONLY;
 
 		for ( String libraryFunctionName : uniqueFunctionNames )
 		{
 			ScriptableObject.defineProperty( stdLib, toCamelCase( libraryFunctionName ),
-				new LibraryFunctionStub( this, libraryFunctionName ), attributes );
+				new LibraryFunctionStub( this, libraryFunctionName ), permanentReadOnly );
 			if ( addToTopScope )
 			{
 				ScriptableObject.defineProperty( scope, toCamelCase( libraryFunctionName ),
-					new LibraryFunctionStub( this, libraryFunctionName ), attributes );
+					new LibraryFunctionStub( this, libraryFunctionName ), ScriptableObject.DONTENUM | permanentReadOnly );
 			}
 		}
 
-		ScriptableObject.defineProperty( scope, DEFAULT_RUNTIME_LIBRARY_NAME, stdLib, attributes );
+		ScriptableObject.defineProperty( scope, DEFAULT_RUNTIME_LIBRARY_NAME, stdLib, ScriptableObject.DONTENUM | permanentReadOnly  );
 		return stdLib;
 	}
 
@@ -210,16 +211,17 @@ public class JavascriptRuntime
 		// TODO: Support for requesting user arguments if missing.
 		Context cx = contextFactory.enterContext();
 
+		cx.setLanguageVersion( Context.VERSION_ES6 );
+		cx.setOptimizationLevel( 1 );
+		runningRuntimes.add( this );
+
+		// TODO: Use a shared parent scope and initialize this with that as a prototype.
+		// But be careful. May mess up our EnumeratedWrapper registries.
+		Scriptable scope = cx.initSafeStandardObjects();
+		currentTopScope = scope;
+
 		try
 		{
-			cx.setLanguageVersion( Context.VERSION_ES6 );
-			cx.setOptimizationLevel( 1 );
-			runningRuntimes.put( Thread.currentThread(), this );
-
-			// TODO: Use a shared parent scope and initialize this with that as a prototype.
-			Scriptable scope = cx.initSafeStandardObjects();
-			currentTopScope = scope;
-
 			// If executing from GCLI (and not file), add std lib to top scope.
 			currentStdLib = initRuntimeLibrary( cx, scope, scriptFile == null );
 			initEnumeratedTypes( cx, scope );
@@ -230,9 +232,9 @@ public class JavascriptRuntime
 		}
 		finally
 		{
-			EnumeratedWrapperPrototype.cleanup( cx );
+			EnumeratedWrapper.cleanup( scope );
 			currentTopScope = null;
-			runningRuntimes.remove( Thread.currentThread() );
+			runningRuntimes.remove( this );
 			Context.exit();
 		}
 	}
@@ -244,9 +246,11 @@ public class JavascriptRuntime
 		Scriptable exports = null;
 
 		Object[] argumentsNonNull = arguments != null ? arguments : new Object[] {};
-		Object[] runArguments = Arrays.stream( argumentsNonNull ).map( o -> o instanceof MonsterData ? EnumeratedWrapper.wrap( MonsterProxy.class, DataTypes.makeMonsterValue( (MonsterData) o ) ) : o ).toArray();
+		Object[] runArguments = Arrays.stream( argumentsNonNull ).map( o -> o instanceof MonsterData ? EnumeratedWrapper.wrap( scope, MonsterProxy.class, DataTypes.makeMonsterValue( (MonsterData) o ) ) : o ).toArray();
 
 		Object returnValue = null;
+
+		boolean stackOnAbort = Preferences.getBoolean("printStackOnAbort");
 
 		try
 		{
@@ -275,7 +279,17 @@ public class JavascriptRuntime
 		catch ( WrappedException e )
 		{
 			Throwable unwrapped = e.getWrappedException();
-			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, unwrapped.getMessage() + "\n" + e.getScriptStackTrace() );
+			if ( stackOnAbort )
+			{
+				StringBuilder message = new StringBuilder( "Internal exception" );
+				if ( unwrapped.getMessage() != null )
+				{
+					message.append( ": " ).append( e.getMessage() );
+				}
+				message.append( "\n" ).append( e.getScriptStackTrace() );
+				KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, message.toString() );
+			}
+			StaticEntity.printStackTrace( unwrapped );
 		}
 		catch ( EvaluatorException e )
 		{
@@ -283,7 +297,7 @@ public class JavascriptRuntime
 		}
 		catch ( EcmaError e )
 		{
-			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "JavaScript error: " + e.getErrorMessage() + "\n" + e.lineSource() + "\n" + e.getScriptStackTrace() );
+			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "JavaScript error: " + e.getErrorMessage() + "\n" + e.getScriptStackTrace() );
 		}
 		catch ( JavaScriptException e )
 		{
@@ -303,9 +317,9 @@ public class JavascriptRuntime
 
 	public static void interruptAll()
 	{
-		for ( Thread thread : runningRuntimes.keySet() )
+		for ( JavascriptRuntime runtime : runningRuntimes )
 		{
-			thread.interrupt();
+			runtime.setState( State.EXIT );
 		}
 	}
 
