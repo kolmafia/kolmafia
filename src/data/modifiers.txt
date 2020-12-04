@@ -2017,6 +2017,7 @@ Item	black shield	Muscle: +5, Maximum HP: +20, Damage Reduction: 10
 Item	blue LavaCo Lamp&trade;	Adventures: +5, Rollover Effect: "Blue Eyed Devil", Rollover Effect Duration: 50
 Item	bobble-hip hula elf doll	Muscle: +5, Mysticality: +5, Moxie: +5, Meat Drop: +15
 # bone abacus: Helps you track your progress
+Item	Book of Old-Timey Carols	Item Drop: [15*event(December)]
 Item	borg sock monkey	Moxie: +3
 # botanical sample kit: Increases the yield of Spacegate botany operations
 Item	botanical sample kit	Lasts Until Rollover
@@ -2066,6 +2067,7 @@ Item	creme brulee torch	Hot Damage: +30, Lasts Until Rollover
 Item	Crimbo bottomless hot cocoa mug	Hot Spell Damage: +10
 Item	Crimbo Elf creepy bobble-head	Spooky Damage: +10
 Item	Crimbo light-up Rudolph doll	Sleaze Damage: +10
+Item	Crimbo smile	Experience: [5*event(December)]
 Item	Crimbo stogie-scented room odorizer	Stench Spell Damage: +10
 Item	Crimbo tree flocker	Cold Damage: +10
 Item	crumbling rabbit's foot	Meat Drop: +30
@@ -2401,6 +2403,7 @@ Item	rusty compass	Initiative: +30
 Item	rusty kettle bell	Muscle Percent: +50
 # rusty old lantern
 Item	rxr shield	Damage Absorption: +10, Damage Reduction: 6
+Item	SalesCo sample kit	Meat Drop: [30*event(December)]
 Item	sawblade shield	Weapon Damage: +11, Damage Reduction: 11
 Item	Scepter of Loathing	Critical Hit Percent: +15, Spell Critical Percent: +15, Spooky Resistance: +5, Cloathing
 Item	Sceptre of the Torremolinos Prince	Mysticality Percent: +12
@@ -2908,9 +2911,7 @@ Item	giant designer sunglasses	Moxie Percent: -10, Single Equip
 Item	giant motorcycle boots	Muscle: +5, Single Equip
 # giant pinky ring: 75% Chance of Preventing Negative Status Attacks
 Item	giant pinky ring	Single Equip
-# gingerbeard: +6 Adventures per day when equipped
-# gingerbeard: (+9 in December)
-Item	gingerbeard	Single Equip, Variable
+Item	gingerbeard	Single Equip, Adventures: [6+(3*event(December))]
 Item	gingerservo	Muscle Percent: +25, HP Regen Min: 6, HP Regen Max: 12, PvP Fights: +6, Single Equip
 # Girdle of Hatred: Tightenable
 Item	Girdle of Hatred	Initiative: +45, Reduce Enemy Defense: 10, Spell Damage Percent: +60, Single Equip
@@ -3755,9 +3756,7 @@ Item	treasure chest key	Item Drop: +30, Meat Drop: +30
 Item	tube sock	Moxie: +20, Single Equip
 Item	Uncle Buck	Maximum HP: +15, Softcore Only
 Item	Uncle Hobo's belt	Mysticality Percent: +15, Meat Drop: +25, Single Equip
-# Uncle Hobo's epic beard: +6 Adventures per day when equipped
-# Uncle Hobo's epic beard: (+9 in December)
-Item	Uncle Hobo's epic beard	Muscle Percent: +20, Single Equip, Variable
+Item	Uncle Hobo's epic beard	Muscle Percent: +20, Single Equip, Adventures: [6+(3*event(December))]
 Item	Uncle Hobo's fingerless tinsel gloves	Moxie Percent: +15, PvP Fights: +5, Single Equip
 Item	Unspeakable Earring	Cold Resistance: +3, Sleaze Resistance: +3, Single Equip
 Item	Unstable Pointy Ears	Experience: +3, Lasts Until Rollover
@@ -4732,8 +4731,7 @@ Item	clockwork maid	Adventures: +8
 Item	comfy blanket	Base Resting HP: +50
 Item	comfy coffin	Spooky Resistance: +2
 Item	cottage	Base Resting HP: +29, Base Resting MP: +30
-# Crimbo candle: Lights up your dwelling, giving you 3 extra Adventures per day (in December only)
-Item	Crimbo candle	Variable
+Item	Crimbo candle	Adventures: [3*event(December)]
 Item	cuckoo clock	Adventures: +3
 Item	elevent	Base Resting HP: +49, Base Resting MP: +50
 Item	Feng Shui for Big Dumb Idiots	Bonus Resting MP: +7

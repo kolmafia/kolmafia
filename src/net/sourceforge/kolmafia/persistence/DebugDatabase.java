@@ -1635,6 +1635,9 @@ public class DebugDatabase
 		String[] mods = enchantments.toString().split( "\n+" );
 		String BLUE_START = "<font color=\"blue\">";
 		String BLUE_END = "</font>";
+
+		boolean decemberEvent = false;
+
 		for ( int i = 0; i < mods.length; ++i )
 		{
 			String enchantment = mods[i].trim();
@@ -1707,6 +1710,12 @@ public class DebugDatabase
 					mod = Modifiers.parseDamageReduction( text );
 				}
 
+				else if ( mod.equals( "Class: \"December\"" ) )
+				{
+					decemberEvent = true;
+					continue;
+				}
+
 				DebugDatabase.appendModifier( known, mod );
 				continue;
 			}
@@ -1714,6 +1723,16 @@ public class DebugDatabase
 			if ( !unknown.contains( enchantment ) )
 			{
 				unknown.add( enchantment );
+			}
+		}
+
+		if ( decemberEvent )
+		{
+			for ( Iterator<Modifier> it = known.iterator(); it.hasNext(); )
+			{
+				Modifier m = it.next();
+
+				m.setValue( "[" + m.getValue() + "*event(December)]" );
 			}
 		}
 	}
