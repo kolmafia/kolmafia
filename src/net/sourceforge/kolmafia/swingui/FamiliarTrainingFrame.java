@@ -787,7 +787,7 @@ public class FamiliarTrainingFrame
 			checkpoint.restore();
 		}
 
-		if ( familiar.getId() != FamiliarPool.CHAMELEON )
+		if ( familiar.canEquipAny() )
 		{
 			// Find and wear an appropriate item
 			familiar.findAndWearItem( false );

@@ -4442,6 +4442,9 @@ Throne	Fuzzy Dice	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Galloping Grill	Spell Damage Percent: +10
 Throne	Gelatinous Cubeling	Familiar Weight: +5
 Throne	Garbage Fire	Hot Spell Damage: +25, Drops Items, Variable
+Throne	Ghost of Crimbo Carols	HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
+# Throne	Ghost of Crimbo Cheer	Deals Spooky Damage?
+Throne	Ghost of Crimbo Commerce	Drops Meat
 Throne	Ghost Pickle on a Stick	Familiar Weight: +5, HP Regen Min: 8, HP Regen Max: 10
 Throne	Ghuol Whelp	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
 Throne	Gluttonous Green Ghost	Food Drop: +15, Drops Items
@@ -4848,6 +4851,7 @@ Effect	All Chipped Up	Meat Drop: +30, Item Drop: +20, MP Regen Min: 4, MP Regen 
 Effect	All Dolled Up	Avatar: "cigarette girl"
 Effect	All Fired Up	Initiative: +30
 Effect	All Glory To the Toad	Hot Damage: +2, Cold Damage: +2, Spooky Damage: +2, Stench Damage: +2, Sleaze Damage: +2
+Effect	All I Want For Crimbo Is Stuff	Item Drop: +30
 Effect	All Is Forgiven	Familiar Weight: +10
 Effect	All Revved Up	Muscle: +10, Mysticality: +10, Moxie: +10
 Effect	All Wound Up	Spell Damage Percent: [max(0,202-2*T)], Weapon Damage Percent: [max(0,202-2*T)]
@@ -5315,6 +5319,7 @@ Effect	Crimbeau'd	Familiar Weight: +10, Item Drop: +25, Meat Drop: +50
 Effect	Crimbo Epiphany	Mysticality Percent: +10
 Effect	Crimbo Flavor	Spell Damage: +30
 Effect	Crimbo Nostalgia	Experience: +5
+Effect	Crimbo Wrapping	HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
 # Crimbonar: Detect the presence of Crimbonium
 Effect	Cringle's Curative Carol	HP Regen Min: 5, HP Regen Max: 10
 Effect	critical.enh	Critical Hit Percent: +10, Spell Critical Percent: +10
@@ -5418,6 +5423,7 @@ Effect	Disguised as a Warehouse Clerk	Avatar: "warehouse clerk"
 Effect	Disquiet Riot	Combat Rate: -20
 Effect	Dizzy with Rage	Moxie Percent: -10
 Effect	Do I Know You From Somewhere?	Familiar Weight: +5
+Effect	Do You Crush What I Crush?	Spell Damage Pecent: +100, Weapon Damage Percent: +100
 Effect	Does a Body Good	Maximum HP: +60, Maximum MP: +30, Damage Reduction: 10
 Effect	Does It Have a Skull In There??	Spooky Resistance: +3, Spooky Damage: +15, Spooky Spell Damage: +15
 Effect	Does Whatever a Person Can	Avatar: "spider"
@@ -5892,6 +5898,7 @@ Effect	Hobonic	Hobo Power: +5
 Effect	Hoity Toity	Item Drop: +30
 Effect	Holiday Bliss	Item Drop: +20, Meat Drop: +20
 Effect	Holiday Disappointment	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
+Effect	Holiday Yoked	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Hollow Inside	Maximum Hooch: +6
 Effect	Hombre Muerto Caminando	Initiative: +20, Spooky Resistance: +1, Maximum MP: +20
 Effect	Hood Ridin'	Hot Damage: +40, Hot Spell Damage: +40
@@ -6111,6 +6118,7 @@ Effect	Leo Rising	Meat Drop: +10
 Effect	Leonarded	Avatar: "Leonard"
 Effect	Less Pervious	Damage Reduction: 3
 Effect	Less Vincible	HP Regen Min: 2, HP Regen Max: 5
+Effect	Let It Snow/Boil/Stink/Frighten/Grease	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	Let's Go Shopping!	Mysticality Percent: -300, Item Drop: +75, Meat Drop: +150
 Effect	Libra Rising	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
 Effect	License to Punch	Muscle Percent: +100
@@ -8287,10 +8295,13 @@ Item	gingerbread mutant bugbear	Effect: "Festive Radiation", Effect Duration: 10
 Item	gingerbread robot	Effect: "Gingerbread Robust", Effect Duration: 20
 Item	glass of raw eggs	Effect: "Boxing Day Breakfast", Effect Duration: 50
 Item	glistening fish meat	Effect: "Fishy", Effect Duration: 5
+Item	greedy ghostling	Free Pull
 Item	green bean casserole	Effect: "Thanksgetting", Effect Duration: 20
 Item	green drunki-bear	Effect: "Gummibrain", Effect Duration: 80
 Item	green hamhock	Effect: "Just the Best Anapests", Effect Duration: 50
 Item	green-iced sweet roll	Effect: "Sprinkle Sense", Effect Duration: 40
+Item	gregarious ghostling	Free Pull
+Item	grinning ghostling	Free Pull
 Item	gunky chicken	Effect: "Gunky Dory", Effect Duration: 20
 Item	haggis-wrapped haggis-stuffed haggis	Effect: "Highland Sheen", Effect Duration: 20
 Item	hambrosier	Effect: "The Power of Positive Thinking", Effect Duration: 50
@@ -8994,6 +9005,7 @@ Item	bottle of rhinoceros hormones	Effect: "'Roids of the Rhinoceros", Effect Du
 Item	bottled inspiration	Effect: "Inspired!", Effect Duration: 10
 Item	bowl of Jeal-O	Effect: "Oth-Jeal-O", Effect Duration: 30
 Item	bowl of marinade	Effect: "Marinated", Effect Duration: 15
+Item	box o' ghosts	Free Pull
 Item	box of Dweebs	Effect: "Dweeby", Effect Duration: 15
 Item	breath mint	Effect: "Sugar Rush", Effect Duration: 3
 Item	Bright Water	Effect: "Bright!", Effect Duration: 10

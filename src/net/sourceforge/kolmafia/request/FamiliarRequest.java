@@ -369,19 +369,19 @@ public class FamiliarRequest
 
 		// If we are switching to certain specialized familiars, don't
 		// steal any equipment from the old familiar
-
 		switch ( this.changeTo.getId() )
 		{
-		case FamiliarPool.CHAMELEON:	// Comma Chameleon
 		case FamiliarPool.BLACKBIRD:	// Reassembled Blackbird
 		case FamiliarPool.CROW:		// Reconstituted Crow
-		case FamiliarPool.HAND:		// Disembodied Hand
-		case FamiliarPool.LEFT_HAND:	// Left-Hand Man
-		case FamiliarPool.HATRACK:	// Mad Hatrack
-		case FamiliarPool.SCARECROW:	// Fancypants Scarecrow
 		case FamiliarPool.STOCKING_MIMIC:
 			// Leave the Stocking Mimic unequipped, to allow it to
 			// generate its own candy-generating item.
+			return;
+		}
+
+		// If the new familiar cannot equip the item, don't try to steal
+		if ( !this.changeTo.canEquip( item ) )
+		{
 			return;
 		}
 

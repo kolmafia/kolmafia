@@ -140,4 +140,7 @@ public class FamiliarPool
 	public static final int RED_SNAPPER = 275;
 	public static final int LEFT_HAND = 278;
 	public static final int MELODRAMEDARY = 279;
+	public static final int GHOST_CAROLS = 280;
+	public static final int GHOST_CHEER = 281;
+	public static final int GHOST_COMMERCE = 282;
 }

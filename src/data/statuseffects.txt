@@ -2602,3 +2602,8 @@
 2600	Cartographically Charged	cccbook.gif	69fc775608852c35e28b1eafa32ba87f	good	none
 2601	Cartographically Aware	cccbook.gif	ca5cbe045400b9be1d084424a408cf74	good	none
 2602	Cartographically Rooted	cccbook.gif	e32bae43b054695fd4e2c1b0b3c141fc	good	none
+2612	Do You Crush What I Crush?	krakfist.gif	1211577348c03409f62087db22e3e4f6	good	none
+2613	Holiday Yoked	crimbohat.gif	e43692067b5396f2dd4c0393fa07fadf	good	none
+2614	Crimbo Wrapping	goodbandaid.gif	9c1405b3d65a9f2974e8e4dc877ab4e4	good	none
+2615	Let It Snow/Boil/Stink/Frighten/Grease	snowflake.gif	34ff84966dca2e9f89795c142e2c6443	good	none
+2616	All I Want For Crimbo Is Stuff	pressie.gif	2f25a5403ecd89ead01cd54552fd5eab	good	none
