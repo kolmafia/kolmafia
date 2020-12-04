@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -57,10 +58,21 @@ import net.sourceforge.kolmafia.request.UneffectRequest;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
+import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+import org.htmlcleaner.DomSerializer;
+import org.htmlcleaner.HtmlCleaner;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 public class CharSheetRequest
 	extends GenericRequest
@@ -68,6 +80,9 @@ public class CharSheetRequest
 	private static final Pattern BASE_PATTERN = Pattern.compile( " \\(base: ([\\d,]+)\\)" );
 	private static final Pattern AVATAR_PATTERN =
 		Pattern.compile( "<img src=[^>]*?(?:images.kingdomofloathing.com|/images)/([^>\'\"\\s]+)" );
+
+	private static final HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
+	private static final DomSerializer domSerializer = new DomSerializer( cleaner.getProperties() );
 
 	/**
 	 * Constructs a new <code>CharSheetRequest</code>. The data in the KoLCharacter entity will be overridden over
@@ -120,6 +135,18 @@ public class CharSheetRequest
 		if ( avatarMatcher.find() )
 		{
 			KoLCharacter.setAvatar( avatarMatcher.group( 1 ) );
+		}
+
+		// Currently, this is used only for parsing the list of skills
+		Document doc = null;
+		try
+		{
+			doc = domSerializer.createDOM( cleaner.clean( responseText ) );
+		}
+		catch ( ParserConfigurationException e )
+		{
+			e.printStackTrace();
+			return;
 		}
 
 		// Strip all of the HTML from the server reply
@@ -350,24 +377,68 @@ public class CharSheetRequest
 		List<UseSkillRequest> newSkillSet = new ArrayList<UseSkillRequest>();
 		List<UseSkillRequest> permedSkillSet = new ArrayList<UseSkillRequest>();
 
-		// Loop until we get to Current Familiar, since everything
-		// before that contains the player's skills.
-
-		while ( !token.startsWith( "Current" ) && !token.startsWith( "[" ) )
+		// Assumption:
+		// Each skill is displayed as an anchor that looks like this (after running HtmlCleaner on it):
+		//
+		//	<a onclick="javascript:poop(&quot;desc_skill.php?whichskill=skill_id&self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a>
+		//
+		// ...where skill_id is an integer.
+		// Permed skills will have a <b> tag following the <a> tag like this:
+		//
+		//	<a ...>Skill Name</a> (<b>P</b>)	(Softcore permed)
+		//	<a ...>Skill Name</a> (<b>HP</b>)	(Hardcore permed)
+		//
+		// Skills that you cannot use right now (e.g. due to path restrictions) are wrapped in a <span> tag:
+		//
+		//	<span id="permskills" ...>...</span>
+		NodeList skillAndPermNodes = null;
+		try
 		{
-			if ( SkillDatabase.contains( token ) )
-			{
-				String skillName = token;
-				UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( skillName );
+			skillAndPermNodes = (NodeList) XPathFactory.newInstance().newXPath().evaluate(
+				"//a[contains(@onclick,'whichskill') and not(ancestor::*[@id='permskills'])] | //a[contains(@onclick,'whichskill') and not(ancestor::*[@id='permskills'])]/following-sibling::b[1]",
+				doc,
+				XPathConstants.NODESET
+			);
+		}
+		catch ( XPathExpressionException e )
+		{
+			e.printStackTrace();
+			return;
+		}
+
+		UseSkillRequest currentSkill = null;
+		Matcher onclickSkillIdMatcher = Pattern.compile( "\\bwhichskill=(\\d+)" ).matcher( "" );
+		for ( int i = 0; i < skillAndPermNodes.getLength(); ++i ) {
+			Node node = skillAndPermNodes.item( i );
+
+			if ( node.getNodeName().equals( "a" ) ) {
+				// Parse <a> tag and extract skill ID or name
+				String onclick = node.getAttributes().getNamedItem( "onclick" ).getNodeValue();
+				onclickSkillIdMatcher.reset( onclick );
+
+				if ( onclickSkillIdMatcher.find() )
+				{
+					int skillId = StringUtilities.parseInt( onclickSkillIdMatcher.group(1) );
+					currentSkill = UseSkillRequest.getUnmodifiedInstance( skillId );
+				}
+				else
+				{
+					// This should never happen unless KoL changes charsheet.php
+					System.err.println("Cannot find skill ID in 'onclick' attribute: " + onclick);
+					// Fall back to detection by skill name
+					String skillName = node.getTextContent();
+					currentSkill = UseSkillRequest.getUnmodifiedInstance( skillName );
+				}
+
 				boolean shouldAddSkill = true;
 
-				if ( SkillDatabase.isBookshelfSkill( skillName ) )
+				if ( SkillDatabase.isBookshelfSkill( currentSkill.getSkillId() ) )
 				{
 					shouldAddSkill = ( !KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore() ) ||
 						KoLCharacter.kingLiberated();
 				}
 
-				if ( skillName.equals( "Transcendent Olfaction" ) )
+				if ( currentSkill.getSkillId() == SkillPool.OLFACTION )
 				{
 					shouldAddSkill = ( !KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore() ) ||
 						KoLCharacter.skillsRecalled();
@@ -375,40 +446,34 @@ public class CharSheetRequest
 
 				if ( shouldAddSkill )
 				{
-					newSkillSet.add( skill );
+					newSkillSet.add( currentSkill );
 				}
+			}
+			else if (node.getNodeName().equals( "b" ) )
+			{
+				// Parse <b> tag and extract the perm status of the last parsed skill
+				String textContent = node.getTextContent();
 
-				if ( !cleanContent.hasMoreTokens() )
-				{
-					break;
-				}
-
-				token = cleanContent.nextToken();
-
-				// (<b>HP</b>)
-				if ( token.equals( "(" ) || token.equals( " (" ) )
-				{
-					GenericRequest.skipTokens( cleanContent, 2 );
-					permedSkillSet.add( skill );
-				}
-				// (P)
-				else if ( token.equals( "(P)" ) || token.equals( " (P)" ) )
-				{
-					permedSkillSet.add( skill );
+				if ( textContent.equals( "P" ) || textContent.equals( "HP" ) ) {
+					if ( currentSkill == null) {
+						// Report and skip the tag
+						System.err.println("Found perm status tag but has no matching skill, is ignored: <b>" + textContent + "</b>");
+					}
+					else
+					{
+						permedSkillSet.add( currentSkill );
+						currentSkill = null;
+					}
 				}
 				else
 				{
-					continue;
+					System.err.println("Unexpected <b> tag, is ignored: <b>" + textContent + "</b>");
 				}
 			}
-
-			// No more tokens if no familiar equipped
-			if ( !cleanContent.hasMoreTokens() )
+			else
 			{
-				break;
+				System.err.println("Unexpected node, is ignored: \"" + node.getNodeName() + "\"");
 			}
-
-			token = cleanContent.nextToken();
 		}
 
 		// The Smile of Mr. A no longer appears on the char sheet
