@@ -1719,6 +1719,7 @@ black shield	160	Mus: 65	shield
 blue LavaCo Lamp&trade;	100	Mys: 35
 bobble-hip hula elf doll	40	Mys: 5
 bone abacus	100	Mys: 5
+Book of Old-Timey Carols	50	none
 borg sock monkey	110	Mys: 40
 botanical sample kit	10	none
 bottle of Goldschn&ouml;ckered	75	Mox: 22
@@ -1762,6 +1763,7 @@ creme brulee torch	0	Mus: 25
 Crimbo bottomless hot cocoa mug	20	none
 Crimbo Elf creepy bobble-head	20	none
 Crimbo light-up Rudolph doll	20	none
+Crimbo smile	50	none
 Crimbo stogie-scented room odorizer	20	none
 Crimbo tree flocker	20	none
 crumbling rabbit's foot	50	none
@@ -2038,6 +2040,7 @@ rusty compass	60	Mys: 15
 rusty kettle bell	50	none
 rusty old lantern	200	Mys: 85
 rxr shield	100	Mus: 35	shield
+SalesCo sample kit	50	none
 sawblade shield	180	Mus: 75	shield
 Scepter of Loathing	200	Mys: 150
 Sceptre of the Torremolinos Prince	0	none
