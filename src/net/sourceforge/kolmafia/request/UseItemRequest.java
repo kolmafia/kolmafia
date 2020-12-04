@@ -5892,6 +5892,11 @@ public class UseItemRequest
 				UseItemRequest.lastUpdate = "Your familiar is not interested in that item.";
 				return;
 			}
+			if ( responseText.contains( "you can't figure out how to feed" ) )
+			{
+				UseItemRequest.lastUpdate = "You cannot feed Ghost Dog Chow to a Ghost of Crimbo";
+				return;
+			}
 			break;
 
 		case ItemPool.VYKEA_INSTRUCTIONS:

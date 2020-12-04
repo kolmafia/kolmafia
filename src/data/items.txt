@@ -10673,3 +10673,7 @@
 10645	Comprehensive Cartographic Compendium (well-read)	234229420	cccbook.gif	usable		0
 10646	packaged knock-off retro superhero cape	197563560	retrocape0.gif	usable	t	0
 10647	unwrapped knock-off retro superhero cape	630054973	retrocape1.gif	container		0
+10648	box o' ghosts	408419791	cghostbox.gif	usable	t	0
+10649	gregarious ghostling	765862389	cghost1.gif	grow	0
+10650	grinning ghostling	538954574	cghost2.gif	grow	0
+10651	greedy ghostling	200115865	cghost3.gif	grow	0

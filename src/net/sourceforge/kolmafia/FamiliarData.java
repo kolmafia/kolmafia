@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 import java.awt.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import java.util.regex.Matcher;
@@ -137,6 +138,7 @@ public class FamiliarData
 
 	public static final List<DropInfo> DROP_FAMILIARS = new ArrayList<DropInfo>();
 	public static final List<FightInfo> FIGHT_FAMILIARS = new ArrayList<FightInfo>();
+	public static final List<Integer> CRIMBO_GHOSTS = Arrays.asList(new Integer[]{FamiliarPool.GHOST_CAROLS, FamiliarPool.GHOST_CHEER, FamiliarPool.GHOST_COMMERCE});
 
 	private final int id;
 	private final String race;
@@ -201,7 +203,6 @@ public class FamiliarData
 	{
 		this.name = dataMatcher.group( 3 );
 		this.experience = StringUtilities.parseInt( dataMatcher.group( 5 ) );
-		this.setWeight();
 		// dataMatcher.group( 6 ) => kills
 		String itemData = dataMatcher.group( 7 );
 		this.item = FamiliarData.parseFamiliarItem( this.id, itemData );
@@ -288,24 +289,40 @@ public class FamiliarData
 			}
 		}
 
-		this.experience += 1 + experienceModifier;
+		int exp = (1 +
+				( int ) experienceModifier +
+				( KoLCharacter.hasSkill( "Testudinal Teachings" ) ? determineTestTeachExperience() : 0 ));
 
-		if ( KoLCharacter.hasSkill( "Testudinal Teachings" ) )
+		setExperience( this.experience + exp );
+	}
+
+	public final void addNonCombatExperience( int exp )
+	{
+		setExperience( this.experience + exp );
+	}
+
+	public final void setExperience( int exp )
+	{
+		if ( CRIMBO_GHOSTS.contains( this.getId() ) )
 		{
-			this.addTestTeachExperience();
+			for( Integer ghostId: CRIMBO_GHOSTS )
+			{
+				FamiliarData fam = KoLCharacter.findFamiliar( ghostId );
+				if ( fam != null )
+				{
+					fam.experience = exp;
+				}
+			}
+		}
+		else
+		{
+			this.experience = exp;
 		}
 
 		this.setWeight();
 	}
 
-	public final void addNonCombatExperience( int exp )
-	{
-		this.experience += exp;
-
-		this.setWeight();
-	}
-
-	public final void addTestTeachExperience()
+	public final int determineTestTeachExperience()
 	{
 		String rawTTPref = Preferences.getString( "testudinalTeachings" );
 		String[] splitTTPref = rawTTPref.split( "\\|" );
@@ -318,17 +335,19 @@ public class FamiliarData
 			{
 				if ( this.id == Integer.parseInt( it[ 0 ] ) )
 				{
+					int testTeachExp = 0;
+
 					int newCount = Integer.parseInt( it[ 1 ] ) + 1;
 					if ( newCount >= 6 )
 					{
-						this.experience++ ;
+						testTeachExp++;
 						newCount = 0;
 					}
 					String newTTProperty = it[ 0 ] + ":" + String.valueOf( newCount );
 					String newTTPref = StringUtilities.globalStringReplace( rawTTPref,
 						splitTTPref[ i ], newTTProperty );
 					Preferences.setString( "testudinalTeachings", newTTPref );
-					return;
+					return testTeachExp;
 				}
 			}
 		}
@@ -341,6 +360,8 @@ public class FamiliarData
 		}
 		String newTTPref = rawTTPref + delimiter + String.valueOf( this.id ) + ":1";
 		Preferences.setString( "testudinalTeachings", newTTPref );
+
+		return 0;
 	}
 
 	public final void recognizeCombatUse()
@@ -1104,6 +1125,23 @@ public class FamiliarData
 	}
 
 	/**
+	 * Returns whether or not the familiar can equip any familiar items.
+	 */
+	public boolean canEquipAny()
+	{
+		switch ( this.id )
+		{
+			case FamiliarPool.CHAMELEON:
+			case FamiliarPool.GHOST_CAROLS:
+			case FamiliarPool.GHOST_CHEER:
+			case FamiliarPool.GHOST_COMMERCE:
+				return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Returns whether or not the familiar can equip the given familiar
 	 * item.
 	 */
@@ -1126,14 +1164,16 @@ public class FamiliarData
 			return false;
 		}
 
+		if ( !this.canEquipAny() )
+		{
+			return false;
+		}
+
 		String name = item.getName();
 
 		switch ( this.id )
 		{
 		case -1:
-			return false;
-
-		case FamiliarPool.CHAMELEON:
 			return false;
 
 		case FamiliarPool.HATRACK:
