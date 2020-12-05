@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2005-2020, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
@@ -97,7 +97,6 @@ import net.sourceforge.kolmafia.session.GoalManager;
 
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 
-import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 
@@ -163,20 +162,20 @@ public class AdventureSelectPanel
 
 		Object currentZone;
 
-		for ( int i = 0; i < zones.length; ++i )
+		for ( Object zone : zones )
 		{
-			currentZone = AdventureDatabase.ZONE_DESCRIPTIONS.get( zones[ i ] );
+			currentZone = AdventureDatabase.ZONE_DESCRIPTIONS.get( zone );
 			if ( currentZone == null )
 			{
 				// This indicates an error in zonelist.txt
-				System.out.println( "null zone for " + zones[ i ] );
+				System.out.println( "null zone for " + zone );
 				continue;
 			}
-			this.zoneMap.put( currentZone, zones[ i ] );
+			this.zoneMap.put( currentZone, zone );
 
 			if ( useZoneComboBox )
 			{
-				( (JComboBox) this.zoneSelect ).addItem( currentZone );
+				((JComboBox) this.zoneSelect).addItem( currentZone );
 			}
 		}
 
@@ -194,7 +193,7 @@ public class AdventureSelectPanel
 			this.countField.setHorizontalAlignment( AutoHighlightTextField.RIGHT );
 			this.countField.getEditor().setBorder( BorderFactory.createEtchedBorder( EtchedBorder.LOWERED) );
 
-			JComponentUtilities.setComponentSize( this.countField, 60, -1 );
+			JComponentUtilities.setComponentSize( this.countField, 75, -1 );
 			panel.add( this.countField );
 
 			zonePanel.add( panel, BorderLayout.EAST );
@@ -485,9 +484,9 @@ public class AdventureSelectPanel
 			GoalManager.clearGoals();
 
 			// Retain any stat goal
-			for ( int i = 0; i < previousGoals.size(); ++i )
+			for ( Object goal : previousGoals )
 			{
-				AdventureResult previousGoal = (AdventureResult) previousGoals.get( i );
+				AdventureResult previousGoal = (AdventureResult) goal;
 
 				if ( previousGoal.getName().equals( AdventureResult.SUBSTATS ) )
 				{
@@ -539,19 +538,19 @@ public class AdventureSelectPanel
 			// disjunction on the conditions, which changes how
 			// KoLmafia handles them.
 
-			for ( int i = 0; i < splitConditions.length; ++i )
+			for ( String splitCondition : splitConditions )
 			{
-				if ( splitConditions[ i ] == null )
+				if ( splitCondition == null )
 				{
 					continue;
 				}
 
-				if ( splitConditions[ i ].equals( "check" ) )
+				if ( splitCondition.equals( "check" ) )
 				{
 					// Postpone verification of conditions
 					// until all other conditions added.
 				}
-				else if ( splitConditions[ i ].equals( "outfit" ) )
+				else if ( splitCondition.equals( "outfit" ) )
 				{
 					// Determine where you're adventuring
 					// and use that to determine which
@@ -563,14 +562,14 @@ public class AdventureSelectPanel
 						return true;
 					}
 				}
-				else if ( splitConditions[ i ].startsWith( "+" ) )
+				else if ( splitCondition.startsWith( "+" ) )
 				{
-					if ( !ConditionsCommand.update( "add", splitConditions[ i ].substring( 1 ) ) )
+					if ( !ConditionsCommand.update( "add", splitCondition.substring( 1 ) ) )
 					{
 						return false;
 					}
 				}
-				else if ( !ConditionsCommand.update( "set", splitConditions[ i ] ) )
+				else if ( !ConditionsCommand.update( "set", splitCondition ) )
 				{
 					return false;
 				}
