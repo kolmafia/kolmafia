@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2005-2020, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.Modifiers;
 
 import net.sourceforge.kolmafia.listener.Listener;
@@ -245,10 +246,10 @@ public class CompactSidePane
 		compactContainer.setOpaque( false );
 		compactContainer.setLayout( new BoxLayout( compactContainer, BoxLayout.Y_AXIS ) );
 
-		for ( int i = 0; i < panels.length; ++i )
+		for ( JPanel panel : panels )
 		{
-			panels[ i ].setOpaque( false );
-			compactContainer.add( panels[ i ] );
+			panel.setOpaque( false );
+			compactContainer.add( panel );
 			compactContainer.add( Box.createVerticalStrut( 20 ) );
 		}
 
@@ -260,8 +261,11 @@ public class CompactSidePane
 
 		JPanel refreshPanel = new JPanel();
 		refreshPanel.setOpaque( false );
-		refreshPanel.add( new InvocationButton( "Refresh Status", "refresh.gif", ApiRequest.class, "updateStatus" ) );
-
+		String iconSetPrefix;
+		iconSetPrefix = KoLmafiaGUI.isDarkTheme()? "themes/dark/": "" ;
+		InvocationButton refreshButton = new InvocationButton( "Refresh Status", iconSetPrefix + "refresh.gif", ApiRequest.class, "updateStatus" );
+		refreshButton.setContentAreaFilled( false );
+		refreshPanel.add(refreshButton);
 		this.add( refreshPanel, BorderLayout.SOUTH );
 		this.add( compactCard, BorderLayout.NORTH );
 
@@ -405,8 +409,8 @@ public class CompactSidePane
 			// None of the above
 			JMenu other = new JMenu( "other" );
 
-			String custom[] = new String[9];
-			JMenu customMenu[] = new JMenu[9];
+			String[] custom = new String[9];
+			JMenu[] customMenu = new JMenu[9];
 			for ( int i = 0; i < 9; ++i )
 			{
 				String pref = Preferences.getString( "familiarCategory" + (i + 1) );
@@ -812,7 +816,22 @@ public class CompactSidePane
 
 	public String getStatText( final int adjusted, final int base )
 	{
-		return adjusted == base ? "<html>" + Integer.toString( base ) : adjusted > base ? "<html><font color=blue>" + Integer.toString( adjusted ) + "</font> (" + Integer.toString( base ) + ")" : "<html><font color=red>" + Integer.toString( adjusted ) + "</font> (" + Integer.toString( base ) + ")";
+		String statText;
+		if ( KoLmafiaGUI.isDarkTheme() )
+		{
+
+			statText = adjusted == base ? "<html><font color=#dddddd>"+ base + "</font>"
+						    : adjusted > base ? "<html><font color=#00d4ff>" + adjusted + "</font> (<font color=#dddddd>"+ base + "</font>" + ")"
+								      : "<html><font color=#ff8a93>" + adjusted + "</font> (<font color=#dddddd>" + base + "</font>" + ")";
+		}
+		else
+		{
+			statText = adjusted == base ? "<html>" + base
+						    : adjusted > base ? "<html><font color=blue>" + adjusted + "</font> (" + base + ")"
+								      : "<html><font color=red>" + adjusted + "</font> (" + base + ")";
+
+		}
+		return statText;
 	}
 
 	public void run()
@@ -943,13 +962,13 @@ public class CompactSidePane
 				this.statusValueLabel[ count ].setText( KoLCharacter.getFury() + " / " + KoLCharacter.getFuryLimit() );
 				count++;
 			}
-			else if ( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR && !KoLCharacter.inNuclearAutumn() )
+			else if ( KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) && !KoLCharacter.inNuclearAutumn() )
 			{
 				this.statusLabel[ count ].setText( "Soulsauce: ");
 				this.statusValueLabel[ count ].setText( KoLCharacter.getSoulsauce() + " / 100" );
 				count++;
 			}
-			else if ( KoLCharacter.getClassType() == KoLCharacter.DISCO_BANDIT && !KoLCharacter.inNuclearAutumn() )
+			else if ( KoLCharacter.getClassType().equals( KoLCharacter.DISCO_BANDIT ) && !KoLCharacter.inNuclearAutumn() )
 			{
 				this.statusLabel[ count ].setText( " Disco: " );
 				this.statusValueLabel[ count ].setText( KoLCharacter.getDiscoMomentum() + " / 3" );
@@ -1290,28 +1309,15 @@ public class CompactSidePane
 		String muffler = Preferences.getString( "peteMotorbikeMuffler" );
 		String seat = Preferences.getString( "peteMotorbikeSeat" );
 
-		StringBuilder buf = new StringBuilder( "<html><table border=1>" );
-		buf.append( "<tr><td>Tires</td><td>" );
-		buf.append( tires );
-		buf.append( "</td></tr>" );
-		buf.append( "<tr><td>Gas Tank</td><td>" );
-		buf.append( gasTank );
-		buf.append( "</td></tr>" );
-		buf.append( "<tr><td>Headlight</td><td>" );
-		buf.append( headlight );
-		buf.append( "</td></tr>" );
-		buf.append( "<tr><td>Cowling</td><td>" );
-		buf.append( cowling );
-		buf.append( "</td></tr>" );
-		buf.append( "<tr><td>Muffler</td><td>" );
-		buf.append( muffler );
-		buf.append( "</td></tr>" );
-		buf.append( "<tr><td>Seat</td><td>" );
-		buf.append( seat );
-		buf.append( "</td></tr>" );
-		buf.append( "</table></html>" );
+		return  "<html><table border=1>"
+			+ "<tr><td>Tires</td><td>" + tires + "</td></tr>"
+			+ "<tr><td>Gas Tank</td><td>" + gasTank + "</td></tr>"
+			+ "<tr><td>Headlight</td><td>" + headlight + "</td></tr>"
+			+ "<tr><td>Cowling</td><td>" + cowling + "</td></tr>"
+			+ "<tr><td>Muffler</td><td>" + muffler + "</td></tr>"
+			+ "<tr><td>Seat</td><td>" + seat + "</td></tr>"
+			+ "</table></html>";
 
-		return buf.toString();
 	}
 
 	private static String modifierPopupText()
@@ -1382,7 +1388,7 @@ public class CompactSidePane
 			KoLCharacter.getDamageAbsorption() ) );
 		buf.append( "<br>(" );
 		buf.append( KoLConstants.ROUNDED_MODIFIER_FORMAT.format(
-			Math.max( 0.0, ( (double) Math.sqrt( Math.min( 10000.0, KoLCharacter.getDamageAbsorption() * 10.0 ) ) - 10.0 ) ) ) );
+			Math.max( 0.0, ( Math.sqrt( Math.min( 10000.0, KoLCharacter.getDamageAbsorption() * 10.0 ) ) - 10.0 ) ) ) );
 		buf.append( "%)<br>DR: " );
 		buf.append( KoLConstants.MODIFIER_FORMAT.format(
 			KoLCharacter.getDamageReduction() ) );
