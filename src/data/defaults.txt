@@ -1584,6 +1584,7 @@ user	_gingerBiggerAlligators	false
 user	_gingerbreadCityToday	false
 user	_gingerbreadCityTurns	0
 user	_gingerbreadClockAdvanced	false
+user	_gingerbreadClockVisited	false
 user	_gingerbreadColumnDestroyed	false
 user	_gingerbreadMobHitUsed	false
 user	_glarkCableUses	0
