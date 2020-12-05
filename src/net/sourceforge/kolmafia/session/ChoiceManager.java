@@ -10594,6 +10594,8 @@ public abstract class ChoiceManager
 
 		case 1215:
 			// Setting the Clock
+			Preferences.setBoolean( "_gingerbreadClockVisited", true );
+
 			if ( ChoiceManager.lastDecision == 1 )
 			{
 				Preferences.setBoolean( "_gingerbreadClockAdvanced", true );
