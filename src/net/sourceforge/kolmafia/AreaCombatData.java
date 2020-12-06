@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2005-2020, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
@@ -123,7 +123,7 @@ public class AreaCombatData
 		this.jumpChance = 100;
 
 		double weights = 0.0;
-		List<Integer> currentWeightings = new ArrayList<Integer>();
+		List<Integer> currentWeightings = new ArrayList<>();
 
 		for ( int i = 0; i < this.monsters.size(); ++i )
 		{
@@ -402,7 +402,7 @@ public class AreaCombatData
 	 * Counts the number of monsters in this area that drop the item with the
 	 * given ID.
 	 *
-	 * @param itemId
+	 * @param itemId the itemID of the the item to count
 	 * @return the number of monsters in this area dropping the item
 	 */
 	public int countMonstersDroppingItem( final int itemId )
@@ -587,9 +587,8 @@ public class AreaCombatData
 
 		double averageSuperlikelyML = 0.0;
 		double superlikelyChance = 0.0;
-		for ( int i = 0; i < this.superlikelyMonsters.size(); ++i )
+		for ( MonsterData monster : this.superlikelyMonsters )
 		{
-			MonsterData monster = this.superlikelyMonsters.get( i );
 			String monsterName = monster.getName();
 			double chance = AreaCombatData.superlikelyChance( monsterName );
 			if ( chance > 0 )
@@ -678,9 +677,8 @@ public class AreaCombatData
 
 		double averageSuperlikelyExperience = 0.0;
 		double superlikelyChance = 0.0;
-		for ( int i = 0; i < this.superlikelyMonsters.size(); ++i )
+		for ( MonsterData monster : this.superlikelyMonsters )
 		{
-			MonsterData monster = this.superlikelyMonsters.get( i );
 			String monsterName = monster.getName();
 			double chance = AreaCombatData.superlikelyChance( monsterName );
 			if ( chance > 0 )
@@ -1286,19 +1284,20 @@ public class AreaCombatData
 		switch ( element )
 		{
 			case HOT:
-				return "#ff0000";
+				return ( KoLmafiaGUI.isDarkTheme() ) ? "#ff8a93" : "#ff0000";
 			case COLD:
-				return "#0000ff";
+				return ( KoLmafiaGUI.isDarkTheme() ) ? "#00d4ff" : "#0000ff";
 			case STENCH:
-				return "#008000";
+				return ( KoLmafiaGUI.isDarkTheme() ) ? "#39f0d0" : "#008000";
 			case SPOOKY:
-				return "#808080";
+				return ( KoLmafiaGUI.isDarkTheme() ) ? "#bebebe" : "#808080";
 			case SLEAZE:
-				return "#8a2be2";
+				return ( KoLmafiaGUI.isDarkTheme() ) ? "#b980ee" :"#8a2be2";
 			case SLIME:
-				return "#006400";
+				return ( KoLmafiaGUI.isDarkTheme() ) ? "#1adde9" : "#006400";
 			default:
-				return "#000000";
+				 return ( KoLmafiaGUI.isDarkTheme() ) ? "#FFFFFF" : "#000000";
+
 		}
 	}
 
@@ -1310,11 +1309,7 @@ public class AreaCombatData
 		{
 			return 0.0;
 		}
-		if ( percent > 100.0 )
-		{
-			return 100.0;
-		}
-		return percent;
+		return Math.min( percent, 100.0 );
 	}
 
 	public static final int perfectHit( final int attack, final int defense )
