@@ -378,11 +378,15 @@ public class CharSheetRequest
 		List<UseSkillRequest> permedSkillSet = new ArrayList<UseSkillRequest>();
 
 		// Assumption:
-		// Each skill is displayed as an anchor that looks like this (after running HtmlCleaner on it):
+		// In the cleaned-up HTML, each skill is displayed as an <a> tag that looks like any of the following:
 		//
-		//	<a onclick="javascript:poop(&quot;desc_skill.php?whichskill=skill_id&self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a>
+		//	(Most of the time)
+		//	<a onclick="javascript:poop(&quot;desc_skill.php?whichskill=SKILL_ID&self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a>
+		//	(Rarely)
+		//	<a onclick="skill(SKILL_ID)">Skill Name</a>
 		//
-		// ...where skill_id is an integer.
+		// ...where SKILL_ID is an integer.
+		//
 		// Permed skills will have a <b> tag following the <a> tag like this:
 		//
 		//	<a ...>Skill Name</a> (<b>P</b>)	(Softcore permed)
@@ -395,7 +399,7 @@ public class CharSheetRequest
 		try
 		{
 			skillAndPermNodes = (NodeList) XPathFactory.newInstance().newXPath().evaluate(
-				"//a[contains(@onclick,'whichskill') and not(ancestor::*[@id='permskills'])] | //a[contains(@onclick,'whichskill') and not(ancestor::*[@id='permskills'])]/following-sibling::b[1]",
+				"//a[contains(@onclick,'skill') and not(ancestor::*[@id='permskills'])] | //a[contains(@onclick,'skill') and not(ancestor::*[@id='permskills'])]/following-sibling::b[1]",
 				doc,
 				XPathConstants.NODESET
 			);
@@ -407,27 +411,51 @@ public class CharSheetRequest
 		}
 
 		UseSkillRequest currentSkill = null;
-		Matcher onclickSkillIdMatcher = Pattern.compile( "\\bwhichskill=(\\d+)" ).matcher( "" );
+		Matcher[] onclickSkillIdMatchers = {
+			Pattern.compile( "\\bwhichskill=(\\d+)" ).matcher( "" ),
+			Pattern.compile( "\\bskill\\((\\d+)\\)" ).matcher( "" ),
+		};
 		for ( int i = 0; i < skillAndPermNodes.getLength(); ++i ) {
 			Node node = skillAndPermNodes.item( i );
 
 			if ( node.getNodeName().equals( "a" ) ) {
 				// Parse <a> tag and extract skill ID or name
-				String onclick = node.getAttributes().getNamedItem( "onclick" ).getNodeValue();
-				onclickSkillIdMatcher.reset( onclick );
 
-				if ( onclickSkillIdMatcher.find() )
+				String onclick = node.getAttributes().getNamedItem( "onclick" ).getNodeValue();
+
+				// Forget about the previous skill
+				currentSkill = null;
+				// Try each pattern, one by one
+				for ( Matcher skillIdMatcher : onclickSkillIdMatchers )
 				{
-					int skillId = StringUtilities.parseInt( onclickSkillIdMatcher.group(1) );
+					skillIdMatcher.reset( onclick );
+					if ( !skillIdMatcher.find() )
+					{
+						continue;
+					}
+
+					int skillId = StringUtilities.parseInt( skillIdMatcher.group(1) );
 					currentSkill = UseSkillRequest.getUnmodifiedInstance( skillId );
+					if ( currentSkill == null )
+					{
+						System.err.println("Unknown skill ID in charsheet.php: " + skillId);
+					}
+
+					// Since we found a skill ID (recognized or otherwise), stop checking patterns
+					break;
 				}
-				else
+
+				// If KoLmafia cannot parse or recognize the skill ID, parse the skill name instead
+				if ( currentSkill == null )
 				{
-					// This should never happen unless KoL changes charsheet.php
-					System.err.println("Cannot find skill ID in 'onclick' attribute: " + onclick);
-					// Fall back to detection by skill name
+					System.err.println("Cannot parse skill ID in 'onclick' attribute, falling back to skill name check: " + onclick);
 					String skillName = node.getTextContent();
 					currentSkill = UseSkillRequest.getUnmodifiedInstance( skillName );
+					if ( currentSkill == null )
+					{
+						System.err.println("Ignored unknown skill name in charsheet.php: " + skillName);
+						continue;
+					}
 				}
 
 				boolean shouldAddSkill = true;
