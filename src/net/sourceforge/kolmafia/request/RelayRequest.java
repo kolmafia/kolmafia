@@ -242,7 +242,15 @@ public class RelayRequest
 		}
 		else if ( path.endsWith( ".js" ) )
 		{
-			this.contentType = "text/javascript";
+			// Support JS-driven relay scripts
+			if ( relayField != null && relayField.equals( "true" ) )
+			{
+				this.contentType = "text/html";
+			}
+			else
+			{
+				this.contentType = "text/javascript";
+			}
 		}
 		else if ( path.endsWith( ".gif" ) )
 		{
@@ -264,7 +272,7 @@ public class RelayRequest
 		{
 			this.contentType = "audio/mpeg";
 		}
-		else if ( path.matches( ".*\\.(php|html|ash)" ) || (path.endsWith( ".js" ) && relayField != null && relayField.equals( "true" )) )
+		else if ( path.matches( ".*\\.(php|html|ash)" ) )
 		{
 			this.contentType = "text/html";
 		}
