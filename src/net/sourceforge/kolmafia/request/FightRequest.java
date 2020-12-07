@@ -4188,7 +4188,7 @@ public class FightRequest
 				{
 					Preferences.setInteger( "_pixieCharge", 0 );
 				}
-				else
+				else if ( !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ABSINTHE ) ) )
 				{
 					Preferences.increment( "_pixieCharge", 1 );
 				}
