@@ -8232,7 +8232,9 @@ public class FightRequest
 	private static boolean handleEvilometer( String text, TagStatus status )
 	{
 		if ( !text.contains( "Evilometer" ) && !text.contains( "ghost vacuum" ) &&
-		     !text.contains( "gravy sloshes" ) && !text.contains( "the nightmare fuel" ) )
+		     !text.contains( "gravy sloshes" ) && !text.contains( "the nightmare fuel" ) &&
+			 !text.contains( "an evil draft blows" )
+		)
 		{
 			return false;
 		}
