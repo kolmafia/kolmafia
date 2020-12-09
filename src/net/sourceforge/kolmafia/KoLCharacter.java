@@ -869,7 +869,7 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.isAWoLClass() )
 		{
 			limit = 9;
-			if ( KoLCharacter.hasSkill( "Hard Drinker" ) )
+			if ( KoLCharacter.hasSkill( SkillPool.HARD_DRINKER__COW_PUNCHER ) )
 			{
 				limit += 5;
 			}
@@ -887,7 +887,7 @@ public abstract class KoLCharacter
 		else if ( KoLCharacter.isSneakyPete() )
 		{
 			limit = 19;
-			if ( KoLCharacter.hasSkill( "Hard Drinker" ) )
+			if ( KoLCharacter.hasSkill( SkillPool.HARD_DRINKER__AVATAR_OF_SNEAKY_PETE ) )
 			{
 				limit += 10;
 			}

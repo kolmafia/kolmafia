@@ -214,6 +214,7 @@ public class SkillPool
 	public static final int HOBO_JOKE = 7050;
 	public static final int HOBO_DANCE = 7051;
 	public static final int SUMMON_HOBO = 7052;
+	public static final int STATIC_SHOCK__RED_AND_GREEN_SWEATER = 7094;
 	public static final int STINKEYE = 7095;
 	public static final int BADLY_ROMANTIC_ARROW = 7108;
 	public static final int BOXING_GLOVE_ARROW = 7109;
@@ -227,6 +228,7 @@ public class SkillPool
 	public static final int DOUBT_SHACKLES = 7143;
 	public static final int FEAR_VAPOR = 7144;
 	public static final int TEAR_WAVE = 7145;
+	public static final int STATIC_SHOCK__PANTALOONS_OF_HATRED = 7156;
 	public static final int GET_A_GOOD_WHIFF = 7166;
 	public static final int WINK = 7168;
 	public static final int TALK_ABOUT_POLITICS = 7169;
@@ -358,6 +360,7 @@ public class SkillPool
 	public static final int CHECK_MIRROR = 15017;
 	public static final int BIKER_SWAGGER = 15019;
 	public static final int JUMP_SHARK = 15024;
+	public static final int HARD_DRINKER__AVATAR_OF_SNEAKY_PETE = 15025;
 	public static final int WALK_AWAY_FROM_EXPLOSION = 15030;
 	public static final int INCITE_RIOT = 15031;
 	public static final int THUNDER_CLAP = 16001;
@@ -383,6 +386,7 @@ public class SkillPool
 	public static final int CURSE_OF_VACATION = 17019;
 	public static final int CURSE_OF_STENCH = 17020;
 	public static final int MILD_CURSE = 17047;
+	public static final int HARD_DRINKER__COW_PUNCHER = 18008;
 	public static final int CANHANDLE = 19002;
 	public static final int BEANWEAVER = 19005;
 	public static final int BEANCANNON = 19007;

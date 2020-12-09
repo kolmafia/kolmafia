@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -644,7 +645,7 @@ public class EquipmentManager
 			KoLCharacter.removeAvailableSkill( "Apprivoisez la tortue" );
 			break;
 		case ItemPool.RED_AND_GREEN_SWEATER:
-			KoLCharacter.removeAvailableSkill( "Static Shock" );
+			KoLCharacter.removeAvailableSkill( SkillPool.STATIC_SHOCK__RED_AND_GREEN_SWEATER );
 			break;
 		case ItemPool.STINKY_CHEESE_EYE:
 			KoLCharacter.removeAvailableSkill( "Give Your Opponent the Stinkeye" );
@@ -725,7 +726,7 @@ public class EquipmentManager
 			KoLCharacter.removeAvailableSkill( "Chilling Grip" );
 			break;
 		case ItemPool.HATRED_PANTS:
-			KoLCharacter.removeAvailableSkill( "Static Shock" );
+			KoLCharacter.removeAvailableSkill( SkillPool.STATIC_SHOCK__PANTALOONS_OF_HATRED );
 			break;
 		case ItemPool.HATRED_GIRDLE:
 			KoLCharacter.removeAvailableSkill( "Tighten Girdle" );
@@ -959,7 +960,7 @@ public class EquipmentManager
 			KoLCharacter.addAvailableSkill( "Apprivoisez la tortue" );
 			break;
 		case ItemPool.RED_AND_GREEN_SWEATER:
-			KoLCharacter.addAvailableSkill( "Static Shock" );
+			KoLCharacter.addAvailableSkill( SkillPool.STATIC_SHOCK__RED_AND_GREEN_SWEATER );
 			break;
 		case ItemPool.STINKY_CHEESE_EYE:
 			KoLCharacter.addAvailableSkill( "Give Your Opponent the Stinkeye" );
@@ -1046,7 +1047,7 @@ public class EquipmentManager
 			KoLCharacter.addAvailableSkill( "Chilling Grip" );
 			break;
 		case ItemPool.HATRED_PANTS:
-			KoLCharacter.addAvailableSkill( "Static Shock" );
+			KoLCharacter.addAvailableSkill( SkillPool.STATIC_SHOCK__PANTALOONS_OF_HATRED );
 			break;
 		case ItemPool.HATRED_GIRDLE:
 			KoLCharacter.addAvailableSkill( "Tighten Girdle" );
