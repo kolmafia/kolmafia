@@ -4442,8 +4442,8 @@ Throne	Galloping Grill	Spell Damage Percent: +10
 Throne	Gelatinous Cubeling	Familiar Weight: +5
 Throne	Garbage Fire	Hot Spell Damage: +25, Drops Items, Variable
 Throne	Ghost of Crimbo Carols	HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
-# Throne	Ghost of Crimbo Cheer	Deals Spooky Damage?
-Throne	Ghost of Crimbo Commerce	Drops Meat
+Throne	Ghost of Crimbo Cheer	Experience (Moxie): +2
+Throne	Ghost of Crimbo Commerce	Meat Drop: +20, Drops Meat
 Throne	Ghost Pickle on a Stick	Familiar Weight: +5, HP Regen Min: 8, HP Regen Max: 10
 Throne	Ghuol Whelp	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
 Throne	Gluttonous Green Ghost	Food Drop: +15, Drops Items
@@ -11504,7 +11504,7 @@ Item	unpowered Robortender	Free Pull
 # unstable laser battery: Briefly stuns enemies
 Item	unused walkie-talkie	Free Pull
 Item	unwound cymbal-playing monkey	Free Pull
-Item	unwrapped knock-off retro superhero cape	Muscle Percent: [30*pref(retroCapeSuperhero,vampire)], Maximum HP: [50*pref(retroCapeSuperhero,vampire)], Cold Resistance: [3*pref(retroCapeSuperhero,vampire)*pref(retroCapeWashingInstructions,hold)], Hot Resistance: [3*pref(retroCapeSuperhero,vampire)*pref(retroCapeWashingInstructions,hold)], Sleaze Resistance: [3*pref(retroCapeSuperhero,vampire)*pref(retroCapeWashingInstructions,hold)], Spooky Resistance: [3*pref(retroCapeSuperhero,vampire)*pref(retroCapeWashingInstructions,hold)], Stench Resistance: [3*pref(retroCapeSuperhero,vampire)*pref(retroCapeWashingInstructions,hold)], Experience (Muscle): [3*pref(retroCapeSuperhero,vampire)*pref(retroCapeWashingInstructions,thrill)], Mysticality Percent: [30*pref(retroCapeSuperhero,heck)], Maximum MP: [50*pref(retroCapeSuperhero,heck)], Experience (Mysticality): [3*pref(retroCapeSuperhero,heck)*pref(retroCapeWashingInstructions,thrill)], Moxie Percent: [30*pref(retroCapeSuperhero,robot)], Maximum HP: [25*pref(retroCapeSuperhero,robot)], Maximum MP: [25*pref(retroCapeSuperhero,robot)], Experience (Moxie): [3*pref(retroCapeSuperhero,robot)*pref(retroCapeWashingInstructions,thrill)]
+# Item	unwrapped knock-off retro superhero cape
 Item	Valentine	Free Pull
 # valuable coin: Worth a lot!
 Item	vampire glitter	Class: "Pastamancer"
@@ -11659,6 +11659,20 @@ BoomBox	Food Vibrations	Food Drop: +30
 BoomBox	Remainin' Alive	Damage Reduction: [L]
 BoomBox	These Fists Were Made for Punchin'	Weapon Damage: [L]
 BoomBox	Total Eclipse of Your Meat	Meat Drop: +30
+
+# Retrocape
+RetroCape	vampire hold	Muscle Percent: 30, Maximum HP: +50, Cold Resistance: 3, Hot Resistance: 3, Sleaze Resistance: 3, Spooky Resistance: 3, Stench Resistance: 3
+RetroCape	vampire thrill	Muscle Percent: 30, Maximum HP: +50, Experience (Muscle): 3
+RetroCape	vampire kiss	Muscle Percent: 30, Maximum HP: +50
+RetroCape	vampire kill	Muscle Percent: 30, Maximum HP: +50
+RetroCape	heck hold	Mysticality Percent: 30, Maximum MP: +50
+RetroCape	heck thrill	Mysticality Percent: 30, Maximum MP: +50, Experience (Mysticality): 3
+RetroCape	heck kiss	Mysticality Percent: 30, Maximum MP: +50,
+RetroCape	heck kill	Mysticality Percent: 30, Maximum MP: +50,
+RetroCape	robot hold	Moxie Percent: 30, Maximum HP: +25, Maximum MP: +25
+RetroCape	robot thrill	Moxie Percent: 30, Maximum HP: +25, Maximum MP: +25, Experience (Moxie): 3
+RetroCape	robot kiss	Moxie Percent: 30, Maximum HP: +25, Maximum MP: +25
+RetroCape	robot kill	Moxie Percent: 30, Maximum HP: +25, Maximum MP: +25
 
 # Disguises Delimit
 Mask	Mr. Mask	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1

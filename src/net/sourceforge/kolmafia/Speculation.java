@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -53,6 +54,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
+import net.sourceforge.kolmafia.textui.command.RetroCapeCommand;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Speculation
@@ -61,7 +63,7 @@ public class Speculation
 	public AdventureResult[] equipment;
 	private ArrayList<AdventureResult> effects;
 	private FamiliarData familiar, enthroned, bjorned;
-	private String edPiece, snowsuit, custom, horsery, boomBox;
+	private String edPiece, snowsuit, custom, horsery, boomBox, retroCape;
 	protected boolean calculated = false;
 	protected Modifiers mods;
 
@@ -94,6 +96,8 @@ public class Speculation
 		this.custom = null;
 		this.horsery = Preferences.getString( "_horsery" );
 		this.boomBox = Preferences.getString( "boomBoxSong" );
+		this.retroCape = Preferences.getString( "retroCapeSuperhero" ) + " " + Preferences.getString( "retroCapeWashingInstructions" );
+
 	}
 
 	public void setMindControlLevel( int MCD )
@@ -120,6 +124,8 @@ public class Speculation
 	{
 		this.edPiece = edPiece;
 	}
+
+	public void setRetroCape( String retroCape ) { this.retroCape = retroCape; }
 
 	public void setSnowsuit( String snowsuit )
 	{
@@ -160,6 +166,8 @@ public class Speculation
 	{
 		return this.edPiece;
 	}
+
+	public String getRetroCape() { return this.retroCape; }
 
 	public String getSnowsuit()
 	{
@@ -225,6 +233,7 @@ public class Speculation
 			this.custom,
 			this.horsery,
 			this.boomBox,
+			this.retroCape,
 			true );
 		this.calculated = true;
 		return this.mods;
@@ -347,6 +356,20 @@ public class Speculation
 				this.setEdPiece( params );
 				this.equip( EquipmentManager.HAT,
 					ItemPool.get( ItemPool.CROWN_OF_ED ) );
+			}
+			else if ( cmd.equals( "retrocape" ) )
+			{
+				String[] parts = params.split(" " );
+				if ( ( !Arrays.asList(RetroCapeCommand.SUPERHEROS).contains( parts[0] ) ) ||
+					 ( !Arrays.asList(RetroCapeCommand.WASHING_INSTRUCTIONS).contains( parts[1] ) ))
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR,
+						"Unknown retro cape configuration: " + params );
+					return true;
+				}
+				this.setRetroCape( params );
+				this.equip( EquipmentManager.CONTAINER,
+					ItemPool.get( ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE ) );
 			}
 			else if ( cmd.equals( "snowsuit" ) )
 			{

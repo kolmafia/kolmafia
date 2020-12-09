@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
+import net.sourceforge.kolmafia.textui.command.RetroCapeCommand;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -96,6 +97,7 @@ public class Evaluator
 	private boolean edPieceNeeded = false;
 	private String edPieceDecided = null;
 	private boolean snowsuitNeeded = false;
+	private boolean retroCapeNeeded = false;
 
 	private final int[] slots = new int[ EquipmentManager.ALL_SLOTS ];
 	private String weaponType = null;
@@ -1593,6 +1595,11 @@ public class Evaluator
 					this.snowsuitNeeded = true;
 				}
 
+				if ( id == ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE && this.slots[ EquipmentManager.CONTAINER ] >= 0 )
+				{
+					this.retroCapeNeeded = true;
+				}
+
 				if ( mods.getBoolean( Modifiers.NONSTACKABLE_WATCH ) )
 				{
 					slot = Evaluator.WATCHES;
@@ -1888,7 +1895,45 @@ public class Evaluator
 				}
 			}
 		}
-			
+
+		String bestRetroCape = null;
+
+		if ( this.retroCapeNeeded )
+		{
+			// Assume best is current retro cape
+			MaximizerSpeculation best = new MaximizerSpeculation();
+			CheckedItem retroCape = new CheckedItem( ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE, equipScope, maxPrice, priceLevel );
+			best.attachment = retroCape;
+			bestRetroCape = Preferences.getString( "retroCapeSuperhero" ) + " " + Preferences.getString( "retroCapeWashingInstructions" );
+			best.equipment[ EquipmentManager.CONTAINER ] = retroCape;
+			best.setRetroCape( bestRetroCape );
+
+			// Check each animal in Crown of Ed to see if they are worthwhile
+			for ( String superhero : RetroCapeCommand.SUPERHEROS )
+			{
+				for ( String washingInstruction : RetroCapeCommand.WASHING_INSTRUCTIONS )
+				{
+					String config = superhero + " " + washingInstruction;
+
+					if ( config.equals( bestRetroCape ) )
+					{
+						// Don't bother if we've already done it for best
+						continue;
+					}
+
+					MaximizerSpeculation spec = new MaximizerSpeculation();
+					spec.attachment = retroCape;
+					spec.equipment[ EquipmentManager.CONTAINER ] = retroCape;
+					spec.setRetroCape( config );
+					if ( spec.compareTo( best ) > 0 )
+					{
+						best = ( MaximizerSpeculation ) spec.clone();
+						bestRetroCape = config;
+					}
+				}
+			}
+		}
+
 		List<MaximizerSpeculation>[] speculationList = new ArrayList[ ranked.length ];
 		for ( int i = ranked.length - 1; i >= 0; --i )
 		{
@@ -1992,6 +2037,13 @@ public class Evaluator
 					if ( bestSnowsuit != null )
 					{
 						spec.setSnowsuit( bestSnowsuit );
+					}
+				}
+				else if ( itemId == ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE )
+				{
+					if ( bestRetroCape != null )
+					{
+						spec.setRetroCape( bestRetroCape );
 					}
 				}
 				else if ( itemId == ItemPool.COWBOY_BOOTS )
@@ -2562,6 +2614,11 @@ public class Evaluator
 		if ( spec.equipment[ EquipmentManager.HAT ] == null )
 		{
 			spec.setEdPiece( bestEdPiece );
+		}
+
+		if ( spec.equipment[ EquipmentManager.CONTAINER ] == null )
+		{
+			spec.setRetroCape( bestRetroCape );
 		}
 
 		if ( spec.equipment[ EquipmentManager.FAMILIAR ] == null )

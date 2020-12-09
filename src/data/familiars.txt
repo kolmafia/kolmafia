@@ -307,5 +307,5 @@
 278	Left-Hand Man	lhmlarva.gif	none	sinistral homunculus		1	1	1	1	hands
 279	Melodramedary	camelcalf.gif	stat0,hp1,mp1	baby camelCalf	dromedary drinking helmet	3	3	0	0	animal,biting,eyes
 280	Ghost of Crimbo Carols	cghost_carols.gif	item0,other0	gregarious ghostling		0	0	0	0	eyes,undead
-281	Ghost of Crimbo Cheer	cghost_cheer.gif	stats0,other1	grinning ghostling		0	0	0	0	eyes,undead
+281	Ghost of Crimbo Cheer	cghost_cheer.gif	stat0,other1	grinning ghostling		0	0	0	0	eyes,undead
 282	Ghost of Crimbo Commerce	cghost_commerce.gif	meat0,other0	greedy ghostling		0	0	0	0	eyes,undead

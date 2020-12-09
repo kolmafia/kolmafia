@@ -459,6 +459,8 @@ public class ValhallaManager
 		Preferences.setInteger( "mayoLevel", 0 );
 		Preferences.setString( "mayoMinderSetting", "" );
 		Preferences.setBoolean( "mappingMonsters", false );
+		Preferences.setString( "retroCapeSuperhero", "vampire" );
+		Preferences.setString( "retroCapeWashingInstructions", "hold" );
 		Preferences.setString( "snowsuit", "" );
 		Preferences.setInteger( "guyMadeOfBeesCount", 0 );
 		Preferences.setBoolean( "guyMadeOfBeesDefeated", false );

@@ -32,16 +32,22 @@
  */
 package net.sourceforge.kolmafia.textui.command;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class RetroCapeCommand
 	extends AbstractCommand
 {
+	public static final String[] SUPERHEROS = { "vampire", "heck", "robot" };
+	public static final String[] WASHING_INSTRUCTIONS = { "hold", "thrill", "kiss", "kill" };
+
 	public RetroCapeCommand()
 	{
 		this.usage = " [muscle | mysticality | moxie | vampire | heck | robot] [hold | thrill | kiss | kill]";
@@ -93,6 +99,12 @@ public class RetroCapeCommand
 			{
 				washingInstruction = 5;
 			}
+		}
+
+		if ( EquipmentManager.getEquipment( EquipmentManager.CONTAINER ).getItemId() != ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE )
+		{
+			AdventureResult retroCape = ItemPool.get( ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE );
+			RequestThread.postRequest( new EquipmentRequest( retroCape, EquipmentManager.CONTAINER ) );
 		}
 
 		KoLmafia.updateDisplay( "Reconfiguring retro cape" );
