@@ -248,6 +248,11 @@ public class GearChangeFrame
 					newMods.add( Modifiers.getModifiers( "Snowsuit", Preferences.getString( "snowsuit" ) ) );
 					break;
 				}
+				case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
+				{
+					newMods.add( Modifiers.getModifiers( "RetroCape", Preferences.getString( "retroCapeSuperhero" ) + " " + Preferences.getString( "retroCapeWashingInstructions" ) ) );
+					break;
+				}
 				case ItemPool.COWBOY_BOOTS:
 				{
 					AdventureResult skin = EquipmentManager.getEquipment( EquipmentManager.BOOTSKIN );

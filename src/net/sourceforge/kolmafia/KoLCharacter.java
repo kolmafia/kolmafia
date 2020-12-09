@@ -6037,6 +6037,7 @@ public abstract class KoLCharacter
 				null,
 				Preferences.getString( "_horsery" ),
 				Preferences.getString( "boomBoxSong" ),
+				Preferences.getString( "retroCapeSuperhero" ) + " " + Preferences.getString( "retroCapeWashingInstructions" ),
 				false ) );
 	}
 
@@ -6044,7 +6045,8 @@ public abstract class KoLCharacter
 							      AdventureResult[] equipment, List<AdventureResult> effects,
 							      FamiliarData familiar, FamiliarData enthroned, FamiliarData bjorned,
 							      String edPiece, String snowsuit, String custom, String horsery,
-							      String boomBox, boolean speculation )
+							      String boomBox, String retroCape,
+								  boolean speculation )
 	{
 		int taoFactor = KoLCharacter.hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
 
@@ -6133,7 +6135,7 @@ public abstract class KoLCharacter
 		for ( int slot = EquipmentManager.HAT; slot <= EquipmentManager.FAMILIAR + 1; ++slot )
 		{
 			AdventureResult item = equipment[ slot ];
-			KoLCharacter.addItemAdjustment( newModifiers, slot, item, equipment, enthroned, bjorned, edPiece, snowsuit, speculation, taoFactor );
+			KoLCharacter.addItemAdjustment( newModifiers, slot, item, equipment, enthroned, bjorned, edPiece, snowsuit, retroCape, speculation, taoFactor );
 		}
 
 		// Consider fake hands
@@ -6496,7 +6498,8 @@ public abstract class KoLCharacter
 
 	private static final void addItemAdjustment( Modifiers newModifiers, int slot, AdventureResult item,
 						     AdventureResult[] equipment, FamiliarData enthroned, FamiliarData bjorned,
-							 String edPiece, String snowsuit, boolean speculation, int taoFactor )
+							 String edPiece, String snowsuit, String retroCape,
+							 boolean speculation, int taoFactor )
 	{
 		if ( item == null || item == EquipmentRequest.UNEQUIP )
 		{
@@ -6636,6 +6639,9 @@ public abstract class KoLCharacter
 			case ItemPool.CROWN_OF_ED:
 				newModifiers.add( Modifiers.getModifiers( "Edpiece", edPiece ) );
 				break;
+
+			case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
+				newModifiers.add( Modifiers.getModifiers( "RetroCape", retroCape ) );
 
 			case ItemPool.SNOW_SUIT:
 				newModifiers.add( Modifiers.getModifiers( "Snowsuit", snowsuit ) );

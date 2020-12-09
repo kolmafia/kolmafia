@@ -2244,6 +2244,7 @@ public class Maximizer
 		FamiliarData bjorned = Maximizer.best.getBjorned();
 		String edPiece = Maximizer.best.getEdPiece();
 		String snowsuit = Maximizer.best.getSnowsuit();
+		String retroCape = Maximizer.best.getRetroCape();
 		AdventureResult curr = EquipmentManager.getEquipment( slot );
 		FamiliarData currEnthroned = KoLCharacter.getEnthroned();
 		FamiliarData currBjorned = KoLCharacter.getBjorned();
@@ -2251,6 +2252,8 @@ public class Maximizer
 		Boolean setEdPiece = false;
 		String currSnowsuit = Preferences.getString( "snowsuit" );
 		Boolean setSnowsuit = false;
+		String currRetroCape = Preferences.getString( "retroCapeSuperhero" ) + " " + Preferences.getString( "retroCapeWashingInstructions" );
+		Boolean setRetroCape = false;
 		
 		if ( item == null || item.getItemId() == 0 )
 		{
@@ -2265,6 +2268,7 @@ public class Maximizer
 			!( itemId == ItemPool.BUDDY_BJORN && bjorned != currBjorned ) &&
 			!( itemId == ItemPool.CROWN_OF_ED && edPiece != null && !edPiece.equals( currEdPiece ) ) &&
 			!( itemId == ItemPool.SNOW_SUIT && snowsuit != null && !snowsuit.equals( currSnowsuit ) ) &&
+			!( itemId == ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE && retroCape != null && !retroCape.equals( currRetroCape ) ) &&
 			!( itemId == ItemPool.BROKEN_CHAMPAGNE &&
 				Preferences.getInteger( "garbageChampagneCharge" ) == 0 && !Preferences.getBoolean( "_garbageItemChanged" ) ) &&
 			!( itemId == ItemPool.MAKESHIFT_GARBAGE_SHIRT &&
@@ -2296,6 +2300,10 @@ public class Maximizer
 		else if ( itemId == ItemPool.SNOW_SUIT )
 		{
 			spec.setSnowsuit( snowsuit );
+		}
+		else if ( itemId == ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE )
+		{
+			spec.setRetroCape( retroCape );
 		}
 
 		double delta = spec.getScore() - current;
@@ -2331,6 +2339,12 @@ public class Maximizer
 				cmd = "snowsuit " + snowsuit;
 				text = cmd;
 				setSnowsuit = true;
+			}
+			else if ( itemId == ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE && !retroCape.equals( currRetroCape ) )
+			{
+				cmd = "retrocape " + retroCape;
+				text = cmd;
+				setRetroCape = true;
 			}
 			else
 			{
@@ -2503,7 +2517,12 @@ public class Maximizer
 			snowsuit = null;
 		}
 
-		Boost boost = new Boost( cmd, text, slot, item, delta, enthroned, bjorned, edPiece, snowsuit );
+		if ( !setRetroCape )
+		{
+			retroCape = null;
+		}
+
+		Boost boost = new Boost( cmd, text, slot, item, delta, enthroned, bjorned, edPiece, snowsuit, retroCape );
 		if ( equipScope == -1 )
 		{	// called from CLI
 			boost.execute( true );
