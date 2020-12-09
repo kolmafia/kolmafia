@@ -381,25 +381,22 @@ public class CharSheetRequest
 		// In the cleaned-up HTML, each skill is displayed as an <a> tag that looks like any of the following:
 		//
 		//	(Most of the time)
-		//	<a onclick="javascript:poop(&quot;desc_skill.php?whichskill=SKILL_ID&self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a>
+		//	<a onclick="javascript:poop(&quot;desc_skill.php?whichskill=SKILL_ID&amp;self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a><br>
+		//	<a onclick="javascript:poop(&quot;desc_skill.php?whichskill=SKILL_ID&amp;self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a> (P)<br>
+		//	<a onclick="javascript:poop(&quot;desc_skill.php?whichskill=SKILL_ID&amp;self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a> (<b>HP</b>)<br>
 		//	(Rarely)
 		//	<a onclick="skill(SKILL_ID)">Skill Name</a>
 		//
-		// ...where SKILL_ID is an integer.
-		//
-		// Permed skills will have a <b> tag following the <a> tag like this:
-		//
-		//	<a ...>Skill Name</a> (<b>P</b>)	(Softcore permed)
-		//	<a ...>Skill Name</a> (<b>HP</b>)	(Hardcore permed)
+		// ...where SKILL_ID is an integer, and P/HP indicate perm status.
 		//
 		// Skills that you cannot use right now (e.g. due to path restrictions) are wrapped in a <span> tag:
 		//
 		//	<span id="permskills" ...>...</span>
-		NodeList skillAndPermNodes = null;
+		NodeList skillNodes = null;
 		try
 		{
-			skillAndPermNodes = (NodeList) XPathFactory.newInstance().newXPath().evaluate(
-				"//a[contains(@onclick,'skill') and not(ancestor::*[@id='permskills'])] | //a[contains(@onclick,'skill') and not(ancestor::*[@id='permskills'])]/following-sibling::b[1]",
+			skillNodes = (NodeList) XPathFactory.newInstance().newXPath().evaluate(
+				"//a[contains(@onclick,'skill') and not(ancestor::*[@id='permskills'])]",
 				doc,
 				XPathConstants.NODESET
 			);
@@ -410,30 +407,23 @@ public class CharSheetRequest
 			return;
 		}
 
-		UseSkillRequest currentSkill = null;
 		Matcher[] onclickSkillIdMatchers = {
 			Pattern.compile( "\\bwhichskill=(\\d+)" ).matcher( "" ),
 			Pattern.compile( "\\bskill\\((\\d+)\\)" ).matcher( "" ),
 		};
-		for ( int i = 0; i < skillAndPermNodes.getLength(); ++i ) {
-			Node node = skillAndPermNodes.item( i );
+		for ( int i = 0; i < skillNodes.getLength(); ++i ) {
+			Node node = skillNodes.item( i );
+			UseSkillRequest currentSkill = null;
 
-			if ( node.getNodeName().equals( "a" ) ) {
-				// Parse <a> tag and extract skill ID or name
+			// Parse <a> tag and extract skill ID or name
+			String onclick = node.getAttributes().getNamedItem( "onclick" ).getNodeValue();
 
-				String onclick = node.getAttributes().getNamedItem( "onclick" ).getNodeValue();
-
-				// Forget about the previous skill
-				currentSkill = null;
-				// Try each pattern, one by one
-				for ( Matcher skillIdMatcher : onclickSkillIdMatchers )
+			// Try each pattern, one by one
+			for ( Matcher skillIdMatcher : onclickSkillIdMatchers )
+			{
+				skillIdMatcher.reset( onclick );
+				if ( skillIdMatcher.find() )
 				{
-					skillIdMatcher.reset( onclick );
-					if ( !skillIdMatcher.find() )
-					{
-						continue;
-					}
-
 					int skillId = StringUtilities.parseInt( skillIdMatcher.group(1) );
 					currentSkill = UseSkillRequest.getUnmodifiedInstance( skillId );
 					if ( currentSkill == null )
@@ -444,63 +434,76 @@ public class CharSheetRequest
 					// Since we found a skill ID (recognized or otherwise), stop checking patterns
 					break;
 				}
+				// If we reach here, try the next matcher
+			}
 
-				// If KoLmafia cannot parse or recognize the skill ID, parse the skill name instead
+			// If KoLmafia cannot parse or recognize the skill ID, parse the skill name instead
+			if ( currentSkill == null )
+			{
+				System.err.println("Cannot parse skill ID in 'onclick' attribute, falling back to skill name check: " + onclick);
+				String skillName = node.getTextContent();
+				currentSkill = UseSkillRequest.getUnmodifiedInstance( skillName );
 				if ( currentSkill == null )
 				{
-					System.err.println("Cannot parse skill ID in 'onclick' attribute, falling back to skill name check: " + onclick);
-					String skillName = node.getTextContent();
-					currentSkill = UseSkillRequest.getUnmodifiedInstance( skillName );
-					if ( currentSkill == null )
-					{
-						System.err.println("Ignored unknown skill name in charsheet.php: " + skillName);
-						continue;
-					}
-				}
-
-				boolean shouldAddSkill = true;
-
-				if ( SkillDatabase.isBookshelfSkill( currentSkill.getSkillId() ) )
-				{
-					shouldAddSkill = ( !KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore() ) ||
-						KoLCharacter.kingLiberated();
-				}
-
-				if ( currentSkill.getSkillId() == SkillPool.OLFACTION )
-				{
-					shouldAddSkill = ( !KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore() ) ||
-						KoLCharacter.skillsRecalled();
-				}
-
-				if ( shouldAddSkill )
-				{
-					newSkillSet.add( currentSkill );
+					System.err.println("Ignored unknown skill name in charsheet.php: " + skillName);
+					continue;
 				}
 			}
-			else if (node.getNodeName().equals( "b" ) )
-			{
-				// Parse <b> tag and extract the perm status of the last parsed skill
-				String textContent = node.getTextContent();
 
-				if ( textContent.equals( "P" ) || textContent.equals( "HP" ) ) {
-					if ( currentSkill == null) {
-						// Report and skip the tag
-						System.err.println("Found perm status tag but has no matching skill, is ignored: <b>" + textContent + "</b>");
-					}
-					else
+			boolean shouldAddSkill = true;
+
+			if ( SkillDatabase.isBookshelfSkill( currentSkill.getSkillId() ) )
+			{
+				shouldAddSkill = ( !KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore() ) ||
+					KoLCharacter.kingLiberated();
+			}
+
+			if ( currentSkill.getSkillId() == SkillPool.OLFACTION )
+			{
+				shouldAddSkill = ( !KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore() ) ||
+					KoLCharacter.skillsRecalled();
+			}
+
+			if ( shouldAddSkill )
+			{
+				newSkillSet.add( currentSkill );
+			}
+
+			// Parse following sibling nodes to check perm status
+
+			Node nextSibling = node.getNextSibling();
+			while ( nextSibling != null )
+			{
+				if ( nextSibling.getNodeType() == Node.TEXT_NODE )
+				{
+					String siblingText = nextSibling.getTextContent();
+					if ( siblingText.contains( "(P)" ) || siblingText.contains( "(HP)" ) )
 					{
 						permedSkillSet.add( currentSkill );
-						currentSkill = null;
+						break;
 					}
+
+					// If the text node does not contain perm status, keep examining subsequent siblings
+				}
+				else if ( nextSibling.getNodeName().equals( "b" ) )
+				{
+					String siblingText = nextSibling.getTextContent();
+					if ( siblingText.contains( "P" ) || siblingText.contains( "HP" ) )
+					{
+						permedSkillSet.add( currentSkill );
+					}
+
+					// If a <b></b> tag is encountered, stop examining siblings regardless of what
+					// the tag contains
+					break;
 				}
 				else
 				{
-					System.err.println("Unexpected <b> tag, is ignored: <b>" + textContent + "</b>");
+					// If any other node is encountered, stop examining siblings
+					break;
 				}
-			}
-			else
-			{
-				System.err.println("Unexpected node, is ignored: \"" + node.getNodeName() + "\"");
+
+				nextSibling = nextSibling.getNextSibling();
 			}
 		}
 
