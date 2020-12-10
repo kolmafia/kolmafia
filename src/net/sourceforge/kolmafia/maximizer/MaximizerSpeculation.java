@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia.maximizer;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +43,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.Speculation;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -926,7 +926,13 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 		this.calculated = false;
 		this.scored = false;
 		this.tiebreakered = false;
-		if ((Maximizer.best == null) || ( this.compareTo( Maximizer.best ) > 0 ))
+		if (Maximizer.best == null)
+		{
+			RequestLogger.updateSessionLog("Maximizer about to throw LimitExceeded because of null best.");
+			//this isn't really what is happening but trying to understand why this is happening, first.
+			throw new MaximizerLimitException();
+		}
+		if ( this.compareTo( Maximizer.best ) > 0 )
 		{
 			Maximizer.best = (MaximizerSpeculation) this.clone();
 		}
