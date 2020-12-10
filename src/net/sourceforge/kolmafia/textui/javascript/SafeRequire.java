@@ -75,9 +75,14 @@ public class SafeRequire
 			for ( Function f : interpreter.getFunctions() )
 			{
 				UserDefinedFunction userDefinedFunction = (UserDefinedFunction) f;
-				UserDefinedFunctionStub stub = new UserDefinedFunctionStub( interpreter, userDefinedFunction.getName() );
-				int attributes = ScriptableObject.DONTENUM | ScriptableObject.PERMANENT | ScriptableObject.READONLY;
-				ScriptableObject.defineProperty( exports, JavascriptRuntime.toCamelCase( userDefinedFunction.getName() ), stub, attributes );
+				String functionName = userDefinedFunction.getName();
+				String functionNameCamelCase = JavascriptRuntime.toCamelCase( functionName );
+				if ( !ScriptableObject.hasProperty( exports, functionNameCamelCase ) )
+				{
+					UserDefinedFunctionStub stub = new UserDefinedFunctionStub( interpreter, functionName );
+					int attributes = ScriptableObject.DONTENUM | ScriptableObject.PERMANENT | ScriptableObject.READONLY;
+					ScriptableObject.defineProperty( exports, functionNameCamelCase, stub, attributes );
+				}
 			}
 
 			interpreter.execute( null, null );
