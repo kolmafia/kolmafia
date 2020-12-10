@@ -165,7 +165,7 @@ public class JavascriptRuntime
 			if ( addToTopScope )
 			{
 				ScriptableObject.defineProperty( scope, toCamelCase( libraryFunctionName ),
-					new LibraryFunctionStub( this, libraryFunctionName ), ScriptableObject.DONTENUM | permanentReadOnly );
+					new LibraryFunctionStub( this, libraryFunctionName ), ScriptableObject.DONTENUM);
 			}
 		}
 
