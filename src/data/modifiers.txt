@@ -11712,3 +11712,13 @@ Mask	Ed the Undying mask	HP Regen Min: 40, HP Regen Max: 50
 Mask	Big Wisniewski mask	Sleaze Damage: +40, Sleaze Spell Damage: +40, Stench Damage: +40, Stench Spell Damage: +40
 Mask	The Man mask	Sleaze Damage: +40, Sleaze Spell Damage: +40, Stench Damage: +40, Stench Spell Damage: +40
 Mask	Boss Bat mask	Weapon Damage Percent: +100, Maximum HP Percent: +100
+
+# Crimbo 2020
+Effect	Cocoa-Chanel	Moxie Percent: +100
+Effect	Cocoa-Fortified	Muscle Percent: +100
+# Effect Cocoa-Buttery: Enemies will be less attracted to you (only in December)
+Effect	Smug of Cocoa	Monster Level: +30
+# Effect Cocoa-Nuts: +10 Prismatic    Damage (only in December)
+Effect	Cocoa-Crispy	Mysticality Percent: +100
+Effect	Self-Harmonizing	Moxie Percent: +10
+Effect	Festively-Dusted	Mysticality Percent: +10

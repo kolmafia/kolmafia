@@ -443,7 +443,7 @@ mulled cider	3	5	awesome	8-12	25-40	25-40	25-40
 mulled hobo wine	1	1	awesome	4-5	5-15	5-15	5-15	20 Burnt 'n' Turnt (Unimplemented)
 Murderer's Punch	3	6	good	8-10	10-20	0	0	40 Punchy, Murdery (+50% Weapon Damage)
 Muschat	1	4	awesome	3-5	0	0	25-50	20 L'instinct F&eacute;lin (+30 mox, better sleeper), WINE
-mushroom whiskey	1	1	awesome	0	0	0	0	Unspaded
+mushroom whiskey	1	1	awesome	3-5	5-20	5-20	5-20	
 Mutagin 'n' Tonic	5	5		10-15	0	0	0
 Mysterious Island iced tea	1	3	EPIC	5-7	10-30	10-30	10-30	40 Orcmouth (+40 Sleaze Damage & Sleaze Spell Damage)
 Nachojito	3	1	good	8-10	0	0	30-40
