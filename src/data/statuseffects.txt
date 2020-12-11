@@ -2602,6 +2602,14 @@
 2600	Cartographically Charged	cccbook.gif	69fc775608852c35e28b1eafa32ba87f	good	none
 2601	Cartographically Aware	cccbook.gif	ca5cbe045400b9be1d084424a408cf74	good	none
 2602	Cartographically Rooted	cccbook.gif	e32bae43b054695fd4e2c1b0b3c141fc	good	none
+2603	Cocoa-Fortified	coffeecup.gif	dd40324c40be69ceac9d41ba5d3a300b	neutral	none	use 1 fortifying hot cocoa
+2604	Cocoa-Crispy	coffeecup.gif	edde10de03533d707ea582d7028ace7d	neutral	none	use 1 boiling hot cocoa
+2605	Cocoa-Chanel	coffeecup.gif	cb8ef9c54c1c0e652d8ec405efe24d7e	neutral	none	use 1 cool hot cocoa
+2606	Smug of Cocoa	coffeecup.gif	bc02bd4b87acaae9d9dfbca57fc20a39	neutral	none	use 1 overly-fancy hot cocoa
+2607	Cocoa-Buttery	coffeecup.gif	0a6f237d1087c2673d0b8304e3b26a17	neutral	none	use 1 hot cocoa au beurre
+2608	Cocoa-Nuts	coffeecup.gif	2f38dbd438b8c462bc4c402af089ec70	neutral	none 	use 1 hot cocoa with rainbow marshmallows
+2609	Self-Harmonizing	smallharmonica.gif	344da8cadefc13c273059b97f93b1a31	neutral	none	use 1 candy harmonica
+2610	Festively-Dusted	snowpile.gif	ec397a83385436b3caf2da774864f9d0	neutral	none	use 1 powdered powdered sugar
 2612	Do You Crush What I Crush?	krakfist.gif	1211577348c03409f62087db22e3e4f6	good	none
 2613	Holiday Yoked	crimbohat.gif	e43692067b5396f2dd4c0393fa07fadf	good	none
 2614	Crimbo Wrapping	goodbandaid.gif	9c1405b3d65a9f2974e8e4dc877ab4e4	good	none
