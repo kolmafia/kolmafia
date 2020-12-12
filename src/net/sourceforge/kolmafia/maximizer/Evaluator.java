@@ -1302,7 +1302,7 @@ public class Evaluator
 				}
 			}
 
-			if ( !EquipmentManager.canEquip( id ) ) continue;
+			if ( !EquipmentManager.canEquip( id ) && !KoLCharacter.hasEquipped(id) ) continue;
 			if ( item == null )
 			{
 				item = new CheckedItem( id, equipScope, maxPrice, priceLevel );
