@@ -313,6 +313,16 @@ public class AutoFilterTextField
 			AutoFilterTextField.this.notChecked = false;
 			AutoFilterTextField.this.text = AutoFilterTextField.this.getText().toLowerCase();
 
+			if ( AutoFilterTextField.this.text != null
+				&& AutoFilterTextField.this.text.length() > 1
+				&& AutoFilterTextField.this.text.charAt( 0 ) == "-".charAt( 0 )
+			)
+			{
+				AutoFilterTextField.this.notChecked = true;
+				AutoFilterTextField.this.text = AutoFilterTextField.this.text.substring( 1 ).trim();
+
+			}
+
 			Matcher mqty = AutoFilterTextField.QTYSEARCH_PATTERN.matcher( AutoFilterTextField.this.text );
 			if ( mqty.find() )
 			{
