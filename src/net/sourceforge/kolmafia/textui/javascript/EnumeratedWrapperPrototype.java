@@ -74,7 +74,7 @@ public class EnumeratedWrapperPrototype
 			{
 				if ( method.getName().startsWith("get_") )
 				{
-					ProxyRecordMethodWrapper methodWrapper = new ProxyRecordMethodWrapper( method );
+					ProxyRecordMethodWrapper methodWrapper = new ProxyRecordMethodWrapper( scope, ScriptableObject.getFunctionPrototype( scope ), method );
 					String methodShortName = JavascriptRuntime.toCamelCase( method.getName().replace( "get_", "" ) );
 					setGetterOrSetter( methodShortName, 0, methodWrapper, false );
 				}
