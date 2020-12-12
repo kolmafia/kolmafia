@@ -38,7 +38,12 @@ import java.lang.reflect.Method;
 
 import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
+
+import net.sourceforge.kolmafia.textui.ScriptException;
+import net.sourceforge.kolmafia.textui.parsetree.ProxyRecordValue;
+import net.sourceforge.kolmafia.textui.parsetree.Value;
 
 public class ProxyRecordMethodWrapper
 	extends BaseFunction
@@ -47,8 +52,9 @@ public class ProxyRecordMethodWrapper
 
 	private Method method;
 
-	public ProxyRecordMethodWrapper( Method method )
+	public ProxyRecordMethodWrapper( Scriptable scope, Scriptable prototype, Method method )
 	{
+		super( scope, prototype );
 		this.method = method;
 	}
 
@@ -62,7 +68,23 @@ public class ProxyRecordMethodWrapper
 
 		try
 		{
-			return method.invoke( ((EnumeratedWrapper) thisObj).getWrapped().asProxy() );
+			Object returnValue = method.invoke( ((EnumeratedWrapper) thisObj).getWrapped().asProxy() );
+
+			if ( returnValue instanceof Value && ((Value) returnValue).asProxy() instanceof ProxyRecordValue )
+			{
+				returnValue = EnumeratedWrapper.wrap( scope, returnValue.getClass(), (Value) returnValue );
+			}
+			else if ( !(returnValue instanceof Scriptable) )
+			{
+				returnValue = Context.javaToJS( returnValue, scope );
+			}
+
+			if ( returnValue instanceof NativeJavaObject )
+			{
+				throw new ScriptException( "ASH function returned native Java object." );
+			}
+
+			return returnValue;
 		}
 		catch ( IllegalAccessException e )
 		{
