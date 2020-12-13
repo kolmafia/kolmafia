@@ -160,6 +160,8 @@ public class Maximizer
 			return;
 		}
 
+		// ensure current modifiers are up-to-date
+		KoLCharacter.recalculateAdjustments();
 		double current = Maximizer.eval.getScore( KoLCharacter.getCurrentModifiers() );
 
 		if ( maxPrice <= 0 )
