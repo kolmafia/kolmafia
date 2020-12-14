@@ -67,6 +67,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.SimpleXmlSerializer;
@@ -438,6 +439,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "waitq", DataTypes.VOID_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "is_dark_mode", DataTypes.BOOLEAN_TYPE, params ) );
 
 		// Type conversion functions which allow conversion
 		// of one data format to another.
@@ -3039,6 +3043,8 @@ public abstract class RuntimeLibrary
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "waitq", delay.toString() );
 		return DataTypes.VOID_VALUE;
 	}
+
+	public static Value is_dark_mode( ScriptRuntime controller) { return new Value( KoLmafiaGUI.isDarkTheme() ); }
 
 	// Type conversion functions which allow conversion
 	// of one data format to another.
