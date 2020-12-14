@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2005-2020, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
@@ -73,32 +73,32 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public abstract class MPRestoreItemList
 {
 	private static boolean purchaseBasedSort = false;
-	private static HashMap<String, MPRestoreItem> restoreByName = new HashMap<String, MPRestoreItem>();
+	private static HashMap<String, MPRestoreItem> restoreByName = new HashMap<>();
 
 	public static final MPRestoreItem EXPRESS =
-		new MPRestoreItem( "Platinum Yendorian Express Card", Integer.MAX_VALUE, false );
-	public static final MPRestoreItem SOFA = new MPRestoreItem( "sleep on your clan sofa", Integer.MAX_VALUE, false );
+		new MPRestoreItemItem( "Platinum Yendorian Express Card", Integer.MAX_VALUE, false );
+	public static final MPRestoreItem SOFA = new MPRestoreItemAction( "sleep on your clan sofa", Integer.MAX_VALUE, false );
 	public static final MPRestoreItem CAMPGROUND =
-		new MPRestoreItem( "rest at your campground", Integer.MAX_VALUE, false );
+		new MPRestoreItemAction( "rest at your campground", Integer.MAX_VALUE, false );
 	public static final MPRestoreItem FREEREST =
-		new MPRestoreItem( "free rest", Integer.MAX_VALUE, false );
+		new MPRestoreItemAction( "free rest", Integer.MAX_VALUE, false );
 
 	public static final MPRestoreItem CHATEAU =
-		new MPRestoreItem( "rest at the chateau", 125, false );
+		new MPRestoreItemAction( "rest at the chateau", 125, false );
 	public static final MPRestoreItem CAMPAWAY =
-		new MPRestoreItem( "rest in your campaway tent", 150, false );
+		new MPRestoreItemAction( "rest in your campaway tent", 150, false );
 	private static final MPRestoreItem NUNS =
-		new MPRestoreItem( "visit the nuns", 1000, false);
+		new MPRestoreItemAction( "visit the nuns", 1000, false);
 	private static final MPRestoreItem OSCUS =
-		new MPRestoreItem( "Oscus's neverending soda", 250, false);
+		new MPRestoreItemItem( "Oscus's neverending soda", 250, false);
 	private static final MPRestoreItem QUARK =
-		new MPRestoreItem( "unstable quark + junk item", 100, false);
+		new MPRestoreItemAction( "unstable quark + junk item", 100, false);
 	public static final MPRestoreItem MYSTERY_JUICE =
-		new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE, 100, true );
-	public static final MPRestoreItem SELTZER = new MPRestoreItem( "Knob Goblin seltzer", 10, 80, true );
-	public static final MPRestoreItem DOCS_TONIC = new MPRestoreItem( "Doc Galaktik's Invigorating Tonic", 10, 90, false );
+		new MPRestoreItemItem( "magical mystery juice", Integer.MAX_VALUE, 100, true );
+	public static final MPRestoreItem SELTZER = new MPRestoreItemItem( "Knob Goblin seltzer", 10, 80, true );
+	public static final MPRestoreItem DOCS_TONIC = new MPRestoreItemItem( "Doc Galaktik's Invigorating Tonic", 10, 90, false );
 	private static final MPRestoreItem MOTH =
-		new MPRestoreItem( "delicious shimmering moth", 35, false );
+		new MPRestoreItemItem( "delicious shimmering moth", 35, false );
 
 	public static final MPRestoreItem[] CONFIGURES = new MPRestoreItem[]
 	{
@@ -111,68 +111,68 @@ public abstract class MPRestoreItemList
 		MPRestoreItemList.NUNS,
 		MPRestoreItemList.OSCUS,
 		MPRestoreItemList.QUARK,
-		new MPRestoreItem( "CSA all-purpose soap", 1000, false ),
-		new MPRestoreItem( "pixel energy tank", 1000, false ),
-		new MPRestoreItem( "high-pressure seltzer bottle", 175, true ),
-		new MPRestoreItem( "natural fennel soda", 100, false ),
-		new MPRestoreItem( "fancy blue potion", 100, false ),
-		new MPRestoreItem( "bottle of Vangoghbitussin", 100, false ),
-		new MPRestoreItem( "can of CRIMBCOLA", 90, false ),
-		new MPRestoreItem( "Monstar energy beverage", 75, false ),
-		new MPRestoreItem( "carbonated soy milk", 75, false ),
-		new MPRestoreItem( "carbonated water lily", 65, false ),
-		new MPRestoreItem( "Nardz energy beverage", 65, false ),
-		new MPRestoreItem( "blue pixel potion", 65, true ),
-		new MPRestoreItem( "cotton candy bale", 61, false ),
-		new MPRestoreItem( "bottle of Monsieur Bubble", 56, true ),
-		new MPRestoreItem( "ancient Magi-Wipes", 55, false ),
-		new MPRestoreItem( "unrefined mountain stream syrup", 55, true ),
-		new MPRestoreItem( "cotton candy pillow", 51, false ),
-		new MPRestoreItem( "blue potion", 50, false ),
-		new MPRestoreItem( "phonics down", 48, false ),
-		new MPRestoreItem( "elven magi-pack", 45, false ),
-		new MPRestoreItem( "generic mana potion", 44, false ),
-		new MPRestoreItem( "generic restorative potion", 44, false ),
-		new MPRestoreItem( "tonic water", 40, false ),
-		new MPRestoreItem( "cotton candy cone", 39, false ),
-		new MPRestoreItem( "palm-frond fan", 37, false ),
-		new MPRestoreItem( "Okee-Dokee soda", 37, false ),
-		new MPRestoreItem( "honey-dipped locust", 36, false ),
-		new MPRestoreItem( "Marquis de Poivre soda", 35, false ),
+		new MPRestoreItemItem( "CSA all-purpose soap", 1000, false ),
+		new MPRestoreItemItem( "pixel energy tank", 1000, false ),
+		new MPRestoreItemItem( "high-pressure seltzer bottle", 175, true ),
+		new MPRestoreItemItem( "natural fennel soda", 100, false ),
+		new MPRestoreItemItem( "fancy blue potion", 100, false ),
+		new MPRestoreItemItem( "bottle of Vangoghbitussin", 100, false ),
+		new MPRestoreItemItem( "can of CRIMBCOLA", 90, false ),
+		new MPRestoreItemItem( "Monstar energy beverage", 75, false ),
+		new MPRestoreItemItem( "carbonated soy milk", 75, false ),
+		new MPRestoreItemItem( "carbonated water lily", 65, false ),
+		new MPRestoreItemItem( "Nardz energy beverage", 65, false ),
+		new MPRestoreItemItem( "blue pixel potion", 65, true ),
+		new MPRestoreItemItem( "cotton candy bale", 61, false ),
+		new MPRestoreItemItem( "bottle of Monsieur Bubble", 56, true ),
+		new MPRestoreItemItem( "ancient Magi-Wipes", 55, false ),
+		new MPRestoreItemItem( "unrefined mountain stream syrup", 55, true ),
+		new MPRestoreItemItem( "cotton candy pillow", 51, false ),
+		new MPRestoreItemItem( "blue potion", 50, false ),
+		new MPRestoreItemItem( "phonics down", 48, false ),
+		new MPRestoreItemItem( "elven magi-pack", 45, false ),
+		new MPRestoreItemItem( "generic mana potion", 44, false ),
+		new MPRestoreItemItem( "generic restorative potion", 44, false ),
+		new MPRestoreItemItem( "tonic water", 40, false ),
+		new MPRestoreItemItem( "cotton candy cone", 39, false ),
+		new MPRestoreItemItem( "palm-frond fan", 37, false ),
+		new MPRestoreItemItem( "Okee-Dokee soda", 37, false ),
+		new MPRestoreItemItem( "honey-dipped locust", 36, false ),
+		new MPRestoreItemItem( "Marquis de Poivre soda", 35, false ),
 		MPRestoreItemList.MOTH,
-		new MPRestoreItem( "green pixel potion", 35, true ),
-		new MPRestoreItem( "blue paisley oyster egg", 33, false ),
-		new MPRestoreItem( "blue polka-dot oyster egg", 33, false ),
-		new MPRestoreItem( "blue striped oyster egg", 33, false ),
-		new MPRestoreItem( "cotton candy plug", 28, false ),
-		new MPRestoreItem( "Knob Goblin superseltzer", 27, true ),
-		new MPRestoreItem( "psychokinetic energy blob", 25, false ),
-		new MPRestoreItem( "gold star", 25, false ),
-		new MPRestoreItem( "Blatantly Canadian", 23, false ),
-		new MPRestoreItem( "cotton candy skoshe", 22, false ),
-		new MPRestoreItem( "tiny house", 22, false ),
-		new MPRestoreItem( "cotton candy smidgen", 17, false ),
-		new MPRestoreItem( "Dyspepsi-Cola", 12, true ),
-		new MPRestoreItem( "Cloaca-Cola", 12, true ),
-		new MPRestoreItem( "Regular Cloaca Cola", 8, true ),
-		new MPRestoreItem( "Diet Cloaca Cola", 8, true ),
-		new MPRestoreItem( "cotton candy pinch", 12, false ),
-		new MPRestoreItem( "sugar shard", 8, false ),
-		new MPRestoreItem( "Mountain Stream soda", 35, true ),
+		new MPRestoreItemItem( "green pixel potion", 35, true ),
+		new MPRestoreItemItem( "blue paisley oyster egg", 33, false ),
+		new MPRestoreItemItem( "blue polka-dot oyster egg", 33, false ),
+		new MPRestoreItemItem( "blue striped oyster egg", 33, false ),
+		new MPRestoreItemItem( "cotton candy plug", 28, false ),
+		new MPRestoreItemItem( "Knob Goblin superseltzer", 27, true ),
+		new MPRestoreItemItem( "psychokinetic energy blob", 25, false ),
+		new MPRestoreItemItem( "gold star", 25, false ),
+		new MPRestoreItemItem( "Blatantly Canadian", 23, false ),
+		new MPRestoreItemItem( "cotton candy skoshe", 22, false ),
+		new MPRestoreItemItem( "tiny house", 22, false ),
+		new MPRestoreItemItem( "cotton candy smidgen", 17, false ),
+		new MPRestoreItemItem( "Dyspepsi-Cola", 12, true ),
+		new MPRestoreItemItem( "Cloaca-Cola", 12, true ),
+		new MPRestoreItemItem( "Regular Cloaca Cola", 8, true ),
+		new MPRestoreItemItem( "Diet Cloaca Cola", 8, true ),
+		new MPRestoreItemItem( "cotton candy pinch", 12, false ),
+		new MPRestoreItemItem( "sugar shard", 8, false ),
+		new MPRestoreItemItem( "Mountain Stream soda", 35, true ),
 		MPRestoreItemList.MYSTERY_JUICE,
-		new MPRestoreItem( "black cherry soda", 10, 80, false ),
+		new MPRestoreItemItem( "black cherry soda", 10, 80, false ),
 		MPRestoreItemList.SELTZER,
 		MPRestoreItemList.DOCS_TONIC,
-		new MPRestoreItem( "Cherry Cloaca Cola", 8, 80, true ),
-		new MPRestoreItem( "soda water", 4, 70, false ),
-		new MPRestoreItem( "Notes from the Elfpocalypse, Chapter I", 35, false ),
-		new MPRestoreItem( "Notes from the Elfpocalypse, Chapter II", 35, false ),
-		new MPRestoreItem( "Notes from the Elfpocalypse, Chapter III", 35, false ),
-		new MPRestoreItem( "Notes from the Elfpocalypse, Chapter IV", 35, false ),
-		new MPRestoreItem( "Notes from the Elfpocalypse, Chapter V", 35, false ),
-		new MPRestoreItem( "Notes from the Elfpocalypse, Chapter VI", 35, false ),
-		new MPRestoreItem( "dueling turtle", 15, false ),
-		new MPRestoreItem( "unrefined Mountain Stream syrup", 55, true )
+		new MPRestoreItemItem( "Cherry Cloaca Cola", 8, 80, true ),
+		new MPRestoreItemItem( "soda water", 4, 70, false ),
+		new MPRestoreItemItem( "Notes from the Elfpocalypse, Chapter I", 35, false ),
+		new MPRestoreItemItem( "Notes from the Elfpocalypse, Chapter II", 35, false ),
+		new MPRestoreItemItem( "Notes from the Elfpocalypse, Chapter III", 35, false ),
+		new MPRestoreItemItem( "Notes from the Elfpocalypse, Chapter IV", 35, false ),
+		new MPRestoreItemItem( "Notes from the Elfpocalypse, Chapter V", 35, false ),
+		new MPRestoreItemItem( "Notes from the Elfpocalypse, Chapter VI", 35, false ),
+		new MPRestoreItemItem( "dueling turtle", 15, false ),
+		new MPRestoreItemItem( "unrefined Mountain Stream syrup", 55, true )
 	};
 
 	public static final void setPurchaseBasedSort( final boolean purchaseBasedSort )
@@ -182,7 +182,7 @@ public abstract class MPRestoreItemList
 
 	public static int getManaRestored( String restoreName )
 	{
-		MPRestoreItem restoreItem = (MPRestoreItem) MPRestoreItemList.restoreByName.get( restoreName );
+		MPRestoreItem restoreItem =  MPRestoreItemList.restoreByName.get( restoreName );
 		return restoreItem == null ? Integer.MIN_VALUE : restoreItem.manaPerUse;
 	}
 
@@ -229,7 +229,13 @@ public abstract class MPRestoreItemList
 		}
 	}
 
-	public static class MPRestoreItem
+	/**
+	 * Abstract base class for MP restoration sources.
+	 *
+	 * Due to historical reasons, this class is named "MPRestoreItem" even though it encompasses items, skills, and
+	 * actions.
+	 */
+	public static abstract class MPRestoreItem
 		extends RestoreItem
 		implements Comparable<RestoreItem>
 	{
@@ -282,7 +288,7 @@ public abstract class MPRestoreItemList
 			}
 
 			float ratioDifference = leftRatio - rightRatio;
-			return ratioDifference > 0.0f ? 1 : ratioDifference < 0.0f ? -1 : 0;
+			return Float.compare( ratioDifference, 0.0f );
 		}
 
 		public long getManaRestored()
@@ -528,6 +534,60 @@ public abstract class MPRestoreItemList
 			}
 
 			RequestThread.postRequest( UseItemRequest.getInstance( this.itemUsed.getInstance( numberToUse ) ) );
+		}
+	}
+
+	/**
+	 * MP restoration sources that are usable items.
+	 * This includes items that are consumed upon use (including spleen items), as well as items that are not
+	 * consumed upon use (usually limited to N times per day).
+	 */
+	public static class MPRestoreItemItem
+		extends MPRestoreItem
+	{
+		public MPRestoreItemItem( String restoreName, int manaPerUse, boolean isCombatUsable )
+		{
+			super( restoreName, manaPerUse, isCombatUsable );
+		}
+
+		public MPRestoreItemItem( String restoreName, int manaPerUse, int purchaseCost, boolean isCombatUsable )
+		{
+			super( restoreName, manaPerUse, purchaseCost, isCombatUsable );
+		}
+	}
+
+	/**
+	 * Skills that restore MP upon casting.
+	 */
+	public static class MPRestoreItemSkill
+		extends MPRestoreItem
+	{
+		public MPRestoreItemSkill( String restoreName, int manaPerUse, boolean isCombatUsable )
+		{
+			super( restoreName, manaPerUse, isCombatUsable );
+		}
+
+		public MPRestoreItemSkill( String restoreName, int manaPerUse, int purchaseCost, boolean isCombatUsable )
+		{
+			super( restoreName, manaPerUse, purchaseCost, isCombatUsable );
+		}
+	}
+
+	/**
+	 * MP restoration sources that require the player to do something special.
+	 * This includes various forms of resting.
+	 */
+	public static class MPRestoreItemAction
+		extends MPRestoreItem
+	{
+		public MPRestoreItemAction( String restoreName, int manaPerUse, boolean isCombatUsable )
+		{
+			super( restoreName, manaPerUse, isCombatUsable );
+		}
+
+		public MPRestoreItemAction( String restoreName, int manaPerUse, int purchaseCost, boolean isCombatUsable )
+		{
+			super( restoreName, manaPerUse, purchaseCost, isCombatUsable );
 		}
 	}
 }

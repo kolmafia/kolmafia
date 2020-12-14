@@ -76,35 +76,35 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public abstract class HPRestoreItemList
 {
 	private static boolean purchaseBasedSort = false;
-	private static HashMap<String, HPRestoreItem> restoreByName = new HashMap<String, HPRestoreItem>();
+	private static HashMap<String, HPRestoreItem> restoreByName = new HashMap<>();
 
-	public static final HPRestoreItem WALRUS = new HPRestoreItem( "Tongue of the Walrus", 35 );
+	public static final HPRestoreItem WALRUS = new HPRestoreItemSkill( "Tongue of the Walrus", 35 );
 
-	private static final HPRestoreItem SOFA = new HPRestoreItem( "sleep on your clan sofa", Integer.MAX_VALUE );
-	private static final HPRestoreItem CHATEAU = new HPRestoreItem( "rest at the chateau", 250 );
-	private static final HPRestoreItem CAMPAWAY = new HPRestoreItem( "rest in your campaway tent", 300 );
-	private static final HPRestoreItem CAMPGROUND = new HPRestoreItem( "rest at your campground", 40 );
-	private static final HPRestoreItem FREEREST = new HPRestoreItem( "free rest", 40 );
-	private static final HPRestoreItem DISCONAP = new HPRestoreItem( "Disco Nap", 20 );
+	private static final HPRestoreItem SOFA = new HPRestoreItemAction( "sleep on your clan sofa", Integer.MAX_VALUE );
+	private static final HPRestoreItem CHATEAU = new HPRestoreItemAction( "rest at the chateau", 250 );
+	private static final HPRestoreItem CAMPAWAY = new HPRestoreItemAction( "rest in your campaway tent", 300 );
+	private static final HPRestoreItem CAMPGROUND = new HPRestoreItemAction( "rest at your campground", 40 );
+	private static final HPRestoreItem FREEREST = new HPRestoreItemAction( "free rest", 40 );
+	private static final HPRestoreItem DISCONAP = new HPRestoreItemSkill( "Disco Nap", 20 );
 
-	private static final HPRestoreItem NUNS = new HPRestoreItem( "visit the nuns", 1000 );
+	private static final HPRestoreItem NUNS = new HPRestoreItemAction( "visit the nuns", 1000 );
 	private static final HPRestoreItem HERBS =
-		new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE, 100 );
+		new HPRestoreItemItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE, 100 );
 
-	public static final HPRestoreItem HOTTUB = new HPRestoreItem( "relaxing hot tub", Integer.MAX_VALUE );
-	public static final HPRestoreItem SCROLL = new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE );
-	private static final HPRestoreItem MASSAGE_OIL = new HPRestoreItem( "scented massage oil", Integer.MAX_VALUE );
-	private static final HPRestoreItem COCOON = new HPRestoreItem( "Cannelloni Cocoon", 1000 );
-	private static final HPRestoreItem SHAKE_IT_OFF = new HPRestoreItem( "Shake It Off", Integer.MAX_VALUE );
-	private static final HPRestoreItem GRUB = new HPRestoreItem( "plump juicy grub", 95 );
-	private static final HPRestoreItem DOCS_UNGUENT = new HPRestoreItem( "Doc Galaktik's Pungent Unguent", 4, 30 );
-	private static final HPRestoreItem DOCS_ELIXIR = new HPRestoreItem( "Doc Galaktik's Homeopathic Elixir", 19, 120 );
-	private static final HPRestoreItem GELATINOUS_RECONSTRUCTION = new HPRestoreItem( "Gelatinous Reconstruction", 13 );
+	public static final HPRestoreItem HOTTUB = new HPRestoreItemAction( "relaxing hot tub", Integer.MAX_VALUE );
+	public static final HPRestoreItem SCROLL = new HPRestoreItemItem( "scroll of drastic healing", Integer.MAX_VALUE );
+	private static final HPRestoreItem MASSAGE_OIL = new HPRestoreItemItem( "scented massage oil", Integer.MAX_VALUE );
+	private static final HPRestoreItem COCOON = new HPRestoreItemSkill( "Cannelloni Cocoon", 1000 );
+	private static final HPRestoreItem SHAKE_IT_OFF = new HPRestoreItemSkill( "Shake It Off", Integer.MAX_VALUE );
+	private static final HPRestoreItem GRUB = new HPRestoreItemItem( "plump juicy grub", 95 );
+	private static final HPRestoreItem DOCS_UNGUENT = new HPRestoreItemItem( "Doc Galaktik's Pungent Unguent", 4, 30 );
+	private static final HPRestoreItem DOCS_ELIXIR = new HPRestoreItemItem( "Doc Galaktik's Homeopathic Elixir", 19, 120 );
+	private static final HPRestoreItem GELATINOUS_RECONSTRUCTION = new HPRestoreItemSkill( "Gelatinous Reconstruction", 13 );
 
 	// Path of the Plumber items. purchase cost is coins, not Meat
-	private static final HPRestoreItem SUPER_DELUXE_MUSHROOM = new HPRestoreItem( "super deluxe mushroom", 100, 20 );
-	private static final HPRestoreItem DELUXE_MUSHROOM = new HPRestoreItem( "deluxe mushroom", 30, 10 );
-	private static final HPRestoreItem MUSHROOM = new HPRestoreItem( "mushroom", 10, 5 );
+	private static final HPRestoreItem SUPER_DELUXE_MUSHROOM = new HPRestoreItemItem( "super deluxe mushroom", 100, 20 );
+	private static final HPRestoreItem DELUXE_MUSHROOM = new HPRestoreItemItem( "deluxe mushroom", 30, 10 );
+	private static final HPRestoreItem MUSHROOM = new HPRestoreItemItem( "mushroom", 10, 5 );
 	private static final AdventureResult COIN = ItemPool.get( ItemPool.COIN, 1 );
 
 	public static final HPRestoreItem[] CONFIGURES = new HPRestoreItem[]
@@ -121,52 +121,52 @@ public abstract class HPRestoreItemList
 		HPRestoreItemList.SHAKE_IT_OFF,
 		HPRestoreItemList.NUNS,
 		HPRestoreItemList.HOTTUB,
-		new HPRestoreItem( "Camp Scout pup tent", 1000 ),
-		new HPRestoreItem( "pixel energy tank", 1000 ),
-		new HPRestoreItem( "extra-strength red potion", 200 ),
-		new HPRestoreItem( "red pixel potion", 110 ),
-		new HPRestoreItem( "really thick bandage", 109 ),
-		new HPRestoreItem( "Pok&euml;mann band-aid", 100 ),
-		new HPRestoreItem( "filthy poultice", 100 ),
-		new HPRestoreItem( "gauze garter", 100 ),
-		new HPRestoreItem( "red potion", 100 ),
-		new HPRestoreItem( "bottle of Vangoghbitussin", 100 ),
+		new HPRestoreItemItem( "Camp Scout pup tent", 1000 ),
+		new HPRestoreItemItem( "pixel energy tank", 1000 ),
+		new HPRestoreItemItem( "extra-strength red potion", 200 ),
+		new HPRestoreItemItem( "red pixel potion", 110 ),
+		new HPRestoreItemItem( "really thick bandage", 109 ),
+		new HPRestoreItemItem( "Pok&euml;mann band-aid", 100 ),
+		new HPRestoreItemItem( "filthy poultice", 100 ),
+		new HPRestoreItemItem( "gauze garter", 100 ),
+		new HPRestoreItemItem( "red potion", 100 ),
+		new HPRestoreItemItem( "bottle of Vangoghbitussin", 100 ),
 		HPRestoreItemList.GRUB,
-		new HPRestoreItem( "elven medi-pack", 90 ),
-		new HPRestoreItem( "generic healing potion", 77 ),
-		new HPRestoreItem( "generic restorative potion", 77 ),
-		new HPRestoreItem( "cotton candy bale", 61 ),
-		new HPRestoreItem( "ancient Magi-Wipes", 55 ),
-		new HPRestoreItem( "cotton candy pillow", 51 ),
-		new HPRestoreItem( "green pixel potion", 50 ),
-		new HPRestoreItem( "cartoon heart", 50 ),
-		new HPRestoreItem( "phonics down", 48 ),
-		new HPRestoreItem( "cotton candy cone", 39 ),
-		new HPRestoreItem( "palm-frond fan", 37 ),
-		new HPRestoreItem( "honey-dipped locust", 36 ),
+		new HPRestoreItemItem( "elven medi-pack", 90 ),
+		new HPRestoreItemItem( "generic healing potion", 77 ),
+		new HPRestoreItemItem( "generic restorative potion", 77 ),
+		new HPRestoreItemItem( "cotton candy bale", 61 ),
+		new HPRestoreItemItem( "ancient Magi-Wipes", 55 ),
+		new HPRestoreItemItem( "cotton candy pillow", 51 ),
+		new HPRestoreItemItem( "green pixel potion", 50 ),
+		new HPRestoreItemItem( "cartoon heart", 50 ),
+		new HPRestoreItemItem( "phonics down", 48 ),
+		new HPRestoreItemItem( "cotton candy cone", 39 ),
+		new HPRestoreItemItem( "palm-frond fan", 37 ),
+		new HPRestoreItemItem( "honey-dipped locust", 36 ),
 		HPRestoreItemList.WALRUS,
-		new HPRestoreItem( "red paisley oyster egg", 33 ),
-		new HPRestoreItem( "red polka-dot oyster egg", 33 ),
-		new HPRestoreItem( "red striped oyster egg", 33 ),
-		new HPRestoreItem( "cotton candy plug", 28 ),
-		new HPRestoreItem( "tiny house", 22 ),
-		new HPRestoreItem( "cotton candy skoshe", 22 ),
+		new HPRestoreItemItem( "red paisley oyster egg", 33 ),
+		new HPRestoreItemItem( "red polka-dot oyster egg", 33 ),
+		new HPRestoreItemItem( "red striped oyster egg", 33 ),
+		new HPRestoreItemItem( "cotton candy plug", 28 ),
+		new HPRestoreItemItem( "tiny house", 22 ),
+		new HPRestoreItemItem( "cotton candy skoshe", 22 ),
 		HPRestoreItemList.DISCONAP,
-		new HPRestoreItem( "Lasagna Bandages", 20 ),
+		new HPRestoreItemSkill( "Lasagna Bandages", 20 ),
 		HPRestoreItemList.DOCS_ELIXIR,
-		new HPRestoreItem( "cast", 17 ),
-		new HPRestoreItem( "cotton candy smidgen", 17 ),
-		new HPRestoreItem( "sugar shard", 15 ),
-		new HPRestoreItem( "cotton candy pinch", 9 ),
-		new HPRestoreItem( "forest tears", 7 ),
+		new HPRestoreItemItem( "cast", 17 ),
+		new HPRestoreItemItem( "cotton candy smidgen", 17 ),
+		new HPRestoreItemItem( "sugar shard", 15 ),
+		new HPRestoreItemItem( "cotton candy pinch", 9 ),
+		new HPRestoreItemItem( "forest tears", 7 ),
 		HPRestoreItemList.DOCS_UNGUENT,
-		new HPRestoreItem( "Notes from the Elfpocalypse, Chapter I", 35 ),
-		new HPRestoreItem( "Notes from the Elfpocalypse, Chapter II", 35 ),
-		new HPRestoreItem( "Notes from the Elfpocalypse, Chapter III", 35 ),
-		new HPRestoreItem( "Notes from the Elfpocalypse, Chapter IV", 35 ),
-		new HPRestoreItem( "Notes from the Elfpocalypse, Chapter V", 35 ),
-		new HPRestoreItem( "Notes from the Elfpocalypse, Chapter VI", 35 ),
-		new HPRestoreItem( "dueling turtle", 15 ),
+		new HPRestoreItemItem( "Notes from the Elfpocalypse, Chapter I", 35 ),
+		new HPRestoreItemItem( "Notes from the Elfpocalypse, Chapter II", 35 ),
+		new HPRestoreItemItem( "Notes from the Elfpocalypse, Chapter III", 35 ),
+		new HPRestoreItemItem( "Notes from the Elfpocalypse, Chapter IV", 35 ),
+		new HPRestoreItemItem( "Notes from the Elfpocalypse, Chapter V", 35 ),
+		new HPRestoreItemItem( "Notes from the Elfpocalypse, Chapter VI", 35 ),
+		new HPRestoreItemItem( "dueling turtle", 15 ),
 		HPRestoreItemList.GELATINOUS_RECONSTRUCTION,
 	};
 
@@ -187,7 +187,7 @@ public abstract class HPRestoreItemList
 
 	public static int getHealthRestored( String restoreName )
 	{
-		HPRestoreItem restoreItem = (HPRestoreItem) HPRestoreItemList.restoreByName.get( restoreName );
+		HPRestoreItem restoreItem = HPRestoreItemList.restoreByName.get( restoreName );
 		return restoreItem == null ? Integer.MIN_VALUE : restoreItem.healthPerUse;
 	}
 
@@ -235,7 +235,13 @@ public abstract class HPRestoreItemList
 		}
 	}
 
-	public static class HPRestoreItem
+	/**
+	 * Abstract base class for HP restoration sources.
+	 *
+	 * Due to historical reasons, this class is named "HPRestoreItem" even though it encompasses items, skills, and
+	 * actions.
+	 */
+	public static abstract class HPRestoreItem
 		extends RestoreItem
 		implements Comparable<RestoreItem>
 	{
@@ -346,7 +352,7 @@ public abstract class HPRestoreItemList
 			}
 
 			float ratioDifference = leftRatio - rightRatio;
-			return ratioDifference > 0.0f ? 1 : ratioDifference < 0.0f ? -1 : 0;
+			return Float.compare( ratioDifference, 0.0f );
 		}
 
 		public void recover( final int needed, final boolean purchase )
@@ -563,6 +569,60 @@ public abstract class HPRestoreItemList
 			{
 				RequestThread.postRequest( UseItemRequest.getInstance( this.itemUsed.getInstance( numberToUse ) ) );
 			}
+		}
+	}
+
+	/**
+	 * HP restoration sources that are usable items.
+	 * This includes items that are consumed upon use (including spleen items), as well as items that are not
+	 * consumed upon use (usually limited to N times per day).
+	 */
+	public static class HPRestoreItemItem
+		extends HPRestoreItemList.HPRestoreItem
+	{
+		public HPRestoreItemItem( String restoreName, int healthPerUse )
+		{
+			super( restoreName, healthPerUse );
+		}
+
+		public HPRestoreItemItem( String restoreName, int healthPerUse, int purchaseCost )
+		{
+			super( restoreName, healthPerUse, purchaseCost );
+		}
+	}
+
+	/**
+	 * Skills that restore HP upon casting.
+	 */
+	public static class HPRestoreItemSkill
+		extends HPRestoreItemList.HPRestoreItem
+	{
+		public HPRestoreItemSkill( String restoreName, int healthPerUse )
+		{
+			super( restoreName, healthPerUse );
+		}
+
+		public HPRestoreItemSkill( String restoreName, int healthPerUse, int purchaseCost )
+		{
+			super( restoreName, healthPerUse, purchaseCost );
+		}
+	}
+
+	/**
+	 * HP restoration sources that require the player to do something special.
+	 * This includes various forms of resting.
+	 */
+	public static class HPRestoreItemAction
+		extends HPRestoreItemList.HPRestoreItem
+	{
+		public HPRestoreItemAction( String restoreName, int healthPerUse )
+		{
+			super( restoreName, healthPerUse );
+		}
+
+		public HPRestoreItemAction( String restoreName, int healthPerUse, int purchaseCost )
+		{
+			super( restoreName, healthPerUse, purchaseCost );
 		}
 	}
 }

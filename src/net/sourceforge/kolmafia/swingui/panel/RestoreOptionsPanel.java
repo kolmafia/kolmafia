@@ -37,6 +37,7 @@ import java.awt.GridLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.stream.IntStream;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -87,13 +88,13 @@ public class RestoreOptionsPanel extends JPanel implements Listener
 		this.add( manaPanel );
 
 		CheckboxListener listener = new CheckboxListener();
-		for ( int i = 0; i < this.hpRestoreCheckbox.length; ++i )
+		for ( JCheckBox restoreCheckbox : this.hpRestoreCheckbox )
 		{
-			this.hpRestoreCheckbox[ i ].addActionListener( listener );
+			restoreCheckbox.addActionListener( listener );
 		}
-		for ( int i = 0; i < this.mpRestoreCheckbox.length; ++i )
+		for ( JCheckBox restoreCheckbox : this.mpRestoreCheckbox )
 		{
-			this.mpRestoreCheckbox[ i ].addActionListener( listener );
+			restoreCheckbox.addActionListener( listener );
 		}
 		PreferenceListenerRegistry.registerPreferenceListener("autoAbortThreshold", this);
 		PreferenceListenerRegistry.registerPreferenceListener("hpAutoRecovery", this);
@@ -112,9 +113,9 @@ public class RestoreOptionsPanel extends JPanel implements Listener
 	private GenericScrollPane constructScroller( final JCheckBox[] restoreCheckbox )
 	{
 		JPanel checkboxPanel = new JPanel( new GridLayout( restoreCheckbox.length, 1 ) );
-		for ( int i = 0; i < restoreCheckbox.length; ++i )
+		for ( JCheckBox checkbox : restoreCheckbox )
 		{
-			checkboxPanel.add( restoreCheckbox[ i ] );
+			checkboxPanel.add( checkbox );
 		}
 
 		return new GenericScrollPane(
@@ -131,12 +132,12 @@ public class RestoreOptionsPanel extends JPanel implements Listener
 		JPanel container = new JPanel();
 		container.setLayout( new BoxLayout( container, BoxLayout.Y_AXIS ) );
 
-		if ( element1 != null && element1 instanceof JComboBox )
+		if ( element1 instanceof JComboBox )
 		{
 			JComponentUtilities.setComponentSize( element1, 240, 20 );
 		}
 
-		if ( element2 != null && element2 instanceof JComboBox )
+		if ( element2 instanceof JComboBox )
 		{
 			JComponentUtilities.setComponentSize( element2, 240, 20 );
 		}
@@ -185,18 +186,18 @@ public class RestoreOptionsPanel extends JPanel implements Listener
 
 	private String getSettingString( final JCheckBox[] restoreCheckbox )
 	{
-		StringBuffer restoreSetting = new StringBuffer();
+		StringBuilder restoreSetting = new StringBuilder();
 
-		for ( int i = 0; i < restoreCheckbox.length; ++i )
+		for ( JCheckBox checkbox : restoreCheckbox )
 		{
-			if ( restoreCheckbox[ i ].isSelected() )
+			if ( checkbox.isSelected() )
 			{
 				if ( restoreSetting.length() != 0 )
 				{
 					restoreSetting.append( ';' );
 				}
 
-				restoreSetting.append( restoreCheckbox[ i ].getText().toLowerCase() );
+				restoreSetting.append( checkbox.getText().toLowerCase() );
 			}
 		}
 
@@ -278,9 +279,45 @@ public class RestoreOptionsPanel extends JPanel implements Listener
 				RestoreOptionsPanel.this.hpAutoRecoverTargetSelect ) );
 			this.add( Box.createVerticalStrut( 15 ) );
 
-			this.add( RestoreOptionsPanel.this.constructLabelPair(
-				"Use these restores: ",
-				RestoreOptionsPanel.this.constructScroller( RestoreOptionsPanel.this.hpRestoreCheckbox = HPRestoreItemList.getCheckboxes() ) ) );
+			RestoreOptionsPanel.this.hpRestoreCheckbox = HPRestoreItemList.getCheckboxes();
+			final JCheckBox[] hpRestoreCheckbox = RestoreOptionsPanel.this.hpRestoreCheckbox;
+			// Assuming that each checkbox at index i is associated with HPRestoreItemList.CONFIGURES[i],
+			// build an array of checkboxes for each restorer type
+
+			final JCheckBox[] actionCheckboxes = IntStream.range( 0, hpRestoreCheckbox.length )
+								      .filter( i -> HPRestoreItemList.CONFIGURES[i] instanceof HPRestoreItemList.HPRestoreItemAction )
+								      .mapToObj( i -> hpRestoreCheckbox[i] ).toArray( JCheckBox[]::new );
+			final JCheckBox[] itemCheckboxes = IntStream.range( 0, hpRestoreCheckbox.length )
+								    .filter( i -> HPRestoreItemList.CONFIGURES[i] instanceof HPRestoreItemList.HPRestoreItemItem )
+								    .mapToObj( i -> hpRestoreCheckbox[i] ).toArray( JCheckBox[]::new );
+			final JCheckBox[] skillCheckboxes = IntStream.range( 0, hpRestoreCheckbox.length )
+								     .filter( i -> HPRestoreItemList.CONFIGURES[i] instanceof HPRestoreItemList.HPRestoreItemSkill )
+								     .mapToObj( i -> hpRestoreCheckbox[i] ).toArray( JCheckBox[]::new );
+
+			if (actionCheckboxes.length > 0)
+			{
+				this.add( RestoreOptionsPanel.this.constructLabelPair(
+					"Use these restores (actions): ",
+					RestoreOptionsPanel.this.constructScroller( actionCheckboxes )
+				) );
+				this.add( Box.createVerticalStrut( 15 ) );
+			}
+			if (skillCheckboxes.length > 0)
+			{
+				this.add( RestoreOptionsPanel.this.constructLabelPair(
+					"Use these restores (skills): ",
+					RestoreOptionsPanel.this.constructScroller( skillCheckboxes )
+				) );
+				this.add( Box.createVerticalStrut( 15 ) );
+			}
+			if (itemCheckboxes.length > 0)
+			{
+				this.add( RestoreOptionsPanel.this.constructLabelPair(
+					"Use these restores (items): ",
+					RestoreOptionsPanel.this.constructScroller( itemCheckboxes )
+				) );
+				this.add( Box.createVerticalStrut( 15 ) );
+			}
 
 			RestoreOptionsPanel.this.setSelectedIndex( RestoreOptionsPanel.this.hpHaltCombatSelect, "autoAbortThreshold" );
 			RestoreOptionsPanel.this.setSelectedIndex( RestoreOptionsPanel.this.hpAutoRecoverSelect, "hpAutoRecovery" );
@@ -291,9 +328,9 @@ public class RestoreOptionsPanel extends JPanel implements Listener
 			RestoreOptionsPanel.this.hpAutoRecoverSelect.addActionListener( this );
 			RestoreOptionsPanel.this.hpAutoRecoverTargetSelect.addActionListener( this );
 
-			for ( int i = 0; i < RestoreOptionsPanel.this.hpRestoreCheckbox.length; ++i )
+			for ( JCheckBox restoreCheckbox : RestoreOptionsPanel.this.hpRestoreCheckbox )
 			{
-				RestoreOptionsPanel.this.hpRestoreCheckbox[ i ].addActionListener( this );
+				restoreCheckbox.addActionListener( this );
 			}
 		}
 
@@ -351,9 +388,45 @@ public class RestoreOptionsPanel extends JPanel implements Listener
 				RestoreOptionsPanel.this.mpAutoRecoverTargetSelect ) );
 			this.add( Box.createVerticalStrut( 15 ) );
 
-			this.add( RestoreOptionsPanel.this.constructLabelPair(
-				"Use these restores: ",
-				RestoreOptionsPanel.this.constructScroller( RestoreOptionsPanel.this.mpRestoreCheckbox = MPRestoreItemList.getCheckboxes() ) ) );
+			RestoreOptionsPanel.this.mpRestoreCheckbox = MPRestoreItemList.getCheckboxes();
+			final JCheckBox[] mpRestoreCheckbox = RestoreOptionsPanel.this.mpRestoreCheckbox;
+			// Assuming that each checkbox at index i is associated with MPRestoreItemList.CONFIGURES[i],
+			// build an array of checkboxes for each restorer type
+
+			final JCheckBox[] actionCheckboxes = IntStream.range( 0, mpRestoreCheckbox.length )
+								      .filter( i -> MPRestoreItemList.CONFIGURES[i] instanceof MPRestoreItemList.MPRestoreItemAction )
+								      .mapToObj( i -> mpRestoreCheckbox[i] ).toArray( JCheckBox[]::new );
+			final JCheckBox[] itemCheckboxes = IntStream.range( 0, mpRestoreCheckbox.length )
+								    .filter( i -> MPRestoreItemList.CONFIGURES[i] instanceof MPRestoreItemList.MPRestoreItemItem )
+								    .mapToObj( i -> mpRestoreCheckbox[i] ).toArray( JCheckBox[]::new );
+			final JCheckBox[] skillCheckboxes = IntStream.range( 0, mpRestoreCheckbox.length )
+								     .filter( i -> MPRestoreItemList.CONFIGURES[i] instanceof MPRestoreItemList.MPRestoreItemSkill )
+								     .mapToObj( i -> mpRestoreCheckbox[i] ).toArray( JCheckBox[]::new );
+
+			if (actionCheckboxes.length > 0)
+			{
+				this.add( RestoreOptionsPanel.this.constructLabelPair(
+					"Use these restores (actions): ",
+					RestoreOptionsPanel.this.constructScroller( actionCheckboxes )
+				) );
+				this.add( Box.createVerticalStrut( 15 ) );
+			}
+			if (skillCheckboxes.length > 0)
+			{
+				this.add( RestoreOptionsPanel.this.constructLabelPair(
+					"Use these restores (skills): ",
+					RestoreOptionsPanel.this.constructScroller( skillCheckboxes )
+				) );
+				this.add( Box.createVerticalStrut( 15 ) );
+			}
+			if (itemCheckboxes.length > 0)
+			{
+				this.add( RestoreOptionsPanel.this.constructLabelPair(
+					"Use these restores (items): ",
+					RestoreOptionsPanel.this.constructScroller( itemCheckboxes )
+				) );
+				this.add( Box.createVerticalStrut( 15 ) );
+			}
 
 			RestoreOptionsPanel.this.setSelectedIndex( RestoreOptionsPanel.this.mpBalanceTriggerSelect, "manaBurningTrigger" );
 			RestoreOptionsPanel.this.setSelectedIndex( RestoreOptionsPanel.this.mpBalanceSelect, "manaBurningThreshold" );
@@ -366,9 +439,9 @@ public class RestoreOptionsPanel extends JPanel implements Listener
 			RestoreOptionsPanel.this.mpAutoRecoverSelect.addActionListener( this );
 			RestoreOptionsPanel.this.mpAutoRecoverTargetSelect.addActionListener( this );
 
-			for ( int i = 0; i < RestoreOptionsPanel.this.mpRestoreCheckbox.length; ++i )
+			for ( JCheckBox restoreCheckbox : RestoreOptionsPanel.this.mpRestoreCheckbox )
 			{
-				RestoreOptionsPanel.this.mpRestoreCheckbox[ i ].addActionListener( this );
+				restoreCheckbox.addActionListener( this );
 			}
 		}
 
