@@ -85,13 +85,11 @@ import javax.swing.SwingConstants;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.text.DefaultCaret;
 import javax.swing.SwingUtilities;
 
-import net.sourceforge.kolmafia.swingui.panel.CompactSidePane;
 import org.jdesktop.swingx.JXPanel;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -2834,14 +2832,68 @@ public class OptionsFrame
 		}
 	}
 
+	/**
+	 * Main panel for color options.
+	 */
 	private class ColorOptionsPanel
+		extends JPanel
+		implements Listener
+	{
+		private ColorOptionsPreferencePanel colorOptionsPreferencePanel;
+
+		ColorOptionsPanel()
+		{
+			super();
+			this.setLayout( new BoxLayout( this, BoxLayout.PAGE_AXIS ) );
+
+			JButton defaultButton = new JButton("Default Color Set");
+			defaultButton.addActionListener( e -> {
+				Preferences.resetToDefault( "textColors" );
+				update();
+			} );
+			JButton darkDefaultButton = new JButton("Dark Color Set");
+			darkDefaultButton.addActionListener( e -> {
+				Preferences.setString(
+					"textColors",
+					"crappy:#999999|good:#00bf00|awesome:#7f7fff|epic:#cc00ff|junk:gray|memento:olive|notavailable:gray|decent:#cccccc"
+				);
+				update();
+			} );
+
+			JPanel resetPanel = new JPanel();
+			resetPanel.setLayout( new BoxLayout( resetPanel, BoxLayout.LINE_AXIS ) );
+			resetPanel.setBorder( BorderFactory.createEmptyBorder( 0, 20, 10, 10 ) );
+			// This actually left-aligns the buttons.
+			// Using LEFT_ALIGNMENT on the other hand right-aligns the buttons. WTF?
+			resetPanel.setAlignmentX( RIGHT_ALIGNMENT );
+			resetPanel.add( defaultButton );
+			resetPanel.add( darkDefaultButton );
+
+			this.colorOptionsPreferencePanel = new ColorOptionsPreferencePanel();
+
+			super.add( this.colorOptionsPreferencePanel );
+			super.add( resetPanel );
+		}
+
+		@Override
+		public void update()
+		{
+			this.colorOptionsPreferencePanel.update();
+		}
+	}
+
+	/**
+	 * Used by ColorOptionsPanel to display rows of color preference items.
+	 * @see ColorOptionsPanel
+	 */
+	private class ColorOptionsPreferencePanel
 		extends OptionsPanel
-		implements Listener, ActionListener
+		implements Listener
 	{
 		JLabel crappy, decent, good, awesome, epic;
 		JLabel memento, junk, notavailable;
 
-		public ColorOptionsPanel()
+		public ColorOptionsPreferencePanel()
 		{
 			super( new Dimension( 16, 17 ), new Dimension( 370, 17 ) );
 			PreferenceListenerRegistry.registerPreferenceListener( "textColors", this );
@@ -2851,48 +2903,38 @@ public class OptionsFrame
 
 		private void setContent()
 		{
-			JButton DefaultButton = new JButton("Default Color Set");
-			JButton DarkDefaultButton = new JButton("Dark Color Set");
-
-			JPanel ResetPanel = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
-			ResetPanel.add( DefaultButton );
-			ResetPanel.add( DarkDefaultButton );
-			DefaultButton.addActionListener( this );
-			DarkDefaultButton.addActionListener( this );
-
-
-			VerifiableElement[] newElements = new VerifiableElement[ 14 ];
-
-			newElements[ 0 ] = new VerifiableElement( "   ", SwingConstants.RIGHT, new JLabel(
-				"This panel alters the appearance of some text colors in the Mafia UI." ) );
-
-			newElements[ 1 ] = new VerifiableElement( "", SwingConstants.RIGHT, new JSeparator() );
-
-			newElements[ 2 ] = new VerifiableElement( "Item Quality Colors:", SwingConstants.LEFT,
-				new JLabel() );
 			this.crappy = new FontColorChooser( "crappy" );
-			newElements[ 3 ] = new VerifiableElement( "Crappy", SwingConstants.LEFT, this.crappy );
 			this.decent = new FontColorChooser( "decent" );
-			newElements[ 4 ] = new VerifiableElement( "Decent", SwingConstants.LEFT, this.decent );
 			this.good = new FontColorChooser( "good" );
-			newElements[ 5 ] = new VerifiableElement( "Good", SwingConstants.LEFT, this.good );
 			this.awesome = new FontColorChooser( "awesome" );
-			newElements[ 6 ] = new VerifiableElement( "Awesome", SwingConstants.LEFT, this.awesome );
 			this.epic = new FontColorChooser( "epic" );
-			newElements[ 7 ] = new VerifiableElement( "EPIC", SwingConstants.LEFT, this.epic );
-
-			newElements[ 8 ] = new VerifiableElement();
-
-			newElements[ 9 ] = new VerifiableElement( "Other Font Colors:", SwingConstants.LEFT,
-				new JLabel() );
 			this.junk = new FontColorChooser( "junk" );
-			newElements[ 10 ] = new VerifiableElement( "Junk Items", SwingConstants.LEFT, this.junk );
 			this.memento = new FontColorChooser( "memento" );
-			newElements[ 11 ] = new VerifiableElement( "Mementos", SwingConstants.LEFT, this.memento );
 			this.notavailable = new FontColorChooser( "notavailable" );
-			newElements[ 12 ] = new VerifiableElement( "Not Equippable/Creatable/Available",
-				SwingConstants.LEFT, this.notavailable );
-			newElements[ 13 ] = new VerifiableElement( BorderLayout.PAGE_START, ResetPanel );
+
+			VerifiableElement[] newElements = {
+				new VerifiableElement(
+					"   ",
+					SwingConstants.RIGHT,
+					new JLabel("This panel alters the appearance of some text colors in the Mafia UI." )
+				),
+				new VerifiableElement( "", SwingConstants.RIGHT, new JSeparator() ),
+				new VerifiableElement( "Item Quality Colors:", SwingConstants.LEFT, new JLabel() ),
+				new VerifiableElement( "Crappy", SwingConstants.LEFT, this.crappy ),
+				new VerifiableElement( "Decent", SwingConstants.LEFT, this.decent ),
+				new VerifiableElement( "Good", SwingConstants.LEFT, this.good ),
+				new VerifiableElement( "Awesome", SwingConstants.LEFT, this.awesome ),
+				new VerifiableElement( "EPIC", SwingConstants.LEFT, this.epic ),
+				new VerifiableElement(), // Spacer
+				new VerifiableElement( "Other Font Colors:", SwingConstants.LEFT, new JLabel() ),
+				new VerifiableElement( "Junk Items", SwingConstants.LEFT, this.junk ),
+				new VerifiableElement( "Mementos", SwingConstants.LEFT, this.memento ),
+				new VerifiableElement(
+					"Not Equippable/Creatable/Available",
+					SwingConstants.LEFT,
+					this.notavailable
+				),
+			};
 
 			super.setContent( newElements );
 			this.readFromPref();
@@ -3021,30 +3063,14 @@ public class OptionsFrame
 						f.pack();        // adapt container size if required
 					} );
 				}
+
+				// Reload font color prefs (in case they changed)
+				readFromPref();
 			} catch(Exception Ex){
 				// This is probably a case of a bad Laf option.  Try not to have one...
 				// currently just fails silently if we get an UnsupportedLookAndFeelException...
 				// System.out.println("Something went wrong\n"+Ex.getMessage());
 			}
-		}
-
-		@Override
-		public void actionPerformed( ActionEvent e )
-		{
-			JButton SourceButton = (JButton) e.getSource();
-
-			if ( SourceButton.getText().startsWith( "Dark" ) )
-			{
-				Preferences.setString( "textColors","crappy\\:\\#999999|good\\:\\#00bf00|awesome\\:\\#7f7fff|epic\\:\\#cc00ff|junk\\:gray|memento\\:olive|notavailable\\:gray|decent\\:\\#cccccc" );
-			}
-			else
-			{
-				Preferences.resetToDefault( "textColors" );
-			}
-			update();
-			// SwingUtilities.invokeLater( () -> {
-			//	SwingUtilities.updateComponentTreeUI( super.getContentPane() );  // update components
-			//} );
 		}
 
 		private final class FontColorChooser
