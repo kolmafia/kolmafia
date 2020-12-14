@@ -126,7 +126,7 @@ public class JsRefCommand
 
 			if ( !matches )
 			{
-				matches = func.getName().toLowerCase().contains( filter );
+				matches = func.getName().toLowerCase().contains( filter.toLowerCase() );
 			}
 
 			if ( !matches )
