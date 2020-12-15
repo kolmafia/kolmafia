@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2005-2020, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
@@ -162,7 +162,7 @@ public class Maximizer
 
 		// ensure current modifiers are up-to-date
 		KoLCharacter.recalculateAdjustments();
-		double current = Maximizer.eval.getScore( KoLCharacter.getCurrentModifiers() );
+		double current = Maximizer.eval.getScore( KoLCharacter.getCurrentModifiers(), EquipmentManager.currentEquipment() );
 
 		if ( maxPrice <= 0 )
 		{
@@ -224,7 +224,8 @@ public class Maximizer
 		}
 
 		current = Maximizer.eval.getScore(
-			KoLCharacter.getCurrentModifiers() );
+			KoLCharacter.getCurrentModifiers(),
+			EquipmentManager.currentEquipment() );
 
 		// Show only equipment
 		if ( filter.getOrDefault(KoLConstants.filterType.EQUIP, true )  && filterCount == 1 )
