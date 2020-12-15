@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2005-2020, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
@@ -117,6 +117,7 @@ public class Evaluator
 	private Set<AdventureResult> posEquip = new HashSet<>();
 	private Set<AdventureResult> negEquip = new HashSet<>();
 	private Set<AdventureResult> uniques = new HashSet<>();
+	private Map<AdventureResult, Double> bonuses = new HashMap<>();
 
 	private static final String TIEBREAKER = "1 familiar weight, 1 familiar experience, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop, 1 DB combat damage, 0.1 sixgun damage";
 	private static final Pattern KEYWORD_PATTERN = Pattern.compile( "\\G\\s*(\\+|-|)([\\d.]*)\\s*(\"[^\"]+\"|(?:[^-+,0-9]|(?<! )[-+0-9])+),?\\s*" );
@@ -149,9 +150,9 @@ public class Evaluator
 		{
 			return 1;
 		}
-		for ( int i = 0; i < this.familiars.size(); ++i )
+		for ( FamiliarData familiar : this.familiars )
 		{
-			if ( this.familiars.get( i ).getId() == id )
+			if ( familiar.getId() == id )
 			{
 				return 1;
 			}
@@ -443,6 +444,18 @@ public class Evaluator
 				}
 				continue;
 			}
+			
+			if ( keyword.startsWith( "bonus " ) )
+			{
+				AdventureResult match = ItemFinder.getFirstMatchingItem(
+					keyword.substring( 6 ).trim(), Match.EQUIP );
+				if ( match == null )
+				{
+					return;
+				}
+				this.bonuses.put( match, weight );
+				continue;
+			}
 
 			if ( keyword.equals( "plumber" ) )
 			{
@@ -502,9 +515,9 @@ public class Evaluator
 					this.posOutfits.add( outfit.getName() );
 					int bees = 0;
 					AdventureResult[] pieces = outfit.getPieces();
-					for ( int i = 0; i < pieces.length; ++i )
+					for ( AdventureResult piece : pieces )
 					{
-						bees += KoLCharacter.getBeeosity( pieces[ i ].getName() );
+						bees += KoLCharacter.getBeeosity( piece.getName() );
 					}
 					outfitBeeosity = Math.max( outfitBeeosity, bees );
 				}
@@ -826,7 +839,7 @@ public class Evaluator
 			workBoots;
 	}
 
-	public double getScore( Modifiers mods )
+	public double getScore( Modifiers mods, AdventureResult[] equipment )
 	{
 		this.failed = false;
 		this.exceeded = false;
@@ -909,6 +922,16 @@ public class Evaluator
 			if ( val < min ) this.failed = true;
 			score += weight * Math.min( val, max );
 		}
+		if ( !this.bonuses.isEmpty() )
+		{
+			for ( AdventureResult item : equipment )
+			{
+				if ( this.bonuses.containsKey( item ) )
+				{
+					score += this.bonuses.get( item );
+				}
+			}
+		}
 		// Add fudge factor for Rollover Effect
 		if ( mods.getString( Modifiers.ROLLOVER_EFFECT ).length() > 0 )
 		{
@@ -947,6 +970,11 @@ public class Evaluator
 			this.failed = true;
 		}
 		return score;
+	}
+
+	public double getScore( Modifiers mods )
+	{
+		return this.getScore( mods, new AdventureResult[0] );
 	}
 
 	void checkEquipment( Modifiers mods, AdventureResult[] equipment,
@@ -1139,6 +1167,8 @@ public class Evaluator
 			case -1:
 				continue;
 			case 0:
+				// intentionally not including outfit.getPieces() because this is
+				// only rating whether the outfit itself is useful, not its pieces
 				double delta = this.getScore( mods ) - nullScore;
 				if ( delta <= 0.0 ) continue;
 				break;
@@ -1673,7 +1703,7 @@ public class Evaluator
 					newMods.add( Modifiers.getModifiers( "Effect", intrinsic ) );
 					mods = newMods;
 				}
-				double delta = this.getScore( mods ) - nullScore;
+				double delta = this.getScore( mods, new AdventureResult[] { item } ) - nullScore;
 				if ( delta < 0.0 ) continue;
 				if ( delta == 0.0 )
 				{
@@ -1759,17 +1789,14 @@ public class Evaluator
 
 			// Check each familiar in hat to see if they are worthwhile
 			List familiarList = KoLCharacter.getFamiliarList();
-			for ( int f = 0; f < familiarList.size(); ++f )
+			for ( Object o : familiarList )
 			{
-				FamiliarData familiar = (FamiliarData) familiarList.get( f );
-				if ( familiar != null && familiar != FamiliarData.NO_FAMILIAR && familiar.canCarry() && StandardRequest.isAllowed( "Familiars", familiar.getRace() ) &&
-				    !familiar.equals( KoLCharacter.getFamiliar() ) && !this.carriedFamiliars.contains( familiar ) &&
-					!familiar.equals( useCrownFamiliar ) && !familiar.equals( useBjornFamiliar ) && !familiar.equals( bestCarriedFamiliar ) &&
-					!( KoLCharacter.inBeecore() && KoLCharacter.getBeeosity( familiar.getRace() ) > 0 ) )
+				FamiliarData familiar = (FamiliarData) o;
+				if ( familiar != null && familiar != FamiliarData.NO_FAMILIAR && familiar.canCarry() && StandardRequest.isAllowed( "Familiars", familiar.getRace() ) && !familiar.equals( KoLCharacter.getFamiliar() ) && !this.carriedFamiliars.contains( familiar ) && !familiar.equals( useCrownFamiliar ) && !familiar.equals( useBjornFamiliar ) && !familiar.equals( bestCarriedFamiliar ) && !(KoLCharacter.inBeecore() && KoLCharacter.getBeeosity( familiar.getRace() ) > 0) )
 				{
 					MaximizerSpeculation spec = new MaximizerSpeculation();
 					spec.attachment = item;
-					spec.equipment[ EquipmentManager.HAT ] = item;
+					spec.equipment[EquipmentManager.HAT] = item;
 					spec.setEnthroned( familiar );
 					spec.setUnscored();
 					if ( spec.compareTo( best ) > 0 )
@@ -2343,9 +2370,9 @@ public class Evaluator
 				// Get pieces of outfit
 				SpecialOutfit outfit = EquipmentDatabase.getOutfit( i );
 				AdventureResult[] pieces = outfit.getPieces();
-				for ( int j = 0; j < pieces.length; ++j )
+				for ( AdventureResult piece : pieces )
 				{
-					int outfitItemId = pieces[j].getItemId();
+					int outfitItemId = piece.getItemId();
 					int slot = EquipmentManager.itemIdToEquipmentType( outfitItemId );
 					// For some items, Evaluator uses a different slot
 					// I don't think any outfits use an offhand weapon or watch though?
@@ -2357,12 +2384,12 @@ public class Evaluator
 
 					// Compare outfit with best individual non conditional item that hasn't previously been used
 					// For accessories compare with 3rd best for first accessory, 2nd best for second accessory, best for third
-					int newSlot = slot + ( slot == EquipmentManager.ACCESSORY1 ? accCount : 0 );
-					int compareItemNo = speculationList[ slot ].size() - 1;
+					int newSlot = slot + (slot == EquipmentManager.ACCESSORY1 ? accCount : 0);
+					int compareItemNo = speculationList[slot].size() - 1;
 					int accSkip = slot == EquipmentManager.ACCESSORY1 ? 2 - accCount : 0;
 					while ( compareItemNo >= 0 )
 					{
-						CheckedItem compareItem = speculationList[ slot ].get( compareItemNo ).attachment;
+						CheckedItem compareItem = speculationList[slot].get( compareItemNo ).attachment;
 						if ( compareItem.conditionalFlag )
 						{
 							compareItemNo--;
@@ -2375,17 +2402,17 @@ public class Evaluator
 						}
 						else
 						{
-							compareSpec.equipment[ newSlot ] = compareItem;
+							compareSpec.equipment[newSlot] = compareItem;
 							break;
 						}
 						if ( compareItemNo < 0 )
 						{
-							compareSpec.equipment[ newSlot ] = EquipmentRequest.UNEQUIP;
+							compareSpec.equipment[newSlot] = EquipmentRequest.UNEQUIP;
 							break;
 						}
 					}
 					CheckedItem outfitItem = new CheckedItem( outfitItemId, equipScope, maxPrice, priceLevel );
-					outfitSpec.equipment[ newSlot ] = outfitItem;
+					outfitSpec.equipment[newSlot] = outfitItem;
 				}
 				if ( outfitSpec.compareTo( compareSpec ) <= 0 && !this.posOutfits.contains( outfit.getName() ) )
 				{

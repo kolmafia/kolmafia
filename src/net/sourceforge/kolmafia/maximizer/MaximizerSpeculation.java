@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2005-2020, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
@@ -103,7 +103,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 	{
 		if ( this.scored ) return this.score;
 		if ( !this.calculated ) this.calculate();
-		this.score = Maximizer.eval.getScore( this.mods );
+		this.score = Maximizer.eval.getScore( this.mods, this.equipment );
 		if ( KoLCharacter.inBeecore() )
 		{
 			this.beeosity = KoLCharacter.getBeeosity( this.equipment );
