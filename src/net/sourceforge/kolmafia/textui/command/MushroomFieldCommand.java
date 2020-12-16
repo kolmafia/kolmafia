@@ -112,11 +112,15 @@ public class MushroomFieldCommand
 			StringBuffer plotDetails = new StringBuffer();
 			plotDetails.append( "Current:" );
 			plotDetails.append( KoLConstants.LINE_BREAK );
+			plotDetails.append( "<code>" );
 			plotDetails.append( plot );
+			plotDetails.append( "</code>" );
 			plotDetails.append( KoLConstants.LINE_BREAK );
 			plotDetails.append( "Forecast:" );
 			plotDetails.append( KoLConstants.LINE_BREAK );
+			plotDetails.append( "<code>" );
 			plotDetails.append( MushroomManager.getForecastedPlot( false ) );
+			plotDetails.append( "</code>" );
 			plotDetails.append( KoLConstants.LINE_BREAK );
 			RequestLogger.printLine( plotDetails.toString() );
 		}
