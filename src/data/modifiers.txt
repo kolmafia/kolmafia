@@ -1964,6 +1964,7 @@ Item	Zombo's shoulder blade	Muscle Percent: +30, Weapon Damage Percent: +30
 
 # Off-hand Items section of modifiers.txt
 
+Item	&quot;reusable&quot; grocery bag	Food Drop: +50, Lasts Until Rollover
 Item	'WILL WORK FOR BOOZE' sign	Booze Drop: +30
 Item	1-ball	Initiative: +10
 Item	17-ball	Spooky Damage: +20, Stench Damage: +20, Hot Damage: +20, Cold Damage: +20, Sleaze Damage: +20
@@ -1987,6 +1988,7 @@ Item	ancient hot dog wrapper	HP Regen Min: 25, HP Regen Max: 30, MP Regen Min: 2
 Item	ancient stone head	Damage Reduction: 5
 # anniversary balloon
 Item	anniversary chutney sculpture	Muscle: +1, Mysticality: +1, Moxie: +1
+Item	antique candy bucket	Candy Drop: +50, Lasts Until Rollover
 Item	antique nutcracker drumstick	MP Regen Min: 4, MP Regen Max: 8, Mysticality Percent: +15
 Item	antique shield	Initiative: -10, Damage Reduction: 11, Breakable
 Item	antique spyglass	Reduce Enemy Defense: 15, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
@@ -2040,6 +2042,7 @@ Item	burning paper crane	Spooky Resistance: +3, Maximum HP: +25, Maximum MP: +25
 Item	C.H.U.M. lantern	Stench Damage: +17, Item Drop: [30*loc(Sewer Tunnels)]
 # card sleeve: If you like it, you should put a card in it!
 Item	cardboard box turtle	Muscle: +3, Damage Reduction: 4
+Item	cardboard wine carrier	Booze Drop: +50, Lasts Until Rollover
 Item	catskin buckler	Muscle: +10, Damage Absorption: +50, Damage Reduction: 11
 Item	Chalice of the Malkovich Prince	Muscle Percent: +4, Mysticality Percent: +4, Moxie Percent: +4
 # chalk chalice: Weakens enemies who hit you
@@ -2707,7 +2710,7 @@ Item	burning paper slippers	Cold Resistance: +3, Maximum HP: +25, Maximum MP: +2
 Item	C.A.R.N.I.V.O.R.E. button	Monster Level: +15
 Item	cactus key	Maximum HP: +20, HP Regen Min: 9, HP Regen Max: 10
 Item	candy dress shoes	Maximum HP: +20, Weapon Damage: +15, Critical Hit Percent: +10, Single Equip
-# Item candy drive button: Lets you collect candy donations as you adventure
+# candy drive button: Lets you collect candy donations as you adventure
 Item	candy drive button	Single Equip
 Item	candy necklace	Candy Drop: +10, Single Equip, Raveosity: +1
 Item	candy necktie	Initiative: +20, Ranged Damage: +15, Pickpocket Chance: +10, Single Equip
@@ -4055,6 +4058,7 @@ Item	flaming glowsticks	Familiar Weight: +5
 # flask of embalming fluid: Helps your Reanimated Reanimator collect body parts
 Item	french-fry grabber	Familiar Weight: +5
 Item	funky brass fez	Familiar Weight: +5
+Item	fuzzy polar bear ears	Familiar Weight: +5, Experience (Muscle): +3, Generic
 Item	gazing shoes	Familiar Weight: +5
 # giant book of ancient carols: Causes the Ancient Yuletide Troll to drop carol pages more frequently
 Item	gill rings	Familiar Weight: +5
@@ -4151,6 +4155,7 @@ Item	miniature carton of clove cigarettes	Familiar Weight: +5
 Item	miniature castagnets	Familiar Weight: +5
 # miniature dormouse: Makes March Hare More Better
 Item	miniature espresso maker	Familiar Weight: +5
+Item	miniature goose mask	Familiar Weight: +5, Experience (Moxie): +3, Generic
 Item	miniature gravy-covered maypole	Item Drop: +25, Softcore Only, Generic
 Item	miniature Jacob's ladder	Familiar Weight: +5
 # miniature life preserver: Helps your familiar deal with all this rain
@@ -4266,6 +4271,7 @@ Item	tiny costume wardrobe	Softcore Only, Generic, Familiar Weight: [25*fam(dopp
 Item	tiny do-rag	Familiar Weight: +5
 Item	tiny domino mask	Familiar Weight: +5
 Item	tiny fly glasses	Experience (familiar): +1, Generic
+Item	tiny glowing red nose	Familiar Weight: +5, Experience (Mysticality): +3, Generic
 Item	tiny knife and fork	Familiar Weight: +5
 Item	tiny makeup kit	Familiar Weight: +15
 Item	tiny maracas	Familiar Weight: +5
@@ -5382,6 +5388,7 @@ Effect	Danish Cunning	Pickpocket Chance: +25
 Effect	Dark Orchestral Song	Moxie: +5
 Effect	Dawn of the Goblin	Avatar: "tribal goblin"
 Effect	Dazed, Confused	Avatar: "wastoid"
+# Dazzling Smile: Increases your ability to spread Crimbo cheer
 Effect	Dead Man's Handoff	Avatar: "gamblin' man"
 Effect	Dead Sexy	Avatar: "sexy zombie"
 # Deadened Palate: Bleah
@@ -5773,6 +5780,7 @@ Effect	Graham Crackling	Maximum HP: +10, Maximum MP: +5
 Effect	Grand Blessing of She-Who-Was	Mysticality: +10, Spooky Damage: +10
 Effect	Grand Blessing of the Storm Tortoise	Initiative: +10, Maximum MP: +20
 Effect	Grand Blessing of the War Snapper	Muscle: +10, Weapon Damage: +10
+Effect	Grand Theft Candy	Candy Drop: +100, Hot Damage: +25, Hot Spell Damage: +25
 Effect	Granolarrrgh	Stench Damage: +20, Stench Spell Damage: +20
 Effect	Grape Expectations	Maximum HP: +50, Maximum MP: +25
 Effect	Grease Trappings	Avatar: "Grease Trapper"
@@ -5955,6 +5963,7 @@ Effect	Hyperbolic Hypothermia	Cold Damage: +20
 Effect	Hypercubed	Maximum MP: +100, MP Regen Min: 10, MP Regen Max: 20
 Effect	Hyperoffended	Sleaze Resistance: +9
 Effect	Hyperoxygenated Blood	Adventure Underwater
+# Hypersoothed Throat: Increases your ability to sing Crimbo carols
 Effect	Hyphemariffic	Spooky Resistance: +9
 Effect	Hypnotized	Mysticality Percent: -50
 Effect	I Am the Slaw!	Monster Level: +20
@@ -6035,6 +6044,7 @@ Effect	Isskay like an Ashtray	Moxie Percent: +20, Mysticality Percent: -20, Expe
 Effect	It Didn't Kill You	Muscle Percent: +50
 Effect	It Is So Hot In Your Guts, So So Hot	Hot Damage: +40, Hot Spell Damage: +40
 Effect	It Tickles!  It Tickles!	MP Regen Min: 4, MP Regen Max: 6
+Effect	It Went Through All Right	Food Drop: +100, Sleaze Damage: +25, Sleaze Spell Damage: +25
 Effect	It's a Good Life!	Experience: +10, Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 # It's Electric!: Damages Attacking Opponents
 Effect	It's Good To Be Royal!	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200, Maximum HP Percent: +200, Maximum MP Percent: +200, Weapon Damage Percent: +200, Spell Damage Percent: +200
@@ -6595,6 +6605,7 @@ Effect	Rave Nirvana	Meat Drop: +50
 Effect	Raving Lunatic	Weapon Damage: +20
 Effect	Ravonovichy	Avatar: "Father Nikolai Ravonovich"
 Effect	Re-Possessed	Weapon Damage: +10, Damage Reduction: -2
+Effect	Ready to Roll	Booze Drop: +100, Cold Damage: +25, Cold Spell Damage: +25
 Effect	Ready to Snap	Mysticality: +5, Experience (Mysticality): +1
 Effect	Really Deep Breath	Adventure Underwater
 Effect	Really Quite Poisoned	Muscle Percent: -70, Mysticality Percent: -70, Moxie Percent: -70, Muscle: -9, Mysticality: -9, Moxie: -9
@@ -7113,6 +7124,7 @@ Effect	The Magical Mojomuscular Melody	Maximum MP: +20, Mysticality: +10
 Effect	The Moomy's Curse	Mana Cost: +20, Familiar Weight: -40, Muscle Percent: -200, Mysticality Percent: -200, Moxie Percent: -200
 Effect	The More You Eat	Stench Damage: +15, Stench Spell Damage: +15
 Effect	The Moxious Madrigal	Moxie: +10
+# The Odor of Money: Increases your ability to encourage Crimbo commerce
 Effect	The Other	Avatar: "The Author"
 Effect	The Perfect Snowman Disguise	Avatar: "Snowbrawler"
 Effect	The Pleasures of the Flesh	Muscle Percent: [min(300,T)], Mysticality Percent: [min(300,T)], Moxie Percent: [min(300,T)]
@@ -8135,7 +8147,6 @@ MutexE	Broken Heart/Fiery Heart/Cold Hearted/Sweet Heart/Withered Heart/Lustful 
 MutexI	shining halo/furry halo/frosty halo/time halo	none
 MutexE	Shrieking Weasel/Power, Man/Lucky Struck/Ministrations in the Dark/Superdrifting	none
 MutexI	work boots/fancy boots	none
-MutexI	booze drive button/candy drive button/food drive button	none
 # While the groups below are mutex, replacing one effect with another is easy enough that other effects should be suggested anyway
 # MutexE	Snarl of the Timberwolf/Scowl of the Auk/Stiff Upper Lip/Patient Smile/Arched Eyebrow of the Archmage/Wizard Squint/Icy Glare/Wry Smile/Disco Leer/Disco Smirk/Suspicious Gaze/Knowing Smile	none
 # MutexE	Cautious Prowl/Prideful Strut/Leisurely Amblin'	none
@@ -8259,6 +8270,7 @@ Item	Dreadsylvanian stink pocket	Effect: "Dreadful Smell", Effect Duration: 200
 # drippy caviar: Puts 5 &micro;g of Drippy Juice into your blood
 # drippy nugget: Puts 5 &micro;g of Drippy Juice into your blood
 # drippy plum(?): Puts 5 &micro;g of Drippy Juice into your blood
+Item	drive-thru burger	Effect: "It Went Through All Right", Effect Duration: 40
 # dwarf bread: Deals 4-28 Physical Damage when used as a combat item
 Item	dwarf bread	Effect: "Dwarven Hardiness", Effect Duration: 5
 Item	eldritch distillate	Effect: "Eldritch Concentration", Effect Duration: 30
@@ -8501,6 +8513,7 @@ Item	Blood Light	Effect: "Bloody-minded", Effect Duration: 30
 Item	blood-red mushroom wine	Effect: "Helvella Health", Effect Duration: 80
 Item	bloody kiwitini	Effect: "First Blood Kiwi", Effect Duration: 10
 Item	Bloody Nora	Effect: "Fishtacular Vernacular", Effect Duration: 40
+Item	Boulevardier cocktail	Effect: "Ready to Roll", Effect Duration: 40
 Item	Bone's Farm &quot;wine&quot;	Effect: "Sticks and Stones", Effect Duration: 30
 Item	Bordeaux Marteaux	Effect: "Hammered", Effect Duration: 20
 Item	bottle of Amontillado	Effect: "Bricked-In", Effect Duration: 100
@@ -9366,6 +9379,7 @@ Item	Helvella Haemophilia mushroom	Effect: "Helvella Health", Effect Duration: 1
 Item	hemp candy necklace	Effect: "You Ate Some Hemp Candy", Effect Duration: 20
 Item	henna face paint	Effect: "Florid Cheeks", Effect Duration: 10
 Item	henna tattoo	Effect: "Hennaliciousness", Effect Duration: 5
+Item	hermedisiac cologne	Effect: "The Odor of Money", Effect Duration: 15
 Item	Hersey&trade; SMOOCH	Effect: "Kissed By Fire", Effect Duration: 20
 Item	hi-octane carrot juice	Effect: "Beta Carotene Overdose", Effect Duration: 30
 Item	high-test fishing line	Effect: "High-Test Fishing Line", Effect Duration: 20
@@ -9378,11 +9392,13 @@ Item	hot button candy	Effect: "Hot Buttoned", Effect Duration: 10
 Item	hot coal	Effect: "Fire Inside", Effect Duration: 15
 Item	hot nuggets	Effect: "Flaming Weapon", Effect Duration: 5
 Item	hot powder	Effect: "Flame-Retardant Trousers", Effect Duration: 5
+Item	Hotwire&trade; brand candy rope	Effect: "Grand Theft Candy", Effect Duration: 20
 Item	How to Avoid Scams	Effect: "How to Scam Tourists", Effect Duration: 20
 Item	huge mint leaf	Effect: "Mint-Condition Breath", Effect Duration: 20
 Item	humming El Vibrato drone	Effect: "El Vibrations", Effect Duration: 10
 Item	Hunger&trade; Sauce	Effect: "The Tunger&trade;", Effect Duration: 1
 Item	hyperinflated seal lung	Effect: "Really Deep Breath", Effect Duration: 20
+Item	imported lemon lozenge	Effect: "Hypersoothed Throat", Effect Duration: 15
 Item	incense bath ball	Effect: "Incensed", Effect Duration: 10
 Item	industrial frosting	Effect: "Industrially Frosted", Effect Duration: 5
 Item	industrial strength starch	Effect: "Industrial Strength Starch", Effect Duration: 20
@@ -9624,6 +9640,7 @@ Item	powdered toad horn	Effect: "Squirming Like a Toad", Effect Duration: 10
 # power pill: Can also be fed to Puck Mans in combat
 Item	power pill	Effect: "Pill Power", Effect Duration: 30
 Item	Power-Guy 2000 holo-record	Effect: "Power, Man", Effect Duration: 10
+Item	prescription teeth whitener	Effect: "Dazzling Smile", Effect Duration: 15
 Item	pressurized potion of perception	Effect: "Perceptive Pressure", Effect Duration: [R]
 Item	pressurized potion of perspicacity	Effect: "Perspicacious Pressure", Effect Duration: [R]
 Item	pressurized potion of pneumaticity	Effect: "Pneumatic", Effect Duration: 20
@@ -10250,6 +10267,7 @@ Item	blue potion	Effect: "Healthy Blue Glow", Effect Duration: 20
 # Bohemian rhapsody: Deals Physical Damage based on your Level
 # book of matches: Deals 40-60 <font color=red>Hot Damage</font>
 # Booke of Vampyric Knowledge: Grants one of several Vampyric skills
+# booze mailing list: Unlocks another row of houses for Crimbo activities
 # boozebomb: Deals 400-500 Physical Damage
 # boozebomb: (super effective against orcs)
 # bottle of alcohol: Deals 45-60 <font color=red>Hot Damage</font>
@@ -10301,6 +10319,7 @@ Item	calm attention-deficit demon	Free Pull
 # can of Ghuol-B-Gone&trade;: Repels Ghuols
 # can of sterno: Deals 15-20 <font color=red>Hot Damage</font> and 10-20 more each round for the rest of the fight
 Item	candy cornucopia	Free Pull
+# candy mailing list: Unlocks another row of houses for Crimbo activities
 # candycaine powder: Poisons your opponent
 # carbonated soy milk: Restores 70-80 MP
 # carbonated water lily: Restores 60-70 MP
@@ -10592,6 +10611,7 @@ Item	floaty stone sphere	Free Pull
 # floorboard cruft: Deals 100-120 <font color=green>Stench Damage</font>
 # floorboard cruft: Weakens Enemies Somewhat
 Item	Fly-By-Knight Heraldry form	Free Pull
+# food mailing list: Unlocks another row of houses for Crimbo activities
 # forest tears: Restores 5-10 HP
 Item	Fourth of May Cosplay Saber kit	Free Pull
 Item	fragment of Jarlsberg's soul	Free Pull
@@ -10654,12 +10674,9 @@ Item	golden monkey statuette	Free Pull
 # Goodfella contract: Make your Goodfella an offer he can't refuse
 # GOTO: Lets you escape from combat without spending an Adventure
 # GOTO: (Maybe)
-# Item government booze shipment: Send 50 donated booze to another player
-# Item government booze shipment: (limit 1 per recipient per day)
-# Item government candy shipment: Send 50 donated candy to another player
-# Item government candy shipment: (limit 1 per recipient per day)
-# Item government food shipment: Send 50 donated food to another player
-# Item government food shipment: (limit 1 per recipient per day)
+# government booze shipment: Send 50 donated booze to another player (limit 1 per recipient per day)
+# government candy shipment: Send 50 donated candy to another player (limit 1 per recipient per day)
+# government food shipment: Send 50 donated food to another player (limit 1 per recipient per day)
 Item	Granny Tood's Thanksgarden Catalog	Free Pull
 # grape troll doll: Deals 3-5 <font color=blueviolet>Sleaze Damage</font>
 # grape troll doll: (doesn't go away when used)
@@ -11021,6 +11038,7 @@ Item	orphan baby yeti	Free Pull
 # Oscus's neverending soda: Restores 200-300 MP
 # Oscus's neverending soda: (doesn't go away when used)
 # overloaded micro-reactor: Deals 300 Physical Damage
+# overflowing gift basket: Produces a random food item (1x/day)
 # oversized snowflake: Stuns your opponent for a few rounds
 # ovoid leather thing: Deals 80-100 Physical Damage
 # pacification grenade: Weakens enemies somewhat
@@ -11045,6 +11063,7 @@ Item	passed-out psychedelic bear	Free Pull
 Item	patchouli incense stick	Effect: "Far Out", Effect: "Embarrassed", Effect Duration: 5
 # patchouli oil bomb: Deals 65-80 <font color=green>Stench Damage</font>
 Item	Peek-a-Boo!	Skill: "Object Quasi-Permanence"
+# personalized wassail stein: Produces a random booze item (1x/day)
 # pencil kunai: Deals 20-30 Physical Damage
 # pencil stub: Does any number of crazy things
 # peppermint crook: Steals an item from your enemy
@@ -11365,6 +11384,7 @@ Item	suspicious stocking	Free Pull
 Item	sweet nutcracker	Free Pull
 # T.U.R.D.S. Key: Lets you escape from combat without spending an Adventure
 # T.U.R.D.S. Key: (Maybe)
+# tabletop candy dispenser: Produces some random candy items (1x/day, costs 10 Meat)
 Item	tainted marshmallow	Lasts Until Rollover
 Item	Tales from the Fireside	Skill: "Conjure Relaxing Campfire"
 Item	Tales of a Kansas Toymaker	Skill: "Toynado"

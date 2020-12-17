@@ -1008,3 +1008,24 @@ Your SpinMaster&trade; lathe	buy	1	purpleheart &quot;pants&quot;	ROW1168
 Your SpinMaster&trade; lathe	buy	1	wormwood wedding ring	ROW1169
 Your SpinMaster&trade; lathe	buy	1	redwood rain stick	ROW1167
 Your SpinMaster&trade; lathe	buy	1	drippy diadem	ROW1170
+
+# Elf Food Drive
+
+Elf Food Drive	buy	30	food drive button	ROW1183
+Elf Food Drive	buy	300	food mailing list	ROW1186
+Elf Food Drive	buy	500	tiny glowing red nose	ROW1205
+Elf Food Drive	buy	50	drive-thru burger	ROW1209
+
+# Elf Booze Drive
+
+Elf Booze Drive	buy	30	booze drive button	ROW1184
+Elf Booze Drive	buy	300	booze mailing list	ROW1187
+Elf Booze Drive	buy	500	miniature goose mask	ROW1204
+Elf Booze Drive	buy	50	Boulevardier cocktail	ROW1210
+
+# Elf Candy Drive
+
+Elf Candy Drive	buy	30	candy drive button	ROW1185
+Elf Candy Drive	buy	300	candy mailing list	ROW1188
+Elf Candy Drive	buy	500	fuzzy polar bear ears	ROW1206
+Elf Candy Drive	buy	50	Hotwire&trade; brand candy rope	ROW1211

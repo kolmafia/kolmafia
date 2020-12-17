@@ -90,6 +90,9 @@ import net.sourceforge.kolmafia.request.Crimbo12Request;
 import net.sourceforge.kolmafia.request.Crimbo14Request;
 import net.sourceforge.kolmafia.request.Crimbo16Request;
 import net.sourceforge.kolmafia.request.Crimbo17Request;
+import net.sourceforge.kolmafia.request.Crimbo20BoozeRequest;
+import net.sourceforge.kolmafia.request.Crimbo20CandyRequest;
+import net.sourceforge.kolmafia.request.Crimbo20FoodRequest;
 import net.sourceforge.kolmafia.request.CrimboCafeRequest;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.CurseRequest;
@@ -1196,6 +1199,24 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof Crimbo17Request || isExternal ) && Crimbo17Request.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof Crimbo20BoozeRequest || isExternal ) && Crimbo20BoozeRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof Crimbo20CandyRequest || isExternal ) && Crimbo20CandyRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof Crimbo20FoodRequest || isExternal ) && Crimbo20FoodRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

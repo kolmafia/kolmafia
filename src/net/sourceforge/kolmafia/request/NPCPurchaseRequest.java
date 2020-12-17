@@ -850,6 +850,21 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.startsWith( "crimbo20booze" ) )
+		{
+			Crimbo20BoozeRequest.parseResponse( urlString, responseText );
+		}
+
+		if ( shopId.startsWith( "crimbo20candy" ) )
+		{
+			Crimbo20CandyRequest.parseResponse( urlString, responseText );
+		}
+
+		if ( shopId.startsWith( "crimbo20food" ) )
+		{
+			Crimbo20FoodRequest.parseResponse( urlString, responseText );
+		}
+
 		if ( shopId.equals( "edunder_shopshop" ) )
 		{
 			EdShopRequest.parseResponse( urlString, responseText );
@@ -1334,6 +1349,21 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "crimbo17" ) )
 			{
 				return Crimbo17Request.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "crimbo20booze" ) )
+			{
+				return Crimbo20BoozeRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "crimbo20candy" ) )
+			{
+				return Crimbo20CandyRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "crimbo20food" ) )
+			{
+				return Crimbo20FoodRequest.registerRequest( urlString );
 			}
 
 			if ( shopId.equals( "edunder_shopshop" ) )

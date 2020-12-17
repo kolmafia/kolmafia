@@ -2615,3 +2615,9 @@
 2614	Crimbo Wrapping	goodbandaid.gif	9c1405b3d65a9f2974e8e4dc877ab4e4	good	none
 2615	Let It Snow/Boil/Stink/Frighten/Grease	snowflake.gif	34ff84966dca2e9f89795c142e2c6443	good	none
 2616	All I Want For Crimbo Is Stuff	pressie.gif	2f25a5403ecd89ead01cd54552fd5eab	good	none
+2617	Dazzling Smile	bigsmile.gif	2d318824eb43e7060b53b40ae0694e27	neutral	none	use 1 prescription teeth whitener
+2618	Hypersoothed Throat	lemon.gif	fae67ee20280b5440bbb8070dbf39866	neutral	none	use 1 imported lemon lozenge
+2619	The Odor of Money	stench.gif	8025cf64fb9bf9228635e3c7e6ebb857	neutral	none	use 1 hermedisiac cologne
+2620	It Went Through All Right	hamburger.gif	ad162c9555641a62661f237807dd1118	neutral	none	eat 1 drive-thru burger
+2621	Ready to Roll	rocks.gif	45f81929cb5b607a70fac25e484faa93	neutral	none	drink 1 Boulevardier cocktail
+2622	Grand Theft Candy	lasso.gif	5a17e3c490ce662c5eb3283e868e7081	neutral	none	use 1 Hotwire&trade; brand candy rope

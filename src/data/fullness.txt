@@ -265,6 +265,7 @@ Dreadsylvanian stink pocket	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Smell
 drippy caviar	5	1		5	0	0	0	5 µg of Drippy Juice
 drippy nugget	5	1		5	0	0	0	5 µg of Drippy Juice
 drippy plum(?)	5	1		5	0	0	0	5 µg of Drippy Juice
+drive-thru burger	1	1	awesome	3-4	0	0	0	40 It Went Through All Right
 druidic s'more	2	4	good	5-7	30-50	30-50	30-50
 dwarf bread	3	1	crappy	3-4	0	0	0	lose 10-13 HP
 eagle's milk	2	2	decent	3-4	0	0	0
@@ -834,6 +835,7 @@ strawberry	1	1	crappy	1	0	0	0
 strawberry pie	3	2	decent	3-9	0	0	8-10
 strawberry popsicle	1	1	decent	2	0	0	0
 Strix stix	2	4	awesome	6-7	5-10	5-10	5-10	40 Sugar-Frosted Pet Guts (+5 familiar weight)
+stuffed red and green pepper	3	1	awesome	15-16	14-29	18-24	17-28
 stuffed spooky mushroom	3	1	decent	3-9	0	0	0
 stunt nuts	2	1	decent	2-3	8-10	0	0
 sublime deluxe hot dog	6	1	awesome	22-26	10-20	40-50	10-20

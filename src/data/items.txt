@@ -10693,12 +10693,57 @@
 10661	SalesCo sample kit	731340264	briefcase.gif	offhand	t,d	10	
 10662	candy harmonica	532630113	smallharmonica.gif	potion, usable	t,d	10	
 10663	powdered powdered sugar	624981098	snowpile.gif	potion, usable	t,d	10	
-10664	multi-level marzipan	290902272	mlmarzipan.gif	potion, usable	t,d	10	
-
+10664	multi-level marzipan	290902272	mlmarzipan.gif	potion, usable	t,d	10
+10670	overflowing gift basket	417158712	c20basket.gif	usable		0
+10671	personalized wassail stein	509319188	c20stein.gif	usable		0
+10672	tabletop candy dispenser	847653480	c20candy.gif	usable		0
+10673
+10674
+10675
+10676
+10677
+10678
+10679	&quot;reusable&quot; grocery bag	519392353	reusefoodbag.gif	offhand	q	0
+10680	cardboard wine carrier	768267271	winecarrier.gif	offhand	q	0
+10681	antique candy bucket	383820504	boobucket.gif	offhand	q	0
+10682	prescription teeth whitener	278735478	tube.gif	potion, usable	t,d	5
+10683	imported lemon lozenge	873546497	biglozenge.gif	potion, usable	t,d	5
+10684	hermedisiac cologne	261529207	potion9.gif	potion, usable	t,d	5
 10685	government food shipment	740949957	crate.gif	usable		0
 10686	government booze shipment	731984004	crate.gif	usable		0
 10687	government candy shipment	303670366	crate.gif	usable		0
-
+10688	Crimbo Cheer tattoo kit	687985748	crimbotat.gif	usable	t	0
+10689	Crimbo Carol tattoo kit	882906950	crimbotat.gif	usable	t	0
+10690	Crimbo Commerce tattoo kit	330809344	crimbotat.gif	usable	t	0
 10691	food drive button	904211531	button_food.gif	accessory		0
 10692	booze drive button	787361469	button_booze.gif	accessory		0
 10693	candy drive button	483712618	button_candy.gif	accessory		0
+10694	food mailing list	804158860	addresslist.gif	usable		0
+10695	booze mailing list	206292791	addresslist.gif	usable		0
+10696	candy mailing list	640148395	addresslist.gif	usable		0
+10697
+10698
+10699
+10700
+10701
+10702
+10703
+10704
+10705
+10706
+10707
+10708
+10709
+10710
+10711
+10712
+10713
+10714
+10715	stuffed red and green pepper	353885496	crimbopepper.gif	food	t,d	10
+10716	cranberry margarita	761622847	cranmarg.gif	drink	t,d	10
+10717	fuzzy polar bear ears	244293817	bearears.gif	familiar	t,d	20
+10718	tiny glowing red nose	296251642	glownose.gif	familiar	t,d	20
+10719	miniature goose mask	849657392	goosemask.gif	familiar	t,d	20
+10722	drive-thru burger	235084046	hamburger.gif	food	t,d	10
+10723	Boulevardier cocktail	433917796	rocks.gif	drink	t,d	10
+10724	Hotwire&trade; brand candy rope	478154462	lasso.gif	potion, usable	t,d	10
