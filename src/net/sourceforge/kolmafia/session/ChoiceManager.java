@@ -18968,6 +18968,7 @@ public abstract class ChoiceManager
 		case 1408: // Mushroom District Badge Shop
 		case 1420: // What has it got in its pocketses?
 		case 1437: // Setup Your knock-off retro superhero cape
+		case 1439: // Spread Crimbo Spirit
 			return true;
 
 		default:

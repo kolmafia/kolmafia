@@ -2288,6 +2288,7 @@ Bonerdagon necklace	80	Mys: 25
 BOOtonniere	225	Mys: 200
 Boots of Twilight Whispers	120	none
 booty chest charrrm bracelet	190	Mys: 80
+booze drive button	10	none
 Boris's ring	80	Mys: 25
 Boss Bat bling	65	Mys: 17
 bottle opener belt buckle	160	Mys: 65
@@ -2307,6 +2308,7 @@ burning paper slippers	0	none
 C.A.R.N.I.V.O.R.E. button	200	Mys: 10
 cactus key	10	none
 candy dress shoes	100	Mus: 20
+candy drive button	10	none
 candy necklace	150	Mox: 60
 candy necktie	100	Mox: 20
 cannonball charrrm bracelet	190	Mys: 80
@@ -2439,6 +2441,7 @@ flashing novelty button	20	none
 flask flops	10	none
 floaty rock necklace	100	Mys: 35
 foam noodle	10	none
+food drive button	10	none
 Former Sheriff Dan's tin star	225	Mus: 50
 fossilized necklace	50	none
 frayed rope belt	200	Mys: 200
