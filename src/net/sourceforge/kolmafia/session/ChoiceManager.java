@@ -12388,6 +12388,30 @@ public abstract class ChoiceManager
 			}
 			break;
 		}
+		case 1442:
+		{
+			if ( text.contains( "You fill out all the appropriate forms" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.GOVERNMENT_FOOD_SHIPMENT );
+			}
+			break;
+		}
+		case 1443:
+		{
+			if ( text.contains( "You fill out all the appropriate forms" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.GOVERNMENT_BOOZE_SHIPMENT );
+			}
+			break;
+		}
+		case 1444:
+		{
+			if ( text.contains( "You fill out all the appropriate forms" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.GOVERNMENT_CANDY_SHIPMENT );
+			}
+			break;
+		}
 		}
 		
 		// Certain choices cost meat or items when selected
@@ -18968,6 +18992,7 @@ public abstract class ChoiceManager
 		case 1408: // Mushroom District Badge Shop
 		case 1420: // What has it got in its pocketses?
 		case 1437: // Setup Your knock-off retro superhero cape
+		case 1438: // Setup your knock-off retro superhero cape
 		case 1439: // Spread Crimbo Spirit
 			return true;
 

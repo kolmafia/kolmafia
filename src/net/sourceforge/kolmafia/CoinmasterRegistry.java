@@ -55,6 +55,9 @@ import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 import net.sourceforge.kolmafia.request.Crimbo11Request;
 import net.sourceforge.kolmafia.request.Crimbo14Request;
 import net.sourceforge.kolmafia.request.Crimbo17Request;
+import net.sourceforge.kolmafia.request.Crimbo20BoozeRequest;
+import net.sourceforge.kolmafia.request.Crimbo20CandyRequest;
+import net.sourceforge.kolmafia.request.Crimbo20FoodRequest;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.DinseyCompanyStoreRequest;
@@ -133,6 +136,9 @@ public abstract class CoinmasterRegistry
 		Crimbo11Request.CRIMBO11,
 		Crimbo14Request.CRIMBO14,
 		Crimbo17Request.CRIMBO17,
+		Crimbo20BoozeRequest.CRIMBO20BOOZE,
+		Crimbo20CandyRequest.CRIMBO20CANDY,
+		Crimbo20FoodRequest.CRIMBO20FOOD,
 		CrimboCartelRequest.CRIMBO_CARTEL,
 		DimemasterRequest.HIPPY,
 		DinseyCompanyStoreRequest.DINSEY_COMPANY_STORE,

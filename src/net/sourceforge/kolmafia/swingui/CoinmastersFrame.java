@@ -76,84 +76,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
-import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
-import net.sourceforge.kolmafia.request.AppleStoreRequest;
-import net.sourceforge.kolmafia.request.ArcadeRequest;
-import net.sourceforge.kolmafia.request.ArmoryRequest;
-import net.sourceforge.kolmafia.request.ArmoryAndLeggeryRequest;
-import net.sourceforge.kolmafia.request.BatFabricatorRequest;
-import net.sourceforge.kolmafia.request.BigBrotherRequest;
-import net.sourceforge.kolmafia.request.BlackMarketRequest;
-import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
-import net.sourceforge.kolmafia.request.BURTRequest;
-import net.sourceforge.kolmafia.request.BoutiqueRequest;
-import net.sourceforge.kolmafia.request.BrogurtRequest;
-import net.sourceforge.kolmafia.request.BuffJimmyRequest;
-import net.sourceforge.kolmafia.request.CanteenRequest;
-import net.sourceforge.kolmafia.request.ChemiCorpRequest;
-import net.sourceforge.kolmafia.request.CosmicRaysBazaarRequest;
-import net.sourceforge.kolmafia.request.CoinMasterRequest;
-import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
-import net.sourceforge.kolmafia.request.Crimbo11Request;
-import net.sourceforge.kolmafia.request.Crimbo14Request;
-import net.sourceforge.kolmafia.request.Crimbo17Request;
-import net.sourceforge.kolmafia.request.CrimboCartelRequest;
-import net.sourceforge.kolmafia.request.DimemasterRequest;
-import net.sourceforge.kolmafia.request.DinseyCompanyStoreRequest;
-import net.sourceforge.kolmafia.request.DiscoGiftCoRequest;
-import net.sourceforge.kolmafia.request.DollHawkerRequest;
-import net.sourceforge.kolmafia.request.DripArmoryRequest;
-import net.sourceforge.kolmafia.request.EdShopRequest;
-import net.sourceforge.kolmafia.request.FDKOLRequest;
-import net.sourceforge.kolmafia.request.FishboneryRequest;
-import net.sourceforge.kolmafia.request.FreeSnackRequest;
-import net.sourceforge.kolmafia.request.FudgeWandRequest;
-import net.sourceforge.kolmafia.request.FunALogRequest;
-import net.sourceforge.kolmafia.request.GMartRequest;
-import net.sourceforge.kolmafia.request.GameShoppeRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.GotporkOrphanageRequest;
-import net.sourceforge.kolmafia.request.GotporkPDRequest;
-import net.sourceforge.kolmafia.request.GuzzlrRequest;
-import net.sourceforge.kolmafia.request.HermitRequest;
-import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
-import net.sourceforge.kolmafia.request.LTTRequest;
-import net.sourceforge.kolmafia.request.LunarLunchRequest;
-import net.sourceforge.kolmafia.request.MemeShopRequest;
-import net.sourceforge.kolmafia.request.MerchTableRequest;
-import net.sourceforge.kolmafia.request.MrStoreRequest;
-import net.sourceforge.kolmafia.request.NeandermallRequest;
-import net.sourceforge.kolmafia.request.NinjaStoreRequest;
-import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
-import net.sourceforge.kolmafia.request.NuggletCraftingRequest;
-import net.sourceforge.kolmafia.request.PlumberGearRequest;
-import net.sourceforge.kolmafia.request.PlumberItemRequest;
-import net.sourceforge.kolmafia.request.PokemporiumRequest;
-import net.sourceforge.kolmafia.request.PrecinctRequest;
-import net.sourceforge.kolmafia.request.PurchaseRequest;
-import net.sourceforge.kolmafia.request.QuartersmasterRequest;
-import net.sourceforge.kolmafia.request.RubeeRequest;
-import net.sourceforge.kolmafia.request.SHAWARMARequest;
-import net.sourceforge.kolmafia.request.ShoeRepairRequest;
-import net.sourceforge.kolmafia.request.ShoreGiftShopRequest;
-import net.sourceforge.kolmafia.request.SpaaaceRequest;
-import net.sourceforge.kolmafia.request.SpacegateFabricationRequest;
-import net.sourceforge.kolmafia.request.SpinMasterLatheRequest;
-import net.sourceforge.kolmafia.request.StorageRequest;
-import net.sourceforge.kolmafia.request.SwaggerShopRequest;
-import net.sourceforge.kolmafia.request.TacoDanRequest;
-import net.sourceforge.kolmafia.request.TerrifiedEagleInnRequest;
-import net.sourceforge.kolmafia.request.ThankShopRequest;
-import net.sourceforge.kolmafia.request.TicketCounterRequest;
-import net.sourceforge.kolmafia.request.ToxicChemistryRequest;
-import net.sourceforge.kolmafia.request.TrapperRequest;
-import net.sourceforge.kolmafia.request.TravelingTraderRequest;
-import net.sourceforge.kolmafia.request.VendingMachineRequest;
-import net.sourceforge.kolmafia.request.WalMartRequest;
-import net.sourceforge.kolmafia.request.WarbearBoxRequest;
-import net.sourceforge.kolmafia.request.YeNeweSouvenirShoppeRequest;
-import net.sourceforge.kolmafia.request.YourCampfireRequest;
+import net.sourceforge.kolmafia.request.*;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -209,6 +132,9 @@ public class CoinmastersFrame
 	private CoinmasterPanel crimbo11Panel = null;
 	private CoinmasterPanel crimbo14Panel = null;
 	private CoinmasterPanel crimbo17Panel = null;
+	private CoinmasterPanel crimbo20boozePanel = null;
+	private CoinmasterPanel crimbo20candyPanel = null;
+	private CoinmasterPanel crimbo20foodPanel = null;
 	private CoinmasterPanel crimboCartelPanel = null;
 	private CoinmasterPanel dimemasterPanel = null;
 	private CoinmasterPanel dinseyCompanyStorePanel = null;
@@ -612,6 +538,21 @@ public class CoinmastersFrame
 		crimbo17Panel = new Crimbo17Panel();
 		panel.add( crimbo17Panel );
 		this.selectorPanel.addPanel( crimbo17Panel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		crimbo20boozePanel = new Crimbo20BoozePanel();
+		panel.add( crimbo20boozePanel );
+		this.selectorPanel.addPanel( crimbo20boozePanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		crimbo20candyPanel = new Crimbo20CandyPanel();
+		panel.add( crimbo20candyPanel );
+		this.selectorPanel.addPanel( crimbo20candyPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		crimbo20foodPanel = new Crimbo20FoodPanel();
+		panel.add( crimbo20foodPanel );
+		this.selectorPanel.addPanel( crimbo20foodPanel.getPanelSelector(), panel );
 
 		// Removed coinmasters
 		this.selectorPanel.addSeparator();
@@ -1154,6 +1095,33 @@ public class CoinmastersFrame
 		public Crimbo17Panel()
 		{
 			super( Crimbo17Request.CRIMBO17 );
+		}
+	}
+
+	private class Crimbo20BoozePanel
+			extends CoinmasterPanel
+	{
+		public Crimbo20BoozePanel()
+		{
+			super( Crimbo20BoozeRequest.CRIMBO20BOOZE );
+		}
+	}
+
+	private class Crimbo20CandyPanel
+			extends CoinmasterPanel
+	{
+		public Crimbo20CandyPanel()
+		{
+			super( Crimbo20CandyRequest.CRIMBO20CANDY );
+		}
+	}
+
+	private class Crimbo20FoodPanel
+			extends CoinmasterPanel
+	{
+		public Crimbo20FoodPanel()
+		{
+			super( Crimbo20FoodRequest.CRIMBO20FOOD );
 		}
 	}
 

@@ -427,3 +427,19 @@ Drip Institute Cafeteria	dripcafeteria	Drip Institute petri dish	5000	ROW1159
 
 Drip Institute Armory	driparmory	Drip harness	50000	ROW1128
 Drip Institute Armory	driparmory	drippy truncheon	20000	ROW1129
+
+The Crimbo Cafe	crimbo20cafe	stuffed red and green pepper	300	ROW1201
+The Crimbo Cafe	crimbo20cafe	cranberry margarita	300	ROW1202
+
+The Black and White and Red All Over Market	crimbo20blackmarket	&quot;reusable&quot; grocery bag	5000	ROW1171
+The Black and White and Red All Over Market	crimbo20blackmarket	cardboard wine carrier	5000	ROW1172
+The Black and White and Red All Over Market	crimbo20blackmarket	antique candy bucket	5000	ROW1173
+The Black and White and Red All Over Market	crimbo20blackmarket	prescription teeth whitener	10000	ROW1174
+The Black and White and Red All Over Market	crimbo20blackmarket	imported lemon lozenge	10000	ROW1175
+The Black and White and Red All Over Market	crimbo20blackmarket	hermedisiac cologne	10000	ROW1176
+The Black and White and Red All Over Market	crimbo20blackmarket	government food shipment	100000	ROW1177
+The Black and White and Red All Over Market	crimbo20blackmarket	government booze shipment	100000	ROW1178
+The Black and White and Red All Over Market	crimbo20blackmarket	government candy shipment	100000	ROW1179
+The Black and White and Red All Over Market	crimbo20blackmarket	Crimbo Cheer tattoo kit	1000000	ROW1180
+The Black and White and Red All Over Market	crimbo20blackmarket	Crimbo Carol tattoo kit	1000000	ROW1181
+The Black and White and Red All Over Market	crimbo20blackmarket	Crimbo Commerce tattoo kit	1000000	ROW1182
