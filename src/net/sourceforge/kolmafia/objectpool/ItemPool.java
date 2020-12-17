@@ -3286,6 +3286,9 @@ public class ItemPool
 	public static final int UNIVERSAL_SEASONING = 10640;
 	public static final int CHOCOLATE_CHIP_MUFFIN = 10643;
 	public static final int KNOCK_OFF_RETRO_SUPERHERO_CAPE = 10647;
+	public static final int GOVERNMENT_FOOD_SHIPMENT = 10685;
+	public static final int GOVERNMENT_BOOZE_SHIPMENT = 10686;
+	public static final int GOVERNMENT_CANDY_SHIPMENT = 10687;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

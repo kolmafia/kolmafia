@@ -2685,6 +2685,8 @@ Item	Bonerdagon necklace	Muscle: +5, Moxie: +5, Initiative: +30
 Item	BOOtonniere	Cold Resistance: +4, Single Equip
 Item	Boots of Twilight Whispers	Adventures: +3, Initiative: +25, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 Item	booty chest charrrm bracelet	Meat Drop: +10, Single Equip
+# booze drive button: Lets you collect booze donations as you adventure
+Item	booze drive button	Single Equip
 Item	Boris's ring	Muscle: +10
 Item	Boss Bat bling	Muscle: +3, Moxie: +3
 # bottle opener belt buckle: Damages Attacking Opponent
@@ -2705,6 +2707,8 @@ Item	burning paper slippers	Cold Resistance: +3, Maximum HP: +25, Maximum MP: +2
 Item	C.A.R.N.I.V.O.R.E. button	Monster Level: +15
 Item	cactus key	Maximum HP: +20, HP Regen Min: 9, HP Regen Max: 10
 Item	candy dress shoes	Maximum HP: +20, Weapon Damage: +15, Critical Hit Percent: +10, Single Equip
+# Item candy drive button: Lets you collect candy donations as you adventure
+Item	candy drive button	Single Equip
 Item	candy necklace	Candy Drop: +10, Single Equip, Raveosity: +1
 Item	candy necktie	Initiative: +20, Ranged Damage: +15, Pickpocket Chance: +10, Single Equip
 # cannonball charrrm bracelet: Explosively hilarious
@@ -2868,6 +2872,8 @@ Item	flashing novelty button	Maximum HP: +5, Moxie: -2
 Item	flask flops	Booze Drop: +20, Maximum Hooch: +3, Single Equip
 Item	floaty rock necklace	Spell Critical Percent: +10, Single Equip
 # foam noodle
+# food drive button: Lets you collect food donations as you adventure
+Item	food drive button	Single Equip
 Item	Former Sheriff Dan's tin star	Muscle Percent: +25, Maximum HP: +50, HP Regen Min: 5, HP Regen Max: 10, Weapon Damage Percent: +25, Critical Hit Percent: +5
 Item	fossilized necklace	Muscle: [2*pref(fossilB)], Mysticality: [2*pref(fossilB)], Moxie: [2*pref(fossilB)], Spell Damage: [2*pref(fossilS)], Weapon Damage: [3*pref(fossilN)], Muscle Percent: [3*pref(fossilW)], Mysticality Percent: [3*pref(fossilW)], Moxie Percent: [3*pref(fossilW)], Hot Damage: [3*pref(fossilD)], Spooky Damage: [3*pref(fossilP)]
 Item	frayed rope belt	Moxie Percent: +10, Single Equip
@@ -8129,6 +8135,7 @@ MutexE	Broken Heart/Fiery Heart/Cold Hearted/Sweet Heart/Withered Heart/Lustful 
 MutexI	shining halo/furry halo/frosty halo/time halo	none
 MutexE	Shrieking Weasel/Power, Man/Lucky Struck/Ministrations in the Dark/Superdrifting	none
 MutexI	work boots/fancy boots	none
+MutexI	booze drive button/candy drive button/food drive button	none
 # While the groups below are mutex, replacing one effect with another is easy enough that other effects should be suggested anyway
 # MutexE	Snarl of the Timberwolf/Scowl of the Auk/Stiff Upper Lip/Patient Smile/Arched Eyebrow of the Archmage/Wizard Squint/Icy Glare/Wry Smile/Disco Leer/Disco Smirk/Suspicious Gaze/Knowing Smile	none
 # MutexE	Cautious Prowl/Prideful Strut/Leisurely Amblin'	none
@@ -10647,6 +10654,12 @@ Item	golden monkey statuette	Free Pull
 # Goodfella contract: Make your Goodfella an offer he can't refuse
 # GOTO: Lets you escape from combat without spending an Adventure
 # GOTO: (Maybe)
+# Item government booze shipment: Send 50 donated booze to another player
+# Item government booze shipment: (limit 1 per recipient per day)
+# Item government candy shipment: Send 50 donated candy to another player
+# Item government candy shipment: (limit 1 per recipient per day)
+# Item government food shipment: Send 50 donated food to another player
+# Item government food shipment: (limit 1 per recipient per day)
 Item	Granny Tood's Thanksgarden Catalog	Free Pull
 # grape troll doll: Deals 3-5 <font color=blueviolet>Sleaze Damage</font>
 # grape troll doll: (doesn't go away when used)
@@ -11504,7 +11517,7 @@ Item	unpowered Robortender	Free Pull
 # unstable laser battery: Briefly stuns enemies
 Item	unused walkie-talkie	Free Pull
 Item	unwound cymbal-playing monkey	Free Pull
-# Item	unwrapped knock-off retro superhero cape
+# unwrapped knock-off retro superhero cape
 Item	Valentine	Free Pull
 # valuable coin: Worth a lot!
 Item	vampire glitter	Class: "Pastamancer"
