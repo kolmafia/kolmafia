@@ -603,7 +603,7 @@ public class FightRequest
 		FightRequest.specialMonsters.put( "beebee queue" , SpecialMonster.BEE );
 		FightRequest.specialMonsters.put( "bee swarm" , SpecialMonster.BEE );
 		FightRequest.specialMonsters.put( "buzzerker" , SpecialMonster.BEE );
-		FightRequest.specialMonsters.put( "beebee king" , SpecialMonster.BEE );
+		FightRequest.specialMonsters.put( "Beebee King" , SpecialMonster.BEE );
 		FightRequest.specialMonsters.put( "bee thoven" , SpecialMonster.BEE );
 		FightRequest.specialMonsters.put( "Queen Bee" , SpecialMonster.BEE );
 
