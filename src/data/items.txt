@@ -9687,9 +9687,9 @@
 9659	miming boots	241837040	blackboots.gif	accessory		0
 9660	miming gloves	488176089	stickygloves.gif	accessory		0
 9661	God Lobster Egg	517234664	godlob_egg.gif	grow	t	0
-9662	donated booze	803482456	donatedbooze.gif	none		0
-9663	donated food	940575506	donatedfood.gif	none		0
-9664	donated candy	442893531	donatedcandy.gif	none		0
+9662	donated booze	803482456	donatedbooze.gif	none		0	boxes of donated booze
+9663	donated food	940575506	donatedfood.gif	none		0	boxes of donated food
+9664	donated candy	442893531	donatedcandy.gif	none		0	piles of donated candy
 9665
 9666	mime-proof sunglasses	458961242	morphshades.gif	accessory		0	pairs of mime-proof sunglasses
 9667	mime army insignia (infantry)	999272300	marmy1.gif	accessory		0
