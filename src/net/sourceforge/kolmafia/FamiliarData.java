@@ -203,6 +203,7 @@ public class FamiliarData
 	{
 		this.name = dataMatcher.group( 3 );
 		this.experience = StringUtilities.parseInt( dataMatcher.group( 5 ) );
+		this.setWeight();
 		// dataMatcher.group( 6 ) => kills
 		String itemData = dataMatcher.group( 7 );
 		this.item = FamiliarData.parseFamiliarItem( this.id, itemData );
