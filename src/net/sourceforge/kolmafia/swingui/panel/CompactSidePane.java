@@ -1454,6 +1454,7 @@ public class CompactSidePane
 		buf.append( "</td></tr>" );
 		double food = KoLCharacter.currentNumericModifier( Modifiers.FOODDROP );
 		double booze = KoLCharacter.currentNumericModifier( Modifiers.BOOZEDROP );
+		double candy = KoLCharacter.currentNumericModifier( Modifiers.CANDYDROP );
 		double hat = KoLCharacter.currentNumericModifier( Modifiers.HATDROP );
 		double weapon = KoLCharacter.currentNumericModifier( Modifiers.WEAPONDROP );
 		double offhand = KoLCharacter.currentNumericModifier( Modifiers.OFFHANDDROP );
@@ -1474,6 +1475,12 @@ public class CompactSidePane
 			{
 				buf.append( " Booze " );
 				buf.append( KoLConstants.MODIFIER_FORMAT.format( booze ) );
+				buf.append( '%' );
+			}
+			if ( candy != 0 )
+			{
+				buf.append( " Candy " );
+				buf.append( KoLConstants.MODIFIER_FORMAT.format( candy ) );
 				buf.append( '%' );
 			}
 			if ( hat != 0 )
