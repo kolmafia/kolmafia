@@ -312,15 +312,15 @@ public class FamiliarData
 				if ( fam != null )
 				{
 					fam.experience = exp;
+					fam.setWeight();
 				}
 			}
 		}
 		else
 		{
 			this.experience = exp;
+			this.setWeight();
 		}
-
-		this.setWeight();
 	}
 
 	public final int determineTestTeachExperience()
@@ -417,10 +417,24 @@ public class FamiliarData
 		return singleFamiliarRun;
 	}
 
+	public final int getMaxBaseWeight()
+	{
+		if ( this.id == FamiliarPool.STOCKING_MIMIC || this.id == FamiliarPool.HOMEMADE_ROBOT )
+		{
+			return 100;
+		}
+
+		if ( CRIMBO_GHOSTS.contains( this.id ) )
+		{
+			return 40;
+		}
+
+		return 20;
+	}
+
 	private final void setWeight()
 	{
-		int max = this.id == FamiliarPool.STOCKING_MIMIC ? 100 : 20;
-		this.weight = Math.max( Math.min( max, (int) Math.sqrt( this.experience ) ), 1 );
+		this.weight = Math.max( Math.min( this.getMaxBaseWeight(), (int) Math.sqrt( this.experience ) ), 1 );
 	}
 
 	public final void checkWeight( final int weight, final boolean feasted )
