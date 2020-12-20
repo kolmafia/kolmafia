@@ -2272,6 +2272,7 @@ public class OptionsFrame
 		private ScriptSelectPanel chatbotScript;
 		private ScriptSelectPanel plantingScript;
 		private ScriptSelectPanel spadingScript;
+		private ScriptSelectPanel chatPlayerScript;
 
 		public ScriptPanel()
 		{
@@ -2356,6 +2357,7 @@ public class OptionsFrame
 			list.add( this.plantingScript );
 			list.add( this.spadingScript );
 			list.add( this.chatbotScript );
+			list.add( this.chatPlayerScript );
 		}
 
 		private void initialize()
@@ -2376,6 +2378,7 @@ public class OptionsFrame
 			this.preAscensionScript = new ScriptSelectPanel( new CollapsibleTextArea( "Pre-Ascension:" ) );
 			this.recoveryScript = new ScriptSelectPanel( new CollapsibleTextArea( "Recovery:" ) );
 			this.spadingScript = new ScriptSelectPanel( new CollapsibleTextArea( "Spading:" ) );
+			this.chatPlayerScript = new ScriptSelectPanel( new CollapsibleTextArea( "Chat Player Click:" ) );
 		}
 
 		@Override
@@ -2397,6 +2400,7 @@ public class OptionsFrame
 			Preferences.setString( "preAscensionScript", this.preAscensionScript.getText() );
 			Preferences.setString( "recoveryScript", this.recoveryScript.getText() );
 			Preferences.setString( "spadingScript", this.spadingScript.getText() );
+			Preferences.setString( "chatPlayerScript", this.chatPlayerScript.getText() );
 		}
 
 		@Override
@@ -2418,6 +2422,7 @@ public class OptionsFrame
 			this.preAscensionScript.setText( Preferences.getString( "preAscensionScript" ) );
 			this.recoveryScript.setText( Preferences.getString( "recoveryScript" ) );
 			this.spadingScript.setText( Preferences.getString( "spadingScript" ) );
+			this.chatPlayerScript.setText( Preferences.getString( "chatPlayerScript" ) );
 		}
 	}
 
