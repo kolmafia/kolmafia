@@ -10681,7 +10681,7 @@
 10660	Crimbo smile	485610584	beardgrin.gif	offhand		0
 10661	SalesCo sample kit	731340264	briefcase.gif	offhand		0
 10664	multi-level marzipan	290902272	mlmarzipan.gif	potion, usable	t,d	10
-10652	subscription cocoa dispenser	881887726	suscocoa.gif	usable		0	
+10652	subscription cocoa dispenser	881887726	suscocoa.gif	usable	t	0
 10653	fortifying hot cocoa	975233323	coffeecup.gif	potion, usable	t,d	5	
 10654	boiling hot cocoa	447454483	coffeecup.gif	potion, usable	t,d	5	
 10655	cool hot cocoa	322680250	coffeecup.gif	potion, usable	t,d	5	
