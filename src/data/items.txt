@@ -9688,8 +9688,8 @@
 9660	miming gloves	488176089	stickygloves.gif	accessory		0
 9661	God Lobster Egg	517234664	godlob_egg.gif	grow	t	0
 9662	donated booze	803482456	donatedbooze.gif	none		0	boxes of donated booze
-9663	donated food	940575506	donatedfood.gif	none		0	boxes of donated food
-9664	donated candy	442893531	donatedcandy.gif	none		0	piles of donated candy
+9663	donated food	940575506	donatedfood.gif	none		0	piles of donated food
+9664	donated candy	442893531	donatedcandy.gif	none		0	boxes of donated candy
 9665
 9666	mime-proof sunglasses	458961242	morphshades.gif	accessory		0	pairs of mime-proof sunglasses
 9667	mime army insignia (infantry)	999272300	marmy1.gif	accessory		0
@@ -10697,9 +10697,9 @@
 10670	overflowing gift basket	417158712	c20basket.gif	usable		0
 10671	personalized wassail stein	509319188	c20stein.gif	usable		0
 10672	tabletop candy dispenser	847653480	c20candy.gif	usable		0
-10673
-10674
-10675
+10673	neck wreath	712540100	wreathnecklace.gif	accessory	t	0
+10674	shining star cap	556730643	starcap.gif	hat	t	0
+10675	nativity shorts	895521295	nativityshorts.gif	pants	t	0
 10676
 10677
 10678
@@ -10721,29 +10721,34 @@
 10694	food mailing list	804158860	addresslist.gif	usable		0
 10695	booze mailing list	206292791	addresslist.gif	usable		0
 10696	candy mailing list	640148395	addresslist.gif	usable		0
-10697
-10698
-10699
-10700
-10701
-10702
-10703
-10704
-10705
-10706
-10707
-10708
-10709
-10710
-10711
-10712
-10713
-10714
+10697	fruit bat	432991577	fruitbat.gif	weapon	t	0
+10698	tinsel orb	125263581	tinselorb.gif	offhand	t	0
+10699	snowpack	379639584	snowpack.gif	container	t	0
+10700	Satan hat	489228771	satanhat.gif	hat	t	0
+10701	Crimbo stockings	690661115	crimbonets.gif	pants	t	0
+10702	poncho de azucar	206457048	sugarponcho.gif	shirt	t	0
+10703	The Night Before Crimbo, Ch. 1	742976874	book4.gif	usable	t	0
+10704	The Night Before Crimbo, Ch. 1 (used)	576042446	book4.gif	usable		0
+10705	The Night Before Crimbo, Ch. 2	231840792	book4.gif	usable	t	0
+10706	The Night Before Crimbo, Ch. 2 (used)	911407310	book4.gif	usable		0
+10707	The Night Before Crimbo, Ch. 3	339097062	book4.gif	usable	t	0
+10708	The Night Before Crimbo, Ch. 3 (used)	926998916	book4.gif	usable		0
+10709	The Night Before Crimbo, Ch. 4	749860919	book4.gif	usable	t	0
+10710	The Night Before Crimbo, Ch. 4 (used)	890454121	book4.gif	usable		0
+10711	The Night Before Crimbo, Ch. 5	129112476	book4.gif	usable	t	0
+10712	The Night Before Crimbo, Ch. 5 (used)	564470843	book4.gif	usable		0
+10713	The Night Before Crimbo, Ch. 6	188125853	book4.gif	usable	t	0
+10714	The Night Before Crimbo, Ch. 6 (used)	440337817	book4.gif	usable		0
 10715	stuffed red and green pepper	353885496	crimbopepper.gif	food	t,d	10
 10716	cranberry margarita	761622847	cranmarg.gif	drink	t,d	10
 10717	fuzzy polar bear ears	244293817	bearears.gif	familiar	t,d	20
 10718	tiny glowing red nose	296251642	glownose.gif	familiar	t,d	20
 10719	miniature goose mask	849657392	goosemask.gif	familiar	t,d	20
+10720
+10721	hand-crafted candy cane	652206867	candycane.gif	food	t	0
 10722	drive-thru burger	235084046	hamburger.gif	food	t,d	10
 10723	Boulevardier cocktail	433917796	rocks.gif	drink	t,d	10
 10724	Hotwire&trade; brand candy rope	478154462	lasso.gif	potion, usable	t,d	10
+10725	bowl full of jelly	410129132	soupbowl.gif	food	t	0
+10726	Eye and a Twist	475434554	eyemartini.gif	drink	t	0
+10727	Chubby and Plump bar	452862469	chubbybar.gif	potion, usable	t	0

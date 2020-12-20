@@ -358,6 +358,15 @@ public class SkillBuffFrame
 			{
 				"Summon Kokomo Resort Pass", "_summonResortPassUsed", "boolean", "true",
 			},
+			{
+				"Bowl Full of Jelly", "_bowlFullOfJellyUsed", "boolean", "true",
+			},
+			{
+				"Eye and a Twist", "_eyeAndATwistUsed", "boolean", "true",
+			},
+			{
+				"Chubby and Plump", "_chubbyAndPlumpUsed", "boolean", "true",
+			}
 		};
 		
 		private void setSkillListeners()

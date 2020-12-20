@@ -2119,6 +2119,7 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.hasSkill( "Dog Tired" ) ) freerests += 5;
 		if ( ChateauRequest.ceiling != null && ChateauRequest.ceiling.equals( "ceiling fan" ) ) freerests += 5;
 		if ( Preferences.getBoolean( "getawayCampsiteUnlocked" ) ) ++freerests;
+		if ( KoLCharacter.hasSkill( "Long Winter's Nap" ) ) freerests += 5;
 		return freerests;
 	}
 

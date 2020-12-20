@@ -3006,6 +3006,9 @@ public class ItemPool
 	public static final int MIME_SCIENCE_VOL_6 = 9645;
 	public static final int MIME_SCIENCE_VOL_6_USED = 9646;
 	public static final int GOD_LOBSTER = 9661;
+	public static final int DONATED_BOOZE = 9662;
+	public static final int DONATED_FOOD = 9663;
+	public static final int DONATED_CANDY = 9664;
 	public static final int MIME_ARMY_INFILTRATION_GLOVE = 9675;
 	public static final int MIME_SHOTGLASS = 9676;
 	public static final int TOASTED_HALF_SANDWICH = 9681;
@@ -3286,9 +3289,7 @@ public class ItemPool
 	public static final int UNIVERSAL_SEASONING = 10640;
 	public static final int CHOCOLATE_CHIP_MUFFIN = 10643;
 	public static final int KNOCK_OFF_RETRO_SUPERHERO_CAPE = 10647;
-	public static final int DONATED_BOOZE = 9662;
-	public static final int DONATED_FOOD = 9663;
-	public static final int DONATED_CANDY = 9664;
+	public static final int OVERFLOWING_GIFT_BASKET = 10670;
 	public static final int FOOD_DRIVE_BUTTON = 10691;
 	public static final int BOOZE_DRIVE_BUTTON = 10692;
 	public static final int CANDY_DRIVE_BUTTON = 10693;

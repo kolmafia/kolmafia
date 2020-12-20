@@ -219,6 +219,12 @@
 194	Always Never Not Guzzling	ggeyes.gif	0	0	0
 195	Lock Picking	keya.gif	3	5	0
 196	Comprehensive Cartography	cccbook.gif	0	0	0
+197	Long Winter's Nap	sleepy.gif	0	0	0
+198	Bowl Full of Jelly	soupbowl.gif	3	50	0
+199	Ashes and Soot	ashesandsoot.gif	5	30	0
+200	Eye and a Twist	eyemartini.gif	3	50	0
+201	Dimples, How Merry!	dimples.gif	0	0	0
+202	Chubby and Plump	chubbybar.gif	3	50	0
 
 # Skills available to Clubbers
 

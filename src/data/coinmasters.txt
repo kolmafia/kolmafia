@@ -1013,6 +1013,10 @@ Your SpinMaster&trade; lathe	buy	1	drippy diadem	ROW1170
 
 Elf Food Drive	buy	30	food drive button	ROW1183
 Elf Food Drive	buy	300	food mailing list	ROW1186
+Elf Food Drive	buy	1000	snowpack	ROW1193
+Elf Food Drive	buy	1000	Satan hat	ROW1194
+Elf Food Drive	buy	3000	The Night Before Crimbo, Ch. 1	ROW1195
+Elf Food Drive	buy	3000	The Night Before Crimbo, Ch. 2	ROW1196
 Elf Food Drive	buy	500	tiny glowing red nose	ROW1205
 Elf Food Drive	buy	50	drive-thru burger	ROW1209
 
@@ -1020,6 +1024,8 @@ Elf Food Drive	buy	50	drive-thru burger	ROW1209
 
 Elf Booze Drive	buy	30	booze drive button	ROW1184
 Elf Booze Drive	buy	300	booze mailing list	ROW1187
+Elf Booze Drive buy 3000	The Night Before Crimbo, Ch. 3	ROW1197
+Elf Booze Drive buy 3000	The Night Before Crimbo, Ch. 4	ROW1198
 Elf Booze Drive	buy	500	miniature goose mask	ROW1204
 Elf Booze Drive	buy	50	Boulevardier cocktail	ROW1210
 
@@ -1027,5 +1033,7 @@ Elf Booze Drive	buy	50	Boulevardier cocktail	ROW1210
 
 Elf Candy Drive	buy	30	candy drive button	ROW1185
 Elf Candy Drive	buy	300	candy mailing list	ROW1188
+Elf Candy Drive buy	3000	The Night Before Crimbo, Ch. 5	ROW1199
 Elf Candy Drive	buy	500	fuzzy polar bear ears	ROW1206
+Elf Candy Drive buy	3000	The Night Before Crimbo, Ch. 6	ROW1207
 Elf Candy Drive	buy	50	Hotwire&trade; brand candy rope	ROW1211

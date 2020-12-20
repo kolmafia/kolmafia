@@ -111,6 +111,9 @@ public class UseSkillRequest
 		"Perfect Freeze",
 		"Acquire Rhinestones",
 		"Prevent Scurvy and Sobriety",
+		"Bowl Full of Jelly",
+		"Eye and a Twist",
+		"Chubby and Plump",
 	};
 
 	// These are skills where someone would not care if they are in-run,
@@ -974,6 +977,18 @@ public class UseSkillRequest
 
 		case SkillPool.LOCK_PICKING:
 			maximumCast = Preferences.getBoolean( "lockPicked" ) ? 0 : 1;
+			break;
+
+		case SkillPool.BOWL_FULL_OF_JELLY:
+			maximumCast = Preferences.getBoolean( "_bowlFullOfJellyUsed" ) ? 0 : 1;
+			break;
+
+		case SkillPool.EYE_AND_A_TWIST:
+			maximumCast = Preferences.getBoolean( "_eyeAndATwistUsed" ) ? 0 : 1;
+			break;
+
+		case SkillPool.CHUBBY_AND_PLUMP:
+			maximumCast = Preferences.getBoolean( "_chubbyAndPlumpUsed" ) ? 0 : 1;
 			break;
 		}
 
@@ -2713,6 +2728,18 @@ public class UseSkillRequest
 		case SkillPool.MAP_THE_MONSTERS:
 			Preferences.increment( "_monstersMapped", 1, 3, false );
 			Preferences.setBoolean( "mappingMonsters", true );
+			break;
+
+		case SkillPool.BOWL_FULL_OF_JELLY:
+			Preferences.setBoolean( "_bowlFullOfJellyUsed", true );
+			break;
+
+		case SkillPool.EYE_AND_A_TWIST:
+			Preferences.setBoolean( "_eyeAndATwistUsed", true );
+			break;
+
+		case SkillPool.CHUBBY_AND_PLUMP:
+			Preferences.setBoolean( "_chubbyAndPlumpUsed", true );
 			break;
 		}
 
