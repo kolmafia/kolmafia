@@ -392,6 +392,7 @@ user	chatbotScriptExecuted	false
 user	chateauAvailable	false
 user	chateauMonster
 user	chatLiterate	false
+user	chatPlayerScript
 user	chatServesUpdates	false
 user	checkJackassHardcore	true
 user	checkJackassSoftcore	true

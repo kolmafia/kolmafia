@@ -44,10 +44,12 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.swing.Box;
@@ -61,6 +63,10 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
+import net.sourceforge.kolmafia.KoLmafiaASH;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import org.jdesktop.swingx.JXCollapsiblePane;
 
 import net.java.dev.spellcast.utilities.ChatBuffer;
@@ -143,6 +149,7 @@ public class ChatFrame
 			this.nameClickSelect.addItem( "Name click performs /whois" );
 			this.nameClickSelect.addItem( "Name click friends the player" );
 			this.nameClickSelect.addItem( "Name click baleets the player" );
+			this.nameClickSelect.addItem( "Name click runs chat player script" );
 			toolbarPanel.add( this.nameClickSelect );
 
 			this.nameClickSelect.setSelectedIndex( 0 );
@@ -269,6 +276,33 @@ public class ChatFrame
 		ChatManager.closeWindow( contact );
 
 		super.dispose();
+	}
+
+	public static void runChatPlayerScript( final String playerName, final String playerId )
+	{
+		String scriptName = Preferences.getString( "chatPlayerScript" );
+
+		if ( scriptName.equals( "" ) )
+		{
+			return;
+		}
+
+		List<File> scriptFiles = KoLmafiaCLI.findScriptFile( scriptName );
+		ScriptRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFiles );
+		if ( interpreter == null )
+		{
+			return;
+		}
+
+		String name = scriptFiles.get( 0 ).getName();
+		String[] parameters = new String[] { playerName, playerId, ChatManager.getCurrentChannel() };
+
+		synchronized ( interpreter )
+		{
+			KoLmafiaASH.logScriptExecution( "Starting chat player script: ", name, interpreter );
+			interpreter.execute( "main", parameters );
+			KoLmafiaASH.logScriptExecution( "Finished chat player script: ", name, interpreter );
+		}
 	}
 
 	/**
@@ -529,9 +563,7 @@ public class ChatFrame
 
 			case 2:
 
-				Object[] parameters = new Object[]
-				{ playerName
-				};
+				Object[] parameters = new Object[]{ playerName };
 
 				GenericFrame.createDisplay( SendMessageFrame.class, parameters );
 				return;
@@ -563,6 +595,10 @@ public class ChatFrame
 
 			case 9:
 				ChatSender.sendMessage( playerName, "/baleet", false );
+				return;
+
+			case 10:
+				ChatFrame.runChatPlayerScript( playerName, playerId );
 				return;
 
 			default:
