@@ -306,6 +306,7 @@ reinforced beaded headband	170	Mox: 70
 rusty diving helmet	200	Mox: 85
 safarrri hat	90	Mox: 30
 samurai turtle helmet	25	none
+Satan hat	200	Mys: 75
 Scalp of Gorgolok	100	Mus: 15
 sea cowboy hat	200	Mox: 85
 seal-skull helmet	10	none
@@ -314,6 +315,7 @@ Seasonal Beret	100	Mys: 35
 sequined fez	80	Mox: 25
 seven-gallon hat	140	none
 shapeless wide-brimmed hat	200	Mox: 200
+shining star cap	100	none
 silent beret	13	none
 sinister demon mask	100	Mox: 35
 six-gallon hat	120	none
@@ -470,6 +472,7 @@ cool iron greaves	250	Mox: 200
 corroded breeches	200	Mox: 150
 crappy Mer-kin tailpiece	200	Mox: 85
 Crimbo pants	100	Mox: 35
+Crimbo stockings	200	Mox: 75
 Crimbylow-rise jeans	125	Mox: 15
 crotchety pants	75	Mox: 22
 cursed breeches	200	Mox: 85
@@ -573,6 +576,7 @@ mostly rat-hide leggings	200	Mox: 200
 muddy skirt	225	Mox: 200
 mushroom pants	100	none
 mutant legs	200	Mus: 50
+nativity shorts	100	none
 Newman's Own Trousers	125	Mys: 30
 ninja hot pants	70	Mox: 20
 ninjammies	100	Mox: 20
@@ -801,6 +805,7 @@ origami pasties	100	none
 Othello's military jacket	150	Mus: 40
 PARTY HARD T-shirt	10	none
 pirate shirt	50	Mus: 10
+poncho de azucar	200	Mox: 75
 Private Pepper's Lonely Hearts Club Jacket	130	Mus: 50
 Professor What T-Shirt	10	none
 psycho sweater	100	Mus: 35
@@ -1136,6 +1141,7 @@ Frosty's nailbat	200	Mus: 200	2-handed club
 Frosty's snowball sack	200	Mox: 200	1-handed snowsack
 frozen nunchaku	80	Mus: 25	2-handed flail
 frozen seal spine	140	Mus: 55	1-handed club
+fruit bat	200	Mus: 75	1-handed club
 frying brainpan	225	Mys: 200	1-handed saucepan
 ga-ga radio	125	Mox: 47	2-handed radio
 garbage sticker	200	Mus: 85	1-handed spear
@@ -2158,6 +2164,7 @@ third-hand lantern	10	none
 thought balloon	10	none
 Tiki lighter	20	none
 Time Lord Participation Mug	10	none
+tinsel orb	200	Mus: 75
 tiny black hole	10	none
 tip jar	135	Mys: 52
 torch	0	none
@@ -2676,6 +2683,7 @@ musty moccasins	160	Mox: 65
 mysterious silver lapel pin	0	none
 natty blue ascot	200	Mys: 10
 navel ring of navel gazing	0	none
+neck wreath	0	none
 neverending wallet chain	50	none
 Nickel Gamma of Frugality	200	Mys: 85
 nicksilver ring	100	Mys: 10
@@ -3360,6 +3368,7 @@ shellacked shell	10	none
 shocked shell	100	Mus: 50
 Size XI Wizard's Robe	0	none
 smoker's cloak	80	Mys: 25
+snowpack	0	Mys: 75
 spant backplate	100	Mus: 20
 spiky back shell	0	none
 super-absorbent tarp	50	none

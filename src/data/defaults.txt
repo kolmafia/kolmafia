@@ -1447,6 +1447,7 @@ user	_boomBoxSongsLeft	11
 user	_bootStomps	0
 user	_borrowedTimeUsed	false
 user	_bowleggedSwaggerUsed	false
+user	_bowlFullOfJellyUsed	false
 user	_boxingGloveArrows	0
 user	_boxOfHammersUsed	false
 user	_brainPreservationFluidUsed	false
@@ -1476,6 +1477,7 @@ user	_chocolateSculpturesUsed	0
 user	_chocolatesUsed	0
 user	_chronerCrossUsed	false
 user	_chronerTriggerUsed	false
+user	_chubbyAndPlumpUsed	false
 user	_circleDrumUsed	false
 user	_clanFortuneBuffUsed	false
 user	_clanFortuneConsultUses	0
@@ -1545,6 +1547,7 @@ user	_etchedHourglassUsed	false
 user	_eternalCarBatteryUsed	false
 user	_everfullGlassUsed	false
 user	_expertCornerCutterUsed	0
+user	_eyeAndATwistUsed	false
 user	_fancyChessSetUsed	false
 user	_falloutShelterSpaUsed	false
 user	_fancyHotDogEaten	false
