@@ -119,7 +119,7 @@ public class DataFileTest
 			}
 			if ( fields.length < regexes.length )
 			{
-				fail( "Entry for " + fields[ 1 ] + " is missing fields" );
+				fail( "Entry for " + fields[ 0 ] + " is missing fields" );
 			}
 			for ( int i = 0; i < regexes.length; ++i )
 			{
