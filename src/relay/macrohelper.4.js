@@ -126,6 +126,7 @@ var argPreds = {
 	"hascombatitem": true,
 	"hasskill": true,
 	"monstername": true,
+	"monsterid": true,
 	"happymediumglow": true,
 };
 
