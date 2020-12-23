@@ -107,7 +107,7 @@ bottle of tequila	3	1	crappy	3	0	0	0
 bottle of vodka	3	1	crappy	3	0	0	0
 bottle of whiskey	3	1	crappy	3	0	0	0
 bottle of wine	2	5	awesome	8	18-22	18-22	18-22	WINE
-Boulevardier cocktail	1	1	awesome	3-4    0    0    0    Unspaded, 40 Ready to Roll
+Boulevardier cocktail	1	1	awesome	3-4	0	0	0	Unspaded, 40 Ready to Roll
 Bowl of Scorpions	8	6	crappy	5-6	-30	-15	-30	10 Really Quite Poisoned
 boxed champagne	3	2	decent	4-8	0	0	0	WINE
 boxed wine	3	1	crappy	3	0	0	0
@@ -584,7 +584,7 @@ Slimebite	2	8	awesome	8-9	0	0	30-40	15 In the Slimelight (+50 Stench Dam)
 Slimosa	2	1	good	4-5	0	0	10-20	5 In the Slimelight (+50 Stench Dam)
 slimy fermented bile bladder	1	6	good	2-3	0	0	0	20 Bilious (+25 ML, slime res)
 slip 'n' slide	4	4	good	10-14	34-36	0	0
-Slippery Knob	2	4	awesome	6-7	0	0	20-30	10  Gutterminded (+50 Sleaze Dam)
+Slippery Knob	2	4	awesome	6-7	0	0	20-30	10 Gutterminded (+50 Sleaze Dam)
 Sloe Comfortable Zoo	2	4	awesome	6-7	20-30	0	0	10 Rampage! (+50% Weapon Dam)
 Sloe Comfortable Zoo on Fire	2	8	awesome	8-9	30-40	0	0	15 Rampage! (+50% Weapon Dam)
 Sloppy Jalopy	5	1	awesome	18-22	20-40	20-40	20-40	acquire Hollow Leg (+1 Liver)
