@@ -2610,6 +2610,7 @@
 2608	Cocoa-Nuts	coffeecup.gif	2f38dbd438b8c462bc4c402af089ec70	neutral	none 	use 1 hot cocoa with rainbow marshmallows
 2609	Self-Harmonizing	smallharmonica.gif	344da8cadefc13c273059b97f93b1a31	neutral	none	use 1 candy harmonica
 2610	Festively-Dusted	snowpile.gif	ec397a83385436b3caf2da774864f9d0	neutral	none	use 1 powdered powdered sugar
+2611	Multi-Level Mindset	mlmarzipan.gif	2ad20a3224d74d21c41abe98e63ff5fa	neutral	none
 2612	Do You Crush What I Crush?	krakfist.gif	1211577348c03409f62087db22e3e4f6	good	none
 2613	Holiday Yoked	crimbohat.gif	e43692067b5396f2dd4c0393fa07fadf	good	none
 2614	Crimbo Wrapping	goodbandaid.gif	9c1405b3d65a9f2974e8e4dc877ab4e4	good	none
