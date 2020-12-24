@@ -1164,6 +1164,7 @@ giant shrimp fork	200	Mus: 85	2-handed staff
 giant spider leg	75	Mus: 22	2-handed club
 giant turkey leg	200	Mus: 75	3-handed club
 gift-a-pult	50	Mox: 0	2-handed giftapult
+gilded trumpet	100	Mox: 0	1-handed horn
 gingerbread gavel	50	Mus: 0	1-handed club
 gingerbread pistol	80	Mox: 10	1-handed pistol
 Ginsu&trade;	200	Mus: 200	2-handed sword
@@ -1833,6 +1834,7 @@ foon of fleshiness	50	Mys: 10
 foon of foulness	50	Mys: 10
 foon of frigidity	50	Mys: 10
 foon of fulmination	50	Mys: 10
+frankincenser	0	none
 Frigid Northern Beans	30	none	can of beans
 Gazpacho's Glacial Grimoire	30	none
 geological sample kit	10	none
@@ -2680,6 +2682,7 @@ Mudflap-Girl Ring	150	Mys: 60
 mushroom badge	100	none
 music box key	10	none
 musty moccasins	160	Mox: 65
+myrrh pouch	0	none
 mysterious silver lapel pin	0	none
 natty blue ascot	200	Mys: 10
 navel ring of navel gazing	0	none
@@ -3061,7 +3064,9 @@ tiny plastic coffee pixie	10	none
 tiny plastic colollilossus	0	none
 tiny plastic conservationist hippy	30	none
 tiny plastic CRIMBCO HQ	0	none
+tiny plastic Crimbo caroler	0	none
 tiny plastic Crimbo Casino	0	none
+tiny plastic Crimbo cheer	0	none
 tiny plastic Crimbo elf	10	none
 tiny plastic Crimbo reindeer	10	none
 tiny plastic Crimbo wreath	20	none
@@ -3138,10 +3143,12 @@ tiny plastic mime executive	0	none
 tiny plastic mime functionary	0	none
 tiny plastic mime scientist	0	none
 tiny plastic mime soldier	0	none
+tiny plastic Mirth	0	none
 tiny plastic Mob Penguin	0	none
 tiny plastic moneybee	10	none
 tiny plastic mosquito	10	none
 tiny plastic Mr. Mination	0	none
+tiny plastic multi-level marketer	0	none
 tiny plastic mumblebee	10	none
 tiny plastic mutant elf	0	none
 tiny plastic Naughty Sorceress	100	Mys: 35

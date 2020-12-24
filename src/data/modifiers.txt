@@ -1372,6 +1372,7 @@ Item	giant shrimp fork	Mysticality Percent: +20, Spell Critical Percent: +10, Ma
 Item	giant spider leg	Spooky Damage: +10, Critical Hit Percent: +10
 Item	giant turkey leg	Weapon Damage Percent: +50, Combat Rate: +5
 # gift-a-pult: Allows hurling of Gift Items
+Item	gilded trumpet	Maximum HP: +5, Maximum MP: +5, Experience (Moxie): +3, Single Equip
 Item	gingerbread gavel	Critical Hit Percent: +5, Weapon Damage Percent: +25
 Item	gingerbread pistol	Ranged Damage Percent: +25, Sleaze Damage: +10
 Item	Ginsu&trade;	Food Drop: +100, Weapon Damage Percent: +100
@@ -2145,6 +2146,7 @@ Item	foon of fleshiness	Mysticality: +3, Sleaze Spell Damage: +8
 Item	foon of foulness	Mysticality: +3, Stench Spell Damage: +8
 Item	foon of frigidity	Mysticality: +3, Cold Spell Damage: +8
 Item	foon of fulmination	Mysticality: +3, Hot Spell Damage: +8
+Item	frankincenser	Maximum MP: +10, Experience (Mysticality): +3
 # Gazpacho's Glacial Grimoire: All Spells Cast Are Cold
 Item	Gazpacho's Glacial Grimoire	Spell Damage: +10
 # geological sample kit: Increases the yield of Spacegate geology operations
@@ -3171,6 +3173,7 @@ Item	Mudflap-Girl Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Sleaze Damage: +4
 Item	mushroom badge	Mysticality: +40, Muscle: -20, Moxie: -20, Monster Level: -25, Single Equip
 Item	music box key	Combat Rate: +10
 Item	musty moccasins	Stench Resistance: +1, Item Drop: +5, Synergetic
+Item	myrrh pouch	Maximum HP: +10, Experience (Muscle): +3, Single Equip
 Item	mysterious silver lapel pin	HP Regen Min: 5, HP Regen Max: 9, Meat Drop: +5, Single Equip
 Item	natty blue ascot	Meat Drop: +20
 Item	navel ring of navel gazing	Damage Reduction: [L], Mysticality Percent: +25, Spell Damage Percent: +100, Mana Cost: -1, Single Equip, Softcore Only, Item Drop (sporadic): 4.25, Meat Drop (sporadic): 4.25, Experience: 0.6375, MP Regen Min: 2.125, MP Regen Max: 4.25
@@ -3610,7 +3613,9 @@ Item	tiny plastic coffee pixie	Familiar Weight: +1
 Item	tiny plastic colollilossus	HP Regen Min: 3, HP Regen Max: 5
 Item	tiny plastic conservationist hippy	Stench Damage: +5
 Item	tiny plastic CRIMBCO HQ	Item Drop: +4
+Item	tiny plastic Crimbo caroler	Familiar Weight: +3
 Item	tiny plastic Crimbo Casino	Meat Drop: +4
+Item	tiny plastic Crimbo cheer	Familiar Weight: +3
 Item	tiny plastic Crimbo elf	Familiar Weight: +1
 Item	tiny plastic Crimbo reindeer	Adventures: +1, Single Equip
 Item	tiny plastic Crimbo wreath	MP Regen Min: 1, MP Regen Max: 2, Single Equip
@@ -3687,10 +3692,12 @@ Item	tiny plastic mime executive	Meat Drop: +4
 Item	tiny plastic mime functionary	Moxie: +2
 Item	tiny plastic mime scientist	Mysticality: +2
 Item	tiny plastic mime soldier	Muscle: +2
+Item	tiny plastic Mirth	Adventures: +3
 Item	tiny plastic Mob Penguin	Weapon Damage: +3
 Item	tiny plastic moneybee	Monster Level: +1
 Item	tiny plastic mosquito	Familiar Weight: +1
 Item	tiny plastic Mr. Mination	Monster Level: +4
+Item	tiny plastic multi-level marketer	Familiar Weight: +3
 Item	tiny plastic mumblebee	Monster Level: +1
 Item	tiny plastic mutant elf	Maximum HP: +3, Maximum MP: +3
 Item	tiny plastic Naughty Sorceress	Spell Damage Percent: +100, Maximum MP: +100
@@ -6303,6 +6310,7 @@ Effect	Mucilaginous Muscle	Muscle Percent: +200
 Effect	Muddled	Muscle Percent: +200, Monster Level: +15
 Effect	Muddy Buddy	Avatar: "mud turtle"
 Effect	Muffled	Combat Rate: -15
+Effect	Multi-Level Mindset	Muscle Percent: +10
 Effect	Muscle Unbound	Experience Percent (Muscle): +5
 Effect	Muscular Intentions	Experience (Muscle): +3
 Effect	Muscularrr	Muscle Percent: +10

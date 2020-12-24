@@ -10694,21 +10694,26 @@
 10662	candy harmonica	532630113	smallharmonica.gif	potion, usable	t,d	10	
 10663	powdered powdered sugar	624981098	snowpile.gif	potion, usable	t,d	10	
 10664	multi-level marzipan	290902272	mlmarzipan.gif	potion, usable	t,d	10
+10665	tiny plastic Crimbo caroler	462322475	c20tp1.gif	accessory	t	0
+10666	tiny plastic multi-level marketer	179873392	c20tp2.gif	accessory	t	0
+10667	tiny plastic Crimbo cheer	576679609	c20tp3.gif	accessory	t	0
+10668	tiny plastic Mirth	484775388	c20tp4.gif	accessory	t	0
+10669
 10670	overflowing gift basket	417158712	c20basket.gif	usable		0
 10671	personalized wassail stein	509319188	c20stein.gif	usable		0
 10672	tabletop candy dispenser	847653480	c20candy.gif	usable		0
 10673	neck wreath	712540100	wreathnecklace.gif	accessory	t	0
 10674	shining star cap	556730643	starcap.gif	hat	t	0
 10675	nativity shorts	895521295	nativityshorts.gif	pants	t	0
-10676
-10677
-10678
+10676	myrrh pouch	250430910	myrrhbag.gif	accessory	t	0
+10677	frankincenser	872254198	frankincenser.gif	offhand	t	0
+10678	gilded trumpet	756000295	goldtrumpet.gif	weapon	t	0
 10679	&quot;reusable&quot; grocery bag	519392353	reusefoodbag.gif	offhand	q	0
 10680	cardboard wine carrier	768267271	winecarrier.gif	offhand	q	0
 10681	antique candy bucket	383820504	boobucket.gif	offhand	q	0
 10682	prescription teeth whitener	278735478	tube.gif	potion, usable	t,d	5
 10683	imported lemon lozenge	873546497	biglozenge.gif	potion, usable	t,d	5
-10684	hermedisiac cologne	261529207	potion9.gif	potion, usable	t,d	5
+10684	hermedisiac cologne	261529207	potion9.gif	potion, usable	t,d	5	bottles of hermedisiac cologne
 10685	government food shipment	740949957	crate.gif	usable		0
 10686	government booze shipment	731984004	crate.gif	usable		0
 10687	government candy shipment	303670366	crate.gif	usable		0
@@ -10744,7 +10749,7 @@
 10717	fuzzy polar bear ears	244293817	bearears.gif	familiar	t,d	20
 10718	tiny glowing red nose	296251642	glownose.gif	familiar	t,d	20
 10719	miniature goose mask	849657392	goosemask.gif	familiar	t,d	20
-10720
+10720	barrel-aged eggnog	115704459	coffeecup.gif	drink	t	0
 10721	hand-crafted candy cane	652206867	candycane.gif	food	t	0
 10722	drive-thru burger	235084046	hamburger.gif	food	t,d	10
 10723	Boulevardier cocktail	433917796	rocks.gif	drink	t,d	10
