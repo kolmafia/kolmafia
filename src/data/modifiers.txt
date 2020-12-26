@@ -3707,6 +3707,7 @@ Item	tiny plastic Orcish Frat Boy	Monster Level: +1
 Item	tiny plastic orphan	Stench Resistance: +1
 Item	tiny plastic pastamancer	Mysticality: +2, Muscle: +1
 Item	tiny plastic peacannon	Ranged Damage: +5
+Item	tiny plastic Penny	Meat Drop: +10
 Item	tiny plastic Professor What	Monster Level: +1
 Item	tiny plastic Protagonist	Monster Level: +1
 Item	tiny plastic protector spectre	Spooky Damage: +10

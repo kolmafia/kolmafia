@@ -10698,7 +10698,7 @@
 10666	tiny plastic multi-level marketer	179873392	c20tp2.gif	accessory	t	0
 10667	tiny plastic Crimbo cheer	576679609	c20tp3.gif	accessory	t	0
 10668	tiny plastic Mirth	484775388	c20tp4.gif	accessory	t	0
-10669
+10669	tiny plastic Penny	669852338	c20tp5.gif	accessory	t	0
 10670	overflowing gift basket	417158712	c20basket.gif	usable		0
 10671	personalized wassail stein	509319188	c20stein.gif	usable		0
 10672	tabletop candy dispenser	847653480	c20candy.gif	usable		0
