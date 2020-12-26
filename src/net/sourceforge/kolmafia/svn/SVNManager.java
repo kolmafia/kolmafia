@@ -1052,7 +1052,10 @@ public class SVNManager
 		{
 			String rerebase = FileUtilities.getRelativePath( KoLConstants.ROOT_LOCATION , rebase );
 			if ( rebase.delete() )
-				RequestLogger.printLine( rerebase + " => DELETED" );
+			{
+				RequestLogger.printLine(rerebase + " => DELETED");
+				RequestLogger.updateSessionLog(rerebase + " => DELETED");
+			}
 		}
 	}
 
@@ -1455,6 +1458,8 @@ public class SVNManager
 	public static void deleteInstalledProject( final File project )
 	{
 		RequestLogger.printLine( "Uninstalling project..." );
+		RequestLogger.updateSessionLog( "Uninstalling project..." );
+
 		recursiveDelete( project );
 		if ( project.exists() )
 		{
@@ -1472,6 +1477,7 @@ public class SVNManager
 			});
 		}
 		RequestLogger.printLine( "Project uninstalled." );
+		RequestLogger.updateSessionLog( "Project uninstalled." );
 	}
 
 	private static void recursiveDelete( File f )
@@ -1499,7 +1505,10 @@ public class SVNManager
 				{
 					String rerebase = FileUtilities.getRelativePath( KoLConstants.ROOT_LOCATION , rebase );
 					if ( rebase.delete() )
-						RequestLogger.printLine( rerebase + " => DELETED" );
+					{
+						RequestLogger.printLine(rerebase + " => DELETED");
+						RequestLogger.updateSessionLog(rerebase + " => DELETED");
+					}
 				}
 			}
 		}
