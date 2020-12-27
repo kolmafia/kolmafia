@@ -141,6 +141,7 @@ public class SVNCommand
 		else if ( parameters.startsWith( "delete" ) )
 		{
 			String params = parameters.substring( 6 ).trim();
+			RequestLogger.updateSessionLog("Executing svn delete "+params);
 			// user may specify a url
 			if ( params.startsWith( "svn:" ) || params.startsWith( "http" ) )
 			{

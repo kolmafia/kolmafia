@@ -1457,8 +1457,8 @@ public class SVNManager
 	
 	public static void deleteInstalledProject( final File project )
 	{
-		RequestLogger.printLine( "Uninstalling project..." );
-		RequestLogger.updateSessionLog( "Uninstalling project..." );
+		RequestLogger.printLine( "Uninstalling project..." + project.getName());
+		RequestLogger.updateSessionLog( "Uninstalling project..." + project.getName());
 
 		recursiveDelete( project );
 		if ( project.exists() )
@@ -1476,8 +1476,8 @@ public class SVNManager
 				}
 			});
 		}
-		RequestLogger.printLine( "Project uninstalled." );
-		RequestLogger.updateSessionLog( "Project uninstalled." );
+		RequestLogger.printLine( "Project uninstalled." + project.getName() );
+		RequestLogger.updateSessionLog( "Project uninstalled." + project.getName());
 	}
 
 	private static void recursiveDelete( File f )
