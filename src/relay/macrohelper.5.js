@@ -314,6 +314,6 @@ function syntaxcheck()
 	}
 
 	if (output.value == "") {
-		output.value = "No errors found (KoLmafia syntax checker v1.4)";
+		output.value = "No errors found (KoLmafia syntax checker v1.5)";
 	}
 }
