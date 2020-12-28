@@ -216,6 +216,7 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 		<javac srcdir="${test}" destdir="${build}" includeantruntime="false">
 		<classpath>
 			<fileset dir="${lib}/testjar" includes="**/*.jar" />
+			<fileset dir="${src}/jar" includes="**/*.jar" />
 		</classpath>
 		</javac>
 		<copy todir="${build}/jar" preservelastmodified="true">
