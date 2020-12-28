@@ -54,8 +54,6 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.UneffectRequest;
-
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
@@ -377,75 +375,30 @@ public class CharSheetRequest
 		List<UseSkillRequest> newSkillSet = new ArrayList<UseSkillRequest>();
 		List<UseSkillRequest> permedSkillSet = new ArrayList<UseSkillRequest>();
 
-		// Assumption:
-		// In the cleaned-up HTML, each skill is displayed as an <a> tag that looks like any of the following:
-		//
-		//	(Most of the time)
-		//	<a onclick="javascript:poop(&quot;desc_skill.php?whichskill=SKILL_ID&amp;self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a><br>
-		//	<a onclick="javascript:poop(&quot;desc_skill.php?whichskill=SKILL_ID&amp;self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a> (P)<br>
-		//	<a onclick="javascript:poop(&quot;desc_skill.php?whichskill=SKILL_ID&amp;self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a> (<b>HP</b>)<br>
-		//	(Rarely)
-		//	<a onclick="skill(SKILL_ID)">Skill Name</a>
-		//
-		// ...where SKILL_ID is an integer, and P/HP indicate perm status.
-		//
-		// Skills that you cannot use right now (e.g. due to path restrictions) are wrapped in a <span> tag:
-		//
-		//	<span id="permskills" ...>...</span>
-		NodeList skillNodes = null;
-		try
+		List<ParsedSkillInfo> parsedSkillInfos = parseSkills( doc );
+		for (ParsedSkillInfo skillInfo : parsedSkillInfos)
 		{
-			skillNodes = (NodeList) XPathFactory.newInstance().newXPath().evaluate(
-				"//a[contains(@onclick,'skill') and not(ancestor::*[@id='permskills'])]",
-				doc,
-				XPathConstants.NODESET
-			);
-		}
-		catch ( XPathExpressionException e )
-		{
-			e.printStackTrace();
-			return;
-		}
-
-		Matcher[] onclickSkillIdMatchers = {
-			Pattern.compile( "\\bwhichskill=(\\d+)" ).matcher( "" ),
-			Pattern.compile( "\\bskill\\((\\d+)\\)" ).matcher( "" ),
-		};
-		for ( int i = 0; i < skillNodes.getLength(); ++i ) {
-			Node node = skillNodes.item( i );
 			UseSkillRequest currentSkill = null;
-
-			// Parse <a> tag and extract skill ID or name
-			String onclick = node.getAttributes().getNamedItem( "onclick" ).getNodeValue();
-
-			// Try each pattern, one by one
-			for ( Matcher skillIdMatcher : onclickSkillIdMatchers )
+			if ( skillInfo.isBadId() )
 			{
-				skillIdMatcher.reset( onclick );
-				if ( skillIdMatcher.find() )
-				{
-					int skillId = StringUtilities.parseInt( skillIdMatcher.group(1) );
-					currentSkill = UseSkillRequest.getUnmodifiedInstance( skillId );
-					if ( currentSkill == null )
-					{
-						System.err.println("Unknown skill ID in charsheet.php: " + skillId);
-					}
-
-					// Since we found a skill ID (recognized or otherwise), stop checking patterns
-					break;
-				}
-				// If we reach here, try the next matcher
+				System.err.println( "Cannot parse skill ID in 'onclick' attribute for skill: " + skillInfo.name );
 			}
-
-			// If KoLmafia cannot parse or recognize the skill ID, parse the skill name instead
-			if ( currentSkill == null )
+			else
 			{
-				System.err.println("Cannot parse skill ID in 'onclick' attribute, falling back to skill name check: " + onclick);
-				String skillName = node.getTextContent();
-				currentSkill = UseSkillRequest.getUnmodifiedInstance( skillName );
+				currentSkill = UseSkillRequest.getUnmodifiedInstance( skillInfo.id );
 				if ( currentSkill == null )
 				{
-					System.err.println("Ignored unknown skill name in charsheet.php: " + skillName);
+					System.err.println( "Unknown skill ID in charsheet.php: " + skillInfo.id );
+				}
+			}
+
+			// Cannot find skill by ID, fall back to skill name check
+			if ( currentSkill == null )
+			{
+				currentSkill = UseSkillRequest.getUnmodifiedInstance( skillInfo.name );
+				if ( currentSkill == null )
+				{
+					System.err.println("Ignoring unknown skill name in charsheet.php: " + skillInfo.name);
 					continue;
 				}
 			}
@@ -454,14 +407,14 @@ public class CharSheetRequest
 
 			if ( SkillDatabase.isBookshelfSkill( currentSkill.getSkillId() ) )
 			{
-				shouldAddSkill = ( !KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore() ) ||
-					KoLCharacter.kingLiberated();
+				shouldAddSkill =
+					(!KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore()) || KoLCharacter.kingLiberated();
 			}
 
 			if ( currentSkill.getSkillId() == SkillPool.OLFACTION )
 			{
-				shouldAddSkill = ( !KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore() ) ||
-					KoLCharacter.skillsRecalled();
+				shouldAddSkill =
+					(!KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore()) || KoLCharacter.skillsRecalled();
 			}
 
 			if ( shouldAddSkill )
@@ -469,41 +422,9 @@ public class CharSheetRequest
 				newSkillSet.add( currentSkill );
 			}
 
-			// Parse following sibling nodes to check perm status
-
-			Node nextSibling = node.getNextSibling();
-			while ( nextSibling != null )
+			if ( skillInfo.permStatus == ParsedSkillInfo.PermStatus.SOFTCORE || skillInfo.permStatus == ParsedSkillInfo.PermStatus.HARDCORE )
 			{
-				if ( nextSibling.getNodeType() == Node.TEXT_NODE )
-				{
-					String siblingText = nextSibling.getTextContent();
-					if ( siblingText.contains( "(P)" ) || siblingText.contains( "(HP)" ) )
-					{
-						permedSkillSet.add( currentSkill );
-						break;
-					}
-
-					// If the text node does not contain perm status, keep examining subsequent siblings
-				}
-				else if ( nextSibling.getNodeName().equals( "b" ) )
-				{
-					String siblingText = nextSibling.getTextContent();
-					if ( siblingText.contains( "P" ) || siblingText.contains( "HP" ) )
-					{
-						permedSkillSet.add( currentSkill );
-					}
-
-					// If a <b></b> tag is encountered, stop examining siblings regardless of what
-					// the tag contains
-					break;
-				}
-				else
-				{
-					// If any other node is encountered, stop examining siblings
-					break;
-				}
-
-				nextSibling = nextSibling.getNextSibling();
+				permedSkillSet.add( currentSkill );
 			}
 		}
 
@@ -594,6 +515,181 @@ public class CharSheetRequest
 		Matcher baseMatcher = CharSheetRequest.BASE_PATTERN.matcher( token );
 		return baseMatcher.find() ? StringUtilities.parseInt( baseMatcher.group( 1 ) ) : defaultBase;
 	}
+
+	/**
+	 * Represents the ID, name, and perm status of a single skill parsed from charsheet.php
+	 * There is no guarantee that the skill ID, name, or perm status is actually valid.
+	 */
+	public static class ParsedSkillInfo {
+		public enum PermStatus {
+			NONE,
+			SOFTCORE,
+			HARDCORE,
+		}
+
+		/** Skill ID. A negative value indicates that the skill ID could not be parsed. */
+		public final int id;
+		public final String name;
+		public final PermStatus permStatus;
+
+		ParsedSkillInfo( int id, String name, PermStatus permStatus ) {
+			this.id = id;
+			this.name = name;
+			this.permStatus = permStatus;
+		}
+
+		ParsedSkillInfo( String name, PermStatus permStatus ) {
+			this(-1, name, permStatus);
+		}
+
+		/**
+		 * @return Whether the skill ID is bad (could not be parsed) and shouldn't be used.
+		 */
+		boolean isBadId() {
+			return this.id < 0;
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (o == this) {
+				return true;
+			}
+
+			if (!(o instanceof ParsedSkillInfo)) {
+				return false;
+			}
+
+			ParsedSkillInfo other = (ParsedSkillInfo) o;
+			return id == other.id && name.equals(other.name) && permStatus == other.permStatus;
+		}
+
+		@Override
+		public String toString() {
+			return String.format( "ParsedSkillInfo(id=%d, name=%s, permStatus=%s)", this.id, this.name,
+					      this.permStatus );
+		}
+	}
+
+	/**
+	 * Parses skill information from charsheet.php.
+	 * @param doc Parsed-and-cleaned HTML document
+	 */
+	public static final List<ParsedSkillInfo> parseSkills(Document doc) {
+		// Assumption:
+		// In the cleaned-up HTML, each skill is displayed as an <a> tag that looks like any of the following:
+		//
+		//	(Most of the time)
+		//	<a onclick="javascript:poop(&quot;desc_skill.php?whichskill=SKILL_ID&amp;self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a><br>
+		//	<a onclick="javascript:poop(&quot;desc_skill.php?whichskill=SKILL_ID&amp;self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a> (P)<br>
+		//	<a onclick="javascript:poop(&quot;desc_skill.php?whichskill=SKILL_ID&amp;self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a> (<b>HP</b>)<br>
+		//	(Rarely)
+		//	<a onclick="skill(SKILL_ID)">Skill Name</a>
+		//
+		// ...where SKILL_ID is an integer, and P/HP indicate perm status.
+		//
+		// Skills that you cannot use right now (e.g. due to path restrictions) are wrapped in a <span> tag:
+		//
+		//	<span id="permskills" ...>...</span>
+		NodeList skillNodes = null;
+		try
+		{
+			skillNodes = (NodeList) XPathFactory.newInstance().newXPath().evaluate(
+				"//a[contains(@onclick,'skill') and not(ancestor::*[@id='permskills'])]",
+				doc,
+				XPathConstants.NODESET
+			);
+		}
+		catch ( XPathExpressionException e )
+		{
+			// Our xpath selector is bad; this build shouldn't be released at all
+			e.printStackTrace();
+			throw new RuntimeException( "Bad XPath selector" );
+		}
+
+		List<ParsedSkillInfo> parsedSkillInfos = new ArrayList<>();
+
+		Matcher[] onclickSkillIdMatchers = {
+			Pattern.compile( "\\bwhichskill=(\\d+)" ).matcher( "" ),
+			Pattern.compile( "\\bskill\\((\\d+)\\)" ).matcher( "" ),
+		};
+		for ( int i = 0; i < skillNodes.getLength(); ++i ) {
+			Node node = skillNodes.item( i );
+
+			boolean isSkillIdFound = false;
+			int skillId = -1;
+			String skillName = node.getTextContent();
+			ParsedSkillInfo.PermStatus permStatus = ParsedSkillInfo.PermStatus.NONE;
+
+			// Parse following sibling nodes to check perm status
+			Node nextSibling = node.getNextSibling();
+			while ( nextSibling != null )
+			{
+				if ( nextSibling.getNodeType() == Node.TEXT_NODE )
+				{
+					String siblingText = nextSibling.getTextContent();
+					if ( siblingText.contains( "(HP)" ) )
+					{
+						permStatus = ParsedSkillInfo.PermStatus.HARDCORE;
+					}
+					else if ( siblingText.contains( "(P)" ) )
+					{
+						permStatus = ParsedSkillInfo.PermStatus.SOFTCORE;
+					}
+
+					// If the text node does not contain perm status, keep examining subsequent siblings
+				}
+				else if ( nextSibling.getNodeName().equals( "b" ) )
+				{
+					String siblingText = nextSibling.getTextContent();
+					if ( siblingText.contains( "HP" ) )
+					{
+						permStatus = ParsedSkillInfo.PermStatus.HARDCORE;
+					}
+					else if ( siblingText.contains( "P" ) )
+					{
+						permStatus = ParsedSkillInfo.PermStatus.SOFTCORE;
+					}
+
+					// If a <b></b> tag is encountered, stop examining siblings regardless of what
+					// the tag contains
+					break;
+				}
+				else
+				{
+					// If any other node is encountered, stop examining siblings
+					break;
+				}
+
+				nextSibling = nextSibling.getNextSibling();
+			}
+
+			String onclick = node.getAttributes().getNamedItem( "onclick" ).getNodeValue();
+
+			// Find the first successful matcher
+			for ( Matcher skillIdMatcher : onclickSkillIdMatchers )
+			{
+				skillIdMatcher.reset( onclick );
+				if ( skillIdMatcher.find() )
+				{
+					isSkillIdFound = true;
+					skillId = StringUtilities.parseInt( skillIdMatcher.group(1) );
+					break;
+				}
+			}
+
+			if (isSkillIdFound)
+			{
+				parsedSkillInfos.add(new ParsedSkillInfo( skillId, skillName, permStatus ));
+			}
+			else
+			{
+				parsedSkillInfos.add(new ParsedSkillInfo( skillName, permStatus ));
+			}
+		}
+
+		return parsedSkillInfos;
+	}
+
 
 	public static final void parseStatus( final JSONObject JSON )
 		throws JSONException
