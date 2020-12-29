@@ -1253,6 +1253,10 @@ public class UseItemRequest
 		case ItemPool.FANCY_CHESS_SET:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_fancyChessSetUsed" ) ? 0 : 1;
+
+		case ItemPool.OVERFLOWING_GIFT_BASKET:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_overflowingGiftBasketUsed" ) ? 0 : 1;
 		}
 
 		if ( restorationMaximum < Long.MAX_VALUE )
@@ -6618,6 +6622,10 @@ public class UseItemRequest
 				ResultProcessor.processItem( ItemPool.ALABASTER_KNIGHT, -2 );
 				ResultProcessor.processItem( ItemPool.ALABASTER_PAWN, -8 );
 			}
+			return;
+
+		case ItemPool.OVERFLOWING_GIFT_BASKET:
+			Preferences.setBoolean( "_overflowingGiftBasketUsed", true );
 			return;
 		}
 

@@ -10681,7 +10681,7 @@
 10660	Crimbo smile	485610584	beardgrin.gif	offhand		0
 10661	SalesCo sample kit	731340264	briefcase.gif	offhand		0
 10664	multi-level marzipan	290902272	mlmarzipan.gif	potion, usable	t,d	10
-10652	subscription cocoa dispenser	881887726	suscocoa.gif	usable	t	0
+10652	subscription cocoa dispenser	881887726	suscocoa.gif	reusable	t	0
 10653	fortifying hot cocoa	975233323	coffeecup.gif	potion, usable	t,d	5	
 10654	boiling hot cocoa	447454483	coffeecup.gif	potion, usable	t,d	5	
 10655	cool hot cocoa	322680250	coffeecup.gif	potion, usable	t,d	5	
@@ -10699,9 +10699,9 @@
 10667	tiny plastic Crimbo cheer	576679609	c20tp3.gif	accessory	t	0
 10668	tiny plastic Mirth	484775388	c20tp4.gif	accessory	t	0
 10669	tiny plastic Penny	669852338	c20tp5.gif	accessory	t	0
-10670	overflowing gift basket	417158712	c20basket.gif	usable		0
-10671	personalized wassail stein	509319188	c20stein.gif	usable		0
-10672	tabletop candy dispenser	847653480	c20candy.gif	usable		0
+10670	overflowing gift basket	417158712	c20basket.gif	reusable		0
+10671	personalized wassail stein	509319188	c20stein.gif	reusable		0
+10672	tabletop candy dispenser	847653480	c20candy.gif	reusable		0
 10673	neck wreath	712540100	wreathnecklace.gif	accessory	t	0
 10674	shining star cap	556730643	starcap.gif	hat	t	0
 10675	nativity shorts	895521295	nativityshorts.gif	pants	t	0
