@@ -931,6 +931,7 @@ Item	First Post shirt - Cir Senam	Spooky Damage: +1, Stench Damage: +1, Hot Dama
 Item	flaming pink shirt	Item Drop: +15, Softcore Only
 Item	floral print shirt	Mysticality: +5
 Item	flyest of shirts	Moxie: +5, Spell Damage: +5
+# fresh coat of paint: Enchantments are different every day
 Item	frilly shirt	Mysticality: +3
 Item	General Sage's Lonely Diamonds Club Jacket	Adventures: +3
 Item	ghost toga	Damage Reduction: 5, Spooky Damage: +10
@@ -4169,6 +4170,8 @@ Item	mini-Mr. Accessory	Familiar Weight: +5
 Item	miniature antlers	Familiar Weight: [1+ceil(M/2)], Generic
 Item	miniature carton of clove cigarettes	Familiar Weight: +5
 Item	miniature castagnets	Familiar Weight: +5
+# miniature crystal ball: Randomly gives you either +50% Item Drops or +5 Stats After Combat
+Item	miniature crystal ball	Initiative: +50, Generic
 # miniature dormouse: Makes March Hare More Better
 Item	miniature espresso maker	Familiar Weight: +5
 Item	miniature goose mask	Familiar Weight: +5, Experience (Moxie): +3, Generic

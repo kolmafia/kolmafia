@@ -10757,3 +10757,8 @@
 10725	bowl full of jelly	410129132	soupbowl.gif	food	t	0
 10726	Eye and a Twist	475434554	eyemartini.gif	drink	t	0
 10727	Chubby and Plump bar	452862469	chubbybar.gif	potion, usable	t	0
+10728
+10729	packaged miniature crystal ball	347350648	famballbox.gif	usable	t	0
+10730	miniature crystal ball	320248255	famball.gif	familiar		0
+10731	fresh can of paint	689133733	freshcan.gif	usable	t	0
+10732	fresh coat of paint	640494952	freshcoat.gif	shirt		0

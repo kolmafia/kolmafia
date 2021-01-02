@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.request.SushiRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.LogStream;
@@ -2422,6 +2423,88 @@ public class ItemDatabase
 	public static final int maxItemId()
 	{
 		return ItemDatabase.maxItemId;
+	}
+
+	private static final Pattern COT_PATTERN = Pattern.compile( "Current Occupant:.*?<b>.* the (.*?)</b>" );
+
+	public static void parseCrownOfThrones( final String desc )
+	{
+		Matcher matcher = ItemDatabase.COT_PATTERN.matcher( desc );
+		if ( matcher.find() )
+		{
+			String race = matcher.group( 1 );
+			KoLCharacter.setEnthroned( KoLCharacter.findFamiliar( race ) );
+		}
+	}
+
+	public static void parseBuddyBjorn( final String desc )
+	{
+		// COT_PATTERN works for this
+		Matcher matcher = ItemDatabase.COT_PATTERN.matcher( desc );
+		if ( matcher.find() )
+		{
+			String race = matcher.group( 1 );
+			KoLCharacter.setBjorned( KoLCharacter.findFamiliar( race ) );
+		}
+	}
+
+	public static void parseItemModifiers( final String desc, final int itemId, final String modifierPref )
+	{
+		int equipType = ItemDatabase.useTypeById.get( itemId );
+		String mod = DebugDatabase.parseItemEnchantments( desc, new ArrayList<String>(), equipType );
+		Preferences.setString( modifierPref, mod );
+		Modifiers.overrideModifier( "Item:[" + itemId + "]", mod );
+	}
+
+	public static void parseNoHat( final String desc )
+	{
+		parseItemModifiers( desc, ItemPool.NO_HAT, "_noHatModifier" );
+	}
+
+	public static void parseJickSword( final String desc )
+	{
+		parseItemModifiers( desc, ItemPool.JICK_SWORD, "jickSwordModifier" );
+	}
+
+	public static void parsePantogramPants( final String desc )
+	{
+		parseItemModifiers( desc, ItemPool.PANTOGRAM_PANTS, "_pantogramModifier" );
+	}
+
+	public static void parseLatte( final String desc )
+	{
+		parseItemModifiers( desc, ItemPool.LATTE_MUG, "latteModifier" );
+	}
+
+	public static void parseSaber( final String desc )
+	{
+		if ( desc.contains( "15-20 MP" ) )
+		{
+			Preferences.setInteger( "_saberMod", 1 );
+		}
+		else if ( desc.contains( "Monster Level" ) )
+		{
+			Preferences.setInteger( "_saberMod", 2 );
+		}
+		else if ( desc.contains( "Serious" ) )
+		{
+			Preferences.setInteger( "_saberMod", 3 );
+		}
+		else if ( desc.contains( "Familiar Weight" ) )
+		{
+			Preferences.setInteger( "_saberMod", 4 );
+		}
+	}
+
+	public static void parseKGB( final String desc )
+	{
+		String mod = DebugDatabase.parseItemEnchantments( desc, KoLConstants.EQUIP_ACCESSORY );
+		Modifiers.overrideModifier( "Item:[" + ItemPool.KREMLIN_BRIEFCASE + "]", mod );
+	}
+
+	public static void parseCoatOfPaint( final String desc )
+	{
+		parseItemModifiers( desc, ItemPool.COAT_OF_PAINT, "_coatOfPaintModifier" );
 	}
 
 	public static int parseYearbookCamera( final String desc )

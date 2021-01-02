@@ -1014,6 +1014,7 @@ public abstract class KoLmafia
 		InventoryManager.checkPantogram();
 		InventoryManager.checkLatte();
 		InventoryManager.checkSaber();
+		InventoryManager.checkCoatOfPaint();
 
 		// Items that conditionally grant skills
 		InventoryManager.checkPowerfulGlove();
