@@ -483,6 +483,8 @@ public class ResponseTextParser
 				ConsequenceManager.parseItemDesc( descid, responseText );
 				int itemId = ItemDatabase.getItemIdFromDescription( descid );
 
+				boolean changesFromTimeToTime = true;
+
 				switch ( itemId )
 				{
 				case ItemPool.YEARBOOK_CAMERA:
@@ -491,6 +493,41 @@ public class ResponseTextParser
 				case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
 					ItemDatabase.parseRetroCape( responseText );
 					break;
+				case ItemPool.HATSEAT:
+					ItemDatabase.parseCrownOfThrones( responseText );
+					break;
+				case ItemPool.BUDDY_BJORN:
+					ItemDatabase.parseBuddyBjorn( responseText );
+					break;
+				case ItemPool.NO_HAT:
+					ItemDatabase.parseNoHat( responseText );
+					break;
+				case ItemPool.JICK_SWORD:
+					ItemDatabase.parseJickSword( responseText );
+					break;
+				case ItemPool.PANTOGRAM_PANTS:
+					ItemDatabase.parsePantogramPants( responseText );
+					break;
+				case ItemPool.LATTE_MUG:
+					ItemDatabase.parseLatte( responseText );
+					break;
+				case ItemPool.FOURTH_SABER:
+					ItemDatabase.parseSaber( responseText );
+					break;
+				case ItemPool.KREMLIN_BRIEFCASE:
+					ItemDatabase.parseKGB( responseText );
+					break;
+				case ItemPool.COAT_OF_PAINT:
+					ItemDatabase.parseCoatOfPaint( responseText );
+					break;
+				default:
+					changesFromTimeToTime = false;
+					break;
+				}
+
+				if ( changesFromTimeToTime )
+				{
+					SpadingManager.processDescItem( ItemPool.get( itemId ), responseText );
 				}
 			}
 		}

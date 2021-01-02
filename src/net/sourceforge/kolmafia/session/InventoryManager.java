@@ -1680,8 +1680,14 @@ public abstract class InventoryManager
 		ItemListenerRegistry.fireItemChanged( itemId );
 	}
 
-	private static final Pattern COT_PATTERN = Pattern.compile( "Current Occupant:.*?<b>.* the (.*?)</b>" );
 	public static final AdventureResult CROWN_OF_THRONES = ItemPool.get( ItemPool.HATSEAT, 1 );
+
+	public static final void checkItemDescription( final int itemId )
+	{
+		String descId = ItemDatabase.getDescriptionId( itemId );
+		GenericRequest req = new GenericRequest( "desc_item.php?whichitem=" + descId );
+		RequestThread.postRequest( req );
+	}
 
 	public static final void checkCrownOfThrones()
 	{
@@ -1707,16 +1713,7 @@ public abstract class InventoryManager
 		}
 
 		// See which familiar is riding in it.
-		String descId = ItemDatabase.getDescriptionId( ItemPool.HATSEAT );
-		GenericRequest req = new GenericRequest( "desc_item.php?whichitem=" + descId );
-		RequestThread.postRequest( req );
-
-		Matcher matcher = InventoryManager.COT_PATTERN.matcher( req.responseText );
-		if ( matcher.find() )
-		{
-			String race = matcher.group( 1 );
-			KoLCharacter.setEnthroned( KoLCharacter.findFamiliar( race ) );
-		}
+		checkItemDescription( ItemPool.HATSEAT );
 	}
 	
 	public static final AdventureResult BUDDY_BJORN = ItemPool.get( ItemPool.BUDDY_BJORN, 1 );
@@ -1745,17 +1742,7 @@ public abstract class InventoryManager
 		}
 
 		// See which familiar is riding in it.
-		String descId = ItemDatabase.getDescriptionId( ItemPool.BUDDY_BJORN );
-		GenericRequest req = new GenericRequest( "desc_item.php?whichitem=" + descId );
-		RequestThread.postRequest( req );
-
-		// COT_PATTERN works for this
-		Matcher matcher = InventoryManager.COT_PATTERN.matcher( req.responseText );
-		if ( matcher.find() )
-		{
-			String race = matcher.group( 1 );
-			KoLCharacter.setBjorned( KoLCharacter.findFamiliar( race ) );
-		}
+		checkItemDescription( ItemPool.BUDDY_BJORN );
 	}
 
 	public static final void checkNoHat()
@@ -1766,13 +1753,13 @@ public abstract class InventoryManager
 		{
 			return;
 		}
-		if ( mod.equals( "" ) )
+		if ( !mod.equals( "" ) )
 		{
-			String rawText = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( ItemPool.NO_HAT ), true );
-			mod = DebugDatabase.parseItemEnchantments( rawText, new ArrayList<String>(), KoLConstants.EQUIP_HAT );
-			Preferences.setString( "_noHatModifier", mod );
+			Modifiers.overrideModifier( "Item:[" + ItemPool.NO_HAT + "]", mod );
+			return;
 		}
-		Modifiers.overrideModifier( "Item:[" + ItemPool.NO_HAT + "]", mod );
+
+		checkItemDescription( ItemPool.NO_HAT );
 	}
 
 	public static final void checkJickSword()
@@ -1792,13 +1779,13 @@ public abstract class InventoryManager
 			// it can be checked later
 			return;
 		}
-		if ( mod.equals( "" ) )
+		if ( !mod.equals( "" ) )
 		{
-			String rawText = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( ItemPool.JICK_SWORD ), true );
-			mod = DebugDatabase.parseItemEnchantments( rawText, new ArrayList<String>(), KoLConstants.EQUIP_WEAPON );
-			Preferences.setString( "jickSwordModifier", mod );
 			Modifiers.overrideModifier( "Item:[" + ItemPool.JICK_SWORD + "]", mod );
+			return;
 		}
+
+		checkItemDescription( ItemPool.JICK_SWORD );
 	}
 
 	public static final void checkPantogram()
@@ -1810,13 +1797,13 @@ public abstract class InventoryManager
 		{
 			return;
 		}
-		if ( mod.equals( "" ) )
+		if ( !mod.equals( "" ) )
 		{
-			String rawText = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( ItemPool.PANTOGRAM_PANTS ), true );
-			mod = DebugDatabase.parseItemEnchantments( rawText, new ArrayList<String>(), KoLConstants.EQUIP_PANTS );
-			Preferences.setString( "_pantogramModifier", mod );
+			Modifiers.overrideModifier( "Item:[" + ItemPool.PANTOGRAM_PANTS + "]", mod );
+			return;
 		}
-		Modifiers.overrideModifier( "Item:[" + ItemPool.PANTOGRAM_PANTS + "]", mod );
+
+		checkItemDescription( ItemPool.PANTOGRAM_PANTS );
 	}
 
 	public static final void checkLatte()
@@ -1828,13 +1815,13 @@ public abstract class InventoryManager
 		{
 			return;
 		}
-		if ( mod.equals( "" ) )
+		if ( !mod.equals( "" ) )
 		{
-			String rawText = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( ItemPool.LATTE_MUG ), true );
-			mod = DebugDatabase.parseItemEnchantments( rawText, new ArrayList<String>(), KoLConstants.EQUIP_OFFHAND );
-			Preferences.setString( "latteModifier", mod );
+			Modifiers.overrideModifier( "Item:[" + ItemPool.LATTE_MUG + "]", mod );
+			return;
 		}
-		Modifiers.overrideModifier( "Item:[" + ItemPool.LATTE_MUG + "]", mod );
+
+		checkItemDescription( ItemPool.LATTE_MUG );
 	}
 
 	public static final void checkSaber()
@@ -1844,26 +1831,12 @@ public abstract class InventoryManager
 		{
 			return;
 		}
-		if ( Preferences.getString( "_saberMod" ).equals( "0" ) )
+		if ( !Preferences.getString( "_saberMod" ).equals( "0" ) )
 		{
-			String rawText = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( ItemPool.FOURTH_SABER ), true );
-			if ( rawText.contains( "15-20 MP" ) )
-			{
-				Preferences.setInteger( "_saberMod", 1 );
-			}
-			else if ( rawText.contains( "Monster Level" ) )
-			{
-				Preferences.setInteger( "_saberMod", 2 );
-			}
-			else if ( rawText.contains( "Serious" ) )
-			{
-				Preferences.setInteger( "_saberMod", 3 );
-			}
-			else if ( rawText.contains( "Familiar Weight" ) )
-			{
-				Preferences.setInteger( "_saberMod", 4 );
-			}
+			return;
 		}
+
+		checkItemDescription( ItemPool.FOURTH_SABER );
 	}
 
 	public static final void checkKGB()
@@ -1876,9 +1849,25 @@ public abstract class InventoryManager
 			return;
 		}
 
-		String rawText = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( ItemPool.KREMLIN_BRIEFCASE ), true );
-		String mod = DebugDatabase.parseItemEnchantments( rawText, KoLConstants.EQUIP_ACCESSORY );
-		Modifiers.overrideModifier( "Item:[" + ItemPool.KREMLIN_BRIEFCASE + "]", mod );
+		checkItemDescription( ItemPool.KREMLIN_BRIEFCASE );
+	}
+
+	public static final void checkCoatOfPaint()
+	{
+		AdventureResult COAT_OF_PAINT = ItemPool.get( ItemPool.COAT_OF_PAINT, 1 );
+		String mod = Preferences.getString( "_coatOfPaintModifier" );
+		if ( !KoLCharacter.hasEquipped( COAT_OF_PAINT, EquipmentManager.SHIRT ) &&
+				!KoLConstants.inventory.contains( COAT_OF_PAINT ) )
+		{
+			return;
+		}
+		if ( !mod.equals( "" ) )
+		{
+			Modifiers.overrideModifier( "Item:[" + ItemPool.COAT_OF_PAINT + "]", mod );
+			return;
+		}
+
+		checkItemDescription( ItemPool.COAT_OF_PAINT );
 	}
 
 	public static Pattern BIRD_PATTERN = Pattern.compile( "Seek out an? (.*)" );

@@ -60,6 +60,7 @@ public class SpadingManager
 		CONSUME_MULTIPLE,
 		CONSUME_REUSABLE,
 		CONSUME_MESSAGE,
+		DESC_ITEM,
 		MEAT_DROP,
 		PVP,
 		PLACE,
@@ -157,6 +158,16 @@ public class SpadingManager
 	public static boolean processPlace( final String url, final String responseText )
 	{
 		return SpadingManager.invokeSpadingScript( SpadingEvent.PLACE, url, responseText );
+	}
+
+	public static boolean processDescItem( final AdventureResult item, final String responseText )
+	{
+		if ( item == null )
+		{
+			return false;
+		}
+
+		return SpadingManager.invokeSpadingScript( SpadingEvent.DESC_ITEM, item.getDisambiguatedName(), responseText );
 	}
 
 	private static boolean invokeSpadingScript( final SpadingEvent event, final String meta, final String responseText )

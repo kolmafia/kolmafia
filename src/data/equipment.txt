@@ -762,6 +762,7 @@ fishbone corset	20	none
 flaming pink shirt	100	none
 floral print shirt	100	Mus: 35
 flyest of shirts	80	Mus: 25
+fresh coat of paint	100	none
 frilly shirt	20	none
 General Sage's Lonely Diamonds Club Jacket	130	Mus: 50
 ghost toga	110	Mus: 40
