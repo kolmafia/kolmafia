@@ -10732,17 +10732,17 @@
 10700	Satan hat	489228771	satanhat.gif	hat	t	0
 10701	Crimbo stockings	690661115	crimbonets.gif	pants	t	0
 10702	poncho de azucar	206457048	sugarponcho.gif	shirt	t	0
-10703	The Night Before Crimbo, Ch. 1	742976874	book4.gif	usable	t	0
+10703	The Night Before Crimbo, Ch. 1	742976874	book4.gif	usable	t	0	copies of The Night Before Crimbo, Ch. 1
 10704	The Night Before Crimbo, Ch. 1 (used)	576042446	book4.gif	usable		0
-10705	The Night Before Crimbo, Ch. 2	231840792	book4.gif	usable	t	0
+10705	The Night Before Crimbo, Ch. 2	231840792	book4.gif	usable	t	0	copies of The Night Before Crimbo, Ch. 2
 10706	The Night Before Crimbo, Ch. 2 (used)	911407310	book4.gif	usable		0
-10707	The Night Before Crimbo, Ch. 3	339097062	book4.gif	usable	t	0
+10707	The Night Before Crimbo, Ch. 3	339097062	book4.gif	usable	t	0	copies of The Night Before Crimbo, Ch. 3
 10708	The Night Before Crimbo, Ch. 3 (used)	926998916	book4.gif	usable		0
-10709	The Night Before Crimbo, Ch. 4	749860919	book4.gif	usable	t	0
+10709	The Night Before Crimbo, Ch. 4	749860919	book4.gif	usable	t	0	copies of The Night Before Crimbo, Ch. 4
 10710	The Night Before Crimbo, Ch. 4 (used)	890454121	book4.gif	usable		0
-10711	The Night Before Crimbo, Ch. 5	129112476	book4.gif	usable	t	0
+10711	The Night Before Crimbo, Ch. 5	129112476	book4.gif	usable	t	0	copies of The Night Before Crimbo, Ch. 5
 10712	The Night Before Crimbo, Ch. 5 (used)	564470843	book4.gif	usable		0
-10713	The Night Before Crimbo, Ch. 6	188125853	book4.gif	usable	t	0
+10713	The Night Before Crimbo, Ch. 6	188125853	book4.gif	usable	t	0	copies of The Night Before Crimbo, Ch. 6
 10714	The Night Before Crimbo, Ch. 6 (used)	440337817	book4.gif	usable		0
 10715	stuffed red and green pepper	353885496	crimbopepper.gif	food	t,d	10
 10716	cranberry margarita	761622847	cranmarg.gif	drink	t,d	10
