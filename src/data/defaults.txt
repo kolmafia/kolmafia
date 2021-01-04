@@ -448,9 +448,11 @@ user	crimbo16ReindeerChakraCleanliness	0
 user	crimbo16SackChakraCleanliness	0
 user	crimboTreeDays	7
 user	crimbotChassis	
-user	crimbotArm	
+user	crimbotArm
 user	crimbotPropulsion	
-user	crudeMonster	
+user	crudeMonster
+user	crystalBallLocation
+user	crystalBallMonster
 user	csServicesPerformed	
 user	cubelingProgress	0
 user	currentEasyBountyItem	

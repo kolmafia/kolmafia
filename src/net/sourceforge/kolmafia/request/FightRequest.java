@@ -3849,6 +3849,20 @@ public class FightRequest
 
 		AdventureSpentDatabase.addTurn( KoLAdventure.lastLocationName );
 
+		if ( KoLCharacter.hasEquipped( ItemPool.MINIATURE_CRYSTAL_BALL, EquipmentManager.FAMILIAR ) )
+		{
+			String predictedMonster = parseCrystalBall( responseText );
+			KoLAdventure location = KoLAdventure.lastVisitedLocation();
+
+			if ( predictedMonster == null )
+			{
+				location = null;
+			}
+
+			Preferences.setString( "crystalBallMonster", predictedMonster == null ? "" : predictedMonster );
+			Preferences.setString( "crystalBallLocation", location == null ? "" : location.getAdventureName() );
+		}
+
 		int adventure = KoLAdventure.lastAdventureId();
 
 		if ( KOLHSRequest.isKOLHSLocation( adventure ) )
@@ -5092,6 +5106,33 @@ public class FightRequest
 		{
 			Preferences.setString( "lassoTraining", matcher.group( 1 ) );
 		}
+	}
+
+	private static final Pattern[] CRYSTAL_BALL_PATTERNS = {
+			Pattern.compile( "your next fight will be against an? (.*?)(?:,\"|\\.</td>)" ),
+			Pattern.compile( "next monster in this zone is going to be an? (.*?)\\." ),
+			Pattern.compile( "Look out, there's an? (.*?) right around the next corner" ),
+			Pattern.compile( "There's a little you fighting a little (.*?). Ooh, you're getting" ),
+			Pattern.compile( "How do you feel about fighting an? (.*?)\\? Coz that's" ),
+			Pattern.compile( "the next monster in this area will be an? (.*?)," ),
+			Pattern.compile( "and see a tiny you fighting a tiny (.*?) in a tiny" ),
+			Pattern.compile( "it looks like there's an? (.*?) prowling around" ),
+			Pattern.compile( "and see yourself running into an? (.*?) soon" ),
+			Pattern.compile( "showing you an image of yourself fighting an? (.*?)\\.</td>" ),
+	};
+
+	private static final String parseCrystalBall( final String responseText )
+	{
+		for ( Pattern p : CRYSTAL_BALL_PATTERNS )
+		{
+			Matcher matcher = p.matcher( responseText );
+			if ( matcher.find() )
+			{
+				return matcher.group( 1 );
+			}
+		}
+
+		return null;
 	}
 
 	public static final void parseCombatItems( String responseText )
