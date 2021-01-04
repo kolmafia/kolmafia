@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2005-2020, KoLmafia development team
+/*
+ * Copyright (c) 2005-2021, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -61,7 +61,7 @@ public class VersionDataPanel
 		StaticEntity.getVersion(),
 		KoLConstants.VERSION_DATE,
 		" ",
-		"Copyright \u00a9 2005-2020 KoLmafia development team",
+		"Copyright \u00a9 2005-2021 KoLmafia development team",
 		"Berkeley Software Development (BSD) License",
 		"http://kolmafia.sourceforge.net/",
 		" ",

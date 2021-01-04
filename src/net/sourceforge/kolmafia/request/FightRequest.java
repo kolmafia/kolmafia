@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2005-2020, KoLmafia development team
+/*
+ * Copyright (c) 2005-2021, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -5109,16 +5109,16 @@ public class FightRequest
 	}
 
 	private static final Pattern[] CRYSTAL_BALL_PATTERNS = {
-			Pattern.compile( "your next fight will be against an? (.*?)(?:,\"|\\.</td>)" ),
-			Pattern.compile( "next monster in this zone is going to be an? (.*?)\\." ),
-			Pattern.compile( "Look out, there's an? (.*?) right around the next corner" ),
-			Pattern.compile( "There's a little you fighting a little (.*?). Ooh, you're getting" ),
-			Pattern.compile( "How do you feel about fighting an? (.*?)\\? Coz that's" ),
-			Pattern.compile( "the next monster in this area will be an? (.*?)," ),
-			Pattern.compile( "and see a tiny you fighting a tiny (.*?) in a tiny" ),
-			Pattern.compile( "it looks like there's an? (.*?) prowling around" ),
-			Pattern.compile( "and see yourself running into an? (.*?) soon" ),
-			Pattern.compile( "showing you an image of yourself fighting an? (.*?)\\.</td>" ),
+		Pattern.compile( "your next fight will be against an? (.*?)(?:,\"|\\.</td>)" ),
+		Pattern.compile( "next monster in this zone is going to be an? (.*?)\\." ),
+		Pattern.compile( "Look out, there's an? (.*?) right around the next corner" ),
+		Pattern.compile( "There's a little you fighting a little (.*?). Ooh, you're getting" ),
+		Pattern.compile( "How do you feel about fighting an? (.*?)\\? Coz that's" ),
+		Pattern.compile( "the next monster in this area will be an? (.*?)," ),
+		Pattern.compile( "and see a tiny you fighting a tiny (.*?) in a tiny" ),
+		Pattern.compile( "it looks like there's an? (.*?) prowling around" ),
+		Pattern.compile( "and see yourself running into an? (.*?) soon" ),
+		Pattern.compile( "showing you an image of yourself fighting an? (.*?)\\.</td>" ),
 	};
 
 	private static final String parseCrystalBall( final String responseText )
