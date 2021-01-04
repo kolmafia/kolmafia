@@ -383,6 +383,7 @@ public interface KoLConstants
 	public static final int MALLPRICES_VERSION = 0xF00D5;
 
 	// The current versioned name of each KoLmafia-supplied relay file
+	public static final String AFTERLIFE_ASH = "afterlife.ash";
 	public static final String BARREL_SOUNDS_JS = "barrel_sounds.js";
 	public static final String BASEMENT_JS = "basement.js";
 	public static final String BASICS_CSS = "basics.1.css";
@@ -400,6 +401,7 @@ public interface KoLConstants
 
 	public static final String[] RELAY_FILES =
 	{
+		AFTERLIFE_ASH,
 		BARREL_SOUNDS_JS,
 		BASEMENT_JS,
 		BASICS_CSS,
