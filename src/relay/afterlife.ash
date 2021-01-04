@@ -47,8 +47,8 @@ static string [string, string, item ] pet_modifiers;
 static string [string, string, item ] consumable_modifiers;
 
 static {
-    file_to_map( "TCRS.astral_pets.txt", pet_modifiers );
-    file_to_map( "TCRS.astral_consumables.txt", consumable_modifiers );
+    file_to_map( "data/TCRS.astral_pets.txt", pet_modifiers );
+    file_to_map( "data/TCRS.astral_consumables.txt", consumable_modifiers );
 }
 
 void insert_class_sign_dropdowns( buffer html, string class_id, string class_function, string sign_id, string sign_function )
