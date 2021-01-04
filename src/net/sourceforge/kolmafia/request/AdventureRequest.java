@@ -520,6 +520,11 @@ public class AdventureRequest
 			}
 		}
 
+		// Spending a turn somewhere should wipe the crystal ball monster prediction.
+		// Parsing a new prediction just needs to happen *after* this is called
+		Preferences.setString( "crystalBallMonster", "" );
+		Preferences.setString( "crystalBallLocation", "" );
+
 		Preferences.setString( "lastEncounter", encounter );
 		RequestLogger.printLine( "Encounter: " + encounter );
 		RequestLogger.updateSessionLog( "Encounter: " + encounter );
