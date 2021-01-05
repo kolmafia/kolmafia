@@ -116,7 +116,7 @@ public class RestaurantCommand
 
 		for ( int i = 0; i < KoLConstants.restaurantItems.size(); ++i )
 		{
-			String name = (String) KoLConstants.restaurantItems.get( i );
+			String name = KoLConstants.restaurantItems.get( i );
 
 			if ( !StringUtilities.substringMatches( name.toLowerCase(), nameString, false ) )
 			{
@@ -191,7 +191,7 @@ public class RestaurantCommand
 
 		for ( int i = 0; i < KoLConstants.microbreweryItems.size(); ++i )
 		{
-			String name = (String) KoLConstants.microbreweryItems.get( i );
+			String name = KoLConstants.microbreweryItems.get( i );
 
 			if ( !StringUtilities.substringMatches( name.toLowerCase(), nameString, false ) )
 			{

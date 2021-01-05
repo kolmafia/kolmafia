@@ -105,7 +105,7 @@ public class MonorailManager
 			String buttonText = buttonTextMatcher.group( 1 );
 			int choiceNumber = StringUtilities.parseInt( optionMatcher.group( 1 ) );
 
-			if ( lyleSpoilers.keySet().contains( buttonText ) )
+			if ( lyleSpoilers.containsKey( buttonText ) )
 			{
 				String[] thisOption = MonorailManager.lyleSpoilers.get( buttonText );
 				options.add( new ChoiceManager.Option( thisOption[ 0 ], choiceNumber, thisOption[ 1 ] ) );

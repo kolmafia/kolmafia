@@ -1041,7 +1041,7 @@ public abstract class BuffBotManager
 		@Override
 		public boolean equals( final Object o )
 		{
-			if ( o == null || !( o instanceof Offering ) )
+			if ( !( o instanceof Offering ) )
 			{
 				return false;
 			}
@@ -1069,7 +1069,7 @@ public abstract class BuffBotManager
 
 		public int compareTo( final Offering o )
 		{
-			if ( o == null || !( o instanceof Offering ) )
+			if ( !( o instanceof Offering ) )
 			{
 				return -1;
 			}

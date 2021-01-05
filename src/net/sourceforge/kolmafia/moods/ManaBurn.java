@@ -83,7 +83,7 @@ public class ManaBurn
 
 	public int compareTo( final ManaBurn o )
 	{
-		return this.duration - ( (ManaBurn) o ).duration;
+		return this.duration - o.duration;
 	}
 
 	private long getMPCost()

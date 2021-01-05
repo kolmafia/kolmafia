@@ -695,10 +695,10 @@ public class MonsterData
 			int floor = (int) ( evaluate( this.floor, MonsterData.DEFAULT_FLOOR) * 0.75 );
 			int ml = ML();
 
-			hp = hp > cap ? cap : hp;
-			ml = ml < 0 ? 0 : ml;
+			hp = Math.min( hp, cap );
+			ml = Math.max( ml, 0 );
 			hp = (int) Math.floor( ( hp + ml ) * 0.75 * getBeeosity() );
-			hp = hp < floor ? floor : hp;
+			hp = Math.max( hp, floor );
 			return Math.max( 1, hp );
 		}
 		if ( this.health == null )
@@ -736,7 +736,7 @@ public class MonsterData
 			int cap = evaluate( this.cap, MonsterData.DEFAULT_CAP );
 			int floor = evaluate( this.floor, MonsterData.DEFAULT_FLOOR);
 
-			hp = hp > cap ? cap : hp < floor ? floor : hp;
+			hp = hp > cap ? cap : Math.max( hp, floor );
 			return (int) Math.floor( Math.max( 1, ( hp ) * 0.75 ) );
 		}
 		if ( this.health == null )
@@ -762,12 +762,12 @@ public class MonsterData
 			int attack = KoLCharacter.getAdjustedMoxie() + scale;
 			int cap = evaluate( this.cap, MonsterData.DEFAULT_CAP );
 			int floor = evaluate( this.floor, MonsterData.DEFAULT_FLOOR);
-			attack = attack > cap ? cap : attack;
+			attack = Math.min( attack, cap );
 			int ml = ML();
-			ml = ml < 0 ? 0 : ml;
+			ml = Math.max( ml, 0 );
 
 			attack = (int) Math.floor( ( attack + ml ) * getBeeosity() );
-			attack = attack < floor ? floor : attack;
+			attack = Math.max( attack, floor );
 			return Math.max( 1, attack );
 		}
 		if ( this.attack == null )
@@ -805,7 +805,7 @@ public class MonsterData
 			int attack = KoLCharacter.getAdjustedMoxie() + scale;
 			int cap = evaluate( this.cap, MonsterData.DEFAULT_CAP );
 			int floor = evaluate( this.floor, MonsterData.DEFAULT_FLOOR);
-			attack = attack > cap ? cap : attack < floor ? floor : attack;
+			attack = attack > cap ? cap : Math.max( attack, floor );
 			return Math.max( 1, attack );
 		}
 
@@ -835,11 +835,11 @@ public class MonsterData
 			int cap = evaluate( this.cap, MonsterData.DEFAULT_CAP );
 			int floor = evaluate( this.floor, MonsterData.DEFAULT_FLOOR);
 
-			defense = defense > cap ? cap : defense;
+			defense = Math.min( defense, cap );
 			int ml = ML();
-			ml = ml < 0 ? 0 : ml;
+			ml = Math.max( ml, 0 );
 			defense = (int) Math.floor( ( defense + ml ) * getBeeosity() );
-			defense = defense < floor ? floor : defense;
+			defense = Math.max( defense, floor );
 			return (int) Math.floor( Math.max( 1, defense * ( 1 - reduceMonsterDefense ) ) );
 		}
 		if ( this.defense == null )
@@ -878,7 +878,7 @@ public class MonsterData
 			int defense = KoLCharacter.getAdjustedMuscle() + scale;
 			int cap = evaluate( this.cap, MonsterData.DEFAULT_CAP );
 			int floor = evaluate( this.floor, MonsterData.DEFAULT_FLOOR);
-			defense = defense > cap ? cap : defense < floor ? floor : defense;
+			defense = defense > cap ? cap : Math.max( defense, floor );
 			return (int) Math.floor( Math.max( 1, defense ) );
 		}
 		if ( this.defense == null )
@@ -958,7 +958,7 @@ public class MonsterData
 			charInit += 200;
 		}
 		int jumpChance = 100 - monsterInit + charInit + Math.max( 0, KoLCharacter.getBaseMainstat() - this.getAttack() );
-		return jumpChance > 100 ? 100 : jumpChance < 0 ? 0 : jumpChance;
+		return jumpChance > 100 ? 100 : Math.max( jumpChance, 0 );
 	}
 
 	public static final int initPenalty( final int monsterLevel )
@@ -1280,9 +1280,9 @@ public class MonsterData
 			int experience = KoLCharacter.getAdjustedMainstat() + scale;
 			int cap = evaluate( this.cap, MonsterData.DEFAULT_CAP );
 			int floor = evaluate( this.floor, MonsterData.DEFAULT_FLOOR);
-			experience = experience > cap ? cap : experience < floor ? floor : experience;
+			experience = experience > cap ? cap : Math.max( experience, floor );
 			int ml = ML();
-			ml = ml < 0 ? 0 : ml;
+			ml = Math.max( ml, 0 );
 			return Math.max( 1, ( experience / 8.0 + ml / 6.0 ) * xpMultiplier );
 		}
 		if ( this.experience == null )
@@ -1440,16 +1440,14 @@ public class MonsterData
 				int cap = evaluate( stats.cap, MonsterData.DEFAULT_CAP );
 				int floor = evaluate( stats.floor, MonsterData.DEFAULT_FLOOR);
 
-				StringBuilder attb = new StringBuilder();
-				attb.append( "Attack Power scale: (Moxie +" );
-				attb.append( String.valueOf( scale ) );
-				attb.append( ", floor " );
-				attb.append( String.valueOf( floor ) );
-				attb.append( ", cap " );
-				attb.append( String.valueOf( cap ) );
-				attb.append( ")" );
-
-				description = attb.toString();
+				String attb = "Attack Power scale: (Moxie +" +
+						String.valueOf( scale ) +
+						", floor " +
+						String.valueOf( floor ) +
+						", cap " +
+						String.valueOf( cap ) +
+						")";
+				description = attb;
 			}
 			else if ( stats.attack instanceof Integer )
 			{
@@ -1543,16 +1541,14 @@ public class MonsterData
 				int cap = evaluate( stats.cap, MonsterData.DEFAULT_CAP );
 				int floor = evaluate( stats.floor, MonsterData.DEFAULT_FLOOR);
 
-				StringBuilder defb = new StringBuilder();
-				defb.append( "Defense scale: (Muscle +" );
-				defb.append( String.valueOf( scale ) );
-				defb.append( ", floor " );
-				defb.append( String.valueOf( floor ) );
-				defb.append( ", cap " );
-				defb.append( String.valueOf( cap ) );
-				defb.append( ")" );
-
-				description = defb.toString();
+				String defb = "Defense scale: (Muscle +" +
+						String.valueOf( scale ) +
+						", floor " +
+						String.valueOf( floor ) +
+						", cap " +
+						String.valueOf( cap ) +
+						")";
+				description = defb;
 			}
 			else if ( stats.defense instanceof Integer )
 			{
@@ -1611,16 +1607,14 @@ public class MonsterData
 				int cap = evaluate( stats.cap, MonsterData.DEFAULT_CAP );
 				int floor = evaluate( stats.floor, MonsterData.DEFAULT_FLOOR);
 
-				StringBuilder hpb = new StringBuilder();
-				hpb.append( "Hit Points scale: 0.75 * (Muscle +" );
-				hpb.append( String.valueOf( scale ) );
-				hpb.append( ", floor " );
-				hpb.append( String.valueOf( floor ) );
-				hpb.append( ", cap " );
-				hpb.append( String.valueOf( cap ) );
-				hpb.append( ")" );
-
-				description = hpb.toString();
+				String hpb = "Hit Points scale: 0.75 * (Muscle +" +
+						String.valueOf( scale ) +
+						", floor " +
+						String.valueOf( floor ) +
+						", cap " +
+						String.valueOf( cap ) +
+						")";
+				description = hpb;
 			}
 			else if ( stats.health instanceof Integer )
 			{

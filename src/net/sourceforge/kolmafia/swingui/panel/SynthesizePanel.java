@@ -744,9 +744,9 @@ public class SynthesizePanel
 					return;
 				}
 
-				Object item = SynthesizePanel.this.candyList1.getSelectedValue();
+				Candy item = SynthesizePanel.this.candyList1.getSelectedValue();
 				Candy current = SynthesizePanel.this.candy1();
-				Candy replace = (Candy)item;
+				Candy replace = item;
 				if ( current != replace )
 				{
 					this.candy = replace;
@@ -832,9 +832,9 @@ public class SynthesizePanel
 					return;
 				}
 
-				Object item = SynthesizePanel.this.candyList2.getSelectedValue();
+				Candy item = SynthesizePanel.this.candyList2.getSelectedValue();
 				Candy current = SynthesizePanel.this.candy2();
-				Candy replace = (Candy)item;
+				Candy replace = item;
 				if ( current != replace )
 				{
 					this.candy = replace;

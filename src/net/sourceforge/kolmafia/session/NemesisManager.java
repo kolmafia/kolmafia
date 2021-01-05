@@ -331,7 +331,7 @@ public abstract class NemesisManager
 		PaperStrip strip = array[0];
 		for ( int i = 1; i < array.length; ++i )
 		{
-			strip = (PaperStrip) left.get( strip.right );
+			strip = left.get( strip.right );
 			array[ i ] = strip;
 		}
 

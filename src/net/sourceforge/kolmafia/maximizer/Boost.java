@@ -114,7 +114,7 @@ implements Comparable<Boost>
 	public int compareTo( Boost o )
 	{
 		if ( !(o instanceof Boost) ) return -1;
-		Boost other = (Boost) o;
+		Boost other = o;
 
 		if ( this.isEquipment != other.isEquipment )
 		{

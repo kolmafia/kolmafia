@@ -118,7 +118,7 @@ public class SendMessageFrame
 
 		// Who you want to send it to.
 
-		this.contacts = (LockableListModel) ContactManager.getMailContacts().getMirrorImage();
+		this.contacts = ContactManager.getMailContacts().getMirrorImage();
 		this.recipientEntry = new AutoFilterComboBox( this.contacts, true );
 
 		// How much you want to attach, in raw terms.

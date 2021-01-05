@@ -117,7 +117,7 @@ public class BuffBotDatabase
 		// Otherwise, retrieve the information for the buffbot
 		// to see if there are non-philanthropic offerings.
 
-		String[] data = (String[]) BuffBotDatabase.buffDataMap.get( name );
+		String[] data = BuffBotDatabase.buffDataMap.get( name );
 
 		if ( data[ 2 ].equals( BuffBotDatabase.OPTOUT_URL ) )
 		{
@@ -390,7 +390,7 @@ public class BuffBotDatabase
 
 					for ( int i = 0; i < tester.size(); ++i )
 					{
-						currentTest = (Offering) tester.get( i );
+						currentTest = tester.get( i );
 						if ( currentTest.getPrice() == price )
 						{
 							priceMatch = currentTest;

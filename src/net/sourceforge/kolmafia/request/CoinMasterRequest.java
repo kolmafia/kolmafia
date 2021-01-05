@@ -464,7 +464,7 @@ public class CoinMasterRequest
 				if ( itemId == entry.getValue() )
 				{
 					// This is the actual itemId
-					return (int) entry.getKey();
+					return entry.getKey();
 				}
 			}
 			return -1;

@@ -421,7 +421,6 @@ public class SkillBuffFrame
 						{
 							this.setSelectedIndex( -1 );
 						}
-						continue;
 					}
 				}
 			}

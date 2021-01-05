@@ -80,7 +80,7 @@ public class RequestFrame
 {
 	private static final int HISTORY_LIMIT = 4;
 	private static final Pattern IMAGE_PATTERN =
-		Pattern.compile( "images\\.kingdomofloathing\\.com/[^\\s\"\'>]+" );
+		Pattern.compile( "images\\.kingdomofloathing\\.com/[^\\s\"'>]+" );
 	private static final Pattern TOID_PATTERN = Pattern.compile( "toid=(\\d+)" );
 
 	private static final Pattern BOOKSHELF_PATTERN =
@@ -285,7 +285,7 @@ public class RequestFrame
 			displayHTML.replaceAll(
 				"<td valign=center><table[^>]*?><tr><td([^>]*?) bgcolor=black([^>]*?)>.*?</table></td>", "" );
 
-		displayHTML = displayHTML.replaceAll( "<tr[^>]*?><td[^>]*bgcolor=\'?\"?black(.*?)</tr>", "" );
+		displayHTML = displayHTML.replaceAll( "<tr[^>]*?><td[^>]*bgcolor='?\"?black(.*?)</tr>", "" );
 		displayHTML = displayHTML.replaceAll( "<table[^>]*title=.*?</table>", "" );
 
 		// The default browser doesn't understand the table directive
@@ -304,10 +304,10 @@ public class RequestFrame
 		// sure to convert them to standard <A> tags linking to
 		// the correct document.
 
-		displayHTML = displayHTML.replaceAll( "<a[^>]*?\\((?<!discardconf\\()[\'\"](.*?)[\'\"].*?>", "<a href=\"$1\">" );
+		displayHTML = displayHTML.replaceAll( "<a[^>]*?\\((?<!discardconf\\()['\"](.*?)['\"].*?>", "<a href=\"$1\">" );
 		displayHTML =
 			displayHTML.replaceAll(
-				"<img([^>]*?) onClick=\'window.open\\(\"(.*?)\".*?\'(.*?)>", "<a href=\"$2\"><img$1 $3 border=0></a>" );
+                    "<img([^>]*?) onClick='window.open\\(\"(.*?)\".*?'(.*?)>", "<a href=\"$2\"><img$1 $3 border=0></a>" );
 
 		// The search form for viewing players has an </html>
 		// tag appearing right after </style>, which may confuse
@@ -320,7 +320,7 @@ public class RequestFrame
 
 		displayHTML =
 			displayHTML.replaceAll(
-				"<img([^>]*?) onClick=\'descitem\\((\\d+)\\);\'>",
+                    "<img([^>]*?) onClick='descitem\\((\\d+)\\);'>",
 				"<a href=\"desc_item.php?whichitem=$2\"><img$1 border=0></a>" );
 
 		// The last thing to worry about is the problems in

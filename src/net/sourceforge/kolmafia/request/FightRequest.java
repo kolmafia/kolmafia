@@ -2804,7 +2804,7 @@ public class FightRequest
 					Matcher m = FightRequest.TIMEPRANK_PATTERN.matcher( responseText );
 					if ( m.find() )
 					{
-						String message = new String( m.group(1) );
+						String message = m.group( 1 );
 						StringBuilder buffer = new StringBuilder( "Round 0: " );
 						buffer.append( FightRequest.currentEncounter );
 						buffer.append( " says: \"" );
@@ -3709,7 +3709,7 @@ public class FightRequest
 				if ( monsterName.equals( "Sorrowful Hickory" ) && specialBountyItemName.equals( "hickory daiquiri" ) )
 				{
 					// There is no bounty text for hickory daiquiri, so assume success instead
-					int bountyCount = StringUtilities.parseInt( specialBountyString.substring( index + 1, specialBountyString.length() ) );
+					int bountyCount = StringUtilities.parseInt( specialBountyString.substring( index + 1 ) );
 					if ( bountyCount < 6 )
 					{
 						bountyCount++;
@@ -6489,7 +6489,7 @@ public class FightRequest
 		{
 			return src;
 		}
-		return src.substring( index + 1, src.length() );
+		return src.substring( index + 1 );
 	}
 
 	private static final int ULTIMATE = "ULTIMATE: ".length();
@@ -6594,7 +6594,7 @@ public class FightRequest
 		{
 			String famtype = row2Tags[0].getText().toString();
 			level = StringUtilities.parseInt( famtype.substring( 4, 5 ) );
-			race = famtype.substring( 6, famtype.length() );
+			race = famtype.substring( 6 );
 		}
 
 		// If this is your familiar, it might have been boosted with a pokepill
@@ -6681,7 +6681,7 @@ public class FightRequest
 					String description = input.getAttributeByName( "title" );
 					if ( move == 2 )
 					{
-						str = str.substring( ULTIMATE, str.length() );
+						str = str.substring( ULTIMATE );
 					}
 					if ( action != null )
 					{
@@ -6970,7 +6970,7 @@ public class FightRequest
 			if ( cl != null && cl.equals( "item" ) && rel != null )
 			{
 				AdventureResult result = ItemDatabase.itemFromRelString( rel );
-				ResultProcessor.processItem( true, "You acquire an item:", result, (List<AdventureResult>) null );
+				ResultProcessor.processItem( true, "You acquire an item:", result, null );
 				if ( node.getText().toString().startsWith( "Item unequipped" ) )
 				{
 					EquipmentManager.discardEquipment( result );
@@ -7259,7 +7259,6 @@ public class FightRequest
 			{
 				TagNode object = (TagNode) child;
 				FightRequest.processNode( object, status );
-				continue;
 			}
 		}
 	}
@@ -7399,7 +7398,7 @@ public class FightRequest
 
 				boolean autoEquip = str.contains( "automatically equipped" );
 				String acquisition = autoEquip ? "You acquire and equip an item:" : "You acquire an item:";
-				ResultProcessor.processItem( true, acquisition, result, (List<AdventureResult>) null );
+				ResultProcessor.processItem( true, acquisition, result, null );
 
 				if ( autoEquip )
 				{
@@ -7449,7 +7448,7 @@ public class FightRequest
 						acquisition.startsWith( "You lose" ) ?
 						EffectPool.get( effectId, 0 ) :
 						EffectPool.get( effectId, Integer.MAX_VALUE );
-					ResultProcessor.processIntrinsic( true, acquisition, intrinsic, (List<AdventureResult>) null );
+					ResultProcessor.processIntrinsic( true, acquisition, intrinsic, null );
 					return false;
 				}
 
@@ -7457,7 +7456,7 @@ public class FightRequest
 				int duration = d.find() ? StringUtilities.parseInt( d.group( 1 ) ) : 1;
 				AdventureResult result = EffectPool.get( effectId, duration );
 				
-				ResultProcessor.processEffect( true, acquisition, result, (List<AdventureResult>) null );
+				ResultProcessor.processEffect( true, acquisition, result, null );
 
 				if ( acquisition.startsWith( "You lose" ) )
 				{
@@ -7525,7 +7524,7 @@ public class FightRequest
 		     str.contains( "You lose an item" ) )
 		{
 			AdventureResult result = ItemPool.get( ItemPool.FINGERPRINT_DUSTING_KIT, -1 );
-			ResultProcessor.processItem( true, "You lose an item:", result, (List<AdventureResult>) null );
+			ResultProcessor.processItem( true, "You lose an item:", result, null );
 			return false;
 		}
 
@@ -8019,7 +8018,6 @@ public class FightRequest
 			{
 				CommentNode object = (CommentNode) child;
 				FightRequest.processComment( object, status );
-				continue;
 			}
 		}
 	}
@@ -8423,7 +8421,7 @@ public class FightRequest
 		Matcher m = FightRequest.SEAHORSE_PATTERN.matcher( text );
 		if ( m.find() )
 		{
-			String name = new String( m.group(1) );
+			String name = m.group( 1 );
 			Preferences.setString( "seahorseName", name );
 			StringBuilder buffer = new StringBuilder();
 			buffer.append( "Seahorse name: " );
@@ -9222,7 +9220,7 @@ public class FightRequest
 		int minLevel = Preferences.getInteger( "autoAntidote" );
 		for ( int i = 0; i < KoLConstants.activeEffects.size(); ++i )
 		{
-			if ( EffectDatabase.getPoisonLevel( ( (AdventureResult) KoLConstants.activeEffects.get( i ) ).getName() ) <= minLevel )
+			if ( EffectDatabase.getPoisonLevel( KoLConstants.activeEffects.get( i ).getName() ) <= minLevel )
 			{
 				return true;
 			}

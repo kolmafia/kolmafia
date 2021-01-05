@@ -585,15 +585,13 @@ public class SewerRequest
 		AdventureResult gum = ItemPool.get( ItemPool.CHEWING_GUM, count );
 		UseItemRequest.setLastItemUsed( gum );
 
-		StringBuilder text = new StringBuilder();
-		text.append( "Use " );
-		text.append( count );
-		text.append( " " );
-		text.append( gum.getPluralName() );
-		text.append( " to retrieve items from the sewer." );
-
-		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( text.toString() );
+        RequestLogger.updateSessionLog();
+        String text = "Use " +
+                count +
+                " " +
+                gum.getPluralName() +
+                " to retrieve items from the sewer.";
+        RequestLogger.updateSessionLog( text );
 
 		return true;
 	}

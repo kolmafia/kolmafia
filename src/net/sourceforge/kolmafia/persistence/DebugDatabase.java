@@ -183,7 +183,7 @@ public class DebugDatabase
 		// Sacr&eacute; Mental
 		// Sacré Mental
 		return  name1.equals( name2 ) ||
-			StringUtilities.getEntityDecode( name1 ).toLowerCase().equals( StringUtilities.getEntityDecode( name2 ).toLowerCase() );
+			StringUtilities.getEntityDecode( name1 ).equalsIgnoreCase( StringUtilities.getEntityDecode( name2 ) );
 	}
 
 	/**
@@ -919,7 +919,7 @@ public class DebugDatabase
 
 		RequestLogger.printLine( "Checking " + tag + "..." );
 
-		report.println( "" );
+		report.println();
 		report.println( "# Level requirements in " + file + ".txt" );
 
 		Object[] keys = map.keySet().toArray();
@@ -1021,7 +1021,7 @@ public class DebugDatabase
 		String tag = imap.getTag();
 		RequestLogger.printLine( "Checking " + tag + "..." );
 
-		report.println( "" );
+		report.println();
 		report.println( "# " + tag + " section of equipment.txt" );
 		report.println();
 
@@ -2970,7 +2970,7 @@ public class DebugDatabase
 			return;
 		}
 
-		report.println( "" );
+		report.println();
 		report.println( "# Consumption data in " + tag + ".txt" );
 		report.println( "#" );
 
@@ -3921,7 +3921,7 @@ public class DebugDatabase
 				report.print( i.next() );
 				report.print( ", " );
 			}
-			report.println( "" );
+			report.println();
 			return;
 		}
 		ArrayList<String> existing = new ArrayList<String>();
@@ -3941,7 +3941,7 @@ public class DebugDatabase
 			report.print( i.next() );
 			report.print( ", " );
 		}
-		report.println( "" );
+		report.println();
 		report.println( "Removed:" );
 		i = existing.iterator();
 		while ( i.hasNext() )
@@ -3949,7 +3949,7 @@ public class DebugDatabase
 			report.print( i.next() );
 			report.print( ", " );
 		}
-		report.println( "" );
+		report.println();
 	}
 
 	// Check Monster Manuel

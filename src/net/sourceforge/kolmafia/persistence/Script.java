@@ -71,7 +71,7 @@ public class Script
 
 	public int compareTo( Object o )
 	{
-		if ( o == null || !( o instanceof Script ) )
+		if ( !( o instanceof Script ) )
 		{
 			return -1;
 		}

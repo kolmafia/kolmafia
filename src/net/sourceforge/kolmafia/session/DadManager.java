@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.session;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -327,10 +328,7 @@ public class DadManager
 		}
 
 		// Initialize the array of elemental weaknesses
-		for ( int i = 0; i < ElementalWeakness.length; ++i )
-		{
-			ElementalWeakness[ i ] = Element.NONE;
-		}
+		Arrays.fill( ElementalWeakness, Element.NONE );
 
 		// Now parse the clues and fill in the weaknesses
 		ElementalWeakness[ 1 ] = DadManager.wordToElement( matcher.group(1), DadManager.WORD1 );
@@ -378,7 +376,7 @@ public class DadManager
 			elements[0] = elements[1] = DadManager.intToElement( elements[0].ordinal() - 1 );
 		}
 
-		boolean reverse = matcher.group(6).toLowerCase().equals( "suddenly" );
+		boolean reverse = matcher.group(6).equalsIgnoreCase( "suddenly" );
 		ElementalWeakness[ 6 ] = reverse ? elements[ 1 ] : elements[ 0 ];
 		ElementalWeakness[ 7 ] = reverse ? elements[ 0 ] : elements[ 1 ];
 

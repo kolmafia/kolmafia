@@ -156,7 +156,7 @@ public class FamiliarDatabase
 				FamiliarDatabase.maxFamiliarId = id;
 			}
 
-			String name = new String( data[ 1 ] );
+			String name = data[ 1 ];
 			String canonical = StringUtilities.getCanonicalName( name );
 			String display = StringUtilities.getDisplayName( name );
 
@@ -164,7 +164,7 @@ public class FamiliarDatabase
 			FamiliarDatabase.familiarByName.put( name, id );
 			FamiliarDatabase.canonicalNameMap.put( canonical, name );
 
-			String image = new String( data[ 2 ] );
+			String image = data[ 2 ];
 			FamiliarDatabase.familiarImageById.put( id, image );
 			FamiliarDatabase.familiarByImage.put( image, id );
 			// Kludge: Happy Medium has 4 different images
@@ -175,15 +175,15 @@ public class FamiliarDatabase
 				FamiliarDatabase.familiarByImage.put( "medium_3.gif", id );
 			}
 
-			String type = new String( data[ 3 ] );
+			String type = data[ 3 ];
 			FamiliarDatabase.updateType( type, id );
 
-			String larvaName = new String( data[ 4 ] );
+			String larvaName = data[ 4 ];
 			Integer larva = Integer.valueOf( ItemDatabase.getItemId( larvaName ) );
 			FamiliarDatabase.familiarLarvaById.put( id, larva );
 			FamiliarDatabase.familiarByLarva.put( larva, id );
 
-			String itemName = new String( data[ 5 ] );
+			String itemName = data[ 5 ];
 			FamiliarDatabase.familiarItemById.put( id, itemName );
 			FamiliarDatabase.familiarByItem.put( itemName, id );
 
@@ -276,14 +276,14 @@ public class FamiliarDatabase
 
 			try
 			{
-				String race = new String( data[ 0 ] );
-				String level2 = new String( data[ 1 ] );
-				String level3 = new String( data[ 2 ] );
-				String level4 = new String( data[ 3 ] );
-				String move1 = new String( data[ 4 ] );
-				String move2 = new String( data[ 5 ] );
-				String move3 = new String( data[ 6 ] );
-				String attribute = new String( data[ 7 ] );
+				String race = data[ 0 ];
+				String level2 = data[ 1 ];
+				String level3 = data[ 2 ];
+				String level4 = data[ 3 ];
+				String move1 = data[ 4 ];
+				String move2 = data[ 5 ];
+				String move3 = data[ 6 ];
+				String attribute = data[ 7 ];
 
 				Integer id = FamiliarDatabase.familiarByName.get( race );
 				if ( id == null )
@@ -393,7 +393,7 @@ public class FamiliarDatabase
 
 	public static final String getFamiliarName( final Integer familiarId )
 	{
-		return (String) FamiliarDatabase.familiarById.get( familiarId );
+		return FamiliarDatabase.familiarById.get( familiarId );
 	}
 
 	/**
@@ -756,14 +756,14 @@ public class FamiliarDatabase
 
 	public static final String getFamiliarImageLocation( final int familiarId )
 	{
-		String location = (String) FamiliarDatabase.familiarImageById.get( IntegerPool.get( familiarId ) );
+		String location = FamiliarDatabase.familiarImageById.get( IntegerPool.get( familiarId ) );
 		return ( location != null ) ? location : "debug.gif";
 	}
 
 	public static final int getFamiliarByImageLocation( final String image )
 	{
-		Object familiarId = FamiliarDatabase.familiarByImage.get( image );
-		return familiarId == null ? -1 : ( (Integer) familiarId ).intValue();
+		Integer familiarId = FamiliarDatabase.familiarByImage.get( image );
+		return familiarId == null ? -1 : familiarId.intValue();
 	}
 
 	private static final ImageIcon getFamiliarIcon( final String location )
@@ -818,7 +818,7 @@ public class FamiliarDatabase
 
 	public static final Integer getFamiliarSkill( final String name, final int event )
 	{
-		return (Integer) FamiliarDatabase.eventSkillByName[ event - 1 ].get( name );
+		return FamiliarDatabase.eventSkillByName[ event - 1 ].get( name );
 	}
 
 	public static final int[] getFamiliarSkills( final int id )
@@ -832,7 +832,7 @@ public class FamiliarDatabase
 		int skills[] = new int[ 4 ];
 		for ( int i = 0; i < 4; ++i )
 		{
-			skills[ i ] = ( (Integer) FamiliarDatabase.eventSkillByName[ i ].get( name ) ).intValue();
+			skills[ i ] = FamiliarDatabase.eventSkillByName[ i ].get( name ).intValue();
 		}
 		return skills;
 	}
@@ -1084,29 +1084,28 @@ public class FamiliarDatabase
 
 	private static String pokefamString( PokefamData data )
 	{
-		StringBuilder buffer = new StringBuilder();
 
-		buffer.append( data.getRace() );
-		buffer.append( "\t" );
-		buffer.append( data.getPower2() == 0 ? "x" : String.valueOf( data.getPower2() ) );
-		buffer.append( "/" );
-		buffer.append( data.getHP2() == 0 ? "x" : String.valueOf( data.getHP2() ) );
-		buffer.append( "\t" );
-		buffer.append( data.getPower3() == 0 ? "x" : String.valueOf( data.getPower3() ) );
-		buffer.append( "/" );
-		buffer.append( data.getHP3() == 0 ? "x" : String.valueOf( data.getHP3() ) );
-		buffer.append( "\t" );
-		buffer.append( data.getPower4() == 0 ? "x" : String.valueOf( data.getPower4() ) );
-		buffer.append( "/" );
-		buffer.append( data.getHP4() == 0 ? "x" : String.valueOf( data.getHP4() ) );
-		buffer.append( "\t" );
-		buffer.append( data.getMove1() );
-		buffer.append( "\t" );
-		buffer.append( data.getMove2() );
-		buffer.append( "\t" );
-		buffer.append( data.getMove3() );
-		buffer.append( "\t" );
-		buffer.append( data.getAttribute() );
-		return buffer.toString();
+		String buffer = data.getRace() +
+				"\t" +
+				( data.getPower2() == 0 ? "x" : String.valueOf( data.getPower2() ) ) +
+				"/" +
+				( data.getHP2() == 0 ? "x" : String.valueOf( data.getHP2() ) ) +
+				"\t" +
+				( data.getPower3() == 0 ? "x" : String.valueOf( data.getPower3() ) ) +
+				"/" +
+				( data.getHP3() == 0 ? "x" : String.valueOf( data.getHP3() ) ) +
+				"\t" +
+				( data.getPower4() == 0 ? "x" : String.valueOf( data.getPower4() ) ) +
+				"/" +
+				( data.getHP4() == 0 ? "x" : String.valueOf( data.getHP4() ) ) +
+				"\t" +
+				data.getMove1() +
+				"\t" +
+				data.getMove2() +
+				"\t" +
+				data.getMove3() +
+				"\t" +
+				data.getAttribute();
+		return buffer;
 	}
 }

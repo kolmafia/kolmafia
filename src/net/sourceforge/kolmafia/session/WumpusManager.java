@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.session;
 
+import java.util.Arrays;
 import java.util.TreeMap;
 
 import java.util.regex.Matcher;
@@ -1174,10 +1175,7 @@ public abstract class WumpusManager
 	private static final String getLayout( final Room room )
 	{
 		// Initialize layout
-		for ( int i = 0; i < layout.length; ++i )
-		{
-			layout[ i ] = null;
-		}
+		Arrays.fill( layout, null );
 
 		// Calculate layout with specified room in position 0
 		WumpusManager.addRoom( 0, room );
@@ -1222,7 +1220,7 @@ public abstract class WumpusManager
 		for ( int i = 0; i < permutations.length; ++i )
 		{
 			// Save a copy of the layout so we can easily unwind
-			Room [] copy = (Room [])WumpusManager.layout.clone();
+			Room [] copy = WumpusManager.layout.clone();
 
 			int [] links = permutations[i];
 			boolean success = true;

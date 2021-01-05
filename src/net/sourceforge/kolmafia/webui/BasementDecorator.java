@@ -98,12 +98,10 @@ public class BasementDecorator
 
 		StringBuffer actionBuffer = new StringBuffer( "<tr><td align=left>" );
 
-		StringBuilder autoAction = new StringBuilder();
-		autoAction.append( "document.location.href='basement.php?action=" );
-		autoAction.append( BasementRequest.getBasementAction( buffer.toString() ) );
-		autoAction.append( "'; void(0);" );
-
-		BasementDecorator.addBasementButton( "auto", autoAction.toString(), actionBuffer, true );
+		String autoAction = "document.location.href='basement.php?action=" +
+				BasementRequest.getBasementAction( buffer.toString() ) +
+				"'; void(0);";
+		BasementDecorator.addBasementButton( "auto", autoAction, actionBuffer, true );
 		BasementDecorator.addBasementButton( "rebuff", "runBasementScript(); void(0);", actionBuffer, false );
 		BasementDecorator.addBasementButton( "refresh", "document.location.href='basement.php'; void(0);", actionBuffer, true );
 
@@ -253,13 +251,13 @@ public class BasementDecorator
 
 		// Add first choice spoiler
 		index2 = text.indexOf( "</form>", index1 );
-		buffer.append( text.substring( index1, index2 ) );
+		buffer.append( text, index1, index2 );
 		buffer.append( "<br><font size=-1>(" + choice1 + ")</font><br/></form>" );
 		index1 = index2 + 7;
 
 		// Add second choice spoiler
 		index2 = text.indexOf( "</form>", index1 );
-		buffer.append( text.substring( index1, index2 ) );
+		buffer.append( text, index1, index2 );
 		buffer.append( "<br><font size=-1>(" + choice2 + ")</font><br/></form>" );
 		index1 = index2 + 7;
 

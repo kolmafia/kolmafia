@@ -466,12 +466,11 @@ public class FightDecorator
 			int inventoryLink = buffer.indexOf( "<Center><a href=\"inventory.php\">Back to your Inventory</a></center>" );
 			if ( inventoryLink != -1 )
 			{
-				StringBuilder link = new StringBuilder();
-				// inv_use.php?whichitem=9104&pwd
-				link.append( "<center><a href=\"inv_use.php?whichitem=9104&pwd=" );
-				link.append( GenericRequest.passwordHash );
-				link.append( "\">Back to your Time-Spinner</a></center><br>" );
-				buffer.insert( inventoryLink, link.toString()  );
+                // inv_use.php?whichitem=9104&pwd
+                String link = "<center><a href=\"inv_use.php?whichitem=9104&pwd=" +
+                        GenericRequest.passwordHash +
+                        "\">Back to your Time-Spinner</a></center><br>";
+                buffer.insert( inventoryLink, link );
 			}
 			return;
 		}
@@ -485,14 +484,13 @@ public class FightDecorator
 			int index = buffer.indexOf( END_TAG );
 			if ( index != -1 )
 			{
-				StringBuilder link = new StringBuilder();
-				// inv_use.php?whichitem=7204&pwd
-				link.append( "<p><a href=\"inv_use.php?whichitem=7204&pwd=" );
-				link.append( GenericRequest.passwordHash );
-				link.append( "\">Use another lynyrd snare (" );
-				link.append( String.valueOf( uses ) );
-				link.append( "/3 lynyrds fought today)</a>" );
-				buffer.insert( index + END_TAG.length() , link.toString()  );
+                // inv_use.php?whichitem=7204&pwd
+                String link = "<p><a href=\"inv_use.php?whichitem=7204&pwd=" +
+                        GenericRequest.passwordHash +
+                        "\">Use another lynyrd snare (" +
+                        String.valueOf( uses ) +
+                        "/3 lynyrds fought today)</a>";
+                buffer.insert( index + END_TAG.length() , link );
 			}
 			return;
 		}

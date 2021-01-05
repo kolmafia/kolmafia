@@ -228,7 +228,7 @@ public class ContactListFrame
 	{
 		if ( contact instanceof HTMLListEntry )
 		{
-			return (String) ( (HTMLListEntry) contact ).getValue();
+			return ( (HTMLListEntry) contact ).getValue();
 		}
 
 		return (String) contact;

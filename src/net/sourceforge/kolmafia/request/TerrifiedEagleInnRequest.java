@@ -175,16 +175,14 @@ public class TerrifiedEagleInnRequest
 				// ItemDatabase.registerItem( itemId, itemName, descId );
 
 				// Print what goes in coinmasters.txt
-				StringBuilder printMe= new StringBuilder();
-				printMe.append( KoLConstants.LINE_BREAK );
-				printMe.append( TerrifiedEagleInnRequest.master );	
-				printMe.append( "\tbuy\t" );
-				printMe.append( String.valueOf( price ) );
-				printMe.append( "\t" );
-				printMe.append( itemName );
-				printMe.append( "\tROW" );
-				printMe.append( row );
-				String message = printMe.toString();
+                String message = KoLConstants.LINE_BREAK +
+                        TerrifiedEagleInnRequest.master +
+                        "\tbuy\t" +
+                        String.valueOf( price ) +
+                        "\t" +
+                        itemName +
+                        "\tROW" +
+                        row;
 				RequestLogger.printLine( message );
 				RequestLogger.updateSessionLog( message );
 			}

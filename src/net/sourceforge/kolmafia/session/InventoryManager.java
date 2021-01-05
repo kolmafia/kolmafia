@@ -853,7 +853,7 @@ public abstract class InventoryManager
 
 			// Things that we can construct out of pure Meat cannot
 			// possibly be cheaper to buy.
-			if ( creator != null && creator instanceof CombineMeatRequest )
+			if ( creator instanceof CombineMeatRequest )
 			{
 				forceNoMall = true;
 			}

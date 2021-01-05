@@ -2086,9 +2086,8 @@ public class Parser
 		// Get an aggregate reference
 		Value aggregate = this.parseVariableReference( parentScope );
 
-		if ( aggregate == null ||
-		     !( aggregate instanceof VariableReference ) ||
-		     !( aggregate.getType().getBaseType() instanceof AggregateType ) )
+		if ( !( aggregate instanceof VariableReference ) ||
+                !( aggregate.getType().getBaseType() instanceof AggregateType ) )
 		{
 			throw this.parseException( "Aggregate reference expected" );
 		}
@@ -3165,7 +3164,7 @@ public class Parser
 			;
 		}
 
-		else if ( this.currentToken().equals( "\"" ) || this.currentToken().equals( "\'" ) || this.currentToken().equals( "`" ) )
+		else if ( this.currentToken().equals( "\"" ) || this.currentToken().equals( "'" ) || this.currentToken().equals( "`" ) )
 		{
 			result = this.parseString( scope, null );
 		}
@@ -4362,31 +4361,28 @@ public class Parser
 
 	private ScriptException multiplyDefinedFunctionException( final Function f )
 	{
-		StringBuilder buffer = new StringBuilder();
-		buffer.append( "Function '" );
-		buffer.append( f.getSignature() );
-		buffer.append( "' defined multiple times." );
-		return this.parseException( buffer.toString() );
+        String buffer = "Function '" +
+                f.getSignature() +
+                "' defined multiple times.";
+        return this.parseException( buffer );
 	}
 
 	private ScriptException overridesLibraryFunctionException( final Function f )
 	{
-		StringBuilder buffer = new StringBuilder();
-		buffer.append( "Function '" );
-		buffer.append( f.getSignature() );
-		buffer.append( "' overrides a library function." );
-		return this.parseException( buffer.toString() );
+        String buffer = "Function '" +
+                f.getSignature() +
+                "' overrides a library function.";
+        return this.parseException( buffer );
 	}
 
 	private ScriptException varargClashException( final Function f, final Function clash )
 	{
-		StringBuilder buffer = new StringBuilder();
-		buffer.append( "Function '" );
-		buffer.append( f.getSignature() );
-		buffer.append( "' clashes with existing function '" );
-		buffer.append( clash.getSignature() );
-		buffer.append( "'." );
-		return this.parseException( buffer.toString() );
+        String buffer = "Function '" +
+                f.getSignature() +
+                "' clashes with existing function '" +
+                clash.getSignature() +
+                "'.";
+        return this.parseException( buffer );
 	}
 
 	public final ScriptException sinceException( String current, String target, boolean targetIsRevision )

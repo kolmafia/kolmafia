@@ -782,15 +782,14 @@ public class TCRSDatabase
 		{
 			int duration = (int) Modifiers.getNumericModifier( "Item", itemName, "Effect Duration" );
 			String effectModifiers = Modifiers.getStringModifier( "Effect", effectName, "Modifiers" );
-			StringBuilder buf = new StringBuilder( comment );
-			buf.append( " " );
-			buf.append( String.valueOf( duration ) );
-			buf.append( " " );
-			buf.append( effectName );
-			buf.append( " (" );
-			buf.append( effectModifiers );
-			buf.append( ")" );
-			comment = buf.toString();
+            String buf = comment + " " +
+                    String.valueOf( duration ) +
+                    " " +
+                    effectName +
+                    " (" +
+                    effectModifiers +
+                    ")";
+            comment = buf;
 		}
 
 		ConsumablesDatabase.updateConsumableSize( itemName, usage, tcrs.size );

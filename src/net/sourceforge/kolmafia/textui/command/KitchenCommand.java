@@ -92,7 +92,7 @@ public class KitchenCommand
 
 		for ( int i = 0; i < KoLConstants.kitchenItems.size(); ++i )
 		{
-			String name = (String) KoLConstants.kitchenItems.get( i );
+			String name = KoLConstants.kitchenItems.get( i );
 
 			if ( !StringUtilities.substringMatches( name.toLowerCase(), nameString, false ) )
 			{

@@ -137,11 +137,10 @@ public class ListCellRendererFactory
 
 			if ( value instanceof RegisteredEncounter )
 			{
-				StringBuilder buffer = new StringBuilder();
-				buffer.append( "<html><nobr>" );
-				buffer.append( value.toString() );
-				buffer.append( "</nobr></html>" );
-				( (JLabel) defaultComponent ).setText( buffer.toString() );
+                String buffer = "<html><nobr>" +
+                        value.toString() +
+                        "</nobr></html>";
+                ( (JLabel) defaultComponent ).setText( buffer );
 				return defaultComponent;
 			}
 
@@ -895,7 +894,7 @@ public class ListCellRendererFactory
 		public Component getListCellRendererComponent( final JList list, final Object value, final int index,
 			final boolean isSelected, final boolean cellHasFocus )
 		{
-			if ( value == null || !( value instanceof AdventureResult ) )
+			if ( !( value instanceof AdventureResult ) )
 			{
 				return super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 			}
@@ -991,7 +990,7 @@ public class ListCellRendererFactory
 		public Component getListCellRendererComponent( final JList list, final Object value, final int index,
 			final boolean isSelected, final boolean cellHasFocus )
 		{
-			if ( value == null || !( value instanceof AdventureResult ) )
+			if ( !( value instanceof AdventureResult ) )
 			{
 				return super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 			}
@@ -1039,7 +1038,7 @@ public class ListCellRendererFactory
 		public Component getListCellRendererComponent( final JList list, final Object value, final int index,
 			final boolean isSelected, final boolean cellHasFocus )
 		{
-			if ( value == null || !( value instanceof FamiliarData ) )
+			if ( !( value instanceof FamiliarData ) )
 			{
 				return super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 			}
@@ -1191,13 +1190,11 @@ public class ListCellRendererFactory
 				return defaultComponent;
 			}
 
-			StringBuilder stringForm = new StringBuilder();
-			stringForm.append( ar.getName() );
-			stringForm.append( " (" );
-			stringForm.append( KoLConstants.COMMA_FORMAT.format( ar.getCount() ) );
-			stringForm.append( ")" );
-
-			( (JLabel) defaultComponent ).setText( stringForm.toString() );
+            String stringForm = ar.getName() +
+                    " (" +
+                    KoLConstants.COMMA_FORMAT.format( ar.getCount() ) +
+                    ")";
+            ( (JLabel) defaultComponent ).setText( stringForm );
 			return defaultComponent;
 		}
 	}
@@ -1338,7 +1335,7 @@ public class ListCellRendererFactory
 			{
 				stringForm.append( ", " );
 				stringForm.append(
-					((AdventureResult)KoLConstants.pulverizeQueue.get( index )).getCount() );
+					KoLConstants.pulverizeQueue.get( index ).getCount() );
 				stringForm.append( " queued" );
 			}
 

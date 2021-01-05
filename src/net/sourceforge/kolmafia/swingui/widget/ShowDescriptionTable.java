@@ -1458,7 +1458,6 @@ public class ShowDescriptionTable
 			if ( split2.length != 2 )
 			{
 				// malformed, or the first element (panel name)
-				continue;
 			}
 			else
 			{

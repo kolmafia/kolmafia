@@ -70,7 +70,7 @@ public class UntinkerMenuItem
 
 			for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
 			{
-				AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
+				AdventureResult currentItem = KoLConstants.inventory.get( i );
 				int itemId = currentItem.getItemId();
 
 				// Ignore silly fairy gravy + meat from yesterday recipe

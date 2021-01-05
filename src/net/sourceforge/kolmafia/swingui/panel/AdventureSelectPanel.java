@@ -470,14 +470,13 @@ public class AdventureSelectPanel
 			while ( !KoLmafia.refusesContinue() && CommandDisplayFrame.hasQueuedCommands() )
 			{
 				this.pauser.pause( 500 );
-				continue;
 			}
 
 			// If there are conditions in the condition field, be
 			// sure to process them.
 
 			boolean conditionsActive = AdventureSelectPanel.this.conditionsFieldActive.isSelected();
-			String text = ( (String) AdventureSelectPanel.this.conditionField.getText() );
+			String text = AdventureSelectPanel.this.conditionField.getText();
 			String conditionList = text == null ? "" : text.trim().toLowerCase();
 
 			List previousGoals = new ArrayList( GoalManager.getGoals() );

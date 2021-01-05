@@ -1867,12 +1867,10 @@ public class RequestEditorKit
 			return;
 		}
 
-		StringBuilder link = new StringBuilder();
-
-		link.append( "<a href=\"cellar.php?action=explore&whichspot=" );
-		link.append( String.valueOf( unexplored ) );
-		link.append( "\">Explore Next Unexplored Square</a><p>" );
-		buffer.insert( index, link.toString() );
+		String link = "<a href=\"cellar.php?action=explore&whichspot=" +
+				String.valueOf( unexplored ) +
+				"\">Explore Next Unexplored Square</a><p>";
+		buffer.insert( index, link );
 	}
 
 	private static final void addTaleOfDread( final StringBuffer buffer )
@@ -1893,16 +1891,15 @@ public class RequestEditorKit
 			StringUtilities.singleStringReplace( monster.getName(), " (Dreadsylvanian)", "" ):
 			"";
 		String find = "your scary storybook!";
-		StringBuilder replace = new StringBuilder( find );
-		replace.append( " <font size=1>[<a href=\"" );
-		replace.append( "/KoLmafia/redirectedCommand?cmd=taleofdread " );
-		replace.append( monsterName );
-		replace.append( " redirect" );
-		replace.append( "&pwd=" );
-		replace.append( GenericRequest.passwordHash );
-		replace.append( "\">read it</a>]</font>" );
 
-		StringUtilities.singleStringReplace( buffer, find, replace.toString() );
+		String replace = find + " <font size=1>[<a href=\"" +
+				"/KoLmafia/redirectedCommand?cmd=taleofdread " +
+				monsterName +
+				" redirect" +
+				"&pwd=" +
+				GenericRequest.passwordHash +
+				"\">read it</a>]</font>";
+		StringUtilities.singleStringReplace( buffer, find, replace );
 	}
 	
 	private static final Pattern DESERT_EXPLORATION_PATTERN = Pattern.compile( "Desert exploration <b>\\+\\d+%</b>" );
@@ -2086,7 +2083,7 @@ public class RequestEditorKit
 		int decision = ChoiceManager.getDecision( choice, text );
 
 		buffer.setLength( 0 );
-		buffer.append( text.substring( 0, index1 ) );
+		buffer.append( text, 0, index1 );
 
 		while ( true )
 		{
@@ -2116,7 +2113,7 @@ public class RequestEditorKit
 			else
 			{
 				int pos = currentSection.lastIndexOf( "value=\"" );
-				buffer.append( currentSection.substring( 0, pos + 7 ) );
+				buffer.append( currentSection, 0, pos + 7 );
 				buffer.append( "&rarr; " );
 				buffer.append( currentSection.substring( pos + 7 ) );
 			}
@@ -2273,14 +2270,13 @@ public class RequestEditorKit
 				}
 
 				String name = "stone wool";
-				StringBuilder link = new StringBuilder( "<a href=\"javascript:singleUse('inv_use.php','which=3&whichitem=" );
-				link.append( String.valueOf( itemId ) );
-				link.append( "&pwd=" );
-				link.append( GenericRequest.passwordHash );
-				link.append( "&ajax=1');void(0);\">Use another " );
-				link.append( name );
-				link.append( "</a>" );
-				buffer.insert( index, link.toString() );
+				String link = "<a href=\"javascript:singleUse('inv_use.php','which=3&whichitem=" + String.valueOf( itemId ) +
+						"&pwd=" +
+						GenericRequest.passwordHash +
+						"&ajax=1');void(0);\">Use another " +
+						name +
+						"</a>";
+				buffer.insert( index, link );
 			}
 			break;
 
@@ -2301,14 +2297,13 @@ public class RequestEditorKit
 			}
 
 			String name = glover ? "glued A-Boo Clue" : "A-Boo Clue";
-			StringBuilder link = new StringBuilder( "<a href=\"javascript:singleUse('inv_use.php','which=3&whichitem=" );
-			link.append( String.valueOf( itemId ) );
-			link.append( "&pwd=" );
-			link.append( GenericRequest.passwordHash );
-			link.append( "&ajax=1');void(0);\">Use another " );
-			link.append( name );
-			link.append( "</a>" );
-			buffer.insert( index, link.toString() );
+			String link = "<a href=\"javascript:singleUse('inv_use.php','which=3&whichitem=" + String.valueOf( itemId ) +
+					"&pwd=" +
+					GenericRequest.passwordHash +
+					"&ajax=1');void(0);\">Use another " +
+					name +
+					"</a>";
+			buffer.insert( index, link );
 			break;
 		}
 
@@ -2363,15 +2358,12 @@ public class RequestEditorKit
 			return;
 		}
 
-		StringBuilder link = new StringBuilder();
-
-		link.append( "<p><a href=\"" );
-		link.append( url );
-		link.append( "\">" );
-		link.append( tag );
-		link.append( "</a>" );
-
-		buffer.insert( index, link.toString()  );
+		String link = "<p><a href=\"" +
+				url +
+				"\">" +
+				tag +
+				"</a>";
+		buffer.insert( index, link );
 	}
 
 	private static final void decorateCouncil( final StringBuffer buffer )
@@ -2503,12 +2495,10 @@ public class RequestEditorKit
 			return;
 		}
 
-		StringBuilder disclaimer = new StringBuilder();
-		disclaimer.append( "<p><span style=\"width: 95%; border: 3px solid red; color: red; padding: 5px; text-align: left; margin-bottom: 10px; background-color: rgb(254, 226, 226); display:block;\">" );
-		disclaimer.append( "You are currently running in the KoLmafia Relay Browser. It is possible that the bug you are experiencing is not in KoL itself, but is a result of KoLmafia, a Greasemonkey script, or another client-side modification. The KoL team requests that you verify that you can reproduce the bug in a vanilla browser with all add-ons and extensions disabled before submitting a bug report." );
-		disclaimer.append( "</span>" );
-
-		buffer.insert( index, disclaimer.toString() );
+		String disclaimer = "<p><span style=\"width: 95%; border: 3px solid red; color: red; padding: 5px; text-align: left; margin-bottom: 10px; background-color: rgb(254, 226, 226); display:block;\">" +
+				"You are currently running in the KoLmafia Relay Browser. It is possible that the bug you are experiencing is not in KoL itself, but is a result of KoLmafia, a Greasemonkey script, or another client-side modification. The KoL team requests that you verify that you can reproduce the bug in a vanilla browser with all add-ons and extensions disabled before submitting a bug report." +
+				"</span>";
+		buffer.insert( index, disclaimer );
 	}
 
 	private static final void fixDucks( final StringBuffer buffer )
@@ -2563,13 +2553,12 @@ public class RequestEditorKit
 			return;
 		}
 
-		StringBuilder section = new StringBuilder();
-		section.append( "<center><p><a href=\"" );
-		section.append( link );
-		section.append( "\">" );
-		section.append( tag );
-		section.append( "</a></center>" );
-		buffer.insert( index, section.toString() );
+		String section = "<center><p><a href=\"" +
+				link +
+				"\">" +
+				tag +
+				"</a></center>";
+		buffer.insert( index, section );
 	}
 
 	private static final void fixBallroom1( final StringBuffer buffer )
@@ -2679,7 +2668,7 @@ public class RequestEditorKit
 		{
 			Component c = super.createComponent();
 
-			if ( c != null && ( c instanceof JButton || c instanceof JRadioButton || c instanceof JCheckBox ) )
+			if ( ( c instanceof JButton || c instanceof JRadioButton || c instanceof JCheckBox ) )
 			{
 				c.setBackground( Color.white );
 			}

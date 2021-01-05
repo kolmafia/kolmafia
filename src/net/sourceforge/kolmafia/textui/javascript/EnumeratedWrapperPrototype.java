@@ -83,18 +83,18 @@ public class EnumeratedWrapperPrototype
 
 		try
 		{
-			Method constructorMethod = EnumeratedWrapper.class.getDeclaredMethod( "constructDefaultValue", new Class[] {} );
+			Method constructorMethod = EnumeratedWrapper.class.getDeclaredMethod( "constructDefaultValue" );
 			FunctionObject constructor = new FunctionObject( getClassName(), constructorMethod, scope );
 			constructor.addAsConstructor( scope, this );
 
 			Method getMethod = EnumeratedWrapper.class.getDeclaredMethod( "genericGet",
-				new Class[] { Context.class, Scriptable.class, Object[].class, Function.class } );
+                    Context.class, Scriptable.class, Object[].class, Function.class );
 			Function getFunction = new FunctionObject( "get", getMethod, scope );
 			ScriptableObject.defineProperty( getFunction, "typeName", getClassName(), DONTENUM | READONLY | PERMANENT );
 			constructor.defineProperty( "get", getFunction, DONTENUM | READONLY | PERMANENT );
 
 			Method allMethod = EnumeratedWrapper.class.getDeclaredMethod( "all",
-				new Class[] { Context.class, Scriptable.class, Object[].class, Function.class } );
+                    Context.class, Scriptable.class, Object[].class, Function.class );
 			Function allFunction = new FunctionObject( "all", allMethod, scope );
 			ScriptableObject.defineProperty( allFunction, "typeName", getClassName(), DONTENUM | READONLY | PERMANENT );
 			constructor.defineProperty( "all", allFunction, DONTENUM | READONLY | PERMANENT );
@@ -103,7 +103,7 @@ public class EnumeratedWrapperPrototype
 
 			for ( String methodName : new String[] { "toString", "valueOf" } )
 			{
-				Method method = EnumeratedWrapper.class.getDeclaredMethod( methodName, new Class[] {} );
+				Method method = EnumeratedWrapper.class.getDeclaredMethod( methodName );
 				FunctionObject functionObject = new FunctionObject( methodName, method, scope );
 				defineProperty( methodName, functionObject, DONTENUM | READONLY | PERMANENT );
 				functionObject.sealObject();

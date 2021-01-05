@@ -186,7 +186,6 @@ public class CommandDisplayFrame
 				while ( !KoLmafia.refusesContinue() && KoLmafia.isAdventuring() )
 				{
 					this.pauser.pause( 500 );
-					continue;
 				}
 
 				RequestLogger.printLine();

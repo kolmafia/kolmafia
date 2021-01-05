@@ -115,7 +115,7 @@ public class AscensionHistoryRequest
 
 	public int compareTo( final AscensionHistoryRequest o )
 	{
-		return  o == null || !( o instanceof AscensionHistoryRequest ) ? -1 :
+		return  !( o instanceof AscensionHistoryRequest ) ? -1 :
 			typeComparator == AscensionSnapshot.NORMAL ? o.softcoreCount - this.softcoreCount :
 			typeComparator == AscensionSnapshot.HARDCORE ? o.hardcoreCount - this.hardcoreCount :
 			o.casualCount - this.casualCount;
@@ -281,11 +281,11 @@ public class AscensionHistoryRequest
 		}
 		if ( bondPoints > Preferences.getInteger( "bondPoints" ) )
 		{
-			Preferences.setInteger( "bondPoints", ( bondPoints < 24 ? bondPoints : 24 ) );
+			Preferences.setInteger( "bondPoints", ( Math.min( bondPoints, 24 ) ) );
 		}
 		if ( gloverPoints > Preferences.getInteger( "gloverPoints" ) )
 		{
-			Preferences.setInteger( "gloverPoints", ( gloverPoints < 11 ? gloverPoints : 11 ) );
+			Preferences.setInteger( "gloverPoints", ( Math.min( gloverPoints, 11 ) ) );
 		}
 		if ( garlandUpgrades > Preferences.getInteger( "garlandUpgrades" ) )
 		{
@@ -293,15 +293,15 @@ public class AscensionHistoryRequest
 		}
 		if ( masksUnlocked > Preferences.getInteger( "masksUnlocked" ) )
 		{
-			Preferences.setInteger( "masksUnlocked", ( masksUnlocked < 25 ? masksUnlocked : 25 ) );
+			Preferences.setInteger( "masksUnlocked", ( Math.min( masksUnlocked, 25 ) ) );
 		}
 		if ( gyfftePoints > Preferences.getInteger( "darkGyfftePoints" ) )
 		{
-			Preferences.setInteger( "darkGyfftePoints", ( gyfftePoints < 23 ? gyfftePoints : 23 ) );
+			Preferences.setInteger( "darkGyfftePoints", ( Math.min( gyfftePoints, 23 ) ) );
 		}
 		if ( plumberPoints > Preferences.getInteger( "plumberPoints" ) )
 		{
-			Preferences.setInteger( "plumberPoints", ( plumberPoints < 22 ? plumberPoints : 22 ) );
+			Preferences.setInteger( "plumberPoints", ( Math.min( plumberPoints, 22 ) ) );
 		}
 	}
 
@@ -991,7 +991,7 @@ public class AscensionHistoryRequest
 		@Override
 		public boolean equals( final Object o )
 		{
-			return o != null && o instanceof AscensionDataField && this.playerId.equals( ( (AscensionDataField) o ).playerId );
+			return o instanceof AscensionDataField && this.playerId.equals( ( ( AscensionDataField ) o ).playerId );
 		}
 
 		@Override
@@ -1017,7 +1017,7 @@ public class AscensionHistoryRequest
 
 		public int compareTo( final AscensionDataField o )
 		{
-			if ( o == null || !( o instanceof AscensionDataField ) )
+			if ( !( o instanceof AscensionDataField ) )
 			{
 				return -1;
 			}

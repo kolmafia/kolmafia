@@ -124,7 +124,7 @@ public class FudgeWandRequest
 		for ( int i = 0; i < OPTIONS.length; ++i )
 		{
 			Object [] option = OPTIONS[ i ];
-			if ( opt.equals( (String) option[ 0 ] ) )
+			if ( opt.equals( option[ 0 ] ) )
 			{
 				return ( (Integer)option[ 1 ] ).intValue();
 			}

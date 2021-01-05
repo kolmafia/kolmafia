@@ -119,7 +119,6 @@ public class HTMLParserUtils
 			{
 				TagNode object = (TagNode) child;
 				HTMLParserUtils.logHTML( object, buffer, level + 1 );
-				continue;
 			}
 		}
 	}

@@ -703,7 +703,7 @@ public class ConsumablesDatabase
 		{
 			return true;
 		}
-		int req = (int) requirement;
+		int req = requirement;
 		if ( KoLCharacter.getLevel() < req )
 		{
 			return false;

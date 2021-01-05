@@ -217,7 +217,7 @@ public class TrophyFrame
 			this.shown = shown;
 			this.setLayout( this );
 			new DropTarget( this, DnDConstants.ACTION_MOVE | DnDConstants.ACTION_LINK,
-				(DropTargetListener) this );
+                    this );
 		}
 
 		public void addChildrenToList( ArrayList list )
@@ -440,7 +440,7 @@ public class TrophyFrame
 				+ "</html>" );
 			this.dragSource.createDefaultDragGestureRecognizer( this,
 				DnDConstants.ACTION_MOVE | DnDConstants.ACTION_LINK,
-				(DragGestureListener) this );
+                    this );
 		}
 
 		public int getIndex()
@@ -513,7 +513,7 @@ public class TrophyFrame
 			TrophyPanel.source = this;
 			TrophyPanel.sourceList = (TrophyPanel) this.getParent();
 			dge.startDrag( null, new StringSelection( this.trophy.name ),
-				(DragSourceListener) this );
+                    this );
 			//dge.startDrag( null, ((ImageIcon) this.getIcon()).getImage(),
 			//	new Point( -50, -50 ), new StringSelection( this.trophy.name ),
 			//	(DragSourceListener) this);

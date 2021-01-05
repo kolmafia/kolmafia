@@ -258,7 +258,7 @@ public class ClanStashRequest
 			// Parse the actual number of items moved from the
 			// responseText, rather than believing the URL
 			AdventureResultArray items = TransferItemRequest.getItemList( responseText,
-						ITEM_PATTERN1, (Pattern) null, ITEM_PATTERN2 );
+						ITEM_PATTERN1, null, ITEM_PATTERN2 );
 			TransferItemRequest.transferItems( items,
 							   KoLConstants.inventory,
 							   ClanManager.getStash() );

@@ -488,7 +488,7 @@ public class CoinmasterData
 	@Override
 	public boolean equals( final Object o )
 	{
-		return o != null && o instanceof CoinmasterData && this.master == ( (CoinmasterData) o ).master;
+		return o instanceof CoinmasterData && this.master == ( ( CoinmasterData ) o ).master;
 	}
 
 	@Override

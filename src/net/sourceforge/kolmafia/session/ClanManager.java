@@ -386,8 +386,8 @@ public abstract class ClanManager
 		{
 			KoLmafia.updateDisplay( "Cache data lookup for member " + ( i + 1 ) + " of " + names.length + "..." );
 
-			currentProfile = (String) ClanManager.profileMap.get( names[ i ] );
-			currentAscensionData = (String) ClanManager.ascensionMap.get( names[ i ] );
+			currentProfile = ClanManager.profileMap.get( names[ i ] );
+			currentAscensionData = ClanManager.ascensionMap.get( names[ i ] );
 
 			filename = ClanManager.getFileName( names[ i ] );
 			profile = new File( KoLConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "profiles/" + filename );
@@ -441,8 +441,8 @@ public abstract class ClanManager
 		{
 			KoLmafia.updateDisplay( "Loading profile for member " + ( i + 1 ) + " of " + names.length + "..." );
 
-			currentProfile = (String) ClanManager.profileMap.get( names[ i ] );
-			currentAscensionData = (String) ClanManager.ascensionMap.get( names[ i ] );
+			currentProfile = ClanManager.profileMap.get( names[ i ] );
+			currentAscensionData = ClanManager.ascensionMap.get( names[ i ] );
 
 			if ( retrieveProfileData && currentProfile.equals( "" ) )
 			{
@@ -590,7 +590,7 @@ public abstract class ClanManager
 
 	public static String getTitle( final String name )
 	{
-		return (String) ClanManager.titleMap.get( name.toLowerCase() );
+		return ClanManager.titleMap.get( name.toLowerCase() );
 	}
 
 	public static final void registerMember( final String name, final String level, final String title )

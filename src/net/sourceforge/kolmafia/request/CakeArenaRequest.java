@@ -390,7 +390,7 @@ public class CakeArenaRequest
 			return null;
 		}
 
-		return new String( CakeArenaRequest.prettyContestLine( line2 ) );
+		return CakeArenaRequest.prettyContestLine( line2 );
 	}
 
 	public final boolean badContest()

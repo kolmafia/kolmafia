@@ -344,7 +344,7 @@ public class FaxBotDatabase
 		@Override
 		public boolean equals( final Object o )
 		{
-			if ( o == null || !( o instanceof FaxBot ) )
+			if ( !( o instanceof FaxBot ) )
 			{
 				return false;
 			}
@@ -361,7 +361,7 @@ public class FaxBotDatabase
 
 		public int compareTo( final FaxBot o )
 		{
-			if ( o == null || !( o instanceof FaxBot ) )
+			if ( !( o instanceof FaxBot ) )
 			{
 				return -1;
 			}
@@ -425,7 +425,7 @@ public class FaxBotDatabase
 		@Override
 		public boolean equals( final Object o )
 		{
-			if ( o == null || !( o instanceof Monster ) )
+			if ( !( o instanceof Monster ) )
 			{
 				return false;
 			}
@@ -442,7 +442,7 @@ public class FaxBotDatabase
 
 		public int compareTo( final Monster o )
 		{
-			if ( o == null || !( o instanceof Monster ) )
+			if ( !( o instanceof Monster ) )
 			{
 				return -1;
 			}

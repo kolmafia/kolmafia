@@ -237,12 +237,12 @@ public class Mood
 
 	public int compareTo( Mood o )
 	{
-		if ( o == null || !( o instanceof Mood ) )
+		if ( !( o instanceof Mood ) )
 		{
 			return 1;
 		}
 		
-		Mood m = (Mood) o;
+		Mood m = o;
 		
 		return this.name.compareTo( m.name );
 	}
@@ -250,7 +250,7 @@ public class Mood
 	@Override
 	public boolean equals( Object o )
 	{
-		if ( o == null || !( o instanceof Mood ) )
+		if ( !( o instanceof Mood ) )
 		{
 			return false;
 		}

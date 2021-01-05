@@ -180,7 +180,7 @@ public class ChatSender
 
 			while ( messageIterator.hasNext() && ChatSender.scriptedMessagesEnabled )
 			{
-				ChatMessage message = (ChatMessage) messageIterator.next();
+				ChatMessage message = messageIterator.next();
 
 				String recipient = message.getRecipient();
 

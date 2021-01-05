@@ -373,7 +373,7 @@ public abstract class PurchaseRequest
 	@Override
 	public boolean equals( final Object o )
 	{
-		return o == null || !( o instanceof PurchaseRequest ) ? false : this.shopName.equals( ( (PurchaseRequest) o ).shopName )
+		return !( o instanceof PurchaseRequest ) ? false : this.shopName.equals( ( (PurchaseRequest) o ).shopName )
 				&& this.item.getItemId() == ( (PurchaseRequest) o ).item.getItemId();
 	}
 

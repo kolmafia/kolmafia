@@ -597,7 +597,7 @@ public class MonsterDatabase
 		int itemId = ItemDatabase.getItemId( name );
 		if ( itemId == -1 )
 		{
-			return ItemPool.get( data, (int)'0' );
+			return ItemPool.get( data, '0' );
 		}
 
 		return ItemPool.get( itemId, (count << 16) | prefix );

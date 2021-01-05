@@ -183,8 +183,8 @@ public class ProfileSnapshot
 	private static final ProfileRequest getProfile( final String name )
 	{
 		return ProfileRequest.getInstance(
-			name, ContactManager.getPlayerId( name ), (String) ProfileSnapshot.levelMap.get( name ),
-			(String) ProfileSnapshot.profileMap.get( name ), (String) ProfileSnapshot.rosterMap.get( name ) );
+			name, ContactManager.getPlayerId( name ), ProfileSnapshot.levelMap.get( name ),
+                ProfileSnapshot.profileMap.get( name ), ProfileSnapshot.rosterMap.get( name ) );
 	}
 
 	private static final int compare( final int filterType, final String name, final String filter )
@@ -418,7 +418,7 @@ public class ProfileSnapshot
 
 		AscensionHistoryRequest request =
 			AscensionHistoryRequest.getInstance(
-				memberName, ContactManager.getPlayerId( memberName ), (String) AscensionSnapshot.getAscensionMap().get(
+				memberName, ContactManager.getPlayerId( memberName ), AscensionSnapshot.getAscensionMap().get(
 					memberName ) );
 
 		List ascensions = request.getAscensionData();

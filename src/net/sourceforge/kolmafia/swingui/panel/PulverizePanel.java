@@ -242,7 +242,7 @@ public class PulverizePanel
 		@Override
 		public boolean isVisible( final Object element )
 		{
-			if ( element == null || !(element instanceof AdventureResult) )
+			if ( !( element instanceof AdventureResult ) )
 			{
 				return false;
 			}

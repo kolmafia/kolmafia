@@ -1325,7 +1325,7 @@ public class DailyDeedsPanel
 			// the layout manager isn't happy.
 			// The combobox is ultimately sized by setPrototypeDisplayValue().
 
-			comboBox.setMaximumSize( new Dimension( (int)Math.round( len + 100 ), (int)Math.round( ht * 1.5 ) ) );
+			comboBox.setMaximumSize( new Dimension( Math.round( len + 100 ), (int)Math.round( ht * 1.5 ) ) );
 			comboBox.setPrototypeDisplayValue( lengthString );
 
 			for ( int i = 0; i < choice.length ; ++i )
@@ -1530,7 +1530,7 @@ public class DailyDeedsPanel
 			for ( int i=1; i <= len ; ++i )
 			{
 				this.addListener( "demonName" + i );
-				choices[i] =  (String)KoLAdventure.DEMON_TYPES[ i - 1 ][ 1 ] ;
+				choices[i] = KoLAdventure.DEMON_TYPES[ i - 1 ][ 1 ];
 			}
 
 			ttips.addAll(Arrays.asList(tips));
@@ -1585,7 +1585,7 @@ public class DailyDeedsPanel
 				}
 				else
 				{
-					String Choice = (String)cb.getSelectedItem().toString();
+					String Choice = cb.getSelectedItem().toString();
 					setComboTarget(btn, "summon " + Choice);
 				}
 			}
@@ -3715,7 +3715,7 @@ public class DailyDeedsPanel
 			boolean have = InventoryManager.getCount( ItemPool.MOVEABLE_FEAST ) > 0;
 			for ( int i = 0; !have && i < KoLCharacter.getFamiliarList().size(); ++i )
 			{
-				FamiliarData current = (FamiliarData) KoLCharacter.getFamiliarList().get( i );
+				FamiliarData current = KoLCharacter.getFamiliarList().get( i );
 				if ( current.getItem() != null && current.getItem().getItemId() == ItemPool.MOVEABLE_FEAST )
 				{
 					have = true;
@@ -3898,7 +3898,7 @@ public class DailyDeedsPanel
 
 			//build hat options here
 			List<AdventureResult> hats = EquipmentManager.getEquipmentLists()[ EquipmentManager.HAT ];
-			FamiliarData current = (FamiliarData) KoLCharacter.getFamiliar();
+			FamiliarData current = KoLCharacter.getFamiliar();
 
 			if ( current.getItem() != null && EquipmentDatabase.isHat( current.getItem() ) )
 			{
@@ -4619,7 +4619,7 @@ public class DailyDeedsPanel
 			for ( String[] combodata : TERMINAL_ENHANCE_DATA )
 			{	
 				choices.add( combodata[0] );
-				commands.add( (String) combodata[1] );
+				commands.add( combodata[1] );
 				tooltips.add( combodata[2] );
 			}
 		}
@@ -4668,7 +4668,7 @@ public class DailyDeedsPanel
 			this.setText( Preferences.getInteger( "_sourceTerminalEnhanceUses" ) + "/" + limit + " enhances" );
 			for ( int i = 1; i < TERMINAL_ENHANCE_DATA.length ; ++i )
 			{
-				box.setDisabledIndex( i, !Preferences.getString( "sourceTerminalEnhanceKnown" ).contains( (String) TERMINAL_ENHANCE_DATA[i][0] ) );
+				box.setDisabledIndex( i, !Preferences.getString( "sourceTerminalEnhanceKnown" ).contains( TERMINAL_ENHANCE_DATA[i][0] ) );
 			}
 		}
 
@@ -4717,7 +4717,7 @@ public class DailyDeedsPanel
 			for ( String[] combodata : TERMINAL_ENQUIRY_DATA )
 			{	
 				choices.add( combodata[0] );
-				commands.add( (String) combodata[1] );
+				commands.add( combodata[1] );
 				tooltips.add( combodata[2] );
 			}
 		}
@@ -4752,11 +4752,11 @@ public class DailyDeedsPanel
 			this.setText( "currently " + currentSetting );
 			for ( int i = 1; i < TERMINAL_ENQUIRY_DATA.length ; ++i )
 			{
-				if ( currentSetting.equals( (String) TERMINAL_ENQUIRY_DATA[i][0] ) )
+				if ( currentSetting.equals( TERMINAL_ENQUIRY_DATA[i][0] ) )
 				{
 					box.setSelectedIndex( i );
 				}
-				box.setDisabledIndex( i, !Preferences.getString( "sourceTerminalEnquiryKnown" ).contains( (String) TERMINAL_ENQUIRY_DATA[i][0] ) );
+				box.setDisabledIndex( i, !Preferences.getString( "sourceTerminalEnquiryKnown" ).contains( TERMINAL_ENQUIRY_DATA[i][0] ) );
 			}
 		}
 
@@ -4767,7 +4767,7 @@ public class DailyDeedsPanel
 			{
 				DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
 				String command = commands.get( cb.getSelectedIndex() );
-				String choice = (String) choices.get( cb.getSelectedIndex() );
+				String choice = choices.get( cb.getSelectedIndex() );
 				if ( command.equals( "" ) || choice.equals( Preferences.getString( "sourceTerminalEnquiry" ) ) )
 				{
 					setComboTarget( btn, "" );
@@ -4813,7 +4813,7 @@ public class DailyDeedsPanel
 			for ( String[] combodata : TERMINAL_EXTRUDE_DATA )
 			{	
 				choices.add( combodata[0] );
-				commands.add( (String) combodata[1] );
+				commands.add( combodata[1] );
 				tooltips.add( combodata[2] );
 			}
 		}
@@ -4857,9 +4857,9 @@ public class DailyDeedsPanel
 			box.setSelectedIndex( 0 );
 			for ( int i = 1; i < TERMINAL_EXTRUDE_DATA.length ; ++i )
 			{
-				boolean known = Preferences.getString( "sourceTerminalExtrudeKnown" ).contains( (String) TERMINAL_EXTRUDE_DATA[i][0] );
+				boolean known = Preferences.getString( "sourceTerminalExtrudeKnown" ).contains( TERMINAL_EXTRUDE_DATA[i][0] );
 				int sourceEssence = InventoryManager.getCount( ItemPool.SOURCE_ESSENCE );
-				boolean enough = ( sourceEssence >= StringUtilities.parseInt( (String) TERMINAL_EXTRUDE_DATA[i][3] ) );
+				boolean enough = ( sourceEssence >= StringUtilities.parseInt( TERMINAL_EXTRUDE_DATA[i][3] ) );
 				box.setDisabledIndex( i, !known || !enough );
 			}
 		}
@@ -4871,7 +4871,7 @@ public class DailyDeedsPanel
 			{
 				DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
 				String command = commands.get( cb.getSelectedIndex() );
-				String choice = (String) choices.get( cb.getSelectedIndex() );
+				String choice = choices.get( cb.getSelectedIndex() );
 				if ( command.equals( "" ) )
 				{
 					setComboTarget( btn, "" );
@@ -4954,7 +4954,7 @@ public class DailyDeedsPanel
 			this.setText( "currently " + currentSetting );
 			for ( int i = 1; i < TERMINAL_EDUCATE_DATA.length ; ++i )
 			{
-				box.setDisabledIndex( i, !Preferences.getString( "sourceTerminalEducateKnown" ).contains( (String) TERMINAL_EDUCATE_DATA[i][0] ) );
+				box.setDisabledIndex( i, !Preferences.getString( "sourceTerminalEducateKnown" ).contains( TERMINAL_EDUCATE_DATA[i][0] ) );
 			}
 		}
 
@@ -4965,7 +4965,7 @@ public class DailyDeedsPanel
 			{
 				DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
 				String command = commands.get( cb.getSelectedIndex() );
-				String choice = (String) choices.get( cb.getSelectedIndex() );
+				String choice = choices.get( cb.getSelectedIndex() );
 				String chips = Preferences.getString( "sourceTerminalChips" );
 				boolean disable = ( chips.contains( "DRAM" ) ? choice.equals( Preferences.getString( "sourceTerminalEducate2" ) ) :
 															choice.equals( Preferences.getString( "sourceTerminalEducate1" ) ) );

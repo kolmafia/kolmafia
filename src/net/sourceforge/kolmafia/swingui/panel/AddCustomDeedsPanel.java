@@ -1846,7 +1846,6 @@ public class AddCustomDeedsPanel
 				{
 					if ( pieces[ j ] == null || pieces[ j ].equals( "" ) )
 					{
-						continue;
 					}
 					else if ( Preferences.getString( pieces[ j ] ).equals( "" ) )
 					{

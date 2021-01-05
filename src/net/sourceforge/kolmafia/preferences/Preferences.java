@@ -277,7 +277,7 @@ public class Preferences
 			// is how we migrate a preference from GLOBAL to user)
 			String value = Preferences.globalValues.containsKey( key ) ?
 				(String) Preferences.globalValues.get( key ) :
-				(String) entry.getValue();
+                    entry.getValue();
 
 			// System.out.println( "Adding new built-in user setting: " + key );
 			Preferences.userValues.put( key, value );

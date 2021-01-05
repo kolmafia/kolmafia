@@ -111,7 +111,7 @@ public class TelescopeCommand
 
 		RequestLogger.printLine( "You have a telescope with " + ( upgrades - 1 ) + " additional upgrades" );
 
-		int max = upgrades >= 5 ? 5 : upgrades;
+		int max = Math.min( upgrades, 5 );
 		for ( int i = 0; i <= max; ++i )
 		{
 			String challenge = SorceressLairManager.getChallengeName( i );

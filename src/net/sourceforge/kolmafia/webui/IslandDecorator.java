@@ -118,7 +118,7 @@ public class IslandDecorator
 		for ( int i = 0; i < IslandDecorator.IMAGES.length; ++i )
 		{
 			Object[] row = IslandDecorator.IMAGES[ i ];
-			if ( (Quest)( row[ 0 ] ) == quest )
+			if ( row[ 0 ] == quest )
 			{
 				return row;
 			}
@@ -533,21 +533,21 @@ public class IslandDecorator
 		// Add first choice spoiler
 		String choice = array[0][0] + ": " + array[0][1];
 		index2 = text.indexOf( "</form>", index1 );
-		buffer.append( text.substring( index1, index2 ) );
+		buffer.append( text, index1, index2 );
 		buffer.append( "<br><font size=-1>(" ).append( choice ).append( ")</font><br/></form>" );
 		index1 = index2 + 7;
 
 		// Add second choice spoiler
 		choice = array[1][0] + ": " + array[1][1];
 		index2 = text.indexOf( "</form>", index1 );
-		buffer.append( text.substring( index1, index2 ) );
+		buffer.append( text, index1, index2 );
 		buffer.append( "<br><font size=-1>(" ).append( choice ).append( ")</font><br/></form>" );
 		index1 = index2 + 7;
 
 		// Add third choice spoiler
 		choice = array[2][0] + ": " + array[2][1];
 		index2 = text.indexOf( "</form>", index1 );
-		buffer.append( text.substring( index1, index2 ) );
+		buffer.append( text, index1, index2 );
 		buffer.append( "<br><font size=-1>(" ).append( choice ).append( ")</font><br/></form>" );
 		index1 = index2 + 7;
 

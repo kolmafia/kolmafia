@@ -74,7 +74,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 		try
 		{
 			MaximizerSpeculation copy = (MaximizerSpeculation) super.clone();
-			copy.equipment = (AdventureResult[]) this.equipment.clone();
+			copy.equipment = this.equipment.clone();
 			return copy;
 		}
 		catch ( CloneNotSupportedException e )
@@ -148,7 +148,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 	public int compareTo( MaximizerSpeculation o )
 	{
 		if ( !(o instanceof MaximizerSpeculation) ) return 1;
-		MaximizerSpeculation other = (MaximizerSpeculation) o;
+		MaximizerSpeculation other = o;
 		int rv = Double.compare( this.getScore(), other.getScore() );
 		// Always prefer success to failure
 		if ( this.failed != other.failed ) return this.failed ? -1 : 1;
@@ -264,7 +264,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 		this.tryOutfits( enthronedFamiliars, usefulOutfits, outfitPieces, possibles, bestCard, useCrownFamiliar, useBjornFamiliar );
 		for ( int i = 0; i < familiars.size(); ++i )
 		{
-			this.setFamiliar( (FamiliarData) familiars.get( i ) );
+			this.setFamiliar( familiars.get( i ) );
 			possibles[ EquipmentManager.FAMILIAR ] = possibles[ EquipmentManager.ALL_SLOTS + i ];
 			this.tryOutfits( enthronedFamiliars, usefulOutfits, outfitPieces, possibles, bestCard, useCrownFamiliar, useBjornFamiliar );
 		}
@@ -391,7 +391,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 						if ( slot != EquipmentManager.FAMILIAR && this.equipment[ slot ] != null )
 						{
 							List groupEquipped = ItemDatabase.getFoldGroup( this.equipment[ slot ].getName() );
-							if ( groupEquipped != null && groupName.equals( (String) groupEquipped.get( 1 ) ) )
+							if ( groupEquipped != null && groupName.equals( groupEquipped.get( 1 ) ) )
 							{
 								--count;
 							}
@@ -435,7 +435,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 						if ( slot != EquipmentManager.CONTAINER && this.equipment[ slot ] != null )
 						{
 							List groupEquipped = ItemDatabase.getFoldGroup( this.equipment[ slot ].getName() );
-							if ( groupEquipped != null && groupName.equals( (String) groupEquipped.get( 1 ) ) )
+							if ( groupEquipped != null && groupName.equals( groupEquipped.get( 1 ) ) )
 							{
 								--count;
 							}
@@ -518,7 +518,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 						if ( this.equipment[ slot ] != null )
 						{
 							List groupEquipped = ItemDatabase.getFoldGroup( this.equipment[ slot ].getName() );
-							if ( groupEquipped != null && groupName.equals( (String) groupEquipped.get( 1 ) ) )
+							if ( groupEquipped != null && groupName.equals( groupEquipped.get( 1 ) ) )
 							{
 								--count;
 							}
@@ -602,7 +602,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 						if ( slot != EquipmentManager.HAT && this.equipment[ slot ] != null )
 						{
 							List groupEquipped = ItemDatabase.getFoldGroup( this.equipment[ slot ].getName() );
-							if ( groupEquipped != null && groupName.equals( (String) groupEquipped.get( 1 ) ) )
+							if ( groupEquipped != null && groupName.equals( groupEquipped.get( 1 ) ) )
 							{
 								--count;
 							}
@@ -678,7 +678,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 							if ( slot != EquipmentManager.SHIRT && this.equipment[ slot ] != null )
 							{
 								List groupEquipped = ItemDatabase.getFoldGroup( this.equipment[ slot ].getName() );
-								if ( groupEquipped != null && groupName.equals( (String) groupEquipped.get( 1 ) ) )
+								if ( groupEquipped != null && groupName.equals( groupEquipped.get( 1 ) ) )
 								{
 									--count;
 								}
@@ -726,7 +726,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 						if ( slot != EquipmentManager.PANTS && this.equipment[ slot ] != null )
 						{
 							List groupEquipped = ItemDatabase.getFoldGroup( this.equipment[ slot ].getName() );
-							if ( groupEquipped != null && groupName.equals( (String) groupEquipped.get( 1 ) ) )
+							if ( groupEquipped != null && groupName.equals( groupEquipped.get( 1 ) ) )
 							{
 								--count;
 							}
@@ -817,7 +817,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 						if ( slot != EquipmentManager.WEAPON && this.equipment[ slot ] != null )
 						{
 							List groupEquipped = ItemDatabase.getFoldGroup( this.equipment[ slot ].getName() );
-							if ( groupEquipped != null && groupName.equals( (String) groupEquipped.get( 1 ) ) )
+							if ( groupEquipped != null && groupName.equals( groupEquipped.get( 1 ) ) )
 							{
 								--count;
 							}
@@ -900,7 +900,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 						if ( slot != EquipmentManager.OFFHAND && this.equipment[ slot ] != null )
 						{
 							List groupEquipped = ItemDatabase.getFoldGroup( this.equipment[ slot ].getName() );
-							if ( groupEquipped != null && groupName.equals( (String) groupEquipped.get( 1 ) ) )
+							if ( groupEquipped != null && groupName.equals( groupEquipped.get( 1 ) ) )
 							{
 								--count;
 							}

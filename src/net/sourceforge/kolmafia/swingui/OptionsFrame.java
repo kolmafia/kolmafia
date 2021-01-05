@@ -826,8 +826,8 @@ public class OptionsFrame
 		@Override
 		public void actionConfirmed()
 		{
-			Preferences.setInteger( "maximizerCombinationLimit", (int) InputFieldUtilities.getValue( this.combinationsField, 0 ) );
-			Preferences.setInteger( "maximizerMRUSize", (int) InputFieldUtilities.getValue( this.mruField, 0 ) );
+			Preferences.setInteger( "maximizerCombinationLimit", InputFieldUtilities.getValue( this.combinationsField, 0 ) );
+			Preferences.setInteger( "maximizerMRUSize", InputFieldUtilities.getValue( this.mruField, 0 ) );
 			Preferences.setBoolean( "maximizerCurrentMallPrices", this.currentMallBox.isSelected() );
 			Preferences.setBoolean( "maximizerNoAdventures", this.noAdvBox.isSelected() );
 			Preferences.setBoolean( "maximizerAlwaysCurrent", this.alwaysCurrentBox.isSelected() );
@@ -836,7 +836,7 @@ public class OptionsFrame
 			Preferences.setBoolean( "maximizerIncludeAll", this.incAllBox.isSelected() );
 			Preferences.setBoolean( "maximizerCreateOnHand", this.createBox.isSelected() );
 			Preferences.setInteger( "maximizerEquipmentScope", this.equipmentSelect.getSelectedIndex() );
-			Preferences.setInteger( "maximizerMaxPrice", (int) InputFieldUtilities.getValue( this.priceField, 0 ) );
+			Preferences.setInteger( "maximizerMaxPrice", InputFieldUtilities.getValue( this.priceField, 0 ) );
 			Preferences.setInteger( "maximizerPriceLevel", this.priceSelect.getSelectedIndex() );
 
 			if (this.singleFilterBox.isSelected() != Preferences.getBoolean( "maximizerSingleFilter" ))

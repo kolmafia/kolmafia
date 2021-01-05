@@ -347,7 +347,7 @@ public class CharPaneRequest
 	// <a class='nounder ' target=mainpane href="charsheet.php"><img  src="https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/classav41_f.gif" width=60 height=100 border=0></a>
 
 	public static final Pattern AVATAR_PATTERN =
-		Pattern.compile( "<img +src=[^>]*?(?:images.kingdomofloathing.com|/images)/([^>\'\"\\s]+)" );
+		Pattern.compile( "<img +src=[^>]*?(?:images.kingdomofloathing.com|/images)/([^>'\"\\s]+)" );
 	public static final void parseAvatar( final String responseText )
 	{
 		Matcher avatarMatcher = CharPaneRequest.AVATAR_PATTERN.matcher( responseText );

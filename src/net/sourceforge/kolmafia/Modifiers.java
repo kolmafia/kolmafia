@@ -3355,7 +3355,7 @@ public class Modifiers
 
 	public static final String getFamiliarEffect( final String itemName )
 	{
-		return (String) Modifiers.familiarEffectByName.get( itemName );
+		return Modifiers.familiarEffectByName.get( itemName );
 	}
 
 	public void applyMinstrelModifiers( final int level, AdventureResult instrument )
@@ -3766,7 +3766,7 @@ public class Modifiers
 			if ( object instanceof Pattern )
 			{
 				patterns = new Pattern[1];
-				patterns[0] = (Pattern) object;
+				patterns[0] = object;
 			}
 			else
 			{
@@ -4108,7 +4108,7 @@ public class Modifiers
 				KoLmafia.updateDisplay( "Duplicate modifiers for: " + lookup );
 			}
 
-			String modifiers = new String( data[ 2 ] );
+			String modifiers = data[ 2 ];
 			Modifiers.modifiersByName.put( lookup, modifiers );
 
 			Matcher matcher = FAMILIAR_EFFECT_PATTERN.matcher( modifiers );
@@ -4135,7 +4135,7 @@ public class Modifiers
 				if ( pieces.length < 2 )
 				{
 					KoLmafia.updateDisplay( name + " contain less than 2 elements." );
-					continue loop;
+					continue;
 				}
 				int mask = 0;
 				for ( int i = 0; i < pieces.length; ++i )
@@ -4163,7 +4163,7 @@ public class Modifiers
 				if ( pieces.length < 2 )
 				{
 					KoLmafia.updateDisplay( name + " contain less than 2 elements." );
-					continue loop;
+					continue;
 				}
 				int bit = 1 << Modifiers.mutexes.size();
 				for ( int i = 0; i < pieces.length; ++i )
@@ -4191,7 +4191,7 @@ public class Modifiers
 				if ( Modifiers.uniques.containsKey( name ) )
 				{
 					KoLmafia.updateDisplay( "Unique items for " + name + " already declared." );
-					continue loop;
+					continue;
 				}
 				Modifiers.uniques.put( name, new HashSet<String>( Arrays.asList( modifiers.split( "/" ) ) ) );
 			}

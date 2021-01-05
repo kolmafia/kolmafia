@@ -1117,85 +1117,81 @@ public class DwarfFactoryRequest
 		FactoryData data = new FactoryData( digits );
 		data.setInventoryCounts();
 
-		StringBuffer output = new StringBuffer();
+        String output = "<table border=2 cols=6>" +
 
-		output.append( "<table border=2 cols=6>" );
+                // Put in a header
+                "<tr>" +
+                "<td rowspan=3 colspan=2></td>" +
+                "<td align=center>Hopper #1</td>" +
+                "<td align=center>Hopper #2</td>" +
+                "<td align=center>Hopper #3</td>" +
+                "<td align=center>Hopper #4</td>" +
+                "</tr>" +
+                "<tr>" +
+                "<td align=center>" + data.getHopperOre( 0 ) + "</td>" +
+                "<td align=center>" + data.getHopperOre( 1 ) + "</td>" +
+                "<td align=center>" + data.getHopperOre( 2 ) + "</td>" +
+                "<td align=center>" + data.getHopperOre( 3 ) + "</td>" +
+                "</tr>" +
+                "<tr>" +
+                "<td align=center>" + data.getHopperOreCounts( 0 ) + "</td>" +
+                "<td align=center>" + data.getHopperOreCounts( 1 ) + "</td>" +
+                "<td align=center>" + data.getHopperOreCounts( 2 ) + "</td>" +
+                "<td align=center>" + data.getHopperOreCounts( 3 ) + "</td>" +
+                "</tr>" +
 
-		// Put in a header
-		output.append( "<tr>" );
-		output.append( "<td rowspan=3 colspan=2></td>" );
-		output.append( "<td align=center>Hopper #1</td>" );
-		output.append( "<td align=center>Hopper #2</td>" );
-		output.append( "<td align=center>Hopper #3</td>" );
-		output.append( "<td align=center>Hopper #4</td>" );
-		output.append( "</tr>" );
-		output.append( "<tr>" );
-		output.append( "<td align=center>" + data.getHopperOre( 0 ) + "</td>" );
-		output.append( "<td align=center>" + data.getHopperOre( 1 ) + "</td>" );
-		output.append( "<td align=center>" + data.getHopperOre( 2 ) + "</td>" );
-		output.append( "<td align=center>" + data.getHopperOre( 3 ) + "</td>" );
-		output.append( "</tr>" );
-		output.append( "<tr>" );
-		output.append( "<td align=center>" + data.getHopperOreCounts( 0 ) + "</td>" );
-		output.append( "<td align=center>" + data.getHopperOreCounts( 1 ) + "</td>" );
-		output.append( "<td align=center>" + data.getHopperOreCounts( 2 ) + "</td>" );
-		output.append( "<td align=center>" + data.getHopperOreCounts( 3 ) + "</td>" );
-		output.append( "</tr>" );
+                // Add HAT
+                "<tr>" +
+                "<td align=center rowspan=2>Hat</td>" +
+                "<td align=center>Gauges</td>" +
+                "<td align=center>" + data.getGaugeSetting( FactoryData.HAT, 0 ) + "</td>" +
+                "<td align=center>" + data.getGaugeSetting( FactoryData.HAT, 1 ) + "</td>" +
+                "<td align=center>" + data.getGaugeSetting( FactoryData.HAT, 2 ) + "</td>" +
+                "<td align=center>" + data.getGaugeSetting( FactoryData.HAT, 3 ) + "</td>" +
+                "</tr>" +
+                "<tr>" +
+                "<td align=center>Ores</td>" +
+                "<td align=center>" + data.getOreQuantityString( FactoryData.HAT, 0 ) + "</td>" +
+                "<td align=center>" + data.getOreQuantityString( FactoryData.HAT, 1 ) + "</td>" +
+                "<td align=center>" + data.getOreQuantityString( FactoryData.HAT, 2 ) + "</td>" +
+                "<td align=center>" + data.getOreQuantityString( FactoryData.HAT, 3 ) + "</td>" +
+                "</tr>" +
 
-		// Add HAT
-		output.append( "<tr>" );
-		output.append( "<td align=center rowspan=2>Hat</td>" );
-		output.append( "<td align=center>Gauges</td>" );
-		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.HAT, 0 ) + "</td>" );
-		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.HAT, 1 ) + "</td>" );
-		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.HAT, 2 ) + "</td>" );
-		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.HAT, 3 ) + "</td>" );
-		output.append( "</tr>" );
-		output.append( "<tr>" );
-		output.append( "<td align=center>Ores</td>" );
-		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.HAT, 0 ) + "</td>" );
-		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.HAT, 1 ) + "</td>" );
-		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.HAT, 2 ) + "</td>" );
-		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.HAT, 3 ) + "</td>" );
-		output.append( "</tr>" );
+                // Add PANTS
+                "<tr>" +
+                "<td align=center rowspan=2>Pants</td>" +
+                "<td align=center>Gauges</td>" +
+                "<td align=center>" + data.getGaugeSetting( FactoryData.PANTS, 0 ) + "</td>" +
+                "<td align=center>" + data.getGaugeSetting( FactoryData.PANTS, 1 ) + "</td>" +
+                "<td align=center>" + data.getGaugeSetting( FactoryData.PANTS, 2 ) + "</td>" +
+                "<td align=center>" + data.getGaugeSetting( FactoryData.PANTS, 3 ) + "</td>" +
+                "</tr>" +
+                "<tr>" +
+                "<td align=center>Ores</td>" +
+                "<td align=center>" + data.getOreQuantityString( FactoryData.PANTS, 0 ) + "</td>" +
+                "<td align=center>" + data.getOreQuantityString( FactoryData.PANTS, 1 ) + "</td>" +
+                "<td align=center>" + data.getOreQuantityString( FactoryData.PANTS, 2 ) + "</td>" +
+                "<td align=center>" + data.getOreQuantityString( FactoryData.PANTS, 3 ) + "</td>" +
+                "</tr>" +
 
-		// Add PANTS
-		output.append( "<tr>" );
-		output.append( "<td align=center rowspan=2>Pants</td>" );
-		output.append( "<td align=center>Gauges</td>" );
-		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.PANTS, 0 ) + "</td>" );
-		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.PANTS, 1 ) + "</td>" );
-		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.PANTS, 2 ) + "</td>" );
-		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.PANTS, 3 ) + "</td>" );
-		output.append( "</tr>" );
-		output.append( "<tr>" );
-		output.append( "<td align=center>Ores</td>" );
-		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.PANTS, 0 ) + "</td>" );
-		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.PANTS, 1 ) + "</td>" );
-		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.PANTS, 2 ) + "</td>" );
-		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.PANTS, 3 ) + "</td>" );
-		output.append( "</tr>" );
-
-		// Add WEAPON
-		output.append( "<tr>" );
-		output.append( "<td align=center rowspan=2>Weapon</td>" );
-		output.append( "<td align=center>Gauges</td>" );
-		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.WEAPON, 0 ) + "</td>" );
-		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.WEAPON, 1 ) + "</td>" );
-		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.WEAPON, 2 ) + "</td>" );
-		output.append( "<td align=center>" + data.getGaugeSetting( FactoryData.WEAPON, 3 ) + "</td>" );
-		output.append( "</tr>" );
-		output.append( "<tr>" );
-		output.append( "<td align=center>Ores</td>" );
-		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.WEAPON, 0 ) + "</td>" );
-		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.WEAPON, 1 ) + "</td>" );
-		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.WEAPON, 2 ) + "</td>" );
-		output.append( "<td align=center>" + data.getOreQuantityString( FactoryData.WEAPON, 3 ) + "</td>" );
-		output.append( "</tr>" );
-
-		output.append( "</table>" );
-
-		RequestLogger.printLine( output.toString() );
+                // Add WEAPON
+                "<tr>" +
+                "<td align=center rowspan=2>Weapon</td>" +
+                "<td align=center>Gauges</td>" +
+                "<td align=center>" + data.getGaugeSetting( FactoryData.WEAPON, 0 ) + "</td>" +
+                "<td align=center>" + data.getGaugeSetting( FactoryData.WEAPON, 1 ) + "</td>" +
+                "<td align=center>" + data.getGaugeSetting( FactoryData.WEAPON, 2 ) + "</td>" +
+                "<td align=center>" + data.getGaugeSetting( FactoryData.WEAPON, 3 ) + "</td>" +
+                "</tr>" +
+                "<tr>" +
+                "<td align=center>Ores</td>" +
+                "<td align=center>" + data.getOreQuantityString( FactoryData.WEAPON, 0 ) + "</td>" +
+                "<td align=center>" + data.getOreQuantityString( FactoryData.WEAPON, 1 ) + "</td>" +
+                "<td align=center>" + data.getOreQuantityString( FactoryData.WEAPON, 2 ) + "</td>" +
+                "<td align=center>" + data.getOreQuantityString( FactoryData.WEAPON, 3 ) + "</td>" +
+                "</tr>" +
+                "</table>";
+        RequestLogger.printLine( output );
 		RequestLogger.printLine();
 	}
 

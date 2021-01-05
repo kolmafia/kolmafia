@@ -598,7 +598,7 @@ public abstract class RabbitHoleManager
 
 		private Board( Board board )
 		{
-			this.board = (Square [])board.board.clone();
+			this.board = board.board.clone();
 			this.current = board.current;
 			this.pieces = board.pieces;
 		}
@@ -1462,7 +1462,7 @@ public abstract class RabbitHoleManager
 	{
 		// Make a map of all hats indexed by length
 		List<AdventureResult> hats = EquipmentManager.getEquipmentLists()[ EquipmentManager.HAT ];
-		FamiliarData current = (FamiliarData) KoLCharacter.getFamiliar();
+		FamiliarData current = KoLCharacter.getFamiliar();
 
 		if ( current.getItem() != null && EquipmentDatabase.isHat( current.getItem() ) )
 		{

@@ -1891,7 +1891,7 @@ public class Maximizer
 							text = "make & " + text;
 							cmd = "make \u00B6" + itemId + ";" + cmd;
 							price = ConcoctionPool.get( item ).price;
-							advCost = (int)ConcoctionPool.get( item ).getAdventuresNeeded( 1 );
+							advCost = ConcoctionPool.get( item ).getAdventuresNeeded( 1 );
 						}
 						else if ( checkedItem.npcBuyable > 0 )
 						{

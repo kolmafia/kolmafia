@@ -532,7 +532,7 @@ public class PastaThrallData
 		}
 		if ( name != null && !name.equals( this.name ) )
 		{
-			this.name = new String( name );
+			this.name = name;
 			change = true;
 		}
 		if ( change )
@@ -550,7 +550,7 @@ public class PastaThrallData
 	@Override
 	public boolean equals( final Object o )
 	{
-		return o != null && o instanceof PastaThrallData && this.id == ( (PastaThrallData) o ).id;
+		return o instanceof PastaThrallData && this.id == ( ( PastaThrallData ) o ).id;
 	}
 
 	@Override

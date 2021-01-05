@@ -48,7 +48,7 @@ public class SentMessageEntry
 		Pattern.compile( "<!--js\\(\\s*dojax\\((.*?)\\)-->" );
 
 	private static final Pattern DOJAX_URL_PATTERN =
-		Pattern.compile( "[\'\"]([^\'\"]+\\.php[^\'\"]+)[\'\"]" );
+		Pattern.compile( "['\"]([^'\"]+\\.php[^'\"]+)['\"]" );
 
 	private static final GenericRequest DOJAX_VISITOR = new GenericRequest( "" );
 

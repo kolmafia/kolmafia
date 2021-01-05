@@ -278,7 +278,7 @@ public class DebugModifiers
 	
 		public int compareTo( Change o )
 		{
-			Change other = (Change) o;
+			Change other = o;
 			if ( this.value < other.value ) return 1;
 			if ( this.value > other.value ) return -1;
 			return this.name.compareTo( other.name );

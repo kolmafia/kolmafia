@@ -85,7 +85,7 @@ public class GenericScrollPane
 			if ( Preferences.getString( "swingLookAndFeel" ).equals(
 				UIManager.getCrossPlatformLookAndFeelClassName() ) )
 			{
-				( (JList) view ).setFont( KoLGUIConstants.DEFAULT_FONT );
+				view.setFont( KoLGUIConstants.DEFAULT_FONT );
 			}
 		}
 		else if ( !( view instanceof JTextComponent ) )

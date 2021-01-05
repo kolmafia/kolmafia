@@ -154,7 +154,7 @@ public class ManaBurnManager
 	
 		for ( int i = 0; i < KoLConstants.activeEffects.size() && KoLmafia.permitsContinue(); ++i )
 		{
-			AdventureResult currentEffect = (AdventureResult) KoLConstants.activeEffects.get( i );
+			AdventureResult currentEffect = KoLConstants.activeEffects.get( i );
 			String effectName = currentEffect.getName();
 			String skillName = UneffectRequest.effectToSkill( effectName );
 

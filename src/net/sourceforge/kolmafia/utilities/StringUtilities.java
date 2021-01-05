@@ -160,7 +160,7 @@ public class StringUtilities
 		{
 			// If this string is a substring of a longer string, make sure
 			// we aren't keeping a reference to the longer string.
-			utf8String = new String( utf8String );
+			utf8String = utf8String;
 
 			if ( utf8String.contains( "&" ) && utf8String.contains( ";" ) )
 			{
@@ -211,7 +211,7 @@ public class StringUtilities
 		{
 			// If this string is a substring of a longer string, make sure
 			// we aren't keeping a reference to the longer string.
-			entityString = new String( entityString );
+			entityString = entityString;
 
 			utf8String = CharacterEntities.unescape( entityString );
 
@@ -301,7 +301,7 @@ public class StringUtilities
 		{
 			// If this string is a substring of a longer string, make sure
 			// we aren't keeping a reference to the longer string.
-			name = new String( name );
+			name = name;
 
 			displayName = StringUtilities.getEntityDecode( name );
 			StringUtilities.displayNameCache.put( name, displayName );
@@ -327,7 +327,7 @@ public class StringUtilities
 		{
 			// If this string is a substring of a longer string, make sure
 			// we aren't keeping a reference to the longer string.
-			name = new String( name );
+			name = name;
 
 			canonicalName = StringUtilities.getEntityEncode( name ).toLowerCase();
 			if ( name.length() < 100 )
@@ -599,11 +599,10 @@ public class StringUtilities
 			return originalString;
 		}
 
-		StringBuilder buffer = new StringBuilder();
-		buffer.append( originalString.substring( 0, lastIndex ) );
-		buffer.append( replaceString );
-		buffer.append( originalString.substring( lastIndex + searchString.length() ) );
-		return buffer.toString();
+		String buffer = originalString.substring( 0, lastIndex ) +
+				replaceString +
+				originalString.substring( lastIndex + searchString.length() );
+		return buffer;
 	}
 
 	public static final void singleStringDelete( final StringBuffer buffer, final String searchString )
@@ -1040,7 +1039,7 @@ public class StringUtilities
 
 			if ( breakIndex != -1 )
 			{
-				result.append( text.substring( 0, breakIndex ) );
+				result.append( text, 0, breakIndex );
 				result.append( "\n" );
 				text = text.substring( breakIndex ).trim();
 			}

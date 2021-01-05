@@ -129,10 +129,7 @@ public abstract class VolcanoMazeManager
 		VolcanoMazeManager.loaded = false;
 		VolcanoMazeManager.currentMap = 0;
 		VolcanoMazeManager.currentLocation = -1;
-		for ( int map = 0; map < VolcanoMazeManager.maps.length; ++map )
-		{
-			VolcanoMazeManager.maps[ map ] = null;
-		}
+		Arrays.fill( VolcanoMazeManager.maps, null );
 		Arrays.fill( VolcanoMazeManager.squares, 0 );
 		Arrays.fill( VolcanoMazeManager.neighbors, null );
 		VolcanoMazeManager.found = 1;

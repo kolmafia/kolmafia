@@ -152,9 +152,9 @@ public class AdventureDatabase
 		{
 			if ( data.length >= 3 )
 			{
-				String zone = new String( data[ 0 ] );
-				String parent = new String( data[ 1 ] );
-				String description = new String( data[ 2 ] );
+				String zone = data[ 0 ];
+				String parent = data[ 1 ];
+				String description = data[ 2 ];
 
 				AdventureDatabase.PARENT_ZONES.put( zone, parent );
 				if ( !AdventureDatabase.PARENT_LIST.contains( parent ) )
@@ -201,7 +201,7 @@ public class AdventureDatabase
 				continue;
 			}
 
-			String zone = new String( data[ 0 ] );
+			String zone = data[ 0 ];
 			String[] location = data[ 1 ].split( "=" );
 
 			String environment = null;
@@ -230,7 +230,7 @@ public class AdventureDatabase
 				}
 			}
 
-			String name = new String( data[ 3 ] );
+			String name = data[ 3 ];
 
 			if ( environment == null )
 			{
@@ -246,7 +246,7 @@ public class AdventureDatabase
 			AdventureDatabase.zoneLookup.put( name, zone );
 			AdventureDatabase.adventureTable[ 0 ].add( zone );
 			AdventureDatabase.adventureTable[ 1 ].add( location[ 0 ] + ".php" );
-			AdventureDatabase.adventureTable[ 2 ].add( new String( location[ 1 ] ) );
+			AdventureDatabase.adventureTable[ 2 ].add( location[ 1 ] );
 			AdventureDatabase.adventureTable[ 3 ].add( name );
 			AdventureDatabase.environmentLookup.put( name, environment );
 
@@ -289,7 +289,7 @@ public class AdventureDatabase
 
 			if ( !data[ 4 ].equals( "" ) )
 			{
-				AdventureDatabase.conditionLookup.put( name, new String( data[ 4 ] ) );
+				AdventureDatabase.conditionLookup.put( name, data[ 4 ] );
 			}
 		}
 

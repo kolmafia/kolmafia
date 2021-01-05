@@ -503,7 +503,7 @@ public class UseSkillRequest
 
 	public int compareTo( final UseSkillRequest o )
 	{
-		if ( o == null || !( o instanceof UseSkillRequest ) )
+		if ( !( o instanceof UseSkillRequest ) )
 		{
 			return -1;
 		}
@@ -1986,8 +1986,8 @@ public class UseSkillRequest
 	@Override
 	public boolean equals( final Object o )
 	{
-		return o != null && o instanceof UseSkillRequest && this.getSkillName().equals(
-			( (UseSkillRequest) o ).getSkillName() );
+		return o instanceof UseSkillRequest && this.getSkillName().equals(
+                ( ( UseSkillRequest ) o ).getSkillName() );
 	}
 
 	@Override

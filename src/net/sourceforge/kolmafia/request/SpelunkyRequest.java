@@ -396,16 +396,14 @@ public class SpelunkyRequest
 		// Have we gained a buddy? Log it
 		if ( turnsLeft != 40 && !buddy.equals( "" ) && !spelunkyStatus.contains( buddy ) )
 		{
-			StringBuilder buddyMessage = new StringBuilder( "" );
-			buddyMessage.append( "You have found a new Buddy, " );
-			buddyMessage.append( buddy );
-			String message = buddyMessage.toString();
+			String message = "You have found a new Buddy, " +
+					buddy;
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
 		}
 
 		// Write status string
-		StringBuilder statusString = new StringBuilder( "" );
+		StringBuilder statusString = new StringBuilder();
 		statusString.append( "Turns: " );
 		statusString.append( turnsLeft );
 		if ( ghostWaving )
@@ -687,7 +685,7 @@ public class SpelunkyRequest
 		}
 
 		// Write status string
-		StringBuilder statusString = new StringBuilder( "" );
+		StringBuilder statusString = new StringBuilder();
 		statusString.append( "Turns: " );
 		statusString.append( turnsLeft );
 		if ( ghostWaving )
@@ -862,10 +860,8 @@ public class SpelunkyRequest
 				Matcher matcher = SpelunkyRequest.BUDDY_STATUS_PATTERN.matcher( spelunkyStatus );
 				String buddy = matcher.find() ? matcher.group( 1 ) : "";
 
-				StringBuilder sacrificeMessage = new StringBuilder( "" );
-				sacrificeMessage.append( "You have sacrificed your Buddy, " );
-				sacrificeMessage.append( buddy );
-				String message = sacrificeMessage.toString();
+				String message = "You have sacrificed your Buddy, " +
+						buddy;
 				RequestLogger.printLine( message );
 				RequestLogger.updateSessionLog( message );
 				Preferences.increment( "spelunkySacrifices", 1 );
@@ -910,7 +906,7 @@ public class SpelunkyRequest
 			newUpgradeString.replace( choice - 1, choice, "Y" );
 
 			// Log upgrade
-			StringBuilder upgradeMessage = new StringBuilder( "" );
+			StringBuilder upgradeMessage = new StringBuilder();
 			upgradeMessage.append( "Spelunky Finished. Upgrade chosen is " );
 			switch( choice )
 			{
@@ -1106,15 +1102,14 @@ public class SpelunkyRequest
 		}
 		index += 8;
 
-		StringBuilder section = new StringBuilder();
-		section.append( "<a href=\"" );
-		section.append( "inv_use.php?pwd=" );
-		section.append( GenericRequest.passwordHash );
-		section.append( "&which=3&whichitem=8063" );
-		section.append( "\">" );
-		section.append( "Read another copy of Tales of Spelunking" );
-		section.append( "</a></center><center><p>" );
-		buffer.insert( index, section.toString() );
+		String section = "<a href=\"" +
+				"inv_use.php?pwd=" +
+				GenericRequest.passwordHash +
+				"&which=3&whichitem=8063" +
+				"\">" +
+				"Read another copy of Tales of Spelunking" +
+				"</a></center><center><p>";
+		buffer.insert( index, section );
 	}
 
 	public static final void decorateSpelunkyMonster( final StringBuffer buffer )
@@ -1640,19 +1635,18 @@ public class SpelunkyRequest
 
 	private static final String spelunkyLocationLink( String name, final String id, final String confirm )
 	{
-		StringBuilder link = new StringBuilder();
-		link.append( "<a href=\"adventure.php?snarfblat=" );
-		link.append( id );
-		link.append( "&" );
-		link.append( confirm );
-		link.append( "=on" );
-		link.append( "\"><img src=\"/images/" );
-		link.append( SpelunkyRequest.adventureImage( name ) );
-		link.append( "\" height=105 border=0 alt=\"" );
-		link.append( name );
-		link.append( "\" title=\"" );
-		link.append( name );
-		link.append( "\"></a>" );
-		return link.toString();
+		String link = "<a href=\"adventure.php?snarfblat=" +
+				id +
+				"&" +
+				confirm +
+				"=on" +
+				"\"><img src=\"/images/" +
+				SpelunkyRequest.adventureImage( name ) +
+				"\" height=105 border=0 alt=\"" +
+				name +
+				"\" title=\"" +
+				name +
+				"\"></a>";
+		return link;
 	}
 }

@@ -136,7 +136,7 @@ public class FamiliarData
 
 	public static final List<DropInfo> DROP_FAMILIARS = new ArrayList<DropInfo>();
 	public static final List<FightInfo> FIGHT_FAMILIARS = new ArrayList<FightInfo>();
-	public static final List<Integer> CRIMBO_GHOSTS = Arrays.asList(new Integer[]{FamiliarPool.GHOST_CAROLS, FamiliarPool.GHOST_CHEER, FamiliarPool.GHOST_COMMERCE});
+	public static final List<Integer> CRIMBO_GHOSTS = Arrays.asList( FamiliarPool.GHOST_CAROLS, FamiliarPool.GHOST_CHEER, FamiliarPool.GHOST_COMMERCE );
 
 	private final int id;
 	private final String race;
@@ -534,7 +534,6 @@ public class FamiliarData
 				{
 					KoLCharacter.setBjorned( familiar );
 				}
-				continue;
 			}
 		}
 
@@ -1122,7 +1121,7 @@ public class FamiliarData
 	@Override
 	public boolean equals( final Object o )
 	{
-		return o != null && o instanceof FamiliarData && this.id == ( (FamiliarData) o ).id;
+		return o instanceof FamiliarData && this.id == ( ( FamiliarData ) o ).id;
 	}
 
 	@Override
@@ -1521,7 +1520,7 @@ public class FamiliarData
 			JLabel defaultComponent =
 				(JLabel) super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 
-			if ( value == null || !( value instanceof FamiliarData ) || ( (FamiliarData) value ).id == -1 )
+			if ( !( value instanceof FamiliarData ) || ( ( FamiliarData ) value ).id == -1 )
 			{
 				defaultComponent.setIcon( JComponentUtilities.getImage( "debug.gif" ) );
 				defaultComponent.setText( KoLConstants.VERSION_NAME + ", the 0 lb. \"No Familiar Plz\" Placeholder" );

@@ -3340,19 +3340,17 @@ public class ItemPool
 		"WALL"
 	};
 
-	public static final List EV_HELMET_LEVELS = Arrays.asList( new String[] {
-		"PA", "ZERO",
-		"NOKGAGA", "NEGLIGIBLE",
-		"GABUHO NO", "EXTREMELY LOW",
-		"GA NO", "VERY LOW",
-		"NO", "LOW",
-		"FUZEVENI", "MODERATE",
-		"PAPACHA", "ELEVATED",
-		"FU", "HIGH",
-		"GA FU", "VERY HIGH",
-		"GABUHO FU", "EXTREMELY HIGH",
-		"CHOSOM", "MAXIMAL"
-	} );
+	public static final List EV_HELMET_LEVELS = Arrays.asList( "PA", "ZERO",
+            "NOKGAGA", "NEGLIGIBLE",
+            "GABUHO NO", "EXTREMELY LOW",
+            "GA NO", "VERY LOW",
+            "NO", "LOW",
+            "FUZEVENI", "MODERATE",
+            "PAPACHA", "ELEVATED",
+            "FU", "HIGH",
+            "GA FU", "VERY HIGH",
+            "GABUHO FU", "EXTREMELY HIGH",
+            "CHOSOM", "MAXIMAL" );
 
 	// BANG POTIONS and SLIME VIALS
 
@@ -3454,7 +3452,7 @@ public class ItemPool
 			return false;
 		}
 
-		effect = (String) possibilities.iterator().next();
+		effect = possibilities.iterator().next();
 		Preferences.setString( baseName + missing, effect );
 		name = ItemDatabase.getItemName( missing );
 		testName = name + joiner + effect;

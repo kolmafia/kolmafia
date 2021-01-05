@@ -263,7 +263,6 @@ public class ScriptManager
 			catch ( Exception e )
 			{
 				StaticEntity.printStackTrace( e );
-				continue;
 			}
 		}
 	}

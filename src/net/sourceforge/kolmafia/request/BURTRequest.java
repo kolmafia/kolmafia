@@ -98,7 +98,7 @@ public class BURTRequest
 
 	private static int priceToItemId( final int price )
 	{
-		int itemId = (int) BURTRequest.itemByPrice.get( IntegerPool.get( price ) );
+		int itemId = BURTRequest.itemByPrice.get( IntegerPool.get( price ) );
 		return itemId;
 	}
 

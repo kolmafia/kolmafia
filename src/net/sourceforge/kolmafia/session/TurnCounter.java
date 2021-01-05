@@ -192,7 +192,7 @@ public class TurnCounter
 	@Override
 	public boolean equals( final Object o )
 	{
-		if ( o == null || !( o instanceof TurnCounter ) )
+		if ( !( o instanceof TurnCounter ) )
 		{
 			return false;
 		}
@@ -211,7 +211,7 @@ public class TurnCounter
 
 	public int compareTo( final TurnCounter o )
 	{
-		if ( o == null || !( o instanceof TurnCounter ) )
+		if ( !( o instanceof TurnCounter ) )
 		{
 			return -1;
 		}

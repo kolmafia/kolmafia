@@ -688,7 +688,7 @@ public class ProfileRequest
 
 	public int compareTo( final ProfileRequest o )
 	{
-		if ( o == null || !( o instanceof ProfileRequest ) )
+		if ( !( o instanceof ProfileRequest ) )
 		{
 			return -1;
 		}

@@ -72,6 +72,6 @@ public class TypeDef
 	@Override
 	public boolean equals( final Type o )
 	{
-		return o instanceof TypeDef && this.name.equals( ( (TypeDef) o ).name );
+		return o instanceof TypeDef && this.name.equals( o.name );
 	}
 }

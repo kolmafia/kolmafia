@@ -677,7 +677,7 @@ public class ClanLoungeRequest
 	{
 		for ( int i = 0; i < FLOUNDRY_DATA.length; ++i )
 		{
-			if ( item.equals( (AdventureResult)FLOUNDRY_DATA[i][1] ) )
+			if ( item.equals( FLOUNDRY_DATA[i][1] ) )
 			{
 				return true;
 			}
@@ -2352,7 +2352,7 @@ public class ClanLoungeRequest
 				{
 					return false;
 				}
-				message = "pool " + (String)POOL_GAMES[ stance - 1 ][0];
+				message = "pool " + POOL_GAMES[ stance - 1 ][0];
 			}
 			else if ( action.equals( "sendfax" ) ||
 				  action.equals( "receivefax" ) )
@@ -2381,7 +2381,7 @@ public class ClanLoungeRequest
 				{
 					return false;
 				}
-				message = "shower " + (String)SHOWER_OPTIONS[ temp - 1 ][0];
+				message = "shower " + SHOWER_OPTIONS[ temp - 1 ][0];
 			}
 			else if ( action.equals( "goswimming" ) )
 			{

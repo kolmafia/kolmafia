@@ -140,7 +140,7 @@ public class WikiLookupCommand
 
 			if ( type.startsWith( "outfit" ) )
 			{
-				SpecialOutfit so = EquipmentManager.getMatchingOutfit( target.toString() );
+				SpecialOutfit so = EquipmentManager.getMatchingOutfit( target );
 				if ( so != null )
 				{
 					WikiUtilities.showWikiDescription( so.toString() );

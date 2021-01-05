@@ -111,7 +111,7 @@ public class ValhallaDecorator
 		ArrayList<UseSkillRequest> unpermedSkills = new ArrayList<UseSkillRequest>();
 		for ( int i = 0; i < KoLConstants.availableSkills.size(); ++i )
 		{
-			UseSkillRequest skill = (UseSkillRequest) KoLConstants.availableSkills.get( i );
+			UseSkillRequest skill = KoLConstants.availableSkills.get( i );
 			skillList.add( String.valueOf( skill.getSkillId() ) );
 			if ( !KoLConstants.permedSkills.contains( skill ) )
 			{
