@@ -797,12 +797,18 @@ public class GenericRequest
 		String oldURLString = null;
 		String newURLString = urlString;
 
-        do
-        {
-            oldURLString = newURLString;
-            newURLString = URLDecoder.decode( oldURLString, StandardCharsets.UTF_8 );
-        }
-        while ( !oldURLString.equals( newURLString ) );
+		try
+		{
+			do
+			{
+				oldURLString = newURLString;
+				newURLString = URLDecoder.decode( oldURLString, "UTF-8" );
+			}
+			while ( !oldURLString.equals( newURLString ) );
+		}
+		catch ( IOException e )
+		{
+		}
 
         return newURLString;
 	}
