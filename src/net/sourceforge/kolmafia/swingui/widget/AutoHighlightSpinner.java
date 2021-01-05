@@ -47,7 +47,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class AutoHighlightSpinner
 	extends JSpinner
 {
-	private AutoHighlightNumberEditor editor;
+	private final AutoHighlightNumberEditor editor;
 
 	public AutoHighlightSpinner()
 	{

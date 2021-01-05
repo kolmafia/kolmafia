@@ -124,13 +124,13 @@ public class AdventureSelectPanel
 	private final LockableListModel matchingAdventures;
 
 	private final JList locationSelect;
-	private JComponent zoneSelect;
+	private final JComponent zoneSelect;
 
 	private final LockableListModel locationConditions = new LockableListModel();
 	private final RedoFreeAdventuresCheckbox redoFreeAdventures;
 	private final JCheckBox conditionsFieldActive;
 	private final ConditionsComboBox conditionField = new ConditionsComboBox();
-	private SafetyField safetyField = null;
+	private final SafetyField safetyField = null;
 
 	public AdventureSelectPanel( final boolean enableAdventures )
 	{

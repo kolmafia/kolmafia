@@ -518,7 +518,7 @@ public abstract class InventoryManager
 		return rv;
 	}
 
-	private static final String retrieveItem( final AdventureResult item, final boolean isAutomated, final boolean useEquipped, final boolean canCreate, final boolean sim )
+	private static String retrieveItem( final AdventureResult item, final boolean isAutomated, final boolean useEquipped, final boolean canCreate, final boolean sim )
 	{
 		// if we're simulating, we don't need to waste time disabling/enabling clover protection
 		if ( sim )
@@ -546,7 +546,7 @@ public abstract class InventoryManager
 	// When called with sim=false, it should return "" for success (equivalent
 	// to the previous return value of true), null for failure (previously false).
 
-	private static final String doRetrieveItem( final AdventureResult item, final boolean isAutomated, final boolean useEquipped, final boolean sim, final boolean canCreate )
+	private static String doRetrieveItem( final AdventureResult item, final boolean isAutomated, final boolean useEquipped, final boolean sim, final boolean canCreate )
 	{
 		if ( item.isMeat() )
 		{
@@ -1360,7 +1360,7 @@ public abstract class InventoryManager
 		int yield = ConcoctionDatabase.getYield( id );
 		int madeQuantity = ( quantity + yield - 1 ) / yield;
 
-		AdventureResult ingredients[] = ConcoctionDatabase.getIngredients( id );
+		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( id );
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
@@ -1402,12 +1402,12 @@ public abstract class InventoryManager
 		return missingCount;
 	}
 
-	private static final boolean hasAnyIngredient( final int itemId )
+	private static boolean hasAnyIngredient( final int itemId )
 	{
 		return InventoryManager.hasAnyIngredient( itemId, null );
 	}
 
-	private static final boolean hasAnyIngredient( final int itemId, HashSet<Integer> seen )
+	private static boolean hasAnyIngredient( final int itemId, HashSet<Integer> seen )
 	{
 		if ( itemId < 0 )
 		{

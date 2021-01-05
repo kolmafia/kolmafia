@@ -67,7 +67,7 @@ public class SpecialOutfit
 	private static final Set<Checkpoint> allCheckpoints = new HashSet<Checkpoint>();
 
 	private int outfitId;
-	private String outfitName;
+	private final String outfitName;
 	private String outfitImage;
 
 	// This is TreeMap so that the pieces will be ordered by slot

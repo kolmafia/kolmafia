@@ -55,7 +55,7 @@ public class CosmicRaysBazaarRequest
 	public static final String master = "Cosmic Ray's Bazaar"; 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( CosmicRaysBazaarRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getNewMap();
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( CosmicRaysBazaarRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( CosmicRaysBazaarRequest.master );
 
 	public static final AdventureResult RARE_MEAT_ISOTOPE = ItemPool.get( ItemPool.RARE_MEAT_ISOTOPE, 1 );
 	public static final AdventureResult WHITE_PIXEL = ItemPool.get( ItemPool.WHITE_PIXEL, 1 );

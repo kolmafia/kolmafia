@@ -413,7 +413,7 @@ public class RequestFrame
 	private class DisplayRequestRunnable
 		implements Runnable
 	{
-		private GenericRequest request;
+		private final GenericRequest request;
 
 		public DisplayRequestRunnable( GenericRequest request )
 		{

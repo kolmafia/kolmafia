@@ -110,7 +110,7 @@ public class BasementRequest
 	private static Element badelement1 = Element.NONE, badelement2 = Element.NONE, badelement3 = Element.NONE;
 	private static AdventureResult badeffect1 = null, badeffect2 = null, badeffect3 = null;
 
-	private static List<AdventureResult> desirableEffects = new ArrayList<>();
+	private static final List<AdventureResult> desirableEffects = new ArrayList<>();
 
 	private static int level1, level2;
 	private static double resistance1, resistance2;
@@ -297,7 +297,7 @@ public class BasementRequest
 			BasementRequest.updateElementalResistanceParameters();
 			StringBuilder buffer = new StringBuilder( BasementRequest.basementTestString );
 			buffer.append( " Test: +" );
-			buffer.append( String.valueOf( BasementRequest.level1 ) );
+			buffer.append( BasementRequest.level1 );
 			buffer.append( " " );
 			buffer.append( BasementRequest.element1.toString() );
 			buffer.append( " " );
@@ -310,7 +310,7 @@ public class BasementRequest
 			buffer.append( " (" );
 			buffer.append( KoLConstants.COMMA_FORMAT.format( BasementRequest.expected1 ) );
 			buffer.append( " hp), +" );
-			buffer.append( String.valueOf( BasementRequest.level2 ) );
+			buffer.append( BasementRequest.level2 );
 			buffer.append( " " );
 			buffer.append( BasementRequest.element2.toString() );
 			buffer.append( " " );
@@ -390,7 +390,7 @@ public class BasementRequest
 		return "<u>" + BasementRequest.basementTestString + "</u><br/>" + "Current: " + KoLConstants.COMMA_FORMAT.format( BasementRequest.basementTestCurrent ) + "<br/>" + "Needed: " + KoLConstants.COMMA_FORMAT.format( BasementRequest.basementTestValue );
 	}
 
-	private static final void changeBasementOutfit( final String name )
+	private static void changeBasementOutfit( final String name )
 	{
 		// Find desired outfit. Skip "No Change" entry at index 0.
 		List<SpecialOutfit> available = EquipmentManager.getCustomOutfits();
@@ -412,7 +412,7 @@ public class BasementRequest
 		}
 	}
 
-	private static final boolean checkForElementalTest( boolean autoSwitch, final String responseText )
+	private static boolean checkForElementalTest( boolean autoSwitch, final String responseText )
 	{
 		if ( responseText.indexOf( "<b>Peace, Bra!</b>" ) != -1 )
 		{
@@ -584,7 +584,7 @@ public class BasementRequest
 		return true;
 	}
 
-	private static final void updateElementalResistanceParameters()
+	private static void updateElementalResistanceParameters()
 	{
 		BasementRequest.basementTestString = "Elemental Resist";
 
@@ -642,7 +642,7 @@ public class BasementRequest
 		BasementRequest.basementTestCurrent = KoLCharacter.getMaximumHP();
 	}
 
-	private static final boolean canHandleElementTest( boolean autoSwitch, boolean switchedOutfits )
+	private static boolean canHandleElementTest( boolean autoSwitch, boolean switchedOutfits )
 	{
 		BasementRequest.updateElementalResistanceParameters();
 
@@ -719,7 +719,7 @@ public class BasementRequest
 		return KoLmafia.permitsContinue();
 	}
 
-	private static final AdventureResult getDesiredEqualizer()
+	private static AdventureResult getDesiredEqualizer()
 	{
 		if ( KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMysticality() && KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMoxie() )
 		{
@@ -734,7 +734,7 @@ public class BasementRequest
 		return BasementRequest.MOX_EQUAL;
 	}
 
-	private static final void addDesiredEqualizer()
+	private static void addDesiredEqualizer()
 	{
 		AdventureResult equalizer = BasementRequest.getDesiredEqualizer();
 		if ( !KoLConstants.activeEffects.contains( equalizer ) )
@@ -743,7 +743,7 @@ public class BasementRequest
 		}
 	}
 
-	private static final double updateMuscleParameters()
+	private static double updateMuscleParameters()
 	{
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 		// stat requirement is x^1.4 + 2.  Assume the worst-case.
@@ -762,7 +762,7 @@ public class BasementRequest
 		return statRequirement;
 	}
 
-	private static final double updateMysticalityParameters()
+	private static double updateMysticalityParameters()
 	{
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 		// stat requirement is x^1.4 + 2.  Assume the worst-case.
@@ -781,7 +781,7 @@ public class BasementRequest
 		return statRequirement;
 	}
 
-	private static final double updateMoxieParameters()
+	private static double updateMoxieParameters()
 	{
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 		// stat requirement is x^1.4 + 2.  Assume the worst-case.
@@ -800,7 +800,7 @@ public class BasementRequest
 		return statRequirement;
 	}
 
-	private static final boolean checkForStatTest( final boolean autoSwitch, final String responseText )
+	private static boolean checkForStatTest( final boolean autoSwitch, final String responseText )
 	{
 		if ( responseText.indexOf( "Lift 'em" ) != -1 || responseText.indexOf( "Push it Real Good" ) != -1 || responseText.indexOf( "Ring that Bell" ) != -1 )
 		{
@@ -886,7 +886,7 @@ public class BasementRequest
 		return false;
 	}
 
-	private static final double updateMPDrainParameters()
+	private static double updateMPDrainParameters()
 	{
 		// According to
 		// http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
@@ -914,7 +914,7 @@ public class BasementRequest
 		return drainRequirement;
 	}
 
-	private static final double updateHPDrainParameters()
+	private static double updateHPDrainParameters()
 	{
 		// According to starwed at
 		// http://forums.kingdomofloathing.com/viewtopic.php?t=83342&start=201
@@ -941,7 +941,7 @@ public class BasementRequest
 		return drainRequirement;
 	}
 
-	private static final boolean checkForDrainTest( final boolean autoSwitch, final String responseText )
+	private static boolean checkForDrainTest( final boolean autoSwitch, final String responseText )
 	{
 		if ( responseText.indexOf( "Grab the Handles" ) != -1 )
 		{
@@ -1027,7 +1027,7 @@ public class BasementRequest
 		return false;
 	}
 
-	private static final boolean checkForReward( final String responseText )
+	private static boolean checkForReward( final String responseText )
 	{
 		if ( responseText.indexOf( "De Los Dioses" ) != -1 )
 		{
@@ -1080,14 +1080,14 @@ public class BasementRequest
 		return false;
 	}
 
-	private static final String monsterLevelString()
+	private static String monsterLevelString()
 	{
 		double level =
 			2.0 * Math.pow( BasementRequest.basementLevel, 1.4 ) + KoLCharacter.getMonsterLevelAdjustment();
 		return "Monster: Attack/Defense = " + (int) level;
 	}
 
-	private static final boolean checkForMonster( final String responseText )
+	private static boolean checkForMonster( final String responseText )
 	{
 		if ( responseText.indexOf( "Don't Fear the Ear" ) != -1 )
 		{
@@ -1148,7 +1148,7 @@ public class BasementRequest
 		return false;
 	}
 
-	private static final void newBasementLevel( final String responseText )
+	private static void newBasementLevel( final String responseText )
 	{
 		BasementRequest.basementErrorMessage = null;
 		BasementRequest.basementTestString = "None";
@@ -1240,7 +1240,7 @@ public class BasementRequest
 		}
 	}
 
-	private static final void getStatBoosters( final List<AdventureResult> sourceList, final List<StatBooster> targetList )
+	private static void getStatBoosters( final List<AdventureResult> sourceList, final List<StatBooster> targetList )
 	{
 		// Cache skills to avoid lots of string lookups
 		StatBooster.checkSkills();
@@ -1261,7 +1261,7 @@ public class BasementRequest
 		}
 	}
 
-	private static final void addDesirableEffects( final List<AdventureResult> sourceList )
+	private static void addDesirableEffects( final List<AdventureResult> sourceList )
 	{
 		for ( AdventureResult effect : sourceList )
 		{
@@ -1272,7 +1272,7 @@ public class BasementRequest
 		}
 	}
 
-	private static final boolean wantEffect( final AdventureResult effect )
+	private static boolean wantEffect( final AdventureResult effect )
 	{
 		String action = MoodManager.getDefaultAction( "lose_effect", effect.getName() );
 		if ( action.equals( "" ) )

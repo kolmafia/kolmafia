@@ -317,8 +317,7 @@ public class CharSheetRequest
 		{
 			while ( !cleanContent.nextToken().startsWith( "Sign:" ) )
 			{
-				;
-			}
+            }
 			KoLCharacter.setSign( cleanContent.nextToken() );
 		}
 
@@ -478,7 +477,7 @@ public class CharSheetRequest
 	 * @return The 2-element array containing the parsed statistics
 	 */
 
-	private static final long[] findStatPoints( final StringTokenizer tokenizer, String token, final String searchString )
+	private static long[] findStatPoints( final StringTokenizer tokenizer, String token, final String searchString )
 	{
 		long[] stats = new long[ 2 ];
 
@@ -510,7 +509,7 @@ public class CharSheetRequest
 	 * @return The parsed base value, or the default value if no base value is found
 	 */
 
-	private static final int retrieveBase( final String token, final int defaultBase )
+	private static int retrieveBase( final String token, final int defaultBase )
 	{
 		Matcher baseMatcher = CharSheetRequest.BASE_PATTERN.matcher( token );
 		return baseMatcher.find() ? StringUtilities.parseInt( baseMatcher.group( 1 ) ) : defaultBase;

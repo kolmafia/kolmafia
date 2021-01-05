@@ -42,7 +42,7 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 public abstract class Loop
 	extends ParseTreeNode
 {
-	private Scope scope;
+	private final Scope scope;
 
 	public Loop( final Scope scope )
 	{

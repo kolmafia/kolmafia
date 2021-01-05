@@ -86,7 +86,7 @@ public class FamTeamRequest
 
 		private final String name;
 
-		private PokeBoost( String name )
+		PokeBoost( String name )
 		{
 			this.name = name;
 		}
@@ -99,9 +99,9 @@ public class FamTeamRequest
 
 	}
 
-	private static Map<PokeBoost, Integer> boostToItemId = new HashMap<PokeBoost, Integer>();
-	private static Map<Integer, PokeBoost> itemIdToBoost = new HashMap<Integer, PokeBoost>();
-	private static Map<String, PokeBoost> nameToBoost = new HashMap<String, PokeBoost>();
+	private static final Map<PokeBoost, Integer> boostToItemId = new HashMap<PokeBoost, Integer>();
+	private static final Map<Integer, PokeBoost> itemIdToBoost = new HashMap<Integer, PokeBoost>();
+	private static final Map<String, PokeBoost> nameToBoost = new HashMap<String, PokeBoost>();
 
 	private static void addBoost( PokeBoost boost, Integer id )
 	{
@@ -326,9 +326,9 @@ public class FamTeamRequest
 	{
 		CleanerProperties props = cleaner.getProperties();
 		// prune things, perhaps
-	};
+	}
 
-	private static final TagNode cleanPokeTeamHTML( final String text )
+    private static TagNode cleanPokeTeamHTML( final String text )
 	{
 		// Clean the HTML on this response page
 		return cleaner.clean( text );
@@ -372,7 +372,7 @@ public class FamTeamRequest
             &nbsp;&nbsp;
 */
 	
-	private static final void parsePokeTeamData( final String famtable, boolean logit )
+	private static void parsePokeTeamData( final String famtable, boolean logit )
 	{
 		TagNode node = FamTeamRequest.cleanPokeTeamHTML( famtable );
 		if ( node == null )

@@ -269,7 +269,7 @@ public class TabbedChatFrame
 	private static class CloseWindowRunnable
 		implements Runnable
 	{
-		private String closedTab;
+		private final String closedTab;
 
 		public CloseWindowRunnable( String closedTab )
 		{

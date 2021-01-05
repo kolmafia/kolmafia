@@ -43,9 +43,9 @@ import net.sourceforge.kolmafia.RequestThread;
 public class CoinMasterPurchaseRequest
 	extends PurchaseRequest
 {
-	private CoinmasterData data;
-	private AdventureResult cost;
-	private CoinMasterRequest request;
+	private final CoinmasterData data;
+	private final AdventureResult cost;
+	private final CoinMasterRequest request;
 
 	/**
 	 * Constructs a new <code>CoinMasterPurchaseRequest</code> which retrieves things from Coin Masters.

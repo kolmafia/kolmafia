@@ -898,7 +898,7 @@ public class DataTypes
 		return value ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
-	private static final Value makeNormalizedItem( final int num, String name )
+	private static Value makeNormalizedItem( final int num, String name )
 	{
 		if ( num == -1 )
 		{
@@ -906,12 +906,12 @@ public class DataTypes
 		}
 		if ( name == null )
 		{
-			name = "[" + String.valueOf( num ) + "]";
+			name = "[" + num + "]";
 		}
 		int[] itemIds = ItemDatabase.getItemIds( name, 1, false );
 		if ( itemIds != null && itemIds.length > 1 )
 		{
-			name = "[" + String.valueOf( num ) + "]" + name;
+			name = "[" + num + "]" + name;
 		}
 		return new Value( DataTypes.ITEM_TYPE, num, name );
 	}		
@@ -958,7 +958,7 @@ public class DataTypes
 		return new Value( DataTypes.CLASS_TYPE, DataTypes.classToInt( name ), name );
 	}
 
-	private static final Value makeNormalizedSkill( final int num, String name )
+	private static Value makeNormalizedSkill( final int num, String name )
 	{
 		if ( num == -1 )
 		{
@@ -966,12 +966,12 @@ public class DataTypes
 		}
 		if ( name == null )
 		{
-			name = "[" + String.valueOf( num ) + "]";
+			name = "[" + num + "]";
 		}
 		int[] skillIds = SkillDatabase.getSkillIds( name, false );
 		if ( skillIds != null && skillIds.length > 1 )
 		{
-			name = "[" + String.valueOf( num ) + "]" + name;
+			name = "[" + num + "]" + name;
 		}
 		return new Value( DataTypes.SKILL_TYPE, num, name );
 	}		
@@ -987,7 +987,7 @@ public class DataTypes
 		return DataTypes.makeNormalizedSkill( num, name );
 	}
 
-	private static final Value makeNormalizedEffect( final int num, String name )
+	private static Value makeNormalizedEffect( final int num, String name )
 	{
 		if ( num == -1 )
 		{
@@ -995,12 +995,12 @@ public class DataTypes
 		}
 		if ( name == null )
 		{
-			name = "[" + String.valueOf( num ) + "]";
+			name = "[" + num + "]";
 		}
 		int[] effectIds = EffectDatabase.getEffectIds( name, false );
 		if ( effectIds != null && effectIds.length > 1 )
 		{
-			name = "[" + String.valueOf( num ) + "]" + name;
+			name = "[" + num + "]" + name;
 		}
 		return new Value( DataTypes.EFFECT_TYPE, num, name );
 	}		
@@ -1108,7 +1108,7 @@ public class DataTypes
 		int[] monsterIds = MonsterDatabase.getMonsterIds( name, false );
 		if ( monsterIds != null && monsterIds.length > 1 )
 		{
-			name = "[" + String.valueOf( id ) + "]" + name;
+			name = "[" + id + "]" + name;
 		}
 
 		return new Value( DataTypes.MONSTER_TYPE, id, name, monster );

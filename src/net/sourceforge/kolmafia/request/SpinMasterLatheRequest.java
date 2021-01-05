@@ -65,7 +65,7 @@ public class SpinMasterLatheRequest
 	public static final String master = "Your SpinMaster&trade; lathe"; 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( SpinMasterLatheRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getNewMap();
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( SpinMasterLatheRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( SpinMasterLatheRequest.master );
 
 	// Since there are four different currencies, we need to have a map from
 	// itemId to item/count of currency; an AdventureResult.

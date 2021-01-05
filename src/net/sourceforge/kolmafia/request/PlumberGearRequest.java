@@ -54,7 +54,7 @@ public class PlumberGearRequest
 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( PlumberGearRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( PlumberGearRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( PlumberGearRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( PlumberGearRequest.master );
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "([\\d,]+) coin" );
 	public static final AdventureResult COIN = ItemPool.get( ItemPool.COIN, 1 );
 

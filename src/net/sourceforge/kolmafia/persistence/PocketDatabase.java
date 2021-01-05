@@ -109,12 +109,12 @@ public class PocketDatabase
 		// Pockets self-add themselves to this map
 		private final Map<Integer, Pocket> pockets = new HashMap<>();
 
-		private PocketType( String tag )
+		PocketType( String tag )
 		{
 			this( tag, tag );
 		}
 
-		private PocketType( String tag, String name )
+		PocketType( String tag, String name )
 		{
 			this.tag = tag;
 			this.name = name;
@@ -290,7 +290,7 @@ public class PocketDatabase
 		@Override
 		public String toString()
 		{
-			return String.valueOf( meat ) + " Meat and a clue: " + this.text;
+			return meat + " Meat and a clue: " + this.text;
 		}
 	}
 
@@ -379,7 +379,7 @@ public class PocketDatabase
 				int[] effectIds = EffectDatabase.getEffectIds( name, false );
 				if ( effectIds != null && effectIds.length > 1 )
 				{
-					name = "[" + String.valueOf( num ) + "]" + name;
+					name = "[" + num + "]" + name;
 				}
 			}
 			return name;
@@ -462,8 +462,8 @@ public class PocketDatabase
 	public static final Set<Integer> allStatsPockets = new HashSet<>();
 
 	public static List<Pocket> meatPockets;
-	public static List<Pocket> poemHalfLines;;
-	public static List<Pocket> scrapSyllables;
+	public static List<Pocket> poemHalfLines;
+    public static List<Pocket> scrapSyllables;
 
 	static
 	{

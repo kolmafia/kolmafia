@@ -42,7 +42,7 @@ import net.sourceforge.kolmafia.textui.Parser;
 public class Scope
 	extends BasicScope
 {
-	private ArrayList<ParseTreeNode> commands;
+	private final ArrayList<ParseTreeNode> commands;
 	private int barrier = BasicScope.BARRIER_NONE;
 	private boolean breakable = false;
 

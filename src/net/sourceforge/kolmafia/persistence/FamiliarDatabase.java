@@ -210,7 +210,7 @@ public class FamiliarDatabase
 		}
 	}
 
-	private static final void saveCanonicalNames()
+	private static void saveCanonicalNames()
 	{
 		String[] newArray = new String[ FamiliarDatabase.canonicalNameMap.size() ];
 		FamiliarDatabase.canonicalNameMap.keySet().toArray( newArray );
@@ -766,7 +766,7 @@ public class FamiliarDatabase
 		return familiarId == null ? -1 : familiarId.intValue();
 	}
 
-	private static final ImageIcon getFamiliarIcon( final String location )
+	private static ImageIcon getFamiliarIcon( final String location )
 	{
 		if ( location == null || location.equals( "debug.gif" ) )
 		{
@@ -829,7 +829,7 @@ public class FamiliarDatabase
 	public static final int[] getFamiliarSkills( final Integer id )
 	{
 		String name = FamiliarDatabase.getFamiliarName( id );
-		int skills[] = new int[ 4 ];
+		int[] skills = new int[ 4 ];
 		for ( int i = 0; i < 4; ++i )
 		{
 			skills[ i ] = FamiliarDatabase.eventSkillByName[ i ].get( name ).intValue();

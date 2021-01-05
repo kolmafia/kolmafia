@@ -128,7 +128,7 @@ public class CoinmastersDatabase
 		return new TreeMap<Integer, Integer>();
 	}
 
-	private static final LockableListModel<AdventureResult> getOrMakeList( final String key, final Map<String,LockableListModel<AdventureResult>> map )
+	private static LockableListModel<AdventureResult> getOrMakeList( final String key, final Map<String,LockableListModel<AdventureResult>> map )
 	{
 		LockableListModel<AdventureResult> retval = map.get( key );
 		if ( retval == null )
@@ -139,7 +139,7 @@ public class CoinmastersDatabase
 		return retval;
 	}
 
-	private static final Map<Integer, Integer> getOrMakeMap( final String key, final Map<String, Map<Integer, Integer>> map )
+	private static Map<Integer, Integer> getOrMakeMap( final String key, final Map<String, Map<Integer, Integer>> map )
 	{
 		Map<Integer, Integer> retval = map.get( key );
 		if ( retval == null )
@@ -227,7 +227,7 @@ public class CoinmastersDatabase
 		}
 	}
 
-	private static final int purchaseLimit( final int itemId )
+	private static int purchaseLimit( final int itemId )
 	{
 		switch ( itemId )
 		{

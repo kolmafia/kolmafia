@@ -199,7 +199,7 @@ public class CalendarFrame
 	 * straightforward algorithm has no errors.
 	 */
 
-	private static final void calculatePhases( final Date time )
+	private static void calculatePhases( final Date time )
 	{
 		// In order to ensure that everything is computed
 		// based on new-year, wrap the date inside of the
@@ -219,7 +219,7 @@ public class CalendarFrame
 	 * after all recalculation attempts.
 	 */
 
-	private static final void updateDailyPage()
+	private static void updateDailyPage()
 	{
 		if ( KoLConstants.DAILY_FORMAT.format( CalendarFrame.selectedDate.getTime() ).equals( "20051027" ) )
 		{
@@ -389,7 +389,7 @@ public class CalendarFrame
 	 * Updates the HTML which displays the predictions for upcoming events on the KoL calendar.
 	 */
 
-	private static final void updatePredictionsPage()
+	private static void updatePredictionsPage()
 	{
 		StringBuffer displayHTML = new StringBuffer();
 		int phaseStep = HolidayDatabase.getPhaseStep( CalendarFrame.ronaldPhase, CalendarFrame.grimacePhase );
@@ -414,7 +414,7 @@ public class CalendarFrame
 	 * wherever applicable. Also appends "no effect" if the percentage is zero.
 	 */
 
-	private static final void appendModifierPercentage( final StringBuffer buffer, final int percentage )
+	private static void appendModifierPercentage( final StringBuffer buffer, final int percentage )
 	{
 		if ( percentage > 0 )
 		{

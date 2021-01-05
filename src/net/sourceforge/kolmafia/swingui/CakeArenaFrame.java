@@ -71,7 +71,7 @@ public class CakeArenaFrame
 {
 	private JTable familiarTable;
 	private LockableListModel<ArenaOpponent> opponents;
-	private CharacterListener familiarListener;
+	private final CharacterListener familiarListener;
 
 	public CakeArenaFrame()
 	{

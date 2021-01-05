@@ -66,17 +66,17 @@ public class MonsterData
 	private Object attack;
 	private Object defense;
 	private Object initiative;
-	private Object experience;
-	private Object scale;
-	private Object cap;
-	private Object floor;
-	private Object mlMult;
+	private final Object experience;
+	private final Object scale;
+	private final Object cap;
+	private final Object floor;
+	private final Object mlMult;
 	private Element attackElement;
 	private Element defenseElement;
 	private int physicalResistance;
 	private int meat;
-	private Object minSprinkles;
-	private Object maxSprinkles;
+	private final Object minSprinkles;
+	private final Object maxSprinkles;
 	private final Phylum phylum;
 	private final int poison;
 	private final boolean boss;
@@ -177,9 +177,9 @@ public class MonsterData
 		{
 			MonsterData.crazySummerModifiers.put( mapping[0], mapping[1] );
 		}
-	};
+	}
 
-	private static final String[][] cosmeticModifiers =
+    private static final String[][] cosmeticModifiers =
 	{
 		{ "askew", null },
 		{ "blinking", null },
@@ -238,9 +238,9 @@ public class MonsterData
 		}
 		MonsterData.cosmeticModifierImages.put( "powerPixel", null );
 		MonsterData.cosmeticModifierImages.put( "drippy", null );
-	};
+	}
 
-	private static final String[] extraModifierNames =
+    private static final String[] extraModifierNames =
 	{
 		"powerPixel"
 	};
@@ -252,9 +252,9 @@ public class MonsterData
 		{
 			MonsterData.extraModifiers.add( name );
 		}
-	};
+	}
 
-	public static final int DEFAULT_SCALE = 0;
+    public static final int DEFAULT_SCALE = 0;
 	public static final int DEFAULT_CAP = 10000;
 	public static final int DEFAULT_FLOOR = 10;
 
@@ -1441,11 +1441,11 @@ public class MonsterData
 				int floor = evaluate( stats.floor, MonsterData.DEFAULT_FLOOR);
 
 				String attb = "Attack Power scale: (Moxie +" +
-						String.valueOf( scale ) +
+						scale +
 						", floor " +
-						String.valueOf( floor ) +
+						floor +
 						", cap " +
-						String.valueOf( cap ) +
+						cap +
 						")";
 				description = attb;
 			}
@@ -1464,7 +1464,7 @@ public class MonsterData
 			buffer.append( "\"></td>" );
 
 			buffer.append( "<td width=50 align=left><b><font size=+2>" );
-			buffer.append( String.valueOf( attack ) );
+			buffer.append( attack );
 			buffer.append( "</font></b></td>" );
 		}
 
@@ -1542,11 +1542,11 @@ public class MonsterData
 				int floor = evaluate( stats.floor, MonsterData.DEFAULT_FLOOR);
 
 				String defb = "Defense scale: (Muscle +" +
-						String.valueOf( scale ) +
+						scale +
 						", floor " +
-						String.valueOf( floor ) +
+						floor +
 						", cap " +
-						String.valueOf( cap ) +
+						cap +
 						")";
 				description = defb;
 			}
@@ -1565,7 +1565,7 @@ public class MonsterData
 			buffer.append( "\"></td>" );
 
 			buffer.append( "<td width=50 align=left><b><font size=+2>" );
-			buffer.append( String.valueOf( defense ) );
+			buffer.append( defense );
 			buffer.append( "</font></b></td>" );
 		}
 
@@ -1608,11 +1608,11 @@ public class MonsterData
 				int floor = evaluate( stats.floor, MonsterData.DEFAULT_FLOOR);
 
 				String hpb = "Hit Points scale: 0.75 * (Muscle +" +
-						String.valueOf( scale ) +
+						scale +
 						", floor " +
-						String.valueOf( floor ) +
+						floor +
 						", cap " +
-						String.valueOf( cap ) +
+						cap +
 						")";
 				description = hpb;
 			}
@@ -1631,7 +1631,7 @@ public class MonsterData
 			buffer.append( "\"></td>" );
 
 			buffer.append( "<td width=50 align=left><b><font size=+2>" );
-			buffer.append( String.valueOf( HP ) );
+			buffer.append( HP );
 			buffer.append( "</font></b></td>" );
 		}
 
@@ -1734,9 +1734,9 @@ public class MonsterData
 		if ( maxMeat > 0 )
 		{
 			buffer.append( "<br />Meat: " );
-			buffer.append( String.valueOf( minMeat ) );
+			buffer.append( minMeat );
 			buffer.append( " - " );
-			buffer.append( String.valueOf( maxMeat ) );
+			buffer.append( maxMeat );
 		}
 
 		int minSprinkles = this.getMinSprinkles();
@@ -1744,11 +1744,11 @@ public class MonsterData
 		if ( maxSprinkles > 0 )
 		{
 			buffer.append( "<br />Sprinkles: " );
-			buffer.append( String.valueOf( minSprinkles ) );
+			buffer.append( minSprinkles );
 			if ( maxSprinkles != minSprinkles )
 			{
 				buffer.append( " - " );
-				buffer.append( String.valueOf( maxSprinkles ) );
+				buffer.append( maxSprinkles );
 			}
 		}
 

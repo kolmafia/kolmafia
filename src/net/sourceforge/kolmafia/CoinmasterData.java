@@ -65,7 +65,7 @@ public class CoinmasterData
 	// The token(s) that you exchange for items.
 	// One, for now
 	private String token;
-	private AdventureResult tokenItem;
+	private final AdventureResult tokenItem;
 	public String plural;
 	private final String tokenTest;
 	private final boolean positiveTest;
@@ -151,7 +151,7 @@ public class CoinmasterData
 		this.tokenItem = this.makeTokenItem();
 	}
 
-	private final AdventureResult makeTokenItem()
+	private AdventureResult makeTokenItem()
 	{
 		AdventureResult item = new AdventureResult( this.token, -1, 1, false ) {
 				public String getPluralName( final int count )

@@ -92,7 +92,7 @@ public class FileUtilities
 		return FileUtilities.getReader( DataUtilities.getReader( istream ) );
 	}
 
-	private static final BufferedReader getReader( final BufferedReader reader )
+	private static BufferedReader getReader( final BufferedReader reader )
 	{
 		String lastMessage = DataUtilities.getLastMessage();
 		if ( lastMessage != null )
@@ -168,8 +168,7 @@ public class FileUtilities
 
 			while ( ( line = reader.readLine() ) != null && ( line.startsWith( "#" ) || line.length() == 0 ) )
 			{
-				;
-			}
+            }
 
 			// If you've reached the end of file, then
 			// return null.  Otherwise, return the line
@@ -462,7 +461,7 @@ public class FileUtilities
 	 * Downloads the given file from the KoL images server and stores it locally.
 	 */
 
-	private static final String localImageName( final String filename )
+	private static String localImageName( final String filename )
 	{
 		if ( filename == null || filename.equals( "" ) )
 		{

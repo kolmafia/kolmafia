@@ -488,7 +488,7 @@ public class CoinMasterRequest
 		return 1;
 	}
 
-	private static final int itemSellPrice( final CoinmasterData data, final int itemId )
+	private static int itemSellPrice( final CoinmasterData data, final int itemId )
 	{
 		Map<Integer, Integer> prices = data.getSellPrices();
 		return CoinmastersDatabase.getPrice( itemId, prices );

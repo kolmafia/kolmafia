@@ -74,15 +74,15 @@ public class ChatPoller
 
 	// Milliseconds between polls. Extracted from the Javascript source on
 	// Sept 30, 2014
-	private static int LCHAT_DELAY_NORMAL = 5000;
-	private static int LCHAT_DELAY_PAUSED = 30000;
-	private static int MCHAT_DELAY_NORMAL = 5000;
-	private static int MCHAT_DELAY_PAUSED = 10000;
+	private static final int LCHAT_DELAY_NORMAL = 5000;
+	private static final int LCHAT_DELAY_PAUSED = 30000;
+	private static final int MCHAT_DELAY_NORMAL = 5000;
+	private static final int MCHAT_DELAY_PAUSED = 10000;
 
 	// lchat and mchat like to go into "away" mode after 15 minutes.  If
 	// you are running GUI chat and browser chat at the same time, let the
 	// browser chat go first.
-	private static int AWAY_MODE_THRESHOLD = ( 16 * 60 * 1000 );
+	private static final int AWAY_MODE_THRESHOLD = ( 16 * 60 * 1000 );
 
 	private static final String AWAY_MESSAGE = "You are now in away mode, chat will update more slowly until you say something.";
 	private static final String BACK_MESSAGE = "Welcome back!  Away mode disabled.";
@@ -302,7 +302,7 @@ public class ChatPoller
 		}
 	}
 
-	private static final void addValidEntry( final List<HistoryEntry> newEntries, final HistoryEntry entry, final boolean isRelayRequest )
+	private static void addValidEntry( final List<HistoryEntry> newEntries, final HistoryEntry entry, final boolean isRelayRequest )
 	{
 		if ( !( entry instanceof SentMessageEntry ) )
 		{
@@ -399,7 +399,7 @@ public class ChatPoller
 		return ChatPoller.rightClickMenu;
 	}
 
-	private static final boolean messageAlreadySeen( final String recipient, final String content, final long localLastSeen )
+	private static boolean messageAlreadySeen( final String recipient, final String content, final long localLastSeen )
 	{
 		synchronized ( ChatPoller.chatHistoryEntries )
 		{

@@ -157,9 +157,9 @@ public class SynthesizeCommand
 		}
 
 		Arrays.sort( CANONICAL_EFFECT_NAMES );
-	};
+	}
 
-	public static final float AGE_LIMIT = ( 60.0f * 60.0f ) / 86400.0f;	// One hour
+    public static final float AGE_LIMIT = ( 60.0f * 60.0f ) / 86400.0f;	// One hour
 
 	private void updatePrices( final AdventureResult candy1, final AdventureResult candy2 )
 	{
@@ -196,7 +196,7 @@ public class SynthesizeCommand
 		}
 		message.append( candyType );
 		message.append( " candy. You have ");
-		message.append( String.valueOf( count ) );
+		message.append( count );
 		message.append( " available to you" );
 		if ( !tradeable )
 		{
@@ -205,7 +205,7 @@ public class SynthesizeCommand
 		else
 		{
 			message.append( " without using the mall, where it costs " );
-			message.append( String.valueOf( cost ) );
+			message.append( cost );
 			message.append( " Meat." );
 		}
 

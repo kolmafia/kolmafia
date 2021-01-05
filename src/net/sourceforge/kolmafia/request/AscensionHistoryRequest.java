@@ -634,7 +634,7 @@ public class AscensionHistoryRequest
 		return this.ascensionData;
 	}
 
-	private static final String[] extractColumns( String rowData )
+	private static String[] extractColumns( String rowData )
 	{
 		rowData = rowData.replaceFirst( "</tr><td.*?>", "" );
 

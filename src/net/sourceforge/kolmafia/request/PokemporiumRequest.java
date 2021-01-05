@@ -49,7 +49,7 @@ public class PokemporiumRequest
 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( PokemporiumRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( PokemporiumRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( PokemporiumRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( PokemporiumRequest.master );
 	private static final Pattern POKEDOLLAR_PATTERN = Pattern.compile( "([\\d,]+) 1,960 pok&eacute;dollar bills" );
 	public static final AdventureResult POKEDOLLAR = new AdventureResult( ItemPool.POKEDOLLAR_BILLS, 1, false ) {
 			@Override
@@ -98,9 +98,9 @@ public class PokemporiumRequest
 	static
 	{
 		POKEMPORIUM.plural = "pok&eacute;dollar bills";
-	};
+	}
 
-	public PokemporiumRequest()
+    public PokemporiumRequest()
 	{
 		super(PokemporiumRequest.POKEMPORIUM );
 	}

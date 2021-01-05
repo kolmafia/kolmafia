@@ -59,7 +59,7 @@ public class CurseRequest
 	private static final Pattern PLAYER_PATTERN = Pattern.compile( "(?=.*action=use).*targetplayer=([^&]*)" );
 	private static final Pattern QTY_PATTERN = Pattern.compile( "You have ([\\d,]+) more |You don't have any more " );
 
-	private AdventureResult itemUsed;
+	private final AdventureResult itemUsed;
 
 	private static final AdventureResult SMORE_GUN = ItemPool.get( ItemPool.SMORE_GUN, 1 );
 	private static final AdventureResult MARSHMALLLOW = ItemPool.get( ItemPool.MARSHMALLOW, 1 );
@@ -209,7 +209,7 @@ public class CurseRequest
 			return;
 		}
 
-		String msg[] = message.split( "\\s*\\|\\s*" );
+		String[] msg = message.split( "\\s*\\|\\s*" );
 		for ( int i = 0; i < msg.length; ++i )
 		{
 			this.addFormField( "text" + ((char) (i + 'a')), msg[i] );

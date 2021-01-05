@@ -840,14 +840,14 @@ public class ChoiceOptionsPanel
 				return null;
 			}
 
-			return String.valueOf( longitude ) + "," + String.valueOf( latitude );
+			return longitude + "," + latitude;
 		}
 	}
 
 	private static class SaveOceanDestinationSettingsRunnable
 		implements Runnable
 	{
-		private OceanDestinationComboBox dest;
+		private final OceanDestinationComboBox dest;
 
 		public SaveOceanDestinationSettingsRunnable( OceanDestinationComboBox dest )
 		{
@@ -984,7 +984,7 @@ public class ChoiceOptionsPanel
 
 		int louvreGoal = this.louvreSelect.getSelectedIndex();
 		Preferences.setString( "choiceAdventure91",
-			String.valueOf( overrideIndex > 0 || louvreGoal > 0 ? "1" : "2" ) );
+                overrideIndex > 0 || louvreGoal > 0 ? "1" : "2" );
 		Preferences.setInteger( "louvreDesiredGoal", louvreGoal );
 
 		for ( int i = 0; i < this.optionSelects.length; ++i )

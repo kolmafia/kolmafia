@@ -163,7 +163,7 @@ public class TavernRequest
 
 	private static final Pattern MAP_PATTERN = Pattern.compile( "alt=\"([^\"]*) \\(([\\d]*),([\\d]*)\\)\"" );
 
-	private static final void parseCellarMap( final String text )
+	private static void parseCellarMap( final String text )
 	{
 		String oldLayout = TavernRequest.tavernLayout();
 		StringBuilder layout = new StringBuilder( oldLayout );
@@ -224,7 +224,7 @@ public class TavernRequest
 	}
 
 	private static final Pattern SPOT_PATTERN = Pattern.compile( "whichspot=([\\d,]+)" );
-	private static final int getSquare( final String urlString )
+	private static int getSquare( final String urlString )
 	{
 		// cellar.php?action=explore&whichspot=4
 		if ( !urlString.startsWith( "cellar.php" ) || !urlString.contains( "action=explore") )
@@ -378,7 +378,7 @@ public class TavernRequest
 		TavernRequest.addTavernLocation( square, value );
 	}
 
-	private static final void addTavernLocation( final int square, final char value )
+	private static void addTavernLocation( final int square, final char value )
 	{
 		StringBuilder layout = new StringBuilder( TavernRequest.tavernLayout() );
 		layout.setCharAt( square - 1, value );

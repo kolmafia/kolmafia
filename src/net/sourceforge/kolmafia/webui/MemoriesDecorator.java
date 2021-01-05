@@ -63,7 +63,7 @@ public class MemoriesDecorator
                 MemoriesDecorator.selectElement( matcher, buffer, "hot" );
         }
 
-	private static final void selectElement( final Matcher matcher, final StringBuffer buffer, final String element )
+	private static void selectElement( final Matcher matcher, final StringBuffer buffer, final String element )
 	{
 		if ( !matcher.find() )
 		{

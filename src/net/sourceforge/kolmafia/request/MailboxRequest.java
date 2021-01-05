@@ -54,7 +54,7 @@ public class MailboxRequest
 	private static final Pattern SINGLEPAGE_PATTERN =
 		Pattern.compile( "Messages: \\w*?, page 1 \\((\\d*) messages\\)</b>" );
 
-	private int beginIndex;
+	private final int beginIndex;
 	private final String boxname;
 	private final String action;
 

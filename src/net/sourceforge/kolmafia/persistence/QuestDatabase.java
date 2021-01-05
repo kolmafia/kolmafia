@@ -152,7 +152,7 @@ public class QuestDatabase
 
 		private final String pref;
 
-		private Quest( String pref )
+		Quest( String pref )
 		{
 			this.pref = pref;
 		}

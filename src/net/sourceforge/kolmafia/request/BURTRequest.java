@@ -141,17 +141,17 @@ public class BURTRequest
 	@Override
 	public void processResults()
 	{
-		BURTRequest.parseResponse( this.getURLString(), this.responseText );
+		BURTRequest.parseResponse( this.responseText );
 	}
 
-	public static void parseResponse( String location, final String responseText )
+	public static void parseResponse( final String responseText )
 	{
 		if ( BURTRequest.lastURL == null )
 		{
 			return;
 		}
 
-		location = BURTRequest.lastURL;
+		String location = BURTRequest.lastURL;
 		BURTRequest.lastURL = null;
 			
 		CoinmasterData data = BURTRequest.BURT;

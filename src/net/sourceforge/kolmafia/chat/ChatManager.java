@@ -103,7 +103,7 @@ public abstract class ChatManager
 
 	private static String currentChannel = null;
 
-	private static List<String> activeWindows = new ArrayList<String>();
+	private static final List<String> activeWindows = new ArrayList<String>();
 	public static List<String> activeChannels = new ArrayList<String>();
 
 	private static TabbedChatFrame tabbedFrame = null;
@@ -111,7 +111,7 @@ public abstract class ChatManager
 	private static boolean triviaGameActive = false;
 	private static int triviaGameIndex = 0;
 	private static String triviaGameId = "[trivia0]";
-	private static LockableListModel<String> triviaGameContacts = new LockableListModel<String>();
+	private static final LockableListModel<String> triviaGameContacts = new LockableListModel<String>();
 	private static ContactListFrame triviaGameContactListFrame = null;
 
 	private static String faxbot = null;

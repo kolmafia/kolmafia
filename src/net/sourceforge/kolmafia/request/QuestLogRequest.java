@@ -66,7 +66,7 @@ public class QuestLogRequest
 		super( "questlog.php" );
 	}
 
-	private static final boolean finishedQuest( final String pref )
+	private static boolean finishedQuest( final String pref )
 	{
 		return Preferences.getString( pref ).equals( QuestDatabase.FINISHED );
 	}

@@ -50,7 +50,7 @@ public class ProxyRecordMethodWrapper
 {
 	private static final long serialVersionUID = 1L;
 
-	private Method method;
+	private final Method method;
 
 	public ProxyRecordMethodWrapper( Scriptable scope, Scriptable prototype, Method method )
 	{

@@ -62,7 +62,7 @@ public class ApiRequest
 	private static final ApiRequest STORAGE = new ApiRequest( "storage" );
 	private static final CharPaneRequest CHARPANE = new CharPaneRequest();
 
-	private String what;
+	private final String what;
 	private String id;
 	public JSONObject JSON;
 	private boolean silent = false;
@@ -488,7 +488,7 @@ public class ApiRequest
 		return null;
 	}
 
-	private static final String getJSONString( String responseText )
+	private static String getJSONString( String responseText )
 	{
 		if ( responseText == null )
 		{

@@ -735,7 +735,7 @@ public class FamiliarTrainingFrame
 		return null;
 	}
 
-	private static final boolean levelFamiliar( final int goal, final int type )
+	private static boolean levelFamiliar( final int goal, final int type )
 	{
 		return FamiliarTrainingFrame.levelFamiliar( goal, type, Preferences.getBoolean( "debugFamiliarTraining" ) );
 	}
@@ -799,7 +799,7 @@ public class FamiliarTrainingFrame
 		return result;
 	}
 
-	private static final boolean trainFamiliar( final int goal, final int type, final boolean debug )
+	private static boolean trainFamiliar( final int goal, final int type, final boolean debug )
 	{
 		// Get current familiar
 		FamiliarData familiar = KoLCharacter.getFamiliar();
@@ -916,7 +916,7 @@ public class FamiliarTrainingFrame
 	 * @param trials How many trials per event
 	 */
 
-	private static final int[] learnFamiliarParameters( final int trials )
+	private static int[] learnFamiliarParameters( final int trials )
 	{
 		// Clear the output
 		FamiliarTrainingFrame.results.clear();
@@ -1007,8 +1007,8 @@ public class FamiliarTrainingFrame
 		return skills;
 	}
 
-	private static final int[] learnFamiliarParameters( final int trial, final FamiliarStatus status,
-		final FamiliarTool tool, final int[][] xp, final int[] test, final boolean[] suckage )
+	private static int[] learnFamiliarParameters( final int trial, final FamiliarStatus status,
+                                                  final FamiliarTool tool, final int[][] xp, final int[] test, final boolean[] suckage )
 	{
 		// Iterate through the contests
 		for ( int contest = 0; contest < 4; ++contest )
@@ -1099,7 +1099,7 @@ public class FamiliarTrainingFrame
 		int[] original = FamiliarDatabase.getFamiliarSkills( KoLCharacter.getFamiliar().getId() );
 
 		// Derived skill rankings
-		int skills[] = new int[ 4 ];
+		int[] skills = new int[ 4 ];
 
 		StringBuilder text = new StringBuilder();
 
@@ -1280,7 +1280,7 @@ public class FamiliarTrainingFrame
 		return false;
 	}
 
-	private static final void statusMessage( final MafiaState state, final String message )
+	private static void statusMessage( final MafiaState state, final String message )
 	{
 		if ( state == MafiaState.ERROR || message.endsWith( "lost." ) )
 		{
@@ -1302,7 +1302,7 @@ public class FamiliarTrainingFrame
 		KoLmafia.updateDisplay( state, message );
 	}
 
-	private static final void printFamiliar( final FamiliarStatus status, final int goal, final int type )
+	private static void printFamiliar( final FamiliarStatus status, final int goal, final int type )
 	{
 		FamiliarData familiar = status.getFamiliar();
 		String name = familiar.getName();
@@ -1330,7 +1330,7 @@ public class FamiliarTrainingFrame
 		FamiliarTrainingFrame.results.append( "Training " + name + " the " + weight + " lb. " + race + hope + ".<br>" );
 	}
 
-	private static final void printOpponents( final LockableListModel opponents )
+	private static void printOpponents( final LockableListModel opponents )
 	{
 		FamiliarTrainingFrame.results.append( "Opponents:<br>" );
 		int opponentCount = opponents.size();
@@ -1344,7 +1344,7 @@ public class FamiliarTrainingFrame
 		}
 	}
 
-	private static final boolean goalMet( final FamiliarStatus status, final int goal, final int type )
+	private static boolean goalMet( final FamiliarStatus status, final int goal, final int type )
 	{
 		switch ( type )
 		{
@@ -1361,8 +1361,8 @@ public class FamiliarTrainingFrame
 		return false;
 	}
 
-	private static final void printMatch( final FamiliarStatus status, final ArenaOpponent opponent,
-		final FamiliarTool tool, final int match )
+	private static void printMatch( final FamiliarStatus status, final ArenaOpponent opponent,
+                                    final FamiliarTool tool, final int match )
 	{
 		FamiliarData familiar = status.getFamiliar();
 		int weight = tool.bestWeight();
@@ -1388,8 +1388,8 @@ public class FamiliarTrainingFrame
 		KoLmafia.updateDisplay( "Round " + round + ": " + familiar.getName() + " vs. " + opponent.getName() + "..." );
 	}
 
-	private static final int fightMatch( final FamiliarStatus status, final FamiliarTool tool, final ArenaOpponent opponent,
-					     final int match, final boolean ignoreCounters )
+	private static int fightMatch( final FamiliarStatus status, final FamiliarTool tool, final ArenaOpponent opponent,
+                                   final int match, final boolean ignoreCounters )
 	{
 		// If user aborted, bail now
 		if ( KoLmafia.refusesContinue() )
@@ -2396,7 +2396,6 @@ public class FamiliarTrainingFrame
 
 			if ( item == FamiliarData.DOPPELGANGER )
 			{
-				;
 			}
 			else if ( item == this.specItem )
 			{

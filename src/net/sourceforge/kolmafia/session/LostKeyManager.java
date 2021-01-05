@@ -74,13 +74,13 @@ public class LostKeyManager
 		return decision;
 	}
 
-	private static final void logText( final String text )
+	private static void logText( final String text )
 	{
 		RequestLogger.printLine( text );
 		RequestLogger.updateSessionLog( text );
 	}
 
-	private static final String currentGoalString()
+	private static String currentGoalString()
 	{
 		int goal = Preferences.getInteger( "choiceAdventure594" );
 

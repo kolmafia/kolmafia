@@ -159,7 +159,7 @@ public abstract class ClanManager
 		KoLCharacter.setClan( false );
 	}
 
-	private static final void retrieveClanIdAndName()
+	private static void retrieveClanIdAndName()
 	{
 		if ( ClanManager.clanId != 0 )
 		{
@@ -305,7 +305,7 @@ public abstract class ClanManager
 		return ClanManager.rankList;
 	}
 
-	private static final void updateCurrentMembers()
+	private static void updateCurrentMembers()
 	{
 		ClanManager.currentMembers.clear();
 
@@ -319,7 +319,7 @@ public abstract class ClanManager
 		KoLmafia.updateDisplay( "Clan data retrieved." );
 	}
 
-	private static final void updateWhiteList()
+	private static void updateWhiteList()
 	{
 		ClanManager.whiteListMembers.clear();
 
@@ -350,7 +350,7 @@ public abstract class ClanManager
 		Collections.sort( ClanManager.whiteListMembers );
 	}
 
-	private static final void retrieveClanData()
+	private static void retrieveClanData()
 	{
 		if ( KoLmafia.isAdventuring() )
 		{
@@ -367,8 +367,8 @@ public abstract class ClanManager
 		ClanManager.updateWhiteList();
 	}
 
-	private static final boolean retrieveMemberData( final boolean retrieveProfileData,
-		final boolean retrieveAscensionData )
+	private static boolean retrieveMemberData( final boolean retrieveProfileData,
+                                               final boolean retrieveAscensionData )
 	{
 		// First, determine how many member profiles need to be retrieved
 		// before this happens.
@@ -468,7 +468,7 @@ public abstract class ClanManager
 		return Preferences.baseUserName( name ) + "_(#" + ContactManager.getPlayerId( name ) + ")" + ".htm";
 	}
 
-	private static final void initializeProfile( final String name )
+	private static void initializeProfile( final String name )
 	{
 		File profile =
 			new File(
@@ -529,7 +529,7 @@ public abstract class ClanManager
 		}
 	}
 
-	private static final void initializeAscensionData( final String name )
+	private static void initializeAscensionData( final String name )
 	{
 		File ascension =
 			new File(

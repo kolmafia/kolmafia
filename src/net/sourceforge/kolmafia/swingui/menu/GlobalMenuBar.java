@@ -55,8 +55,8 @@ import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
 public class GlobalMenuBar
 	extends JMenuBar
 {
-	private ScriptMenu scriptMenu;
-	private WindowMenu windowMenu;
+	private final ScriptMenu scriptMenu;
+	private final WindowMenu windowMenu;
 	private BookmarkMenu bookmarkMenu;
 
 	public GlobalMenuBar()

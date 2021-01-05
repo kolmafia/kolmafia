@@ -47,13 +47,13 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class InterruptableDialog
 {
-	private static PauseObject pauser = new PauseObject();
+	private static final PauseObject pauser = new PauseObject();
 
 	private static class InterruptableDialogBox
 		extends JOptionPane
 		implements Runnable
 	{
-		private String message;
+		private final String message;
 		private Boolean result = null;
 
 		public InterruptableDialogBox( String mes )

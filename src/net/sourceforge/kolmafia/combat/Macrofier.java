@@ -556,11 +556,11 @@ public class Macrofier
 			int item2 = comma != -1 ? StringUtilities.parseInt( action.substring( comma + 1 ).trim() ) : -1;
 				
 			macro.append( "call mafiaround; use " );
-			macro.append( String.valueOf( item1 ) );
+			macro.append( item1 );
 			if ( item2 != -1 )
 			{
 				macro.append( "," );
-				macro.append( String.valueOf( item2 ) );
+				macro.append( item2 );
 			}
 			macro.append( "\n" );
 		}

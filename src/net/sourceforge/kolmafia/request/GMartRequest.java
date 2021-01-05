@@ -52,7 +52,7 @@ public class GMartRequest
 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( GMartRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( GMartRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( GMartRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( GMartRequest.master );
 	private static final Pattern G_PATTERN = Pattern.compile( "([\\d,]+) G" );
 	public static final AdventureResult G = ItemPool.get( ItemPool.G, 1 );
 

@@ -111,8 +111,8 @@ public abstract class Function
 		ANY,
 		EXACT,
 		BASE,
-		COERCE;
-	}
+		COERCE
+    }
 
 	public boolean paramsMatch( final Function that )
 	{

@@ -912,7 +912,7 @@ public class FamiliarRequest
 		return false;
 	}
 
-	private static final boolean invokeFamiliarScript()
+	private static boolean invokeFamiliarScript()
 	{
 		String scriptName = Preferences.getString( "familiarScript" );
 		if ( scriptName.length() == 0 )
@@ -929,12 +929,12 @@ public class FamiliarRequest
 		return false;
 	}
 
-	private static final void equipFamiliar( FamiliarData familiar, final AdventureResult item )
+	private static void equipFamiliar( FamiliarData familiar, final AdventureResult item )
 	{
 		familiar.setItem( item );
 	}
 
-	private static final void unequipFamiliar( FamiliarData familiar )
+	private static void unequipFamiliar( FamiliarData familiar )
 	{
 		familiar.setItem( EquipmentRequest.UNEQUIP );
 	}

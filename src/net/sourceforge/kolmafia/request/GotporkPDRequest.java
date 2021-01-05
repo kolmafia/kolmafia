@@ -58,7 +58,7 @@ public class GotporkPDRequest
 	public static final String master = "Gotpork P. D.";
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( GotporkPDRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( GotporkPDRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( GotporkPDRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( GotporkPDRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) incriminating evidence" );
 	public static final AdventureResult COIN = ItemPool.get( ItemPool.INCRIMINATING_EVIDENCE, 1 );

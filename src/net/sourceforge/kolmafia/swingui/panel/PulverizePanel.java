@@ -109,7 +109,7 @@ public class PulverizePanel
 	private static class YieldsModel
 		extends DefaultTableModel
 	{
-		private static String[][] contents = new String[][] { {
+		private static final String[][] contents = new String[][] { {
 			"P", "2P", "3P",
 			"<html><center>4P<br>or N</html>",
 			"<html><center>N+3P<br>or 2N</html>",
@@ -413,8 +413,8 @@ public class PulverizePanel
 
 	private static class MsgOption
 	{
-		private String asString;
-		private String asMessage;
+		private final String asString;
+		private final String asMessage;
 
 		public MsgOption( String asString, String asMessage )
 		{

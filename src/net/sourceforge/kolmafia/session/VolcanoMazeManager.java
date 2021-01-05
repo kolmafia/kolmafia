@@ -66,7 +66,7 @@ public abstract class VolcanoMazeManager
 
 	// The number of maps in the cycle
 	public static final int MAPS = 5;
-	private static VolcanoMap [] maps = new VolcanoMap[ MAPS ];
+	private static final VolcanoMap [] maps = new VolcanoMap[ MAPS ];
 
 	// Which map we are currently on
 	private static int currentMap = 0;
@@ -144,7 +144,7 @@ public abstract class VolcanoMazeManager
 		}
 	}
 
-	private static final void loadCurrentMaps()
+	private static void loadCurrentMaps()
 	{
 		if ( !VolcanoMazeManager.loaded )
 		{
@@ -160,9 +160,9 @@ public abstract class VolcanoMazeManager
 		}
 	}
 
-	private static final void loadCurrentMap( final int map )
+	private static void loadCurrentMap( final int map )
 	{
-		String setting = "volcanoMaze" + String.valueOf( map + 1 );
+		String setting = "volcanoMaze" + ( map + 1 );
 		String coords = Preferences.getString( setting );
 		if ( !VolcanoMazeManager.validMap( coords ) )
 		{
@@ -177,13 +177,13 @@ public abstract class VolcanoMazeManager
 		
 	}
 
-	private static final void clearCurrentMap( final int map )
+	private static void clearCurrentMap( final int map )
 	{
-		String setting = "volcanoMaze" + String.valueOf( map + 1 );
+		String setting = "volcanoMaze" + ( map + 1 );
 		Preferences.setString( setting, "" );
 	}
 
-	private static final boolean validMap( final String coordinates )
+	private static boolean validMap( final String coordinates )
 	{
 		if ( coordinates == null || coordinates.equals( "" ) )
 		{
@@ -277,7 +277,7 @@ public abstract class VolcanoMazeManager
 
 		// It's a new map. Save the coordinates in user settings
 		int sequence = index + 1;
-		String setting = "volcanoMaze" + String.valueOf( sequence );
+		String setting = "volcanoMaze" + sequence;
 		Preferences.setString( setting, coords );
 
 		// Save the squares
@@ -285,7 +285,7 @@ public abstract class VolcanoMazeManager
 		RequestLogger.printLine( VolcanoMazeManager.found + " total platforms seen." );
 	}
 
-	private static final void addSquares( final int index )
+	private static void addSquares( final int index )
 	{
 		VolcanoMap map = VolcanoMazeManager.maps[ index ];
 		int seq = index + 1;
@@ -311,7 +311,7 @@ public abstract class VolcanoMazeManager
 		}
 	}
 
-	private static final String parseCoords( final String responseText )
+	private static String parseCoords( final String responseText )
 	{
 		// move=x,y returns simply "false" if can't move there
 		if ( responseText.equals( "false" ) )
@@ -330,7 +330,7 @@ public abstract class VolcanoMazeManager
 
 	private static final Pattern SQUARE_PATTERN = Pattern.compile("<div id=\"sq(\\d+)\" class=\"sq (no|yes)\\s+(you|goal|)\\s*lv(\\d+)\" rel=\"(\\d+),(\\d+)\">");
 
-	private static final String parseHTMLCoords( final String responseText )
+	private static String parseHTMLCoords( final String responseText )
 	{
 		Matcher matcher = VolcanoMazeManager.SQUARE_PATTERN.matcher( responseText );
 		StringBuffer buffer = new StringBuffer();
@@ -381,7 +381,7 @@ public abstract class VolcanoMazeManager
 
 	private static final Pattern POS_PATTERN = Pattern.compile("(\\d+),(\\d+)");
 
-	private static final String parseJSONCoords( final String responseText )
+	private static String parseJSONCoords( final String responseText )
 	{
 		StringBuffer buffer = new StringBuffer();
 		JSONObject JSON;
@@ -452,17 +452,17 @@ public abstract class VolcanoMazeManager
 		return buffer.toString();
 	}
 
-	private static final int row( final int pos )
+	private static int row( final int pos )
 	{
 		return ( pos / NCOLS );
 	}
 
-	private static final int col( final int pos )
+	private static int col( final int pos )
 	{
 		return ( pos % NCOLS );
 	}
 
-	private static final int pos( final int row, final int col )
+	private static int pos( final int row, final int col )
 	{
 		return ( row * NCOLS + col );
 	}
@@ -478,13 +478,13 @@ public abstract class VolcanoMazeManager
 		int col = col( pos );
 
 		// Yes, KoL really does display ( column, row )
-		return String.valueOf( col ) + "," + String.valueOf( row );
+		return col + "," + row;
 	}
 
 	public static final String coordinateString( final int pos, final int map )
 	{
 		String cstr = VolcanoMazeManager.coordinateString( pos );
-		String mstr = ( map >= 0 ) ? ( "map " + String.valueOf( map + 1 ) ) : "(unknown map )";
+		String mstr = ( map >= 0 ) ? ( "map " + ( map + 1 ) ) : "(unknown map )";
 		return cstr + " on " + mstr;
 	}
 
@@ -503,7 +503,7 @@ public abstract class VolcanoMazeManager
 		RequestLogger.printLine( "Current position: " + VolcanoMazeManager.coordinateString( currentLocation, currentMap ) );
 	}
 
-	private static final boolean discoverMaps()
+	private static boolean discoverMaps()
 	{
 		VolcanoMazeManager.loadCurrentMaps();
 		if ( VolcanoMazeManager.found == CELLS )
@@ -562,7 +562,7 @@ public abstract class VolcanoMazeManager
 		VolcanoMazeManager.printCurrentCoordinates();
 	}
 
-	private static final void internalVisit()
+	private static void internalVisit()
 	{
 		// Must make a new VolcanoMazeRequest every time since that
 		// class follows redirects.
@@ -637,7 +637,7 @@ public abstract class VolcanoMazeManager
 		for ( int col = 0; col < NCOLS; ++col )
 		{
 			buffer.append( "<td align=center><b>" );
-			buffer.append( String.valueOf( col ) );
+			buffer.append( col );
 			buffer.append( "</b></td>" );
 		}
 		buffer.append( "</tr>" );
@@ -645,13 +645,13 @@ public abstract class VolcanoMazeManager
 		{
 			buffer.append( "<tr>" );
 			buffer.append( "<td valign=center><b>" );
-			buffer.append( String.valueOf( row ) );
+			buffer.append( row );
 			buffer.append( "</b></td>" );
 			for ( int col = 0; col < NCOLS; ++col )
 			{
 				buffer.append( "<td>" );
 				int map = squares[ pos( row, col ) ];
-				buffer.append( String.valueOf( map ) );
+				buffer.append( map );
 				buffer.append( "</td>" );
 			}
 			buffer.append( "</tr>" );
@@ -735,7 +735,7 @@ public abstract class VolcanoMazeManager
 		}
 	}
 
-	private static final void printStatistics( final Path solution )
+	private static void printStatistics( final Path solution )
 	{
 		StringBuffer buffer = new StringBuffer();
 		buffer.append( "Paths examined/made " );
@@ -746,7 +746,7 @@ public abstract class VolcanoMazeManager
 		if ( solution != null )
 		{
 			buffer.append( "solution with " );
-			buffer.append( String.valueOf( solution.size() ) );
+			buffer.append( solution.size() );
 			buffer.append( " hops." );
 		}
 		else
@@ -786,7 +786,7 @@ public abstract class VolcanoMazeManager
 	// pathsMade - paths generated
 	// pathsExamined - paths examined
 
-	private static final Path solve( final int location, final int map )
+	private static Path solve( final int location, final int map )
 	{
 		// Generate neighbors for every cell
 		VolcanoMazeManager.generateNeighbors();
@@ -858,7 +858,7 @@ public abstract class VolcanoMazeManager
 		return null;
 	}
 
-	private static final void generateNeighbors()
+	private static void generateNeighbors()
 	{
 		for ( int square = 0; square < CELLS; ++square )
 		{
@@ -983,7 +983,7 @@ public abstract class VolcanoMazeManager
 				{
 					buffer.append( " " );
 				}
-				buffer.append( String.valueOf( row + 1 ) );
+				buffer.append( ( row + 1 ) );
 				for ( int col = 0; col < NCOLS; ++col )
 				{
 					buffer.append( " " );
@@ -1021,7 +1021,7 @@ public abstract class VolcanoMazeManager
 			for ( int col = 0; col < NCOLS; ++col )
 			{
 				buffer.append( "<td align=center><b>" );
-				buffer.append( String.valueOf( col ) );
+				buffer.append( col );
 				buffer.append( "</b></td>" );
 			}
 			buffer.append( "</tr>" );
@@ -1029,7 +1029,7 @@ public abstract class VolcanoMazeManager
 			{
 				buffer.append( "<tr>" );
 				buffer.append( "<td valign=center><b>" );
-				buffer.append( String.valueOf( row ) );
+				buffer.append( row );
 				buffer.append( "</b></td>" );
 				for ( int col = 0; col < NCOLS; ++col )
 				{
@@ -1053,7 +1053,7 @@ public abstract class VolcanoMazeManager
 					{
 						int rnd = KoLConstants.RNG.nextInt( 12 );
 						buffer.append( "lava" );
-						buffer.append( String.valueOf( rnd + 1 ) );
+						buffer.append( ( rnd + 1 ) );
 					}
 					buffer.append( ".gif\" width=30 height=30>" );
 					buffer.append( "</td>" );
@@ -1166,7 +1166,7 @@ public abstract class VolcanoMazeManager
 				{
 					buffer.append( "," );
 				}
-				buffer.append( String.valueOf( list.get( i ) ) );
+				buffer.append( list.get( i ) );
 			}
 			buffer.append( "]" );
 			return buffer.toString();

@@ -48,7 +48,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class DvorakManager
 {
-	private static char [][] tiles = new char[7][9];
+	private static final char [][] tiles = new char[7][9];
 	private static int currentRow = 0;
 
 	private final static String solution = "BANANAS";
@@ -108,7 +108,7 @@ public abstract class DvorakManager
 		{
 			buffer.setLength( 0 );
 			buffer.append( "Row " );
-			buffer.append( String.valueOf( row + 1 ) );
+			buffer.append( ( row + 1 ) );
 			buffer.append( ": " );
 			for ( int col = 0; col < 9; ++col )
 			{

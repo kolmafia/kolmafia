@@ -1146,7 +1146,7 @@ public class UseSkillRequest
 		return this.lastStringForm;
 	}
 
-	private static final boolean canSwitchToItem( final AdventureResult item )
+	private static boolean canSwitchToItem( final AdventureResult item )
 	{
 		return !KoLCharacter.hasEquipped( item ) &&
 			EquipmentManager.canEquip( item.getName() ) &&
@@ -1206,7 +1206,7 @@ public class UseSkillRequest
 		}
 	}
 
-	private static final boolean isValidSwitch( final int slotId, final AdventureResult newItem, final int skillId )
+	private static boolean isValidSwitch( final int slotId, final AdventureResult newItem, final int skillId )
 	{
 		AdventureResult item = EquipmentManager.getEquipment( slotId );
 		if ( item.equals( EquipmentRequest.UNEQUIP ) ) return true;
@@ -1244,8 +1244,8 @@ public class UseSkillRequest
 		return true;
 	}
 
-	private static final int attemptSwitch( final int skillId, final AdventureResult item,
-						final boolean slot1Allowed, final boolean slot2Allowed, final boolean slot3Allowed )
+	private static int attemptSwitch( final int skillId, final AdventureResult item,
+                                      final boolean slot1Allowed, final boolean slot2Allowed, final boolean slot3Allowed )
 	{
 		if ( slot3Allowed )
 		{
@@ -1268,7 +1268,7 @@ public class UseSkillRequest
 		return -1;
 	}
 
-	private static final void reduceManaConsumption( final int skillId )
+	private static void reduceManaConsumption( final int skillId )
 	{
 		// Never bother trying to reduce mana consumption when casting
 		// expensive skills or a libram skill
@@ -1368,7 +1368,7 @@ public class UseSkillRequest
 		return rv;
 	}
 
-	private static final int songsActive()
+	private static int songsActive()
 	{
 		int count = 0;
 
@@ -1389,7 +1389,7 @@ public class UseSkillRequest
 		return count;
 	}
 
-	private static final Boolean newSong( final int skillId )
+	private static Boolean newSong( final int skillId )
 	{
 		if ( !SkillDatabase.isAccordionThiefSong( skillId ) )
 		{
@@ -1831,7 +1831,7 @@ public class UseSkillRequest
 		return currentCast;
 	}
 
-	private static final BuffTool findTool( BuffTool [] tools )
+	private static BuffTool findTool( BuffTool [] tools )
 	{
 		for ( int i = 0; i < tools.length; ++i )
 		{
@@ -2897,7 +2897,7 @@ public class UseSkillRequest
 		return -1;
 	}
 	
-	private static final long getCount( final String urlString, int skillId )
+	private static long getCount( final String urlString, int skillId )
 	{
 		Matcher countMatcher = UseSkillRequest.COUNT_PATTERN.matcher( urlString );
 

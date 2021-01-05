@@ -565,7 +565,7 @@ public class ListCellRendererFactory
 					if ( active > 0 )
 					{
 						stringForm.append( " (" );
-						stringForm.append( String.valueOf( active ) );
+						stringForm.append( active );
 						stringForm.append( " active)" );
 					}
 					if ( effectModifiers != null )

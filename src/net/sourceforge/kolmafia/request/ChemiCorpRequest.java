@@ -58,7 +58,7 @@ public class ChemiCorpRequest
 	public static final String master = "ChemiCorp";
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( ChemiCorpRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( ChemiCorpRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( ChemiCorpRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( ChemiCorpRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) dangerous chemicals" );
 	public static final AdventureResult COIN = ItemPool.get( ItemPool.DANGEROUS_CHEMICALS, 1 );

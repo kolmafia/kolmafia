@@ -247,7 +247,7 @@ public class Crimbo11Request
 	}
 
 	public static final Pattern TOWHO_PATTERN = Pattern.compile( "towho=([^&]*)" );
-	private static final boolean registerDonation( final String urlString )
+	private static boolean registerDonation( final String urlString )
 	{
 		CoinmasterData data = Crimbo11Request.CRIMBO11;
 

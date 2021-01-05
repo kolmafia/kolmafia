@@ -66,7 +66,7 @@ public abstract class StaticEntity
 	private static int usesRelayWindows = 0;
 
 	private static boolean isGUIRequired = false;
-	private static boolean isHeadless = System.getProperty( "java.awt.headless", "" ).equals( "true" );
+	private static final boolean isHeadless = System.getProperty( "java.awt.headless", "" ).equals( "true" );
 
 	public static final ArrayList<ActionPanel> existingPanels = new ArrayList<ActionPanel>();
 	private static ActionPanel[] panelArray = new GenericPanel[ 0 ];
@@ -76,7 +76,7 @@ public abstract class StaticEntity
 
 	public static boolean userAborted = false;
 	private static MafiaState globalContinuationState = MafiaState.CONTINUE;
-	private static ThreadLocal<MafiaState> threadLocalContinuationState = new ThreadLocal<MafiaState>()
+	private static final ThreadLocal<MafiaState> threadLocalContinuationState = new ThreadLocal<MafiaState>()
 	{
 		protected MafiaState initialValue()
 		{
@@ -465,7 +465,7 @@ public abstract class StaticEntity
 		}
 	}
 
-	private static final void printStackTrace( final Throwable t, final String message, final PrintStream ostream )
+	private static void printStackTrace( final Throwable t, final String message, final PrintStream ostream )
 	{
 		ostream.println( t.getClass() + ": " + t.getMessage() );
 		t.printStackTrace( ostream );

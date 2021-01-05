@@ -110,12 +110,12 @@ public class FaxRequestFrame
 	private class FaxRequestPanel
 		extends GenericPanel
 	{
-		private FaxBot bot;
+		private final FaxBot bot;
 
 		public ShowDescriptionList [] monsterLists;
 		public int monsterIndex;
-		private MonsterCategoryComboBox categorySelect;
-		private MonsterSelectPanel monsterSelect;
+		private final MonsterCategoryComboBox categorySelect;
+		private final MonsterSelectPanel monsterSelect;
 
 		public FaxRequestPanel( FaxBot bot )
 		{
@@ -480,7 +480,7 @@ public class FaxRequestFrame
 		extends ScrollablePanel
 	{
 		private ShowDescriptionList elementList;
-		private AutoFilterTextField filterfield;
+		private final AutoFilterTextField filterfield;
 
 		public MonsterSelectPanel( final ShowDescriptionList list )
 		{

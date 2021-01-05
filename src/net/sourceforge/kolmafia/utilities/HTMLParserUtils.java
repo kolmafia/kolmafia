@@ -69,7 +69,7 @@ public class HTMLParserUtils
 		}
 	}
 
-	private static final void logHTML( final TagNode node, final StringBuffer buffer, int level )
+	private static void logHTML( final TagNode node, final StringBuffer buffer, int level )
 	{
 		String name = node.getName();
 
@@ -123,7 +123,7 @@ public class HTMLParserUtils
 		}
 	}
 
-	private static final void indent( final StringBuffer buffer, int level )
+	private static void indent( final StringBuffer buffer, int level )
 	{
 		buffer.setLength( 0 );
 		for ( int i = 0; i < level; ++i )
@@ -133,7 +133,7 @@ public class HTMLParserUtils
 		}
 	}
 
-	private static final void printTag( final StringBuffer buffer, TagNode node )
+	private static void printTag( final StringBuffer buffer, TagNode node )
 	{
 		String name = node.getName();
 		Map attributes = node.getAttributes();

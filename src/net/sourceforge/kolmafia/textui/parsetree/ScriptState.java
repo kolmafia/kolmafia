@@ -42,7 +42,7 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 public abstract class ScriptState
 	extends ParseTreeNode
 {
-	private ScriptRuntime.State state;
+	private final ScriptRuntime.State state;
 
 	public ScriptState( final ScriptRuntime.State state )
 	{

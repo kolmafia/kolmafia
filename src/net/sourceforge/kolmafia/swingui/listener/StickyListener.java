@@ -44,9 +44,9 @@ import net.java.dev.spellcast.utilities.ChatBuffer;
 public class StickyListener
 	implements AdjustmentListener
 {
-	private ChatBuffer buffer;
-	private JEditorPane editor;
-	private int tolerance;
+	private final ChatBuffer buffer;
+	private final JEditorPane editor;
+	private final int tolerance;
 	private boolean currentlySticky;
 
 	public StickyListener( ChatBuffer buffer, JEditorPane editor, int tolerance )

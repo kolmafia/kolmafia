@@ -253,9 +253,9 @@ public class PastaThrallData
 			PastaThrallData.CANONICAL_THRALL_ARRAY[ i ] = PastaThrallData.dataToCanonicalType( PASTA_THRALLS[ i ] );
 		}
 		Arrays.sort( PastaThrallData.THRALL_ARRAY );
-	};
+	}
 
-	public static String dataToType( Object[] data )
+    public static String dataToType( Object[] data )
 	{
 		return data == null ? "" : (String)data[ 0 ];
 	}
@@ -396,7 +396,7 @@ public class PastaThrallData
 		Collections.sort( thralls );
 	}
 
-	private Object[] data;
+	private final Object[] data;
 	private final int id;
 	private final String type;
 	private int level;
@@ -458,7 +458,7 @@ public class PastaThrallData
 		}
 		else
 		{
-			String value = String.valueOf( this.level) + "," + this.name;
+			String value = this.level + "," + this.name;
 			Preferences.setString( settingName, value );
 		}
 	}

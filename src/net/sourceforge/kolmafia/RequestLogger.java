@@ -618,7 +618,7 @@ public class RequestLogger
 		if ( RequestLogger.isTracing() )
 		{
 			traceBuffer.setLength( 0 );
-			traceBuffer.append( String.valueOf( ( new Date() ).getTime() ) );
+			traceBuffer.append( ( new Date() ).getTime() );
 			traceBuffer.append( ": " );
 			traceBuffer.append( message );
 			RequestLogger.traceStream.println( traceBuffer.toString() );
@@ -637,7 +637,7 @@ public class RequestLogger
 		}
 	}
 
-	private static final void doRegister( final GenericRequest request, final String urlString )
+	private static void doRegister( final GenericRequest request, final String urlString )
 	{
 		// If we are in a fight, don't even look at things which are
 		// not fight.php, since they will immediately redirect to

@@ -72,7 +72,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public abstract class MPRestoreItemList
 {
 	private static boolean purchaseBasedSort = false;
-	private static HashMap<String, MPRestoreItem> restoreByName = new HashMap<>();
+	private static final HashMap<String, MPRestoreItem> restoreByName = new HashMap<>();
 
 	public static final MPRestoreItem EXPRESS =
 		new MPRestoreItemItem( "Platinum Yendorian Express Card", Integer.MAX_VALUE, false );

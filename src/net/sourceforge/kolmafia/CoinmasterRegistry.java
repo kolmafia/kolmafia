@@ -203,9 +203,9 @@ public abstract class CoinmasterRegistry
 			NICKNAMES[ i ] = StringUtilities.getCanonicalName( cm.getNickname() );
 			COINMASTERS[ i ].registerPurchaseRequests();
 		}
-	};
+	}
 
-	public static void reset()
+    public static void reset()
 	{
 		// Nothing to do, but calling this will run the static
 		// initialization the first time this class is accessed.

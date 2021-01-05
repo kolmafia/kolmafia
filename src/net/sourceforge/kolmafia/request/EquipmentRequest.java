@@ -328,7 +328,7 @@ public class EquipmentRequest
 		this.error = null;
 	}
 
-	private static final String chooseEquipmentLocation( final int slot )
+	private static String chooseEquipmentLocation( final int slot )
 	{
 		return  slot == EquipmentManager.HOLSTER ? "inventory.php" :
 			slot < EquipmentManager.SLOTS ? "inv_equip.php" :
@@ -765,7 +765,7 @@ public class EquipmentRequest
 		}
 	}
 
-	private static final int availableAccessory()
+	private static int availableAccessory()
 	{
 		AdventureResult test = EquipmentManager.getEquipment( EquipmentManager.ACCESSORY1 );
 		if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
@@ -789,12 +789,12 @@ public class EquipmentRequest
 		return EquipmentManager.ACCESSORY1;
 	}
 
-	private static final int availableSlot( final int [] slots )
+	private static int availableSlot( final int [] slots )
 	{
 		return EquipmentRequest.availableSlot( slots, slots.length );
 	}
 
-	private static final int availableSlot( final int [] slots, final int count )
+	private static int availableSlot( final int [] slots, final int count )
 	{
 		for ( int i = 0; i < count; ++i )
 		{
@@ -817,7 +817,7 @@ public class EquipmentRequest
 		EquipmentManager.STICKER3,
 	};
 
-	private static final int availableSticker()
+	private static int availableSticker()
 	{
 		return EquipmentRequest.availableSlot( STICKER_SLOTS );
 	}
@@ -1225,7 +1225,7 @@ public class EquipmentRequest
 		}
 	}
 
-	private static final boolean switchItem( final AdventureResult oldItem, final AdventureResult newItem )
+	private static boolean switchItem( final AdventureResult oldItem, final AdventureResult newItem )
 	{
 		// If the items are not equivalent, make sure
 		// the items should get switched out.
@@ -1503,9 +1503,9 @@ public class EquipmentRequest
 		}
 	}
 
-	private static final void parseEquipment( final String responseText, AdventureResult[] equipment,
-						  final String test, final Pattern pattern,
-						  final String tag, final int slot )
+	private static void parseEquipment( final String responseText, AdventureResult[] equipment,
+                                        final String test, final Pattern pattern,
+                                        final String tag, final int slot )
 	{
 		if ( !responseText.contains( test ) )
 		{
@@ -1576,7 +1576,7 @@ public class EquipmentRequest
 		return refresh;
 	}
 
-	private static final boolean switchItem( final int type, final AdventureResult newItem )
+	private static boolean switchItem( final int type, final AdventureResult newItem )
 	{
 		boolean refresh = false;
 
@@ -1893,7 +1893,7 @@ public class EquipmentRequest
 		return false;
 	}
 
-	private static final void donOutfit( final String responseText )
+	private static void donOutfit( final String responseText )
 	{
 		// Since KoL doesn't tell us where accessories end up,
 		// we could ask for an update, but we'll apply
@@ -2085,7 +2085,7 @@ public class EquipmentRequest
 		}
 	}
 
-	private static final void wearCustomOutfit( final String urlString )
+	private static void wearCustomOutfit( final String urlString )
 	{
 		int outfitId = EquipmentRequest.customOutfitId;
 		EquipmentRequest.customOutfitId = 0;

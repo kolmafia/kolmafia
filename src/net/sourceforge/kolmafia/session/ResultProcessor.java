@@ -1068,7 +1068,7 @@ public class ResultProcessor
 		if ( amount < 0 && -amount > available )
 		{
 			amount = -available;
-			lastToken = "You lose " + String.valueOf( -amount ) + " Meat";
+			lastToken = "You lose " + -amount + " Meat";
 			result = new AdventureLongCountResult( AdventureResult.MEAT, amount );
 		}
 

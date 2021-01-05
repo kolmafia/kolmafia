@@ -272,9 +272,9 @@ public class BeachCommand
 	private void printBeachLayout()
 	{
 		RequestLogger.printLine( "Beach at " + Preferences.getInteger( "_beachMinutes" ) );
-		RequestLogger.printLine( "" );;
+		RequestLogger.printLine( "" );
 
-		// Get current (or most recent) beach layout
+        // Get current (or most recent) beach layout
 		Map<Integer, String> layout = BeachManager.getBeachLayout();
 
 		// It is sorted from lowest to highest row. I.e., closest to
@@ -288,7 +288,7 @@ public class BeachCommand
 		while ( !stack.empty() )
 		{
 			Entry<Integer, String> entry = stack.pop();
-			RequestLogger.printLine( String.valueOf( entry.getKey() ) + ": " + entry.getValue() );
+			RequestLogger.printLine( entry.getKey() + ": " + entry.getValue() );
 		}
 	}
 }

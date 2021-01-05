@@ -109,7 +109,7 @@ public abstract class NemesisManager
 		},
 	};
 
-	private static final void selectDoorItem( final int door, final StringBuffer buffer )
+	private static void selectDoorItem( final int door, final StringBuffer buffer )
 	{
 		String myClass = KoLCharacter.getClassType();
 		for ( int i = 0; i < DOOR_DATA.length; ++i )
@@ -276,7 +276,7 @@ public abstract class NemesisManager
 
 	private static final Pattern STRIP_PATTERN = Pattern.compile( "title=\"A (.*?) tear\".*title=\"A (.*?) tear\".*?<b>([A-Z]*)</b></font>", Pattern.DOTALL );
 
-	private static final boolean identifyPaperStrip( final int itemId )
+	private static boolean identifyPaperStrip( final int itemId )
 	{
 		String description = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( itemId ), true );
 		if ( description == null )

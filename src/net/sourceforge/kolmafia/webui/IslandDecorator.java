@@ -113,7 +113,7 @@ public class IslandDecorator
 		},
 	};
 
-	private static final Object[] findImages( final Quest quest )
+	private static Object[] findImages( final Quest quest )
 	{
 		for ( int i = 0; i < IslandDecorator.IMAGES.length; ++i )
 		{
@@ -126,25 +126,25 @@ public class IslandDecorator
 		return null;
 	}
 
-	private static final String originalImage( final Quest quest )
+	private static String originalImage( final Quest quest )
 	{
 		Object[] row = IslandDecorator.findImages( quest );
 		return row == null ? "" : (String)( row[ 1 ] );
 	}
 
-	private static final String fratImage( final Quest quest )
+	private static String fratImage( final Quest quest )
 	{
 		Object[] row = IslandDecorator.findImages( quest );
 		return row == null ? "" : (String)( row[ 2 ] );
 	}
 
-	private static final String hippyImage( final Quest quest )
+	private static String hippyImage( final Quest quest )
 	{
 		Object[] row = IslandDecorator.findImages( quest );
 		return row == null ? "" : (String)( row[ 3 ] );
 	}
 
-	private static final String sidequestImage( final String setting, final Quest quest )
+	private static String sidequestImage( final String setting, final Quest quest )
 	{
 		String status = Preferences.getString( setting );
 		return	status.equals( "fratboy" ) ?
@@ -175,7 +175,7 @@ public class IslandDecorator
 	private static final int BRIGAND_MIN = BRIGAND.getMinMeat();
 	private static final int BRIGAND_MAX = BRIGAND.getMaxMeat();
 
-	private static final String meatMessage()
+	private static String meatMessage()
 	{
 		StringBuilder message = new StringBuilder();
 
@@ -195,12 +195,12 @@ public class IslandDecorator
 		int minTurns = (int) Math.ceil( left / max );
 		int maxTurns = (int) Math.ceil( left / min );
 
-		message.append( String.valueOf( minTurns ) );
+		message.append( minTurns );
 
 		if ( minTurns != maxTurns )
 		{
 			message.append( "-" );
-			message.append( String.valueOf( maxTurns ) );
+			message.append( maxTurns );
 		}
 
 		message.append( " turns)." );
@@ -228,7 +228,7 @@ public class IslandDecorator
 		public final MonsterData badGremlin;
 		public final String message;
 
-		private GremlinTool( int toolId, String gremlin, String message )
+		GremlinTool( int toolId, String gremlin, String message )
 		{
 			this.tool= ItemPool.get( toolId, 1 );
 			this.goodGremlin = MonsterDatabase.findMonster( gremlin + " (tool)" );
@@ -247,9 +247,9 @@ public class IslandDecorator
 			goodGremlins.put( tool.goodGremlin.getId(), tool );
 			badGremlins.put( tool.badGremlin.getId(), tool );
 		}
-	};
+	}
 
-	public static final void decorateGremlinFight( final MonsterData monster, final StringBuffer buffer )
+    public static final void decorateGremlinFight( final MonsterData monster, final StringBuffer buffer )
 	{
 		GremlinTool tool = goodGremlins.get( monster.getId() );
 
@@ -329,19 +329,19 @@ public class IslandDecorator
 		buffer.append( "<br />This gremlin does <b>NOT</b> have a " ).append( tool.tool.getName() );
 	}
 
-	private static final String victoryMessageHTML( final int last, final int current )
+	private static String victoryMessageHTML( final int last, final int current )
 	{
 		String message = IslandManager.victoryMessage( last, current );
 		return message == null ? "" : message + "<br>";
 	}
 
-	private static final String areaMessageHTML( final int last, final int current )
+	private static String areaMessageHTML( final int last, final int current )
 	{
 		String message = IslandManager.areaMessage( last, current );
 		return message == null ? "" : "<b>" + message + "</b><br>";
 	}
 
-	private static final String heroMessageHTML( final int last, final int current )
+	private static String heroMessageHTML( final int last, final int current )
 	{
 		String message = IslandManager.heroMessage( last, current );
 		return message == null ? "" : "<b>" + message + "</b><br>";
@@ -437,7 +437,7 @@ public class IslandDecorator
 		IslandDecorator.sidequestImage( buffer, "sidequestOrchardCompleted", Quest.ORCHARD );
 	}
 
-	private static final void sidequestImage( final StringBuffer buffer, final String setting, final Quest quest )
+	private static void sidequestImage( final StringBuffer buffer, final String setting, final Quest quest )
 	{
 		String image = IslandDecorator.sidequestImage( setting, quest );
 		if ( image == null )

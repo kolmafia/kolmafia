@@ -45,7 +45,7 @@ public class PreferenceListenerCheckBox
 	extends JCheckBox
 	implements ActionListener, Listener
 {
-	private String property;
+	private final String property;
 
 	public PreferenceListenerCheckBox( String property )
 	{

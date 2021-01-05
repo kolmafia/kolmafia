@@ -208,7 +208,7 @@ public abstract class RumpleManager
 		RumpleManager.sins[2] = RumpleManager.detectSins( RumpleManager.PATTERN3, guts );
 	}
 
-	private static final String[] detectSins( final Pattern pattern, final String text )
+	private static String[] detectSins( final Pattern pattern, final String text )
 	{
 		Matcher matcher = pattern.matcher( text );
 		if ( !matcher.find() )
@@ -310,7 +310,7 @@ public abstract class RumpleManager
 		{ "tearing down the blinds to peep out of the window", RumpleManager.LUSTFULNESS, RumpleManager.VIOLENCE },
 	};
 
-	private static final String[] parseSins( final String text )
+	private static String[] parseSins( final String text )
 	{
 		String[] record = new String[3];
 		record[ 0 ] =

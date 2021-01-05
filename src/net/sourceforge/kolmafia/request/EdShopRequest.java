@@ -56,7 +56,7 @@ public class EdShopRequest
 
 	public static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( EdShopRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( EdShopRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( EdShopRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( EdShopRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) Ka coin" );
 

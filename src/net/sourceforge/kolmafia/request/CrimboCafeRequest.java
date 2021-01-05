@@ -84,7 +84,7 @@ public class CrimboCafeRequest
 		},
 	};
 
-	private static final Object[] dataByName( final String name )
+	private static Object[] dataByName( final String name )
 	{
 		for ( int i = 0; i < CrimboCafeRequest.MENU_DATA.length; ++i )
 		{
@@ -97,7 +97,7 @@ public class CrimboCafeRequest
 		return null;
 	}
 
-	private static final Object[] dataByItemID( final int itemId )
+	private static Object[] dataByItemID( final int itemId )
 	{
 		for ( int i = 0; i < CrimboCafeRequest.MENU_DATA.length; ++i )
 		{

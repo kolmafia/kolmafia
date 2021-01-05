@@ -753,7 +753,7 @@ public class ItemManageFrame
 	private static class RefreshConcoctionsRunnable
 		implements Runnable
 	{
-		private int desired;
+		private final int desired;
 
 		public RefreshConcoctionsRunnable( final int desired )
 		{
@@ -770,7 +770,7 @@ public class ItemManageFrame
 		extends JComboBox
 		implements ActionListener, Listener
 	{
-		private String pref;
+		private final String pref;
 
 		public PrefPopup( String pref )
 		{

@@ -45,7 +45,7 @@ import javax.swing.LayoutFocusTraversalPolicy;
 public class DefaultComponentFocusTraversalPolicy
 	extends LayoutFocusTraversalPolicy
 {
-	private WeakReference component;
+	private final WeakReference component;
 
 	public DefaultComponentFocusTraversalPolicy( Component component )
 	{
@@ -79,7 +79,7 @@ public class DefaultComponentFocusTraversalPolicy
 	private class DefaultComponentFirstComparator
 		implements Comparator
 	{
-		private Comparator parent;
+		private final Comparator parent;
 
 		public DefaultComponentFirstComparator( Comparator parent )
 		{

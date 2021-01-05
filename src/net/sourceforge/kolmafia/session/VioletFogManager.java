@@ -62,7 +62,7 @@ public abstract class VioletFogManager
 
 	// The various locations within the violet fog
 
-	private static final String FogLocationNames [] =
+	private static final String[] FogLocationNames =
 	{
 		"Violet Fog (Start)",		// 48
 		"Man on Bicycle",		// 49
@@ -89,7 +89,7 @@ public abstract class VioletFogManager
 		"Medicine Fish",		// 70
 	};
 
-	private static final int FogLocationExits [][] =
+	private static final int[][] FogLocationExits =
 	{
 		{ 49, 50, 51 },			// 48
 		{ 52, 53, 56 },			// 49
@@ -122,9 +122,9 @@ public abstract class VioletFogManager
 	// Each row contains one tuple for each possible fog destination (49 - 70)
 	// Each tuple contains the Next Hop and the Hop Count to get there
 
-	private static int FogRoutingTable[][][];
+	private static int[][][] FogRoutingTable;
 
-	private static final int[] routingTuple( final int source, final int destination )
+	private static int[] routingTuple( final int source, final int destination )
 	{
 		if ( source < VioletFogManager.FIRST_CHOICE || source > VioletFogManager.LAST_CHOICE || destination < VioletFogManager.FIRST_CHOICE + 1 || destination > VioletFogManager.LAST_CHOICE )
 		{
@@ -133,7 +133,7 @@ public abstract class VioletFogManager
 		return VioletFogManager.FogRoutingTable[ source - VioletFogManager.FIRST_CHOICE ][ destination - VioletFogManager.FIRST_CHOICE - 1 ];
 	}
 
-	private static final int nextHop( final int source, final int destination )
+	private static int nextHop( final int source, final int destination )
 	{
 		int[] tuple = VioletFogManager.routingTuple( source, destination );
 		return tuple == null ? -1 : tuple[ 0 ];
@@ -145,7 +145,7 @@ public abstract class VioletFogManager
 		// printRoutingTable();
 	}
 
-	private static final void buildRoutingTable()
+	private static void buildRoutingTable()
 	{
 		// Get a zeroed array to start things off.
 		VioletFogManager.FogRoutingTable =
@@ -156,7 +156,7 @@ public abstract class VioletFogManager
 		// Seed it with final destinations: next hop = -1 and hopcount = 0
 		for ( int source = VioletFogManager.FIRST_CHOICE + 1; source <= VioletFogManager.LAST_CHOICE; ++source )
 		{
-			int tuple[] = VioletFogManager.routingTuple( source, source );
+			int[] tuple = VioletFogManager.routingTuple( source, source );
 			tuple[ 0 ] = -1;
 			tuple[ 1 ] = 0;
 			--unfilled;
@@ -165,11 +165,11 @@ public abstract class VioletFogManager
 		// Seed it with exit destinations: next hop = destination and hopcount = 1
 		for ( int source = VioletFogManager.FIRST_CHOICE; source <= VioletFogManager.LAST_CHOICE; ++source )
 		{
-			int exits[] = VioletFogManager.FogLocationExits[ source - VioletFogManager.FIRST_CHOICE ];
+			int[] exits = VioletFogManager.FogLocationExits[ source - VioletFogManager.FIRST_CHOICE ];
 			for ( int i = 0; i < exits.length; ++i )
 			{
 				int destination = exits[ i ];
-				int tuple[] = VioletFogManager.routingTuple( source, destination );
+				int[] tuple = VioletFogManager.routingTuple( source, destination );
 				tuple[ 0 ] = destination;
 				tuple[ 1 ] = 1;
 				--unfilled;
@@ -185,7 +185,7 @@ public abstract class VioletFogManager
 			{
 				for ( int destination = VioletFogManager.FIRST_CHOICE + 1; destination <= VioletFogManager.LAST_CHOICE; ++destination )
 				{
-					int tuple[] = VioletFogManager.routingTuple( source, destination );
+					int[] tuple = VioletFogManager.routingTuple( source, destination );
 
 					// If we've calculated this tuple, skip it
 					if ( tuple[ 0 ] != 0 )
@@ -197,10 +197,10 @@ public abstract class VioletFogManager
 					int nextHop = 0;
 					int hopCount = Integer.MAX_VALUE;
 
-					int exits[] = VioletFogManager.FogLocationExits[ source - VioletFogManager.FIRST_CHOICE ];
+					int[] exits = VioletFogManager.FogLocationExits[ source - VioletFogManager.FIRST_CHOICE ];
 					for ( int i = 0; i < exits.length; ++i )
 					{
-						int destTuple[] = VioletFogManager.routingTuple( exits[ i ], destination );
+						int[] destTuple = VioletFogManager.routingTuple( exits[ i ], destination );
 						if ( destTuple[ 0 ] != 0 && destTuple[ 1 ] < hopCount )
 						{
 							nextHop = exits[ i ];
@@ -230,7 +230,7 @@ public abstract class VioletFogManager
 
 	// Range of choice numbers with a goal
 	private static final int FIRST_GOAL_LOCATION = 62;
-	public static final String FogGoals [] =
+	public static final String[] FogGoals =
 	{
 		"escape from the fog",		// 48-61
 		"Cerebral Cloche",		// 62
@@ -245,7 +245,7 @@ public abstract class VioletFogManager
 		"Boost Prime Stat",
 		"Boost Lowest Stat"
 	};
-	private static final AdventureResult FogGoalItems[] =
+	private static final AdventureResult[] FogGoalItems =
 	{
 		null,
 		ItemPool.get( ItemPool.C_CLOCHE, 1 ),
@@ -268,14 +268,14 @@ public abstract class VioletFogManager
 	//  0	Unknown
 	// xx	A destination
 
-	private static final int FogChoiceTable[][] = new int[ VioletFogManager.LAST_CHOICE - VioletFogManager.FIRST_CHOICE + 1 ][ 4 ];
+	private static final int[][] FogChoiceTable = new int[ VioletFogManager.LAST_CHOICE - VioletFogManager.FIRST_CHOICE + 1 ][ 4 ];
 
 	public static final void reset()
 	{
 		// Reset what we've "learned" about the fog choices
 		for ( int i = VioletFogManager.FIRST_CHOICE; i <= VioletFogManager.LAST_CHOICE; ++i )
 		{
-			int choice[] = VioletFogManager.FogChoiceTable[ i - VioletFogManager.FIRST_CHOICE ];
+			int[] choice = VioletFogManager.FogChoiceTable[ i - VioletFogManager.FIRST_CHOICE ];
 			choice[ 0 ] = i < VioletFogManager.FIRST_GOAL_LOCATION ? 0 : -1;
 			choice[ 1 ] = 0;
 			choice[ 2 ] = 0;
@@ -327,7 +327,7 @@ public abstract class VioletFogManager
 		Preferences.setString( "violetFogLayout", map.toString() );
 	}
 
-	private static final String currentGoalString()
+	private static String currentGoalString()
 	{
 		int goal = Preferences.getInteger( "violetFogGoal" );
 
@@ -438,7 +438,7 @@ public abstract class VioletFogManager
 		int nextHop = VioletFogManager.nextHop( source, destination );
 
 		// Choose the path that will take us there
-		int path[] = VioletFogManager.FogChoiceTable[ source - VioletFogManager.FIRST_CHOICE ];
+		int[] path = VioletFogManager.FogChoiceTable[ source - VioletFogManager.FIRST_CHOICE ];
 		for ( int i = 0; i < path.length; ++i )
 		{
 			if ( path[ i ] == nextHop )
@@ -495,7 +495,7 @@ public abstract class VioletFogManager
 		}
 
 		// Update the path table
-		int choices[] = VioletFogManager.FogChoiceTable[ lastChoice - VioletFogManager.FIRST_CHOICE ];
+		int[] choices = VioletFogManager.FogChoiceTable[ lastChoice - VioletFogManager.FIRST_CHOICE ];
 		choices[ lastDecision - 1 ] = source;
 		VioletFogManager.saveMap();
 
@@ -521,7 +521,7 @@ public abstract class VioletFogManager
 		}
 
 		// Yes. Figure out which one it is
-		int exits[] = VioletFogManager.FogLocationExits[ lastChoice - VioletFogManager.FIRST_CHOICE ];
+		int[] exits = VioletFogManager.FogLocationExits[ lastChoice - VioletFogManager.FIRST_CHOICE ];
 		for ( int i = 0; i < exits.length; ++i )
 		{
 			int exit = exits[ i ];
@@ -560,14 +560,14 @@ public abstract class VioletFogManager
 
 		// The choice option is the first element
 		result[ 0 ] = new String[ 1 ];
-		result[ 0 ][ 0 ] = "choiceAdventure" + String.valueOf( choice );
+		result[ 0 ][ 0 ] = "choiceAdventure" + choice;
 
 		// The name of the choice is second element
 		result[ 1 ] = new String[ 1 ];
 		result[ 1 ][ 0 ] = VioletFogManager.FogLocationNames[ choice - VioletFogManager.FIRST_CHOICE ];
 
 		// An array of choice spoilers is the third element
-		int choices[] = VioletFogManager.FogChoiceTable[ choice - VioletFogManager.FIRST_CHOICE ];
+		int[] choices = VioletFogManager.FogChoiceTable[ choice - VioletFogManager.FIRST_CHOICE ];
 		result[ 2 ] = new String[ 4 ];
 		result[ 2 ][ 0 ] = VioletFogManager.choiceName( choice, choices[ 0 ] );
 		result[ 2 ][ 1 ] = VioletFogManager.choiceName( choice, choices[ 1 ] );
@@ -577,7 +577,7 @@ public abstract class VioletFogManager
 		return result;
 	}
 
-	private static final String choiceName( final int choice, final int destination )
+	private static String choiceName( final int choice, final int destination )
 	{
 		// If it's unknown, no name
 		if ( destination == 0 )
@@ -663,7 +663,7 @@ public abstract class VioletFogManager
 	// 21 = 62 (Eye with Hat)
 	// 22 = 63 (Eye with Weapon)
 
-	private static final int WikiToMafia [] =
+	private static final int[] WikiToMafia =
 	{
 		61,		// 1
 		49,		// 2
@@ -689,12 +689,12 @@ public abstract class VioletFogManager
 		63,		// 22
 	};
 
-	private static final int mafiaCode( final int wikiCode )
+	private static int mafiaCode( final int wikiCode )
 	{
 		return VioletFogManager.WikiToMafia[ wikiCode - 1 ];
 	}
 
-	private static final int MafiaToWiki [] =
+	private static final int[] MafiaToWiki =
 	{
 		2,		// 49
 		6,		// 50
@@ -720,19 +720,19 @@ public abstract class VioletFogManager
 		10,		// 70
 	};
 
-	private static final int wikiCode( final int mafiaCode )
+	private static int wikiCode( final int mafiaCode )
 	{
 		return VioletFogManager.MafiaToWiki[ mafiaCode - VioletFogManager.FIRST_CHOICE - 1 ];
 	}
 
-	private static int WikiFogLocationExits[][];
+	private static int[][] WikiFogLocationExits;
 
 	static
 	{
 		VioletFogManager.buildWikiExits();
 	}
 
-	private static final void buildWikiExits()
+	private static void buildWikiExits()
 	{
 		// Get a zeroed array to start things off.
 		VioletFogManager.WikiFogLocationExits = new int[ VioletFogManager.LAST_CHOICE - VioletFogManager.FIRST_CHOICE ][ 3 ];
@@ -741,8 +741,8 @@ public abstract class VioletFogManager
 		for ( int source = VioletFogManager.FIRST_CHOICE + 1; source <= VioletFogManager.LAST_CHOICE; ++source )
 		{
 			// Get the array of exit paths
-			int mafiaExits[] = VioletFogManager.FogLocationExits[ source - VioletFogManager.FIRST_CHOICE ];
-			int wikiExits[] = VioletFogManager.WikiFogLocationExits[ VioletFogManager.wikiCode( source ) - 1 ];
+			int[] mafiaExits = VioletFogManager.FogLocationExits[ source - VioletFogManager.FIRST_CHOICE ];
+			int[] wikiExits = VioletFogManager.WikiFogLocationExits[ VioletFogManager.wikiCode( source ) - 1 ];
 
 			// Copy translated exit from Mafia exit table to Wiki exit table
 			for ( int i = 0; i < mafiaExits.length; ++i )
@@ -774,7 +774,7 @@ public abstract class VioletFogManager
 
 	public static final String gemelliCode()
 	{
-		int code[] = new int[ 66 ];
+		int[] code = new int[ 66 ];
 		int codeIndex = 0;
 
 		// Examine each node in Wiki order
@@ -784,10 +784,10 @@ public abstract class VioletFogManager
 			int source = VioletFogManager.mafiaCode( i );
 
 			// Get the array of exit paths
-			int paths[] = VioletFogManager.FogChoiceTable[ source - VioletFogManager.FIRST_CHOICE ];
+			int[] paths = VioletFogManager.FogChoiceTable[ source - VioletFogManager.FIRST_CHOICE ];
 
 			// For each choice in Wiki order
-			int exits[] = VioletFogManager.WikiFogLocationExits[ i - 1 ];
+			int[] exits = VioletFogManager.WikiFogLocationExits[ i - 1 ];
 
 			for ( int j = 0; j < exits.length; ++j )
 			{
@@ -806,7 +806,7 @@ public abstract class VioletFogManager
 		}
 
 		// Convert the 66 element int array into a 33 character character array
-		char data[] = new char[ 33 ];
+		char[] data = new char[ 33 ];
 		for ( int i = 0; i < code.length; i += 2 )
 		{
 			int hexDigit = code[ i ] * 4 + code[ i + 1 ];

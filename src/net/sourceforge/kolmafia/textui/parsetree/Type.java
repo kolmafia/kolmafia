@@ -385,8 +385,8 @@ public class Type
 			{
 				String s3 =
 					quote ?
-					( "\"[" + String.valueOf( id ) + "]" + name + "\"" ) :
-					( "[" + String.valueOf( id ) + "]" + name );
+					( "\"[" + id + "]" + name + "\"" ) :
+					( "[" + id + "]" + name );
 				names.add( s3 );
 			}
 			return names;

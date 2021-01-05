@@ -291,7 +291,7 @@ public class ShopCommand
 
 			int itemId = item.getItemId();
 
-			if ( list.indexOf( new SoldItem( itemId, 0, 0, 0, 0 ) ) < 0 )
+			if ( !list.contains( new SoldItem( itemId, 0, 0, 0, 0 ) ) )
 			{
 				RequestLogger.printLine( itemName + " not found in shop." );
 				continue;

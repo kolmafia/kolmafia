@@ -49,8 +49,8 @@ public class DisabledItemsComboBox
 	extends JComboBox 
 {
 	private List<String> tooltips;
-	private HashSet disabledItems = new HashSet(); //these indices will be disabled
-	private DisabledItemsRenderer itemRenderer = new DisabledItemsRenderer();
+	private final HashSet disabledItems = new HashSet(); //these indices will be disabled
+	private final DisabledItemsRenderer itemRenderer = new DisabledItemsRenderer();
 	
 	public DisabledItemsComboBox() 
 	{

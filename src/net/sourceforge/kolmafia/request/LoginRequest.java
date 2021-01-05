@@ -188,7 +188,7 @@ public class LoginRequest
 		return true;
 	}
 
-	private static final String digestPassword( final String password, final String challenge )
+	private static String digestPassword( final String password, final String challenge )
 		throws Exception
 	{
 		// KoL now makes use of a HMAC-MD5 in order to preprocess the
@@ -206,7 +206,7 @@ public class LoginRequest
 		return hash2;
 	}
 
-	private static final String getHexString( final byte[] bytes )
+	private static String getHexString( final byte[] bytes )
 	{
 		byte[] nonNegativeBytes = new byte[ bytes.length + 1 ];
 		System.arraycopy( bytes, 0, nonNegativeBytes, 1, bytes.length );

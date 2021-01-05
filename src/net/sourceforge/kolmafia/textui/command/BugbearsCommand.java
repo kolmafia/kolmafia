@@ -78,7 +78,7 @@ public class BugbearsCommand
 			String status = Preferences.getString( setting );
 			String value =
 				StringUtilities.isNumeric( status ) ?
-				( status + "/" + String.valueOf( BugbearManager.dataToLevel( data ) * 3 ) ) :
+				( status + "/" + BugbearManager.dataToLevel( data ) * 3 ) :
 				status;
 
 			output.append( "<td rowspan=2>" );

@@ -58,7 +58,7 @@ public class DisplayPanelFrameButton
 	private static class DisplayPanelFrameRunnable
 		implements Runnable
 	{
-		private Object[] parameters;
+		private final Object[] parameters;
 
 		public DisplayPanelFrameRunnable( final String tooltip, final ActionPanel panel )
 		{

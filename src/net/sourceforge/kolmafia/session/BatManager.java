@@ -695,11 +695,11 @@ public class BatManager
 		int hours = minutes / 60;
 		if ( hours > 0 )
 		{
-			buffer.append( String.valueOf( hours ) );
+			buffer.append( hours );
 			buffer.append( " h. " );
 			minutes = minutes % 60;
 		}
-		buffer.append( String.valueOf( minutes ) );
+		buffer.append( minutes );
 		buffer.append( " m." );
 		return buffer.toString();
 	}
@@ -936,7 +936,7 @@ public class BatManager
 			}
 			buffer.append( tag );
 			buffer.append( "=" );
-			buffer.append( String.valueOf( stat ) );
+			buffer.append( stat );
 		}
 
 		private void calculateStringform( final boolean active )

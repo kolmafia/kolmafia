@@ -186,7 +186,7 @@ public class FightDecorator
 		}
 	}
 
-	private static final void decorateDadSeaMonkee( final StringBuffer buffer )
+	private static void decorateDadSeaMonkee( final StringBuffer buffer )
 	{
 		int round = FightRequest.currentRound;
 		if ( round < 1 || round > 10 )
@@ -224,7 +224,7 @@ public class FightDecorator
 			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.ABSTRACTION_THOUGHT ) );
 		}
 	}
-	private static final void decorateBallDodger( final StringBuffer buffer )
+	private static void decorateBallDodger( final StringBuffer buffer )
 	{
 		// Looks like he's trying to gain an advantage over you...
 		if ( buffer.indexOf( "<b>gain</b>" ) != -1 )
@@ -248,7 +248,7 @@ public class FightDecorator
 		}
 	}
 
-	private static final void decorateBladeSwitcher( final StringBuffer buffer )
+	private static void decorateBladeSwitcher( final StringBuffer buffer )
 	{
 		// He begins to bust an especially dope move with his switchblade.
 		if ( buffer.indexOf( "<b>bust</b>" ) != -1 )
@@ -272,7 +272,7 @@ public class FightDecorator
 		}
 	}
 
-	private static final void decorateNetDragger( final StringBuffer buffer )
+	private static void decorateNetDragger( final StringBuffer buffer )
 	{
 		// He starts to fold his net up into some sort of a sling.
 		if ( buffer.indexOf( "<b>sling</b>" ) != -1 )
@@ -296,7 +296,7 @@ public class FightDecorator
 		}
 	}
 
-	private static final void decorateFallsFromSky( final StringBuffer buffer )
+	private static void decorateFallsFromSky( final StringBuffer buffer )
 	{
 		// While under the effect of Chilled to the Bone,
 		// Falls-From-Sky can do multiple attacks per round.
@@ -326,7 +326,7 @@ public class FightDecorator
 		}
 	}
 
-	private static final void decorateWritingDesk( final StringBuffer buffer )
+	private static void decorateWritingDesk( final StringBuffer buffer )
 	{
 		String indexString = "any necklaces.";
 		int index = buffer.indexOf( indexString );
@@ -340,7 +340,7 @@ public class FightDecorator
 		buffer.insert( index, " (" + Preferences.getInteger( "writingDesksDefeated" ) + "/5 defeated)" );
 	}
 
-	private static final void decorateSourceAgent( final StringBuffer buffer )
+	private static void decorateSourceAgent( final StringBuffer buffer )
 	{
 		// Extract the "skill" form from the buffer
 		Matcher skillForm = SKILL_FORM_PATTERN.matcher( buffer );
@@ -361,7 +361,7 @@ public class FightDecorator
 		}
 	}
 
-	private static final void decorateHauntedKitchen( final StringBuffer buffer )
+	private static void decorateHauntedKitchen( final StringBuffer buffer )
 	{
 		if ( InventoryManager.hasItem( ItemPool.BILLIARDS_KEY ) )
 		{
@@ -410,7 +410,7 @@ public class FightDecorator
 		buffer.insert( index, insertBuffer );
 	}
 
-	private static final void decorateParty( final StringBuffer buffer )
+	private static void decorateParty( final StringBuffer buffer )
 	{
 		String indexString = "Adventure Again (The Neverending Party)";
 		int index = buffer.indexOf( indexString );
@@ -424,7 +424,7 @@ public class FightDecorator
 		buffer.insert( index, insertBuffer );
 	}
 
-	private static final void decorateSnojo( final StringBuffer buffer )
+	private static void decorateSnojo( final StringBuffer buffer )
 	{
 		String indexString = "Adventure Again (The X-32-F Combat Training Snowman)";
 		int index = buffer.indexOf( indexString );
@@ -438,7 +438,7 @@ public class FightDecorator
 		buffer.insert( index, insertBuffer );
 	}
 
-	private static final void decorateUnusualConstruct( final StringBuffer buffer )
+	private static void decorateUnusualConstruct( final StringBuffer buffer )
 	{
 		int disc = UnusualConstructManager.disc();
 
@@ -488,7 +488,7 @@ public class FightDecorator
                 String link = "<p><a href=\"inv_use.php?whichitem=7204&pwd=" +
                         GenericRequest.passwordHash +
                         "\">Use another lynyrd snare (" +
-                        String.valueOf( uses ) +
+                        uses +
                         "/3 lynyrds fought today)</a>";
                 buffer.insert( index + END_TAG.length() , link );
 			}

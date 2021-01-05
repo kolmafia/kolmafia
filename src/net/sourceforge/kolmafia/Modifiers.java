@@ -879,7 +879,7 @@ public class Modifiers
 				(String) modifier[ 0 ];
 			Modifiers.numericModifiers.add( tag );
 		}
-	};
+	}
 
 	public static boolean isNumericModifier( final String key )
 	{
@@ -937,7 +937,7 @@ public class Modifiers
 			Object[] modifier = Modifiers.bitmapModifiers[i];
 			modifierIndicesByName.put( (String) modifier[ 0 ], DOUBLE_MODIFIERS + i );
 		}
-	};
+	}
 
 	public static final int SOFTCORE = 0;
 	public static final int SINGLE = 1;
@@ -1111,7 +1111,7 @@ public class Modifiers
 			Object[] modifier = Modifiers.booleanModifiers[i];
 			modifierIndicesByName.put( (String) modifier[ 0 ], DOUBLE_MODIFIERS + BITMAP_MODIFIERS + i );
 		}
-	};
+	}
 
 	public static final int CLASS = 0;
 	public static final int INTRINSIC_EFFECT = 1;
@@ -1240,7 +1240,7 @@ public class Modifiers
 			modifierIndicesByName.put( (String) modifier[ 0 ],
 									   DOUBLE_MODIFIERS + BITMAP_MODIFIERS + BOOLEAN_MODIFIERS + i );
 		}
-	};
+	}
 
 	// Indexes for array returned by predict():
 	public static final int BUFFED_MUS = 0;
@@ -1462,34 +1462,34 @@ public class Modifiers
 		return Modifiers.modifierName( Modifiers.derivedModifiers, index );
 	}
 
-	private static final String modifierName( final Object[][] table, final int index )
+	private static String modifierName( final Object[][] table, final int index )
 	{
 		if ( index < 0 || index >= table.length )
 		{
 			return null;
 		}
 		return (String) table[ index ][ 0 ];
-	};
+	}
 
-	private static final Object modifierDescPattern( final Object[][] table, final int index )
+	private static Object modifierDescPattern( final Object[][] table, final int index )
 	{
 		if ( index < 0 || index >= table.length )
 		{
 			return null;
 		}
 		return table[ index ][ 1 ];
-	};
+	}
 
-	private static final Pattern modifierTagPattern( final Object[][] table, final int index )
+	private static Pattern modifierTagPattern( final Object[][] table, final int index )
 	{
 		if ( index < 0 || index >= table.length )
 		{
 			return null;
 		}
 		return (Pattern) table[ index ][ 2 ];
-	};
+	}
 
-	private static final String modifierTag( final Object[][] table, final int index )
+	private static String modifierTag( final Object[][] table, final int index )
 	{
 		if ( index < 0 || index >= table.length )
 		{
@@ -1498,7 +1498,7 @@ public class Modifiers
 		return table[ index ].length > 3 ?
 			(String) table[ index ][ 3 ] :
 			(String) table[ index ][ 0 ];
-	};
+	}
 
 	private static final String COLD =
 		Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.COLD_RESISTANCE ) + ": ";
@@ -1594,7 +1594,7 @@ public class Modifiers
 		return available;
 	}
 
-	private static final int findName( final Object[][] table, final String name )
+	private static int findName( final Object[][] table, final String name )
 	{
 		for ( int i = 0; i < table.length; ++i )
 		{
@@ -1604,7 +1604,7 @@ public class Modifiers
 			}
 		}
 		return -1;
-	};
+	}
 
 	public static final int findName( String name )
 	{
@@ -1633,13 +1633,13 @@ public class Modifiers
 		this.strings = new String[ Modifiers.STRING_MODIFIERS ];
 		this.extras = new double[ Modifiers.DOUBLE_MODIFIERS ];
 		this.reset();
-	};
+	}
 
 	public Modifiers( Modifiers copy )
 	{
 		this();
 		this.set( copy );
-	};
+	}
 
 	public Modifiers( String name, ModifierList mods )
 	{
@@ -1660,7 +1660,7 @@ public class Modifiers
 	public String getName()
 	{
 		return this.name;
-	};
+	}
 
 	public final void reset()
 	{
@@ -1668,7 +1668,7 @@ public class Modifiers
 		Arrays.fill( this.bitmaps, 0 );
 		Arrays.fill( this.strings, "" );
 		this.expressions = null;
-	};
+	}
 
 	private double derivePrismaticDamage()
 	{
@@ -1679,7 +1679,7 @@ public class Modifiers
 		damage = Math.min( damage, this.doubles[ Modifiers.STENCH_DAMAGE ] );
 		this.doubles[ Modifiers.PRISMATIC_DAMAGE ] = damage;
 		return damage;
-	};
+	}
 
 	public double get( final int index )
 	{
@@ -1694,7 +1694,7 @@ public class Modifiers
 		}
 
 		return this.doubles[ index ];
-	};
+	}
 
 	public double get( final String name )
 	{
@@ -1715,7 +1715,7 @@ public class Modifiers
 		}
 
 		return this.doubles[ index ];
-	};
+	}
 
 	public int getRawBitmap( final int index )
 	{
@@ -1725,7 +1725,7 @@ public class Modifiers
 		}
 
 		return this.bitmaps[ index ];
-	};
+	}
 
 	public int getRawBitmap( final String name )
 	{
@@ -1736,7 +1736,7 @@ public class Modifiers
 		}
 
 		return this.bitmaps[ index ];
-	};
+	}
 
 	public int getBitmap( final int index )
 	{
@@ -1754,12 +1754,12 @@ public class Modifiers
 		n = ((n & 0xFF00FF00) >>>  8) + (n & 0x00FF00FF);
 		n = ((n & 0xFFFF0000) >>> 16) + (n & 0x0000FFFF);
 		return n;
-	};
+	}
 
 	public int getBitmap( final String name )
 	{
 		return this.getBitmap( Modifiers.findName( Modifiers.bitmapModifiers, name ) );
-	};
+	}
 
 	public boolean getBoolean( final int index )
 	{
@@ -1769,7 +1769,7 @@ public class Modifiers
 		}
 
 		return ((this.bitmaps[ 0 ] >>> index) & 1) != 0;
-	};
+	}
 
 	public boolean getBoolean( final String name )
 	{
@@ -1780,7 +1780,7 @@ public class Modifiers
 		}
 
 		return ((this.bitmaps[ 0 ] >>> index) & 1) != 0;
-	};
+	}
 
 	public String getString( final int index )
 	{
@@ -1790,7 +1790,7 @@ public class Modifiers
 		}
 
 		return this.strings[ index ];
-	};
+	}
 
 	public String getString( final String name )
 	{
@@ -1808,7 +1808,7 @@ public class Modifiers
 		}
 
 		return this.strings[ index ];
-	};
+	}
 
 	public double getExtra( final int index )
 	{
@@ -1845,7 +1845,7 @@ public class Modifiers
 			return true;
 		}
 		return false;
-	};
+	}
 
 	public boolean set( final int index, final int mod )
 	{
@@ -1860,7 +1860,7 @@ public class Modifiers
 			return true;
 		}
 		return false;
-	};
+	}
 
 	public boolean set( final int index, final boolean mod )
 	{
@@ -1877,7 +1877,7 @@ public class Modifiers
 			return true;
 		}
 		return false;
-	};
+	}
 
 	public boolean set( final int index, String mod )
 	{
@@ -1897,7 +1897,7 @@ public class Modifiers
 			return true;
 		}
 		return false;
-	};
+	}
 
 	public boolean set( final Modifiers mods )
 	{
@@ -2049,7 +2049,7 @@ public class Modifiers
 			this.doubles[ index ] += mod;
 			break;
 		}
-	};
+	}
 
 	public void add( final Modifiers mods )
 	{
@@ -2412,7 +2412,7 @@ public class Modifiers
 		},
 	};
 
-	private final static String depluralizeClassName( final String string )
+	private static String depluralizeClassName( final String string )
 	{
 		for ( String [] results : Modifiers.classStrings )
 		{
@@ -2480,7 +2480,7 @@ public class Modifiers
 			}
 
 			int val = (int)expr.eval();
-			this.value = ( val > 0 ? "+" : "" ) + String.valueOf( val );
+			this.value = ( val > 0 ? "+" : "" ) + val;
 		}
 
 		public void toString( final StringBuilder buffer )
@@ -3571,7 +3571,7 @@ public class Modifiers
 				int effectId = EffectDatabase.getEffectIdFromDescription( descid );
 				if ( effectId != -1 )
 				{
-					name = "[" + String.valueOf( effectId ) + "]" + name;
+					name = "[" + effectId + "]" + name;
 				}
 			}
 			return Modifiers.modifierTag( Modifiers.stringModifiers, Modifiers.EFFECT ) + ": \"" + name + "\"";
@@ -3750,7 +3750,7 @@ public class Modifiers
 		return Modifiers.parseModifier( Modifiers.doubleModifiers, enchantment, false );
 	}
 
-	private static final String parseModifier( final Object[][] table, final String enchantment, final boolean quoted )
+	private static String parseModifier( final Object[][] table, final String enchantment, final boolean quoted )
 	{
 		String quote = quoted ? "\"" : "";
 		for ( int i = 0; i < table.length; ++i )
@@ -3821,7 +3821,7 @@ public class Modifiers
 	private static final Pattern REGEN_PATTERN =
 		Pattern.compile( "Regenerate (\\d*)-?(\\d*)? ([HM]P)( and .*)? per [aA]dventure$" );
 
-	private static final String parseRegeneration( final String enchantment )
+	private static String parseRegeneration( final String enchantment )
 	{
 		Matcher matcher = Modifiers.REGEN_PATTERN.matcher( enchantment );
 		if ( !matcher.find() )
@@ -3855,7 +3855,7 @@ public class Modifiers
 	private static final Pattern RESISTANCE_PATTERN =
 		Pattern.compile( "Resistance \\(([+-]\\d+)\\)" );
 
-	private static final String parseResistance( final String enchantment )
+	private static String parseResistance( final String enchantment )
 	{
 		String level = "";
 
@@ -3936,7 +3936,7 @@ public class Modifiers
 		return null;
 	}
 
-	private static final boolean findModifier( final Object[][] table, final String tag )
+	private static boolean findModifier( final Object[][] table, final String tag )
 	{
 		for ( int i = 0; i < table.length; ++i )
 		{
@@ -4626,7 +4626,7 @@ public class Modifiers
 		Modifiers.modifiersByName.put( lookup, known );
 	}
 
-	private static final void registerObject( final String type, final String name, final ArrayList<String> unknown, final String known )
+	private static void registerObject( final String type, final String name, final ArrayList<String> unknown, final String known )
 	{
 		for ( String value : unknown )
 		{

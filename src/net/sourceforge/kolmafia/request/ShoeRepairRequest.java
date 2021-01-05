@@ -57,7 +57,7 @@ public class ShoeRepairRequest
 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( ShoeRepairRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( ShoeRepairRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( ShoeRepairRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( ShoeRepairRequest.master );
 	private static final Pattern CHRONER_PATTERN = Pattern.compile( "([\\d,]+) Chroner" );
 	public static final AdventureResult CHRONER = ItemPool.get( ItemPool.CHRONER, 1 );
 

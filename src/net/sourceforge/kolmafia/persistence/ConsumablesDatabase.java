@@ -217,14 +217,14 @@ public class ConsumablesDatabase
 		}
 	}
 
-	private static final void setConsumptionData( final String name, final int size, final String adventures,
-		final String muscle, final String mysticality, final String moxie, final String note )
+	private static void setConsumptionData( final String name, final int size, final String adventures,
+                                            final String muscle, final String mysticality, final String moxie, final String note )
 	{
 		ConsumablesDatabase.setConsumptionData( name, size, 1, "", adventures, muscle, mysticality, moxie, note );
 	}
 
-	private static final void setConsumptionData( final String name, final int size, final int level, final String quality,
-		final String adventures, final String muscle, final String mysticality, final String moxie, final String note )
+	private static void setConsumptionData( final String name, final int size, final int level, final String quality,
+                                            final String adventures, final String muscle, final String mysticality, final String moxie, final String note )
 	{
 		ConsumablesDatabase.levelReqByName.put( name, level );
 		ConsumablesDatabase.qualityByName.put( name, ConsumablesDatabase.qualityValue( quality ) );
@@ -320,7 +320,7 @@ public class ConsumablesDatabase
 		}
 	}
 
-	private static final void saveConsumptionValues( String[] data, Map<String, Integer> map )
+	private static void saveConsumptionValues( String[] data, Map<String, Integer> map )
 	{
 		if ( data.length < 2 )
 		{
@@ -402,7 +402,7 @@ public class ConsumablesDatabase
 			ConsumablesDatabase.NONE;
 	}
 
-	private static final void saveAdventureRange( final String name, final int unitCost, String range )
+	private static void saveAdventureRange( final String name, final int unitCost, String range )
 	{
 		range = range.trim();
 
@@ -454,12 +454,12 @@ public class ConsumablesDatabase
 		}
 	}
 
-	private static final void calculateAdventureRange( final String name )
+	private static void calculateAdventureRange( final String name )
 	{
 		ConsumablesDatabase.calculateAdventureRange( name, EquipmentDatabase.getItemType( ItemDatabase.getItemId( name ) ) );
 	}
 
-	private static final void calculateAdventureRange( final String name, final String type )
+	private static void calculateAdventureRange( final String name, final String type )
 	{
 		int itemId = ItemDatabase.getItemId( name, 1, false );
 		Concoction c = ConcoctionPool.get( itemId, name );
@@ -580,21 +580,21 @@ public class ConsumablesDatabase
 		ConsumablesDatabase.addAdventureRange( name, unitCost, true, true, true, true, gain3a );
 	}
 
-	private static final void addAdventureRange( final String name, int unitCost, final boolean gainEffect1, final boolean gainEffect2, final boolean gainEffect3, final boolean gainEffect4, final double result )
+	private static void addAdventureRange( final String name, int unitCost, final boolean gainEffect1, final boolean gainEffect2, final boolean gainEffect3, final boolean gainEffect4, final double result )
 	{
 		// Remove adventure gains from zodiac signs
 		ConsumablesDatabase.getAdventureMap( false, gainEffect1, gainEffect2, gainEffect3, gainEffect4 ).put( name, Double.valueOf( result ) );
 		ConsumablesDatabase.getAdventureMap( true, gainEffect1, gainEffect2, gainEffect3, gainEffect4 ).put( name, Double.valueOf( result / ( unitCost == 0 ? 1 : unitCost ) ) );
 	}
 
-	private static final Map<String, Double> getAdventureMap( final boolean perUnit,
-						  final boolean gainEffect1, final boolean gainEffect2,
-						  final boolean gainEffect3, final boolean gainEffect4)
+	private static Map<String, Double> getAdventureMap( final boolean perUnit,
+                                                        final boolean gainEffect1, final boolean gainEffect2,
+                                                        final boolean gainEffect3, final boolean gainEffect4)
 	{
 		return ConsumablesDatabase.advsByName[ perUnit ? 1 : 0 ][ gainEffect1 ? 1 : 0 ][ gainEffect2 ? 1 : 0 ][ gainEffect3 ? 1 : 0 ][ gainEffect4 ? 1 : 0 ];
 	}
 
-	private static final String extractStatRange( String range, double statFactor, int statUnit, int statBonus )
+	private static String extractStatRange( String range, double statFactor, int statUnit, int statBonus )
 	{
 		if ( range == null )
 		{
@@ -804,7 +804,7 @@ public class ConsumablesDatabase
 		return PvPFights;
 	}
 
-	private static final double conditionalExtraAdventures( final String name, final boolean perUnit )
+	private static double conditionalExtraAdventures( final String name, final boolean perUnit )
 	{
 		int itemId = ItemDatabase.getItemId( name );
 		int fullness = ConsumablesDatabase.getFullness( name );
@@ -913,7 +913,7 @@ public class ConsumablesDatabase
 		return 0.0;
 	}
 
-	private static final int conditionalExtraStats( final String name )
+	private static int conditionalExtraStats( final String name )
 	{
 		int itemId = ItemDatabase.getItemId( name );
 		if ( ConsumablesDatabase.isBeans( itemId ) && KoLCharacter.hasSkill( SkillPool.BEANWEAVER ) )
@@ -923,7 +923,7 @@ public class ConsumablesDatabase
 		return 0;
 	}
 
-	private static final double conditionalStatMultiplier( final String name )
+	private static double conditionalStatMultiplier( final String name )
 	{
 		int itemId = ItemDatabase.getItemId( name );
 		// No stat gains from consumables in The Source
@@ -999,7 +999,7 @@ public class ConsumablesDatabase
 		return range.doubleValue();
 	}
 
-	private static final int getStatUnit( final String name )
+	private static int getStatUnit( final String name )
 	{
 		if ( !Preferences.getBoolean( "showGainsPerUnit" ) )
 		{
@@ -1181,7 +1181,7 @@ public class ConsumablesDatabase
 		String name = "astral pilsner";
 		int size = ConsumablesDatabase.getInebriety( name );
 		String adventures = String.valueOf( level );
-		String statGain = "0-" + String.valueOf( 2 * level );
+		String statGain = "0-" + 2 * level;
 		String muscle = statGain;
 		String mysticality = statGain;
 		String moxie = statGain;
@@ -1207,8 +1207,8 @@ public class ConsumablesDatabase
 		size = ConsumablesDatabase.getFullness( name );
 		int a1 = (int) Math.ceil( 1.8 * level );
 		int a2 = (int) Math.floor( 2.2 * level );
-		adventures = String.valueOf( a1 ) + "-" + String.valueOf( a2 );
-		statGain = String.valueOf( 16 * level ) + "-" + String.valueOf( 20 * level );
+		adventures = a1 + "-" + a2;
+		statGain = 16 * level + "-" + 20 * level;
 		muscle = statGain;
 		mysticality = statGain;
 		moxie = statGain;
@@ -1228,7 +1228,7 @@ public class ConsumablesDatabase
 		name = "astral energy drink";
 		size = ConsumablesDatabase.getSpleenHit( name );
 		int a = 10 + level * 2;
-		adventures = String.valueOf( a - 3 ) + "-" + String.valueOf( a + 3 );
+		adventures = ( a - 3 ) + "-" + ( a + 3 );
 		muscle = "0";
 		mysticality = "0";
 		moxie = "0";

@@ -28,7 +28,7 @@ public class SafeRequire
 {
 	private static final long serialVersionUID = 1L;
 
-	private Scriptable stdLib;
+	private final Scriptable stdLib;
 
 	public SafeRequire( Context cx, Scriptable nativeScope, Scriptable stdLib )
 	{

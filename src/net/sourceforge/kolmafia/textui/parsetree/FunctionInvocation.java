@@ -46,9 +46,9 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 public class FunctionInvocation
 	extends FunctionCall
 {
-	private BasicScope scope;
-	private Value name;
-	private Type type;
+	private final BasicScope scope;
+	private final Value name;
+	private final Type type;
 
 	public FunctionInvocation( final BasicScope scope, final Type type, final Value name, final List<Value> params, final Parser parser )
 	{

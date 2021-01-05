@@ -106,7 +106,7 @@ public class MonsterDatabase
 		private final String color;
 		private final String description;
 
-		private Element( String name, String image, String color, String description )
+		Element( String name, String image, String color, String description )
 		{
 			this.name = name;
 			this.image = image;
@@ -183,7 +183,7 @@ public class MonsterDatabase
 		private final String description;
 		private final String plural;
 
-		private Phylum( String name, String image, String description, String plural )
+		Phylum( String name, String image, String description, String plural )
 		{
 			this.name = name;
 			this.image = image;
@@ -483,7 +483,7 @@ public class MonsterDatabase
 		MonsterDatabase.MONSTER_ID_SET.put( canonicalName, newSet );
 	}
 
-	private static final void saveCanonicalNames()
+	private static void saveCanonicalNames()
 	{
 		String[] newArray = new String[ MonsterDatabase.MONSTER_ID_SET.size() ];
 		MonsterDatabase.MONSTER_ID_SET.keySet().toArray( newArray );
@@ -514,7 +514,7 @@ public class MonsterDatabase
 		MonsterDatabase.saveAlias( "%alucard%", alucard );
 	}
 
-	private static final void saveAlias( final String name, final String alias )
+	private static void saveAlias( final String name, final String alias )
 	{
 		MonsterData monster = MonsterDatabase.findMonster( name );
 		if ( monster == null )
@@ -536,7 +536,7 @@ public class MonsterDatabase
 		MONSTER_ALIASES.add( alias );
 	}
 
-	private static final void saveMonster( final String name, final MonsterData monster )
+	private static void saveMonster( final String name, final MonsterData monster )
 	{
 		String keyName = CombatActionManager.encounterKey( name, false );
 		StringUtilities.registerPrepositions( keyName );
@@ -553,7 +553,7 @@ public class MonsterDatabase
 		}
 	}
 
-	private static final void removeAlias( final String name )
+	private static void removeAlias( final String name )
 	{
 		String keyName = CombatActionManager.encounterKey( name, false );
 		MonsterDatabase.MONSTER_DATA.remove( keyName );
@@ -565,7 +565,7 @@ public class MonsterDatabase
 		}
 	}
 
-	private static final AdventureResult parseItem( final String data )
+	private static AdventureResult parseItem( final String data )
 	{
 		String name = data;
 		int count = 0;
@@ -603,7 +603,7 @@ public class MonsterDatabase
 		return ItemPool.get( itemId, (count << 16) | prefix );
 	}
 	
-	private synchronized static final void initializeMonsterStrings()
+	private synchronized static void initializeMonsterStrings()
 	{
 		if ( MonsterDatabase.MONSTER_STRINGS == null )
 		{
@@ -690,7 +690,7 @@ public class MonsterDatabase
 		return null;
 	}
 
-	private static final MonsterData getBracketedMonster( final String monsterName )
+	private static MonsterData getBracketedMonster( final String monsterName )
 	{
 		if ( monsterName.startsWith( "[" ) )
 		{
@@ -859,7 +859,7 @@ public class MonsterDatabase
 		monster.setId( newMonsterId );
 	}
 
-	private static final void registerMonsterId( final int id, final String name, final MonsterData monster )
+	private static void registerMonsterId( final int id, final String name, final MonsterData monster )
 	{
 		if ( id != 0 )
 		{
@@ -1237,7 +1237,7 @@ public class MonsterDatabase
 		return monster;
 	}
 
-	private static final Object parseNumeric( StringTokenizer tokens )
+	private static Object parseNumeric( StringTokenizer tokens )
 	{
 		if ( !tokens.hasMoreTokens() )
 		{
@@ -1246,7 +1246,7 @@ public class MonsterDatabase
 		return parseNumeric( tokens, tokens.nextToken() );
 	}
 
-	private static final Object parseDefaultedNumeric( StringTokenizer tokens, int def )
+	private static Object parseDefaultedNumeric( StringTokenizer tokens, int def )
 	{
 		if ( !tokens.hasMoreTokens() )
 		{
@@ -1260,7 +1260,7 @@ public class MonsterDatabase
 		return parseNumeric( tokens, value );
 	}
 
-	private static final Object parseNumeric( StringTokenizer tokens, String value )
+	private static Object parseNumeric( StringTokenizer tokens, String value )
 	{
 		if ( !value.startsWith( "[" ) )
 		{
@@ -1278,7 +1278,7 @@ public class MonsterDatabase
 		return temp.substring( 1, temp.length() - 1 );
 	}
 
-	private static final String parseString( String token, StringTokenizer tokens )
+	private static String parseString( String token, StringTokenizer tokens )
 	{
 		if ( !token.startsWith( "\"" ) )
 		{

@@ -88,7 +88,7 @@ public class Crimbo09Request
 		return 0;
 	}
 
-	private static final int getHowmany( final String urlString )
+	private static int getHowmany( final String urlString )
 	{
 		Matcher matcher = GenericRequest.HOWMANY_PATTERN.matcher( urlString );
 		return matcher.find() ? StringUtilities.parseInt( matcher.group(1) ) : 0;

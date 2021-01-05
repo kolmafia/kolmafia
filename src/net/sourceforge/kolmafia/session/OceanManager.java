@@ -222,13 +222,13 @@ public class OceanManager
 		Matcher lonMatcher = OceanManager.LON_PATTERN.matcher( buffer );
 		if ( lonMatcher.find() )
 		{
-			buffer.insert( lonMatcher.end(), " value=\"" + String.valueOf( lon ) + "\"" );
+			buffer.insert( lonMatcher.end(), " value=\"" + lon + "\"" );
 		}
 		
 		Matcher latMatcher = OceanManager.LAT_PATTERN.matcher( buffer );
 		if ( latMatcher.find() )
 		{
-			buffer.insert( latMatcher.end(), " value=\"" + String.valueOf( lat ) + "\"" );
+			buffer.insert( latMatcher.end(), " value=\"" + lat + "\"" );
 		}
 	}
 }

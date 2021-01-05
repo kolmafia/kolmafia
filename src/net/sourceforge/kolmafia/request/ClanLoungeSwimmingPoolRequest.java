@@ -54,7 +54,7 @@ public class ClanLoungeSwimmingPoolRequest
 	public static final int CLOSE_EYES= 4;
 	public static final int TREASURE = 5;
 
-	private int action;
+	private final int action;
 
 	private static final Pattern SWIMMING_POOL_PATTERN = Pattern.compile( "var state =.*found a ([\\w-&; ]*)!\\\"" );
 

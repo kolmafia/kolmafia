@@ -128,7 +128,7 @@ public class ManaBurnManager
 		return ManaBurnManager.getNextBurnCast( minimum );
 	}
 
-	private static final String getNextBurnCast( final long minimum )
+	private static String getNextBurnCast( final long minimum )
 	{
 		// Punt immediately if already burned enough or must recover MP
 	
@@ -298,7 +298,7 @@ public class ManaBurnManager
 		return chosen.toString();
 	}
 
-	private static final String considerBreakfastSkill( final long minimum )
+	private static String considerBreakfastSkill( final long minimum )
 	{
 		for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
 		{
@@ -337,7 +337,7 @@ public class ManaBurnManager
 		return ManaBurnManager.considerLibramSummon( minimum );
 	}
 
-	private static final String considerLibramSummon( final long minimum )
+	private static String considerLibramSummon( final long minimum )
 	{
 		long castCount = SkillDatabase.libramSkillCasts( KoLCharacter.getCurrentMP() - minimum );
 		if ( castCount <= 0 )

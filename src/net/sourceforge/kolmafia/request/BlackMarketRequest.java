@@ -57,7 +57,7 @@ public class BlackMarketRequest
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) priceless diamond" );
 	public static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( BlackMarketRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( BlackMarketRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( BlackMarketRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( BlackMarketRequest.master );
 
 	public static final CoinmasterData BLACK_MARKET =
 		new CoinmasterData(

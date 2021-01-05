@@ -1145,7 +1145,7 @@ public abstract class KoLCharacter
 		return KoLCharacter.avatar;
 	}
 
-	private static final int setGender()
+	private static int setGender()
 	{
 		// If we already know our gender, are in Valhalla (where gender
 		// is meaningless), or are not logged in (ditto), nothing to do
@@ -2249,7 +2249,7 @@ public abstract class KoLCharacter
 	 * @return The calculated points
 	 */
 
-	private static final int calculateLevelPoints( final int level )
+	private static int calculateLevelPoints( final int level )
 	{
 		return ( level == 1 ) ? 0 : ( level - 1 ) * ( level - 1 ) + 4;
 	}
@@ -2263,7 +2263,7 @@ public abstract class KoLCharacter
 	 * @return The calculated subpoints
 	 */
 
-	private static final long calculateLevelSubpoints( final int level )
+	private static long calculateLevelSubpoints( final int level )
 	{
 		return KoLCharacter.calculatePointSubpoints( KoLCharacter.calculateLevelPoints( level ) );
 	}
@@ -2276,7 +2276,7 @@ public abstract class KoLCharacter
 	 * @return The calculated level
 	 */
 
-	private static final int calculatePointLevels( final int points )
+	private static int calculatePointLevels( final int points )
 	{
 		return (int)Math.sqrt( Math.max( points - 4, 0 ) ) + 1;
 	}
@@ -2346,7 +2346,7 @@ public abstract class KoLCharacter
 	 * Utility method to calculate the "till next point" value, given the total number of subpoints accumulated.
 	 */
 
-	private static final int calculateTillNextPoint( final long subpoints )
+	private static int calculateTillNextPoint( final long subpoints )
 	{
 		return (int) (KoLCharacter.calculatePointSubpoints( KoLCharacter.calculateBasePoints( subpoints ) + 1 ) - subpoints);
 	}
@@ -3775,7 +3775,7 @@ public abstract class KoLCharacter
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "kingLiberatedScript" ) );
 	}
 
-	private static final void removePlumberQuestItems()
+	private static void removePlumberQuestItems()
 	{
 		// When you free Princess Ralph, all special "quest" items from
 		// this path vanish from inventory and your equipment.
@@ -4691,7 +4691,7 @@ public abstract class KoLCharacter
 		KoLCharacter.addAvailableSkill( skill, false );
 	}
 
-	private static final void addAvailableSkill( final UseSkillRequest skill, final boolean checkAllowed )
+	private static void addAvailableSkill( final UseSkillRequest skill, final boolean checkAllowed )
 	{
 		if ( skill == null )
 		{
@@ -4881,7 +4881,7 @@ public abstract class KoLCharacter
 		KoLCharacter.addAvailableCombatSkill( UseSkillRequest.getUnmodifiedInstance( skillName ) );
 	}
 
-	private static final void addAvailableCombatSkill( final UseSkillRequest skill )
+	private static void addAvailableCombatSkill( final UseSkillRequest skill )
 	{
 		if ( skill == null )
 		{
@@ -4903,7 +4903,7 @@ public abstract class KoLCharacter
 		KoLCharacter.removeAvailableCombatSkill( UseSkillRequest.getUnmodifiedInstance( name ) );
 	}
 
-	private static final void removeAvailableCombatSkill( final UseSkillRequest skill )
+	private static void removeAvailableCombatSkill( final UseSkillRequest skill )
 	{
 		if ( skill == null )
 		{
@@ -4919,7 +4919,7 @@ public abstract class KoLCharacter
 		KoLConstants.availableCombatSkillsMap.remove( skill );
 	}
 
-	private static final void addCombatSkill( final String name )
+	private static void addCombatSkill( final String name )
 	{
 		String skillname = "skill " + name.toLowerCase();
 		if ( !KoLCharacter.battleSkillNames.contains( skillname ) )
@@ -6143,7 +6143,7 @@ public abstract class KoLCharacter
 		int fakeHands = EquipmentManager.getFakeHands();
 		if ( fakeHands > 0 )
 		{
-			newModifiers.add( Modifiers.WEAPON_DAMAGE, -1 * fakeHands, "Hands:fake hand (" + String.valueOf( fakeHands ) + ")" );
+			newModifiers.add( Modifiers.WEAPON_DAMAGE, -1 * fakeHands, "Hands:fake hand (" + fakeHands + ")" );
 		}
 
 		int brimstoneMonsterLevel = 1 << newModifiers.getBitmap( Modifiers.BRIMSTONE );
@@ -6497,10 +6497,10 @@ public abstract class KoLCharacter
 		return newModifiers;
 	}
 
-	private static final void addItemAdjustment( Modifiers newModifiers, int slot, AdventureResult item,
-						     AdventureResult[] equipment, FamiliarData enthroned, FamiliarData bjorned,
-							 String edPiece, String snowsuit, String retroCape,
-							 boolean speculation, int taoFactor )
+	private static void addItemAdjustment( Modifiers newModifiers, int slot, AdventureResult item,
+                                           AdventureResult[] equipment, FamiliarData enthroned, FamiliarData bjorned,
+                                           String edPiece, String snowsuit, String retroCape,
+                                           boolean speculation, int taoFactor )
 	{
 		if ( item == null || item == EquipmentRequest.UNEQUIP )
 		{
@@ -6826,7 +6826,7 @@ public abstract class KoLCharacter
 		}
 	}
 
-	private static final void ensureUpdatedSkatePark()
+	private static void ensureUpdatedSkatePark()
 	{
 		int lastAscension = Preferences.getInteger( "lastSkateParkReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )

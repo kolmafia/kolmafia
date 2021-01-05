@@ -38,7 +38,7 @@ import net.sourceforge.kolmafia.webui.RelayLoader;
 public class RelayBrowserListener
 	extends ThreadedListener
 {
-	private String location;
+	private final String location;
 
 	public RelayBrowserListener( String location )
 	{

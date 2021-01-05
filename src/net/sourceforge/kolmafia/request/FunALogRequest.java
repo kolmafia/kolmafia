@@ -102,9 +102,9 @@ public class FunALogRequest
 	static
 	{
 		ConcoctionPool.set( new Concoction( "FunPoint", "availableFunPoints" ) );
-	};
+	}
 
-	private static String unlockedItems= ""; 
+    private static String unlockedItems= "";
 
 	public FunALogRequest()
 	{

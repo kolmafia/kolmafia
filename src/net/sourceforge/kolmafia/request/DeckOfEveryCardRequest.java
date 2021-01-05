@@ -163,9 +163,9 @@ public class DeckOfEveryCardRequest
 		registerCard( 18, "Slimer Trading Card", Phylum.SLIME );	// Fight a random Slime
 		registerCard( 9, "XIII - Death", Phylum.UNDEAD );		// Fight a random Undead
 		registerCard( 25, "Unstable Portal", Phylum.WEIRD );		// Fight a random Weird
-	};
+	}
 
-	private static EveryCard registerCard( int id, String name )
+    private static EveryCard registerCard( int id, String name )
 	{
 		EveryCard card = new EveryCard( id, name );
 		DeckOfEveryCardRequest.idToCard.put( id, card );
@@ -207,9 +207,9 @@ public class DeckOfEveryCardRequest
 	{
 		Set<String> keys = DeckOfEveryCardRequest.canonicalNameToCard.keySet();
 		DeckOfEveryCardRequest.CANONICAL_CARDS_ARRAY = keys.toArray( new String[ keys.size() ] );
-	};
+	}
 
-	public static final List<String> getMatchingNames( final String substring )
+    public static final List<String> getMatchingNames( final String substring )
 	{
 		return StringUtilities.getMatchingNames( DeckOfEveryCardRequest.CANONICAL_CARDS_ARRAY, substring );
 	}
@@ -239,7 +239,7 @@ public class DeckOfEveryCardRequest
 		return DeckOfEveryCardRequest.buffToCard.get( buff );
 	}
 
-	private EveryCard card;
+	private final EveryCard card;
 
 	public DeckOfEveryCardRequest()
 	{
@@ -534,7 +534,7 @@ public class DeckOfEveryCardRequest
 	{
 		public int id;
 		public String name;
-		private String stringForm;
+		private final String stringForm;
 
 		public EveryCard( int id, String name )
 		{

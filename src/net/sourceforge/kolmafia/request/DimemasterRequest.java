@@ -112,9 +112,9 @@ public class DimemasterRequest
 	static
 	{
 		ConcoctionPool.set( new Concoction( "dime", "availableDimes" ) );
-	};
+	}
 
-	public DimemasterRequest()
+    public DimemasterRequest()
 	{
 		super( DimemasterRequest.HIPPY );
 	}

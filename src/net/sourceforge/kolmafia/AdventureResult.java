@@ -256,13 +256,13 @@ public class AdventureResult
 		if ( isStatusEffect )
 		{
 			String name = EffectDatabase.getEffectName( id );
-			this.name = name != null ? name : "(unknown effect " + String.valueOf( id ) + ")";
+			this.name = name != null ? name : "(unknown effect " + id + ")";
 			this.priority = AdventureResult.EFFECT_PRIORITY;
 		}
 		else
 		{
 			String name = ItemDatabase.getItemDataName( id );
-			this.name = name != null ? name : "(unknown item " + String.valueOf( id ) + ")";
+			this.name = name != null ? name : "(unknown item " + id + ")";
 			this.priority = AdventureResult.ITEM_PRIORITY;
 		}
 		this.id = id;
@@ -319,7 +319,7 @@ public class AdventureResult
 
 		if ( this.name == null )
 		{
-			this.name = "(unknown item " + String.valueOf( this.id ) + ")";
+			this.name = "(unknown item " + this.id + ")";
 			return;
 		}
 
@@ -544,7 +544,7 @@ public class AdventureResult
 		     ( this.priority == AdventureResult.EFFECT_PRIORITY &&
 		       EffectDatabase.getEffectIds( this.name, false ).length > 1 ) )
 		{
-			return "[" + String.valueOf( this.id ) + "]" + this.name;
+			return "[" + this.id + "]" + this.name;
 		}
 
 		return this.name;
@@ -1445,7 +1445,7 @@ public class AdventureResult
 	public static class AdventureMultiResult
 		extends AdventureResult
 	{
-		private int[] counts;
+		private final int[] counts;
 		
 		public AdventureMultiResult( final String name, final int[] counts )
 		{
@@ -1690,9 +1690,9 @@ public class AdventureResult
 	{
 		// Note that these objects must not be placed in a sorted list, since they
 		// are not meaningfully comparable other than via equals().
-		private String match;
-		private String[] matches;
-		private boolean negated;
+		private final String match;
+		private final String[] matches;
+		private final boolean negated;
 
 		public WildcardResult( String name, int count, String match, boolean negated )
 		{

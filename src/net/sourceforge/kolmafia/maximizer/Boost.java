@@ -41,10 +41,12 @@ public class Boost
 implements Comparable<Boost>
 {
 	private boolean isEquipment, isShrug, priority;
-	private String cmd, text;
+	private final String cmd;
+    private String text;
 	private int slot;
-	private double boost;
-	private AdventureResult item, effect;
+	private final double boost;
+	private final AdventureResult item;
+    private AdventureResult effect;
 	private FamiliarData fam, enthroned, bjorned;
 	private String edPiece, snowsuit, horse, retroCape;
 

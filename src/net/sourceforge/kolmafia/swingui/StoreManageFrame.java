@@ -972,7 +972,7 @@ class LimitGlassBox
 	extends JXGlassBox
 {
 	private long limit;
-	private int rowIndex;
+	private final int rowIndex;
 
 	public LimitGlassBox( int rowIndex )
 	{
@@ -992,4 +992,4 @@ class LimitGlassBox
 		StoreManageFrame.INSTANCE.manageTable.getModel().setValueAt( (int)limit, rowIndex, 4 );
 		super.dismiss();
 	}
-};
+}

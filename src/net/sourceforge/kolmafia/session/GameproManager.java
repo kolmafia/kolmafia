@@ -239,7 +239,7 @@ public class GameproManager
 
 	public static String autoSolve( int stepCount )
 	{
-		String choices[] = Preferences.getString( "choiceAdventure665" ).split( "," );
+		String[] choices = Preferences.getString( "choiceAdventure665" ).split( "," );
 		if ( stepCount < 0 || stepCount > choices.length - 1 )
 		{
 			// Something went wrong, hand it over for manual control

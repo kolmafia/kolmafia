@@ -202,7 +202,7 @@ public class SendGiftRequest
 		return responseText.indexOf( "<td>Package sent.</td>" ) != -1;
 	}
 
-	private static final List<AdventureResult> source( final String urlString )
+	private static List<AdventureResult> source( final String urlString )
 	{
 		return urlString.indexOf( "fromwhere=1" ) != -1 ? KoLConstants.storage : KoLConstants.inventory;
 	}

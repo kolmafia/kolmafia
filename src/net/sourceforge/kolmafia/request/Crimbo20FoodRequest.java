@@ -50,7 +50,7 @@ public class Crimbo20FoodRequest
 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( Crimbo20FoodRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( Crimbo20FoodRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( Crimbo20FoodRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( Crimbo20FoodRequest.master );
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "([\\d,]+) (piles of )?donated food" );
 	public static final AdventureResult TOKEN = ItemPool.get( ItemPool.DONATED_FOOD, 1 );
 

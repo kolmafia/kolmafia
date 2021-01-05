@@ -39,7 +39,7 @@ import java.util.TreeMap;
 public class FunctionList
 	implements Iterable<Function>
 {
-	private TreeMap<String,Function> list = new TreeMap<String,Function>();
+	private final TreeMap<String,Function> list = new TreeMap<String,Function>();
 
 	// Assumes there will not be more than 65535 functions in any scope.
 	// Assumes that \0 will never appear in a function name.

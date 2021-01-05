@@ -244,8 +244,8 @@ public abstract class ConsequenceManager
 
 	private static class Consequence
 	{
-		private String[] data;
-		private Pattern patt;
+		private final String[] data;
+		private final Pattern patt;
 		private Consequence next;
 
 		public Consequence( String[] data, Pattern patt )

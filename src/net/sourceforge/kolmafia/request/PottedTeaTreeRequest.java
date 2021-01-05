@@ -98,9 +98,9 @@ public class PottedTeaTreeRequest
 		PottedTeaTreeRequest.registerTea( ItemPool.VORACI_TEA, "Stomach increase" );
 		PottedTeaTreeRequest.registerTea( ItemPool.WIT_TEA, "Myst" );
 		PottedTeaTreeRequest.registerTea( ItemPool.YET_TEA, "Cold damage" );
-	};
+	}
 
-	private static void registerTea( int id, String effect )
+    private static void registerTea( int id, String effect )
 	{
 		String name = ItemPool.get( id, 1 ).getName();
 		PottedTea tea = new PottedTea( name, id, effect );
@@ -114,9 +114,9 @@ public class PottedTeaTreeRequest
 	{
 		Set<String> keys = PottedTeaTreeRequest.canonicalNameToTea.keySet();
 		PottedTeaTreeRequest.CANONICAL_TEA_ARRAY = keys.toArray( new String[ keys.size() ] );
-	};
+	}
 
-	public static final List<String> getMatchingNames( final String substring )
+    public static final List<String> getMatchingNames( final String substring )
 	{
 		return StringUtilities.getMatchingNames(PottedTeaTreeRequest.CANONICAL_TEA_ARRAY, substring );
 	}
@@ -126,7 +126,7 @@ public class PottedTeaTreeRequest
 		return PottedTeaTreeRequest.canonicalNameToTea.get( name );
 	}
 
-	private PottedTea tea;
+	private final PottedTea tea;
 
 	// Shake the tree
 	public PottedTeaTreeRequest()
@@ -194,7 +194,7 @@ public class PottedTeaTreeRequest
 	{
 		public int id;
 		public String name;
-		private String effect;
+		private final String effect;
 
 		public PottedTea( String name, int id, String effect )
 		{

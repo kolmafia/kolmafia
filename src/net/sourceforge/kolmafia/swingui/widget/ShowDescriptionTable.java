@@ -136,7 +136,7 @@ public class ShowDescriptionTable
 	public ListElementFilter filter;
 
 	private final LockableListModel displayModel, originalModel;
-	private boolean[] flags;
+	private final boolean[] flags;
 
 	private AdaptedTableModel adaptedModel;
 
@@ -273,7 +273,7 @@ public class ShowDescriptionTable
 		this.addKeyListener( new KeyAdapter()
 		{
 			private long saved_ms = 0;
-			private int TIMETOWAIT = 700;
+			private final int TIMETOWAIT = 700;
 			private String searchField = "";
 
 			@Override
@@ -383,9 +383,9 @@ public class ShowDescriptionTable
 	private class RenderedComparator
 		implements Comparator<Object>
 	{
-		private int column;
-		private boolean[] flags;
-		private LockableListModel model;
+		private final int column;
+		private final boolean[] flags;
+		private final LockableListModel model;
 
 		public RenderedComparator( LockableListModel originalModel, int column, boolean[] flags )
 		{
@@ -484,7 +484,7 @@ public class ShowDescriptionTable
 		extends DefaultTableCellRenderer
 	{
 		protected LockableListModel model;
-		private boolean[] flags;
+		private final boolean[] flags;
 
 		public DescriptionTableRenderer( LockableListModel originalModel, boolean[] flags )
 		{
@@ -1196,7 +1196,7 @@ public class ShowDescriptionTable
 	protected class InstallScriptRunnable
 		extends ContextMenuListener
 	{
-		private ShowDescriptionTable table;
+		private final ShowDescriptionTable table;
 
 		public InstallScriptRunnable( ShowDescriptionTable table )
 		{
@@ -1236,7 +1236,7 @@ public class ShowDescriptionTable
 	protected class DeleteScriptRunnable
 		extends ContextMenuListener
 	{
-		private ShowDescriptionTable table;
+		private final ShowDescriptionTable table;
 
 		public DeleteScriptRunnable( ShowDescriptionTable table )
 		{
@@ -1271,7 +1271,7 @@ public class ShowDescriptionTable
 	protected class ShowThreadRunnable
 		extends ContextMenuListener
 	{
-		private ShowDescriptionTable table;
+		private final ShowDescriptionTable table;
 
 		public ShowThreadRunnable( ShowDescriptionTable table )
 		{

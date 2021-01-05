@@ -197,7 +197,7 @@ public class FamiliarData
 		this.pokeLevel = pokeLevel;
 	}
 
-	private final void update( final Matcher dataMatcher )
+	private void update( final Matcher dataMatcher )
 	{
 		this.name = dataMatcher.group( 3 );
 		this.experience = StringUtilities.parseInt( dataMatcher.group( 5 ) );
@@ -342,7 +342,7 @@ public class FamiliarData
 						testTeachExp++;
 						newCount = 0;
 					}
-					String newTTProperty = it[ 0 ] + ":" + String.valueOf( newCount );
+					String newTTProperty = it[ 0 ] + ":" + newCount;
 					String newTTPref = StringUtilities.globalStringReplace( rawTTPref,
 						splitTTPref[ i ], newTTProperty );
 					Preferences.setString( "testudinalTeachings", newTTPref );
@@ -357,7 +357,7 @@ public class FamiliarData
 		{
 			delimiter = "|";
 		}
-		String newTTPref = rawTTPref + delimiter + String.valueOf( this.id ) + ":1";
+		String newTTPref = rawTTPref + delimiter + this.id + ":1";
 		Preferences.setString( "testudinalTeachings", newTTPref );
 
 		return 0;
@@ -430,7 +430,7 @@ public class FamiliarData
 		return 20;
 	}
 
-	private final void setWeight()
+	private void setWeight()
 	{
 		this.weight = Math.max( Math.min( this.getMaxBaseWeight(), (int) Math.sqrt( this.experience ) ), 1 );
 	}
@@ -463,7 +463,7 @@ public class FamiliarData
 		this.name = name;
 	}
 
-	private static final AdventureResult parseFamiliarItem( final int id, final String text )
+	private static AdventureResult parseFamiliarItem( final int id, final String text )
 	{
 		if ( !text.contains( "<img" ) )
 		{
@@ -550,7 +550,7 @@ public class FamiliarData
 		FamiliarData.checkLockedItem( responseText );
 	}
 
-	private static final FamiliarData registerFamiliar( final Matcher matcher, boolean idFirst )
+	private static FamiliarData registerFamiliar( final Matcher matcher, boolean idFirst )
 	{
 		String race = matcher.group( 4 );
 		FamiliarData familiar = KoLCharacter.findFamiliar( race );
@@ -867,7 +867,7 @@ public class FamiliarData
 			return false;
 		}
 
-		int skills[] = FamiliarDatabase.getFamiliarSkills( this.id );
+		int[] skills = FamiliarDatabase.getFamiliarSkills( this.id );
 
 		// If any skill is greater than 0, we can train in that event
 		for ( int i = 0; i < skills.length; ++i )
@@ -958,7 +958,7 @@ public class FamiliarData
 		}
 	}
 
-	private static final void loadFightFamiliars()
+	private static void loadFightFamiliars()
 	{
 		FIGHT_FAMILIARS.clear();
 
@@ -967,7 +967,7 @@ public class FamiliarData
 		FIGHT_FAMILIARS.add( new FightInfo( FamiliarPool.MACHINE_ELF, "_machineTunnelsAdv", 5 ) );
 	}
 
-	private static final void loadDropFamiliars()
+	private static void loadDropFamiliars()
 	{
 		DROP_FAMILIARS.clear();
 
@@ -1405,7 +1405,7 @@ public class FamiliarData
 		return null;
 	}
 
-	private static final boolean availableItem( AdventureResult item, boolean steal )
+	private static boolean availableItem( AdventureResult item, boolean steal )
 	{
 		if ( item.getCount( KoLConstants.inventory ) > 0 )
 		{

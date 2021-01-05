@@ -111,7 +111,7 @@ public class SafetyShelterManager
 		return decision;
 	}
 
-	private static final void logText( final String text )
+	private static void logText( final String text )
 	{
 		RequestLogger.printLine( text );
 		RequestLogger.updateSessionLog( text );

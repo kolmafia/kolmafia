@@ -231,7 +231,7 @@ public class ListenerRegistry
 		}
 	}
 
-	private final void fireListeners( final ArrayList<WeakReference> listenerList, final HashSet<Listener> notified )
+	private void fireListeners( final ArrayList<WeakReference> listenerList, final HashSet<Listener> notified )
 	{
 		if ( listenerList == null )
 		{

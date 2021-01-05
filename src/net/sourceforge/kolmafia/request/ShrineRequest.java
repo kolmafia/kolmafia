@@ -130,13 +130,13 @@ public class ShrineRequest
 		return null;
 	}
 
-	private static final String actionToPlace( final String action )
+	private static String actionToPlace( final String action )
 	{
 		return dataPlace( actionToData( action ) );
 	}
 
 	private final int amount;
-	private boolean hasStatueKey;
+	private final boolean hasStatueKey;
 
 	/**
 	 * Constructs a new <code>ShrineRequest</code>.

@@ -61,7 +61,7 @@ public class TravelingTraderRequest
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getNewMap();
 
 	// traveler.php?action=For Gnomeregan!&whichitem=xxxx&quantity=1&tradeall=1&usehagnk=1&pwd
-	private static AdventureResult item = ItemPool.get( ItemPool.TWINKLY_WAD, 1 );
+	private static final AdventureResult item = ItemPool.get( ItemPool.TWINKLY_WAD, 1 );
 
 	public static final CoinmasterData TRAVELER =
 		new CoinmasterData(

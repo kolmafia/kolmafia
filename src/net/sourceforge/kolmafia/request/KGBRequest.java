@@ -201,7 +201,7 @@ public class KGBRequest
 		modMap.put( "Superhuman Sleaze Resistance (+5)", list18 );
 	}
 
-	private static final void updateEnchantments( final String responseText )
+	private static void updateEnchantments( final String responseText )
 	{
 		// A symphony of mechanical buzzing and whirring ensues, and your case seems to be... different somehow.
 		if ( !responseText.contains( "symphony of mechanical" ) )

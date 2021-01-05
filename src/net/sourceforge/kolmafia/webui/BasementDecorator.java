@@ -83,7 +83,7 @@ public class BasementDecorator
 		addBasementSpoilers( buffer );
 	}
 
-	private static final void addBasementButtons( final StringBuffer buffer )
+	private static void addBasementButtons( final StringBuffer buffer )
 	{
 		if ( !Preferences.getBoolean( "relayAddsCustomCombat" ) )
 		{
@@ -109,7 +109,7 @@ public class BasementDecorator
 		buffer.insert( insertionPoint, actionBuffer.toString() );
 	}
 
-	private static final void addBasementButton( final String label, final String action, final StringBuffer buffer, final boolean isEnabled )
+	private static void addBasementButton( final String label, final String action, final StringBuffer buffer, final boolean isEnabled )
 	{
 		buffer.append( "<input type=\"button\" onClick=\"" );
 		buffer.append( action );
@@ -240,8 +240,8 @@ public class BasementDecorator
 			"</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><font id=\"spoiler\" size=2>" + checkString + "</font></td></tr></table>" );
 	}
 
-	private static final void addBasementChoiceSpoilers( final StringBuffer buffer, final String choice1,
-		final String choice2 )
+	private static void addBasementChoiceSpoilers( final StringBuffer buffer, final String choice1,
+												   final String choice2 )
 	{
 		String text = buffer.toString();
 
@@ -265,7 +265,7 @@ public class BasementDecorator
 		buffer.append( text.substring( index1 ) );
 	}
 
-	private static final void appendBasementEffect( final StringBuffer changes, final StatBooster effect )
+	private static void appendBasementEffect( final StringBuffer changes, final StatBooster effect )
 	{
 		changes.append( "<option value=" );
 		changes.append( effect.getEffectiveBoost() );
@@ -348,9 +348,9 @@ public class BasementDecorator
 		private int fullness;
 		private int spleen;
 		private int inebriety;
-		private boolean isDamageAbsorption;
-		private boolean isElementalImmunity;
-		private boolean isStatEqualizer;
+		private final boolean isDamageAbsorption;
+		private final boolean isElementalImmunity;
+		private final boolean isStatEqualizer;
 
 		private static boolean moxieControlsMP = false;
 

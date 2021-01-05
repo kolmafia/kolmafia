@@ -126,7 +126,7 @@ public class EquipmentManager
 
 	public static final int FAKEHAND = 24;
 
-	private static List<AdventureResult> equipment = LockableListFactory.getInstance( AdventureResult.class );
+	private static final List<AdventureResult> equipment = LockableListFactory.getInstance( AdventureResult.class );
 	private static final List<AdventureResult> accessories = LockableListFactory.getInstance( AdventureResult.class );
 	private static final List<AdventureResult>[] equipmentLists = new List[ EquipmentManager.ALL_SLOTS ];
 	private static final List<AdventureResult>[] historyLists = new List[ EquipmentManager.ALL_SLOTS ];
@@ -1339,13 +1339,13 @@ public class EquipmentManager
 		case ItemPool.SUGAR_SHIRT:
 		case ItemPool.SUGAR_SHOTGUN:
 		case ItemPool.SUGAR_SHORTS:
-			Preferences.setInteger( "sugarCounter" + String.valueOf( itemId ), 0 );
+			Preferences.setInteger( "sugarCounter" + itemId, 0 );
 			break;
 		// Breaking cozy equipment resets cozy counter
 		case ItemPool.COZY_SCIMITAR:
 		case ItemPool.COZY_STAFF:
 		case ItemPool.COZY_BAZOOKA:
-			Preferences.setInteger( "cozyCounter" + String.valueOf( itemId ), 0 );
+			Preferences.setInteger( "cozyCounter" + itemId, 0 );
 			break;
 		}
 
@@ -1677,12 +1677,12 @@ public class EquipmentManager
 			case ItemPool.SUGAR_SHIRT:
 			case ItemPool.SUGAR_SHOTGUN:
 			case ItemPool.SUGAR_SHORTS:
-				Preferences.increment( "sugarCounter" + String.valueOf( itemId ), 1 );
+				Preferences.increment( "sugarCounter" + itemId, 1 );
 				break;
 			case ItemPool.COZY_SCIMITAR:
 			case ItemPool.COZY_STAFF:
 			case ItemPool.COZY_BAZOOKA:
-				Preferences.increment( "cozyCounter" + String.valueOf( itemId ), 1 );
+				Preferences.increment( "cozyCounter" + itemId, 1 );
 				break;
 			}
 		}
@@ -1802,7 +1802,7 @@ public class EquipmentManager
 		LockableListFactory.setSelectedItem( EquipmentManager.equipmentLists[ listIndex ], equippedItem );
 	}
 
-	private static final void updateEquipmentList( final int filterId, final List<AdventureResult> currentList )
+	private static void updateEquipmentList( final int filterId, final List<AdventureResult> currentList )
 	{
 		ArrayList<AdventureResult> temporary = new ArrayList<AdventureResult>();
 		temporary.add( EquipmentRequest.UNEQUIP );

@@ -54,7 +54,7 @@ public class RequestButton
 	private static class RequestRunnable
 		implements Runnable
 	{
-		private GenericRequest request;
+		private final GenericRequest request;
 
 		public RequestRunnable( GenericRequest request )
 		{

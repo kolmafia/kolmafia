@@ -56,7 +56,7 @@ public class CliRefCommand
 		this.usage = " [<filter>] - list CLI commands [that match filter].";
 	}
 
-	static private Pattern PLACEHOLDER = Pattern.compile( "<(.+?)>" );
+	static private final Pattern PLACEHOLDER = Pattern.compile( "<(.+?)>" );
 
 	@Override
 	public void run( final String cmd, String filter )

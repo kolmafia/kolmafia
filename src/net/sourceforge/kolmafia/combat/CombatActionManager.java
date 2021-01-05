@@ -361,7 +361,7 @@ public abstract class CombatActionManager
 			action.startsWith( "\"" );
 	}
 
-	private static final String getStun()
+	private static String getStun()
 	{
 		String classStun = KoLCharacter.getClassStun();
 		// Sometimes classStun isn't available or doesn't stun, don't return it in those cases
@@ -526,7 +526,7 @@ public abstract class CombatActionManager
 		return item.startsWith( "attack" ) ? item : "item " + item;
 	}
 
-	private static final String getLongItemAction( final String action )
+	private static String getLongItemAction( final String action )
 	{
 		int commaIndex = action.indexOf( "," );
 		if ( commaIndex != -1 )
@@ -709,7 +709,7 @@ public abstract class CombatActionManager
 		return CombatActionManager.getShortItemAction( action );
 	}
 
-	private static final String getShortItemAction( final String action )
+	private static String getShortItemAction( final String action )
 	{
 		int commaIndex = action.indexOf( "," );
 		if ( commaIndex != -1 )

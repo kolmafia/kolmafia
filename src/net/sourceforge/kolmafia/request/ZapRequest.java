@@ -95,7 +95,7 @@ public class ZapRequest
 		this.addFormField( "whichitem", String.valueOf( item.getItemId() ) );
 	}
 
-	private static final void initializeList()
+	private static void initializeList()
 	{
 		if ( !ZapRequest.zappableItems.isEmpty() )
 		{

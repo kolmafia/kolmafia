@@ -160,9 +160,9 @@ public class EdServantCommand
 				output.append( "</td></tr>" );
 				output.append( "<tr><td>" );
 				output.append( "(Level " );
-				output.append( String.valueOf( servant.getLevel() ) );
+				output.append( servant.getLevel() );
 				output.append( ", " );
-				output.append( String.valueOf( servant.getExperience() ) );
+				output.append( servant.getExperience() );
 				output.append( " XP)" );
 				output.append( "</td></tr>" );
 				output.append( "<tr><td></td></tr>" );

@@ -55,7 +55,7 @@ public class MemeShopRequest
 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( MemeShopRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( MemeShopRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( MemeShopRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( MemeShopRequest.master );
 	private static final Pattern BACON_PATTERN = Pattern.compile( "([\\d,]+) BACON" );
 	public static final AdventureResult BACON = ItemPool.get( ItemPool.BACON, 1 );
 

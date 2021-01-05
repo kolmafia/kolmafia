@@ -89,7 +89,7 @@ public class RecipeCommand
 			buffer.setLength( 0 );
 			if ( concoctions.length > 1 )
 			{
-				buffer.append( String.valueOf( i + 1 ) );
+				buffer.append( ( i + 1 ) );
 				buffer.append( ". " );
 			}
 
@@ -140,9 +140,9 @@ public class RecipeCommand
 			sb.append( "<i>" );
 			sb.append( ingredient.getName() );
 			sb.append( " (" );
-			sb.append( String.valueOf( have ) );
+			sb.append( have );
 			sb.append( "/" );
-			sb.append( String.valueOf( need ) );	
+			sb.append( need );
 			sb.append( ")</i>" );
 		}
 	}

@@ -1157,7 +1157,7 @@ public class CampgroundRequest
 		}
 	}
 
-	private static final void parseCampground( final String responseText )
+	private static void parseCampground( final String responseText )
 	{
 		boolean haveTelescope = findImage( responseText, "telescope.gif", ItemPool.TELESCOPE );
 		if ( haveTelescope )
@@ -1237,7 +1237,7 @@ public class CampgroundRequest
 
 	}
 
-	private static final boolean parseGarden( final String responseText )
+	private static boolean parseGarden( final String responseText )
 	{
 		return  findImage( responseText, "pumpkinpatch_0.gif", ItemPool.PUMPKIN, 0, ItemPool.PUMPKIN_SEEDS, 0 ) ||
 			findImage( responseText, "pumpkinpatch_1.gif", ItemPool.PUMPKIN, 1, ItemPool.PUMPKIN_SEEDS, 1 ) ||
@@ -1298,7 +1298,7 @@ public class CampgroundRequest
 			findImage( responseText, "mushgarden.gif", new Mushroom( Preferences.getInteger( "mushroomGardenCropLevel" ) ) );
 	}
 
-	private static final void parseDwelling( final String responseText )
+	private static void parseDwelling( final String responseText )
 	{
 		Matcher m = HOUSING_PATTERN.matcher( responseText );
 		if ( !m.find() )
@@ -1417,7 +1417,7 @@ public class CampgroundRequest
 		}
 	}
 
-	private static final void parseKitchen( final String responseText )
+	private static void parseKitchen( final String responseText )
 	{
 		boolean hasOven = findImage( responseText, "ezcook.gif", ItemPool.OVEN );
 		KoLCharacter.setOven( hasOven );
@@ -1445,7 +1445,7 @@ public class CampgroundRequest
 		KoLCharacter.setSushiMat( hasSushiMat );
 	}
 
-	private static final void parseWorkshed( final String responseText )
+	private static void parseWorkshed( final String responseText )
 	{
 		// Do we need to remember these things in KoLCharacter?
 		if ( findImage( responseText, "wbchemset.gif", ItemPool.CHEMISTRY_LAB ) )

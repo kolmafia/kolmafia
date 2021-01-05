@@ -161,8 +161,8 @@ public abstract class ChoiceManager
 	private enum PostChoiceAction {
 		NONE,
 		INITIALIZE,
-		ASCEND;
-	};
+		ASCEND
+	}
 
 	private static PostChoiceAction action = PostChoiceAction.NONE;
 
@@ -379,7 +379,7 @@ public abstract class ChoiceManager
     	ChoiceManager.conspiracyQuestMessages.put( Quest.OUT_OF_ORDER, "&quot;Attention Operative QZ-N-0. Colonel Kurzweil at Jungle Interior Camp 4 reports the theft of Project T. L. B. materials. Requests immediate assistance. Is confident that it has not yet been removed from the jungle. Message repeats.&quot;" );
     	ChoiceManager.conspiracyQuestMessages.put( Quest.SERUM, "&quot;Attention Operative 21-B-M. Emergency deployment orders have been executed due to a shortage of experimental serum P-00. Repeat: P Zero Zero. Lt. Weirdeaux is known to have P-00 manufacturing facilities inside the Site 15 mansion. Message repeats.&quot;" );
     	ChoiceManager.conspiracyQuestMessages.put( Quest.SMOKES, "&quot;Attention Operative 00-A-6. Colonel Kurzweil at Jungle Interior Camp 4 reports that they have run out of smokes. Repeat: They have run out of smokes. Requests immediate assistance. Message repeats.&quot;" );
-	};
+	}
 
 	public static class Option
 	{
@@ -4564,7 +4564,7 @@ public abstract class ChoiceManager
 		ChoiceManager.action = PostChoiceAction.ASCEND;
 	}
 
-	private static final AdventureResult getCost( final int choice, final int decision )
+	private static AdventureResult getCost( final int choice, final int decision )
 	{
 		for ( int i = 0; i < ChoiceManager.CHOICE_COST.length; ++i )
 		{
@@ -4578,7 +4578,7 @@ public abstract class ChoiceManager
 		return null;
 	}
 
-	private static final void payCost( final int choice, final int decision )
+	private static void payCost( final int choice, final int decision )
 	{
 		AdventureResult cost = ChoiceManager.getCost( choice, decision );
 
@@ -5027,7 +5027,7 @@ public abstract class ChoiceManager
 		return null;
 	}
 
-	private static final Object[][] dynamicChoiceSpoilers( final int choice )
+	private static Object[][] dynamicChoiceSpoilers( final int choice )
 	{
 		switch ( choice )
 		{
@@ -5421,13 +5421,13 @@ public abstract class ChoiceManager
 		return null;
 	}
 
-	private static final Object[][] dynamicChoiceSpoilers( final int choice, final String name )
+	private static Object[][] dynamicChoiceSpoilers( final int choice, final String name )
 	{
 		Object[][] result = new Object[ 3 ][];
 
 		// The choice option is the first element
 		result[ 0 ] = new String[ 1 ];
-		result[ 0 ][ 0 ] = "choiceAdventure" + String.valueOf( choice );
+		result[ 0 ][ 0 ] = "choiceAdventure" + choice;
 
 		// The name of the choice is second element
 		result[ 1 ] = new String[ 1 ];
@@ -5878,11 +5878,11 @@ public abstract class ChoiceManager
 				int damage = (int)( 2.50 * (100.0 - KoLCharacter.elementalResistanceByLevel( resistance ) ) );
 				long hp = KoLCharacter.getCurrentHP();
 				buffer.append( "take " );
-				buffer.append( String.valueOf( damage ) );
+				buffer.append( damage );
 				buffer.append( " hot damage, current HP = " );
-				buffer.append( String.valueOf( hp ) );
+				buffer.append( hp );
 				buffer.append( ", current hot resistance = " );
-				buffer.append( String.valueOf( resistance ) );
+				buffer.append( resistance );
 				result[ 0 ] = buffer.toString();
 			}
 			result[ 1 ] = "flickering pixel";
@@ -5894,11 +5894,11 @@ public abstract class ChoiceManager
 			result = new Object[ 3 ];
 			{
 				String buffer = "50 buffed Muscle/Mysticality/Moxie required, have " +
-						String.valueOf( KoLCharacter.getAdjustedMuscle() ) +
+						KoLCharacter.getAdjustedMuscle() +
 						"/" +
-						String.valueOf( KoLCharacter.getAdjustedMysticality() ) +
+						KoLCharacter.getAdjustedMysticality() +
 						"/" +
-						String.valueOf( KoLCharacter.getAdjustedMoxie() );
+						KoLCharacter.getAdjustedMoxie();
 				result[ 0 ] = buffer;
 			}
 			result[ 1 ] = "flickering pixel";
@@ -5910,7 +5910,7 @@ public abstract class ChoiceManager
 			result = new Object[ 3 ];
 			{
 				String buffer = "50 buffed Moxie required, have " +
-						String.valueOf( KoLCharacter.getAdjustedMoxie() );
+						KoLCharacter.getAdjustedMoxie();
 				result[ 0 ] = buffer;
 			}
 			result[ 1 ] = "flickering pixel";
@@ -5926,11 +5926,11 @@ public abstract class ChoiceManager
 				int damage = (int)( 2.50 * (100.0 - KoLCharacter.elementalResistanceByLevel( resistance ) ) );
 				long hp = KoLCharacter.getCurrentHP();
 				buffer.append( "take " );
-				buffer.append( String.valueOf( damage ) );
+				buffer.append( damage );
 				buffer.append( " spooky damage, current HP = " );
-				buffer.append( String.valueOf( hp ) );
+				buffer.append( hp );
 				buffer.append( ", current spooky resistance = " );
-				buffer.append( String.valueOf( resistance ) );
+				buffer.append( resistance );
 				result[ 0 ] = buffer.toString();
 			}
 			result[ 1 ] = "flickering pixel";
@@ -5955,7 +5955,7 @@ public abstract class ChoiceManager
 			result = new Object[ 3 ];
 			{
 				String buffer = "101 HP required, have " +
-						String.valueOf( KoLCharacter.getCurrentHP() );
+						KoLCharacter.getCurrentHP();
 				result[ 0 ] = buffer;
 			}
 			result[ 1 ] = "flickering pixel";
@@ -5967,7 +5967,7 @@ public abstract class ChoiceManager
 			result = new Object[ 3 ];
 			{
 				String buffer = "101 MP required, have " +
-						String.valueOf( KoLCharacter.getCurrentMP() );
+						KoLCharacter.getCurrentMP();
 				result[ 0 ] = buffer;
 			}
 			result[ 1 ] = "flickering pixel";
@@ -5979,7 +5979,7 @@ public abstract class ChoiceManager
 			result = new Object[ 3 ];
 			{
 				String buffer = "10 prismatic damage required, have " +
-						String.valueOf( KoLCharacter.currentPrismaticDamage() );
+						KoLCharacter.currentPrismaticDamage();
 				result[ 0 ] = buffer;
 			}
 			result[ 1 ] = "flickering pixel";
@@ -6076,7 +6076,7 @@ public abstract class ChoiceManager
 			if ( KoLCharacter.isMuscleClass() )
 			{
 				buffer.append( ", old dry bone (" );
-				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.OLD_DRY_BONE ) ) );
+				buffer.append( InventoryManager.getCount( ItemPool.OLD_DRY_BONE ) );
 				buffer.append( ") -> bone flour" );
 			}
 			buffer.append( ", -stench" );
@@ -6086,10 +6086,10 @@ public abstract class ChoiceManager
 			buffer.append( "Freddies" );
 			buffer.append( ", Bored Stiff (+100 spooky damage)" );
 			buffer.append( ", replica key (" );
-			buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.REPLICA_KEY ) ) );
+			buffer.append( InventoryManager.getCount( ItemPool.REPLICA_KEY ) );
 			buffer.append( ") -> Dreadsylvanian auditor's badge" );
 			buffer.append( ", wax banana (" );
-			buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.WAX_BANANA ) ) );
+			buffer.append( InventoryManager.getCount( ItemPool.WAX_BANANA ) );
 			buffer.append( ") -> complicated lock impression" );
 			result[ 1 ] = buffer.toString();	// The Cellar
 
@@ -6114,7 +6114,7 @@ public abstract class ChoiceManager
 			// The Kitchen in the Woods
 			result = new Object[ 6 ];
 			result[ 0 ] = "dread tarragon";
-			result[ 1 ] = "old dry bone (" + String.valueOf( InventoryManager.getCount( ItemPool.OLD_DRY_BONE ) ) + ") -> bone flour";
+			result[ 1 ] = "old dry bone (" + InventoryManager.getCount( ItemPool.OLD_DRY_BONE ) + ") -> bone flour";
 			result[ 2 ] = "-stench";
 			result[ 5 ] = "Return to The Cabin";
 			return result;
@@ -6124,8 +6124,8 @@ public abstract class ChoiceManager
 			result = new Object[ 6 ];
 			result[ 0 ] = "Freddies";
 			result[ 1 ] = "Bored Stiff (+100 spooky damage)";
-			result[ 2 ] = "replica key (" + String.valueOf( InventoryManager.getCount( ItemPool.REPLICA_KEY ) ) + ") -> Dreadsylvanian auditor's badge";
-			result[ 3 ] = "wax banana (" + String.valueOf( InventoryManager.getCount( ItemPool.WAX_BANANA ) ) + ") -> complicated lock impression";
+			result[ 2 ] = "replica key (" + InventoryManager.getCount( ItemPool.REPLICA_KEY ) + ") -> Dreadsylvanian auditor's badge";
+			result[ 3 ] = "wax banana (" + InventoryManager.getCount( ItemPool.WAX_BANANA ) + ") -> complicated lock impression";
 			result[ 5 ] = "Return to The Cabin";
 			return result;
 
@@ -6217,7 +6217,7 @@ public abstract class ChoiceManager
 			buffer.append( "-hot" );
 			buffer.append( ", Dragged Through the Coals (+100 hot damage)" );
 			buffer.append( ", old ball and chain (" );
-			buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.OLD_BALL_AND_CHAIN ) ) );
+			buffer.append( InventoryManager.getCount( ItemPool.OLD_BALL_AND_CHAIN ) );
 			buffer.append( ") -> cool iron ingot" );
 			result[ 0 ] = buffer.toString();	// Hot
 
@@ -6242,7 +6242,7 @@ public abstract class ChoiceManager
 			result = new Object[ 6 ];
 			result[ 0 ] = "-hot";
 			result[ 1 ] = "Dragged Through the Coals (+100 hot damage)";
-			result[ 2 ] = "old ball and chain (" + String.valueOf( InventoryManager.getCount( ItemPool.OLD_BALL_AND_CHAIN ) ) + ") -> cool iron ingot";
+			result[ 2 ] = "old ball and chain (" + InventoryManager.getCount( ItemPool.OLD_BALL_AND_CHAIN ) + ") -> cool iron ingot";
 			result[ 5 ] = "Return to The Burrows";
 			return result;
 
@@ -6282,9 +6282,9 @@ public abstract class ChoiceManager
 			if ( InventoryManager.getCount( ItemPool.HOTHAMMER ) > 0 )
 			{
 				buffer.append( ", cool iron ingot (" );
-				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.COOL_IRON_INGOT ) ) );
+				buffer.append( InventoryManager.getCount( ItemPool.COOL_IRON_INGOT ) );
 				buffer.append( ") + warm fur (" );
-				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.WARM_FUR ) ) );
+				buffer.append( InventoryManager.getCount( ItemPool.WARM_FUR ) );
 				buffer.append( ") -> cooling iron equipment" );
 			}
 			result[ 1 ] = buffer.toString();	// Blacksmith
@@ -6323,9 +6323,9 @@ public abstract class ChoiceManager
 			result[ 1 ] = "Freddies";
 			result[ 2 ] =
 				"cool iron ingot (" +
-				String.valueOf( InventoryManager.getCount( ItemPool.COOL_IRON_INGOT ) ) +
+						InventoryManager.getCount( ItemPool.COOL_IRON_INGOT ) +
 				") + warm fur (" +
-				String.valueOf( InventoryManager.getCount( ItemPool.WARM_FUR ) ) +
+						InventoryManager.getCount( ItemPool.WARM_FUR ) +
 				") -> cooling iron equipment";
 			result[ 5 ] = "Return to The Village Square";
 			return result;
@@ -6367,17 +6367,17 @@ public abstract class ChoiceManager
 			{
 				buffer.append( "Freddies" );
 				buffer.append( ", lock impression (" );
-				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.WAX_LOCK_IMPRESSION ) ) );
+				buffer.append( InventoryManager.getCount( ItemPool.WAX_LOCK_IMPRESSION ) );
 				buffer.append( ") + music box parts (" );
-				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.INTRICATE_MUSIC_BOX_PARTS ) ) );
+				buffer.append( InventoryManager.getCount( ItemPool.INTRICATE_MUSIC_BOX_PARTS ) );
 				buffer.append( ") -> replica key" );
 				buffer.append( ", moon-amber (" );
-				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.MOON_AMBER ) ) );
+				buffer.append( InventoryManager.getCount( ItemPool.MOON_AMBER ) );
 				buffer.append( ") -> polished moon-amber" );
 				buffer.append( ", 3 music box parts (" );
-				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.INTRICATE_MUSIC_BOX_PARTS ) ) );
+				buffer.append( InventoryManager.getCount( ItemPool.INTRICATE_MUSIC_BOX_PARTS ) );
 				buffer.append( ") + clockwork key (" );
-				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.DREADSYLVANIAN_CLOCKWORK_KEY ) ) );
+				buffer.append( InventoryManager.getCount( ItemPool.DREADSYLVANIAN_CLOCKWORK_KEY ) );
 				buffer.append( ") -> mechanical songbird" );
 				buffer.append( ", 3 lengths of old fuse" );
 			}
@@ -6406,19 +6406,19 @@ public abstract class ChoiceManager
 			result[ 0 ] = "Freddies";
 			result[ 1 ] =
 				"lock impression (" +
-				String.valueOf( InventoryManager.getCount( ItemPool.WAX_LOCK_IMPRESSION ) ) +
+						InventoryManager.getCount( ItemPool.WAX_LOCK_IMPRESSION ) +
 				") + music box parts (" +
-				String.valueOf( InventoryManager.getCount( ItemPool.INTRICATE_MUSIC_BOX_PARTS ) ) +
+						InventoryManager.getCount( ItemPool.INTRICATE_MUSIC_BOX_PARTS ) +
 				") -> replica key";
 			result[ 2 ] =
 				"moon-amber (" +
-				String.valueOf( InventoryManager.getCount( ItemPool.MOON_AMBER ) ) +
+						InventoryManager.getCount( ItemPool.MOON_AMBER ) +
 				") -> polished moon-amber";
 			result[ 3 ] =
 				"3 music box parts (" +
-				String.valueOf( InventoryManager.getCount( ItemPool.INTRICATE_MUSIC_BOX_PARTS ) ) +
+						InventoryManager.getCount( ItemPool.INTRICATE_MUSIC_BOX_PARTS ) +
 				") + clockwork key (" +
-				String.valueOf( InventoryManager.getCount( ItemPool.DREADSYLVANIAN_CLOCKWORK_KEY ) ) +
+						InventoryManager.getCount( ItemPool.DREADSYLVANIAN_CLOCKWORK_KEY ) +
 				") -> mechanical songbird";
 			result[ 4 ] = "3 lengths of old fuse";
 			result[ 5 ] = "Return to Skid Row";
@@ -6450,13 +6450,13 @@ public abstract class ChoiceManager
 			if ( KoLCharacter.isMysticalityClass() )
 			{
 				buffer.append( ", dread tarragon (" );
-				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.DREAD_TARRAGON ) ) );
+				buffer.append( InventoryManager.getCount( ItemPool.DREAD_TARRAGON ) );
 				buffer.append( ") + dreadful roast (" );
-				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.DREADFUL_ROAST ) ) );
+				buffer.append( InventoryManager.getCount( ItemPool.DREADFUL_ROAST ) );
 				buffer.append( ") + bone flour (" );
-				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.BONE_FLOUR ) ) );
+				buffer.append( InventoryManager.getCount( ItemPool.BONE_FLOUR ) );
 				buffer.append( ") + stinking agaricus (" );
-				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.STINKING_AGARICUS ) ) );
+				buffer.append( InventoryManager.getCount( ItemPool.STINKING_AGARICUS ) );
 				buffer.append( ") -> Dreadsylvanian shepherd's pie" );
 			}
 			buffer.append( ", +Moxie" );
@@ -6467,7 +6467,7 @@ public abstract class ChoiceManager
 			buffer.append( "fewer werewolves" );
 			buffer.append( ", eau de mort" );
 			buffer.append( ", 10 ghost thread (" );
-			buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.GHOST_THREAD ) ) );
+			buffer.append( InventoryManager.getCount( ItemPool.GHOST_THREAD ) );
 			buffer.append( ") -> ghost shawl" );
 			result[ 2 ] = buffer.toString();	// Master Suite (locked)
 
@@ -6491,13 +6491,13 @@ public abstract class ChoiceManager
 			result[ 0 ] = "-hot";
 			result[ 1 ] =
 				"dread tarragon (" +
-				String.valueOf( InventoryManager.getCount( ItemPool.DREAD_TARRAGON ) ) +
+						InventoryManager.getCount( ItemPool.DREAD_TARRAGON ) +
 				") + dreadful roast (" +
-				String.valueOf( InventoryManager.getCount( ItemPool.DREADFUL_ROAST ) ) +
+						InventoryManager.getCount( ItemPool.DREADFUL_ROAST ) +
 				") + bone flour (" +
-				String.valueOf( InventoryManager.getCount( ItemPool.BONE_FLOUR ) ) +
+						InventoryManager.getCount( ItemPool.BONE_FLOUR ) +
 				") + stinking agaricus (" +
-				String.valueOf( InventoryManager.getCount( ItemPool.STINKING_AGARICUS ) ) +
+						InventoryManager.getCount( ItemPool.STINKING_AGARICUS ) +
 				") -> Dreadsylvanian shepherd's pie";
 			result[ 2 ] = "+Moxie";
 			result[ 5 ] = "Return to The Old Duke's Estate";
@@ -6510,7 +6510,7 @@ public abstract class ChoiceManager
 			result[ 1 ] = "eau de mort";
 			result[ 2 ] =
 				"10 ghost thread (" +
-				String.valueOf( InventoryManager.getCount( ItemPool.GHOST_THREAD ) ) +
+						InventoryManager.getCount( ItemPool.GHOST_THREAD ) +
 				") -> ghost shawl";
 			result[ 5 ] = "Return to The Old Duke's Estate";
 			return result;
@@ -6600,9 +6600,9 @@ public abstract class ChoiceManager
 			if ( KoLCharacter.isMoxieClass() )
 			{
 				buffer.append( ", blood kiwi (" );
-				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.BLOOD_KIWI ) ) );
+				buffer.append( InventoryManager.getCount( ItemPool.BLOOD_KIWI ) );
 				buffer.append( ") + eau de mort (" );
-				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.EAU_DE_MORT ) ) );
+				buffer.append( InventoryManager.getCount( ItemPool.EAU_DE_MORT ) );
 				buffer.append( ") -> bloody kiwitini" );
 			}
 			result[ 0 ] = buffer.toString();	// Laboratory (locked)
@@ -6639,9 +6639,9 @@ public abstract class ChoiceManager
 			result[ 2 ] = "visit The Machine";
 			result[ 3 ] =
 				"blood kiwi (" +
-				String.valueOf( InventoryManager.getCount( ItemPool.BLOOD_KIWI ) ) +
+						InventoryManager.getCount( ItemPool.BLOOD_KIWI ) +
 				") + eau de mort (" +
-				String.valueOf( InventoryManager.getCount( ItemPool.EAU_DE_MORT ) ) +
+						InventoryManager.getCount( ItemPool.EAU_DE_MORT ) +
 				") -> bloody kiwitini";
 			result[ 5 ] = "Return to The Tower";
 			return result;
@@ -6804,7 +6804,7 @@ public abstract class ChoiceManager
 			
 			result = new String[ 10 ];
 			String buffer = "Get " +
-					String.valueOf( ( Preferences.getInteger( "kolhsTotalSchoolSpirited" ) + 1 ) * 10 ) +
+					( Preferences.getInteger( "kolhsTotalSchoolSpirited" ) + 1 ) * 10 +
 					" turns of School Spirited (+100% Meat drop, +50% Item drop)";
 			result[ 0 ] = Preferences.getBoolean( "_kolhsSchoolSpirited" ) ? "Already got School Spirited today" : buffer;
 			result[ 1 ] = Preferences.getBoolean( "_kolhsPoeticallyLicenced" ) ? "Already got Poetically Licenced today" :
@@ -6914,7 +6914,7 @@ public abstract class ChoiceManager
 
 			StringBuilder buffer = new StringBuilder();
 			buffer.append( "Get stats, on 5th visit, fight ancient protector spirit (");
-			buffer.append( String.valueOf( 6 - hiddenBowlingAlleyProgress ) );
+			buffer.append( ( 6 - hiddenBowlingAlleyProgress ) );
 			buffer.append( " visit" );
 			if ( hiddenBowlingAlleyProgress < 5 )
 			{
@@ -6950,7 +6950,7 @@ public abstract class ChoiceManager
 
 			result = new String[ 6 ];
 			String buffer = "Need 4 stone triangles to fight Protector Spectre (" +
-					String.valueOf( stoneTriangles ) +
+					stoneTriangles +
 					")";
 			result[ 0 ] = ( stoneTriangles == 4 ? "fight Protector Spectre": buffer );
 			result[ 5 ] = "skip adventure";
@@ -7108,14 +7108,14 @@ public abstract class ChoiceManager
 		return null;
 	}
 
-	private static final String shortcutSpoiler( final String setting )
+	private static String shortcutSpoiler( final String setting )
 	{
 		return Preferences.getBoolean( setting ) ?
 			"shortcut KNOWN" :
 			"learn shortcut";
 	}
 
-	private static final void lockSpoiler( StringBuilder buffer )
+	private static void lockSpoiler( StringBuilder buffer )
 	{
 		buffer.append( "possibly locked," );
 		if ( InventoryManager.getCount( ItemPool.DREADSYLVANIAN_SKELETON_KEY ) == 0 )
@@ -7125,7 +7125,7 @@ public abstract class ChoiceManager
 		buffer.append( " key in inventory: " );
 	}
 
-	private static final Object[] dynamicChoiceOptions( final String option )
+	private static Object[] dynamicChoiceOptions( final String option )
 	{
 		if ( !option.startsWith( "choiceAdventure" ) )
 		{
@@ -7253,7 +7253,7 @@ public abstract class ChoiceManager
 		return ChoiceManager.stillInChoice( ChoiceManager.lastResponseText );
 	}
 
-	private static final boolean stillInChoice( final String responseText )
+	private static boolean stillInChoice( final String responseText )
 	{
 		// Doing the Maths has a choice form but, somehow, does not specify choice.php
 
@@ -7398,7 +7398,7 @@ public abstract class ChoiceManager
 		return true;
 	}
 
-	private static final boolean automateChoice( final int choice, final GenericRequest request, final int stepCount )
+	private static boolean automateChoice( final int choice, final GenericRequest request, final int stepCount )
 	{
 		// If this choice has special handling that can't be
 		// handled by a single preference (extra fields, for
@@ -16145,7 +16145,7 @@ public abstract class ChoiceManager
 		return 0;
 	}
 
-	private static final String swampNavigation( final String responseText )
+	private static String swampNavigation( final String responseText )
 	{
 		if ( responseText.contains( "facing north" ) || responseText.contains( "face north" ) ||
 			 responseText.contains( "indicate north" ) )
@@ -16174,7 +16174,7 @@ public abstract class ChoiceManager
 		return "0";
 	}
 
-	private static final String lightsOutAutomation( final int choice, final String responseText )
+	private static String lightsOutAutomation( final int choice, final String responseText )
 	{
 		int automation = Preferences.getInteger( "lightsOutAutomation" );
 		if ( automation == 0 )
@@ -16912,7 +16912,7 @@ public abstract class ChoiceManager
 		KoLmafia.updateDisplay( state, message );
 	}
 
-	private static final boolean specialChoiceHandling( final int choice, final GenericRequest request )
+	private static boolean specialChoiceHandling( final int choice, final GenericRequest request )
 	{
 		String decision = null;
 		switch ( choice )
@@ -16953,7 +16953,7 @@ public abstract class ChoiceManager
 		return true;
 	}
 
-	private static final String specialChoiceDecision1( final int choice, String decision, final int stepCount, final String responseText )
+	private static String specialChoiceDecision1( final int choice, String decision, final int stepCount, final String responseText )
 	{
 		// A few choices have non-standard options: 0 is not Manual Control
 		switch ( choice )
@@ -17150,7 +17150,7 @@ public abstract class ChoiceManager
 		return decision;
 	}
 
-	private static final String specialChoiceDecision2( final int choice, String decision, final int stepCount, final String responseText )
+	private static String specialChoiceDecision2( final int choice, String decision, final int stepCount, final String responseText )
 	{
 		// If the user wants manual control, let 'em have it.
 		if ( decision.equals( "0" ) )
@@ -18217,7 +18217,7 @@ public abstract class ChoiceManager
 		return null;
 	}
 
-	private static final String pickGoalChoice( final String option, final String decision )
+	private static String pickGoalChoice( final String option, final String decision )
 	{
 		// If the user wants manual control, let 'em have it.
 		if ( decision.equals( "0" ) )
@@ -18392,7 +18392,7 @@ public abstract class ChoiceManager
 		return request.responseText;
 	}
 
-	private static final String choiceDescription( final int choice, final int decision )
+	private static String choiceDescription( final int choice, final int decision )
 	{
 		// If we have spoilers for this choice, use that
 		Object[][] spoilers = ChoiceManager.choiceSpoilers( choice, null );
@@ -18700,7 +18700,7 @@ public abstract class ChoiceManager
 			// This is chain of choices that either immediately
 			// follow a fight or the previous choice, either of
 			// which takes a turn (unlike normal choice chains)
-			String location = "The Hedge Maze (Room " + String.valueOf( choice - 1004 ) + ")";
+			String location = "The Hedge Maze (Room " + ( choice - 1004 ) + ")";
 			RequestLogger.registerLocation( location );
 			break;
 

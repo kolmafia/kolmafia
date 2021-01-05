@@ -56,7 +56,7 @@ public class KOLHSRequest
 		return false;
 	}
 
-	private static final String getShopId( final Concoction conc )
+	private static String getShopId( final Concoction conc )
 	{
 		switch ( conc.getMixingMethod() )
 		{
@@ -71,7 +71,7 @@ public class KOLHSRequest
 		return "";
 	}
 
-	private static final String shopIDToClassName( final String shopID )
+	private static String shopIDToClassName( final String shopID )
 	{
 		return	shopID.equals( "kolhs_chem" ) ? "Chemistry Class" :
 			shopID.equals( "kolhs_art" ) ? "Art Class" :

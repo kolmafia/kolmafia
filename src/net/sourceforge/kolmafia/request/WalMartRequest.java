@@ -56,7 +56,7 @@ public class WalMartRequest
 	public static final String master = "Wal-Mart";
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( WalMartRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( WalMartRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( WalMartRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( WalMartRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) Wal-Mart gift certificates" );
 	public static final AdventureResult COIN = ItemPool.get( ItemPool.WALMART_GIFT_CERTIFICATE, 1 );

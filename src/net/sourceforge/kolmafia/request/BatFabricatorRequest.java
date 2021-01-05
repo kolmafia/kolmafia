@@ -54,7 +54,7 @@ public class BatFabricatorRequest
 	public static final String master = "Bat-Fabricator";
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( BatFabricatorRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( BatFabricatorRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( BatFabricatorRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( BatFabricatorRequest.master );
 
 	public static final AdventureResult METAL = ItemPool.get( ItemPool.HIGH_GRADE_METAL, 1 );
 	public static final AdventureResult FIBERS = ItemPool.get( ItemPool.HIGH_TENSILE_STRENGTH_FIBERS, 1 );

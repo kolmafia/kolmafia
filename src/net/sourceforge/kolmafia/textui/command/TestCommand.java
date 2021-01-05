@@ -354,7 +354,7 @@ public class TestCommand
 				StringBuilder buffer = new StringBuilder();
 				buffer.append( string );
 				buffer.append( " has " );
-				buffer.append( String.valueOf( length ) );
+				buffer.append( length );
 				buffer.append( " effectid" );
 				if ( length > 1 )
 				{
@@ -367,7 +367,7 @@ public class TestCommand
 					{
 						buffer.append( ", " );
 					}
-					buffer.append( String.valueOf( effectIds[ i ] ) );
+					buffer.append( effectIds[ i ] );
 				}
 				RequestLogger.printLine( buffer.toString() );
 			}
@@ -491,7 +491,7 @@ public class TestCommand
 				StringBuilder buffer = new StringBuilder();
 				buffer.append( string );
 				buffer.append( " has " );
-				buffer.append( String.valueOf( length ) );
+				buffer.append( length );
 				buffer.append( " itemid" );
 				if ( length > 1 )
 				{
@@ -504,7 +504,7 @@ public class TestCommand
 					{
 						buffer.append( ", " );
 					}
-					buffer.append( String.valueOf( itemIds[ i ] ) );
+					buffer.append( itemIds[ i ] );
 				}
 				RequestLogger.printLine( buffer.toString() );
 			}
@@ -541,7 +541,7 @@ public class TestCommand
 				StringBuilder buffer = new StringBuilder();
 				buffer.append( string );
 				buffer.append( " has " );
-				buffer.append( String.valueOf( length ) );
+				buffer.append( length );
 				buffer.append( " monsterid" );
 				if ( length > 1 )
 				{
@@ -554,7 +554,7 @@ public class TestCommand
 					{
 						buffer.append( ", " );
 					}
-					buffer.append( String.valueOf( monsterIds[ i ] ) );
+					buffer.append( monsterIds[ i ] );
 				}
 				RequestLogger.printLine( buffer.toString() );
 			}
@@ -759,7 +759,7 @@ public class TestCommand
 				StringBuilder buffer = new StringBuilder();
 				buffer.append( string );
 				buffer.append( " has " );
-				buffer.append( String.valueOf( length ) );
+				buffer.append( length );
 				buffer.append( " skillid" );
 				if ( length > 1 )
 				{
@@ -772,7 +772,7 @@ public class TestCommand
 					{
 						buffer.append( ", " );
 					}
-					buffer.append( String.valueOf( skillIds[ i ] ) );
+					buffer.append( skillIds[ i ] );
 				}
 				RequestLogger.printLine( buffer.toString() );
 			}

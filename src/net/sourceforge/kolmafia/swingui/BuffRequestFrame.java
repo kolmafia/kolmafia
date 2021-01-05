@@ -95,7 +95,7 @@ public class BuffRequestFrame
 	private final CardLayout nameCards;
 
 	private RequestPanel lastPanel;
-	private BuffRequestPanel mainPanel;
+	private final BuffRequestPanel mainPanel;
 	private final TotalPriceUpdater priceUpdater = new TotalPriceUpdater();
 
 	public BuffRequestFrame()

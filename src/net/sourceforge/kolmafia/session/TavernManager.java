@@ -72,7 +72,7 @@ public class TavernManager
 	//  v   ^ \
 	// 21->22  23->24->25
 
-	private static Integer [] searchOrder = {
+	private static final Integer [] searchOrder = {
 		// IntegerPool.get( 5 ),
 		IntegerPool.get(  4 ), IntegerPool.get(  3 ), IntegerPool.get(  2 ),
 		IntegerPool.get(  1 ), IntegerPool.get(  6 ), IntegerPool.get( 11 ),

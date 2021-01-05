@@ -35,5 +35,5 @@ package net.sourceforge.kolmafia.listener;
 
 public interface Listener
 {
-	public void update();
+	void update();
 }

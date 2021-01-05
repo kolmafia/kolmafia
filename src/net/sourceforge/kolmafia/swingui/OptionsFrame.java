@@ -739,11 +739,19 @@ public class OptionsFrame
 		extends GenericPanel
 		implements FocusListener
 	{
-		private JTextField combinationsField;
-		private JTextField mruField;
-		private JTextField priceField;
-		private JCheckBox currentMallBox, noAdvBox, alwaysCurrentBox, foldBox, verboseBox, incAllBox, createBox, singleFilterBox;
-		private SmartButtonGroup equipmentSelect, priceSelect;
+		private final JTextField combinationsField;
+		private final JTextField mruField;
+		private final JTextField priceField;
+		private final JCheckBox currentMallBox;
+        private final JCheckBox noAdvBox;
+        private final JCheckBox alwaysCurrentBox;
+        private final JCheckBox foldBox;
+        private final JCheckBox verboseBox;
+        private final JCheckBox incAllBox;
+        private final JCheckBox createBox;
+        private final JCheckBox singleFilterBox;
+		private final SmartButtonGroup equipmentSelect;
+        private final SmartButtonGroup priceSelect;
 		
 		public MaximizerOptionsPanel()
 		{
@@ -2844,7 +2852,7 @@ public class OptionsFrame
 		extends JPanel
 		implements Listener
 	{
-		private ColorOptionsPreferencePanel colorOptionsPreferencePanel;
+		private final ColorOptionsPreferencePanel colorOptionsPreferencePanel;
 
 		ColorOptionsPanel()
 		{

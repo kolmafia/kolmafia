@@ -389,7 +389,7 @@ public class PandamoniumRequest
 	private static final String svenFormStart= "<form name=\"bandcamp\" method=\"post\" action=\"pandamonium.php\">";
 	private static final String svenFormEnd = "</form>";
 
-	private static final void decorateSven( final StringBuffer buffer )
+	private static void decorateSven( final StringBuffer buffer )
 	{
 		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
 		{
@@ -485,7 +485,7 @@ public class PandamoniumRequest
 		PandamoniumRequest.saveSvenResponse( buffer.toString() );
 	}
 
-	private static final void addBandmember( final StringBuffer form, final String name, final int item1, final int item2, final int select )
+	private static void addBandmember( final StringBuffer form, final String name, final int item1, final int item2, final int select )
 	{
 		form.append( "<tr><td> Give " );
 		form.append( name );
@@ -504,13 +504,13 @@ public class PandamoniumRequest
 		form.append( "</td></tr>" );
 	}
 
-	private static final void addItem( final StringBuffer form, final int itemId, final boolean select )
+	private static void addItem( final StringBuffer form, final int itemId, final boolean select )
 	{
 		AdventureResult item = ItemPool.get( itemId, 1 );
 		if ( item.getCount( KoLConstants.inventory ) > 0 )
 		{
 			form.append( "<option value=\"" );
-			form.append( String.valueOf( itemId ) );
+			form.append( itemId );
 			form.append( "\" descid=\"" );
 			form.append( ItemDatabase.getDescriptionId( itemId ) );
 			form.append( "\"" );

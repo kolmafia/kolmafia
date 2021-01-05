@@ -99,7 +99,7 @@ public class OrcChasmRequest
 		}
 	}
 
-	private static final void ensureUpdatedChasm()
+	private static void ensureUpdatedChasm()
 	{
 		int lastAscension = Preferences.getInteger( "lastChasmReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
@@ -121,7 +121,7 @@ public class OrcChasmRequest
 		Preferences.setInteger( "chasmBridgeProgress", progress );
 	}
 
-	private static final void subtractBridgeParts( final int parts )
+	private static void subtractBridgeParts( final int parts )
 	{
 		if ( parts <= 0 )
 		{

@@ -231,7 +231,7 @@ public abstract class KoLmafia
 			KOL_IMAGE_SERVER_PATH;
 	}
 
-	private static final boolean acquireFileLock( final String suffix )
+	private static boolean acquireFileLock( final String suffix )
 	{
 		try
 		{
@@ -524,7 +524,7 @@ public abstract class KoLmafia
 
 	}
 
-	private static final void checkDataOverrides()
+	private static void checkDataOverrides()
 	{
 		String lastVersion = Preferences.getString( "previousUpdateVersion" );
 		String currentVersion = StaticEntity.getVersion();
@@ -615,7 +615,7 @@ public abstract class KoLmafia
 		}
 	}
 
-	private static final void updateDisplayState( final MafiaState state, final String message )
+	private static void updateDisplayState( final MafiaState state, final String message )
 	{
 		// Relay threads don't get to change the display state
 		if ( StaticEntity.isRelayThread() )
@@ -1061,7 +1061,7 @@ public abstract class KoLmafia
 		return KoLmafia.isRefreshing;
 	}
 
-	private static final void setIsRefreshing( final boolean isRefreshing )
+	private static void setIsRefreshing( final boolean isRefreshing )
 	{
 		if ( KoLmafia.isRefreshing != isRefreshing )
 		{

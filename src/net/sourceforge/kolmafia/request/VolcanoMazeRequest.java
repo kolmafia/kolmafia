@@ -74,7 +74,7 @@ public class VolcanoMazeRequest
 
 	public static String getMoveURL( final int col, final int row )
 	{
-		return "volcanomaze.php?move=" + String.valueOf( col ) + "," + String.valueOf( row ) + "&ajax=1";
+		return "volcanomaze.php?move=" + col + "," + row + "&ajax=1";
 	}
 
 	@Override

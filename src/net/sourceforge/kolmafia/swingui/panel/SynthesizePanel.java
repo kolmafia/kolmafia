@@ -100,7 +100,7 @@ public class SynthesizePanel
 	implements ActionListener, Listener
 {
 	// The panel with the effect buttons
-	private EffectPanel effectPanel;
+	private final EffectPanel effectPanel;
 
 	// The filter checkboxes
 	private JCheckBox[] filters;
@@ -109,17 +109,17 @@ public class SynthesizePanel
 	private boolean blacklistChecked = false;
 
 	// The panel with Candy A and Candy B columns
-	private CandyPanel candyPanel;
+	private final CandyPanel candyPanel;
 	private CandyPanel.CandyList candyList1;
 	private CandyPanel.CandyList candyList2;
 
 	// The Buttons
-	private JButton synthesizeButton;
-	private JButton automaticButton;
-	private JButton priceCheckButton;
+	private final JButton synthesizeButton;
+	private final JButton automaticButton;
+	private final JButton priceCheckButton;
 
 	// The panel with data about Candy A and Candy B and total cost/turn
-	private CandyDataPanel candyData;
+	private final CandyDataPanel candyData;
 
 	// How old is "too old" for a price. Expressed in fractional days.
 	public static final float AGE_LIMIT = ( 60.0f * 60.0f ) / 86400.0f;	// One hour
@@ -356,8 +356,8 @@ public class SynthesizePanel
 
 			boolean available = SynthesizePanel.this.availableChecked;
 			boolean chocolate = SynthesizePanel.this.chocolateChecked;
-			boolean noblacklist = !SynthesizePanel.this.blacklistChecked;;
-			int flags = CandyDatabase.makeFlags( available, chocolate, noblacklist );
+			boolean noblacklist = !SynthesizePanel.this.blacklistChecked;
+            int flags = CandyDatabase.makeFlags( available, chocolate, noblacklist );
 
 			for ( Component component : this.getComponents() )
 			{
@@ -1040,8 +1040,8 @@ public class SynthesizePanel
 
 			if ( KoLmafia.permitsContinue() )
 			{
-				KoLmafia.updateDisplay( "Done!" );;
-			}
+				KoLmafia.updateDisplay( "Done!" );
+            }
 		}
 
 		@Override
@@ -1068,8 +1068,8 @@ public class SynthesizePanel
 
 			boolean available = SynthesizePanel.this.availableChecked;
 			boolean chocolate = SynthesizePanel.this.chocolateChecked;
-			boolean noblacklist = !SynthesizePanel.this.blacklistChecked;;
-			int flags = CandyDatabase.defaultFlags() | CandyDatabase.makeFlags( available, chocolate, noblacklist );
+			boolean noblacklist = !SynthesizePanel.this.blacklistChecked;
+            int flags = CandyDatabase.defaultFlags() | CandyDatabase.makeFlags( available, chocolate, noblacklist );
 
 			Candy [] pair = CandyDatabase.synthesisPair( effectId, flags );
 			if ( pair.length == 0 )

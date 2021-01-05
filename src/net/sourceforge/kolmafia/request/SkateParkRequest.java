@@ -313,7 +313,7 @@ public class SkateParkRequest
 		return dataSetting( actionToData( action ) );
 	}
 
-	private static final String actionToPlace( final String action )
+	private static String actionToPlace( final String action )
 	{
 		return dataPlace( actionToData( action ) );
 	}
@@ -406,7 +406,7 @@ public class SkateParkRequest
 		return error;
 	}
 
-	private static final void ensureUpdatedSkatePark()
+	private static void ensureUpdatedSkatePark()
 	{
 		int lastAscension = Preferences.getInteger( "lastSkateParkReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )

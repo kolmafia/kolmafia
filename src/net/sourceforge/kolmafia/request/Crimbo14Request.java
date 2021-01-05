@@ -56,7 +56,7 @@ public class Crimbo14Request
 	private static final Map<Integer, Integer> sellPrices = CoinmastersDatabase.getSellPrices( Crimbo14Request.master );
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>(no|[\\d,]) Crimbo Credit", Pattern.DOTALL );
 	public static final AdventureResult CRIMBO_CREDIT = ItemPool.get( ItemPool.CRIMBO_CREDIT, 1 );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( Crimbo14Request.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( Crimbo14Request.master );
 	public static final CoinmasterData CRIMBO14 =
 		new CoinmasterData(
 			Crimbo14Request.master,

@@ -55,7 +55,7 @@ public class SpacegateFabricationRequest
 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( SpacegateFabricationRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( SpacegateFabricationRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( SpacegateFabricationRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( SpacegateFabricationRequest.master );
 	private static final Pattern RESEARCH_PATTERN = Pattern.compile( "([\\d,]+) pages? of Spacegate Research" );
 	public static final AdventureResult RESEARCH = ItemPool.get( ItemPool.SPACEGATE_RESEARCH, 1 );
 

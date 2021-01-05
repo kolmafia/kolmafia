@@ -53,7 +53,7 @@ public class LTTRequest
 	public static final String master = "LT&T Gift Shop";
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems(LTTRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices(LTTRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows(LTTRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows(LTTRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) buffalo dime" );
 	public static final AdventureResult COIN = ItemPool.get( ItemPool.BUFFALO_DIME, 1 );

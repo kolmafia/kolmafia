@@ -539,13 +539,13 @@ public class Value
 		return  type == DataTypes.TYPE_STRING ?
 			Value.escapeString( this.contentString ) :
 			type == DataTypes.TYPE_ITEM ?
-			"[" + String.valueOf( this.contentLong ) + "]" + ItemDatabase.getDataName( (int) this.contentLong ) :
+			"[" + this.contentLong + "]" + ItemDatabase.getDataName( (int) this.contentLong ) :
 			type == DataTypes.TYPE_EFFECT ?
-			"[" + String.valueOf( this.contentLong ) + "]" + EffectDatabase.getEffectName( (int) this.contentLong ) :
+			"[" + this.contentLong + "]" + EffectDatabase.getEffectName( (int) this.contentLong ) :
 			type == DataTypes.TYPE_MONSTER && this.contentLong != 0 ?
-			"[" + String.valueOf( this.contentLong ) + "]" + MonsterDatabase.getMonsterName( (int) this.contentLong ) :
+			"[" + this.contentLong + "]" + MonsterDatabase.getMonsterName( (int) this.contentLong ) :
 			type == DataTypes.TYPE_SKILL ?
-			"[" + String.valueOf( this.contentLong ) + "]" + SkillDatabase.getSkillName( (int) this.contentLong ) :
+			"[" + this.contentLong + "]" + SkillDatabase.getSkillName( (int) this.contentLong ) :
 			this.toString();
 	}
 

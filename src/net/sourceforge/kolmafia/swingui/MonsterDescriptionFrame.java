@@ -107,7 +107,7 @@ public class MonsterDescriptionFrame
 					frame.lastVariantButton.setEnabled( false );
 				}
 				frame.nextVariantButton.setEnabled( true );
-				String label = String.valueOf( frame.variant + 1 ) + "/" + String.valueOf( frame.variants.length );
+				String label = ( frame.variant + 1 ) + "/" + frame.variants.length;
 				frame.variantsLabel.setText( label );
 				frame.refreshMonster();
 			}
@@ -127,7 +127,7 @@ public class MonsterDescriptionFrame
 					frame.nextVariantButton.setEnabled( false );
 				}
 				frame.lastVariantButton.setEnabled( true );
-				String label = String.valueOf( frame.variant + 1 ) + "/" + String.valueOf( frame.variants.length );
+				String label = ( frame.variant + 1 ) + "/" + frame.variants.length;
 				frame.variantsLabel.setText( label );
 				frame.refreshMonster();
 			}
@@ -141,7 +141,7 @@ public class MonsterDescriptionFrame
 		// Kludge for a single monster...
 		if ( this.currentMonster.getName().equals( "Ed the Undying" ) )
 		{
-			String name = "Ed the Undying (" + String.valueOf( variant + 1 ) + ")";
+			String name = "Ed the Undying (" + ( variant + 1 ) + ")";
 			stats = MonsterDatabase.findMonster( name );
 		}
 
@@ -166,7 +166,7 @@ public class MonsterDescriptionFrame
 
 		if ( frame.variants.length > 0 )
 		{
-			String label = "1/" + String.valueOf( frame.variants.length );
+			String label = "1/" + frame.variants.length;
 			frame.variantsLabel.setText( label );
 		}
 

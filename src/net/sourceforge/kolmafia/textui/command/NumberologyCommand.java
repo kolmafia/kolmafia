@@ -138,7 +138,7 @@ public class NumberologyCommand
 
 		// Give forecast
 		StringBuilder buffer = new StringBuilder( "\"numberology " );
-		buffer.append( String.valueOf( result ) );
+		buffer.append( result );
 		buffer.append( "\" (" );
 		buffer.append( prize );
 		buffer.append( ") is not currently available but will be in" );
@@ -146,7 +146,7 @@ public class NumberologyCommand
 		if ( adventureDelta != 100 )
 		{
 			buffer.append( " " );
-			buffer.append( String.valueOf( adventureDelta ) );
+			buffer.append( adventureDelta );
 			buffer.append( " turn" );
 			if ( adventureDelta != 1 )
 			{
@@ -161,7 +161,7 @@ public class NumberologyCommand
 				buffer.append( " or" );
 			}
 			buffer.append( " " );
-			buffer.append( String.valueOf( spleenDelta - spleenMin ) );
+			buffer.append( ( spleenDelta - spleenMin ) );
 			buffer.append( " spleen" );
 		}
 

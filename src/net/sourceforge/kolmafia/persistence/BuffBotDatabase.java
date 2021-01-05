@@ -268,7 +268,7 @@ public class BuffBotDatabase
 			new LockableListModel<Offering>();
 	}
 
-	private static final void configureBuffBots()
+	private static void configureBuffBots()
 	{
 		if ( BuffBotDatabase.isInitialized )
 		{

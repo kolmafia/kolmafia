@@ -109,7 +109,7 @@ public class ClanLoungeRequest
 	public static final int LAPS = 2;
 	public static final int SPRINTS = 3;
 
-	private int action;
+	private final int action;
 	private int option;
 
 	private static final Pattern STANCE_PATTERN = Pattern.compile( "stance=(\\d*)" );
@@ -489,16 +489,16 @@ public class ClanLoungeRequest
 				concoction.fancydog = true;
 			}
 		}
-	};
+	}
 
-	public static final void resetHotdogs()
+    public static final void resetHotdogs()
 	{
 		// Remove all hot dogs from the usable list
 		ConcoctionDatabase.getUsables().removeAll( ClanLoungeRequest.ALL_HOTDOGS );
 		ConcoctionDatabase.refreshConcoctions( false );
 	}
 
-	private static final int hotdogNameToIndex( final String name )
+	private static int hotdogNameToIndex( final String name )
 	{
 		return ClanLoungeRequest.HOTDOG_NAMES.indexOf( name );
 	}
@@ -583,16 +583,16 @@ public class ClanLoungeRequest
 			ClanLoungeRequest.ALL_SPEAKEASY.add( concoction );
 			ClanLoungeRequest.CANONICAL_SPEAKEASY_ARRAY[ i ] = StringUtilities.getCanonicalName( itemName );
 		}
-	};
+	}
 
-	public static final void resetSpeakeasy()
+    public static final void resetSpeakeasy()
 	{
 		// Remove all Speakeasy drinks from the usable list
 		ConcoctionDatabase.getUsables().removeAll( ClanLoungeRequest.ALL_SPEAKEASY );
 		ConcoctionDatabase.refreshConcoctions( false );
 	}
 
-	private static final int speakeasyNameToIndex( final String name )
+	private static int speakeasyNameToIndex( final String name )
 	{
 		if ( name == null )
 		{
@@ -648,16 +648,16 @@ public class ClanLoungeRequest
 				ClanLoungeRequest.ALL_FLOUNDRY.add( concoction );
 			}
 		}
-	};
+	}
 
-	public static final void resetFloundry()
+    public static final void resetFloundry()
 	{
 		// Remove all Floundry Items from the usable list
 		ConcoctionDatabase.getUsables().removeAll( ClanLoungeRequest.ALL_FLOUNDRY );
 		ConcoctionDatabase.refreshConcoctions( false );
 	}
 
-	private static final AdventureResult floundryFishToItem( final String fish )
+	private static AdventureResult floundryFishToItem( final String fish )
 	{
 		if ( fish == null )
 		{
@@ -1531,7 +1531,7 @@ public class ClanLoungeRequest
 		}
 		buffer.append( name );
 		buffer.append( " (" );
-		buffer.append( String.valueOf( id ) );
+		buffer.append( id );
 		buffer.append( ")" );
 		if ( !available && needed == 0 )
 		{
@@ -1541,11 +1541,11 @@ public class ClanLoungeRequest
 		if ( needed > 0 )
 		{
 			buffer.append( " requires " );
-			buffer.append( String.valueOf( needed ) );
+			buffer.append( needed );
 			buffer.append( " " );
 			buffer.append( supply );
 			buffer.append( " (" );
-			buffer.append( String.valueOf( stocked ) );
+			buffer.append( stocked );
 			buffer.append( " in stock)" );
 		}
 
@@ -1641,7 +1641,7 @@ public class ClanLoungeRequest
 		}
 		buffer.append( name );
 		buffer.append( " (" );
-		buffer.append( String.valueOf( id ) );
+		buffer.append( id );
 		buffer.append( ")" );
 
 		RequestLogger.printLine( buffer.toString() );

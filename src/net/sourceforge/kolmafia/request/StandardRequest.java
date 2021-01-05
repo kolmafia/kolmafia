@@ -161,7 +161,7 @@ public class StandardRequest
 		// Two years before current year
 		Calendar calendar = Calendar.getInstance();
 		int year = calendar.get( Calendar.YEAR );
-		this.addFormField( "date", String.valueOf( year - 2 ) + "-01-02" );
+		this.addFormField( "date", ( year - 2 ) + "-01-02" );
 		// Must use GET
 		this.constructURLString( this.getFullURLString(), false );
 	}

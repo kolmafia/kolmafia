@@ -242,7 +242,7 @@ public class IslandManager
 		return Preferences.getInteger( "hippiesDefeated" );
 	}
 
-	private static final String sideSummary( final String side, final int kills, final int image, int min, final int max )
+	private static String sideSummary( final String side, final int kills, final int image, int min, final int max )
 	{
 		if ( kills > min )
 		{
@@ -251,7 +251,7 @@ public class IslandManager
 		int minLeft = 1000 - max;
 		int maxLeft = 1000 - min;
 		String range =
-			minLeft == maxLeft ? String.valueOf( minLeft ) : String.valueOf( minLeft ) + "-" + String.valueOf( maxLeft );
+			minLeft == maxLeft ? String.valueOf( minLeft ) : minLeft + "-" + maxLeft;
 		return kills + " " + side + " defeated; " + range + " left (image " + image + ").";
 	}
 
@@ -301,7 +301,7 @@ public class IslandManager
 		"sidequestOrchardCompleted",
 	};
 
-	private static final int sidequestFactor( final String completer )
+	private static int sidequestFactor( final String completer )
 	{
 		int factor = 1;
 		for ( int i = 0; i < IslandManager.SIDEQUEST_PREFERENCES.length; ++i )
@@ -834,7 +834,7 @@ public class IslandManager
 			"mobile homes", },
 	};
 
-	private static final boolean findBattlefieldMessage( final String responseText, final String[] table )
+	private static boolean findBattlefieldMessage( final String responseText, final String[] table )
 	{
 		for ( int i = 0; i < table.length; ++i )
 		{
@@ -996,7 +996,7 @@ public class IslandManager
 		}
 	}
 
-	private static final void handleEndOfWar( final String loser )
+	private static void handleEndOfWar( final String loser )
 	{
 		String message;
 
@@ -1183,7 +1183,7 @@ public class IslandManager
 		}
 	}
 
-	private static final Quest parseQuest( final String location )
+	private static Quest parseQuest( final String location )
 	{
 		if ( location.contains( "place=concert" ) || location.contains( "action=concert" ) )
 		{
@@ -1223,7 +1223,7 @@ public class IslandManager
 		return Quest.NONE;
 	}
 
-	private static final void parseBattlefield( final String responseText )
+	private static void parseBattlefield( final String responseText )
 	{
 		Matcher matcher = IslandManager.MAP_PATTERN.matcher( responseText );
 		if ( !matcher.find() )
@@ -1282,7 +1282,7 @@ public class IslandManager
 		}
 	}
 
-	private static final void parseArena( final String responseText )
+	private static void parseArena( final String responseText )
 	{
 		// You roll up to the amphitheater and see that the Goat Cheese
 		// Occurence is well into the first song of their four-hour,
@@ -1360,7 +1360,7 @@ public class IslandManager
  		},
 	};
 
-	private static final void parseJunkyard( final String responseText )
+	private static void parseJunkyard( final String responseText )
 	{
 		String tool = IslandManager.currentJunkyardTool;
 		String location = IslandManager.currentJunkyardLocation;
@@ -1442,7 +1442,7 @@ public class IslandManager
 		}
 	}
 
-	private static final void parseOrchard( final String responseText )
+	private static void parseOrchard( final String responseText )
 	{
 		// "Is that... it is! The heart of the filthworm queen! You've
 		// done it! You've freed our orchard from the tyranny of
@@ -1466,7 +1466,7 @@ public class IslandManager
 		ConcoctionDatabase.setRefreshNeeded( true );
 	}
 
-	private static final void parseFarm( final String responseText )
+	private static void parseFarm( final String responseText )
 	{
 		// "Well... How about dedicating a portion of your farm to
 		// growing soybeans, to help feed the hippy army?"
@@ -1482,7 +1482,7 @@ public class IslandManager
 		}
 	}
 
-	private static final void parseNunnery( final String responseText )
+	private static void parseNunnery( final String responseText )
 	{
 		// "Hello, weary Adventurer! Please, allow us to tend to your
 		// wounds."
@@ -1510,7 +1510,7 @@ public class IslandManager
 		}
 	}
 
-	private static final void parseLighthouse( final String responseText )
+	private static void parseLighthouse( final String responseText )
 	{
 		// He gazes at you thoughtfully for a few seconds, then a smile
 		// lights up his face and he says "My life... er... my bombs
@@ -1577,7 +1577,7 @@ public class IslandManager
 		}
 	}
 
-	private static final void deduceWinner( final String responseText )
+	private static void deduceWinner( final String responseText )
 	{
 		boolean hippiesLost = responseText.contains( "snarfblat=149" );
 		boolean fratboysLost = responseText.contains( "snarfblat=150" );

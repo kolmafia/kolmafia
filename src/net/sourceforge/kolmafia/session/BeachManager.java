@@ -126,9 +126,9 @@ public class BeachManager
 			descToBeachHead.put( head.desc, head );
 		}
 		beachHeadDescArray = beachHeadDescs.toArray( new String[ beachHeadDescs.size() ] );
-	};
+	}
 
-	public static Set<Integer> getBeachHeadPreference( String property )
+    public static Set<Integer> getBeachHeadPreference( String property )
 	{
 		Set<Integer> beachHeads = new TreeSet<Integer>();
 		for ( String iword : Preferences.getString( property ).split( " *, *" ) )
@@ -150,7 +150,7 @@ public class BeachManager
 			{
 				buf.append( "," );
 			}
-			buf.append( String.valueOf( id ) );
+			buf.append( id );
 		}
 		String value = buf.toString();
 		Preferences.setString( property, value );
@@ -191,7 +191,7 @@ public class BeachManager
 			{
 				value.append( "," );
 			}
-			value.append( String.valueOf( row ) );
+			value.append( row );
 			value.append( ':' );
 			value.append( cols );
 		}
@@ -436,7 +436,7 @@ public class BeachManager
 		Preferences.setString( "_beachLayout", value );
 	}
 
-	private static final void logText( final String text )
+	private static void logText( final String text )
 	{
 		RequestLogger.printLine( text );
 		RequestLogger.updateSessionLog( text );

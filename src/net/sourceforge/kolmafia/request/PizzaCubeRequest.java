@@ -81,7 +81,7 @@ public class PizzaCubeRequest
 
 	private static final Pattern PIZZA_PATTERN = Pattern.compile( "pizza=(\\d+),(\\d+),(\\d+),(\\d+)" );
 
-	private static final AdventureResult[] urlToIngredients( final String urlString )
+	private static AdventureResult[] urlToIngredients( final String urlString )
 	{
 		Matcher matcher = PizzaCubeRequest.PIZZA_PATTERN.matcher( StringUtilities.getURLDecode( urlString ) );
 		if ( !matcher.find() )
@@ -97,7 +97,7 @@ public class PizzaCubeRequest
 		return ingredients;
 	}
 
-	private static final String ingredientsToUrl( AdventureResult[] ingredients )
+	private static String ingredientsToUrl( AdventureResult[] ingredients )
 	{
 		if ( ingredients.length != 4 )
 		{

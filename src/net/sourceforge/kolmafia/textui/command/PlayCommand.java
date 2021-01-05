@@ -57,7 +57,7 @@ public class PlayCommand
 	extends AbstractCommand
 {
 	private static String[] CANONICAL_STAT_ARRAY;
-	private static TreeMap<String,Stat> canonicalNameToStat = new TreeMap<String,Stat>();
+	private static final TreeMap<String,Stat> canonicalNameToStat = new TreeMap<String,Stat>();
 	private static void addStat( final Stat stat, final List stats )
 	{
 		String canonical = StringUtilities.getCanonicalName( stat.toString() );
@@ -73,10 +73,10 @@ public class PlayCommand
 		PlayCommand.addStat( Stat.MOXIE, stats );
 		PlayCommand.CANONICAL_STAT_ARRAY = stats.toArray( new String[ stats.size() ] );
 		Arrays.sort( PlayCommand.CANONICAL_STAT_ARRAY );
-	};
+	}
 
-	private static String[] CANONICAL_BUFF_ARRAY;
-	private static TreeMap<String,AdventureResult> canonicalNameToBuff = new TreeMap<String,AdventureResult>();
+    private static String[] CANONICAL_BUFF_ARRAY;
+	private static final TreeMap<String,AdventureResult> canonicalNameToBuff = new TreeMap<String,AdventureResult>();
 	private static void addBuff( final String name, final AdventureResult buff, final List buffs )
 	{
 		String canonical = StringUtilities.getCanonicalName( name );
@@ -100,10 +100,10 @@ public class PlayCommand
 		PlayCommand.addBuff( DeckOfEveryCardRequest.RACING.getName(), DeckOfEveryCardRequest.RACING, buffs );
 		PlayCommand.CANONICAL_BUFF_ARRAY = buffs.toArray( new String[ buffs.size() ] );
 		Arrays.sort( PlayCommand.CANONICAL_BUFF_ARRAY );
-	};
+	}
 
 
-	public PlayCommand()
+    public PlayCommand()
 	{
 		this.usage = " random | phylum [PHYLUM] | stat [STAT] | buff [BUFF] | CARDNAME - Play a random or specified card";
 	}

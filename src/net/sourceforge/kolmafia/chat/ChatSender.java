@@ -262,7 +262,7 @@ public class ChatSender
 		}
 	}
 
-	private static final List<String> getGrafs( String contact, String message )
+	private static List<String> getGrafs( String contact, String message )
 	{
 		List<String> grafs = new LinkedList<String>();
 
@@ -397,7 +397,7 @@ public class ChatSender
 		return grafs;
 	}
 
-	private static final String getGraf( String contact, String message )
+	private static String getGraf( String contact, String message )
 	{
 		String contactId = "[none]";
 
@@ -499,7 +499,7 @@ public class ChatSender
 		return graf;
 	}
 
-	private static final boolean executeCommand( String graf )
+	private static boolean executeCommand( String graf )
 	{
 		if ( graf == null )
 		{

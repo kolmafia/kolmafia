@@ -110,8 +110,7 @@ public class KoLMailMessage
 
 		while ( !messageParser.nextToken().startsWith( "Date" ) )
 		{
-			;
-		}
+        }
 		messageParser.nextToken();
 
 		this.messageDate = messageParser.nextToken().trim();

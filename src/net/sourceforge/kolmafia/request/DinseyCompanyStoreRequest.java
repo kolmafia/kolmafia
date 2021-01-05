@@ -56,7 +56,7 @@ public class DinseyCompanyStoreRequest
 	public static final String master = "The Dinsey Company Store";
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( DinseyCompanyStoreRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( DinseyCompanyStoreRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( DinseyCompanyStoreRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( DinseyCompanyStoreRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) FunFunds" );
 	public static final AdventureResult COIN = ItemPool.get( ItemPool.FUNFUNDS, 1 );

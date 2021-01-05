@@ -65,7 +65,7 @@ public class MerchTableRequest
 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getNewList();
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getNewMap();
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getOrMakeRows( MerchTableRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getOrMakeRows( MerchTableRequest.master );
 
 	private static final Pattern MR_A_PATTERN = Pattern.compile( "You have (\\w+) Mr. Accessor(?:y|ies) to trade." );
 	public static final AdventureResult MR_A = ItemPool.get( ItemPool.MR_ACCESSORY, 1 );

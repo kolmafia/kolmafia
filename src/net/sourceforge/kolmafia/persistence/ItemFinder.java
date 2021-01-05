@@ -193,7 +193,7 @@ public class ItemFinder
 		return "";
 	}
 
-	private static final void filterNameList( List<String> nameList, Match filterType )
+	private static void filterNameList( List<String> nameList, Match filterType )
 	{
 		if ( filterType != Match.FOOD &&
 		     filterType != Match.BOOZE &&
@@ -344,7 +344,7 @@ public class ItemFinder
 		}
 	}
 
-	private static final void conditionalRemove( Iterator<String> iterator, boolean condition )
+	private static void conditionalRemove( Iterator<String> iterator, boolean condition )
 	{
 		if ( condition )
 		{

@@ -133,7 +133,7 @@ public class DiscoCombatHelper
 
 	public static final boolean [] knownCombo = new boolean[ NUM_COMBOS ];
 
-	private static int[][][] COMBO_SKILLS =
+	private static final int[][][] COMBO_SKILLS =
 	{
 		// Rave Concentration
 		{
@@ -314,7 +314,7 @@ public class DiscoCombatHelper
 		return rv;
 	}
 
-	private static final void checkCombo( final int combo )
+	private static void checkCombo( final int combo )
 	{
 		int [][] data = COMBO_SKILLS[ combo ];
 
@@ -390,7 +390,7 @@ public class DiscoCombatHelper
 		}
 		else if ( combo >= FIRST_RAVE_COMBO )
 		{
-			String setting = "raveCombo" + String.valueOf( combo - FIRST_RAVE_COMBO + 1 );
+			String setting = "raveCombo" + ( combo - FIRST_RAVE_COMBO + 1 );
 			String seq = Preferences.getString( setting );
 			String[] skills = seq.split( "," );
 			if ( skills.length == 3 )
@@ -455,8 +455,8 @@ public class DiscoCombatHelper
 				discoSkill = true;
 				knownSkill[ i ] = true;
 				break;
-			};
-		}
+			}
+        }
 
 		// If it's not a Disco Bandit combat skill, no combo
 		if ( !discoSkill )
@@ -642,7 +642,7 @@ public class DiscoCombatHelper
 		}
 	}
 
-	private static final void learnRaveCombo( int combo )
+	private static void learnRaveCombo( int combo )
 	{
 		// Sanity check: we used three skills in a row
 		if ( DiscoCombatHelper.counter !=  3 )
@@ -684,12 +684,12 @@ public class DiscoCombatHelper
 		DiscoCombatHelper.checkCombo( RANDOM_RAVE );
 	}
 
-	private static final void learnRaveCombo( int combo, int skill1, int skill2, int skill3 )
+	private static void learnRaveCombo( int combo, int skill1, int skill2, int skill3 )
 	{
 		knownCombo[ combo ] = true;
 
 		// Generate the setting.
-		String setting = "raveCombo" + String.valueOf( combo - FIRST_RAVE_COMBO + 1 );
+		String setting = "raveCombo" + ( combo - FIRST_RAVE_COMBO + 1 );
 		String value = SKILLS[ skill1 ] + "," + SKILLS[ skill2 ] + "," + SKILLS[ skill3 ];
 		Preferences.setString( setting, value );
 
@@ -712,7 +712,7 @@ public class DiscoCombatHelper
 		RequestLogger.updateSessionLog( message );
 	}
 
-	private static final boolean checkSequence( final int[][] data, final int offset )
+	private static boolean checkSequence( final int[][] data, final int offset )
 	{
 		// Compare the skill sequence (starting at offset) to a given
 		// combo.
@@ -738,7 +738,7 @@ public class DiscoCombatHelper
 		return true;
 	}
 
-	private static final StringBuffer generateTable()
+	private static StringBuffer generateTable()
 	{
 		StringBuffer buffer = new StringBuffer();
 		int combos = 0;
@@ -829,7 +829,7 @@ public class DiscoCombatHelper
 		return buffer;
 	}
 
-	private static final void addComboButton( final StringBuffer buffer, final String name, int[] combo )
+	private static void addComboButton( final StringBuffer buffer, final String name, int[] combo )
 	{
 		buffer.append( "<form method=POST action=\"fight.php\"><td>" );
 		buffer.append( "<input type=hidden name=\"action\" value=\"macro\">" );
@@ -856,7 +856,7 @@ public class DiscoCombatHelper
 		buffer.append( ">&nbsp;</td></form>" );
 	}
 
-	private static final void addDiscoButton( final StringBuffer buffer, final int skill, boolean isEnabled )
+	private static void addDiscoButton( final StringBuffer buffer, final int skill, boolean isEnabled )
 	{
 		String skillName = SKILLS[ skill ];
 		int skillId = SKILL_ID[ skill ];
@@ -865,7 +865,7 @@ public class DiscoCombatHelper
 		buffer.append( "<form method=POST action=\"fight.php\"><td>" );
 		buffer.append( "<input type=hidden name=\"action\" value=\"skill\">" );
 		buffer.append( "<input type=hidden name=\"whichskill\" value=\"" );
-		buffer.append( String.valueOf( skillId ) );
+		buffer.append( skillId );
 		buffer.append( "\"><input onclick=\"return killforms(this);\" type=\"submit\" value=\"" );
 		buffer.append( name );
 		buffer.append( "\"" );

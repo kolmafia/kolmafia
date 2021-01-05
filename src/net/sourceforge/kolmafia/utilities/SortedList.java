@@ -150,7 +150,7 @@ public class SortedList<E>
 	@Override
 	public boolean contains( final Object o )
 	{
-		return this.indexOf( o ) != -1;
+		return this.contains( o );
 	}
 
 	/**

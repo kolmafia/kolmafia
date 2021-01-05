@@ -86,9 +86,9 @@ public class TCRSDatabase
 	private static String currentClassSign;	// Character class/Zodiac Sign
 
 	// Sorted by itemId
-	private static Map<Integer, TCRS> TCRSMap = new TreeMap<Integer, TCRS>();
-	private static Map<Integer, TCRS> TCRSBoozeMap = new TreeMap<Integer, TCRS>( new CafeDatabase.InverseIntegerOrder() );
-	private static Map<Integer, TCRS> TCRSFoodMap = new TreeMap<Integer, TCRS>( new CafeDatabase.InverseIntegerOrder() );
+	private static final Map<Integer, TCRS> TCRSMap = new TreeMap<Integer, TCRS>();
+	private static final Map<Integer, TCRS> TCRSBoozeMap = new TreeMap<Integer, TCRS>( new CafeDatabase.InverseIntegerOrder() );
+	private static final Map<Integer, TCRS> TCRSFoodMap = new TreeMap<Integer, TCRS>( new CafeDatabase.InverseIntegerOrder() );
 
 	static
 	{
@@ -783,7 +783,7 @@ public class TCRSDatabase
 			int duration = (int) Modifiers.getNumericModifier( "Item", itemName, "Effect Duration" );
 			String effectModifiers = Modifiers.getStringModifier( "Effect", effectName, "Modifiers" );
             String buf = comment + " " +
-                    String.valueOf( duration ) +
+                    duration +
                     " " +
                     effectName +
                     " (" +
@@ -886,7 +886,7 @@ public class TCRSDatabase
 	// *** support for fetching TCRS files from KoLmafia's SVN repository
 
 	// Remote files we have fetched this session
-	private static Set<String> remoteFetched = new HashSet<String>(); //remote files fetched this session
+	private static final Set<String> remoteFetched = new HashSet<String>(); //remote files fetched this session
 
 	// *** Fetching files from the SVN repository, in two parts, since the
 	// non-cafe code was released a week before the cafe code, and some

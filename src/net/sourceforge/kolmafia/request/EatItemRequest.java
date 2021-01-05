@@ -389,7 +389,7 @@ public class EatItemRequest
 		super.runOneIteration( currentIteration, totalIterations, useTypeAsString );
 	}
 
-	private static final boolean singleConsume( final int itemId )
+	private static boolean singleConsume( final int itemId )
 	{
 		// Consume one at a time when a helper is involved.
 		// Multi-consume with a helper actually DOES work, even though
@@ -414,7 +414,7 @@ public class EatItemRequest
 		return false;
 	}
 
-	private static final boolean sequentialConsume( final int itemId )
+	private static boolean sequentialConsume( final int itemId )
 	{
 		switch (itemId )
 		{
@@ -427,7 +427,7 @@ public class EatItemRequest
 		return false;
 	}
 
-	private final boolean allowFoodConsumption()
+	private boolean allowFoodConsumption()
 	{
 		int count = this.itemUsed.getCount();
 		String itemName = this.itemUsed.getName();
@@ -622,7 +622,7 @@ public class EatItemRequest
 		return true;
 	}
 
-	private static final boolean askAboutGarish( String itemName )
+	private static boolean askAboutGarish( String itemName )
 	{
 		// Only affects lasagna
 		if ( !ConsumablesDatabase.isLasagna( ItemDatabase.getItemId( itemName ) ) )
@@ -676,7 +676,7 @@ public class EatItemRequest
 		return true;
 	}
 
-	private static final boolean askAboutMayodiol( final int id )
+	private static boolean askAboutMayodiol( final int id )
 	{
 		// If we've already asked about Mayodiol, don't nag
 		if ( EatItemRequest.askedAboutMayodiol == KoLCharacter.getUserId() )
@@ -1237,7 +1237,7 @@ public class EatItemRequest
 		Preferences.decrement( "munchiesPillsUsed", count );
 	}
 
-	private static final void handleFortuneCookie( final Matcher matcher )
+	private static void handleFortuneCookie( final Matcher matcher )
 	{
 		EatItemRequest.logConsumption( matcher.group( 1 ) );
 

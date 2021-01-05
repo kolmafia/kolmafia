@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.utilities;
 public class HTMLListEntry
 	implements Comparable<HTMLListEntry>
 {
-	private String value;
+	private final String value;
 	private String color;
 	private String htmlText;
 

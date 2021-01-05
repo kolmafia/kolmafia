@@ -274,9 +274,9 @@ public class PeeVPeeRequest
 				if ( !compactResults )
 				{
 					buf.append( ", " );
-					buf.append( String.valueOf( won ? result1 : result2 ) );
+					buf.append( won ? result1 : result2 );
 					buf.append( " to " );
-					buf.append( String.valueOf( won ? result2 : result1 ) );
+					buf.append( won ? result2 : result1 );
 					buf.append( "!" );
 				}
 				String message = buf.toString();
@@ -313,7 +313,7 @@ public class PeeVPeeRequest
 	
 	private static final String STAT_STRING = KoLCharacter.getUserName().toLowerCase() + " lost ";
 	
-	private static final void parseStatLoss( final String responseText )
+	private static void parseStatLoss( final String responseText )
 	{
 		String[] blocks = responseText.split( "<td>" );
 		for ( int i = 0; i < blocks.length; ++i )
@@ -351,13 +351,13 @@ public class PeeVPeeRequest
 		}
 	}
 
-	private static final String getField( final Pattern pattern, final String urlString )
+	private static String getField( final Pattern pattern, final String urlString )
 	{
 		Matcher matcher = pattern.matcher( urlString );
 		return matcher.find() ? matcher.group(1) : null;
 	}
 
-	private static final String getOpponent( final String who, final String ranked )
+	private static String getOpponent( final String who, final String ranked )
 	{
 		if ( who != null && !who.equals( "" ) )
 		{
@@ -377,7 +377,7 @@ public class PeeVPeeRequest
 		return "an unknown opponent";
 	}
 
-	private static final String getMission( final String mission )
+	private static String getMission( final String mission )
 	{
 		return ( mission == null ) ?
 			"an unknown mission" :
@@ -386,7 +386,7 @@ public class PeeVPeeRequest
 			mission;
 	}
 
-	private static final String getStance( final String stanceString )
+	private static String getStance( final String stanceString )
 	{
 		String  stanceName =
 			stanceString != null ?

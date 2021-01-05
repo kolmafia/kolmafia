@@ -56,16 +56,16 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class ManageStoreRequest
 	extends GenericRequest
 {
-	private static Pattern ITEMID_PATTERN = Pattern.compile( "itemid=(h)?(\\d+)" );
-	private static Pattern PRICE_PATTERN = Pattern.compile( "price=(\\d+)?" );
-	private static Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+|\\*|)" );
-	private static Pattern QTY_PATTERN = Pattern.compile( "qty=(\\d+)" );
-	private static Pattern LIMIT_PATTERN = Pattern.compile( "limit=(\\d+)?" );
+	private static final Pattern ITEMID_PATTERN = Pattern.compile( "itemid=(h)?(\\d+)" );
+	private static final Pattern PRICE_PATTERN = Pattern.compile( "price=(\\d+)?" );
+	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+|\\*|)" );
+	private static final Pattern QTY_PATTERN = Pattern.compile( "qty=(\\d+)" );
+	private static final Pattern LIMIT_PATTERN = Pattern.compile( "limit=(\\d+)?" );
 
 	// (2) breath mints stocked for 999,999,999 meat each.
-	private static Pattern STOCKED_PATTERN = Pattern.compile( "\\(([\\d,]+)\\) (.*?) stocked for ([\\d,]+) meat each( \\(([\\d,]+)/day\\))?" );
+	private static final Pattern STOCKED_PATTERN = Pattern.compile( "\\(([\\d,]+)\\) (.*?) stocked for ([\\d,]+) meat each( \\(([\\d,]+)/day\\))?" );
 
-	private static enum RequestType
+	private enum RequestType
 	{
 		ITEM_ADDITION,
 		ITEM_REMOVAL,
@@ -210,7 +210,7 @@ public class ManageStoreRequest
 			AdventureResult item = this.items[ i ];
 			String name = item.getName();
 
-			this.addFormField( "itemid", ( this.storage ? "h" : "" ) + String.valueOf( item.getItemId() ) );
+			this.addFormField( "itemid", ( this.storage ? "h" : "" ) + item.getItemId() );
 			this.addFormField( "price", ( this.prices == null ? "" : "" + this.prices[ i ] ) );
 			this.addFormField( "quantity", String.valueOf( item.getCount() ) );
 			this.addFormField( "limit", ( this.limits == null ? "" : "" + this.limits[ i ] ) );
@@ -449,7 +449,7 @@ public class ManageStoreRequest
 			if ( limit > 0 )
 			{
 				buffer.append( ", limited to " );
-				buffer.append( String.valueOf( limit ) );
+				buffer.append( limit );
 				buffer.append( "/day" );
 			}
 			else

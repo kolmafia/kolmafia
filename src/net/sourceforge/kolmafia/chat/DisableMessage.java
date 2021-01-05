@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.chat;
 public class DisableMessage
 	extends ChatMessage
 {
-	private boolean isTalkChannel;
+	private final boolean isTalkChannel;
 
 	public DisableMessage( String channel, boolean isTalkChannel )
 	{

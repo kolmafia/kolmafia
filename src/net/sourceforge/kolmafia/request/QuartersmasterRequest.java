@@ -112,9 +112,9 @@ public class QuartersmasterRequest
 	static
 	{
 		ConcoctionPool.set( new Concoction( "quarter", "availableQuarters" ) );
-	};
+	}
 
-	public QuartersmasterRequest()
+    public QuartersmasterRequest()
 	{
 		super( QuartersmasterRequest.FRATBOY );
 	}

@@ -70,7 +70,7 @@ public class StationaryButtonDecorator
 {
 	private static final ArrayList<String> combatHotkeys = new ArrayList<String>();
 
-	private static final boolean builtInSkill( final String skillId )
+	private static boolean builtInSkill( final String skillId )
 	{
 		if ( !StringUtilities.isNumeric( skillId ) )
 		{
@@ -159,7 +159,7 @@ public class StationaryButtonDecorator
 		Preferences.setString( "stationaryButton" + insertIndex, skillId );
 	}
 
-	private static final void removeSkill( final int index, int buttons )
+	private static void removeSkill( final int index, int buttons )
 	{
 		for ( int i = index ; i <= buttons; ++i )
 		{
@@ -738,7 +738,7 @@ public class StationaryButtonDecorator
 		StationaryButtonDecorator.addButton( buffer, name, action, isEnabled, forceFocus );
 	}
 
-	private static final void addScriptButton( final String urlString, final StringBuffer buffer, final boolean forceFocus )
+	private static void addScriptButton( final String urlString, final StringBuffer buffer, final boolean forceFocus )
 	{
 		String name;
 		String action;
@@ -758,7 +758,7 @@ public class StationaryButtonDecorator
 		StationaryButtonDecorator.addButton( buffer, name, action, isEnabled, forceFocus );
 	}
 
-	private static final void addFightButton( final StringBuffer buffer, final String action, boolean isEnabled )
+	private static void addFightButton( final StringBuffer buffer, final String action, boolean isEnabled )
 	{
 		boolean forceFocus = action.equals( "attack" );
 		String name = StationaryButtonDecorator.getActionName( action );
@@ -777,12 +777,12 @@ public class StationaryButtonDecorator
 		else if ( action.equals( "shake" ) )
 		{
 			actionBuffer.append( "skill&whichskill=" );
-			actionBuffer.append( String.valueOf( SkillPool.CANHANDLE ) );
+			actionBuffer.append( SkillPool.CANHANDLE );
 		}
 		else if ( action.equals( "shoot" ) )
 		{
 			actionBuffer.append( "skill&whichskill=" );
-			actionBuffer.append( String.valueOf( SkillPool.SHOOT ) );
+			actionBuffer.append( SkillPool.SHOOT );
 		}
 		else if ( action.equals( "insult" ) )
 		{
@@ -794,7 +794,7 @@ public class StationaryButtonDecorator
 			if ( KoLConstants.inventory.contains( ItemPool.get( itemId, 1 ) ) )
 			{
 				actionBuffer.append( "useitem&whichitem=" );
-				actionBuffer.append( String.valueOf( itemId ) );
+				actionBuffer.append( itemId );
 			}
 			else
 			{
@@ -831,8 +831,8 @@ public class StationaryButtonDecorator
 		StationaryButtonDecorator.addButton( buffer, name, actionBuffer.toString(), isEnabled, forceFocus );
 	}
 
-	private static final void addButton( final StringBuffer buffer, final String name, final String action,
-					     final boolean isEnabled, final boolean forceFocus )
+	private static void addButton( final StringBuffer buffer, final String name, final String action,
+                                   final boolean isEnabled, final boolean forceFocus )
 	{
 		buffer.append( "<input type=\"button\" onClick=\"document.location.href='" );
 		buffer.append( action );
@@ -926,7 +926,7 @@ public class StationaryButtonDecorator
 		return "main.php";
 	}
 
-	private static final String getActionName( final String action )
+	private static String getActionName( final String action )
 	{
 		if ( action.equals( "attack" ) )
 		{

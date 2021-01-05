@@ -70,7 +70,7 @@ public class MallPurchaseRequest
 
 	private final int shopId;
 
-	private static Pattern STOREID_PATTERN = Pattern.compile( "whichstore\\d?=(\\d+)" );
+	private static final Pattern STOREID_PATTERN = Pattern.compile( "whichstore\\d?=(\\d+)" );
 	public static final int getStoreId( final String urlString )
 	{
 		return GenericRequest.getNumericField( urlString, MallPurchaseRequest.STOREID_PATTERN );
@@ -354,10 +354,10 @@ public class MallPurchaseRequest
 		}
 	}
 
-	private static Pattern TABLE_PATTERN = Pattern.compile( "<table>.*?</table>", Pattern.DOTALL );
+	private static final Pattern TABLE_PATTERN = Pattern.compile( "<table>.*?</table>", Pattern.DOTALL );
 
 	// (You spent 1,900 meat from Hagnk's.<br />You have XXX meat left.)
-	private static Pattern MEAT_PATTERN = Pattern.compile( "You spent ([\\d,]+) [Mm]eat( from Hagnk's.*?You have ([\\d,]+) [Mm]eat left)?", Pattern.DOTALL );
+	private static final Pattern MEAT_PATTERN = Pattern.compile( "You spent ([\\d,]+) [Mm]eat( from Hagnk's.*?You have ([\\d,]+) [Mm]eat left)?", Pattern.DOTALL );
 
 	public static final void parseResponse( final String urlString, final String responseText )
 	{

@@ -79,7 +79,7 @@ public class Concoction
 	public static final int NO_PRIORITY = 0;
 
 	private String name;
-	private int hashCode;
+	private final int hashCode;
 
 	public final AdventureResult concoction;
 	private CreateItemRequest request;
@@ -87,9 +87,9 @@ public class Concoction
 
 	private final int yield;
 	private CraftingType mixingMethod;
-	private EnumSet<CraftingRequirements> mixingRequirements;
-	private EnumSet<CraftingMisc> mixingMisc;
-	private int row;
+	private final EnumSet<CraftingRequirements> mixingRequirements;
+	private final EnumSet<CraftingMisc> mixingMisc;
+	private final int row;
 	public int sortOrder;
 
 	private final boolean isReagentPotion;

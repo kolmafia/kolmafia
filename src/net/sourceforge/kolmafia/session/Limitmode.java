@@ -203,7 +203,7 @@ public class Limitmode
 		return false;
 	}
 
-	private static final String rootZone( String zoneName )
+	private static String rootZone( String zoneName )
 	{
 		while ( true )
 		{

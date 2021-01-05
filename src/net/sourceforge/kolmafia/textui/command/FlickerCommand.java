@@ -118,7 +118,7 @@ public class FlickerCommand
 			output.append( "<tr>" );
 
 			output.append( "<td>" );
-			output.append( String.valueOf( i + 1 ) );
+			output.append( ( i + 1 ) );
 			output.append( "</td>" );
 
 			output.append( "<td>" );

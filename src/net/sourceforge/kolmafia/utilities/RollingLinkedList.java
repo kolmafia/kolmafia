@@ -38,7 +38,7 @@ import java.util.LinkedList;
 public class RollingLinkedList<E>
 	extends LinkedList<E>
 {
-	private int limit;
+	private final int limit;
 
 	public RollingLinkedList( int limit )
 	{

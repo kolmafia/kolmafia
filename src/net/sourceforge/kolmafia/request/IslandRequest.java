@@ -429,8 +429,8 @@ public class IslandRequest
 					// This shouldn't happen; you can't get to the
 					// boss fight without visiting a camp first.
 					headquarters = "Headquarters";
-					location = AdventureDatabase.getAdventure( "The Battlefield (Hippy Uniform)" );;
-				}
+					location = AdventureDatabase.getAdventure( "The Battlefield (Hippy Uniform)" );
+                }
 
 				// Remember that this counts as a battlefield fight,
 				// even if the player just went somewhere else.

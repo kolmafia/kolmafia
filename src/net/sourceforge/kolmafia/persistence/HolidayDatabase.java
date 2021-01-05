@@ -53,7 +53,7 @@ public class HolidayDatabase
 	private static long BOUNDARY = 0;
 	private static long COLLISION = 0;
 
-	private static long MS_PER_DAY = 86400000L;
+	private static final long MS_PER_DAY = 86400000L;
 
 	private static int RONALD_PHASE = -1;
 	private static int GRIMACE_PHASE = -1;
@@ -614,7 +614,7 @@ public class HolidayDatabase
 	 * Utility method which determines the moonlight available, given the moon phases as stated.
 	 */
 
-	private static final int getMoonlight( final int ronaldPhase, final int grimacePhase, final int hamburglarPosition )
+	private static int getMoonlight( final int ronaldPhase, final int grimacePhase, final int hamburglarPosition )
 	{
 		int ronaldLight = HolidayDatabase.getRonaldMoonlight( ronaldPhase );
 		int grimaceLight = HolidayDatabase.getGrimaceMoonlight( grimacePhase );
@@ -845,7 +845,7 @@ public class HolidayDatabase
 	 * Utility method which decomposes a given calendar day into its actual calendar components.
 	 */
 
-	private static final int[] convertCalendarDayToArray( final int calendarDay )
+	private static int[] convertCalendarDayToArray( final int calendarDay )
 	{
 		return new int[] { calendarDay / 8 % 12 + 1, calendarDay % 8 + 1 };
 	}

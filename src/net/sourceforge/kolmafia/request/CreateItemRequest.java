@@ -98,10 +98,10 @@ public class CreateItemRequest
 	public Concoction concoction;
 	public AdventureResult createdItem;
 
-	private String name;
-	private int itemId;
+	private final String name;
+	private final int itemId;
 	private CraftingType mixingMethod;
-	private EnumSet<CraftingRequirements> requirements;
+	private final EnumSet<CraftingRequirements> requirements;
 
 	protected int beforeQuantity;
 	private int yield;
@@ -1375,7 +1375,7 @@ public class CreateItemRequest
 		return CreateItemRequest.getAdventuresUsed( mixingMethod, quantity );
 	}
 
-	private static final CraftingType findMixingMethod( final String urlString )
+	private static CraftingType findMixingMethod( final String urlString )
 	{
 		if ( urlString.startsWith( "guild.php" ) )
 		{
@@ -1385,7 +1385,7 @@ public class CreateItemRequest
 		return concoction == null ? CraftingType.NOCREATE: concoction.getMixingMethod();
 	}
 
-	private static final Concoction findConcoction( final String urlString )
+	private static Concoction findConcoction( final String urlString )
 	{
 		if ( urlString.startsWith( "craft.php" ) )
 		{
@@ -1632,7 +1632,7 @@ public class CreateItemRequest
 		if ( usesTurns )
 		{
 			buffer.append( "[" );
-			buffer.append( String.valueOf( KoLAdventure.getAdventureCount() ) );
+			buffer.append( KoLAdventure.getAdventureCount() );
 			buffer.append( "] " );
 		}
 
@@ -1695,7 +1695,7 @@ public class CreateItemRequest
 		return ingredients.toArray();
 	}
 
-	private static final AdventureResult getIngredient( final String itemId )
+	private static AdventureResult getIngredient( final String itemId )
 	{
 		return ItemPool.get( StringUtilities.parseInt( itemId ), 1 );
 	}
@@ -1723,7 +1723,7 @@ public class CreateItemRequest
 		return quantity * multiplier;
 	}
 
-	private static final void useIngredients( final String urlString, AdventureResult [] ingredients, int quantity )
+	private static void useIngredients( final String urlString, AdventureResult [] ingredients, int quantity )
 	{
 		// Let crafting tell us which ingredients it used and remove
 		// them from inventory after the fact.

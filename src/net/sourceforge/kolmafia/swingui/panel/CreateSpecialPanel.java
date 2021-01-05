@@ -75,7 +75,7 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 public class CreateSpecialPanel
 	extends InventoryPanel
 {
-	private static LockableListModel temp;
+	private static final LockableListModel temp;
 	static {
 		temp = new LockableListModel();
 		temp.add( "(reserved for list of manual recipes)");
@@ -244,7 +244,7 @@ public class CreateSpecialPanel
 		extends AutoHighlightSpinner
 		implements ChangeListener, Listener
 	{
-		private String pref;
+		private final String pref;
 
 		// This spinner is tied to a Preference.
 		//

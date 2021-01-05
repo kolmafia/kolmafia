@@ -62,7 +62,7 @@ public class ClanRumpusRequest
 	private static final Pattern ROOM_PATTERN = Pattern.compile( "action=click&spot=(\\d)&furni=(\\d)" );
 	private static final Pattern BALLPIT_PATTERN = Pattern.compile( "with ([\\d,]+) ball" );
 
-	public static enum RequestType
+	public enum RequestType
 	{
 		SEARCH,
 		MUSCLE,
@@ -148,7 +148,7 @@ public class ClanRumpusRequest
 
 	private static final Pattern TURN_PATTERN = Pattern.compile( "numturns=(\\d+)" );
 
-	public static enum Equipment
+	public enum Equipment
 	{
 		NONE( "", 0, 0, 0 ),
 
@@ -185,7 +185,7 @@ public class ClanRumpusRequest
 		public int furni;
 		public int maxUses;
 
-		private Equipment( String name, int slot, int furni, int maxUses )
+		Equipment( String name, int slot, int furni, int maxUses )
 		{
 			this.name = name;
 			this.slot = slot;
@@ -232,7 +232,7 @@ public class ClanRumpusRequest
 		}
 	}
 
-	private RequestType action;
+	private final RequestType action;
 	private int option;
 	private int turnCount;
 

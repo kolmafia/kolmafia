@@ -379,7 +379,7 @@ public class CargoCultistShortsRequest
 			{
 				value.append( "|" );
 			}
-			value.append( String.valueOf( pocket ) );
+			value.append( pocket );
 			value.append( ":" );
 			value.append( syllable );
 		}
