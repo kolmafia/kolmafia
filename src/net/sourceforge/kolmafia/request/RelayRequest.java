@@ -136,7 +136,7 @@ public class RelayRequest
 	private static final Pattern STORE_PATTERN =
 		Pattern.compile( "<tr><td><input name=whichitem type=radio value=(\\d+).*?</tr>", Pattern.DOTALL );
 
-	private static final Pattern BASE_LINK_PATTERN = Pattern.compile( "([\\.\\s])(src|href|action)(=[\"\']?)([^\\/\"'][^\\s\"\'>]+)" );
+	private static final Pattern BASE_LINK_PATTERN = Pattern.compile( "([\\.\\s])(src|href|action)(=[\"']?)([^\\/\"'][^\\s\"'>]+)" );
 	private static final Pattern CONFIRMATION_PATTERN = Pattern.compile( "&confirm[\\d]+=on" );
 
 	private static KoLAdventure lastSafety = null;
@@ -990,15 +990,14 @@ public class RelayRequest
 				return false;
 			}
 
-			StringBuilder warning = new StringBuilder();
-			warning.append( "You are about to free King Ralph and end your Kingdom of Exploathing run." );
-			warning.append( " Before you do so, you might want to redeem your rare Meat isotopes at Cosmic Ray's Bazaar," );
-			warning.append( " since you will not be able to do so after you free the king." );
-			warning.append( " If you are ready to break the prism, click on the icon on the left." );
-			warning.append( " If you wish to visit Cosmic Ray's Bazaar, click on icon on the right." );
-			this.sendOptionalWarning(
+            String warning = "You are about to free King Ralph and end your Kingdom of Exploathing run." +
+                    " Before you do so, you might want to redeem your rare Meat isotopes at Cosmic Ray's Bazaar," +
+                    " since you will not be able to do so after you free the king." +
+                    " If you are ready to break the prism, click on the icon on the left." +
+                    " If you wish to visit Cosmic Ray's Bazaar, click on icon on the right.";
+            this.sendOptionalWarning(
 				CONFIRM_RALPH,
-				warning.toString(),
+                    warning,
 				"hand.gif",
 				"meatisotope.gif",
 				"\"shop.php?whichshop=exploathing\"",
@@ -1017,12 +1016,11 @@ public class RelayRequest
 				// If it's already confirmed, then track that for the session
 				if ( this.getFormField( CONFIRM_RALPH1 ) == null )
 				{
-					StringBuilder warning = new StringBuilder();
-					warning.append( "When you stop being a plumber, you will lose five maximum fullness." );
-					warning.append( " Since you are not yet full, perhaps you would like to eat more now?" );
-					warning.append( " (It is not harmful to be over-full.)" );
-					warning.append( " If you are sure you don't want to eat more at this time, click the icon. " );
-					this.sendGeneralWarning( "knifefork.gif", warning.toString(), CONFIRM_RALPH1 );
+                    String warning = "When you stop being a plumber, you will lose five maximum fullness." +
+                            " Since you are not yet full, perhaps you would like to eat more now?" +
+                            " (It is not harmful to be over-full.)" +
+                            " If you are sure you don't want to eat more at this time, click the icon. ";
+                    this.sendGeneralWarning( "knifefork.gif", warning, CONFIRM_RALPH1 );
 					return true;
 				}
 				RelayRequest.ignoreFullnessWarning = true;
@@ -1235,24 +1233,21 @@ public class RelayRequest
 			return false;
 		}
 
-		StringBuilder warning = new StringBuilder();
-
-		warning.append( "KoLmafia has detected that you are about to fight round " );
-		warning.append( String.valueOf( lastRound + 1 ) );
-		warning.append( " in the Mer-kin Colosseum, where you will face " );
-		warning.append( opponent );
-		warning.append( ". If you are sure you wish to battle him without your " );
-		warning.append( weapon.getName() );
-		warning.append( " equipped, click the icon on the left to adventure. " );
-		warning.append( "If this was an accident, click the icon in the center to equip your " );
-		warning.append( weapon.getName() );
-		warning.append( ". If you want to battle in the Mer-kin Colosseum and not be nagged about your " );
-		warning.append( weapon.getName() );
-		warning.append( ", click the icon on the right to closet it." );
-
-		this.sendOptionalWarning(
+        String warning = "KoLmafia has detected that you are about to fight round " +
+                String.valueOf( lastRound + 1 ) +
+                " in the Mer-kin Colosseum, where you will face " +
+                opponent +
+                ". If you are sure you wish to battle him without your " +
+                weapon.getName() +
+                " equipped, click the icon on the left to adventure. " +
+                "If this was an accident, click the icon in the center to equip your " +
+                weapon.getName() +
+                ". If you want to battle in the Mer-kin Colosseum and not be nagged about your " +
+                weapon.getName() +
+                ", click the icon on the right to closet it.";
+        this.sendOptionalWarning(
 			CONFIRM_COLOSSEUM,
-			warning.toString(),
+                warning,
 			"hand.gif",
 			image,
 			"\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + weapon.getItemId() + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\"",
@@ -1457,15 +1452,13 @@ public class RelayRequest
 		// If you have dowsing rod, suggest it
 		if ( InventoryManager.getCount( ItemPool.DOWSING_ROD ) > 0 )
 		{
-			StringBuilder warning = new StringBuilder();
 
-			warning.append( "You are about to adventure without your ornate dowsing rod in the desert. " );
-			warning.append( "If you are sure you wish to adventure without it, click the icon on the left to adventure. " );
-			warning.append( "If you want to equip the ornate dowsing rod first, click the icon on the right. " );
-
-			this.sendOptionalWarning(
+            String warning = "You are about to adventure without your ornate dowsing rod in the desert. " +
+                    "If you are sure you wish to adventure without it, click the icon on the left to adventure. " +
+                    "If you want to equip the ornate dowsing rod first, click the icon on the right. ";
+            this.sendOptionalWarning(
 				CONFIRM_DESERT_OFFHAND,
-				warning.toString(),
+                    warning,
 				"hand.gif",
 				"dowsingrod.gif",
 				"\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + ItemPool.DOWSING_ROD + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\"",
@@ -1481,15 +1474,13 @@ public class RelayRequest
 		// If you have UV Compass, suggest it
 		else if ( InventoryManager.getCount( ItemPool.UV_RESISTANT_COMPASS ) > 0 )
 		{
-			StringBuilder warning = new StringBuilder();
 
-			warning.append( "You are about to adventure without your UV-resistant compass in the desert. " );
-			warning.append( "If you are sure you wish to adventure without it, click the icon on the left to adventure. " );
-			warning.append( "If you want to equip the UV-resistant compass first, click the icon on the right. " );
-
-			this.sendOptionalWarning(
+            String warning = "You are about to adventure without your UV-resistant compass in the desert. " +
+                    "If you are sure you wish to adventure without it, click the icon on the left to adventure. " +
+                    "If you want to equip the UV-resistant compass first, click the icon on the right. ";
+            this.sendOptionalWarning(
 				CONFIRM_DESERT_OFFHAND,
-				warning.toString(),
+                    warning,
 				"hand.gif",
 				"uvcompass.gif",
 				"\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + ItemPool.UV_RESISTANT_COMPASS + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\"",
@@ -1543,15 +1534,12 @@ public class RelayRequest
 			return false;
 		}
 
-		StringBuilder warning = new StringBuilder();
-
-		warning.append( "You are about to adventure unhydrated in the desert. " );
-		warning.append( "If you are sure you wish to adventure unhydrated, click the icon on the left to adventure. " );
-		warning.append( "If you want to visit the Oasis to get ultrahydrated, click the icon on the right to adventure. " );
-
-		this.sendOptionalWarning(
+        String warning = "You are about to adventure unhydrated in the desert. " +
+                "If you are sure you wish to adventure unhydrated, click the icon on the left to adventure. " +
+                "If you want to visit the Oasis to get ultrahydrated, click the icon on the right to adventure. ";
+        this.sendOptionalWarning(
 			CONFIRM_DESERT_UNHYDRATED,
-			warning.toString(),
+                warning,
 			"poison.gif",
 			"raindrop.gif",
 			"\"adventure.php?snarfblat=122\"",
@@ -1612,15 +1600,13 @@ public class RelayRequest
 		// If you have papier machete, suggest it
 		if ( InventoryManager.getCount( ItemPool.PAPIER_MACHETE ) > 0 )
 		{
-			StringBuilder warning = new StringBuilder();
 
-			warning.append( "You are about to adventure without your papier-m&acirc;ch&eacute;te to fight dense lianas. " );
-			warning.append( "If you are sure you wish to adventure without it, click the icon on the left to adventure. " );
-			warning.append( "If you want to equip the papier-m&acirc;ch&eacute;te first, click the icon on the right. " );
-
-			this.sendOptionalWarning(
+            String warning = "You are about to adventure without your papier-m&acirc;ch&eacute;te to fight dense lianas. " +
+                    "If you are sure you wish to adventure without it, click the icon on the left to adventure. " +
+                    "If you want to equip the papier-m&acirc;ch&eacute;te first, click the icon on the right. ";
+            this.sendOptionalWarning(
 				CONFIRM_MACHETE,
-				warning.toString(),
+                    warning,
 				"hand.gif",
 				"machemachete.gif",
 				"\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + ItemPool.PAPIER_MACHETE + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\"",
@@ -1631,15 +1617,13 @@ public class RelayRequest
 		// If you have muculent machete, suggest it
 		else if ( InventoryManager.getCount( ItemPool.MUCULENT_MACHETE ) > 0 )
 		{
-			StringBuilder warning = new StringBuilder();
 
-			warning.append( "You are about to adventure without your muculent machete to fight dense lianas. " );
-			warning.append( "If you are sure you wish to adventure without it, click the icon on the left to adventure. " );
-			warning.append( "If you want to equip the muculent machete first, click the icon on the right. " );
-
-			this.sendOptionalWarning(
+            String warning = "You are about to adventure without your muculent machete to fight dense lianas. " +
+                    "If you are sure you wish to adventure without it, click the icon on the left to adventure. " +
+                    "If you want to equip the muculent machete first, click the icon on the right. ";
+            this.sendOptionalWarning(
 				CONFIRM_MACHETE,
-				warning.toString(),
+                    warning,
 				"hand.gif",
 				"machete.gif",
 				"\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + ItemPool.MUCULENT_MACHETE + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\"",
@@ -1650,15 +1634,13 @@ public class RelayRequest
 		// If you have machetito, suggest it
 		else if ( InventoryManager.getCount( ItemPool.MACHETITO ) > 0 )
 		{
-			StringBuilder warning = new StringBuilder();
 
-			warning.append( "You are about to adventure without your machetito to fight dense lianas. " );
-			warning.append( "If you are sure you wish to adventure without it, click the icon on the left to adventure. " );
-			warning.append( "If you want to equip the machetito first, click the icon on the right. " );
-
-			this.sendOptionalWarning(
+            String warning = "You are about to adventure without your machetito to fight dense lianas. " +
+                    "If you are sure you wish to adventure without it, click the icon on the left to adventure. " +
+                    "If you want to equip the machetito first, click the icon on the right. ";
+            this.sendOptionalWarning(
 				CONFIRM_MACHETE,
-				warning.toString(),
+                    warning,
 				"hand.gif",
 				"machetito.gif",
 				"\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + ItemPool.MACHETITO + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\"",
@@ -1669,15 +1651,13 @@ public class RelayRequest
 		// If you have antique machete, suggest it
 		else if ( InventoryManager.getCount( ItemPool.ANTIQUE_MACHETE ) > 0 )
 		{
-			StringBuilder warning = new StringBuilder();
 
-			warning.append( "You are about to adventure without your antique machete to fight dense lianas. " );
-			warning.append( "If you are sure you wish to adventure without it, click the icon on the left to adventure. " );
-			warning.append( "If you want to equip the antique machete first, click the icon on the right. " );
-
-			this.sendOptionalWarning(
+            String warning = "You are about to adventure without your antique machete to fight dense lianas. " +
+                    "If you are sure you wish to adventure without it, click the icon on the left to adventure. " +
+                    "If you want to equip the antique machete first, click the icon on the right. ";
+            this.sendOptionalWarning(
 				CONFIRM_MACHETE,
-				warning.toString(),
+                    warning,
 				"hand.gif",
 				"machetwo.gif",
 				"\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + ItemPool.ANTIQUE_MACHETE + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\"",
@@ -1736,15 +1716,12 @@ public class RelayRequest
 			return false;
 		}
 
-		StringBuilder warning = new StringBuilder();
-
-		warning.append( "You are about to adventure without your Mohawk Wig in the Castle. " );
-		warning.append( "If you are sure you wish to adventure without it, click the icon on the left to adventure. " );
-		warning.append( "If you want to put the hat on first, click the icon on the right. " );
-
-		this.sendOptionalWarning(
+        String warning = "You are about to adventure without your Mohawk Wig in the Castle. " +
+                "If you are sure you wish to adventure without it, click the icon on the left to adventure. " +
+                "If you want to put the hat on first, click the icon on the right. ";
+        this.sendOptionalWarning(
 			CONFIRM_MOHAWK_WIG,
-			warning.toString(),
+                warning,
 			"hand.gif",
 			"mohawk.gif",
 			"\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + ItemPool.MOHAWK_WIG + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\"",
@@ -1795,15 +1772,12 @@ public class RelayRequest
 			return false;
 		}
 
-		StringBuilder warning = new StringBuilder();
-
-		warning.append( "You are about to adventure without your Ring of Detect Boring Doors in the " + nextChamber + "th Chamber of the Daily Dungeon. " );
-		warning.append( "If you are sure you wish to adventure without it, click the icon on the left to adventure. " );
-		warning.append( "If you want to put the ring on first, click the icon on the right. " );
-
-		this.sendOptionalWarning(
+        String warning = "You are about to adventure without your Ring of Detect Boring Doors in the " + nextChamber + "th Chamber of the Daily Dungeon. " +
+                "If you are sure you wish to adventure without it, click the icon on the left to adventure. " +
+                "If you want to put the ring on first, click the icon on the right. ";
+        this.sendOptionalWarning(
 			CONFIRM_BORING_DOORS,
-			warning.toString(),
+                warning,
 			"hand.gif",
 			"weddingring.gif",
 			"\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&slot=3&whichitem=" + ItemPool.RING_OF_DETECT_BORING_DOORS + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\"",
@@ -2078,15 +2052,12 @@ public class RelayRequest
 			return false;
 		}
 
-		StringBuilder warning = new StringBuilder();
-
-		warning.append( "You are about to adventure in the Red Zeppelin, but do not have a Zeppelin Ticket. " );
-		warning.append( "If you are sure you wish to adventure without it, click the icon on the left to adventure. " );
-		warning.append( "If you want to visit the Black Market, click the icon on the right. " );
-
-		this.sendOptionalWarning(
+        String warning = "You are about to adventure in the Red Zeppelin, but do not have a Zeppelin Ticket. " +
+                "If you are sure you wish to adventure without it, click the icon on the left to adventure. " +
+                "If you want to visit the Black Market, click the icon on the right. ";
+        this.sendOptionalWarning(
 			CONFIRM_ZEPPELIN,
-			warning.toString(),
+                warning,
 			"hand.gif",
 			"zepticket.gif",
 			"\"shop.php?whichshop=blackmarket\"",
@@ -2209,17 +2180,15 @@ public class RelayRequest
 			return false;
 		}
 
-		StringBuilder message = new StringBuilder();
-		String side1 = ( camp == DimemasterRequest.HIPPY ? "hippy" : "fratboy" );
+        String side1 = ( camp == DimemasterRequest.HIPPY ? "hippy" : "fratboy" );
 		String side2 = ( camp == DimemasterRequest.HIPPY ? "fratboys" : "hippies" );
 
-		message.append( "You are about to defeat the last " );
-		message.append( side1 );
-		message.append( " and open the way to their camp. However, you have not yet finished with the " );
-		message.append( side2 );
-		message.append( ". If you are sure you don't want the Order of the Silver Wossname, click on the image and proceed." );
-
-		this.sendGeneralWarning( "wossname.gif", message.toString(), CONFIRM_WOSSNAME );
+        String message = "You are about to defeat the last " +
+                side1 +
+                " and open the way to their camp. However, you have not yet finished with the " +
+                side2 +
+                ". If you are sure you don't want the Order of the Silver Wossname, click on the image and proceed.";
+        this.sendGeneralWarning( "wossname.gif", message, CONFIRM_WOSSNAME );
 
 		return true;
 	}
@@ -2802,16 +2771,13 @@ public class RelayRequest
 			return false;
 		}
 
-		StringBuilder warning = new StringBuilder();
-
-		warning.append( "KoLmafia has detected that you are about to adventure while overdrunk. " );
-		warning.append( "If you are sure you wish to adventure in a Drunken Stupor, click the icon on the left to adventure. " );
-		warning.append( "If this was an accident, click the icon in the center to equip Drunkula's wineglass. " );
-		warning.append( "If you want to adventure in a Drunken Stupor and not be nagged, click the icon on the right to closet Drunkula's wineglass." );
-
-		this.sendOptionalWarning(
+        String warning = "KoLmafia has detected that you are about to adventure while overdrunk. " +
+                "If you are sure you wish to adventure in a Drunken Stupor, click the icon on the left to adventure. " +
+                "If this was an accident, click the icon in the center to equip Drunkula's wineglass. " +
+                "If you want to adventure in a Drunken Stupor and not be nagged, click the icon on the right to closet Drunkula's wineglass.";
+        this.sendOptionalWarning(
 			CONFIRM_WINEGLASS,
-			warning.toString(),
+                warning,
 			"hand.gif",
 			"dr_wineglass.gif",
 			"\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + ItemPool.DRUNKULA_WINEGLASS + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\"",
@@ -2853,12 +2819,9 @@ public class RelayRequest
 			return false;
 		}
 
-		StringBuilder warning = new StringBuilder();
-
-		warning.append( "KoLmafia has detected that you are about to adventure while overdrunk. " );
-		warning.append( "If you are sure you wish to adventure in a Drunken Stupor, click the icon to adventure. " );
-
-		this.sendGeneralWarning( "martini.gif", warning.toString(), CONFIRM_OVERDRUNK_ADVENTURE );
+        String warning = "KoLmafia has detected that you are about to adventure while overdrunk. " +
+                "If you are sure you wish to adventure in a Drunken Stupor, click the icon to adventure. ";
+        this.sendGeneralWarning( "martini.gif", warning, CONFIRM_OVERDRUNK_ADVENTURE );
 		return true;
 	}
 
@@ -3276,21 +3239,19 @@ public class RelayRequest
 			{
 				String refreshURL = "/KoLmafia/specialCommand?cmd=wait&pwd=" + GenericRequest.passwordHash;
 
-				StringBuilder buffer = new StringBuilder();
-				buffer.append( "<html><head>" );
-				buffer.append( "<meta http-equiv=\"refresh\" content=\"1; URL=" );
-				buffer.append( refreshURL );
-				buffer.append( "\">" );
-				buffer.append( "</head><body>" );
-				buffer.append( "<a href=\"" );
-				buffer.append( refreshURL );
-				buffer.append( "\">" );
-				buffer.append( "Automating (see CLI for details, click to refresh)..." );
-				buffer.append( "</a><p>" );
-				buffer.append( RelayRequest.specialCommandStatus );
-				buffer.append( "</p></body></html>" );
-
-				this.pseudoResponse( "HTTP/1.1 200 OK",	 buffer.toString() );
+                String buffer = "<html><head>" +
+                        "<meta http-equiv=\"refresh\" content=\"1; URL=" +
+                        refreshURL +
+                        "\">" +
+                        "</head><body>" +
+                        "<a href=\"" +
+                        refreshURL +
+                        "\">" +
+                        "Automating (see CLI for details, click to refresh)..." +
+                        "</a><p>" +
+                        RelayRequest.specialCommandStatus +
+                        "</p></body></html>";
+                this.pseudoResponse( "HTTP/1.1 200 OK", buffer );
 			}
 			else if ( RelayRequest.specialCommandResponse.length() > 0 )
 			{

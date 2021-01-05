@@ -331,14 +331,13 @@ public class SpaaaceRequest
 			return String.valueOf( min );
 		}
 
-		StringBuffer buffer = new StringBuffer();
-		buffer.append( KoLConstants.FLOAT_FORMAT.format( expected ) );
-		buffer.append( " (" );
-		buffer.append( String.valueOf( min ) );
-		buffer.append( "-" );
-		buffer.append( String.valueOf( max ) );
-		buffer.append( ")" );
-		return buffer.toString();
+        String buffer = KoLConstants.FLOAT_FORMAT.format( expected ) +
+                " (" +
+                String.valueOf( min ) +
+                "-" +
+                String.valueOf( max ) +
+                ")";
+        return buffer;
 	}
 
 	// According to Greycat on the Wiki: "Peg style 1 goes right, peg style

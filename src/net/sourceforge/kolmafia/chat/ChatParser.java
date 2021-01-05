@@ -64,7 +64,7 @@ public class ChatParser
 		Pattern.compile( "<font color='?#?(\\w+)'?[^>]*>(.*?)</font></a>" );
 
 	private static final Pattern PLAYERID_PATTERN =
-		Pattern.compile( "showplayer\\.php\\?who\\=([-\\d]+)[\'\"][^>]*?>(.*?)</a>" );
+		Pattern.compile( "showplayer\\.php\\?who\\=([-\\d]+)['\"][^>]*?>(.*?)</a>" );
 
 	// <span style='font-size:1.1em; font-weight: bold'><font color=green>[pvp]</font> <b><a target=mainpane href="showplayer.php?who=189466"><font color=black>scullyangel</font></b></a>: Hobo bosses don't count.<br></span>
 	// <font color=green>[clan]</font> <b><a target=mainpane href="showplayer.php?who=685853"><font color=black>Light Ninja</font></b></a>: Crap sorry. Could you send them each a terrarium too?<br>

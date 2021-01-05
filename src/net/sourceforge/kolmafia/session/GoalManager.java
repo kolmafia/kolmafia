@@ -291,7 +291,7 @@ public class GoalManager
 			return;
 		}
 
-		AdventureResult previousGoal = (AdventureResult) GoalManager.goals.get( goalIndex );
+		AdventureResult previousGoal = GoalManager.goals.get( goalIndex );
 
 		if ( previousGoal.getCount() <= goal.getCount() )
 		{

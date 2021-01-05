@@ -61,7 +61,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class SpecialOutfit
 	implements Comparable<SpecialOutfit>
 {
-	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=[\'\"]?(.*?)[\'\"]?>(.*?)</option>" );
+	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=['\"]?(.*?)['\"]?>(.*?)</option>" );
 
 	private static final Stack<Checkpoint> explicitPoints = new Stack<Checkpoint>();
 	private static final Set<Checkpoint> allCheckpoints = new HashSet<Checkpoint>();
@@ -84,7 +84,7 @@ public class SpecialOutfit
 		this.outfitId = outfitId;
 		// The name is normally a substring of the equipment page,
 		// and would keep that entire page in memory if not copied.
-		this.outfitName = new String( outfitName );
+		this.outfitName = outfitName;
 		this.outfitImage = null;
 		this.pieces = new TreeMap<Integer, AdventureResult>();
 		this.hash = 0;
@@ -97,7 +97,7 @@ public class SpecialOutfit
 		// Everything aside from weapons and accessories can only be equipped once.
 		if ( type != EquipmentManager.WEAPON && type != EquipmentManager.ACCESSORY1 )
 		{
-			return this.pieces.values().contains( piece ) ? 1 : 0;
+			return this.pieces.containsValue( piece ) ? 1 : 0;
 		}
 
 		int count = 0;
@@ -348,7 +348,6 @@ public class SpecialOutfit
 			if ( accessibleCount < pieceCount )
 			{
 				missing.add( ItemPool.get( piece.getItemId(), pieceCount - accessibleCount ) );
-				continue;
 			}
 		}
 		
@@ -379,7 +378,7 @@ public class SpecialOutfit
 
 	public void setImage( final String image )
 	{
-		this.outfitImage = new String( image );
+		this.outfitImage = image;
 	}
 
 	public String getImage()
@@ -390,7 +389,7 @@ public class SpecialOutfit
 	@Override
 	public boolean equals( final Object o )
 	{
-		if ( o == null || !( o instanceof SpecialOutfit ) )
+		if ( !( o instanceof SpecialOutfit ) )
 		{
 			return false;
 		}
@@ -411,7 +410,7 @@ public class SpecialOutfit
 
 	public int compareTo( final SpecialOutfit o )
 	{
-		if ( o == null || !( o instanceof SpecialOutfit ) )
+		if ( !( o instanceof SpecialOutfit ) )
 		{
 			return -1;
 		}

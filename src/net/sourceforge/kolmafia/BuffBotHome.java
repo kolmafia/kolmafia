@@ -191,13 +191,13 @@ public class BuffBotHome
 
 		public int compareTo( final BuffRecord o )
 		{
-			return this.name.compareToIgnoreCase( ( (BuffRecord) o ).name );
+			return this.name.compareToIgnoreCase( o.name );
 		}
 
 		@Override
 		public boolean equals( final Object o )
 		{
-			if ( o == null || !( o instanceof BuffRecord ) )
+			if ( !( o instanceof BuffRecord ) )
 			{
 				return false;
 			}
@@ -383,7 +383,7 @@ public class BuffBotHome
 			Component defaultComponent =
 				super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 
-			if ( value == null || !( value instanceof BuffMessage ) )
+			if ( !( value instanceof BuffMessage ) )
 			{
 				return defaultComponent;
 			}

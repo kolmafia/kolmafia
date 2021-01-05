@@ -407,7 +407,6 @@ public abstract class SorceressLairManager
 			if ( element != null )
 			{
 				Preferences.setString( "nsChallenge2", element );
-				continue;
 			}
 		}
 
@@ -487,7 +486,6 @@ public abstract class SorceressLairManager
 			{
 				Preferences.setInteger( "nsContestants3", queue );
 				Preferences.setString( "nsChallenge2", element );
-				continue;
 			}
 		}
 	}

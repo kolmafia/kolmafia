@@ -85,8 +85,8 @@ public class InventoryPanel
 
 		boolean isCloset = elementModel == KoLConstants.closet;
 		ActionListener useListener = isEquipmentOnly ?
-			(ActionListener) new EquipListener( isCloset ) :
-			(ActionListener) new ConsumeListener( isCloset );
+                new EquipListener( isCloset ) :
+                new ConsumeListener( isCloset );
 
 		ArrayList<ActionListener> listeners = new ArrayList<ActionListener>();
 		listeners.add( useListener );

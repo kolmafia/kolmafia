@@ -5032,24 +5032,17 @@ public abstract class ChoiceManager
 		switch ( choice )
 		{
 		case 5:
+			// How Depressing
+		case 7:
 			// Heart of Very, Very Dark Darkness
 			return ChoiceManager.dynamicChoiceSpoilers( choice, "Spooky Gravy Burrow" );
 
-		case 7:
-			// How Depressing
-			return ChoiceManager.dynamicChoiceSpoilers( choice, "Spooky Gravy Burrow" );
-
 		case 184:
-			// That Explains All The Eyepatches
-
-			return ChoiceManager.dynamicChoiceSpoilers( choice, "Barrrney's Barrr" );
-
-		case 185:
 			// Yes, You're a Rock Starrr
-			return ChoiceManager.dynamicChoiceSpoilers( choice, "Barrrney's Barrr" );
-
-		case 187:
+		case 185:
 			// Arrr You Man Enough?
+		case 187:
+			// That Explains All The Eyepatches
 			return ChoiceManager.dynamicChoiceSpoilers( choice, "Barrrney's Barrr" );
 
 		case 188:
@@ -5900,14 +5893,13 @@ public abstract class ChoiceManager
 			// You're Freaking Kidding Me (Mystic's psychoses)
 			result = new Object[ 3 ];
 			{
-				StringBuilder buffer = new StringBuilder();
-				buffer.append( "50 buffed Muscle/Mysticality/Moxie required, have " );
-				buffer.append( String.valueOf( KoLCharacter.getAdjustedMuscle() ) );
-				buffer.append( "/" );
-				buffer.append( String.valueOf( KoLCharacter.getAdjustedMysticality() ) );
-				buffer.append( "/" );
-				buffer.append( String.valueOf( KoLCharacter.getAdjustedMoxie() ) );
-				result[ 0 ] = buffer.toString();
+				String buffer = "50 buffed Muscle/Mysticality/Moxie required, have " +
+						String.valueOf( KoLCharacter.getAdjustedMuscle() ) +
+						"/" +
+						String.valueOf( KoLCharacter.getAdjustedMysticality() ) +
+						"/" +
+						String.valueOf( KoLCharacter.getAdjustedMoxie() );
+				result[ 0 ] = buffer;
 			}
 			result[ 1 ] = "flickering pixel";
 			result[ 2 ] = "skip adventure";
@@ -5917,10 +5909,9 @@ public abstract class ChoiceManager
 			// Snakes. (Mystic's psychoses)
 			result = new Object[ 3 ];
 			{
-				StringBuilder buffer = new StringBuilder();
-				buffer.append( "50 buffed Moxie required, have " );
-				buffer.append( String.valueOf( KoLCharacter.getAdjustedMoxie() ) );
-				result[ 0 ] = buffer.toString();
+				String buffer = "50 buffed Moxie required, have " +
+						String.valueOf( KoLCharacter.getAdjustedMoxie() );
+				result[ 0 ] = buffer;
 			}
 			result[ 1 ] = "flickering pixel";
 			result[ 2 ] = "skip adventure";
@@ -5963,10 +5954,9 @@ public abstract class ChoiceManager
 			// Slings and Arrows (Mystic's psychoses)
 			result = new Object[ 3 ];
 			{
-				StringBuilder buffer = new StringBuilder();
-				buffer.append( "101 HP required, have " );
-				buffer.append( String.valueOf( KoLCharacter.getCurrentHP() ) );
-				result[ 0 ] = buffer.toString();
+				String buffer = "101 HP required, have " +
+						String.valueOf( KoLCharacter.getCurrentHP() );
+				result[ 0 ] = buffer;
 			}
 			result[ 1 ] = "flickering pixel";
 			result[ 2 ] = "skip adventure";
@@ -5976,10 +5966,9 @@ public abstract class ChoiceManager
 			// This Is Your Life. Your Horrible, Horrible Life. (Mystic's psychoses)
 			result = new Object[ 3 ];
 			{
-				StringBuilder buffer = new StringBuilder();
-				buffer.append( "101 MP required, have " );
-				buffer.append( String.valueOf( KoLCharacter.getCurrentMP() ) );
-				result[ 0 ] = buffer.toString();
+				String buffer = "101 MP required, have " +
+						String.valueOf( KoLCharacter.getCurrentMP() );
+				result[ 0 ] = buffer;
 			}
 			result[ 1 ] = "flickering pixel";
 			result[ 2 ] = "skip adventure";
@@ -5989,10 +5978,9 @@ public abstract class ChoiceManager
 			// The Wall of Wailing (Mystic's psychoses)
 			result = new Object[ 3 ];
 			{
-				StringBuilder buffer = new StringBuilder();
-				buffer.append( "10 prismatic damage required, have " );
-				buffer.append( String.valueOf( KoLCharacter.currentPrismaticDamage() ) );
-				result[ 0 ] = buffer.toString();
+				String buffer = "10 prismatic damage required, have " +
+						String.valueOf( KoLCharacter.currentPrismaticDamage() );
+				result[ 0 ] = buffer;
 			}
 			result[ 1 ] = "flickering pixel";
 			result[ 2 ] = "skip adventure";
@@ -6810,17 +6798,15 @@ public abstract class ChoiceManager
 		case 772:
 		{
 			// Saved by the Bell
-			StringBuilder buffer = new StringBuilder();
-			
-			buffer.append( "Get " );
-			buffer.append( String.valueOf( ( Preferences.getInteger( "kolhsTotalSchoolSpirited" ) + 1 ) * 10 ) );
-			buffer.append( " turns of School Spirited (+100% Meat drop, +50% Item drop)" );
-			
+
 			// If you reach this encounter and Mafia things you've not spend 40 adventures in KOL High school, correct this
 			Preferences.setInteger( "_kolhsAdventures", 40 );
 			
 			result = new String[ 10 ];
-			result[ 0 ] = Preferences.getBoolean( "_kolhsSchoolSpirited" ) ? "Already got School Spirited today" : buffer.toString();
+			String buffer = "Get " +
+					String.valueOf( ( Preferences.getInteger( "kolhsTotalSchoolSpirited" ) + 1 ) * 10 ) +
+					" turns of School Spirited (+100% Meat drop, +50% Item drop)";
+			result[ 0 ] = Preferences.getBoolean( "_kolhsSchoolSpirited" ) ? "Already got School Spirited today" : buffer;
 			result[ 1 ] = Preferences.getBoolean( "_kolhsPoeticallyLicenced" ) ? "Already got Poetically Licenced today" :
 				"50 turns of Poetically Licenced (+20% Myst, -20% Muscle, +2 Myst stats/fight, +10% Spell damage)";
 			result[ 2 ] = InventoryManager.getCount( ItemPool.YEARBOOK_CAMERA ) > 0 
@@ -6961,14 +6947,12 @@ public abstract class ChoiceManager
 			// Legend of the Temple in the Hidden City
 			
 			int stoneTriangles = InventoryManager.getCount( ChoiceManager.STONE_TRIANGLE );
-			StringBuilder buffer = new StringBuilder();
 
-			buffer.append( "Need 4 stone triangles to fight Protector Spectre (");
-			buffer.append( String.valueOf( stoneTriangles ) );
-			buffer.append( ")" );
-			
 			result = new String[ 6 ];
-			result[ 0 ] = ( stoneTriangles == 4 ? "fight Protector Spectre": buffer.toString() );
+			String buffer = "Need 4 stone triangles to fight Protector Spectre (" +
+					String.valueOf( stoneTriangles ) +
+					")";
+			result[ 0 ] = ( stoneTriangles == 4 ? "fight Protector Spectre": buffer );
 			result[ 5 ] = "skip adventure";
 			return result;
 		}
@@ -7091,14 +7075,13 @@ public abstract class ChoiceManager
 				boolean haveStaff = InventoryManager.getCount( ItemPool.DRIPPY_STAFF ) > 0;
 				int inebriety = KoLCharacter.getInebriety();
 				int totalPoolSkill = KoLCharacter.estimatedPoolSkill();
-				StringBuilder buf = new StringBuilder();
-				buf.append( haveStaff ? "M" : "A drippy staff and m" );
-				buf.append( "aybe a drippy orb (Pool Skill at " );
-				buf.append( Integer.valueOf( inebriety ) );
-				buf.append( " inebriety = " );
-				buf.append( Integer.valueOf( totalPoolSkill ) );
-				buf.append( ")" );
-				result[ 0 ] = buf.toString();
+				String buf = ( haveStaff ? "M" : "A drippy staff and m" ) +
+						"aybe a drippy orb (Pool Skill at " +
+						Integer.valueOf( inebriety ) +
+						" inebriety = " +
+						Integer.valueOf( totalPoolSkill ) +
+						")";
+				result[ 0 ] = buf;
 			}
 			result[ 1 ] = "Buy a drippy candy bar for 10,000 Meat or get Driplets";
 			{

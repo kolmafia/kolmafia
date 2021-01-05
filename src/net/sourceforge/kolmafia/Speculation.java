@@ -255,8 +255,12 @@ public class Speculation
 			String cmd = piece[ 0 ];
 			String params = piece.length > 1 ? piece[ 1 ] : "";
 			
-			if ( cmd.equals( "" ) ) continue;
-			else if ( cmd.equals( "mcd" ) )
+			if ( cmd.equals( "" ) )
+			{
+				continue;
+			}
+
+			if ( cmd.equals( "mcd" ) )
 			{
 				this.setMindControlLevel( StringUtilities.parseInt( params ) );
 			}

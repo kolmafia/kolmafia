@@ -132,12 +132,12 @@ public class KoLDesktop
 	{
 		if ( Preferences.getBoolean( "useDecoratedTabs" ) )
 		{
-			JTabbedPane tabs = new CloseTabbedPane();
+			CloseTabbedPane tabs = new CloseTabbedPane();
 
 			if ( Preferences.getBoolean( "allowCloseableDesktopTabs" ) )
 			{
-				( (CloseTabbedPane) tabs ).setCloseIconStyle( CloseTabPaneUI.RED_CLOSE_ICON );
-				( (CloseTabbedPane) tabs ).addCloseListener( this );
+				tabs.setCloseIconStyle( CloseTabPaneUI.RED_CLOSE_ICON );
+				tabs.addCloseListener( this );
 			}
 
 			return tabs;

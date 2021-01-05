@@ -164,7 +164,7 @@ public class EquipmentDatabase
 
 			EquipmentDatabase.power.set( itemId, StringUtilities.parseInt( data[ 1 ] ) );
 
-			String reqs = new String( data[ 2 ] );
+			String reqs = data[ 2 ];
 			EquipmentDatabase.statRequirements.set( itemId, reqs );
 
 			int hval = 0;
@@ -178,11 +178,11 @@ public class EquipmentDatabase
 				{
 					hval = StringUtilities.parseInt( str.substring( 0, index1 ) );
 					String type = str.substring( index1 + 7 ).trim();
-					tval = type.equals( "" ) ? "weapon" : new String( type );
+					tval = type.equals( "" ) ? "weapon" : type;
 				}
 				else
 				{
-					tval = new String( str );
+					tval = str;
 				}
 			}
 
@@ -224,11 +224,11 @@ public class EquipmentDatabase
 					outfitList = EquipmentDatabase.normalOutfits;
 				}
 
-				String name = new String( data[ 1 ] );
+				String name = data[ 1 ];
 				SpecialOutfit outfit = new SpecialOutfit( outfitId, name );
 				outfitList.set( arrayIndex, outfit );
 
-				String image = new String( data[ 2 ] );
+				String image = data[ 2 ];
 				outfit.setImage( image );
 
 				String[] pieces = data[ 3 ].split( "\\s*,\\s*" );
@@ -361,8 +361,6 @@ public class EquipmentDatabase
 			case KoLConstants.EQUIP_CONTAINER:
 				containers.put( name, key );
 				break;
-			default:
-				continue;
 			}
 		}
 
@@ -519,7 +517,7 @@ public class EquipmentDatabase
 		if ( EquipmentDatabase.normalOutfits.get( outfitId ) == null ||
 		     EquipmentDatabase.outfitPieces.get( IntegerPool.get( itemId ) ) == null )
 		{
-			EquipmentDatabase.registerOutfit( outfitId, new String( outfitName ), itemId );
+			EquipmentDatabase.registerOutfit( outfitId, outfitName, itemId );
 		}
 	}
 	

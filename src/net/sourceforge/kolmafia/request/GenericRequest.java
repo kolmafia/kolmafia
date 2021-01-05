@@ -2520,12 +2520,11 @@ public class GenericRequest
 
 		if ( this.responseCode == 200 && RequestLogger.isTracing() )
 		{
-			StringBuilder buffer = new StringBuilder( "Retrieved: " );
-			buffer.append( this.requestURL() );
-			buffer.append( " (" );
-			buffer.append( this.responseText == null ? "0" : this.responseText.length() );
-			buffer.append( " bytes)" );
-			RequestLogger.trace( buffer.toString() );
+            String buffer = "Retrieved: " + this.requestURL() +
+                    " (" +
+                    ( this.responseText == null ? "0" : this.responseText.length() ) +
+                    " bytes)";
+            RequestLogger.trace( buffer );
 		}
 
 		if ( this.responseText == null )

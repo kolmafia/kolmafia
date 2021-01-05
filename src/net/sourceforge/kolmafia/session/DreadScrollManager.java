@@ -317,32 +317,31 @@ public class DreadScrollManager
 
 	public static final String getScrollText()
 	{
-		StringBuilder buffer = new StringBuilder();
 
-		buffer.append( "When the " );
-		buffer.append( cluePhrase( ClueType.LIBRARY1 ) );
-		buffer.append( " " );
-		buffer.append( cluePhrase( ClueType.HEALSCROLL ) );
-		buffer.append( " is in the House of " );
-		buffer.append( cluePhrase( ClueType.DEEP_DARK_VISIONS ) );
-		buffer.append( "," );
-		buffer.append( KoLConstants.LINE_BREAK );
-		buffer.append( "and the " );
-		buffer.append( cluePhrase( ClueType.KNUCKLEBONE ) );
-		buffer.append( " Current runs " );
-		buffer.append( cluePhrase( ClueType.KILLSCROLL ) );
-		buffer.append( "," );
-		buffer.append( KoLConstants.LINE_BREAK );
-		buffer.append( "when a " );
-		buffer.append( cluePhrase( ClueType.LIBRARY2 ) );
-		buffer.append( " " );
-		buffer.append( cluePhrase( ClueType.WORKTEA ) );
-		buffer.append( " births " );
-		buffer.append( cluePhrase( ClueType.LIBRARY3 ) );
-		buffer.append( "," );
-		buffer.append( KoLConstants.LINE_BREAK );
-		buffer.append( "the Elder shall awaken. " );
-		return buffer.toString();
+        String buffer = "When the " +
+                cluePhrase( ClueType.LIBRARY1 ) +
+                " " +
+                cluePhrase( ClueType.HEALSCROLL ) +
+                " is in the House of " +
+                cluePhrase( ClueType.DEEP_DARK_VISIONS ) +
+                "," +
+                KoLConstants.LINE_BREAK +
+                "and the " +
+                cluePhrase( ClueType.KNUCKLEBONE ) +
+                " Current runs " +
+                cluePhrase( ClueType.KILLSCROLL ) +
+                "," +
+                KoLConstants.LINE_BREAK +
+                "when a " +
+                cluePhrase( ClueType.LIBRARY2 ) +
+                " " +
+                cluePhrase( ClueType.WORKTEA ) +
+                " births " +
+                cluePhrase( ClueType.LIBRARY3 ) +
+                "," +
+                KoLConstants.LINE_BREAK +
+                "the Elder shall awaken. ";
+        return buffer;
 	}
 
 	public static final void decorate( final StringBuffer buffer )

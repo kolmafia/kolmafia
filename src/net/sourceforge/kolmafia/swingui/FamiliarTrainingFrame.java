@@ -265,7 +265,7 @@ public class FamiliarTrainingFrame
 			this.familiar = KoLCharacter.getFamiliar();
 
 			// Put familiar changer on top
-			this.familiars = new ChangeComboBox( (LockableListModel) KoLCharacter.getFamiliarList() );
+			this.familiars = new ChangeComboBox( KoLCharacter.getFamiliarList() );
 			this.familiars.setRenderer( FamiliarData.getRenderer() );
 			container.add( this.familiars, BorderLayout.NORTH );
 
@@ -2179,7 +2179,7 @@ public class FamiliarTrainingFrame
 			// one which is closest to the current GearSet
 
 			Collections.sort( this.gearSets );
-			return this.gearSets.isEmpty() ? null : (GearSet) this.gearSets.get( 0 );
+			return this.gearSets.isEmpty() ? null : this.gearSets.get( 0 );
 		}
 
 		private void getHatGearSets( final int weight )
@@ -2984,7 +2984,7 @@ public class FamiliarTrainingFrame
 				// better than equips, so unequips have a change
 				// weight of 1.	 All others vary from that.
 
-				GearSet that = (GearSet) o;
+				GearSet that = o;
 				int changes = 0;
 
 				// Crumpled felt fedora is considered the

@@ -174,7 +174,7 @@ public class StyledChatBuffer
 				int closeIndex = remaining.indexOf( ">", openIndex ) + 1;
 				if ( closeIndex > 0 )
 				{
-					highlightMessage.append( remaining.substring( 0, closeIndex ) );
+					highlightMessage.append( remaining, 0, closeIndex );
 					remaining = remaining.substring( closeIndex );
 					continue;
 				}
@@ -182,12 +182,12 @@ public class StyledChatBuffer
 
 			int stopIndex = searchIndex + searchString.length();
 
-			highlightMessage.append( remaining.substring( 0, searchIndex ) );
+			highlightMessage.append( remaining, 0, searchIndex );
 
 			highlightMessage.append( "<font color=\"" );
 			highlightMessage.append( colorString );
 			highlightMessage.append( "\">" );
-			highlightMessage.append( remaining.substring( searchIndex, stopIndex ) );
+			highlightMessage.append( remaining, searchIndex, stopIndex );
 			highlightMessage.append( "</font>" );
 
 			remaining = remaining.substring( stopIndex );

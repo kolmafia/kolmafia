@@ -231,7 +231,7 @@ public class PokefamData
 			    final String attribute )
 
 	{
-		this.race = new String( race );
+		this.race = race;
 		this.power2 = power2;
 		this.hp2 = hp2;
 		this.power3 = power3;
@@ -402,7 +402,7 @@ public class PokefamData
 	@Override
 	public boolean equals( final Object o )
 	{
-		return o != null && o instanceof PokefamData && this.race.equals( ((PokefamData) o).race );
+		return o instanceof PokefamData && this.race.equals( ( ( PokefamData ) o ).race );
 	}
 
 	@Override

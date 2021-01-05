@@ -300,15 +300,13 @@ public abstract class ChatManager
 				fileSuffix = "[" + fileSuffix.substring( 1 ) + "]";
 			}
 
-			StringBuilder fileName = new StringBuilder();
-			fileName.append( KoLConstants.DAILY_FORMAT.format( new Date() ) );
-			fileName.append( "_" );
-			fileName.append( KoLCharacter.baseUserName() );
-			fileName.append( "_" );
-			fileName.append( fileSuffix );
-			fileName.append( ".html" );
-
-			buffer.setLogFile( new File( KoLConstants.CHATLOG_LOCATION, fileName.toString() ) );
+            String fileName = KoLConstants.DAILY_FORMAT.format( new Date() ) +
+                    "_" +
+                    KoLCharacter.baseUserName() +
+                    "_" +
+                    fileSuffix +
+                    ".html";
+            buffer.setLogFile( new File( KoLConstants.CHATLOG_LOCATION, fileName ) );
 		}
 
 		synchronized ( ChatManager.bufferEntries )

@@ -315,7 +315,7 @@ public class StoreManageFrame
 
 				int ilim = (Integer) StoreManageFrame.this.manageTable.getValueAt( i, 4 );
 
-				limits[ i ] = ilim > 0 ? ilim : 0;
+				limits[ i ] = Math.max( ilim, 0 );
 			}
 
 			RequestThread.postRequest( new ManageStoreRequest( itemId, prices, limits ) );

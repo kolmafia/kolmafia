@@ -84,12 +84,11 @@ public class UseItemDecorator
 
 		// We will insert things before the end of the table
 		index += search.length();
-		StringBuilder link = new StringBuilder();
-		link.append( "<tr align=center><td>" );
-		link.append( insert );
-		link.append( "</td></tr>" );
 
-		buffer.insert( index, link.toString() );
+        String link = "<tr align=center><td>" +
+                insert +
+                "</td></tr>";
+        buffer.insert( index, link );
 	}
 
 	// <table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><center><img src="http://images.kingdomofloathing.com/itemimages/ratchet.gif" width=30 height=30><br></center><blockquote>TEXT</blockquote></td></tr></table>

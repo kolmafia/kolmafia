@@ -89,8 +89,8 @@ public class NPCStoreDatabase
 				continue;
 			}
 
-			String storeName = new String( data[0] );
-			String storeId = new String( data[1] );
+			String storeName = data[ 0 ];
+			String storeId = data[ 1 ];
 			if ( !storeId.equals( "bartlebys" ) )
 			{
 				NPCStoreDatabase.storeNameById.put( storeId, storeName );

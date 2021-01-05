@@ -361,7 +361,7 @@ public class EdServantData
 	@Override
 	public boolean equals( final Object o )
 	{
-		return o != null && o instanceof EdServantData && this.id == ( (EdServantData) o ).id;
+		return o instanceof EdServantData && this.id == ( ( EdServantData ) o ).id;
 	}
 
 	@Override
@@ -504,7 +504,7 @@ public class EdServantData
 		int level = StringUtilities.parseInt( matcher.group( 4 ) );
 		int experience = StringUtilities.parseInt( matcher.group( 5 ) );
 
-		servant.name = new String( name );
+		servant.name = name;
 		servant.level = level;
 		servant.experience = experience;
 
@@ -525,7 +525,7 @@ public class EdServantData
 		String name = matcher.group( 1 );
 		int level = StringUtilities.parseInt( matcher.group( 2 ) );
 
-		servant.name = new String( name );
+		servant.name = name;
 		servant.level = level - ( KoLConstants.activeEffects.contains( EdServantData.PURR_OF_THE_FELINE ) ? 5 : 0 );
 
 		if ( servant != EdServantData.currentEdServant )

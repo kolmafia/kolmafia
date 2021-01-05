@@ -220,11 +220,11 @@ public class BeachManager
 				int col = coords.col;
 				StringBuilder modified = new StringBuilder();
 				if ( col > 0 ) {
-					modified.append( squares.substring( 0, col ) );
+					modified.append( squares, 0, col );
 				}
 				modified.append( 'c' );
 				if ( col < squares.length() - 1 ) {
-					modified.append( squares.substring( col + 1, squares.length() ) );
+					modified.append( squares.substring( col + 1 ) );
 				}
 
 				layout.put( coords.row, modified.toString() );

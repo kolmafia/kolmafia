@@ -232,7 +232,7 @@ public class AutoFilterTextField
 		}
 		if ( element instanceof StoreLogEntry )
 		{
-			return ( (StoreLogEntry) element ).toString().toLowerCase();
+			return element.toString().toLowerCase();
 		}
 		if ( element instanceof LowerCaseEntry )
 		{

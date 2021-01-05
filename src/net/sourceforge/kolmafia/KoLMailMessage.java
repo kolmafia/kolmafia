@@ -148,13 +148,13 @@ public class KoLMailMessage
 
 	public int compareTo( final KoLMailMessage o )
 	{
-		return o == null || !( o instanceof KoLMailMessage ) ? -1 : this.messageId.compareTo( ( (KoLMailMessage) o ).messageId );
+		return !( o instanceof KoLMailMessage ) ? -1 : this.messageId.compareTo( o.messageId );
 	}
 
 	@Override
 	public boolean equals( final Object o )
 	{
-		return o == null || !( o instanceof KoLMailMessage ) ? false : this.messageId.equals( ( (KoLMailMessage) o ).messageId );
+		return !( o instanceof KoLMailMessage ) ? false : this.messageId.equals( ( (KoLMailMessage) o ).messageId );
 	}
 
 	@Override

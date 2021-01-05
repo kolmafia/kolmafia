@@ -6444,7 +6444,7 @@ public abstract class RuntimeLibrary
 	{
 		if ( FightRequest.currentRound == 0 && !FightRequest.inMultiFight )
 		{
-			return new Value( DataTypes.BUFFER_TYPE, "", new StringBuffer( "" ) );
+			return new Value( DataTypes.BUFFER_TYPE, "", new StringBuffer() );
 		}
 
 		try
@@ -6524,8 +6524,8 @@ public abstract class RuntimeLibrary
 	{
 		// Use logic from CLI "play" command
 		List<String> matchingNames = DeckOfEveryCardRequest.getMatchingNames( name.toString() );
-		if ( matchingNames.size() == 0 ||	// No match
-		     matchingNames.size() > 1 )		// Ambiguous
+        // No match
+        if ( matchingNames.size() != 1 )		// Ambiguous
 		{
 			return DataTypes.STRING_INIT;
 		}

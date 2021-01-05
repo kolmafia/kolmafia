@@ -569,11 +569,9 @@ public class DiscoCombatHelper
 
 		if ( combo >= 0 )
 		{
-			StringBuilder buffer = new StringBuilder();
-			buffer.append( combo < FIRST_RAVE_COMBO ? "Disco" : "Rave" );
-			buffer.append( " combo: " );
-			buffer.append( COMBOS[ combo ][0] );
-			String message = buffer.toString();
+            String message = ( combo < FIRST_RAVE_COMBO ? "Disco" : "Rave" ) +
+                    " combo: " +
+                    COMBOS[ combo ][ 0 ];
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
 		}
@@ -701,17 +699,15 @@ public class DiscoCombatHelper
 		data[1][0] = skill2;
 		data[2][0] = skill3;
 
-		StringBuilder buffer = new StringBuilder();
-		buffer.append( "You learned a new Rave Combo!" );
-		buffer.append( KoLConstants.LINE_BREAK );
-		buffer.append( SKILLS[ skill1 ] );
-		buffer.append( " + " );
-		buffer.append( SKILLS[ skill2 ] );
-		buffer.append( " + " );
-		buffer.append( SKILLS[ skill3 ] );
-		buffer.append( " -> " );
-		buffer.append( COMBOS[ combo ][0] );
-		String message = buffer.toString();
+        String message = "You learned a new Rave Combo!" +
+                KoLConstants.LINE_BREAK +
+                SKILLS[ skill1 ] +
+                " + " +
+                SKILLS[ skill2 ] +
+                " + " +
+                SKILLS[ skill3 ] +
+                " -> " +
+                COMBOS[ combo ][ 0 ];
 		RequestLogger.printLine( message );
 		RequestLogger.updateSessionLog( message );
 	}

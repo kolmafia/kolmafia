@@ -665,7 +665,7 @@ public class StationaryButtonDecorator
 
 		for ( int i = 0; i < KoLConstants.availableCombatSkills.size(); ++i )
 		{
-			UseSkillRequest current = (UseSkillRequest) KoLConstants.availableCombatSkills.get( i );
+			UseSkillRequest current = KoLConstants.availableCombatSkills.get( i );
 			int actionId = current.getSkillId();
 			if ( actionId >= 7000 && actionId < 8000 && actionId != classStunId && actionId != 7201 )
 			{

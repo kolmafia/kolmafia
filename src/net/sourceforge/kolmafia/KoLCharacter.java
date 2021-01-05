@@ -1319,7 +1319,7 @@ public abstract class KoLCharacter
 	public static final void setFury( final int newFury )
 	{
 		int furyLimit = KoLCharacter.getFuryLimit();
-		KoLCharacter.fury = newFury > furyLimit ? furyLimit : newFury < 0 ? 0 : newFury;
+		KoLCharacter.fury = newFury > furyLimit ? furyLimit : Math.max( newFury, 0 );
 	}
 
 	public static final void setFuryNoCheck( final int newFury )
@@ -1408,7 +1408,7 @@ public abstract class KoLCharacter
 	
 	public static final void setSoulsauce( final int newSoulsauce )
 	{
-		KoLCharacter.soulsauce = newSoulsauce > 0 ? newSoulsauce : 0;
+		KoLCharacter.soulsauce = Math.max( newSoulsauce, 0 );
 	}
 
 	public static final void resetSoulsauce()
@@ -1456,7 +1456,7 @@ public abstract class KoLCharacter
 	public static final void setAudience( final int newAudience )
 	{
 		int limit = KoLCharacter.getAudienceLimit();
-		KoLCharacter.audience = newAudience > limit ? limit : newAudience < -limit ? -limit : newAudience;
+		KoLCharacter.audience = newAudience > limit ? limit : Math.max( newAudience, -limit );
 	}
 
 	public static final void incrementAudience( final int incAudience )
@@ -1483,7 +1483,7 @@ public abstract class KoLCharacter
 	public static final void setAbsorbs( final int newAbsorbs )
 	{
 		int limit = KoLCharacter.getAbsorbsLimit();
-		KoLCharacter.absorbs = newAbsorbs > limit ? limit : newAbsorbs < 0 ? 0 : newAbsorbs;
+		KoLCharacter.absorbs = newAbsorbs > limit ? limit : Math.max( newAbsorbs, 0 );
 		// Temporary historical support
 		Preferences.setInteger( "_noobSkillCount", KoLCharacter.absorbs );
 	}
@@ -1505,7 +1505,7 @@ public abstract class KoLCharacter
 
 	public static final void setThunder( final int newThunder )
 	{
-		KoLCharacter.thunder = newThunder > 100 ? 100 : newThunder > 0 ? newThunder : 0;
+		KoLCharacter.thunder = newThunder > 100 ? 100 : Math.max( newThunder, 0 );
 	}
 
 	public static final void resetThunder()
@@ -1530,7 +1530,7 @@ public abstract class KoLCharacter
 
 	public static final void setRain( final int newRain )
 	{
-		KoLCharacter.rain = newRain > 100 ? 100 : newRain > 0 ? newRain : 0;
+		KoLCharacter.rain = newRain > 100 ? 100 : Math.max( newRain, 0 );
 	}
 
 	public static final void incrementRain( final int incRain )
@@ -1550,7 +1550,7 @@ public abstract class KoLCharacter
 
 	public static final void setLightning( final int newLightning )
 	{
-		KoLCharacter.lightning = newLightning > 100 ? 100 : newLightning > 0 ? newLightning : 0;
+		KoLCharacter.lightning = newLightning > 100 ? 100 : Math.max( newLightning, 0 );
 	}
 
 	public static final void incrementLightning( final int incLightning )
@@ -1866,7 +1866,7 @@ public abstract class KoLCharacter
 
 	public static final void setHP( final long currentHP, final long maximumHP, final long baseMaxHP )
 	{
-		KoLCharacter.currentHP = currentHP < 0 ? 0 : currentHP > maximumHP ? maximumHP : currentHP;
+		KoLCharacter.currentHP = currentHP < 0 ? 0 : Math.min( currentHP, maximumHP );
 		KoLCharacter.maximumHP = maximumHP;
 		KoLCharacter.baseMaxHP = baseMaxHP;
 
@@ -1916,7 +1916,7 @@ public abstract class KoLCharacter
 
 	public static final void setMP( final long currentMP, final long maximumMP, final long baseMaxMP )
 	{
-		KoLCharacter.currentMP = currentMP < 0 ? 0 : currentMP > maximumMP ? maximumMP : currentMP;
+		KoLCharacter.currentMP = currentMP < 0 ? 0 : Math.min( currentMP, maximumMP );
 		KoLCharacter.maximumMP = maximumMP;
 		KoLCharacter.baseMaxMP = baseMaxMP;
 
@@ -3191,7 +3191,7 @@ public abstract class KoLCharacter
 
 		WL += (int)KoLCharacter.currentModifiers.get( Modifiers.WATER_LEVEL );
 		
-		return WL < 1 ? 1 : WL > 6 ? 6 : WL;
+		return WL < 1 ? 1 : Math.min( WL, 6 );
 	}
 
 	/**
@@ -5618,7 +5618,7 @@ public abstract class KoLCharacter
 		int index = KoLCharacter.familiars.indexOf( familiar );
 		if ( index >= 0 )
 		{
-			return (FamiliarData) KoLCharacter.familiars.get( index );
+			return KoLCharacter.familiars.get( index );
 		}
 
 		KoLCharacter.familiars.add( familiar );
@@ -6184,7 +6184,7 @@ public abstract class KoLCharacter
 		// Add modifiers from campground equipment.
 		for ( int i = 0; i< KoLConstants.campground.size(); ++i )
 		{
-			AdventureResult item = (AdventureResult) KoLConstants.campground.get( i );
+			AdventureResult item = KoLConstants.campground.get( i );
 			// Skip ginormous pumpkin growing in garden
 			if ( item.getItemId() == ItemPool.GINORMOUS_PUMPKIN )
 			{
@@ -6392,7 +6392,7 @@ public abstract class KoLCharacter
 			if ( WL > 0 )
 			{
 				WL += (int)KoLCharacter.currentModifiers.get( Modifiers.WATER_LEVEL );
-				WL = WL < 1 ? 1 : WL > 6 ? 6 : WL;
+				WL = WL < 1 ? 1 : Math.min( WL, 6 );
 				newModifiers.add( Modifiers.EXPERIENCE, (double) WL * 10 / 3.0f, "Water Level:Water Level*10/3" );
 			}
 		}

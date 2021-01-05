@@ -61,9 +61,9 @@ public class HyperlinkAdapter
 		HyperlinkAdapter.NAME_PATTERNS[ 0 ] = Pattern.compile( "name=\"(.*?)\"" );
 		HyperlinkAdapter.VALUE_PATTERNS[ 0 ] = Pattern.compile( "value=\"(.*?)\"" );
 
-		HyperlinkAdapter.ACTION_PATTERNS[ 1 ] = Pattern.compile( "action=\'(.*?)\'" );
-		HyperlinkAdapter.NAME_PATTERNS[ 1 ] = Pattern.compile( "name=\'(.*?)\'" );
-		HyperlinkAdapter.VALUE_PATTERNS[ 1 ] = Pattern.compile( "value=\'(.*?)\'" );
+		HyperlinkAdapter.ACTION_PATTERNS[ 1 ] = Pattern.compile( "action='(.*?)'" );
+		HyperlinkAdapter.NAME_PATTERNS[ 1 ] = Pattern.compile( "name='(.*?)'" );
+		HyperlinkAdapter.VALUE_PATTERNS[ 1 ] = Pattern.compile( "value='(.*?)'" );
 
 		HyperlinkAdapter.ACTION_PATTERNS[ 2 ] = Pattern.compile( "action=([^\\s]*?)" );
 		HyperlinkAdapter.NAME_PATTERNS[ 2 ] = Pattern.compile( "name=([^\\s]*?)" );

@@ -163,12 +163,10 @@ public abstract class DvorakManager
 
 		if ( responseText.contains( "You jump to the last letter" ) )
 		{
-			StringBuilder buffer = new StringBuilder();
-			buffer.append( "What's that spell? " );
-			buffer.append( DvorakManager.currentSolution );
-			buffer.append( "!" );
 
-			String message = buffer.toString();
+            String message = "What's that spell? " +
+                    DvorakManager.currentSolution +
+                    "!";
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
 		}

@@ -442,13 +442,13 @@ public class ClanLogRequest
 
 		public int compareTo( final StashLogEntry o )
 		{
-			return o == null || !( o instanceof StashLogEntry ) ? -1 : this.timestamp.before( o.timestamp ) ? 1 : this.timestamp.after( o.timestamp ) ? -1 : 0;
+			return !( o instanceof StashLogEntry ) ? -1 : this.timestamp.before( o.timestamp ) ? 1 : this.timestamp.after( o.timestamp ) ? -1 : 0;
 		}
 
 		@Override
 		public boolean equals( final Object o )
 		{
-			return o == null || !( o instanceof StashLogEntry ) ? false : this.stringform.equals( o.toString() );
+			return !( o instanceof StashLogEntry ) ? false : this.stringform.equals( o.toString() );
 		}
 
 		@Override

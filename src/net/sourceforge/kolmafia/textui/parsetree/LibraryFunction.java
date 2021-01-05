@@ -134,9 +134,7 @@ public class LibraryFunction
 	{
 		if ( StaticEntity.isDisabled( this.getName() ) )
 		{
-			StringBuffer message = new StringBuffer( "Called disabled function: " );
-			message.append( this.getName() );
-			RequestLogger.printLine( message.toString() );
+            RequestLogger.printLine( "Called disabled function: " + this.getName() );
 			return this.getType().initialValue();
 		}
 

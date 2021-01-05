@@ -486,7 +486,7 @@ public class ItemDatabase
 			String descId = data[ 2 ];
 			if ( StringUtilities.isNumeric( descId ) )
 			{
-				descId = new String( descId );
+				descId = descId;
 				ItemDatabase.descriptionById.put( id, descId );
 				ItemDatabase.itemIdByDescription.put( descId, id );
 			}
@@ -547,7 +547,7 @@ public class ItemDatabase
 
 			if ( data.length == 8 )
 			{
-				String plural = new String( data[ 7 ] );
+				String plural = data[ 7 ];
 				ItemDatabase.pluralById.set( itemId, plural );
 				ItemDatabase.itemIdByPlural.put( StringUtilities.getCanonicalName( plural ), id );
 			}
@@ -991,8 +991,8 @@ public class ItemDatabase
 		}
 
 		// Detach item name and descid from being substrings
-		itemName = new String( itemName );
-		descId = new String( descId );
+		itemName = itemName;
+		descId = descId;
 
 		// Remember that a new item has been discovered
 		ItemDatabase.newItems = true;

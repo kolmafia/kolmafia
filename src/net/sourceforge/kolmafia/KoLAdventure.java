@@ -1495,7 +1495,7 @@ public class KoLAdventure
 			// We could use "container" to pick the zone the adventure goes in
 
 			// Detach strings from the responseText
-			adventure = new KoLAdventure( "Override", new String( adventurePage ), new String( adventureId ), new String( adventureName ) );
+			adventure = new KoLAdventure( "Override", adventurePage, adventureId, adventureName );
 			AdventureDatabase.addAdventure( adventure );
 		}
 
@@ -2739,7 +2739,7 @@ public class KoLAdventure
 
 	public int compareTo( final KoLAdventure o )
 	{
-		if ( o == null || !( o instanceof KoLAdventure ) )
+		if ( !( o instanceof KoLAdventure ) )
 		{
 			return 1;
 		}

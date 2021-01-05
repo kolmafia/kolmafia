@@ -76,9 +76,7 @@ public class ArcadeRequest
 		super( "", false );
 
 		// Construct a URL to submit via GET, just like the browser
-		StringBuilder newURLString = new StringBuilder( "place.php?whichplace=arcade&action=" );
-		newURLString.append( action );
-		this.constructURLString( newURLString.toString(), false );
+		this.constructURLString( "place.php?whichplace=arcade&action=" + action, false );
 	}
 
 	public static final int getTurnsUsed( GenericRequest request )
@@ -1573,7 +1571,7 @@ public class ArcadeRequest
 		}
 
 		buffer.setLength( 0 );
-		buffer.append( text.substring( 0, index1 ) );
+		buffer.append( text, 0, index1 );
 
 		for ( int i = 0; i < 6; ++i )
 		{
@@ -1586,7 +1584,7 @@ public class ArcadeRequest
 			}
 
 			// Start spoiler text
-			buffer.append( text.substring( index1, index2 ) );
+			buffer.append( text, index1, index2 );
 			buffer.append( "<br><font size=-1>(" );
 
 			// Say what the choice will give you

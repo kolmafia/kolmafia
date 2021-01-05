@@ -145,7 +145,7 @@ public class SendMessageCommand
 		}
 
 		AdventureResult[] items = new AdventureResult[ attachmentList.size() ];
-		SendMessageCommand.send( recipient, message, (AdventureResult[])attachmentList.toArray( items ), false, true );
+		SendMessageCommand.send( recipient, message, attachmentList.toArray( items ), false, true );
 	}
 
 	public static void send( final String recipient, final String message, final AdventureResult[] attachments,

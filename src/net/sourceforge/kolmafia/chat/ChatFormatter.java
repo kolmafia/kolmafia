@@ -374,13 +374,10 @@ public class ChatFormatter
 
 		Color color = ChatFormatter.getRandomColor();
 
-		StringBuffer newSetting = new StringBuffer();
-
-		newSetting.append( Preferences.getString( "highlightList" ) );
-		newSetting.append( "\n" );
-		newSetting.append( StyledChatBuffer.addHighlight( highlight, color ) );
-
-		Preferences.setString( "highlightList", newSetting.toString().trim() );
+		String newSetting = Preferences.getString( "highlightList" ) +
+				"\n" +
+				StyledChatBuffer.addHighlight( highlight, color );
+		Preferences.setString( "highlightList", newSetting.trim() );
 		ChatManager.applyHighlights();
 	}
 
@@ -422,7 +419,7 @@ public class ChatFormatter
 
 				if ( startIndex != -1 )
 				{
-					newSetting.append( oldSetting.substring( 0, startIndex ) );
+					newSetting.append( oldSetting, 0, startIndex );
 
 					if ( endIndex < oldSetting.length() )
 					{

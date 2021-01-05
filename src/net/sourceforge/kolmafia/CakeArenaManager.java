@@ -77,7 +77,7 @@ public class CakeArenaManager
 	{
 		for ( int i = 0; i < CakeArenaManager.opponentList.size(); ++i )
 		{
-			ArenaOpponent opponent = (ArenaOpponent) CakeArenaManager.opponentList.get( i );
+			ArenaOpponent opponent = CakeArenaManager.opponentList.get( i );
 			if ( target.equals( opponent.toString() ) )
 			{
 				FamiliarTrainingFrame.getResults().clear();
@@ -142,7 +142,7 @@ public class CakeArenaManager
 
 		for ( int i = 0; i < count; ++i )
 		{
-			ArenaOpponent ao = (ArenaOpponent) CakeArenaManager.opponentList.get( i );
+			ArenaOpponent ao = CakeArenaManager.opponentList.get( i );
 			if ( ao.getId() == opponentId )
 			{
 				return ao;
@@ -228,7 +228,7 @@ public class CakeArenaManager
 		@Override
 		public boolean equals( final Object o )
 		{
-			return o != null && o instanceof ArenaOpponent && this.id == ( (ArenaOpponent) o ).id;
+			return o instanceof ArenaOpponent && this.id == ( ( ArenaOpponent ) o ).id;
 		}
 
 		@Override

@@ -128,7 +128,7 @@ public class ByteBufferUtilities
 			if ( ByteBufferUtilities.BYTEARRAYS_STATUS.get( i ) == Boolean.FALSE )
 			{
 				ByteBufferUtilities.BYTEARRAYS_STATUS.set( i, Boolean.TRUE );
-				return (byte[]) ByteBufferUtilities.BYTEARRAYS.get( i );
+				return ByteBufferUtilities.BYTEARRAYS.get( i );
 			}
 		}
 
@@ -159,7 +159,7 @@ public class ByteBufferUtilities
 			if ( ByteBufferUtilities.BYTESTREAMS_STATUS.get( i ) == Boolean.FALSE )
 			{
 				ByteBufferUtilities.BYTESTREAMS_STATUS.set( i, Boolean.TRUE );
-				return (ByteArrayOutputStream) ByteBufferUtilities.BYTESTREAMS.get( i );
+				return ByteBufferUtilities.BYTESTREAMS.get( i );
 			}
 		}
 

@@ -152,14 +152,13 @@ public class WumpusCommand
 				if ( responseText != null )
 				{
 					WumpusManager.visitChoice( responseText );
-					StringBuilder buffer = new StringBuilder();
-					buffer.append( "Wumpinator: " );
-					buffer.append( "<a href=\"" ) ;
-					buffer.append( WumpusManager.getWumpinatorURL() );
-					buffer.append( "\">" );
-					buffer.append( "&lt;click here&gt;" );
-					buffer.append( "</a>" );
-					RequestLogger.printLine( buffer.toString() );
+                    String buffer = "Wumpinator: " +
+                            "<a href=\"" +
+                            WumpusManager.getWumpinatorURL() +
+                            "\">" +
+                            "&lt;click here&gt;" +
+                            "</a>";
+                    RequestLogger.printLine( buffer );
 				}
 			}
 		}

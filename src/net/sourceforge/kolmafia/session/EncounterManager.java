@@ -572,7 +572,7 @@ public abstract class EncounterManager
 			this.type = type;
 			// The name is likely a substring of a page load, so storing it
 			// as-is would keep the entire page in memory.
-			this.name = new String( name );
+			this.name = name;
 
 			this.stringform = type == null ? name : type + ": " + name;
 			this.encounterCount = 1;
@@ -586,7 +586,7 @@ public abstract class EncounterManager
 
 		public int compareTo( final RegisteredEncounter o )
 		{
-			if ( !( o instanceof RegisteredEncounter ) || o == null )
+			if ( o == null )
 			{
 				return -1;
 			}

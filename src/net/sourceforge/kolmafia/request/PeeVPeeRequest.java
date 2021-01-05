@@ -347,7 +347,7 @@ public class PeeVPeeRequest
 			String relString = itemMatcher.group( 1 );
 			AdventureResult item = ItemDatabase.itemFromRelString( relString );
 
-			ResultProcessor.processItem( false, "You acquire an item:", item, (List<AdventureResult>) null );
+			ResultProcessor.processItem( false, "You acquire an item:", item, null );
 		}
 	}
 
@@ -440,15 +440,12 @@ public class PeeVPeeRequest
 				String stance = PeeVPeeRequest.getField( PeeVPeeRequest.STANCE_PATTERN, urlString );
 				String mission = PeeVPeeRequest.getField( PeeVPeeRequest.MISSION_PATTERN, urlString );
 
-				StringBuilder buf = new StringBuilder();
-				buf.append( "Attack " );
-				buf.append( PeeVPeeRequest.getOpponent( who, ranked ) );
-				buf.append( " for " );
-				buf.append( PeeVPeeRequest.getMission( mission ) );
-				buf.append( " via " );
-				buf.append( PeeVPeeRequest.getStance( stance ) );
-
-				String message = buf.toString();
+                String message = "Attack " +
+                        PeeVPeeRequest.getOpponent( who, ranked ) +
+                        " for " +
+                        PeeVPeeRequest.getMission( mission ) +
+                        " via " +
+                        PeeVPeeRequest.getStance( stance );
 				RequestLogger.updateSessionLog();
 				RequestLogger.updateSessionLog( message );
 			}

@@ -1057,7 +1057,7 @@ public abstract class StoreManager
 		@Override
 		public synchronized boolean equals( final Object o )
 		{
-			return o != null && o instanceof SoldItem && ( (SoldItem) o ).itemId == this.itemId;
+			return o instanceof SoldItem && ( ( SoldItem ) o ).itemId == this.itemId;
 		}
 
 		@Override
@@ -1068,7 +1068,7 @@ public abstract class StoreManager
 
 		public int compareTo( final Object o )
 		{
-			if ( o == null || !( o instanceof SoldItem ) )
+			if ( !( o instanceof SoldItem ) )
 			{
 				return -1;
 			}

@@ -911,7 +911,7 @@ public abstract class ItemManagePanel
 
 			for ( int i = 0; i < items.length; ++i )
 			{
-				RequestThread.postRequest( new PulverizeRequest( (AdventureResult) items[ i ] ) );
+				RequestThread.postRequest( new PulverizeRequest( items[ i ] ) );
 			}
 		}
 

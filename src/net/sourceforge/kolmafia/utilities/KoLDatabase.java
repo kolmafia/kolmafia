@@ -55,7 +55,7 @@ public class KoLDatabase
 
 		public int compareTo( final ItemCounter o )
 		{
-			ItemCounter ic = (ItemCounter) o;
+			ItemCounter ic = o;
 
 			if ( this.count != ic.count )
 			{

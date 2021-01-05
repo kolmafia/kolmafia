@@ -234,20 +234,20 @@ public class DataTypes
 	public static final Value STRING_INIT = new Value( "" );
 
 	public static final Value ITEM_INIT = new Value( DataTypes.ITEM_TYPE, -1, "none" );
-	public static final Value LOCATION_INIT = new Value( DataTypes.LOCATION_TYPE, "none", (Object) null );
+	public static final Value LOCATION_INIT = new Value( DataTypes.LOCATION_TYPE, "none", null );
 	public static final Value CLASS_INIT = new Value( DataTypes.CLASS_TYPE, -1, "none" );
 	public static final Value STAT_INIT = new Value( DataTypes.STAT_TYPE, -1, "none" );
 	public static final Value SKILL_INIT = new Value( DataTypes.SKILL_TYPE, -1, "none" );
 	public static final Value EFFECT_INIT = new Value( DataTypes.EFFECT_TYPE, -1, "none" );
 	public static final Value FAMILIAR_INIT = new Value( DataTypes.FAMILIAR_TYPE, -1, "none" );
 	public static final Value SLOT_INIT = new Value( DataTypes.SLOT_TYPE, -1, "none" );
-	public static final Value MONSTER_INIT = new Value( DataTypes.MONSTER_TYPE, 0, "none", (Object) null );
+	public static final Value MONSTER_INIT = new Value( DataTypes.MONSTER_TYPE, 0, "none", null );
 	public static final Value ELEMENT_INIT = new Value( DataTypes.ELEMENT_TYPE, "none", Element.NONE );
-	public static final Value COINMASTER_INIT = new Value( DataTypes.COINMASTER_TYPE, "none", (Object) null );
+	public static final Value COINMASTER_INIT = new Value( DataTypes.COINMASTER_TYPE, "none", null );
 	public static final Value PHYLUM_INIT = new Value( DataTypes.PHYLUM_TYPE, "none", Phylum.NONE );
-	public static final Value BOUNTY_INIT = new Value( DataTypes.BOUNTY_TYPE, "none", (Object) null );
-	public static final Value THRALL_INIT = new Value( DataTypes.THRALL_TYPE, 0, "none", (Object) null );
-	public static final Value SERVANT_INIT = new Value( DataTypes.SERVANT_TYPE, 0, "none", (Object) null );
+	public static final Value BOUNTY_INIT = new Value( DataTypes.BOUNTY_TYPE, "none", null );
+	public static final Value THRALL_INIT = new Value( DataTypes.THRALL_TYPE, 0, "none", null );
+	public static final Value SERVANT_INIT = new Value( DataTypes.SERVANT_TYPE, 0, "none", null );
 	public static final Value VYKEA_INIT = new Value( DataTypes.VYKEA_TYPE, 0, "none", VYKEACompanionData.NO_COMPANION );
 
 	public static final TypeList enumeratedTypes = new TypeList();
@@ -430,7 +430,7 @@ public class DataTypes
 
 	public static final Value makeLocationValue( final KoLAdventure adventure )
 	{
-		return new Value( DataTypes.LOCATION_TYPE, adventure.getAdventureName(), (Object) adventure );
+		return new Value( DataTypes.LOCATION_TYPE, adventure.getAdventureName(), adventure );
 	}
 
 	public static final int classToInt( final String name )
@@ -840,7 +840,7 @@ public class DataTypes
 			return returnDefault ? DataTypes.COINMASTER_INIT : null;
 		}
 
-		return new Value( DataTypes.COINMASTER_TYPE, content.getMaster(), (Object) content );
+		return new Value( DataTypes.COINMASTER_TYPE, content.getMaster(), content );
 	}
 
 	public static final Value makeCoinmasterValue( final CoinmasterData data )
@@ -850,7 +850,7 @@ public class DataTypes
 			return DataTypes.COINMASTER_INIT;
 		}
 
-		return new Value( DataTypes.COINMASTER_TYPE, data.getMaster(), (Object) data );
+		return new Value( DataTypes.COINMASTER_TYPE, data.getMaster(), data );
 	}
 
 	public static final Value parseValue( final Type type, final String name, final boolean returnDefault )

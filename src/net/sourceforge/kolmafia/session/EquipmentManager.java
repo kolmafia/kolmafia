@@ -1487,7 +1487,6 @@ public class EquipmentManager
 		{
 			if ( equipment[ i ] == null )
 			{
-				continue;
 			}
 			else if ( equipment[ i ].equals( EquipmentRequest.UNEQUIP ) )
 			{

@@ -1076,7 +1076,7 @@ public class PocketDatabase
 	{
 		return pockets
 			.stream()
-			.filter( p -> ((StatsPocket) p).getCount( stat ) > 0 )
+			.filter( p -> p.getCount( stat ) > 0 )
 			.sorted( Comparator.comparing(p -> ((StatsPocket) p).getCount( stat ) ).reversed()
 				 .thenComparing(p -> ((Pocket) p).getPocket() ) )
 			.collect( Collectors.toList() );

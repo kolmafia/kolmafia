@@ -76,7 +76,7 @@ public class TabbedChatFrame
 	@Override
 	public JTabbedPane getTabbedPane()
 	{
-		return Preferences.getBoolean( "useShinyTabbedChat" ) ? (JTabbedPane) new CloseTabbedPane() : (JTabbedPane) new CloseableTabbedPane();
+		return Preferences.getBoolean( "useShinyTabbedChat" ) ? new CloseTabbedPane() : new CloseableTabbedPane();
 	}
 
 	/**

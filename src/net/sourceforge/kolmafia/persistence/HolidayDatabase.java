@@ -542,7 +542,7 @@ public class HolidayDatabase
 	public static final double getBloodEffect( final int ronaldPhase, final int grimacePhase, final int hamburglarPosition )
 	{
 		// Yendor says: "I have 2538 base Muscle; the effect gives +1597, or 62.92%. So the percentage is not being rounded."
-		return 10.0 + 20.0 * Math.sqrt( (double) HolidayDatabase.getMoonlight( ronaldPhase, grimacePhase, hamburglarPosition ) );
+		return 10.0 + 20.0 * Math.sqrt( HolidayDatabase.getMoonlight( ronaldPhase, grimacePhase, hamburglarPosition ) );
 	}
 
 	/**
@@ -1025,7 +1025,7 @@ public class HolidayDatabase
 
 		public int compareTo( final HolidayEntry o )
 		{
-			if ( o == null || !( o instanceof HolidayEntry ) )
+			if ( !( o instanceof HolidayEntry ) )
 			{
 				return -1;
 			}
@@ -1041,7 +1041,7 @@ public class HolidayDatabase
 		@Override
 		public boolean equals( final Object o )
 		{
-			if ( o == null || !( o instanceof HolidayEntry ) )
+			if ( !( o instanceof HolidayEntry ) )
 			{
 				return false;
 			}

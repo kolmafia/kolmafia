@@ -108,10 +108,7 @@ public class ManageStoreRequest
 		if ( qty > 1 )
 		{
 			AdventureResult item = ItemPool.get( itemId );
-			if ( KoLConstants.profitableList.contains( item ) )
-			{
-				KoLConstants.profitableList.remove( item );
-			}
+			KoLConstants.profitableList.remove( item );
 		}
 
 		this.addFormField( "qty", String.valueOf( qty ) );
@@ -483,15 +480,12 @@ public class ManageStoreRequest
 			}
 			int qty = StringUtilities.parseInt( qtyMatcher.group( 1 ) );
 
-			StringBuilder buffer = new StringBuilder();
-
-			buffer.append( "Removing " );
-			buffer.append( qty );
-			buffer.append( " " );
-			buffer.append( ItemDatabase.getItemName( itemId ) );
-			buffer.append( " from store" );
-
-			RequestLogger.updateSessionLog( buffer.toString() );
+            String buffer = "Removing " +
+                    qty +
+                    " " +
+                    ItemDatabase.getItemName( itemId ) +
+                    " from store";
+            RequestLogger.updateSessionLog( buffer );
 
 			return true;
 		}

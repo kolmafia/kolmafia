@@ -191,7 +191,7 @@ public class Concoction
 
 	public Concoction( final String name, final int price )
 	{
-		this( (AdventureResult) null, CraftingType.NOCREATE );
+		this( null, CraftingType.NOCREATE );
 
 		this.name = name;
 		this.price = price;
@@ -203,7 +203,7 @@ public class Concoction
 
 	public Concoction( final String name )
 	{
-		this( (AdventureResult) null, CraftingType.NOCREATE );
+		this( null, CraftingType.NOCREATE );
 
 		this.name = name;
 		this.special = true;
@@ -215,7 +215,7 @@ public class Concoction
 
 	public Concoction( final String name, final String property )
 	{
-		this( (AdventureResult) null, CraftingType.NOCREATE );
+		this( null, CraftingType.NOCREATE );
 
 		this.name = name;
 		this.property = property;
@@ -356,7 +356,7 @@ public class Concoction
 		// For any non-null reference value x, x.equals(null) should
 		// return false.
 
-		if ( o == null || !( o instanceof Concoction ) )
+		if ( !( o instanceof Concoction ) )
 		{
 			return false;
 		}

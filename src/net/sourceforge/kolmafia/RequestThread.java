@@ -372,7 +372,7 @@ public abstract class RequestThread
 
 	public static synchronized final void closeRequestSequence( final Integer requestIdObj )
 	{
-		Thread thread = (Thread) RequestThread.threadMap.remove( requestIdObj );
+		Thread thread = RequestThread.threadMap.remove( requestIdObj );
 
 		if ( thread == null || !RequestThread.threadMap.isEmpty() )
 		{

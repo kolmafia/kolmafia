@@ -7481,7 +7481,7 @@ public class UseItemRequest
 		// A00000000(11), which is just slightly under 2**31.
 		for ( int i = 0; i < 9; ++i )
 		{
-			String piece = (String) pieces.get( start + i * 2 + 1 );
+			String piece = pieces.get( start + i * 2 + 1 );
 			int value = ItemPool.EV_HELMET_LEVELS.indexOf( piece );
 			if ( value == -1 )
 			{

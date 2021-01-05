@@ -146,7 +146,7 @@ public class CakeArenaFrame
 
 			for ( int i = 0; i < CakeArenaFrame.this.opponents.size(); ++i )
 			{
-				opponentRace = ( (ArenaOpponent) CakeArenaFrame.this.opponents.get( i ) ).getRace();
+				opponentRace = CakeArenaFrame.this.opponents.get( i ).getRace();
 				opponentData[ i ][ 0 ] = CakeArenaFrame.this.opponents.get( i ).toString();
 
 				for ( int j = 1; j <= 4; ++j )

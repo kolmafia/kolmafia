@@ -77,7 +77,7 @@ public class CharSheetRequest
 {
 	private static final Pattern BASE_PATTERN = Pattern.compile( " \\(base: ([\\d,]+)\\)" );
 	private static final Pattern AVATAR_PATTERN =
-		Pattern.compile( "<img src=[^>]*?(?:images.kingdomofloathing.com|/images)/([^>\'\"\\s]+)" );
+		Pattern.compile( "<img src=[^>]*?(?:images.kingdomofloathing.com|/images)/([^>'\"\\s]+)" );
 
 	private static final HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
 	private static final DomSerializer domSerializer = new DomSerializer( cleaner.getProperties() );

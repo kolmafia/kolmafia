@@ -140,8 +140,8 @@ public class MallSearchFrame
 
 			this.searchField =
 				Preferences.getBoolean( "cacheMallSearches" ) ?
-				(JComponent) new AutoFilterComboBox( MallSearchFrame.pastSearches, true ) :
-				(JComponent) new AutoHighlightTextField();
+                        new AutoFilterComboBox( MallSearchFrame.pastSearches, true ) :
+                        new AutoHighlightTextField();
 
 			this.countField = new AutoHighlightTextField();
 

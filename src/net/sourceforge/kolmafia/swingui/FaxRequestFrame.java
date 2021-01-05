@@ -248,16 +248,13 @@ public class FaxRequestFrame
 		// We can try several times...
 		PauseObject pauser = new PauseObject();
 
-		StringBuilder buf = new StringBuilder();
-		buf.append( "Asking " );
-		buf.append( botName );
-		buf.append( " to send a fax" );
-		buf.append( " of " );
-		buf.append( name );
-		buf.append( ": " );
-		buf.append( command );
-
-		String message = buf.toString();
+        String message = "Asking " +
+                botName +
+                " to send a fax" +
+                " of " +
+                name +
+                ": " +
+                command;
 
 		try
 		{

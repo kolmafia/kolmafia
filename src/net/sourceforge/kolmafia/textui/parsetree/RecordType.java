@@ -181,7 +181,7 @@ public class RecordType
 	@Override
 	public boolean equals( final Type o )
 	{
-		return o instanceof RecordType && this.name.equals( ( (RecordType) o ).name );
+		return o instanceof RecordType && this.name.equals( o.name );
 	}
 
 	@Override

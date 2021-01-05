@@ -197,7 +197,7 @@ public class RecoveryManager
 	{
 		try
 		{
-			return KoLCharacter.class.getMethod( name, new Class[ 0 ] );
+			return KoLCharacter.class.getMethod( name );
 		}
 		catch ( NoSuchMethodException e )
 		{

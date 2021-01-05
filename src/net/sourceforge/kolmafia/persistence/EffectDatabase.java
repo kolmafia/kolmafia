@@ -284,12 +284,12 @@ public class EffectDatabase
 	{
 		if ( effectId == -1 )
 		{
-			return Collections.<String>emptyList().iterator();
+			return Collections.emptyIterator();
 		}
 		String actions = StringUtilities.getDisplayName( EffectDatabase.defaultActions.get( IntegerPool.get( effectId ) ) );
 		if ( actions == null )
 		{
-			return Collections.<String>emptyList().iterator();
+			return Collections.emptyIterator();
 		}
 		ArrayList<String> rv = new ArrayList<String>();
 		String[] pieces = actions.split( "\\|" );
@@ -645,9 +645,9 @@ public class EffectDatabase
 		String image = DebugDatabase.parseImage( text );
 
 		// Detach name, descid, and image from being substrings
-		name = new String( name );
-		descId = new String( descId );
-		image = new String( image );
+		name = name;
+		descId = descId;
+		image = image;
 
 		String canonicalName = StringUtilities.getCanonicalName( name );
 		Integer id = IntegerPool.get( effectId );
@@ -782,7 +782,7 @@ public class EffectDatabase
 
 		if ( matchingNames.size() != 0 )
 		{
-			effectName = (String) matchingNames.get( 0 );
+			effectName = matchingNames.get( 0 );
 			duration = 1;
 		}
 		else

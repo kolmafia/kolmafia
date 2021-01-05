@@ -166,7 +166,7 @@ public class ReleaseNotes
 
 		public int compareTo( Revision o )
 		{
-			return this.revisionId - ((Revision)o).revisionId;
+			return this.revisionId - o.revisionId;
 		}
 	}
 }

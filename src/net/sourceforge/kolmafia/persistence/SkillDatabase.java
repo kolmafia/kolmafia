@@ -368,7 +368,7 @@ public class SkillDatabase
 
 		category = (String) categoryMatches.get( 0 );
 
-		List skills = (List) SkillDatabase.skillsByCategory.get( category );
+		List skills = SkillDatabase.skillsByCategory.get( category );
 
 		if ( skills == null )
 		{
@@ -387,7 +387,7 @@ public class SkillDatabase
 
 	public static final String getSkillName( final int skillId )
 	{
-		return (String) SkillDatabase.nameById.get( IntegerPool.get( skillId ) );
+		return SkillDatabase.nameById.get( IntegerPool.get( skillId ) );
 	}
 
 	public static final String getSkillDataName( final String skillName )
@@ -755,7 +755,7 @@ public class SkillDatabase
 
 	public static final String getSkillImage( final int skillId )
 	{
-		return (String) SkillDatabase.imageById.get( IntegerPool.get( skillId ) );
+		return SkillDatabase.imageById.get( IntegerPool.get( skillId ) );
 	}
 	private static final AdventureResult SUPER_SKILL = EffectPool.get( EffectPool.SUPER_SKILL );
 
@@ -1855,7 +1855,7 @@ public class SkillDatabase
 
 			for ( int j = 0; j < categories[ i ].size(); ++j )
 			{
-				if ( !KoLConstants.availableSkills.contains( UseSkillRequest.getUnmodifiedInstance( (String) categories[ i ].get( j ) ) ) )
+				if ( !KoLConstants.availableSkills.contains( UseSkillRequest.getUnmodifiedInstance( categories[ i ].get( j ) ) ) )
 				{
 					categories[ i ].remove( j-- );
 				}
@@ -1920,7 +1920,7 @@ public class SkillDatabase
 
 		for ( String s : list )
 		{
-			currentSkill = (String) s;
+			currentSkill = s;
 
 			if ( appendHTML )
 			{

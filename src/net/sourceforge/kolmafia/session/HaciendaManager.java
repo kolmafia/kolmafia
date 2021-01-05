@@ -192,15 +192,14 @@ public class HaciendaManager
 					int currentCheck = i*3+j;
 					if ( haciendaLayout.charAt( currentCheck ) == '0' )
 					{
+						boolean keyOrClue = room.toLowerCase().contains( "k" ) || room.toLowerCase().contains( "c" ) || room.toLowerCase().contains( "u" );
 						// If we have got a Key or Clue and a Fight in the Room remaining one is a Reward
-						if ( ( room.toLowerCase().contains( "k" ) || room.toLowerCase().contains( "c" ) || room.toLowerCase().contains( "u" ) ) &&
-							room.contains( "F" ) )
+						if ( keyOrClue && room.contains( "F" ) )
 						{
 							newLayout.setCharAt( currentCheck, 'r' );
 						}
 						// If we have got a Key or Clue and a Reward in the Room remaining one is a Fight
-						else if ( ( room.toLowerCase().contains( "k" ) || room.toLowerCase().contains( "c" ) || room.toLowerCase().contains( "u" ) ) &&
-							room.contains( "R" ) )
+						else if ( keyOrClue && room.contains( "R" ) )
 						{
 							newLayout.setCharAt( currentCheck, 'f' );
 						}
@@ -345,13 +344,12 @@ public class HaciendaManager
 			// choice of rooms
 			for ( int i=0 ; i < 3 ; i++ )
 			{
-				StringBuilder buffer = new StringBuilder();
-				buffer.append( HaciendaManager.getSpoiler( choice * 9 + i * 3 - 3699 ) );
-				buffer.append( " / " );
-				buffer.append( HaciendaManager.getSpoiler( choice * 9 + i * 3 - 3698 ) );
-				buffer.append( " / " );
-				buffer.append( HaciendaManager.getSpoiler( choice * 9 + i * 3 - 3697 ) );
-				result[ i ] = buffer.toString();
+				String buffer = HaciendaManager.getSpoiler( choice * 9 + i * 3 - 3699 ) +
+						" / " +
+						HaciendaManager.getSpoiler( choice * 9 + i * 3 - 3698 ) +
+						" / " +
+						HaciendaManager.getSpoiler( choice * 9 + i * 3 - 3697 );
+				result[ i ] = buffer;
 			}
 			result[ 3 ] = "leave barracks";
 			break;
@@ -402,10 +400,9 @@ public class HaciendaManager
 		}
 		else if ( haciendaLayout.charAt( spoiler ) == 'r' )
 		{
-			StringBuilder buffer = new StringBuilder();
-			buffer.append( "gain " );
-			buffer.append( HaciendaManager.returnReward( spoiler ) );
-			result = buffer.toString();
+			String buffer = "gain " +
+					HaciendaManager.returnReward( spoiler );
+			result = buffer;
 		}
 		else if ( haciendaLayout.charAt( spoiler ) == 'C' )
 		{

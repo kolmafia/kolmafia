@@ -194,13 +194,13 @@ public class AdventureResult
 		else if ( this.priority == AdventureResult.PSEUDO_ITEM_PRIORITY )
 		{
 			// Detach substring from larger text
-			this.name = new String( name );
+			this.name = name;
 			this.priority = AdventureResult.ITEM_PRIORITY;
 		}
 		else
 		{
 			// Detach substring from larger text
-			this.name = new String( name );
+			this.name = name;
 		}
 	}
 
@@ -309,7 +309,7 @@ public class AdventureResult
 		}
 		else
 		{
-			this.name = new String( this.name );
+			this.name = this.name;
 		}
 	}
 
@@ -344,7 +344,7 @@ public class AdventureResult
 		}
 		else
 		{
-			this.name = new String( this.name );
+			this.name = this.name;
 			RequestLogger.printLine( "Unknown item found: " + this.name );
 		}
 	}
@@ -615,7 +615,7 @@ public class AdventureResult
 
 	public long getLongCount()
 	{
-		return (long)count;
+		return count;
 	}
 
 	public int[] getCounts()

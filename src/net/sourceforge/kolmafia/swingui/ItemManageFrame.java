@@ -439,7 +439,7 @@ public class ItemManageFrame
 			AdventureResult[] items = new AdventureResult[ KoLConstants.mementoList.size() ];
 			for ( int i = 0; i < KoLConstants.mementoList.size(); ++i )
 			{
-				current = (AdventureResult) KoLConstants.mementoList.get( i );
+				current = KoLConstants.mementoList.get( i );
 				items[ i ] = current.getInstance( current.getCount( KoLConstants.inventory ) );
 			}
 

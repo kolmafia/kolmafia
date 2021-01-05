@@ -410,7 +410,7 @@ public class Value
 	@Override
 	public boolean equals( final Object o )
 	{
-		return o == null || !( o instanceof Value ) ? false : this.compareTo( (Value) o ) == 0;
+		return !( o instanceof Value ) ? false : this.compareTo( (Value) o ) == 0;
 	}
 
 	@Override
@@ -516,15 +516,14 @@ public class Value
 		List<String> names = type.getAmbiguousNames( string, value, false );
 		if ( names != null && names.size() > 1 )
 		{
-			StringBuilder message = new StringBuilder();
-			message.append( "Multiple matches for " );
-			message.append( string );
-			message.append( "; using " );
-			message.append( value.toString() );
-			message.append( " in " );
-			message.append( Parser.getLineAndFile( filename, line ) );
-			message.append( ". Clarify by using one of:" );
-			RequestLogger.printLine( message.toString() );
+            String message = "Multiple matches for " +
+                    string +
+                    "; using " +
+                    value.toString() +
+                    " in " +
+                    Parser.getLineAndFile( filename, line ) +
+                    ". Clarify by using one of:";
+            RequestLogger.printLine( message );
 			for ( String str : names )
 			{
 				RequestLogger.printLine( str );

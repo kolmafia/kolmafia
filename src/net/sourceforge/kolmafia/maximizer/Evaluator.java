@@ -215,8 +215,8 @@ public class Evaluator
 		Arrays.fill( tiebreaker.max, Double.POSITIVE_INFINITY );
 		tiebreaker.parse( Evaluator.TIEBREAKER );
 
-		this.min = (double[]) tiebreaker.min.clone();
-		this.max = (double[]) tiebreaker.max.clone();
+		this.min = tiebreaker.min.clone();
+		this.max = tiebreaker.max.clone();
 		this.parse( expr );
 	}
 
@@ -2034,12 +2034,12 @@ public class Evaluator
 					if ( bestCard != null )
 					{
 						spec.equipment[ EquipmentManager.CARDSLEEVE ] = bestCard;
-						useCard = (AdventureResult) bestCard;
+						useCard = bestCard;
 					}
 					else
 					{
 						spec.equipment[ EquipmentManager.CARDSLEEVE ] = current.equipment[ EquipmentManager.CARDSLEEVE ];
-						useCard = (AdventureResult) current.equipment[ EquipmentManager.CARDSLEEVE ];
+						useCard = current.equipment[ EquipmentManager.CARDSLEEVE ];
 					}
 				}
 				else if ( itemId == ItemPool.FOLDER_HOLDER )

@@ -144,15 +144,15 @@ public class ConcoctionDatabase
 	public static final LockableListModel<QueuedConcoction> queuedPotions = new LockableListModel<QueuedConcoction>();
 	private static final SortedListModel<AdventureResult> queuedPotionIngredients = new SortedListModel<AdventureResult>();
 
-	public static final Concoction stillsLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
-	public static final Concoction clipArtLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
-	public static final Concoction extrudeLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
-	public static final Concoction adventureLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
-	public static final Concoction adventureSmithingLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
-	public static final Concoction adventureJewelcraftingLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
-	public static final Concoction turnFreeLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
-	public static final Concoction turnFreeSmithingLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
-	public static final Concoction meatLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
+	public static final Concoction stillsLimit = new Concoction( null, CraftingType.NOCREATE );
+	public static final Concoction clipArtLimit = new Concoction( null, CraftingType.NOCREATE );
+	public static final Concoction extrudeLimit = new Concoction( null, CraftingType.NOCREATE );
+	public static final Concoction adventureLimit = new Concoction( null, CraftingType.NOCREATE );
+	public static final Concoction adventureSmithingLimit = new Concoction( null, CraftingType.NOCREATE );
+	public static final Concoction adventureJewelcraftingLimit = new Concoction( null, CraftingType.NOCREATE );
+	public static final Concoction turnFreeLimit = new Concoction( null, CraftingType.NOCREATE );
+	public static final Concoction turnFreeSmithingLimit = new Concoction( null, CraftingType.NOCREATE );
+	public static final Concoction meatLimit = new Concoction( null, CraftingType.NOCREATE );
 
 	public static final SortedListModelArray<AdventureResult> knownUses = new SortedListModelArray<AdventureResult>();
 
@@ -253,7 +253,7 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.requirements.clear();
 		ConcoctionDatabase.info.clear();
 		ConcoctionDatabase.row = 0;
-		String name = new String( data[ 0 ] );
+		String name = data[ 0 ];
 		String[] mixes = data[ 1 ].split( "\\s*,\\s*" );
 		for ( int i = 0; i < mixes.length; ++i )
 		{
@@ -3740,10 +3740,9 @@ public class ConcoctionDatabase
 		@Override
 		public boolean equals( final Object o )
 		{
-			return	o != null &&
-				o instanceof QueuedConcoction &&
-				this.concoction.equals( ( (QueuedConcoction) o ).concoction ) &&
-				this.count == ( (QueuedConcoction) o ).count;
+			return o instanceof QueuedConcoction &&
+                    this.concoction.equals( ( ( QueuedConcoction ) o ).concoction ) &&
+                    this.count == ( ( QueuedConcoction ) o ).count;
 		}
 
 		@Override

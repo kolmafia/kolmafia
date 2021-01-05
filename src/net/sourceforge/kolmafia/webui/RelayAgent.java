@@ -288,7 +288,6 @@ public class RelayAgent
 				{
 					this.request.cookies = buffer.toString();
 				}
-				continue;
 			}
 		}
 

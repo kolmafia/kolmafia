@@ -375,7 +375,7 @@ public class MallSearchRequest
 
 			// Handle character entities mangled by KoL.
 
-			String shopName = new String( mangledEntityPattern.matcher( shopMatcher.group( 1 ) ).replaceAll( ";" ) );
+			String shopName = mangledEntityPattern.matcher( shopMatcher.group( 1 ) ).replaceAll( ";" );
 
 			int lastFindIndex = 0;
 			Matcher priceMatcher = MallSearchRequest.STOREPRICE_PATTERN.matcher( this.responseText );
@@ -432,7 +432,7 @@ public class MallSearchRequest
 		// make everything easy to parse.
 
 		int startIndex = this.responseText.indexOf( "Search Results:" );
-		String storeListResult = this.responseText.substring( startIndex < 0 ? 0 : startIndex );
+		String storeListResult = this.responseText.substring( Math.max( startIndex, 0 ) );
 
 		int previousItemId = -1;
 		Matcher itemMatcher = MallSearchRequest.ITEMDETAIL_PATTERN.matcher( storeListResult );
@@ -504,7 +504,7 @@ public class MallSearchRequest
 				// is not available.
 
 				int price = StringUtilities.parseInt( detailsMatcher.group( 3 ) );
-				String shopName = new String( detailsMatcher.group( 4 ).replaceAll( "<br>", " " ) );
+				String shopName = detailsMatcher.group( 4 ).replaceAll( "<br>", " " );
 
 				this.results.add( new MallPurchaseRequest( itemId, quantity, shopId, shopName, price, limit, canPurchase ) );
 			}
@@ -604,28 +604,26 @@ public class MallSearchRequest
 
 			String storeString = MallPurchaseRequest.getStoreString( itemId, price );
 
-			StringBuilder buyers = new StringBuilder();
-			buyers.append( "<td valign=\"center\" class=\"buyers\">" );
-			buyers.append( "[<a href=\"mallstore.php?buying=1&quantity=1&whichitem=" );
-			buyers.append( storeString );
-			buyers.append( "&ajax=1&pwd=" );
-			buyers.append( GenericRequest.passwordHash );
-			buyers.append( "&whichstore=" );
-			buyers.append( whichstore );
-			buyers.append( "\" class=\"buyone\">buy</a>]" );
-			buyers.append( "&nbsp;" );
-			buyers.append( "[<a href=\"#\" rel =\"mallstore.php?buying=1&whichitem=" );
-			buyers.append( storeString );
-			buyers.append( "&ajax=1&pwd=" );
-			buyers.append( GenericRequest.passwordHash );
-			buyers.append( "&whichstore=" );
-			buyers.append( whichstore );
-			buyers.append( "&quantity=\" class=\"buysome\">buy&nbsp;some</a>]" );
-			buyers.append( "</td>" );
-
+			String buyers = "<td valign=\"center\" class=\"buyers\">" +
+					"[<a href=\"mallstore.php?buying=1&quantity=1&whichitem=" +
+					storeString +
+					"&ajax=1&pwd=" +
+					GenericRequest.passwordHash +
+					"&whichstore=" +
+					whichstore +
+					"\" class=\"buyone\">buy</a>]" +
+					"&nbsp;" +
+					"[<a href=\"#\" rel =\"mallstore.php?buying=1&whichitem=" +
+					storeString +
+					"&ajax=1&pwd=" +
+					GenericRequest.passwordHash +
+					"&whichstore=" +
+					whichstore +
+					"&quantity=\" class=\"buysome\">buy&nbsp;some</a>]" +
+					"</td>";
 			buffer.replace( matcher.start() + nobuyersMatcher.start(),
 					matcher.start() + nobuyersMatcher.end(),
-					buyers.toString() );
+					buyers );
 		}
 	}
 }

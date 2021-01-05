@@ -64,7 +64,7 @@ public class IntegerArray
 
 	public int get( final int index )
 	{
-		return index < 0 || index >= this.internalList.size() ? 0 : ( (Integer) this.internalList.get( index ) ).intValue();
+		return index < 0 || index >= this.internalList.size() ? 0 : this.internalList.get( index ).intValue();
 	}
 
 	public void set( final int index, final int value )
@@ -94,7 +94,7 @@ public class IntegerArray
 
 		for ( int i = 0; i < array.length; ++i )
 		{
-			array[ i ] = ( (Integer) iterator.next() ).intValue();
+			array[ i ] = iterator.next().intValue();
 		}
 
 		return array;

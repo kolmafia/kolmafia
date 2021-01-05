@@ -57,7 +57,7 @@ public class StringArray
 
 	public String get( final int index )
 	{
-		return index < 0 || index >= this.internalList.size() ? "" : (String) this.internalList.get( index );
+		return index < 0 || index >= this.internalList.size() ? "" : this.internalList.get( index );
 	}
 
 	public void set( final int index, final String value )

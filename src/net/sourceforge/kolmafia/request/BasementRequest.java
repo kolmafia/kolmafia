@@ -328,13 +328,12 @@ public class BasementRequest
 		case HPDRAIN:
 		{
 			BasementRequest.updateHPDrainParameters();
-			StringBuilder buffer = new StringBuilder( BasementRequest.basementTestString );
-			buffer.append( " Test: " );
-			buffer.append( KoLConstants.COMMA_FORMAT.format( BasementRequest.basementTestCurrent ) );
-			buffer.append( " current, " );
-			buffer.append( BasementRequest.gauntletString );
-			buffer.append( " needed" );
-			return buffer.toString();
+			String buffer = BasementRequest.basementTestString + " Test: " +
+					KoLConstants.COMMA_FORMAT.format( BasementRequest.basementTestCurrent ) +
+					" current, " +
+					BasementRequest.gauntletString +
+					" needed";
+			return buffer;
 		}
 
 		case MUSCLE:
@@ -352,13 +351,12 @@ public class BasementRequest
 		}
 
 		// Stat Test
-		StringBuilder buffer = new StringBuilder( BasementRequest.basementTestString );
-		buffer.append( " Test: " );
-		buffer.append( KoLConstants.COMMA_FORMAT.format( BasementRequest.basementTestCurrent ) );	
-		buffer.append( " current, " );
-		buffer.append( KoLConstants.COMMA_FORMAT.format( BasementRequest.basementTestValue ) );
-		buffer.append( " needed" );
-		return buffer.toString();
+		String buffer = BasementRequest.basementTestString + " Test: " +
+				KoLConstants.COMMA_FORMAT.format( BasementRequest.basementTestCurrent ) +
+				" current, " +
+				KoLConstants.COMMA_FORMAT.format( BasementRequest.basementTestValue ) +
+				" needed";
+		return buffer;
 	}
 
 	public static final String getRequirement()
@@ -715,7 +713,7 @@ public class BasementRequest
 		RequestThread.postRequest( UseItemRequest.getInstance( BasementRequest.goodphial ) );
 
 		double damage =
-			BasementRequest.expected1 >= BasementRequest.expected2 ? BasementRequest.expected2 : BasementRequest.expected1;
+                Math.min( BasementRequest.expected1, BasementRequest.expected2 );
 		RecoveryManager.recoverHP( (int) ( 1.0 + damage ) );
 
 		return KoLmafia.permitsContinue();

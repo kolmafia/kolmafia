@@ -152,7 +152,7 @@ public class MoodTrigger
 
 		if ( type.equals( "lose_effect" ) && effect != null )
 		{
-			Set<String> existingActions = (Set<String>) MoodTrigger.knownSources.get( effect.getName() );
+			Set<String> existingActions = MoodTrigger.knownSources.get( effect.getName() );
 
 			if ( existingActions == null )
 			{
@@ -190,7 +190,7 @@ public class MoodTrigger
 
 	public static String getKnownSources( String name )
 	{
-		Set existingActions = (Set) MoodTrigger.knownSources.get( name );
+		Set existingActions = MoodTrigger.knownSources.get( name );
 
 		if ( existingActions == null )
 		{
@@ -296,7 +296,7 @@ public class MoodTrigger
 	@Override
 	public boolean equals( final Object o )
 	{
-		if ( o == null || !( o instanceof MoodTrigger ) )
+		if ( !( o instanceof MoodTrigger ) )
 		{
 			return false;
 		}
@@ -430,12 +430,12 @@ public class MoodTrigger
 
 	public int compareTo( final MoodTrigger o )
 	{
-		if ( o == null || !( o instanceof MoodTrigger ) )
+		if ( !( o instanceof MoodTrigger ) )
 		{
 			return -1;
 		}
 
-		MoodTrigger mt = (MoodTrigger) o;
+		MoodTrigger mt = o;
 		String othertype = mt.type;
 		String othername = mt.name;
 		String otherTriggerAction = mt.action;

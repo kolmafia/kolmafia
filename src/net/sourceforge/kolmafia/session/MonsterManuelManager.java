@@ -133,7 +133,7 @@ public class MonsterManuelManager
 		// saved; perhaps there are additional factoids.
 
 		// Detach the entry from the page text and store in entry map
-		String entry = new String( text );
+		String entry = text;
 		MonsterManuelManager.manuelEntries.put( id, entry );
 
 		// Count the factoids and remember that, too.

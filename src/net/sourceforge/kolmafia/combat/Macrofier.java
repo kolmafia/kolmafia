@@ -179,7 +179,7 @@ public class Macrofier
 					{
 						StringBuffer macro = new StringBuffer();
 						macro.append( "#macro action\n" );
-						macro.append( result.substring( 1, result.length() - 1 ) );
+						macro.append( result, 1, result.length() - 1 );
 						macro.append( '\n' );
 
 						if ( debug )
@@ -286,7 +286,7 @@ public class Macrofier
 		}
 
 		int macrolen = FightRequest.getMacroPrefixLength();
-		int start = macrolen > 0 ? macrolen : 0;
+		int start = Math.max( macrolen, 0 );
 
 		for ( int i = start; i < 10000; ++i )
 		{

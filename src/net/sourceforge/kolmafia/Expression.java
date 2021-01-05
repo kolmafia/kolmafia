@@ -98,13 +98,12 @@ public class Expression
 		{
 			return null;
 		}
-		StringBuilder buf = new StringBuilder();
-		buf.append( "Expression syntax errors for '" );
-		buf.append( name );
-		buf.append( "':" );
-		buf.append( KoLConstants.LINE_BREAK );
-		buf.append( this.error );
-		return buf.toString();
+        String buf = "Expression syntax errors for '" +
+                name +
+                "':" +
+                KoLConstants.LINE_BREAK +
+                this.error;
+        return buf;
 	}
 
 	private static double[] cachedStack;
@@ -478,7 +477,7 @@ public class Expression
 				break;
 			// Valid with ModifierExpression and MonsterExpression:
 			case '\u0092':
-				v = KoLCharacter.getPath().equals( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
+				v = KoLCharacter.getPath().equals( this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
 				break;
 			// Valid with ModifierExpression:
 			case '\u0093':

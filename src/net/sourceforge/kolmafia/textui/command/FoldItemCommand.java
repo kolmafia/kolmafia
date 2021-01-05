@@ -201,13 +201,12 @@ public class FoldItemCommand
 		// they have one in inventory, since this is probably what the user wants.
 		if ( targetName.startsWith( "Boris's Helm" ) && slot != EquipmentManager.NONE )
 		{
-			StringBuilder buf = new StringBuilder();
-			buf.append( "inventory.php?action=twisthorns&slot=" );
-			buf.append( slot == EquipmentManager.HAT ? "hat" : "familiarequip" );
-			buf.append( "&pwd=" );
-			buf.append( GenericRequest.passwordHash );
 
-			GenericRequest request = new GenericRequest( buf.toString(), false );
+            String buf = "inventory.php?action=twisthorns&slot=" +
+                    ( slot == EquipmentManager.HAT ? "hat" : "familiarequip" ) +
+                    "&pwd=" +
+                    GenericRequest.passwordHash;
+            GenericRequest request = new GenericRequest( buf, false );
 			RequestThread.postRequest( request );
 			return;
 		}
@@ -234,12 +233,11 @@ public class FoldItemCommand
 		if ( targetName.startsWith( "toggle switch" ) && slot != EquipmentManager.NONE )
 		{
 			// inventory.php?action=togglebutt&slot=familiarequip&pwd=aac208cd3ac99f274ea3822e13e5965a
-			StringBuilder buf = new StringBuilder();
-			buf.append( "inventory.php?action=togglebutt" );
-			buf.append( "&slot=familiarequip&pwd=" );buf.append( GenericRequest.passwordHash );
-			buf.append( "&ajax=1" );
 
-			GenericRequest request = new GenericRequest( buf.toString(), false );
+            String buf = "inventory.php?action=togglebutt" +
+                    "&slot=familiarequip&pwd=" + GenericRequest.passwordHash +
+                    "&ajax=1";
+            GenericRequest request = new GenericRequest( buf, false );
 			RequestThread.postRequest( request );
 			return;
 		}

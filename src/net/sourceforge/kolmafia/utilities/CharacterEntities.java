@@ -1171,7 +1171,7 @@ public class CharacterEntities
 				continue;
 			}
 
-			String entity = (String) CharacterEntities.entities.get( new Character( ch ) );
+			String entity = CharacterEntities.entities.get( new Character( ch ) );
 
 			// If we don't have a translation, use Unicode escape
 			if ( entity == null )
@@ -1192,7 +1192,7 @@ public class CharacterEntities
 			// Append prefix
 			if ( i > start )
 			{
-				entityVersion.append( unicodeVersion.substring( start, i ) );
+				entityVersion.append( unicodeVersion, start, i );
 			}
 
 			// Insert entity
@@ -1253,7 +1253,7 @@ public class CharacterEntities
 			}
 			else
 			{
-				unicode = (Character) CharacterEntities.unicodes.get( entity );
+				unicode = CharacterEntities.unicodes.get( entity );
 			}
 
 			// If we don't have a translation, skip past entity
@@ -1272,7 +1272,7 @@ public class CharacterEntities
 			// Copy in prefix
 			if ( index > start )
 			{
-				unicodeVersion.append( entityVersion.substring( start, index ) );
+				unicodeVersion.append( entityVersion, start, index );
 			}
 
 			// Insert unicode

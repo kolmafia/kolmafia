@@ -96,7 +96,7 @@ public class CheckedItem
 				}
 				// Cannot have more than one item from Januuary's Garbage Tote, no matter how many you have
 				// Fold groups are stored in lower case
-				if ( ( (String) group.get( 1 ) ).equals( "january's garbage tote" ) )
+				if ( group.get( 1 ).equals( "january's garbage tote" ) )
 				{
 					if ( this.foldable + this.initial > 1 )
 					{
@@ -205,7 +205,7 @@ public class CheckedItem
 						}
 					}
 					// Cannot have more than one item from Januuary's Garbage Tote, no matter how many you have
-					if ( ( (String) group.get( 1 ) ).equals( "january's garbage tote" ) )
+					if ( group.get( 1 ).equals( "january's garbage tote" ) )
 					{
 						if ( this.pullfoldable > 1 )
 						{
@@ -235,10 +235,10 @@ public class CheckedItem
 		}
 		if ( this.singleFlag )
 		{
-			return (int)Math.min( 1, this.initial + this.creatable + this.npcBuyable + this.mallBuyable + this.foldable + this.pullable + this.pullfoldable + this.pullBuyable );
+			return Math.min( 1, this.initial + this.creatable + this.npcBuyable + this.mallBuyable + this.foldable + this.pullable + this.pullfoldable + this.pullBuyable );
 		}
 
-		return (int)( this.initial + this.creatable + this.npcBuyable + this.mallBuyable + this.foldable + this.pullable + this.pullfoldable + this.pullBuyable );
+		return this.initial + this.creatable + this.npcBuyable + this.mallBuyable + this.foldable + this.pullable + this.pullfoldable + this.pullBuyable;
 	}
 
 	public void validate( int maxPrice, int priceLevel )

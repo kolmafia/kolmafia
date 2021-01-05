@@ -271,22 +271,19 @@ public class CharPaneDecorator
 				continue;
 			}
 
-			StringBuilder rep = new StringBuilder();
-
-			rep.append( matcher.group( 1 ) );
-			rep.append( "<a style=\"color:" );
-			rep.append( color );
-			rep.append( "\" title=\"Restore your " );
-			rep.append( stat );
-			rep.append( "\" href=\"/KoLmafia/sideCommand?cmd=restore+" );
-			rep.append( stat );
-			rep.append( "&pwd=" );
-			rep.append( GenericRequest.passwordHash );
-			rep.append( "\">" );
-			rep.append( matcher.group( 4 ) );
-			rep.append( "</a>" );
-
-			StringUtilities.singleStringReplace( buffer, matcher.group( 0 ), rep.toString() );
+			String rep = matcher.group( 1 ) +
+					"<a style=\"color:" +
+					color +
+					"\" title=\"Restore your " +
+					stat +
+					"\" href=\"/KoLmafia/sideCommand?cmd=restore+" +
+					stat +
+					"&pwd=" +
+					GenericRequest.passwordHash +
+					"\">" +
+					matcher.group( 4 ) +
+					"</a>";
+			StringUtilities.singleStringReplace( buffer, matcher.group( 0 ), rep );
 		}
 	}
 
@@ -623,7 +620,7 @@ public class CharPaneDecorator
 
 		case FamiliarPool.CUBELING:
 			int cubelingProgress = Preferences.getInteger( "cubelingProgress" );
-			int cubelingDrops = Math.min((int)(Math.max(cubelingProgress - 3, 0) / 3), 3);
+			int cubelingDrops = Math.min( Math.max(cubelingProgress - 3, 0) / 3, 3);
 			buffer.append( cubelingDrops );
 			buffer.append( "/3 drops" );
 			return buffer;
@@ -972,7 +969,7 @@ public class CharPaneDecorator
 		{
 			for ( int i = 0; i < KoLConstants.activeEffects.size(); ++i )
 			{
-				AdventureResult currentEffect = (AdventureResult) KoLConstants.activeEffects.get( i );
+				AdventureResult currentEffect = KoLConstants.activeEffects.get( i );
 				if ( currentEffect.getCount() != Integer.MAX_VALUE &&
 				     !MoodManager.getDefaultAction( "lose_effect", currentEffect.getName() ).equals( "" ) )
 				{
@@ -1073,7 +1070,7 @@ public class CharPaneDecorator
 		startingIndex = text.indexOf( "<tr>", lastAppendIndex );
 		if ( startingIndex != -1 && !missingEffects.isEmpty() && !KoLConstants.activeEffects.isEmpty() )
 		{
-			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
+			buffer.append( text, lastAppendIndex, startingIndex );
 			lastAppendIndex = startingIndex;
 
 			AdventureResult currentEffect;
@@ -1163,7 +1160,7 @@ public class CharPaneDecorator
 			if ( effect == null )
 			{
 				int nextAppendIndex = text.indexOf( ">", startingIndex ) + 1;
-				buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
+				buffer.append( text, lastAppendIndex, nextAppendIndex );
 				lastAppendIndex = nextAppendIndex;
 				continue;
 			}
@@ -1172,7 +1169,7 @@ public class CharPaneDecorator
 			String escapedEffectName = StringUtilities.getEntityEncode( effectName );
 
 			int nextAppendIndex = text.indexOf( "(", startingIndex ) + 1;
-			buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
+			buffer.append( text, lastAppendIndex, nextAppendIndex );
 			lastAppendIndex = nextAppendIndex;
 
 			if ( CharPaneRequest.compactCharacterPane )
@@ -1180,7 +1177,7 @@ public class CharPaneDecorator
 				if ( Preferences.getBoolean( "relayTextualizesEffects" ) )
 				{
 					nextAppendIndex = text.indexOf( "></td>", startingIndex );
-					buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
+					buffer.append( text, lastAppendIndex, nextAppendIndex );
 					lastAppendIndex = nextAppendIndex + 6;
 
 					int deleteIndex = buffer.lastIndexOf( "<img" );
@@ -1198,7 +1195,7 @@ public class CharPaneDecorator
 				nextAppendIndex = text.lastIndexOf( "(", text.indexOf( "</font", startingIndex ) ) + 1;
 			}
 
-			buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
+			buffer.append( text, lastAppendIndex, nextAppendIndex );
 			lastAppendIndex = nextAppendIndex;
 
 			String upkeepAction = MoodManager.getDefaultAction( "lose_effect", effectName );
@@ -1310,7 +1307,7 @@ public class CharPaneDecorator
 			}
 
 			nextAppendIndex = text.indexOf( ")", lastAppendIndex ) + 1;
-			buffer.append( text.substring( lastAppendIndex, nextAppendIndex - 1 ) );
+			buffer.append( text, lastAppendIndex, nextAppendIndex - 1 );
 			lastAppendIndex = nextAppendIndex;
 
 			if ( isShruggable || !removeAction.equals( "" ) )
@@ -1387,7 +1384,7 @@ public class CharPaneDecorator
 			if ( duration >= current.getTurnsRemaining() )
 			{
 				insPos = text.lastIndexOf( "<tr>", m.start( 0 ) );
-				buffer.append( text.substring( lastPos, insPos ) );
+				buffer.append( text, lastPos, insPos );
 				lastPos = insPos;
 				do
 				{
@@ -1420,7 +1417,7 @@ public class CharPaneDecorator
 		{	// something is very wrong
 			insPos = text.length();
 		}
-		buffer.append( text.substring( lastPos, insPos ) );
+		buffer.append( text, lastPos, insPos );
 		lastPos = insPos;
 		while ( true )
 		{

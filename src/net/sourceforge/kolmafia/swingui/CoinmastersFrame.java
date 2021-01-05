@@ -596,7 +596,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel currentPanel()
 	{
 		JComponent panel = this.selectorPanel.currentPanel();
-		Component cm = ( panel instanceof JPanel ) ? ( (JPanel) panel ).getComponent( 0 ) : null;
+		Component cm = ( panel instanceof JPanel ) ? panel.getComponent( 0 ) : null;
 		return ( cm instanceof CoinmasterPanel ) ? ( (CoinmasterPanel) cm )  : null;
 	}
 
@@ -712,16 +712,16 @@ public class CoinmastersFrame
 		public void pullA()
 		{
 			GenericRequest request = KoLCharacter.isHardcore() ?
-				(GenericRequest) new MrStoreRequest( "pullmras" ) :
-				(GenericRequest) CoinmastersFrame.PULL_MR_A_REQUEST;
+                    new MrStoreRequest( "pullmras" ) :
+                    CoinmastersFrame.PULL_MR_A_REQUEST;
 			RequestThread.postRequest( request );
 		}
 
 		public void pullB()
 		{
 			GenericRequest request = KoLCharacter.isHardcore() ?
-				(GenericRequest) new MrStoreRequest( "pullunclebs" ) :
-				(GenericRequest) CoinmastersFrame.PULL_UNCLE_B_REQUEST;
+                    new MrStoreRequest( "pullunclebs" ) :
+                    CoinmastersFrame.PULL_UNCLE_B_REQUEST;
 			RequestThread.postRequest( request );
 		}
 
