@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia.swingui.panel;
 
-import java.lang.NullPointerException;
 import java.lang.IllegalArgumentException;
 
 import java.util.ArrayList;
@@ -83,17 +82,12 @@ import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase.Candy;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 
 import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
-
-import net.sourceforge.kolmafia.session.StoreManager;
 
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 

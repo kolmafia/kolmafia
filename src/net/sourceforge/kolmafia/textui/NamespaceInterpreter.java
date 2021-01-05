@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia.textui;
 
 import java.io.File;
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 

@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia.textui.parsetree;
 
-import net.sourceforge.kolmafia.textui.DataTypes;
-
 public class VarArgType
 	extends AggregateType
 {

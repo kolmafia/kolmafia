@@ -46,8 +46,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import java.lang.InterruptedException;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;

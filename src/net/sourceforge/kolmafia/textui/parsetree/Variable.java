@@ -37,7 +37,6 @@ import java.io.PrintStream;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.AshRuntime;
-import net.sourceforge.kolmafia.textui.ScriptException;
 
 public class Variable
 	extends Symbol

@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -73,7 +71,6 @@ import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.session.TurnCounter;
 
 import net.sourceforge.kolmafia.swingui.MallSearchFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;

@@ -60,9 +60,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
-import net.sourceforge.kolmafia.textui.parsetree.AggregateValue;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayLiteral;
-import net.sourceforge.kolmafia.textui.parsetree.MapValue;
 import net.sourceforge.kolmafia.textui.parsetree.Assignment;
 import net.sourceforge.kolmafia.textui.parsetree.BasicScope;
 import net.sourceforge.kolmafia.textui.parsetree.BasicScript;
@@ -78,7 +76,6 @@ import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.Function.MatchType;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionCall;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionInvocation;
-import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionReturn;
 import net.sourceforge.kolmafia.textui.parsetree.If;
 import net.sourceforge.kolmafia.textui.parsetree.IncDec;

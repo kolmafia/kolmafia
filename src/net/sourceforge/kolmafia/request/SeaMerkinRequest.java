@@ -37,8 +37,6 @@ import net.sourceforge.kolmafia.objectpool.AdventurePool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
 public class SeaMerkinRequest
 	extends GenericRequest
 {

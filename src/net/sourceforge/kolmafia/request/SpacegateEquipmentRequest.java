@@ -42,8 +42,6 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 
-import net.sourceforge.kolmafia.preferences.Preferences;
-
 public class SpacegateEquipmentRequest
 	extends CreateItemRequest
 {

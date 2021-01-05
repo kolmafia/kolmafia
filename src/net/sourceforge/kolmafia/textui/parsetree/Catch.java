@@ -41,7 +41,6 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.ScriptException;
-import net.sourceforge.kolmafia.textui.ScriptRuntime.State;
 
 public class Catch
         extends Value

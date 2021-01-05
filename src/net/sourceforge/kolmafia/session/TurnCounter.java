@@ -43,8 +43,6 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 
-import net.sourceforge.kolmafia.objectpool.AdventurePool;
-
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;

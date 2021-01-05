@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.util.regex.Matcher;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;

@@ -45,8 +45,6 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 
-import net.sourceforge.kolmafia.session.ResultProcessor;
-
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class StarChartRequest

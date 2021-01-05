@@ -37,9 +37,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
@@ -47,7 +44,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -62,14 +58,11 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
-import net.sourceforge.kolmafia.swingui.AdventureFrame;
-
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 import net.sourceforge.kolmafia.swingui.widget.PossibleSelection;
 
 import net.sourceforge.kolmafia.utilities.IntWrapper;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class LootHunterMenuItem
 	extends ThreadedMenuItem

@@ -42,7 +42,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 
 import net.sourceforge.kolmafia.persistence.ItemFinder;
-import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 

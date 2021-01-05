@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia.swingui.widget;
 
-import java.awt.Color;
-
 import java.io.StringWriter;
 
 import java.util.regex.Pattern;

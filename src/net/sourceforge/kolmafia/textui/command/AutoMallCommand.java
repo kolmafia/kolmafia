@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import java.util.ArrayList;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;

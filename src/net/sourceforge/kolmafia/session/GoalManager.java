@@ -50,8 +50,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.HermitRequest;
-
 public class GoalManager
 {
 	public static final AdventureResult GOAL_CHOICE = new AdventureResult( AdventureResult.CHOICE, 1 );

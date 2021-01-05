@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia.swingui.widget;
 
 import java.awt.Component;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
