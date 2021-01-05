@@ -61,8 +61,6 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
-import net.sourceforge.kolmafia.request.UneffectRequest;
-
 import net.sourceforge.kolmafia.textui.command.UseItemCommand;
 import net.sourceforge.kolmafia.textui.command.UseSkillCommand;
 import net.sourceforge.kolmafia.utilities.FileUtilities;

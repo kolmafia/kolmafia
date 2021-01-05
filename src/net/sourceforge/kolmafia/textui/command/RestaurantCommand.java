@@ -53,7 +53,6 @@ import net.sourceforge.kolmafia.request.EatItemRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 
-import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RestaurantCommand

@@ -67,8 +67,6 @@ import net.sourceforge.kolmafia.moods.MoodManager;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
-
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ChoiceManager.ChoiceAdventure;
 

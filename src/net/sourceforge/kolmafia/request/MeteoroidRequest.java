@@ -33,13 +33,10 @@
 
 package net.sourceforge.kolmafia.request;
 
-import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-
-import net.sourceforge.kolmafia.session.ResultProcessor;
 
 public class MeteoroidRequest
 	extends CreateItemRequest

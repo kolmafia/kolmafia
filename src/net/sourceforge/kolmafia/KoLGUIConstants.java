@@ -3,14 +3,11 @@ package net.sourceforge.kolmafia;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
-import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.TreeMap;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 

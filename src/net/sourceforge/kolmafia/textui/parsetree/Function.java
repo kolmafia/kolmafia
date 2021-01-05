@@ -42,9 +42,7 @@ import java.util.List;
 
 import net.sourceforge.kolmafia.RequestLogger;
 
-import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.AshRuntime;
-import net.sourceforge.kolmafia.textui.Parser;
 
 public abstract class Function
 	extends Symbol

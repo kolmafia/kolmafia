@@ -33,12 +33,9 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import java.awt.Frame;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.Stack;
 
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;

@@ -420,13 +420,8 @@ public class SpecialOutfit
 	}
 
 	/**
-	 * Restores a checkpoint. This should be called whenever the player needs to revert to their checkpointed outfit.
-	 */
-
-	/**
 	 * Creates a checkpoint. This should be called whenever the player needs an outfit marked to revert to.
 	 */
-
 	public static final void createExplicitCheckpoint()
 	{
 		synchronized ( SpecialOutfit.class )
@@ -438,7 +433,6 @@ public class SpecialOutfit
 	/**
 	 * Restores a checkpoint. This should be called whenever the player needs to revert to their checkpointed outfit.
 	 */
-
 	public static final void restoreExplicitCheckpoint()
 	{
 		synchronized ( SpecialOutfit.class )

@@ -44,8 +44,6 @@ import net.sourceforge.kolmafia.CoinmasterData;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
-import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 public class ThankShopRequest

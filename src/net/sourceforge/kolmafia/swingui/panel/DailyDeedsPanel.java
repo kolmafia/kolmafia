@@ -79,7 +79,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.MomRequest;
-import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.PottedTeaTreeRequest;
 import net.sourceforge.kolmafia.request.PottedTeaTreeRequest.PottedTea;
 import net.sourceforge.kolmafia.request.StandardRequest;

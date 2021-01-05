@@ -41,8 +41,6 @@ import java.util.Locale;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import net.sourceforge.kolmafia.KoLCharacter;
-
 import net.sourceforge.kolmafia.session.ContactManager;
 
 public class ChatMessage

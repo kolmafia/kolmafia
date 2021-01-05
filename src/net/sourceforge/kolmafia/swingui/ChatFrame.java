@@ -65,7 +65,6 @@ import javax.swing.SwingConstants;
 
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import org.jdesktop.swingx.JXCollapsiblePane;
 

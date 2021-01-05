@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia.utilities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 

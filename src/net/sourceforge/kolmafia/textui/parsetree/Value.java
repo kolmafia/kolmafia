@@ -51,8 +51,6 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.Parser;
 
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
 import org.json.JSONException;
 
 public class Value

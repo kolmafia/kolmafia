@@ -34,11 +34,9 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -47,7 +45,6 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -56,13 +53,9 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.Pocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.PocketType;
-import net.sourceforge.kolmafia.persistence.PocketDatabase.MeatPocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.MonsterPocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.OneResultPocket;
-import net.sourceforge.kolmafia.persistence.PocketDatabase.PoemPocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.StatsPocket;
-import net.sourceforge.kolmafia.persistence.PocketDatabase.ScrapPocket;
-import net.sourceforge.kolmafia.persistence.PocketDatabase.TwoResultPocket;
 
 import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
 

@@ -59,7 +59,6 @@ import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.moods.HPRestoreItemList.HPRestoreItem;
-import net.sourceforge.kolmafia.moods.MPRestoreItemList.MPRestoreItem;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 

@@ -35,8 +35,6 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 
-import net.sourceforge.kolmafia.webui.RelayLoader;
-
 public class WindowOpenCommand
 	extends AbstractCommand
 {

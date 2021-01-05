@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia.webui;
 
-import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -61,8 +60,6 @@ import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.StoreManager;
-
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BasementDecorator
 {
