@@ -38,7 +38,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
@@ -238,9 +237,17 @@ public class StringUtilities
 
 		String encodedURL = StringUtilities.urlEncodeCache.get( url );
 
+
 		if ( encodedURL == null )
 		{
-            encodedURL = URLEncoder.encode( url, StandardCharsets.UTF_8 );
+			try
+			{
+				encodedURL = URLEncoder.encode( url, "UTF-8" );
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+				encodedURL = url;
+			}
 
             StringUtilities.urlEncodeCache.put( url, encodedURL );
 		}
@@ -263,7 +270,14 @@ public class StringUtilities
 
 		if ( encodedURL == null )
 		{
-            encodedURL = URLDecoder.decode( url, StandardCharsets.UTF_8 );
+			try
+			{
+				encodedURL = URLDecoder.decode( url, "UTF-8" );
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+				encodedURL = url;
+			}
 
             StringUtilities.urlDecodeCache.put( url, encodedURL );
 		}
