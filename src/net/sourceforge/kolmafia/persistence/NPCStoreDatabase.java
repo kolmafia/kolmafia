@@ -178,7 +178,7 @@ public class NPCStoreDatabase
 		return foundItem;
 	}
 
-	private static final int limitQuantity( int itemId )
+	private static int limitQuantity( int itemId )
 	{
 		switch( itemId )
 		{
@@ -191,8 +191,8 @@ public class NPCStoreDatabase
 		return PurchaseRequest.MAX_QUANTITY;
 	}
 
-	private static final boolean canPurchase( final String storeId, final String shopName,
-		final int itemId )
+	private static boolean canPurchase( final String storeId, final String shopName,
+                                        final int itemId )
 	{
 		if ( storeId == null )
 		{

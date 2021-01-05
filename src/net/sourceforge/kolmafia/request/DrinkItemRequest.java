@@ -403,7 +403,7 @@ public class DrinkItemRequest
 		super.runOneIteration( currentIteration, totalIterations, useTypeAsString );
 	}
 
-	private static final boolean singleConsume( final int itemId )
+	private static boolean singleConsume( final int itemId )
 	{
 		// Consume one at a time when a helper is involved.
 		// Multi-consume with a helper actually DOES work, even though
@@ -413,7 +413,7 @@ public class DrinkItemRequest
 			( DrinkItemRequest.queuedDrinkHelper != null && DrinkItemRequest.queuedDrinkHelperCount > 0 );
 	}
 
-	private static final boolean sequentialConsume( final int itemId )
+	private static boolean sequentialConsume( final int itemId )
 	{
 		switch (itemId )
 		{
@@ -430,7 +430,7 @@ public class DrinkItemRequest
 		return false;
 	}
 
-	private final boolean allowBoozeConsumption()
+	private boolean allowBoozeConsumption()
 	{
 		// Always allow the steel margarita
 		int itemId = this.itemUsed.getItemId();
@@ -521,7 +521,7 @@ public class DrinkItemRequest
 		return true;
 	}
 
-	private static final boolean askAboutOde( String itemName, final int inebriety, final int count, final int shotglass )
+	private static boolean askAboutOde( String itemName, final int inebriety, final int count, final int shotglass )
 	{
 		// Can't use ode if shotglass brings inebriety to 0
 		if ( inebriety * count - shotglass == 0 )
@@ -634,7 +634,7 @@ public class DrinkItemRequest
 		return true;
 	}
 
-	private static final boolean askAboutTuxedo( String itemName )
+	private static boolean askAboutTuxedo( String itemName )
 	{
 		// Only affects some drinks
 		if ( !ConsumablesDatabase.isMartini( ItemDatabase.getItemId( itemName ) ) )
@@ -687,7 +687,7 @@ public class DrinkItemRequest
 		return true;
 	}
 
-	private static final boolean askAboutPinkyRing( String itemName )
+	private static boolean askAboutPinkyRing( String itemName )
 	{
 		// Only affects some drinks
 		if ( !ConsumablesDatabase.isWine( ItemDatabase.getItemId( itemName ) ) )

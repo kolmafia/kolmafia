@@ -60,7 +60,7 @@ public class AutoFilterComboBox
 	private String matchString;
 	public Object currentMatch;
 	private LockableListModel model;
-	private boolean allowAdditions;
+	private final boolean allowAdditions;
 
 	private boolean active, strict;
 	private final JTextComponent editor;
@@ -88,7 +88,7 @@ public class AutoFilterComboBox
 
 	public void setText( final String text )
 	{
-		if ( this.model.indexOf( text ) != -1 )
+		if ( this.model.contains( text ) )
 		{
 			this.setSelectedItem( text );
 		}

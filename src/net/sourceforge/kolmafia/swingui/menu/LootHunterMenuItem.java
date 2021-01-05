@@ -151,7 +151,7 @@ public class LootHunterMenuItem
 	 * @param choices	a list of possible choices
 	 * @return	<code>true<code> if a choice was made, <code>false</code> otherwise.
 	 */
-	private static final boolean getSelectedValueFromList( final String title, final String message, final String yesLabel, final String noLabel, final List choices )
+	private static boolean getSelectedValueFromList( final String title, final String message, final String yesLabel, final String noLabel, final List choices )
 	{
 		JPanel choicePanel = new JPanel();
 		choicePanel.setLayout( new BoxLayout( choicePanel, BoxLayout.Y_AXIS ) );
@@ -182,7 +182,7 @@ public class LootHunterMenuItem
 		return (result == 0);
 	}
 	
-	private static final String[] buildInformation( String type, String item, int number )
+	private static String[] buildInformation( String type, String item, int number )
 	{
 		StringBuffer label = new StringBuffer();
 		StringBuffer description = new StringBuffer();
@@ -213,10 +213,10 @@ public class LootHunterMenuItem
 						label.append( "Get <b>" );
 						if ( number != 0 )
 						{
-							label.append( String.valueOf( totalNumber - number ) );
+							label.append( ( totalNumber - number ) );
 							label.append( " of " );
 						}
-						label.append( String.valueOf( totalNumber ) );
+						label.append( totalNumber );
 						label.append( " " );
 						label.append( plural );
 						label.append( "</b> from " );
@@ -224,10 +224,10 @@ public class LootHunterMenuItem
 
 						description.setLength( 0 );
 						description.append( "<i>Combat rate: " );
-						description.append( String.valueOf( Math.round( locationInfo.areaCombatPercent() ) ) );
+						description.append( Math.round( locationInfo.areaCombatPercent() ) );
 						description.append( "%; " );
 						description.append( "1/" );
-						description.append( String.valueOf( locationInfo.getAvailableMonsterCount() ) );
+						description.append( locationInfo.getAvailableMonsterCount() );
 						description.append( " monsters drop bounty item.</i>" );
 					}
 				}

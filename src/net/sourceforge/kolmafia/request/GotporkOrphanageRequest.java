@@ -58,7 +58,7 @@ public class GotporkOrphanageRequest
 	public static final String master = "Gotpork Orphanage";
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( GotporkOrphanageRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( GotporkOrphanageRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( GotporkOrphanageRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( GotporkOrphanageRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) kidnapped orphan" );
 	public static final AdventureResult COIN = ItemPool.get( ItemPool.KIDNAPPED_ORPHAN, 1 );

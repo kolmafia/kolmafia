@@ -54,7 +54,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CakeArenaRequest
 	extends GenericRequest
 {
-	private boolean isCompetition;
+	private final boolean isCompetition;
 	private int eventId;
 	private boolean ignoreCounters;
 
@@ -252,7 +252,7 @@ public class CakeArenaRequest
 	}
 
 	public static final Pattern WIN_PATTERN = Pattern.compile( "is the winner, and gains (\\d+) experience" );
-	private static final int earnedXP( final String responseText )
+	private static int earnedXP( final String responseText )
 	{
 		Matcher matcher = CakeArenaRequest.WIN_PATTERN.matcher( responseText );
 		return matcher.find() ? Integer.valueOf( matcher.group( 1 ) ).intValue() : 0;

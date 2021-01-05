@@ -54,7 +54,7 @@ public class FishboneryRequest
 
 	public static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( FishboneryRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( FishboneryRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( FishboneryRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( FishboneryRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) freshwater fishbone" );
 	public static final AdventureResult FRESHWATER_FISHBONE =  ItemPool.get( ItemPool.FRESHWATER_FISHBONE, 1 );

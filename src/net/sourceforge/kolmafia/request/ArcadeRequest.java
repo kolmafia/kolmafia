@@ -64,7 +64,7 @@ public class ArcadeRequest
 	public static final AdventureResult TOKEN = ItemPool.get( ItemPool.GG_TOKEN, 1 );
 	public static final AdventureResult TICKET = ItemPool.get( ItemPool.GG_TICKET, 1 );
 
-	private String action = null;
+	private final String action = null;
 
 	public ArcadeRequest()
 	{
@@ -295,7 +295,7 @@ public class ArcadeRequest
 	 * Support for individual games
 	 */
 
-	private static final void logText( final String text )
+	private static void logText( final String text )
 	{
 		RequestLogger.printLine( text );
 		RequestLogger.updateSessionLog( text );
@@ -662,7 +662,7 @@ public class ArcadeRequest
 
 	private final static Pattern DEMONSTAR_MOVE_PATTERN = Pattern.compile( "mv=([-01]+)(,|%2C)([-01]+)" );
 
-	private static final String parseDemonStarAction( final GenericRequest request, final int lastDecision )
+	private static String parseDemonStarAction( final GenericRequest request, final int lastDecision )
 	{
 		String action = ArcadeRequest.findChoiceName( lastDecision );
 		// Actions like "Mine" or "Fight"
@@ -1121,7 +1121,7 @@ public class ArcadeRequest
 		"Vaso De Agua",
 	};
 
-	private static final int findOpponent( final String name )
+	private static int findOpponent( final String name )
 	{
 		for ( int i = 0; i < OSTRING.length; ++i )
 		{
@@ -1161,7 +1161,7 @@ public class ArcadeRequest
 		"kp",
 	};
 
-	private static final int findPlayerMove( final GenericRequest request )
+	private static int findPlayerMove( final GenericRequest request )
 	{
 		String field = request.getFormField( "attack" );
 		if ( field != null )
@@ -1236,7 +1236,7 @@ public class ArcadeRequest
 		},
 	};
 
-	private static final int findThreat( final int opponent, final String challenge )
+	private static int findThreat( final int opponent, final String challenge )
 	{
 		if ( opponent < 0 )
 		{
@@ -1254,7 +1254,7 @@ public class ArcadeRequest
 		return -1;
 	}
 
-	private static final String findThreatName( final String name, final String challenge )
+	private static String findThreatName( final String name, final String challenge )
 	{
 		int threat = ArcadeRequest.findThreat( findOpponent( name ), challenge );
 		return threat < 0 ? null : MSTRING[ threat ];
@@ -1389,12 +1389,12 @@ public class ArcadeRequest
 
 	private final static Pattern ROUND_PATTERN = Pattern.compile( "Results:.*?<td>(.*?)</td>.*?Score: ([0123456789,]*)</td>.*?title=\"(\\d+) HP\".*?title=\"(\\d+) HP\".*?<b>(.*?)</b>.*?>VS<.*?<b>(.*?)</b>", Pattern.DOTALL );
 
-	private static final void logRound( final String text )
+	private static void logRound( final String text )
 	{
 		ArcadeRequest.logRound( null, text );
 	}
 
-	private static final void logRound( final String move, final String text )
+	private static void logRound( final String move, final String text )
 	{
 		Matcher matcher = ROUND_PATTERN.matcher( text );
 		if ( !matcher.find() )
@@ -1411,7 +1411,7 @@ public class ArcadeRequest
 		String opponent = matcher.group( 6 );
 		String threat = findThreatName( opponent, challenge );
 		buffer.append( "Round " );
-		buffer.append( String.valueOf( ArcadeRequest.round ) );
+		buffer.append( ArcadeRequest.round );
 		buffer.append( ": " );
 		if ( move != null )
 		{
@@ -1435,7 +1435,7 @@ public class ArcadeRequest
 
 	private final static Pattern FINAL_ROUND_PATTERN = Pattern.compile( "Game Over!<p>(?:<b>)?(.*?)(?:</b>)?<p>Score: ([0123456789,]*)", Pattern.DOTALL );
 
-	private static final void logFinalRound( final String move, final String text )
+	private static void logFinalRound( final String move, final String text )
 	{
 		Matcher matcher = FINAL_ROUND_PATTERN.matcher( text );
 		if ( !matcher.find() )
@@ -1447,7 +1447,7 @@ public class ArcadeRequest
 		String result = matcher.group( 1 );
 		String score = matcher.group( 2 );
 		buffer.append( "Round " );
-		buffer.append( String.valueOf( ArcadeRequest.round ) );
+		buffer.append( ArcadeRequest.round );
 		buffer.append( ": " );
 		buffer.append( move );
 		buffer.append( " Result: " );

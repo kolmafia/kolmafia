@@ -94,8 +94,8 @@ public abstract class StoreManager
 
 	// <tr class="deets" rel="618679857" after="6"><td valign="center"><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/cocostraw.gif"></td><td valign="center"><b>slip 'n' slide</b></td><td valign="center" align="center">1,081</td valign="center"><td align="center"><span class="tohide">230</span><input type="text" class="hideit price" rel="230" style="width:80px" name="price[681]" value="230" /></td><td valign="center" align="center"><span class="tohide">&infin;</span><input type="text" class="hideit lim" style="width:24px" name="limit[681]" value="0" /><input type="submit" value="Save" class="button hideit pricejax" style="font-size: 8pt"/></td><td align="right" valign="center">[<a href="#" class="update">update</a>][<a href="/backoffice.php?pwd=90ef7aca1d45123f7abe567b758c5b89&iid=681&action=prices" class="prices">prices</a>]<span class="tohide">[<a class="take" href="backoffice.php?qty=1&pwd=90ef7aca1d45123f7abe567b758c5b89&action=removeitem&itemid=681">take&nbsp;1</a>][<a class="take" href="backoffice.php?qty=1081&pwd=90ef7aca1d45123f7abe567b758c5b89&action=removeitem&itemid=681">take&nbsp;&infin;</a>]</span><span class="hideit" style="font-size: .9em">  <span class="setp">min&nbsp;price:&nbsp;230</span><br /><span class="setp">cheapest: 230</span></span></td></tr>
 
-	private static Pattern INVENTORY_ROW_PATTERN = Pattern.compile( "<tr class=\"deets\".*?</tr>" );
-	private static Pattern INVENTORY_PATTERN = Pattern.compile( ".*?>([\\d,]+<).*name=\"price\\[(.*?)\\]\" value=\"(.*?)\".*name=\"limit\\[.*?\\]\" value=\"(.*?)\"" );
+	private static final Pattern INVENTORY_ROW_PATTERN = Pattern.compile( "<tr class=\"deets\".*?</tr>" );
+	private static final Pattern INVENTORY_PATTERN = Pattern.compile( ".*?>([\\d,]+<).*name=\"price\\[(.*?)\\]\" value=\"(.*?)\".*name=\"limit\\[.*?\\]\" value=\"(.*?)\"" );
 
 	// Different formats of inventory table
 
@@ -587,7 +587,7 @@ public abstract class StoreManager
 	 * Utility method used to search the mall for a specific item.
 	 */
 
-	private static final ArrayList<PurchaseRequest> getSavedSearch( Integer id, final int needed )
+	private static ArrayList<PurchaseRequest> getSavedSearch( Integer id, final int needed )
 	{
 		// Remove search results that are too old
 		StoreManager.flushCache();

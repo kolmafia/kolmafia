@@ -375,8 +375,8 @@ public class FightRequest
 	public static boolean pokefam = false;
 	public static boolean papier = false;
 	public static int currentRound = 0;
-	public static boolean won = false;;
-	public static boolean inMultiFight = false;
+	public static boolean won = false;
+    public static boolean inMultiFight = false;
 	public static boolean choiceFollowsFight = false;
 	public static boolean fightFollowsChoice = false;
 	public static boolean fightingCopy = false;
@@ -503,7 +503,7 @@ public class FightRequest
 
 		private final String name;
 
-		private SpecialMonster( String name )
+		SpecialMonster( String name )
 		{
 			this.name = name;
 		}
@@ -533,7 +533,7 @@ public class FightRequest
 		return FightRequest.specialMonsters.get( name );
 	}
 
-	private static final void initializeSpecialMonsters()
+	private static void initializeSpecialMonsters()
 	{
 		if ( specialMonsters.size() > 0 )
 		{
@@ -703,9 +703,9 @@ public class FightRequest
 		FightRequest.addAreaMonsters( "A Maze of Sewer Tunnels", SpecialMonster.SEWER );
 		FightRequest.addAreaMonsters( "The Battlefield (Frat Uniform)", SpecialMonster.WAR_HIPPY );
 		FightRequest.addAreaMonsters( "The Battlefield (Hippy Uniform)", SpecialMonster.WAR_FRATBOY );
-	};
+	}
 
-	private static final void addAreaMonsters( String area, SpecialMonster category )
+    private static void addAreaMonsters( String area, SpecialMonster category )
 	{
 		AreaCombatData combatData = AdventureDatabase.getAreaCombatData( area );
 		if ( combatData == null )
@@ -736,9 +736,9 @@ public class FightRequest
 		CleanerProperties props = cleaner.getProperties();
 		// Need to parse the forms in a fambattle
 		// props.setPruneTags( "form" );
-	};
+	}
 
-	/**
+    /**
 	 * Constructs a new <code>FightRequest</code>. User settings will be
 	 * used to determine the kind of action to be taken during the battle.
 	 */
@@ -782,7 +782,7 @@ public class FightRequest
 		ItemPool.get( ItemPool.PAPIER_MACHURIDARS, 1),
 	};
 
-	private static final boolean usingPapierEquipment()
+	private static boolean usingPapierEquipment()
 	{
 		for ( int i = 0; i < PAPIER_EQUIPMENT.length; ++i )
 		{
@@ -1429,7 +1429,7 @@ public class FightRequest
 
 				if ( itemCount > 1 || item1 != item2 && itemCount > 0 )
 				{
-					FightRequest.nextAction += "," + String.valueOf( item2 );
+					FightRequest.nextAction += "," + item2;
 					this.addFormField( "whichitem2", String.valueOf( item2 ) );
 				}
 				else
@@ -1976,7 +1976,7 @@ public class FightRequest
 		this.addFormField( "whichskill", skillIdString );
 	}
 
-	private static final boolean problemFamiliar()
+	private static boolean problemFamiliar()
 	{
 		return ( KoLCharacter.getEffectiveFamiliar().getId() == FamiliarPool.BLACK_CAT ||
 			 KoLCharacter.getEffectiveFamiliar().getId() == FamiliarPool.OAF ) &&
@@ -2139,7 +2139,7 @@ public class FightRequest
 		}
 	}
 
-	private static final String removeGothy( String text )
+	private static String removeGothy( String text )
 	{
 		text = text.replaceAll( " <i>(?:agony|anguish|blackness|despair|fear|gloom|heart|loneliness|miasma|rain|soul|torment)</i><br>&nbsp;&nbsp;", "" );
 		text = text.replaceAll( " <i>(?:agony|anguish|blackness|despair|fear|gloom|heart|loneliness|miasma|rain|soul|torment)</i><br>&nbsp;", "" );
@@ -2148,7 +2148,7 @@ public class FightRequest
 		return text;
 	}
 
-	private static final String removeWordReplacements( String text )
+	private static String removeWordReplacements( String text )
 	{
 		return text.replaceAll( "<i title=\"([A-Za-z]+)\">[A-Za-z]+</i>", "$1" );
 	}
@@ -2377,7 +2377,7 @@ public class FightRequest
 		return desiredSkill == 0 ? "attack" : "skill" + desiredSkill;
 	}
 
-	private static final boolean checkForInitiative( final String responseText )
+	private static boolean checkForInitiative( final String responseText )
 	{
 		if ( FightRequest.pokefam )
 		{
@@ -3017,7 +3017,7 @@ public class FightRequest
 		}
 	}
 
-	private static final boolean waitingForSpecial( MonsterData monster )
+	private static boolean waitingForSpecial( MonsterData monster )
 	{
 		String monsterName = monster != null ? monster.getName() : "";
 
@@ -3040,7 +3040,7 @@ public class FightRequest
 	// page; anything that needs to check something outside of the round
 	// (such as looking at the action menus to see if an item or skill is
 	// still available) should use FightRequest.lastResponseText instead.
-	private static final void updateRoundData( final Matcher macroMatcher )
+	private static void updateRoundData( final Matcher macroMatcher )
 	{
 		String responseText;
 		try
@@ -4800,7 +4800,7 @@ public class FightRequest
 
 	private static final Pattern HIERO_PATTERN = Pattern.compile( "itemimages/hiero(.*?)\\.gif" );
 
-	private static final void handleCartouche( final String responseText )
+	private static void handleCartouche( final String responseText )
 	{
 		StringBuilder buffer = new StringBuilder();
 		Matcher matcher = FightRequest.HIERO_PATTERN.matcher( responseText );
@@ -4893,11 +4893,11 @@ public class FightRequest
 		}
 		else
 		{
-			return String.valueOf( items.get( 0 ) ) + "," + String.valueOf( items.get( 1 ) );
+			return items.get( 0 ) + "," + items.get( 1 );
 		}
 	}
 
-	private static final boolean shouldTag( String pref, String msg )
+	private static boolean shouldTag( String pref, String msg )
 	{
 		boolean isAbort = false;
 		boolean isMonster = false;
@@ -4955,7 +4955,7 @@ public class FightRequest
 		return rv;
 	}
 
-	private static final void transmogrifyNemesisWeapon( boolean reverse )
+	private static void transmogrifyNemesisWeapon( boolean reverse )
 	{
 		for ( int i = 0; i < FightRequest.NEMESIS_WEAPONS.length; ++i )
 		{
@@ -4973,7 +4973,7 @@ public class FightRequest
 	private static final Pattern BANG_POTION_PATTERN =
 		Pattern.compile( "You throw the (.*?) potion at your opponent.?.  It shatters against .*?[,\\.] (.*?)\\." );
 
-	private static final void parseBangPotion( final String responseText )
+	private static void parseBangPotion( final String responseText )
 	{
 		if ( FightRequest.anapest )
 		{
@@ -5010,7 +5010,7 @@ public class FightRequest
 	private static final Pattern PIRATE_INSULT_PATTERN =
 		Pattern.compile( "The pirate sneers \\w+ you and replies &quot;(.*?)&quot;" );
 
-	private static final void parsePirateInsult( final String responseText )
+	private static void parsePirateInsult( final String responseText )
 	{
 		if ( FightRequest.anapest )
 		{
@@ -5051,7 +5051,7 @@ public class FightRequest
 		}
 	}
 
-	private static final void parseGrubUsage( final String responseText )
+	private static void parseGrubUsage( final String responseText )
 	{
 		// You concentrate on one of the burrowgrubs digging its way
 		// through your body, and absorb it into your bloodstream.
@@ -5092,7 +5092,7 @@ public class FightRequest
 
 	private static final Pattern LASSO_PATTERN =
 		Pattern.compile( "You twirl the lasso, and (\\w+) toss" );
-	private static final void parseLassoUsage( String responseText )
+	private static void parseLassoUsage( String responseText )
 	{
 		if ( !responseText.contains( "lasso" ) )
 		{
@@ -5120,7 +5120,7 @@ public class FightRequest
 		Pattern.compile( "showing you an image of yourself fighting an? (.*?)\\.</td>" ),
 	};
 
-	private static final String parseCrystalBall( final String responseText )
+	private static String parseCrystalBall( final String responseText )
 	{
 		for ( Pattern p : CRYSTAL_BALL_PATTERNS )
 		{
@@ -5242,7 +5242,7 @@ public class FightRequest
 		}
 	}
 
-	private static final void getRound( final StringBuffer action )
+	private static void getRound( final StringBuffer action )
 	{
 		action.setLength( 0 );
 		if ( FightRequest.currentRound == 0 )
@@ -5257,7 +5257,7 @@ public class FightRequest
 		}
 	}
 
-	private static final void updateMonsterHealth( final String responseText )
+	private static void updateMonsterHealth( final String responseText )
 	{
 		StringBuffer action = new StringBuffer();
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
@@ -5345,7 +5345,7 @@ public class FightRequest
 		}
 	}
 
-	private static final void logPlayerAttribute( final TagStatus status, String message )
+	private static void logPlayerAttribute( final TagStatus status, String message )
 	{
 		if ( message.startsWith( "You gain a" ) || message.startsWith( "You gain some" ) )
 		{
@@ -5388,9 +5388,9 @@ public class FightRequest
 			if ( result.getName().equals( AdventureResult.HP ) )
 			{
 				action.append( " (" );
-				action.append( String.valueOf( MonsterStatusTracker.getMonsterAttack() ) );
+				action.append( MonsterStatusTracker.getMonsterAttack() );
 				action.append( " attack vs. " );
-				action.append( String.valueOf( KoLCharacter.getAdjustedMoxie() ) );
+				action.append( KoLCharacter.getAdjustedMoxie() );
 				action.append( " moxie)" );
 			}
 		}
@@ -5413,7 +5413,7 @@ public class FightRequest
 		status.shouldRefresh |= ResultProcessor.processResult( result );
 	}
 
-	private static final void logMonsterAttribute( final TagStatus status, final int damage, final int type )
+	private static void logMonsterAttribute( final TagStatus status, final int damage, final int type )
 	{
 		if ( !status.logMonsterHealth )
 		{
@@ -5465,26 +5465,26 @@ public class FightRequest
 				if ( next != null && next.equals( "attack" ) )
 				{
 					action.append( " (" );
-					action.append( String.valueOf( hitStat ) );
+					action.append( hitStat );
 					action.append( " " );
 					action.append( stat == Stat.MOXIE ? "moxie" : "muscle" );
 					action.append( " vs. " );
-					action.append( String.valueOf( defense ) );
+					action.append( defense );
 					action.append( " defense)" );
 				}
 				break;
 			case ATTACK:
 				action.append( " (" );
-				action.append( String.valueOf( attack ) );
+				action.append( attack );
 				action.append( " -> " );
-				action.append( String.valueOf( attack - damage ) );
+				action.append( ( attack - damage ) );
 				action.append( ")" );
 				break;
 			case DEFENSE:
 				action.append( " (" );
-				action.append( String.valueOf( defense ) );
+				action.append( defense );
 				action.append( " -> " );
-				action.append( String.valueOf( defense - damage ) );
+				action.append( ( defense - damage ) );
 				action.append( ")" );
 				break;
 			}
@@ -5507,7 +5507,7 @@ public class FightRequest
 
 	private static final Pattern SECONDARY_PATTERN = Pattern.compile( "\\+([\\d,]+)" );
 
-	private static final int parseNormalDamage( final String text )
+	private static int parseNormalDamage( final String text )
 	{
 		if ( text.equals( "" ) )
 		{
@@ -5582,7 +5582,7 @@ public class FightRequest
 		return 0;
 	}
 
-	private static final void logSpecialDamage( final String text, TagStatus status )
+	private static void logSpecialDamage( final String text, TagStatus status )
 	{
 		if ( text.contains( "continues to bleed" ) ||
 		     text.contains( "from the poison" ) ||
@@ -5614,7 +5614,7 @@ public class FightRequest
 	private static final Pattern EFF_PATTERN = Pattern.compile( "eff\\(['\"](.*?)['\"]" );
 	private static final Pattern DURATION_PATTERN = Pattern.compile( "\\((?:duration: )?(\\d+) Adventures?\\)" );
 
-	private static final int parseHaikuDamage( final String text )
+	private static int parseHaikuDamage( final String text )
 	{
 		if ( !text.contains( "damage" ) && !text.contains( "from you to your foe" ) )
 		{
@@ -5629,7 +5629,7 @@ public class FightRequest
 		return 0;
 	}
 
-	private static final boolean extractVerse( final TagNode node, final StringBuffer buffer, final String tag )
+	private static boolean extractVerse( final TagNode node, final StringBuffer buffer, final String tag )
 	{
 		boolean hasTag = false;
 		String nodeName = node.getName(); 
@@ -5662,7 +5662,7 @@ public class FightRequest
 		return hasTag;
 	}
 
-	private static final void processHaikuResult( final TagNode node, final TagNode inode, final String image, final TagStatus status )
+	private static void processHaikuResult( final TagNode node, final TagNode inode, final String image, final TagStatus status )
 	{
 		if ( image.equals( status.familiar ) || image.equals( status.enthroned ) || image.equals( status.bjorned ) )
 		{
@@ -5826,7 +5826,7 @@ public class FightRequest
 		}
 	}
 
-	private static final void processMachineElfResult( final TagNode node, final TagNode inode, final String image, final TagStatus status )
+	private static void processMachineElfResult( final TagNode node, final TagNode inode, final String image, final TagStatus status )
 	{
 		if ( image.equals( status.familiar ) || image.equals( status.enthroned ) || image.equals( status.bjorned ) )
 		{
@@ -5912,7 +5912,7 @@ public class FightRequest
 		}
 	}
 
-	private static final int parseVerseDamage( final TagNode inode )
+	private static int parseVerseDamage( final TagNode inode )
 	{
 		if ( inode == null )
 		{
@@ -5943,7 +5943,7 @@ public class FightRequest
 		return damage;
 	}
 
-	private static final boolean foundVerseDamage( final TagNode inode, final TagStatus status )
+	private static boolean foundVerseDamage( final TagNode inode, final TagStatus status )
 	{
 		int damage = parseVerseDamage( inode );
 		if ( damage == 0 )
@@ -5957,7 +5957,7 @@ public class FightRequest
 		return true;
 	}
 
-	private static final void processAnapestResult( final TagNode node, final TagNode inode, final String image, final TagStatus status )
+	private static void processAnapestResult( final TagNode node, final TagNode inode, final String image, final TagStatus status )
 	{
 		if ( image.equals( status.familiar ) || image.equals( status.enthroned ) || image.equals( status.bjorned ) )
 		{
@@ -6281,7 +6281,7 @@ public class FightRequest
 		}
 	}
 
-	private static final void processNormalResults( final String text, final Matcher macroMatcher )
+	private static void processNormalResults( final String text, final Matcher macroMatcher )
 	{
 		TagNode fight = FightRequest.pokefam ? parseFamBattleHTML( text, true ) : parseFightHTML( text, true );
 		if ( fight == null )
@@ -6320,7 +6320,7 @@ public class FightRequest
 		HTMLParserUtils.logHTML( node );
 	}
 
-	private static final TagNode parseFamBattleHTML( String text, boolean logIt )
+	private static TagNode parseFamBattleHTML( String text, boolean logIt )
 	{
 		// Clean the HTML on the Fight page
 		TagNode node = FightRequest.cleanFightHTML( text );
@@ -6728,7 +6728,7 @@ public class FightRequest
 		HTMLParserUtils.logHTML( parseFightHTML( text, false ) );
 	}
 
-	private static final TagNode parseFightHTML( String text, boolean logIt )
+	private static TagNode parseFightHTML( String text, boolean logIt )
 	{
 		// Clean the HTML on the Fight page
 		TagNode node = FightRequest.cleanFightHTML( text );
@@ -6769,13 +6769,13 @@ public class FightRequest
 		return null;
 	}
 
-	private static final TagNode cleanFightHTML( final String text )
+	private static TagNode cleanFightHTML( final String text )
 	{
 		// Clean the HTML on this fight response page
 		return cleaner.clean( text );
 	}
 
-	private static final TagNode findMonsterTag( final TagNode node, final boolean logIt )
+	private static TagNode findMonsterTag( final TagNode node, final boolean logIt )
 	{
 		// Look first for 'monpic' image.
 		// All haiku monsters and most normal monsters have that.
@@ -6795,7 +6795,7 @@ public class FightRequest
 		return mon;
 	}
 
-	private static final TagNode findFightNode( final TagNode mon, final boolean logIt )
+	private static TagNode findFightNode( final TagNode mon, final boolean logIt )
 	{
 		// Walk up the tree and find <center>
 		//
@@ -6843,7 +6843,7 @@ public class FightRequest
 	private static final Pattern STABBAT_PATTERN = Pattern.compile( " stabs you for ([\\d,]+) damage" );
 	private static final Pattern CARBS_PATTERN = Pattern.compile( "some of your blood, to the tune of ([\\d,]+) damage" );
 
-	private static final void specialFamiliarDamage( final StringBuffer text, TagStatus status )
+	private static void specialFamiliarDamage( final StringBuffer text, TagStatus status )
 	{
 		int familiarId = KoLCharacter.getEffectiveFamiliar().getId();
 
@@ -6912,7 +6912,7 @@ public class FightRequest
 		}
 	}
 
-	private static final void processNode( final TagNode node, final TagStatus status )
+	private static void processNode( final TagNode node, final TagStatus status )
 	{
 		String name = node.getName();
 		//StringBuffer action = status.action;
@@ -7149,7 +7149,7 @@ public class FightRequest
 		FightRequest.processChildren( node, status );
 	}
 
-	private static final void processChildren( final TagNode node, final TagStatus status )
+	private static void processChildren( final TagNode node, final TagStatus status )
 	{
 		StringBuffer action = status.action;
 		Iterator it = node.getAllChildren().iterator();
@@ -8559,17 +8559,17 @@ public class FightRequest
 		FightRequest.logText( buffer, status );
 	}
 
-	private static final void logText( StringBuilder buffer, final TagStatus status )
+	private static void logText( StringBuilder buffer, final TagStatus status )
 	{
 		FightRequest.logText( buffer.toString(), status );
 	}
 
-	private static final void logText( StringBuffer buffer, final TagStatus status )
+	private static void logText( StringBuffer buffer, final TagStatus status )
 	{
 		FightRequest.logText( buffer.toString(), status );
 	}
 
-	private static final void logText( String text, final TagStatus status )
+	private static void logText( String text, final TagStatus status )
 	{
 		if ( text.equals( "" ) )
 		{
@@ -8582,17 +8582,17 @@ public class FightRequest
 		FightRequest.logText( action );
 	}
 
-	private static final void logText( StringBuilder buffer )
+	private static void logText( StringBuilder buffer )
 	{
 		FightRequest.logText( buffer.toString() );
 	}
 
-	private static final void logText( StringBuffer buffer )
+	private static void logText( StringBuffer buffer )
 	{
 		FightRequest.logText( buffer.toString() );
 	}
 
-	private static final void logText( String text )
+	private static void logText( String text )
 	{
 		if ( text.equals( "" ) )
 		{
@@ -8619,7 +8619,7 @@ public class FightRequest
 		FightRequest.clearInstanceData( false );
 	}
 
-	private static final void clearInstanceData( final boolean transform )
+	private static void clearInstanceData( final boolean transform )
 	{
 		FightRequest.transformed = transform;
 		FightRequest.fightFollowsChoice = false;
@@ -8683,7 +8683,7 @@ public class FightRequest
 		}
 	}
 
-	private static final long getActionCost()
+	private static long getActionCost()
 	{
 		if ( FightRequest.nextAction.startsWith( "skill" ) )
 		{
@@ -8714,7 +8714,7 @@ public class FightRequest
 		KoLCharacter.battleSkillNames.add( "item bottle of G&uuml;-Gone" );
 	}
 
-	private static final boolean isItemConsumed( final int itemId, final String responseText )
+	private static boolean isItemConsumed( final int itemId, final String responseText )
 	{
 		boolean itemSuccess =
 			( FightRequest.anapest &&
@@ -9203,7 +9203,7 @@ public class FightRequest
 		}
 	}
 
-	private static final boolean shouldUseAntidote()
+	private static boolean shouldUseAntidote()
 	{
 		if ( KoLCharacter.inGLover() )
 		{
@@ -9228,7 +9228,7 @@ public class FightRequest
 		return false;
 	}
 
-	private static final void payActionCost( final String responseText )
+	private static void payActionCost( final String responseText )
 	{
 		// If we don't know what we tried, punt now.
 		if ( FightRequest.nextAction == null || FightRequest.nextAction.equals( "" ) )
@@ -10784,7 +10784,7 @@ public class FightRequest
 		return 0;
 	}
 
-	private static final void registerMacroAction( Matcher m )
+	private static void registerMacroAction( Matcher m )
 	{	// In the interests of keeping action logging centralized, turn the
 		// macro action (indicated via a macroaction: HTML comment) into a
 		// fake fight.php URL and call registerRequest on it.
@@ -10831,14 +10831,14 @@ public class FightRequest
 
 	// ****** Move this somewhere appropriate
 
-	private static Map<String, String> pokefamMoveToAction1 = new HashMap<String, String>();
-	private static Map<String, String> pokefamActionToMove1 = new HashMap<String, String>();
-	private static Map<String, String> pokefamMoveToAction2 = new HashMap<String, String>();
-	private static Map<String, String> pokefamActionToMove2 = new HashMap<String, String>();
-	private static Map<String, String> pokefamMoveToAction3 = new HashMap<String, String>();
-	private static Map<String, String> pokefamActionToMove3 = new HashMap<String, String>();
+	private static final Map<String, String> pokefamMoveToAction1 = new HashMap<String, String>();
+	private static final Map<String, String> pokefamActionToMove1 = new HashMap<String, String>();
+	private static final Map<String, String> pokefamMoveToAction2 = new HashMap<String, String>();
+	private static final Map<String, String> pokefamActionToMove2 = new HashMap<String, String>();
+	private static final Map<String, String> pokefamMoveToAction3 = new HashMap<String, String>();
+	private static final Map<String, String> pokefamActionToMove3 = new HashMap<String, String>();
 
-	private static Map<String, String> pokefamMoveDescriptions = new HashMap<String, String>();
+	private static final Map<String, String> pokefamMoveDescriptions = new HashMap<String, String>();
 
 	private static void mapMoveToAction( int num, String move, String action, String description )
 	{
@@ -11190,7 +11190,7 @@ public class FightRequest
 								Preferences.setString( "autoOlfact", "" );
 							}
 
-							FightRequest.nextAction += "," + String.valueOf( itemId );
+							FightRequest.nextAction += "," + itemId;
 							if ( shouldLogAction )
 							{
 								action.append( " and uses the " ).append( item );

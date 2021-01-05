@@ -116,8 +116,8 @@ public class RefreshStatusCommand
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, parameters + " cannot be refreshed." );
 			return;
-		};
+		}
 
-		ShowDataCommand.show( parameters );
+        ShowDataCommand.show( parameters );
 	}
 }

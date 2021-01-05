@@ -131,7 +131,7 @@ public class ChatFormatter
 		return normalizedContent;
 	}
 
-	private static final String getNormalizedMessage( final String originalContent )
+	private static String getNormalizedMessage( final String originalContent )
 	{
 		if ( originalContent == null || originalContent.length() == 0 )
 		{

@@ -180,14 +180,14 @@ public class ProfileSnapshot
 		KoLmafia.updateDisplay( "Search results rendered." );
 	}
 
-	private static final ProfileRequest getProfile( final String name )
+	private static ProfileRequest getProfile( final String name )
 	{
 		return ProfileRequest.getInstance(
 			name, ContactManager.getPlayerId( name ), ProfileSnapshot.levelMap.get( name ),
                 ProfileSnapshot.profileMap.get( name ), ProfileSnapshot.rosterMap.get( name ) );
 	}
 
-	private static final int compare( final int filterType, final String name, final String filter )
+	private static int compare( final int filterType, final String name, final String filter )
 	{
 		int compareValue = 0;
 		ProfileRequest request = ProfileSnapshot.getProfile( name );
@@ -357,7 +357,7 @@ public class ProfileSnapshot
 		return strbuf.toString();
 	}
 
-	private static final String getOverviewDetail( final String memberName, final boolean localProfileLink )
+	private static String getOverviewDetail( final String memberName, final boolean localProfileLink )
 	{
 		ProfileRequest memberLookup = ProfileSnapshot.getProfile( memberName );
 		StringBuilder strbuf = new StringBuilder();
@@ -440,12 +440,12 @@ public class ProfileSnapshot
 		return strbuf.toString();
 	}
 
-	private static final String getOverviewHeader()
+	private static String getOverviewHeader()
 	{
 		return "<td>Path</td><td align=center>Class</td><td align=center>Lvl</td>" + "<td align=center>Turns</td><td align=center>Ascended</td><td align=center>Logged In</td>";
 	}
 
-	private static final String getStatsSummary( final String[] members )
+	private static String getStatsSummary( final String[] members )
 	{
 		StringBuilder strbuf = new StringBuilder();
 
@@ -547,7 +547,7 @@ public class ProfileSnapshot
 		return strbuf.toString();
 	}
 
-	private static final String getStatsDetail( final String memberName, final boolean localProfileLink )
+	private static String getStatsDetail( final String memberName, final boolean localProfileLink )
 	{
 		ProfileRequest memberLookup = ProfileSnapshot.getProfile( memberName );
 		StringBuilder strbuf = new StringBuilder();
@@ -625,12 +625,12 @@ public class ProfileSnapshot
 		return strbuf.toString();
 	}
 
-	private static final String getStatsHeader()
+	private static String getStatsHeader()
 	{
 		return "<td align=center>Path</td><td align=center>Class</td><td align=center>Lv</td><td>PvP</td><td align=center>Mus</td><td align=center>Mys</td><td align=center>Mox</td><td align=center>Total Turns</td><td align=center>Asc</td>";
 	}
 
-	private static final String getSocialSummary( final String[] members )
+	private static String getSocialSummary( final String[] members )
 	{
 		StringBuilder strbuf = new StringBuilder();
 
@@ -664,7 +664,7 @@ public class ProfileSnapshot
 		return strbuf.toString();
 	}
 
-	private static final String getSocialDetail( final String memberName, final boolean localProfileLink )
+	private static String getSocialDetail( final String memberName, final boolean localProfileLink )
 	{
 		ProfileRequest memberLookup = ProfileSnapshot.getProfile( memberName );
 		StringBuilder strbuf = new StringBuilder();
@@ -704,7 +704,7 @@ public class ProfileSnapshot
 		return strbuf.toString();
 	}
 
-	private static final String getSocialHeader()
+	private static String getSocialHeader()
 	{
 		return "<td>Rank</td><td>Favorite Food</td><td>Favorite Drink</td><td>Created</td>";
 	}

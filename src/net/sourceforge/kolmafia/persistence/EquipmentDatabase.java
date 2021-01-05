@@ -407,7 +407,7 @@ public class EquipmentDatabase
 			if ( isWeapon )
 			{
 				int hands = EquipmentDatabase.hands.get( itemId );
-				weaponType = String.valueOf( hands ) + "-handed " + type;
+				weaponType = hands + "-handed " + type;
 			}
 			EquipmentDatabase.writeEquipmentItem( writer, name, power, req, weaponType, isWeapon, isShield );
 		}
@@ -598,7 +598,7 @@ public class EquipmentDatabase
 	{
 		StringBuilder buffer = new StringBuilder();
 
-		buffer.append( String.valueOf( outfitId ) );
+		buffer.append( outfitId );
 		buffer.append( "\t" );
 		buffer.append( name );
 		buffer.append( "\t" );
@@ -893,7 +893,7 @@ public class EquipmentDatabase
 		return pulver;
 	}
 
-	private static final int derivePulverization( final int id )
+	private static int derivePulverization( final int id )
 	{
 		if ( !EquipmentDatabase.isPulverizable( id ) )
 		{
@@ -994,7 +994,7 @@ public class EquipmentDatabase
 		return pulver;
 	}
 
-	private static final int deriveUpgrade( final String name )
+	private static int deriveUpgrade( final String name )
 	{
 		int pulver = PULVERIZE_BITS | MALUS_UPGRADE | YIELD_4N_1W;
 		if ( name.endsWith( "powder" ) )
@@ -1033,7 +1033,7 @@ public class EquipmentDatabase
 		return pulver;
 	}
 
-	private static final int deriveCluster( final String name )
+	private static int deriveCluster( final String name )
 	{
 		int pulver = PULVERIZE_BITS | YIELD_1C;
 

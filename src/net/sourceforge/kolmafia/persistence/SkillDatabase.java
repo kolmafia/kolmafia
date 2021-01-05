@@ -266,7 +266,7 @@ public class SkillDatabase
 		SkillDatabase.skillIdSetByName.put( canonicalName, newSet );
 	}
 
-	private static final void addSkill( final Integer skillId, final String name, final String image, final Integer skillType, final Long mpConsumption, final Integer duration, final Integer level )
+	private static void addSkill( final Integer skillId, final String name, final String image, final Integer skillType, final Long mpConsumption, final Integer duration, final Integer level )
 	{
 		String canonicalName = StringUtilities.getCanonicalName( name );
 		SkillDatabase.nameById.put( skillId, name );
@@ -1316,7 +1316,7 @@ public class SkillDatabase
 	 * Utility method used to determine if the given skill is of the appropriate type.
 	 */
 
-	private static final boolean isType( final int skillId, final int type )
+	private static boolean isType( final int skillId, final int type )
 	{
 		Integer skillType = SkillDatabase.skillTypeById.get( IntegerPool.get( skillId ) );
 		return skillType != null && skillType.intValue() == type;
@@ -1890,8 +1890,8 @@ public class SkillDatabase
 		}
 	}
 
-	private static final void appendSkillList( final StringBuffer buffer, final boolean appendHTML,
-		final String listName, final ArrayList<String> list )
+	private static void appendSkillList( final StringBuffer buffer, final boolean appendHTML,
+                                         final String listName, final ArrayList<String> list )
 	{
 		if ( list.isEmpty() )
 		{

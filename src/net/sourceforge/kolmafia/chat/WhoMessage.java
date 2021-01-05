@@ -37,7 +37,7 @@ import java.util.Map;
 
 public class WhoMessage extends EventMessage
 {
-	private Map<String, Boolean> contacts;
+	private final Map<String, Boolean> contacts;
 
 	public WhoMessage( Map<String, Boolean> contacts, String spacedContent )
 	{

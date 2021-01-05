@@ -42,6 +42,7 @@ import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.Socket;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -473,7 +474,7 @@ public class RelayAgent
 			{
 				this.request.pseudoResponse( "HTTP/1.1 304 Not Modified", "" );
 				this.request.responseCode = 304;
-				this.request.rawByteBuffer = this.request.responseText.getBytes( "UTF-8" );
+				this.request.rawByteBuffer = this.request.responseText.getBytes( StandardCharsets.UTF_8 );
 				return;
 			}
 
@@ -640,7 +641,7 @@ public class RelayAgent
 			}
 
 			// Convert the responseText into a byte buffer
-			this.request.rawByteBuffer = this.request.responseText.getBytes( "UTF-8" );
+			this.request.rawByteBuffer = this.request.responseText.getBytes( StandardCharsets.UTF_8 );
 		}
 
 		this.writer = new PrintStream( this.socket.getOutputStream(), false );
@@ -737,6 +738,6 @@ public class RelayAgent
 		}
 	}
 
-	private static Set<String> validRefererHosts = new HashSet<String>();
-	private static Set<String> invalidRefererHosts = new HashSet<String>();
+	private static final Set<String> validRefererHosts = new HashSet<String>();
+	private static final Set<String> invalidRefererHosts = new HashSet<String>();
 }

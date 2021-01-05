@@ -135,8 +135,8 @@ public class ReleaseNotes
 	private static class Revision
 		implements Comparable<Revision>
 	{
-		private int revisionId;
-		private StringBuffer contents;
+		private final int revisionId;
+		private final StringBuffer contents;
 
 		public Revision( int revision, String viewRoot )
 		{

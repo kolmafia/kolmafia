@@ -99,7 +99,7 @@ public class HermitRequest
 	private static final Pattern CLOVER_PATTERN = Pattern.compile( "(\\d+) left in stock for today" );
 
 	public static final AdventureResult CLOVER = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
-	public static final String CLOVER_FIELD = "whichitem=" + String.valueOf( ItemPool.TEN_LEAF_CLOVER );
+	public static final String CLOVER_FIELD = "whichitem=" + ItemPool.TEN_LEAF_CLOVER;
 
 	public static final AdventureResult PERMIT = ItemPool.get( ItemPool.HERMIT_PERMIT, 1 );
 
@@ -142,7 +142,7 @@ public class HermitRequest
 		this( true, itemId, quantity );
 	}
 
-	private static final void registerHermitItem( final int itemId, final int count )
+	private static void registerHermitItem( final int itemId, final int count )
 	{
 		AdventureResult item = ItemPool.get( itemId, count );
 		KoLConstants.hermitItems.add( item );
@@ -191,7 +191,7 @@ public class HermitRequest
 		HermitRequest.HERMIT.registerPurchaseRequests();
 	}
 
-	private final int worthlessItemsNeeded()
+	private int worthlessItemsNeeded()
 	{
 		if ( this.attachments == null )
 		{
@@ -391,7 +391,7 @@ public class HermitRequest
 		return true;
 	}
 
-	private static final int subtractWorthlessItems( final AdventureResult item, final int total )
+	private static int subtractWorthlessItems( final AdventureResult item, final int total )
 	{
 		int count = 0 - Math.min( total, item.getCount( KoLConstants.inventory ) );
 		if ( count != 0 )
@@ -404,7 +404,7 @@ public class HermitRequest
 	// <td valign=center><img src="http://images.kingdomofloathing.com/itemimages/tooth.gif" class=hand onClick='javascript:item(617818041)'></td><td valign=center><b>seal tooth</b></td></tr>
 	private static final Pattern ITEM_PATTERN = Pattern.compile( "javascript:item\\(([\\d]+)\\).*?<b>([^<]*)</b>", Pattern.DOTALL );
 
-	private static final void parseHermitStock( final String responseText )
+	private static void parseHermitStock( final String responseText )
 	{
 		// Refresh the Coin Master inventory every time we visit.
 		Matcher matcher = ITEM_PATTERN.matcher( responseText );

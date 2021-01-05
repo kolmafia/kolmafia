@@ -662,7 +662,7 @@ public class AdventureDatabase
 
 	}
 
-	private static final KoLAdventure getAdventure( final int tableIndex )
+	private static KoLAdventure getAdventure( final int tableIndex )
 	{
 		return new KoLAdventure(
 			AdventureDatabase.adventureTable[ 0 ].get( tableIndex ),

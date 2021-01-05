@@ -61,7 +61,7 @@ public class Speculation
 {
 	private int MCD;
 	public AdventureResult[] equipment;
-	private ArrayList<AdventureResult> effects;
+	private final ArrayList<AdventureResult> effects;
 	private FamiliarData familiar, enthroned, bjorned;
 	private String edPiece, snowsuit, custom, horsery, boomBox, retroCape;
 	protected boolean calculated = false;

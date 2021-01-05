@@ -106,7 +106,7 @@ public class BuffBotHome
 	 * appropriate extension.
 	 */
 
-	private static final File getFile( final String extension )
+	private static File getFile( final String extension )
 	{
 		return new File(
 			KoLConstants.BUFFBOT_LOCATION,
@@ -118,7 +118,7 @@ public class BuffBotHome
 	 * given the appropriate extension.
 	 */
 
-	private static final PrintStream getPrintStream( final String extension )
+	private static PrintStream getPrintStream( final String extension )
 	{
 		File output = BuffBotHome.getFile( extension );
 		return LogStream.openStream( output, false );
@@ -128,7 +128,7 @@ public class BuffBotHome
 	 * Retrieves all the past recipients of the buff associated with the given meat amount.
 	 */
 
-	private static final List getPastRecipients( final int meatSent )
+	private static List getPastRecipients( final int meatSent )
 	{
 		Integer key = IntegerPool.get( meatSent );
 		if ( !BuffBotHome.pastRecipients.containsKey( key ) )

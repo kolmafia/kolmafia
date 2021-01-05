@@ -50,7 +50,7 @@ public class Crimbo20BoozeRequest
 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( Crimbo20BoozeRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( Crimbo20BoozeRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( Crimbo20BoozeRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( Crimbo20BoozeRequest.master );
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "([\\d,]+) (boxes of )?donated booze" );
 	public static final AdventureResult TOKEN = ItemPool.get( ItemPool.DONATED_BOOZE, 1 );
 

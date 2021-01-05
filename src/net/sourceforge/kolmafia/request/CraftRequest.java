@@ -49,9 +49,9 @@ public class CraftRequest
 	extends GenericRequest
 {
 	private CraftingType mixingMethod;
-	private int quantity;
-	private AdventureResult item1;
-	private AdventureResult item2;
+	private final int quantity;
+	private final AdventureResult item1;
+	private final AdventureResult item2;
 	private int remaining;
 	private int created;
 

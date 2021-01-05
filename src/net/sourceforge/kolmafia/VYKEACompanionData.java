@@ -249,7 +249,7 @@ public class VYKEACompanionData
 		this.name = name == null ? "" : name;
 
 		// Derived fields
-		this.image = ( type < 1 || type > 6 ) ? "" : ( "vykfurn" + String.valueOf( type ) + ".gif" );
+		this.image = ( type < 1 || type > 6 ) ? "" : ( "vykfurn" + type + ".gif" );
 		switch ( this.type )
 		{
 		case BOOKSHELF:
@@ -266,11 +266,11 @@ public class VYKEACompanionData
 			break;
 		case COUCH:
 			this.attackElement = Element.NONE;
-			this.modifiers = "Meat Drop: +" + String.valueOf( this.level * 10 ) ;
+			this.modifiers = "Meat Drop: +" + this.level * 10;
 			break;
 		case LAMP:
 			this.attackElement = Element.HOT;
-			this.modifiers = "Item Drop: +" + String.valueOf( this.level * 10 ) ;
+			this.modifiers = "Item Drop: +" + this.level * 10;
 			break;
 		case DISHRACK:
 			this.attackElement = Element.STENCH;
@@ -447,7 +447,7 @@ public class VYKEACompanionData
 				buffer.append( ", the " );
 			}
 			buffer.append( "level " );
-			buffer.append( String.valueOf( this.level ) );
+			buffer.append( this.level );
 			if ( this.rune != VYKEACompanionData.NO_RUNE )
 			{
 				buffer.append( " " );

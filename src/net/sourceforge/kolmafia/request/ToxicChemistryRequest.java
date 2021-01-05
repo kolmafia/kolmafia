@@ -54,7 +54,7 @@ public class ToxicChemistryRequest
 
 	public static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( ToxicChemistryRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( ToxicChemistryRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( ToxicChemistryRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( ToxicChemistryRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) toxic globule" );
 	public static final AdventureResult TOXIC_GLOBULE =  ItemPool.get( ItemPool.TOXIC_GLOBULE, 1 );

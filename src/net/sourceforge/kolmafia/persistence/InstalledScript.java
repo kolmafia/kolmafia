@@ -38,7 +38,7 @@ import java.io.File;
 public class InstalledScript
 	extends Script
 {
-	private File scriptFolder;
+	private final File scriptFolder;
 	private boolean atHead = true;
 
 	public InstalledScript( Script s, File f )

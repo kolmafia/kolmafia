@@ -105,7 +105,7 @@ public class Preferences
 		Preferences.loadGlobalPreferences();
 	}
 
-	private static final void initializeMaps()
+	private static void initializeMaps()
 	{
 		// There are three specific per-user settings that appear in
 		// GLOBAL_prefs.txt because the LoginFrame needs them
@@ -310,7 +310,7 @@ public class Preferences
 		return p;
 	}
 
-	private static final String encodeProperty( String name, String value )
+	private static String encodeProperty( String name, String value )
 	{
 		StringBuffer buffer = new StringBuffer();
 
@@ -325,7 +325,7 @@ public class Preferences
 		return buffer.toString();
 	}
 
-	private static final void encodeString( StringBuffer buffer, String string )
+	private static void encodeString( StringBuffer buffer, String string )
 	{
 		int length = string.length();
 
@@ -337,7 +337,7 @@ public class Preferences
 		}
 	}
 
-	private static final void encodeCharacter( char ch )
+	private static void encodeCharacter( char ch )
 	{
 		if ( characterMap[ ch ] != null )
 		{
@@ -712,17 +712,17 @@ public class Preferences
 		return ((Double) value).doubleValue();
 	}
 
-	private static final Map<String, Object> getMap( final String name )
+	private static Map<String, Object> getMap( final String name )
 	{
 		return Preferences.isGlobalProperty( name ) ? Preferences.globalValues : Preferences.userValues;
 	}
 
-	private static final Object getObject( final String user, final String name )
+	private static Object getObject( final String user, final String name )
 	{
 		return Preferences.getObject( Preferences.getMap( name ), user, name );
 	}
 
-	private static final Object getObject( final Map<String, Object> map, final String user, final String name )
+	private static Object getObject( final Map<String, Object> map, final String user, final String name )
 	{
 		String key = Preferences.propertyName( user, name );
 		return map.get( key );
@@ -800,7 +800,7 @@ public class Preferences
 		}
 	}
 
-	private static final void setObject( final String user, final String name, final String value, final Object object )
+	private static void setObject( final String user, final String name, final String value, final Object object )
 	{
 		if ( Preferences.getBoolean( "logPreferenceChange" ) )
 		{
@@ -842,12 +842,12 @@ public class Preferences
 		}
 	}
 
-	private static final String propertyName( final String user, final String name )
+	private static String propertyName( final String user, final String name )
 	{
 		return user == null ? name : name + "." + Preferences.baseUserName( user );
 	}
 
-	private static final void saveToFile( File file, Map<String, Object> data )
+	private static void saveToFile( File file, Map<String, Object> data )
 	{
 		// See Collections.synchronizedSortedMap
 		//
@@ -924,7 +924,7 @@ public class Preferences
 		ostream.close();
 	}
 
-	private static final void printDefaults( final ChoiceAdventure[] choices, final PrintStream ostream )
+	private static void printDefaults( final ChoiceAdventure[] choices, final PrintStream ostream )
 	{
 		for ( int i = 0; i < choices.length; ++i )
 		{

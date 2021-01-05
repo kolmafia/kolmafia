@@ -243,9 +243,9 @@ public class BountyHunterHunterRequest
 		CoinMasterRequest.parseResponse( data, location, responseText );
 	}
 
-	private static final void parseBounty( final String responseText,
-					       Pattern takenPattern, Pattern untakenPattern, Pattern quantityPattern,
-					       String currentSetting, String untakenSetting, String unknownSetting )
+	private static void parseBounty( final String responseText,
+                                     Pattern takenPattern, Pattern untakenPattern, Pattern quantityPattern,
+                                     String currentSetting, String untakenSetting, String unknownSetting )
 	{
 		Matcher bountyItemMatcher = takenPattern.matcher( responseText );
 
@@ -292,7 +292,7 @@ public class BountyHunterHunterRequest
 	private static final Pattern UNTAKEN_EASY_PATTERN = Pattern.compile( "Easy Bounty:.*?/itemimages/(.*?) width.*>(\\d+) (.*?) from.*?takelow" );
 	private static final Pattern EASY_QTY_PATTERN = Pattern.compile( "Easy Bounty.*?You have collected (\\d+) .*?giveup_low" );
 
-	private static final void parseEasy( final String responseText )
+	private static void parseEasy( final String responseText )
 	{
 		BountyHunterHunterRequest.parseBounty( responseText,
 						       BountyHunterHunterRequest.EASY_PATTERN,
@@ -307,7 +307,7 @@ public class BountyHunterHunterRequest
 	private static final Pattern UNTAKEN_HARD_PATTERN = Pattern.compile( "Hard Bounty:.*?/itemimages/(.*?) width.*>(\\d+) (.*?) from.*?takehigh" );
 	private static final Pattern HARD_QTY_PATTERN = Pattern.compile( "Hard Bounty.*?You have collected (\\d+) .*?giveup_high" );
 
-	private static final void parseHard( final String responseText )
+	private static void parseHard( final String responseText )
 	{
 		BountyHunterHunterRequest.parseBounty( responseText,
 						       BountyHunterHunterRequest.HARD_PATTERN,
@@ -322,7 +322,7 @@ public class BountyHunterHunterRequest
 	private static final Pattern UNTAKEN_SPECIAL_PATTERN = Pattern.compile( "Specialty Bounty:.*?/itemimages/(.*?) width.*>(\\d+) (.*?) from.*?takespecial" );
 	private static final Pattern SPECIAL_QTY_PATTERN = Pattern.compile( "Specialty Bounty.*?You have collected (\\d+) .*?giveup_spe" );
 
-	private static final void parseSpecial( final String responseText )
+	private static void parseSpecial( final String responseText )
 	{
 		BountyHunterHunterRequest.parseBounty( responseText,
 						       BountyHunterHunterRequest.SPECIAL_PATTERN,

@@ -155,37 +155,37 @@ public class RelayRequest
 	public static String specialCommandStatus = "";
 	public static String redirectedCommandURL = "";
 
-	private static String CONFIRM_COUNTER = "confirm0";
-	private static String CONFIRM_CLOVER = "confirm1";
-	private static String CONFIRM_MCD = "confirm2";
-	private static String CONFIRM_FAMILIAR = "confirm3";
-	private static String CONFIRM_RECOVERY = "confirm4";
-	private static String CONFIRM_SORCERESS = "confirm5";
-	private static String CONFIRM_WOSSNAME = "confirm6";
-	private static String CONFIRM_TOKENS = "confirm7";
-	private static String CONFIRM_SEAL = "confirm8";
-	private static String CONFIRM_ARCADE = "confirm9";
-	private static String CONFIRM_KUNGFU = "confirm10";
-	private static String CONFIRM_POOL_SKILL = "confirm11";
-	private static String CONFIRM_WINEGLASS = "confirm12";
-	private static String CONFIRM_COLOSSEUM = "confirm13";
-	private static String CONFIRM_GREMLINS = "confirm14";
-	private static String CONFIRM_HARDCOREPVP = "confirm15";
-	private static String CONFIRM_DESERT_UNHYDRATED = "confirm16";
-	private static String CONFIRM_MOHAWK_WIG = "confirm17";
-	private static String CONFIRM_CELLAR = "confirm18";
-	private static String CONFIRM_BOILER = "confirm19";
-	private static String CONFIRM_DIARY = "confirm20";
-	private static String CONFIRM_BORING_DOORS = "confirm21";
-	private static String CONFIRM_SPELUNKY = "confirm22";
-	private static String CONFIRM_ZEPPELIN = "confirm23";
-	private static String CONFIRM_OVERDRUNK_ADVENTURE = "confirm24";
-	private static String CONFIRM_STICKER = "confirm25";
-	private static String CONFIRM_DESERT_OFFHAND = "confirm26";
-	private static String CONFIRM_MACHETE = "confirm27";
-	private static String CONFIRM_RALPH = "confirm28";
-	private static String CONFIRM_RALPH1 = "confirm29";
-	private static String CONFIRM_RALPH2 = "confirm30";
+	private static final String CONFIRM_COUNTER = "confirm0";
+	private static final String CONFIRM_CLOVER = "confirm1";
+	private static final String CONFIRM_MCD = "confirm2";
+	private static final String CONFIRM_FAMILIAR = "confirm3";
+	private static final String CONFIRM_RECOVERY = "confirm4";
+	private static final String CONFIRM_SORCERESS = "confirm5";
+	private static final String CONFIRM_WOSSNAME = "confirm6";
+	private static final String CONFIRM_TOKENS = "confirm7";
+	private static final String CONFIRM_SEAL = "confirm8";
+	private static final String CONFIRM_ARCADE = "confirm9";
+	private static final String CONFIRM_KUNGFU = "confirm10";
+	private static final String CONFIRM_POOL_SKILL = "confirm11";
+	private static final String CONFIRM_WINEGLASS = "confirm12";
+	private static final String CONFIRM_COLOSSEUM = "confirm13";
+	private static final String CONFIRM_GREMLINS = "confirm14";
+	private static final String CONFIRM_HARDCOREPVP = "confirm15";
+	private static final String CONFIRM_DESERT_UNHYDRATED = "confirm16";
+	private static final String CONFIRM_MOHAWK_WIG = "confirm17";
+	private static final String CONFIRM_CELLAR = "confirm18";
+	private static final String CONFIRM_BOILER = "confirm19";
+	private static final String CONFIRM_DIARY = "confirm20";
+	private static final String CONFIRM_BORING_DOORS = "confirm21";
+	private static final String CONFIRM_SPELUNKY = "confirm22";
+	private static final String CONFIRM_ZEPPELIN = "confirm23";
+	private static final String CONFIRM_OVERDRUNK_ADVENTURE = "confirm24";
+	private static final String CONFIRM_STICKER = "confirm25";
+	private static final String CONFIRM_DESERT_OFFHAND = "confirm26";
+	private static final String CONFIRM_MACHETE = "confirm27";
+	private static final String CONFIRM_RALPH = "confirm28";
+	private static final String CONFIRM_RALPH1 = "confirm29";
+	private static final String CONFIRM_RALPH2 = "confirm30";
 
 	private static boolean ignoreBoringDoorsWarning = false;
 	private static boolean ignoreDesertWarning = false;
@@ -284,7 +284,7 @@ public class RelayRequest
 		return this;
 	}
 
-	private static final boolean isJunkItem( final int itemId, final int price )
+	private static boolean isJunkItem( final int itemId, final int price )
 	{
 		if ( !Preferences.getBoolean( "relayHidesJunkMallItems" ) )
 		{
@@ -1234,7 +1234,7 @@ public class RelayRequest
 		}
 
         String warning = "KoLmafia has detected that you are about to fight round " +
-                String.valueOf( lastRound + 1 ) +
+                ( lastRound + 1 ) +
                 " in the Mer-kin Colosseum, where you will face " +
                 opponent +
                 ". If you are sure you wish to battle him without your " +

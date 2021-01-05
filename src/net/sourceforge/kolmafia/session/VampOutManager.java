@@ -176,7 +176,7 @@ public class VampOutManager
 		return decision;
 	}
 
-	private static final void logText( final String text )
+	private static void logText( final String text )
 	{
 		RequestLogger.printLine( text );
 		RequestLogger.updateSessionLog( text );
@@ -208,7 +208,7 @@ public class VampOutManager
 		}
 	}
 
-	private static final String currentGoalString()
+	private static String currentGoalString()
 	{
 		int goal = Preferences.getInteger( "choiceAdventure546" ) - 1;
 

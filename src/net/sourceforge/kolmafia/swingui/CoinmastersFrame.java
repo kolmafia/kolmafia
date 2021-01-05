@@ -643,10 +643,10 @@ public class CoinmastersFrame
 	public class MrStorePanel
 		extends CoinmasterPanel
 	{
-		private JButton pullA = new InvocationButton( "pull Mr. A", this, "pullA" );
-		private JButton pullB = new InvocationButton( "pull Uncle B", this, "pullB" );
-		private JButton AToB = new InvocationButton( "1 A -> 10 B", this, "AToB" );
-		private JButton BToA = new InvocationButton( "10 B -> 1 A", this, "BToA" );
+		private final JButton pullA = new InvocationButton( "pull Mr. A", this, "pullA" );
+		private final JButton pullB = new InvocationButton( "pull Uncle B", this, "pullB" );
+		private final JButton AToB = new InvocationButton( "1 A -> 10 B", this, "AToB" );
+		private final JButton BToA = new InvocationButton( "10 B -> 1 A", this, "BToA" );
 		private int ACountStorage = 0;
 		private int BCountStorage = 0;
 		private int ACount = 0;
@@ -686,7 +686,7 @@ public class CoinmastersFrame
 		{
 			this.standardTitle( buffer );
 			buffer.append( " (" );
-			buffer.append( String.valueOf( this.BCount ) );
+			buffer.append( this.BCount );
 			buffer.append( " " );
 			buffer.append( "Uncle B" );
 			if ( this.BCount != 1 )
@@ -694,7 +694,7 @@ public class CoinmastersFrame
 				buffer.append( "s" );
 			}
 			buffer.append( ", " );
-			buffer.append( String.valueOf( this.BCountStorage ) );
+			buffer.append( this.BCountStorage );
 			buffer.append( " in storage" );
 			buffer.append( ")" );
 		}
@@ -751,7 +751,7 @@ public class CoinmastersFrame
 			for ( AdventureResult currency : this.data.currencies() )
 			{
 				buffer.append( " (" );
-				buffer.append( String.valueOf( InventoryManager.getCount( currency ) ) );
+				buffer.append( InventoryManager.getCount( currency ) );
 				buffer.append( " " );
 				buffer.append( currency.getName() );
 				buffer.append( ")" );
@@ -771,7 +771,7 @@ public class CoinmastersFrame
 	public class HermitPanel
 		extends CoinmasterPanel
 	{
-		private JButton fish = new InvocationButton( "go fish", this, "fish" );
+		private final JButton fish = new InvocationButton( "go fish", this, "fish" );
 
 		public HermitPanel()
 		{
@@ -911,7 +911,7 @@ public class CoinmastersFrame
 		{
 			this.standardTitle( buffer );
 			buffer.append( " (" );
-			buffer.append( String.valueOf( InventoryManager.getCount( MerchTableRequest.CHRONER ) ) );
+			buffer.append( InventoryManager.getCount( MerchTableRequest.CHRONER ) );
 			buffer.append( " Chroner)" );
 		}
 	}
@@ -1146,7 +1146,7 @@ public class CoinmastersFrame
 	public class TicketCounterPanel
 		extends CoinmasterPanel
 	{
-		private JButton skeeball = new InvocationButton( "skeeball", this, "skeeball" );
+		private final JButton skeeball = new InvocationButton( "skeeball", this, "skeeball" );
 		private int gameGridTokens = 0;
 
 		public TicketCounterPanel()
@@ -1176,7 +1176,7 @@ public class CoinmastersFrame
 		{
 			this.standardTitle( buffer );
 			buffer.append( " (" );
-			buffer.append( String.valueOf( this.gameGridTokens ) );
+			buffer.append( this.gameGridTokens );
 			buffer.append( " Game Grid tokens)" );
 		}
 
@@ -1417,7 +1417,7 @@ public class CoinmastersFrame
 			for ( AdventureResult currency : this.data.currencies() )
 			{
 				buffer.append( " (" );
-				buffer.append( String.valueOf( InventoryManager.getCount( currency ) ) );
+				buffer.append( InventoryManager.getCount( currency ) );
 				buffer.append( " " );
 				buffer.append( currency.getName() );
 				buffer.append( ")" );
@@ -1530,7 +1530,7 @@ public class CoinmastersFrame
 			for ( AdventureResult currency : this.data.currencies() )
 			{
 				buffer.append( " (" );
-				buffer.append( String.valueOf( InventoryManager.getCount( currency ) ) );
+				buffer.append( InventoryManager.getCount( currency ) );
 				buffer.append( " " );
 				buffer.append( currency.getName() );
 				buffer.append( ")" );
@@ -1722,7 +1722,7 @@ public class CoinmastersFrame
 			{
 				int count = currency.isMeat() ? Concoction.getAvailableMeat() : InventoryManager.getCount( currency );
 				buffer.append( " (" );
-				buffer.append( String.valueOf( count ) );
+				buffer.append( count );
 				buffer.append( " " );
 				buffer.append( currency.getPluralName( count ) );
 				buffer.append( ")" );
@@ -1830,7 +1830,7 @@ public class CoinmastersFrame
 				int count = this.data.availableTokens();
 				String name = ( count != 1 ) ? this.data.getPluralToken() : token;
 				buffer.append( " (" );
-				buffer.append( String.valueOf( count ) );
+				buffer.append( count );
 				buffer.append( " " );
 				buffer.append( name );
 
@@ -1839,7 +1839,7 @@ public class CoinmastersFrame
 				{
 					int count1 = item.getCount( KoLConstants.storage );
 					buffer.append( ", " );
-					buffer.append( String.valueOf( count1 ) );
+					buffer.append( count1 );
 					buffer.append( " in storage" );
 
 					// Only show pulls if we actually have the item in storage

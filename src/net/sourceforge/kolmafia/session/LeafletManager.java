@@ -223,7 +223,7 @@ public abstract class LeafletManager
 		return LeafletManager.LEAFLET_REQUEST.responseText;
 	}
 
-	private static final void initialize()
+	private static void initialize()
 		throws LeafletException
 	{
 		// We know nothing about the state of the objects.
@@ -263,7 +263,7 @@ public abstract class LeafletManager
 		LeafletManager.trophy = response.indexOf( "A shiny bowling trophy" ) != -1;
 	}
 
-	private static final void solveLeaflet( final boolean invokeMagic )
+	private static void solveLeaflet( final boolean invokeMagic )
 		throws LeafletException
 	{
 		// For completeness, get the leaflet
@@ -299,7 +299,7 @@ public abstract class LeafletManager
 		}
 	}
 
-	private static final String executeCommand( final String command )
+	private static String executeCommand( final String command )
 	{
 		LeafletManager.LEAFLET_REQUEST.setCommand( command );
 		RequestThread.postRequest( LeafletManager.LEAFLET_REQUEST );
@@ -311,7 +311,7 @@ public abstract class LeafletManager
 		return LeafletManager.LEAFLET_REQUEST.responseText;
 	}
 
-	private static final int getLocation( final String response )
+	private static int getLocation( final String response )
 	{
 		for ( int location = 0; location < LeafletManager.LOCATIONS.length; ++location )
 		{
@@ -325,12 +325,12 @@ public abstract class LeafletManager
 		return -1;
 	}
 
-	private static final String locationName( final String response )
+	private static String locationName( final String response )
 	{
                 return LeafletManager.locationName( LeafletManager.getLocation( response ) );
 	}
 
-	private static final String locationName( final int location )
+	private static String locationName( final int location )
 	{
                 if ( location < 0 || location >= LeafletManager.LOCATIONS.length )
                 {
@@ -340,7 +340,7 @@ public abstract class LeafletManager
 		return LeafletManager.LOCATIONS[ location ][ 1 ];
 	}
 
-	private static final void parseLocation( final String response )
+	private static void parseLocation( final String response )
 	{
                 // Find out where we are in the leaflet
 		LeafletManager.location = LeafletManager.getLocation( response );
@@ -406,7 +406,7 @@ public abstract class LeafletManager
 		}
 	}
 
-	private static final void parseMantelpiece( final String response )
+	private static void parseMantelpiece( final String response )
 	{
 		if ( response.indexOf( "brass bowling trophy" ) != -1 )
 		{
@@ -435,7 +435,7 @@ public abstract class LeafletManager
 		}
 	}
 
-	private static final void parseMagic( final String response )
+	private static void parseMagic( final String response )
 	{
 		// Bail if we didn't invoke a magic word.
 		if ( LeafletManager.magic == null )
@@ -456,7 +456,7 @@ public abstract class LeafletManager
 		}
 	}
 
-	private static final void getLeaflet()
+	private static void getLeaflet()
 	{
 		// Can't go back
 		if ( LeafletManager.location > LeafletManager.BANK )
@@ -480,7 +480,7 @@ public abstract class LeafletManager
 		LeafletManager.leaflet = true;
 	}
 
-	private static final void openChest()
+	private static void openChest()
 	{
 		// Can't go back
 		if ( LeafletManager.location > LeafletManager.BANK )
@@ -504,7 +504,7 @@ public abstract class LeafletManager
 		}
 	}
 
-	private static final void robHole()
+	private static void robHole()
 	{
 		// Can't go back
 		if ( LeafletManager.location > LeafletManager.BANK )
@@ -522,7 +522,7 @@ public abstract class LeafletManager
 	}
 
 	// Returns true if should proceed, false if should stop now
-	private static final boolean invokeMagic( boolean invokeMagic )
+	private static boolean invokeMagic( boolean invokeMagic )
 	{
 		// Can't go back
 		if ( LeafletManager.location > LeafletManager.BANK )
@@ -556,7 +556,7 @@ public abstract class LeafletManager
 		return true;
 	}
 
-	private static final void getRing()
+	private static void getRing()
 	{
 		if ( LeafletManager.ring )
 		{
@@ -590,7 +590,7 @@ public abstract class LeafletManager
 		LeafletManager.ring = true;
 	}
 
-	private static final void getScroll()
+	private static void getScroll()
 	{
 		if ( LeafletManager.scroll )
 		{
@@ -612,7 +612,7 @@ public abstract class LeafletManager
 		LeafletManager.executeCommand( "read scroll" );
 	}
 
-	private static final void getRuby()
+	private static void getRuby()
 	{
 		if ( LeafletManager.ruby )
 		{
@@ -635,7 +635,7 @@ public abstract class LeafletManager
 		LeafletManager.ruby = true;
 	}
 
-	private static final void goTo( final int destination )
+	private static void goTo( final int destination )
 	{
 		// If you've already reached your destination,
 		// you do not need to move.
@@ -797,7 +797,7 @@ public abstract class LeafletManager
 		}
 	}
 
-	private static final void getSword()
+	private static void getSword()
 	{
 		if ( LeafletManager.sword )
 		{
@@ -809,7 +809,7 @@ public abstract class LeafletManager
 		LeafletManager.sword = true;
 	}
 
-	private static final void getStick()
+	private static void getStick()
 	{
 		if ( LeafletManager.stick || LeafletManager.torch )
 		{
@@ -821,7 +821,7 @@ public abstract class LeafletManager
 		LeafletManager.stick = true;
 	}
 
-	private static final void cutHedge()
+	private static void cutHedge()
 	{
 		if ( LeafletManager.hedge )
 		{
@@ -837,7 +837,7 @@ public abstract class LeafletManager
 		}
 	}
 
-	private static final void openDoor()
+	private static void openDoor()
 	{
 		if ( LeafletManager.door )
 		{
@@ -852,7 +852,7 @@ public abstract class LeafletManager
 		}
 	}
 
-	private static final void getTorch()
+	private static void getTorch()
 	{
 		if ( LeafletManager.torch )
 		{
@@ -871,7 +871,7 @@ public abstract class LeafletManager
 		LeafletManager.torch = true;
 	}
 
-	private static final void killSerpent()
+	private static void killSerpent()
 	{
 		if ( LeafletManager.serpent )
 		{
@@ -886,7 +886,7 @@ public abstract class LeafletManager
 		}
 	}
 
-	private static final void wearBoots()
+	private static void wearBoots()
 	{
 		if ( LeafletManager.wornboots )
 		{
@@ -898,7 +898,7 @@ public abstract class LeafletManager
 		LeafletManager.wornboots = true;
 	}
 
-	private static final void getBoots()
+	private static void getBoots()
 	{
 		if ( LeafletManager.boots )
 		{
@@ -910,7 +910,7 @@ public abstract class LeafletManager
 		LeafletManager.boots = true;
 	}
 
-	private static final void lightFire()
+	private static void lightFire()
 	{
 		LeafletManager.getTorch();
 		LeafletManager.goTo( LeafletManager.HOUSE );

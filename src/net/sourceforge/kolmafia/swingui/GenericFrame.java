@@ -125,9 +125,9 @@ public abstract class GenericFrame
 	private boolean exists = true;
 
 	private Map<JComponent, WeakReference<ActionListener>> listenerMap;
-	private GlobalMenuBar menuBar;
+	private final GlobalMenuBar menuBar;
 
-	private FramePanel framePanel;
+	private final FramePanel framePanel;
 
 	public JTabbedPane tabs;
 	protected String lastTitle;

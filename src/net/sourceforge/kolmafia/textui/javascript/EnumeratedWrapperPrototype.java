@@ -53,10 +53,10 @@ public class EnumeratedWrapperPrototype
 {
 	private static final long serialVersionUID = 1L;
 
-	private static Map<Scriptable, TreeMap<Type, EnumeratedWrapperPrototype>> registry = new HashMap<>();
+	private static final Map<Scriptable, TreeMap<Type, EnumeratedWrapperPrototype>> registry = new HashMap<>();
 
-	private Class<?> recordValueClass;
-	private Type type;
+	private final Class<?> recordValueClass;
+	private final Type type;
 
 	public EnumeratedWrapperPrototype( Class<?> recordValueClass, Type type )
 	{

@@ -59,8 +59,8 @@ import org.jdesktop.swingx.JXCollapsiblePane;
 public class CollapsibleTextArea
 	extends JXCollapsiblePane
 {
-	private JLabel label;
-	private JTextArea area;
+	private final JLabel label;
+	private final JTextArea area;
 
 	public CollapsibleTextArea( String label )
 	{

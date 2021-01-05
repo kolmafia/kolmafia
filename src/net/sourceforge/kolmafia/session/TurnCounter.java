@@ -388,7 +388,7 @@ public class TurnCounter
 		}
 	}
 
-	private static final void startCountingInternal( final int value, final String label, final String image )
+	private static void startCountingInternal( final int value, final String label, final String image )
 	{
 		// We don't synchronize here because caller has already done so.
 		if ( value >= 0 )
@@ -555,7 +555,7 @@ public class TurnCounter
 		Preferences.setString( "_tempRelayCounters", "" );
 	}
 
-	private static final int getTurnsUsed( GenericRequest request )
+	private static int getTurnsUsed( GenericRequest request )
 	{
 		if ( !( request instanceof RelayRequest ) )
 		{

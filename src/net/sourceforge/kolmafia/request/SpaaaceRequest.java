@@ -270,7 +270,7 @@ public class SpaaaceRequest
 		"<div class=\"blank\" style=\"background: Tomato\" title=\"3\">.</div>",
 	};
 
-	private static final String makeDiv( int peg, final int min, final int max, final float expected )
+	private static String makeDiv( int peg, final int min, final int max, final float expected )
 	{
 		if ( min == max )
 		{
@@ -292,15 +292,15 @@ public class SpaaaceRequest
 		buffer.append( "<div class=\"blank\" title=\"" );
 		if ( min == max )
 		{
-			buffer.append( String.valueOf( min ) );
+			buffer.append( min );
 		}
 		else
 		{
 			buffer.append( KoLConstants.FLOAT_FORMAT.format( expected ) );
 			buffer.append( " (" );
-			buffer.append( String.valueOf( min ) );
+			buffer.append( min );
 			buffer.append( "-" );
-			buffer.append( String.valueOf( max ) );
+			buffer.append( max );
 			buffer.append( ")" );
 		}
 		buffer.append( "\">" );
@@ -324,7 +324,7 @@ public class SpaaaceRequest
 		return buffer.toString();
 	}
 
-	private static final String makeSlot( final int min, final int max, final float expected )
+	private static String makeSlot( final int min, final int max, final float expected )
 	{
 		if ( min == max )
 		{
@@ -333,9 +333,9 @@ public class SpaaaceRequest
 
         String buffer = KoLConstants.FLOAT_FORMAT.format( expected ) +
                 " (" +
-                String.valueOf( min ) +
+                min +
                 "-" +
-                String.valueOf( max ) +
+                max +
                 ")";
         return buffer;
 	}
@@ -666,7 +666,7 @@ public class SpaaaceRequest
 
 	private static final Pattern DIV_PATTERN = Pattern.compile( "<div.*?class=\"(.*?)\".*?</div>", Pattern.DOTALL );
 
-	private static final String decoratePorkoBoard( final String board )
+	private static String decoratePorkoBoard( final String board )
 	{
 		StringBuffer buffer = new StringBuffer();
 

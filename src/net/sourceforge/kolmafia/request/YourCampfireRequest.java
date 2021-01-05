@@ -54,7 +54,7 @@ public class YourCampfireRequest
 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( YourCampfireRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( YourCampfireRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( YourCampfireRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( YourCampfireRequest.master );
 	private static final Pattern FIREWOOD_PATTERN = Pattern.compile( "([\\d,]+) sticks? of firewood" );
 	public static final AdventureResult STICK_OF_FIREWOOD = ItemPool.get( ItemPool.STICK_OF_FIREWOOD, 1 );
 

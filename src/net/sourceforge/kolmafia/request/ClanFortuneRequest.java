@@ -55,7 +55,7 @@ public class ClanFortuneRequest
 
 		private final String value;
 
-		private Buff( String value )
+		Buff( String value )
 		{
 			this.value = value;
 		}

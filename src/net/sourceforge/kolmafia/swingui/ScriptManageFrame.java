@@ -124,7 +124,7 @@ public class ScriptManageFrame
 	}
 
 	private final ScriptManageTable scriptTable = new ScriptManageTable();
-	private RepoManageTable repoTable = new RepoManageTable();
+	private final RepoManageTable repoTable = new RepoManageTable();
 
 	public ScriptManageFrame()
 	{
@@ -224,8 +224,8 @@ public class ScriptManageFrame
 	private class LongDescriptionListener
 		implements ListSelectionListener
 	{
-		private JTextComponent comp;
-		private JXTable table;
+		private final JTextComponent comp;
+		private final JXTable table;
 
 		public LongDescriptionListener( JXTable table, JTextComponent comp )
 		{

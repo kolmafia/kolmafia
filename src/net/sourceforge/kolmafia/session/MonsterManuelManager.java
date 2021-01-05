@@ -272,7 +272,7 @@ public class MonsterManuelManager
 		}
 
 		buffer.append( " Init: " );
-		buffer.append( String.valueOf( MonsterManuelManager.parseInitiative( initiative ) ) );
+		buffer.append( MonsterManuelManager.parseInitiative( initiative ) );
 
 		if ( element != Element.NONE )
 		{

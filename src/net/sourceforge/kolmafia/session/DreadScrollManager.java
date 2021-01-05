@@ -243,7 +243,7 @@ public class DreadScrollManager
 		},
 	};
 
-	private static final void setClue( ClueType clue, String value )
+	private static void setClue( ClueType clue, String value )
 	{
 		int index = clue.ordinal();
 		String [][] data = CLUE_DATA[ index ];
@@ -262,7 +262,7 @@ public class DreadScrollManager
 		RequestLogger.updateSessionLog( message );
 	}
 
-	private static final String cluePhrase( ClueType clue )
+	private static String cluePhrase( ClueType clue )
 	{
 		int index = clue.ordinal();
 		String [][] data = CLUE_DATA[ index ];
@@ -278,7 +278,7 @@ public class DreadScrollManager
 		return option.length > 1 ? option[1] : option[0];
 	}
 
-	private static final void clueStatus( StringBuilder buffer, ClueType clue )
+	private static void clueStatus( StringBuilder buffer, ClueType clue )
 	{
 		int index = clue.ordinal();
 		String [][] data = CLUE_DATA[ index ];
@@ -289,7 +289,7 @@ public class DreadScrollManager
 		buffer.append( " (" );
 		buffer.append( data[0][0] );
 		buffer.append( "): " );
-		buffer.append( String.valueOf( value ) );
+		buffer.append( value );
 		buffer.append( " (" );
 		buffer.append( value == 0 ? "unknown" : data[value][0] );
 		buffer.append( ")" );

@@ -63,7 +63,7 @@ public class ChatRequest
 		}
 
 		newURLString.append( "lasttime=" );
-		newURLString.append( String.valueOf( lastSeen ) );
+		newURLString.append( lastSeen );
 
 		if ( !tabbedChat )
 		{
@@ -100,7 +100,7 @@ public class ChatRequest
 		newURLString.append( GenericRequest.passwordHash );
 
 		newURLString.append( "&playerid=" );
-		newURLString.append( String.valueOf( KoLCharacter.getUserId() ) );
+		newURLString.append( KoLCharacter.getUserId() );
 
 		newURLString.append( "&graf=" );
 		newURLString.append( GenericRequest.encodeURL( graf, "ISO-8859-1" ) );

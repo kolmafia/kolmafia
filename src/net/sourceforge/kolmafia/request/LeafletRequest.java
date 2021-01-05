@@ -86,7 +86,7 @@ public class LeafletRequest
 		}
 	}
 
-	private static final String getCommand( final String urlString )
+	private static String getCommand( final String urlString )
 	{
 		Matcher matcher = COMMAND_PATTERN.matcher( urlString );
 		if ( !matcher.find() )

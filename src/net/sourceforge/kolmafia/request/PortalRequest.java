@@ -102,7 +102,7 @@ public class PortalRequest
 		PortalRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
-	private static final AdventureResult getSphere( final String urlString )
+	private static AdventureResult getSphere( final String urlString )
 	{
 		Matcher matcher = PortalRequest.WHERE_PATTERN.matcher( urlString );
 		if ( !matcher.find() )

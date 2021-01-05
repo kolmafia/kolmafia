@@ -38,7 +38,7 @@ package net.sourceforge.kolmafia.chat;
 public class EventMessage
 	extends ChatMessage
 {
-	private String color;
+	private final String color;
 	private boolean hidden;
 
 	public EventMessage( String content, String color )

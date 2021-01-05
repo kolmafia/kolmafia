@@ -642,21 +642,21 @@ public class RecoveryManager
 			String sep = "";
 			if ( mushroom > 0 )
 			{
-				buf.append( String.valueOf( mushroom ) );
+				buf.append( mushroom );
 				buf.append( " mushroom" );
 				sep = ", ";
 			}
 			if ( deluxe > 0 )
 			{
 				buf.append( sep );
-				buf.append( String.valueOf( deluxe ) );
+				buf.append( deluxe );
 				buf.append( " deluxe mushroom" );
 				sep = ", ";
 			}
 			if ( superDeluxe > 0 )
 			{
 				buf.append( sep );
-				buf.append( String.valueOf( superDeluxe ) );
+				buf.append( superDeluxe );
 				buf.append( " super-deluxe mushroom" );
 			}
 			return buf.toString();

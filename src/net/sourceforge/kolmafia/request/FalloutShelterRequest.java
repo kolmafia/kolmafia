@@ -211,7 +211,7 @@ public class FalloutShelterRequest
 		}
 	}
 
-	private static final void parseFalloutShelter( final String responseText )
+	private static void parseFalloutShelter( final String responseText )
 	{
 		boolean hasTerminal = findImage( responseText, "vaultterminal.gif", ItemPool.SOURCE_TERMINAL );
 

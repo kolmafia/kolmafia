@@ -221,7 +221,7 @@ public abstract class UseLinkDecorator
 
 	private static final Pattern BOUNTY_COUNT_PATTERN = Pattern.compile( "\\((\\d+) of (\\d+) found\\)" );
 	
-	private static final void addNormalUseLinks( String location, String text, StringBuffer buffer, boolean deferring, boolean usedMacro )
+	private static void addNormalUseLinks( String location, String text, StringBuffer buffer, boolean deferring, boolean usedMacro )
 	{
 		// Get a list of of items via "rel" strings
 		LinkedList<AdventureResult> items = ResultProcessor.parseItems( text );
@@ -377,7 +377,7 @@ public abstract class UseLinkDecorator
 	private static final Pattern POETIC_ACQUIRE_PATTERN =
 		Pattern.compile( "<img[^>]*?descitem\\((\\d+)\\)'>", Pattern.DOTALL );
 
-	private static final void addPoeticUseLinks( String location, String text, StringBuffer buffer, boolean deferring )
+	private static void addPoeticUseLinks( String location, String text, StringBuffer buffer, boolean deferring )
 	{
 		Matcher useLinkMatcher = POETIC_ACQUIRE_PATTERN.matcher( text );
 
@@ -413,7 +413,7 @@ public abstract class UseLinkDecorator
 		buffer.append( text );
 	}
 
-	private static final CraftingType shouldAddCreateLink( int itemId, String location )
+	private static CraftingType shouldAddCreateLink( int itemId, String location )
 	{
 		if ( location == null || ( location.contains( "craft.php" ) && !location.contains( "pulverize" ) ) )
 		{
@@ -514,7 +514,7 @@ public abstract class UseLinkDecorator
 		return CraftingType.NOCREATE;
 	}
 
-	private static final boolean addEffectLink( String location, Matcher useLinkMatcher, StringBuffer buffer, LinkedList<AdventureResult> effects )
+	private static boolean addEffectLink( String location, Matcher useLinkMatcher, StringBuffer buffer, LinkedList<AdventureResult> effects )
 	{
 		String message = useLinkMatcher.group(0);
 		if ( !message.contains( "You acquire an effect" ) &&
@@ -579,7 +579,7 @@ public abstract class UseLinkDecorator
 		return true;
 	}
 
-	private static final boolean addUseLink( int itemId, int itemCount, String location, Matcher useLinkMatcher, String text, StringBuffer buffer )
+	private static boolean addUseLink( int itemId, int itemCount, String location, Matcher useLinkMatcher, String text, StringBuffer buffer )
 	{
 		UseLink link = UseLinkDecorator.generateUseLink( itemId, itemCount, location, text );
 
@@ -594,7 +594,7 @@ public abstract class UseLinkDecorator
 		return true;
 	}
 
-	private static final UseLink generateUseLink( int itemId, int itemCount, String location, String text )
+	private static UseLink generateUseLink( int itemId, int itemCount, String location, String text )
 	{
 		// This might be a target of the Party Fair quest - if so we overwrite normal use link to prevent accidents and show progress
 		if ( QuestDatabase.isQuestStep( Quest.PARTY_FAIR, "step1" ) || QuestDatabase.isQuestStep( Quest.PARTY_FAIR, "step2" ) )
@@ -634,7 +634,7 @@ public abstract class UseLinkDecorator
 		return getUseLink( itemId, itemCount, location, consumeMethod, text );
 	}
 
-	private static final UseLink getCreateLink( final int itemId, final int itemCount, final CraftingType mixingMethod )
+	private static UseLink getCreateLink( final int itemId, final int itemCount, final CraftingType mixingMethod )
 	{
 		switch ( mixingMethod )
 		{
@@ -655,7 +655,7 @@ public abstract class UseLinkDecorator
 		return null;
 	}
 
-	private static final UseLink getCouncilLink( int itemId )
+	private static UseLink getCouncilLink( int itemId )
 	{
 		return  KoLCharacter.isEd() ?
 			new UseLink( itemId, "Amun", "council.php" ) :
@@ -664,7 +664,7 @@ public abstract class UseLinkDecorator
 			new UseLink( itemId, "council", "council.php" );
 	}
 
-	private static final UseLink getUseLink( int itemId, int itemCount, String location, int consumeMethod, final String text )
+	private static UseLink getUseLink( int itemId, int itemCount, String location, int consumeMethod, final String text )
 	{
 		if ( !ConsumablesDatabase.meetsLevelRequirement( ItemDatabase.getItemName( itemId ) ) )
 		{
@@ -1571,7 +1571,7 @@ public abstract class UseLinkDecorator
 	
 	private static int equipSequence = 0;
 	
-	private static final String getSpeculation( String label, Modifiers mods )
+	private static String getSpeculation( String label, Modifiers mods )
 	{
 		String id = "whatif" + UseLinkDecorator.equipSequence++;
 		String table = SpeculateCommand.getHTML( mods, "id='" + id + "' style='background-color: white; visibility: hidden; position: absolute; z-index: 1; right: 0px; top: 1.2em;'" );
@@ -1591,7 +1591,7 @@ public abstract class UseLinkDecorator
 		return getSpeculation( label, mods );
 	}
 
-	private static final String getPotionSpeculation( String label, int itemId )
+	private static String getPotionSpeculation( String label, int itemId )
 	{
 		Modifiers mods = Modifiers.getItemModifiers( itemId );
 		if ( mods == null ) return label;
@@ -1610,7 +1610,7 @@ public abstract class UseLinkDecorator
 		return getSpeculation( label, mods );
 	}
 
-	private static final UseLink svenLink( int itemId )
+	private static UseLink svenLink( int itemId )
 	{
 		if ( ( Math.min( InventoryManager.getCount( ItemPool.BEER_SCENTED_TEDDY_BEAR ), 1 ) + 
 			Math.min( InventoryManager.getCount( ItemPool.GIANT_MARSHMALLOW ), 1 ) + 
@@ -1635,7 +1635,7 @@ public abstract class UseLinkDecorator
 			"place.php?whichplace=desertbeach&action=db_gnasir";
 	}
 
-	private static final UseLink getNavigationLink( int itemId, String location )
+	private static UseLink getNavigationLink( int itemId, String location )
 	{
 		String useType = null;
 		String useLocation = null;
@@ -2169,7 +2169,7 @@ public abstract class UseLinkDecorator
 		{
 			int count1 = InventoryManager.getCount( itemId );
 			int count2 = InventoryManager.getCount( ItemPool.TOMB_RATCHET );
-			useType = String.valueOf( count1 ) + "+" + String.valueOf( count2 );
+			useType = count1 + "+" + count2;
 			return !Preferences.getBoolean( "controlRoomUnlock" ) ?
 				new UseLink( itemId, count1, useType, "javascript:return false;" ) :
 				new UseLink( itemId, count1, useType, "place.php?whichplace=pyramid&action=pyramid_control" );
@@ -2179,7 +2179,7 @@ public abstract class UseLinkDecorator
 		{
 			int count1 = InventoryManager.getCount( itemId );
 			int count2 = InventoryManager.getCount( ItemPool.CRUMBLING_WHEEL );
-			useType = String.valueOf( count2 ) + "+" + String.valueOf( count1 );
+			useType = count2 + "+" + count1;
 			return !Preferences.getBoolean( "controlRoomUnlock" ) ?
 				new UseLink( itemId, count1, useType, "javascript:return false;" ) :
 				new UseLink( itemId, count1, useType, "place.php?whichplace=pyramid&action=pyramid_control" );

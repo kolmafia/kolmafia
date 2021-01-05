@@ -400,7 +400,7 @@ public abstract class MoodManager
 		MoodManager.minimalSet();
 	}
 
-	private static final void pickSkills( final List<String> skills, final int limit, final String [] rankedBuffs )
+	private static void pickSkills( final List<String> skills, final int limit, final String [] rankedBuffs )
 	{
 		if ( skills.isEmpty() )
 		{

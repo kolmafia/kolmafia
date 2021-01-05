@@ -1322,7 +1322,7 @@ public class AreaCombatData
 		return zone;
 	}
 
-	private static final int adjustConditionalWeighting( String zone, String monster, int weighting )
+	private static int adjustConditionalWeighting( String zone, String monster, int weighting )
 	{
 		// Bossbat can appear on 4th fight, and will always appear on the 8th fight
 		if ( zone.equals( "The Boss Bat's Lair" ) )

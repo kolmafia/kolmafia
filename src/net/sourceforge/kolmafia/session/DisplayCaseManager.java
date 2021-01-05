@@ -186,7 +186,7 @@ public abstract class DisplayCaseManager
 		KoLmafia.updateDisplay( "Display case updated." );
 	}
 
-	private static final void save( final List shelfOrder )
+	private static void save( final List shelfOrder )
 	{
 		int elementCounter = 0;
 		SortedListModel currentShelf;
@@ -265,7 +265,7 @@ public abstract class DisplayCaseManager
 		DisplayCaseManager.collectionRetrieved = true;
 	}
 
-	private static final void updateShelves( final String data )
+	private static void updateShelves( final String data )
 	{
 		DisplayCaseManager.clearCache();
 

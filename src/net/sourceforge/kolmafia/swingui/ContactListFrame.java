@@ -64,8 +64,8 @@ import net.sourceforge.kolmafia.utilities.HTMLListEntry;
 public class ContactListFrame
 	extends GenericFrame
 {
-	private LockableListModel contacts;
-	private JList contactsDisplay;
+	private final LockableListModel contacts;
+	private final JList contactsDisplay;
 
 	public ContactListFrame()
 	{

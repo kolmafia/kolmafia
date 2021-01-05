@@ -52,7 +52,7 @@ public class CombatEncounterKey
 	private static final Pattern PHYLUM_PATTERN = Pattern.compile( "\\s*\\$phylum\\[([^\\]]+)\\]" );
 	private static final Pattern ITEM_PATTERN = Pattern.compile( "\\s*\\$item\\[([^\\]]+)\\]" );
 
-	private String encounterKey;
+	private final String encounterKey;
 	private String monsterName;
 
 	private Element element;

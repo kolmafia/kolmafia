@@ -144,7 +144,7 @@ public class ValhallaDecorator
 		return;
 	}
 
-	private static final void listPermableSkills( final StringBuffer buffer, final ArrayList unpermedSkills )
+	private static void listPermableSkills( final StringBuffer buffer, final ArrayList unpermedSkills )
 	{
 		for ( int i = 0; i < unpermedSkills.size(); ++i )
 		{
@@ -168,7 +168,7 @@ public class ValhallaDecorator
 		}
 	}
 
-	private static final int listPermanentSkills( final StringBuffer buffer, final ArrayList skillList, final int startingPoint )
+	private static int listPermanentSkills( final StringBuffer buffer, final ArrayList skillList, final int startingPoint )
 	{
 		int count = 0;
 		for ( int i = 0; i < 100; ++i )
@@ -217,7 +217,7 @@ public class ValhallaDecorator
 		return count;
 	}
 
-	private static final void listCommonTasks( final StringBuffer buffer )
+	private static void listCommonTasks( final StringBuffer buffer )
 	{
 		RelayRequest.redirectedCommandURL = "/ascend.php";
 
@@ -357,7 +357,7 @@ public class ValhallaDecorator
 		buffer.append( " key lime</a></nobr><br />" );
 	}
 
-	private static final boolean developerGift( final StringBuffer buffer, final int itemId, final String developer )
+	private static boolean developerGift( final StringBuffer buffer, final int itemId, final String developer )
 	{
 		int giftCount = InventoryManager.getAccessibleCount( itemId );
 		if ( giftCount <= 0 )
@@ -388,7 +388,7 @@ public class ValhallaDecorator
 		return true;
 	}
 
-	private static final void switchSeeds( final StringBuffer buffer )
+	private static void switchSeeds( final StringBuffer buffer )
 	{
 		boolean havePumpkin = InventoryManager.hasItem( ItemPool.PUMPKIN_SEEDS );
 		boolean havePeppermint = InventoryManager.hasItem( ItemPool.PEPPERMINT_PACKET );
@@ -510,7 +510,7 @@ public class ValhallaDecorator
 	}
 
 	private static final Pattern EUDORA_PATTERN = Pattern.compile( "<option (selected='selected' )?value=\"(\\d)\">([\\w\\s-]*)" );
-	private static final void switchCorrespondent( final StringBuffer buffer )
+	private static void switchCorrespondent( final StringBuffer buffer )
 	{
 		GenericRequest eudoraCheck = new GenericRequest( "account.php?tab=correspondence" );
 		eudoraCheck.run();
@@ -629,14 +629,14 @@ public class ValhallaDecorator
 		buffer.append( "</nobr><br>" );
 	}
 
-	private static final String shortWorkshedName( String name )
+	private static String shortWorkshedName( String name )
 	{
 		name = name.replace( "warbear ", "" );
 		name = name.replace( "Little Geneticist ", "" );
 		return name;
 	}
 
-	private static final void switchWorkshed( StringBuffer buffer )
+	private static void switchWorkshed( StringBuffer buffer )
 	{
 		boolean display = false;
 		boolean canChange = !Preferences.getBoolean( "_workshedItemUsed" );
@@ -695,7 +695,7 @@ public class ValhallaDecorator
 		buffer.append( workshedBuffer );
 	}
 
-	private static final void switchFolderHolder( StringBuffer buffer )
+	private static void switchFolderHolder( StringBuffer buffer )
 	{
 		StringBuilder folderHolderBuffer = new StringBuilder();
 
@@ -734,7 +734,7 @@ public class ValhallaDecorator
 		buffer.append( folderHolderBuffer );
 	}
 
-	private static final void checkIceHouse( StringBuffer buffer )
+	private static void checkIceHouse( StringBuffer buffer )
 	{
 		StringBuilder iceHouseBuffer = new StringBuilder();
 
@@ -754,7 +754,7 @@ public class ValhallaDecorator
 		buffer.append( iceHouseBuffer );
 	}
 
-	private static final void checkCatHeists( StringBuffer buffer )
+	private static void checkCatHeists( StringBuffer buffer )
 	{
 		StringBuilder catHeistBuffer = new StringBuilder();
 
@@ -789,7 +789,7 @@ public class ValhallaDecorator
 		}
 	}
 
-	private static final void switchChateau( StringBuffer buffer )
+	private static void switchChateau( StringBuffer buffer )
 	{
 		if ( !Preferences.getBoolean( "chateauAvailable" ) )
 		{
@@ -858,7 +858,7 @@ public class ValhallaDecorator
 		buffer.append( chateauBuffer );
 	}
 
-	private static final void switchCowboyBoots( StringBuffer buffer )
+	private static void switchCowboyBoots( StringBuffer buffer )
 	{
 		if ( InventoryManager.getCount( ItemPool.COWBOY_BOOTS ) + InventoryManager.getEquippedCount( ItemPool.COWBOY_BOOTS ) == 0 )
 		{
@@ -957,7 +957,7 @@ public class ValhallaDecorator
 		buffer.append( cowboyBootsBuffer );
 	}
 
-	private static final String tooltip( int itemId )
+	private static String tooltip( int itemId )
 	{
 		switch( itemId )
 		{

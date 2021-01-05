@@ -244,7 +244,7 @@ public abstract class MushroomManager
 		return MushroomManager.getMushroomManager( isDataOnly, forecastPlot );
 	}
 
-	private static final String getForecastSquare( final int row, final int col, final String[][] plot )
+	private static String getForecastSquare( final int row, final int col, final String[][] plot )
 	{
 		String[] touched = new String[ 4 ];
 
@@ -292,7 +292,7 @@ public abstract class MushroomManager
 		return plot[ row ][ col ];
 	}
 
-	private static final String getShorthand( final int mushroomType, final boolean isAdult )
+	private static String getShorthand( final int mushroomType, final boolean isAdult )
 	{
 		for ( int i = 0; i < MushroomManager.MUSHROOMS.length; ++i )
 		{
@@ -305,7 +305,7 @@ public abstract class MushroomManager
 		return "__";
 	}
 
-	private static final String getMushroomManager( boolean isDataOnly, final String[][] plot )
+	private static String getMushroomManager( boolean isDataOnly, final String[][] plot )
 	{
 		// Otherwise, you need to construct the string form
 		// of the mushroom plot.  Shorthand and hypertext are
@@ -596,7 +596,7 @@ public abstract class MushroomManager
 		return KoLCharacter.getAscensions() == Preferences.getInteger( "lastMushroomPlot" );
 	}
 
-	private static final boolean initialize()
+	private static boolean initialize()
 	{
 		// If you can't go inside Degrassi Knoll, no go
 		if ( !KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() )
@@ -652,7 +652,7 @@ public abstract class MushroomManager
 		}
 	}
 
-	private static final int parseSquare( final String text )
+	private static int parseSquare( final String text )
 	{
 		// We figure out what's there based on the image.  This
 		// is done by checking the text in the square against
@@ -780,7 +780,7 @@ public abstract class MushroomManager
 		}
 	}
 
-	private static final void copyMushroomImage( final String location )
+	private static void copyMushroomImage( final String location )
 	{
 		File source = new File( KoLConstants.IMAGE_LOCATION, location );
 		File destination = new File( KoLConstants.PLOTS_LOCATION + "/" + location );

@@ -239,7 +239,7 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.usableList.sort();
 	}
 
-	private static final void addConcoction( final String[] data )
+	private static void addConcoction( final String[] data )
 	{
 		// Need at least concoction name and mixing method
 		if ( data.length < 2 )
@@ -864,14 +864,14 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.queuedPotions;
 	}
 
-	private static final AdventureResult currentConsumptionHelper( boolean food, boolean booze )
+	private static AdventureResult currentConsumptionHelper( boolean food, boolean booze )
 	{
 		return	food ? EatItemRequest.currentFoodHelper() :
 			booze ? DrinkItemRequest.currentDrinkHelper() :
 			null;
 	}
 
-	private static final void clearConsumptionHelper( boolean food, boolean booze )
+	private static void clearConsumptionHelper( boolean food, boolean booze )
 	{
 		if ( food )
 		{
@@ -883,7 +883,7 @@ public class ConcoctionDatabase
 		}
 	}
 
-	private static final int lastUnconsumed( int quantity, boolean food, boolean booze )
+	private static int lastUnconsumed( int quantity, boolean food, boolean booze )
 	{
 		return quantity - ( food ? EatItemRequest.foodConsumed :
 				    booze ? DrinkItemRequest.boozeConsumed :
@@ -933,7 +933,7 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.refreshConcoctions();
 	}
 
-	private static final void handleQueue( Stack<QueuedConcoction> toProcess, boolean food, boolean booze, int consumptionType )
+	private static void handleQueue( Stack<QueuedConcoction> toProcess, boolean food, boolean booze, int consumptionType )
 	{
 		// Keep track of current consumption helper. These can be
 		// "queued" by simply "using" them. Account for that.
@@ -1061,7 +1061,7 @@ public class ConcoctionDatabase
 		}
 	}
 
-	private static final void consumeItem( Concoction c, int quantity, int consumptionType )
+	private static void consumeItem( Concoction c, int quantity, int consumptionType )
 	{
 		AdventureResult item = c.getItem();
 
@@ -1172,7 +1172,7 @@ public class ConcoctionDatabase
 		return ConcoctionDatabase.queuedSpleenHit;
 	}
 
-	private static final List<AdventureResult> getAvailableIngredients()
+	private static List<AdventureResult> getAvailableIngredients()
 	{
 		boolean includeCloset =
 			!KoLConstants.closet.isEmpty() &&
@@ -1582,7 +1582,7 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.usableList.sort();
 	}
 
-	private static final void calculateBasicItems( final List<AdventureResult> availableIngredients )
+	private static void calculateBasicItems( final List<AdventureResult> availableIngredients )
 	{
 		// Meat paste and meat stacks can be created directly
 		// and are dependent upon the amount of meat available.
@@ -1592,7 +1592,7 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.setBuyableItem( availableIngredients, ItemPool.DENSE_STACK, 1000 );
 	}
 
-	private static final void setBuyableItem( final List<AdventureResult> availableIngredients, final int itemId, final int price )
+	private static void setBuyableItem( final List<AdventureResult> availableIngredients, final int itemId, final int price )
 	{
 		Concoction creation = ConcoctionPool.get( itemId );
 		if ( creation == null )
@@ -1613,7 +1613,7 @@ public class ConcoctionDatabase
 
 	private static final AdventureResult THORS_PLIERS = ItemPool.get( ItemPool.THORS_PLIERS, 1 );
 
-	private static final void cachePermitted( final List<AdventureResult> availableIngredients )
+	private static void cachePermitted( final List<AdventureResult> availableIngredients )
 	{
 		int toolCost = KoLCharacter.inBadMoon() ? 500 : 1000;
 		boolean willBuyTool =
@@ -2547,7 +2547,7 @@ public class ConcoctionDatabase
 				( haveJackhammer ? 3 - Preferences.getInteger( "_legionJackhammerCrafting" ) : 0 );
 	}
 
-	private static final boolean isAvailable( final int servantId, final int clockworkId )
+	private static boolean isAvailable( final int servantId, final int clockworkId )
 	{
 		// Otherwise, return whether or not the quantity possible for
 		// the given box servants is non-zero.	This works because
@@ -2947,7 +2947,7 @@ public class ConcoctionDatabase
 		return ConcoctionDatabase.getIngredients( ingredients, availableIngredients );
 	}
 
-	private static final AdventureResult[] getIngredients( AdventureResult[] ingredients, List<AdventureResult> availableIngredients )
+	private static AdventureResult[] getIngredients( AdventureResult[] ingredients, List<AdventureResult> availableIngredients )
 	{
 		// Ensure that you're retrieving the same ingredients that
 		// were used in the calculations.  Usually this is the case,
@@ -3013,7 +3013,7 @@ public class ConcoctionDatabase
 		return item == null ? ConcoctionDatabase.NO_INGREDIENTS : item.getIngredients();
 	}
 
-	private static final AdventureResult getBetterIngredient( final int itemId1, final int itemId2, final List<AdventureResult> availableIngredients )
+	private static AdventureResult getBetterIngredient( final int itemId1, final int itemId2, final List<AdventureResult> availableIngredients )
 	{
 		AdventureResult ingredient1 = ItemPool.get( itemId1, 1 );
 		AdventureResult ingredient2 = ItemPool.get( itemId2, 1 );

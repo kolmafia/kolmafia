@@ -66,7 +66,7 @@ public class SummoningChamberRequest
 
 	private static final Pattern DEMON_PATTERN = Pattern.compile( "demonname=([^&]*)" );
 	private final String demon;
-	private int demonNumber;
+	private final int demonNumber;
 
 	public SummoningChamberRequest( final String demon, int demonNumber )
 	{

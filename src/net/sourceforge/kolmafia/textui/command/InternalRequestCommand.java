@@ -44,7 +44,7 @@ public class InternalRequestCommand
 	extends AbstractCommand
 {
 	private boolean isRunning = false;
-	private List requests = new LinkedList();
+	private final List requests = new LinkedList();
 
 	public void addRequest( GenericRequest request )
 	{

@@ -461,7 +461,7 @@ public class StorageRequest
 		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
 	}
 
-	private static final boolean parseTransfer( final String urlString, final String responseText, final boolean bulkTransfer )
+	private static boolean parseTransfer( final String urlString, final String responseText, final boolean bulkTransfer )
 	{
 		String action = GenericRequest.getAction( urlString );
 		if ( action == null )
@@ -562,7 +562,7 @@ public class StorageRequest
 		StorageRequest.updateSettings();
 	}
 
-	private static final void updateSettings()
+	private static void updateSettings()
 	{
 		if ( KoLConstants.storage.isEmpty() && KoLConstants.freepulls.isEmpty() && KoLCharacter.getStorageMeat() == 0 )
 		{
@@ -578,7 +578,7 @@ public class StorageRequest
 	// <b>star hat (1)</b> moved from storage to inventory.
 	private static final Pattern PULL_ITEM_PATTERN = Pattern.compile( "<b>([^<]*) \\((\\d+)\\)</b> moved from storage to inventory" );
 
-	private static final void transferItems( final String responseText, final boolean bulkTransfer )
+	private static void transferItems( final String responseText, final boolean bulkTransfer )
 	{
 		// Transfer items from storage and/or freepulls
 
@@ -635,7 +635,7 @@ public class StorageRequest
 		}
 	}
 
-	private static final void transferMeat( final String urlString )
+	private static void transferMeat( final String urlString )
 	{
 		long meat = TransferItemRequest.transferredMeat( urlString, "amt" );
 		KoLCharacter.setStorageMeat( KoLCharacter.getStorageMeat() - meat );

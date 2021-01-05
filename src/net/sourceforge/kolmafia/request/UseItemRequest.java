@@ -265,7 +265,7 @@ public class UseItemRequest
 		return consumptionType;
 	}
 
-	private static final String getConsumptionLocation( final int consumptionType, final AdventureResult item )
+	private static String getConsumptionLocation( final int consumptionType, final AdventureResult item )
 	{
 		switch ( consumptionType )
 		{
@@ -324,7 +324,7 @@ public class UseItemRequest
 		return UseItemRequest.currentItemId;
 	}
 
-	private final boolean isBingeRequest()
+	private boolean isBingeRequest()
 	{
 		switch ( this.consumptionType )
 		{
@@ -435,7 +435,7 @@ public class UseItemRequest
 		return UseItemRequest.maximumUses( itemId, itemName, KoLConstants.NO_CONSUME, false );
 	}
 
-	private static final int maximumUses( final int itemId, final String itemName, final int consumptionType, final boolean allowOverDrink )
+	private static int maximumUses( final int itemId, final String itemName, final int consumptionType, final boolean allowOverDrink )
 	{
 		if ( FightRequest.inMultiFight )
 		{
@@ -1760,7 +1760,7 @@ public class UseItemRequest
 		}
 	}
 
-	private static final boolean sequentialConsume( final int itemId )
+	private static boolean sequentialConsume( final int itemId )
 	{
 		return false;
 	}
@@ -1899,16 +1899,16 @@ public class UseItemRequest
 		message.append( " " );
 		if ( totalIterations == 1 )
 		{
-			message.append( String.valueOf( this.itemUsed.getCount() ) );
+			message.append( this.itemUsed.getCount() );
 			message.append( " " );
 		}
 		message.append( this.itemUsed.getName() );
 		if ( totalIterations != 1 )
 		{
 			message.append( " (" );
-			message.append( String.valueOf( currentIteration ) );
+			message.append( currentIteration );
 			message.append( " of " );
-			message.append( String.valueOf( totalIterations ) );
+			message.append( totalIterations );
 			message.append( ")" );
 		}
 		message.append( "..." );
@@ -6669,19 +6669,19 @@ public class UseItemRequest
 		}
 	}
 
-	private static final String itemToClass( final int itemId )
+	private static String itemToClass( final int itemId )
 	{
 		String className = Modifiers.getStringModifier( "Item", itemId, "Class" );
 		return className.equals( "" ) ? null : className;
 	}
 
-	private static final String itemToSkill( final int itemId )
+	private static String itemToSkill( final int itemId )
 	{
 		String skillName = Modifiers.getStringModifier( "Item", itemId, "Skill" );
 		return skillName.equals( "" ) ? null : skillName;
 	}
 
-	private static final void getEvilLevels( final String responseText )
+	private static void getEvilLevels( final String responseText )
 	{
 		int total = 0;
 		int alcove = 0;
@@ -6711,7 +6711,7 @@ public class UseItemRequest
 		}
 	}
 
-	private static final void getBugbearBiodataLevels( String responseText )
+	private static void getBugbearBiodataLevels( String responseText )
 	{
 		Matcher matcher = UseItemRequest.KEYOTRON_PATTERN.matcher( responseText );
 
@@ -6733,7 +6733,7 @@ public class UseItemRequest
 		return;
 	}
 
-	private static final void showItemUsage( final boolean showHTML, final String text )
+	private static void showItemUsage( final boolean showHTML, final String text )
 	{
 		if ( showHTML )
 		{
@@ -6742,7 +6742,7 @@ public class UseItemRequest
 		}
 	}
 
-	private static final String trimInventoryText( String text )
+	private static String trimInventoryText( String text )
 	{
 		// Get rid of first row of first table: the "Results" line
 		Matcher matcher = UseItemRequest.ROW_PATTERN.matcher( text );
@@ -6858,7 +6858,7 @@ public class UseItemRequest
 		return ItemPool.get( itemId, 1 );
 	}
 
-	private static final AdventureResult extractHelper( final String urlString )
+	private static AdventureResult extractHelper( final String urlString )
 	{
 		if ( !urlString.startsWith( "inv_eat.php" ) &&
 		     !urlString.startsWith( "inv_booze.php" ) &&

@@ -291,7 +291,7 @@ public class MushroomPlotPanel
 		implements ActionListener
 	{
 		private final int index;
-		private boolean canModify;
+		private final boolean canModify;
 
 		public MushroomButton( final int index, final boolean canModify )
 		{

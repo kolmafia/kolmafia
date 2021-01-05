@@ -101,8 +101,8 @@ public class DwarfFactoryRequest
 	};
 
 	private static DwarfNumberTranslator digits = null;
-	private static int[] hopperCount = new int[4];
-	private static int[] inventoryCount = new int[4];
+	private static final int[] hopperCount = new int[4];
+	private static final int[] inventoryCount = new int[4];
 
 	public static void reset()
 	{
@@ -173,7 +173,7 @@ public class DwarfFactoryRequest
 
 			boolean won = meatMatcher.group(1).equals( "gain" );
 			int meat = StringUtilities.parseInt( meatMatcher.group( 2 ) ) / 7;
-			String meat7 = String.valueOf( meat / 7 ) + String.valueOf( meat % 7 );
+			String meat7 = String.valueOf( meat / 7 ) + meat % 7;
 
 			Matcher runeMatcher = DwarfFactoryRequest.getRuneMatcher( responseText );
 			String first = DwarfFactoryRequest.getRune( runeMatcher ) + DwarfFactoryRequest.getRune( runeMatcher );
@@ -1487,7 +1487,7 @@ public class DwarfFactoryRequest
 			this.matchDigitPermutations();
 		}
 
-		private Set<String> permutations = new HashSet<>();
+		private final Set<String> permutations = new HashSet<>();
 
 		private void matchDigitPermutations()
 		{
@@ -2031,19 +2031,19 @@ public class DwarfFactoryRequest
 		public static final int PANTS = 1;
 		public static final int WEAPON = 2;
 
-		private DwarfNumberTranslator digits;
-		private Map<Character, Integer> itemMap = new HashMap<>();
-		private Map<Integer, Character> runeMap = new HashMap<>();
+		private final DwarfNumberTranslator digits;
+		private final Map<Character, Integer> itemMap = new HashMap<>();
+		private final Map<Integer, Character> runeMap = new HashMap<>();
 
 		// Indexed by [item]
-		private char [] equipment = new char[3];
+		private final char [] equipment = new char[3];
 
 		// Indexed by [hopper]
-		private int [] ores = new int[4];
+		private final int [] ores = new int[4];
 
 		// Indexed by [item][hopper]
-		private int [][] oreQuantities = new int[3][4];
-		private int [][] gaugeSettings = new int[3][4];
+		private final int [][] oreQuantities = new int[3][4];
+		private final int [][] gaugeSettings = new int[3][4];
 
 		public FactoryData( final DwarfNumberTranslator digits )
 		{

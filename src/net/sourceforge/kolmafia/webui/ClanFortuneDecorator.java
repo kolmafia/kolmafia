@@ -47,7 +47,7 @@ public abstract class ClanFortuneDecorator
 	public static final void decorateQuestion( final StringBuffer buffer )
 	{
 		// Don't decorate if no questions set
-		String q[] = new String[3];
+		String[] q = new String[3];
 		q[0] = Preferences.getString( "clanFortuneWord1" );
 		q[1] = Preferences.getString( "clanFortuneWord2" );
 		q[2] = Preferences.getString( "clanFortuneWord3" );
@@ -76,7 +76,7 @@ public abstract class ClanFortuneDecorator
 	public static final void decorateAnswer( final StringBuffer buffer )
 	{
 		// Don't decorate if no answers set
-		String q[] = new String[3];
+		String[] q = new String[3];
 		q[0] = Preferences.getString( "clanFortuneReply1" );
 		q[1] = Preferences.getString( "clanFortuneReply2" );
 		q[2] = Preferences.getString( "clanFortuneReply3" );

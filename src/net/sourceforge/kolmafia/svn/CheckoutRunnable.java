@@ -46,7 +46,7 @@ import org.tmatesoft.svn.core.wc.SVNRevision;
 public class CheckoutRunnable
 	implements Runnable
 {
-	private SVNURL repo;
+	private final SVNURL repo;
 
 	public CheckoutRunnable( SVNURL url )
 	{

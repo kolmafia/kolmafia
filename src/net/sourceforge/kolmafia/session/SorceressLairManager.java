@@ -376,7 +376,7 @@ public abstract class SorceressLairManager
 			Matcher rankMatcher = SorceressLairManager.RANK_PATTERN.matcher( responseText );
 			if ( rankMatcher.find() )
 			{
-				String setting = "nsContestants" + String.valueOf( decision );
+				String setting = "nsContestants" + decision;
 				int value = StringUtilities.parseInt( rankMatcher.group( 1 ) );
 				Preferences.setInteger( setting, value - 1 );
 			}
@@ -866,7 +866,7 @@ public abstract class SorceressLairManager
 		SorceressLairManager.hedgeMazeScript( mode );
 	}
 
-	private static final void hedgeMazeScript( final int mode )
+	private static void hedgeMazeScript( final int mode )
 	{
 		// Is the Hedge maze open? Go look at the tower.
 		RequestThread.postRequest( new PlaceRequest( "nstower" ) );

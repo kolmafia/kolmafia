@@ -211,8 +211,7 @@ public class ProfileRequest
 		{
 			while ( !st.nextToken().startsWith( "Path" ) )
 			{
-				;
-			}
+            }
 			this.restriction = st.nextToken().trim();
 		}
 		else
@@ -224,8 +223,7 @@ public class ProfileRequest
 		{
 			while ( !st.nextToken().startsWith( "Meat" ) )
 			{
-				;
-			}
+            }
 			this.currentMeat = IntegerPool.get( StringUtilities.parseInt( st.nextToken().trim() ) );
 		}
 
@@ -233,8 +231,7 @@ public class ProfileRequest
 		{
 			while ( !st.nextToken().startsWith( "Ascensions" ) )
 			{
-				;
-			}
+            }
 			st.nextToken();
 			this.ascensionCount = IntegerPool.get( StringUtilities.parseInt( st.nextToken().trim() ) );
 		}
@@ -245,16 +242,14 @@ public class ProfileRequest
 
 		while ( !st.nextToken().startsWith( "Turns" ) )
 		{
-			;
-		}
+        }
 		this.turnsPlayed = IntegerPool.get( StringUtilities.parseInt( st.nextToken().trim() ) );
 
 		if ( cleanHTML.contains( "\nAscensions" ) )
 		{
 			while ( !st.nextToken().startsWith( "Turns" ) )
 			{
-				;
-			}
+            }
 			this.currentRun = IntegerPool.get( StringUtilities.parseInt( st.nextToken().trim() ) );
 		}
 		else
@@ -265,8 +260,7 @@ public class ProfileRequest
 		String dateString = null;
 		while ( !st.nextToken().startsWith( "Account" ) )
 		{
-			;
-		}
+        }
 		try
 		{
 			dateString = st.nextToken().trim();
@@ -280,8 +274,7 @@ public class ProfileRequest
 
 		while ( !st.nextToken().startsWith( "Last" ) )
 		{
-			;
-		}
+        }
 
 		try
 		{
@@ -298,8 +291,7 @@ public class ProfileRequest
 		{
 			while ( !st.nextToken().startsWith( "Favorite" ) )
 			{
-				;
-			}
+            }
 			this.food = st.nextToken().replaceFirst( "\\([\\d,]+\\)", "" ).trim();
 		}
 		else
@@ -311,8 +303,7 @@ public class ProfileRequest
 		{
 			while ( !st.nextToken().startsWith( "Favorite" ) )
 			{
-				;
-			}
+            }
 			this.drink = st.nextToken().replaceFirst( "\\([\\d,]+\\)", "" ).trim();
 		}
 		else
@@ -324,8 +315,7 @@ public class ProfileRequest
 		{
 			while ( !st.nextToken().startsWith( "Fame" ) )
 			{
-				;
-			}
+            }
 			this.pvpRank = IntegerPool.get( StringUtilities.parseInt( st.nextToken().trim() ) );
 		}
 		else
@@ -338,8 +328,7 @@ public class ProfileRequest
 		{
 			while ( !st.nextToken().startsWith( "Equipment" ) )
 			{
-				;
-			}
+            }
 
 			int itemId = -1;
 			while ( st.hasMoreTokens() && 

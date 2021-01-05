@@ -165,7 +165,7 @@ public class RestoresDatabase
 		}
 	}
 
-	private static final long getValue( final String stringValue, final String name )
+	private static long getValue( final String stringValue, final String name )
 	{
 		if ( stringValue == null )
 		{
@@ -313,7 +313,7 @@ public class RestoresDatabase
 		{
 			return Long.toString( hpMin );
 		}
-		return ( Long.toString( hpMin ) + "-" + Long.toString( hpMax ) );
+		return ( hpMin + "-" + hpMax );
 	}
 
 	public static final String getMPRange( final String name )
@@ -333,7 +333,7 @@ public class RestoresDatabase
 		{
 			return Long.toString( mpMin );
 		}
-		return ( Long.toString( mpMin ) + "-" + Long.toString( mpMax ) );
+		return ( mpMin + "-" + mpMax );
 	}
 
 	public static final int getAdvCost( final String name )

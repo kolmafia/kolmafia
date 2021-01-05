@@ -95,9 +95,9 @@ public class GameShoppeRequest
 	static
 	{
 		ConcoctionPool.set( new Concoction( "store credit", "availableStoreCredits" ) );
-	};
+	}
 
-	public GameShoppeRequest()
+    public GameShoppeRequest()
 	{
 		super( GameShoppeRequest.GAMESHOPPE );
 	}

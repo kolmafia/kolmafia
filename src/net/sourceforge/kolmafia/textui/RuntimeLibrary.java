@@ -6300,7 +6300,7 @@ public abstract class RuntimeLibrary
 				request.addFormField( "option", String.valueOf( decision ) );
 				if ( !extraFields.equals( "" ) )
 				{
-					String fields[] = extraFields.split( "&" );
+					String[] fields = extraFields.split( "&" );
 					for ( String field : fields )
 					{
 						int equals = field.indexOf( "=" );
@@ -10075,7 +10075,7 @@ public abstract class RuntimeLibrary
 		else if ( type.equals( DataTypes.TYPE_STAT ) )
 		{
 			name = name.toLowerCase();
-			Set<StatsPocket> pockets = PocketDatabase.statsPockets.get( name );;
+			Set<StatsPocket> pockets = PocketDatabase.statsPockets.get( name );
 			if ( pockets != null )
 			{
 				return PocketDatabase.sortStats( name, pockets );

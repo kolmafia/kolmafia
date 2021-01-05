@@ -65,7 +65,7 @@ public class GenieRequest
 	private static final int STATS = 4;
 	private static final int TROPHY = 5;
 
-	private String wish;
+	private final String wish;
 
 	public GenieRequest( final String wish )
 	{

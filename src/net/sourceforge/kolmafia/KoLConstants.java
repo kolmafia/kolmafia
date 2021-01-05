@@ -71,55 +71,55 @@ public interface KoLConstants
 	// Version information for the current version of KoLmafia.
 	// Rendered in various locations and therefore made public.
 
-	public static final String VERSION_NAME = "KoLmafia v20.7";
-	public static final String VERSION_DATE = "Released on July 30, 2020";
-	public static final boolean RELEASED = true;
-	public static final String REVISION = null;
+	String VERSION_NAME = "KoLmafia v20.7";
+	String VERSION_DATE = "Released on July 30, 2020";
+	boolean RELEASED = true;
+	String REVISION = null;
 
 	// General constants used for calculations and formatting of
 	// strings, as well as for string parsing.
 
-	public static final Random RNG = new Random();
-	public static final Pattern LINE_BREAK_PATTERN = Pattern.compile( "\\s*[\r\n]+\\s*" );
+	Random RNG = new Random();
+	Pattern LINE_BREAK_PATTERN = Pattern.compile( "\\s*[\r\n]+\\s*" );
 
-	public static final Pattern ANYTAG_PATTERN = Pattern.compile( "<.*?>" );
-	public static final Pattern ANYTAG_BUT_ITALIC_PATTERN = Pattern.compile( "<(?!i>)(?!/i>).*?>" );
-	public static final Pattern SCRIPT_PATTERN = Pattern.compile( "<script.*?</script>", Pattern.DOTALL );
-	public static final Pattern STYLE_PATTERN = Pattern.compile( "<style.*?</style>", Pattern.DOTALL );
-	public static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
-	public static final Pattern HEAD_PATTERN = Pattern.compile( "<head>(.*?)</head>" );
-	public static final Pattern BODY_PATTERN = Pattern.compile( "<body>(.*?)</body>" );
+	Pattern ANYTAG_PATTERN = Pattern.compile( "<.*?>" );
+	Pattern ANYTAG_BUT_ITALIC_PATTERN = Pattern.compile( "<(?!i>)(?!/i>).*?>" );
+	Pattern SCRIPT_PATTERN = Pattern.compile( "<script.*?</script>", Pattern.DOTALL );
+	Pattern STYLE_PATTERN = Pattern.compile( "<style.*?</style>", Pattern.DOTALL );
+	Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
+	Pattern HEAD_PATTERN = Pattern.compile( "<head>(.*?)</head>" );
+	Pattern BODY_PATTERN = Pattern.compile( "<body>(.*?)</body>" );
 
-	public static final DecimalFormat COMMA_FORMAT =
+	DecimalFormat COMMA_FORMAT =
 		new DecimalFormat( "#,##0;-#,##0", new DecimalFormatSymbols( Locale.US ) );
-	public static final DecimalFormat MODIFIER_FORMAT =
+	DecimalFormat MODIFIER_FORMAT =
 		new DecimalFormat( "+#0;-#0", new DecimalFormatSymbols( Locale.US ) );
-	public static final DecimalFormat SINGLE_PRECISION_FORMAT =
+	DecimalFormat SINGLE_PRECISION_FORMAT =
 		new DecimalFormat( "+#,##0.0;-#,##0.0", new DecimalFormatSymbols( Locale.US ) );
-	public static final DecimalFormat FLOAT_FORMAT =
+	DecimalFormat FLOAT_FORMAT =
 		new DecimalFormat( "#,##0.00;-#,##0.00", new DecimalFormatSymbols( Locale.US ) );
 	// About 45 places needed to show the smallest denorm float.
-	public static final DecimalFormat NONSCIENTIFIC_FORMAT =
+	DecimalFormat NONSCIENTIFIC_FORMAT =
 		new DecimalFormat( "#0.0############################################", new DecimalFormatSymbols( Locale.US ) );
-	public static final DecimalFormat ROUNDED_MODIFIER_FORMAT =
+	DecimalFormat ROUNDED_MODIFIER_FORMAT =
 		new DecimalFormat( "+#0.00;-#0.00", new DecimalFormatSymbols( Locale.US ) );
-	public static final DecimalFormat CHAT_LASTSEEN_FORMAT = new DecimalFormat( "0000000000" );
+	DecimalFormat CHAT_LASTSEEN_FORMAT = new DecimalFormat( "0000000000" );
 
-	public static final SimpleDateFormat DAILY_FORMAT = new SimpleDateFormat( "yyyyMMdd", Locale.US );
-	public static final SimpleDateFormat WEEKLY_FORMAT = new SimpleDateFormat( "yyyyMM_'w'W", Locale.US );
-	public static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat( "HH:mm:ss z", Locale.US );
+	SimpleDateFormat DAILY_FORMAT = new SimpleDateFormat( "yyyyMMdd", Locale.US );
+	SimpleDateFormat WEEKLY_FORMAT = new SimpleDateFormat( "yyyyMM_'w'W", Locale.US );
+	SimpleDateFormat TIME_FORMAT = new SimpleDateFormat( "HH:mm:ss z", Locale.US );
 
 	// Generic constants which indicate null values.  Used in
 	// order to preserve memory.
 
-	public static final Class<?>[] NOPARAMS = new Class<?>[ 0 ];
+	Class<?>[] NOPARAMS = new Class<?>[ 0 ];
 
 	// Menus rendered in the relay browser and the KoLmafia mini-browser.
 	// Ensures that the two menus always contain the same information.
 
 	// Additional navigation destinations for convenience
 
-	public static final String[][] GOTO_MENU = new String[][]
+	String[][] GOTO_MENU = new String[][]
 	{
 		{
 			"Council",
@@ -159,7 +159,7 @@ public interface KoLConstants
 		},
 	};
 
-	public static final String[][] FRAME_NAMES =
+	String[][] FRAME_NAMES =
 	{
 		{
 			"Adventure",
@@ -270,45 +270,45 @@ public interface KoLConstants
 	// Scripting-related constants.  Used throughout KoLmafia in
 	// order to ensure proper handling of scripts.
 
-	public static final List<File> scripts = LockableListFactory.getInstance( File.class );
-	public static final List<String> bookmarks = LockableListFactory.getInstance( String.class );
+	List<File> scripts = LockableListFactory.getInstance( File.class );
+	List<String> bookmarks = LockableListFactory.getInstance( String.class );
 
-	public static final ArrayList<String> disabledScripts = new ArrayList<String>();
-	public static final ScriptMRUList scriptMList = 
+	ArrayList<String> disabledScripts = new ArrayList<String>();
+	ScriptMRUList scriptMList =
 			  new ScriptMRUList( "scriptMRUList", "scriptMRULength" );
-	public static final PartialMRUList maximizerMList =
+	PartialMRUList maximizerMList =
 			  new PartialMRUList( "maximizerMRUList", "maximizerMRUSize", "maximizerList" );
 
-	public static final List<AdventureResult> junkList = LockableListFactory.getSortedInstance( AdventureResult.class );
-	public static final List<AdventureResult> singletonList = LockableListFactory.getSortedInstance( AdventureResult.class );
-	public static final List<AdventureResult> mementoList = LockableListFactory.getSortedInstance( AdventureResult.class );
-	public static final List<AdventureResult> profitableList = LockableListFactory.getSortedInstance( AdventureResult.class );
+	List<AdventureResult> junkList = LockableListFactory.getSortedInstance( AdventureResult.class );
+	List<AdventureResult> singletonList = LockableListFactory.getSortedInstance( AdventureResult.class );
+	List<AdventureResult> mementoList = LockableListFactory.getSortedInstance( AdventureResult.class );
+	List<AdventureResult> profitableList = LockableListFactory.getSortedInstance( AdventureResult.class );
 
-	public static final String BUFFBOT_DIRECTORY = "buffs/";
-	public static final String CCS_DIRECTORY = "ccs/";
-	public static final String CHATLOG_DIRECTORY = "chats/";
-	public static final String PLOTS_DIRECTORY = "planting/";
-	public static final String RELAY_DIRECTORY = "relay/";
-	public static final String SCRIPT_DIRECTORY = "scripts/";
-	public static final String SESSIONS_DIRECTORY = "sessions/";
-	public static final String SVN_DIRECTORY = "svn/";
+	String BUFFBOT_DIRECTORY = "buffs/";
+	String CCS_DIRECTORY = "ccs/";
+	String CHATLOG_DIRECTORY = "chats/";
+	String PLOTS_DIRECTORY = "planting/";
+	String RELAY_DIRECTORY = "relay/";
+	String SCRIPT_DIRECTORY = "scripts/";
+	String SESSIONS_DIRECTORY = "sessions/";
+	String SVN_DIRECTORY = "svn/";
 
-	public static final File BUFFBOT_LOCATION =
+	File BUFFBOT_LOCATION =
 		new File( KoLConstants.ROOT_LOCATION, KoLConstants.BUFFBOT_DIRECTORY );
-	public static final File CCS_LOCATION = new File( KoLConstants.ROOT_LOCATION, KoLConstants.CCS_DIRECTORY );
-	public static final File CHATLOG_LOCATION =
+	File CCS_LOCATION = new File( KoLConstants.ROOT_LOCATION, KoLConstants.CCS_DIRECTORY );
+	File CHATLOG_LOCATION =
 		new File( KoLConstants.ROOT_LOCATION, KoLConstants.CHATLOG_DIRECTORY );
-	public static final File PLOTS_LOCATION = new File( KoLConstants.ROOT_LOCATION, KoLConstants.PLOTS_DIRECTORY );
-	public static final File SCRIPT_LOCATION = new File( KoLConstants.ROOT_LOCATION, KoLConstants.SCRIPT_DIRECTORY );
-	public static final File SESSIONS_LOCATION =
+	File PLOTS_LOCATION = new File( KoLConstants.ROOT_LOCATION, KoLConstants.PLOTS_DIRECTORY );
+	File SCRIPT_LOCATION = new File( KoLConstants.ROOT_LOCATION, KoLConstants.SCRIPT_DIRECTORY );
+	File SESSIONS_LOCATION =
 		new File( KoLConstants.ROOT_LOCATION, KoLConstants.SESSIONS_DIRECTORY );
-	public static final File RELAY_LOCATION = new File( KoLConstants.ROOT_LOCATION, KoLConstants.RELAY_DIRECTORY );
-	public static final File SVN_LOCATION = new File( KoLConstants.ROOT_LOCATION, KoLConstants.SVN_DIRECTORY );
-	public static final File SVN_REPO_FILE = new File( KoLConstants.DATA_LOCATION, "svnrepo.json");
+	File RELAY_LOCATION = new File( KoLConstants.ROOT_LOCATION, KoLConstants.RELAY_DIRECTORY );
+	File SVN_LOCATION = new File( KoLConstants.ROOT_LOCATION, KoLConstants.SVN_DIRECTORY );
+	File SVN_REPO_FILE = new File( KoLConstants.DATA_LOCATION, "svnrepo.json");
 
 	// All data files that can be overridden
 
-	public static final String[] OVERRIDE_DATA =
+	String[] OVERRIDE_DATA =
 	{
 		"adventures.txt",
 		"buffbots.txt",
@@ -341,65 +341,65 @@ public interface KoLConstants
 
 	// The current version number of each data file
 
-	public static final int ADVENTURES_VERSION = 6;
-	public static final int BOUNTY_VERSION = 2;
-	public static final int BUFFBOTS_VERSION = 1;
-	public static final int CAFE_BOOZE_VERSION = 1;
-	public static final int CAFE_FOOD_VERSION = 1;
-	public static final int CLASSSKILLS_VERSION = 4;
-	public static final int COINMASTERS_VERSION = 2;
-	public static final int COMBATS_VERSION = 1;
-	public static final int CONCOCTIONS_VERSION = 3;
-	public static final int CONSEQUENCES_VERSION = 1;
-	public static final int CULTSHORTS_VERSION = 1;
-	public static final int DEFAULTS_VERSION = 1;
-	public static final int ENCOUNTERS_VERSION = 1;
-	public static final int EQUIPMENT_VERSION = 2;
-	public static final int FAMBATTLE_VERSION = 1;
-	public static final int FAMILIARS_VERSION = 4;
-	public static final int FAXBOTS_VERSION = 1;
-	public static final int FOLDGROUPS_VERSION = 1;
-	public static final int FULLNESS_VERSION = 2;
-	public static final int INEBRIETY_VERSION = 2;
-	public static final int ITEMS_VERSION = 1;
-	public static final int MODIFIERS_VERSION = 3;
-	public static final int MONSTERS_VERSION = 8;
-	public static final int NONFILLING_VERSION = 1;
-	public static final int NPCSTORES_VERSION = 2;
-	public static final int OUTFITS_VERSION = 2;
-	public static final int PACKAGES_VERSION = 1;
-	public static final int PULVERIZE_VERSION = 2;
-	public static final int RESTORES_VERSION = 2;
-	public static final int QUESTSCOUNCIL_VERSION = 1;
-	public static final int QUESTSLOG_VERSION = 1;
-	public static final int SPLEENHIT_VERSION = 3;
-	public static final int STATUSEFFECTS_VERSION = 4;
-	public static final int ZAPGROUPS_VERSION = 1;
-	public static final int ZONELIST_VERSION = 1;
+	int ADVENTURES_VERSION = 6;
+	int BOUNTY_VERSION = 2;
+	int BUFFBOTS_VERSION = 1;
+	int CAFE_BOOZE_VERSION = 1;
+	int CAFE_FOOD_VERSION = 1;
+	int CLASSSKILLS_VERSION = 4;
+	int COINMASTERS_VERSION = 2;
+	int COMBATS_VERSION = 1;
+	int CONCOCTIONS_VERSION = 3;
+	int CONSEQUENCES_VERSION = 1;
+	int CULTSHORTS_VERSION = 1;
+	int DEFAULTS_VERSION = 1;
+	int ENCOUNTERS_VERSION = 1;
+	int EQUIPMENT_VERSION = 2;
+	int FAMBATTLE_VERSION = 1;
+	int FAMILIARS_VERSION = 4;
+	int FAXBOTS_VERSION = 1;
+	int FOLDGROUPS_VERSION = 1;
+	int FULLNESS_VERSION = 2;
+	int INEBRIETY_VERSION = 2;
+	int ITEMS_VERSION = 1;
+	int MODIFIERS_VERSION = 3;
+	int MONSTERS_VERSION = 8;
+	int NONFILLING_VERSION = 1;
+	int NPCSTORES_VERSION = 2;
+	int OUTFITS_VERSION = 2;
+	int PACKAGES_VERSION = 1;
+	int PULVERIZE_VERSION = 2;
+	int RESTORES_VERSION = 2;
+	int QUESTSCOUNCIL_VERSION = 1;
+	int QUESTSLOG_VERSION = 1;
+	int SPLEENHIT_VERSION = 3;
+	int STATUSEFFECTS_VERSION = 4;
+	int ZAPGROUPS_VERSION = 1;
+	int ZONELIST_VERSION = 1;
 
 	// mallprices.txt can be updated by typing a filename, so give
 	// it a distinct version number in case the user types the name
 	// of another one of the data files.
-	public static final int MALLPRICES_VERSION = 0xF00D5;
+	int MALLPRICES_VERSION = 0xF00D5;
 
 	// The current versioned name of each KoLmafia-supplied relay file
-	public static final String AFTERLIFE_ASH = "afterlife.ash";
-	public static final String BARREL_SOUNDS_JS = "barrel_sounds.js";
-	public static final String BASEMENT_JS = "basement.js";
-	public static final String BASICS_CSS = "basics.1.css";
-	public static final String BASICS_JS = "basics.js";
-	public static final String CHAT_HTML = "chat.html";
-	public static final String CLI_HTML = "cli.html";
-	public static final String COMBATFILTER_JS = "combatfilter.1.js";
-	public static final String HOTKEYS_JS = "hotkeys.js";
-	public static final String IRCM_JS = "ircm_extend.1.js";
-	public static final String MACROHELPER_JS = "macrohelper.5.js";
-	public static final String ONFOCUS_JS = "onfocus.1.js";
-	public static final String SORTTABLE_JS = "sorttable.2.js";
-	public static final String STATIONARYBUTTONS_CSS = "stationarybuttons.2.css";
-	public static final String STATIONARYBUTTONS_JS = "stationarybuttons.1.js";
+	String AFTERLIFE_ASH = "afterlife.ash";
+	String BARREL_SOUNDS_JS = "barrel_sounds.js";
+	String BASEMENT_JS = "basement.js";
+	String BASICS_CSS = "basics.1.css";
+	String BASICS_JS = "basics.js";
+	String CHAT_HTML = "chat.html";
+	String CLI_HTML = "cli.html";
+	String COMBATFILTER_JS = "combatfilter.1.js";
+	String HOTKEYS_JS = "hotkeys.js";
+	String IRCM_JS = "ircm_extend.1.js";
+	String MACROHELPER_JS = "macrohelper.5.js";
+	String ONFOCUS_JS = "onfocus.1.js";
+	String SORTTABLE_JS = "sorttable.2.js";
+	String STATIONARYBUTTONS_CSS = "stationarybuttons.2.css";
+	String STATIONARYBUTTONS_JS = "stationarybuttons.1.js";
 
-	public static final String[] RELAY_FILES =
+	String[] RELAY_FILES =
 	{
 		AFTERLIFE_ASH,
 		BARREL_SOUNDS_JS,
@@ -421,15 +421,15 @@ public interface KoLConstants
 
 	// Different states of KoLmafia.  Used in order to determine
 	// what is still permitted.
-	public enum MafiaState {
+	enum MafiaState {
 		ENABLE,
 		ERROR,
 		ABORT,
 		PENDING,
-		CONTINUE;
-	};
+		CONTINUE
+	}
 
-	public enum Stat
+	enum Stat
 	{
 		MUSCLE( "Muscle" ),
 		MYSTICALITY( "Mysticality" ),
@@ -441,7 +441,7 @@ public interface KoLConstants
 
 		private final String name;
 
-		private Stat( String name )
+		Stat( String name )
 		{
 			this.name = name;
 		}
@@ -453,7 +453,7 @@ public interface KoLConstants
 		}
 	}
 
-	public enum ZodiacType
+	enum ZodiacType
 	{
 		NONE,
 		MUSCLE,
@@ -462,7 +462,7 @@ public interface KoLConstants
 		BAD_MOON
 	}
 
-	public enum ZodiacZone
+	enum ZodiacZone
 	{
 		KNOLL,
 		CANADIA,
@@ -470,7 +470,7 @@ public interface KoLConstants
 		NONE
 	}
 
-	public enum WeaponType
+	enum WeaponType
 	{
 		MELEE,
 		RANGED,
@@ -478,14 +478,14 @@ public interface KoLConstants
 	}
 
 	// Mystical Book Types
-	public enum BookType
+	enum BookType
 	{
 		TOME,
 		GRIMOIRE,
 		LIBRAM
 	}
 	// for maximizer these are things we can filer on...
-	public enum filterType
+	enum filterType
 	{
 		EQUIP,
 		CAST,
@@ -497,60 +497,60 @@ public interface KoLConstants
 	}
 
 	// Cannot be "used" in any way by itself
-	public static final int NO_CONSUME = 0;
+	int NO_CONSUME = 0;
 
 	// Consumables
-	public static final int CONSUME_EAT = 1;
-	public static final int CONSUME_DRINK = 2;
-	public static final int CONSUME_SPLEEN = 3;
+	int CONSUME_EAT = 1;
+	int CONSUME_DRINK = 2;
+	int CONSUME_SPLEEN = 3;
 
 	// Usables
-	public static final int CONSUME_USE = 4;
-	public static final int CONSUME_MULTIPLE = 5;
-	public static final int INFINITE_USES = 6;
-	public static final int MESSAGE_DISPLAY = 7;
+	int CONSUME_USE = 4;
+	int CONSUME_MULTIPLE = 5;
+	int INFINITE_USES = 6;
+	int MESSAGE_DISPLAY = 7;
 
 	// Familiar hatchlings
-	public static final int GROW_FAMILIAR = 8;
+	int GROW_FAMILIAR = 8;
 
 	// Equipment
-	public static final int EQUIP_HAT = 9;
-	public static final int EQUIP_WEAPON = 10;
-	public static final int EQUIP_OFFHAND = 11;
-	public static final int EQUIP_CONTAINER = 12;
-	public static final int EQUIP_SHIRT = 13;
-	public static final int EQUIP_PANTS = 14;
-	public static final int EQUIP_ACCESSORY = 15;
-	public static final int EQUIP_FAMILIAR = 16;
+	int EQUIP_HAT = 9;
+	int EQUIP_WEAPON = 10;
+	int EQUIP_OFFHAND = 11;
+	int EQUIP_CONTAINER = 12;
+	int EQUIP_SHIRT = 13;
+	int EQUIP_PANTS = 14;
+	int EQUIP_ACCESSORY = 15;
+	int EQUIP_FAMILIAR = 16;
 
 	// Customizable "equipment"
-	public static final int CONSUME_STICKER = 17;
-	public static final int CONSUME_CARD = 18;
-	public static final int CONSUME_FOLDER = 19;
-	public static final int CONSUME_BOOTSKIN = 20;
-	public static final int CONSUME_BOOTSPUR = 21;
-	public static final int CONSUME_SIXGUN = 22;
+	int CONSUME_STICKER = 17;
+	int CONSUME_CARD = 18;
+	int CONSUME_FOLDER = 19;
+	int CONSUME_BOOTSKIN = 20;
+	int CONSUME_BOOTSPUR = 21;
+	int CONSUME_SIXGUN = 22;
 
 	// Special "uses"
-	public static final int CONSUME_FOOD_HELPER = 30;
-	public static final int CONSUME_DRINK_HELPER = 31;
-	public static final int CONSUME_ZAP = 32;
-	public static final int CONSUME_SPHERE = 33;
-	public static final int CONSUME_GUARDIAN = 34;
-	public static final int CONSUME_POKEPILL = 35;
+	int CONSUME_FOOD_HELPER = 30;
+	int CONSUME_DRINK_HELPER = 31;
+	int CONSUME_ZAP = 32;
+	int CONSUME_SPHERE = 33;
+	int CONSUME_GUARDIAN = 34;
+	int CONSUME_POKEPILL = 35;
 
 	// Potions
-	public static final int CONSUME_POTION = 40;
-	public static final int CONSUME_AVATAR = 41;
+	int CONSUME_POTION = 40;
+	int CONSUME_AVATAR = 41;
 
 	// Familiar "uses"
-	public static final int CONSUME_ROBO = 95;
-	public static final int CONSUME_MIMIC = 96;
-	public static final int CONSUME_SLIME = 97;
-	public static final int CONSUME_HOBO = 98;
-	public static final int CONSUME_GHOST = 99;
+	int CONSUME_ROBO = 95;
+	int CONSUME_MIMIC = 96;
+	int CONSUME_SLIME = 97;
+	int CONSUME_HOBO = 98;
+	int CONSUME_GHOST = 99;
 
-	public enum CraftingType
+	enum CraftingType
 	{
 		SUBCLASS,	// ???
 		NOCREATE,
@@ -616,7 +616,7 @@ public interface KoLConstants
 		KRINGLE,	// Items made from waterlogged items
 	}
 
-	public enum CraftingRequirements
+	enum CraftingRequirements
 	{
 		MALE,
 		FEMALE,
@@ -651,7 +651,7 @@ public interface KoLConstants
 		SLICE,		// Requires Avatar of Jarlsberg skill Slice
 	}
 
-	public enum CraftingMisc
+	enum CraftingMisc
 	{
 		TRIPLE_SAUCE,	// Saucerors make 3 of this item at a time
 		NODISCOVERY,	// Recipe unexpectedly does not appear in Discoveries
@@ -661,16 +661,16 @@ public interface KoLConstants
 	// Colors which are used to handle the various KoLmafia states.
 	// Used when changing the display.
 
-	public static final Color ERROR_COLOR = new Color( 255, 192, 192 );
-	public static final Color ENABLED_COLOR = new Color( 192, 255, 192 );
-	public static final Color DISABLED_COLOR = null;
+	Color ERROR_COLOR = new Color( 255, 192, 192 );
+	Color ENABLED_COLOR = new Color( 192, 255, 192 );
+	Color DISABLED_COLOR = null;
 
 	// Constants which are useful, but not necessarily used very often.
 	// Includes win game text.
 
-	public static final String DEFAULT_KMAIL = "Keep the contents of this message top-sekrit, ultra hush-hush.";
+	String DEFAULT_KMAIL = "Keep the contents of this message top-sekrit, ultra hush-hush.";
 
-	public static final String[][] WIN_GAME_TEXT = new String[][]
+	String[][] WIN_GAME_TEXT = new String[][]
 	{
 		{
 			"Petitioning the Seaside Town Council for automatic game completion...",
@@ -733,54 +733,54 @@ public interface KoLConstants
 	// global in order to ensure that any element of KoLmafia can
 	// access session-specific information.
 
-	public static final List<String> saveStateNames = LockableListFactory.getSortedInstance( String.class );
+	List<String> saveStateNames = LockableListFactory.getSortedInstance( String.class );
 
-	public static final List<AdventureResult> inventory = LockableListFactory.getSortedInstance( AdventureResult.class );
-	public static final List<AdventureResult> closet = LockableListFactory.getSortedInstance( AdventureResult.class );
-	public static final List<AdventureResult> storage = LockableListFactory.getSortedInstance( AdventureResult.class );
-	public static final List<AdventureResult> unlimited = LockableListFactory.getSortedInstance( AdventureResult.class );
-	public static final List<AdventureResult> freepulls = LockableListFactory.getSortedInstance( AdventureResult.class );
-	public static final List<AdventureResult> nopulls = LockableListFactory.getSortedInstance( AdventureResult.class );
-	public static final List<AdventureResult> collection = LockableListFactory.getSortedInstance( AdventureResult.class );
-	public static final List<AdventureResult> campground = LockableListFactory.getSortedInstance( AdventureResult.class );
-	public static final List<AdventureResult> chateau = LockableListFactory.getSortedInstance( AdventureResult.class );
-	public static final List<AdventureResult> falloutShelter = LockableListFactory.getSortedInstance( AdventureResult.class );
-	public static final List<AdventureResult> pulverizeQueue = LockableListFactory.getSortedInstance( AdventureResult.class );
+	List<AdventureResult> inventory = LockableListFactory.getSortedInstance( AdventureResult.class );
+	List<AdventureResult> closet = LockableListFactory.getSortedInstance( AdventureResult.class );
+	List<AdventureResult> storage = LockableListFactory.getSortedInstance( AdventureResult.class );
+	List<AdventureResult> unlimited = LockableListFactory.getSortedInstance( AdventureResult.class );
+	List<AdventureResult> freepulls = LockableListFactory.getSortedInstance( AdventureResult.class );
+	List<AdventureResult> nopulls = LockableListFactory.getSortedInstance( AdventureResult.class );
+	List<AdventureResult> collection = LockableListFactory.getSortedInstance( AdventureResult.class );
+	List<AdventureResult> campground = LockableListFactory.getSortedInstance( AdventureResult.class );
+	List<AdventureResult> chateau = LockableListFactory.getSortedInstance( AdventureResult.class );
+	List<AdventureResult> falloutShelter = LockableListFactory.getSortedInstance( AdventureResult.class );
+	List<AdventureResult> pulverizeQueue = LockableListFactory.getSortedInstance( AdventureResult.class );
 
-	public static final List<UseSkillRequest> usableSkills = LockableListFactory.getInstance( UseSkillRequest.class );
-	public static final List<UseSkillRequest> summoningSkills = LockableListFactory.getInstance( UseSkillRequest.class );
-	public static final List<UseSkillRequest> remedySkills = LockableListFactory.getInstance( UseSkillRequest.class );
-	public static final List<UseSkillRequest> selfOnlySkills = LockableListFactory.getInstance( UseSkillRequest.class );
-	public static final List<UseSkillRequest> buffSkills = LockableListFactory.getInstance( UseSkillRequest.class );
-	public static final List<UseSkillRequest> songSkills = LockableListFactory.getInstance( UseSkillRequest.class );
-	public static final List<UseSkillRequest> expressionSkills = LockableListFactory.getInstance( UseSkillRequest.class );
-	public static final List<UseSkillRequest> walkSkills = LockableListFactory.getInstance( UseSkillRequest.class );
-	public static final List<UseSkillRequest> availableSkills = LockableListFactory.getInstance( UseSkillRequest.class );
-	public static final IdentityHashMap<UseSkillRequest, Object> availableSkillsMap = new IdentityHashMap<UseSkillRequest, Object>();
-	public static final List<UseSkillRequest> availableCombatSkills = LockableListFactory.getInstance( UseSkillRequest.class );
-	public static final IdentityHashMap<UseSkillRequest, Object> availableCombatSkillsMap = new IdentityHashMap<UseSkillRequest, Object>();
-	public static final List<UseSkillRequest> permedSkills = LockableListFactory.getInstance( UseSkillRequest.class );
-	public static final List<UseSkillRequest> combatSkills = LockableListFactory.getInstance( UseSkillRequest.class );
+	List<UseSkillRequest> usableSkills = LockableListFactory.getInstance( UseSkillRequest.class );
+	List<UseSkillRequest> summoningSkills = LockableListFactory.getInstance( UseSkillRequest.class );
+	List<UseSkillRequest> remedySkills = LockableListFactory.getInstance( UseSkillRequest.class );
+	List<UseSkillRequest> selfOnlySkills = LockableListFactory.getInstance( UseSkillRequest.class );
+	List<UseSkillRequest> buffSkills = LockableListFactory.getInstance( UseSkillRequest.class );
+	List<UseSkillRequest> songSkills = LockableListFactory.getInstance( UseSkillRequest.class );
+	List<UseSkillRequest> expressionSkills = LockableListFactory.getInstance( UseSkillRequest.class );
+	List<UseSkillRequest> walkSkills = LockableListFactory.getInstance( UseSkillRequest.class );
+	List<UseSkillRequest> availableSkills = LockableListFactory.getInstance( UseSkillRequest.class );
+	IdentityHashMap<UseSkillRequest, Object> availableSkillsMap = new IdentityHashMap<UseSkillRequest, Object>();
+	List<UseSkillRequest> availableCombatSkills = LockableListFactory.getInstance( UseSkillRequest.class );
+	IdentityHashMap<UseSkillRequest, Object> availableCombatSkillsMap = new IdentityHashMap<UseSkillRequest, Object>();
+	List<UseSkillRequest> permedSkills = LockableListFactory.getInstance( UseSkillRequest.class );
+	List<UseSkillRequest> combatSkills = LockableListFactory.getInstance( UseSkillRequest.class );
 
-	public static final List<AdventureResult> activeEffects = LockableListFactory.getInstance( AdventureResult.class );
-	public static final ArrayList<AdventureResult> recentEffects = new ArrayList<AdventureResult>();
+	List<AdventureResult> activeEffects = LockableListFactory.getInstance( AdventureResult.class );
+	ArrayList<AdventureResult> recentEffects = new ArrayList<AdventureResult>();
 
-	public static final List<AdventureResult> hermitItems = LockableListFactory.getInstance( AdventureResult.class );
-	public static final List<String> restaurantItems = LockableListFactory.getInstance( String.class );
-	public static final List<String> microbreweryItems = LockableListFactory.getInstance( String.class );
-	public static final List<String> kitchenItems = LockableListFactory.getInstance( String.class );
-	public static final List<String> cafeItems = LockableListFactory.getInstance( String.class );
+	List<AdventureResult> hermitItems = LockableListFactory.getInstance( AdventureResult.class );
+	List<String> restaurantItems = LockableListFactory.getInstance( String.class );
+	List<String> microbreweryItems = LockableListFactory.getInstance( String.class );
+	List<String> kitchenItems = LockableListFactory.getInstance( String.class );
+	List<String> cafeItems = LockableListFactory.getInstance( String.class );
 
-	public static final List<AdventureResult> tally = LockableListFactory.getSortedInstance( AdventureResult.class );
-	public static final List<RegisteredEncounter> adventureList = LockableListFactory.getInstance( RegisteredEncounter.class );
-	public static final List<RegisteredEncounter> encounterList = LockableListFactory.getSortedInstance( RegisteredEncounter.class );
+	List<AdventureResult> tally = LockableListFactory.getSortedInstance( AdventureResult.class );
+	List<RegisteredEncounter> adventureList = LockableListFactory.getInstance( RegisteredEncounter.class );
+	List<RegisteredEncounter> encounterList = LockableListFactory.getSortedInstance( RegisteredEncounter.class );
 
 	// Locations where session information is displayed for the user.
 	// Include just the event history buffer and the command line buffer.
 
-	public static final StyledChatBuffer commandBuffer = new StyledChatBuffer( "", "blue", false );
+	StyledChatBuffer commandBuffer = new StyledChatBuffer( "", "blue", false );
 
-	public static final Comparator<String> ignoreCaseComparator = new Comparator<String>()
+	Comparator<String> ignoreCaseComparator = new Comparator<String>()
 	{
 		public int compare( String s1, String s2 )
 		{

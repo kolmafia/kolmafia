@@ -258,7 +258,7 @@ public class FlaggedItems
 		"club necklace",
 	};
 
-	private static final void initializeList( final List<AdventureResult> model, final String[] defaults )
+	private static void initializeList( final List<AdventureResult> model, final String[] defaults )
 	{
 		model.clear();
 		AdventureResult item;

@@ -123,7 +123,7 @@ public class KoLAdventure
 
 	private final String normalString, lowercaseString, parentZoneDescription;
 
-	private GenericRequest request;
+	private final GenericRequest request;
 	private final AreaCombatData areaSummary;
 	private final boolean isNonCombatsOnly;
 
@@ -1658,7 +1658,7 @@ public class KoLAdventure
 		return AdventureDatabase.getAdventureByURL( urlString );
 	}
 
-	private static final KoLAdventure findAdventureAgain( final String responseText )
+	private static KoLAdventure findAdventureAgain( final String responseText )
 	{
 		// Look for an "Adventure Again" link and return the
 		// KoLAdventure that it matches.

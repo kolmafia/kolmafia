@@ -387,7 +387,7 @@ public class NPCPurchaseRequest
 		String shopName = shopId != null ? shopId : "an NPC Store";
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " for " + String.valueOf( priceVal ) + " each from " + shopName );
+		RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " for " + priceVal + " each from " + shopName );
 
 		return true;
 	}
@@ -1443,7 +1443,7 @@ public class NPCPurchaseRequest
 		int quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " for " + String.valueOf( priceVal ) + " each from " + shopName );
+		RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " for " + priceVal + " each from " + shopName );
 
 		return true;
 	}

@@ -646,8 +646,8 @@ public class ResponseTextParser
 			{
 				AdventureResult item = UseItemRequest.getLastItemUsed();
 				UseItemRequest.parseConsumption( responseText, false );
-				AWOLQuartermasterRequest.parseResponse( location, responseText );
-				BURTRequest.parseResponse( location, responseText );
+				AWOLQuartermasterRequest.parseResponse( responseText );
+				BURTRequest.parseResponse( responseText );
 				SpadingManager.processConsumeItem( item, responseText );
 			}
 

@@ -209,4 +209,4 @@ public class LockableListFactory
 		}
 		return l.get( index );
 	}
-};
+}

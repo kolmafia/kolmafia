@@ -363,7 +363,7 @@ public class AfterLifeRequest
 				break;
 			default:
 				builder.append( "(Type " );
-				builder.append( String.valueOf( type ) );
+				builder.append( type );
 				builder.append( ")" );
 				break;
 			}
@@ -387,7 +387,7 @@ public class AfterLifeRequest
 				break;
 			default:
 				builder.append( "(Gender " );
-				builder.append( String.valueOf( gender ) );
+				builder.append( gender );
 				builder.append( ")" );
 				break;
 			}
@@ -456,7 +456,7 @@ public class AfterLifeRequest
 				break;
 			default:
 				builder.append( "(Class " );
-				builder.append( String.valueOf( pclass ) );
+				builder.append( pclass );
 				builder.append( ")" );
 				break;
 			}
@@ -481,7 +481,7 @@ public class AfterLifeRequest
 			else
 			{
 				builder.append( "(Sign " );
-				builder.append( String.valueOf( sign ) );
+				builder.append( sign );
 				builder.append( ")" );
 			}
 
@@ -501,7 +501,7 @@ public class AfterLifeRequest
 			builder.append( "," );
 
 			builder.append( " banking " );
-			builder.append( String.valueOf( karma ) );
+			builder.append( karma );
 			builder.append( " Karma." );
 
 			message = builder.toString();

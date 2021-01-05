@@ -166,9 +166,9 @@ public class EdServantData
 			EdServantData.CANONICAL_SERVANT_ARRAY[ i ] = EdServantData.dataToCanonicalType( data );
 		}
 		Arrays.sort( EdServantData.SERVANT_ARRAY );
-	};
+	}
 
-	public static String dataToType( Object[] data )
+    public static String dataToType( Object[] data )
 	{
 		return data == null ? "" : (String)data[ 0 ];
 	}
@@ -253,7 +253,7 @@ public class EdServantData
 
 	public static final EdServantData NO_SERVANT = new EdServantData( 0 );
 
-	private Object[] data;
+	private final Object[] data;
 	private final String type;
 	private final int id;
 	private String name;
@@ -488,7 +488,7 @@ public class EdServantData
 		return null;
 	}
 
-	private static final EdServantData registerEdServant( final Matcher matcher )
+	private static EdServantData registerEdServant( final Matcher matcher )
 	{
 		String type = matcher.group( 3 );
 		EdServantData servant = EdServantData.findEdServant( type );

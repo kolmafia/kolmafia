@@ -52,7 +52,7 @@ public class Profiler
 	
 	private Profiler next;	// linked list
 	private static Profiler freeList;
-	private static Map<String, Profiler> totals = new HashMap<>();
+	private static final Map<String, Profiler> totals = new HashMap<>();
 	
 	private Profiler()
 	{

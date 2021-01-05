@@ -51,7 +51,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 public class GenericScrollPane
 	extends JScrollPane
 {
-	private Component component;
+	private final Component component;
 
 	public GenericScrollPane( final LockableListModel model )
 	{

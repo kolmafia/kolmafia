@@ -107,7 +107,7 @@ public class MaximizerFrame
 	private SmartButtonGroup equipmentSelect, mallSelect;
 	private AutoHighlightTextField maxPriceField;
 	private final ShowDescriptionList boostList;
-	private EnumMap<KoLConstants.filterType, Boolean> activeFilters;
+	private final EnumMap<KoLConstants.filterType, Boolean> activeFilters;
 	private EnumMap<KoLConstants.filterType, JCheckBox> filterButtons;
 	private JLabel listTitle = null;
 
@@ -117,9 +117,9 @@ public class MaximizerFrame
 		InputStream stream = DataUtilities.getInputStream( KoLConstants.DATA_DIRECTORY, "maximizer-help.html", false );
 		byte[] bytes = ByteBufferUtilities.read( stream );
 		MaximizerFrame.HELP_STRING = StringUtilities.getEncodedString( bytes, "UTF-8" );
-	};
+	}
 
-	public MaximizerFrame()
+    public MaximizerFrame()
 	{
 		super( "Modifier Maximizer" );
 
@@ -539,7 +539,7 @@ public class MaximizerFrame
 		// * getSelectedIndex() to determine which button (0-based) is
 		// selected.  How could that have been missing???
 
-		private Container parent;
+		private final Container parent;
 
 		public SmartButtonGroup( Container parent )
 		{

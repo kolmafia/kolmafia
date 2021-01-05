@@ -172,7 +172,7 @@ public class AddCustomDeedsPanel
 	private ThreadedButton simpleButton;
 
 	private JTextArea textArea;
-	private ArrayList textDeed = new ArrayList();
+	private final ArrayList textDeed = new ArrayList();
 
 	public AddCustomDeedsPanel()
 	{

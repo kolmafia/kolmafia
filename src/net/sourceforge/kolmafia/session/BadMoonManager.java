@@ -649,17 +649,17 @@ public abstract class BadMoonManager
 		RequestLogger.printLine();
 	}
 
-	private static final void startReport( final StringBuffer output )
+	private static void startReport( final StringBuffer output )
 	{
 		output.append( "<table border=2 cols=2>" );
 	}
 
-	private static final void endReport( final StringBuffer output )
+	private static void endReport( final StringBuffer output )
 	{
 		output.append( "</table>" );
 	}
 
-	private static final void reportType( final String type, final StringBuffer output )
+	private static void reportType( final String type, final StringBuffer output )
 	{
 		// The "type" is a descriptive string
 		output.append( "<tr><th colspan=2>" );

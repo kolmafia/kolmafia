@@ -57,12 +57,12 @@ public class EnumeratedWrapper
 	private static final long serialVersionUID = 1L;
 
 	// Make sure each wrapper is a singleton, so that equality comparison works in JS.
-	private static Map<Scriptable, Map<Value, EnumeratedWrapper>> registry = new HashMap<>();
+	private static final Map<Scriptable, Map<Value, EnumeratedWrapper>> registry = new HashMap<>();
 
-	private Class<?> recordValueClass;
+	private final Class<?> recordValueClass;
 	// NB: This wrapped value is NOT the proxy record type version.
 	// Instead, it's the plain Value that can be turned into a proxy record via asProxy.
-	private Value wrapped;
+	private final Value wrapped;
 
 	private EnumeratedWrapper( Class<?> recordValueClass, Value wrapped )
 	{
@@ -206,10 +206,8 @@ public class EnumeratedWrapper
 		ValueConverter coercer = new ValueConverter( cx, scope );
 
 		return cx.newArray( scope,
-			Arrays.asList( (Value[]) type.allValues().content )
-				.stream()
-				.map( value -> coercer.asJava( value ) )
-				.collect( Collectors.toList() )
-				.toArray() );
+				Arrays.asList( ( Value[] ) type.allValues().content )
+						.stream()
+						.map( coercer::asJava ).toArray() );
 	}
 }

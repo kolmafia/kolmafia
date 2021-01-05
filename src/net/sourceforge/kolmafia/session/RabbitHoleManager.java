@@ -413,10 +413,10 @@ public abstract class RabbitHoleManager
 			return new Square( this.color, this.piece, this.side == WHITE ? BLACK : WHITE );
 		}
 
-		private static String whiteSquare = "style=\"width: 60px; height: 60px; text-align: center; background-color: #ffffff;\"";
-		private static String blackSquare = "style=\"width: 60px; height: 60px; text-align: center; background-color: #979797;\"";
-		private static String whiteCompact = "style=\"width: 30px; height: 30px; text-align: center; background-color: #ffffff; font-size: 30px\"";
-		private static String blackCompact = "style=\"width: 30px; height: 30px; text-align: center; background-color: #DDDDDD; font-size: 30px\"";
+		private static final String whiteSquare = "style=\"width: 60px; height: 60px; text-align: center; background-color: #ffffff;\"";
+		private static final String blackSquare = "style=\"width: 60px; height: 60px; text-align: center; background-color: #979797;\"";
+		private static final String whiteCompact = "style=\"width: 30px; height: 30px; text-align: center; background-color: #ffffff; font-size: 30px\"";
+		private static final String blackCompact = "style=\"width: 30px; height: 30px; text-align: center; background-color: #DDDDDD; font-size: 30px\"";
 
 		public void appendHTML( final StringBuffer buffer )
 		{
@@ -528,7 +528,7 @@ public abstract class RabbitHoleManager
 		{
 			int row = square / 8;
 			int col = square % 8;
-			return Character.toString( (char)('a' + col) ) + String.valueOf( row + 1 );
+			return Character.toString( (char)('a' + col) ) + ( row + 1 );
 		} 
 
 		public String notation( final int square )
@@ -540,7 +540,7 @@ public abstract class RabbitHoleManager
 	private static class Board
 		implements Cloneable
 	{
-		private Square[] board;
+		private final Square[] board;
 		private int current;
 		private int pieces;
 
@@ -950,7 +950,7 @@ public abstract class RabbitHoleManager
 				{
 					buffer.append( "<tr>" );
 					buffer.append( "<td><b>" );
-					buffer.append( String.valueOf( i / 8 + 1) );
+					buffer.append( ( i / 8 + 1 ) );
 					buffer.append( "</b></td>" );
 				}
 				square.appendHTML( buffer );
@@ -963,7 +963,7 @@ public abstract class RabbitHoleManager
 		}
 	}
 
-	private static String testData = null;
+	private static final String testData = null;
 	private static Board board;
 	private static int moves;
 
@@ -977,7 +977,7 @@ public abstract class RabbitHoleManager
 		}
 	}
 
-	private static final void parseChessPuzzle( final String responseText, final boolean initialVisit )
+	private static void parseChessPuzzle( final String responseText, final boolean initialVisit )
 	{
 		if ( responseText == null )
 		{
@@ -1127,7 +1127,7 @@ public abstract class RabbitHoleManager
 		RabbitHoleManager.board( RabbitHoleManager.board );
 	}
 
-	private static final void board( final Board board )
+	private static void board( final Board board )
 	{
 		if ( board == null )
 		{
@@ -1146,7 +1146,7 @@ public abstract class RabbitHoleManager
 		RabbitHoleManager.test( RabbitHoleManager.board );
 	}
 
-	private static final void test( final Board board )
+	private static void test( final Board board )
 	{
 		if ( board == null )
 		{
@@ -1222,7 +1222,7 @@ public abstract class RabbitHoleManager
 			int square = path[ i ].intValue();
 			int row = square / 8;
 			int col = square % 8;
-			String url = "choice.php?pwd&whichchoice=443&option=1&xy=" + String.valueOf( col ) + "," + String.valueOf( row );
+			String url = "choice.php?pwd&whichchoice=443&option=1&xy=" + col + "," + row;
 			GenericRequest req = new GenericRequest( url );
 			req.run();
 			response = req.responseText;
@@ -1232,13 +1232,13 @@ public abstract class RabbitHoleManager
 		RelayRequest.specialCommandIsAdventure = true;
 	}
 
-	private static final Path solve( final Board board )
+	private static Path solve( final Board board )
 	{
 		// Attempt to solve by moving the current piece
 		return RabbitHoleManager.solve( (Board)board.clone(), new Path() );
 	}
 
-	private static final Path solve( final Board board, final Path path )
+	private static Path solve( final Board board, final Path path )
 	{
 		int current = board.getCurrent();
 
@@ -1536,11 +1536,11 @@ public abstract class RabbitHoleManager
 			output.append( "<tr><td>" );
 			output.append( split[0] );
 			output.append( "</td><td rowspan=" );
-			output.append( String.valueOf( split.length ) );
+			output.append( split.length );
 			output.append( ">" );
 			output.append( hat.getModifier() );
 			output.append( "</td><td rowspan=" );
-			output.append( String.valueOf( split.length ) );
+			output.append( split.length );
 			output.append( ">" );
 			output.append( hat.getEffect() );
 			output.append( "</td></tr>" );

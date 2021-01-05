@@ -44,7 +44,7 @@ public class NumberologyManager
 {
 	public static String TRY_AGAIN = "Try Again";
 
-	private static final String PRIZES [] =
+	private static final String[] PRIZES =
 	{
 		"0 Meat",			// 00
 		"seal-clubbing club",		// 01

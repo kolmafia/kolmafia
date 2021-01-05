@@ -175,12 +175,12 @@ public class SpleenItemRequest
 		super.runOneIteration( currentIteration, totalIterations, useTypeAsString );
 	}
 
-	private final boolean singleConsume()
+	private boolean singleConsume()
 	{
 		return this.consumptionType == KoLConstants.CONSUME_USE;
 	}
 
-	private final boolean allowSpleenConsumption()
+	private boolean allowSpleenConsumption()
 	{
 		if ( !GenericFrame.instanceExists() )
 		{

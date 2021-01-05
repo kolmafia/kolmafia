@@ -165,9 +165,9 @@ public class SpelunkyRequest
 		SpelunkyRequest.adventureImages.put( "The City of Goooold", "citygold.gif" );
 		SpelunkyRequest.adventureImages.put( "LOLmec's Lair", "lolmec.gif" );
 		SpelunkyRequest.adventureImages.put( "Yomama's Throne", "yomama.gif" );
-	};
+	}
 
-	public static String adventureImage( KoLAdventure adventure )
+    public static String adventureImage( KoLAdventure adventure )
 	{
 		return SpelunkyRequest.adventureImage( adventure.getAdventureName() );
 	}
@@ -1192,9 +1192,9 @@ public class SpelunkyRequest
 		int monsterDamageMax = Math.max( monsterStatDamage + monsterAttack / 4 - dr, 1 );
 
 		buffer.append( "<br />His damage: " );
-		buffer.append( String.valueOf( monsterDamageMin ) );
+		buffer.append( monsterDamageMin );
 		buffer.append( "-" );
-		buffer.append( String.valueOf( monsterDamageMax ) );
+		buffer.append( monsterDamageMax );
 
 		// * The monster never misses or fumbles.
 
@@ -1224,7 +1224,7 @@ public class SpelunkyRequest
 		*/
 	}
 
-	private static final String adjustedDamageString( int damage, int physicalResistance )
+	private static String adjustedDamageString( int damage, int physicalResistance )
 	{
 		if ( physicalResistance > 0 )
 		{
@@ -1628,12 +1628,12 @@ public class SpelunkyRequest
 		return buffer.toString();
 	}
 
-	private static final boolean haveItem( final AdventureResult item )
+	private static boolean haveItem( final AdventureResult item )
 	{
 		return item.getCount( KoLConstants.inventory ) > 0 || InventoryManager.getEquippedCount( item ) > 0;
 	}
 
-	private static final String spelunkyLocationLink( String name, final String id, final String confirm )
+	private static String spelunkyLocationLink( String name, final String id, final String confirm )
 	{
 		String link = "<a href=\"adventure.php?snarfblat=" +
 				id +

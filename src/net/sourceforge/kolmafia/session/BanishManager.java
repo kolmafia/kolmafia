@@ -306,7 +306,7 @@ public class BanishManager
 		BanishManager.saveBanishedMonsters();
 	}
 
-	private static final void recalculate()
+	private static void recalculate()
 	{
 		Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
 
@@ -396,7 +396,7 @@ public class BanishManager
 		}
 	}
 	
-	private static final void addBanishedMonster( final String monsterName, final String banishName, final int turnBanished )
+	private static void addBanishedMonster( final String monsterName, final String banishName, final int turnBanished )
 	{
 		BanishedMonster newBanishedMonster = new BanishedMonster( monsterName, banishName, turnBanished );
 		if ( !BanishManager.banishedMonsters.contains( newBanishedMonster ) )
@@ -483,7 +483,7 @@ public class BanishManager
 		return false;
 	}
 
-	private static final int countBanishes( final String banisher )
+	private static int countBanishes( final String banisher )
 	{
 		int banishCount = 0;
 		Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
@@ -570,7 +570,7 @@ public class BanishManager
 				}
 				else if ( resetType == Reset.TURN_ROLLOVER_RESET )
 				{
-					banishData[ banish ][ 3 ] = String.valueOf( current.turnBanished + banisherDuration - KoLCharacter.getCurrentRun() ) + " or Until Rollover";
+					banishData[ banish ][ 3 ] = ( current.turnBanished + banisherDuration - KoLCharacter.getCurrentRun() ) + " or Until Rollover";
 				}
 				else if ( resetType == Reset.AVATAR_RESET )
 				{

@@ -288,7 +288,7 @@ public class FoldItemCommand
 			buf.append( GenericRequest.passwordHash );
 			buf.append( "&switch=1" );
 			buf.append( "&whichitem=" );
-			buf.append( Integer.toString( source.getItemId() ) );
+			buf.append( source.getItemId() );
 			buf.append( "&fold=" );
 			buf.append( StringUtilities.getURLEncode( targetName ) );
 			if ( legionSlot != -1 )

@@ -74,7 +74,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public abstract class HPRestoreItemList
 {
 	private static boolean purchaseBasedSort = false;
-	private static HashMap<String, HPRestoreItem> restoreByName = new HashMap<>();
+	private static final HashMap<String, HPRestoreItem> restoreByName = new HashMap<>();
 
 	public static final HPRestoreItem WALRUS = new HPRestoreItemSkill( "Tongue of the Walrus", 35 );
 

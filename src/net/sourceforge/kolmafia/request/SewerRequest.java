@@ -299,8 +299,8 @@ public class SewerRequest
 				RequestThread.postRequest( UseItemRequest.getInstance( gum ) );
 
 				// If we got our goal item,
-				int currentItemCount = SewerRequest.currentItemCount( items, KoLConstants.inventory );;
-				count += currentItemCount;
+				int currentItemCount = SewerRequest.currentItemCount( items, KoLConstants.inventory );
+                count += currentItemCount;
 			}
 		}
 		finally

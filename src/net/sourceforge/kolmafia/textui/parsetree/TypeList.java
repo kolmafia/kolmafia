@@ -40,7 +40,7 @@ import java.util.List;
 public class TypeList
 	implements Iterable<Type>
 {
-	private List<Type> list = new ArrayList<>();
+	private final List<Type> list = new ArrayList<>();
 
 	public boolean add( final Type n )
 	{

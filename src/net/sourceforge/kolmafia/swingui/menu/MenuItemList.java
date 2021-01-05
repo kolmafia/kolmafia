@@ -48,7 +48,7 @@ public abstract class MenuItemList
 	extends JMenu
 	implements ListDataListener
 {
-	private int headerCount;
+	private final int headerCount;
 	private ArrayList dataValues;
 	private LockableListModel model;
 

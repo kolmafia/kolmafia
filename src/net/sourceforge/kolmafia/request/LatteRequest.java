@@ -144,7 +144,7 @@ public class LatteRequest
 		new Latte( "wing", "The Dark Heart of the Woods", "Hot wing and", "hot wing", "with a hot wing in it", "Combat Rate: 10", "plate of hot wings" ),
 	};
 
-	private static Map<Latte, String[]> radio = new HashMap<>();
+	private static final Map<Latte, String[]> radio = new HashMap<>();
 
 	public LatteRequest()
 	{

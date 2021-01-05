@@ -38,7 +38,7 @@ import java.util.Map;
 
 public class AscensionPath
 {
-	public static enum Path
+	public enum Path
 	{
 		// Path Name, Path ID, is Avatar?, image in ascension history, article
 		NONE( "None", 0, false, "blank.gif", null ),

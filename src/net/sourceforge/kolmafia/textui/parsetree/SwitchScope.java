@@ -44,7 +44,7 @@ import net.sourceforge.kolmafia.textui.Parser;
 public class SwitchScope
 	extends BasicScope
 {
-	private ArrayList<ParseTreeNode> commands = new ArrayList<ParseTreeNode>();
+	private final ArrayList<ParseTreeNode> commands = new ArrayList<ParseTreeNode>();
 	private int offset = -1;
 	private int barrier = BasicScope.BARRIER_SEEN;
 	private boolean breakable = false;

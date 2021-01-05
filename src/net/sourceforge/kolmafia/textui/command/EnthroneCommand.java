@@ -56,7 +56,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class EnthroneCommand
 	extends AbstractCommand
 {
-	private static AdventureResult HATSEAT = ItemPool.get( ItemPool.HATSEAT, 1 );
+	private static final AdventureResult HATSEAT = ItemPool.get( ItemPool.HATSEAT, 1 );
 	
 	public EnthroneCommand()
 	{

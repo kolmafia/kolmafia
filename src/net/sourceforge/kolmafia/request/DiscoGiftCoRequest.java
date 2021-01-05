@@ -56,7 +56,7 @@ public class DiscoGiftCoRequest
 	public static final String master = "Disco GiftCo";
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( DiscoGiftCoRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( DiscoGiftCoRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( DiscoGiftCoRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( DiscoGiftCoRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) Volcoino" );
 	public static final AdventureResult COIN = ItemPool.get( ItemPool.VOLCOINO, 1 );

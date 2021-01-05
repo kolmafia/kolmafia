@@ -114,7 +114,7 @@ public class MushroomRequest
 		return square >= 1 && square <= 16;
 	}
 
-	private static final int getSquare( final String urlString )
+	private static int getSquare( final String urlString )
 	{
 		Matcher matcher = MushroomRequest.SQUARE_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
@@ -125,7 +125,7 @@ public class MushroomRequest
 		return 1 + StringUtilities.parseInt( matcher.group( 1 ) );
 	}
 
-	private static final int getSpore( final String urlString )
+	private static int getSpore( final String urlString )
 	{
 		Matcher matcher = MushroomRequest.SPORE_PATTERN.matcher( urlString );
 		if ( !matcher.find() )

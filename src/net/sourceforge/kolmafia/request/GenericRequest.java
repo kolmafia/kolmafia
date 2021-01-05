@@ -48,6 +48,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -193,7 +194,7 @@ public class GenericRequest
 	// Per-login data
 
 	private static String userAgent = "";
-	public static final Set<ServerCookie> serverCookies = new LinkedHashSet<ServerCookie>();;
+	public static final Set<ServerCookie> serverCookies = new LinkedHashSet<ServerCookie>();
 	public static String sessionId = null;
 	public static String passwordHash = "";
 	public static String passwordHashValue = "";
@@ -266,13 +267,13 @@ public class GenericRequest
 		systemProperties.put( "http.referer", "https://" + GenericRequest.KOL_HOST + "/game.php" );
 	}
 
-	private static final void applyProxySettings()
+	private static void applyProxySettings()
 	{
 		GenericRequest.applyProxySettings( "http" );
 		GenericRequest.applyProxySettings( "https" );
 	}
 
-	private static final void applyProxySettings( String protocol )
+	private static void applyProxySettings( String protocol )
 	{
 		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
 		{
@@ -328,7 +329,7 @@ public class GenericRequest
 		}
 	}
 
-	private static final boolean substringMatches( final String a, final String b )
+	private static boolean substringMatches( final String a, final String b )
 	{
 		return a.contains( b ) || b.contains( a );
 	}
@@ -357,7 +358,7 @@ public class GenericRequest
 		}
 	}
 
-	private static final void setLoginServer( final int serverIndex )
+	private static void setLoginServer( final int serverIndex )
 	{
 		GenericRequest.KOL_HOST = GenericRequest.SERVERS[ serverIndex ];
 
@@ -796,20 +797,14 @@ public class GenericRequest
 		String oldURLString = null;
 		String newURLString = urlString;
 
-		try
-		{
-			do
-			{
-				oldURLString = newURLString;
-				newURLString = URLDecoder.decode( oldURLString, "UTF-8" );
-			}
-			while ( !oldURLString.equals( newURLString ) );
-		}
-		catch ( IOException e )
-		{
-		}
+        do
+        {
+            oldURLString = newURLString;
+            newURLString = URLDecoder.decode( oldURLString, StandardCharsets.UTF_8 );
+        }
+        while ( !oldURLString.equals( newURLString ) );
 
-		return newURLString;
+        return newURLString;
 	}
 
 	public static String decodeField( final String urlString )
@@ -2516,7 +2511,7 @@ public class GenericRequest
 			RequestLogger.updateDebugLog( "Retrieving server reply" );
 		}
 
-		this.responseText = new String( ByteBufferUtilities.read( istream ), "UTF-8" );
+		this.responseText = new String( ByteBufferUtilities.read( istream ), StandardCharsets.UTF_8 );
 
 		if ( this.responseCode == 200 && RequestLogger.isTracing() )
 		{
@@ -2800,7 +2795,7 @@ public class GenericRequest
 		return 0;
 	}
 
-	private final void parseResults()
+	private void parseResults()
 	{
 		String urlString = this.getURLString();
 
@@ -2986,7 +2981,7 @@ public class GenericRequest
 		}
 	}
 
-	private static final void checkItemRedirection( final String location )
+	private static void checkItemRedirection( final String location )
 	{
 		// Certain choices lead to fights. We log those in ChoiceManager.
 		if ( location.startsWith( "choice.php" ) )
@@ -3403,7 +3398,7 @@ public class GenericRequest
 		GenericRequest.itemMonster = itemName;
 	}
 
-	private static final void checkChoiceRedirection( final String location )
+	private static void checkChoiceRedirection( final String location )
 	{
 		if ( !location.startsWith( "choice.php" ) )
 		{
@@ -3447,7 +3442,7 @@ public class GenericRequest
 		RequestLogger.updateSessionLog( message );
 	}
 
-	private static final void checkSkillRedirection( final String location )
+	private static void checkSkillRedirection( final String location )
 	{
 		if ( !location.startsWith( "runskillz.php" ) )
 		{
@@ -3486,7 +3481,7 @@ public class GenericRequest
 		RequestLogger.updateSessionLog( message );
 	}
 	
-	private static final void checkOtherRedirection( final String location )
+	private static void checkOtherRedirection( final String location )
 	{
 		String otherName = null;
 
@@ -3527,7 +3522,7 @@ public class GenericRequest
 		RequestLogger.updateSessionLog( message );
 	}
 
-	private static final AdventureResult sealRitualCandles( final int itemId )
+	private static AdventureResult sealRitualCandles( final int itemId )
 	{
 		switch ( itemId )
 		{

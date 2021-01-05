@@ -1090,8 +1090,7 @@ public class Parser
 
 		else if ( ( result = this.parseReturn( functionType, scope ) ) != null )
 		{
-			;
-		}
+        }
 		else if ( ( result = this.parseBasicScript() ) != null )
 		{
 			// basic_script doesn't have a ; token
@@ -1119,8 +1118,7 @@ public class Parser
 		}
 		else if ( ( result = this.parseRepeat( functionType, scope ) ) != null )
 		{
-			;
-		}
+        }
 		else if ( ( result = this.parseSwitch( functionType, scope, allowContinue ) ) != null )
 		{
 			// switch doesn't have a ; token
@@ -1148,12 +1146,10 @@ public class Parser
 		}
 		else if ( ( result = this.parseSort( scope ) ) != null )
 		{
-			;
-		}
+        }
 		else if ( ( result = this.parseRemove( scope ) ) != null )
 		{
-			;
-		}
+        }
 		else if ( ( result = this.parseBlock( functionType, null, scope, noElse, allowBreak, allowContinue ) ) != null )
 		{
 			// {} doesn't have a ; token
@@ -1161,8 +1157,7 @@ public class Parser
 		}
 		else if ( ( result = this.parseValue( scope ) ) != null )
 		{
-			;
-		}
+        }
 		else
 		{
 			return null;
@@ -3161,8 +3156,7 @@ public class Parser
 		// numbers
 		else if ( ( result = this.parseNumber() ) != null )
 		{
-			;
-		}
+        }
 
 		else if ( this.currentToken().equals( "\"" ) || this.currentToken().equals( "'" ) || this.currentToken().equals( "`" ) )
 		{
@@ -3182,8 +3176,7 @@ public class Parser
 
 		else if ( ( result = this.parseCatchValue( scope ) ) != null )
 		{
-			;
-		}
+        }
 
 		else if ( ( result = this.parsePreIncDec( scope ) ) != null )
 		{
@@ -3192,13 +3185,11 @@ public class Parser
 
 		else if ( ( result = this.parseInvoke( scope ) ) != null )
 		{
-			;
-		}
+        }
 
 		else if ( ( result = this.parseCall( scope, null ) ) != null )
 		{
-			;
-		}
+        }
 
 		else
 		{
@@ -3220,8 +3211,7 @@ public class Parser
 				}
 				if ( ( result = this.parseVariableReference( scope ) ) != null )
 				{
-					;
-				}
+                }
 			}
 		}
 
@@ -3601,7 +3591,7 @@ public class Parser
 					int[] ids = ItemDatabase.getItemIds( name, 1, false );
 					for ( int id : ids )
 					{
-						String s3 = "$item[[" + String.valueOf( id ) + "]" + name + "]";
+						String s3 = "$item[[" + id + "]" + name + "]";
 						names.add( s3 );
 					}
 				}
@@ -3612,7 +3602,7 @@ public class Parser
 					int[] ids = EffectDatabase.getEffectIds( name, false );
 					for ( int id : ids )
 					{
-						String s3 = "$effect[[" + String.valueOf( id ) + "]" + name + "]";
+						String s3 = "$effect[[" + id + "]" + name + "]";
 						names.add( s3 );
 					}
 				}
@@ -3623,7 +3613,7 @@ public class Parser
 					int[] ids = MonsterDatabase.getMonsterIds( name, false );
 					for ( int id : ids )
 					{
-						String s3 = "$monster[[" + String.valueOf( id ) + "]" + name + "]";
+						String s3 = "$monster[[" + id + "]" + name + "]";
 						names.add( s3 );
 					}
 				}
@@ -3634,7 +3624,7 @@ public class Parser
 					int[] ids = SkillDatabase.getSkillIds( name, false );
 					for ( int id : ids )
 					{
-						String s3 = "$skill[[" + String.valueOf( id ) + "]" + name + "]";
+						String s3 = "$skill[[" + id + "]" + name + "]";
 						names.add( s3 );
 					}
 				}

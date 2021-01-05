@@ -113,7 +113,7 @@ public class ChefStaffRequest
 		return false;
 	}
 
-	private static final AdventureResult[] staffIngredients( final String urlString )
+	private static AdventureResult[] staffIngredients( final String urlString )
 	{
 		Matcher itemMatcher = ChefStaffRequest.WHICH_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )

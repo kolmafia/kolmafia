@@ -54,7 +54,7 @@ public class GuzzlrRequest
 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( GuzzlrRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( GuzzlrRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( GuzzlrRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( GuzzlrRequest.master );
 	private static final Pattern GUZZLR_PATTERN = Pattern.compile( "([\\d,]+) Guzzlrbuck" );
 	public static final AdventureResult GUZZLRBUCK = ItemPool.get( ItemPool.GUZZLRBUCK, 1 );
 

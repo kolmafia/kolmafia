@@ -46,9 +46,9 @@ public class CheckStatusRunnable
 {
 	private CheckStatusResult result = CheckStatusResult.UNSTARTED;
 
-	private File originalFile;
-	private SVNRepository repo;
-	private long wcRevisionNumber;
+	private final File originalFile;
+	private final SVNRepository repo;
+	private final long wcRevisionNumber;
 	File repoFile;
 	final boolean quiet;
 

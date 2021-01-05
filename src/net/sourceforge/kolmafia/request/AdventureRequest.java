@@ -702,8 +702,8 @@ public class AdventureRequest
 			// disambiguate Ed the Undying into Ed the Undying (4),
 			// for example.
 			String monsterName = monster.getName();
-			String disambiguated = ConsequenceManager.disambiguateMonster( monsterName, responseText );;
-			if ( !monsterName.equals( disambiguated ) )
+			String disambiguated = ConsequenceManager.disambiguateMonster( monsterName, responseText );
+            if ( !monsterName.equals( disambiguated ) )
 			{
 				return MonsterDatabase.findMonster( disambiguated );
 			}
@@ -734,7 +734,7 @@ public class AdventureRequest
 		return monster;
 	}
 
-	private static final String parseChoiceEncounter( final String urlString, final int choice, final String responseText )
+	private static String parseChoiceEncounter( final String urlString, final int choice, final String responseText )
 	{
 		if ( LouvreManager.louvreChoice( choice ) )
 		{
@@ -818,7 +818,7 @@ public class AdventureRequest
 		return AdventureRequest.parseEncounter( responseText );
 	}
 
-	private static final String choiceType( final int choice )
+	private static String choiceType( final int choice )
 	{
 		if ( LouvreManager.louvreChoice( choice ) )
 		{
@@ -856,7 +856,7 @@ public class AdventureRequest
 		{ "Thud", "hobo glyphs" },
 	};
 
-	private static final String parseNoncombatEncounter( final String urlString, final String responseText )
+	private static String parseNoncombatEncounter( final String urlString, final String responseText )
 	{
 		// Fernswarthy's Basement
 		if ( urlString.startsWith( "basement.php" ) )
@@ -921,7 +921,7 @@ public class AdventureRequest
 		return null;
 	}
 
-	private static final String parseEncounter( final String responseText )
+	private static String parseEncounter( final String responseText )
 	{
 		// Look only in HTML body; the header can have scripts with
 		// bold text.
@@ -961,7 +961,7 @@ public class AdventureRequest
 		return responseText.substring( boldIndex + 3, endBoldIndex );
 	}
 
-	private static final int parseArea( final String urlString )
+	private static int parseArea( final String urlString )
 	{
 		Matcher matcher = AREA_PATTERN.matcher( urlString );
 		if ( matcher.find() )
@@ -1138,7 +1138,7 @@ public class AdventureRequest
 		return true;
 	}
 
-	private static final boolean containsEncounter( final String formSource, final String responseText )
+	private static boolean containsEncounter( final String formSource, final String responseText )
 	{
 		if ( formSource.startsWith( "adventure.php" ) )
 		{
@@ -1432,7 +1432,7 @@ public class AdventureRequest
 		return trimmed + monsterName;
 	}
 
-	private static final String handleIntergnat( String monsterName )
+	private static String handleIntergnat( String monsterName )
 	{
 		if ( KoLCharacter.getFamiliar().getId() != FamiliarPool.INTERGNAT )
 		{
@@ -1466,7 +1466,7 @@ public class AdventureRequest
 		return monsterName;
 	}
 
-	private static final String handleNuclearAutumn( String monsterName )
+	private static String handleNuclearAutumn( String monsterName )
 	{
 		if ( !KoLCharacter.inNuclearAutumn() )
 		{
@@ -1487,7 +1487,7 @@ public class AdventureRequest
 
 	private static final Pattern MASK_PATTERN = Pattern.compile( "(.*?) wearing an? (.*?)ask" );
 
-	private static final String handleMask( String monsterName )
+	private static String handleMask( String monsterName )
 	{
 		if ( !KoLCharacter.inDisguise() )
 		{

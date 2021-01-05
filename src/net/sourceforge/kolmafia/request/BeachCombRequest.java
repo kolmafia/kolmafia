@@ -126,8 +126,8 @@ public class BeachCombRequest
 			Matcher matcher = COORDS_PATTERN.matcher( coords );
 			if ( matcher.find() )
 			{
-				this.row = StringUtilities.parseInt( matcher.group( 2 ) );;
-				int rest = StringUtilities.parseInt( matcher.group( 3 ) );
+				this.row = StringUtilities.parseInt( matcher.group( 2 ) );
+                int rest = StringUtilities.parseInt( matcher.group( 3 ) );
 				int mod = ( rest % 10 );
 				this.beach = ( rest / 10 ) + ( mod == 0 ? 0 : 1 );
 				this.col = ( mod == 0 ) ? 0 : ( 10 - mod );
@@ -143,7 +143,7 @@ public class BeachCombRequest
 		@Override
 		public String toString()
 		{
-			return String.valueOf( this.row ) + "," + String.valueOf( ( this.beach * 10 ) - this.col );
+			return this.row + "," + ( ( this.beach * 10 ) - this.col );
 		}
 	}
 

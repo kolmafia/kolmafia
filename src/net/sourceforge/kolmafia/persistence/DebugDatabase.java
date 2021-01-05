@@ -113,19 +113,19 @@ public class DebugDatabase
 	 * Takes an item name and constructs the likely Wiki equivalent of that item name.
 	 */
 
-	private static final String readWikiItemData( final String name )
+	private static String readWikiItemData( final String name )
 	{
 		String url = WikiUtilities.getWikiLocation( name, WikiUtilities.ITEM_TYPE );
 		return DebugDatabase.readWikiData( url );
 	}
 
-	private static final String readWikiMonsterData( final MonsterData monster )
+	private static String readWikiMonsterData( final MonsterData monster )
 	{
 		String url = WikiUtilities.getWikiLocation( monster );
 		return DebugDatabase.readWikiData( url );
 	}
 
-	private static final String readWikiData( String url )
+	private static String readWikiData( String url )
 	{
 		while ( true )
 		{
@@ -160,7 +160,7 @@ public class DebugDatabase
 		}
 	}
 
-	private static final String readApiPlural( final int itemId )
+	private static String readApiPlural( final int itemId )
 	{
 		GenericRequest request = new ApiRequest( "item", itemId );
 		RequestThread.postRequest( request );
@@ -296,7 +296,7 @@ public class DebugDatabase
 		new ItemMap( "Everything Else", -1 ),
 	};
 
-	private static final ItemMap findItemMap( final int type )
+	private static ItemMap findItemMap( final int type )
 	{
 		ItemMap other = null;
 		for ( int i = 0; i < DebugDatabase.ITEM_MAPS.length; ++i )
@@ -351,7 +351,7 @@ public class DebugDatabase
 		report.close();
 	}
 
-	private static final void checkItems( final PrintStream report )
+	private static void checkItems( final PrintStream report )
 	{
 		Set<Integer> keys = ItemDatabase.descriptionIdKeySet();
 		int lastId = 0;
@@ -374,7 +374,7 @@ public class DebugDatabase
 		DebugDatabase.saveScrapeData( keys.iterator(), rawItems, ITEM_HTML );
 	}
 
-	private static final void checkItem( final int itemId, final PrintStream report )
+	private static void checkItem( final int itemId, final PrintStream report )
 	{
 		Integer id = IntegerPool.get( itemId );
 
@@ -596,7 +596,7 @@ public class DebugDatabase
 		return StringUtilities.parseInt( matcher.group( 1 ) );
 	}
 
-	private static final StringBuilder appendAccessTypes( StringBuilder accessTypes, String accessType )
+	private static StringBuilder appendAccessTypes( StringBuilder accessTypes, String accessType )
 	{
 		if ( accessTypes.length() > 0 )
 		{
@@ -779,7 +779,7 @@ public class DebugDatabase
 		return attributes;
 	}
 
-	private static final boolean typesMatch( final int type, final int descType )
+	private static boolean typesMatch( final int type, final int descType )
 	{
 		switch ( type )
 		{
@@ -829,7 +829,7 @@ public class DebugDatabase
 		return true;
 	}
 
-	private static final boolean attributesMatch( final int attrs, final int descAttrs )
+	private static boolean attributesMatch( final int attrs, final int descAttrs )
 	{
 		// If the description says an item is "combat", "(reusable)" or "(on self or others)",
 		// our database must mark the item as ATTR_COMBAT, ATTR_COMBAT_REUSABLE, ATTR_CURSE, 
@@ -893,7 +893,7 @@ public class DebugDatabase
 		return true;
 	}
 
-	private static final void checkConsumableItems( final PrintStream report )
+	private static void checkConsumableItems( final PrintStream report )
 	{
 		RequestLogger.printLine( "Checking level requirements..." );
 
@@ -902,7 +902,7 @@ public class DebugDatabase
 		DebugDatabase.checkConsumableMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_SPLEEN ) );
 	}
 
-	private static final void checkConsumableMap( final PrintStream report, final ItemMap imap )
+	private static void checkConsumableMap( final PrintStream report, final ItemMap imap )
 	{
 		Map<String, String> map = imap.getMap();
 		if ( map.size() == 0 )
@@ -931,7 +931,7 @@ public class DebugDatabase
 		}
 	}
 
-	private static final void checkConsumableDatum( final String name, final int type, final String text, final PrintStream report )
+	private static void checkConsumableDatum( final String name, final int type, final String text, final PrintStream report )
 	{
 		Integer requirement = ConsumablesDatabase.getLevelReqByName( name );
 		int level = requirement == null ? 0 : requirement.intValue();
@@ -996,7 +996,7 @@ public class DebugDatabase
 		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
 	}
 
-	private static final void checkEquipment( final PrintStream report )
+	private static void checkEquipment( final PrintStream report )
 	{
 
 		RequestLogger.printLine( "Checking equipment..." );
@@ -1010,7 +1010,7 @@ public class DebugDatabase
 		DebugDatabase.checkEquipmentMap( report, DebugDatabase.findItemMap( KoLConstants.EQUIP_CONTAINER ) );
 	}
 
-	private static final void checkEquipmentMap( final PrintStream report, ItemMap imap )
+	private static void checkEquipmentMap( final PrintStream report, ItemMap imap )
 	{
 		Map<String, String> map = imap.getMap();
 		if ( map.size() == 0 )
@@ -1034,7 +1034,7 @@ public class DebugDatabase
 		}
 	}
 
-	private static final void checkEquipmentDatum( final String name, final String text, final PrintStream report )
+	private static void checkEquipmentDatum( final String name, final String text, final PrintStream report )
 	{
 		String type = DebugDatabase.parseType( text );
 		boolean isWeapon = false, isShield = false, hasPower = false;
@@ -1192,7 +1192,7 @@ public class DebugDatabase
 		return matcher.find() ? ( matcher.group( 1 ) ) : "any";
 	}
 
-	private static final void checkItemModifiers( final PrintStream report )
+	private static void checkItemModifiers( final PrintStream report )
 	{
 		RequestLogger.printLine( "Checking modifiers..." );
 
@@ -1212,12 +1212,12 @@ public class DebugDatabase
 		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( -1 ), false );
 	}
 
-	private static final void checkItemModifierMap( final PrintStream report, final ItemMap imap )
+	private static void checkItemModifierMap( final PrintStream report, final ItemMap imap )
 	{
 		DebugDatabase.checkItemModifierMap( report, imap, true );
 	}
 
-	private static final void checkItemModifierMap( final PrintStream report, final ItemMap imap, final boolean showAll )
+	private static void checkItemModifierMap( final PrintStream report, final ItemMap imap, final boolean showAll )
 	{
 		Map<String, String> map = imap.getMap();
 		if ( map.size() == 0 )
@@ -1242,7 +1242,7 @@ public class DebugDatabase
 		}
 	}
 
-	private static final void checkItemModifierDatum( final String name, final String text, final int type, final PrintStream report, final boolean showAll )
+	private static void checkItemModifierDatum( final String name, final String text, final int type, final PrintStream report, final boolean showAll )
 	{
 		ModifierList known = new ModifierList();
 		ArrayList<String> unknown = new ArrayList<String>();
@@ -1261,7 +1261,7 @@ public class DebugDatabase
 		}
 	}
 
-	private static final void checkModifiers( final String type, final String name, final ModifierList known, final boolean appendCurrent, final PrintStream report )
+	private static void checkModifiers( final String type, final String name, final ModifierList known, final boolean appendCurrent, final PrintStream report )
 	{
 		// - Keep modifiers in the same order they are listed in the item description
 		// - If a modifier is variable (has an expression), evaluate
@@ -1387,7 +1387,7 @@ public class DebugDatabase
 		}
 	}
 
-	private static final void logModifierDatum( final String type, final String name, final ModifierList known, final ArrayList<String> unknown, final PrintStream report )
+	private static void logModifierDatum( final String type, final String name, final ModifierList known, final ArrayList<String> unknown, final PrintStream report )
 	{
 		for ( int i = 0; i < unknown.size(); ++i )
 		{
@@ -1407,7 +1407,7 @@ public class DebugDatabase
 		}
 	}
 
-	private static final String createModifierString( final ModifierList modifiers )
+	private static String createModifierString( final ModifierList modifiers )
 	{
 		StringBuilder buffer = new StringBuilder();
 		for ( Modifier modifier : modifiers )
@@ -1559,7 +1559,7 @@ public class DebugDatabase
 		return DebugDatabase.createModifierString( known );
 	}
 
-	private static final void parseStandardEnchantments( final String text, final ModifierList known, final ArrayList<String> unknown, final Pattern pattern )
+	private static void parseStandardEnchantments( final String text, final ModifierList known, final ArrayList<String> unknown, final Pattern pattern )
 	{
 		Matcher matcher = pattern.matcher( text );
 		if ( !matcher.find() )
@@ -1737,7 +1737,7 @@ public class DebugDatabase
 		}
 	}
 
-	private static final void appendModifier( final ModifierList known, final String mod )
+	private static void appendModifier( final ModifierList known, final String mod )
 	{
 		if ( mod != null )
 		{
@@ -1757,7 +1757,7 @@ public class DebugDatabase
 		}
 	}
 
-	private static final Modifier makeModifier( final String mod )
+	private static Modifier makeModifier( final String mod )
 	{
 		int colon = mod.indexOf( ":" );
 		String key = colon == -1 ? mod.trim() : mod.substring( 0, colon ).trim();
@@ -1792,7 +1792,7 @@ public class DebugDatabase
 		report.close();
 	}
 
-	private static final void checkOutfits(final PrintStream report )
+	private static void checkOutfits( final PrintStream report )
 	{
 		Set<Integer> keys = EquipmentDatabase.normalOutfits.keySet();
 		int lastId = 0;
@@ -1815,7 +1815,7 @@ public class DebugDatabase
 		DebugDatabase.saveScrapeData( keys.iterator(), rawOutfits, OUTFIT_HTML );
 	}
 
-	private static final void checkOutfit( final int outfitId, final PrintStream report )
+	private static void checkOutfit( final int outfitId, final PrintStream report )
 	{
 		SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get( outfitId );
 		String name = outfit.getName();
@@ -1900,7 +1900,7 @@ public class DebugDatabase
 		return matcher.group( 1 );
 	}
 
-	private static final void checkOutfitModifierMap( final PrintStream report, final ItemMap imap )
+	private static void checkOutfitModifierMap( final PrintStream report, final ItemMap imap )
 	{
 		Map<String, String> map = imap.getMap();
 		if ( map.size() == 0 )
@@ -1923,7 +1923,7 @@ public class DebugDatabase
 		}
 	}
 
-	private static final void checkOutfitModifierDatum( final String name, final String text, final PrintStream report )
+	private static void checkOutfitModifierDatum( final String name, final String text, final PrintStream report )
 	{
 		ModifierList known = new ModifierList();
 		ArrayList<String> unknown = new ArrayList<String>();
@@ -1990,7 +1990,7 @@ public class DebugDatabase
 		report.close();
 	}
 
-	private static final void checkEffects(final PrintStream report )
+	private static void checkEffects( final PrintStream report )
 	{
 		Set<Integer> keys = EffectDatabase.descriptionIdKeySet();
 		Iterator<Integer> it = keys.iterator();
@@ -2009,7 +2009,7 @@ public class DebugDatabase
 		DebugDatabase.saveScrapeData( keys.iterator(), rawEffects, EFFECT_HTML );
 	}
 
-	private static final void checkEffect( final int effectId, final PrintStream report )
+	private static void checkEffect( final int effectId, final PrintStream report )
 	{
 		String name = EffectDatabase.getEffectName( effectId );
 		if ( name == null )
@@ -2115,7 +2115,7 @@ public class DebugDatabase
 		return DebugDatabase.DESC_EFFECT_REQUEST.responseText;
 	}
 
-	private static final String rawEffectDescriptionText( final int effectId )
+	private static String rawEffectDescriptionText( final int effectId )
 	{
 		String descId = EffectDatabase.getDescriptionId( effectId );
 		if ( descId == null || descId.equals( "" ) )
@@ -2137,7 +2137,7 @@ public class DebugDatabase
 
 	private static final Pattern EFFECT_DATA_PATTERN = Pattern.compile( "<div id=\"description\"[^>]*>(.*?)</div>", Pattern.DOTALL );
 
-	private static final String effectDescriptionText( final String rawText )
+	private static String effectDescriptionText( final String rawText )
 	{
 		if ( rawText == null )
 		{
@@ -2153,14 +2153,14 @@ public class DebugDatabase
 		return matcher.group( 1 );
 	}
 
-	private static final void checkEffectModifiers( final PrintStream report )
+	private static void checkEffectModifiers( final PrintStream report )
 	{
 		RequestLogger.printLine( "Checking modifiers..." );
 
 		DebugDatabase.checkEffectModifierMap( report, DebugDatabase.effects );
 	}
 
-	private static final void checkEffectModifierMap( final PrintStream report, final ItemMap imap )
+	private static void checkEffectModifierMap( final PrintStream report, final ItemMap imap )
 	{
 		Map<String, String> map = imap.getMap();
 		if ( map.size() == 0 )
@@ -2204,7 +2204,7 @@ public class DebugDatabase
 		return DebugDatabase.parseEffectEnchantments( text, unknown );
 	}
 
-	private static final void checkEffectModifierDatum( final String name, final String text, final PrintStream report )
+	private static void checkEffectModifierDatum( final String name, final String text, final PrintStream report )
 	{
 		ModifierList known = new ModifierList();
 		ArrayList<String> unknown = new ArrayList<String>();
@@ -2256,7 +2256,7 @@ public class DebugDatabase
 		report.close();
 	}
 
-	private static final void checkSkills(final PrintStream report )
+	private static void checkSkills( final PrintStream report )
 	{
 		Set<Integer> keys = SkillDatabase.idKeySet();
 		for ( Integer value : keys )
@@ -2273,7 +2273,7 @@ public class DebugDatabase
 		DebugDatabase.saveScrapeData( keys.iterator(), rawSkills, SKILL_HTML );
 	}
 
-	private static final void checkSkill( final int skillId, final PrintStream report )
+	private static void checkSkill( final int skillId, final PrintStream report )
 	{
 		String name = SkillDatabase.getSkillName( skillId );
 		if ( name == null )
@@ -2393,7 +2393,7 @@ public class DebugDatabase
 		return DebugDatabase.DESC_SKILL_REQUEST.responseText;
 	}
 
-	private static final String rawSkillDescriptionText( final int skillId )
+	private static String rawSkillDescriptionText( final int skillId )
 	{
 		String previous = DebugDatabase.rawSkills.get( skillId );
 		if ( previous != null && !previous.equals( "" ) )
@@ -2409,7 +2409,7 @@ public class DebugDatabase
 
 	private static final Pattern SKILL_DATA_PATTERN = Pattern.compile( "<div id=\"description\"[^>]*>(.*)</div>", Pattern.DOTALL );
 
-	private static final String skillDescriptionText( final String rawText )
+	private static String skillDescriptionText( final String rawText )
 	{
 		if ( rawText == null )
 		{
@@ -2425,14 +2425,14 @@ public class DebugDatabase
 		return matcher.group( 1 );
 	}
 
-	private static final void checkSkillModifiers( final PrintStream report )
+	private static void checkSkillModifiers( final PrintStream report )
 	{
 		RequestLogger.printLine( "Checking modifiers..." );
 
 		DebugDatabase.checkSkillModifierMap( report, DebugDatabase.passiveSkills );
 	}
 
-	private static final void checkSkillModifierMap( final PrintStream report, final ItemMap imap )
+	private static void checkSkillModifierMap( final PrintStream report, final ItemMap imap )
 	{
 		Map<String, String> map = imap.getMap();
 		if ( map.size() == 0 )
@@ -2476,7 +2476,7 @@ public class DebugDatabase
 		return DebugDatabase.parseSkillEnchantments( text, unknown );
 	}
 
-	private static final void checkSkillModifierDatum( final String name, final String text, final PrintStream report )
+	private static void checkSkillModifierDatum( final String name, final String text, final PrintStream report )
 	{
 		ModifierList known = new ModifierList();
 		ArrayList<String> unknown = new ArrayList<String>();
@@ -2499,12 +2499,12 @@ public class DebugDatabase
 
 	// Utilities for dealing with KoL description data
 
-	private static final PrintStream openReport( final String fileName )
+	private static PrintStream openReport( final String fileName )
 	{
 		return LogStream.openStream( new File( KoLConstants.DATA_LOCATION, fileName ), true );
 	}
 
-	private static final void loadScrapeData( final StringArray array, final String fileName )
+	private static void loadScrapeData( final StringArray array, final String fileName )
 	{
 		try
 		{
@@ -2549,7 +2549,7 @@ public class DebugDatabase
 		}
 	}
 
-	private static final void saveScrapeData( final Iterator<Integer> it, final StringArray array, final String fileName )
+	private static void saveScrapeData( final Iterator<Integer> it, final StringArray array, final String fileName )
 	{
 		File file = new File( KoLConstants.DATA_LOCATION, fileName );
 		PrintStream livedata = LogStream.openStream( file, true );
@@ -2621,7 +2621,7 @@ public class DebugDatabase
 		report.close();
 	}
 
-	private static final void checkPlural( final int itemId, final PrintStream report )
+	private static void checkPlural( final int itemId, final PrintStream report )
 	{
 		Integer id = IntegerPool.get( itemId );
 
@@ -2731,7 +2731,7 @@ public class DebugDatabase
 
 	// **********************************************************
 
-	private static final boolean powerFilter( AdventureResult item )
+	private static boolean powerFilter( AdventureResult item )
 	{
 		int itemId = item.getItemId();
 		int type = ItemDatabase.getConsumptionType( itemId );
@@ -2740,12 +2740,12 @@ public class DebugDatabase
 			 type == KoLConstants.EQUIP_CONTAINER );
 	}	
 
-	private static final boolean unknownPower( AdventureResult item )
+	private static boolean unknownPower( AdventureResult item )
 	{
 		return ( EquipmentDatabase.getPower( item.getItemId() ) == 0 );
 	}
 
-	private static final void conditionallyAddItems( Collection<AdventureResult> items, List<AdventureResult> location, boolean force )
+	private static void conditionallyAddItems( Collection<AdventureResult> items, List<AdventureResult> location, boolean force )
 	{
 		// If checking display case, retrieve if necessary
 		if ( location == KoLConstants.collection )
@@ -2808,7 +2808,7 @@ public class DebugDatabase
 		DebugDatabase.checkPowers( items, force );
 	}
 
-	private static final void checkPowers( final Collection<AdventureResult> items, final boolean force  )
+	private static void checkPowers( final Collection<AdventureResult> items, final boolean force  )
 	{
 		for ( AdventureResult item : items )
 		{
@@ -2816,7 +2816,7 @@ public class DebugDatabase
 		}
 	}
 
-	private static final void checkPower( final int itemId, final boolean force  )
+	private static void checkPower( final int itemId, final boolean force  )
 	{
 		int current = EquipmentDatabase.getPower( itemId );
 		if ( !force && current != 0 )
@@ -2956,14 +2956,14 @@ public class DebugDatabase
 		report.close();
 	}
 
-	private static final void checkConsumables( final PrintStream report )
+	private static void checkConsumables( final PrintStream report )
 	{
 		DebugDatabase.checkConsumables( report, ConsumablesDatabase.fullnessByName, "fullness" );
 		DebugDatabase.checkConsumables( report, ConsumablesDatabase.inebrietyByName, "inebriety" );
 		DebugDatabase.checkConsumables( report, ConsumablesDatabase.spleenHitByName, "spleenhit" );
 	}
 
-	private static final void checkConsumables( final PrintStream report, final Map<String, Integer> map, final String tag )
+	private static void checkConsumables( final PrintStream report, final Map<String, Integer> map, final String tag )
 	{
 		if ( map.size() == 0 )
 		{
@@ -2981,7 +2981,7 @@ public class DebugDatabase
 		}
 	}
 
-	private static final void checkConsumable( final PrintStream report, final String name, final int size )
+	private static void checkConsumable( final PrintStream report, final String name, final int size )
 	{
 		int itemId = ItemDatabase.getItemId( name );
 		// It is valid for items to have no itemId: sushi, Cafe offerings, and so on
@@ -3044,7 +3044,7 @@ public class DebugDatabase
 		}
 	}
 
-	private static final void checkTerrariumFamiliar( int id, String powers, boolean showVariable )
+	private static void checkTerrariumFamiliar( int id, String powers, boolean showVariable )
 	{
 		// KoL familiar categories
 		boolean dataAttack = powers.contains( "data-attack" );
@@ -3297,9 +3297,9 @@ public class DebugDatabase
 	}
 
 	private static final Pattern FAMILIAR_IMAGE_PATTERN = Pattern.compile( "images\\.kingdomofloathing\\.com/itemimages/(.*?\\.gif)" );
-	private static final boolean checkFamiliarImage( final int id )
+	private static boolean checkFamiliarImage( final int id )
 	{
-		String file = "desc_familiar.php?which=" + String.valueOf( id );
+		String file = "desc_familiar.php?which=" + id;
 		GenericRequest request = new GenericRequest( file );
 		RequestThread.postRequest( request );
 		String text = request.responseText;
@@ -3342,7 +3342,7 @@ public class DebugDatabase
 
 	private static final String EPICURE = "http://kol.coldfront.net/tools/epicure/export_data.php";
 
-	private static final void checkEpicure( final PrintStream writer )
+	private static void checkEpicure( final PrintStream writer )
 	{
 		RequestLogger.printLine( "Connecting to Well-Tempered Epicure..." );
 		Document doc = getXMLDocument( EPICURE );
@@ -3368,7 +3368,7 @@ public class DebugDatabase
 		}
 	}
 
-	private static final void checkFood( final Node element, final PrintStream writer )
+	private static void checkFood( final Node element, final PrintStream writer )
 	{
 		String name= "";
 		String advs= "";
@@ -3436,7 +3436,7 @@ public class DebugDatabase
 
 	private static final String MIXOLOGIST = "http://kol.coldfront.net/tools/mixology/export_data.php";
 
-	private static final void checkMixologist( final PrintStream writer )
+	private static void checkMixologist( final PrintStream writer )
 	{
 		RequestLogger.printLine( "Connecting to Well-Tempered Mixologist..." );
 		Document doc = getXMLDocument( MIXOLOGIST );
@@ -3462,7 +3462,7 @@ public class DebugDatabase
 		}
 	}
 
-	private static final void checkBooze( final Node element, final PrintStream writer )
+	private static void checkBooze( final Node element, final PrintStream writer )
 	{
 		String name= "";
 		String advs= "";
@@ -3529,12 +3529,12 @@ public class DebugDatabase
 		writer.println( line );
 	}
 
-	private static final String getStringValue( final Node node )
+	private static String getStringValue( final Node node )
 	{
 		return StringUtilities.getEntityEncode( node.getNodeValue().trim() );
 	}
 
-	private static final String getNumericValue( final Node node )
+	private static String getNumericValue( final Node node )
 	{
 		String value = node.getNodeValue().trim();
 
@@ -3552,10 +3552,10 @@ public class DebugDatabase
 
 		int first = sign * StringUtilities.parseInt( value.substring( 0, dash) );
 		int second = StringUtilities.parseInt( value.substring( dash + 1 ) );
-		return String.valueOf( first ) + "-" + String.valueOf( second );
+		return first + "-" + second;
 	}
 
-	private static final Document getXMLDocument( final String uri )
+	private static Document getXMLDocument( final String uri )
 	{
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		try
@@ -3584,7 +3584,7 @@ public class DebugDatabase
 
 	private static final String ANVIL = "http://kol.coldfront.net/tools/anvil/export_data.php";
 
-	private static final void checkAnvil( final PrintStream writer )
+	private static void checkAnvil( final PrintStream writer )
 	{
 		RequestLogger.printLine( "Connecting to Well-Tempered Anvil..." );
 		Document doc = getXMLDocument( ANVIL );
@@ -3619,8 +3619,8 @@ public class DebugDatabase
 		}
 	}
 
-	private static final void checkPulverize( final Node element, final PrintStream writer,
-		HashSet<Integer> seen )
+	private static void checkPulverize( final Node element, final PrintStream writer,
+                                        HashSet<Integer> seen )
 	{
 		String name= "";
 		int id = -1;
@@ -3986,7 +3986,7 @@ public class DebugDatabase
 		DebugDatabase.checkManuelPage( "-" );
 	}
 
-	private static final void checkManuelPage( final String page )
+	private static void checkManuelPage( final String page )
 	{
 		RequestLogger.printLine( "Page " + page.toUpperCase() );
 		MonsterManuelRequest request = new MonsterManuelRequest( page );

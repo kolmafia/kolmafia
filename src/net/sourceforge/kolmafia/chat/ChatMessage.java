@@ -49,8 +49,8 @@ public class ChatMessage
 	private String recipient;
 	private String content;
 	private boolean isAction;
-	private Date date;
-	private String timestamp;
+	private final Date date;
+	private final String timestamp;
 
 	private static final SimpleDateFormat MESSAGE_TIMESTAMP = new SimpleDateFormat( "[HH:mm]", Locale.US );
 

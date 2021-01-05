@@ -142,7 +142,7 @@ public class FloristRequest
 		private final int id;
 		private final String name;
 
-		private Florist( int id, String name )
+		Florist( int id, String name )
 		{
 			this.id = id;
 			this.name = name;
@@ -266,7 +266,7 @@ public class FloristRequest
 		return FloristRequest.haveFlorist;
 	}
 
-	private static final void setHaveFlorist( final boolean haveFlorist )
+	private static void setHaveFlorist( final boolean haveFlorist )
 	{
 		FloristRequest.floristChecked = true;
 		FloristRequest.haveFlorist = haveFlorist;
@@ -361,7 +361,7 @@ public class FloristRequest
 		}
 	}
 
-	private static final void addPlant( final String location, final int plantId )
+	private static void addPlant( final String location, final int plantId )
 	{
 		Florist plant = Florist.getFlower( plantId );
 		if ( plant.isTerritorial() )
@@ -389,7 +389,7 @@ public class FloristRequest
 		Preferences.setString( "_floristPlantsUsed", floristUsed.toString() );
 	}
 
-	private static final void clearTerritorial( final String location )
+	private static void clearTerritorial( final String location )
 	{
 		List<Florist> plants = FloristRequest.getPlants( location );
 		if ( plants == null )
@@ -409,7 +409,7 @@ public class FloristRequest
 		}
 	}
 
-	private static final void digPlant( final String location, final int digIndex )
+	private static void digPlant( final String location, final int digIndex )
 	{
 		List<Florist> plants = FloristRequest.getPlants( location );
 		if ( plants == null )

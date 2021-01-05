@@ -100,7 +100,7 @@ public class FaxBotDatabase
 		FaxBotDatabase.configureFaxBots();
 	}
 
-	private static final void readFaxbotConfig()
+	private static void readFaxbotConfig()
 	{
 		FaxBotDatabase.botData.clear();
 
@@ -129,7 +129,7 @@ public class FaxBotDatabase
 		}
 	}
 
-	private static final void configureFaxBots()
+	private static void configureFaxBots()
 	{
 		KoLmafia.updateDisplay( "Configuring faxable monsters." );
 
@@ -144,7 +144,7 @@ public class FaxBotDatabase
 		FaxBotDatabase.isInitialized = true;
 	}
 
-	private static final void configureFaxBot( final BotData data )
+	private static void configureFaxBot( final BotData data )
 	{
 		FaxBotDatabase.faxBotError = false;
 		FaxBotDatabase.faxBotErrorMessage = "";

@@ -53,7 +53,7 @@ public class PrecinctRequest
 	public static final String master = "Precinct Materiel Division";
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( PrecinctRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( PrecinctRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( PrecinctRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( PrecinctRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) cop dollar" );
 	public static final AdventureResult DOLLAR = ItemPool.get( ItemPool.COP_DOLLAR, 1 );

@@ -131,7 +131,7 @@ public abstract class KoLmafiaASH
 		return (field2 != null && KoLmafiaASH.getClientHTML( request,  scriptName + "." + field2 + ".php" )) || (field1 != null && KoLmafiaASH.getClientHTML( request, scriptName + "." + field1 + ".php" )) || KoLmafiaASH.getClientHTML( request, script );
 	}
 
-	private static final boolean getClientHTML( final RelayRequest request, String script )
+	private static boolean getClientHTML( final RelayRequest request, String script )
 	{
 		if ( KoLmafiaASH.relayScriptMap.containsKey( script ) )
 		{
@@ -167,7 +167,7 @@ public abstract class KoLmafiaASH
 		return false;
 	}
 
-	private static final boolean getClientHTML( final RelayRequest request, final File toExecute )
+	private static boolean getClientHTML( final RelayRequest request, final File toExecute )
 	{
 		ScriptRuntime relayScript = KoLmafiaASH.getInterpreter( toExecute );
 		if ( relayScript == null )

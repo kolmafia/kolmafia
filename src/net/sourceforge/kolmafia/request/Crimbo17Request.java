@@ -49,7 +49,7 @@ public class Crimbo17Request
 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( Crimbo17Request.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( Crimbo17Request.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( Crimbo17Request.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( Crimbo17Request.master );
 	private static final Pattern CHEER_PATTERN = Pattern.compile( "([\\d,]+) crystalline cheer" );
 	public static final AdventureResult CHEER = ItemPool.get( ItemPool.CRYSTALLINE_CHEER, 1 );
 

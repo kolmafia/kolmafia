@@ -58,9 +58,9 @@ public class RaffleRequest
 		INVENTORY( "0" ),
 		STORAGE( "1" );
 
-		private String name;
+		private final String name;
 
-		private RaffleSource( String name )
+		RaffleSource( String name )
 		{
 			this.name = name;
 		}

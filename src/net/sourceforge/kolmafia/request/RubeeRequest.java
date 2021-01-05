@@ -60,7 +60,7 @@ public class RubeeRequest
 	public static final String master = "FantasyRealm Rubee&trade; Store";
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems(RubeeRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices(RubeeRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows(RubeeRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows(RubeeRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) Rubees&trade;" );
 	public static final AdventureResult COIN = ItemPool.get( ItemPool.RUBEE, 1 );

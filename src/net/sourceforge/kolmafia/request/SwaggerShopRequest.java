@@ -134,9 +134,9 @@ public class SwaggerShopRequest
 		String currentPVPSeason = Preferences.getString( "currentPVPSeason" );
 		Season season = nameToSeason.get( currentPVPSeason );
 		currentSeason = ( season == null ) ? Season.NONE : season;
-	};
+	}
 
-	public static final String master = "The Swagger Shop"; 
+    public static final String master = "The Swagger Shop";
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( SwaggerShopRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( SwaggerShopRequest.master );
 

@@ -115,9 +115,9 @@ public abstract class EncounterManager
 		{
 			return this.encounter;
 		}
-	};
+	}
 
-	private static Encounter[] specialEncounters;
+    private static Encounter[] specialEncounters;
 
 	static
 	{
@@ -208,13 +208,13 @@ public abstract class EncounterManager
 		return null;
 	}
 
-	private static final EncounterType encounterType( final String encounterName )
+	private static EncounterType encounterType( final String encounterName )
 	{
 		Encounter encounter = EncounterManager.findEncounter( encounterName );
 		return EncounterManager.encounterType( encounter, encounterName );
 	}
 
-	private static final EncounterType encounterType( final Encounter encounter, final String encounterName )
+	private static EncounterType encounterType( final Encounter encounter, final String encounterName )
 	{
 		return  encounter != null ?
 			encounter.encounterType :

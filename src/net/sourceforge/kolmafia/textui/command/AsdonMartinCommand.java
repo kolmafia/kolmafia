@@ -75,7 +75,7 @@ public class AsdonMartinCommand
 		this.usage = " drive style|clear, fuel [#] item name  - Get drive buff or convert items to fuel";
 	}
 
-	private static final int findDriveStyle( final String name )
+	private static int findDriveStyle( final String name )
 	{
 		for ( int i = 0; i < DRIVESTYLE.length; ++i )
 		{
@@ -88,7 +88,7 @@ public class AsdonMartinCommand
 		return -1;
 	}
 
-	private static final String driveStyleName( final int index )
+	private static String driveStyleName( final int index )
 	{
 		if ( index < 0 || index > 8 )
 		{
@@ -97,7 +97,7 @@ public class AsdonMartinCommand
 		return (String) DRIVESTYLE[index][0];
 	}
 
-	private static final int currentDriveStyle()
+	private static int currentDriveStyle()
 	{
 		List<AdventureResult> active = KoLConstants.activeEffects;
 		for ( int i = 0; i < DRIVESTYLE.length; ++i )

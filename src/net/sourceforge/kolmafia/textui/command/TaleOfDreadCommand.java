@@ -156,7 +156,7 @@ public class TaleOfDreadCommand
 		}
 
 		// This will redirect to choice.php
-		String storyURL = "choice.php?whichchoice=767&whichstory=" + String.valueOf( story );
+		String storyURL = "choice.php?whichchoice=767&whichstory=" + story;
 
 		if ( split.length > 2 && split[ 2 ].equals( "redirect" ) )
 		{

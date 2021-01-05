@@ -275,7 +275,7 @@ public class KoLDesktop
 		}
 	}
 
-	private static final boolean isInversionExempt( final GenericFrame content )
+	private static boolean isInversionExempt( final GenericFrame content )
 	{
 		return content instanceof AdventureFrame || content instanceof SendMessageFrame;
 	}
@@ -449,7 +449,7 @@ public class KoLDesktop
 	private class MemoryUsageMonitor
 		extends Thread
 	{
-		private PauseObject pauser;
+		private final PauseObject pauser;
 
 		public MemoryUsageMonitor()
 		{

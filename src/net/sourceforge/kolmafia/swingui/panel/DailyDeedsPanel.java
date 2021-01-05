@@ -300,7 +300,7 @@ public class DailyDeedsPanel
 		}
 	};
 
-	private static final int getVersion( String deed )
+	private static int getVersion( String deed )
 	{
 		// Add a method to return the proper version for the deed given.
 		// i.e. if ( deed.equals( "Breakfast" ) ) return 1;
@@ -1217,7 +1217,7 @@ public class DailyDeedsPanel
 	private static class InitialUpdateRunnable
 		implements Runnable
 	{
-		private Daily daily;
+		private final Daily daily;
 
 		public InitialUpdateRunnable( Daily daily )
 		{
@@ -1314,7 +1314,7 @@ public class DailyDeedsPanel
 			this.addComboButton( command, displaytext ).setToolTipText( tip );
 		}
 
-		public DisabledItemsComboBox addComboBox( String choice[], List<String> tooltips, String lengthString )
+		public DisabledItemsComboBox addComboBox( String[] choice, List<String> tooltips, String lengthString )
 		{
 			DisabledItemsComboBox comboBox = new DisabledItemsComboBox();
 			int ht = comboBox.getFontMetrics(comboBox.getFont()).getHeight() ;
@@ -3366,7 +3366,7 @@ public class DailyDeedsPanel
 			int noseDrops = Preferences.getInteger( "_carrotNoseDrops" );
 			if ( snowsuit || noseDrops > 0 )
 			{
-				addDropCounter( buffer, String.valueOf( noseDrops ) + " carrot nose" );
+				addDropCounter( buffer, noseDrops + " carrot nose" );
 			}
 
 			FamiliarData grinder = KoLCharacter.findFamiliar( FamiliarPool.GRINDER );
@@ -3403,7 +3403,7 @@ public class DailyDeedsPanel
 						need -= 5;
 					}
 				}
-				addition.append( String.valueOf( need ) );
+				addition.append( need );
 				addition.append( ")" );
 				addDropCounter( buffer, addition.toString() );
 			}
@@ -3412,7 +3412,7 @@ public class DailyDeedsPanel
 			int mediumSiphons = Preferences.getInteger( "_mediumSiphons" );
 			if ( ( hm != null && hm.canEquip() ) || mediumSiphons > 0 )
 			{
-				addDropCounter( buffer, String.valueOf( mediumSiphons ) + " siphon" + ( mediumSiphons != 1 ? "s" : "" ) );
+				addDropCounter( buffer, mediumSiphons + " siphon" + ( mediumSiphons != 1 ? "s" : "" ) );
 			}
 
 			FamiliarData boots = KoLCharacter.findFamiliar( FamiliarPool.BOOTS );
@@ -3820,7 +3820,7 @@ public class DailyDeedsPanel
 			if ( dun )
 			{
 				this.setText( "You have jumped into the ballpit today" );
-				button.setVisible( false );;
+				button.setVisible( false );
 				return;
 			}
 		}
@@ -4158,7 +4158,7 @@ public class DailyDeedsPanel
 	public static class DefectiveTokenDaily
 		extends Daily
 	{
-		private JButton button;
+		private final JButton button;
 
 		public DefectiveTokenDaily()
 		{
@@ -4209,7 +4209,7 @@ public class DailyDeedsPanel
 	public static class ChateauDeskDaily
 		extends Daily
 	{
-		private JButton button;
+		private final JButton button;
 
 		public ChateauDeskDaily()
 		{

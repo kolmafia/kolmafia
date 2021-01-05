@@ -709,7 +709,7 @@ public class AscensionSnapshot
 		return strbuf.toString();
 	}
 
-	private static final void initializeAscensionData()
+	private static void initializeAscensionData()
 	{
 		// If the ascension lists have already been initialized,
 		// then return from this method call.

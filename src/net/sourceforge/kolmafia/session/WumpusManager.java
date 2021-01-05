@@ -89,9 +89,9 @@ public abstract class WumpusManager
 				WumpusManager.rooms.put( name, new Room( name ) );
 			}
 		}
-	};
+	}
 
-	// Current room
+    // Current room
 	public static Room current;
 	public static Room last;
 
@@ -893,7 +893,7 @@ public abstract class WumpusManager
 		RelayLoader.openSystemBrowser( WumpusManager.getWumpinatorURL() );
 	}
 
-	private static final Room currentRoom()
+	private static Room currentRoom()
 	{
 		if ( WumpusManager.current != null )
 		{
@@ -906,12 +906,12 @@ public abstract class WumpusManager
 		return null;
 	}
 
-	private static final String getCurrentField()
+	private static String getCurrentField()
 	{
 		return WumpusManager.getCurrentField( WumpusManager.currentRoom() );
 	}
 
-	private static final String getCurrentField( final Room room )
+	private static String getCurrentField( final Room room )
 	{
 		if ( room == null )
 		{
@@ -920,14 +920,14 @@ public abstract class WumpusManager
 		return "&current=" + room.getCode();
 	}
 
-	private static final String getWumpinatorLink()
+	private static String getWumpinatorLink()
 	{
 		String code = WumpusManager.getWumpinatorCode();
 		String current = WumpusManager.getCurrentField();
 		return "<a href=http://www.feesher.com/wumpus/wump_map.php?mapstring=" + code + current + " target=_blank>View in Wumpinator</a>";
 	}
 
-	private static final String getWumpinatorMap()
+	private static String getWumpinatorMap()
 	{
 		String layout = WumpusManager.getLayout();
 		// If we can't generate a map, give a link to Wumpinator
@@ -1016,9 +1016,9 @@ public abstract class WumpusManager
 				buffer.append( exit == null ? "0" : exit.getCode() );
 			}
 			// Append Wumpinator hazard flags
-			buffer.append( String.valueOf( room.pit % 10 ) );
-			buffer.append( String.valueOf( room.bat % 10 ) );
-			buffer.append( String.valueOf( room.wumpus % 10 ) );
+			buffer.append( room.pit % 10 );
+			buffer.append( room.bat % 10 );
+			buffer.append( room.wumpus % 10 );
 		}
 
 		// Append pit groups
@@ -1143,7 +1143,7 @@ public abstract class WumpusManager
 	private static Room [] layout = new Room[20];
 	private final static String emptyLayout = "00000000000000000000";
 
-	private static final String getLayout()
+	private static String getLayout()
 	{
 		Room current = WumpusManager.currentRoom();
 		String layout = WumpusManager.getLayout( current );
@@ -1172,7 +1172,7 @@ public abstract class WumpusManager
 		return null;
 	}
 
-	private static final String getLayout( final Room room )
+	private static String getLayout( final Room room )
 	{
 		// Initialize layout
 		Arrays.fill( layout, null );
@@ -1192,7 +1192,7 @@ public abstract class WumpusManager
 		return string;
 	}
 
-	private static final boolean addRoom( final int node, final Room room )
+	private static boolean addRoom( final int node, final Room room )
 	{
 		// Attempt to add a room at a particular node
 		if ( layout[ node ] != null )

@@ -283,8 +283,8 @@ public abstract class BasicScope
 		return null;
 	}
 
-	private final Function findFunction( final Function[] functions, boolean library, String name,
-					     final List<Value> params, MatchType match, boolean vararg )
+	private Function findFunction( final Function[] functions, boolean library, String name,
+                                   final List<Value> params, MatchType match, boolean vararg )
 	{
 		// Search the function list for a match
 		for ( Function function : functions )
@@ -356,7 +356,7 @@ public abstract class BasicScope
 		return null;
 	}
 
-	private final Function findVarargClash( BasicScope scope, final UserDefinedFunction f, final Function[] functions )
+	private Function findVarargClash( BasicScope scope, final UserDefinedFunction f, final Function[] functions )
 	{
 		for ( Function function : functions )
 		{

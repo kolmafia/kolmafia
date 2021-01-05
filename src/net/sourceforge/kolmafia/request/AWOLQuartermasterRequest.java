@@ -126,18 +126,18 @@ public class AWOLQuartermasterRequest
 	@Override
 	public void processResults()
 	{
-		AWOLQuartermasterRequest.parseResponse( this.getURLString(), this.responseText );
+		AWOLQuartermasterRequest.parseResponse( this.responseText );
 	}
 
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "sigils/aol(\\d+).gif" );
-	public static void parseResponse( String location, final String responseText )
+	public static void parseResponse( final String responseText )
 	{
 		if ( AWOLQuartermasterRequest.lastURL == null )
 		{
 			return;
 		}
 
-		location = AWOLQuartermasterRequest.lastURL;
+		String location = AWOLQuartermasterRequest.lastURL;
 		AWOLQuartermasterRequest.lastURL = null;
 
 		CoinmasterData data = AWOLQuartermasterRequest.AWOL;

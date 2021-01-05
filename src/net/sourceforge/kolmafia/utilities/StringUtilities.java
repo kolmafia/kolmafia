@@ -38,6 +38,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
@@ -75,7 +76,7 @@ public class StringUtilities
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat( "EEE, dd MMM yyyy HH:mm:ss zzz" );
 	static {
 		DATE_FORMAT.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
-	};
+	}
 
 	public static synchronized final long parseDate( final String dateString )
 	{
@@ -239,16 +240,9 @@ public class StringUtilities
 
 		if ( encodedURL == null )
 		{
-			try
-			{
-				encodedURL = URLEncoder.encode( url, "UTF-8" );
-			}
-			catch ( UnsupportedEncodingException e )
-			{
-				encodedURL = url;
-			}
+            encodedURL = URLEncoder.encode( url, StandardCharsets.UTF_8 );
 
-			StringUtilities.urlEncodeCache.put( url, encodedURL );
+            StringUtilities.urlEncodeCache.put( url, encodedURL );
 		}
 
 		return encodedURL;
@@ -269,16 +263,9 @@ public class StringUtilities
 
 		if ( encodedURL == null )
 		{
-			try
-			{
-				encodedURL = URLDecoder.decode( url, "UTF-8" );
-			}
-			catch ( UnsupportedEncodingException e )
-			{
-				encodedURL = url;
-			}
+            encodedURL = URLDecoder.decode( url, StandardCharsets.UTF_8 );
 
-			StringUtilities.urlDecodeCache.put( url, encodedURL );
+            StringUtilities.urlDecodeCache.put( url, encodedURL );
 		}
 
 		return encodedURL;
@@ -446,7 +433,7 @@ public class StringUtilities
 		return matchList;
 	}
 
-	private static final int stringHash( final String s )
+	private static int stringHash( final String s )
 	{
 		int hash = 0;
 		for ( int i = s.length() - 1; i >= 0; --i )
@@ -498,8 +485,8 @@ public class StringUtilities
 		return StringUtilities.fuzzyMatches( sourceString, searchString, -1, -1 );
 	}
 
-	private static final boolean fuzzyMatches( final String sourceString, final String searchString,
-		final int lastSourceIndex, final int lastSearchIndex )
+	private static boolean fuzzyMatches( final String sourceString, final String searchString,
+                                         final int lastSourceIndex, final int lastSearchIndex )
 	{
 		int maxSearchIndex = searchString.length() - 1;
 
@@ -547,7 +534,7 @@ public class StringUtilities
 		return false;
 	}
 	
-	private static final boolean isWordBoundary( char ch )
+	private static boolean isWordBoundary( char ch )
 	{
 		return ch != '#' && !Character.isLetterOrDigit( ch );
 	}

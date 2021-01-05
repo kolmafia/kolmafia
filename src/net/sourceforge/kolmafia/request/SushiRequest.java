@@ -211,9 +211,9 @@ public class SushiRequest
 		{
 			CANONICAL_SUSHI[ i ] = StringUtilities.getCanonicalName( SUSHI[ i ] );
 		}
-	};
+	}
 
-	public static String isSushiName( final String name )
+    public static String isSushiName( final String name )
 	{
 		String canonical = StringUtilities.getCanonicalName( name );
 		for ( int i = 0; i < CANONICAL_SUSHI.length; ++i )

@@ -100,7 +100,8 @@ public class TrophyFrame
 	public static class TrophyArrangePanel
 		extends JPanel
 	{
-		private TrophyPanel shownList, hiddenList;
+		private final TrophyPanel shownList;
+        private final TrophyPanel hiddenList;
 
 		public TrophyArrangePanel()
 		{
@@ -205,7 +206,7 @@ public class TrophyFrame
 		extends JPanel
 		implements LayoutManager, DropTargetListener
 	{
-		private boolean shown;
+		private final boolean shown;
 		private static TrophyPanel sourceList = null;
 		private static DraggableTrophy source = null;
 		private int destIndex = -1;

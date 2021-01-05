@@ -59,7 +59,7 @@ public class DripArmoryRequest
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) Driplet" );
 	public static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( DripArmoryRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( DripArmoryRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( DripArmoryRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( DripArmoryRequest.master );
 
 	public static final CoinmasterData DRIP_ARMORY =
 		new CoinmasterData(

@@ -80,7 +80,7 @@ public abstract class TopMenuDecorator
 		StringUtilities.singleStringReplace( buffer, "logout.php", "/KoLmafia/logout?pwd=" + GenericRequest.passwordHash );
 	}
 
-	private static final void addFancyScriptMenus( final StringBuffer buffer, final String location )
+	private static void addFancyScriptMenus( final StringBuffer buffer, final String location )
 	{
 		int index = buffer.lastIndexOf( "<div id=\"awesome\"" );
 		if ( index == -1 )
@@ -107,7 +107,7 @@ public abstract class TopMenuDecorator
 		buffer.insert( index, menuBuffer.toString() );
 	}
 
-	private static final void addScriptMenus( final StringBuffer buffer, final String location )
+	private static void addScriptMenus( final StringBuffer buffer, final String location )
 	{
 		int index = buffer.lastIndexOf( "</tr>" );
 		if ( index == -1 )
@@ -136,7 +136,7 @@ public abstract class TopMenuDecorator
 		buffer.insert( index, menuBuffer.toString() );
 	}
 
-	private static final void addQuickScriptsMenu( final StringBuilder buffer )
+	private static void addQuickScriptsMenu( final StringBuilder buffer )
 	{
 		if ( !Preferences.getBoolean( "relayAddsQuickScripts" ) )
 		{
@@ -177,7 +177,7 @@ public abstract class TopMenuDecorator
 		buffer.append( "</tr>" );
 	}
 
-	private static final void addRelayScriptsMenu( final StringBuilder buffer, final String location )
+	private static void addRelayScriptsMenu( final StringBuilder buffer, final String location )
 	{
 		buffer.append( "<tr>" );
 
@@ -194,7 +194,7 @@ public abstract class TopMenuDecorator
 		buffer.append( "</tr>" );
 	}
 
-	private static final void adjustCompactMenu( final StringBuffer buffer )
+	private static void adjustCompactMenu( final StringBuffer buffer )
 	{
 		TopMenuDecorator.mafiatizeFunctionMenu( buffer );
 		TopMenuDecorator.mafiatizeGotoMenu( buffer );
@@ -207,7 +207,7 @@ public abstract class TopMenuDecorator
 	}
 
 	private static final Pattern FUNCTION_MENU_PATTERN = Pattern.compile( "(<select name=\"loc\".*?)</select>", Pattern.DOTALL );
-	private static final void mafiatizeFunctionMenu( final StringBuffer buffer )
+	private static void mafiatizeFunctionMenu( final StringBuffer buffer )
 	{
 		Matcher menuMatcher = TopMenuDecorator.FUNCTION_MENU_PATTERN.matcher( buffer.toString() );
 		if ( !menuMatcher.find() )
@@ -227,7 +227,7 @@ public abstract class TopMenuDecorator
 	}
 
 	private static final Pattern GOTO_MENU_PATTERN = Pattern.compile( "(<select name=location.*?)</select>", Pattern.DOTALL );
-	private static final void mafiatizeGotoMenu( final StringBuffer buffer )
+	private static void mafiatizeGotoMenu( final StringBuffer buffer )
 	{
 		Matcher menuMatcher = TopMenuDecorator.GOTO_MENU_PATTERN.matcher( buffer.toString() );
 		if ( !menuMatcher.find() )

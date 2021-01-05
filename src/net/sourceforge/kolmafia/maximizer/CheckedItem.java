@@ -276,7 +276,7 @@ public class CheckedItem
 		}
 	}
 
-	private static final int limitBuyable( final int itemId )
+	private static int limitBuyable( final int itemId )
 	{
 		switch ( itemId )
 		{

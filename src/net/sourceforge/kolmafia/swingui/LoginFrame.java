@@ -194,7 +194,7 @@ public class LoginFrame
 	private class LoginPanel
 		extends GenericPanel
 	{
-		private LoginNameComboBox usernameField;
+		private final LoginNameComboBox usernameField;
 		private final JPasswordField passwordField;
 
 		private final JCheckBox stealthLoginCheckBox;
@@ -516,12 +516,12 @@ public class LoginFrame
 	private class ProxyOptionsPanel
 		extends LabeledPanel
 	{
-		private String protocol;
+		private final String protocol;
 
-		private AutoHighlightTextField proxyHost;
-		private AutoHighlightTextField proxyPort;
-		private AutoHighlightTextField proxyLogin;
-		private AutoHighlightTextField proxyPassword;
+		private final AutoHighlightTextField proxyHost;
+		private final AutoHighlightTextField proxyPort;
+		private final AutoHighlightTextField proxyLogin;
+		private final AutoHighlightTextField proxyPassword;
 
 		/**
 		 * Constructs a new <code>ProxyOptionsPanel</code>, containing a place for the users to select their desired

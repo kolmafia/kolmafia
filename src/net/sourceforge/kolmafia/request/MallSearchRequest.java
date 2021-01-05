@@ -75,7 +75,7 @@ public class MallSearchRequest
 	private static final Pattern ITERATION_PATTERN = Pattern.compile( "\\(Items (\\d+)-(\\d+) of (\\d+)\\)" );
 
 	private String searchString;
-	private int storeId;
+	private final int storeId;
 	private List<PurchaseRequest> results;
 	private final boolean retainAll;
 

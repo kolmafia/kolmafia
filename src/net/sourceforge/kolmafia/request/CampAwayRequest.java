@@ -242,9 +242,9 @@ public class CampAwayRequest
 		cloudLetters.put( "plussign.png", '+' );
 		cloudLetters.put( "poundsign.png", '#' );
 		cloudLetters.put( "question.png", '?' );
-	};
+	}
 
-	// <small>Smoked by <a href="showplayer.php?who=550986">Croft</a></small>
+    // <small>Smoked by <a href="showplayer.php?who=550986">Croft</a></small>
 	private static final Pattern CLOUD_TALKER_PATTERN = Pattern.compile( "<small>Smoked by .*?who=(\\d+)\">(.*?)</a></small>" );
 
 	public static final void parseCloudTalk( final String responseText )

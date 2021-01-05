@@ -53,7 +53,7 @@ public class ThankShopRequest
 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems( ThankShopRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices( ThankShopRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( ThankShopRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( ThankShopRequest.master );
 	private static final Pattern CASHEW_PATTERN = Pattern.compile( "([\\d,]+) cashews" );
 	public static final AdventureResult CASHEW = ItemPool.get( ItemPool.CASHEW, 1 );
 

@@ -161,7 +161,7 @@ public class EffectDatabase
 		EffectDatabase.effectIdSetByName.put( canonicalName, newSet );
 	}
 
-	private static final int parseQuality(final String quality)
+	private static int parseQuality( final String quality)
  	{
 		switch ( quality ) {
 			case "good":
@@ -173,7 +173,7 @@ public class EffectDatabase
 		}
 	}
 
-	private static final String describeQuality( final Integer quality )
+	private static String describeQuality( final Integer quality )
 	{
 		switch ( quality ) {
 			case EffectDatabase.GOOD:
@@ -187,8 +187,8 @@ public class EffectDatabase
  		}
 	}
 
-	private static final void addToDatabase(final Integer effectId, final String name, final String image,
-		final String descriptionId, final String quality, final String attributes, final String defaultAction)
+	private static void addToDatabase( final Integer effectId, final String name, final String image,
+                                       final String descriptionId, final String quality, final String attributes, final String defaultAction)
 	{
 		String canonicalName = StringUtilities.getCanonicalName( name );
 		EffectDatabase.nameById.put( effectId, name );

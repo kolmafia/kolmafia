@@ -362,7 +362,7 @@ public class CharPaneRequest
 	// <td align=right>Karma:</td><td align=left><b>122</b></td>
 	public static final Pattern KARMA_PATTERN_COMPACT = Pattern.compile( "Karma:.*?<b>([^<]*)</b>" );
 
-	private static final void processValhallaCharacterPane( final String responseText )
+	private static void processValhallaCharacterPane( final String responseText )
 	{
 		// We are in Valhalla
 		CharPaneRequest.inValhalla = true;
@@ -398,7 +398,7 @@ public class CharPaneRequest
 	}
 
 	public static final Pattern TURNS_THIS_RUN_PATTERN = Pattern.compile( "var turnsthisrun = (\\d*);" );
-	private static final int parseTurnsThisRun( final String responseText )
+	private static int parseTurnsThisRun( final String responseText )
 	{
 		Matcher matcher = CharPaneRequest.TURNS_THIS_RUN_PATTERN.matcher( responseText );
 		if ( matcher.find() )
@@ -410,7 +410,7 @@ public class CharPaneRequest
 	}
 
 	public static final Pattern TURNS_PLAYED_PATTERN = Pattern.compile( "var turnsplayed = (\\d*);" );
-	private static final int parseTurnsPlayed( final String responseText )
+	private static int parseTurnsPlayed( final String responseText )
 	{
 		Matcher matcher = CharPaneRequest.TURNS_PLAYED_PATTERN.matcher( responseText );
 		if ( matcher.find() )
@@ -421,7 +421,7 @@ public class CharPaneRequest
 		return -1;
 	}
 
-	private static final boolean checkInteraction()
+	private static boolean checkInteraction()
 	{
 		// If he's freed the king, that's good enough
 		if ( KoLCharacter.kingLiberated() )
@@ -463,7 +463,7 @@ public class CharPaneRequest
 		return false;
 	}
 
-	private static final void handleCompactMode( final String responseText )
+	private static void handleCompactMode( final String responseText )
 	{
 		try
 		{
@@ -504,7 +504,7 @@ public class CharPaneRequest
 		// we have to track it manually, anyway
 	}
 
-	private static final void handleExpandedMode( final String responseText )
+	private static void handleExpandedMode( final String responseText )
 	{
 		try
 		{
@@ -544,7 +544,7 @@ public class CharPaneRequest
 		// we have to track it manually, anyway
 	}
 
-	private static final Pattern makeStatPattern( final String musString, final String mysString, final String moxString )
+	private static Pattern makeStatPattern( final String musString, final String mysString, final String moxString )
 	{
 		return Pattern.compile( ">" + musString + ".*?<b>(.*?)</b>.*?>" + mysString + ".*?<b>(.*?)</b>.*?>" + moxString + ".*?<b>(.*?)</b>" );
 	}
@@ -557,7 +557,7 @@ public class CharPaneRequest
 	private static final Pattern modifiedPattern =
 		Pattern.compile( "<font color=(?:red|blue)>(\\d+)</font>&nbsp;\\((\\d+)\\)" );
 
-	private static final void handleStatPoints( final String responseText, final Pattern pattern )
+	private static void handleStatPoints( final String responseText, final Pattern pattern )
 		throws Exception
 	{
 		Matcher statMatcher = pattern.matcher( responseText );
@@ -610,7 +610,7 @@ public class CharPaneRequest
 		                            baseMox );
 	}
 
-	private static final long checkStat( long currentSubstat, final int baseStat )
+	private static long checkStat( long currentSubstat, final int baseStat )
 	{
 		if ( currentSubstat < KoLCharacter.calculatePointSubpoints( baseStat ) )
 		{
@@ -679,7 +679,7 @@ public class CharPaneRequest
 	private static final int MEAT = 2;
 	private static final int ADV = 3;
 
-	private static final void handleMiscPoints( final String responseText, final Pattern [] patterns )
+	private static void handleMiscPoints( final String responseText, final Pattern [] patterns )
 		throws Exception
 	{
 		// Health and all that good stuff is complicated, has nested
@@ -841,7 +841,7 @@ public class CharPaneRequest
 
 	}
 
-	private static final void handleMindControl( final String text, final Pattern [] patterns )
+	private static void handleMindControl( final String text, final Pattern [] patterns )
 	{
 		for ( int i = 0; i < patterns.length; ++i )
 		{
@@ -856,7 +856,7 @@ public class CharPaneRequest
 		KoLCharacter.setMindControlLevel( 0 );
 	}
 
-	private static final Pattern makeMCPattern( final String mcString )
+	private static Pattern makeMCPattern( final String mcString )
 	{
 		return Pattern.compile( mcString + "</a>: ?(?:</td><td>)?<b>(\\d+)</b>" );
 	}
@@ -877,13 +877,13 @@ public class CharPaneRequest
 		CharPaneRequest.makeMCPattern( "Heartbreaker's" ),
 	};
 
-	private static final int handleMindControl( final String responseText, final Pattern pattern )
+	private static int handleMindControl( final String responseText, final Pattern pattern )
 	{
 		Matcher matcher = pattern.matcher( responseText );
 		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
 	}
 
-	private static final Pattern makeConsumptionPattern( final String consumptionString )
+	private static Pattern makeConsumptionPattern( final String consumptionString )
 	{
 		return Pattern.compile( consumptionString + ":</span></td><td(?: align=left)?><b><span class=\"(?:blur.)?\">(\\d+) / (\\d+)</span>" );
 	}
@@ -901,13 +901,13 @@ public class CharPaneRequest
 		CharPaneRequest.makeConsumptionPattern( "Tipsiness" ),
 	};
 
-	private static final int handleConsumption( final String responseText, final Pattern pattern )
+	private static int handleConsumption( final String responseText, final Pattern pattern )
 	{
 		Matcher matcher = pattern.matcher( responseText );
 		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
 	}
 
-	private static final void handleInebriety( final String text, final Pattern [] patterns )
+	private static void handleInebriety( final String text, final Pattern [] patterns )
 	{
 		for ( int i = 0; i < patterns.length; ++i )
 		{
@@ -994,7 +994,7 @@ public class CharPaneRequest
 		return EffectPool.get( effectId, duration );
 	}
 
-	private static final void refreshEffects( final String responseText )
+	private static void refreshEffects( final String responseText )
 	{
 		int searchIndex = 0;
 		int onClickIndex = 0;
@@ -1045,7 +1045,7 @@ public class CharPaneRequest
 		CharPaneRequest.checkChilledToTheBone();
 	}
 
-	private static final void checkChilledToTheBone()
+	private static void checkChilledToTheBone()
 	{
 		// Update chilled to the bone - consequences.txt should populate it from description
 		int chilledCount = CharPaneRequest.CHILLED_TO_THE_BONE.getCount( KoLConstants.activeEffects );
@@ -1069,7 +1069,7 @@ public class CharPaneRequest
 	private static final Pattern expandedLastAdventurePattern =
 		Pattern.compile( "<a .*?href=\"([^\"]*)\"[^>]*>Last Adventure:</a>.*?<a .*?href=\"([^\"]*)\">([^<]*)</a>.*?</table>" );
 
-	private static final void setLastAdventure( final String responseText )
+	private static void setLastAdventure( final String responseText )
 	{
 		if ( ChoiceManager.handlingChoice || FightRequest.currentRound != 0 || FightRequest.inMultiFight || FightRequest.choiceFollowsFight )
 		{
@@ -1107,7 +1107,7 @@ public class CharPaneRequest
 		CharPaneRequest.setLastAdventure( "", adventureName, adventureURL, container );
 	}
 
-	private static final void setLastAdventure( final String adventureId, final String adventureName, final String adventureURL, final String container )
+	private static void setLastAdventure( final String adventureId, final String adventureName, final String adventureURL, final String container )
 	{
 		if ( ChoiceManager.handlingChoice || FightRequest.currentRound != 0 || FightRequest.inMultiFight || FightRequest.choiceFollowsFight )
 		{
@@ -1142,7 +1142,7 @@ public class CharPaneRequest
 		Pattern.compile( "<a.*?class=\"familiarpick\"><img.*?((?:item|other)images)/(.*?\\.(?:gif|png))" );
 	private static final AdventureResult somePigs = EffectPool.get( EffectPool.SOME_PIGS );
 
-	private static final void checkFamiliar( final String responseText )
+	private static void checkFamiliar( final String responseText )
 	{
 		if ( KoLConstants.activeEffects.contains( CharPaneRequest.somePigs ) )
 		{
@@ -1198,7 +1198,7 @@ public class CharPaneRequest
 	public static AdventureResult CRUMHORN = ItemPool.get( ItemPool.CLANCY_CRUMHORN, 1 );
 	public static AdventureResult LUTE = ItemPool.get( ItemPool.CLANCY_LUTE, 1 );
 
-	private static final void checkClancy( final String responseText )
+	private static void checkClancy( final String responseText )
 	{
 		Pattern pattern = CharPaneRequest.compactCharacterPane ?
 			CharPaneRequest.compactClancyPattern :
@@ -1223,7 +1223,7 @@ public class CharPaneRequest
 	private static final Pattern expandedServantPattern =
 		Pattern.compile(  "<b>Servant:</b>.*?target=\"mainpane\">(.*?) the (\\d+) level.*?edserv(\\d+).gif" , Pattern.DOTALL );
 
-	private static final void checkServant( final String responseText )
+	private static void checkServant( final String responseText )
 	{
 		Pattern pattern = CharPaneRequest.compactCharacterPane ?
 			CharPaneRequest.compactServantPattern :
@@ -1237,7 +1237,7 @@ public class CharPaneRequest
 
 	private static final Pattern PokeFamPattern = Pattern.compile( "img align=\"absmiddle\" src=http://images.kingdomofloathing.com/itemimages/(.*?)>&nbsp;(.*?) \\(Lvl (\\d+)\\)" , Pattern.DOTALL );
 
-	private static final void checkPokeFam( final String responseText )
+	private static void checkPokeFam( final String responseText )
 	{
 		Matcher PokeFamMatcher = CharPaneRequest.PokeFamPattern.matcher( responseText );
 		for ( int i = 0 ; i < 3 ; i++ )
@@ -1279,7 +1279,7 @@ public class CharPaneRequest
 		private final String name;
 		private final String image;
 
-		private Companion( String name, String image )
+		Companion( String name, String image )
 		{
 			this.name = name;
 			this.image = image;
@@ -1297,7 +1297,7 @@ public class CharPaneRequest
 		}
 	}
 
-	private static final void checkCompanion( final String responseText )
+	private static void checkCompanion( final String responseText )
 	{
 		if ( responseText.contains( "the Eggman" ) )
 		{
@@ -1325,7 +1325,7 @@ public class CharPaneRequest
 	private static final Pattern VYKEACompanionPattern =
 		Pattern.compile( "<b>VYKEA Companion</b></font><br><font size=2>(.*?)<br>", Pattern.DOTALL );
 
-	private static final void checkVYKEACompanion( final String responseText )
+	private static void checkVYKEACompanion( final String responseText )
 	{
 		// Since you can't change companions once you have built one,
 		// no need to parse the charpane if we know the companion.
@@ -1345,7 +1345,7 @@ public class CharPaneRequest
 	private static final Pattern pastaThrallPattern =
 		Pattern.compile( "desc_guardian.php.*?itemimages/(.*?.gif).*?<b>(.*?)</b>.*?the Lvl. (\\d+) (.*?)</font>", Pattern.DOTALL );
 
-	private static final void checkPastaThrall( final String responseText )
+	private static void checkPastaThrall( final String responseText )
 	{
 		if ( KoLCharacter.getClassType() != KoLCharacter.PASTAMANCER )
 		{
@@ -1375,7 +1375,7 @@ public class CharPaneRequest
 	private static final Pattern radSicknessPattern =
 		Pattern.compile( "Rad(?:iation| Sickness):</td><td align=left><b><font color=black><span alt=\"-(\\d+) to All Stats" );
 
-	private static final void checkRadSickness( final String responseText )
+	private static void checkRadSickness( final String responseText )
 	{
 		if ( !KoLCharacter.inNuclearAutumn() )
 		{
@@ -1396,7 +1396,7 @@ public class CharPaneRequest
 	private static final Pattern fantasyRealmPattern =
 		Pattern.compile( "G. E. M.<br>(\\d+) hour(|s) remaining" );
 
-	private static final void checkFantasyRealmHours( final String responseText )
+	private static void checkFantasyRealmHours( final String responseText )
 	{
 		if ( !KoLCharacter.hasEquipped( ItemPool.FANTASY_REALM_GEM ) )
 		{
@@ -1411,7 +1411,7 @@ public class CharPaneRequest
 		}
 	}
 
-	private static final void checkAbsorbs( final String responseText )
+	private static void checkAbsorbs( final String responseText )
 	{
 		if ( !KoLCharacter.inNoobcore() )
 		{
@@ -1475,7 +1475,7 @@ public class CharPaneRequest
 
 	private static final Pattern disguisePattern = Pattern.compile( "masks/mask(\\d+).png" );
 
-	private static final void checkMask( final String responseText )
+	private static void checkMask( final String responseText )
 	{
 		if ( !KoLCharacter.inDisguise() )
 		{
@@ -1608,7 +1608,7 @@ public class CharPaneRequest
 	private static final Pattern commaPattern =
 		Pattern.compile( "pound (.*?), Chameleon", Pattern.DOTALL );
 
-	private static final void checkComma( final String responseText )
+	private static void checkComma( final String responseText )
 	{
 		Pattern pattern = CharPaneRequest.commaPattern;
 		Matcher commaMatcher = pattern.matcher( responseText );
@@ -1634,7 +1634,7 @@ public class CharPaneRequest
 	private static final Pattern mediumPattern =
 		Pattern.compile( "images/medium_([0123]).gif", Pattern.DOTALL );
 
-	private static final void checkMedium( final String responseText )
+	private static void checkMedium( final String responseText )
 	{
 		Pattern pattern = CharPaneRequest.mediumPattern;
 		Matcher mediumMatcher = pattern.matcher( responseText );
@@ -1667,7 +1667,7 @@ public class CharPaneRequest
 	private static final Pattern snowsuitPattern =
 		Pattern.compile( "snowface([1-5]).gif" );
 
-	private static final void checkSnowsuit( final String responseText )
+	private static void checkSnowsuit( final String responseText )
 	{
 		Matcher matcher = CharPaneRequest.snowsuitPattern.matcher( responseText );
 		if ( matcher.find() )
@@ -1885,7 +1885,7 @@ public class CharPaneRequest
 		}
 	}
 
-	private static final void refreshEffects( final JSONObject JSON )
+	private static void refreshEffects( final JSONObject JSON )
 		throws JSONException
 	{
 		ArrayList<AdventureResult> visibleEffects = new ArrayList<AdventureResult>();

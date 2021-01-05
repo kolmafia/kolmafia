@@ -54,7 +54,7 @@ public abstract class LouvreManager
 	//  http://i224.photobucket.com/albums/dd259/abeaS_oyR/kollouvre.jpg
 
 	// The various locations within the LouvreManager
-	private static final String LouvreLocationNames [] =
+	private static final String[] LouvreLocationNames =
 	{
 		"Relativity", // 904
 		"The Persistence of Memory: shoes/Dancin' Fool (buff), Venus, Piet Mondrian", // 905
@@ -68,7 +68,7 @@ public abstract class LouvreManager
 		"The Last Supper: Relativity, Persistence of Memory, Pinot Renoir", // 913
 	};
 
-	private static final String LouvreShortLocationNames [] =
+	private static final String[] LouvreShortLocationNames =
 	{
 		"Relativity",			// 904
 		"The Persistence of Memory",	// 905
@@ -84,7 +84,7 @@ public abstract class LouvreManager
 
 	// 0 = 92, 93, 94, or 95
 
-	private static final int LouvreLocationExits [][] =
+	private static final int[][] LouvreLocationExits =
 	{
 		{ 0, 0, 0 },			// 904
 		{ 7, 908, 906 },		// 905
@@ -98,7 +98,7 @@ public abstract class LouvreManager
 		{ 904, 905, 3 },		// 913
 	};
 
-	public static final String LouvreGoals [] =
+	public static final String[] LouvreGoals =
 	{
 		"Manetwich",
 		"bottle of Vangoghbitussin",
@@ -111,7 +111,7 @@ public abstract class LouvreManager
 		"Is This Your Card? (buff)",
 	};
 
-	public static final AdventureResult LouvreGoalItems[] =
+	public static final AdventureResult[] LouvreGoalItems =
 	{
 		ItemPool.get( ItemPool.MANETWICH, 1 ),
 		ItemPool.get( ItemPool.VANGOGHBITUSSIN, 1 ),
@@ -119,7 +119,7 @@ public abstract class LouvreManager
 	};
 
 	// Identifying strings from the response text
-	public static final String LouvreGoalStrings [] =
+	public static final String[] LouvreGoalStrings =
 	{
 		"Manetwich",
 		"bottle of Vangoghbitussin",
@@ -141,7 +141,7 @@ public abstract class LouvreManager
 	// 1 - 9	A goal
 	// X		A destination
 
-	private static final int[] choiceTuple( final int source )
+	private static int[] choiceTuple( final int source )
 	{
 		if ( !LouvreManager.louvreChoice( source ) )
 		{
@@ -212,7 +212,7 @@ public abstract class LouvreManager
 		}
 	}
 
-	private static final String currentGoalString()
+	private static String currentGoalString()
 	{
 		LouvreManager.resetDecisions();
 		int goal = Preferences.getInteger( "louvreGoal" );
@@ -261,9 +261,9 @@ public abstract class LouvreManager
 	}
 
 	// Node marking to prevent loops
-	private static final boolean NodeMarks[] = new boolean[ LouvreManager.LAST_CHOICE - LouvreManager.FIRST_CHOICE + 1 ];
+	private static final boolean[] NodeMarks = new boolean[ LouvreManager.LAST_CHOICE - LouvreManager.FIRST_CHOICE + 1 ];
 
-	private static final String pickNewExit( final int source, final int goal )
+	private static String pickNewExit( final int source, final int goal )
 	{
 		// Examine destinations and take shortest known path to goal
 		int[] choices = LouvreManager.choiceTuple( source );
@@ -291,7 +291,7 @@ public abstract class LouvreManager
 		return String.valueOf( choice + 1 );
 	}
 
-	private static final int hopsTo( int hops, final int source, int destination, final int goal )
+	private static int hopsTo( int hops, final int source, int destination, final int goal )
 	{
 		if ( destination == 0 )
 		{
@@ -360,14 +360,14 @@ public abstract class LouvreManager
 
 		// The choice option is the first element
 		result[ 0 ] = new String[ 1 ];
-		result[ 0 ][ 0 ] = "choiceAdventure" + String.valueOf( choice );
+		result[ 0 ][ 0 ] = "choiceAdventure" + choice;
 
 		// The name of the choice is second element
 		result[ 1 ] = new String[ 1 ];
 		result[ 1 ][ 0 ] = LouvreManager.LouvreLocationNames[ choice - LouvreManager.FIRST_CHOICE ];
 
 		// An array of choice spoilers is the third element
-		int choices[] = LouvreManager.choiceTuple( choice );
+		int[] choices = LouvreManager.choiceTuple( choice );
 		result[ 2 ] = new String[ 3 ];
 		result[ 2 ][ 0 ] = LouvreManager.choiceName( choices[ 0 ] );
 		result[ 2 ][ 1 ] = LouvreManager.choiceName( choices[ 1 ] );
@@ -387,7 +387,7 @@ public abstract class LouvreManager
 		return "Louvre It or Leave It (" + name + ")";
 	}
 
-	private static final String choiceName( final int destination )
+	private static String choiceName( final int destination )
 	{
 		switch ( destination )
 		{

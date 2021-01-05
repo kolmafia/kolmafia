@@ -107,7 +107,7 @@ public class NemesisDecorator
 		// See if this monster has a dance move worth studying
 		for ( int i = 0; i < NemesisDecorator.SPECIAL_MOVES.length; ++i )
 		{
-			String moves[] = NemesisDecorator.SPECIAL_MOVES[ i ];
+			String[] moves = NemesisDecorator.SPECIAL_MOVES[ i ];
 			if ( monster.equalsIgnoreCase( moves[0] ) )
 			{
 				setting = moves[ 2 ];
@@ -144,11 +144,11 @@ public class NemesisDecorator
 		Preferences.increment( setting, 1 );
 	}
 
-	private static final String [] findRaver( final String monster )
+	private static String [] findRaver( final String monster )
 	{
 		for ( int i = 0; i < NemesisDecorator.SPECIAL_MOVES.length; ++i )
 		{
-			String moves[] = NemesisDecorator.SPECIAL_MOVES[ i ];
+			String[] moves = NemesisDecorator.SPECIAL_MOVES[ i ];
 			if ( monster.equalsIgnoreCase( moves[0] ) )
 			{
 				return moves;
@@ -167,7 +167,7 @@ public class NemesisDecorator
 	public static final String danceMoveStatus( final String monster )
 	{
 		NemesisManager.ensureUpdatedNemesisStatus();
-		String moves[] = NemesisDecorator.findRaver( monster );
+		String[] moves = NemesisDecorator.findRaver( monster );
 		if ( moves != null )
 		{
 			StringBuffer buffer = new StringBuffer();
@@ -200,7 +200,7 @@ public class NemesisDecorator
 		{
 			return;
 		}
-		String moves[] = NemesisDecorator.findRaver( monster.getName() );
+		String[] moves = NemesisDecorator.findRaver( monster.getName() );
 		if ( moves == null )
 		{
 			return;
@@ -231,7 +231,7 @@ public class NemesisDecorator
 		{
 			return false;
 		}
-		String moves[] = NemesisDecorator.findRaver( monster.getName() );
+		String[] moves = NemesisDecorator.findRaver( monster.getName() );
 		if ( moves == null )
 		{
 			return false;
@@ -247,7 +247,7 @@ public class NemesisDecorator
 		return false;
 	}
 
-	private static final void decorateMove( final StringBuffer buffer, final String move )
+	private static void decorateMove( final StringBuffer buffer, final String move )
 	{
 		StringUtilities.singleStringReplace( buffer, move, "<font color=#DD00FF>" + move + "</font>" );
 	}

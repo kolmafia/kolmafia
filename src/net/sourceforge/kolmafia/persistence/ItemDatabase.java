@@ -210,7 +210,7 @@ public class ItemDatabase
 		DISCARD_FLAG
 	);
 
-	private final static String parseAccess( final String data )
+	private static String parseAccess( final String data )
 	{
 		if ( data.equals( "" ) )
 		{
@@ -688,7 +688,7 @@ public class ItemDatabase
 		}
 	}
 
-	private static final void addPseudoItems()
+	private static void addPseudoItems()
 	{
 		Integer id = IntegerPool.get( 13 );
 
@@ -743,7 +743,7 @@ public class ItemDatabase
 		}
 	}
 
-	private static final void saveCanonicalNames()
+	private static void saveCanonicalNames()
 	{
 		String[] newArray = new String[ ItemDatabase.itemIdSetByName.size() ];
 		ItemDatabase.itemIdSetByName.keySet().toArray( newArray );
@@ -1276,7 +1276,7 @@ public class ItemDatabase
 		return ItemDatabase.getItemId( itemName, 1, false );
 	}
 
-	private static final int getBracketedItemId( final String itemName )
+	private static int getBracketedItemId( final String itemName )
 	{
 		if ( itemName.startsWith( "[" ) )
 		{
@@ -1719,19 +1719,19 @@ public class ItemDatabase
 		return ( location != null ) ? location : "debug.gif";
 	}
 
-	private static final String getItemImagePath( final int itemId )
+	private static String getItemImagePath( final int itemId )
 	{
 		String image = ItemDatabase.getItemImageLocation( itemId );
 		return image.contains( "/" ) ? image : ( "itemimages/" + image );
 	}
 
-	private static final void downloadItemImage( final int itemId )
+	private static void downloadItemImage( final int itemId )
 	{
 		String path = ItemDatabase.getItemImagePath( itemId );
 		ItemDatabase.downloadItemImage( path );
 	}
 
-	private static final void downloadItemImage( final String path )
+	private static void downloadItemImage( final String path )
 	{
 		FileUtilities.downloadImage( KoLmafia.imageServerPath() + path );
 	}

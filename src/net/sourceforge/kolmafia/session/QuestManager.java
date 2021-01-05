@@ -292,11 +292,11 @@ public class QuestManager
 		{
 			if ( location.contains( "whichitem=" + ItemPool.AWOL_COMMENDATION ) )
 			{
-				AWOLQuartermasterRequest.parseResponse( location, responseText );
+				AWOLQuartermasterRequest.parseResponse( responseText );
 			}
 			else if ( location.contains( "whichitem=" + ItemPool.BURT ) )
 			{
-				BURTRequest.parseResponse( location, responseText );
+				BURTRequest.parseResponse( responseText );
 			}
 		}
 		else if ( location.startsWith( "main" ) )
@@ -1277,7 +1277,7 @@ public class QuestManager
 		QuestDatabase.setQuestIfBetter( Quest.BAT, status );
 	}
 
-	private static final void handleSneakyPeteChange( final String responseText )
+	private static void handleSneakyPeteChange( final String responseText )
 	{
 		if ( responseText.contains( "You hand him your button and take his glowstick" ) )
 		{
@@ -1292,7 +1292,7 @@ public class QuestManager
 		}
 	}
 
-	private static final void handleTrickOrTreatingChange( final String responseText )
+	private static void handleTrickOrTreatingChange( final String responseText )
 	{
 		if ( responseText.contains( "pull the pumpkin off of your head" ) )
 		{
@@ -1316,7 +1316,7 @@ public class QuestManager
 		}
 	}
 
-	private static final void handleCell37( final String responseText )
+	private static void handleCell37( final String responseText )
 	{
 		if ( responseText.contains( "scientists should have a file on me" ) ||
 			responseText.contains( "Did you find that file yet" ) )
@@ -1373,7 +1373,7 @@ public class QuestManager
 		}
 	}
 
-	private static final void handleFriarsChange( final String responseText )
+	private static void handleFriarsChange( final String responseText )
 	{
 		// "Thank you, Adventurer."
 
@@ -1392,7 +1392,7 @@ public class QuestManager
 		}
 	}
 
-	private static final void handleChasmChange( final String responseText )
+	private static void handleChasmChange( final String responseText )
 	{
 		// You deploy your handy-dandy portable bridge and quickly finish the job.
 		if ( responseText.contains( "Huzzah!  The bridge is finished!" ) || 
@@ -1415,7 +1415,7 @@ public class QuestManager
 		}
 	}
 
-	private static final void handleABooPeakChange( final String responseText )
+	private static void handleABooPeakChange( final String responseText )
 	{
 		if ( responseText.contains( "Come On Ghosty, Light My Pyre" ) )
 		{
@@ -1424,7 +1424,7 @@ public class QuestManager
 		}
 	}
 
-	private static final void handleOilPeakChange( final String responseText )
+	private static void handleOilPeakChange( final String responseText )
 	{
 		if ( responseText.contains( "Unimpressed with Pressure" ) )
 		{
@@ -1433,7 +1433,7 @@ public class QuestManager
 		}
 	}
 
-	private static final void handleHighlandsChange( final String location, final String responseText )
+	private static void handleHighlandsChange( final String location, final String responseText )
 	{
 		if ( location.contains( "action=highlands_dude" ) )
 		{
@@ -1467,7 +1467,7 @@ public class QuestManager
 		}
 	}
 
-	private static final void handleSeaChange( final String location, final String responseText )
+	private static void handleSeaChange( final String location, final String responseText )
 	{
 		if ( location.contains( "action=oldman_oldman" ) && responseText.contains( "have you found my boot yet?" ) )
 		{
@@ -1585,7 +1585,7 @@ public class QuestManager
 		}
 	}
 
-	private static final void handlePlainsChange( final String responseText )
+	private static void handlePlainsChange( final String responseText )
 	{
 		// You stare at the pile of coffee grounds for a minute and it
 		// occurs to you that maybe your grandma wasn't so crazy after
@@ -1650,7 +1650,7 @@ public class QuestManager
 		}
 	}
 
-	private static final void handleZeppelinMobChange( final String responseText )
+	private static void handleZeppelinMobChange( final String responseText )
 	{
 		if ( responseText.contains( "mob has cleared out" ) )
 		{
@@ -1662,7 +1662,7 @@ public class QuestManager
 		}
 	}
 
-	private static final void handleZeppelinChange( final String responseText )
+	private static void handleZeppelinChange( final String responseText )
 	{
 		if ( responseText.contains( "sneak aboard the Zeppelin" ) )
 		{
@@ -1674,7 +1674,7 @@ public class QuestManager
 		}
 	}
 
-	private static final void handlePalindomeChange( final String location, final String responseText )
+	private static void handlePalindomeChange( final String location, final String responseText )
 	{
 		if ( location.contains( "action=pal_mr" ) )
 		{
@@ -1686,7 +1686,7 @@ public class QuestManager
 		}
 	}
 
-	private static final void handleCanadiaChange( final String location, final String responseText )
+	private static void handleCanadiaChange( final String location, final String responseText )
 	{
 		if ( location.contains( "action=lc_marty" ) )
 		{
@@ -1697,7 +1697,7 @@ public class QuestManager
 		}
 	}
 
-	private static final void handleMaraisChange( final String responseText )
+	private static void handleMaraisChange( final String responseText )
 	{
 		// Detect unlocked areas
 		if ( responseText.contains( "The Edge of the Swamp" ) )
@@ -1731,7 +1731,7 @@ public class QuestManager
 	}
 
 	private static final Pattern EXP_PATTERN = Pattern.compile( "\\(([\\d]+)%explored\\)" );
-	private static final void handleBeachChange( final String responseText )
+	private static void handleBeachChange( final String responseText )
 	{
 		String expString = ResponseTextParser.parseDivLabel( "db_l11desertlabel", responseText );
 		Matcher matcher = QuestManager.EXP_PATTERN.matcher( expString );
@@ -1742,7 +1742,7 @@ public class QuestManager
 		}
 	}
 
-	private static final void setDesertExploration( final int explored )
+	private static void setDesertExploration( final int explored )
 	{
 		int current = Preferences.getInteger( "desertExploration" );
 		QuestManager.setDesertExploration( current, explored - current );
@@ -1754,7 +1754,7 @@ public class QuestManager
 		QuestManager.setDesertExploration( current, increment );
 	}
 
-	private static final void setDesertExploration( final int current, final int increment )
+	private static void setDesertExploration( final int current, final int increment )
 	{
 		// If we've already registered complete desert exploration, we're done
 		if ( current == 100 )
@@ -1775,7 +1775,7 @@ public class QuestManager
 		}
 	}
 
-	private static final void handleTrapperChange( final String responseText )
+	private static void handleTrapperChange( final String responseText )
 	{
 		Matcher oreMatcher = ORE_PATTERN.matcher( responseText );
 		if ( oreMatcher.find() )
@@ -1810,7 +1810,7 @@ public class QuestManager
 		}
 	}
 
-	private static final void handleExtremityChange( final String responseText )
+	private static void handleExtremityChange( final String responseText )
 	{
 		if ( responseText.contains( "Discovering Your Extremity" ) ||
 			responseText.contains( "2 eXXtreme 4 U" ) ||
@@ -1820,7 +1820,7 @@ public class QuestManager
 		}
 	}
 
-	private static final void handleCouncilChange( final String responseText )
+	private static void handleCouncilChange( final String responseText )
 	{
 		Preferences.setInteger( "lastCouncilVisit", KoLCharacter.getLevel() );
 

@@ -170,11 +170,11 @@ public class BountyDatabase
 		RequestLogger.updateSessionLog( printMe );
 		if ( location != null )
 		{
-			printMe = name + "\t" + plural + "\t" + type + "\t" + image + "\t" + String.valueOf( number ) + "\t" + monster + "\t" + location;
+			printMe = name + "\t" + plural + "\t" + type + "\t" + image + "\t" + number + "\t" + monster + "\t" + location;
 		}
 		else
 		{
-			printMe = name + "\t" + plural + "\t" + type + "\t" + image + "\t" + String.valueOf( number ) + "\t" + monster + "\tunknown";
+			printMe = name + "\t" + plural + "\t" + type + "\t" + image + "\t" + number + "\t" + monster + "\tunknown";
 		}
 		RequestLogger.printLine( printMe );
 		RequestLogger.updateSessionLog( printMe );

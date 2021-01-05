@@ -115,8 +115,8 @@ public abstract class RequestThread
 	private static class ExecuteDelayedMethodRunnable
 		implements Runnable
 	{
-		private Class objectClass;
-		private Object object;
+		private final Class objectClass;
+		private final Object object;
 		private final String methodName;
 		private Method method;
 		private final PauseObject pauser;
@@ -181,8 +181,8 @@ public abstract class RequestThread
 	private static class ExecuteMethodRunnable
 		implements Runnable
 	{
-		private Class objectClass;
-		private Object object;
+		private final Class objectClass;
+		private final Object object;
 		private final String methodName;
 		private Method method;
 
@@ -285,7 +285,7 @@ public abstract class RequestThread
 		RequestThread.postRequest( force, request );
 	}
 
-	private static final void postRequest( final boolean force, final Runnable request )
+	private static void postRequest( final boolean force, final Runnable request )
 	{
 		Integer requestId = RequestThread.openRequestSequence( force );
 

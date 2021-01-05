@@ -102,7 +102,7 @@ public class PageRegistry
 		return page;
 	}
 
-	private static final boolean isExternalLocation( String path )
+	private static boolean isExternalLocation( String path )
 	{
 		return path.length() == 0 || path.startsWith( "http:" ) || path.startsWith( "https:" ) || !path.endsWith( ".php" );
 	}

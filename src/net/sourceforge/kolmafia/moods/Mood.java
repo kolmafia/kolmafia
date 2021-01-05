@@ -47,8 +47,8 @@ public class Mood
 	implements Comparable<Mood>
 {
 	private String name;
-	private List<String> parentNames;
-	private SortedListModel<MoodTrigger> localTriggers;
+	private final List<String> parentNames;
+	private final SortedListModel<MoodTrigger> localTriggers;
 
 	public Mood( String name )
 	{

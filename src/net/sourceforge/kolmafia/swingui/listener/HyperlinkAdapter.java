@@ -86,8 +86,8 @@ public class HyperlinkAdapter
 	private class HyperlinkUpdateRunnable
 		implements Runnable
 	{
-		private RequestPane requestPane;
-		private String location;
+		private final RequestPane requestPane;
+		private final String location;
 
 		private HyperlinkUpdateRunnable( RequestPane requestPane, String location )
 		{

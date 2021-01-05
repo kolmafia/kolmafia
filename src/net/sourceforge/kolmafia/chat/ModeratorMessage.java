@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.chat;
 public class ModeratorMessage
 	extends ChatMessage
 {
-	private String playerId;
+	private final String playerId;
 
 	public ModeratorMessage( String channel, String messageType, String playerId, String content )
 	{

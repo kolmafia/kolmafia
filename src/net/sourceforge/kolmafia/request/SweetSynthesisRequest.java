@@ -83,7 +83,7 @@ public class SweetSynthesisRequest
 		this.itemId2 = itemId2;
 	}
 
-	private static final int extractItemId( final String urlString, Pattern pattern )
+	private static int extractItemId( final String urlString, Pattern pattern )
 	{
 		Matcher matcher = pattern.matcher( urlString );
 		return matcher.find() ?
@@ -91,7 +91,7 @@ public class SweetSynthesisRequest
 			0;
 	}
 
-	private static final int extractCount( final String urlString )
+	private static int extractCount( final String urlString )
 	{
 		Matcher matcher = SweetSynthesisRequest.COUNT_PATTERN.matcher( urlString );
 		return matcher.find() ?

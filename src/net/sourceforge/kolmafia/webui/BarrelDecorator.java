@@ -316,7 +316,7 @@ public abstract class BarrelDecorator
 		return square;
 	}
 	
-	private static final int recommendRow( final int[] possibles, final int startQuad )
+	private static int recommendRow( final int[] possibles, final int startQuad )
 	{
 		int maxprob = -1;
 		int quad = -1;
