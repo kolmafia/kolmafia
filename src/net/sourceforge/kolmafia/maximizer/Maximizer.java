@@ -1339,7 +1339,7 @@ public class Maximizer
 					{
 						continue;
 					}
-					else if ( !StandardRequest.isAllowed( "Clan Item", "Clan Carnival Game" ) )
+					else if ( !StandardRequest.isAllowed( "Clan Item", "Clan Love Tester" ) )
 					{
 						continue;
 					}
