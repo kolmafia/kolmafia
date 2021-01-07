@@ -63,7 +63,7 @@ import net.sourceforge.kolmafia.request.FightRequest;
 public class AdventureSpentDatabase
 	implements Serializable
 {
-
+	private static final long serialVersionUID = -180241952508113933L;
 	private static Map<String, Integer> TURNS = new TreeMap<String, Integer>();
 
 	private static int lastTurnUpdated = -1;
