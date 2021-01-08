@@ -112,14 +112,15 @@ public class MuseumFrame
 
 			AdventureResultArray items = new AdventureResultArray();
 
-            for ( AdventureResult item : display )
-            {
-                int itemCount = item.getCount( KoLConstants.inventory );
-                if ( itemCount > 0 && item.getCount() > 1 )
-                {
-                    items.add( item.getInstance( itemCount ) );
-                }
-            }
+			for ( int i = 0; i < display.length; ++i )
+			{
+				AdventureResult item = display[ i ];
+				int itemCount = item.getCount( KoLConstants.inventory );
+				if ( itemCount > 0 && item.getCount() > 1 )
+				{
+					items.add( item.getInstance( itemCount ) );
+				}
+			}
 
 			if ( items.isEmpty() )
 			{
@@ -179,7 +180,7 @@ public class MuseumFrame
 					AdventureResult item = selection[ i ];
 					Integer value = InputFieldUtilities.getQuantity(
 							"Moving " + item.getName() + "...", item.getCount(), 1 );
-					int count = ( value == null ) ? 0 : value;
+					int count = ( value == null ) ? 0 : value.intValue();
 					selection[ i ] = item.getInstance( count );
 				}
 			}

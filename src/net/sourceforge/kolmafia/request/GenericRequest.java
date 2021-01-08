@@ -194,7 +194,7 @@ public class GenericRequest
 	// Per-login data
 
 	private static String userAgent = "";
-	public static final Set<ServerCookie> serverCookies = new LinkedHashSet<>();
+	public static final Set<ServerCookie> serverCookies = new LinkedHashSet<ServerCookie>();
 	public static String sessionId = null;
 	public static String passwordHash = "";
 	public static String passwordHashValue = "";
@@ -401,7 +401,7 @@ public class GenericRequest
 
 	public GenericRequest( final String newURLString, final boolean usePostMethod )
 	{
-		this.data = Collections.synchronizedList( new ArrayList<>() );
+		this.data = Collections.synchronizedList( new ArrayList<String>() );
 		if ( !newURLString.equals( "" ) )
 		{
 			this.constructURLString( newURLString, usePostMethod );
@@ -543,11 +543,11 @@ public class GenericRequest
 		}
 
 		String[] tokens = fields.split( "&" );
-		for ( String token : tokens )
+		for ( int i = 0; i < tokens.length; ++i )
 		{
-			if ( token.length() > 0 )
+			if ( tokens[ i ].length() > 0 )
 			{
-				this.addFormField( token, encoded );
+				this.addFormField( tokens[ i ], encoded );
 			}
 		}
 	}
@@ -590,7 +590,14 @@ public class GenericRequest
 		{
 			synchronized ( this.data )
 			{
-				this.data.removeIf( s -> s.startsWith( encodedName ) );
+				Iterator<String> it = this.data.iterator();
+				while ( it.hasNext() )
+				{
+					if ( it.next().startsWith( encodedName ) )
+					{
+						it.remove();
+					}
+				}
 			}
 		}
 
@@ -703,9 +710,10 @@ public class GenericRequest
 
 		synchronized ( this.data )
 		{
-			for ( String datum : this.data )
+			Iterator<String> it = this.data.iterator();
+			while ( it.hasNext() )
 			{
-				if ( datum.equals( element ) )
+				if ( it.next().equals( element ) )
 				{
 					return;
 				}
@@ -729,10 +737,10 @@ public class GenericRequest
 		}
 
 		String[] tokens = this.formURLString.substring( index + 1 ).split( "&" );
-		List<String> fields = new ArrayList<>();
-		for ( String token : tokens )
+		List<String> fields = new ArrayList<String>();
+		for ( int i = 0; i < tokens.length; ++i )
 		{
-			fields.add( token );
+			fields.add( tokens[ i ] );
 		}
 		return fields;
 	}
@@ -749,8 +757,10 @@ public class GenericRequest
 
 	private String findField( final List<String> data, final String key, final boolean decode )
 	{
-		for ( String datum : data )
+		for ( int i = 0; i < data.size(); ++i )
 		{
+			String datum = data.get( i );
+
 			int splitIndex = datum.indexOf( "=" );
 			if ( splitIndex == -1 )
 			{
@@ -860,7 +870,14 @@ public class GenericRequest
 
 		synchronized ( this.data )
 		{
-			this.data.removeIf( s -> s.startsWith( encodedName ) );
+			Iterator<String> it = this.data.iterator();
+			while ( it.hasNext() )
+			{
+				if ( it.next().startsWith( encodedName ) )
+				{
+					it.remove();
+				}
+			}
 		}
 	}
 
@@ -911,8 +928,10 @@ public class GenericRequest
 
 		synchronized ( this.data )
 		{
-			for ( String element : this.data )
+			for ( int i = 0; i < this.data.size(); ++i )
 			{
+				String element = this.data.get( i );
+
 				if ( element.equals( "" ) )
 				{
 					continue;
@@ -964,8 +983,10 @@ public class GenericRequest
 
 		synchronized ( this.data )
 		{
-			for ( String element : this.data )
+			for ( int i = 0; i < this.data.size(); ++i )
 			{
+				String element = this.data.get( i );
+
 				if ( element.equals( "" ) )
 				{
 					continue;
@@ -1982,7 +2003,7 @@ public class GenericRequest
 							this.allowRedirect = InputFieldUtilities.confirm( message );
 						}
 
-						if ( this.allowRedirect )
+						if ( this.allowRedirect.booleanValue() )
 						{
 							this.redirectLocation =
 								this.data.isEmpty() ? this.formConnection.getHeaderField( "Location" ) : this.formConnection.getHeaderField( "Location" ) + "?" + this.getDisplayDataString();

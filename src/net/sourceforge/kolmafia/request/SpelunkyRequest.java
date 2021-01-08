@@ -148,7 +148,7 @@ public class SpelunkyRequest
 		ItemPool.get( ItemPool.SPELUNKY_SPIKED_BOOTS, 1 ),
 	};
 
-	private static final HashMap<String,String> adventureImages = new HashMap<>();
+	private static final HashMap<String,String> adventureImages = new HashMap<String,String>();
 
 	static
 	{
@@ -361,7 +361,7 @@ public class SpelunkyRequest
 			ghostWaving = true;
 		}
 
-		StringBuilder newUnlocks = new StringBuilder( unlocks );
+		StringBuffer newUnlocks = new StringBuffer( unlocks );
 		if ( responseText.contains( "'Sticky Bombs'" ) && !unlocks.contains( "Sticky Bombs" ) )
 		{
 			newUnlocks.append( ", Sticky Bombs" );
@@ -578,7 +578,7 @@ public class SpelunkyRequest
 		boolean HellUnlocked = unlocks.contains( "Hell" ) || responseText.contains( "spelunky/heckofirezzz.gif" );
 		boolean YomamaThroneUnlocked = unlocks.contains( "Yomama's Throne" ) || responseText.contains( "spelunky/yomama.gif" );
 
-		StringBuilder newUnlocks = new StringBuilder( unlocks );
+		StringBuffer newUnlocks = new StringBuffer( unlocks );
 		if ( jungleUnlocked && !unlocks.contains( "Jungle" ) )
 		{
 			if ( !unlocks.equals( "" ) )

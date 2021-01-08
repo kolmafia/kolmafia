@@ -143,11 +143,11 @@ public class Crimbo09Request
 
 	public static String locationName( final String urlString )
 	{
-		if ( urlString.contains( "place=don" ) )
+		if ( urlString.indexOf( "place=don" ) != -1 )
 		{
 			return "Don Crimbo";
 		}
-		if ( urlString.contains( "place=store" ) )
+		if ( urlString.indexOf( "place=store" ) != -1 )
 		{
 			return "the Crimbo Cartel";
 		}

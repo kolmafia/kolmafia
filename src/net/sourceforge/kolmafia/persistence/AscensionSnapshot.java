@@ -121,11 +121,11 @@ public class AscensionSnapshot
 	public static final int HARDCORE = 2;
 	public static final int CASUAL = 3;
 
-	private static final Map<String, String> ascensionMap = new TreeMap<>();
-	private static final List<AscensionHistoryRequest> ascensionDataList = new ArrayList<>();
-	private static final List<AscensionDataField> softcoreAscensionList = new ArrayList<>();
-	private static final List<AscensionDataField> hardcoreAscensionList = new ArrayList<>();
-	private static final List<AscensionDataField> casualAscensionList = new ArrayList<>();
+	private static final Map<String, String> ascensionMap = new TreeMap<String, String>();
+	private static final List<AscensionHistoryRequest> ascensionDataList = new ArrayList<AscensionHistoryRequest>();
+	private static final List<AscensionDataField> softcoreAscensionList = new ArrayList<AscensionDataField>();
+	private static final List<AscensionDataField> hardcoreAscensionList = new ArrayList<AscensionDataField>();
+	private static final List<AscensionDataField> casualAscensionList = new ArrayList<AscensionDataField>();
 
 	private static final Pattern LINK_PATTERN = Pattern.compile( "</?a[^>]+>" );
 
@@ -550,7 +550,7 @@ public class AscensionSnapshot
 		// satisfy the current filter so that the
 		// total count can be displayed in the header.
 
-		List<AscensionDataField> resultsList = new ArrayList<>();
+		List<AscensionDataField> resultsList = new ArrayList<AscensionDataField>();
 
 		for ( AscensionDataField field : fields )
 		{
@@ -563,7 +563,7 @@ public class AscensionSnapshot
 		// Next, retrieve only the top ten list so that
 		// a maximum of ten elements are printed.
 
-		List<AscensionDataField> leaderList = new ArrayList<>();
+		List<AscensionDataField> leaderList = new ArrayList<AscensionDataField>();
 		int leaderListSize =
 			classFilter == AscensionSnapshot.NO_FILTER ? ( mainBoardSize == 0 ? 10 : mainBoardSize ) : classBoardSize == 0 ? 5 : classBoardSize;
 

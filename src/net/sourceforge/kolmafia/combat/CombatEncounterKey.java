@@ -144,7 +144,7 @@ public class CombatEncounterKey
 			return true;
 		}
 
-		return monsterName.contains( this.monsterName );
+		return monsterName.indexOf( this.monsterName ) != -1;
 	}
 
 	@Override

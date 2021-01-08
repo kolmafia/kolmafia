@@ -174,7 +174,7 @@ public class SendMailRequest
 
 	public static boolean parseTransfer( final String urlString, final String responseText )
 	{
-		if ( !responseText.contains( "<center>Message " ) )
+		if ( responseText.indexOf( "<center>Message " ) == -1 )
 		{
 			return false;
 		}
@@ -197,7 +197,7 @@ public class SendMailRequest
 	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "sendmessage.php" ) ||
-                !urlString.contains( "action=send" ) )
+		     urlString.indexOf( "action=send" ) == -1 )
 		{
 			return false;
 		}

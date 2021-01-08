@@ -354,7 +354,7 @@ public class FoldItemCommand
 			return;
 		}
 
-		long damage = ( Integer ) group.get( 0 );
+		long damage = ( (Integer) group.get( 0 ) ).intValue();
 		damage = damage == 0 ? 0 : KoLCharacter.getMaximumHP() * damage / 100 + 2;
 
 		// Fold repeatedly until target is obtained

@@ -117,7 +117,7 @@ public class FamiliarCommand
 			return;
 		}
 
-		if ( parameters.contains( "(no change)" ) )
+		if ( parameters.indexOf( "(no change)" ) != -1 )
 		{
 			return;
 		}

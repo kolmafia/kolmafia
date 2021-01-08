@@ -90,17 +90,17 @@ public abstract class BuffBotManager
 	private static int initialRestores = 0;
 	private static boolean isInitializing = false;
 
-	private static final ArrayList<KoLMailMessage> saveList = new ArrayList<>();
-	private static final ArrayList<KoLMailMessage> deleteList = new ArrayList<>();
-	private static final ArrayList<SendMailRequest> sendList = new ArrayList<>();
+	private static final ArrayList<KoLMailMessage> saveList = new ArrayList<KoLMailMessage>();
+	private static final ArrayList<KoLMailMessage> deleteList = new ArrayList<KoLMailMessage>();
+	private static final ArrayList<SendMailRequest> sendList = new ArrayList<SendMailRequest>();
 
 	private static int messageDisposalSetting;
 	private static String refundMessage;
 	private static String thanksMessage;
-	private static List<String> whiteList = new ArrayList<>();
+	private static List<String> whiteList = new ArrayList<String>();
 
-	private static final Map<Integer, Offering> buffCostMap = new TreeMap<>();
-	private static final SortedListModel<Offering> buffCostTable = new SortedListModel<>();
+	private static final Map<Integer, Offering> buffCostMap = new TreeMap<Integer, Offering>();
+	private static final SortedListModel<Offering> buffCostTable = new SortedListModel<Offering>();
 
 	public static final Pattern MEAT_PATTERN =
 		Pattern.compile( "<img src=[^>]*?(?:images.kingdomofloathing.com|/images)/itemimages/meat.gif\" height=30 width=30 alt=\"Meat\">You gain ([\\d,]+) Meat" );
@@ -225,18 +225,18 @@ public abstract class BuffBotManager
 		Offering toRemove;
 		boolean removedOne = false;
 
-        for ( Object buff : buffs )
-        {
-            if ( !BuffBotManager.buffCostTable.contains( buff ) )
-            {
-                continue;
-            }
+		for ( int i = 0; i < buffs.length; ++i )
+		{
+			if ( !BuffBotManager.buffCostTable.contains( buffs[ i ] ) )
+			{
+				continue;
+			}
 
-            removedOne = true;
-            toRemove = ( Offering ) buff;
-            BuffBotManager.buffCostTable.remove( toRemove );
-            BuffBotManager.buffCostMap.remove( IntegerPool.get( toRemove.getPrice() ) );
-        }
+			removedOne = true;
+			toRemove = (Offering) buffs[ i ];
+			BuffBotManager.buffCostTable.remove( toRemove );
+			BuffBotManager.buffCostMap.remove( IntegerPool.get( toRemove.getPrice() ) );
+		}
 
 		if ( removedOne )
 		{
@@ -329,7 +329,7 @@ public abstract class BuffBotManager
 		String restoreItems = Preferences.getString( "mpAutoRecoveryItems" );
 
 		PauseObject pauser = new PauseObject();
-		boolean usingAdventures = restoreItems.contains( "rest" );
+		boolean usingAdventures = restoreItems.indexOf( "rest" ) != -1;
 
 		// The outer loop goes until user cancels, or
 		// for however many iterations are needed.
@@ -534,7 +534,7 @@ public abstract class BuffBotManager
 
 	private static boolean containsDonation( final KoLMailMessage message )
 	{
-		return message.getMessageHTML().contains( "You acquire" );
+		return message.getMessageHTML().indexOf( "You acquire" ) != -1;
 	}
 
 	/**

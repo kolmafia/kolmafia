@@ -113,12 +113,12 @@ public abstract class StoreManager
 	private final static long REALISTIC_PRICE_THRESHOLD = 50000000;
 	private static long potentialEarnings = 0;
 
-	private static final LockableListModel<StoreLogEntry> storeLog = new LockableListModel<>();
-	private static final LockableListModel<SoldItem> soldItemList = new LockableListModel<>();
-	private static final LockableListModel<SoldItem> sortedSoldItemList = new LockableListModel<>();
+	private static final LockableListModel<StoreLogEntry> storeLog = new LockableListModel<StoreLogEntry>();
+	private static final LockableListModel<SoldItem> soldItemList = new LockableListModel<SoldItem>();
+	private static final LockableListModel<SoldItem> sortedSoldItemList = new LockableListModel<SoldItem>();
 
 	private static final IntegerArray mallPrices = new IntegerArray();
-	private static final LinkedHashMap<Integer, ArrayList<PurchaseRequest>> mallSearches = new LinkedHashMap<>();
+	private static final LinkedHashMap<Integer, ArrayList<PurchaseRequest>> mallSearches = new LinkedHashMap<Integer, ArrayList<PurchaseRequest>>();
 
 	public static boolean soldItemsRetrieved = false;
 
@@ -149,7 +149,7 @@ public abstract class StoreManager
 		"unlockers",	// Content Unlockers
 		"new",		// New Stuff
 	};
-	public static final Set<String> validCategories = new HashSet<>( Arrays.asList( CATEGORY_VALUES ) );
+	public static final Set<String> validCategories = new HashSet<String>( Arrays.asList( CATEGORY_VALUES ) );
 
 	public static final void clearCache()
 	{
@@ -307,7 +307,7 @@ public abstract class StoreManager
 		}
 
 		StoreManager.potentialEarnings = 0;
-		ArrayList<SoldItem> newItems = new ArrayList<>();
+		ArrayList<SoldItem> newItems = new ArrayList<SoldItem>();
 
 		switch ( type )
 		{
@@ -438,7 +438,7 @@ public abstract class StoreManager
 				return;
 			}
 
-			ArrayList<StoreLogEntry> currentLog = new ArrayList<>();
+			ArrayList<StoreLogEntry> currentLog = new ArrayList<StoreLogEntry>();
 
 			String[] entries = logMatcher.group().split( "<br>" );
 
@@ -658,7 +658,7 @@ public abstract class StoreManager
 		if ( itemId <= 0 )
 		{
 			// This should not happen.
-			return new ArrayList<>();
+			return new ArrayList<PurchaseRequest>();
 		}
 
 		Integer id = IntegerPool.get( itemId );
@@ -674,7 +674,14 @@ public abstract class StoreManager
 		results = StoreManager.searchMall( "\"" + name + "\"", 0 );
 
 		// Flush CoinMasterPurchaseRequests
-		results.removeIf( purchaseRequest -> purchaseRequest instanceof CoinMasterPurchaseRequest );
+		Iterator<PurchaseRequest> it = results.iterator();
+		while ( it.hasNext() )
+		{
+			if ( it.next() instanceof CoinMasterPurchaseRequest )
+			{
+				it.remove();
+			}
+		}
 
 		if ( KoLmafia.permitsContinue() )
 		{
@@ -691,7 +698,7 @@ public abstract class StoreManager
 		ArrayList<PurchaseRequest> allResults = StoreManager.searchMall( item );
 
 		// Filter out NPC stores
-		ArrayList<PurchaseRequest> results = new ArrayList<>();
+		ArrayList<PurchaseRequest> results = new ArrayList<PurchaseRequest>();
 
 		for ( PurchaseRequest result : allResults )
 		{
@@ -706,7 +713,7 @@ public abstract class StoreManager
 
 	public static final ArrayList<PurchaseRequest> searchNPCs( final AdventureResult item )
 	{
-		ArrayList<PurchaseRequest> results = new ArrayList<>();
+		ArrayList<PurchaseRequest> results = new ArrayList<PurchaseRequest>();
 
 		int itemId = item.getItemId();
 		if ( itemId <= 0 )
@@ -731,7 +738,7 @@ public abstract class StoreManager
 
 	public static final ArrayList<PurchaseRequest> searchMall( final String searchString, final int maximumResults )
 	{
-		ArrayList<PurchaseRequest> results = new ArrayList<>();
+		ArrayList<PurchaseRequest> results = new ArrayList<PurchaseRequest>();
 
 		if ( searchString == null )
 		{
@@ -763,35 +770,36 @@ public abstract class StoreManager
 
 		ArrayList<PurchaseRequest> results = StoreManager.searchMall( searchString, maximumResults );
 		PurchaseRequest[] resultsArray = results.toArray( new PurchaseRequest[0] );
-		TreeMap<Integer, Integer> prices = new TreeMap<>();
+		TreeMap<Integer, Integer> prices = new TreeMap<Integer, Integer>();
 
-        for ( PurchaseRequest result : resultsArray )
-        {
-            if ( result instanceof CoinMasterPurchaseRequest )
-            {
-                continue;
-            }
+		for ( int i = 0; i < resultsArray.length; ++i )
+		{
+			PurchaseRequest result = resultsArray[ i ];
+			if ( result instanceof CoinMasterPurchaseRequest )
+			{
+				continue;
+			}
 
-            Integer currentPrice = IntegerPool.get( result.getPrice() );
-            Integer currentQuantity = prices.get( currentPrice );
+			Integer currentPrice = IntegerPool.get( result.getPrice() );
+			Integer currentQuantity = prices.get( currentPrice );
 
-            if ( currentQuantity == null )
-            {
-                prices.put( currentPrice, IntegerPool.get( result.getLimit() ) );
-            }
-            else
-            {
-                prices.put( currentPrice, IntegerPool.get( currentQuantity + result.getLimit() ) );
-            }
-        }
+			if ( currentQuantity == null )
+			{
+				prices.put( currentPrice, IntegerPool.get( resultsArray[ i ].getLimit() ) );
+			}
+			else
+			{
+				prices.put( currentPrice, IntegerPool.get( currentQuantity.intValue() + resultsArray[ i ].getLimit() ) );
+			}
+		}
 
 		Integer[] priceArray = new Integer[ prices.size() ];
 		prices.keySet().toArray( priceArray );
 
-        for ( Integer integer : priceArray )
-        {
-            resultSummary.add( "  " + KoLConstants.COMMA_FORMAT.format( prices.get( integer ).intValue() ) + " @ " + KoLConstants.COMMA_FORMAT.format( integer.intValue() ) + " meat" );
-        }
+		for ( int i = 0; i < priceArray.length; ++i )
+		{
+			resultSummary.add( "  " + KoLConstants.COMMA_FORMAT.format( prices.get( priceArray[ i ] ).intValue() ) + " @ " + KoLConstants.COMMA_FORMAT.format( priceArray[ i ].intValue() ) + " meat" );
+		}
 	}
 
 	public static final void maybeUpdateMallPrice( final AdventureResult item, final ArrayList<PurchaseRequest> results )
@@ -960,7 +968,7 @@ public abstract class StoreManager
 
 					// Setup for new item
 					itemId = newItemId;
-					itemResults = new ArrayList<>();
+					itemResults = new ArrayList<PurchaseRequest>();
 				}
 
 				itemResults.add( pr );
@@ -1179,33 +1187,33 @@ public abstract class StoreManager
 		AdventureResultArray autosell = new AdventureResultArray();
 		AdventureResultArray automall = new AdventureResultArray();
 
-        for ( AdventureResult item : items )
-        {
-            int itemId = item.getItemId();
-            if ( itemId == ItemPool.MEAT_PASTE || itemId == ItemPool.MEAT_STACK || itemId == ItemPool.DENSE_STACK )
-            {
-                continue;
-            }
+		for ( int i = 0; i < items.length; ++i )
+		{
+			int itemId = items[ i ].getItemId();
+			if ( itemId == ItemPool.MEAT_PASTE || itemId == ItemPool.MEAT_STACK || itemId == ItemPool.DENSE_STACK )
+			{
+				continue;
+			}
 
-            if ( !ItemDatabase.isTradeable( itemId ) )
-            {
-                continue;
-            }
+			if ( !ItemDatabase.isTradeable( itemId ) )
+			{
+				continue;
+			}
 
-            if ( ItemDatabase.getPriceById( itemId ) <= 0 )
-            {
-                continue;
-            }
+			if ( ItemDatabase.getPriceById( itemId ) <= 0 )
+			{
+				continue;
+			}
 
-            if ( NPCStoreDatabase.contains( itemId, false ) )
-            {
-                autosell.add( item );
-            }
-            else
-            {
-                automall.add( item );
-            }
-        }
+			if ( NPCStoreDatabase.contains( itemId, false ) )
+			{
+				autosell.add( items[ i ] );
+			}
+			else
+			{
+				automall.add( items[ i ] );
+			}
+		}
 
 		// Now, place all the items in the mall at the
 		// maximum possible price. This allows KoLmafia

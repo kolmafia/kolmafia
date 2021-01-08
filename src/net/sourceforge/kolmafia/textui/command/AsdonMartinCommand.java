@@ -77,14 +77,14 @@ public class AsdonMartinCommand
 
 	private static int findDriveStyle( final String name )
 	{
-        for ( Object[] objects : DRIVESTYLE )
-        {
-            if ( name.equalsIgnoreCase( ( String ) objects[ 0 ] ) )
-            {
-                Integer index = ( Integer ) objects[ 1 ];
-                return index;
-            }
-        }
+		for ( int i = 0; i < DRIVESTYLE.length; ++i )
+		{
+			if ( name.equalsIgnoreCase( (String) DRIVESTYLE[i][0] ) )
+			{
+				Integer index = (Integer) DRIVESTYLE[i][1];
+				return index.intValue();
+			}
+		}
 		return -1;
 	}
 
@@ -100,14 +100,14 @@ public class AsdonMartinCommand
 	private static int currentDriveStyle()
 	{
 		List<AdventureResult> active = KoLConstants.activeEffects;
-        for ( Object[] objects : DRIVESTYLE )
-        {
-            if ( active.contains( objects[ 2 ] ) )
-            {
-                Integer index = ( Integer ) objects[ 1 ];
-                return index;
-            }
-        }
+		for ( int i = 0; i < DRIVESTYLE.length; ++i )
+		{
+			if ( active.contains( DRIVESTYLE[i][2] ) )
+			{
+				Integer index = (Integer) DRIVESTYLE[i][1];
+				return index.intValue();
+			}
+		}
 		return -1;
 	}
 

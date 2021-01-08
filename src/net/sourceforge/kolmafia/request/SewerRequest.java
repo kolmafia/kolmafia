@@ -322,7 +322,7 @@ public class SewerRequest
 
 	private static void transferStarterItems( final AdventureResult [] goals, final List<AdventureResult> source )
 	{
-		ArrayList<AdventureResult> attachments = new ArrayList<>();
+		ArrayList<AdventureResult> attachments = new ArrayList<AdventureResult>();
 		List<AdventureResult> destination = KoLConstants.inventory;
 		List<AdventureResult> skip = Arrays.asList( goals );
 
@@ -392,7 +392,7 @@ public class SewerRequest
 
 	private static int closetSewerItems( final AdventureResult[] items )
 	{
-		ArrayList<AdventureResult> transfers = new ArrayList<>();
+		ArrayList<AdventureResult> transfers = new ArrayList<AdventureResult>();
 		for ( AdventureResult item : items )
 		{
 			int available = item.getCount( KoLConstants.inventory );
@@ -412,7 +412,7 @@ public class SewerRequest
 
 	private static int unclosetSewerItems( final AdventureResult[] items, int needed )
 	{
-		ArrayList<AdventureResult> transfers = new ArrayList<>();
+		ArrayList<AdventureResult> transfers = new ArrayList<AdventureResult>();
 		for ( AdventureResult item : items )
 		{
 			int available = Math.min( needed, item.getCount( KoLConstants.closet ) );
@@ -433,7 +433,7 @@ public class SewerRequest
 
 	private static int unclosetSewerItems( final AdventureResult[] currentCloset, final AdventureResult[] initialCloset )
 	{
-		ArrayList<AdventureResult> transfers = new ArrayList<>();
+		ArrayList<AdventureResult> transfers = new ArrayList<AdventureResult>();
 		for ( int index = 0; index < initialCloset.length; ++index )
 		{
 			AdventureResult original = initialCloset[ index ];
@@ -455,7 +455,7 @@ public class SewerRequest
 
 	private static int pullSewerItems( final AdventureResult[] items, int needed )
 	{
-		ArrayList<AdventureResult> transfers = new ArrayList<>();
+		ArrayList<AdventureResult> transfers = new ArrayList<AdventureResult>();
 		for ( AdventureResult item : items )
 		{
 			int available = Math.min( needed, item.getCount( KoLConstants.storage ) );

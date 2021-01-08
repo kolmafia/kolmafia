@@ -4531,12 +4531,13 @@ public abstract class ChoiceManager
 		ArrayList choices = new ArrayList();
 		ArrayList spoils = new ArrayList();
 		ArrayList costs = new ArrayList();
-        for ( Object it : CHOICE_DATA )
-        {
-            ( it instanceof ChoiceSpoiler ? spoils
-                    : it instanceof ChoiceAdventure ? choices
-                    : costs ).add( it );
-        }
+		for ( int i = 0; i < CHOICE_DATA.length; ++i )
+		{
+			Object it = CHOICE_DATA[ i ];
+			(it instanceof ChoiceSpoiler ? spoils
+			: it instanceof ChoiceAdventure ? choices
+			: costs).add( it );
+		}
 		CHOICE_ADVS = (ChoiceAdventure[]) choices.toArray( new ChoiceAdventure[ choices.size() ] );
 		CHOICE_ADV_SPOILERS = (ChoiceAdventure[]) spoils.toArray( new ChoiceAdventure[ spoils.size() ] );
 		CHOICE_COST = (Object[][]) costs.toArray( new Object[ costs.size() ][] );
@@ -4567,8 +4568,8 @@ public abstract class ChoiceManager
 	{
 		for ( int i = 0; i < ChoiceManager.CHOICE_COST.length; ++i )
 		{
-			if ( choice == ( Integer ) ChoiceManager.CHOICE_COST[ i ][ 0 ] &&
-			     decision == ( Integer ) ChoiceManager.CHOICE_COST[ i ][ 1 ] )
+			if ( choice == ((Integer)ChoiceManager.CHOICE_COST[ i ][ 0 ]).intValue() &&
+			     decision == ((Integer)ChoiceManager.CHOICE_COST[ i ][ 1 ]).intValue() )
 			{
 				return (AdventureResult) ChoiceManager.CHOICE_COST[ i ][ 2 ];
 			}
@@ -7076,9 +7077,9 @@ public abstract class ChoiceManager
 				int totalPoolSkill = KoLCharacter.estimatedPoolSkill();
 				String buf = ( haveStaff ? "M" : "A drippy staff and m" ) +
 						"aybe a drippy orb (Pool Skill at " +
-						inebriety +
+						Integer.valueOf( inebriety ) +
 						" inebriety = " +
-						totalPoolSkill +
+						Integer.valueOf( totalPoolSkill ) +
 						")";
 				result[ 0 ] = buf;
 			}
@@ -7383,7 +7384,7 @@ public abstract class ChoiceManager
 		File scriptFile = scriptFiles.get( 0 );
 
 		Object[] parameters = new Object[2];
-		parameters[0] = choice;
+		parameters[0] = Integer.valueOf( choice );
 		parameters[1] = responseText;
 
 		KoLmafiaASH.logScriptExecution( "Starting choice adventure script: ", scriptFile.getName(), interpreter );
@@ -9856,8 +9857,8 @@ public abstract class ChoiceManager
 			// Hide a gift!
 			if ( text.contains( "You hide" ) )
 			{
-				HashMap<Integer, Integer> idMap = new HashMap<>( 3 );
-				HashMap<Integer, Integer> qtyMap = new HashMap<>( 3 );
+				HashMap<Integer, Integer> idMap = new HashMap<Integer, Integer>(3);
+				HashMap<Integer, Integer> qtyMap = new HashMap<Integer, Integer>(3);
 				int index;
 				int id;
 				int giftQty;
@@ -10928,7 +10929,7 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision != 6 )
 			{
 				Preferences.setInteger( "_frHoursLeft", 5 );
-				StringBuilder unlocks = new StringBuilder();
+				StringBuffer unlocks = new StringBuffer();
 				unlocks.append( "The Bandit Crossroads," );
 				if ( Preferences.getBoolean( "frMountainsUnlocked" ) )
 				{
@@ -18367,7 +18368,7 @@ public abstract class ChoiceManager
 		}
 
 		// Build a "Goal" button
-		StringBuilder button = new StringBuilder();
+		StringBuffer button = new StringBuffer();
 		String url = "/KoLmafia/specialCommand?cmd=choice-goal&pwd=" + GenericRequest.passwordHash;
 		button.append( "<form name=goalform action='" ).append( url ).append( "' method=post>" );
 		button.append( "<input class=button type=submit value=\"Go To Goal\">" );

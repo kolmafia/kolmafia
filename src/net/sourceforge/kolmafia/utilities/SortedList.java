@@ -118,10 +118,10 @@ public class SortedList<E>
 		Object[] a = toArray();
 		Arrays.sort( a );
 		ListIterator<E> i = listIterator();
-		for ( Object o : a )
+		for ( int j = 0; j < a.length; j++ )
 		{
 			i.next();
-			i.set( ( E ) o );
+			i.set( (E) a[ j ] );
 		}
 	}
 
@@ -129,7 +129,7 @@ public class SortedList<E>
 	{
 		synchronized ( this )
 		{
-			this.sort( c );
+			Collections.sort( this, c );
 		}
 	}
 

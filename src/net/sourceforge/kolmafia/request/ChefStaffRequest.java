@@ -93,7 +93,7 @@ public class ChefStaffRequest
 
 	public static final boolean parseCreation( final String urlString, final String responseText )
 	{
-		if ( responseText.contains( "You don't have all of the items I'll need to make that Chefstaff." ) )
+		if ( responseText.indexOf( "You don't have all of the items I'll need to make that Chefstaff." ) != -1 )
 		{
 			return true;
 		}
@@ -104,10 +104,11 @@ public class ChefStaffRequest
 			return false;
 		}
 
-        for ( AdventureResult ingredient : ingredients )
-        {
-            ResultProcessor.processResult( ingredient.getInstance( -1 * ingredient.getCount() ) );
-        }
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			AdventureResult ingredient = ingredients[ i ];
+			ResultProcessor.processResult( ingredient.getInstance( -1 * ingredient.getCount() ) );
+		}
 
 		return false;
 	}
@@ -130,7 +131,7 @@ public class ChefStaffRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "guild.php" ) || !urlString.contains( "action=makestaff" ) )
+		if ( !urlString.startsWith( "guild.php" ) || urlString.indexOf( "action=makestaff" ) == -1 )
 		{
 			return false;
 		}
@@ -141,7 +142,7 @@ public class ChefStaffRequest
 			return true;
 		}
 
-		StringBuilder chefstaffString = new StringBuilder();
+		StringBuffer chefstaffString = new StringBuffer();
 		chefstaffString.append( "Chefstaff " );
 
 		for ( int i = 0; i < ingredients.length; ++i )

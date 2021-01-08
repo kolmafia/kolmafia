@@ -427,7 +427,7 @@ public class ClanLoungeRequest
 	{
 		for ( int i = 0; i < HOTDOG_DATA.length; ++i )
 		{
-			if ( id == ( Integer ) ClanLoungeRequest.HOTDOG_DATA[ i ][ 1 ] )
+			if ( id == ((Integer)ClanLoungeRequest.HOTDOG_DATA[i][1]).intValue() )
 			{
 				return i;
 			}
@@ -472,8 +472,8 @@ public class ClanLoungeRequest
 		return ( index < 0 || index > ClanLoungeRequest.HOTDOG_DATA.length ) ? null : (AdventureResult)ClanLoungeRequest.HOTDOG_DATA[ index ][4];
 	}
 
-	public static final ArrayList<String> HOTDOG_NAMES = new ArrayList<>();
-	public static final ArrayList<Concoction> ALL_HOTDOGS = new ArrayList<>();
+	public static final ArrayList<String> HOTDOG_NAMES = new ArrayList<String>();
+	public static final ArrayList<Concoction> ALL_HOTDOGS = new ArrayList<Concoction>();
 
 	static
 	{
@@ -517,7 +517,7 @@ public class ClanLoungeRequest
 	{
 		for ( int i = 0; i < SPEAKEASY_DATA.length; ++i )
 		{
-			if ( id == ( Integer ) ClanLoungeRequest.SPEAKEASY_DATA[ i ][ 1 ] )
+			if ( id == ((Integer)ClanLoungeRequest.SPEAKEASY_DATA[i][1]).intValue() )
 			{
 				return i;
 			}
@@ -568,7 +568,7 @@ public class ClanLoungeRequest
 		return ( index < 0 || index > ClanLoungeRequest.SPEAKEASY_DATA.length ) ? null : (AdventureResult)ClanLoungeRequest.SPEAKEASY_DATA[ index ][3];
 	}
 
-	public static final ArrayList<Concoction> ALL_SPEAKEASY = new ArrayList<>();
+	public static final ArrayList<Concoction> ALL_SPEAKEASY = new ArrayList<Concoction>();
 	private static final String [] CANONICAL_SPEAKEASY_ARRAY = new String[ ClanLoungeRequest.SPEAKEASY_DATA.length ];
 
 	static
@@ -634,20 +634,20 @@ public class ClanLoungeRequest
 		return null;
 	}
 
-	public static final ArrayList<Concoction> ALL_FLOUNDRY = new ArrayList<>();
+	public static final ArrayList<Concoction> ALL_FLOUNDRY = new ArrayList<Concoction>();
 
 	static
 	{
-        for ( Object[] floundryDatum : FLOUNDRY_DATA )
-        {
-            AdventureResult item = ( AdventureResult ) floundryDatum[ 1 ];
-            if ( item != null )
-            {
-                Concoction concoction = ConcoctionPool.get( item );
-                concoction.setMixingMethod( CraftingType.FLOUNDRY );
-                ClanLoungeRequest.ALL_FLOUNDRY.add( concoction );
-            }
-        }
+		for ( int i = 0; i < FLOUNDRY_DATA.length; ++i )
+		{
+			AdventureResult item = (AdventureResult) FLOUNDRY_DATA[i][1];
+			if ( item != null )
+			{
+				Concoction concoction = ConcoctionPool.get( item );
+				concoction.setMixingMethod( CraftingType.FLOUNDRY );
+				ClanLoungeRequest.ALL_FLOUNDRY.add( concoction );
+			}
+		}
 	}
 
     public static final void resetFloundry()
@@ -675,13 +675,13 @@ public class ClanLoungeRequest
 
 	public static final boolean isFloundryItem( AdventureResult item )
 	{
-        for ( Object[] floundryDatum : FLOUNDRY_DATA )
-        {
-            if ( item.equals( floundryDatum[ 1 ] ) )
-            {
-                return true;
-            }
-        }
+		for ( int i = 0; i < FLOUNDRY_DATA.length; ++i )
+		{
+			if ( item.equals( FLOUNDRY_DATA[i][1] ) )
+			{
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -697,25 +697,26 @@ public class ClanLoungeRequest
 		}
 
 		tag = tag.toLowerCase();
-        for ( Object[] game : POOL_GAMES )
-        {
-            Integer index = ( Integer ) game[ 3 ];
-            String stance = ( String ) game[ 0 ];
-            if ( stance.startsWith( tag ) )
-            {
-                return index;
-            }
-            String stat = ( String ) game[ 1 ];
-            if ( stat.startsWith( tag ) )
-            {
-                return index;
-            }
-            String effect = ( String ) game[ 2 ];
-            if ( effect.startsWith( tag ) )
-            {
-                return index;
-            }
-        }
+		for ( int i = 0; i < POOL_GAMES.length; ++i )
+		{
+			Object [] game = POOL_GAMES[i];
+			Integer index = (Integer) game[3];
+			String stance = (String) game[0];
+			if ( stance.startsWith( tag ) )
+			{
+				return index.intValue();
+			}
+			String stat = (String) game[1];
+			if ( stat.startsWith( tag ) )
+			{
+				return index.intValue();
+			}
+			String effect = (String) game[2];
+			if ( effect.startsWith( tag ) )
+			{
+				return index.intValue();
+			}
+		}
 
 		return 0;
 	}
@@ -723,20 +724,21 @@ public class ClanLoungeRequest
 	public static final int findFaxOption( String tag )
 	{
 		tag = tag.toLowerCase();
-        for ( Object[] faxOption : FAX_OPTIONS )
-        {
-            Integer index = ( Integer ) faxOption[ 2 ];
-            String faxCommand0 = ( String ) faxOption[ 0 ];
-            if ( faxCommand0.startsWith( tag ) )
-            {
-                return index;
-            }
-            String faxCommand1 = ( String ) faxOption[ 1 ];
-            if ( faxCommand1.startsWith( tag ) )
-            {
-                return index;
-            }
-        }
+		for ( int i = 0; i < FAX_OPTIONS.length; ++i )
+		{
+			Object [] faxOption = FAX_OPTIONS[i];
+			Integer index = (Integer) faxOption[2];
+			String faxCommand0 = (String) faxOption[0];
+			if ( faxCommand0.startsWith( tag ) )
+			{
+				return index.intValue();
+			}
+			String faxCommand1 = (String) faxOption[1];
+			if ( faxCommand1.startsWith( tag ) )
+			{
+				return index.intValue();
+			}
+		}
 
 		return 0;
 	}
@@ -744,20 +746,21 @@ public class ClanLoungeRequest
 	public static final int findShowerOption( String tag )
 	{
 		tag = tag.toLowerCase();
-        for ( Object[] showerOption : SHOWER_OPTIONS )
-        {
-            Integer index = ( Integer ) showerOption[ 2 ];
-            String temp = ( String ) showerOption[ 0 ];
-            if ( temp.startsWith( tag ) )
-            {
-                return index;
-            }
-            String effect = ( String ) showerOption[ 1 ];
-            if ( effect.startsWith( tag ) )
-            {
-                return index;
-            }
-        }
+		for ( int i = 0; i < SHOWER_OPTIONS.length; ++i )
+		{
+			Object [] showerOption = SHOWER_OPTIONS[i];
+			Integer index = (Integer) showerOption[2];
+			String temp = (String) showerOption[0];
+			if ( temp.startsWith( tag ) )
+			{
+				return index.intValue();
+			}
+			String effect = (String) showerOption[1];
+			if ( effect.startsWith( tag ) )
+			{
+				return index.intValue();
+			}
+		}
 
 		return 0;
 	}
@@ -765,20 +768,21 @@ public class ClanLoungeRequest
 	public static final int findSwimmingOption( String tag )
 	{
 		tag = tag.toLowerCase();
-        for ( Object[] swimmingOption : SWIMMING_OPTIONS )
-        {
-            Integer index = ( Integer ) swimmingOption[ 2 ];
-            String action = ( String ) swimmingOption[ 0 ];
-            if ( action.startsWith( tag ) )
-            {
-                return index;
-            }
-            String effect = ( String ) swimmingOption[ 1 ];
-            if ( effect.startsWith( tag ) )
-            {
-                return index;
-            }
-        }
+		for ( int i = 0; i < SWIMMING_OPTIONS.length; ++i )
+		{
+			Object [] swimmingOption = SWIMMING_OPTIONS[i];
+			Integer index = (Integer) swimmingOption[2];
+			String action = (String) swimmingOption[0];
+			if ( action.startsWith( tag ) )
+			{
+				return index.intValue();
+			}
+			String effect = (String) swimmingOption[1];
+			if ( effect.startsWith( tag ) )
+			{
+				return index.intValue();
+			}
+		}
 
 		return 0;
 	}
@@ -1604,7 +1608,7 @@ public class ClanLoungeRequest
 		}
 
 		// Make a list of all currently available hot dogs
-		ArrayList<Concoction> available = new ArrayList<>();
+		ArrayList<Concoction> available = new ArrayList<Concoction>();
 
 		String stand = standMatcher.group(1);
 		Matcher hotdogMatcher = HOTDOG_ROW_PATTERN.matcher( stand );
@@ -1696,7 +1700,7 @@ public class ClanLoungeRequest
 		}
 
 		// Make a list of all currently available speakeasy drinks
-		ArrayList<Concoction> available = new ArrayList<>();
+		ArrayList<Concoction> available = new ArrayList<Concoction>();
 
 		Matcher speakeasyMatcher = SPEAKEASY_ROW_PATTERN.matcher( responseText );
 		while ( speakeasyMatcher.find() )
@@ -1744,7 +1748,7 @@ public class ClanLoungeRequest
 		ClanLoungeRequest.resetFloundry();
 
 		// Make a list of all currently available floundry items
-		ArrayList<Concoction> available = new ArrayList<>();
+		ArrayList<Concoction> available = new ArrayList<Concoction>();
 
 		Matcher fishStockMatcher = FISH_STOCK_PATTERN.matcher( responseText );
 		while ( fishStockMatcher.find() )

@@ -84,16 +84,16 @@ public class Preferences
 
 	private static final String [] characterMap = new String[ 65536 ];
 
-	private static final HashMap<String, String> globalNames = new HashMap<>();
-	private static final SortedMap<String, Object> globalValues = Collections.synchronizedSortedMap( new TreeMap<>() );
+	private static final HashMap<String, String> globalNames = new HashMap<String, String>();
+	private static final SortedMap<String, Object> globalValues = Collections.synchronizedSortedMap( new TreeMap<String, Object>() );
 	private static File globalPropertiesFile = null;
 
-	private static final HashMap<String,String> userNames = new HashMap<>();
-	private static final SortedMap<String, Object> userValues = Collections.synchronizedSortedMap( new TreeMap<>() );
+	private static final HashMap<String,String> userNames = new HashMap<String,String>();
+	private static final SortedMap<String, Object> userValues = Collections.synchronizedSortedMap( new TreeMap<String, Object>() );
 	private static File userPropertiesFile = null;
 	
-	private static final Set<String> defaultsSet = new HashSet<>();
-	private static final Set<String> perUserGlobalSet = new HashSet<>();
+	private static final Set<String> defaultsSet = new HashSet<String>();
+	private static final Set<String> perUserGlobalSet = new HashSet<String>();
 
 	static
 	{
@@ -463,7 +463,7 @@ public class Preferences
 
 	public static boolean isPerUserGlobalProperty( final String property )
 	{
-		if ( property.contains( "." ) )
+		if ( property.indexOf( "." ) != -1 )
 		{
 			for ( String prefix : Preferences.perUserGlobalSet )
 			{
@@ -633,7 +633,7 @@ public class Preferences
 			map.put( name, value );
 		}
 
-		return ( Boolean ) value;
+		return ((Boolean) value).booleanValue();
 	}
 
 	public static final int getInteger( final String user, final String name )
@@ -652,7 +652,7 @@ public class Preferences
 			map.put( name, value );
 		}
 
-		return ( Integer ) value;
+		return ((Integer) value).intValue();
 	}
 
 	public static final long getLong( final String user, final String name )
@@ -667,11 +667,11 @@ public class Preferences
 
 		if ( !(value instanceof Long) )
 		{
-			value = StringUtilities.parseLong( value.toString() );
+			value = Long.valueOf( StringUtilities.parseLong( value.toString() ) );
 			map.put( name, value );
 		}
 
-		return ( Long ) value;
+		return ((Long) value).longValue();
 	}
 
 	public static final float getFloat( final String user, final String name )
@@ -686,11 +686,11 @@ public class Preferences
 
 		if ( !(value instanceof Float) )
 		{
-			value = StringUtilities.parseFloat( value.toString() );
+			value = new Float( StringUtilities.parseFloat( value.toString() ) );
 			map.put( name, value );
 		}
 
-		return ( Float ) value;
+		return ((Float) value).floatValue();
 	}
 
 	public static final double getDouble( final String user, final String name )
@@ -705,11 +705,11 @@ public class Preferences
 
 		if ( !(value instanceof Double) )
 		{
-			value = StringUtilities.parseDouble( value.toString() );
+			value = Double.valueOf( StringUtilities.parseDouble( value.toString() ) );
 			map.put( name, value );
 		}
 
-		return ( Double ) value;
+		return ((Double) value).doubleValue();
 	}
 
 	private static Map<String, Object> getMap( final String name )
@@ -732,11 +732,11 @@ public class Preferences
 	{
 		if ( defaults )
 		{
-			return new TreeMap<>( user ? userNames : globalNames );
+			return new TreeMap<String, String>( user ? userNames : globalNames );
 		}
 		else
 		{
-			TreeMap<String, String> map = new TreeMap<>();
+			TreeMap<String, String> map = new TreeMap<String, String>();
 			Map<String, Object> srcmap = user ? userValues : globalValues;
 			for ( String pref : srcmap.keySet() )
 			{
@@ -760,7 +760,7 @@ public class Preferences
 		boolean old = Preferences.getBoolean( user, name );
 		if ( old != value )
 		{
-			Preferences.setObject( user, name, value ? "true" : "false", value );
+			Preferences.setObject( user, name, value ? "true" : "false", Boolean.valueOf( value ) );
 		}
 	}
 
@@ -778,7 +778,7 @@ public class Preferences
 		long old = Preferences.getLong( user, name );
 		if ( old != value )
 		{
-			Preferences.setObject( user, name, String.valueOf( value ), value );
+			Preferences.setObject( user, name, String.valueOf( value ), Long.valueOf( value ) );
 		}
 	}
 
@@ -787,7 +787,7 @@ public class Preferences
 		float old = Preferences.getFloat( user, name );
 		if ( old != value )
 		{
-			Preferences.setObject( user, name, String.valueOf( value ), value );
+			Preferences.setObject( user, name, String.valueOf( value ), new Float( value ) );
 		}
 	}
 
@@ -796,7 +796,7 @@ public class Preferences
 		double old = Preferences.getDouble( user, name );
 		if ( old != value )
 		{
-			Preferences.setObject( user, name, String.valueOf( value ), value );
+			Preferences.setObject( user, name, String.valueOf( value ), Double.valueOf( value ) );
 		}
 	}
 
@@ -926,22 +926,23 @@ public class Preferences
 
 	private static void printDefaults( final ChoiceAdventure[] choices, final PrintStream ostream )
 	{
-		for ( ChoiceAdventure choice : choices )
+		for ( int i = 0; i < choices.length; ++i )
 		{
-			String setting = choice.getSetting();
+			String setting = choices[ i ].getSetting();
 
 			ostream.print( "[" + setting.substring( 15 ) + "] " );
-			ostream.print( choice.getName() + ": " );
+			ostream.print( choices[ i ].getName() + ": " );
 
-			Object[] options = choice.getOptions();
+			Object[] options = choices[ i ].getOptions();
 			int defaultOption = StringUtilities.parseInt( Preferences.userNames.get( setting ) );
 			Object def = ChoiceManager.findOption( options, defaultOption );
 
 			ostream.print( def.toString() + " [color=gray](" );
 
 			int printedCount = 0;
-			for ( Object option : options )
+			for ( int j = 0; j < options.length; ++j )
 			{
+				Object option = options[ j ];
 				if ( option == def )
 				{
 					continue;

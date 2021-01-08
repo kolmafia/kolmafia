@@ -281,13 +281,13 @@ public class ContactManager
 		{
 			int addedCount = 0;
 			String[] uniqueList = new String[ uniqueListSize ];
-            for ( String target : targets )
-            {
-                if ( target != null )
-                {
-                    uniqueList[ addedCount++ ] = target;
-                }
-            }
+			for ( int i = 0; i < targets.length; ++i )
+			{
+				if ( targets[ i ] != null )
+				{
+					uniqueList[ addedCount++ ] = targets[ i ];
+				}
+			}
 
 			targets = uniqueList;
 		}

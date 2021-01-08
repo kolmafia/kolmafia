@@ -206,7 +206,7 @@ public class QuestDatabase
 	{
 		BufferedReader reader = FileUtilities.getVersionedReader( "questslog.txt", KoLConstants.QUESTSLOG_VERSION );
 
-		ArrayList<String[]> quests = new ArrayList<>();
+		ArrayList<String[]> quests = new ArrayList<String[]>();
 		String[] data;
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
@@ -229,7 +229,7 @@ public class QuestDatabase
 
 		reader = FileUtilities.getVersionedReader( "questscouncil.txt", KoLConstants.QUESTSCOUNCIL_VERSION );
 
-		quests = new ArrayList<>();
+		quests = new ArrayList<String[]>();
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
@@ -256,12 +256,12 @@ public class QuestDatabase
 			// deal with.
 			return "questG02Whitecastle";
 		}
-		for ( String[] questLogDatum : questLogData )
+		for ( int i = 0; i < questLogData.length; ++i )
 		{
 			// The title may contain other text, so check if quest title is contained in it
-			if ( title.toLowerCase().contains( questLogDatum[ 1 ].toLowerCase() ) )
+			if ( title.toLowerCase().contains( questLogData[ i ][ 1 ].toLowerCase() ) )
 			{
-				return questLogDatum[ 0 ];
+				return questLogData[ i ][ 0 ];
 			}
 		}
 
@@ -288,11 +288,11 @@ public class QuestDatabase
 
 	public static String prefToTitle( final String pref )
 	{
-		for ( String[] questLogDatum : questLogData )
+		for ( int i = 0; i < questLogData.length; ++i )
 		{
-			if ( questLogDatum[ 0 ].toLowerCase().contains( pref.toLowerCase() ) )
+			if ( questLogData[ i ][ 0 ].toLowerCase().contains( pref.toLowerCase() ) )
 			{
-				return questLogDatum[ 1 ];
+				return questLogData[ i ][ 1 ];
 			}
 		}
 
@@ -561,7 +561,7 @@ public class QuestDatabase
 		}
 		else if ( oil.find() )
 		{
-			Preferences.setFloat( "oilPeakProgress", Float.parseFloat( oil.group( 1 ) ) );
+			Preferences.setFloat( "oilPeakProgress", Float.valueOf( oil.group( 1 ) ) );
 		}
 
 
@@ -1113,15 +1113,15 @@ public class QuestDatabase
 
 	public static void resetQuests()
 	{
-		for ( String[] questLogDatum : questLogData )
+		for ( int i = 0; i < questLogData.length; ++i )
 		{
 			// Don't reset Spring Beach Break quests
 			// Don't reset Conspiracy Island quests if finished
-			if ( !questLogDatum[ 0 ].startsWith( "questESl" ) &&
-					!( questLogDatum[ 0 ].startsWith( "questESp" ) &&
-							QuestDatabase.isQuestFinished( questLogDatum[ 0 ] ) ) )
+			if ( !questLogData[ i ][ 0 ].startsWith( "questESl" ) &&
+				!( questLogData[ i ][ 0 ].startsWith( "questESp" ) &&
+				QuestDatabase.isQuestFinished( questLogData[ i ][ 0 ] ) ) )
 			{
-				QuestDatabase.setQuestProgress( questLogDatum[ 0 ], QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( questLogData[ i ][ 0 ], QuestDatabase.UNSTARTED );
 			}
 		}
 		Preferences.resetToDefault( "manorDrawerCount" );
@@ -1214,14 +1214,14 @@ public class QuestDatabase
 		for ( String responseToken : responseTokens )
 		{
 			cleanedResponseToken = QuestDatabase.HTML_WHITESPACE.matcher( responseToken ).replaceAll( "" ).toLowerCase();
-			for ( String[] councilDatum : councilData )
+			for ( int i = 0; i < councilData.length; ++i )
 			{
-				for ( int j = 2; j < councilDatum.length; ++j )
+				for ( int j = 2; j < councilData[ i ].length; ++j )
 				{
 					// Now, we have to split the councilData entry by <p> tags too.
 					// Assume that no two paragraphs are identical, otherwise more loop termination logic is needed.
 
-					String[] councilTokens = councilDatum[ j ].split( "<[pP]>" );
+					String[] councilTokens = councilData[ i ][ j ].split( "<[pP]>" );
 
 					for ( String councilToken : councilTokens )
 					{
@@ -1229,7 +1229,7 @@ public class QuestDatabase
 
 						if ( cleanedResponseToken.contains( cleanedQuestToken ) )
 						{
-							setQuestIfBetter( councilDatum[ 0 ], councilDatum[ 1 ] );
+							setQuestIfBetter( councilData[ i ][ 0 ], councilData[ i ][ 1 ] );
 							break;
 						}
 					}

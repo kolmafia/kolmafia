@@ -60,7 +60,7 @@ public class ChatPoller
 	extends Thread
 {
 	// The most recent HistoryEntries we processed
-	private static final LinkedList<HistoryEntry> chatHistoryEntries = new RollingLinkedList<>( 25 );
+	private static final LinkedList<HistoryEntry> chatHistoryEntries = new RollingLinkedList<HistoryEntry>( 25 );
 
 	// The sequence number of the last HistoryEntry we have added
 	public static long localLastSeen = 0;
@@ -328,7 +328,7 @@ public class ChatPoller
 
 	public synchronized static List<HistoryEntry> getOldEntries( final boolean isRelayRequest )
 	{
-		List<HistoryEntry> newEntries = new ArrayList<>();
+		List<HistoryEntry> newEntries = new ArrayList<HistoryEntry>();
 		final long lastSeen = ChatPoller.localLastSeen;
 
 		synchronized ( ChatPoller.chatHistoryEntries )
@@ -424,7 +424,7 @@ public class ChatPoller
 
 	public static  List<ChatMessage> parseNewChat( final String responseData )
 	{
-		List<ChatMessage> messages = new LinkedList<>();
+		List<ChatMessage> messages = new LinkedList<ChatMessage>();
 		try
 		{
 			ChatPoller.parseNewChat( messages, new JSONObject( responseData ), "", ChatPoller.localLastSeen, true );
@@ -569,7 +569,7 @@ public class ChatPoller
 	{
 		try
 		{
-			List<ChatMessage> messages = new LinkedList<>();
+			List<ChatMessage> messages = new LinkedList<ChatMessage>();
 			JSONObject obj = new JSONObject( responseData );
 
 			// note: output is where /who, /listen, + various game commands

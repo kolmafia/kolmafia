@@ -101,14 +101,14 @@ public class OverlapPanel
 			Object[] items = OverlapPanel.this.getSelectedValues();
 			OverlapPanel.this.getElementList().clearSelection();
 
-            for ( Object item : items )
-            {
-                OverlapPanel.this.overlapModel.remove( item );
-                if ( OverlapPanel.this.overlapModel == KoLConstants.singletonList )
-                {
-                    KoLConstants.junkList.remove( item );
-                }
-            }
+			for ( int i = 0; i < items.length; ++i )
+			{
+				OverlapPanel.this.overlapModel.remove( items[ i ] );
+				if ( OverlapPanel.this.overlapModel == KoLConstants.singletonList )
+				{
+					KoLConstants.junkList.remove( items[ i ] );
+				}
+			}
 
 			OverlapPanel.this.filterItems();
 			e.consume();

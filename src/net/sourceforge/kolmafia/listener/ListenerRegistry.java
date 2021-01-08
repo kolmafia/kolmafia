@@ -49,7 +49,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 public class ListenerRegistry
 {
 	// A registry of listeners:
-	private final HashMap<Object,ArrayList<WeakReference>> listenerMap = new HashMap<>();
+	private final HashMap<Object,ArrayList<WeakReference>> listenerMap = new HashMap<Object,ArrayList<WeakReference>>();
 
 	// Logging. For now, this applies to all types of listeners
 	private static boolean logging = false;
@@ -59,7 +59,7 @@ public class ListenerRegistry
 	}
 
 	// Deferring
-	private final HashSet<Object> deferred = new HashSet<>();
+	private final HashSet<Object> deferred = new HashSet<Object>();
 	private int deferring = 0;
 
 	public ListenerRegistry()
@@ -117,8 +117,13 @@ public class ListenerRegistry
 
 		synchronized ( this.listenerMap )
 		{
-			listenerList = this.listenerMap.computeIfAbsent( key, k -> new ArrayList<>() );
+			listenerList = this.listenerMap.get( key );
 
+			if ( listenerList == null )
+			{
+				listenerList = new ArrayList<WeakReference>();
+				this.listenerMap.put( key, listenerList );
+			}
 		}
 
 		WeakReference reference = new WeakReference( listener );
@@ -186,7 +191,7 @@ public class ListenerRegistry
 			return;
 		}
 
-		HashSet<ArrayList<WeakReference>> listeners = new HashSet<>();
+		HashSet<ArrayList<WeakReference>> listeners = new HashSet<ArrayList<WeakReference>>();
 
 		if ( logit )
 		{
@@ -196,14 +201,16 @@ public class ListenerRegistry
 				entries = this.listenerMap.entrySet();
 			}
 
-            for ( Entry<Object, ArrayList<WeakReference>> entry : entries )
-            {
-                Object key = entry.getKey();
-                ArrayList<WeakReference> listenerList = entry.getValue();
-                int count = listenerList == null ? 0 : listenerList.size();
-                RequestLogger.updateDebugLog( "Firing " + count + " listeners for \"" + key + "\"" );
-                listeners.add( listenerList );
-            }
+			Iterator<Entry<Object,ArrayList<WeakReference>>> i1 = entries.iterator();
+			while ( i1.hasNext() )
+			{
+				Entry<Object,ArrayList<WeakReference>> entry = i1.next();
+				Object key = entry.getKey();
+				ArrayList<WeakReference> listenerList = entry.getValue();
+				int count = listenerList == null ? 0 : listenerList.size();
+				RequestLogger.updateDebugLog( "Firing " + count + " listeners for \"" + key + "\"" );
+				listeners.add( listenerList );
+			}
 		}
 		else
 		{
@@ -216,7 +223,7 @@ public class ListenerRegistry
 		}
 
 		Iterator<ArrayList<WeakReference>> i2 = listeners.iterator();
-		HashSet<Listener> notified = new HashSet<>();
+		HashSet<Listener> notified = new HashSet<Listener>();
 
 		while ( i2.hasNext() )
 		{

@@ -337,7 +337,7 @@ public class ChatFrame
 			this.chatDisplay.addHyperlinkListener( new ChatLinkClickedListener() );
 
 			this.associatedContact = associatedContact;
-			this.commandHistory = new ArrayList<>();
+			this.commandHistory = new ArrayList<String>();
 
 			ChatEntryListener listener = new ChatEntryListener();
 

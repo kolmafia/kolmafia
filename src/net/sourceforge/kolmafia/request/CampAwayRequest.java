@@ -179,7 +179,7 @@ public class CampAwayRequest
 	// <img src="https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/smoke2/question.png" class='float5'></div>
 	private static final Pattern CLOUD_TALK_PATTERN = Pattern.compile( "<img .*?otherimages/smoke2/([^\"]*)\"", Pattern.DOTALL );
 
-	private static final Map<String, Character> cloudLetters = new HashMap<>();
+	private static final Map<String, Character> cloudLetters = new HashMap<String, Character>();
 	static
 	{
 		cloudLetters.put( "a.png", 'A' );

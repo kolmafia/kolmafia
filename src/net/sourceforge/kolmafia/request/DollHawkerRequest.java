@@ -101,7 +101,7 @@ public class DollHawkerRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=elvishp2" ) )
+		if ( !urlString.startsWith( "shop.php" ) || urlString.indexOf( "whichshop=elvishp2" ) == -1 )
 		{
 			return false;
 		}

@@ -86,7 +86,7 @@ public class UnequipCommand
 		for ( int i = 0; i <= EquipmentManager.STICKER3; ++i )
 		{
 			AdventureResult item = EquipmentManager.getEquipment( i );
-			if ( item != null && item.getName().toLowerCase().contains( parameters ) )
+			if ( item != null && item.getName().toLowerCase().indexOf( parameters ) != -1 )
 			{
 				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, i ) );
 			}

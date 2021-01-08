@@ -107,7 +107,7 @@ public class MrStoreRequest
 
 	// Since there are two different currencies, we need to have a map from
 	// itemId to item/count of currency; an AdventureResult.
-	private static final Map<Integer, AdventureResult> buyCosts = new TreeMap<>();
+	private static final Map<Integer, AdventureResult> buyCosts = new TreeMap<Integer, AdventureResult>();
 
 	public MrStoreRequest()
 	{
@@ -142,7 +142,7 @@ public class MrStoreRequest
 		     ( this.action.equals( "pullmras" ) || this.action.equals( "pullunclebs" ) ) )
 		{
 			// You can't pull any more items out of storage today.
-			if ( responseText.contains( "You can't pull any more items out of storage today" ) )
+			if ( responseText.indexOf( "You can't pull any more items out of storage today" ) != -1 )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't pull any more items out of storage today." );
 			}

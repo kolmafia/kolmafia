@@ -286,9 +286,9 @@ public class SkillDatabase
 		}
 
 		String category;
-		int categoryId = skillId / 1000;
+		int categoryId = skillId.intValue() / 1000;
 
-		switch ( skillId )
+		switch ( skillId.intValue() )
 		{
 		case SkillPool.SMILE_OF_MR_A:
 		case SkillPool.SNOWCONE:
@@ -726,7 +726,7 @@ public class SkillDatabase
 	public static final int getSkillType( final int skillId )
 	{
 		Integer skillType = SkillDatabase.skillTypeById.get( IntegerPool.get( skillId ) );
-		return skillType == null ? -1 : skillType;
+		return skillType == null ? -1 : skillType.intValue();
 	}
 
 	public static final String getSkillTypeName( final int skillId )
@@ -736,7 +736,7 @@ public class SkillDatabase
 		{
 			return "unknown";
 		}
-		String typeName = SkillDatabase.skillTypeToTypeName( skillType );
+		String typeName = SkillDatabase.skillTypeToTypeName( skillType.intValue() );
 		return typeName;
 	}
 
@@ -1094,7 +1094,7 @@ public class SkillDatabase
 			return 0;
 		}
 
-		int actualDuration = duration;
+		int actualDuration = duration.intValue();
 		if ( actualDuration == 0 )
 		{
 			return 0;
@@ -1197,7 +1197,7 @@ public class SkillDatabase
 		Integer skillType = SkillDatabase.skillTypeById.get( IntegerPool.get( skillId ) );
 		if ( skillType == null )
 			return false;
-		int type = skillType;
+		int type = skillType.intValue();
 		return type == SUMMON || type == REMEDY || type == SELF_ONLY ||
 			type == SONG || type == COMBAT_NONCOMBAT_REMEDY || type == EXPRESSION;
 	}
@@ -1319,7 +1319,7 @@ public class SkillDatabase
 	private static boolean isType( final int skillId, final int type )
 	{
 		Integer skillType = SkillDatabase.skillTypeById.get( IntegerPool.get( skillId ) );
-		return skillType != null && skillType == type;
+		return skillType != null && skillType.intValue() == type;
 	}
 
 	public static final boolean isSoulsauceSkill( final int skillId )
@@ -1766,7 +1766,7 @@ public class SkillDatabase
 			Integer value = SkillDatabase.skillTypeById.get( skillId );
 			if ( value == null ) continue;
 
-			int skillType = value;
+			int skillType = value.intValue();
 
 			boolean shouldAdd;
 			if ( type == SkillDatabase.ALL )
@@ -2066,7 +2066,7 @@ public class SkillDatabase
 		{
 			oldCasts = IntegerPool.get( 0 );
 		}
-		int newCasts = oldCasts + count;
+		int newCasts = oldCasts.intValue() + count;
 		SkillDatabase.castsById.put( IntegerPool.get( skillId ), IntegerPool.get( newCasts ) );
 	}
 
@@ -2186,7 +2186,7 @@ public class SkillDatabase
 		{
 			return 0;
 		}
-		return casts;
+		return  casts.intValue();
 	}
 
 	public static boolean sourceAgentSkill( int skillId )

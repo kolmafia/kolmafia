@@ -204,10 +204,10 @@ public abstract class GenericPanel
 		}
 
 		ActionConfirmListener listener = new ActionConfirmListener();
-        for ( VerifiableElement element : this.elements )
-        {
-            this.addListener( element.getInputField(), listener );
-        }
+		for ( int i = 0; i < this.elements.length; ++i )
+		{
+			this.addListener( this.elements[ i ].getInputField(), listener );
+		}
 	}
 
 	private void addListener( final Object component, final ActionConfirmListener listener )
@@ -249,22 +249,22 @@ public abstract class GenericPanel
 		}
 
 		Object[] keys = this.listenerMap.keySet().toArray();
-        for ( Object key : keys )
-        {
-            WeakReference ref = ( WeakReference ) this.listenerMap.get( key );
-            if ( ref == null )
-            {
-                continue;
-            }
+		for ( int i = 0; i < keys.length; ++i )
+		{
+			WeakReference ref = (WeakReference) this.listenerMap.get( keys[ i ] );
+			if ( ref == null )
+			{
+				continue;
+			}
 
-            Object listener = ref.get();
-            if ( listener == null )
-            {
-                continue;
-            }
+			Object listener = ref.get();
+			if ( listener == null )
+			{
+				continue;
+			}
 
-            this.removeListener( key, ( ActionConfirmListener ) listener );
-        }
+			this.removeListener( keys[ i ], (ActionConfirmListener) listener );
+		}
 
 		this.listenerMap.clear();
 		this.listenerMap = null;
@@ -306,22 +306,22 @@ public abstract class GenericPanel
 			return;
 		}
 
-        for ( VerifiableElement element : this.elements )
-        {
-            if ( element == null )
-            {
-                continue;
-            }
+		for ( int i = 0; i < this.elements.length; ++i )
+		{
+			if ( this.elements[ i ] == null )
+			{
+				continue;
+			}
 
-            JComponent inputField = element.getInputField();
+			JComponent inputField = this.elements[ i ].getInputField();
 
-            if ( inputField == null )
-            {
-                continue;
-            }
+			if ( inputField == null )
+			{
+				continue;
+			}
 
-            inputField.setEnabled( isEnabled );
-        }
+			inputField.setEnabled( isEnabled );
+		}
 	}
 
 	public void setStatusMessage( final String message )

@@ -233,7 +233,7 @@ public class HaciendaManager
 	public static void questCompleted()
 	{
 		String haciendaLayout = Preferences.getString( "haciendaLayout" );
-		StringBuilder newLayout = new StringBuilder( haciendaLayout );
+		StringBuffer newLayout = new StringBuffer( haciendaLayout );
 
 		for ( int i=0 ; i < 6 ; i++ )
 		{
@@ -306,7 +306,7 @@ public class HaciendaManager
 	
 	private static boolean verifyReward( final String text )
 	{
-		List<AdventureResult> items = new ArrayList<>();
+		List<AdventureResult> items = new ArrayList<AdventureResult>();
 		ResultProcessor.processItems( false, text, items );
 		if ( items.size() > 0 )
 		{
@@ -539,7 +539,7 @@ public class HaciendaManager
 		for ( int i = 0; i < HaciendaManager.RECORDINGS.length; ++i )
 		{
 			Object [] recording = HaciendaManager.RECORDINGS[ i ];
-			if ( effectId == ( Integer ) recording[ 0 ] )
+			if ( effectId == ((Integer)recording[0]).intValue() )
 			{
 				return (String)recording[1];
 			}

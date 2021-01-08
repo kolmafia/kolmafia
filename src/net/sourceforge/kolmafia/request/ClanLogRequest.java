@@ -86,7 +86,7 @@ public class ClanLogRequest
 		Pattern.compile( ClanLogRequest.TIME_REGEX + ": ([^<]*?) launched an attack against (.*?)\\.<br>" );
 	private static final Pattern LOGENTRY_PATTERN = Pattern.compile( "\t<li class=\"(.*?)\">(.*?): (.*?)</li>" );
 
-	private final Map<String, List<StashLogEntry>> stashMap = new TreeMap<>();
+	private final Map<String, List<StashLogEntry>> stashMap = new TreeMap<String, List<StashLogEntry>>();
 
 	public ClanLogRequest()
 	{
@@ -165,7 +165,12 @@ public class ClanLogRequest
 						if ( line.startsWith( " " ) )
 						{
 							currentMember = line.substring( 1, line.length() - 1 );
-							entryList = this.stashMap.computeIfAbsent( currentMember, k -> new ArrayList<>() );
+							entryList = this.stashMap.get( currentMember );
+							if ( entryList == null )
+							{
+								entryList = new ArrayList<StashLogEntry>();
+								this.stashMap.put( currentMember, entryList );
+							}
 						}
 						else if ( line.length() > 0 && !line.startsWith( "<" ) )
 						{
@@ -224,23 +229,23 @@ public class ClanLogRequest
 		ostream.println();
 		ostream.println( "<!-- Begin Stash Log: Do Not Modify Beyond This Point -->" );
 
-        for ( String member : members )
-        {
-            ostream.println( " " + member + ":" );
+		for ( int i = 0; i < members.length; ++i )
+		{
+			ostream.println( " " + members[ i ] + ":" );
 
-            entryList = this.stashMap.get( member );
-            Collections.sort( entryList );
-            entries = entryList.toArray();
+			entryList = this.stashMap.get( members[ i ] );
+			Collections.sort( entryList );
+			entries = entryList.toArray();
 
-            ostream.println( "<ul>" );
-            for ( Object entry : entries )
-            {
-                ostream.println( entry.toString() );
-            }
-            ostream.println( "</ul>" );
+			ostream.println( "<ul>" );
+			for ( int j = 0; j < entries.length; ++j )
+			{
+				ostream.println( entries[ j ].toString() );
+			}
+			ostream.println( "</ul>" );
 
-            ostream.println();
-        }
+			ostream.println();
+		}
 
 		ostream.println( "</body></html>" );
 		ostream.close();
@@ -276,7 +281,7 @@ public class ClanLogRequest
 
 				if ( !this.stashMap.containsKey( currentMember ) )
 				{
-					this.stashMap.put( currentMember, new ArrayList<>() );
+					this.stashMap.put( currentMember, new ArrayList<StashLogEntry>() );
 				}
 
 				entryList = this.stashMap.get( currentMember );
@@ -324,7 +329,7 @@ public class ClanLogRequest
 				currentMember = entryMatcher.group( 2 ).trim();
 				if ( !this.stashMap.containsKey( currentMember ) )
 				{
-					this.stashMap.put( currentMember, new ArrayList<>() );
+					this.stashMap.put( currentMember, new ArrayList<StashLogEntry>() );
 				}
 
 				entryList = this.stashMap.get( currentMember );
@@ -371,7 +376,7 @@ public class ClanLogRequest
 				currentMember = entryMatcher.group( descriptionString.endsWith( " " ) ? 3 : 2 ).trim();
 				if ( !this.stashMap.containsKey( currentMember ) )
 				{
-					this.stashMap.put( currentMember, new ArrayList<>() );
+					this.stashMap.put( currentMember, new ArrayList<StashLogEntry>() );
 				}
 
 				entryList = this.stashMap.get( currentMember );

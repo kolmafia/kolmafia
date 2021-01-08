@@ -227,10 +227,10 @@ public class MoodOptionsPanel
 
 			Object[] names = EffectDatabase.values().toArray();
 
-            for ( Object name : names )
-            {
-                this.EFFECT_MODEL.add( name.toString() );
-            }
+			for ( int i = 0; i < names.length; ++i )
+			{
+				this.EFFECT_MODEL.add( names[ i ].toString() );
+			}
 
 			this.EFFECT_MODEL.sort();
 

@@ -113,83 +113,83 @@ public class CreateItemPanel
 	public void actionConfirmed()
 	{
 		Object[] items = this.getSelectedValues();
-        for ( Object item : items )
-        {
-            CreateItemRequest selection = ( CreateItemRequest ) item;
-            Integer value =
-                    InputFieldUtilities.getQuantity(
-                            "Creating multiple " + selection.getName() + ", " + ( selection.getQuantityPossible() + selection.getQuantityPullable() )
-                                    + " possible", selection.getQuantityPossible() + selection.getQuantityPullable(), 1 );
-            int quantityDesired = ( value == null ) ? 0 : value;
-            if ( quantityDesired < 1 )
-            {
-                continue;
-            }
+		for ( int i = 0; i < items.length; ++i )
+		{
+			CreateItemRequest selection = (CreateItemRequest) items[ i ];
+			Integer value =
+				InputFieldUtilities.getQuantity(
+					"Creating multiple " + selection.getName() + ", " + (selection.getQuantityPossible() + selection.getQuantityPullable())
+					+ " possible", selection.getQuantityPossible() + selection.getQuantityPullable(), 1 );
+			int quantityDesired = ( value == null ) ? 0 : value.intValue();
+			if ( quantityDesired < 1 )
+			{
+				continue;
+			}
 
-            KoLmafia.updateDisplay( "Verifying ingredients..." );
-            int pulled = Math.max( 0, quantityDesired - selection.getQuantityPossible() );
-            int create = quantityDesired - pulled;
+			KoLmafia.updateDisplay( "Verifying ingredients..." );
+			int pulled = Math.max( 0, quantityDesired - selection.getQuantityPossible() );
+			int create = quantityDesired - pulled;
 
-            // Check if user happy to spend turns crafting before creating items
-            // askAboutCrafting uses initial + creatable, not creatable.
-            int initial = selection.concoction.getInitial();
-            selection.setQuantityNeeded( initial + create );
-            if ( InventoryManager.askAboutCrafting( selection ) )
-            {
-                selection.setQuantityNeeded( create );
-                RequestThread.checkpointedPostRequest( selection );
-            }
-            if ( pulled > 0 && KoLmafia.permitsContinue() )
-            {
-                int newbudget = ConcoctionDatabase.getPullsBudgeted() - pulled;
-                RequestThread.postRequest( new StorageRequest(
-                        StorageRequest.STORAGE_TO_INVENTORY,
-                        new AdventureResult[]{ ItemPool.get( selection.getItemId(), pulled ) } ) );
-                ConcoctionDatabase.setPullsBudgeted( newbudget );
-            }
-        }
+			// Check if user happy to spend turns crafting before creating items
+			// askAboutCrafting uses initial + creatable, not creatable.
+			int initial = selection.concoction.getInitial();
+			selection.setQuantityNeeded( initial + create );                       
+			if ( InventoryManager.askAboutCrafting( selection ) )
+			{
+				selection.setQuantityNeeded( create );
+				RequestThread.checkpointedPostRequest( selection );
+			}
+			if ( pulled > 0 && KoLmafia.permitsContinue() )
+			{
+				int newbudget = ConcoctionDatabase.getPullsBudgeted() - pulled;
+				RequestThread.postRequest( new StorageRequest(
+					StorageRequest.STORAGE_TO_INVENTORY,
+					new AdventureResult[] { ItemPool.get( selection.getItemId(), pulled ) } ) );
+				ConcoctionDatabase.setPullsBudgeted( newbudget );
+			}
+		}
 	}
 
 	@Override
 	public void actionCancelled()
 	{
 		Object[] items = this.getSelectedValues();
-        for ( Object item : items )
-        {
-            CreateItemRequest selection = ( CreateItemRequest ) item;
+		for ( int i = 0; i < items.length; ++i )
+		{
+			CreateItemRequest selection = (CreateItemRequest) items[ i ];
 
-            int itemId = selection.getItemId();
-            int maximum = UseItemRequest.maximumUses( itemId, ItemDatabase.getConsumptionType( itemId ) );
+			int itemId = selection.getItemId();
+			int maximum = UseItemRequest.maximumUses( itemId, ItemDatabase.getConsumptionType( itemId ) );
 
-            int quantityDesired = maximum;
-            if ( maximum >= 2 )
-            {
-                Integer value = InputFieldUtilities.getQuantity(
-                        "Creating " + selection.getName() + " for immediate use...", Math.min( maximum,
-                                selection.getQuantityPossible() + selection.getQuantityPullable() ) );
-                quantityDesired = ( value == null ) ? 0 : value;
-            }
+			int quantityDesired = maximum;
+			if ( maximum >= 2 )
+			{
+				Integer value = InputFieldUtilities.getQuantity(
+					"Creating " + selection.getName() + " for immediate use...", Math.min( maximum,
+						selection.getQuantityPossible() + selection.getQuantityPullable() ) );
+				quantityDesired = ( value == null ) ? 0 : value.intValue();
+			}
 
-            if ( quantityDesired < 1 )
-            {
-                continue;
-            }
+			if ( quantityDesired < 1 )
+			{
+				continue;
+			}
 
-            KoLmafia.updateDisplay( "Verifying ingredients..." );
-            int pulled = Math.max( 0, quantityDesired - selection.getQuantityPossible() );
-            selection.setQuantityNeeded( quantityDesired - pulled );
-            RequestThread.checkpointedPostRequest( selection );
+			KoLmafia.updateDisplay( "Verifying ingredients..." );
+			int pulled = Math.max( 0, quantityDesired - selection.getQuantityPossible() );
+			selection.setQuantityNeeded( quantityDesired - pulled );
+			RequestThread.checkpointedPostRequest( selection );
 
-            if ( pulled > 0 && KoLmafia.permitsContinue() )
-            {
-                int newbudget = ConcoctionDatabase.getPullsBudgeted() - pulled;
-                RequestThread.postRequest( new StorageRequest(
-                        StorageRequest.STORAGE_TO_INVENTORY,
-                        new AdventureResult[]{ ItemPool.get( selection.getItemId(), pulled ) } ) );
-                ConcoctionDatabase.setPullsBudgeted( newbudget );
-            }
+			if ( pulled > 0 && KoLmafia.permitsContinue() )
+			{
+				int newbudget = ConcoctionDatabase.getPullsBudgeted() - pulled;
+				RequestThread.postRequest( new StorageRequest(
+					StorageRequest.STORAGE_TO_INVENTORY,
+					new AdventureResult[] { ItemPool.get( selection.getItemId(), pulled ) } ) );
+				ConcoctionDatabase.setPullsBudgeted( newbudget );
+			}
 
-            RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( selection.getItemId(), quantityDesired ) ) );
-        }
+			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( selection.getItemId(), quantityDesired ) ) );
+		}
 	}
 }

@@ -57,7 +57,7 @@ public class NamespaceAddCommand
 		}
 
 		String namespace = Preferences.getString( "commandLineNamespace" );
-		if ( namespace.startsWith( parameters + "," ) || namespace.endsWith( "," + parameters ) || namespace.contains( "," + parameters + "," ) )
+		if ( namespace.startsWith( parameters + "," ) || namespace.endsWith( "," + parameters ) || namespace.indexOf( "," + parameters + "," ) != -1 )
 		{
 			return;
 		}

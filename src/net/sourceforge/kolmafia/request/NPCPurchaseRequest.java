@@ -425,11 +425,11 @@ public class NPCPurchaseRequest
 		}
 
 		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
-        for ( AdventureResult ingredient : ingredients )
-        {
-            ResultProcessor.processResult(
-                    ingredient.getInstance( -1 * ingredient.getCount() * quantity ) );
-        }
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			ResultProcessor.processResult(
+				ingredients[ i ].getInstance( -1 * ingredients[ i ].getCount() * quantity ) );
+		}
 	}
 	
 	private static final Pattern ITEM_PATTERN = Pattern.compile( "<tr rel=\\\"(\\d+).*?descitem.(\\d+)\\)'><b>(.*?)(?:<font.*)?</b>.*?title=\\\"(.*?)\\\">.*?<b>(.*?)</b>.*?whichrow=(\\d+)", Pattern.DOTALL );

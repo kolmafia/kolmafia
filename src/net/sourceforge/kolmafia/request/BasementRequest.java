@@ -231,7 +231,7 @@ public class BasementRequest
 		{
 			// If it was a fight and we won, good.
 
-			if ( FightRequest.INSTANCE.responseCode == 200 && FightRequest.lastResponseText.contains( "<!--WINWINWIN-->" ) )
+			if ( FightRequest.INSTANCE.responseCode == 200 && FightRequest.lastResponseText.indexOf( "<!--WINWINWIN-->" ) != -1 )
 			{
 				return;
 			}
@@ -258,15 +258,15 @@ public class BasementRequest
 
 	public static final String getBasementAction( final String text )
 	{
-		if ( text.contains( "Got Silk?" ) )
+		if ( text.indexOf( "Got Silk?" ) != -1 )
 		{
 			return KoLCharacter.isMoxieClass() ? "1" : "2";
 		}
-		if ( text.contains( "Save the Dolls" ) )
+		if ( text.indexOf( "Save the Dolls" ) != -1 )
 		{
 			return KoLCharacter.isMysticalityClass() ? "1" : "2";
 		}
-		if ( text.contains( "Take the Red Pill" ) )
+		if ( text.indexOf( "Take the Red Pill" ) != -1 )
 		{
 			return KoLCharacter.isMuscleClass() ? "1" : "2";
 		}
@@ -414,7 +414,7 @@ public class BasementRequest
 
 	private static boolean checkForElementalTest( boolean autoSwitch, final String responseText )
 	{
-		if ( responseText.contains( "<b>Peace, Bra!</b>" ) )
+		if ( responseText.indexOf( "<b>Peace, Bra!</b>" ) != -1 )
 		{
 			BasementRequest.element1 = Element.STENCH;
 			BasementRequest.element2 = Element.SLEAZE;
@@ -435,7 +435,7 @@ public class BasementRequest
 			BasementRequest.badelement3 = Element.HOT;
 			BasementRequest.badeffect3 = BasementRequest.HOT_FORM;
 		}
-		else if ( responseText.contains( "<b>Singled Out</b>" ) )
+		else if ( responseText.indexOf( "<b>Singled Out</b>" ) != -1 )
 		{
 			BasementRequest.element1 = Element.COLD;
 			BasementRequest.element2 = Element.SLEAZE;
@@ -456,7 +456,7 @@ public class BasementRequest
 			BasementRequest.badelement3 = Element.HOT;
 			BasementRequest.badeffect3 = BasementRequest.HOT_FORM;
 		}
-		else if ( responseText.contains( "<b>Still Better than Pistachio</b>" ) )
+		else if ( responseText.indexOf( "<b>Still Better than Pistachio</b>" ) != -1 )
 		{
 			BasementRequest.element1 = Element.STENCH;
 			BasementRequest.element2 = Element.HOT;
@@ -477,7 +477,7 @@ public class BasementRequest
 			BasementRequest.badelement3 = Element.HOT;
 			BasementRequest.badeffect3 = BasementRequest.HOT_FORM;
 		}
-		else if ( responseText.contains( "<b>Unholy Writes</b>" ) )
+		else if ( responseText.indexOf( "<b>Unholy Writes</b>" ) != -1 )
 		{
 			BasementRequest.element1 = Element.HOT;
 			BasementRequest.element2 = Element.SPOOKY;
@@ -498,7 +498,7 @@ public class BasementRequest
 			BasementRequest.badelement3 = Element.SLEAZE;
 			BasementRequest.badeffect3 = BasementRequest.SLEAZE_FORM;
 		}
-		else if ( responseText.contains( "<b>The Unthawed</b>" ) )
+		else if ( responseText.indexOf( "<b>The Unthawed</b>" ) != -1 )
 		{
 			BasementRequest.element1 = Element.COLD;
 			BasementRequest.element2 = Element.SPOOKY;
@@ -802,7 +802,7 @@ public class BasementRequest
 
 	private static boolean checkForStatTest( final boolean autoSwitch, final String responseText )
 	{
-		if ( responseText.contains( "Lift 'em" ) || responseText.contains( "Push it Real Good" ) || responseText.contains( "Ring that Bell" ) )
+		if ( responseText.indexOf( "Lift 'em" ) != -1 || responseText.indexOf( "Push it Real Good" ) != -1 || responseText.indexOf( "Ring that Bell" ) != -1 )
 		{
 			double statRequirement = BasementRequest.updateMuscleParameters();
 			BasementRequest.basementTest = TestType.MUSCLE;
@@ -829,7 +829,7 @@ public class BasementRequest
 			return true;
 		}
 
-		if ( responseText.contains( "Gathering:  The Magic" ) || responseText.contains( "Mop the Floor" ) || responseText.contains( "'doo" ) )
+		if ( responseText.indexOf( "Gathering:  The Magic" ) != -1 || responseText.indexOf( "Mop the Floor" ) != -1 || responseText.indexOf( "'doo" ) != -1 )
 		{
 			double statRequirement = BasementRequest.updateMysticalityParameters();
 			BasementRequest.basementTest = TestType.MYSTICALITY;
@@ -856,7 +856,7 @@ public class BasementRequest
 			return true;
 		}
 
-		if ( responseText.contains( "Don't Wake the Baby" ) || responseText.contains( "Grab a cue" ) || responseText.contains( "Smooth Moves" ) )
+		if ( responseText.indexOf( "Don't Wake the Baby" ) != -1 || responseText.indexOf( "Grab a cue" ) != -1 || responseText.indexOf( "Smooth Moves" ) != -1 )
 		{
 			double statRequirement = BasementRequest.updateMoxieParameters();
 			BasementRequest.basementTest = TestType.MOXIE;
@@ -943,7 +943,7 @@ public class BasementRequest
 
 	private static boolean checkForDrainTest( final boolean autoSwitch, final String responseText )
 	{
-		if ( responseText.contains( "Grab the Handles" ) )
+		if ( responseText.indexOf( "Grab the Handles" ) != -1 )
 		{
 			double drainRequirement = BasementRequest.updateMPDrainParameters();
 			BasementRequest.basementTest = TestType.MPDRAIN;
@@ -976,7 +976,7 @@ public class BasementRequest
 			return true;
 		}
 
-		if ( responseText.contains( "Run the Gauntlet Gauntlet" ) )
+		if ( responseText.indexOf( "Run the Gauntlet Gauntlet" ) != -1 )
 		{
 			double drainRequirement = BasementRequest.updateHPDrainParameters();
 			BasementRequest.basementTest = TestType.HPDRAIN;
@@ -1029,49 +1029,49 @@ public class BasementRequest
 
 	private static boolean checkForReward( final String responseText )
 	{
-		if ( responseText.contains( "De Los Dioses" ) )
+		if ( responseText.indexOf( "De Los Dioses" ) != -1 )
 		{
 			BasementRequest.basementTestString = "Encounter: De Los Dioses";
 			return true;
 		}
 
-		if ( responseText.contains( "The Dusk Zone" ) )
+		if ( responseText.indexOf( "The Dusk Zone" ) != -1 )
 		{
 			BasementRequest.basementTestString = "Encounter: The Dusk Zone";
 			return true;
 		}
 
-		if ( responseText.contains( "Giggity Bobbity Boo!" ) )
+		if ( responseText.indexOf( "Giggity Bobbity Boo!" ) != -1 )
 		{
 			BasementRequest.basementTestString = "Encounter: Giggity Bobbity Boo!";
 			return true;
 		}
 
-		if ( responseText.contains( "No Good Deed" ) )
+		if ( responseText.indexOf( "No Good Deed" ) != -1 )
 		{
 			BasementRequest.basementTestString = "Encounter: No Good Deed";
 			return true;
 		}
 
-		if ( responseText.contains( "<b>Fernswarthy's Basement, Level 500</b>" ) )
+		if ( responseText.indexOf( "<b>Fernswarthy's Basement, Level 500</b>" ) != -1 )
 		{
 			BasementRequest.basementTestString = "Encounter: Fernswarthy's Basement, Level 500";
 			return true;
 		}
 
-		if ( responseText.contains( "Got Silk?" ) )
+		if ( responseText.indexOf( "Got Silk?" ) != -1 )
 		{
 			BasementRequest.basementTestString = "Encounter: Got Silk?/Leather is Betther";
 			return true;
 		}
 
-		if ( responseText.contains( "Save the Dolls" ) )
+		if ( responseText.indexOf( "Save the Dolls" ) != -1 )
 		{
 			BasementRequest.basementTestString = "Encounter: Save the Dolls/Save the Cardboard";
 			return true;
 		}
 
-		if ( responseText.contains( "Take the Red Pill" ) )
+		if ( responseText.indexOf( "Take the Red Pill" ) != -1 )
 		{
 			BasementRequest.basementTestString = "Encounter: Take the Red Pill/Take the Blue Pill";
 			return true;
@@ -1089,7 +1089,7 @@ public class BasementRequest
 
 	private static boolean checkForMonster( final String responseText )
 	{
-		if ( responseText.contains( "Don't Fear the Ear" ) )
+		if ( responseText.indexOf( "Don't Fear the Ear" ) != -1 )
 		{
 			// Beast with X Ears
 			BasementRequest.basementMonster = "Beast with X Ears";
@@ -1097,7 +1097,7 @@ public class BasementRequest
 			return true;
 		}
 
-		if ( responseText.contains( "Commence to Pokin" ) )
+		if ( responseText.indexOf( "Commence to Pokin" ) != -1 )
 		{
 			// Beast with X Eyes
 			BasementRequest.basementMonster = "Beast with X Eyes";
@@ -1105,7 +1105,7 @@ public class BasementRequest
 			return true;
 		}
 
-		if ( responseText.contains( "Stone Golem" ) )
+		if ( responseText.indexOf( "Stone Golem" ) != -1 )
 		{
 			// X Stone Golem
 			BasementRequest.basementMonster = "X Stone Golem";
@@ -1113,7 +1113,7 @@ public class BasementRequest
 			return true;
 		}
 
-		if ( responseText.contains( "Hydra" ) )
+		if ( responseText.indexOf( "Hydra" ) != -1 )
 		{
 			// X-headed Hydra
 			BasementRequest.basementMonster = "X-headed Hydra";
@@ -1121,7 +1121,7 @@ public class BasementRequest
 			return true;
 		}
 
-		if ( responseText.contains( "Toast that Ghost" ) )
+		if ( responseText.indexOf( "Toast that Ghost" ) != -1 )
 		{
 			// Ghost of Fernswarthy's Grandfather
 			BasementRequest.basementMonster = "Ghost of Fernswarthy's Grandfather";
@@ -1129,7 +1129,7 @@ public class BasementRequest
 			return true;
 		}
 
-		if ( responseText.contains( "Bottles of Beer on a Golem" ) )
+		if ( responseText.indexOf( "Bottles of Beer on a Golem" ) != -1 )
 		{
 			// X Bottles of Beer on a Golem
 			BasementRequest.basementMonster = "X Bottles of Beer on a Golem";
@@ -1137,7 +1137,7 @@ public class BasementRequest
 			return true;
 		}
 
-		if ( responseText.contains( "Collapse That Waveform" ) )
+		if ( responseText.indexOf( "Collapse That Waveform" ) != -1 )
 		{
 			// X-dimensional horror
 			BasementRequest.basementMonster = "X-dimensional horror";

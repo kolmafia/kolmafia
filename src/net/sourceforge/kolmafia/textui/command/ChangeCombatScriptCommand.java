@@ -88,7 +88,7 @@ public class ChangeCombatScriptCommand
 			{
 				String script = iterator.next();
 
-				if ( script.toLowerCase().contains( parameters ) )
+				if ( script.toLowerCase().indexOf( parameters ) != -1 )
 				{
 					foundScript = true;
 					CombatActionManager.loadStrategyLookup( script );

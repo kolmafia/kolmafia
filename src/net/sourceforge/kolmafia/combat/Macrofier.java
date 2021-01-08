@@ -150,7 +150,7 @@ public class Macrofier
 		if ( Macrofier.macroInterpreter != null )
 		{
 			Object[] parameters = new Object[ 3 ];
-			parameters[ 0 ] = FightRequest.getRoundIndex();
+			parameters[ 0 ] = Integer.valueOf( FightRequest.getRoundIndex() );
 			parameters[ 1 ] = monster;
 			parameters[ 2 ] = FightRequest.lastResponseText;
 
@@ -177,7 +177,7 @@ public class Macrofier
 				{
 					if ( result.startsWith( "\"" ) && result.charAt( result.length() - 1 ) == '\"')
 					{
-						StringBuilder macro = new StringBuilder();
+						StringBuffer macro = new StringBuffer();
 						macro.append( "#macro action\n" );
 						macro.append( result, 1, result.length() - 1 );
 						macro.append( '\n' );
@@ -339,7 +339,7 @@ public class Macrofier
 			RequestLogger.printLine( "" );
 		}
 
-		HashSet<String> allCalls = new HashSet<>();
+		HashSet<String> allCalls = new HashSet<String>();
 		Matcher m = Macrofier.ALLCALLS_PATTERN.matcher( macro );
 
 		while ( m.find() )
@@ -575,26 +575,26 @@ public class Macrofier
 		String indent = "";
 		String element = debug ? "\t" : "\u00A0\u00A0\u00A0\u00A0";
 		String[] pieces = macro.split( "\n" );
-        for ( String piece : pieces )
-        {
-            String line = piece.trim();
-            if ( line.startsWith( "end" ) && indent.length() > 0 )
-            {
-                indent = indent.substring( element.length() );
-            }
-            if ( debug )
-            {
-                RequestLogger.updateDebugLog( indent + line );
-            }
-            else
-            {
-                RequestLogger.printLine( indent + line );
-            }
-            if ( line.startsWith( "if " ) || line.startsWith( "while " ) || line.startsWith( "sub " ) )
-            {
-                indent = indent + element;
-            }
-        }
+		for ( int i = 0; i < pieces.length; ++i )
+		{
+			String line = pieces[ i ].trim();
+			if ( line.startsWith( "end" ) && indent.length() > 0 )
+			{
+				indent = indent.substring( element.length() );
+			}
+			if ( debug )
+			{
+				RequestLogger.updateDebugLog( indent + line );
+			}
+			else
+			{
+				RequestLogger.printLine( indent + line );
+			}
+			if ( line.startsWith( "if " ) || line.startsWith( "while " ) || line.startsWith( "sub " ) )
+			{
+				indent = indent + element;
+			}
+		}
 	}
 
 	public static void macroCommon( StringBuffer macro )
@@ -632,10 +632,10 @@ public class Macrofier
 	public static void macroCombo( StringBuffer macro, int[] combo )
 	{
 		int cost = 0;
-        for ( int k : combo )
-        {
-            cost += SkillDatabase.getMPConsumptionById( k );
-        }
+		for ( int i = 0; i < combo.length; ++i )
+		{
+			cost += SkillDatabase.getMPConsumptionById( combo[ i ] );
+		}
 
 		if ( cost > KoLCharacter.getMaximumMP() )
 		{
@@ -657,12 +657,12 @@ public class Macrofier
 			macro.append( "\n" );
 		}
 		macro.append( "call mafiaround; " );
-        for ( int j : combo )
-        {
-            macro.append( "skill " );
-            macro.append( j );
-            macro.append( "; " );
-        }
+		for ( int i = 0; i < combo.length; ++i )
+		{
+			macro.append( "skill " );
+			macro.append( combo[ i ] );
+			macro.append( "; " );
+		}
 		macro.append( "\n" );
 		if ( !restore )
 		{

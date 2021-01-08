@@ -75,7 +75,7 @@ public class CharPaneDecorator
 	private static final Pattern FONT_TAG_PATTERN = Pattern.compile(
 		"^((?:<font .*?>)?)(.*?)((?:</font>)?)$", Pattern.DOTALL );
 
-	private static final ArrayList<String> recentLocations = new ArrayList<>();
+	private static final ArrayList<String> recentLocations = new ArrayList<String>();
 
 	private static final String[][] BIRDFORM_STRINGS =
 	{
@@ -1075,60 +1075,60 @@ public class CharPaneDecorator
 
 			AdventureResult currentEffect;
 
-            for ( Object missingEffect : missingEffects )
-            {
-                currentEffect = ( AdventureResult ) missingEffect;
+			for ( int i = 0; i < missingEffects.size(); ++i )
+			{
+				currentEffect = (AdventureResult) missingEffects.get( i );
 
-                String effectName = currentEffect.getName();
-                int effectId = currentEffect.getEffectId();
-                String escapedEffectName = StringUtilities.getEntityEncode( effectName );
+				String effectName = currentEffect.getName();
+				int effectId = currentEffect.getEffectId();
+				String escapedEffectName = StringUtilities.getEntityEncode( effectName );
 
-                if ( Evaluator.checkEffectConstraints( effectId ) )
-                {
-                    // Don't include effects that you cannot cast
-                    continue;
-                }
+				if ( Evaluator.checkEffectConstraints( effectId ) )
+				{
+					// Don't include effects that you cannot cast
+					continue;
+				}
 
-                String descriptionId = EffectDatabase.getDescriptionId( effectId );
+				String descriptionId = EffectDatabase.getDescriptionId( effectId );
 
-                buffer.append( "<tr>" );
+				buffer.append( "<tr>" );
 
-                if ( !CharPaneRequest.compactCharacterPane || !Preferences.getBoolean( "relayTextualizesEffects" ) )
-                {
-                    // The extra <td></td> fixes alignment with KoL up-arrows enabled
-                    // and doesn't break anything with them disabled
-                    buffer.append( "<td></td><td><img src=\"" );
-                    buffer.append( EffectDatabase.getImage( effectId ) );
-                    buffer.append( "\" class=hand alt=\"" );
-                    buffer.append( escapedEffectName );
-                    buffer.append( "\" title=\"" );
-                    buffer.append( escapedEffectName );
-                    buffer.append( "\" onClick='eff(\"" );
-                    buffer.append( descriptionId );
-                    buffer.append( "\");'></td>" );
-                }
+				if ( !CharPaneRequest.compactCharacterPane || !Preferences.getBoolean( "relayTextualizesEffects" ) )
+				{
+					// The extra <td></td> fixes alignment with KoL up-arrows enabled
+					// and doesn't break anything with them disabled
+					buffer.append( "<td></td><td><img src=\"" );
+					buffer.append( EffectDatabase.getImage( effectId ) );
+					buffer.append( "\" class=hand alt=\"" );
+					buffer.append( escapedEffectName );
+					buffer.append( "\" title=\"" );
+					buffer.append( escapedEffectName );
+					buffer.append( "\" onClick='eff(\"" );
+					buffer.append( descriptionId );
+					buffer.append( "\");'></td>" );
+				}
 
-                if ( !CharPaneRequest.compactCharacterPane || Preferences.getBoolean( "relayTextualizesEffects" ) )
-                {
-                    buffer.append( "<td><font size=2>" );
-                    buffer.append( escapedEffectName );
-                }
-                else
-                {
-                    buffer.append( "<td><font size=2>" );
-                }
+				if ( !CharPaneRequest.compactCharacterPane || Preferences.getBoolean( "relayTextualizesEffects" ) )
+				{
+					buffer.append( "<td><font size=2>" );
+					buffer.append( escapedEffectName );
+				}
+				else
+				{
+					buffer.append( "<td><font size=2>" );
+				}
 
-                buffer.append( " (0)</font>&nbsp;<a href=\"/KoLmafia/sideCommand?cmd=" );
+				buffer.append( " (0)</font>&nbsp;<a href=\"/KoLmafia/sideCommand?cmd=" );
 
-                buffer.append( StringUtilities.getURLEncode(
-                        MoodManager.getDefaultAction( "lose_effect", effectName ) ) );
+				buffer.append( StringUtilities.getURLEncode(
+					MoodManager.getDefaultAction( "lose_effect", effectName ) ) );
 
-                buffer.append( "&pwd=" );
-                buffer.append( GenericRequest.passwordHash );
-                buffer.append( "\" title=\"Increase rounds of " );
-                buffer.append( escapedEffectName );
-                buffer.append( "\"><img src=\"/images/redup.gif\" border=0></a></td></tr>" );
-            }
+				buffer.append( "&pwd=" );
+				buffer.append( GenericRequest.passwordHash );
+				buffer.append( "\" title=\"Increase rounds of " );
+				buffer.append( escapedEffectName );
+				buffer.append( "\"><img src=\"/images/redup.gif\" border=0></a></td></tr>" );
+			}
 		}
 
 		// Replace all of the shrug off links associated with this response text.
@@ -1250,16 +1250,16 @@ public class CharPaneDecorator
 			}
 			else if ( effectName.equalsIgnoreCase( "Form of...Bird!" ) )
 			{
-                for ( String[] birdformString : BIRDFORM_STRINGS )
-                {
-                    int count = Preferences.getInteger( birdformString[ 0 ] );
-                    if ( count != 0 )
-                    {
-                        buffer.append( birdformString[ 1 ] );
-                        buffer.append( count );
-                        buffer.append( birdformString[ 2 ] );
-                    }
-                }
+				for ( int i = 0; i < BIRDFORM_STRINGS.length; ++i )
+				{
+					int count = Preferences.getInteger( BIRDFORM_STRINGS[ i ][ 0 ] );
+					if ( count != 0 )
+					{
+						buffer.append( BIRDFORM_STRINGS[ i ][ 1 ] );
+						buffer.append( count );
+						buffer.append( BIRDFORM_STRINGS[ i ][ 2 ] );
+					}
+				}
 			}
 
 			if ( !removeAction.equals( "" ) )
@@ -1298,7 +1298,7 @@ public class CharPaneDecorator
 
 				buffer.append( "\"" );
 
-				if ( effectName.contains( "Poisoned" ) || effectName.equals( "Beaten Up" ) )
+				if ( effectName.indexOf( "Poisoned" ) != -1 || effectName.equals( "Beaten Up" ) )
 				{
 					buffer.append( " style=\"color:red\"" );
 				}

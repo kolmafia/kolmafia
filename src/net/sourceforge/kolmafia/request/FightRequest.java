@@ -428,14 +428,14 @@ public class FightRequest
 	};
 
 	// Skills which require a shield
-	private static final HashSet<String> INVALID_WITHOUT_SHIELD = new HashSet<>();
+	private static final HashSet<String> INVALID_WITHOUT_SHIELD = new HashSet<String>();
 	static
 	{
 		INVALID_WITHOUT_SHIELD.add( "2005" );
 		INVALID_WITHOUT_SHIELD.add( "skill shieldbutt" );
 	}
 
-	private static final HashSet<String> INVALID_OUT_OF_WATER = new HashSet<>();
+	private static final HashSet<String> INVALID_OUT_OF_WATER = new HashSet<String>();
 	static
 	{
 		INVALID_OUT_OF_WATER.add( "2024" );
@@ -784,13 +784,13 @@ public class FightRequest
 
 	private static boolean usingPapierEquipment()
 	{
-        for ( AdventureResult adventureResult : PAPIER_EQUIPMENT )
-        {
-            if ( KoLCharacter.hasEquipped( adventureResult ) )
-            {
-                return true;
-            }
-        }
+		for ( int i = 0; i < PAPIER_EQUIPMENT.length; ++i )
+		{
+			if ( KoLCharacter.hasEquipped( PAPIER_EQUIPMENT[ i] ) )
+			{
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -1093,7 +1093,7 @@ public class FightRequest
 				int initialRound = FightRequest.currentRound;
 
 				Object[] parameters = new Object[3];
-				parameters[0] = FightRequest.currentRound;
+				parameters[0] = Integer.valueOf( FightRequest.currentRound );
 				parameters[1] = MonsterStatusTracker.getLastMonster();
 				parameters[2] = FightRequest.lastResponseText;
 
@@ -4819,7 +4819,7 @@ public class FightRequest
 
 	public static final String getSpecialAction()
 	{
-		ArrayList<Integer> items = new ArrayList<>();
+		ArrayList<Integer> items = new ArrayList<Integer>();
 
 		String pref = Preferences.getString( "autoOlfact" );
 		if ( !pref.equals( "" ) && !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
@@ -5644,15 +5644,18 @@ public class FightRequest
 			hasTag = true;
 		}
 
-		for ( Object child : node.getAllChildren() )
+		Iterator it = node.getAllChildren().iterator();
+		while ( it.hasNext() )
 		{
+			Object child = it.next();
+
 			if ( child instanceof ContentNode )
 			{
-				buffer.append( ( ( ContentNode ) child ).getContent() );
+				buffer.append( ((ContentNode) child).getContent() );
 			}
 			else if ( child instanceof TagNode )
 			{
-				hasTag |= FightRequest.extractVerse( ( TagNode ) child, buffer, tag );
+				hasTag |= FightRequest.extractVerse( (TagNode) child, buffer, tag );
 			}
 		}
 
@@ -5932,10 +5935,10 @@ public class FightRequest
 		int damage = 0;
 
 		String[] pieces = title.substring( 8 ).split( "[^\\d,]+" );
-        for ( String piece : pieces )
-        {
-            damage += StringUtilities.parseInt( piece );
-        }
+		for ( int i = 0; i < pieces.length; ++i )
+		{
+			damage += StringUtilities.parseInt( pieces[ i ] );
+		}
 
 		return damage;
 	}
@@ -6342,7 +6345,7 @@ public class FightRequest
 			if ( bnode instanceof TagNode )
 			{
 				TagNode b = (TagNode) bnode;
-				if ( b.getText().toString().contains( " Team:" ) )
+				if ( b.getText().toString().indexOf( " Team:" ) != -1 )
 				{
 					return b.getParent();
 				}
@@ -6528,7 +6531,7 @@ public class FightRequest
 		String image = "";
 		String name = "";
 		int power = 0;
-		List<String> attributes = new ArrayList<>();
+		List<String> attributes = new ArrayList<String>();
 		String attribute = "None";
 		int hp = 0;
 
@@ -6665,35 +6668,36 @@ public class FightRequest
 				// <input title="Knock the frontmost enemy to the back." class="button skb" type="submit" value="Tackle" name="famaction[tackle-7]">
 				TagNode[] inputs = rows[3].getElementsByName( "input", true );
 				int move = 0;
-                for ( TagNode input : inputs )
-                {
-                    String type = input.getAttributeByName( "class" );
-                    if ( type == null || !type.startsWith( "button" ) )
-                    {
-                        continue;
-                    }
-                    String str = input.getAttributeByName( "value" );
-                    String action = input.getAttributeByName( "name" );
-                    String description = input.getAttributeByName( "title" );
-                    if ( move == 2 )
-                    {
-                        str = str.substring( ULTIMATE );
-                    }
-                    if ( action != null )
-                    {
-                        // "famaction[tackle-7]"
-                        int lb = action.indexOf( "[" );
-                        int dash = action.indexOf( "-" );
-                        if ( lb != -1 && dash != -1 )
-                        {
-                            action = action.substring( lb + 1, dash );
-                            actions[ move ] = action;
-                            descriptions[ move ] = description;
-                        }
-                    }
-                    moves[ move++ ] = str;
-                    // *** Get the title and log it, if the move is previously unknown?
-                }
+				for ( int i = 0; i < inputs.length; ++i )
+				{
+					TagNode input = inputs[ i ];
+					String type = input.getAttributeByName( "class" );
+					if ( type == null || !type.startsWith( "button" ) )
+					{
+						continue;
+					}
+					String str = input.getAttributeByName( "value" );
+					String action = input.getAttributeByName( "name" );
+					String description = input.getAttributeByName( "title" );
+					if ( move == 2 )
+					{
+						str = str.substring( ULTIMATE );
+					}
+					if ( action != null )
+					{
+						// "famaction[tackle-7]"
+						int lb = action.indexOf( "[" );
+						int dash = action.indexOf( "-" );
+						if ( lb != -1 && dash != -1 )
+						{
+							action = action.substring( lb + 1, dash );
+							actions[move] = action;
+							descriptions[move] = description;
+						}
+					}
+					moves[ move++ ] = str;
+					// *** Get the title and log it, if the move is previously unknown?
+				}
 			}
 		}
 
@@ -6982,20 +6986,22 @@ public class FightRequest
 			}
 
 			TagNode [] tables = node.getElementsByName( "table", true );
-            for ( TagNode table : tables )
-            {
-                table.getParent().removeChild( table );
-            }
+			for ( int i = 0; i < tables.length; ++i )
+			{
+				TagNode table = tables[i];
+				table.getParent().removeChild( table );
+			}
 
 			if ( FightRequest.processTable( node, status ) )
 			{
 				FightRequest.processChildren( node, status );
 			}
-
-            for ( TagNode table : tables )
-            {
-                FightRequest.processNode( table, status );
-            }
+	
+			for ( int i = 0; i < tables.length; ++i )
+			{
+				TagNode table = tables[i];
+				FightRequest.processNode( table, status );
+			}
 
 			return;
 		}
@@ -7146,18 +7152,21 @@ public class FightRequest
 	private static void processChildren( final TagNode node, final TagStatus status )
 	{
 		StringBuffer action = status.action;
-		for ( Object child : node.getAllChildren() )
+		Iterator it = node.getAllChildren().iterator();
+		while ( it.hasNext() )
 		{
+			Object child = it.next();
+
 			if ( child instanceof CommentNode )
 			{
-				CommentNode object = ( CommentNode ) child;
+				CommentNode object = (CommentNode) child;
 				FightRequest.processComment( object, status );
 				continue;
 			}
 
 			if ( child instanceof ContentNode )
 			{
-				ContentNode object = ( ContentNode ) child;
+				ContentNode object = (ContentNode) child;
 				String str = object.getContent().trim();
 
 				if ( str.equals( "" ) )
@@ -7196,7 +7205,7 @@ public class FightRequest
 					FightRequest.logText( str, status );
 				}
 
-				boolean ghostAction = status.ghost != null && str.contains( status.ghost );
+				boolean ghostAction = status.ghost != null && str.contains( status.ghost);
 				if ( ghostAction && status.logFamiliar )
 				{
 					// Pastamancer ghost action
@@ -7248,7 +7257,7 @@ public class FightRequest
 
 			if ( child instanceof TagNode )
 			{
-				TagNode object = ( TagNode ) child;
+				TagNode object = (TagNode) child;
 				FightRequest.processNode( object, status );
 			}
 		}
@@ -8000,11 +8009,14 @@ public class FightRequest
 
 	private static void processComments( TagNode node, TagStatus status )
 	{
-		for ( Object child : node.getAllChildren() )
+		Iterator it = node.getAllChildren().iterator();
+		while ( it.hasNext() )
 		{
+			Object child = it.next();
+
 			if ( child instanceof CommentNode )
 			{
-				CommentNode object = ( CommentNode ) child;
+				CommentNode object = (CommentNode) child;
 				FightRequest.processComment( object, status );
 			}
 		}
@@ -8073,10 +8085,11 @@ public class FightRequest
 		// thus improve the message we log.
 
 		TagNode [] tables = node.getElementsByName( "table", true );
-        for ( TagNode table : tables )
-        {
-            table.getParent().removeChild( table );
-        }
+		for ( int i = 0; i < tables.length; ++i )
+		{
+			TagNode table = tables[i];
+			table.getParent().removeChild( table );
+		}
 
 		// Always separate multiple lines with slashes
 		StringBuffer text = new StringBuffer();
@@ -8149,10 +8162,11 @@ public class FightRequest
 		}
 
 		// Now process additional familiar actions
-        for ( TagNode table : tables )
-        {
-            FightRequest.processNode( table, status );
-        }
+		for ( int i = 0; i < tables.length; ++i )
+		{
+			TagNode table = tables[i];
+			FightRequest.processNode( table, status );
+		}
 	}
 
 	private static boolean handleFuzzyDice( String content, TagStatus status )
@@ -8656,9 +8670,13 @@ public class FightRequest
 
 		if ( FightRequest.initializeAfterFight && !FightRequest.inMultiFight && !FightRequest.choiceFollowsFight )
 		{
-			Runnable initializeRunner = () -> {
-				LoginManager.login( KoLCharacter.getUserName() );
-				FightRequest.initializeAfterFight = false;
+			Runnable initializeRunner = new Runnable()
+			{
+				public void run()
+				{
+					LoginManager.login( KoLCharacter.getUserName() );
+					FightRequest.initializeAfterFight = false;
+				}
 			};
 
 			RequestThread.runInParallel( initializeRunner );
@@ -10813,14 +10831,14 @@ public class FightRequest
 
 	// ****** Move this somewhere appropriate
 
-	private static final Map<String, String> pokefamMoveToAction1 = new HashMap<>();
-	private static final Map<String, String> pokefamActionToMove1 = new HashMap<>();
-	private static final Map<String, String> pokefamMoveToAction2 = new HashMap<>();
-	private static final Map<String, String> pokefamActionToMove2 = new HashMap<>();
-	private static final Map<String, String> pokefamMoveToAction3 = new HashMap<>();
-	private static final Map<String, String> pokefamActionToMove3 = new HashMap<>();
+	private static final Map<String, String> pokefamMoveToAction1 = new HashMap<String, String>();
+	private static final Map<String, String> pokefamActionToMove1 = new HashMap<String, String>();
+	private static final Map<String, String> pokefamMoveToAction2 = new HashMap<String, String>();
+	private static final Map<String, String> pokefamActionToMove2 = new HashMap<String, String>();
+	private static final Map<String, String> pokefamMoveToAction3 = new HashMap<String, String>();
+	private static final Map<String, String> pokefamActionToMove3 = new HashMap<String, String>();
 
-	private static final Map<String, String> pokefamMoveDescriptions = new HashMap<>();
+	private static final Map<String, String> pokefamMoveDescriptions = new HashMap<String, String>();
 
 	private static void mapMoveToAction( int num, String move, String action, String description )
 	{

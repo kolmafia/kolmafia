@@ -58,7 +58,7 @@ public class DebugModifiers
 		for ( int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i )
 		{
 			String name = Modifiers.getModifierName( i );
-			if ( name.toLowerCase().contains( parameters ) )
+			if ( name.toLowerCase().indexOf( parameters ) != -1 )
 			{
 				DebugModifiers.wanted.put( IntegerPool.get( i ),
 					"<td colspan=3>" + name + "</td>" );
@@ -90,9 +90,11 @@ public class DebugModifiers
 			DebugModifiers.buffer.append( DebugModifiers.currentDesc );
 		}
 		DebugModifiers.buffer.append( "</td>" );
-		for ( Object key : DebugModifiers.wanted.keySet() )
+		Iterator i = DebugModifiers.wanted.keySet().iterator();
+		while ( i.hasNext() )
 		{
-			String item = ( String ) DebugModifiers.adjustments.get( key );
+			Object key = i.next();
+			String item = (String) DebugModifiers.adjustments.get( key );
 			if ( item != null )
 			{
 				DebugModifiers.buffer.append( item );
@@ -160,23 +162,25 @@ public class DebugModifiers
 	public static void allModifiers()
 	{
 		DebugModifiers.buffer.append( "<tr>" );
-		for ( Object key : DebugModifiers.wanted.keySet() )
+		Iterator i = DebugModifiers.wanted.keySet().iterator();
+		while ( i.hasNext() )
 		{
-			int ikey = ( Integer ) key;
-			String item = ( String ) DebugModifiers.wanted.get( key );
+			Object key = i.next();
+			int ikey = ((Integer) key).intValue();
+			String item = (String) DebugModifiers.wanted.get( key );
 			DebugModifiers.buffer.append( item );
 			ArrayList list = new ArrayList();
 			Iterator allmods = Modifiers.getAllModifiers();
 			while ( allmods.hasNext() )
 			{
-				String lookup = ( String ) allmods.next();
+				String lookup = (String) allmods.next();
 				String type = null;
 				String name = null;
 				int ind = lookup.indexOf( ":" );
 				if ( ind > 0 )
 				{
 					type = lookup.substring( 0, ind );
-					name = lookup.replace( type + ":", "" );
+					name = lookup.replace( type + ":", "" );			
 				}
 				else
 				{
@@ -208,18 +212,20 @@ public class DebugModifiers
 		while ( DebugModifiers.adjustments.size() > 0 )
 		{
 			DebugModifiers.buffer.append( "<tr>" );
-			for ( Object key : DebugModifiers.wanted.keySet() )
+			i = DebugModifiers.wanted.keySet().iterator();
+			while ( i.hasNext() )
 			{
-				Iterator li = ( Iterator ) DebugModifiers.adjustments.get( key );
+				Object key = i.next();
+				Iterator li = (Iterator) DebugModifiers.adjustments.get( key );
 				if ( li == null )
 				{
 					DebugModifiers.buffer.append( "<td colspan=3></td>" );
 				}
 				else
 				{
-					Change c = ( Change ) li.next();
+					Change c = (Change) li.next();
 					DebugModifiers.buffer.append( c.toString() );
-
+					
 					if ( !li.hasNext() )
 					{
 						DebugModifiers.adjustments.remove( key );

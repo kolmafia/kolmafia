@@ -83,24 +83,24 @@ public class MushroomRequest
 			return;
 		}
 
-		if ( urlString.contains( "action=plant" ) )
+		if ( urlString.indexOf( "action=plant" ) != -1 )
 		{
 			// We are planting. If we succeeded, pay for it
 			int sporeIndex = MushroomRequest.getSpore( urlString );
 			int [] data = MushroomManager.getSporeDataByIndex( sporeIndex );
-			if (  data != null && responseText.contains( "You plant the spore" ) )
+			if (  data != null && responseText.indexOf( "You plant the spore" ) != -1 )
 			{
 				int price = MushroomManager.getSporePrice( data );
 				ResultProcessor.processMeat( -price );
 			}
 		}
-		else if ( urlString.contains( "action=buyplot" ) )
+		else if ( urlString.indexOf( "action=buyplot" ) != -1 )
 		{
 			// Thanks!  It's all yours.  You can buy spores from us
 			// to get your mushroom garden started.  Click a spot
 			// in your plot to buy a spore there.
 
-			if ( responseText.contains( "It's all yours." ) )
+			if ( responseText.indexOf( "It's all yours." ) != -1 )
 			{
 				ResultProcessor.processMeat( -5000 );
 			}
@@ -144,7 +144,7 @@ public class MushroomRequest
 		}
 
 		String message;
-		if ( urlString.contains( "action=click" ) )
+		if ( urlString.indexOf( "action=click" ) != -1 )
 		{
 			int square = MushroomRequest.getSquare( urlString );
 			if ( square == 0 )
@@ -153,7 +153,7 @@ public class MushroomRequest
 			}
 			message = "pick " + square;
 		}
-		else if ( urlString.contains( "action=plant" ) )
+		else if ( urlString.indexOf( "action=plant" ) != -1 )
 		{
 			int square = MushroomRequest.getSquare( urlString );
 			int sporeIndex = MushroomRequest.getSpore( urlString );
@@ -172,7 +172,7 @@ public class MushroomRequest
 			String name = MushroomManager.getSporeName( data );
 			message = "plant " + square + " " + name;
 		}
-		else if ( urlString.contains( "action=buyplot" ) )
+		else if ( urlString.indexOf( "action=buyplot" ) != -1 )
 		{
 			if ( KoLCharacter.getAvailableMeat() < 5000 )
 			{

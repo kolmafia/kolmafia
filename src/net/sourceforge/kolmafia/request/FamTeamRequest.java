@@ -99,9 +99,9 @@ public class FamTeamRequest
 
 	}
 
-	private static final Map<PokeBoost, Integer> boostToItemId = new HashMap<>();
-	private static final Map<Integer, PokeBoost> itemIdToBoost = new HashMap<>();
-	private static final Map<String, PokeBoost> nameToBoost = new HashMap<>();
+	private static final Map<PokeBoost, Integer> boostToItemId = new HashMap<PokeBoost, Integer>();
+	private static final Map<Integer, PokeBoost> itemIdToBoost = new HashMap<Integer, PokeBoost>();
+	private static final Map<String, PokeBoost> nameToBoost = new HashMap<String, PokeBoost>();
 
 	private static void addBoost( PokeBoost boost, Integer id )
 	{

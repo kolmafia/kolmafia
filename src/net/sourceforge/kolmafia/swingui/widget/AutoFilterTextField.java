@@ -196,10 +196,10 @@ public class AutoFilterTextField
 
 		if ( this.notChecked )
 		{
-			return !elementName.contains( this.text );
+			return elementName.indexOf( this.text ) == -1;
 		}
 
-		return this.strict ? elementName.contains( this.text ) :
+		return this.strict ? elementName.indexOf( this.text ) != -1 :
 			StringUtilities.fuzzyMatches( elementName, this.text );
 	}
 
@@ -331,9 +331,9 @@ public class AutoFilterTextField
 
 				String op = mqty.group( 1 );
 
-				AutoFilterTextField.this.qtyEQ = op.contains( "=" );
-				AutoFilterTextField.this.qtyLT = op.contains( "<" );
-				AutoFilterTextField.this.qtyGT = op.contains( ">" );
+				AutoFilterTextField.this.qtyEQ = op.indexOf( "=" ) != -1;
+				AutoFilterTextField.this.qtyLT = op.indexOf( "<" ) != -1;
+				AutoFilterTextField.this.qtyGT = op.indexOf( ">" ) != -1;
 				AutoFilterTextField.this.text = mqty.replaceFirst( "" );
 			}
 
@@ -345,9 +345,9 @@ public class AutoFilterTextField
 
 				String op = mas.group( 1 );
 
-				AutoFilterTextField.this.asEQ = op.contains( "=" );
-				AutoFilterTextField.this.asLT = op.contains( "<" );
-				AutoFilterTextField.this.asGT = op.contains( ">" );
+				AutoFilterTextField.this.asEQ = op.indexOf( "=" ) != -1;
+				AutoFilterTextField.this.asLT = op.indexOf( "<" ) != -1;
+				AutoFilterTextField.this.asGT = op.indexOf( ">" ) != -1;
 				AutoFilterTextField.this.text = mas.replaceFirst( "" );
 			}
 

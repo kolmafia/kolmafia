@@ -212,10 +212,10 @@ public class PulverizeRequest
 		// You don't know how to properly smash stuff.
 		// You haven't got that many.
 
-		if ( responseText.contains( "too important to pulverize" ) ||
-                responseText.contains( "not something you can pulverize" ) ||
-                responseText.contains( "don't know how to properly smash stuff" ) ||
-                responseText.contains( "haven't got that many" ) )
+		if ( responseText.indexOf( "too important to pulverize" ) != -1 ||
+		     responseText.indexOf( "not something you can pulverize" ) != -1 ||
+		     responseText.indexOf( "don't know how to properly smash stuff" ) != -1 ||
+		     responseText.indexOf( "haven't got that many" ) != -1 )
 		{
 			return 0;
 		}
@@ -244,7 +244,7 @@ public class PulverizeRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "craft.php" ) || !urlString.contains( "action=pulverize" ) )
+		if ( !urlString.startsWith( "craft.php" ) || urlString.indexOf( "action=pulverize" ) == -1 )
 		{
 			return false;
 		}

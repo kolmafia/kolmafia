@@ -867,7 +867,7 @@ public class Modifiers
 
 	public static final int DOUBLE_MODIFIERS = Modifiers.doubleModifiers.length;
 
-	private static final HashSet<String> numericModifiers = new HashSet<>();
+	private static final HashSet<String> numericModifiers = new HashSet<String>();
 	static
 	{
 		for ( int i = 0; i < DOUBLE_MODIFIERS; ++i )
@@ -1558,7 +1558,7 @@ public class Modifiers
 
 	public static List<AdventureResult> getPotentialChanges( final int index )
 	{
-		ArrayList<AdventureResult> available = new ArrayList<>();
+		ArrayList<AdventureResult> available = new ArrayList<AdventureResult>();
 
 		for ( String check : Modifiers.modifiersByName.keySet() )
 		{
@@ -2509,7 +2509,7 @@ public class Modifiers
 
 		public ModifierList() 
 		{
-			this.list = new LinkedList<>();
+			this.list = new LinkedList<Modifier>();
 		}
 
 		public Iterator<Modifier> iterator()
@@ -3099,9 +3099,9 @@ public class Modifiers
 		if ( Modifiers.passiveSkills.isEmpty() )
 		{
 			Object[] keys = Modifiers.modifiersByName.keySet().toArray();
-			for ( Object key : keys )
+			for ( int i = 0; i < keys.length; ++i )
 			{
-				String lookup = ( String ) key;
+				String lookup = (String) keys[ i ];
 				if ( !Modifiers.getTypeFromLookup( lookup ).equals( "Skill" ) )
 				{
 					continue;
@@ -3175,7 +3175,7 @@ public class Modifiers
 		while ( i.hasNext() )
 		{
 			String name = (String) i.next();
-			int mask = ( Integer ) i.next();
+			int mask = ((Integer) i.next()).intValue();
 			if ( (synergetic & mask) == mask )
 			{
 				this.add( Modifiers.getModifiers( "Synergy", name ) );
@@ -3773,9 +3773,9 @@ public class Modifiers
 				patterns = (Object[]) object;
 			}
 
-			for ( Object o : patterns )
+			for ( int j = 0; j < patterns.length; ++j )
 			{
-				Pattern pattern = ( Pattern ) o;
+				Pattern pattern = (Pattern) patterns[ j ];
 				Matcher matcher = pattern.matcher( enchantment );
 				if ( !matcher.find() )
 				{
@@ -3799,9 +3799,9 @@ public class Modifiers
 				if ( tag.equals( "Slime Hates It" ) )
 				{
 					return
-							matcher.group( 1 ) == null ?
-									"Slime Hates It: +1" :
-									"Slime Hates It: +2";
+						matcher.group( 1 ) == null ?
+						"Slime Hates It: +1" :
+						"Slime Hates It: +2";
 				}
 
 				String value = matcher.group( 1 );
@@ -3810,7 +3810,7 @@ public class Modifiers
 				{
 					value = Modifiers.depluralizeClassName( value );
 				}
-
+				
 				return tag + ": " + quote + value.trim() + quote;
 			}
 		}
@@ -4138,18 +4138,18 @@ public class Modifiers
 					continue;
 				}
 				int mask = 0;
-				for ( String piece : pieces )
+				for ( int i = 0; i < pieces.length; ++i )
 				{
-					Modifiers mods = Modifiers.getModifiers( "Item", piece );
+					Modifiers mods = Modifiers.getModifiers( "Item", pieces[ i ] );
 					if ( mods == null )
 					{
-						KoLmafia.updateDisplay( name + " contains element " + piece + " with no modifiers." );
+						KoLmafia.updateDisplay( name + " contains element " + pieces[ i ] + " with no modifiers." );
 						continue loop;
 					}
 					int emask = mods.bitmaps[ Modifiers.SYNERGETIC ];
 					if ( emask == 0 )
 					{
-						KoLmafia.updateDisplay( name + " contains element " + piece + " that isn't Synergetic." );
+						KoLmafia.updateDisplay( name + " contains element " + pieces[ i ] + " that isn't Synergetic." );
 						continue loop;
 					}
 					mask |= emask;
@@ -4166,20 +4166,20 @@ public class Modifiers
 					continue;
 				}
 				int bit = 1 << Modifiers.mutexes.size();
-				for ( String piece : pieces )
+				for ( int i = 0; i < pieces.length; ++i )
 				{
 					Modifiers mods = null;
 					if ( type.equals( "MutexI" ) )
 					{
-						mods = Modifiers.getModifiers( "Item", piece );
+						mods = Modifiers.getModifiers( "Item", pieces[ i ] );
 					}
 					else if ( type.equals( "MutexE" ) )
 					{
-						mods = Modifiers.getModifiers( "Effect", piece );
+						mods = Modifiers.getModifiers( "Effect", pieces[ i ] );
 					}
 					if ( mods == null )
 					{
-						KoLmafia.updateDisplay( name + " contains element " + piece + " with no modifiers." );
+						KoLmafia.updateDisplay( name + " contains element " + pieces[ i ] + " with no modifiers." );
 						continue loop;
 					}
 					mods.bitmaps[ Modifiers.MUTEX ] |= bit;
@@ -4193,7 +4193,7 @@ public class Modifiers
 					KoLmafia.updateDisplay( "Unique items for " + name + " already declared." );
 					continue;
 				}
-				Modifiers.uniques.put( name, new HashSet<>( Arrays.asList( modifiers.split( "/" ) ) ) );
+				Modifiers.uniques.put( name, new HashSet<String>( Arrays.asList( modifiers.split( "/" ) ) ) );
 			}
 		}
 
@@ -4248,7 +4248,7 @@ public class Modifiers
 			Entry entry = (Entry) it.next();
 			Integer key = (Integer) entry.getKey();
 			String name = (String) entry.getValue();
-			int type = ItemDatabase.getConsumptionType( key );
+			int type = ItemDatabase.getConsumptionType( key.intValue() );
 
 			switch ( type )
 			{
@@ -4369,7 +4369,7 @@ public class Modifiers
 			Entry entry = (Entry) it.next();
 			Integer key = (Integer) entry.getKey();
 			String name = (String) entry.getValue();
-			if ( SkillDatabase.isPassive( key ) )
+			if ( SkillDatabase.isPassive( key.intValue() ) )
 			{
 				passives.add( name );
 			}
@@ -4440,7 +4440,7 @@ public class Modifiers
 		while ( it.hasNext() )
 		{
 			String name = (String) it.next();
-			int mask = ( Integer ) it.next();
+			int mask = ((Integer) it.next()).intValue();
 			synergies.add( name );
 		}
 
@@ -4590,7 +4590,7 @@ public class Modifiers
 	public static final void registerItem( final String name, final String text, final int type )
 	{
 		// Examine the item description and decide what it is.
-		ArrayList<String> unknown = new ArrayList<>();
+		ArrayList<String> unknown = new ArrayList<String>();
 		String known = DebugDatabase.parseItemEnchantments( text, unknown, type );
 		DebugDatabase.parseRestores( name, text );
 		Modifiers.registerObject( "Item", name, unknown, known );
@@ -4599,7 +4599,7 @@ public class Modifiers
 	public static final void registerEffect( final String name, final String text )
 	{
 		// Examine the effect description and decide what it is.
-		ArrayList<String> unknown = new ArrayList<>();
+		ArrayList<String> unknown = new ArrayList<String>();
 		String known = DebugDatabase.parseEffectEnchantments( text, unknown );
 		Modifiers.registerObject( "Effect", name, unknown, known );
 	}
@@ -4607,7 +4607,7 @@ public class Modifiers
 	public static final void registerSkill( final String name, final String text )
 	{
 		// Examine the effect description and decide what it is.
-		ArrayList<String> unknown = new ArrayList<>();
+		ArrayList<String> unknown = new ArrayList<String>();
 		String known = DebugDatabase.parseSkillEnchantments( text, unknown );
 		Modifiers.registerObject( "Skill", name, unknown, known );
 	}
@@ -4615,7 +4615,7 @@ public class Modifiers
 	public static final void registerOutfit( final String name, final String text )
 	{
 		// Examine the outfit description and decide what it is.
-		ArrayList<String> unknown = new ArrayList<>();
+		ArrayList<String> unknown = new ArrayList<String>();
 		String known = DebugDatabase.parseOutfitEnchantments( text, unknown );
 		Modifiers.registerObject( "Outfit", name, unknown, known );
 	}

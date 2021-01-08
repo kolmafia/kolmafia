@@ -39,7 +39,7 @@ import java.util.Iterator;
 public class VariableList
 	implements Iterable<Variable>
 {
-	private final ArrayList<Variable> list = new ArrayList<>();
+	private final ArrayList<Variable> list = new ArrayList<Variable>();
 
 	public boolean add( final Variable n )
 	{

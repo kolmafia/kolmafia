@@ -107,8 +107,8 @@ public class ValhallaDecorator
 		reminders.append( "</table>" );
 		reminders.append( "<br><table cellspacing=10 cellpadding=10><tr>" );
 
-		ArrayList<String> skillList = new ArrayList<>();
-		ArrayList<UseSkillRequest> unpermedSkills = new ArrayList<>();
+		ArrayList<String> skillList = new ArrayList<String>();
+		ArrayList<UseSkillRequest> unpermedSkills = new ArrayList<UseSkillRequest>();
 		for ( int i = 0; i < KoLConstants.availableSkills.size(); ++i )
 		{
 			UseSkillRequest skill = KoLConstants.availableSkills.get( i );
@@ -146,26 +146,26 @@ public class ValhallaDecorator
 
 	private static void listPermableSkills( final StringBuffer buffer, final ArrayList unpermedSkills )
 	{
-        for ( Object unpermedSkill : unpermedSkills )
-        {
-            UseSkillRequest skill = ( UseSkillRequest ) unpermedSkill;
-            int skillId = skill.getSkillId();
+		for ( int i = 0; i < unpermedSkills.size(); ++i )
+		{
+			UseSkillRequest skill = (UseSkillRequest)unpermedSkills.get( i );
+			int skillId = skill.getSkillId();
 
-            if ( !SkillDatabase.isPermable( skillId ) )
-            {
-                continue;
-            }
+			if ( !SkillDatabase.isPermable( skillId ) )
+			{
+				continue;
+			}
 
-            String skillName = skill.getSkillName();
+			String skillName = skill.getSkillName();
 
-            buffer.append( "<nobr>" );
-            buffer.append( "<a onClick=\"skill('" );
-            buffer.append( skillId );
-            buffer.append( "');\">" );
-            buffer.append( skillName );
-            buffer.append( "</a>" );
-            buffer.append( "</nobr><br>" );
-        }
+			buffer.append( "<nobr>" );
+			buffer.append( "<a onClick=\"skill('" );
+			buffer.append( skillId );
+			buffer.append( "');\">" );
+			buffer.append( skillName );
+			buffer.append( "</a>" );
+			buffer.append( "</nobr><br>" );
+		}
 	}
 
 	private static int listPermanentSkills( final StringBuffer buffer, final ArrayList skillList, final int startingPoint )

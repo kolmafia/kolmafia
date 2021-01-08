@@ -66,11 +66,11 @@ public class Crimbo10Request
 
 	public static String locationName( final String urlString )
 	{
-		if ( urlString.contains( "place=office" ) )
+		if ( urlString.indexOf( "place=office" ) != -1 )
 		{
 			return "Mr. Mination's Office";
 		}
-		if ( urlString.contains( "place=giftshop" ) )
+		if ( urlString.indexOf( "place=giftshop" ) != -1 )
 		{
 			return "the Gift Shop";
 		}

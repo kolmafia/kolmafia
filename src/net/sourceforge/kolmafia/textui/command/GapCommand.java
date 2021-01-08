@@ -73,27 +73,27 @@ public class GapCommand
 
 		int choicenumber = 0;
 		String buffname = "";
-		if ( parameters.toLowerCase().contains( "skill" ) || parameters.equals( "1" ) ) {
+		if ( parameters.toLowerCase().indexOf( "skill" ) != -1 || parameters.equals( "1" ) ) {
 			choicenumber = 1;
 			buffname = "Super Skill";
 		}
 
-		else if ( parameters.toLowerCase().contains( "structure" ) || parameters.equals( "2" ) ) {
+		else if ( parameters.toLowerCase().indexOf( "structure" ) != -1  || parameters.equals( "2" ) ) {
 			choicenumber = 2;
 			buffname = "Super Structure";
 		}
 
-		else if ( parameters.toLowerCase().contains( "vision" ) || parameters.equals( "3" ) ) {
+		else if ( parameters.toLowerCase().indexOf( "vision" ) != -1  || parameters.equals( "3" ) ) {
 			choicenumber = 3;
 			buffname = "Super Vision";
 		}
 
-		else if ( parameters.toLowerCase().contains( "speed" ) || parameters.equals( "4" ) ) {
+		else if ( parameters.toLowerCase().indexOf( "speed" ) != -1  || parameters.equals( "4" ) ) {
 			choicenumber = 4;
 			buffname = "Super Speed";
 		}
 
-		else if ( parameters.toLowerCase().contains( "accuracy" ) || parameters.equals( "5" ) ) {
+		else if ( parameters.toLowerCase().indexOf( "accuracy" ) != -1  || parameters.equals( "5" ) ) {
 			choicenumber = 5;
 			buffname = "Super Accuracy";
 		}

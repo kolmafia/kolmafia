@@ -64,7 +64,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class MoodTrigger
 	implements Comparable<MoodTrigger>
 {
-	private static final Map<String, Set<String>> knownSources = new HashMap<>();
+	private static final Map<String, Set<String>> knownSources = new HashMap<String, Set<String>>();
 
 	private int skillId = -1;
 	private final AdventureResult effect;
@@ -86,7 +86,7 @@ public class MoodTrigger
 		this.effect = effect;
 		this.name = effect == null ? null : effect.getName();
 
-		if ( ( action.startsWith( "use " ) || action.startsWith( "cast " ) ) && !action.contains( ";" ) )
+		if ( ( action.startsWith( "use " ) || action.startsWith( "cast " ) ) && action.indexOf( ";" ) == -1 )
 		{
 			// Determine the command, the count amount,
 			// and the parameter's unambiguous form.
@@ -152,7 +152,13 @@ public class MoodTrigger
 
 		if ( type.equals( "lose_effect" ) && effect != null )
 		{
-			Set<String> existingActions = MoodTrigger.knownSources.computeIfAbsent( effect.getName(), k -> new LinkedHashSet<>() );
+			Set<String> existingActions = MoodTrigger.knownSources.get( effect.getName() );
+
+			if ( existingActions == null )
+			{
+				existingActions = new LinkedHashSet<String>();
+				MoodTrigger.knownSources.put( effect.getName(), existingActions );
+			}
 
 			existingActions.add( this.action );
 
@@ -193,14 +199,16 @@ public class MoodTrigger
 
 		StringBuilder buffer = new StringBuilder();
 
-		for ( Object existingAction : existingActions )
+		Iterator actionIterator = existingActions.iterator();
+
+		while ( actionIterator.hasNext() )
 		{
 			if ( buffer.length() > 0 )
 			{
 				buffer.append( "|" );
 			}
 
-			String action = ( String ) existingAction;
+			String action = (String) actionIterator.next();
 			buffer.append( action );
 		}
 

@@ -151,10 +151,10 @@ public class ShowDataCommand
 			desiredStream.println();
 
 			String[] holidayPredictions = HolidayDatabase.getHolidayPredictions( today );
-            for ( String holidayPrediction : holidayPredictions )
-            {
-                desiredStream.println( holidayPrediction );
-            }
+			for ( int i = 0; i < holidayPredictions.length; ++i )
+			{
+				desiredStream.println( holidayPredictions[ i ] );
+			}
 
 			desiredStream.println();
 			desiredStream.println( HolidayDatabase.getHoliday( today ) );
@@ -334,18 +334,18 @@ public class ShowDataCommand
 
 			int nBuffs = 0;
 
-            for ( AdventureResult effect : effects )
-            {
-                String skillName = UneffectRequest.effectToSkill( effect.getName() );
-                if ( SkillDatabase.contains( skillName ) )
-                {
-                    int skillId = SkillDatabase.getSkillId( skillName );
-                    if ( SkillDatabase.isAccordionThiefSong( skillId ) )
-                    {
-                        ++nBuffs;
-                    }
-                }
-            }
+			for ( int i = 0; i < effects.length; ++i )
+			{
+				String skillName = UneffectRequest.effectToSkill( effects[ i ].getName() );
+				if ( SkillDatabase.contains( skillName ) )
+				{
+					int skillId = SkillDatabase.getSkillId( skillName );
+					if ( SkillDatabase.isAccordionThiefSong( skillId ) )
+					{
+						++nBuffs;
+					}
+				}
+			}
 
 			desiredStream.println( nBuffs + " of " + UseSkillRequest.songLimit() + " AT buffs active." );
 		}
@@ -449,22 +449,22 @@ public class ShowDataCommand
 		mainList.toArray( items );
 		Matcher m = Pattern.compile( "&lt;.*?&gt;" ).matcher( "" );
 
-        for ( Object item : items )
-        {
-            currentItem = StringUtilities.getCanonicalName( item.toString() );
-            if ( currentItem.contains( filter ) ||
-                    m.reset( currentItem ).replaceAll( "" ).contains( filter ) )
-            {
-                resultList.add( item );
-            }
-        }
+		for ( int i = 0; i < items.length; ++i )
+		{
+			currentItem = StringUtilities.getCanonicalName( items[ i ].toString() );
+			if ( currentItem.indexOf( filter ) != -1 ||
+				m.reset( currentItem ).replaceAll( "" ).indexOf( filter ) != -1 )
+			{
+				resultList.add( items[ i ] );
+			}
+		}
 
 		RequestLogger.printList( resultList, desiredStream );
 	}
 
 	private static String getStatString( final int base, final int adjusted, final int tnp )
 	{
-		StringBuilder statString = new StringBuilder();
+		StringBuffer statString = new StringBuffer();
 		statString.append( KoLConstants.COMMA_FORMAT.format( adjusted ) );
 
 		if ( base != adjusted )

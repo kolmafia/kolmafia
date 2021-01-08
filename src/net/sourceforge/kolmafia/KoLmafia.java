@@ -283,9 +283,9 @@ public abstract class KoLmafia
 		System.out.println();
 		StaticEntity.setGUIRequired( true );
 
-		for ( String arg : args )
+		for ( int i = 0; i < args.length; ++i )
 		{
-			if ( arg.equalsIgnoreCase( "--HELP" ) || arg.equalsIgnoreCase( "/?" ) )
+			if ( args[ i ].equalsIgnoreCase( "--HELP" ) || args[ i ].equalsIgnoreCase( "/?" ) )
 			{
 				System.out.println( "An interface for the online adventure game, The Kingdom of Loathing." );
 				System.out.println( "Please visit kolmafia.sourceforge.net for more information." );
@@ -300,15 +300,15 @@ public abstract class KoLmafia
 
 				System.exit( 0 );
 			}
-			else if ( arg.equalsIgnoreCase( "--VERSION" ) )
+			else if ( args[ i ].equalsIgnoreCase( "--VERSION" ) )
 			{
 				System.exit( 0 );
 			}
-			else if ( arg.equalsIgnoreCase( "--CLI" ) )
+			else if ( args[ i ].equalsIgnoreCase( "--CLI" ) )
 			{
 				StaticEntity.setGUIRequired( false );
 			}
-			else if ( arg.equalsIgnoreCase( "--GUI" ) )
+			else if ( args[ i ].equalsIgnoreCase( "--GUI" ) )
 			{
 				StaticEntity.setGUIRequired( true );
 			}
@@ -329,17 +329,17 @@ public abstract class KoLmafia
 		String actualName;
 		String[] pastUsers = StaticEntity.getPastUserList();
 
-		for ( String pastUser : pastUsers )
+		for ( int i = 0; i < pastUsers.length; ++i )
 		{
-			if ( pastUser.startsWith( "devster" ) )
+			if ( pastUsers[ i ].startsWith( "devster" ) )
 			{
 				continue;
 			}
 
-			actualName = Preferences.getString( pastUser, "displayName" );
+			actualName = Preferences.getString( pastUsers[ i ], "displayName" );
 			if ( actualName.equals( "" ) )
 			{
-				actualName = StringUtilities.globalStringReplace( pastUser, "_", " " );
+				actualName = StringUtilities.globalStringReplace( pastUsers[ i ], "_", " " );
 			}
 
 			KoLConstants.saveStateNames.add( actualName );
@@ -449,8 +449,8 @@ public abstract class KoLmafia
 		String defaultLookAndFeel;
 
 		// Tell UIManager about Look and Feel files in external jars ( defined in KoLGUIConstants)
-		FLATMAP_LIGHT_LOOKS.forEach( UIManager::installLookAndFeel );
-		FLATMAP_DARK_LOOKS.forEach( UIManager::installLookAndFeel );
+		FLATMAP_LIGHT_LOOKS.forEach( ( lookName,  lookClass ) -> UIManager.installLookAndFeel( lookName , lookClass ) );
+		FLATMAP_DARK_LOOKS.forEach( ( lookName,  lookClass ) -> UIManager.installLookAndFeel( lookName , lookClass ) );
 
 		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) || System.getProperty( "os.name" ).startsWith( "Win" ) )
 		{
@@ -628,22 +628,22 @@ public abstract class KoLmafia
 			String unicodeMessage = StringUtilities.getEntityDecode( message, false );
 			ActionPanel[] panels = StaticEntity.getExistingPanels();
 
-			for ( ActionPanel panel : panels )
+			for ( int i = 0; i < panels.length; ++i )
 			{
-				if ( panel instanceof GenericPanel )
+				if ( panels[ i ] instanceof GenericPanel )
 				{
-					( ( GenericPanel ) panel ).setStatusMessage( unicodeMessage );
+					( (GenericPanel) panels[ i ] ).setStatusMessage( unicodeMessage );
 				}
 
-				panel.setEnabled( state != MafiaState.CONTINUE );
+				panels[ i ].setEnabled( state != MafiaState.CONTINUE );
 			}
 
 			Frame [] frames = Frame.getFrames();
-			for ( Frame value : frames )
+			for ( int i = 0; i < frames.length; ++i )
 			{
-				if ( value instanceof GenericFrame )
+				if ( frames[ i ] instanceof GenericFrame )
 				{
-					GenericFrame frame = ( GenericFrame ) value;
+					GenericFrame frame = (GenericFrame) frames[ i ];
 
 					frame.setStatusMessage( unicodeMessage );
 					frame.updateDisplayState( state );
@@ -1900,38 +1900,38 @@ public abstract class KoLmafia
 		// retrieving any items which might be inside
 		// of a closet somewhere.
 
-		for ( AdventureResult adventureResult : requirementsArray )
+		for ( int i = 0; i < requirementsArray.length; ++i )
 		{
-			if ( adventureResult == null )
+			if ( requirementsArray[ i ] == null )
 			{
 				continue;
 			}
 
-			if ( adventureResult.isItem() && retrieveItem )
+			if ( requirementsArray[ i ].isItem() && retrieveItem )
 			{
-				InventoryManager.retrieveItem( adventureResult );
+				InventoryManager.retrieveItem( requirementsArray[ i ] );
 			}
 
-			if ( adventureResult.isItem() )
+			if ( requirementsArray[ i ].isItem() )
 			{
-				actualCount = adventureResult.getCount( KoLConstants.inventory );
+				actualCount = requirementsArray[ i ].getCount( KoLConstants.inventory );
 			}
-			else if ( adventureResult.isStatusEffect() )
+			else if ( requirementsArray[ i ].isStatusEffect() )
 			{
-				actualCount = adventureResult.getCount( KoLConstants.activeEffects );
+				actualCount = requirementsArray[ i ].getCount( KoLConstants.activeEffects );
 			}
-			else if ( adventureResult.getName().equals( AdventureResult.MEAT ) )
+			else if ( requirementsArray[ i ].getName().equals( AdventureResult.MEAT ) )
 			{
 				actualCount = KoLCharacter.getAvailableMeat();
 			}
 
-			if ( actualCount >= adventureResult.getCount() )
+			if ( actualCount >= requirementsArray[ i ].getCount() )
 			{
-				requirements.remove( adventureResult );
+				requirements.remove( requirementsArray[ i ] );
 			}
 			else if ( actualCount > 0 )
 			{
-				AdventureResult.addResultToList( requirements, adventureResult.getInstance( 0 - actualCount ) );
+				AdventureResult.addResultToList( requirements, requirementsArray[ i ].getInstance( 0 - actualCount ) );
 			}
 		}
 

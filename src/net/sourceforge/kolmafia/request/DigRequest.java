@@ -67,7 +67,7 @@ public class DigRequest
 			return;
 		}
 
-		if ( responseText.contains( "Your archaeologing shovel can't take any more abuse." ) )
+		if ( responseText.indexOf( "Your archaeologing shovel can't take any more abuse." ) != -1 )
 		{
 			EquipmentManager.breakEquipment( ItemPool.ARCHAEOLOGING_SHOVEL,
 				"Your archaeologing shovel crumbled." );

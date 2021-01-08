@@ -53,7 +53,7 @@ public class Mood
 	public Mood( String name )
 	{
 		this.name = name;
-		this.parentNames = new ArrayList<>();
+		this.parentNames = new ArrayList<String>();
 		
 		int extendsIndex = this.name.indexOf( " extends " );
 		
@@ -86,7 +86,7 @@ public class Mood
 			this.name = this.getName( this.name );
 		}
 
-		this.localTriggers = new SortedListModel<>();
+		this.localTriggers = new SortedListModel<MoodTrigger>();
 	}
 
 	public String getName()
@@ -121,7 +121,7 @@ public class Mood
 	
 	public List<MoodTrigger> getTriggers()
 	{
-		ArrayList<MoodTrigger> triggers = new ArrayList<>();
+		ArrayList<MoodTrigger> triggers = new ArrayList<MoodTrigger>();
 		
 		for ( String parentName : this.parentNames )
 		{

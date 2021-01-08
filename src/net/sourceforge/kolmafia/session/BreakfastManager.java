@@ -286,7 +286,7 @@ public class BreakfastManager
 			int usable = UseItemRequest.maximumUses( toy.getItemId() );
 			int needed = Math.min( toy.getCount(), usable );
 			int available = 0;
-			int count = 0;
+			int count;
 
 			if ( ( count = toy.getCount( KoLConstants.inventory ) ) > 0 )
 			{
@@ -548,22 +548,22 @@ public class BreakfastManager
 		return done;
 	}
 
-	public static List getBreakfastTomeSkills()
+	public static ArrayList<String> getBreakfastTomeSkills()
 	{
 		return BreakfastManager.getBreakfastBookSkills( "tomeSkills", UseSkillRequest.TOME_SKILLS );
 	}
 
-	public static List getBreakfastGrimoireSkills()
+	public static ArrayList<String> getBreakfastGrimoireSkills()
 	{
 		return BreakfastManager.getBreakfastBookSkills( "grimoireSkills", UseSkillRequest.GRIMOIRE_SKILLS );
 	}
 
-	public static List getBreakfastLibramSkills()
+	public static ArrayList<String> getBreakfastLibramSkills()
 	{
 		return BreakfastManager.getBreakfastBookSkills( "libramSkills", UseSkillRequest.LIBRAM_SKILLS );
 	}
 
-	private static List getBreakfastBookSkills( final String setting, final String [] skills )
+	private static ArrayList<String> getBreakfastBookSkills( final String setting, final String [] skills )
 	{
 		String suffix = KoLCharacter.canInteract() ? "Softcore" : "Hardcore";
 		String name = Preferences.getString( setting + suffix );
@@ -586,25 +586,27 @@ public class BreakfastManager
 		boolean castAll = name.equals( "all" );
 
 		// Determine how many skills we will cast from this list
-        for ( String skillName : skills )
-        {
-            if ( !castAll && !name.equals( skillName ) )
-            {
-                continue;
-            }
+		for ( int i = 0; i < skills.length; ++i )
+		{
+			String skillName = skills[ i ];
 
-            if ( !KoLCharacter.hasSkill( skillName ) )
-            {
-                continue;
-            }
+			if ( !castAll && !name.equals( skillName ) )
+			{
+				continue;
+			}
 
-            list.add( skillName );
-        }
+			if ( !KoLCharacter.hasSkill( skillName ) )
+			{
+				continue;
+			}
+
+			list.add( skillName );
+		}
 
 		return list;
 	}
 
-	public static boolean castBookSkills( final List castable, final BookType type, final boolean allowRestore, final int manaRemaining )
+	public static boolean castBookSkills( final List<String> castable, final BookType type, final boolean allowRestore, final int manaRemaining )
 	{
 		int skillCount = castable.size();
 
@@ -658,13 +660,13 @@ public class BreakfastManager
 		// We are casting more than one skill from this list. Cast one
 		// at a time until we are done.
 
-        for ( Object o : castable )
-        {
-            String skillName = ( String ) o;
+		for ( int i = 0; i < skillCount; ++i )
+		{
+			String skillName = (String) castable.get(i);
 
-            done &= BreakfastManager.castSkill( skillName, cast, allowRestore, manaRemaining );
-            cast = nextCast;
-        }
+			done &= BreakfastManager.castSkill( skillName, cast, allowRestore, manaRemaining );
+			cast = nextCast;
+		}
 
 		return done;
 	}
@@ -828,7 +830,6 @@ public class BreakfastManager
 		if ( current == farmOutfit )
 		{
 			visitFarmer();
-			farmOutfit = null;
 		}
 
 		if ( current == lighthouseOutfit )

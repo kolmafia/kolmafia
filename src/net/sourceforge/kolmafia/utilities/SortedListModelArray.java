@@ -44,7 +44,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class SortedListModelArray<E>
 {
-	private final ArrayList<SortedListModel<E>> internalList = new ArrayList<>();
+	private final ArrayList<SortedListModel<E>> internalList = new ArrayList<SortedListModel<E>>();
 
 	public SortedListModel<E> get( final int index )
 	{

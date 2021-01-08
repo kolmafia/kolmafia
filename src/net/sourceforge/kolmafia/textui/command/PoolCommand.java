@@ -76,9 +76,9 @@ public class PoolCommand
 			}
 		}
 
-        for ( int j : option )
-        {
-            RequestThread.postRequest( new ClanLoungeRequest( ClanLoungeRequest.POOL_TABLE, j ) );
-        }
+		for ( int i = 0; i < option.length; ++i )
+		{
+			RequestThread.postRequest( new ClanLoungeRequest( ClanLoungeRequest.POOL_TABLE, option[i] ) );
+		}
 	}
 }

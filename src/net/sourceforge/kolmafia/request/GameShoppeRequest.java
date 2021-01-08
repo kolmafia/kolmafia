@@ -147,7 +147,7 @@ public class GameShoppeRequest
 			return;
 		}
 
-		if ( urlString.contains( "place=cashier" ) )
+		if ( urlString.indexOf( "place=cashier" ) != -1 )
 		{
 			// Learn new trade items by simply visiting GameShoppe
 			Matcher matcher = ITEM_PATTERN.matcher( responseText );
@@ -173,7 +173,7 @@ public class GameShoppeRequest
 		String action = GenericRequest.getAction( location );
 		if ( action == null )
 		{
-			if ( !location.contains( "place=cashier" ) )
+			if ( location.indexOf( "place=cashier" ) == -1 )
 			{
 				return;
 			}
@@ -181,7 +181,7 @@ public class GameShoppeRequest
 		else if ( action.equals( "redeem" ) )
 		{
 			CoinmasterData data = GameShoppeRequest.GAMESHOPPE;
-			if ( !responseText.contains( "You don't have enough" ) )
+			if ( responseText.indexOf( "You don't have enough" ) == -1 )
 			{
 				CoinMasterRequest.completePurchase( data, location );
 			}
@@ -190,7 +190,7 @@ public class GameShoppeRequest
 		{
 			CoinmasterData data = GameShoppeRequest.GAMESHOPPE;
 			// The teenager scowls. "You can't trade in cards you don't have."
-			if ( !responseText.contains( "You can't trade in cards you don't have" ) )
+			if ( responseText.indexOf( "You can't trade in cards you don't have" ) == -1 )
 			{
 				CoinMasterRequest.completeSale( data, location );
 			}
@@ -228,7 +228,7 @@ public class GameShoppeRequest
 
 		String message = null;
 
-		if ( !urlString.contains( "action" ) && urlString.contains( "place=cashier" ) )
+		if ( urlString.indexOf( "action" ) == -1 && urlString.indexOf( "place=cashier" ) != -1 )
 		{
 			message = "Visiting Game Shoppe Cashier";
 			RequestLogger.updateSessionLog();

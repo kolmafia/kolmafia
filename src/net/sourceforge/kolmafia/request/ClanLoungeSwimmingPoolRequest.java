@@ -157,7 +157,7 @@ public class ClanLoungeSwimmingPoolRequest
 		}
 		
 		// Only match when diving for treasure, to avoid false positives when others are chatting
-		if ( urlString.contains( "action=treasure" ) )
+		if ( urlString.indexOf( "action=treasure" ) != -1 )
 		{
 			Matcher swimmingPoolMatcher = SWIMMING_POOL_PATTERN.matcher( responseText );
 			if ( swimmingPoolMatcher.find() )
@@ -176,23 +176,23 @@ public class ClanLoungeSwimmingPoolRequest
 	{
 		String actionDescription = null;
 		
-		if ( urlString.contains( "action=flip" ) )
+		if ( urlString.indexOf( "action=flip" ) != -1 )
 		{
 			actionDescription = "Doing handstand in";
 		}
-		if ( urlString.contains( "action=leave" ) )
+		if ( urlString.indexOf( "action=leave" ) != -1 )
 		{
 			actionDescription = "Getting out of";
 		}
-		if ( urlString.contains( "action=say" ) )
+		if ( urlString.indexOf( "action=say" ) != -1 )
 		{
 			actionDescription = "Saying something in";
 		}
-		if ( urlString.contains( "action=blink" ) )
+		if ( urlString.indexOf( "action=blink" ) != -1 )
 		{
 			actionDescription = "Blinking in";
 		}
-		if ( urlString.contains( "action=treasure" ) )
+		if ( urlString.indexOf( "action=treasure" ) != -1 )
 		{
 			actionDescription = "Diving for treasure in";
 		}
@@ -206,7 +206,7 @@ public class ClanLoungeSwimmingPoolRequest
 
 	public static boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "choice.php" ) || !urlString.contains( "whichchoice=585" ) )
+		if ( !urlString.startsWith( "choice.php" ) || urlString.indexOf( "whichchoice=585" ) == -1 )
 		{
 			return false;
 		}

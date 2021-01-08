@@ -146,7 +146,7 @@ public class BugbearManager
 
 	public static int dataToId( Object[] data )
 	{
-		return data == null ? 0 : ( Integer ) data[ 1 ];
+		return data == null ? 0 : ((Integer)data[ 1 ]).intValue();
 	}
 
 	public static String dataToBugbear( Object[] data )
@@ -182,7 +182,7 @@ public class BugbearManager
 
 	public static int dataToLevel( Object[] data )
 	{
-		return data == null ? 0 : ( Integer ) data[ 4 ];
+		return data == null ? 0 : ((Integer)data[ 4 ]).intValue();
 	}
 
 	public static String dataToStatusSetting( Object[] data )

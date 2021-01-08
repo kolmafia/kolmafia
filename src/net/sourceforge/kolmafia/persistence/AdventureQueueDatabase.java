@@ -72,8 +72,8 @@ public class AdventureQueueDatabase
 {
 	private static final long serialVersionUID = -180241952508113931L;
 
-	private static TreeMap<String, RollingLinkedList<String>> COMBAT_QUEUE = new TreeMap<>();
-	private static TreeMap<String, RollingLinkedList<String>> NONCOMBAT_QUEUE = new TreeMap<>();
+	private static TreeMap<String, RollingLinkedList<String>> COMBAT_QUEUE = new TreeMap<String, RollingLinkedList<String>>();
+	private static TreeMap<String, RollingLinkedList<String>> NONCOMBAT_QUEUE = new TreeMap<String, RollingLinkedList<String>>();
 
 	// debugging tool
 	public static void showQueue()
@@ -127,15 +127,15 @@ public class AdventureQueueDatabase
 
 	private static void resetQueue( boolean serializeAfterwards )
 	{
-		AdventureQueueDatabase.COMBAT_QUEUE = new TreeMap<>();
-		AdventureQueueDatabase.NONCOMBAT_QUEUE = new TreeMap<>();
+		AdventureQueueDatabase.COMBAT_QUEUE = new TreeMap<String, RollingLinkedList<String>>();
+		AdventureQueueDatabase.NONCOMBAT_QUEUE = new TreeMap<String, RollingLinkedList<String>>();
 
 		List<KoLAdventure> list = AdventureDatabase.getAsLockableListModel();
 
 		for ( KoLAdventure adv : list )
 		{
-			AdventureQueueDatabase.COMBAT_QUEUE.put( adv.getAdventureName(), new RollingLinkedList<>( 5 ) );
-			AdventureQueueDatabase.NONCOMBAT_QUEUE.put( adv.getAdventureName(), new RollingLinkedList<>( 5 ) );
+			AdventureQueueDatabase.COMBAT_QUEUE.put( adv.getAdventureName(), new RollingLinkedList<String>( 5 ) );
+			AdventureQueueDatabase.NONCOMBAT_QUEUE.put( adv.getAdventureName(), new RollingLinkedList<String>( 5 ) );
 		}
 
 		if ( serializeAfterwards )
@@ -261,7 +261,7 @@ public class AdventureQueueDatabase
 			ObjectOutputStream out = new ObjectOutputStream( fileOut );
 
 			// make a collection with combat queue first
-			List<TreeMap<String, RollingLinkedList<String>>> queues = new ArrayList<>();
+			List<TreeMap<String, RollingLinkedList<String>>> queues = new ArrayList<TreeMap<String, RollingLinkedList<String>>>();
 			queues.add( COMBAT_QUEUE );
 			queues.add( NONCOMBAT_QUEUE );
 			out.writeObject( queues );

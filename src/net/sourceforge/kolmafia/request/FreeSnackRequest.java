@@ -115,7 +115,7 @@ public class FreeSnackRequest
 
 	public static void parseFreeSnackVisit( final String location, final String responseText )
 	{
-		if ( responseText.contains( "You acquire" ) )
+		if ( responseText.indexOf( "You acquire" ) != -1 )
 		{
 			CoinmasterData data = FreeSnackRequest.FREESNACKS;
 			CoinMasterRequest.completePurchase( data, location );

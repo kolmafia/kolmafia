@@ -372,58 +372,58 @@ public class SkillBuffFrame
 		private void setSkillListeners()
 		{
 			PreferenceListenerRegistry.registerPreferenceListener( "tomeSummons", this );
-            for ( String[] daily_limited_skill : DAILY_LIMITED_SKILLS )
-            {
-                String setting = daily_limited_skill[ 1 ];
-                PreferenceListenerRegistry.registerPreferenceListener( setting, this );
-            }
+			for ( int i = 0; i < DAILY_LIMITED_SKILLS.length; ++i )
+			{
+				String setting = DAILY_LIMITED_SKILLS[ i ][ 1 ];
+				PreferenceListenerRegistry.registerPreferenceListener( setting, this );
+			}
 		}
 		
 		public void update()
 		{
 			this.clearDisabledItems();
+			
+			for ( int i = 0; i < DAILY_LIMITED_SKILLS.length; ++i )
+			{
+				String skill = DAILY_LIMITED_SKILLS[ i ][ 0 ];
+				String setting = DAILY_LIMITED_SKILLS[ i ][ 1 ];
+				String type = DAILY_LIMITED_SKILLS[ i ][ 2 ];
+				String value = DAILY_LIMITED_SKILLS[ i ][ 3 ];
 
-            for ( String[] daily_limited_skill : DAILY_LIMITED_SKILLS )
-            {
-                String skill = daily_limited_skill[ 0 ];
-                String setting = daily_limited_skill[ 1 ];
-                String type = daily_limited_skill[ 2 ];
-                String value = daily_limited_skill[ 3 ];
+				boolean skillDisable = false;
+				
+				if ( type.equals( "boolean" ) )
+				{
+					skillDisable = Preferences.getBoolean( setting ) == Boolean.valueOf( value );
+				}
+				else if ( type.equals( "integer" ) )
+				{
+					skillDisable = Preferences.getInteger( setting ) >= Integer.valueOf( value );
+				}
+				else if ( type.equals( "variable" ) )
+				{
+					if ( value.equals( "tomesummons" ) )
+					{
+						int used = Preferences.getInteger( KoLCharacter.canInteract() ? setting : "tomeSummons" );
+						int maxCast =  Math.max( 3 - used, 0 );
+						skillDisable = maxCast == 0;
+					}
+				}
 
-                boolean skillDisable = false;
-
-                if ( type.equals( "boolean" ) )
-                {
-                    skillDisable = Preferences.getBoolean( setting ) == Boolean.parseBoolean( value );
-                }
-                else if ( type.equals( "integer" ) )
-                {
-                    skillDisable = Preferences.getInteger( setting ) >= Integer.parseInt( value );
-                }
-                else if ( type.equals( "variable" ) )
-                {
-                    if ( value.equals( "tomesummons" ) )
-                    {
-                        int used = Preferences.getInteger( KoLCharacter.canInteract() ? setting : "tomeSummons" );
-                        int maxCast = Math.max( 3 - used, 0 );
-                        skillDisable = maxCast == 0;
-                    }
-                }
-
-                int selected = this.getSelectedIndex();
-                for ( int j = 0; j < this.getItemCount(); j++ )
-                {
-                    Object obj = this.getItemAt( j );
-                    if ( obj.toString().contains( skill ) )
-                    {
-                        this.setDisabledIndex( j, skillDisable );
-                        if ( skillDisable && j == selected )
-                        {
-                            this.setSelectedIndex( -1 );
-                        }
-                    }
-                }
-            }
+				int selected = this.getSelectedIndex();
+				for ( int j = 0 ; j < this.getItemCount() ; j++ )
+				{
+					Object obj = this.getItemAt( j );
+					if ( obj.toString().contains( skill ) )
+					{
+						this.setDisabledIndex( j, skillDisable );
+						if ( skillDisable && j == selected )
+						{
+							this.setSelectedIndex( -1 );
+						}
+					}
+				}
+			}
 		}
 	}
 

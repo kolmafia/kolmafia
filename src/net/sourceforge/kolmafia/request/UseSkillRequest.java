@@ -82,7 +82,7 @@ public class UseSkillRequest
 	extends GenericRequest
 	implements Comparable<UseSkillRequest>
 {
-	private static final HashMap<Integer, UseSkillRequest> ALL_SKILLS = new HashMap<>();
+	private static final HashMap<Integer, UseSkillRequest> ALL_SKILLS = new HashMap<Integer, UseSkillRequest>();
 	private static final Pattern SKILLID_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern BOOKID_PATTERN = Pattern.compile( "preaction=(?:summon|combine)([^&]*)" );
 
@@ -1374,18 +1374,18 @@ public class UseSkillRequest
 
 		AdventureResult[] effects = new AdventureResult[ KoLConstants.activeEffects.size() ];
 		KoLConstants.activeEffects.toArray( effects );
-        for ( AdventureResult effect : effects )
-        {
-            String skillName = UneffectRequest.effectToSkill( effect.getName() );
-            if ( SkillDatabase.contains( skillName ) )
-            {
-                int skillId = SkillDatabase.getSkillId( skillName );
-                if ( SkillDatabase.isAccordionThiefSong( skillId ) )
-                {
-                    count++;
-                }
-            }
-        }
+		for ( int i = 0; i < effects.length; ++i )
+		{
+			String skillName = UneffectRequest.effectToSkill( effects[ i ].getName() );
+			if ( SkillDatabase.contains( skillName ) )
+			{
+				int skillId = SkillDatabase.getSkillId( skillName );
+				if ( SkillDatabase.isAccordionThiefSong( skillId ) )
+				{
+					count++;
+				}
+			}
+		}
 		return count;
 	}
 
@@ -1398,18 +1398,18 @@ public class UseSkillRequest
 
 		AdventureResult[] effects = new AdventureResult[ KoLConstants.activeEffects.size() ];
 		KoLConstants.activeEffects.toArray( effects );
-        for ( AdventureResult effect : effects )
-        {
-            String skillName = UneffectRequest.effectToSkill( effect.getName() );
-            if ( SkillDatabase.contains( skillName ) )
-            {
-                int effectSkillId = SkillDatabase.getSkillId( skillName );
-                if ( effectSkillId == skillId )
-                {
-                    return false;
-                }
-            }
-        }
+		for ( int i = 0; i < effects.length; ++i )
+		{
+			String skillName = UneffectRequest.effectToSkill( effects[ i ].getName() );
+			if ( SkillDatabase.contains( skillName ) )
+			{
+				int effectSkillId = SkillDatabase.getSkillId( skillName );
+				if ( effectSkillId == skillId )
+				{
+					return false;
+				}
+			}
+		}
 
 		return true;
 	}
@@ -1833,13 +1833,14 @@ public class UseSkillRequest
 
 	private static BuffTool findTool( BuffTool [] tools )
 	{
-        for ( BuffTool tool : tools )
-        {
-            if ( tool.hasItem( true ) )
-            {
-                return tool;
-            }
-        }
+		for ( int i = 0; i < tools.length; ++i )
+		{
+			BuffTool tool = tools[ i ];
+			if ( tool.hasItem( true ) )
+			{
+				return tool;
+			}
+		}
 		return null;
 	}
 

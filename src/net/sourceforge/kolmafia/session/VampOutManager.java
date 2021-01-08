@@ -100,11 +100,11 @@ public class VampOutManager
 
 		String decision = "0";
 
-		if ( stepCount == 0 && responseText.contains( "Finally, the sun has set." ) )
+		if ( stepCount == 0 && responseText.indexOf( "Finally, the sun has set." ) != -1 )
 		{
-			boolean vladAvailable = responseText.contains( "Visit Vlad's Boutique" );
-			boolean isabellaAvailable = responseText.contains( "Visit Isabella's" );
-			boolean masqueradeAvailable = responseText.contains( "Visit The Masquerade" );
+			boolean vladAvailable = responseText.indexOf( "Visit Vlad's Boutique" ) != -1;
+			boolean isabellaAvailable = responseText.indexOf( "Visit Isabella's" ) != -1;
+			boolean masqueradeAvailable = responseText.indexOf( "Visit The Masquerade" ) != -1;
 
 			Preferences.setBoolean( "_interviewVlad", !vladAvailable );
 			Preferences.setBoolean( "_interviewIsabella", !isabellaAvailable );
@@ -185,23 +185,23 @@ public class VampOutManager
 	public static final void postChoiceVampOut( final String responseText )
 	{
 		// Make sure this is the final page, it won't have any choice selections
-		if ( !responseText.contains( "choiceform" ) )
+		if ( responseText.indexOf( "choiceform" ) == -1 )
 		{
-			if ( responseText.contains( "famspirit.gif" )
-			  || responseText.contains( "bat.gif" )
-			  || responseText.contains( "wolfmask.gif" ) )
+			if ( responseText.indexOf( "famspirit.gif" ) != -1
+			  || responseText.indexOf( "bat.gif" ) != -1
+			  || responseText.indexOf( "wolfmask.gif" ) != -1 )
 			{
 				Preferences.setBoolean( "_interviewVlad", true );
 			}
 
-			if ( responseText.contains( "You gain " ) )
+			if ( responseText.indexOf( "You gain " ) != -1 )
 			{
 				Preferences.setBoolean( "_interviewIsabella", true );
 			}
 
-			if ( responseText.contains( "crown.gif" )
-			  || responseText.contains( "vampirefangs.gif" )
-			  || responseText.contains( "heart.gif" ) )
+			if ( responseText.indexOf( "crown.gif" ) != -1
+			  || responseText.indexOf( "vampirefangs.gif" ) != -1
+			  || responseText.indexOf( "heart.gif" ) != -1 )
 			{
 				Preferences.setBoolean( "_interviewMasquerade", true );
 			}

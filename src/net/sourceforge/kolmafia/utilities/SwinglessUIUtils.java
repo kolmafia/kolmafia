@@ -46,7 +46,7 @@ public class SwinglessUIUtils
 		{
 			// try to instantiate a LockableListModel, which implements Swing
 			// interfaces
-            new LockableListModel<>();
+			new LockableListModel<Object>();
 			isSwingAvailable = true;
 		}
 		catch ( NoClassDefFoundError e )

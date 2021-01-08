@@ -101,9 +101,9 @@ public class StorageRequest
 			return;
 		}
 
-		ArrayList<AdventureResult> items = new ArrayList<>();
-		ArrayList<AdventureResult> freepulls = new ArrayList<>();
-		ArrayList<AdventureResult> nopulls = new ArrayList<>();
+		ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
+		ArrayList<AdventureResult> freepulls = new ArrayList<AdventureResult>();
+		ArrayList<AdventureResult> nopulls = new ArrayList<AdventureResult>();
 
 		try
 		{
@@ -585,7 +585,7 @@ public class StorageRequest
 		Matcher matcher = StorageRequest.PULL_ITEM_PATTERN.matcher( responseText );
 		int pulls = 0;
 
-		ArrayList<AdventureResult> list = bulkTransfer ? new ArrayList<>() : null;
+		ArrayList<AdventureResult> list = bulkTransfer ? new ArrayList<AdventureResult>() : null;
 
 		while ( matcher.find() )
 		{

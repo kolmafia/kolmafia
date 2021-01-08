@@ -123,13 +123,13 @@ public class LogoutManager
 
 		Frame[] frames = Frame.getFrames();
 
-        for ( Frame frame : frames )
-        {
-            if ( frame.getClass() != LoginFrame.class )
-            {
-                frame.dispose();
-            }
-        }
+		for ( int i = 0; i < frames.length; ++i )
+		{
+			if ( frames[ i ].getClass() != LoginFrame.class )
+			{
+				frames[ i ].dispose();
+			}
+		}
 	}
 
 	public static void logout()

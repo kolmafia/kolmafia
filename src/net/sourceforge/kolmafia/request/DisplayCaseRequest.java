@@ -117,10 +117,10 @@ public class DisplayCaseRequest
 		this.addFormField( "action", "arrange" );
 
 		String shelfString = String.valueOf( shelf );
-        for ( AdventureResult item : items )
-        {
-            this.addFormField( "whichshelf" + item.getItemId(), shelfString );
-        }
+		for ( int i = 0; i < items.length; ++i )
+		{
+			this.addFormField( "whichshelf" + items[ i ].getItemId(), shelfString );
+		}
 
 		this.isDeposit = false;
 		this.isWithdrawal = false;
@@ -193,11 +193,11 @@ public class DisplayCaseRequest
 
 	public static final boolean parseDisplayTransfer( final String urlString, final String responseText )
 	{
-		if ( urlString.contains( "put" ) )
+		if ( urlString.indexOf( "put" ) != -1 )
 		{
 			// You haven't got any of that item in your inventory.
 			// <b>club necklace (5)</b> moved from inventory to case.
-			if ( !responseText.contains( "moved from inventory to case" ) )
+			if ( responseText.indexOf( "moved from inventory to case" ) == -1 )
 			{
 				return false;
 			}
@@ -210,11 +210,11 @@ public class DisplayCaseRequest
 			return true;
 		}
 
-		if ( urlString.contains( "take" ) )
+		if ( urlString.indexOf( "take" ) != -1 )
 		{
 			// You haven't got any of that item in your case.
 			// <b>club necklace (5)</b> moved from case to inventory.
-			if ( !responseText.contains( "moved from case to inventory" ) )
+			if ( responseText.indexOf( "moved from case to inventory" ) == -1 )
 			{
 				return false;
 			}
@@ -245,7 +245,7 @@ public class DisplayCaseRequest
 
 	public static final boolean parseDisplayArrangement( final String urlString, final String responseText )
 	{
-		if ( !urlString.contains( "action=arrange" ) )
+		if ( urlString.indexOf( "action=arrange" ) == -1 )
 		{
 			DisplayCaseManager.update( responseText );
 		}
@@ -314,7 +314,7 @@ public class DisplayCaseRequest
 			return false;
 		}
 
-		if ( urlString.contains( "action=take" ) )
+		if ( urlString.indexOf( "action=take" ) != -1 )
 		{
 			return TransferItemRequest.registerRequest(
 				"remove from display case", urlString,
@@ -323,7 +323,7 @@ public class DisplayCaseRequest
                                 KoLConstants.collection, 0 );
 		}
 
-		if ( urlString.contains( "action=put" ) )
+		if ( urlString.indexOf( "action=put" ) != -1 )
 		{
 			return TransferItemRequest.registerRequest(
 				"put in display case", urlString,

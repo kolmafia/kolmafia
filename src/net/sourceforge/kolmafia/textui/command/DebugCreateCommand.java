@@ -61,16 +61,16 @@ public class DebugCreateCommand
 
 		AdventureResult item;
 
-        for ( String itemName : itemNames )
-        {
-            item = ItemFinder.getFirstMatchingItem( itemName, Match.ANY );
+		for ( int i = 0; i < itemNames.length; ++i )
+		{
+			item = ItemFinder.getFirstMatchingItem( itemNames[ i ], Match.ANY );
 
-            if ( item != null )
-            {
-                Concoction.debugId = item.getItemId();
-                ConcoctionDatabase.refreshConcoctionsNow();
-                Concoction.debugId = Integer.MAX_VALUE;
-            }
-        }
+			if ( item != null )
+			{
+				Concoction.debugId = item.getItemId();
+				ConcoctionDatabase.refreshConcoctionsNow();
+				Concoction.debugId = Integer.MAX_VALUE;
+			}
+		}
 	}
 }

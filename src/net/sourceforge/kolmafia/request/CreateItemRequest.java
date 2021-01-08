@@ -787,7 +787,7 @@ public class CreateItemRequest
 		// Multi-step crafting makes it harder to tell how many
 		// free crafts were used, so we look at the text following
 		// each craft individually for the free crafting texts.
-		List<Integer[]> craftComments = new ArrayList<>();
+		List<Integer[]> craftComments = new ArrayList<Integer[]>();
 
 		do
 		{
@@ -965,10 +965,11 @@ public class CreateItemRequest
 		AdventureResult [] ingredients = CreateItemRequest.findIngredients( urlString );
 		int quantity = CreateItemRequest.getQuantity( urlString, ingredients, multiplier );
 
-        for ( AdventureResult item : ingredients )
-        {
-            ResultProcessor.processItem( item.getItemId(), -quantity );
-        }
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			AdventureResult item = ingredients[i];
+			ResultProcessor.processItem( item.getItemId(), -quantity );
+		}
 
 		return true;
 	}
@@ -1168,20 +1169,17 @@ public class CreateItemRequest
 
 		// Sort ingredients by their creatability, so that if the overall creation
 		// is going to fail, it should do so immediately, without wasted effort.
-		Arrays.sort( ingredients, ( o1, o2 ) -> {
-			Concoction left = ConcoctionPool.get( o1 );
-			if ( left == null )
+		Arrays.sort( ingredients, new Comparator<AdventureResult>() {
+			public int compare( AdventureResult o1, AdventureResult o2 )
 			{
-				return -1;
-			}
-			Concoction right = ConcoctionPool.get( o2 );
-			if ( right == null )
-			{
-				return 1;
-			}
-			return left.creatable < right.creatable ? -1 :
+				Concoction left = ConcoctionPool.get( o1 );
+				if ( left == null ) return -1;
+				Concoction right = ConcoctionPool.get( o2 );
+				if ( right == null ) return 1;
+				return  left.creatable < right.creatable ? -1 :
 					left.creatable < right.creatable ? 1 :
-							0;
+					0;
+			}
 		} );
 
 		// Retrieve all the ingredients
@@ -1196,13 +1194,13 @@ public class CreateItemRequest
 			// intermediate ingredients and getting an error.
 
 			int multiplier = 0;
-            for ( AdventureResult adventureResult : ingredients )
-            {
-                if ( ingredient.getItemId() == adventureResult.getItemId() )
-                {
-                    multiplier += adventureResult.getCount();
-                }
-            }
+			for ( int j = 0; j < ingredients.length; ++j )
+			{
+				if ( ingredient.getItemId() == ingredients[ j ].getItemId() )
+				{
+					multiplier += ingredients[ j ].getCount();
+				}
+			}
 
 			// Then, make enough of the ingredient in order
 			// to proceed with the concoction.
@@ -1716,10 +1714,11 @@ public class CreateItemRequest
 
 		int quantity = Integer.MAX_VALUE;
 
-        for ( AdventureResult item : ingredients )
-        {
-            quantity = Math.min( item.getCount( KoLConstants.inventory ) / multiplier, quantity );
-        }
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			AdventureResult item = ingredients[i];
+			quantity = Math.min( item.getCount( KoLConstants.inventory ) / multiplier, quantity );
+		}
 
 		return quantity * multiplier;
 	}
@@ -1745,10 +1744,11 @@ public class CreateItemRequest
 			return;
 		}
 
-        for ( AdventureResult item : ingredients )
-        {
-            ResultProcessor.processItem( item.getItemId(), 0 - quantity );
-        }
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			AdventureResult item = ingredients[i];
+			ResultProcessor.processItem( item.getItemId(), 0 - quantity );
+		}
 
 		if ( urlString.contains( "mode=combine" ) )
 		{

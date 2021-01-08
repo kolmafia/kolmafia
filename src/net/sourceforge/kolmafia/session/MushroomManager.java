@@ -270,7 +270,7 @@ public abstract class MushroomManager
 				{
 					if ( touched[ i ].equals( MushroomManager.MUSHROOMS[ j ][ 3 ] ) )
 					{
-						touchIndex[ touchCount ] = ( Integer ) MushroomManager.MUSHROOMS[ j ][ 4 ];
+						touchIndex[ touchCount ] = ( (Integer) MushroomManager.MUSHROOMS[ j ][ 4 ] ).intValue();
 					}
 				}
 
@@ -296,7 +296,7 @@ public abstract class MushroomManager
 	{
 		for ( int i = 0; i < MushroomManager.MUSHROOMS.length; ++i )
 		{
-			if ( mushroomType == ( Integer ) MushroomManager.MUSHROOMS[ i ][ 0 ] )
+			if ( mushroomType == ( (Integer) MushroomManager.MUSHROOMS[ i ][ 0 ] ).intValue() )
 			{
 				return isAdult ? (String) MushroomManager.MUSHROOMS[ i ][ 3 ] : (String) MushroomManager.MUSHROOMS[ i ][ 2 ];
 			}
@@ -311,7 +311,7 @@ public abstract class MushroomManager
 		// of the mushroom plot.  Shorthand and hypertext are
 		// the only two versions at the moment.
 
-		StringBuilder plotBuffer = new StringBuilder();
+		StringBuffer plotBuffer = new StringBuffer();
 
 		if ( !isDataOnly )
 		{
@@ -393,7 +393,7 @@ public abstract class MushroomManager
 		{
 			if ( mushroomImage.endsWith( "/" + MushroomManager.MUSHROOMS[ i ][ 1 ] ) )
 			{
-				return ( Integer ) MushroomManager.MUSHROOMS[ i ][ 0 ];
+				return ( (Integer) MushroomManager.MUSHROOMS[ i ][ 0 ] ).intValue();
 			}
 		}
 
@@ -666,7 +666,7 @@ public abstract class MushroomManager
 			{
 				if ( gif.equals( MushroomManager.MUSHROOMS[ i ][ 1 ] ) )
 				{
-					return ( Integer ) MushroomManager.MUSHROOMS[ i ][ 0 ];
+					return ( (Integer) MushroomManager.MUSHROOMS[ i ][ 0 ] ).intValue();
 				}
 			}
 		}
@@ -826,10 +826,10 @@ public abstract class MushroomManager
 			isTodayEmpty = true;
 			ArrayList commands = new ArrayList();
 
-			StringBuilder pickText = new StringBuilder();
-			StringBuilder pickHtml = new StringBuilder();
-			StringBuilder plantText = new StringBuilder();
-			StringBuilder plantHtml = new StringBuilder();
+			StringBuffer pickText = new StringBuffer();
+			StringBuffer pickHtml = new StringBuffer();
+			StringBuffer plantText = new StringBuffer();
+			StringBuffer plantHtml = new StringBuffer();
 
 			for ( int j = 0; j < 16; ++j )
 			{

@@ -840,7 +840,7 @@ public class RecoveryManager
 
 		for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
 		{
-			if ( mpRestoreSetting.contains( MPRestoreItemList.CONFIGURES[ i ].toString().toLowerCase() ) )
+			if ( mpRestoreSetting.indexOf( MPRestoreItemList.CONFIGURES[ i ].toString().toLowerCase() ) != -1 )
 			{
 				AdventureResult item = MPRestoreItemList.CONFIGURES[ i ].getItem();
 				if ( item != null )

@@ -97,7 +97,7 @@ public class HyperlinkAdapter
 
 		public void run()
 		{
-			if ( location.contains( "pics.communityofloathing.com" ) )
+			if ( location.indexOf( "pics.communityofloathing.com" ) != -1 )
 			{
 				HyperlinkAdapter.this.handleInternalLink( location );
 				return;
@@ -107,12 +107,12 @@ public class HyperlinkAdapter
 				RelayLoader.openSystemBrowser( location );
 				return;
 			}
-			else if ( location.startsWith( "javascript:" ) && ( !location.contains( "submit()" ) || location.contains( "messageform" ) ) )
+			else if ( location.startsWith( "javascript:" ) && ( location.indexOf( "submit()" ) == -1 || location.indexOf( "messageform" ) != -1 ) )
 			{
 				InputFieldUtilities.alert( "Ironically, Java does not support Javascript." );
 				return;
 			}
-			else if ( !location.contains( "submit()" ) )
+			else if ( location.indexOf( "submit()" ) == -1 )
 			{
 				HyperlinkAdapter.this.handleInternalLink( location );
 				return;
@@ -138,7 +138,7 @@ public class HyperlinkAdapter
 			String lastInput;
 			int patternIndex;
 			Matcher actionMatcher, nameMatcher, valueMatcher;
-			StringBuilder inputString = new StringBuilder();
+			StringBuffer inputString = new StringBuffer();
 
 			// Determine the action associated with the
 			// form -- this is used for the URL.

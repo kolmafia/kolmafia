@@ -89,7 +89,7 @@ public class AscensionHistoryRequest
 		this.playerName = playerName;
 		this.playerId = playerId;
 
-		this.ascensionData = new ArrayList<>();
+		this.ascensionData = new ArrayList<AscensionDataField>();
 	}
 
 	public static final void setComparator( final int typeComparator )
@@ -330,51 +330,51 @@ public class AscensionHistoryRequest
 		int bestMonth = 0, bestWeek = 0;
 		int currentMonth, currentWeek;
 
-        for ( File resultFolder : resultFolders )
-        {
-            if ( !resultFolder.isDirectory() )
-            {
-                continue;
-            }
+		for ( int i = 0; i < resultFolders.length; ++i )
+		{
+			if ( !resultFolders[ i ].isDirectory() )
+			{
+				continue;
+			}
 
-            File[] ascensionFolders = DataUtilities.listFiles( resultFolder );
+			File[] ascensionFolders = DataUtilities.listFiles( resultFolders[ i ] );
 
-            for ( File ascensionFolder : ascensionFolders )
-            {
-                if ( !ascensionFolder.getName().startsWith( "2005" ) )
-                {
-                    continue;
-                }
+			for ( int j = 0; j < ascensionFolders.length; ++j )
+			{
+				if ( !ascensionFolders[ j ].getName().startsWith( "2005" ) )
+				{
+					continue;
+				}
 
-                currentMonth = StringUtilities.parseInt( ascensionFolder.getName().substring( 4, 6 ) );
-                currentWeek = StringUtilities.parseInt( ascensionFolder.getName().substring( 8, 9 ) );
+				currentMonth = StringUtilities.parseInt( ascensionFolders[ j ].getName().substring( 4, 6 ) );
+				currentWeek = StringUtilities.parseInt( ascensionFolders[ j ].getName().substring( 8, 9 ) );
 
-                boolean shouldReplace = false;
+				boolean shouldReplace = false;
 
-                shouldReplace = currentMonth > bestMonth;
+				shouldReplace = currentMonth > bestMonth;
 
-                if ( !shouldReplace )
-                {
-                    shouldReplace = currentMonth == bestMonth && currentWeek > bestWeek;
-                }
+				if ( !shouldReplace )
+				{
+					shouldReplace = currentMonth == bestMonth && currentWeek > bestWeek;
+				}
 
-                if ( shouldReplace )
-                {
-                    shouldReplace = currentMonth == 9 || currentMonth == 10;
-                }
+				if ( shouldReplace )
+				{
+					shouldReplace = currentMonth == 9 || currentMonth == 10;
+				}
 
-                if ( shouldReplace )
-                {
-                    File checkFile = new File( ascensionFolder, "ascensions/" + this.playerId + ".htm" );
-                    if ( checkFile.exists() )
-                    {
-                        backupFile = checkFile;
-                        bestMonth = currentMonth;
-                        bestWeek = currentWeek;
-                    }
-                }
-            }
-        }
+				if ( shouldReplace )
+				{
+					File checkFile = new File( ascensionFolders[ j ], "ascensions/" + this.playerId + ".htm" );
+					if ( checkFile.exists() )
+					{
+						backupFile = checkFile;
+						bestMonth = currentMonth;
+						bestWeek = currentWeek;
+					}
+				}
+			}
+		}
 
 		if ( backupFile == null )
 		{

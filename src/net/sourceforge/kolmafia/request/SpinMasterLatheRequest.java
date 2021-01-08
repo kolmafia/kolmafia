@@ -122,8 +122,8 @@ public class SpinMasterLatheRequest
 		Map<Integer, Integer> map = CoinmastersDatabase.getBuyPrices( SpinMasterLatheRequest.master );
 		for ( Entry<Integer, Integer> entry : CoinmastersDatabase.getBuyPrices( SpinMasterLatheRequest.master ).entrySet() )
 		{
-			int itemId = entry.getKey();
-			int price = entry.getValue();
+			int itemId = entry.getKey().intValue();
+			int price = entry.getValue().intValue();
 			AdventureResult cost = null;
 			switch ( itemId )
 			{

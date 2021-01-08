@@ -202,7 +202,7 @@ public class AutoFilterComboBox
 		}
 
 		String elementName = element.toString().toLowerCase();
-		return this.allowAdditions ? elementName.startsWith( this.matchString ) : this.strict ? elementName.contains( this.matchString ) : StringUtilities.fuzzyMatches(
+		return this.allowAdditions ? elementName.startsWith( this.matchString ) : this.strict ? elementName.indexOf( this.matchString ) != -1 : StringUtilities.fuzzyMatches(
 			elementName, this.matchString );
 	}
 

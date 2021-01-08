@@ -160,16 +160,17 @@ public class LootHunterMenuItem
 
 		ButtonGroup buttonGroup = new ButtonGroup();
 
-		for ( Object choice : choices )
+		Iterator it = choices.iterator();
+		while ( it.hasNext() )
 		{
-			PossibleSelection c = ( PossibleSelection ) choice;
+			PossibleSelection c = (PossibleSelection) it.next();
 
 			JRadioButton radio = new JRadioButton( "<html>" + c.getLabel() + "<br>" + c.getDescription() + "</html>" );
 			radio.addActionListener( c );
 
 			if ( choicePanel.getComponentCount() < 2 )
 				radio.doClick();
-
+			
 			choicePanel.add( radio );
 			buttonGroup.add( radio );
 		}
@@ -183,8 +184,8 @@ public class LootHunterMenuItem
 	
 	private static String[] buildInformation( String type, String item, int number )
 	{
-		StringBuilder label = new StringBuilder();
-		StringBuilder description = new StringBuilder();
+		StringBuffer label = new StringBuffer();
+		StringBuffer description = new StringBuffer();
 
 		if ( item == null || item.equals( "" ) )
 		{

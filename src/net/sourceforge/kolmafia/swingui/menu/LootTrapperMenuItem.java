@@ -71,7 +71,7 @@ public class LootTrapperMenuItem
 			String message = "(You have " + maximumValue + " furs available)";
 
 			Integer value = InputFieldUtilities.getQuantity( "How many " + selectedValue.getName() + " to get?\n" + message, maximumValue, maximumValue );
-			int tradeCount = ( value == null ) ? 0 : value;
+			int tradeCount = ( value == null ) ? 0 : value.intValue();
 
 			if ( tradeCount == 0 )
 			{

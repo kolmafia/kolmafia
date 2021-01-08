@@ -87,7 +87,7 @@ public class KoLDatabase
 
 		int currentCount = 1;
 
-		ArrayList<ItemCounter> itemList = new ArrayList<>();
+		ArrayList<ItemCounter> itemList = new ArrayList<ItemCounter>();
 
 		for ( int i = 1; i < itemArray.length; ++i )
 		{
@@ -113,9 +113,9 @@ public class KoLDatabase
 		strbuf.append( "<ul>" );
 		Collections.sort( itemList );
 
-		for ( ItemCounter itemCounter : itemList )
+		for ( int i = 0; i < itemList.size(); ++i )
 		{
-			strbuf.append( "<li><nobr>" + itemCounter + "</nobr></li>" );
+			strbuf.append( "<li><nobr>" + itemList.get( i ) + "</nobr></li>" );
 			strbuf.append( KoLConstants.LINE_BREAK );
 		}
 
@@ -133,11 +133,11 @@ public class KoLDatabase
 	public static final long calculateTotal( final List values )
 	{
 		long total = 0;
-		for ( Object value : values )
+		for ( int i = 0; i < values.size(); ++i )
 		{
-			if ( value != null )
+			if ( values.get( i ) != null )
 			{
-				total += ( Integer ) value;
+				total += ( (Integer) values.get( i ) ).intValue();
 			}
 		}
 

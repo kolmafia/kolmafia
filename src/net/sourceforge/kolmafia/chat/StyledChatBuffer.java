@@ -143,10 +143,10 @@ public class StyledChatBuffer
 
 		this.clear();
 
-        for ( String line : lines )
-        {
-            this.append( line + "<br>" );
-        }
+		for ( int i = 0; i < lines.length; ++i )
+		{
+			this.append( lines[ i ] + "<br>" );
+		}
 	}
 
 	private String applyHighlight( final String message, final String searchString, final String colorString )

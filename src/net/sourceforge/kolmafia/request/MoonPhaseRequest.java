@@ -86,10 +86,10 @@ public class MoonPhaseRequest
 		String text = this.responseText;
 
 		// We can no longer count on knowing the menu style from api.php
-		GenericRequest.topMenuStyle=
-                text.contains( "awesomemenu.php" ) ?
+		GenericRequest.topMenuStyle= 
+			text.indexOf( "awesomemenu.php" ) != -1 ?
 			GenericRequest.MENU_FANCY :
-                        text.contains( "Function:" ) ?
+			text.indexOf( "Function:" ) != -1 ?
 			GenericRequest.MENU_COMPACT :
 			GenericRequest.MENU_NORMAL;
 

@@ -350,11 +350,11 @@ public class FamiliarTrainingFrame
 				FamiliarData[] familiarArray = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
 				KoLCharacter.getFamiliarList().toArray( familiarArray );
 
-				for ( FamiliarData familiarData : familiarArray )
+				for ( int i = 0; i < familiarArray.length; ++i )
 				{
-					if ( familiarData.getWeight() != 1 || familiarData.getTotalExperience() > 0 )
+					if ( familiarArray[ i ].getWeight() != 1 || familiarArray[ i ].getTotalExperience() > 0 )
 					{
-						totalTerrariumWeight += Math.min( familiarData.getWeight(), 20 );
+						totalTerrariumWeight += Math.min( familiarArray[ i ].getWeight(), 20 );
 					}
 				}
 
@@ -373,9 +373,9 @@ public class FamiliarTrainingFrame
 
 				this.setLayout( new GridLayout( opponentCount, 1, 0, 20 ) );
 
-				for ( Object opponent : opponents )
+				for ( int i = 0; i < opponentCount; ++i )
 				{
-					this.add( new OpponentLabel( ( ArenaOpponent ) opponent ) );
+					this.add( new OpponentLabel( (ArenaOpponent) opponents.get( i ) ) );
 				}
 			}
 
@@ -493,7 +493,7 @@ public class FamiliarTrainingFrame
 				{
 					// Prompt for goal
 					Integer value = InputFieldUtilities.getQuantity( "Train up to what base weight?", 20, 20 );
-					int goal = ( value == null ) ? 0 : value;
+					int goal = ( value == null ) ? 0 : value.intValue();
 
 					// Quit if canceled
 					if ( goal == 0 )
@@ -515,7 +515,7 @@ public class FamiliarTrainingFrame
 				{
 					// Prompt for goal
 					Integer value = InputFieldUtilities.getQuantity( "Train up to what buffed weight?", 48, 20 );
-					int goal = ( value == null ) ? 0 : value;
+					int goal = ( value == null ) ? 0 : value.intValue();
 
 					// Quit if canceled
 					if ( goal == 0 )
@@ -537,7 +537,7 @@ public class FamiliarTrainingFrame
 				{
 					// Prompt for goal
 					Integer value = InputFieldUtilities.getQuantity( "Train for how many turns?", Integer.MAX_VALUE, 1 );
-					int goal = ( value == null ) ? 0 : value;
+					int goal = ( value == null ) ? 0 : value.intValue();
 
 					// Quit if canceled
 					if ( goal == 0 )
@@ -573,7 +573,13 @@ public class FamiliarTrainingFrame
 
 					try
 					{
-						SwingUtilities.invokeAndWait( () -> SaveListener.this.output = InputFieldUtilities.chooseOutputFile( KoLConstants.DATA_LOCATION, FamiliarTrainingFrame.this ) );
+						SwingUtilities.invokeAndWait( new Runnable()
+						{
+							public void run()
+							{
+								SaveListener.this.output = InputFieldUtilities.chooseOutputFile( KoLConstants.DATA_LOCATION, FamiliarTrainingFrame.this );
+							}
+						} );
 					}
 					catch ( Exception ie )
 					{
@@ -614,7 +620,7 @@ public class FamiliarTrainingFrame
 
 					// Prompt for trials
 					Integer value = InputFieldUtilities.getQuantity( "How many trials per event per rank?", 20, 10 );
-					int trials = ( value == null ) ? 0 : value;
+					int trials = ( value == null ) ? 0 : value.intValue();
 
 					// Quit if canceled
 					if ( trials == 0 )
@@ -1280,11 +1286,11 @@ public class FamiliarTrainingFrame
 		{
 			FamiliarTrainingFrame.results.append( "<font color=red>" + message + "</font><br>" );
 		}
-		else if ( message.contains( "experience" ) )
+		else if ( message.indexOf( "experience" ) != -1 )
 		{
 			FamiliarTrainingFrame.results.append( "<font color=green>" + message + "</font><br>" );
 		}
-		else if ( message.contains( "prize" ) )
+		else if ( message.indexOf( "prize" ) != -1 )
 		{
 			FamiliarTrainingFrame.results.append( "<font color=blue>" + message + "</font><br>" );
 		}
@@ -1328,9 +1334,9 @@ public class FamiliarTrainingFrame
 	{
 		FamiliarTrainingFrame.results.append( "Opponents:<br>" );
 		int opponentCount = opponents.size();
-		for ( Object o : opponents )
+		for ( int i = 0; i < opponentCount; ++i )
 		{
-			ArenaOpponent opponent = ( ArenaOpponent ) o;
+			ArenaOpponent opponent = (ArenaOpponent) opponents.get( i );
 			String name = opponent.getName();
 			String race = opponent.getRace();
 			int weight = opponent.getWeight();
@@ -1478,10 +1484,10 @@ public class FamiliarTrainingFrame
 			this.turns = 0;
 
 			// Initialize set of weights
-			this.weights = new TreeSet<>();
+			this.weights = new TreeSet<Integer>();
 
 			// Initialize the list of GearSets
-			this.gearSets = new ArrayList<>();
+			this.gearSets = new ArrayList<GearSet>();
 
 			// Check skills and equipment
 			this.updateStatus();
@@ -1798,9 +1804,9 @@ public class FamiliarTrainingFrame
 			// Find first familiar with item
 
 			List familiars = KoLCharacter.getFamiliarList();
-			for ( Object o : familiars )
+			for ( int i = 0; i < familiars.size(); ++i )
 			{
-				FamiliarData familiar = ( FamiliarData ) o;
+				FamiliarData familiar = (FamiliarData) familiars.get( i );
 				AdventureResult item = familiar.getItem();
 
 				if ( item == null )
@@ -1902,7 +1908,7 @@ public class FamiliarTrainingFrame
 			// Read Integers from the set and store ints
 			for ( int i = 0; i < vals.length; ++i )
 			{
-				value[ i ] = ( Integer ) vals[ i ];
+				value[ i ] = ( (Integer) vals[ i ] ).intValue();
 			}
 
 			return value;
@@ -2460,7 +2466,7 @@ public class FamiliarTrainingFrame
 			String response = request.responseText;
 
 			// If the contest did not take place, bail now
-			if ( !response.contains( "You enter" ) )
+			if ( response.indexOf( "You enter" ) == -1 )
 			{
 				return;
 			}
@@ -2470,7 +2476,7 @@ public class FamiliarTrainingFrame
 			if ( xp > 0 )
 			{
 				message =
-					this.familiar.getName() + " gains " + xp + " experience" + ( response.contains( "gains a pound" ) ? " and a pound." : "." );
+					this.familiar.getName() + " gains " + xp + " experience" + ( response.indexOf( "gains a pound" ) != -1 ? " and a pound." : "." );
 			}
 			else
 			{

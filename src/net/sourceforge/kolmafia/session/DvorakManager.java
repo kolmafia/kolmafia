@@ -229,7 +229,7 @@ public abstract class DvorakManager
 		index += 6;
 
 		// Build a "Solve!" button
-		StringBuilder button = new StringBuilder();
+		StringBuffer button = new StringBuffer();
 
 		button.append( "<form name=solveform action='" );
 		button.append( "/KoLmafia/specialCommand?cmd=dvorak&pwd=" );

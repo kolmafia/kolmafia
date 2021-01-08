@@ -129,12 +129,12 @@ public class ItemFinder
 		}
 
 		// Remove duplicate names that all refer to the same item?
-		Set<Integer> itemIdSet = new HashSet<>();
+		Set<Integer> itemIdSet = new HashSet<Integer>();
 		int pseudoItems = 0;
 
-		for ( String element : nameList )
+		for ( int i = 0; i < nameList.size(); ++i )
 		{
-			int itemId = ItemDatabase.getItemId( element );
+			int itemId = ItemDatabase.getItemId( nameList.get( i ) );
 			if ( itemId == -1 )
 			{
 				pseudoItems += 1;
@@ -157,9 +157,9 @@ public class ItemFinder
 		// all the other items in the game, IF exactly one such item
 		// matches.
 
-		for ( String item : nameList )
+		for ( int i = 0; i < nameList.size(); ++i )
 		{
-			itemName = item;
+			itemName = nameList.get( i );
 			if ( !itemName.startsWith( "pix" ) && itemName.endsWith( "candy heart" ) )
 			{
 				if ( rv != null ) return "";
@@ -167,9 +167,9 @@ public class ItemFinder
 			}
 		}
 
-		for ( String value : nameList )
+		for ( int i = 0; i < nameList.size(); ++i )
 		{
-			itemName = value;
+			itemName = nameList.get( i );
 			if ( !itemName.startsWith( "abo" ) && !itemName.startsWith( "yel" ) && itemName.endsWith( "snowcone" ) )
 			{
 				if ( rv != null ) return "";
@@ -177,9 +177,9 @@ public class ItemFinder
 			}
 		}
 
-		for ( String s : nameList )
+		for ( int i = 0; i < nameList.size(); ++i )
 		{
-			itemName = s;
+			itemName = nameList.get( i );
 			if ( itemName.endsWith( "cupcake" ) )
 			{
 				if ( rv != null ) return "";
@@ -204,10 +204,11 @@ public class ItemFinder
 			// in the list of matches.  If there are, only return
 			// the restorative items (the others are irrelevant).
 
-			ArrayList<String> restoreList = new ArrayList<>();
+			ArrayList<String> restoreList = new ArrayList<String>();
 
-			for ( String itemName : nameList )
+			for ( int i = 0; i < nameList.size(); ++i )
 			{
+				String itemName = nameList.get( i );
 				int itemId = ItemDatabase.getItemId( itemName );
 
 				if ( RestoresDatabase.isRestore( itemId ) )
@@ -321,7 +322,7 @@ public class ItemFinder
 
 		// If this process results in filtering EVERYTHING in our list, that's not helpful.
 		// Make a backup of nameList to restore from in such a case.
-		List<String> nameListCopy = new ArrayList<>( nameList );
+		List<String> nameListCopy = new ArrayList<String>(nameList);
 
 		nameIterator = nameList.iterator();
 
@@ -459,7 +460,7 @@ public class ItemFinder
 				return null;
 			}
 
-			matchList = new ArrayList<>();
+			matchList = new ArrayList<String>();
 			if ( itemId != -1 )
 			{
 				matchList.add( "[" + itemId + "]" );
@@ -473,7 +474,7 @@ public class ItemFinder
 		{
 			// The entire parameter is a single item
 			itemId = ItemDatabase.getItemId( parameters, 1 );
-			matchList = new ArrayList<>();
+			matchList = new ArrayList<String>();
 			matchList.add( ItemDatabase.getCanonicalName( itemId ) );
 		}
 		else
@@ -687,7 +688,7 @@ public class ItemFinder
 		String[] itemNames = itemList.split( "\\s*,\\s*" );
 
 		boolean isMeatMatch = false;
-		ArrayList<AdventureResult> items = new ArrayList<>();
+		ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
 
 		for ( String name : itemNames )
 		{

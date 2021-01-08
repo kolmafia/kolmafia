@@ -91,11 +91,11 @@ public class ClanMembersRequest
 
 		this.isLookup = false;
 		this.isDetailLookup = false;
-		this.rankList = new LockableListModel<>();
+		this.rankList = new LockableListModel<String>();
 
 		this.addFormField( "action", "modify" );
 
-		ArrayList<String> fields = new ArrayList<>();
+		ArrayList<String> fields = new ArrayList<String>();
 
 		String currentId;
 		for ( int i = 0; i < titleChange.length; ++i )
@@ -109,25 +109,25 @@ public class ClanMembersRequest
 			}
 		}
 
-        for ( Object boot : boots )
-        {
-            currentId = ContactManager.getPlayerId( ( String ) boot );
-            ClanManager.unregisterMember( currentId );
-            this.addFormField( "boot" + currentId, "on" );
+		for ( int i = 0; i < boots.length; ++i )
+		{
+			currentId = ContactManager.getPlayerId( (String) boots[ i ] );
+			ClanManager.unregisterMember( currentId );
+			this.addFormField( "boot" + currentId, "on" );
 
-            if ( !fields.contains( currentId ) )
-            {
-                fields.add( currentId );
-            }
-        }
+			if ( !fields.contains( currentId ) )
+			{
+				fields.add( currentId );
+			}
+		}
 
 		String[] changedIds = new String[ fields.size() ];
 		fields.toArray( changedIds );
 
-        for ( String changedId : changedIds )
-        {
-            this.addFormField( "pids[]", changedId, true );
-        }
+		for ( int i = 0; i < changedIds.length; ++i )
+		{
+			this.addFormField( "pids[]", changedIds[ i ], true );
+		}
 	}
 
 	@Override
@@ -164,7 +164,7 @@ public class ClanMembersRequest
 
 			super.run();
 		}
-		while ( this.responseText != null && this.responseText.contains( "next page &gt;&gt;" ) );
+		while ( this.responseText != null && this.responseText.indexOf( "next page &gt;&gt;" ) != -1 );
 	}
 
 	@Override

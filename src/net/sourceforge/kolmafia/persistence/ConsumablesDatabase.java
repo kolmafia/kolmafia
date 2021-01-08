@@ -84,18 +84,18 @@ public class ConsumablesDatabase
 	public static final AdventureResult DRUNK_AVUNCULAR = EffectPool.get( EffectPool.DRUNK_AVUNCULAR );
 	public static final AdventureResult REFINED_PALATE = EffectPool.get( EffectPool.REFINED_PALATE );
 
-	private static final Map<String, Integer> levelReqByName = new HashMap<>();
-	public static final Map<String, Integer> fullnessByName = new TreeMap<>( KoLConstants.ignoreCaseComparator );
-	public static final Map<String, Integer> inebrietyByName = new TreeMap<>( KoLConstants.ignoreCaseComparator );
-	public static final Map<String, Integer> spleenHitByName = new TreeMap<>( KoLConstants.ignoreCaseComparator );
-	private static final Map<String, String> qualityByName = new HashMap<>();
-	private static final Map<String, String> notesByName = new HashMap<>();
+	private static final Map<String, Integer> levelReqByName = new HashMap<String, Integer>();
+	public static final Map<String, Integer> fullnessByName = new TreeMap<String, Integer>( KoLConstants.ignoreCaseComparator );
+	public static final Map<String, Integer> inebrietyByName = new TreeMap<String, Integer>( KoLConstants.ignoreCaseComparator );
+	public static final Map<String, Integer> spleenHitByName = new TreeMap<String, Integer>( KoLConstants.ignoreCaseComparator );
+	private static final Map<String, String> qualityByName = new HashMap<String, String>();
+	private static final Map<String, String> notesByName = new HashMap<String, String>();
 
 	private static final Map<String, Double>[][][][][] advsByName = new HashMap[ 2 ][ 2 ][ 2 ][ 2 ][ 2 ];
-	private static final Map<String, String> advRangeByName = new HashMap<>();
-	private static final Map<String, Integer> unitCostByName = new HashMap<>();
-	private static final Map<String, Integer> advStartByName = new HashMap<>();
-	private static final Map<String, Integer> advEndByName = new HashMap<>();
+	private static final Map<String, String> advRangeByName = new HashMap<String, String>();
+	private static final Map<String, Integer> unitCostByName = new HashMap<String, Integer>();
+	private static final Map<String, Integer> advStartByName = new HashMap<String, Integer>();
+	private static final Map<String, Integer> advEndByName = new HashMap<String, Integer>();
 
 	private static Set<String> advNames = null;
 
@@ -154,9 +154,9 @@ public class ConsumablesDatabase
 		}
 	};
 
-	private static final Map<String, String> muscleByName = new HashMap<>();
-	private static final Map<String, String> mysticalityByName = new HashMap<>();
-	private static final Map<String, String> moxieByName = new HashMap<>();
+	private static final Map<String, String> muscleByName = new HashMap<String, String>();
+	private static final Map<String, String> mysticalityByName = new HashMap<String, String>();
+	private static final Map<String, String> moxieByName = new HashMap<String, String>();
 
 	public static void reset()
 	{
@@ -253,21 +253,21 @@ public class ConsumablesDatabase
 		if ( fullness != null )
 		{
 			ConsumablesDatabase.fullnessByName.put( alias, fullness );
-			size = fullness;
+			size = fullness.intValue();
 		}
 
 		Integer inebriety = ConsumablesDatabase.getRawInebriety( name );
 		if ( inebriety != null )
 		{
 			ConsumablesDatabase.inebrietyByName.put( alias, inebriety );
-			size = inebriety;
+			size = inebriety.intValue();
 		}
 
 		Integer spleenhit = ConsumablesDatabase.getRawSpleenHit( name );
 		if ( spleenhit != null )
 		{
 			ConsumablesDatabase.spleenHitByName.put( alias, spleenhit );
-			size = spleenhit;
+			size = spleenhit.intValue();
 		}
 
 		if ( size == 0 )
@@ -283,7 +283,7 @@ public class ConsumablesDatabase
 		String moxie = ConsumablesDatabase.moxieByName.get( name );
 		String note = ConsumablesDatabase.notesByName.get( name );
 
-		ConsumablesDatabase.setConsumptionData( alias, size, level == null ? 1 : level, quality, adventures, muscle, mysticality, moxie, note );
+		ConsumablesDatabase.setConsumptionData( alias, size, level == null ? 1 : level.intValue(), quality, adventures, muscle, mysticality, moxie, note );
 	}
 
 	private static void readNonfillingData()
@@ -465,9 +465,9 @@ public class ConsumablesDatabase
 		Concoction c = ConcoctionPool.get( itemId, name );
 		int advs = ( c == null ) ? 0 : c.getAdventuresNeeded( 1, true );
 
-		int unitCost = ConsumablesDatabase.unitCostByName.get( name );
-		int start = ConsumablesDatabase.advStartByName.get( name );
-		int end = ConsumablesDatabase.advEndByName.get( name );
+		int unitCost = ConsumablesDatabase.unitCostByName.get( name ).intValue();
+		int start = ConsumablesDatabase.advStartByName.get( name ).intValue();
+		int end = ConsumablesDatabase.advEndByName.get( name ).intValue();
 
 		if ( KoLCharacter.inNuclearAutumn() )
 		{
@@ -583,8 +583,8 @@ public class ConsumablesDatabase
 	private static void addAdventureRange( final String name, int unitCost, final boolean gainEffect1, final boolean gainEffect2, final boolean gainEffect3, final boolean gainEffect4, final double result )
 	{
 		// Remove adventure gains from zodiac signs
-		ConsumablesDatabase.getAdventureMap( false, gainEffect1, gainEffect2, gainEffect3, gainEffect4 ).put( name, result );
-		ConsumablesDatabase.getAdventureMap( true, gainEffect1, gainEffect2, gainEffect3, gainEffect4 ).put( name, result / ( unitCost == 0 ? 1 : unitCost ) );
+		ConsumablesDatabase.getAdventureMap( false, gainEffect1, gainEffect2, gainEffect3, gainEffect4 ).put( name, Double.valueOf( result ) );
+		ConsumablesDatabase.getAdventureMap( true, gainEffect1, gainEffect2, gainEffect3, gainEffect4 ).put( name, Double.valueOf( result / ( unitCost == 0 ? 1 : unitCost ) ) );
 	}
 
 	private static Map<String, Double> getAdventureMap( final boolean perUnit,
@@ -727,7 +727,7 @@ public class ConsumablesDatabase
 	public static final int getFullness( final String name )
 	{
 		Integer fullness = ConsumablesDatabase.getRawFullness( name );
-		return fullness == null ? 0 : fullness;
+		return fullness == null ? 0 : fullness.intValue();
 	}
 
 	public static final Integer getRawInebriety( final String name )
@@ -742,7 +742,7 @@ public class ConsumablesDatabase
 	public static final int getInebriety( final String name )
 	{
 		Integer inebriety = ConsumablesDatabase.getRawInebriety( name );
-		return inebriety == null ? 0 : inebriety;
+		return inebriety == null ? 0 : inebriety.intValue();
 	}
 
 	public static final Integer getRawSpleenHit( final String name )
@@ -757,7 +757,7 @@ public class ConsumablesDatabase
 	public static final int getSpleenHit( final String name )
 	{
 		Integer spleenhit = ConsumablesDatabase.getRawSpleenHit( name );
-		return spleenhit == null ? 0 : spleenhit;
+		return spleenhit == null ? 0 : spleenhit.intValue();
 	}
 
 	public static final String getRawQuality( final String name )
@@ -830,8 +830,8 @@ public class ConsumablesDatabase
 			if ( Preferences.getBoolean( "bondMartiniPlus" ) )
 			{
 				// If Martini would have given 10 or more adventures at base, give 4 extra
-				int start = ConsumablesDatabase.advStartByName.get( name );
-				int end = ConsumablesDatabase.advEndByName.get( name );
+				int start = ConsumablesDatabase.advStartByName.get( name ).intValue();
+				int end = ConsumablesDatabase.advEndByName.get( name ).intValue();
 				for ( int i = start; i <= end ; i++ )
 				{
 					if ( i < 10 )
@@ -857,8 +857,8 @@ public class ConsumablesDatabase
 		if ( ConsumablesDatabase.isWine ( itemId ) )
 		{
 			boolean refinedPalate = KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.REFINED_PALATE ) );
-			int start = ConsumablesDatabase.advStartByName.get( name );
-			int end = ConsumablesDatabase.advEndByName.get( name );
+			int start = ConsumablesDatabase.advStartByName.get( name ).intValue();
+			int end = ConsumablesDatabase.advEndByName.get( name ).intValue();
 			double bonus = 0.0;
 			// With Refined Palate, apply 25% bonus adventures
 			// If we have mafia pinky ring equipped, or can get it equipped and have autoPinkyRing set, apply 12.5% bonus adventures
@@ -996,7 +996,7 @@ public class ConsumablesDatabase
 
 		range += ConsumablesDatabase.conditionalExtraAdventures( name, perUnit );
 
-		return range;
+		return range.doubleValue();
 	}
 
 	private static int getStatUnit( final String name )
@@ -1012,15 +1012,15 @@ public class ConsumablesDatabase
 
 		if ( fullness != null )
 		{
-			unit += fullness;
+			unit += fullness.intValue();
 		}
 		if ( inebriety != null )
 		{
-			unit += inebriety;
+			unit += inebriety.intValue();
 		}
 		if ( spleenhit != null )
 		{
-			unit += spleenhit;
+			unit += spleenhit.intValue();
 		}
 		if ( unit == 0 )
 		{

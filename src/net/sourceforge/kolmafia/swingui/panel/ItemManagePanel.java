@@ -277,10 +277,10 @@ public abstract class ItemManagePanel
 
 	public void addButtons( final JButton[] buttons, final boolean save )
 	{
-        for ( JButton button : buttons )
-        {
-            this.buttonPanel.add( button );
-        }
+		for ( int i = 0; i < buttons.length; ++i )
+		{
+			this.buttonPanel.add( buttons[i] );
+		}
 
 		if ( !save )
 		{
@@ -345,10 +345,10 @@ public abstract class ItemManagePanel
 		}
 
 		this.scrollComponent.setEnabled( isEnabled );
-        for ( JButton button : this.buttons )
-        {
-            button.setEnabled( isEnabled );
-        }
+		for ( int i = 0; i < this.buttons.length; ++i )
+		{
+			this.buttons[ i ].setEnabled( isEnabled );
+		}
 	}
 
 	public AdventureResult[] getDesiredItems( final String message )
@@ -442,13 +442,13 @@ public abstract class ItemManagePanel
 		AdventureResult[] desiredItems = new AdventureResult[ neededSize ];
 		neededSize = 0;
 
-        for ( Object item : items )
-        {
-            if ( item != null )
-            {
-                desiredItems[ neededSize++ ] = ( AdventureResult ) item;
-            }
-        }
+		for ( int i = 0; i < items.length; ++i )
+		{
+			if ( items[ i ] != null )
+			{
+				desiredItems[ neededSize++ ] = (AdventureResult)items[ i ];
+			}
+		}
 
 		return desiredItems;
 	}
@@ -475,7 +475,7 @@ public abstract class ItemManagePanel
 				return Integer.MIN_VALUE;
 			}
 				
-			quantity = value;
+			quantity = value.intValue();
 
 			break;
 		}
@@ -531,7 +531,7 @@ public abstract class ItemManagePanel
 				{
 					return Integer.MIN_VALUE;
 				}
-				quantity = value;
+				quantity = value.intValue();
 			}
 
 			break;
@@ -653,10 +653,10 @@ public abstract class ItemManagePanel
 				return;
 			}
 
-            for ( AdventureResult item : items )
-            {
-                RequestThread.postRequest( UseItemRequest.getInstance( item ) );
-            }
+			for ( int i = 0; i < items.length; ++i )
+			{
+				RequestThread.postRequest( UseItemRequest.getInstance( items[ i ] ) );
+			}
 		}
 
 		@Override
@@ -683,24 +683,25 @@ public abstract class ItemManagePanel
 				return;
 			}
 
-            for ( AdventureResult item : items )
-            {
-                int usageType = ItemDatabase.getConsumptionType( item.getItemId() );
+			for ( int i = 0; i < items.length; ++i )
+			{
+				AdventureResult item = items[ i ];
+				int usageType = ItemDatabase.getConsumptionType( item.getItemId() );
 
-                switch ( usageType )
-                {
-                case KoLConstants.EQUIP_FAMILIAR:
-                case KoLConstants.EQUIP_ACCESSORY:
-                case KoLConstants.EQUIP_HAT:
-                case KoLConstants.EQUIP_PANTS:
-                case KoLConstants.EQUIP_CONTAINER:
-                case KoLConstants.EQUIP_SHIRT:
-                case KoLConstants.EQUIP_WEAPON:
-                case KoLConstants.EQUIP_OFFHAND:
-                    RequestThread.postRequest( new EquipmentRequest(
-                            item, EquipmentManager.consumeFilterToEquipmentType( usageType ) ) );
-                }
-            }
+				switch ( usageType )
+				{
+				case KoLConstants.EQUIP_FAMILIAR:
+				case KoLConstants.EQUIP_ACCESSORY:
+				case KoLConstants.EQUIP_HAT:
+				case KoLConstants.EQUIP_PANTS:
+				case KoLConstants.EQUIP_CONTAINER:
+				case KoLConstants.EQUIP_SHIRT:
+				case KoLConstants.EQUIP_WEAPON:
+				case KoLConstants.EQUIP_OFFHAND:
+					RequestThread.postRequest( new EquipmentRequest(
+									   item, EquipmentManager.consumeFilterToEquipmentType( usageType ) ) );
+				}
+			}
 		}
 
 		@Override
@@ -908,10 +909,10 @@ public abstract class ItemManagePanel
 				return;
 			}
 
-            for ( AdventureResult item : items )
-            {
-                RequestThread.postRequest( new PulverizeRequest( item ) );
-            }
+			for ( int i = 0; i < items.length; ++i )
+			{
+				RequestThread.postRequest( new PulverizeRequest( items[ i ] ) );
+			}
 		}
 
 		@Override
