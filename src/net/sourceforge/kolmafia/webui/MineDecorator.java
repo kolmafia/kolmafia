@@ -153,7 +153,7 @@ public abstract class MineDecorator
 			return;
 		}
 		String pref = "mineLayout" + m.group( 1 );
-		if ( location.contains( "reset=1" ) )
+		if ( location.indexOf( "reset=1" ) != -1 )
 		{
 			Preferences.setString( pref, "" );
 			return;

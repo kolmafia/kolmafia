@@ -54,7 +54,7 @@ public class StickersCommand
 			if ( EquipmentManager.getEquipment( EquipmentManager.STICKER1 + i ) == EquipmentRequest.UNEQUIP && i < stickers.length )
 			{
 				String item = stickers[ i ].toLowerCase();
-				if ( !item.contains( "stick" ) )
+				if ( item.indexOf( "stick" ) == -1 )
 				{
 					item = item + " sticker";
 				}

@@ -83,41 +83,44 @@ public class HTMLParserUtils
 		HTMLParserUtils.printTag( buffer, node );
 		RequestLogger.updateDebugLog( buffer.toString() );
 
-        for ( Object child : node.getAllChildren() )
-        {
-            if ( child instanceof CommentNode )
-            {
-                CommentNode object = ( CommentNode ) child;
-                String content = object.getContent();
-                HTMLParserUtils.indent( buffer, level + 1 );
-                buffer.append( "<!--" );
-                buffer.append( content );
-                buffer.append( "-->" );
-                RequestLogger.updateDebugLog( buffer.toString() );
-                continue;
-            }
+		Iterator it = node.getAllChildren().iterator();
+		while ( it.hasNext() )
+		{
+			Object child = it.next();
 
-            if ( child instanceof ContentNode )
-            {
-                ContentNode object = ( ContentNode ) child;
-                String content = object.getContent().trim();
-                if ( content.equals( "" ) )
-                {
-                    continue;
-                }
+			if ( child instanceof CommentNode )
+			{
+				CommentNode object = (CommentNode) child;
+				String content = object.getContent();
+				HTMLParserUtils.indent( buffer, level + 1 );
+				buffer.append( "<!--" );
+				buffer.append( content );
+				buffer.append( "-->" );
+				RequestLogger.updateDebugLog( buffer.toString() );
+				continue;
+			}
 
-                HTMLParserUtils.indent( buffer, level + 1 );
-                buffer.append( content );
-                RequestLogger.updateDebugLog( buffer.toString() );
-                continue;
-            }
+			if ( child instanceof ContentNode )
+			{
+				ContentNode object = (ContentNode) child;
+				String content = object.getContent().trim();
+				if ( content.equals( "" ) )
+				{
+					continue;
+				}
 
-            if ( child instanceof TagNode )
-            {
-                TagNode object = ( TagNode ) child;
-                HTMLParserUtils.logHTML( object, buffer, level + 1 );
-            }
-        }
+				HTMLParserUtils.indent( buffer, level + 1 );
+				buffer.append( content );
+				RequestLogger.updateDebugLog( buffer.toString() );
+				continue;
+			}
+
+			if ( child instanceof TagNode )
+			{
+				TagNode object = (TagNode) child;
+				HTMLParserUtils.logHTML( object, buffer, level + 1 );
+			}
+		}
 	}
 
 	private static void indent( final StringBuffer buffer, int level )
@@ -140,15 +143,16 @@ public class HTMLParserUtils
 
 		if ( !attributes.isEmpty() )
 		{
-            for ( Object o : attributes.keySet() )
-            {
-                String key = ( String ) o;
-                buffer.append( " " );
-                buffer.append( key );
-                buffer.append( "=\"" );
-                buffer.append( ( String ) attributes.get( key ) );
-                buffer.append( "\"" );
-            }
+			Iterator it = attributes.keySet().iterator();
+			while ( it.hasNext() )
+			{
+				String key = (String) it.next();
+				buffer.append( " " );
+				buffer.append( key );
+				buffer.append( "=\"" );
+				buffer.append( (String) attributes.get( key ) );
+				buffer.append( "\"" );
+			}
 		}
 		buffer.append( ">" );
 	}

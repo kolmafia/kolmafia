@@ -68,11 +68,12 @@ public class ReleaseNotes
 		Collections.sort( revisionHistory );
 
 		PrintStream ostream = new PrintStream( new FileOutputStream( OUTPUT_LOCATION ) );
+		Iterator<Revision> revisionIterator = revisionHistory.iterator();
 
-        for ( Revision revision : revisionHistory )
-        {
-            ostream.println( revision );
-        }
+		while ( revisionIterator.hasNext() )
+		{
+			ostream.println( revisionIterator.next() );
+		}
 
 		ostream.close();
 	}
@@ -80,7 +81,7 @@ public class ReleaseNotes
 	private static ArrayList<Revision> getRevisionHistory( File input, String viewRoot )
 		throws Exception
 	{
-		ArrayList<Revision> revisionHistory = new ArrayList<>();
+		ArrayList<Revision> revisionHistory = new ArrayList<Revision>();
 
 		if ( !input.exists() )
 		{

@@ -164,7 +164,7 @@ public class MaximizerFrame
 		boolean failed = Maximizer.eval.failed;
 		Object[] items = this.boostList.getSelectedValuesList().toArray();
 
-		StringBuilder buff = new StringBuilder( "Current score: " );
+		StringBuffer buff = new StringBuffer( "Current score: " );
 		buff.append( KoLConstants.FLOAT_FORMAT.format( current ) );
 		if ( failed )
 		{
@@ -489,11 +489,13 @@ public class MaximizerFrame
 		{
 			KoLmafia.forceContinue();
 			boolean any = false;
-			for ( Object boost : Maximizer.boosts )
+			Iterator i = Maximizer.boosts.iterator();
+			while ( i.hasNext() )
 			{
+				Object boost = i.next();
 				if ( boost instanceof Boost )
 				{
-					boolean did = ( ( Boost ) boost ).execute( true );
+					boolean did = ((Boost) boost).execute( true );
 					if ( !KoLmafia.permitsContinue() ) return;
 					any |= did;
 				}

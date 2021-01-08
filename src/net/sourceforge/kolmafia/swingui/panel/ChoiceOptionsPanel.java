@@ -155,10 +155,10 @@ public class ChoiceOptionsPanel
 			this.optionSelects[ i ] = new JComboBox();
 			this.optionSelects[ i ].addItem( "show in browser" );
 			Object[] options = ChoiceManager.CHOICE_ADVS[ i ].getOptions();
-            for ( Object option : options )
-            {
-                this.optionSelects[ i ].addItem( option );
-            }
+			for ( int j = 0; j < options.length; ++j )
+			{
+				this.optionSelects[ i ].addItem( options[ j ] );
+			}
 		}
 
 		this.palindomePapayaSelect = new JComboBox();
@@ -474,20 +474,20 @@ public class ChoiceOptionsPanel
 		ArrayList optionsList;
 		Object[] keys = this.choiceMap.keySet().toArray();
 
-        for ( Object key : keys )
-        {
-            optionsList = ( ArrayList ) this.choiceMap.get( key );
-            if ( key.equals( "Item-Driven" ) )
-            {
-                this.addTab( "Item",
-                        new GenericScrollPane( new ChoicePanel( optionsList ) ) );
-                this.setToolTipTextAt( 1, "Choices related to the use of an item" );
-            }
-            else
-            {
-                this.choicePanel.add( new ChoicePanel( optionsList ), key );
-            }
-        }
+		for ( int i = 0; i < keys.length; ++i )
+		{
+			optionsList = (ArrayList) this.choiceMap.get( keys[ i ] );
+			if ( keys[ i ].equals( "Item-Driven" ) )
+			{
+				this.addTab( "Item",
+					new GenericScrollPane( new ChoicePanel( optionsList ) ) );
+				this.setToolTipTextAt( 1, "Choices related to the use of an item" );
+			}
+			else
+			{
+				this.choicePanel.add( new ChoicePanel( optionsList ), keys[ i ] );
+			}
+		}
 	}
 
 	public UpdateChoicesListener getUpdateListener()
@@ -541,23 +541,24 @@ public class ChoiceOptionsPanel
 
 			ArrayList elementList = new ArrayList();
 
-            for ( Object key : options )
-            {
-                ArrayList value = ( ArrayList ) ChoiceOptionsPanel.this.selectMap.get( key );
+			for ( int i = 0; i < options.size(); ++i )
+			{
+				Object key = options.get( i );
+				ArrayList value = (ArrayList) ChoiceOptionsPanel.this.selectMap.get( key );
 
-                if ( value.size() == 1 )
-                {
-                    elementList.add( new VerifiableElement( key + ":  ", ( JComponent ) value.get( 0 ) ) );
-                }
-                else
-                {
-                    for ( int j = 0; j < value.size(); ++j )
-                    {
-                        elementList.add( new VerifiableElement(
-                                key + " " + ( j + 1 ) + ":  ", ( JComponent ) value.get( j ) ) );
-                    }
-                }
-            }
+				if ( value.size() == 1 )
+				{
+					elementList.add( new VerifiableElement( key + ":  ", (JComponent) value.get( 0 ) ) );
+				}
+				else
+				{
+					for ( int j = 0; j < value.size(); ++j )
+					{
+						elementList.add( new VerifiableElement(
+							key + " " + ( j + 1 ) + ":  ", (JComponent) value.get( j ) ) );
+					}
+				}
+			}
 
 			VerifiableElement[] elements = new VerifiableElement[ elementList.size() ];
 			elementList.toArray( elements );
@@ -658,7 +659,7 @@ public class ChoiceOptionsPanel
 			this.addItem( "El Vibrato power sphere" );
 			this.addItem( "the plinth" );
 			this.addItem( "random choice" );
-			if ( dest.contains( "," ) )
+			if ( dest.indexOf( "," ) != -1 )
 			{
 				this.addItem( "go to " + dest );
 			}
@@ -710,7 +711,7 @@ public class ChoiceOptionsPanel
 			{
 				index = 7;
 			}
-			else if ( dest.contains( "," ) )
+			else if ( dest.indexOf( "," ) != -1 )
 			{
 				index = 8;
 			}

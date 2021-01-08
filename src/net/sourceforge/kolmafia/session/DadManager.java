@@ -79,13 +79,14 @@ public class DadManager
 
 	private static Object[] search( Element element )
 	{
-        for ( Object[] row : ELEMENTS )
-        {
-            if ( row[ 0 ] == element )
-            {
-                return row;
-            }
-        }
+		for ( int i = 0; i < ELEMENTS.length; ++i )
+		{
+			Object [] row = ELEMENTS[ i ];
+			if ( row[ 0 ] == element )
+			{
+				return row;
+			}
+		}
 		return null;
 	}
 
@@ -201,13 +202,14 @@ public class DadManager
 
 	private static Object search( String key, Object [][] table )
 	{
-        for ( Object[] row : table )
-        {
-            if ( key.equals( row[ 0 ] ) )
-            {
-                return row[ 1 ];
-            }
-        }
+		for ( int i = 0; i < table.length; ++i )
+		{
+			Object [] row = table[ i ];
+			if ( key.equals( row[ 0 ] ) )
+			{
+				return row[ 1 ];
+			}
+		}
 		return null;
 	}
 

@@ -89,12 +89,12 @@ public class JarlsbergRequest
 			return;
 		}
 
-		if ( !urlString.contains( "action=buyitem" ) )
+		if ( urlString.indexOf( "action=buyitem" ) == -1 )
 		{
 			return;
 		}
 
-		if ( !responseText.contains( "You acquire" ) )
+		if ( responseText.indexOf( "You acquire" ) == -1 )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Cosmic shopping was unsuccessful." );
 			return;
@@ -132,11 +132,11 @@ public class JarlsbergRequest
 
 		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
 
-        for ( AdventureResult ingredient : ingredients )
-        {
-            ResultProcessor.processResult(
-                    ingredient.getInstance( -1 * ingredient.getCount() * quantity ) );
-        }
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			ResultProcessor.processResult(
+				ingredients[ i ].getInstance( -1 * ingredients[ i ].getCount() * quantity ) );
+		}
 	}
 
 	public static final boolean registerRequest( final String urlString )

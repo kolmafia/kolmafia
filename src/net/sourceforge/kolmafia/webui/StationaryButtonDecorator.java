@@ -68,7 +68,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class StationaryButtonDecorator
 {
-	private static final ArrayList<String> combatHotkeys = new ArrayList<>();
+	private static final ArrayList<String> combatHotkeys = new ArrayList<String>();
 
 	private static boolean builtInSkill( final String skillId )
 	{

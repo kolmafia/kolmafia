@@ -81,7 +81,7 @@ public class OlfactionCommand
 			{
 				isGoals = true;
 			}
-			StringBuilder result = new StringBuilder();
+			StringBuffer result = new StringBuffer();
 			if ( isGoals )
 			{
 				result.append( "goals" );

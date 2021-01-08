@@ -85,22 +85,23 @@ public class CliRefCommand
 		}
 		boolean anymatches = false;
 		HashMap alreadySeen = new HashMap(); // usage => name of cmd already printed out
-		for ( Map.Entry<String, Object> stringObjectEntry : AbstractCommand.lookup.entrySet() )
+		Iterator i = AbstractCommand.lookup.entrySet().iterator();
+		while ( i.hasNext() )
 		{
-			Map.Entry e = ( Map.Entry ) stringObjectEntry;
-			String name = ( String ) e.getKey();
+			Map.Entry e = (Map.Entry) i.next();
+			String name = (String) e.getKey();
 			int type = AbstractCommand.lookup.getKeyType( name );
 			if ( type == PrefixMap.NOT_A_KEY )
 			{
 				continue;
 			}
-			AbstractCommand handler = ( AbstractCommand ) e.getValue();
+			AbstractCommand handler = (AbstractCommand) e.getValue();
 			if ( handler == null ) // shouldn't happen
 			{
 				continue;
 			}
 			String usage = handler.getUsage( name );
-			if ( usage == null || !name.contains( filter ) && !usage.toLowerCase().contains( filter ) )
+			if ( usage == null || name.indexOf( filter ) == -1 && usage.toLowerCase().indexOf( filter ) == -1 )
 			{
 				continue;
 			}
@@ -114,7 +115,7 @@ public class CliRefCommand
 				anymatches = true;
 				continue;
 			}
-			String previouslySeen = ( String ) alreadySeen.get( usage );
+			String previouslySeen = (String) alreadySeen.get( usage );
 			if ( previouslySeen == null )
 			{
 				// This isn't turning out very useful

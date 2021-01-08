@@ -50,7 +50,7 @@ public class HobopolisDecorator
 	public static final void handleTownSquare( final String responseText )
 	{
 		// Nothing to do until battle is done
-		if ( !responseText.contains( "WINWINWIN" ) )
+		if ( responseText.indexOf( "WINWINWIN" ) == -1 )
 		{
 			return;
 		}
@@ -60,42 +60,42 @@ public class HobopolisDecorator
 		// Man, you really hit that hobo hard! So hard, in fact, that
 		// you knocked him completely out of his skin, which is now
 		// lying in a wrinkly heap on the ground.
-		if ( responseText.contains( "wrinkly heap on the ground" ) )
+		if ( responseText.indexOf( "wrinkly heap on the ground" ) != -1 )
 		{
 			itemName = "hobo skin";
 		}
 
 		// Boy, you sure scorched that hobo good! All that's left is a
 		// smoking pair of boots!
-		else if ( responseText.contains( "smoking pair of boots" ) )
+		else if ( responseText.indexOf( "smoking pair of boots" ) != -1 )
 		{
 			itemName = "charred hobo boots";
 		}
 
 		// Wow! You froze that hobo so hard that he shattered into a
 		// million pieces! All that's left is a pair of frozen eyeballs.
-		else if ( responseText.contains( "pair of frozen eyeballs" ) )
+		else if ( responseText.indexOf( "pair of frozen eyeballs" ) != -1 )
 		{
 			itemName = "frozen hobo eyeballs";
 		}
 
 		// Man, you really did a number on that hobo. All that's left
 		// of him is a pile of foul-smelling guts.
-		else if ( responseText.contains( "pile of foul-smelling guts" ) )
+		else if ( responseText.indexOf( "pile of foul-smelling guts" ) != -1 )
 		{
 			itemName = "stinking hobo guts";
 		}
 
 		// Boy, you sure scared that hobo! He ran off so fast that he
 		// left his skull behind!
-		else if ( responseText.contains( "he left his skull behind" ) )
+		else if ( responseText.indexOf( "he left his skull behind" ) != -1 )
 		{
 			itemName = "creepy hobo skull";
 		}
 
 		// Wow. You embarrassed that hobo so thoroughly that he ran off
 		// without his crotch!
-		else if ( responseText.contains( "he ran off without his crotch" ) )
+		else if ( responseText.indexOf( "he ran off without his crotch" ) != -1 )
 		{
 			itemName = "hobo crotch";
 		}
@@ -113,7 +113,7 @@ public class HobopolisDecorator
 	
 	public static final void decorate( String location, StringBuffer buffer )
 	{
-		if ( !location.contains( "place=1" ) )
+		if ( location.indexOf( "place=1" ) == -1 )
 		{
 			Matcher m = HOBOPOLIS_IMG_PATTERN.matcher( buffer );
 			if ( m.find() )
@@ -123,7 +123,7 @@ public class HobopolisDecorator
 			}
 		}
 
-		if ( location.contains( "place=4" ) )
+		if ( location.indexOf( "place=4" ) != -1 )
 		{
 			int pos = buffer.lastIndexOf( "</body>" );
 			String ending = buffer.substring( pos );

@@ -234,7 +234,7 @@ public class SkateParkRequest
 
 	private static int dataBuff( final Object[] data )
 	{
-		return ( data == null ) ? -1 : ( Integer ) data[ 3 ];
+		return ( data == null ) ? -1 : ((Integer) data[3]).intValue();
 	}
 
 	private static String dataSetting( final Object[] data )
@@ -255,43 +255,46 @@ public class SkateParkRequest
 	private static Object[] placeToData( final String place )
 	{
 		Object [] retval = null;
-        for ( Object[] data : BUFF_DATA )
-        {
-            String canonicalPlace = dataCanonicalPlace( data );
-            if ( !canonicalPlace.contains( place ) )
-            {
-                continue;
-            }
-            if ( retval != null )
-            {
-                return null;
-            }
-            retval = data;
-        }
+		for ( int i = 0; i < BUFF_DATA.length; ++i )
+		{
+			Object [] data = BUFF_DATA[i];
+			String canonicalPlace = dataCanonicalPlace( data );
+			if ( canonicalPlace.indexOf( place ) == -1 )
+			{
+				continue;
+			}
+			if ( retval != null )
+			{
+				return null;
+			}
+			retval = data;
+		}
 		return retval;
 	}
 
 	private static Object[] actionToData( final String action )
 	{
-        for ( Object[] data : BUFF_DATA )
-        {
-            if ( action.equals( dataAction( data ) ) )
-            {
-                return data;
-            }
-        }
+		for ( int i = 0; i < BUFF_DATA.length; ++i )
+		{
+			Object [] data = BUFF_DATA[i];
+			if ( action.equals( dataAction( data ) ) )
+			{
+				return data;
+			}
+		}
 		return null;
 	}
 
 	public static Object[] buffToData( final int buff )
 	{
-        for ( Object[] data : BUFF_DATA )
-        {
-            if ( buff == dataBuff( data ) )
-            {
-                return data;
-            }
-        }
+		for ( int i = 0; i < BUFF_DATA.length; ++i )
+		{
+			Object [] data = BUFF_DATA[i];
+			if ( buff == dataBuff( data ) )
+			{
+				return data;
+			}
+		}
 		return null;
 	}
 
@@ -362,19 +365,19 @@ public class SkateParkRequest
 		// Deduce the state of war
 		String status = null;
 
-		if ( responseText.contains( "ocean/rumble" ) )
+		if ( responseText.indexOf( "ocean/rumble" ) != -1 )
 		{
 			status = "war";
 		}
-		else if ( responseText.contains( "ocean/ice_territory" ) )
+		else if ( responseText.indexOf( "ocean/ice_territory" ) != -1 )
 		{
 			status = "ice";
 		}
-		else if ( responseText.contains( "ocean/roller_territory" ) )
+		else if ( responseText.indexOf( "ocean/roller_territory" ) != -1 )
 		{
 			status = "roller";
 		}
-		else if ( responseText.contains( "ocean/fountain" ) )
+		else if ( responseText.indexOf( "ocean/fountain" ) != -1 )
 		{
 			status = "peace";
 		}
@@ -394,8 +397,8 @@ public class SkateParkRequest
 		}
 
 		Object [] data = actionToData( action );
-		boolean effect = responseText.contains( "You acquire an effect" );
-		boolean error = responseText.contains( dataError( data ) );
+		boolean effect = responseText.indexOf( "You acquire an effect" ) != -1;
+		boolean error = responseText.indexOf( dataError( data ) ) != -1;
 		if ( effect || error )
 		{
 			Preferences.setBoolean( dataSetting( data ), true );

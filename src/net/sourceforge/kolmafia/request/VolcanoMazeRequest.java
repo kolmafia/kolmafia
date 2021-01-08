@@ -93,7 +93,7 @@ public class VolcanoMazeRequest
 		// the Final Battle against your Nemesis, and therefore you
 		// should probably equip that Legendary Epic Weapon of yours
 		// first. Just sayin'.
-		if ( this.responseText.contains( "A niggling voice" ) )
+		if ( this.responseText.indexOf( "A niggling voice" ) != -1 )
 		{
 			// Should we auto-equip the LEW?
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Equip your Legendary Epic Weapon and try again." );
@@ -126,7 +126,7 @@ public class VolcanoMazeRequest
 			return false;
 		}
 
-		if ( urlString.contains( "jump=1" ) )
+		if ( urlString.indexOf( "jump=1" ) != -1 )
 		{
 			RequestLogger.updateSessionLog( "Swimming back to shore" );
 			return true;

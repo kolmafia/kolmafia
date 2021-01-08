@@ -578,14 +578,15 @@ public abstract class BadMoonManager
 
 	private static Object[] encounterToData( final String encounter )
 	{
-        for ( Object[] data : SPECIAL_ENCOUNTERS )
-        {
-            String encounterName = dataEncounterName( data );
-            if ( encounter.startsWith( encounterName ) )
-            {
-                return data;
-            }
-        }
+		for ( int i = 0; i < SPECIAL_ENCOUNTERS.length; ++i )
+		{
+			Object [] data = SPECIAL_ENCOUNTERS[i];
+			String encounterName = dataEncounterName( data );
+			if ( encounter.startsWith( encounterName ) )
+			{
+				return data;
+			}
+		}
 		return null;
 	}
 
@@ -595,14 +596,15 @@ public abstract class BadMoonManager
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
 			Preferences.setInteger( "lastBadMoonReset", KoLCharacter.getAscensions() );
-            for ( Object[] data : SPECIAL_ENCOUNTERS )
-            {
-                String setting = BadMoonManager.dataSetting( data );
-                if ( setting != null )
-                {
-                    Preferences.setBoolean( setting, false );
-                }
-            }
+			for ( int i = 0; i < SPECIAL_ENCOUNTERS.length; ++i )
+			{
+				Object [] data = SPECIAL_ENCOUNTERS[i];
+				String setting = BadMoonManager.dataSetting( data );
+				if ( setting != null )
+				{
+					Preferences.setBoolean( setting, false );
+				}
+			}
 		}
 	}
 
@@ -664,39 +666,40 @@ public abstract class BadMoonManager
 		output.append( type );
 		output.append( "</th></tr>" );
 
-        for ( Object[] data : SPECIAL_ENCOUNTERS )
-        {
-            if ( type != BadMoonManager.dataType( data ) )
-            {
-                continue;
-            }
+		for ( int i = 0; i < SPECIAL_ENCOUNTERS.length; ++i )
+		{
+			Object [] data = SPECIAL_ENCOUNTERS[i];
+			if ( type != BadMoonManager.dataType( data ) )
+			{
+				continue;
+			}
 
-            String name = BadMoonManager.dataEncounterName( data );
-            String location = BadMoonManager.dataLocation( data );
-            String prereq = BadMoonManager.dataPrereq( data );
-            AdventureResult effect = BadMoonManager.dataEffect( data );
-            String description = BadMoonManager.dataDescription( data );
-            String setting = BadMoonManager.dataSetting( data );
-            boolean value = setting != null ? Preferences.getBoolean( setting ) : false;
-            output.append( "<tr><td rowspan=3>" );
-            output.append( value );
-            output.append( "</td><td align=left>" );
-            output.append( name );
-            output.append( "</td></tr><tr><td align=left>" );
-            output.append( location );
-            if ( prereq != null )
-            {
-                output.append( " after " );
-                output.append( prereq );
-            }
-            output.append( "</td></tr><tr><td align=left>" );
-            if ( effect != null )
-            {
-                output.append( effect.toString() );
-                output.append( ": " );
-            }
-            output.append( description );
-            output.append( "</td></tr>" );
-        }
+			String name = BadMoonManager.dataEncounterName( data );
+			String location = BadMoonManager.dataLocation( data );
+			String prereq = BadMoonManager.dataPrereq( data );
+			AdventureResult effect = BadMoonManager.dataEffect( data );
+			String description = BadMoonManager.dataDescription( data );
+			String setting = BadMoonManager.dataSetting( data );
+			boolean value = setting != null ? Preferences.getBoolean( setting ) : false;
+			output.append( "<tr><td rowspan=3>" );
+			output.append( value );
+			output.append( "</td><td align=left>" );
+			output.append( name );
+			output.append( "</td></tr><tr><td align=left>" );
+			output.append( location );
+			if ( prereq != null )
+			{
+				output.append( " after " );
+				output.append( prereq );
+			}
+			output.append( "</td></tr><tr><td align=left>" );
+			if ( effect != null )
+			{
+				output.append( effect.toString() );
+				output.append( ": " );
+			}
+			output.append( description );
+			output.append( "</td></tr>" );
+		}
 	}
 }

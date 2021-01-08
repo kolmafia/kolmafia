@@ -86,9 +86,9 @@ public class TCRSDatabase
 	private static String currentClassSign;	// Character class/Zodiac Sign
 
 	// Sorted by itemId
-	private static final Map<Integer, TCRS> TCRSMap = new TreeMap<>();
-	private static final Map<Integer, TCRS> TCRSBoozeMap = new TreeMap<>( new CafeDatabase.InverseIntegerOrder() );
-	private static final Map<Integer, TCRS> TCRSFoodMap = new TreeMap<>( new CafeDatabase.InverseIntegerOrder() );
+	private static final Map<Integer, TCRS> TCRSMap = new TreeMap<Integer, TCRS>();
+	private static final Map<Integer, TCRS> TCRSBoozeMap = new TreeMap<Integer, TCRS>( new CafeDatabase.InverseIntegerOrder() );
+	private static final Map<Integer, TCRS> TCRSFoodMap = new TreeMap<Integer, TCRS>( new CafeDatabase.InverseIntegerOrder() );
 
 	static
 	{
@@ -497,7 +497,7 @@ public class TCRSDatabase
 		String name = DebugDatabase.parseName( text );
 		int size = DebugDatabase.parseConsumableSize( text );
 		String quality = DebugDatabase.parseQuality( text );
-		ArrayList<String> unknown = new ArrayList<>();
+		ArrayList<String> unknown = new ArrayList<String>();
 		String modifiers = DebugDatabase.parseItemEnchantments( text, unknown, -1 );
 
 		// Create and return the TCRS object
@@ -611,7 +611,7 @@ public class TCRSDatabase
 		{
 			Integer id = entry.getKey();
 			TCRS tcrs = entry.getValue();
-			String name = CafeDatabase.getCafeBoozeName( id );
+			String name = CafeDatabase.getCafeBoozeName( id.intValue() );
 			applyConsumableModifiers( KoLConstants.CONSUME_DRINK, name,  tcrs );
 		}
 
@@ -619,7 +619,7 @@ public class TCRSDatabase
 		{
 			Integer id = entry.getKey();
 			TCRS tcrs = entry.getValue();
-			String name = CafeDatabase.getCafeFoodName( id );
+			String name = CafeDatabase.getCafeFoodName( id.intValue() );
 			applyConsumableModifiers( KoLConstants.CONSUME_EAT, name,  tcrs );
 		}
 
@@ -769,7 +769,7 @@ public class TCRSDatabase
 	private static void applyConsumableModifiers( final int usage, final String itemName, final TCRS tcrs )
 	{
 		Integer lint = ConsumablesDatabase.getLevelReqByName( itemName );
-		int level = lint == null ? 0 : lint;
+		int level = lint == null ? 0 : lint.intValue();
 		// Guess
 		int adv = ( usage == KoLConstants.CONSUME_SPLEEN ) ? 0 : (tcrs.size * qualityMultiplier( tcrs.quality ) );
 		int mus = 0;
@@ -886,7 +886,7 @@ public class TCRSDatabase
 	// *** support for fetching TCRS files from KoLmafia's SVN repository
 
 	// Remote files we have fetched this session
-	private static final Set<String> remoteFetched = new HashSet<>(); //remote files fetched this session
+	private static final Set<String> remoteFetched = new HashSet<String>(); //remote files fetched this session
 
 	// *** Fetching files from the SVN repository, in two parts, since the
 	// non-cafe code was released a week before the cafe code, and some

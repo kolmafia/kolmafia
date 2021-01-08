@@ -101,7 +101,7 @@ public class Maximizer
 {
 	private static boolean firstTime = true;
 
-	public static final LockableListModel<Boost> boosts = new LockableListModel<>();
+	public static final LockableListModel<Boost> boosts = new LockableListModel<Boost>();
 	public static Evaluator eval;
 
 	public static String [] maximizationCategories =
@@ -2380,11 +2380,13 @@ public class Maximizer
 			else
 			// Otherwise we iterate through the maximization set so far
 			{
-				for ( Object boost : Maximizer.boosts )
+				Iterator i = Maximizer.boosts.iterator();
+				while ( i.hasNext() )
 				{
+					Object boost = i.next();
 					if ( boost instanceof Boost )
 					{
-						if ( item.equals( ( ( Boost ) boost ).getItem() ) )
+						if ( item.equals( ((Boost) boost).getItem() ) )
 						{
 							count++;
 						}

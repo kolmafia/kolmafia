@@ -65,7 +65,7 @@ public class ChatSender
 
 	private static boolean scriptedMessagesEnabled = true;
 
-	private static final ArrayList<String> CHANNEL_COMMANDS = new ArrayList<>();
+	private static final ArrayList<String> CHANNEL_COMMANDS = new ArrayList<String>();
 
 	static
 	{
@@ -83,7 +83,7 @@ public class ChatSender
 
 		ChatRequest request = new ChatRequest( macro, false );
 
-		List<ChatMessage> accumulatedMessages = new LinkedList<>();
+		List<ChatMessage> accumulatedMessages = new LinkedList<ChatMessage>();
 
 		accumulatedMessages.addAll( ChatSender.sendRequest( request, false ) );
 
@@ -118,7 +118,7 @@ public class ChatSender
 			return;
 		}
 
-		List<ChatMessage> accumulatedMessages = new LinkedList<>();
+		List<ChatMessage> accumulatedMessages = new LinkedList<ChatMessage>();
 
 		for ( String graf : grafs )
 		{
@@ -216,7 +216,7 @@ public class ChatSender
 			return Collections.EMPTY_LIST;
 		}
 
-		List<ChatMessage> newMessages = new LinkedList<>();
+		List<ChatMessage> newMessages = new LinkedList<ChatMessage>();
 
 		if ( !tabbedChat )
 		{
@@ -264,7 +264,7 @@ public class ChatSender
 
 	private static List<String> getGrafs( String contact, String message )
 	{
-		List<String> grafs = new LinkedList<>();
+		List<String> grafs = new LinkedList<String>();
 
 		if ( message.startsWith( "/do " ) || message.startsWith( "/run " ) || message.startsWith( "/cli " ) )
 		{

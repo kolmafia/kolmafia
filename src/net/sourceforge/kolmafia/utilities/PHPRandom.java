@@ -75,7 +75,7 @@ public class PHPRandom extends Random {
   {    
     if ( state == null )
     {
-      state = new ArrayList<>();
+      state = new ArrayList<Integer>();
     }
 
     state.clear();

@@ -161,7 +161,7 @@ public abstract class KoLCharacter
 	public static final String PLUMBER = "Plumber";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
-	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<>();
+	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
 	static
 	{
 		KoLCharacter.SEAL_CLUBBER_RANKS.add( "Lemming Trampler" );
@@ -182,7 +182,7 @@ public abstract class KoLCharacter
 	}
 
 	public static final String TURTLE_TAMER = "Turtle Tamer";
-	private static final List<String> TURTLE_TAMER_RANKS = new ArrayList<>();
+	private static final List<String> TURTLE_TAMER_RANKS = new ArrayList<String>();
 	static
 	{
 		KoLCharacter.TURTLE_TAMER_RANKS.add( "Toad Coach" );
@@ -206,7 +206,7 @@ public abstract class KoLCharacter
 	public static final String SHE_WHO_WAS_BLESSING = "She-who-was";
 	
 	public static final String PASTAMANCER = "Pastamancer";
-	private static final List<String> PASTAMANCER_RANKS = new ArrayList<>();
+	private static final List<String> PASTAMANCER_RANKS = new ArrayList<String>();
 	static
 	{
 		KoLCharacter.PASTAMANCER_RANKS.add( "Dough Acolyte" );
@@ -227,7 +227,7 @@ public abstract class KoLCharacter
 	}
 
 	public static final String SAUCEROR = "Sauceror";
-	private static final List<String> SAUCEROR_RANKS = new ArrayList<>();
+	private static final List<String> SAUCEROR_RANKS = new ArrayList<String>();
 	static
 	{
 		KoLCharacter.SAUCEROR_RANKS.add( "Allspice Acolyte" );
@@ -248,7 +248,7 @@ public abstract class KoLCharacter
 	}
 
 	public static final String DISCO_BANDIT = "Disco Bandit";
-	private static final List<String> DISCO_BANDIT_RANKS = new ArrayList<>();
+	private static final List<String> DISCO_BANDIT_RANKS = new ArrayList<String>();
 	static
 	{
 		KoLCharacter.DISCO_BANDIT_RANKS.add( "Funk Footpad" );
@@ -269,7 +269,7 @@ public abstract class KoLCharacter
 	}
 
 	public static final String ACCORDION_THIEF = "Accordion Thief";
-	private static final List<String> ACCORDION_THIEF_RANKS = new ArrayList<>();
+	private static final List<String> ACCORDION_THIEF_RANKS = new ArrayList<String>();
 	static
 	{
 		KoLCharacter.ACCORDION_THIEF_RANKS.add( "Polka Criminal" );
@@ -380,7 +380,7 @@ public abstract class KoLCharacter
 
 	static { resetTriggers(); }
 
-	public static final SortedListModel<String> battleSkillNames = new SortedListModel<>();
+	public static final SortedListModel<String> battleSkillNames = new SortedListModel<String>();
 
 	// Status pane data which is rendered whenever
 	// the user issues a "status" type command.
@@ -415,7 +415,7 @@ public abstract class KoLCharacter
 
 	// Familiar data
 
-	public static final SortedListModel<FamiliarData> familiars = new SortedListModel<>();
+	public static final SortedListModel<FamiliarData> familiars = new SortedListModel<FamiliarData>();
 	public static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
 	public static FamiliarData effectiveFamiliar = FamiliarData.NO_FAMILIAR;
 	public static String currentFamiliarImage = null;
@@ -440,7 +440,7 @@ public abstract class KoLCharacter
 
 	// Pastamancer Pasta Thralls
 
-	public static final LockableListModel<PastaThrallData> pastaThralls = new LockableListModel<>();
+	public static final LockableListModel<PastaThrallData> pastaThralls = new LockableListModel<PastaThrallData>();
 	public static PastaThrallData currentPastaThrall = PastaThrallData.NO_THRALL;
 
 	private static int stillsAvailable = 0;
@@ -5463,8 +5463,9 @@ public abstract class KoLCharacter
 		FamiliarData[] familiarArray = new FamiliarData[ KoLCharacter.familiars.size() ];
 		KoLCharacter.familiars.toArray( familiarArray );
 
-		for ( FamiliarData familiar : familiarArray )
+		for ( int i = 0; i < familiarArray.length; ++i )
 		{
+			FamiliarData familiar = familiarArray[ i ];
 			if ( familiar.getRace().equals( race ) )
 			{
 				return familiar;
@@ -5490,8 +5491,9 @@ public abstract class KoLCharacter
 		FamiliarData[] familiarArray = new FamiliarData[ KoLCharacter.familiars.size() ];
 		KoLCharacter.familiars.toArray( familiarArray );
 
-		for ( FamiliarData familiar : familiarArray )
+		for ( int i = 0; i < familiarArray.length; ++i )
 		{
+			FamiliarData familiar = familiarArray[ i ];
 			if ( familiar.getId() == familiarId )
 			{
 				if ( !StandardRequest.isAllowed( "Familiars", familiar.getRace() ) )
@@ -6172,9 +6174,9 @@ public abstract class KoLCharacter
 		// For the sake of easier maintenance, execute a lot of extra
 		// string comparisons when looking at status effects.
 
-		for ( AdventureResult effect : effects )
+		for ( int i = 0; i < effects.size(); ++i )
 		{
-			newModifiers.add( Modifiers.getEffectModifiers( effect.getEffectId() ) );
+			newModifiers.add( Modifiers.getEffectModifiers( effects.get( i ).getEffectId() ) );
 		}
 
 		Modifiers.hoboPower = newModifiers.get( Modifiers.HOBO_POWER );

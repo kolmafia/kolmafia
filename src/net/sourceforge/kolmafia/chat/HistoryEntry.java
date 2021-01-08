@@ -54,7 +54,7 @@ public class HistoryEntry
 
 	public HistoryEntry( final ChatMessage message, final long localLastSeen )
 	{
-		this.chatMessages = new ArrayList<>();
+		this.chatMessages = new ArrayList<ChatMessage>();
 		this.chatMessages.add( message );
 
 		this.localLastSeen = localLastSeen;
@@ -65,7 +65,7 @@ public class HistoryEntry
 
 	public HistoryEntry( final String responseText, final long localLastSeen )
 	{
-		this.chatMessages = new ArrayList<>();
+		this.chatMessages = new ArrayList<ChatMessage>();
 
 		this.localLastSeen = localLastSeen;
 		Matcher matcher = responseText != null ?

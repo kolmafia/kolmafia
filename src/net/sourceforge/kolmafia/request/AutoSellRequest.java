@@ -165,66 +165,68 @@ public class AutoSellRequest
 
 		AdventureResultArray all = new AdventureResultArray();
 		AdventureResultArray allButOne = new AdventureResultArray();
-		Set<AdventureResult> others = new HashSet<>();
+		Set<AdventureResult> others = new HashSet<AdventureResult>();
 
-        for ( AdventureResult item : this.attachments )
-        {
-            if ( item == null )
-            {
-                continue;
-            }
+		for ( int index = 0; index < this.attachments.length; ++index )
+		{
+			AdventureResult item = this.attachments[ index ];
 
-            if ( ItemDatabase.getPriceById( item.getItemId() ) <= 0 )
-            {
-                continue;
-            }
+			if ( item == null )
+			{
+				continue;
+			}
 
-            // Do not try to autosell items that cannot be discarded
-            if ( !ItemDatabase.isDiscardable( item.getItemId() ) )
-            {
-                continue;
-            }
+			if ( ItemDatabase.getPriceById( item.getItemId() ) <= 0 )
+			{
+				continue;
+			}
 
-            // If this item is already on the "sell all" list, skip
-            if ( all.contains( item ) )
-            {
-                continue;
-            }
+			// Do not try to autosell items that cannot be discarded
+			if ( !ItemDatabase.isDiscardable( item.getItemId() ) )
+			{
+				continue;
+			}
 
-            if ( !allowMemento && KoLConstants.mementoList.contains( item ) )
-            {
-                continue;
-            }
+			// If this item is already on the "sell all" list, skip
+			if ( all.contains( item ) )
+			{
+				continue;
+			}
 
-            int inventoryCount = item.getCount( KoLConstants.inventory );
-            int availableCount = inventoryCount;
+			if ( !allowMemento && KoLConstants.mementoList.contains( item ) )
+			{
+				continue;
+			}
 
-            if ( !allowSingleton && KoLConstants.singletonList.contains( item ) )
-            {
-                availableCount = TransferItemRequest.keepSingleton( item, availableCount );
-            }
+			int inventoryCount = item.getCount( KoLConstants.inventory );
+			int availableCount = inventoryCount;
 
-            if ( availableCount <= 0 )
-            {
-                continue;
-            }
+			if ( !allowSingleton && KoLConstants.singletonList.contains( item ) )
+			{
+				availableCount = TransferItemRequest.keepSingleton( item, availableCount );
+			}
 
-            int desiredCount = Math.min( item.getCount(), availableCount );
-            AdventureResult desiredItem = item.getInstance( desiredCount );
+			if ( availableCount <= 0 )
+			{
+				continue;
+			}
 
-            if ( desiredCount == inventoryCount )
-            {
-                all.add( desiredItem );
-            }
-            else if ( desiredCount == inventoryCount - 1 )
-            {
-                allButOne.add( desiredItem );
-            }
-            else
-            {
-                others.add( desiredItem );
-            }
-        }
+			int desiredCount = Math.min( item.getCount(), availableCount );
+			AdventureResult desiredItem = item.getInstance( desiredCount );
+
+			if ( desiredCount == inventoryCount )
+			{
+				all.add( desiredItem );
+			}
+			else if ( desiredCount == inventoryCount - 1 )
+			{
+				allButOne.add( desiredItem );
+			}
+			else
+			{
+				others.add( desiredItem );
+			}
+		}
 
 		// For each group - individual quantities, all but one, all -
 		// create a subinstance.
@@ -316,11 +318,11 @@ public class AutoSellRequest
 			quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 		}
 
-		if ( urlString.contains( "type=allbutone" ) )
+		if ( urlString.indexOf( "type=allbutone" ) != -1 )
 		{
 			quantity = -1;
 		}
-		else if ( urlString.contains( "type=all" ) )
+		else if ( urlString.indexOf( "type=all" ) != -1 )
 		{
 			quantity = 0;
 		}
@@ -350,11 +352,11 @@ public class AutoSellRequest
 			quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 		}
 
-		if ( urlString.contains( "mode=1" ) )
+		if ( urlString.indexOf( "mode=1" ) != -1 )
 		{
 			quantity = 0;
 		}
-		else if ( urlString.contains( "mode=2" ) )
+		else if ( urlString.indexOf( "mode=2" ) != -1 )
 		{
 			quantity = -1;
 		}
@@ -464,11 +466,11 @@ public class AutoSellRequest
 				quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 			}
 
-			if ( urlString.contains( "type=allbutone" ) )
+			if ( urlString.indexOf( "type=allbutone" ) != -1 )
 			{
 				quantity = -1;
 			}
-			else if ( urlString.contains( "type=all" ) )
+			else if ( urlString.indexOf( "type=all" ) != -1 )
 			{
 				quantity = 0;
 			}
@@ -483,11 +485,11 @@ public class AutoSellRequest
 				quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 			}
 
-			if ( urlString.contains( "mode=1" ) )
+			if ( urlString.indexOf( "mode=1" ) != -1 )
 			{
 				quantity = 0;
 			}
-			else if ( urlString.contains( "mode=2" ) )
+			else if ( urlString.indexOf( "mode=2" ) != -1 )
 			{
 				quantity = -1;
 			}

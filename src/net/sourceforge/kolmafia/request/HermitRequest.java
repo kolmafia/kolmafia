@@ -65,7 +65,7 @@ public class HermitRequest
 {
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+) tradable items" );
 	public static final AdventureResult WORTHLESS_ITEM = ItemPool.get( ItemPool.WORTHLESS_ITEM, 1 );
-	private static final Map<Integer, Integer> buyPrices = new TreeMap<>();
+	private static final Map<Integer, Integer> buyPrices = new TreeMap<Integer, Integer>();
 
 	public static final CoinmasterData HERMIT =
 		new CoinmasterData(
@@ -199,10 +199,11 @@ public class HermitRequest
 		}
 
 		int count = 0;
-        for ( AdventureResult attachment : this.attachments )
-        {
-            count += attachment.getCount();
-        }
+		for ( int i = 0; i < this.attachments.length; ++i )
+		{
+			AdventureResult attachment = this.attachments[ i ];
+			count += attachment.getCount();
+		}
 
 		return count;
 	}
@@ -287,7 +288,7 @@ public class HermitRequest
 		// The Hermit looks at you expectantly, and when you don't respond, he points to a crudely-chalked
 		// sign on the wall reading "Hermit Permit required, pursuant to Seaside Town Ordinance #3769"
 
-		if ( this.responseText.contains( "Hermit Permit required" ) )
+		if ( this.responseText.indexOf( "Hermit Permit required" ) != -1 )
 		{
 			if ( InventoryManager.retrieveItem( HermitRequest.PERMIT ) )
 			{
@@ -299,7 +300,7 @@ public class HermitRequest
 
 		// If the item is unavailable, assume he was asking for clover
 
-		if ( this.responseText.contains( "doesn't have that item." ) )
+		if ( this.responseText.indexOf( "doesn't have that item." ) != -1 )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Today is not a clover day." );
 			return;
@@ -307,7 +308,7 @@ public class HermitRequest
 
 		// If you still didn't acquire items, what went wrong?
 
-		if ( !this.responseText.contains( "You acquire" ) )
+		if ( this.responseText.indexOf( "You acquire" ) == -1 )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "The hermit kept his stuff." );
 			return;
@@ -325,14 +326,14 @@ public class HermitRequest
 		// There should be a form, or an indication of item receipt,
 		// for all valid hermit requests.
 
-		if ( !responseText.contains( "hermit.php" ) && !responseText.contains( "You acquire" ) )
+		if ( responseText.indexOf( "hermit.php" ) == -1 && responseText.indexOf( "You acquire" ) == -1 )
 		{
 			return false;
 		}
 
 		// If you don't have enough Hermit Permits, failure
 
-		if ( responseText.contains( "You don't have enough Hermit Permits" ) )
+		if ( responseText.indexOf( "You don't have enough Hermit Permits" ) != -1 )
 		{
 			HermitRequest.checkedForClovers = false;
 			return true;
@@ -341,8 +342,8 @@ public class HermitRequest
 		// If the item is unavailable, assume he was asking for clover
 		// If asked for too many, you get no items
 
-		if ( responseText.contains( "doesn't have that item." ) ||
-				!responseText.contains( "You acquire" ) )
+		if ( responseText.indexOf( "doesn't have that item." ) != -1 ||
+		     responseText.indexOf( "You acquire" ) == -1 )
 		{
 			HermitRequest.parseHermitStock( responseText );
 			return true;
@@ -377,7 +378,7 @@ public class HermitRequest
 			quantity -= used;
 		}
 
-		if ( responseText.contains( "he sends you packing" ) )
+		if ( responseText.indexOf( "he sends you packing" ) != -1 )
 		{
 			// No worthless items in inventory, so we can't tell if
 			// clovers remain in stock

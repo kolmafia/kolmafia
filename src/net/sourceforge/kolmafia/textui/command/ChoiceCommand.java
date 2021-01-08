@@ -86,7 +86,7 @@ public class ChoiceCommand
 		for ( int i = 1; i < fields.length; ++i )
 		{
 			String field = fields[ i ];
-			if ( !field.contains( "=" ) )
+			if ( field.indexOf( "=" ) == -1 )
 			{
 				RequestLogger.printLine( "Field '" + field + "' must have a value; ignoring." );
 				continue;

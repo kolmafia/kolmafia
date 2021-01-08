@@ -105,7 +105,7 @@ public class SuburbanDisRequest
 
 		if ( action.equals( "altar" ) )
 		{
-			if ( responseText.contains( "You place your six stones in the holes on the altar" ) )
+			if ( responseText.indexOf( "You place your six stones in the holes on the altar" ) != -1 )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.FURIOUS_STONE, -1 ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.VANITY_STONE, -1 ) );
@@ -120,7 +120,7 @@ public class SuburbanDisRequest
 		if ( action.equals( "stoned" ) )
 		{
 			// Look for success.
-			if ( !responseText.contains( "You acquire an effect" ) )
+			if ( responseText.indexOf( "You acquire an effect" ) == -1 )
 			{
 				return;
 			}

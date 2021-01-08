@@ -137,7 +137,7 @@ public class ContactListFrame
 
 	public String convertToCDL()
 	{
-		StringBuilder listCDL = new StringBuilder();
+		StringBuffer listCDL = new StringBuffer();
 		String[] selectedPlayers = this.getSelectedPlayers();
 
 		for ( int i = 0; i < selectedPlayers.length; ++i )

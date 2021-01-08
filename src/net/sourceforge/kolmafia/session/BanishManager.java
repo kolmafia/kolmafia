@@ -54,7 +54,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BanishManager
 {
-	private static final ArrayList<BanishedMonster> banishedMonsters = new ArrayList<>();
+	private static final ArrayList<BanishedMonster> banishedMonsters = new ArrayList<BanishedMonster>();
 
 	private enum Reset
 	{
@@ -227,9 +227,12 @@ public class BanishManager
 		BanishManager.recalculate();
 		
 		StringBuilder banishString = new StringBuilder();
-
-		for ( BanishedMonster current : BanishManager.banishedMonsters )
+		Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
+		
+		while ( it.hasNext() )
 		{
+			BanishedMonster current = it.next();
+
 			if ( banishString.length() > 0 )
 			{
 				banishString.append( ":" );
@@ -265,16 +268,34 @@ public class BanishManager
 
 	public static final void resetAvatar()
 	{
+		Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
 
-		BanishManager.banishedMonsters.removeIf( current -> BanishManager.findBanisher( current.getBanishName() ).getResetType() == Reset.AVATAR_RESET );
+		while ( it.hasNext() )
+		{
+			BanishedMonster current = it.next();
+
+			if ( BanishManager.findBanisher( current.getBanishName() ).getResetType() == Reset.AVATAR_RESET )
+			{
+				it.remove();
+			}
+		}
 
 		BanishManager.saveBanishedMonsters();
 	}
 
 	public static final void resetAscension()
 	{
+		Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
 
-		BanishManager.banishedMonsters.removeIf( current -> BanishManager.findBanisher( current.getBanishName() ).getResetType() != Reset.NEVER_RESET );
+		while ( it.hasNext() )
+		{
+			BanishedMonster current = it.next();
+
+			if ( BanishManager.findBanisher( current.getBanishName() ).getResetType() != Reset.NEVER_RESET )
+			{
+				it.remove();
+			}
+		}
 
 		BanishManager.saveBanishedMonsters();
 	}
@@ -364,13 +385,13 @@ public class BanishManager
 		{
 			String pref = monsterName;
 			String[] monsters = Preferences.getString( "_jiggleCheesedMonsters" ).split( "\\|" );
-            for ( String s : monsters )
-            {
-                if ( s.length() > 0 )
-                {
-                    pref += "|" + s;
-                }
-            }
+			for ( int i = 0; i < monsters.length; ++i )
+			{
+				if ( monsters[ i ].length() > 0 )
+				{
+					pref += "|" + monsters[ i ];
+				}
+			}
 			Preferences.setString( "_jiggleCheesedMonsters", pref );
 		}
 	}
@@ -386,16 +407,32 @@ public class BanishManager
 
 	public static final void removeBanishByBanisher( final String banisher )
 	{
+		Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
 
-		BanishManager.banishedMonsters.removeIf( current -> current.getBanishName().equals( banisher ) );
+		while ( it.hasNext() )
+		{
+			BanishedMonster current = it.next();
+			if ( current.getBanishName().equals( banisher ) )
+			{
+				it.remove();
+			}
+		}
 
 		BanishManager.saveBanishedMonsters();
 	}
 	
 	public static final void removeBanishByMonster( final String monster )
 	{
+		Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
 
-		BanishManager.banishedMonsters.removeIf( current -> current.getMonsterName().equals( monster ) );
+		while ( it.hasNext() )
+		{
+			BanishedMonster current = it.next();
+			if ( current.getMonsterName().equals( monster ) )
+			{
+				it.remove();
+			}
+		}
 
 		BanishManager.saveBanishedMonsters();
 	}
@@ -429,8 +466,11 @@ public class BanishManager
 	{
 		BanishManager.recalculate();
 
-		for ( BanishedMonster current : BanishManager.banishedMonsters )
+		Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
+
+		while ( it.hasNext() )
 		{
+			BanishedMonster current = it.next();
 			if ( current.getMonsterName().equalsIgnoreCase( monster ) )
 			{
 				if ( current.getBanishName().equals( "ice house" ) && !StandardRequest.isAllowed( "Items", "ice house" ) )
@@ -446,9 +486,11 @@ public class BanishManager
 	private static int countBanishes( final String banisher )
 	{
 		int banishCount = 0;
+		Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
 
-		for ( BanishedMonster current : BanishManager.banishedMonsters )
+		while ( it.hasNext() )
 		{
+			BanishedMonster current = it.next();
 			if ( current.getBanishName().equals( banisher ) )
 			{
 				banishCount++;
@@ -462,9 +504,12 @@ public class BanishManager
 		BanishManager.recalculate();
 
 		StringBuilder banishList = new StringBuilder();
+		Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
 
-		for ( BanishedMonster current : BanishManager.banishedMonsters )
+		while ( it.hasNext() )
 		{
+			BanishedMonster current = it.next();
+
 			if ( banishList.length() > 0 )
 			{
 				banishList.append( "," );
@@ -480,8 +525,12 @@ public class BanishManager
 	{
 		BanishManager.recalculate();
 
-		for ( BanishedMonster current : BanishManager.banishedMonsters )
+		Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
+
+		while ( it.hasNext() )
 		{
+			BanishedMonster current = it.next();
+
 			if ( current.banishName.equals( "ice house" ) )
 			{
 				return current.monsterName;

@@ -111,12 +111,13 @@ public class CompositeValue
 			return;
 		}
 
-        for ( Value key : keys )
-        {
-            Value value = this.aref( key );
-            String first = prefix + key.dumpValue() + "\t";
-            value.dump( writer, first, compact );
-        }
+		for ( int i = 0; i < keys.length; ++i )
+		{
+			Value key = keys[ i ];
+			Value value = this.aref( key );
+			String first = prefix + key.dumpValue() + "\t";
+			value.dump( writer, first, compact );
+		}
 	}
 
 	@Override
@@ -147,7 +148,7 @@ public class CompositeValue
 			if ( atype.getSize() == 0 )
 			{
 				Type dtype = atype.getDataType();
-				ArrayList<Value> values = new ArrayList<>();
+				ArrayList<Value> values = new ArrayList<Value>();
 				for ( int i = index + 1; i < data.length; i++ )
 				{
 					values.add( Value.readValue( dtype, data[ i ], filename, line ) );
@@ -199,12 +200,12 @@ public class CompositeValue
 
 		Value[] keys = this.keys();
 
-        for ( Value item : keys )
-        {
-            String key = item.toString();
-            Object value = this.aref( item ).toJSON();
-            obj.put( key, value );
-        }
+		for ( int i = 0; i < keys.length; ++i )
+		{
+			String key = keys[ i ].toString();
+			Object value = this.aref( keys[ i ] ).toJSON();
+			obj.put( key, value );
+		}
 
 		return obj;
 	}

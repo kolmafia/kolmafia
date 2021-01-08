@@ -3417,9 +3417,9 @@ public class ItemPool
 		}
 
 		HashSet<String> possibilities = new HashSet<>();
-		for ( String[] string : strings )
+		for ( int i = 0; i < strings.length; ++i )
 		{
-			possibilities.add( string[ 0 ] );
+			possibilities.add(strings[i][0]);
 		}
 
 		int missing = 0;
@@ -3524,7 +3524,7 @@ public class ItemPool
 
 		if ( count > 1 )
 		{
-			possible.sort( Collections.reverseOrder() );
+			Collections.sort( possible, Collections.reverseOrder() );
 		}
 
 		// Identify the item we have the most of

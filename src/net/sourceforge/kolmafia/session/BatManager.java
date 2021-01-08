@@ -76,7 +76,7 @@ public class BatManager
 	public static final String INDUSTRIAL_DISTRICT = "Industrial District (High Crime)";
 	public static final String DOWNTOWN = "Downtown";
 
-	private static final TreeSet<BatUpgrade> upgrades = new TreeSet<>();
+	private static final TreeSet<BatUpgrade> upgrades = new TreeSet<BatUpgrade>();
 	private static final BatStats stats = new BatStats();
 	private static int DwayneCoFunds = 0;
 	private static int DwayneCoBonusFunds = 0;

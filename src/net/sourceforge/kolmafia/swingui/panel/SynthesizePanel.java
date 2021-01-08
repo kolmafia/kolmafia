@@ -284,16 +284,20 @@ public class SynthesizePanel
 		// Having updated the data, update the GUI
 		try
 		{
-			SwingUtilities.invokeAndWait( () -> {
-				SynthesizePanel.this.filterItems();
+			SwingUtilities.invokeAndWait( new Runnable()
+			{
+				public void run()
+				{
+					SynthesizePanel.this.filterItems();
 
-				// Since quantities might have changed, sort
-				Candy candy1 = SynthesizePanel.this.candy1();
-				Candy candy2 = SynthesizePanel.this.candy2();
-				SynthesizePanel.this.candyList1.sortCandy( candy1 );
-				SynthesizePanel.this.candyList2.sortCandy( candy2 );
+					// Since quantities might have changed, sort
+					Candy candy1 = SynthesizePanel.this.candy1();
+					Candy candy2 = SynthesizePanel.this.candy2();
+					SynthesizePanel.this.candyList1.sortCandy( candy1 );
+					SynthesizePanel.this.candyList2.sortCandy( candy2 );
 
-				SynthesizePanel.this.candyData.update();
+					SynthesizePanel.this.candyData.update();
+				}
 			} );
 		}
 		catch ( Exception ie )
@@ -518,7 +522,7 @@ public class SynthesizePanel
 			private final TableRowSorter<CandyTableModel> rowSorter;
 			private final ListSelectionModel selectionModel;
 
-			protected final LockableListModel<Candy> model = new LockableListModel<>();
+			protected final LockableListModel<Candy> model = new LockableListModel<Candy>();
 			protected Candy candy = null;
 
 			// Don't do anything with ListSelection events while we are sorting the candy list
@@ -579,10 +583,10 @@ public class SynthesizePanel
 			public void sortCandy( final Candy selected )
 			{
 				this.sorting = true;
-				TableRowSorter<TableModel> sorter = new TableRowSorter<>( this.table.getModel() );
+				TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>( this.table.getModel() );
 				this.table.setRowSorter( sorter );
 
-				List<RowSorter.SortKey> sortKeys = new ArrayList<>();
+				List<RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
 
 				if ( KoLCharacter.canInteract() )
 				{
@@ -1026,7 +1030,7 @@ public class SynthesizePanel
 				{
 					return;
 				}
-				casts = value;
+				casts = value.intValue();
 			}
 
 			KoLmafia.updateDisplay( "Synthesizing " + casts + " " + candy1 + " with " + casts + " " + candy2 + "..." );

@@ -60,9 +60,9 @@ public class LockableListFactory
 	{
 		if ( SwinglessUIUtils.isSwingAvailable )
 		{
-			return new LockableListModel<>();
+			return new LockableListModel<E>();
 		}
-		return new ArrayList<>();
+		return new ArrayList<E>();
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class LockableListFactory
 	{
 		if ( SwinglessUIUtils.isSwingAvailable )
 		{
-			return new SortedListModel<>();
+			return new SortedListModel<E>();
 		}
 		List i = new SortedList<E>();
 		return i;
@@ -195,7 +195,7 @@ public class LockableListFactory
 			{
 				synchronized ( l )
 				{
-					l.sort( null );
+					Collections.sort( l, null );
 				}
 			}
 		}

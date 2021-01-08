@@ -67,7 +67,7 @@ public class GrandpaRequest
 		// You can't visit the Sea Monkees without some way of
 		// breathing underwater.
 
-		if ( this.responseText.contains( "can't visit the Sea Monkees" ) )
+		if ( this.responseText.indexOf( "can't visit the Sea Monkees" ) != -1 )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You're not equipped to visit the Sea Monkees." );
 		}

@@ -50,11 +50,11 @@ public class StandardRequest
 {
 	// Types: "Items", "Bookshelf Books", "Skills", "Familiars", "Clan Items".
 
-	private final static Set<String> itemSet = new HashSet<>();
-	private final static Set<String> bookshelfSet = new HashSet<>();
-	private final static Set<String> familiarSet = new HashSet<>();
-	private final static Set<String> skillSet = new HashSet<>();
-	private final static Set<String> clanSet = new HashSet<>();
+	private final static Set<String> itemSet = new HashSet<String>();
+	private final static Set<String> bookshelfSet = new HashSet<String>();
+	private final static Set<String> familiarSet = new HashSet<String>();
+	private final static Set<String> skillSet = new HashSet<String>();
+	private final static Set<String> clanSet = new HashSet<String>();
 	// There is a Miscellaneous category that doesn't seem useful
 
 	private static boolean running = false;

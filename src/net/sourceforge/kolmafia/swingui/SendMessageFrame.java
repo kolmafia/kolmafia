@@ -262,10 +262,10 @@ public class SendMessageFrame
 
 		String[] recipients = ContactManager.extractTargets( (String) this.recipientEntry.getSelectedItem() );
 
-		for ( String recipient : recipients )
+		for ( int i = 0; i < recipients.length; ++i )
 		{
 			SendMessageCommand.send(
-					recipient, this.messageEntry.getText(), attachmentsArray, this.isStorage, false );
+				recipients[ i ], this.messageEntry.getText(), attachmentsArray, this.isStorage, false );
 		}
 	}
 
@@ -308,7 +308,7 @@ public class SendMessageFrame
 			{
 				current = (AdventureResult) values[ i ];
 				Integer value = InputFieldUtilities.getQuantity( "How many " + current.getName() + " to send?", current.getCount() );
-				int amount = ( value == null ) ? 0 : value;
+				int amount = ( value == null ) ? 0 : value.intValue();
 
 				if ( amount <= 0 )
 				{
@@ -321,11 +321,11 @@ public class SendMessageFrame
 			}
 		}
 
-		for ( Object value : values )
+		for ( int i = 0; i < values.length; ++i )
 		{
-			if ( value != null )
+			if ( values[ i ] != null )
 			{
-				this.attachments.add( value );
+				this.attachments.add( values[ i ] );
 			}
 		}
 	}

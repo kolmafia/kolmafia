@@ -81,9 +81,9 @@ public class EquipmentDatabase
 	private static final StringArray itemTypes = new StringArray();
 	private static final StringArray statRequirements = new StringArray();
 
-	private static final HashMap<Integer, Integer> outfitPieces = new HashMap<>();
+	private static final HashMap<Integer, Integer> outfitPieces = new HashMap<Integer, Integer>();
 	public static final SpecialOutfitArray normalOutfits = new SpecialOutfitArray();
-	private static final Map<Integer, String> outfitById = new TreeMap<>();
+	private static final Map<Integer, String> outfitById = new TreeMap<Integer, String>();
 	public static final SpecialOutfitArray weirdOutfits = new SpecialOutfitArray();
 
 	private static final IntegerArray pulverize = new IntegerArray();
@@ -236,9 +236,9 @@ public class EquipmentDatabase
 
 				EquipmentDatabase.outfitById.put( id, name );
 
-				for ( String piece : pieces )
+				for ( int i = 0; i < pieces.length; ++i )
 				{
-					int pieceId = ItemDatabase.getItemId( piece );
+					int pieceId = ItemDatabase.getItemId( pieces[ i ] );
 					if ( pieceId != -1 )
 					{
 						EquipmentDatabase.outfitPieces.put( IntegerPool.get( pieceId ), id );
@@ -321,21 +321,22 @@ public class EquipmentDatabase
 		RequestLogger.printLine( "Writing data override: " + output );
 
 		// One map per equipment category
-		Map<String, Integer> hats = new TreeMap<>();
-		Map<String, Integer> weapons = new TreeMap<>();
-		Map<String, Integer> offhands = new TreeMap<>();
-		Map<String, Integer> shirts = new TreeMap<>();
-		Map<String, Integer> pants = new TreeMap<>();
-		Map<String, Integer> accessories = new TreeMap<>();
-		Map<String, Integer> containers = new TreeMap<>();
+		Map<String, Integer> hats = new TreeMap<String, Integer>();
+		Map<String, Integer> weapons = new TreeMap<String, Integer>();
+		Map<String, Integer> offhands = new TreeMap<String, Integer>();
+		Map<String, Integer> shirts = new TreeMap<String, Integer>();
+		Map<String, Integer> pants = new TreeMap<String, Integer>();
+		Map<String, Integer> accessories = new TreeMap<String, Integer>();
+		Map<String, Integer> containers = new TreeMap<String, Integer>();
 
 		// Iterate over all items and assign item id to category
-		for ( Object o : ItemDatabase.dataNameEntrySet() )
+		Iterator it = ItemDatabase.dataNameEntrySet().iterator();
+		while ( it.hasNext() )
 		{
-			Entry entry = ( Entry ) o;
-			Integer key = ( Integer ) entry.getKey();
-			String name = ( String ) entry.getValue();
-			int type = ItemDatabase.getConsumptionType( key );
+			Entry entry = (Entry) it.next();
+			Integer key = (Integer) entry.getKey();
+			String name = (String) entry.getValue();
+			int type = ItemDatabase.getConsumptionType( key.intValue() );
 
 			switch ( type )
 			{
@@ -391,11 +392,11 @@ public class EquipmentDatabase
 		writer.println();
 
 		Object[] keys = map.keySet().toArray();
-		for ( Object key : keys )
+		for ( int i = 0; i < keys.length; ++i )
 		{
-			String name = ( String ) key;
-			Integer val = ( Integer ) map.get( name );
-			int itemId = val;
+			String name = (String) keys[ i ];
+			Integer val = (Integer) map.get( name );
+			int itemId = val.intValue();
 			int power = EquipmentDatabase.getPower( itemId );
 			String req = EquipmentDatabase.getEquipRequirement( itemId );
 			int usage = ItemDatabase.getConsumptionType( itemId );
@@ -462,7 +463,7 @@ public class EquipmentDatabase
 		boolean isWeapon = false, isShield = false;
 		String weaponType = "";
 
-		if ( type.contains( "weapon" ) )
+		if ( type.indexOf( "weapon" ) != -1 )
 		{
 			Matcher matcher = WEAPON_TYPE_PATTERN.matcher( type );
 			int hval;
@@ -483,7 +484,7 @@ public class EquipmentDatabase
 			EquipmentDatabase.itemTypes.set( itemId, tval );
 			isWeapon = true;
 		}
-		else if ( type.contains( "shield" ) )
+		else if ( type.indexOf( "shield" ) != -1 )
 		{
 			isShield = true;
 			weaponType = "shield";
@@ -585,7 +586,7 @@ public class EquipmentDatabase
 		}
 
 		Integer result = EquipmentDatabase.outfitPieces.get( IntegerPool.get( itemId ) );
-		return result == null ? -1 : result;
+		return result == null ? -1 : result.intValue();
 	}
 
 	public static final int getOutfitCount()
@@ -1135,8 +1136,8 @@ public class EquipmentDatabase
 	public static class SpecialOutfitArray
 		implements Iterable<SpecialOutfit>
 	{
-		private final ArrayList<SpecialOutfit> internalList = new ArrayList<>();
-		private final TreeSet<Integer> internalSet = new TreeSet<>();
+		private final ArrayList<SpecialOutfit> internalList = new ArrayList<SpecialOutfit>();
+		private final TreeSet<Integer> internalSet = new TreeSet<Integer>();
 
 		public Iterator<SpecialOutfit> iterator()
 		{
@@ -1156,7 +1157,7 @@ public class EquipmentDatabase
 			}
 
 			this.internalList.set( index, value );
-			this.internalSet.add( index );
+			this.internalSet.add( Integer.valueOf( index ) );
 		}
 
 		public int size()

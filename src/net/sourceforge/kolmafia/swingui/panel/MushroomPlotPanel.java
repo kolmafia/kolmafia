@@ -157,7 +157,13 @@ public class MushroomPlotPanel
 
 		try
 		{
-			SwingUtilities.invokeAndWait( () -> MushroomPlotPanel.this.output = InputFieldUtilities.chooseOutputFile( KoLConstants.SCRIPT_LOCATION, MushroomPlotPanel.this ) );
+			SwingUtilities.invokeAndWait( new Runnable()
+			{
+				public void run()
+				{
+					MushroomPlotPanel.this.output = InputFieldUtilities.chooseOutputFile( KoLConstants.SCRIPT_LOCATION, MushroomPlotPanel.this );
+				}
+			} );
 		}
 		catch ( Exception ie )
 		{

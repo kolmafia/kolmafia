@@ -232,10 +232,10 @@ public class PulverizePanel
 				(this.others ? EquipmentDatabase.ELEM_OTHER : 0);
 			this.yieldMask = 0;
 			int[] indices = PulverizePanel.this.yields.getSelectedColumns();
-            for ( int index : indices )
-            {
-                this.yieldMask |= EquipmentDatabase.YIELD_1P << index;
-            }
+			for ( int i = 0; i < indices.length; ++i )
+			{
+				this.yieldMask |= EquipmentDatabase.YIELD_1P << indices[ i ];
+			}
 			super.update();
 		}
 
@@ -295,19 +295,19 @@ public class PulverizePanel
 				return;
 			}
 
-            for ( Object o : items )
-            {
-                AdventureResult item = ( AdventureResult ) o;
-                if ( item.getCount() > 0 )
-                {
-                    KoLConstants.pulverizeQueue.remove( item );
-                    KoLConstants.pulverizeQueue.add( item );
-                    LockableListModel inv = ( LockableListModel )
-                            PulverizePanel.this.getElementList().getModel();
-                    int index = inv.indexOf( item );
-                    inv.fireContentsChanged( inv, index, index );
-                }
-            }
+			for ( int i = 0; i < items.length; ++i )
+			{
+				AdventureResult item = (AdventureResult) items[ i ];
+				if ( item.getCount() > 0 )
+				{
+					KoLConstants.pulverizeQueue.remove( item );
+					KoLConstants.pulverizeQueue.add( item );
+					LockableListModel inv = (LockableListModel)
+						PulverizePanel.this.getElementList().getModel();
+					int index = inv.indexOf( item );
+					inv.fireContentsChanged( inv, index, index );
+				}
+			}
 		}
 
 		@Override
@@ -334,18 +334,18 @@ public class PulverizePanel
 				return;
 			}
 
-            for ( Object o : items )
-            {
-                AdventureResult item = ( AdventureResult ) o;
-                if ( item.getCount() > 0 )
-                {
-                    KoLConstants.pulverizeQueue.remove( item );
-                    LockableListModel inv = ( LockableListModel )
-                            PulverizePanel.this.getElementList().getModel();
-                    int index = inv.indexOf( item );
-                    inv.fireContentsChanged( inv, index, index );
-                }
-            }
+			for ( int i = 0; i < items.length; ++i )
+			{
+				AdventureResult item = (AdventureResult) items[ i ];
+				if ( item.getCount() > 0 )
+				{
+					KoLConstants.pulverizeQueue.remove( item );
+					LockableListModel inv = (LockableListModel)
+						PulverizePanel.this.getElementList().getModel();
+					int index = inv.indexOf( item );
+					inv.fireContentsChanged( inv, index, index );
+				}
+			}
 		}
 
 		@Override
@@ -398,10 +398,10 @@ public class PulverizePanel
 			LockableListModel inv = (LockableListModel)
 				PulverizePanel.this.getElementList().getModel();
 			inv.fireContentsChanged( inv, 0, inv.size() - 1 );
-            for ( AdventureResult item : items )
-            {
-                RequestThread.postRequest( new PulverizeRequest( item ) );
-            }
+			for ( int i = 0; i < items.length; ++i )
+			{
+				RequestThread.postRequest( new PulverizeRequest( items[ i ] ) );
+			}
 		}
 
 		@Override

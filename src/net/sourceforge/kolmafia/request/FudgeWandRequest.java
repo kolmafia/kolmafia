@@ -107,26 +107,28 @@ public class FudgeWandRequest
 
 	private static String idToOption( final int id )
 	{
-        for ( Object[] option : OPTIONS )
-        {
-            if ( ( Integer ) option[ 1 ] == id )
-            {
-                return ( String ) option[ 0 ];
-            }
-        }
+		for ( int i = 0; i < OPTIONS.length; ++i )
+		{
+			Object [] option = OPTIONS[ i ];
+			if ( ( (Integer) option[ 1 ] ).intValue() == id )
+			{
+				return (String) option[ 0 ];
+			}
+		}
 
 		return null;
 	}
 
 	private static int optionToId( final String opt )
 	{
-        for ( Object[] option : OPTIONS )
-        {
-            if ( opt.equals( option[ 0 ] ) )
-            {
-                return ( Integer ) option[ 1 ];
-            }
-        }
+		for ( int i = 0; i < OPTIONS.length; ++i )
+		{
+			Object [] option = OPTIONS[ i ];
+			if ( opt.equals( option[ 0 ] ) )
+			{
+				return ( (Integer)option[ 1 ] ).intValue();
+			}
+		}
 
 		return -1;
 	}
@@ -169,7 +171,7 @@ public class FudgeWandRequest
 	{
 		CoinmasterData data = FudgeWandRequest.FUDGEWAND;
 
-		if ( location.contains( "option=6" ) )
+		if ( location.indexOf( "option=6" ) != -1 )
 		{
 			// We exited the choice adventure.
 			return;

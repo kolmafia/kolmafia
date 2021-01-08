@@ -84,7 +84,7 @@ public class CargoCultistShortsRequest
 				int num = StringUtilities.parseInt( pocket );
 				if ( num >= 1 && num <= 666 )
 				{
-					pockets.add( num );
+					pockets.add( Integer.valueOf( num ) );
 				}
 			}
 		}
@@ -269,14 +269,14 @@ public class CargoCultistShortsRequest
 			pocket = StringUtilities.parseInt( pocketMatcher.group( 1 ) );
 			while ( expected < pocket )
 			{
-				pockets.add( expected++ );
+				pockets.add( Integer.valueOf( expected++ ) );
 			}
 			expected++;
 		}
 
 		while ( pocket < 666 )
 		{
-			pockets.add( ++pocket );
+			pockets.add( Integer.valueOf( ++pocket ) );
 		}
 
 		// Save the set of pockets we have emptied in the property

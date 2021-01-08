@@ -115,8 +115,9 @@ public class FamiliarTool
 				Opponent opp = this.opponents[ opponent ];
 				int opponentWeight = opp.getWeight();
 
-				for ( int ownWeight : possibleOwnWeights )
+				for ( int weightIndex = 0; weightIndex < possibleWeights; ++weightIndex )
 				{
+					int ownWeight = possibleOwnWeights[ weightIndex ];
 					int ownPower = ownWeight + ownSkill * 3;
 
 					int opponentSkill = opp.getSkill( match );

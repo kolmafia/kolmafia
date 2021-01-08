@@ -47,7 +47,7 @@ public class MirrorLogCommand
 	@Override
 	public void run( final String command, String parameters )
 	{
-		if ( command.contains( "end" ) || command.contains( "stop" ) || command.contains( "close" ) || parameters.length() == 0 || parameters.equals( "end" ) || parameters.equals( "stop" ) || parameters.equals( "close" ) )
+		if ( command.indexOf( "end" ) != -1 || command.indexOf( "stop" ) != -1 || command.indexOf( "close" ) != -1 || parameters.length() == 0 || parameters.equals( "end" ) || parameters.equals( "stop" ) || parameters.equals( "close" ) )
 		{
 			RequestLogger.closeMirror();
 			KoLmafia.updateDisplay( "Mirror stream closed." );

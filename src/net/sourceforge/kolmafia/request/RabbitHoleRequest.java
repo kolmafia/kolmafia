@@ -72,7 +72,7 @@ public class RabbitHoleRequest
 			// was weird enough that you're not inclined to attend
 			// another one.
 
-			if ( responseText.contains( "already attended a Tea Party today" ) )
+			if ( responseText.indexOf( "already attended a Tea Party today" ) != -1 )
 			{
 				Preferences.setBoolean( "_madTeaParty", true );
 			}

@@ -2470,8 +2470,13 @@ public abstract class RuntimeLibrary
 			return;
 		}
 
-		LinkedHashMap<String, StringBuilder> prefixMap = batched.computeIfAbsent( cmd, k -> new LinkedHashMap<>() );
-		// First instance of this command
+		LinkedHashMap<String, StringBuilder> prefixMap = batched.get( cmd );
+		if ( prefixMap == null )
+		{
+			// First instance of this command
+			prefixMap = new LinkedHashMap<String, StringBuilder>();
+			batched.put( cmd, prefixMap );
+		}
 
 		String key = prefix == null ? "" : prefix;
 		StringBuilder buf = prefixMap.get( key );
@@ -2562,7 +2567,7 @@ public abstract class RuntimeLibrary
 	{
 		if ( controller.getBatched() == null )
 		{
-			controller.setBatched( new LinkedHashMap<>());
+			controller.setBatched(new LinkedHashMap<String, LinkedHashMap<String, StringBuilder>>());
 		}
 		return DataTypes.VOID_VALUE;
 	}
@@ -2734,14 +2739,14 @@ public abstract class RuntimeLibrary
 	private static void dump( final CompositeValue obj, final String indent, final Value color, final boolean addToSessionStream )
 	{
 		Value[] keys = obj.keys();
-		for ( Value key : keys )
+		for ( int i = 0; i < keys.length; ++i )
 		{
-			Value v = obj.aref( key );
-			String line = indent + key + " => " + v;
+			Value v = obj.aref( keys[ i ] );
+			String line = indent + keys[ i ] + " => " + v;
 
 			if ( addToSessionStream )
 			{
-				RuntimeLibrary.print( new AshRuntime(), new Value( line ), color );
+				RuntimeLibrary.print( new AshRuntime(), new Value ( line ), color );
 			}
 			else
 			{
@@ -2749,7 +2754,7 @@ public abstract class RuntimeLibrary
 			}
 			if ( v instanceof CompositeValue )
 			{
-				RuntimeLibrary.dump( ( CompositeValue ) v, indent + "\u00A0\u00A0", color, addToSessionStream );
+				RuntimeLibrary.dump( (CompositeValue) v, indent + "\u00A0\u00A0", color, addToSessionStream );
 			}
 		}
 	}
@@ -3069,11 +3074,11 @@ public abstract class RuntimeLibrary
 			Object arg;
 			if ( val.getType().equals( DataTypes.TYPE_FLOAT ) )
 			{
-				arg = val.floatValue();
+				arg = Double.valueOf( val.floatValue() );
 			}
 			else
 			{
-				arg = val.intValue();
+				arg = Long.valueOf( val.intValue() );
 			}
 			return new Value( String.format( fmt.toString(), arg ) );
 		}
@@ -4765,11 +4770,11 @@ public abstract class RuntimeLibrary
 		AdventureResult [] items = new AdventureResult[ KoLConstants.inventory.size() ];
 		KoLConstants.inventory.toArray( items );
 
-		for ( AdventureResult item : items )
+		for ( int i = 0; i < items.length; ++i )
 		{
 			value.aset(
-					DataTypes.makeItemValue( item.getItemId(), true ),
-					new Value( item.getCount() ) );
+				DataTypes.makeItemValue( items[i].getItemId(), true ),
+				new Value( items[i].getCount() ) );
 		}
 
 		return value;
@@ -4782,11 +4787,11 @@ public abstract class RuntimeLibrary
 		AdventureResult [] items = new AdventureResult[ KoLConstants.closet.size() ];
 		KoLConstants.closet.toArray( items );
 
-		for ( AdventureResult item : items )
+		for ( int i = 0; i < items.length; ++i )
 		{
 			value.aset(
-					DataTypes.makeItemValue( item.getItemId(), true ),
-					new Value( item.getCount() ) );
+				DataTypes.makeItemValue( items[i].getItemId(), true ),
+				new Value( items[i].getCount() ) );
 		}
 
 		return value;
@@ -4799,11 +4804,11 @@ public abstract class RuntimeLibrary
 		AdventureResult [] items = new AdventureResult[ KoLConstants.storage.size() ];
 		KoLConstants.storage.toArray( items );
 
-		for ( AdventureResult item : items )
+		for ( int i = 0; i < items.length; ++i )
 		{
 			value.aset(
-					DataTypes.makeItemValue( item.getItemId(), true ),
-					new Value( item.getCount() ) );
+				DataTypes.makeItemValue( items[i].getItemId(), true ),
+				new Value( items[i].getCount() ) );
 		}
 
 		return value;
@@ -4816,11 +4821,11 @@ public abstract class RuntimeLibrary
 		AdventureResult [] items = new AdventureResult[ KoLConstants.freepulls.size() ];
 		KoLConstants.freepulls.toArray( items );
 
-		for ( AdventureResult item : items )
+		for ( int i = 0; i < items.length; ++i )
 		{
 			value.aset(
-					DataTypes.makeItemValue( item.getItemId(), true ),
-					new Value( item.getCount() ) );
+				DataTypes.makeItemValue( items[i].getItemId(), true ),
+				new Value( items[i].getCount() ) );
 		}
 
 		return value;
@@ -4841,10 +4846,11 @@ public abstract class RuntimeLibrary
 		}
 
 		List<SoldItem> list = StoreManager.getSoldItemList();
-		for ( SoldItem item : list )
+		for ( int i = 0; i < list.size(); ++i )
 		{
+			SoldItem item = list.get( i );
 			value.aset( DataTypes.makeItemValue( item.getItemId(), true ),
-					new Value( item.getQuantity() ) );
+				    new Value( item.getQuantity() ) );
 		}
 
 		return value;
@@ -4881,10 +4887,11 @@ public abstract class RuntimeLibrary
 		}
 
 		List<AdventureResult> list = ClanManager.getStash();
-		for ( AdventureResult item : list )
+		for ( int i = 0; i < list.size(); ++i )
 		{
+			AdventureResult item = list.get( i );
 			value.aset( DataTypes.makeItemValue( item.getItemId(), true ),
-					new Value( item.getCount() ) );
+				    new Value( item.getCount() ) );
 		}
 
 		return value;
@@ -5027,7 +5034,7 @@ public abstract class RuntimeLibrary
 				return value;
 			}
 
-			ArrayList<Integer> elems = new ArrayList<>();
+			ArrayList<Integer> elems = new ArrayList<Integer>();
 			boolean clusters = ( pulver & EquipmentDatabase.YIELD_1C ) != 0;
 			if ( (pulver & EquipmentDatabase.ELEM_HOT) != 0 )
 			{
@@ -5220,7 +5227,7 @@ public abstract class RuntimeLibrary
 			NPCStoreDatabase.contains( itemId, true ) ?
 			NPCStoreDatabase.price( itemId ) :
 			ClanLoungeRequest.availableSpeakeasyDrink( it ) ?
-					ClanLoungeRequest.speakeasyNameToCost( it ) :
+			ClanLoungeRequest.speakeasyNameToCost( it ).intValue() :
 			0 );
 	}
  
@@ -5387,8 +5394,9 @@ public abstract class RuntimeLibrary
 		}
 
 		AdventureResult[] data = ConcoctionDatabase.getIngredients( itemId );
-		for ( AdventureResult ingredient : data )
+		for ( int i = 0; i < data.length; ++i )
 		{
+			AdventureResult ingredient = data[ i ];
 			if ( ingredient.getItemId() < 0 )
 			{
 				// Skip pseudo-ingredients: coinmaster tokens
@@ -5398,7 +5406,7 @@ public abstract class RuntimeLibrary
 			Value key = DataTypes.makeItemValue( ingredient.getItemId(), true );
 			if ( value.contains( key ) )
 			{
-				count += ( int ) value.aref( key ).intValue();
+				count += (int) value.aref( key ).intValue();
 			}
 			value.aset( key, new Value( count ) );
 		}
@@ -6055,8 +6063,9 @@ public abstract class RuntimeLibrary
 		AggregateType type = new AggregateType( DataTypes.INT_TYPE, DataTypes.EFFECT_TYPE );
 		MapValue value = new MapValue( type );
 
-		for ( AdventureResult effect : effectsArray )
+		for ( int i = 0; i < effectsArray.length; ++i )
 		{
+			AdventureResult effect = effectsArray[ i ];
 			int duration = effect.getCount();
 			if ( duration == Integer.MAX_VALUE )
 			{
@@ -6064,8 +6073,8 @@ public abstract class RuntimeLibrary
 			}
 
 			value.aset(
-					DataTypes.makeEffectValue( effect.getEffectId(), true ),
-					new Value( duration ) );
+				DataTypes.makeEffectValue( effect.getEffectId(), true ),
+				new Value ( duration ) );
 		}
 
 		return value;
@@ -7012,7 +7021,7 @@ public abstract class RuntimeLibrary
 
 	public static Value extract_meat( ScriptRuntime controller, final Value string )
 	{
-		ArrayList<AdventureResult> data = new ArrayList<>();
+		ArrayList<AdventureResult> data = new ArrayList<AdventureResult>();
 		ResultProcessor.processResults( false,
 			StringUtilities.globalStringReplace( string.toString(), "- ", "-" ),
 			data );
@@ -7030,7 +7039,7 @@ public abstract class RuntimeLibrary
 
 	public static Value extract_items( ScriptRuntime controller, final Value string )
 	{
-		ArrayList<AdventureResult> data = new ArrayList<>();
+		ArrayList<AdventureResult> data = new ArrayList<AdventureResult>();
 		ResultProcessor.processResults( false,
 			StringUtilities.globalStringReplace( string.toString(), "- ", "-" ),
 			data );
@@ -7813,7 +7822,7 @@ public abstract class RuntimeLibrary
 
 				for ( Entry<String, Boolean> entry : message.getContacts().entrySet() )
 				{
-					value.aset( new Value( entry.getKey() ), DataTypes.makeBooleanValue( entry.getValue() ) );
+					value.aset( new Value( entry.getKey() ), DataTypes.makeBooleanValue( entry.getValue().booleanValue() ) );
 				}
 
 				break;
@@ -9050,11 +9059,12 @@ public abstract class RuntimeLibrary
 
 		MapValue value = new MapValue( DataTypes.ITEM_TO_INT_TYPE );
 
-		for ( AdventureResult result : data )
+		for ( int i = 0; i < data.size(); ++i )
 		{
+			AdventureResult result = data.get( i );
 			value.aset(
-					DataTypes.makeItemValue( result.getItemId(), true ),
-					DataTypes.parseIntValue( String.valueOf( result.getCount() >> 16 ), true ) );
+				DataTypes.makeItemValue( result.getItemId(), true ),
+				DataTypes.parseIntValue( String.valueOf( result.getCount() >> 16 ), true ) );
 		}
 
 		return value;
@@ -9067,11 +9077,12 @@ public abstract class RuntimeLibrary
 
 		MapValue value = new MapValue( DataTypes.ITEM_TO_INT_TYPE );
 
-		for ( AdventureResult result : data )
+		for ( int i = 0; i < data.size(); ++i )
 		{
+			AdventureResult result = data.get( i );
 			value.aset(
-					DataTypes.makeItemValue( result.getItemId(), true ),
-					DataTypes.parseIntValue( String.valueOf( result.getCount() >> 16 ), true ) );
+				DataTypes.makeItemValue( result.getItemId(), true ),
+				DataTypes.parseIntValue( String.valueOf( result.getCount() >> 16 ), true ) );
 		}
 
 		return value;
@@ -9118,7 +9129,7 @@ public abstract class RuntimeLibrary
 		if ( projects == null )
 			return getRecInit();
 
-		ArrayList<String> matches = new ArrayList<>();
+		ArrayList<String> matches = new ArrayList<String>();
 		for ( String s: projects )
 		{
 			if ( s.contains( script.toString() ) )
@@ -9624,7 +9635,7 @@ public abstract class RuntimeLibrary
 			for ( Integer itemId : candies )
 			{
 				Value key = new Value( index++ );
-				Value val = DataTypes.makeItemValue( itemId, true );
+				Value val = DataTypes.makeItemValue( itemId.intValue(), true );
 				value.aset( key, val );
 			}
 		}
@@ -9661,7 +9672,7 @@ public abstract class RuntimeLibrary
 			for ( Integer itemId2 : candies )
 			{
 				Value key = new Value( index++ );
-				Value val = DataTypes.makeItemValue( itemId2, true );
+				Value val = DataTypes.makeItemValue( itemId2.intValue(), true );
 				value.aset( key, val );
 			}
 		}
@@ -10162,7 +10173,9 @@ public abstract class RuntimeLibrary
 				ScrapPocket sp = (ScrapPocket) p;
 				Map<Integer, String> knownScraps = CargoCultistShortsRequest.knownScrapPockets();
 				String syllable =
-						knownScraps.getOrDefault( sp.getPocket(), "" );
+					knownScraps.containsKey( sp.getPocket() ) ?
+					knownScraps.get( sp.getPocket() ) :
+					"";
 				value.aset( new Value( sp.getScrap() ), new Value( syllable ) );
 				break;
 			}

@@ -362,8 +362,9 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 		{
 			List<CheckedItem> possible = possibles[ EquipmentManager.FAMILIAR ];
 			boolean any = false;
-			for ( AdventureResult item : possible )
+			for ( int pos = 0; pos < possible.size(); ++pos )
 			{
+				AdventureResult item = possible.get( pos );
 				int count = item.getCount();
 				if ( item.equals( this.equipment[ EquipmentManager.OFFHAND ] ) )
 				{
@@ -384,7 +385,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				List group = ItemDatabase.getFoldGroup( item.getName() );
 				if ( group != null && this.foldables )
 				{
-					String groupName = ( String ) group.get( 1 );
+					String groupName = (String) group.get( 1 );
 					for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
 					{
 						if ( slot != EquipmentManager.FAMILIAR && this.equipment[ slot ] != null )
@@ -396,7 +397,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 							}
 						}
 					}
-				}
+				}	
 				if ( count <= 0 ) continue;
 				this.equipment[ EquipmentManager.FAMILIAR ] = item;
 				this.tryContainers( enthronedFamiliars, possibles, bestCard, useCrownFamiliar, useBjornFamiliar );
@@ -421,13 +422,14 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 		{
 			List<CheckedItem> possible = possibles[ EquipmentManager.CONTAINER ];
 			boolean any = false;
-			for ( AdventureResult item : possible )
+			for ( int pos = 0; pos < possible.size(); ++pos )
 			{
+				AdventureResult item = possible.get( pos );
 				int count = item.getCount();
 				List group = ItemDatabase.getFoldGroup( item.getName() );
 				if ( group != null && this.foldables )
 				{
-					String groupName = ( String ) group.get( 1 );
+					String groupName = (String) group.get( 1 );
 					for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
 					{
 						if ( slot != EquipmentManager.CONTAINER && this.equipment[ slot ] != null )
@@ -439,7 +441,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 							}
 						}
 					}
-				}
+				}	
 				if ( count <= 0 ) continue;
 				this.equipment[ EquipmentManager.CONTAINER ] = item;
 				if ( item.getItemId() == ItemPool.BUDDY_BJORN )
@@ -450,7 +452,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 						this.tryAccessories( enthronedFamiliars, possibles, 0, bestCard, useCrownFamiliar );
 						any = true;
 						this.restore( mark );
-					}
+					}					
 					else
 					{
 						for ( FamiliarData f : enthronedFamiliars )
@@ -583,8 +585,9 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 		{
 			List<CheckedItem> possible = possibles[ EquipmentManager.HAT ];
 			boolean any = false;
-			for ( AdventureResult item : possible )
+			for ( int pos = 0; pos < possible.size(); ++pos )
 			{
+				AdventureResult item = possible.get( pos );
 				int count = item.getCount();
 				if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
 				{
@@ -593,7 +596,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				List group = ItemDatabase.getFoldGroup( item.getName() );
 				if ( group != null && this.foldables )
 				{
-					String groupName = ( String ) group.get( 1 );
+					String groupName = (String) group.get( 1 );
 					for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
 					{
 						if ( slot != EquipmentManager.HAT && this.equipment[ slot ] != null )
@@ -605,7 +608,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 							}
 						}
 					}
-				}
+				}	
 				if ( count <= 0 ) continue;
 				this.equipment[ EquipmentManager.HAT ] = item;
 				if ( item.getItemId() == ItemPool.HATSEAT )
@@ -622,7 +625,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 						for ( FamiliarData f : enthronedFamiliars )
 						{
 							// Cannot use same familiar for this and Bjorn
-							if ( f != this.getBjorned() )
+							if( f != this.getBjorned() )
 							{
 								this.setEnthroned( f );
 								this.tryShirts( possibles, bestCard );
@@ -658,8 +661,9 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 			if ( KoLCharacter.isTorsoAware()  )
 			{
 				List<CheckedItem> possible = possibles[ EquipmentManager.SHIRT ];
-				for ( AdventureResult item : possible )
+				for ( int pos = 0; pos < possible.size(); ++pos )
 				{
+					AdventureResult item = possible.get( pos );
 					int count = item.getCount();
 					if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
 					{
@@ -668,7 +672,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 					List group = ItemDatabase.getFoldGroup( item.getName() );
 					if ( group != null && this.foldables )
 					{
-						String groupName = ( String ) group.get( 1 );
+						String groupName = (String) group.get( 1 );
 						for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
 						{
 							if ( slot != EquipmentManager.SHIRT && this.equipment[ slot ] != null )
@@ -680,7 +684,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 								}
 							}
 						}
-					}
+					}	
 					if ( count <= 0 ) continue;
 					this.equipment[ EquipmentManager.SHIRT ] = item;
 					this.tryPants( possibles, bestCard );
@@ -705,8 +709,9 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 		{
 			List<CheckedItem> possible = possibles[ EquipmentManager.PANTS ];
 			boolean any = false;
-			for ( AdventureResult item : possible )
+			for ( int pos = 0; pos < possible.size(); ++pos )
 			{
+				AdventureResult item = possible.get( pos );
 				int count = item.getCount();
 				if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
 				{
@@ -715,7 +720,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				List group = ItemDatabase.getFoldGroup( item.getName() );
 				if ( group != null && this.foldables )
 				{
-					String groupName = ( String ) group.get( 1 );
+					String groupName = (String) group.get( 1 );
 					for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
 					{
 						if ( slot != EquipmentManager.PANTS && this.equipment[ slot ] != null )
@@ -727,7 +732,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 							}
 						}
 					}
-				}
+				}	
 				if ( count <= 0 ) continue;
 				this.equipment[ EquipmentManager.PANTS ] = item;
 				this.trySixguns( possibles, bestCard );
@@ -751,8 +756,9 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 		{
 			List<CheckedItem> possible = possibles[ EquipmentManager.HOLSTER ];
 			boolean any = false;
-			for ( AdventureResult item : possible )
+			for ( int pos = 0; pos < possible.size(); ++pos )
 			{
+				AdventureResult item = possible.get( pos );
 				int count = item.getCount();
 				if ( count <= 0 ) continue;
 				this.equipment[ EquipmentManager.HOLSTER ] = item;
@@ -785,10 +791,11 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 		{
 			List<CheckedItem> possible = possibles[ EquipmentManager.WEAPON ];
 			//boolean any = false;
-			for ( AdventureResult item : possible )
+			for ( int pos = 0; pos < possible.size(); ++pos )
 			{
+				AdventureResult item = possible.get( pos );
 				if ( !chefstaffable &&
-						EquipmentDatabase.getItemType( item.getItemId() ).equals( "chefstaff" ) )
+					EquipmentDatabase.getItemType( item.getItemId() ).equals( "chefstaff" ) )
 				{
 					continue;
 				}
@@ -804,7 +811,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				List group = ItemDatabase.getFoldGroup( item.getName() );
 				if ( group != null && this.foldables )
 				{
-					String groupName = ( String ) group.get( 1 );
+					String groupName = (String) group.get( 1 );
 					for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
 					{
 						if ( slot != EquipmentManager.WEAPON && this.equipment[ slot ] != null )
@@ -816,7 +823,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 							}
 						}
 					}
-				}
+				}	
 				if ( count <= 0 ) continue;
 				this.equipment[ EquipmentManager.WEAPON ] = item;
 				this.tryOffhands( possibles, bestCard );
@@ -872,8 +879,9 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 			}
 			boolean any = false;
 
-			for ( AdventureResult item : possible )
+			for ( int pos = 0; pos < possible.size(); ++pos )
 			{
+				AdventureResult item = possible.get( pos );
 				int count = item.getCount();
 				if ( item.equals( this.equipment[ EquipmentManager.WEAPON ] ) )
 				{
@@ -886,7 +894,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				List group = ItemDatabase.getFoldGroup( item.getName() );
 				if ( group != null && this.foldables )
 				{
-					String groupName = ( String ) group.get( 1 );
+					String groupName = (String) group.get( 1 );
 					for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
 					{
 						if ( slot != EquipmentManager.OFFHAND && this.equipment[ slot ] != null )
@@ -898,7 +906,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 							}
 						}
 					}
-				}
+				}	
 				if ( count <= 0 ) continue;
 				if ( item.getItemId() == ItemPool.CARD_SLEEVE )
 				{

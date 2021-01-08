@@ -53,18 +53,18 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BountyDatabase
 {
-	private static final ArrayList<String> bountyNames = new ArrayList<>();
-	private static final Map<String, String> bountyByPlural = new HashMap<>();
-	private static final Map<String, String> pluralByName = new HashMap<>();
-	private static final Map<String, String> typeByName = new HashMap<>();
-	private static final Map<String, String> imageByName = new HashMap<>();
-	private static final Map<String, String> numberByName = new HashMap<>();
-	private static final Map<String, String> monsterByName = new HashMap<>();
-	private static final Map<String, String> nameByMonster = new HashMap<>();
-	private static final Map<String, String> locationByName = new HashMap<>();
+	private static final ArrayList<String> bountyNames = new ArrayList<String>();
+	private static final Map<String, String> bountyByPlural = new HashMap<String, String>();
+	private static final Map<String, String> pluralByName = new HashMap<String, String>();
+	private static final Map<String, String> typeByName = new HashMap<String, String>();
+	private static final Map<String, String> imageByName = new HashMap<String, String>();
+	private static final Map<String, String> numberByName = new HashMap<String, String>();
+	private static final Map<String, String> monsterByName = new HashMap<String, String>();
+	private static final Map<String, String> nameByMonster = new HashMap<String, String>();
+	private static final Map<String, String> locationByName = new HashMap<String, String>();
 
 	public static String [] canonicalNames;
-	private static final Map<String, String> canonicalToName = new HashMap<>();
+	private static final Map<String, String> canonicalToName = new HashMap<String, String>();
 
 	static
 	{

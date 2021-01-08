@@ -173,16 +173,16 @@ public class BuffRequestFrame
 
 			Object[] list = BuffBotDatabase.getCompleteBotList();
 
-			for ( Object o : list )
+			for ( int i = 0; i < list.length; ++i )
 			{
-				if ( o == null || o.equals( "" ) )
+				if ( list[ i ] == null || list[ i ].equals( "" ) )
 				{
 					continue;
 				}
 
-				RequestPanel panel = new RequestPanel( ( String ) o );
-				BuffRequestFrame.this.panelMap.put( o, panel );
-				BuffRequestFrame.this.nameContainer.add( panel, o );
+				RequestPanel panel = new RequestPanel( (String) list[ i ] );
+				BuffRequestFrame.this.panelMap.put( list[ i ], panel );
+				BuffRequestFrame.this.nameContainer.add( panel, list[ i ] );
 			}
 
 			VerifiableElement[] elements = new VerifiableElement[ 2 ];
@@ -407,11 +407,11 @@ public class BuffRequestFrame
 		{
 			JCheckBox[] checkboxes = this.lastPanel.checkboxes;
 
-			for ( JCheckBox checkbox : checkboxes )
+			for ( int i = 0; i < checkboxes.length; ++i )
 			{
-				if ( checkbox != null )
+				if ( checkboxes[ i ] != null )
 				{
-					checkbox.setSelected( false );
+					checkboxes[ i ].setSelected( false );
 				}
 			}
 		}

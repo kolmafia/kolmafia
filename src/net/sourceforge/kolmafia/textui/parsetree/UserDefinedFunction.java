@@ -55,7 +55,7 @@ public class UserDefinedFunction
 		super( name, type, variableReferences );
 
 		this.scope = null;
-		this.callStack = new Stack<>();
+		this.callStack = new Stack<ArrayList<Value>>();
 	}
 
 	public void setScope( final Scope s )
@@ -75,7 +75,7 @@ public class UserDefinedFunction
 			return;
 		}
 		
-		ArrayList<Value> values = new ArrayList<>();
+		ArrayList<Value> values = new ArrayList<Value>();
 
 		for ( BasicScope next : this.scope.getScopes() )
 		{

@@ -81,7 +81,7 @@ public class EnthroneCommand
 			RequestThread.postRequest( FamiliarRequest.enthroneRequest( FamiliarData.NO_FAMILIAR ) );
 			return;
 		}
-		else if ( parameters.contains( "(no change)" ) )
+		else if ( parameters.indexOf( "(no change)" ) != -1 )
 		{
 			return;
 		}

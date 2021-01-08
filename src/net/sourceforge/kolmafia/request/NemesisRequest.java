@@ -126,9 +126,9 @@ public class NemesisRequest
 		// get sick of this puzzly nonsense, and could really use a
 		// regular old fight right about now
 
-		if ( responseText.contains( "stone slab slides" ) ||
-                responseText.contains( "into the darkness" ) ||
-                responseText.contains( "stone slab grinds" ) )
+		if ( responseText.indexOf( "stone slab slides" ) != -1 ||
+		     responseText.indexOf( "into the darkness" ) != -1 ||
+		     responseText.indexOf( "stone slab grinds" ) != -1)
 		{
 			ResultProcessor.processItem( item, -1 );
 		}

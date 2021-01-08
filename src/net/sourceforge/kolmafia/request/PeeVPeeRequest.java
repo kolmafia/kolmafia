@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.List;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -314,26 +316,26 @@ public class PeeVPeeRequest
 	private static void parseStatLoss( final String responseText )
 	{
 		String[] blocks = responseText.split( "<td>" );
-        for ( String block : blocks )
-        {
-            if ( block.toLowerCase().indexOf( STAT_STRING ) != 0 )
-            {
-                continue;
-            }
-            String printedStatMessage = block.substring( 0, block.indexOf( ".</td>" ) );
-            int index = printedStatMessage.lastIndexOf( " lost " );
-            String statMessage = printedStatMessage.substring( index + 6 );
-            String[] stats = statMessage.split( " " );
-            int statsLost = -1 * Integer.parseInt( stats[ 0 ] );
-            String statname = stats[ 1 ];
-            int[] gained =
-                    { AdventureResult.MUS_SUBSTAT.contains( statname ) ? statsLost : 0,
-                            AdventureResult.MYS_SUBSTAT.contains( statname ) ? statsLost : 0,
-                            AdventureResult.MOX_SUBSTAT.contains( statname ) ? statsLost : 0 };
-            AdventureResult result = new AdventureMultiResult( AdventureResult.SUBSTATS, gained );
-            ResultProcessor.processResult( result );
-            RequestLogger.printLine( printedStatMessage );
-        }
+		for ( int i = 0; i < blocks.length; ++i )
+		{
+			if ( blocks[i].toLowerCase().indexOf( STAT_STRING ) != 0 )
+			{
+				continue;
+			}
+			String printedStatMessage = blocks[i].substring( 0, blocks[i].indexOf( ".</td>" ) );
+			int index = printedStatMessage.lastIndexOf( " lost " );
+			String statMessage = printedStatMessage.substring( index + 6 );
+			String[] stats = statMessage.split( " " );
+			int statsLost = -1 * Integer.parseInt( stats[0] );
+			String statname = stats[1];
+			int[] gained =
+				{ AdventureResult.MUS_SUBSTAT.contains( statname ) ? statsLost : 0,
+				  AdventureResult.MYS_SUBSTAT.contains( statname ) ? statsLost : 0,
+				  AdventureResult.MOX_SUBSTAT.contains( statname ) ? statsLost : 0 };
+			AdventureResult result = new AdventureMultiResult( AdventureResult.SUBSTATS, gained );
+			ResultProcessor.processResult( result );
+			RequestLogger.printLine( printedStatMessage );
+		}
 	}
 
 	public static final void parseItems( final String responseText )

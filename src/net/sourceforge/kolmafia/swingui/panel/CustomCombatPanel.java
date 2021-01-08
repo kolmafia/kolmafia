@@ -171,7 +171,7 @@ public class CustomCombatPanel
 				return;
 			}
 
-			StringBuilder buffer = new StringBuilder();
+			StringBuffer buffer = new StringBuffer();
 			String line;
 
 			while ( ( line = reader.readLine() ) != null )

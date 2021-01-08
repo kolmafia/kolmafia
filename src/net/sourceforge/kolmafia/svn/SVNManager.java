@@ -415,13 +415,17 @@ public class SVNManager
 			--from;
 
 		getClientManager().getLogClient().doLog( new File[]{wcPath}, SVNRevision.create( from ),
-			SVNRevision.create( to ), true, false, 10, logEntry -> {
+			SVNRevision.create( to ), true, false, 10, new ISVNLogEntryHandler()
+		{
+			public void handleLogEntry( SVNLogEntry logEntry )
+			{
 				RequestLogger.printLine( "Commit <b>r" + logEntry.getRevision() + "<b>:" );
 				RequestLogger.printLine( "Author: " + logEntry.getAuthor() );
 				RequestLogger.printLine();
 				RequestLogger.printLine( logEntry.getMessage() );
 				RequestLogger.printLine( "------" );
-			} );
+			}
+		} );
 	}
 
 	/*
@@ -1213,82 +1217,86 @@ public class SVNManager
 
 		initialize();
 
-		Runnable runMe = () -> {
-            KoLmafia.updateDisplay( "Checking all SVN projects..." );
-            List<File> projectsToUpdate = new ArrayList<>();
-            List<CheckStatusRunnable> checkingRunnables = new ArrayList<>();
-            for (File f : projects)
-            {
-                if ( !KoLmafia.permitsContinue() )
-                {
-                    return;
-                }
+		Runnable runMe = new Runnable()
+		{
+			public void run()
+			{
+				KoLmafia.updateDisplay( "Checking all SVN projects..." );
+				List<File> projectsToUpdate = new ArrayList<>();
+				List<CheckStatusRunnable> checkingRunnables = new ArrayList<>();
+				for (File f : projects) 
+				{
+					if ( !KoLmafia.permitsContinue() )
+					{
+						return;
+					}
 
-                // skip hidden files; OSX tends to pepper your filesystem with them, apparently
-                if ( f.getName().startsWith( "." ) )
-                {
-                    continue;
-                }
+					// skip hidden files; OSX tends to pepper your filesystem with them, apparently
+					if ( f.getName().startsWith( "." ) )
+					{
+						continue;
+					}
 
-                WCAtHead( f, false, checkingRunnables );
-            }
+					WCAtHead( f, false, checkingRunnables );
+				}
 
-            if (!checkingRunnables.isEmpty())
-            {
-                int poolSize = Preferences.getInteger("svnThreadPoolSize");
-                poolSize = Math.max(1, poolSize);
-                // now start all threads and wait for them to finish.
-                // we must keep one big lock over the entire time, until no thread accesses it anymore
-                ExecutorService executor = Executors.newFixedThreadPool(poolSize);
-                SVN_LOCK.lock();
-                try
-                {
-                    List<Future<CheckStatusRunnable>> futures = executor.invokeAll(checkingRunnables);
-                    //invokeAll won't return until everything has been done so just fetch result and process
-                    for (Future<CheckStatusRunnable> f : futures)
-                    {
-                        CheckStatusRunnable r = f.get();
-                        if (r.shouldBeUpdated())
-                        {
-                            projectsToUpdate.add(r.getOriginalFile());
-                        }
-                    }
-                }
-                catch (InterruptedException | ExecutionException e)
-                {
-                    e.printStackTrace();
-                } finally
-                {
-                    SVN_LOCK.unlock();
-                    executor.shutdown();
-                    try
-                    {
-                        if (!executor.awaitTermination(800, TimeUnit.MILLISECONDS))
-                        {
-                            executor.shutdownNow();
-                        }
-                    }
-                    catch (InterruptedException e)
-                    {
-                        executor.shutdownNow();
-                    }
-                }
-            }
+				if (!checkingRunnables.isEmpty())
+				{
+					int poolSize = Preferences.getInteger("svnThreadPoolSize");
+					poolSize = Math.max(1, poolSize);
+					// now start all threads and wait for them to finish.
+					// we must keep one big lock over the entire time, until no thread accesses it anymore
+					ExecutorService executor = Executors.newFixedThreadPool(poolSize);
+					SVN_LOCK.lock();
+					try 
+					{
+						List<Future<CheckStatusRunnable>> futures = executor.invokeAll(checkingRunnables);
+						//invokeAll won't return until everything has been done so just fetch result and process
+						for (Future<CheckStatusRunnable> f : futures)
+						{
+							CheckStatusRunnable r = f.get();
+							if (r.shouldBeUpdated()) 
+							{
+								projectsToUpdate.add(r.getOriginalFile());
+							}
+						}
+					} 
+					catch (InterruptedException | ExecutionException e)
+					{
+						e.printStackTrace();
+					} finally
+					{
+						SVN_LOCK.unlock();
+						executor.shutdown();
+						try 
+						{
+							if (!executor.awaitTermination(800, TimeUnit.MILLISECONDS))
+							{
+								executor.shutdownNow();
+							}
+						} 
+						catch (InterruptedException e)
+						{
+							executor.shutdownNow();
+						}
+					}
+				}
 
-            // updates are serialized, if there even are any
-            KoLmafia.updateDisplay( "Updating all SVN projects..." );
-            for ( File f : projectsToUpdate )
-            {
-                if ( !KoLmafia.permitsContinue() )
-                {
-                    return;
-                }
+				// updates are serialized, if there even are any
+				KoLmafia.updateDisplay( "Updating all SVN projects..." );
+				for ( File f : projectsToUpdate )
+				{
+					if ( !KoLmafia.permitsContinue() )
+					{
+						return;
+					}
 
-                RequestThread.postRequest( new UpdateRunnable( f ) );
+					RequestThread.postRequest( new UpdateRunnable( f ) );
 
-                pushUpdates();
-            }
-        };
+					pushUpdates();
+				}
+			}
+		};
 
 		if ( SVN_LOCK.tryLock() )
 		{
@@ -1457,12 +1465,16 @@ public class SVNManager
 		{
 			// sometimes SVN daemon threads (like tsvncache) will have the lock for wc.db, causing delete to fail for that file (and therefore also the project directory).
 			// dispatch a parallel thread that will wait for a little bit then re-try the delete.
-			RequestThread.runInParallel( () -> {
-                PauseObject p = new PauseObject();
-                p.pause( 5000 );
+			RequestThread.runInParallel( new Runnable()
+			{
+				public void run()
+				{
+					PauseObject p = new PauseObject();
+					p.pause( 5000 );
 
-                recursiveDelete( project );
-            } );
+					recursiveDelete( project );
+				}
+			});
 		}
 		RequestLogger.printLine( "Project uninstalled." + project.getName() );
 		RequestLogger.updateSessionLog( "Project uninstalled." + project.getName());

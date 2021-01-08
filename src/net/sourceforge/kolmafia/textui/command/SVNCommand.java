@@ -237,7 +237,7 @@ public class SVNCommand
 	 */
 	private static List<String> getMatchingNames( String[] projects, String params )
 	{
-		List<String> matches = new ArrayList<>();
+		List<String> matches = new ArrayList<String>();
 
 		for ( String project : projects )
 		{

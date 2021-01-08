@@ -130,20 +130,20 @@ public class CakeArenaRequest
 	@Override
 	public void processResults()
 	{
-		if ( this.responseText.contains( "You can't" ) ||
-                this.responseText.contains( "You shouldn't" ) ||
-                this.responseText.contains( "You don't" ) ||
-                this.responseText.contains( "You need" ) )
+		if ( this.responseText.indexOf( "You can't" ) != -1 ||
+		     this.responseText.indexOf( "You shouldn't" ) != -1 ||
+		     this.responseText.indexOf( "You don't" ) != -1 ||
+		     this.responseText.indexOf( "You need" ) != -1 )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Arena battles aborted!" );
 			return;
 		}
-		else if ( this.responseText.contains( "You're way too beaten" ) )
+		else if ( this.responseText.indexOf( "You're way too beaten" ) != -1 )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You're way too beaten up, Arena battles aborted!" );
 			return;
 		}
-		else if ( this.responseText.contains( "You're too drunk" ) )
+		else if ( this.responseText.indexOf( "You're too drunk" ) != -1 )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You're too drunk, Arena battles aborted!" );
 			return;
@@ -171,7 +171,7 @@ public class CakeArenaRequest
 
 		FamiliarData familiar = KoLCharacter.getFamiliar();
 		if ( familiar.getId() == FamiliarPool.BUGBEAR &&
-                responseText.contains( "Congratulations on your %arenawins arena win" ) )
+		     responseText.indexOf( "Congratulations on your %arenawins arena win" ) != -1 )
 		{
 			return ResultProcessor.processItem( ItemPool.BUGGED_BEANIE, 1 );
 		}
@@ -185,9 +185,9 @@ public class CakeArenaRequest
 
 	public static final void parseResponse( final String urlString, final String responseText )
 	{
-		if ( urlString.contains( "action=go" ) )
+		if ( urlString.indexOf( "action=go" ) != -1 )
 		{
-			if ( responseText.contains( "You don't have enough Meat" ) )
+			if ( responseText.indexOf( "You don't have enough Meat" ) != -1 )
 			{
 				return;
 			}
@@ -255,7 +255,7 @@ public class CakeArenaRequest
 	private static int earnedXP( final String responseText )
 	{
 		Matcher matcher = CakeArenaRequest.WIN_PATTERN.matcher( responseText );
-		return matcher.find() ? Integer.parseInt( matcher.group( 1 ) ) : 0;
+		return matcher.find() ? Integer.valueOf( matcher.group( 1 ) ).intValue() : 0;
 	}
 
 	// You enter Gorg against Pork Soda in an Ultimate Cage Match.
@@ -405,7 +405,7 @@ public class CakeArenaRequest
 
 		if ( xp > 0 )
 		{
-			boolean gain = responseText.contains( "gains a pound" );
+			boolean gain = responseText.indexOf( "gains a pound" ) != -1;
 			familiar.addNonCombatExperience( xp );
 			return familiar.getName() + " gains " + xp + " experience" + ( gain ? " and a pound." : "." );
 		}

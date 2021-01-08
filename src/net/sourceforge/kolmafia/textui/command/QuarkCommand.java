@@ -99,30 +99,31 @@ public class QuarkCommand
 		}
 
 		ArrayList usables = new ArrayList();
-        for ( Object o : items )
-        {
-            AdventureResult item = ( AdventureResult ) o;
-            if ( item.getCount( KoLConstants.inventory ) < ( KoLConstants.singletonList.contains( item ) ? 2 : 1 ) )
-            {
-                continue;
-            }
-            int price = ItemDatabase.getPriceById( item.getItemId() );
-            if ( price < 20 || KoLCharacter.getCurrentMP() + price > KoLCharacter.getMaximumMP() )
-            {
-                continue;
-            }
-            if ( this.isPasteable( item ) )
-            {
-                usables.add( item.getInstance( price ) );
-            }
-        }
+		Iterator i = items.iterator();
+		while ( i.hasNext() )
+		{
+			AdventureResult item = (AdventureResult) i.next();
+			if ( item.getCount( KoLConstants.inventory ) < ( KoLConstants.singletonList.contains( item ) ? 2 : 1 ) )
+			{
+				continue;
+			}
+			int price = ItemDatabase.getPriceById( item.getItemId() );
+			if ( price < 20 || KoLCharacter.getCurrentMP() + price > KoLCharacter.getMaximumMP() )
+			{
+				continue;
+			}
+			if ( this.isPasteable( item ) )
+			{
+				usables.add( item.getInstance( price ) );
+			}
+		}
 		if ( usables.size() == 0 )
 		{
 			KoLmafia.updateDisplay( "No suitable quark-pasteable items found." );
 			return;
 		}
 
-		usables.sort( this );
+		Collections.sort( usables, this );
 		if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
 		{
 			RequestLogger.printLine( usables.get( 0 ).toString() );

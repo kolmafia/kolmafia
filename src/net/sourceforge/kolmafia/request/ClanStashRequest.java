@@ -77,7 +77,7 @@ public class ClanStashRequest
 	{
 		super( "clan_stash.php" );
 		this.moveType = ClanStashRequest.REFRESH_ONLY;
-		this.destination = new ArrayList<>();
+		this.destination = new ArrayList<AdventureResult>();
 	}
 
 	/**
@@ -92,7 +92,7 @@ public class ClanStashRequest
 		this.addFormField( "action", "contribute" );
 
 		this.moveType = ClanStashRequest.MEAT_TO_STASH;
-		this.destination = new ArrayList<>();
+		this.destination = new ArrayList<AdventureResult>();
 	}
 
 	public ClanStashRequest( AdventureResult attachment, final int moveType )
@@ -222,14 +222,14 @@ public class ClanStashRequest
 
 	public static final boolean parseTransfer( final String urlString, final String responseText )
 	{
-		if ( urlString.contains( "takegoodies" ) )
+		if ( urlString.indexOf( "takegoodies" ) != -1 )
 		{
 			// If you ask for too many of an item:
 			//     There aren't that many of that item in the stash.
 			//
 			// If you ask for (and are allowed to take) items:
 			//     You acquire 5 xxx
-			if ( !responseText.contains( "You acquire" ) )
+			if ( responseText.indexOf( "You acquire" ) == -1 )
 			{
 				return false;
 			}
@@ -242,7 +242,7 @@ public class ClanStashRequest
 					ClanManager.getStash(),
 					null, 0 );
 		}
-		else if ( urlString.contains( "addgoodies" ) )
+		else if ( urlString.indexOf( "addgoodies" ) != -1 )
 		{
 			// If you didn't have the items you wanted to drop into
 			// the stash:
@@ -250,7 +250,7 @@ public class ClanStashRequest
 			//     selected. Tsk, tsk.
 			// Otherwise:
 			//     You add 5 xxx to the Goodies Hoard.
-			if ( !responseText.contains( "to the Goodies Hoard" ) )
+			if ( responseText.indexOf( "to the Goodies Hoard" ) == -1 )
 			{
 				return false;
 			}
@@ -263,7 +263,7 @@ public class ClanStashRequest
 							   KoLConstants.inventory,
 							   ClanManager.getStash() );
 		}
-		else if ( urlString.contains( "action=contribute" ) )
+		else if ( urlString.indexOf( "action=contribute" ) != -1 )
 		{
 			long meat = TransferItemRequest.transferredMeat( urlString, "howmuch" );
 			ResultProcessor.processMeat( 0 - meat );
@@ -305,7 +305,7 @@ public class ClanStashRequest
 			return;
 		}
 
-		ArrayList<AdventureResult> items = new ArrayList<>();
+		ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
 
 		Matcher matcher = ClanStashRequest.ITEM_PATTERN.matcher( stashMatcher.group() );
 		int lastFindIndex = 0;
@@ -357,7 +357,7 @@ public class ClanStashRequest
 			return false;
 		}
 
-		if ( urlString.contains( "takegoodies" ) )
+		if ( urlString.indexOf( "takegoodies" ) != -1 )
 		{
 			return TransferItemRequest.registerRequest(
 				"remove from stash", urlString,
@@ -366,7 +366,7 @@ public class ClanStashRequest
 				ClanManager.getStash(), 0 );
 		}
 
-		if ( urlString.contains( "addgoodies" ) )
+		if ( urlString.indexOf( "addgoodies" ) != -1 )
 		{
 			return TransferItemRequest.registerRequest(
 				"add to stash", urlString,
@@ -375,7 +375,7 @@ public class ClanStashRequest
 				KoLConstants.inventory, 0 );
 		}
 
-		if ( urlString.contains( "action=contribute" ) )
+		if ( urlString.indexOf( "action=contribute" ) != -1 )
 		{
 			long meat = TransferItemRequest.transferredMeat( urlString, "howmuch" );
 			String message = "add to stash: " + meat + " Meat";

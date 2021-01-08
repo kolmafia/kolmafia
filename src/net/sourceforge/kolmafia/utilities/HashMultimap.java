@@ -50,7 +50,13 @@ public class HashMultimap<V>
 	public final void put( int key, V value )
 	{
 		Integer okey = IntegerPool.get( key );
-		ArrayList<V> curr = super.computeIfAbsent( okey, k -> new ArrayList<>() );
+		ArrayList<V> curr = super.get( okey );
+
+		if ( curr == null )
+		{
+			curr = new ArrayList<V>();
+			super.put( okey, curr );
+		}
 
 		curr.add( value );
 		curr.trimToSize(); // minimize wasted space

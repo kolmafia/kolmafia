@@ -68,7 +68,7 @@ public class SendGiftRequest
 	private final String recipient, message;
 	private final GiftWrapper wrappingType;
 	private final int maxCapacity, materialCost;
-	private static final LockableListModel<GiftWrapper> PACKAGES = new LockableListModel<>();
+	private static final LockableListModel<GiftWrapper> PACKAGES = new LockableListModel<GiftWrapper>();
 	static
 	{
 		BufferedReader reader = FileUtilities.getVersionedReader( "packages.txt", KoLConstants.PACKAGES_VERSION );
@@ -143,7 +143,7 @@ public class SendGiftRequest
 		if ( isFromStorage )
 		{
 			this.source = KoLConstants.storage;
-			this.destination = new ArrayList<>();
+			this.destination = new ArrayList<AdventureResult>();
 		}
 	}
 
@@ -190,7 +190,7 @@ public class SendGiftRequest
 		// You start with two packages and receive an additional
 		// package every three ascensions you complete.
 
-		LockableListModel<GiftWrapper> packages = new LockableListModel<>();
+		LockableListModel<GiftWrapper> packages = new LockableListModel<GiftWrapper>();
 		int packageCount = Math.min( KoLCharacter.getAscensions() / 3 + 2, 11 );
 
 		packages.addAll( SendGiftRequest.PACKAGES.subList( 0, packageCount + 1 ) );
@@ -199,12 +199,12 @@ public class SendGiftRequest
 
 	private static boolean getSuccessMessage( final String responseText )
 	{
-		return responseText.contains( "<td>Package sent.</td>" );
+		return responseText.indexOf( "<td>Package sent.</td>" ) != -1;
 	}
 
 	private static List<AdventureResult> source( final String urlString )
 	{
-		return urlString.contains( "fromwhere=1" ) ? KoLConstants.storage : KoLConstants.inventory;
+		return urlString.indexOf( "fromwhere=1" ) != -1 ? KoLConstants.storage : KoLConstants.inventory;
 	}
 
 	private static int getMaterialCost( final String urlString )

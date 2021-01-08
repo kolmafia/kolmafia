@@ -86,7 +86,7 @@ public class PhineasRequest
 	public static void parseResponse( final String urlString, final String responseText )
 	{
 		if ( !urlString.startsWith( "volcanoisland.php" ) ||
-                !urlString.contains( "action=npc" ) )
+		     urlString.indexOf( "action=npc" ) == -1 )
 		{
 			return;
 		}
@@ -109,8 +109,8 @@ public class PhineasRequest
 	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "volcanoisland.php" ) ||
-                !urlString.contains( "action=npc" ) ||
-                !urlString.contains( "subaction=make" ) )
+		     urlString.indexOf( "action=npc" ) == -1 ||
+		     urlString.indexOf( "subaction=make" ) == -1 )
 		{
 			return false;
 		}
@@ -124,7 +124,7 @@ public class PhineasRequest
 		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 		int quantity = 1;
 
-		if ( urlString.contains( "makemax=1" ) )
+		if ( urlString.indexOf( "makemax=1" ) != -1 )
 		{
 			quantity = CreateItemRequest.getInstance( itemId ).getQuantityPossible();
 		}
@@ -138,7 +138,7 @@ public class PhineasRequest
 			}
 		}
 
-		StringBuilder sealString = new StringBuilder();
+		StringBuffer sealString = new StringBuffer();
 		sealString.append( "Trade " );
 
 		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );

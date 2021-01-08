@@ -93,7 +93,7 @@ public class ChatParser
 
 			boolean isCurrentChannel = false;
 
-			if ( channel.contains( "<b" ) )
+			if ( channel.indexOf( "<b" ) != -1 )
 			{
 				isCurrentChannel = true;
 			}
@@ -117,7 +117,7 @@ public class ChatParser
 
 		String title = titleMatcher.find() ? titleMatcher.group( 1 ) : "Contacts Online";
 
-		Map<String, Boolean> contacts = new TreeMap<>();
+		Map<String, Boolean> contacts = new TreeMap<String, Boolean>();
 
 		Matcher whoMatcher;
 		
@@ -159,7 +159,7 @@ public class ChatParser
 
 		channel = "/" + KoLConstants.ANYTAG_PATTERN.matcher( channel ).replaceAll( "" );
 
-		if ( content.contains( "You are now talking in channel: " ) )
+		if ( content.indexOf( "You are now talking in channel: " ) != -1 )
 		{
 			String currentChannel = ChatManager.getCurrentChannel();
 
@@ -177,7 +177,7 @@ public class ChatParser
 
 		channel = "/" + KoLConstants.ANYTAG_PATTERN.matcher( channel ).replaceAll( "" );
 
-		if ( content.contains( "You are now talking in channel: " ) )
+		if ( content.indexOf( "You are now talking in channel: " ) != -1 )
 		{
 			chatMessages.add( new EnableMessage( channel, true ) );
 		}
@@ -194,11 +194,11 @@ public class ChatParser
 
 		ChatMessage message = null;
 
-		if ( content.contains( "Now listening to channel: " ) )
+		if ( content.indexOf( "Now listening to channel: " ) != -1 )
 		{
 			message = new EnableMessage( channel, false );
 		}
-		else if ( content.contains( "No longer listening to channel: " ) )
+		else if ( content.indexOf( "No longer listening to channel: " ) != -1 )
 		{
 			message = new DisableMessage( channel, false );
 		}
@@ -211,7 +211,7 @@ public class ChatParser
 
 	public static List<ChatMessage> parseLines( final String content )
 	{
-		List<ChatMessage> chatMessages = new LinkedList<>();
+		List<ChatMessage> chatMessages = new LinkedList<ChatMessage>();
 		ChatParser.parseLines( chatMessages, content );
 		return chatMessages;
 	}

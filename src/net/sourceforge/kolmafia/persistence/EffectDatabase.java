@@ -70,13 +70,13 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class EffectDatabase
 {
 	private static String [] canonicalNames = new String[0];
-	private static final Map<Integer, String> nameById = new TreeMap<>();
-	private static final Map<String, int[]> effectIdSetByName = new TreeMap<>();
-	public static final HashMap<Integer, String> defaultActions = new HashMap<>();
+	private static final Map<Integer, String> nameById = new TreeMap<Integer, String>();
+	private static final Map<String, int[]> effectIdSetByName = new TreeMap<String, int[]>();
+	public static final HashMap<Integer, String> defaultActions = new HashMap<Integer, String>();
 
-	private static final Map<Integer, String> imageById = new HashMap<>();
-	private static final Map<Integer, String> descriptionById = new TreeMap<>();
-	private static final Map<String, Integer> effectIdByDescription = new HashMap<>();
+	private static final Map<Integer, String> imageById = new HashMap<Integer, String>();
+	private static final Map<Integer, String> descriptionById = new TreeMap<Integer, String>();
+	private static final Map<String, Integer> effectIdByDescription = new HashMap<String, Integer>();
 	private static final Map<Integer, Integer> qualityById = new HashMap<>();
 	private static final Map<Integer, List<String>> attributesById = new HashMap<>();
 
@@ -104,7 +104,7 @@ public class EffectDatabase
 			if ( data.length >= 3 )
 			{
 				Integer effectId = Integer.valueOf( data[ 0 ] );
-				if ( effectId < 0 )
+				if ( effectId.intValue() < 0 )
 				{
 					continue;
 				}
@@ -204,7 +204,7 @@ public class EffectDatabase
 		EffectDatabase.qualityById.put( effectId, EffectDatabase.parseQuality( quality ) );
 
 		String[] list = attributes.split( "\\s*,\\s*" );
-		List<String> attrs = new LinkedList<>( Arrays.asList( list ) );
+		List<String> attrs = new LinkedList<String>( Arrays.asList( list ) );
 		attrs.remove( "none" );
 		EffectDatabase.attributesById.put( effectId, attrs );
 
@@ -291,18 +291,19 @@ public class EffectDatabase
 		{
 			return Collections.emptyIterator();
 		}
-		ArrayList<String> rv = new ArrayList<>();
+		ArrayList<String> rv = new ArrayList<String>();
 		String[] pieces = actions.split( "\\|" );
-		for ( String action : pieces )
+		for ( int i = 0; i < pieces.length; ++i )
 		{
+			String action = pieces[ i ];
 			String[] either = action.split( " ", 3 );
 			if ( either.length == 3 && either[ 1 ].equals( "either" ) )
-			{    // Split commands like "use either X, Y" into "use X", "use Y"
+			{	// Split commands like "use either X, Y" into "use X", "use Y"
 				String cmd = either[ 0 ];
 				either = either[ 2 ].split( "\\s*,\\s*" );
-				for ( String s : either )
+				for ( int j = 0; j < either.length; ++j )
 				{
-					rv.add( cmd + " " + s );
+					rv.add( cmd + " " + either[ j ] );
 				}
 			}
 			else
@@ -365,7 +366,7 @@ public class EffectDatabase
 	public static final String getEffectName( final String descriptionId )
 	{
 		Integer effectId = EffectDatabase.effectIdByDescription.get( descriptionId );
-		return effectId == null ? null : EffectDatabase.getEffectName( effectId );
+		return effectId == null ? null : EffectDatabase.getEffectName( effectId.intValue() );
 	}
 
 	public static final String getEffectDisplayName( final String effectName )
@@ -385,7 +386,7 @@ public class EffectDatabase
 	public static final int getEffectIdFromDescription( final String descriptionId )
 	{
 		Integer effectId = EffectDatabase.effectIdByDescription.get( descriptionId );
-		return effectId == null ? -1 : effectId;
+		return effectId == null ? -1 : effectId.intValue();
 	}
 
 	public static final String getDescriptionId( final int effectId )
@@ -604,7 +605,7 @@ public class EffectDatabase
 				{
 					int effectId = StringUtilities.parseInt( idString );
 					// It parsed to a number so is valid
-					List<String> list = new ArrayList<>();
+					List<String> list = new ArrayList<String>();
 					list.add( substring );
 					return list;
 				}
@@ -696,7 +697,7 @@ public class EffectDatabase
 		for ( Entry<Integer, String> entry : EffectDatabase.nameById.entrySet() )
 		{
 			Integer nextInteger = entry.getKey();
-			int effectId = nextInteger;
+			int effectId = nextInteger.intValue();
 
 			// Skip pseudo effects
 			if ( effectId < 1 )
@@ -704,7 +705,7 @@ public class EffectDatabase
 				continue;
 			}
 
-			for ( int i = lastInteger; i < nextInteger; ++i )
+			for ( int i = lastInteger; i < nextInteger.intValue(); ++i )
 			{
 				writer.println( i );
 			}

@@ -440,31 +440,32 @@ public class LatteRequest
 				int button = StringUtilities.parseInt( lineMatcher.group( 1 ) );
 				String value = lineMatcher.group( 2 );
 				String description = lineMatcher.group( 3 ).trim();
-                for ( Latte latte : LATTE )
-                {
-                    boolean matched =
-                            button == 1 ? description.equals( latte.first ) :
-                                    button == 2 ? description.equals( latte.second ) :
-                                            button == 3 ? description.equals( latte.third ) :
-                                                    false;
-                    if ( matched )
-                    {
-                        String[] buttons = radio.get( latte );
-                        if ( buttons == null )
-                        {
-                            buttons = new String[ 3 ];
-                        }
-                        buttons[ button - 1 ] = value;
-                        radio.put( latte, buttons );
-                        if ( button == 1 && !line.contains( "&Dagger;" ) )
-                        {
-                            unlocks.append( sep );
-                            unlocks.append( latte.ingredient );
-                            sep = ",";
-                        }
-                        break;
-                    }
-                }
+				for ( int i = 0; i < LATTE.length; ++i )
+				{
+					Latte latte = LATTE[i];
+					boolean matched =
+						button == 1 ? description.equals( latte.first ) :
+						button == 2 ? description.equals( latte.second ) :
+						button == 3 ? description.equals( latte.third ) :
+						false;
+					if ( matched )
+					{
+						String[] buttons = radio.get( latte );
+						if ( buttons == null )
+						{
+							buttons = new String[3];
+						}
+						buttons[button-1] = value;
+						radio.put( latte, buttons );
+						if ( button == 1 && !line.contains( "&Dagger;" ) )
+						{
+							unlocks.append( sep );
+							unlocks.append( latte.ingredient );
+							sep = ",";
+						}
+						break;
+					}
+				}
 			}
 		}
 		Preferences.setString( "latteUnlocks", unlocks.toString() );

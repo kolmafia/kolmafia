@@ -249,7 +249,7 @@ public class TimeSpinnerCommand
 			RequestLogger.printLine( "Available food:" );
 			for ( String food : spinnerFoods )
 			{
-				AdventureResult item = ItemPool.get( Integer.parseInt( food ) );
+				AdventureResult item = ItemPool.get( Integer.valueOf( food ) );
 				RequestLogger.printLine( item.getName() );
 			}
 			return;
@@ -260,7 +260,7 @@ public class TimeSpinnerCommand
 			String filter = parameters.substring( 13 ).trim().toLowerCase();
 			boolean filterExists = !filter.equals( "" );
 
-			List<String> monsters = new ArrayList<>();
+			List<String> monsters = new ArrayList<String>();
 			for ( KoLAdventure adv : AdventureDatabase.getAsLockableListModel() )
 			{
 				if ( !adv.getRequest().getURLString().startsWith( "adventure.php" ) )
@@ -276,7 +276,7 @@ public class TimeSpinnerCommand
 					}
 				}
 			}
-			monsters.sort( String.CASE_INSENSITIVE_ORDER );
+			Collections.sort( monsters, String.CASE_INSENSITIVE_ORDER );
 			if ( monsters.isEmpty() )
 			{
 				RequestLogger.printLine( "No monsters are available." );

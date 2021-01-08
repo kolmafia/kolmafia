@@ -169,7 +169,7 @@ public class Concoction
 			this.setEffectName();
 		}
 
-		this.ingredients = new ArrayList<>();
+		this.ingredients = new ArrayList<AdventureResult>();
 		this.ingredientArray = new AdventureResult[ 0 ];
 
 		this.price = -1;
@@ -264,9 +264,9 @@ public class Concoction
 
 	public boolean usesIngredient( int itemId )
 	{
-		for ( AdventureResult adventureResult : this.ingredientArray )
+		for ( int i = 0; i < this.ingredientArray.length; ++i )
 		{
-			if ( adventureResult.getItemId() == itemId )
+			if ( this.ingredientArray[ i ].getItemId() == itemId )
 			{
 				return true;
 			}
@@ -790,8 +790,9 @@ public class Concoction
 
 		int mult = this.getYield();
 		int icount = ( overAmount + ( mult - 1 ) ) / mult;
-		for ( AdventureResult ingredient : this.ingredientArray )
+		for ( int i = 0; i < this.ingredientArray.length; ++i )
 		{
+			AdventureResult ingredient = this.ingredientArray[ i ];
 			Concoction c = ConcoctionPool.get( ingredient );
 			if ( c == null )
 			{
@@ -887,7 +888,7 @@ public class Concoction
 			SortedListModel<AdventureResult> uses = ConcoctionDatabase.knownUses.get( itemId );
 			if ( uses == null )
 			{
-				uses = new SortedListModel<>();
+				uses = new SortedListModel<AdventureResult>();
 				ConcoctionDatabase.knownUses.set( ingredient.getItemId(), uses );
 			}
 
@@ -948,7 +949,7 @@ public class Concoction
 		int maxSuccess = this.initial;
 		int minFailure = Integer.MAX_VALUE;
 		int guess = maxSuccess + 1;
-		ArrayList<Concoction> visited = new ArrayList<>();
+		ArrayList<Concoction> visited = new ArrayList<Concoction>();
 
 		if ( id == Concoction.debugId )
 		{
@@ -1025,7 +1026,7 @@ public class Concoction
 		int maxSuccess = this.initial;
 		int minFailure = Integer.MAX_VALUE;
 		int guess = maxSuccess + 1;
-		ArrayList<Concoction> visited = new ArrayList<>();
+		ArrayList<Concoction> visited = new ArrayList<Concoction>();
 
 		while ( true )
 		{
@@ -1398,9 +1399,9 @@ public class Concoction
 		// levels in the creation tree.
 
 		int runningTotal = create;
-		for ( AdventureResult adventureResult : this.ingredientArray )
+		for ( int i = 0; i < this.ingredientArray.length; ++i )
 		{
-			Concoction ingredient = ConcoctionPool.get( adventureResult );
+			Concoction ingredient = ConcoctionPool.get( this.ingredientArray[ i ] );
 
 			runningTotal += ingredient.getMeatPasteNeeded( create );
 		}
@@ -1454,9 +1455,9 @@ public class Concoction
 
 		// Count adventures from all levels in the creation tree.
 
-		for ( AdventureResult adventureResult : this.ingredientArray )
+		for ( int i = 0; i < this.ingredientArray.length; ++i )
 		{
-			Concoction ingredient = ConcoctionPool.get( adventureResult );
+			Concoction ingredient = ConcoctionPool.get( this.ingredientArray[ i ] );
 
 			if ( ingredient == null )
 			{

@@ -273,7 +273,7 @@ public interface KoLConstants
 	List<File> scripts = LockableListFactory.getInstance( File.class );
 	List<String> bookmarks = LockableListFactory.getInstance( String.class );
 
-	ArrayList<String> disabledScripts = new ArrayList<>();
+	ArrayList<String> disabledScripts = new ArrayList<String>();
 	ScriptMRUList scriptMList =
 			  new ScriptMRUList( "scriptMRUList", "scriptMRULength" );
 	PartialMRUList maximizerMList =
@@ -756,14 +756,14 @@ public interface KoLConstants
 	List<UseSkillRequest> expressionSkills = LockableListFactory.getInstance( UseSkillRequest.class );
 	List<UseSkillRequest> walkSkills = LockableListFactory.getInstance( UseSkillRequest.class );
 	List<UseSkillRequest> availableSkills = LockableListFactory.getInstance( UseSkillRequest.class );
-	IdentityHashMap<UseSkillRequest, Object> availableSkillsMap = new IdentityHashMap<>();
+	IdentityHashMap<UseSkillRequest, Object> availableSkillsMap = new IdentityHashMap<UseSkillRequest, Object>();
 	List<UseSkillRequest> availableCombatSkills = LockableListFactory.getInstance( UseSkillRequest.class );
-	IdentityHashMap<UseSkillRequest, Object> availableCombatSkillsMap = new IdentityHashMap<>();
+	IdentityHashMap<UseSkillRequest, Object> availableCombatSkillsMap = new IdentityHashMap<UseSkillRequest, Object>();
 	List<UseSkillRequest> permedSkills = LockableListFactory.getInstance( UseSkillRequest.class );
 	List<UseSkillRequest> combatSkills = LockableListFactory.getInstance( UseSkillRequest.class );
 
 	List<AdventureResult> activeEffects = LockableListFactory.getInstance( AdventureResult.class );
-	ArrayList<AdventureResult> recentEffects = new ArrayList<>();
+	ArrayList<AdventureResult> recentEffects = new ArrayList<AdventureResult>();
 
 	List<AdventureResult> hermitItems = LockableListFactory.getInstance( AdventureResult.class );
 	List<String> restaurantItems = LockableListFactory.getInstance( String.class );
@@ -780,5 +780,11 @@ public interface KoLConstants
 
 	StyledChatBuffer commandBuffer = new StyledChatBuffer( "", "blue", false );
 
-	Comparator<String> ignoreCaseComparator = String::compareToIgnoreCase;
+	Comparator<String> ignoreCaseComparator = new Comparator<String>()
+	{
+		public int compare( String s1, String s2 )
+		{
+			return s1.compareToIgnoreCase( s2 );
+		}
+	};
 }

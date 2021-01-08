@@ -533,7 +533,7 @@ public class ProfileRequest
 
 	public Integer getPlayerLevel()
 	{
-		if ( this.playerLevel == null || this.playerLevel == 0 )
+		if ( this.playerLevel == null || this.playerLevel.intValue() == 0 )
 		{
 			this.initialize();
 		}
@@ -597,7 +597,7 @@ public class ProfileRequest
 
 	public Integer getPvpRank()
 	{
-		if ( this.pvpRank == null || this.pvpRank == 0 )
+		if ( this.pvpRank == null || this.pvpRank.intValue() == 0 )
 		{
 			this.initialize();
 		}
@@ -626,7 +626,7 @@ public class ProfileRequest
 	public Integer getPower()
 	{
 		this.initialize();
-		return IntegerPool.get( this.muscle + this.mysticism + this.moxie );
+		return IntegerPool.get( this.muscle.intValue() + this.mysticism.intValue() + this.moxie.intValue() );
 	}
 
 	public Integer getEquipmentPower()
@@ -684,10 +684,10 @@ public class ProfileRequest
 
 		if ( this.getPvpRank().intValue() != o.getPvpRank().intValue() )
 		{
-			return this.getPvpRank() - o.getPvpRank();
+			return this.getPvpRank().intValue() - o.getPvpRank().intValue();
 		}
 
-		return this.getPlayerLevel() - o.getPlayerLevel();
+		return this.getPlayerLevel().intValue() - o.getPlayerLevel().intValue();
 	}
 
 	private static final Pattern WHO_PATTERN = Pattern.compile( "who=(\\d+)" );

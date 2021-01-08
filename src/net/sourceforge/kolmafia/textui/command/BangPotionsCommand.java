@@ -96,7 +96,7 @@ public class BangPotionsCommand
 
 	private static int potionItemId( final Object[][] table, final int index )
 	{
-		return ( Integer ) table[ index ][ 2 ];
+		return ((Integer)table[index][2]).intValue();
 	}
 
 	@Override
@@ -115,7 +115,7 @@ public class BangPotionsCommand
 		{
 			int itemId = BangPotionsCommand.potionItemId( table, index );
 			String shortName = BangPotionsCommand.potionShortName( table, index );
-			StringBuilder buf = new StringBuilder( shortName );
+			StringBuffer buf = new StringBuffer( shortName );
 			buf.append( ": " );
 			buf.append( Preferences.getString( pref + itemId ) );
 			AdventureResult item = ItemPool.get( itemId, 1 );

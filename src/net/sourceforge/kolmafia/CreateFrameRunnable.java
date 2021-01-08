@@ -84,9 +84,9 @@ public class CreateFrameRunnable
 		Class[] constructorParameterTypes;
 		Constructor[] constructors = creationType.getConstructors();
 
-		for ( Constructor constructor : constructors )
+		for ( int i = 0; i < constructors.length; ++i )
 		{
-			constructorParameterTypes = constructor.getParameterTypes();
+			constructorParameterTypes = constructors[ i ].getParameterTypes();
 			if ( constructorParameterTypes.length != parameters.length )
 			{
 				continue;
@@ -103,7 +103,7 @@ public class CreateFrameRunnable
 
 			if ( isValidConstructor )
 			{
-				this.creator = constructor;
+				this.creator = constructors[ i ];
 			}
 		}
 	}
@@ -246,13 +246,15 @@ public class CreateFrameRunnable
 
 		Frame[] frames = Frame.getFrames();
 
-		for ( Frame frame : frames )
+		for ( int i = 0; i < frames.length; ++i )
 		{
+			Frame frame = frames[ i ];
+
 			if ( frame.getClass() == this.creationType )
 			{
 				if ( frame instanceof GenericFrame )
 				{
-					GenericFrame gframe = ( GenericFrame ) frame;
+					GenericFrame gframe = (GenericFrame) frame;
 
 					if ( !gframe.exists() )
 					{
@@ -260,7 +262,7 @@ public class CreateFrameRunnable
 					}
 				}
 
-				this.creation = ( JFrame ) frame;
+				this.creation = (JFrame) frame;
 				return true;
 			}
 		}

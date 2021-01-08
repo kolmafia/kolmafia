@@ -77,9 +77,9 @@ public class ChipsCommand
 			}
 		}
 
-        for ( int j : option )
-        {
-            RequestThread.postRequest( new ClanRumpusRequest( RequestType.CHIPS, j ) );
-        }
+		for ( int i = 0; i < option.length; ++i )
+		{
+			RequestThread.postRequest( new ClanRumpusRequest( RequestType.CHIPS, option[i] ) );
+		}
 	}
 }

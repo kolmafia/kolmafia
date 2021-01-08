@@ -82,59 +82,59 @@ public class UseSkillCommand
 	{
 		String[] buffs = parameters.split( "\\s*,\\s*" );
 
-        for ( String buff : buffs )
-        {
-            String[] splitParameters = buff.replaceFirst( " [oO][nN] ", " => " ).split( " => " );
+		for ( int i = 0; i < buffs.length; ++i )
+		{
+			String[] splitParameters = buffs[ i ].replaceFirst( " [oO][nN] ", " => " ).split( " => " );
 
-            if ( splitParameters.length == 1 )
-            {
-                splitParameters = new String[ 2 ];
-                splitParameters[ 0 ] = buff;
-                splitParameters[ 1 ] = null;
-            }
+			if ( splitParameters.length == 1 )
+			{
+				splitParameters = new String[ 2 ];
+				splitParameters[ 0 ] = buffs[ i ];
+				splitParameters[ 1 ] = null;
+			}
 
-            String[] buffParameters = AbstractCommand.splitCountAndName( splitParameters[ 0 ] );
-            String buffCountString = buffParameters[ 0 ];
-            String skillNameString = buffParameters[ 1 ];
+			String[] buffParameters = AbstractCommand.splitCountAndName( splitParameters[ 0 ] );
+			String buffCountString = buffParameters[ 0 ];
+			String skillNameString = buffParameters[ 1 ];
 
-            String skillName = SkillDatabase.getUsableKnownSkillName( skillNameString );
-            if ( skillName == null )
-            {
-                if ( sim )
-                {
-                    return false;
-                }
-                KoLmafia.updateDisplay( MafiaState.ERROR,
-                        "Could not find a known, usable skill of yours uniquely matching \"" + parameters + "\"" );
-                return false;
-            }
+			String skillName = SkillDatabase.getUsableKnownSkillName( skillNameString );
+			if ( skillName == null )
+			{
+				if ( sim )
+				{
+					return false;
+				}
+				KoLmafia.updateDisplay( MafiaState.ERROR,
+					"Could not find a known, usable skill of yours uniquely matching \"" + parameters + "\"" );
+				return false;
+			}
 
-            int buffCount = 1;
+			int buffCount = 1;
 
-            if ( buffCountString != null && buffCountString.equals( "*" ) )
-            {
-                buffCount = 0;
-            }
-            else if ( buffCountString != null )
-            {
-                buffCount = StringUtilities.parseInt( buffCountString );
-            }
+			if ( buffCountString != null && buffCountString.equals( "*" ) )
+			{
+				buffCount = 0;
+			}
+			else if ( buffCountString != null )
+			{
+				buffCount = StringUtilities.parseInt( buffCountString );
+			}
 
-            if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
-            {
-                RequestLogger.printLine( skillName + " (x" + buffCount + ")" );
-                return true;
-            }
+			if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
+			{
+				RequestLogger.printLine( skillName + " (x" + buffCount + ")" );
+				return true;
+			}
+			
+			UseSkillRequest request =  UseSkillRequest.getInstance( skillName, splitParameters[ 1 ], buffCount );
 
-            UseSkillRequest request = UseSkillRequest.getInstance( skillName, splitParameters[ 1 ], buffCount );
+			if ( sim )
+			{
+				return request.getMaximumCast() > 0;
+			}
 
-            if ( sim )
-            {
-                return request.getMaximumCast() > 0;
-            }
-
-            RequestThread.postRequest( request );
-        }
+			RequestThread.postRequest( request );
+		}
 		return true;
 	}
 }

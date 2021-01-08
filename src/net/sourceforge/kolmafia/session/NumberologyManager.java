@@ -180,7 +180,7 @@ public class NumberologyManager
 
 	public static final Map<Integer,Integer> reverseNumberology( final int adventureDelta, final int spleenDelta )
 	{
-		Map<Integer,Integer> results = new TreeMap<>();
+		Map<Integer,Integer> results = new TreeMap<Integer,Integer>();
 
 		for ( int seed = 0; seed < 100; ++seed )
 		{

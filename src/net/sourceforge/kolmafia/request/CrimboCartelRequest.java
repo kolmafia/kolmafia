@@ -145,7 +145,7 @@ public class CrimboCartelRequest
 		String action = GenericRequest.getAction( location );
 		if ( action == null )
 		{
-			if ( location.contains( "place=store" ) )
+			if ( location.indexOf( "place=store" ) != -1 )
 			{
 				// Parse current coin balances
 				CoinMasterRequest.parseBalance( data, responseText );

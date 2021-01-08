@@ -100,20 +100,20 @@ public abstract class ClanManager
 	public static boolean stashRetrieved = false;
 	private static boolean ranksRetrieved = false;
 
-	private static final ArrayList<String> currentMembers = new ArrayList<>();
-	private static final ArrayList<String> whiteListMembers = new ArrayList<>();
+	private static final ArrayList<String> currentMembers = new ArrayList<String>();
+	private static final ArrayList<String> whiteListMembers = new ArrayList<String>();
 
 	private static final Map<String, String> profileMap = ProfileSnapshot.getProfileMap();
 	private static final Map<String, String> ascensionMap = AscensionSnapshot.getAscensionMap();
-	private static final Map<String, String> titleMap = new HashMap<>();
-	private static final Map<Integer,List<AdventureResult>> clanLounge = new HashMap<>();
-	private static final Map<Integer,List<String>> clanRumpus = new LinkedHashMap<>();
-	private static final Map<Integer,List<String>> clanHotdogs = new HashMap<>();
+	private static final Map<String, String> titleMap = new HashMap<String, String>();
+	private static final Map<Integer,List<AdventureResult>> clanLounge = new HashMap<Integer,List<AdventureResult>>();
+	private static final Map<Integer,List<String>> clanRumpus = new LinkedHashMap<Integer,List<String>>();
+	private static final Map<Integer,List<String>> clanHotdogs = new HashMap<Integer,List<String>>();
 
 	private static final List battleList = new ArrayList();
 
-	private static final LockableListModel<String> rankList = new LockableListModel<>();
-	private static final SortedListModel<AdventureResult> stashContents = new SortedListModel<>();
+	private static final LockableListModel<String> rankList = new LockableListModel<String>();
+	private static final SortedListModel<AdventureResult> stashContents = new SortedListModel<AdventureResult>();
 
 	public static final AdventureResult HOT_DOG_STAND = ItemPool.get( ItemPool.CLAN_HOT_DOG_STAND, 1 );
 	public static final AdventureResult SPEAKEASY = ItemPool.get( ItemPool.CLAN_SPEAKEASY, 1 );
@@ -776,7 +776,7 @@ public abstract class ClanManager
 	public static final List<AdventureResult> getClanLounge()
 	{
 		List<AdventureResult> list = ClanManager.clanLounge.get( ClanManager.clanId );
-		return list == null ? new ArrayList<>() : list;
+		return list == null ? new ArrayList<AdventureResult>() : list;
 	}
 
 	public static final void addToLounge( AdventureResult item )
@@ -785,7 +785,7 @@ public abstract class ClanManager
 		List<AdventureResult> list = ClanManager.clanLounge.get( ClanManager.clanId );
 		if ( list == null )
 		{
-			ClanManager.clanLounge.put( ClanManager.clanId, new ArrayList<>() );
+			ClanManager.clanLounge.put( ClanManager.clanId, new ArrayList<AdventureResult>() );
 			list = ClanManager.clanLounge.get( ClanManager.clanId );
 		}
 		list.add( item );
@@ -794,7 +794,7 @@ public abstract class ClanManager
 	public static final List<String> getClanRumpus()
 	{
 		List<String> list = ClanManager.clanRumpus.get( ClanManager.clanId );
-		return list == null ? new ArrayList<>() : list;
+		return list == null ? new ArrayList<String>() : list;
 	}
 
 	public static final void addToRumpus( String it )
@@ -802,7 +802,7 @@ public abstract class ClanManager
 		List<String> list = ClanManager.clanRumpus.get( ClanManager.clanId );
 		if ( list == null )
 		{
-			ClanManager.clanRumpus.put( ClanManager.clanId, new ArrayList<>() );
+			ClanManager.clanRumpus.put( ClanManager.clanId, new ArrayList<String>() );
 			list = ClanManager.clanRumpus.get( ClanManager.clanId );
 		}
 		list.add( it );
@@ -811,7 +811,7 @@ public abstract class ClanManager
 	public static final List<String> getHotdogs()
 	{
 		List<String> list = ClanManager.clanHotdogs.get( ClanManager.clanId );
-		return list == null ? new ArrayList<>() : list;
+		return list == null ? new ArrayList<String>() : list;
 	}
 
 	public static final void addHotdog( String hotdog )
@@ -819,7 +819,7 @@ public abstract class ClanManager
 		List<String> list = ClanManager.clanHotdogs.get( ClanManager.clanId );
 		if ( list == null )
 		{
-			ClanManager.clanHotdogs.put( ClanManager.clanId, new ArrayList<>() );
+			ClanManager.clanHotdogs.put( ClanManager.clanId, new ArrayList<String>() );
 			list = ClanManager.clanHotdogs.get( ClanManager.clanId );
 		}
 		list.add( hotdog );

@@ -272,18 +272,18 @@ public class MushroomScriptPanel
 		File[] layouts = DataUtilities.listFiles( KoLConstants.PLOTS_LOCATION );
 		ArrayList names = new ArrayList();
 
-        for ( File file : layouts )
-        {
-            String name = file.getName();
-            if ( name.endsWith( ".txt" ) )
-            {
-                name = name.substring( 0, name.length() - 4 );
-                if ( !names.contains( name ) )
-                {
-                    names.add( name );
-                }
-            }
-        }
+		for ( int i = 0; i < layouts.length; ++i )
+		{
+			String name = layouts[ i ].getName();
+			if ( name.endsWith( ".txt" ) )
+			{
+				name = name.substring( 0, name.length() - 4 );
+				if ( !names.contains( name ) )
+				{
+					names.add( name );
+				}
+			}
+		}
 
 		if ( names.isEmpty() )
 		{

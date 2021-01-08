@@ -371,7 +371,7 @@ public class CoinmasterData
 		}
 
 		Integer price = this.buyPrices.get( itemId );
-		return price != null ? price : 0;
+		return price != null ? price.intValue() : 0;
 	}
 
 	public AdventureResult itemBuyPrice( final int itemId )
@@ -384,7 +384,7 @@ public class CoinmasterData
 
 	public Set<AdventureResult> currencies()
 	{
-		Set<AdventureResult> currencies = new TreeSet<>();
+		Set<AdventureResult> currencies = new TreeSet<AdventureResult>();
 		for ( AdventureResult item : this.buyItems )
 		{
 			currencies.add( this.itemBuyPrice( item.getItemId() ) );
@@ -421,7 +421,7 @@ public class CoinmasterData
 		if ( this.sellPrices != null )
 		{
 			Integer price = this.sellPrices.get( itemId );
-			return price != null ? price : 0;
+			return price != null ? price.intValue() : 0;
 		}
 		return 0;
 	}

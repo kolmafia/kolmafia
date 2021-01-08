@@ -1948,8 +1948,8 @@ public class CoinmastersFrame
 			}
 
 			CoinmasterData data = this.data;
-			Map<Integer,Integer> originalBalances = new TreeMap<>();
-			Map<Integer,Integer> balances = new TreeMap<>();
+			Map<Integer,Integer> originalBalances = new TreeMap<Integer,Integer>();
+			Map<Integer,Integer> balances = new TreeMap<Integer,Integer>();
 			int neededSize = items.length;
 
 			for ( int i = 0; i < items.length; ++i )
@@ -1981,8 +1981,8 @@ public class CoinmastersFrame
 					balances.put( currency, value );
 				}
 
-				int originalBalance = value;
-				int balance = balances.get( currency );
+				int originalBalance = value.intValue();
+				int balance = balances.get( currency ).intValue();
 
 				if ( price > originalBalance )
 				{
@@ -2036,11 +2036,11 @@ public class CoinmastersFrame
 			AdventureResult[] desiredItems = new AdventureResult[ neededSize ];
 			neededSize = 0;
 
-			for ( Object item : items )
+			for ( int i = 0; i < items.length; ++i )
 			{
-				if ( item != null )
+				if ( items[ i ] != null )
 				{
-					desiredItems[ neededSize++ ] = ( AdventureResult ) item;
+					desiredItems[ neededSize++ ] = (AdventureResult)items[ i ];
 				}
 			}
 

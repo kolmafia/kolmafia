@@ -62,7 +62,7 @@ public class AltarOfLiteracyRequest
 		// read and write! You have been granted access to the Kingdom
 		// of Loathing chat.
 
-		if ( responseText.contains( "You have been granted access" ) )
+		if ( responseText.indexOf( "You have been granted access" ) != -1 )
 		{
 			String message = "You have proven yourself literate.";
 			RequestLogger.printLine( message );
@@ -72,14 +72,14 @@ public class AltarOfLiteracyRequest
 		}
 
 		// You have already proven yourself literate!
-		if ( responseText.contains( "You have already proven yourself literate" ) )
+		if ( responseText.indexOf( "You have already proven yourself literate" ) != -1 )
 		{
 			ChatManager.setChatLiteracy( true );
 			return;
 		}
 
 		// At this time, you are not allowed to enter the chat.
-		if ( responseText.contains( "you are not allowed to enter the chat" ) )
+		if ( responseText.indexOf( "you are not allowed to enter the chat" ) != -1 )
 		{
 			ChatManager.setChatLiteracy( false );
 			return;

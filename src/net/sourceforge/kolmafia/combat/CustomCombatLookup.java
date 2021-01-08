@@ -57,8 +57,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CustomCombatLookup
 	extends DefaultMutableTreeNode
 {
-	private final List<CombatEncounterKey> childKeys = new LinkedList<>();
-	private final Map<String, CustomCombatStrategy> childLookup = new TreeMap<>();
+	private final List<CombatEncounterKey> childKeys = new LinkedList<CombatEncounterKey>();
+	private final Map<String, CustomCombatStrategy> childLookup = new TreeMap<String, CustomCombatStrategy>();
 
 	public CustomCombatLookup()
 	{
@@ -132,9 +132,12 @@ public class CustomCombatLookup
 
 	public void clearEncounterKey( final String encounterKey )
 	{
+		Iterator<CustomCombatStrategy> strategyIterator = childLookup.values().iterator();
 
-		for ( CustomCombatStrategy strategy : childLookup.values() )
+		while ( strategyIterator.hasNext() )
 		{
+			CustomCombatStrategy strategy = strategyIterator.next();
+
 			if ( strategy.getName().equals( encounterKey ) )
 			{
 				strategy.removeAllChildren();
@@ -202,7 +205,7 @@ public class CustomCombatLookup
 	public void load( BufferedReader reader )
 		throws IOException
 	{
-		StringBuilder indent = new StringBuilder();
+		StringBuffer indent = new StringBuffer();
 		String line = null;
 		int lineNumber = 0;
 
@@ -324,9 +327,12 @@ public class CustomCombatLookup
 
 	public void store( PrintStream writer )
 	{
+		Iterator<CustomCombatStrategy> strategyIterator = childLookup.values().iterator();
 
-		for ( CustomCombatStrategy strategy : childLookup.values() )
+		while ( strategyIterator.hasNext() )
 		{
+			CustomCombatStrategy strategy = strategyIterator.next();
+
 			strategy.store( writer );
 		}
 

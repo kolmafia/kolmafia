@@ -262,8 +262,8 @@ public class Parser
 
 	// **************** Parser *****************
 
-	private static final HashSet<String> multiCharTokens = new HashSet<>();
-	private static final HashSet<String> reservedWords = new HashSet<>();
+	private static final HashSet<String> multiCharTokens = new HashSet<String>();
+	private static final HashSet<String> reservedWords = new HashSet<String>();
 
 	static
 	{
@@ -609,8 +609,8 @@ public class Parser
 		this.readToken(); // read {
 
 		// Loop collecting fields
-		List<Type> fieldTypes = new ArrayList<>();
-		List<String> fieldNames = new ArrayList<>();
+		List<Type> fieldTypes = new ArrayList<Type>();
+		List<String> fieldNames = new ArrayList<String>();
 
 		while ( true )
 		{
@@ -711,7 +711,7 @@ public class Parser
 		this.readToken(); //read (
 
 		VariableList paramList = new VariableList();
-		List<VariableReference> variableReferences = new ArrayList<>();
+		List<VariableReference> variableReferences = new ArrayList<VariableReference>();
 		boolean vararg = false;
 
 		while ( !this.currentToken().equals( ")" ) )
@@ -1217,8 +1217,8 @@ public class Parser
 		Type index = aggr.getIndexType();
 		Type data = aggr.getDataType();
 
-		List<Value> keys = new ArrayList<>();
-		List<Value> values = new ArrayList<>();
+		List<Value> keys = new ArrayList<Value>();
+		List<Value> values = new ArrayList<Value>();
 
 		// If index type is an int, it could be an array or a map
 		boolean arrayAllowed = index.equals( DataTypes.INT_TYPE );
@@ -1838,8 +1838,8 @@ public class Parser
 
 		this.readToken(); // {
 
-		List<Value> tests = new ArrayList<>();
-		List<Integer> indices = new ArrayList<>();
+		List<Value> tests = new ArrayList<Value>();
+		List<Integer> indices = new ArrayList<Integer>();
 		int defaultIndex = -1;
 
 		SwitchScope scope = new SwitchScope( parentScope );
@@ -2119,7 +2119,7 @@ public class Parser
 
 		this.readToken(); // foreach
 
-		List<String> names = new ArrayList<>();
+		List<String> names = new ArrayList<String>();
 
 		while ( true )
 		{
@@ -2171,7 +2171,7 @@ public class Parser
 
 		// Define key variables of appropriate type
 		VariableList varList = new VariableList();
-		List<VariableReference> variableReferences = new ArrayList<>();
+		List<VariableReference> variableReferences = new ArrayList<VariableReference>();
 		Type type = aggregate.getType().getBaseType();
 
 		for ( String name : names )
@@ -2302,7 +2302,7 @@ public class Parser
 		// Parse variables and initializers
 
 		Scope scope = new Scope( parentScope );
-		List<Assignment> initializers = new ArrayList<>();
+		List<Assignment> initializers = new ArrayList<Assignment>();
 
 		// Parse each initializer in the context of scope, adding
 		// variable to variable list in the scope, and saving
@@ -2411,7 +2411,7 @@ public class Parser
 
 		// Parse incrementers in context of scope
 
-		List<ParseTreeNode> incrementers = new ArrayList<>();
+		List<ParseTreeNode> incrementers = new ArrayList<ParseTreeNode>();
 
 		while ( this.currentToken() != null && !this.currentToken.equals( ")" ) )
 		{
@@ -2645,7 +2645,7 @@ public class Parser
 
 		this.readToken(); //(
 
-		List<Value> params = new ArrayList<>();
+		List<Value> params = new ArrayList<Value>();
 		if ( firstParam != null )
 		{
 			params.add( firstParam );
@@ -3338,7 +3338,7 @@ public class Parser
 			// so that they can share escape character processing
 			stopCharacter = ']';
 			allowComments = true;
-			list = new ArrayList<>();
+			list = new ArrayList<Value>();
 		}
 
 		int level = 1;
@@ -3583,7 +3583,7 @@ public class Parser
 			{
 				String s1 = CharacterEntities.escape( StringUtilities.globalStringReplace( element, ",", "\\," ).replaceAll("(?<= ) ", "\\\\ " ) );
 				String s2 = CharacterEntities.escape( StringUtilities.globalStringReplace( fullName, ",", "\\," ).replaceAll("(?<= ) ", "\\\\ " ) );
-				List<String> names = new ArrayList<>();
+				List<String> names = new ArrayList<String>();
 				if ( type == DataTypes.ITEM_TYPE )
 				{
 					int itemId = (int)value.contentLong;
@@ -3831,7 +3831,7 @@ public class Parser
 	private Value parseVariableReference( final BasicScope scope, final Variable var )
 	{
 		Type type = var.getType();
-		List<Value> indices = new ArrayList<>();
+		List<Value> indices = new ArrayList<Value>();
 
 		boolean parseAggregate = this.currentToken().equals( "[" );
 

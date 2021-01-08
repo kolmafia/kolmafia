@@ -51,7 +51,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CommandDisplayFrame
 	extends GenericFrame
 {
-	private static final BlockingQueue<String> commandQueue = new LinkedBlockingQueue<>();
+	private static final BlockingQueue<String> commandQueue = new LinkedBlockingQueue<String>();
 	private static final CommandQueueHandler handler = new CommandQueueHandler();
 
 	static

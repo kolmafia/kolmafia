@@ -247,20 +247,20 @@ public abstract class LeafletManager
 		KoLmafia.updateDisplay( "Determining current leaflet progress..." );
 		String response = LeafletManager.executeCommand( "inv" );
 
-		LeafletManager.leaflet = response.contains( "A junk mail leaflet" );
+		LeafletManager.leaflet = response.indexOf( "A junk mail leaflet" ) != -1;
 		LeafletManager.sword =
-                response.contains( "An ornate sword" ) && !response.contains( "hangs above the mantel" );
-		LeafletManager.torch = response.contains( "A burning torch" );
+			response.indexOf( "An ornate sword" ) != -1 && response.indexOf( "hangs above the mantel" ) == -1;
+		LeafletManager.torch = response.indexOf( "A burning torch" ) != -1;
 		LeafletManager.stick =
-			LeafletManager.torch || response.contains( "A hefty stick" ) && !response.contains( "lies on the ground" );
-		LeafletManager.boots = response.contains( "A pair of large rubber wading boots" );
-		LeafletManager.wornboots = LeafletManager.boots && response.contains( "boots (equipped)" );
-		LeafletManager.parchment = response.contains( "A piece of parchment" );
-		LeafletManager.egg = response.contains( "A jewel-encrusted egg" );
-		LeafletManager.ruby = response.contains( "A fiery ruby" );
-		LeafletManager.scroll = response.contains( "A rolled-up scroll" );
-		LeafletManager.ring = response.contains( "A giant's pinky ring" );
-		LeafletManager.trophy = response.contains( "A shiny bowling trophy" );
+			LeafletManager.torch || response.indexOf( "A hefty stick" ) != -1 && response.indexOf( "lies on the ground" ) == -1;
+		LeafletManager.boots = response.indexOf( "A pair of large rubber wading boots" ) != -1;
+		LeafletManager.wornboots = LeafletManager.boots && response.indexOf( "boots (equipped)" ) != -1;
+		LeafletManager.parchment = response.indexOf( "A piece of parchment" ) != -1;
+		LeafletManager.egg = response.indexOf( "A jewel-encrusted egg" ) != -1;
+		LeafletManager.ruby = response.indexOf( "A fiery ruby" ) != -1;
+		LeafletManager.scroll = response.indexOf( "A rolled-up scroll" ) != -1;
+		LeafletManager.ring = response.indexOf( "A giant's pinky ring" ) != -1;
+		LeafletManager.trophy = response.indexOf( "A shiny bowling trophy" ) != -1;
 	}
 
 	private static void solveLeaflet( final boolean invokeMagic )
@@ -316,7 +316,7 @@ public abstract class LeafletManager
 		for ( int location = 0; location < LeafletManager.LOCATIONS.length; ++location )
 		{
 			String [] names = LeafletManager.LOCATIONS[ location ];
-			if ( response.contains( names[ 0 ] ) )
+			if ( response.indexOf( names[0] ) != -1 )
 			{
 				return location;
 			}
@@ -351,7 +351,7 @@ public abstract class LeafletManager
 		switch ( LeafletManager.location )
 		{
 		case HOUSE:
-			LeafletManager.fireplace = response.contains( "fireplace is lit" );
+			LeafletManager.fireplace = response.indexOf( "fireplace is lit" ) != -1;
 			// You cannot close the door. "close door" =>
 			// "You feel a sudden streak of malevolence and
 			// decide to leave the door wide open. Serves
@@ -360,11 +360,11 @@ public abstract class LeafletManager
 			break;
 
 		case FIELD:
-			LeafletManager.door = !response.contains( "front door is closed" );
+			LeafletManager.door = response.indexOf( "front door is closed" ) == -1;
 			break;
 
 		case PATH:
-			LeafletManager.hedge = !response.contains( "thick hedge" );
+			LeafletManager.hedge = response.indexOf( "thick hedge" ) == -1;
 			break;
 
 		case CLEARING:
@@ -373,8 +373,8 @@ public abstract class LeafletManager
 
 		case CAVE:
 			LeafletManager.hedge = true;
-			LeafletManager.chest = response.contains( "empty treasure chest" );
-			LeafletManager.serpent = !response.contains( "dangerous-looking serpent" );
+			LeafletManager.chest = response.indexOf( "empty treasure chest" ) != -1;
+			LeafletManager.serpent = response.indexOf( "dangerous-looking serpent" ) == -1;
 			break;
 
 		case BANK:
@@ -393,12 +393,12 @@ public abstract class LeafletManager
 			break;
 
 		case TREE:
-			LeafletManager.roadrunner = !response.contains( "large ruby in its beak" );
-			LeafletManager.petunias = !response.contains( "scroll entangled in the flowers" );
+			LeafletManager.roadrunner = response.indexOf( "large ruby in its beak" ) == -1;
+			LeafletManager.petunias = response.indexOf( "scroll entangled in the flowers" ) == -1;
 			break;
 
 		case TABLE:
-			LeafletManager.giant = !response.contains( "The Giant himself" );
+			LeafletManager.giant = response.indexOf( "The Giant himself" ) == -1;
 			break;
 
 		default:
@@ -408,27 +408,27 @@ public abstract class LeafletManager
 
 	private static void parseMantelpiece( final String response )
 	{
-		if ( response.contains( "brass bowling trophy" ) )
+		if ( response.indexOf( "brass bowling trophy" ) != -1 )
 		{
 			// "A brass bowling trophy sits on the mantelpiece."
 			LeafletManager.magic = null;
 		}
-		else if ( response.contains( "carved driftwood bird" ) )
+		else if ( response.indexOf( "carved driftwood bird" ) != -1 )
 		{
 			// "A carved driftwood bird sits on the mantelpiece."
 			LeafletManager.magic = "plover";
 		}
-		else if ( response.contains( "white house" ) )
+		else if ( response.indexOf( "white house" ) != -1 )
 		{
 			// "A ceramic model of a small white house sits on the mantelpiece."
 			LeafletManager.magic = "xyzzy";
 		}
-		else if ( response.contains( "brick building" ) )
+		else if ( response.indexOf( "brick building" ) != -1 )
 		{
 			// "A ceramic model of a brick building sits on the mantelpiece."
 			LeafletManager.magic = "plugh";
 		}
-		else if ( response.contains( "model ship" ) )
+		else if ( response.indexOf( "model ship" ) != -1 )
 		{
 			// "A model ship inside a bottle sits on the mantelpiece."
 			LeafletManager.magic = "yoho";
@@ -444,11 +444,11 @@ public abstract class LeafletManager
 		}
 
 		// Check for failures
-		if ( response.contains( "That only works once." ) ||
+		if ( response.indexOf( "That only works once." ) != -1 ||
 		     // The player already invoked the correct word
-                response.contains( "send the plover over" ) ||
+		     response.indexOf( "send the plover over" ) != -1 ||
 		     // "Red rover, red rover, send the plover over"
-                response.contains( "nothing happens" ) )
+		     response.indexOf( "nothing happens" ) != -1 )
 		{
 			// "You chant the magic word, and nothing happens. You
 			// hear thunder rumbling in the distance..."

@@ -72,10 +72,10 @@ public class RestorativeItemPanel
 			return;
 		}
 
-        for ( AdventureResult item : items )
-        {
-            RequestThread.postRequest( UseItemRequest.getInstance( item ) );
-        }
+		for ( int i = 0; i < items.length; ++i )
+		{
+			RequestThread.postRequest( UseItemRequest.getInstance( items[ i ] ) );
+		}
 	}
 
 	@Override
@@ -84,14 +84,14 @@ public class RestorativeItemPanel
 		String name;
 		Object[] values = this.getSelectedValues();
 
-        for ( Object value : values )
-        {
-            name = ( ( AdventureResult ) value ).getName();
-            if ( name != null )
-            {
-                RelayLoader.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name );
-            }
-        }
+		for ( int i = 0; i < values.length; ++i )
+		{
+			name = ( (AdventureResult) values[ i ] ).getName();
+			if ( name != null )
+			{
+				RelayLoader.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name );
+			}
+		}
 	}
 
 	private class RestorativeItemFilterField

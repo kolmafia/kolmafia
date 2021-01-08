@@ -155,7 +155,7 @@ public class UseItemRequest
 			+ "<tr><td align=right>Navigation:</td><td><b>(\\d)/9</b> bio-data segments collected</td></tr>"
 			+ "<tr><td align=right>Galley:</td><td><b>(\\d)/9</b> bio-data segments collected" );
 
-	private static final HashMap<Integer,AdventureResult> LIMITED_USES = new HashMap<>();
+	private static final HashMap<Integer,AdventureResult> LIMITED_USES = new HashMap<Integer,AdventureResult>();
 
 	static
 	{

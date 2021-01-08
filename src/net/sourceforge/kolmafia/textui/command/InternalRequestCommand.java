@@ -76,11 +76,13 @@ public class InternalRequestCommand
 
 		this.isRunning = true;
 
-        for ( Object o : this.requests )
-        {
-            GenericRequest request = ( GenericRequest ) o;
+		Iterator requestIterator = this.requests.iterator();
 
-            request.run();
-        }
+		while ( requestIterator.hasNext() )
+		{
+			GenericRequest request = (GenericRequest) requestIterator.next();
+
+			request.run();
+		}
 	}
 }

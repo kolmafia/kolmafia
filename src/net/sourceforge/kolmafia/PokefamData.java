@@ -60,7 +60,7 @@ public class PokefamData
 	public final static String PUNCH = "Punch";
 	public final static String STING = "Sting";
 
-	private final static Map<String, String> MOVE1 = new HashMap<>();
+	private final static Map<String, String> MOVE1 = new HashMap<String,String>();
 	static
 	{
 		MOVE1.put( UNKNOWN, UNKNOWN );
@@ -91,7 +91,7 @@ public class PokefamData
 	public final static String SWOOP = "Swoop";
 	public final static String TACKLE = "Tackle";
 
-	private final static Map<String, String> MOVE2 = new HashMap<>();
+	private final static Map<String, String> MOVE2 = new HashMap<String,String>();
 	static
 	{
 		MOVE2.put( UNKNOWN, UNKNOWN );
@@ -132,7 +132,7 @@ public class PokefamData
 	public final static String VIOLENT_SHRED = "Violent Shred";
 	public final static String VULGAR_DISPLAY = "Vulgar Display";
 
-	private final static Map<String, String> MOVE3 = new HashMap<>();
+	private final static Map<String, String> MOVE3 = new HashMap<String,String>();
 	static
 	{
 		MOVE3.put( UNKNOWN, UNKNOWN );
@@ -160,7 +160,7 @@ public class PokefamData
 	public final static String SMART = "Smart";
 	public final static String SPIKED = "Spiked";
 
-	private final static Map<String, String> ATTRIBUTES = new HashMap<>();
+	private final static Map<String, String> ATTRIBUTES = new HashMap<String,String>();
 	static
 	{
 		ATTRIBUTES.put( UNKNOWN, UNKNOWN );

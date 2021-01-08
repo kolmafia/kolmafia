@@ -138,12 +138,13 @@ public class TrophyFrame
 			{
 				return;
 			}
-			for ( Object trophy : trophies )
+			Iterator i = trophies.iterator();
+			while ( i.hasNext() )
 			{
-				Trophy t = ( Trophy ) trophy;
+				Trophy t = (Trophy) i.next();
 				FileUtilities.downloadImage( KoLmafia.imageServerPath() + t.filename );
-				( t.visible ? this.shownList : this.hiddenList ).add(
-						new DraggableTrophy( t ) );
+				(t.visible ? this.shownList : this.hiddenList).add(
+					new DraggableTrophy( t ) );
 			}
 			this.shownList.revalidate();
 			this.shownList.repaint();
@@ -465,7 +466,7 @@ public class TrophyFrame
 			key = IntegerPool.get( id1 < id2 ? (id1 << 16 ) | id2 :
 				(id2 << 16) | id1 );
 			rv = (Integer) this.similarities.get( key );
-			if ( rv != null ) return rv;
+			if ( rv != null ) return rv.intValue();
 			int[] img1 = this.grab();
 			int[] img2 = other.grab();
 			int score = 0;

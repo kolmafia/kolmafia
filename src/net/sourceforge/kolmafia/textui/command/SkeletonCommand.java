@@ -71,15 +71,15 @@ public class SkeletonCommand
 
 	public static final int findSkeleton( final String name )
 	{
-        for ( Object[] objects : SKELETONS )
-        {
-            String skeleton = ( String ) objects[ 0 ];
-            if ( name.equals( skeleton ) )
-            {
-                Integer index = ( Integer ) objects[ 1 ];
-                return index;
-            }
-        }
+		for ( int i = 0; i < SKELETONS.length; ++i )
+		{
+			String skeleton = (String) SKELETONS[i][0];
+			if ( name.equals( skeleton ) )
+			{
+				Integer index = (Integer) SKELETONS[i][1];
+				return index.intValue();
+			}
+		}
 
 		return 0;
 	}

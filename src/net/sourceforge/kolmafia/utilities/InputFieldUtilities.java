@@ -246,10 +246,12 @@ public class InputFieldUtilities
 		if ( StaticEntity.isHeadless() )
 		{
 			RequestLogger.printLine( message );
-			List<Object> visibleInputs = new ArrayList<>();
+			List<Object> visibleInputs = new ArrayList<Object>();
 
-			for ( Object o : inputs )
+			for ( int i = 0; i < inputs.size(); ++i )
 			{
+				Object o = inputs.get( i );
+
 				if ( filter.isVisible( o ) )
 				{
 					visibleInputs.add( o );
@@ -263,7 +265,7 @@ public class InputFieldUtilities
 
 			String[] replyList = reply.split( "\\s*,\\s*" );
 
-			Set<Object> selectedValues = new HashSet<>();
+			Set<Object> selectedValues = new HashSet<Object>();
 
 			for ( int i = 0; i < replyList.length; ++i )
 			{
@@ -342,7 +344,7 @@ public class InputFieldUtilities
 	{
 		if ( field.getValue() instanceof Integer )
 		{
-			return ( Integer ) field.getValue();
+			return ( (Integer) field.getValue() ).intValue();
 		}
 
 		return defaultValue;

@@ -68,7 +68,7 @@ public class ArmoryAndLeggeryRequest
 
 	// Since there are multiple, we need to have a map from itemId to
 	// item/count of currency; an AdventureResult.
-	private static final Map<Integer, AdventureResult> buyCosts = new TreeMap<>();
+	private static final Map<Integer, AdventureResult> buyCosts = new TreeMap<Integer, AdventureResult>();
 
 	public static final CoinmasterData ARMORY_AND_LEGGERY =
 		new CoinmasterData(
@@ -148,9 +148,9 @@ public class ArmoryAndLeggeryRequest
 		// Refresh the Coin Master inventory every time we visit.
 
 		CoinmasterData data = ArmoryAndLeggeryRequest.ARMORY_AND_LEGGERY;
-		List<AdventureResult> items = new ArrayList<>();
-		Map<Integer, AdventureResult> costs = new TreeMap<>();
-		Map<Integer, Integer> rows = new TreeMap<>();
+		List<AdventureResult> items = new ArrayList<AdventureResult>();
+		Map<Integer, AdventureResult> costs = new TreeMap<Integer, AdventureResult>();
+		Map<Integer, Integer> rows = new TreeMap<Integer, Integer>();
 
 		Matcher matcher = ITEM_PATTERN.matcher( responseText );
 		while ( matcher.find() )

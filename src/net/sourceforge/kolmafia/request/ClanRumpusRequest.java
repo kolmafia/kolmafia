@@ -112,15 +112,15 @@ public class ClanRumpusRequest
 
 	public static final int findChips( final String name )
 	{
-        for ( Object[] chipFlavor : CHIP_FLAVORS )
-        {
-            String flavor = ( String ) chipFlavor[ 0 ];
-            if ( name.equals( flavor ) )
-            {
-                Integer index = ( Integer ) chipFlavor[ 1 ];
-                return index;
-            }
-        }
+		for ( int i = 0; i < CHIP_FLAVORS.length; ++i )
+		{
+			String flavor = (String) CHIP_FLAVORS[i][0];
+			if ( name.equals( flavor ) )
+			{
+				Integer index = (Integer) CHIP_FLAVORS[i][1];
+				return index.intValue();
+			}
+		}
 
 		return 0;
 	}
@@ -667,7 +667,7 @@ public class ClanRumpusRequest
 			return;
 		}
 
-		List<String> rumpus = new ArrayList<>( ClanManager.getClanRumpus() );
+		List<String> rumpus = new ArrayList<String>( ClanManager.getClanRumpus() );
 		for ( String equip : rumpus )
 		{
 			Equipment equipment = Equipment.toEquip( equip );

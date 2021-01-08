@@ -75,7 +75,7 @@ public abstract class CombatActionManager
 {
 	public static final Pattern TRY_TO_RUN_AWAY_PATTERN = Pattern.compile( "run away if (\\d+)% chance of being free" );
 
-	private static final LockableListModel<String> availableLookups = new LockableListModel<>();
+	private static final LockableListModel<String> availableLookups = new LockableListModel<String>();
 	private static final CustomCombatLookup strategyLookup = new CustomCombatLookup();
 
 	public static final void updateFromPreferences()
@@ -87,18 +87,18 @@ public abstract class CombatActionManager
 	{
 		String[] list = DataUtilities.list( KoLConstants.CCS_LOCATION );
 
-        for ( String s : list )
-        {
-            if ( s.endsWith( ".ccs" ) )
-            {
-                String name = s.substring( 0, s.length() - 4 );
+		for ( int i = 0; i < list.length; ++i )
+		{
+			if ( list[ i ].endsWith( ".ccs" ) )
+			{
+				String name = list[ i ].substring( 0, list[ i ].length() - 4 );
 
-                if ( !CombatActionManager.availableLookups.contains( name ) )
-                {
-                    CombatActionManager.availableLookups.add( name );
-                }
-            }
-        }
+				if ( !CombatActionManager.availableLookups.contains( name ) )
+				{
+					CombatActionManager.availableLookups.add( name );
+				}
+			}
+		}
 
 		if ( !CombatActionManager.availableLookups.contains( "default" ) )
 		{
@@ -438,7 +438,7 @@ public abstract class CombatActionManager
 
 		if ( action.startsWith( "abort" ) )
 		{
-			if ( action.contains( "after" ) )
+			if ( action.indexOf( "after" ) != -1 )
 			{
 				return "abort after this combat";
 			}
@@ -465,7 +465,7 @@ public abstract class CombatActionManager
 			return "twiddle your thumbs";
 		}
 
-		if ( action.contains( "run" ) && action.contains( "away" ) )
+		if ( action.indexOf( "run" ) != -1 && action.indexOf( "away" ) != -1 )
 		{
 			Matcher runAwayMatcher = CombatActionManager.TRY_TO_RUN_AWAY_PATTERN.matcher( action );
 
@@ -610,7 +610,7 @@ public abstract class CombatActionManager
 
 		if ( action.startsWith( "abort" ) )
 		{
-			if ( action.contains( "after" ) )
+			if ( action.indexOf( "after" ) != -1 )
 			{
 				return "abort after";
 			}
@@ -659,7 +659,7 @@ public abstract class CombatActionManager
 			return "twiddle";
 		}
 
-		if ( action.contains( "run" ) && action.contains( "away" ) )
+		if ( action.indexOf( "run" ) != -1 && action.indexOf( "away" ) != -1 )
 		{
 			Matcher runAwayMatcher = CombatActionManager.TRY_TO_RUN_AWAY_PATTERN.matcher( action );
 			int runaway = runAwayMatcher.find() ? StringUtilities.parseInt( runAwayMatcher.group( 1 ) ) : 0;
@@ -777,15 +777,15 @@ public abstract class CombatActionManager
 		List matchingNames = ItemDatabase.getMatchingNames( action );
 		int count = matchingNames.size();
 
-        for ( Object matchingName : matchingNames )
-        {
-            String name = ( String ) matchingName;
-            int id = ItemDatabase.getItemId( name );
-            if ( ItemDatabase.getAttribute( id, ItemDatabase.ATTR_COMBAT | ItemDatabase.ATTR_COMBAT_REUSABLE ) )
-            {
-                return id;
-            }
-        }
+		for ( int i = 0; i < count; ++i )
+		{
+			String name = (String) matchingNames.get( i );
+			int id = ItemDatabase.getItemId( name );
+			if ( ItemDatabase.getAttribute( id, ItemDatabase.ATTR_COMBAT | ItemDatabase.ATTR_COMBAT_REUSABLE ) )
+			{
+				return id;
+			}
+		}
 
 		return -1;
 	}

@@ -64,15 +64,15 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RestoresDatabase
 {
-	private static final ArrayList<String> restoreNames = new ArrayList<>();
-	private static final Map<String, String> typeByName = new HashMap<>();
-	private static final Map<String, String> hpMinByName = new HashMap<>();
-	private static final Map<String, String> hpMaxByName = new HashMap<>();
-	private static final Map<String, String> mpMinByName = new HashMap<>();
-	private static final Map<String, String> mpMaxByName = new HashMap<>();
-	private static final Map<String, Integer> advCostByName = new HashMap<>();
-	private static final Map<String, String> usesLeftByName = new HashMap<>();
-	private static final Map<String, String> notesByName = new HashMap<>();
+	private static final ArrayList<String> restoreNames = new ArrayList<String>();
+	private static final Map<String, String> typeByName = new HashMap<String, String>();
+	private static final Map<String, String> hpMinByName = new HashMap<String, String>();
+	private static final Map<String, String> hpMaxByName = new HashMap<String, String>();
+	private static final Map<String, String> mpMinByName = new HashMap<String, String>();
+	private static final Map<String, String> mpMaxByName = new HashMap<String, String>();
+	private static final Map<String, Integer> advCostByName = new HashMap<String, Integer>();
+	private static final Map<String, String> usesLeftByName = new HashMap<String, String>();
+	private static final Map<String, String> notesByName = new HashMap<String, String>();
 
 	static
 	{
@@ -348,7 +348,7 @@ public class RestoresDatabase
 		{
 			return 0;
 		}
-		return advCost;
+		return advCost.intValue();
 	}
 
 	public static final int getUsesLeft( final String name )

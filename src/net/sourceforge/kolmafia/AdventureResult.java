@@ -110,9 +110,9 @@ public class AdventureResult
 	public static final String SUBSTATS = "Substats";
 	public static final String FULLSTATS = "Fullstats";
 
-	public static final List<String> MUS_SUBSTAT = new ArrayList<>();
-	public static final List<String> MYS_SUBSTAT = new ArrayList<>();
-	public static final List<String> MOX_SUBSTAT = new ArrayList<>();
+	public static final List<String> MUS_SUBSTAT = new ArrayList<String>();
+	public static final List<String> MYS_SUBSTAT = new ArrayList<String>();
+	public static final List<String> MOX_SUBSTAT = new ArrayList<String>();
 
 	static
 	{
@@ -1430,7 +1430,7 @@ public class AdventureResult
 	{
 		for ( Object [] punchcard: ItemDatabase.PUNCHCARDS )
 		{
-			if ( ( Integer ) punchcard[ 0 ] == itemId )
+			if ( ( (Integer) punchcard[0]).intValue() == itemId )
 			{
 				return (String) punchcard[2];
 			}
@@ -1506,9 +1506,9 @@ public class AdventureResult
 		public int getCount()
 		{
 			int totalCount = 0;
-			for ( int j : this.counts )
+			for ( int i = 0; i < this.counts.length; ++i )
 			{
-				totalCount += j;
+				totalCount += this.counts[ i ];
 			}
 			return totalCount;
 		}
@@ -1729,7 +1729,7 @@ public class AdventureResult
 
 			for ( int i = 0; i < this.matches.length && !hasMatch; ++i )
 			{
-				hasMatch = arName.contains( this.matches[ i ] );
+				hasMatch = arName.indexOf( this.matches[ i ] ) != -1;
 			}
 
 			return hasMatch ^ this.negated;

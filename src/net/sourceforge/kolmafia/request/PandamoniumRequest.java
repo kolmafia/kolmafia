@@ -76,13 +76,14 @@ public class PandamoniumRequest
 
 	public static String getComedyType( final String type )
 	{
-        for ( String test : COMEDY_TYPES )
-        {
-            if ( type.equalsIgnoreCase( test ) )
-            {
-                return test;
-            }
-        }
+		for ( int i = 0; i < COMEDY_TYPES.length; ++i )
+		{
+			String test = COMEDY_TYPES[ i ];
+			if ( type.equalsIgnoreCase( test ) )
+			{
+				return test;
+			}
+		}
 		return null;
 	}
 
@@ -108,15 +109,16 @@ public class PandamoniumRequest
 
 	public static String getBandMember( final String test )
 	{
-        for ( String[] member : BAND_MEMBERS )
-        {
-            String name = member[ 0 ];
-            String role = member[ 1 ];
-            if ( test.equalsIgnoreCase( name ) || test.equalsIgnoreCase( role ) )
-            {
-                return name;
-            }
-        }
+		for ( int i = 0; i < BAND_MEMBERS.length; ++i )
+		{
+			String [] member = BAND_MEMBERS[ i ];
+			String name = member[0];
+			String role = member[1];
+			if ( test.equalsIgnoreCase( name ) || test.equalsIgnoreCase( role ) )
+			{
+				return name;
+			}
+		}
 		return null;
 	}
 
@@ -171,17 +173,17 @@ public class PandamoniumRequest
 	{
 		if ( action.equals( "mourn" ) )
 		{
-			if ( urlString.contains( "preaction=insult" ) )
+			if ( urlString.indexOf( "preaction=insult" ) != -1 )
 			{
 				return "Trying to insult Mourn";
 			}
 
-			if ( urlString.contains( "preaction=observe" ) )
+			if ( urlString.indexOf( "preaction=observe" ) != -1 )
 			{
 				return "Trying some observational humor on Mourn";
 			}
 
-			if ( urlString.contains( "preaction=prop" ) )
+			if ( urlString.indexOf( "preaction=prop" ) != -1 )
 			{
 				return "Trying some prop comedy on Mourn";
 			}
@@ -191,7 +193,7 @@ public class PandamoniumRequest
 
 		if ( action.equals( "sven" ) )
 		{
-			if ( !urlString.contains( "preaction=try" ) )
+			if ( urlString.indexOf( "preaction=try" ) == -1 )
 			{
 				return null;
 			}
@@ -239,7 +241,7 @@ public class PandamoniumRequest
 		if ( action.equals( "sven" ) )
 		{
 			// pandamonium.php?action=sven&bandmember=Flargwurm&togive=4673&preaction=try
-			if ( urlString.contains( "preaction=try" ) )
+			if ( urlString.indexOf( "preaction=try" ) != -1 )
 			{
 				return null;
 			}
@@ -286,7 +288,7 @@ public class PandamoniumRequest
 			// You pull out the purple plush unicorn, the bright,
 			// rainbow-colored lollipop, and the frilly pink tutu
 			// and lay them in front of him.
-			if ( responseText.contains( "and lay them in front of him" ) )
+			if ( responseText.indexOf( "and lay them in front of him" ) != -1 )
 			{
 				ResultProcessor.processItem( ItemPool.AZAZELS_UNICORN, -1 );
 				ResultProcessor.processItem( ItemPool.AZAZELS_LOLLIPOP, -1 );
@@ -300,7 +302,7 @@ public class PandamoniumRequest
 			// pandamonium.php?action=sven&bandmember=Flargwurm&togive=4673&preaction=try
 			// When you give an item, it removes it from inventory,
 			// whether or not it was the right item.
-			if ( !urlString.contains( "preaction=try" ) )
+			if ( urlString.indexOf( "preaction=try" ) == -1 )
 			{
 				return false;
 			}
@@ -330,7 +332,7 @@ public class PandamoniumRequest
 		{
 			// When you bring 5 bus passes and 5 imp airs, they are
 			// removed from inventory and you get Azazel's tutu
-			if ( responseText.contains( "Here's your talisman" ) )
+			if ( responseText.indexOf( "Here's your talisman" ) != -1 )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.IMP_AIR, -5 ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.BUS_PASS, -5 ) );
@@ -343,18 +345,18 @@ public class PandamoniumRequest
 		{
 			int itemId = -1;
 
-			if ( urlString.contains( "preaction=insult" ) &&
-					responseText.contains( "Mourn chuckles appreciatively" ) )
+			if ( urlString.indexOf( "preaction=insult" ) != -1 &&
+			     responseText.indexOf( "Mourn chuckles appreciatively" ) != -1 )
 			{
 				itemId = ItemPool.INSULT_PUPPET;
 			}
-			else if ( urlString.contains( "preaction=observe" ) &&
-					responseText.contains( "Mourn slaps his knee and bellows laughter" ) )
+			else if ( urlString.indexOf( "preaction=observe" ) != -1  &&
+				  responseText.indexOf( "Mourn slaps his knee and bellows laughter" ) != -1 )
 			{
 				itemId = ItemPool.OBSERVATIONAL_GLASSES;
 			}
-			else if ( urlString.contains( "preaction=prop" ) &&
-					responseText.contains( "Mourn giggles a little" ) )
+			else if ( urlString.indexOf( "preaction=prop" ) != -1 &&
+				  responseText.indexOf( "Mourn giggles a little" ) != -1 )
 			{
 				itemId = ItemPool.COMEDY_PROP;
 			}
@@ -378,7 +380,7 @@ public class PandamoniumRequest
 			return;
 		}
 
-		if ( url.contains( "action=sven" ) )
+		if ( url.indexOf( "action=sven" ) != -1 )
 		{
 			PandamoniumRequest.decorateSven( buffer );
 		}
@@ -581,7 +583,7 @@ public class PandamoniumRequest
 		}
 
 		RelayRequest.specialCommandResponse = response;
-		if ( !response.contains( "<form" ) )
+		if ( response.indexOf( "<form" ) == -1 )
 		{
 			PandamoniumRequest.lastResponse = null;
 		}

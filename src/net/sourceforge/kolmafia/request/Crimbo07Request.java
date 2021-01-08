@@ -93,7 +93,7 @@ public class Crimbo07Request
 		int quantity = StringUtilities.parseInt( createMatcher.group( 2 ) );
 
 		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
-		StringBuilder text = new StringBuilder();
+		StringBuffer text = new StringBuffer();
 		text.append( "Combine " );
 
 		for ( int i = 0; i < ingredients.length; ++i )

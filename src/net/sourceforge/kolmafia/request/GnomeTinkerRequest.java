@@ -117,10 +117,11 @@ public class GnomeTinkerRequest
 		AdventureResult [] ingredients = CreateItemRequest.findIngredients( urlString );
 		int quantity = CreateItemRequest.getQuantity( urlString, ingredients, 1 );
 
-        for ( AdventureResult item : ingredients )
-        {
-            ResultProcessor.processItem( item.getItemId(), -quantity );
-        }
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			AdventureResult item = ingredients[i];
+			ResultProcessor.processItem( item.getItemId(), -quantity );
+		}
 
 		return false;
 	}

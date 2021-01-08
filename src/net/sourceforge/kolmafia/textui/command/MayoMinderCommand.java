@@ -74,14 +74,14 @@ public class MayoMinderCommand
 
 	public static final int findMayo( final String name )
 	{
-        for ( Object[] objects : MAYO )
-        {
-            if ( name.equalsIgnoreCase( ( String ) objects[ 0 ] ) || name.equalsIgnoreCase( ( String ) objects[ 1 ] ) )
-            {
-                Integer index = ( Integer ) objects[ 2 ];
-                return index;
-            }
-        }
+		for ( int i = 0; i < MAYO.length; ++i )
+		{
+			if ( name.equalsIgnoreCase( (String) MAYO[i][0] ) || name.equalsIgnoreCase( (String) MAYO[i][1] ) )
+			{
+				Integer index = (Integer) MAYO[i][2];
+				return index.intValue();
+			}
+		}
 
 		return 0;
 	}

@@ -191,18 +191,19 @@ public abstract class VolcanoMazeManager
 		}
 
 		String[] platforms = coordinates.split( "\\s*,\\s*" );
-        for ( String coord : platforms )
-        {
-            if ( !StringUtilities.isNumeric( coord ) )
-            {
-                return false;
-            }
-            int val = StringUtilities.parseInt( coord );
-            if ( val < MIN_SQUARE || val > MAX_SQUARE )
-            {
-                return false;
-            }
-        }
+		for ( int i = 0; i < platforms.length; ++i )
+		{
+			String coord = platforms[ i];
+			if ( !StringUtilities.isNumeric( coord ) )
+			{
+				return false;
+			}
+			int val = StringUtilities.parseInt( coord );
+			if ( val < MIN_SQUARE || val > MAX_SQUARE )
+			{
+				return false;
+			}
+		}
 		return true;
 	}
 
@@ -225,7 +226,7 @@ public abstract class VolcanoMazeManager
 		index += 7;
 
 		// Build a "Solve!" button
-		StringBuilder button = new StringBuilder();
+		StringBuffer button = new StringBuffer();
 
 		String url = "/KoLmafia/redirectedCommand?cmd=volcano+solve&pwd=" + GenericRequest.passwordHash;
 		button.append( "<form name=solveform action='" + url + "' method=post>" );
@@ -292,22 +293,22 @@ public abstract class VolcanoMazeManager
 		int ofound = VolcanoMazeManager.found;
 		int pcount = platforms.length;
 		RequestLogger.printLine( "Map #" + seq + " has " + pcount + " platforms" );
-        for ( Integer platform : platforms )
-        {
-            int square = platform;
-            int old = VolcanoMazeManager.squares[ square ];
-            if ( old == 0 )
-            {
-                VolcanoMazeManager.squares[ square ] = seq;
-                VolcanoMazeManager.found++;
-            }
-            else if ( old != seq )
-            {
-                // Something is wrong: we already found this
-                // square elsewhere in the sequence
-                RequestLogger.printLine( "Platform " + square + " already seen on map #" + old );
-            }
-        }
+		for ( int i = 0; i < pcount; ++i )
+		{
+			int square = platforms[ i ].intValue();
+			int old = VolcanoMazeManager.squares[ square];
+			if ( old == 0 )
+			{
+				VolcanoMazeManager.squares[ square ] = seq;
+				VolcanoMazeManager.found++;
+			}
+			else if ( old != seq )
+			{
+				// Something is wrong: we already found this
+				// square elsewhere in the sequence
+				RequestLogger.printLine( "Platform " + square + " already seen on map #" + old );
+			}
+		}
 	}
 
 	private static String parseCoords( final String responseText )
@@ -332,7 +333,7 @@ public abstract class VolcanoMazeManager
 	private static String parseHTMLCoords( final String responseText )
 	{
 		Matcher matcher = VolcanoMazeManager.SQUARE_PATTERN.matcher( responseText );
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 		boolean first = true;
 		while ( matcher.find() )
 		{
@@ -382,7 +383,7 @@ public abstract class VolcanoMazeManager
 
 	private static String parseJSONCoords( final String responseText )
 	{
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 		JSONObject JSON;
 
 		// Parse the string into a JSON object
@@ -629,7 +630,7 @@ public abstract class VolcanoMazeManager
 		}
 
 		// Make an HTML table to display platform map
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 
 		buffer.append( "<table border cols=14>" );
 		buffer.append( "<tr><td></td>" );
@@ -692,7 +693,7 @@ public abstract class VolcanoMazeManager
 		// Move up next to the goal.
 		for ( Integer next : solution )
 		{
-			int sq = next;
+			int sq = next.intValue();
 
 			// Quit when we are about to move to the goal
 			if ( sq == VolcanoMazeManager.goal )
@@ -729,14 +730,14 @@ public abstract class VolcanoMazeManager
 		// Print the solution
 		for ( Integer next : solution )
 		{
-			int pos = next;
+			int pos = next.intValue();
 			RequestLogger.printLine( "Hop to " + VolcanoMazeManager.coordinateString( pos ) );
 		}
 	}
 
 	private static void printStatistics( final Path solution )
 	{
-		StringBuilder buffer = new StringBuilder();
+		StringBuffer buffer = new StringBuffer();
 		buffer.append( "Paths examined/made " );
 		buffer.append( KoLConstants.COMMA_FORMAT.format( pathsExamined ) );
 		buffer.append( "/" );
@@ -810,14 +811,14 @@ public abstract class VolcanoMazeManager
 
 		// Make a path for each root and add it to the queue.
 		Integer [] starts = roots.getPlatforms();
-        for ( Integer integer : starts )
-        {
-            ++VolcanoMazeManager.pathsMade;
-            Integer square = integer;
-            queue.addLast( new Path( square ) );
-            // We (will) have visited each root
-            visited[ square ] = true;
-        }
+		for ( int i = 0; i < starts.length; ++i )
+		{
+			++VolcanoMazeManager.pathsMade;
+			Integer square = starts[ i ];
+			queue.addLast( new Path( square ) );
+			// We (will) have visited each root
+			visited[ square.intValue() ] = true;
+		}
 
 		// Perform a breadth-first search of the maze
 		while ( !queue.isEmpty() )
@@ -827,29 +828,30 @@ public abstract class VolcanoMazeManager
 			// System.out.println( "Examining path: " + path );
 			
 			Integer last = path.getLast();
-			Neighbors neighbors = VolcanoMazeManager.neighbors[ last ];
+			Neighbors neighbors = VolcanoMazeManager.neighbors[ last.intValue() ];
 			Integer [] platforms = neighbors.getPlatforms();
 
 			// Examine each neighbor
-            for ( Integer platform : platforms )
-            {
-                // If this is a goal, we have the solution
-                if ( platform == VolcanoMazeManager.goal )
-                {
-                    ++VolcanoMazeManager.pathsMade;
-                    return new Path( path, platform );
-                }
+			for ( int i = 0; i < platforms.length; ++i )
+			{
+				Integer platform = platforms[ i ];
+				// If this is a goal, we have the solution
+				if ( platform.intValue() == VolcanoMazeManager.goal )
+				{
+					++VolcanoMazeManager.pathsMade;
+					return new Path( path, platform );
+				}
 
-                // If neighbor not yet seen, add and search it
-                int square = platform;
-                if ( !visited[ square ] )
-                {
-                    ++VolcanoMazeManager.pathsMade;
-                    queue.addLast( new Path( path, platform ) );
-                    // We (will) have visited this platform
-                    visited[ square ] = true;
-                }
-            }
+				// If neighbor not yet seen, add and search it
+				int square = platform.intValue();
+				if ( !visited[ square ] )
+				{
+					++VolcanoMazeManager.pathsMade;
+					queue.addLast( new Path( path, platform ) );
+					// We (will) have visited this platform
+					visited[ square ] = true;
+				}
+			}
 		}
 
 		// No solution found
@@ -894,16 +896,17 @@ public abstract class VolcanoMazeManager
 			// Make an array of all the platforms
 			String[] squares = coordinates.split( "\\s*,\\s*" );
 			ArrayList list = new ArrayList();
-            for ( String coord : squares )
-            {
-                if ( !StringUtilities.isNumeric( coord ) )
-                {
-                    continue;
-                }
-                Integer ival = Integer.valueOf( coord );
-                list.add( ival );
-                this.board[ ival ] = true;
-            }
+			for ( int i = 0; i < squares.length; ++i )
+			{
+				String coord = squares[ i];
+				if ( !StringUtilities.isNumeric( coord ) )
+				{
+					continue;
+				}
+				Integer ival = Integer.valueOf( coord );
+				list.add( ival );
+				this.board[ ival.intValue() ] = true;
+			}
 			this.platforms = (Integer []) list.toArray( new Integer[ list.size() ] );
 
 			// Every board has the goal platform
@@ -954,7 +957,7 @@ public abstract class VolcanoMazeManager
 			// If there is only one neighbor, that's it
 			if ( platforms.length == 1 )
 			{
-				int next = platforms[ 0 ];
+				int next = platforms[ 0 ].intValue();
 				// Don't pick the goal!
 				return ( next != VolcanoMazeManager.goal ) ? next : -1;
 			}
@@ -964,7 +967,7 @@ public abstract class VolcanoMazeManager
 			while ( next == VolcanoMazeManager.goal )
 			{
 				int rnd = KoLConstants.RNG.nextInt( platforms.length );
-				next = platforms[ rnd ];
+				next = platforms[ rnd ].intValue();
 			}
 			return next;
 		}
@@ -973,7 +976,7 @@ public abstract class VolcanoMazeManager
 		{
 			int prow = row( player );
 			int pcol = col( player );
-			StringBuilder buffer = new StringBuilder();
+			StringBuffer buffer = new StringBuffer();
 			for ( int row = 0; row < NROWS; ++row )
 			{
 				if ( row < 9 )
@@ -1011,7 +1014,7 @@ public abstract class VolcanoMazeManager
 		{
 			int prow = row( player );
 			int pcol = col( player );
-			StringBuilder buffer = new StringBuilder();
+			StringBuffer buffer = new StringBuffer();
 
 			buffer.append( "<table cellpadding=0 cellspacing=0 cols=14>" );
 			buffer.append( "<tr><td></td>" );
@@ -1098,7 +1101,7 @@ public abstract class VolcanoMazeManager
 				int square = pos( row, col );
 				if ( map == null || map.inMap( square ) )
 				{
-					list.add( square );
+					list.add( Integer.valueOf( square ) );
 				}
 			}
 		}
@@ -1111,7 +1114,7 @@ public abstract class VolcanoMazeManager
 
 		public Path( final Integer square )
 		{
-			list = new ArrayList<>();
+			list = new ArrayList<Integer>();
 			list.add( square );
 		}
 
@@ -1149,22 +1152,22 @@ public abstract class VolcanoMazeManager
 		@Override
 		public String toString()
 		{
-			StringBuilder buffer = new StringBuilder();
+			StringBuffer buffer = new StringBuffer();
 			int count = list.size();
 			boolean first = true;
 			buffer.append( "[" );
-            for ( Integer integer : list )
-            {
-                if ( first )
-                {
-                    first = false;
-                }
-                else
-                {
-                    buffer.append( "," );
-                }
-                buffer.append( integer );
-            }
+			for ( int i = 0; i < count; ++i )
+			{
+				if ( first )
+				{
+					first = false;
+				}
+				else
+				{
+					buffer.append( "," );
+				}
+				buffer.append( list.get( i ) );
+			}
 			buffer.append( "]" );
 			return buffer.toString();
 		}
