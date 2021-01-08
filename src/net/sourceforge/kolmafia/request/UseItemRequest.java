@@ -171,7 +171,7 @@ public class UseItemRequest
 	private static boolean retrying = false;
 
 	protected final int consumptionType;
-	protected AdventureResult itemUsed = null;
+	protected AdventureResult itemUsed;
 
 	protected static AdventureResult lastItemUsed = null;
 	protected static AdventureResult lastHelperUsed = null;
@@ -504,7 +504,7 @@ public class UseItemRequest
 			return 1;
 		case KoLConstants.CONSUME_GUARDIAN:
 			UseItemRequest.limiter = "character class";
-			return KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER ? 1 : 0;
+			return KoLCharacter.getClassType().equals( KoLCharacter.PASTAMANCER ) ? 1 : 0;
 		}
 
 		// Delegate to specialized classes as appropriate
@@ -1017,7 +1017,7 @@ public class UseItemRequest
 			return EquipmentRequest.availableFolder() == -1 ? 0 : 1;
 
 		case ItemPool.PASTA_ADDITIVE:
-			if ( KoLCharacter.getClassType() != KoLCharacter.PASTAMANCER )
+			if ( KoLCharacter.getClassType().equals( KoLCharacter.PASTAMANCER ) )
 			{
 				UseItemRequest.limiter = "character class";
 				return 0;
@@ -1253,6 +1253,14 @@ public class UseItemRequest
 		case ItemPool.FANCY_CHESS_SET:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_fancyChessSetUsed" ) ? 0 : 1;
+
+		case ItemPool.UNIVERSAL_SEASONING:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_universalSeasoningUsed" ) ? 0 : 1;
+
+		case ItemPool.SUBSCRIPTION_COCOA_DISPENSER:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_cocoaDispenserUsed" ) ? 0 : 1;
 
 		case ItemPool.OVERFLOWING_GIFT_BASKET:
 			UseItemRequest.limiter = "daily limit";
@@ -1495,7 +1503,7 @@ public class UseItemRequest
 			{
 				organ = "stomach";
 			}
-			else if ( unfilledLiver )
+			else
 			{
 				organ = "liver";
 			}
@@ -1772,12 +1780,7 @@ public class UseItemRequest
 			return true;
 		}
 
-		if ( !InputFieldUtilities.confirm( "Are you sure you want to replace your " + name + "?" ) )
-		{
-			return false;
-		}
-
-		return true;
+		return InputFieldUtilities.confirm( "Are you sure you want to replace your " + name + "?" );
 	}
 
 	@Override
@@ -3156,7 +3159,7 @@ public class UseItemRequest
 			// Rolling pins remove dough from your inventory.
 			// They are not consumed by being used
 
-			ResultProcessor.processItem( ItemPool.DOUGH, 0 - InventoryManager.getCount( ItemPool.DOUGH ) );
+			ResultProcessor.processItem( ItemPool.DOUGH, -InventoryManager.getCount( ItemPool.DOUGH ) );
 			return;
 
 		case ItemPool.UNROLLING_PIN:
@@ -3164,7 +3167,7 @@ public class UseItemRequest
 			// Unrolling pins remove flat dough from your inventory.
 			// They are not consumed by being used
 
-			ResultProcessor.processItem( ItemPool.FLAT_DOUGH, 0 - InventoryManager.getCount( ItemPool.FLAT_DOUGH ) );
+			ResultProcessor.processItem( ItemPool.FLAT_DOUGH, -InventoryManager.getCount( ItemPool.FLAT_DOUGH ) );
 			return;
 
 		case ItemPool.EXPRESS_CARD:
@@ -6525,7 +6528,7 @@ public class UseItemRequest
 			// Since we are now tracking glitch count, derive it
 			// (as much as we can) from glitch level
 
-			int newGlitchCount = 0;
+			int newGlitchCount;
 			if ( !Preferences.getBoolean( "_glitchItemImplemented" ) )
 			{
 				Preferences.setBoolean( "_glitchItemImplemented", true );
@@ -6624,8 +6627,26 @@ public class UseItemRequest
 			}
 			return;
 
+		case ItemPool.UNIVERSAL_SEASONING:
+			if ( responseText.contains( "You rip open your packet" ) || responseText.contains( "You can't seem to rip the packet open" ) )
+			{
+				Preferences.setBoolean( "universalSeasoningActive", true );
+				Preferences.setBoolean( "_universalSeasoningUsed", true );
+			}
+			return;
+
+		case ItemPool.SUBSCRIPTION_COCOA_DISPENSER:
+			if ( responseText.contains( "You press the button on the cocoa machine" ) )
+			{
+				Preferences.setBoolean( "_cocoaDispenserUsed", true );
+			}
+			return;
+
 		case ItemPool.OVERFLOWING_GIFT_BASKET:
-			Preferences.setBoolean( "_overflowingGiftBasketUsed", true );
+			if ( responseText.contains( "You reach into the basket" ) || responseText.contains( "If you take anything else" ) )
+			{
+				Preferences.setBoolean( "_overflowingGiftBasketUsed", true );
+			}
 			return;
 		}
 
@@ -6729,8 +6750,6 @@ public class UseItemRequest
 			}
 			BugbearManager.setBiodata( data, matcher.group( i ) );
 		}
-
-		return;
 	}
 
 	private static void showItemUsage( final boolean showHTML, final String text )

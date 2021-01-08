@@ -799,7 +799,6 @@ public class EatItemRequest
 			return;
 		}
 
-
 		// Food is restricted by Standard.
 		if ( responseText.contains( "That item is too old to be used on this path" ) )
 		{
@@ -929,6 +928,13 @@ public class EatItemRequest
 		EatItemRequest.handleFoodHelper( item.getName(), item.getCount(), responseText );
 
 		EatItemRequest.updateTimeSpinner( itemId, timeSpinnerUsed );
+
+		if ( Preferences.getBoolean( "universalSeasoningActive" ) )
+		{
+			// Either universal seasoning activated or it was never active. Either way, once something has been eaten
+			// If this preference is true it should be false
+			Preferences.setBoolean( "universalSeasoningActive", false );
+		}
 
 		int attrs = ItemDatabase.getAttributes( itemId );
 		if ( !timeSpinnerUsed && ( (attrs & ItemDatabase.ATTR_REUSABLE) == 0 ))

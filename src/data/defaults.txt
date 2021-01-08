@@ -1353,6 +1353,7 @@ user	twinPeakProgress	0
 user	umdLastObtained	
 user	uneffectWithHotTub	true
 user	unicornHornInflation	0
+user	universalSeasoningActive	false
 user	universalSeasoningAvailable	true
 user	universalSeasoningCost	1000
 user	usable1HWeapons	3
@@ -1489,6 +1490,7 @@ user	_clipartSummons	0
 user	_cloudTalkMessage
 user	_cloudTalkSmoker
 user	_coalPaperweightUsed	false
+user	_cocoaDispenserUsed	false
 user	_cocktailShakerUsed	false
 user	_coldAirportToday	false
 user	_coldOne	false
@@ -1949,6 +1951,7 @@ user	_twelveNightEnergyUsed	false
 user	_ultraMegaSourBallUsed	false
 user	_unaccompaniedMinerUsed	0
 user	_unconsciousCollectiveCharge	0
+user	_universalSeasoningUsed	false
 user	_universeCalculated	0
 user	_universeImploded	0
 user	_unknownEasyBountyItem	
