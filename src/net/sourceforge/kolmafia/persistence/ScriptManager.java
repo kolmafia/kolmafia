@@ -127,8 +127,8 @@ public class ScriptManager
 
 	}
 
-	private static final LockableListModel<Script> installedScripts = new LockableListModel<Script>();
-	private static final LockableListModel<Script> repoScripts = new LockableListModel<Script>();
+	private static final LockableListModel<Script> installedScripts = new LockableListModel<>();
+	private static final LockableListModel<Script> repoScripts = new LockableListModel<>();
 	private static final String REPO_FILE_LOCATION = "https://sourceforge.net/p/kolmafia/code/HEAD/tree/data/SVN/svnrepo.json" + "?format=raw"; //this will change.
 
 	static
@@ -185,8 +185,8 @@ public class ScriptManager
 		if ( jArray == null )
 			return;
 
-		ArrayList<Script> scripts = new ArrayList<Script>();
-		Set<SVNURL> alreadyInstalled = new HashSet<SVNURL>();
+		ArrayList<Script> scripts = new ArrayList<>();
+		Set<SVNURL> alreadyInstalled = new HashSet<>();
 
 		File[] currentWCs = KoLConstants.SVN_LOCATION.listFiles();
 

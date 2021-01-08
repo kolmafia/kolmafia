@@ -72,7 +72,7 @@ public class ZapRequest
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=(\\d+) descid='.*?'>.*?</option>" );
 
 	private static final BooleanArray isZappable = new BooleanArray();
-	private static final SortedListModel<AdventureResult> zappableItems = new SortedListModel<AdventureResult>();
+	private static final SortedListModel<AdventureResult> zappableItems = new SortedListModel<>();
 	private static final Map<Integer, String[]> zapGroups = new HashMap<>();
 
 	private AdventureResult item;
@@ -110,19 +110,18 @@ public class ZapRequest
 			while ( ( line = FileUtilities.readLine( reader ) ) != null )
 			{
 				String[] list = line.split( "\\s*,\\s*" );
-				for ( int i = 0; i < list.length; ++i )
-				{
-					String name = list[ i ];
-					int itemId = ItemDatabase.getItemId( name, 1, false );
-					if ( itemId < 0 )
-					{
-						RequestLogger.printLine( "Unknown item in zap group: " + name );
-						continue;
-					}
-					ZapRequest.zappableItems.add( ItemPool.get( itemId ) );
-					ZapRequest.isZappable.set( itemId, true );
-					ZapRequest.zapGroups.put( IntegerPool.get( itemId ), list );
-				}
+                for ( String name : list )
+                {
+                    int itemId = ItemDatabase.getItemId( name, 1, false );
+                    if ( itemId < 0 )
+                    {
+                        RequestLogger.printLine( "Unknown item in zap group: " + name );
+                        continue;
+                    }
+                    ZapRequest.zappableItems.add( ItemPool.get( itemId ) );
+                    ZapRequest.isZappable.set( itemId, true );
+                    ZapRequest.zapGroups.put( IntegerPool.get( itemId ), list );
+                }
 			}
 		}
 		catch ( Exception e )
@@ -135,7 +134,7 @@ public class ZapRequest
 	{
 		ZapRequest.initializeList();
 
-		SortedListModel<AdventureResult> matchingItems = new SortedListModel<AdventureResult>();
+		SortedListModel<AdventureResult> matchingItems = new SortedListModel<>();
 		matchingItems.addAll( KoLConstants.inventory );
 		if ( Preferences.getBoolean( "relayTrimsZapList" ) )
 		{
@@ -190,7 +189,7 @@ public class ZapRequest
 
 		// "The Crown of the Goblin King shudders for a moment, but
 		// nothing happens."
-		if ( this.responseText.indexOf( "nothing happens" ) != -1 )
+		if ( this.responseText.contains( "nothing happens" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "The " + this.item.getName() + " is not zappable." );
 			return;
@@ -207,13 +206,13 @@ public class ZapRequest
 			return;
 		}
 
-		if ( responseText.indexOf( "nothing happens" ) != -1 )
+		if ( responseText.contains( "nothing happens" ) )
 		{
 			return;
 		}
 
 		// If it blew up, remove wand and zero usages
-		if ( responseText.indexOf( "abruptly explodes" ) != -1 )
+		if ( responseText.contains( "abruptly explodes" ) )
 		{
 			ResultProcessor.processResult( KoLCharacter.getZapper().getNegation() );
 			// set to -1 because will be incremented below
@@ -251,7 +250,7 @@ public class ZapRequest
 		buffer.delete( selectIndex, endSelectIndex );
 
 		int itemId;
-		StringBuffer zappableOptions = new StringBuffer();
+		StringBuilder zappableOptions = new StringBuilder();
 		while ( optionMatcher.find() )
 		{
 			itemId = Integer.parseInt( optionMatcher.group( 1 ) );

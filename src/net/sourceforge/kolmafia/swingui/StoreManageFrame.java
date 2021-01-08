@@ -186,27 +186,23 @@ public class StoreManageFrame
 		text.setText( String.valueOf( limit ) );
 		text.setEnabled( limit > 0 );
 
-		ActionListener bob = new ActionListener()
-		{
-			public void actionPerformed( ActionEvent e )
+		ActionListener bob = e -> {
+			text.setEnabled( check.isSelected() );
+			if ( text.isEnabled() && text.getText().equals( "0" ) )
 			{
-				text.setEnabled( check.isSelected() );
-				if ( text.isEnabled() && text.getText().equals( "0" ) )
+				text.setText( "1" );
+			}
+			if ( !check.isSelected() )
+			{
+				box.setLimit( 0 );
+				if ( text.getText().equals( "1" ) )
 				{
-					text.setText( "1" );
+					text.setText( "0" );
 				}
-				if ( !check.isSelected() )
-				{
-					box.setLimit( 0 );
-					if ( text.getText().equals( "1" ) )
-					{
-						text.setText( "0" );
-					}
-				}
-				else
-				{
-					box.setLimit( StringUtilities.parseInt( text.getText() ) );
-				}
+			}
+			else
+			{
+				box.setLimit( StringUtilities.parseInt( text.getText() ) );
 			}
 		};
 		check.addActionListener( bob );
@@ -301,8 +297,8 @@ public class StoreManageFrame
 				String item = (String) StoreManageFrame.this.manageTable.getValueAt( i, 0 );
 				itemId[ i ] = ItemDatabase.getItemId( item );
 
-				prices[ i ] = ( (Integer) StoreManageFrame.this.manageTable.getValueAt( i, 1 ) ).intValue();
-				int cheapest = ( (Integer) StoreManageFrame.this.manageTable.getValueAt( i, 2 ) ).intValue();
+				prices[ i ] = ( Integer ) StoreManageFrame.this.manageTable.getValueAt( i, 1 );
+				int cheapest = ( Integer ) StoreManageFrame.this.manageTable.getValueAt( i, 2 );
 
 				if ( cheapest >= 1000000 && prices[ i ] < cheapest * 0.15  )
 				{
@@ -397,73 +393,57 @@ public class StoreManageFrame
 			Highlighter stripe = HighlighterFactory.createSimpleStriping(new Color( 128, 128, 128 , 64) );
 			this.addHighlighter( stripe );
 
-			HighlightPredicate mouseOver = new HighlightPredicate()
-			{
-				public boolean isHighlighted( Component renderer, ComponentAdapter adapter )
-				{
-					if ( !adapter.getComponent().isEnabled() )
-						return false;
-					Point p = (Point) adapter.getComponent().getClientProperty( RolloverProducer.ROLLOVER_KEY );
-					return p != null && p.y == adapter.row && convertColumnIndexToModel( p.x ) == 1 && convertColumnIndexToModel( adapter.column ) == 1;
-				}
-			};
-
-			HighlightPredicate valueChanged = new HighlightPredicate()
-			{
-				public boolean isHighlighted( Component renderer, ComponentAdapter adapter )
-				{
-					if ( !adapter.getComponent().isEnabled() )
-						return false;
-					if ( convertColumnIndexToModel( adapter.column ) == 1 )
-					{
-					int cellValue =
-						(Integer) adapter.getValueAt(
-							convertRowIndexToModel( adapter.row ), convertColumnIndexToModel( adapter.column ) );
-					SoldItem it =
-						( (StoreManageTableModel) StoreManageTable.this.getModel() ).getSoldItem( convertRowIndexToModel( adapter.row ) );
-					return it != null && cellValue != it.getPrice();
-					}
-					if ( convertColumnIndexToModel( adapter.column ) == 4 )
-					{
-						int cellValue =
-								(Integer) adapter.getValueAt(
-									convertRowIndexToModel( adapter.row ), convertColumnIndexToModel( adapter.column ) );
-							SoldItem it =
-								( (StoreManageTableModel) StoreManageTable.this.getModel() ).getSoldItem( convertRowIndexToModel( adapter.row ) );
-							return it != null && cellValue != it.getLimit();
-					}
+			HighlightPredicate mouseOver = ( renderer, adapter ) -> {
+				if ( !adapter.getComponent().isEnabled() )
 					return false;
-				}
+				Point p = (Point) adapter.getComponent().getClientProperty( RolloverProducer.ROLLOVER_KEY );
+				return p != null && p.y == adapter.row && convertColumnIndexToModel( p.x ) == 1 && convertColumnIndexToModel( adapter.column ) == 1;
 			};
 
-			HighlightPredicate warning = new HighlightPredicate()
-			{
-				public boolean isHighlighted( Component renderer, ComponentAdapter adapter )
+			HighlightPredicate valueChanged = ( renderer, adapter ) -> {
+				if ( !adapter.getComponent().isEnabled() )
+					return false;
+				if ( convertColumnIndexToModel( adapter.column ) == 1 )
 				{
-					if ( !adapter.getComponent().isEnabled() )
-						return false;
-					if ( convertColumnIndexToModel( adapter.column ) != 1 )
-						return false;
+				int cellValue =
+					(Integer) adapter.getValueAt(
+						convertRowIndexToModel( adapter.row ), convertColumnIndexToModel( adapter.column ) );
+				SoldItem it =
+					( (StoreManageTableModel) StoreManageTable.this.getModel() ).getSoldItem( convertRowIndexToModel( adapter.row ) );
+				return it != null && cellValue != it.getPrice();
+				}
+				if ( convertColumnIndexToModel( adapter.column ) == 4 )
+				{
 					int cellValue =
-						(Integer) adapter.getValueAt(
-							convertRowIndexToModel( adapter.row ), convertColumnIndexToModel( adapter.column ) );
-					SoldItem it =
-						( (StoreManageTableModel) StoreManageTable.this.getModel() ).getSoldItem( convertRowIndexToModel( adapter.row ) );
-					return it != null && (cellValue < it.getLowest() * 0.15) && it.getLowest() > 50000;
+							(Integer) adapter.getValueAt(
+								convertRowIndexToModel( adapter.row ), convertColumnIndexToModel( adapter.column ) );
+						SoldItem it =
+							( (StoreManageTableModel) StoreManageTable.this.getModel() ).getSoldItem( convertRowIndexToModel( adapter.row ) );
+						return it != null && cellValue != it.getLimit();
 				}
+				return false;
 			};
 
-			HighlightPredicate auto = new HighlightPredicate()
-			{
-				public boolean isHighlighted( Component renderer, ComponentAdapter adapter )
-				{
-					if ( !adapter.getComponent().isEnabled() )
-						return false;
-					if ( convertColumnIndexToModel( adapter.column ) != 0 )
-						return false;
-					int cellValue = (Integer) adapter.getValueAt( convertRowIndexToModel( adapter.row ), 1 );
-					return (cellValue == 999999999);
-				}
+			HighlightPredicate warning = ( renderer, adapter ) -> {
+				if ( !adapter.getComponent().isEnabled() )
+					return false;
+				if ( convertColumnIndexToModel( adapter.column ) != 1 )
+					return false;
+				int cellValue =
+					(Integer) adapter.getValueAt(
+						convertRowIndexToModel( adapter.row ), convertColumnIndexToModel( adapter.column ) );
+				SoldItem it =
+					( (StoreManageTableModel) StoreManageTable.this.getModel() ).getSoldItem( convertRowIndexToModel( adapter.row ) );
+				return it != null && (cellValue < it.getLowest() * 0.15) && it.getLowest() > 50000;
+			};
+
+			HighlightPredicate auto = ( renderer, adapter ) -> {
+				if ( !adapter.getComponent().isEnabled() )
+					return false;
+				if ( convertColumnIndexToModel( adapter.column ) != 0 )
+					return false;
+				int cellValue = (Integer) adapter.getValueAt( convertRowIndexToModel( adapter.row ), 1 );
+				return (cellValue == 999999999);
 			};
 
 			AbstractHighlighter bold = new AbstractHighlighter( auto )
@@ -505,7 +485,7 @@ public class StoreManageFrame
 					}
 					if ( UNDERLINE_FONT == null )
 					{
-						Map<TextAttribute, Integer> fontAttributes = new HashMap<TextAttribute, Integer>();
+						Map<TextAttribute, Integer> fontAttributes = new HashMap<>();
 						fontAttributes.put( TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON );
 						UNDERLINE_FONT = renderer.getFont().deriveFont( fontAttributes );
 					}
@@ -706,7 +686,7 @@ public class StoreManageFrame
 			Integer val = InputFieldUtilities.getQuantity( "Remove how many?", max, max );
 			if ( val != null )
 			{
-				int qty = val.intValue();
+				int qty = val;
 				if ( qty > 0 )
 				{
 					RequestThread.postRequest( new ManageStoreRequest( this.itemId, qty ) );
@@ -826,9 +806,9 @@ public class StoreManageFrame
 
 			Object[] items = this.getElementList().getSelectedValues();
 
-			for ( int i = 0; i < items.length; ++i )
+			for ( Object item : items )
 			{
-				SoldItem soldItem = ( (SoldItem) items[ i ] );
+				SoldItem soldItem = ( ( SoldItem ) item );
 				int count = takeAll ? soldItem.getQuantity() : 1;
 				RequestThread.postRequest( new ManageStoreRequest( soldItem.getItemId(), count ) );
 			}

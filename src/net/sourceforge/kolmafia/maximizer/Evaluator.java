@@ -1139,8 +1139,8 @@ public class Evaluator
 		List<CheckedItem>[] ranked = new ArrayList[ EquipmentManager.ALL_SLOTS + this.familiars.size() ];
 		for ( int i = ranked.length - 1; i >= 0; --i )
 		{
-			automatic[ i ] = new ArrayList<CheckedItem>();
-			ranked[ i ] = new ArrayList<CheckedItem>();
+			automatic[ i ] = new ArrayList<>();
+			ranked[ i ] = new ArrayList<>();
 		}
 
 		double nullScore = this.getScore( new Modifiers() );
@@ -1180,7 +1180,7 @@ public class Evaluator
 		while ( syn.hasNext() )
 		{
 			Modifiers mods = Modifiers.getModifiers( "Synergy", (String) syn.next() );
-			int value = ((Integer) syn.next()).intValue();
+			int value = ( Integer ) syn.next();
 			if ( mods == null )	continue;
 			double delta = this.getScore( mods ) - nullScore;
 			if ( delta > 0.0 ) usefulSynergies |= value;
@@ -1371,7 +1371,7 @@ public class Evaluator
 						continue;
 					}
 					String type = EquipmentDatabase.getItemType( id );
-					if ( this.weaponType != null && type.indexOf( this.weaponType ) == -1 )
+					if ( this.weaponType != null && !type.contains( this.weaponType ) )
 					{
 						continue;
 					}
@@ -1963,7 +1963,7 @@ public class Evaluator
 		List<MaximizerSpeculation>[] speculationList = new ArrayList[ ranked.length ];
 		for ( int i = ranked.length - 1; i >= 0; --i )
 		{
-			speculationList[ i ] = new ArrayList<MaximizerSpeculation>();
+			speculationList[ i ] = new ArrayList<>();
 		}
 
 		for ( int slot = 0; slot < ranked.length; ++slot )
@@ -2098,7 +2098,7 @@ public class Evaluator
 		while ( it.hasNext() )
 		{
 			String synergy = (String) it.next();
-			int mask = ((Integer) it.next()).intValue();
+			int mask = ( Integer ) it.next();
 			int index = synergy.indexOf( "/");
 			String itemName1 = synergy.substring( 0, index );
 			String itemName2 = synergy.substring( index + 1 ); 

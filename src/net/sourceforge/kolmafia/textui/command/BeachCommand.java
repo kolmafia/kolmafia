@@ -280,7 +280,7 @@ public class BeachCommand
 		// It is sorted from lowest to highest row. I.e., closest to
 		// farthest from waves. We want to display it in the opposite
 		// order. Push rows on stack and then pop them off
-		Stack<Entry<Integer, String>> stack = new Stack<Entry<Integer, String>>();
+		Stack<Entry<Integer, String>> stack = new Stack<>();
 		for ( Entry<Integer, String> entry : layout.entrySet() )
 		{
 			stack.push( entry );

@@ -188,19 +188,19 @@ public class CafeRequest
 			return;
 		}
 
-		if ( this.responseText.indexOf( "This is not currently available to you." ) != -1 )
+		if ( this.responseText.contains( "This is not currently available to you." ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Couldn't find " + this.name );
 			return;
 		}
 
-		if ( this.responseText.indexOf( "You're way too drunk already." ) != -1 || this.responseText.indexOf( "You're too full to eat that." ) != -1 )
+		if ( this.responseText.contains( "You're way too drunk already." ) || this.responseText.contains( "You're too full to eat that." ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Consumption limit reached." );
 			return;
 		}
 
-		if ( this.responseText.indexOf( "You can't afford that item." ) != -1 )
+		if ( this.responseText.contains( "You can't afford that item." ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Insufficient funds." );
 			return;

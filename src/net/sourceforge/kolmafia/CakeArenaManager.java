@@ -43,7 +43,7 @@ import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
 
 public class CakeArenaManager
 {
-	private static final LockableListModel<ArenaOpponent> opponentList = new LockableListModel<ArenaOpponent>();
+	private static final LockableListModel<ArenaOpponent> opponentList = new LockableListModel<>();
 
 	/**
 	 * Registers an opponent inside of the arena manager. This should be used to update any information that relates to
@@ -91,7 +91,7 @@ public class CakeArenaManager
 					RequestThread.postRequest( request );
 
 					Matcher victoryMatcher = CakeArenaRequest.WIN_PATTERN.matcher( request.responseText );
-					StringBuffer text = new StringBuffer();
+					StringBuilder text = new StringBuilder();
 
 					if ( victoryMatcher.find() )
 					{

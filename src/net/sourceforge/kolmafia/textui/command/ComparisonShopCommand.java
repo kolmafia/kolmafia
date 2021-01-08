@@ -79,27 +79,26 @@ public class ComparisonShopCommand
 		}
 		String[] pieces = parameters.split( "\\s*,\\s*" );
 		TreeSet<String> names = new TreeSet<>();
-		for ( int i = 0; i < pieces.length; ++i )
-		{
-			String piece = pieces[ i ];
-			if ( piece.startsWith( "+" ) )
-			{
-				AdventureResult item = ItemFinder.getFirstMatchingItem( piece.substring( 1 ).trim() );
-				if ( item == null )
-				{
-					return;
-				}
-				names.addAll( Arrays.asList( ZapRequest.getZapGroup( item.getItemId() ) ) );
-			}
-			else if ( piece.startsWith( "-" ) )
-			{
-				names.removeAll( ItemDatabase.getMatchingNames( piece.substring( 1 ).trim() ) );
-			}
-			else
-			{
-				names.addAll( ItemDatabase.getMatchingNames( piece ) );
-			}
-		}
+        for ( String piece : pieces )
+        {
+            if ( piece.startsWith( "+" ) )
+            {
+                AdventureResult item = ItemFinder.getFirstMatchingItem( piece.substring( 1 ).trim() );
+                if ( item == null )
+                {
+                    return;
+                }
+                names.addAll( Arrays.asList( ZapRequest.getZapGroup( item.getItemId() ) ) );
+            }
+            else if ( piece.startsWith( "-" ) )
+            {
+                names.removeAll( ItemDatabase.getMatchingNames( piece.substring( 1 ).trim() ) );
+            }
+            else
+            {
+                names.addAll( ItemDatabase.getMatchingNames( piece ) );
+            }
+        }
 		if ( names.size() == 0 )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "No matching items!" );
@@ -132,7 +131,7 @@ public class ComparisonShopCommand
 			KoLmafia.updateDisplay( MafiaState.ERROR, "No tradeable items!" );
 			return;
 		}
-		Collections.sort( results, this );
+		results.sort( this );
 		if ( expensive )
 		{
 			Collections.reverse( results );

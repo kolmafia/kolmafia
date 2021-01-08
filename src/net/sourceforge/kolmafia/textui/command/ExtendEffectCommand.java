@@ -55,13 +55,13 @@ public class ExtendEffectCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		if ( parameters.indexOf( "," ) != -1 )
+		if ( parameters.contains( "," ) )
 		{
 			String[] effects = parameters.split( "\\s*,\\s*" );
-			for ( int i = 0; i < effects.length; ++i )
-			{
-				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( cmd, effects[ i ] );
-			}
+            for ( String effect : effects )
+            {
+                KoLmafiaCLI.DEFAULT_SHELL.executeCommand( cmd, effect );
+            }
 
 			return;
 		}

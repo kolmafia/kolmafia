@@ -759,16 +759,16 @@ public class AdventureDatabase
 		String [] conditions = string.split( "\\|" );
 		if ( list == null )
 		{
-			list = new LockableListModel<String>();
+			list = new LockableListModel<>();
 		}
 		else
 		{
 			list.clear();
 		}
 
-		for ( int i = 0; i < conditions.length; ++i )
+		for ( String condition : conditions )
 		{
-			list.add( conditions[i] );
+			list.add( condition );
 		}
 
 		return list;
@@ -815,7 +815,7 @@ public class AdventureDatabase
 
 	public static final ArrayList<String> getAreasWithMonster( MonsterData monster )
 	{
-		ArrayList<String> zones = new ArrayList<String>();
+		ArrayList<String> zones = new ArrayList<>();
 
 		for ( Entry<String,AreaCombatData> entry : AdventureDatabase.areaCombatData.entrySet() )
 		{
@@ -968,7 +968,7 @@ public class AdventureDatabase
 
 	private static int fistcoreDataLocation( final Object[] data )
 	{
-		return ( data == null ) ? -1 : ((Integer) data[1] ).intValue();
+		return ( data == null ) ? -1 : ( Integer ) data[ 1 ];
 	}
 
 	private static String fistcoreDataSetting( final Object[] data )
@@ -978,9 +978,8 @@ public class AdventureDatabase
 
 	private static Object[] fistcoreLocationToData( final int location )
 	{
-		for ( int i = 0; i < FISTCORE_SCROLLS.length; ++i )
+		for ( Object[] data : FISTCORE_SCROLLS )
 		{
-			Object [] data = FISTCORE_SCROLLS[i];
 			int loc = fistcoreDataLocation( data );
 			if ( location == loc )
 			{
@@ -1052,8 +1051,8 @@ public class AdventureDatabase
 	public static class AdventureArray
 	{
 		private String[] nameArray = new String[0];
-		private final ArrayList<String> nameList = new ArrayList<String>();
-		private final ArrayList<KoLAdventure> internalList = new ArrayList<KoLAdventure>();
+		private final ArrayList<String> nameList = new ArrayList<>();
+		private final ArrayList<KoLAdventure> internalList = new ArrayList<>();
 
 		public KoLAdventure get( final int index )
 		{
@@ -1084,9 +1083,9 @@ public class AdventureDatabase
 
 			if ( matchingNames.size() > 1 )
 			{
-				for ( int i = 0; i < matchingNames.size(); ++i )
+				for ( Object matchingName : matchingNames )
 				{
-					RequestLogger.printLine( (String) matchingNames.get( i ) );
+					RequestLogger.printLine( ( String ) matchingName );
 				}
 
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Multiple matches against " + adventureName + "." );

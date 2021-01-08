@@ -78,10 +78,10 @@ public class FaxBotDatabase
 	private static String faxBotErrorMessage = "";
 
 	// List of bots from faxbots.txt
-	public static final ArrayList<BotData> botData = new ArrayList<BotData>();
+	public static final ArrayList<BotData> botData = new ArrayList<>();
 
 	// List of faxbots named in config files.
-	public static final ArrayList<FaxBot> faxbots = new ArrayList<FaxBot>();
+	public static final ArrayList<FaxBot> faxbots = new ArrayList<>();
 
 	public static final void reconfigure()
 	{
@@ -208,14 +208,14 @@ public class FaxBotDatabase
 		private final int playerId;
 
 		// What monsters does it serve?
-		public final SortedListModel<Monster> monsters = new SortedListModel<Monster>();
+		public final SortedListModel<Monster> monsters = new SortedListModel<>();
 
 		// Lists derived from the list of monsters
-		private final LockableListModel<String> categories = new LockableListModel<String>();
+		private final LockableListModel<String> categories = new LockableListModel<>();
 		private LockableListModel<Monster> [] monstersByCategory = new LockableListModel[0];
 
-		private final Map<String, Monster> monsterByActualName = new HashMap<String, Monster>();
-		private final Map<String, Monster> monsterByCommand = new HashMap<String, Monster>();
+		private final Map<String, Monster> monsterByActualName = new HashMap<>();
+		private final Map<String, Monster> monsterByCommand = new HashMap<>();
 		private String[] canonicalCommands;
 
 		public FaxBot( final String name, final String playerId )
@@ -291,7 +291,7 @@ public class FaxBotDatabase
 			this.monsterByActualName.clear();
 			this.monsterByCommand.clear();
 
-			SortedListModel<String> tempCategories = new SortedListModel<String>();
+			SortedListModel<String> tempCategories = new SortedListModel<>();
 			for ( Monster monster : monsters )
 			{
 				this.monsters.add( monster );
@@ -323,7 +323,7 @@ public class FaxBotDatabase
 			for ( int i = 0; i < this.categories.size(); ++i )
 			{
 				String category = categories.get( i );
-				SortedListModel<Monster> model = new SortedListModel<Monster>();
+				SortedListModel<Monster> model = new SortedListModel<>();
 				this.monstersByCategory[ i ] = model;
 				for ( Monster monster : monsters )
 				{
@@ -505,7 +505,7 @@ public class FaxBotDatabase
 			Element doc = dom.getDocumentElement();
 
 			// Get a nodelist of bots
-			ArrayList<FaxBot> bots = new ArrayList<FaxBot>();
+			ArrayList<FaxBot> bots = new ArrayList<>();
 			NodeList bl = doc.getElementsByTagName( "botdata" );
 			if ( bl != null )
 			{
@@ -519,7 +519,7 @@ public class FaxBotDatabase
 
 			// Get a nodelist of monsters
 			NodeList fl = doc.getElementsByTagName( "monsterdata" );
-			ArrayList<Monster> monsters = new ArrayList<Monster>();
+			ArrayList<Monster> monsters = new ArrayList<>();
 			if ( fl != null )
 			{
 				for ( int i = 0; i < fl.getLength(); i++ )

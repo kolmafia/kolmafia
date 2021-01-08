@@ -63,8 +63,8 @@ public class SpecialOutfit
 {
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=['\"]?(.*?)['\"]?>(.*?)</option>" );
 
-	private static final Stack<Checkpoint> explicitPoints = new Stack<Checkpoint>();
-	private static final Set<Checkpoint> allCheckpoints = new HashSet<Checkpoint>();
+	private static final Stack<Checkpoint> explicitPoints = new Stack<>();
+	private static final Set<Checkpoint> allCheckpoints = new HashSet<>();
 
 	private int outfitId;
 	private final String outfitName;
@@ -86,7 +86,7 @@ public class SpecialOutfit
 		// and would keep that entire page in memory if not copied.
 		this.outfitName = outfitName;
 		this.outfitImage = null;
-		this.pieces = new TreeMap<Integer, AdventureResult>();
+		this.pieces = new TreeMap<>();
 		this.hash = 0;
 	}
 
@@ -319,7 +319,7 @@ public class SpecialOutfit
 
 	private void updateDisplayMissing()
 	{
-		ArrayList<AdventureResult> missing = new ArrayList<AdventureResult>();
+		ArrayList<AdventureResult> missing = new ArrayList<>();
 		for ( int slot = 0; slot < EquipmentManager.FAMILIAR; slot++ )
 		{
 			AdventureResult piece = this.pieces.get( slot );
@@ -329,9 +329,9 @@ public class SpecialOutfit
 			}
 
 			boolean skip = false;
-			for ( int i = 0; i < missing.size(); i++ )
+			for ( AdventureResult adventureResult : missing )
 			{
-				if ( missing.get( i ).getItemId() == piece.getItemId() )
+				if ( adventureResult.getItemId() == piece.getItemId() )
 				{
 					skip = true;
 					break;
@@ -350,10 +350,9 @@ public class SpecialOutfit
 				missing.add( ItemPool.get( piece.getItemId(), pieceCount - accessibleCount ) );
 			}
 		}
-		
-		for ( int i = 0; i < missing.size(); i++ )
+
+		for ( AdventureResult item : missing )
 		{
-			AdventureResult item = missing.get( i );
 			RequestLogger.printLine( MafiaState.ERROR, "You need " + item.getCount() + " more " + item.getName() + " to continue." );
 		}
 		KoLmafia.updateDisplay(

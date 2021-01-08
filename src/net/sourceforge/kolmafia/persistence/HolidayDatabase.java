@@ -951,7 +951,7 @@ public class HolidayDatabase
 
 	public static final String[] getHolidayPredictions( final Date time )
 	{
-		List<HolidayEntry> holidayList = new ArrayList<HolidayEntry>();
+		List<HolidayEntry> holidayList = new ArrayList<>();
 		int currentCalendarDay = HolidayDatabase.getCalendarDay( time );
 
 		int[] calendarDayAsArray;
@@ -1340,10 +1340,10 @@ public class HolidayDatabase
 		// amount of code done to handle individual holidays.
 
 		String[] holidayPredictions = HolidayDatabase.getHolidayPredictions( today );
-		for ( int i = 0; i < holidayPredictions.length; ++i )
+		for ( String holidayPrediction : holidayPredictions )
 		{
 			displayHTML.append( "<nobr><b>" );
-			displayHTML.append( holidayPredictions[ i ].replaceAll( ":", ":</b>&nbsp;" ) );
+			displayHTML.append( holidayPrediction.replaceAll( ":", ":</b>&nbsp;" ) );
 			displayHTML.append( "</nobr><br>" );
 		}
 	}

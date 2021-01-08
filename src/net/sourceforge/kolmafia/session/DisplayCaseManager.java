@@ -154,10 +154,10 @@ public abstract class DisplayCaseManager
 		// should be stored after the update.
 
 		List shelforder = new ArrayList();
-		for ( int i = 0; i < headers.length; ++i )
-		{
-			shelforder.add( DisplayCaseManager.shelves.get( DisplayCaseManager.headers.indexOf( headers[ i ] ) ) );
-		}
+        for ( String header : headers )
+        {
+            shelforder.add( DisplayCaseManager.shelves.get( DisplayCaseManager.headers.indexOf( header ) ) );
+        }
 
 		// Save the lists to the server and update the display
 		// on theto reflect the change.
@@ -222,7 +222,7 @@ public abstract class DisplayCaseManager
 	{
 		DisplayCaseManager.updateShelves( data );
 
-		ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
+		ArrayList<AdventureResult> items = new ArrayList<>();
 		ArrayList [] shelves = new ArrayList[ DisplayCaseManager.shelves.size() ];
 		for ( int i = 0; i < shelves.length; ++i )
 		{

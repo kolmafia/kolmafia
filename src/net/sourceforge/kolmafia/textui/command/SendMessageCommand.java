@@ -113,20 +113,19 @@ public class SendMessageCommand
 		}
 
 		long meatAmount = 0;
-		ArrayList<AdventureResult> attachmentList = new ArrayList<AdventureResult>();
+		ArrayList<AdventureResult> attachmentList = new ArrayList<>();
 
-		for ( int i = 0; i < attachments.length; ++i )
-		{
-			AdventureResult attachment = attachments[ i ];
-			if ( attachment.getName().equals( AdventureResult.MEAT ) )
-			{
-				meatAmount += attachment.getCount();
-			}
-			else
-			{
-				AdventureResult.addResultToList( attachmentList, attachment );
-			}
-		}
+        for ( AdventureResult attachment : attachments )
+        {
+            if ( attachment.getName().equals( AdventureResult.MEAT ) )
+            {
+                meatAmount += attachment.getCount();
+            }
+            else
+            {
+                AdventureResult.addResultToList( attachmentList, attachment );
+            }
+        }
 
 		if ( !isConvertible && meatAmount > 0 )
 		{

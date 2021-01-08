@@ -79,10 +79,10 @@ public class VersionDataPanel
 			new JLabel( JComponentUtilities.getImage( "penguin.gif" ), JLabel.CENTER ), BorderLayout.NORTH );
 
 		JPanel labelPanel = new JPanel( new GridLayout( this.versionData.length, 1 ) );
-		for ( int i = 0; i < this.versionData.length; ++i )
-		{
-			labelPanel.add( new JLabel( this.versionData[ i ], JLabel.CENTER ) );
-		}
+        for ( String versionDatum : this.versionData )
+        {
+            labelPanel.add( new JLabel( versionDatum, JLabel.CENTER ) );
+        }
 
 		versionPanel.add( labelPanel, BorderLayout.CENTER );
 

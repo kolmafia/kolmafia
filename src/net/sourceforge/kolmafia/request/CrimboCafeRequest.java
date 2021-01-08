@@ -102,7 +102,7 @@ public class CrimboCafeRequest
 		for ( int i = 0; i < CrimboCafeRequest.MENU_DATA.length; ++i )
 		{
 			Object [] data = CrimboCafeRequest.MENU_DATA[ i ];
-			if ( itemId == ((Integer)data[ 1 ]).intValue() )
+			if ( itemId == ( Integer ) data[ 1 ] )
 			{
 				return data;
 			}
@@ -117,12 +117,12 @@ public class CrimboCafeRequest
 
 	public final static int dataItemID( Object [] data )
 	{
-		return ((Integer)data[ 1 ]).intValue();
+		return ( Integer ) data[ 1 ];
 	}
 
 	public final static int dataPrice( Object [] data )
 	{
-		return ((Integer)data[ 2 ]).intValue();
+		return ( Integer ) data[ 2 ];
 	}
 
 	public CrimboCafeRequest( final String name )

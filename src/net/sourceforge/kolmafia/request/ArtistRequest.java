@@ -81,14 +81,14 @@ public class ArtistRequest
 
 		// First time accepting:
 		// Great. If I'm going to work, I'll need my paintbrush, my palette, and my paint.
-		if ( responseText.indexOf( "If I'm going to work, I'll need my paintbrush" ) != -1 )
+		if ( responseText.contains( "If I'm going to work, I'll need my paintbrush" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.ARTIST, QuestDatabase.STARTED );
 		}
 
 		// Subsequent times:
 		// You still need to find my tools! Please hurry!
-		else if ( responseText.indexOf( "still need to find my tools" ) != -1 )
+		else if ( responseText.contains( "still need to find my tools" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.ARTIST, QuestDatabase.STARTED );
 		}
@@ -97,7 +97,7 @@ public class ArtistRequest
 		// says "Oh, hey, umm, do you want this empty pail? I don't
 		// really have room for it, so if you want it, you can have it.
 
-		if ( responseText.indexOf( "do you want this empty pail" ) != -1 )
+		if ( responseText.contains( "do you want this empty pail" ) )
 		{
 			ResultProcessor.processItem( ItemPool.PRETENTIOUS_PALETTE, -1 );
 			ResultProcessor.processItem( ItemPool.PRETENTIOUS_PAINTBRUSH, -1 );

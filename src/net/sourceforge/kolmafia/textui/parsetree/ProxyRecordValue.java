@@ -132,22 +132,22 @@ public class ProxyRecordValue
 
 		if ( rv instanceof Integer )
 		{
-			return DataTypes.makeIntValue( ( (Integer) rv ).intValue() );
+			return DataTypes.makeIntValue( ( Integer ) rv );
 		}
 
 		if ( rv instanceof Long )
 		{
-			return DataTypes.makeIntValue( ( (Long) rv ).longValue() );
+			return DataTypes.makeIntValue( ( Long ) rv );
 		}
 
 		if ( rv instanceof Float )
 		{
-			return DataTypes.makeFloatValue( ( (Float) rv ).floatValue() );
+			return DataTypes.makeFloatValue( ( Float ) rv );
 		}
 
 		if ( rv instanceof Double )
 		{
-			return DataTypes.makeFloatValue( ( (Double) rv ).doubleValue() );
+			return DataTypes.makeFloatValue( ( Double ) rv );
 		}
 
 		if ( rv instanceof String )
@@ -157,7 +157,7 @@ public class ProxyRecordValue
 
 		if ( rv instanceof Boolean )
 		{
-			return DataTypes.makeBooleanValue( ( (Boolean) rv ).booleanValue() );
+			return DataTypes.makeBooleanValue( ( Boolean ) rv );
 		}
 
 		if ( rv instanceof CoinmasterData )
@@ -199,8 +199,8 @@ public class ProxyRecordValue
 
 		public RecordBuilder()
 		{
-			names = new ArrayList<String>();
-			types = new ArrayList<Type>();
+			names = new ArrayList<>();
+			types = new ArrayList<>();
 		}
 
 		public RecordBuilder add( String name, Type type )
@@ -1441,7 +1441,7 @@ public class ProxyRecordValue
 
 		public Value get_all()
 		{
-			ArrayList<Value> rv = new ArrayList<Value>();
+			ArrayList<Value> rv = new ArrayList<>();
 			Iterator<String> i = EffectDatabase.getAllActions( (int) this.contentLong );
 			while ( i.hasNext() )
 			{
@@ -1796,7 +1796,7 @@ public class ProxyRecordValue
 			{
 				return new PluralValue( DataTypes.STRING_TYPE, new ArrayList<>() );
 			}
-			ArrayList<Value> rv = new ArrayList<Value>();
+			ArrayList<Value> rv = new ArrayList<>();
 			for ( String image : ( (MonsterData) this.content ).getImages() )
 			{
 				rv.add( new Value( image ) );
@@ -1810,7 +1810,7 @@ public class ProxyRecordValue
 			{
 				return new PluralValue( DataTypes.STRING_TYPE, new ArrayList<>() );
 			}
-			ArrayList<Value> rv = new ArrayList<Value>();
+			ArrayList<Value> rv = new ArrayList<>();
 			for ( String attribute : ( (MonsterData) this.content ).getRandomModifiers() )
 			{
 				rv.add( new Value( attribute ) );
@@ -1824,7 +1824,7 @@ public class ProxyRecordValue
 			{
 				return new PluralValue( DataTypes.STRING_TYPE, new ArrayList<>() );
 			}
-			ArrayList<Value> rv = new ArrayList<Value>();
+			ArrayList<Value> rv = new ArrayList<>();
 			for ( String attribute : ( (MonsterData) this.content ).getSubTypes() )
 			{
 				rv.add( new Value( attribute ) );

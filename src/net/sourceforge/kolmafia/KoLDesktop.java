@@ -84,7 +84,7 @@ public class KoLDesktop
 	private static KoLDesktop INSTANCE = null;
 	private static boolean isInitializing = false;
 
-	private final List<GenericFrame> tabListing = new ArrayList<GenericFrame>();
+	private final List<GenericFrame> tabListing = new ArrayList<>();
 
 	public JPanel compactPane;
 
@@ -335,11 +335,11 @@ public class KoLDesktop
 		}
 
 		Frame[] frames = Frame.getFrames();
-		for ( int i = 0; i < frames.length; ++i )
+		for ( Frame value : frames )
 		{
-			if ( frames[ i ] instanceof GenericFrame )
+			if ( value instanceof GenericFrame )
 			{
-				GenericFrame frame = (GenericFrame) frames[ i ];
+				GenericFrame frame = ( GenericFrame ) value;
 
 				frame.setTitle( frame.getLastTitle() );
 			}
@@ -419,7 +419,7 @@ public class KoLDesktop
 		for ( int i = 0; i < KoLDesktop.INSTANCE.tabListing.size(); ++i )
 		{
 			GenericFrame frame = KoLDesktop.INSTANCE.tabListing.get( i );
-			if ( !( frame instanceof ChatFrame ) && setting.indexOf( frame.getFrameName() ) == -1 )
+			if ( !( frame instanceof ChatFrame ) && !setting.contains( frame.getFrameName() ) )
 			{
 				frame.dispose();
 			}

@@ -603,7 +603,7 @@ public class FileUtilities
 
 	private static List<Object> getPathList( File f )
 	{
-		List<Object> l = new ArrayList<Object>();
+		List<Object> l = new ArrayList<>();
 		File r;
 		try
 		{

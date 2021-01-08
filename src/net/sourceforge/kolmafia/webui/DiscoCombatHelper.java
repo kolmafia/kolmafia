@@ -267,7 +267,7 @@ public class DiscoCombatHelper
 		name = name.trim().toLowerCase();
 		for ( int i = 0; i < NUM_COMBOS; ++i )
 		{
-			if ( COMBOS[ i ][ 0 ].toLowerCase().indexOf( name ) != -1 )
+			if ( COMBOS[ i ][ 0 ].toLowerCase().contains( name ) )
 			{
 				return COMBOS[ i ][ 0 ];
 			}
@@ -280,7 +280,7 @@ public class DiscoCombatHelper
 		name = name.trim().toLowerCase();
 		for ( int i = 0; i < NUM_COMBOS; ++i )
 		{
-			if ( COMBOS[ i ][ 0 ].toLowerCase().indexOf( name ) != -1 )
+			if ( COMBOS[ i ][ 0 ].toLowerCase().contains( name ) )
 			{
 				return getCombo( i );
 			}
@@ -301,15 +301,14 @@ public class DiscoCombatHelper
 		{
 			// Some combo allow multiple skills. Pick the first known one.
 			int [] skills = data[i];
-			for ( int j = 0; j < skills.length; ++j )
-			{
-				int skill = skills[ j ];
-				if ( knownSkill[ skill ] )
-				{
-					rv[ i ] = SKILL_ID[ skill ];
-					break;
-				}
-			}
+            for ( int skill : skills )
+            {
+                if ( knownSkill[ skill ] )
+                {
+                    rv[ i ] = SKILL_ID[ skill ];
+                    break;
+                }
+            }
 		}
 		return rv;
 	}
@@ -413,28 +412,26 @@ public class DiscoCombatHelper
 		}
 
 		// Check that we know all the skills
-		for ( int i = 0; i < data.length; ++i )
-		{
-			// Some combo allow multiple skills. Any will do.
-			int [] skills = data[i];
-			boolean known = false;
-			for ( int j = 0; j < skills.length; ++j )
-			{
-				int skill = skills[ j ];
-				if ( skill != UNKNOWN && knownSkill[ skill ] )
-				{
-					known = true;
-					break;
-				}
-			}
+        for ( int[] skills : data )
+        {
+            // Some combo allow multiple skills. Any will do.
+            boolean known = false;
+            for ( int skill : skills )
+            {
+                if ( skill != UNKNOWN && knownSkill[ skill ] )
+                {
+                    known = true;
+                    break;
+                }
+            }
 
-			// If we don't know a skill, give up.
-			if ( !known )
-			{
-				knownCombo[ combo ] = false;
-				return;
-			}
-		}
+            // If we don't know a skill, give up.
+            if ( !known )
+            {
+                knownCombo[ combo ] = false;
+                return;
+            }
+        }
 
 		// We know the necessary skills
 		knownCombo[ combo ] = true;
@@ -493,12 +490,12 @@ public class DiscoCombatHelper
 		if ( DiscoCombatHelper.counter ==  3 )
 		{
 			// Your opponent seems to be temporarily unconscious
-			if ( responseText.indexOf( "seems to be temporarily unconscious" ) != -1 )
+			if ( responseText.contains( "seems to be temporarily unconscious" ) )
 			{
 				DiscoCombatHelper.learnRaveCombo( RAVE_KNOCKOUT );
 			}
 			// He bleeds from various wounds you've inflicted
-			if ( responseText.indexOf( "bleeds from various wounds you've inflicted" ) != -1 )
+			if ( responseText.contains( "bleeds from various wounds you've inflicted" ) )
 			{
 				DiscoCombatHelper.learnRaveCombo( RAVE_BLEEDING );
 			}
@@ -592,11 +589,11 @@ public class DiscoCombatHelper
 			{
 			}
 			// You're getting tired of this same old song and dance. 
-			else if ( responseText.indexOf( "same old song and dance" ) != -1 )
+			else if ( responseText.contains( "same old song and dance" ) )
 			{
 				Preferences.setInteger( "_raveStealCount", 30 );
 			}
-			else if ( responseText.indexOf( "You acquire an item" ) != -1 )
+			else if ( responseText.contains( "You acquire an item" ) )
 			{
 				Preferences.increment( "_raveStealCount" );
 			}
@@ -610,7 +607,7 @@ public class DiscoCombatHelper
 			// Your savage beatdown seems to have knocked loose
 			// some treasure. Sweet!
 			// Your savage beatdown fails to knock loose any treasure. Lame!
-			if ( responseText.indexOf( "Your savage beatdown" ) != -1 )
+			if ( responseText.contains( "Your savage beatdown" ) )
 			{
 				DiscoCombatHelper.learnRaveCombo( RAVE_STEAL );
 			}
@@ -618,7 +615,7 @@ public class DiscoCombatHelper
 			// good about the extra dance practice you're
 			// getting. You're starting to get tired of beating up
 			// on this same dude. Why isn't he dead yet?
-			else if ( responseText.indexOf( "extra dance practice" ) != -1 )
+			else if ( responseText.contains( "extra dance practice" ) )
 			{
 				DiscoCombatHelper.learnRaveCombo( RAVE_SUBSTATS );
 			}
@@ -626,7 +623,7 @@ public class DiscoCombatHelper
 			// Your dance routine leaves you feeling extra-focused
 			// and in the zone. Ooh yeeaah.
 
-			else if ( responseText.indexOf( "extra-focused and in the zone" ) != -1 )
+			else if ( responseText.contains( "extra-focused and in the zone" ) )
 			{
 				DiscoCombatHelper.learnRaveCombo( RAVE_CONCENTRATION );
 			}
@@ -635,7 +632,7 @@ public class DiscoCombatHelper
 			// groovy and at one with the universe. It's a little
 			// unsettling, but you soon get used to it.
 
-			else if ( responseText.indexOf( "feeling particularly groovy" ) != -1 )
+			else if ( responseText.contains( "feeling particularly groovy" ) )
 			{
 				DiscoCombatHelper.learnRaveCombo( RAVE_NIRVANA );
 			}
@@ -722,14 +719,14 @@ public class DiscoCombatHelper
 			int skill = DiscoCombatHelper.sequence[ i + offset ];
 			int [] skills = data[ i ];
 			boolean found = false;
-			for ( int j = 0; j < skills.length; ++j )
-			{
-				if ( skill == skills[ j ] )
-				{
-					found = true;
-					break;
-				}
-			}
+            for ( int k : skills )
+            {
+                if ( skill == k )
+                {
+                    found = true;
+                    break;
+                }
+            }
 			if ( !found )
 			{
 				return false;
@@ -787,28 +784,27 @@ public class DiscoCombatHelper
 				{
 					int [] skills = data[ j ];
 					boolean first = true;
-					for ( int k = 0; k < skills.length; ++k )
-					{
-						int skill = skills[ k ];
-						String name = SKILLS[ skill ];
+                    for ( int skill : skills )
+                    {
+                        String name = SKILLS[ skill ];
 
-						if ( !KoLCharacter.hasSkill( name ) )
-						{
-							continue;
-						}
+                        if ( !KoLCharacter.hasSkill( name ) )
+                        {
+                            continue;
+                        }
 
-						if ( first )
-						{
-							first = false;
-						}
-						else
-						{
-							buffer.append( "<br>" );
-						}
+                        if ( first )
+                        {
+                            first = false;
+                        }
+                        else
+                        {
+                            buffer.append( "<br>" );
+                        }
 
-						// Add the button
-						DiscoCombatHelper.addDiscoButton( buffer, skill, true );
-					}
+                        // Add the button
+                        DiscoCombatHelper.addDiscoButton( buffer, skill, true );
+                    }
 				}
 				else
 				{
@@ -836,14 +832,13 @@ public class DiscoCombatHelper
 		buffer.append( "<input type=hidden name=\"macrotext\" value=\"" );
 
 		int cost = 0;
-		for ( int i = 0; i < combo.length; ++i )
-		{
-			int skillId = combo[ i ];
-			cost += SkillDatabase.getMPConsumptionById( skillId );
-			buffer.append( "skill " );
-			buffer.append( skillId );
-			buffer.append( ";" );
-		}
+        for ( int skillId : combo )
+        {
+            cost += SkillDatabase.getMPConsumptionById( skillId );
+            buffer.append( "skill " );
+            buffer.append( skillId );
+            buffer.append( ";" );
+        }
 
 		buffer.append( "\"><input onclick=\"return killforms(this);\" type=\"submit\" value=\"" );
 		buffer.append( name );

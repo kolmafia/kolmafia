@@ -125,28 +125,28 @@ public class ConditionsCommand
 
 		boolean hasUpdate = false;
 
-		for ( int i = 0; i < conditionList.length; ++i )
-		{
-			AdventureResult condition = ConditionsCommand.extractCondition( conditionList[ i ] );
+        for ( String s : conditionList )
+        {
+            AdventureResult condition = ConditionsCommand.extractCondition( s );
 
-			if ( condition != null )
-			{
-				if ( option.equals( "set" ) )
-				{
-					GoalManager.setGoal( condition );
-				}
-				else if ( option.equals( "remove" ) )
-				{
-					GoalManager.addGoal( condition.getNegation() );
-				}
-				else if ( condition.getCount() > 0 )
-				{
-					GoalManager.addGoal( condition );
-				}
+            if ( condition != null )
+            {
+                if ( option.equals( "set" ) )
+                {
+                    GoalManager.setGoal( condition );
+                }
+                else if ( option.equals( "remove" ) )
+                {
+                    GoalManager.addGoal( condition.getNegation() );
+                }
+                else if ( condition.getCount() > 0 )
+                {
+                    GoalManager.addGoal( condition );
+                }
 
-				hasUpdate = true;
-			}
-		}
+                hasUpdate = true;
+            }
+        }
 
 		return hasUpdate;
 	}
@@ -291,13 +291,13 @@ public class ConditionsCommand
 			String[] splitCondition = conditionString.split( "\\s+" );
 
 			int points = StringUtilities.parseInt( splitCondition[ 0 ] );
-			int statIndex = conditionString.indexOf( "mus" ) != -1 ? 0 : conditionString.indexOf( "mys" ) != -1 ? 1 : 2;
+			int statIndex = conditionString.contains( "mus" ) ? 0 : conditionString.contains( "mys" ) ? 1 : 2;
 
 			GoalManager.GOAL_SUBSTATS_COUNTS[ statIndex ] = (int) KoLCharacter.calculateSubpoints( points, 0 );
 			GoalManager.GOAL_SUBSTATS_COUNTS[ statIndex ] =
 				Math.max(
 					0,
-					GoalManager.GOAL_SUBSTATS_COUNTS[ statIndex ] - (int) ( conditionString.indexOf( "mus" ) != -1 ? KoLCharacter.getTotalMuscle() : conditionString.indexOf( "mys" ) != -1 ? KoLCharacter.getTotalMysticality() : KoLCharacter.getTotalMoxie() ) );
+					GoalManager.GOAL_SUBSTATS_COUNTS[ statIndex ] - (int) ( conditionString.contains( "mus" ) ? KoLCharacter.getTotalMuscle() : conditionString.contains( "mys" ) ? KoLCharacter.getTotalMysticality() : KoLCharacter.getTotalMoxie() ) );
 
 			return GoalManager.GOAL_SUBSTATS;
 		}

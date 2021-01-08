@@ -63,7 +63,7 @@ public class PlayerSnapshotCommand
 		RequestLogger.getDebugStream().println();
 		RequestLogger.getDebugStream().println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 
-		StringBuffer title = new StringBuffer( "Player Snapshot" );
+		StringBuilder title = new StringBuilder( "Player Snapshot" );
 
 		int leftIndent = ( 46 - title.length() ) / 2;
 		for ( int i = 0; i < leftIndent; ++i )
@@ -79,13 +79,13 @@ public class PlayerSnapshotCommand
 
 		String[] options = parameters.split( "\\s*,\\s*" );
 
-		for ( int i = 0; i < options.length; ++i )
-		{
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( " > " + options[ i ] );
+        for ( String option : options )
+        {
+            RequestLogger.updateSessionLog();
+            RequestLogger.updateSessionLog( " > " + option );
 
-			ShowDataCommand.show( options[ i ], true );
-		}
+            ShowDataCommand.show( option, true );
+        }
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );

@@ -47,7 +47,7 @@ import net.sourceforge.kolmafia.request.MailboxRequest;
 
 public abstract class MailManager
 {
-	public static final Map<String,SortedListModel<KoLMailMessage>> mailboxes = new TreeMap<String,SortedListModel<KoLMailMessage>>();
+	public static final Map<String,SortedListModel<KoLMailMessage>> mailboxes = new TreeMap<>();
 	static
 	{
 		MailManager.mailboxes.put( "Inbox", new SortedListModel() );
@@ -140,14 +140,14 @@ public abstract class MailManager
 
 		int messageIndex;
 		SortedListModel<KoLMailMessage> mailbox = MailManager.mailboxes.get( boxname );
-		for ( int i = 0; i < messages.length; ++i )
-		{
-			messageIndex = mailbox.indexOf( messages[ i ] );
-			if ( messageIndex != -1 )
-			{
-				mailbox.remove( messageIndex );
-			}
-		}
+        for ( Object message : messages )
+        {
+            messageIndex = mailbox.indexOf( message );
+            if ( messageIndex != -1 )
+            {
+                mailbox.remove( messageIndex );
+            }
+        }
 
 		Preferences.setInteger( "lastMessageCount", MailManager.getMessages( "Inbox" ).size() );
 	}
@@ -177,14 +177,14 @@ public abstract class MailManager
 
 		int messageIndex;
 		SortedListModel<KoLMailMessage> mailbox = MailManager.mailboxes.get( boxname );
-		for ( int i = 0; i < messages.length; ++i )
-		{
-			messageIndex = mailbox.indexOf( messages[ i ] );
-			if ( messageIndex != -1 )
-			{
-				mailbox.remove( messageIndex );
-			}
-		}
+        for ( Object message : messages )
+        {
+            messageIndex = mailbox.indexOf( message );
+            if ( messageIndex != -1 )
+            {
+                mailbox.remove( messageIndex );
+            }
+        }
 
 		Preferences.setInteger( "lastMessageCount", MailManager.getMessages( "Inbox" ).size() );
 	}

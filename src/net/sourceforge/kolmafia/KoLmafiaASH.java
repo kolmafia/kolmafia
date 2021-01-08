@@ -58,9 +58,9 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 
 public abstract class KoLmafiaASH
 {
-	private static final HashMap<String, File> relayScriptMap = new HashMap<String, File>();
+	private static final HashMap<String, File> relayScriptMap = new HashMap<>();
 
-	private static final HashMap<File, Long> TIMESTAMPS = new HashMap<File, Long>();
+	private static final HashMap<File, Long> TIMESTAMPS = new HashMap<>();
 	private static final HashMap<File, ScriptRuntime> INTERPRETERS = new HashMap<>();
 
 	public static final AshRuntime NAMESPACE_INTERPRETER = new NamespaceInterpreter();

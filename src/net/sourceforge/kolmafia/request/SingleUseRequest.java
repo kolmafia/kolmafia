@@ -195,11 +195,10 @@ public class SingleUseRequest
 
 		AdventureResult[] ingredients = concoction.getIngredients();
 
-		for ( int i = 0; i < ingredients.length; ++i )
-		{
-			AdventureResult ingredient = ingredients[ i ];
-			ResultProcessor.processResult( ingredient.getInstance( -1 * ingredient.getCount() * count ) );
-		}
+        for ( AdventureResult ingredient : ingredients )
+        {
+            ResultProcessor.processResult( ingredient.getInstance( -1 * ingredient.getCount() * count ) );
+        }
 	}
 
 	public static final boolean registerRequest( final String urlString )
@@ -239,16 +238,15 @@ public class SingleUseRequest
 
 		// Punt if don't have enough of any ingredient.
 
-		for ( int i = 0; i < ingredients.length; ++i )
-		{
-			AdventureResult ingredient = ingredients[ i ];
-			int have = ingredient.getCount( KoLConstants.inventory );
-			int need = count * ingredient.getCount();
-			if ( have < need )
-			{
-				return true;
-			}
-		}
+        for ( AdventureResult ingredient : ingredients )
+        {
+            int have = ingredient.getCount( KoLConstants.inventory );
+            int need = count * ingredient.getCount();
+            if ( have < need )
+            {
+                return true;
+            }
+        }
 
 		UseItemRequest.setLastItemUsed( ItemPool.get( baseId, count ) );
 

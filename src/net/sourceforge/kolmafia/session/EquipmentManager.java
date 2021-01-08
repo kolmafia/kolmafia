@@ -1777,14 +1777,14 @@ public class EquipmentManager
 
 			FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
 
-			for ( int i = 0; i < familiarList.length; ++i )
-			{
-				AdventureResult currentItem = familiarList[ i ].getItem();
-				if ( currentItem != EquipmentRequest.UNEQUIP && currentFamiliar.canEquip( currentItem ) )
-				{
-					AdventureResult.addResultToList( EquipmentManager.equipmentLists[ EquipmentManager.FAMILIAR ], currentItem );
-				}
-			}
+            for ( FamiliarData familiarData : familiarList )
+            {
+                AdventureResult currentItem = familiarData.getItem();
+                if ( currentItem != EquipmentRequest.UNEQUIP && currentFamiliar.canEquip( currentItem ) )
+                {
+                    AdventureResult.addResultToList( EquipmentManager.equipmentLists[ EquipmentManager.FAMILIAR ], currentItem );
+                }
+            }
 
 			break;
 
@@ -1804,7 +1804,7 @@ public class EquipmentManager
 
 	private static void updateEquipmentList( final int filterId, final List<AdventureResult> currentList )
 	{
-		ArrayList<AdventureResult> temporary = new ArrayList<AdventureResult>();
+		ArrayList<AdventureResult> temporary = new ArrayList<>();
 		temporary.add( EquipmentRequest.UNEQUIP );
 
 		// If the character is currently equipped with a one-handed
@@ -2274,7 +2274,7 @@ public class EquipmentManager
 
 	public static final void updateNormalOutfits()
 	{
-		ArrayList<SpecialOutfit> available = new ArrayList<SpecialOutfit>();
+		ArrayList<SpecialOutfit> available = new ArrayList<>();
 
 		for ( SpecialOutfit outfit : EquipmentDatabase.normalOutfits )
 		{
@@ -2366,13 +2366,13 @@ public class EquipmentManager
 		}
 
 		AdventureResult[] pieces = EquipmentDatabase.normalOutfits.get( outfitId ).getPieces();
-		for ( int i = 0; i < pieces.length; ++i )
-		{
-			if ( !KoLCharacter.hasEquipped( pieces[ i ] ) )
-			{
-				ConditionsCommand.update( "set", pieces[ i ].getName() );
-			}
-		}
+        for ( AdventureResult piece : pieces )
+        {
+            if ( !KoLCharacter.hasEquipped( piece ) )
+            {
+                ConditionsCommand.update( "set", piece.getName() );
+            }
+        }
 	}
 
 	/**

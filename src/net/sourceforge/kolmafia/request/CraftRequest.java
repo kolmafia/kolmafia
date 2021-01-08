@@ -159,7 +159,7 @@ public class CraftRequest
 	{
 		this.created = CreateItemRequest.parseCrafting( this.getURLString(), this.responseText );
 
-		if ( this.responseText.indexOf( "Smoke" ) != -1 )
+		if ( this.responseText.contains( "Smoke" ) )
 		{
 			KoLmafia.updateDisplay( "Your box servant has escaped!" );
 		}

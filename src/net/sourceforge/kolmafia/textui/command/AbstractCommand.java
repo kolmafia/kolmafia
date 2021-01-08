@@ -166,7 +166,7 @@ public abstract class AbstractCommand
 	{
 		for ( int i = 0; i < AbstractCommand.substringLookup.size(); i += 2 )
 		{
-			if ( cmd.indexOf( (String) AbstractCommand.substringLookup.get( i ) ) != -1 )
+			if ( cmd.contains( ( String ) AbstractCommand.substringLookup.get( i ) ) )
 			{
 				return (AbstractCommand) AbstractCommand.substringLookup.get( i + 1 );
 			}
@@ -196,7 +196,7 @@ public abstract class AbstractCommand
 			nameString = parameters.substring( 1, parameters.length() - 1 );
 			countString = null;
 		}
-		else if ( parameters.startsWith( "*" ) || parameters.indexOf( " " ) != -1 && Character.isDigit( parameters.charAt( 0 ) ) )
+		else if ( parameters.startsWith( "*" ) || parameters.contains( " " ) && Character.isDigit( parameters.charAt( 0 ) ) )
 		{
 			countString = parameters.split( " " )[ 0 ];
 			String rest = parameters.substring( countString.length() ).trim();

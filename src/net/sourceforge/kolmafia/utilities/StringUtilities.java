@@ -55,17 +55,17 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 public class StringUtilities
 {
-	private static final HashMap<String, String> entityEncodeCache = new HashMap<String, String>();
-	private static final HashMap<String, String> entityDecodeCache = new HashMap<String, String>();
+	private static final HashMap<String, String> entityEncodeCache = new HashMap<>();
+	private static final HashMap<String, String> entityDecodeCache = new HashMap<>();
 
-	private static final HashMap<String, String> urlEncodeCache = new HashMap<String, String>();
-	private static final HashMap<String, String> urlDecodeCache = new HashMap<String, String>();
+	private static final HashMap<String, String> urlEncodeCache = new HashMap<>();
+	private static final HashMap<String, String> urlDecodeCache = new HashMap<>();
 
-	private static final HashMap<String, String> displayNameCache = new HashMap<String, String>();
-	private static final HashMap<String, String> canonicalNameCache = new HashMap<String, String>();
+	private static final HashMap<String, String> displayNameCache = new HashMap<>();
+	private static final HashMap<String, String> canonicalNameCache = new HashMap<>();
 
-	private static final HashMap<String, String> prepositionsMap = new HashMap<String, String>();
-	private static final WeakHashMap<String[], int[]> hashCache = new WeakHashMap<String[], int[]>();
+	private static final HashMap<String, String> prepositionsMap = new HashMap<>();
+	private static final WeakHashMap<String[], int[]> hashCache = new WeakHashMap<>();
 
 	private static final Pattern NONINTEGER_PATTERN = Pattern.compile( "[^0-9\\-]+" );
 
@@ -357,7 +357,7 @@ public class StringUtilities
 		searchString = searchString.trim();
 
 		boolean isExactMatch = searchString.startsWith( "\"" );
-		List<String> matchList = new ArrayList<String>();
+		List<String> matchList = new ArrayList<>();
 
 		if ( isExactMatch )
 		{

@@ -882,13 +882,13 @@ public class AdventureRequest
 
 			case 19:
 				// Limerick Dungeon
-				for ( int i = 0; i < LIMERICKS.length; ++i )
-				{
-					if ( responseText.contains( LIMERICKS[i][1] ) )
-					{
-						return LIMERICKS[i][0];
-					}
-				}
+                for ( String[] limerick : LIMERICKS )
+                {
+                    if ( responseText.contains( limerick[ 1 ] ) )
+                    {
+                        return limerick[ 0 ];
+                    }
+                }
 				return "Unrecognized Limerick";
 
 			case 114:	// Outskirts of The Knob
@@ -1346,7 +1346,7 @@ public class AdventureRequest
 			}
 		}
 
-		ArrayList<String> internal = new ArrayList<String>();
+		ArrayList<String> internal = new ArrayList<>();
 		String[] temp = text.split( "\"" );
 
 		for ( int i = 1; i < temp.length - 1; i++ ) // The first and last elements are never useful

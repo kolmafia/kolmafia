@@ -60,7 +60,7 @@ public class IntegerRenderer
 
 		JLabel label = (JLabel) component;
 
-		int intValue = value instanceof Integer ? ( (Integer) value ).intValue() :
+		int intValue = value instanceof Integer ? ( Integer ) value :
 			StringUtilities.parseInt( value.toString() );
 
 		String stringValue = KoLConstants.COMMA_FORMAT.format( intValue );

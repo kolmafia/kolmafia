@@ -180,7 +180,7 @@ public class EdServantData
 
 	public static int dataToId( Object[] data )
 	{
-		return data == null ? 0 : ((Integer)data[ 2 ]).intValue();
+		return data == null ? 0 : ( Integer ) data[ 2 ];
 	}
 
 	public static String dataToImage( Object[] data )
@@ -260,7 +260,7 @@ public class EdServantData
 	private int experience;
 	private int level;
 
-	public static final SortedListModel<EdServantData> edServants = new SortedListModel<EdServantData>();
+	public static final SortedListModel<EdServantData> edServants = new SortedListModel<>();
 	public static EdServantData currentEdServant = EdServantData.NO_SERVANT;
 
 	public static void initialize()

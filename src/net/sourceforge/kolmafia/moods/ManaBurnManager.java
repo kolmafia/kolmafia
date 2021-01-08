@@ -146,7 +146,7 @@ public class ManaBurnManager
 		int summonThreshold = Preferences.getInteger( "manaBurnSummonThreshold" );
 		int durationLimit = Preferences.getInteger( "maxManaBurn" ) + KoLCharacter.getAdventuresLeft();
 		ManaBurn chosen = null;
-		ArrayList<ManaBurn> burns = new ArrayList<ManaBurn>();
+		ArrayList<ManaBurn> burns = new ArrayList<>();
 	
 		// Rather than maintain mood-related buffs only, maintain any
 		// active effect that the character can auto-cast. Examine all

@@ -53,7 +53,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class RelayServer
 	implements Runnable
 {
-	public static final Set<RelayAgent> agentThreads = new HashSet<RelayAgent>();
+	public static final Set<RelayAgent> agentThreads = new HashSet<>();
 
 	private static long lastStatusMessage = 0;
 	private static Thread relayThread = null;

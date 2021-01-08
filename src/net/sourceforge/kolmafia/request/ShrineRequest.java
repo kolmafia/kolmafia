@@ -81,7 +81,7 @@ public class ShrineRequest
 
 	private static int dataId( final Object[] data )
 	{
-		return ( data == null ) ? 0 : ((Integer) data[0]).intValue();
+		return ( data == null ) ? 0 : ( Integer ) data[ 0 ];
 	}
 
 	private static String dataAction( final Object[] data )
@@ -106,27 +106,25 @@ public class ShrineRequest
 
 	private static Object[] idToData( final int id )
 	{
-		for ( int i = 0; i < SHRINE_DATA.length; ++i )
-		{
-			Object [] data = SHRINE_DATA[i];
-			if ( id == dataId( data ) )
-			{
-				return data;
-			}
-		}
+        for ( Object[] data : SHRINE_DATA )
+        {
+            if ( id == dataId( data ) )
+            {
+                return data;
+            }
+        }
 		return null;
 	}
 
 	private static Object[] actionToData( final String action )
 	{
-		for ( int i = 0; i < SHRINE_DATA.length; ++i )
-		{
-			Object [] data = SHRINE_DATA[i];
-			if ( action.equals( dataAction( data ) ) )
-			{
-				return data;
-			}
-		}
+        for ( Object[] data : SHRINE_DATA )
+        {
+            if ( action.equals( dataAction( data ) ) )
+            {
+                return data;
+            }
+        }
 		return null;
 	}
 

@@ -400,7 +400,7 @@ public class CampgroundRequest
 		CROPMAP.put( COLOSSAL_FREE_RANGE_MUSHROOM, CropType.MUSHROOM );
 	}
 
-	public static final List<Integer> workshedItems = new ArrayList<Integer>();
+	public static final List<Integer> workshedItems = new ArrayList<>();
 
 	static
 	{
@@ -1845,19 +1845,19 @@ public class CampgroundRequest
 		}
 
 		String libram = null;
-		for ( int i = 0; i < BOOKS.length; ++i )
-		{
-			String book = BOOKS[i][0];
-			if ( responseText.contains( book ) )
-			{
-				String skill = BOOKS[i][1];
-				KoLCharacter.addAvailableSkill( skill, true );
-				if ( book.contains( "Libram" ) )
-				{
-					libram = skill;
-				}
-			}
-		}
+        for ( String[] strings : BOOKS )
+        {
+            String book = strings[ 0 ];
+            if ( responseText.contains( book ) )
+            {
+                String skill = strings[ 1 ];
+                KoLCharacter.addAvailableSkill( skill, true );
+                if ( book.contains( "Libram" ) )
+                {
+                    libram = skill;
+                }
+            }
+        }
 
 		if ( libram != null )
 		{

@@ -157,7 +157,7 @@ public class BURTRequest
 		CoinmasterData data = BURTRequest.BURT;
 
 		// If you don't have enough BURTs, you are redirected to inventory.php
-		if ( responseText.indexOf( "You don't have enough BURTs" ) == -1 )
+		if ( !responseText.contains( "You don't have enough BURTs" ) )
 		{
 			// inv_use.php?whichitem=5683&pwd&itemquantity=xxx
 			Matcher itemMatcher = data.getItemMatcher( location );
@@ -176,7 +176,7 @@ public class BURTRequest
 	public static final boolean registerRequest( final String urlString )
 	{
 		// inv_use.php?whichitem=5683&pwd&itemquantity=xxx
-		if ( !urlString.startsWith( "inv_use.php" ) || urlString.indexOf( "whichitem=5683" ) == -1 )
+		if ( !urlString.startsWith( "inv_use.php" ) || !urlString.contains( "whichitem=5683" ) )
 		{
 			return false;
 		}

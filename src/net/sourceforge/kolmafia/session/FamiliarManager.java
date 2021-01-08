@@ -69,7 +69,7 @@ public abstract class FamiliarManager
 
 		AdventureResultArray closetItems = new AdventureResultArray();
 		AdventureResultArray storageItems = new AdventureResultArray();
-		ArrayList<GenericRequest> requests = new ArrayList<GenericRequest>();
+		ArrayList<GenericRequest> requests = new ArrayList<>();
 
 		for ( FamiliarData familiar : KoLCharacter.getFamiliarList() )
 		{

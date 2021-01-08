@@ -93,7 +93,7 @@ public class TrendyRequest
 	{
 		TrendyRequest.initialize();
 		Boolean value = map.get( key.toLowerCase() );
-		return value == null || value.booleanValue();
+		return value == null || value;
 	}
 
 	public static boolean isTrendy( final String type, final String key )
@@ -193,11 +193,11 @@ public class TrendyRequest
 			// String date = matcher.group( 2 );
 			String objects = matcher.group( 4 );
 			String[] splits = objects.split( ", " );
-			for ( int i = 0; i < splits.length; ++i )
-			{
-				String object = splits[ i ].trim().toLowerCase();
-				map.put( object, Boolean.valueOf( available ) );
-			}
+            for ( String split : splits )
+            {
+                String object = split.trim().toLowerCase();
+                map.put( object, available );
+            }
 		}
 
 		TrendyRequest.initialized = true;

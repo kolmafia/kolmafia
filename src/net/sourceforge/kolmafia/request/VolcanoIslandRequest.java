@@ -169,7 +169,7 @@ public class VolcanoIslandRequest
 	public static void parseResponse( final String urlString, final String responseText )
 	{
 		if ( !urlString.startsWith( "volcanoisland.php" ) ||
-		     urlString.indexOf( "action=tniat" ) == -1 )
+                !urlString.contains( "action=tniat" ) )
 		{
 			return;
 		}
@@ -181,7 +181,7 @@ public class VolcanoIslandRequest
 		// your hood and then ripping the robe from your shoulders."
 
 		if ( KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER &&
-		     responseText.indexOf( "ripping the robe from your shoulders" ) != -1 )
+                responseText.contains( "ripping the robe from your shoulders" ) )
 		{
 			EquipmentManager.discardEquipment( ItemPool.SPAGHETTI_CULT_ROBE );
 		}
@@ -194,7 +194,7 @@ public class VolcanoIslandRequest
 			return false;
 		}
 
-		if ( urlString.indexOf( "subaction=make" ) != -1 )
+		if ( urlString.contains( "subaction=make" ) )
 		{
 			return PhineasRequest.registerRequest( urlString );
 		}

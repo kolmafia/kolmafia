@@ -843,15 +843,15 @@ public class CharPaneRequest
 
 	private static void handleMindControl( final String text, final Pattern [] patterns )
 	{
-		for ( int i = 0; i < patterns.length; ++i )
-		{
-			int level = CharPaneRequest.handleMindControl( text, patterns[i] );
-			if ( level > 0 )
-			{
-				KoLCharacter.setMindControlLevel( level );
-				return;
-			}
-		}
+        for ( Pattern pattern : patterns )
+        {
+            int level = CharPaneRequest.handleMindControl( text, pattern );
+            if ( level > 0 )
+            {
+                KoLCharacter.setMindControlLevel( level );
+                return;
+            }
+        }
 
 		KoLCharacter.setMindControlLevel( 0 );
 	}
@@ -909,15 +909,15 @@ public class CharPaneRequest
 
 	private static void handleInebriety( final String text, final Pattern [] patterns )
 	{
-		for ( int i = 0; i < patterns.length; ++i )
-		{
-			int level = CharPaneRequest.handleConsumption( text, patterns[i] );
-			if ( level > 0 )
-			{
-				KoLCharacter.setInebriety( level );
-				return;
-			}
-		}
+        for ( Pattern pattern : patterns )
+        {
+            int level = CharPaneRequest.handleConsumption( text, pattern );
+            if ( level > 0 )
+            {
+                KoLCharacter.setInebriety( level );
+                return;
+            }
+        }
 
 		KoLCharacter.setInebriety( 0 );
 	}
@@ -957,7 +957,7 @@ public class CharPaneRequest
 		{
 			duration = Integer.MAX_VALUE;
 		}
-		else if ( durationString.indexOf( "&" ) != -1 || durationString.indexOf( "<" ) != -1 )
+		else if ( durationString.contains( "&" ) || durationString.contains( "<" ) )
 		{
 			return null;
 		}
@@ -999,7 +999,7 @@ public class CharPaneRequest
 		int searchIndex = 0;
 		int onClickIndex = 0;
 
-		ArrayList<AdventureResult> visibleEffects = new ArrayList<AdventureResult>();
+		ArrayList<AdventureResult> visibleEffects = new ArrayList<>();
 
 		while ( onClickIndex != -1 )
 		{
@@ -1888,7 +1888,7 @@ public class CharPaneRequest
 	private static void refreshEffects( final JSONObject JSON )
 		throws JSONException
 	{
-		ArrayList<AdventureResult> visibleEffects = new ArrayList<AdventureResult>();
+		ArrayList<AdventureResult> visibleEffects = new ArrayList<>();
 
 		Object o = JSON.get( "effects" );
 		if ( o instanceof JSONObject )

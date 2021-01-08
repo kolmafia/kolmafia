@@ -134,8 +134,8 @@ public class FamiliarData
 	public static final AdventureResult RAZOR_FANG = ItemPool.get( ItemPool.RAZOR_FANG, 1 );
 	public static final AdventureResult SMOKE_BALL = ItemPool.get( ItemPool.SMOKE_BALL, 1 );
 
-	public static final List<DropInfo> DROP_FAMILIARS = new ArrayList<DropInfo>();
-	public static final List<FightInfo> FIGHT_FAMILIARS = new ArrayList<FightInfo>();
+	public static final List<DropInfo> DROP_FAMILIARS = new ArrayList<>();
+	public static final List<FightInfo> FIGHT_FAMILIARS = new ArrayList<>();
 	public static final List<Integer> CRIMBO_GHOSTS = Arrays.asList( FamiliarPool.GHOST_CAROLS, FamiliarPool.GHOST_CHEER, FamiliarPool.GHOST_COMMERCE );
 
 	private final int id;
@@ -327,9 +327,9 @@ public class FamiliarData
 		String[] splitTTPref = rawTTPref.split( "\\|" );
 
 		// Check Familiar Testudinal Teachings experience	
-		for ( int i = 0; i < splitTTPref.length; ++i )
+		for ( String s : splitTTPref )
 		{
-			String[] it = splitTTPref[ i ].split( ":" );
+			String[] it = s.split( ":" );
 			if ( it.length == 2 )
 			{
 				if ( this.id == Integer.parseInt( it[ 0 ] ) )
@@ -344,7 +344,7 @@ public class FamiliarData
 					}
 					String newTTProperty = it[ 0 ] + ":" + newCount;
 					String newTTPref = StringUtilities.globalStringReplace( rawTTPref,
-						splitTTPref[ i ], newTTProperty );
+							s, newTTProperty );
 					Preferences.setString( "testudinalTeachings", newTTPref );
 					return testTeachExp;
 				}
@@ -870,9 +870,9 @@ public class FamiliarData
 		int[] skills = FamiliarDatabase.getFamiliarSkills( this.id );
 
 		// If any skill is greater than 0, we can train in that event
-		for ( int i = 0; i < skills.length; ++i )
+		for ( int skill : skills )
 		{
-			if ( skills[ i ] > 0 )
+			if ( skill > 0 )
 			{
 				return true;
 			}

@@ -44,7 +44,7 @@ import net.sourceforge.kolmafia.textui.Parser;
 public class SwitchScope
 	extends BasicScope
 {
-	private final ArrayList<ParseTreeNode> commands = new ArrayList<ParseTreeNode>();
+	private final ArrayList<ParseTreeNode> commands = new ArrayList<>();
 	private int offset = -1;
 	private int barrier = BasicScope.BARRIER_SEEN;
 	private boolean breakable = false;
@@ -134,7 +134,7 @@ public class SwitchScope
 			{
 				Value test = tests[testIndex];
 				Integer offset = offsets[testIndex];
-				if ( offset.intValue() != index )
+				if ( offset != index )
 				{
 					break;
 				}

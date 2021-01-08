@@ -71,7 +71,7 @@ public class Speculation
 	{
 		this.MCD = KoLCharacter.getMindControlLevel();
 		this.equipment = EquipmentManager.allEquipment();
-		this.effects = new ArrayList<AdventureResult>();
+		this.effects = new ArrayList<>();
 		this.effects.addAll( KoLConstants.activeEffects );
 		// Strip out intrinsic effects granted by equipment - they will
 		// be readded if appropriate via Intrinsic Effect modifiers.
@@ -249,12 +249,12 @@ public class Speculation
 	{
 		boolean quiet = false;
 		String[] pieces = text.toLowerCase().split( "\\s*;\\s*" );
-		for ( int i = 0; i < pieces.length; ++i )
+		for ( String s : pieces )
 		{
-			String[] piece = pieces[ i ].split( " ", 2 );
+			String[] piece = s.split( " ", 2 );
 			String cmd = piece[ 0 ];
 			String params = piece.length > 1 ? piece[ 1 ] : "";
-			
+
 			if ( cmd.equals( "" ) )
 			{
 				continue;
@@ -272,9 +272,9 @@ public class Speculation
 				{
 					params = piece[ 1 ];
 				}
-		
+
 				AdventureResult match = ItemFinder.getFirstMatchingItem( params,
-					Match.EQUIP );
+						Match.EQUIP );
 				if ( match == null )
 				{
 					return true;
@@ -282,7 +282,7 @@ public class Speculation
 				if ( slot == -1 )
 				{
 					slot = EquipmentRequest.chooseEquipmentSlot( match.getItemId() );
-		
+
 					// If it can't be equipped, give up
 					if ( slot == -1 )
 					{
@@ -298,7 +298,7 @@ public class Speculation
 				if ( slot == -1 )
 				{
 					KoLmafia.updateDisplay( MafiaState.ERROR,
-						"Unknown slot: " + params );
+							"Unknown slot: " + params );
 					return true;
 				}
 				this.equip( slot, EquipmentRequest.UNEQUIP );
@@ -309,7 +309,7 @@ public class Speculation
 				if ( id == -1 && !params.equals( "none" ) )
 				{
 					KoLmafia.updateDisplay( MafiaState.ERROR,
-						"Unknown familiar: " + params );
+							"Unknown familiar: " + params );
 					return true;
 				}
 				FamiliarData fam = KoLCharacter.findFamiliar( id );
@@ -325,13 +325,13 @@ public class Speculation
 				if ( id == -1 && !params.equals( "none" ) )
 				{
 					KoLmafia.updateDisplay( MafiaState.ERROR,
-						"Unknown familiar: " + params );
+							"Unknown familiar: " + params );
 					return true;
 				}
 				FamiliarData fam = new FamiliarData( id );
 				this.setEnthroned( fam );
 				this.equip( EquipmentManager.HAT,
-					ItemPool.get( ItemPool.HATSEAT ) );
+						ItemPool.get( ItemPool.HATSEAT ) );
 			}
 			else if ( cmd.equals( "bjornify" ) )
 			{
@@ -339,55 +339,55 @@ public class Speculation
 				if ( id == -1 && !params.equals( "none" ) )
 				{
 					KoLmafia.updateDisplay( MafiaState.ERROR,
-						"Unknown familiar: " + params );
+							"Unknown familiar: " + params );
 					return true;
 				}
 				FamiliarData fam = new FamiliarData( id );
 				this.setBjorned( fam );
 				this.equip( EquipmentManager.CONTAINER,
-					ItemPool.get( ItemPool.BUDDY_BJORN ) );
+						ItemPool.get( ItemPool.BUDDY_BJORN ) );
 			}
 			else if ( cmd.equals( "edpiece" ) )
 			{
-				if ( !params.equals( "bear" ) && !params.equals( "owl" ) && 
-					!params.equals( "puma" ) && !params.equals( "hyena" ) && 
-					!params.equals( "mouse" ) && !params.equals( "weasel" ) )
+				if ( !params.equals( "bear" ) && !params.equals( "owl" ) &&
+						!params.equals( "puma" ) && !params.equals( "hyena" ) &&
+						!params.equals( "mouse" ) && !params.equals( "weasel" ) )
 				{
 					KoLmafia.updateDisplay( MafiaState.ERROR,
-						"Unknown animal: " + params );
+							"Unknown animal: " + params );
 					return true;
-				}		
+				}
 				this.setEdPiece( params );
 				this.equip( EquipmentManager.HAT,
-					ItemPool.get( ItemPool.CROWN_OF_ED ) );
+						ItemPool.get( ItemPool.CROWN_OF_ED ) );
 			}
 			else if ( cmd.equals( "retrocape" ) )
 			{
-				String[] parts = params.split(" " );
-				if ( ( !Arrays.asList(RetroCapeCommand.SUPERHEROS).contains( parts[0] ) ) ||
-					 ( !Arrays.asList(RetroCapeCommand.WASHING_INSTRUCTIONS).contains( parts[1] ) ))
+				String[] parts = params.split( " " );
+				if ( ( !Arrays.asList( RetroCapeCommand.SUPERHEROS ).contains( parts[ 0 ] ) ) ||
+						( !Arrays.asList( RetroCapeCommand.WASHING_INSTRUCTIONS ).contains( parts[ 1 ] ) ) )
 				{
 					KoLmafia.updateDisplay( MafiaState.ERROR,
-						"Unknown retro cape configuration: " + params );
+							"Unknown retro cape configuration: " + params );
 					return true;
 				}
 				this.setRetroCape( params );
 				this.equip( EquipmentManager.CONTAINER,
-					ItemPool.get( ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE ) );
+						ItemPool.get( ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE ) );
 			}
 			else if ( cmd.equals( "snowsuit" ) )
 			{
-				if ( !params.equals( "eyebrows" ) && !params.equals( "smirk" ) && 
-					!params.equals( "nose" ) && !params.equals( "goatee" ) && 
-					!params.equals( "hat" ) )
+				if ( !params.equals( "eyebrows" ) && !params.equals( "smirk" ) &&
+						!params.equals( "nose" ) && !params.equals( "goatee" ) &&
+						!params.equals( "hat" ) )
 				{
 					KoLmafia.updateDisplay( MafiaState.ERROR,
-						"Unknown decoration: " + params );
+							"Unknown decoration: " + params );
 					return true;
-				}		
+				}
 				this.setSnowsuit( params );
 				this.equip( EquipmentManager.FAMILIAR,
-					ItemPool.get( ItemPool.SNOW_SUIT ) );
+						ItemPool.get( ItemPool.SNOW_SUIT ) );
 			}
 			else if ( cmd.equals( "up" ) )
 			{
@@ -395,11 +395,11 @@ public class Speculation
 				if ( effects.isEmpty() )
 				{
 					KoLmafia.updateDisplay( MafiaState.ERROR,
-						"Unknown effect: " + params );
+							"Unknown effect: " + params );
 					return true;
 				}
 
-				int effectId = EffectDatabase.getEffectId( (String) effects.get( 0 ) );
+				int effectId = EffectDatabase.getEffectId( ( String ) effects.get( 0 ) );
 				AdventureResult effect = EffectPool.get( effectId );
 				if ( !this.hasEffect( effect ) )
 				{
@@ -412,11 +412,11 @@ public class Speculation
 				if ( effects.isEmpty() )
 				{
 					KoLmafia.updateDisplay( MafiaState.ERROR,
-						"Unknown effect: " + params );
+							"Unknown effect: " + params );
 					return true;
 				}
 
-				int effectId = EffectDatabase.getEffectId( (String) effects.get( 0 ) );
+				int effectId = EffectDatabase.getEffectId( ( String ) effects.get( 0 ) );
 				AdventureResult effect = EffectPool.get( effectId );
 				this.removeEffect( effect );
 			}
@@ -427,7 +427,7 @@ public class Speculation
 			else
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR,
-					"I don't know how to speculate about " + cmd );
+						"I don't know how to speculate about " + cmd );
 				return true;
 			}
 		}

@@ -133,7 +133,7 @@ public class PHPMTRandom extends Random {
   {
     if ( state == null )
     {
-      state = new ArrayList<Long>();
+      state = new ArrayList<>();
     }
 
     initialize( seed );

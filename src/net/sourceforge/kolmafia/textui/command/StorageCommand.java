@@ -104,40 +104,38 @@ public class StorageCommand
 			AdventureResultArray needed = new AdventureResultArray();
 
 			AdventureResult[] pieces = outfit.getPieces();
-			for ( int i = 0; i < pieces.length; ++i )
-			{
-				AdventureResult piece = pieces[ i ];
+            for ( AdventureResult piece : pieces )
+            {
+                // Count of item from all "autoSatisfy" source
+                int availableCount = InventoryManager.getAccessibleCount( piece );
 
-				// Count of item from all "autoSatisfy" source
-				int availableCount = InventoryManager.getAccessibleCount( piece );
+                // Count of item in storage
+                int storageCount = piece.getCount( KoLConstants.storage );
 
-				// Count of item in storage
-				int storageCount = piece.getCount( KoLConstants.storage );
+                if ( InventoryManager.canUseStorage() )
+                {
+                    // Don't double-count items in storage
+                    availableCount -= storageCount;
+                }
 
-				if ( InventoryManager.canUseStorage() )
-				{
-					// Don't double-count items in storage
-					availableCount -= storageCount;
-				}
+                if ( availableCount > 0 )
+                {
+                    // Don't need to pull; it's in inventory or closet or equipped
+                    KoLmafia.updateDisplay( piece.getName() + " is available without pulling." );
+                    have.add( piece );
+                    continue;
+                }
 
-				if ( availableCount > 0 )
-				{
-					// Don't need to pull; it's in inventory or closet or equipped
-					KoLmafia.updateDisplay( piece.getName() + " is available without pulling." );
-					have.add( piece );
-					continue;
-				}
+                if ( storageCount == 0 )
+                {
+                    // None available outside of storage - and none in storage
+                    KoLmafia.updateDisplay( piece.getName() + " is not in storage." );
+                    missing.add( piece );
+                    continue;
+                }
 
-				if ( storageCount == 0 )
-				{
-					// None available outside of storage - and none in storage
-					KoLmafia.updateDisplay( piece.getName() + " is not in storage." );
-					missing.add( piece );
-					continue;
-				}
-
-				needed.add( piece );
-			}
+                needed.add( piece );
+            }
 
 			if ( missing.size() > 0 )
 			{

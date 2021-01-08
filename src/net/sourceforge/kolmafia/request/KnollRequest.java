@@ -93,15 +93,15 @@ public class KnollRequest
 			// Mayor Zapruder assigns quests and gives you an
 			// elemental fairy or equipment.
 
-			if ( responseText.indexOf( "flaming glowsticks" ) != -1 )
+			if ( responseText.contains( "flaming glowsticks" ) )
 			{
 				ResultProcessor.processItem( ItemPool.FLAMING_MUSHROOM, -1 );
 			}
-			else if ( responseText.indexOf( "iced-out bling" ) != -1 )
+			else if ( responseText.contains( "iced-out bling" ) )
 			{
 				ResultProcessor.processItem( ItemPool.FROZEN_MUSHROOM, -1 );
 			}
-			else if ( responseText.indexOf( "limburger biker boots" ) != -1 )
+			else if ( responseText.contains( "limburger biker boots" ) )
 			{
 				ResultProcessor.processItem( ItemPool.STINKY_MUSHROOM, -1 );
 			}
@@ -114,26 +114,26 @@ public class KnollRequest
 			// As you may know, we train bugbears as pets and guards. Lately, though, something is causing
 			// our bugbears to become vicious, and to attack their handlers. I would be grateful if you
 			// would investigate this for me. We keep our bugbears in a pen near the Spooky Forest.
-			if ( responseText.indexOf( "It is fortunate that you have arrived" ) != -1 )
+			if ( responseText.contains( "It is fortunate that you have arrived" ) )
 			{
 				QuestDatabase.setQuestIfBetter( Quest.BUGBEAR, QuestDatabase.STARTED );
 			}
 			// Mayor Zapruder looks at the tiny pitchfork you've brought him. 
 
 			// "Spooky Gravy Fairies! I should've known. 
-			else if ( responseText.indexOf( "Mayor Zapruder looks at the tiny pitchfork" ) != -1 )
+			else if ( responseText.contains( "Mayor Zapruder looks at the tiny pitchfork" ) )
 			{
 				QuestDatabase.setQuestIfBetter( Quest.BUGBEAR, "step1" );
 			}
 			// "Excellent, Adventurer. Please, hand me the mushroom..."
-			else if ( responseText.indexOf( "Please, hand me the mushroom" ) != -1 )
+			else if ( responseText.contains( "Please, hand me the mushroom" ) )
 			{
 				QuestDatabase.setQuestIfBetter( Quest.BUGBEAR, "step2" );
 			}
 			// "You've done it! The bugbears have finally returned to a state of normalcy.
 			// Without their Queen to lead them, the spooky gravy fairies won't cause us any more problems.
 			// And now, for your reward."
-			else if ( responseText.indexOf( "The bugbears have finally returned to a state of normalcy" ) != -1 )
+			else if ( responseText.contains( "The bugbears have finally returned to a state of normalcy" ) )
 			{
 				QuestDatabase.setQuestIfBetter( Quest.BUGBEAR, QuestDatabase.FINISHED );
 			}

@@ -57,7 +57,7 @@ import net.sourceforge.kolmafia.utilities.PauseObject;
 public abstract class RequestThread
 {
 	private static final AtomicInteger nextRequestId = new AtomicInteger();
-	private static final Map<Integer,Thread> threadMap = new HashMap<Integer,Thread>();
+	private static final Map<Integer,Thread> threadMap = new HashMap<>();
 	private static final ExecutorService EXECUTOR;
 
 	static
@@ -314,12 +314,8 @@ public abstract class RequestThread
 		int openSequences = 0;
 		Thread currentThread = Thread.currentThread();
 
-		Iterator threadIterator = RequestThread.threadMap.values().iterator();
-
-		while ( threadIterator.hasNext() )
+		for ( Thread thread : RequestThread.threadMap.values() )
 		{
-			Thread thread = (Thread) threadIterator.next();
-
 			if ( thread != currentThread )
 			{
 				++openSequences;

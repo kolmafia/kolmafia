@@ -113,14 +113,14 @@ public class SpaaaceRequest
 
 	public static void parseResponse( final String urlString, final String responseText )
 	{
-		if ( !urlString.startsWith( "spaaace.php" ) && !( urlString.startsWith( "shop.php" ) && urlString.indexOf( "elvishp" ) != -1 ) )
+		if ( !urlString.startsWith( "spaaace.php" ) && !( urlString.startsWith( "shop.php" ) && urlString.contains( "elvishp" ) ) )
 		{
 			return;
 		}
 
 		QuestDatabase.setQuestIfBetter( Quest.GENERATOR, QuestDatabase.STARTED );
 
-		if ( urlString.indexOf( "elvishp" ) != -1 )
+		if ( urlString.contains( "elvishp" ) )
 		{
 			SpaaaceRequest.parseShopVisit( urlString, responseText );
 			return;
@@ -177,7 +177,7 @@ public class SpaaaceRequest
 
 	public static final String parseGameBoard( final String responseText )
 	{
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		Matcher matcher = PEG_PATTERN.matcher( responseText );
 		while ( matcher.find() )
 		{
@@ -192,7 +192,7 @@ public class SpaaaceRequest
 
 	public static final String parseGamePayouts( final String responseText )
 	{
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		Matcher matcher = PAYOUT_PATTERN.matcher( responseText );
 		while ( matcher.find() )
 		{
@@ -288,7 +288,7 @@ public class SpaaaceRequest
 			}
 		}
 
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		buffer.append( "<div class=\"blank\" title=\"" );
 		if ( min == max )
 		{
@@ -568,7 +568,7 @@ public class SpaaaceRequest
 		}
 
 		// Save the expected value for each slot in the top row
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		for ( int col = 0; col < 17; col += 2 )
 		{
 			int minVal = min[ col ];
@@ -592,7 +592,7 @@ public class SpaaaceRequest
 
 		// You hand Juliedriel your isotope. She takes it with
 		// a pair of tongs, and hands you three Porko chips
-		if ( responseText.indexOf( "You hand Juliedriel your isotope" ) != -1 )
+		if ( responseText.contains( "You hand Juliedriel your isotope" ) )
 		{
 			ResultProcessor.processItem( ItemPool.LUNAR_ISOTOPE, -1 );
 		}
@@ -668,7 +668,7 @@ public class SpaaaceRequest
 
 	private static String decoratePorkoBoard( final String board )
 	{
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 
 		// Calculate the best expected yield
 		float best = 0.0f;
@@ -762,7 +762,7 @@ public class SpaaaceRequest
 			return false;
 		}
 
-		if ( urlString.indexOf( "place=shop" ) != -1 )
+		if ( urlString.contains( "place=shop" ) )
 		{
 			// Let appropriate Coin Master claim this
 			return false;
@@ -773,15 +773,15 @@ public class SpaaaceRequest
 
 		if ( action == null )
 		{
-			if ( urlString.indexOf( "place=porko" ) != -1 )
+			if ( urlString.contains( "place=porko" ) )
 			{
 				message = "Visiting The Porko Palace";
 			}
-			else if ( urlString.indexOf( "place=grimace" ) != -1 )
+			else if ( urlString.contains( "place=grimace" ) )
 			{
 				return true;
 			}
-			else if ( urlString.indexOf( "arrive=1" ) != -1 )
+			else if ( urlString.contains( "arrive=1" ) )
 			{
 				return true;
 			}

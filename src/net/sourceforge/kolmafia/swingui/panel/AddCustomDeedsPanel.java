@@ -1795,20 +1795,20 @@ public class AddCustomDeedsPanel
 
 			buffer.remove( buffer.size() - 1 );
 
-			for ( int i = 0; i < buffer.size(); ++i )
-			{
-				piece = (String) buffer.get( i );
-				piece = piece.replaceAll( "\\|", "" );
+            for ( Object o : buffer )
+            {
+                piece = ( String ) o;
+                piece = piece.replaceAll( "\\|", "" );
 
-				if ( Preferences.getString( piece ).equals( "" ) )
-				{
-					display += piece;
-				}
-				else
-				{
-					display += Preferences.getString( piece );
-				}
-			}
+                if ( Preferences.getString( piece ).equals( "" ) )
+                {
+                    display += piece;
+                }
+                else
+                {
+                    display += Preferences.getString( piece );
+                }
+            }
 
 			display = display.replaceAll( "\\|", "" );
 			getTextArea().setText( display );
@@ -1837,26 +1837,26 @@ public class AddCustomDeedsPanel
 				buffer.add( "|" + getField( TEXT_FIELD ).getText().replaceAll( ",", ",|" ) );
 			}
 
-			for ( int i = 0; i < buffer.size(); ++i )
-			{
-				piece = (String) buffer.get( i );
-				String[] pieces = piece.split( "\\|" );
+            for ( Object o : buffer )
+            {
+                piece = ( String ) o;
+                String[] pieces = piece.split( "\\|" );
 
-				for ( int j = 0; j < pieces.length; ++j )
-				{
-					if ( pieces[ j ] == null || pieces[ j ].equals( "" ) )
-					{
-					}
-					else if ( Preferences.getString( pieces[ j ] ).equals( "" ) )
-					{
-						display += pieces[ j ];
-					}
-					else
-					{
-						display += Preferences.getString( pieces[ j ] );
-					}
-				}
-			}
+                for ( String s : pieces )
+                {
+                    if ( s == null || s.equals( "" ) )
+                    {
+                    }
+                    else if ( Preferences.getString( s ).equals( "" ) )
+                    {
+                        display += s;
+                    }
+                    else
+                    {
+                        display += Preferences.getString( s );
+                    }
+                }
+            }
 
 			getField( TEXT_FIELD ).setText( "" );
 			getTextArea().setText( display );
@@ -1884,10 +1884,10 @@ public class AddCustomDeedsPanel
 			ArrayList buffer = getTextDeed();
 			String deed = "$CUSTOM|Text|";
 
-			for ( int i = 0; i < buffer.size(); ++i )
-			{
-				deed += (String) buffer.get( i );
-			}
+            for ( Object o : buffer )
+            {
+                deed += ( String ) o;
+            }
 
 			String oldString = Preferences.getString( "dailyDeedsOptions" );
 			Preferences.setString( "dailyDeedsOptions", oldString + "," + deed );

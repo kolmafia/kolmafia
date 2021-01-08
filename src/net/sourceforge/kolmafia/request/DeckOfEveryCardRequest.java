@@ -66,13 +66,13 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class DeckOfEveryCardRequest
 	extends GenericRequest
 {
-	private static final TreeMap<Integer,EveryCard> idToCard = new TreeMap<Integer,EveryCard>();
-	private static final TreeMap<String,EveryCard> canonicalNameToCard = new TreeMap<String,EveryCard>();
-	private static final TreeMap<Phylum,EveryCard> phylumToCard = new TreeMap<Phylum,EveryCard>();
-	private static final HashSet<EveryCard> monsterCards = new HashSet<EveryCard>();
-	private static final TreeMap<Stat,EveryCard> statToCard = new TreeMap<Stat,EveryCard>();
-	private static final TreeMap<AdventureResult,EveryCard> buffToCard = new TreeMap<AdventureResult,EveryCard>();
-	public static final TreeSet<String> allCardNames = new TreeSet<String>();
+	private static final TreeMap<Integer,EveryCard> idToCard = new TreeMap<>();
+	private static final TreeMap<String,EveryCard> canonicalNameToCard = new TreeMap<>();
+	private static final TreeMap<Phylum,EveryCard> phylumToCard = new TreeMap<>();
+	private static final HashSet<EveryCard> monsterCards = new HashSet<>();
+	private static final TreeMap<Stat,EveryCard> statToCard = new TreeMap<>();
+	private static final TreeMap<AdventureResult,EveryCard> buffToCard = new TreeMap<>();
+	public static final TreeSet<String> allCardNames = new TreeSet<>();
 
 	public static final AdventureResult STRONGLY_MOTIVATED = EffectPool.get( EffectPool.STRONGLY_MOTIVATED, 20 );
 	public static final AdventureResult MAGICIANSHIP = EffectPool.get( EffectPool.MAGICIANSHIP, 20 );
@@ -429,7 +429,7 @@ public class DeckOfEveryCardRequest
 			return;
 		}
 
-		TreeSet<String> cards = new TreeSet<String>( DeckOfEveryCardRequest.allCardNames );
+		TreeSet<String> cards = new TreeSet<>( DeckOfEveryCardRequest.allCardNames );
 
 		Matcher cardMatcher = DeckOfEveryCardRequest.AVAILABLE_CARD_PATTERN.matcher( selectMatcher.group(0) );
 		while ( cardMatcher.find() )

@@ -68,11 +68,11 @@ public class PrefTraceCommand
 		}
 
 		String[] prefList = parameters.split( "\\s*,\\s*" );
-		audience = new ArrayList<Listener>();
-		for ( int i = 0; i < prefList.length; ++i )
-		{
-			audience.add( new PreferenceListener( prefList[ i ] ) );
-		}
+		audience = new ArrayList<>();
+        for ( String s : prefList )
+        {
+            audience.add( new PreferenceListener( s ) );
+        }
 	}
 
 	private static class PreferenceListener

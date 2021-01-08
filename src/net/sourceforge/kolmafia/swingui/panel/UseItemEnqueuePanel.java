@@ -135,7 +135,7 @@ public class UseItemEnqueuePanel
 		}
 		this.queueTabs = queueTabs;
 
-		List<ThreadedListener> listeners = new ArrayList<ThreadedListener>();
+		List<ThreadedListener> listeners = new ArrayList<>();
 
 		if ( Preferences.getBoolean( "addCreationQueue" ) )
 		{

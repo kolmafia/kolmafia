@@ -65,7 +65,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class PlaceRequest
 	extends GenericRequest
 {
-	public static TreeSet<String> places = new TreeSet<String>();
+	public static TreeSet<String> places = new TreeSet<>();
 	public boolean followRedirects = false;
 
 	private String place = null;

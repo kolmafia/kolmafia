@@ -71,10 +71,10 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class NPCStoreDatabase
 {
-	private static final HashMultimap<NPCPurchaseRequest> NPC_ITEMS = new HashMultimap<NPCPurchaseRequest>();
-	private static final HashMultimap<NPCPurchaseRequest> ROW_ITEMS = new HashMultimap<NPCPurchaseRequest>();
+	private static final HashMultimap<NPCPurchaseRequest> NPC_ITEMS = new HashMultimap<>();
+	private static final HashMultimap<NPCPurchaseRequest> ROW_ITEMS = new HashMultimap<>();
 	private static final AdventureResult RABBIT_HOLE = new AdventureResult( "Down the Rabbit Hole", 1, true );
-	private static final Map<String, String> storeNameById = new TreeMap<String, String>();
+	private static final Map<String, String> storeNameById = new TreeMap<>();
 
 	static
 	{

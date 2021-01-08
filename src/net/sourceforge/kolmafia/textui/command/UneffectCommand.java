@@ -69,10 +69,10 @@ public class UneffectCommand
 				// Nope. It is a list of effects. Assume that
 				// none contain a comma.
 				String[] effects = parameters.split( "\\s*,\\s*" );
-				for ( int i = 0; i < effects.length; ++i )
-				{
-					this.run( "uneffect", effects[ i ] );
-				}
+                for ( String effect : effects )
+                {
+                    this.run( "uneffect", effect );
+                }
 
 				return;
 			}
@@ -95,16 +95,16 @@ public class UneffectCommand
 			String buffToCheck;
 			AdventureResult buffToRemove = null;
 
-			for ( int i = 0; i < matchingEffects.size(); ++i )
-			{
-				buffToCheck = (String) matchingEffects.get( i );
-				int effectId = EffectDatabase.getEffectId( buffToCheck );
-				if ( UneffectRequest.isShruggable( effectId ) )
-				{
-					++shruggableCount;
-					buffToRemove = EffectPool.get( effectId );
-				}
-			}
+            for ( Object matchingEffect : matchingEffects )
+            {
+                buffToCheck = ( String ) matchingEffect;
+                int effectId = EffectDatabase.getEffectId( buffToCheck );
+                if ( UneffectRequest.isShruggable( effectId ) )
+                {
+                    ++shruggableCount;
+                    buffToRemove = EffectPool.get( effectId );
+                }
+            }
 
 			if ( shruggableCount == 1 )
 			{

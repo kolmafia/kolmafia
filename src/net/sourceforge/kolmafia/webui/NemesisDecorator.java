@@ -125,7 +125,7 @@ public class NemesisDecorator
 		// might be useful to you, if only you could find the right
 		// moment to focus on.
 
-		if ( responseText.indexOf( "find the right moment" ) != -1 )
+		if ( responseText.contains( "find the right moment" ) )
 		{
 			// Didn't use it on the right move
 			return;
@@ -134,7 +134,7 @@ public class NemesisDecorator
 		// Meh, you can't bring yourself to do that goofy move twice in
 		// one fight. You have <i>some</i> self-respect, after all.
 
-		if ( responseText.indexOf( "You have <i>some</i> self-respect" ) != -1 )
+		if ( responseText.contains( "You have <i>some</i> self-respect" ) )
 		{
 			// Only once per fight
 			return;
@@ -170,7 +170,7 @@ public class NemesisDecorator
 		String[] moves = NemesisDecorator.findRaver( monster );
 		if ( moves != null )
 		{
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			String skill = moves[ 1 ];
 			buffer.append( skill );
 			if ( KoLCharacter.hasSkill( skill ) )

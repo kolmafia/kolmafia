@@ -68,7 +68,7 @@ public abstract class StaticEntity
 	private static boolean isGUIRequired = false;
 	private static final boolean isHeadless = System.getProperty( "java.awt.headless", "" ).equals( "true" );
 
-	public static final ArrayList<ActionPanel> existingPanels = new ArrayList<ActionPanel>();
+	public static final ArrayList<ActionPanel> existingPanels = new ArrayList<>();
 	private static ActionPanel[] panelArray = new GenericPanel[ 0 ];
 
 	public static String backtraceTrigger = null;
@@ -76,13 +76,7 @@ public abstract class StaticEntity
 
 	public static boolean userAborted = false;
 	private static MafiaState globalContinuationState = MafiaState.CONTINUE;
-	private static final ThreadLocal<MafiaState> threadLocalContinuationState = new ThreadLocal<MafiaState>()
-	{
-		protected MafiaState initialValue()
-		{
-			return MafiaState.CONTINUE;
-		}
-	};
+	private static final ThreadLocal<MafiaState> threadLocalContinuationState = ThreadLocal.withInitial( () -> MafiaState.CONTINUE );
 
 	public static final String getVersion()
 	{
@@ -299,7 +293,7 @@ public abstract class StaticEntity
 	{
 		PauseObject pauser = new PauseObject();
 
-		StringBuffer actualMessage = new StringBuffer( message );
+		StringBuilder actualMessage = new StringBuilder( message );
 
 		for ( int i = seconds; i > 0 && KoLmafia.permitsContinue(); --i )
 		{
@@ -490,11 +484,11 @@ public abstract class StaticEntity
 
 		File[] possibleJavaHomes = javaInstallFolder.listFiles();
 
-		for ( int i = 0; i < possibleJavaHomes.length; ++i )
+		for ( File possibleJavaHome : possibleJavaHomes )
 		{
-			if ( StaticEntity.hasJDKBinaries( possibleJavaHomes[ i ] ) )
+			if ( StaticEntity.hasJDKBinaries( possibleJavaHome ) )
 			{
-				return possibleJavaHomes[ i ];
+				return possibleJavaHome;
 			}
 		}
 
@@ -548,14 +542,14 @@ public abstract class StaticEntity
 
 			String line;
 
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 
 			while ( ( pid == null ) && ( line = reader.readLine() ) != null )
 			{
 				sb.append( line );
 				sb.append( KoLConstants.LINE_BREAK );
 
-				if ( line.indexOf( "KoLmafia" ) != -1 )
+				if ( line.contains( "KoLmafia" ) )
 				{
 					pid = line.substring( 0, line.indexOf( ' ' ) );
 				}
@@ -611,7 +605,7 @@ public abstract class StaticEntity
 
 		Runtime runtime = Runtime.getRuntime();
 
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
 		try
 		{
@@ -682,7 +676,7 @@ public abstract class StaticEntity
 
 		Runtime runtime = Runtime.getRuntime();
 
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
 		try
 		{
@@ -758,14 +752,14 @@ public abstract class StaticEntity
 
 	public static final String[] getPastUserList()
 	{
-		ArrayList<String> pastUserList = new ArrayList<String>();
+		ArrayList<String> pastUserList = new ArrayList<>();
 
 		String user;
 		File[] files = DataUtilities.listFiles( KoLConstants.SETTINGS_LOCATION );
 
-		for ( int i = 0; i < files.length; ++i )
+		for ( File file : files )
 		{
-			user = files[ i ].getName();
+			user = file.getName();
 			if ( user.startsWith( "GLOBAL" ) || !user.endsWith( "_prefs.txt" ) )
 			{
 				continue;

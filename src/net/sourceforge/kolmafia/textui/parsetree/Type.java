@@ -280,7 +280,7 @@ public class Type
 
 	public Value makeValue( final Integer idval, final boolean returnDefault )
 	{
-		int id = idval.intValue();
+		int id = idval;
 		switch ( this.type )
 		{
 		case DataTypes.TYPE_BOOLEAN:
@@ -419,7 +419,7 @@ public class Type
 		}
 		if ( object instanceof Integer )
 		{
-			int integer = ( (Integer) object ).intValue();
+			int integer = ( Integer ) object;
 			switch ( this.type )
 			{
 			case DataTypes.TYPE_BOOLEAN:

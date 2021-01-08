@@ -67,12 +67,12 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 
 public abstract class ConsequenceManager
 {
-	private static final HashMap<String, Consequence> itemDescs = new HashMap<String, Consequence>();
-	private static final HashMap<String, Consequence> effectDescs = new HashMap<String, Consequence>();
-	private static final HashMap<String, Consequence> skillDescs = new HashMap<String, Consequence>();
-	private static final ArrayList<String> descriptions = new ArrayList<String>();
-	private static final HashMap<String, Consequence> monsters = new HashMap<String, Consequence>();
-	private static final ArrayList<Consequence> accomplishments = new ArrayList<Consequence>();
+	private static final HashMap<String, Consequence> itemDescs = new HashMap<>();
+	private static final HashMap<String, Consequence> effectDescs = new HashMap<>();
+	private static final HashMap<String, Consequence> skillDescs = new HashMap<>();
+	private static final ArrayList<String> descriptions = new ArrayList<>();
+	private static final HashMap<String, Consequence> monsters = new HashMap<>();
+	private static final ArrayList<Consequence> accomplishments = new ArrayList<>();
 
 	private static final Pattern GROUP_PATTERN = Pattern.compile( "\\$(\\d)" );
 	private static final Pattern EXPR_PATTERN = Pattern.compile( "\\[(.+?)\\]" );

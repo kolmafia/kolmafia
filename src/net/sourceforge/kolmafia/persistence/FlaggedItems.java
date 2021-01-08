@@ -263,24 +263,24 @@ public class FlaggedItems
 		model.clear();
 		AdventureResult item;
 
-		for ( int i = 0; i < defaults.length; ++i )
-		{
-			int itemId = ItemDatabase.getItemId( defaults[ i ] );
-			if ( itemId == -1 )
-			{
-				continue;
-			}
-			item = ItemPool.get( itemId );
-			if ( !model.contains( item ) )
-			{
-				model.add( item );
-			}
+        for ( String aDefault : defaults )
+        {
+            int itemId = ItemDatabase.getItemId( aDefault );
+            if ( itemId == -1 )
+            {
+                continue;
+            }
+            item = ItemPool.get( itemId );
+            if ( !model.contains( item ) )
+            {
+                model.add( item );
+            }
 
-			if ( model == KoLConstants.singletonList && !KoLConstants.junkList.contains( item ) )
-			{
-				KoLConstants.junkList.add( item );
-			}
-		}
+            if ( model == KoLConstants.singletonList && !KoLConstants.junkList.contains( item ) )
+            {
+                KoLConstants.junkList.add( item );
+            }
+        }
 	}
 
 	public static final void initializeLists()

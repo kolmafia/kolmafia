@@ -86,7 +86,7 @@ public class MallSearchRequest
 
 		this.searchString = "";
 		this.storeId = storeId;
-		this.results = new ArrayList<PurchaseRequest>();
+		this.results = new ArrayList<>();
 		this.retainAll = true;
 	}
 
@@ -132,7 +132,7 @@ public class MallSearchRequest
 
 		this.searchString = "";
 		this.storeId = 0;
-		this.results = new ArrayList<PurchaseRequest>();
+		this.results = new ArrayList<>();
 		this.retainAll = true;
 
 		this.addFormField( "pudnuggler", this.searchString );
@@ -280,7 +280,7 @@ public class MallSearchRequest
 		if ( this.searchString.startsWith( "\"" ) && this.results.size() > 0 )
 		{
 			AdventureResult item = this.results.get(0).getItem();
-			StoreManager.maybeUpdateMallPrice( item, new ArrayList<PurchaseRequest>( this.results ) );
+			StoreManager.maybeUpdateMallPrice( item, new ArrayList<>( this.results ) );
 		}
 
 		KoLmafia.updateDisplay( "Search complete." );
@@ -422,7 +422,7 @@ public class MallSearchRequest
 	private void searchMall()
 	{
 		List<String> itemNames = this.searchString.length() == 0 ?
-			                 new ArrayList<String>() :
+				new ArrayList<>() :
 			                 ItemDatabase.getMatchingNames( this.searchString );
 
 		// Change all multi-line store names into single line store
@@ -467,7 +467,7 @@ public class MallSearchRequest
 				if ( limitMatcher.find() )
 				{
 					limit = StringUtilities.parseInt( limitMatcher.group( 1 ) );
-					canPurchase = linkText.indexOf( "graybelow limited" ) == -1;
+					canPurchase = !linkText.contains( "graybelow limited" );
 				}
 
 				// The next token contains data which identifies the shop

@@ -188,14 +188,14 @@ public class CakeArenaFrame
 		{
 			this.row = row;
 			this.column = column;
-			this.opponentSkill = skill.intValue() == 1 ? "1 star (opponent)" : skill + " stars (opponent)";
+			this.opponentSkill = skill == 1 ? "1 star (opponent)" : skill + " stars (opponent)";
 		}
 
 		@Override
 		protected void execute()
 		{
 			int yourSkillValue =
-				FamiliarDatabase.getFamiliarSkill( KoLCharacter.getFamiliar().getRace(), this.column ).intValue();
+                    FamiliarDatabase.getFamiliarSkill( KoLCharacter.getFamiliar().getRace(), this.column );
 			String yourSkill = yourSkillValue == 1 ? "1 star (yours)" : yourSkillValue + " stars (yours)";
 
 			int battleCount =

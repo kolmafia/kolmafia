@@ -90,7 +90,7 @@ public class PluralValue
 	{
 		if ( this.lookup == null )
 		{
-			this.lookup = new TreeSet<Value>();
+			this.lookup = new TreeSet<>();
 			this.lookup.addAll( Arrays.asList( (Value[]) this.content ) );
 		}
 		return this.lookup.contains( key );
@@ -109,10 +109,10 @@ public class PluralValue
 
 		Value[] array = this.keys();
 
-		for ( int i = 0; i < array.length; ++i )
-		{
-			obj.put( array[ i ].toJSON() );
-		}
+        for ( Value value : array )
+        {
+            obj.put( value.toJSON() );
+        }
 
 		return obj;
 	}

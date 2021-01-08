@@ -415,7 +415,7 @@ public class ChatFormatter
 				int startIndex = oldSetting.indexOf( settingString );
 				int endIndex = startIndex + settingString.length();
 
-				StringBuffer newSetting = new StringBuffer();
+				StringBuilder newSetting = new StringBuilder();
 
 				if ( startIndex != -1 )
 				{

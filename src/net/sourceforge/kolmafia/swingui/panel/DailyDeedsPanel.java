@@ -354,15 +354,15 @@ public class DailyDeedsPanel
 
 		if ( currentVersion < releaseVersion )
 		{
-			for ( int i = 0; i < BUILTIN_DEEDS.length; ++i )
-			{
-				if ( getVersion( BUILTIN_DEEDS[ i ][ 1 ] ) > currentVersion )
-				{
-					String oldString = Preferences.getString( "dailyDeedsOptions" );
-					Preferences.setString( "dailyDeedsOptions", oldString + "," + BUILTIN_DEEDS[ i ][ 1 ] );
-					RequestLogger.printLine( "New deed found.  Adding " + BUILTIN_DEEDS[ i ][ 1 ] + " to the end of your deeds panel." );
-				}
-			}
+            for ( String[] builtinDeed : BUILTIN_DEEDS )
+            {
+                if ( getVersion( builtinDeed[ 1 ] ) > currentVersion )
+                {
+                    String oldString = Preferences.getString( "dailyDeedsOptions" );
+                    Preferences.setString( "dailyDeedsOptions", oldString + "," + builtinDeed[ 1 ] );
+                    RequestLogger.printLine( "New deed found.  Adding " + builtinDeed[ 1 ] + " to the end of your deeds panel." );
+                }
+            }
 			RequestLogger.printLine( "Deeds updated.  Now version " + releaseVersion + "." );
 		}
 
@@ -387,92 +387,92 @@ public class DailyDeedsPanel
 		String[] pieces = deedsString.split( ",(?!\\|)" );
 
 		// The i loop iterates over all of the elements in the dailyDeedsOptions preference.
-		for ( int i = 0; i < pieces.length; ++i )
-		{
-			/*
-			 * The j loop iterates down the full list of deeds. Once it finds the deed in question, it
-			 * checks what kind of deed we're handling. Currently there is generalized handling for BooleanPref,
-			 * BooleanItem, Multipref, Skill, and Text types; all the other built-ins are marked as Special and require
-			 * their own function in dailyDeedsPanel to handle.
-			 */
-			for ( int j = 0; j < fullDeedsList.length; ++j )
-			{
-				/*
-				 * Built-in handling
-				 */
-				if ( pieces[ i ].equals( fullDeedsList[ j ][ 1 ] ) )
-				{
-					/*
-					 * Generalized handling
-					 */
-					if ( fullDeedsList[ j ][ 0 ].equalsIgnoreCase( "Command" ) )
-					{
-						parseCommandDeed( fullDeedsList[ j ] );
-						break;
-					}
-					else if ( fullDeedsList[ j ][ 0 ].equalsIgnoreCase( "Item" ) )
-					{
-						parseItemDeed( fullDeedsList[ j ] );
-						break;
-					}
-					else if ( fullDeedsList[ j ][ 0 ].equalsIgnoreCase( "Skill" ) )
-					{
-						parseSkillDeed( fullDeedsList[ j ] );
-						break;
-					}
+        for ( String piece : pieces )
+        {
+            /*
+             * The j loop iterates down the full list of deeds. Once it finds the deed in question, it
+             * checks what kind of deed we're handling. Currently there is generalized handling for BooleanPref,
+             * BooleanItem, Multipref, Skill, and Text types; all the other built-ins are marked as Special and require
+             * their own function in dailyDeedsPanel to handle.
+             */
+            for ( String[] strings : fullDeedsList )
+            {
+                /*
+                 * Built-in handling
+                 */
+                if ( piece.equals( strings[ 1 ] ) )
+                {
+                    /*
+                     * Generalized handling
+                     */
+                    if ( strings[ 0 ].equalsIgnoreCase( "Command" ) )
+                    {
+                        parseCommandDeed( strings );
+                        break;
+                    }
+                    else if ( strings[ 0 ].equalsIgnoreCase( "Item" ) )
+                    {
+                        parseItemDeed( strings );
+                        break;
+                    }
+                    else if ( strings[ 0 ].equalsIgnoreCase( "Skill" ) )
+                    {
+                        parseSkillDeed( strings );
+                        break;
+                    }
 
-					/*
-					 * Special Handling
-					 */
-					else if ( fullDeedsList[ j ][ 0 ].equalsIgnoreCase( "Special" ) )
-					{
-						parseSpecialDeed( fullDeedsList[ j ] );
-						break;
-					}
+                    /*
+                     * Special Handling
+                     */
+                    else if ( strings[ 0 ].equalsIgnoreCase( "Special" ) )
+                    {
+                        parseSpecialDeed( strings );
+                        break;
+                    }
 
-					// we'll only get here if an unknown deed type was set in BUILTIN_DEEDS.
-					// Shouldn't happen.
+                    // we'll only get here if an unknown deed type was set in BUILTIN_DEEDS.
+                    // Shouldn't happen.
 
-					RequestLogger.printLine( "Unknown deed type: " + fullDeedsList[ j ][ 0 ] );
-					break;
-				}
-			}
-			/*
-			 * Custom handling
-			 */
-			if ( pieces[ i ].split( "\\|" )[ 0 ].equals( "$CUSTOM" )
-					&& pieces[ i ].split( "\\|" ).length > 1 )
-			{
-				String cString = pieces[ i ].substring( 8 );//remove $CUSTOM|
-				String[] customPieces = cString.split( "\\|" );
+                    RequestLogger.printLine( "Unknown deed type: " + strings[ 0 ] );
+                    break;
+                }
+            }
+            /*
+             * Custom handling
+             */
+            if ( piece.split( "\\|" )[ 0 ].equals( "$CUSTOM" )
+                    && piece.split( "\\|" ).length > 1 )
+            {
+                String cString = piece.substring( 8 );//remove $CUSTOM|
+                String[] customPieces = cString.split( "\\|" );
 
-				if ( customPieces[ 0 ].equalsIgnoreCase( "Command" ) )
-				{
-					parseCommandDeed( customPieces );
-				}
-				else if ( customPieces[ 0 ].equalsIgnoreCase( "Item" ) )
-				{
-					parseItemDeed( customPieces );
-				}
-				else if ( customPieces[ 0 ].equalsIgnoreCase( "Skill" ) )
-				{
-					parseSkillDeed( customPieces );
-				}
-				else if ( customPieces[ 0 ].equalsIgnoreCase( "Text" ) )
-				{
-					parseTextDeed( customPieces );
-				}
-				else if ( customPieces[ 0 ].equalsIgnoreCase( "Combo" ) )
-				{
-					parseComboDeed( customPieces );
-				}
-				else if ( customPieces[ 0 ].equalsIgnoreCase( "Simple" ) )
-				{
-					parseSimpleDeed( customPieces, sCount );
-					++sCount;
-				}
-			}
-		}
+                if ( customPieces[ 0 ].equalsIgnoreCase( "Command" ) )
+                {
+                    parseCommandDeed( customPieces );
+                }
+                else if ( customPieces[ 0 ].equalsIgnoreCase( "Item" ) )
+                {
+                    parseItemDeed( customPieces );
+                }
+                else if ( customPieces[ 0 ].equalsIgnoreCase( "Skill" ) )
+                {
+                    parseSkillDeed( customPieces );
+                }
+                else if ( customPieces[ 0 ].equalsIgnoreCase( "Text" ) )
+                {
+                    parseTextDeed( customPieces );
+                }
+                else if ( customPieces[ 0 ].equalsIgnoreCase( "Combo" ) )
+                {
+                    parseComboDeed( customPieces );
+                }
+                else if ( customPieces[ 0 ].equalsIgnoreCase( "Simple" ) )
+                {
+                    parseSimpleDeed( customPieces, sCount );
+                    ++sCount;
+                }
+            }
+        }
 	}
 
 	private void parseComboDeed( String[] deedsString )
@@ -519,7 +519,7 @@ public class DailyDeedsPanel
 		// pack up the rest of the deed into an ArrayList.
 		// .get( element ) gives a string array containing { "$ITEM", displayText, preference, command }
 
-		ArrayList<String[]> packedDeed = new ArrayList<String[]>();
+		ArrayList<String[]> packedDeed = new ArrayList<>();
 		for ( int i = ( isMulti ? 4 : 3 ); i < deedsString.length; i += 4 )
 		{
 			if ( !deedsString[ i ].equals( "$ITEM" ) )
@@ -1263,7 +1263,7 @@ public class DailyDeedsPanel
 
 			if ( this.buttons == null )
 			{
-				this.buttons = new ArrayList<JButton>();
+				this.buttons = new ArrayList<>();
 				button.putClientProperty( "JButton.segmentPosition", "only" );
 			}
 			else
@@ -1294,7 +1294,7 @@ public class DailyDeedsPanel
 			button.putClientProperty( "JButton.buttonType", "segmented" );
 			if ( this.buttons == null )
 			{
-				this.buttons = new ArrayList<JButton>();
+				this.buttons = new ArrayList<>();
 				button.putClientProperty( "JButton.segmentPosition", "only" );
 			}
 			else
@@ -1328,10 +1328,10 @@ public class DailyDeedsPanel
 			comboBox.setMaximumSize( new Dimension( Math.round( len + 100 ), (int)Math.round( ht * 1.5 ) ) );
 			comboBox.setPrototypeDisplayValue( lengthString );
 
-			for ( int i = 0; i < choice.length ; ++i )
-			{
-				comboBox.addItem( choice[i]);
-			}
+            for ( String s : choice )
+            {
+                comboBox.addItem( s );
+            }
 
 			comboBox.setTooltips( tooltips );
 			this.add( comboBox );
@@ -1372,12 +1372,9 @@ public class DailyDeedsPanel
 		{
 			if ( this.buttons != null )
 			{
-				Iterator<JButton> i = this.buttons.iterator();
 
-				while ( i.hasNext() )
+				for ( JButton button : this.buttons )
 				{
-					JButton button = i.next();
-
 					button.setEnabled( enabled );
 				}
 			}
@@ -1420,7 +1417,7 @@ public class DailyDeedsPanel
 
 		public ShowerCombo()
 		{
-			List<String> ttips = new ArrayList<String>();
+			List<String> ttips = new ArrayList<>();
 			String[] choices = {
 				"April Shower",
 				"Muscle",
@@ -1509,7 +1506,7 @@ public class DailyDeedsPanel
 		public DemonCombo()
 		{
 			int len = KoLAdventure.DEMON_TYPES.length;
-			List<String> ttips = new ArrayList<String>();
+			List<String> ttips = new ArrayList<>();
 			String[] choices = new String[ len + 1 ];
 			choices[0] = "Summoning Chamber";
 			String[] tips = {
@@ -1608,7 +1605,7 @@ public class DailyDeedsPanel
 			this.preference = pref;
 
 			int len = packedDeed.size();
-			List<String> ttips = new ArrayList<String>();
+			List<String> ttips = new ArrayList<>();
 			String[] tips = new String[ len + 1 ];
 			String[] choices = new String[ len + 1 ];
 			choices[ 0 ] = displayText;
@@ -2677,7 +2674,7 @@ public class DailyDeedsPanel
 		public MomCombo()
 		{
 			int len = MomRequest.FOOD.length;
-			List<String> ttips = new ArrayList<String>();
+			List<String> ttips = new ArrayList<>();
 			String[] choices = new String[ len + 1 ];
 			choices[0] = "Mom Food";
 			String[] tips =
@@ -3337,7 +3334,7 @@ public class DailyDeedsPanel
 
 			buffer.append( "<html>" );
 			
-			HashSet<String> dropTrackers = new HashSet<String>();
+			HashSet<String> dropTrackers = new HashSet<>();
 			for ( FamiliarData.DropInfo info : FamiliarData.DROP_FAMILIARS )
 			{
 				if ( !dropTrackers.contains( info.dropTracker ) )
@@ -3833,8 +3830,8 @@ public class DailyDeedsPanel
 		private final Component space;
 		private final JButton button;
 
-		private final List<String> effectHats = new ArrayList<String>();
-		private final List<String> modifiers = new ArrayList<String>();
+		private final List<String> effectHats = new ArrayList<>();
+		private final List<String> modifiers = new ArrayList<>();
 
 		private final HatterComboListener listener = new HatterComboListener();
 
@@ -4324,9 +4321,9 @@ public class DailyDeedsPanel
 	public static class DeckOfEveryCardDaily
 		extends Daily
 	{
-		private static final List<String> choices = new ArrayList<String>();
-		private static final List<String> commands = new ArrayList<String>();
-		private static final List<String> tooltips = new ArrayList<String>();
+		private static final List<String> choices = new ArrayList<>();
+		private static final List<String> commands = new ArrayList<>();
+		private static final List<String> tooltips = new ArrayList<>();
 
 		DisabledItemsComboBox box = new DisabledItemsComboBox();
 		Component space;
@@ -4422,9 +4419,9 @@ public class DailyDeedsPanel
 	public static class TeaTreeDaily
 		extends Daily
 	{
-		private static final List<String> choices = new ArrayList<String>();
-		private static final List<String> commands = new ArrayList<String>();
-		private static final List<String> tooltips = new ArrayList<String>();
+		private static final List<String> choices = new ArrayList<>();
+		private static final List<String> commands = new ArrayList<>();
+		private static final List<String> tooltips = new ArrayList<>();
 		static
 		{
 			choices.add( "Potted Tea Tree:" );
@@ -4606,9 +4603,9 @@ public class DailyDeedsPanel
 	public static class TerminalEnhanceDaily
 		extends Daily
 	{
-		private static final List<String> choices = new ArrayList<String>();
-		private static final List<String> commands = new ArrayList<String>();
-		private static final List<String> tooltips = new ArrayList<String>();
+		private static final List<String> choices = new ArrayList<>();
+		private static final List<String> commands = new ArrayList<>();
+		private static final List<String> tooltips = new ArrayList<>();
 
 		DisabledItemsComboBox box = new DisabledItemsComboBox();
 		Component space;
@@ -4705,9 +4702,9 @@ public class DailyDeedsPanel
 	public static class TerminalEnquiryDaily
 		extends Daily
 	{
-		private static final List<String> choices = new ArrayList<String>();
-		private static final List<String> commands = new ArrayList<String>();
-		private static final List<String> tooltips = new ArrayList<String>();
+		private static final List<String> choices = new ArrayList<>();
+		private static final List<String> commands = new ArrayList<>();
+		private static final List<String> tooltips = new ArrayList<>();
 
 		DisabledItemsComboBox box = new DisabledItemsComboBox();
 		JButton btn;
@@ -4800,9 +4797,9 @@ public class DailyDeedsPanel
 	public static class TerminalExtrudeDaily
 		extends Daily
 	{
-		private static final List<String> choices = new ArrayList<String>();
-		private static final List<String> commands = new ArrayList<String>();
-		private static final List<String> tooltips = new ArrayList<String>();
+		private static final List<String> choices = new ArrayList<>();
+		private static final List<String> commands = new ArrayList<>();
+		private static final List<String> tooltips = new ArrayList<>();
 
 		DisabledItemsComboBox box = new DisabledItemsComboBox();
 		Component space;
@@ -4900,9 +4897,9 @@ public class DailyDeedsPanel
 	public static class TerminalEducateDaily
 		extends Daily
 	{
-		private static final List<String> choices = new ArrayList<String>();
-		private static final List<String> commands = new ArrayList<String>();
-		private static final List<String> tooltips = new ArrayList<String>();
+		private static final List<String> choices = new ArrayList<>();
+		private static final List<String> commands = new ArrayList<>();
+		private static final List<String> tooltips = new ArrayList<>();
 
 		DisabledItemsComboBox box = new DisabledItemsComboBox();
 		JButton btn;

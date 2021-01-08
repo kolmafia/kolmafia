@@ -139,7 +139,7 @@ public class PizzaCubeRequest
 		for ( AdventureResult ingredient : this.ingredients )
 		{
 			Integer count = imap.get( ingredient );
-			imap.put( ingredient, count == null ? 1 : count.intValue() + 1 );
+			imap.put( ingredient, count == null ? 1 : count + 1 );
 		}
 
 		// Retrieve needed ingredients

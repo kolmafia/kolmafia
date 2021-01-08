@@ -92,9 +92,9 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public abstract class ChatManager
 {
 	private static final LinkedList<Object> clanMessages = new RollingLinkedList( 20 );
-	private static final Set<String> validChatReplyRecipients = new HashSet<String>();
+	private static final Set<String> validChatReplyRecipients = new HashSet<>();
 
-	private static final TreeMap<String, StyledChatBuffer> instantMessageBuffers = new TreeMap<String, StyledChatBuffer>();
+	private static final TreeMap<String, StyledChatBuffer> instantMessageBuffers = new TreeMap<>();
 	private static Entry<String,StyledChatBuffer>[] bufferEntries = new Entry[ 0 ];
 
 	private static boolean isRunning = false;
@@ -103,15 +103,15 @@ public abstract class ChatManager
 
 	private static String currentChannel = null;
 
-	private static final List<String> activeWindows = new ArrayList<String>();
-	public static List<String> activeChannels = new ArrayList<String>();
+	private static final List<String> activeWindows = new ArrayList<>();
+	public static List<String> activeChannels = new ArrayList<>();
 
 	private static TabbedChatFrame tabbedFrame = null;
 
 	private static boolean triviaGameActive = false;
 	private static int triviaGameIndex = 0;
 	private static String triviaGameId = "[trivia0]";
-	private static final LockableListModel<String> triviaGameContacts = new LockableListModel<String>();
+	private static final LockableListModel<String> triviaGameContacts = new LockableListModel<>();
 	private static ContactListFrame triviaGameContactListFrame = null;
 
 	private static String faxbot = null;
@@ -678,16 +678,14 @@ public abstract class ChatManager
 
 			StringBuilder mailContent = new StringBuilder();
 
-			Iterator<Object> clanMessageIterator = ChatManager.clanMessages.iterator();
+            for ( Object clanMessage : ChatManager.clanMessages )
+            {
+                ChatMessage message = ( ChatMessage ) clanMessage;
+                String cleanMessage = KoLConstants.ANYTAG_PATTERN.matcher( ChatFormatter.formatChatMessage( message ) ).replaceAll( "" );
 
-			while ( clanMessageIterator.hasNext() )
-			{
-				ChatMessage message = (ChatMessage) clanMessageIterator.next();
-				String cleanMessage = KoLConstants.ANYTAG_PATTERN.matcher( ChatFormatter.formatChatMessage( message ) ).replaceAll( "" );
-
-				mailContent.append( cleanMessage );
-				mailContent.append( "\n" );
-			}
+                mailContent.append( cleanMessage );
+                mailContent.append( "\n" );
+            }
 
 			RequestThread.postRequest( new SendMailRequest( sender, mailContent.toString() ) );
 			KoLmafia.updateDisplay( "Recent clan chat messages were sent to " + sender );

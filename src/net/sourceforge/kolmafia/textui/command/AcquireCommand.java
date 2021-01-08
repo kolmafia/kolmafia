@@ -61,19 +61,17 @@ public class AcquireCommand
 		Checkpoint checkpoint = new Checkpoint();
 		try
 		{
-			for ( int i = 0; i < items.length; ++i )
-			{
-				AdventureResult item = items[ i ];
-
-				if ( checking )
-				{
-					RequestLogger.printLine( item + ": " + InventoryManager.simRetrieveItem( item, true ) );
-				}
-				else
-				{
-					InventoryManager.retrieveItem( item, true );
-				}
-			}
+            for ( AdventureResult item : items )
+            {
+                if ( checking )
+                {
+                    RequestLogger.printLine( item + ": " + InventoryManager.simRetrieveItem( item, true ) );
+                }
+                else
+                {
+                    InventoryManager.retrieveItem( item, true );
+                }
+            }
 		}
 		finally
 		{

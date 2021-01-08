@@ -128,7 +128,7 @@ public class KoLAdventure
 	private final boolean isNonCombatsOnly;
 
 	private static final Pattern ADVENTURE_AGAIN = Pattern.compile( "<a href=\"([^\"]*)\">Adventure Again \\((.*?)\\)</a>" );
-	private static final HashSet<String> unknownAdventures = new HashSet<String>();
+	private static final HashSet<String> unknownAdventures = new HashSet<>();
 
 	/**
 	 * Constructs a new <code>KoLAdventure</code> with the given specifications.

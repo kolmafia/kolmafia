@@ -56,7 +56,7 @@ public class SearchMallCommand
 		List results = new ArrayList();
 		int desiredLimit = 0;
 
-		if ( parameters.indexOf( "with limit" ) != -1 )
+		if ( parameters.contains( "with limit" ) )
 		{
 			String[] splitup = parameters.split( "with limit" );
 			parameters = splitup[ 0 ];
