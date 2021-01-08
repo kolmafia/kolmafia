@@ -118,6 +118,7 @@ public class BreakfastManager
 		ItemPool.get( ItemPool.PUMP_UP_HIGH_TOPS, 1 ), // Three times in fact
 		ItemPool.get( ItemPool.ETCHED_HOURGLASS, 1 ),
 		ItemPool.get( ItemPool.GLITCH_ITEM, 1 ),
+		ItemPool.get( ItemPool.SUBSCRIPTION_COCOA_DISPENSER, 1 ),
 		ItemPool.get( ItemPool.OVERFLOWING_GIFT_BASKET, 1 ),
 	};
 
@@ -624,7 +625,7 @@ public class BreakfastManager
 			// In Ronin or Hardcore, Tomes can be used three times a day,
 			// spread among all available tomes.
 			// In other cases, all available tomes can be cast three times a day.
-			totalCasts = KoLCharacter.canInteract() ? skillCount * 3 : 3;
+			totalCasts = KoLCharacter.canInteract() ? skillCount * 3L : 3;
 			break;
 		case GRIMOIRE:
 			// Grimoires can be used once a day, each.
