@@ -61,8 +61,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class MallPriceDatabase
 {
 	private static final PriceArray prices = new PriceArray();
-	private static final HashSet<String> updated = new HashSet<String>();
-	private static final HashSet<String> submitted = new HashSet<String>();
+	private static final HashSet<String> updated = new HashSet<>();
+	private static final HashSet<String> submitted = new HashSet<>();
 	private static int modCount = 0;
 
 	private static final int CONNECT_TIMEOUT = 15 * 1000;

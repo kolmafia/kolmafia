@@ -77,7 +77,7 @@ public abstract class WumpusManager
 		null,	// z
 	};
 
-	public static TreeMap<String,Room> rooms = new TreeMap<String,Room>();
+	public static TreeMap<String,Room> rooms = new TreeMap<>();
 
 	static
 	{
@@ -675,16 +675,15 @@ public abstract class WumpusManager
 		// heard something from and see if we can deduce
 		// anything more.
 		Room [] exits = room.getExits();
-		for ( int i = 0; i < exits.length; ++i)
-		{
-			Room neighbor = exits[i];
-			if ( neighbor != null &&
-			     neighbor.visited &&
-			     neighbor.getListen() != WARN_INDEFINITE )
-			{
-				WumpusManager.deduce( neighbor );
-			}
-		}
+        for ( Room neighbor : exits )
+        {
+            if ( neighbor != null &&
+                    neighbor.visited &&
+                    neighbor.getListen() != WARN_INDEFINITE )
+            {
+                WumpusManager.deduce( neighbor );
+            }
+        }
 	}
 
 	private static void deduce( final Room room )
@@ -1004,7 +1003,7 @@ public abstract class WumpusManager
 
 	public static final String getWumpinatorCode()
 	{
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 
 		// Since we use a TreeMap, rooms are in alphabetical order
 		for ( Room room : WumpusManager.rooms.values() )
@@ -1181,12 +1180,11 @@ public abstract class WumpusManager
 		WumpusManager.addRoom( 0, room );
 
 		// Generate layout string
-		StringBuffer buffer = new StringBuffer();
-		for ( int i = 0; i < layout.length; ++i )
-		{
-			Room node = layout[ i ];
-			buffer.append( node == null ? "0" : node.getCode() );
-		}
+		StringBuilder buffer = new StringBuilder();
+        for ( Room node : layout )
+        {
+            buffer.append( node == null ? "0" : node.getCode() );
+        }
 
 		String string = buffer.toString();
 		return string;
@@ -1202,13 +1200,13 @@ public abstract class WumpusManager
 		}
 
 		// If room is already present elsewhere, error
-		for ( int i = 0; i < layout.length; ++i )
-		{
-			if ( layout[ i ] == room )
-			{
-				return false;
-			}
-		}
+        for ( Room value : layout )
+        {
+            if ( value == room )
+            {
+                return false;
+            }
+        }
 
 		// Put this room into the specified position
 		layout[ node ] = room;
@@ -1217,37 +1215,37 @@ public abstract class WumpusManager
 		Room [] exits = room.getExits();
 
 		int [][] permutations = WumpusManager.NODE_PERMUTATIONS[ node ];
-		for ( int i = 0; i < permutations.length; ++i )
-		{
-			// Save a copy of the layout so we can easily unwind
-			Room [] copy = WumpusManager.layout.clone();
+        for ( int[] permutation : permutations )
+        {
+            // Save a copy of the layout so we can easily unwind
+            Room[] copy = WumpusManager.layout.clone();
 
-			int [] links = permutations[i];
-			boolean success = true;
-			for ( int j = 0; j < 3; ++j )
-			{
-				if ( exits[ j ] == null )
-				{
-					continue;
-				}
-				if ( !addRoom( links[ j ], exits[ j ] ) )
-				{
-					success = false;
-					break;
-				}
-			}
+            int[] links = permutation;
+            boolean success = true;
+            for ( int j = 0; j < 3; ++j )
+            {
+                if ( exits[ j ] == null )
+                {
+                    continue;
+                }
+                if ( !addRoom( links[ j ], exits[ j ] ) )
+                {
+                    success = false;
+                    break;
+                }
+            }
 
-			// If we successfully recursively placed the
-			// rooms, return now.
-			if ( success )
-			{
-				return true;
-			}
+            // If we successfully recursively placed the
+            // rooms, return now.
+            if ( success )
+            {
+                return true;
+            }
 
-			// Otherwise, restore previous state and try
-			// next permutation
-			WumpusManager.layout = copy;
-		}
+            // Otherwise, restore previous state and try
+            // next permutation
+            WumpusManager.layout = copy;
+        }
 
 		// We failed to place this room.
 		layout[ node ] = null;

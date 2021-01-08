@@ -139,7 +139,7 @@ public class CreateSpecialPanel
 				InputFieldUtilities.getQuantity(
 					"Creating multiple " + selection.getName() + ", " + (selection.getQuantityPossible() + selection.getQuantityPullable())
 					+ " possible", selection.getQuantityPossible() + selection.getQuantityPullable(), 1 );
-			int quantityDesired = ( value == null ) ? 0 : value.intValue();
+			int quantityDesired = ( value == null ) ? 0 : value;
 			if ( quantityDesired < 1 )
 			{
 				continue;
@@ -178,7 +178,7 @@ public class CreateSpecialPanel
 				Integer value = InputFieldUtilities.getQuantity(
 					"Creating " + selection.getName() + " for immediate use...", Math.min( maximum,
 						selection.getQuantityPossible() + selection.getQuantityPullable() ) );
-				quantityDesired = ( value == null ) ? 0 : value.intValue();
+				quantityDesired = ( value == null ) ? 0 : value;
 			}
 
 			if ( quantityDesired < 1 )

@@ -135,8 +135,8 @@ public abstract class InventoryManager
 			return;
 		}
 
-		ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
-		ArrayList<AdventureResult> unlimited = new ArrayList<AdventureResult>();
+		ArrayList<AdventureResult> items = new ArrayList<>();
+		ArrayList<AdventureResult> unlimited = new ArrayList<>();
 
 		try
 		{
@@ -1362,20 +1362,19 @@ public abstract class InventoryManager
 
 		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( id );
 
-		for ( int i = 0; i < ingredients.length; ++i )
-		{
-			AdventureResult ingredient = ingredients[ i ];
-			int needed = ingredient.getCount() * madeQuantity;
+        for ( AdventureResult ingredient : ingredients )
+        {
+            int needed = ingredient.getCount() * madeQuantity;
 
-			int ingredientPrice = InventoryManager.priceToAcquire( ingredient, needed, level + 1, exact, mallPriceOnly );
+            int ingredientPrice = InventoryManager.priceToAcquire( ingredient, needed, level + 1, exact, mallPriceOnly );
 
-			if ( ingredientPrice == Integer.MAX_VALUE )
-			{
-				return ingredientPrice;
-			}
+            if ( ingredientPrice == Integer.MAX_VALUE )
+            {
+                return ingredientPrice;
+            }
 
-			price += ingredientPrice;
-		}
+            price += ingredientPrice;
+        }
 
 		return price * quantity / ( yield * madeQuantity );
 	}
@@ -1427,28 +1426,27 @@ public abstract class InventoryManager
 		AdventureResult[] ingredients = ConcoctionDatabase.getStandardIngredients( itemId );
 		boolean shouldUseCloset = InventoryManager.canUseCloset();
 
-		for ( int i = 0; i < ingredients.length; ++i )
-		{
-			AdventureResult ingredient = ingredients[ i ];
-			// An item is immediately available if it is in your
-			// inventory, or in your closet.
+        for ( AdventureResult ingredient : ingredients )
+        {
+            // An item is immediately available if it is in your
+            // inventory, or in your closet.
 
-			if ( KoLConstants.inventory.contains( ingredient ) )
-			{
-				return true;
-			}
+            if ( KoLConstants.inventory.contains( ingredient ) )
+            {
+                return true;
+            }
 
-			if ( shouldUseCloset && KoLConstants.closet.contains( ingredient ) )
-			{
-				return true;
-			}
-		}
+            if ( shouldUseCloset && KoLConstants.closet.contains( ingredient ) )
+            {
+                return true;
+            }
+        }
 
 		Integer key = IntegerPool.get( itemId );
 
 		if ( seen == null )
 		{
-			seen = new HashSet<Integer>();
+			seen = new HashSet<>();
 		}
 		else if ( seen.contains( key ) )
 		{
@@ -1457,16 +1455,16 @@ public abstract class InventoryManager
 
 		seen.add( key );
 
-		for ( int i = 0; i < ingredients.length; ++i )
-		{
-			// An item is immediately available if you have the
-			// ingredients for a substep.
+        for ( AdventureResult ingredient : ingredients )
+        {
+            // An item is immediately available if you have the
+            // ingredients for a substep.
 
-			if ( InventoryManager.hasAnyIngredient( ingredients[ i ].getItemId(), seen ) )
-			{
-				return true;
-			}
-		}
+            if ( InventoryManager.hasAnyIngredient( ingredient.getItemId(), seen ) )
+            {
+                return true;
+            }
+        }
 
 		return false;
 	}

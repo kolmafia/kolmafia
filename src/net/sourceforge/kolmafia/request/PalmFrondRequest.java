@@ -73,7 +73,7 @@ public class PalmFrondRequest
 		// "You can't weave anything out of that quantity of palm
 		//  fronds."
 
-		if ( this.responseText.indexOf( "You can't" ) != -1 )
+		if ( this.responseText.contains( "You can't" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't make that item." );
 			return;

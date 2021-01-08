@@ -329,7 +329,7 @@ public class ArcadeRequest
 		{
 			for ( int i = 0; i < indices.length; ++i )
 			{
-				if ( indices[i].intValue() == index )
+				if ( indices[ i ] == index )
 				{
 					return choices[i];
 				}

@@ -55,9 +55,9 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class PottedTeaTreeRequest
 	extends GenericRequest
 {
-	private static final TreeMap<Integer,PottedTea> idToTea = new TreeMap<Integer,PottedTea>();
-	private static final TreeMap<String,PottedTea> canonicalNameToTea = new TreeMap<String,PottedTea>();
-	public static final List<PottedTea> teas = new ArrayList<PottedTea>();
+	private static final TreeMap<Integer,PottedTea> idToTea = new TreeMap<>();
+	private static final TreeMap<String,PottedTea> canonicalNameToTea = new TreeMap<>();
+	public static final List<PottedTea> teas = new ArrayList<>();
 
 	static
 	{

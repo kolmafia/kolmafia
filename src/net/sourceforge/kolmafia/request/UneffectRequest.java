@@ -80,7 +80,7 @@ public class UneffectRequest
 	private final boolean isTimer;
 	private final AdventureResult effect;
 
-	private static final Set<AdventureResult> currentEffectRemovals = new HashSet<AdventureResult>();
+	private static final Set<AdventureResult> currentEffectRemovals = new HashSet<>();
 
 	private static final AdventureResult USED_REMEDY = ItemPool.get( ItemPool.REMEDY, -1 );
 	private static final AdventureResult USED_CURE_ALL = ItemPool.get( ItemPool.ANCIENT_CURE_ALL, -1 );
@@ -359,16 +359,16 @@ public class UneffectRequest
 	}
 
 	private static Set<Entry<String, Set<Integer>>> REMOVABLE_BY_SKILL;
-	private static final Map<String, Set<Integer>> removeWithSkillMap = new LinkedHashMap<String, Set<Integer>>();
+	private static final Map<String, Set<Integer>> removeWithSkillMap = new LinkedHashMap<>();
 
 	private static Set<Entry<Integer, Set<Integer>>> REMOVABLE_BY_ITEM;
-	private static final Map<Integer, Set<Integer>> removeWithItemMap = new LinkedHashMap<Integer, Set<Integer>>();
+	private static final Map<Integer, Set<Integer>> removeWithItemMap = new LinkedHashMap<>();
 
 	public static final void reset()
 	{
 		Set<Integer> removableEffects;
 
-		removableEffects = new HashSet<Integer>();
+		removableEffects = new HashSet<>();
 		removeWithItemMap.put( IntegerPool.get( ItemPool.ANTIDOTE ), removableEffects );
 		removableEffects.add( IntegerPool.get( EffectPool.HARDLY_POISONED ) );
 		removableEffects.add( IntegerPool.get( EffectPool.MAJORLY_POISONED ) );
@@ -376,7 +376,7 @@ public class UneffectRequest
 		removableEffects.add( IntegerPool.get( EffectPool.SOMEWHAT_POISONED ) );
 		removableEffects.add( IntegerPool.get( EffectPool.REALLY_QUITE_POISONED ) );
 
-		removableEffects = new HashSet<Integer>();
+		removableEffects = new HashSet<>();
 		removeWithItemMap.put( IntegerPool.get( ItemPool.TINY_HOUSE ), removableEffects );
 		removableEffects.add( IntegerPool.get( EffectPool.BEATEN_UP ) );
 		removableEffects.add( IntegerPool.get( EffectPool.CONFUSED ) );
@@ -384,15 +384,15 @@ public class UneffectRequest
 		removableEffects.add( IntegerPool.get( EffectPool.SUNBURNED ) );
 		removableEffects.add( IntegerPool.get( EffectPool.WUSSINESS ) );
 
-		removableEffects = new HashSet<Integer>();
+		removableEffects = new HashSet<>();
 		removeWithItemMap.put( IntegerPool.get( ItemPool.TEARS ), removableEffects );
 		removableEffects.add( IntegerPool.get( EffectPool.BEATEN_UP ) );
 		
-		removableEffects = new HashSet<Integer>();
+		removableEffects = new HashSet<>();
 		removeWithItemMap.put( IntegerPool.get( ItemPool.TRIPPLES ), removableEffects );
 		removableEffects.add( IntegerPool.get( EffectPool.BEATEN_UP ) );
 
-		removableEffects = new HashSet<Integer>();
+		removableEffects = new HashSet<>();
 		removeWithItemMap.put( IntegerPool.get( ItemPool.HOT_DREADSYLVANIAN_COCOA ), removableEffects );
 		removableEffects.add( IntegerPool.get( EffectPool.TOUCHED_BY_A_GHOST ) );
 		removableEffects.add( IntegerPool.get( EffectPool.CHILLED_TO_THE_BONE ) );
@@ -411,7 +411,7 @@ public class UneffectRequest
 
 		UneffectRequest.REMOVABLE_BY_ITEM = removeWithItemMap.entrySet();
 
-		removableEffects = new HashSet<Integer>();
+		removableEffects = new HashSet<>();
 		removeWithSkillMap.put( "Tongue of the Walrus", removableEffects );
 		removableEffects.add( IntegerPool.get( EffectPool.AXE_WOUND ) );
 		removableEffects.add( IntegerPool.get( EffectPool.BEATEN_UP ) );
@@ -420,7 +420,7 @@ public class UneffectRequest
 		removableEffects.add( IntegerPool.get( EffectPool.MISSING_FINGERS ) );
 		removableEffects.add( IntegerPool.get( EffectPool.SUNBURNED ) );
 
-		removableEffects = new HashSet<Integer>();
+		removableEffects = new HashSet<>();
 		removeWithSkillMap.put( "Disco Nap", removableEffects );
 		removableEffects.add( IntegerPool.get( EffectPool.CONFUSED ) );
 		removableEffects.add( IntegerPool.get( EffectPool.EMBARRASSED ) );
@@ -448,7 +448,7 @@ public class UneffectRequest
 		}
 		
 		// If it can be removed by Shake It Off, it can also be removed by Hot Tub
-		removableEffects = new HashSet<Integer>();
+		removableEffects = new HashSet<>();
 		removeWithSkillMap.put( "Shake It Off", removableEffects );
 		removableEffects.add( IntegerPool.get( EffectPool.A_REVOLUTION_IN_YOUR_MOUTH ) );
 		removableEffects.add( IntegerPool.get( EffectPool.AFFRONTED_DECENCY ) );
@@ -494,16 +494,16 @@ public class UneffectRequest
 		removableEffects.add( IntegerPool.get( EffectPool.TWICE_CURSED ) );
 		removableEffects.add( IntegerPool.get( EffectPool.WUSSINESS ) );
 		
-		removableEffects = new HashSet<Integer>();
+		removableEffects = new HashSet<>();
 		removeWithSkillMap.put( "Pep Talk", removableEffects );
 		removableEffects.add( IntegerPool.get( EffectPool.OVERCONFIDENT ) );
 
-		removableEffects = new HashSet<Integer>();
+		removableEffects = new HashSet<>();
 		removeWithSkillMap.put( "Blood Sugar Sauce Magic", removableEffects );
 		removableEffects.add( IntegerPool.get( EffectPool.BLOOD_SUGAR_SAUCE_MAGIC_LITE ) );
 		removableEffects.add( IntegerPool.get( EffectPool.BLOOD_SUGAR_SAUCE_MAGIC ) );
 
-		removableEffects = new HashSet<Integer>();
+		removableEffects = new HashSet<>();
 		removeWithSkillMap.put( "Spirit of Nothing", removableEffects );
 		removableEffects.add( IntegerPool.get( EffectPool.SPIRIT_OF_CAYENNE ) );
 		removableEffects.add( IntegerPool.get( EffectPool.SPIRIT_OF_PEPPERMINT ) );
@@ -511,28 +511,28 @@ public class UneffectRequest
 		removableEffects.add( IntegerPool.get( EffectPool.SPIRIT_OF_WORMWOOD ) );
 		removableEffects.add( IntegerPool.get( EffectPool.SPIRIT_OF_BACON_GREASE ) );
 
-		removableEffects = new HashSet<Integer>();
+		removableEffects = new HashSet<>();
 		removeWithSkillMap.put( "Iron Palm Technique", removableEffects );
 		removableEffects.add( IntegerPool.get( EffectPool.IRON_PALMS ) );
 		
-		removableEffects = new HashSet<Integer>();
+		removableEffects = new HashSet<>();
 		removeWithSkillMap.put( "Wolf Form", removableEffects );
 		removableEffects.add( IntegerPool.get( EffectPool.WOLF_FORM ) );
 		
-		removableEffects = new HashSet<Integer>();
+		removableEffects = new HashSet<>();
 		removeWithSkillMap.put( "Mist Form", removableEffects );
 		removableEffects.add( IntegerPool.get( EffectPool.MIST_FORM ) );
 		
-		removableEffects = new HashSet<Integer>();
+		removableEffects = new HashSet<>();
 		removeWithSkillMap.put( "Flock of Bats Form", removableEffects );
 		removableEffects.add( IntegerPool.get( EffectPool.BATS_FORM ) );
 
-		removableEffects = new HashSet<Integer>();
+		removableEffects = new HashSet<>();
 		removeWithSkillMap.put( "Absorb Cowrruption", removableEffects );
 		removableEffects.add( IntegerPool.get( EffectPool.COWRRUPTION ) );
 
 
-		removableEffects = new HashSet<Integer>();
+		removableEffects = new HashSet<>();
 		removeWithSkillMap.put( "Gelatinous Reconstruction", removableEffects );
 		removableEffects.add( IntegerPool.get( EffectPool.BEATEN_UP ) );
 
@@ -579,7 +579,7 @@ public class UneffectRequest
 
 	public static String getUneffectSkill( final int effectId )
 	{
-		Integer effect = Integer.valueOf( effectId );
+		Integer effect = effectId;
 
 		for ( Entry<String, Set<Integer>> removable : UneffectRequest.REMOVABLE_BY_SKILL )
 		{
@@ -704,7 +704,7 @@ public class UneffectRequest
 				continue;
 			}
 
-			int itemId = removable.getKey().intValue();
+			int itemId = removable.getKey();
 			String itemName = ItemDatabase.getItemName( itemId );
 
 			if ( InventoryManager.hasItem( itemId ) ||

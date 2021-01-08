@@ -1170,7 +1170,7 @@ public abstract class RabbitHoleManager
 				       Square.coords( square ) );
 		for ( int i = 0; i < path.length - 1; ++i )
 		{
-			int next  = path[ i ].intValue();
+			int next  = path[ i ];
 			Square nextPiece  = board.get( next );
 			RequestLogger.printLine( "...takes the " +
 						 nextPiece.getTitle() +
@@ -1184,7 +1184,7 @@ public abstract class RabbitHoleManager
 			square = next;
 			piece = nextPiece;
 		}
-		int next = path[ path.length - 1 ].intValue();
+		int next = path[ path.length - 1 ];
 		RequestLogger.printLine( "...which moves to square " +
 					 Square.coords( next ) +
 					 " to win. (" +
@@ -1219,7 +1219,7 @@ public abstract class RabbitHoleManager
 		for ( int i = 0; i < path.length; ++i )
 		{
 			RelayRequest.specialCommandStatus = "Move " + i + " of " + path.length;
-			int square = path[ i ].intValue();
+			int square = path[ i ];
 			int row = square / 8;
 			int col = square % 8;
 			String url = "choice.php?pwd&whichchoice=443&option=1&xy=" + col + "," + row;
@@ -1271,36 +1271,36 @@ public abstract class RabbitHoleManager
 		// Get possible moves for the current piece
 		Integer [] moves = board.getMoves();
 
-		for ( int i = 0; i < moves.length; ++i )
-		{
-			int square = moves[ i ].intValue();
+        for ( Integer move : moves )
+        {
+            int square = move;
 
-			// If there is no piece on the square, skip
-			if ( !board.get( square ).isPiece() )
-			{
-				continue;
-			}
+            // If there is no piece on the square, skip
+            if ( !board.get( square ).isPiece() )
+            {
+                continue;
+            }
 
-			// Add the new square to the current path
-			path.add( square );
+            // Add the new square to the current path
+            path.add( square );
 
-			// Move the current piece to the new location
-			Square captured = board.move( current, square );
+            // Move the current piece to the new location
+            Square captured = board.move( current, square );
 
-			// Recurse
-			Path newPath = solve( board, path );
+            // Recurse
+            Path newPath = solve( board, path );
 
-			// If we found a solution, we are golden
-			if ( newPath != null )
-			{
-				return newPath;
-			}
+            // If we found a solution, we are golden
+            if ( newPath != null )
+            {
+                return newPath;
+            }
 
-			// Otherwise, backtrack
-			path.remove();
-			board.set( square, captured );
-			board.set( current, currentPiece );
-		}
+            // Otherwise, backtrack
+            path.remove();
+            board.set( square, captured );
+            board.set( current, currentPiece );
+        }
 
 		// We were unable to find a path to the goal
 		return null;
@@ -1349,7 +1349,7 @@ public abstract class RabbitHoleManager
 
 		index += 7;
 
-		StringBuffer button = new StringBuffer();
+		StringBuilder button = new StringBuilder();
 
 		String url = "/KoLmafia/specialCommand?cmd=chess+solve&pwd=" + GenericRequest.passwordHash;
 		button.append( "<form name=solveform action='" ).append( url ).append( "' method=post>" );
@@ -1423,7 +1423,7 @@ public abstract class RabbitHoleManager
 		
 		List<AdventureResult> hats = EquipmentManager.getEquipmentLists()[ EquipmentManager.HAT ];
 		AdventureResult curHat = EquipmentManager.getEquipment( EquipmentManager.HAT );
-		TreeMap<Integer,String> options = new TreeMap<Integer,String>();
+		TreeMap<Integer,String> options = new TreeMap<>();
 		for ( AdventureResult hat : hats )
 		{
 			if ( hat.equals( EquipmentRequest.UNEQUIP ) )
@@ -1469,7 +1469,7 @@ public abstract class RabbitHoleManager
 			hats.add( current.getItem() );
 		}
 
-		TreeMap<Integer,StringBuffer> lengths = new TreeMap<Integer,StringBuffer>();
+		TreeMap<Integer,StringBuffer> lengths = new TreeMap<>();
 		for ( AdventureResult hat : hats )
 		{
 			if ( hat.equals( EquipmentRequest.UNEQUIP ) )
@@ -1525,7 +1525,7 @@ public abstract class RabbitHoleManager
 		// For each hat length, generate a table row
 		for ( Integer key : lengths.keySet() )
 		{
-			Hat hat = RabbitHoleManager.getHatData( key.intValue() );
+			Hat hat = RabbitHoleManager.getHatData( key );
 			if ( hat == null )
 			{
 				continue;

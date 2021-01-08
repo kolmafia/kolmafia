@@ -96,28 +96,18 @@ public class Profiler
 	public static String summary()
 	{
 		StringBuffer buff = new StringBuffer();
-		ArrayList<Profiler> list = new ArrayList<Profiler>();
+		ArrayList<Profiler> list = new ArrayList<>();
 		list.addAll( Profiler.totals.values() );
 		Profiler.totals.clear();
 		
 		buff.append( "<br>" );
 		
-		Collections.sort( list, new Comparator<Profiler>() {
-			public int compare( Profiler left, Profiler right )
-			{
-				return (int)Math.signum( right.total - left.total );
-			}
-		} );
+		list.sort( ( left, right ) -> ( int ) Math.signum( right.total - left.total ) );
 		Profiler.addTable( buff, list, "(sorted by total time)" );
 		
 		buff.append( "<br>" );
 		
-		Collections.sort( list, new Comparator<Profiler>() {
-			public int compare( Profiler left, Profiler right )
-			{
-				return (int)Math.signum( right.net - left.net );
-			}
-		} );
+		list.sort( ( left, right ) -> ( int ) Math.signum( right.net - left.net ) );
 		Profiler.addTable( buff, list, "(sorted by net time)" );
 		
 		buff.append( "<br>" );
@@ -130,20 +120,18 @@ public class Profiler
 		buff.append( "<td>Net</td><td>Name " );
 		buff.append( title );
 		buff.append( "</td></tr>" );
-		Iterator<Profiler> i = list.iterator();
-		while ( i.hasNext() )
-		{
-			Profiler p = i.next();
-			buff.append( "<tr><td>" );
-			buff.append( p.count );
-			buff.append( "</td><td>" );
-			buff.append( KoLConstants.NONSCIENTIFIC_FORMAT.format( p.total / 1e9d ) );
-			buff.append( "</td><td>" );
-			buff.append( KoLConstants.NONSCIENTIFIC_FORMAT.format( p.net / 1e9d ) );
-			buff.append( "</td><td>" );
-			buff.append( p.name );
-			buff.append( "</td></tr>" );
-		}
+        for ( Profiler p : list )
+        {
+            buff.append( "<tr><td>" );
+            buff.append( p.count );
+            buff.append( "</td><td>" );
+            buff.append( KoLConstants.NONSCIENTIFIC_FORMAT.format( p.total / 1e9d ) );
+            buff.append( "</td><td>" );
+            buff.append( KoLConstants.NONSCIENTIFIC_FORMAT.format( p.net / 1e9d ) );
+            buff.append( "</td><td>" );
+            buff.append( p.name );
+            buff.append( "</td></tr>" );
+        }
 		buff.append( "</table>" );
 	}
 }

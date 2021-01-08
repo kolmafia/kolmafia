@@ -150,21 +150,20 @@ public class RecipeCommand
 	private static List getFlattenedIngredients( AdventureResult ar, List list, boolean deep )
 	{
 		AdventureResult [] ingredients = ConcoctionDatabase.getIngredients( ar.getItemId() );
-		for ( int i = 0; i < ingredients.length; ++i )
-		{
-			AdventureResult ingredient = ingredients[ i ];
-			if ( ConcoctionDatabase.getMixingMethod( ingredient.getItemId() ) != CraftingType.NOCREATE )
-			{
-				int have = InventoryManager.getAccessibleCount( ingredient );
-				if ( !RecipeCommand.isRecursing( ar, ingredient ) &&
-				     ( deep || have == 0 ) )
-				{
-					RecipeCommand.getFlattenedIngredients( ingredient, list, deep );
-					continue;
-				}
-			}
-			AdventureResult.addResultToList( list, ingredient );
-		}
+        for ( AdventureResult ingredient : ingredients )
+        {
+            if ( ConcoctionDatabase.getMixingMethod( ingredient.getItemId() ) != CraftingType.NOCREATE )
+            {
+                int have = InventoryManager.getAccessibleCount( ingredient );
+                if ( !RecipeCommand.isRecursing( ar, ingredient ) &&
+                        ( deep || have == 0 ) )
+                {
+                    RecipeCommand.getFlattenedIngredients( ingredient, list, deep );
+                    continue;
+                }
+            }
+            AdventureResult.addResultToList( list, ingredient );
+        }
 
 		return list;
 	}
@@ -183,13 +182,13 @@ public class RecipeCommand
 		}
 		
 		AdventureResult [] ingredients = ConcoctionDatabase.getIngredients( child.getItemId() );
-		for ( int i = 0; i < ingredients.length; ++i )
-		{
-			if ( ingredients[ i ].equals( parent ) )
-			{
-				return true;
-			}
-		}
+        for ( AdventureResult ingredient : ingredients )
+        {
+            if ( ingredient.equals( parent ) )
+            {
+                return true;
+            }
+        }
 		
 		return false;
 	}
@@ -230,15 +229,14 @@ public class RecipeCommand
 				sb.append( ingredient.toString() );
 			}
 
-			for ( int i = 0; i < ingredients.length; ++i )
-			{
-				AdventureResult ingredient = ingredients[ i ];
-				if ( RecipeCommand.isRecursing( ar, ingredient ) )
-				{
-					continue;
-				}
-				RecipeCommand.getRecipe( ingredient, sb, depth + 1 );
-			}
+            for ( AdventureResult ingredient : ingredients )
+            {
+                if ( RecipeCommand.isRecursing( ar, ingredient ) )
+                {
+                    continue;
+                }
+                RecipeCommand.getRecipe( ingredient, sb, depth + 1 );
+            }
 		}
 	}
 }

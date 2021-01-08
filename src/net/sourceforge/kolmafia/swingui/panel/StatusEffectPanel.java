@@ -67,10 +67,10 @@ public class StatusEffectPanel
 	public void actionConfirmed()
 	{
 		Object[] effects = this.elementList.getSelectedValues();
-		for ( int i = 0; i < effects.length; ++i )
-		{
-			RequestThread.postRequest( new UneffectRequest( (AdventureResult) effects[ i ] ) );
-		}
+        for ( Object effect : effects )
+        {
+            RequestThread.postRequest( new UneffectRequest( ( AdventureResult ) effect ) );
+        }
 	}
 
 	@Override
@@ -86,24 +86,24 @@ public class StatusEffectPanel
 
 		int count = 0;
 
-		for ( int i = 0; i < effects.length; ++i )
-		{
-			String name = ( (AdventureResult) effects[ i ] ).getName();
-			String action = MoodManager.getDefaultAction( "lose_effect", name );
-			if ( !action.equals( "" ) )
-			{
-				MoodManager.addTrigger( "lose_effect", name, action );
-				count++;
-				continue;
-			}
+        for ( Object effect : effects )
+        {
+            String name = ( ( AdventureResult ) effect ).getName();
+            String action = MoodManager.getDefaultAction( "lose_effect", name );
+            if ( !action.equals( "" ) )
+            {
+                MoodManager.addTrigger( "lose_effect", name, action );
+                count++;
+                continue;
+            }
 
-			action = MoodManager.getDefaultAction( "gain_effect", name );
-			if ( !action.equals( "" ) )
-			{
-				MoodManager.addTrigger( "gain_effect", name, action );
-				count++;
-			}
-		}
+            action = MoodManager.getDefaultAction( "gain_effect", name );
+            if ( !action.equals( "" ) )
+            {
+                MoodManager.addTrigger( "gain_effect", name, action );
+                count++;
+            }
+        }
 
 		if ( count > 0 )
 		{

@@ -285,17 +285,17 @@ public class RequestLogger
 		if ( printing != KoLConstants.availableSkills )
 		{
 			Object current;
-			for ( int i = 0; i < printing.size(); ++i )
-			{
-				current = printing.get( i );
-				if ( current == null )
-				{
-					continue;
-				}
+            for ( Object o : printing )
+            {
+                current = o;
+                if ( current == null )
+                {
+                    continue;
+                }
 
-				buffer.append( current.toString() );
-				buffer.append( KoLConstants.LINE_BREAK );
-			}
+                buffer.append( current.toString() );
+                buffer.append( KoLConstants.LINE_BREAK );
+            }
 
 			ostream.println( buffer.toString() );
 			return;

@@ -49,7 +49,7 @@ public class ModRefCommand
 	public void run( final String cmd, final String parameters )
 	{
 		Modifiers mods = Modifiers.getModifiers( "Item", parameters );
-		StringBuffer buf = new StringBuffer( "<table border=2>" + "<tr><td colspan=2>NUMERIC MODIFIERS</td></tr>" );
+		StringBuilder buf = new StringBuilder( "<table border=2>" + "<tr><td colspan=2>NUMERIC MODIFIERS</td></tr>" );
 		String mod;
 		int i = 0;
 		while ( ( mod = Modifiers.getModifierName( i++ ) ) != null )

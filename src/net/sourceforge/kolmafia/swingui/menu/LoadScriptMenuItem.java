@@ -85,25 +85,21 @@ public class LoadScriptMenuItem
 			{
 				try
 				{
-					SwingUtilities.invokeAndWait( new Runnable()
-					{
-						public void run()
-						{
-							File input = InputFieldUtilities.chooseInputFile( KoLConstants.SCRIPT_LOCATION, null );
-							if ( input == null )
-							{
-								return;
-							}
+					SwingUtilities.invokeAndWait( () -> {
+                        File input = InputFieldUtilities.chooseInputFile( KoLConstants.SCRIPT_LOCATION, null );
+                        if ( input == null )
+                        {
+                            return;
+                        }
 
-							try
-							{
-								LoadScriptListener.this.executePath = input.getCanonicalPath();
-							}
-							catch ( IOException e )
-							{
-							}
-						}
-					} );
+                        try
+                        {
+                            LoadScriptListener.this.executePath = input.getCanonicalPath();
+                        }
+                        catch ( IOException e )
+                        {
+                        }
+                    } );
 				}
 				catch ( Exception e )
 				{

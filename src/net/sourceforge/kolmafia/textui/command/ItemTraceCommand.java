@@ -70,7 +70,7 @@ public class ItemTraceCommand
 		}
  
 		AdventureResult[] items = ItemFinder.getMatchingItemList( parameters, KoLConstants.inventory );
-		audience = new ArrayList<Listener>();
+		audience = new ArrayList<>();
 		for ( AdventureResult item : items )
 		{
 			audience.add( new ItemListener( item ) );

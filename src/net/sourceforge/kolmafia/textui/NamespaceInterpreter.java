@@ -74,7 +74,7 @@ public class NamespaceInterpreter
 			{
 				File file = entry.getKey();
 				Long date = entry.getValue();
-				shouldRefresh = date.longValue() != file.lastModified();
+				shouldRefresh = date != file.lastModified();
 			}
 		}
 
@@ -95,24 +95,24 @@ public class NamespaceInterpreter
 		{
 			String[] importList = importString.split( "," );
 
-			for ( int i = 0; i < importList.length; ++i )
-			{
-				try
-				{
-					this.parser.importFile( importList[ i ], this.scope );
-				}
-				catch ( ScriptException e )
-				{
-					// The user changed the script since it was validated
-					KoLmafia.updateDisplay( MafiaState.ERROR, e.getMessage() );
-					return false;
-				}
-				catch ( Exception e )
-				{
-					StaticEntity.printStackTrace( e );
-					return false;
-				}
-			}
+            for ( String s : importList )
+            {
+                try
+                {
+                    this.parser.importFile( s, this.scope );
+                }
+                catch ( ScriptException e )
+                {
+                    // The user changed the script since it was validated
+                    KoLmafia.updateDisplay( MafiaState.ERROR, e.getMessage() );
+                    return false;
+                }
+                catch ( Exception e )
+                {
+                    StaticEntity.printStackTrace( e );
+                    return false;
+                }
+            }
 		}
 		
 		this.lastImportString = importString;

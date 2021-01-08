@@ -262,7 +262,7 @@ public class PastaThrallData
 
 	public static int dataToId( Object[] data )
 	{
-		return data == null ? 0 : ((Integer)data[ 1 ]).intValue();
+		return data == null ? 0 : ( Integer ) data[ 1 ];
 	}
 
 	public static String dataToSetting( Object[] data )
@@ -272,7 +272,7 @@ public class PastaThrallData
 
 	public static int dataToSkillId( Object[] data )
 	{
-		return data == null ? 0 : ((Integer)data[ 3 ]).intValue();
+		return data == null ? 0 : ( Integer ) data[ 3 ];
 	}
 
 	public static Pattern dataToPattern1( Object[] data )

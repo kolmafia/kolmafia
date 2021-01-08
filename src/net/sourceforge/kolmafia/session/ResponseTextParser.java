@@ -1025,15 +1025,15 @@ public class ResponseTextParser
 
 		String itemName = null;
 
-		for ( int i = 0; i < RECIPE_PATTERNS.length; ++i )
-		{
-			Matcher matcher = RECIPE_PATTERNS[i].matcher( responseText );
-			if ( matcher.find() )
-			{
-				itemName = matcher.group( 1 );
-				break;
-			}
-		}
+        for ( Pattern recipePattern : RECIPE_PATTERNS )
+        {
+            Matcher matcher = recipePattern.matcher( responseText );
+            if ( matcher.find() )
+            {
+                itemName = matcher.group( 1 );
+                break;
+            }
+        }
 
 		if ( itemName == null )
 		{
@@ -1292,23 +1292,22 @@ public class ResponseTextParser
 
 	public static final void learnCombatMove( final String skillName )
 	{
-		for ( int type = 0; type < COMBAT_MOVE_DATA.length; ++type )
-		{
-			String [] moves = COMBAT_MOVE_DATA[ type ];
-			for ( int index= 1; index < moves.length; ++index )
-			{
-				if ( skillName.equals( moves[ index ] ) )
-				{
-					String setting = moves[ 0 ];
-					Preferences.setInteger( setting, index );
-					String message = "You learned a new special combat move: " + skillName;
-					RequestLogger.printLine( message );
-					RequestLogger.updateSessionLog( message );
-					// KoLCharacter.addCombatSkill( skillName );
-					// PreferenceListenerRegistry.firePreferenceChanged( "(skill)" );
-					return;
-				}
-			}
-		}
+        for ( String[] moves : COMBAT_MOVE_DATA )
+        {
+            for ( int index = 1; index < moves.length; ++index )
+            {
+                if ( skillName.equals( moves[ index ] ) )
+                {
+                    String setting = moves[ 0 ];
+                    Preferences.setInteger( setting, index );
+                    String message = "You learned a new special combat move: " + skillName;
+                    RequestLogger.printLine( message );
+                    RequestLogger.updateSessionLog( message );
+                    // KoLCharacter.addCombatSkill( skillName );
+                    // PreferenceListenerRegistry.firePreferenceChanged( "(skill)" );
+                    return;
+                }
+            }
+        }
 	}
 }

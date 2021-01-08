@@ -50,7 +50,7 @@ public class IntegerPool
 	{
 		for ( int i = 0; i < IntegerPool.RANGE; ++i )
 		{
-			IntegerPool.CACHE[ i ] = Integer.valueOf( IntegerPool.MIN_VALUE + i );
+			IntegerPool.CACHE[ i ] = IntegerPool.MIN_VALUE + i;
 		}
 	}
 

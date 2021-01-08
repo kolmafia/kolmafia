@@ -72,7 +72,7 @@ public class MushroomFieldCommand
 			parameters = parameters.substring( command.length() ).trim();
 			parameters = parameters.substring( squareString.length() ).trim();
 
-			if ( parameters.indexOf( "mushroom" ) == -1 )
+			if ( !parameters.contains( "mushroom" ) )
 			{
 				parameters = parameters.trim() + " mushroom";
 			}

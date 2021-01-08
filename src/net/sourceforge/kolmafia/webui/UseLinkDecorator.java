@@ -477,39 +477,39 @@ public abstract class UseLinkDecorator
 			break;
 		}
 
-		for ( int i = 0; i < creations.size(); ++i )
-		{
-			AdventureResult creation = (AdventureResult) creations.get( i );
-			CraftingType mixingMethod = ConcoctionDatabase.getMixingMethod( creation );
-			EnumSet<CraftingRequirements> requirements = ConcoctionDatabase.getRequirements( creation.getItemId() );
-			if ( !ConcoctionDatabase.isPermittedMethod( mixingMethod, requirements ) )
-			{
-				continue;
-			}
+        for ( Object o : creations )
+        {
+            AdventureResult creation = ( AdventureResult ) o;
+            CraftingType mixingMethod = ConcoctionDatabase.getMixingMethod( creation );
+            EnumSet<CraftingRequirements> requirements = ConcoctionDatabase.getRequirements( creation.getItemId() );
+            if ( !ConcoctionDatabase.isPermittedMethod( mixingMethod, requirements ) )
+            {
+                continue;
+            }
 
-			// Only accept if it's a creation method that the
-			// editor kit currently understands and links.
+            // Only accept if it's a creation method that the
+            // editor kit currently understands and links.
 
-			switch ( mixingMethod )
-			{
-			case COMBINE:
-			case ACOMBINE:
-			case MIX:
-			case MIX_FANCY:
-			case COOK:
-			case COOK_FANCY:
-			case JEWELRY:
-				break;
-			default:
-				continue;
-			}
+            switch ( mixingMethod )
+            {
+            case COMBINE:
+            case ACOMBINE:
+            case MIX:
+            case MIX_FANCY:
+            case COOK:
+            case COOK_FANCY:
+            case JEWELRY:
+                break;
+            default:
+                continue;
+            }
 
-			CreateItemRequest irequest = CreateItemRequest.getInstance( creation );
-			if ( irequest != null && irequest.getQuantityPossible() > 0 )
-			{
-				return mixingMethod;
-			}
-		}
+            CreateItemRequest irequest = CreateItemRequest.getInstance( creation );
+            if ( irequest != null && irequest.getQuantityPossible() > 0 )
+            {
+                return mixingMethod;
+            }
+        }
 
 		return CraftingType.NOCREATE;
 	}
@@ -708,7 +708,7 @@ public abstract class UseLinkDecorator
 
 			case ItemPool.FORTUNE_COOKIE:
 			{
-				ArrayList<UseLink> uses = new ArrayList<UseLink>();
+				ArrayList<UseLink> uses = new ArrayList<>();
 
 				if ( KoLCharacter.canEat() && !KoLCharacter.isVampyre() )
 				{
@@ -727,7 +727,7 @@ public abstract class UseLinkDecorator
 
 			case ItemPool.HOT_WING:
 			{
-				ArrayList<UseLink> uses = new ArrayList<UseLink>();
+				ArrayList<UseLink> uses = new ArrayList<>();
 
 				if ( KoLCharacter.canEat()&& !KoLCharacter.isVampyre() )
 				{
@@ -747,7 +747,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.SNOW_BERRIES:
 			case ItemPool.ICE_HARVEST:
 			{
-				ArrayList<UseLink> uses = new ArrayList<UseLink>();
+				ArrayList<UseLink> uses = new ArrayList<>();
 
 				if ( KoLCharacter.canEat() && !KoLCharacter.isVampyre() )
 				{
@@ -1007,7 +1007,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.LOATHING_LEGION_TATTOO_NEEDLE:
 			case ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER:
 			{
-				ArrayList<UseLink> uses = new ArrayList<UseLink>();
+				ArrayList<UseLink> uses = new ArrayList<>();
 				if ( itemId == ItemPool.LOATHING_LEGION_TATTOO_NEEDLE )
 				{
 					uses.add( new UseLink( itemId, 1, "use", "inv_use.php?which=3&whichitem=" ) );
@@ -1227,7 +1227,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.MOULDERING_BARREL:
 			case ItemPool.BARNACLED_BARREL:
 			{
-				ArrayList<UseLink> uses = new ArrayList<UseLink>();
+				ArrayList<UseLink> uses = new ArrayList<>();
 				uses.add( new UseLink( itemId, 1, "use", "inv_use.php?whichitem=" ) );
 				uses.add( new UseLink( itemId, 1, "smash party", "inv_use.php?choice=1&whichitem=", false ) );
 				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
@@ -1235,7 +1235,7 @@ public abstract class UseLinkDecorator
 
 			case ItemPool.GLITCH_ITEM:
 			{
-				ArrayList<UseLink> uses = new ArrayList<UseLink>();
+				ArrayList<UseLink> uses = new ArrayList<>();
 				uses.add( new UseLink( itemId, itemCount, "implement", "inv_use.php?whichitem=" ) );
 				uses.add( new UseLink( itemId, itemCount, "eat", "inv_eat.php?whichitem=", false ) );
 				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
@@ -1322,7 +1322,7 @@ public abstract class UseLinkDecorator
 								 "inv_equip.php?which=2&action=equip&whichitem=" );
 				if ( combatResults )
 				{
-					ArrayList<UseLink> uses = new ArrayList<UseLink>();
+					ArrayList<UseLink> uses = new ArrayList<>();
 					// scg = Same Class in Guild
 					uses.add( new UseLink( itemId, "guild", "guild.php?place=scg" ) );
 					uses.add( equipLink );
@@ -1342,7 +1342,7 @@ public abstract class UseLinkDecorator
 				// the reward as well as "outfit" link.
 				if ( combatResults )
 				{
-					ArrayList<UseLink> uses = new ArrayList<UseLink>();
+					ArrayList<UseLink> uses = new ArrayList<>();
 					int outfit = EquipmentDatabase.getOutfitWithItem( itemId );
 					// scg = Same Class in Guild
 					uses.add( new UseLink( itemId, "guild", "guild.php?place=scg" ) );
@@ -1374,7 +1374,7 @@ public abstract class UseLinkDecorator
 				UseLink plateLink = new UseLink( itemId, itemCount,
 								 "plate",
 								 "inv_use.php?which=f-1&whichitem=" );
-				ArrayList<UseLink> uses = new ArrayList<UseLink>();
+				ArrayList<UseLink> uses = new ArrayList<>();
 				uses.add( equipLink );
 				uses.add( plateLink );
 				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
@@ -1389,7 +1389,7 @@ public abstract class UseLinkDecorator
 				UseLink wringOutLink = new UseLink( itemId, itemCount,
 								 "wring out",
 								 "inv_use.php?which=f-1&whichitem=" );
-				ArrayList<UseLink> uses = new ArrayList<UseLink>();
+				ArrayList<UseLink> uses = new ArrayList<>();
 				uses.add( equipLink );
 				uses.add( wringOutLink );
 				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
@@ -1404,7 +1404,7 @@ public abstract class UseLinkDecorator
 				UseLink drainLink = new UseLink( itemId, itemCount,
 								 "drain spit",
 								 "inv_use.php?which=f-1&whichitem=" );
-				ArrayList<UseLink> uses = new ArrayList<UseLink>();
+				ArrayList<UseLink> uses = new ArrayList<>();
 				uses.add( equipLink );
 				uses.add( drainLink );
 				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
@@ -1419,7 +1419,7 @@ public abstract class UseLinkDecorator
 				UseLink useLink = new UseLink( itemId, itemCount,
 								 "use",
 								 "inv_use.php?which=f-1&whichitem=" );
-				ArrayList<UseLink> uses = new ArrayList<UseLink>();
+				ArrayList<UseLink> uses = new ArrayList<>();
 				uses.add( equipLink );
 				uses.add( useLink );
 				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
@@ -1436,7 +1436,7 @@ public abstract class UseLinkDecorator
 
 			int outfit = EquipmentDatabase.getOutfitWithItem( itemId );
 
-			ArrayList<UseLink> uses = new ArrayList<UseLink>();
+			ArrayList<UseLink> uses = new ArrayList<>();
 			
 			if ( outfit != -1 && EquipmentManager.hasOutfit( outfit ) )
 			{
@@ -1676,7 +1676,7 @@ public abstract class UseLinkDecorator
 
 		case ItemPool.GUZZLRBUCK:
 		{
-			ArrayList<UseLink> uses = new ArrayList<UseLink>();
+			ArrayList<UseLink> uses = new ArrayList<>();
 			uses.add( new UseLink( itemId, 1, "Let's Guzzle", "shop.php?whichshop=guzzlr" ) );
 			uses.add( new UseLink( itemId, 1, "tap", "inventory.php?tap=guzzlr", false ) );
 			return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );

@@ -181,7 +181,7 @@ public abstract class BarrelDecorator
 			//	r-bs, r-s, r-s-b, rs, s, s-b, s-b-r, s-br, and
 			//	s-r.
 
-			StringBuffer filename = new StringBuffer();
+			StringBuilder filename = new StringBuilder();
 			while ( true )
 			{
 				int max = b;
@@ -281,7 +281,7 @@ public abstract class BarrelDecorator
 			return;	// clover, or unrelated item - doesn't identify the barrel
 		}
 
-		StringBuffer layout = new StringBuffer( Preferences.getString( "barrelLayout" ) );
+		StringBuilder layout = new StringBuilder( Preferences.getString( "barrelLayout" ) );
 		while ( layout.length() < 9 )
 		{
 			layout.append( '?' );

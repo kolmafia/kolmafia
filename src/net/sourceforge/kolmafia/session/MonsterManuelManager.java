@@ -59,9 +59,9 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MonsterManuelManager
 {
-	private static final Map<Integer, String> manuelEntries = new TreeMap<Integer, String>();
-	private static final Map<Integer, Integer> manuelFactoidCounts = new TreeMap<Integer, Integer>();
-	private static final Set<Integer> variableNamedMonsters = new TreeSet<Integer>();
+	private static final Map<Integer, String> manuelEntries = new TreeMap<>();
+	private static final Map<Integer, Integer> manuelFactoidCounts = new TreeMap<>();
+	private static final Set<Integer> variableNamedMonsters = new TreeSet<>();
 
 	static
 	{
@@ -96,7 +96,7 @@ public class MonsterManuelManager
 			Entry<Integer,Integer> entry = entryIterator.next();
 			Integer key = entry.getKey();
 			Integer value = entry.getValue();
-			if ( value.intValue() < 3 )
+			if ( value < 3 )
 			{
 				MonsterManuelManager.manuelEntries.remove( key );
 				entryIterator.remove();
@@ -450,7 +450,7 @@ public class MonsterManuelManager
 
 	public static ArrayList<String> getFactoids( final int id )
 	{
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 
 		String text = MonsterManuelManager.getManuelText( id );
 		if ( text == MonsterManuelManager.NO_FACTOIDS )
@@ -494,6 +494,6 @@ public class MonsterManuelManager
 			factoids = MonsterManuelManager.manuelFactoidCounts.get( id );
 		}
 
-		return factoids == null ? 0 : factoids.intValue();
+		return factoids == null ? 0 : factoids;
 	}
 }

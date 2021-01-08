@@ -187,31 +187,31 @@ public class Crimbo11Request
 			// will stuff that stocking just right, okay? Now go
 			// get some more, listen. Go get some more candy and
 			// trade it in, okay?  else
-			if ( responseText.indexOf( "My elves will make sure that present goes where it's supposed to" ) != -1 ||
-			     responseText.indexOf( "My elves will stuff that stocking just right" ) != -1 )
+			if ( responseText.contains( "My elves will make sure that present goes where it's supposed to" ) ||
+                    responseText.contains( "My elves will stuff that stocking just right" ) )
 			{
 				CoinMasterRequest.completePurchase( data, location );
 				NamedListenerRegistry.fireChange( "(coinmaster)" );
 			}
 			// Your fingers are writing checks that your Crimbo
 			// Credit Balance can't cash.
-			else if ( responseText.indexOf( "Your fingers are writing checks" ) != -1 )
+			else if ( responseText.contains( "Your fingers are writing checks" ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't afford that" );
 			}
 			// You can't send yourself a present.
-			else if ( responseText.indexOf( "You can't send yourself a present" ) != -1 )
+			else if ( responseText.contains( "You can't send yourself a present" ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't send yourself a present" );
 			}
 			// The factory workers inform you that your intended
 			// recipient already has one of those.
-			else if ( responseText.indexOf( "already has one of those" ) != -1 )
+			else if ( responseText.contains( "already has one of those" ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "That person already has that gift" );
 			}
 			// Invalid gift selected.  Bah Humbug!
-			else if ( responseText.indexOf( "Invalid gift selected" ) != -1 )
+			else if ( responseText.contains( "Invalid gift selected" ) )
 			{
 				Matcher itemMatcher = data.getItemMatcher( location );
 				String itemId = itemMatcher.find() ?
@@ -230,7 +230,7 @@ public class Crimbo11Request
 		else if ( action.equals( "tradecandy" ) )
 		{
 			// You don't have that much candy!
-			if ( responseText.indexOf( "You don't have that much candy" ) == -1 )
+			if ( !responseText.contains( "You don't have that much candy" ) )
 			{
 				CoinMasterRequest.completeSale( data, location );
 				NamedListenerRegistry.fireChange( "(coinmaster)" );

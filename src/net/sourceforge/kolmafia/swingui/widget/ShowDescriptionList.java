@@ -432,10 +432,10 @@ public class ShowDescriptionList
 			Object[] items = ShowDescriptionList.this.getSelectedValues();
 			ShowDescriptionList.this.clearSelection();
 
-			for ( int i = 0; i < items.length; ++i )
-			{
-				KoLmafiaCLI.DEFAULT_SHELL.executeLine( ( (MoodTrigger) items[ i ] ).getAction() );
-			}
+            for ( Object o : items )
+            {
+                KoLmafiaCLI.DEFAULT_SHELL.executeLine( ( ( MoodTrigger ) o ).getAction() );
+            }
 		}
 	}
 
@@ -481,15 +481,15 @@ public class ShowDescriptionList
 
 			UseSkillRequest request;
 
-			for ( int i = 0; i < skills.length; ++i )
-			{
-				request = (UseSkillRequest) skills[ i ];
+            for ( Object skill : skills )
+            {
+                request = ( UseSkillRequest ) skill;
 
-				request.setTarget( null );
-				request.setBuffCount( 1 );
+                request.setTarget( null );
+                request.setBuffCount( 1 );
 
-				RequestThread.postRequest( request );
-			}
+                RequestThread.postRequest( request );
+            }
 		}
 	}
 
@@ -509,16 +509,16 @@ public class ShowDescriptionList
 
 			String name, action;
 
-			for ( int i = 0; i < skills.length; ++i )
-			{
-				name = UneffectRequest.skillToEffect( ( (UseSkillRequest) skills[ i ] ).getSkillName() );
+            for ( Object skill : skills )
+            {
+                name = UneffectRequest.skillToEffect( ( ( UseSkillRequest ) skill ).getSkillName() );
 
-				action = MoodManager.getDefaultAction( "lose_effect", name );
-				if ( !action.equals( "" ) )
-				{
-					MoodManager.addTrigger( "lose_effect", name, action );
-				}
-			}
+                action = MoodManager.getDefaultAction( "lose_effect", name );
+                if ( !action.equals( "" ) )
+                {
+                    MoodManager.addTrigger( "lose_effect", name, action );
+                }
+            }
 			MoodManager.saveSettings();
 		}
 	}
@@ -539,23 +539,23 @@ public class ShowDescriptionList
 
 			String name, action;
 
-			for ( int i = 0; i < effects.length; ++i )
-			{
-				name = ( (AdventureResult) effects[ i ] ).getName();
+            for ( Object effect : effects )
+            {
+                name = ( ( AdventureResult ) effect ).getName();
 
-				action = MoodManager.getDefaultAction( "lose_effect", name );
-				if ( !action.equals( "" ) )
-				{
-					MoodManager.addTrigger( "lose_effect", name, action );
-					continue;
-				}
+                action = MoodManager.getDefaultAction( "lose_effect", name );
+                if ( !action.equals( "" ) )
+                {
+                    MoodManager.addTrigger( "lose_effect", name, action );
+                    continue;
+                }
 
-				action = MoodManager.getDefaultAction( "gain_effect", name );
-				if ( !action.equals( "" ) )
-				{
-					MoodManager.addTrigger( "gain_effect", name, action );
-				}
-			}
+                action = MoodManager.getDefaultAction( "gain_effect", name );
+                if ( !action.equals( "" ) )
+                {
+                    MoodManager.addTrigger( "gain_effect", name, action );
+                }
+            }
 			MoodManager.saveSettings();
 		}
 	}
@@ -571,16 +571,16 @@ public class ShowDescriptionList
 
 			String name, action;
 
-			for ( int i = 0; i < effects.length; ++i )
-			{
-				name = ( (AdventureResult) effects[ i ] ).getName();
+            for ( Object effect : effects )
+            {
+                name = ( ( AdventureResult ) effect ).getName();
 
-				action = MoodManager.getDefaultAction( "lose_effect", name );
-				if ( !action.equals( "" ) )
-				{
-					CommandDisplayFrame.executeCommand( action );
-				}
-			}
+                action = MoodManager.getDefaultAction( "lose_effect", name );
+                if ( !action.equals( "" ) )
+                {
+                    CommandDisplayFrame.executeCommand( action );
+                }
+            }
 		}
 	}
 
@@ -591,10 +591,10 @@ public class ShowDescriptionList
 		public void executeAction()
 		{
 			Object[] effects = ShowDescriptionList.this.getSelectedValues();
-			for ( int i = 0; i < effects.length; ++i )
-			{
-				RequestThread.postRequest( new UneffectRequest( (AdventureResult) effects[ i ] ) );
-			}
+            for ( Object effect : effects )
+            {
+                RequestThread.postRequest( new UneffectRequest( ( AdventureResult ) effect ) );
+            }
 		}
 	}
 
@@ -609,39 +609,39 @@ public class ShowDescriptionList
 
 			AdventureResult data;
 
-			for ( int i = 0; i < items.length; ++i )
-			{
-				data = null;
+            for ( Object o : items )
+            {
+                data = null;
 
-				if ( items[ i ] instanceof CreateItemRequest )
-				{
-					data = ( (CreateItemRequest) items[ i ] ).createdItem;
-				}
-				else if ( items[ i ] instanceof AdventureResult && ( (AdventureResult) items[ i ] ).isItem() )
-				{
-					data = (AdventureResult) items[ i ];
-				}
-				else if ( items[ i ] instanceof String && ItemDatabase.contains( (String) items[ i ] ) )
-				{
-					int itemId = ItemDatabase.getItemId( (String) items[ i ] );
-					data = ItemPool.get( itemId );
-				}
-				else if ( items[ i ] instanceof Entry && ItemDatabase.contains( (String) ( (Entry) items[ i ] ).getValue() ) )
-				{
-					int itemId = ItemDatabase.getItemId( (String) ( (Entry) items[ i ] ).getValue() );
-					data = ItemPool.get( itemId );
-				}
+                if ( o instanceof CreateItemRequest )
+                {
+                    data = ( ( CreateItemRequest ) o ).createdItem;
+                }
+                else if ( o instanceof AdventureResult && ( ( AdventureResult ) o ).isItem() )
+                {
+                    data = ( AdventureResult ) o;
+                }
+                else if ( o instanceof String && ItemDatabase.contains( ( String ) o ) )
+                {
+                    int itemId = ItemDatabase.getItemId( ( String ) o );
+                    data = ItemPool.get( itemId );
+                }
+                else if ( o instanceof Entry && ItemDatabase.contains( ( String ) ( ( Entry ) o ).getValue() ) )
+                {
+                    int itemId = ItemDatabase.getItemId( ( String ) ( ( Entry ) o ).getValue() );
+                    data = ItemPool.get( itemId );
+                }
 
-				if ( data == null )
-				{
-					continue;
-				}
+                if ( data == null )
+                {
+                    continue;
+                }
 
-				if ( !KoLConstants.junkList.contains( data ) )
-				{
-					KoLConstants.junkList.add( data );
-				}
-			}
+                if ( !KoLConstants.junkList.contains( data ) )
+                {
+                    KoLConstants.junkList.add( data );
+                }
+            }
 		}
 	}
 
@@ -656,43 +656,43 @@ public class ShowDescriptionList
 
 			AdventureResult data;
 
-			for ( int i = 0; i < items.length; ++i )
-			{
-				data = null;
+            for ( Object o : items )
+            {
+                data = null;
 
-				if ( items[ i ] instanceof CreateItemRequest )
-				{
-					data = ( (CreateItemRequest) items[ i ] ).createdItem;
-				}
-				else if ( items[ i ] instanceof AdventureResult && ( (AdventureResult) items[ i ] ).isItem() )
-				{
-					data = (AdventureResult) items[ i ];
-				}
-				else if ( items[ i ] instanceof String && ItemDatabase.contains( (String) items[ i ] ) )
-				{
-					int itemId = ItemDatabase.getItemId( (String) items[ i ] );
-					data = ItemPool.get( itemId );
-				}
-				else if ( items[ i ] instanceof Entry && ItemDatabase.contains( (String) ( (Entry) items[ i ] ).getValue() ) )
-				{
-					int itemId = ItemDatabase.getItemId( (String) ( (Entry) items[ i ] ).getValue() );
-					data = ItemPool.get( itemId );
-				}
+                if ( o instanceof CreateItemRequest )
+                {
+                    data = ( ( CreateItemRequest ) o ).createdItem;
+                }
+                else if ( o instanceof AdventureResult && ( ( AdventureResult ) o ).isItem() )
+                {
+                    data = ( AdventureResult ) o;
+                }
+                else if ( o instanceof String && ItemDatabase.contains( ( String ) o ) )
+                {
+                    int itemId = ItemDatabase.getItemId( ( String ) o );
+                    data = ItemPool.get( itemId );
+                }
+                else if ( o instanceof Entry && ItemDatabase.contains( ( String ) ( ( Entry ) o ).getValue() ) )
+                {
+                    int itemId = ItemDatabase.getItemId( ( String ) ( ( Entry ) o ).getValue() );
+                    data = ItemPool.get( itemId );
+                }
 
-				if ( data == null )
-				{
-					continue;
-				}
+                if ( data == null )
+                {
+                    continue;
+                }
 
-				if ( !KoLConstants.junkList.contains( data ) )
-				{
-					KoLConstants.junkList.add( data );
-				}
-				if ( !KoLConstants.singletonList.contains( data ) )
-				{
-					KoLConstants.singletonList.add( data );
-				}
-			}
+                if ( !KoLConstants.junkList.contains( data ) )
+                {
+                    KoLConstants.junkList.add( data );
+                }
+                if ( !KoLConstants.singletonList.contains( data ) )
+                {
+                    KoLConstants.singletonList.add( data );
+                }
+            }
 		}
 	}
 
@@ -707,34 +707,34 @@ public class ShowDescriptionList
 
 			AdventureResult data;
 
-			for ( int i = 0; i < items.length; ++i )
-			{
-				data = null;
+            for ( Object o : items )
+            {
+                data = null;
 
-				if ( items[ i ] instanceof CreateItemRequest )
-				{
-					data = ( (CreateItemRequest) items[ i ] ).createdItem;
-				}
-				else if ( items[ i ] instanceof AdventureResult && ( (AdventureResult) items[ i ] ).isItem() )
-				{
-					data = (AdventureResult) items[ i ];
-				}
-				else if ( items[ i ] instanceof String && ItemDatabase.contains( (String) items[ i ] ) )
-				{
-					int itemId = ItemDatabase.getItemId( (String) items[ i ] );
-					data = ItemPool.get( itemId );
-				}
-				else if ( items[ i ] instanceof Entry && ItemDatabase.contains( (String) ( (Entry) items[ i ] ).getValue() ) )
-				{
-					int itemId = ItemDatabase.getItemId( (String) ( (Entry) items[ i ] ).getValue() );
-					data = ItemPool.get( itemId );
-				}
+                if ( o instanceof CreateItemRequest )
+                {
+                    data = ( ( CreateItemRequest ) o ).createdItem;
+                }
+                else if ( o instanceof AdventureResult && ( ( AdventureResult ) o ).isItem() )
+                {
+                    data = ( AdventureResult ) o;
+                }
+                else if ( o instanceof String && ItemDatabase.contains( ( String ) o ) )
+                {
+                    int itemId = ItemDatabase.getItemId( ( String ) o );
+                    data = ItemPool.get( itemId );
+                }
+                else if ( o instanceof Entry && ItemDatabase.contains( ( String ) ( ( Entry ) o ).getValue() ) )
+                {
+                    int itemId = ItemDatabase.getItemId( ( String ) ( ( Entry ) o ).getValue() );
+                    data = ItemPool.get( itemId );
+                }
 
-				if ( data != null && !KoLConstants.mementoList.contains( data ) )
-				{
-					KoLConstants.mementoList.add( data );
-				}
-			}
+                if ( data != null && !KoLConstants.mementoList.contains( data ) )
+                {
+                    KoLConstants.mementoList.add( data );
+                }
+            }
 
 			Preferences.setBoolean( "mementoListActive", true );
 		}
@@ -747,10 +747,10 @@ public class ShowDescriptionList
 		public void executeAction()
 		{
 			AdventureResult[] items = ShowDescriptionList.this.getSelectedItems();
-			for ( int i = 0; i < items.length; ++i )
-			{
-				AdventureResult.addResultToList( KoLConstants.tally, items[ i ].getNegation() );
-			}
+            for ( AdventureResult adventureResult : items )
+            {
+                AdventureResult.addResultToList( KoLConstants.tally, adventureResult.getNegation() );
+            }
 		}
 	}
 
@@ -798,10 +798,10 @@ public class ShowDescriptionList
 			}
 
 			AdventureResult[] items = ShowDescriptionList.this.getSelectedItems();
-			for ( int i = 0; i < items.length; ++i )
-			{
-				RequestThread.postRequest( UseItemRequest.getInstance( items[ i ] ) );
-			}
+            for ( AdventureResult adventureResult : items )
+            {
+                RequestThread.postRequest( UseItemRequest.getInstance( adventureResult ) );
+            }
 		}
 	}
 
@@ -817,10 +817,10 @@ public class ShowDescriptionList
 			}
 
 			AdventureResult[] items = ShowDescriptionList.this.getSelectedItems();
-			for ( int i = 0; i < items.length; ++i )
-			{
-				RequestThread.postRequest( new PulverizeRequest( items[ i ] ) );
-			}
+            for ( AdventureResult adventureResult : items )
+            {
+                RequestThread.postRequest( new PulverizeRequest( adventureResult ) );
+            }
 		}
 	}
 }

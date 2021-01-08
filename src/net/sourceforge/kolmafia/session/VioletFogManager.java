@@ -166,14 +166,13 @@ public abstract class VioletFogManager
 		for ( int source = VioletFogManager.FIRST_CHOICE; source <= VioletFogManager.LAST_CHOICE; ++source )
 		{
 			int[] exits = VioletFogManager.FogLocationExits[ source - VioletFogManager.FIRST_CHOICE ];
-			for ( int i = 0; i < exits.length; ++i )
-			{
-				int destination = exits[ i ];
-				int[] tuple = VioletFogManager.routingTuple( source, destination );
-				tuple[ 0 ] = destination;
-				tuple[ 1 ] = 1;
-				--unfilled;
-			}
+            for ( int destination : exits )
+            {
+                int[] tuple = VioletFogManager.routingTuple( source, destination );
+                tuple[ 0 ] = destination;
+                tuple[ 1 ] = 1;
+                --unfilled;
+            }
 		}
 
 		// Now iterate over entire table calculating next hops and hopcounts
@@ -198,15 +197,15 @@ public abstract class VioletFogManager
 					int hopCount = Integer.MAX_VALUE;
 
 					int[] exits = VioletFogManager.FogLocationExits[ source - VioletFogManager.FIRST_CHOICE ];
-					for ( int i = 0; i < exits.length; ++i )
-					{
-						int[] destTuple = VioletFogManager.routingTuple( exits[ i ], destination );
-						if ( destTuple[ 0 ] != 0 && destTuple[ 1 ] < hopCount )
-						{
-							nextHop = exits[ i ];
-							hopCount = destTuple[ 1 ];
-						}
-					}
+                    for ( int exit : exits )
+                    {
+                        int[] destTuple = VioletFogManager.routingTuple( exit, destination );
+                        if ( destTuple[ 0 ] != 0 && destTuple[ 1 ] < hopCount )
+                        {
+                            nextHop = exit;
+                            hopCount = destTuple[ 1 ];
+                        }
+                    }
 
 					// If we found a route, enter it into table
 					if ( nextHop != 0 )
@@ -522,26 +521,25 @@ public abstract class VioletFogManager
 
 		// Yes. Figure out which one it is
 		int[] exits = VioletFogManager.FogLocationExits[ lastChoice - VioletFogManager.FIRST_CHOICE ];
-		for ( int i = 0; i < exits.length; ++i )
-		{
-			int exit = exits[ i ];
-			boolean found = false;
-			for ( int j = 0; j < choices.length; ++j )
-			{
-				if ( exit == choices[ j ] )
-				{
-					found = true;
-					break;
-				}
-			}
+        for ( int exit : exits )
+        {
+            boolean found = false;
+            for ( int choice : choices )
+            {
+                if ( exit == choice )
+                {
+                    found = true;
+                    break;
+                }
+            }
 
-			if ( !found )
-			{
-				choices[ unknownIndex ] = exit;
-				VioletFogManager.saveMap();
-				return true;
-			}
-		}
+            if ( !found )
+            {
+                choices[ unknownIndex ] = exit;
+                VioletFogManager.saveMap();
+                return true;
+            }
+        }
 
 		return true;
 	}
@@ -789,20 +787,20 @@ public abstract class VioletFogManager
 			// For each choice in Wiki order
 			int[] exits = VioletFogManager.WikiFogLocationExits[ i - 1 ];
 
-			for ( int j = 0; j < exits.length; ++j )
-			{
-				// Find the exit in the paths
-				for ( int index = 0; index < paths.length; ++index )
-				{
-					if ( paths[ index ] == VioletFogManager.mafiaCode( exits[ j ] ) )
-					{
-						int choice = source < VioletFogManager.FIRST_GOAL_LOCATION ? index + 1 : index;
-						code[ codeIndex ] = choice;
-						break;
-					}
-				}
-				++codeIndex;
-			}
+            for ( int exit : exits )
+            {
+                // Find the exit in the paths
+                for ( int index = 0; index < paths.length; ++index )
+                {
+                    if ( paths[ index ] == VioletFogManager.mafiaCode( exit ) )
+                    {
+                        int choice = source < VioletFogManager.FIRST_GOAL_LOCATION ? index + 1 : index;
+                        code[ codeIndex ] = choice;
+                        break;
+                    }
+                }
+                ++codeIndex;
+            }
 		}
 
 		// Convert the 66 element int array into a 33 character character array

@@ -85,7 +85,7 @@ public class CandyDatabase
 
 		for ( Integer itemId : CandyDatabase.tier2Candy )
 		{
-			AdventureResult item = ItemPool.get( itemId.intValue() );
+			AdventureResult item = ItemPool.get( itemId );
 			if ( ConsumablesDatabase.getFullness( item.getName() ) > 0 )
 			{
 				foods.add( item);
@@ -321,7 +321,7 @@ public class CandyDatabase
 		}
 
 		// Otherwise, we must filter
-		Set<Integer> result = new HashSet<Integer>();
+		Set<Integer> result = new HashSet<>();
 
 		for ( Integer itemId : candies )
 		{
@@ -369,7 +369,7 @@ public class CandyDatabase
 
 	public static Set<Integer> sweetSynthesisPairing( final int effectId, final int itemId1, final int flags )
 	{
-		Set<Integer> result = new HashSet<Integer>();
+		Set<Integer> result = new HashSet<>();
 
 		int tier = CandyDatabase.getEffectTier( effectId );
 		if ( tier < 1 || tier > 3 )
@@ -535,7 +535,7 @@ public class CandyDatabase
 
 	public static List<Candy> itemIdSetToCandyList( Set<Integer> itemIds )
 	{
-		ArrayList<Candy> list = new ArrayList<Candy>();
+		ArrayList<Candy> list = new ArrayList<>();
 
 		for ( int itemId : itemIds )
 		{
@@ -607,7 +607,7 @@ public class CandyDatabase
 		int tier = CandyDatabase.getEffectTier( effectId );
 
 		List<Candy> candy1List = CandyDatabase.itemIdSetToCandyList( CandyDatabase.candyForTier( tier, flags ) );
-		Collections.sort( candy1List, DESCENDING_COUNT_COMPARATOR );
+		candy1List.sort( DESCENDING_COUNT_COMPARATOR );
 
 		for ( Candy candy : candy1List )
 		{
@@ -619,7 +619,7 @@ public class CandyDatabase
 
 			int itemId = candy.getItemId();
 			List<Candy> candy2List = CandyDatabase.itemIdSetToCandyList( CandyDatabase.sweetSynthesisPairing( effectId, itemId, flags ) );
-			Collections.sort( candy2List, DESCENDING_COUNT_COMPARATOR );
+			candy2List.sort( DESCENDING_COUNT_COMPARATOR );
 
 			for ( Candy pairing : candy2List )
 			{
@@ -655,7 +655,7 @@ public class CandyDatabase
 		Candy candy2 = null;
 
 		List<Candy> candy1List = CandyDatabase.itemIdSetToCandyList( CandyDatabase.candyForTier( tier, flags ) );
-		Collections.sort( candy1List, ASCENDING_MALL_PRICE_COMPARATOR );
+		candy1List.sort( ASCENDING_MALL_PRICE_COMPARATOR );
 
 		for ( Candy candy : candy1List )
 		{
@@ -667,7 +667,7 @@ public class CandyDatabase
 
 			int itemId = candy.getItemId();
 			List<Candy> candy2List = CandyDatabase.itemIdSetToCandyList( CandyDatabase.sweetSynthesisPairing( effectId, itemId, flags ) );
-			Collections.sort( candy2List, ASCENDING_MALL_PRICE_COMPARATOR );
+			candy2List.sort( ASCENDING_MALL_PRICE_COMPARATOR );
 
 			for ( Candy pairing : candy2List )
 			{

@@ -128,7 +128,7 @@ public abstract class EncounterManager
 	{
 		BufferedReader reader = FileUtilities.getVersionedReader( "encounters.txt", KoLConstants.ENCOUNTERS_VERSION );
 
-		ArrayList<Encounter> encounters = new ArrayList<Encounter>();
+		ArrayList<Encounter> encounters = new ArrayList<>();
 		String[] data;
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
@@ -191,19 +191,18 @@ public abstract class EncounterManager
 
 	public static final Encounter findEncounter( final String locationName, final String encounterName )
 	{
-		for ( int i = 0; i < specialEncounters.length; ++i )
-		{
-			Encounter encounter = specialEncounters[ i ];
-			if ( locationName != null && !locationName.equalsIgnoreCase( encounter.location ) )
-			{
-				continue;
-			}
-			if ( !encounterName.equalsIgnoreCase( encounter.encounter ) )
-			{
-				continue;
-			}
-			return encounter;
-		}
+        for ( Encounter encounter : specialEncounters )
+        {
+            if ( locationName != null && !locationName.equalsIgnoreCase( encounter.location ) )
+            {
+                continue;
+            }
+            if ( !encounterName.equalsIgnoreCase( encounter.encounter ) )
+            {
+                continue;
+            }
+            return encounter;
+        }
 
 		return null;
 	}
@@ -225,19 +224,18 @@ public abstract class EncounterManager
 
 	public static final String findEncounterForLocation( final String locationName, final EncounterType type )
 	{
-		for ( int i = 0; i < specialEncounters.length; ++i )
-		{
-			Encounter encounter = specialEncounters[ i ];
-			if ( !locationName.equalsIgnoreCase( encounter.location ) )
-			{
-				continue;
-			}
-			if ( !type.equals( encounter.encounterType ) )
-			{
-				continue;
-			}
-			return encounter.encounter;
-		}
+        for ( Encounter encounter : specialEncounters )
+        {
+            if ( !locationName.equalsIgnoreCase( encounter.location ) )
+            {
+                continue;
+            }
+            if ( !type.equals( encounter.encounterType ) )
+            {
+                continue;
+            }
+            return encounter.encounter;
+        }
 
 		return null;
 	}

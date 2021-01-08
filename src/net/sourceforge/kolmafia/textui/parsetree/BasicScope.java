@@ -426,66 +426,66 @@ public abstract class BasicScope
 		int minParamCount = Integer.MAX_VALUE;
 		Function bestMatch = null;
 
-		for ( int i = 0; i < functions.length; ++i )
-		{
-			int paramCount = 0;
-			boolean isSingleString = false;
+        for ( Function function : functions )
+        {
+            int paramCount = 0;
+            boolean isSingleString = false;
 
-			Iterator<VariableReference> refIterator = functions[ i ].getVariableReferences().iterator();
+            Iterator<VariableReference> refIterator = function.getVariableReferences().iterator();
 
-			if ( refIterator.hasNext() )
-			{
-				VariableReference reference = refIterator.next();
-				if ( reference.getType().equals( DataTypes.STRING_TYPE ) )
-				{
-					isSingleString = true;
-				}
-				paramCount = 1;
-			}
-			
-			while ( refIterator.hasNext() )
-			{
-				refIterator.next();
-				isSingleString = false;
-				++paramCount;
-			}
-			
-			if ( paramCount == 0 )
-			{
-				if ( !hasParameters )
-				{
-					return functions[ i ];
-				}
-			}
-			else if ( hasParameters && paramCount == 1 )
-			{
-				if ( isSingleString )
-				{
-					return functions[ i ];
-				}
-				
-				if ( minParamCount == 1 )
-				{
-					isAmbiguous = true;
-				}
-				
-				bestMatch = functions[ i ];
-				minParamCount = 1;
-			}
-			else
-			{
-				if ( paramCount < minParamCount )
-				{
-					bestMatch = functions[ i ];
-					minParamCount = paramCount;
-					isAmbiguous = false;
-				}
-				else if ( minParamCount == paramCount )
-				{
-					isAmbiguous = true;
-				}				
-			}
-		}
+            if ( refIterator.hasNext() )
+            {
+                VariableReference reference = refIterator.next();
+                if ( reference.getType().equals( DataTypes.STRING_TYPE ) )
+                {
+                    isSingleString = true;
+                }
+                paramCount = 1;
+            }
+
+            while ( refIterator.hasNext() )
+            {
+                refIterator.next();
+                isSingleString = false;
+                ++paramCount;
+            }
+
+            if ( paramCount == 0 )
+            {
+                if ( !hasParameters )
+                {
+                    return function;
+                }
+            }
+            else if ( hasParameters && paramCount == 1 )
+            {
+                if ( isSingleString )
+                {
+                    return function;
+                }
+
+                if ( minParamCount == 1 )
+                {
+                    isAmbiguous = true;
+                }
+
+                bestMatch = function;
+                minParamCount = 1;
+            }
+            else
+            {
+                if ( paramCount < minParamCount )
+                {
+                    bestMatch = function;
+                    minParamCount = paramCount;
+                    isAmbiguous = false;
+                }
+                else if ( minParamCount == paramCount )
+                {
+                    isAmbiguous = true;
+                }
+            }
+        }
 		
 		if ( isAmbiguous )
 		{

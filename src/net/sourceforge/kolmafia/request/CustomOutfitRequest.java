@@ -100,7 +100,7 @@ public class CustomOutfitRequest
 
 	public static final void parseResponse( final String urlString, final String responseText )
 	{
-		SortedListModel<SpecialOutfit> outfits = new SortedListModel<SpecialOutfit>();
+		SortedListModel<SpecialOutfit> outfits = new SortedListModel<>();
 
 		Matcher listMatcher = CustomOutfitRequest.LIST_PATTERN.matcher( responseText );
 		if ( !listMatcher.find() )
@@ -124,17 +124,16 @@ public class CustomOutfitRequest
 			SpecialOutfit outfit = new SpecialOutfit( -outfitId, outfitName );
 
 			String[] outfitPieces = entryMatcher.group(3).split( "<br>" );
-			for ( int i = 0; i < outfitPieces.length; ++i )
-			{
-				String pieceName = outfitPieces[ i ];
-				if ( pieceName.equals( "" ) )
-				{
-					continue;
-				}
-				int itemId = ItemDatabase.getItemId( pieceName );
-				AdventureResult piece = ItemPool.get( itemId );
-				outfit.addPiece( piece );
-			}
+            for ( String pieceName : outfitPieces )
+            {
+                if ( pieceName.equals( "" ) )
+                {
+                    continue;
+                }
+                int itemId = ItemDatabase.getItemId( pieceName );
+                AdventureResult piece = ItemPool.get( itemId );
+                outfit.addPiece( piece );
+            }
 
 			outfits.add( outfit );
 		}

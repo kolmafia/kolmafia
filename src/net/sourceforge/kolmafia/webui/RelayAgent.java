@@ -738,6 +738,6 @@ public class RelayAgent
 		}
 	}
 
-	private static final Set<String> validRefererHosts = new HashSet<String>();
-	private static final Set<String> invalidRefererHosts = new HashSet<String>();
+	private static final Set<String> validRefererHosts = new HashSet<>();
+	private static final Set<String> invalidRefererHosts = new HashSet<>();
 }

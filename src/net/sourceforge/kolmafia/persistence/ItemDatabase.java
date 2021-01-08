@@ -101,18 +101,18 @@ public class ItemDatabase
 	private static final StringArray pluralById = new StringArray();
 	private static final StringArray imageById = new StringArray();
 
-	private static final Map<Integer, String> nameById = new TreeMap<Integer, String>();
-	private static final Map<Integer, String> dataNameById = new HashMap<Integer, String>();
-	private static final Map<Integer, String> descriptionById = new TreeMap<Integer, String>();
-	private static final Map<String, int[]> itemIdSetByName = new HashMap<String, int[]>();
-	private static final ArrayList<String> itemAliases = new ArrayList<String>();
-	private static final ArrayList<String> pluralAliases = new ArrayList<String>();
-	private static final Map<String, Integer> itemIdByPlural = new HashMap<String, Integer>();
+	private static final Map<Integer, String> nameById = new TreeMap<>();
+	private static final Map<Integer, String> dataNameById = new HashMap<>();
+	private static final Map<Integer, String> descriptionById = new TreeMap<>();
+	private static final Map<String, int[]> itemIdSetByName = new HashMap<>();
+	private static final ArrayList<String> itemAliases = new ArrayList<>();
+	private static final ArrayList<String> pluralAliases = new ArrayList<>();
+	private static final Map<String, Integer> itemIdByPlural = new HashMap<>();
 
-	private static final Map<String, Integer> itemIdByDescription = new HashMap<String, Integer>();
+	private static final Map<String, Integer> itemIdByDescription = new HashMap<>();
 	private static final Map<String, List<Comparable>> foldGroupsByName = new HashMap<>();
 
-	private static final Map<Integer, int[]> itemSourceByNoobSkillId = new HashMap<Integer, int[]>();
+	private static final Map<Integer, int[]> itemSourceByNoobSkillId = new HashMap<>();
 	private static final IntegerArray noobSkillIdByItemSource = new IntegerArray();
 
 	public static final String QUEST_FLAG = "q";
@@ -227,7 +227,7 @@ public class ItemDatabase
 		return data;
 	}
 
-	private static final Map<Integer, String> accessById = new HashMap<Integer, String>();
+	private static final Map<Integer, String> accessById = new HashMap<>();
 
 	public static final int ATTR_QUEST = 0x00000001;
 	public static final int ATTR_GIFT = 0x00000002;
@@ -253,10 +253,10 @@ public class ItemDatabase
 	public static final int ATTR_COOK = 0x00200000;
 	public static final int ATTR_MIX = 0x00400000;
 
-	private static final HashMap<String, Integer> PRIMARY_USE = new HashMap<String, Integer>();
-	private static final HashMap<Integer, String> INVERSE_PRIMARY_USE = new HashMap<Integer, String>();
-	private static final HashMap<String, Integer> SECONDARY_USE = new HashMap<String, Integer>();
-	private static final TreeMap<Integer, String> INVERSE_SECONDARY_USE = new TreeMap<Integer, String>();
+	private static final HashMap<String, Integer> PRIMARY_USE = new HashMap<>();
+	private static final HashMap<Integer, String> INVERSE_PRIMARY_USE = new HashMap<>();
+	private static final HashMap<String, Integer> SECONDARY_USE = new HashMap<>();
+	private static final TreeMap<Integer, String> INVERSE_SECONDARY_USE = new TreeMap<>();
 
 	private static void definePrimaryUse( final String key, final int usage )
 	{
@@ -506,7 +506,7 @@ public class ItemDatabase
 			}
 			else
 			{
-				ItemDatabase.useTypeById.set( itemId, useType.intValue() );
+				ItemDatabase.useTypeById.set( itemId, useType );
 			}
 
 			int attrs = 0;
@@ -520,7 +520,7 @@ public class ItemDatabase
 				}
 				else
 				{
-					attrs |= useType.intValue();
+					attrs |= useType;
 					CandyDatabase.registerCandy( id, usage );
 				}
 			}
@@ -609,7 +609,7 @@ public class ItemDatabase
 		{
 			Entry entry = (Entry) it.next();
 			Integer nextInteger = (Integer) entry.getKey();
-			int itemId = nextInteger.intValue();
+			int itemId = nextInteger;
 
 			// Skip pseudo items
 			if ( itemId == 13 || itemId < 1 )
@@ -662,7 +662,7 @@ public class ItemDatabase
 				continue;
 			}
 
-			ArrayList<Comparable> group = new ArrayList<Comparable>();
+			ArrayList<Comparable> group = new ArrayList<>();
 			group.add( IntegerPool.get( StringUtilities.parseInt( data[ 0 ] ) ) );
 			for ( int i = 1; i < data.length; ++i )
 			{
@@ -1081,7 +1081,7 @@ public class ItemDatabase
 
 	private static void parseItemDescription( final Integer id, final String descId, int power, boolean multi )
 	{
-		int itemId = id.intValue();
+		int itemId = id;
 
 		String rawText = DebugDatabase.rawItemDescriptionText( itemId );
 		String text = DebugDatabase.itemDescriptionText( rawText );
@@ -1793,17 +1793,16 @@ public class ItemDatabase
 
 		// Otherwise, iterate over bits
 		StringBuilder result = new StringBuilder();
-		Iterator it = ItemDatabase.secondaryUsageEntrySet.iterator();
 
-		while ( it.hasNext() )
+		for ( Object o : ItemDatabase.secondaryUsageEntrySet )
 		{
-			Entry entry = (Entry) it.next();
-			Integer bit = (Integer) entry.getKey();
+			Entry entry = ( Entry ) o;
+			Integer bit = ( Integer ) entry.getKey();
 
-			if ( ( attrs & bit.intValue() ) != 0 )
+			if ( ( attrs & bit ) != 0 )
 			{
 				result.append( ", " );
-				result.append( (String) entry.getValue() );
+				result.append( ( String ) entry.getValue() );
 			}
 		}
 
@@ -2065,7 +2064,7 @@ public class ItemDatabase
 	public static final String getItemName( final String descriptionId )
 	{
 		Integer itemId = ItemDatabase.itemIdByDescription.get( descriptionId );
-		return itemId == null ? null : ItemDatabase.getItemName( itemId.intValue() );
+		return itemId == null ? null : ItemDatabase.getItemName( itemId );
 	}
 
 	/**
@@ -2078,7 +2077,7 @@ public class ItemDatabase
 	public static final int getItemIdFromDescription( final String descriptionId )
 	{
 		Integer itemId = ItemDatabase.itemIdByDescription.get( descriptionId );
-		return itemId == null ? -1 : itemId.intValue();
+		return itemId == null ? -1 : itemId;
 	}
 
 	/**
@@ -2450,7 +2449,7 @@ public class ItemDatabase
 	public static void parseItemModifiers( final String desc, final int itemId, final String modifierPref )
 	{
 		int equipType = ItemDatabase.useTypeById.get( itemId );
-		String mod = DebugDatabase.parseItemEnchantments( desc, new ArrayList<String>(), equipType );
+		String mod = DebugDatabase.parseItemEnchantments( desc, new ArrayList<>(), equipType );
 		Preferences.setString( modifierPref, mod );
 		Modifiers.overrideModifier( "Item:[" + itemId + "]", mod );
 	}
@@ -2775,7 +2774,7 @@ public class ItemDatabase
 		{
 			return -1;
 		}
-		return skillId.intValue();
+		return skillId;
 	}
 
 	public static int[] getItemListByNoobSkillId( final int skillId )

@@ -928,7 +928,7 @@ public class MonsterDatabase
 		int physical = 0;
 		String manuelName = null;
 		String wikiName = null;
-		ArrayList<String> subTypes = new ArrayList<String>();
+		ArrayList<String> subTypes = new ArrayList<>();
 
 		StringTokenizer tokens = new StringTokenizer( attributes, " " );
 		while ( tokens.hasMoreTokens() )

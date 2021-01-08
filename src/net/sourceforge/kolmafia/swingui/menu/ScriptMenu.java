@@ -98,21 +98,21 @@ public class ScriptMenu
 			// passes to make sure that directories start
 			// up top, followed by non-directories.
 
-			for ( int i = 0; i < scriptList.length; ++i )
-			{
-				if ( scriptList[ i ].isDirectory() && ScriptMenu.shouldAddScript( scriptList[ i ] ) )
-				{
-					menu.add( this.constructMenuItem( scriptList[ i ], path ) );
-				}
-			}
+            for ( File item : scriptList )
+            {
+                if ( item.isDirectory() && ScriptMenu.shouldAddScript( item ) )
+                {
+                    menu.add( this.constructMenuItem( item, path ) );
+                }
+            }
 
-			for ( int i = 0; i < scriptList.length; ++i )
-			{
-				if ( !scriptList[ i ].isDirectory() )
-				{
-					menu.add( this.constructMenuItem( scriptList[ i ], path ) );
-				}
-			}
+            for ( File value : scriptList )
+            {
+                if ( !value.isDirectory() )
+                {
+                    menu.add( this.constructMenuItem( value, path ) );
+                }
+            }
 
 			// Return the menu
 			return menu;
@@ -148,14 +148,14 @@ public class ScriptMenu
 		{
 			return false;
 		}
-	
-		for ( int i = 0; i < scriptList.length; ++i )
-		{
-			if ( ScriptMenu.shouldAddScript( scriptList[ i ] ) )
-			{
-				return true;
-			}
-		}
+
+        for ( File file : scriptList )
+        {
+            if ( ScriptMenu.shouldAddScript( file ) )
+            {
+                return true;
+            }
+        }
 	
 		return false;
 	}

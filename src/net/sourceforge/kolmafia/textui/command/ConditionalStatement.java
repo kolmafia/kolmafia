@@ -88,7 +88,7 @@ public abstract class ConditionalStatement
 			String statDayToday = HolidayDatabase.getMoonEffect().toLowerCase();
 			String statDayTest = dayMatcher.group( 2 ).substring( 0, 3 ).toLowerCase();
 
-			return statDayToday.indexOf( statDayTest ) != -1 && statDayToday.indexOf( "bonus" ) != -1 && statDayToday.indexOf( "not " + dayMatcher.group( 1 ) ) == -1;
+			return statDayToday.contains( statDayTest ) && statDayToday.contains( "bonus" ) && !statDayToday.contains( "not " + dayMatcher.group( 1 ) );
 		}
 
 		// Check if the person is looking for whether or
@@ -98,14 +98,14 @@ public abstract class ConditionalStatement
 		{
 			String className = parameters.substring( 13 ).trim().toLowerCase();
 			String actualClassName = KoLCharacter.getClassType().toLowerCase();
-			return actualClassName.indexOf( className ) == -1;
+			return !actualClassName.contains( className );
 		}
 
 		if ( parameters.startsWith( "class is " ) )
 		{
 			String className = parameters.substring( 9 ).trim().toLowerCase();
 			String actualClassName = KoLCharacter.getClassType().toLowerCase();
-			return actualClassName.indexOf( className ) != -1;
+			return actualClassName.contains( className );
 		}
 
 		// Check if the person has a specific skill
@@ -125,14 +125,14 @@ public abstract class ConditionalStatement
 		// involving left and right values.
 
 		String operator =
-			parameters.indexOf( "==" ) != -1 ? "==" :
-			parameters.indexOf( "!=" ) != -1 ? "!=" :
-			parameters.indexOf( ">=" ) != -1 ? ">=" :
-			parameters.indexOf( "<=" ) != -1 ? "<=" :
-			parameters.indexOf( "=" ) != -1 ? "==" :
-			parameters.indexOf( "<>" ) != -1 ? "!=" :
-			parameters.indexOf( ">" ) != -1 ? ">" :
-			parameters.indexOf( "<" ) != -1 ? "<" :
+                parameters.contains( "==" ) ? "==" :
+                        parameters.contains( "!=" ) ? "!=" :
+                                parameters.contains( ">=" ) ? ">=" :
+                                        parameters.contains( "<=" ) ? "<=" :
+                                                parameters.contains( "=" ) ? "==" :
+                                                        parameters.contains( "<>" ) ? "!=" :
+                                                                parameters.contains( ">" ) ? ">" :
+                                                                        parameters.contains( "<" ) ? "<" :
 			null;
 
 		if ( operator == null )
@@ -263,12 +263,12 @@ public abstract class ConditionalStatement
 		// substring match is preferred over a fuzzy match.
 		// Items first for one reason: Knob Goblin perfume.
 
-		if ( item != null && item.getName().toLowerCase().indexOf( left.toLowerCase() ) != -1 )
+		if ( item != null && item.getName().toLowerCase().contains( left.toLowerCase() ) )
 		{
 			return item.getCount( KoLConstants.inventory );
 		}
 
-		if ( effect != null && effect.getName().toLowerCase().indexOf( left.toLowerCase() ) != -1 )
+		if ( effect != null && effect.getName().toLowerCase().contains( left.toLowerCase() ) )
 		{
 			return effect.getCount( KoLConstants.activeEffects );
 		}

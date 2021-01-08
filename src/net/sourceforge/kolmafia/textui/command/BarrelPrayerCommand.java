@@ -70,14 +70,14 @@ public class BarrelPrayerCommand
 
 	public static final int findPrayer( final String name )
 	{
-		for ( int i = 0; i < PRAYER.length; ++i )
-		{
-			if ( name.equalsIgnoreCase( (String) PRAYER[i][0] ) || name.equalsIgnoreCase( (String) PRAYER[i][1] ) )
-			{
-				Integer index = (Integer) PRAYER[i][2];
-				return index.intValue();
-			}
-		}
+        for ( Object[] objects : PRAYER )
+        {
+            if ( name.equalsIgnoreCase( ( String ) objects[ 0 ] ) || name.equalsIgnoreCase( ( String ) objects[ 1 ] ) )
+            {
+                Integer index = ( Integer ) objects[ 2 ];
+                return index;
+            }
+        }
 
 		return 0;
 	}

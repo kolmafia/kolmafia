@@ -42,7 +42,7 @@ public class CharacterListenerRegistry
 {
 	// Listener-driven container items
 
-	private static final List<CharacterListener> listenerList = new ArrayList<CharacterListener>();
+	private static final List<CharacterListener> listenerList = new ArrayList<>();
 
 	/**
 	 * Adds a new <code>CharacterListener</code> to the list of listeners listening to this
@@ -79,9 +79,9 @@ public class CharacterListenerRegistry
 		CharacterListener[] listenerArray = new CharacterListener[ CharacterListenerRegistry.listenerList.size() ];
 		CharacterListenerRegistry.listenerList.toArray( listenerArray );
 
-		for ( int i = 0; i < listenerArray.length; ++i )
+		for ( CharacterListener characterListener : listenerArray )
 		{
-			listenerArray[ i ].update();
+			characterListener.update();
 		}
 
 	}

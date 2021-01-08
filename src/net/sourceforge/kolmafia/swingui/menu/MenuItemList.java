@@ -64,10 +64,10 @@ public abstract class MenuItemList
 
 		JComponent[] headers = this.getHeaders();
 
-		for ( int i = 0; i < headers.length; ++i )
-		{
-			this.add( headers[ i ] );
-		}
+        for ( JComponent header : headers )
+        {
+            this.add( header );
+        }
 
 		// Add a separator between the headers and the
 		// elements displayed in the list.  Also go
@@ -86,11 +86,11 @@ public abstract class MenuItemList
 		// Now, add everything that's contained inside of
 		// the current list.
 
-		for ( int i = 0; i < model.size(); ++i )
-		{
-			this.dataValues.add( model.get( i ) );
-			this.add( this.constructMenuItem( model.get( i ) ) );
-		}
+        for ( Object o : model )
+        {
+            this.dataValues.add( o );
+            this.add( this.constructMenuItem( o ) );
+        }
 
 		// Add this as a listener to the list so that the menu gets
 		// updated whenever the list updates.

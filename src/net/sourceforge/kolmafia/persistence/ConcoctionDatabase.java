@@ -102,9 +102,9 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ConcoctionDatabase
 {
-	private static final SortedListModel<AdventureResult> EMPTY_LIST = new SortedListModel<AdventureResult>();
-	private static final SortedListModel<CreateItemRequest> creatableList = new SortedListModel<CreateItemRequest>();
-	private static final LockableListModel<Concoction> usableList = new LockableListModel<Concoction>();
+	private static final SortedListModel<AdventureResult> EMPTY_LIST = new SortedListModel<>();
+	private static final SortedListModel<CreateItemRequest> creatableList = new SortedListModel<>();
+	private static final LockableListModel<Concoction> usableList = new LockableListModel<>();
 
 	public static String excuse;	// reason why creation is impossible
 
@@ -130,19 +130,19 @@ public class ConcoctionDatabase
 	public static int lastQueuedMayo = 0;
 
 	private static int queuedFullness = 0;
-	public static final LockableListModel<QueuedConcoction> queuedFood = new LockableListModel<QueuedConcoction>();
-	private static final SortedListModel<AdventureResult> queuedFoodIngredients = new SortedListModel<AdventureResult>();
+	public static final LockableListModel<QueuedConcoction> queuedFood = new LockableListModel<>();
+	private static final SortedListModel<AdventureResult> queuedFoodIngredients = new SortedListModel<>();
 
 	private static int queuedInebriety = 0;
-	public static final LockableListModel<QueuedConcoction> queuedBooze = new LockableListModel<QueuedConcoction>();
-	private static final SortedListModel<AdventureResult> queuedBoozeIngredients = new SortedListModel<AdventureResult>();
+	public static final LockableListModel<QueuedConcoction> queuedBooze = new LockableListModel<>();
+	private static final SortedListModel<AdventureResult> queuedBoozeIngredients = new SortedListModel<>();
 
 	private static int queuedSpleenHit = 0;
-	public static final LockableListModel<QueuedConcoction> queuedSpleen = new LockableListModel<QueuedConcoction>();
-	private static final SortedListModel<AdventureResult> queuedSpleenIngredients = new SortedListModel<AdventureResult>();
+	public static final LockableListModel<QueuedConcoction> queuedSpleen = new LockableListModel<>();
+	private static final SortedListModel<AdventureResult> queuedSpleenIngredients = new SortedListModel<>();
 
-	public static final LockableListModel<QueuedConcoction> queuedPotions = new LockableListModel<QueuedConcoction>();
-	private static final SortedListModel<AdventureResult> queuedPotionIngredients = new SortedListModel<AdventureResult>();
+	public static final LockableListModel<QueuedConcoction> queuedPotions = new LockableListModel<>();
+	private static final SortedListModel<AdventureResult> queuedPotionIngredients = new SortedListModel<>();
 
 	public static final Concoction stillsLimit = new Concoction( null, CraftingType.NOCREATE );
 	public static final Concoction clipArtLimit = new Concoction( null, CraftingType.NOCREATE );
@@ -154,12 +154,12 @@ public class ConcoctionDatabase
 	public static final Concoction turnFreeSmithingLimit = new Concoction( null, CraftingType.NOCREATE );
 	public static final Concoction meatLimit = new Concoction( null, CraftingType.NOCREATE );
 
-	public static final SortedListModelArray<AdventureResult> knownUses = new SortedListModelArray<AdventureResult>();
+	public static final SortedListModelArray<AdventureResult> knownUses = new SortedListModelArray<>();
 
 	public static final EnumSet<CraftingType> PERMIT_METHOD = EnumSet.noneOf(CraftingType.class);
-	public static final Map<CraftingType, Integer> ADVENTURE_USAGE = new EnumMap<CraftingType, Integer>(CraftingType.class);
-	public static final Map<CraftingType, Integer> CREATION_COST = new EnumMap<CraftingType, Integer>(CraftingType.class);
-	public static final Map<CraftingType, String> EXCUSE = new EnumMap<CraftingType, String>(CraftingType.class);
+	public static final Map<CraftingType, Integer> ADVENTURE_USAGE = new EnumMap<>( CraftingType.class );
+	public static final Map<CraftingType, Integer> CREATION_COST = new EnumMap<>( CraftingType.class );
+	public static final Map<CraftingType, String> EXCUSE = new EnumMap<>( CraftingType.class );
 	public static final EnumSet<CraftingRequirements> REQUIREMENT_MET = EnumSet.noneOf(CraftingRequirements.class);
 
 	private static final AdventureResult[] NO_INGREDIENTS = new AdventureResult[ 0 ];
@@ -167,11 +167,11 @@ public class ConcoctionDatabase
 	public static final AdventureResult INIGO = EffectPool.get( EffectPool.INIGOS, 0 );
 	public static final AdventureResult CRAFT_TEA = EffectPool.get( EffectPool.CRAFT_TEA, 0 );
 
-	private static final HashMap<Integer,Concoction> chefStaff = new HashMap<Integer,Concoction>();
-	private static final HashMap<Integer,Concoction> singleUse = new HashMap<Integer,Concoction>();
-	private static final HashMap<Integer,Concoction> multiUse = new HashMap<Integer,Concoction>();
-	private static final HashMap<Integer,Concoction> noodles = new HashMap<Integer,Concoction>();
-	private static final HashMap<Integer,Concoction> meatStack = new HashMap<Integer,Concoction>();
+	private static final HashMap<Integer,Concoction> chefStaff = new HashMap<>();
+	private static final HashMap<Integer,Concoction> singleUse = new HashMap<>();
+	private static final HashMap<Integer,Concoction> multiUse = new HashMap<>();
+	private static final HashMap<Integer,Concoction> noodles = new HashMap<>();
+	private static final HashMap<Integer,Concoction> meatStack = new HashMap<>();
 
 	private static CraftingType mixingMethod = null;
 	private static final EnumSet<CraftingRequirements> requirements = EnumSet.noneOf(CraftingRequirements.class);
@@ -255,9 +255,8 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.row = 0;
 		String name = data[ 0 ];
 		String[] mixes = data[ 1 ].split( "\\s*,\\s*" );
-		for ( int i = 0; i < mixes.length; ++i )
+		for ( String mix : mixes )
 		{
-			String mix = mixes[ i ];
 			ConcoctionDatabase.addCraftingData( mix, name );
 		}
 
@@ -316,11 +315,10 @@ public class ConcoctionDatabase
 
 			if ( ingredients.length > 0 )
 			{
-				for ( int i = 0; i < ingredients.length; ++i )
+				for ( AdventureResult ingredient : ingredients )
 				{
-					AdventureResult ingredient = ingredients[ i ];
 					if ( ingredient == null )
-					{	// Was a parameter, not an ingredient.
+					{    // Was a parameter, not an ingredient.
 						continue;
 					}
 					concoction.addIngredient( ingredient );
@@ -548,7 +546,7 @@ public class ConcoctionDatabase
 		int advs = ConcoctionDatabase.queuedAdventuresUsed;
 
 		// Queue the ingredients used by this concoction
-		ArrayList<AdventureResult> ingredients = new ArrayList<AdventureResult>();
+		ArrayList<AdventureResult> ingredients = new ArrayList<>();
 		c.queue( queuedIngredients, ingredients, quantity );
 
 		// Adjust lists to account for what just changed
@@ -905,7 +903,7 @@ public class ConcoctionDatabase
 		// KoLConstants.CONSUME_AVATAR - use potions
 
 		QueuedConcoction currentItem;
-		Stack<QueuedConcoction> toProcess = new Stack<QueuedConcoction>();
+		Stack<QueuedConcoction> toProcess = new Stack<>();
 
 		// Remove items in inverse order from the queue and push them on a stack.
 		while ( ( currentItem = ConcoctionDatabase.pop( food, booze, spleen ) ) != null )
@@ -1195,7 +1193,7 @@ public class ConcoctionDatabase
 			return KoLConstants.inventory;
 		}
 
-		SortedListModel<AdventureResult> availableIngredients = new SortedListModel<AdventureResult>();
+		SortedListModel<AdventureResult> availableIngredients = new SortedListModel<>();
 		availableIngredients.addAll( KoLConstants.inventory );
 
 		if ( includeCloset )
@@ -2507,13 +2505,13 @@ public class ConcoctionDatabase
 	public static int getAdventureUsage( CraftingType method )
 	{
 		Integer advs = ConcoctionDatabase.ADVENTURE_USAGE.get( method );
-		return advs == null ? 0 : advs.intValue();
+		return advs == null ? 0 : advs;
 	}
 
 	public static int getCreationCost( CraftingType method )
 	{
 		Integer advs = ConcoctionDatabase.CREATION_COST.get( method );
-		return advs == null ? 0 : advs.intValue();
+		return advs == null ? 0 : advs;
 	}
 
 	public static int getFreeCraftingTurns()

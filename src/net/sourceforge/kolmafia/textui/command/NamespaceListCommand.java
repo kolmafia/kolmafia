@@ -57,24 +57,24 @@ public class NamespaceListCommand
 	public void run( final String cmd, final String parameters )
 	{
 		String[] scripts = Preferences.getString( "commandLineNamespace" ).split( "," );
-		for ( int i = 0; i < scripts.length; ++i )
-		{
-			RequestLogger.printLine( scripts[i] );
-			List<File> matches = KoLmafiaCLI.findScriptFile( scripts[i] );
+        for ( String script : scripts )
+        {
+            RequestLogger.printLine( script );
+            List<File> matches = KoLmafiaCLI.findScriptFile( script );
 
-			File f = matches.size() == 1 ? matches.get( 0 ) : null;
-			if ( f == null )
-			{
-				continue;
-			}
+            File f = matches.size() == 1 ? matches.get( 0 ) : null;
+            if ( f == null )
+            {
+                continue;
+            }
 
-			ScriptRuntime interpreter = KoLmafiaASH.getInterpreter( f );
-			if ( interpreter instanceof AshRuntime )
-			{
-				KoLmafiaASH.showUserFunctions( (AshRuntime) interpreter, parameters );
-			}
+            ScriptRuntime interpreter = KoLmafiaASH.getInterpreter( f );
+            if ( interpreter instanceof AshRuntime )
+            {
+                KoLmafiaASH.showUserFunctions( ( AshRuntime ) interpreter, parameters );
+            }
 
-			RequestLogger.printLine();
-		}
+            RequestLogger.printLine();
+        }
 	}
 }

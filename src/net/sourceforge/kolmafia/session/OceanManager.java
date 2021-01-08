@@ -100,7 +100,7 @@ public class OceanManager
 			lon = 63;
 			lat = 29;
 		}
-		else if ( dest.indexOf( "," ) != -1 )
+		else if ( dest.contains( "," ) )
 		{
 			Matcher matcher = OceanManager.OCEAN_PATTERN.matcher( dest );
 			if ( matcher.find() )
@@ -189,7 +189,7 @@ public class OceanManager
 			// mainland dry. Perhaps a more exotic locale is in
 			// order?"
 
-			if ( request.responseText.indexOf( "that's where the mainland is" ) == -1 )
+			if ( !request.responseText.contains( "that's where the mainland is" ) )
 			{
 				return;
 			}

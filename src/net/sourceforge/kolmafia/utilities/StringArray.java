@@ -48,7 +48,7 @@ import java.util.Iterator;
 public class StringArray
 	implements Iterable<String>
 {
-	private final ArrayList<String> internalList = new ArrayList<String>();
+	private final ArrayList<String> internalList = new ArrayList<>();
 
 	public Iterator<String> iterator()
 	{

@@ -65,8 +65,8 @@ public class MallPurchaseRequest
 	private static final Pattern YIELD_PATTERN =
 		Pattern.compile( "You may only buy ([\\d,]+) of this item per day from this store\\.You have already purchased ([\\d,]+)" );
 
-	public static final Set<Integer> disabledStores = new HashSet<Integer>();
-	public static final Set<Integer> ignoringStores = new HashSet<Integer>();
+	public static final Set<Integer> disabledStores = new HashSet<>();
+	public static final Set<Integer> ignoringStores = new HashSet<>();
 
 	private final int shopId;
 
@@ -455,7 +455,7 @@ public class MallPurchaseRequest
 			result = result.replaceFirst( "\\(stored in Hagnk's Ancestral Mini-Storage\\)", "" );
 		}
 
-		ArrayList<AdventureResult> results = new ArrayList<AdventureResult>();
+		ArrayList<AdventureResult> results = new ArrayList<>();
 		ResultProcessor.processResults( false, result, results );
 
 		if ( results.isEmpty() )

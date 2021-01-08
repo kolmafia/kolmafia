@@ -57,7 +57,7 @@ public class PlayCommand
 	extends AbstractCommand
 {
 	private static String[] CANONICAL_STAT_ARRAY;
-	private static final TreeMap<String,Stat> canonicalNameToStat = new TreeMap<String,Stat>();
+	private static final TreeMap<String,Stat> canonicalNameToStat = new TreeMap<>();
 	private static void addStat( final Stat stat, final List stats )
 	{
 		String canonical = StringUtilities.getCanonicalName( stat.toString() );
@@ -67,7 +67,7 @@ public class PlayCommand
 
 	static
 	{
-		ArrayList<String> stats = new ArrayList<String>();
+		ArrayList<String> stats = new ArrayList<>();
 		PlayCommand.addStat( Stat.MUSCLE, stats );
 		PlayCommand.addStat( Stat.MYSTICALITY, stats );
 		PlayCommand.addStat( Stat.MOXIE, stats );
@@ -76,7 +76,7 @@ public class PlayCommand
 	}
 
     private static String[] CANONICAL_BUFF_ARRAY;
-	private static final TreeMap<String,AdventureResult> canonicalNameToBuff = new TreeMap<String,AdventureResult>();
+	private static final TreeMap<String,AdventureResult> canonicalNameToBuff = new TreeMap<>();
 	private static void addBuff( final String name, final AdventureResult buff, final List buffs )
 	{
 		String canonical = StringUtilities.getCanonicalName( name );
@@ -86,7 +86,7 @@ public class PlayCommand
 
 	static
 	{
-		ArrayList<String> buffs = new ArrayList<String>();
+		ArrayList<String> buffs = new ArrayList<>();
 		PlayCommand.addBuff( "muscle", DeckOfEveryCardRequest.STRONGLY_MOTIVATED, buffs );
 		PlayCommand.addBuff( DeckOfEveryCardRequest.STRONGLY_MOTIVATED.getName(), DeckOfEveryCardRequest.STRONGLY_MOTIVATED, buffs );
 		PlayCommand.addBuff( "mysticality", DeckOfEveryCardRequest.MAGICIANSHIP, buffs );

@@ -59,7 +59,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class TurnCounter
 	implements Comparable<TurnCounter>
 {
-	private static final ArrayList<TurnCounter> relayCounters = new ArrayList<TurnCounter>();
+	private static final ArrayList<TurnCounter> relayCounters = new ArrayList<>();
 	private static final HashSet<String> ALL_LOCATIONS = new HashSet<>();
 
 	private int value;
@@ -406,16 +406,8 @@ public class TurnCounter
 	{
  		synchronized ( TurnCounter.relayCounters )
 		{
-			Iterator<TurnCounter> it = TurnCounter.relayCounters.iterator();
 
-			while ( it.hasNext() )
-			{
-				TurnCounter current = it.next();
-				if ( current.parsedLabel.equals( label ) )
-				{
-					it.remove();
-				}
-			}
+			TurnCounter.relayCounters.removeIf( current -> current.parsedLabel.equals( label ) );
 
 			TurnCounter.saveCounters();
 		}
@@ -605,19 +597,17 @@ public class TurnCounter
 	{
 		synchronized ( TurnCounter.relayCounters )
 		{
-			Iterator<TurnCounter> it = TurnCounter.relayCounters.iterator();
 
-			while ( it.hasNext() )
-			{
-				TurnCounter counter = it.next();
-				if ( counter.parsedLabel.equals( label ) && counter.exemptions == TurnCounter.ALL_LOCATIONS )
-				{
-					counter.label = counter.label.replace( " loc=*", "" );
+            for ( TurnCounter counter : TurnCounter.relayCounters )
+            {
+                if ( counter.parsedLabel.equals( label ) && counter.exemptions == TurnCounter.ALL_LOCATIONS )
+                {
+                    counter.label = counter.label.replace( " loc=*", "" );
 
-					// Reload the counter, since it may have had its own exceptions in addition to the " loc=*"
-					counter = new TurnCounter( counter.value, counter.label, counter.image );
-				}
-			}
+                    // Reload the counter, since it may have had its own exceptions in addition to the " loc=*"
+                    counter = new TurnCounter( counter.value, counter.label, counter.image );
+                }
+            }
 
 			TurnCounter.saveCounters();
 		}
@@ -627,17 +617,15 @@ public class TurnCounter
 	{
 		synchronized ( TurnCounter.relayCounters )
 		{
-			Iterator<TurnCounter> it = TurnCounter.relayCounters.iterator();
 
-			while ( it.hasNext() )
-			{
-				TurnCounter counter = it.next();
-				if ( counter.parsedLabel.equals( label ) && counter.exemptions != TurnCounter.ALL_LOCATIONS )
-				{
-					counter.exemptions = TurnCounter.ALL_LOCATIONS;
-					counter.label += " loc=*";
-				}
-			}
+            for ( TurnCounter counter : TurnCounter.relayCounters )
+            {
+                if ( counter.parsedLabel.equals( label ) && counter.exemptions != TurnCounter.ALL_LOCATIONS )
+                {
+                    counter.exemptions = TurnCounter.ALL_LOCATIONS;
+                    counter.label += " loc=*";
+                }
+            }
 
 			TurnCounter.saveCounters();
 		}
@@ -647,15 +635,8 @@ public class TurnCounter
 	{
  		synchronized ( TurnCounter.relayCounters )
 		{
-			Iterator<TurnCounter> it = TurnCounter.relayCounters.iterator();
 
-			while ( it.hasNext() )
-			{
-				if ( System.identityHashCode( it.next() ) == hash )
-				{
-					it.remove();
-				}
-			}
+			TurnCounter.relayCounters.removeIf( turnCounter -> System.identityHashCode( turnCounter ) == hash );
 
 			TurnCounter.saveCounters();
 		}

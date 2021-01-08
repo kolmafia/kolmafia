@@ -129,11 +129,10 @@ public class LowerCaseEntry
 	{
 		LockableListModel model = new LockableListModel();
 
-		Iterator<Entry<Object, Object>> it = entries.iterator();
-		while ( it.hasNext() )
-		{
-			model.add( new LowerCaseEntry( it.next() ) );
-		}
+        for ( Entry<Object, Object> entry : entries )
+        {
+            model.add( new LowerCaseEntry( entry ) );
+        }
 
 		return model;
 	}

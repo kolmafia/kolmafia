@@ -70,27 +70,27 @@ public class AutoMallCommand
 
 		AdventureResultArray sellList = new AdventureResultArray();
 
-		for ( int i = 0; i < items.length; ++i )
-		{
-			currentItem = items[ i ];
+        for ( AdventureResult item : items )
+        {
+            currentItem = item;
 
-			if ( KoLConstants.mementoList.contains( currentItem ) )
-			{
-				continue;
-			}
+            if ( KoLConstants.mementoList.contains( currentItem ) )
+            {
+                continue;
+            }
 
-			if ( currentItem.getItemId() == ItemPool.MEAT_PASTE || currentItem.getItemId() == ItemPool.MEAT_STACK || currentItem.getItemId() == ItemPool.DENSE_STACK )
-			{
-				continue;
-			}
+            if ( currentItem.getItemId() == ItemPool.MEAT_PASTE || currentItem.getItemId() == ItemPool.MEAT_STACK || currentItem.getItemId() == ItemPool.DENSE_STACK )
+            {
+                continue;
+            }
 
-			itemCount = currentItem.getCount( KoLConstants.inventory );
+            itemCount = currentItem.getCount( KoLConstants.inventory );
 
-			if ( itemCount > 0 )
-			{
-				sellList.add( currentItem.getInstance( itemCount ) );
-			}
-		}
+            if ( itemCount > 0 )
+            {
+                sellList.add( currentItem.getInstance( itemCount ) );
+            }
+        }
 
 		if ( !sellList.isEmpty() )
 		{

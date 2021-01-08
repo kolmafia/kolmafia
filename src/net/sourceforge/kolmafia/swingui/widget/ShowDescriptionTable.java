@@ -142,18 +142,14 @@ public class ShowDescriptionTable
 
 	private static final Pattern PLAYERID_MATCHER = Pattern.compile( "\\(#(\\d+)\\)" );
 
-	private final Comparator<String[]> arrayComparator = new Comparator<String[]>()
-	{
-		public int compare( String[] o1, String[] o2 )
+	private final Comparator<String[]> arrayComparator = ( o1, o2 ) -> {
+		if ( o1.length != 2 || o2.length != 2 )
 		{
-			if ( o1.length != 2 || o2.length != 2 )
-			{
-				return 0;
-			}
-			Integer i1 = Integer.valueOf( o1[1] );
-			Integer i2 = Integer.valueOf( o2[1] );
-			return i2.compareTo( i1 ); // descending order needed
+			return 0;
 		}
+		Integer i1 = Integer.valueOf( o1[ 1 ] );
+		Integer i2 = Integer.valueOf( o2[ 1 ] );
+		return i2.compareTo( i1 ); // descending order needed
 	};
 
 	public ShowDescriptionTable( final LockableListModel displayModel )
@@ -573,7 +569,7 @@ public class ShowDescriptionTable
 			implements Transferable
 		{
 			private final JTable delegate;
-			private final List<DataFlavor> flavors = new ArrayList<DataFlavor>();
+			private final List<DataFlavor> flavors = new ArrayList<>();
 
 			public Selection( JTable t )
 			{
@@ -792,10 +788,10 @@ public class ShowDescriptionTable
 			Object[] items = ShowDescriptionTable.this.getSelectedValues();
 			ShowDescriptionTable.this.clearSelection();
 
-			for ( int i = 0; i < items.length; ++i )
-			{
-				KoLmafiaCLI.DEFAULT_SHELL.executeLine( ( (MoodTrigger) items[ i ] ).getAction() );
-			}
+            for ( Object o : items )
+            {
+                KoLmafiaCLI.DEFAULT_SHELL.executeLine( ( ( MoodTrigger ) o ).getAction() );
+            }
 		}
 	}
 
@@ -841,15 +837,15 @@ public class ShowDescriptionTable
 
 			UseSkillRequest request;
 
-			for ( int i = 0; i < skills.length; ++i )
-			{
-				request = (UseSkillRequest) skills[ i ];
+            for ( Object skill : skills )
+            {
+                request = ( UseSkillRequest ) skill;
 
-				request.setTarget( null );
-				request.setBuffCount( 1 );
+                request.setTarget( null );
+                request.setBuffCount( 1 );
 
-				RequestThread.postRequest( request );
-			}
+                RequestThread.postRequest( request );
+            }
 		}
 	}
 
@@ -869,16 +865,16 @@ public class ShowDescriptionTable
 
 			String name, action;
 
-			for ( int i = 0; i < skills.length; ++i )
-			{
-				name = UneffectRequest.skillToEffect( ( (UseSkillRequest) skills[ i ] ).getSkillName() );
+            for ( Object skill : skills )
+            {
+                name = UneffectRequest.skillToEffect( ( ( UseSkillRequest ) skill ).getSkillName() );
 
-				action = MoodManager.getDefaultAction( "lose_effect", name );
-				if ( !action.equals( "" ) )
-				{
-					MoodManager.addTrigger( "lose_effect", name, action );
-				}
-			}
+                action = MoodManager.getDefaultAction( "lose_effect", name );
+                if ( !action.equals( "" ) )
+                {
+                    MoodManager.addTrigger( "lose_effect", name, action );
+                }
+            }
 			MoodManager.saveSettings();
 		}
 	}
@@ -899,23 +895,23 @@ public class ShowDescriptionTable
 
 			String name, action;
 
-			for ( int i = 0; i < effects.length; ++i )
-			{
-				name = ( (AdventureResult) effects[ i ] ).getName();
+            for ( Object effect : effects )
+            {
+                name = ( ( AdventureResult ) effect ).getName();
 
-				action = MoodManager.getDefaultAction( "lose_effect", name );
-				if ( !action.equals( "" ) )
-				{
-					MoodManager.addTrigger( "lose_effect", name, action );
-					continue;
-				}
+                action = MoodManager.getDefaultAction( "lose_effect", name );
+                if ( !action.equals( "" ) )
+                {
+                    MoodManager.addTrigger( "lose_effect", name, action );
+                    continue;
+                }
 
-				action = MoodManager.getDefaultAction( "gain_effect", name );
-				if ( !action.equals( "" ) )
-				{
-					MoodManager.addTrigger( "gain_effect", name, action );
-				}
-			}
+                action = MoodManager.getDefaultAction( "gain_effect", name );
+                if ( !action.equals( "" ) )
+                {
+                    MoodManager.addTrigger( "gain_effect", name, action );
+                }
+            }
 			MoodManager.saveSettings();
 		}
 	}
@@ -931,16 +927,16 @@ public class ShowDescriptionTable
 
 			String name, action;
 
-			for ( int i = 0; i < effects.length; ++i )
-			{
-				name = ( (AdventureResult) effects[ i ] ).getName();
+            for ( Object effect : effects )
+            {
+                name = ( ( AdventureResult ) effect ).getName();
 
-				action = MoodManager.getDefaultAction( "lose_effect", name );
-				if ( !action.equals( "" ) )
-				{
-					CommandDisplayFrame.executeCommand( action );
-				}
-			}
+                action = MoodManager.getDefaultAction( "lose_effect", name );
+                if ( !action.equals( "" ) )
+                {
+                    CommandDisplayFrame.executeCommand( action );
+                }
+            }
 		}
 	}
 
@@ -951,10 +947,10 @@ public class ShowDescriptionTable
 		public void executeAction()
 		{
 			Object[] effects = ShowDescriptionTable.this.getSelectedValues();
-			for ( int i = 0; i < effects.length; ++i )
-			{
-				RequestThread.postRequest( new UneffectRequest( (AdventureResult) effects[ i ] ) );
-			}
+            for ( Object effect : effects )
+            {
+                RequestThread.postRequest( new UneffectRequest( ( AdventureResult ) effect ) );
+            }
 		}
 	}
 
@@ -969,41 +965,41 @@ public class ShowDescriptionTable
 
 			AdventureResult data;
 
-			for ( int i = 0; i < items.length; ++i )
-			{
-				data = null;
+            for ( Object o : items )
+            {
+                data = null;
 
-				if ( items[ i ] instanceof CreateItemRequest )
-				{
-					data = ( (CreateItemRequest) items[ i ] ).createdItem;
-				}
-				else if ( items[ i ] instanceof AdventureResult
-					&& ( (AdventureResult) items[ i ] ).isItem() )
-				{
-					data = (AdventureResult) items[ i ];
-				}
-				else if ( items[ i ] instanceof String && ItemDatabase.contains( (String) items[ i ] ) )
-				{
-					int itemId = ItemDatabase.getItemId( (String) items[ i ] );
-					data = ItemPool.get( itemId );
-				}
-				else if ( items[ i ] instanceof Entry
-					&& ItemDatabase.contains( (String) ( (Entry) items[ i ] ).getValue() ) )
-				{
-					int itemId = ItemDatabase.getItemId( (String) ( (Entry) items[ i ] ).getValue() );
-					data = ItemPool.get( itemId );
-				}
+                if ( o instanceof CreateItemRequest )
+                {
+                    data = ( ( CreateItemRequest ) o ).createdItem;
+                }
+                else if ( o instanceof AdventureResult
+                        && ( ( AdventureResult ) o ).isItem() )
+                {
+                    data = ( AdventureResult ) o;
+                }
+                else if ( o instanceof String && ItemDatabase.contains( ( String ) o ) )
+                {
+                    int itemId = ItemDatabase.getItemId( ( String ) o );
+                    data = ItemPool.get( itemId );
+                }
+                else if ( o instanceof Entry
+                        && ItemDatabase.contains( ( String ) ( ( Entry ) o ).getValue() ) )
+                {
+                    int itemId = ItemDatabase.getItemId( ( String ) ( ( Entry ) o ).getValue() );
+                    data = ItemPool.get( itemId );
+                }
 
-				if ( data == null )
-				{
-					continue;
-				}
+                if ( data == null )
+                {
+                    continue;
+                }
 
-				if ( !KoLConstants.junkList.contains( data ) )
-				{
-					KoLConstants.junkList.add( data );
-				}
-			}
+                if ( !KoLConstants.junkList.contains( data ) )
+                {
+                    KoLConstants.junkList.add( data );
+                }
+            }
 		}
 	}
 
@@ -1018,45 +1014,45 @@ public class ShowDescriptionTable
 
 			AdventureResult data;
 
-			for ( int i = 0; i < items.length; ++i )
-			{
-				data = null;
+            for ( Object o : items )
+            {
+                data = null;
 
-				if ( items[ i ] instanceof CreateItemRequest )
-				{
-					data = ( (CreateItemRequest) items[ i ] ).createdItem;
-				}
-				else if ( items[ i ] instanceof AdventureResult
-					&& ( (AdventureResult) items[ i ] ).isItem() )
-				{
-					data = (AdventureResult) items[ i ];
-				}
-				else if ( items[ i ] instanceof String && ItemDatabase.contains( (String) items[ i ] ) )
-				{
-					int itemId = ItemDatabase.getItemId( (String) items[ i ] );
-					data = ItemPool.get( itemId );
-				}
-				else if ( items[ i ] instanceof Entry
-					&& ItemDatabase.contains( (String) ( (Entry) items[ i ] ).getValue() ) )
-				{
-					int itemId = ItemDatabase.getItemId( (String) ( (Entry) items[ i ] ).getValue() );
-					data = ItemPool.get( itemId );
-				}
+                if ( o instanceof CreateItemRequest )
+                {
+                    data = ( ( CreateItemRequest ) o ).createdItem;
+                }
+                else if ( o instanceof AdventureResult
+                        && ( ( AdventureResult ) o ).isItem() )
+                {
+                    data = ( AdventureResult ) o;
+                }
+                else if ( o instanceof String && ItemDatabase.contains( ( String ) o ) )
+                {
+                    int itemId = ItemDatabase.getItemId( ( String ) o );
+                    data = ItemPool.get( itemId );
+                }
+                else if ( o instanceof Entry
+                        && ItemDatabase.contains( ( String ) ( ( Entry ) o ).getValue() ) )
+                {
+                    int itemId = ItemDatabase.getItemId( ( String ) ( ( Entry ) o ).getValue() );
+                    data = ItemPool.get( itemId );
+                }
 
-				if ( data == null )
-				{
-					continue;
-				}
+                if ( data == null )
+                {
+                    continue;
+                }
 
-				if ( !KoLConstants.junkList.contains( data ) )
-				{
-					KoLConstants.junkList.add( data );
-				}
-				if ( !KoLConstants.singletonList.contains( data ) )
-				{
-					KoLConstants.singletonList.add( data );
-				}
-			}
+                if ( !KoLConstants.junkList.contains( data ) )
+                {
+                    KoLConstants.junkList.add( data );
+                }
+                if ( !KoLConstants.singletonList.contains( data ) )
+                {
+                    KoLConstants.singletonList.add( data );
+                }
+            }
 		}
 	}
 
@@ -1071,36 +1067,36 @@ public class ShowDescriptionTable
 
 			AdventureResult data;
 
-			for ( int i = 0; i < items.length; ++i )
-			{
-				data = null;
+            for ( Object o : items )
+            {
+                data = null;
 
-				if ( items[ i ] instanceof CreateItemRequest )
-				{
-					data = ( (CreateItemRequest) items[ i ] ).createdItem;
-				}
-				else if ( items[ i ] instanceof AdventureResult
-					&& ( (AdventureResult) items[ i ] ).isItem() )
-				{
-					data = (AdventureResult) items[ i ];
-				}
-				else if ( items[ i ] instanceof String && ItemDatabase.contains( (String) items[ i ] ) )
-				{
-					int itemId = ItemDatabase.getItemId( (String) items[ i ] );
-					data = ItemPool.get( itemId );
-				}
-				else if ( items[ i ] instanceof Entry
-					&& ItemDatabase.contains( (String) ( (Entry) items[ i ] ).getValue() ) )
-				{
-					int itemId = ItemDatabase.getItemId( (String) ( (Entry) items[ i ] ).getValue() );
-					data = ItemPool.get( itemId );
-				}
+                if ( o instanceof CreateItemRequest )
+                {
+                    data = ( ( CreateItemRequest ) o ).createdItem;
+                }
+                else if ( o instanceof AdventureResult
+                        && ( ( AdventureResult ) o ).isItem() )
+                {
+                    data = ( AdventureResult ) o;
+                }
+                else if ( o instanceof String && ItemDatabase.contains( ( String ) o ) )
+                {
+                    int itemId = ItemDatabase.getItemId( ( String ) o );
+                    data = ItemPool.get( itemId );
+                }
+                else if ( o instanceof Entry
+                        && ItemDatabase.contains( ( String ) ( ( Entry ) o ).getValue() ) )
+                {
+                    int itemId = ItemDatabase.getItemId( ( String ) ( ( Entry ) o ).getValue() );
+                    data = ItemPool.get( itemId );
+                }
 
-				if ( data != null && !KoLConstants.mementoList.contains( data ) )
-				{
-					KoLConstants.mementoList.add( data );
-				}
-			}
+                if ( data != null && !KoLConstants.mementoList.contains( data ) )
+                {
+                    KoLConstants.mementoList.add( data );
+                }
+            }
 
 			Preferences.setBoolean( "mementoListActive", true );
 		}
@@ -1113,11 +1109,11 @@ public class ShowDescriptionTable
 		public void executeAction()
 		{
 			Object[] items = ShowDescriptionTable.this.getSelectedValues();
-			for ( int i = 0; i < items.length; ++i )
-			{
-				AdventureResult item = (AdventureResult)items[ i ];
-				AdventureResult.addResultToList( KoLConstants.tally, item.getNegation() );
-			}
+            for ( Object o : items )
+            {
+                AdventureResult item = ( AdventureResult ) o;
+                AdventureResult.addResultToList( KoLConstants.tally, item.getNegation() );
+            }
 		}
 	}
 
@@ -1166,10 +1162,10 @@ public class ShowDescriptionTable
 			}
 
 			Object[] items = ShowDescriptionTable.this.getSelectedValues();
-			for ( int i = 0; i < items.length; ++i )
-			{
-				RequestThread.postRequest( UseItemRequest.getInstance( (AdventureResult)items[ i ] ) );
-			}
+            for ( Object o : items )
+            {
+                RequestThread.postRequest( UseItemRequest.getInstance( ( AdventureResult ) o ) );
+            }
 		}
 	}
 
@@ -1186,10 +1182,10 @@ public class ShowDescriptionTable
 			}
 
 			Object[] items = ShowDescriptionTable.this.getSelectedValues();
-			for ( int i = 0; i < items.length; ++i )
-			{
-				RequestThread.postRequest( new PulverizeRequest( (AdventureResult)items[ i ] ) );
-			}
+            for ( Object o : items )
+            {
+                RequestThread.postRequest( new PulverizeRequest( ( AdventureResult ) o ) );
+            }
 		}
 	}
 
@@ -1211,23 +1207,19 @@ public class ShowDescriptionTable
 
 			if ( ob instanceof Script )
 			{
-				RequestThread.postRequest( new Runnable()
-				{
-					public void run()
+				RequestThread.postRequest( () -> {
+					String installMe = ( (Script) ob ).getRepo();
+					try
 					{
-						String installMe = ( (Script) ob ).getRepo();
-						try
-						{
-							SVNManager.doCheckout( SVNURL.parseURIEncoded( installMe ) );
-						}
-						catch ( SVNException e )
-						{
-							StaticEntity.printStackTrace( e );
-							return;
-						}
-						ScriptManager.updateRepoScripts( false );
-						ScriptManager.updateInstalledScripts();
+						SVNManager.doCheckout( SVNURL.parseURIEncoded( installMe ) );
 					}
+					catch ( SVNException e )
+					{
+						StaticEntity.printStackTrace( e );
+						return;
+					}
+					ScriptManager.updateRepoScripts( false );
+					ScriptManager.updateInstalledScripts();
 				} );
 			}
 		}
@@ -1251,17 +1243,13 @@ public class ShowDescriptionTable
 
 			if ( ob instanceof InstalledScript )
 			{
-				RequestThread.postRequest( new Runnable()
-				{
-					public void run()
+				RequestThread.postRequest( () -> {
+					File deleteMe = ( (InstalledScript) ob ).getScriptFolder();
+					SVNManager.deleteInstalledProject( deleteMe );
+					if ( !deleteMe.exists() )
 					{
-						File deleteMe = ( (InstalledScript) ob ).getScriptFolder();
-						SVNManager.deleteInstalledProject( deleteMe );
-						if ( !deleteMe.exists() )
-						{
-							ScriptManager.getInstalledScripts().remove( ob );
-							ScriptManager.updateRepoScripts( false );
-						}
+						ScriptManager.getInstalledScripts().remove( ob );
+						ScriptManager.updateRepoScripts( false );
 					}
 				} );
 			}
@@ -1286,14 +1274,10 @@ public class ShowDescriptionTable
 
 			if ( ob instanceof Script )
 			{
-				RequestThread.postRequest( new Runnable()
-				{
-					public void run()
-					{
-						String ft = ( (Script) ob ).getForumThread();
-						if ( ft != null && !ft.equals( "" ) )
-							BareBonesBrowserLaunch.openURL( Preferences.getString( "preferredWebBrowser" ), ft );
-					}
+				RequestThread.postRequest( () -> {
+					String ft = ( (Script) ob ).getForumThread();
+					if ( ft != null && !ft.equals( "" ) )
+						BareBonesBrowserLaunch.openURL( Preferences.getString( "preferredWebBrowser" ), ft );
 				} );
 			}
 		}
@@ -1309,13 +1293,7 @@ public class ShowDescriptionTable
 		@Override
 		protected void executeAction()
 		{
-			RequestThread.postRequest( new Runnable()
-			{
-				public void run()
-				{
-					ScriptManager.updateInstalledScripts();
-				}
-			} );
+			RequestThread.postRequest( ScriptManager::updateInstalledScripts );
 		}
 
 	}
@@ -1337,36 +1315,28 @@ public class ShowDescriptionTable
 		{
 			if ( all )
 			{
-				RequestThread.postRequest( new Runnable()
-				{
-					public void run()
-					{
-						SVNManager.doUpdate();
-						ScriptManager.updateInstalledScripts();
-					}
+				RequestThread.postRequest( () -> {
+					SVNManager.doUpdate();
+					ScriptManager.updateInstalledScripts();
 				} );
 			}
 			else
 			{
-				RequestThread.postRequest( new Runnable()
-				{
-					public void run()
-					{
-						Object ob = UpdateScriptRunnable.this.table.getValueAt( table.getSelectedRow(), 0 );
+				RequestThread.postRequest( () -> {
+					Object ob = UpdateScriptRunnable.this.table.getValueAt( table.getSelectedRow(), 0 );
 
-						if ( ob instanceof Script )
+					if ( ob instanceof Script )
+					{
+						try
 						{
-							try
-							{
-								SVNManager.doUpdate( SVNURL.parseURIEncoded( ( (Script) ob ).getRepo() ) );
-							}
-							catch ( SVNException e )
-							{
-								StaticEntity.printStackTrace( e );
-								return;
-							}
-							ScriptManager.updateInstalledScripts();
+							SVNManager.doUpdate( SVNURL.parseURIEncoded( ( (Script) ob ).getRepo() ) );
 						}
+						catch ( SVNException e )
+						{
+							StaticEntity.printStackTrace( e );
+							return;
+						}
+						ScriptManager.updateInstalledScripts();
 					}
 				} );
 			}
@@ -1383,13 +1353,7 @@ public class ShowDescriptionTable
 		@Override
 		protected void executeAction()
 		{
-			RequestThread.postRequest( new Runnable()
-			{
-				public void run()
-				{
-					ScriptManager.updateRepoScripts( true );
-				}
-			} );
+			RequestThread.postRequest( () -> ScriptManager.updateRepoScripts( true ) );
 		}
 
 	}
@@ -1431,16 +1395,16 @@ public class ShowDescriptionTable
 
 		StringBuilder buffer = new StringBuilder();
 		List<TableColumn> cols = this.getColumns( true );
-		for ( int i = 0; i < cols.size(); ++i )
-		{
-			if ( buffer.length() > 0 )
-			{
-				buffer.append( "|" );
-			}
-			buffer.append( cols.get( i ).getHeaderValue() );
-			buffer.append( ":" );
-			buffer.append( convertColumnIndexToView( cols.get( i ).getModelIndex() ) );
-		}
+        for ( TableColumn col : cols )
+        {
+            if ( buffer.length() > 0 )
+            {
+                buffer.append( "|" );
+            }
+            buffer.append( col.getHeaderValue() );
+            buffer.append( ":" );
+            buffer.append( convertColumnIndexToView( col.getModelIndex() ) );
+        }
 		buffer.append( ";" );
 		return buffer.toString();
 	}
@@ -1448,7 +1412,7 @@ public class ShowDescriptionTable
 	public void setHeaderStates( String rawPref )
 	{
 		List<TableColumn> cols = this.getColumns( true );
-		ArrayList<String[]> sortCols = new ArrayList<String[]>();
+		ArrayList<String[]> sortCols = new ArrayList<>();
 
 		// rawPref is a pipe-delimited list of (header name):(view index)
 		String[] split1 = rawPref.split( "\\|" );
@@ -1470,7 +1434,7 @@ public class ShowDescriptionTable
 			}
 		}
 
-		Collections.sort( sortCols, arrayComparator );
+		sortCols.sort( arrayComparator );
 
 		// Now, go through and set visibility. The comparator sorts things in descending order, so the first
 		// column will be the highest index that's visible.
@@ -1489,7 +1453,7 @@ public class ShowDescriptionTable
 				{
 					// set it visible if its index isn't -1
 					this.getColumnExt( t.getHeaderValue() ).setVisible(
-						Integer.valueOf( it[ 1 ] ) >= 0 );
+						Integer.parseInt( it[ 1 ] ) >= 0 );
 					break;
 				}
 			}
@@ -1504,7 +1468,7 @@ public class ShowDescriptionTable
 				// malformed, no idea how that happened. punt
 				return;
 			}
-			if ( Integer.valueOf( it[ 1 ] ) < 0 )
+			if ( Integer.parseInt( it[ 1 ] ) < 0 )
 			{
 				// Once we hit the negative ones, they're all negative after that. We're done.
 				break;
@@ -1514,7 +1478,7 @@ public class ShowDescriptionTable
 				if ( t.getHeaderValue().toString().equals( it[ 0 ] ) )
 				{
 					this.moveColumn( convertColumnIndexToView( t.getModelIndex() ),
-						Integer.valueOf( it[ 1 ] ) );
+						Integer.parseInt( it[ 1 ] ) );
 					break;
 				}
 			}

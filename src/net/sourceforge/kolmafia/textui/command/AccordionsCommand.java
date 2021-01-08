@@ -89,10 +89,10 @@ public class AccordionsCommand
 	{
 		AdventureResultArray found = new AdventureResultArray();
 		String [] itemIds = Preferences.getString( "_stolenAccordions" ).split( "," );
-		for ( int i = 0; i < itemIds.length; ++i )
-		{
-			found.add( ItemPool.get( StringUtilities.parseInt( itemIds[ i ] ), 1 ) );
-		}
+        for ( String itemId : itemIds )
+        {
+            found.add( ItemPool.get( StringUtilities.parseInt( itemId ), 1 ) );
+        }
 
 		StringBuilder output = new StringBuilder();
 
@@ -108,46 +108,45 @@ public class AccordionsCommand
 		output.append( "<th colspan=4>Enchantments</th>" );
 		output.append( "</tr>" );
 
-		for ( int i = 0; i < ACCORDIONS.length; ++i )
-		{
-			Accordion accordion = ACCORDIONS[ i ];
-			AdventureResult item = accordion.getItem();
+        for ( Accordion accordion : ACCORDIONS )
+        {
+            AdventureResult item = accordion.getItem();
 
-			output.append( "<tr>" );
+            output.append( "<tr>" );
 
-			output.append( "<td rowspan=2>" );
-			output.append( accordion.getName() );
-			output.append( "</td>" );
+            output.append( "<td rowspan=2>" );
+            output.append( accordion.getName() );
+            output.append( "</td>" );
 
-			output.append( "<td>" );
-			boolean have = item.getCount( KoLConstants.inventory ) > 0 || KoLCharacter.hasEquipped( item );
-			boolean today = found.contains( item );
-			output.append( have ? "yes" : "no" );
-			output.append( "/" );
-			output.append( today ? "yes" : "no" );
-			output.append( "</td>" );
+            output.append( "<td>" );
+            boolean have = item.getCount( KoLConstants.inventory ) > 0 || KoLCharacter.hasEquipped( item );
+            boolean today = found.contains( item );
+            output.append( have ? "yes" : "no" );
+            output.append( "/" );
+            output.append( today ? "yes" : "no" );
+            output.append( "</td>" );
 
-			output.append( "<td>" );
-			output.append( accordion.getMonster() );
-			output.append( "</td>" );
+            output.append( "<td>" );
+            output.append( accordion.getMonster() );
+            output.append( "</td>" );
 
-			output.append( "<td>" );
-			output.append( accordion.getHands() );
-			output.append( "</td>" );
+            output.append( "<td>" );
+            output.append( accordion.getHands() );
+            output.append( "</td>" );
 
-			output.append( "<td>" );
-			output.append( accordion.getSongDuration() );
-			output.append( "</td>" );
+            output.append( "<td>" );
+            output.append( accordion.getSongDuration() );
+            output.append( "</td>" );
 
-			output.append( "</tr>" );
-			output.append( "<tr>" );
+            output.append( "</tr>" );
+            output.append( "<tr>" );
 
-			output.append( "<td colspan=4>" );
-			output.append( Modifiers.evaluateModifiers( accordion.getModsLookup(), accordion.getEnchantments() ).toString() );
-			output.append( "</td>" );
+            output.append( "<td colspan=4>" );
+            output.append( Modifiers.evaluateModifiers( accordion.getModsLookup(), accordion.getEnchantments() ).toString() );
+            output.append( "</td>" );
 
-			output.append( "</tr>" );
-		}
+            output.append( "</tr>" );
+        }
 
 		output.append( "</table>" );
 

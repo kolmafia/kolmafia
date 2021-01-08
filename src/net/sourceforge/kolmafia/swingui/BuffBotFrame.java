@@ -165,7 +165,7 @@ public class BuffBotFrame
 		{
 			super( "add", "remove", new Dimension( 150, 20 ), new Dimension( 300, 20 ) );
 
-			LockableListModel<UseSkillRequest> buffSet = new LockableListModel<UseSkillRequest>();
+			LockableListModel<UseSkillRequest> buffSet = new LockableListModel<>();
 
 			for ( UseSkillRequest skill : KoLConstants.usableSkills )
 			{
@@ -235,13 +235,13 @@ public class BuffBotFrame
 		{
 			super( "save", "reset", new Dimension( 120, 20 ), new Dimension( 200, 20 ), false );
 
-			LockableListModel<String> philanthropyModeChoices = new LockableListModel<String>();
+			LockableListModel<String> philanthropyModeChoices = new LockableListModel<>();
 			philanthropyModeChoices.add( "Disabled" );
 			philanthropyModeChoices.add( "Once per day" );
 			philanthropyModeChoices.add( "Clan only" );
 			this.philanthropyModeSelect = new JComboBox( philanthropyModeChoices );
 
-			LockableListModel<String> messageDisposalChoices = new LockableListModel<String>();
+			LockableListModel<String> messageDisposalChoices = new LockableListModel<>();
 			messageDisposalChoices.add( "Auto-save non-requests" );
 			messageDisposalChoices.add( "Auto-delete non-requests" );
 			messageDisposalChoices.add( "Do nothing to non-requests" );

@@ -114,21 +114,21 @@ public class RichardRequest
 		String gymType = null;
 
 		if ( !urlString.startsWith( "clan_hobopolis.php" ) ||
-			urlString.indexOf( "place=3" ) == -1 ||
-			urlString.indexOf( "preaction=spendturns" ) == -1 )
+                !urlString.contains( "place=3" ) ||
+                !urlString.contains( "preaction=spendturns" ) )
 		{
 			return false;
 		}
 
-		if ( urlString.indexOf( "whichservice=1" ) != -1 )
+		if ( urlString.contains( "whichservice=1" ) )
 		{
 			gymType = "Help Richard make bandages (Mysticality)";
 		}
-		if ( urlString.indexOf( "whichservice=2" ) != -1 )
+		if ( urlString.contains( "whichservice=2" ) )
 		{
 			gymType = "Help Richard make grenades (Moxie)";
 		}
-		if ( urlString.indexOf( "whichservice=3" ) != -1 )
+		if ( urlString.contains( "whichservice=3" ) )
 		{
 			gymType = "Help Richard make shakes (Muscle)";
 		}

@@ -260,10 +260,10 @@ public class ArrayValue
 
 		Value[] array = (Value[]) this.content;
 
-		for ( int i = 0; i < array.length; ++i )
-		{
-			obj.put( array[ i ].toJSON() );
-		}
+        for ( Value value : array )
+        {
+            obj.put( value.toJSON() );
+        }
 
 		return obj;
 	}

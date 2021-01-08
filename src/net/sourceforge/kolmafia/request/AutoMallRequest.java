@@ -159,7 +159,7 @@ public class AutoMallRequest
 		super.processResults();
 
 		// We placed stuff in the mall.
-		if ( this.responseText.indexOf( "You don't have a store." ) != -1 )
+		if ( this.responseText.contains( "You don't have a store." ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a store." );
 			return;
@@ -176,12 +176,12 @@ public class AutoMallRequest
 
 	public static final boolean parseTransfer( final String urlString, final String responseText )
 	{
-		if ( urlString.indexOf( "action=additem" ) == -1 )
+		if ( !urlString.contains( "action=additem" ) )
 		{
 			return false;
 		}
 
-		if ( responseText.indexOf( "You don't have a store." ) != -1 )
+		if ( responseText.contains( "You don't have a store." ) )
 		{
 			return false;
 		}
@@ -306,7 +306,7 @@ public class AutoMallRequest
 
 		int quantity = 1;
 
-		if ( urlString.startsWith( "managestore.php" ) && urlString.indexOf( "action=additem" ) != -1 )
+		if ( urlString.startsWith( "managestore.php" ) && urlString.contains( "action=additem" ) )
 		{
 			itemPattern = TransferItemRequest.ITEMID_PATTERN;
 			quantityPattern = TransferItemRequest.QTY_PATTERN;

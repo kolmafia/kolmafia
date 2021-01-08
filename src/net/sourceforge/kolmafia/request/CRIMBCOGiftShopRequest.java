@@ -121,7 +121,7 @@ public class CRIMBCOGiftShopRequest
 		String action = GenericRequest.getAction( location );
 		if ( action == null )
 		{
-			if ( location.indexOf( "place=giftshop" ) != -1 )
+			if ( location.contains( "place=giftshop" ) )
 			{
 				// Parse current coin balances
 				CoinMasterRequest.parseBalance( data, responseText );

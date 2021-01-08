@@ -144,10 +144,10 @@ public abstract class SystemTrayFrame
 
 		Frame[] frames = Frame.getFrames();
 		boolean anyFrameVisible = false;
-		for ( int i = 0; i < frames.length; ++i )
-		{
-			anyFrameVisible |= frames[ i ].isVisible();
-		}
+        for ( Frame frame : frames )
+        {
+            anyFrameVisible |= frame.isVisible();
+        }
 
 		anyFrameVisible |= KoLDesktop.instanceExists() && KoLDesktop.getInstance().isVisible();
 

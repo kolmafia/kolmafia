@@ -119,15 +119,15 @@ public class DwarfContraptionRequest
 	{
 		if ( action.equals( "doleftpanel" ) )
 		{
-			if ( urlString.indexOf( "which1" ) != -1 )
+			if ( urlString.contains( "which1" ) )
 			{
 				return "Selecting pants";
 			}
-			if ( urlString.indexOf( "which2" ) != -1 )
+			if ( urlString.contains( "which2" ) )
 			{
 				return "Selecting weapon";
 			}
-			if ( urlString.indexOf( "which3" ) != -1 )
+			if ( urlString.contains( "which3" ) )
 			{
 				return "Selecting helmet";
 			}
@@ -167,7 +167,7 @@ public class DwarfContraptionRequest
 				int hopper = StringUtilities.parseInt( matcher.group(1) ) + 1;
 				String count = matcher.group(2);
 				String ore = DwarfContraptionRequest.oreName( matcher.group(3) );
-				if ( urlString.indexOf( "addtake=take" ) != -1 )
+				if ( urlString.contains( "addtake=take" ) )
 				{
 					return "Taking " + count + " " + ore + " from hopper #" + hopper;
 				}
@@ -241,13 +241,13 @@ public class DwarfContraptionRequest
 
 		if ( action.startsWith( "dohopper" ) )
 		{
-			if ( responseText.indexOf( "You don't have" ) != -1 )
+			if ( responseText.contains( "You don't have" ) )
 			{
 				return;
 			}
 
 			// It doesn't seem like that is the right material for this hopper.
-			if ( responseText.indexOf( "right material" ) != -1 )
+			if ( responseText.contains( "right material" ) )
 			{
 				return;
 			}
@@ -279,7 +279,7 @@ public class DwarfContraptionRequest
 
 		if ( action.equals( "dorightpanel" ) )
 		{
-			if ( responseText.indexOf( "You feed the punchcard into the slot" ) != -1 )
+			if ( responseText.contains( "You feed the punchcard into the slot" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.DWARVISH_PUNCHCARD, -1 ) );
 			}
@@ -289,7 +289,7 @@ public class DwarfContraptionRequest
 
 		if ( action.startsWith( "doredbutton" ) )
 		{
-			if ( responseText.indexOf( "something falls into the bin" ) != -1 )
+			if ( responseText.contains( "something falls into the bin" ) )
 			{
 				DwarfFactoryRequest.clearHoppers();
 			}
@@ -302,7 +302,7 @@ public class DwarfContraptionRequest
 			// open the box and discover that nothing much has
 			// happened.
 
-			if ( responseText.indexOf( "nothing much has happened" ) != -1 )
+			if ( responseText.contains( "nothing much has happened" ) )
 			{
 				return;
 			}

@@ -58,13 +58,13 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class PvpManager
 {
 	// The current mapping of stances
-	public static final TreeMap<Integer,String> optionToStance = new TreeMap<Integer,String>();
-	public static final TreeMap<String,Integer> stanceToOption = new TreeMap<String,Integer>();
+	public static final TreeMap<Integer,String> optionToStance = new TreeMap<>();
+	public static final TreeMap<String,Integer> stanceToOption = new TreeMap<>();
 	public static boolean stancesKnown = false;
 
 	// Support for fuzzy mapping of stance names
 	public static String [] canonicalStances = null;
-	public static final TreeMap<String,Integer> canonicalStanceToOption = new TreeMap<String,Integer>();
+	public static final TreeMap<String,Integer> canonicalStanceToOption = new TreeMap<>();
 
 	// <select name="stance"><option value="0" >Bear Hugs All Around</option><option value="1" selected>Beary Famous</option><option value="2" >Barely Dressed</option><option value="3" >Basket Reaver</option><option value="4" >Polar Envy</option><option value="5" >Maul Power</option><option value="6" >Grave Robbery</option><option value="7" >Most Things Eaten</option><option value="8" >Hibernation Ready</option><option value="9" >Visiting the Cousins</option><option value="10" >Northern Digestion</option><option value="11" >Most Murderous</option></select>
 
@@ -96,7 +96,7 @@ public class PvpManager
 		PvpManager.optionToStance.clear();
 		PvpManager.stanceToOption.clear();
 
-		ArrayList<String> canonical = new ArrayList<String>();
+		ArrayList<String> canonical = new ArrayList<>();
 
 		Matcher optionsMatcher = PvpManager.STANCE_OPTION_PATTERN.matcher( stances );
 		while ( optionsMatcher.find() )
@@ -127,7 +127,7 @@ public class PvpManager
 
 		String name = matchingNames.get( 0 );
 		Integer stance = PvpManager.canonicalStanceToOption.get( name );
-		return stance == null ? -1 : stance.intValue();
+		return stance == null ? -1 : stance;
 	}
 
 	public static final String findStance( final int stance )

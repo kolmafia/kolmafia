@@ -247,14 +247,13 @@ public abstract class CoinmasterRegistry
 		}
 
 		String name = matchingNames.get( 0 );
-		for ( int i = 0; i < COINMASTERS.length; ++i )
-		{
-			CoinmasterData data = COINMASTERS[ i ];
-			if ( name.equalsIgnoreCase( data.getNickname() ) )
-			{
-				return data;
-			}
-		}
+        for ( CoinmasterData data : COINMASTERS )
+        {
+            if ( name.equalsIgnoreCase( data.getNickname() ) )
+            {
+                return data;
+            }
+        }
 		return null;
 	}
 
@@ -265,28 +264,26 @@ public abstract class CoinmasterRegistry
 			return null;
 		}
 
-		for ( int i = 0; i < COINMASTERS.length; ++i )
-		{
-			CoinmasterData data = COINMASTERS[ i ];
-			if ( data.canSellItem( itemId ) )
-			{
-				return data;
-			}
-		}
+        for ( CoinmasterData data : COINMASTERS )
+        {
+            if ( data.canSellItem( itemId ) )
+            {
+                return data;
+            }
+        }
 
 		return null;
 	}
 
 	public static CoinmasterData findSeller( final int itemId )
 	{
-		for ( int i = 0; i < COINMASTERS.length; ++i )
-		{
-			CoinmasterData data = COINMASTERS[ i ];
-			if ( data.canBuyItem( itemId ) )
-			{
-				return data;
-			}
-		}
+        for ( CoinmasterData data : COINMASTERS )
+        {
+            if ( data.canBuyItem( itemId ) )
+            {
+                return data;
+            }
+        }
 		return null;
 	}
 }

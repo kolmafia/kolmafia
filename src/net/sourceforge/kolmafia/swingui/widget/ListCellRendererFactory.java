@@ -526,15 +526,15 @@ public class ListCellRendererFactory
 	
 					if ( Preferences.getBoolean( "showGainsPerUnit" ) )
 					{
-						if ( fullness != null && fullness.intValue() > 0 )
+						if ( fullness != null && fullness > 0 )
 						{
 							stringForm.append( " / full" );
 						}
-						else if ( inebriety != null && inebriety.intValue() > 0 )
+						else if ( inebriety != null && inebriety > 0 )
 						{
 							stringForm.append( " / drunk" );
 						}
-						else if ( spleenhit != null && spleenhit.intValue() > 0 )
+						else if ( spleenhit != null && spleenhit > 0 )
 						{
 							stringForm.append( " / spleen" );
 						}
@@ -1139,11 +1139,11 @@ public class ListCellRendererFactory
 	
 					if ( Preferences.getBoolean( "showGainsPerUnit" ) )
 					{
-						if ( fullness != null && fullness.intValue() > 0 )
+						if ( fullness != null && fullness > 0 )
 						{
 							stringForm.append( "/full" );
 						}
-						else if ( inebriety != null && inebriety.intValue() > 0 )
+						else if ( inebriety != null && inebriety > 0 )
 						{
 							stringForm.append( "/drunk" );
 						}

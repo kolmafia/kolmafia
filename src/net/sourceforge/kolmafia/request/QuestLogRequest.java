@@ -154,7 +154,7 @@ public class QuestLogRequest
 	private static void parseResponse( final String responseText, final int source )
 	{
 		Matcher headers = QuestLogRequest.HEADER_PATTERN.matcher( responseText );
-		HashMap<Integer, String> map = new HashMap<Integer, String>();
+		HashMap<Integer, String> map = new HashMap<>();
 
 		while ( headers.find() )
 		{
@@ -182,12 +182,10 @@ public class QuestLogRequest
 			}
 		}
 
-		Iterator<Integer> it = map.keySet().iterator();
-		while ( it.hasNext() )
+		for ( Integer key : map.keySet() )
 		{
-			Integer key = it.next();
 			String header = map.get( key );
-			String cut = responseText.substring( key.intValue() ).split( "</blockquote>" )[ 0 ];
+			String cut = responseText.substring( key ).split( "</blockquote>" )[ 0 ];
 
 			if ( header.equals( "Council Quests:" ) )
 			{

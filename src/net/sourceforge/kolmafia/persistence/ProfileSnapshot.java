@@ -82,11 +82,11 @@ public class ProfileSnapshot
 		"Number of days idle"
 	};
 
-	private static final Map<String, String> levelMap = new TreeMap<String, String>();
-	private static final Map<String, String> profileMap = new TreeMap<String, String>();
-	private static final Map<String, String> rosterMap = new TreeMap<String, String>();
+	private static final Map<String, String> levelMap = new TreeMap<>();
+	private static final Map<String, String> profileMap = new TreeMap<>();
+	private static final Map<String, String> rosterMap = new TreeMap<>();
 
-	private static final LockableListModel<ProfileRequest> filterList = new LockableListModel<ProfileRequest>();
+	private static final LockableListModel<ProfileRequest> filterList = new LockableListModel<>();
 	private static final ClanMembersRequest request = new ClanMembersRequest( true );
 
 	public static final void clearCache()
@@ -149,7 +149,7 @@ public class ProfileSnapshot
 		}
 
 		ProfileSnapshot.filterList.clear();
-		ArrayList<ProfileRequest> interimList = new ArrayList<ProfileRequest>();
+		ArrayList<ProfileRequest> interimList = new ArrayList<>();
 
 		String[] names = new String[ ProfileSnapshot.profileMap.size() ];
 		ProfileSnapshot.profileMap.keySet().toArray( names );
@@ -159,11 +159,11 @@ public class ProfileSnapshot
 			// If the comparison value matches the type desired,
 			// add the element to the list.
 
-			for ( int i = 0; i < names.length; ++i )
+			for ( String name : names )
 			{
-				if ( ProfileSnapshot.compare( filterType, names[ i ], filter ) == matchType )
+				if ( ProfileSnapshot.compare( filterType, name, filter ) == matchType )
 				{
-					interimList.add( ProfileSnapshot.getProfile( names[ i ] ) );
+					interimList.add( ProfileSnapshot.getProfile( name ) );
 				}
 			}
 		}
@@ -201,11 +201,11 @@ public class ProfileSnapshot
 				break;
 
 			case LEVEL_FILTER:
-				compareValue = request.getPlayerLevel().intValue() - StringUtilities.parseInt( filter );
+				compareValue = request.getPlayerLevel() - StringUtilities.parseInt( filter );
 				break;
 
 			case PVP_FILTER:
-				compareValue = request.getPvpRank().intValue() - StringUtilities.parseInt( filter );
+				compareValue = request.getPvpRank() - StringUtilities.parseInt( filter );
 				break;
 
 			case CLASS_FILTER:
@@ -213,7 +213,7 @@ public class ProfileSnapshot
 				break;
 
 			case KARMA_FILTER:
-				compareValue = request.getKarma().intValue() - StringUtilities.parseInt( filter );
+				compareValue = request.getKarma() - StringUtilities.parseInt( filter );
 				break;
 
 			case LOGIN_FILTER:
@@ -235,7 +235,7 @@ public class ProfileSnapshot
 			StaticEntity.printStackTrace( e );
 		}
 
-		return compareValue < 0 ? -1 : compareValue > 0 ? 1 : 0;
+		return Integer.compare( compareValue, 0 );
 	}
 
 	public static final String getStandardData( final boolean localProfileLink )
@@ -284,12 +284,12 @@ public class ProfileSnapshot
 		strbuf.append( "</h2>" );
 		strbuf.append( KoLConstants.LINE_BREAK );
 
-		ArrayList<String> rankList = new ArrayList<String>();
+		ArrayList<String> rankList = new ArrayList<>();
 
 		ProfileRequest memberLookup;
-		for ( int i = 0; i < members.length; ++i )
+		for ( String item : members )
 		{
-			memberLookup = ProfileSnapshot.getProfile( members[ i ] );
+			memberLookup = ProfileSnapshot.getProfile( item );
 			rankList.add( memberLookup.getRank() );
 		}
 
@@ -303,9 +303,9 @@ public class ProfileSnapshot
 		strbuf.append( ProfileSnapshot.getOverviewHeader() );
 		strbuf.append( KoLConstants.LINE_BREAK );
 
-		for ( int i = 0; i < members.length; ++i )
+		for ( String value : members )
 		{
-			strbuf.append( ProfileSnapshot.getOverviewDetail( members[ i ], localProfileLink ) );
+			strbuf.append( ProfileSnapshot.getOverviewDetail( value, localProfileLink ) );
 			strbuf.append( KoLConstants.LINE_BREAK );
 		}
 
@@ -323,9 +323,9 @@ public class ProfileSnapshot
 		strbuf.append( ProfileSnapshot.getStatsHeader() );
 		strbuf.append( KoLConstants.LINE_BREAK );
 
-		for ( int i = 0; i < members.length; ++i )
+		for ( String s : members )
 		{
-			strbuf.append( ProfileSnapshot.getStatsDetail( members[ i ], localProfileLink ) );
+			strbuf.append( ProfileSnapshot.getStatsDetail( s, localProfileLink ) );
 			strbuf.append( KoLConstants.LINE_BREAK );
 		}
 
@@ -343,9 +343,9 @@ public class ProfileSnapshot
 		strbuf.append( ProfileSnapshot.getSocialHeader() );
 		strbuf.append( KoLConstants.LINE_BREAK );
 
-		for ( int i = 0; i < members.length; ++i )
+		for ( String member : members )
 		{
-			strbuf.append( ProfileSnapshot.getSocialDetail( members[ i ], localProfileLink ) );
+			strbuf.append( ProfileSnapshot.getSocialDetail( member, localProfileLink ) );
 			strbuf.append( KoLConstants.LINE_BREAK );
 		}
 
@@ -414,7 +414,7 @@ public class ProfileSnapshot
 		strbuf.append( memberLookup.getPlayerLevel() );
 
 		strbuf.append( "</td><td align=center>" );
-		strbuf.append( KoLConstants.COMMA_FORMAT.format( memberLookup.getCurrentRun() == null ? 0 : memberLookup.getCurrentRun().intValue() ) );
+		strbuf.append( KoLConstants.COMMA_FORMAT.format( memberLookup.getCurrentRun() == null ? 0 : memberLookup.getCurrentRun() ) );
 
 		AscensionHistoryRequest request =
 			AscensionHistoryRequest.getInstance(
@@ -449,26 +449,26 @@ public class ProfileSnapshot
 	{
 		StringBuilder strbuf = new StringBuilder();
 
-		ArrayList<String> classList = new ArrayList<String>();
-		ArrayList<Integer> powerList = new ArrayList<Integer>();
+		ArrayList<String> classList = new ArrayList<>();
+		ArrayList<Integer> powerList = new ArrayList<>();
 		//ArrayList karmaList = new ArrayList();
 
 		//ArrayList meatList = new ArrayList();
-		ArrayList<Integer> turnsList = new ArrayList<Integer>();
-		ArrayList<Integer> pvpList = new ArrayList<Integer>();
+		ArrayList<Integer> turnsList = new ArrayList<>();
+		ArrayList<Integer> pvpList = new ArrayList<>();
 
-		ArrayList<Integer> musList = new ArrayList<Integer>();
-		ArrayList<Integer> mysList = new ArrayList<Integer>();
-		ArrayList<Integer> moxList = new ArrayList<Integer>();
+		ArrayList<Integer> musList = new ArrayList<>();
+		ArrayList<Integer> mysList = new ArrayList<>();
+		ArrayList<Integer> moxList = new ArrayList<>();
 
 		// Iterate through the list of clan members
 		// and populate the lists.
 
 		ProfileRequest memberLookup;
 
-		for ( int i = 0; i < members.length; ++i )
+		for ( String member : members )
 		{
-			memberLookup = ProfileSnapshot.getProfile( members[ i ] );
+			memberLookup = ProfileSnapshot.getProfile( member );
 
 			classList.add( memberLookup.getClassType() );
 			//meatList.add( memberLookup.getCurrentMeat() );
@@ -619,7 +619,7 @@ public class ProfileSnapshot
 		strbuf.append( memberLookup.getTurnsPlayed() == null ? "0" : KoLConstants.COMMA_FORMAT.format( memberLookup.getTurnsPlayed().intValue() ) );
 
 		strbuf.append( "</td><td align=center>" );
-		strbuf.append( KoLConstants.COMMA_FORMAT.format( memberLookup.getAscensionCount() == null ? 0 : memberLookup.getAscensionCount().intValue() ) );
+		strbuf.append( KoLConstants.COMMA_FORMAT.format( memberLookup.getAscensionCount() == null ? 0 : memberLookup.getAscensionCount() ) );
 
 		strbuf.append( "</td></tr>" );
 		return strbuf.toString();
@@ -634,14 +634,14 @@ public class ProfileSnapshot
 	{
 		StringBuilder strbuf = new StringBuilder();
 
-		ArrayList<String> foodList = new ArrayList<String>();
-		ArrayList<String> drinkList = new ArrayList<String>();
+		ArrayList<String> foodList = new ArrayList<>();
+		ArrayList<String> drinkList = new ArrayList<>();
 
 		ProfileRequest memberLookup;
 
-		for ( int i = 0; i < members.length; ++i )
+		for ( String member : members )
 		{
-			memberLookup = ProfileSnapshot.getProfile( members[ i ] );
+			memberLookup = ProfileSnapshot.getProfile( member );
 
 			foodList.add( memberLookup.getFood() );
 			drinkList.add( memberLookup.getDrink() );

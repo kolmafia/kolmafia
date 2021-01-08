@@ -105,12 +105,11 @@ public class Aliases
 	{
 		PrintStream aliasStream = LogStream.openStream( Aliases.ALIAS_FILE, true );
 
-		Iterator it = Aliases.aliasSet.iterator();
-		while ( it.hasNext() )
+		for ( Object o : Aliases.aliasSet )
 		{
-			Entry current = (Entry) it.next();
-			String aliasString = (String) current.getKey();
-			String aliasCommand = (String) current.getValue();
+			Entry current = ( Entry ) o;
+			String aliasString = ( String ) current.getKey();
+			String aliasCommand = ( String ) current.getValue();
 			aliasStream.println( aliasString.trim() + "\t" + aliasCommand.trim() );
 		}
 
@@ -133,18 +132,17 @@ public class Aliases
 
 		line = " " + line + " ";
 
-		Iterator it = Aliases.aliasSet.iterator();
-		while ( it.hasNext() )
+		for ( Object o : Aliases.aliasSet )
 		{
-			Entry current = (Entry) it.next();
-			String aliasString = (String) current.getKey();
-			String aliasCommand = (String) current.getValue();
+			Entry current = ( Entry ) o;
+			String aliasString = ( String ) current.getKey();
+			String aliasCommand = ( String ) current.getValue();
 
 			// If the alias has a "%%" that means the person is using the old
 			// aliasing scheme where only the first word can be considered a
 			// part of the alias.
 
-			if ( aliasCommand.indexOf( "%%" ) != -1 )
+			if ( aliasCommand.contains( "%%" ) )
 			{
 				if ( line.startsWith( aliasString ) )
 				{
@@ -181,7 +179,7 @@ public class Aliases
 
 	public static void print( final String filter )
 	{
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		Iterator it = Aliases.aliasSet.iterator();
 		boolean first = true;
 		while ( it.hasNext() )
@@ -194,8 +192,8 @@ public class Aliases
 
 			if ( !matches )
 			{
-				matches = ( aliasString.toLowerCase().indexOf( filter ) != -1 ||
-				            aliasCommand.toLowerCase().indexOf( filter ) != -1   );
+				matches = ( aliasString.toLowerCase().contains( filter ) ||
+                        aliasCommand.toLowerCase().contains( filter ) );
 			}
 
 			if ( !matches )

@@ -86,7 +86,7 @@ public class MallSearchFrame
 	public static SortedListModel<PurchaseRequest> results;
 
 	private static MallSearchFrame INSTANCE = null;
-	private static final SortedListModel<PurchaseRequest> pastSearches = new SortedListModel<PurchaseRequest>();
+	private static final SortedListModel<PurchaseRequest> pastSearches = new SortedListModel<>();
 
 	private boolean currentlySearching;
 	private boolean currentlyBuying;
@@ -147,7 +147,7 @@ public class MallSearchFrame
 
 			this.forceSortingCheckBox = new JCheckBox();
 			this.limitPurchasesCheckBox = new JCheckBox();
-			MallSearchFrame.results = new SortedListModel<PurchaseRequest>();
+			MallSearchFrame.results = new SortedListModel<>();
 
 			JPanel checkBoxPanels = new JPanel();
 			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );
@@ -273,17 +273,17 @@ public class MallSearchFrame
 			}
 
 			int defaultPurchases = 0;
-			for ( int i = 0; i < purchases.length; ++i )
+			for ( PurchaseRequest purchase : purchases )
 			{
 				defaultPurchases +=
-					purchases[ i ].getQuantity() == PurchaseRequest.MAX_QUANTITY ? PurchaseRequest.MAX_QUANTITY :  purchases[ i ].getLimit();
+						purchase.getQuantity() == PurchaseRequest.MAX_QUANTITY ? PurchaseRequest.MAX_QUANTITY : purchase.getLimit();
 			}
 
 			int count = defaultPurchases;
 			if ( this.limitPurchasesCheckBox.isSelected() || defaultPurchases >= 1000 )
 			{
 				Integer value = InputFieldUtilities.getQuantity( "Maximum number of items to purchase?", defaultPurchases, 1 );
-				count = ( value == null ) ? 0 : value.intValue();
+				count = ( value == null ) ? 0 : value;
 			}
 
 			if ( count == 0 )
@@ -331,11 +331,11 @@ public class MallSearchFrame
 		int totalPurchases = 0;
 		PurchaseRequest currentPurchase = null;
 
-		for ( int i = 0; i < purchases.length; ++i )
+		for ( Object purchase : purchases )
 		{
-			currentPurchase = (PurchaseRequest) purchases[ i ];
+			currentPurchase = ( PurchaseRequest ) purchase;
 			totalPurchases += currentPurchase.getLimit();
-			totalPrice += (long) currentPurchase.getLimit() * (long) currentPurchase.getPrice();
+			totalPrice += ( long ) currentPurchase.getLimit() * ( long ) currentPurchase.getPrice();
 		}
 
 		return KoLConstants.COMMA_FORMAT.format( totalPurchases ) + " " +

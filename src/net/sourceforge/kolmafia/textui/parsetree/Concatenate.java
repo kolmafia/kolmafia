@@ -48,7 +48,7 @@ public class Concatenate
 
 	public Concatenate( final Value lhs, final Value rhs )
 	{
-		this.strings = new ArrayList<Value>();
+		this.strings = new ArrayList<>();
 		strings.add( lhs );
 		strings.add( rhs );
 	}

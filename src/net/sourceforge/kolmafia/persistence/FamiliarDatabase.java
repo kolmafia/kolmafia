@@ -130,7 +130,7 @@ public class FamiliarDatabase
 
 		for ( int i = 0; i < 4; ++i )
 		{
-			FamiliarDatabase.eventSkillByName[ i ] = new HashMap<String,Integer>();
+			FamiliarDatabase.eventSkillByName[ i ] = new HashMap<>();
 		}
 		FamiliarDatabase.readFamiliars();
 		FamiliarDatabase.saveCanonicalNames();
@@ -179,7 +179,7 @@ public class FamiliarDatabase
 			FamiliarDatabase.updateType( type, id );
 
 			String larvaName = data[ 4 ];
-			Integer larva = Integer.valueOf( ItemDatabase.getItemId( larvaName ) );
+			Integer larva = ItemDatabase.getItemId( larvaName );
 			FamiliarDatabase.familiarLarvaById.put( id, larva );
 			FamiliarDatabase.familiarByLarva.put( larva, id );
 
@@ -406,7 +406,7 @@ public class FamiliarDatabase
 	public static final FamiliarData growFamiliarLarva( final int larvaId )
 	{
 		Integer familiarId = FamiliarDatabase.familiarByLarva.get( IntegerPool.get( larvaId ) );
-		return familiarId == null ? null : new FamiliarData( familiarId.intValue() );
+		return familiarId == null ? null : new FamiliarData( familiarId );
 	}
 
 	/**
@@ -427,7 +427,7 @@ public class FamiliarDatabase
 		Integer familiarId = FamiliarDatabase.familiarByName.get( name );
 		if ( familiarId != null )
 		{
-			return familiarId.intValue();
+			return familiarId;
 		}
 
 		if ( !substringMatch )
@@ -594,7 +594,7 @@ public class FamiliarDatabase
 	public static final int getFamiliarByItem( final String item )
 	{
 		Integer familiarId = FamiliarDatabase.familiarByItem.get( item );
-		return familiarId == null ? -1 : familiarId.intValue();
+		return familiarId == null ? -1 : familiarId;
 	}
 
 	public static final int getFamiliarLarva( final int familiarId )
@@ -605,7 +605,7 @@ public class FamiliarDatabase
 	public static final int getFamiliarLarva( final Integer familiarId )
 	{
 		Integer id = FamiliarDatabase.familiarLarvaById.get( familiarId );
-		return id == null ? 0 : id.intValue();
+		return id == null ? 0 : id;
 	}
 
 	public static final String getFamiliarType( final int familiarId )
@@ -763,7 +763,7 @@ public class FamiliarDatabase
 	public static final int getFamiliarByImageLocation( final String image )
 	{
 		Integer familiarId = FamiliarDatabase.familiarByImage.get( image );
-		return familiarId == null ? -1 : familiarId.intValue();
+		return familiarId == null ? -1 : familiarId;
 	}
 
 	private static ImageIcon getFamiliarIcon( final String location )
@@ -832,7 +832,7 @@ public class FamiliarDatabase
 		int[] skills = new int[ 4 ];
 		for ( int i = 0; i < 4; ++i )
 		{
-			skills[ i ] = FamiliarDatabase.eventSkillByName[ i ].get( name ).intValue();
+			skills[ i ] = FamiliarDatabase.eventSkillByName[ i ].get( name );
 		}
 		return skills;
 	}
@@ -916,10 +916,9 @@ public class FamiliarDatabase
 		FamiliarDatabase.familiarById.keySet().toArray( familiarIds );
 
 		int lastInteger = 1;
-		for ( int i = 0; i < familiarIds.length; ++i )
+		for ( Integer nextInteger : familiarIds )
 		{
-			Integer nextInteger = familiarIds[ i ];
-			int familiarId = nextInteger.intValue();
+			int familiarId = nextInteger;
 
 			for ( int j = lastInteger; j < familiarId; ++j )
 			{
@@ -931,7 +930,7 @@ public class FamiliarDatabase
 			String name = FamiliarDatabase.getFamiliarName( nextInteger );
 			String image = FamiliarDatabase.getFamiliarImageLocation( familiarId );
 			String type = FamiliarDatabase.getFamiliarType( familiarId );
-			int larvaId = FamiliarDatabase.getFamiliarLarva( nextInteger ) ;
+			int larvaId = FamiliarDatabase.getFamiliarLarva( nextInteger );
 			int itemId = FamiliarDatabase.getFamiliarItemId( nextInteger );
 			int[] skills = FamiliarDatabase.getFamiliarSkills( nextInteger );
 

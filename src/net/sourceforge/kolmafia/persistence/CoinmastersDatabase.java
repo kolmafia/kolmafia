@@ -120,12 +120,12 @@ public class CoinmastersDatabase
 
 	public static final LockableListModel<AdventureResult> getNewList()
 	{
-		return new LockableListModel<AdventureResult>();
+		return new LockableListModel<>();
 	}
 
 	public static final Map<Integer, Integer> getNewMap()
 	{
-		return new TreeMap<Integer, Integer>();
+		return new TreeMap<>();
 	}
 
 	private static LockableListModel<AdventureResult> getOrMakeList( final String key, final Map<String,LockableListModel<AdventureResult>> map )
@@ -141,12 +141,7 @@ public class CoinmastersDatabase
 
 	private static Map<Integer, Integer> getOrMakeMap( final String key, final Map<String, Map<Integer, Integer>> map )
 	{
-		Map<Integer, Integer> retval = map.get( key );
-		if ( retval == null )
-		{
-			retval = CoinmastersDatabase.getNewMap();
-			map.put( key, retval );
-		}
+		Map<Integer, Integer> retval = map.computeIfAbsent( key, k -> CoinmastersDatabase.getNewMap() );
 		return retval;
 	}
 
@@ -247,21 +242,13 @@ public class CoinmastersDatabase
 			return 0;
 		}
 		Integer price = prices.get( itemId );
-		return ( price == null ) ? 0 : price.intValue();
+		return ( price == null ) ? 0 : price;
 	}
 
 	public static final void clearPurchaseRequests( CoinmasterData data )
 	{
 		// Clear all purchase requests for a particular Coin Master
-		Iterator<CoinMasterPurchaseRequest> it = CoinmastersDatabase.COINMASTER_ITEMS.values().iterator();
-		while ( it.hasNext() )
-		{
-			CoinMasterPurchaseRequest request = it.next();
-			if ( request.getData() == data )
-			{
-				it.remove();
-			}
-		}
+		CoinmastersDatabase.COINMASTER_ITEMS.values().removeIf( request -> request.getData() == data );
 	}
 
 	public static final void registerPurchaseRequest( final CoinmasterData data, final AdventureResult item, final AdventureResult price )

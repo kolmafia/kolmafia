@@ -117,7 +117,7 @@ public class KGBRequest
 	// <s>Monsters will be less attracted to you</s><br><br><b>+5 PvP Fights per day</b>
 	private static final Pattern ENCHANT_PATTERN = Pattern.compile( "<s>(.*?)</s><br><br><b>(.*?)</b>" );
 
-	private static final HashMap<String,ModifierList> modMap = new HashMap<String,ModifierList>();
+	private static final HashMap<String,ModifierList> modMap = new HashMap<>();
 
 	static
 	{

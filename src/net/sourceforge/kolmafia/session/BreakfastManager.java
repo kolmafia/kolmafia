@@ -585,22 +585,20 @@ public class BreakfastManager
 		boolean castAll = name.equals( "all" );
 
 		// Determine how many skills we will cast from this list
-		for ( int i = 0; i < skills.length; ++i )
-		{
-			String skillName = skills[ i ];
+        for ( String skillName : skills )
+        {
+            if ( !castAll && !name.equals( skillName ) )
+            {
+                continue;
+            }
 
-			if ( !castAll && !name.equals( skillName ) )
-			{
-				continue;
-			}
+            if ( !KoLCharacter.hasSkill( skillName ) )
+            {
+                continue;
+            }
 
-			if ( !KoLCharacter.hasSkill( skillName ) )
-			{
-				continue;
-			}
-
-			list.add( skillName );
-		}
+            list.add( skillName );
+        }
 
 		return list;
 	}
@@ -659,13 +657,13 @@ public class BreakfastManager
 		// We are casting more than one skill from this list. Cast one
 		// at a time until we are done.
 
-		for ( int i = 0; i < skillCount; ++i )
-		{
-			String skillName = (String) castable.get(i);
+        for ( Object o : castable )
+        {
+            String skillName = ( String ) o;
 
-			done &= BreakfastManager.castSkill( skillName, cast, allowRestore, manaRemaining );
-			cast = nextCast;
-		}
+            done &= BreakfastManager.castSkill( skillName, cast, allowRestore, manaRemaining );
+            cast = nextCast;
+        }
 
 		return done;
 	}

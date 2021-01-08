@@ -92,8 +92,8 @@ public abstract class MoodManager
 	public static final AdventureResult EAU_DE_TORTUE = EffectPool.get( EffectPool.EAU_DE_TORTUE );
 
 	private static Mood currentMood = null;
-	private static final SortedListModel<Mood> availableMoods = new SortedListModel<Mood>();
-	private static final SortedListModel<MoodTrigger> displayList = new SortedListModel<MoodTrigger>();
+	private static final SortedListModel<Mood> availableMoods = new SortedListModel<>();
+	private static final SortedListModel<MoodTrigger> displayList = new SortedListModel<>();
 	
 	static boolean isExecuting = false;
 
@@ -155,7 +155,7 @@ public abstract class MoodManager
 			{
 				MoodManager.currentMood = mood;
 				
-				if ( newMoodName.indexOf( " extends " ) != -1 || newMoodName.indexOf( "," ) != -1 )
+				if ( newMoodName.contains( " extends " ) || newMoodName.contains( "," ) )
 				{
 					MoodManager.currentMood.setParentNames( newMood.getParentNames() );
 				}
@@ -227,15 +227,15 @@ public abstract class MoodManager
 
 	public static final void removeTriggers( final Object[] triggers )
 	{
-		for ( int i = 0; i < triggers.length; ++i )
-		{
-			MoodTrigger trigger = (MoodTrigger) triggers[ i ];
+        for ( Object o : triggers )
+        {
+            MoodTrigger trigger = ( MoodTrigger ) o;
 
-			if ( MoodManager.currentMood.removeTrigger( trigger ) )
-			{
-				MoodManager.displayList.remove( trigger );
-			}
-		}
+            if ( MoodManager.currentMood.removeTrigger( trigger ) )
+            {
+                MoodManager.displayList.remove( trigger );
+            }
+        }
 	}
 
 	public static final void removeTriggers( final Collection<MoodTrigger> triggers )
@@ -264,14 +264,14 @@ public abstract class MoodManager
 		AdventureResult[] effects = new AdventureResult[ KoLConstants.activeEffects.size() ];
 		KoLConstants.activeEffects.toArray( effects );
 
-		for ( int i = 0; i < effects.length; ++i )
-		{
-			String action = MoodManager.getDefaultAction( "lose_effect", effects[ i ].getName() );
-			if ( action != null && !action.equals( "" ) )
-			{
-				MoodManager.addTrigger( "lose_effect", effects[ i ].getName(), action );
-			}
-		}
+        for ( AdventureResult effect : effects )
+        {
+            String action = MoodManager.getDefaultAction( "lose_effect", effect.getName() );
+            if ( action != null && !action.equals( "" ) )
+            {
+                MoodManager.addTrigger( "lose_effect", effect.getName(), action );
+            }
+        }
 	}
 
 	/**
@@ -319,64 +319,64 @@ public abstract class MoodManager
 		UseSkillRequest[] skills = new UseSkillRequest[ KoLConstants.availableSkills.size() ];
 		KoLConstants.availableSkills.toArray( skills );
 
-		ArrayList<String> thiefSkills = new ArrayList<String>();
-		ArrayList<String> borisSongs = new ArrayList<String>();
+		ArrayList<String> thiefSkills = new ArrayList<>();
+		ArrayList<String> borisSongs = new ArrayList<>();
 
-		for ( int i = 0; i < skills.length; ++i )
-		{
-			int skillId = skills[ i ].getSkillId();
+        for ( UseSkillRequest skill : skills )
+        {
+            int skillId = skill.getSkillId();
 
-			if ( skillId < 1000 )
-			{
-				continue;
-			}
+            if ( skillId < 1000 )
+            {
+                continue;
+            }
 
-			// Combat rate increasers are not handled by mood
-			// autofill, since KoLmafia has a preference for
-			// non-combats in the area below.
-			// Musk of the Moose, Carlweather's Cantata of Confrontation,
-			// Song of Battle
+            // Combat rate increasers are not handled by mood
+            // autofill, since KoLmafia has a preference for
+            // non-combats in the area below.
+            // Musk of the Moose, Carlweather's Cantata of Confrontation,
+            // Song of Battle
 
-			if ( skillId == 1019 || skillId == 6016 || skillId == 11019 )
-			{
-				continue;
-			}
+            if ( skillId == 1019 || skillId == 6016 || skillId == 11019 )
+            {
+                continue;
+            }
 
-			// Skip skills that aren't mood appropriate because they add effects
-			// outside of battle.
-			// Canticle of Carboloading, The Ode to Booze,
-			// Inigo's Incantation of Inspiration, Song of the Glorious Lunch
+            // Skip skills that aren't mood appropriate because they add effects
+            // outside of battle.
+            // Canticle of Carboloading, The Ode to Booze,
+            // Inigo's Incantation of Inspiration, Song of the Glorious Lunch
 
-			if ( skillId == 3024 || skillId == 6014 || skillId == 6028 || skillId == 11023 )
-			{
-				continue;
-			}
+            if ( skillId == 3024 || skillId == 6014 || skillId == 6028 || skillId == 11023 )
+            {
+                continue;
+            }
 
-			String skillName = skills[ i ].getSkillName();
+            String skillName = skill.getSkillName();
 
-			if ( SkillDatabase.isAccordionThiefSong( skillId ) )
-			{
-				thiefSkills.add( skillName );
-				continue;
-			}
+            if ( SkillDatabase.isAccordionThiefSong( skillId ) )
+            {
+                thiefSkills.add( skillName );
+                continue;
+            }
 
-			if ( skillId >= 11000 && skillId < 12000 )
-			{
-				if ( SkillDatabase.isSong( skillId ) )
-				{
-					borisSongs.add( skillName );
-					continue;
-				}
-			}
+            if ( skillId >= 11000 && skillId < 12000 )
+            {
+                if ( SkillDatabase.isSong( skillId ) )
+                {
+                    borisSongs.add( skillName );
+                    continue;
+                }
+            }
 
-			String effectName = UneffectRequest.skillToEffect( skillName );
-			int effectId = EffectDatabase.getEffectId( effectName );
-			if ( EffectDatabase.contains( effectId ) )
-			{
-				String action = MoodManager.getDefaultAction( "lose_effect", effectName );
-				MoodManager.addTrigger( "lose_effect", effectName, action );
-			}
-		}
+            String effectName = UneffectRequest.skillToEffect( skillName );
+            int effectId = EffectDatabase.getEffectId( effectName );
+            if ( EffectDatabase.contains( effectId ) )
+            {
+                String action = MoodManager.getDefaultAction( "lose_effect", effectName );
+                MoodManager.addTrigger( "lose_effect", effectName, action );
+            }
+        }
 
 		// If we know Boris Songs, pick one
 		if ( !borisSongs.isEmpty() )
@@ -416,11 +416,11 @@ public abstract class MoodManager
 			String[] skillNames = new String[ skillCount ];
 			skills.toArray( skillNames );
 
-			for ( int i = 0; i < skillNames.length; ++i )
-			{
-				String effectName = UneffectRequest.skillToEffect( skillNames[ i ] );
-				MoodManager.addTrigger( "lose_effect", effectName, "cast " + skillNames[ i ] );
-			}
+            for ( String skillName : skillNames )
+            {
+                String effectName = UneffectRequest.skillToEffect( skillName );
+                MoodManager.addTrigger( "lose_effect", effectName, "cast " + skillName );
+            }
 
 			return;
 		}
@@ -533,25 +533,25 @@ public abstract class MoodManager
 		// First we determine which buffs are already affecting the
 		// character in question.
 
-		ArrayList<AdventureResult> thiefBuffs = new ArrayList<AdventureResult>();
-		for ( int i = 0; i < effects.length; ++i )
-		{
-			String skillName = UneffectRequest.effectToSkill( effects[ i ].getName() );
-			if ( SkillDatabase.contains( skillName ) )
-			{
-				int skillId = SkillDatabase.getSkillId( skillName );
-				if ( SkillDatabase.isAccordionThiefSong( skillId ) )
-				{
-					thiefBuffs.add( effects[ i ] );
-				}
-			}
-		}
+		ArrayList<AdventureResult> thiefBuffs = new ArrayList<>();
+        for ( AdventureResult adventureResult : effects )
+        {
+            String skillName = UneffectRequest.effectToSkill( adventureResult.getName() );
+            if ( SkillDatabase.contains( skillName ) )
+            {
+                int skillId = SkillDatabase.getSkillId( skillName );
+                if ( SkillDatabase.isAccordionThiefSong( skillId ) )
+                {
+                    thiefBuffs.add( adventureResult );
+                }
+            }
+        }
 
 		// Then, we determine the triggers which are thief skills, and
 		// thereby would be cast at this time.
 
-		ArrayList<AdventureResult> thiefKeep = new ArrayList<AdventureResult>();
-		ArrayList<AdventureResult> thiefNeed = new ArrayList<AdventureResult>();
+		ArrayList<AdventureResult> thiefKeep = new ArrayList<>();
+		ArrayList<AdventureResult> thiefNeed = new ArrayList<>();
 		
 		List<MoodTrigger> triggers = MoodManager.currentMood.getTriggers();
 		for ( MoodTrigger trigger : triggers )
@@ -635,7 +635,7 @@ public abstract class MoodManager
 			return Collections.EMPTY_LIST;
 		}
 
-		ArrayList<AdventureResult> missing = new ArrayList<AdventureResult>();
+		ArrayList<AdventureResult> missing = new ArrayList<>();
 		for ( MoodTrigger trigger : triggers )
 		{
 			if ( trigger.getType().equals( "lose_effect" ) && !trigger.matches() )
@@ -885,11 +885,11 @@ public abstract class MoodManager
 	public static final boolean unstackableAction( final String action )
 	{
 		return
-			action.indexOf( "absinthe" ) != -1 ||
-			action.indexOf( "astral mushroom" ) != -1 ||
-			action.indexOf( "oasis" ) != -1 ||
-			action.indexOf( "turtle pheromones" ) != -1 ||
-			action.indexOf( "gong" ) != -1;
+				action.contains( "absinthe" ) ||
+						action.contains( "astral mushroom" ) ||
+						action.contains( "oasis" ) ||
+						action.contains( "turtle pheromones" ) ||
+						action.contains( "gong" );
 	}
 
 	public static final boolean canMasterTrivia()

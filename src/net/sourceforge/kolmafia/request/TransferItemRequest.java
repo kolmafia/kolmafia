@@ -173,7 +173,7 @@ public abstract class TransferItemRequest
 
 	public ArrayList<TransferItemRequest> generateSubInstances()
 	{
-		ArrayList<TransferItemRequest> subinstances = new ArrayList<TransferItemRequest>();
+		ArrayList<TransferItemRequest> subinstances = new ArrayList<>();
 
 		if ( KoLmafia.refusesContinue() )
 		{
@@ -356,12 +356,11 @@ public abstract class TransferItemRequest
 			return;
 		}
 
-		for ( int i = 0; i < this.attachments.length; ++i )
-		{
-			AdventureResult item = this.attachments[ i ];
-			KoLmafia.updateDisplay( MafiaState.ERROR,
-						"Transfer failed for " + item.toString() );
-		}
+        for ( AdventureResult item : this.attachments )
+        {
+            KoLmafia.updateDisplay( MafiaState.ERROR,
+                    "Transfer failed for " + item.toString() );
+        }
 
 		int totalMeat = StringUtilities.parseInt( this.getFormField( this.getMeatField() ) );
 		if ( totalMeat != 0 )

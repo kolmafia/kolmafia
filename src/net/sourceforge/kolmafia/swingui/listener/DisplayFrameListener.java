@@ -59,20 +59,20 @@ public class DisplayFrameListener
 		 {	 
 			 String interfaceSetting = Preferences.getString( "initialDesktop" );	 
 	 
-			 Frame [] frames = Frame.getFrames();	 
-	 
-			 for ( int i = 0; i < frames.length; ++i )	 
-			 {	 
-				 if ( ( frames[ i ] instanceof GenericFrame ) )	 
-				 {	 
-					 GenericFrame frame = (GenericFrame) frames[ i ];	 
-	 
-					 if ( frame.showInWindowMenu() && interfaceSetting.indexOf( frame.getFrameName() ) == -1 )	 
-					 {	 
-						 frame.setVisible( true );	 
-					 }	 
-				 }	 
-			 }	 
+			 Frame [] frames = Frame.getFrames();
+
+             for ( Frame value : frames )
+             {
+                 if ( ( value instanceof GenericFrame ) )
+                 {
+                     GenericFrame frame = ( GenericFrame ) value;
+
+                     if ( frame.showInWindowMenu() && !interfaceSetting.contains( frame.getFrameName() ) )
+                     {
+                         frame.setVisible( true );
+                     }
+                 }
+             }
 	 
 			 if ( KoLDesktop.instanceExists() )	 
 			 {	 

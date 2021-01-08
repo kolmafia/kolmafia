@@ -211,7 +211,7 @@ public class DatabaseFrame
 		@Override
 		public String getId( final Entry e )
 		{
-			return EffectDatabase.getDescriptionId( ( (Integer) e.getKey() ).intValue() );
+			return EffectDatabase.getDescriptionId( ( Integer ) e.getKey() );
 		}
 	}
 

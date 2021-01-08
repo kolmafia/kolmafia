@@ -88,7 +88,7 @@ public class InventoryPanel
                 new EquipListener( isCloset ) :
                 new ConsumeListener( isCloset );
 
-		ArrayList<ActionListener> listeners = new ArrayList<ActionListener>();
+		ArrayList<ActionListener> listeners = new ArrayList<>();
 		listeners.add( useListener );
 		listeners.add( new AutoSellListener( isCloset, true ) );
 		listeners.add( new AutoSellListener( isCloset, false ) );
@@ -276,12 +276,10 @@ public class InventoryPanel
 				return;
 			}
 
-			for ( int i = 0; i < items.length; ++i )
-			{
-				AdventureResult item = items[ i ];
-
-				RequestThread.postRequest( UseItemRequest.getInstance( KoLConstants.CONSUME_SLIME, item ) );
-			}
+            for ( AdventureResult item : items )
+            {
+                RequestThread.postRequest( UseItemRequest.getInstance( KoLConstants.CONSUME_SLIME, item ) );
+            }
 		}
 
 		@Override

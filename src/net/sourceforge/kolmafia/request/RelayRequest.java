@@ -131,7 +131,7 @@ public class RelayRequest
 {
 	private final PauseObject pauser = new PauseObject();
 
-	private static final HashMap<String, File> overrideMap = new HashMap<String, File>();
+	private static final HashMap<String, File> overrideMap = new HashMap<>();
 	
 	private static final Pattern STORE_PATTERN =
 		Pattern.compile( "<tr><td><input name=whichitem type=radio value=(\\d+).*?</tr>", Pattern.DOTALL );
@@ -142,7 +142,7 @@ public class RelayRequest
 	private static KoLAdventure lastSafety = null;
 
 	private final boolean allowOverride;
-	public List<String> headers = new ArrayList<String>();
+	public List<String> headers = new ArrayList<>();
 	public Set<ServerCookie> serverCookies = null;
 	public String cookies = null;
 	public byte[] rawByteBuffer = null;
@@ -339,7 +339,7 @@ public class RelayRequest
 				ServerCookie serverCookie = new ServerCookie( cookie );
 				if ( this.serverCookies == null )
 				{
-					this.serverCookies = new LinkedHashSet<ServerCookie>();
+					this.serverCookies = new LinkedHashSet<>();
 				}
 				else
 				{
@@ -744,28 +744,20 @@ public class RelayRequest
 		}
 	}
 
-	private static final FilenameFilter RELAYIMAGES_FILTER = new FilenameFilter()
-	{
-		public boolean accept( final File dir, final String name )
-		{
-			return !name.equals( "relayimages" );
-		}
-	};
+	private static final FilenameFilter RELAYIMAGES_FILTER = ( dir, name ) -> !name.equals( "relayimages" );
 
 	private static void clearImageDirectory( File directory, FilenameFilter filter )
 	{
 		File[] files = directory.listFiles( filter );
-		for ( int i = 0; i < files.length; ++i )
-		{
-			File file = files[ i ];
+        for ( File file : files )
+        {
+            if ( file.isDirectory() )
+            {
+                RelayRequest.clearImageDirectory( file, null );
+            }
 
-			if ( file.isDirectory() )
-			{
-				RelayRequest.clearImageDirectory( file, null );
-			}
-
-			file.delete();
-		}
+            file.delete();
+        }
 	}
 
 	public static void clearImageCache()
@@ -3378,7 +3370,7 @@ public class RelayRequest
 				ChatSender.sendMessage( null, "/listen", true );
 			}
 
-			chatText = ChatSender.sendMessage( new LinkedList<ChatMessage>(), this.getFormField( "graf" ), true, false, tabbedChat );
+			chatText = ChatSender.sendMessage( new LinkedList<>(), this.getFormField( "graf" ), true, false, tabbedChat );
 
 			if ( tabbedChat && chatText.startsWith( "{" ) )
 			{
@@ -3474,7 +3466,7 @@ public class RelayRequest
 
 			long localLastSeen = ChatPoller.localLastSeen;
 			List<HistoryEntry> newEntries = ChatPoller.getOldEntries( true );
-			ArrayList<ChatMessage> messages = new ArrayList<ChatMessage>();
+			ArrayList<ChatMessage> messages = new ArrayList<>();
 			for ( HistoryEntry entry : newEntries )
 			{
 				if ( entry instanceof SentMessageEntry )

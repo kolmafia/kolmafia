@@ -42,7 +42,7 @@ import java.util.ArrayList;
 
 public class BooleanArray
 {
-	private final ArrayList<Boolean> internalList = new ArrayList<Boolean>();
+	private final ArrayList<Boolean> internalList = new ArrayList<>();
 
 	public boolean get( final int index )
 	{

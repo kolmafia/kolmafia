@@ -1137,15 +1137,15 @@ public class CharacterEntities
 	// euro sign, U+20AC NEW
 		};
 
-	private static final Map<Character, String> entities = new HashMap<Character, String>();
-	private static final Map<String, Character> unicodes = new HashMap<String, Character>();
+	private static final Map<Character, String> entities = new HashMap<>();
+	private static final Map<String, Character> unicodes = new HashMap<>();
 
 	static
 	{
 		for ( int i = 0; i < CharacterEntities.UNICODE_TABLE.length; ++i )
 		{
 			String entity = CharacterEntities.UNICODE_TABLE[ i ][ 0 ];
-			Character unicode = new Character( CharacterEntities.UNICODE_TABLE[ i ][ 1 ].charAt( 0 ) );
+			Character unicode = CharacterEntities.UNICODE_TABLE[ i ][ 1 ].charAt( 0 );
 
 			CharacterEntities.entities.put( unicode, entity );
 			CharacterEntities.unicodes.put( entity, unicode );
@@ -1171,7 +1171,7 @@ public class CharacterEntities
 				continue;
 			}
 
-			String entity = CharacterEntities.entities.get( new Character( ch ) );
+			String entity = CharacterEntities.entities.get( ch );
 
 			// If we don't have a translation, use Unicode escape
 			if ( entity == null )
@@ -1249,7 +1249,7 @@ public class CharacterEntities
 			Character unicode;
 			if ( entity.charAt( 1 ) == '#' )
 			{
-				unicode = new Character( (char) StringUtilities.parseInt( entity.substring( 2, entity.length() - 1 ) ) );
+				unicode = ( char ) StringUtilities.parseInt( entity.substring( 2, entity.length() - 1 ) );
 			}
 			else
 			{

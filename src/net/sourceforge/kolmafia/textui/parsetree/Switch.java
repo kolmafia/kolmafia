@@ -115,7 +115,7 @@ public class Switch
 			Integer mapped = labels.get( value );
 			if ( mapped != null )
 			{
-				offset = mapped.intValue();
+				offset = mapped;
 			}
 		}
 		else
@@ -144,7 +144,7 @@ public class Switch
 
 				if ( result.equals( value ) )
 				{
-					offset = offsets[ index ].intValue();
+					offset = offsets[ index ];
 					break;
 				}
 			}

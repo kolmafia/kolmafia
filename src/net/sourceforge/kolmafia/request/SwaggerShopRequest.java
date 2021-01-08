@@ -120,8 +120,8 @@ public class SwaggerShopRequest
 	public static Season currentSeason = Season.NONE;
 
 	final public static EnumSet<Season> allSeasons = EnumSet.allOf( Season.class );
-	final public static Map<String, Season> nameToSeason = new HashMap<String, Season>();
-	final public static Map<Integer, Season> itemIdToSeason = new HashMap<Integer, Season>();
+	final public static Map<String, Season> nameToSeason = new HashMap<>();
+	final public static Map<Integer, Season> itemIdToSeason = new HashMap<>();
 
 	static
 	{

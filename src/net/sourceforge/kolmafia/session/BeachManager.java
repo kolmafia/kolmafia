@@ -110,11 +110,11 @@ public class BeachManager
 		new BeachHead( 11, "You Learned Something Maybe!", 9696, "9,96958", "experience" ),
 	};
 
-	public static final Map<Integer, BeachHead> idToBeachHead = new TreeMap<Integer, BeachHead>();
-	public static final Map<String, BeachHead> effectToBeachHead = new TreeMap<String, BeachHead>();
-	public static final List<String> beachHeadDescs = new ArrayList<String>();
+	public static final Map<Integer, BeachHead> idToBeachHead = new TreeMap<>();
+	public static final Map<String, BeachHead> effectToBeachHead = new TreeMap<>();
+	public static final List<String> beachHeadDescs = new ArrayList<>();
 	public static final String[] beachHeadDescArray;
-	public static final Map<String, BeachHead> descToBeachHead = new TreeMap<String, BeachHead>();
+	public static final Map<String, BeachHead> descToBeachHead = new TreeMap<>();
 
 	static
 	{
@@ -130,7 +130,7 @@ public class BeachManager
 
     public static Set<Integer> getBeachHeadPreference( String property )
 	{
-		Set<Integer> beachHeads = new TreeSet<Integer>();
+		Set<Integer> beachHeads = new TreeSet<>();
 		for ( String iword : Preferences.getString( property ).split( " *, *" ) )
 		{
 			if ( !iword.equals( "" ) )
@@ -159,7 +159,7 @@ public class BeachManager
 
 	public static Map<Integer, String> stringToLayout( final String input )
 	{
-		Map<Integer, String> rowMap = new TreeMap<Integer, String>();
+		Map<Integer, String> rowMap = new TreeMap<>();
 		for ( String rowData : input.split( "," ) )
 		{
 			int colon = rowData.indexOf( ":" );
@@ -258,7 +258,7 @@ public class BeachManager
 		Set<Integer> unlocked = getBeachHeadPreference( "beachHeadsUnlocked" );
 
 		// Find which beach heads have available shortcuts
-		Set<Integer> available = new TreeSet<Integer>();
+		Set<Integer> available = new TreeSet<>();
 
 		matcher = BeachManager.BEACH_HEAD_PATTERN.matcher( text );
 		while ( matcher.find() )
@@ -267,12 +267,12 @@ public class BeachManager
 		}
 
 		// All visible beach head shortcuts are unlocked
-		Set<Integer> allUnlocked = new TreeSet<Integer>( unlocked );
+		Set<Integer> allUnlocked = new TreeSet<>( unlocked );
 		allUnlocked.addAll( available );
 		setBeachHeadPreference( "beachHeadsUnlocked", allUnlocked );
 
 		// All visible beach head shortcuts have not been visited today
-		Set<Integer> visited = new TreeSet<Integer>( allUnlocked );
+		Set<Integer> visited = new TreeSet<>( allUnlocked );
 		visited.removeAll( available );
 		setBeachHeadPreference( "_beachHeadsUsed", visited );
 
@@ -386,7 +386,7 @@ public class BeachManager
 		StringBuilder layout = new StringBuilder();
 
 		// Since number of rows vary, make a map to hold the layout for each row
-		Map<Integer, String> rowLayout = new TreeMap<Integer, String>();
+		Map<Integer, String> rowLayout = new TreeMap<>();
 		int currentRow = -1;
 
 		matcher = BeachManager.MAP_PATTERN.matcher( text );

@@ -281,7 +281,7 @@ public class CharSheetRequest
 		// This is seen by whether or not the word "Ascensions"
 		// appears in their player profile.
 
-		if ( responseText.indexOf( "Ascensions:" ) != -1 )
+		if ( responseText.contains( "Ascensions:" ) )
 		{
 			while ( !token.startsWith( "Ascensions" ) )
 			{
@@ -292,17 +292,17 @@ public class CharSheetRequest
 
 		// There may also be a "turns this run" field which
 		// allows you to have a Ronin countdown.
-		boolean runStats = responseText.indexOf( "(this run)" ) != -1;
+		boolean runStats = responseText.contains( "(this run)" );
 
 		while ( !token.startsWith( "Turns" ) ||
-			( runStats && token.indexOf( "(this run)" ) == -1 ) )
+			( runStats && !token.contains( "(this run)" ) ) )
 		{
 			token = cleanContent.nextToken();
 		}
 
 		KoLCharacter.setCurrentRun( GenericRequest.intToken( cleanContent ) );
 		while ( !token.startsWith( "Days" ) ||
-			( runStats && token.indexOf( "(this run)" ) == -1 ) )
+			( runStats && !token.contains( "(this run)" ) ) )
 		{
 			token = cleanContent.nextToken();
 		}
@@ -371,8 +371,8 @@ public class CharSheetRequest
 		GenericRequest.skipTokens( cleanContent, 1 );
 		token = cleanContent.nextToken();
 
-		List<UseSkillRequest> newSkillSet = new ArrayList<UseSkillRequest>();
-		List<UseSkillRequest> permedSkillSet = new ArrayList<UseSkillRequest>();
+		List<UseSkillRequest> newSkillSet = new ArrayList<>();
+		List<UseSkillRequest> permedSkillSet = new ArrayList<>();
 
 		List<ParsedSkillInfo> parsedSkillInfos = parseSkills( doc );
 		for (ParsedSkillInfo skillInfo : parsedSkillInfos)

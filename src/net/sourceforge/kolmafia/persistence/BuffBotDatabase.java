@@ -67,11 +67,11 @@ public class BuffBotDatabase
 	private static boolean hasNameList = false;
 	private static boolean isInitialized = false;
 
-	private static final ArrayList<String> nameList = new ArrayList<String>();
-	private static final TreeMap<String, String[]> buffDataMap = new TreeMap<String, String[]>();
+	private static final ArrayList<String> nameList = new ArrayList<>();
+	private static final TreeMap<String, String[]> buffDataMap = new TreeMap<>();
 
-	private static final TreeMap<String, LockableListModel<Offering>> normalOfferings = new TreeMap<String, LockableListModel<Offering>>();
-	private static final TreeMap<String, LockableListModel<Offering>> freeOfferings = new TreeMap<String, LockableListModel<Offering>>();
+	private static final TreeMap<String, LockableListModel<Offering>> normalOfferings = new TreeMap<>();
+	private static final TreeMap<String, LockableListModel<Offering>> freeOfferings = new TreeMap<>();
 
 	public static final long getOffering( String name, final long amount )
 	{
@@ -184,9 +184,9 @@ public class BuffBotDatabase
 		// Search for the best match, which is defined as the
 		// buff which provides the closest number of turns.
 
-		for ( int i = 0; i < alternatives.size(); ++i )
+		for ( Offering alternative : alternatives )
 		{
-			current = alternatives.get( i );
+			current = alternative;
 
 			if ( current.buffs.length > 1 )
 			{
@@ -237,7 +237,7 @@ public class BuffBotDatabase
 
 	public static final String[] getCompleteBotList()
 	{
-		ArrayList<String> completeList = new ArrayList<String>();
+		ArrayList<String> completeList = new ArrayList<>();
 		completeList.addAll( BuffBotDatabase.normalOfferings.keySet() );
 
 		for ( String bot : BuffBotDatabase.freeOfferings.keySet() )
@@ -248,7 +248,7 @@ public class BuffBotDatabase
 			}
 		}
 
-		Collections.sort( completeList, String.CASE_INSENSITIVE_ORDER );
+		completeList.sort( String.CASE_INSENSITIVE_ORDER );
 		completeList.add( 0, "" );
 
 		return completeList.toArray( new String[0] );
@@ -258,14 +258,14 @@ public class BuffBotDatabase
 	{
 		return botName != null && BuffBotDatabase.normalOfferings.containsKey( botName ) ?
 			BuffBotDatabase.normalOfferings.get( botName ) :
-			new LockableListModel<Offering>();
+				new LockableListModel<>();
 	}
 
 	public static final LockableListModel<Offering> getPhilanthropicOfferings( final String botName )
 	{
 		return botName != null && BuffBotDatabase.freeOfferings.containsKey( botName ) ?
 			BuffBotDatabase.freeOfferings.get( botName ) :
-			new LockableListModel<Offering>();
+				new LockableListModel<>();
 	}
 
 	private static void configureBuffBots()
@@ -323,8 +323,8 @@ public class BuffBotDatabase
 
 			if ( this.location.equals( BuffBotDatabase.OPTOUT_URL ) )
 			{
-				BuffBotDatabase.freeOfferings.put( this.botName, new LockableListModel<Offering>() );
-				BuffBotDatabase.normalOfferings.put( this.botName, new LockableListModel<Offering>() );
+				BuffBotDatabase.freeOfferings.put( this.botName, new LockableListModel<>() );
+				BuffBotDatabase.normalOfferings.put( this.botName, new LockableListModel<>() );
 
 				return;
 			}
@@ -356,8 +356,8 @@ public class BuffBotDatabase
 			// XML file -- which is assumed because of the XSLT.
 
 			Matcher nodeMatcher = BuffBotDatabase.BUFFDATA_PATTERN.matcher( responseText.toString() );
-			LockableListModel<Offering> freeBuffs = new LockableListModel<Offering>();
-			LockableListModel<Offering> normalBuffs = new LockableListModel<Offering>();
+			LockableListModel<Offering> freeBuffs = new LockableListModel<>();
+			LockableListModel<Offering> normalBuffs = new LockableListModel<>();
 
 			Matcher nameMatcher, priceMatcher, turnMatcher, freeMatcher;
 
@@ -388,9 +388,9 @@ public class BuffBotDatabase
 					Offering priceMatch = null;
 					Offering currentTest = null;
 
-					for ( int i = 0; i < tester.size(); ++i )
+					for ( Offering offering : tester )
 					{
-						currentTest = tester.get( i );
+						currentTest = offering;
 						if ( currentTest.getPrice() == price )
 						{
 							priceMatch = currentTest;

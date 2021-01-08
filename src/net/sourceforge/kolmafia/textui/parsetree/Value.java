@@ -319,13 +319,7 @@ public class Value
 		return value.asProxy();
 	}
 
-	public static final Comparator<Value> ignoreCaseComparator = new Comparator<Value>()
-	{
-		public int compare( Value v1, Value v2 )
-		{
-			return v1.compareToIgnoreCase( v2 );
-		}
-	};
+	public static final Comparator<Value> ignoreCaseComparator = Value::compareToIgnoreCase;
 
 	public int compareTo( final Value o )
 	{
@@ -355,7 +349,7 @@ public class Value
 		     this.getType() == DataTypes.THRALL_TYPE ||
 		     this.getType() == DataTypes.SERVANT_TYPE )
 		{
-			return this.contentLong < o.contentLong ? -1 : this.contentLong == o.contentLong ? 0 : 1;
+			return Long.compare( this.contentLong, o.contentLong );
 		}
 
 		if ( this.getType() == DataTypes.VYKEA_TYPE )
@@ -378,7 +372,7 @@ public class Value
 			// If we know a monster ID, compare it
 			if ( this.contentLong != 0 || o.contentLong != 0 )
 			{
-				return this.contentLong < o.contentLong ? -1 : this.contentLong == o.contentLong ? 0 : 1;
+				return Long.compare( this.contentLong, o.contentLong );
 			}
 			// Otherwise, must compare names
 		}
@@ -571,15 +565,15 @@ public class Value
 	{
 		if ( this.getType().equals( DataTypes.TYPE_BOOLEAN ) )
 		{
-			return Boolean.valueOf( this.contentLong > 0 );
+			return this.contentLong > 0;
 		}
 		else if ( this.getType().equals( DataTypes.TYPE_INT ) )
 		{
-			return Long.valueOf( this.contentLong );
+			return this.contentLong;
 		}
 		else if ( this.getType().equals( DataTypes.TYPE_FLOAT ) )
 		{
-			return Double.valueOf( Double.longBitsToDouble( this.contentLong ) );
+			return Double.longBitsToDouble( this.contentLong );
 		}
 		else
 		{
