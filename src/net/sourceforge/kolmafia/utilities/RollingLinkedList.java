@@ -38,6 +38,7 @@ import java.util.LinkedList;
 public class RollingLinkedList<E>
 	extends LinkedList<E>
 {
+	private static final long serialVersionUID = 102075105118L;
 	private final int limit;
 
 	public RollingLinkedList( int limit )
