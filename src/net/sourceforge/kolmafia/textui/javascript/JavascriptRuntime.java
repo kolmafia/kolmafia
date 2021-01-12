@@ -287,25 +287,33 @@ public class JavascriptRuntime
 					message.append( ": " ).append( e.getMessage() );
 				}
 				message.append( "\n" ).append( e.getScriptStackTrace() );
-				KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, message.toString() );
+				String escapedMessage = escapeHtmlInMessage( message.toString() );
+				KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, escapedMessage );
 			}
 			StaticEntity.printStackTrace( unwrapped );
 		}
 		catch ( EvaluatorException e )
 		{
-			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "JavaScript evaluator exception: " + e.getMessage() + "\n" + e.getScriptStackTrace() );
+			String escapedMessage =
+				escapeHtmlInMessage( "JavaScript evaluator exception: " + e.getMessage() + "\n" + e.getScriptStackTrace() );
+			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, escapedMessage );
 		}
 		catch ( EcmaError e )
 		{
-			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "JavaScript error: " + e.getErrorMessage() + "\n" + e.getScriptStackTrace() );
+			String escapedMessage =
+				escapeHtmlInMessage( "JavaScript error: " + e.getErrorMessage() + "\n" + e.getScriptStackTrace() );
+			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, escapedMessage );
 		}
 		catch ( JavaScriptException e )
 		{
-			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "JavaScript exception: " + e.getMessage() + "\n" + e.getScriptStackTrace() );
+			String escapedMessage =
+				escapeHtmlInMessage( "JavaScript exception: " + e.getMessage() + "\n" + e.getScriptStackTrace() );
+			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, escapedMessage );
 		}
 		catch ( ScriptException e )
 		{
-			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "Script exception: " + e.getMessage() );
+			String escapedMessage = escapeHtmlInMessage( "Script exception: " + e.getMessage() );
+			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, escapedMessage );
 		}
 		finally
 		{
@@ -342,5 +350,17 @@ public class JavascriptRuntime
 	public ScriptException runtimeException2( final String message1, final String message2 )
 	{
 		return new ScriptException( Context.reportRuntimeError( message1 + " " + message2 ).getMessage() );
+	}
+
+	/**
+	 * Escapes characters in the message that may be treated as HTML tags or entities.
+	 * This allows error messages to be printed to the gCLI without being inadvertently rendered as HTML.
+	 *
+	 * @param message Message that contains
+	 * @return Escaped string
+	 */
+	private static String escapeHtmlInMessage( final String message )
+	{
+		return message.replaceAll( "&", "&amp;" ).replaceAll( "<", "&lt;" );
 	}
 }
