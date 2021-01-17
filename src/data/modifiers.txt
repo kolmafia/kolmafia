@@ -7285,7 +7285,7 @@ Effect	Twenty-three Squid, Ew	Mysticality: +30
 Effect	Twice-Cursed	Muscle: -20, Mysticality: -20, Moxie: -20
 Effect	Twinklebritches	Damage Reduction: 3
 Effect	Twinkly Weapon	Weapon Damage: +3
-Effect	Twist and and Eye	Maximum MP: +50
+Effect	Twist and an Eye	Maximum MP: +50
 Effect	Two Car Bar Rag	Avatar: "craggy bartender"
 Effect	Two Left Feet	Moxie: -5
 # Ultrahydrated: Glug, Glug
@@ -9271,7 +9271,7 @@ Item	experimental serum P-00	Effect: "Schroedinger's Butt", Effect Duration: 20
 Item	explosion-flavored chewing gum	Effect: "Beaten Up", Effect Duration: 10
 Item	extra-potent gremlin mutagen	Effect: "Seriously Mutated", Effect Duration: 1
 Item	extra-strength goo	Effect: "Gooed Enough For Government Work", Effect Duration: 20
-Item	Eye and a Twist	Effect: "Twist and and Eye", Effect Duration: 30
+Item	Eye and a Twist	Effect: "Twist and an Eye", Effect Duration: 30
 Item	eyedrops of newt	Effect: "Newt Gets In Your Eyes", Effect Duration: [R]
 Item	eyedrops of the ermine	Effect: "Ermine Eyes", Effect Duration: [R]
 Item	eyedrops of the ocelot	Effect: "Ocelot Eyes", Effect Duration: [R]
