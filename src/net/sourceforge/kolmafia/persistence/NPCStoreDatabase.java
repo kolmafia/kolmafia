@@ -272,6 +272,10 @@ public class NPCStoreDatabase
 		{
 			return false;
 		}
+		else if ( storeId.startsWith( "crimbo20" ) )
+		{
+			return false;
+		}
 		else if ( storeId.equals( "guildstore1" ) )
 		{
 			// Shadowy Store

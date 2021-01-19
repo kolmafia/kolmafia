@@ -101,4 +101,9 @@ public class Crimbo16Request
 
 		return NPCPurchaseRequest.registerShopRowRequest( urlString );
 	}
+
+	public static String accessible()
+	{
+		return "Crimbo is gone";
+	}
 }

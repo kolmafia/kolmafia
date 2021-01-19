@@ -164,8 +164,7 @@ public class Crimbo17Request
 
 	public static String accessible()
 	{
-		// Change after it closes
-		return null;
+		return "Crimbo is gone";
 	}
 
 	public static final boolean registerRequest( final String urlString )
