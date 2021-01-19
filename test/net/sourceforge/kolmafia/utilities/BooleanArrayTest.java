@@ -2,12 +2,12 @@ package net.sourceforge.kolmafia.utilities;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
-import net.sourceforge.kolmafia.utilities.*;
+
 
 /**
  * This is a simple test for BooleanArray primarily written as an example for testing a single class
  * from KoLmafia.  The package and file location were chosen to work with the "ant test" task.  The naming
- * convention was used elsewehre to assist in peer review of test code and quick identification of failed
+ * convention was used elsewhere to assist in peer review of test code and quick identification of failed
  * tests.  This set of tests was chosen, in part, to provide 100% coverage of the class under test in
  * anticipation of a time when KoLmafia is tested with a coverage tool.
  *
@@ -21,7 +21,7 @@ public class BooleanArrayTest {
     public void itShouldBeEmpty() {
         //Create the array, check size, check return for index out of bounds
         testArray = new BooleanArray();
-        assertTrue(testArray.size() == 0);
+        assertEquals(0, testArray.size());
         assertFalse(testArray.get(1));
     }
 
@@ -30,7 +30,7 @@ public class BooleanArrayTest {
         testArray = new BooleanArray();
         //Set and test one element
         testArray.set(0, true);
-        assertTrue(testArray.size() == 1);
+        assertEquals(1, testArray.size());
         assertTrue(testArray.get(0));
     }
 
@@ -39,11 +39,11 @@ public class BooleanArrayTest {
         testArray = new BooleanArray();
         //Set and test one element
         testArray.set(0, true);
-        assertTrue(testArray.size() == 1);
+        assertEquals(1, testArray.size());
         assertTrue(testArray.get(0));
         //Toggle it
         testArray.set(0, false);
-        assertTrue(testArray.size() == 1);
+        assertEquals(1, testArray.size());
         assertFalse(testArray.get(0));
     }
 
@@ -51,7 +51,7 @@ public class BooleanArrayTest {
     public void itShouldSetMissingElementsToFalse() {
         testArray = new BooleanArray();
         testArray.set(2, true);
-        assertTrue(testArray.size() == 3);
+        assertEquals(3, testArray.size());
         assertFalse(testArray.get(0));
         assertFalse(testArray.get(1));
         assertTrue(testArray.get(2));
