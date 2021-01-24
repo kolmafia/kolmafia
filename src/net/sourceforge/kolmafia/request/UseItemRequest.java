@@ -65,19 +65,9 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
-import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.*;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
-import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
-import net.sourceforge.kolmafia.persistence.RestoresDatabase;
-import net.sourceforge.kolmafia.persistence.TCRSDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -679,39 +669,8 @@ public class UseItemRequest
 			return InventoryManager.hasItem( ItemPool.PHOTOCOPIED_MONSTER ) ? 0 : 1;
 
 		case ItemPool.MOJO_FILTER:
-			int spleenUsed = KoLCharacter.getSpleenUse();
-			int mojoUsesLeft = Math.max( 0, 3 - Preferences.getInteger( "currentMojoFilters" ) );
-			if( mojoUsesLeft <= spleenUsed )
-			{
-				UseItemRequest.limiter = "daily limit";
-				return mojoUsesLeft;
-			}
 			UseItemRequest.limiter = "spleen";
-			return spleenUsed;
-
-		case ItemPool.EXPRESS_CARD:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "expressCardUsed" ) ? 0 : 1;
-
-		case ItemPool.SPICE_MELANGE:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "spiceMelangeUsed" ) ? 0 : 1;
-
-		case ItemPool.ULTRA_MEGA_SOUR_BALL:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_ultraMegaSourBallUsed" ) ? 0 : 1;
-
-		case ItemPool.ALIEN_PLANT_POD:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_alienPlantPodUsed" ) ? 0 : 1;
-
-		case ItemPool.ALIEN_ANIMAL_MILK:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_alienAnimalMilkUsed" ) ? 0 : 1;
-
-		case ItemPool.BORROWED_TIME:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_borrowedTimeUsed" ) ? 0 : 1;
+			return KoLCharacter.getSpleenUse();
 
 		case ItemPool.SYNTHETIC_DOG_HAIR_PILL:
 			if ( KoLCharacter.getInebriety() == 0 )
@@ -719,16 +678,7 @@ public class UseItemRequest
 				UseItemRequest.limiter = "sobriety";
 				return 0;
 			}
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_syntheticDogHairPillUsed" ) ? 0 : 1;
-
-		case ItemPool.DISTENTION_PILL:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_distentionPillUsed" ) ? 0 : 1;
-
-		case ItemPool.BURROWGRUB_HIVE:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "burrowgrubHiveUsed" ) ? 0 : 1;
+			break;
 
 		case ItemPool.MOVEABLE_FEAST:
 			String familiar = KoLCharacter.getFamiliar().getRace();
@@ -737,12 +687,7 @@ public class UseItemRequest
 				UseItemRequest.limiter = "a previous " + familiar + " feasting";
 				return 0;
 			}
-			UseItemRequest.limiter = "daily limit";
-			return Math.max( 0, 5 - Preferences.getInteger( "_feastUsed" ) );
-
-		case ItemPool.MILK_OF_MAGNESIUM:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_milkOfMagnesiumUsed" ) ? 0 : 1;
+			break;
 
 		case ItemPool.GHOSTLY_BODY_PAINT:
 		case ItemPool.NECROTIZING_BODY_SPRAY:
@@ -788,140 +733,21 @@ public class UseItemRequest
 			}
 			return Integer.MAX_VALUE;
 
-		case ItemPool.ALL_YEAR_SUCKER:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_allYearSucker" ) ? 0 : 1;
-
 		case ItemPool.DARK_CHOCOLATE_HEART:
-			if ( restorationMaximum > 0 )
+			if ( restorationMaximum == 0 )
 			{
-				UseItemRequest.limiter = "daily limit";
-				return Preferences.getBoolean( "_darkChocolateHeart" ) ? 0 : 1;
+				UseItemRequest.limiter = "already at full health";
+				return 0;
 			}
 			break;
 
-		case ItemPool.JACKASS_PLUMBER_GAME:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_jackassPlumberGame" ) ? 0 : 1;
-
-		case ItemPool.TRIVIAL_AVOCATIONS_GAME:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_trivialAvocationsGame" ) ? 0 : 1;
-
 		case ItemPool.RESOLUTION_ADVENTUROUS:
-			UseItemRequest.limiter = "daily limit";
-			return ( Preferences.getInteger( "_resolutionAdv" ) == 10 ? 0 : Integer.MAX_VALUE );
-
-		case ItemPool.ESSENTIAL_TOFU:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_essentialTofuUsed" ) ? 0 : 1;
-
-		case ItemPool.VITACHOC_CAPSULE:
-			UseItemRequest.limiter = "daily limit";
-			return ( 3 - Preferences.getInteger( "_vitachocCapsulesUsed" ) );
-
-		case ItemPool.CHOCOLATE_CIGAR:
-			UseItemRequest.limiter = "daily limit";
-			return ( 3 - Preferences.getInteger( "_chocolateCigarsUsed" ) );
-
-		case ItemPool.FANCY_CHOCOLATE:
-		case ItemPool.FANCY_CHOCOLATE_CAR:
-		case ItemPool.FANCY_EVIL_CHOCOLATE:
-		case ItemPool.CHOCOLATE_DISCO_BALL:
-		case ItemPool.CHOCOLATE_PASTA_SPOON:
-		case ItemPool.CHOCOLATE_SAUCEPAN:
-		case ItemPool.CHOCOLATE_SEAL_CLUBBING_CLUB:
-		case ItemPool.CHOCOLATE_STOLEN_ACCORDION:
-		case ItemPool.CHOCOLATE_TURTLE_TOTEM:
-		case ItemPool.BEET_MEDIOCREBAR:
-		case ItemPool.CORN_MEDIOCREBAR:
-		case ItemPool.CABBAGE_MEDIOCREBAR:
-		case ItemPool.CHOCO_CRIMBOT:
-			UseItemRequest.limiter = "daily limit";
-			return ( 3 - Preferences.getInteger( "_chocolatesUsed" ) );
-
-		case ItemPool.LOVE_CHOCOLATE:
-			UseItemRequest.limiter = "daily limit";
-			return ( 3 - Preferences.getInteger( "_loveChocolatesUsed" ) );
-
-		case ItemPool.CREEPY_VOODOO_DOLL:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_creepyVoodooDollUsed" ) ? 0 : 1;
-
-		case ItemPool.HOBBY_HORSE:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_hobbyHorseUsed" ) ? 0 : 1;
-
-		case ItemPool.BALL_IN_A_CUP:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_ballInACupUsed" ) ? 0 : 1;
-
-		case ItemPool.SET_OF_JACKS:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_setOfJacksUsed" ) ? 0 : 1;
-
-		case ItemPool.BAG_OF_CANDY:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_bagOfCandyUsed" ) ? 0 : 1;
-
-		case ItemPool.EMBLEM_AKGYXOTH:
-		case ItemPool.IDOL_AKGYXOTH:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_akgyxothUsed" ) ? 0 : 1;
-
-		case ItemPool.GNOLL_EYE:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_gnollEyeUsed" ) ? 0 : 1;
-
-		case ItemPool.KOL_CON_SIX_PACK:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_kolConSixPackUsed" ) ? 0 : 1;
-
-		case ItemPool.MUS_MANUAL:
-		case ItemPool.MYS_MANUAL:
-		case ItemPool.MOX_MANUAL:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_guildManualUsed" ) ? 0 : 1;
-
-		case ItemPool.STUFFED_POCKETWATCH:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_stuffedPocketwatchUsed" ) ? 0 : 1;
-
-		case ItemPool.STYX_SPRAY:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_styxSprayUsed" ) ? 0 : 1;
-
-		case ItemPool.STABONIC_SCROLL:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_stabonicScrollUsed" ) ? 0 : 1;
-
-		case ItemPool.COAL_PAPERWEIGHT:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_coalPaperweightUsed" ) ? 0 : 1;
-
-		case ItemPool.JINGLE_BELL:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_jingleBellUsed" ) ? 0 : 1;
-
-		case ItemPool.BOX_OF_HAMMERS:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_boxOfHammersUsed" ) ? 0 : 1;
-
-		case ItemPool.TEMPURA_AIR:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_tempuraAirUsed" ) ? 0 : 1;
-
-		case ItemPool.PRESSURIZED_PNEUMATICITY:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_pneumaticityPotionUsed" ) ? 0 : 1;
-
-		case ItemPool.HYPERINFLATED_SEAL_LUNG:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_hyperinflatedSealLungUsed" ) ? 0 : 1;
-
-		case ItemPool.BALLAST_TURTLE:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_ballastTurtleUsed" ) ? 0 : 1;
+			if ( Preferences.getInteger( "_resolutionAdv" ) == 10 )
+			{
+				UseItemRequest.limiter = "daily limit";
+				return 0;
+			}
+			break;
 
 		case ItemPool.CSA_FIRE_STARTING_KIT:
 			if ( !KoLCharacter.getHippyStoneBroken() && Preferences.getInteger( "choiceAdventure595" ) == 1 )
@@ -929,64 +755,21 @@ public class UseItemRequest
 				UseItemRequest.limiter = "an unbroken hippy stone";
 				return 0;
 			}
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_fireStartingKitUsed" ) ? 0 : 1;
+			break;
 
 		case ItemPool.LEFT_BEAR_ARM:
 			UseItemRequest.limiter = "insufficient right bear arms";
 			return InventoryManager.getCount( ItemPool.RIGHT_BEAR_ARM );
 
-		case ItemPool.LEGENDARY_BEAT:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_legendaryBeat" ) ? 0 : 1;
-
-		case ItemPool.CURSED_MICROWAVE:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_cursedMicrowaveUsed" ) ? 0 : 1;
-
-		case ItemPool.CURSED_KEG:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_cursedKegUsed" ) ? 0 : 1;
-
-		case ItemPool.TACO_FLIER:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_tacoFlierUsed" ) ? 0 : 1;
-
-		case ItemPool.SUSPICIOUS_JAR:
-		case ItemPool.GOURD_JAR:
-		case ItemPool.MYSTIC_JAR:
-		case ItemPool.OLD_MAN_JAR:
-		case ItemPool.ARTIST_JAR:
-		case ItemPool.MEATSMITH_JAR:
-		case ItemPool.JICK_JAR:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_psychoJarUsed" ) ? 0 : 1;
-
-		case ItemPool.FISHY_PIPE:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_fishyPipeUsed" ) ? 0 : 1;
-
 		case ItemPool.SUSHI_ROLLING_MAT:
 			UseItemRequest.limiter = "usability";
 			return KoLCharacter.hasSushiMat() ? 0 : 1;
 
-		case ItemPool.DEFECTIVE_TOKEN:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_defectiveTokenUsed" ) ? 0 : 1;
-
-		case ItemPool.SILVER_DREAD_FLASK:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_silverDreadFlaskUsed" ) ? 0 : 1;
-
-		case ItemPool.BRASS_DREAD_FLASK:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_brassDreadFlaskUsed" ) ? 0 : 1;
-
 		case ItemPool.ETERNAL_CAR_BATTERY:
-			if ( restorationMaximum > 0 )
+			if ( restorationMaximum == 0 )
 			{
-				UseItemRequest.limiter = "daily limit";
-				return Preferences.getBoolean( "_eternalCarBatteryUsed" ) ? 0 : 1;
+				UseItemRequest.limiter = "already at full MP";
+				return 0;
 			}
 			break;
 
@@ -1022,74 +805,15 @@ public class UseItemRequest
 				UseItemRequest.limiter = "character class";
 				return 0;
 			}
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_pastaAdditive" ) ? 0 : 1;
-
-		case ItemPool.WARBEAR_BREAKFAST_MACHINE:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_warbearBreakfastMachineUsed" ) ? 0 : 1;
-
-		case ItemPool.WARBEAR_SODA_MACHINE:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_warbearSodaMachineUsed" ) ? 0 : 1;
-
-		case ItemPool.WARBEAR_GYROCOPTER:
-		case ItemPool.WARBEAR_GYROCOPTER_BROKEN:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_warbearGyrocopterUsed" ) ? 0 : 1;
-
-		case ItemPool.WARBEAR_BANK:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_warbearBankUsed" ) ? 0 : 1;
-
-		case ItemPool.LUPINE_APPETITE_HORMONES:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_lupineHormonesUsed" ) ? 0 : 1;
-
-		case ItemPool.BLANK_OUT_BOTTLE:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_blankoutUsed" ) ? 0 : 1;
-
-		case ItemPool.CORRUPTED_STARDUST:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_corruptedStardustUsed" ) ? 0 : 1;
-
-		case ItemPool.PIXEL_ORB:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_pixelOrbUsed" ) ? 0 : 1;
-
-			case ItemPool.SWEET_TOOTH:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_sweetToothUsed" ) ? 0 : 1;
-
-		case ItemPool.VORACI_TEA:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_voraciTeaUsed" ) ? 0 : 1;
-
-		case ItemPool.SOBRIE_TEA:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_sobrieTeaUsed" ) ? 0 : 1;
-
-		case ItemPool.CHRONER_TRIGGER:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_chronerTriggerUsed" ) ? 0 : 1;
+			break;
 
 		case ItemPool.CHRONER_CROSS:
-			if ( Preferences.getBoolean( "_chronerCrossUsed" ) )
-			{
-				UseItemRequest.limiter = "daily limit";
-				return 0;
-			}
 			if ( !KoLConstants.inventory.contains( ItemPool.get( ItemPool.CHRONER, 1 ) ) )
 			{
 				UseItemRequest.limiter = "not having a Chroner";
 				return 0;
 			}
-			return 1;
-
-		case ItemPool.PICKY_TWEEZERS:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_pickyTweezersUsed" ) ? 0 : 1;
+			break;
 
 		case ItemPool.GAUDY_KEY:
 			if ( !KoLCharacter.hasEquipped( ItemPool.get( ItemPool.PIRATE_FLEDGES, 1 ) ) &&
@@ -1098,7 +822,7 @@ public class UseItemRequest
 				UseItemRequest.limiter = "not wearing pirate gear";
 				return 0;
 			}
-			return Integer.MAX_VALUE;
+			break;
 
 		case ItemPool.BITTYCAR_HOTCAR:
 			UseItemRequest.limiter = "already being active";
@@ -1112,41 +836,9 @@ public class UseItemRequest
 			UseItemRequest.limiter = "already being active";
 			return Preferences.getString( "_bittycar" ).equals( "soulcar" ) ? 0 : 1;
 
-		case ItemPool.RED_GREEN_RAIN_STICK:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_rainStickUsed" ) ? 0 : 1;
-
-		case ItemPool.REDWOOD_RAIN_STICK:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_redwoodRainStickUsed" ) ? 0 : 1;
-
 		case ItemPool.STILL_BEATING_SPLEEN:
 			UseItemRequest.limiter = "already being active";
 			return Preferences.getInteger( "lastStillBeatingSpleen" ) == KoLCharacter.getAscensions() ? 0 : 1;
-
-		case ItemPool.HUNGER_SAUCE:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_hungerSauceUsed" ) ? 0 : 1;
-
-		case ItemPool.BRAIN_PRESERVATION_FLUID:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_brainPreservationFluidUsed" ) ? 0 : 1;
-
-		case ItemPool.COCKTAIL_SHAKER:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_cocktailShakerUsed" ) ? 0 : 1;
-
-		case ItemPool.TONIC_DJINN:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_tonicDjinn" ) ? 0 : 1;
-
-		case ItemPool.TWELVE_NIGHT_ENERGY:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_twelveNightEnergyUsed" ) ? 0 : 1;
-
-		case ItemPool.FUDGE_SPORK:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_fudgeSporkUsed" ) ? 0 : 1;
 
 		case ItemPool.MAYONEX:
 		case ItemPool.MAYODIOL:
@@ -1161,28 +853,6 @@ public class UseItemRequest
 			}
 			UseItemRequest.limiter = "mayonaise already in mouth";
 			return Preferences.getString( "mayoInMouth" ).equals( "" ) ? 1 : 0;
-
-		case ItemPool.CIRCLE_DRUM:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_circleDrumUsed" ) ? 0 : 1;
-
-		case ItemPool.CLARA_BELL:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_claraBellUsed" ) ? 0 : 1;
-
-		case ItemPool.GLENN_DICE:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_glennGoldenDiceUsed" ) ? 0 : 1;
-
-		case ItemPool.CODPIECE:
-		case ItemPool.BASS_CLARINET:
-		case ItemPool.FISH_HATCHET:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_floundryItemUsed" ) ? 0 : 1;
-
-		case ItemPool.BACON_MACHINE:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_baconMachineUsed" ) ? 0 : 1;
 
 		case ItemPool.HOLORECORD_POWERGUY:
 		case ItemPool.HOLORECORD_SHRIEKING_WEASEL:
@@ -1200,12 +870,7 @@ public class UseItemRequest
 				UseItemRequest.limiter = "an unbroken hippy stone";
 				return 0;
 			}
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_hardKnocksDiplomaUsed" ) ? 0 : 1;
-
-		case ItemPool.LICENSE_TO_CHILL:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_licenseToChillUsed" ) ? 0 : 1;
+			break;
 
 		case ItemPool.VICTOR_SPOILS:
 			if ( !KoLCharacter.inBondcore() )
@@ -1213,58 +878,25 @@ public class UseItemRequest
 				UseItemRequest.limiter = "not being Bond";
 				return 0;
 			}
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_victorSpoilsUsed" ) ? 0 : 1;
-
-		case ItemPool.METEORITE_ADE:
-			UseItemRequest.limiter = "daily limit";
-			return ( 3 - Preferences.getInteger( "_meteoriteAdesUsed" ) );
-
-		case ItemPool.PERFECTLY_FAIR_COIN:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_perfectlyFairCoinUsed" ) ? 0 : 1;
-
-		case ItemPool.PUMP_UP_HIGH_TOPS:
-			UseItemRequest.limiter = "daily limit";
-			return 3 - Preferences.getInteger( "_highTopPumps" );
-
-		case ItemPool.JERKS_HEALTH_MAGAZINE:
-			UseItemRequest.limiter = "daily limit";
-			return ( 5 - Preferences.getInteger( "_jerksHealthMagazinesUsed" ) );
-
-		case ItemPool.ETCHED_HOURGLASS:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_etchedHourglassUsed" ) ? 0 : 1;
-
-		case ItemPool.SEWING_KIT:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_sewingKitUsed" ) ? 0 : 1;
+			break;
 
 		case ItemPool.M282:
 		case ItemPool.SNAKE:
 		case ItemPool.SPARKLER:
 		case ItemPool.GREEN_ROCKET:
+			if ( !HolidayDatabase.getHoliday().contains( "Dependence Day" ) )
+			{
+				UseItemRequest.limiter = "not Dependence Day";
+				return 0;
+			}
+			break;
+		}
+
+		DailyLimitDatabase.DailyLimit dailyLimit = DailyLimitDatabase.DailyLimitType.USE.getDailyLimit( itemId );
+		if ( dailyLimit != null )
 		{
-			boolean dependenceDay = HolidayDatabase.getHoliday().contains( "Dependence Day" );
-			boolean fireworkUsed = Preferences.getBoolean( "_fireworkUsed" );
-			return ( dependenceDay && !fireworkUsed ) ? 1 : 0;
-		}		
-
-		case ItemPool.FANCY_CHESS_SET:
 			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_fancyChessSetUsed" ) ? 0 : 1;
-
-		case ItemPool.UNIVERSAL_SEASONING:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_universalSeasoningUsed" ) ? 0 : 1;
-
-		case ItemPool.SUBSCRIPTION_COCOA_DISPENSER:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_cocoaDispenserUsed" ) ? 0 : 1;
-
-		case ItemPool.OVERFLOWING_GIFT_BASKET:
-			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_overflowingGiftBasketUsed" ) ? 0 : 1;
+			return dailyLimit.getUsesRemaining();
 		}
 
 		if ( restorationMaximum < Long.MAX_VALUE )
@@ -1275,7 +907,7 @@ public class UseItemRequest
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
 		{
-			UseItemRequest.limiter = "daily limit";
+			UseItemRequest.limiter = "already changed workshed item";
 			return Preferences.getBoolean( "_workshedItemUsed" ) ? 0 : 1;
 		}
 
