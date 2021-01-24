@@ -1,0 +1,122 @@
+1
+# Limiter: daily limit
+Use	alien animal milk	_alienAnimalMilkUsed
+Use	alien plant pod	_alienPlantPodUsed
+Use	all-year sucker	_allYearSucker
+Use	ball-in-a-cup	_ballInACupUsed
+Use	ballast turtle	_ballastTurtleUsed
+Use	bass clarinet	_floundryItemUsed
+Use	beet-flavored Mr. Mediocrebar	_chocolatesUsed	3
+Use	borrowed time	_borrowedTimeUsed
+Use	bottle of Blank-Out	_blankoutUsed
+Use	box of hammers	_boxOfHammersUsed
+Use	brain preservation fluid	_brainPreservationFluidUsed
+Use	brass Dreadsylvanian flask	_brassDreadFlaskUsed
+Use	broken warbear gyrocopter	_warbearGyrocopterUsed
+Use	burrowgrub hive	burrowgrubHiveUsed
+Use	cabbage-flavored Mr. Mediocrebar	_chocolatesUsed	3
+Use	Chester's bag of candy	_bagOfCandyUsed
+Use	choco-Crimbot	_chocolatesUsed	3
+Use	chocolate cigar	_chocolateCigarsUsed	3
+Use	chocolate disco ball	_chocolatesUsed	3
+Use	chocolate pasta spoon	_chocolatesUsed	3
+Use	chocolate saucepan	_chocolatesUsed	3
+Use	chocolate seal-clubbing club	_chocolatesUsed	3
+Use	chocolate stolen accordion	_chocolatesUsed	3
+Use	chocolate turtle totem	_chocolatesUsed	3
+Use	Chroner cross	_chronerCrossUsed
+Use	Chroner trigger	_chronerTriggerUsed
+Use	circle drum	_circleDrumUsed
+Use	Clara's bell	_claraBellUsed
+Use	coal paperweight	_coalPaperweightUsed
+Use	codpiece	_floundryItemUsed
+Use	corrupted stardust	_corruptedStardustUsed
+Use	creepy voodoo doll	_creepyVoodooDollUsed
+Use	CSA fire-starting kit	_fireStartingKitUsed
+Use	Cuppa Sobrie tea	_sobrieTeaUsed
+Use	Cuppa Voraci tea	_voraciTeaUsed
+Use	cursed microwave	_cursedMicrowaveUsed
+Use	cursed pony keg	_cursedKegUsed
+Use	defective Game Grid token	_defectiveTokenUsed
+Use	distention pill	_distentionPillUsed
+Use	Emblem of Ak'gyxoth	_akgyxothUsed
+Use	essential tofu	_essentialTofuUsed
+Use	etched hourglass	_etchedHourglassUsed
+Use	eternal car battery	_eternalCarBatteryUsed
+Use	experimental carbon fiber pasta additive	_pastaAdditive
+Use	fancy but probably evil chocolate	_chocolatesUsed	3
+Use	fancy chess set	_fancyChessSetUsed
+Use	fancy chocolate	_chocolatesUsed	3
+Use	fancy chocolate car	_chocolatesUsed	3
+Use	festive warbear bank	_warbearBankUsed
+Use	fish hatchet	_floundryItemUsed
+Use	fishy pipe	_fishyPipeUsed
+Use	fudge spork	_fudgeSporkUsed
+Use	Glenn's golden dice	_glennGoldenDiceUsed
+Use	gnoll eye	_gnollEyeUsed
+Use	green rocket	_fireworkUsed
+Use	handmade hobby horse	_hobbyHorseUsed
+Use	heart of dark chocolate	_darkChocolateHeart
+Use	Hunger&trade; Sauce	_hungerSauceUsed
+Use	hyperinflated seal lung	_hyperinflatedSealLungUsed
+Use	Idol of Ak'gyxoth	_akgyxothUsed
+Use	infinite BACON machine	_baconMachineUsed
+Use	Jackass Plumber home game	_jackassPlumberGame
+Use	jar of psychoses (Jick)	_psychoJarUsed
+Use	jar of psychoses (The Captain of the Gourd)	_psychoJarUsed
+Use	jar of psychoses (The Crackpot Mystic)	_psychoJarUsed
+Use	jar of psychoses (The Meatsmith)	_psychoJarUsed
+Use	jar of psychoses (The Old Man)	_psychoJarUsed
+Use	jar of psychoses (The Pretentious Artist)	_psychoJarUsed
+Use	jar of psychoses (The Suspicious-Looking Guy)	_psychoJarUsed
+Use	Jerks' Health&trade; Magazine	_jerksHealthMagazinesUsed	5
+Use	jingle bell	_jingleBellUsed
+Use	KoL Con Six Pack	_kolConSixPackUsed
+Use	License to Chill	_licenseToChillUsed
+Use	LOV Extraterrestrial Chocolate	_loveChocolatesUsed	3
+Use	lupine appetite hormones	_lupineHormonesUsed
+Use	M-242	_fireworkUsed
+Use	Manual of Dexterity	_guildManualUsed
+Use	Manual of Labor	_guildManualUsed
+Use	Manual of Transmission	_guildManualUsed
+Use	Meteorite-Ade	_meteoriteAdesUsed	3
+Use	milk of magnesium	_milkOfMagnesiumUsed
+Use	mojo filter	currentMojoFilters	3
+Use	moveable feast	_feastUsed	5
+Use	overflowing gift basket	_overflowingGiftBasketUsed
+Use	perfectly fair coin	_perfectlyFairCoinUsed
+Use	picky tweezers	_pickyTweezersUsed
+Use	pixel orb	_pixelOrbUsed
+Use	Platinum Yendorian Express Card	expressCardUsed
+Use	pressurized potion of pneumaticity	_pneumaticityPotionUsed
+Use	pump-up high-tops	_highTopPumps
+Use	red and green rain stick	_rainStickUsed
+Use	redwood rain stick	_redwoodRainStickUsed
+Use	School of Hard Knocks Diploma	_hardKnocksDiplomaUsed
+Use	set of jacks	_setOfJacksUsed
+Use	sewing kit	_sewingKitUsed
+Use	silver Dreadsylvanian flask	_silverDreadFlaskUsed
+Use	snake	_fireworkUsed
+Use	sparkler	_fireworkUsed
+Use	spice melange	spiceMelangeUsed
+Use	Stabonic scroll	_stabonicScrollUsed
+Use	stuffed pocketwatch	_stuffedPocketwatchUsed
+Use	STYX deodorant body spray	_styxSprayUsed
+Use	subscription cocoa dispenser	_cocoaDispenserUsed
+Use	sweet tooth	_sweetToothUsed
+Use	sweet-corn-flavored Mr. Mediocrebar	_chocolatesUsed	3
+Use	synthetic dog hair pill	_syntheticDogHairPillUsed
+Use	Taco Dan's Taco Stand Flier	_tacoFlierUsed
+Use	tempura air	_tempuraAirUsed
+Use	The Cocktail Shaker	_cocktailShakerUsed
+Use	The Legendary Beat	_legendaryBeat
+Use	tonic djinn	_tonicDjinn
+Use	Trivial Avocations board game	_trivialAvocationsGame
+Use	Twelve Night Energy	_twelveNightEnergyUsed
+Use	Ultra Mega Sour Ball	_ultraMegaSourBallUsed
+Use	Universal Seasoning	_universalSeasoningUsed
+Use	Victor's Spoils	_victorSpoilsUsed
+Use	vitachoconutriment capsule	_vitachocCapsulesUsed	3
+Use	warbear breakfast machine	_warbearBreakfastMachineUsed
+Use	warbear gyrocopter	_warbearGyrocopterUsed
+Use	warbear soda machine	_warbearSodaMachineUsed

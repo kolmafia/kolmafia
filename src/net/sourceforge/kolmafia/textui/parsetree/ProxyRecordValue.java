@@ -52,21 +52,9 @@ import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.PokefamData;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
-import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
-import net.sourceforge.kolmafia.persistence.BountyDatabase;
-import net.sourceforge.kolmafia.persistence.CandyDatabase;
-import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
-import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.*;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
-import net.sourceforge.kolmafia.persistence.RestoresDatabase;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
-import net.sourceforge.kolmafia.persistence.TCRSDatabase;
 
 import net.sourceforge.kolmafia.request.FightRequest;
 
@@ -510,6 +498,13 @@ public class ProxyRecordValue
 		 */
 		public int get_dailyusesleft()
 		{
+			DailyLimitDatabase.DailyLimit dailyLimit = DailyLimitDatabase.DailyLimitType.USE.getDailyLimit( (int) this.contentLong );
+
+			if ( dailyLimit != null )
+			{
+				return dailyLimit.getUsesRemaining();
+			}
+
 			return RestoresDatabase.getUsesLeft( this.contentString );
 		}
 

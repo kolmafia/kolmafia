@@ -411,8 +411,15 @@ public class Expression
 				}
 				break;
 			case 'v':
-				Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
 				String event = (String) this.literals.get( (int) s[ --sp ] );
+
+				if ( HolidayDatabase.getHoliday().contains( event ) )
+				{
+					v = 1;
+					break;
+				}
+
+				Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
 				if ( event.equals( "Crimbo2015" ) )
 				{
 					// Event ends just after rollover on 3rd January 2016
@@ -425,6 +432,7 @@ public class Expression
 					int month = date.get( Calendar.MONTH );
 					v = ( month == Calendar.DECEMBER ) ? 1 : 0;
 				}
+
 				break;
 			
 			// Valid with MonsterExpression:
