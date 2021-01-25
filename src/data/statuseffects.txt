@@ -2563,7 +2563,7 @@
 2561	Fizzy Fizzy	mario_soda.gif	8e2c240a3b8a8330268136b316d334d4	good	none	use 1 fizzy soda
 2562	Juicy Health	mario_juice.gif	e2504ca258d4680a65dfd5e17a86585c	good	none	use 1 healthy juice
 2563	Blooper Inked	mario_ink.gif	e63d22a94a7e60c5b1c4e4b5383b64cd	neutral	none	use 1 blooper ink
-2564
+2564	Velougated	velougat.gif	166ba9eec8b8c042c764827f1c7911ce	neutral	none	use 1 Velougats&trade;
 2565	Mushed	gmush4.gif	54a72761df9d08794b38a0692ba22e18	neutral	none
 2566	Piranha Power	piranhaplant.gif	3d155e040e97f6c33724872265b5d243	good	none	use 1 piranha pollen
 2567	Mush-Maw	gmush3.gif	4bc3e6784775746fae40f1f019dd0ec0	neutral	none	chew 1 mushroom tea
@@ -2625,3 +2625,4 @@
 2623	Jowls Full, and Belly	soupbowl.gif	7a198c6aa6ce89f91144e39b05de5ebb	good	none	eat 1 bowl full of jelly
 2624	Twist and an Eye	bseye.gif	be003502a30404e3e2d43732876f6cbc	good	none	drink 1 Eye and a Twist
 2625	Plump and Chubby	chubbybar.gif	5bb46b48ec5a2449117845bff0c897d3	good	none    	use 1 Chubby and Plump bar
+2626	Stained	sg_candy.gif	31bc709fdf929455aa7f0d1e10fe2614	neutral	none	use 1 stained hard candy

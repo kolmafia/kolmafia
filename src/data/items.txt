@@ -10139,22 +10139,22 @@
 10111	terra cotta tambourine	174155630	tc_tambourine.gif	offhand		0
 10112	terra cotta tidbits	729179128	tc_bits.gif	spleen, usable		0
 10113	terra panna cotta	995803784	tc_pannacotta.gif	potion, usable	t,d	15	bowls of terra panna cotta
-10114
-10115
-10116
-10117
-10118
-10119
-10120
-10121
-10122
-10123
-10124
-10125
-10126
-10127
-10128
-10129
+10114	velour voulge	317819342	vel_voulge.gif	weapon		0
+10115	velour vambraces	809305852	vel_vambraces.gif	accessory		0
+10116	velour veil	134343396	vel_veil.gif	accessory		0
+10117	velour viscometer	517164573	vel_viscometer.gif	accessory		0
+10118	velour valise	217953676	vel_valise.gif	offhand		0
+10119	velour vaqueros	441211726	vel_vaqueros.gif	pants		0
+10120	velour veneer	806757439	vel_veneer.gif	spleen, usable		0
+10121	Velougats&trade;	711521938	velougat.gif	potion, usable		0
+10122	stained glass suspenders	622632255	sg_suspenders.gif	accessory		0
+10123	stained glass shield	399459418	sg_shield.gif	offhand		0
+10124	stained glass stetson	701584101	sg_stetson.gif	hat		0
+10125	stained glass spectacles	904394211	sg_spectacles.gif	accessory		0
+10126	stained glass shiv	946975337	sg_shiv.gif	weapon		0
+10127	stained glass serape	899600398	sg_serape.gif	container		0
+10128	stained glass shards	234921550	sg_bits.gif	spleen, usable		0
+10129	stained hard candy	337288423	sg_candy.gif	potion, usable	t,d	15
 10130
 10131
 10132

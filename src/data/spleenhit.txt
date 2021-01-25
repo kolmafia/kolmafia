@@ -186,6 +186,7 @@ slimy paste	4	4	good	5-10	18-22	18-22	18-22	10 Slimy Flavor (sleaze dmg/res)
 SMOOCH coffee cup	2	6	good	4-6	0	0	10-20
 spooky jelly	1	1	crappy	0	15-20	15-20	15-20	50 Spooky Jellied (+5 stats/fight, +5 spooky damage, +10% all stats), next monster defeated drops all items
 spooky wad	1	6	good	0	10-20	50-60	30-40	20 Spooky Demeanor (+30% mys, +20% mox, +10% mus, spooky dmg/res)
+stained glass shards	3	12	EPIC	0	0	0	0	Unspaded
 steel-scented air freshener	5	5	EPIC	0	0	0	0	Spleen of Steel skill
 stench jelly	1	1	crappy	0	15-20	15-20	15-20	50 Stench Jellied (+30 item drop, +5 stench damage, +10% all stats), sets combat frequency to 0 til next non-combat
 stench wad	1	6	good	0	30-40	50-60	10-20	20 Stenchtastic (+30% mys, +20% mus, +10% mox, stench dmg/res)
@@ -205,6 +206,7 @@ turkey blaster	2	4	crappy	0	0	0	0	Restore 500-1000 HP/MP first 3 uses per day
 twinkly wad	1	6	decent	0	15-20	15-20	15-20	20 Aspect of the Twinklefairy (+10% all, +weapon/spell dmg)
 ultimate wad	15	13	EPIC	0	0	0	0	+1 level
 Unconscious Collective Dream Jar	4	1	good	5-10	20-30	20-30	20-30
+velour veneer	2	12	EPIC	0	0	0	0	Unspaded
 vial of humanoid growth hormone	1	1	awesome	0	0	0	0	Unspaded 30 HGH-charged (+50% mus experience)
 vibrating mushroom	2	4	decent	0	0	0	0	30 Weird Vibrations (+25 init)
 vitamin G pill	1	6	good	0	0	0	0	5 Riboflavin' (Pickin' Pockets like a G)
