@@ -1330,14 +1330,7 @@ public class OptionsFrame
 			}
 			else
 			{
-				JFrame builderFrame = new JFrame( "Building Custom Deed" );
 				new AddCustomDeedsPanel();
-
-				builderFrame.getContentPane().add( AddCustomDeedsPanel.selectorPanel );
-				builderFrame.pack();
-				builderFrame.setResizable( false );
-				builderFrame.setLocationRelativeTo( null );
-				builderFrame.setVisible( true );
 			}
 		}
 
@@ -1667,9 +1660,9 @@ public class OptionsFrame
 			JPanel botPanel = new JPanel( new GridLayout( 1, 0, 10, 0 ) );
 			JPanel centerPanel = new JPanel( new GridLayout( 1, 2, 0, 0 ) );
 
-			for ( int i = 0; i < DailyDeedsPanel.BUILTIN_DEEDS.length; ++i )
+			for ( String[] builtinDeed : DailyDeedsPanel.BUILTIN_DEEDS )
 			{
-				this.builtInsList.add( DailyDeedsPanel.BUILTIN_DEEDS[ i ][ 1 ] );
+				this.builtInsList.add( builtinDeed[ 1 ] );
 			}
 
 			centerPanel.add( new DeedsButtonPanel( "Built-In Deeds", this.builtInsList ) );
@@ -1737,14 +1730,17 @@ public class OptionsFrame
 
 			for ( String piece : pieces )
 			{
-				for ( int j = 0; j < DailyDeedsPanel.BUILTIN_DEEDS.length; ++j )
+				for ( String[] builtinDeed : DailyDeedsPanel.BUILTIN_DEEDS )
 				{
-					if ( !this.deedsList.contains( DailyDeedsPanel.BUILTIN_DEEDS[j][1] ) && DailyDeedsPanel.BUILTIN_DEEDS[j][1].equals( piece ) )
+					String builtinDeedName = builtinDeed[ 1 ];
+
+					if ( builtinDeedName.equals( piece ) && !this.deedsList.contains( builtinDeedName ) )
 					{
-						this.deedsList.add( DailyDeedsPanel.BUILTIN_DEEDS[j][1] );
+						this.deedsList.add( builtinDeedName );
+						break;
 					}
 				}
-				if ( piece.split( "\\|" )[0].equals( "$CUSTOM" ) )
+				if ( piece.startsWith( "$CUSTOM|" ) )
 				{
 					this.deedsList.add( piece );
 				}
@@ -1794,33 +1790,30 @@ public class OptionsFrame
 				return;
 			}
 
-			StringBuilder frameString = new StringBuilder();
+			List<String> frameStrings = new ArrayList<>();
 
 			for ( int i = 0; i < this.deedsList.getSize(); ++i )
 			{
-				for ( int j = 0; j < DailyDeedsPanel.BUILTIN_DEEDS.length; ++j )
+				String listedDeed = this.deedsList.getElementAt( i ).toString();
+
+				if ( listedDeed.startsWith( "$CUSTOM|" ) )
 				{
-					if ( this.deedsList.getElementAt( i ).equals(
-						DailyDeedsPanel.BUILTIN_DEEDS[ j ][ 1 ] ) )
-					{
-						if ( frameString.length() != 0 )
-						{
-							frameString.append( "," );
-						}
-						frameString.append( DailyDeedsPanel.BUILTIN_DEEDS[ j ][ 1 ] );
-					}
+					frameStrings.add( listedDeed );
+					continue;
 				}
-				if ( this.deedsList.getElementAt( i ).toString().split( "\\|" )[ 0 ].equals( "$CUSTOM" ) )
+				for ( String[] builtinDeed : DailyDeedsPanel.BUILTIN_DEEDS )
 				{
-					if ( frameString.length() != 0 )
+					String builtinDeedName = builtinDeed[ 1 ];
+
+					if ( listedDeed.equals( builtinDeedName ) )
 					{
-						frameString.append( "," );
+						frameStrings.add( builtinDeedName);
+						break;
 					}
-					frameString.append( this.deedsList.getElementAt( i ) );
 				}
 			}
 
-			Preferences.setString( "dailyDeedsOptions", frameString.toString() );
+			Preferences.setString( "dailyDeedsOptions", String.join( "," , frameStrings ) );
 		}
 
 		public void update()

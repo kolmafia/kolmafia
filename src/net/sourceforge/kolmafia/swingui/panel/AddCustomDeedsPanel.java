@@ -33,20 +33,23 @@
 
 package net.sourceforge.kolmafia.swingui.panel;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -60,1940 +63,860 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
+import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 
 public class AddCustomDeedsPanel
 	extends JPanel
 {
+	public static JFrame builderFrame;
 	public static CardLayoutSelectorPanel selectorPanel;
-
-	private JTextField commandField1;
-	private JTextField commandField2;
-	private JTextField commandField3;
-	private JTextField commandField4;
-	private JTextField commandField5;
-	private JTextField commandField6;
-	private JTextField itemField1;
-	private JTextField itemField2;
-	private JTextField itemField3;
-	private JTextField itemField4;
-	private JTextField itemField5;
-	private JTextField itemField6;
-	private JTextField skillField1;
-	private JTextField skillField2;
-	private JTextField skillField3;
-	private JTextField skillField4;
-	private JTextField skillField5;
-	private JTextField skillField6;
-	private JTextField textField;
-	private JTextField simpleField1;
-	private JTextField simpleField2;
-	private JTextField simpleField3;
-	private JTextField simpleField4;
-	private JTextField simpleField5;
-
-	private static final int COMMAND_FIELD_1 = 0;
-	private static final int COMMAND_FIELD_2 = 1;
-	private static final int COMMAND_FIELD_3 = 2;
-	private static final int COMMAND_FIELD_4 = 3;
-	private static final int COMMAND_FIELD_5 = 4;
-	private static final int COMMAND_FIELD_6 = 5;
-	private static final int ITEM_FIELD_1 = 6;
-	private static final int ITEM_FIELD_2 = 7;
-	private static final int ITEM_FIELD_3 = 8;
-	private static final int ITEM_FIELD_4 = 9;
-	private static final int ITEM_FIELD_5 = 10;
-	private static final int ITEM_FIELD_6 = 11;
-	private static final int SKILL_FIELD_1 = 12;
-	private static final int SKILL_FIELD_2 = 13;
-	private static final int SKILL_FIELD_3 = 14;
-	private static final int SKILL_FIELD_4 = 15;
-	private static final int SKILL_FIELD_5 = 16;
-	private static final int SKILL_FIELD_6 = 17;
-	private static final int TEXT_FIELD = 18;
-	private static final int SIMPLE_FIELD_1 = 19;
-	private static final int SIMPLE_FIELD_2 = 20;
-	private static final int SIMPLE_FIELD_3 = 21;
-	private static final int SIMPLE_FIELD_4 = 22;
-	private static final int SIMPLE_FIELD_5 = 23;
-
-	private JLabel commandLabel1;
-	private JLabel commandLabel2;
-	private JLabel commandLabel3;
-	private JLabel commandLabel4;
-	private JLabel commandLabel5;
-	private JLabel commandLabel6;
-	private JLabel itemLabel1;
-	private JLabel itemLabel2;
-	private JLabel itemLabel3;
-	private JLabel itemLabel4;
-	private JLabel itemLabel5;
-	private JLabel itemLabel6;
-	private JLabel skillLabel1;
-	private JLabel skillLabel2;
-	private JLabel skillLabel3;
-	private JLabel skillLabel4;
-	private JLabel skillLabel5;
-	private JLabel skillLabel6;
-	private JLabel simpleLabel1;
-	private JLabel simpleLabel2;
-	private JLabel simpleLabel3;
-	private JLabel simpleLabel4;
-	private JLabel simpleLabel5;
-
-	private static final int COMMAND_LABEL_1 = 0;
-	private static final int COMMAND_LABEL_2 = 1;
-	private static final int COMMAND_LABEL_3 = 2;
-	private static final int COMMAND_LABEL_4 = 3;
-	private static final int COMMAND_LABEL_5 = 4;
-	private static final int COMMAND_LABEL_6 = 5;
-	private static final int ITEM_LABEL_1 = 6;
-	private static final int ITEM_LABEL_2 = 7;
-	private static final int ITEM_LABEL_3 = 8;
-	private static final int ITEM_LABEL_4 = 9;
-	private static final int ITEM_LABEL_5 = 10;
-	private static final int ITEM_LABEL_6 = 11;
-	private static final int SKILL_LABEL_1 = 12;
-	private static final int SKILL_LABEL_2 = 13;
-	private static final int SKILL_LABEL_3 = 14;
-	private static final int SKILL_LABEL_4 = 15;
-	private static final int SKILL_LABEL_5 = 16;
-	private static final int SKILL_LABEL_6 = 17;
-	private static final int SIMPLE_LABEL_1 = 18;
-	private static final int SIMPLE_LABEL_2 = 19;
-	private static final int SIMPLE_LABEL_3 = 20;
-	private static final int SIMPLE_LABEL_4 = 21;
-	private static final int SIMPLE_LABEL_5 = 22;
-
-	private ThreadedButton commandButton;
-	private ThreadedButton itemButton;
-	private ThreadedButton skillButton;
-	private ThreadedButton textDeedButton;
-	private ThreadedButton addTextButton;
-	private ThreadedButton simpleButton;
-
-	private JTextArea textArea;
-	private final ArrayList textDeed = new ArrayList();
 
 	public AddCustomDeedsPanel()
 	{
+		AddCustomDeedsPanel.builderFrame = new JFrame( "Building Custom Deed" );
+
 		buildCustomDeed();
+
+		AddCustomDeedsPanel.builderFrame.getContentPane().add( AddCustomDeedsPanel.selectorPanel );
+		AddCustomDeedsPanel.builderFrame.pack();
+		AddCustomDeedsPanel.builderFrame.setResizable( false );
+		AddCustomDeedsPanel.builderFrame.setLocationRelativeTo( null );
+		AddCustomDeedsPanel.builderFrame.setVisible( true );
 	}
 
 	private void buildCustomDeed()
 	{
-		AddCustomDeedsPanel.selectorPanel = new CardLayoutSelectorPanel( "", "ABCDEFGHIJKLM" );
+		AddCustomDeedsPanel.selectorPanel = new CardLayoutSelectorPanel();
 		AddCustomDeedsPanel.selectorPanel.addCategory( "Custom Deeds" );
 
-		addSimpleDeed();
-		addCommandDeed();
-		addItemDeed();
-		addSkillDeed();
-		addTextDeed();
+		new SimpleDeedConstructor();
+		new CommandDeedConstructor();
+		new ItemDeedConstructor();
+		new SkillDeedConstructor();
+		new TextDeedConstructor();
 
 		AddCustomDeedsPanel.selectorPanel.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
 	}
 	
-	private void addSimpleDeed()
+	private abstract class CustomDeedConstructor
 	{
-		JPanel panel = new JPanel();
-		panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
-		JPanel title = new JPanel();
-		title.setLayout( new BoxLayout( title, BoxLayout.Y_AXIS ) );
+		final String kind;
 
-		JPanel textPanel = new JPanel( new GridBagLayout() );
-		GridBagConstraints c = new GridBagConstraints();
+		final JPanel panel;
 
-		this.simpleField1 = new JTextField( 25 );
-		this.simpleField2 = new JTextField( 25 );
-		this.simpleField3 = new JTextField( 25 );
-		this.simpleField4 = new JTextField( 25 );
-		this.simpleField5 = new JTextField( 25 );
-		this.simpleLabel1 = new JLabel( "required" );
-		this.simpleLabel1.setToolTipText( "The text to display on the button." );
-		this.simpleLabel2 = new JLabel( "(optional)" );
-		this.simpleLabel2.setToolTipText( "The command that the button will execute." );
-		this.simpleLabel3 = new JLabel( "(optional)" );
-		this.simpleLabel3
-			.setToolTipText( "Provide an integer to disable the button at.  The button will be enabled until the preference reaches this number." );
-		this.simpleLabel4 = new JLabel( "(optional)" );
-		this.simpleLabel4.setToolTipText( "The tooltip when moused over." );
-		this.simpleLabel5 = new JLabel( "(optional)" );
-		this.simpleLabel5.setToolTipText( "Message to display when no more can be done today." );
+		protected ThreadedButton button;
 
-		this.simpleField1.getDocument().addDocumentListener( new SimpleField1Listener() );
-		this.simpleField2.getDocument().addDocumentListener( new SimpleField2Listener() );
-		this.simpleField3.getDocument().addDocumentListener( new SimpleField3Listener() );
-		this.simpleField4.getDocument().addDocumentListener( new SimpleField4Listener() );
-		this.simpleField5.getDocument().addDocumentListener( new SimpleField5Listener() );
+		final JPanel textPanel;
+		final GridBagConstraints c;
 
-		this.simpleButton = new ThreadedButton( "add deed", new SimpleActionRunnable() );
+		public final JTextField[] fields;
+		public final JLabel[] labels;
 
-		title.add( new JLabel( "Adding simple deed." ) );
+		public final String[] defaultLabels;
+		public final String[] defaultTooltips;
 
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 0;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.NORTH;
-		c.gridwidth = 3;
-		textPanel.add( new JSeparator(), c );
-
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 1;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		c.gridwidth = 1;
-		textPanel.add( new JLabel( "displayText:" ), c );
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 2;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		textPanel.add( new JLabel( "command:" ), c );
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 3;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		textPanel.add( new JLabel( "maxUses:" ), c );
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 4;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		textPanel.add( new JLabel( "tooltip:" ), c );
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 5;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		textPanel.add( new JLabel( "compMessage:" ), c );
-
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = 1;
-		c.anchor = GridBagConstraints.CENTER;
-		textPanel.add( this.simpleField1, c );
-		c.gridx = 1;
-		c.gridy = 2;
-		textPanel.add( this.simpleField2, c );
-		c.gridx = 1;
-		c.gridy = 3;
-		textPanel.add( this.simpleField3, c );
-		c.gridx = 1;
-		c.gridy = 4;
-		textPanel.add( this.simpleField4, c );
-		c.gridx = 1;
-		c.gridy = 5;
-		textPanel.add( this.simpleField5, c );
-
-		c.gridx = 2;
-		c.gridy = 1;
-		textPanel.add( this.simpleLabel1, c );
-		c.gridx = 2;
-		c.gridy = 2;
-		textPanel.add( this.simpleLabel2, c );
-		c.gridx = 2;
-		c.gridy = 3;
-		textPanel.add( this.simpleLabel3, c );
-		c.gridx = 2;
-		c.gridy = 4;
-		textPanel.add( this.simpleLabel4, c );
-		c.gridx = 2;
-		c.gridy = 5;
-		textPanel.add( this.simpleLabel5, c );
-
-		c.gridx = 0;
-		c.gridy = 6;
-		textPanel.add( Box.createRigidArea( new Dimension( 75, 5 ) ), c );
-		c.gridx = 2;
-		c.gridy = 6;
-		textPanel.add( Box.createRigidArea( new Dimension( 75, 5 ) ), c );
-
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 1;
-		c.gridy = 6;
-		c.anchor = GridBagConstraints.SOUTHEAST;
-		textPanel.add( this.simpleButton, c );
-		this.simpleButton.setEnabled( false );
-
-		panel.add( title );
-		panel.add( textPanel );
-		AddCustomDeedsPanel.selectorPanel.addPanel( "- Simple", panel );
-	}
-
-	private void addCommandDeed()
-	{
-		JPanel panel = new JPanel();
-		panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
-		JPanel title = new JPanel();
-		title.setLayout( new BoxLayout( title, BoxLayout.Y_AXIS ) );
-
-		JPanel textPanel = new JPanel( new GridBagLayout() );
-		GridBagConstraints c = new GridBagConstraints();
-
-		this.commandField1 = new JTextField( 25 );
-		this.commandField2 = new JTextField( 25 );
-		this.commandField3 = new JTextField( 25 );
-		this.commandField4 = new JTextField( 25 );
-		this.commandField5 = new JTextField( 25 );
-		this.commandField6 = new JTextField( 25 );
-		this.commandLabel1 = new JLabel( "required" );
-		this.commandLabel1.setToolTipText( "The text to display on the button." );
-		this.commandLabel2 = new JLabel( "required" );
-		this.commandLabel2.setToolTipText( "The preference that the button will track." );
-		this.commandLabel3 = new JLabel( "(optional)" );
-		this.commandLabel3.setToolTipText( "The command that the button will execute." );
-		this.commandLabel4 = new JLabel( "(optional)" );
-		this.commandLabel4.setToolTipText( "Provide an integer to disable the button at.  The button will be enabled until the preference reaches this number." );
-		this.commandLabel5 = new JLabel( "(optional)" );
-		this.commandLabel5.setToolTipText( "The tooltip when moused over." );
-		this.commandLabel6 = new JLabel( "(optional)" );
-		this.commandLabel6.setToolTipText( "Message to display when no more can be done today." );
-
-		this.commandField1.getDocument().addDocumentListener( new CommandField1Listener() );
-		this.commandField2.getDocument().addDocumentListener( new CommandField2Listener() );
-		this.commandField3.getDocument().addDocumentListener( new CommandField3Listener() );
-		this.commandField4.getDocument().addDocumentListener( new CommandField4Listener() );
-		this.commandField5.getDocument().addDocumentListener( new CommandField5Listener() );
-		this.commandField6.getDocument().addDocumentListener( new CommandField6Listener() );
-
-		this.commandButton = new ThreadedButton( "add deed", new CommandActionRunnable() );
-
-		title.add( new JLabel( "Adding command deed." ) );
-
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 0;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.NORTH;
-		c.gridwidth = 3;
-		textPanel.add( new JSeparator(), c );
-
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 1;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		c.gridwidth = 1;
-		textPanel.add( new JLabel( "displayText:" ), c );
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 2;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		textPanel.add( new JLabel( "preference:" ), c );
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 3;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		textPanel.add( new JLabel( "command:" ), c );
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 4;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		textPanel.add( new JLabel( "maxUses:" ), c );
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 5;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		textPanel.add( new JLabel( "toolTip:" ), c );
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 6;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		textPanel.add( new JLabel( "compMessge:" ), c );
-
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = 1;
-		c.anchor = GridBagConstraints.CENTER;
-		textPanel.add( this.commandField1, c );
-		c.gridx = 1;
-		c.gridy = 2;
-		textPanel.add( this.commandField2, c );
-		c.gridx = 1;
-		c.gridy = 3;
-		textPanel.add( this.commandField3, c );
-		c.gridx = 1;
-		c.gridy = 4;
-		textPanel.add( this.commandField4, c );
-		c.gridx = 1;
-		c.gridy = 5;
-		textPanel.add( this.commandField5, c );
-		c.gridx = 1;
-		c.gridy = 6;
-		textPanel.add( this.commandField6, c );
-
-		c.gridx = 2;
-		c.gridy = 1;
-		textPanel.add( this.commandLabel1, c );
-		c.gridx = 2;
-		c.gridy = 2;
-		textPanel.add( this.commandLabel2, c );
-		c.gridx = 2;
-		c.gridy = 3;
-		textPanel.add( this.commandLabel3, c );
-		c.gridx = 2;
-		c.gridy = 4;
-		textPanel.add( this.commandLabel4, c );
-		c.gridx = 2;
-		c.gridy = 5;
-		textPanel.add( this.commandLabel5, c );
-		c.gridx = 2;
-		c.gridy = 6;
-		textPanel.add( this.commandLabel6, c );
-
-		c.gridx = 0;
-		c.gridy = 7;
-		textPanel.add( Box.createRigidArea( new Dimension( 75, 5 ) ), c );
-		c.gridx = 2;
-		c.gridy = 7;
-		textPanel.add( Box.createRigidArea( new Dimension( 75, 5 ) ), c );
-
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 1;
-		c.gridy = 7;
-		c.anchor = GridBagConstraints.SOUTHEAST;
-		textPanel.add( this.commandButton, c );
-		this.commandButton.setEnabled( false );
-
-		panel.add( title );
-		panel.add( textPanel );
-		AddCustomDeedsPanel.selectorPanel.addPanel( "- Command", panel );
-	}
-
-	private void addItemDeed()
-	{
-		JPanel panel = new JPanel();
-		panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
-		JPanel title = new JPanel();
-		title.setLayout( new BoxLayout( title, BoxLayout.Y_AXIS ) );
-
-		JPanel textPanel = new JPanel( new GridBagLayout() );
-		GridBagConstraints c = new GridBagConstraints();
-
-		this.itemField1 = new JTextField( 25 );
-		this.itemField2 = new JTextField( 25 );
-		this.itemField3 = new JTextField( 25 );
-		this.itemField4 = new JTextField( 25 );
-		this.itemField5 = new JTextField( 25 );
-		this.itemField6 = new JTextField( 25 );
-		this.itemLabel1 = new JLabel( "required" );
-		this.itemLabel1.setToolTipText( "The text to display on the button." );
-		this.itemLabel2 = new JLabel( "required" );
-		this.itemLabel2.setToolTipText( "The preference that the button will track." );
-		this.itemLabel3 = new JLabel( "(optional)" );
-		this.itemLabel3.setToolTipText( "If an item is not specified, defaults to displayText.  Uses fuzzy matching." );
-		this.itemLabel4 = new JLabel( "(optional)" );
-		this.itemLabel4.setToolTipText( "Provide an integer to disable the button at.  The button will be enabled until the preference reaches this number." );
-		this.itemLabel5 = new JLabel( "(optional)" );
-		this.itemLabel5.setToolTipText( "The tooltip when moused over." );
-		this.itemLabel6 = new JLabel( "(optional)" );
-		this.itemLabel6.setToolTipText( "Message to display when no more can be done today." );
-
-		this.itemField1.getDocument().addDocumentListener( new ItemField1Listener() );
-		this.itemField2.getDocument().addDocumentListener( new ItemField2Listener() );
-		this.itemField3.getDocument().addDocumentListener( new ItemField1Listener() );
-		// listener 1 sets the state of both label1 and label3
-		this.itemField4.getDocument().addDocumentListener( new ItemField4Listener() );
-		this.itemField5.getDocument().addDocumentListener( new ItemField5Listener() );
-		this.itemField6.getDocument().addDocumentListener( new ItemField6Listener() );
-
-		this.itemButton = new ThreadedButton( "add deed", new ItemPrefRunnable() );
-
-		title.add( new JLabel( "Adding Item Deed." ) );
-
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 0;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.NORTH;
-		c.gridwidth = 3;
-		textPanel.add( new JSeparator(), c );
-
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 1;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		c.gridwidth = 1;
-		textPanel.add( new JLabel( "displayText:" ), c );
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 2;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		textPanel.add( new JLabel( "preference:" ), c );
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 3;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		textPanel.add( new JLabel( "item:" ), c );
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 4;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		textPanel.add( new JLabel( "maxUses:" ), c );
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 5;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		textPanel.add( new JLabel( "toolTip:" ), c );
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 6;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		textPanel.add( new JLabel( "compMessage:" ), c );
-
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = 1;
-		c.anchor = GridBagConstraints.CENTER;
-		textPanel.add( this.itemField1, c );
-		c.gridx = 1;
-		c.gridy = 2;
-		textPanel.add( this.itemField2, c );
-		c.gridx = 1;
-		c.gridy = 3;
-		textPanel.add( this.itemField3, c );
-		c.gridx = 1;
-		c.gridy = 4;
-		textPanel.add( this.itemField4, c );
-		c.gridx = 1;
-		c.gridy = 5;
-		textPanel.add( this.itemField5, c );
-		c.gridx = 1;
-		c.gridy = 6;
-		textPanel.add( this.itemField6, c );
-
-		c.gridx = 2;
-		c.gridy = 1;
-		textPanel.add( this.itemLabel1, c );
-		c.gridx = 2;
-		c.gridy = 2;
-		textPanel.add( this.itemLabel2, c );
-		c.gridx = 2;
-		c.gridy = 3;
-		textPanel.add( this.itemLabel3, c );
-		c.gridx = 2;
-		c.gridy = 4;
-		textPanel.add( this.itemLabel4, c );
-		c.gridx = 2;
-		c.gridy = 5;
-		textPanel.add( this.itemLabel5, c );
-		c.gridx = 2;
-		c.gridy = 6;
-		textPanel.add( this.itemLabel6, c );
-
-		c.gridx = 0;
-		c.gridy = 7;
-		textPanel.add( Box.createRigidArea( new Dimension( 75, 5 ) ), c );
-		c.gridx = 2;
-		c.gridy = 7;
-		textPanel.add( Box.createRigidArea( new Dimension( 75, 5 ) ), c );
-
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 1;
-		c.gridy = 7;
-		c.anchor = GridBagConstraints.SOUTHEAST;
-		textPanel.add( this.itemButton, c );
-		this.itemButton.setEnabled( false );
-
-		panel.add( title );
-		panel.add( textPanel );
-		AddCustomDeedsPanel.selectorPanel.addPanel( "- Item", panel );
-	}
-
-	private void addSkillDeed()
-	{
-		JPanel panel = new JPanel();
-		panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
-		JPanel title = new JPanel();
-		title.setLayout( new BoxLayout( title, BoxLayout.Y_AXIS ) );
-
-		JPanel textPanel = new JPanel( new GridBagLayout() );
-		GridBagConstraints c = new GridBagConstraints();
-
-		this.skillField1 = new JTextField( 25 );
-		this.skillField2 = new JTextField( 25 );
-		this.skillField3 = new JTextField( 25 );
-		this.skillField4 = new JTextField( 25 );
-		this.skillField5 = new JTextField( 25 );
-		this.skillField6 = new JTextField( 25 );
-		this.skillLabel1 = new JLabel( "required" );
-		this.skillLabel1.setToolTipText( "The text to display on the button." );
-		this.skillLabel2 = new JLabel( "required" );
-		this.skillLabel2.setToolTipText( "The preference that the button will track." );
-		this.skillLabel3 = new JLabel( "(optional)" );
-		this.skillLabel3.setToolTipText( "The skill that the button will cast." );
-		this.skillLabel4 = new JLabel( "(optional)" );
-		this.skillLabel4.setToolTipText( "Provide an integer to disable the button at.  The button will be enabled until the preference reaches this number." );
-		this.skillLabel5 = new JLabel( "(optional)" );
-		this.skillLabel5.setToolTipText( "The tooltip when moused over." );
-		this.skillLabel6 = new JLabel( "(optional)" );
-		this.skillLabel6.setToolTipText( "Message to display when no more can be done today." );
-
-		this.skillField1.getDocument().addDocumentListener( new SkillField1Listener() );
-		this.skillField2.getDocument().addDocumentListener( new SkillField2Listener() );
-		// listener 1 sets the state of both label1 and label3
-		this.skillField3.getDocument().addDocumentListener( new SkillField1Listener() );
-		this.skillField4.getDocument().addDocumentListener( new SkillField4Listener() );
-		this.skillField5.getDocument().addDocumentListener( new SkillField5Listener() );
-		this.skillField6.getDocument().addDocumentListener( new SkillField6Listener() );
-
-		this.skillButton = new ThreadedButton( "add deed", new SkillActionRunnable() );
-
-		title.add( new JLabel( "Adding Skill Deed." ) );
-
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 0;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.NORTH;
-		c.gridwidth = 3;
-		textPanel.add( new JSeparator(), c );
-
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 1;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		c.gridwidth = 1;
-		textPanel.add( new JLabel( "displayText:" ), c );
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 2;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		textPanel.add( new JLabel( "preference:" ), c );
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 3;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		textPanel.add( new JLabel( "skill:" ), c );
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 4;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		textPanel.add( new JLabel( "maxCasts:" ), c );
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 5;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		textPanel.add( new JLabel( "tooltip:" ), c );
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 6;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.EAST;
-		textPanel.add( new JLabel( "compMessage:" ), c );
-
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = 1;
-		c.anchor = GridBagConstraints.CENTER;
-		textPanel.add( this.skillField1, c );
-		c.gridx = 1;
-		c.gridy = 2;
-		textPanel.add( this.skillField2, c );
-		c.gridx = 1;
-		c.gridy = 3;
-		textPanel.add( this.skillField3, c );
-		c.gridx = 1;
-		c.gridy = 4;
-		textPanel.add( this.skillField4, c );
-		c.gridx = 1;
-		c.gridy = 5;
-		textPanel.add( this.skillField5, c );
-		c.gridx = 1;
-		c.gridy = 6;
-		textPanel.add( this.skillField6, c );
-
-		c.gridx = 2;
-		c.gridy = 1;
-		textPanel.add( this.skillLabel1, c );
-		c.gridx = 2;
-		c.gridy = 2;
-		textPanel.add( this.skillLabel2, c );
-		c.gridx = 2;
-		c.gridy = 3;
-		textPanel.add( this.skillLabel3, c );
-		c.gridx = 2;
-		c.gridy = 4;
-		textPanel.add( this.skillLabel4, c );
-		c.gridx = 2;
-		c.gridy = 5;
-		textPanel.add( this.skillLabel5, c );
-		c.gridx = 2;
-		c.gridy = 6;
-		textPanel.add( this.skillLabel6, c );
-
-		c.gridx = 0;
-		c.gridy = 7;
-		textPanel.add( Box.createRigidArea( new Dimension( 75, 5 ) ), c );
-		c.gridx = 2;
-		c.gridy = 7;
-		textPanel.add( Box.createRigidArea( new Dimension( 75, 5 ) ), c );
-
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 1;
-		c.gridy = 7;
-		c.anchor = GridBagConstraints.SOUTHEAST;
-		textPanel.add( this.skillButton, c );
-		this.skillButton.setEnabled( false );
-
-		panel.add( title );
-		panel.add( textPanel );
-		AddCustomDeedsPanel.selectorPanel.addPanel( "- Skill", panel );
-	}
-
-	private void addTextDeed()
-	{
-		JPanel panel = new JPanel();
-		panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
-		JPanel title = new JPanel();
-		title.setLayout( new BoxLayout( title, BoxLayout.Y_AXIS ) );
-
-		JPanel textPanel = new JPanel( new GridBagLayout() );
-		GridBagConstraints c = new GridBagConstraints();
-
-		this.textField = new JTextField( 25 );
-		this.textArea = new JTextArea();
-		this.textArea.setColumns( 10 );
-		this.textArea.setRows( 4 );
-		this.textArea.setMaximumSize( this.textArea.getPreferredSize() );
-		this.textArea.setBorder( BorderFactory.createLoweredBevelBorder() );
-		this.textArea.setLineWrap( true );
-		this.textArea.setWrapStyleWord( true );
-		this.textArea.setEditable( false );
-		this.textArea.setOpaque( false );
-		this.textArea.setFont( KoLGUIConstants.DEFAULT_FONT );
-
-		ThreadedButton undoButton = new ThreadedButton( "undo", new RemoveLastTextRunnable() );
-		ThreadedButton clearButton = new ThreadedButton( "clear", new ClearTextRunnable() );
-
-		this.textField.getDocument().addDocumentListener( new TextFieldListener() );
-		this.addTextButton = new ThreadedButton( "add text", new AddTextRunnable() );
-		this.textDeedButton = new ThreadedButton( "add deed", new TextActionRunnable() );
-
-		title.add( new JLabel( "Adding Text Deed." ) );
-
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 0;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.NORTH;
-		c.gridwidth = 3;
-		textPanel.add( new JSeparator(), c );
-
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = 1;
-		c.gridwidth = 1;
-		c.anchor = GridBagConstraints.NORTH;
-		textPanel.add( this.textField, c );
-
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 2;
-		c.gridy = 1;
-		c.anchor = GridBagConstraints.NORTHWEST;
-		textPanel.add( this.addTextButton, c );
-		this.addTextButton.setEnabled( false );
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 2;
-		c.gridy = 2;
-		c.anchor = GridBagConstraints.WEST;
-		textPanel.add( undoButton, c );
-		c.gridx = 2;
-		c.gridy = 3;
-		c.anchor = GridBagConstraints.NORTHWEST;
-		textPanel.add( clearButton, c );
-
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = 2;
-		c.anchor = GridBagConstraints.CENTER;
-		c.gridheight = 2;
-		textPanel.add( this.textArea, c );
-
-		c.gridx = 0;
-		c.gridy = 5;
-		c.gridheight = 1;
-		textPanel.add( Box.createRigidArea( new Dimension( 75, 5 ) ), c );
-		c.gridx = 2;
-		c.gridy = 5;
-		textPanel.add( Box.createRigidArea( new Dimension( 75, 5 ) ), c );
-
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 1;
-		c.gridy = 5;
-		c.anchor = GridBagConstraints.SOUTHEAST;
-		textPanel.add( this.textDeedButton, c );
-		this.textDeedButton.setEnabled( false );
-
-		panel.add( title );
-		panel.add( textPanel );
-		AddCustomDeedsPanel.selectorPanel.addPanel( "- Text", panel );
-	}
-
-	public class CommandField6Listener
-		implements DocumentListener
-	{
-		public void changedUpdate( DocumentEvent arg0 )
+		public CustomDeedConstructor( final String kind, final int fieldCount )
 		{
-			if ( getField( COMMAND_FIELD_6 ).getText().equalsIgnoreCase( "" ) )
+			this.kind = kind;
+
+			this.panel = new JPanel();
+			this.panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
+
+			final JPanel title = new JPanel();
+			title.setLayout( new BoxLayout( title, BoxLayout.Y_AXIS ) );
+			title.add( new JLabel( "Adding " + this.kind + " deed." ) );
+			this.panel.add( title );
+
+			this.fields = new JTextField[ fieldCount ];
+			for ( int i = 0; i < fieldCount; ++i )
 			{
-				setLabel( COMMAND_LABEL_6, "(optional)", "Message to display when no more can be done today." );
+				this.fields[ i ] = new JTextField( 25 );
 			}
-			else
+			this.labels = new JLabel[ fieldCount ];
+			this.defaultLabels = new String[ fieldCount ];
+			this.defaultTooltips = new String[ fieldCount ];
+
+			this.textPanel = new JPanel( new GridBagLayout() );
+			this.c = new GridBagConstraints();
+
+			this.c.fill = GridBagConstraints.HORIZONTAL;
+			this.c.gridx = 0;
+			this.c.gridy = 0;
+			this.c.weighty = 0.5;
+			this.c.anchor = GridBagConstraints.NORTH;
+			this.c.gridwidth = 3;
+			this.c.gridheight = 1;
+			textPanel.add( new JSeparator(), this.c );
+		}
+
+		protected void setFieldNames( String[] fieldNames )
+		{
+			this.c.fill = GridBagConstraints.NONE;
+			this.c.weighty = 0.5;
+			this.c.gridwidth = 1;
+			this.c.gridheight = 1;
+			this.c.anchor = GridBagConstraints.EAST;
+			this.c.gridx = 0;
+
+			for ( int i = 0; i < this.fields.length; ++i )
 			{
-				setLabel( COMMAND_LABEL_6, "OK" );
+				String text = i < fieldNames.length ? fieldNames[ i ] : null;
+
+				this.c.gridy = i + 1;
+
+				this.textPanel.add( new JLabel( text ), this.c );
 			}
 		}
 
-		public void insertUpdate( DocumentEvent e )
+		protected void setFields()
 		{
-			changedUpdate( e );
-		}
+			this.c.fill = GridBagConstraints.HORIZONTAL;
+			this.c.weighty = 0.5;
+			this.c.gridwidth = GridBagConstraints.RELATIVE;
+			this.c.gridheight = 1;
+			this.c.anchor = GridBagConstraints.CENTER;
+			this.c.gridx = 1;
 
-		public void removeUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-	}
+			for ( int i = 0; i < this.fields.length; ++i )
+			{
+				this.c.gridy = i + 1;
 
-	public class CommandField5Listener
-		implements DocumentListener
-	{
-		public void changedUpdate( DocumentEvent arg0 )
-		{
-			if ( getField( COMMAND_FIELD_5 ).getText().equalsIgnoreCase( "" ) )
-			{
-				setLabel( COMMAND_LABEL_5, "(optional)", "The tooltip when moused over." );
-			}
-			else
-			{
-				setLabel( COMMAND_LABEL_5, "OK" );
+				this.textPanel.add( this.fields[ i ], this.c );
 			}
 		}
 
-		public void insertUpdate( DocumentEvent e )
+		/**
+		 * @param requiredAmount The label of the <input> first will be set as "required". The rest will be "(optional)".
+		 * @param tooltips The ordered tooltip texts.
+		 */
+		protected void setLabels( int requiredAmount, String[] tooltips )
 		{
-			changedUpdate( e );
-		}
+			this.c.fill = GridBagConstraints.HORIZONTAL;
+			this.c.weighty = 0.5;
+			this.c.gridwidth = 1;
+			this.c.gridheight = 1;
+			this.c.anchor = GridBagConstraints.CENTER;
+			this.c.gridx = 2;
 
-		public void removeUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-	}
+			for ( int i = 0; i < this.fields.length; ++i )
+			{
+				String text = i < requiredAmount ? "required" : "(optional)";
+				JLabel label = new JLabel( text );
 
-	public class CommandField4Listener
-		implements DocumentListener
-	{
-		public void changedUpdate( DocumentEvent e )
-		{
-			if ( getField( COMMAND_FIELD_4 ).getText().equalsIgnoreCase( "" ) )
-			{
-				setLabel( COMMAND_LABEL_4, "(optional)",
-					"Provide an integer to disable the button at.  The button will be enabled until the preference reaches this number." );
-			}
-			else
-			{
-				try
+				this.labels[ i ] = label;
+				this.defaultLabels[ i ] = text;
+
+				if ( i < tooltips.length )
 				{
-					Integer.parseInt( getField( COMMAND_FIELD_4 ).getText() );
-					setLabel( COMMAND_LABEL_4, "OK" );
+					label.setToolTipText( tooltips[ i ] );
+					this.defaultTooltips[ i ] = tooltips[ i ];
 				}
-				catch ( NumberFormatException exception )
+
+				this.c.gridy = i + 1;
+
+				this.textPanel.add( label, this.c );
+			}
+		}
+
+		protected void setBottom()
+		{
+			this.setBottom( this.fields.length + 1 );
+		}
+
+		protected void setBottom( int gridy )
+		{
+			this.c.fill = GridBagConstraints.HORIZONTAL;
+			this.c.weighty = 0.5;
+			this.c.gridwidth = 1;
+			this.c.gridheight = 1;
+			this.c.anchor = GridBagConstraints.CENTER;
+			this.c.gridy = gridy;
+
+			for ( int i : new int[] {0, 2} )
+			{
+				this.c.gridx = i;
+
+				this.textPanel.add( Box.createHorizontalStrut( 75 ), this.c );
+			}
+
+			this.c.fill = GridBagConstraints.NONE;
+			this.c.anchor = GridBagConstraints.SOUTHEAST;
+			this.c.gridx = 1;
+
+			this.textPanel.add( this.button, this.c );
+			this.button.setEnabled( false );
+		}
+
+		protected void addToSelector()
+		{
+			this.panel.add( this.textPanel );
+			AddCustomDeedsPanel.selectorPanel.addPanel( "- " + this.kind, this.panel );
+		}
+
+		public class FieldListener
+			implements DocumentListener
+		{
+			private final int fieldIndex;
+
+			private final boolean isIntegerField;
+
+			public FieldListener( int fieldIndex )
+			{
+				this( fieldIndex, false );
+			}
+
+			public FieldListener( int fieldIndex, boolean isIntegerField )
+			{
+				this.fieldIndex = fieldIndex;
+				this.isIntegerField = isIntegerField;
+			}
+
+			public void changedUpdate( DocumentEvent e )
+			{
+				String fieldText = CustomDeedConstructor.this.fields[ this.fieldIndex ].getText();
+				JLabel label = CustomDeedConstructor.this.labels[ this.fieldIndex ];
+
+				// Reset to default if field is empty
+				if ( fieldText.isEmpty() )
 				{
-					setLabel( COMMAND_LABEL_4, "BAD", "Integer only, please." );
-				}
-			}
-			String label1 = getLabel( COMMAND_LABEL_1 ).getText();
-			String label2 = getLabel( COMMAND_LABEL_2 ).getText();
-			String label4 = getLabel( COMMAND_LABEL_4 ).getText();
-
-			boolean enabled = label1.equalsIgnoreCase( "OK" ) && label2.equalsIgnoreCase( "OK" )
-				&& !label4.equalsIgnoreCase( "BAD" );
-
-			getCommandButton().setEnabled( enabled );
-		}
-
-		public void insertUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-
-		public void removeUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-	}
-
-	public class CommandField3Listener
-		implements DocumentListener
-	{
-		public void changedUpdate( DocumentEvent arg0 )
-		{
-			if ( getField( COMMAND_FIELD_3 ).getText().equalsIgnoreCase( "" ) )
-			{
-				setLabel( COMMAND_LABEL_3, "(optional)",
-					"The command that the button will execute." );
-			}
-			else
-			{
-				setLabel( COMMAND_LABEL_3, "OK" );
-			}
-		}
-
-		public void insertUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-
-		public void removeUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-	}
-
-	public class CommandField2Listener
-		implements DocumentListener
-	{
-		public void changedUpdate( DocumentEvent e )
-		{
-			// check if deed is properly formed, update label, enable/disable add deeds button
-			if ( getField( COMMAND_FIELD_2 ).getText().equalsIgnoreCase( "" ) )
-			{
-				setLabel( COMMAND_LABEL_2, "required", "The preference that the button will track." );
-			}
-			else
-			{
-				setLabel( COMMAND_LABEL_2, "OK" );
-			}
-
-			String label1 = getLabel( COMMAND_LABEL_1 ).getText();
-			String label2 = getLabel( COMMAND_LABEL_2 ).getText();
-			String label4 = getLabel( COMMAND_LABEL_4 ).getText();
-
-			boolean enabled = label1.equalsIgnoreCase( "OK" ) && label2.equalsIgnoreCase( "OK" )
-				&& !label4.equalsIgnoreCase( "BAD" );
-
-			getCommandButton().setEnabled( enabled );
-		}
-
-		public void insertUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-
-		public void removeUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-	}
-
-	public class CommandField1Listener
-		implements DocumentListener
-	{
-		public void changedUpdate( DocumentEvent e )
-		{
-			if ( getField( COMMAND_FIELD_1 ).getText().equalsIgnoreCase( "" ) )
-			{
-				setLabel( COMMAND_LABEL_1, "required", "The text to display on the button." );
-			}
-			else
-			{
-				setLabel( COMMAND_LABEL_1, "OK" );
-			}
-			String label1 = getLabel( COMMAND_LABEL_1 ).getText();
-			String label2 = getLabel( COMMAND_LABEL_2 ).getText();
-			String label4 = getLabel( COMMAND_LABEL_4 ).getText();
-
-			boolean enabled = label1.equalsIgnoreCase( "OK" ) && label2.equalsIgnoreCase( "OK" )
-				&& !label4.equalsIgnoreCase( "BAD" );
-
-			getCommandButton().setEnabled( enabled );
-		}
-
-		public void insertUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-
-		public void removeUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-	}
-
-	public class ItemField6Listener
-		implements DocumentListener
-	{
-		public void changedUpdate( DocumentEvent e )
-		{
-			if ( getField( ITEM_FIELD_6 ).getText().equalsIgnoreCase( "" ) )
-			{
-				setLabel( ITEM_LABEL_6, "(optional)", "Message to display when no more can be done today." );
-			}
-			else
-			{
-				setLabel( ITEM_LABEL_6, "OK" );
-			}
-		}
-
-		public void insertUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-
-		public void removeUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-	}
-
-	public class ItemField5Listener
-		implements DocumentListener
-	{
-		public void changedUpdate( DocumentEvent e )
-		{
-			if ( getField( ITEM_FIELD_5 ).getText().equalsIgnoreCase( "" ) )
-			{
-				setLabel( ITEM_LABEL_5, "(optional)", "The tooltip when moused over." );
-			}
-			else
-			{
-				setLabel( ITEM_LABEL_5, "OK" );
-			}
-		}
-
-		public void insertUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-
-		public void removeUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-	}
-
-	public class ItemField4Listener
-		implements DocumentListener
-	{
-		public void changedUpdate( DocumentEvent e )
-		{
-			if ( getField( ITEM_FIELD_4 ).getText().equalsIgnoreCase( "" ) )
-			{
-				setLabel( ITEM_LABEL_4, "(optional)",
-					"Provide an integer to disable the button at.  The button will be enabled until the preference reaches this number." );
-			}
-			else
-			{
-				try
-				{
-					Integer.parseInt( getField( ITEM_FIELD_4 ).getText() );
-					setLabel( ITEM_LABEL_4, "OK" );
-				}
-				catch ( NumberFormatException exception )
-				{
-					setLabel( ITEM_LABEL_4, "BAD", "Integer only, please." );
-				}
-			}
-			String label1 = getLabel( ITEM_LABEL_1 ).getText();
-			String label2 = getLabel( ITEM_LABEL_2 ).getText();
-			String label3 = getLabel( ITEM_LABEL_3 ).getText();
-			String label4 = getLabel( ITEM_LABEL_4 ).getText();
-
-			boolean enabled = label1.equalsIgnoreCase( "OK" ) && label2.equalsIgnoreCase( "OK" )
-				&& ( label3.equalsIgnoreCase( "OK" ) || label3.equalsIgnoreCase( "(optional)" ) )
-				&& !label4.equalsIgnoreCase( "BAD" );
-
-			getItemButton().setEnabled( enabled );
-		}
-
-		public void insertUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-
-		public void removeUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-	}
-
-	public class ItemField2Listener
-		implements DocumentListener
-	{
-		public void changedUpdate( DocumentEvent e )
-		{
-
-			// check if deed is properly formed, update label, enable/disable add deeds button
-			if ( getField( ITEM_FIELD_2 ).getText().equalsIgnoreCase( "" ) )
-			{
-				setLabel( ITEM_LABEL_2, "required", "The preference that the button will track." );
-			}
-			else
-			{
-				setLabel( ITEM_LABEL_2, "OK" );
-			}
-
-			String label1 = getLabel( ITEM_LABEL_1 ).getText();
-			String label2 = getLabel( ITEM_LABEL_2 ).getText();
-			String label3 = getLabel( ITEM_LABEL_3 ).getText();
-			String label4 = getLabel( ITEM_LABEL_4 ).getText();
-
-			boolean enabled = label1.equalsIgnoreCase( "OK" ) && label2.equalsIgnoreCase( "OK" )
-				&& ( label3.equalsIgnoreCase( "OK" ) || label3.equalsIgnoreCase( "(optional)" ) )
-				&& !label4.equalsIgnoreCase( "BAD" );
-
-			getItemButton().setEnabled( enabled );
-		}
-
-		public void insertUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-
-		public void removeUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-	}
-
-	public class ItemField1Listener
-		implements DocumentListener
-	{
-		boolean isBool;
-		boolean isInteger;
-
-		public void changedUpdate( DocumentEvent arg0 )
-		{
-			boolean field1empty = getField( ITEM_FIELD_1 ).getText().equalsIgnoreCase( "" );
-			boolean field3empty = getField( ITEM_FIELD_3 ).getText().equalsIgnoreCase( "" );
-			boolean field1matching = ItemDatabase.getItemId( getField( ITEM_FIELD_1 ).getText() ) != -1;
-			boolean field3matching = ItemDatabase
-				.getItemId( getField( ITEM_FIELD_3 ).getText().split( ";" )[ 0 ] ) != -1;
-
-			/*
-			 * Since the states of field 1 and field 3 depend on each other, set the states of both
-			 * whenever one of the fields is changed.
-			 *
-			 * State 1: displayText empty, item empty = [ required, (optional) ]
-			 * State 2: displayText non-matching, item empty = [ (need item), required ]
-			 * State 3: displayText matching, item empty = [ OK, (optional) ]
-			 * State 4: displayText empty, item non-matching = [ required, BAD ]
-			 * State 5: displayText empty, item matching = [ required, OK ]
-			 * State 6: displayText non-empty, item non-matching = [ OK, BAD ]
-			 * State 7: displayText non-empty, item matching = [ OK, OK ]
-			 *
-			 * To enable the button, we check that label 1 is OK and label 3 not BAD
-			 */
-
-			/* State 1 */
-			if ( field1empty && field3empty )
-			{
-				setLabel( ITEM_LABEL_1, "required", "The text to display on the button." );
-				setLabel( ITEM_LABEL_3, "(optional)",
-					"If an item is not specified, defaults to displayText.  Uses fuzzy matching." );
-
-			}
-			/* State 2 */
-			else if ( !field1matching && field3empty )
-			{
-				setLabel( ITEM_LABEL_1, "(need item)",
-					"The display text does not match an item, so you need to specify one under item:" );
-				setLabel( ITEM_LABEL_3, "required",
-					"The display text does not match an item, so you need to specify one." );
-			}
-			/* State 3 */
-			else if ( field1matching && field3empty )
-			{
-				setLabel(
-					ITEM_LABEL_1,
-					"OK",
-					"Display text matches item: "
-						+ ItemDatabase.getItemName( ItemDatabase.getItemId( getField(
-							ITEM_FIELD_1 ).getText() ) ) );
-				setLabel( ITEM_LABEL_3, "(optional)",
-					"If an item is not specified, defaults to displayText.  Uses fuzzy matching." );
-			}
-			/* State 4 */
-			else if ( field1empty && !field3matching )
-			{
-				setLabel( ITEM_LABEL_1, "required", "The text to display on the button." );
-				setLabel( ITEM_LABEL_3, "BAD",
-					"Could not find a matching item for: " + getField( ITEM_FIELD_3 ).getText() );
-			}
-			/* State 5 */
-			else if ( field1empty && field3matching )
-			{
-				setLabel( ITEM_LABEL_1, "required", "You still need to specify the text to display." );
-				setLabel(
-					ITEM_LABEL_3,
-					"OK",
-					"Matching item found: "
-						+ ItemDatabase.getItemName( ItemDatabase.getItemId( getField(
-							ITEM_FIELD_3 ).getText() ) ) );
-			}
-			/* State 6 */
-			else if ( !field1empty && !field3matching )
-			{
-				setLabel( ITEM_LABEL_1, "OK" );
-				setLabel( ITEM_LABEL_3, "BAD",
-					"Could not find a matching item for: " + getField( ITEM_FIELD_3 ).getText() );
-			}
-			/* State 7 */
-			else if ( !field1empty && field3matching )
-			{
-				setLabel( ITEM_LABEL_1, "OK" );
-				setLabel(
-					ITEM_LABEL_3,
-					"OK",
-					"Matching item found: "
-						+ ItemDatabase.getItemName( ItemDatabase.getItemId( getField(
-							ITEM_FIELD_3 ).getText() ) ) );
-			}
-
-			String label1 = getLabel( ITEM_LABEL_1 ).getText();
-			String label2 = getLabel( ITEM_LABEL_2 ).getText();
-			String label3 = getLabel( ITEM_LABEL_3 ).getText();
-			String label4 = getLabel( ITEM_LABEL_4 ).getText();
-
-			boolean enabled = label1.equalsIgnoreCase( "OK" ) && label2.equalsIgnoreCase( "OK" )
-				&& ( label3.equalsIgnoreCase( "OK" ) || label3.equalsIgnoreCase( "(optional)" ) )
-				&& !label4.equalsIgnoreCase( "BAD" );
-
-			getItemButton().setEnabled( enabled );
-
-		}
-
-		public void insertUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-
-		public void removeUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-	}
-
-	public class SkillField6Listener
-		implements DocumentListener
-	{
-		public void changedUpdate( DocumentEvent e )
-		{
-			if ( getField( SKILL_FIELD_6 ).getText().equalsIgnoreCase( "" ) )
-			{
-				setLabel( SKILL_LABEL_6, "(optional)", "Message to display when no more can be done today." );
-			}
-			else
-			{
-				setLabel( SKILL_LABEL_6, "OK" );
-			}
-		}
-
-		public void insertUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-
-		public void removeUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-	}
-
-	public class SkillField5Listener
-		implements DocumentListener
-	{
-		public void changedUpdate( DocumentEvent e )
-		{
-			if ( getField( SKILL_FIELD_5 ).getText().equalsIgnoreCase( "" ) )
-			{
-				setLabel( SKILL_LABEL_5, "(optional)", "The tooltip when moused over." );
-			}
-			else
-			{
-				setLabel( SKILL_LABEL_5, "OK" );
-			}
-		}
-
-		public void insertUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-
-		public void removeUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-	}
-
-	public class SkillField4Listener
-		implements DocumentListener
-	{
-		public void changedUpdate( DocumentEvent e )
-		{
-			if ( getField( SKILL_FIELD_4 ).getText().equalsIgnoreCase( "" ) )
-			{
-				setLabel( SKILL_LABEL_4, "(optional)",
-					"Provide an integer to disable the button at.  The button will be enabled until the preference reaches this number." );
-			}
-			else
-			{
-				try
-				{
-					Integer.parseInt( getField( SKILL_FIELD_4 ).getText() );
-					setLabel( SKILL_LABEL_4, "OK" );
-				}
-				catch ( NumberFormatException exception )
-				{
-					setLabel( SKILL_LABEL_4, "BAD", "Integer only, please." );
-				}
-			}
-			String label1 = getLabel( SKILL_LABEL_1 ).getText();
-			String label2 = getLabel( SKILL_LABEL_2 ).getText();
-			String label3 = getLabel( SKILL_LABEL_3 ).getText();
-			String label4 = getLabel( SKILL_LABEL_4 ).getText();
-
-			boolean enabled = label1.equalsIgnoreCase( "OK" ) && label2.equalsIgnoreCase( "OK" )
-				&& ( label3.equalsIgnoreCase( "OK" ) || label3.equalsIgnoreCase( "(optional)" ) )
-				&& !label4.equalsIgnoreCase( "BAD" );
-
-			getSkillButton().setEnabled( enabled );
-		}
-
-		public void insertUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-
-		public void removeUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-	}
-
-	public class SkillField2Listener
-		implements DocumentListener
-	{
-		public void changedUpdate( DocumentEvent e )
-		{
-			if ( getField( SKILL_FIELD_2 ).getText().equalsIgnoreCase( "" ) )
-			{
-				setLabel( SKILL_LABEL_2, "required", "The preference that the button will track." );
-			}
-			else
-			{
-				setLabel( SKILL_LABEL_2, "OK" );
-			}
-
-			String label1 = getLabel( SKILL_LABEL_1 ).getText();
-			String label2 = getLabel( SKILL_LABEL_2 ).getText();
-			String label3 = getLabel( SKILL_LABEL_3 ).getText();
-			String label4 = getLabel( SKILL_LABEL_4 ).getText();
-
-			boolean enabled = label1.equalsIgnoreCase( "OK" ) && label2.equalsIgnoreCase( "OK" )
-				&& ( label3.equalsIgnoreCase( "OK" ) || label3.equalsIgnoreCase( "(optional)" ) )
-				&& !label4.equalsIgnoreCase( "BAD" );
-
-			getSkillButton().setEnabled( enabled );
-		}
-
-		public void insertUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-
-		public void removeUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-	}
-
-	public class SkillField1Listener
-		implements DocumentListener
-	{
-		public void changedUpdate( DocumentEvent e )
-		{
-			boolean field1empty = getField( SKILL_FIELD_1 ).getText().equalsIgnoreCase( "" );
-			boolean field3empty = getField( SKILL_FIELD_3 ).getText().equalsIgnoreCase( "" );
-			boolean field1matching = SkillDatabase.getMatchingNames( getField( SKILL_FIELD_1 ).getText() )
-				.size() == 1;
-			boolean field3matching = SkillDatabase.getMatchingNames( getField( SKILL_FIELD_3 ).getText() )
-				.size() == 1;
-
-			/*
-			 * Since the states of field 1 and field 3 depend on each other, set the states of both
-			 * whenever one of the fields is changed.
-			 *
-			 * State 1: displayText empty, skill empty = [ required, (optional) ]
-			 * State 2: displayText non-matching, skill empty = [ (need skill), required ]
-			 * State 3: displayText matching, skill empty = [ OK, (optional) ]
-			 * State 4: displayText empty, skill non-matching = [ required, BAD ]
-			 * State 5: displayText empty, skill matching = [ required, OK ]
-			 * State 6: displayText non-empty, skill non-matching = [ OK, BAD ]
-			 * State 7: displayText non-empty, skill matching = [ OK, OK ]
-			 *
-			 * To enable the button, we check that label 1 is OK and label 3 not BAD
-			 */
-
-			/* State 1 */
-			if ( field1empty && field3empty )
-			{
-				setLabel( SKILL_LABEL_1, "required", "The text to display on the button." );
-				setLabel( SKILL_LABEL_3, "(optional)",
-					"If an skill is not specified, defaults to displayText.  Uses fuzzy matching." );
-			}
-
-			/* State 2 */
-			else if ( !field1matching && field3empty )
-			{
-				setLabel( SKILL_LABEL_1, "(need skill)",
-					"The display text does not match a skill, so you need to specify one under skill:" );
-				setLabel( SKILL_LABEL_3, "required",
-					"The display text does not match a skill, so you need to specify one." );
-			}
-
-			/* State 3 */
-			else if ( field1matching && field3empty )
-			{
-				setLabel( SKILL_LABEL_1, "OK", "Display text matches skill: "
-					+ SkillDatabase.getMatchingNames( getField( SKILL_FIELD_1 ).getText() ).get( 0 ) );
-				setLabel( SKILL_LABEL_3, "(optional)",
-					"The display text matches a skill, so you don't need to specify one here." );
-			}
-
-			/* State 4 */
-			else if ( field1empty && !field3matching )
-			{
-				setLabel( SKILL_LABEL_1, "required", "The text to display on the button." );
-				setLabel( SKILL_LABEL_3, "BAD",
-					"Could not find a matching skill for: " + getField( SKILL_FIELD_3 ).getText() );
-			}
-
-			/* State 5 */
-			else if ( field1empty && field3matching )
-			{
-				setLabel( SKILL_LABEL_1, "required", "You still need to specify the text to display." );
-				setLabel( SKILL_LABEL_3, "OK", "Matching skill found: "
-					+ SkillDatabase.getMatchingNames( getField( SKILL_FIELD_3 ).getText() ).get( 0 ) );
-			}
-
-			/* State 6 */
-			else if ( !field1empty && !field3matching )
-			{
-				setLabel( SKILL_LABEL_1, "OK" );
-				setLabel( SKILL_LABEL_3, "BAD",
-					"Could not find a matching skill for: " + getField( SKILL_FIELD_3 ).getText() );
-			}
-
-			/* State 7 */
-			else if ( !field1empty && field3matching )
-			{
-				setLabel( SKILL_LABEL_1, "OK" );
-				setLabel( SKILL_LABEL_3, "OK", "Matching skill found: "
-					+ SkillDatabase.getMatchingNames( getField( SKILL_FIELD_3 ).getText() ).get( 0 ) );
-			}
-
-			String label1 = getLabel( SKILL_LABEL_1 ).getText();
-			String label2 = getLabel( SKILL_LABEL_2 ).getText();
-			String label3 = getLabel( SKILL_LABEL_3 ).getText();
-			String label4 = getLabel( SKILL_LABEL_4 ).getText();
-
-			boolean enabled = label1.equalsIgnoreCase( "OK" ) && label2.equalsIgnoreCase( "OK" )
-				&& ( label3.equalsIgnoreCase( "OK" ) || label3.equalsIgnoreCase( "(optional)" ) )
-				&& !label4.equalsIgnoreCase( "BAD" );
-
-			getSkillButton().setEnabled( enabled );
-		}
-
-		public void insertUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-
-		public void removeUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-	}
-
-	public class TextFieldListener
-		implements DocumentListener
-	{
-		public void changedUpdate( DocumentEvent e )
-		{
-			if ( getField( TEXT_FIELD ).getText().equalsIgnoreCase( "" ) )
-			{
-				getAddTextButton().setEnabled( false );
-			}
-			else
-			{
-				getAddTextButton().setEnabled( true );
-			}
-		}
-
-		public void insertUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-
-		public void removeUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-	}
-
-	public class SkillActionRunnable
-		implements Runnable
-	{
-		public void run()
-		{
-			String display = getField( SKILL_FIELD_1 ).getText();
-			String pref = getField( SKILL_FIELD_2 ).getText();
-			String skill = getField( SKILL_FIELD_3 ).getText();
-			String maxCasts = getField( SKILL_FIELD_4 ).getText();
-			String tooltip = getField( SKILL_FIELD_5 ).getText();
-			String compMessage = getField( SKILL_FIELD_6 ).getText();
-
-			String deed = "$CUSTOM|Skill|" + display + "|" + pref + "|" + skill + "|" + maxCasts + "|" + tooltip + "|" + compMessage;
-
-			String oldString = Preferences.getString( "dailyDeedsOptions" );
-			Preferences.setString( "dailyDeedsOptions", oldString + "," + deed );
-
-			RequestLogger.printLine( "Custom deed added: " + deed );
-
-			getSkillButton().setEnabled( false );
-		}
-	}
-
-	public class ItemPrefRunnable
-		implements Runnable
-	{
-		public void run()
-		{
-			String display = getField( ITEM_FIELD_1 ).getText();
-			String pref = getField( ITEM_FIELD_2 ).getText();
-			String item = getField( ITEM_FIELD_3 ).getText();
-			String maxUses = getField( ITEM_FIELD_4 ).getText();
-			String tooltip = getField( ITEM_FIELD_5 ).getText();
-			String compMessage = getField( ITEM_FIELD_6 ).getText();
-
-			String deed = "$CUSTOM|Item|" + display + "|" + pref + "|" + item + "|" + maxUses + "|" + tooltip + "|" + compMessage;
-
-			String oldString = Preferences.getString( "dailyDeedsOptions" );
-			Preferences.setString( "dailyDeedsOptions", oldString + "," + deed );
-
-			RequestLogger.printLine( "Custom deed added: " + deed );
-			getItemButton().setEnabled( false );
-		}
-	}
-
-	private class SimpleField5Listener
-		implements DocumentListener
-	{
-		public void changedUpdate( DocumentEvent arg0 )
-		{
-			if ( getField( SIMPLE_FIELD_5 ).getText().equalsIgnoreCase( "" ) )
-			{
-				setLabel( SIMPLE_LABEL_5, "(optional)", "Message to display when no more can be done today." );
-			}
-			else
-			{
-				setLabel( SIMPLE_LABEL_5, "OK" );
-			}
-		}
-
-		public void insertUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-
-		public void removeUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-	}
-
-	private class SimpleField4Listener
-		implements DocumentListener
-	{
-		public void changedUpdate( DocumentEvent arg0 )
-		{
-			if ( getField( SIMPLE_FIELD_4 ).getText().equalsIgnoreCase( "" ) )
-			{
-				setLabel( SIMPLE_LABEL_4, "(optional)", "The tooltip when moused over.." );
-			}
-			else
-			{
-				setLabel( SIMPLE_LABEL_4, "OK" );
-			}
-		}
-
-		public void insertUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-
-		public void removeUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-	}
-
-	private class SimpleField3Listener
-		implements DocumentListener
-	{
-		public void changedUpdate( DocumentEvent e )
-		{
-			if ( getField( SIMPLE_FIELD_3 ).getText().equalsIgnoreCase( "" ) )
-			{
-				setLabel( SIMPLE_LABEL_3, "(optional)",
-					"Provide an integer to disable the button at.  The button will be enabled until the preference reaches this number." );
-			}
-			else
-			{
-				try
-				{
-					Integer.parseInt( getField( SIMPLE_FIELD_3 ).getText() );
-					setLabel( SIMPLE_LABEL_3, "OK" );
-				}
-				catch ( NumberFormatException exception )
-				{
-					setLabel( SIMPLE_LABEL_3, "BAD", "Integer only, please." );
-				}
-			}
-			String label1 = getLabel( SIMPLE_LABEL_1 ).getText();
-			String label3 = getLabel( SIMPLE_LABEL_3 ).getText();
-
-			boolean enabled = label1.equalsIgnoreCase( "OK" ) 
-				&& !label3.equalsIgnoreCase( "BAD" );
-
-			getSimpleButton().setEnabled( enabled );
-		}
-
-		public void insertUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-
-		public void removeUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-	}
-
-	private class SimpleField2Listener
-		implements DocumentListener
-	{
-		public void changedUpdate( DocumentEvent arg0 )
-		{
-			if ( getField( SIMPLE_FIELD_2 ).getText().equalsIgnoreCase( "" ) )
-			{
-				setLabel( SIMPLE_LABEL_2, "(optional)",
-					"The command that the button will execute." );
-			}
-			else
-			{
-				setLabel( SIMPLE_LABEL_2, "OK" );
-			}
-		}
-
-		public void insertUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-
-		public void removeUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-	}
-
-	private class SimpleField1Listener
-		implements DocumentListener
-	{
-		public void changedUpdate( DocumentEvent e )
-		{
-			if ( getField( SIMPLE_FIELD_1 ).getText().equalsIgnoreCase( "" ) )
-			{
-				setLabel( SIMPLE_LABEL_1, "required", "The text to display on the button." );
-			}
-			else
-			{
-				setLabel( SIMPLE_LABEL_1, "OK" );
-			}
-			String label1 = getLabel( SIMPLE_LABEL_1 ).getText();
-			String label3 = getLabel( SIMPLE_LABEL_3 ).getText();
-
-			boolean enabled = label1.equalsIgnoreCase( "OK" ) 
-				&& !label3.equalsIgnoreCase( "BAD" );
-
-			getSimpleButton().setEnabled( enabled );
-		}
-
-		public void insertUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-
-		public void removeUpdate( DocumentEvent e )
-		{
-			changedUpdate( e );
-		}
-	}
-
-	public class CommandActionRunnable
-		implements Runnable
-	{
-		public void run()
-		{
-			String display = getField( COMMAND_FIELD_1 ).getText();
-			String pref = getField( COMMAND_FIELD_2 ).getText();
-			String command = getField( COMMAND_FIELD_3 ).getText();
-			String maxUses = getField( COMMAND_FIELD_4 ).getText();
-			String toolTip = getField( COMMAND_FIELD_5 ).getText();
-			String compMessage = getField( COMMAND_FIELD_6 ).getText();
-
-			String deed = "$CUSTOM|Command|" + display + "|" + pref + "|" + command + "|" + maxUses + "|" + toolTip + "|" + compMessage;
-
-			String oldString = Preferences.getString( "dailyDeedsOptions" );
-			Preferences.setString( "dailyDeedsOptions", oldString + "," + deed );
-
-			RequestLogger.printLine( "Custom deed added: " + deed );
-			getCommandButton().setEnabled( false );
-		}
-	}
-
-	public class RemoveLastTextRunnable
-		implements Runnable
-	{
-		public void run()
-		{
-			String piece;
-			ArrayList buffer = getTextDeed();
-			String display = "";
-
-			buffer.remove( buffer.size() - 1 );
-
-			for ( int i = 0; i < buffer.size(); ++i )
-			{
-				piece = (String) buffer.get( i );
-				piece = piece.replaceAll( "\\|", "" );
-
-				if ( Preferences.getString( piece ).equals( "" ) )
-				{
-					display += piece;
+					resetLabel( this.fieldIndex );
 				}
 				else
 				{
-					display += Preferences.getString( piece );
+					label.setText( "OK" );
+					label.setToolTipText( null );
+
+					if ( this.isIntegerField )
+					{
+						try
+						{
+							Integer.parseInt( fieldText );
+						}
+						catch ( NumberFormatException exception )
+						{
+							label.setText( "BAD" );
+							label.setToolTipText( "Integer only, please." );
+						}
+					}
 				}
+
+				updateButton();
 			}
 
-			display = display.replaceAll( "\\|", "" );
-			getTextArea().setText( display );
-			if ( buffer.size() == 0 )
+			public void insertUpdate( DocumentEvent e )
 			{
-				getTextDeedButton().setEnabled( false );
+				changedUpdate( e );
+			}
+
+			public void removeUpdate( DocumentEvent e )
+			{
+				changedUpdate( e );
+			}
+
+			public void updateButton()
+			{
+				boolean enableButton = true;
+
+				for ( JLabel label : CustomDeedConstructor.this.labels )
+				{
+					String text = label.getText();
+					enableButton &= text == "OK" || text == "(optional)";
+				}
+
+				CustomDeedConstructor.this.button.setEnabled( enableButton );
+			}
+
+			protected void setLabel( int labelIndex, String labelText )
+			{
+				setLabel( labelIndex, labelText, null );
+			}
+
+			protected void setLabel( int labelIndex, String labelText, String tip )
+			{
+				JLabel label = CustomDeedConstructor.this.labels[ labelIndex ];
+				label.setText( labelText );
+				label.setToolTipText( tip );
+			}
+
+			protected void resetLabel( int labelIndex )
+			{
+				setLabel( labelIndex,
+					CustomDeedConstructor.this.defaultLabels[ labelIndex ],
+					CustomDeedConstructor.this.defaultTooltips[ labelIndex ] );
+			}
+		}
+
+		public class CustomActionRunnable
+			implements Runnable
+		{
+			public void run()
+			{
+				String deed = "$CUSTOM|" + CustomDeedConstructor.this.kind;
+
+				for ( JTextField field : CustomDeedConstructor.this.fields )
+				{
+					deed += "|" + field.getText().replaceAll( ",", ",|" );
+				}
+
+				this.submitNewDeed( deed );
+			}
+
+			public void submitNewDeed( String deed )
+			{
+				String oldString = Preferences.getString( "dailyDeedsOptions" );
+				Preferences.setString( "dailyDeedsOptions", oldString + "," + deed );
+
+				RequestLogger.printLine( "Custom deed added: " + deed );
+				CustomDeedConstructor.this.button.setEnabled( false );
 			}
 		}
 	}
 
-	public class AddTextRunnable
-		implements Runnable
+	private class SimpleDeedConstructor
+		extends CustomDeedConstructor
 	{
-		public void run()
+		public SimpleDeedConstructor()
 		{
-			String piece;
-			ArrayList buffer = getTextDeed();
+			super( "Simple", 5 );
+
+			this.button = new ThreadedButton( "add deed", new CustomActionRunnable() );
+
+			this.setFieldNames( new String[] {
+				"displayText:",
+				"command:",
+				"maxUses:",
+				"toolTip:",
+				"compMessage:" } );
+			this.setFields();
+			this.setLabels( 1, new String[] {
+				"The text to display on the button.",
+				"The command that the button will execute.",
+				"<html>Provide an integer to disable the button at.<br>The button will be enabled until the preference reaches this number.</html>",
+				"The tooltip when moused over.",
+				"Message to display when no more can be done today." } );
+			this.setBottom();
+
+			this.fields[ 0 ].getDocument().addDocumentListener( new FieldListener( 0 ) );
+			this.fields[ 1 ].getDocument().addDocumentListener( new FieldListener( 1 ) );
+			this.fields[ 2 ].getDocument().addDocumentListener( new FieldListener( 2, true ) );
+			this.fields[ 3 ].getDocument().addDocumentListener( new FieldListener( 3 ) );
+			this.fields[ 4 ].getDocument().addDocumentListener( new FieldListener( 4 ) );
+
+			this.addToSelector();
+		}
+	}
+
+	private class CommandDeedConstructor
+		extends CustomDeedConstructor
+	{
+		public CommandDeedConstructor()
+		{
+			super( "Command", 6 );
+
+			this.button = new ThreadedButton( "add deed", new CustomActionRunnable() );
+
+			this.setFieldNames( new String[] {
+				"displayText:",
+				"preference:",
+				"command:",
+				"maxUses:",
+				"toolTip:",
+				"compMessage:" } );
+			this.setFields();
+			this.setLabels( 2, new String[] {
+				"The text to display on the button.",
+				"The preference that the button will track.",
+				"The command that the button will execute.",
+				"<html>Provide an integer to disable the button at.<br>The button will be enabled until the preference reaches this number.</html>",
+				"The tooltip when moused over.",
+				"Message to display when no more can be done today." } );
+			this.setBottom();
+
+			this.fields[ 0 ].getDocument().addDocumentListener( new FieldListener( 0 ) );
+			this.fields[ 1 ].getDocument().addDocumentListener( new FieldListener( 1 ) );
+			this.fields[ 2 ].getDocument().addDocumentListener( new FieldListener( 2 ) );
+			this.fields[ 3 ].getDocument().addDocumentListener( new FieldListener( 3, true ) );
+			this.fields[ 4 ].getDocument().addDocumentListener( new FieldListener( 4 ) );
+			this.fields[ 5 ].getDocument().addDocumentListener( new FieldListener( 5 ) );
+
+			this.addToSelector();
+		}
+	}
+
+	private class ItemDeedConstructor
+		extends CustomDeedConstructor
+	{
+		public ItemDeedConstructor()
+		{
+			super( "Item", 6 );
+
+			this.button = new ThreadedButton( "add deed", new CustomActionRunnable() );
+
+			this.setFieldNames( new String[] {
+				"displayText:",
+				"preference:",
+				"item:",
+				"maxUses:",
+				"toolTip:",
+				"compMessage:" } );
+			this.setFields();
+			this.setLabels( 2, new String[] {
+				"The text to display on the button.",
+				"The preference that the button will track.",
+				"<html>If an item is not specified, defaults to displayText.  Uses fuzzy matching.<br>Can add arbitrary GCLI commands by following the item name with a semi-colon.</html>",
+				"<html>Provide an integer to disable the button at.<br>The button will be enabled until the preference reaches this number.</html>",
+				"The tooltip when moused over.",
+				"Message to display when no more can be done today." } );
+			this.setBottom();
+
+			this.fields[ 0 ].getDocument().addDocumentListener( new ItemSpecificListener( 0 ) );
+			this.fields[ 1 ].getDocument().addDocumentListener( new FieldListener( 1 ) );
+			this.fields[ 2 ].getDocument().addDocumentListener( new ItemSpecificListener( 2 ) );
+			this.fields[ 3 ].getDocument().addDocumentListener( new FieldListener( 3, true ) );
+			this.fields[ 4 ].getDocument().addDocumentListener( new FieldListener( 4 ) );
+			this.fields[ 5 ].getDocument().addDocumentListener( new FieldListener( 5 ) );
+
+			this.addToSelector();
+		}
+
+		private class ItemSpecificListener
+			extends FieldListener
+		{
+			public ItemSpecificListener( int fieldIndex )
+			{
+				super( fieldIndex );
+			}
+			
+			@Override
+			public void changedUpdate( DocumentEvent e )
+			{
+				String field0 = ItemDeedConstructor.this.fields[ 0 ].getText();
+				String field2 = ItemDeedConstructor.this.fields[ 2 ].getText();
+
+				boolean field0empty = field0.isEmpty();
+				boolean field2empty = field2.isEmpty();
+				String[] field2split = field2.split( ";", 2 );
+				int field0matchID = ItemDatabase.getItemId( field0 );
+				int field2matchID = ItemDatabase.getItemId( field2split[ 0 ] );
+				String field2command = field2split.length > 1 ? field2split[ 1 ] : "";
+				boolean field0matching = field0matchID != -1;
+				boolean field2matching = field2matchID != -1;
+				String field0matchItem = ItemDatabase.getItemName( field0matchID );
+				String field2matchItem = ItemDatabase.getItemName( field2matchID );
+
+				/*
+				 * Since the states of field 0 and field 2 depend on each other, set the states of both
+				 * whenever one of the fields is changed.
+				 *
+				 * State 1: displayText empty, item empty = [ required, (optional) ]
+				 * State 2: displayText non-matching, item empty = [ (need item), required ]
+				 * State 3: displayText matching, item empty = [ OK, (optional) ]
+				 * State 4: displayText empty, item non-matching = [ required, BAD ]
+				 * State 5: displayText empty, item matching = [ required, OK ]
+				 * State 6: displayText non-empty, item non-matching = [ OK, BAD ]
+				 * State 7: displayText non-empty, item matching = [ OK, OK ]
+				 */
+
+				/* State 1 */
+				if ( field0empty && field2empty )
+				{
+					this.resetLabel( 0 );
+					this.resetLabel( 2 );
+				}
+
+				/* State 2 */
+				else if ( !field0matching && field2empty )
+				{
+					this.setLabel( 0, "(need item)",
+						"The display text does not match an item, so you need to specify one under item:" );
+					this.setLabel( 2, "required",
+						"The display text does not match an item, so you need to specify one." );
+				}
+
+				/* State 3 */
+				else if ( field0matching && field2empty )
+				{
+					this.setLabel( 0, "OK", "Display text matches item: " + field0matchItem );
+					this.setLabel( 2, "(optional)",
+						"The display text matches an item, so you don't need to specify one here." );
+				}
+
+				/* State 4 */
+				else if ( field0empty && !field2matching )
+				{
+					this.resetLabel( 0 );
+					this.setLabel( 2, "BAD",
+						"Could not find a matching item for: " + field2split[ 0 ] );
+				}
+
+				/* State 5 */
+				else if ( field0empty && field2matching )
+				{
+					String tooltipText = field2command != ""
+						? "<html>Command will be: &nbsp; &nbsp; use " + field2matchItem
+							+ "<br>Followed by: &nbsp; &nbsp; " + field2command + "</html>"
+						: "Matching item found: " + field2matchItem;
+
+					this.setLabel( 0, "required", "You still need to specify the text to display." );
+					this.setLabel( 2, "OK", tooltipText );
+				}
+
+				/* State 6 */
+				else if ( !field0empty && !field2matching )
+				{
+					this.setLabel( 0, "OK" );
+					this.setLabel( 2, "BAD",
+						"Could not find a matching item for: " + field2split[ 0 ] );
+				}
+
+				/* State 7 */
+				else if ( !field0empty && field2matching )
+				{
+					String tooltipText = field2command != ""
+						? "<html>Command will be: &nbsp; &nbsp; use " + field2matchItem
+							+ "<br>Followed by: &nbsp; &nbsp; " + field2command + "</html>"
+						: "Matching item found: " + field2matchItem;
+
+					this.setLabel( 0, "OK" );
+					this.setLabel( 2, "OK", tooltipText );
+				}
+
+				updateButton();
+			}
+		}
+	}
+
+	private class SkillDeedConstructor
+		extends CustomDeedConstructor
+	{
+		public SkillDeedConstructor()
+		{
+			super( "Skill", 6 );
+
+			this.button = new ThreadedButton( "add deed", new CustomActionRunnable() );
+
+			this.setFieldNames( new String[] {
+				"displayText:",
+				"preference:",
+				"skill:",
+				"maxCasts:",
+				"toolTip:",
+				"compMessage:" } );
+			this.setFields();
+			this.setLabels( 2, new String[] {
+				"The text to display on the button.",
+				"The preference that the button will track.",
+				"The skill that the button will cast.",
+				"<html>Provide an integer to disable the button at.<br>The button will be enabled until the preference reaches this number.</html>",
+				"The tooltip when moused over.",
+				"Message to display when no more can be done today." } );
+			this.setBottom();
+
+			this.fields[ 0 ].getDocument().addDocumentListener( new SkillSpecificListener( 0 ) );
+			this.fields[ 1 ].getDocument().addDocumentListener( new FieldListener( 1 ) );
+			this.fields[ 2 ].getDocument().addDocumentListener( new SkillSpecificListener( 2 ) );
+			this.fields[ 3 ].getDocument().addDocumentListener( new FieldListener( 3, true ) );
+			this.fields[ 4 ].getDocument().addDocumentListener( new FieldListener( 4 ) );
+			this.fields[ 5 ].getDocument().addDocumentListener( new FieldListener( 5 ) );
+
+			this.addToSelector();
+		}
+
+		private class SkillSpecificListener
+			extends FieldListener
+		{
+			public SkillSpecificListener( int fieldIndex )
+			{
+				super( fieldIndex );
+			}
+			
+			@Override
+			public void changedUpdate( DocumentEvent e )
+			{
+				String field0 = SkillDeedConstructor.this.fields[ 0 ].getText();
+				String field2 = SkillDeedConstructor.this.fields[ 2 ].getText();
+
+				boolean field0empty = field0.isEmpty();
+				boolean field2empty = field2.isEmpty();
+				List<String> field0matches = SkillDatabase.getMatchingNames( field0 );
+				List<String> field2matches = SkillDatabase.getMatchingNames( field2 );
+				boolean field0matching = field0matches.size() == 1;
+				boolean field2matching = field2matches.size() == 1;
+
+				/*
+				 * Since the states of field 0 and field 2 depend on each other, set the states of both
+				 * whenever one of the fields is changed.
+				 *
+				 * State 1: displayText empty, skill empty = [ required, (optional) ]
+				 * State 2: displayText non-matching, skill empty = [ (need skill), required ]
+				 * State 3: displayText matching, skill empty = [ OK, (optional) ]
+				 * State 4: displayText empty, skill non-matching = [ required, BAD ]
+				 * State 5: displayText empty, skill matching = [ required, OK ]
+				 * State 6: displayText non-empty, skill non-matching = [ OK, BAD ]
+				 * State 7: displayText non-empty, skill matching = [ OK, OK ]
+				 */
+
+				/* State 1 */
+				if ( field0empty && field2empty )
+				{
+					this.resetLabel( 0 );
+					this.resetLabel( 2 );
+				}
+
+				/* State 2 */
+				else if ( !field0matching && field2empty )
+				{
+					String badMatchText = field0matches.size() == 0
+						? "does not match a skill"
+						: "matches too many skills";
+
+					this.setLabel( 0, "(need skill)",
+						"The display text " + badMatchText + ", so you need to specify one under skill:" );
+					this.setLabel( 2, "required",
+						"The display text " + badMatchText + ", so you need to specify one." );
+				}
+
+				/* State 3 */
+				else if ( field0matching && field2empty )
+				{
+					this.setLabel( 0, "OK", "Display text matches skill: " + field0matches.get( 0 ) );
+					this.setLabel( 2, "(optional)",
+						"The display text matches a skill, so you don't need to specify one here." );
+				}
+
+				/* State 4 */
+				else if ( field0empty && !field2matching )
+				{
+					String badMatchText = field2matches.size() == 0
+						? "Could not find a matching skill"
+						: "Found too many matching skills";
+
+					this.resetLabel( 0 );
+					this.setLabel( 2, "BAD", badMatchText + " for: " + field2 );
+				}
+
+				/* State 5 */
+				else if ( field0empty && field2matching )
+				{
+					this.setLabel( 0, "required", "You still need to specify the text to display." );
+					this.setLabel( 2, "OK", "Matching skill found: " + field2matches.get( 0 ) );
+				}
+
+				/* State 6 */
+				else if ( !field0empty && !field2matching )
+				{
+					String badMatchText = field2matches.size() == 0
+						? "Could not find a matching skill"
+						: "Found too many matching skills";
+
+					this.setLabel( 0, "OK" );
+					this.setLabel( 2, "BAD", badMatchText + " for: " + field2 );
+				}
+
+				/* State 7 */
+				else if ( !field0empty && field2matching )
+				{
+					this.setLabel( 0, "OK" );
+					this.setLabel( 2, "OK", "Matching skill found: " + field2matches.get( 0 ) );
+				}
+
+				updateButton();
+			}
+		}
+	}
+
+	private class TextDeedConstructor
+		extends CustomDeedConstructor
+	{
+		protected JTextArea textArea;
+
+		protected ThreadedButton addTextButton;
+		protected ThreadedButton undoButton;
+		protected ThreadedButton clearButton;
+
+		protected final List<String> textDeed = new ArrayList<String>();
+
+		public TextDeedConstructor()
+		{
+			super( "Text", 1 );
+
+			this.button = new ThreadedButton( "add deed", new TextActionRunnable() );
+
+			this.addTextArea();
+			this.setFields();
+
+			this.addTextButton = new ThreadedButton( "add text", new AddTextRunnable() );
+			this.undoButton = new ThreadedButton( "undo", new RemoveLastTextRunnable() );
+			this.clearButton = new ThreadedButton( "clear", new ClearTextRunnable() );
+
+			this.setBottom( 5 );
+			this.addSideButtons();
+
+			this.fields[ 0 ].getDocument().addDocumentListener( new TextSpecificListener( 0 ) );
+
+			this.addToSelector();
+		}
+
+		private void addTextArea()
+		{
+			this.textArea = new JTextArea();
+			this.textArea.setColumns( 10 );
+			this.textArea.setRows( 4 );
+			this.textArea.setMaximumSize( this.textArea.getPreferredSize() );
+			this.textArea.setBorder( BorderFactory.createLoweredBevelBorder() );
+			this.textArea.setLineWrap( true );
+			this.textArea.setWrapStyleWord( true );
+			this.textArea.setEditable( false );
+			this.textArea.setOpaque( false );
+			this.textArea.setFont( KoLGUIConstants.DEFAULT_FONT );
+
+			this.c.fill = GridBagConstraints.BOTH;
+			this.c.weightx = 1;
+			this.c.weighty = 1;
+			this.c.gridwidth = 1;
+			this.c.gridheight = 2;
+			this.c.anchor = GridBagConstraints.CENTER;
+			this.c.gridx = 1;
+			this.c.gridy = 2;
+			this.textPanel.add( new GenericScrollPane( this.textArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER ), this.c );
+		}
+
+		private void addSideButtons()
+		{
+			this.c.fill = GridBagConstraints.NONE;
+			this.c.weighty = 0.5;
+			this.c.gridwidth = 1;
+			this.c.gridheight = 1;
+			this.c.gridx = 2;
+
+			this.c.gridy = 1;
+			this.c.anchor = GridBagConstraints.WEST;
+			this.textPanel.add( this.addTextButton, this.c );
+			this.addTextButton.setEnabled( false );
+
+			this.c.gridy = 2;
+			this.c.anchor = GridBagConstraints.WEST;
+			this.textPanel.add( this.undoButton, this.c );
+			this.undoButton.setEnabled( false );
+
+			this.c.gridy = 3;
+			this.c.anchor = GridBagConstraints.NORTHWEST;
+			this.textPanel.add( this.clearButton, this.c );
+			this.clearButton.setEnabled( false );
+		}
+
+		public void buildTextArea()
+		{
 			String display = "";
 
-			if ( buffer.isEmpty() )
+			for ( String piece : this.textDeed )
 			{
-				buffer.add( getField( TEXT_FIELD ).getText().replaceAll( ",", ",|" ) );
-			}
-			else
-			{
-				buffer.add( "|" + getField( TEXT_FIELD ).getText().replaceAll( ",", ",|" ) );
-			}
-
-			for ( int i = 0; i < buffer.size(); ++i )
-			{
-				piece = (String) buffer.get( i );
-				String[] pieces = piece.split( "\\|" );
-
-				for ( int j = 0; j < pieces.length; ++j )
+				for ( String section : piece.split( "\\|" ) )
 				{
-					if ( pieces[ j ] == null || pieces[ j ].equals( "" ) )
+					if ( section == null || section.isEmpty() )
 					{
+						continue;
 					}
-					else if ( Preferences.getString( pieces[ j ] ).equals( "" ) )
+					else if ( Preferences.getString( section ).isEmpty() )
 					{
-						display += pieces[ j ];
+						display += section;
 					}
 					else
 					{
-						display += Preferences.getString( pieces[ j ] );
+						display += Preferences.getString( section );
 					}
 				}
 			}
 
-			getField( TEXT_FIELD ).setText( "" );
-			getTextArea().setText( display );
-			getAddTextButton().setEnabled( false );
-			getTextDeedButton().setEnabled( true );
+			boolean textAreaHasText = !this.textDeed.isEmpty();
+			this.button.setEnabled( textAreaHasText );
+			this.undoButton.setEnabled( textAreaHasText );
+			this.clearButton.setEnabled( textAreaHasText );
+
+			this.textArea.setText( display );
 		}
-	}
 
-	public class ClearTextRunnable
-		implements Runnable
-	{
-		public void run()
+		public class AddTextRunnable
+			extends CustomActionRunnable
 		{
-			getTextDeed().clear();
-			getTextArea().setText( "" );
-			getTextDeedButton().setEnabled( false );
-		}
-	}
-
-	public class TextActionRunnable
-		implements Runnable
-	{
-		public void run()
-		{
-			ArrayList buffer = getTextDeed();
-			String deed = "$CUSTOM|Text|";
-
-			for ( int i = 0; i < buffer.size(); ++i )
+			@Override
+			public void run()
 			{
-				deed += (String) buffer.get( i );
+				JTextField textField = TextDeedConstructor.this.fields[ 0 ];
+				String fieldText = textField.getText();
+				List<String> textDeed = TextDeedConstructor.this.textDeed;
+
+				textDeed.add( fieldText.replaceAll( ",", ",|" ) );
+
+				TextDeedConstructor.this.buildTextArea();
+
+				textField.setText( "" );
+				TextDeedConstructor.this.addTextButton.setEnabled( false );
+			}
+		}
+
+		public class RemoveLastTextRunnable
+			extends CustomActionRunnable
+		{
+			@Override
+			public void run()
+			{
+				List<String> textDeed = TextDeedConstructor.this.textDeed;
+
+				textDeed.remove( textDeed.size() - 1 );
+
+				TextDeedConstructor.this.buildTextArea();
+			}
+		}
+
+		public class ClearTextRunnable
+			extends CustomActionRunnable
+		{
+			@Override
+			public void run()
+			{
+				TextDeedConstructor.this.textDeed.clear();
+
+				TextDeedConstructor.this.buildTextArea();
+			}
+		}
+
+		private class TextActionRunnable
+			extends CustomActionRunnable
+		{
+			@Override
+			public void run()
+			{
+				List<String> textDeed = TextDeedConstructor.this.textDeed;
+				String deed = "$CUSTOM|" + TextDeedConstructor.this.kind + "|";
+
+				deed += String.join( "|", textDeed );
+
+				this.submitNewDeed( deed );
+				textDeed.clear();
+
+				TextDeedConstructor.this.buildTextArea();
+			}
+		}
+
+		private class TextSpecificListener
+			extends FieldListener
+		{
+			public TextSpecificListener( int fieldIndex )
+			{
+				super( fieldIndex );
 			}
 
-			String oldString = Preferences.getString( "dailyDeedsOptions" );
-			Preferences.setString( "dailyDeedsOptions", oldString + "," + deed );
+			@Override
+			public void changedUpdate( DocumentEvent e )
+			{
+				boolean enableAddTextButton = !TextDeedConstructor.this.fields[ 0 ].getText().isEmpty();
 
-			RequestLogger.printLine( "Custom deed added: " + deed );
-
-			getTextDeed().clear();
-			getTextArea().setText( "" );
-			getTextDeedButton().setEnabled( false );
+				SwingUtilities.invokeLater( () -> {
+					TextDeedConstructor.this.addTextButton.setEnabled( enableAddTextButton );
+				} );
+			}
 		}
-	}
-	
-	private class SimpleActionRunnable
-		implements Runnable
-	{
-		public void run()
-		{
-			String display = getField( SIMPLE_FIELD_1 ).getText();
-			String command = getField( SIMPLE_FIELD_2 ).getText();
-			String maxUses = getField( SIMPLE_FIELD_3 ).getText();
-			String tooltip = getField( SIMPLE_FIELD_4 ).getText();
-			String compMessage = getField( SIMPLE_FIELD_5 ).getText();
-
-			String deed = "$CUSTOM|Simple|" + display + "|" + command + "|" + maxUses + "|" + tooltip + "|" + compMessage;
-
-			String oldString = Preferences.getString( "dailyDeedsOptions" );
-			Preferences.setString( "dailyDeedsOptions", oldString + "," + deed );
-
-			RequestLogger.printLine( "Custom deed added: " + deed );
-			getSimpleButton().setEnabled( false );
-		}
-	}
-
-	public JTextField getField( int choice )
-	{
-		JTextField[] fields =
-		{
-			this.commandField1, this.commandField2, this.commandField3, this.commandField4, this.commandField5, this.commandField6,
-			this.itemField1, this.itemField2, this.itemField3, this.itemField4, this.itemField5, this.itemField6,
-			this.skillField1, this.skillField2, this.skillField3, this.skillField4, this.skillField5,  this.skillField6,
-			this.textField, this.simpleField1, this.simpleField2, this.simpleField3, this.simpleField4, this.simpleField5
-		};
-		return fields[ choice ];
-	}
-
-	public JLabel getLabel( int choice )
-	{
-		JLabel[] labels =
-		{
-			this.commandLabel1, this.commandLabel2, this.commandLabel3, this.commandLabel4, this.commandLabel5, this.commandLabel6,
-			this.itemLabel1, this.itemLabel2, this.itemLabel3, this.itemLabel4, this.itemLabel5, this.itemLabel6,
-			this.skillLabel1, this.skillLabel2, this.skillLabel3, this.skillLabel4, this.skillLabel5, this.skillLabel6,
-			this.simpleLabel1, this.simpleLabel2, this.simpleLabel3, this.simpleLabel4, this.simpleLabel5
-		};
-		return labels[ choice ];
-	}
-
-	public void setLabel( int choice, String label )
-	{
-		setLabel( choice, label, null );
-	}
-
-	public void setLabel( int choice, String label, String tip )
-	{
-		getLabel( choice ).setText( label );
-		getLabel( choice ).setToolTipText( tip );
-	}
-
-	public ThreadedButton getCommandButton()
-	{
-		return commandButton;
-	}
-
-	public ThreadedButton getItemButton()
-	{
-		return itemButton;
-	}
-
-	public ThreadedButton getSkillButton()
-	{
-		return skillButton;
-	}
-
-	public ThreadedButton getTextDeedButton()
-	{
-		return textDeedButton;
-	}
-
-	public ThreadedButton getAddTextButton()
-	{
-		return addTextButton;
-	}
-
-	public JTextArea getTextArea()
-	{
-		return textArea;
-	}
-
-	public ArrayList getTextDeed()
-	{
-		return textDeed;
-	}
-	
-	public ThreadedButton getSimpleButton()
-	{
-		return simpleButton;
 	}
 
 }

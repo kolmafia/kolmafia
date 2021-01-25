@@ -354,13 +354,15 @@ public class DailyDeedsPanel
 
 		if ( currentVersion < releaseVersion )
 		{
-			for ( int i = 0; i < BUILTIN_DEEDS.length; ++i )
+			for ( String[] builtinDeed : BUILTIN_DEEDS )
 			{
-				if ( getVersion( BUILTIN_DEEDS[ i ][ 1 ] ) > currentVersion )
+				String builtinDeedName = builtinDeed[ 1 ];
+
+				if ( getVersion( builtinDeedName ) > currentVersion )
 				{
 					String oldString = Preferences.getString( "dailyDeedsOptions" );
-					Preferences.setString( "dailyDeedsOptions", oldString + "," + BUILTIN_DEEDS[ i ][ 1 ] );
-					RequestLogger.printLine( "New deed found.  Adding " + BUILTIN_DEEDS[ i ][ 1 ] + " to the end of your deeds panel." );
+					Preferences.setString( "dailyDeedsOptions", oldString + "," + builtinDeedName );
+					RequestLogger.printLine( "New deed found.  Adding " + builtinDeedName + " to the end of your deeds panel." );
 				}
 			}
 			RequestLogger.printLine( "Deeds updated.  Now version " + releaseVersion + "." );
@@ -380,70 +382,69 @@ public class DailyDeedsPanel
 
 		int sCount = 0;
 
-		String[][] fullDeedsList = DailyDeedsPanel.BUILTIN_DEEDS;
 		String deedsString = Preferences.getString( "dailyDeedsOptions" );
 		// REGEX: splits deedsString by commas that are NOT immediately followed by a pipe.
 		// This is necessary to allow commas in custom text deeds.
 		String[] pieces = deedsString.split( ",(?!\\|)" );
 
-		// The i loop iterates over all of the elements in the dailyDeedsOptions preference.
-		for ( int i = 0; i < pieces.length; ++i )
+		// This loop iterates over all of the elements in the dailyDeedsOptions preference.
+		for ( String deed : pieces )
 		{
 			/*
-			 * The j loop iterates down the full list of deeds. Once it finds the deed in question, it
+			 * This loop iterates down the full list of built-in deeds. Once it finds the deed in question, it
 			 * checks what kind of deed we're handling. Currently there is generalized handling for BooleanPref,
 			 * BooleanItem, Multipref, Skill, and Text types; all the other built-ins are marked as Special and require
 			 * their own function in dailyDeedsPanel to handle.
 			 */
-			for ( int j = 0; j < fullDeedsList.length; ++j )
+			for ( String[] builtinDeed : DailyDeedsPanel.BUILTIN_DEEDS )
 			{
 				/*
 				 * Built-in handling
 				 */
-				if ( pieces[ i ].equals( fullDeedsList[ j ][ 1 ] ) )
+				if ( deed.equals( builtinDeed[ 1 ] ) )
 				{
 					/*
 					 * Generalized handling
 					 */
-					if ( fullDeedsList[ j ][ 0 ].equalsIgnoreCase( "Command" ) )
+					if ( builtinDeed[ 0 ].equalsIgnoreCase( "Command" ) )
 					{
-						parseCommandDeed( fullDeedsList[ j ] );
+						parseCommandDeed( builtinDeed );
 						break;
 					}
-					else if ( fullDeedsList[ j ][ 0 ].equalsIgnoreCase( "Item" ) )
+					else if ( builtinDeed[ 0 ].equalsIgnoreCase( "Item" ) )
 					{
-						parseItemDeed( fullDeedsList[ j ] );
+						parseItemDeed( builtinDeed );
 						break;
 					}
-					else if ( fullDeedsList[ j ][ 0 ].equalsIgnoreCase( "Skill" ) )
+					else if ( builtinDeed[ 0 ].equalsIgnoreCase( "Skill" ) )
 					{
-						parseSkillDeed( fullDeedsList[ j ] );
+						parseSkillDeed( builtinDeed );
 						break;
 					}
 
 					/*
 					 * Special Handling
 					 */
-					else if ( fullDeedsList[ j ][ 0 ].equalsIgnoreCase( "Special" ) )
+					else if ( builtinDeed[ 0 ].equalsIgnoreCase( "Special" ) )
 					{
-						parseSpecialDeed( fullDeedsList[ j ] );
+						parseSpecialDeed( builtinDeed );
 						break;
 					}
 
 					// we'll only get here if an unknown deed type was set in BUILTIN_DEEDS.
 					// Shouldn't happen.
 
-					RequestLogger.printLine( "Unknown deed type: " + fullDeedsList[ j ][ 0 ] );
+					RequestLogger.printLine( "Unknown deed type: " + builtinDeed[ 0 ] );
 					break;
 				}
 			}
 			/*
 			 * Custom handling
 			 */
-			if ( pieces[ i ].split( "\\|" )[ 0 ].equals( "$CUSTOM" )
-					&& pieces[ i ].split( "\\|" ).length > 1 )
+			if ( deed.startsWith( "$CUSTOM|" )
+					&& deed.split( "\\|" ).length > 1 )
 			{
-				String cString = pieces[ i ].substring( 8 );//remove $CUSTOM|
+				String cString = deed.substring( 8 );//remove $CUSTOM|
 				String[] customPieces = cString.split( "\\|" );
 
 				if ( customPieces[ 0 ].equalsIgnoreCase( "Command" ) )
