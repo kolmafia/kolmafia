@@ -16,16 +16,14 @@ the comparison against static data.
 public class ConcoctionTest {
 
     // Helper method to force normalize Concoction comparisons to [-1, 0, 1] before testing
-    private int sgn (int value)
-    {
+    private int sgn(int value) {
         return Integer.compare(value, 0);
     }
 
     // This test should never fail but may generate a error if data is introduced that is not
     // properly handled by the compareTo.
     @Test
-    public void itShouldSortUsables()
-    {
+    public void itShouldSortUsables() {
         LockableListModel<Concoction> usableList = ConcoctionDatabase.getUsables();
         int thing = usableList.getSize();
         usableList.sort();
@@ -35,8 +33,7 @@ public class ConcoctionTest {
     // tests the portion of the contract that says sgn(x.compareTo(y)) == -sgn(y.compareTo(x) and
     // (x.compareTo(y)==0) == (x.equals(y))
     @Test
-    public void itShouldBeSymmetric()
-    {
+    public void itShouldBeSymmetric() {
         LockableListModel<Concoction> first = ConcoctionDatabase.getUsables();
         LockableListModel<Concoction> second = ConcoctionDatabase.getUsables();
         for (Concoction acon : first) {
@@ -53,15 +50,13 @@ public class ConcoctionTest {
     //x.compareTo(y)==0 implies
     //	  that sgn(x.compareTo(z)) == sgn(y.compareTo(z)), for all z.
     @Test
-    public void itShouldBePreserveEquality()
-    {
+    public void itShouldBePreserveEquality() {
         LockableListModel<Concoction> first = ConcoctionDatabase.getUsables();
         LockableListModel<Concoction> second = ConcoctionDatabase.getUsables();
         LockableListModel<Concoction> third = ConcoctionDatabase.getUsables();
         for (Concoction acon : first) {
             for (Concoction bcon : second) {
-                if (acon.compareTo(bcon) == 0 )
-                {
+                if (acon.compareTo(bcon) == 0) {
                     for (Concoction ccon : third) {
                         String msg = acon.toString() +
                                 " * " + bcon.toString() +
@@ -69,26 +64,24 @@ public class ConcoctionTest {
                         int x = sgn(acon.compareTo(ccon));
                         int y = sgn(bcon.compareTo(ccon));
                         assertEquals(msg, sgn(x), sgn(y));
-                     }
+                    }
                 }
             }
         }
     }
 
-
     //(x.compareTo(y)>0 && y.compareTo(z)>0) implies x.compareTo(z)>0.
     @Test
     @Ignore("Test takes too much resources.  Needs optimization")
-    public void itShouldBeTransitive()
-    {
+    public void isBT() {
         LockableListModel<Concoction> first = ConcoctionDatabase.getUsables();
-        LockableListModel<Concoction> second = ConcoctionDatabase.getUsables();
-        LockableListModel<Concoction> third = ConcoctionDatabase.getUsables();
-        for (Concoction acon : first) {
-            for (Concoction bcon : second) {
+        first.sort();
+        Concoction[] cons = first.toArray(new Concoction[0]);
+        for (Concoction acon : cons) {
+            for (Concoction bcon : cons) {
                 int x = sgn(acon.compareTo(bcon));
                 if (x > 0) {
-                    for (Concoction ccon : third) {
+                    for (Concoction ccon : cons) {
                         String msg = acon.toString() +
                                 " * " + bcon.toString() +
                                 " *" + ccon.toString();
