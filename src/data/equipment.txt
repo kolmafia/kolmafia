@@ -343,6 +343,7 @@ Spooky Putty mitre	100	none
 stainless steel skullcap	90	Mox: 30
 star hat	165	Mox: 67
 stone baseball cap	195	Mox: 82
+stained glass stetson	120	Mys: 40
 straw hat	200	Mox: 85
 sucker kabuto	50	none
 sugar chapeau	100	none
@@ -682,6 +683,7 @@ turtlemail breeches	80	Mox: 25
 Uncle Hobo's gift baggy pants	200	Mox: 200
 union scalemail pants	50	Mox: 10
 Unkillable Skeleton's shinguards	300	Mus: 250
+velour vaqueros	50	none
 Vicar's Tutu	100	none
 Volartta's bellbottoms	125	Mox: 30
 Voluminous Radio Pants	150	Mox: 60
@@ -1547,6 +1549,7 @@ Staff of the Teapot Tempest	10	Mys: 25	1-handed chefstaff
 Staff of the Walk-In Freezer	10	Mys: 125	1-handed chefstaff
 Staff of the Well-Tempered Cauldron	10	Mys: 125	1-handed chefstaff
 Staff of the Woodfire	10	Mys: 150	1-handed chefstaff
+stained glass shiv	120	Mox: 40	1-handed knife
 stainless steel shillelagh	90	Mus: 30	1-handed club
 staph of homophones	130	Mus: 45	2-handed staff
 star boomerang	135	Mox: 52	1-handed boomerang
@@ -1637,6 +1640,7 @@ unsanitized scalpel	180	Mus: 35	1-handed knife
 vampire duck-on-a-string	100	Mus: 35	1-handed flail
 velcro broadsword	200	Mus: 85	1-handed sword
 velcro paddle ball	200	Mox: 85	1-handed flail
+velour voulge	50	Mus: 0	1-handed polearm
 vibrating cyborg knife	150	Mus: 55	1-handed sword
 villainous scythe	200	Mus: 150	2-handed polearm
 vorpal blade	90	Mus: 30	1-handed sword
@@ -2102,6 +2106,7 @@ spooky little girl	0	none
 sprinkle shaker	10	none
 sprinkle-begging cup	100	Mys: 20
 stack of communist leaflets	10	none
+stained glass shield	0	Mus: 40	shield
 standards and practices guide	100	Mys: 10
 stapler bear	0	none
 star buckler	165	Mus: 67	shield
@@ -2184,6 +2189,7 @@ unstable fulminate	0	none
 UV-resistant compass	0	none
 vampire pellet	180	Mys: 35
 velcro shield	220	Mus: 85	shield
+velour valise	0	none
 vengeful spirit	225	Mys: 200
 Victor, the Insult Comic Hellhound Puppet	10	none
 vinyl shield	220	Mus: 85	shield
@@ -2931,6 +2937,8 @@ spirit bell	0	none
 spooky glove	60	Mys: 15
 Spookyraven signet	100	Mys: 10
 spring boots	0	none
+stained glass spectacles	0	Mys: 40
+stained glass suspenders	0	Mus: 40
 stainless steel scarf	90	Mys: 30
 stainless steel solitaire	90	Mys: 30
 stainless steel suspenders	90	Mys: 30
@@ -3244,6 +3252,9 @@ vampire pearl earring	125	Mys: 47
 vampire pearl necklace	100	Mys: 35
 vampire pearl ring	100	Mys: 35
 velcro boots	200	Mys: 85
+velour vambraces	0	none
+velour veil	0	none
+velour viscometer	0	none
 vial of hot blood	225	Mys: 200
 vinyl boots	200	Mox: 85
 Voluminous Radio Sneakers	0	Mys: 60
@@ -3378,6 +3389,7 @@ shocked shell	100	Mus: 50
 Size XI Wizard's Robe	0	none
 smoker's cloak	80	Mys: 25
 snowpack	0	Mys: 75
+stained glass serape	0	Mox: 40
 spant backplate	100	Mus: 20
 spiky back shell	0	none
 super-absorbent tarp	50	none

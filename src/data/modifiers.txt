@@ -461,6 +461,7 @@ Item	Spooky Putty mitre	Experience: +3, Softcore Only, Familiar Effect: "1.5xLep
 Item	stainless steel skullcap	Maximum HP: +30, Damage Absorption: +60, Muscle Percent: +15, Familiar Effect: "1xLep, 1xFairy, cap 22"
 Item	star hat	Maximum MP: +30, Familiar Effect: "0.5xVolley, 0.5xPotato, cap 41"
 Item	stone baseball cap	Damage Reduction: 10, Weapon Damage: +15, Muscle: -10, Familiar Effect: "1xVolley, cap 48"
+Item	stained glass stetson	Mysticality Percent: +20, Familiar Weight: +5, Hot Spell Damage: +5, Cold Spell Damage: +5, Stench Spell Damage: +5, Spooky Spell Damage: +5, Sleaze Spell Damage: +5
 Item	straw hat	Item Drop: +10, Food Drop: +15, Booze Drop: +15, Familiar Effect: "1xFairy"
 Item	sucker kabuto	Damage Reduction: 5, Familiar Effect: "Atk, cap 12"
 Item	sugar chapeau	Spell Damage Percent: +50, Spell Critical Percent: +10, MP Regen Min: 3, MP Regen Max: 5, Breakable, Familiar Effect: "atk, 2xVolley, 2xLep, cap 25"
@@ -845,6 +846,8 @@ Item	turtlemail breeches	Maximum HP: +30, Sleaze Resistance: +2, Familiar Effect
 Item	Uncle Hobo's gift baggy pants	Moxie Percent: +20, Critical Hit Percent: +5, Familiar Effect: "1xPotato, 1xGhuol"
 Item	union scalemail pants	Familiar Effect: "2xBarrr, cap 12"
 Item	Unkillable Skeleton's shinguards	Sleaze Damage: +50, Hot Resistance: +5, Stench Resistance: +1, Class: "Turtle Tamer", Familiar Effect: "1xVolley, 1xBarrr"
+# velour vaqueros: Triples the effectiveness of the Dirge of Dreadfulness
+Item	velour vaqueros	Moxie: +10, Pants Drop: +30
 # Vicar's Tutu: (+Maximum HP based on Smithsness)
 Item	Vicar's Tutu	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, PvP Fights: +3, Smithsness: +5, Maximum HP: [2*K], Familiar Effect: "1.2xFairy, cap 25"
 Item	Volartta's bellbottoms	Moxie: +11, Ranged Damage: +11, Class: "Disco Bandit", Familiar Effect: "1xPotato, 1.5xFairy, cap 31"
@@ -1817,6 +1820,7 @@ Item	Staff of the Teapot Tempest	Spell Damage Percent: +25, Mysticality: +5, MP 
 Item	Staff of the Walk-In Freezer	Spell Damage Percent: +150, Cold Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
 Item	Staff of the Well-Tempered Cauldron	Spell Damage Percent: +125, Mysticality: +15, MP Regen Min: 7, MP Regen Max: 8
 Item	Staff of the Woodfire	Experience (Mysticality): +10, Spell Damage Percent: +100, MP Regen Min: 5, MP Regen Max: 15
+Item	stained glass shiv	Moxie Percent: +20, Stench Resistance: +3, Stench Damage: +5
 Item	stainless steel shillelagh	Weapon Damage: +20, Critical Hit Percent: +10, Muscle Percent: +15
 Item	staph of homophones	Mysticality: +7, Adventures: +5
 Item	star boomerang	Moxie: +5
@@ -1921,6 +1925,8 @@ Item	unsanitized scalpel	Sleaze Damage: +25
 Item	vampire duck-on-a-string	Weapon Damage: +5, Item Drop: +5
 Item	velcro broadsword	Muscle Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Hat Drop: +20, Pants Drop: +20
 Item	velcro paddle ball	Moxie Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Accessory Drop: +20
+# velour voulge: Triples the effect of Snarl of the Timberwolf
+Item	velour voulge	Experience (Muscle): +2, Weapon Drop: +30
 Item	vibrating cyborg knife	Weapon Damage: +20, Fumble: 3
 Item	villainous scythe	Weapon Damage Percent: +30, Critical Hit Percent: +20, Slime Hates It: +2
 Item	vorpal blade	Critical Hit Percent: +8
@@ -2468,6 +2474,7 @@ Item	spongy shield	Muscle Percent: +10, HP Regen Min: 20, HP Regen Max: 50, Dama
 Item	spooky little girl	Item Drop: [G]
 # sprinkle shaker
 Item	sprinkle-begging cup	Sprinkle Drop: +50
+Item	stained glass shield	Experience (Muscle): +3, Cold Resistance: +3, Cold Damage: +5, Damage Reduction: 7
 Item	standards and practices guide	Sleaze Resistance: +2
 Item	stapler bear	Muscle: +5
 Item	star buckler	Muscle: +2, Mysticality: +2, Moxie: +2, Damage Reduction: 10
@@ -2559,6 +2566,8 @@ Item	Unkillable Skeleton's shield	Spooky Resistance: +3, Stench Resistance: +3, 
 # UV-resistant compass: Aids in desert exploration
 Item	vampire pellet	MP Regen Min: 4, MP Regen Max: 8, Spooky Damage: +10, Spooky Spell Damage: +20
 Item	velcro shield	Mysticality Percent: +10, Damage Reduction: 24, Weapon Drop: +25
+# velour valise: Triples the damage and deleveling of Tango of Terror
+Item	velour valise	Experience (Moxie): +2, Booze Drop: +30
 Item	vengeful spirit	Hot Spell Damage: +80
 Item	Victor, the Insult Comic Hellhound Puppet	Monster Level: +5
 Item	vinyl shield	Moxie Percent: +10, Damage Reduction: 24, Monster Level: +25
@@ -3464,6 +3473,8 @@ Item	spiky turtle shoulderpads	Damage Absorption: +75, Single Equip
 Item	spirit bell	Muscle: +5, Mysticality: +5, Maximum HP: +10, Maximum MP: +10, Class: "Turtle Tamer"
 Item	spooky glove	Never Fumble, Moxie: +5, Spooky Damage: +5
 Item	Spookyraven signet	Spooky Resistance: +2, Stench Damage: +15, Stench Spell Damage: +15, Single Equip
+Item	stained glass spectacles	Experience (Mysticality): +3, Spooky Resistance: +3, Spooky Damage: +5, Single Equip
+Item	stained glass suspenders	Muscle Percent: +20, Hot Resistance: +3, Hot Damage: +5, Single Equip
 Item	stainless steel scarf	Spell Damage: +20, Monster Level: +20, Mysticality Percent: +15, Single Equip
 Item	stainless steel solitaire	Mana Cost: -2, Adventures: +2, Mysticality Percent: +15, Single Equip
 Item	stainless steel suspenders	Damage Absorption: +60, Maximum MP: +40, Moxie Percent: +15, Single Equip
@@ -3798,6 +3809,12 @@ Item	vampire pearl earring	MP Regen Min: 4, MP Regen Max: 14, Single Equip
 Item	vampire pearl necklace	HP Regen Min: 6, HP Regen Max: 18, Single Equip
 Item	vampire pearl ring	HP Regen Min: 2, HP Regen Max: 10, MP Regen Min: 2, MP Regen Max: 10, Single Equip
 Item	velcro boots	Mysticality Percent: +10, MP Regen Min: 12, MP Regen Max: 24, Initiative: -50, Single Equip
+# velour vambraces: Triples the damage of Spectral Snapper
+Item	velour vambraces	Muscle: +10, Candy Drop: +30, Single Equip
+# velour veil: Triples the damage of Fearful Fettucini
+Item	velour veil	Experience (Mysticality): +2, Accessory Drop: +30, Single Equip
+# velour viscometer: Triples the effectiveness of Scarysauce
+Item	velour viscometer	Mysticality: +10, Food Drop: +30, Single Equip
 Item	vial of hot blood	Hot Resistance: +4, Single Equip
 Item	vinyl boots	Moxie Percent: [15*X], HP Regen Min: 15, HP Regen Max: 30, Weapon Damage Percent: +10, Single Equip
 Item	Voluminous Radio Sneakers	Muscle: +10, Mysticality: +10, Moxie: +10, Single Equip
@@ -3969,6 +3986,7 @@ Item	shocked shell	Class: "Turtle Tamer"
 Item	Size XI Wizard's Robe	Booze Drop: +11, Food Drop: +11, Candy Drop: +11
 Item	smoker's cloak	Monster Level: +10, Initiative: +20, Stench Damage: +30
 Item	snowpack	Familiar Weight: +5, Cold Damage: +30, Class: "Pastamancer"
+Item	stained glass serape	Experience (Moxie): +3, Sleaze Resistance: +3, Sleaze Damage: +5
 Item	spant backplate	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Damage Absorption: +100
 # spiky back shell: Enemies take 40-50 when they hit you
 Item	super-absorbent tarp	Maximum Hooch: +2
@@ -6963,6 +6981,7 @@ Effect	Squid Squint	Meat Drop: +30
 Effect	Squirming Like a Toad	Moxie Percent: +10, Familiar Weight: +5
 # Stabilizing Oiliness: Makes your Mysticality and Moxie equal to your Muscle
 Effect	Stabilizing Oiliness	Equalize: "Muscle"
+Effect	Stained	Hot Damage: +3, Cold Damage: +3, Spooky Damage: +3, Stench Damage: +3, Sleaze Damage: +3
 Effect	Standard Cheer	Muscle: +1, Mysticality: +1, Moxie: +1, Maximum HP: +1, Maximum MP: +1, Damage Absorption: +1, Damage Reduction: 1
 Effect	Standard Issue Bravery	Muscle: +30, Mysticality: +30, Moxie: +30
 Effect	Stands Alone	Stench Damage: +10
@@ -7306,6 +7325,7 @@ Effect	Using Protection	Mana Cost: -2
 Effect	Vampin'	Avatar: "sexy vampire"
 # Vanity Rage: Weapon Damage: +X, Spell Damage: +X
 # Venomous Weapon: Causes your regular attacks to poison foes
+Effect	Velougated	Spooky Damage: +20, Spooky Spell Damage: +20
 Effect	Vented Item	Weapon Damage: +25
 Effect	Vented Spleen	Weapon Damage: +25
 Effect	Very Attractive	Combat Rate: +10
@@ -8057,6 +8077,7 @@ Outfit	Snowman Suit	Cold Damage: +15
 Outfit	Space Beast Furs	Damage Reduction: 25
 Outfit	Spant Armor	Damage Absorption: +200
 Outfit	Spelunker's Gear	Critical Hit Percent: +15
+Outfit	Stained Glass Suit	Initiative: +50
 Outfit	Star Garb	Muscle: +7, Mysticality: +7, Moxie: +7
 Outfit	Sucker Samurai Suit	Damage Reduction: 10
 Outfit	Swashbuckling Getup	Moxie: +7, Look like a Pirate
@@ -8074,6 +8095,7 @@ Outfit	Transparent Trappings	Muscle Percent: +20, Mysticality Percent: +20, Moxi
 Outfit	Tropical Crimbo Duds	Muscle: +10, Mysticality: +10, Moxie: +10
 Outfit	Unblemished Uniform	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Outfit	Uncle Hobo's Rags	Candy Drop: +15
+Outfit	Velour Vestments	Weapon Damage: +25, Spell Damage: +25, Ranged Damage: +25
 Outfit	Vestments of the Treeslayer	Damage Reduction: 5
 Outfit	Vile Vagrant Vestments	Mana Cost (stackable): -5
 Outfit	Violent Vestments	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
@@ -9907,6 +9929,7 @@ Item	vial of squid ink	Effect: "Inky Camouflage", Effect Duration: 20
 Item	vial of The Glistening	Effect: "The Glistening", Effect Duration: 15
 Item	violent pastilles	Effect: "Everything Must Go!", Effect Duration: 10
 Item	virgin jello shot	Effect: "Sugar Rush", Effect Duration: 100
+Item	Velougats&trade;	Effect: "Velougated", Effect Duration: 5
 Item	VYKEA woadpaint	Effect: "This Is Where You're a Viking", Effect Duration: 30
 Item	wad of cotton	Effect: "Cotton Mouthed", Effect Duration: 50
 Item	Wal-Mart &quot;diamond&quot; ring	Effect: "Coldfinger", Effect Duration: 50

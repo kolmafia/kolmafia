@@ -149,8 +149,8 @@
 146	Marble Materials	marbletat.gif	marble mariachi hat, marble mignonette bowl, marble mantle, marble maebari, marble magnet, marble medallion
 147	Paraffinalia	para_tat.gif	paraffin pith helmet, paraffin pseudoaccordion, paraffin poncho, paraffin palazzos, paraffin punching bag, paraffin pendant
 148	Terra Cotta Tackle	tc_tat.gif	terra cotta tongs, terra cotta tambourine, terra cotta train, terra cotta trousers, terra cotta tie tack, terra cotta truss
-149
-150
+149	Velour Vestments	velourtat.gif	velour voulge, velour valise, velour vaqueros, velour vambraces, velour veil, velour viscometer
+150	Stained Glass Suit	stainedtat.gif	stained glass stetson, stained glass shiv, stained glass shield, stained glass serape, stained glass suspenders, stained glass spectacles
 151
 152
 153	PirateRealm Assortment	prealmtat.gif	PirateRealm party hat, piratical blunderbuss, conquistador's breastplate, plush sea serpent, pirate radio ring
