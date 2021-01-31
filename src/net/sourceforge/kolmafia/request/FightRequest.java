@@ -2963,6 +2963,20 @@ public class FightRequest
 			{
 				KoLCharacter.resetCurrentPP();
 			}
+
+			if ( KoLCharacter.hasEquipped( ItemPool.MINIATURE_CRYSTAL_BALL, EquipmentManager.FAMILIAR ) )
+			{
+				String predictedMonster = parseCrystalBall( responseText );
+				String zone = KoLAdventure.lastLocationName;
+
+				if ( predictedMonster == null )
+				{
+					zone = null;
+				}
+
+				Preferences.setString( "crystalBallMonster", predictedMonster == null ? "" : predictedMonster );
+				Preferences.setString( "crystalBallLocation", zone == null ? "" : zone );
+			}
 		}
 
 		// Figure out various things by examining the responseText. Ideally,
@@ -3847,20 +3861,6 @@ public class FightRequest
 		}
 
 		AdventureSpentDatabase.addTurn( KoLAdventure.lastLocationName );
-
-		if ( KoLCharacter.hasEquipped( ItemPool.MINIATURE_CRYSTAL_BALL, EquipmentManager.FAMILIAR ) )
-		{
-			String predictedMonster = parseCrystalBall( responseText );
-			KoLAdventure location = KoLAdventure.lastVisitedLocation();
-
-			if ( predictedMonster == null )
-			{
-				location = null;
-			}
-
-			Preferences.setString( "crystalBallMonster", predictedMonster == null ? "" : predictedMonster );
-			Preferences.setString( "crystalBallLocation", location == null ? "" : location.getAdventureName() );
-		}
 
 		int adventure = KoLAdventure.lastAdventureId();
 
@@ -5108,16 +5108,16 @@ public class FightRequest
 	}
 
 	private static final Pattern[] CRYSTAL_BALL_PATTERNS = {
-		Pattern.compile( "your next fight will be against an? (.*?)(?:,\"|\\.</td>)" ),
-		Pattern.compile( "next monster in this zone is going to be an? (.*?)\\." ),
-		Pattern.compile( "Look out, there's an? (.*?) right around the next corner" ),
-		Pattern.compile( "There's a little you fighting a little (.*?). Ooh, you're getting" ),
-		Pattern.compile( "How do you feel about fighting an? (.*?)\\? Coz that's" ),
-		Pattern.compile( "the next monster in this area will be an? (.*?)," ),
-		Pattern.compile( "and see a tiny you fighting a tiny (.*?) in a tiny" ),
-		Pattern.compile( "it looks like there's an? (.*?) prowling around" ),
-		Pattern.compile( "and see yourself running into an? (.*?) soon" ),
-		Pattern.compile( "showing you an image of yourself fighting an? (.*?)\\.</td>" ),
+		Pattern.compile( "your next fight will be against <b>an? (.*?)</b>" ),
+		Pattern.compile( "next monster in this (?:zone is going to|area will) be <b>an? (.*?)</b>" ),
+		Pattern.compile( "Look out, there's <b>an? (.*?)</b> right around the next corner" ),
+		Pattern.compile( "There's a little you fighting a little <b>(.*?)</b>" ),
+		Pattern.compile( "How do you feel about fighting <b>an? (.*?)</b>\\? Coz that's" ),
+		Pattern.compile( "the next monster in this area will be <b>an? (.*?)</b>" ),
+		Pattern.compile( "and see a tiny you fighting a tiny <b>(.*?)</b> in a tiny" ),
+		Pattern.compile( "it looks like there's <b>an? (.*?)</b> prowling around" ),
+		Pattern.compile( "and see yourself running into <b>an? (.*?)</b> soon" ),
+		Pattern.compile( "showing you an image of yourself fighting <b>an? (.*?)</b>" )
 	};
 
 	private static String parseCrystalBall( final String responseText )
