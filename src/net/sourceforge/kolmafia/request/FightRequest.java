@@ -6475,6 +6475,11 @@ public class FightRequest
 
 	public static final String imgToString( final TagNode node )
 	{
+		if ( node == null )
+		{
+			return "";
+		}
+
 		if ( !node.getName().equals( "img" ) )
 		{
 			return "";
@@ -8064,20 +8069,17 @@ public class FightRequest
 	{
 		status.famaction = false;
 
+		String image = imgToString( inode );
+
 		StringBuffer action = status.action;
 
 		// <img src="http://images.kingdomofloathing.com/itemimages/familiar6.gif" width=30 height=30></td><td valign=center>Jiggly Grrl disappears into the wardrobe, and emerges dressed as a pair of Fuzzy Dice.
 
 		// If you have a tiny costume wardrobe or a doppelshifter, it
 		// can change its image mid-battle.
-		if ( status.doppel )
+		if ( status.doppel && !image.equals( "" ) )
 		{
-			String src = inode != null ? inode.getAttributeByName( "src" ) : null;
-			if ( src != null )
-			{
-				String image = src.substring( src.lastIndexOf( "/" ) + 1 );
-				status.setFamiliar( image );
-			}
+			status.setFamiliar( image );
 		}
 
 		// Preprocess this node: remove tables and process them later.
@@ -8122,6 +8124,11 @@ public class FightRequest
 			// The hats are in sequential item id order, and you can only upgrade 1 level per combat
 			AdventureResult newHat = ItemPool.get( oldHat.getItemId() + 1, 1 );
 			EquipmentManager.transformEquipment( oldHat, newHat );
+			return;
+		}
+
+		if ( image.equals( status.familiar ) && FightRequest.handleGhostOfCommerce( str, status ) )
+		{
 			return;
 		}
 
@@ -8557,6 +8564,52 @@ public class FightRequest
 		buffer.append( status.monsterName );
 		buffer.append( " photographed for Yearbook Club" );
 		FightRequest.logText( buffer, status );
+	}
+
+	private static final Pattern[] GHOST_OF_COMMERCE_QUEST = {
+			Pattern.compile( "Better get an? (.*?) while there's still some left!" ),
+			Pattern.compile( "(?:B|b)uy an? (.*?) before they all sell out" ),
+			Pattern.compile( "Don't forget to buy an? (.*?)!" ),
+			Pattern.compile( "Did you buy an? (.*?) yet\\?" ),
+			Pattern.compile( "Hey pal, you should buy an? (.*?)!" ),
+			Pattern.compile( "Quick, buy an? (.*?)!" ),
+			Pattern.compile( "Buy an? (.*?)!"),
+	};
+
+	private static final Pattern[] GHOST_OF_COMMERCE_QUEST_COMPLETE = {
+			Pattern.compile( "Nice, you bought an? (.*?)!" ),
+			Pattern.compile( "Oh,? good, you got an? (.*?)(?: before they sold out)?!" ),
+	};
+
+	private static boolean handleGhostOfCommerce( String text, TagStatus status )
+	{
+		if ( !status.familiar.equals( "cghost_commerce.gif") )
+		{
+			return false;
+		}
+
+		for ( Pattern p : GHOST_OF_COMMERCE_QUEST )
+		{
+			Matcher matcher = p.matcher( text );
+			if ( matcher.find() )
+			{
+				String itemName = matcher.group( 1 );
+				Preferences.setString( "commerceGhostItem", itemName );
+				return true;
+			}
+		}
+
+		for ( Pattern p : GHOST_OF_COMMERCE_QUEST_COMPLETE )
+		{
+			Matcher matcher = p.matcher( text );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "commerceGhostItem", "" );
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private static void logText( StringBuilder buffer, final TagStatus status )

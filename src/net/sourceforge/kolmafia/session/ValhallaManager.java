@@ -441,6 +441,7 @@ public class ValhallaManager
 		Preferences.setInteger( "camelSpit", 0 );
 		Preferences.setInteger( "campAwayDecoration", 0 );
 		Preferences.setBoolean( "chaosButterflyThrown", false );
+		Preferences.setString( "commerceGhostItem", "" );
 		Preferences.setString( "crimbotChassis", "" );
 		Preferences.setString( "crimbotArm", "" );
 		Preferences.setString( "crimbotPropulsion", "" );

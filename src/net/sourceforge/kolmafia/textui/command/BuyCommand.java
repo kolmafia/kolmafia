@@ -75,12 +75,20 @@ public class BuyCommand
 	{
 		boolean interact = KoLCharacter.canInteract();
 		boolean storage = false;
+		boolean mall = false;
 
-		String TEST = "using storage ";
-		if ( parameters.startsWith( TEST ) )
+		String usingStorage = "using storage ";
+		if ( parameters.startsWith( usingStorage ) )
 		{
 			storage = true;
-			parameters = parameters.substring( TEST.length() ).trim();
+			parameters = parameters.substring( usingStorage.length() ).trim();
+		}
+
+		String fromMall = "from mall ";
+		if ( parameters.startsWith( fromMall ) )
+		{
+			mall = true;
+			parameters = parameters.substring( fromMall.length() ).trim();
 		}
 
 		if ( interact && storage )
@@ -110,9 +118,9 @@ public class BuyCommand
 
 			ArrayList<PurchaseRequest> results = 
 				// Cheapest from Mall or NPC stores
-				interact ? StoreManager.searchMall( match ) :
+				( interact && !mall ) ? StoreManager.searchMall( match ) :
 				// Mall stores only
-				storage ? StoreManager.searchOnlyMall( match ) :
+				( storage || mall ) ? StoreManager.searchOnlyMall( match ) :
 				// NPC stores only
 				StoreManager.searchNPCs( match );
 
