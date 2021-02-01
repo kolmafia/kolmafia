@@ -1275,9 +1275,9 @@
 1273	Brass Loins	flask.gif	a614dc2ae977f948665b230f5723b567	neutral	none	use 1 brass Dreadsylvanian flask
 1274	Silver Age Secrets	flask.gif	1839cbfe882d9243964d9097c1a3b0a6	neutral	none	use 1 silver Dreadsylvanian flask
 1275	The Tunger&trade;	tongue.gif	c943b9c96abc7cad0c1590b489173576	neutral	none	use 1 Hunger&trade; Sauce
-1276	Touched by a Ghost	dv_spirit.gif	7f2193ace92f52dfccfd7065a9cb52a3	bad	noremove	# being hit in combat by a ghost in Dreadsylvania
-1277	Chilled to the Bone	snowflake.gif	8b1a1c598f840f75834b9e525f55fdae	bad	noremove	# being hit in combat by a Cold monster in Dreadsylvania (at least one banish)
-1278	Nauseated	nauseated.gif	3f6f8585fabe4d5aad41ba4f38e9dceb	bad	noremove	# being hit in combat by a Stench monster in Dreadsylvania
+1276	Touched by a Ghost	dv_spirit.gif	7f2193ace92f52dfccfd7065a9cb52a3	bad	noremove,nopvp	# being hit in combat by a ghost in Dreadsylvania
+1277	Chilled to the Bone	snowflake.gif	8b1a1c598f840f75834b9e525f55fdae	bad	noremove,nopvp	# being hit in combat by a Cold monster in Dreadsylvania (at least one banish)
+1278	Nauseated	nauseated.gif	3f6f8585fabe4d5aad41ba4f38e9dceb	bad	noremove,nopvp	# being hit in combat by a Stench monster in Dreadsylvania
 1279	Elbow Sauce	ma6buff1.gif	d836697f5744cf045a9e9a8a842cd5d2	good	none	# as level 15+ Seal Clubber, with Sauceror Mini-Adventurer familiar
 1280	Wet Rub	ma6buff2.gif	fe6a5d1badbb3432c441c6a22e46a15f	good	none	# as level 15+ Turtle Tamer, with Sauceror Mini-Adventurer familiar
 1281	Saucefingers	ma6buff3.gif	e986a2b1ec8eb190cbe6b97e467a4d4b	good	none	cargo effect Saucefingers|# as level 15+ Pastamancer, with Sauceror Mini-Adventurer familiar
@@ -1303,17 +1303,17 @@
 1301	Video... Games?	gg_def.gif	3d5280f646ac2a6b70e64eae72daa263	neutral	nohookah	use 1 defective Game Grid token
 1302	First Blood Kiwi	dv_kiwi.gif	19c7cbbb9382a69baceb4ddee4630bbe	good	nohookah	drink 1 blood kiwitini
 1303	Shepherd's Breath	stench.gif	8b958f33bb9de480e46268fe689bbc3f	good	nohookah	eat 1 Dreadsylvanian shepherd's pie
-1304	Curse of Hollowness	spooklines.gif	12f06ad7dc165b49b39e337400021685	bad	none	# fight Spooky monster in Dreadsylvania (sometimes)
-1305	Curse of Vulnerability	spooklines.gif	09120c3043ae04f87f485d06def30012	bad	none	# fight Spooky monster in Dreadsylvania (sometimes)
-1306	Curse of Exposure	spooklines.gif	ce5b9ed6ba34d02b12f55857fd2739e8	neutral	none	# fight Spooky monster in Dreadsylvania (sometimes)
-1307	Curse of Impotence	spooklines.gif	99776ef490ed428ea5211d897d924986	neutral	none	# fight Spooky monster in Dreadsylvania (sometimes)
-1308	Curse of Dullness	spooklines.gif	1ac59e82dd010e840e5377ef5c6bf082	bad	none	# fight Spooky monster in Dreadsylvania (sometimes)
-1309	Curse of Weakness	spooklines.gif	2fd979371951ba3240863dd89cccaeda	bad	none	# fight Spooky monster in Dreadsylvania (sometimes)
-1310	Curse of Sluggishness	spooklines.gif	9b5b6ce4ca44834c6842dc81c966a673	bad	none	# fight Spooky monster in Dreadsylvania (sometimes)
-1311	Curse of Forgetfulness	spooklines.gif	05a5c3b2e5519eb64e58a5ff7afcbd07	bad	none	# fight Spooky monster in Dreadsylvania (sometimes)
-1312	Curse of Misfortune	spooklines.gif	e21da466c08c71c8f69326137430ca92	bad	none	# fight Spooky monster in Dreadsylvania (sometimes)
-1313	Curse of Clumsiness	spooklines.gif	851ccb909bc1c46abb9cb9fc51b33ea0	bad	none	# fight Spooky monster in Dreadsylvania (sometimes)
-1314	Curse of Loneliness	spooklines.gif	67512fd0a260a7a9d2a8eecc801405d9	bad	none	# fight Spooky monster in Dreadsylvania (sometimes)
+1304	Curse of Hollowness	spooklines.gif	12f06ad7dc165b49b39e337400021685	bad	nopvp	# fight Spooky monster in Dreadsylvania (sometimes)
+1305	Curse of Vulnerability	spooklines.gif	09120c3043ae04f87f485d06def30012	bad	nopvp	# fight Spooky monster in Dreadsylvania (sometimes)
+1306	Curse of Exposure	spooklines.gif	ce5b9ed6ba34d02b12f55857fd2739e8	neutral	nopvp	# fight Spooky monster in Dreadsylvania (sometimes)
+1307	Curse of Impotence	spooklines.gif	99776ef490ed428ea5211d897d924986	neutral	nopvp	# fight Spooky monster in Dreadsylvania (sometimes)
+1308	Curse of Dullness	spooklines.gif	1ac59e82dd010e840e5377ef5c6bf082	bad	nopvp	# fight Spooky monster in Dreadsylvania (sometimes)
+1309	Curse of Weakness	spooklines.gif	2fd979371951ba3240863dd89cccaeda	bad	nopvp	# fight Spooky monster in Dreadsylvania (sometimes)
+1310	Curse of Sluggishness	spooklines.gif	9b5b6ce4ca44834c6842dc81c966a673	bad	nopvp	# fight Spooky monster in Dreadsylvania (sometimes)
+1311	Curse of Forgetfulness	spooklines.gif	05a5c3b2e5519eb64e58a5ff7afcbd07	bad	nopvp	# fight Spooky monster in Dreadsylvania (sometimes)
+1312	Curse of Misfortune	spooklines.gif	e21da466c08c71c8f69326137430ca92	bad	nopvp	# fight Spooky monster in Dreadsylvania (sometimes)
+1313	Curse of Clumsiness	spooklines.gif	851ccb909bc1c46abb9cb9fc51b33ea0	bad	nopvp	# fight Spooky monster in Dreadsylvania (sometimes)
+1314	Curse of Loneliness	spooklines.gif	67512fd0a260a7a9d2a8eecc801405d9	bad	nopvp	# fight Spooky monster in Dreadsylvania (sometimes)
 1315	Electric, Kool	jigawatts.gif	9a6a2de5acec4f9e4e2141884673d098	neutral	none	eat 1 electric Kool-Aid
 1316	You've Got a Stew Going!	soupbowl.gif	5a33a9feb96c0dedcbfabb51fe354228	good	nohookah	eat 1 Dreadsylvanian stew
 1317	Whitesloshed	whitedrink.gif	c8753aa60f3520b6e8cb2e295d3e0a00	neutral	nohookah	drink 1 white Dreadsylvanian
@@ -1556,7 +1556,7 @@
 1554	Pompadour	petepadour.gif	a1d6cd8bd17acbe235f3a9b679871d15	good	nohookah	# cast Check Mirror
 1555	Cowlick	cowlick.gif	6345c69dfd1bcd34dc51c4b92a842aa0	good	nohookah	# cast Check Mirror with 20+ Love
 1556	Fauxhawk	fauxhawk.gif	89ac380320f6108fc8680dc6318bb09f	good	nohookah	# cast Check Mirror with 20+ Hate
-1557	Bored With Explosions	explode.gif	4f7a830edacc2436623b313a571f7b68	neutral	nohookah	# cast Walk Away From Explosion in combat
+1557	Bored With Explosions	explode.gif	4f7a830edacc2436623b313a571f7b68	neutral	nohookah,nopvp	# cast Walk Away From Explosion in combat
 1558	Ashen	hotrags.gif	41fd29242e96444eff26393c15b4c16a	neutral	none	use 1 pile of ashes
 1559	Extra-Thick Blood	redcells.gif	7043b17651302228b34b952f000245f0	good	none	use 1 red blood cells|cargo effect Extra-Thick Blood
 1560	Seeing Red	bigredeye.gif	6fe7958c7893ac4a315469d4915b573b	good	nohookah	use 1 red eye
@@ -1705,9 +1705,9 @@
 1703	Turtle Power	radturt.gif	7df8b46c128e7fbbba4576e4795ba6bf	good	none	use 1 irradiated turtle
 1704	Colorful Gratitude	rrainbow.gif	77244b327a58e614101d0eaefafa7797	good	none	use 1 cigar box turtle
 1705	Fishy, Oily	lightvial.gif	7b491297d469b73738ee9d7d4ede9c10	neutral	none	use 1 gourmet gourami oil
-1706	Personal Thundercloud	darkcloud.gif	38087b32388ab25e001affe4ac8a58ad	neutral	none	cast 1 Thundercloud
+1706	Personal Thundercloud	darkcloud.gif	38087b32388ab25e001affe4ac8a58ad	neutral	nopvp	cast 1 Thundercloud
 1707	Thunderheart	heart.gif	59949cfa29b24da7deb3263fcb13f3ff	good	none	cast 1 Thunderheart
-1708	The Rain In Loathing	familiar31.gif	eb50ee5fd73a5559e2e61d1be631bfb5	neutral	none	cast 1 Rainy Day
+1708	The Rain In Loathing	familiar31.gif	eb50ee5fd73a5559e2e61d1be631bfb5	neutral	nopvp	cast 1 Rainy Day
 1709	Fishy Whiskers	whiskers.gif	b988d20865c79359b694cebdb9dbddea	neutral	none	use 1 catfish whiskers
 1710	Charged Hair	buttrock.gif	1f9fa9cc51c619fbe3b727354901deaf	good	nohookah	cast 1 Clean-Hair Lightning
 1711	Stormswaddled	blanket.gif	60035aed18ced555a91077d3c205e378	good	nohookah	cast 1 Sheet Lightning
@@ -1782,7 +1782,7 @@
 1780	Loose Joints	robojoint.gif	11d7349a598103ec3f5f68cf7ed2c0f0	neutral	none	# use either 1 flask of mining oil, 1 flask of tainted mining oil (sometimes)
 1781	Crimbonar	crimnugget.gif	33639ac47e3cea3194f71cb1fc729534	neutral	none	# use either 1 flask of mining oil, 1 flask of tainted mining oil (sometimes)
 1782	Oily Legs	radipants.gif	4dec80c43bba56c6e43480d45c57c05f	neutral	none	# use either 1 flask of mining oil, 1 flask of tainted mining oil (sometimes)
-1783	Juicy Boost	boostyjuice.gif	680e39240f4b80c5f388cbaf7f2479a9	good	nohookah	use 1 Boosty Juice
+1783	Juicy Boost	boostyjuice.gif	680e39240f4b80c5f388cbaf7f2479a9	good	nohookah,nopvp	use 1 Boosty Juice
 1784	Fitter, Bitter	fitbit.gif	5cd04192b4b5bc76b1c5712a5ff1aaa6	good	nohookah	use 1 fitness wristband
 1785	Watch Out!	smartwatch.gif	60670dea7d5048f40e1bd8a559d2c5e1	good	nohookah	use 1 smart watch
 1786	Glasshole	googleglass.gif	865ac04c090e7c8b890b39c0bd53b558	good	nohookah	use 1 augmented-reality shades
