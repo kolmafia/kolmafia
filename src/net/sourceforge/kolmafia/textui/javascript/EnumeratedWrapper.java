@@ -120,12 +120,6 @@ public class EnumeratedWrapper
 		return wrapped.toString();
 	}
 
-	public int valueOf()
-	{
-		// Rhino doesn't translate longs correctly, so this has to be an int.
-		return (int) wrapped.contentLong;
-	}
-
 	public static Object constructDefaultValue()
 	{
 		return new EnumeratedWrapper( ProxyRecordValue.ItemProxy.class, new ProxyRecordValue.ItemProxy( DataTypes.makeIntValue( 1 ) ) );

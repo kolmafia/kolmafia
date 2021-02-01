@@ -101,7 +101,7 @@ public class EnumeratedWrapperPrototype
 
 			constructor.sealObject();
 
-			for ( String methodName : new String[] { "toString", "valueOf" } )
+			for ( String methodName : new String[] { "toString" } )
 			{
 				Method method = EnumeratedWrapper.class.getDeclaredMethod( methodName );
 				FunctionObject functionObject = new FunctionObject( methodName, method, scope );
