@@ -160,6 +160,17 @@ public class DailyLimitDatabase
 		{
 			return this.id;
 		}
+
+		public int increment()
+		{
+			if ( getMax() == 1 && Preferences.getDefault( this.uses ).equals( "false" ) )
+			{
+				Preferences.setBoolean( this.uses, true );
+				return 1;
+			}
+
+			return Preferences.increment( this.uses, 1, getMax(), false );
+		}
 	}
 
 	static
