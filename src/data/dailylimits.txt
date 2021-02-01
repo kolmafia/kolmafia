@@ -1,5 +1,6 @@
 1
 # Limiter: daily limit
+# Type	Item name	Tracking property	[Max = 1]
 Use	alien animal milk	_alienAnimalMilkUsed
 Use	alien plant pod	_alienPlantPodUsed
 Use	all-year sucker	_allYearSucker
@@ -89,7 +90,7 @@ Use	picky tweezers	_pickyTweezersUsed
 Use	pixel orb	_pixelOrbUsed
 Use	Platinum Yendorian Express Card	expressCardUsed
 Use	pressurized potion of pneumaticity	_pneumaticityPotionUsed
-Use	pump-up high-tops	_highTopPumps
+Use	pump-up high-tops	_highTopPumps	3
 Use	red and green rain stick	_rainStickUsed
 Use	redwood rain stick	_redwoodRainStickUsed
 Use	School of Hard Knocks Diploma	_hardKnocksDiplomaUsed
