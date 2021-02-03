@@ -568,6 +568,7 @@ user	falloutShelterChronoUsed	false
 user	falloutShelterCoolingTankUsed	false
 user	falloutShelterLevel	0
 user	familiarScript
+user	feelsNostalgicMonster
 user	fingernailsClipped	0
 user	fistSkillsKnown	0
 user	fistTeachingsHaikuDungeon	false
@@ -1563,6 +1564,17 @@ user	_favorRareSummons	0
 user	_feastedFamiliars
 user	_feastUsed	0
 user	_feelinTheRhythm	0
+user	_feelPrideUsed	0
+user	_feelExcitementUsed	0
+user	_feelHatredUsed	0
+user	_feelLonelyUsed	0
+user	_feelNervousUsed	0
+user	_feelEnvyUsed	0
+user	_feelDisappointedUsed	0
+user	_feelSuperiorUsed	0
+user	_feelLostUsed	0
+user	_feelNostalgicUsed	0
+user	_feelPeacefulUsed	0
 user	_fingertrapArrows	0
 user	_firedJokestersGun	false
 user	_fireStartingKitUsed	false

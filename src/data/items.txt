@@ -10762,3 +10762,5 @@
 10730	miniature crystal ball	320248255	famball.gif	familiar		0
 10731	fresh can of paint	689133733	freshcan.gif	usable	t	0
 10732	fresh coat of paint	640494952	freshcoat.gif	shirt		0
+10733	emotion chip	433546358	emochip_clean.gif	usable	t	0
+10734	spinal-fluid-covered emotion chip	360064272	emochip_dirty.gif	usable		0

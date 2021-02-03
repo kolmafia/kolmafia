@@ -225,6 +225,7 @@
 200	Eye and a Twist	eyemartini.gif	1	50	0
 201	Dimples, How Merry!	dimples.gif	0	0	0
 202	Chubby and Plump	chubbybar.gif	1	50	0
+203	Emotionally Chipped	emochip_clean.gif	0	0	0
 
 # Skills available to Clubbers
 
@@ -879,6 +880,18 @@
 7351	Unleash the Devil's Kiss	lips.gif	5	0	0
 7355	Blow a Robo-Kiss	lips.gif	5	0	0
 7356	Precision Shot		5	0	0
+7357	Feel Pride	emochip9.gif	5	0	0
+7358	Feel Excitement	emochip1.gif	3	0	15
+7359	Feel Hatred	emochip8.gif	5	0	0
+7360	Feel Lonely	emochip11.gif	3	0	20
+7361	Feel Nervous	emochip4.gif	3	0	20
+7362	Feel Envy	emochip12.gif	5	0	0
+7363	Feel Disappointed	emochip2.gif	1	0	0
+7364	Feel Lost	emochip7.gif	3	0	20
+7365	Feel Nostalgic	emochip12.gif	5	0	0
+7366	Feel Peaceful	emochip10.gif	3	0	20
+7367	Feel Superior	emochip5.gif	5	0	0
+
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
