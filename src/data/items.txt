@@ -10744,8 +10744,8 @@
 10712	The Night Before Crimbo, Ch. 5 (used)	564470843	book4.gif	usable		0
 10713	The Night Before Crimbo, Ch. 6	188125853	book4.gif	usable	t	0	copies of The Night Before Crimbo, Ch. 6
 10714	The Night Before Crimbo, Ch. 6 (used)	440337817	book4.gif	usable		0
-10715	stuffed red and green pepper	353885496	crimbopepper.gif	food	t,d	10
-10716	cranberry margarita	761622847	cranmarg.gif	drink	t,d	10
+10715	stuffed red and green pepper (stale)	353885496	crimbopepper.gif	food	t,d	10
+10716	cranberry margarita (brackish)	761622847	cranmarg.gif	drink	t,d	10
 10717	fuzzy polar bear ears	244293817	bearears.gif	familiar	t,d	20
 10718	tiny glowing red nose	296251642	glownose.gif	familiar	t,d	20
 10719	miniature goose mask	849657392	goosemask.gif	familiar	t,d	20

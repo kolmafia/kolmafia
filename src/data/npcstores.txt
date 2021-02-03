@@ -428,8 +428,8 @@ Drip Institute Cafeteria	dripcafeteria	Drip Institute petri dish	5000	ROW1159
 Drip Institute Armory	driparmory	Drip harness	50000	ROW1128
 Drip Institute Armory	driparmory	drippy truncheon	20000	ROW1129
 
-The Crimbo Cafe	crimbo20cafe	stuffed red and green pepper	300	ROW1201
-The Crimbo Cafe	crimbo20cafe	cranberry margarita	300	ROW1202
+The Crimbo Cafe	crimbo20cafe	stuffed red and green pepper (stale)	300	ROW1201
+The Crimbo Cafe	crimbo20cafe	cranberry margarita (brackish)	300	ROW1202
 
 The Black and White and Red All Over Market	crimbo20blackmarket	&quot;reusable&quot; grocery bag	5000	ROW1171
 The Black and White and Red All Over Market	crimbo20blackmarket	cardboard wine carrier	5000	ROW1172
