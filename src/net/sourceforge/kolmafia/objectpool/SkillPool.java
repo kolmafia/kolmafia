@@ -333,6 +333,17 @@ public class SkillPool
 	public static final int SPIT_ON_THEM = 7339;
 	public static final int SPIT_ON_ME = 7340;
 	public static final int MAP_THE_MONSTERS = 7344;
+	public static final int FEEL_PRIDE = 7357;
+	public static final int FEEL_EXCITEMENT = 7358;
+	public static final int FEEL_HATRED = 7359;
+	public static final int FEEL_LONELY = 7360;
+	public static final int FEEL_NERVOUS = 7361;
+	public static final int FEEL_ENVY = 7362;
+	public static final int FEEL_DISAPPOINTED = 7363;
+	public static final int FEEL_LOST = 7364;
+	public static final int FEEL_NOSTALGIC = 7365;
+	public static final int FEEL_PEACEFUL = 7366;
+	public static final int FEEL_SUPERIOR = 7367;
 	public static final int GOOD_SINGING_VOICE = 11016;
 	public static final int BANISHING_SHOUT = 11020;
 	public static final int DEMAND_SANDWICH = 11021;

@@ -988,6 +988,50 @@ public class UseSkillRequest
 		case SkillPool.CHUBBY_AND_PLUMP:
 			maximumCast = Preferences.getBoolean( "_chubbyAndPlumpUsed" ) ? 0 : 1;
 			break;
+
+		case SkillPool.FEEL_PRIDE:
+			maximumCast = Math.max( 0, 3 - Preferences.getInteger( "_feelPrideUsed" ) );
+			break;
+
+		case SkillPool.FEEL_EXCITEMENT:
+			maximumCast = Math.max( 0, 3 - Preferences.getInteger( "_feelExcitementUsed" ) );
+			break;
+
+		case SkillPool.FEEL_HATRED:
+			maximumCast = Math.max( 0, 3 - Preferences.getInteger( "_feelHatredUsed" ) );
+			break;
+
+		case SkillPool.FEEL_LONELY:
+			maximumCast = Math.max( 0, 3 - Preferences.getInteger( "_feelLonelyUsed" ) );
+			break;
+
+		case SkillPool.FEEL_NERVOUS:
+			maximumCast = Math.max( 0, 3 - Preferences.getInteger( "_feelNervousUsed" ) );
+			break;
+
+		case SkillPool.FEEL_ENVY:
+			maximumCast = Math.max( 0, 3 - Preferences.getInteger( "_feelEnvyUsed" ) );
+			break;
+
+		case SkillPool.FEEL_DISAPPOINTED:
+			maximumCast = Math.max( 0, 3 - Preferences.getInteger( "_feelDisappointedUsed" ) );
+			break;
+
+		case SkillPool.FEEL_SUPERIOR:
+			maximumCast = Math.max( 0, 3 - Preferences.getInteger( "_feelSuperiorUsed" ) );
+			break;
+
+		case SkillPool.FEEL_LOST:
+			maximumCast = Math.max( 0, 3 - Preferences.getInteger( "_feelLostUsed" ) );
+			break;
+
+		case SkillPool.FEEL_NOSTALGIC:
+			maximumCast = Math.max( 0, 3 - Preferences.getInteger( "_feelNostalgicUsed" ) );
+			break;
+
+		case SkillPool.FEEL_PEACEFUL:
+			maximumCast = Math.max( 0, 3 - Preferences.getInteger( "_feelPeacefulUsed" ) );
+			break;
 		}
 
 		return maximumCast;
@@ -2738,6 +2782,50 @@ public class UseSkillRequest
 
 		case SkillPool.CHUBBY_AND_PLUMP:
 			Preferences.setBoolean( "_chubbyAndPlumpUsed", true );
+			break;
+
+		case SkillPool.FEEL_PRIDE:
+			Preferences.increment( "_feelPrideUsed", 1, 3, false );
+			break;
+
+		case SkillPool.FEEL_EXCITEMENT:
+			Preferences.increment( "_feelExcitementUsed", 1, 3, false  );
+			break;
+
+		case SkillPool.FEEL_HATRED:
+			Preferences.increment( "_feelHatredUsed", 1, 3, false  );
+			break;
+
+		case SkillPool.FEEL_LONELY:
+			Preferences.increment( "_feelLonelyUsed", 1, 3, false  );
+			break;
+
+		case SkillPool.FEEL_NERVOUS:
+			Preferences.increment( "_feelNervousUsed", 1, 3, false  );
+			break;
+
+		case SkillPool.FEEL_ENVY:
+			Preferences.increment( "_feelEnvyUsed", 1, 3, false  );
+			break;
+
+		case SkillPool.FEEL_DISAPPOINTED:
+			Preferences.increment( "_feelDisappointedUsed", 1, 3, false  );
+			break;
+
+		case SkillPool.FEEL_SUPERIOR:
+			Preferences.increment( "_feelSuperiorUsed", 1, 3, false  );
+			break;
+
+		case SkillPool.FEEL_LOST:
+			Preferences.increment( "_feelLostUsed", 1, 3, false  );
+			break;
+
+		case SkillPool.FEEL_NOSTALGIC:
+			Preferences.increment( "_feelNostalgicUsed", 1, 3, false  );
+			break;
+
+		case SkillPool.FEEL_PEACEFUL:
+			Preferences.increment( "_feelPeacefulUsed", 1, 3, false  );
 			break;
 		}
 

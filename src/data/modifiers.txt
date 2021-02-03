@@ -5642,9 +5642,15 @@ Effect	Fearless	Monster Level: -10
 Effect	Feelin' Philosophical	MP Regen Min: 8, MP Regen Max: 10
 Effect	Feelin' the Rhythm!	Muscle: [pref(_feelinTheRhythm)], Mysticality: [pref(_feelinTheRhythm)], Moxie: [pref(_feelinTheRhythm)]
 Effect	Feeling a Little Wesley	Avatar: "Wesley J. "Wes" Campbell"
+Effect	Feeling Excited	Muscle: +25, Mysticality: +25, Moxie: +25
 Effect	Feeling Insignificant	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100
+# Effect Feeling Nervous: Monsters are damaged by your nervous energy
 Effect	Feeling No Pain	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3, Damage Reduction: 10, Damage Absorption: +100
 Effect	Feeling Punchy	Weapon Damage Percent: +50
+Effect	Feeling Lonely	Combat Rate: -5
+# Effect Feeling Lost: Wander Aimlessly While Learning and Collecting Stuff
+Effect	Feeling Lost	Item Drop: +60, Experience: +30
+Effect	Feeling Peaceful	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 10, Damage Absorption: +100
 Effect	Feeling Queasy	Item Drop: -10, Meat Drop: -20, Initiative: -30
 Effect	Feet of Grapefruit	Experience (Mysticality): +3
 Effect	Feet of Strawberry	Experience (Moxie): +3
@@ -7613,6 +7619,7 @@ Skill	Elbows	Weapon Damage: +11
 Skill	Eldritch Intellect	Spooky Spell Damage: +1, Spooky Resistance: +1
 Skill	Elemental Obliviousness	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Skill	Elemental Wards	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
+# Skill	Emotionally Chipped: Gives you access to emotions
 Skill	Ensorcel	Maximum HP: -20
 # Eternal Flame: Makes you Politically Active
 Skill	Eternal Flame	Hot Spell Damage: +1, Hot Resistance: +1
@@ -10605,6 +10612,7 @@ Item	Elron's Explosive Etude	Skill: "Elron's Explosive Etude"
 # elven magi-pack: Restores 40-50 MP
 # elven medi-pack: Restores 80-100 HP
 Item	emo roe	Free Pull
+Item	emotion chip	Free Pull
 Item	Essence of Annoyance	Skill: "Summon Annoyance"
 Item	Essence of Bear	Skill: "Bear Essence"
 # eternal car battery: Restores 45-55 MP
