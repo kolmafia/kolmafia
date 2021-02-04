@@ -3900,7 +3900,7 @@ public class FightRequest
 		// A monster only gets added to your nostalgic buffer if the fight is "completed"
 		if ( KoLCharacter.hasSkill( "Feel Nostalgic" ) && monster != null && !monster.isNoCopy() )
 		{
-			Preferences.setString( "feelsNostalgicMonster", monsterName );
+			Preferences.setString( "feelNostalgicMonster", monsterName );
 		}
 
 		if ( !won )

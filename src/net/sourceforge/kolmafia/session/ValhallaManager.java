@@ -453,6 +453,7 @@ public class ValhallaManager
 		Preferences.setString( "dnaSyringe", "" );
 		Preferences.setString( "edPiece", "" );
 		Preferences.setInteger( "eldritchTentaclesFought", 0 );
+		Preferences.setString( "feelNostalgicMonster", "" );
 		Preferences.setInteger( "guzzlrDeliveryProgress", 0 );
 		Preferences.setBoolean( "itemBoughtPerAscension637", false );
 		Preferences.setBoolean( "itemBoughtPerAscension8266", false );

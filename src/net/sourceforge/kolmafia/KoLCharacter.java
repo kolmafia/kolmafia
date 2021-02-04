@@ -4785,6 +4785,20 @@ public abstract class KoLCharacter
 			case SkillPool.COMPREHENSIVE_CARTOGRAPHY:
 				KoLCharacter.addAvailableSkill( SkillPool.MAP_THE_MONSTERS );
 				break;
+
+			case SkillPool.EMOTIONALLY_CHIPPED:
+				KoLCharacter.addAvailableSkill( SkillPool.FEEL_DISAPPOINTED );
+				KoLCharacter.addAvailableSkill( SkillPool.FEEL_ENVY );
+				KoLCharacter.addAvailableSkill( SkillPool.FEEL_EXCITEMENT );
+				KoLCharacter.addAvailableSkill( SkillPool.FEEL_HATRED );
+				KoLCharacter.addAvailableSkill( SkillPool.FEEL_LONELY );
+				KoLCharacter.addAvailableSkill( SkillPool.FEEL_LOST );
+				KoLCharacter.addAvailableSkill( SkillPool.FEEL_NERVOUS );
+				KoLCharacter.addAvailableSkill( SkillPool.FEEL_NOSTALGIC );
+				KoLCharacter.addAvailableSkill( SkillPool.FEEL_PEACEFUL );
+				KoLCharacter.addAvailableSkill( SkillPool.FEEL_PRIDE );
+				KoLCharacter.addAvailableSkill( SkillPool.FEEL_SUPERIOR );
+				break;
 			}
 			break;
 		}

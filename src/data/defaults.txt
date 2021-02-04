@@ -568,7 +568,7 @@ user	falloutShelterChronoUsed	false
 user	falloutShelterCoolingTankUsed	false
 user	falloutShelterLevel	0
 user	familiarScript
-user	feelsNostalgicMonster
+user	feelNostalgicMonster
 user	fingernailsClipped	0
 user	fistSkillsKnown	0
 user	fistTeachingsHaikuDungeon	false
