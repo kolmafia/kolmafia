@@ -127,6 +127,7 @@ public class SkillPool
 	public static final int BOWL_FULL_OF_JELLY = 198;
 	public static final int EYE_AND_A_TWIST = 200;
 	public static final int CHUBBY_AND_PLUMP = 202;
+	public static final int EMOTIONALLY_CHIPPED = 203;
 	public static final int WALRUS_TONGUE = 1010;
 	public static final int BATTER_UP = 1014;
 	public static final int CLOBBER = 1022;
