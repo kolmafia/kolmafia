@@ -704,9 +704,9 @@ public class ProxyRecordValue
 		 *
 		 * @return The coinmaster who sells this Item
 		 */
-		public CoinmasterData get_seller()
+		public Value get_seller()
 		{
-			return CoinmasterRegistry.findSeller( (int) this.contentLong );
+			return DataTypes.makeCoinmasterValue( CoinmasterRegistry.findSeller( (int) this.contentLong ) );
 		}
 
 		/**
@@ -714,9 +714,9 @@ public class ProxyRecordValue
 		 *
 		 * @return The Coinmaster who buys this Item
 		 */
-		public CoinmasterData get_buyer()
+		public Value get_buyer()
 		{
-			return CoinmasterRegistry.findBuyer( (int) this.contentLong );
+			return DataTypes.makeCoinmasterValue( CoinmasterRegistry.findBuyer( (int) this.contentLong ) );
 		}
 
 		/**
