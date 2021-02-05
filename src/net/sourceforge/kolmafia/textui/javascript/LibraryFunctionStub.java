@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.textui.javascript;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.kolmafia.textui.DataTypes;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -90,6 +91,15 @@ public class LibraryFunctionStub
 		{
 			// Special case, since we accidentally override JS's built-in toString.
 			return "[runtime library]";
+		}
+
+		if ( ashFunctionName.equals( "buffer_to_file" ) && args.length > 0 && args[0] instanceof String )
+		{
+			// Manually convert string to buffer, since AshStub.call() cannot match a string argument to a
+			// buffer parameter.
+			args = args.clone();
+			String str = (String) args[0];
+			args[0] = new Value( DataTypes.BUFFER_TYPE, str, new StringBuffer( str ) );
 		}
 
 		return super.call( cx, scope, thisObj, args );
