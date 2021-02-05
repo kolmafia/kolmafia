@@ -2784,16 +2784,8 @@ public class UseSkillRequest
 			Preferences.setBoolean( "_chubbyAndPlumpUsed", true );
 			break;
 
-		case SkillPool.FEEL_PRIDE:
-			Preferences.increment( "_feelPrideUsed", 1, 3, false );
-			break;
-
 		case SkillPool.FEEL_EXCITEMENT:
 			Preferences.increment( "_feelExcitementUsed", 1, 3, false  );
-			break;
-
-		case SkillPool.FEEL_HATRED:
-			Preferences.increment( "_feelHatredUsed", 1, 3, false  );
 			break;
 
 		case SkillPool.FEEL_LONELY:
@@ -2804,24 +2796,12 @@ public class UseSkillRequest
 			Preferences.increment( "_feelNervousUsed", 1, 3, false  );
 			break;
 
-		case SkillPool.FEEL_ENVY:
-			Preferences.increment( "_feelEnvyUsed", 1, 3, false  );
-			break;
-
 		case SkillPool.FEEL_DISAPPOINTED:
 			Preferences.increment( "_feelDisappointedUsed", 1, 3, false  );
 			break;
 
-		case SkillPool.FEEL_SUPERIOR:
-			Preferences.increment( "_feelSuperiorUsed", 1, 3, false  );
-			break;
-
 		case SkillPool.FEEL_LOST:
 			Preferences.increment( "_feelLostUsed", 1, 3, false  );
-			break;
-
-		case SkillPool.FEEL_NOSTALGIC:
-			Preferences.increment( "_feelNostalgicUsed", 1, 3, false  );
 			break;
 
 		case SkillPool.FEEL_PEACEFUL:

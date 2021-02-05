@@ -1921,6 +1921,46 @@ public class FightRequest
 				return;
 			}
 		}
+		else if ( skillName.equals( "Feel Nostalgic" ) )
+		{
+			if ( Preferences.getInteger( "_feelNostalgicUsed" ) >= 3 )
+			{
+				this.skipRound();
+				return;
+			}
+		}
+		else if ( skillName.equals( "Feel Hatred"  ) )
+		{
+			if ( Preferences.getInteger( "_feelHatredUsed" ) >= 3 )
+			{
+				this.skipRound();
+				return;
+			}
+		}
+		else if ( skillName.equals( "Feel Pride" ) )
+		{
+			if ( Preferences.getInteger( "_feelPrideUsed" ) >= 3 )
+			{
+				this.skipRound();
+				return;
+			}
+		}
+		else if ( skillName.equals( "Feel Envy" ) )
+		{
+			if ( Preferences.getInteger( "_feelEnvyUsed" ) >= 3 )
+			{
+				this.skipRound();
+				return;
+			}
+		}
+		else if ( skillName.equals( "Feel Superior" ) )
+		{
+			if ( Preferences.getInteger( "_feelSuperiorUsed" ) >= 3 )
+			{
+				this.skipRound();
+				return;
+			}
+		}
 
 		// Skills use MP. Make sure the character has enough.
 		if ( KoLCharacter.getCurrentMP() < FightRequest.getActionCost() )
@@ -10347,6 +10387,42 @@ public class FightRequest
 		case SkillPool.FIREBALL_BARRAGE_COMBAT:
 		case SkillPool.MULTI_BOUNCE_COMBAT:
 			KoLCharacter.spendPP( 2 );
+			break;
+
+		case SkillPool.FEEL_NOSTALGIC:
+			if ( responseText.contains( "really feeling nostalgic" ) || skillSuccess )
+			{
+				Preferences.increment( "_feelNostalgicUsed", 1, 3, false );
+			}
+			break;
+
+		case SkillPool.FEEL_HATRED:
+			if ( responseText.contains( "walk away and decide not to see this creature again" ) || skillRunawaySuccess )
+			{
+				BanishManager.banishMonster( monsterName, "Feel Hatred" );
+				Preferences.increment( "_feelHatredUsed", 1, 3, false );
+			}
+			break;
+
+		case SkillPool.FEEL_PRIDE:
+			if ( responseText.contains( "you are going to do a great job" ) || skillSuccess )
+			{
+				Preferences.increment( "_feelPrideUsed", 1, 3, false );
+			}
+			break;
+
+		case SkillPool.FEEL_ENVY:
+			if ( responseText.contains( "really want what they have" ) || skillSuccess )
+			{
+				Preferences.increment( "_feelEnvyUsed", 1, 3, false );
+			}
+			break;
+
+		case SkillPool.FEEL_SUPERIOR:
+			if ( responseText.contains( "express your superiority to the tune" ) || skillSuccess )
+			{
+				Preferences.increment( "_feelSuperiorUsed", 1, 3, false );
+			}
 			break;
 		}
 	}
