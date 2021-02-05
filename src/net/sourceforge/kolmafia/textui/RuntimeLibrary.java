@@ -4881,7 +4881,8 @@ public abstract class RuntimeLibrary
 	{
 		MapValue value = new MapValue( DataTypes.ITEM_TO_INT_TYPE );
 
-		if ( !KoLCharacter.hasStore() )
+		String clanName = ClanManager.getClanName( false );
+		if ( clanName == null || clanName.isEmpty() )
 		{
 			return value;
 		}
