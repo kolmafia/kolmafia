@@ -4428,7 +4428,12 @@ public abstract class ChoiceManager
 			new Object[] { new Option( "use muscle/weapon damage", 1 ),
 			               new Option( "use myst/spell damage", 2 ),
 			               new Option( "use mox/sleaze res", 3 ) } ),
-		
+
+		// Choice 1392 is Decorate your Tent
+		new ChoiceSpoiler(
+				"choiceAdventure1392", "Decorate your Tent",
+				new Object[] { "gain 20 adv of +3 mus xp", "gain 20 adv of +3 mys xp", "gain 20 adv of +3 mox xp" } ),
+
 		// Choice 1397 is Kringle workshop
 		new ChoiceAdventure(
 			"Tammy's Offshore Platform", "choiceAdventure1397", "Kringle workshop",
