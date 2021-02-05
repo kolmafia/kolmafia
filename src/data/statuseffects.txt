@@ -2626,8 +2626,8 @@
 2624	Twist and an Eye	bseye.gif	be003502a30404e3e2d43732876f6cbc	good	none	drink 1 Eye and a Twist
 2625	Plump and Chubby	chubbybar.gif	5bb46b48ec5a2449117845bff0c897d3	good	none    	use 1 Chubby and Plump bar
 2626	Stained	sg_candy.gif	31bc709fdf929455aa7f0d1e10fe2614	neutral	none	use 1 stained hard candy
-2627	Feeling Excited	emochip1.gif	7b78b0e96a9d9e28de62d11931ccc389	good	none
-2628	Feeling Lonely	emochip11.gif	26d83401d58117dd07f65c1a1466368f	neutral	none
-2629	Feeling Nervous	emochip4.gif	83b943cec95c660e424a1e8573c3fbf6	neutral	none
-2630	Feeling Lost	emochip7.gif	b2ba17b262547bb007bab8e99b44e8dd	neutral	none
-2631	Feeling Peaceful	emochip10.gif	6dbb54082c6f253bb57eb125cc5ecb55	neutral	none
+2627	Feeling Excited	emochip1.gif	7b78b0e96a9d9e28de62d11931ccc389	good	none	cast 1 Feel Excitement
+2628	Feeling Lonely	emochip11.gif	26d83401d58117dd07f65c1a1466368f	neutral	none	cast 1 Feel Lonely
+2629	Feeling Nervous	emochip4.gif	83b943cec95c660e424a1e8573c3fbf6	neutral	none	cast 1 Feel Nervous
+2630	Feeling Lost	emochip7.gif	b2ba17b262547bb007bab8e99b44e8dd	neutral	none	cast 1 Feel Lost
+2631	Feeling Peaceful	emochip10.gif	6dbb54082c6f253bb57eb125cc5ecb55	neutral	none	cast 1 Feel Peaceful
