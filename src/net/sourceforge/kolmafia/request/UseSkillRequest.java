@@ -2785,27 +2785,27 @@ public class UseSkillRequest
 			break;
 
 		case SkillPool.FEEL_EXCITEMENT:
-			Preferences.increment( "_feelExcitementUsed", 1, 3, false  );
+			Preferences.increment( "_feelExcitementUsed", count, 3, false  );
 			break;
 
 		case SkillPool.FEEL_LONELY:
-			Preferences.increment( "_feelLonelyUsed", 1, 3, false  );
+			Preferences.increment( "_feelLonelyUsed", count, 3, false  );
 			break;
 
 		case SkillPool.FEEL_NERVOUS:
-			Preferences.increment( "_feelNervousUsed", 1, 3, false  );
+			Preferences.increment( "_feelNervousUsed", count, 3, false  );
 			break;
 
 		case SkillPool.FEEL_DISAPPOINTED:
-			Preferences.increment( "_feelDisappointedUsed", 1, 3, false  );
+			Preferences.increment( "_feelDisappointedUsed", count, 3, false  );
 			break;
 
 		case SkillPool.FEEL_LOST:
-			Preferences.increment( "_feelLostUsed", 1, 3, false  );
+			Preferences.increment( "_feelLostUsed", count, 3, false  );
 			break;
 
 		case SkillPool.FEEL_PEACEFUL:
-			Preferences.increment( "_feelPeacefulUsed", 1, 3, false  );
+			Preferences.increment( "_feelPeacefulUsed", count, 3, false  );
 			break;
 		}
 
