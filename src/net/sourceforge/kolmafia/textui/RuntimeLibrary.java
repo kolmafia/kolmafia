@@ -4237,7 +4237,7 @@ public abstract class RuntimeLibrary
 
 	public static Value put_shop( ScriptRuntime controller, final Value priceValue, final Value limitValue, final Value qtyValue, final Value itemValue )
 	{
-		return put_shop( controller, priceValue, limitValue, qtyValue.contentLong, itemValue, false );
+		return put_shop( controller, priceValue, limitValue, qtyValue.intValue(), itemValue, false );
 	}
 
 	public static Value put_shop_using_storage( ScriptRuntime controller, final Value priceValue, final Value limitValue, final Value itemValue )
@@ -4248,7 +4248,7 @@ public abstract class RuntimeLibrary
 
 	public static Value put_shop_using_storage( ScriptRuntime controller, final Value priceValue, final Value limitValue, final Value qtyValue, final Value itemValue )
 	{
-		return put_shop( controller, priceValue, limitValue, qtyValue.contentLong, itemValue, true );
+		return put_shop( controller, priceValue, limitValue, qtyValue.intValue(), itemValue, true );
 	}
 
 	// Used internally only.
