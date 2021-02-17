@@ -393,7 +393,7 @@ public interface KoLConstants
 	String CLI_HTML = "cli.html";
 	String COMBATFILTER_JS = "combatfilter.1.js";
 	String HOTKEYS_JS = "hotkeys.js";
-	String IRCM_JS = "ircm_extend.1.js";
+	String IRCM_JS = "ircm_extend.3.js";
 	String MACROHELPER_JS = "macrohelper.5.js";
 	String ONFOCUS_JS = "onfocus.1.js";
 	String SORTTABLE_JS = "sorttable.2.js";
