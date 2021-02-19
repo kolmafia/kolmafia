@@ -119,7 +119,8 @@ public class ApiRequest
 		if ( KoLCharacter.getLimitmode() != null ||
 		     KoLCharacter.inNoobcore() ||
 		     KoLCharacter.inPokefam() ||
-		     KoLCharacter.inDisguise() )
+		     KoLCharacter.inDisguise() ||
+		     KoLCharacter.inRobocore())
 		{
 			return ApiRequest.updateStatusFromCharpane();
 		}

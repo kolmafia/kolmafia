@@ -12408,8 +12408,13 @@ public abstract class ChoiceManager
 			{
 				ChoiceManager.parseRobotCPUUpgrades( text );
 			}
+
+			KoLCharacter.updateStatus();
 			break;
 		}
+		case 1447:
+			KoLCharacter.updateStatus();
+			break;
 		}
 		
 		// Certain choices cost meat or items when selected
