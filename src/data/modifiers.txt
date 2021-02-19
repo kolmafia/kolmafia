@@ -11758,6 +11758,7 @@ Florist	Up Sea Daisy	Experience: +30
 Path	One Crazy Random Summer	Random Monster Modifiers: +1
 Path	License to Adventure	Weapon Damage Percent: [50*pref(bondWpn)], Initiative: [30*pref(bondInit)], Damage Reduction: [10*pref(bondDR)], Maximum HP Percent: [20*pref(bondHP)], Item Drop: [10*pref(bondItem1)+20*pref(bondItem2)+30*pref(bondItem3)], Experience: [2*pref(bondStat)+5*pref(bondStat2)], Booze Drop: [100*pref(bondBooze)], Meat Drop: [20*pref(bondMeat)], Experience (Muscle): [2*pref(bondMus2)+pref(bondMus1)], Experience (Mysticality): [2*pref(bondMys2)+pref(bondMys1)], Experience (Moxie): [2*pref(bondMox2)+pref(bondMox1)], MP Regen Min: [10*pref(bondMPregen)], MP Regen Max: [15*pref(bondMPregen)], Weapon Damage: [10*pref(bondWeapon2)], Adventures: [11*pref(bondAdv)]
 Path	Dark Gyffte	Maximum HP: [20+20*pref(darkGyfftePoints)]
+Path	You, Robot	Energy: +1
 
 # Horsery
 Horsery	normal horse	Initiative: +10, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
