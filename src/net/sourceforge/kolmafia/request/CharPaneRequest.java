@@ -1710,6 +1710,11 @@ public class CharPaneRequest
 			return;
 		}
 
+		if ( !CharPaneRequest.compactCharacterPane )
+		{
+			ChoiceManager.parseRobotConfiguration( responseText );
+		}
+
 		// Energy is handled in the handleMiscPoints function as it replaces MP
 
 		Pattern pattern = ( CharPaneRequest.compactCharacterPane ) ? CharPaneRequest.YOU_ROBOT_SCRAPS_COMPACT : CharPaneRequest.YOU_ROBOT_SCRAPS_EXPANDED;

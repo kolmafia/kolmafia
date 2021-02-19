@@ -5494,7 +5494,9 @@ public abstract class KoLCharacter
 
 	public static final boolean isTorsoAware()
 	{
-		return KoLCharacter.hasSkill( "Torso Awaregness" ) || KoLCharacter.hasSkill( "Best Dressed" );
+		return KoLCharacter.hasSkill( "Torso Awaregness" ) ||
+			   KoLCharacter.hasSkill( "Best Dressed" ) ||
+			   (KoLCharacter.inRobocore() && Preferences.getString( "youRobotCPUUpgrades" ).contains( "robot_shirt" ) );
 	}
 
 	/**
@@ -6424,6 +6426,19 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.inDisguise() && KoLCharacter.getMask() != null )
 		{
 			newModifiers.add( Modifiers.getModifiers( "Mask", KoLCharacter.getMask() ) );
+		}
+
+		if ( KoLCharacter.inRobocore() )
+		{
+			newModifiers.add( Modifiers.getModifiers( "RobotTop", Preferences.getString( "youRobotTop" ) ) );
+			newModifiers.add( Modifiers.getModifiers( "RobotRight", Preferences.getString( "youRobotRight" ) ) );
+			newModifiers.add( Modifiers.getModifiers( "RobotBottom", Preferences.getString( "youRobotBottom" ) ) );
+			newModifiers.add( Modifiers.getModifiers( "RobotLeft", Preferences.getString( "youRobotLeft" ) ) );
+
+			for ( String cpuUpgrade : Preferences.getString( "youRobotCPUUpgrades" ).split( "," ) )
+			{
+				newModifiers.add( Modifiers.getModifiers( "RobotCPU", cpuUpgrade ) );
+			}
 		}
 
 		if ( VYKEACompanionData.currentCompanion() != VYKEACompanionData.NO_COMPANION )

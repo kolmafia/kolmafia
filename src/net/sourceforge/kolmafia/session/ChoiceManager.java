@@ -12400,6 +12400,16 @@ public abstract class ChoiceManager
 			}
 			break;
 		}
+		case 1445:
+		{
+			ChoiceManager.parseRobotConfiguration( text );
+
+			if ( urlString.contains( "show=cpus" ) )
+			{
+				ChoiceManager.parseRobotCPUUpgrades( text );
+			}
+			break;
+		}
 		}
 		
 		// Certain choices cost meat or items when selected
@@ -16042,6 +16052,14 @@ public abstract class ChoiceManager
 			// Cargo Cultist Shorts
 			CargoCultistShortsRequest.parseAvailablePockets( text );
 			break;
+		case 1445:
+			ChoiceManager.parseRobotConfiguration( text );
+
+			if ( request.getURLString().contains( "show=cpus" ) )
+			{
+				ChoiceManager.parseRobotCPUUpgrades( text );
+			}
+			break;
 		}
 
 		// Do this after special classes (like WumpusManager) have a
@@ -18847,7 +18865,35 @@ public abstract class ChoiceManager
 			Preferences.setInteger( setting, StringUtilities.parseInt( m.group( 1 ) ) );
 		}
 	}
-	
+
+	private static final Pattern ROBOT_CONFIG_PATTERN = Pattern.compile( "robot/(left|right|top|bottom|body)(\\d+).png\"" );
+
+	public static void parseRobotConfiguration( final String text )
+	{
+		Matcher m = ROBOT_CONFIG_PATTERN.matcher( text );
+		while ( m.find() )
+		{
+			String section = m.group( 1 );
+			int config = StringUtilities.parseInt( m.group( 2 ) );
+			Preferences.setInteger( "youRobot" + StringUtilities.toTitleCase( section ), config );
+		}
+	}
+
+	private static final Pattern ROBOT_CPU_INSTALLED_PATTERN = Pattern.compile( "value=\"([a-z_]+)\" disabled" );
+
+	private static void parseRobotCPUUpgrades( final String text )
+	{
+		ArrayList<String> cpuUpgrades = new ArrayList<>();
+
+		Matcher m = ROBOT_CPU_INSTALLED_PATTERN.matcher( text );
+		while ( m.find() )
+		{
+			cpuUpgrades.add( m.group( 1 ) );
+		}
+
+		Preferences.setString( "youRobotCPUUpgrades", String.join( ",", cpuUpgrades ) );
+	}
+
 	public static boolean noRelayChoice( int choice )
 	{
 		// Some choices are so clear (or non-standard) that we don't want to mark them up
@@ -18982,6 +19028,8 @@ public abstract class ChoiceManager
 		case 1437: // Setup Your knock-off retro superhero cape
 		case 1438: // Setup your knock-off retro superhero cape
 		case 1439: // Spread Crimbo Spirit
+		case 1445: // Reassembly Station
+		case 1447: // Statbot 5000
 			return true;
 
 		default:

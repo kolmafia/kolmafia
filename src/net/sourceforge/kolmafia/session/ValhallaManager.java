@@ -720,11 +720,12 @@ public class ValhallaManager
 		Preferences.setInteger( "plumberCostumeCost", 50 );
 		Preferences.setString( "plumberCostumeWorn", "none" );
 		// You, Robot
-		Preferences.setString( "youRobotBottom", "" );
+		Preferences.setInteger( "youRobotBody", 0 );
+		Preferences.setInteger( "youRobotBottom", 0 );
 		Preferences.setString( "youRobotCPUUpgrades", "" );
-		Preferences.setString( "youRobotLeft", "" );
-		Preferences.setString( "youRobotRight", "" );
-		Preferences.setString( "youRobotTop", "" );
+		Preferences.setInteger( "youRobotLeft", 0 );
+		Preferences.setInteger( "youRobotRight", 0 );
+		Preferences.setInteger( "youRobotTop", 0 );
 		// Campground resets
 		Preferences.setBoolean( "hasBartender", false );
 		Preferences.setBoolean( "hasChef", false );

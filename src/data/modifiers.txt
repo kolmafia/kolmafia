@@ -11824,3 +11824,29 @@ Mask	Ed the Undying mask	HP Regen Min: 40, HP Regen Max: 50
 Mask	Big Wisniewski mask	Sleaze Damage: +40, Sleaze Spell Damage: +40, Stench Damage: +40, Stench Spell Damage: +40
 Mask	The Man mask	Sleaze Damage: +40, Sleaze Spell Damage: +40, Stench Damage: +40, Stench Spell Damage: +40
 Mask	Boss Bat mask	Weapon Damage Percent: +100, Maximum HP Percent: +100
+
+# You, Robot
+RobotTop	3	Energy: +1
+RobotTop	5	Meat Drop: +50
+RobotRight	1	Maximum HP: +30
+RobotRight	2	Damage Reduction: +10, Damage Absorption: +50
+RobotRight	3	Scrap: +1
+RobotRight	7	Monster Level: +30
+RobotBottom	1	Maximum HP: +10
+RobotBottom	3	Initiative: +30
+RobotBottom	5	Item Drop: +30
+RobotBottom	6	Maximum HP: +50, Damage Reduction: +10
+RobotBottom	7	Scrap: +1
+RobotLeft	2	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3
+RobotLeft	3	Item Drop: +30
+RobotLeft	7	Combat Rate: -10
+RobotCPU	robot_muscle	Muscle: +15
+RobotCPU	robot_mysticality	Mysticality: +15
+RobotCPU	robot_moxie	Moxie: +15
+RobotCPU	robot_meat	Meat Drop: +20
+RobotCPU	robot_hp1	Maximum HP: +30
+RobotCPU	robot_regen	HP Regen Min: +10, HP Regen Max: +10
+RobotCPU	robot_resist	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
+RobotCPU	robot_items	Item Drop: +20
+RobotCPU	robot_energy	Energy: +1
+RobotCPU	robot_hp2	Maximum HP: +30
