@@ -52,25 +52,35 @@ import net.sourceforge.kolmafia.request.GuildRequest;
 
 public class GuildUnlockManager
 {
-	public static void unlockGuild()
+	public static boolean canUnlockGuild()
 	{
 		// Don't try to open the guild unless you are one of the six standard classes
 		String classType = KoLCharacter.getClassType();
 		if ( !classType.equals( KoLCharacter.SEAL_CLUBBER ) &&
-		     !classType.equals( KoLCharacter.TURTLE_TAMER ) &&
-		     !classType.equals( KoLCharacter.SAUCEROR ) &&
-		     !classType.equals( KoLCharacter.PASTAMANCER ) &&
-		     !classType.equals( KoLCharacter.DISCO_BANDIT ) &&
-		     !classType.equals( KoLCharacter.ACCORDION_THIEF )
-		   )
+				!classType.equals( KoLCharacter.TURTLE_TAMER ) &&
+				!classType.equals( KoLCharacter.SAUCEROR ) &&
+				!classType.equals( KoLCharacter.PASTAMANCER ) &&
+				!classType.equals( KoLCharacter.DISCO_BANDIT ) &&
+				!classType.equals( KoLCharacter.ACCORDION_THIEF )
+		)
 		{
-			KoLmafia.updateDisplay( "You don't have a guild available to open. No guild for you." );
-			return;
+			return false;
 		}
 
 		// Cannot open Guild in Pocket Familiars or Robocore
 		if ( KoLCharacter.inPokefam() || KoLCharacter.inRobocore() )
 		{
+			return false;
+		}
+
+		return true;
+	}
+
+	public static void unlockGuild()
+	{
+		if ( !canUnlockGuild() )
+		{
+			KoLmafia.updateDisplay( "You don't have a guild available to open. No guild for you." );
 			return;
 		}
 

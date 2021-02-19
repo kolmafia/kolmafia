@@ -69,6 +69,7 @@ import java.util.regex.PatternSyntaxException;
 
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
+import net.sourceforge.kolmafia.session.*;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.SimpleXmlSerializer;
 import org.htmlcleaner.TagNode;
@@ -202,29 +203,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
-import net.sourceforge.kolmafia.session.BanishManager;
-import net.sourceforge.kolmafia.session.ChoiceManager;
-import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.ContactManager;
-import net.sourceforge.kolmafia.session.DadManager;
-import net.sourceforge.kolmafia.session.DisplayCaseManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.FamiliarManager;
-import net.sourceforge.kolmafia.session.GoalManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.MonsterManuelManager;
-import net.sourceforge.kolmafia.session.MushroomManager;
-import net.sourceforge.kolmafia.session.NumberologyManager;
-import net.sourceforge.kolmafia.session.PvpManager;
-import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.session.SorceressLairManager;
-import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
-import net.sourceforge.kolmafia.session.TavernManager;
-import net.sourceforge.kolmafia.session.TowerDoorManager;
-import net.sourceforge.kolmafia.session.TurnCounter;
-import net.sourceforge.kolmafia.session.UnusualConstructManager;
-import net.sourceforge.kolmafia.session.VotingBoothManager;
 import net.sourceforge.kolmafia.svn.SVNManager;
 import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 import net.sourceforge.kolmafia.textui.AshRuntime.CallFrame;
@@ -1176,6 +1155,12 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_maxpp", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_robot_energy", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_robot_scraps", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_primestat", DataTypes.STAT_TYPE, params ) );
@@ -2235,6 +2220,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "dispensary_available", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "guild_available", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "guild_store_available", DataTypes.BOOLEAN_TYPE, params ) );
@@ -9450,6 +9438,11 @@ public abstract class RuntimeLibrary
 	public static Value dispensary_available( ScriptRuntime controller )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.getDispensaryOpen() );
+	}
+
+	public static Value guild_available( ScriptRuntime controller )
+	{
+		return DataTypes.makeBooleanValue( GuildUnlockManager.canUnlockGuild() );
 	}
 
 	public static Value guild_store_available( ScriptRuntime controller )
