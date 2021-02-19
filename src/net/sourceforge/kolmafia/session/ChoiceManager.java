@@ -18879,7 +18879,7 @@ public abstract class ChoiceManager
 		}
 	}
 
-	private static final Pattern ROBOT_CPU_INSTALLED_PATTERN = Pattern.compile( "value=\"([a-z_]+)\" disabled" );
+	private static final Pattern ROBOT_CPU_INSTALLED_PATTERN = Pattern.compile( "value=\"([a-z_]+)\"[^\\(]+\\(already installed\\)" );
 
 	private static void parseRobotCPUUpgrades( final String text )
 	{
