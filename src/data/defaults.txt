@@ -1403,11 +1403,12 @@ user	yearbookCameraTarget
 user	yearbookCameraUpgrades	0
 user	yourFavoriteBird
 user	yourFavoriteBirdMods
-user	youRobotBottom
+user	youRobotBody	0
+user	youRobotBottom	0
 user	youRobotCPUUpgrades
-user	youRobotLeft
-user	youRobotRight
-user	youRobotTop
+user	youRobotLeft	0
+user	youRobotRight	0
+user	youRobotTop	0
 user	zeppelinProtestors	0
 user	zombiePoints	0
 user	_absintheDrops	0

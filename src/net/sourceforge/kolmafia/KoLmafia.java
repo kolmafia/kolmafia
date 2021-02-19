@@ -947,6 +947,12 @@ public abstract class KoLmafia
 			KoLCharacter.resetCurrentPP();
 		}
 
+		if ( KoLCharacter.inRobocore() )
+		{
+			RequestThread.postRequest( new GenericRequest( "place.php?whichplace=scrapheap&action=sh_configure" ) );
+			RequestThread.postRequest( new GenericRequest( "choice.php?whichchoice=1445&show=cpus" ) );
+		}
+
 		ChateauRequest.refresh();
 
 		// Retrieve campground data to see if the user has box servants

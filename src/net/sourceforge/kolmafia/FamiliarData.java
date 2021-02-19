@@ -250,6 +250,12 @@ public class FamiliarData
 			return false;
 		}
 
+		// Familiars are only allowed with the right hat in You, Robot
+		if ( KoLCharacter.inRobocore() && Preferences.getInteger( "youRobotTop" ) != 2 )
+		{
+			return false;
+		}
+
 		// Unallowed familiars cannot be equipped
 		if ( !StandardRequest.isAllowed( "Familiars", this.race ) )
 		{

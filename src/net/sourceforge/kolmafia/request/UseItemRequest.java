@@ -483,6 +483,11 @@ public class UseItemRequest
 			break;
 		}
 
+		if ( KoLCharacter.inRobocore() && ItemDatabase.isPotion( itemId ) && !Preferences.getString( "youRobotCPUUpgrades").contains( "robot_potions" ) )
+		{
+			return 0;
+		}
+
 		// Check binge requests before checking fullness or inebriety
 		switch ( consumptionType )
 		{
