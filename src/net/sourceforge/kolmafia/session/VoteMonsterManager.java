@@ -35,11 +35,17 @@ package net.sourceforge.kolmafia.session;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.StandardRequest;
 
 public class VoteMonsterManager
 {
 	public static void checkCounter()
 	{
+		if ( !StandardRequest.isAllowed( "Items", "voter registration form" ) )
+		{
+			return;
+		}
+
 		if ( Preferences.getString( "trackVoteMonster" ).equals( "false" ) )
 		{
 			return;
