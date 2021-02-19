@@ -976,6 +976,11 @@ public abstract class KoLCharacter
 			return 0;
 		}
 
+		if ( KoLCharacter.inRobocore() )
+		{
+			return 0;
+		}
+
 		// Default spleen size, overridden below for various paths
 		int limit = 15;
 
@@ -4199,6 +4204,11 @@ public abstract class KoLCharacter
 		return KoLCharacter.ascensionPath == Path.GREY_GOO;
 	}
 
+	public static final boolean inRobocore()
+	{
+		return KoLCharacter.ascensionPath == Path.YOU_ROBOT;
+	}
+
 	public static final boolean isUnarmed()
 	{
 		AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
@@ -4260,7 +4270,7 @@ public abstract class KoLCharacter
 			return false;
 		}
 
-		if ( KoLCharacter.inNoobcore() || KoLCharacter.inBondcore() )
+		if ( KoLCharacter.inNoobcore() || KoLCharacter.inBondcore() || KoLCharacter.inRobocore() )
 		{
 			return false;
 		}
@@ -4287,6 +4297,11 @@ public abstract class KoLCharacter
 		}
 
 		if ( KoLCharacter.isPlumber() )
+		{
+			return false;
+		}
+
+		if ( KoLCharacter.inRobocore() )
 		{
 			return false;
 		}
