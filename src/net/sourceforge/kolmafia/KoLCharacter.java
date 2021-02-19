@@ -347,6 +347,9 @@ public abstract class KoLCharacter
 	// Plumbers only
 	private static int currentPP, maximumPP;
 
+	// Robots only
+	private static int youRobotEnergy, youRobotScraps;
+
 	private static int[] adjustedStats = new int[ 3 ];
 	private static long[] totalSubpoints = new long[ 3 ];
 	private static final long[] triggerSubpoints = new long[ 3 ];
@@ -1952,7 +1955,52 @@ public abstract class KoLCharacter
 		return KoLCharacter.baseMaxMP;
 	}
 
-	/* Accessor method to set the character's current power points
+	/**
+	 * Accessor method to set the character's current energy for the "You, Robot" path
+	 *
+	 * @param youRobotEnergy The character's current energy
+	 */
+	public static final void setYouRobotEnergy( final int youRobotEnergy )
+	{
+		KoLCharacter.youRobotEnergy = youRobotEnergy;
+
+		KoLCharacter.updateStatus();
+	}
+
+	/**
+	 * Accessor method to retrieve the character's current energy for the "You, Robot" path
+	 *
+	 * @return The character's energy
+	 */
+	public static final int getYouRobotEnergy()
+	{
+		return KoLCharacter.youRobotEnergy;
+	}
+
+	/**
+	 * Accessor method to set the character's current scraps for the "You, Robot" path
+	 *
+	 * @param youRobotScraps The character's current scraps
+	 */
+	public static final void setYouRobotScraps( final int youRobotScraps )
+	{
+		KoLCharacter.youRobotScraps = youRobotScraps;
+
+		KoLCharacter.updateStatus();
+	}
+
+	/**
+	 * Accessor method to retrieve the character's current energy for the "You, Robot" path
+	 *
+	 * @return The character's energy
+	 */
+	public static final int getYouRobotScraps()
+	{
+		return KoLCharacter.youRobotScraps;
+	}
+
+	/**
+	 * Accessor method to set the character's current power points
 	 *
 	 * @param currentHP The character's current HP value
 	 * @param maximumHP The character's maximum HP value

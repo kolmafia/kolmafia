@@ -103,7 +103,7 @@ public class CompactSidePane
 	private final int STAT_LABELS = 3;
 	private final JLabel[] statLabel = new JLabel[ STAT_LABELS ];
 	private final JLabel[] statValueLabel = new JLabel[ STAT_LABELS ];
-	private final int STATUS_LABELS = 6;
+	private final int STATUS_LABELS = 7;
 	private final JLabel[] statusLabel = new JLabel[ STATUS_LABELS ];
 	private final JLabel[] statusValueLabel = new JLabel[ STATUS_LABELS ];
 	private final int CONSUMPTION_LABELS = 3;
@@ -953,6 +953,15 @@ public class CompactSidePane
 			{
 				this.statusLabel[ count ].setText( "    PP: " );
 				this.statusValueLabel[ count ].setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getCurrentPP() ) + " / " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getMaximumPP() ) );
+				count++;
+			}
+			if ( KoLCharacter.inRobocore() )
+			{
+				this.statusLabel[ count ].setText( "    Energy: " );
+				this.statusValueLabel[ count ].setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getYouRobotEnergy() ) );
+				count++;
+				this.statusLabel[ count ].setText( "    Scraps: " );
+				this.statusValueLabel[ count ].setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getYouRobotScraps() ) );
 				count++;
 			}
 			if ( KoLCharacter.getFuryLimit() > 0 )
