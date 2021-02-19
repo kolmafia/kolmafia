@@ -686,7 +686,7 @@ public class CharPaneRequest
 		// Expanded You, Robot
 		{
 			Pattern.compile( "/(?:slim)?hp\\.gif.*?<span.*?>(.*?)&nbsp;/&nbsp;(.*?)</span>" ),
-			Pattern.compile( "/(?:slim)?jigawatts\\.gif.*?<span.*?>(\\d+)</span>" ),
+			Pattern.compile( "/(?:slim)?jigawatts\\.gif.*?(\\d+)" ),
 			Pattern.compile( "/(?:slim)?meat\\.gif.*?<span.*?>(.*?)</span>" ),
 			Pattern.compile( "/(?:slim)?hourglass\\.gif.*?<span.*?>(.*?)</span>" ),
 		},
