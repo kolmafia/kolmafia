@@ -79,8 +79,8 @@ public class AscensionPath
 		PATH_OF_THE_PLUMBER( "Path of the Plumber", 38, true, "mario_mushroom1", "a" ),
 		LOWKEY( "Low Key Summer", 39, false, "littlelock", "a" ),
 		GREY_GOO( "Grey Goo", 40, false, "greygooball", "a" ),
+		YOU_ROBOT( "You, Robot", 41, false, "yourobot", "a" ),
 		// Not yet implemented
-		PATH_41( "(Path 41)", 41, false, null, null ),
 		PATH_42( "(Path 42)", 42, false, null, null ),
 		PATH_43( "(Path 43)", 43, false, null, null ),
 		// A "sign" rather than a "path" for some reason
