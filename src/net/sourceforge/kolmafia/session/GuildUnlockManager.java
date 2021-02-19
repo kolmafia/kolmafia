@@ -68,8 +68,8 @@ public class GuildUnlockManager
 			return;
 		}
 
-		// Cannot open Guild in Pocket Familiars
-		if ( KoLCharacter.inPokefam() )
+		// Cannot open Guild in Pocket Familiars or Robocore
+		if ( KoLCharacter.inPokefam() || KoLCharacter.inRobocore() )
 		{
 			return;
 		}
