@@ -5661,6 +5661,10 @@ public abstract class RuntimeLibrary
 		return new Value( KoLCharacter.getMaximumPP() );
 	}
 
+	public static Value my_robot_energy( ScriptRuntime controller ) { return new Value( KoLCharacter.getYouRobotEnergy()); }
+
+	public static Value my_robot_scraps( ScriptRuntime controller ) { return new Value( KoLCharacter.getYouRobotScraps()); }
+
 	public static Value my_primestat( ScriptRuntime controller )
 	{
 		int primeIndex = KoLCharacter.getPrimeIndex();

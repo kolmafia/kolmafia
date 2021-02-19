@@ -330,6 +330,8 @@ public class CharPaneRequest
 
 		CharPaneRequest.checkFantasyRealmHours( responseText );
 
+		CharPaneRequest.checkYouRobot( responseText );
+
 		// Mana cost adjustment may have changed
 
 		LockableListFactory.sort( KoLConstants.summoningSkills );
@@ -475,7 +477,7 @@ public class CharPaneRequest
 		}
 		try
 		{
-			int index = KoLCharacter.inZombiecore() ? 2 : KoLCharacter.isPlumber() ? 4 : 0;
+			int index = KoLCharacter.inZombiecore() ? 2 : KoLCharacter.isPlumber() ? 4 : KoLCharacter.inRobocore() ? 6 : 0;
 			CharPaneRequest.handleMiscPoints( responseText, CharPaneRequest.MISC_PATTERNS[ index ] );
 		}
 		catch ( Exception e )
@@ -516,7 +518,7 @@ public class CharPaneRequest
 		}
 		try
 		{
-			int index = KoLCharacter.inZombiecore() ? 3 : KoLCharacter.isPlumber() ? 5 : 1;
+			int index = KoLCharacter.inZombiecore() ? 3 : KoLCharacter.isPlumber() ? 5 : KoLCharacter.inRobocore() ? 7 : 1;
 			CharPaneRequest.handleMiscPoints( responseText, CharPaneRequest.MISC_PATTERNS[ index ] );
 		}
 		catch ( Exception e )
@@ -672,6 +674,22 @@ public class CharPaneRequest
 			Pattern.compile( "/(?:slim)?meat\\.gif.*?<span.*?>(.*?)</span>" ),
 			Pattern.compile( "/(?:slim)?hourglass\\.gif.*?<span.*?>(.*?)</span>" ),
 		},
+
+		// Compact You, Robot
+		{
+			Pattern.compile( "HP:.*?<b>(.*?)/(.*?)</b>" ),
+			Pattern.compile( "E:.*?<b>(\\d+) / (?:.*?)</b>" ),
+			Pattern.compile( "Meat.*?<b>(.*?)</b>" ),
+			Pattern.compile( "Adv.*?<b>(.*?)</b>" ),
+		},
+
+		// Expanded You, Robot
+		{
+			Pattern.compile( "/(?:slim)?hp\\.gif.*?<span.*?>(.*?)&nbsp;/&nbsp;(.*?)</span>" ),
+			Pattern.compile( "/(?:slim)?jigawatts\\.gif.*?<span.*?>(\\d+)</span>" ),
+			Pattern.compile( "/(?:slim)?meat\\.gif.*?<span.*?>(.*?)</span>" ),
+			Pattern.compile( "/(?:slim)?hourglass\\.gif.*?<span.*?>(.*?)</span>" ),
+		},
 	};
 
 	private static final int HP = 0;
@@ -710,6 +728,11 @@ public class CharPaneRequest
 				int currentPP = StringUtilities.parseInt( matcher.group( 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
 				int maximumPP = StringUtilities.parseInt( matcher.group( 2 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
 				KoLCharacter.setPP( currentPP, maximumPP );
+			}
+			else if ( KoLCharacter.inRobocore() )
+			{
+				int energy = StringUtilities.parseInt( matcher.group( 1 ) );
+				KoLCharacter.setYouRobotEnergy( energy );
 			}
 			else
 			{
@@ -1674,6 +1697,29 @@ public class CharPaneRequest
 		{
 			int id = StringUtilities.parseInt( matcher.group( 1 ) ) - 1;
 			Preferences.setString( "snowsuit", SnowsuitCommand.DECORATION[ id ][ 0 ] );
+		}
+	}
+
+	private static final Pattern YOU_ROBOT_SCRAPS_EXPANDED = Pattern.compile( "scrap\\.gif.*?>(\\d+)<" );
+	private static final Pattern YOU_ROBOT_SCRAPS_COMPACT = Pattern.compile( "Scrap.*?<b>(\\d+)</b>" );
+
+	private static void checkYouRobot( final String responseText )
+	{
+		if ( !KoLCharacter.inRobocore() )
+		{
+			return;
+		}
+
+		// Energy is handled in the handleMiscPoints function as it replaces MP
+
+		Pattern pattern = ( CharPaneRequest.compactCharacterPane ) ? CharPaneRequest.YOU_ROBOT_SCRAPS_COMPACT : CharPaneRequest.YOU_ROBOT_SCRAPS_EXPANDED;
+
+		Matcher matcher = pattern.matcher( responseText );
+
+		if ( matcher.find() )
+		{
+			int scraps = StringUtilities.parseInt( matcher.group( 1 ) );
+			KoLCharacter.setYouRobotScraps( scraps );
 		}
 	}
 

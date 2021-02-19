@@ -1835,7 +1835,8 @@ public class CampgroundRequest
 		       KoLCharacter.inAxecore() ||
 		       KoLCharacter.inZombiecore() ||
 		       KoLCharacter.isSneakyPete()||
-		       KoLCharacter.inNuclearAutumn() ) &&
+		       KoLCharacter.inNuclearAutumn() ||
+		       KoLCharacter.inRobocore() ) &&
 		     !KoLCharacter.kingLiberated() )
 		{
 			// You can't use Mr. Skills in Bad Moon
