@@ -863,6 +863,14 @@ public class Modifiers
 		  null,
 		  Pattern.compile( "Drippy Resistance: " + EXPR )
 		},
+		{ "Energy",
+		  null,
+		  Pattern.compile( "Energy: " + EXPR)
+		},
+		{ "Scrap",
+		  null,
+		  Pattern.compile( "Scrap: " + EXPR)
+		},
 	};
 
 	public static final int DOUBLE_MODIFIERS = Modifiers.doubleModifiers.length;
