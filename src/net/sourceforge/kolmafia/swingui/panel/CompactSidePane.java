@@ -964,7 +964,7 @@ public class CompactSidePane
 				this.statusValueLabel[ count ].setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getYouRobotScraps() ) );
 				count++;
 			}
-			if ( KoLCharacter.getFuryLimit() > 0 )
+			else if ( KoLCharacter.getFuryLimit() > 0 )
 			{
 				this.statusLabel[ count ].setText( "  Fury: " );
 				this.statusValueLabel[ count ].setText( KoLCharacter.getFury() + " / " + KoLCharacter.getFuryLimit() );
