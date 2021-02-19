@@ -308,8 +308,22 @@ public class MonsterDatabase
 	static
 	{
 		MonsterDatabase.refreshMonsterTable();
-
 		// Set up MONSTER_PATH_MAP
+		/* //You, Robot Monster Map
+		   //Commented out at present until implemented in monster.txt/elsewhere
+		Map<MonsterData, MonsterData> youRobotMap = new TreeMap<>();
+		MonsterDatabase.addMapping( youRobotMap, "Boss Bat", "Boss Bot" );
+		MonsterDatabase.addMapping( youRobotMap, "Knob Goblin King", "Gobot King" );
+		MonsterDatabase.addMapping( youRobotMap, "Bonerdagon", "Robonerdagon" );
+		MonsterDatabase.addMapping( youRobotMap, "Groar", "Groarbot" );
+		MonsterDatabase.addMapping( youRobotMap, "Dr. Awkward", "Tobias J. Saibot" );
+		MonsterDatabase.addMapping( youRobotMap, "Lord Spookyraven", "Lord Cyberraven" );
+		MonsterDatabase.addMapping( youRobotMap, "Protector Spectre", "Protector S. P. E. C. T. R. E." );
+		MonsterDatabase.addMapping( youRobotMap, "The Big Wisniewski", "Artificial Wisniewski" );
+		MonsterDatabase.addMapping( youRobotMap, "The Man", "The Android" );
+		MonsterDatabase.addMapping( youRobotMap, "Naughty Sorceress", "Nautomatic Sorceress" );
+		MonsterDatabase.MONSTER_PATH_MAP.put( Path.YOU_ROBOT.getName(), youRobotMap );
+		*/
 		Map<MonsterData, MonsterData> plumberMap = new TreeMap<>();
 		MonsterDatabase.addMapping( plumberMap, "Boss Bat", "Koopa Paratroopa" );
 		MonsterDatabase.addMapping( plumberMap, "Knob Goblin King", "Hammer Brother" );
