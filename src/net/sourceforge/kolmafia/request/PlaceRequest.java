@@ -296,6 +296,10 @@ public class PlaceRequest
 		{
 			RabbitHoleRequest.parseResponse( urlString, responseText );
 		}
+		else if ( place.equals( "scrapheap") )
+		{
+			ScrapheapRequest.parseResponse( urlString, responseText );
+		}
 		else if ( place.equals( "spacegate" ) )
 		{
 			if ( action.equals( "sg_tech" ) && responseText.contains( "You turn in" ) )
@@ -1095,6 +1099,7 @@ public class PlaceRequest
 			  place.equals( "hiddencity" ) ||
 			  place.equals( "knoll_friendly" ) ||
 			  place.equals( "nstower" ) ||
+			  place.equals( "scrapheap" ) ||
 			  place.equals( "town_market" ) ||
 			  place.equals( "town_right" ) ||
 			  place.equals( "town_wrong" ) ||

@@ -726,6 +726,7 @@ public class ValhallaManager
 		Preferences.setInteger( "youRobotLeft", 0 );
 		Preferences.setInteger( "youRobotRight", 0 );
 		Preferences.setInteger( "youRobotTop", 0 );
+		Preferences.setInteger( "statbotUses", 0 );
 		// Campground resets
 		Preferences.setBoolean( "hasBartender", false );
 		Preferences.setBoolean( "hasChef", false );
