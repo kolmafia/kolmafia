@@ -1712,7 +1712,7 @@ public class CharPaneRequest
 
 		if ( !CharPaneRequest.compactCharacterPane )
 		{
-			ChoiceManager.parseRobotConfiguration( responseText );
+			ScrapheapRequest.parseConfiguration( responseText );
 		}
 
 		// Energy is handled in the handleMiscPoints function as it replaces MP

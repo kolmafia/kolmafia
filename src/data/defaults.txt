@@ -1293,6 +1293,7 @@ user	spookyAirportAlways	false
 user	spookyravenRecipeUsed	none
 user	spookyPuttyCopiesMade	0
 user	spookyPuttyMonster
+user	statbotUses	0
 user	stationaryButton1
 user	stationaryButton2
 user	stationaryButton3
@@ -1489,6 +1490,7 @@ user	_chocolateSculpturesUsed	0
 user	_chocolatesUsed	0
 user	_chronerCrossUsed	false
 user	_chronerTriggerUsed	false
+user	_chronolithActivations	0
 user	_chubbyAndPlumpUsed	false
 user	_circleDrumUsed	false
 user	_clanFortuneBuffUsed	false
@@ -1554,6 +1556,7 @@ user	_eldritchHorrorEvoked	false
 user	_eldritchTentacleFought	false
 user	_elronsCasts	0
 user	_enamorangs	0
+user	_energyCollected	0
 user	_envyfishEggUsed	false
 user	_essentialTofuUsed	false
 user	_etchedHourglassUsed	false

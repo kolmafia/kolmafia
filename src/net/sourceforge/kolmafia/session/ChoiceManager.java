@@ -92,38 +92,10 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.AdventureRequest;
-import net.sourceforge.kolmafia.request.ApiRequest;
-import net.sourceforge.kolmafia.request.ArcadeRequest;
-import net.sourceforge.kolmafia.request.BeachCombRequest;
-import net.sourceforge.kolmafia.request.BeerPongRequest;
-import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.*;
 import net.sourceforge.kolmafia.request.CampgroundRequest.Mushroom;
-import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
-import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
-import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest;
-import net.sourceforge.kolmafia.request.DecorateTentRequest;
-import net.sourceforge.kolmafia.request.EatItemRequest;
-import net.sourceforge.kolmafia.request.EdBaseRequest;
-import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.FightRequest;
-import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.GenieRequest;
-import net.sourceforge.kolmafia.request.LatteRequest;
-import net.sourceforge.kolmafia.request.MummeryRequest;
-import net.sourceforge.kolmafia.request.PantogramRequest;
-import net.sourceforge.kolmafia.request.PyramidRequest;
-import net.sourceforge.kolmafia.request.QuestLogRequest;
-import net.sourceforge.kolmafia.request.RelayRequest;
-import net.sourceforge.kolmafia.request.SaberRequest;
-import net.sourceforge.kolmafia.request.SpaaaceRequest;
-import net.sourceforge.kolmafia.request.SpelunkyRequest;
-import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
-import net.sourceforge.kolmafia.request.TavernRequest;
-import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
@@ -12402,11 +12374,11 @@ public abstract class ChoiceManager
 		}
 		case 1445:
 		{
-			ChoiceManager.parseRobotConfiguration( text );
+			ScrapheapRequest.parseConfiguration( text );
 
 			if ( urlString.contains( "show=cpus" ) )
 			{
-				ChoiceManager.parseRobotCPUUpgrades( text );
+				ScrapheapRequest.parseCPUUpgrades( text );
 			}
 
 			KoLCharacter.updateStatus();
@@ -16058,13 +16030,15 @@ public abstract class ChoiceManager
 			CargoCultistShortsRequest.parseAvailablePockets( text );
 			break;
 		case 1445:
-			ChoiceManager.parseRobotConfiguration( text );
+			ScrapheapRequest.parseConfiguration( text );
 
 			if ( request.getURLString().contains( "show=cpus" ) )
 			{
-				ChoiceManager.parseRobotCPUUpgrades( text );
+				ScrapheapRequest.parseCPUUpgrades( text );
 			}
 			break;
+		case 1447:
+			ScrapheapRequest.parseStatbotCost( text );
 		}
 
 		// Do this after special classes (like WumpusManager) have a
@@ -18869,34 +18843,6 @@ public abstract class ChoiceManager
 		{
 			Preferences.setInteger( setting, StringUtilities.parseInt( m.group( 1 ) ) );
 		}
-	}
-
-	private static final Pattern ROBOT_CONFIG_PATTERN = Pattern.compile( "robot/(left|right|top|bottom|body)(\\d+).png\"" );
-
-	public static void parseRobotConfiguration( final String text )
-	{
-		Matcher m = ROBOT_CONFIG_PATTERN.matcher( text );
-		while ( m.find() )
-		{
-			String section = m.group( 1 );
-			int config = StringUtilities.parseInt( m.group( 2 ) );
-			Preferences.setInteger( "youRobot" + StringUtilities.toTitleCase( section ), config );
-		}
-	}
-
-	private static final Pattern ROBOT_CPU_INSTALLED_PATTERN = Pattern.compile( "value=\"([a-z_]+)\"[^\\(]+\\(already installed\\)" );
-
-	private static void parseRobotCPUUpgrades( final String text )
-	{
-		ArrayList<String> cpuUpgrades = new ArrayList<>();
-
-		Matcher m = ROBOT_CPU_INSTALLED_PATTERN.matcher( text );
-		while ( m.find() )
-		{
-			cpuUpgrades.add( m.group( 1 ) );
-		}
-
-		Preferences.setString( "youRobotCPUUpgrades", String.join( ",", cpuUpgrades ) );
 	}
 
 	public static boolean noRelayChoice( int choice )
