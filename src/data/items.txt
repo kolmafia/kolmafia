@@ -10760,3 +10760,4 @@
 10732	fresh coat of paint	640494952	freshcoat.gif	shirt		0
 10733	emotion chip	433546358	emochip_clean.gif	usable	t	0
 10734	spinal-fluid-covered emotion chip	360064272	emochip_dirty.gif	usable		0
+10735	robo-battery	319416752	robobattery.gif	usable	q	0
