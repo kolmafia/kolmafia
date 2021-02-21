@@ -955,7 +955,7 @@ public class NPCPurchaseRequest
 			return;
 		}
 
-		if ( shopId.equals( "campaway" ) )
+		if ( shopId.equals( "campfire" ) )
 		{
 			YourCampfireRequest.parseResponse( urlString, responseText );
 			return;
