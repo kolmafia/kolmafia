@@ -12374,6 +12374,48 @@ public abstract class ChoiceManager
 		}
 		case 1445:
 		{
+			// KoL may have unequipped some items based on our selection
+			Matcher partMatcher = Pattern.compile( "part=([^&]*)" ).matcher( urlString );
+			Matcher chosenPartMatcher = Pattern.compile( "p=([^&]*)" ).matcher( urlString );
+			String part = partMatcher.find() ? partMatcher.group( 1 ) : null;
+			int chosenPart = chosenPartMatcher.find() ? StringUtilities.parseInt( chosenPartMatcher.group( 1 ) ) : 0;
+
+			if ( part != null && part != "cpus" && chosenPart != 0 )
+			{
+				// If we have set our "top" to anything other than 2, we now have no familiar
+				if ( part == "top" && chosenPart != 2 )
+				{
+					KoLCharacter.setFamiliar( FamiliarData.NO_FAMILIAR );
+				}
+
+				// If we've set any part of the main body to anything other than 4, we are now missing an equip
+				if ( chosenPart != 4)
+				{
+					int slot = 0;
+
+					switch ( part )
+					{
+					case "top":
+						slot = EquipmentManager.HAT;
+						break;
+					case "right":
+						slot = EquipmentManager.OFFHAND;
+						break;
+					case "bottom":
+						slot = EquipmentManager.PANTS;
+						break;
+					case "left":
+						slot = EquipmentManager.WEAPON;
+						break;
+					}
+
+					if ( slot != 0 )
+					{
+						EquipmentManager.setEquipment( slot, EquipmentRequest.UNEQUIP );
+					}
+				}
+			}
+
 			ScrapheapRequest.parseConfiguration( text );
 
 			if ( urlString.contains( "show=cpus" ) )
