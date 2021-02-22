@@ -1452,6 +1452,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "can_equip", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.FAMILIAR_TYPE };
+		functions.add( new LibraryFunction( "can_equip", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.FAMILIAR_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "can_equip", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -6529,25 +6532,33 @@ public abstract class RuntimeLibrary
 
 	// Equipment functions.
 
-	public static Value can_equip( ScriptRuntime controller, final Value item )
+	public static Value can_equip( ScriptRuntime controller, final Value itemOrFamiliar )
 	{
-		int itemId = (int) item.intValue();
-		switch ( ItemDatabase.getConsumptionType( itemId ) )
+		if ( itemOrFamiliar.getType().equals( DataTypes.ITEM_TYPE ) )
 		{
-		case KoLConstants.EQUIP_HAT:
-		case KoLConstants.EQUIP_WEAPON:
-		case KoLConstants.EQUIP_OFFHAND:
-		case KoLConstants.EQUIP_SHIRT:
-		case KoLConstants.EQUIP_PANTS:
-		case KoLConstants.EQUIP_CONTAINER:
-		case KoLConstants.EQUIP_FAMILIAR:
-		case KoLConstants.EQUIP_ACCESSORY:
-			break;
-		default:
-			return DataTypes.FALSE_VALUE;
+			int itemId = ( int ) itemOrFamiliar.intValue();
+			switch ( ItemDatabase.getConsumptionType( itemId ) )
+			{
+			case KoLConstants.EQUIP_HAT:
+			case KoLConstants.EQUIP_WEAPON:
+			case KoLConstants.EQUIP_OFFHAND:
+			case KoLConstants.EQUIP_SHIRT:
+			case KoLConstants.EQUIP_PANTS:
+			case KoLConstants.EQUIP_CONTAINER:
+			case KoLConstants.EQUIP_FAMILIAR:
+			case KoLConstants.EQUIP_ACCESSORY:
+				break;
+			default:
+				return DataTypes.FALSE_VALUE;
+			}
+
+			return DataTypes.makeBooleanValue( EquipmentManager.canEquip( ItemDatabase.getItemName( itemId ) ) );
 		}
-		
-		return DataTypes.makeBooleanValue( EquipmentManager.canEquip( ItemDatabase.getItemName( itemId ) ) );
+		else
+		{
+			FamiliarData fam = new FamiliarData( (int) itemOrFamiliar.intValue() );
+			return fam == null ? DataTypes.FALSE_VALUE : DataTypes.makeBooleanValue( fam.canEquip() );
+		}
 	}
 
 	public static Value can_equip( ScriptRuntime controller, final Value familiar, final Value item )
