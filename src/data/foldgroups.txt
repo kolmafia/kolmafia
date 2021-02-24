@@ -6,7 +6,7 @@
 # The items in each group are ordered: an item deterministically
 # transforms into the next in the list.
 #
-# Torso Awaregness is required to make a shirt
+# Torso Awareness is required to make a shirt
 # Spirit of Rigatoni or a special sauce glove is required to make a chefstaff
 
 0	scratch 'n' sniff sword	scratch 'n' sniff crossbow
