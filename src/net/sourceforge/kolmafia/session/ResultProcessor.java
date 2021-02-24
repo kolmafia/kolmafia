@@ -3043,7 +3043,7 @@ public class ResultProcessor
 			{
 				QuestDatabase.setQuestProgress( Quest.SHIRT, QuestDatabase.FINISHED );
 				ResultProcessor.removeItem( ItemPool.PROFESSOR_WHAT_GARMENT );
-				ResponseTextParser.learnSkill( "Torso Awaregness" );
+				ResponseTextParser.learnSkill( "Torso Awareness" );
 			}
 			break;
 		}

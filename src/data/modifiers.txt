@@ -7900,7 +7900,7 @@ Skill	Thumbs	Pickpocket Chance: +50
 # Tiki Mixology: You can make cocktails with rhum in them
 Skill	Tolerance of the Kitchen	Hot Resistance: +2
 # Tolerant Constitution: +5 Spleen Capacity
-# Torso Awaregness: Lets you equip Shirts
+# Torso Awareness: Lets you equip Shirts
 Skill	Tougher Skin	Damage Absorption: +100
 # Transcendental Noodlecraft: Lets you summon more noodles per day
 # Transcendental Noodlecraft: Lets you cook more advanced noodle dishes

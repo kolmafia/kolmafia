@@ -499,7 +499,7 @@ public abstract class BadMoonManager
 			"The Spooky Forest",
 			"opening The Hidden Temple",
 			EffectPool.get( EffectPool.DANG_NEAR_CUT_IN_HALF, 5 ),
-			"Muscle -50%, Gain Torso Awaregness",
+			"Muscle -50%, Gain Torso Awareness",
 			BadMoonManager.ITEMS,
 			"badMoonEncounter44",
 		},

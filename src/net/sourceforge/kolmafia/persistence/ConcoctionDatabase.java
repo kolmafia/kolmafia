@@ -2845,7 +2845,7 @@ public class ConcoctionDatabase
 			result.append( " (depleted Grimacite hammer)" );
 
 		if ( mixingRequirements.contains( CraftingRequirements.TORSO ) )
-			result.append( " (Torso Awaregness)" );
+			result.append( " (Torso Awareness)" );
 
 		if ( mixingRequirements.contains( CraftingRequirements.SUPER_MEATSMITHING ) )
 			result.append( " (Super-Advanced Meatsmithing)" );
@@ -3219,7 +3219,7 @@ public class ConcoctionDatabase
 		{
 			ConcoctionDatabase.requirements.add( CraftingRequirements.GRIMACITE );
 		}
-		// Requires Torso Awaregness
+		// Requires Torso Awareness
 		else if ( mix.equals( "TORSO" ) )
 		{
 			ConcoctionDatabase.requirements.add( CraftingRequirements.TORSO );

@@ -2679,7 +2679,7 @@ public class UseItemRequest
 		case ItemPool.WARM_SUBJECT:
 
 			// The first time you use Warm Subject gift
-			// certificates when you have the Torso Awaregness
+			// certificates when you have the Torso Awareness
 			// skill consumes only one, even if you tried to
 			// multi-use the item.
 
