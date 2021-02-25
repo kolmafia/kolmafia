@@ -180,6 +180,10 @@ public class QuestLogRequest
 				Preferences.setString( "doctorBagQuestItem", "" );
 				Preferences.setString( "doctorBagQuestLocation", "" );
 			}
+			if ( !responseText.contains( "Toot!") )
+			{
+				QuestDatabase.setQuestProgress( Quest.TOOT, QuestDatabase.FINISHED );
+			}
 		}
 
 		Iterator<Integer> it = map.keySet().iterator();

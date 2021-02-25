@@ -94,6 +94,7 @@ public class QuestDatabase
 		UNTINKER( "questM01Untinker" ),
 		ARTIST( "questM02Artist" ),
 		BUGBEAR( "questM03Bugbear" ),
+		TOOT( "questM05Toot" ),
 		HAMMER( "questM07Hammer" ),
 		BAKER( "questM08Baker" ),
 		AZAZEL( "questM10Azazel" ),
