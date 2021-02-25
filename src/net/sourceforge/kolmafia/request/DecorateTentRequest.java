@@ -33,8 +33,10 @@
 
 package net.sourceforge.kolmafia.request;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 
 public class DecorateTentRequest
 	extends GenericRequest
@@ -90,6 +92,9 @@ public class DecorateTentRequest
 		case 4:
 			return;
 		}
+
+		ResultProcessor.processItem( ItemPool.BURNT_STICK, -1 );
+
 		Preferences.setInteger( "campAwayDecoration", decision );
 	}
 }
