@@ -543,12 +543,6 @@ public class ListCellRendererFactory
 					this.appendRange( stringForm, ConsumablesDatabase.getMuscleRange( name ), "mus" );
 					this.appendRange( stringForm, ConsumablesDatabase.getMysticalityRange( name ), "mys" );
 					this.appendRange( stringForm, ConsumablesDatabase.getMoxieRange( name ), "mox" );
-					String notes = ConsumablesDatabase.getNotes( name );
-					if ( notes != null && notes.length() > 0 )
-					{
-						stringForm.append( ", " );
-						stringForm.append( notes );
-					}
 				}
 				else
 				{
@@ -574,6 +568,14 @@ public class ListCellRendererFactory
 						stringForm.append( effectModifiers );
 						stringForm.append( ")" );
 					}
+				}
+
+				// Display notes whether the item is a consumable or not
+				String notes = ConsumablesDatabase.getNotes( name );
+				if ( notes != null && notes.length() > 0 )
+				{
+					stringForm.append( ", " );
+					stringForm.append( notes );
 				}
 			}
 

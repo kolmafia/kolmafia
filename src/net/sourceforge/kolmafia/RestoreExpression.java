@@ -77,6 +77,10 @@ public class RestoreExpression
 		{
 			return this.literal( this.until( ")" ).toLowerCase(), 'g' );
 		}
+		if ( this.optional( "path(" ) )
+		{
+			return this.literal( this.until( ")" ), '\u0092' );
+		}
 		if ( this.optional( "HP" ) )
 		{
 			return "\u0085";

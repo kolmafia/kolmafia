@@ -6285,6 +6285,14 @@ public class UseItemRequest
 				Preferences.setBoolean( "_overflowingGiftBasketUsed", true );
 			}
 			return;
+		case ItemPool.BATTERY_9V:
+		case ItemPool.BATTERY_LANTERN:
+		case ItemPool.BATTERY_CAR:
+			if ( responseText.contains( "Your tongue crackles with electricity" ) )
+			{
+				Preferences.increment( "shockingLickCharges" );
+			}
+			return;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )

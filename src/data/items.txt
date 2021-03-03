@@ -10761,3 +10761,12 @@
 10733	emotion chip	433546358	emochip_clean.gif	usable	t	0
 10734	spinal-fluid-covered emotion chip	360064272	emochip_dirty.gif	usable		0
 10735	robo-battery	319416752	robobattery.gif	usable	q	0
+10736	Thwaitgold listening bug statuette	491324304	thwaitrobobug.gif	none		0
+10737	power seed	927595614	powerseed.gif	usable	t	0
+10738	potted power plant	379176485	pottedplant.gif	usable		0
+10739	battery (AAA)	980170973	ppbattery1.gif	potion, multiple, paste	t	0	batteries (AAA)
+10740	battery (AA)	817484728	ppbattery2.gif	potion, multiple, paste	t	0	batteries (AA)
+10741	battery (D)	442554870	ppbattery3.gif	potion, multiple, paste	t	0	batteries (D)
+10742	battery (9-Volt)	571644039	ppbattery4.gif	potion, multiple, paste	t	0	batteries (9-Volt)
+10743	battery (lantern)	609332450	ppbattery5.gif	potion, multiple, paste	t	0	batteries (lantern)
+10744	battery (car)	331021839	ppbattery6.gif	potion, multiple	t	0	batteries (car)

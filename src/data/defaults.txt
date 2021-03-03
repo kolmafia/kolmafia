@@ -673,6 +673,8 @@ user	guzzlrQuestLocation
 user	guzzlrQuestTier	
 user	haciendaLayout	000000000000000000
 user	hardcorePVPWarning	false
+user	harvestBatteriesHardcore	false
+user	harvestBatteriesSoftcore	false
 user	harvestGardenHardcore	none
 user	harvestGardenSoftcore	none
 user	hasBartender	false
@@ -1181,7 +1183,8 @@ user	serverAddsCustomCombat	false
 user	sexChanges	0
 user	SHAWARMAInitiativeUnlocked	false
 user	shenInitiationDay	0
-user	shenQuestItem	
+user	shenQuestItem
+user	shockingLickCharges	0
 user	showGainsPerUnit	false
 user	showIgnoringStorePrices	false
 user	showNoSummonOnly	false

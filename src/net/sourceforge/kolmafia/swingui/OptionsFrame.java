@@ -2519,6 +2519,7 @@ public class OptionsFrame
 		private final JCheckBox checkJackass;
 		private final JCheckBox makePocketWishes;
 		private final JCheckBox haveBoxingDaydream;
+		private final JCheckBox harvestBatteries;
 
 		private final SkillMenu tomeSkills;
 		private final SkillMenu libramSkills;
@@ -2589,6 +2590,10 @@ public class OptionsFrame
 			this.haveBoxingDaydream = new JCheckBox( "have Boxing Daydream" );
 			this.haveBoxingDaydream.addActionListener( this );
 			centerPanel.add( this.haveBoxingDaydream );
+
+			this.harvestBatteries = new JCheckBox( "harvest batteries" );
+			this.harvestBatteries.addActionListener( this );
+			centerPanel.add( this.harvestBatteries );
 
 			centerContainer.add( centerPanel );
 			centerContainer.add( Box.createVerticalStrut( 10 ) );
@@ -2678,6 +2683,8 @@ public class OptionsFrame
 				"makePocketWishes" + this.breakfastType, this.makePocketWishes.isSelected() );
 			Preferences.setBoolean(
 				"haveBoxingDaydream" + this.breakfastType, this.haveBoxingDaydream.isSelected() );
+			Preferences.setBoolean(
+					"harvestBatteries" + this.breakfastType, this.harvestBatteries.isSelected() );
 
 			this.tomeSkills.setPreference();
 			this.libramSkills.setPreference();
@@ -2704,6 +2711,7 @@ public class OptionsFrame
 			this.checkJackass.setSelected( Preferences.getBoolean( "checkJackass" + this.breakfastType ) );
 			this.makePocketWishes.setSelected( Preferences.getBoolean( "makePocketWishes" + this.breakfastType ) );
 			this.haveBoxingDaydream.setSelected( Preferences.getBoolean( "haveBoxingDaydream" + this.breakfastType ) );
+			this.harvestBatteries.setSelected( Preferences.getBoolean( "harvestBatteries" + this.breakfastType ) );
 		}
 
 		@Override
