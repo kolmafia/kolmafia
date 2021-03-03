@@ -7941,7 +7941,7 @@ public abstract class ChoiceManager
 			// ridiculous trophy case.
 
 			if ( ChoiceManager.lastDecision == 3 &&
-			     text.contains( "ridiculous trophy case" ) )
+					text.contains( "ridiculous trophy case" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.HOT_WING, -3 ) );
 			}
@@ -8006,7 +8006,7 @@ public abstract class ChoiceManager
 				Matcher matcher = ChoiceManager.TATTOO_PATTERN.matcher( request.responseText );
 				if ( matcher.find() )
 				{
-					int tattoo = StringUtilities.parseInt( matcher.group(1) );
+					int tattoo = StringUtilities.parseInt( matcher.group( 1 ) );
 					AdventureResult cost = ItemPool.get( ItemPool.HOBO_NICKEL, -20 * tattoo );
 					ResultProcessor.processResult( cost );
 				}
@@ -8174,7 +8174,8 @@ public abstract class ChoiceManager
 			}
 			break;
 
-		case 394: {
+		case 394:
+		{
 			// Hellevator Music
 			// Parse response
 			Matcher matcher = HELLEVATOR_PATTERN.matcher( text );
@@ -8225,7 +8226,7 @@ public abstract class ChoiceManager
 		case 450:
 			// The Duchess' Cottage
 			if ( ChoiceManager.lastDecision == 1 && text.contains( "Delectable and pulchritudinous!" ) )
-			{	// Option 1 is Feed the Duchess
+			{    // Option 1 is Feed the Duchess
 				ResultProcessor.processItem( ItemPool.BEAUTIFUL_SOUP, -1 );
 				ResultProcessor.processItem( ItemPool.LOBSTER_QUA_GRILL, -1 );
 				ResultProcessor.processItem( ItemPool.MISSING_WINE, -1 );
@@ -8243,11 +8244,29 @@ public abstract class ChoiceManager
 				ResultProcessor.processItem( ItemPool.KEGGER_MAP, -1 );
 			}
 
-		case 460: case 461: case 462: case 463: case 464:
-		case 465:           case 467: case 468: case 469:
-		case 470:           case 472: case 473: case 474:
-		case 475: case 476: case 477: case 478: case 479:
-		case 480: case 481: case 482: case 483: case 484:
+		case 460:
+		case 461:
+		case 462:
+		case 463:
+		case 464:
+		case 465:
+		case 467:
+		case 468:
+		case 469:
+		case 470:
+		case 472:
+		case 473:
+		case 474:
+		case 475:
+		case 476:
+		case 477:
+		case 478:
+		case 479:
+		case 480:
+		case 481:
+		case 482:
+		case 483:
+		case 484:
 			// Space Trip
 			ArcadeRequest.postChoiceSpaceTrip( request, ChoiceManager.lastChoice, ChoiceManager.lastDecision );
 			break;
@@ -8267,7 +8286,10 @@ public abstract class ChoiceManager
 			ArcadeRequest.postChoiceDungeonFist( request, ChoiceManager.lastDecision );
 			break;
 
-		case 488: case 489: case 490: case 491:
+		case 488:
+		case 489:
+		case 490:
+		case 491:
 			// Meteoid
 			ArcadeRequest.postChoiceMeteoid( request, ChoiceManager.lastChoice, ChoiceManager.lastDecision );
 			break;
@@ -8280,7 +8302,7 @@ public abstract class ChoiceManager
 			Matcher skeletonMatcher = SKELETON_PATTERN.matcher( text );
 			if ( skeletonMatcher.find() )
 			{
-				String message = "You defeated " + skeletonMatcher.group(1) + " skeletons";
+				String message = "You defeated " + skeletonMatcher.group( 1 ) + " skeletons";
 				RequestLogger.printLine( message );
 				RequestLogger.updateSessionLog( message );
 			}
@@ -8320,7 +8342,7 @@ public abstract class ChoiceManager
 			// little servo whine, and falls apart.
 
 			if ( text.contains( "WHOOMP" ) ||
-			     text.contains( "a sad little servo whine" ) )
+					text.contains( "a sad little servo whine" ) )
 			{
 				EquipmentManager.discardEquipment( ItemPool.EMU_UNIT );
 				QuestDatabase.setQuestIfBetter( Quest.GENERATOR, QuestDatabase.FINISHED );
@@ -8425,7 +8447,7 @@ public abstract class ChoiceManager
 		case 595:
 			// Fire! I... have made... fire!
 			if ( text.contains( "rubbing the two stupid sticks together" ) ||
-			     text.contains( "pile the sticks up on top of the briefcase" ) )
+					text.contains( "pile the sticks up on top of the briefcase" ) )
 			{
 				ResultProcessor.processItem( ItemPool.CSA_FIRE_STARTING_KIT, -1 );
 			}
@@ -8526,11 +8548,11 @@ public abstract class ChoiceManager
 				return;
 			}
 			int souls =
-				ChoiceManager.lastDecision == 1 ? 3 :
-				ChoiceManager.lastDecision == 2 ? 11 :
-				ChoiceManager.lastDecision == 3 ? 23 :
-				ChoiceManager.lastDecision == 4 ? 37 :
-				0;
+					ChoiceManager.lastDecision == 1 ? 3 :
+							ChoiceManager.lastDecision == 2 ? 11 :
+									ChoiceManager.lastDecision == 3 ? 23 :
+											ChoiceManager.lastDecision == 4 ? 37 :
+													0;
 			if ( souls > 0 )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.MIME_SOUL_FRAGMENT, 0 - souls ) );
@@ -8577,7 +8599,7 @@ public abstract class ChoiceManager
 				Preferences.setInteger( "lastCastleGroundUnlock", KoLCharacter.getAscensions() );
 				QuestDatabase.setQuestProgress( Quest.GARBAGE, "step8" );
 			}
-			break;			
+			break;
 
 		case 675:
 			// Melon Collie and the Infinite Lameness
@@ -9142,9 +9164,9 @@ public abstract class ChoiceManager
 				}
 			}
 			// if you don't get the expected binder clip, don't have one, and don't have a mcclusky file, you must have unlocked the boss at least
-			else if ( ChoiceManager.lastDecision == 2 && !text.contains( "boring binder clip" ) && 
-				InventoryManager.getCount( ChoiceManager.MCCLUSKY_FILE ) == 0 && InventoryManager.getCount( ChoiceManager.BINDER_CLIP ) == 0 &&
-				Preferences.getInteger( "hiddenOfficeProgress" ) < 6 )
+			else if ( ChoiceManager.lastDecision == 2 && !text.contains( "boring binder clip" ) &&
+					InventoryManager.getCount( ChoiceManager.MCCLUSKY_FILE ) == 0 && InventoryManager.getCount( ChoiceManager.BINDER_CLIP ) == 0 &&
+					Preferences.getInteger( "hiddenOfficeProgress" ) < 6 )
 			{
 				Preferences.setInteger( "hiddenOfficeProgress", 6 );
 			}
@@ -9183,7 +9205,7 @@ public abstract class ChoiceManager
 				int bowlCount = Preferences.getInteger( "hiddenBowlingAlleyProgress" );
 				if ( bowlCount < 6 )
 				{
-					Preferences.setInteger( "hiddenBowlingAlleyProgress" , ( bowlCount < 2 ? 2 : bowlCount + 1 ) );
+					Preferences.setInteger( "hiddenBowlingAlleyProgress", ( bowlCount < 2 ? 2 : bowlCount + 1 ) );
 				}
 			}
 			return;
@@ -9206,7 +9228,7 @@ public abstract class ChoiceManager
 				Preferences.setInteger( "reanimatorWeirdParts", 0 );
 				Preferences.setInteger( "reanimatorWings", 0 );
 			}
-			return;		
+			return;
 
 		case 805:
 			// A Sietch in Time
@@ -9293,14 +9315,14 @@ public abstract class ChoiceManager
 			// Shen Copperhead, Jerk
 			// Deliberate fallthrough
 		case 853:
-		{	// Shen Copperhead, Huge Jerk
+		{    // Shen Copperhead, Huge Jerk
 			Matcher matcher = ChoiceManager.SHEN_PATTERN.matcher( text );
 			if ( matcher.find() )
 			{
 				Preferences.setString( "shenQuestItem", matcher.group( 1 ) );
 			}
 		}
-			// Deliberate fallthrough
+		// Deliberate fallthrough
 		case 854:
 			// Shen Copperhead, World's Biggest Jerk
 			QuestDatabase.advanceQuest( Quest.SHEN );
@@ -9334,7 +9356,7 @@ public abstract class ChoiceManager
 		case 890:
 			// Lights Out in the Storage Room
 			if ( text.contains( "BUT AIN'T NO ONE CAN GET A STAIN OUT LIKE OLD AGNES!" ) &&
-			     !Preferences.getString( "nextSpookyravenElizabethRoom" ).equals( "none" ) )
+					!Preferences.getString( "nextSpookyravenElizabethRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenElizabethRoom", "The Haunted Laundry Room" );
 			}
@@ -9343,7 +9365,7 @@ public abstract class ChoiceManager
 		case 891:
 			// Lights Out in the Laundry Room
 			if ( text.contains( "DO YOU SEE THE STAIN UPON MY TOWEL?" ) &&
-			     !Preferences.getString( "nextSpookyravenElizabethRoom" ).equals( "none" ) )
+					!Preferences.getString( "nextSpookyravenElizabethRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenElizabethRoom", "The Haunted Bathroom" );
 			}
@@ -9352,7 +9374,7 @@ public abstract class ChoiceManager
 		case 892:
 			// Lights Out in the Bathroom
 			if ( text.contains( "THE STAIN HAS BEEN LIFTED" ) &&
-			     !Preferences.getString( "nextSpookyravenElizabethRoom" ).equals( "none" ) )
+					!Preferences.getString( "nextSpookyravenElizabethRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenElizabethRoom", "The Haunted Kitchen" );
 			}
@@ -9361,7 +9383,7 @@ public abstract class ChoiceManager
 		case 893:
 			// Lights Out in the Kitchen
 			if ( text.contains( "If You Give a Demon a Brownie" ) &&
-			     !Preferences.getString( "nextSpookyravenElizabethRoom" ).equals( "none" ) )
+					!Preferences.getString( "nextSpookyravenElizabethRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenElizabethRoom", "The Haunted Library" );
 			}
@@ -9370,7 +9392,7 @@ public abstract class ChoiceManager
 		case 894:
 			// Lights Out in the Library
 			if ( text.contains( "If You Give a Demon a Brownie" ) &&
-			     !Preferences.getString( "nextSpookyravenElizabethRoom" ).equals( "none" ) )
+					!Preferences.getString( "nextSpookyravenElizabethRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenElizabethRoom", "The Haunted Ballroom" );
 			}
@@ -9379,7 +9401,7 @@ public abstract class ChoiceManager
 		case 895:
 			// Lights Out in the Ballroom
 			if ( text.contains( "The Flowerbed of Unearthly Delights" ) &&
-			     !Preferences.getString( "nextSpookyravenElizabethRoom" ).equals( "none" ) )
+					!Preferences.getString( "nextSpookyravenElizabethRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenElizabethRoom", "The Haunted Gallery" );
 			}
@@ -9395,7 +9417,7 @@ public abstract class ChoiceManager
 		case 897:
 			// Lights Out in the Bedroom
 			if ( text.contains( "restock his medical kit in the nursery" ) &&
-			     !Preferences.getString( "nextSpookyravenStephenRoom" ).equals( "none" ) )
+					!Preferences.getString( "nextSpookyravenStephenRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenStephenRoom", "The Haunted Nursery" );
 			}
@@ -9404,7 +9426,7 @@ public abstract class ChoiceManager
 		case 898:
 			// Lights Out in the Nursery
 			if ( text.contains( "This afternoon we're burying Crumbles" ) &&
-			     !Preferences.getString( "nextSpookyravenStephenRoom" ).equals( "none" ) )
+					!Preferences.getString( "nextSpookyravenStephenRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenStephenRoom", "The Haunted Conservatory" );
 			}
@@ -9413,7 +9435,7 @@ public abstract class ChoiceManager
 		case 899:
 			// Lights Out in the Conservatory
 			if ( text.contains( "Crumbles isn't buried very deep" ) &&
-			     !Preferences.getString( "nextSpookyravenStephenRoom" ).equals( "none" ) )
+					!Preferences.getString( "nextSpookyravenStephenRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenStephenRoom", "The Haunted Billiards Room" );
 			}
@@ -9422,7 +9444,7 @@ public abstract class ChoiceManager
 		case 900:
 			// Lights Out in the Billiards Room
 			if ( text.contains( "The wolf head has a particularly nasty expression on its face" ) &&
-			     !Preferences.getString( "nextSpookyravenStephenRoom" ).equals( "none" ) )
+					!Preferences.getString( "nextSpookyravenStephenRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenStephenRoom", "The Haunted Wine Cellar" );
 			}
@@ -9431,7 +9453,7 @@ public abstract class ChoiceManager
 		case 901:
 			// Lights Out in the Wine Cellar
 			if ( text.contains( "Crumbles II (Wolf)" ) &&
-			     !Preferences.getString( "nextSpookyravenStephenRoom" ).equals( "none" ) )
+					!Preferences.getString( "nextSpookyravenStephenRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenStephenRoom", "The Haunted Boiler Room" );
 			}
@@ -9440,7 +9462,7 @@ public abstract class ChoiceManager
 		case 902:
 			// Lights Out in the Boiler Room
 			if ( text.contains( "CRUMBLES II" ) &&
-			     !Preferences.getString( "nextSpookyravenStephenRoom" ).equals( "none" ) )
+					!Preferences.getString( "nextSpookyravenStephenRoom" ).equals( "none" ) )
 			{
 				Preferences.setString( "nextSpookyravenStephenRoom", "The Haunted Laboratory" );
 			}
@@ -9614,7 +9636,7 @@ public abstract class ChoiceManager
 				QuestDatabase.setQuestProgress( Quest.CITADEL, "step9" );
 			}
 			break;
-				
+
 		case 967:
 			// The Thunder Rolls...
 			if ( ChoiceManager.lastDecision != 8 )
@@ -9834,8 +9856,8 @@ public abstract class ChoiceManager
 			// Hide a gift!
 			if ( text.contains( "You hide" ) )
 			{
-				HashMap<Integer, Integer> idMap = new HashMap<Integer, Integer>(3);
-				HashMap<Integer, Integer> qtyMap = new HashMap<Integer, Integer>(3);
+				HashMap<Integer, Integer> idMap = new HashMap<Integer, Integer>( 3 );
+				HashMap<Integer, Integer> qtyMap = new HashMap<Integer, Integer>( 3 );
 				int index;
 				int id;
 				int giftQty;
@@ -9897,51 +9919,81 @@ public abstract class ChoiceManager
 				Matcher matcher = topperPattern.matcher( urlString );
 				if ( matcher.find() )
 				{
-					decoration = StringUtilities.parseInt( matcher.group(1) );
+					decoration = StringUtilities.parseInt( matcher.group( 1 ) );
 					switch ( decoration )
 					{
-						case 1: Preferences.setString( "shrubTopper", "Muscle" ); break;
-						case 2: Preferences.setString( "shrubTopper", "Mysticality" ); break;
-						case 3: Preferences.setString( "shrubTopper", "Moxie" ); break;
+					case 1:
+						Preferences.setString( "shrubTopper", "Muscle" );
+						break;
+					case 2:
+						Preferences.setString( "shrubTopper", "Mysticality" );
+						break;
+					case 3:
+						Preferences.setString( "shrubTopper", "Moxie" );
+						break;
 					}
 				}
-				
+
 				matcher = lightsPattern.matcher( urlString );
 				if ( matcher.find() )
 				{
-					decoration = StringUtilities.parseInt( matcher.group(1) );
+					decoration = StringUtilities.parseInt( matcher.group( 1 ) );
 					switch ( decoration )
 					{
-						case 1: Preferences.setString( "shrubLights", "prismatic" ); break;
-						case 2: Preferences.setString( "shrubLights", "Hot" ); break;
-						case 3: Preferences.setString( "shrubLights", "Cold" ); break;
-						case 4: Preferences.setString( "shrubLights", "Stench" ); break;
-						case 5: Preferences.setString( "shrubLights", "Spooky" ); break;
-						case 6: Preferences.setString( "shrubLights", "Sleaze" ); break;
+					case 1:
+						Preferences.setString( "shrubLights", "prismatic" );
+						break;
+					case 2:
+						Preferences.setString( "shrubLights", "Hot" );
+						break;
+					case 3:
+						Preferences.setString( "shrubLights", "Cold" );
+						break;
+					case 4:
+						Preferences.setString( "shrubLights", "Stench" );
+						break;
+					case 5:
+						Preferences.setString( "shrubLights", "Spooky" );
+						break;
+					case 6:
+						Preferences.setString( "shrubLights", "Sleaze" );
+						break;
 					}
 				}
 
 				matcher = garlandPattern.matcher( urlString );
 				if ( matcher.find() )
 				{
-					decoration = StringUtilities.parseInt( matcher.group(1) );
+					decoration = StringUtilities.parseInt( matcher.group( 1 ) );
 					switch ( decoration )
 					{
-						case 1: Preferences.setString( "shrubGarland", "HP" ); break;
-						case 2: Preferences.setString( "shrubGarland", "PvP" ); break;
-						case 3: Preferences.setString( "shrubGarland", "blocking" ); break;
+					case 1:
+						Preferences.setString( "shrubGarland", "HP" );
+						break;
+					case 2:
+						Preferences.setString( "shrubGarland", "PvP" );
+						break;
+					case 3:
+						Preferences.setString( "shrubGarland", "blocking" );
+						break;
 					}
 				}
 
 				matcher = giftPattern.matcher( urlString );
 				if ( matcher.find() )
 				{
-					decoration = StringUtilities.parseInt( matcher.group(1) );
+					decoration = StringUtilities.parseInt( matcher.group( 1 ) );
 					switch ( decoration )
 					{
-						case 1: Preferences.setString( "shrubGifts", "yellow" ); break;
-						case 2: Preferences.setString( "shrubGifts", "meat" ); break;
-						case 3: Preferences.setString( "shrubGifts", "gifts" ); break;
+					case 1:
+						Preferences.setString( "shrubGifts", "yellow" );
+						break;
+					case 2:
+						Preferences.setString( "shrubGifts", "meat" );
+						break;
+					case 3:
+						Preferences.setString( "shrubGifts", "gifts" );
+						break;
 					}
 				}
 			}
@@ -9965,22 +10017,22 @@ public abstract class ChoiceManager
 			SorceressLairManager.parseContestBooth( ChoiceManager.lastDecision, text );
 			break;
 
-		case 1005:	// 'Allo
-		case 1008:	// Pooling Your Resources
-		case 1011:	// Of Mouseholes and Manholes
+		case 1005:    // 'Allo
+		case 1008:    // Pooling Your Resources
+		case 1011:    // Of Mouseholes and Manholes
 			SorceressLairManager.parseMazeTrap( ChoiceManager.lastChoice, text );
 			break;
 
-		case 1013:	// Mazel Tov!
+		case 1013:    // Mazel Tov!
 			// Then you both giggle and head through the exit at the same time.
 			QuestDatabase.setQuestProgress( Quest.FINAL, "step5" );
 			break;
 
-		case 1015:	// The Mirror in the Tower has the View that is True
+		case 1015:    // The Mirror in the Tower has the View that is True
 			QuestDatabase.setQuestProgress( Quest.FINAL, "step10" );
 			break;
 
-		case 1022:	// Meet Frank
+		case 1022:    // Meet Frank
 			// Frank bobs his head toward the hedge maze in front of you.
 			QuestDatabase.setQuestProgress( Quest.FINAL, "step4" );
 			break;
@@ -9992,7 +10044,7 @@ public abstract class ChoiceManager
 			}
 			break;
 
-		case 1027:	// The End of the Tale of Spelunking
+		case 1027:    // The End of the Tale of Spelunking
 			if ( ChoiceManager.lastDecision == 1 )
 			{
 				// Remove all virtual items from inventory/tally
@@ -10000,25 +10052,25 @@ public abstract class ChoiceManager
 			}
 			break;
 
-		case 1028:	// A Shop
-		case 1029:	// An Old Clay Pot
-		case 1030:	// It's a Trap!  A Dart Trap.
-		case 1031:	// A Tombstone
-		case 1032:	// It's a Trap!  A Tiki Trap.
-		case 1033:	// A Big Block of Ice 
-		case 1034:	// A Landmine
-		case 1035:	// A Crate
-		case 1036:	// Idolatry
-		case 1037:	// It's a Trap!  A Smashy Trap.
-		case 1038:	// A Wicked Web
-		case 1039:	// A Golden Chest
-		case 1040:	// It's Lump. It's Lump.
-		case 1041:	// Spelunkrifice
-		case 1045:	// Hostile Work Environment
+		case 1028:    // A Shop
+		case 1029:    // An Old Clay Pot
+		case 1030:    // It's a Trap!  A Dart Trap.
+		case 1031:    // A Tombstone
+		case 1032:    // It's a Trap!  A Tiki Trap.
+		case 1033:    // A Big Block of Ice
+		case 1034:    // A Landmine
+		case 1035:    // A Crate
+		case 1036:    // Idolatry
+		case 1037:    // It's a Trap!  A Smashy Trap.
+		case 1038:    // A Wicked Web
+		case 1039:    // A Golden Chest
+		case 1040:    // It's Lump. It's Lump.
+		case 1041:    // Spelunkrifice
+		case 1045:    // Hostile Work Environment
 			SpelunkyRequest.parseChoice( ChoiceManager.lastChoice, text, ChoiceManager.lastDecision );
 			break;
 
-		case 1042:	// Pick a Perk
+		case 1042:    // Pick a Perk
 			SpelunkyRequest.upgrade( ChoiceManager.lastDecision );
 			break;
 
@@ -10049,7 +10101,7 @@ public abstract class ChoiceManager
 			if ( skillidMatcher.find() )
 			{
 				int cost = 0;
-				switch( StringUtilities.parseInt( skillidMatcher.group( 1 ) ) )
+				switch ( StringUtilities.parseInt( skillidMatcher.group( 1 ) ) )
 				{
 				case 30:
 					cost = 5;
@@ -10088,7 +10140,7 @@ public abstract class ChoiceManager
 			}
 			break;
 
-		case 1053:	// The Servants' Quarters
+		case 1053:    // The Servants' Quarters
 			EdServantData.manipulateServants( request, text );
 			break;
 
@@ -10127,7 +10179,7 @@ public abstract class ChoiceManager
 			// Temporarily Out of Skeletons
 			if ( text.contains( "it snaps off" ) )
 			{
-				ResultProcessor.removeItem( ItemPool.SKELETON_KEY  );
+				ResultProcessor.removeItem( ItemPool.SKELETON_KEY );
 			}
 			break;
 
@@ -10719,14 +10771,14 @@ public abstract class ChoiceManager
 				break;
 			}
 			if ( text.contains( "10 casualties" ) || text.contains( "10 crew" ) || text.contains( "10 minions" ) ||
-			     text.contains( "10 ski" ) || text.contains( "10 members" ) || text.contains( "ten techs" ) ||
-			     text.contains( "10 soldiers" ) )
+					text.contains( "10 ski" ) || text.contains( "10 members" ) || text.contains( "ten techs" ) ||
+					text.contains( "10 soldiers" ) )
 			{
 				Preferences.increment( "_villainLairProgress", 10 );
 			}
 			else if ( text.contains( "5 casualties" ) || text.contains( "5 souls" ) || text.contains( "5 minions" ) ||
-			          text.contains( "five minions" ) || text.contains( "group of ski" ) || text.contains( "5 members" ) ||
-			          text.contains( "five people" ) || text.contains( "five of us" ) )
+					text.contains( "five minions" ) || text.contains( "group of ski" ) || text.contains( "5 members" ) ||
+					text.contains( "five people" ) || text.contains( "five of us" ) )
 			{
 				Preferences.increment( "_villainLairProgress", 5 );
 			}
@@ -10784,17 +10836,17 @@ public abstract class ChoiceManager
 				break;
 			}
 			if ( text.contains( "20 of the" ) || text.contains( "20 minions" ) ||
-			     text.contains( "20 or so" ) || text.contains( "20 soldiers" ) )
+					text.contains( "20 or so" ) || text.contains( "20 soldiers" ) )
 			{
 				Preferences.increment( "_villainLairProgress", 20 );
 			}
 			else if ( text.contains( "10 or so" ) || text.contains( "10 injured" ) ||
-			          text.contains( "10 patrol-sicles" ) || text.contains( "10 soldiers" ) )
+					text.contains( "10 patrol-sicles" ) || text.contains( "10 soldiers" ) )
 			{
 				Preferences.increment( "_villainLairProgress", 10 );
 			}
 			else if ( text.contains( "15 aquanats" ) || text.contains( "15 reserve" ) ||
-			          text.contains( "15 previously" ) || text.contains( "15 Soldiers" ) )
+					text.contains( "15 previously" ) || text.contains( "15 Soldiers" ) )
 			{
 				Preferences.decrement( "_villainLairProgress", 15 );
 			}
@@ -10816,11 +10868,11 @@ public abstract class ChoiceManager
 					RequestLogger.printLine( message );
 					RequestLogger.updateSessionLog( message );
 					String setting =
-						horse.equals( "crazy horse" ) ? "_horseryCrazyName" :
-						horse.equals( "dark horse" ) ? "_horseryDarkName" :
-						horse.equals( "normal horse" ) ? "_horseryNormalName" :
-						horse.equals( "pale horse" ) ? "_horseryPaleName" :
-						null;
+							horse.equals( "crazy horse" ) ? "_horseryCrazyName" :
+									horse.equals( "dark horse" ) ? "_horseryDarkName" :
+											horse.equals( "normal horse" ) ? "_horseryNormalName" :
+													horse.equals( "pale horse" ) ? "_horseryPaleName" :
+															null;
 					if ( setting != null )
 					{
 						String name = Preferences.getString( setting );
@@ -10849,7 +10901,7 @@ public abstract class ChoiceManager
 			// Mummery
 			MummeryRequest.parseResponse( ChoiceManager.lastDecision, text );
 			break;
-			
+
 		case 1275:
 		{
 			// Rummaging through the Garbage
@@ -10892,7 +10944,7 @@ public abstract class ChoiceManager
 			}
 			break;
 		}
-		
+
 		case 1277:
 			// Extra, Extra
 			if ( ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 5 && text.contains( "You acquire" ) )
@@ -11433,7 +11485,7 @@ public abstract class ChoiceManager
 				case 5:
 					songChosen = "Total Eclipse of Your Meat";
 					break;
-				}			
+				}
 				if ( !songChosen.equals( "" ) )
 				{
 					if ( !KoLCharacter.hasSkill( "Sing Along" ) )
@@ -11552,14 +11604,14 @@ public abstract class ChoiceManager
 			{
 				// Removes 30% of current partiers
 				int current = Preferences.getInteger( "_questPartyFairProgress" );
-				Preferences.setInteger( "_questPartyFairProgress", current - (int) Math.floor( current * 0.3 ) );
+				Preferences.setInteger( "_questPartyFairProgress", current - ( int ) Math.floor( current * 0.3 ) );
 				ResultProcessor.removeItem( ItemPool.JAM_BAND_BOOTLEG );
 			}
 			else if ( ChoiceManager.lastDecision == 4 )
 			{
 				// On dj quest (choice number guessed)
 				Matcher matcher = ChoiceManager.SAFE_PATTERN.matcher( text );
-				if( matcher.find() )
+				if ( matcher.find() )
 				{
 					Preferences.decrement( "_questPartyFairProgress", StringUtilities.parseInt( matcher.group( 1 ) ), 0 );
 					if ( Preferences.getInteger( "_questPartyFairProgress" ) < 1 )
@@ -11585,7 +11637,7 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 3 )
 			{
 				Matcher matcher = ChoiceManager.GERALDINE_PATTERN.matcher( text );
-				if( matcher.find() )
+				if ( matcher.find() )
 				{
 					int itemCount = StringUtilities.parseInt( matcher.group( 1 ) );
 					int itemId = ItemDatabase.getItemIdFromDescription( matcher.group( 2 ) );
@@ -11663,7 +11715,7 @@ public abstract class ChoiceManager
 			{
 				// Removes 20% of current partiers
 				int current = Preferences.getInteger( "_questPartyFairProgress" );
-				Preferences.setInteger( "_questPartyFairProgress", current - (int) Math.floor( current * 0.2 ) );
+				Preferences.setInteger( "_questPartyFairProgress", current - ( int ) Math.floor( current * 0.2 ) );
 				ResultProcessor.removeItem( ItemPool.PURPLE_BEAST_ENERGY_DRINK );
 			}
 			break;
@@ -11777,7 +11829,7 @@ public abstract class ChoiceManager
 					boolean haveBreakfast = effect.getCount( KoLConstants.activeEffects ) > 0;
 					String countString = matcher.group( 1 );
 					int equipment = StringUtilities.parseInt( countString.replaceAll( ",", "" ) );
-					Preferences.setInteger( "daycareLastScavenge", equipment / ( haveBreakfast? 2 : 1 ) );
+					Preferences.setInteger( "daycareLastScavenge", equipment / ( haveBreakfast ? 2 : 1 ) );
 
 					message1 = "Activity: Scavenge for gym equipment";
 					message2 = "You have found " + countString + " pieces of gym equipment";
@@ -11904,7 +11956,7 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 2 )
 			{
 				// You can learn or forget Vampyre skills
-				for ( int i = 10 ; i < 39 ; i++ )
+				for ( int i = 10; i < 39; i++ )
 				{
 					if ( urlString.contains( "sk[]=" + i ) && !KoLCharacter.hasSkill( 24000 + i ) )
 					{
@@ -11929,7 +11981,7 @@ public abstract class ChoiceManager
 		case 1360:
 			// Like Shops in the Night
 			if ( ChoiceManager.lastDecision == 5 &&
-			     text.contains( "You gain 500 gold" ) )
+					text.contains( "You gain 500 gold" ) )
 			{
 				// Sell them the cursed compass
 				// Remove from equipment (including checkpoints)
@@ -11964,7 +12016,7 @@ public abstract class ChoiceManager
 			{
 				break;
 			}
-			int itemId = StringUtilities.parseInt( tossMatcher.group(1) );
+			int itemId = StringUtilities.parseInt( tossMatcher.group( 1 ) );
 			ResultProcessor.processItem( itemId, -1 );
 
 			String army = null;
@@ -11979,8 +12031,8 @@ public abstract class ChoiceManager
 				{
 					army = "frat boys";
 					property = "fratboysDefeated";
-					consumable = fratMatcher.group(1);
-					casualties = StringUtilities.parseInt( fratMatcher.group(2) );
+					consumable = fratMatcher.group( 1 );
+					casualties = StringUtilities.parseInt( fratMatcher.group( 2 ) );
 				}
 			}
 			if ( casualties == 0 )
@@ -11990,8 +12042,8 @@ public abstract class ChoiceManager
 				{
 					army = "hippies";
 					property = "hippiesDefeated";
-					consumable = hippyMatcher.group(1);
-					casualties = StringUtilities.parseInt( hippyMatcher.group(2) );
+					consumable = hippyMatcher.group( 1 );
+					casualties = StringUtilities.parseInt( hippyMatcher.group( 2 ) );
 				}
 			}
 
@@ -12010,7 +12062,7 @@ public abstract class ChoiceManager
 		case 1394:
 			// Send up a Smoke Signal
 			if ( ChoiceManager.lastDecision == 1 &&
-			     text.contains( "You send a smoky message to the sky." ) )
+					text.contains( "You send a smoky message to the sky." ) )
 			{
 				// Remove from inventory
 				ResultProcessor.removeItem( ItemPool.CAMPFIRE_SMOKE );
@@ -12142,7 +12194,7 @@ public abstract class ChoiceManager
 		case 1410:
 		{
 			// The Mushy Center
-			int mushroomLevel = 1;		// Tomorrow's mushroom
+			int mushroomLevel = 1;        // Tomorrow's mushroom
 			switch ( ChoiceManager.lastDecision )
 			{
 			case 1:
@@ -12234,7 +12286,8 @@ public abstract class ChoiceManager
 				break;
 			case 2:
 			case 3:
-			case 4: {
+			case 4:
+			{
 				Matcher locationMatcher = GUZZLR_LOCATION_PATTERN.matcher( text );
 				Matcher boozeMatcher = DESCID_PATTERN.matcher( text );
 
@@ -12252,7 +12305,7 @@ public abstract class ChoiceManager
 				{
 					tier = ChoiceManager.lastDecision == 2 ? "bronze" :
 							ChoiceManager.lastDecision == 3 ? "gold" :
-							"platinum";
+									"platinum";
 				}
 
 				// Remember the tier of the current quest
@@ -12261,7 +12314,7 @@ public abstract class ChoiceManager
 				// Increment the number of gold or platinum deliveres STARTED today
 				if ( !tier.equals( "bronze" ) )
 				{
-					Preferences.increment ( "_guzzlr" + StringUtilities.toTitleCase( tier ) + "Deliveries", tier == "gold" ? 3 : 1 );
+					Preferences.increment( "_guzzlr" + StringUtilities.toTitleCase( tier ) + "Deliveries", tier == "gold" ? 3 : 1 );
 				}
 
 				if ( boozeMatcher.find() )
@@ -12274,7 +12327,7 @@ public abstract class ChoiceManager
 				{
 					RequestThread.postRequest( new QuestLogRequest() );
 				}
-				
+
 				int itemId = ItemDatabase.getItemId( Preferences.getString( "guzzlrQuestBooze" ) );
 
 				if ( itemId > 0 && itemId != ItemPool.GUZZLR_COCKTAIL_SET )
@@ -12321,11 +12374,11 @@ public abstract class ChoiceManager
 		{
 			// Configuring the retro cape washing instructions
 			String instructions =
-				ChoiceManager.lastDecision == 2 ? "hold" :
-				ChoiceManager.lastDecision == 3 ? "thrill" :
-				ChoiceManager.lastDecision == 4 ? "kiss" :
-				ChoiceManager.lastDecision == 5 ? "kill" :
-				null;
+					ChoiceManager.lastDecision == 2 ? "hold" :
+							ChoiceManager.lastDecision == 3 ? "thrill" :
+									ChoiceManager.lastDecision == 4 ? "kiss" :
+											ChoiceManager.lastDecision == 5 ? "kill" :
+													null;
 			if ( instructions != null )
 			{
 				Preferences.setString( "retroCapeWashingInstructions", instructions );
@@ -12337,10 +12390,10 @@ public abstract class ChoiceManager
 		{
 			// Configuring the retro cape superhero
 			String hero =
-				ChoiceManager.lastDecision == 1 ? "vampire" :
-				ChoiceManager.lastDecision == 2 ? "heck" :
-				ChoiceManager.lastDecision == 3 ? "robot" :
-				null;
+					ChoiceManager.lastDecision == 1 ? "vampire" :
+							ChoiceManager.lastDecision == 2 ? "heck" :
+									ChoiceManager.lastDecision == 3 ? "robot" :
+											null;
 			if ( hero != null )
 			{
 				Preferences.setString( "retroCapeSuperhero", hero );
@@ -12389,7 +12442,7 @@ public abstract class ChoiceManager
 				}
 
 				// If we've set any part of the main body to anything other than 4, we are now missing an equip
-				if ( chosenPart != 4)
+				if ( chosenPart != 4 )
 				{
 					int slot = 0;
 
@@ -12427,8 +12480,25 @@ public abstract class ChoiceManager
 			break;
 		}
 		case 1447:
+		{
 			KoLCharacter.updateStatus();
 			break;
+		}
+		case 1448:
+		{
+			if ( text.contains( "You acquire an item:") )
+			{
+				Matcher stalkMatcher = Pattern.compile( "pp=(\\d+)" ).matcher( urlString );
+				if ( stalkMatcher.find() )
+				{
+					int pp = Integer.parseInt( stalkMatcher.group( 1 ) ) - 1;
+					String[] stalkStatus = Preferences.getString( "_pottedPowerPlant" ).split( "," );
+					stalkStatus[ pp ] = "0";
+					Preferences.setString( "_pottedPowerPlant", String.join( ",", stalkStatus ) );
+				}
+			}
+			break;
+		}
 		}
 		
 		// Certain choices cost meat or items when selected
@@ -16080,7 +16150,22 @@ public abstract class ChoiceManager
 			}
 			break;
 		case 1447:
+		{
 			ScrapheapRequest.parseStatbotCost( text );
+			break;
+		}
+		case 1448:
+		{
+			String[] stalkStatus = new String[ 7 ];
+			Matcher stalks = Pattern.compile( "<button.*?name=\"pp\" value=\"(\\d+)\".*?>\\s+<img.*?src=\".*?/otherimages/powerplant/(\\d+)\\.png\"" ).matcher( text );
+			while ( stalks.find() )
+			{
+				int pp = Integer.parseInt( stalks.group( 1 ) ) - 1;
+				stalkStatus[ pp ] = stalks.group( 2 );
+			}
+			Preferences.setString( "_pottedPowerPlant", String.join( ",", stalkStatus ) );
+			break;
+		}
 		}
 
 		// Do this after special classes (like WumpusManager) have a
@@ -19023,6 +19108,7 @@ public abstract class ChoiceManager
 		case 1439: // Spread Crimbo Spirit
 		case 1445: // Reassembly Station
 		case 1447: // Statbot 5000
+		case 1448: // Potted Power Plant
 			return true;
 
 		default:

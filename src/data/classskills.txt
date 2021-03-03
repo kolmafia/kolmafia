@@ -903,6 +903,7 @@
 7377	Blow Snow	snowflakes.gif	5	0	0
 7378	Throw Flame	fire.gif	5	0	0
 7379	Shoot Grease	greasebolt.gif	5	0	0
+7380	Shocking Lick	tonguewalrus.gif	5	0	0
 
 
 # Skills granted by books on your Mystical Bookshelf

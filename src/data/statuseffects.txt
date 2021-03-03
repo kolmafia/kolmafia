@@ -2631,3 +2631,9 @@
 2629	Feeling Nervous	emochip4.gif	83b943cec95c660e424a1e8573c3fbf6	neutral	none	cast 1 Feel Nervous
 2630	Feeling Lost	emochip7.gif	b2ba17b262547bb007bab8e99b44e8dd	neutral	none	cast 1 Feel Lost
 2631	Feeling Peaceful	emochip10.gif	6dbb54082c6f253bb57eb125cc5ecb55	neutral	none	cast 1 Feel Peaceful
+2632	AAA-Charged	ppbattery1.gif	259eff963782fe0e807de537fadabac3	neutral	none	use 1 battery (AAA)
+2633	AA-Charged	ppbattery2.gif	166625f1028ffa998cedf43062816dda	neutral	none	use 1 battery (AA)
+2634	D-Charged	ppbattery3.gif	482b90d54aefbeb2f63910ea2a86fd8c	neutral	none	use 1 battery (D)
+2635	9-Volt-Charged	ppbattery4.gif	cbc9d05db14b61807188116cf6b1039d	neutral	none	use 1 battery (9-Volt)
+2636	Lantern-Charged	ppbattery5.gif	0f13af62fe10c6f2fa4654d29f68eaa0	neutral	none	use 1 battery (lantern)
+2637	Car-Charged	ppbattery6.gif	a25be554ef73863a46f1e0068bd8c9a5	neutral	none	use 1 battery (car)

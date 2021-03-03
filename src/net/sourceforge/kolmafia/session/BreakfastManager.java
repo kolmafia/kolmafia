@@ -168,6 +168,7 @@ public class BreakfastManager
 				}
 				collectAnticheese();
 				collectSeaJelly();
+				harvestBatteries();
 			}
 
 			boolean recoverMana = Preferences.getBoolean( "loginRecovery" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
@@ -937,5 +938,39 @@ public class BreakfastManager
 		RequestThread.postRequest( new FamiliarRequest( currentFam ) );	
 
 		KoLmafia.forceContinue();
+	}
+
+	private static void harvestBatteries()
+	{
+		AdventureResult plant = ItemPool.get( "potted power plant", 1 );
+
+		if ( !InventoryManager.hasItem( plant ) || !StandardRequest.isAllowed( "Items", plant.getName() ) )
+		{
+			return;
+		}
+
+		if ( Preferences.getString( "_pottedPowerPlant" ).equals( "0,0,0,0,0,0,0" ) )
+		{
+			return;
+		}
+
+		if ( Preferences.getBoolean( "harvestBatteries" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
+		{
+			KoLmafia.updateDisplay( "Harvesting batteries..." );
+
+			RequestThread.postRequest( new GenericRequest( "inv_use.php?pwd&whichitem=" + plant.getItemId() ) );
+
+			String status[] = Preferences.getString( "_pottedPowerPlant" ).split( "," );
+
+			for ( int pp = 0; pp < status.length; pp++ )
+			{
+				if ( !status[ pp ].equals( "0" ) )
+				{
+					RequestThread.postRequest( new GenericRequest( "choice.php?pwd&whichchoice=1448&option=1&pp=" + ( pp + 1 ) ) );
+				}
+			}
+
+			KoLmafia.forceContinue();
+		}
 	}
 }

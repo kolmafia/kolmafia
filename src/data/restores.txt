@@ -4,7 +4,7 @@
 # HP - Current max HP
 # MP - Current max MP
 # L - Level
-# Valid functions: min, max, floor, ceiling, class, skill, equipped, effect, pref
+# Valid functions: min, max, floor, ceiling, class, skill, equipped, effect, pref, path
 # Type is one of item, skill, loc
 # Name, Type, HP Min, HP Max, MP Min, MP Max, Adv cost, Uses left (optional), Notes (optional)
 A Relaxing Hot Tub	loc	[HP]	[HP]	0	0	0	[5-pref(_hotTubSoaks)]
@@ -15,6 +15,12 @@ April Shower	loc	0	0	1000	1000	0	[1-pref(_aprilShower)]
 aspirin	item	101	101	0	0	0
 bag of pygmy blood	item	30	40	0	0	0
 banana spritzer	item	0	0	40	100	0
+battery (AAA)	item	0	0	[30-(30*path(You, Robot))]	[30-(30*path(You, Robot))]	0
+battery (AA)	item	0	0	[40-(40*path(You, Robot))]	[40-(40*path(You, Robot))]	0
+battery (D)	item	0	0	[50-(50*path(You, Robot))]	[50-(50*path(You, Robot))]	0
+battery (9-Volt)	item	0	0	[60-(60*path(You, Robot))]	[60-(60*path(You, Robot))]	0
+battery (lantern)	item	0	0	[70-(70*path(You, Robot))]	[70-(70*path(You, Robot))]	0
+battery (car)	item	0	0	[80-(80*path(You, Robot))]	[80-(80*path(You, Robot))]	0
 beer-scented teddy bear	item	0	0	15	20	0
 black cherry soda	item	0	0	9	11	0
 Blatantly Canadian	item	0	0	20	25	0

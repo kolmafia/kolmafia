@@ -4847,6 +4847,7 @@ Effect	20-20 Second Sight	Maximum MP: +25
 Effect	20/20 Vision	Item Drop: +10
 Effect	5 Pounds Lighter	Initiative: +10, Moxie: +5
 Effect	8-bit Apparition	Avatar: "ancient ghost"
+Effect	9-Volt-Charged	Spell Damage Percent: +50, Initiative: +50, Experience: +3, MP Regen Min: 5, MP Regen Max: 10
 Effect	9/10ths of the Law	Avatar: "creepy little girl"
 Effect	A Bug's Life	Maximum HP Percent: +100, HP Regen Min: 8, HP Regen Max: 10
 Effect	A Contender	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
@@ -4870,6 +4871,8 @@ Effect	A Taste for Accounting	Avatar: "pygmy witch accountant"
 # A Taste of Rainbow: Increases stat gains from food
 Effect	A View to Some Meat	Meat Drop: +100
 Effect	A Brush with Grossness	Stench Resistance: +3, Stench Damage: +15, Stench Spell Damage: +15
+Effect	AAA-Charged	Spell Damage Percent: +50, MP Regen Min: 5, MP Regen Max: 10
+Effect	AA-Charged	Spell Damage Percent: +50, Initiative: +50, MP Regen Min: 5, MP Regen Max: 10
 Effect	Abominably Slippery	Initiative: +20, Sleaze Resistance: +2
 # Absinthe-Minded: You are aware of The Worm Wood
 Effect	Abyssal Blood	Weapon Damage Percent: +100, Hot Damage: +50, HP Regen Min: 40, HP Regen Max: 50
@@ -5220,6 +5223,7 @@ Effect	Cancer Rising	Maximum MP Percent: +100
 Effect	Candied Skeleton	Weapon Damage: -10, Spooky Damage: +10
 Effect	Candied Teeth	Candy Drop: +50
 Effect	Capricorn Rising	Item Drop: +5
+Effect	Car-Charged	Spell Damage Percent: +50, Initiative: +50, Experience: +3, Item Drop: +100, Meat Drop: +100, MP Regen Min: 5, MP Regen Max: 10
 Effect	Carapace of the God Lobster	Hot Resistance: +1, Cold Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Sleaze Resistance: +1, Damage Absorption: +20, Damage Reduction: 3
 Effect	Carlweather's Cantata of Confrontation	Combat Rate: [5*(1+equipped(fiberglass fedora))]
 Effect	Carne Obsesionada	Meat Drop: +20
@@ -5414,6 +5418,7 @@ Effect	Cuts Like a Buttered Knife	Sleaze Damage: +50
 Effect	Cuts Like a Lightly-Buttered Knife	Sleaze Damage: +5
 Effect	Cyber-Robo-Steam-Whatever Costume	Avatar: "super-sized Cola Wars soldier"
 Effect	Cybernetic Muscles	Muscle Percent: +10
+Effect	D-Charged	Spell Damage Percent: +50, Initiative: +50, Experience: +3, MP Regen Min: 5, MP Regen Max: 10
 Effect	Daemon Duds	Avatar: "clean room demon"
 Effect	damage.enh	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
 Effect	Dance Interpreter	Item Drop: +20
@@ -6168,6 +6173,7 @@ Effect	L'instinct F&eacute;lin	Moxie: +30
 Effect	La Bamba	Item Drop: +3
 Effect	La Oscuridad Adentro	Spooky Spell Damage: +13, Spooky Damage: +13, Experience (Mysticality): +3
 Effect	Lack of Body-Building	Muscle Percent: +50, Weapon Damage Percent: +25
+Effect	Lantern-Charged	Spell Damage Percent: +50, Initiative: +50, Experience: +3, Item Drop: +100, MP Regen Min: 5, MP Regen Max: 10
 Effect	Lapdog	Initiative: +30, Stench Damage: +25, Monster Level: +20
 Effect	Larger	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 # Latency: Prismatic Vulnerability (-Source Agents killed)
@@ -9033,6 +9039,12 @@ Item	banana smoothie	Effect: "Bananas!", Effect Duration: [R]
 Item	banana supersucker	Effect: "Bananas!", Effect Duration: 30
 Item	baobab sap	Effect: "Buff as a Baobab", Effect Duration: 10
 Item	basaltamander tongue	Effect: "Burning Tongue", Effect Duration: 10
+Item	battery (AAA)	Effect: "AAA-Charged", Effect Duration: 30
+Item	battery (AA)	Effect: "AA-Charged", Effect Duration: 30
+Item	battery (D)	Effect: "D-Charged", Effect Duration: 30
+Item	battery (9-Volt)	Effect: "9-Volt-Charged", Effect Duration: 30
+Item	battery (lantern)	Effect: "Lantern-Charged", Effect Duration: 30
+Item	battery (car)	Effect: "Car-Charged", Effect Duration: 30
 Item	bazookafish bubble gum	Effect: "Fishbreath", Effect Duration: 5
 Item	beard incense	Effect: "Stinkybeard", Effect Duration: 20
 Item	beet-flavored Mr. Mediocrebar	Effect: "Block-Rockin' Beet", Effect Duration: 30
@@ -11196,6 +11208,7 @@ Item	Pop Art: a Guide	Skill: "Fifteen Minutes of Flame"
 # potted tea tree: 2) Get tea every day
 # powdered madness: Instantly dispatch a foe (limit 5/day)
 # powdered organs: Weakens enemies somewhat
+Item	power seed	Free Pull
 Item	praying Grim Brother	Free Pull
 Item	Prelude of Precision	Skill: "Prelude of Precision"
 # print screen button: Copies a Monster

@@ -564,6 +564,7 @@ public class ValhallaManager
 		Preferences.setInteger( "drippyJuice", 0 );
 		Preferences.setBoolean( "lockPicked", false );
 		Preferences.setBoolean( "leafletCompleted", false );
+		Preferences.setInteger( "shockingLickCharges", 0 );
 		MonorailManager.resetMuffinOrder();
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );

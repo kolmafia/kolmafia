@@ -10424,6 +10424,13 @@ public class FightRequest
 				Preferences.increment( "_feelSuperiorUsed", 1, 3, false );
 			}
 			break;
+
+		case SkillPool.SHOCKING_LICK:
+			if ( responseText.contains( "give your foe a big slobbery lick" ) || skillSuccess )
+			{
+				Preferences.decrement( "shockingLickCharges");
+			}
+			break;
 		}
 	}
 

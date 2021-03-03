@@ -1,5 +1,11 @@
 1
 # Item	Level req	Usage note (optional)
+battery (AAA)	0	Grants 15 Energy in You, Robot
+battery (AA)	0	Grants 20 Energy in You, Robot
+battery (D)	0	Grants 25 Energy in You, Robot
+battery (9-Volt)	0	Grants 30 Energy in You, Robot
+battery (lantern)	0	Grants 35 Energy in You, Robot
+battery (car)	0	Grants 40 Energy in You, Robot
 BRICKO airship	11
 BRICKO cathedral	13
 BRICKO elephant	3
