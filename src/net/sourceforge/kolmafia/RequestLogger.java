@@ -1597,6 +1597,12 @@ public class RequestLogger
 			return;
 		}
 
+		if ( ( request instanceof TutorialRequest || isExternal ) && TutorialRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
 		if ( ( request instanceof UneffectRequest || isExternal ) && UneffectRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
