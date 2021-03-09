@@ -442,6 +442,12 @@ mint condition Lil' Doctor&trade; bag	nosmash
 vampyric cloake	nosmash
 hewn moon-rune spoon	nosmash
 Beach Comb	nosmash
+Eight Days a Week Pill Keeper	nosmash
+Powerful Glove	nosmash
+Guzzlr tablet	nosmash
+Iunion Crown	nosmash
+Cargo Cultist Shorts	nosmash
+unwrapped knock-off retro superhero cape	nosmash
 
 # Depleted grimacite items.
 depleted Grimacite hammer	chunk of depleted Grimacite
