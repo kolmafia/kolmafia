@@ -6292,7 +6292,7 @@ public class UseItemRequest
 			{
 				Preferences.increment( "shockingLickCharges" );
 			}
-			return;
+			break;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
