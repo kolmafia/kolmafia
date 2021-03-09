@@ -1700,8 +1700,8 @@ public class CharPaneRequest
 		}
 	}
 
-	private static final Pattern YOU_ROBOT_SCRAPS_EXPANDED = Pattern.compile( "scrap\\.gif.*?>(\\d+)<" );
-	private static final Pattern YOU_ROBOT_SCRAPS_COMPACT = Pattern.compile( "Scrap.*?<b>(\\d+)</b>" );
+	private static final Pattern YOU_ROBOT_SCRAPS_EXPANDED = Pattern.compile( "scrap\\.gif.*?>([\\d,]+)<" );
+	private static final Pattern YOU_ROBOT_SCRAPS_COMPACT = Pattern.compile( "Scrap.*?<b>([\\d,]+)</b>" );
 
 	private static void checkYouRobot( final String responseText )
 	{
