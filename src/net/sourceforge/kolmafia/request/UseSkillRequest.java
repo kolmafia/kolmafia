@@ -1263,17 +1263,22 @@ public class UseSkillRequest
 			}
 		}
 
+		Speculation spec_old = new Speculation();
+		int[] predictions_old = spec_old.calculate().predict();
+
 		Speculation spec = new Speculation();
 		spec.equip( slotId, newItem );
 		int[] predictions = spec.calculate().predict();
 
+		double MPgap = KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP();
+		double deltaMP = predictions[ Modifiers.BUFFED_MP ] - predictions_old[ Modifiers.BUFFED_MP ];
 		// Make sure we do not lose mp in the switch
-		if ( KoLCharacter.getCurrentMP() > predictions[ Modifiers.BUFFED_MP ] )
+		if ( MPgap + deltaMP < 0 )
 		{
 			return false;
 		}
 		// Make sure we do not reduce max hp in the switch, to avoid loops when casting a heal
-		if ( KoLCharacter.getMaximumHP() > predictions[ Modifiers.BUFFED_HP ] )
+		if ( predictions_old[ Modifiers.BUFFED_HP ]> predictions[ Modifiers.BUFFED_HP ] )
 		{
 			return false;
 		}
