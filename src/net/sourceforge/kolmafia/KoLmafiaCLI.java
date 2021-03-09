@@ -332,8 +332,8 @@ public class KoLmafiaCLI
 			return;
 		}
 
-		// Pass through escaped character entities to ASH
-		if ( !line.startsWith( "ash" ) )
+		// Pass through escaped character entities to ASH and JS
+		if ( !(line.startsWith( "ash" ) || line.startsWith( "js" )) )
 		{
 			line = CharacterEntities.unescape( line );
 		}
