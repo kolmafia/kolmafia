@@ -12433,10 +12433,10 @@ public abstract class ChoiceManager
 			String part = partMatcher.find() ? partMatcher.group( 1 ) : null;
 			int chosenPart = chosenPartMatcher.find() ? StringUtilities.parseInt( chosenPartMatcher.group( 1 ) ) : 0;
 
-			if ( part != null && part != "cpus" && chosenPart != 0 )
+			if ( part != null && !part.equals( "cpus" ) && chosenPart != 0 )
 			{
 				// If we have set our "top" to anything other than 2, we now have no familiar
-				if ( part == "top" && chosenPart != 2 )
+				if ( part.equals( "top" ) && chosenPart != 2 )
 				{
 					KoLCharacter.setFamiliar( FamiliarData.NO_FAMILIAR );
 				}
@@ -12444,7 +12444,7 @@ public abstract class ChoiceManager
 				// If we've set any part of the main body to anything other than 4, we are now missing an equip
 				if ( chosenPart != 4 )
 				{
-					int slot = 0;
+					int slot = -1;
 
 					switch ( part )
 					{
@@ -12462,7 +12462,7 @@ public abstract class ChoiceManager
 						break;
 					}
 
-					if ( slot != 0 )
+					if ( slot != -1 )
 					{
 						EquipmentManager.setEquipment( slot, EquipmentRequest.UNEQUIP );
 					}

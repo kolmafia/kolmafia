@@ -3727,18 +3727,10 @@ public abstract class KoLCharacter
 			KoLCharacter.checkTelescope();
 		}
 
-		if ( oldPath == Path.NUCLEAR_AUTUMN )
-		{
-			// We haven't previously seen our campground
-			RequestThread.postRequest( new CampgroundRequest( "inspectdwelling" ) );
-			RequestThread.postRequest( new CampgroundRequest( "inspectkitchen" ) );
-			RequestThread.postRequest( new CampgroundRequest( "workshed" ) );
-			KoLCharacter.checkTelescope();
-		}
-
 		// If we were in a path that grants skills only while on the path, rest them
 		if ( oldPath == Path.HEAVY_RAINS ||
-		     oldPath == Path.NUCLEAR_AUTUMN )
+		     oldPath == Path.NUCLEAR_AUTUMN ||
+		     oldPath == Path.YOU_ROBOT )
 		{
 			KoLCharacter.resetSkills();
 		}
@@ -3752,7 +3744,8 @@ public abstract class KoLCharacter
 		     oldPath == Path.CLASS_ACT_II ||
 		     oldPath == Path.HEAVY_RAINS ||
 		     oldPath == Path.PICKY ||
-		     oldPath == Path.NUCLEAR_AUTUMN 
+		     oldPath == Path.NUCLEAR_AUTUMN ||
+		     oldPath == Path.YOU_ROBOT
 			)
 		{
 			RequestThread.postRequest( new CharSheetRequest() );
@@ -3762,31 +3755,36 @@ public abstract class KoLCharacter
 		if ( restricted ||
 		     oldPath == Path.TRENDY ||
 		     oldPath == Path.HEAVY_RAINS ||
-		     oldPath == Path.NUCLEAR_AUTUMN
+		     oldPath == Path.NUCLEAR_AUTUMN ||
+		     oldPath == Path.YOU_ROBOT
 			)
 		{
 			// Retrieve the bookshelf
 			RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
 		}
 		if ( restricted ||
-		     oldPath == Path.LICENSE_TO_ADVENTURE )
+		     oldPath == Path.LICENSE_TO_ADVENTURE ||
+		     oldPath == Path.YOU_ROBOT )
 		{
 			// All familiars can now be used
 			RequestThread.postRequest( new FamiliarRequest() );
 			GearChangeFrame.updateFamiliars();
 		}
 
-		if ( restricted )
+		if ( restricted || oldPath == Path.NUCLEAR_AUTUMN || oldPath == Path.YOU_ROBOT )
 		{
-			// Available stuff in Clan may have changed, so check clan
-			ClanLoungeRequest.updateLounge();
-
-			// Check Campground
+			// We haven't previously seen our campground
 			CampgroundRequest.reset();
 			RequestThread.postRequest( new CampgroundRequest( "inspectdwelling" ) );
 			RequestThread.postRequest( new CampgroundRequest( "inspectkitchen" ) );
 			RequestThread.postRequest( new CampgroundRequest( "workshed" ) );
 			KoLCharacter.checkTelescope();
+		}
+
+		if ( restricted )
+		{
+			// Available stuff in Clan may have changed, so check clan
+			ClanLoungeRequest.updateLounge();
 		}
 
 		// Stop expecting Path-related Wandering Monsters

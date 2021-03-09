@@ -1293,6 +1293,18 @@ grey goo torus	2178	goo_torus.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
 grey goo triangle	2179	goo_triangle.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
 grey gooblin	2189	goo_blin1.gif,goo_blin2.gif,goo_blin3.gif,goo_blin4.gif,goo_blin5.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
 
+# You, Robot
+Boss Bot	2201	roboss_bat.gif	Atk: 30 Def: 30 HP: 40 Init: 60 P: construct NOCOPY BOSS	robo-battery (n100)
+Gobot King	2202	roboss_goblin.gif	Atk: 50 Def: 50 HP: 50 Init: 100 P: construct NOCOPY BOSS	robo-battery (n100)
+Robonerdagon	2203	roboss_dagon.gif	Atk: 90 Def: 80 HP: 120 Init: 90 P: construct NOCOPY BOSS	robo-battery (n100)
+Tobias J. Saibot	2204	roboss_saibot.gif	Atk: 180 Def: 160 HP: 200 Init: 0 P: construct NOCOPY BOSS	robo-battery (n100)	Staff of Fats (n100)
+Lord Cyberraven	2205	roboss_spookyraven.gif	Atk: 170 Def: 150 HP: 200 Init: 10000 P: construct NOCOPY BOSS	robo-battery (n100)	Eye of Ed (n100)
+Protector S. P. E. C. T. R. E.	2206	roboss_spectre.gif	Atk: 165 Def: 150 HP: 100 Init: 30 P: construct NOCOPY BOSS	robo-battery (n100)	ancient amulet (n100)
+Groarbot	2207	roboss_groar.gif	Atk: 120 Def: 110 HP: 250 Init: 50 P: construct NOCOPY BOSS	robo-battery (n100)
+The Artificial Wisniewski	2208	roboss_dude.gif	Atk: 250 Def: 230 HP: 2000 Init: 60 P: construct NOCOPY BOSS	robo-battery (n100)
+The Android	2209	roboss_man.gif	Atk: 250 Def: 230 HP: 2000 Init: 60 P: construct NOCOPY BOSS	robo-battery (n100)
+Nautomatic Sorceress	2210	roboss_sorc.gif	Atk: 300 Def: 300 HP: 1000 Init: 10000 P: construct NOCOPY BOSS
+
 # Glitch Season
 %monster%	2140	nopic.gif	NOCOPY Atk: [pref(glitchItemImplementationCount)*5+1] Def: [pref(glitchItemImplementationCount)*5] HP: [pref(glitchItemImplementationCount)*5+1] Init: 1 P: construct
 

@@ -2616,7 +2616,8 @@ public class RelayRequest
 		if ( KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() || KoLCharacter.isJarlsberg() ||
 		     KoLCharacter.inHighschool() || KoLCharacter.isSneakyPete() || KoLCharacter.inRaincore() ||
 		     KoLCharacter.isEd() || KoLCharacter.inTheSource() || KoLCharacter.inBondcore() ||
-		     KoLCharacter.inPokefam() || KoLCharacter.isVampyre() || KoLCharacter.isPlumber() )
+		     KoLCharacter.inPokefam() || KoLCharacter.isVampyre() || KoLCharacter.isPlumber() ||
+		     KoLCharacter.inRobocore() )
 		{
 			return false;
 		}
