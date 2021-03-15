@@ -27,7 +27,7 @@ Dimemaster	buy	1	water pipe bomb
 Dimemaster	buy	1	ferret bait
 Dimemaster	buy	2	filthy poultice
 Dimemaster	buy	3	carbonated soy milk
-Dimemaster	buy	4	macrame net
+Dimemaster	buy	4	hemp net
 Dimemaster	buy	5	fancy seashell necklace
 Dimemaster	buy	10	Hippy Army MPE
 Dimemaster	buy	15	Gaia beads

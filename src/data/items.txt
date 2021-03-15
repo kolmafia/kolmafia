@@ -2068,7 +2068,7 @@
 2040	patchouli oil bomb	338636112	patchbomb.gif	none, combat	t,d	150
 2041	ferret bait	665792687	ferretbait.gif	none, combat	t,d	150	handfuls of ferret bait
 2042	exploding hacky-sack	380296478	hackeysack.gif	none, combat	t,d	150	exploding hackensacks
-2043	macrame net	376426839	macramenet.gif	none, combat	t,d	150
+2043	hemp net	376426839	macramenet.gif	none, combat	t,d	150
 2044	your father's MacGuffin diary	972316396	book2.gif	reusable	q	0
 2045	brain-meltingly-hot chicken wings	190046939	hotwings.gif	food	t,d	85	plates of brain-meltingly-hot chicken wings
 2046	frat brats	572391996	brat.gif	food, cook	t,d	85	frat bratses
