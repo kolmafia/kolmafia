@@ -10806,6 +10806,8 @@ Item	heart-shaped crate	Free Pull
 # hedgeturtle: Deals 30-60 Physical Damage
 # hedgeturtle: Causes Bleeding
 Item	Hell and How I Bent It	Skill: "Bend Hell"
+# hemp net: Deals 90-100 Physical Damage
+# hemp net: Weakens Enemies Somewhat
 Item	hero's skull	Lasts Until Rollover
 Item	hibernating Grimstone Golem	Free Pull
 Item	hibernating robot reindeer	Free Pull
@@ -10950,8 +10952,6 @@ Item	LT&T telegraph office deed	Free Pull
 Item	Lump-Stacking for Beginners	Skill: "Stack Lumps"
 Item	LyleCo Contractor's Manual	Skill: "Expert Corner-Cutter"
 Item	machine elf capsule	Free Pull
-# macrame net: Deals 90-100 Physical Damage
-# macrame net: Weakens Enemies Somewhat
 # mafia filofax: Organize some quiet moments in an area
 # magical mystery juice: Restores an amount of MP that increases as you level up
 # magnolia blossom: Restores 15-30 HP and MP
