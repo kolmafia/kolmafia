@@ -10426,7 +10426,9 @@ public class FightRequest
 			break;
 
 		case SkillPool.SHOCKING_LICK:
-			if ( responseText.contains( "give your foe a big slobbery lick" ) || skillSuccess )
+			if ( responseText.contains( "give your foe a big slobbery lick" ) ||
+				 responseText.contains( "worth of electricity from your tongue" ) ||
+				 skillSuccess )
 			{
 				Preferences.decrement( "shockingLickCharges");
 			}
