@@ -10770,3 +10770,6 @@
 10742	battery (9-Volt)	571644039	ppbattery4.gif	potion, multiple, paste	t	0	batteries (9-Volt)
 10743	battery (lantern)	609332450	ppbattery5.gif	potion, multiple, paste	t	0	batteries (lantern)
 10744	battery (car)	331021839	ppbattery6.gif	potion, multiple	t	0	batteries (car)
+10745
+10746	green marshmallow	762874061	greenmallow.gif	none, paste	t	0
+10747	marshmallow bomb	415111150	shot_f.gif	drink	t	0

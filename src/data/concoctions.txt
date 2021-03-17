@@ -3194,6 +3194,8 @@ lustrous drippy orb	COMBINE	drippy orb	drippy pigment
 gory drippy orb	COMBINE	drippy orb	drippy bromide
 annealed drippy orb	COMBINE	drippy orb	drippy flux
 
+# Potted Power Plant
+
 battery (AA)	COMBINE	battery (AAA)	battery (AAA)
 battery (D)	COMBINE	battery (AA)	battery (AAA)
 battery (9-Volt)	COMBINE	battery (AA)	battery (AA)
@@ -3203,3 +3205,7 @@ battery (lantern)	COMBINE	battery (9-Volt)	battery (AAA)
 battery (car)	COMBINE	battery (D)	battery (D)
 battery (car)	COMBINE	battery (9-Volt)	battery (AA)
 battery (car)	COMBINE	battery (lantern)	battery (AAA)
+
+# St Sneaky Yuletide Pete's Day
+
+green marshmallow	COMBINE, SSPD	ten-leaf clover	marshmallow

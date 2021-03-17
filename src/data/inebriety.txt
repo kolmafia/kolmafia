@@ -409,6 +409,7 @@ magnum of fancy champagne	6	6	awesome	22-26	10-20	10-20	10-20	20-40 MP, WINE
 Maiali Sifilitici Pinot Noir	1	10	EPIC	6-10	60	60	60
 mandarina colada	4	6	awesome	14-18	0	16-20	25-27
 margarita	3	1	decent	5-6	8-10	0	0
+marshmallow bomb	2	1	awesome	9-11	5	5	5	Unspaded
 marshmallow flamb&eacute;	2	3	EPIC	11-13	46-79	0	0	10 Sugar Rush
 martini	3	1	decent	5-6	0	0	8-10	MARTINI
 martiny	1	1	awesome	4-6	5-10	5-10	5-10

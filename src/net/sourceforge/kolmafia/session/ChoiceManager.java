@@ -7313,7 +7313,7 @@ public abstract class ChoiceManager
 				}
 				
 				// We are still handling a choice. Maybe it is a different one.
-				if ( choice != ChoiceManager.extractChoice( ChoiceManager.lastResponseText ) )
+				if ( ChoiceManager.lastResponseText != null && choice != ChoiceManager.extractChoice( ChoiceManager.lastResponseText ) )
 				{
 					responseText = ChoiceManager.lastResponseText;
 					continue;
