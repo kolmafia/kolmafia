@@ -3305,6 +3305,8 @@ public class ItemPool
 	public static final int BATTERY_9V = 10742;
 	public static final int BATTERY_LANTERN = 10743;
 	public static final int BATTERY_CAR = 10744;
+	public static final int GREEN_MARSHMALLOW = 10746;
+	public static final int MARSHMALLOW_BOMB = 10747;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

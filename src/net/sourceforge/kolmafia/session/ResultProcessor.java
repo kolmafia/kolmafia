@@ -1733,6 +1733,14 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.MARSHMALLOW_BOMB:
+			// Special St Sneaky Pete's Day Yuletide adventures
+			if ( KoLAdventure.lastAdventureId() == AdventurePool.YULETIDE )
+			{
+				ResultProcessor.removeItem( ItemPool.GREEN_MARSHMALLOW );
+			}
+			break;
+
 		// Sticker weapons may have been folded from the other form
 		case ItemPool.STICKER_SWORD:
 			ResultProcessor.removeItem( ItemPool.STICKER_CROSSBOW );
