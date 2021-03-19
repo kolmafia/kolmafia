@@ -474,7 +474,7 @@ public class KoLDesktop
 				KoLDesktop.this.memoryUsageLabel.setMaximum( maxMemory );
 				KoLDesktop.this.memoryUsageLabel.setValue( usedMemory );
 
-				KoLDesktop.this.memoryUsageLabel.setString( usedMemory + " KB / " + maxMemory + " KB" );
+				KoLDesktop.this.memoryUsageLabel.setString( usedMemory/1024 + " MB / " + maxMemory/1024 + " MB" );
 			}
 		}
 	}
