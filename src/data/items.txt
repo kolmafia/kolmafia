@@ -5535,7 +5535,7 @@
 5507	Go-Wassail	499208335	gowassail.gif	drink	t	0
 5508	Uncle Greenspan's Bathroom Finance Guide	740355922	tinybook.gif	potion, multiple	t	0
 5509	bottle of bubbles	487627345	bubblebottle.gif	potion, multiple	t	0	bottles of bubbles
-5510	wind-up meatcar	148288267	windupcar.gif	potion, usable	t	0
+5510	wind-up meatcar	148288267	windupcar.gif	potion, multiple	t	0
 5511	Trivial Avocations Card: What?	642614129	triviacard.gif	usable	t	0	Trivial Avocations Cards: What?
 5512	Trivial Avocations Card: When?	420955512	triviacard.gif	usable	t	0	Trivial Avocations Cards: When?
 5513	Trivial Avocations Card: Who?	741577631	triviacard.gif	usable	t	0	Trivial Avocations Cards: Who?
@@ -6197,7 +6197,7 @@
 6169	Hundred Headed IPA	230929468	beerbottle.gif	drink	t,d	75	Bottles of Hundred Headed IPA
 6170	old chum	985900785	gooball.gif	food	t,d	25	chunks of old chum
 6171	crude crudit&eacute;s	929056652	crudites.gif	potion, multiple	t,d	5	crude crudit&eacute;s
-6172	candy crayons	790925279	candycrayons.gif	potion, usable, candy2	t	0	packs of candy crayons
+6172	candy crayons	790925279	candycrayons.gif	potion, multiple, candy2	t	0	packs of candy crayons
 6173	pixel grappling hook	879455617	pixelhook.gif	offhand	t	0
 6174	GameInformPowerDailyPro magazine	132572233	gamemag.gif	usable	t,d	10	issues of GameInformPowerDailyPro magazine
 6175	GameInformPowerDailyPro walkthru	405149087	printout.gif	reusable	q	0
@@ -7735,7 +7735,7 @@
 7707	rubber nubbin	493599105	rubbernub.gif	potion, multiple	t,d	5	rubber nubbins (but I hardly know her!)
 7708	rubber cape	528799448	mg_cape.gif	container	t,d	55
 7709	Thor's Pliers	453862933	thorpliers.gif	weapon	t	0	pairs of Thor's Pliers
-7710	candy UFOs	859892912	ufo.gif	potion, usable, candy2	t	0	handfuls of candy UFOs
+7710	candy UFOs	859892912	ufo.gif	potion, multiple, candy2	t	0	handfuls of candy UFOs
 7711	water wings for babies	615145638	poolwings.gif	accessory	t,d	10	pairs of water wings for babies
 7712	beautiful rainbow	830160863	rrainbow.gif	usable	t	0
 7713	Strix stix	792383042	owlstix.gif	food	t,d	25	Strix stix
@@ -8177,8 +8177,8 @@
 8149	Glo-Pop	357068615	glopop.gif	potion, multiple, candy2	t,d	5
 8150	sugar sphere	120351532	cueball.gif	potion, multiple, candy2	t,d	5
 8151	Shrubble Bubble	551227147	nugglet.gif	potion, multiple, candy2	t,d	5	pieces of Shrubble Bubble
-8152	polyeaster egg	230673096	polyegg.gif	potion, usable	t	0
-8153	porcelain candy dish	317824568	porcbowl.gif	potion, usable	t	0
+8152	polyeaster egg	230673096	polyegg.gif	potion, multiple	t	0
+8153	porcelain candy dish	317824568	porcbowl.gif	potion, multiple	t	0
 8154	Spechunky bar	114809341	sbar.gif	potion, multiple, candy2	t,d	5
 8155	talisman of Horus	800789609	tal_h.gif	potion, usable	q,d	25	talismen of Horus
 8156	check to the Meatsmith	899679045	check.gif	none	q	0
@@ -8322,7 +8322,7 @@
 8294	dice-print do-rag	371916226	dicerag.gif	hat		0
 8295	dice sunglasses	483999849	diceglasses.gif	accessory		0	pairs of dice sunglasses
 8296	Thwaitgold caterpillar statuette	681318742	thwaitcat.gif	none		0
-8297	powdered dice	387104784	scpowder.gif	potion, usable	t	0	powdered dice
+8297	powdered dice	387104784	scpowder.gif	potion, multiple	t	0	powdered dice
 8298	yellow pixel	512868873	pixel7.gif	none	t,d	5
 8299	pixel coin	818106945	pixelcoin.gif	multiple	t	0
 8300	power pill	515789880	powerpill.gif	potion, combat, multiple	t,d	200
@@ -8585,9 +8585,9 @@
 8557	The Emperor's new cookie	209754040	blank.gif	usable	t,d	5
 8558	Wickers bar	951050553	wickerbar.gif	potion, multiple	t	0
 8559	bakelite-covered bacon	113363781	bakebacon.gif	potion, multiple	t	0	pieces of bakelite-covered bacon
-8560	Aerheads	911385583	aerhead.gif	potion, usable	t	0	bags of Aerheads
+8560	Aerheads	911385583	aerhead.gif	potion, multiple	t	0	bags of Aerheads
 8561	Wrotz	259155467	wrotz.gif	potion, multiple	t	0	Wrotz candies
-8562	Gabarbar	620139553	gabarbar.gif	potion, usable	t	0
+8562	Gabarbar	620139553	gabarbar.gif	potion, multiple	t	0
 8563	fiberglass insulation	592342530	fibercandy.gif	potion, multiple	t	0	pieces of fiberglass insulation
 8564	shrine to the Barrel god	671094436	crate.gif	usable	t	0	shrines to the Barrel god
 8565	barrel lid	134230040	barrelshield.gif	offhand	q	0
@@ -8955,7 +8955,7 @@
 8927	strange disc (blue)	155330801	powerball.gif	none, combat reusable	q	0
 8928	strange disc (yellow)	148455337	powerball.gif	none, combat reusable	q	0
 8929	red-hot knucklebone	361988548	knuckbone.gif	none, paste	t	0
-8930	demonic cow's blood	294998917	potion15.gif	potion, usable	t,d	19	vials of demonic cow's blood
+8930	demonic cow's blood	294998917	potion15.gif	potion, multiple	t,d	19	vials of demonic cow's blood
 8931	rinky-dink sixgun	920378151	sixgun1.gif	sixgun, combat reusable	t,d	75
 8932	makeshift sixgun	877959676	sixgun2.gif	sixgun, combat reusable	t,d	120
 8933	custom sixgun	381338216	sixgun3.gif	sixgun, combat reusable, paste	t,d	180
@@ -9043,7 +9043,7 @@
 9015	antique tacklebox	166401677	tacklebox.gif	none	t	0	antique tackleboxes
 9016	disconnected intergnat	989587076	discognat.gif	grow	t	0
 9017	viral video	473286597	viralvideo.gif	none, combat	t,d	10
-9018	internet point	281162369	internetpoint.gif	usable	t,d	1
+9018	internet point	281162369	internetpoint.gif	multiple	t,d	1
 9019	meme generator	909671684	memegenerator.gif	usable	t,d	25
 9020	plus one	317841784	plusone.gif	none, usable, curse	t,d	1
 9021	gallon of milk	505156247	milkjug.gif	food	t,d	15	gallons of milk
@@ -10185,11 +10185,11 @@
 10157	discarded bowtie	469929988	elfopbowtie.gif	accessory	q	0
 10158	martiny	932242068	elfopmartini.gif	drink	t,d	30
 10159	tryptophan dart	346425436	elfopdart.gif	none, combat	t,d	30
-10160	licorice snake	205645323	licsnake.gif	potion, usable	t,d	5
-10161	virgin jello shot	615419235	celloshot.gif	potion, usable	t,d	5
+10160	licorice snake	205645323	licsnake.gif	potion, multiple	t,d	5
+10161	virgin jello shot	615419235	celloshot.gif	potion, multiple	t,d	5
 10162	mutated candy lump	627332640	vglob2.gif	potion, multiple	t,d	5
 10163	government-issued candy	855701086	mochiball.gif	potion, multiple	t,d	5	government-issued candies
-10164	Pneumo bar	809533509	pneumobar.gif	potion, usable	t,d	5
+10164	Pneumo bar	809533509	pneumobar.gif	potion, multiple	t,d	5
 10165	mint condition Lil' Doctor&trade; bag	209412266	dbag_mint.gif	usable	t	0
 10166	Lil' Doctor&trade; bag	325464874	dbag.gif	accessory		0
 10167
@@ -10314,7 +10314,7 @@
 10286	meteorite earring	239721435	meteorockearring.gif	accessory	t	0
 10287	meteorite necklace	743072065	meteorockneck.gif	accessory	t	0
 10288	meteorite ring	841449919	meteorockring.gif	accessory	t	0
-10289	Finnish Fish	924184613	fishy2.gif	potion, usable	t,d	5
+10289	Finnish Fish	924184613	fishy2.gif	potion, multiple	t,d	5
 10290	cursed chocolate doubloon	686531916	ccannonball.gif	potion, multiple	t,d	5
 10291	driftwood beach comb	560767631	woodbeachcomb.gif	accessory	q	0
 10292	Distant Woods Getaway Brochure	334117432	campbrochure.gif	usable	t	0
@@ -10376,7 +10376,7 @@
 10348	mana-fortified cranberry sauce	828577710	cransauce.gif	food	t,d	40	cylinders of mana-fortified cranberry sauce
 10349	mana-stuffed herbal stuffing	363702530	casserole.gif	food	t,d	30	dishes of mana-stuffed herbal stuffing
 10350	human musk	735594651	potion16.gif	none, combat	t,d	5	vials of human musk
-10351	patch of extra-warm fur	734345806	spacefur.gif	potion, usable	t,d	5	patches of extra-warm fur
+10351	patch of extra-warm fur	734345806	spacefur.gif	potion, multiple	t,d	5	patches of extra-warm fur
 10352	industrial lubricant	294103515	lubecan.gif	spleen, usable	t,d	5	bottles of industrial lubricant
 10353	unfinished pleasure	151864264	unfpleasure.gif	potion, usable	t,d	5
 10354	vial of humanoid growth hormone	757472551	bloodvial.gif	spleen, usable	t,d	5	vials of humanoid growth hormone
@@ -10385,7 +10385,7 @@
 10357	boot flask	793163131	flask.gif	drink	t,d	5
 10358	infernal snowball	739773497	hellsnowball.gif	potion, usable	t,d	5
 10359	powdered madness	668204281	disease.gif	none, combat	t,d	5	bags of powdered madness
-10360	fish sauce	194337600	ww_sauce.gif	spleen, usable	t,d	5	bottles of fish sauce
+10360	fish sauce	194337600	ww_sauce.gif	spleen, multiple	t,d	5	bottles of fish sauce
 10361	guffin	546213618	cccoccoon.gif	food	t,d	5
 10362	Shantix&trade;	761212866	pill6.gif	spleen, usable	t,d	5	Shantix&trade; pills
 10363	goodberry	961219400	goodberry.gif	none, combat	t,d	5	goodberries
@@ -10597,7 +10597,7 @@
 10569	discarded bike lock key	218758389	key_bike.gif	accessory	q	0
 10570	Thwaitgold keyhole spider statuette	702235179	thwaitkeyspider.gif	none		0
 10571	Manual of Lock Picking	902924641	book3.gif	usable	t	0
-10572	marshroom	650215239	marshroom.gif	potion, usable	t,d	3
+10572	marshroom	650215239	marshroom.gif	potion, multiple	t,d	3
 10573	bag of Iunion stones	389793817	iunionbag.gif	usable	t	0
 10574	Iunion Crown	789074173	iunioncrown.gif	hat		0
 10575	drippy candy bar	937545686	dripcandybar.gif	none, candy, paste	t	0
@@ -10665,12 +10665,12 @@
 10637	complicated device	539406330	gymcard.gif	offhand		0
 10638	flask of moonshine	316918980	flask.gif	drink	t,d	6	flasks of moonshine
 10639	sea-worn candlestick	727071839	seacandle.gif	weapon		0
-10640	Universal Seasoning	607903571	spice.gif	usable		0
+10640	Universal Seasoning	607903571	spice.gif	reusable		0
 10641
 10642	flame orb	690359871	flame.gif	none, combat	t,d	6
 10643	chocolate chip muffin	918943586	earthpan3.gif	food	t	0
 10644	Comprehensive Cartographic Compendium	888457946	cccbook.gif	usable	t	0
-10645	Comprehensive Cartographic Compendium (well-read)	234229420	cccbook.gif	usable		0
+10645	Comprehensive Cartographic Compendium (well-read)	234229420	cccbook.gif	reusable		0
 10646	packaged knock-off retro superhero cape	197563560	retrocape0.gif	usable	t	0
 10647	unwrapped knock-off retro superhero cape	630054973	retrocape1.gif	container		0
 10648	box o' ghosts	408419791	cghostbox.gif	usable	t	0
@@ -10729,17 +10729,17 @@
 10701	Crimbo stockings	690661115	crimbonets.gif	pants	t	0
 10702	poncho de azucar	206457048	sugarponcho.gif	shirt	t	0
 10703	The Night Before Crimbo, Ch. 1	742976874	book4.gif	usable	t	0	copies of The Night Before Crimbo, Ch. 1
-10704	The Night Before Crimbo, Ch. 1 (used)	576042446	book4.gif	usable		0
+10704	The Night Before Crimbo, Ch. 1 (used)	576042446	book4.gif	reusable		0
 10705	The Night Before Crimbo, Ch. 2	231840792	book4.gif	usable	t	0	copies of The Night Before Crimbo, Ch. 2
-10706	The Night Before Crimbo, Ch. 2 (used)	911407310	book4.gif	usable		0
+10706	The Night Before Crimbo, Ch. 2 (used)	911407310	book4.gif	reusable		0
 10707	The Night Before Crimbo, Ch. 3	339097062	book4.gif	usable	t	0	copies of The Night Before Crimbo, Ch. 3
-10708	The Night Before Crimbo, Ch. 3 (used)	926998916	book4.gif	usable		0
+10708	The Night Before Crimbo, Ch. 3 (used)	926998916	book4.gif	reusable		0
 10709	The Night Before Crimbo, Ch. 4	749860919	book4.gif	usable	t	0	copies of The Night Before Crimbo, Ch. 4
-10710	The Night Before Crimbo, Ch. 4 (used)	890454121	book4.gif	usable		0
+10710	The Night Before Crimbo, Ch. 4 (used)	890454121	book4.gif	reusable		0
 10711	The Night Before Crimbo, Ch. 5	129112476	book4.gif	usable	t	0	copies of The Night Before Crimbo, Ch. 5
-10712	The Night Before Crimbo, Ch. 5 (used)	564470843	book4.gif	usable		0
+10712	The Night Before Crimbo, Ch. 5 (used)	564470843	book4.gif	reusable		0
 10713	The Night Before Crimbo, Ch. 6	188125853	book4.gif	usable	t	0	copies of The Night Before Crimbo, Ch. 6
-10714	The Night Before Crimbo, Ch. 6 (used)	440337817	book4.gif	usable		0
+10714	The Night Before Crimbo, Ch. 6 (used)	440337817	book4.gif	reusable		0
 10715	stuffed red and green pepper (stale)	353885496	crimbopepper.gif	food	t,d	10
 10716	cranberry margarita (brackish)	761622847	cranmarg.gif	drink	t,d	10
 10717	fuzzy polar bear ears	244293817	bearears.gif	familiar	t,d	20
@@ -10759,7 +10759,7 @@
 10731	fresh can of paint	689133733	freshcan.gif	usable	t	0
 10732	fresh coat of paint	640494952	freshcoat.gif	shirt		0
 10733	emotion chip	433546358	emochip_clean.gif	usable	t	0
-10734	spinal-fluid-covered emotion chip	360064272	emochip_dirty.gif	usable		0
+10734	spinal-fluid-covered emotion chip	360064272	emochip_dirty.gif	reusable		0
 10735	robo-battery	319416752	robobattery.gif	usable	q	0
 10736	Thwaitgold listening bug statuette	491324304	thwaitrobobug.gif	none		0
 10737	power seed	927595614	powerseed.gif	usable	t	0
