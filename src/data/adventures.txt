@@ -298,7 +298,7 @@ Holiday	adventure=23	Env: outdoor	Drunken Stupor
 Holiday	adventure=84	Env: outdoor	St. Sneaky Pete's Day Stupor
 Holiday	adventure=163	Env: outdoor	The Yuletide Bonfire
 Holiday	adventure=174	Env: outdoor	The Arrrboretum
-Holiday	adventure=37	Env: indoor	Spectral Pickle Factory
+Holiday	adventure=37	Env: indoor	The Spectral Pickle Factory
 Holiday	adventure=175	Env: indoor	Spectral Salad Factory
 Holiday	adventure=173	Env: outdoor	Generic Summer Holiday Swimming!
 

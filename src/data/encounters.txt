@@ -153,7 +153,6 @@ Lemon Party	CLOVER	Lemon Party Slot
 Oil Peak	CLOVER	Up From the Ground...
 Outskirts of Camp Logging Camp	CLOVER	Best Served Cold
 South of the Border	CLOVER	Forget Not That I am an Ass
-Spectral Pickle Factory	CLOVER	Wouldn't You Like to be a Pickle Too?
 The "Fun" House	CLOVER	The Boxer
 The Black Forest	CLOVER	What the Cluck?
 The Castle in the Clouds in the Sky (Basement)	CLOVER	You Never Know What You're Gonna Find
@@ -182,6 +181,7 @@ The Primordial Soup	CLOVER	Beginner's Luck
 The Roulette Tables	CLOVER	The Luckiest Gambler
 The Sleazy Back Alley	CLOVER	Lucky You, Unlucky Hobo
 The Smut Orc Logging Camp	CLOVER	S&M 4-EVER
+The Spectral Pickle Factory	CLOVER	Wouldn't You Like to be a Pickle Too?
 The Spooky Forest	CLOVER	Lucky, Lucky!
 The Spooky Gravy Burrow	CLOVER	Stage Fright
 The Unquiet Garves	CLOVER	Only Dust and a Plaque
