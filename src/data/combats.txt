@@ -220,7 +220,6 @@ Sonar	-1	batbugbear
 Sonofa Beach	10	lobsterfrogman
 South of the Border	50	angry pi&ntilde;ata	handsome mariachi	irate mariachi	mariachi calavera	raging bull
 Special Ops	-1	Black Ops Bugbear
-Spectral Pickle Factory	75	carnivorous dill plant	ghostly pickle factory worker	vine gar
 Spookiest Adventurer Contest	100	Ghostpuncher	Plague Chef	Batburglar	Arthur Frankenstein: 0
 Spooky Fright Factory	100	bow-making mummy	Cookie-baking Thing from Beyond Time	gift-wrapping vampire	skeletal reindeer	stocking-stuffing zombie	toy-making creature from the Gray Lagoon
 Stinkiest Adventurer Contest	100	Granola Barbarian	Cheese Wizard	Assassin	Odorous Humongous: 0
@@ -299,6 +298,7 @@ The Edge of the Swamp	-1	huge mosquito	mega frog	swamp entity
 The Electric Lemonade Acid Parade	100	Essence of Interspecies Respect	Essence of Soy	Essence of Tofu	Neptune, the Dog that Is a Respected Equal and Not a Pet	Neptune, the Dog that Is a Respected Equal and Not a Pet cast member	Susie Soyburger	Susie Soyburger cast member	Timmy Tofurkey	Timmy Tofurkey cast member
 The Enormous Greater-Than Sign	80	swarm of lowercase As	lowercase B	lowercase H	lowercase K	uppercase Q
 The Evil Cathedral	100	plywood cultists
+The Spectral Pickle Factory	75	carnivorous dill plant	ghostly pickle factory worker	vine gar
 
 // If you are wearing the War Frat uniform, you get all hippies.
 // If you are wearing the War Hippy uniform, you get all frat boys

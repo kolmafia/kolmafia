@@ -2087,7 +2087,7 @@ Novio Cad&aacute;ver	636	novio.gif	NOCOPY WANDERER Scale: -3 Init: -10000 P: und
 Padre Cad&aacute;ver	637	elpriest.gif	NOCOPY WANDERER Scale: -3 Init: -10000 P: undead Manuel: "Padre Cadáver"	purple corpsel (c100)	corpsetini (c100)
 Persona Inocente Cad&aacute;ver	638	bystander.gif	NOCOPY WANDERER Scale: -3 Init: -10000 P: undead Manuel: "Persona Inocente Cadáver"	corpsebite (c100)	Corpse Island iced tea (c100)	una poca de gracia (c0)
 
-# Spectral Pickle Factory
+# The Spectral Pickle Factory
 carnivorous dill plant	215	dillplant.gif	NOCOPY BOSS HP: 180 Def: 180 Atk: 200 Init: 70 P: plant	dill (50)	dill (20)
 ghostly pickle factory worker	214	worker.gif	NOCOPY BOSS HP: 180 Def: 180 Atk: 200 Init: 70 E: spooky P: undead GHOST	ghost cucumber (50)	ghost cucumber (20)
 vine gar	213	gar.gif	NOCOPY BOSS HP: 180 Def: 180 Atk: 200 Init: 70 P: beast	vinegar (50)	vinegar (20)
