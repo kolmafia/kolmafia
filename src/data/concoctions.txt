@@ -1427,7 +1427,7 @@ sauce of the ages	SAUCE	scrumptious reagent	Knob sausage
 spaghetti with Skullheads	PASTA	sauce of the ages	dry noodles
 
 cheesy eagle sauce	SAUCE	scrumptious reagent	eagle's milk
-fleetwood mac 'n' cheese	PASTA	cheesy eagle sauce	fleetwood macaroni
+fleetwood mac 'n' cheese	PASTAMASTERY	cheesy eagle sauce	fleetwood macaroni
 
 Mountain Stream gastrique	SAUCE	scrumptious reagent	Mountain Stream soda
 linguini immondizia bianco	PASTA	Mountain Stream gastrique	dry noodles
