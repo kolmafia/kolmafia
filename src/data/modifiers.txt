@@ -2642,6 +2642,7 @@ Item	astral mask	Moxie Percent: +25, Item Drop: +20
 Item	astral ring	Mysticality Percent: +25, Spell Damage: +20, MP Regen Min: 4, MP Regen Max: 6
 # attorney's badge: OBJECTION!
 Item	attorney's badge	Single Equip
+Item	backup camera	Maximum HP: +20, Maximum MP: +20, Monster Level: [min(3*L,50)*pref(backupCameraMode,ml)], Meat Drop: [50*pref(backupCameraMode,meat)], Initiative: [100*pref(backupCameraMode,init)]
 Item	baconstone bracelet	Mysticality: +2, Mana Cost: -1, Single Equip
 Item	baconstone earring	Mysticality: +2, Mana Cost: -1, Single Equip
 Item	baconstone pendant	Mysticality: +4, Spell Damage: +10

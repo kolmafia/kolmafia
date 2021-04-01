@@ -10433,6 +10433,13 @@ public class FightRequest
 				Preferences.decrement( "shockingLickCharges");
 			}
 			break;
+
+		case SkillPool.BACK_UP:
+			if ( responseText.contains( "You check in your back-up camera, " ) || skillSuccess )
+			{
+				Preferences.increment( "_backUpUses" );
+			}
+			break;
 		}
 	}
 
