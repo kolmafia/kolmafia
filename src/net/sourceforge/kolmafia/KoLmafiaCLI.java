@@ -46,7 +46,6 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
 import net.sourceforge.kolmafia.chat.ChatSender;
@@ -671,6 +670,7 @@ public class KoLmafiaCLI
 			register( "sell" ).
 			register( "autosell" );
 		new BacktraceCommand().register( "backtrace" );
+		new BackupCameraCommand().register( "backupcamera" );
 		new BadMoonCommand().register( "badmoon" );
 		new BallPitCommand().register( "ballpit" );
 		new BangPotionsCommand().

@@ -2249,6 +2249,7 @@ astral bracer	50	none
 astral mask	50	none
 astral ring	50	none
 attorney's badge	170	Mys: 70
+backup camera	0	none
 baconstone bracelet	50	Mys: 10
 baconstone earring	50	Mys: 10
 baconstone pendant	50	Mys: 10

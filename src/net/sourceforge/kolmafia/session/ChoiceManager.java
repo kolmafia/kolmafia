@@ -12499,6 +12499,18 @@ public abstract class ChoiceManager
 			}
 			break;
 		}
+		case 1449:
+		{
+			switch ( ChoiceManager.lastDecision )
+			{
+			case 1: Preferences.setString( "backupCameraMode", "ml" ); break;
+			case 2: Preferences.setString( "backupCameraMode", "meat" ); break;
+			case 3: Preferences.setString( "backupCameraMode", "init" ); break;
+			case 4: Preferences.setBoolean( "backupCameraReverserEnabled", true ); break;
+			case 5: Preferences.setBoolean( "backupCameraReverserEnabled", false ); break;
+			}
+			break;
+		}
 		}
 		
 		// Certain choices cost meat or items when selected
@@ -16166,6 +16178,15 @@ public abstract class ChoiceManager
 			Preferences.setString( "_pottedPowerPlant", String.join( ",", stalkStatus ) );
 			break;
 		}
+		case 1449:
+		{
+			String setting = ( !text.contains( "Warning Beep" ) ) ? "ml" :
+			                 ( !text.contains( "Infrared Spectrum" ) ) ? "meat" :
+			                 ( !text.contains( "Maximum Framerate" ) ) ? "init" : "";
+
+			Preferences.setString( "backupCameraMode", setting );
+			Preferences.setBoolean( "backupCameraReverserEnabled", text.contains( "Disable Reverser" ) );
+		}
 		}
 
 		// Do this after special classes (like WumpusManager) have a
@@ -19109,6 +19130,7 @@ public abstract class ChoiceManager
 		case 1445: // Reassembly Station
 		case 1447: // Statbot 5000
 		case 1448: // Potted Power Plant
+		case 1449: // Set Backup Camera Mode
 			return true;
 
 		default:
