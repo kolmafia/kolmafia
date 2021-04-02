@@ -3259,9 +3259,16 @@ public class ConcoctionDatabase
 		{
 			ConcoctionDatabase.requirements.add( CraftingRequirements.DEEP_SAUCERY );
 		}
-		// Requires Pastamastery
+		// Requires Pastamastery but not dry noodles
 		else if ( mix.equals( "PASTAMASTERY" ) )
 		{
+			ConcoctionDatabase.mixingMethod = CraftingType.COOK;
+			ConcoctionDatabase.requirements.add( CraftingRequirements.PASTA );
+		}
+		// Items requiring Pastamastery
+		else if ( mix.equals( "PASTA" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.COOK_FANCY;
 			ConcoctionDatabase.requirements.add( CraftingRequirements.PASTA );
 		}
 		// Requires Transcendental Noodlecraft
@@ -3310,12 +3317,6 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "MANUAL" ) )
 		{
 			ConcoctionDatabase.info.add( CraftingMisc.MANUAL );
-		}
-		// Items requiring Pastamastery
-		else if ( mix.equals( "PASTA" ) )
-		{
-			ConcoctionDatabase.mixingMethod = CraftingType.COOK_FANCY;
-			ConcoctionDatabase.requirements.add( CraftingRequirements.PASTA );
 		}
 		// Items requiring Transcendental Noodlecraft
 		else if ( mix.equals( "TNOODLE" ) || mix.equals( "TRANSNOODLE" ) )
