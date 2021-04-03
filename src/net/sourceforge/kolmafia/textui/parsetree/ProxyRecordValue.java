@@ -40,6 +40,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.EdServantData;
@@ -1493,7 +1494,19 @@ public class ProxyRecordValue
 
 		public double get_combat_percent()
 		{
-			return this.content != null ? ( (KoLAdventure) this.content ).getAreaSummary().areaCombatPercent() : 0;
+			if ( this.content == null )
+			{
+				return 0;
+			}
+
+			AreaCombatData area = ((KoLAdventure) this.content ).getAreaSummary();
+
+			if ( area == null )
+			{
+				return 0;
+			}
+
+			return area.areaCombatPercent();
 		}
 
 		public String get_zone()
