@@ -11854,7 +11854,7 @@ RobotBottom	6	Maximum HP: +50, Damage Reduction: +10
 RobotBottom	7	Scrap: +1
 RobotLeft	2	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3
 RobotLeft	3	Item Drop: +30
-RobotLeft	7	Combat Rate: -10
+RobotLeft	7	Combat Rate: -15
 RobotCPU	robot_muscle	Muscle: +15
 RobotCPU	robot_mysticality	Mysticality: +15
 RobotCPU	robot_moxie	Moxie: +15
