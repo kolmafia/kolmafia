@@ -565,6 +565,8 @@ public class ValhallaManager
 		Preferences.setBoolean( "lockPicked", false );
 		Preferences.setBoolean( "leafletCompleted", false );
 		Preferences.setInteger( "shockingLickCharges", 0 );
+		Preferences.setString( "backupCameraMode", "" );
+		Preferences.setBoolean( "backupCameraReverserEnabled", false );
 		MonorailManager.resetMuffinOrder();
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );
