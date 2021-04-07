@@ -1229,6 +1229,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "my_session_items", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_session_results", DataTypes.STRING_TO_INT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_daycount", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
@@ -3041,7 +3044,6 @@ public abstract class RuntimeLibrary
 
 	// Type conversion functions which allow conversion
 	// of one data format to another.
-
 	public static Value to_json( ScriptRuntime controller, Value val )
 		throws JSONException
 	{
@@ -5833,6 +5835,18 @@ public abstract class RuntimeLibrary
 		}
 
 		return new Value( 0 );
+	}
+
+	public static Value my_session_results( ScriptRuntime controller )
+	{
+		AggregateType type = new AggregateType( DataTypes.INT_TYPE, DataTypes.ITEM_TYPE );
+		MapValue value = new MapValue( type );
+
+		for ( AdventureResult result : KoLConstants.tally ) {
+			value.aset( DataTypes.makeStringValue( result.toString() ), new Value( result.getCount() ) );
+		}
+
+		return value;
 	}
 
 	public static Value my_daycount( ScriptRuntime controller )
