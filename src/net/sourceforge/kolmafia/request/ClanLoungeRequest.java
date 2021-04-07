@@ -121,8 +121,8 @@ public class ClanLoungeRequest
 	private static final Pattern FAX_PATTERN = Pattern.compile( "preaction=(.+?)fax" );
 	private static final Pattern TEMPERATURE_PATTERN = Pattern.compile( "temperature=(\\d*)" );
 	private static final Pattern SWIMMING_POOL_PATTERN = Pattern.compile( "subaction=([^&]+)" );
-	private static final Pattern LAPS_PATTERN = Pattern.compile( "manage to swim (\\d+) before" );
-	private static final Pattern SPRINTS_PATTERN = Pattern.compile( "you do (\\d+) of them" );
+	private static final Pattern LAPS_PATTERN = Pattern.compile( "manage to swim ([\\d,]+) before" );
+	private static final Pattern SPRINTS_PATTERN = Pattern.compile( "you do ([\\d,]+) of them" );
 	private static final Pattern FISH_STOCK_PATTERN = Pattern.compile( "<br>(\\d+)?[,]?(\\d+)?[,]?(\\d+) (carp|cod|trout|bass|hatchetfish|tuna)" );
 
 	public static final Object [][] POOL_GAMES = new Object[][]
