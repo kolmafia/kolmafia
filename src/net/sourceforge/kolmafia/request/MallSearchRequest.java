@@ -298,10 +298,29 @@ public class MallSearchRequest
 
 		List<String> itemNames = ItemDatabase.getMatchingNames( this.searchString );
 
+		List<String> disambiguatedItemNames = new ArrayList();
+
+		for ( String itemName : itemNames )
+		{
+			int[] itemIds = ItemDatabase.getItemIds( itemName, 1, true );
+
+			if ( itemIds.length > 1 )
+			{
+				for ( int itemId : itemIds )
+				{
+					disambiguatedItemNames.add( "[" + itemId + "]" + itemName );
+				}
+			}
+			else
+			{
+				disambiguatedItemNames.add( itemName );
+			}
+		}
+
 		// Check for any items which are not available in NPC stores and
 		// known not to be tradeable to see if there's an exact match.
 
-		Iterator<String> itemIterator = itemNames.iterator();
+		Iterator<String> itemIterator = disambiguatedItemNames.iterator();
 		int npcItemCount = 0;
 		int untradeableCount = 0;
 
@@ -312,7 +331,7 @@ public class MallSearchRequest
 			boolean untradeable = !ItemDatabase.isTradeable( itemId );
 
 			if ( NPCStoreDatabase.contains( itemId ) ||
-			     CoinmastersDatabase.contains( itemId ) )
+					CoinmastersDatabase.contains( itemId ) )
 			{
 				npcItemCount++;
 				if ( untradeable )
