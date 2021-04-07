@@ -2041,6 +2041,7 @@ user	_witchessBuff	false
 user	_witchessFights	0
 user	_workshedItemUsed	false
 user	_xoHugsUsed	0
+user	_yellowPixelDropsCrown	0
 user	_zapCount	0
 user	_zombieClover	false
 user 	_preventScurvy	false
