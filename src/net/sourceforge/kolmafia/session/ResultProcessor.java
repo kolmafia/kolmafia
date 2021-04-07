@@ -3282,6 +3282,19 @@ public class ResultProcessor
 			QuestDatabase.setQuestProgress( Quest.ZIPPITY_DOO_DAH, QuestDatabase.STARTED );
 			break;
 
+		case ItemPool.YELLOW_PIXEL:
+			if ( combatResults )
+			{
+				if ( KoLCharacter.currentBjorned.getId() == FamiliarPool.PUCK_MAN ||
+						KoLCharacter.currentEnthroned.getId() == FamiliarPool.PUCK_MAN ||
+						KoLCharacter.currentBjorned.getId() == FamiliarPool.MS_PUCK_MAN ||
+						KoLCharacter.currentEnthroned.getId() == FamiliarPool.MS_PUCK_MAN )
+				{
+					Preferences.increment( "_yellowPixelDropsCrown" );
+				}
+			}
+			break;
+
 		case ItemPool.FRAUDWORT:
 			if ( InventoryManager.getCount( ItemPool.FRAUDWORT ) + count >= 3 &&
 				InventoryManager.getCount( ItemPool.SHYSTERWEED ) >= 3 &&
