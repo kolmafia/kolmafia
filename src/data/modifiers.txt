@@ -5482,7 +5482,7 @@ Effect	Disguised as a Warehouse Clerk	Avatar: "warehouse clerk"
 Effect	Disquiet Riot	Combat Rate: -20
 Effect	Dizzy with Rage	Moxie Percent: -10
 Effect	Do I Know You From Somewhere?	Familiar Weight: +5
-Effect	Do You Crush What I Crush?	Spell Damage Pecent: +100, Weapon Damage Percent: +100
+Effect	Do You Crush What I Crush?	Spell Damage Percent: +100, Weapon Damage Percent: +100
 Effect	Does a Body Good	Maximum HP: +60, Maximum MP: +30, Damage Reduction: 10
 Effect	Does It Have a Skull In There??	Spooky Resistance: +3, Spooky Damage: +15, Spooky Spell Damage: +15
 Effect	Does Whatever a Person Can	Avatar: "spider"
