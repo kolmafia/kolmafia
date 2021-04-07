@@ -67,12 +67,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class JavascriptRuntime
 	extends AbstractRuntime
 {
 	public static final String DEFAULT_RUNTIME_LIBRARY_NAME = "__runtimeLibrary__";
+	public static final Pattern CAMEL_CASER = Pattern.compile( "(?<=[A-Za-z0-9])_([A-Za-z0-9])" );
 
 	static final Set<JavascriptRuntime> runningRuntimes = ConcurrentHashMap.newKeySet();
 	static final ContextFactory contextFactory = new ObservingContextFactory();
@@ -90,20 +93,21 @@ public class JavascriptRuntime
 			return null;
 		}
 
-		boolean first = true;
 		StringBuilder result = new StringBuilder();
-		for ( String word : name.split( "_" ) )
+
+		Matcher m = CAMEL_CASER.matcher( name );
+
+		int previous_index = 0;
+
+		while ( m.find() )
 		{
-			if ( first )
-			{
-				result.append( word.charAt( 0 ) );
-				first = false;
-			}
-			else
-			{
-				result.append( Character.toUpperCase( word.charAt( 0 ) ) );
-			}
-			result.append( word.substring( 1 ) );
+			result.append( name, previous_index, m.start() ).append( m.group( 1 ).toUpperCase() );
+			previous_index = m.end();
+		}
+
+		if ( previous_index < name.length() )
+		{
+			result.append( name, previous_index, name.length() );
 		}
 
 		return result.toString();
