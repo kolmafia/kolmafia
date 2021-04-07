@@ -950,6 +950,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "get_campground", DataTypes.ITEM_TO_INT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_workshed", DataTypes.ITEM_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "get_clan_lounge", DataTypes.ITEM_TO_INT_TYPE, params ) );
 
 		params = new Type[] {};
@@ -4917,6 +4920,11 @@ public abstract class RuntimeLibrary
 		}
 
 		return value;
+	}
+
+	public static Value get_workshed( ScriptRuntime controller )
+	{
+		return DataTypes.makeItemValue( CampgroundRequest.getCurrentWorkshedItem().getItemId(), true );
 	}
 
 	public static Value get_clan_lounge( ScriptRuntime controller )
