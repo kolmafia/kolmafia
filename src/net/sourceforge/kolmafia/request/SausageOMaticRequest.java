@@ -44,6 +44,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class SausageOMaticRequest
 	extends CreateItemRequest
@@ -77,6 +79,11 @@ public class SausageOMaticRequest
 		int currentSausages = this.createdItem.getCount( KoLConstants.inventory );
 		int sausagesMade = Preferences.getInteger( "_sausagesMade" );
 		int grinderUnits = Preferences.getInteger( "sausageGrinderUnits" );
+
+		if ( ( ( sausagesMade + quantityNeeded ) > 23 ) && ( this.confirmSausages() == false ) )
+		{
+			return;
+		}
 
 		// Work out total meat cost to make requested sausages
 		while ( count < quantityNeeded && KoLmafia.permitsContinue() )
@@ -139,6 +146,16 @@ public class SausageOMaticRequest
 			}
 			this.quantityNeeded -= createdQuantity;
 		}
+	}
+
+	private final boolean confirmSausages()
+	{
+		if ( !GenericFrame.instanceExists() )
+		{
+			return true;
+		}
+
+		return InputFieldUtilities.confirm( "Are you sure you want to make more than 23 sausages in one day?" );
 	}
 
 	public static final boolean registerRequest( final String urlString )
