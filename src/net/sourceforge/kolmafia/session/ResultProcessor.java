@@ -3549,6 +3549,13 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.POKE_GROW_FERTILIZER:
+			if ( combatResults )
+			{
+				Preferences.increment( "_pokeGrowFertilizerDrops" );
+			}
+			break;
+
 		case ItemPool.BOOMBOX:
 			KoLCharacter.addAvailableSkill( "Sing Along" );
 			break;
