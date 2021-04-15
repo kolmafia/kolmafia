@@ -59,7 +59,7 @@ public class RequestLogger
 {
 	public static final RequestLogger INSTANCE = new RequestLogger();
 
-	private static PrintStream outputStream = NullStream.INSTANCE;
+	private static PrintStream outputStream = KoLmafiaTUI.outputStream;
 	private static PrintStream mirrorStream = NullStream.INSTANCE;
 
 	private static PrintStream sessionStream = NullStream.INSTANCE;
@@ -293,11 +293,6 @@ public class RequestLogger
 		}
 	}
 
-	public static final void openStandard()
-	{
-		RequestLogger.outputStream = System.out;
-	}
-
 	public static final void openCustom( PrintStream out )
 	{
 		RequestLogger.outputStream = out;
@@ -306,7 +301,7 @@ public class RequestLogger
 	public static final void closeCustom()
 	{
 		RequestLogger.closeStream( RequestLogger.outputStream );
-		RequestLogger.outputStream = NullStream.INSTANCE;
+		RequestLogger.outputStream = KoLmafiaTUI.outputStream;
 	}
 
 	public static final void openMirror( final String location )

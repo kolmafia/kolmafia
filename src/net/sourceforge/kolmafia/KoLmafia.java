@@ -385,7 +385,7 @@ public abstract class KoLmafia
 		}
 		else
 		{
-			RequestLogger.openStandard();
+			KoLmafiaTUI.initialize();
 		}
 
 		// Now, maybe the person wishes to run something
