@@ -599,7 +599,7 @@ public class AdventureRequest
 		Pattern.compile( "<b>.*?(<b>.*?<(/b|/td)>.*?)<(br|/td|/tr)>", Pattern.DOTALL ),
 	};
 
-	public static final String parseCombatEncounter( final String responseText )
+	public static final String 	parseCombatEncounter( final String responseText )
 	{
 		// Silly check for silly situation
 		if ( responseText.contains( "Not in a Fight" ) )
