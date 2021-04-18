@@ -236,46 +236,38 @@ public class RelayAgent
 				RequestLogger.updateDebugLog( currentLine );
 			}
 
-			if ( currentLine.startsWith( "Host: " ) )
-			{
-				host = currentLine.substring( 6 );
-				continue;
-			}
+			// HTTP headers are case-insensitive
 
-			if ( currentLine.startsWith( "Referer: " ) )
-			{
-				referer = currentLine.substring( 9 );
-				continue;
-			}
+			String[] currentHeader = currentLine.split( ":",2 );
+			String headerType = currentHeader[0].toLowerCase().trim();
+			String headerValue = currentHeader[1].trim();
 
-			if ( currentLine.startsWith( "If-Modified-Since: " ) )
+			switch( headerType )
 			{
-				this.isCheckingModified = currentLine.substring( 19 );
-				continue;
-			}
-
-			if ( currentLine.startsWith( "Content-Length" ) )
-			{
-				contentLength = StringUtilities.parseInt( currentLine.substring( 16 ) );
-				continue;
-			}
-
-			if ( currentLine.startsWith( "User-Agent" ) )
-			{
-				GenericRequest.saveUserAgent( currentLine.substring( 12 ) );
-				continue;
-			}
-
-			if ( currentLine.startsWith( "Cookie: " ) )
-			{
-				String cookies = currentLine.substring( 8 );
+			case "host":
+				host = headerValue;
+				break;
+			case "referer":
+				referer = headerValue;
+				break;
+			case "if-modified-since":
+				this.isCheckingModified = headerValue;
+				break;
+			case "content-length":
+				contentLength = StringUtilities.parseInt( headerValue );
+				break;
+			case "user-agent":
+				GenericRequest.saveUserAgent( headerValue );
+				break;
+			case "cookie":
+				String cookies = headerValue;
 				StringBuilder buffer = new StringBuilder();
 				boolean inventory = this.path.startsWith( "/inventory" );
 				for ( String cookie : cookies.split( "\\s*;\\s*" ) )
 				{
-					if ( cookie.startsWith( "appserver" ) ||
-					     cookie.startsWith( "PHPSESSID" ) ||
-					     cookie.startsWith( "AWSALB" ) )
+					if ( cookie.startsWith( "appserver" )
+					|| cookie.startsWith( "PHPSESSID" )
+					|| cookie.startsWith( "AWSALB" ) )
 					{
 						continue;
 					}
