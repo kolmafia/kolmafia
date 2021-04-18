@@ -4873,7 +4873,7 @@ public class FightRequest
 			boolean haveSkill = KoLCharacter.hasSkill( "Transcendent Olfaction" ) && !KoLCharacter.inGLover() &&
 				( Preferences.getBoolean( "autoManaRestore" ) || KoLCharacter.getCurrentMP() >= SkillDatabase.getMPConsumptionById( SkillPool.OLFACTION ) );
 			boolean haveItem = KoLConstants.inventory.contains( FightRequest.EXTRACTOR );
-			if ( (haveSkill | haveItem) && shouldTag( pref, "autoOlfact triggered" ) )
+			if ( ( haveSkill || haveItem ) && shouldTag( pref, "autoOlfact triggered" ) )
 			{
 				if ( haveSkill )
 				{
