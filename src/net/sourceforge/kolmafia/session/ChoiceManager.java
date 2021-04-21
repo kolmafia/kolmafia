@@ -4475,7 +4475,7 @@ public abstract class ChoiceManager
 			"Sneaky Sneaky", "choiceAdventure1433", "The Hippy Camp (Verge of War)",
 			new Object[] { new Option( "fight a war hippy drill sargent", 1 ),
 				       new Option( "fight a war hippy space cadet", 2 ),
-				       new Option( "start the war)", 3 ) } ),
+				       new Option( "start the war", 3 ) } ),
 
 		// Choice 1434 is frat camp verge of war Sneaky Sneaky
 		new ChoiceAdventure(
@@ -12509,6 +12509,7 @@ public abstract class ChoiceManager
 			case 4: Preferences.setBoolean( "backupCameraReverserEnabled", true ); break;
 			case 5: Preferences.setBoolean( "backupCameraReverserEnabled", false ); break;
 			}
+
 			break;
 		}
 		}
@@ -14421,6 +14422,21 @@ public abstract class ChoiceManager
 		case 1409:
 			// Your Quest is Over
 			ChoiceManager.handleAfterAvatar();
+			break;
+		case 1449:
+			// If you change the mode with the item equipped, you need to un-equip and re-equip it to get the modifiers
+			if ( ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 3 )
+			{
+				for ( int i = EquipmentManager.ACCESSORY1; i <= EquipmentManager.ACCESSORY3; ++i )
+				{
+					AdventureResult item = EquipmentManager.getEquipment( i );
+					if ( item != null && item.getItemId() == ItemPool.BACKUP_CAMERA )
+					{
+						RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, i ) );
+						RequestThread.postRequest( new EquipmentRequest( item, i ) );
+					}
+				}
+			}
 			break;
 		}
 
