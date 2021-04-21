@@ -2609,31 +2609,27 @@ public class FightRequest
 			FightRequest.machineElf = adventure == AdventurePool.DEEP_MACHINE_TUNNELS;
 
 			// Adventuring in the Mer-kin Colosseum
-			if ( adventure == AdventurePool.MERKIN_COLOSSEUM )
+			switch ( adventure )
 			{
+			case AdventurePool.MERKIN_COLOSSEUM:
 				Matcher roundMatcher = FightRequest.ROUND_PATTERN.matcher( responseText );
 				if ( roundMatcher.find() )
 				{
 					int round = StringUtilities.parseInt( roundMatcher.group( 1 ) );
 					Preferences.setInteger( "lastColosseumRoundWon", round - 1 );
 				}
-			}
-
-			// Adventuring in the Daily Dungeon
-			else if ( adventure == AdventurePool.THE_DAILY_DUNGEON )
-			{
+				break;
+			case AdventurePool.THE_DAILY_DUNGEON:
 				Matcher chamberMatcher = FightRequest.CHAMBER_PATTERN.matcher( responseText );
 				if ( chamberMatcher.find() )
 				{
 					int round = StringUtilities.parseInt( chamberMatcher.group( 1 ) );
 					Preferences.setInteger( "_lastDailyDungeonRoom", round - 1 );
 				}
-			}
-
-			// Adventuring in Warbear Fortress Level Three
-			else if ( adventure == AdventurePool.WARBEAR_FORTRESS_LEVEL_THREE )
-			{
+				break;
+			case AdventurePool.WARBEAR_FORTRESS_LEVEL_THREE:
 				ResultProcessor.processItem( ItemPool.WARBEAR_BADGE, -1 );
+				break;
 			}
 
 			// Wearing any piece of papier equipment really messes up the results
@@ -3116,6 +3112,8 @@ public class FightRequest
 		String limitmode = KoLCharacter.getLimitmode();
 		boolean finalRound = macroMatcher.end() == FightRequest.lastResponseText.length();
 		boolean won = finalRound && responseText.contains( "<!--WINWINWIN-->" );
+		KoLAdventure location = KoLAdventure.lastVisitedLocation();
+		String locationName = ( location != null ) ? location.getAdventureName() : null;
 
 		// If we won, the fight is over for sure. It might be over
 		// anyway. We can detect this in one of two ways: if you have
@@ -3715,12 +3713,6 @@ public class FightRequest
 
 		if ( responseText.contains( "acquire a bounty item:" ) )
 		{
-			KoLAdventure location = KoLAdventure.lastVisitedLocation();
-			String locationName = null;
-			if ( KoLAdventure.lastVisitedLocation() != null )
-			{
-				locationName = location.getAdventureName();
-			}
 			BountyHunterHunterRequest.parseFight( monsterName, locationName, responseText );
 		}
 		// Check for bounty item not dropping from a monster
@@ -3891,12 +3883,6 @@ public class FightRequest
 		// Check for Latte unlocks
 		if ( KoLCharacter.hasEquipped( ItemPool.LATTE_MUG, EquipmentManager.OFFHAND ) )
 		{
-			KoLAdventure location = KoLAdventure.lastVisitedLocation();
-			String locationName = null;
-			if ( KoLAdventure.lastVisitedLocation() != null )
-			{
-				locationName = location.getAdventureName();
-			}
 			LatteRequest.parseFight( locationName, responseText );
 		}
 
@@ -4666,7 +4652,7 @@ public class FightRequest
 			}
 
 			if ( QuestDatabase.isQuestLaterThan( Quest.GUZZLR, QuestDatabase.UNSTARTED ) &&
-				 Preferences.getString( "guzzlrQuestLocation" ).equals( KoLAdventure.lastLocationName ) &&
+				 Preferences.getString( "guzzlrQuestLocation" ).equals( locationName ) &&
 				 responseText.contains( Preferences.getString( "guzzlrQuestClient" ) ) )
 			{
 				int incr = Math.max( 3, 10 - Preferences.getInteger( "_guzzlrDeliveries" ) );
