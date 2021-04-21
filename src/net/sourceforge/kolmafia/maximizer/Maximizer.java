@@ -2248,6 +2248,7 @@ public class Maximizer
 		String edPiece = Maximizer.best.getEdPiece();
 		String snowsuit = Maximizer.best.getSnowsuit();
 		String retroCape = Maximizer.best.getRetroCape();
+		String backupCamera = Maximizer.best.getBackupCamera();
 		AdventureResult curr = EquipmentManager.getEquipment( slot );
 		FamiliarData currEnthroned = KoLCharacter.getEnthroned();
 		FamiliarData currBjorned = KoLCharacter.getBjorned();
@@ -2257,7 +2258,9 @@ public class Maximizer
 		Boolean setSnowsuit = false;
 		String currRetroCape = Preferences.getString( "retroCapeSuperhero" ) + " " + Preferences.getString( "retroCapeWashingInstructions" );
 		Boolean setRetroCape = false;
-		
+		String currBackupCamera = Preferences.getString( "backupCameraMode" );
+		Boolean setBackupCamera = false;
+
 		if ( item == null || item.getItemId() == 0 )
 		{
 			item = EquipmentRequest.UNEQUIP;
@@ -2272,6 +2275,7 @@ public class Maximizer
 			!( itemId == ItemPool.CROWN_OF_ED && edPiece != null && !edPiece.equals( currEdPiece ) ) &&
 			!( itemId == ItemPool.SNOW_SUIT && snowsuit != null && !snowsuit.equals( currSnowsuit ) ) &&
 			!( itemId == ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE && retroCape != null && !retroCape.equals( currRetroCape ) ) &&
+			!( itemId == ItemPool.BACKUP_CAMERA && backupCamera != null && !backupCamera.equals( currBackupCamera ) ) &&
 			!( itemId == ItemPool.BROKEN_CHAMPAGNE &&
 				Preferences.getInteger( "garbageChampagneCharge" ) == 0 && !Preferences.getBoolean( "_garbageItemChanged" ) ) &&
 			!( itemId == ItemPool.MAKESHIFT_GARBAGE_SHIRT &&
@@ -2307,6 +2311,10 @@ public class Maximizer
 		else if ( itemId == ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE )
 		{
 			spec.setRetroCape( retroCape );
+		}
+		else if ( itemId == ItemPool.BACKUP_CAMERA )
+		{
+			spec.setBackupCamera( backupCamera );
 		}
 
 		double delta = spec.getScore() - current;
@@ -2348,6 +2356,12 @@ public class Maximizer
 				cmd = "retrocape " + retroCape;
 				text = cmd;
 				setRetroCape = true;
+			}
+			else if ( itemId == ItemPool.BACKUP_CAMERA && !backupCamera.equals( currBackupCamera ) )
+			{
+				cmd = "backupcamera " + backupCamera + "; equip " + slotname + " \u00B6" + item.getItemId();
+				text = "backupcamera " + backupCamera;
+				setBackupCamera = true;
 			}
 			else
 			{
@@ -2525,7 +2539,12 @@ public class Maximizer
 			retroCape = null;
 		}
 
-		Boost boost = new Boost( cmd, text, slot, item, delta, enthroned, bjorned, edPiece, snowsuit, retroCape );
+		if ( !setBackupCamera )
+		{
+			backupCamera = null;
+		}
+
+		Boost boost = new Boost( cmd, text, slot, item, delta, enthroned, bjorned, edPiece, snowsuit, retroCape, backupCamera );
 		if ( equipScope == -1 )
 		{	// called from CLI
 			boost.execute( true );

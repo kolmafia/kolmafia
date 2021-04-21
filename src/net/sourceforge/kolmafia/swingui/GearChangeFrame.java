@@ -251,6 +251,11 @@ public class GearChangeFrame
 					newMods.add( Modifiers.getModifiers( "RetroCape", Preferences.getString( "retroCapeSuperhero" ) + " " + Preferences.getString( "retroCapeWashingInstructions" ) ) );
 					break;
 				}
+				case ItemPool.BACKUP_CAMERA:
+				{
+					newMods.add( Modifiers.getModifiers( "BackupCamera", Preferences.getString( "backupCameraMode" ) ) );
+					break;
+				}
 				case ItemPool.COWBOY_BOOTS:
 				{
 					AdventureResult skin = EquipmentManager.getEquipment( EquipmentManager.BOOTSKIN );

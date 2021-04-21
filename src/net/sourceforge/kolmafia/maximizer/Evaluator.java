@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.textui.command.BackupCameraCommand;
 import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
 import net.sourceforge.kolmafia.textui.command.RetroCapeCommand;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
@@ -97,6 +98,7 @@ public class Evaluator
 	private String edPieceDecided = null;
 	private boolean snowsuitNeeded = false;
 	private boolean retroCapeNeeded = false;
+	private boolean backupCameraNeeded = false;
 
 	private final int[] slots = new int[ EquipmentManager.ALL_SLOTS ];
 	private String weaponType = null;
@@ -1629,6 +1631,11 @@ public class Evaluator
 					this.retroCapeNeeded = true;
 				}
 
+				if ( id == ItemPool.BACKUP_CAMERA && ( this.slots[ EquipmentManager.ACCESSORY1 ] + this.slots[ EquipmentManager.ACCESSORY2 ] + this.slots[ EquipmentManager.ACCESSORY3 ] ) >= 0 )
+				{
+					this.backupCameraNeeded = true;
+				}
+
 				if ( mods.getBoolean( Modifiers.NONSTACKABLE_WATCH ) )
 				{
 					slot = Evaluator.WATCHES;
@@ -1934,7 +1941,7 @@ public class Evaluator
 			best.equipment[ EquipmentManager.CONTAINER ] = retroCape;
 			best.setRetroCape( bestRetroCape );
 
-			// Check each animal in Crown of Ed to see if they are worthwhile
+			// Check each combination of cape settings to see if they are worthwhile
 			for ( String superhero : RetroCapeCommand.SUPERHEROS )
 			{
 				for ( String washingInstruction : RetroCapeCommand.WASHING_INSTRUCTIONS )
@@ -1956,6 +1963,40 @@ public class Evaluator
 						best = ( MaximizerSpeculation ) spec.clone();
 						bestRetroCape = config;
 					}
+				}
+			}
+		}
+
+		String bestBackupCamera = null;
+
+		if ( this.backupCameraNeeded )
+		{
+			// Assume best is current backup camera mode
+			MaximizerSpeculation best = new MaximizerSpeculation();
+			CheckedItem backupCamera = new CheckedItem( ItemPool.BACKUP_CAMERA, equipScope, maxPrice, priceLevel );
+			best.attachment = backupCamera;
+			bestBackupCamera = Preferences.getString( "backupCameraMode" );
+			best.equipment[ EquipmentManager.ACCESSORY3 ] = backupCamera;
+			best.setBackupCamera( bestBackupCamera );
+
+			// Check each mode to see if it is worthwhile
+			for ( String[] MODE : BackupCameraCommand.MODE )
+			{
+				String mode = MODE[0];
+				if ( mode.equals( bestBackupCamera ) )
+				{
+					// Don't bother if we've already done it for best
+					continue;
+				}
+
+				MaximizerSpeculation spec = new MaximizerSpeculation();
+				spec.attachment = backupCamera;
+				spec.equipment[ EquipmentManager.ACCESSORY3 ] = backupCamera;
+				spec.setBackupCamera( mode );
+				if ( spec.compareTo( best ) > 0 )
+				{
+					best = ( MaximizerSpeculation ) spec.clone();
+					bestBackupCamera = mode;
 				}
 			}
 		}
@@ -2070,6 +2111,13 @@ public class Evaluator
 					if ( bestRetroCape != null )
 					{
 						spec.setRetroCape( bestRetroCape );
+					}
+				}
+				else if ( itemId == ItemPool.BACKUP_CAMERA )
+				{
+					if ( bestBackupCamera != null )
+					{
+						spec.setBackupCamera( bestBackupCamera );
 					}
 				}
 				else if ( itemId == ItemPool.COWBOY_BOOTS )
@@ -2645,6 +2693,11 @@ public class Evaluator
 		if ( spec.equipment[ EquipmentManager.CONTAINER ] == null )
 		{
 			spec.setRetroCape( bestRetroCape );
+		}
+
+		if ( spec.equipment[ EquipmentManager.ACCESSORY3 ] == null )
+		{
+			spec.setBackupCamera( bestBackupCamera );
 		}
 
 		if ( spec.equipment[ EquipmentManager.FAMILIAR ] == null )

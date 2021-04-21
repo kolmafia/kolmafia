@@ -6107,6 +6107,7 @@ public abstract class KoLCharacter
 				Preferences.getString( "_horsery" ),
 				Preferences.getString( "boomBoxSong" ),
 				Preferences.getString( "retroCapeSuperhero" ) + " " + Preferences.getString( "retroCapeWashingInstructions" ),
+				Preferences.getString( "backupCameraMode" ),
 				false ) );
 	}
 
@@ -6114,7 +6115,7 @@ public abstract class KoLCharacter
 							      AdventureResult[] equipment, List<AdventureResult> effects,
 							      FamiliarData familiar, FamiliarData enthroned, FamiliarData bjorned,
 							      String edPiece, String snowsuit, String custom, String horsery,
-							      String boomBox, String retroCape,
+							      String boomBox, String retroCape, String backupCamera,
 								  boolean speculation )
 	{
 		int taoFactor = KoLCharacter.hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
@@ -6204,7 +6205,7 @@ public abstract class KoLCharacter
 		for ( int slot = EquipmentManager.HAT; slot <= EquipmentManager.FAMILIAR + 1; ++slot )
 		{
 			AdventureResult item = equipment[ slot ];
-			KoLCharacter.addItemAdjustment( newModifiers, slot, item, equipment, enthroned, bjorned, edPiece, snowsuit, retroCape, speculation, taoFactor );
+			KoLCharacter.addItemAdjustment( newModifiers, slot, item, equipment, enthroned, bjorned, edPiece, snowsuit, retroCape, backupCamera, speculation, taoFactor );
 		}
 
 		// Consider fake hands
@@ -6580,7 +6581,7 @@ public abstract class KoLCharacter
 
 	private static void addItemAdjustment( Modifiers newModifiers, int slot, AdventureResult item,
                                            AdventureResult[] equipment, FamiliarData enthroned, FamiliarData bjorned,
-                                           String edPiece, String snowsuit, String retroCape,
+                                           String edPiece, String snowsuit, String retroCape, String backupCamera,
                                            boolean speculation, int taoFactor )
 	{
 		if ( item == null || item == EquipmentRequest.UNEQUIP )
@@ -6724,6 +6725,11 @@ public abstract class KoLCharacter
 
 			case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
 				newModifiers.add( Modifiers.getModifiers( "RetroCape", retroCape ) );
+				break;
+
+			case ItemPool.BACKUP_CAMERA:
+				newModifiers.add( Modifiers.getModifiers( "BackupCamera", backupCamera ) );
+				break;
 
 			case ItemPool.SNOW_SUIT:
 				newModifiers.add( Modifiers.getModifiers( "Snowsuit", snowsuit ) );

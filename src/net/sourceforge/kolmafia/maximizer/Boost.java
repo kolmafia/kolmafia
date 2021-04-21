@@ -48,7 +48,7 @@ implements Comparable<Boost>
 	private final AdventureResult item;
     private AdventureResult effect;
 	private FamiliarData fam, enthroned, bjorned;
-	private String edPiece, snowsuit, horse, retroCape;
+	private String edPiece, snowsuit, horse, retroCape, backupCamera;
 
 	public Boost( String cmd, String text, AdventureResult item, double boost )
 	{
@@ -87,7 +87,7 @@ implements Comparable<Boost>
 		this.horse = horse;
 	}
 
-	public Boost( String cmd, String text, int slot, AdventureResult item, double boost, FamiliarData enthroned, FamiliarData bjorned, String edPiece, String snowsuit, String retroCape )
+	public Boost( String cmd, String text, int slot, AdventureResult item, double boost, FamiliarData enthroned, FamiliarData bjorned, String edPiece, String snowsuit, String retroCape, String backupCamera )
 	{
 		this( cmd, text, item, boost );
 		this.isEquipment = true;
@@ -97,6 +97,7 @@ implements Comparable<Boost>
 		this.edPiece = edPiece;
 		this.snowsuit = snowsuit;
 		this.retroCape = retroCape;
+		this.backupCamera = backupCamera;
 	}
 
 	public Boost( String cmd, String text, FamiliarData fam, double boost )
@@ -165,6 +166,10 @@ implements Comparable<Boost>
 				if ( this.retroCape != null )
 				{
 					spec.setRetroCape( this.retroCape );
+				}
+				if ( this.backupCamera != null )
+				{
+					spec.setBackupCamera( this.backupCamera );
 				}
 				if ( this.snowsuit != null )
 				{
