@@ -63,7 +63,7 @@ public class Speculation
 	public AdventureResult[] equipment;
 	private final ArrayList<AdventureResult> effects;
 	private FamiliarData familiar, enthroned, bjorned;
-	private String edPiece, snowsuit, custom, horsery, boomBox, retroCape;
+	private String edPiece, snowsuit, custom, horsery, boomBox, retroCape, backupCamera;
 	protected boolean calculated = false;
 	protected Modifiers mods;
 
@@ -97,6 +97,7 @@ public class Speculation
 		this.horsery = Preferences.getString( "_horsery" );
 		this.boomBox = Preferences.getString( "boomBoxSong" );
 		this.retroCape = Preferences.getString( "retroCapeSuperhero" ) + " " + Preferences.getString( "retroCapeWashingInstructions" );
+		this.backupCamera = Preferences.getString( "backupCameraMode" );
 
 	}
 
@@ -126,6 +127,8 @@ public class Speculation
 	}
 
 	public void setRetroCape( String retroCape ) { this.retroCape = retroCape; }
+
+	public void setBackupCamera( String backupCamera ) { this.backupCamera = backupCamera; }
 
 	public void setSnowsuit( String snowsuit )
 	{
@@ -168,6 +171,8 @@ public class Speculation
 	}
 
 	public String getRetroCape() { return this.retroCape; }
+
+	public String getBackupCamera() { return this.backupCamera; }
 
 	public String getSnowsuit()
 	{
@@ -234,6 +239,7 @@ public class Speculation
 			this.horsery,
 			this.boomBox,
 			this.retroCape,
+			this.backupCamera,
 			true );
 		this.calculated = true;
 		return this.mods;
@@ -374,6 +380,19 @@ public class Speculation
 				this.setRetroCape( params );
 				this.equip( EquipmentManager.CONTAINER,
 					ItemPool.get( ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE ) );
+			}
+			else if ( cmd.equals( "backupcamera" ) )
+			{
+				if ( !params.equals( "meat" ) && !params.equals( "ml" ) &&
+						!params.equals( "init" ) )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR,
+							"Unknown backup camera setting: " + params );
+					return true;
+				}
+				this.setBackupCamera( params );
+				this.equip( EquipmentManager.ACCESSORY3,
+						ItemPool.get( ItemPool.BACKUP_CAMERA ) );
 			}
 			else if ( cmd.equals( "snowsuit" ) )
 			{

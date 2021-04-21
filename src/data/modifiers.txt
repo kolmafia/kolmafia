@@ -2642,7 +2642,7 @@ Item	astral mask	Moxie Percent: +25, Item Drop: +20
 Item	astral ring	Mysticality Percent: +25, Spell Damage: +20, MP Regen Min: 4, MP Regen Max: 6
 # attorney's badge: OBJECTION!
 Item	attorney's badge	Single Equip
-Item	backup camera	Maximum HP: +20, Maximum MP: +20, Monster Level: [min(3*L,50)*pref(backupCameraMode,ml)], Meat Drop: [50*pref(backupCameraMode,meat)], Initiative: [100*pref(backupCameraMode,init)]
+Item	backup camera	Maximum HP: +20, Maximum MP: +20, Single Equip
 Item	baconstone bracelet	Mysticality: +2, Mana Cost: -1, Single Equip
 Item	baconstone earring	Mysticality: +2, Mana Cost: -1, Single Equip
 Item	baconstone pendant	Mysticality: +4, Spell Damage: +10
@@ -11800,6 +11800,11 @@ RetroCape	robot hold	Moxie Percent: 30, Maximum HP: +25, Maximum MP: +25
 RetroCape	robot thrill	Moxie Percent: 30, Maximum HP: +25, Maximum MP: +25, Experience (Moxie): 3
 RetroCape	robot kiss	Moxie Percent: 30, Maximum HP: +25, Maximum MP: +25
 RetroCape	robot kill	Moxie Percent: 30, Maximum HP: +25, Maximum MP: +25
+
+# Backup Camera
+BackupCamera	ml	Monster Level: [min(3*L,50)]
+BackupCamera	meat	Meat Drop: 50
+BackupCamera	init	Initiative: 100
 
 # Disguises Delimit
 Mask	Mr. Mask	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1

@@ -47,6 +47,8 @@ public class BackupCameraCommand
 		this.usage = " [ml | meat | init | (reverser on | off )] - set your backup camera mode";
 	}
 
+	public static final String[][] MODE = { { "ml", "1" },  { "meat", "2" }, { "init", "3" } };
+
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
@@ -58,19 +60,15 @@ public class BackupCameraCommand
 
 		int choice = 0;
 
-		if ( parameters.contains( "ml" ) )
+		for ( String[] mode : MODE )
 		{
-			choice = 1;
+			if ( parameters.contains( mode[0] ) )
+			{
+				choice = Integer.parseInt( mode[1] );
+			}
 		}
-		else if ( parameters.contains( "meat" ) )
-		{
-			choice = 2;
-		}
-		else if ( parameters.contains( "init" ) )
-		{
-			choice = 3;
-		}
-		else if ( parameters.contains( "reverse" ) )
+
+		if ( choice == 0 && parameters.contains( "reverse" ) )
 		{
 			if ( parameters.contains( "off" ) || parameters.contains( "disable" ) )
 			{
