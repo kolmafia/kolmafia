@@ -2901,13 +2901,6 @@ public class FightRequest
 					}
 					break;
 
-				case DMT:
-					if ( !EncounterManager.ignoreSpecialMonsters )
-					{
-						Preferences.decrement( "encountersUntilDMTChoice" );
-					}
-					break;
-
 				case GINGERBREAD:
 					if ( !EncounterManager.ignoreSpecialMonsters )
 					{
@@ -3898,6 +3891,11 @@ public class FightRequest
 		if ( adventure == AdventurePool.YE_OLDE_MEDIEVALE_VILLAGEE )
 		{
 			Preferences.increment( "rumpelstiltskinTurnsUsed", 1 );
+		}
+
+		if ( adventure == AdventurePool.DEEP_MACHINE_TUNNELS )
+		{
+			Preferences.decrement( "encountersUntilDMTChoice" );
 		}
 
 		if ( monsterName.equals( "unusual construct" ) )
