@@ -58,8 +58,7 @@ public class AcquireCommand
 
 		AdventureResult[] items = ItemFinder.getMatchingItemList( parameters );
 
-		Checkpoint checkpoint = new Checkpoint();
-		try
+		try ( Checkpoint checkpoint = new Checkpoint( checking ) )
 		{
 			for ( int i = 0; i < items.length; ++i )
 			{
@@ -73,17 +72,6 @@ public class AcquireCommand
 				{
 					InventoryManager.retrieveItem( item, true );
 				}
-			}
-		}
-		finally
-		{
-			if ( checking )
-			{
-				checkpoint.close();
-			}
-			else
-			{
-				checkpoint.restore();
 			}
 		}
 	}

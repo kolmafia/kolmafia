@@ -114,8 +114,7 @@ public class CrossStreamsCommand
 		}
 
 		// Equip if not equipped
-		Checkpoint checkpoint = new Checkpoint();
-		try
+		try ( Checkpoint checkpoint = new Checkpoint( equipped ) )
 		{
 			if ( !equipped )
 			{
@@ -128,18 +127,6 @@ public class CrossStreamsCommand
 			{
 				RequestThread.postRequest( new GenericRequest( "showplayer.php?action=crossthestreams&who=" + targetId ) );
 			}
-		}
-		finally
-		{
-			if ( !equipped )
-			{
-				checkpoint.restore();
-			}
-			else
-			{
-				checkpoint.close();
-			}
-						     
 		}
 	}
 }

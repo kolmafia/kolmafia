@@ -78,21 +78,9 @@ public class UseItemCommand
 
 		String limitmode = KoLCharacter.getLimitmode();
 
-		Checkpoint checkpoint = new Checkpoint();
-		try
+		try ( Checkpoint checkpoint = new Checkpoint( KoLCharacter.getLimitmode() == limitmode ) )
 		{
 			UseItemCommand.use( command, parameters );
-		}
-		finally
-		{
-			if ( KoLCharacter.getLimitmode() != limitmode )
-			{
-				checkpoint.close();
-			}
-			else
-			{
-				checkpoint.restore();
-			}
 		}
 	}
 

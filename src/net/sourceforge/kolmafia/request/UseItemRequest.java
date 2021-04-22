@@ -1395,7 +1395,7 @@ public class UseItemRequest
 		{
 			if ( checkpoint != null )
 			{
-				checkpoint.restore();
+				checkpoint.close();
 			}
 		}
 

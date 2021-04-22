@@ -511,8 +511,7 @@ public class SkillBuffFrame
 				return;
 			}
 
-			Checkpoint checkpoint = new Checkpoint();
-			try
+			try ( Checkpoint checkpoint = new Checkpoint() )
 			{
 				for ( int i = 0; i < targets.length && KoLmafia.permitsContinue(); ++i )
 				{
@@ -521,10 +520,6 @@ public class SkillBuffFrame
 						RequestThread.postRequest( UseSkillRequest.getInstance( buffName, targets[ i ], buffCount ) );
 					}
 				}
-			}
-			finally
-			{
-				checkpoint.restore();
 			}
 		}
 	}

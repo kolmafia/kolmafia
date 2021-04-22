@@ -118,16 +118,11 @@ public class MomRequest
 			return;
 		}
 
-		Checkpoint checkpoint = new Checkpoint();
-		try
+		try ( Checkpoint checkpoint = new Checkpoint() )
 		{
 			this.equip();
 			KoLmafia.updateDisplay( "Visiting Mom..." );
 			super.run();
-		}
-		finally
-		{
-			checkpoint.restore();
 		}
 	}
 

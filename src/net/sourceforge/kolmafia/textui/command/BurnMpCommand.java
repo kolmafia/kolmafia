@@ -70,15 +70,10 @@ public class BurnMpCommand
 
 		if ( parameters.startsWith( "extra" ) )
 		{
-			Checkpoint checkpoint = new Checkpoint();
-			try
+			try ( Checkpoint checkpoint = new Checkpoint() )
 			{
 				RecoveryManager.recoverHP();
 				ManaBurnManager.burnExtraMana( true );
-			}
-			finally
-			{
-				checkpoint.restore();
 			}
 			return;
 		}
@@ -102,17 +97,10 @@ public class BurnMpCommand
 			return;
 		}
 
+		try ( Checkpoint checkpoint = new Checkpoint() )
 		{
-			Checkpoint checkpoint = new Checkpoint();
-			try
-			{
-				RecoveryManager.recoverHP();
-				ManaBurnManager.burnMana( -amount );
-			}
-			finally
-			{
-				checkpoint.restore();
-			}
+			RecoveryManager.recoverHP();
+			ManaBurnManager.burnMana( -amount );
 		}
 	}
 }

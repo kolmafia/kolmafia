@@ -144,8 +144,7 @@ public class RecoveryManager
 
 		// Now, run the built-in behavior to take care of any loose ends.
 
-		Checkpoint checkpoint = new Checkpoint();
-		try
+		try ( Checkpoint checkpoint = new Checkpoint() )
 		{
 			if ( isMoodCheck )
 			{
@@ -166,10 +165,6 @@ public class RecoveryManager
 			{
 				RecoveryManager.recoverMP();
 			}
-		}
-		finally
-		{
-			checkpoint.restore();
 		}
 
 		if ( KoLmafia.permitsContinue() && KoLCharacter.getCurrentHP() == 0 && !FightRequest.edFightInProgress() )
@@ -218,14 +213,9 @@ public class RecoveryManager
 
 	public static boolean checkpointedRecoverHP( final long recover )
 	{
-		Checkpoint checkpoint = new Checkpoint();
-		try
+		try ( Checkpoint checkpoint = new Checkpoint() )
 		{
 			return RecoveryManager.recoverHP( recover );
-		}
-		finally
-		{
-			checkpoint.restore();
 		}
 	}
 
@@ -294,14 +284,9 @@ public class RecoveryManager
 
 	public static boolean checkpointedRecoverMP( final long recover )
 	{
-		Checkpoint checkpoint = new Checkpoint();
-		try
+		try ( Checkpoint checkpoint = new Checkpoint() )
 		{
 			return RecoveryManager.recoverMP( recover );
-		}
-		finally
-		{
-			checkpoint.restore();
 		}
 	}
 

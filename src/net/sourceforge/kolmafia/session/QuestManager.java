@@ -1890,15 +1890,10 @@ public class QuestManager
 			return;
 		}
 
-		Checkpoint checkpoint = new Checkpoint();
-		try
+		try ( Checkpoint checkpoint = new Checkpoint() )
 		{
 			( new EquipmentRequest( EquipmentDatabase.getOutfit( OutfitPool.MINING_OUTFIT ) ) ).run();
 			RequestThread.postRequest( goatlet );
-		}
-		finally
-		{
-			checkpoint.restore();
 		}
 	}
 

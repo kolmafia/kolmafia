@@ -1513,8 +1513,7 @@ public class UseSkillRequest
 
 		// Optimizing equipment can involve changing equipment.
 		// Save a checkpoint so we can restore previous equipment.
-		Checkpoint checkpoint = new Checkpoint();
-		try
+		try ( Checkpoint checkpoint = new Checkpoint() )
 		{
 			UseSkillRequest.optimizeEquipment( this.skillId );
 			if ( KoLmafia.refusesContinue() )
@@ -1529,7 +1528,6 @@ public class UseSkillRequest
 		finally
 		{
 			this.isRunning = false;
-			checkpoint.restore();
 		}
 	}
 

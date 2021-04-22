@@ -237,8 +237,7 @@ public class CoinMasterRequest
 			}
 		}
 
-		Checkpoint checkpoint = new Checkpoint();
-		try
+		try ( Checkpoint checkpoint = new Checkpoint() )
 		{
 			// Suit up for a visit
 			this.equip();
@@ -309,7 +308,6 @@ public class CoinMasterRequest
 		finally
 		{
 			this.unequip();
-			checkpoint.restore();
 		}
 	}
 

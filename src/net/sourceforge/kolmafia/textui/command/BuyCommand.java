@@ -60,14 +60,9 @@ public class BuyCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		Checkpoint checkpoint = new Checkpoint();
-		try
+		try ( Checkpoint checkpoint = new Checkpoint() )
 		{
 			BuyCommand.buy( parameters );
-		}
-		finally
-		{
-			checkpoint.restore();
 		}
 	}
 
