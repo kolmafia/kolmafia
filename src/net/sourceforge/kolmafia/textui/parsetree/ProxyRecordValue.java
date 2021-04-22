@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 
 import net.sourceforge.kolmafia.request.FightRequest;
 
+import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 
@@ -499,14 +500,7 @@ public class ProxyRecordValue
 		 */
 		public int get_dailyusesleft()
 		{
-			DailyLimitDatabase.DailyLimit dailyLimit = DailyLimitDatabase.DailyLimitType.USE.getDailyLimit( (int) this.contentLong );
-
-			if ( dailyLimit != null )
-			{
-				return dailyLimit.getUsesRemaining();
-			}
-
-			return RestoresDatabase.getUsesLeft( this.contentString );
+			return UseItemRequest.maximumUses( (int) this.contentLong );
 		}
 
 		/**

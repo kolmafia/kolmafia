@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.StandardRequest;
 
+import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 
@@ -362,6 +363,13 @@ public class RestoresDatabase
 		{
 			return Math.max( KoLCharacter.freeRestsAvailable() - Preferences.getInteger( "timesRested" ), 0 );
 		}
+
+		if ( getType( name ).equals( "item" ) )
+		{
+			int max = UseItemRequest.maximumUses( name );
+			return ( max == Integer.MAX_VALUE ) ? -1 : max;
+		}
+
 		String usesLeft = RestoresDatabase.usesLeftByName.get( name );
 		if ( usesLeft == null )
 		{
