@@ -1621,8 +1621,6 @@ public class UseSkillRequest
 				return;
 			}
 
-			boolean single = false;
-
 			AdventureResult mana = SkillDatabase.getManaItemCost( this.skillId );
 			if ( mana != null )
 			{
@@ -1634,11 +1632,9 @@ public class UseSkillRequest
 				// here. This should not fail.
 
 				InventoryManager.retrieveItem( mana.getInstance( (int)manaNeeded ) );
-
-				single = true;
 			}
 
-			if ( single )
+			if ( this.singleCastSkill() )
 			{
 				this.addFormField( this.countFieldId, "1" );
 			}
@@ -1828,9 +1824,16 @@ public class UseSkillRequest
 		// This might be a KoL bug.
 		switch ( this.skillId )
 		{
+		case SkillPool.DARK_RITUAL:
+		case SkillPool.ANCESTRAL_RECALL:
+		case SkillPool.GIANT_GROWTH:
+		case SkillPool.LIGHTNING_BOLT_CARD:
+		case SkillPool.HEALING_SALVE:
+		case SkillPool.TRIPLE_SIZE:
 		case SkillPool.SEEK_OUT_A_BIRD:
 			return true;
 		}
+
 		return false;
 	}
 
