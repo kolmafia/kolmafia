@@ -371,6 +371,7 @@ public abstract class KoLmafia
 		}
 		if ( !KoLmafia.acquireFileLock( "1" ) && !KoLmafia.acquireFileLock( "2" ) )
 		{
+			System.out.println( "Could not acquire file lock" );
 			System.exit( -1 );
 		}
 
@@ -1396,7 +1397,7 @@ public abstract class KoLmafia
 				}
 				if ( checkpoint != null )
 				{
-					checkpoint.restore();
+					checkpoint.close();
 				}
 			}
 		}

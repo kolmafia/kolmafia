@@ -466,14 +466,9 @@ public class CreateItemRequest
 
 		// Save outfit in case we need to equip something - like a Grimacite hammer
 
-		Checkpoint checkpoint = new Checkpoint();
-		try
+		try ( Checkpoint checkpoint = new Checkpoint() )
 		{
 			this.createItemLoop();
-		}
-		finally
-		{
-			checkpoint.restore();
 		}
 	}
 

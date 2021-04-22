@@ -55,8 +55,7 @@ public class RecoverCommand
 		boolean recoverMP = parameters.equalsIgnoreCase( "mp" ) || parameters.equalsIgnoreCase( "mana" ) || parameters.equalsIgnoreCase( "both" );
 		boolean wasRecoveryActive = RecoveryManager.isRecoveryActive();
 
-		Checkpoint checkpoint = new Checkpoint();
-		try
+		try ( Checkpoint checkpoint = new Checkpoint() )
 		{
 			RecoveryManager.setRecoveryActive( true );
 
@@ -74,7 +73,6 @@ public class RecoverCommand
 		}
 		finally
 		{
-			checkpoint.restore();
 			RecoveryManager.setRecoveryActive( wasRecoveryActive );
 		}
 	}

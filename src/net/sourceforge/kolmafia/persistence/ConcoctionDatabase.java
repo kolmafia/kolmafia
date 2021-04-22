@@ -919,14 +919,9 @@ public class ConcoctionDatabase
 		// empty.
 		ConcoctionDatabase.refreshConcoctionsNow();
 
-		Checkpoint checkpoint = new Checkpoint();
-		try
+		try ( Checkpoint checkpoint = new Checkpoint() )
 		{
 			ConcoctionDatabase.handleQueue( toProcess, food, booze, consumptionType );
-		}
-		finally
-		{
-			checkpoint.restore();
 		}
 
 		// Refresh again now that ingredients have been deducted

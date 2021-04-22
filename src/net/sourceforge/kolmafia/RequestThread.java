@@ -252,14 +252,9 @@ public abstract class RequestThread
 
 	public static final void checkpointedPostRequest( final GenericRequest request )
 	{
-		Checkpoint checkpoint = new Checkpoint();
-		try
+		try ( Checkpoint checkpoint = new Checkpoint() )
 		{
 			RequestThread.postRequest( request );
-		}
-		finally
-		{
-			checkpoint.restore();
 		}
 	}
 

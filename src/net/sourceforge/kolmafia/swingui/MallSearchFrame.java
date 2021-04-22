@@ -293,14 +293,9 @@ public class MallSearchFrame
 
 			MallSearchFrame.this.currentlyBuying = true;
 
-			Checkpoint checkpoint = new Checkpoint();
-			try
+			try ( Checkpoint checkpoint = new Checkpoint() )
 			{
 				KoLmafia.makePurchases( MallSearchFrame.results, purchases, count, false, 0 );
-			}
-			finally
-			{
-				checkpoint.restore();
 			}
 
 			MallSearchFrame.this.currentlyBuying = false;

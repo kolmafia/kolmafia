@@ -1915,7 +1915,7 @@ public class ResultProcessor
 				{
 					if ( checkpoint != null )
 					{
-						checkpoint.restore();
+						checkpoint.close();
 					}
 				}
 				boolean hasSpecs = equipSpecs || KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 ) );

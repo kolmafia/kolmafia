@@ -57,14 +57,9 @@ public class CreateItemCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		Checkpoint checkpoint = new Checkpoint();
-		try
+		try ( Checkpoint checkpoint = new Checkpoint() )
 		{
 			CreateItemCommand.create( parameters );
-		}
-		finally
-		{
-			checkpoint.restore();
 		}
 	}
 

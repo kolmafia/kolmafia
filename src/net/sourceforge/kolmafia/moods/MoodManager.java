@@ -490,14 +490,9 @@ public abstract class MoodManager
 
 	public static final void checkpointedExecute( final int multiplicity )
 	{
-		Checkpoint checkpoint = new Checkpoint();
-		try
+		try ( Checkpoint checkpoint = new Checkpoint() )
 		{
 			MoodManager.execute( 0 );
-		}
-		finally
-		{
-			checkpoint.restore();
 		}
 	}
 

@@ -1534,8 +1534,7 @@ public class GenericRequest
 			AdventureResult comedyItem = ItemPool.get( comedyItemID, 1 );
 			String text = null;
 
-			Checkpoint checkpoint = new Checkpoint();
-			try
+			try ( Checkpoint checkpoint = new Checkpoint() )
 			{
 				if ( KoLConstants.inventory.contains( comedyItem ) )
 				{
@@ -1559,10 +1558,6 @@ public class GenericRequest
 					request.run();
 					text = request.responseText;
 				}
-			}
-			finally
-			{
-				checkpoint.restore();
 			}
 
 			if ( text != null )

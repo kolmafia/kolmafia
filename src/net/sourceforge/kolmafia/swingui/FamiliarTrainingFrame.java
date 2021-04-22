@@ -774,17 +774,12 @@ public class FamiliarTrainingFrame
 			return false;
 		}
 
-		Checkpoint checkpoint = new Checkpoint();
-		try
+		try ( Checkpoint checkpoint = new Checkpoint() )
 		{
 			if ( !trainFamiliar( goal, type, debug ) )
 			{
 				return false;
 			}
-		}
-		finally
-		{
-			checkpoint.restore();
 		}
 
 		if ( familiar.canEquipAny() )
@@ -977,8 +972,7 @@ public class FamiliarTrainingFrame
 		// Learned skills
 		int[] skills = new int[ 4 ];
 
-		Checkpoint checkpoint = new Checkpoint();
-		try
+		try ( Checkpoint checkpoint = new Checkpoint() )
 		{
 			// Let the battles begin!
 			KoLmafia.updateDisplay( "Starting training session..." );
@@ -997,11 +991,6 @@ public class FamiliarTrainingFrame
 			{
 				skills = FamiliarTrainingFrame.learnFamiliarParameters( trial, status, tool, xp, test, suckage );
 			}
-		}
-		finally
-		{
-			// Done training. Restore original outfit
-			checkpoint.restore();
 		}
 
 		return skills;

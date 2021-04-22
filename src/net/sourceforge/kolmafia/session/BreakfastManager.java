@@ -140,8 +140,7 @@ public class BreakfastManager
 			return;
 		}
 
-		Checkpoint checkpoint = new Checkpoint();
-		try
+		try ( Checkpoint checkpoint = new Checkpoint() )
 		{
 			if ( runComplete )
 			{
@@ -179,10 +178,6 @@ public class BreakfastManager
 			done &= castBookSkills( recoverMana, 0 );
 
 			Preferences.setBoolean( "breakfastCompleted", done );
-		}
-		finally
-		{
-			checkpoint.restore();
 		}
 		KoLmafia.forceContinue();
 	}

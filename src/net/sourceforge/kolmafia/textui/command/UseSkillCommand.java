@@ -59,14 +59,9 @@ public class UseSkillCommand
 	{
 		if ( parameters.length() > 0 )
 		{
-			Checkpoint checkpoint = new Checkpoint();
-			try
+			try ( Checkpoint checkpoint = new Checkpoint() )
 			{
 				UseSkillCommand.cast( parameters );
-			}
-			finally
-			{
-				checkpoint.restore();
 			}
 			return;
 		}

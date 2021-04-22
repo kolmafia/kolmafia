@@ -144,15 +144,10 @@ public class SkateParkRequest
 	public void run()
 	{
 		// Equip for underwater adventuring if not
-		Checkpoint checkpoint = new Checkpoint();
-		try
+		try ( Checkpoint checkpoint = new Checkpoint() )
 		{
 			SkateParkRequest.equip();
 			super.run();
-		}
-		finally
-		{
-			checkpoint.restore();
 		}
 	}
 

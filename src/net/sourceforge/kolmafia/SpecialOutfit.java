@@ -441,7 +441,7 @@ public class SpecialOutfit
 				return;
 			}
 
-			SpecialOutfit.explicitPoints.pop().restore();
+			SpecialOutfit.explicitPoints.pop().close();
 		}
 	}
 
@@ -549,8 +549,11 @@ public class SpecialOutfit
 	{
 		private final AdventureResult[] slots = new AdventureResult[ EquipmentManager.SLOTS ];
 
-		public Checkpoint()
+		private boolean checking = false;
+
+		public Checkpoint( boolean checking )
 		{
+			this.checking = checking;
 			boolean notEmpty = false;
 			for ( int slot = 0; slot < this.slots.length; ++slot )
 			{
@@ -570,6 +573,11 @@ public class SpecialOutfit
 			}
 		}
 
+		public Checkpoint()
+		{
+			this( false );
+		}
+
 		public AdventureResult get( final int slot )
 		{
 			return ( slot < this.slots.length ) ? this.slots[ slot ] : null;
@@ -583,14 +591,8 @@ public class SpecialOutfit
 			}
 		}
 
-		public void restore()
+		private void restore()
 		{
-			// If this checkpoint has been closed, don't restore using it
-			if ( !this.known() )
-			{
-				return;
-			}
-
 			for ( int slot = 0; slot < this.slots.length && !KoLmafia.refusesContinue(); ++slot )
 			{
 				AdventureResult item = slots[ slot ];
@@ -624,12 +626,21 @@ public class SpecialOutfit
 
 				RequestThread.postRequest( new EquipmentRequest( item, slot ) );
 			}
-			this.close();
 		}
 
 		public void close()
 		{
-			// For use with "try with resource", once we upgrade to a better Java version
+			if ( !this.checking )
+			{
+				// If this checkpoint has been closed, don't restore using it
+				if ( !this.known() )
+				{
+					return;
+				}
+
+				this.restore();
+			}
+
 			synchronized ( SpecialOutfit.class )
 			{
 				SpecialOutfit.allCheckpoints.remove( this );

@@ -248,15 +248,10 @@ public class FamiliarRequest
 			{
 				if ( this.changeTo.equals( FamiliarData.NO_FAMILIAR ) && !enthroned.equals( FamiliarData.NO_FAMILIAR ) )
 				{
-					Checkpoint checkpoint = new Checkpoint();
-					try
+					try ( Checkpoint checkpoint = new Checkpoint() )
 					{
 						RequestThread.postRequest( new EquipmentRequest( ItemPool.get( ItemPool.HATSEAT, 1 ), EquipmentManager.HAT ) );
 						RequestThread.postRequest( FamiliarRequest.enthroneRequest( FamiliarData.NO_FAMILIAR ) );
-					}
-					finally
-					{
-						checkpoint.restore();
 					}
 				}
 				return;
@@ -285,15 +280,10 @@ public class FamiliarRequest
 			{
 				if ( this.changeTo.equals( FamiliarData.NO_FAMILIAR ) && !bjorned.equals( FamiliarData.NO_FAMILIAR ) )
 				{
-					Checkpoint checkpoint = new Checkpoint();
-					try
+					try ( Checkpoint checkpoint = new Checkpoint() )
 					{
 						RequestThread.postRequest( new EquipmentRequest( ItemPool.get( ItemPool.BUDDY_BJORN, 1 ), EquipmentManager.CONTAINER ) );
 						RequestThread.postRequest( FamiliarRequest.bjornifyRequest( FamiliarData.NO_FAMILIAR ) );
-					}
-					finally
-					{
-						checkpoint.restore();
 					}
 				}
 				return;
