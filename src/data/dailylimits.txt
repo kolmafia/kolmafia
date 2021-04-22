@@ -84,6 +84,7 @@ Use	Meteorite-Ade	_meteoriteAdesUsed	3
 Use	milk of magnesium	_milkOfMagnesiumUsed
 Use	mojo filter	currentMojoFilters	3
 Use	moveable feast	_feastUsed	5
+Use	Oscus's neverending soda	oscusSodaUsed
 Use	overflowing gift basket	_overflowingGiftBasketUsed
 Use	perfectly fair coin	_perfectlyFairCoinUsed
 Use	picky tweezers	_pickyTweezersUsed
