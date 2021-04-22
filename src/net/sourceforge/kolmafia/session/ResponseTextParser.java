@@ -211,6 +211,7 @@ public class ResponseTextParser
 		if ( location.startsWith( "api.php" ) ||
 		     location.startsWith( "game.php" ) ||
 		     location.startsWith( "desc" ) ||
+		     location.startsWith( "doc.php" ) ||
 		     location.startsWith( "quest" ) ||
 		     location.startsWith( "static" ) )
 		{
@@ -1060,7 +1061,7 @@ public class ResponseTextParser
 		ConcoctionDatabase.setRefreshNeeded( false );
 	}
 
-	public static Pattern ITEM_DESC_PATTERN = Pattern.compile( "on[cC]lick='(?:javascript:)?descitem\\(([\\d]*)\\)'" );
+	public static final Pattern ITEM_DESC_PATTERN = Pattern.compile( "on[cC]lick='(?:javascript:)?descitem\\(([\\d]*)\\)'" );
 	public static void findNewItems( final String responseText )
 	{
 		Matcher itemDescMatcher = ResponseTextParser.ITEM_DESC_PATTERN.matcher( responseText );

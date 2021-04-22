@@ -178,6 +178,7 @@ public class GenericRequest
 	public boolean isExternalRequest = false;
 	public boolean isChatRequest = false;
 	public boolean isDescRequest = false;
+	public boolean isStaticRequest = false;
 	public boolean isQuestLogRequest = false;
 
 	protected List<String> data;
@@ -496,6 +497,10 @@ public class GenericRequest
 
 		this.isDescRequest = this.formURLString.startsWith( "desc_" );
 
+		this.isStaticRequest =
+			this.formURLString.startsWith( "doc.php" ) ||
+			this.formURLString.startsWith( "static.php" );
+
 		this.isQuestLogRequest = this.formURLString.startsWith( "questlog.php" );
 
 		return this;
@@ -810,7 +815,7 @@ public class GenericRequest
 		{
 		}
 
-        return newURLString;
+		return newURLString;
 	}
 
 	public static String decodeField( final String urlString )
@@ -1765,7 +1770,7 @@ public class GenericRequest
 		{
 			path = "/";
 		}
-		
+
 		boolean delim = false;
 
 		synchronized ( GenericRequest.serverCookies )
@@ -1786,7 +1791,7 @@ public class GenericRequest
 
 		return cookies;
 	}
-	
+
 	public void setCookies()
 	{
 		synchronized ( GenericRequest.serverCookies )
@@ -2516,11 +2521,11 @@ public class GenericRequest
 
 		if ( this.responseCode == 200 && RequestLogger.isTracing() )
 		{
-            String buffer = "Retrieved: " + this.requestURL() +
-                    " (" +
-                    ( this.responseText == null ? "0" : this.responseText.length() ) +
-                    " bytes)";
-            RequestLogger.trace( buffer );
+			String buffer = "Retrieved: " + this.requestURL() +
+					" (" +
+					( this.responseText == null ? "0" : this.responseText.length() ) +
+					" bytes)";
+			RequestLogger.trace( buffer );
 		}
 
 		if ( this.responseText == null )
@@ -2594,7 +2599,7 @@ public class GenericRequest
 			RequestLogger.updateDebugLog( text );
 		}
 
-		if ( this.isChatRequest )
+		if ( this.isChatRequest || this.isStaticRequest )
 		{
 			return;
 		}
@@ -3481,7 +3486,7 @@ public class GenericRequest
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( message );
 	}
-	
+
 	private static void checkOtherRedirection( final String location )
 	{
 		String otherName = null;
