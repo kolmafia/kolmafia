@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+    <option name="CUSTOM_SCOPE_NAME" value="Module 'kolmafia'" />
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ed523c7e-f67d-46f9-b25c-50c8a5d76927" name="Default Changelist" comment="Use try-with-resource in Checkpoints. Thanks to @fredg1 for the initial work">
+      <change afterPath="$PROJECT_DIR$/.idea" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/.idea/ant.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/antlr_runtime_3_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/flatlaf_0_43.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/flatlaf_intellij_themes_0_43.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/htmlcleaner_2_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/jansi_2_3_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/jna_5_6_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sequence_library_1_0_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/svnkit_1_10_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/svnkit_cli_1_10_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/svnkit_javahl16_1_10_2_javadoc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/svnkit_javahl16_1_10_2_javadoc__2_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/sourceforge/kolmafia/objectpool/ItemPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/sourceforge/kolmafia/objectpool/ItemPool.java" afterDir="false" />
+    </list>
+    <list id="fd46ef26-7924-453b-8149-a8ef4d997f69" name="Backup Camera Fix" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedIndex" value="1" />
+  </component>
+  <component name="ProjectId" id="1kryBAS44CioudGdZJjyajWt70h" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder0" value="0" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder3" value="3" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder4" value="4" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="367" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="367" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth2" value="367" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth3" value="367" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth4" value="367" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2" value="2" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder3" value="3" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder4" value="4" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth0" value="367" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth1" value="367" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth2" value="367" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth3" value="367" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth4" value="367" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JAVA" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/philmasterplus-js-command-no-entity-escape.patch" />
+    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Java" />
+    <property name="vcs.patch.to.clipboard" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="net.sourceforge.kolmafia.textui.command" />
+      <recent name="net.sourceforge.kolmafia.request" />
+      <recent name="net.sourceforge.kolmafia.persistence" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="KoLmafia" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="net.sourceforge.kolmafia.KoLmafia" />
+      <module name="kolmafia" />
+      <option name="WORKING_DIRECTORY" value="$USER_HOME$/.kolmafia" />
+      <method v="2">
+        <option name="AntTarget" enabled="true" antfile="file://$PROJECT_DIR$/build.xml" target="set.released.false" />
+        <option name="AntTarget" enabled="true" antfile="file://$PROJECT_DIR$/build.xml" target="set.version" />
+        <option name="Make" enabled="true" />
+        <option name="AntTarget" enabled="true" antfile="file://$PROJECT_DIR$/build.xml" target="unset.properties" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration" myAutoUpdateAfterCommit="true" cleanupOnStartRun="true">
+    <configuration>$USER_HOME$/.subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+    <option name="runUnderTerminal" value="true" />
+    <option name="UPDATE_DEPTH" value="infinity" />
+  </component>
+  <component name="SvnFileUrlMappingImpl">
+    <option name="myMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$PROJECT_DIR$" />
+          <option name="myCopyRoot" value="$PROJECT_DIR$" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+    <option name="myMoreRealMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$PROJECT_DIR$" />
+          <option name="myCopyRoot" value="$PROJECT_DIR$" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ed523c7e-f67d-46f9-b25c-50c8a5d76927" name="Default Changelist" comment="" />
+      <changelist id="fd46ef26-7924-453b-8149-a8ef4d997f69" name="Backup Camera Fix" comment="" />
+      <created>1606472866642</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1606472866642</updated>
+    </task>
+    <task id="LOCAL-00032" summary="* Parse &quot;You, Robot&quot; scraps and energy, show them in the mafia UI&#10;* Make them accessible via ash (my_robot_scraps(), my_robot_energy())&#10;* Do not visit the campground when in &quot;You, Robot&quot;&#10;* Define prefs for tracking body parts (coming soon!)">
+      <created>1613743059013</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1613743059013</updated>
+    </task>
+    <task id="LOCAL-00033" summary="* Store the robot configuration as a number (except CPU upgrades)&#10;* Apply modifiers from robot configuration&#10;* Parse robot configuration from charpane, reassembly station and on session refresh&#10;* Disallow potion taking, equips and familiars if player isn't configured for them">
+      <created>1613748702828</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1613748702828</updated>
+    </task>
+    <task id="LOCAL-00034" summary="* &quot;Energy&quot; and &quot;Scrap&quot; modifiers for indicating how much energy and scrap is awarded at the end of each fight">
+      <created>1613750416949</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1613750416949</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Do not check the vote monster counter if the voting booth is not accessible (i.e. in standard 2021+)">
+      <created>1613750708060</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1613750708060</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Fix the CPU upgrade regex">
+      <created>1613752701025</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1613752701025</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Robocore needs to update status from the charpane (for now? I've put in a request)">
+      <created>1613753185521</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1613753185521</updated>
+    </task>
+    <task id="LOCAL-00038" summary="No Guild in Robocore">
+      <created>1613753821993</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1613753821993</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Actually added the energy and scraps functions to the scripting runtime library, and added a function to let you know if you can access a guild in your current ascension.">
+      <created>1613754406505</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1613754406505</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Fix energy matcher">
+      <created>1613755852447</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1613755852447</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Track `statbotUses`, `_chronolithActivations` and `_energyCollected`&#10;&#10;At the moment we don't know a good way to correct your energy collected (it seems to be randomized?) so we just dumbly increment the existing value">
+      <created>1613818857566</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1613818857566</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Add robo-battery item">
+      <created>1613819928915</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1613819928915</updated>
+    </task>
+    <task id="LOCAL-00043" summary="You, Robot skills. Thanks @ryo_sangnoir">
+      <created>1613837271111</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1613837271111</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Added council text (thanks @cat from Discord!)">
+      <created>1613841672832</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1613841672832</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Recognise that slots/familiar have been unequipped when you change robot configuration to one that does not support them">
+      <created>1613918297499</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1613918297499</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Fix Your Campfire requests not being processed from the relay browser">
+      <created>1613945763833</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1613945763833</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Add another overload to can_equip - can_equip(familiar) tells you if it is possible under your current restrictions to equip a given familiar. Note that it doesn't check if you actually have the familiar.">
+      <created>1613999791067</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1613999791067</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Decorating your tent consumed a burnt stick">
+      <created>1614249581604</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1614249581604</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Track questM05Toot having been finished by its absence from the quest log">
+      <created>1614271063037</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1614271063037</updated>
+    </task>
+    <task id="LOCAL-00050" summary="Add a TutorialRequest to track the Toot quest without refreshing your questlog">
+      <created>1614772069720</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1614772069720</updated>
+    </task>
+    <task id="LOCAL-00051" summary="Potted Power Plant Support&#10;&#10;* Add items (+ recipes)&#10;* Track stalk status (&quot;_pottedPowerPlant&quot;)&#10;* Add Shocking Lick skill, track charges (&quot;shockingLickCharges&quot;) and uses (untested)&#10;* Allow &quot;notes&quot; for non consumables to be displayed in the inventory list renderer&#10;* Support path function in restore expressions&#10;* Add item effects and restores&#10;* Support harvesting batteries in breakfast (&quot;harvestBatteries{Soft,Hard}core&quot;)">
+      <created>1614781967012</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1614781967012</updated>
+    </task>
+    <task id="LOCAL-00052" summary="You, Robot fixes&#10;&#10;* Add bosses to the monsters database&#10;* Fix reading scraps &gt; 1000&#10;* Do not need a Wand of Nagamar&#10;* Fix tracking hats and familiars&#10;* Restore skills and campsite after freeing the king">
+      <created>1615295634347</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1615295634348</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Batteries are consumed on use">
+      <created>1615296115488</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1615296115489</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Added nosmash to some items that were missing it. Thanks @philmasterplus">
+      <created>1615303218086</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1615303218086</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Do not unescape JS scripts. Warning - this may break some js scripts, just use the &amp;escapedform; instead. Thanks @philmasterplus.">
+      <created>1615303334046</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1615303334046</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Better tracking for slot to equip a Powerful Glove. THanks @dark_adonis, we'll see if this works.">
+      <created>1615303885986</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1615303885986</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Track shocking licks even if they deal damage instead of instakilling">
+      <created>1615903331267</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1615903331268</updated>
+    </task>
+    <task id="LOCAL-00058" summary="New content for St Yuley Tide's Day">
+      <created>1615979690582</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1615979690590</updated>
+    </task>
+    <task id="LOCAL-00059" summary="Support for backup camera IotM">
+      <created>1617311431225</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1617311431225</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Prevent locations not present in combats.txt from causing an NPE when you try to read their native combat rate">
+      <created>1617487272214</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1617487272214</updated>
+    </task>
+    <task id="LOCAL-00061" summary="Reset backup camera prefs on ascension">
+      <created>1617697884364</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1617697884364</updated>
+    </task>
+    <task id="LOCAL-00062" summary="Fix some small robo bugs">
+      <created>1617698599812</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1617698599812</updated>
+    </task>
+    <task id="LOCAL-00063" summary="When converting ash functions to camel case for JavaScript, better handling for unusual snake-casing (see https://kolmafia.us/threads/javascript-importing-ash-script-fails-if-function-name-has-leading-underscore.25939/)">
+      <created>1617820199380</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1617820199380</updated>
+    </task>
+    <task id="LOCAL-00064" summary="Warn the user if they try to grind more than 23 sausages in a day - this can be an expensive typo otherwise.">
+      <created>1617821607921</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1617821607921</updated>
+    </task>
+    <task id="LOCAL-00065" summary="Added a get_workshed() function to the runtime library (thanks 3BH!)">
+      <created>1617822147387</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1617822147387</updated>
+    </task>
+    <task id="LOCAL-00066" summary="Fix typo in Do You Crush What I Crush modifier string">
+      <created>1617822966214</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1617822966214</updated>
+    </task>
+    <task id="LOCAL-00067" summary="Add my_session_results() function to the runtime library which you can use to see how many pirate insults, hobo parts, and other pseudo-items you have acquired this session">
+      <created>1617824638156</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1617824638156</updated>
+    </task>
+    <task id="LOCAL-00068" summary="Fix swim laps and sprints for degenerate players with so many stats they break 1k laps">
+      <created>1617825895675</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1617825895675</updated>
+    </task>
+    <task id="LOCAL-00069" summary="Track daily Poke-Grow Fertilizer drops (because there are max 3)">
+      <created>1617826339181</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1617826339181</updated>
+    </task>
+    <task id="LOCAL-00070" summary="Default backupCameraMode is &quot;meat&quot; on ascension">
+      <created>1617826384075</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1617826384075</updated>
+    </task>
+    <task id="LOCAL-00071" summary="Track yellow pixels dropped by the Puck Family when enthroned or enbjorned">
+      <created>1617827043357</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1617827043358</updated>
+    </task>
+    <task id="LOCAL-00072" summary="Searching the mall for an item name that refers to multiple items one of which is untradeable resulted in a non-response. So, that's fixed!">
+      <created>1617829484175</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1617829484175</updated>
+    </task>
+    <task id="LOCAL-00073" summary="Use KoLAdventure.lastVisitedLocation() to check for Guzzlr progress instead of KoLAdventure.lastLocationName because the former will still match even if you're fighting an attunement tentacle">
+      <created>1619031739105</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1619031739105</updated>
+    </task>
+    <task id="LOCAL-00074" summary="DMT choice counting is nothing to do with the monster that is being fought, its just basic delay on the zone (i.e. wanderers/tentacles do decrement it and copies of DMT monsters fought outsode of the zone do not)">
+      <created>1619032910587</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1619032910588</updated>
+    </task>
+    <task id="LOCAL-00075" summary="Get the maximizer to consider changing mode on the backup camera">
+      <created>1619037284531</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1619037284531</updated>
+    </task>
+    <task id="LOCAL-00076" summary="Fix typo in choice adventure 1433 spoiler">
+      <created>1619037368029</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1619037368029</updated>
+    </task>
+    <task id="LOCAL-00077" summary="Use try-with-resource in Checkpoints">
+      <created>1619083835830</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1619083835831</updated>
+    </task>
+    <task id="LOCAL-00078" summary="Use try-with-resource in Checkpoints">
+      <created>1619083855245</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1619083855245</updated>
+    </task>
+    <task id="LOCAL-00079" summary="Use try-with-resource in Checkpoints. Thanks to @fredg1 for the initial work">
+      <created>1619085170000</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1619085170000</updated>
+    </task>
+    <task id="LOCAL-00080" summary="Some changes to maximum item use data surfacing&#10;&#10;* RestoresDatabase now uses UseItemRequest's maximumUses function for item restores&#10;* $item dailyusesleft record now uses UseItemRequest's maximumUses function">
+      <created>1619087073234</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1619087073235</updated>
+    </task>
+    <option name="localTasksCounter" value="81" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="SHOW_FILE_HISTORY_DETAILS" value="false" />
+    <MESSAGE value="Do not unescape JS scripts. Warning - this may break some js scripts, just use the &amp;escapedform; instead. Thanks @philmasterplus." />
+    <MESSAGE value="Better tracking for slot to equip a Powerful Glove. THanks @dark_adonis, we'll see if this works." />
+    <MESSAGE value="Track shocking licks even if they deal damage instead of instakilling" />
+    <MESSAGE value="New content for St Yuley Tide's Day" />
+    <MESSAGE value="Support for backup camera IotM" />
+    <MESSAGE value="Prevent locations not present in combats.txt from causing an NPE when you try to read their native combat rate" />
+    <MESSAGE value="Reset backup camera prefs on ascension" />
+    <MESSAGE value="Fix some small robo bugs" />
+    <MESSAGE value="When converting ash functions to camel case for JavaScript, better handling for unusual snake-casing (see https://kolmafia.us/threads/javascript-importing-ash-script-fails-if-function-name-has-leading-underscore.25939/)" />
+    <MESSAGE value="Warn the user if they try to grind more than 23 sausages in a day - this can be an expensive typo otherwise." />
+    <MESSAGE value="Added a get_workshed() function to the runtime library (thanks 3BH!)" />
+    <MESSAGE value="Fix typo in Do You Crush What I Crush modifier string" />
+    <MESSAGE value="Add my_session_results() function to the runtime library which you can use to see how many pirate insults, hobo parts, and other pseudo-items you have acquired this session" />
+    <MESSAGE value="Fix swim laps and sprints for degenerate players with so many stats they break 1k laps" />
+    <MESSAGE value="Track daily Poke-Grow Fertilizer drops (because there are max 3)" />
+    <MESSAGE value="Default backupCameraMode is &quot;meat&quot; on ascension" />
+    <MESSAGE value="Track yellow pixels dropped by the Puck Family when enthroned or enbjorned" />
+    <MESSAGE value="Searching the mall for an item name that refers to multiple items one of which is untradeable resulted in a non-response. So, that's fixed!" />
+    <MESSAGE value="Use KoLAdventure.lastVisitedLocation() to check for Guzzlr progress instead of KoLAdventure.lastLocationName because the former will still match even if you're fighting an attunement tentacle" />
+    <MESSAGE value="DMT choice counting is nothing to do with the monster that is being fought, its just basic delay on the zone (i.e. wanderers/tentacles do decrement it and copies of DMT monsters fought outsode of the zone do not)" />
+    <MESSAGE value="Get the maximizer to consider changing mode on the backup camera" />
+    <MESSAGE value="Fix typo in choice adventure 1433 spoiler" />
+    <MESSAGE value="Use try-with-resource in Checkpoints" />
+    <MESSAGE value="Use try-with-resource in Checkpoints. Thanks to @fredg1 for the initial work" />
+    <MESSAGE value="Some changes to maximum item use data surfacing&#10;&#10;* RestoresDatabase now uses UseItemRequest's maximumUses function for item restores&#10;* $item dailyusesleft record now uses UseItemRequest's maximumUses function" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some changes to maximum item use data surfacing&#10;&#10;* RestoresDatabase now uses UseItemRequest's maximumUses function for item restores&#10;* $item dailyusesleft record now uses UseItemRequest's maximumUses function" />
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="java.lang.NullPointerException" memberName="stackTrace" />
+      </pinned-members>
+    </pin-to-top-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="this.content" language="JAVA" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>

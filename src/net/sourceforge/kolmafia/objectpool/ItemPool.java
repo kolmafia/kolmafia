@@ -3079,7 +3079,7 @@ public class ItemPool
 	public static final int FR_SWAMP_MAP = 9875;
 	public static final int FR_VILLAGE_MAP = 9876;
 	public static final int FR_CEMETARY_MAP = 9877;
-	public static final int FR_CHARGED_ORB = 9896;
+	public static final int FR_CHARGED_ORB = 9895;
 	public static final int FR_NOTARIZED_WARRANT = 9897;
 	public static final int CLARIFIED_BUTTER = 9908;
 	public static final int G = 9909;
