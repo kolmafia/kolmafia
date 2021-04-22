@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="sequence-library-1.0.4">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/jar/sequence-library-1.0.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/jar/sqljet-1.1.13.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
