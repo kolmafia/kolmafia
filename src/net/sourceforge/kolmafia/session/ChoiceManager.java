@@ -161,28 +161,28 @@ public abstract class ChoiceManager
 	public static int extractChoiceFromURL( final String urlString )
 	{
 		Matcher matcher = ChoiceManager.URL_CHOICE_PATTERN.matcher( urlString );
-		return  matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
 	}
 
 	public static final Pattern URL_OPTION_PATTERN = Pattern.compile( "(?<!force)option=(\\d+)" );
 	public static int extractOptionFromURL( final String urlString )
 	{
 		Matcher matcher = ChoiceManager.URL_OPTION_PATTERN.matcher( urlString );
-		return  matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
 	}
 
 	public static final Pattern URL_IID_PATTERN = Pattern.compile( "iid=(\\d+)" );
 	public static int extractIidFromURL( final String urlString )
 	{
 		Matcher matcher = ChoiceManager.URL_IID_PATTERN.matcher( urlString );
-		return  matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : -1;
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : -1;
 	}
 
 	public static final Pattern URL_QTY_PATTERN = Pattern.compile( "qty=(\\d+)" );
 	public static int extractQtyFromURL( final String urlString )
 	{
 		Matcher matcher = ChoiceManager.URL_QTY_PATTERN.matcher( urlString );
-		return  matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : -1;
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : -1;
 	}
 
 	private static final Pattern URL_SKILLID_PATTERN = Pattern.compile( "skillid=(\\d+)" );
@@ -7243,7 +7243,7 @@ public abstract class ChoiceManager
 		//   <div style="clear:both"></div>
 		// </form>
 
-		return  responseText.contains( "action=choice.php" ) ||
+		return responseText.contains( "action=choice.php" ) ||
 			responseText.contains( "href=choice.php" ) ||
 			responseText.contains( "name=\"whichchoice\"" ) ||
 			responseText.contains( "href=\"choice.php" );
@@ -7874,16 +7874,21 @@ public abstract class ChoiceManager
 		}
 	}
 
+	/**
+	 * Certain requests do not interrupt a choice (i.e. are accessible and do not walk away from the choice)
+	 */
 	public static boolean nonInterruptingRequest( final String urlString, final GenericRequest request )
 	{
-		return  request.isExternalRequest ||
+		return request.isExternalRequest ||
 			request.isChatRequest ||
 			request.isDescRequest ||
+			request.isStaticRequest ||
 			request.isQuestLogRequest ||
+			// Daily Reminders
 			urlString.startsWith( "main.php?checkbfast" ) ||
-			// Lock Picking
+			// Choice 1414 uses Lock Picking
 			urlString.equals( "skillz.php?oneskillz=195" ) ||
-			// Seek out a Bird
+			// Choice 1399 uses Seek out a Bird
 			urlString.equals( "skillz.php?oneskillz=7323" );
 	}
 
