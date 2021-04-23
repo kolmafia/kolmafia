@@ -90,7 +90,7 @@ public abstract class TopMenuDecorator
 
 		StringBuilder menuBuffer = new StringBuilder();
 
-		menuBuffer.append( "<div style='position: absolute; z-index: 5; top: 40px; right: 0px; border-width: 1px color:#000000'>" );
+		menuBuffer.append( "<div style='position: absolute; z-index: 5; top: 40px; right: 0px; border-width: 1px; color:#000000'>" );
 		menuBuffer.append( "<table cellpadding=0 cellspacing=0>" );
 
 		// Build Quick Scripts menu

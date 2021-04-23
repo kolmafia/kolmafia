@@ -8544,7 +8544,7 @@ public class FightRequest
 
 		if ( !image.equals( "goldnug.gif" ) &&
 		     !image.equals( "coinpurse.gif" ) &&
-		     !image.equals(" lolmecidol.gif" ) )
+		     !image.equals( "lolmecidol.gif" ) )
 		{
 			return false;
 		}
