@@ -20,7 +20,11 @@ public class KoLmafiaTUI
 
     static void initialize()
     {
-        AnsiConsole.systemInstall();
+		try {
+			AnsiConsole.systemInstall();
+		} catch (Exception e) {
+			// Failed to install jansi. Continue as before.
+		}
         out.openStandard();
     }
 
