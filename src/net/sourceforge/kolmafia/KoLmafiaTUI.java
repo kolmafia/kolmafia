@@ -24,6 +24,8 @@ public class KoLmafiaTUI
 			AnsiConsole.systemInstall();
 		} catch (Exception e) {
 			// Failed to install jansi. Continue as before.
+		} catch (LinkageError e) {
+			// Linking failed, but we can continue anyways.
 		}
         out.openStandard();
     }
