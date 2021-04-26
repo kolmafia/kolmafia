@@ -2760,6 +2760,21 @@ public class ItemDatabase
 
 	public static boolean isAllowed( final int itemId )
 	{
+		if ( KoLCharacter.inBeecore() && unusableInBeecore( itemId ) )
+		{
+			return false;
+		}
+
+		if ( KoLCharacter.inGLover() && unusableInGLover( itemId ) )
+		{
+			return false;
+		}
+
+		if ( !KoLCharacter.isPlumber() && usableOnlyAsPlumber( itemId ) )
+		{
+			return false;
+		}
+
 		return StandardRequest.isAllowed( "Items", ItemDatabase.getDataName( itemId ) );
 	}
 

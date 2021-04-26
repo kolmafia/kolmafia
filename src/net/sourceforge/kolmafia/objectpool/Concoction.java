@@ -1114,12 +1114,7 @@ public class Concoction
 
 		if ( this.mixingMethod == CraftingType.SINGLE_USE || this.mixingMethod == CraftingType.MULTI_USE )
 		{
-			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( this.ingredientArray[ 0 ].getItemId() ) )
-			{
-				return alreadyHave;
-			}
-			
-			if ( KoLCharacter.inGLover() && ItemDatabase.unusableInGLover( this.ingredientArray[ 0 ].getItemId() ) )
+			if ( ItemDatabase.isAllowed( this.ingredientArray[ 0 ].getItemId() ) )
 			{
 				return alreadyHave;
 			}

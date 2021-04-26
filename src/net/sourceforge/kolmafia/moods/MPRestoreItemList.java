@@ -302,19 +302,7 @@ public abstract class MPRestoreItemList
 				return true;
 			}
 
-			int itemId = this.itemUsed.getItemId();
-
-			if ( KoLCharacter.inBeecore() )
-			{
-				return !ItemDatabase.unusableInBeecore( itemId );
-			}
-
-			if ( KoLCharacter.inGLover() )
-			{
-				return !ItemDatabase.unusableInGLover( itemId );
-			}
-
-			return true;
+			return ItemDatabase.isAllowed( this.itemUsed.getItemId() );
 		}
 
 		public void recover( final int needed, final boolean purchase )
