@@ -687,12 +687,7 @@ public abstract class UseLinkDecorator
 				return null;
 			}
 
-			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
-			{
-				return null;
-			}
-
-			if ( KoLCharacter.inGLover()&& ItemDatabase.unusableInGLover( itemId ) )
+			if ( !ItemDatabase.isAllowed( itemId ) )
 			{
 				return null;
 			}
@@ -777,12 +772,7 @@ public abstract class UseLinkDecorator
 				return null;
 			}
 
-			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
-			{
-				return null;
-			}
-
-			if ( KoLCharacter.inGLover()&& ItemDatabase.unusableInGLover( itemId ) )
+			if ( !ItemDatabase.isAllowed( itemId ) )
 			{
 				return null;
 			}
@@ -811,12 +801,7 @@ public abstract class UseLinkDecorator
 				return null;
 			}
 
-			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
-			{
-				return null;
-			}
-
-			if ( KoLCharacter.inGLover()&& ItemDatabase.unusableInGLover( itemId ) )
+			if ( !ItemDatabase.isAllowed( itemId ) )
 			{
 				return null;
 			}
@@ -868,12 +853,7 @@ public abstract class UseLinkDecorator
 				return null;
 			}
 
-			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
-			{
-				return null;
-			}
-
-			if ( KoLCharacter.inGLover()&& ItemDatabase.unusableInGLover( itemId ) )
+			if ( !ItemDatabase.isAllowed( itemId ) )
 			{
 				return null;
 			}
@@ -904,12 +884,7 @@ public abstract class UseLinkDecorator
 				return null;
 			}
 
-			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
-			{
-				return null;
-			}
-
-			if ( KoLCharacter.inGLover()&& ItemDatabase.unusableInGLover( itemId ) )
+			if ( !ItemDatabase.isAllowed( itemId ) )
 			{
 				return null;
 			}
@@ -967,12 +942,7 @@ public abstract class UseLinkDecorator
 				return null;
 			}
 
-			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
-			{
-				return null;
-			}
-
-			if ( KoLCharacter.inGLover()&& ItemDatabase.unusableInGLover( itemId ) )
+			if ( !ItemDatabase.isAllowed( itemId ) )
 			{
 				return null;
 			}
@@ -991,12 +961,7 @@ public abstract class UseLinkDecorator
 		case KoLConstants.MESSAGE_DISPLAY:
 		case KoLConstants.INFINITE_USES:
 
-			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
-			{
-				return null;
-			}
-
-			if ( KoLCharacter.inGLover()&& ItemDatabase.unusableInGLover( itemId ) )
+			if ( !ItemDatabase.isAllowed( itemId ) )
 			{
 				return null;
 			}
@@ -1250,12 +1215,7 @@ public abstract class UseLinkDecorator
 
 		case KoLConstants.CONSUME_GUARDIAN:
 
-			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
-			{
-				return null;
-			}
-
-			if ( KoLCharacter.inGLover()&& ItemDatabase.unusableInGLover( itemId ) )
+			if ( !ItemDatabase.isAllowed( itemId ) )
 			{
 				return null;
 			}
