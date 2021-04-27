@@ -2170,7 +2170,6 @@ Item	glass gnoll eye	Mysticality: +3
 # glass pie plate: Half Damage from Ghosts
 Item	glass pie plate	Hot Resistance: +3, Damage Reduction: 7
 Item	glow-in-the-dark stuffed burrowgrub	Muscle: [9-M], Weapon Damage: [9-M]
-# glowing esca: +20% Item Drops from Monsters (Underwater only)
 Item	glowing esca	Item Drop: [20*env(underwater)]
 Item	glowstick on a string	Weapon Damage: +10, Raveosity: +1
 Item	glued-together crystal ball	Mysticality Percent: +50
