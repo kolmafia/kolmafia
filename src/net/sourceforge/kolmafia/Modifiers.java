@@ -2190,6 +2190,29 @@ public class Modifiers
 		return Modifiers.getModifiers( "Item", name );
 	}
 
+	/**
+	 * Get item modifiers if the item is to be equipped on Disembodied Hand or Left-Hand Man
+
+	 * @param id Item id
+	 * @return Returns modifiers for item excluding some that just do not apply
+	 */
+	public static final Modifiers getItemModifiersInFamiliarSlot( final int id )
+	{
+		Modifiers mods = new Modifiers( getItemModifiers( id ) );
+
+		if ( mods != null )
+		{
+			mods.set( Modifiers.SLIME_HATES_IT, 0.0f );
+			mods.set( Modifiers.BRIMSTONE, 0 );
+			mods.set( Modifiers.CLOATHING, 0 );
+			mods.set( Modifiers.SYNERGETIC, 0 );
+			mods.set( Modifiers.MOXIE_MAY_CONTROL_MP, false );
+			mods.set( Modifiers.MOXIE_CONTROLS_MP, false );
+		}
+
+		return mods;
+	}
+
 	public static final Modifiers getEffectModifiers( final int id )
 	{
 		if ( id <= 0 )
@@ -4666,3 +4689,4 @@ public class Modifiers
 		}
 	}
 }
+

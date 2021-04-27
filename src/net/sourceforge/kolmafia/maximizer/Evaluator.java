@@ -1267,15 +1267,30 @@ public class Evaluator
 				{
 					familiarMods.applyFamiliarModifiers( KoLCharacter.getFamiliar(), preItem );
 				}
+				// Normal item modifiers when used by Disembodied Hand and Left-Hand
 				else
-				// Normal item modifiers when used by Disembodied Hand
 				{
-					familiarMods = Modifiers.getItemModifiers( id );
-					if ( familiarMods == null )	// no enchantments
+					familiarMods = Modifiers.getItemModifiersInFamiliarSlot( id );
+
+					// Some items work differently with the Left Hand
+					if ( familiarId == FamiliarPool.LEFT_HAND )
 					{
-						familiarMods = new Modifiers();
+						switch( id )
+						{
+						case ItemPool.KOL_COL_13_SNOWGLOBE:
+						case ItemPool.GLOWING_ESCA:
+							familiarMods = null;
+							break;
+						}
 					}
 				}
+
+				// no enchantments
+				if ( familiarMods == null )
+				{
+					familiarMods = new Modifiers();
+				}
+
 				item = new CheckedItem( id, equipScope, maxPrice, priceLevel );
 
 				switch ( this.checkConstraints( familiarMods ) )

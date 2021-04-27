@@ -6600,24 +6600,19 @@ public abstract class KoLCharacter
 			return;
 		}
 
-		Modifiers imod = Modifiers.getItemModifiers( itemId );
+		Modifiers imod;
 
-		if ( slot == EquipmentManager.FAMILIAR && consume == KoLConstants.EQUIP_WEAPON )
+		if ( slot == EquipmentManager.FAMILIAR &&
+			( consume == KoLConstants.EQUIP_WEAPON || consume == KoLConstants.EQUIP_OFFHAND ) )
 		{
-			// Disembodied Hand weapons don't give all enchantments
-			if ( imod != null )
+			imod = Modifiers.getItemModifiersInFamiliarSlot( itemId );
+
+			if ( consume == KoLConstants.EQUIP_WEAPON )
 			{
-				Modifiers hand = new Modifiers( imod );
-				hand.set( Modifiers.SLIME_HATES_IT, 0.0f );
-				hand.set( Modifiers.BRIMSTONE, 0 );
-				hand.set( Modifiers.CLOATHING, 0 );
-				hand.set( Modifiers.SYNERGETIC, 0 );
-				imod = hand;
-				// Possibly cache the modified modifiers?
+				newModifiers.add( Modifiers.WEAPON_DAMAGE, EquipmentDatabase.getPower( itemId ) * 0.15f, "15% weapon power" );
 			}
-			newModifiers.add( Modifiers.WEAPON_DAMAGE,
-					  EquipmentDatabase.getPower( itemId ) * 0.15f,
-					  "15% weapon power" );
+		} else {
+			imod = Modifiers.getItemModifiers( itemId );
 		}
 
 		if ( imod != null )

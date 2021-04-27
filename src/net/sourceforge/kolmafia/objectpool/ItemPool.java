@@ -813,6 +813,7 @@ public class ItemPool
 	public static final int GOLD_BOWLING_BALL = 2766;
 	public static final int SOLID_BACONSTONE_EARRING = 2780;
 	public static final int BRIMSTONE_BERET = 2813;
+	public static final int BRIMSTONE_BUNKER = 2815;
 	public static final int BRIMSTONE_BRACELET = 2818;
 	public static final int GRIMACITE_GASMASK = 2819;
 	public static final int GRIMACITE_GAT = 2820;
@@ -1099,6 +1100,7 @@ public class ItemPool
 	public static final int SPOOKY_PUTTY_MONSTER = 3667;
 	public static final int RAGE_GLAND = 3674;
 	public static final int MERKIN_PRESSUREGLOBE = 3675;
+	public static final int GLOWING_ESCA = 3680;
 	public static final int MARINARA_TRENCH_MAP = 3683;
 	public static final int TEMPURA_CARROT = 3684;
 	public static final int TEMPURA_CUCUMBER = 3685;
@@ -1241,6 +1243,7 @@ public class ItemPool
 	public static final int ESSENCE_OF_FRIGHT = 4071;
 	public static final int ESSENCE_OF_CUTE = 4072;
 	public static final int SUPREME_BEING_GLOSSARY = 4073;
+	public static final int GRISLY_SHIELD = 4080;
 	public static final int CYBER_MATTOCK = 4086;
 	public static final int GREEN_PEAWEE_MARBLE = 4095;
 	public static final int BROWN_CROCK_MARBLE = 4096;
@@ -2849,6 +2852,7 @@ public class ItemPool
 	public static final int HOLORECORD_DRUNK_UNCLES = 9115;
 	public static final int TIME_RESIDUE = 9116;
 	public static final int SCHOOL_OF_HARD_KNOCKS_DIPLOMA = 9123;
+	public static final int KOL_COL_13_SNOWGLOBE = 9133;
 	public static final int TRICK_TOT_KNIGHT = 9137;
 	public static final int TRICK_TOT_UNICORN = 9138;
 	public static final int TRICK_TOT_CANDY = 9139;
