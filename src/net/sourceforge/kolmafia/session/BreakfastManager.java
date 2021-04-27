@@ -251,7 +251,12 @@ public class BreakfastManager
 		{
 			int itemId = toy.getItemId();
 
-			if ( !ItemDatabase.isAllowed( itemId ) )
+			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
+			{
+				continue;
+			}
+
+			if ( KoLCharacter.inGLover() && ItemDatabase.unusableInGLover( itemId ) )
 			{
 				continue;
 			}
@@ -934,7 +939,12 @@ public class BreakfastManager
 	{
 		AdventureResult plant = ItemPool.get( "potted power plant", 1 );
 
-		if ( !InventoryManager.hasItem( plant ) ||  !ItemDatabase.isAllowed( plant.getItemId() ) )
+		if ( !InventoryManager.hasItem( plant ) || !StandardRequest.isAllowed( "Items", plant.getName() ) )
+		{
+			return;
+		}
+
+		if ( Preferences.getString( "_pottedPowerPlant" ).equals( "0,0,0,0,0,0,0" ) )
 		{
 			return;
 		}
