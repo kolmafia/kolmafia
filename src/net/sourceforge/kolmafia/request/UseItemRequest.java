@@ -6290,7 +6290,7 @@ public class UseItemRequest
 		case ItemPool.BATTERY_CAR:
 			if ( responseText.contains( "Your tongue crackles with electricity" ) )
 			{
-				Preferences.increment( "shockingLickCharges" );
+				Preferences.increment( "shockingLickCharges", count );
 			}
 			break;
 		}
