@@ -602,7 +602,6 @@ public class Maximizer
 				continue;
 			}
 
-			int price = 0;
 			double delta;
 			boolean isSpecial = false;
 			MaximizerSpeculation spec = new MaximizerSpeculation();
@@ -686,6 +685,7 @@ public class Maximizer
 
 				String cmd, text;
 
+				int price = 0;
 				int advCost = 0;
 				long mpCost = 0;
 				int fullCost = 0;
