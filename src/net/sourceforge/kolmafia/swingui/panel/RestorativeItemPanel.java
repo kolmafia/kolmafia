@@ -105,7 +105,11 @@ public class RestorativeItemPanel
 
 			if ( RestoresDatabase.isRestore( itemId ) )
 			{
-				if ( !ItemDatabase.isAllowed( itemId ) )
+				if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
+				{
+					return false;
+				}
+				if ( KoLCharacter.inGLover() && ItemDatabase.unusableInGLover( itemId ) )
 				{
 					return false;
 				}

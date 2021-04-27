@@ -123,7 +123,6 @@ public class StandardRequest
 		{
 			return false;
 		}
-
 		if ( !KoLCharacter.getRestricted() )
 		{
 			return true;

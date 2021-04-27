@@ -272,14 +272,35 @@ public abstract class HPRestoreItemList
 				return false;
 			}
 
+			// Plumbers can heal HP ONLY with plumber items; no
+			// skills or "resting" mechanism heal HP
+			boolean isPlumber = KoLCharacter.isPlumber();
+
 			if ( this.itemUsed == null )
 			{
-				// Plumbers can heal HP ONLY with plumber items; no
-				// skills or "resting" mechanism heal HP
-				return !KoLCharacter.isPlumber();
+				return !isPlumber;
 			}
 
-			return ItemDatabase.isAllowed( this.itemUsed.getItemId() );
+			int itemId = this.itemUsed.getItemId();
+
+			// Plumber-only items are all quest items which
+			// disappear when you free Princess Ralph.
+			if ( ItemDatabase.usableOnlyAsPlumber( itemId ) )
+			{
+				return isPlumber;
+			}
+
+			if ( KoLCharacter.inBeecore() )
+			{
+				return !ItemDatabase.unusableInBeecore( itemId );
+			}
+
+			if ( KoLCharacter.inGLover() )
+			{
+				return !ItemDatabase.unusableInGLover( itemId );
+			}
+
+			return true;
 		}
 
 		@Override
