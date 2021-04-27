@@ -714,6 +714,7 @@ public class Maximizer
 				case "cast":
 					if ( !filter.getOrDefault( KoLConstants.filterType.CAST , false) ) continue;
 					break;
+				case "synthesize":
 				case "chew":
 					if ( !filter.getOrDefault( KoLConstants.filterType.SPLEEN , false) ) continue;
 					break;

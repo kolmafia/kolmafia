@@ -939,7 +939,7 @@ public class BreakfastManager
 	{
 		AdventureResult plant = ItemPool.get( "potted power plant", 1 );
 
-		if ( !InventoryManager.hasItem( plant ) || !StandardRequest.isAllowed( "Items", plant.getName() ) )
+		if ( !InventoryManager.hasItem( plant ) || !StandardRequest.isAllowed( "Items", plant.getName() ) || KoLCharacter.inGLover() )
 		{
 			return;
 		}
