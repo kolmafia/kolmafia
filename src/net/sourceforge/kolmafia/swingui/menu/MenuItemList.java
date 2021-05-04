@@ -42,6 +42,7 @@ import javax.swing.JSeparator;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
+import darrylbu.util.MenuScroller;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public abstract class MenuItemList
@@ -82,6 +83,8 @@ public abstract class MenuItemList
 			this.add( new JSeparator() );
 			this.headerCount = headers.length + 1;
 		}
+
+		MenuScroller.setScrollerFor( this, 15, 150, headerCount, 0 );
 
 		// Now, add everything that's contained inside of
 		// the current list.
