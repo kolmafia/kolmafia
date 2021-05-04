@@ -40,6 +40,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
+import darrylbu.util.MenuScroller;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -93,6 +94,8 @@ public class ScriptMenu
 
 			//  Convert the list into a menu
 			JMenu menu = new JMenu( name );
+
+			MenuScroller.setScrollerFor( menu );
 
 			// Iterate through the files.  Do this in two
 			// passes to make sure that directories start
