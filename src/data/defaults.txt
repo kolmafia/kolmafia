@@ -675,8 +675,8 @@ user	guzzlrQuestLocation
 user	guzzlrQuestTier	
 user	haciendaLayout	000000000000000000
 user	hardcorePVPWarning	false
-user	harvestBatteriesHardcore	false
-user	harvestBatteriesSoftcore	false
+user	harvestBatteriesHardcore	true
+user	harvestBatteriesSoftcore	true
 user	harvestGardenHardcore	none
 user	harvestGardenSoftcore	none
 user	hasBartender	false
