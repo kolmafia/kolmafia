@@ -74,7 +74,7 @@
 45	Pet Rock	familiar45.gif	none	pet rock	pet rock &quot;Snooty&quot; disguise	0	0	0	0	eyes
 46	Snowy Owl	familiar46.gif	combat0	sleeping snowy owl	Pretty Predator Clawicure Kit	3	3	3	3	animal,eyes,wings,biting
 47	Teddy Bear	familiar47.gif	other0	teddy bear	teddy bear sewing kit	3	2	0	1	animal,eyes
-48	Ninja Pirate Zombie Robot	npzr.gif	combat0,block,delevel,hp0,mp0,meat1,other0	ninja pirate zombie robot	rhesus monkey	3	3	3	3	mechanical,clothes,eyes,robot,undead,slayer,evil
+48	Ninja Pirate Zombie Robot	npzr.gif	combat0,block,delevel,hp0,mp0,meat1,other0	ninja pirate zombie robot	rhesus monkey	3	3	3	3	mechanical,clothes,eyes,robot,undead,slayer,evil,quick
 49	Sleazy Gravy Fairy	slgfairy.gif	combat1,item0	pregnant oily golden mushroom	hot pink lipstick	3	3	2	1	sleazy,eyes,wings,flying
 50	Wild Hare	hare.gif	item0,meat0,stat0,hp1,mp1,other1	March hat	miniature dormouse	1	3	2	0	animal,eyes,quick
 51	Wind-up Chattering Teeth	chatteeth.gif	combat0	wind-up chattering teeth	diamond-studded fronts	3	0	2	1	robot,biting
@@ -293,7 +293,7 @@
 264	Cornbeefadon	pokefam50.gif	stat0,meat0	Cornbeefadon		2	2	2	2	animal,eyes,biting
 265	Mu	pokefam8675309.gif	combat1,passive	Mu		3	2	3	2	animal,eyes,quick
 266	God Lobster	godlob.gif	stat0,variable,underwater	God Lobster Egg		0	0	0	0	animal,eyes,evil
-267	Cat Burglar	catburglar.gif	item0,meat0	kitten burglar	burglar/sleep mask	1	3	2	3	animal,eyes,sleazy,quick,biting
+267	Cat Burglar	catburglar.gif	item0,meat0	kitten burglar	burglar/sleep mask	1	3	2	3	animal,eyes,sleazy,quick,biting,clothes
 268	Party Mouse	partymouse.gif	stat0,drop	party pup	party mouse hat	1	1	2	1	animal,eyes,biting
 269	Yule Hound	yulehound.gif	hp1,mp1	yule pup	Crimbo dog sweater	2	3	1	1	animal,eyes
 270	Sausage Golem	saugrindgolem.gif	combat1,mp0	sausage golem	jar of magical relish	3	1	1	1	sleazy,hands
@@ -309,3 +309,4 @@
 280	Ghost of Crimbo Carols	cghost_carols.gif	item0,other0	gregarious ghostling		0	0	0	0	eyes,undead
 281	Ghost of Crimbo Cheer	cghost_cheer.gif	stat0,other1	grinning ghostling		0	0	0	0	eyes,undead
 282	Ghost of Crimbo Commerce	cghost_commerce.gif	meat0,other0	greedy ghostling		0	0	0	0	eyes,undead
+283	Shorter-Order Cook	shortchef.gif	combat0,delevel	shortest-order cook	blue plate	0	0	0	0	clothes

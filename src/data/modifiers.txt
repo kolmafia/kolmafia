@@ -4034,6 +4034,8 @@ Item	attention spanner	Familiar Weight: +5
 Item	black gallstone	Familiar Weight: +5
 Item	blue canary nightlight	Familiar Weight: +5
 # blue pumps: Causes your Ms. Puck Man to sometimes drop extra yellow pixels
+# Item blue plate: Improves Cooking
+Item	blue plate	Familiar Weight: +5
 Item	blue suede shoes	Familiar Weight: +5
 Item	blundarrrbus	Familiar Weight: +5
 Item	bone collar	Familiar Weight: +5
@@ -4166,8 +4168,7 @@ Item	little box of fireworks	Familiar Weight: +5, Softcore Only, Generic, Experi
 Item	Little Crimson Book	Familiar Weight: +5
 # little wooden mannequin: Makes Kid Better at Drawing Other Players
 Item	little wooden mannequin	Familiar Weight: +5
-# Loathing Legion helicopter: Familiar will act more often
-Item	Loathing Legion helicopter	Familiar Weight: +5, Softcore Only, Generic
+Item	Loathing Legion helicopter	Familiar Weight: +5, Softcore Only, Generic, Familiar Action Bonus: +25
 Item	luck incense	Familiar Weight: +10, Item Drop: +25, Lasts Until Rollover, Generic
 Item	lucky Tam O'Shanter	Meat Drop: +50, Softcore Only, Generic
 Item	lucky Tam O'Shatner	Meat Drop: +50, Softcore Only, Generic
@@ -6128,7 +6129,7 @@ Effect	Jeffersonian	Avatar: "Jefferson pilot"
 # Jelly Combed: Makes you harder to hit (when underwater)
 Effect	Jerky, Boy	Mysticality Percent: +25
 Effect	Jiggu... What?	Mana Cost: +100
-# Jingle Jangle Jingle: Familiar will act more often in combat
+Effect	Jingle Jangle Jingle	Familiar Action Bonus: +10
 Effect	Jinkies!	Avatar: "Norville Rogers"
 Effect	Jittery	MP Regen Min: 1, MP Regen Max: 3
 Effect	Joke-Mad	Monster Level: +20
@@ -6792,6 +6793,13 @@ Effect	Short of Breath	Avatar: "pygmy blowgunner"
 Effect	Short on Options	Avatar: "pygmy headhunter"
 Effect	Shortened	Sleaze Damage: +25, Sleaze Spell Damage: +50, Sleaze Resistance: +2
 Effect	Shortie Shaman Shurprise	Avatar: "pygmy shaman"
+Effect	Shortly Buttered	Combat Rate: -5, Familiar Action Bonus: +100
+# Effect Shortly Drunk: Double the damage dealt by combat familiars
+Effect	Shortly Drunk	Familiar Action Bonus: +100
+Effect	Shortly Hydrated	Experience (familiar): +5, Familiar Action Bonus: +100
+Effect	Shortly Stacked	Familiar Weight: +10, Familiar Action Bonus: +100
+# Effect Shortly Wired: Your familiar will act twice per round
+Effect	Shortly Wired	Familiar Weight: +10, Familiar Action Bonus: +100
 Effect	Shot in the Arse	Muscle: +15, Mysticality: +15, Moxie: +15
 Effect	Shredding, Sweating	Weapon Damage Percent: +25
 Effect	Shrieking Weasel	Monster Level: +30
@@ -7012,7 +7020,7 @@ Effect	Stenchtastic	Muscle Percent: +20, Mysticality Percent: +30, Moxie Percent
 Effect	Steroid Boost	Muscle: +2
 Effect	Stevedave's Shanty of Superiority	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Effect	Stick Emporium Membership	Weapon Drop: +100
-# Stickler for Promptness: Familiar will act more often in combat
+Effect	Stickler for Promptness	Familiar Action Bonus: +20,
 # Sticks and Stones: +50% Damage vs. Skeletons
 Effect	Sticky Fingers	Meat Drop: +20
 # Sticky Hands: Reduced chance of fumbling
@@ -9822,6 +9830,11 @@ Item	sharkfin gumbo	Effect: "Shark-Tooth Grin", Effect Duration: 1
 Item	shavin' razor	Effect: "Hairless and Airless", Effect Duration: 30
 Item	Shielding Potion	Effect: "Remaining Alive", Effect Duration: 10
 Item	shoe gum	Effect: "Gummed Shoes", Effect Duration: 50
+Item	short beer	Effect: "Shortly Drunk", Effect Duration: 11
+Item	short glass of water	Effect: "Shortly Hydrated", Effect Duration: 11
+Item	short stick of butter	Effect: "Shortly Buttered", Effect Duration: 11
+Item	short stack of pancakes	Effect: "Shortly Stacked", Effect Duration: 11
+Item	short white	Effect: "Shortly Wired", Effect Duration: 11
 Item	shoulder-warming lotion	Effect: "Warm Shoulders", Effect Duration: 20
 Item	Shrieking Weasel holo-record	Effect: "Shrieking Weasel", Effect Duration: 10
 Item	shrimp cocktail	Effect: "Shrimpin' Ain't Easy", Effect Duration: 20
@@ -11345,6 +11358,7 @@ Item	shimmering tendrils	Class: "Pastamancer"
 Item	shingle	Effect: "Confused", Effect: "Amorous", Effect Duration: 10
 # short calculator: ???
 # short writ of habeas corpus: Lets you get away from pygmies without spending an Adventure
+Item	shortest-order cook	Free Pull
 Item	shot of Sneaky Pete's Mojo	Free Pull
 Item	shrine to the Barrel god	Free Pull
 # shrinking powder: Reduce an enemy's size (Hit Points) by 35-50%

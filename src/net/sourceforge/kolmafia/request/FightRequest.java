@@ -282,7 +282,10 @@ public class FightRequest
 		Pattern.compile( "charge to (\\d+)%" );
 	private static final Pattern NANORHINO_BUFF_PATTERN = 
 		Pattern.compile( "title=\\\"Nano(?:brawny|brainy|ballsy)\\\"");
-	
+
+	private static final Pattern SHORT_ORDER_EXP_PATTERN =
+		Pattern.compile( "and tosses a plate of food to (.*?), who gains ([0-9,]+) exp!" );
+
 	private static final Pattern RED_BUTTON_PATTERN = 
 		Pattern.compile( "manage to find and recover all but (\\d+) of the buttons" );
 
@@ -4576,6 +4579,43 @@ public class FightRequest
 				}
 				break;
 
+			case FamiliarPool.SHORT_ORDER_COOK:
+				int charge = Preferences.getInteger( "_shortOrderCookCharge" );
+				if ( responseText.contains( "shortbeer.gif" ) ||
+					responseText.contains( "shortstack.gif" ) ||
+					responseText.contains( "shortbutter.gif" ) ||
+					responseText.contains( "shortwater.gif" ) ||
+					responseText.contains( "shortcoffee.gif" )
+				)
+				{
+					if ( KoLCharacter.hasEquipped( ItemPool.BLUE_PLATE, EquipmentManager.FAMILIAR ) )
+					{
+						charge = 2;
+					}
+					else
+					{
+						charge = 0;
+					}
+				}
+				else
+				{
+					charge += 1;
+				}
+				Preferences.setInteger( "_shortOrderCookCharge", charge );
+				familiar.setCharges( charge );
+
+				Matcher otherFamiliarExp = SHORT_ORDER_EXP_PATTERN.matcher( responseText );
+				if ( otherFamiliarExp.find() )
+				{
+					FamiliarData fam = KoLCharacter.findFamiliar( otherFamiliarExp.group( 1 ) );
+
+					if ( fam != null )
+					{
+						int exp = StringUtilities.parseInt( otherFamiliarExp.group( 2 ) );
+						fam.addNonCombatExperience( exp );
+					}
+				}
+				break;
 			}
 
 			if ( KoLCharacter.inRaincore() )

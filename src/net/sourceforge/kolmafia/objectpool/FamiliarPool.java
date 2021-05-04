@@ -144,4 +144,5 @@ public class FamiliarPool
 	public static final int GHOST_CAROLS = 280;
 	public static final int GHOST_CHEER = 281;
 	public static final int GHOST_COMMERCE = 282;
+	public static final int SHORT_ORDER_COOK = 283;
 }
