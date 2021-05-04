@@ -247,6 +247,7 @@ public class Modifiers
 	public static final int CLOWNINESS = 132;
 	public static final int PP = 133;
 	public static final int PLUMBER_POWER = 134;
+	public static final int FAMILIAR_ACTION_BONUS = 135;
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
 	private static final Object[][] doubleModifiers =
@@ -865,12 +866,16 @@ public class Modifiers
 		},
 		{ "Energy",
 		  null,
-		  Pattern.compile( "Energy: " + EXPR)
+		  Pattern.compile( "Energy: " + EXPR )
 		},
 		{ "Scrap",
 		  null,
-		  Pattern.compile( "Scrap: " + EXPR)
+		  Pattern.compile( "Scrap: " + EXPR )
 		},
+		{ "Familiar Action Bonus",
+		  null,
+		  Pattern.compile( "Familiar Action Bonus: " + EXPR )
+		}
 	};
 
 	public static final int DOUBLE_MODIFIERS = Modifiers.doubleModifiers.length;
@@ -2052,6 +2057,9 @@ public class Modifiers
 				this.extras[ index ] += mod;
 			}
 			this.doubles[ index ] += mod;
+			break;
+		case FAMILIAR_ACTION_BONUS:
+			this.doubles[ index ] = Math.min( 100, this.doubles[ index ] + mod );
 			break;
 		default:
 			this.doubles[ index ] += mod;
@@ -3766,6 +3774,11 @@ public class Modifiers
 		if ( enchantment.contains( "Resistance" ) )
 		{
 			return Modifiers.parseResistance( enchantment );
+		}
+
+		if ( enchantment.contains( "Your familiar will always act in combat" ) )
+		{
+			return Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.FAMILIAR_ACTION_BONUS ) + ": +100";
 		}
 
 		return null;

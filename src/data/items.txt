@@ -10775,3 +10775,10 @@
 10747	marshmallow bomb	415111150	shot_f.gif	drink	t	0
 10748	packaged backup camera	139667233	backcamera_box.gif	usable	t	0
 10749	backup camera	703497599	backcamera.gif	accessory		0
+10750	shortest-order cook	335637482	shortcheflarva.gif	grow	t	0
+10751	blue plate	250886809	blueplate.gif	familiar	t,d	75
+10752	short beer	684929980	shortbeer.gif	potion, usable	t,d	5
+10753	short stack of pancakes	197467937	shortstack.gif	potion, usable	t,d	5
+10754	short stick of butter	227448885	shortbutter.gif	potion, usable	t,d	5
+10755	short glass of water	483223245	shortwater.gif	potion, usable	t,d	5
+10756	short white	121017591	shortcoffee.gif	potion, usable	t,d	5

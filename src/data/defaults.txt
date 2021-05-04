@@ -1877,6 +1877,7 @@ user	_setOfJacksUsed	false
 user	_sewingKitUsed	false
 user	_sexChanged	false
 user	_shatteringPunchUsed	0
+user	_shortOrderCookCharge	0
 user	_shrubCharge	0
 user	_shrubDecorated	false
 user	_silverDreadFlaskUsed	false

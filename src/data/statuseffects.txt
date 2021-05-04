@@ -2637,3 +2637,8 @@
 2635	9-Volt-Charged	ppbattery4.gif	cbc9d05db14b61807188116cf6b1039d	neutral	none	use 1 battery (9-Volt)
 2636	Lantern-Charged	ppbattery5.gif	0f13af62fe10c6f2fa4654d29f68eaa0	neutral	none	use 1 battery (lantern)
 2637	Car-Charged	ppbattery6.gif	a25be554ef73863a46f1e0068bd8c9a5	neutral	none	use 1 battery (car)
+2639	Shortly Drunk	shortbeer.gif	8ba1d9f9dfc1197ccf779d3afbce2888	neutral	none	use 1 short beer
+2640	Shortly Stacked	shortstack.gif	191d687c832bc3f3b476cc0a440e3ade	neutral	none	use 1 short stack of pancakes
+2641	Shortly Buttered	shortbutter.gif	f69d6c792ac3eece4dd49731b6bde325	neutral	none	use 1 short stick of butter
+2642	Shortly Hydrated	shortwater.gif	abdeeed35ff496c90ae65ff2bfcc98b1	neutral	none	use 1 short glass of water
+2643	Shortly Wired	shortcoffee.gif	2826fa9c758de1c2b80adb5994d9ded0	neutral	none	use 1 short white
