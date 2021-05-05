@@ -95,7 +95,7 @@ public class ScriptMenu
 			//  Convert the list into a menu
 			JMenu menu = new JMenu( name );
 
-			MenuScroller.setScrollerFor( menu );
+			MenuScroller.setScrollerFor( menu, 25 );
 
 			// Iterate through the files.  Do this in two
 			// passes to make sure that directories start

@@ -6,14 +6,11 @@ package darrylbu.util;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Menu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
@@ -24,6 +21,7 @@ import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.MenuKeyListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
@@ -451,6 +449,14 @@ public class MenuScroller {
                 dispose();
         }
 
+        private int getWidestItemWidth()
+        {
+                return Arrays.stream( menuItems )
+                                            .map( item -> item.getPreferredSize().width )
+                                            .max( Integer::compare )
+                                            .get();
+        }
+
         private void refreshMenu() {
                 if (menuItems != null && menuItems.length > 0) {
                         firstIndex = Math.max(topFixedCount, firstIndex);
@@ -479,6 +485,8 @@ public class MenuScroller {
                         for (int i = menuItems.length - bottomFixedCount; i < menuItems.length; i++) {
                                 menu.add(menuItems[i]);
                         }
+
+                        menu.setPreferredSize( new Dimension( getWidestItemWidth(), menu.getPreferredSize().height ) );
 
                         JComponent parent = (JComponent) upItem.getParent();
                         parent.revalidate();
@@ -515,11 +523,6 @@ public class MenuScroller {
                 private void setMenuItems() {
                         menuItems = menu.getComponents();
 
-                        if ( menuItems.length > 0 )
-                        {
-                                menu.setSize( this.widestItem(), menu.getHeight() );
-                        }
-
                         if (keepVisibleIndex >= topFixedCount
                                 && keepVisibleIndex <= menuItems.length - bottomFixedCount
                                 && (keepVisibleIndex > firstIndex + scrollCount
@@ -530,11 +533,6 @@ public class MenuScroller {
                         if (menuItems.length > topFixedCount + scrollCount + bottomFixedCount) {
                                 refreshMenu();
                         }
-                }
-
-                private Integer widestItem()
-                {
-                        return Arrays.stream( menuItems ).map( Component::getWidth ).max( Integer::compare ).get();
                 }
 
                 private void restoreMenuItems() {
