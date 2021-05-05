@@ -4584,6 +4584,7 @@ Throne	Rockin' Robin	Item Drop: +15, Drops Meat
 Throne	Rogue Program	Spell Damage Percent: +10
 Throne	Sabre-Toothed Lime	Moxie Percent: +15
 Throne	Scary Death Orb	Mysticality Percent: +15, MP Regen Min: 5, MP Regen Max: 6
+Throne	Shorter-Order Cook	Maximum HP: +20, Maximum MP: +20
 Throne	Sleazy Gravy Fairy	Sleaze Damage: +20, Drops Items
 Throne	Slimeling	Weapon Drop: +15
 Throne	Sludgepuppy	Stench Damage: +15
@@ -6799,7 +6800,7 @@ Effect	Shortly Drunk	Familiar Action Bonus: +100
 Effect	Shortly Hydrated	Experience (familiar): +5, Familiar Action Bonus: +100
 Effect	Shortly Stacked	Familiar Weight: +10, Familiar Action Bonus: +100
 # Effect Shortly Wired: Your familiar will act twice per round
-Effect	Shortly Wired	Familiar Weight: +10, Familiar Action Bonus: +100
+Effect	Shortly Wired	Familiar Action Bonus: +100
 Effect	Shot in the Arse	Muscle: +15, Mysticality: +15, Moxie: +15
 Effect	Shredding, Sweating	Weapon Damage Percent: +25
 Effect	Shrieking Weasel	Monster Level: +30
