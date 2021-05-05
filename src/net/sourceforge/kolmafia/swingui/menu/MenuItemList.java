@@ -84,7 +84,7 @@ public abstract class MenuItemList
 			this.headerCount = headers.length + 1;
 		}
 
-		MenuScroller.setScrollerFor( this, 15, 150, headerCount, 0 );
+		MenuScroller.setScrollerFor( this, 25, 150, headerCount, 0 );
 
 		// Now, add everything that's contained inside of
 		// the current list.
