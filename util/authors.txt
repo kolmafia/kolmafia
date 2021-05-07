@@ -8,6 +8,7 @@ heeheehee = heeheehee <heeheehee@users.sourceforge.net>
 innerdreams = gausie <innerdreams@users.sourceforge.net>
 kirchoffjosephp = Rinn <kirchoffjosephp@users.sourceforge.net>
 lostcalpolydude = lostcalpolydude <lostcalpolydude@users.sourceforge.net>
+madcarew = MCroft <madcarew@users.sourceforge.net>
 jaadams5 = fronobulax <jaadams5@users.sourceforge.net>
 jasonharper = jasonharper <jasonharper@users.sourceforge.net>
 pldw = pldw <pldw@users.sourceforge.net>
