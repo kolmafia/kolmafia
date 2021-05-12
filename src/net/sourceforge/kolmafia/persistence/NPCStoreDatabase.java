@@ -397,8 +397,9 @@ public class NPCStoreDatabase
 			case ItemPool.M282:
 			case ItemPool.SNAKE:
 			case ItemPool.SPARKLER:
-			case ItemPool.GREEN_ROCKET:
 				return holiday.contains( "Dependence Day" );
+			case ItemPool.GREEN_ROCKET:
+				return holiday.contains( "Dependence Day" ) && holiday.contains( "St. Sneaky Pete's Day" );
 			case ItemPool.FOAM_NOODLE:
 			case ItemPool.INFLATABLE_DUCK:
 			case ItemPool.WATER_WINGS:
