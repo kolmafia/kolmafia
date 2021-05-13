@@ -41,6 +41,7 @@ import java.util.TreeMap;
 import java.util.Set;
 import java.util.Stack;
 
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -549,7 +550,8 @@ public class SpecialOutfit
 	{
 		private final AdventureResult[] slots = new AdventureResult[ EquipmentManager.SLOTS ];
 
-		private boolean checking = false;
+		private boolean checking;
+		private Supplier<Boolean> checkingCallback = null;
 
 		public Checkpoint( boolean checking )
 		{
@@ -576,6 +578,22 @@ public class SpecialOutfit
 		public Checkpoint()
 		{
 			this( false );
+		}
+
+		public Checkpoint(  Supplier<Boolean> checkingCallback )
+		{
+			this();
+			this.checkingCallback = checkingCallback;
+		}
+
+		public boolean checking()
+		{
+			if ( checkingCallback != null )
+			{
+				return checkingCallback.get();
+			}
+
+			return checking;
 		}
 
 		public AdventureResult get( final int slot )
@@ -630,7 +648,7 @@ public class SpecialOutfit
 
 		public void close()
 		{
-			if ( !this.checking )
+			if ( !this.checking() )
 			{
 				// If this checkpoint has been closed, don't restore using it
 				if ( !this.known() )
