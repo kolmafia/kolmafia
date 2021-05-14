@@ -417,6 +417,10 @@ public class EquipmentManager
 
 		// Certain equipment slots require special update handling
 		// in addition to the above code.
+		if ( slot == FAMILIAR && KoLCharacter.currentFamiliar != null )
+		{
+			KoLCharacter.currentFamiliar.setItem( item );
+		}
 		EquipmentManager.checkFamiliar( slot );
 		GearChangeFrame.updateSlot( slot );
 
@@ -486,6 +490,7 @@ public class EquipmentManager
 					removed = pants.getItemId() != old.getItemId();
 					break;
 				}
+				break;
 			}
 			case EquipmentManager.ACCESSORY1:
 			{
@@ -1544,7 +1549,7 @@ public class EquipmentManager
 
 	public static final boolean familiarItemLocked()
 	{
-		return EquipmentManager.lockedFamiliarItem != EquipmentRequest.UNEQUIP;
+		return EquipmentManager.lockedFamiliarItem() != EquipmentRequest.UNEQUIP;
 	}
 
 	public static final void lockFamiliarItem()
