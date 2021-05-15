@@ -9752,8 +9752,8 @@
 9724	psychic's crystal ball	637526279	crystalball.gif	offhand		0
 9725	psychic's pslacks	299629436	bb_pants.gif	pants		0	psairs of psychic's pslacks
 9726	psychic's amulet	436054087	psychamulet.gif	accessory		0
-9727	heart-shaped candy whetstone	125701354	heartstone.gif	food	t,d	5
-9728	Swedish massage fish	530098641	fishy2.gif	food	t,d	5	Swedish massage fishes
+9727	heart-shaped candy whetstone	125701354	heartstone.gif	food, candy1	t,d	5
+9728	Swedish massage fish	530098641	fishy2.gif	food, candy1	t,d	5	Swedish massage fishes
 9729	Third Base	434274124	fruity.gif	drink	t,d	5
 9730	Bustle Hustler	443626477	8ballcocktail.gif	drink	t,d	5
 9731	Fabiotion	566108269	wbpotion.gif	potion, multiple	t,d	5
