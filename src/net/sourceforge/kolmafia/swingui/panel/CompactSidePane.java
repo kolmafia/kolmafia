@@ -35,10 +35,14 @@ package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -48,6 +52,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
@@ -114,7 +119,6 @@ public class CompactSidePane
 	private final JLabel[] consumptionValueLabel = new JLabel[ CONSUMPTION_LABELS ];
 	private final JPanel quantumFamiliarPanel;
 	private final FamiliarLabel familiarLabel;
-	private QuantumFamiliarLabel quantumFamiliarLabel = null;
 	private final int BONUS_LABELS = 10;
 	private final JLabel[] bonusLabel = new JLabel[ BONUS_LABELS ];
 	private final JLabel[] bonusValueLabel = new JLabel[ BONUS_LABELS ];
@@ -224,12 +228,7 @@ public class CompactSidePane
 
 		panels[ ++panelCount ] = new JPanel( new GridLayout( 2, 1 ) );
 		panels[ panelCount ].add( this.familiarLabel = new FamiliarLabel() );
-		panels[ panelCount ].addMouseListener( new FamPopListener() );
-
-		this.quantumFamiliarPanel = new JPanel( new FlowLayout() );
-		quantumFamiliarPanel.setOpaque( false );
-		quantumFamiliarPanel.setVisible( false );
-		panels[ panelCount ].add( quantumFamiliarPanel );
+		panels[ panelCount ].add( this.quantumFamiliarPanel = new QuantumFamiliarPanel() );
 
 		// Make a popup label for Sneaky Pete's motorcycle. Clicking on
 		// the motorcycle image (which replaces the familiar icon)
@@ -340,6 +339,7 @@ public class CompactSidePane
 			}
 
 			JPopupMenu famPopup = new JPopupMenu();
+
 			if ( KoLCharacter.inAxecore() )
 			{
 				this.addInstruments( famPopup );
@@ -389,6 +389,13 @@ public class CompactSidePane
 
 		private void addFamiliars( JPopupMenu famPopup )
 		{
+			famPopup.setLayout( new GridBagLayout() );
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.BOTH;
+			c.anchor = GridBagConstraints.CENTER;
+			c.insets = new Insets( 5, 0, 0, 0 );
+			c.weightx = 1;
+
 			JMenu stat = new JMenu( "stat gain" );
 			JMenu item = new JMenu( "item drop" );
 			JMenu meat = new JMenu( "meat drop" );
@@ -450,7 +457,13 @@ public class CompactSidePane
 
 				if ( fam.getFavorite() )
 				{
-					famPopup.add( new FamiliarMenuItem( fam ) );
+					if (++c.gridx >= 3 )
+					{
+						c.gridx = 0;
+						c.gridy++;
+					}
+
+					famPopup.add( new FamiliarMenuItem( fam ), c );
 					continue;
 				}
 
@@ -594,28 +607,33 @@ public class CompactSidePane
 				}
 			}
 
+			c.gridx = 0;
+			c.gridwidth = 3;
+
 			// Unless we have no familiar equipped, add "no familiar" at end of favorites
 			if ( KoLCharacter.currentFamiliar != FamiliarData.NO_FAMILIAR )
 			{
-				famPopup.add( new FamiliarMenuItem( FamiliarData.NO_FAMILIAR ) );
+				c.gridy++; famPopup.add( new FamiliarMenuItem( FamiliarData.NO_FAMILIAR ), c );
 			}
+
+			c.insets = new Insets( 0, 0, 0, 0 );
 
 			if ( stat.getMenuComponentCount() > 0 )
 			{
-				famPopup.add( stat );
+				c.gridy++; famPopup.add( stat, c );
 			}
 			if ( item.getMenuComponentCount() > 0 )
 			{
-				famPopup.add( item );
+				c.gridy++; famPopup.add( item, c );
 			}
 			if ( meat.getMenuComponentCount() > 0 )
 			{
-				famPopup.add( meat );
+				c.gridy++; famPopup.add( meat, c );
 			}
 
 			if ( drops.getMenuComponentCount() > 0 )
 			{
-				famPopup.add( drops );
+				c.gridy++; famPopup.add( drops, c );
 			}
 
 			if ( combat0.getMenuComponentCount() > 0 ||
@@ -672,7 +690,7 @@ public class CompactSidePane
 					combat.add( other0 );
 				}
 
-				famPopup.add( combat );
+				c.gridy++; famPopup.add( combat, c );
 			}
 
 			if ( hp1.getMenuComponentCount() > 0 ||
@@ -699,20 +717,20 @@ public class CompactSidePane
 					aftercombat.add( other1 );
 				}
 
-				famPopup.add( aftercombat );
+				c.gridy++; famPopup.add( aftercombat, c );
 			}
 
 			if ( passive.getMenuComponentCount() > 0 )
 			{
-				famPopup.add( passive );
+				c.gridy++; famPopup.add( passive, c );
 			}
 			if ( underwater.getMenuComponentCount() > 0 )
 			{
-				famPopup.add( underwater );
+				c.gridy++; famPopup.add( underwater, c );
 			}
 			if ( variable.getMenuComponentCount() > 0 )
 			{
-				famPopup.add( variable );
+				c.gridy++; famPopup.add( variable, c );
 			}
 
 			for ( int i = 0; i < 9; ++i )
@@ -721,13 +739,13 @@ public class CompactSidePane
 
 				if ( menu != null && menu.getMenuComponentCount() > 0 )
 				{
-					famPopup.add( menu );
+					c.gridy++; famPopup.add( menu, c );
 				}
 			}
 
 			if ( other.getMenuComponentCount() > 0 )
 			{
-				famPopup.add( other );
+				c.gridy++; famPopup.add( other, c );
 			}
 		}
 	}
@@ -743,6 +761,11 @@ public class CompactSidePane
 			{
 				ImageIcon icon = FamiliarDatabase.getFamiliarImage( fam.getId() );
 				this.setIcon( icon );
+				this.setText( "" );
+				this.setToolTipText( fam.getRace() );
+				Dimension size = new Dimension( icon.getIconWidth(), icon.getIconHeight() );
+				this.setPreferredSize( size );
+				this.setMinimumSize( size );
 				icon.setImageObserver( this );
 			}
 		}
@@ -1240,20 +1263,7 @@ public class CompactSidePane
 			this.familiarLabel.update();
 		}
 
-		if ( KoLCharacter.inQuantum() )
-		{
-			if ( this.quantumFamiliarLabel == null )
-			{
-				quantumFamiliarPanel.add( this.quantumFamiliarLabel = new QuantumFamiliarLabel() );
-			}
-
-			this.quantumFamiliarLabel.update();
-			quantumFamiliarPanel.setVisible( true );
-		}
-		else
-		{
-			quantumFamiliarPanel.setVisible( false );
-		}
+		quantumFamiliarPanel.setVisible( KoLCharacter.inQuantum() );
 	}
 
 	private class FamiliarLabel
@@ -1268,6 +1278,7 @@ public class CompactSidePane
 			//this.setForeground( Color.BLACK );
 			this.setVerticalTextPosition( JLabel.BOTTOM );
 			this.setHorizontalTextPosition( JLabel.CENTER );
+			this.addMouseListener( new FamPopListener() );
 
 			NamedListenerRegistry.registerNamedListener( "(familiar image)", this );
 		}
@@ -1332,6 +1343,34 @@ public class CompactSidePane
 			this.setText( "<HTML><center>" + weight +
 				      ( weight == 1 ? " lb." : " lbs." ) +
 				      ( anno == null ? "" : "<br>" + anno.toString() ) + "</center></HTML>" );
+		}
+	}
+
+	private class QuantumFamiliarPanel extends JPanel
+	{
+		QuantumFamiliarLabel quantumFamiliarLabel = null;
+
+		public QuantumFamiliarPanel()
+		{
+			super( new FlowLayout() );
+			this.setOpaque( false );
+			this.setVisible( false );
+		}
+
+		@Override
+		public void setVisible( final boolean visible )
+		{
+			super.setVisible( visible );
+
+			if ( visible )
+			{
+				if ( this.quantumFamiliarLabel == null )
+				{
+					quantumFamiliarPanel.add( this.quantumFamiliarLabel = new QuantumFamiliarLabel() );
+				}
+
+				this.quantumFamiliarLabel.update();
+			}
 		}
 	}
 
