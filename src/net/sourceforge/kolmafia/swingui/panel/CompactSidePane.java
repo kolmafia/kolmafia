@@ -395,6 +395,7 @@ public class CompactSidePane
 			c.anchor = GridBagConstraints.CENTER;
 			c.insets = new Insets( 5, 0, 0, 0 );
 			c.weightx = 1;
+			c.gridy = 0;
 
 			JMenu stat = new JMenu( "stat gain" );
 			JMenu item = new JMenu( "item drop" );
@@ -1331,6 +1332,7 @@ public class CompactSidePane
 
 			if ( id == -1 )
 			{
+				this.setToolTipText( "" );
 				this.setNoIcon();
 				return;
 			}
