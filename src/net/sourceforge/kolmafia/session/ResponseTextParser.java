@@ -118,6 +118,7 @@ import net.sourceforge.kolmafia.request.PandamoniumRequest;
 import net.sourceforge.kolmafia.request.PeeVPeeRequest;
 import net.sourceforge.kolmafia.request.PhineasRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
+import net.sourceforge.kolmafia.request.QuantumTerrariumRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RaffleRequest;
 import net.sourceforge.kolmafia.request.SeaMerkinRequest;
@@ -569,6 +570,11 @@ public class ResponseTextParser
 			{
 				FamiliarData.registerFamiliarData( responseText );
 			}
+		}
+
+		else if ( location.startsWith( "qterrarium.php" ) )
+		{
+			QuantumTerrariumRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "famteam.php" ) )

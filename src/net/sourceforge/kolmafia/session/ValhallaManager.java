@@ -491,6 +491,8 @@ public class ValhallaManager
 		Preferences.setInteger( "nextParanormalActivity", 1 );
 		Preferences.setString( "nextSpookyravenElizabethRoom", "The Haunted Storage Room" );
 		Preferences.setString( "nextSpookyravenStephenRoom", "The Haunted Bedroom" );
+		Preferences.setString( "nextQuantumFamiliar", "none" );
+		Preferences.setInteger( "nextQuantumFamiliarTurn", 0 );
 		Preferences.setInteger( "meansuckerPrice", 400 );
 		Preferences.setInteger( "mayflyExperience", 0 );
 		Preferences.setString( "trapperOre", "" );

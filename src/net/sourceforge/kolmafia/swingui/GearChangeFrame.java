@@ -508,7 +508,10 @@ public class GearChangeFrame
 
 			GearChangeFrame.this.famLockCheckbox = new FamLockCheckbox();
 			JPanel boxholder = new JPanel( new BorderLayout() );
-			boxholder.add( GearChangeFrame.this.famLockCheckbox );
+			if ( !KoLCharacter.inQuantum() )
+			{
+				boxholder.add( GearChangeFrame.this.famLockCheckbox );
+			}
 			rows.add( new VerifiableElement( "", boxholder ) );
 
 			rows.add( new VerifiableElement( "Outfit:", GearChangeFrame.this.outfitSelect ) );
@@ -1552,7 +1555,7 @@ public class GearChangeFrame
 		{
 			selectedFamiliar = currentFamiliar;
 		}
-		if ( KoLCharacter.inPokefam() )
+		if ( KoLCharacter.inPokefam() || KoLCharacter.inQuantum() )
 		{
 			this.familiarSelect.setEnabled( false );
 		}

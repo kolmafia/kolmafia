@@ -67,6 +67,11 @@ public class FamiliarCommand
 			return;
 		}
 
+		if ( KoLCharacter.inQuantum() )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "In Quantum Terrarium, familiar chooses you." );
+		}
+
 		if ( parameters.startsWith( "list" ) )
 		{
 			ShowDataCommand.show( "familiars " + parameters.substring( 4 ).trim() );

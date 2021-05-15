@@ -81,7 +81,7 @@ public class AscensionPath
 		GREY_GOO( "Grey Goo", 40, false, "greygooball", "a" ),
 		YOU_ROBOT( "You, Robot", 41, false, "yourobot", "a" ),
 		// Not yet implemented
-		PATH_42( "(Path 42)", 42, false, null, null ),
+		QUANTUM( "Quantum Terrarium", 42, false, "quantum", "a" ),
 		PATH_43( "(Path 43)", 43, false, null, null ),
 		// A "sign" rather than a "path" for some reason
 		BAD_MOON( "Bad Moon", 999, false, "badmoon", null ),

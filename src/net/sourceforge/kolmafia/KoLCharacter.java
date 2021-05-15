@@ -88,6 +88,7 @@ import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
+import net.sourceforge.kolmafia.request.QuantumTerrariumRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
@@ -2002,8 +2003,8 @@ public abstract class KoLCharacter
 	/**
 	 * Accessor method to set the character's current power points
 	 *
-	 * @param currentHP The character's current HP value
-	 * @param maximumHP The character's maximum HP value
+	 * @param currentPP The character's current PP value
+	 * @param maximumPP The character's maximum PP value
 	 */
 
 	public static final void setPP( final int currentPP, final int maximumPP )
@@ -3803,6 +3804,11 @@ public abstract class KoLCharacter
 			TurnCounter.stopCounting( "WoL Monster window begin" );
 			TurnCounter.stopCounting( "WoL Monster window end" );
 		}
+		else if ( oldPath == Path.QUANTUM )
+		{
+			TurnCounter.stopCounting( QuantumTerrariumRequest.FAMILIAR_COUNTER );
+			TurnCounter.stopCounting( QuantumTerrariumRequest.COOLDOWN_COUNTER );
+		}
 
 		// Available hermit items and clover numbers may have changed
 		// They depend on character class, so ex-avatars check after
@@ -4253,6 +4259,11 @@ public abstract class KoLCharacter
 	public static final boolean inRobocore()
 	{
 		return KoLCharacter.ascensionPath == Path.YOU_ROBOT;
+	}
+
+	public static final boolean inQuantum()
+	{
+		return KoLCharacter.ascensionPath == Path.QUANTUM;
 	}
 
 	public static final boolean isUnarmed()
@@ -5590,6 +5601,14 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.currentFamiliar.equals( familiar ) )
 		{
 			return;
+		}
+
+		// In Quantum Terrarium, when the next familiar comes up it keeps the previous familiar's item unless
+		// it cannot equip it, in which case it is returned to the player's inventory.
+		if ( KoLCharacter.inQuantum() )
+		{
+			FamiliarRequest.handleFamiliarChange( familiar );
+			EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
 		}
 
 		KoLCharacter.currentFamiliar = KoLCharacter.addFamiliar( familiar );

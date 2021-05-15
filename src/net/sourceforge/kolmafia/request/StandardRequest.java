@@ -123,6 +123,12 @@ public class StandardRequest
 		{
 			return false;
 		}
+
+		if ( KoLCharacter.inQuantum() && type.equals( "Familiars" ) )
+		{
+			return true;
+		}
+
 		if ( !KoLCharacter.getRestricted() )
 		{
 			return true;

@@ -116,6 +116,7 @@ import net.sourceforge.kolmafia.request.InternalChatRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.PeeVPeeRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
+import net.sourceforge.kolmafia.request.QuantumTerrariumRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
@@ -935,6 +936,10 @@ public abstract class KoLmafia
 		else if ( KoLCharacter.inPokefam() )
 		{
 			RequestThread.postRequest( new FamTeamRequest() );
+		}
+		else if ( KoLCharacter.inQuantum() )
+		{
+			RequestThread.postRequest( new QuantumTerrariumRequest() );
 		}
 		else if ( !KoLCharacter.inAxecore() && !KoLCharacter.isJarlsberg() && !KoLCharacter.isSneakyPete() &&
 			  !KoLCharacter.inBondcore() && !KoLCharacter.isVampyre() )

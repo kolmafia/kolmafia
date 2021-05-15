@@ -505,7 +505,8 @@ public class DrinkItemRequest
 			FamiliarData stooper = KoLCharacter.findFamiliar( FamiliarPool.STOOPER );
 			FamiliarData current = KoLCharacter.getFamiliar();
 			if ( stooper != null && ( current == null || stooper != current ) &&
-				!KoLCharacter.inPokefam() && 
+				!KoLCharacter.inPokefam() &&
+				!KoLCharacter.inQuantum() &&
 				!InputFieldUtilities.confirm( "Are you sure you want to overdrink before using Stooper?" ) )
 			{
 				return false;
