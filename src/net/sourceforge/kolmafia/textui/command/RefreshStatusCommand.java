@@ -42,7 +42,9 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
+import net.sourceforge.kolmafia.request.QuantumTerrariumRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 
@@ -100,7 +102,8 @@ public class RefreshStatusCommand
 		else if ( parameters.startsWith( "familiar" ) || parameters.equals( "terrarium" ) )
 		{
 			parameters = "familiars";
-			RequestThread.postRequest( new FamiliarRequest() );
+			GenericRequest request = KoLCharacter.inQuantum() ? new QuantumTerrariumRequest() : new FamiliarRequest();
+			RequestThread.postRequest( request );
 		}
 		else if ( parameters.equals( "quests" ) )
 		{

@@ -35,13 +35,16 @@ package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -109,7 +112,9 @@ public class CompactSidePane
 	private final int CONSUMPTION_LABELS = 3;
 	private final JLabel[] consumptionLabel = new JLabel[ CONSUMPTION_LABELS ];
 	private final JLabel[] consumptionValueLabel = new JLabel[ CONSUMPTION_LABELS ];
+	private final JPanel quantumFamiliarPanel;
 	private final FamiliarLabel familiarLabel;
+	private QuantumFamiliarLabel quantumFamiliarLabel = null;
 	private final int BONUS_LABELS = 10;
 	private final JLabel[] bonusLabel = new JLabel[ BONUS_LABELS ];
 	private final JLabel[] bonusValueLabel = new JLabel[ BONUS_LABELS ];
@@ -217,15 +222,21 @@ public class CompactSidePane
 		panels[ panelCount ].add( labelPanel, BorderLayout.WEST );
 		panels[ panelCount ].add( valuePanel, BorderLayout.CENTER );
 
-		panels[ ++panelCount ] = new JPanel( new GridLayout( 1, 1 ) );
+		panels[ ++panelCount ] = new JPanel( new GridLayout( 2, 1 ) );
 		panels[ panelCount ].add( this.familiarLabel = new FamiliarLabel() );
 		panels[ panelCount ].addMouseListener( new FamPopListener() );
+
+		this.quantumFamiliarPanel = new JPanel( new FlowLayout() );
+		quantumFamiliarPanel.setOpaque( false );
+		quantumFamiliarPanel.setVisible( false );
+		panels[ panelCount ].add( quantumFamiliarPanel );
 
 		// Make a popup label for Sneaky Pete's motorcycle. Clicking on
 		// the motorcycle image (which replaces the familiar icon)
 		// activates it.
 		this.motPopLabel = new JLabel();
 		this.motPopup = new JPopupMenu();
+
 		this.motPopup.insert( this.motPopLabel, 0 );
 
 		panels[ ++panelCount ] = new JPanel( new GridLayout( this.BONUS_LABELS , 2 ) );
@@ -337,7 +348,7 @@ public class CompactSidePane
 			{
 				this.addServants( famPopup );
 			}
-			else if ( !KoLCharacter.inPokefam() )
+			else if ( !KoLCharacter.inPokefam() && !KoLCharacter.inQuantum() )
 			{
 				this.addFamiliars( famPopup );
 			}
@@ -1228,6 +1239,21 @@ public class CompactSidePane
 		{
 			this.familiarLabel.update();
 		}
+
+		if ( KoLCharacter.inQuantum() )
+		{
+			if ( this.quantumFamiliarLabel == null )
+			{
+				quantumFamiliarPanel.add( this.quantumFamiliarLabel = new QuantumFamiliarLabel() );
+			}
+
+			this.quantumFamiliarLabel.update();
+			quantumFamiliarPanel.setVisible( true );
+		}
+		else
+		{
+			quantumFamiliarPanel.setVisible( false );
+		}
 	}
 
 	private class FamiliarLabel
@@ -1298,6 +1324,7 @@ public class CompactSidePane
 				return;
 			}
 
+			this.setToolTipText( effective.getRace() );
 			this.setIcon( KoLCharacter.getFamiliarImage() );
 
 			StringBuffer anno = CharPaneDecorator.getFamiliarAnnotation();
@@ -1305,6 +1332,36 @@ public class CompactSidePane
 			this.setText( "<HTML><center>" + weight +
 				      ( weight == 1 ? " lb." : " lbs." ) +
 				      ( anno == null ? "" : "<br>" + anno.toString() ) + "</center></HTML>" );
+		}
+	}
+
+	private class QuantumFamiliarLabel extends FamiliarLabel
+	{
+		public QuantumFamiliarLabel() {
+			this.setHorizontalTextPosition( JLabel.RIGHT );
+			this.setVerticalTextPosition( JLabel.CENTER );
+		}
+
+		@Override
+		public void update()
+		{
+			int turns = Preferences.getInteger( "nextQuantumFamiliarTurn" ) - KoLCharacter.getTurnsPlayed();
+
+			if ( turns == 0 )
+			{
+				this.setIcon( (Icon) null );
+				this.setText( "<html><center>checking...</center></html>");
+				return;
+			}
+
+			String nextFamiliarRace = Preferences.getString( "nextQuantumFamiliar" );
+			this.setToolTipText( nextFamiliarRace );
+
+			ImageIcon icon = FamiliarDatabase.getFamiliarImage( nextFamiliarRace );
+			ImageIcon scaled = new ImageIcon( icon.getImage().getScaledInstance( 20, 20, Image.SCALE_DEFAULT ) );
+			this.setIcon( scaled );
+
+			this.setText("<html><center>in " + turns + " turns</center></html>" );
 		}
 	}
 

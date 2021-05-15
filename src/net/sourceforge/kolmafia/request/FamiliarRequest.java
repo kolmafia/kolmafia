@@ -202,6 +202,12 @@ public class FamiliarRequest
 			return;
 		}
 
+		if ( KoLCharacter.inQuantum() )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Cannot make familiar requests in Quantum Terrarium." );
+			return;
+		}
+
 		if ( this.locking )
 		{
 			String verb = EquipmentManager.familiarItemLocked() ? "Unlocking" : "Locking";
@@ -405,8 +411,9 @@ public class FamiliarRequest
 		// Jarlsberg didn't trust any companion that he didn't summon himself.
 		// Familiars weren't cool enough for Pete.
 		// Ed already has more than enough servants.
+		// In Quantum Terrarium, familiar sets you.
 		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() || KoLCharacter.isEd() ||
-		     KoLCharacter.inBondcore() || KoLCharacter.isVampyre() )
+		     KoLCharacter.inBondcore() || KoLCharacter.isVampyre() || KoLCharacter.inQuantum() )
 		{
 			return;
 		}
@@ -438,6 +445,48 @@ public class FamiliarRequest
 			FamiliarData.registerFamiliarData( this.responseText );
 			KoLmafia.updateDisplay( "Familiar data retrieved." );
 		}
+	}
+
+	public static final boolean handleFamiliarChange( FamiliarData changeTo )
+	{
+		if ( changeTo == null  || !changeTo.canEquip() )
+		{
+			return false;
+		}
+
+		if ( changeTo.getId() == FamiliarPool.REANIMATOR )
+		{
+			// Visit chat to familiar page to get current parts
+			KoLmafia.updateDisplay( "Getting current parts information for " + changeTo.getName() + " the " + changeTo.getRace() + "." );
+			RequestThread.postRequest( new GenericRequest( "main.php?talktoreanimator=1" ) );
+		}
+
+		// Remove granted skills from the familiar we put back
+		FamiliarData changeFrom = KoLCharacter.getFamiliar();
+		EquipmentManager.removeConditionalSkills( EquipmentManager.FAMILIAR, changeFrom.getItem() );
+
+		// If we have a familiar item locked and the new familiar can
+		// equip it, it was automatically transferred.
+		AdventureResult lockedItem = KoLCharacter.inQuantum() ? EquipmentManager.getFamiliarItem() : EquipmentManager.lockedFamiliarItem();
+
+		if ( lockedItem != EquipmentRequest.UNEQUIP )
+		{
+			if ( changeTo.canEquip( lockedItem ) )
+			{
+				FamiliarRequest.unequipFamiliar( changeFrom );
+				FamiliarRequest.equipFamiliar( changeTo, lockedItem );
+				EquipmentManager.lockFamiliarItem( lockedItem );
+			}
+			else
+			{
+				EquipmentManager.lockFamiliarItem( false );
+			}
+		}
+
+		// Add granted skills from the familiar we took out
+		EquipmentManager.addConditionalSkills( EquipmentManager.FAMILIAR, changeTo.getItem() );
+
+		return true;
 	}
 
 	public static final boolean parseResponse( final String urlString, final String responseText )
@@ -481,46 +530,12 @@ public class FamiliarRequest
 				return false;
 			}
 
-			int newfam = FamiliarRequest.getNewFam( urlString );
+			FamiliarData changeTo = KoLCharacter.findFamiliar( FamiliarRequest.getNewFam( urlString ) );
 
-			FamiliarData changeTo = KoLCharacter.findFamiliar( newfam );
-			if ( changeTo == null  || !changeTo.canEquip() )
+			if ( !handleFamiliarChange( changeTo ) )
 			{
 				return false;
 			}
-
-			if ( changeTo.getId() == FamiliarPool.REANIMATOR )
-			{
-				// Visit chat to familiar page to get current parts
-				KoLmafia.updateDisplay( "Getting current parts information for " + changeTo.getName() + " the " + changeTo.getRace() + "." );
-				RequestThread.postRequest( new GenericRequest( "main.php?talktoreanimator=1" ) );
-			}
-
-			// Remove granted skills from the familiar we put back
-			FamiliarData changeFrom = KoLCharacter.getFamiliar();
-			EquipmentManager.removeConditionalSkills( EquipmentManager.FAMILIAR, changeFrom.getItem() );
-
-			// If we have a familiar item locked and the new familiar can
-			// equip it, it was automatically transferred.
-
-			AdventureResult lockedItem = EquipmentManager.lockedFamiliarItem();
-
-			if ( lockedItem != EquipmentRequest.UNEQUIP )
-			{
-				if ( changeTo.canEquip( lockedItem ) )
-				{
-					FamiliarRequest.unequipFamiliar( changeFrom );
-					FamiliarRequest.equipFamiliar( changeTo, lockedItem );
-					EquipmentManager.lockFamiliarItem( lockedItem );
-				}
-				else
-				{
-					EquipmentManager.lockFamiliarItem( false );
-				}
-			}
-
-			// Add granted skills from the familiar we took out
-			EquipmentManager.addConditionalSkills( EquipmentManager.FAMILIAR, changeTo.getItem() );
 
 			KoLCharacter.setFamiliar( changeTo );
 			EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );

@@ -956,6 +956,8 @@ user	nextAdventure
 user	nextParanormalActivity	0
 user	nextSpookyravenElizabethRoom	The Haunted Storage Room
 user	nextSpookyravenStephenRoom	The Haunted Bedroom
+user	nextQuantumFamiliar	none
+user	nextQuantumFamiliarTurn	0
 user	noobPoints	0
 user	noobDeferredPoints	0
 user	noodleSummons	0
@@ -1789,6 +1791,7 @@ user	_newYouQuestMonster
 user	_newYouQuestSharpensDone	0
 user	_newYouQuestSharpensToDo	0
 user	_newYouQuestSkill
+user	_nextQuantumAlignment	0
 user	_nightmareFuelCharges	0
 user	_noHatModifier
 user	_noobSkillCount	0

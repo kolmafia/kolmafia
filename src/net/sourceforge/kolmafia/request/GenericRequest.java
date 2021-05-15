@@ -1377,6 +1377,7 @@ public class GenericRequest
 			// special handling
 
 			QuestManager.handleQuestChange( this );
+			QuantumTerrariumRequest.checkCounter( this );
 		}
 
 		// Normal response?
