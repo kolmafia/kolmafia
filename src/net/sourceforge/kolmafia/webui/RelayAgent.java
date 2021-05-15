@@ -366,19 +366,29 @@ public class RelayAgent
 			return true;
 		}
 
-		if ( !referer.startsWith( "http://" ) )
+		// User could be reverse proxying relay browser over https
+		if ( !referer.startsWith( "http://" ) && !referer.startsWith( "https://" ) )
 		{
 			return false;
 		}
 
-		int endHostIndex = referer.indexOf( '/', 7 );
+		int startHostIndex = referer.indexOf("//");
+
+		if ( startHostIndex == -1 )
+		{
+			return false;
+		}
+
+		startHostIndex = startHostIndex + "//".length();
+		
+		int endHostIndex = referer.indexOf( '/', startHostIndex );
 
 		if ( endHostIndex == -1 )
 		{
 			endHostIndex = referer.length();
 		}
 
-		String refererHost = referer.substring( 7, endHostIndex );
+		String refererHost = referer.substring( startHostIndex, endHostIndex );
 
 		if ( validRefererHosts.contains( refererHost ) )
 		{
