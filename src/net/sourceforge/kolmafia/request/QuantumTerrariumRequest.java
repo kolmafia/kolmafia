@@ -60,7 +60,9 @@ public class QuantumTerrariumRequest
 	public static final String FAMILIAR_COUNTER = "Quantum Familiar";
 	public static final String COOLDOWN_COUNTER = "Q.F.I.D.M.A.";
 
-	private int force = 0;
+	private static int lastChecked = 0;
+
+	private int force;
 
 	public QuantumTerrariumRequest()
 	{
@@ -83,10 +85,15 @@ public class QuantumTerrariumRequest
 		}
 	}
 
-	public static final void checkCounter( GenericRequest request )
+	public static void checkCounter( GenericRequest request )
 	{
-		// Avoid getting into infinite loops
-		if ( request instanceof QuantumTerrariumRequest )
+		// No result, no check
+		if ( !request.hasResult() )
+		{
+			return;
+		}
+
+		if ( lastChecked >= KoLCharacter.getCurrentRun() )
 		{
 			return;
 		}
@@ -99,6 +106,7 @@ public class QuantumTerrariumRequest
 		if ( ( TurnCounter.getCounters( FAMILIAR_COUNTER, 0, 0 ).contains( FAMILIAR_COUNTER ) ) ||
 			!TurnCounter.isCounting( FAMILIAR_COUNTER ) )
 		{
+			lastChecked = KoLCharacter.getCurrentRun();
 			RequestThread.postRequest( INSTANCE );
 		}
 	}
@@ -131,11 +139,10 @@ public class QuantumTerrariumRequest
 		if ( !QuantumTerrariumRequest.parseResponse( this.getURLString(), this.responseText ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Quantum Terrarium request unsuccessful." );
-			return;
 		}
 	}
 
-	public static final boolean parseResponse( final String urlString, final String responseText )
+	public static boolean parseResponse( final String urlString, final String responseText )
 	{
 		if ( !urlString.startsWith( "qterrarium.php" ) )
 		{
@@ -183,7 +190,7 @@ public class QuantumTerrariumRequest
 		return true;
 	}
 
-	public static final boolean registerRequest( final String urlString )
+	public static boolean registerRequest( final String urlString )
 	{
 		return urlString.startsWith( "qterrarium.php" );
 	}
