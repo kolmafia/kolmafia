@@ -974,6 +974,7 @@ public class KoLmafiaCLI
 		new SkeeballCommand().register( "skeeball" );
 		new SkeletonCommand().register( "skeleton" );
 		new SlimeStackCommand().registerPlural( "slime-stack");
+		new SnapperCommand().register( "snapper" );
 		new SnowsuitCommand().register( "snowsuit" );
 		new SpacegateCommand().register( "spacegate" );
 		new SpeculateCommand().
