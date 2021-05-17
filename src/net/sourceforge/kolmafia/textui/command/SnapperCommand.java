@@ -88,7 +88,7 @@ public class SnapperCommand
 		}
 
 		RequestThread.postRequest( new GenericRequest( "familiar.php?action=guideme" ) );
-		RequestThread.postRequest( new GenericRequest( "choice.php?whichchoice=1396&option=1&cat=" + phylum.toString() ) );
+		RequestThread.postRequest( new GenericRequest( "choice.php?whichchoice=1396&option=1&cat=" + phylum.toToken() ) );
 		KoLmafia.updateDisplay( "Your Red-Nosed Snapper is now guiding you towards " + phylum.getPlural() );
 		KoLCharacter.updateStatus();
 	}
