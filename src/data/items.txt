@@ -10782,3 +10782,5 @@
 10754	short stick of butter	227448885	shortbutter.gif	potion, usable	t,d	5
 10755	short glass of water	483223245	shortwater.gif	potion, usable	t,d	5
 10756	short white	121017591	shortcoffee.gif	potion, usable	t,d	5
+10757	Thwaitgold quantum bug statuette	991007780	thwaitquantum.gif	none	0
+10758	quantum of familiar	808207216	confused.gif	none	0
