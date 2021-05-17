@@ -65,10 +65,6 @@ public class GrimCommand
 			KoLmafia.updateDisplay( "You already received a Grim Brother effect today" );
 			return;
 		}
-		if ( KoLCharacter.inQuantum() )
-		{
-			KoLmafia.updateDisplay( "Your Grim Brother is too quantized to give you a buff" );
-		}
 
 		int option = 0;
 		if ( parameters.startsWith( "init" ) || parameters.startsWith( "soles" ) )
