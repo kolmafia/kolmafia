@@ -61,10 +61,6 @@ public class SnapperCommand
 			KoLmafia.updateDisplay( "You need to take your Red-Nosed Snapper with you" );
 			return;
 		}
-		if ( KoLCharacter.inQuantum() )
-		{
-			KoLmafia.updateDisplay( "Your Red-Nosed Snapper is too quantized to guide you" );
-		}
 
 		parameter = parameter.trim();
 
