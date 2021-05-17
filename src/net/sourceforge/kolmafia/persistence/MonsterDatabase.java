@@ -197,6 +197,11 @@ public class MonsterDatabase
 			return this.name;
 		}
 
+		public String toToken()
+		{
+			return this.name.replace( "-", "" );
+		}
+
 		public String getImage()
 		{
 			return this.image;
