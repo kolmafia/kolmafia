@@ -221,7 +221,7 @@ public class MonsterDatabase
 		{
 			for ( Phylum phylum : Phylum.values() )
 			{
-				if ( name.equals( phylum.toString().replace( "-", "" ) ) ||
+				if ( name.replace( "-", "" ).equals( phylum.toString().replace( "-", "" ) ) ||
 						( checkPlurals && name.equals( phylum.getPlural() ) ) )
 				{
 					return phylum;
