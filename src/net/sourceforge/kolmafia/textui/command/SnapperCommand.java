@@ -70,14 +70,14 @@ public class SnapperCommand
 			return;
 		}
 
-		Phylum phylum = MonsterDatabase.phylumNumber( parameter );
+		Phylum phylum = Phylum.find( parameter );
 		if ( phylum == Phylum.NONE )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "What kind of random monster is a " + parameter + "?" );
 			return;
 		}
 
-		if ( phylum == MonsterDatabase.phylumNumber( Preferences.getString( "redSnapperPhylum" ) ) )
+		if ( phylum == Phylum.find( Preferences.getString( "redSnapperPhylum" ) ) )
 		{
 			KoLmafia.updateDisplay( "Your Red-Nosed Snapper is already hot on the tail of any " + phylum.toString() + " it can see" );
 			return;

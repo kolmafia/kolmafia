@@ -135,7 +135,7 @@ public class PlayCommand
 				return;
 			}
 
-			Phylum phylum = MonsterDatabase.phylumNumber( parameter );
+			Phylum phylum = Phylum.find( parameter );
 			if ( phylum == Phylum.NONE )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "What kind of random monster is a " + parameter + "?" );

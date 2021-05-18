@@ -216,6 +216,24 @@ public class MonsterDatabase
 		{
 			return this.plural;
 		}
+
+		public static final Phylum find( final String name, final boolean checkPlurals )
+		{
+			for ( Phylum phylum : Phylum.values() )
+			{
+				if ( name.equals( phylum.toString().replace( "-", "" ) ) ||
+						( checkPlurals && name.equals( phylum.getPlural() ) ) )
+				{
+					return phylum;
+				}
+			}
+			return Phylum.NONE;
+		}
+
+		public static final Phylum find( final String name )
+		{
+			return find( name, true );
+		}
 	}
 
 	public static final String[] ELEMENT_ARRAY = new String[ Element.values().length ];
@@ -244,30 +262,6 @@ public class MonsterDatabase
 			}
 		}
 		return Element.NONE;
-	}
-
-	public static final Phylum phylumNumber( final String name )
-	{
-		for ( Phylum phylum : Phylum.values() )
-		{
-			if ( name.equals( phylum.toString() ) )
-			{
-				return phylum;
-			}
-		}
-		return Phylum.NONE;
-	}
-
-	public static final String phylumFromPlural( final String plural )
-	{
-		for ( Phylum phylum : Phylum.values() )
-		{
-			if ( plural.equals( phylum.getPlural() ) )
-			{
-				return phylum.toString();
-			}
-		}
-		return "";
 	}
 
 	public static final boolean elementalVulnerability( final Element element1, final Element element2 )
