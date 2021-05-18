@@ -719,7 +719,7 @@ public class DataTypes
 			return DataTypes.PHYLUM_INIT;
 		}
 
-		Phylum phylum = MonsterDatabase.phylumNumber( name );
+		Phylum phylum = Phylum.find( name );
 		if ( phylum == Phylum.NONE )
 		{
 			return returnDefault ? DataTypes.PHYLUM_INIT : null;

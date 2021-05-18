@@ -86,6 +86,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -16018,9 +16019,9 @@ public abstract class ChoiceManager
 			Matcher matcher = ChoiceManager.RED_SNAPPER_PATTERN.matcher( text );
 			if ( matcher.find() )
 			{
-				String phylum = MonsterDatabase.phylumFromPlural( matcher.group( 1 ) );
+				Phylum phylum = Phylum.find( matcher.group( 1 ) );
 				int progress = StringUtilities.parseInt( matcher.group( 2 ) );
-				Preferences.setString( "redSnapperPhylum", phylum );
+				Preferences.setString( "redSnapperPhylum", phylum.toString() );
 				Preferences.setInteger( "redSnapperProgress", progress );
 			}
 			break;

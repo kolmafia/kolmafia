@@ -85,7 +85,7 @@ public class CombatEncounterKey
 		{
 			String phylumName = phylumMatcher.group( 1 );
 
-			this.phylum = MonsterDatabase.phylumNumber( phylumName );
+			this.phylum = Phylum.find( phylumName );
 		}
 
 		this.monsterName = phylumMatcher.replaceAll( "" ).trim();
