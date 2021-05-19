@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.swingui.menu;
 
 import java.io.File;
+import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.JComboBox;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -49,6 +50,7 @@ public class ScriptMRUList
 	protected boolean isInit;
 	private final String prefList;
 	private final String prefLen;
+	private static final String SEMICOLON = ";";
 
 	public ScriptMRUList( String pList, String pLen )
 	{
@@ -67,7 +69,7 @@ public class ScriptMRUList
 			if ( ( oldValues != null ) && ( !oldValues.equals( "" ) ) )
 			{
 				// First to last, delimited by semi-colon.  Split and insert.
-				String[] items = oldValues.split( ";" );
+				String[] items = oldValues.split( SEMICOLON );
 				for ( int i = ( items.length - 1 ); i >= 0; i-- )
 				{
 					mruList.addFirst( items[i] );
@@ -109,16 +111,15 @@ public class ScriptMRUList
 				mruList.removeLast();
 			}
 			// save the new list as a preference
-			Object[] mruArray = mruList.toArray();
+			Iterator<String> i8r = mruList.iterator();
 			StringBuilder pref = new StringBuilder();
-			pref.append( mruArray[0].toString() );
-			int count = mruList.size();
-			if ( count > 1 )
+			while (i8r.hasNext())
 			{
-				for ( int i = 1; i < count; i++ )
+				String val = i8r.next();
+				pref.append(val);
+				if (i8r.hasNext())
 				{
-					pref.append( ";" );
-					pref.append( mruArray[i].toString() );
+					pref.append(SEMICOLON);
 				}
 			}
 			// now save it
@@ -138,10 +139,13 @@ public class ScriptMRUList
 			return new File[ 0 ];
 		}
 		File [] result = new File [count];
-		Object[] mruArray = mruList.toArray();
-		for (int i = 0; i < count; i++)
+		Iterator<String> i8r = mruList.iterator();
+		int i = 0;
+		while (i8r.hasNext())
 		{
-			result[i] = new File( mruArray[i].toString() );
+			String val = i8r.next();
+			result[i] = new File( val );
+			i++;
 		}
 		return result;
 	}
@@ -156,10 +160,13 @@ public class ScriptMRUList
 		if ( count >= 1 )
 		{
 			jcb.removeAllItems();
-			Object[] mruArray = mruList.toArray();
-			for (int i = 0; i < count; i++)
+			Iterator<String> i8r = mruList.iterator();
+			int i = 0;
+			while (i8r.hasNext())
 			{
-				jcb.insertItemAt( mruArray[i], i);
+				String val = i8r.next();
+				jcb.insertItemAt(val, i);
+				i++;
 			}
 			jcb.setSelectedIndex( 0 );
 		}
