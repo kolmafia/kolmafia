@@ -37,8 +37,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
+import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
@@ -84,6 +86,25 @@ public class LibraryFunctionStub
 		return ashFunction.executeWithoutInterpreter( controller, ashArgsWithInterpreter.toArray() );
 	}
 
+	private final int findFunctionReference( Object[] args )
+	{
+		int index = -1;
+
+		switch ( ashFunctionName )
+		{
+		case "adventure":
+		case "adv1":
+			index = 2;
+			break;
+		case "run_combat":
+			index = 0;
+			break;
+		default: return index;
+		}
+
+		return ( args.length >= ( index + 1 ) && args[ index ] instanceof BaseFunction ) ? index : -1;
+	}
+
 	@Override
 	public Object call( Context cx, Scriptable scope, Scriptable thisObj, Object[] args )
 	{
@@ -102,6 +123,23 @@ public class LibraryFunctionStub
 			args[0] = new Value( DataTypes.BUFFER_TYPE, str, new StringBuffer( str ) );
 		}
 
-		return super.call( cx, scope, thisObj, args );
+		String temporaryName = null;
+		int functionReferenceArgIndex = findFunctionReference( args );
+		if ( functionReferenceArgIndex >= 0 )
+		{
+			BaseFunction callback = (BaseFunction) args[ functionReferenceArgIndex ];
+			temporaryName = callback.toString();
+			ScriptableObject.defineProperty( scope, temporaryName, callback, ScriptableObject.DONTENUM);
+			args[ functionReferenceArgIndex ] = temporaryName;
+		}
+
+		Object result = super.call( cx, scope, thisObj, args );
+
+		if ( temporaryName != null )
+		{
+			ScriptableObject.deleteProperty( scope, temporaryName );
+		}
+
+		return result;
 	}
 }
