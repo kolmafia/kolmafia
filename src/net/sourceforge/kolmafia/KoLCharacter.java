@@ -5567,6 +5567,12 @@ public abstract class KoLCharacter
 			return null;
 		}
 
+		// In Quantum Terrarium the player only has the familiar that is with them
+		if ( KoLCharacter.inQuantum() && KoLCharacter.currentFamiliar.getId() == familiarId )
+		{
+			return KoLCharacter.currentFamiliar;
+		}
+
 		FamiliarData[] familiarArray = new FamiliarData[ KoLCharacter.familiars.size() ];
 		KoLCharacter.familiars.toArray( familiarArray );
 
