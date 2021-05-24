@@ -4377,6 +4377,13 @@ public abstract class ChoiceManager
 		
 		// Choice 1334 is Boxing Daycare (Lobby)
 		// Choice 1335 is Boxing Day Spa
+		new ChoiceAdventure(
+			"Town", "choiceAdventure1335", "Boxing Day Spa",
+			new Object[]{ new Option( "gain 100 adv of +200% muscle and +15 ML" ),
+				       new Option( "gain 100 adv of +200% moxie and +50% init" ),
+				       new Option( "gain 100 adv of +200% myst and +25% item drop" ),
+				       new Option( "gain 100 adv of +100 max hp, +50 max mp, +25 dr, 5-10 mp regen, 10-20 hp regen" ),
+				       new Option( "skip" ) } ),
 		// Choice 1336 is Boxing Daycare
 
 		// Choice 1339 is A Little Pump and Grind
