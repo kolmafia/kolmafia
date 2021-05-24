@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.textui.javascript;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
@@ -86,7 +87,7 @@ public class LibraryFunctionStub
 		return ashFunction.executeWithoutInterpreter( controller, ashArgsWithInterpreter.toArray() );
 	}
 
-	private final int findFunctionReference( Object[] args )
+	private int findFunctionReference( Object[] args )
 	{
 		int index = -1;
 
@@ -123,23 +124,16 @@ public class LibraryFunctionStub
 			args[0] = new Value( DataTypes.BUFFER_TYPE, str, new StringBuffer( str ) );
 		}
 
-		String temporaryName = null;
+		// Named function references don't really make sense in JavaScript, so for any function that is supplied such,
+		// instead allow an actual
 		int functionReferenceArgIndex = findFunctionReference( args );
 		if ( functionReferenceArgIndex >= 0 )
 		{
 			BaseFunction callback = (BaseFunction) args[ functionReferenceArgIndex ];
-			temporaryName = callback.toString();
-			ScriptableObject.defineProperty( scope, temporaryName, callback, ScriptableObject.DONTENUM);
-			args[ functionReferenceArgIndex ] = temporaryName;
+			Macrofier.setJavaScriptMacroOverride( callback, scope, thisObj );
+			args[ functionReferenceArgIndex ] = "[" + callback.toString() + "]";
 		}
 
-		Object result = super.call( cx, scope, thisObj, args );
-
-		if ( temporaryName != null )
-		{
-			ScriptableObject.deleteProperty( scope, temporaryName );
-		}
-
-		return result;
+		return super.call( cx, scope, thisObj, args );
 	}
 }
