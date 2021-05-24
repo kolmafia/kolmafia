@@ -16134,7 +16134,8 @@ public abstract class ChoiceManager
 				Matcher alreadyMatcher = GUZZLR_QUEST_PATTERN.matcher( text );
 				if ( alreadyMatcher.find() )
 				{
-					Preferences.setString( "guzzlrQuestBooze", alreadyMatcher.group( 1 ) );
+					String booze = alreadyMatcher.group( 1 );
+					Preferences.setString( "guzzlrQuestBooze", booze.equals( "special personalized cocktail" ) ? "Guzzlr cocktail set" : booze );
 					Preferences.setString( "guzzlrQuestClient", alreadyMatcher.group( 2 ) );
 					Preferences.setString( "guzzlrQuestLocation", alreadyMatcher.group( 3 ) );
 				}
