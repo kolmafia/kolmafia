@@ -67,6 +67,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -243,42 +244,16 @@ public class JavascriptRuntime
 		}
 	}
 
-	private Value executeRun( final String functionName, final Object[] arguments, final boolean executeTopLevel )
+	public Value executeFunction( final Scriptable scope, final Supplier<Object> callback )
 	{
 		Context cx = Context.getCurrentContext();
-		Scriptable scope = currentTopScope;
-		Scriptable exports = null;
-
-		Object[] argumentsNonNull = arguments != null ? arguments : new Object[] {};
-		Object[] runArguments = Arrays.stream( argumentsNonNull ).map( o -> o instanceof MonsterData ? EnumeratedWrapper.wrap( scope, MonsterProxy.class, DataTypes.makeMonsterValue( (MonsterData) o ) ) : o ).toArray();
-
 		Object returnValue = null;
 
 		boolean stackOnAbort = Preferences.getBoolean("printStackOnAbort");
 
 		try
 		{
-			if ( executeTopLevel )
-			{
-				Require require = new SafeRequire( cx, scope, currentStdLib );
-				if ( scriptFile != null )
-				{
-					exports = require.requireMain( cx, scriptFile.toURI().toString() );
-				}
-				else
-				{
-					require.install( scope );
-					returnValue = cx.evaluateString( scope, scriptString, "command line", 1, null );
-				}
-			}
-			if ( functionName != null )
-			{
-				Object mainFunction = ScriptableObject.getProperty( exports != null ? exports : scope, functionName );
-				if ( mainFunction instanceof Function )
-				{
-					returnValue = ((Function) mainFunction).call( cx, scope, cx.newObject( scope ), runArguments );
-				}
-			}
+			returnValue = callback.get();
 		}
 		catch ( WrappedException e )
 		{
@@ -299,19 +274,19 @@ public class JavascriptRuntime
 		catch ( EvaluatorException e )
 		{
 			String escapedMessage =
-				escapeHtmlInMessage( "JavaScript evaluator exception: " + e.getMessage() + "\n" + e.getScriptStackTrace() );
+					escapeHtmlInMessage( "JavaScript evaluator exception: " + e.getMessage() + "\n" + e.getScriptStackTrace() );
 			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, escapedMessage );
 		}
 		catch ( EcmaError e )
 		{
 			String escapedMessage =
-				escapeHtmlInMessage( "JavaScript error: " + e.getErrorMessage() + "\n" + e.getScriptStackTrace() );
+					escapeHtmlInMessage( "JavaScript error: " + e.getErrorMessage() + "\n" + e.getScriptStackTrace() );
 			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, escapedMessage );
 		}
 		catch ( JavaScriptException e )
 		{
 			String escapedMessage =
-				escapeHtmlInMessage( "JavaScript exception: " + e.getMessage() + "\n" + e.getScriptStackTrace() );
+					escapeHtmlInMessage( "JavaScript exception: " + e.getMessage() + "\n" + e.getScriptStackTrace() );
 			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, escapedMessage );
 		}
 		catch ( ScriptException e )
@@ -325,6 +300,42 @@ public class JavascriptRuntime
 		}
 
 		return new ValueConverter( cx, scope ).fromJava( returnValue );
+	}
+
+	private Value executeRun( final String functionName, final Object[] arguments, final boolean executeTopLevel )
+	{
+		Context cx = Context.getCurrentContext();
+		Scriptable scope = currentTopScope;
+		Object[] argumentsNonNull = arguments != null ? arguments : new Object[] {};
+		Object[] runArguments = Arrays.stream( argumentsNonNull ).map( o -> o instanceof MonsterData ? EnumeratedWrapper.wrap( scope, MonsterProxy.class, DataTypes.makeMonsterValue( (MonsterData) o ) ) : o ).toArray();
+
+		return executeFunction(scope, () -> {
+			Scriptable exports = null;
+
+			if ( executeTopLevel )
+			{
+				Require require = new SafeRequire( cx, scope, currentStdLib );
+				if ( scriptFile != null )
+				{
+					exports = require.requireMain( cx, scriptFile.toURI().toString() );
+				}
+				else
+				{
+					require.install( scope );
+					return cx.evaluateString( scope, scriptString, "command line", 1, null );
+				}
+			}
+			if ( functionName != null )
+			{
+				Object mainFunction = ScriptableObject.getProperty( exports != null ? exports : scope, functionName );
+				if ( mainFunction instanceof Function )
+				{
+					return ((Function) mainFunction).call( cx, scope, cx.newObject( currentTopScope ), runArguments );
+				}
+			}
+
+			return null;
+		});
 	}
 
 	public static void interruptAll()

@@ -63,16 +63,23 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
+import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
+import org.mozilla.javascript.BaseFunction;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
 
 public class Macrofier
 {
 	private static String macroOverride = null;
 	private static ScriptRuntime macroInterpreter = null;
+	private static BaseFunction macroFunction = null;
+	private static Scriptable macroScope = null;
+	private static Scriptable macroThisArg = null;
 
 	private static final Pattern ALLCALLS_PATTERN = Pattern.compile( "call (\\w+)" );
 	private static final Pattern ALLSUBS_PATTERN = Pattern.compile( "sub (\\w+)([\\s;\\n]+endsub)?" );
@@ -81,6 +88,9 @@ public class Macrofier
 	{
 		Macrofier.macroOverride = null;
 		Macrofier.macroInterpreter = null;
+		Macrofier.macroFunction = null;
+		Macrofier.macroScope = null;
+		Macrofier.macroThisArg = null;
 	}
 
 	public static void setMacroOverride( String macroOverride, ScriptRuntime interpreter )
@@ -100,6 +110,13 @@ public class Macrofier
 			Macrofier.macroOverride = macroOverride;
 			Macrofier.macroInterpreter = interpreter;
 		}
+	}
+
+	public static void setJavaScriptMacroOverride( BaseFunction function, Scriptable scope, Scriptable thisArg )
+	{
+		Macrofier.macroFunction = function;
+		Macrofier.macroScope = scope;
+		Macrofier.macroThisArg = thisArg;
 	}
 
 	public static boolean usingCombatFilter()
@@ -150,14 +167,28 @@ public class Macrofier
 		if ( Macrofier.macroInterpreter != null )
 		{
 			Object[] parameters = new Object[ 3 ];
-			parameters[ 0 ] = Integer.valueOf( FightRequest.getRoundIndex() );
+			parameters[ 0 ] = FightRequest.getRoundIndex();
 			parameters[ 1 ] = monster;
 			parameters[ 2 ] = FightRequest.lastResponseText;
 
-			// Execute a single function in the scope of the
-			// currently executing file.  Do not re-execute
-			// top-level code in that file.
-			Value returnValue = Macrofier.macroInterpreter.execute( macroOverride, parameters, false );
+			Value returnValue;
+
+			if ( Macrofier.macroInterpreter instanceof JavascriptRuntime )
+			{
+				// Execute a function from the JavaScript runtime maintaining the scope, thisObj etc
+				JavascriptRuntime interpreter = ( JavascriptRuntime ) Macrofier.macroInterpreter;
+				returnValue = interpreter.executeFunction( macroScope, () -> {
+					Context cx = Context.getCurrentContext();
+					return macroFunction.call( cx, macroScope, macroThisArg, parameters );
+				} );
+			}
+			else
+			{
+				// Execute a single function in the scope of the
+				// currently executing file.  Do not re-execute
+				// top-level code in that file.
+				returnValue = Macrofier.macroInterpreter.execute( macroOverride, parameters, false );
+			}
 
 			if ( KoLmafia.refusesContinue() )
 			{
