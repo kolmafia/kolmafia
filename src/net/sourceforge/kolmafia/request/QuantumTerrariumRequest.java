@@ -41,7 +41,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -99,6 +98,11 @@ public class QuantumTerrariumRequest
 		}
 
 		if ( !KoLCharacter.inQuantum() )
+		{
+			return;
+		}
+
+		if ( KoLCharacter.inFightOrChoice() )
 		{
 			return;
 		}

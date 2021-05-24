@@ -98,6 +98,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BatManager;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
@@ -3983,6 +3984,11 @@ public abstract class KoLCharacter
 	public static final boolean getRestricted()
 	{
 		return KoLCharacter.restricted;
+	}
+
+	public static final boolean inFightOrChoice()
+	{
+		return ChoiceManager.handlingChoice || FightRequest.currentRound != 0 || FightRequest.inMultiFight || FightRequest.choiceFollowsFight;
 	}
 
 	/**
