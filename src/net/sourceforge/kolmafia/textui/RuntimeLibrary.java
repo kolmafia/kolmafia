@@ -655,6 +655,12 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.LOCATION_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "adv1", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.LOCATION_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "adv1", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.LOCATION_TYPE };
+		functions.add( new LibraryFunction( "adv1", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "get_ccs_action", DataTypes.STRING_TYPE, params ) );
 
@@ -3716,6 +3722,16 @@ public abstract class RuntimeLibrary
 		}
 
 		return RuntimeLibrary.continueValue();
+	}
+
+	public static Value adv1( ScriptRuntime controller, final Value locationValue )
+	{
+		return adv1( controller, locationValue, new Value( -1 ), new Value( "" ) );
+	}
+
+	public static Value adv1( ScriptRuntime controller, final Value locationValue, final Value adventuresUsedValue )
+	{
+		return adv1( controller, locationValue, adventuresUsedValue, new Value( "" ) );
 	}
 
 	public static Value adv1( ScriptRuntime controller, final Value locationValue, final Value adventuresUsedValue, final Value filterFunction )
