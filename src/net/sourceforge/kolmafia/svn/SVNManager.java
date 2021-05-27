@@ -1682,7 +1682,23 @@ public class SVNManager
 			List<File> matches = KoLmafiaCLI.findScriptFile( rebase.getName() );
 
 			if ( matches.size() == 1 )
-				return matches.get( 0 );
+			{
+				//findScriptFile matches on filename, regardless of directory and
+				//regardless of the file type.  In this particular instance what is
+				//needed is whether a file already exists - same directory and same
+				//name - because upstream code is prepared to overwrite the match, which
+				//can be the wrong thing.  This only returns a match if it is same file
+				//in the filesystem.
+				File matched = matches.get(0);
+				if (matched.compareTo(rebase) != 0)
+				{
+					return null;
+				}
+				else
+				{
+					return matched;
+				}
+			}
 
 			if ( matches.size() > 1 )
 				return null;
