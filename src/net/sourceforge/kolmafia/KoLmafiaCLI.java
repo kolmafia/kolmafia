@@ -1111,7 +1111,14 @@ public class KoLmafiaCLI
 
 		if ( absoluteFile.isAbsolute() )
 		{
-			if ( absoluteFile.exists() && !absoluteFile.isDirectory() )
+			//if it really is supposed to be an accessible script file then it needs to be
+			//in /relay or /scripts or /planting.  Only return a match if it is in one of the right
+			//places.
+			boolean allowed = absoluteFile.exists() && !absoluteFile.isDirectory();
+			boolean okPath = absoluteFile.getPath().startsWith( KoLConstants.PLOTS_LOCATION.getPath()) ||
+							absoluteFile.getPath().startsWith( KoLConstants.SCRIPT_LOCATION.getPath()) ||
+							absoluteFile.getPath().startsWith( KoLConstants.RELAY_LOCATION.getPath()) ;
+			if ( allowed && okPath )
 				matches.add( absoluteFile );
 
 			return matches;
