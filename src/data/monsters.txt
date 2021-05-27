@@ -1993,11 +1993,11 @@ Red Roger	2134	pr_redroger.gif	Atk: 100 Def: 100 HP: 500 Init: -10000 P: constru
 Glass Jack Hummel	2135	pr_glassjack.gif	Atk: 100 Def: 100 HP: 200 Init: 50 P: construct
 
 # Cargo Cultist Shorts (Sep 2020)
-Astrologer of Shub-Jigguwatt	2200	ccs_astrologer.gif	Scale: 15 E: sleaze Init: -10000 P: constellation	star chart (n100)	star (n30)	star (n30)	line (n30)	line (n30)
-Burning Daughter	2196	ccs_daughter.gif	Scale: 15 E: hot Init: -10000 P: elemental	fire (n100)	fire (n100)	flame orb (n100)
-Chosen of Yog-Urt	2199	ccs_disciple.gif	Scale: 15 E: stench Init: -10000 P: horror	bowl of cottage cheese (n100)	bowl of cottage cheese (n100)	bowl of cottage cheese (n25)	bowl of cottage cheese (n10)	bowl of cottage cheese (n5)	glass of goat's milk (n100)	glass of goat's milk (n100)	milk of magnesium (n10)	Hatorade (n20)
-Herald of Fridgr	2197	ccs_herald.gif	Scale: 15 E: cold Init: -10000 P: dude	cold wad (n100)	cold nuggets (n100)	cold nuggets (n100)	cold powder (n25)	cold powder (n25)	cold powder (n25)	cold powder (n25)
-Tentacle of Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl	2198	ccs_tentacle.gif	Scale: 15 E: spooky Init: -10000 P: horror	eldritch effluvium (20)	eldritch effluvium (10)	eldritch effluvium (1)
+Astrologer of Shub-Jigguwatt	2200	ccs_astrologer.gif	Scale: 15 E: sleaze Init: -10000 P: constellation NOCOPY	star chart (n100)	star (n30)	star (n30)	line (n30)	line (n30)
+Burning Daughter	2196	ccs_daughter.gif	Scale: 15 E: hot Init: -10000 P: elemental NOCOPY	fire (n100)	fire (n100)	flame orb (n100)
+Chosen of Yog-Urt	2199	ccs_disciple.gif	Scale: 15 E: stench Init: -10000 P: horror NOCOPY	bowl of cottage cheese (n100)	bowl of cottage cheese (n100)	bowl of cottage cheese (n25)	bowl of cottage cheese (n10)	bowl of cottage cheese (n5)	glass of goat's milk (n100)	glass of goat's milk (n100)	milk of magnesium (n10)	Hatorade (n20)
+Herald of Fridgr	2197	ccs_herald.gif	Scale: 15 E: cold Init: -10000 P: dude NOCOPY	cold wad (n100)	cold nuggets (n100)	cold nuggets (n100)	cold powder (n25)	cold powder (n25)	cold powder (n25)	cold powder (n25)
+Tentacle of Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl	2198	ccs_tentacle.gif	Scale: 15 E: spooky Init: -10000 P: horror NOCOPY	eldritch effluvium (20)	eldritch effluvium (10)	eldritch effluvium (1)
 
 # KoL Con
 
