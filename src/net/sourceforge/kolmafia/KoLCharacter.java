@@ -6667,6 +6667,7 @@ public abstract class KoLCharacter
 				{
 					switch ( i )
 					{
+					case Modifiers.SLIME_HATES_IT:
 					case Modifiers.SURGEONOSITY:
 						continue;
 					}
