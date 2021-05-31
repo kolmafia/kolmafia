@@ -387,6 +387,8 @@ public class Parser
 			return scope;
 		}
 
+		this.imports.put( scriptFile, scriptFile.lastModified() );
+
 		Scope result = scope;
 		Parser parser = null;
 
@@ -406,8 +408,6 @@ public class Parser
 				parser.disconnect();
 			}
 		}
-
-		this.imports.put( scriptFile, scriptFile.lastModified() );
 
 		if ( parser.mainMethod != null )
 		{	// Make imported script's main() available under a different name
