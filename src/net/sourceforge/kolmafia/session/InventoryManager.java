@@ -660,8 +660,8 @@ public abstract class InventoryManager
 
 		// Don't waste time checking familiars and equipment for
 		// restricted items or non-equipment.
-
-		if ( !isRestricted && ItemDatabase.isEquipment( itemId ) )
+		// In QT, we'll just unequip it in the next code block
+		if ( !isRestricted && ItemDatabase.isEquipment( itemId ) && !KoLCharacter.inQuantum() )
 		{
 			for ( FamiliarData current: KoLCharacter.getFamiliarList() )
 			{
