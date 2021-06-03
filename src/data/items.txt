@@ -10783,4 +10783,6 @@
 10755	short glass of water	483223245	shortwater.gif	potion, usable	t,d	5
 10756	short white	121017591	shortcoffee.gif	potion, usable	t,d	5
 10757	Thwaitgold quantum bug statuette	991007780	thwaitquantum.gif	none		0
-10758	quantum of familiar	808207216	confused.gif	none	0	quanta of familiar
+10758	quantum of familiar	808207216	confused.gif	none		0	quanta of familiar
+10759	familiar scrapbook	463063785	fambook.gif	offhand		0
+10760	packaged familiar scrapbook	798080199	fambook_blank.gif	usable	t	0

@@ -522,6 +522,9 @@ public class ResponseTextParser
 				case ItemPool.COAT_OF_PAINT:
 					ItemDatabase.parseCoatOfPaint( responseText );
 					break;
+				case ItemPool.FAMILIAR_SCRAPBOOK:
+					ItemDatabase.parseFamiliarScrapbook( responseText );
+					break;
 				default:
 					changesFromTimeToTime = false;
 					break;

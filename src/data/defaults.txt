@@ -1175,6 +1175,7 @@ user	sausageGrinderUnits	0
 user	schoolOfHardKnocksDiplomaAvailable	true
 user	schoolOfHardKnocksDiplomaCost	1000
 user	schoolSwagger	0
+user	scrapbookCharges	0
 user	screencappedMonster	
 user	scriptMRULength	0
 user	scriptMRUList
