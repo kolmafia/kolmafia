@@ -52,8 +52,8 @@ public class QuantumTerrariumRequest
 {
 	public static final QuantumTerrariumRequest INSTANCE = new QuantumTerrariumRequest();
 
-	private static final Pattern CURRENT_FAM_PATTERN = Pattern.compile( "Your Current Familiar.*?img onClick='fam\\((\\d+)\\)" );
-	private static final Pattern NEXT_FAM_PATTERN = Pattern.compile( "Your Familiar in <b>(\\d+)</b> Adventures.*?img onClick='fam\\((\\d+)\\)" );
+	private static final Pattern CURRENT_FAM_PATTERN = Pattern.compile( "Your Current Familiar.*? onClick='fam\\((\\d+)\\)'" );
+	private static final Pattern NEXT_FAM_PATTERN = Pattern.compile( "Your Familiar in <b>(\\d+)</b> Adventures.*? onClick='fam\\((\\d+)\\)'" );
 	private static final Pattern REALIGNMENT_COOLDOWN_PATTERN = Pattern.compile( "You will be able to align the quanta again in <b>(\\d+) adventures.</b>" );
 
 	public static final String FAMILIAR_COUNTER = "Quantum Familiar";
