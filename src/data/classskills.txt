@@ -905,6 +905,7 @@
 7379	Shoot Grease	greasebolt.gif	5	0	0
 7380	Shocking Lick	tonguewalrus.gif	5	0	0
 7381	Back-Up to your Last Enemy	backupcamera.gif	5	0	0
+7382	Show your boring familiar pictures	dogphoto.gif	5	0	0
 
 
 # Skills granted by books on your Mystical Bookshelf

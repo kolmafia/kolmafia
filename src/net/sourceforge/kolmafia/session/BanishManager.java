@@ -116,6 +116,7 @@ public class BanishManager
 	{
 		new Banisher( "Be a Mind Master", 80, 1, true, Reset.TURN_RESET ),
 		new Banisher( "Feel Hatred", 50, 1, true, Reset.TURN_ROLLOVER_RESET),
+		new Banisher( "Show your boring familiar pictures", -1, 1, true, Reset.ROLLOVER_RESET ),
 		new Banisher( "KGB tranquilizer dart", 20, 1, true, Reset.TURN_ROLLOVER_RESET ),
 		new Banisher( "Reflex Hammer", 30, 1, true, Reset.TURN_ROLLOVER_RESET ),
 		new Banisher( "Saber Force", 30, 1, true, Reset.TURN_ROLLOVER_RESET ),

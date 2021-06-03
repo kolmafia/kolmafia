@@ -276,17 +276,17 @@ public class FightRequest
 	private static final Pattern TIMEPRANK_PATTERN =
 		Pattern.compile( "A figure steps out from behind this morning and says, &quot;(.*?)&quot;" );
 
-	private static final Pattern NANORHINO_CHARGE1_PATTERN = 
+	private static final Pattern NANORHINO_CHARGE1_PATTERN =
 		Pattern.compile( "(\\d+)% charge" );
-	private static final Pattern NANORHINO_CHARGE2_PATTERN = 
+	private static final Pattern NANORHINO_CHARGE2_PATTERN =
 		Pattern.compile( "charge to (\\d+)%" );
-	private static final Pattern NANORHINO_BUFF_PATTERN = 
+	private static final Pattern NANORHINO_BUFF_PATTERN =
 		Pattern.compile( "title=\\\"Nano(?:brawny|brainy|ballsy)\\\"");
 
 	private static final Pattern SHORT_ORDER_EXP_PATTERN =
 		Pattern.compile( "and tosses a plate of food to (.*?), who gains ([0-9,]+) exp!" );
 
-	private static final Pattern RED_BUTTON_PATTERN = 
+	private static final Pattern RED_BUTTON_PATTERN =
 		Pattern.compile( "manage to find and recover all but (\\d+) of the buttons" );
 
 	private static final Pattern PROSELYTIZATION_PATTERN =
@@ -298,36 +298,36 @@ public class FightRequest
 	private static final Pattern SOURCE_INTERVAL_PATTERN =
 		Pattern.compile( "var matrix_speed = (\\d+);" );
 
-	private static final Pattern DECEASED_TREE_PATTERN = 
+	private static final Pattern DECEASED_TREE_PATTERN =
 		Pattern.compile( "Your crimbo tree has (\\d+) needle" );
 
-	private static final Pattern BROKEN_CHAMPAGNE_PATTERN = 
+	private static final Pattern BROKEN_CHAMPAGNE_PATTERN =
 		Pattern.compile( "going wild with the (\\d+)" );
 
-	private static final Pattern GARBAGE_SHIRT_PATTERN = 
+	private static final Pattern GARBAGE_SHIRT_PATTERN =
 		Pattern.compile( " (\\d+) more useful scrap" );
 
-	private static final Pattern SHARPEN_SAW_PATTERN = 
+	private static final Pattern SHARPEN_SAW_PATTERN =
 		Pattern.compile( "You're really sharpening the old saw.  Looks like you've done (\\d+) out of (\\d+)!" );
 
-	private static final Pattern MASK_SWAP_PATTERN = 
+	private static final Pattern MASK_SWAP_PATTERN =
 		Pattern.compile( "swap your mask for the monster's (.*?)<script>" );
 
-	private static final Pattern BONERDAGON_BLOCK_PATTERN = 
+	private static final Pattern BONERDAGON_BLOCK_PATTERN =
 		Pattern.compile( "pulling the (.*?) out of your pocket" );
 
-	private static final Pattern NS1_BLOCK1_PATTERN = 
+	private static final Pattern NS1_BLOCK1_PATTERN =
 		Pattern.compile( "you pull the (.*?) out of your pocket" );
-	private static final Pattern NS1_BLOCK2_PATTERN = 
+	private static final Pattern NS1_BLOCK2_PATTERN =
 		Pattern.compile( "start to use the (.*?), but the Sorceress" );
-	private static final Pattern NS1_BLOCK3_PATTERN = 
+	private static final Pattern NS1_BLOCK3_PATTERN =
 		Pattern.compile( "grabs the (.*?) out of your hands" );
 
-	private static final Pattern NS2_BLOCK1_PATTERN = 
+	private static final Pattern NS2_BLOCK1_PATTERN =
 		Pattern.compile( "tears the (.*?) out of your hands" );
-	private static final Pattern NS2_BLOCK2_PATTERN = 
+	private static final Pattern NS2_BLOCK2_PATTERN =
 		Pattern.compile( "the (.*?) is shattered" );
-	private static final Pattern NS2_BLOCK3_PATTERN = 
+	private static final Pattern NS2_BLOCK3_PATTERN =
 		Pattern.compile( "use the (.*?), a nasty-looking pseudopod" );
 
 	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
@@ -510,7 +510,7 @@ public class FightRequest
 		{
 			this.name = name;
 		}
-		
+
 		@Override
 		public String toString()
 		{
@@ -860,7 +860,7 @@ public class FightRequest
 			 AdventureDatabase.getAreaCombatData( "The Poop Deck" ).hasMonster( monster ) ||
 			 AdventureDatabase.getAreaCombatData( "Belowdecks" ).hasMonster( monster ) );
 	}
-	
+
 	public static final boolean canPirateInsult()
 	{
 		return ( InventoryManager.getCount( ItemPool.get( ItemPool.PIRATE_INSULT_BOOK, 1 ) ) > 0 ||
@@ -869,21 +869,21 @@ public class FightRequest
 			FightRequest.insultedPirate == false &&
 			FightRequest.isPirate();
 	}
-	
+
 	public static final boolean canJamFlyer()
 	{
 		return KoLConstants.inventory.contains( ItemPool.get( ItemPool.JAM_BAND_FLYERS, 1 ) )
 			&& Preferences.getInteger( "flyeredML" ) < 10000 && usedFlyer == false && !IslandManager.isBattlefieldMonster()
 			&& !QuestDatabase.isQuestFinished( QuestDatabase.Quest.ISLAND_WAR ) && !KoLCharacter.inGLover();
 	}
-	
+
 	public static final boolean canRockFlyer()
 	{
 		return KoLConstants.inventory.contains( ItemPool.get( ItemPool.ROCK_BAND_FLYERS, 1 ) )
 			&& Preferences.getInteger( "flyeredML" ) < 10000 && usedFlyer == false && !IslandManager.isBattlefieldMonster()
 			&& !QuestDatabase.isQuestFinished( QuestDatabase.Quest.ISLAND_WAR ) && !KoLCharacter.inGLover();
 	}
-	
+
 	public static void initializeAfterFight()
 	{
 		FightRequest.initializeAfterFight = true;
@@ -897,7 +897,7 @@ public class FightRequest
 	public static final boolean wonInitiative()
 	{
 		return	FightRequest.currentRound == 1 &&
-			( FightRequest.pokefam || 
+			( FightRequest.pokefam ||
 			  FightRequest.wonInitiative( FightRequest.lastResponseText ) );
 	}
 
@@ -2654,7 +2654,7 @@ public class FightRequest
 
 			QuestManager.updateQuestFightStarted( responseText, monsterName );
 
-			// http://kol.coldfront.net/thekolwiki/index.php/Encounter#Encounter_Flowchart (image link there 
+			// http://kol.coldfront.net/thekolwiki/index.php/Encounter#Encounter_Flowchart (image link there
 			// is regularly updated) shows the order is Digitize, Arrow, Enamorang, so check in that order
 			if ( EncounterManager.isDigitizedEncounter( responseText, true ) )
 			{
@@ -3183,7 +3183,7 @@ public class FightRequest
 		{
 			KoLCharacter.setDiscoMomentum( StringUtilities.parseInt( DiscoMatcher.group( 1 ) ) );
 		}
-		
+
 		// Parse unusual construct puzzle
 		if ( special == SpecialMonster.UNUSUAL_CONSTRUCT )
 		{
@@ -3258,7 +3258,7 @@ public class FightRequest
 			EquipmentManager.breakEquipment( ItemPool.DECEASED_TREE,
 				"You toss your crimbo tree away." );
 		}
-	
+
 		// "The Slime draws back and shudders, as if it's about to sneeze.
 		// Then it blasts you with a massive loogie that sticks to your
 		// rusty grave robbing shovel, pulls it off of you, and absorbs
@@ -3276,7 +3276,7 @@ public class FightRequest
 			}
 		}
 
-		if ( responseText.contains( "Axel screams, and lets go of your hand" ) || 
+		if ( responseText.contains( "Axel screams, and lets go of your hand" ) ||
 		     responseText.contains( "Axel Ottal wanders off" ) )
 		{
 			EquipmentManager.discardEquipment( ItemPool.SPOOKY_LITTLE_GIRL );
@@ -3353,7 +3353,7 @@ public class FightRequest
 			Preferences.increment( "_vmaskAdv", 1 );
 		}
 
-		// Your Detective Skull's eyes glow yellow and it murmurs &quot;The dame said... That dame... She... 
+		// Your Detective Skull's eyes glow yellow and it murmurs &quot;The dame said... That dame... She...
 		// She said... <font color=yellow>sword</font>...&quot;
 		if ( responseText.contains( "Detective Skull's eyes glow yellow" ) )
 		{
@@ -3408,7 +3408,7 @@ public class FightRequest
 
 		FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
 		int familiarId = familiar.getId();
-		
+
 		switch ( familiarId )
 		{
 		case FamiliarPool.BOOTS:
@@ -3657,7 +3657,7 @@ public class FightRequest
 			EquipmentManager.discardEquipment( ItemPool.FIRST_AID_POUCH );
 		}
 
-		// A bit of flaming paper drifts into your unnamed cocktail and sets it ablaze. Whoah! 
+		// A bit of flaming paper drifts into your unnamed cocktail and sets it ablaze. Whoah!
 		if ( responseText.contains( "flaming paper drifts into your unnamed cocktail" ) )
 		{
 			ResultProcessor.processItem( ItemPool.UNNAMED_COCKTAIL, -1 );
@@ -3721,7 +3721,7 @@ public class FightRequest
 			{
 				String easyBountyItemName = easyBountyString.substring( 0, index );
 				String easyBountyMonsterName = BountyDatabase.getMonster( easyBountyItemName );
-			
+
 				if ( monsterName.equals( easyBountyMonsterName ) && !responseText.contains( easyBountyItemName ) && !problemFamiliar() )
 				{
 					KoLmafia.updateDisplay( MafiaState.PENDING, "Easy bounty item failed to drop from expected monster." );
@@ -3827,7 +3827,7 @@ public class FightRequest
 		}
 
 		// Check for special familiar actions
-		
+
 		// Check for weapon-specific cases
 		if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.LEAFBLOWER, 1 ) ) )
 		{
@@ -3890,7 +3890,7 @@ public class FightRequest
 		{
 			Preferences.increment( "_kolhsAdventures", 1 );
 		}
-		
+
 		if ( adventure == AdventurePool.YE_OLDE_MEDIEVALE_VILLAGEE )
 		{
 			Preferences.increment( "rumpelstiltskinTurnsUsed", 1 );
@@ -4054,7 +4054,7 @@ public class FightRequest
 				int jitbCharge = Preferences.getInteger( "_jitbCharge" );
 				familiar.setCharges( jitbCharge );
 				break;
-				
+
 			case FamiliarPool.HATRACK:
 				if ( responseText.contains( "sees that you're about to get attacked and trips it before it can attack you." )
 					|| responseText.contains( "does the Time Warp, then does the Time Warp again. Clearly, madness has taken its toll on him." )
@@ -4118,11 +4118,11 @@ public class FightRequest
 					KoLCharacter.setFamiliarImage( "medium_3.gif" );
 					familiar.setCharges( 3 );
 				}
-/*				
-				if ( responseText.indexOf( "waves her hands and extracts some of your opponent aura into a cocktail shaker") != -1  
-					|| responseText.indexOf( "holds out a cocktail glass and siphons some of his aura into the glass" ) != -1 
-					|| responseText.indexOf( "draws out some of its spirit and makes a cocktail with it." ) != -1 
-					|| responseText.indexOf( "Let's see. . . a little of this, a little of that, and some of that creature's aura, and presto!" ) != -1 
+/*
+				if ( responseText.indexOf( "waves her hands and extracts some of your opponent aura into a cocktail shaker") != -1
+					|| responseText.indexOf( "holds out a cocktail glass and siphons some of his aura into the glass" ) != -1
+					|| responseText.indexOf( "draws out some of its spirit and makes a cocktail with it." ) != -1
+					|| responseText.indexOf( "Let's see. . . a little of this, a little of that, and some of that creature's aura, and presto!" ) != -1
 					|| responseText.indexOf( "conjurs the spirit of your opponent into a cocktail glass and mixes you a drink." ) != -1 )
 				{
 					KoLCharacter.setFamiliarImage( "medium_0.gif" );
@@ -4408,7 +4408,7 @@ public class FightRequest
 				else if ( nanorhinoCharge2Matcher.find() )
 				{
 					newCharge = StringUtilities.parseInt( nanorhinoCharge2Matcher.group( 1 ) );
-				}			
+				}
 				if( newCharge > 100 )
 				{
 					newCharge = 100;
@@ -4570,7 +4570,7 @@ public class FightRequest
 				int catBurglarCharge = Preferences.getInteger( "_catBurglarCharge" );
 				familiar.setCharges( catBurglarCharge );
 				break;
-				
+
 			case FamiliarPool.RED_SNAPPER:
 				String monsterPhylum = MonsterStatusTracker.getLastMonster().getPhylum().toString();
 				if ( Preferences.getString( "redSnapperPhylum" ).equals( monsterPhylum ) )
@@ -5105,7 +5105,7 @@ public class FightRequest
 		{
 			return;
 		}
-		
+
 		KoLCharacter.ensureUpdatedPirateInsults();
 		if ( !Preferences.getBoolean( "lastPirateInsult" + insult ) )
 		{	// it's a new one
@@ -5702,7 +5702,7 @@ public class FightRequest
 	private static boolean extractVerse( final TagNode node, final StringBuffer buffer, final String tag )
 	{
 		boolean hasTag = false;
-		String nodeName = node.getName(); 
+		String nodeName = node.getName();
 
 		if ( nodeName.equals( "br" ) )
 		{
@@ -6434,7 +6434,7 @@ public class FightRequest
 		// (nodes describing your team)
 		// <b>Your Team</b>
 		// (nodes describing end-of-battle stuff)
-		// 
+		//
 		// If we want to anything with the teams, this is the place.
 
 		// Remove all the team-related stuff from the "center" node and
@@ -6572,7 +6572,7 @@ public class FightRequest
 	public static final void processPokefam( final int index, final TagNode node, final TagStatus status )
 	{
 		// For now only look at the familiar at the very beginning of the fight.
-		// 
+		//
 		// Certainly, don't call FamiliarDatabase to check the attributes of a familiar
 		// part way through the battle, since  Power, HP, and attributes will change
 		// as the battle progresses.
@@ -7071,7 +7071,7 @@ public class FightRequest
 			{
 				FightRequest.processChildren( node, status );
 			}
-	
+
 			for ( int i = 0; i < tables.length; ++i )
 			{
 				TagNode table = tables[i];
@@ -7136,17 +7136,17 @@ public class FightRequest
 			{
 				return;
 			}
-			
+
 			if ( FightRequest.handleKeyotron( str, status ) )
 			{
 				return;
 			}
-			
+
 			if ( FightRequest.handleSeahorse( str, status ) )
 			{
 				return;
 			}
-			
+
 			if ( FightRequest.handleMayoWasp( str, status ) )
 			{
 				return;
@@ -7260,6 +7260,11 @@ public class FightRequest
 				}
 
 				if ( FightRequest.handleSpelunky( str, status ) )
+				{
+					continue;
+				}
+
+				if ( FightRequest.handleFamiliarScrapbook( str, status ) )
 				{
 					continue;
 				}
@@ -7448,7 +7453,7 @@ public class FightRequest
 
 			// If it is something else, let caller process the
 			// children and attempt to figure it out
-			
+
 			else
 			{
 				return true;
@@ -7530,7 +7535,7 @@ public class FightRequest
 				Matcher d = DURATION_PATTERN.matcher( str );
 				int duration = d.find() ? StringUtilities.parseInt( d.group( 1 ) ) : 1;
 				AdventureResult result = EffectPool.get( effectId, duration );
-				
+
 				ResultProcessor.processEffect( true, acquisition, result, null );
 
 				if ( acquisition.startsWith( "You lose" ) )
@@ -7764,7 +7769,7 @@ public class FightRequest
 			else if ( status.lastCombatItem == ItemPool.CRAPPY_CAMERA )
 			{
 				// With a dim flash of light and an accompanying old-timey -POOF- noise,
-				// you snap a picture of it. Your camera begins to shake, disconcertingly. 
+				// you snap a picture of it. Your camera begins to shake, disconcertingly.
 
 				if ( !str.contains( "shake, disconcertingly" ) )
 				{
@@ -7823,7 +7828,7 @@ public class FightRequest
 			}
 			return false;
 		}
-		
+
 		// Combat item usage: process the children of this node
 		// to pick up damage to the monster and stat gains
 		return true;
@@ -8018,7 +8023,7 @@ public class FightRequest
 
 		int cleanliness = StringUtilities.parseInt( matcher.group( 1 ) );
 
-		String setting = 
+		String setting =
 			status.location.equals( "Your Bung Chakra" ) ? "crimbo16BungChakraCleanliness" :
 			status.location.equals( "Your Guts Chakra" ) ? "crimbo16GutsChakraCleanliness" :
 			status.location.equals( "Your Liver Chakra" ) ? "crimbo16LiverChakraCleanliness" :
@@ -8296,7 +8301,7 @@ public class FightRequest
 
 		return true;
 	}
-				
+
 	public static final Pattern SPIT_PATTERN = Pattern.compile( "\\((\\d+)% full\\)" );
 	private static void handleMelodramedary( String str, TagStatus status )
 	{
@@ -8456,6 +8461,31 @@ public class FightRequest
 		return false;
 	}
 
+	private static boolean handleFamiliarScrapbook( final String text, TagStatus status )
+	{
+		if (
+			// All stages
+			text.contains( "for your scrapbook" ) ||
+			// Start of combat
+			text.contains( "You snap a picture" ) ||
+			text.contains( "you just <i>have</i> to take a picture" ) ||
+			text.contains( "show this photo to your grandkids" ) ||
+			// Mid combat
+			text.contains( "too good not to photograph" ) ||
+			text.contains( "for the scrapbook" ) ||
+			text.contains( "You take a picture" ) ||
+			// End of combat
+			text.contains( "more interesting photograph" ) ||
+			text.contains( "both in a photograph" ) ||
+			text.contains( "for the ol' scrapbook" )
+		)
+		{
+			Preferences.increment( "scrapbookCharges" );
+			return true;
+		}
+		return false;
+	}
+
 	private static boolean handleKeyotron( String text, TagStatus status )
 	{
 		if ( !text.contains( "key-o-tron" ) )
@@ -8465,7 +8495,7 @@ public class FightRequest
 
 		// Your key-o-tron emits 2 short tones, indicating that it has successfully processed biometric data from this subject.
 		// Your key-o-tron emits a short buzz, indicating that it has already collected enough biometric data of this type.
-		
+
 		if ( text.contains( "already collected" ) )
 		{
 			// Synchronize in case played turns out of KoLmafia
@@ -8473,7 +8503,7 @@ public class FightRequest
 			BugbearManager.setBiodata( data, BugbearManager.dataToLevel( data ) * 3 );
 			return true;
 		}
-		
+
 		FightRequest.logText( text, status );
 
 		Matcher matcher = FightRequest.KEYOTRON_PATTERN.matcher( text );
@@ -8542,7 +8572,7 @@ public class FightRequest
 			FightRequest.logText( text, status );
 			return true;
 		}
-		
+
 		// Finding combat supplies and gold
 		if ( text.startsWith( "By the light of your torch" ) ||
 		     text.startsWith( "By the light of your helmet" ) )
@@ -8989,7 +9019,7 @@ public class FightRequest
 			// A nearby hippy soldier sees you about to start
 			// ringing your windchimes (failure)
 			if ( responseText.contains( "bang out a series of chimes" ) ||
-			     responseText.contains( "ringing your windchimes" )  || 
+			     responseText.contains( "ringing your windchimes" )  ||
 			     itemSuccess )
 			{
 				Preferences.setInteger( "lastHippyCall", KoLAdventure.getAdventureCount() );
@@ -9073,7 +9103,7 @@ public class FightRequest
 
 			// You push the button on the side of the box.
 			// It makes a scary noise, and a tiny, ghostly image
-			// of your opponent appears inside it. 
+			// of your opponent appears inside it.
 
 			if ( responseText.contains( "ghostly image of your opponent" ) || itemSuccess )
 			{
@@ -9107,7 +9137,7 @@ public class FightRequest
 
 			// With a dim flash of light and an accompanying old-timey
 			// -POOF- noise, you snap a picture of it. Your
-			// camera begins to shake, disconcertingly. 
+			// camera begins to shake, disconcertingly.
 
 			if ( responseText.contains( "old-timey <i>-POOF-</i> noise" ) || itemSuccess )
 			{
@@ -9145,8 +9175,8 @@ public class FightRequest
 
 		case ItemPool.GREEN_TAFFY:
 
-			// You toss the taffy, and the salt water soaks into it. 
-			// A green envyfish swims up, listlessly eats it, looks at your opponent, 
+			// You toss the taffy, and the salt water soaks into it.
+			// A green envyfish swims up, listlessly eats it, looks at your opponent,
 			// and begins to emit a long sigh.
 			// At the conclusion of the sigh, the fish squirts out an egg, then swims off
 			// into the distance, eyes downcast.
@@ -9451,7 +9481,7 @@ public class FightRequest
 			case ItemPool.STAFF_OF_CHEESE:
 				// You jigle your staff, and a whirling wheel of cheese appears before you.
 				// It bursts open, revealing the stench of untold aeons. It first turns gray,
-				// then turns green, then turns tail and runs. You won't see it again for a while, that's for sure. 
+				// then turns green, then turns tail and runs. You won't see it again for a while, that's for sure.
 				if ( responseText.contains( "turns tail and runs" ) || jiggleSuccess )
 				{
 					Preferences.increment( "_jiggleCheese", 1 );
@@ -9462,7 +9492,7 @@ public class FightRequest
 			case ItemPool.STAFF_OF_STEAK:
 				// You jiggle the staff, but there are no theatrics.
 				// Just a squirt of nasty congealed grease, which surprises
-				// and displays your opponent to the tune of XXX damage. 
+				// and displays your opponent to the tune of XXX damage.
 				if ( responseText.contains( "no theatrics" ) )
 				{
 					Preferences.setInteger( "_jiggleSteak", 5 );
@@ -9476,7 +9506,7 @@ public class FightRequest
 			case ItemPool.STAFF_OF_CREAM:
 				// You jiggle the staff. A wisp of creamy ghostly energy
 				// drifts out of the end, into your opponent, then into your head.
-				// Your mind fills with it essence. You... know it. With a capital K. 
+				// Your mind fills with it essence. You... know it. With a capital K.
 				if ( responseText.contains( "Your mind fills" ) || jiggleSuccess )
 				{
 					Preferences.increment( "_jiggleCream", 1 );
@@ -9499,7 +9529,7 @@ public class FightRequest
 			  ( responseText.contains( "familiar did something" ) ||
 			    responseText.contains( "pet did a thing" ) ) ) ||
 			( FightRequest.haiku &&
-			  ( responseText.contains( "wish you had just seen" ) || 
+			  ( responseText.contains( "wish you had just seen" ) ||
 			    responseText.contains( "what did your familiar do" ) ||
 			    responseText.contains( "familiar does something" ) ||
 			    responseText.contains( "you don't see what it does" ) ||
@@ -9508,7 +9538,7 @@ public class FightRequest
 		boolean skillRunawaySuccess =
 			( FightRequest.anapest &&
 				responseText.contains( "wings on your heels" ) ) ||
-			( FightRequest.haiku && 
+			( FightRequest.haiku &&
 			  ( responseText.contains( "burps taste like pride" ) ||
 				responseText.contains( "beat a retreat" ) ) ) ||
 				responseText.contains( "throws a smoke ball on the ground" ) ||
@@ -9592,7 +9622,7 @@ public class FightRequest
 		case SkillPool.CLUBFOOT:
 			FightRequest.castClubFoot = true;
 			return;
-			
+
 		case SkillPool.SHELL_UP:
 			FightRequest.castShellUp = true;
 			return;
@@ -9604,11 +9634,11 @@ public class FightRequest
 		case SkillPool.PARAFFIN_PRISM:
 			FightRequest.castParaffinPrism = true;
 			return;
-			
+
 		case SkillPool.ACCORDION_BASH:
 			FightRequest.castAccordionBash = true;
 			return;
-			
+
 		case SkillPool.MAYFLY_SWARM:
 			if ( responseText.contains( "mayfly bait and swing it" ) ||
 			     responseText.contains( "May flies when" ) ||
@@ -10008,7 +10038,7 @@ public class FightRequest
 				ResultProcessor.processItem( ItemPool.PIXEL_POWER_CELL, -1 );
 			}
 			break;
-		
+
 		case SkillPool.SUMMON_HOBO:
 			// The first part is for a hobo underling being summoned
 			// The second part is from using a dinged-up triangle to summon it
@@ -10297,7 +10327,7 @@ public class FightRequest
 				Preferences.increment( "_balefulHowlUses" );
 			}
 			break;
- 
+
 		case SkillPool.ARMY_TODDLER:
 			if ( responseText.contains( "You cry havoc" ) || skillSuccess )
 			{
@@ -10464,6 +10494,18 @@ public class FightRequest
 				Preferences.increment( "_backUpUses" );
 			}
 			break;
+
+		case SkillPool.SHOW_SCRAPBOOK:
+			if (
+					responseText.contains( "You take out your scrapbook and start showing photos of your familiars to your opponent" ) ||
+					responseText.contains( "waving your scrapbook" ) ||
+					skillSuccess )
+			{
+				BanishManager.banishMonster( monsterName, "Show your boring familiar pictures" );
+				Preferences.decrement( "scrapbookCharges", 100, 0 );
+			}
+			break;
+
 		}
 	}
 
@@ -10835,7 +10877,7 @@ public class FightRequest
 				break;
 
 			case ItemPool.AFFIRMATION_HATE:
-				if ( responseText.contains( "You gain 3 PvP Fights" ) || 
+				if ( responseText.contains( "You gain 3 PvP Fights" ) ||
 				     responseText.contains( "belligerent" ) ||
 				     itemSuccess )
 				{

@@ -2506,6 +2506,18 @@ public class ItemDatabase
 		parseItemModifiers( desc, ItemPool.COAT_OF_PAINT, "_coatOfPaintModifier" );
 	}
 
+	private static Pattern FAMILIAR_SCRAPBOOK_PATTERN = Pattern.compile( "Scraps Collected: <b>([\\d,]+)</b>" );
+
+	public static void parseFamiliarScrapbook( final String desc )
+	{
+		Matcher matcher = FAMILIAR_SCRAPBOOK_PATTERN.matcher( desc );
+		if ( matcher.find() )
+		{
+			int charge = StringUtilities.parseInt( matcher.group( 1 ) );
+			Preferences.setInteger( "scrapbookCharges", charge );
+		}
+	}
+
 	public static int parseYearbookCamera( final String desc )
 	{
 		int upgrades;
