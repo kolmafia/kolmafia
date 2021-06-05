@@ -1823,6 +1823,7 @@ faded green protest sign	10	none
 faded red protest sign	10	none
 fake hand	10	none
 fake washboard	200	Mus: 50	shield
+familiar scrapbook	100	none
 fancy marzipan briefcase	100	Mys: 10
 fancy opera glasses	50	Mys: 10
 fiberglass fetish	120	Mus: 40
