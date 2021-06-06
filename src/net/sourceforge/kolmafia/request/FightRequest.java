@@ -3924,10 +3924,10 @@ public class FightRequest
 			}
 		}
 
-		// A monster only gets added to your nostalgic buffer if the fight is "completed"
-		if ( KoLCharacter.hasSkill( "Feel Nostalgic" ) && monster != null && !monster.isNoCopy() )
+		// A monster only gets added to your nostalgic/backup camera buffer if the fight is "completed"
+		if ( monster != null && !monster.isNoCopy() )
 		{
-			Preferences.setString( "feelNostalgicMonster", monsterName );
+			Preferences.setString( "lastCopyableMonster", monsterName );
 		}
 
 		if ( !won )

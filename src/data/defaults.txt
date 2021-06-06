@@ -570,7 +570,7 @@ user	falloutShelterChronoUsed	false
 user	falloutShelterCoolingTankUsed	false
 user	falloutShelterLevel	0
 user	familiarScript
-user	feelNostalgicMonster
+user	lastCopyableMonster
 user	fingernailsClipped	0
 user	fistSkillsKnown	0
 user	fistTeachingsHaikuDungeon	false
