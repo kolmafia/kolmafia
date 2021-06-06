@@ -918,6 +918,8 @@ public class Evaluator
 				break;
 			case Modifiers.EXPERIENCE:
 				val = mods.get( Modifiers.MUS_EXPERIENCE + KoLCharacter.getPrimeIndex() );
+				float estimatedMonsterExp = KoLCharacter.getLevel() * 2;
+				val += (mods.get( Modifiers.MUS_EXPERIENCE_PCT + KoLCharacter.getPrimeIndex() ) / 100) * estimatedMonsterExp;
 				break;
 			}
 			if ( val < min ) this.failed = true;
