@@ -3141,12 +3141,9 @@ Item	meteorthopedic shoes	Initiative: +30, Moxie Percent: +15, Adventures: +5, S
 Item	mime army infiltration glove	Pickpocket Chance: +25, Initiative: -200, Single Equip
 # mime army insignia (cryonics): Convert all your elemental bonus damage to <font color=blue>Cold Damage</font>
 Item	mime army insignia (cryonics)	Single Equip
-# mime army insignia (espionage): Change all combat stat gains to Moxie
-Item	mime army insignia (espionage)	Moxie: +5, Single Equip
-# mime army insignia (infantry): Change all combat stat gains to Muscle
-Item	mime army insignia (infantry)	Muscle: +5, Single Equip
-# mime army insignia (intelligence): Change all combat stat gains to Mysticality
-Item	mime army insignia (intelligence)	Mysticality: +5, Single Equip
+Item	mime army insignia (espionage)	Moxie: +5, Single Equip, Stat Tuning: "Moxie (all)"
+Item	mime army insignia (infantry)	Muscle: +5, Single Equip, Stat Tuning: "Muscle (all)"
+Item	mime army insignia (intelligence)	Mysticality: +5, Single Equip, Stat Tuning: "Mysticality (all)"
 # mime army insignia (morale): Convert all your elemental bonus damage to <font color=purple>Sleaze Damage</font>
 Item	mime army insignia (morale)	Single Equip
 # mime army insignia (psychological warfare): Convert all your elemental bonus damage to <font color=gray>Spooky Damage</font>

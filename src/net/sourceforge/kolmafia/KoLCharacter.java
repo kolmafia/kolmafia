@@ -40,6 +40,7 @@ import java.util.List;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -6116,6 +6117,11 @@ public abstract class KoLCharacter
 		return KoLCharacter.selectedLocation;
 	}
 
+	public static final double estimatedBaseExp( double monsterLevel )
+	{
+		return ( Modifiers.getCurrentML() - monsterLevel ) / 4.0f;
+	}
+
 	public static final boolean recalculateAdjustments()
 	{
 		return KoLCharacter.recalculateAdjustments( false );
@@ -6510,7 +6516,7 @@ public abstract class KoLCharacter
 			}
 		}
 
-		double baseExp = ( Modifiers.getCurrentML() - monsterLevel ) / 4.0f;
+		double baseExp = KoLCharacter.estimatedBaseExp( monsterLevel );
 
 		double exp = newModifiers.get( Modifiers.EXPERIENCE );
 
@@ -6525,39 +6531,31 @@ public abstract class KoLCharacter
 		{
 			String tuning = newModifiers.getString( Modifiers.STAT_TUNING );
 			int prime = KoLCharacter.getPrimeIndex();
-			if ( tuning.equals( "Muscle" ) ) prime = 0;
-			else if ( tuning.equals( "Mysticality" ) ) prime = 1;
-			else if ( tuning.equals( "Moxie" ) ) prime = 2;
+			if ( tuning.startsWith( "Muscle" ) ) prime = 0;
+			else if ( tuning.startsWith( "Mysticality" ) ) prime = 1;
+			else if ( tuning.startsWith( "Moxie" ) ) prime = 2;
+
+			boolean all = tuning.endsWith( "(all)" );
 
 			// Experience percentage modifiers
-			double musExpPct = newModifiers.get( Modifiers.MUS_EXPERIENCE_PCT ) / 100.0f;
-			double mysExpPct = newModifiers.get( Modifiers.MYS_EXPERIENCE_PCT ) / 100.0f;
-			double moxExpPct = newModifiers.get( Modifiers.MOX_EXPERIENCE_PCT ) / 100.0f;
+			double finalBaseExp = baseExp;
+			double finalExp = exp;
+			double[] statExp = IntStream.range(0, 3)
+					.mapToDouble( i -> newModifiers.get( Modifiers.MUS_EXPERIENCE_PCT + i ) / 100.0f )
+					.map( expPct -> ( finalBaseExp + finalExp ) * ( 1 + expPct ) )
+					.toArray();
 
-			// Additional stat values, not adjusted by prime stat
-			double musExp = baseExp * musExpPct + exp * ( 1 + musExpPct );
-			double mysExp = baseExp * mysExpPct + exp * ( 1 + mysExpPct );
-			double moxExp = baseExp * moxExpPct + exp * ( 1 + moxExpPct );
-
-			// Adjust for prime stat
-			// The base +1 Exp for mainstat IS tuned
-			switch ( prime )
+			if ( all )
 			{
-			case 0:
-				newModifiers.add( Modifiers.MUS_EXPERIENCE, 1 + musExp / 2.0f, "Class:EXP/2" );
-				newModifiers.add( Modifiers.MYS_EXPERIENCE, mysExp / 4.0f, "Class:EXP/4" );
-				newModifiers.add( Modifiers.MOX_EXPERIENCE, moxExp / 4.0f, "Class:EXP/4" );
-				break;
-			case 1:
-				newModifiers.add( Modifiers.MYS_EXPERIENCE, 1 + mysExp / 2.0f, "Class:EXP/2" );
-				newModifiers.add( Modifiers.MUS_EXPERIENCE, musExp / 4.0f, "Class:EXP/4" );
-				newModifiers.add( Modifiers.MOX_EXPERIENCE, moxExp / 4.0f, "Class:EXP/4" );
-				break;
-			case 2:
-				newModifiers.add( Modifiers.MOX_EXPERIENCE, 1 + moxExp / 2.0f, "Class:EXP/2" );
-				newModifiers.add( Modifiers.MUS_EXPERIENCE, musExp / 4.0f, "Class:EXP/4" );
-				newModifiers.add( Modifiers.MYS_EXPERIENCE, mysExp / 4.0f, "Class:EXP/4" );
-				break;
+				newModifiers.add( Modifiers.MUS_EXPERIENCE + prime, 1 + statExp[prime], "Class:EXP" );
+			}
+			else
+			{
+				// Adjust for prime stat
+				// The base +1 Exp for mainstat IS tuned
+				newModifiers.add( Modifiers.MUS_EXPERIENCE + prime, 1 + statExp[ prime ] / 2.0f, "Class:EXP/2" );
+				newModifiers.add( Modifiers.MUS_EXPERIENCE + ( ( prime + 1 ) % 3 ), statExp[ ( prime + 1 ) % 3 ] / 4.0f, "Class:EXP/4" );
+				newModifiers.add( Modifiers.MUS_EXPERIENCE + ( ( prime + 2 ) % 3 ), statExp[ ( prime + 2 ) % 3 ] / 4.0f, "Class:EXP/4" );
 			}
 		}
 

@@ -917,9 +917,11 @@ public class Evaluator
 				}
 				break;
 			case Modifiers.EXPERIENCE:
-				val = mods.get( Modifiers.MUS_EXPERIENCE + KoLCharacter.getPrimeIndex() );
-				float estimatedMonsterExp = KoLCharacter.getLevel() * 2;
-				val += (mods.get( Modifiers.MUS_EXPERIENCE_PCT + KoLCharacter.getPrimeIndex() ) / 100) * estimatedMonsterExp;
+				double baseExp = KoLCharacter.estimatedBaseExp( mods.get( Modifiers.MONSTER_LEVEL ) );
+				double expPct = mods.get( Modifiers.MUS_EXPERIENCE_PCT + KoLCharacter.getPrimeIndex() ) / 100.0f;
+				double exp = mods.get( Modifiers.MUS_EXPERIENCE + KoLCharacter.getPrimeIndex() );
+
+				val = (baseExp + exp) * ( 1 + expPct );
 				break;
 			}
 			if ( val < min ) this.failed = true;
