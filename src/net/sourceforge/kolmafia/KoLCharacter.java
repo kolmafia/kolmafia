@@ -6120,7 +6120,10 @@ public abstract class KoLCharacter
 	public static final double estimatedBaseExp( double monsterLevel )
 	{
 		// 0.25 stats per monster ML + 0.33 stats per bonus ML, rounded to 2dp
-		return Math.round(( ( Modifiers.getCurrentML() / 4.0f ) + ( monsterLevel / 3.0f ) ) * 100d) / 100d;
+
+		double baseStats = ( Modifiers.getCurrentML() / 4.0f );
+		double bonusStats = monsterLevel / ( ( monsterLevel > 0 ) ? 3.0f : 4.0f );
+		return Math.round((baseStats + bonusStats) * 100d) / 100d;
 	}
 
 	public static final boolean recalculateAdjustments()
@@ -6486,17 +6489,6 @@ public abstract class KoLCharacter
 		// Lastly, experience adjustment also implicitly depends on
 		// monster level.  Add that information.
 
-		double monsterLevel = newModifiers.get( Modifiers.MONSTER_LEVEL );
-
-		if ( monsterLevel > 0 )
-		{
-			newModifiers.add( Modifiers.EXPERIENCE, monsterLevel / 3.0f, "Monster Level:ML/3" );
-		}
-		else
-		{
-			newModifiers.add( Modifiers.EXPERIENCE, monsterLevel / 4.0f, "Monster Level:ML/4" );
-		}
-
 		// Water level impacts experience adjustment.
 		if ( KoLCharacter.inRaincore() )
 		{
@@ -6517,7 +6509,7 @@ public abstract class KoLCharacter
 			}
 		}
 
-		double baseExp = KoLCharacter.estimatedBaseExp( monsterLevel );
+		double baseExp = KoLCharacter.estimatedBaseExp( newModifiers.get( Modifiers.MONSTER_LEVEL ) );
 
 		double exp = newModifiers.get( Modifiers.EXPERIENCE );
 
