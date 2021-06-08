@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -3482,6 +3483,42 @@ public class Modifiers
 
 		case VYKEACompanionData.COUCH:
 			this.add( Modifiers.MEATDROP, level * 10, "VYKEA Companion: Couch" );
+			break;
+		}
+	}
+
+	public void applyEnsorceleeModifiers( Phylum phylum, int level )
+	{
+		String desc = "Ensorcelled: level " + level + " " + phylum.toString();
+		double itemDrop = Math.max( 10, Math.min( 300, level / 5.0 ) );
+
+		switch ( phylum )
+		{
+		case BEAST:
+			this.add( Modifiers.MEATDROP, Math.max( 10, Math.min( 300, level / 2.5 ) ), desc );
+			break;
+		case BUG:
+			this.add( Modifiers.ITEMDROP, itemDrop, desc );
+			break;
+		case CONSTRUCT:
+			this.add( Modifiers.DAMAGE_REDUCTION, level / 15.0, desc );
+			break;
+		case ELEMENTAL:
+			double res = Math.max( 1, Math.min( 30, level / 50.0 ) );
+			this.add( Modifiers.COLD_RESISTANCE, res, desc );
+			this.add( Modifiers.HOT_RESISTANCE, res, desc );
+			this.add( Modifiers.SLEAZE_RESISTANCE, res, desc );
+			this.add( Modifiers.SPOOKY_RESISTANCE, res, desc );
+			this.add( Modifiers.STENCH_RESISTANCE, res, desc );
+			break;
+		case ELF:
+			this.add( Modifiers.CANDYDROP, itemDrop, desc);
+			break;
+		case PLANT:
+			this.add( Modifiers.MONSTER_LEVEL, Math.max( 10, Math.ceil( level / 10.0 ) ), desc);
+			break;
+		case SLIME:
+			this.add( Modifiers.INITIATIVE, level / 2.5, desc );
 			break;
 		}
 	}

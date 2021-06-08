@@ -6468,6 +6468,16 @@ public abstract class KoLCharacter
 			newModifiers.add( Modifiers.getModifiers( "Mask", KoLCharacter.getMask() ) );
 		}
 
+		if ( KoLCharacter.isVampyre() )
+		{
+			MonsterData ensorcelee = MonsterDatabase.findMonster( Preferences.getString( "ensorcelee" ) );
+			if ( ensorcelee != null )
+			{
+				int level = Preferences.getInteger( "ensorceleeLevel" );
+				newModifiers.applyEnsorceleeModifiers( ensorcelee.getPhylum(), level );
+			}
+		}
+
 		if ( KoLCharacter.inRobocore() )
 		{
 			newModifiers.add( Modifiers.getModifiers( "RobotTop", Preferences.getString( "youRobotTop" ) ) );

@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.Modifiers;
 
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 
@@ -79,6 +80,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
@@ -117,7 +119,6 @@ public class CompactSidePane
 	private final int CONSUMPTION_LABELS = 3;
 	private final JLabel[] consumptionLabel = new JLabel[ CONSUMPTION_LABELS ];
 	private final JLabel[] consumptionValueLabel = new JLabel[ CONSUMPTION_LABELS ];
-	private final JPanel quantumFamiliarPanel;
 	private final FamiliarLabel familiarLabel;
 	private final int BONUS_LABELS = 10;
 	private final JLabel[] bonusLabel = new JLabel[ BONUS_LABELS ];
@@ -128,6 +129,9 @@ public class CompactSidePane
 	// Sneaky Pete's Motorcycle
 	protected final JPopupMenu motPopup;
 	private final JLabel motPopLabel;
+
+	// Quantum Familiar
+	private final JPanel quantumFamiliarPanel;
 
 	private static final AdventureResult CLUMSY = EffectPool.get( EffectPool.CLUMSY );
 	private static final AdventureResult SLIMED = EffectPool.get( EffectPool.COATED_IN_SLIME );
@@ -1258,6 +1262,20 @@ public class CompactSidePane
 
 			this.familiarLabel.setIcon( servant.getImage() );
 			this.familiarLabel.setText( "<HTML><center>level " + servant.getLevel() + "</center></HTML>" );
+		}
+		else if ( KoLCharacter.isVampyre() )
+		{
+			MonsterData ensorcelee = MonsterDatabase.findMonster( Preferences.getString( "ensorcelee") );
+
+			if ( ensorcelee == null )
+			{
+				this.familiarLabel.setNoIcon();
+				return;
+			}
+
+			this.familiarLabel.setToolTipText( ensorcelee.toString() );
+			this.familiarLabel.setIcon( ensorcelee.getPhylum().getImage() );
+			this.familiarLabel.setText( "<HTML><center>level " + Preferences.getInteger( "ensorceleeLevel" ) + " " + ensorcelee.getPhylum().toString() + "</center></HTML>" );
 		}
 		else
 		{
