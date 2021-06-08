@@ -6473,8 +6473,7 @@ public abstract class KoLCharacter
 			MonsterData ensorcelee = MonsterDatabase.findMonster( Preferences.getString( "ensorcelee" ) );
 			if ( ensorcelee != null )
 			{
-				int level = Preferences.getInteger( "ensorceleeLevel" );
-				newModifiers.applyEnsorceleeModifiers( ensorcelee.getPhylum(), level );
+				newModifiers.add( Modifiers.getModifiers( "Ensorcel", ensorcelee.getPhylum().toString() ) );
 			}
 		}
 
@@ -6745,6 +6744,10 @@ public abstract class KoLCharacter
 			case ItemPool.BUDDY_BJORN:
 				// Apply bjorned familiar
 				newModifiers.add( Modifiers.getModifiers( "Bjorn", bjorned.getRace() ) );
+				break;
+
+			case ItemPool.VAMPYRIC_CLOAKE:
+				newModifiers.applyVampyricCloakeModifiers();
 				break;
 
 			case ItemPool.CROWN_OF_ED:

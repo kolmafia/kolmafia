@@ -557,6 +557,8 @@ user	eldritchTentaclesFought	0
 user	electricKoolAidEaten	0
 user	encountersUntilDMTChoice	5
 user	enamorangMonster
+user	ensorcelee
+user	ensorceleeLevel	0
 user	envyfishMonster
 user	essenceOfAnnoyanceAvailable	true
 user	essenceOfAnnoyanceCost	5000
