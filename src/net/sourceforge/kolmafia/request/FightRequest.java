@@ -199,6 +199,8 @@ public class FightRequest
 	private static int dreadVillageKisses = 0;
 	private static int dreadCastleKisses = 0;
 
+	private static int startingAttack = 0;
+
 	private static final Pattern COMBATITEM_PATTERN = Pattern.compile( "<option[^>]*?value=(\\d+)[^>]*?>[^>]*?\\((\\d+)\\)</option>" );
 	private static final Pattern AVAILABLE_COMBATSKILL_PATTERN = Pattern.compile( "<option[^>]*?value=\"(\\d+)[^>]*?>(.*?) \\((\\d+)[^<]*</option>" );
 
@@ -3035,6 +3037,12 @@ public class FightRequest
 
 		// Sanity check: compare our round with what KoL claims it is
 		FightRequest.synchronizeRoundNumber( responseText, true );
+
+		// Track monster's start-of-combat attack value
+		if ( currentRound == 1 )
+		{
+			FightRequest.startingAttack = monster.getAttack();
+		}
 
 		// Assume this response does not warrant a refresh
 		FightRequest.shouldRefresh = false;
@@ -8795,6 +8803,7 @@ public class FightRequest
 		FightRequest.canStomp = false;
 		FightRequest.desiredScroll = null;
 		FightRequest.won = false;
+		FightRequest.startingAttack = 0;
 
 		// In Ed we'll only clear the monster status when we have won or abandoned the fight
 		if ( !KoLCharacter.isEd() || Preferences.getInteger( "_edDefeats" ) == 0 )
@@ -10332,6 +10341,14 @@ public class FightRequest
 			if ( responseText.contains( "You cry havoc" ) || skillSuccess )
 			{
 				Preferences.setBoolean( "_armyToddlerCast", true );
+			}
+			break;
+
+		case SkillPool.ENSORCEL:
+			if ( responseText.contains( "You gaze into your foe's eyes..." ) || skillSuccess )
+			{
+				Preferences.setString( "ensorcelee", monster.toString() );
+				Preferences.setInteger( "ensorceleeLevel", FightRequest.startingAttack );
 			}
 			break;
 

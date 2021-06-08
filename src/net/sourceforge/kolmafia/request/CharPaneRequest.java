@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Modifiers.Modifier;
 import net.sourceforge.kolmafia.Modifiers.ModifierList;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -63,6 +64,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
@@ -329,6 +331,8 @@ public class CharPaneRequest
 		CharPaneRequest.checkAbsorbs( responseText );
 
 		CharPaneRequest.checkFantasyRealmHours( responseText );
+
+		CharPaneRequest.checkEnsorcelee( responseText );
 
 		CharPaneRequest.checkYouRobot( responseText );
 
@@ -1697,6 +1701,38 @@ public class CharPaneRequest
 		{
 			int id = StringUtilities.parseInt( matcher.group( 1 ) ) - 1;
 			Preferences.setString( "snowsuit", SnowsuitCommand.DECORATION[ id ][ 0 ] );
+		}
+	}
+
+	private static final Pattern ensorceleePattern =
+			Pattern.compile( "Ensorcelee:</b><br><img src=\"?(.*?)\"?><br>", Pattern.DOTALL );
+
+	private static void checkEnsorcelee( final String responseText )
+	{
+		if ( !KoLCharacter.isVampyre() )
+		{
+			return;
+		}
+
+		Matcher matcher = ensorceleePattern.matcher( responseText );
+		if ( matcher.find() )
+		{
+			String image = matcher.group( 1 );
+			MonsterData ensorcelee = MonsterDatabase.findMonsterByImage( image );
+			if ( ensorcelee != null )
+			{
+				if ( !ensorcelee.toString().equals( Preferences.getString( "ensorcelee") ) )
+				{
+					Preferences.setString( "ensorcelee", ensorcelee.toString() );
+					// If we discovered a new ensorcelee we don't know its level
+					// but we can't zero out that level here because of race conditions with FightRequest
+				}
+			}
+		}
+		else
+		{
+			Preferences.setString( "ensorcelee", "" );
+			Preferences.setInteger( "ensorceleeLevel", 0 );
 		}
 	}
 
