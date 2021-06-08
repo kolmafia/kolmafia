@@ -1655,6 +1655,12 @@ public class Evaluator
 					this.backupCameraNeeded = true;
 				}
 
+				if ( id == ItemPool.VAMPYRIC_CLOAKE )
+				{
+					mods = new Modifiers( mods );
+					mods.applyVampyricCloakeModifiers();
+				}
+
 				if ( mods.getBoolean( Modifiers.NONSTACKABLE_WATCH ) )
 				{
 					slot = Evaluator.WATCHES;

@@ -3147,6 +3147,7 @@ public class ItemPool
 	public static final int PIRATE_FORK = 10227;
 	public static final int SCURVY_AND_SOBRIETY_PREVENTION = 10228;
 	public static final int LUCKY_GOLD_RING = 10229;
+	public static final int VAMPYRIC_CLOAKE = 10242;
 	public static final int FOURTH_SABER = 10251;
 	public static final int RING = 10252;
 	public static final int HEWN_MOON_RUNE_SPOON = 10254;

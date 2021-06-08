@@ -304,6 +304,8 @@ public class GearChangeFrame
 					}
 					break;
 				}
+				case ItemPool.VAMPYRIC_CLOAKE:
+					newMods.applyVampyricCloakeModifiers();
 				}
 				mods = newMods;
 			}

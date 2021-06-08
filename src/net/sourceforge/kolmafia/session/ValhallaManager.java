@@ -721,6 +721,10 @@ public class ValhallaManager
 		Preferences.setString( "pokefamBoosts", "" );
 		// Kingdom Of Exploathing
 		Preferences.setBoolean( "spaceInvaderDefeated", false );
+		// Dark Gyffte
+		Preferences.setString( "ensorcelee", "" );
+		Preferences.setInteger( "ensorceleeLevel", 0 );
+
 		// Path of the Plumber
 		Preferences.setInteger( "plumberBadgeCost", 50 );
 		Preferences.setInteger( "plumberCostumeCost", 50 );
