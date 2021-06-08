@@ -2270,13 +2270,21 @@ public class Maximizer
 		{
 			itemId = item.getItemId();
 		}
+
+		boolean changeEnthroned = itemId == ItemPool.HATSEAT && enthroned != currEnthroned;
+		boolean changeBjorned = itemId == ItemPool.BUDDY_BJORN && bjorned != currBjorned;
+		boolean changeRetroCape = itemId == ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE && retroCape != null && !retroCape.equals( currRetroCape );
+		boolean changeBackupCamera = itemId == ItemPool.BACKUP_CAMERA && backupCamera != null && !backupCamera.equals( currBackupCamera );
+		boolean changeEdPiece = itemId == ItemPool.CROWN_OF_ED && edPiece != null && !edPiece.equals( currEdPiece );
+		boolean changeSnowSuit = itemId == ItemPool.SNOW_SUIT && snowsuit != null && !snowsuit.equals( currSnowsuit );
+
 		if ( curr.equals( item ) &&
-			!( itemId == ItemPool.HATSEAT && enthroned != currEnthroned ) &&
-			!( itemId == ItemPool.BUDDY_BJORN && bjorned != currBjorned ) &&
-			!( itemId == ItemPool.CROWN_OF_ED && edPiece != null && !edPiece.equals( currEdPiece ) ) &&
-			!( itemId == ItemPool.SNOW_SUIT && snowsuit != null && !snowsuit.equals( currSnowsuit ) ) &&
-			!( itemId == ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE && retroCape != null && !retroCape.equals( currRetroCape ) ) &&
-			!( itemId == ItemPool.BACKUP_CAMERA && backupCamera != null && !backupCamera.equals( currBackupCamera ) ) &&
+			!changeEnthroned &&
+			!changeBjorned &&
+			!changeEdPiece &&
+			!changeSnowSuit &&
+			!(changeRetroCape) &&
+			!(changeBackupCamera) &&
 			!( itemId == ItemPool.BROKEN_CHAMPAGNE &&
 				Preferences.getInteger( "garbageChampagneCharge" ) == 0 && !Preferences.getBoolean( "_garbageItemChanged" ) ) &&
 			!( itemId == ItemPool.MAKESHIFT_GARBAGE_SHIRT &&
@@ -2330,35 +2338,35 @@ public class Maximizer
 		}
 		else
 		{
-			if ( itemId == ItemPool.HATSEAT && enthroned != currEnthroned )
+			if ( changeEnthroned )
 			{
 				cmd = "enthrone " + enthroned.getRace();
 				text = cmd;
 			}
-			else if ( itemId == ItemPool.BUDDY_BJORN && bjorned != currBjorned )
+			else if ( changeBjorned )
 			{
 				cmd = "bjornify " + bjorned.getRace();
 				text = cmd;
 			}
-			else if ( itemId == ItemPool.CROWN_OF_ED && edPiece != currEdPiece )
+			else if ( changeEdPiece )
 			{
 				cmd = "edpiece " + edPiece;
 				text = cmd;
 				setEdPiece = true;
 			}
-			else if ( itemId == ItemPool.SNOW_SUIT && snowsuit != currSnowsuit )
+			else if ( changeSnowSuit )
 			{
 				cmd = "snowsuit " + snowsuit;
 				text = cmd;
 				setSnowsuit = true;
 			}
-			else if ( itemId == ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE && !retroCape.equals( currRetroCape ) )
+			else if ( changeRetroCape )
 			{
 				cmd = "retrocape " + retroCape;
 				text = cmd;
 				setRetroCape = true;
 			}
-			else if ( itemId == ItemPool.BACKUP_CAMERA && !backupCamera.equals( currBackupCamera ) )
+			else if ( changeBackupCamera )
 			{
 				cmd = "backupcamera " + backupCamera + "; equip " + slotname + " \u00B6" + item.getItemId();
 				text = "backupcamera " + backupCamera;
