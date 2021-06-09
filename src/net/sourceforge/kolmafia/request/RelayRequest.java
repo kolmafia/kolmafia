@@ -3613,7 +3613,7 @@ public class RelayRequest
 			return;
 		}
 
-		if ( path.startsWith( "game.php" ) )
+		if ( this.isRootsetRequest )
 		{
 			super.run();
 

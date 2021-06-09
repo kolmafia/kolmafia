@@ -176,7 +176,10 @@ public class GenericRequest
 	private boolean hasResult;
 
 	public boolean isExternalRequest = false;
+	public boolean isRootsetRequest = false;
+	public boolean isTopmenuRequest = false;
 	public boolean isChatRequest = false;
+	public boolean isChatLaunchRequest = false;
 	public boolean isDescRequest = false;
 	public boolean isStaticRequest = false;
 	public boolean isQuestLogRequest = false;
@@ -491,9 +494,17 @@ public class GenericRequest
 			this.formURL = null;
 		}
 
+		this.isRootsetRequest = this.formURLString.startsWith( "game.php" );
+
+		this.isTopmenuRequest =
+			this.formURLString.startsWith( "topmenu.php" ) ||
+			this.formURLString.startsWith( "awesomemenu.php" );
+
 		this.isChatRequest =
 			this.formURLString.startsWith( "newchatmessages.php" ) ||
 			this.formURLString.startsWith( "submitnewchat.php" );
+
+		this.isChatLaunchRequest = this.formURLString.startsWith( "chatlaunch.php" );
 
 		this.isDescRequest = this.formURLString.startsWith( "desc_" );
 
