@@ -658,7 +658,7 @@ public class CampgroundRequest
 			if ( index != -1 )
 			{
 				KoLConstants.campground.remove( index );
-				return;
+				break;
 			}
 		}
 		for ( AdventureResult seed : CampgroundRequest.CROP_SEEDS )
@@ -667,7 +667,7 @@ public class CampgroundRequest
 			if ( index != -1 )
 			{
 				KoLConstants.campground.remove( index );
-				return;
+				break;
 			}
 		}
 	}
