@@ -107,7 +107,7 @@ public class QuantumTerrariumRequest
 			return;
 		}
 
-		if ( ( TurnCounter.getCounters( FAMILIAR_COUNTER, 0, 0 ).contains( FAMILIAR_COUNTER ) ) ||
+		if ( ( TurnCounter.getCounters( FAMILIAR_COUNTER, 0, 1 ).contains( FAMILIAR_COUNTER ) ) ||
 			!TurnCounter.isCounting( FAMILIAR_COUNTER ) )
 		{
 			lastChecked = KoLCharacter.getCurrentRun();
