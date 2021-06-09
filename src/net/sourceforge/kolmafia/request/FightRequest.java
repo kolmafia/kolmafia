@@ -7272,11 +7272,6 @@ public class FightRequest
 					continue;
 				}
 
-				if ( FightRequest.handleFamiliarScrapbook( str, status ) )
-				{
-					continue;
-				}
-
 				if ( str.contains( "you feel all warm and fuzzy" ) )
 				{
 					if ( status.logFamiliar )
@@ -8211,6 +8206,11 @@ public class FightRequest
 		}
 
 		if ( image.equals( status.familiar ) && FightRequest.handleGhostOfCommerce( str, status ) )
+		{
+			return;
+		}
+
+		if ( FightRequest.handleFamiliarScrapbook( str, status ) )
 		{
 			return;
 		}
