@@ -1401,6 +1401,8 @@ public class CompactSidePane
 			this.setVerticalTextPosition( JLabel.CENTER );
 		}
 
+		private String familiar = "none";
+
 		@Override
 		public void update()
 		{
@@ -1413,14 +1415,22 @@ public class CompactSidePane
 				return;
 			}
 
+			this.setText("<html><center>in " + turns + " turns</center></html>" );
+
 			String nextFamiliarRace = Preferences.getString( "nextQuantumFamiliar" );
+
+			if ( nextFamiliarRace == familiar)
+			{
+				return;
+			}
+
+			familiar = nextFamiliarRace;
+
 			this.setToolTipText( nextFamiliarRace );
 
 			ImageIcon icon = FamiliarDatabase.getFamiliarImage( nextFamiliarRace );
 			ImageIcon scaled = new ImageIcon( icon.getImage().getScaledInstance( 20, 20, Image.SCALE_DEFAULT ) );
 			this.setIcon( scaled );
-
-			this.setText("<html><center>in " + turns + " turns</center></html>" );
 		}
 	}
 

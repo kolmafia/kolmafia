@@ -1377,7 +1377,6 @@ public class GenericRequest
 			// special handling
 
 			QuestManager.handleQuestChange( this );
-			QuantumTerrariumRequest.checkCounter( this );
 		}
 
 		// Normal response?
@@ -1393,6 +1392,7 @@ public class GenericRequest
 			{
 				this.formatResponse();
 			}
+			QuantumTerrariumRequest.checkCounter( this );
 			return;
 		}
 
