@@ -88,6 +88,7 @@ global	logFamiliarActions	true
 global	logGainMessages	true
 global	logReadableHTML	false
 global	logPreferenceChange	false
+global	logPreferenceChangeFilter
 global	loginScript
 global	loginServerName
 global	loginWindowLogo	lantern.gif
