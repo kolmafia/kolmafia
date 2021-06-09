@@ -804,9 +804,14 @@ public class Preferences
 	{
 		if ( Preferences.getBoolean( "logPreferenceChange" ) )
 		{
-			String message = "Preference " + name + " changed from " + Preferences.getString( name ) + " to " + value;
-			RequestLogger.printLine( message );
-			RequestLogger.updateSessionLog( message );
+			Set<String> preferenceFilter = new HashSet<String>();
+			Collections.addAll( preferenceFilter, Preferences.getString( "logPreferenceChangeFilter" ).split( "," ) );
+			if ( !preferenceFilter.contains( name ) )
+			{
+				String message = "Preference " + name + " changed from " + Preferences.getString( name ) + " to " + value;
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+			}
 		}
 
 		if ( Preferences.isGlobalProperty( name ) )
