@@ -7888,7 +7888,10 @@ public abstract class ChoiceManager
 	public static boolean nonInterruptingRequest( final String urlString, final GenericRequest request )
 	{
 		return request.isExternalRequest ||
+			request.isRootsetRequest ||
+			request.isTopmenuRequest ||
 			request.isChatRequest ||
+			request.isChatLaunchRequest ||
 			request.isDescRequest ||
 			request.isStaticRequest ||
 			request.isQuestLogRequest ||
