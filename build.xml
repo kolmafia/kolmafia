@@ -174,7 +174,7 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 			</fileset>
 		</copy>
 
-                <antcall target="set.version" />
+		<antcall target="set.version" />
 
 		<javac
 			compiler="modern"
@@ -199,7 +199,7 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 			</classpath>
 		</javac>
 
-                <antcall target="unset.properties" />
+		<antcall target="unset.properties" />
 
 		<fail if="compile.failed" message="Failed to compile KoLmafia source code" />
 
@@ -273,6 +273,15 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 			<manifest>
 				<attribute name="Main-Class" value="${main}" />
 			</manifest>
+			<!--
+			Note: when adding new jars, make sure to manually
+			remove any "META-INF/*.SF", "META-INF/*.RSA" and
+			"META-INF/*.DSA" in them. We could take care of
+			that here, but since <restrict> doesn't support
+			<zipgroupfileset>, we would need to use <archives>
+			instead, which is WAAAAAYYY too slow...
+			(build time goes from 30 seconds to 2m 30s...)
+			-->
 			<zipgroupfileset dir="${lib}/jar">
 				<include name="*.jar"/>
 			</zipgroupfileset>
@@ -393,25 +402,9 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 
 		<antcall target="set.released.false"/>
 
-		<antcall target="compile" />
-
-		<jar
-			destfile="${dist}/${ant.project.name}-${revision}.jar"
-			basedir="${build}"
-			update="true"
-			index="true"
-			compress="true">
-
-			<manifest>
-				<attribute name="Main-Class" value="${main}" />
-			</manifest>
-			<zipgroupfileset dir="${lib}/jar">
-				<include name="*.jar"/>
-			</zipgroupfileset>
-			<zipgroupfileset dir="${src}/jar">
-				<include name="*.jar"/>
-			</zipgroupfileset>
-		</jar>
+		<antcall target="jar">
+			<param name="jarfile" value="${dist}/${ant.project.name}-${revision}.jar"/>
+		</antcall>
 
 	</target>
 	
