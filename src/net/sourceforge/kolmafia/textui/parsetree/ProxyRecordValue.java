@@ -1964,56 +1964,37 @@ public class ProxyRecordValue
 
 		public String get_image()
 		{
-			switch ( (Phylum) this.content )
+			Phylum phylum = (Phylum) this.content;
+			if ( phylum == null || phylum.equals( Phylum.NONE ) )
 			{
-			case NONE:
 				return "";
-			case BEAST:
-				return "beastflavor.gif";
-			case BUG:
-				return "stinkbug.gif";
-			case CONSTELLATION:
-				return "star.gif";
-			case CONSTRUCT:
-				return "sprocket.gif";
-			case DEMON:
-				return "demonflavor.gif";
-			case DUDE:
-				return "happy.gif";
-			case ELEMENTAL:
-				return "rrainbow.gif";
-			case ELF:
-				return "elfflavor.gif";
-			case FISH:
-				return "fish.gif";
-			case GOBLIN:
-				return "goblinflavor.gif";
-			case HIPPY:
-				return "hippyflavor.gif";
-			case HOBO:
-				return "hoboflavor.gif";
-			case HUMANOID:
-				return "statue.gif";
-			case HORROR:
-				return "skull.gif";
-			case MER_KIN:
-				return "merkinflavor.gif";
-			case ORC:
-				return "frattyflavor.gif";
-			case PENGUIN:
-				return "bowtie.gif";
-			case PIRATE:
-				return "pirateflavor.gif";
-			case PLANT:
-				return "leafflavor.gif";
-			case SLIME:
-				return "sebashield.gif";
-			case UNDEAD:
-				return "spookyflavor.gif";
-			case WEIRD:
-				return "weirdflavor.gif";
 			}
-			return "";
+
+			return phylum.getImage();
+		}
+	}
+
+	public static class StatProxy
+		extends ProxyRecordValue
+	{
+		public static RecordType _type = new RecordBuilder()
+				.finish( "stat proxy" );
+
+		public StatProxy( Value obj )
+		{
+			super( _type, obj );
+		}
+	}
+
+	public static class SlotProxy
+			extends ProxyRecordValue
+	{
+		public static RecordType _type = new RecordBuilder()
+				.finish( "slot proxy" );
+
+		public SlotProxy( Value obj )
+		{
+			super( _type, obj );
 		}
 	}
 }
