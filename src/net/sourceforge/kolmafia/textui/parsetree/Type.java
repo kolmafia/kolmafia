@@ -173,6 +173,14 @@ public class Type
 		{
 			return ProxyRecordValue.PhylumProxy._type;
 		}
+		if ( this == DataTypes.SLOT_TYPE )
+		{
+			return ProxyRecordValue.SlotProxy._type;
+		}
+		if ( this == DataTypes.STAT_TYPE )
+		{
+			return ProxyRecordValue.StatProxy._type;
+		}
 		return this;
 	}
 

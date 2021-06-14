@@ -306,6 +306,14 @@ public class Value
 		{
 			return new ProxyRecordValue.PhylumProxy( this );
 		}
+		if ( this.getType() == DataTypes.STAT_TYPE )
+		{
+			return new ProxyRecordValue.StatProxy( this );
+		}
+		if ( this.getType() == DataTypes.SLOT_TYPE )
+		{
+			return new ProxyRecordValue.SlotProxy( this );
+		}
 		return this;
 	}
 	
