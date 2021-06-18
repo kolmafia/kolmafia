@@ -1038,6 +1038,7 @@ user	retroCapeWashingInstructions	hold
 user	rockinRobinProgress	25
 user	ROMOfOptimalityAvailable	true
 user	ROMOfOptimalityCost	1000
+user	quantumPoints	0
 user	questDoctorBag	unstarted
 user	questECoBucket	unstarted
 user	questESlAudit	unstarted
