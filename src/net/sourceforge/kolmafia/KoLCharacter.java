@@ -3688,6 +3688,9 @@ public abstract class KoLCharacter
 			Preferences.increment( "plumberPoints", points, 22, false );
 			KoLCharacter.removePlumberQuestItems();
 			break;
+		case QUANTUM:
+			Preferences.increment( "quantumPoints", points, 11, false );
+			break;
 		}
 
 		// We are no longer in Hardcore
@@ -3767,8 +3770,12 @@ public abstract class KoLCharacter
 		}
 		if ( restricted ||
 		     oldPath == Path.LICENSE_TO_ADVENTURE ||
-		     oldPath == Path.YOU_ROBOT )
+		     oldPath == Path.YOU_ROBOT ||
+		     oldPath == Path.QUANTUM )
 		{
+			// Clear out any erroneous familiars (e.g. Quantum Terrarium adds any familiars you see)
+			familiars.clear();
+
 			// All familiars can now be used
 			RequestThread.postRequest( new FamiliarRequest() );
 			GearChangeFrame.updateFamiliars();
