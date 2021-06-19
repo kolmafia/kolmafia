@@ -286,6 +286,7 @@ public class ItemPool
 	public static final int METALLIC_A = 628;
 	public static final int MEAT_GLOBE = 636;
 	public static final int TOASTER = 637;
+	public static final int TOAST = 641;
 	public static final int SKELETON_KEY = 642;
 	public static final int SKELETON_KEY_RING = 643;
 	public static final int ROWBOAT = 653;
