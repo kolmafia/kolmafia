@@ -108,7 +108,7 @@ public class JsRefCommand
 	}
 
 	@Override
-	public void run( final String cmd, final String filter )
+	public void run( final String cmd, String filter )
 	{
 		boolean addLinks = StaticEntity.isGUIRequired();
 
@@ -120,13 +120,19 @@ public class JsRefCommand
 			return;
 		}
 
+		filter = filter.toLowerCase();
+
 		for( Function func : functions  )
 		{
 			boolean matches = filter.equals( "" );
 
+			String funcName = func.getName();
+			String jsFuncName = JavascriptRuntime.toCamelCase( funcName );
+
 			if ( !matches )
 			{
-				matches = func.getName().toLowerCase().contains( filter.toLowerCase() );
+				matches = funcName.toLowerCase().contains( filter );
+				matches |= jsFuncName.toLowerCase().contains( filter );
 			}
 
 			if ( !matches )
@@ -134,7 +140,11 @@ public class JsRefCommand
 				for ( VariableReference ref : func.getVariableReferences() )
 				{
 					String refType = ref.getType().toString();
-					matches = refType != null && refType.contains( filter );
+					if ( refType != null )
+					{
+						matches = refType.toLowerCase().contains( filter );
+						matches |= JavascriptRuntime.toCamelCase( refType ).toLowerCase().contains( filter );
+					}
 				}
 			}
 
@@ -150,10 +160,10 @@ public class JsRefCommand
 			if ( addLinks )
 			{
 				description.append( "<a href='https://wiki.kolmafia.us/index.php?title=" );
-				description.append( func.getName() );
+				description.append( funcName );
 				description.append( "'>" );
 			}
-			description.append( JavascriptRuntime.toCamelCase( func.getName() ) );
+			description.append( jsFuncName );
 			if ( addLinks )
 			{
 				description.append( "</a>" );
