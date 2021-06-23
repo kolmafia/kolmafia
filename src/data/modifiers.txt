@@ -4417,7 +4417,6 @@ Familiar	Peppermint Rhino	Candy Drop: [max(sqrt(55*W)+W-3,0)]
 Familiar	Purse Rat	Monster Level: [floor(W/2)]
 Familiar	Reanimated Reanimator	Volleyball: 1, Meat Drop: [max(sqrt(220*pref(reanimatorSkulls))+2*pref(reanimatorSkulls)-6,0)], Item Drop: [max(sqrt(55*pref(reanimatorLegs))+pref(reanimatorLegs)-3,0)]
 Familiar	Red-Nosed Snapper	Fairy: [1+0.5*env(underwater)]
-# Underwater Familiar only with Bloody Nora or low tide martini
 Familiar	Robortender	Experience (Muscle): [max(3*pref(_roboDrinks,literal grasshopper),5*pref(_roboDrinks,eighth plague))], Fairy: [max(pref(_roboDrinks,single entendre),0.5*pref(_roboDrinks,double entendre))], Experience (Moxie): [max(3*pref(_roboDrinks,shroomtini),5*pref(_roboDrinks,moreltini))], Leprechaun: [1+max(0.5*pref(_roboDrinks,piscatini),pref(_roboDrinks,drive-by shooting))], Experience (Mysticality): [max(3*pref(_roboDrinks,soilzerac),5*pref(_roboDrinks,dirt julep))], Familiar Weight (hidden): [10*env(underwater)*pref(_roboDrinks,Bloody Nora)]
 Familiar	Space Jellyfish	Item Drop: [max(sqrt(55*W)+W-3,0)*env(underwater)], Experience: [max(2+W/5,2)*env(underwater)]
 Familiar	Steam-Powered Cheerleader	Fairy: [1+0.1*ceil(pref(_cheerleaderSteam)/50)]
