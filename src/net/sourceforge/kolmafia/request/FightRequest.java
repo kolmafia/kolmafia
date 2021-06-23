@@ -5195,7 +5195,8 @@ public class FightRequest
 		Pattern.compile( "and see a tiny you fighting a tiny <b>(.*?)</b> in a tiny" ),
 		Pattern.compile( "it looks like there's <b>an? (.*?)</b> prowling around" ),
 		Pattern.compile( "and see yourself running into <b>an? (.*?)</b> soon" ),
-		Pattern.compile( "showing you an image of yourself fighting <b>an? (.*?)</b>" )
+		Pattern.compile( "showing you an image of yourself fighting <b>an? (.*?)</b>" ),
+		Pattern.compile( "you're going to run into <b>an? (.*?)</b>" ),
 	};
 
 	private static String parseCrystalBall( final String responseText )
