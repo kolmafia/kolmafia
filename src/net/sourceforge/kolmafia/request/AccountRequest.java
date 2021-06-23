@@ -553,6 +553,12 @@ public class AccountRequest
 			}
 			return;
 		}
+
+		if ( action.equals( "whichpenpal" ) )
+		{
+			// There's no way of telling whether this was successful so just update our status and let that resolve it
+			ApiRequest.updateStatus();
+		}
 	}
 
 	public static final void parseStatus( final JSONObject JSON )
@@ -630,26 +636,6 @@ public class AccountRequest
 		KoLCharacter.setSkillsRecalled( recalled );
 
 		int eudora = flags.getInt( "whichpenpal" );
-		switch ( eudora )
-		{
-		case 0:
-			KoLCharacter.setEudora( "none" );
-			break;
-		case 1:
-			KoLCharacter.setEudora( "Penpal" );
-			break;
-		case 2:
-			KoLCharacter.setEudora( "GameInformPowerDailyPro Magazine" );
-			break;
-		case 3:
-			KoLCharacter.setEudora( "Xi Receiver Unit" );
-			break;
-		case 4:
-			KoLCharacter.setEudora( "New-You Club" );
-			break;
-		default:
-			KoLCharacter.setEudora( "Unknown" );
-			break;
-		}
+		KoLCharacter.setEudora( eudora );
 	}
 }
