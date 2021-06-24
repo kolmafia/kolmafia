@@ -5459,6 +5459,7 @@ Effect	Digitalis, Dig It	Initiative: +75, Maximum HP: +200
 Effect	Digitally Converted	Monster Level: +30
 Effect	Dilated Pupils	Item Drop: +20
 Effect	Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage: +12
+Effect	Dirge of Dreadfulness (Remastered)	Spooky Damage: +36, Spooky Spell Damage: +36
 Effect	Dirty Pear	Sleaze Damage: [mod(Sleaze Damage)], Sleaze Spell Damage: [mod(Sleaze Spell Damage)]
 # Dis Abled: Grants access to the Suburb of Dis
 # Disavowed reduces a bunch of stuff based on how many times it has been given that day
@@ -6736,6 +6737,7 @@ Effect	Savage Beast Inside	Muscle: +20
 Effect	Scared Stiff	Sleaze Resistance: +2, Cold Vulnerability, Spooky Vulnerability
 Effect	Scaredy Dog	Spooky Damage: +30, Cold Resistance: +3, Sleaze Resistance: +3, Combat Rate: -5
 Effect	Scariberi	Spooky Damage: [min(100,T)]
+Effect	Scariersauce	Sleaze Resistance: +6, Cold Resistance: +6
 # Scarysauce: Damages Attacking Opponents
 Effect	Scarysauce	Sleaze Resistance: +2, Cold Resistance: +2
 Effect	Scavengers Scavenging	Item Drop: +20
@@ -6892,6 +6894,7 @@ Effect	Smug of Cocoa	Monster Level: +30
 Effect	Smugness	Moxie: +5
 Effect	SNAPPED INTO IT	Avatar: "Macho Man"
 Effect	Snarl of the Timberwolf	Spooky Damage: +10
+Effect	Snarl of Three Timberwolves	Spooky Damage: +30
 Effect	Sneaky Serpentine Subtlety	Moxie Percent: +100
 Effect	Snichors	Drippy Resistance: +5
 Effect	Snobby	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
