@@ -331,6 +331,7 @@ public abstract class KoLCharacter
 	private static ZodiacType ascensionSignType = ZodiacType.NONE;
 	private static ZodiacZone ascensionSignZone = ZodiacZone.NONE;
 	private static Path ascensionPath = Path.NONE;
+	private static int consumptionRestriction = AscensionSnapshot.NOPATH;
 
 	// Things which can change over the course of playing
 
@@ -558,6 +559,7 @@ public abstract class KoLCharacter
 		KoLCharacter.ascensionSignType = ZodiacType.NONE;
 		KoLCharacter.ascensionSignZone = ZodiacZone.NONE;
 		KoLCharacter.ascensionPath = Path.NONE;
+		KoLCharacter.consumptionRestriction = AscensionSnapshot.NOPATH;
 
 		KoLCharacter.mindControlLevel = 0;
 		KoLCharacter.radSickness = 0;
@@ -4306,6 +4308,15 @@ public abstract class KoLCharacter
 	public static final void setPath( final Path path )
 	{
 		KoLCharacter.ascensionPath = path;
+		int restriction =
+			path == Path.OXYGENARIAN ?
+			AscensionSnapshot.OXYGENARIAN :
+			path == Path.BOOZETAFARIAN ?
+			AscensionSnapshot.BOOZETAFARIAN :
+			path == Path.TEETOTALER ?
+			AscensionSnapshot.TEETOTALER :
+			AscensionSnapshot.NOPATH;
+		KoLCharacter.consumptionRestriction = restriction;
 	}
 
 	/**
@@ -4314,6 +4325,16 @@ public abstract class KoLCharacter
 	 * @return String
 	 */
 
+	public static final int getConsumptionRestriction()
+	{
+		return KoLCharacter.consumptionRestriction;
+	}
+
+	public static final void setConsumptionRestriction( final int consumptionRestriction )
+	{
+		KoLCharacter.consumptionRestriction = consumptionRestriction;
+	}
+
 	public static final boolean canEat()
 	{
 		if ( Limitmode.limitEating() )
@@ -4321,7 +4342,18 @@ public abstract class KoLCharacter
 			return false;
 		}
 
-		return KoLCharacter.getPath().canEat();
+		if ( KoLCharacter.isEd() && !KoLCharacter.hasSkill( "Replacement Stomach" ) )
+		{
+			return false;
+		}
+
+		if ( KoLCharacter.inNoobcore() || KoLCharacter.inBondcore() || KoLCharacter.inRobocore() )
+		{
+			return false;
+		}
+
+		return  KoLCharacter.consumptionRestriction == AscensionSnapshot.NOPATH ||
+			KoLCharacter.consumptionRestriction == AscensionSnapshot.TEETOTALER;
 	}
 
 	public static final boolean canDrink()
@@ -4331,7 +4363,28 @@ public abstract class KoLCharacter
 			return false;
 		}
 
-		return KoLCharacter.getPath().canDrink();
+		if ( KoLCharacter.isEd() && !KoLCharacter.hasSkill( "Replacement Liver" ) )
+		{
+			return false;
+		}
+
+		if ( KoLCharacter.inNoobcore() )
+		{
+			return false;
+		}
+
+		if ( KoLCharacter.isPlumber() )
+		{
+			return false;
+		}
+
+		if ( KoLCharacter.inRobocore() )
+		{
+			return false;
+		}
+
+		return  KoLCharacter.consumptionRestriction == AscensionSnapshot.NOPATH ||
+			KoLCharacter.consumptionRestriction == AscensionSnapshot.BOOZETAFARIAN;
 	}
 
 	/**
