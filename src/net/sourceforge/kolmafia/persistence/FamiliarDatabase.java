@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -562,6 +563,12 @@ public class FamiliarDatabase
 
 	public static final boolean isUnderwaterType( final Integer familiarId )
 	{
+		if ( familiarId == FamiliarPool.ROBORTENDER )
+		{
+			String drinks = Preferences.getString( "_roboDrinks" );
+			return drinks.contains( "low tide martini" ) || drinks.contains( "Bloody Nora" );
+		}
+
 		return  FamiliarDatabase.underwaterById.contains( familiarId );
 	}
 
