@@ -68,6 +68,8 @@ import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
+import net.sourceforge.kolmafia.textui.command.EudoraCommand;
+import net.sourceforge.kolmafia.textui.command.EudoraCommand.Correspondent;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ValhallaDecorator
@@ -227,6 +229,7 @@ public class ValhallaDecorator
 		hasGift |= ValhallaDecorator.developerGift( buffer, ItemPool.STUFFED_COCOABO, "holatuwol" );
 		hasGift |= ValhallaDecorator.developerGift( buffer, ItemPool.D10, "bmaher" );
 		hasGift |= ValhallaDecorator.developerGift( buffer, ItemPool.SPADE_NECKLACE, "Darzil" );
+		hasGift |= ValhallaDecorator.developerGift( buffer, ItemPool.TOAST, "gausie" );
 
 		int count = InventoryManager.getCount( ItemPool.INSTANT_KARMA );
 		if ( count > 0 )
@@ -523,62 +526,25 @@ public class ValhallaDecorator
 
 		// have[Eudora] means that it can be switched to, which means
 		// it is not currently active
-		boolean havePenpal = false;
-		boolean haveGamemag = false;
-		boolean haveXi = false;
-		boolean haveNewYou = false;
-		String activeEudora = "";
 		Matcher matcher = ValhallaDecorator.EUDORA_PATTERN.matcher( response );
+
+		Correspondent activeCorrespondent = Correspondent.NONE;
+		ArrayList<Correspondent> availableCorrespondents = new ArrayList();
 
 		while ( matcher.find() )
 		{
-			if ( matcher.group(3).equals( "Pen Pal" ) )
-			{
-				if ( matcher.group(1) == null )
-				{
-					havePenpal = true;
-				}
-				else
-				{
-					activeEudora = "Pen Pal";
-				}
+			String name = matcher.group ( 3 );
+			Correspondent eudora = Correspondent.find( name );
+			if ( matcher.group( 1 ) == null ){
+				availableCorrespondents.add( eudora );
 			}
-			else if ( matcher.group(3).equals( "GameInformPowerDailyPro Magazine" ) )
+			else
 			{
-				if ( matcher.group(1) == null )
-				{
-					haveGamemag = true;
-				}
-				else
-				{
-					activeEudora = "Game Magazine";
-				}
-			}
-			else if ( matcher.group(3).equals( "Xi Receiver Unit" ) )
-			{
-				if ( matcher.group(1) == null )
-				{
-					haveXi = true;
-				}
-				else
-				{
-					activeEudora = "Xi Receiver";
-				}
-			}
-			else if ( matcher.group(3).equals( "New-You Club" ) )
-			{
-				if ( matcher.group(1) == null )
-				{
-					haveNewYou = true;
-				}
-				else
-				{
-					activeEudora = "New-You Club";
-				}
+				activeCorrespondent = eudora;
 			}
 		}
 
-		if ( !havePenpal && !haveGamemag && !haveXi )
+		if ( availableCorrespondents.size() == 0 )
 		{
 			// No choice to make
 			return;
@@ -589,43 +555,27 @@ public class ValhallaDecorator
 		buffer.append( "<form style=\"margin: 0; padding: 0; display: inline;\"><select id=\"garden\" onchange=\"if (this.value) window.location.href=this.value\">" );
 		buffer.append( "<option value=\"\" style=\"background-color: #eeeeff\">Select one</option>" );
 
-		if ( havePenpal )
+		for ( Correspondent correspondent : availableCorrespondents )
 		{
+			if ( correspondent == Correspondent.NONE )
+			{
+				continue;
+			}
+
 			buffer.append( "<option style=\"background-color: #eeeeff\" " );
-			buffer.append( "value=\"/KoLmafia/redirectedCommand?cmd=eudora+penpal&pwd=" );
+			buffer.append( "value=\"/KoLmafia/redirectedCommand?cmd=eudora+");
+			buffer.append( correspondent.getSlug() );
+			buffer.append( "&pwd=" );
 			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\">Pen Pal" );
-			buffer.append( "</option>" );
-		}
-		if ( haveGamemag )
-		{
-			buffer.append( "<option style=\"background-color: #eeeeff\" " );
-			buffer.append( "value=\"/KoLmafia/redirectedCommand?cmd=eudora+game&pwd=" );
-			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\">Game Magazine" );
-			buffer.append( "</option>" );
-		}
-		if ( haveXi )
-		{
-			buffer.append( "<option style=\"background-color: #eeeeff\" " );
-			buffer.append( "value=\"/KoLmafia/redirectedCommand?cmd=eudora+xi&pwd=" );
-			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\">Xi Receiver" );
-			buffer.append( "</option>" );
-		}
-		if ( haveNewYou )
-		{
-			buffer.append( "<option style=\"background-color: #eeeeff\" " );
-			buffer.append( "value=\"/KoLmafia/redirectedCommand?cmd=eudora+newyou&pwd=" );
-			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\">New-You Club" );
+			buffer.append( "\">" );
+			buffer.append( correspondent.getItem() );
 			buffer.append( "</option>" );
 		}
 
 		buffer.append( "</select></form>" );
 
 		buffer.append( "</nobr><br><nobr>" );
-		buffer.append( "(currently " ).append( activeEudora ).append( ")" );
+		buffer.append( "(currently " ).append( activeCorrespondent.getItem() ).append( ")" );
 		buffer.append( "</nobr><br>" );
 	}
 

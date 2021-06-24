@@ -150,6 +150,7 @@ public class AscensionHistoryRequest
 		int masksUnlocked = 0;
 		int gyfftePoints = 0;
 		int plumberPoints = 0;
+		int quantumPoints = 0;
 		String playerName = null;
 		String playerId = null;
 
@@ -242,6 +243,9 @@ public class AscensionHistoryRequest
 			case AscensionSnapshot.PATH_OF_THE_PLUMBER:
 				plumberPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
 				break;
+			case AscensionSnapshot.QUANTUM:
+				quantumPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
+				break;
 			}
 		}
 
@@ -302,6 +306,10 @@ public class AscensionHistoryRequest
 		if ( plumberPoints > Preferences.getInteger( "plumberPoints" ) )
 		{
 			Preferences.setInteger( "plumberPoints", ( Math.min( plumberPoints, 22 ) ) );
+		}
+		if ( quantumPoints > Preferences.getInteger( "quantumPoints" ) )
+		{
+			Preferences.setInteger( "quantumPoints", ( Math.min( quantumPoints, 11 ) ) );
 		}
 	}
 
@@ -871,6 +879,7 @@ public class AscensionHistoryRequest
 				pathName.equals( "Path of the Plumber" ) ? AscensionSnapshot.PATH_OF_THE_PLUMBER :
 				pathName.equals( "Low Key Summer" ) ? AscensionSnapshot.LOWKEY :
 				pathName.equals( "Grey Goo" ) ? AscensionSnapshot.GREY_GOO :
+				pathName.equals( "Quantum Terrarium" ) ? AscensionSnapshot.QUANTUM :
 				AscensionSnapshot.UNKNOWN_PATH;
 		}
 
@@ -943,6 +952,7 @@ public class AscensionHistoryRequest
 					columns[ 8 ].contains( "mario_mushroom1" ) ? AscensionSnapshot.PATH_OF_THE_PLUMBER :
 					columns[ 8 ].contains( "littlelock" ) ? AscensionSnapshot.LOWKEY :
 					columns[ 8 ].contains( "greygooball" ) ? AscensionSnapshot.GREY_GOO :
+					columns[ 8 ].contains( "confused" ) ? AscensionSnapshot.QUANTUM :
 					AscensionSnapshot.NOPATH;
 			}
 			catch ( Exception e )

@@ -43,80 +43,124 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 public class EudoraCommand
 	extends AbstractCommand
 {
+	public enum Correspondent
+	{
+		NONE( 0, "None", "none" ),
+		PENPAL( 1, "Pen Pal", "My Own Pen Pal kit" ),
+		GAME( 2, "GameInformPowerDailyPro Magazine", "GameInformPowerDailyPro subscription card" ),
+		XI( 3, "Xi Receiver Unit" , "Xi Receiver Unit" ),
+		NEWYOU( 4, "New-You Club", "New-You Club Membership Form" );
+
+		private final int id;
+		private final String name;
+		private final String item;
+
+		public static Correspondent find( final int id )
+		{
+			for ( Correspondent correspondent : Correspondent.values() )
+			{
+				if ( correspondent.getId() == id )
+				{
+					return correspondent;
+				}
+			}
+			return Correspondent.NONE;
+		}
+
+		public static Correspondent find( final String query )
+		{
+			for ( Correspondent correspondent : Correspondent.values() )
+			{
+				String name = correspondent.getName();
+				if ( name.contains( query ) || name.replaceAll( "[- ]", "" ).contains( query ) )
+				{
+					return correspondent;
+				}
+			}
+			return Correspondent.NONE;
+		}
+
+		public static Correspondent findByItem( final String query )
+		{
+			for ( Correspondent correspondent : Correspondent.values() )
+			{
+				if ( correspondent.getItem().contains( query ) )
+				{
+					return correspondent;
+				}
+			}
+			return Correspondent.NONE;
+		}
+
+		Correspondent( int id, String name, String item )
+		{
+			this.id = id;
+			this.name = name;
+			this.item = item;
+		}
+
+		public int getId()
+		{
+			return this.id;
+		}
+		public String getName() { return this.name; }
+		public String getItem() { return this.item; }
+		public String getSlug()
+		{
+			if ( !this.name.contains( " " ) )
+			{
+				return this.name;
+			}
+
+			return this.name.substring(0, this.name.indexOf( " " ) );
+		}
+	}
+
 	public EudoraCommand()
 	{
 		this.usage = " penpal|game|xi|newyou - switch to the specified correspondent";
+	}
+
+	public static boolean switchTo( final Correspondent correspondent )
+	{
+		if ( correspondent == Correspondent.NONE )
+		{
+			return false;
+		}
+
+		String requestString = "account.php?am=1&action=whichpenpal&ajax=1&pwd=" +
+				GenericRequest.passwordHash + "&value=";
+
+		GenericRequest request = new GenericRequest( requestString + correspondent.getId() );
+		request.run();
+
+		if ( KoLCharacter.getEudora() == correspondent )
+		{
+			KoLmafia.updateDisplay( "Switched to " + correspondent.getName() );
+			return true;
+		}
+		else
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Cannot switch to" + correspondent.getName() );
+			return false;
+		}
+	}
+
+	public static boolean switchTo( final String query )
+	{
+		Correspondent correspondent = Correspondent.find( query );
+		return switchTo( correspondent );
 	}
 
 	@Override
 	public void run( final String cmd, String parameters )
 	{
 		parameters = parameters.trim();
-
-		String requestString = "account.php?am=1&action=whichpenpal&ajax=1&pwd=" +
-			  GenericRequest.passwordHash + "&value=";
-
-		if ( parameters.equals( "penpal" ) )
+		if ( parameters.length() == 0 )
 		{
-			GenericRequest request = new GenericRequest( requestString + "1" );
-			request.run();
-			ApiRequest.updateStatus();
-			if ( KoLCharacter.getEudora().equals( "Penpal" ) )
-			{
-				KoLmafia.updateDisplay( "Switched to Pen Pal" );
-			}
-			else
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "Cannot switch to Pen Pal" );
-			}
+			KoLmafia.updateDisplay( "Current correspondent is " + KoLCharacter.getEudora().getName() );
 		}
-		else if ( parameters.equals( "game" ) )
-		{
-			GenericRequest request = new GenericRequest( requestString + "2" );
-			request.run();
-			ApiRequest.updateStatus();
-			if ( KoLCharacter.getEudora().equals( "GameInformPowerDailyPro Magazine" ) )
-			{
-				KoLmafia.updateDisplay( "Switched to Game Magazine" );
-			}
-			else
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "Cannot switch to Game Magazine" );
-			}
-		}
-		else if ( parameters.equals( "xi" ) )
-		{
-			GenericRequest request = new GenericRequest( requestString + "3" );
-			request.run();
-			ApiRequest.updateStatus();
-			if ( KoLCharacter.getEudora().equals( "Xi Receiver Unit" ) )
-			{
-				KoLmafia.updateDisplay( "Switched to Xi Receiver" );
-			}
-			else
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "Cannot switch to Xi Receiver" );
-			}
-		}
-		else if ( parameters.equals( "newyou" ) )
-		{
-			GenericRequest request = new GenericRequest( requestString + "4" );
-			request.run();
-			ApiRequest.updateStatus();
-			if ( KoLCharacter.getEudora().equals( "New-You Club" ) )
-			{
-				KoLmafia.updateDisplay( "Switched to New-You Club" );
-			}
-			else
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "Cannot switch to New-You Club" );
-			}
-		}
-		else if ( parameters.length() == 0 )
-		{
-			KoLmafia.updateDisplay( "Current correspondent is " + KoLCharacter.getEudora() );
-		}
-		else
+		else if ( !switchTo( parameters) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "That is not a valid correspondent" );
 		}

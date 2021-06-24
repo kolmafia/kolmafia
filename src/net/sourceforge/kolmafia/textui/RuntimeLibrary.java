@@ -70,6 +70,7 @@ import java.util.regex.PatternSyntaxException;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
 import net.sourceforge.kolmafia.session.*;
+import net.sourceforge.kolmafia.textui.command.EudoraCommand;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.SimpleXmlSerializer;
 import org.htmlcleaner.TagNode;
@@ -1640,6 +1641,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "eudora", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "eudora_item", DataTypes.ITEM_TYPE, params ) );
 
 		// String parsing functions.
 
@@ -6983,60 +6987,25 @@ public abstract class RuntimeLibrary
 
 	public static Value eudora ( ScriptRuntime controller )
 	{
-		return new Value( KoLCharacter.getEudora() );
+		String name = KoLCharacter.getEudora().getName();
+		if ( name.equals( "Pen Pal" ) )
+		{
+			// For compatibility
+			name = "Penpal";
+		}
+		return new Value( name );
+	}
+
+	public static Value eudora_item ( ScriptRuntime controller )
+	{
+		return DataTypes.makeItemValue( ItemDatabase.getItemId( KoLCharacter.getEudora().getItem() ), true );
 	}
 
 	public static Value eudora( ScriptRuntime controller, final Value newEudora )
 	{
 		String correspondent = newEudora.toString();
-		String requestString = "account.php?am=1&action=whichpenpal&ajax=1&pwd=" +
-			  GenericRequest.passwordHash + "&value=";
 
-		if ( correspondent.equalsIgnoreCase( "penpal" ) )
-		{
-			GenericRequest request = new GenericRequest( requestString + "1" );
-			request.run();
-			ApiRequest.updateStatus();
-			if ( KoLCharacter.getEudora().equals( "Penpal" ) )
-			{
-				KoLmafia.updateDisplay( "Switched to Pen Pal" );
-				return DataTypes.TRUE_VALUE;
-			}
-		}
-		if ( correspondent.equalsIgnoreCase( "game" ) )
-		{
-			GenericRequest request = new GenericRequest( requestString + "2" );
-			request.run();
-			ApiRequest.updateStatus();
-			if ( KoLCharacter.getEudora().equals( "GameInformPowerDailyPro Magazine" ) )
-			{
-				KoLmafia.updateDisplay( "Switched to Game Magazine" );
-				return DataTypes.TRUE_VALUE;
-			}
-		}
-		if ( correspondent.equalsIgnoreCase( "xi" ) )
-		{
-			GenericRequest request = new GenericRequest( requestString + "3" );
-			request.run();
-			ApiRequest.updateStatus();
-			if ( KoLCharacter.getEudora().equals( "Xi Receiver Unit" ) )
-			{
-				KoLmafia.updateDisplay( "Switched to Xi Receiver" );
-				return DataTypes.TRUE_VALUE;
-			}
-		}
-		if ( correspondent.equalsIgnoreCase( "newyou" ) )
-		{
-			GenericRequest request = new GenericRequest( requestString + "4" );
-			request.run();
-			ApiRequest.updateStatus();
-			if ( KoLCharacter.getEudora().equals( "New-You Club" ) )
-			{
-				KoLmafia.updateDisplay( "Switched to New-You Club" );
-				return DataTypes.TRUE_VALUE;
-			}
-		}
-		return DataTypes.FALSE_VALUE;
+		return DataTypes.makeBooleanValue( EudoraCommand.switchTo( correspondent ) );
 	}
 
 	// String parsing functions.

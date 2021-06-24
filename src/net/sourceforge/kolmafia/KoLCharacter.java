@@ -122,6 +122,7 @@ import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
 
 import net.sourceforge.kolmafia.textui.DataFileCache;
 
+import net.sourceforge.kolmafia.textui.command.EudoraCommand.Correspondent;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 
@@ -453,7 +454,7 @@ public abstract class KoLCharacter
 	private static boolean lazyInventory = false;
 	private static boolean unequipFamiliar = false;
 
-	private static String eudora = "";
+	private static Correspondent eudora = Correspondent.NONE;
 
 	// Put things that allocate AdventureResult objects AFTER previous
 	// static data has been initialized.
@@ -566,7 +567,7 @@ public abstract class KoLCharacter
 		KoLCharacter.autosellMode = "";
 		KoLCharacter.lazyInventory = false;
 		KoLCharacter.unequipFamiliar = false;
-		KoLCharacter.eudora = "";
+		KoLCharacter.eudora = Correspondent.NONE;
 
 		// Clear some of the standard lists so they don't
 		// carry over from player to player.
@@ -1586,12 +1587,17 @@ public abstract class KoLCharacter
 		KoLCharacter.updateStatus();
 	}
 
-	public static final void setEudora( final String eudora )
+	public static final void setEudora( final Correspondent eudora )
 	{
 		KoLCharacter.eudora = eudora;
 	}
 
-	public static final String getEudora()
+	public static final void setEudora( final int eudoraId )
+	{
+		KoLCharacter.eudora = Correspondent.find( eudoraId );
+	}
+
+	public static final Correspondent getEudora()
 	{
 		return KoLCharacter.eudora;
 	}
@@ -3688,6 +3694,9 @@ public abstract class KoLCharacter
 			Preferences.increment( "plumberPoints", points, 22, false );
 			KoLCharacter.removePlumberQuestItems();
 			break;
+		case QUANTUM:
+			Preferences.increment( "quantumPoints", points, 11, false );
+			break;
 		}
 
 		// We are no longer in Hardcore
@@ -3767,8 +3776,12 @@ public abstract class KoLCharacter
 		}
 		if ( restricted ||
 		     oldPath == Path.LICENSE_TO_ADVENTURE ||
-		     oldPath == Path.YOU_ROBOT )
+		     oldPath == Path.YOU_ROBOT ||
+		     oldPath == Path.QUANTUM )
 		{
+			// Clear out any erroneous familiars (e.g. Quantum Terrarium adds any familiars you see)
+			familiars.clear();
+
 			// All familiars can now be used
 			RequestThread.postRequest( new FamiliarRequest() );
 			GearChangeFrame.updateFamiliars();

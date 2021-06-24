@@ -18364,6 +18364,14 @@ public abstract class ChoiceManager
 
 			return decision;
 
+		case 1222:
+			// Walk away from The Tunnel of L.O.V.E. if you've already had a trip
+			if ( responseText.contains( "You've already gone through the Tunnel once today" ) )
+			{
+				return "2";
+			}
+			return decision;
+
 		case 1260:
 			// A Strange Panel
 			return VillainLairDecorator.spoilColorChoice();
