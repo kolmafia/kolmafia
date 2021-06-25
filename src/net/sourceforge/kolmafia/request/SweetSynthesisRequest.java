@@ -194,13 +194,13 @@ public class SweetSynthesisRequest
 
 		if ( responseText.contains( "You have to pick two candies!" ) )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Something went wrong with candy seledtion" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Something went wrong with candy selection" );
 			return;
 		}
 
 		if ( responseText.contains( "You don't have that candy!" ) )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "KoLmafia thinks you had a candy that KoL thinks you don't" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "KoLmafia thinks you have a candy that KoL thinks you don't" );
 			InventoryManager.refresh();
 			return;
 		}
