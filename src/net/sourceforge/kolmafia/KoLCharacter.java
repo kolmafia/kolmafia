@@ -321,6 +321,7 @@ public abstract class KoLCharacter
 	// Ascension-related variables
 
 	private static boolean isHardcore = false;
+	private static boolean isCasual = false;
 	private static boolean inRonin = true;
 	private static boolean skillsRecalled = false;
 	private static boolean restricted = false;
@@ -522,6 +523,7 @@ public abstract class KoLCharacter
 		KoLCharacter.resetSkills();
 
 		KoLCharacter.isHardcore = false;
+		KoLCharacter.isCasual = false;
 		KoLCharacter.inRonin = true;
 		KoLCharacter.restricted = false;
 		KoLCharacter.inebriety = 0;
@@ -3880,6 +3882,24 @@ public abstract class KoLCharacter
 	public static final void setHardcore( final boolean isHardcore )
 	{
 		KoLCharacter.isHardcore = isHardcore;
+	}
+
+	/**
+	 * Returns whether or not the character is currently in casual.
+	 */
+
+	public static final boolean isCasual()
+	{
+		return KoLCharacter.isCasual;
+	}
+
+	/**
+	 * Accessor method which sets whether or not the player is currently in casual.
+	 */
+
+	public static final void setCasual( final boolean isCasual )
+	{
+		KoLCharacter.isCasual = isCasual;
 	}
 
 	/**
