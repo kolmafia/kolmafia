@@ -1284,6 +1284,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "in_hardcore", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "in_casual", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "pvp_attacks_left", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
@@ -5942,6 +5945,11 @@ public abstract class RuntimeLibrary
 	public static Value in_hardcore( ScriptRuntime controller )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.isHardcore() );
+	}
+
+	public static Value in_casual( ScriptRuntime controller )
+	{
+		return DataTypes.makeBooleanValue( KoLCharacter.isCasual() );
 	}
 
 	public static Value pvp_attacks_left( ScriptRuntime controller )
