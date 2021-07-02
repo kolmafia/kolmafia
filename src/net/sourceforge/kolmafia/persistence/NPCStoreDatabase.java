@@ -186,6 +186,12 @@ public class NPCStoreDatabase
 		case ItemPool.ZEPPELIN_TICKET:
 		case ItemPool.FORGED_ID_DOCUMENTS:
 		case ItemPool.SPARE_KIDNEY:
+		case ItemPool.FEDORA_MOUNTED_FOUNTAIN:
+		case ItemPool.PORKPIE_MOUNTED_POPPER:
+		case ItemPool.SOMBRERO_MOUNTED_SPARKLER:
+		case ItemPool.CATHERINE_WHEEL:
+		case ItemPool.ROCKET_BOOTS:
+		case ItemPool.OVERSIZED_SPARKLER:
 			return 1;
 		}
 		return PurchaseRequest.MAX_QUANTITY;
@@ -355,7 +361,6 @@ public class NPCStoreDatabase
 
 				outfit = OutfitPool.WAR_FRAT_OUTFIT;
 			}
-
 			else
 			{
 				// What is this?
@@ -588,6 +593,27 @@ public class NPCStoreDatabase
 			{
 				return InventoryManager.hasItem( ItemPool.FISHING_POLE );
 			}
+		}
+		else if ( storeId.equals( "fwshop" ) )
+		{
+			if ( Preferences.getBoolean( "_fireworksShop") == false )
+			{
+				return false;
+			}
+
+			switch ( itemId )
+			{
+			case ItemPool.FEDORA_MOUNTED_FOUNTAIN:
+			case ItemPool.PORKPIE_MOUNTED_POPPER:
+			case ItemPool.SOMBRERO_MOUNTED_SPARKLER:
+				return Preferences.getBoolean( "_fireworksShopHatBought" ) == false;
+			case ItemPool.CATHERINE_WHEEL:
+			case ItemPool.ROCKET_BOOTS:
+			case ItemPool.OVERSIZED_SPARKLER:
+				return Preferences.getBoolean( "_fireworksShopEquipmentBought" ) == false;
+			}
+
+			return true;
 		}
 		else if ( storeId.equals( "fdkol" ) )
 		{

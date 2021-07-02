@@ -326,6 +326,7 @@ fettucini Inconnu	5	8	awesome	17-20	0	25-30	0	SAUCY
 fiery wing	1	1	good	3	0	3	0	20-30 Hot Damage (ignores resists)
 filet of The Fish	3	11	EPIC	15-18	40-60	0	0
 fine aged cheddarwurst	3	3	decent	4-5	5-10	0	5-10
+fire crackers	1	1	good	0	0	0	0	20 Fire Cracked (+20 Experience)
 fireman's lunch	2	4	decent	2-4	0	0	0	20 You're Not Cooking (+50 Hot Spell Damage, +100% Spell Damage)
 fishy fish	2	8	good	3-9	0	0	26-33
 fishy fish casserole	3	9	awesome	8-15	0	0	38-44
