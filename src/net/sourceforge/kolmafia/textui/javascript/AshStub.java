@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.textui.javascript;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.kolmafia.KoLmafia;
 import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.NativeJavaObject;
@@ -150,6 +151,15 @@ public abstract class AshStub
 		}
 
 		Value ashReturnValue = execute( function, ashArgs );
+
+		// Some functions will interrupt code execution on failure. In ASH this is mitigated by capturing the return
+		// value of those functions. In JavaScript we don't want this behaviour at all
+		if ( !KoLmafia.refusesContinue() && ashReturnValue != null )
+		{
+			this.controller.setState( ScriptRuntime.State.NORMAL );
+			KoLmafia.forceContinue();
+		}
+
 		Object returnValue = coercer.asJava( ashReturnValue );
 
 		JavascriptRuntime.checkInterrupted();
