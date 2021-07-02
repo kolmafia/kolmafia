@@ -2642,3 +2642,6 @@
 2641	Shortly Buttered	shortbutter.gif	f69d6c792ac3eece4dd49731b6bde325	neutral	none	use 1 short stick of butter
 2642	Shortly Hydrated	shortwater.gif	abdeeed35ff496c90ae65ff2bfcc98b1	neutral	none	use 1 short glass of water
 2643	Shortly Wired	shortcoffee.gif	2826fa9c758de1c2b80adb5994d9ded0	neutral	none	use 1 short white
+2644	Glowing Blue	fwrocket2.gif	4e85d7600d7ac1d1b3e299377282f284	good	nohookah
+2645	Ready to Eat	fwrocket1.gif	4110df36689c215141ad56b77e117d07	good	nohookah
+2646	Fire cracked	firecrackers.gif	61f05396edb5cb3002bdc2b2dbc3092b	good	nohookah	eat 1 fire cracker

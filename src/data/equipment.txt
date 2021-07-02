@@ -119,6 +119,7 @@ FantasyRealm Mage's Hat	50	none
 FantasyRealm Rogue's Mask	50	none
 FantasyRealm Warrior's Helm	50	none
 feathered headdress	200	Mys: 85
+fedora-mounted fountain	50	none
 festive holiday hat	30	none
 fez of etymology	120	Mox: 45
 fiberglass fedora	120	Mox: 40
@@ -289,6 +290,7 @@ plexiglass pith helmet	180	Mox: 75
 pointy red hat	110	Mox: 40
 polyester panama hat	50	none
 porcelain porkpie	120	Mox: 40
+porkpie-mounted popper	50	none
 pottery hat	45	none
 powdered wig	70	Mox: 20
 primitive alien mask	50	Mox: 10
@@ -330,6 +332,7 @@ snorkel	10	none
 snow hat	50	Mox: 10
 Snow Queen Crown	115	Mox: 42
 Sombrero De Vida	50	Mox: 10
+sombrero-mounted sparkler	50	none
 space beast fur hat	100	Mox: 35
 space trooper helmet	10	none
 spaghetti cult mask	155	Mox: 62

@@ -147,6 +147,23 @@ public class NPCPurchaseRequest
 			this.hashField = "phash";
 			this.quantityField = "howmany";
 		}
+
+		if ( storeId.equals( "fwshop" ) )
+		{
+			switch ( itemId )
+			{
+			case ItemPool.FEDORA_MOUNTED_FOUNTAIN:
+			case ItemPool.PORKPIE_MOUNTED_POPPER:
+			case ItemPool.SOMBRERO_MOUNTED_SPARKLER:
+				this.limit = Preferences.getBoolean( "_fireworksShopHatBought" ) ? 0 : 1;
+				break;
+			case ItemPool.CATHERINE_WHEEL:
+			case ItemPool.ROCKET_BOOTS:
+			case ItemPool.OVERSIZED_SPARKLER:
+				this.limit = Preferences.getBoolean( "_fireworksShopEquipmentBought" ) ? 0 : 1;
+				break;
+			}
+		}
 	}
 
 	public static String pickForm( final String shopId )
@@ -707,6 +724,12 @@ public class NPCPurchaseRequest
 		if ( shopId.equals( "fdkol" ) )
 		{
 			FDKOLRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		if ( shopId.equals( "fwshop" ) )
+		{
+			FireworksShopRequest.parseResponse( urlString, responseText );
 			return;
 		}
 

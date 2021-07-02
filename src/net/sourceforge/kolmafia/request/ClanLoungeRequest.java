@@ -1408,6 +1408,8 @@ public class ClanLoungeRequest
 		{
 			Preferences.setInteger( "_hotTubSoaks", 5 - Integer.parseInt( hottubMatcher.group( 1 ) ) );
 		}
+
+		Preferences.setBoolean( "_fireworksShop", responseText.contains( "fireworks.gif" ) );
 	}
 
 	private static void parseLoungeFloor2( final String action, final String clan, final String responseText )
@@ -2307,6 +2309,9 @@ public class ClanLoungeRequest
 			request = new ClanLoungeRequest( ClanLoungeRequest.CRIMBO_TREE );
 			request.run();
 		}
+
+		// Not every clan has a fireworks shop
+		Preferences.setBoolean( "_fireworksShop", VISIT_REQUEST.responseText.contains( "fireworks.gif" ) );
 
 		// Not every clan has a swimming pool
 		if ( VISIT_REQUEST.responseText.contains( "vippool.gif" ) && !Preferences.getBoolean( "_olympicSwimmingPoolItemFound" ) )
