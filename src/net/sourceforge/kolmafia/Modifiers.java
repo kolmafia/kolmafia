@@ -3494,11 +3494,14 @@ public class Modifiers
 		if ( ensorcelee != null )
 		{
 			Modifiers ensorcelMods = Modifiers.getModifiers( "Ensorcel", ensorcelee.getPhylum().toString() );
-			String desc = "Item: vampyric cloake";
+			if ( ensorcelMods != null )
+			{
+				String desc = "Item: vampyric cloake";
 
-			this.add( Modifiers.MEATDROP, ensorcelMods.get( Modifiers.MEATDROP ) * 0.25, desc );
-			this.add( Modifiers.ITEMDROP, ensorcelMods.get( Modifiers.ITEMDROP ) * 0.25, desc );
-			this.add( Modifiers.CANDYDROP, ensorcelMods.get( Modifiers.CANDYDROP ) * 0.25, desc );
+				this.add( Modifiers.MEATDROP, ensorcelMods.get( Modifiers.MEATDROP ) * 0.25, desc );
+				this.add( Modifiers.ITEMDROP, ensorcelMods.get( Modifiers.ITEMDROP ) * 0.25, desc );
+				this.add( Modifiers.CANDYDROP, ensorcelMods.get( Modifiers.CANDYDROP ) * 0.25, desc );
+			}
 		}
 	}
 
