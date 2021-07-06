@@ -728,8 +728,11 @@ public class NPCPurchaseRequest
 
 		if ( shopId.equals( "fwshop" ) )
 		{
-			Preferences.setBoolean( "_fireworksShopHatBought", !responseText.contains( "<b>Dangerous Hats" ) );
-			Preferences.setBoolean( "_fireworksShopEquipmentBought", !responseText.contains( "<b>Explosive Equipment" ) );
+			if ( responseText.contains( "<b>Combat Explosives" ) )
+			{
+				Preferences.setBoolean( "_fireworksShopHatBought", !responseText.contains( "<b>Dangerous Hats" ) );
+				Preferences.setBoolean( "_fireworksShopEquipmentBought", !responseText.contains( "<b>Explosive Equipment" ) );
+			}
 			return;
 		}
 
