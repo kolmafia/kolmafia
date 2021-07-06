@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -83,8 +84,6 @@ public class BasementRequest
 		HPDRAIN,
 		;
 	}
-
-	private static final double SAFETY_MARGIN = 1.08;
 
 	private static int basementLevel = 0;
 
@@ -584,6 +583,11 @@ public class BasementRequest
 		return true;
 	}
 
+	public static float getSafetyMargin()
+	{
+		return Preferences.getFloat( "basementSafetyMargin" );
+	}
+
 	private static void updateElementalResistanceParameters()
 	{
 		BasementRequest.basementTestString = "Elemental Resist";
@@ -592,7 +596,7 @@ public class BasementRequest
 		// total elemental damage is roughly 4.48 * x^1.4.  Assume the worst-case.
 
 		double damage1 =
-			( Math.pow( BasementRequest.basementLevel, 1.4 ) * 4.48 + 8.0 ) * BasementRequest.SAFETY_MARGIN;
+			( Math.pow( BasementRequest.basementLevel, 1.4 ) * 4.48 + 8.0 ) * getSafetyMargin();
 		double damage2 = damage1;
 
 		BasementRequest.level1 = KoLCharacter.getElementalResistanceLevels( BasementRequest.element1 );
@@ -749,7 +753,7 @@ public class BasementRequest
 		// stat requirement is x^1.4 + 2.  Assume the worst-case.
 
 		double statRequirement =
-			( Math.pow( BasementRequest.basementLevel, 1.4 ) + 2.0 ) * BasementRequest.SAFETY_MARGIN;
+			( Math.pow( BasementRequest.basementLevel, 1.4 ) + 2.0 ) * getSafetyMargin();
 
 		BasementRequest.basementTestString = "Buffed Muscle";
 		BasementRequest.basementTestCurrent = KoLCharacter.getAdjustedMuscle();
@@ -768,7 +772,7 @@ public class BasementRequest
 		// stat requirement is x^1.4 + 2.  Assume the worst-case.
 
 		double statRequirement =
-			( Math.pow( BasementRequest.basementLevel, 1.4 ) + 2.0 ) * BasementRequest.SAFETY_MARGIN;
+			( Math.pow( BasementRequest.basementLevel, 1.4 ) + 2.0 ) * getSafetyMargin();
 
 		BasementRequest.basementTestString = "Buffed Mysticality";
 		BasementRequest.basementTestCurrent = KoLCharacter.getAdjustedMysticality();
@@ -787,7 +791,7 @@ public class BasementRequest
 		// stat requirement is x^1.4 + 2.  Assume the worst-case.
 
 		double statRequirement =
-			( Math.pow( BasementRequest.basementLevel, 1.4 ) + 2.0 ) * BasementRequest.SAFETY_MARGIN;
+			( Math.pow( BasementRequest.basementLevel, 1.4 ) + 2.0 ) * getSafetyMargin();
 
 		BasementRequest.basementTestString = "Buffed Moxie";
 		BasementRequest.basementTestCurrent = KoLCharacter.getAdjustedMoxie();
@@ -893,7 +897,7 @@ public class BasementRequest
 		// drain requirement is 1.67 * x^1.4 Assume worst-case.
 
 		double drainRequirement =
-			Math.pow( BasementRequest.basementLevel, 1.4 ) * 1.67 * BasementRequest.SAFETY_MARGIN;
+			Math.pow( BasementRequest.basementLevel, 1.4 ) * 1.67 * getSafetyMargin();
 
 		BasementRequest.basementTestString = "Maximum MP";
 		BasementRequest.basementTestCurrent = KoLCharacter.getMaximumMP();
@@ -921,7 +925,7 @@ public class BasementRequest
 		// drain requirement is 10.0 * x^1.4. Assume worst-case.
 
 		double drainRequirement =
-			Math.pow( BasementRequest.basementLevel, 1.4 ) * 10.0 * BasementRequest.SAFETY_MARGIN;
+			Math.pow( BasementRequest.basementLevel, 1.4 ) * 10.0 * getSafetyMargin();
 
 		BasementRequest.basementTestString = "Maximum HP";
 		BasementRequest.basementTestCurrent = KoLCharacter.getMaximumHP();
