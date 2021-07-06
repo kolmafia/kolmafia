@@ -2680,26 +2680,42 @@ public class ItemDatabase
 			return;
 		}
 
+		String superhero = Preferences.getString( "retroCapeSuperhero" );
+		String instructions = Preferences.getString( "retroCapeWashingInstructions" );
+
 		// It is equipped. Add available skills
-		switch ( Preferences.getString( "retroCapeSuperhero" ) )
+		switch ( superhero )
 		{
 		case "vampire":
 			// Add Vampire Slicer skills
-			KoLCharacter.addAvailableSkill( "Smooch of the Daywalker" );
-			if ( EquipmentManager.wieldingSword() )
+			if ( instructions.equals( "kiss" ) )
+			{
+				KoLCharacter.addAvailableSkill( "Smooch of the Daywalker" );
+			}
+
+			if ( instructions.equals( "kill" ) && EquipmentManager.wieldingSword() )
 			{
 				KoLCharacter.addAvailableSkill( "Slay the Dead" );
 			}
 			break;
 		case "heck":
 			// Add Heck General skills
-			KoLCharacter.addAvailableSkill( "Unleash the Devil's Kiss" );
+			if ( instructions.equals( "kiss" ) )
+			{
+				KoLCharacter.addAvailableSkill( "Unleash the Devil's Kiss" );
+			}
 			break;
 		case "robot":
 			// Add Robot Police skills
-			KoLCharacter.addAvailableSkill( "Deploy Robo-Handcuffs" );
-			KoLCharacter.addAvailableSkill( "Blow a Robo-Kiss" );
-			if ( EquipmentManager.wieldingGun() )
+			if ( instructions.equals( "hold" ) )
+			{
+				KoLCharacter.addAvailableSkill( "Deploy Robo-Handcuffs" );
+			}
+			if ( instructions.equals( "kiss" ) )
+			{
+				KoLCharacter.addAvailableSkill( "Blow a Robo-Kiss" );
+			}
+			if ( instructions.equals( "kill" ) && EquipmentManager.wieldingGun() )
 			{
 				KoLCharacter.addAvailableSkill( "Precision Shot" );
 			}
