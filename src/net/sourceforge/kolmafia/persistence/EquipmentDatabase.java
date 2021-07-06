@@ -800,6 +800,21 @@ public class EquipmentDatabase
 		return EquipmentDatabase.getItemType( itemId ).equals( "sword" );
 	}
 
+	public static final boolean isGun( final int itemId )
+	{
+		return EquipmentDatabase.getItemType( itemId ).equals( "gun" );
+	}
+
+	public static final boolean isPistol( final int itemId )
+	{
+		return EquipmentDatabase.getItemType( itemId ).equals( "pistol" );
+	}
+
+	public static final boolean isRifle( final int itemId )
+	{
+		return EquipmentDatabase.getItemType( itemId ).equals( "rifle" );
+	}
+
 	public static final boolean isUtensil( final int itemId )
 	{
 		return EquipmentDatabase.getItemType( itemId ).equals( "utensil" );

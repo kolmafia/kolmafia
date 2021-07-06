@@ -890,7 +890,18 @@ public class EquipmentManager
 		// offhand - Left-Hand Man - latte lovers member's mug - YES
 		// pants - Fancypants Scarecrow - crotchety pants - YES
 
-		switch ( item.getItemId() )
+		int id = item.getItemId();
+
+		// If we are equipping a new sword or gun we may be changing the capabilities of the retrocape
+		if ( slot == EquipmentManager.WEAPON )
+		{
+			if ( EquipmentDatabase.isSword( id ) || EquipmentDatabase.isGun( id ) || EquipmentDatabase.isPistol( id ) || EquipmentDatabase.isRifle( id ) )
+			{
+				ItemDatabase.setCapeSkills();
+			}
+		}
+
+		switch ( id )
 		{
 		case ItemPool.BOTTLE_ROCKET:
 			KoLCharacter.addAvailableSkill( "Fire red bottle-rocket" );
@@ -2162,18 +2173,15 @@ public class EquipmentManager
 
 	public static final boolean wieldingSword( final boolean includeEffect )
 	{
-		String type = EquipmentDatabase.getItemType( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() );
-		return type.equals( "sword" ) && ( !includeEffect || !KoLConstants.activeEffects.contains( EquipmentManager.IRON_PALMS ) );
+		boolean sword = EquipmentDatabase.isSword( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() );
+		return sword && ( !includeEffect || !KoLConstants.activeEffects.contains( EquipmentManager.IRON_PALMS ) );
 	}
 
 	public static final boolean wieldingGun()
 	{
-		String type = EquipmentDatabase.getItemType( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() );
-		return (
-			type.contains( "gun" ) ||
-			type.contains( "rifle" ) ||
-			type.contains( "pistol" )
-		);
+		int id = EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId();
+		// These are the weapons retrocape considers a "gun"
+		return EquipmentDatabase.isGun(id) || EquipmentDatabase.isPistol(id) || EquipmentDatabase.isRifle(id);
 	}
 
 	/**
