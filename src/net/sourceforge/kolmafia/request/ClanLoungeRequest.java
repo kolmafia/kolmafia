@@ -2282,6 +2282,9 @@ public class ClanLoungeRequest
 			request.run();
 		}
 
+		// Not every clan's first floor the lounge has a fireworks shop
+		Preferences.setBoolean( "_fireworksShop", VISIT_REQUEST.responseText.contains( "fireworks.gif" ) );
+
 		// Visit the lounge to see what furniture is available in ground floor
 		if ( !visitLoungeFloor2() )
 		{
@@ -2309,9 +2312,6 @@ public class ClanLoungeRequest
 			request = new ClanLoungeRequest( ClanLoungeRequest.CRIMBO_TREE );
 			request.run();
 		}
-
-		// Not every clan has a fireworks shop
-		Preferences.setBoolean( "_fireworksShop", VISIT_REQUEST.responseText.contains( "fireworks.gif" ) );
 
 		// Not every clan has a swimming pool
 		if ( VISIT_REQUEST.responseText.contains( "vippool.gif" ) && !Preferences.getBoolean( "_olympicSwimmingPoolItemFound" ) )
