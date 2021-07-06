@@ -10324,7 +10324,12 @@ public class FightRequest
 			break;
 
 		case SkillPool.CHEST_X_RAY:
-			if ( responseText.contains( "nowhere to be seen" ) || skillSuccess )
+			if (
+				// Instant free kill
+				responseText.contains( "nowhere to be seen" ) ||
+				// Damage to bosses or other special monsters
+				responseText.contains( "damage from the unshielded radiation" ) ||
+				skillSuccess )
 			{
 				Preferences.increment( "_chestXRayUsed" );
 			}
