@@ -1829,6 +1829,7 @@ public class UseSkillRequest
 		case SkillPool.GIANT_GROWTH:
 		case SkillPool.LIGHTNING_BOLT_CARD:
 		case SkillPool.HEALING_SALVE:
+		case SkillPool.INVISIBLE_AVATAR:
 		case SkillPool.TRIPLE_SIZE:
 		case SkillPool.SEEK_OUT_A_BIRD:
 			return true;
