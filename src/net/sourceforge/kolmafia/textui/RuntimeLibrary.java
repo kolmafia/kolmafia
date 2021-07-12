@@ -69,6 +69,8 @@ import java.util.regex.PatternSyntaxException;
 
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
+import net.sourceforge.kolmafia.request.DrinkItemRequest;
+import net.sourceforge.kolmafia.request.EatItemRequest;
 import net.sourceforge.kolmafia.session.*;
 import net.sourceforge.kolmafia.textui.command.EudoraCommand;
 import org.htmlcleaner.HtmlCleaner;
@@ -779,6 +781,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "eatsilent", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "clear_food_helper", DataTypes.VOID_TYPE, params ) );
+
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "drink", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -805,6 +810,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "drinksilent", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "clear_booze_helper", DataTypes.VOID_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "chew", DataTypes.BOOLEAN_TYPE, params ) );
@@ -4132,6 +4140,12 @@ public abstract class RuntimeLibrary
 		return execute_item_quantity( "eatsilent", arg1, arg2 );
 	}
 
+	public static Value clear_food_helper( ScriptRuntime controller )
+	{
+		EatItemRequest.clearFoodHelper();
+		return DataTypes.VOID_VALUE;
+	}
+
 	public static Value drink( ScriptRuntime controller, final Value item )
 	{
 		return drink(controller, new Value( 1 ), item);
@@ -4160,6 +4174,12 @@ public abstract class RuntimeLibrary
 	public static Value drinksilent( ScriptRuntime controller, final Value arg1, final Value arg2 )
 	{
 		return execute_item_quantity( "drinksilent", arg1, arg2 );
+	}
+
+	public static Value clear_booze_helper( ScriptRuntime controller )
+	{
+		DrinkItemRequest.clearBoozeHelper();
+		return DataTypes.VOID_VALUE;
 	}
 
 	public static Value chew( ScriptRuntime controller, final Value item )
