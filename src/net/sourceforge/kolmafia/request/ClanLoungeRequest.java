@@ -87,6 +87,7 @@ public class ClanLoungeRequest
 	public static final int SPEAKEASY = 10;
 	public static final int FLOUNDRY = 11;
 	public static final int FORTUNE = 12;
+	public static final int FIREWORKS = 13;
 
 	// Pool options
 	public static final int AGGRESSIVE_STANCE = 1;
@@ -1019,6 +1020,10 @@ public class ClanLoungeRequest
 		{
 			return "Floundry";
 		}
+		if ( urlString.contains( "action=fwshop" ) )
+		{
+			return "Underground Fireworks Shop";
+		}
 		return null;
 	}
 
@@ -1202,6 +1207,11 @@ public class ClanLoungeRequest
 			this.addFormField( "preaction", "lovetester" );
 			break;
 
+		case ClanLoungeRequest.FIREWORKS:
+			this.constructURLString( "clan_viplounge.php" );
+			this.addFormField( "action", "fwshop" );
+			break;
+
 		default:
 			break;
 		}
@@ -1372,6 +1382,16 @@ public class ClanLoungeRequest
 				RequestLogger.printLine( "Huh? Unknown response." );
 			}
 			break;
+		case ClanLoungeRequest.FIREWORKS:
+			if ( this.redirectLocation != null && this.redirectLocation.contains( "shop.php?whichshop=fwshop" ) )
+			{
+				Preferences.setBoolean( "_fireworksShop", true );
+			}
+			else
+			{
+				RequestLogger.printLine( "There is no underground fireworks shop in this clan" );
+			}
+			break;
 		}
 	}
 
@@ -1402,14 +1422,13 @@ public class ClanLoungeRequest
 		// *** KoL should move this to the second floor as soon as it leaves Standard
 		findImage( responseText, "vipfloundry.gif", ItemPool.CLAN_FLOUNDRY );
 		findImage( responseText, "fortuneteller.gif", ItemPool.CLAN_CARNIVAL_GAME );
+		findImage( responseText, "fireworks.gif", ItemPool.CLAN_UNDERGROUND_FIREWORKS_SHOP );
 
 		Matcher hottubMatcher = HOTTUB_PATTERN.matcher( responseText );
 		if ( hottubMatcher.find() )
 		{
 			Preferences.setInteger( "_hotTubSoaks", 5 - Integer.parseInt( hottubMatcher.group( 1 ) ) );
 		}
-
-		Preferences.setBoolean( "_fireworksShop", responseText.contains( "fireworks.gif" ) );
 	}
 
 	private static void parseLoungeFloor2( final String action, final String clan, final String responseText )
@@ -2276,14 +2295,18 @@ public class ClanLoungeRequest
 		// any more today -- you wouldn't want to look greedy in front
 		// of the other VIPs, would you?"
 
-		ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.KLAW );
+		ClanLoungeRequest request = new ClanLoungeRequest( KLAW );
 		while ( Preferences.getInteger( "_deluxeKlawSummons" ) < 3 )
 		{
 			request.run();
 		}
 
-		// Not every clan's first floor the lounge has a fireworks shop
-		Preferences.setBoolean( "_fireworksShop", VISIT_REQUEST.responseText.contains( "fireworks.gif" ) );
+		if ( VISIT_REQUEST.responseText.contains( "fireworks.gif" ) &&
+			!Preferences.getBoolean( "_fireworksShop" ) )
+		{
+			request = new ClanLoungeRequest( FIREWORKS );
+			request.run();
+		}
 
 		// Visit the lounge to see what furniture is available in ground floor
 		if ( !visitLoungeFloor2() )
@@ -2295,7 +2318,7 @@ public class ClanLoungeRequest
 		if ( VISIT_REQUEST.responseText.contains( "lookingglass.gif" ) &&
 		     !Preferences.getBoolean( "_lookingGlass" ) )
 		{
-			request = new ClanLoungeRequest( ClanLoungeRequest.LOOKING_GLASS );
+			request = new ClanLoungeRequest( LOOKING_GLASS );
 			request.run();
 		}
 
@@ -2309,7 +2332,7 @@ public class ClanLoungeRequest
 		{
 			// Get the crimbo gift now whenever breakfast is run, since there is
 			// no reason not to anymore.
-			request = new ClanLoungeRequest( ClanLoungeRequest.CRIMBO_TREE );
+			request = new ClanLoungeRequest( CRIMBO_TREE );
 			request.run();
 		}
 
@@ -2318,7 +2341,7 @@ public class ClanLoungeRequest
 		{
 			try
 			{
-				RequestThread.postRequest( new ClanLoungeRequest( ClanLoungeRequest.SWIMMING_POOL, CANNONBALL ) );
+				RequestThread.postRequest( new ClanLoungeRequest( SWIMMING_POOL, CANNONBALL ) );
 				RequestThread.postRequest( new ClanLoungeSwimmingPoolRequest( ClanLoungeSwimmingPoolRequest.HANDSTAND ) );
 				RequestThread.postRequest( new ClanLoungeSwimmingPoolRequest( ClanLoungeSwimmingPoolRequest.TREASURE ) );
 			}
