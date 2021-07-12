@@ -1474,7 +1474,7 @@ public class UseItemRequest
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a Gluttonous Green Ghost equipped" );
 				return;
 			}
-			DrinkItemRequest.clearDrinkHelper();
+			DrinkItemRequest.clearBoozeHelper();
 			this.addFormField( "action", "binge" );
 			this.addFormField( "qty", String.valueOf( this.itemUsed.getCount() ) );
 			useTypeAsString = "Feeding ghost with";

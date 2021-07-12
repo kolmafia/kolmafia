@@ -69,7 +69,6 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
-import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -879,7 +878,7 @@ public class ConcoctionDatabase
 		}
 		else if ( booze )
 		{
-			DrinkItemRequest.clearDrinkHelper();
+			DrinkItemRequest.clearBoozeHelper();
 		}
 	}
 
