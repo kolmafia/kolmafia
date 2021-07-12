@@ -346,6 +346,15 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "user_confirm", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "user_prompt", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.AGGREGATE_TYPE };
+		functions.add( new LibraryFunction( "user_prompt", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "user_prompt", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "logprint", DataTypes.VOID_TYPE, params ) );
 		params = new Type[] { DataTypes.STRING_TYPE };
 		
@@ -2639,6 +2648,33 @@ public abstract class RuntimeLibrary
 		final Value defaultBoolean )
 	{
 		return InterruptableDialog.confirm( message, timeOut, defaultBoolean );
+	}
+
+	public static Value user_prompt( ScriptRuntime controller, final Value message )
+	{
+		return DataTypes.makeStringValue( InputFieldUtilities.input( message.toString() ) );
+	}
+
+	public static Value user_prompt( ScriptRuntime controller, final Value message, final Value options )
+	{
+		AggregateValue aggregate = (AggregateValue) options;
+		int size = aggregate.count();
+		Value [] keys = aggregate.keys();
+		Object [] javaOptions = new Object[ size ];
+
+		// Extract the item ids into an array
+		for ( int i = 0; i < size; ++i )
+		{
+			javaOptions[ i ] = keys[ i ];
+		}
+
+		return DataTypes.makeStringValue( InputFieldUtilities.input( message.toString(), javaOptions ).toString() );
+	}
+
+	public static Value user_prompt( ScriptRuntime controller, final Value message, final Value timeOut,
+									  final Value defaultString )
+	{
+		return InterruptableDialog.input( message, timeOut, defaultString );
 	}
 
 	private static String cleanString( Value string )
