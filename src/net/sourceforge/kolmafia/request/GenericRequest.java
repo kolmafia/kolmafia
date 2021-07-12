@@ -1435,7 +1435,8 @@ public class GenericRequest
 				if ( !this.redirectLocation.equals( "/game.php" ) &&
 				     !this.redirectLocation.equals( "witchess.php" ) &&
 				     !this.redirectLocation.equals( "place.php?whichplace=monorail" ) &&
-				     !this.redirectLocation.equals( "place.php?whichplace=edunder" ) )
+				     !this.redirectLocation.equals( "place.php?whichplace=edunder" ) &&
+				     !this.redirectLocation.equals( "/shop.php?whichshop=fwshop" ) )
 				{
 					// Informational debug message
 					KoLmafia.updateDisplay( "Unhandled redirect to " + this.redirectLocation );

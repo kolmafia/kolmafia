@@ -730,6 +730,7 @@ public class NPCPurchaseRequest
 		{
 			if ( responseText.contains( "<b>Combat Explosives" ) )
 			{
+				Preferences.setBoolean( "_fireworksShop", true );
 				Preferences.setBoolean( "_fireworksShopHatBought", !responseText.contains( "<b>Dangerous Hats" ) );
 				Preferences.setBoolean( "_fireworksShopEquipmentBought", !responseText.contains( "<b>Explosive Equipment" ) );
 			}
