@@ -2668,7 +2668,9 @@ public abstract class RuntimeLibrary
 			javaOptions[ i ] = keys[ i ];
 		}
 
-		return DataTypes.makeStringValue( InputFieldUtilities.input( message.toString(), javaOptions ).toString() );
+		Object result = InputFieldUtilities.input( message.toString(), javaOptions );
+
+		return DataTypes.makeStringValue( result == null ? "" : result.toString() );
 	}
 
 	public static Value user_prompt( ScriptRuntime controller, final Value message, final Value timeOut,
