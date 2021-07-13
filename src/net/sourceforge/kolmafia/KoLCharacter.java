@@ -1495,7 +1495,7 @@ public abstract class KoLCharacter
 
 	public static final void incrementAbsorbs( final int incAbsorbs )
 	{
-		KoLCharacter.setAudience( KoLCharacter.absorbs + incAbsorbs );
+		KoLCharacter.setAbsorbs( KoLCharacter.absorbs + incAbsorbs );
 	}
 	
 	public static final void decrementAbsorbs( final int decAbsorbs )
