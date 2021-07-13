@@ -91,6 +91,7 @@ public class InterruptableDialog
 	{
 		private final String message;
 		private String result = null;
+		private boolean closed = false;
 
 		public InterruptableInputDialogBox( String mes )
 		{
@@ -103,16 +104,20 @@ public class InterruptableDialog
 		{
 			return result;
 		}
-
 		public void setResult( String b )
 		{
 			this.result = b;
 		}
 
+		public boolean getClosed() { return closed; }
+		public void setClosed( boolean b ) { this.closed = b; }
+
 		public void run()
 		{
-			this.setResult( JOptionPane.showInputDialog( null,
-					StringUtilities.basicTextWrap( message ) ) );
+			String result = JOptionPane.showInputDialog( null,
+					StringUtilities.basicTextWrap( message ) );
+			this.setResult( result );
+			this.setClosed( result == null );
 
 			synchronized ( InterruptableDialog.pauser )
 			{
@@ -205,13 +210,15 @@ public class InterruptableDialog
 			return DataTypes.makeStringValue( result );
 		}
 
-		// must have reached timeOut, so dispose of the frame and return defaultBoolean
-
-		Frame f = JOptionPane.getFrameForComponent( r );
-
-		if ( f != null )
+		if ( !r.getClosed() )
 		{
-			f.dispose();
+			// must have reached timeOut, so dispose of the frame and return defaultBoolean
+			Frame f = JOptionPane.getFrameForComponent( r );
+
+			if ( f != null )
+			{
+				f.dispose();
+			}
 		}
 
 		return defaultString;
