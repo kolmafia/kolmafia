@@ -2222,6 +2222,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "string_modifier", DataTypes.STRING_TYPE, params ) );
 
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "string_modifier", DataTypes.STRING_TYPE, params ) );
+
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "effect_modifier", DataTypes.EFFECT_TYPE, params ) );
 
