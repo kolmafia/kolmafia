@@ -92,6 +92,13 @@ public class KGBRequest
 		{
 			Preferences.setBoolean( "_kgbOpened", true );
 		}
+		else if ( action.startsWith( "kgb_handle" ) )
+		{
+			if ( responseText.contains( "The case emanates warmth." ) )
+			{
+				Preferences.setBoolean( "_kgbFlywheelCharged", true );
+			}
+		}
 	}
 
 	public static final void countClicks( String responseText )

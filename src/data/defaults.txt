@@ -1727,6 +1727,7 @@ user	_jukebox	false
 user	_jungDrops	0
 user	_kgbClicksUsed	0
 user	_kgbDispenserUses	0
+user	_kgbFlywheelCharged	false
 user	_kgbLeftDrawerUsed	false
 user	_kgbOpened	false
 user	_kgbRightDrawerUsed	false
