@@ -97,7 +97,7 @@ public class DrinkItemRequest
 		DrinkItemRequest.ignorePrompt = KoLCharacter.getUserId();
 	}
 
-	public static final void clearDrinkHelper()
+	public static final void clearBoozeHelper()
 	{
 		DrinkItemRequest.queuedDrinkHelper = null;
 		DrinkItemRequest.queuedDrinkHelperCount = 0;

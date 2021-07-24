@@ -309,4 +309,4 @@
 280	Ghost of Crimbo Carols	cghost_carols.gif	item0,other0	gregarious ghostling		0	0	0	0	eyes,undead
 281	Ghost of Crimbo Cheer	cghost_cheer.gif	stat0,other1	grinning ghostling		0	0	0	0	eyes,undead
 282	Ghost of Crimbo Commerce	cghost_commerce.gif	meat0,other0	greedy ghostling		0	0	0	0	eyes,undead
-283	Shorter-Order Cook	shortchef.gif	combat0,delevel	shortest-order cook	blue plate	3	3	1	1	animal,clothes,eyes,hot,hands
+283	Shorter-Order Cook	shortchef.gif	combat0,combat1,delevel,drop	shortest-order cook	blue plate	3	3	1	1	animal,clothes,eyes,hot,hands

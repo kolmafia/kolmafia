@@ -119,6 +119,7 @@ FantasyRealm Mage's Hat	50	none
 FantasyRealm Rogue's Mask	50	none
 FantasyRealm Warrior's Helm	50	none
 feathered headdress	200	Mys: 85
+fedora-mounted fountain	50	none
 festive holiday hat	30	none
 fez of etymology	120	Mox: 45
 fiberglass fedora	120	Mox: 40
@@ -289,6 +290,7 @@ plexiglass pith helmet	180	Mox: 75
 pointy red hat	110	Mox: 40
 polyester panama hat	50	none
 porcelain porkpie	120	Mox: 40
+porkpie-mounted popper	50	none
 pottery hat	45	none
 powdered wig	70	Mox: 20
 primitive alien mask	50	Mox: 10
@@ -330,6 +332,7 @@ snorkel	10	none
 snow hat	50	Mox: 10
 Snow Queen Crown	115	Mox: 42
 Sombrero De Vida	50	Mox: 10
+sombrero-mounted sparkler	50	none
 space beast fur hat	100	Mox: 35
 space trooper helmet	10	none
 spaghetti cult mask	155	Mox: 62
@@ -1343,6 +1346,7 @@ Othello's dagger	150	Mus: 50	1-handed knife
 out-of-tune biwa	30	Mox: 0	2-handed guitar
 oversized pipe	175	Mus: 72	1-handed club
 oversized pizza cutter	100	Mys: 35	1-handed utensil
+oversized sparkler	150	Mus: 0	1-handed club
 pair of bolt cutters	60	Mus: 15	2-handed club
 palm-frond whip	25	Mus: 0	1-handed whip
 papier-m&acirc;ch&eacute;te	100	Mus: 20	1-handed sword
@@ -2850,6 +2854,7 @@ ring of teleportation	80	Mys: 25
 ring of telling skeletons what to do	0	none
 Ring of the Sewer Snake	150	Mys: 60
 ring of the Skeleton Lord	300	Mox: 50
+rocket boots	150	none
 Roman sadnals	100	Mys: 35
 rope with some soap on it	200	Mys: 200
 rose-colored glasses	20	none
@@ -3339,6 +3344,7 @@ burning cape	100	none
 Camp Scout backpack	0	none
 cape	0	none
 carpe	0	none
+Catherine Wheel	150	none
 chalk chlamys	50	none
 Cloak of Dire Shadows	120	none
 cod cape	225	Mox: 200

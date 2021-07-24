@@ -192,6 +192,19 @@ public class SweetSynthesisRequest
 			return;
 		}
 
+		if ( responseText.contains( "You have to pick two candies!" ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Something went wrong with candy selection" );
+			return;
+		}
+
+		if ( responseText.contains( "You don't have that candy!" ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "KoLmafia thinks you have a candy that KoL thinks you don't" );
+			InventoryManager.refresh();
+			return;
+		}
+
 		// ChoiceManager will invoke our postChoice1 method
 	}
 

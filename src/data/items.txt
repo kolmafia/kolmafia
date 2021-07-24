@@ -10786,3 +10786,15 @@
 10758	quantum of familiar	808207216	confused.gif	none		0	quanta of familiar
 10759	familiar scrapbook	463063785	fambook.gif	offhand		0
 10760	packaged familiar scrapbook	798080199	fambook_blank.gif	usable	t	0
+10761	clan underground fireworks shop	405271774	crate.gif	usable	t	0
+10762	fedora-mounted fountain	802916777	fwhat3.gif	hat	q	0
+10763	sombrero-mounted sparkler	974993729	fwhat2.gif	hat	q	0
+10764	porkpie-mounted popper	804703325	fwhat1.gif	hat	q	0
+10765	yellow rocket	562478024	fwrocket3.gif	none, combat	d	10
+10766	blue rocket	830484549	fwrocket2.gif	none, combat	d	10
+10767	red rocket	942080224	fwrocket1.gif	none, combat	d	10
+10768	fire crackers	615027243	firecrackers.gif	food, combat		0
+10769	Arr, M80	555632254	m80.gif	none, combat		0
+10770	Catherine Wheel	660770799	catherinewheel.gif	container	q	0
+10771	rocket boots	438783522	rocketboot.gif	accessory	q	0
+10772	oversized sparkler	366604451	bigsparkler.gif	weapon	q	0

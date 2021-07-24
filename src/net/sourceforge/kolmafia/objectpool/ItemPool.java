@@ -3317,6 +3317,13 @@ public class ItemPool
 	public static final int BACKUP_CAMERA = 10749;
 	public static final int BLUE_PLATE = 10751;
 	public static final int FAMILIAR_SCRAPBOOK = 10759;
+	public static final int CLAN_UNDERGROUND_FIREWORKS_SHOP = 10761;
+	public static final int FEDORA_MOUNTED_FOUNTAIN = 10762;
+	public static final int PORKPIE_MOUNTED_POPPER = 10763;
+	public static final int SOMBRERO_MOUNTED_SPARKLER = 10764;
+	public static final int CATHERINE_WHEEL = 10770;
+	public static final int ROCKET_BOOTS = 10771;
+	public static final int OVERSIZED_SPARKLER = 10772;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

@@ -289,6 +289,7 @@ user	barrelLayout	?????????
 user	barrelShrineUnlocked	false
 user	bartenderTurnsUsed	0
 user	basementMallPrices	1
+user	basementSafetyMargin	1.08
 user	batmanFundsAvailable	0
 user	batmanBonusInitialFunds	0
 user	batmanStats
@@ -1600,6 +1601,9 @@ user	_feelPeacefulUsed	0
 user	_fingertrapArrows	0
 user	_firedJokestersGun	false
 user	_fireStartingKitUsed	false
+user	_fireworksShop	false
+user	_fireworksShopHatBought	false
+user	_fireworksShopEquipmentBought	false
 user	_fireworkUsed	false
 user	_fishyPipeUsed	false
 user	_floristPlantsUsed
@@ -1723,6 +1727,7 @@ user	_jukebox	false
 user	_jungDrops	0
 user	_kgbClicksUsed	0
 user	_kgbDispenserUses	0
+user	_kgbFlywheelCharged	false
 user	_kgbLeftDrawerUsed	false
 user	_kgbOpened	false
 user	_kgbRightDrawerUsed	false

@@ -621,6 +621,9 @@ public class AccountRequest
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1 || sign.equals( "Bad Moon" );
 		KoLCharacter.setHardcore( hardcore );
 
+		boolean casual = JSON.getInt( "casual" ) == 1;
+		KoLCharacter.setCasual( casual );
+
 		// This isn't safe in Ed after defeating adventurer, but if we're Ed we haven't freed ralph!
 		if ( path != Path.ACTUALLY_ED_THE_UNDYING )
 		{

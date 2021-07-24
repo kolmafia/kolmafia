@@ -443,3 +443,15 @@ The Black and White and Red All Over Market	crimbo20blackmarket	government candy
 The Black and White and Red All Over Market	crimbo20blackmarket	Crimbo Cheer tattoo kit	1000000	ROW1180
 The Black and White and Red All Over Market	crimbo20blackmarket	Crimbo Carol tattoo kit	1000000	ROW1181
 The Black and White and Red All Over Market	crimbo20blackmarket	Crimbo Commerce tattoo kit	1000000	ROW1182
+
+Clan Underground Fireworks Shop	fwshop	Arr, M80	100	ROW1254
+Clan Underground Fireworks Shop	fwshop	fire crackers	100	ROW1253
+Clan Underground Fireworks Shop	fwshop	blue rocket	250	ROW1251
+Clan Underground Fireworks Shop	fwshop	red rocket	250	ROW1252
+Clan Underground Fireworks Shop	fwshop	yellow rocket	250	ROW1250
+Clan Underground Fireworks Shop	fwshop	fedora-mounted fountain	500	ROW1247
+Clan Underground Fireworks Shop	fwshop	porkpie-mounted popper	500	ROW1249
+Clan Underground Fireworks Shop	fwshop	sombrero-mounted sparkler	500	ROW1248
+Clan Underground Fireworks Shop	fwshop	Catherine Wheel	1000	ROW1255
+Clan Underground Fireworks Shop	fwshop	oversized sparkler	1000	ROW1257
+Clan Underground Fireworks Shop	fwshop	rocket boots	1000	ROW1256

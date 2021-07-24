@@ -206,6 +206,7 @@ Item	FantasyRealm Mage's Hat	Mysticality: +15
 Item	FantasyRealm Rogue's Mask	Moxie: +15
 Item	FantasyRealm Warrior's Helm	Muscle: +15
 Item	feathered headdress	Mysticality Percent: +40, Food Drop: +40, MP Regen Min: 10, MP Regen Max: 20, Familiar Effect: "atk, 1xVolley"
+Item	fedora-mounted fountain	Monster Level: +20, Hot Damage: +20, Hot Spell Damage: +10, Lasts Until Rollover
 Item	festive holiday hat	Moxie: +1, Cold Resistance: +1, Familiar Effect: "1xFairy, cap 7"
 Item	fez of etymology	Moxie: +7, Familiar Effect: "1xLep, cap 30"
 # fiberglass fedora: Doubles the effectiveness of The Sonata of Sneakiness and Carlweathers Cantata of Confrontation
@@ -449,6 +450,7 @@ Item	snorkel	Familiar Effect: "atk, cap 2"
 Item	snow hat	Damage Reduction: 3, Familiar Effect: "cold atk, cap 12"
 Item	Snow Queen Crown	Cold Damage: +5, Cold Resistance: +3, Familiar Effect: "cold atk, 1xGhuol, cap 28"
 Item	Sombrero De Vida	Four Songs, Familiar Effect: "1xVolley, 1xPotato, 1xLep, cap 12"
+Item	sombrero-mounted sparkler	Combat Rate: +5, Hot Damage: +10, Hot Spell Damage: +20, Lasts Until Rollover
 Item	space beast fur hat	Damage Reduction: 5, Familiar Effect: "1xVolley"
 Item	space trooper helmet	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only, Familiar Effect: "1xVolley, 1xLep, cap 2"
 Item	spaghetti cult mask	Spell Damage Percent: +15, Familiar Effect: "1xBarrr, 1xGhuol, cap 38"
@@ -767,6 +769,7 @@ Item	polyester pettipants	Experience (Mysticality): +2, Cold Resistance: +3
 Item	poodle skirt	Slime Resistance: +1, Meat Drop: +25, Hot Damage: +25, Familiar Effect: "atk, 1xFairy"
 # porcelain plus-fours: Increase Duration of Turtle Tamer Buffs by 4
 Item	porcelain plus-fours	Muscle: +4, Mysticality: +4, Moxie: +4, Maximum HP: +4, Maximum MP: +4, Spooky Damage: +4, Stench Damage: +4, Hot Damage: +4, Cold Damage: +4, Sleaze Damage: +4, Critical Hit Percent: +4, Damage Reduction: 4, Familiar Weight: +4
+Item	porkpie-mounted popper	Combat Rate: -5, Hot Damage: +20, Hot Spell Damage: +20, Lasts Until Rollover
 Item	pottery training pants	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Damage: +5, Familiar Effect: "hot atk, 2xGhuol, cap 12"
 Item	power pants	Maximum PP: +1
 Item	primitive alien loincloth	Initiative: +50, Stench Damage: +25, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4
@@ -1316,6 +1319,7 @@ Item	fiberglass foil	Experience (Muscle): +3, Monster Level: +10, MP Regen Min: 
 Item	filthy pestle	Spell Damage: +7
 Item	finger cymbals	Maximum MP: +20
 Item	fire axe	Cold Damage: +200
+Item	fire crackers	Effect: "Fire cracked", Effect Duration: 20
 Item	[10462]fire flower	Plumber Stat: "Mysticality", Plumber Power: 1
 Item	fire poi	Hot Damage: +15, Moxie: +3
 Item	fish bazooka	Moxie Percent: +5, Meat Drop: +10
@@ -3369,6 +3373,7 @@ Item	ring of teleportation	Single Equip
 Item	ring of telling skeletons what to do	Muscle: +2, Mysticality: +2, Moxie: +2
 Item	Ring of the Sewer Snake	Muscle: +3, Mysticality: +3, Moxie: +3, Stench Damage: +40, Single Equip
 Item	ring of the Skeleton Lord	Mysticality Percent: +50, Meat Drop: +50, Item Drop: +25, Single Equip
+Item	rocket boots	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Initiative: +100, Single Equip, Lasts Until Rollover
 Item	Roman sadnals	Experience: +2, Single Equip
 Item	rope with some soap on it	Spell Damage Percent: [100*zone(Hobopolis)*(1-loc(Sewer Tunnels))], Single Equip
 Item	rose-colored glasses	Maximum HP: +5, Maximum MP: +5
@@ -3918,6 +3923,7 @@ Item	burning cape	Hot Resistance: +3, Maximum HP: +25, Maximum MP: +25, Adventur
 # Camp Scout backpack: Helps You Be Prepared
 Item	Camp Scout backpack	Item Drop: +15, Softcore Only, Drops Items
 Item	cape	Initiative: +100
+Item	Catherine Wheel	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Experience: +3, Lasts Until Rollover
 Item	carpe	Mysticality Percent: +50, MP Regen Min: 5, MP Regen Max: 10, Meat Drop: +50, Combat Rate: +10, Lasts Until Rollover
 # chalk chlamys: Weakens enemies who hit you
 Item	chalk chlamys	Adventures: +2, Combat Rate: -5
@@ -4217,6 +4223,7 @@ Item	origami &quot;gentlemen's&quot; magazine	Softcore Only, Generic
 Item	overclocked avian microprocessor	Familiar Weight: +5
 # oversized fish scaler: Allows familiar to scale fish
 Item	oversized fish scaler	Generic, Familiar Effect: "attack"
+Item	oversized sparkler	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Item Drop: +20, Lasts Until Rollover
 Item	palm-frond toupee	Familiar Weight: +5
 Item	Panda outfit	Familiar Weight: +5, Item Drop: +5, Generic
 Item	party mouse hat	Familiar Weight: +5
@@ -4417,7 +4424,6 @@ Familiar	Peppermint Rhino	Candy Drop: [max(sqrt(55*W)+W-3,0)]
 Familiar	Purse Rat	Monster Level: [floor(W/2)]
 Familiar	Reanimated Reanimator	Volleyball: 1, Meat Drop: [max(sqrt(220*pref(reanimatorSkulls))+2*pref(reanimatorSkulls)-6,0)], Item Drop: [max(sqrt(55*pref(reanimatorLegs))+pref(reanimatorLegs)-3,0)]
 Familiar	Red-Nosed Snapper	Fairy: [1+0.5*env(underwater)]
-# Underwater Familiar only with Bloody Nora or low tide martini
 Familiar	Robortender	Experience (Muscle): [max(3*pref(_roboDrinks,literal grasshopper),5*pref(_roboDrinks,eighth plague))], Fairy: [max(pref(_roboDrinks,single entendre),0.5*pref(_roboDrinks,double entendre))], Experience (Moxie): [max(3*pref(_roboDrinks,shroomtini),5*pref(_roboDrinks,moreltini))], Leprechaun: [1+max(0.5*pref(_roboDrinks,piscatini),pref(_roboDrinks,drive-by shooting))], Experience (Mysticality): [max(3*pref(_roboDrinks,soilzerac),5*pref(_roboDrinks,dirt julep))], Familiar Weight (hidden): [10*env(underwater)*pref(_roboDrinks,Bloody Nora)]
 Familiar	Space Jellyfish	Item Drop: [max(sqrt(55*W)+W-3,0)*env(underwater)], Experience: [max(2+W/5,2)*env(underwater)]
 Familiar	Steam-Powered Cheerleader	Fairy: [1+0.1*ceil(pref(_cheerleaderSteam)/50)]
@@ -5460,6 +5466,7 @@ Effect	Digitalis, Dig It	Initiative: +75, Maximum HP: +200
 Effect	Digitally Converted	Monster Level: +30
 Effect	Dilated Pupils	Item Drop: +20
 Effect	Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage: +12
+Effect	Dirge of Dreadfulness (Remastered)	Spooky Damage: +36, Spooky Spell Damage: +36
 Effect	Dirty Pear	Sleaze Damage: [mod(Sleaze Damage)], Sleaze Spell Damage: [mod(Sleaze Spell Damage)]
 # Dis Abled: Grants access to the Suburb of Dis
 # Disavowed reduces a bunch of stuff based on how many times it has been given that day
@@ -5679,6 +5686,7 @@ Effect	Finding Stuff	Item Drop: +30
 # Finstrong: Makes you a better diver
 Effect	Fishing For Knowledge	Fishing Skill: +5
 Effect	Finstrong	Initiative Penalty: [30*env(underwater)], Item Drop Penalty: [30*env(underwater)], Meat Drop Penalty: [30*env(underwater)]
+Effect	Fire cracked	Experience: +20
 Effect	Fire Down Below	Hot Damage: [min(100,T)]
 Effect	Fire Inside	Hot Damage: +25
 Effect	Fireproof Lips	Hot Resistance: +9
@@ -5807,6 +5815,7 @@ Effect	Glo-Face	MP Regen Min: 3, MP Regen Max: 5
 Effect	Glorious Blessing of She-Who-Was	Mysticality: +15, Spooky Damage: +15
 Effect	Glorious Blessing of the Storm Tortoise	Initiative: +15, Maximum MP: +30
 Effect	Glorious Blessing of the War Snapper	Muscle: +15, Weapon Damage: +15
+Effect	Glowing Blue	MP Regen Min: 1000, MP Regen Max: 1000
 Effect	Gnawed-Off Arm	Muscle: -5
 Effect	Gnollivision	Avatar: "one-eyed Gnoll"
 Effect	Gnomedome	Avatar: "menacing lawn gnome"
@@ -6663,6 +6672,7 @@ Effect	Rave Nirvana	Meat Drop: +50
 Effect	Raving Lunatic	Weapon Damage: +20
 Effect	Ravonovichy	Avatar: "Father Nikolai Ravonovich"
 Effect	Re-Possessed	Weapon Damage: +10, Damage Reduction: -2
+# Effect Ready to Eat: Your next meal is going to be SOOO satisfying
 Effect	Ready to Roll	Booze Drop: +100, Cold Damage: +25, Cold Spell Damage: +25
 Effect	Ready to Snap	Mysticality: +5, Experience (Mysticality): +1
 Effect	Really Deep Breath	Adventure Underwater
@@ -6737,6 +6747,7 @@ Effect	Savage Beast Inside	Muscle: +20
 Effect	Scared Stiff	Sleaze Resistance: +2, Cold Vulnerability, Spooky Vulnerability
 Effect	Scaredy Dog	Spooky Damage: +30, Cold Resistance: +3, Sleaze Resistance: +3, Combat Rate: -5
 Effect	Scariberi	Spooky Damage: [min(100,T)]
+Effect	Scariersauce	Sleaze Resistance: +6, Cold Resistance: +6
 # Scarysauce: Damages Attacking Opponents
 Effect	Scarysauce	Sleaze Resistance: +2, Cold Resistance: +2
 Effect	Scavengers Scavenging	Item Drop: +20
@@ -6893,6 +6904,7 @@ Effect	Smug of Cocoa	Monster Level: +30
 Effect	Smugness	Moxie: +5
 Effect	SNAPPED INTO IT	Avatar: "Macho Man"
 Effect	Snarl of the Timberwolf	Spooky Damage: +10
+Effect	Snarl of Three Timberwolves	Spooky Damage: +30
 Effect	Sneaky Serpentine Subtlety	Moxie Percent: +100
 Effect	Snichors	Drippy Resistance: +5
 Effect	Snobby	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50

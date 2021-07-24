@@ -69,6 +69,8 @@ import java.util.regex.PatternSyntaxException;
 
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
+import net.sourceforge.kolmafia.request.DrinkItemRequest;
+import net.sourceforge.kolmafia.request.EatItemRequest;
 import net.sourceforge.kolmafia.session.*;
 import net.sourceforge.kolmafia.textui.command.EudoraCommand;
 import org.htmlcleaner.HtmlCleaner;
@@ -342,6 +344,15 @@ public abstract class RuntimeLibrary
 		
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.BOOLEAN_TYPE };
 		functions.add( new LibraryFunction( "user_confirm", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "user_prompt", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.AGGREGATE_TYPE };
+		functions.add( new LibraryFunction( "user_prompt", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "user_prompt", DataTypes.STRING_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "logprint", DataTypes.VOID_TYPE, params ) );
@@ -779,6 +790,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "eatsilent", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "clear_food_helper", DataTypes.VOID_TYPE, params ) );
+
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "drink", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -805,6 +819,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "drinksilent", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "clear_booze_helper", DataTypes.VOID_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "chew", DataTypes.BOOLEAN_TYPE, params ) );
@@ -1282,6 +1299,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "in_hardcore", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "in_casual", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "pvp_attacks_left", DataTypes.INT_TYPE, params ) );
@@ -2202,6 +2222,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "string_modifier", DataTypes.STRING_TYPE, params ) );
 
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "string_modifier", DataTypes.STRING_TYPE, params ) );
+
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "effect_modifier", DataTypes.EFFECT_TYPE, params ) );
 
@@ -2628,6 +2651,35 @@ public abstract class RuntimeLibrary
 		final Value defaultBoolean )
 	{
 		return InterruptableDialog.confirm( message, timeOut, defaultBoolean );
+	}
+
+	public static Value user_prompt( ScriptRuntime controller, final Value message )
+	{
+		return DataTypes.makeStringValue( InputFieldUtilities.input( message.toString() ) );
+	}
+
+	public static Value user_prompt( ScriptRuntime controller, final Value message, final Value options )
+	{
+		AggregateValue aggregate = (AggregateValue) options;
+		int size = aggregate.count();
+		Value [] keys = aggregate.keys();
+		Object [] javaOptions = new Object[ size ];
+
+		// Extract the item ids into an array
+		for ( int i = 0; i < size; ++i )
+		{
+			javaOptions[ i ] = keys[ i ];
+		}
+
+		Object result = InputFieldUtilities.input( message.toString(), javaOptions );
+
+		return DataTypes.makeStringValue( result == null ? "" : result.toString() );
+	}
+
+	public static Value user_prompt( ScriptRuntime controller, final Value message, final Value timeOut,
+									  final Value defaultString )
+	{
+		return InterruptableDialog.input( message, timeOut, defaultString );
 	}
 
 	private static String cleanString( Value string )
@@ -4129,6 +4181,12 @@ public abstract class RuntimeLibrary
 		return execute_item_quantity( "eatsilent", arg1, arg2 );
 	}
 
+	public static Value clear_food_helper( ScriptRuntime controller )
+	{
+		EatItemRequest.clearFoodHelper();
+		return DataTypes.VOID_VALUE;
+	}
+
 	public static Value drink( ScriptRuntime controller, final Value item )
 	{
 		return drink(controller, new Value( 1 ), item);
@@ -4157,6 +4215,12 @@ public abstract class RuntimeLibrary
 	public static Value drinksilent( ScriptRuntime controller, final Value arg1, final Value arg2 )
 	{
 		return execute_item_quantity( "drinksilent", arg1, arg2 );
+	}
+
+	public static Value clear_booze_helper( ScriptRuntime controller )
+	{
+		DrinkItemRequest.clearBoozeHelper();
+		return DataTypes.VOID_VALUE;
 	}
 
 	public static Value chew( ScriptRuntime controller, final Value item )
@@ -5942,6 +6006,11 @@ public abstract class RuntimeLibrary
 	public static Value in_hardcore( ScriptRuntime controller )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.isHardcore() );
+	}
+
+	public static Value in_casual( ScriptRuntime controller )
+	{
+		return DataTypes.makeBooleanValue( KoLCharacter.isCasual() );
 	}
 
 	public static Value pvp_attacks_left( ScriptRuntime controller )

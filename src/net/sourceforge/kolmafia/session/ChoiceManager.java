@@ -12389,12 +12389,12 @@ public abstract class ChoiceManager
 		case 1437:
 		{
 			// Configuring the retro cape washing instructions
-			String instructions =
-					ChoiceManager.lastDecision == 2 ? "hold" :
-							ChoiceManager.lastDecision == 3 ? "thrill" :
-									ChoiceManager.lastDecision == 4 ? "kiss" :
-											ChoiceManager.lastDecision == 5 ? "kill" :
-													null;
+			String instructions = ChoiceManager.lastDecision == 2 ? "hold" :
+				ChoiceManager.lastDecision == 3 ? "thrill" :
+				ChoiceManager.lastDecision == 4 ? "kiss" :
+				ChoiceManager.lastDecision == 5 ? "kill" :
+				null;
+
 			if ( instructions != null )
 			{
 				Preferences.setString( "retroCapeWashingInstructions", instructions );
@@ -12405,11 +12405,11 @@ public abstract class ChoiceManager
 		case 1438:
 		{
 			// Configuring the retro cape superhero
-			String hero =
-					ChoiceManager.lastDecision == 1 ? "vampire" :
-							ChoiceManager.lastDecision == 2 ? "heck" :
-									ChoiceManager.lastDecision == 3 ? "robot" :
-											null;
+			String hero = ChoiceManager.lastDecision == 1 ? "vampire" :
+				ChoiceManager.lastDecision == 2 ? "heck" :
+				ChoiceManager.lastDecision == 3 ? "robot" :
+				null;
+
 			if ( hero != null )
 			{
 				Preferences.setString( "retroCapeSuperhero", hero );
@@ -19137,6 +19137,7 @@ public abstract class ChoiceManager
 		case 1193: // The Precinct
 		case 1195: // Spinning Your Time-Spinner
 		case 1197: // Travel back to a Delicious Meal
+		case 1217: // Sweet Synthesis
 		case 1218: // Wax On
 		case 1233: // Equipment Requisition
 		case 1234: // Spacegate Vaccination Machine

@@ -169,12 +169,28 @@ public class NPCPurchaseRequest
 		return this.npcStoreId;
 	}
 
+	@Override
+	public int getQuantity()
+	{
+		switch ( this.getItemId() )
+			{
+			case ItemPool.FEDORA_MOUNTED_FOUNTAIN:
+			case ItemPool.PORKPIE_MOUNTED_POPPER:
+			case ItemPool.SOMBRERO_MOUNTED_SPARKLER:
+				return Preferences.getBoolean( "_fireworksShopHatBought" ) ? 0 : 1;
+			case ItemPool.CATHERINE_WHEEL:
+			case ItemPool.ROCKET_BOOTS:
+			case ItemPool.OVERSIZED_SPARKLER:
+				return Preferences.getBoolean( "_fireworksShopEquipmentBought" ) ? 0 : 1;
+			}
+		return super.getQuantity();
+	}
+
 	/**
 	 * Retrieves the price of the item being purchased.
 	 *
 	 * @return The price of the item being purchased
 	 */
-
 	@Override
 	public int getPrice()
 	{
@@ -707,6 +723,17 @@ public class NPCPurchaseRequest
 		if ( shopId.equals( "fdkol" ) )
 		{
 			FDKOLRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		if ( shopId.equals( "fwshop" ) )
+		{
+			if ( responseText.contains( "<b>Combat Explosives" ) )
+			{
+				Preferences.setBoolean( "_fireworksShop", true );
+				Preferences.setBoolean( "_fireworksShopHatBought", !responseText.contains( "<b>Dangerous Hats" ) );
+				Preferences.setBoolean( "_fireworksShopEquipmentBought", !responseText.contains( "<b>Explosive Equipment" ) );
+			}
 			return;
 		}
 

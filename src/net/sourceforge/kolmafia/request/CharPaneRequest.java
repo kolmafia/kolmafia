@@ -1853,6 +1853,9 @@ public class CharPaneRequest
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1;
 		KoLCharacter.setHardcore( hardcore );
 
+		boolean casual = JSON.getInt( "casual" ) == 1;
+		KoLCharacter.setCasual( casual );
+
 		//boolean casual = JSON.getInt( "casual" ) == 1;
 		int roninLeft = JSON.getInt( "roninleft" );
 

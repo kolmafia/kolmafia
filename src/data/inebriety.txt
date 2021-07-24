@@ -100,7 +100,7 @@ bottle of realpagne	2	2	awesome	5-8	0	0	12-18	10 The Real Deal (+20 HP/MP regen)
 bottle of rum	3	1	crappy	3	0	0	0
 bottle of sake	3	1	crappy	3	0	0	0
 bottle of Sanguiovese	1	1	EPIC	11	5-10	5-10	5-10	Vampyre
-bottle of sea wine	1	1	awesome	4-5	0	0	0	Unspaded, WINE
+bottle of sea wine	1	1	awesome	4-5	5-10	5-10	5-10	WINE
 bottle of sewage schnapps	3	1	crappy	0	0	0	0	20 Majorly Poisoned, lose 30 HP
 bottle of single-barrel whiskey	3	13	EPIC	13-20	40-50	40-50	40-50
 bottle of super-extra-dark rhum	2	2	good	0	0	0	0	Unspaded
@@ -262,7 +262,7 @@ fermented honey	3	1		3-6	5-6	5-6	5-6	10 Sugar Rush
 fine wine	1	1	decent	2	0	0	3-5
 firemilk	3	1	awesome	9-10	0	0	0	30 Cowrruption (+200% weapon dmg, +200% spell dmg, muscle limited to 30, moxie limited to 30)
 Firewater	2	1	good	4-5	0	10-20	0	5 Elemental Mastery (+5 Prismatic Dam)
-fishelada	3	1	good	0	0	0	0	Unspaded 30 Fishy
+fishelada	3	1	good	9	0	0	0
 Flamin' Whatshisname	2	6	good	5-7	20-25	10-15	0	-10-20 HP
 Flaming Caipiranha	2	8	awesome	8-9	15-20	15-20	15-20	15 Fishy
 Flaming Crimbo Log	5	1	good	10-15	0	0	0

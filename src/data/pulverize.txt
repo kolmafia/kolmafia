@@ -625,6 +625,12 @@ hare pin	nosmash
 # Special cases. We need a better way to specify these.
 bejeweled cufflinks	258112
 
+# Rainbow pearl
 rainbow pearl earring	rainbow pearl
 rainbow pearl necklace	rainbow pearl
 rainbow pearl ring	rainbow pearl
+
+# Meteorite fragment (from Comb the Beach)
+meteorite earring	meteorite fragment
+meteorite necklace	meteorite fragment
+meteorite ring	meteorite fragment

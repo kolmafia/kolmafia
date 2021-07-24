@@ -648,11 +648,26 @@ public class QuestManager
 		{
 			QuestDatabase.setQuestIfBetter( Quest.MEATCAR, QuestDatabase.FINISHED );
 		}
-		if ( responseText.contains( "not recovered the Epic Weapon yet" ) ||
-		     responseText.contains( "The Tomb is within the Misspelled Cemetery" ) ||
-		     responseText.contains( "the Tomb, which is within the Misspelled Cemetery" ) )
+		if (
+			// Muscle classes
+			responseText.contains( "The Tomb is within the Misspelled Cemetery" ) ||
+			// Mysticality classes
+			responseText.contains( "the Tomb, which is within the Misspelled Cemetery" ) ||
+			// Moxie classes
+			responseText.contains( "the Tomb is in the Misspelled Cemetary" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, QuestDatabase.STARTED );
+		}
+		if (
+			// Muscle classes
+			responseText.contains( "not recovered the Epic Weapon yet" ) ||
+			// Mysticality classes
+			responseText.contains( "not yet claimed the Epic Weapon" ) ||
+			// Moxie classes
+			responseText.contains( "the delay on that Epic Weapon" )
+		)
+		{
+			QuestDatabase.setQuestIfBetter( Quest.NEMESIS, QuestDatabase.STARTED );
 		}
 		if ( responseText.contains( "Clownlord Beelzebozo" ) )
 		{
