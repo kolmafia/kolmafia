@@ -5010,7 +5010,8 @@ public abstract class RuntimeLibrary
 
 	public static Value get_workshed( ScriptRuntime controller )
 	{
-		return DataTypes.makeItemValue( CampgroundRequest.getCurrentWorkshedItem().getItemId(), true );
+		AdventureResult workshed = CampgroundRequest.getCurrentWorkshedItem();
+		return workshed == null ? DataTypes.ITEM_INIT : DataTypes.makeItemValue( workshed.getItemId(), true );
 	}
 
 	public static Value get_clan_lounge( ScriptRuntime controller )
@@ -7105,16 +7106,18 @@ public abstract class RuntimeLibrary
 		ResultProcessor.processResults( false,
 			StringUtilities.globalStringReplace( string.toString(), "- ", "-" ),
 			data );
+		
+		long meat = 0;
 
 		for ( AdventureResult result : data )
 		{
 			if ( result.getName().equals( AdventureResult.MEAT ) )
 			{
-				return new Value( result.getLongCount() );
+				meat += result.getLongCount();
 			}
 		}
 
-		return DataTypes.ZERO_VALUE;
+		return new Value( meat );
 	}
 
 	public static Value extract_items( ScriptRuntime controller, final Value string )
