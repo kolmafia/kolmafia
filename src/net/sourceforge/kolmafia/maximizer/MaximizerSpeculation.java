@@ -103,7 +103,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 	{
 		if ( this.scored ) return this.score;
 		if ( !this.calculated ) this.calculate();
-		this.score = Maximizer.eval.getScore( this.mods, this.equipment );
+		this.score = Maximizer.eval.getScore( this.mods, this.equipment, this.getBjorned(), this.getEnthroned() );
 		if ( KoLCharacter.inBeecore() )
 		{
 			this.beeosity = KoLCharacter.getBeeosity( this.equipment );
