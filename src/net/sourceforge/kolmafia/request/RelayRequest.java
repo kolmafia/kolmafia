@@ -2047,7 +2047,7 @@ public class RelayRequest
 		}
 
 		// If the ticket isn't available, don't bother prompting
-		if ( KoLCharacter.inNuclearAutumn() )
+		if ( KoLCharacter.inNuclearAutumn() || KoLCharacter.inFistcore() )
 		{
 			return false;
 		}
