@@ -119,6 +119,7 @@ public class Evaluator
 	private final Set<AdventureResult> negEquip = new HashSet<>();
 	private final Set<AdventureResult> uniques = new HashSet<>();
 	private final Map<AdventureResult, Double> bonuses = new HashMap<>();
+	private final Map<FamiliarData, Double> bonusesCarry = new HashMap<>();
 
 	private static final String TIEBREAKER = "1 familiar weight, 1 familiar experience, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop, 1 DB combat damage, 0.1 sixgun damage";
 	private static final Pattern KEYWORD_PATTERN = Pattern.compile( "\\G\\s*(\\+|-|)([\\d.]*)\\s*(\"[^\"]+\"|(?:[^-+,0-9]|(?<! )[-+0-9])+),?\\s*" );
@@ -455,6 +456,18 @@ public class Evaluator
 					return;
 				}
 				this.bonuses.put( match, weight );
+				continue;
+			}
+			
+			if ( keyword.startsWith( "bonus-carry " ) )
+			{
+				int id = FamiliarDatabase.getFamiliarId( keyword.substring( 12 ).trim() );
+				FamiliarData match = KoLCharacter.findFamiliar( id );
+				if ( match == null || match == FamiliarData.NO_FAMILIAR )
+				{
+					return;
+				}
+				this.bonusesCarry.put( match, weight );
 				continue;
 			}
 
@@ -840,7 +853,7 @@ public class Evaluator
 			workBoots;
 	}
 
-	public double getScore( Modifiers mods, AdventureResult[] equipment )
+	public double getScore( Modifiers mods, AdventureResult[] equipment, FamiliarData enthroned, FamiliarData bjorned )
 	{
 		this.failed = false;
 		this.exceeded = false;
@@ -937,6 +950,18 @@ public class Evaluator
 				}
 			}
 		}
+		if ( !this.bonusesCarry.isEmpty() )
+		{
+			if ( enthroned != FamiliarData.NO_FAMILIAR && this.bonusesCarry.containsKey( enthroned ) )
+			{
+				score += this.bonusesCarry.get( enthroned );
+			}
+			if ( bjorned != FamiliarData.NO_FAMILIAR && this.bonusesCarry.containsKey( bjorned ) )
+			{
+				score += this.bonusesCarry.get( bjorned );
+			}
+		}
+
 		// Add fudge factor for Rollover Effect
 		if ( mods.getString( Modifiers.ROLLOVER_EFFECT ).length() > 0 )
 		{
@@ -977,9 +1002,14 @@ public class Evaluator
 		return score;
 	}
 
+	public double getScore( Modifiers mods, AdventureResult[] equipment )
+	{
+		return this.getScore( mods, equipment, FamiliarData.NO_FAMILIAR, FamiliarData.NO_FAMILIAR );
+	}
+
 	public double getScore( Modifiers mods )
 	{
-		return this.getScore( mods, new AdventureResult[0] );
+		return this.getScore( mods, new AdventureResult[0], FamiliarData.NO_FAMILIAR, FamiliarData.NO_FAMILIAR );
 	}
 
 	void checkEquipment( Modifiers mods, AdventureResult[] equipment,
@@ -1761,29 +1791,24 @@ public class Evaluator
 		FamiliarData secondBestCarriedFamiliar = FamiliarData.NO_FAMILIAR;
 		FamiliarData useBjornFamiliar = FamiliarData.NO_FAMILIAR;
 		FamiliarData useCrownFamiliar = FamiliarData.NO_FAMILIAR;
-		if ( KoLCharacter.hasEquipped( ItemPool.BUDDY_BJORN, EquipmentManager.CONTAINER ) )
+
+		// If we're not allowed to change the current familiar, blacklist it
+		if ( this.slots[ EquipmentManager.BUDDYBJORN ] < 0 )
 		{
-			// If we're not allowed to change the current familiar, blacklist it
-			if ( this.slots[ EquipmentManager.BUDDYBJORN ] < 0 )
-			{
-				useBjornFamiliar = KoLCharacter.getBjorned();
-			}
-			else
-			{
-				bestCarriedFamiliar = KoLCharacter.getBjorned();
-			}
+			useBjornFamiliar = KoLCharacter.getBjorned();
 		}
-		if ( KoLCharacter.hasEquipped( ItemPool.HATSEAT, EquipmentManager.HAT ) )
+		else
 		{
-			// If we're not allowed to change the current familiar, add it
-			if ( this.slots[ EquipmentManager.CROWNOFTHRONES ] < 0 )
-			{
-				useCrownFamiliar = KoLCharacter.getEnthroned();
-			}
-			else
-			{
-				secondBestCarriedFamiliar = KoLCharacter.getEnthroned();
-			}
+			bestCarriedFamiliar = KoLCharacter.getBjorned();
+		}
+		// If we're not allowed to change the current familiar, add it
+		if ( this.slots[ EquipmentManager.CROWNOFTHRONES ] < 0 )
+		{
+			useCrownFamiliar = KoLCharacter.getEnthroned();
+		}
+		else
+		{
+			secondBestCarriedFamiliar = KoLCharacter.getEnthroned();
 		}
 		if ( bestCarriedFamiliar == FamiliarData.NO_FAMILIAR && !(secondBestCarriedFamiliar == FamiliarData.NO_FAMILIAR ) )
 		{
