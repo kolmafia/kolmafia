@@ -1009,6 +1009,10 @@ public class AreaCombatData
 		{
 			buffer.append( this.format( superlikelyChance ) + "%" );
 		}
+		else if ( EncounterManager.isCrystalBallMonster( name, this.getZone() ) )
+		{
+			buffer.append( "predicted by crystal ball" );
+		}
 		else if ( weighting == -1 )
 		{
 			buffer.append( "ultra-rare" );

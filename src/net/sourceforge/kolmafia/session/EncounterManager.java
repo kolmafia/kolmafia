@@ -337,6 +337,17 @@ public abstract class EncounterManager
 		return false;
 	}
 
+	public static final boolean isCrystalBallMonster()
+	{
+		return isCrystalBallMonster( MonsterStatusTracker.getLastMonsterName(), Preferences.getString( "nextAdventure" ) );
+	}
+
+	public static final boolean isCrystalBallMonster( String monster, String zone )
+	{
+		// There's no message to check for so assume the correct monster in the correct zone is from the crystal ball
+		return monster.equalsIgnoreCase( Preferences.getString( "crystalBallMonster" ) ) && zone.equalsIgnoreCase( Preferences.getString( "crystalBallLocation" ) );
+	}
+
 	public static final boolean isWanderingMonster( String encounter )
 	{
 		MonsterData monster = MonsterDatabase.findMonster( encounter );
