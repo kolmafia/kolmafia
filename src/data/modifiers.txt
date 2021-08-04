@@ -197,6 +197,7 @@ Item	elf ploughshare	Maximum HP: +30, Maximum MP: +30
 Item	enchanted eyepatch	Mysticality: +5, Familiar Effect: "4xBarrr, cap 8"
 Item	enchantlers	Hot Spell Damage: +10, Familiar Effect: "hot atk, 1xLep, cap 28"
 Item	extra-large palm-frond toupee	Experience: +2, Familiar Effect: "1xVolley, 1xPotato, cap 37"
+Item	extra-wide head candle	Weapon Damage Percent: +100, HP Regen Min: 10, HP Regen Max: 20, Maximum HP Percent: +100, Lasts Until Rollover
 Item	eXtreme scarf	Mysticality: +5, Familiar Effect: "atk, 1xBarrr, cap 25"
 Item	eyepatch	Moxie: +2, Familiar Effect: "3xBarrr, cap 6"
 Item	f3d0r4	Moxie: +6, Familiar Effect: "atk, 1xLep, cap 27"
@@ -1308,6 +1309,7 @@ Item	elven tambourine	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistan
 # elven whittling knife: On Critical:  Whittles enemy down
 Item	evil paper umbrella	Monster Level: +1
 Item	evil-ass club	Weapon Damage: +25, Monster Level: +15, Spooky Damage: +15, Class: "Seal Clubber"
+Item	extra-large utility candle	Item Drop: +25, Hot Damage: +50, Lasts Until Rollover
 Item	eXtreme meat crossbow	Moxie: +7
 Item	eXtreme meat staff	Mysticality: +7
 Item	eXtreme meat sword	Muscle: +7
@@ -1567,6 +1569,7 @@ Item	ninja mop	Weapon Damage: +5
 Item	non-Euclidean non-accordion	Initiative: [15*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 15
 # non-stick pugil stick: On Critical:  Stuns Opponent
 Item	non-stick pugil stick	Muscle Percent: +10, Weapon Damage Percent: +10
+Item	novelty sparkling candle	Item Drop: +25, Moxie: +10, Lasts Until Rollover
 Item	obsidian dagger	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
 Item	obsidian nutcracker	Spell Damage Percent: +30
 Item	ocarina of space	Muscle: +4, Mysticality: +4, Moxie: +4, Ranged Damage: +5, Experience: +2
@@ -1684,6 +1687,7 @@ Item	rubber axe	Sleaze Damage: +2
 Item	rubber band gun	Moxie: +5
 Item	rubber spatula	Spell Damage: +2
 # Ruby Rod
+Item	runed taper candle	Item Drop: +25, Hot Spell Damage: +50, Lasts Until Rollover
 Item	rusted-out shootin' iron	Meat Drop: +10, Ranged Damage: +50, Combat Rate: -5
 Item	rusty grave robbing shovel	Spooky Damage: +5, Initiative: -10
 Item	rusty piece of rebar	Weapon Damage: +25, Critical Hit Percent: +7
@@ -1995,6 +1999,7 @@ Item	7-ball	Meat Drop: +5
 Item	9-ball	Weapon Damage: +8, Ranged Damage: +8, Spell Damage: +8
 # A Light that Never Goes Out: (+Item Drops based on Smithsness)
 Item	A Light that Never Goes Out	Mysticality: +5, Hot Damage: +5, Smithsness: +5, Item Drop: [K]
+Item	Abracandalabra	Spell Damage Percent: +100, MP Regen Min: 5, MP Regen Max: 10, Maximum MP Percent: +100, Lasts Until Rollover
 Item	Abyssal ember	Hot Damage: +20, Weapon Drop: +25, Class: "Seal Clubber"
 Item	adhesive tape dolly	Moxie: +5
 Item	Adventurer bobblehead	Muscle Percent: [pref(item9084)], Mysticality Percent: [pref(item9084)], Moxie Percent: [pref(item9084)]
@@ -4855,6 +4860,7 @@ Effect	5 Pounds Lighter	Initiative: +10, Moxie: +5
 Effect	8-bit Apparition	Avatar: "ancient ghost"
 Effect	9-Volt-Charged	Spell Damage Percent: +50, Initiative: +50, Experience: +3, MP Regen Min: 5, MP Regen Max: 10
 Effect	9/10ths of the Law	Avatar: "creepy little girl"
+# Effect A Beastly Odor: Encounter beasts more frequently
 Effect	A Bug's Life	Maximum HP Percent: +100, HP Regen Min: 8, HP Regen Max: 10
 Effect	A Contender	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 Effect	A Few Extra Pounds	Maximum HP: [5*min(L,11)]
@@ -5301,6 +5307,7 @@ Effect	Cinnamouth	Hot Damage: +11
 Effect	Citronella Armpits	Monster Level: +30
 Effect	Clean to the Bone	Avatar: "skullery maid"
 Effect	Clean-Shaven	Moxie: +5
+Effect	Clear Ears, Can't Lose	Initiative: +100
 Effect	Clerical Aura	Avatar: "Father McGruber"
 Effect	Cletus's Canticle of Celerity	Initiative: +20
 Effect	Cloak of Shadows	Combat Rate: -15
@@ -5345,6 +5352,7 @@ Effect	Comprehensively Nourished	Experience: +2
 Effect	Concentrated Concentration	Spell Damage Percent: +20
 Effect	Concentration	Spell Damage Percent: +10
 Effect	Concha de Tortuga	HP Regen Min: 6, HP Regen Max: 8
+Effect	Confidence of the Votive	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Confidence!	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Effect	Confused	Mysticality Percent: -30
 Effect	Connering the Seanman	Avatar: "Seannery the Conman"
@@ -5366,6 +5374,7 @@ Effect	Corroded Weapon	Weapon Damage: -5
 Effect	Corruption of Wretched Wally	Muscle: +3, Weapon Damage: +3, HP Regen Min: 3, HP Regen Max: 5
 Effect	Cosmic Flavor	Spell Critical Percent: +10
 # Cotton Mouthed: So dry!  It's from yesterday!
+Effect	Covered in the Rainbow	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
 Effect	Covetin' Drunk	Meat Drop: +200
 # Covetous Robbery: Increases meat drops from stingy monsters
 Effect	Cowlick	Meat Drop: +50
@@ -5563,6 +5572,7 @@ Effect	Eggscitingly Colorful	Hot Resistance: +3, Cold Resistance: +3, Spooky Res
 Effect	Eggstraordinary Brilliance	Experience (Mysticality): +5
 Effect	Eggstraordinary Strength	Experience (Muscle): +5
 Effect	Eggstraordinary Style	Experience (Moxie): +5
+Effect	El Aroma de Salsa	Item Drop: +30
 Effect	El Tango de la Maldita Suegra	Initiative: +15, Pickpocket Chance: +20
 Effect	El Vibrations	Spell Damage Percent: +100
 Effect	Elbow Sauce	Weapon Damage Percent: +50
@@ -5598,6 +5608,7 @@ Effect	Ermine Eyes	Item Drop: +5
 Effect	Erudite	Mysticality Percent: +10, Spell Damage: +15, Damage Reduction: -10
 # Eso S&iacute; Que Es
 Effect	Everybody Calls Him Gorgon	Experience (Mysticality): +5, Mysticality Percent: +100, Maximum MP Percent: +50
+# Effect Everything Is Bananas: Monsters will often fail to hit you because of all the banana oil everywhere
 # Everything Looks Blue
 # Everything Looks Red
 # Everything Looks Yellow
@@ -5606,6 +5617,7 @@ Effect	Everybody Calls Him Gorgon	Experience (Mysticality): +5, Mysticality Perc
 Effect	Everything Must Go!	Combat Rate: +10
 Effect	Everything's Zen	Experience Percent (Mysticality): +20
 # EVISCERATE!: Attacks enemies every round
+# Effect Ew, The Humanity: Encounter human monsters more frequently
 Effect	Executive Greed	Meat Drop: +50
 # Existential Torment: Who are you?  Who are you <i>really</i>?
 Effect	Experimental Effect G-9	Muscle Percent: [pref(_g9Effect)], Mysticality Percent: [pref(_g9Effect)], Moxie Percent: [pref(_g9Effect)]
@@ -5832,6 +5844,7 @@ Effect	Goo Vibrations	Muscle Percent: -50, Mysticality Percent: -50, Moxie Perce
 Effect	Good Chance of Surviving Hell	Hot Resistance: +5
 Effect	Good Karma	Mysticality: +5
 Effect	Good Motivator	Initiative: +25
+Effect	Good Things Are Coming, You Can Smell It	Meat Drop: +60
 Effect	Good with the Ladies	Experience: +3
 Effect	Goofball Withdrawal	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 Effect	Gooed Enough For Government Work	Sleaze Resistance: +5
@@ -6755,6 +6768,7 @@ Effect	Scent of a Kitchen Elf	Mysticality: +40, Familiar Weight Percent: -50
 Effect	School Spirited	Meat Drop: +100, Item Drop: +50
 # Schroedinger's Butt: ???
 Effect	Science is Real	Avatar: "Mrs. K, the Chemistry Teacher"
+Effect	Scorched Earth	Experience: +10
 Effect	Scorpio Rising	Initiative: +25
 Effect	Scowl of the Auk	Weapon Damage: +10
 Effect	Scrappy, Shadowy	Spooky Damage: +25, Damage Reduction: 15
@@ -7204,6 +7218,7 @@ Effect	The Magical Mojomuscular Melody	Maximum MP: +20, Mysticality: +10
 Effect	The Moomy's Curse	Mana Cost: +20, Familiar Weight: -40, Muscle Percent: -200, Mysticality Percent: -200, Moxie Percent: -200
 Effect	The More You Eat	Stench Damage: +15, Stench Spell Damage: +15
 Effect	The Moxious Madrigal	Moxie: +10
+Effect	The Odour of Magick	Mana Cost: -3
 # The Odor of Money: Increases your ability to encourage Crimbo commerce
 Effect	The Other	Avatar: "The Author"
 Effect	The Perfect Snowman Disguise	Avatar: "Snowbrawler"
@@ -9024,6 +9039,7 @@ Item	rinky-dink sixgun	Sixgun Damage: [15*(1+skill(Well-Oiled Guns))]
 Item	toy sixgun	Sixgun Damage: [5*(1+skill(Well-Oiled Guns))]
 
 # Potions section of modifiers.txt
+
 Item	&quot;DRINK ME&quot; potion	Effect: "Down the Rabbit Hole", Effect Duration: 20
 Item	1/6th Pound Cake	Effect: "Heal Thy Nanoself", Effect Duration: 100
 Item	37x37x37 puzzle cube	Effect: "Puzzle Fury", Effect Duration: 10
@@ -9054,6 +9070,7 @@ Item	bag of W&Ws	Effect: "Just the Brown Ones", Effect Duration: 15
 Item	baggie of powdered sugar	Effect: "So You Can Work More...", Effect Duration: 10
 Item	bakelite-covered bacon	Effect: "Litely Baked", Effect Duration: 10
 Item	ballast turtle	Effect: "Oxygenated Blood", Effect Duration: 20
+Item	banana candle	Effect: "Everything Is Bananas", Effect Duration: 80
 Item	banana smoothie	Effect: "Bananas!", Effect Duration: [R]
 Item	banana supersucker	Effect: "Bananas!", Effect Duration: 30
 Item	baobab sap	Effect: "Buff as a Baobab", Effect Duration: 10
@@ -9300,6 +9317,7 @@ Item	drum of pomade	Effect: "Perfect Hair", Effect Duration: 10
 Item	Drunk Uncles holo-record	Effect: "Drunk and Avuncular", Effect Duration: 10
 Item	dubious peppermint	Effect: "Minty Freshness", Effect Duration: 5
 Item	eagle feather	Effect: "Eagle Eyes", Effect Duration: 20
+Item	ear candle	Effect: "Clear Ears, Can't Lose", Effect Duration: 80
 Item	Eau de Guaneau	Effect: "Chauve-Souris Merde Fou", Effect Duration: 10
 Item	ectoplasmic orbs	Effect: "Balls of Ectoplasm", Effect Duration: 10
 Item	eel battery	Effect: "It's Electric!", Effect Duration: 15
@@ -9619,8 +9637,10 @@ Item	myrrh-soaked, chocolate-covered bacon bath ball	Effect: "Incensed", Effect 
 Item	mysterious chemical residue	Effect Duration: 5
 Item	mystery lollipop	Effect: "Your Favorite Flavor", Effect Duration: 5
 Item	nail file	Effect: "Extra-Sharp Weapon", Effect Duration: 20
+Item	Napalm In The Morning&trade; candle	Effect: "Scorched Earth", Effect Duration: 40
 Item	nasty gum	Effect: "Nasty, Nasty Breath", Effect Duration: 5
 Item	natto marble soda	Effect: "Ninja, Please", Effect Duration: 15
+Item	natural magick candle	Effect: "The Odour of Magick", Effect Duration: 80
 Item	Necbro wafers	Effect: "Chalk Outline", Effect Duration: 5
 Item	neurostim pill	Effect: "Stimulated Brain", Effect Duration: 10
 Item	new habit	Effect: "Habituated", Effect Duration: 365
@@ -9779,6 +9799,7 @@ Item	pygmy pygment	Effect: "Woad Warrior", Effect Duration: 10
 Item	R&uuml;mpelstiltz	Effect: "Rumpel-pumped", Effect Duration: 5
 Item	Rad-Pro (1 oz.)	Effect: "Rad-Pro Tected", Effect Duration: 20
 Item	radium-flavored potato chips	Effect: "Radium Radicality", Effect Duration: 10
+Item	rainbow glitter candle	Effect: "Covered in the Rainbow", Effect Duration: 80
 Item	rainbow jellybean	Effect: "Tasting the Rainbow", Effect Duration: 5
 Item	rattler gland	Effect: "Venomous Weapon", Effect Duration: 20
 Item	Rattlin' Chains	Effect: "The Chains Down In The Belly-O", Effect Duration: 20
@@ -9817,9 +9838,11 @@ Item	rubber nubbin	Effect: "You're Rubber", Effect Duration: 20
 Item	ruby on canes	Effect: "Ruby-ous", Effect Duration: 20
 Item	runproof mascara	Effect: "Unrunnable Face", Effect Duration: 20
 Item	salamander slurry	Effect: "Salamander In Your Stomach", Effect Duration: [R]
+Item	Salsa Caliente&trade; candle	Effect: "El Aroma de Salsa", Effect Duration: 40
 Item	salt wages	Effect: "Worth Your Salt", Effect Duration: 30
 Item	salty drippy candy bar	Effect: "Bit-o-Salt", Effect Duration: 10
 Item	salty gumdrop	Effect: "Salt Rush", Effect Duration: 1
+Item	Scent of a Human&trade; candle	Effect: "Ew, The Humanity", Effect Duration: 40
 Item	scrap metal	Effect: "Armor-Plated", Effect Duration: 20
 Item	scrap of shadow	Effect: "Scrappy, Shadowy", Effect Duration: 10
 Item	scroll case	Effect: "Medieval Mage Mayhem", Effect Duration: 30
@@ -9861,6 +9884,7 @@ Item	sleight-of-hand mushroom	Effect: "Sleight of Mind", Effect Duration: 3
 Item	sludgesicle	Effect: "Sludgesick", Effect Duration: 10
 Item	small gummi fin	Effect: "Sweet Taste", Effect Duration: 10
 Item	smart watch	Effect: "Watch Out!", Effect Duration: 50
+Item	Smoldering Clover&trade; candle	Effect: "Good Things Are Coming, You Can Smell It", Effect Duration: 40
 Item	smudge stick	Effect: "Wreathed in Smoke", Effect Duration: 10
 Item	snake	Effect: "Sneaky Serpentine Subtlety", Effect Duration: 50
 Item	snow cleats	Effect: "Snow Shoes", Effect Duration: 30
@@ -9931,6 +9955,7 @@ Item	terra panna cotta	Effect: "Panna Consideration", Effect Duration: 20
 Item	Texas tea	Effect: "Texas Elegance", Effect Duration: 10
 Item	That 70s Cologne	Effect: "Yeah, It's Just Gasoline", Effect Duration: 50
 Item	that gum you like	Effect: "Sugar Rush", Effect Duration: 5
+Item	The Beast Within&trade; candle	Effect: "A Beastly Odor", Effect Duration: 40
 Item	the most dangerous bait	Effect: "Manbait", Effect Duration: 20
 Item	The Pigs holo-record	Effect: "Record Hunger", Effect Duration: 10
 Item	They liver	Effect: "You Liver", Effect Duration: 20
@@ -9973,6 +9998,7 @@ Item	vial of The Glistening	Effect: "The Glistening", Effect Duration: 15
 Item	violent pastilles	Effect: "Everything Must Go!", Effect Duration: 10
 Item	virgin jello shot	Effect: "Sugar Rush", Effect Duration: 100
 Item	Velougats&trade;	Effect: "Velougated", Effect Duration: 5
+Item	votive of confidence	Effect: "Confidence of the Votive", Effect Duration: 80
 Item	VYKEA woadpaint	Effect: "This Is Where You're a Viking", Effect Duration: 30
 Item	wad of cotton	Effect: "Cotton Mouthed", Effect Duration: 50
 Item	Wal-Mart &quot;diamond&quot; ring	Effect: "Coldfinger", Effect Duration: 50
@@ -11140,6 +11166,7 @@ Item	organ grinder	Free Pull
 Item	orphan baby yeti	Free Pull
 # Oscus's neverending soda: Restores 200-300 MP
 # Oscus's neverending soda: (doesn't go away when used)
+Item	Our Daily Candles&trade; order form	Free Pull
 # overloaded micro-reactor: Deals 300 Physical Damage
 # overflowing gift basket: Produces a random food item (1x/day)
 # oversized snowflake: Stuns your opponent for a few rounds
