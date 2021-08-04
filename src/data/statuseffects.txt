@@ -2645,3 +2645,13 @@
 2644	Glowing Blue	fwrocket2.gif	4e85d7600d7ac1d1b3e299377282f284	good	nohookah
 2645	Ready to Eat	fwrocket1.gif	4110df36689c215141ad56b77e117d07	good	nohookah
 2646	Fire cracked	firecrackers.gif	61f05396edb5cb3002bdc2b2dbc3092b	good	nohookah	eat 1 fire cracker
+2647	Ew, The Humanity	candlechuman.gif	44fe32a18d4991f688c2048b30953951	neutral	none	use 1 Scent of a Human&trade; candle
+2648	A Beastly Odor	candlecbeast.gif	e049838a0fd139161a874f6630ad44d5	neutral	none	use 1 The Beast Within&trade; candle
+2649	El Aroma de Salsa	candlecsalsa.gif	225ee467a104d7807d192e8f8631abf6	neutral	none	use 1 Salsa Caliente&trade; candle
+2650	Good Things Are Coming, You Can Smell It	candlecclover.gif	1c59b451423c6f6cc9a4562b422983a7	neutral	none	use 1 Smoldering Clover&trade; candle
+2651	Scorched Earth	candlecnapalm.gif	5c30f6397482274d3122b79f75f1fe2e	neutral	none	use 1 Napalm In The Morning&trade; candle
+2652	The Odour of Magick	candlecincense.gif	be009c297c068eec5b7af5a7879f0d17	neutral	none	use 1 natural magick candle
+2653	Covered in the Rainbow	candlecglitter.gif	05fc5510004c8a8c3c089d303c20e856	neutral	none	use 1 rainbow glitter candle
+2654	Everything Is Bananas	candlecbanana.gif	8a37500c1bc979aad0f1323a09ee08a2	neutral	none	use 1 banana candle
+2655	Clear Ears, Can't Lose	candlecear.gif	70122d4ab099253066bfcc852dec61a4	neutral	none	use 1 ear candle
+2656	Confidence of the Votive	candlecvotive.gif	f52d3796283d5783af6be18126cade6b	neutral	none	use 1 votive of confidence
