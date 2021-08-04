@@ -8704,7 +8704,16 @@ public abstract class RuntimeLibrary
 
 		data.recalculate();
 
+		boolean hasForceMonster = EncounterManager.isSaberForceZone( data.getZone() );
+		boolean hasPrediction = data.getZone().equals( Preferences.getString( "crystalBallLocation" ) );
+
 		double combatFactor = data.areaCombatPercent();
+
+		if ( hasForceMonster )
+		{
+			combatFactor = 100.0f;
+		}
+
 		value.aset( DataTypes.MONSTER_INIT, new Value( data.combats() < 0 ? -1.0F : 100.0f - combatFactor ) );
 
 		double total = data.totalWeighting();
@@ -8720,8 +8729,6 @@ public abstract class RuntimeLibrary
 		}
 
 		double combatChance = combatFactor * ( 1 - superlikelyChance / 100 );
-
-		boolean hasPrediction = data.getZone().equals( Preferences.getString( "crystalBallLocation" ) );
 
 		for ( int i = data.getMonsterCount() - 1; i >= 0; --i )
 		{
@@ -8743,9 +8750,21 @@ public abstract class RuntimeLibrary
 			}
 			else if ( includeQueue.intValue() == 1 )
 			{
-				if ( hasPrediction )
+				// Force monster takes precedence over the orb prediction
+				if ( hasForceMonster )
 				{
-					if ( data.getMonster( i ).getName().equals( Preferences.getString( "crystalBallMonster" ) ) )
+					if ( EncounterManager.isSaberForceMonster( data.getMonster( i ).getName(), data.getZone() ) )
+					{
+						toSet = new Value( 100 );
+					}
+					else
+					{
+						toSet = new Value( 0 );
+					}
+				}
+				else if ( hasPrediction )
+				{
+					if ( EncounterManager.isCrystalBallMonster( data.getMonster( i ).getName(), data.getZone() ) )
 					{
 						toSet = new Value( combatChance );
 					}
