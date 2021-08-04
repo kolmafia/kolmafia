@@ -8718,6 +8718,11 @@ public abstract class RuntimeLibrary
 			Value toSet = new Value( chance );
 			value.aset( DataTypes.makeMonsterValue( monster ), toSet );
 		}
+
+		double combatChance = combatFactor * ( 1 - superlikelyChance / 100 );
+
+		boolean hasPrediction = data.getZone().equals( Preferences.getString( "crystalBallLocation" ) );
+
 		for ( int i = data.getMonsterCount() - 1; i >= 0; --i )
 		{
 			int weight = data.getWeighting( i );
@@ -8738,13 +8743,27 @@ public abstract class RuntimeLibrary
 			}
 			else if ( includeQueue.intValue() == 1 )
 			{
-				toSet =
-					new Value( AdventureQueueDatabase.applyQueueEffects(
-						combatFactor * weight * ( 1 - superlikelyChance / 100 ) * ( 1 - rejection / 100 ), data.getMonster( i ), data ) );
+				if ( hasPrediction )
+				{
+					if ( data.getMonster( i ).getName().equals( Preferences.getString( "crystalBallMonster" ) ) )
+					{
+						toSet = new Value( combatChance );
+					}
+					else
+					{
+						toSet = new Value( 0 );
+					}
+				}
+				else
+				{
+					toSet =
+							new Value( AdventureQueueDatabase.applyQueueEffects(
+									combatChance * weight * ( 1 - rejection / 100 ), data.getMonster( i ), data ) );
+				}
 			}
 			else
 			{
-				toSet = new Value( combatFactor * ( 1 - superlikelyChance / 100 ) * ( 1 - rejection / 100 ) * weight / total );
+				toSet = new Value( combatChance * ( 1 - rejection / 100 ) * weight / total );
 			}
 			value.aset( DataTypes.makeMonsterValue( data.getMonster( i ) ), toSet );
 		}
