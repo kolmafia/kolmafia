@@ -359,6 +359,8 @@ public class EffectPool
 	public static final int CARTOGRAPHICALLY_CHARGED = 2600;
 	public static final int CARTOGRAPHICALLY_AWARE = 2601;
 	public static final int CARTOGRAPHICALLY_ROOTED = 2602;
+	public static final int EW_THE_HUMANITY = 2647;
+	public static final int A_BEASTLY_ODOR = 2648;
 
 	public static final AdventureResult CURSE1_EFFECT = EffectPool.get( EffectPool.ONCE_CURSED );
 	public static final AdventureResult CURSE2_EFFECT = EffectPool.get( EffectPool.TWICE_CURSED );
