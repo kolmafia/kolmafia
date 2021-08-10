@@ -83,6 +83,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
@@ -3010,6 +3011,8 @@ public class FightRequest
 
 				Preferences.setString( "crystalBallMonster", predictedMonster == null ? "" : predictedMonster );
 				Preferences.setString( "crystalBallLocation", zone == null ? "" : zone );
+
+				AdventureQueueDatabase.enqueue( KoLAdventure.lastVisitedLocation(), predictedMonster );
 			}
 		}
 

@@ -5010,7 +5010,8 @@ public abstract class RuntimeLibrary
 
 	public static Value get_workshed( ScriptRuntime controller )
 	{
-		return DataTypes.makeItemValue( CampgroundRequest.getCurrentWorkshedItem().getItemId(), true );
+		AdventureResult workshed = CampgroundRequest.getCurrentWorkshedItem();
+		return workshed == null ? DataTypes.ITEM_INIT : DataTypes.makeItemValue( workshed.getItemId(), true );
 	}
 
 	public static Value get_clan_lounge( ScriptRuntime controller )
@@ -7105,16 +7106,18 @@ public abstract class RuntimeLibrary
 		ResultProcessor.processResults( false,
 			StringUtilities.globalStringReplace( string.toString(), "- ", "-" ),
 			data );
+		
+		long meat = 0;
 
 		for ( AdventureResult result : data )
 		{
 			if ( result.getName().equals( AdventureResult.MEAT ) )
 			{
-				return new Value( result.getLongCount() );
+				meat += result.getLongCount();
 			}
 		}
 
-		return DataTypes.ZERO_VALUE;
+		return new Value( meat );
 	}
 
 	public static Value extract_items( ScriptRuntime controller, final Value string )
@@ -8701,7 +8704,16 @@ public abstract class RuntimeLibrary
 
 		data.recalculate();
 
+		boolean hasForceMonster = EncounterManager.isSaberForceZone( data.getZone() );
+		boolean hasPrediction = data.getZone().equals( Preferences.getString( "crystalBallLocation" ) );
+
 		double combatFactor = data.areaCombatPercent();
+
+		if ( hasForceMonster )
+		{
+			combatFactor = 100.0f;
+		}
+
 		value.aset( DataTypes.MONSTER_INIT, new Value( data.combats() < 0 ? -1.0F : 100.0f - combatFactor ) );
 
 		double total = data.totalWeighting();
@@ -8715,6 +8727,9 @@ public abstract class RuntimeLibrary
 			Value toSet = new Value( chance );
 			value.aset( DataTypes.makeMonsterValue( monster ), toSet );
 		}
+
+		double combatChance = combatFactor * ( 1 - superlikelyChance / 100 );
+
 		for ( int i = data.getMonsterCount() - 1; i >= 0; --i )
 		{
 			int weight = data.getWeighting( i );
@@ -8735,13 +8750,39 @@ public abstract class RuntimeLibrary
 			}
 			else if ( includeQueue.intValue() == 1 )
 			{
-				toSet =
-					new Value( AdventureQueueDatabase.applyQueueEffects(
-						combatFactor * weight * ( 1 - superlikelyChance / 100 ) * ( 1 - rejection / 100 ), data.getMonster( i ), data ) );
+				// Force monster takes precedence over the orb prediction
+				if ( hasForceMonster )
+				{
+					if ( EncounterManager.isSaberForceMonster( data.getMonster( i ).getName(), data.getZone() ) )
+					{
+						toSet = new Value( 100 );
+					}
+					else
+					{
+						toSet = new Value( 0 );
+					}
+				}
+				else if ( hasPrediction )
+				{
+					if ( EncounterManager.isCrystalBallMonster( data.getMonster( i ).getName(), data.getZone() ) )
+					{
+						toSet = new Value( combatChance );
+					}
+					else
+					{
+						toSet = new Value( 0 );
+					}
+				}
+				else
+				{
+					toSet =
+							new Value( AdventureQueueDatabase.applyQueueEffects(
+									combatChance * weight * ( 1 - rejection / 100 ), data.getMonster( i ), data ) );
+				}
 			}
 			else
 			{
-				toSet = new Value( combatFactor * ( 1 - superlikelyChance / 100 ) * ( 1 - rejection / 100 ) * weight / total );
+				toSet = new Value( combatChance * ( 1 - rejection / 100 ) * weight / total );
 			}
 			value.aset( DataTypes.makeMonsterValue( data.getMonster( i ) ), toSet );
 		}

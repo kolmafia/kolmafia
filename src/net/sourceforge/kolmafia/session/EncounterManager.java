@@ -312,7 +312,7 @@ public abstract class EncounterManager
 		return false;
 	}
 
-	public static final boolean isSaberForceMonster()
+	public static final boolean isSaberForceMonster( String monsterName )
 	{
 		// There's no message to check for, and the monster generally shows up 
 		// immediately, so assume the correct monster is from this skill
@@ -320,8 +320,35 @@ public abstract class EncounterManager
 		{
 			return false;
 		}
+
+		return monsterName.equalsIgnoreCase( Preferences.getString( "_saberForceMonster" ) );
+	}
+
+	public static final boolean isSaberForceZone( String monsterName, String zone )
+	{
+		MonsterData monster = MonsterDatabase.findMonster( monsterName );
+		return AdventureDatabase.getAreasWithMonster( monster ).contains( zone );
+	}
+
+	public static final boolean isSaberForceZone( String zone )
+	{
+		return isSaberForceZone( Preferences.getString( "_saberForceMonster" ), zone );
+	}
+
+	public static final boolean isSaberForceMonster( String monsterName, String zone )
+	{
+		if ( !isSaberForceZone( monsterName, zone ) )
+		{
+			return false;
+		}
+
+		return isSaberForceMonster( monsterName );
+	}
+
+	public static final boolean isSaberForceMonster()
+	{
 		String name = MonsterStatusTracker.getLastMonsterName();
-		return name.equalsIgnoreCase( Preferences.getString( "_saberForceMonster" ) );
+		return isSaberForceMonster( name );
 	}
 
 	public static final boolean isRelativityMonster()
@@ -335,6 +362,17 @@ public abstract class EncounterManager
 			return true;
 		}
 		return false;
+	}
+
+	public static final boolean isCrystalBallMonster()
+	{
+		return isCrystalBallMonster( MonsterStatusTracker.getLastMonsterName(), Preferences.getString( "nextAdventure" ) );
+	}
+
+	public static final boolean isCrystalBallMonster( String monster, String zone )
+	{
+		// There's no message to check for so assume the correct monster in the correct zone is from the crystal ball
+		return monster.equalsIgnoreCase( Preferences.getString( "crystalBallMonster" ) ) && zone.equalsIgnoreCase( Preferences.getString( "crystalBallLocation" ) );
 	}
 
 	public static final boolean isWanderingMonster( String encounter )

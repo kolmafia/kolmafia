@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
@@ -96,6 +97,10 @@ public class AreaCombatData
 	private static final int ASCENSION_EVEN = 0x02;
 	private static final int WEIGHT_SHIFT = 2;
 
+	// Combat-data-relevant effects
+	private static final AdventureResult EW_THE_HUMANITY = EffectPool.get( EffectPool.EW_THE_HUMANITY );
+	private static final AdventureResult A_BEASTLY_ODOR = EffectPool.get( EffectPool.A_BEASTLY_ODOR );
+
 	public AreaCombatData( String zone, final int combats )
 	{
 		this.zone = zone;
@@ -135,6 +140,7 @@ public class AreaCombatData
 
 			MonsterData monster = this.getMonster( i );
 			String monsterName = monster.getName();
+			Phylum monsterPhylum = monster.getPhylum();
 
 			baseWeighting = AreaCombatData.adjustConditionalWeighting( zone, monsterName, baseWeighting );
 			int currentWeighting = baseWeighting;
@@ -152,9 +158,14 @@ public class AreaCombatData
 				currentWeighting += baseWeighting;
 			}
 			// If Red Snapper tracks its phylum, and is current familiar, add two to encounter pool
-			String monsterPhylum = monster.getPhylum().toString();
-			if ( Preferences.getString( "redSnapperPhylum" ).equals( monsterPhylum ) &&
+			if ( Preferences.getString( "redSnapperPhylum" ).equals( monsterPhylum.toString() ) &&
 				KoLCharacter.getFamiliar().getId() == FamiliarPool.RED_SNAPPER )
+			{
+				currentWeighting += 2 * baseWeighting;
+			}
+			// If any relevant Daily Candle familiar-tracking potions are active, add two(?) to the encounter pool
+			if ( ( monsterPhylum.equals( Phylum.HUMANOID ) && KoLConstants.activeEffects.contains( EW_THE_HUMANITY ) ) ||
+				 ( monsterPhylum.equals( Phylum.BEAST ) && KoLConstants.activeEffects.contains( A_BEASTLY_ODOR ) ) )
 			{
 				currentWeighting += 2 * baseWeighting;
 			}
@@ -169,7 +180,7 @@ public class AreaCombatData
 			{
 				currentWeighting += 2 * baseWeighting;
 			}
-			// If Superficially Interested used, add three(?) to encounter pool
+			// If Superficially Interested used, add three to encounter pool
 			if ( Preferences.getString( "superficiallyInterestedMonster" ).equals( monsterName ) &&
 			     TurnCounter.isCounting( "Superficially Interested Monster" ) )
 			{
@@ -997,6 +1008,14 @@ public class AreaCombatData
 		if ( EncounterManager.isSuperlikelyMonster( name ) )
 		{
 			buffer.append( this.format( superlikelyChance ) + "%" );
+		}
+		else if ( EncounterManager.isSaberForceMonster( name, this.getZone() ) )
+		{
+			buffer.append( "forced by the saber" );
+		}
+		else if ( EncounterManager.isCrystalBallMonster( name, this.getZone() ) )
+		{
+			buffer.append( "predicted by crystal ball" );
 		}
 		else if ( weighting == -1 )
 		{

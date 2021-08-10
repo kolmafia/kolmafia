@@ -110,6 +110,7 @@ eleven-gallon hat	220	none
 enchanted eyepatch	35	Mox: 2
 enchantlers	115	Mox: 42
 extra-large palm-frond toupee	150	Mox: 60
+extra-wide head candle	100	none
 eXtreme scarf	100	Mox: 35
 eyepatch	25	none
 f3d0r4	110	Mox: 40
@@ -864,12 +865,12 @@ Yeg's Motel bathrobe	66	none
 # Weapons section of equipment.txt
 
 &quot;honey&quot; dipper	150	Mys: 60	1-handed utensil
-17-alarm Saucepan	90	Mys: 15	1-handed saucepan
-25-meat staff	70	Mus: 20	2-handed staff
 4-dimensional guitar	80	Mox: 25	2-handed guitar
 5-Alarm Saucepan	50	Mys: 10	1-handed saucepan
 7-Foot Dwarven mattock	80	Mus: 25	2-handed axe
 7-inch discus	200	Mox: 85	1-handed boomerang
+17-alarm Saucepan	90	Mys: 15	1-handed saucepan
+25-meat staff	70	Mus: 20	2-handed staff
 a butt tuba	145	Mox: 57	2-handed horn
 accord ion	70	Mox: 20	1-handed accordion
 accordion file	60	Mox: 15	2-handed accordion
@@ -909,7 +910,7 @@ Bal-musette accordion	50	Mox: 0	2-handed accordion
 balanced antler	150	Mus: 50	1-handed club
 balloon sword	50	Mus: 10	1-handed sword
 bamboo bokuto	100	Mus: 35	1-handed sword
-Bananubis's Staff	30	Mus: 0	1-handed 
+Bananubis's Staff	30	Mus: 0	1-handed
 bar whip	10	Mus: 0	1-handed whip
 baritone accordion	30	Mox: 0	2-handed accordion
 Barney's rake	25	Mus: 0	2-handed polearm
@@ -923,8 +924,8 @@ bastard baster	125	Mys: 47	1-handed utensil
 bat whip	30	Mus: 0	1-handed whip
 batblade	145	Mus: 57	1-handed knife
 battery-powered drill	125	Mus: 47	1-handed drill
-beechwood blowgun	100	Mox: 0	1-handed blowgun
 beaver spear	125	Mus: 47	1-handed spear
+beechwood blowgun	100	Mox: 0	1-handed blowgun
 beer bong	190	Mox: 80	1-handed bong
 beer-a-pult	190	Mox: 80	3-handed catapult
 beer-battered accordion	20	Mox: 0	2-handed accordion
@@ -940,9 +941,9 @@ black blade	160	Mus: 65	1-handed knife
 black kettle drum	140	Mox: 55	2-handed drum
 black sword	160	Mus: 65	1-handed sword
 blammer	50	Mus: 0	1-handed club
-bloody harpoon	50	Mus: 0	2-handed spear
 blood knife	300	Mus: 0	1-handed knife
 Bloodbath	200	Mus: 200	2-handed sword
+bloody harpoon	50	Mus: 0	2-handed spear
 blunt icepick	50	Mus: 0	1-handed club
 boilgun	80	Mox: 25	2-handed rifle
 bone and arrows	120	Mox: 45	2-handed bow
@@ -1102,10 +1103,10 @@ elevenderizing hammer	115	Mus: 11	1-handed club
 elf ploughshare	100	Mus: 0	1-handed sword
 elven tambourine	100	Mox: 0	1-handed rattle
 elven whittling knife	100	Mus: 35	1-handed knife
-# especially homoerotic frat-paddle	150	Mus: 60	1-handed club
 evil paper umbrella	30	Mus: 0	1-handed umbrella
 evil-ass club	160	Mus: 65	2-handed club
 exclusive club	100	Mus: 0	1-handed club
+extra-large utility candle	100	Mus: 0	1-handed club
 eXtreme meat crossbow	60	Mox: 15	2-handed crossbow
 eXtreme meat staff	60	Mus: 15	2-handed staff
 eXtreme meat sword	60	Mus: 15	2-handed sword
@@ -1267,8 +1268,8 @@ Knob Goblin melon baller	80	Mys: 25	1-handed utensil
 Knob Goblin scimitar	15	Mus: 0	1-handed sword
 Knob Goblin spatula	30	Mys: 0	1-handed utensil
 Knob Goblin tongs	20	Mys: 0	1-handed utensil
-KoL Con Cinco Pi&ntilde;ata Bat	10	Mus: 0	2-handed club
 KoL Con 12-gauge	0	Mox: 0	1-handed shotgun
+KoL Con Cinco Pi&ntilde;ata Bat	10	Mus: 0	2-handed club
 lavalarva	10	Mus: 0	1-handed whip
 law-abiding citizen cane	50	Mus: 0	1-handed club
 lawn dart	200	Mus: 200	1-handed club
@@ -1331,6 +1332,7 @@ negotiatin' hammer	110	Mus: 45	2-handed club
 ninja mop	90	Mus: 30	2-handed polearm
 non-Euclidean non-accordion	115	Mox: 42	2-handed accordion
 non-stick pugil stick	200	Mus: 85	2-handed club
+novelty sparkling candle	100	Mox: 0	1-handed sparkcandle
 obsidian dagger	30	Mus: 10	1-handed knife
 obsidian nutcracker	150	Mys: 60	1-handed utensil
 ocarina of space	120	Mox: 45	2-handed flute
@@ -1354,8 +1356,8 @@ papier-m&acirc;chine gun	100	Mox: 20	1-handed pistol
 paraffin pseudoaccordion	50	Mox: 0	1-handed accordion
 parasitic claw	30	Mus: 0	1-handed club
 party whip	10	Mus: 0	1-handed whip
-Pasta Spoon of Peril	50	Mys: 10	1-handed utensil
 pasta spoon	10	Mys: 0	1-handed utensil
+Pasta Spoon of Peril	50	Mys: 10	1-handed utensil
 peace accordion	170	Mox: 70	2-handed accordion
 Pener's drumstick	150	Mus: 35	1-handed club
 penguin whip	20	Mus: 0	1-handed whip
@@ -1414,10 +1416,10 @@ ram-battering staff	135	Mus: 52	2-handed staff
 ratarang	60	Mox: 15	1-handed boomerang
 rattail whip	30	Mus: 0	1-handed whip
 rave whistle	135	Mox: 52	1-handed whistle
-red-hot poker	165	Mus: 67	1-handed club
-red-hot sausage fork	100	Mus: 0	1-handed fork
 Red Roger's red right hand	120	Mus: 0	1-handed club
 Red Rover BB gun	50	Mox: 10	2-handed gun
+red-hot poker	165	Mus: 67	1-handed club
+red-hot sausage fork	100	Mus: 0	1-handed fork
 regret hose	85	Mox: 30	1-handed forearm replacement
 reindeer hammer	100	Mus: 0	1-handed club
 reindeer sickle	100	Mus: 0	1-handed claw
@@ -1436,6 +1438,7 @@ rubber axe	40	Mus: 5	2-handed axe
 rubber band gun	30	Mox: 0	1-handed pistol
 rubber spatula	25	Mys: 0	1-handed utensil
 Ruby Rod	120	Mus: 40	1-handed rod
+runed taper candle	100	Mus: 0	1-handed wand
 rusted-out shootin' iron	100	Mus: 35	1-handed club
 rusty grave robbing shovel	80	Mus: 25	2-handed polearm
 rusty piece of rebar	200	Mus: 85	1-handed club
@@ -1468,7 +1471,7 @@ Sheila Take a Crossbow	100	Mox: 0	1-handed crossbow
 shiny butcherknife	60	Mys: 15	1-handed utensil
 shooting morning star	100	Mus: 0	1-handed flail
 short-handled mop	165	Mus: 67	1-handed polearm
-shotgun	60	Mox: 0	1-handed 
+shotgun	60	Mox: 0	1-handed
 shuddersword	125	Mus: 45	2-handed sword
 silent pea shooter	100	Mox: 35	1-handed slingshot
 silver cheese-slicer	140	Mys: 55	1-handed utensil
@@ -1519,8 +1522,10 @@ Staff of Blood and Pudding	10	Mys: 15	1-handed chefstaff
 Staff of Ed	100	Mus: 0	1-handed staff
 [2268]Staff of Fats	100	Mys: 35	2-handed staff
 [7964]Staff of Fats	100	Mys: 35	2-handed staff
+Staff of Frozen Lard	10	Mys: 200	1-handed chefstaff
 Staff of Fruit Salad	10	Mys: 0	1-handed chefstaff
 Staff of Holiday Sensations	10	Mys: 75	1-handed chefstaff
+Staff of Kitchen Royalty	10	Mys: 200	1-handed chefstaff
 Staff of Queso Escusado	10	Mys: 0	1-handed chefstaff
 Staff of Simmering Hatred	10	Mys: 125	1-handed chefstaff
 Staff of the All-Steak	10	Mys: 50	1-handed chefstaff
@@ -1529,7 +1534,6 @@ Staff of the Cozy Fish	10	Mys: 85	2-handed chefstaff
 Staff of the Cream of the Cream	10	Mys: 50	1-handed chefstaff
 Staff of the Deepest Freeze	10	Mys: 200	1-handed chefstaff
 Staff of the Electric Range	10	Mys: 75	1-handed chefstaff
-Staff of Frozen Lard	10	Mys: 200	1-handed chefstaff
 Staff of the Grand Flamb&eacute;	10	Mys: 125	1-handed chefstaff
 Staff of the Grease Trap	10	Mys: 125	1-handed chefstaff
 Staff of the Greasefire	10	Mys: 20	1-handed chefstaff
@@ -1537,7 +1541,6 @@ Staff of the Headmaster's Victuals	10	Mys: 0	1-handed chefstaff
 Staff of the Healthy Breakfast	10	Mys: 0	1-handed chefstaff
 Staff of the Hearty Dinner	10	Mys: 0	1-handed chefstaff
 Staff of the Kitchen Floor	10	Mys: 125	1-handed chefstaff
-Staff of Kitchen Royalty	10	Mys: 200	1-handed chefstaff
 Staff of the Light Lunch	10	Mys: 0	1-handed chefstaff
 Staff of the Lunch Lady	10	Mys: 75	1-handed chefstaff
 Staff of the Midnight Snack	10	Mys: 15	1-handed chefstaff
@@ -1687,7 +1690,7 @@ Zombo's shoulder blade	200	Mus: 200	2-handed sword
 
 # Off-hand Items section of equipment.txt
 
-&quot;reusable&quot; grocery bag    0    none
+&quot;reusable&quot; grocery bag	0	none
 'WILL WORK FOR BOOZE' sign	150	Mus: 175
 1-ball	60	Mys: 15
 17-ball	200	none
@@ -1699,6 +1702,7 @@ Zombo's shoulder blade	200	Mus: 200	2-handed sword
 7-ball	60	Mys: 15
 9-ball	60	Mys: 15
 A Light that Never Goes Out	100	none
+Abracandalabra	100	none
 Adventurer bobblehead	100	none
 Abyssal ember	100	Mus: 35
 adhesive tape dolly	0	none
@@ -1709,7 +1713,7 @@ ancient stone head	85	Mus: 27	shield
 anniversary balloon	10	none
 anniversary chutney sculpture	10	none
 antique Canadian lantern	150	Mys: 60
-antique candy bucket    0    none
+antique candy bucket	0	none
 antique nutcracker drumstick	150	Mys: 30
 antique shield	180	Mus: 60	shield
 antique spyglass	225	Mys: 200
@@ -1758,7 +1762,7 @@ burning paper crane	100	none
 C.H.U.M. lantern	100	Mus: 150
 card sleeve	10	none
 cardboard box turtle	70	Mus: 20	shield
-cardboard wine carrier    0    none
+cardboard wine carrier	0	none
 catskin buckler	180	Mus: 75	shield
 Chalice of the Malkovich Prince	0	none
 chalk chalice	50	none

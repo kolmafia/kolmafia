@@ -520,11 +520,6 @@ public class AdventureRequest
 			}
 		}
 
-		// Spending a turn somewhere should wipe the crystal ball monster prediction.
-		// Parsing a new prediction just needs to happen *after* this is called
-		Preferences.setString( "crystalBallMonster", "" );
-		Preferences.setString( "crystalBallLocation", "" );
-
 		Preferences.setString( "lastEncounter", encounter );
 		RequestLogger.printLine( "Encounter: " + encounter );
 		RequestLogger.updateSessionLog( "Encounter: " + encounter );
@@ -556,6 +551,7 @@ public class AdventureRequest
 				     !EncounterManager.isDigitizedEncounter( responseText, false ) &&
 				     !EncounterManager.isRomanticEncounter( responseText, false ) &&
 				     !EncounterManager.isSaberForceMonster() &&
+				     !EncounterManager.isCrystalBallMonster() &&
 				     !FightRequest.edFightInProgress() )
 				{
 					AdventureQueueDatabase.enqueue( KoLAdventure.lastVisitedLocation(), encounter );
@@ -574,6 +570,11 @@ public class AdventureRequest
 		}
 
 		TurnCounter.handleTemporaryCounters( type, encounter );
+
+		// Spending a turn somewhere should wipe the crystal ball monster prediction.
+		// Parsing a new prediction just needs to happen *after* this is called
+		Preferences.setString( "crystalBallMonster", "" );
+		Preferences.setString( "crystalBallLocation", "" );
 
 		return encounter;
 	}

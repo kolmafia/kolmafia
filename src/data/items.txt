@@ -10678,17 +10678,17 @@
 10650	grinning ghostling	538954574	cghost2.gif	grow		0
 10651	greedy ghostling	200115865	cghost3.gif	grow		0
 10652	subscription cocoa dispenser	881887726	suscocoa.gif	reusable	t	0
-10653	fortifying hot cocoa	975233323	coffeecup.gif	potion, usable	t,d	5	
-10654	boiling hot cocoa	447454483	coffeecup.gif	potion, usable	t,d	5	
-10655	cool hot cocoa	322680250	coffeecup.gif	potion, usable	t,d	5	
-10656	overly-fancy hot cocoa	417568026	coffeecup.gif	potion, usable	t,d	10	
-10657	hot cocoa au beurre	592163063	coffeecup.gif	potion, usable	t,d	10	
-10658	hot cocoa with rainbow marshmallows	527418109	coffeecup.gif	potion, usable	t,d	10	
-10659	Book of Old-Timey Carols	908927941	book3.gif	offhand	t,d	5	
-10660	Crimbo smile	485610584	beardgrin.gif	offhand	t,d	5	
-10661	SalesCo sample kit	731340264	briefcase.gif	offhand	t,d	10	
-10662	candy harmonica	532630113	smallharmonica.gif	potion, usable	t,d	10	
-10663	powdered powdered sugar	624981098	snowpile.gif	potion, usable	t,d	10	
+10653	fortifying hot cocoa	975233323	coffeecup.gif	potion, usable	t,d	5
+10654	boiling hot cocoa	447454483	coffeecup.gif	potion, usable	t,d	5
+10655	cool hot cocoa	322680250	coffeecup.gif	potion, usable	t,d	5
+10656	overly-fancy hot cocoa	417568026	coffeecup.gif	potion, usable	t,d	10
+10657	hot cocoa au beurre	592163063	coffeecup.gif	potion, usable	t,d	10
+10658	hot cocoa with rainbow marshmallows	527418109	coffeecup.gif	potion, usable	t,d	10
+10659	Book of Old-Timey Carols	908927941	book3.gif	offhand	t,d	5
+10660	Crimbo smile	485610584	beardgrin.gif	offhand	t,d	5
+10661	SalesCo sample kit	731340264	briefcase.gif	offhand	t,d	10
+10662	candy harmonica	532630113	smallharmonica.gif	potion, usable	t,d	10
+10663	powdered powdered sugar	624981098	snowpile.gif	potion, usable	t,d	10
 10664	multi-level marzipan	290902272	mlmarzipan.gif	potion, usable	t,d	10
 10665	tiny plastic Crimbo caroler	462322475	c20tp1.gif	accessory	t	0
 10666	tiny plastic multi-level marketer	179873392	c20tp2.gif	accessory	t	0
@@ -10798,3 +10798,19 @@
 10770	Catherine Wheel	660770799	catherinewheel.gif	container	q	0
 10771	rocket boots	438783522	rocketboot.gif	accessory	q	0
 10772	oversized sparkler	366604451	bigsparkler.gif	weapon	q	0
+10773	Our Daily Candles&trade; order form	158496480	canclecform.gif	usable	t	0
+10774	Scent of a Human&trade; candle	896338646	candlechuman.gif	potion, usable	t,d	5
+10775	The Beast Within&trade; candle	467095194	candlecbeast.gif	potion, usable	t,d	5
+10776	Salsa Caliente&trade; candle	439691096	candlecsalsa.gif	potion, usable	t,d	5
+10777	Smoldering Clover&trade; candle	249699646	candlecclover.gif	potion, usable	t,d	5
+10778	Napalm In The Morning&trade; candle	843519018	candlecnapalm.gif	potion, usable	t,d	5
+10779	extra-large utility candle	398409851	candlecutility.gif	weapon	q	0
+10780	runed taper candle	938927013	candlectaper.gif	weapon	q	0
+10781	novelty sparkling candle	798264941	candlecsparks.gif	weapon	q	0
+10782	Abracandalabra	945645633	candlecabra.gif	offhand	q	0
+10783	extra-wide head candle	610762802	candlechelmet.gif	hat	q	0
+10784	natural magick candle	514857943	candlecincense.gif	potion, usable	t,d	5
+10785	rainbow glitter candle	281896112	candlecglitter.gif	potion, usable	t,d	5
+10786	banana candle	822250066	candlecbanana.gif	potion, usable	t,d	5
+10787	ear candle	159239343	candlecear.gif	potion, usable	t,d	5
+10788	votive of confidence	573165116	candlecvotive.gif	potion, usable	t,d	5
