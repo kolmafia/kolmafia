@@ -68,12 +68,13 @@ public class EudoraCommand
 			return Correspondent.NONE;
 		}
 
-		public static Correspondent find( final String query )
+		public static Correspondent find( String query )
 		{
+			query = query.toLowerCase();
 			for ( Correspondent correspondent : Correspondent.values() )
 			{
 				String name = correspondent.getName().toLowerCase();
-				if ( name.contains( query ) || name.replaceAll( "[- ]", "" ).contains( query.toLowerCase() ) )
+				if ( name.contains( query ) || name.replaceAll( "[- ]", "" ).contains( query ) )
 				{
 					return correspondent;
 				}
