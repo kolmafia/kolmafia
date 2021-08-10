@@ -650,11 +650,11 @@ public class QuestManager
 		}
 		if (
 			// Muscle classes
-			responseText.contains( "The Tomb is within the Misspelled Cemetery" ) ||
+			responseText.contains( "The Tomb is within the Misspelled" ) ||
 			// Mysticality classes
-			responseText.contains( "the Tomb, which is within the Misspelled Cemetery" ) ||
+			responseText.contains( "the Tomb, which is within the Misspelled" ) ||
 			// Moxie classes
-			responseText.contains( "the Tomb is in the Misspelled Cemetary" ) )
+			responseText.contains( "the Tomb is in the Misspelled" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, QuestDatabase.STARTED );
 		}
@@ -673,7 +673,7 @@ public class QuestManager
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step5" );
 		}
-		if ( responseText.contains( "Meatsmithing hammer" ) )
+		if ( responseText.contains( "a Meatsmithing hammer" ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.NEMESIS, "step7" );
 		}
