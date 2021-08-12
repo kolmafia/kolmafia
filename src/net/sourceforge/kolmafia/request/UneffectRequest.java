@@ -720,7 +720,7 @@ public class UneffectRequest
 
 		// Default to using a remedy.
 
-		KoLmafia.updateDisplay( name + " cannot be removed with an available item or skill..." );
+		KoLmafia.updateDisplay( name + " has no specific item or skill for removal.  Trying generics..." );
 
 		return "uneffect [" + effectId + "]";
 	}
