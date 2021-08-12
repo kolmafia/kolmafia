@@ -19,6 +19,7 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 	<property file="default.properties" />
 	<property environment="env" />
 	<taskdef resource="cloverlib.xml" classpath="${lib}/testjar/clover.jar"/>
+	<property name="clover.snapshot.file" value=".clover/coverage.db.snapshot"/>
 
 	<available file=".svn" property="using.svn" />
 	<available file=".git" property="using.gitsvn" />
@@ -236,7 +237,9 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 			</classpath>
 			<formatter type="brief" usefile="false" />
 			<batchtest>
+			  <clover-optimized-testset snapshotfile="${clover.snapshot.file}">
 				<fileset dir="${test}" includes="**/*Test.java" />
+			  </clover-optimized-testset>
 			</batchtest>
 		</junit>
 	</target>
@@ -244,7 +247,6 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 	<!-- =========================== -->
 	<!--  Generate coverage reports  -->
 	<!-- =========================== -->
-
 	<!-- Usage: `ant -lib lib/testjar coverage clover.report`-->
 
 	<target name="with.clover">
@@ -262,9 +264,9 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 	</target>
 
 	<target name="coverage-compile" depends="compile, with.clover">
-	  <javac source="1.8" srcdir="." destdir="${build}" includeantruntime="false">
-		  <include name="${src}/**/*.java" />
-		  <include name="${test}/**/*.java" />
+		<javac source="1.8" srcdir="${src}" destdir="${build}" includeantruntime="false">
+		  <include name="**/*.java" />
+		  <include name="../test/**/*.java" />
 		  <classpath>
 			<fileset dir="${lib}/testjar" includes="**/*.jar" />
 			<fileset dir="${lib}/jar" includes="**/*.jar" />
@@ -278,7 +280,11 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 		</copy>
 	</target>
 
-	<target name="coverage" depends="coverage-compile, test" description="Runs tests with all sources instrumented." />
+	<target name="clover.snapshot" depends="with.clover">
+      <clover-snapshot file="${clover.snapshot.file}"/>
+	</target>
+
+	<target name="coverage" depends="coverage-compile, test, clover.snapshot" description="Runs tests with all sources instrumented." />
 
 	<target name="clover.report">
 	  <clover-html-report outdir="clover/clover_html" title="KoLmafia coverage"/>
