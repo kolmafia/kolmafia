@@ -52,6 +52,58 @@ public class ParserTest
 				"for (int i = 0; i < 5; ++i) {}",
 				null,
 			},
+			{
+				"Multiline string, end of line not escaped",
+				"'\n'",
+				"No closing ' found ()"
+			},
+			{
+				"Multiline string, end of line properly escaped",
+				"'\\\n'",
+				null
+			},
+			{
+				"Multiline string, end of line properly escaped + empty lines",
+				"'\\\n\n   \n\n\n'",
+				null
+			},
+			{
+				"Multiline string, end of line properly escaped + empty lines + comment",
+				"'\\\n\n\n//Comment\n\n'",
+				"No closing ' found ()"
+			},
+			{
+				"Typed constant non-successive characters",
+				"$		boolean 	 [ 		false ]",
+				null
+			},
+			{
+				"Typed constant bad typecast",
+				"$boolean['']",
+				"Bad boolean value: \"''\" ()"
+			},
+			{
+				"Typed constant multiline",
+				"$boolean[\n]",
+				"No closing ] found ()"
+			},
+			{
+				"Plural constant non-successive characters",
+				"$		booleans 	 [ 		 ]",
+				null
+			},
+			{
+				"Plural constant multiline",
+				// End-of-lines can appear anywhere
+				"$booleans[true\n\n\n,\nfalse, false\n,false,\ntrue,tr\nue]",
+				null
+			},
+			{
+				"Plural constant w/ escape characters",
+				// *Escaped* end-of-lines and escaped "\n"s get added to the value
+				"$booleans[tr\\\nu\\ne]",
+				"Bad boolean value: \"tr\nu\ne\" ()"
+			}
 		} );
 	}
 
