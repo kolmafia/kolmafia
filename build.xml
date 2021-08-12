@@ -143,8 +143,7 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 	<!--  generate class files  -->
 	<!-- ====================== -->
 
-	<target name="compile" depends="init,version">
-
+	<target name="compile-deps" >
 		<javac
 			compiler="modern"
 			source="1.8"
@@ -174,7 +173,9 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
+	</target>
 
+	<target name="compile" depends="init,version,compile-deps">
         <antcall target="set.version" />
 
 		<javac
@@ -263,12 +264,10 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 	  </clover-setup>
 	</target>
 
-	<target name="coverage-compile" depends="compile, with.clover">
-		<javac source="1.8" srcdir="${src}" destdir="${build}" includeantruntime="false">
+	<target name="coverage-compile" depends="with.clover,compile-deps">
+		<javac source="1.8" srcdir="src" destdir="${build}" includeantruntime="false">
 		  <include name="**/*.java" />
-		  <include name="../test/**/*.java" />
 		  <classpath>
-			<fileset dir="${lib}/testjar" includes="**/*.jar" />
 			<fileset dir="${lib}/jar" includes="**/*.jar" />
 			<fileset dir="${src}/jar" includes="**/*.jar" />
 		  </classpath>
