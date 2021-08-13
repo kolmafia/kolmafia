@@ -87,15 +87,37 @@ public class ParserTest
 				"`{",
 				"Expected }, found end of file ()"
 			},*/
+			/*{
+				//Idem
+
+				"Typed constant, no bracket",
+				"$int",
+				"Expected [, found end of file ()"
+			},*/
 			{
 				"Typed constant non-successive characters",
 				"$		boolean 	 [ 		false ]",
 				null
 			},
 			{
+				"Typed constant escaped characters",
+				"$boolean[\\f\\a\\l\\s\\e]",
+				null
+			},
+			{
 				"Typed constant bad typecast",
 				"$boolean['']",
 				"Bad boolean value: \"''\" ()"
+			},
+			{
+				"Typed constant, unknown type",
+				"$foo[]",
+				"Unknown type foo ()"
+			},
+			{
+				"Typed constant, non-primitive type",
+				"record r {int i;}; $r[]",
+				"Non-primitive type r ()"
 			},
 			{
 				"Typed constant multiline",
@@ -111,6 +133,33 @@ public class ParserTest
 				"Typed constant, nested brackets, improper",
 				"$item[[abc]]",
 				"Bad item value: \"[abc]\" ()"
+			},
+			{
+				"Plural constant, abrupt end",
+				"$booleans[",
+				"No closing ] found ()"
+			},
+			/*{
+				//Commented out, because the current behaviour prints
+				// the "transformed" type, rather than the original one
+				// (i.e. current error message is "Unknown type kolmafium ()")
+				// , which is just about to change in an incoming patch.
+
+				"Plural constant, unknown plural type",
+				"$kolmafia[]",
+				"Unknown type kolmafia ()"
+			},*/
+			/*{
+				// idem
+
+				"Plural constant, RAM-protection",
+				"$strings[]",
+				"Can't enumerate all strings ()"
+			},*/
+			{
+				"Plural constant, non... \"traditional\" plurals",
+				"$bounties[]; $classes[]; $phyla[]",
+				null
 			},
 			{
 				"Plural constant non-successive characters",
@@ -138,6 +187,11 @@ public class ParserTest
 				"Plural constant, nested brackets, improper",
 				"$items[[abc]]",
 				"Bad item value: \"[abc]\" ()"
+			},
+			{
+				"Plural constant, single slash",
+				"$booleans[tr/Comment\nue]",
+				"Bad boolean value: \"tr/Commentue\" ()"
 			},
 			{
 				"Plural constant, comment",
