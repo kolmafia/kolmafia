@@ -55,14 +55,13 @@ public class KoLDatabase
 
 		public int compareTo( final ItemCounter o )
 		{
-			ItemCounter ic = o;
 
-			if ( this.count != ic.count )
+			if ( this.count != o.count )
 			{
-				return ic.count - this.count;
+				return o.count - this.count;
 			}
 
-			return this.name.compareToIgnoreCase( ic.name );
+			return this.name.compareToIgnoreCase( o.name );
 		}
 
 		@Override
@@ -72,9 +71,9 @@ public class KoLDatabase
 		}
 	}
 
-	public static final String getBreakdown( final List<String> items )
+	public static String getBreakdown(final List<String> items )
 	{
-		if ( items.isEmpty() )
+		if ((items == null ) || ( items.isEmpty() ))
 		{
 			return KoLConstants.LINE_BREAK;
 		}
@@ -87,7 +86,7 @@ public class KoLDatabase
 
 		int currentCount = 1;
 
-		ArrayList<ItemCounter> itemList = new ArrayList<ItemCounter>();
+		ArrayList<ItemCounter> itemList = new ArrayList<>();
 
 		for ( int i = 1; i < itemArray.length; ++i )
 		{
@@ -113,10 +112,9 @@ public class KoLDatabase
 		strbuf.append( "<ul>" );
 		Collections.sort( itemList );
 
-		for ( int i = 0; i < itemList.size(); ++i )
-		{
-			strbuf.append( "<li><nobr>" + itemList.get( i ) + "</nobr></li>" );
-			strbuf.append( KoLConstants.LINE_BREAK );
+		for (ItemCounter itemCounter : itemList) {
+			strbuf.append("<li><nobr>").append(itemCounter).append("</nobr></li>");
+			strbuf.append(KoLConstants.LINE_BREAK);
 		}
 
 		strbuf.append( "</ul>" );
@@ -127,17 +125,15 @@ public class KoLDatabase
 
 	/**
 	 * Calculates the sum of all the integers in the given list. Note that the list must consist entirely of Integer
-	 * objects.
+	 * objects and the only usages of this pass a list of Integers
 	 */
 
-	public static final long calculateTotal( final List values )
+	public static long calculateTotal(final List<Integer> values )
 	{
 		long total = 0;
-		for ( int i = 0; i < values.size(); ++i )
-		{
-			if ( values.get( i ) != null )
-			{
-				total += ( (Integer) values.get( i ) ).intValue();
+		for (Integer obj : values) {
+			if (obj != null) {
+				total += obj;
 			}
 		}
 
@@ -149,7 +145,7 @@ public class KoLDatabase
 	 * objects.
 	 */
 
-	public static final float calculateAverage( final List values )
+	public static float calculateAverage(final List<Integer> values )
 	{
 		return (float) KoLDatabase.calculateTotal( values ) / (float) values.size();
 	}
