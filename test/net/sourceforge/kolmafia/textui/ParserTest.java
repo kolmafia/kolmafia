@@ -73,6 +73,21 @@ public class ParserTest
 				"No closing ' found ()"
 			},
 			{
+				"Unterminated string template",
+				"`{`",
+				// The parser tries to start a new string template inside the expression
+				"No closing ` found ()"
+			},
+			/*{
+				//Commented out, because the current behaviour prints
+				// "Expected }, found ; ()"
+				// , and it's just about to change (from the Tokens patch)
+
+				"Abruptly unterminated string template",
+				"`{",
+				"Expected }, found end of file ()"
+			},*/
+			{
 				"Typed constant non-successive characters",
 				"$		boolean 	 [ 		false ]",
 				null
@@ -86,6 +101,16 @@ public class ParserTest
 				"Typed constant multiline",
 				"$boolean[\n]",
 				"No closing ] found ()"
+			},
+			{
+				"Typed constant, nested brackets, proper",
+				"$item[[8042]rock]",
+				null
+			},
+			{
+				"Typed constant, nested brackets, improper",
+				"$item[[abc]]",
+				"Bad item value: \"[abc]\" ()"
 			},
 			{
 				"Plural constant non-successive characters",
@@ -103,6 +128,21 @@ public class ParserTest
 				// *Escaped* end-of-lines and escaped "\n"s get added to the value
 				"$booleans[tr\\\nu\\ne]",
 				"Bad boolean value: \"tr\nu\ne\" ()"
+			},
+			{
+				"Plural constant, nested brackets, proper",
+				"$items[[8042]rock]",
+				null
+			},
+			{
+				"Plural constant, nested brackets, improper",
+				"$items[[abc]]",
+				"Bad item value: \"[abc]\" ()"
+			},
+			{
+				"Plural constant, comment",
+				"$booleans[tr//Comment\nue]",
+				null
 			}
 		} );
 	}
