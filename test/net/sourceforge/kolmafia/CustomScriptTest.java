@@ -28,7 +28,8 @@ public class CustomScriptTest
 	{
 		public boolean accept( File dir, String name )
 		{
-			return name.endsWith( ".ash" ) || name.endsWith( ".txt" ) || name.endsWith( ".cli" );
+			return name.endsWith( ".ash" ) || name.endsWith( ".txt" ) || name.endsWith( ".cli" ) ||
+			       name.endsWith( ".js" );
 		}
 	}
 

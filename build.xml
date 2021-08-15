@@ -18,6 +18,8 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 	<property file="build.properties" />
 	<property file="default.properties" />
 	<property environment="env" />
+	<taskdef resource="cloverlib.xml" classpath="${lib}/testjar/clover.jar"/>
+	<property name="clover.snapshot.file" value=".clover/coverage.db.snapshot"/>
 
 	<available file=".svn" property="using.svn" />
 	<available file=".git" property="using.gitsvn" />
@@ -101,9 +103,9 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 		Really important not to follow the symlink to
 		/Applications and delete it...
 		-->
-
 		<symlink action="delete" link="${dist}/${version-name}/Applications" failonerror="false" />
 
+		<clover-clean/>
 		<delete dir="${appfile}" failonerror="false" />
 
 		<delete failonerror="false" includeemptydirs="true">
@@ -141,8 +143,7 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 	<!--  generate class files  -->
 	<!-- ====================== -->
 
-	<target name="compile" depends="init,version">
-
+	<target name="compile-deps" >
 		<javac
 			compiler="modern"
 			source="1.8"
@@ -159,9 +160,8 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 			includeantruntime="false"
 			errorProperty="compile.failed">
 			<classpath>
-				<fileset dir="${lib}/jar">
-					<include name="**/*.jar"/>
-				</fileset>
+				<fileset dir="${lib}/jar" includes="**/*.jar"/>
+				<fileset dir="${lib}/testjar" includes="**/*.jar"/>
 			</classpath>
 		</javac>
 
@@ -173,8 +173,10 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
+	</target>
 
-                <antcall target="set.version" />
+	<target name="compile" depends="init,version,compile-deps">
+        <antcall target="set.version" />
 
 		<javac
 			compiler="modern"
@@ -193,13 +195,11 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 			errorProperty="compile.failed">
 			<classpath>
 				<pathelement path="${build}"/>
-				<fileset dir="${src}/jar">
-					<include name="**/*.jar"/>
-				</fileset>
+				<fileset dir="${src}/jar" includes="**/*.jar" />
 			</classpath>
 		</javac>
 
-                <antcall target="unset.properties" />
+        <antcall target="unset.properties" />
 
 		<fail if="compile.failed" message="Failed to compile KoLmafia source code" />
 
@@ -213,11 +213,11 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 	</target>
 
 	<target name="test-compile" depends="compile">
-		<javac srcdir="${test}" destdir="${build}" includeantruntime="false">
-		<classpath>
+	  <javac source="1.8" srcdir="${test}" destdir="${build}" includeantruntime="false">
+		  <classpath>
 			<fileset dir="${lib}/testjar" includes="**/*.jar" />
 			<fileset dir="${src}/jar" includes="**/*.jar" />
-		</classpath>
+		  </classpath>
 		</javac>
 		<copy todir="${build}/jar" preservelastmodified="true">
 			<fileset dir="${src}/jar">
@@ -232,16 +232,61 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 			<jvmarg value="-DuseCWDasROOT=true" />
 			<classpath>
 				<pathelement location="${build}"/>
+				<fileset dir="${lib}/jar" includes="**/*.jar" />
 				<fileset dir="${lib}/testjar" includes="**/*.jar" />
-				<fileset dir="${build}/jar">
-				  <include name="**/*.jar" />
-				</fileset>
+				<fileset dir="${src}/jar" includes="**/*.jar" />
 			</classpath>
 			<formatter type="brief" usefile="false" />
 			<batchtest>
+			  <clover-optimized-testset snapshotfile="${clover.snapshot.file}">
 				<fileset dir="${test}" includes="**/*Test.java" />
+			  </clover-optimized-testset>
 			</batchtest>
 		</junit>
+	</target>
+
+	<!-- =========================== -->
+	<!--  Generate coverage reports  -->
+	<!-- =========================== -->
+	<!-- Usage: `ant -lib lib/testjar coverage clover.report`-->
+
+	<target name="with.clover">
+	  <clover-setup source="1.8">
+		<fileset dir="${src}" includes="**/*.java">
+		  <!-- Add a couple of exclusions for files with
+		       methods that are too large for instrumentation. -->
+		  <!-- parseConsumption is ~5000 lines long. -->
+		  <exclude name="**/UseItemRequest.java" />
+		  <!-- postChoice1 is ~5000 lines long. -->
+		  <exclude name="**/ChoiceManager.java" />
+		</fileset>
+		<testSources dir="${test}" includes="**/*.java" />
+	  </clover-setup>
+	</target>
+
+	<target name="coverage-compile" depends="with.clover,compile-deps">
+		<javac source="1.8" srcdir="src" destdir="${build}" includeantruntime="false">
+		  <include name="**/*.java" />
+		  <classpath>
+			<fileset dir="${lib}/jar" includes="**/*.jar" />
+			<fileset dir="${src}/jar" includes="**/*.jar" />
+		  </classpath>
+		</javac>
+		<copy todir="${build}/jar" preservelastmodified="true">
+			<fileset dir="${src}/jar">
+				<exclude name="**/*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="clover.snapshot" depends="with.clover">
+      <clover-snapshot file="${clover.snapshot.file}"/>
+	</target>
+
+	<target name="coverage" depends="coverage-compile, test, clover.snapshot" description="Runs tests with all sources instrumented." />
+
+	<target name="clover.report">
+	  <clover-html-report outdir="clover/clover_html" title="KoLmafia coverage"/>
 	</target>
 
 	<!-- ========================================== -->

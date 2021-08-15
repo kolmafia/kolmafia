@@ -33,6 +33,7 @@ public class ConcoctionTest {
     // tests the portion of the contract that says sgn(x.compareTo(y)) == -sgn(y.compareTo(x) and
     // (x.compareTo(y)==0) == (x.equals(y))
     @Test
+	@Ignore("Nested for-loops are slow...")
     public void itShouldBeSymmetric() {
         LockableListModel<Concoction> first = ConcoctionDatabase.getUsables();
         LockableListModel<Concoction> second = ConcoctionDatabase.getUsables();
@@ -50,6 +51,7 @@ public class ConcoctionTest {
     //x.compareTo(y)==0 implies
     //	  that sgn(x.compareTo(z)) == sgn(y.compareTo(z)), for all z.
     @Test
+	@Ignore("Nested for-loops are slow...")
     public void itShouldBePreserveEquality() {
         LockableListModel<Concoction> first = ConcoctionDatabase.getUsables();
         LockableListModel<Concoction> second = ConcoctionDatabase.getUsables();

@@ -242,14 +242,14 @@ public class ValueConverter {
 			Value value = fromJava( entry.getValue() );
 
 			Value keyCoerced = coerce( key, indexType );
-			Value valueCoerced = coerce( value, dataType.getBaseType() );
 
-			if ( keyCoerced != null && valueCoerced != null )
+			if ( keyCoerced != null )
 			{
-				underlyingMap.put( keyCoerced, valueCoerced );
+				underlyingMap.put( keyCoerced, value );
 			}
 			else
 			{
+				System.out.println(indexType + " : " + dataType.getBaseType());
 				throw new ScriptException( "Failed to insert value into map." );
 			}
 		}
