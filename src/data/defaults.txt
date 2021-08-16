@@ -1407,6 +1407,11 @@ user	warProgress	unstarted
 user	warehouseProgress	0
 user	waxMonster
 user	welcomeBackAdv	0
+user	wildfireBarrelCaulked	false
+user	wildfireDusted	false
+user	wildfireFracked	false
+user	wildfirePumpGreased	false
+user	wildfireSprinkled	false
 user	workteaClue
 user	writingDesksDefeated	0
 user	xoSkeleltonXProgress	8
@@ -2051,6 +2056,7 @@ user	_warbearBreakfastMachineUsed	false
 user	_warbearGyrocopterUsed	false
 user	_warbearSodaMachineUsed	false
 user	_whiteRiceDrops	0
+user	_wildfireBarrelHarvested	false
 user	_witchessBuff	false
 user	_witchessFights	0
 user	_workshedItemUsed	false

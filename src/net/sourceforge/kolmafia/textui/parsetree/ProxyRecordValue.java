@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.request.FightRequest;
 
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.WildfireCampRequest;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 
@@ -1466,6 +1467,7 @@ public class ProxyRecordValue
 			.add( "parent", DataTypes.STRING_TYPE )
 			.add( "parentdesc", DataTypes.STRING_TYPE )
 			.add( "environment", DataTypes.STRING_TYPE )
+			.add( "fire_level", DataTypes.INT_TYPE )
 			.add( "bounty", DataTypes.BOUNTY_TYPE )
 			.add( "combat_queue", DataTypes.STRING_TYPE )
 			.add( "noncombat_queue", DataTypes.STRING_TYPE )
@@ -1617,6 +1619,16 @@ public class ProxyRecordValue
 		public boolean get_wanderers()
 		{
 			return this.content != null ? ( (KoLAdventure) this.content ).hasWanderers() : false;
+		}
+
+		public int get_fire_level()
+		{
+			if ( this.content == null || !KoLCharacter.inFirecore() )
+			{
+				return 0;
+			}
+
+			return WildfireCampRequest.getFireLevel( (KoLAdventure) this.content );
 		}
 	}
 

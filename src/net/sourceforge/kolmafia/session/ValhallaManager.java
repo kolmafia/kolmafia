@@ -737,6 +737,12 @@ public class ValhallaManager
 		Preferences.setInteger( "youRobotRight", 0 );
 		Preferences.setInteger( "youRobotTop", 0 );
 		Preferences.setInteger( "statbotUses", 0 );
+		// Wildfire
+		Preferences.setBoolean( "wildfireBarrelCaulked", false );
+		Preferences.setBoolean( "wildfireDusted", false );
+		Preferences.setBoolean( "wildfireFracked", false );
+		Preferences.setBoolean( "wildfirePumpGreased", false );
+		Preferences.setBoolean( "wildfireSprinkled", false );
 		// Campground resets
 		Preferences.setBoolean( "hasBartender", false );
 		Preferences.setBoolean( "hasChef", false );
