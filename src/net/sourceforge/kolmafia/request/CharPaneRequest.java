@@ -865,6 +865,20 @@ public class CharPaneRequest
 				KoLCharacter.setLightning( 0 );
 			}
 		}
+		else if ( KoLCharacter.inFirecore() )
+		{
+			pattern = Pattern.compile( "Water:</td><td align=left><b>([\\d,]+)</b>" );
+			matcher = pattern.matcher( responseText );
+			if ( matcher != null && matcher.find() )
+			{
+				int water = StringUtilities.parseInt( matcher.group( 1 ).replaceAll(",", "") );
+				KoLCharacter.setWildfireWater( water );
+			}
+			else
+			{
+				KoLCharacter.setWildfireWater( 0 );
+			}
+		}
 
 	}
 

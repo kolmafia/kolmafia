@@ -6298,6 +6298,18 @@ public class UseItemRequest
 				Preferences.increment( "shockingLickCharges", count );
 			}
 			break;
+		case ItemPool.RAINPROOF_BARREL_CAULK:
+			if ( responseText.contains( "You smear the caulk" ) )
+			{
+				Preferences.setBoolean( "wildfireBarrelCaulked", true );
+			}
+			break;
+		case ItemPool.PUMP_GREASE:
+			if ( responseText.contains( "You smear the grease" ) )
+			{
+				Preferences.setBoolean( "wildfirePumpGreased", true );
+			}
+			break;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )

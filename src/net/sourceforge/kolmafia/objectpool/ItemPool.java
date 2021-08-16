@@ -3324,6 +3324,8 @@ public class ItemPool
 	public static final int CATHERINE_WHEEL = 10770;
 	public static final int ROCKET_BOOTS = 10771;
 	public static final int OVERSIZED_SPARKLER = 10772;
+	public static final int RAINPROOF_BARREL_CAULK = 10794;
+	public static final int PUMP_GREASE = 10795;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

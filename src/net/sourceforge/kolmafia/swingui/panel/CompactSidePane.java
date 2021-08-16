@@ -974,36 +974,73 @@ public class CompactSidePane
 		this.statusLabel[ count ].setText( "    HP: " );
 		this.statusValueLabel[ count ].setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getCurrentHP() ) + " / " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getMaximumHP() ) );
 		count++;
+
 		if ( limitmode != Limitmode.SPELUNKY )
 		{
-			if ( KoLCharacter.inZombiecore() )
-			{
-				this.statusLabel[ count ].setText( " Horde: " );
-				this.statusValueLabel[ count ].setText( String.valueOf( KoLCharacter.getCurrentMP() ) );
-				count++;
-			}
-			else if ( !KoLCharacter.isVampyre() )
+			// Paths
+			if ( !KoLCharacter.isVampyre() )
 			{
 				this.statusLabel[ count ].setText( "    MP: " );
 				this.statusValueLabel[ count ].setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getCurrentMP() ) + " / " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getMaximumMP() ) );
 				count++;
 			}
-			if ( KoLCharacter.isPlumber() )
+
+			if ( KoLCharacter.inBeecore() )
+			{
+				this.statusLabel[ count ].setText( " Bees: " );
+				this.statusValueLabel[ count ].setText( String.valueOf( KoLCharacter.getBeeosity() ) );
+				count++;
+			}
+			else if ( KoLCharacter.inZombiecore() )
+			{
+				this.statusLabel[ count ].setText( " Horde: " );
+				this.statusValueLabel[ count ].setText( String.valueOf( KoLCharacter.getCurrentMP() ) );
+				count++;
+			}
+			else if ( KoLCharacter.isSneakyPete() )
+			{
+				limit = KoLCharacter.getAudienceLimit();
+				this.statusLabel[ count ].setText( "   Aud: " );
+				this.statusValueLabel[ count ].setText( KoLCharacter.getAudience() + " / " + limit );
+				count++;
+			}
+			else if ( KoLCharacter.isEd() )
+			{
+				this.statusLabel[ count ].setText( "    Ka: " );
+				this.statusValueLabel[ count ].setText( String.valueOf( InventoryManager.getCount( ItemPool.KA_COIN ) ) );
+				count++;
+			}
+			else if ( KoLCharacter.inNoobcore() )
+			{
+				limit = KoLCharacter.getAbsorbsLimit();
+				this.statusLabel[ count ].setText( "   Abs: " );
+				this.statusValueLabel[ count ].setText( KoLCharacter.getAbsorbs() + " / " + limit );
+				count++;
+			}
+			else if ( KoLCharacter.isPlumber() )
 			{
 				this.statusLabel[ count ].setText( "    PP: " );
 				this.statusValueLabel[ count ].setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getCurrentPP() ) + " / " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getMaximumPP() ) );
 				count++;
 			}
-			if ( KoLCharacter.inRobocore() )
+			else if ( KoLCharacter.inRobocore() )
 			{
-				this.statusLabel[ count ].setText( "    Energy: " );
+				this.statusLabel[ count ].setText( " Energy: " );
 				this.statusValueLabel[ count ].setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getYouRobotEnergy() ) );
 				count++;
-				this.statusLabel[ count ].setText( "    Scraps: " );
+				this.statusLabel[ count ].setText( " Scraps: " );
 				this.statusValueLabel[ count ].setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getYouRobotScraps() ) );
 				count++;
 			}
-			else if ( KoLCharacter.getFuryLimit() > 0 )
+			else if ( KoLCharacter.inFirecore() )
+			{
+				this.statusLabel[ count ].setText( " Water: " );
+				this.statusValueLabel[ count ].setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getWildfireWater() ) );
+				count++;
+			}
+
+			// Classes
+			if ( KoLCharacter.getFuryLimit() > 0 )
 			{
 				this.statusLabel[ count ].setText( "  Fury: " );
 				this.statusValueLabel[ count ].setText( KoLCharacter.getFury() + " / " + KoLCharacter.getFuryLimit() );
@@ -1021,20 +1058,6 @@ public class CompactSidePane
 				this.statusValueLabel[ count ].setText( KoLCharacter.getDiscoMomentum() + " / 3" );
 				count++;
 			}
-			else if ( KoLCharacter.isSneakyPete() )
-			{
-				limit = KoLCharacter.getAudienceLimit();
-				this.statusLabel[ count ].setText( "   Aud: " );
-				this.statusValueLabel[ count ].setText( KoLCharacter.getAudience() + " / " + limit );
-				count++;
-			}
-			else if ( KoLCharacter.inNoobcore() )
-			{
-				limit = KoLCharacter.getAbsorbsLimit();
-				this.statusLabel[ count ].setText( "   Abs: " );
-				this.statusValueLabel[ count ].setText( KoLCharacter.getAbsorbs() + " / " + limit );
-				count++;
-			}
 			this.statusLabel[ count ].setText( "  Meat: " );
 			this.statusValueLabel[ count ].setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) );
 			this.statusValueLabel[ count ].setToolTipText( "Closet: " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getClosetMeat() ) );
@@ -1048,12 +1071,6 @@ public class CompactSidePane
 			this.statusLabel[ count ].setText( "   Adv: " );
 			this.statusValueLabel[ count ].setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
 			count++;
-			if ( KoLCharacter.isEd() )
-			{
-				this.statusLabel[ count ].setText( "    Ka: " );
-				this.statusValueLabel[ count ].setText( String.valueOf( InventoryManager.getCount( ItemPool.KA_COIN ) ) );
-				count++;
-			}
 		}
 		else
 		{
@@ -1123,13 +1140,6 @@ public class CompactSidePane
 			{
 				this.bonusLabel[ count ].setText( "Smithsness: " );
 				this.bonusValueLabel[ count ].setText( KoLConstants.MODIFIER_FORMAT.format( smithsness ) );
-				count++;
-			}
-			if ( KoLCharacter.inBeecore() && count < this.BONUS_LABELS )
-			{
-				int bee = KoLCharacter.getBeeosity();
-				this.bonusLabel[ count ].setText( "Bees: " );
-				this.bonusValueLabel[ count ].setText( String.valueOf( bee ) );
 				count++;
 			}
 			int surgeon = (int) KoLCharacter.currentNumericModifier( Modifiers.SURGEONOSITY );
