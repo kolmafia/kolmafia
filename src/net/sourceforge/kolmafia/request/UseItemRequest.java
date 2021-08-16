@@ -805,9 +805,14 @@ public class UseItemRequest
 			return EquipmentRequest.availableFolder() == -1 ? 0 : 1;
 
 		case ItemPool.PASTA_ADDITIVE:
-			if ( KoLCharacter.getClassType().equals( KoLCharacter.PASTAMANCER ) )
+			if ( !KoLCharacter.getClassType().equals( KoLCharacter.PASTAMANCER ) )
 			{
 				UseItemRequest.limiter = "character class";
+				return 0;
+			}
+			if ( Preferences.getBoolean( "_pastaAdditive" ) )
+			{
+				UseItemRequest.limiter = "daily limit";
 				return 0;
 			}
 			break;
