@@ -505,6 +505,10 @@ public class PlaceRequest
 		{
 			Preferences.setBoolean( "getawayCampsiteUnlocked", responseText.contains( "campaway" ) );
 		}
+		else if ( place.equals( "wildfire_camp" ) )
+		{
+			WildfireCampRequest.parseResponse( urlString, responseText );
+		}
 
 		SpadingManager.processPlace( urlString, responseText );
 	}
@@ -1103,7 +1107,8 @@ public class PlaceRequest
 			  place.equals( "town_market" ) ||
 			  place.equals( "town_right" ) ||
 			  place.equals( "town_wrong" ) ||
-			  place.equals( "wormwood" ) )
+			  place.equals( "wormwood" ) ||
+			  place.equals( "wildfire_camp" ) )
 		{
 			// It is not interesting to log simple visits to these
 			// places. Other classes may claim specific actions.

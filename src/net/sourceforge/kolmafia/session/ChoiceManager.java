@@ -7879,6 +7879,31 @@ public abstract class ChoiceManager
 			}
 			break;
 		}
+		case 1451:
+			// Fire Captain Hagnk
+			WildfireCampRequest.parseCaptain( text );
+			break;
+		case 1452:
+			// Sprinkler Joe
+			if ( text.contains( "Thanks again for your help!" ) )
+			{
+				Preferences.setBoolean( "wildfireSprinkled", true );
+			}
+			break;
+		case 1453:
+			// Fracker Dan
+			if ( text.contains( "Thanks for the help!" ) )
+			{
+				Preferences.setBoolean( "wildfireFracked", true );
+			}
+			break;
+		case 1454:
+			// Cropduster Dusty
+			if ( text.contains( "Thanks for helping out." ) )
+			{
+				Preferences.setBoolean( "wildfireDusted", true );
+			}
+			break;
 		}
 	}
 
@@ -12528,6 +12553,41 @@ public abstract class ChoiceManager
 
 			break;
 		}
+		case 1451:
+			// Fire Captain Hagnk
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Matcher locationIdMatcher = Pattern.compile( "zid=([^&]*)" ).matcher( urlString );
+				if ( locationIdMatcher.find() )
+				{
+					int zid = StringUtilities.parseInt( locationIdMatcher.group( 1 ) );
+					KoLAdventure location = AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=" + zid );
+					WildfireCampRequest.reduceFireLevel( location );
+				}
+			}
+			WildfireCampRequest.parseCaptain( text );
+			break;
+		case 1452:
+			// Sprinkler Joe
+			if ( ChoiceManager.lastDecision == 1 && text.contains( "raindrop.gif") )
+			{
+				Preferences.setBoolean( "wildfireSprinkled", true );
+			}
+			break;
+		case 1453:
+			// Fracker Dan
+			if ( ChoiceManager.lastDecision == 1 && text.contains( "raindrop.gif") )
+			{
+				Preferences.setBoolean( "wildfireFracked", true );
+			}
+			break;
+		case 1454:
+			// Cropduster Dusty
+			if ( ChoiceManager.lastDecision == 1 && text.contains( "raindrop.gif") )
+			{
+				Preferences.setBoolean( "wildfireDusted", true );
+			}
+			break;
 		}
 		
 		// Certain choices cost meat or items when selected
@@ -14453,6 +14513,11 @@ public abstract class ChoiceManager
 					}
 				}
 			}
+			break;
+		case 1452: // Sprinkler Joe
+		case 1453: // Fracker Dan
+		case 1454: // Cropduster Dusty
+			WildfireCampRequest.refresh();
 			break;
 		}
 
@@ -19173,6 +19238,10 @@ public abstract class ChoiceManager
 		case 1447: // Statbot 5000
 		case 1448: // Potted Power Plant
 		case 1449: // Set Backup Camera Mode
+		case 1451: // Fire Captain Hagnk
+		case 1452: // Sprinkler Joe
+		case 1453: // Fracker Dan
+		case 1454: // Cropduster Dusty
 			return true;
 
 		default:

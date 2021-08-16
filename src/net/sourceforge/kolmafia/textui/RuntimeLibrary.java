@@ -1188,7 +1188,7 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_robot_scraps", DataTypes.INT_TYPE, params ) );
-
+		
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_primestat", DataTypes.STAT_TYPE, params ) );
 
@@ -1278,6 +1278,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "spleen_limit", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_wildfire_water", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "can_eat", DataTypes.BOOLEAN_TYPE, params ) );
@@ -5747,9 +5750,11 @@ public abstract class RuntimeLibrary
 		return new Value( KoLCharacter.getMaximumPP() );
 	}
 
-	public static Value my_robot_energy( ScriptRuntime controller ) { return new Value( KoLCharacter.getYouRobotEnergy()); }
+	public static Value my_robot_energy( ScriptRuntime controller ) { return new Value( KoLCharacter.getYouRobotEnergy() ); }
 
-	public static Value my_robot_scraps( ScriptRuntime controller ) { return new Value( KoLCharacter.getYouRobotScraps()); }
+	public static Value my_robot_scraps( ScriptRuntime controller ) { return new Value( KoLCharacter.getYouRobotScraps() ); }
+
+	public static Value my_wildfire_water( ScriptRuntime controller ) { return new Value( KoLCharacter.getWildfireWater() ); }
 
 	public static Value my_primestat( ScriptRuntime controller )
 	{

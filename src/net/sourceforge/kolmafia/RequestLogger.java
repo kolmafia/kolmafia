@@ -1634,6 +1634,12 @@ public class RequestLogger
 			return;
 		}
 
+		if ( ( request instanceof WildfireCampRequest || isExternal ) && WildfireCampRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
 		if ( ( request instanceof WinterGardenRequest || isExternal ) && WinterGardenRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;

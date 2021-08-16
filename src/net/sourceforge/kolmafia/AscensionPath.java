@@ -82,7 +82,7 @@ public class AscensionPath
 		YOU_ROBOT( "You, Robot", 41, false, "yourobot", "a" ),
 		// Not yet implemented
 		QUANTUM( "Quantum Terrarium", 42, false, "quantum", "a" ),
-		PATH_43( "(Path 43)", 43, false, null, null ),
+		WILDFIRE( "Wildfire", 43, false, "brushfire", "a" ),
 		// A "sign" rather than a "path" for some reason
 		BAD_MOON( "Bad Moon", 999, false, "badmoon", null ),
 		;

@@ -876,7 +876,11 @@ public class Modifiers
 		{ "Familiar Action Bonus",
 		  null,
 		  Pattern.compile( "Familiar Action Bonus: " + EXPR )
-		}
+		},
+		{ "Water",
+		  Pattern.compile( "Collect (\\d+) water per adventure" ),
+		  Pattern.compile("Water: " + EXPR)
+		},
 	};
 
 	public static final int DOUBLE_MODIFIERS = Modifiers.doubleModifiers.length;
