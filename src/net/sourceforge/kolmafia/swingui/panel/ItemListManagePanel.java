@@ -79,6 +79,6 @@ public class ItemListManagePanel
 	@Override
 	public Object[] getSelectedValues()
 	{
-		return this.getElementList().getSelectedValues();
+		return this.getElementList().getSelectedValuesList().toArray();
 	}
 }

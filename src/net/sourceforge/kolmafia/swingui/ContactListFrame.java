@@ -115,7 +115,7 @@ public class ContactListFrame
 
 	public String[] getSelectedPlayers()
 	{
-		Object[] selectedValues = this.contactsDisplay.getSelectedValues();
+		Object[] selectedValues = this.contactsDisplay.getSelectedValuesList().toArray();
 
 		// If no players are selected, and the player uses the
 		// option, assume they want everyone.
