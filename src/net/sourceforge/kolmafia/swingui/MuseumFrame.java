@@ -171,7 +171,7 @@ public class MuseumFrame
 			this.displayPanel.setEnabled( isEnabled );
 		}
 
-		private AdventureResult[] getSelectedValues( final AdventureResult[] selection, boolean moveAll )
+		private AdventureResult[] getSelectedValuesList( final AdventureResult[] selection, boolean moveAll )
 		{
 			if ( !moveAll )
 			{
@@ -202,7 +202,7 @@ public class MuseumFrame
 			private void move( final boolean moveAll )
 			{
 				AdventureResult[] selection = this.elementList.getSelectedItems();
-				AdventureResult[] items = AddRemovePanel.this.getSelectedValues( selection, moveAll );
+				AdventureResult[] items = AddRemovePanel.this.getSelectedValuesList( selection, moveAll );
 				RequestThread.postRequest( new DisplayCaseRequest( items, true ) );
 				RequestThread.postRequest( new DisplayCaseRequest() );
 			}
@@ -234,7 +234,7 @@ public class MuseumFrame
 			private void move( final boolean moveAll )
 			{
 				AdventureResult[] selection = this.elementList.getSelectedItems();
-				AdventureResult[] items = AddRemovePanel.this.getSelectedValues( selection, moveAll );
+				AdventureResult[] items = AddRemovePanel.this.getSelectedValuesList( selection, moveAll );
 				RequestThread.postRequest( new DisplayCaseRequest( items, false ) );
 				RequestThread.postRequest( new DisplayCaseRequest() );
 			}
@@ -306,7 +306,7 @@ public class MuseumFrame
 			{
 				if ( selectedValue.equals( headerArray[ i ] ) )
 				{
-					DisplayCaseManager.move( this.elementList.getSelectedValues(), this.index, i );
+					DisplayCaseManager.move( this.elementList.getSelectedValuesList().toArray(), this.index, i );
 					break;
 				}
 			}
