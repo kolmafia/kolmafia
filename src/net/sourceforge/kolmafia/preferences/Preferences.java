@@ -686,7 +686,7 @@ public class Preferences
 
 		if ( !(value instanceof Float) )
 		{
-			value = new Float( StringUtilities.parseFloat( value.toString() ) );
+			value = Float.valueOf( StringUtilities.parseFloat( value.toString() ) );
 			map.put( name, value );
 		}
 
@@ -787,7 +787,7 @@ public class Preferences
 		float old = Preferences.getFloat( user, name );
 		if ( old != value )
 		{
-			Preferences.setObject( user, name, String.valueOf( value ), new Float( value ) );
+			Preferences.setObject( user, name, String.valueOf( value ), Float.valueOf( value ) );
 		}
 	}
 
