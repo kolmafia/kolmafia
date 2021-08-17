@@ -824,7 +824,7 @@ public class StoreManageFrame
 		{
 			StoreManageFrame.cancelTableEditing();
 
-			Object[] items = this.getElementList().getSelectedValues();
+			Object[] items = this.getElementList().getSelectedValuesList().toArray();
 
 			for ( int i = 0; i < items.length; ++i )
 			{

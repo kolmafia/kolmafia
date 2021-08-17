@@ -385,7 +385,7 @@ public class MallSearchFrame
 
 				if ( !MallSearchFrame.this.currentlyBuying )
 				{
-					MallSearchFrame.this.mallSearch.setStatusMessage( MallSearchFrame.this.getPurchaseSummary( MallSearchFrame.this.resultsList.getSelectedValues() ) );
+					MallSearchFrame.this.mallSearch.setStatusMessage( MallSearchFrame.this.getPurchaseSummary( MallSearchFrame.this.resultsList.getSelectedValuesList().toArray() ) );
 				}
 			}
 		}

@@ -198,7 +198,7 @@ public class BuffBotFrame
 		@Override
 		public void actionCancelled()
 		{
-			BuffBotManager.removeBuffs( BuffBotFrame.this.buffListDisplay.getSelectedValues() );
+			BuffBotManager.removeBuffs( BuffBotFrame.this.buffListDisplay.getSelectedValuesList().toArray() );
 		}
 	}
 

@@ -66,7 +66,7 @@ public class StatusEffectPanel
 	@Override
 	public void actionConfirmed()
 	{
-		Object[] effects = this.elementList.getSelectedValues();
+		Object[] effects = this.elementList.getSelectedValuesList().toArray();
 		for ( int i = 0; i < effects.length; ++i )
 		{
 			RequestThread.postRequest( new UneffectRequest( (AdventureResult) effects[ i ] ) );
@@ -76,7 +76,7 @@ public class StatusEffectPanel
 	@Override
 	public void actionCancelled()
 	{
-		Object[] effects = this.elementList.getSelectedValues();
+		Object[] effects = this.elementList.getSelectedValuesList().toArray();
 		this.elementList.clearSelection();
 
 		if ( Preferences.getString( "currentMood" ).equals( "apathetic" ) )

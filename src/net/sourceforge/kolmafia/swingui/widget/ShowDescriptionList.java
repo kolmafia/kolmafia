@@ -205,7 +205,7 @@ public class ShowDescriptionList
 	public AdventureResult[] getSelectedItems()
 	{
 		// Obviously, this only works if the model contains AdventureResults
-		Object[] values = this.getSelectedValues();
+		Object[] values = this.getSelectedValuesList().toArray();
 		AdventureResult[] result = new AdventureResult[ values.length ];
 		for ( int i = 0; i < values.length; ++i )
 		{
@@ -217,7 +217,7 @@ public class ShowDescriptionList
 	public PurchaseRequest[] getSelectedPurchases()
 	{
 		// Obviously, this only works if the model contains PurchaseRequests
-		Object[] values = this.getSelectedValues();
+		Object[] values = this.getSelectedValuesList().toArray();
 		PurchaseRequest[] result = new PurchaseRequest[ values.length ];
 		for ( int i = 0; i < values.length; ++i )
 		{
@@ -416,7 +416,7 @@ public class ShowDescriptionList
 
 	public void removeTriggers()
 	{
-		Object[] items = ShowDescriptionList.this.getSelectedValues();
+		Object[] items = ShowDescriptionList.this.getSelectedValuesList().toArray();
 		ShowDescriptionList.this.clearSelection();
 
 		MoodManager.removeTriggers( items );
@@ -429,7 +429,7 @@ public class ShowDescriptionList
 		@Override
 		public void executeAction()
 		{
-			Object[] items = ShowDescriptionList.this.getSelectedValues();
+			Object[] items = ShowDescriptionList.this.getSelectedValuesList().toArray();
 			ShowDescriptionList.this.clearSelection();
 
 			for ( int i = 0; i < items.length; ++i )
@@ -476,7 +476,7 @@ public class ShowDescriptionList
 		@Override
 		public void executeAction()
 		{
-			Object[] skills = ShowDescriptionList.this.getSelectedValues();
+			Object[] skills = ShowDescriptionList.this.getSelectedValuesList().toArray();
 			ShowDescriptionList.this.clearSelection();
 
 			UseSkillRequest request;
@@ -499,7 +499,7 @@ public class ShowDescriptionList
 		@Override
 		public void executeAction()
 		{
-			Object[] skills = ShowDescriptionList.this.getSelectedValues();
+			Object[] skills = ShowDescriptionList.this.getSelectedValuesList().toArray();
 			ShowDescriptionList.this.clearSelection();
 
 			if ( Preferences.getString( "currentMood" ).equals( "apathetic" ) )
@@ -529,7 +529,7 @@ public class ShowDescriptionList
 		@Override
 		public void executeAction()
 		{
-			Object[] effects = ShowDescriptionList.this.getSelectedValues();
+			Object[] effects = ShowDescriptionList.this.getSelectedValuesList().toArray();
 			ShowDescriptionList.this.clearSelection();
 
 			if ( Preferences.getString( "currentMood" ).equals( "apathetic" ) )
@@ -566,7 +566,7 @@ public class ShowDescriptionList
 		@Override
 		public void executeAction()
 		{
-			Object[] effects = ShowDescriptionList.this.getSelectedValues();
+			Object[] effects = ShowDescriptionList.this.getSelectedValuesList().toArray();
 			ShowDescriptionList.this.clearSelection();
 
 			String name, action;
@@ -590,7 +590,7 @@ public class ShowDescriptionList
 		@Override
 		public void executeAction()
 		{
-			Object[] effects = ShowDescriptionList.this.getSelectedValues();
+			Object[] effects = ShowDescriptionList.this.getSelectedValuesList().toArray();
 			for ( int i = 0; i < effects.length; ++i )
 			{
 				RequestThread.postRequest( new UneffectRequest( (AdventureResult) effects[ i ] ) );
@@ -604,7 +604,7 @@ public class ShowDescriptionList
 		@Override
 		public void executeAction()
 		{
-			Object[] items = ShowDescriptionList.this.getSelectedValues();
+			Object[] items = ShowDescriptionList.this.getSelectedValuesList().toArray();
 			ShowDescriptionList.this.clearSelection();
 
 			AdventureResult data;
@@ -651,7 +651,7 @@ public class ShowDescriptionList
 		@Override
 		public void executeAction()
 		{
-			Object[] items = ShowDescriptionList.this.getSelectedValues();
+			Object[] items = ShowDescriptionList.this.getSelectedValuesList().toArray();
 			ShowDescriptionList.this.clearSelection();
 
 			AdventureResult data;
@@ -702,7 +702,7 @@ public class ShowDescriptionList
 		@Override
 		public void executeAction()
 		{
-			Object[] items = ShowDescriptionList.this.getSelectedValues();
+			Object[] items = ShowDescriptionList.this.getSelectedValuesList().toArray();
 			ShowDescriptionList.this.clearSelection();
 
 			AdventureResult data;
