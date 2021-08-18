@@ -234,6 +234,18 @@ public class ParserTest
 				Arrays.asList( "$", "booleans", "[tr", "//Comment", "ue", "]" ),
 			},
 			{
+				"Plural constant, two line-separated slashes",
+				"$booleans[tr/\n/ue]",
+				"Bad boolean value: \"tr//ue\"",
+				null,
+			},
+			{
+				"Plural constant, line-separated multiline comment",
+				"$booleans[tr/\n**/ue]",
+				"Bad boolean value: \"tr/**/ue\"",
+				null,
+			},
+			{
 				"Mid-line // comment",
 				"int x = // interrupting comment\n  5;",
 				null,
