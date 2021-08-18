@@ -372,7 +372,7 @@ public class Parser
 
 	private static boolean isReservedWord( final String name )
 	{
-		return Parser.reservedWords.contains( name.toLowerCase() );
+		return name != null && Parser.reservedWords.contains( name.toLowerCase() );
 	}
 
 	public Scope importFile( final String fileName, final Scope scope )
@@ -571,7 +571,7 @@ public class Parser
 
 		this.readToken(); // read record
 
-		if ( this.currentToken() == null )
+		if ( this.currentToken().equals( ";" ) )
 		{
 			throw this.parseException( "Record name expected" );
 		}
@@ -624,7 +624,7 @@ public class Parser
 
 			// Get the field name
 			Token fieldName = this.currentToken();
-			if ( fieldName == null )
+			if ( fieldName.equals( ";" ) )
 			{
 				throw this.parseException( "Field name expected" );
 			}
@@ -656,7 +656,7 @@ public class Parser
 			fieldTypes.add( fieldType );
 			fieldNames.add( fieldName.content.toLowerCase() );
 
-			if ( this.currentToken() == null )
+			if ( this.atEndOfFile() )
 			{
 				throw this.parseException( "}", this.currentToken() );
 			}
@@ -1021,6 +1021,11 @@ public class Parser
 
 		Token typeName = this.currentToken();
 
+		if ( typeName.equals( ";" ) )
+		{
+			throw this.parseException( "Type name expected" );
+		}
+
 		if ( !this.parseIdentifier( typeName.content ) )
 		{
 			throw this.parseException( "Invalid type name '" + typeName + "'" );
@@ -1055,11 +1060,6 @@ public class Parser
 	private ParseTreeNode parseCommand( final Type functionType, final BasicScope scope, final boolean noElse, boolean allowBreak, boolean allowContinue )
 	{
 		ParseTreeNode result;
-
-		if ( this.currentToken() == null )
-		{
-			return null;
-		}
 
 		if ( this.currentToken().equalsIgnoreCase( "break" ) )
 		{
@@ -1175,7 +1175,7 @@ public class Parser
 
 	private Type parseType( final BasicScope scope, final boolean aggregates, final boolean records )
 	{
-		if ( this.currentToken() == null )
+		if ( !this.parseIdentifier( this.currentToken().content ) )
 		{
 			return null;
 		}
@@ -1227,7 +1227,7 @@ public class Parser
 		// Assume it is a map.
 		boolean isArray = false;
 
-		while ( this.currentToken() != null && !this.currentToken().equals( "}" ) )
+		while ( !this.atEndOfFile() && !this.currentToken().equals( "}" ) )
 		{
 			Value lhs;
 
@@ -1245,7 +1245,7 @@ public class Parser
 				lhs = this.parseExpression( scope );
 			}
 
-			if ( lhs == null || this.currentToken() == null )
+			if ( lhs == null )
 			{
 				throw this.parseException( "Script parsing error" );
 			}
@@ -1353,7 +1353,7 @@ public class Parser
 	private Type parseAggregateType( final Type dataType, final BasicScope scope )
 	{
 		this.readToken(); // [ or ,
-		if ( this.currentToken() == null )
+		if ( this.currentToken().equals( ";" ) )
 		{
 			throw this.parseException( "Missing index token" );
 		}
@@ -1374,11 +1374,6 @@ public class Parser
 		{
 			int size = StringUtilities.parseInt( this.currentToken().content );
 			this.readToken(); // integer
-
-			if ( this.currentToken() == null )
-			{
-				throw this.parseException( "]", this.currentToken() );
-			}
 
 			if ( this.currentToken().equals( "]" ) )
 			{
@@ -1412,10 +1407,6 @@ public class Parser
 		}
 
 		this.readToken(); // type name
-		if ( this.currentToken() == null )
-		{
-			throw this.parseException( "]", this.currentToken() );
-		}
 
 		if ( this.currentToken().equals( "]" ) )
 		{
@@ -1601,7 +1592,7 @@ public class Parser
 		this.readToken(); // (
 
 		Value condition = this.parseExpression( parentScope );
-		if ( this.currentToken() == null || !this.currentToken().equals( ")" ) )
+		if ( !this.currentToken().equals( ")" ) )
 		{
 			throw this.parseException( ")", this.currentToken() );
 		}
@@ -1686,11 +1677,6 @@ public class Parser
 
 	private BasicScript parseBasicScript()
 	{
-		if ( this.currentToken() == null )
-		{
-			return null;
-		}
-
 		if ( !this.currentToken().equalsIgnoreCase( "cli_execute" ) )
 		{
 			return null;
@@ -1706,7 +1692,7 @@ public class Parser
 
 		ByteArrayStream ostream = new ByteArrayStream();
 
-		while ( this.currentToken() != null && !this.currentToken().equals( "}" ) )
+		while ( !this.atEndOfFile() && !this.currentToken().equals( "}" ) )
 		{
 			this.clearCurrentToken();
 
@@ -1733,7 +1719,7 @@ public class Parser
 			this.currentIndex = this.currentLine.offset;
 		}
 
-		if ( this.currentToken() == null )
+		if ( this.atEndOfFile() )
 		{
 			throw this.parseException( "}", this.currentToken() );
 		}
@@ -1877,6 +1863,11 @@ public class Parser
 				this.readToken(); // case
 
 				Value test = this.parseExpression( parentScope );
+
+				if ( test == null )
+				{
+					throw this.parseException( "Case label needs to be followed by an expression" );
+				}
 
 				if ( !this.currentToken().equals( ":" ) )
 				{
@@ -2126,6 +2117,11 @@ public class Parser
 		Scope scope = new Scope( varList, parentScope );
 		Value expr = this.parseExpression( scope );
 
+		if ( expr == null )
+		{
+			throw this.parseException( "Expression expected" );
+		}
+
 		return new SortBy( (VariableReference) aggregate, indexvar, valuevar, expr, this );
 	}
 
@@ -2164,19 +2160,16 @@ public class Parser
 			names.add( name.content );
 			this.readToken(); // name
 
-			if ( this.currentToken() != null )
+			if ( this.currentToken().equals( "," ) )
 			{
-				if ( this.currentToken().equals( "," ) )
-				{
-					this.readToken(); // ,
-					continue;
-				}
+				this.readToken(); // ,
+				continue;
+			}
 
-				if ( this.currentToken().equalsIgnoreCase( "in" ) )
-				{
-					this.readToken(); // in
-					break;
-				}
+			if ( this.currentToken().equalsIgnoreCase( "in" ) )
+			{
+				this.readToken(); // in
+				break;
 			}
 
 			throw this.parseException( "in", this.currentToken() );
@@ -2234,14 +2227,14 @@ public class Parser
 			return null;
 		}
 
-		this.readToken(); // for
-
-		Token name = this.currentToken();
-
-		if ( !this.parseIdentifier( name.content ) )
+		if ( !this.parseIdentifier( this.nextToken() ) )
 		{
 			return null;
 		}
+
+		this.readToken(); // for
+
+		Token name = this.currentToken();
 
 		if ( Parser.isReservedWord( name.content ) )
 		{
@@ -2263,6 +2256,11 @@ public class Parser
 		this.readToken(); // from
 
 		Value initial = this.parseExpression( parentScope );
+
+		if ( initial == null )
+		{
+			throw this.parseException( "Expression for initial value expected" );
+		}
 
 		int direction = 0;
 
@@ -2287,11 +2285,21 @@ public class Parser
 
 		Value last = this.parseExpression( parentScope );
 
+		if ( last == null )
+		{
+			throw this.parseException( "Expression for floor/ceiling value expected" );
+		}
+
 		Value increment = DataTypes.ONE_VALUE;
 		if ( this.currentToken().equalsIgnoreCase( "by" ) )
 		{
 			this.readToken(); // by
 			increment = this.parseExpression( parentScope );
+
+			if ( increment == null )
+			{
+				throw this.parseException( "Expression for increment value expected" );
+			}
 		}
 
 		// Create integer index variable
@@ -2330,14 +2338,14 @@ public class Parser
 		// variable to variable list in the scope, and saving
 		// initialization expressions in initializers.
 
-		while ( this.currentToken() != null && !this.currentToken().equals( ";" ) )
+		while ( !this.currentToken().equals( ";" ) )
 		{
 			Type t = this.parseType( scope, true, true );
 
 			Token name = this.currentToken();
 			Variable variable;
 
-			if ( name == null || !this.parseIdentifier( name.content ) || Parser.isReservedWord( name.content ) )
+			if ( !this.parseIdentifier( name.content ) || Parser.isReservedWord( name.content ) )
 			{
 				throw this.parseException( "Identifier required" );
 			}
@@ -2399,7 +2407,7 @@ public class Parser
 			{
 				this.readToken(); // ,
 
-				if ( this.currentToken() == null || this.currentToken().equals( ";" ) )
+				if ( this.currentToken().equals( ";" ) )
 				{
 					throw this.parseException( "Identifier expected" );
 				}
@@ -2416,7 +2424,7 @@ public class Parser
 		// Parse condition in context of scope
 
 		Value condition =
-			( this.currentToken() != null && this.currentToken().equals( ";" ) ) ?
+			( this.currentToken().equals( ";" ) ) ?
 			DataTypes.TRUE_VALUE : this.parseExpression( scope );
 
 		if ( !this.currentToken().equals( ";" ) )
@@ -2435,7 +2443,7 @@ public class Parser
 
 		List<ParseTreeNode> incrementers = new ArrayList<ParseTreeNode>();
 
-		while ( this.currentToken() != null && !this.currentToken().equals( ")" ) )
+		while ( !this.atEndOfFile() && !this.currentToken().equals( ")" ) )
 		{
 			Value value = parsePreIncDec( scope );
 			if ( value != null )
@@ -2474,7 +2482,7 @@ public class Parser
 			{
 				this.readToken(); // ,
 
-				if ( this.currentToken() == null || this.currentToken().equals( ")" ) )
+				if ( this.atEndOfFile() || this.currentToken().equals( ")" ) )
 				{
 					throw this.parseException( "Identifier expected" );
 				}
@@ -2541,7 +2549,8 @@ public class Parser
 	{
 		if ( !this.parseIdentifier( this.currentToken().content ) )
 		{
-			return null;
+			// Our caller already read a "new" token; it's too late to just "return null".
+			throw this.parseException( "Record name", this.currentToken() );
 		}
 
 		String name = this.currentToken().content;
@@ -2565,7 +2574,7 @@ public class Parser
 		{
 			this.readToken(); //(
 
-			while ( this.currentToken() != null && !this.currentToken().equals( ")" ) )
+			while ( !this.atEndOfFile() && !this.currentToken().equals( ")" ) )
 			{
 				Type expected = types[param].getBaseType();
 				Value val;
@@ -2613,7 +2622,7 @@ public class Parser
 				}
 			}
 
-			if ( this.currentToken() == null )
+			if ( this.atEndOfFile() )
 			{
 				throw this.parseException( ")", this.currentToken() );
 			}
@@ -2673,7 +2682,7 @@ public class Parser
 			params.add( firstParam );
 		}
 
-		while ( this.currentToken() != null && !this.currentToken().equals( ")" ) )
+		while ( !this.atEndOfFile() && !this.currentToken().equals( ")" ) )
 		{
 			Value val = this.parseExpression( scope );
 			if ( val != null )
@@ -2681,7 +2690,7 @@ public class Parser
 				params.add( val );
 			}
 
-			if ( this.currentToken() == null )
+			if ( this.atEndOfFile() )
 			{
 				throw this.parseException( ")", this.currentToken() );
 			}
@@ -2697,9 +2706,9 @@ public class Parser
 
 			this.readToken(); // ,
 
-			if ( this.currentToken() == null )
+			if ( this.atEndOfFile() )
 			{
-				throw this.parseException( ")", this.currentToken() );
+				throw this.parseException( "parameter", this.currentToken() );
 			}
 
 			if ( this.currentToken().equals( ")" ) )
@@ -2708,7 +2717,7 @@ public class Parser
 			}
 		}
 
-		if ( this.currentToken() == null )
+		if ( this.atEndOfFile() )
 		{
 			throw this.parseException( ")", this.currentToken() );
 		}
@@ -2726,7 +2735,7 @@ public class Parser
 	private Value parsePostCall( final BasicScope scope, FunctionCall call )
 	{
 		Value result = call;
-		while ( result != null && this.currentToken() != null && this.currentToken().equals( "." ) )
+		while ( result != null && this.currentToken().equals( "." ) )
 		{
 			Variable current = new Variable( result.getType() );
 			current.setExpression( result );
@@ -2780,6 +2789,11 @@ public class Parser
 			{
 				throw this.parseException( "Variable reference expected for function name" );
 			}
+		}
+
+		if ( !this.currentToken().equals( "(" ) )
+		{
+			throw this.parseException( "(", this.currentToken() );
 		}
 
 		List<Value> params = parseParameters( scope, null );
@@ -2838,7 +2852,7 @@ public class Parser
 
 		if ( rhs == null )
 		{
-			throw this.parseException( "Internal error" );
+			throw this.parseException( "Expression expected" );
 		}
 
 		rhs = this.autoCoerceValue( lhs.getRawType(), rhs, scope );
@@ -2918,11 +2932,6 @@ public class Parser
 
 	private Value parsePostIncDec( final VariableReference lhs )
 	{
-		if ( this.currentToken() == null )
-		{
-			return lhs;
-		}
-
 		// [VariableReference]++
 		// [VariableReference]--
 
@@ -2954,7 +2963,7 @@ public class Parser
 
 	private Value parseExpression( final BasicScope scope, final Operator previousOper )
 	{
-		if ( this.currentToken() == null )
+		if ( this.currentToken().equals( ";" ) )
 		{
 			return null;
 		}
@@ -3063,7 +3072,7 @@ public class Parser
 
 				if ( !this.currentToken().equals( ":" ) )
 				{
-					throw this.parseException( "\":\" expected" );
+					throw this.parseException( ":", this.currentToken() );
 				}
 
 				this.readToken(); // :
@@ -3130,7 +3139,7 @@ public class Parser
 
 	private Value parseValue( final BasicScope scope )
 	{
-		if ( this.currentToken() == null )
+		if ( this.currentToken().equals( ";" ) )
 		{
 			return null;
 		}
@@ -3143,7 +3152,7 @@ public class Parser
 			this.readToken(); // (
 
 			result = this.parseExpression( scope );
-			if ( this.currentToken() == null || !this.currentToken().equals( ")" ) )
+			if ( !this.currentToken().equals( ")" ) )
 			{
 				throw this.parseException( ")", this.currentToken() );
 			}
@@ -3236,7 +3245,7 @@ public class Parser
 			}
 		}
 
-		while ( result != null && this.currentToken() != null && ( this.currentToken().equals( "." ) || this.currentToken().equals( "[" ) ) )
+		while ( result != null && ( this.currentToken().equals( "." ) || this.currentToken().equals( "[" ) ) )
 		{
 			Variable current = new Variable( result.getType() );
 			current.setExpression( result );
@@ -3256,11 +3265,6 @@ public class Parser
 
 	private Value parseNumber()
 	{
-		if ( this.currentToken() == null )
-		{
-			return null;
-		}
-
 		int sign = 1;
 
 		if ( this.currentToken().equals( "-" ) )
@@ -3500,9 +3504,14 @@ public class Parser
 
 				Value rhs = this.parseExpression( scope );
 
+				if ( rhs == null )
+				{
+					throw this.parseException( "Expression expected" );
+				}
+
 				// Skip comments before the next token, look at what it is, then
 				// discard said token.
-				if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
+				if ( !this.currentToken().equals( "}" ) )
 				{
 					throw this.parseException( "}", this.currentToken() );
 				}
@@ -3798,7 +3807,12 @@ public class Parser
 			char c = line.charAt( i );
 			if ( c == '\\' )
 			{
-				resultString.append( line.charAt( ++i ) );
+				if ( ++i == line.length() )
+				{
+					throw this.parseException( "No closing ] found" );
+				}
+
+				resultString.append( line.charAt( i ) );
 			}
 			else if ( c == '[' )
 			{
@@ -3868,7 +3882,7 @@ public class Parser
 
 	private Value parseVariableReference( final BasicScope scope )
 	{
-		if ( this.currentToken() == null || !this.parseIdentifier( this.currentToken().content ) )
+		if ( !this.parseIdentifier( this.currentToken().content ) )
 		{
 			return null;
 		}
@@ -3883,7 +3897,7 @@ public class Parser
 
 		this.readToken(); // read name
 
-		if ( this.currentToken() == null || !this.currentToken().equals( "[" ) && !this.currentToken().equals( "." ) )
+		if ( !this.currentToken().equals( "[" ) && !this.currentToken().equals( "." ) )
 		{
 			return new VariableReference( var );
 		}
@@ -3898,10 +3912,9 @@ public class Parser
 
 		boolean parseAggregate = this.currentToken().equals( "[" );
 
-		while ( this.currentToken() != null &&
-			( this.currentToken().equals( "[" ) ||
-			  this.currentToken().equals( "." ) ||
-			  parseAggregate && this.currentToken().equals( "," ) ) )
+		while ( this.currentToken().equals( "[" ) ||
+		        this.currentToken().equals( "." ) ||
+		        parseAggregate && this.currentToken().equals( "," ) )
 		{
 			Value index;
 
@@ -3960,7 +3973,7 @@ public class Parser
 				RecordType rtype = (RecordType) type;
 
 				Token field = this.currentToken();
-				if ( field == null || !this.parseIdentifier( field.content ) )
+				if ( !this.parseIdentifier( field.content ) )
 				{
 					throw this.parseException( "Field name expected" );
 				}
@@ -3976,13 +3989,10 @@ public class Parser
 
 			indices.add( index );
 
-			if ( parseAggregate && this.currentToken() != null )
+			if ( parseAggregate && this.currentToken().equals( "]" ) )
 			{
-				if ( this.currentToken().equals( "]" ) )
-				{
-					this.readToken(); // read ]
-					parseAggregate = false;
-				}
+				this.readToken(); // read ]
+				parseAggregate = false;
 			}
 		}
 
@@ -4003,13 +4013,14 @@ public class Parser
 
 		this.readToken(); //directive
 
-		if ( this.currentToken() == null )
+		if ( this.atEndOfFile() )
 		{
 			throw this.parseException( "<", this.currentToken() );
 		}
 
-		// We called currentToken() to trim whitespace and skip comments. Remove
-		// the resulting token.
+		// We called atEndOfFile(), which calls currentToken() to trim whitespace
+		// and skip comments. Remove the resulting token.
+
 		this.clearCurrentToken();
 
 		String resultString = null;
@@ -4407,6 +4418,19 @@ public class Parser
 	private String restOfLine()
 	{
 		return this.currentLine.substring( this.currentIndex );
+	}
+
+	/**
+	 * Calls {@link #currentToken()} in order to skip any
+	 * comment or whitespace we would be in front of,
+	 * then return whether or not we reached the end
+	 * of the file.
+	 */
+	private boolean atEndOfFile()
+	{
+		this.currentToken();
+
+		return this.currentLine.content == null;
 	}
 
 	public final class Line
