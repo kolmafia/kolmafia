@@ -3393,6 +3393,12 @@ public class Parser
 					this.currentLine.makeToken( i );
 				}
 
+				if ( slash )
+				{
+					slash = false;
+					resultString.append( '/' );
+				}
+
 				this.currentLine = this.currentLine.nextLine;
 				this.currentIndex = this.currentLine.offset;
 				i = -1;
