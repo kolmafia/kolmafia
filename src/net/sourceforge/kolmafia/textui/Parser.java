@@ -1708,8 +1708,7 @@ public class Parser
 
 		while ( this.currentToken() != null && !this.currentToken().equals( "}" ) )
 		{
-			this.currentToken = null;
-			this.currentLine.tokens.removeLast();
+			this.clearCurrentToken();
 
 			final String line = this.restOfLine();
 
@@ -3342,8 +3341,7 @@ public class Parser
 
 	private Value parseString( final BasicScope scope, Type type )
 	{
-		this.currentToken = null;
-		this.currentLine.tokens.removeLast();
+		this.clearCurrentToken();
 
 		// Directly work with currentLine - ignore any "tokens" you meet until
 		// the string is closed
@@ -3503,8 +3501,7 @@ public class Parser
 					throw this.parseException( "}", this.currentToken() );
 				}
 
-				this.currentToken = null;
-				this.currentLine.tokens.removeLast();
+				this.clearCurrentToken();
 
 				// Set i to -1 so that it is set to zero by the loop, as the
 				// currentLine has been shortened.
@@ -3778,8 +3775,7 @@ public class Parser
 			throw this.parseException( "Can't enumerate all " + name );
 		}
 
-		this.currentToken = null;
-		this.currentLine.tokens.removeLast();
+		this.clearCurrentToken();
 
 		StringBuilder resultString = new StringBuilder();
 
@@ -4008,8 +4004,7 @@ public class Parser
 
 		// We called currentToken() to trim whitespace and skip comments. Remove
 		// the resulting token.
-		this.currentToken = null;
-		this.currentLine.tokens.removeLast();
+		this.clearCurrentToken();
 
 		String resultString = null;
 		int endIndex = -1;
@@ -4303,6 +4298,22 @@ public class Parser
 
 		this.currentIndex = this.currentToken.restOfLineStart;
 		this.currentToken = null;
+	}
+
+	/**
+	 * If we have an unread token saved in {@link #currentToken}, null the field,
+	 * and delete it from its {@link Line#tokens}, effectively forgetting that we saw it.
+	 * <p>
+	 * This method is made for parsing methods that manipulate lines character-by-character,
+	 * and need to create Tokens of custom lengths.
+	 */
+	private void clearCurrentToken()
+	{
+		if ( this.currentToken != null )
+		{
+			this.currentToken = null;
+			this.currentLine.tokens.removeLast();
+		}
 	}
 
 	private int tokenLength( final String s )
