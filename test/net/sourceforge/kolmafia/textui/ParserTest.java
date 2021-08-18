@@ -1,11 +1,15 @@
 package net.sourceforge.kolmafia.textui;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayInputStream;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptException;
@@ -27,185 +31,567 @@ public class ParserTest
 	// ASH Script contents.
 	public final String script;
 
+	public final List<String> tokens;
+
 	// Error text. If null, then we expect no error to be thrown (i.e. the provided script is
 	// well-formed).
 	public final String errorText;
 
-	@Parameters
+	@Parameters(name = "{0}")
 	public static Collection<Object[]> data()
 	{
+		/**
+		 * @return A list containing arrays with the following spec:
+		 *   String description
+		 *   String errorText A substring of the expected error message.
+		 *   List<String> tokens that are expected for a successful parse.
+		 *
+		 * Note that exactly one of (errorText, tokens) should be non-null.
+		 */
 		return Arrays.asList( new Object[][] {
 			{
 				"Unterminated Java for-loop",
 				"for (",
 				// Note that the test harness does not specify a File, so the error message lacks
 				// file name as well line number.
-				"Variable reference expected ()",
+				"Variable reference expected",
+				null,
 			},
 			{
 				"valid empty Java for-loop",
 				"for (;;) {}",
 				null,
+				Arrays.asList( "for", "(", ";", ";", ")", "{", "}" ),
 			},
 			{
 				"Java for-loop with new variable",
 				"for (int i = 0; i < 5; ++i) {}",
 				null,
+				Arrays.asList( "for", "(", "int", "i", "=", "0", ";",
+				               "i", "<", "5", ";",
+				               "++", "i", ")",
+				               "{", "}" ),
 			},
 			{
 				"Multiline string, end of line not escaped",
 				"'\n'",
-				"No closing ' found ()"
+				"No closing ' found",
+				null,
 			},
 			{
 				"Multiline string, end of line properly escaped",
 				"'\\\n'",
-				null
+				null,
+				Arrays.asList( "'\\", "'" ),
 			},
 			{
 				"Multiline string, end of line properly escaped + empty lines",
 				"'\\\n\n   \n\n\n'",
-				null
+				null,
+				Arrays.asList( "'\\", "'" ),
 			},
 			{
 				"Multiline string, end of line properly escaped + empty lines + comment",
 				"'\\\n\n\n//Comment\n\n'",
-				"No closing ' found ()"
+				"No closing ' found",
+				null,
 			},
 			{
 				"Unterminated string template",
 				"`{`",
 				// The parser tries to start a new string template inside the expression
-				"No closing ` found ()"
+				"No closing ` found",
+				null,
 			},
-			/*{
-				//Commented out, because the current behaviour prints
-				// "Expected }, found ; ()"
-				// , and it's just about to change (from the Tokens patch)
-
+			{
 				"Abruptly unterminated string template",
 				"`{",
-				"Expected }, found end of file ()"
-			},*/
-			/*{
+				"Expected }, found end of file",
+				null,
+			},
+			{
 				//Idem
 
 				"Typed constant, no bracket",
 				"$int",
-				"Expected [, found end of file ()"
-			},*/
+				"Expected [, found end of file",
+				null,
+			},
 			{
 				"Typed constant non-successive characters",
 				"$		boolean 	 [ 		false ]",
-				null
+				null,
+				Arrays.asList( "$", "boolean", "[ 		false ", "]" ),
 			},
 			{
 				"Typed constant escaped characters",
 				"$boolean[\\f\\a\\l\\s\\e]",
-				null
+				null,
+				Arrays.asList( "$", "boolean", "[\\f\\a\\l\\s\\e", "]" ),
 			},
 			{
 				"Typed constant bad typecast",
 				"$boolean['']",
-				"Bad boolean value: \"''\" ()"
+				"Bad boolean value: \"''\"",
+				null,
 			},
 			{
 				"Typed constant, unknown type",
 				"$foo[]",
-				"Unknown type foo ()"
+				"Unknown type foo",
+				null,
 			},
 			{
 				"Typed constant, non-primitive type",
 				"record r {int i;}; $r[]",
-				"Non-primitive type r ()"
+				"Non-primitive type r",
+				null,
 			},
 			{
 				"Typed constant multiline",
 				"$boolean[\n]",
-				"No closing ] found ()"
+				"No closing ] found",
+				null,
 			},
 			{
 				"Typed constant, nested brackets, proper",
 				"$item[[8042]rock]",
-				null
+				null,
+				Arrays.asList( "$", "item", "[[8042]rock", "]" ),
 			},
 			{
 				"Typed constant, nested brackets, improper",
 				"$item[[abc]]",
-				"Bad item value: \"[abc]\" ()"
+				"Bad item value: \"[abc]\"",
+				null,
 			},
 			{
 				"Plural constant, abrupt end",
 				"$booleans[",
-				"No closing ] found ()"
+				"No closing ] found",
+				null,
 			},
-			/*{
-				//Commented out, because the current behaviour prints
-				// the "transformed" type, rather than the original one
-				// (i.e. current error message is "Unknown type kolmafium ()")
-				// , which is just about to change in an incoming patch.
-
+			{
 				"Plural constant, unknown plural type",
 				"$kolmafia[]",
-				"Unknown type kolmafia ()"
-			},*/
-			/*{
-				// idem
-
+				"Unknown type kolmafia",
+				null,
+			},
+			{
 				"Plural constant, RAM-protection",
 				"$strings[]",
-				"Can't enumerate all strings ()"
-			},*/
+				"Can't enumerate all strings",
+				null,
+			},
 			{
 				"Plural constant, non... \"traditional\" plurals",
 				"$bounties[]; $classes[]; $phyla[]",
-				null
+				null,
+				Arrays.asList( "$", "bounties", "[", "]", ";", "$", "classes", "[", "]", ";", "$", "phyla", "[", "]" ),
 			},
 			{
 				"Plural constant non-successive characters",
 				"$		booleans 	 [ 		 ]",
-				null
+				null,
+				Arrays.asList( "$", "booleans", "[ 		 ", "]" ),
 			},
 			{
 				"Plural constant multiline",
 				// End-of-lines can appear anywhere
 				"$booleans[true\n\n\n,\nfalse, false\n,false,\ntrue,tr\nue]",
-				null
+				null,
+				Arrays.asList( "$", "booleans", "[true", ",", "false, false", ",false,", "true,tr", "ue", "]" ),
 			},
 			{
 				"Plural constant w/ escape characters",
 				// *Escaped* end-of-lines and escaped "\n"s get added to the value
 				"$booleans[tr\\\nu\\ne]",
-				"Bad boolean value: \"tr\nu\ne\" ()"
+				"Bad boolean value: \"tr\nu\ne\"",
+				null,
 			},
 			{
 				"Plural constant, nested brackets, proper",
 				"$items[[8042]rock]",
-				null
+				null,
+				Arrays.asList( "$", "items", "[[8042]rock", "]" ),
 			},
 			{
 				"Plural constant, nested brackets, improper",
 				"$items[[abc]]",
-				"Bad item value: \"[abc]\" ()"
+				"Bad item value: \"[abc]\"",
+				null,
 			},
 			{
 				"Plural constant, single slash",
 				"$booleans[tr/Comment\nue]",
-				"Bad boolean value: \"tr/Commentue\" ()"
+				"Bad boolean value: \"tr/Commentue\"",
+				null,
 			},
 			{
 				"Plural constant, comment",
 				"$booleans[tr//Comment\nue]",
-				null
-			}
+				null,
+				Arrays.asList( "$", "booleans", "[tr", "//Comment", "ue", "]" ),
+			},
+			{
+				"Mid-line // comment",
+				"int x = // interrupting comment\n  5;",
+				null,
+				Arrays.asList( "int", "x", "=", "// interrupting comment", "5", ";" ),
+			},
+			{
+				"Mid-line # comment",
+				// This ought to only accept full-line comments, but it's incorrectly implemented,
+				// and at this point, widely used enough that this isn't feasible to change.
+				"int x = # interrupting comment\n  5;",
+				null,
+				Arrays.asList( "int", "x", "=", "# interrupting comment", "5", ";" ),
+			},
+			{
+				"Multiline comment",
+				"int x =/* this\n    is a comment\n   */ 5;",
+				null,
+				// Note that this drops some leading whitespace.
+				Arrays.asList( "int", "x", "=", "/* this", "is a comment", "*/", "5", ";" ),
+			},
+			{
+				"Multiline comment on one line",
+				"int x =/* this is a comment */ 5;",
+				null,
+				Arrays.asList( "int", "x", "=", "/* this is a comment */", "5", ";" ),
+			},
+			{
+				"Simple map literal",
+				"int[item] { $item[seal-clubbing club]: 1, $item[helmet turtle]: 2}",
+				null,
+				Arrays.asList( "int", "[", "item", "]", "{",
+				               "$", "item", "[seal-clubbing club", "]", ":", "1", ",",
+				               "$", "item", "[helmet turtle", "]", ":", "2", "}" ),
+			},
+			{
+				"Simple array literal",
+				"int[5] { 1, 2, 3, 4, 5}",
+				null,
+				Arrays.asList( "int", "[", "5", "]", "{",
+				               "1", ",", "2", ",", "3", ",", "4",",", "5",
+				               "}"),
+			},
+			{
+				"Array literal with trailing comma",
+				"int[2] { 1, 2, }",
+				null,
+				Arrays.asList( "int", "[", "2", "]", "{",
+				               "1", ",", "2", ",",
+				               "}"),
+			},
+			{
+				"Array literal with variable",
+				"int x = 10; int[5] { 1, 2, x, 4, 5}",
+				null,
+				Arrays.asList( "int", "x", "=", "10", ";",
+				               "int", "[", "5", "]", "{",
+				               "1", ",", "2", ",", "x", ",", "4",",", "5",
+				               "}"),
+			},
+			/*
+			{
+				// We ought to check for this case too, but we don't...
+				"Array literal not enough elements",
+				"int[10] { 1, 2, 3, 4, 5}",
+				"Array has 10 elements but 5 initializers.",
+				null,
+			},
+			*/
+			{
+				"Array literal too many elements",
+				"int[1] { 1, 2, 3, 4, 5 }",
+				"Array has 1 elements but 5 initializers.",
+				null,
+			},
+			{
+				"Empty multidimensional map literal",
+				"int[int, int]{}",
+				null,
+				Arrays.asList( "int", "[", "int", ",", "int", "]", "{", "}" ),
+			},
+			{
+				// This... exercises a different code path.
+				"Parenthesized map literal",
+				"(int[int]{})",
+				null,
+				Arrays.asList( "(", "int", "[", "int", "]", "{", "}", ")" ),
+			},
+			{
+				// Why is this allowed...? This is the only way I could think of to exercise the
+				// rewind functionality.
+				"Typedef of existing variable",
+				"int foo; typedef int foo; (\nfoo\n\n + 2);",
+				null,
+				Arrays.asList( "int", "foo", ";",
+				               "typedef", "int", "foo", ";",
+				               "(", "foo", "+", "2", ")", ";" ),
+			},
+			{
+				"script directive delimited with <>",
+				"script <zlib.ash>;",
+				null,
+				Arrays.asList( "script", "<zlib.ash>", ";" ),
+			},
+			{
+				"script directive delimited with \"\"",
+				"script \"zlib.ash\"",
+				null,
+				Arrays.asList( "script", "\"zlib.ash\"" ),
+			},
+			{
+				"script directive without delimiter",
+				"script zlib.ash",
+				null,
+				Arrays.asList( "script", "zlib.ash" ),
+			},
+			{
+				"Unterminated script directive",
+				"script \"zlib.ash",
+				"No closing \" found",
+				null,
+			},
+			{
+				"Script with bom",
+				"\ufeff    'hello world'",
+				null,
+				Arrays.asList( "'hello world'" ),
+			},
+			{
+				"Simple operator assignment",
+				"int x = 3;",
+				null,
+				Arrays.asList( "int", "x", "=", "3", ";" ),
+			},
+			{
+				"Compound operator assignment",
+				"int x; x += 3;",
+				null,
+				Arrays.asList( "int", "x", ";", "x", "+=", "3", ";" ),
+			},
+			{
+				"Aggregate assignment to primitive",
+				// What is this, C?
+				"int x; x = {1};",
+				"Cannot use an aggregate literal for type int",
+				null,
+			},
+			{
+				"Primitive assignment to aggregate",
+				"int[4] x = 1;",
+				"Cannot store int in x of type int [4]",
+				null,
+			},
+			{
+				"Compound assignment to aggregate",
+				"int[4] x; x += 1;",
+				"Cannot use '+=' on an aggregate",
+				null,
+			},
+			{
+				"Aggregate assignment to aggregate",
+				"int[4] x; x = {1, 2, 3, 4};",
+				null,
+				Arrays.asList( "int", "[", "4", "]", "x", ";",
+				               "x", "=", "{",
+				               "1", ",", "2", ",", "3", ",", "4",
+				               "}", ";" ),
+			},
+			{
+				"since passes for low revision",
+				"since r100;",
+				null,
+				Arrays.asList( "since", "r100", ";" ),
+			},
+			{
+				"since fails for high revision",
+				"since r2000000000;",
+				"requires revision r2000000000 of kolmafia or higher",
+				null,
+			},
+			{
+				"Invalid since version",
+				"since 10;",
+				"invalid 'since' format",
+				null,
+			},
+			{
+				"since passes for low version",
+				"since 1.0;",
+				null,
+				Arrays.asList( "since", "1.0", ";" ),
+			},
+			{
+				"since fails for high version",
+				"since 2000000000.0;",
+				"requires version 2000000000.0 of kolmafia or higher",
+				null,
+			},
+			{
+				"since fails for not-a-number",
+				"since yesterday;",
+				"invalid 'since' format",
+				null,
+			},
+			{
+				"Basic function with one argument",
+				"void f(int a) {}",
+				null,
+				Arrays.asList( "void", "f", "(", "int", "a", ")", "{", "}" ),
+			},
+			{
+				"Complex expression parsing",
+				// Among other things, this tests that true / false are case insensitive, in case
+				// you want to pretend you're working in Python, C, or both.
+				"(!(~-5 == 10) && True || FALSE);",
+				null,
+				Arrays.asList( "(", "!",
+				               "(", "~", "-", "5", "==", "10", ")",
+				               "&&", "True", "||", "FALSE",
+				               ")", ";" ),
+			},
+			{
+				"Numeric literal split after negative",
+				"-/*negative \nnumber*/1.23;",
+				null,
+				Arrays.asList( "-", "/*negative", "number*/", "1", ".", "23", ";" ),
+
+			},
+			{
+				"Float literal split after decimal",
+				"1./*decimal\n*/23;",
+				null,
+				Arrays.asList( "1", ".", "/*decimal", "*/", "23", ";" ),
+
+			},
+			{
+				"Float literal with no integral component",
+				"-.123;",
+				null,
+				Arrays.asList( "-", ".", "123", ";" ),
+
+			},
+			/*
+			  There's code for this case, but we encounter a separate error ("Record expected").
+			{
+				"Float literal with no decimal component",
+				"123.;",
+				null,
+				Arrays.asList( "123", ".", ";" ),
+
+			},
+			*/
+			{
+				"Int literal with method call.",
+				"123.to_string();",
+				null,
+				Arrays.asList( "123", ".", "to_string", "(", ")", ";" ),
+
+			},
+			{
+				"Unary minus",
+				"int x; (-x);",
+				null,
+				Arrays.asList( "int", "x", ";", "(", "-", "x", ")", ";" ),
+
+			},
+			{
+				"Chained if/else-if/else",
+				"if (false) {} else if (false) {} else if (false) {} else {}",
+				null,
+				Arrays.asList( "if", "(", "false", ")", "{", "}",
+				               "else", "if", "(", "false", ")", "{", "}",
+				               "else", "if", "(", "false", ")", "{", "}",
+				               "else", "{", "}" ),
+
+			},
+			{
+				"Multiple else",
+				"if (false) {} else {} else {}",
+				"Else without if",
+				null,
+
+			},
+			{
+				"else-if after else",
+				"if (false) {} else {} else if (true) {}",
+				"Else without if",
+				null,
+
+			},
+			{
+				"else without if",
+				"else {}",
+				"Unknown variable 'else'",
+				null,
+
+			},
+			{
+				"Multiline cli_execute script",
+				"cli_execute {\n  echo hello world;\n  echo sometimes we don't have a semicolon\n}",
+				null,
+				Arrays.asList("cli_execute", "{",
+				              "echo hello world;",
+				              "echo sometimes we don't have a semicolon",
+				              "}"),
+
+			},
+			{
+				"basic template string",
+				"`this is some math: {4 + 7}`",
+				null,
+				Arrays.asList( "`this is some math: {", "4", "+", "7", "}`" ),
+
+			},
+			{
+				"template string with a new variable",
+				"`this is some math: {int x = 4; x + 7}`",
+				"Unknown variable 'int'",
+				null,
+			},
+			{
+				"template string with predefined variable",
+				"int x; `this is some math: {(x = 4) + 7}`",
+				null,
+				Arrays.asList( "int", "x", ";", "`this is some math: {",
+				               "(", "x", "=", "4", ")",
+				               "+", "7", "}`" ),
+			},
+			{
+				"template string with unclosed comment",
+				"`this is some math: {7 // what determines the end?}`",
+				"Expected }, found end of file",
+				null,
+
+			},
+			{
+				"template string with terminated comment",
+				"`this is some math: {7 // turns out you need a newline\n}`",
+				null,
+				Arrays.asList( "`this is some math: {", "7",
+				               "// turns out you need a newline", "}`" )
+			},
+			{
+				"template string with multiple templates",
+				"`{'hello'} {'world'}`",
+				null,
+				Arrays.asList( "`{", "'hello'", "} {", "'world'", "}`" )
+			},
 		} );
 	}
 
-	public ParserTest( String desc, String script, String errorText )
+	public ParserTest( String desc, String script, String errorMessage, List<String> resultTokens )
 	{
 		this.desc = desc;
 		this.script = script;
-		this.errorText = errorText;
+
+		this.tokens = resultTokens;
+
+		this.errorText = errorMessage;
 	}
 
 	@Test
@@ -214,14 +600,15 @@ public class ParserTest
 		ByteArrayInputStream istream = new ByteArrayInputStream( this.script.getBytes() );
 		Parser p = new Parser( /*scriptFile=*/null, /*stream=*/istream, /*imports=*/null );
 
-		if ( this.errorText == null )
+		if ( this.errorText != null )
 		{
-			// This will fail if an exception is thrown.
-			p.parse();
+			ScriptException e = assertThrows( this.desc, ScriptException.class, p::parse );
+			assertThat( this.desc, e.getMessage(), containsString( this.errorText ) );
 			return;
 		}
 
-		ScriptException e = assertThrows( this.desc, ScriptException.class, p::parse );
-		assertEquals( this.desc, e.getMessage(), this.errorText );
+		// This will fail if an exception is thrown.
+		p.parse();
+		assertEquals( this.desc, this.tokens, p.getTokensContent() );
 	}
 }
