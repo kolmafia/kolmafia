@@ -52,8 +52,12 @@ public class ParserTest
 			{
 				"Unterminated Java for-loop",
 				"for (",
-				// Note that the test harness does not specify a File, so the error message lacks
-				// file name as well line number.
+				"Expected ), found end of file",
+				null,
+			},
+			{
+				"Java for-loop, bad incrementer",
+				"for (;;1)",
 				"Variable reference expected",
 				null,
 			},
@@ -104,8 +108,14 @@ public class ParserTest
 				null,
 			},
 			{
-				"Abruptly unterminated string template",
+				"Abruptly unterminated string template, expecting expression",
 				"`{",
+				"Expression expected",
+				null,
+			},
+			{
+				"Abruptly unterminated string template, parsed expression",
+				"`{1",
 				"Expected }, found end of file",
 				null,
 			},
@@ -150,6 +160,12 @@ public class ParserTest
 			{
 				"Typed constant multiline",
 				"$boolean[\n]",
+				"No closing ] found",
+				null,
+			},
+			{
+				"Typed constant, escaped multiline",
+				"$boolean[\\\n]",
 				"No closing ] found",
 				null,
 			},
@@ -551,6 +567,42 @@ public class ParserTest
 				              "echo sometimes we don't have a semicolon",
 				              "}"),
 
+			},
+			{
+				"Switch, case label without expression",
+				"switch { case: }",
+				"Case label needs to be followed by an expression",
+				null,
+			},
+			{
+				"Switch, multiple default labels",
+				"switch { default: default: }",
+				"Only one default label allowed in a switch statement",
+				null,
+			},
+			{
+				"Sort, no sorting expression",
+				"int[] x; sort x by",
+				"Expression expected",
+				null,
+			},
+			{
+				"For loop, no/bad initial expression",
+				"for x from",
+				"Expression for initial value expected",
+				null,
+			},
+			{
+				"For loop, no/bad ceiling expression",
+				"for x from 0 to",
+				"Expression for floor/ceiling value expected",
+				null,
+			},
+			{
+				"For loop, no/bad increment expression",
+				"for x from 0 to 1 by",
+				"Expression for increment value expected",
+				null,
 			},
 			{
 				"basic template string",
