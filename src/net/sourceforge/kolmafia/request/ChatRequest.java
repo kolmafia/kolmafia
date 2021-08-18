@@ -46,7 +46,7 @@ public class ChatRequest
 	 * Constructs a new <code>ChatRequest</code> where the given parameter
 	 * will be passed to the PHP file to indicate where you left off.
 	 *
-	 * @param lastseen   The timestamp of the last message received
+	 * @param lastSeen   The timestamp of the last message received
 	 * @param tabbedChat true if "modern" chat, false if "older" chat
 	 */
 
