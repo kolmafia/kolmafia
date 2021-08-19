@@ -7,6 +7,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayInputStream;
 
+import java.nio.charset.StandardCharsets;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -661,7 +663,7 @@ public class ParserTest
 	@Test
 	public void testScriptValidity()
 	{
-		ByteArrayInputStream istream = new ByteArrayInputStream( this.script.getBytes() );
+		ByteArrayInputStream istream = new ByteArrayInputStream( this.script.getBytes( StandardCharsets.UTF_8 ) );
 		Parser p = new Parser( /*scriptFile=*/null, /*stream=*/istream, /*imports=*/null );
 
 		if ( this.errorText != null )
