@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
@@ -745,6 +746,11 @@ public abstract class StoreManager
 			return results;
 		}
 
+		if ( GenericRequest.abortIfInFightOrChoice() )
+		{
+			return results;
+		}
+
 		// Format the search string
 		String formatted = MallSearchRequest.getSearchString( searchString );
 
@@ -922,6 +928,11 @@ public abstract class StoreManager
 		// Validate the category. KoL will accept any category, but unknown categories are the same as "allItems"
 		// That takes a LONG time - and if the caller really wants it, so be it - but don't do it for typos
 		if ( !StoreManager.validCategories.contains( category ) )
+		{
+			return 0;
+		}
+
+		if ( GenericRequest.abortIfInFightOrChoice() )
 		{
 			return 0;
 		}
@@ -1132,6 +1143,11 @@ public abstract class StoreManager
 
 	public static void priceItemsAtLowestPrice( boolean avoidMinPrice )
 	{
+		if ( GenericRequest.abortIfInFightOrChoice() )
+		{
+			return;
+		}
+
 		RequestThread.postRequest( new ManageStoreRequest() );
 
 		SoldItem[] sold = new SoldItem[ StoreManager.soldItemList.size() ];
@@ -1174,6 +1190,11 @@ public abstract class StoreManager
 		}
 
 		if ( !InputFieldUtilities.confirm( "Are you sure you'd like to host an end-of-run sale?" ) )
+		{
+			return;
+		}
+
+		if ( GenericRequest.abortIfInFightOrChoice() )
 		{
 			return;
 		}
