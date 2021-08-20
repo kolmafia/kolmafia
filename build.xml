@@ -265,7 +265,7 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 	</target>
 
 	<target name="coverage-compile" depends="with.clover,compile-deps">
-		<javac source="1.8" srcdir="src" destdir="${build}" includeantruntime="false">
+		<javac source="1.8" srcdir="${src}" destdir="${build}" includeantruntime="false">
 		  <include name="**/*.java" />
 		  <classpath>
 			<fileset dir="${lib}/jar" includes="**/*.jar" />
@@ -296,8 +296,8 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 	<target name="tar" depends="init">
 
 		<tar destfile="${tarfile}" basedir="${root}" compression="gzip">
-			<exclude name="build/**" />
-			<exclude name="dist/**" />
+			<exclude name="${build}/**" />
+			<exclude name="${dist}/**" />
 		</tar>
 
 	</target>
@@ -335,8 +335,8 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 	<target name="jsmooth" depends="init,jar">
 
 		<copy file="${win.jsmoothfile}" tofile="${win.tmp.jsmoothfile}" />
-		<replace file="${win.tmp.jsmoothfile}" token="dist/KoLmafia.exe" value="${exefile}" />
-		<replace file="${win.tmp.jsmoothfile}" token="dist/KoLmafia.jar" value="${jarfile}" />
+		<replace file="${win.tmp.jsmoothfile}" token="${dist}/KoLmafia.exe" value="${exefile}" />
+		<replace file="${win.tmp.jsmoothfile}" token="${dist}/KoLmafia.jar" value="${jarfile}" />
 
 		<taskdef name="jsmooth" classname="net.charabia.jsmoothgen.ant.JSmoothGen" classpath="${util}/windows/jsmoothgen-ant.jar" />
 
@@ -415,7 +415,7 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 
 		<taskdef name="desktopentry" classname="com.googlecode.ant_deb_task.DesktopEntry" classpath="${util}/debian/ant-deb.jar" />
 
-		<desktopentry toFile="build/kolmafia.desktop" name="${ant.project.name}" comment="${version.synopsis}" exec="/usr/bin/kol" icon="kol.xpm" terminal="false" type="Application" categories="Game;RolePlaying" />
+		<desktopentry toFile="${build}/kolmafia.desktop" name="${ant.project.name}" comment="${version.synopsis}" exec="/usr/bin/kol" icon="kol.xpm" terminal="false" type="Application" categories="Game;RolePlaying" />
 
 	</target>
 
