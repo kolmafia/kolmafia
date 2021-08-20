@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.chat;
 
+import org.json.JSONObject;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -33,6 +34,12 @@ public class ChatMessageTest {
         assertEquals(testMessage.getSender(), "sender");
         assertEquals(testMessage.getRecipient(), "recipient");
         assertEquals(testMessage.getContent(),"content");
+        JSONObject jso = testMessage.toJSON();
+        assertNotNull(jso);
+        String ep1 = "{\"msg\":\"content\",\"for\":{\"color\":\"black\",\"name\":\"recipient\",\"id\":\"recipient\"},\"time\":";
+        String ep2 = Long.toString(testMessage.getDate().getTime());
+        String ep3 = ",\"type\":\"private\",\"who\":{\"color\":\"black\",\"name\":\"sender\",\"id\":\"sender\"}}";
+        assertEquals(jso.toString(), ep1 + ep2 + ep3);
     }
 }
 
