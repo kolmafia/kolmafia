@@ -213,15 +213,7 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 	</target>
 
 	<target name="test-compile" depends="compile">
-	  <javac
-		  compiler="modern"
-		  source="1.8"
-		  target="1.8"
-		  release="8"
-		  srcdir="${test}"
-		  destdir="${build}"
-		  encoding="utf-8"
-		  includeantruntime="false">
+	  <javac source="1.8" srcdir="${test}" destdir="${build}" includeantruntime="false">
 		  <classpath>
 			<fileset dir="${lib}/testjar" includes="**/*.jar" />
 			<fileset dir="${src}/jar" includes="**/*.jar" />
@@ -273,26 +265,18 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 	</target>
 
 	<target name="coverage-compile" depends="with.clover,compile-deps">
-	  <javac
-		  compiler="modern"
-		  source="1.8"
-		  target="1.8"
-		  release="8"
-		  srcdir="${src}"
-		  destdir="${build}"
-		  encoding="utf-8"
-		  includeantruntime="false">
-		<include name="**/*.java" />
-		<classpath>
-		  <fileset dir="${lib}/jar" includes="**/*.jar" />
-		  <fileset dir="${src}/jar" includes="**/*.jar" />
-		</classpath>
-	  </javac>
-	  <copy todir="${build}/jar" preservelastmodified="true">
-		<fileset dir="${src}/jar">
-		  <exclude name="**/*.jar" />
-		</fileset>
-	  </copy>
+		<javac source="1.8" srcdir="src" destdir="${build}" includeantruntime="false">
+		  <include name="**/*.java" />
+		  <classpath>
+			<fileset dir="${lib}/jar" includes="**/*.jar" />
+			<fileset dir="${src}/jar" includes="**/*.jar" />
+		  </classpath>
+		</javac>
+		<copy todir="${build}/jar" preservelastmodified="true">
+			<fileset dir="${src}/jar">
+				<exclude name="**/*.jar" />
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="clover.snapshot" depends="with.clover">
