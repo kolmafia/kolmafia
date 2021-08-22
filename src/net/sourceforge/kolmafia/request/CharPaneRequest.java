@@ -1799,7 +1799,8 @@ public class CharPaneRequest
 			ResultProcessor.processAdventuresUsed( turnsThisRun - mafiaTurnsThisRun );
 		}
 
-		KoLCharacter.setLimitmode( JSON.getString( "limitmode" ) );
+		Object lmo = JSON.get("limitmode");
+		KoLCharacter.setLimitmode( lmo.toString() );
 
 		JSONObject lastadv = JSON.getJSONObject( "lastadv" );
 		String adventureId = lastadv.getString( "id" );
