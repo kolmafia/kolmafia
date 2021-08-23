@@ -7640,6 +7640,8 @@ Skill	Cosmic Ugnderstanding	Maximum MP Percent: +5
 Skill	Crush	Maximum HP: -20
 Skill	Dark Circles Under Your Eyes	Spooky Damage: +7
 # Data Siphon: Makes Source Punches and Source Kicks restore MP
+# Skill Dead Nostrils: Stay fresh a little longer
+Skill	Dead Nostrils	Stench Spell Damage: +1, Stench Resistance: +1
 Skill	Deductive Reasoning	Mysticality: +15
 # Deep Saucery: Lets you cook with Deep Sauce
 # Deft Hands: +25% damage from combat items
@@ -11594,6 +11596,8 @@ Item	The Night Before Crimbo, Ch. 5	Skill: "Dimples, How Merry!"
 Item	The Night Before Crimbo, Ch. 5 (used)	Skill: "Dimples, How Merry!"
 Item	The Night Before Crimbo, Ch. 6	Skill: "Chubby and Plump"
 Item	The Night Before Crimbo, Ch. 6 (used)	Skill: "Chubby and Plump"
+Item	The Nose Knows, A Guide to Smells	Skill: "Dead Nostrils"
+Item	The Nose Knows, A Guide to Smells (read)	Skill: "Dead Nostrils"
 # The Six-Pack of Pain: Deals Physical Damage based on your Muscle
 # The Six-Pack of Pain: Weakens Enemies a Whole Lot
 Item	The Smith's Tome	Free Pull, Skill: "Summon Smithsness"
