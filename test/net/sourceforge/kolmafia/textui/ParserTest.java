@@ -133,13 +133,13 @@ public class ParserTest
 				"Typed constant non-successive characters",
 				"$		boolean 	 [ 		false ]",
 				null,
-				Arrays.asList( "$", "boolean", "[ 		false ", "]" ),
+				Arrays.asList( "$", "boolean", "[", "false ", "]" ),
 			},
 			{
 				"Typed constant escaped characters",
 				"$boolean[\\f\\a\\l\\s\\e]",
 				null,
-				Arrays.asList( "$", "boolean", "[\\f\\a\\l\\s\\e", "]" ),
+				Arrays.asList( "$", "boolean", "[", "\\f\\a\\l\\s\\e", "]" ),
 			},
 			{
 				"Typed constant bad typecast",
@@ -175,13 +175,19 @@ public class ParserTest
 				"Typed constant, nested brackets, proper",
 				"$item[[8042]rock]",
 				null,
-				Arrays.asList( "$", "item", "[[8042]rock", "]" ),
+				Arrays.asList( "$", "item", "[", "[8042]rock", "]" ),
 			},
 			{
 				"Typed constant, nested brackets, improper",
 				"$item[[abc]]",
 				"Bad item value: \"[abc]\"",
 				null,
+			},
+			{
+				"empty typed constant",
+				"$string[]",
+				null,
+				Arrays.asList( "$", "string", "[",  "]" )
 			},
 			{
 				"Plural constant, abrupt end",
@@ -211,14 +217,14 @@ public class ParserTest
 				"Plural constant non-successive characters",
 				"$		booleans 	 [ 		 ]",
 				null,
-				Arrays.asList( "$", "booleans", "[ 		 ", "]" ),
+				Arrays.asList( "$", "booleans", "[", "]" ),
 			},
 			{
 				"Plural constant multiline",
 				// End-of-lines can appear anywhere
 				"$booleans[true\n\n\n,\nfalse, false\n,false,\ntrue,tr\nue]",
 				null,
-				Arrays.asList( "$", "booleans", "[true", ",", "false, false", ",false,", "true,tr", "ue", "]" ),
+				Arrays.asList( "$", "booleans", "[", "true", ",", "false, false", ",false,", "true,tr", "ue", "]" ),
 			},
 			{
 				"Plural constant w/ escape characters",
@@ -231,7 +237,7 @@ public class ParserTest
 				"Plural constant, nested brackets, proper",
 				"$items[[8042]rock]",
 				null,
-				Arrays.asList( "$", "items", "[[8042]rock", "]" ),
+				Arrays.asList( "$", "items", "[", "[8042]rock", "]" ),
 			},
 			{
 				"Plural constant, nested brackets, improper",
@@ -249,7 +255,7 @@ public class ParserTest
 				"Plural constant, comment",
 				"$booleans[tr//Comment\nue]",
 				null,
-				Arrays.asList( "$", "booleans", "[tr", "//Comment", "ue", "]" ),
+				Arrays.asList( "$", "booleans", "[", "tr", "//Comment", "ue", "]" ),
 			},
 			{
 				"Plural constant, two line-separated slashes",
@@ -295,8 +301,8 @@ public class ParserTest
 				"int[item] { $item[seal-clubbing club]: 1, $item[helmet turtle]: 2}",
 				null,
 				Arrays.asList( "int", "[", "item", "]", "{",
-				               "$", "item", "[seal-clubbing club", "]", ":", "1", ",",
-				               "$", "item", "[helmet turtle", "]", ":", "2", "}" ),
+				               "$", "item", "[", "seal-clubbing club", "]", ":", "1", ",",
+				               "$", "item", "[", "helmet turtle", "]", ":", "2", "}" ),
 			},
 			{
 				"Simple array literal",
@@ -636,7 +642,7 @@ public class ParserTest
 			},
 			{
 				"template string with terminated comment",
-				"`this is some math: {7 // turns out you need a newline\n}`",
+				"`this is some math: {7 // turns out you need a newline\r\n\t}`",
 				null,
 				Arrays.asList( "`this is some math: {", "7",
 				               "// turns out you need a newline", "}`" )
@@ -646,6 +652,85 @@ public class ParserTest
 				"`{'hello'} {'world'}`",
 				null,
 				Arrays.asList( "`{", "'hello'", "} {", "'world'", "}`" )
+			},
+			{
+				"string with uninteresting escape",
+				"'\\z'",
+				null,
+				Arrays.asList( "'\\z'" )
+			},
+			{
+				"string with unclearly terminated octal escape",
+				"'\\1131'",
+				null,
+				// \113 is char code 75, which maps to 'K'
+				Arrays.asList( "'\\1131'" )
+			},
+			{
+				"string with insufficient octal digits",
+				"'\\11'",
+				"Octal character escape requires 3 digits",
+				null,
+			},
+			{
+				"string with invalid octal digits",
+				"'\\118'",
+				"Octal character escape requires 3 digits",
+				null,
+			},
+			{
+				"string with hex digits",
+				"'\\x3fgh'",
+				null,
+				Arrays.asList( "'\\x3fgh'" ),
+			},
+			{
+				"string with invalid hex digits",
+				"'\\xhello'",
+				"Hexadecimal character escape requires 2 digits",
+				null,
+			},
+			{
+				"string with insufficient hex digits",
+				"'\\x1'",
+				"Hexadecimal character escape requires 2 digits",
+				null,
+			},
+			{
+				"string with unicode digits",
+				"'\\u0041'",
+				null,
+				Arrays.asList( "'\\u0041'" ),
+			},
+			{
+				"string with invalid unicode digits",
+				"'\\uzzzz'",
+				"Unicode character escape requires 4 digits",
+				null,
+			},
+			{
+				"string with insufficient unicode digits",
+				"'\\u1'",
+				"Unicode character escape requires 4 digits",
+				null,
+			},
+			{
+				"string with escaped eof",
+				"'\\",
+				"No closing ' found",
+				null,
+			},
+			{
+				"plural typed constant with escaped eof",
+				"$items[true\\",
+				"No closing ] found",
+				null,
+			},
+			{
+				"plural typed constant with escaped space",
+				"$effects[\n\tBuy!\\ \\ Sell!\\ \\ Buy!\\ \\ Sell!\n]",
+				null,
+				Arrays.asList( "$", "effects", "[",  "Buy!\\ \\ Sell!\\ \\ Buy!\\ \\ Sell!", "]" )
 			},
 		} );
 	}
