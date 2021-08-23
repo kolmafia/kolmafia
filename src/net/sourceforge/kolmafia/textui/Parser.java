@@ -117,11 +117,11 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Parser
 {
-	public static String APPROX = "\u2248";
-	public static String PRE_INCREMENT = "++X";
-	public static String PRE_DECREMENT = "--X";
-	public static String POST_INCREMENT = "X++";
-	public static String POST_DECREMENT = "X--";
+	public static final String APPROX = "\u2248";
+	public static final String PRE_INCREMENT = "++X";
+	public static final String PRE_DECREMENT = "--X";
+	public static final String POST_INCREMENT = "X++";
+	public static final String POST_DECREMENT = "X--";
 
 	// Variables used during parsing
 
