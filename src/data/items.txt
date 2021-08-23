@@ -10821,3 +10821,7 @@
 10793	literal bucket hat	726775410	pailhat.gif	hat	q,d	500
 10794	rainproof barrel caulk	248987421	greasegun.gif	usable	q	0
 10795	pump grease	246433016	groosegrease.gif	usable	q	0
+10796
+10797
+10798	The Nose Knows, A Guide to Smells	147329106	book5.gif	usable	t	0
+10799	The Nose Knows, A Guide to Smells (read)	250620886	book5.gif	reusable		0

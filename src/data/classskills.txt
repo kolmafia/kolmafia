@@ -226,6 +226,8 @@
 201	Dimples, How Merry!	dimples.gif	0	0	0
 202	Chubby and Plump	chubbybar.gif	1	50	0
 203	Emotionally Chipped	emochip_clean.gif	0	0	0
+204
+205	Dead Nostrils		0	0	0
 
 # Skills available to Clubbers
 
