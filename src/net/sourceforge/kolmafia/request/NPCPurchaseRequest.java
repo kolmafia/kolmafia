@@ -182,6 +182,10 @@ public class NPCPurchaseRequest
 			case ItemPool.ROCKET_BOOTS:
 			case ItemPool.OVERSIZED_SPARKLER:
 				return Preferences.getBoolean( "_fireworksShopEquipmentBought" ) ? 0 : 1;
+			case ItemPool.BLART:
+			case ItemPool.RAINPROOF_BARREL_CAULK:
+			case ItemPool.PUMP_GREASE:
+				return 1;
 			}
 		return super.getQuantity();
 	}
@@ -240,19 +244,18 @@ public class NPCPurchaseRequest
 
 		int neededOutfit = OutfitPool.NONE;
 
-		if ( this.npcStoreId.equals( "bugbear" ) )
+		switch ( this.npcStoreId )
 		{
+		case "bugbear":
 			neededOutfit = OutfitPool.BUGBEAR_COSTUME;
-		}
-		else if ( this.npcStoreId.equals( "bartlebys" ) )
-		{
+			break;
+		case "bartlebys":
 			if ( !KoLCharacter.hasEquipped( NPCPurchaseRequest.FLEDGES ) )
 			{
 				neededOutfit = OutfitPool.SWASHBUCKLING_GETUP;
 			}
-		}
-		else if ( this.npcStoreId.equals( "hippy" ) )
-		{
+			break;
+		case "hippy":
 			if ( this.shopName.equals( "Hippy Store (Pre-War)" ) )
 			{
 				neededOutfit = OutfitPool.HIPPY_OUTFIT;
@@ -269,6 +272,7 @@ public class NPCPurchaseRequest
 			{
 				neededOutfit = OutfitPool.WAR_FRAT_OUTFIT;
 			}
+			break;
 		}
 
 		// Only switch outfits if the person is not currently wearing the outfit and if they
@@ -408,16 +412,32 @@ public class NPCPurchaseRequest
 		return true;
 	}
 
-	public static final void parseShopRowResponse( final String urlString, final String responseText )
+	public static final int parseWhichRow( final String urlString )
+	{
+		String shopId = NPCPurchaseRequest.getShopId( urlString );
+		return parseWhichRow( shopId, urlString );
+	}
+
+	public static final int parseWhichRow( final String shopId, final String urlString )
 	{
 		Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher( urlString );
 		if ( !rowMatcher.find() )
 		{
-			return;
+			return -1;
 		}
 
 		int row = StringUtilities.parseInt( rowMatcher.group( 1 ) );
-		int itemId = ConcoctionPool.rowToId( row );
+		return NPCStoreDatabase.itemIdByRow( shopId, row );
+	}
+
+	public static final void parseShopRowResponse( final String urlString, final String responseText )
+	{
+		int itemId = parseWhichRow( urlString );
+
+		if ( itemId == -1 )
+		{
+			return;
+		}
 
 		CreateItemRequest item = CreateItemRequest.getInstance( itemId, false );
 		if ( item == null )
@@ -441,10 +461,10 @@ public class NPCPurchaseRequest
 		}
 
 		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
-		for ( int i = 0; i < ingredients.length; ++i )
+		for ( AdventureResult ingredient : ingredients )
 		{
 			ResultProcessor.processResult(
-				ingredients[ i ].getInstance( -1 * ingredients[ i ].getCount() * quantity ) );
+					ingredient.getInstance( -1 * ingredient.getCount() * quantity ) );
 		}
 	}
 	
@@ -494,6 +514,8 @@ public class NPCPurchaseRequest
 		{
 			return;
 		}
+
+		int boughtItemId = parseWhichRow( shopId, urlString );
 
 		// Learn new items by simply visiting a store
 		Matcher matcher = ITEM_PATTERN.matcher( responseText );
@@ -1006,6 +1028,36 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "wildfire" ) )
+		{
+			if ( responseText.contains( "You acquire an item" ) )
+			{
+				switch ( boughtItemId )
+				{
+				case ItemPool.BLART:
+					Preferences.setBoolean( "itemBoughtPerAscension10790", true );
+					break;
+				case ItemPool.RAINPROOF_BARREL_CAULK:
+					Preferences.setBoolean( "itemBoughtPerAscension10794", true );
+					break;
+				case ItemPool.PUMP_GREASE:
+					Preferences.setBoolean( "itemBoughtPerAscension10795", true );
+					break;
+				}
+			}
+
+			if ( !urlString.contains( "ajax=1" ) )
+			{
+				// B. L. A. R. T.
+				Preferences.setBoolean( "itemBoughtPerAscension10790", !responseText.contains( "<tr rel=\"10790\">" ) );
+				// rainproof barrel caulk
+				Preferences.setBoolean( "itemBoughtPerAscension10794", !responseText.contains( "<tr rel=\"10794\">" ) );
+				// pump grease
+				Preferences.setBoolean( "itemBoughtPerAscension10795", !responseText.contains( "<tr rel=\"10795\">" ) );
+				return;
+			}
+		}
+
 		// When we purchase items from NPC stores using ajax, the
 		// response tells us nothing about the contents of the store.
 		if ( urlString.contains( "ajax=1" ) )
@@ -1060,14 +1112,12 @@ public class NPCPurchaseRequest
 
 	public static final boolean registerShopRowRequest( final String urlString )
 	{
-		Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher( urlString );
-		if ( !rowMatcher.find() )
+		int itemId = parseWhichRow( urlString );
+
+		if ( itemId == -1 )
 		{
 			return true;
 		}
-
-		int row = StringUtilities.parseInt( rowMatcher.group( 1 ) );
-		int itemId = ConcoctionPool.rowToId( row );
 
 		CreateItemRequest item = CreateItemRequest.getInstance( itemId, false );
 		if ( item == null )
@@ -1141,12 +1191,7 @@ public class NPCPurchaseRequest
 		}
 		else
 		{
-			m = GenericRequest.WHICHROW_PATTERN.matcher( urlString );
-			if ( m.find() )
-			{
-				int row = StringUtilities.parseInt( m.group( 1 ) );
-				itemId = NPCStoreDatabase.itemIdByRow( shopId, row );
-			}
+			itemId = parseWhichRow( shopId, urlString );
 		}
 
 		if ( itemId == -1 )
@@ -1290,7 +1335,7 @@ public class NPCPurchaseRequest
 				return CanteenRequest.registerRequest( urlString );
 			}
 
-			if ( shopId.equals( "si_shop2" ) )
+			if ( shopId.equals( "si_shop3" ) )
 			{
 				return ArmoryRequest.registerRequest( urlString );
 			}

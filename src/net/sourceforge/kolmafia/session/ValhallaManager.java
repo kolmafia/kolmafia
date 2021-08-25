@@ -457,6 +457,9 @@ public class ValhallaManager
 		Preferences.setInteger( "guzzlrDeliveryProgress", 0 );
 		Preferences.setBoolean( "itemBoughtPerAscension637", false );
 		Preferences.setBoolean( "itemBoughtPerAscension8266", false );
+		Preferences.setBoolean( "itemBoughtPerAscension10790", false );
+		Preferences.setBoolean( "itemBoughtPerAscension10794", false );
+		Preferences.setBoolean( "itemBoughtPerAscension10795", false );
 		Preferences.setString( "mayoInMouth", "" );
 		Preferences.setInteger( "mayoLevel", 0 );
 		Preferences.setString( "mayoMinderSetting", "" );
