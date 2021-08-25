@@ -908,7 +908,9 @@
 7380	Shocking Lick	tonguewalrus.gif	5	0	0
 7381	Back-Up to your Last Enemy	backupcamera.gif	5	0	0
 7382	Show your boring familiar pictures	dogphoto.gif	5	0	0
-
+7383	B. L. A. R. T. Spray (medium)	blartspray2.gif	5	0	0
+7384	B. L. A. R. T. Spray (wide)	blartspray3.gif	5	0	0
+7385	B. L. A. R. T. Spray (narrow)	blartspray1.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
