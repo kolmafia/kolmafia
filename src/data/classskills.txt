@@ -883,7 +883,7 @@
 7355	Blow a Robo-Kiss	lips.gif	5	0	0
 7356	Precision Shot		5	0	0
 7357	Feel Pride	emochip9.gif	5	0	0
-7358	Feel Excitement	emochip1.gif	3	0	15
+7358	Feel Excitement	emochip1.gif	3	0	20
 7359	Feel Hatred	emochip8.gif	5	0	0
 7360	Feel Lonely	emochip11.gif	3	0	20
 7361	Feel Nervous	emochip4.gif	3	0	20
