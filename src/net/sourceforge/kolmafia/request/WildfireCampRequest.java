@@ -59,7 +59,7 @@ public class WildfireCampRequest
 
 	public WildfireCampRequest( final String action )
 	{
-		super( "wildfire_camp", action );
+		super( "wildfire_camp", action, true );
 	}
 
 	@Override
@@ -132,7 +132,7 @@ public class WildfireCampRequest
 		if ( KoLCharacter.inFirecore() )
 		{
 			RequestThread.postRequest( new WildfireCampRequest( "wildfire_captain" ) );
-			RequestThread.postRequest( new GenericRequest( "choice.php?whichchoice=1451&option=2" ) );
+			RequestThread.postRequest( new GenericRequest( "choice.php?pwd&whichchoice=1451&option=2" ) );
 		}
 	}
 
