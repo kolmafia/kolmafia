@@ -9288,7 +9288,7 @@ Item	demon makeup kit	Effect: "Demonicity", Effect Duration: 40
 Item	demonic cow's blood	Effect: "Cowrruption", Effect Duration: 20
 Item	Dennis's blessing of Minerva	Effect: "Minerva's Zen", Effect Duration: 50
 Item	dented spoon	Effect: "There Is A Spoon", Effect Duration: 20
-Item	deodorant	Effect: "Fresh Scent", Effect Duration: 10
+Item	deodorant	Effect: "Fresh Scent", Effect Duration: [10+skill(Dead Nostrils)]
 Item	desktop zen garden	Effect: "Everything's Zen", Effect Duration: 10
 Item	devilish folio	Effect: "Dis Abled", Effect Duration: 30
 Item	digital underground potion	Effect: "Digitally Converted", Effect Duration: 20
