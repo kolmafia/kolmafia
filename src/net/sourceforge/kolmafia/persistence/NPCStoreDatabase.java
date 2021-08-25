@@ -675,7 +675,6 @@ public class NPCStoreDatabase
 		}
 		else if ( storeId.equals( "vault3" ) )
 		{
-
 			if ( !KoLCharacter.inNuclearAutumn() || Preferences.getInteger( "falloutShelterLevel" ) < 7 )
 			{
 				return false;
@@ -683,6 +682,23 @@ public class NPCStoreDatabase
 			if ( itemId == ItemPool.TRICK_TOT_LIBERTY || itemId == ItemPool.TRICK_TOT_UNICORN )
 			{
 				return KoLCharacter.findFamiliar( FamiliarPool.TRICK_TOT ) != null;
+			}
+		}
+		else if ( storeId.equals( "wildfire" ) )
+		{
+			if ( !KoLCharacter.inFirecore() )
+			{
+				return false;
+			}
+
+			switch ( itemId )
+			{
+			case ItemPool.BLART:
+				return !Preferences.getBoolean( "itemBoughtPerAscension10790" );
+			case ItemPool.RAINPROOF_BARREL_CAULK:
+				return !Preferences.getBoolean( "itemBoughtPerAscension10794" );
+			case ItemPool.PUMP_GREASE:
+				return !Preferences.getBoolean( "itemBoughtPerAscension10795" );
 			}
 		}
 

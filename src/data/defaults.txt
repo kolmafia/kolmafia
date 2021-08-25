@@ -722,6 +722,9 @@ user	invalidBuffMessage	You sent an amount which does not correspond to a valid 
 user	item9084	0
 user	itemBoughtPerAscension637	false
 user	itemBoughtPerAscension8266	false
+user	itemBoughtPerAscension10790	false
+user	itemBoughtPerAscension10794	false
+user	itemBoughtPerAscension10795	false
 user	itemBoughtPerCharacter6423	false
 user	itemBoughtPerCharacter6428	false
 user	itemBoughtPerCharacter6429	false
