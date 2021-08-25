@@ -326,7 +326,7 @@ fettucini Inconnu	5	8	awesome	17-20	0	25-30	0	SAUCY
 fiery wing	1	1	good	3	0	3	0	20-30 Hot Damage (ignores resists)
 filet of The Fish	3	11	EPIC	15-18	40-60	0	0
 fine aged cheddarwurst	3	3	decent	4-5	5-10	0	5-10
-fire crackers	1	1	good	0	0	0	0	20 Fire Cracked (+20 Experience)
+fire crackers	1	1	good	3	5-15	5-15	5-15	20 Fire Cracked (+20 Experience)
 fireman's lunch	2	4	decent	2-4	0	0	0	20 You're Not Cooking (+50 Hot Spell Damage, +100% Spell Damage)
 fishy fish	2	8	good	3-9	0	0	26-33
 fishy fish casserole	3	9	awesome	8-15	0	0	38-44
@@ -557,9 +557,9 @@ magical white rabbit roll	3	1		9-14	0	28-46	0	50/60 Fishy
 magical wise dragon roll	3	1		9-14	20-30	8-16	0	50/60 Fishy
 magical wizened master roll	3	1		9-14	20-30	28-46	20-30	50/60 Fishy
 mana curds	4	4	good	9-11	0	90-120	0	4-6 MP
-mana-basted tofurkey leg	3	5	awesome	0	0	0	0	Unspaded 20 Mana-Blasted (+50% Max MP, +3-5 MP Regen)
+mana-basted tofurkey leg	3	5	awesome	0	0	0	0	Unspaded, 20 Mana-Blasted (+50% Max MP, +3-5 MP Regen)
 mana-coated yams	3	5	awesome	0	0	0	0	Unspaded
-mana-fortified cranberry sauce	3	6	awesome	0	0	0	0	Unspaded
+mana-fortified cranberry sauce	3	6	awesome	7-14	70-75	70-75	70-75	20 Mana-Blasted (+50% Max MP, +3-5 MP Regen)
 mana-stuffed herbal stuffing	4	7	awesome	0	0	0	0	Unspaded
 Manetwich	2	4	good	3-9	14-30	0	5-18
 maple syrup	1	1	crappy	1	0	0	0	20-30 HP
