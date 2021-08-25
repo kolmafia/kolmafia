@@ -877,6 +877,11 @@ public class EquipmentManager
 		case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
 			ItemDatabase.setCapeSkills();
 			break;
+		case ItemPool.BLART:
+			KoLCharacter.removeAvailableSkill( "B. L. A. R. T. Spray (narrow)" );
+			KoLCharacter.removeAvailableSkill( "B. L. A. R. T. Spray (medium)" );
+			KoLCharacter.removeAvailableSkill( "B. L. A. R. T. Spray (wide)" );
+			break;
 		}
 	}
 
@@ -1208,6 +1213,11 @@ public class EquipmentManager
 			break;
 		case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
 			ItemDatabase.setCapeSkills();
+			break;
+		case ItemPool.BLART:
+			KoLCharacter.addAvailableSkill( "B. L. A. R. T. Spray (narrow)" );
+			KoLCharacter.addAvailableSkill( "B. L. A. R. T. Spray (medium)" );
+			KoLCharacter.addAvailableSkill( "B. L. A. R. T. Spray (wide)" );
 			break;
 		}
 	}

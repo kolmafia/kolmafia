@@ -348,6 +348,7 @@ public class SkillPool
 	public static final int SHOCKING_LICK = 7380;
 	public static final int BACK_UP = 7381;
 	public static final int SHOW_SCRAPBOOK = 7382;
+	public static final int BLART_SPRAY_WIDE = 7384;
 	public static final int GOOD_SINGING_VOICE = 11016;
 	public static final int BANISHING_SHOUT = 11020;
 	public static final int DEMAND_SANDWICH = 11021;

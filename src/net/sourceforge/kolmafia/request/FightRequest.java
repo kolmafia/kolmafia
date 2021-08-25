@@ -10523,15 +10523,25 @@ public class FightRequest
 
 		case SkillPool.SHOW_SCRAPBOOK:
 			if (
-					responseText.contains( "You take out your scrapbook and start showing photos of your familiars to your opponent" ) ||
-					responseText.contains( "waving your scrapbook" ) ||
-					skillSuccess )
+				responseText.contains( "You take out your scrapbook and start showing photos of your familiars to your opponent" ) ||
+				responseText.contains( "waving your scrapbook" ) ||
+				skillSuccess
+			)
 			{
 				BanishManager.banishMonster( monsterName, "Show your boring familiar pictures" );
 				Preferences.decrement( "scrapbookCharges", 100, 0 );
 			}
 			break;
 
+		case SkillPool.BLART_SPRAY_WIDE:
+			if (
+				responseText.contains( "nozzle all the way and blast it out of sight" ) ||
+				skillSuccess
+			)
+			{
+				BanishManager.banishMonster( monsterName, "B. L. A. R. T. Spray (wide)" );
+			}
+			break;
 		}
 	}
 
