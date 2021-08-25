@@ -1806,7 +1806,7 @@ public class CharPaneRequest
 		String adventureId = lastadv.getString( "id" );
 		String adventureName = lastadv.getString( "name" );
 		String adventureURL = lastadv.getString( "link" );
-		String container = lastadv.getString( "container" );
+		String container = lastadv.optString( "container" );
 		CharPaneRequest.setLastAdventure( adventureId, adventureName, adventureURL, container );
 
 		int fury = JSON.getInt( "fury" );
