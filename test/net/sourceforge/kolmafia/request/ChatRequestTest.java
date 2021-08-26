@@ -8,7 +8,7 @@ import net.sourceforge.kolmafia.request.ChatRequest;
 
 /**
  * This is a simple test for ChatRequest.  It is still driven by coverage maps and not function.  Indeed
- * the fact that it doesn't actually run teh request created limits the utility.
+ * the fact that it doesn't actually run the request created limits the utility.
  *
  */
 
@@ -20,13 +20,13 @@ public class ChatRequestTest {
 
     @Test
     public void itShouldBuildAModernChatRequestWithLastSeen() {
-        creq = new ChatRequest(0l, true, false);
+        creq = new ChatRequest(0L, true, false);
         fullURL = creq.getFullURLString();
         expect = "newchatmessages.php?j=1&lasttime=0";
         assertEquals(fullURL, expect);
         assertEquals(creq.getGraf(), "");
         assertTrue(creq.retryOnTimeout());
-        creq = new ChatRequest(8675309l, true, false);
+        creq = new ChatRequest(8675309L, true, false);
         fullURL = creq.getFullURLString();
         expect = "newchatmessages.php?j=1&lasttime=8675309";
         assertEquals(fullURL, expect);
@@ -36,13 +36,13 @@ public class ChatRequestTest {
 
     @Test
     public void itShouldBuildAnOlderChatRequestWithLastSeen() {
-        creq = new ChatRequest(0l, false, false);
+        creq = new ChatRequest(0L, false, false);
         fullURL = creq.getFullURLString();
         expect = "newchatmessages.php?lasttime=0&afk=0";
         assertEquals(fullURL, expect);
         assertEquals(creq.getGraf(), "");
         assertTrue(creq.retryOnTimeout());
-        creq = new ChatRequest(8675309l, false, false);
+        creq = new ChatRequest(8675309L, false, false);
         fullURL = creq.getFullURLString();
         expect = "newchatmessages.php?lasttime=8675309&afk=0";
         assertEquals(fullURL, expect);
@@ -52,13 +52,13 @@ public class ChatRequestTest {
 
     @Test
     public void itShouldBuildAnOlderChatRequestWithLastSeenAndAFK() {
-        creq = new ChatRequest(0l, false, true);
+        creq = new ChatRequest(0L, false, true);
         fullURL = creq.getFullURLString();
         expect = "newchatmessages.php?lasttime=0&afk=1";
         assertEquals(fullURL, expect);
         assertEquals(creq.getGraf(), "");
         assertTrue(creq.retryOnTimeout());
-        creq = new ChatRequest(8675309l, false, true);
+        creq = new ChatRequest(8675309L, false, true);
         fullURL = creq.getFullURLString();
         expect = "newchatmessages.php?lasttime=8675309&afk=1";
         assertEquals(fullURL, expect);
@@ -84,5 +84,4 @@ public class ChatRequestTest {
         assertEquals(creq.getGraf(), "This is not a message.");
         assertTrue(creq.retryOnTimeout());
     }
-
 }
