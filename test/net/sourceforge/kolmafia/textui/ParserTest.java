@@ -733,6 +733,56 @@ public class ParserTest
 				Arrays.asList( "$", "effects", "[",  "Buy!\\ \\ Sell!\\ \\ Buy!\\ \\ Sell!", "]" )
 			},
 			{
+				"unterminated plural aggregate typ",
+				"int[",
+				"Missing index token",
+				null,
+			},
+			// TODO: add tests for size == 0, size < 0, which ought to fail.
+			{
+				"array with explicit size",
+				"int[2] x;",
+				null,
+				Arrays.asList( "int", "[", "2", "]", "x", ";" ),
+			},
+			{
+				"array with unspecified size",
+				"int[] x;",
+				null,
+				Arrays.asList( "int", "[", "]", "x", ";" ),
+			},
+			{
+				"multidimensional array with partially specified size (1)",
+				"int[2][] x;",
+				null,
+				Arrays.asList( "int", "[", "2", "]", "[", "]", "x", ";" ),
+			},
+			{
+				"multidimensional array with partially specified size (2)",
+				"int[][2] x;",
+				null,
+				Arrays.asList( "int", "[", "]", "[", "2", "]", "x", ";" ),
+			},
+			{
+				"multidimensional array with explicit size",
+				"int[2, 2] x;",
+				null,
+				Arrays.asList( "int", "[", "2", ",", "2", "]", "x", ";" ),
+			},
+			// TODO: `typedef int[] intArray` and aggregate shouldn't be valid keys.
+			{
+				"map with non-primitive key type",
+				"record a{int b;}; int[a] x;",
+				"Index type 'a' is not a primitive type",
+				null,
+			},
+			{
+				"multidimensional map with partially specified comma-separated type",
+				"int[2,] x;",
+				"Missing index token",
+				null,
+			},
+			{
 				"multidimensional map with unspecified comma-separated type",
 				"int[,,,] x;",
 				"Invalid type name ','",
@@ -743,6 +793,30 @@ public class ParserTest
 				"int[int,] x;",
 				"Missing index token",
 				null,
+			},
+			{
+				"abruptly terminated 1-d map",
+				"int[int",
+				"Expected , or ], found end of file",
+				null,
+			},
+			{
+				"abruptly terminated 1-d array",
+				"int[4",
+				"Expected ], found end of file",
+				null,
+			},
+			{
+				"multidimensional map with comma-separated type",
+				"int[int, int] x;",
+				null,
+				Arrays.asList( "int", "[", "int", ",", "int", "]", "x", ";" ),
+			},
+			{
+				"multidimensional map with chained brackets with types",
+				"int[int][int] x;",
+				null,
+				Arrays.asList( "int", "[", "int", "]", "[", "int", "]", "x", ";" ),
 			},
 			{
 				"multidimensional map with unspecified type in chained empty brackets",

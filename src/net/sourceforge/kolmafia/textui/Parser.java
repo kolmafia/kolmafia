@@ -1376,8 +1376,7 @@ public class Parser
 
 			return new AggregateType( dataType, 0 );
 		}
-
-		if ( this.readIntegerToken( this.currentToken().content ) )
+		else if ( this.readIntegerToken( this.currentToken().content ) )
 		{
 			int size = StringUtilities.parseInt( this.currentToken().content );
 			this.readToken(); // integer
@@ -1401,38 +1400,40 @@ public class Parser
 
 			throw this.parseException( "]", this.currentToken() );
 		}
-
-		Type indexType = scope.findType( this.currentToken().content );
-		if ( indexType == null )
+		else
 		{
-			throw this.parseException( "Invalid type name '" + this.currentToken() + "'" );
-		}
+			Type indexType = scope.findType( this.currentToken().content );
+			if ( indexType == null )
+			{
+				throw this.parseException( "Invalid type name '" + this.currentToken() + "'" );
+			}
 
-		if ( !indexType.isPrimitive() )
-		{
-			throw this.parseException( "Index type '" + this.currentToken() + "' is not a primitive type" );
-		}
+			if ( !indexType.isPrimitive() )
+			{
+				throw this.parseException( "Index type '" + this.currentToken() + "' is not a primitive type" );
+			}
 
-		this.readToken(); // type name
+			this.readToken(); // type name
 
-		if ( this.currentToken().equals( "]" ) )
-		{
-			this.readToken(); // ]
+			if ( this.currentToken().equals( "]" ) )
+			{
+				this.readToken(); // ]
 
-			if ( this.currentToken().equals( "[" ) )
+				if ( this.currentToken().equals( "[" ) )
+				{
+					return new AggregateType( this.parseAggregateType( dataType, scope ), indexType );
+				}
+
+				return new AggregateType( dataType, indexType );
+			}
+
+			if ( this.currentToken().equals( "," ) )
 			{
 				return new AggregateType( this.parseAggregateType( dataType, scope ), indexType );
 			}
 
-			return new AggregateType( dataType, indexType );
+			throw this.parseException( ", or ]", this.currentToken() );
 		}
-
-		if ( this.currentToken().equals( "," ) )
-		{
-			return new AggregateType( this.parseAggregateType( dataType, scope ), indexType );
-		}
-
-		throw this.parseException( ", or ]", this.currentToken() );
 	}
 
 	private boolean parseIdentifier( final String identifier )
