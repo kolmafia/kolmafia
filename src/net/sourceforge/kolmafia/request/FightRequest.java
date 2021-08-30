@@ -388,6 +388,7 @@ public class FightRequest
 	public static boolean fightingCopy = false;
 
 	private static String nextAction = null;
+	private static String macroErrorMessage = null;
 
 	private static AdventureResult desiredScroll = null;
 
@@ -2081,6 +2082,16 @@ public class FightRequest
 		       FightRequest.isInvalidLocationAttack( action );
 	}
 
+	public static final boolean containsMacroError( final String str )
+	{
+		return str.contains( "Macro Abort" ) ||
+			str.contains( "Macro abort" ) ||
+			str.contains( "macro abort" ) ||
+			str.contains( "Could not match item(s) for use" ) ||
+			str.contains( "Invalid Macro") ||
+			str.contains( "Invalid macro");
+	}
+
 	public synchronized void runOnce( final String desiredAction )
 	{
 		this.clearDataFields();
@@ -2100,10 +2111,7 @@ public class FightRequest
 			{
 				super.run();
 
-				if ( responseText.contains( "Macro Abort" ) ||
-					responseText.contains( "Macro abort" ) ||
-					responseText.contains( "macro abort" ) ||
-					responseText.contains( "Could not match item(s) for use" ) )
+				if ( containsMacroError( responseText ) )
 				{
 					FightRequest.nextAction = "abort";
 				}
@@ -2118,7 +2126,12 @@ public class FightRequest
 
 		if ( FightRequest.nextAction != null && FightRequest.nextAction.equals( "abort" ) )
 		{
-			KoLmafia.updateDisplay( MafiaState.ABORT, "You're on your own, partner." );
+			String message = "You're on your own, partner.";
+			if ( FightRequest.macroErrorMessage != null )
+			{
+				message += " (" + macroErrorMessage + ")";
+			}
+			KoLmafia.updateDisplay( MafiaState.ABORT, message );
 		}
 	}
 
@@ -7124,6 +7137,13 @@ public class FightRequest
 
 			String str = FightRequest.getContentNodeText( node );
 
+			if ( containsMacroError( str ) )
+			{
+				FightRequest.macroErrorMessage = str;
+				Preferences.setString( "lastMacroError", str );
+				return;
+			}
+
 			// Camera flashes
 			// A monster caught on the film
 			// Back to yearbook club.
@@ -8828,6 +8848,7 @@ public class FightRequest
 		// FightRequest.anapest = false;
 
 		FightRequest.nextAction = null;
+		FightRequest.macroErrorMessage = null;
 
 		FightRequest.currentRound = 0;
 		FightRequest.preparatoryRounds = 0;
