@@ -1355,10 +1355,6 @@ public class Parser
 		Token separatorToken = this.currentToken();
 
 		this.readToken(); // [ or ,
-		if ( this.currentToken().equals( ";" ) )
-		{
-			throw this.parseException( "Missing index token" );
-		}
 
 		if ( this.currentToken().equals( "]" ) )
 		{
@@ -1400,7 +1396,7 @@ public class Parser
 
 			throw this.parseException( "]", this.currentToken() );
 		}
-		else
+		else if ( this.parseIdentifier( this.currentToken().content ) )
 		{
 			Type indexType = scope.findType( this.currentToken().content );
 			if ( indexType == null )
@@ -1433,6 +1429,10 @@ public class Parser
 			}
 
 			throw this.parseException( ", or ]", this.currentToken() );
+		}
+		else
+		{
+			throw this.parseException( "Missing index token" );
 		}
 	}
 
