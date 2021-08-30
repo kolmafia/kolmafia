@@ -1352,6 +1352,8 @@ public class Parser
 
 	private Type parseAggregateType( final Type dataType, final BasicScope scope )
 	{
+		Token separatorToken = this.currentToken();
+
 		this.readToken(); // [ or ,
 		if ( this.currentToken().equals( ";" ) )
 		{
@@ -1360,6 +1362,11 @@ public class Parser
 
 		if ( this.currentToken().equals( "]" ) )
 		{
+			if ( !separatorToken.equals( "[" ) )
+			{
+				throw this.parseException( "Missing index token" );
+			}
+
 			this.readToken(); // ]
 
 			if ( this.currentToken().equals( "[" ) )
