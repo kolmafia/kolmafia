@@ -732,6 +732,24 @@ public class ParserTest
 				null,
 				Arrays.asList( "$", "effects", "[",  "Buy!\\ \\ Sell!\\ \\ Buy!\\ \\ Sell!", "]" )
 			},
+			{
+				"multidimensional map with unspecified comma-separated type",
+				"int[,,,] x;",
+				"Invalid type name ','",
+				null,
+			},
+			{
+				"multidimensional map with partially-specified comma-separated type",
+				"int[int,] x;",
+				"Missing index token",
+				null,
+			},
+			{
+				"multidimensional map with unspecified type in chained empty brackets",
+				"int[][] x;",
+				null,
+				Arrays.asList( "int", "[", "]", "[", "]", "x", ";" ),
+			},
 		} );
 	}
 
