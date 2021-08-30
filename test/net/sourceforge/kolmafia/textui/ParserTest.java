@@ -785,7 +785,7 @@ public class ParserTest
 			{
 				"multidimensional map with unspecified comma-separated type",
 				"int[,,,] x;",
-				"Invalid type name ','",
+				"Missing index token",
 				null,
 			},
 			{
