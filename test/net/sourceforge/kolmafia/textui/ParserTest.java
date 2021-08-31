@@ -803,7 +803,19 @@ public class ParserTest
 			{
 				"abruptly terminated 1-d array",
 				"int[4",
-				"Expected ], found end of file",
+				"Expected , or ], found end of file",
+				null,
+			},
+			{
+				"map with unknown type",
+				"int[a] x;",
+				"Invalid type name 'a'",
+				null,
+			},
+			{
+				"map containing aggregate type",
+				"int[int[]] x;",
+				"Expected , or ], found [",
 				null,
 			},
 			{
