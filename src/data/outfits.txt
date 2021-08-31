@@ -1,163 +1,172 @@
-2
-1	Bugbear Costume	bugbear.gif	bugbear beanie, bugbear bungguard
-2	Filthy Hippy Disguise	hippy.gif	filthy knitted dread sack, filthy corduroys
+3
+# id	name	image	equipment	halloween drops
+1	Bugbear Costume	bugbear.gif	bugbear beanie, bugbear bungguard	cog, sprocket, spring
+2	Filthy Hippy Disguise	hippy.gif	filthy knitted dread sack, filthy corduroys	herb brownies
+# Treats: random bottle of booze
 3	Frat Boy Ensemble	fratboy.gif	Orcish baseball cap, Orcish frat-paddle, Orcish cargo shorts
-4	Knob Goblin Harem Girl Disguise	haremgirl.gif	Knob Goblin harem veil, Knob Goblin harem pants
-5	Knob Goblin Elite Guard Uniform	eliteguard.gif	Knob Goblin elite helm, Knob Goblin elite polearm, Knob Goblin elite pants
-6	Hot and Cold Running Ninja Suit	ninja.gif	cold ninja mask, icy-hot katana, ninja hot pants
-7	eXtreme Cold-Weather Gear	coldgear.gif	eXtreme scarf, snowboarder pants, eXtreme mittens
-8	Mining Gear	miner.gif	miner's helmet, 7-Foot Dwarven mattock, miner's pants
-9	Swashbuckling Getup	pirate.gif	eyepatch, swashbuckling pants, stuffed shoulder parrot
-10	Terrifying Clown Suit	clown.gif	foolscap fool's cap, bloody clown pants, big red clown nose, polka-dot bow tie, clown shoes
-11	Crimbo Duds	pressietat.gif	Crimbo hat, Crimbo sword, Crimbo pants
-12	Star Garb	startat.gif	star hat, star buckler, star pants
+4	Knob Goblin Harem Girl Disguise	haremgirl.gif	Knob Goblin harem veil, Knob Goblin harem pants	Knob Goblin love potion
+5	Knob Goblin Elite Guard Uniform	eliteguard.gif	Knob Goblin elite helm, Knob Goblin elite polearm, Knob Goblin elite pants	Knob Goblin steroids
+6	Hot and Cold Running Ninja Suit	ninja.gif	cold ninja mask, icy-hot katana, ninja hot pants	Cold Hots candy
+7	eXtreme Cold-Weather Gear	coldgear.gif	eXtreme scarf, snowboarder pants, eXtreme mittens	Wint-O-Fresh mint
+8	Mining Gear	miner.gif	miner's helmet, 7-Foot Dwarven mattock, miner's pants	dwarf bread
+9	Swashbuckling Getup	pirate.gif	eyepatch, swashbuckling pants, stuffed shoulder parrot	bottle of rum
+10	Terrifying Clown Suit	clown.gif	foolscap fool's cap, bloody clown pants, big red clown nose, polka-dot bow tie, clown shoes	brick
+11	Crimbo Duds	pressietat.gif	Crimbo hat, Crimbo sword, Crimbo pants	fruitcake
+12	Star Garb	startat.gif	star hat, star buckler, star pants	Senior Mints
 13
-14	Furry Suit	losertat.gif	wolf mask, furry pants
-15	8-Bit Finery	swordtat.gif	pixel hat, pixel sword, pixel pants
-16	Yendorian Finery	elbereth.gif	cornuthaum, vorpal blade, ring of aggravate monster
-17	OK Lumberjack Outfit	canadiatat.gif	balaclava, los chinos, disbelief suspenders
-18	Radio Free Regalia	radiotat.gif	Radio Free Baseball Cap, Radio Free Foil, Radio Free Pants
-19	Bow Tux	bowtat.gif	bowler, bow staff, bowlegged pants
-20	Clockwork Apparatus	clocktat.gif	clockwork hat, clockwork trench coat, clockwork pants
-21	Gnauga Hides	gnaugatat.gif	gnauga hide whip, gnauga hide buckler, gnauga hide chaps
-22	Time Trappings	hourtat.gif	time helmet, time sword, time trousers
-23	Cloaca-Cola Uniform	cola1tat.gif	Cloaca-Cola helmet, Cloaca-Cola shield, Cloaca-Cola fatigues
-24	Dyspepsi-Cola Uniform	cola2tat.gif	Dyspepsi-Cola helmet, Dyspepsi-Cola shield, Dyspepsi-Cola fatigues
-25	Arboreal Raiment	wreathtat.gif	can of fake snow, tree skirt, colored-light &quot;necklace&quot;
-26	Grass Guise	eggtat.gif	grass hat, grass blade, grass skirt
-27	Encephalic Ensemble	jfishtat.gif	Cerebral Cloche, Cerebral Crossbow, Cerebral Culottes
-28	Glad Bag Glad Rags	recyctat.gif	giant discarded bottlecap, giant discarded plastic fork, giant discarded torn-up glove
-29	Antique Arms and Armor	armortat.gif	antique helmet, antique spear, antique shield, antique greaves
-30	Terrycloth Tackle	toweltat.gif	makeshift turban, makeshift cape, makeshift skirt
-31	Tropical Crimbo Duds	tropictat.gif	Tropical Crimbo Hat, Tropical Crimbo Sword, Tropical Crimbo Shorts
-32	War Hippy Fatigues	warhiptat.gif	reinforced beaded headband, bullet-proof corduroys, round purple sunglasses
+14	Furry Suit	losertat.gif	wolf mask, furry pants	Tasty Fun Good rice candy
+15	8-Bit Finery	swordtat.gif	pixel hat, pixel sword, pixel pants	pixellated candy heart
+16	Yendorian Finery	elbereth.gif	cornuthaum, vorpal blade, ring of aggravate monster	candied kobold
+17	OK Lumberjack Outfit	canadiatat.gif	balaclava, los chinos, disbelief suspenders	maple syrup
+18	Radio Free Regalia	radiotat.gif	Radio Free Baseball Cap, Radio Free Foil, Radio Free Pants	none
+19	Bow Tux	bowtat.gif	bowler, bow staff, bowlegged pants	candy cane
+20	Clockwork Apparatus	clocktat.gif	clockwork hat, clockwork trench coat, clockwork pants	Sugar Cog
+21	Gnauga Hides	gnaugatat.gif	gnauga hide whip, gnauga hide buckler, gnauga hide chaps	Gummi-Gnauga
+22	Time Trappings	hourtat.gif	time helmet, time sword, time trousers	Now and Earlier
+23	Cloaca-Cola Uniform	cola1tat.gif	Cloaca-Cola helmet, Cloaca-Cola shield, Cloaca-Cola fatigues	Dyspepsi grenade
+24	Dyspepsi-Cola Uniform	cola2tat.gif	Dyspepsi-Cola helmet, Dyspepsi-Cola shield, Dyspepsi-Cola fatigues	Cloaca grenade
+25	Arboreal Raiment	wreathtat.gif	can of fake snow, tree skirt, colored-light &quot;necklace&quot;	sugar-coated pine cone
+26	Grass Guise	eggtat.gif	grass hat, grass blade, grass skirt	foie gras
+27	Encephalic Ensemble	jfishtat.gif	Cerebral Cloche, Cerebral Crossbow, Cerebral Culottes	candy brain
+28	Glad Bag Glad Rags	recyctat.gif	giant discarded bottlecap, giant discarded plastic fork, giant discarded torn-up glove	alphabet gum
+29	Antique Arms and Armor	armortat.gif	antique helmet, antique spear, antique shield, antique greaves	Bit O' Ectoplasm
+30	Terrycloth Tackle	toweltat.gif	makeshift turban, makeshift cape, makeshift skirt	toothbrush
+31	Tropical Crimbo Duds	tropictat.gif	Tropical Crimbo Hat, Tropical Crimbo Sword, Tropical Crimbo Shorts	orange and black Crimboween candy
+32	War Hippy Fatigues	warhiptat.gif	reinforced beaded headband, bullet-proof corduroys, round purple sunglasses	Steal This Candy
+# Treats: three random grapefruit, orange or tomato schnapps
 33	Frat Warrior Fatigues	warfrattat.gif	beer helmet, distressed denim pants, bejeweled pledge pin
-34	Bounty-Hunting Rig	meattat.gif	bounty-hunting helmet, bounty-hunting rifle, bounty-hunting pants
+34	Bounty-Hunting Rig	meattat.gif	bounty-hunting helmet, bounty-hunting rifle, bounty-hunting pants	chocolate filthy lucre
+# Treat: black pudding OR Blackfly Chardonnay OR black & tan OR black pepper OR black forest cake OR black forest ham
 35	Black Armaments	blacktat.gif	black helmet, black sword, black shield, black greaves
+# Treat: bit-o-cactus OR honey-dipped locust
 36	Palmist Paraphernalia	palmtat.gif	extra-large palm-frond toupee, palm-frond whip, palm-frond capris
-37	Tapered Threads	ducttat.gif	duct tape fedora, duct tape sword, duct tape dockers
-38	Roy Orbison Disguise	orbisontat.gif	clingfilm cap, clingfilm trousers, clingfilm slippers
-39	Cursed Zombie Pirate Costume	zompirtat.gif	cursed eyepatch, cursed cutlass, cursed breeches
-40	Crimborg Assault Armor	halotat.gif	biomechanical crimborg helmet, C.B.F.G., biomechanical crimborg leg armor
-41	El Vibrato Relics	elvtat.gif	El Vibrato helmet, El Vibrato energy spear, El Vibrato leg guards
-42	Pyretic Panhandler Paraphernalia	hothobotat.gif	Ol' Scratch's stovepipe hat, Ol' Scratch's ash can, Ol' Scratch's ol' britches
-43	Hyperborean Hobo Habiliments	colhobotat.gif	Frosty's old silk hat, Frosty's nailbat, Frosty's carrot
-44	Vile Vagrant Vestments	stehobotat.gif	Wand of Oscus, Oscus's dumpster waders, Oscus's pelt
-45	Dire Drifter Duds	spohobotat.gif	Zombo's skullcap, Zombo's shield, Zombo's grievous greaves
-46	Tawdry Tramp Togs	slehobotat.gif	Chester's bag of candy, Chester's cutoffs, Chester's moustache
-47	Hodgman's Regal Frippery	hodgmantat.gif	Hodgman's porkpie hat, Hodgman's lobsterskin pants, Hodgman's bow tie
-48	Arrrbor Day Apparrrrrel	arbortat.gif	willowy bonnet, crotchety pants, Saccharine Maple pendant
-49	Mutant Couture	dnatat.gif	parasitic headgnawer, parasitic claw, parasitic strangleworm, parasitic tentacles
-50	Dwarvish War Uniform	dwarvish.gif	dwarvish war helmet, dwarvish war mattock, dwarvish war kilt
-51	Wumpus-Hair Wardrobe	wumpustat.gif	wumpus-hair wig, wumpus-hair whip, wumpus-hair loincloth
-52	Pork Elf Prizes	pigirontat.gif	pig-iron helm, pig-iron shinguards, pig-iron bracers
-53	Grimy Reaper's Vestments	reapertat.gif	corrosive cowl, villainous scythe, corroded breeches
-54	Slimesuit	slimetat.gif	hardened slime hat, hardened slime pants, hardened slime belt
-55	Primitive Radio Duds	vol_tat.gif	Voluminous Radio Hat, Voluminous Radio Pants, Voluminous Radio Sneakers
-56	Floaty Fatigues	rock_tat.gif	floaty rock helmet, floaty rock pants, floaty rock necklace
+37	Tapered Threads	ducttat.gif	duct tape fedora, duct tape sword, duct tape dockers	Angry Farmer's Wife Candy
+38	Roy Orbison Disguise	orbisontat.gif	clingfilm cap, clingfilm trousers, clingfilm slippers	fruitfilm
+39	Cursed Zombie Pirate Costume	zompirtat.gif	cursed eyepatch, cursed cutlass, cursed breeches	piece of after eight
+40	Crimborg Assault Armor	halotat.gif	biomechanical crimborg helmet, C.B.F.G., biomechanical crimborg leg armor	nanite-infested candy cane
+41	El Vibrato Relics	elvtat.gif	El Vibrato helmet, El Vibrato energy spear, El Vibrato leg guards	abandoned candy
+42	Pyretic Panhandler Paraphernalia	hothobotat.gif	Ol' Scratch's stovepipe hat, Ol' Scratch's ash can, Ol' Scratch's ol' britches	sterno-flavored Hob-O
+43	Hyperborean Hobo Habiliments	colhobotat.gif	Frosty's old silk hat, Frosty's nailbat, Frosty's carrot	frostbite-flavored Hob-O
+44	Vile Vagrant Vestments	stehobotat.gif	Wand of Oscus, Oscus's dumpster waders, Oscus's pelt	garbage-juice-flavored Hob-O
+45	Dire Drifter Duds	spohobotat.gif	Zombo's skullcap, Zombo's shield, Zombo's grievous greaves	strawberry-flavored Hob-O
+46	Tawdry Tramp Togs	slehobotat.gif	Chester's bag of candy, Chester's cutoffs, Chester's moustache	fry-oil-flavored Hob-O
+47	Hodgman's Regal Frippery	hodgmantat.gif	Hodgman's porkpie hat, Hodgman's lobsterskin pants, Hodgman's bow tie	roll of Hob-Os
+48	Arrrbor Day Apparrrrrel	arbortat.gif	willowy bonnet, crotchety pants, Saccharine Maple pendant	Everlasting Deckswabber
+49	Mutant Couture	dnatat.gif	parasitic headgnawer, parasitic claw, parasitic strangleworm, parasitic tentacles	Gummi-DNA
+50	Dwarvish War Uniform	dwarvish.gif	dwarvish war helmet, dwarvish war mattock, dwarvish war kilt	dwarf bread
+51	Wumpus-Hair Wardrobe	wumpustat.gif	wumpus-hair wig, wumpus-hair whip, wumpus-hair loincloth	lint, dubious peppermint
+52	Pork Elf Prizes	pigirontat.gif	pig-iron helm, pig-iron shinguards, pig-iron bracers	Elvish delight
+53	Grimy Reaper's Vestments	reapertat.gif	corrosive cowl, villainous scythe, corroded breeches	children of the candy corn
+54	Slimesuit	slimetat.gif	hardened slime hat, hardened slime pants, hardened slime belt	Good 'n' Slimy
+55	Primitive Radio Duds	vol_tat.gif	Voluminous Radio Hat, Voluminous Radio Pants, Voluminous Radio Sneakers	none
+56	Floaty Fatigues	rock_tat.gif	floaty rock helmet, floaty rock pants, floaty rock necklace	Rock Pops
 57
-58	Vestments of the Treeslayer	arborween.gif	bark beret, bark boxers, bark bracelet
-59	Crappy Mer-kin Disguise	merkintat.gif	crappy Mer-kin mask, crappy Mer-kin tailpiece
-60	Mer-kin Gladiatorial Gear	merkgtat.gif	Mer-kin gladiator mask, Mer-kin gladiator tailpiece
-61	Mer-kin Scholar's Vestments	merkstat.gif	Mer-kin scholar mask, Mer-kin scholar tailpiece
-62	Snowman Suit	snowmantat.gif	snow hat, snow pants, snow belly
-63	Frigid Northlands Garb	nosealtat.gif	sealhide hood, sealhide buckler, sealhide leggings
-64	Legendary Regalia of the Seal Crusher	revclass1.gif	Scalp of Gorgolok, Sledgehammer of the V&aelig;lkyr, Krakrox's Loincloth, Claw of the Infernal Seal
-65	Legendary Regalia of the Chelonian Overlord	revclass2.gif	Elder Turtle Shell, Flail of the Seven Aspects, Galapagosian Cuisses, Garter of the Turtle Poacher
-66	Legendary Regalia of the Pasta Master	revclass3.gif	Colander of Em-er'il, Wrath of the Capsaician Pastalords, Angelhair Culottes, Bandolier of the Spaghetti Elemental
-67	Legendary Regalia of the Saucemaestro	revclass4.gif	Ancient Saucehelm, Windsor Pan of the Source, Newman's Own Trousers, Gravyskin Belt of the Sauceblob
-68	Legendary Regalia of the Groovelord	revclass5.gif	Disco 'Fro Pick, Seeger's Unstoppable Banjo, Volartta's bellbottoms, Bling of the New Wave
-69	Legendary Regalia of the Master Squeezeboxer	revclass6.gif	El Sombrero De Lopez, The Trickster's Trikitixa, Lederhosen of the Night, La Hebilla del Cintur&oacute;n de Lopez
-70	BRICKOfig Outfit	minifigtat.gif	BRICKO hat, BRICKO sword, BRICKO pants
-71	Knight's Armor	bknight.gif	helm of the white knight, trousers of the white knight, wristwatch of the white knight
-72	Fancy Tux	blacktie.gif	fancy tophat, fancy tuxedo pants, fancy black tie
-73	Transparent Trappings	plexitat.gif	plexiglass pith helmet, plexiglass pikestaff, plexiglass pants, plexiglass pendant, plexiglass pocketwatch, plexiglass pinky ring
-74	Unblemished Uniform	staintat.gif	stainless steel skullcap, stainless steel shillelagh, stainless steel slacks, stainless steel scarf, stainless steel solitaire, stainless steel suspenders
-75	Blasphemous Bedizenment	brimtat.gif	Brimstone Beret, Brimstone Bludgeon, Brimstone Bunker, Brimstone Boxers, Brimstone Brooch, Brimstone Bracelet
-76	Smoked Pottery	potterytat.gif	pottery hat, pottery shield, pottery training pants
-77	Thousandth Birthday Suit	skeletat.gif	bonedanna, boneana hammock, bone spurs
-78	Uncle Hobo's Rags	crimbeard.gif	Uncle Hobo's stocking cap, Uncle Hobo's gift baggy pants, Uncle Hobo's epic beard
-79	Paperclippery	cliptat.gif	paperclip turban, paperclip cape, paperclip pants, paperclip-on tie
+# Treats: Also drops Ax of L'rose once
+58	Vestments of the Treeslayer	arborween.gif	bark beret, bark boxers, bark bracelet	ribbon candy
+59	Crappy Mer-kin Disguise	merkintat.gif	crappy Mer-kin mask, crappy Mer-kin tailpiece	Mer-kin rocksalt
+60	Mer-kin Gladiatorial Gear	merkgtat.gif	Mer-kin gladiator mask, Mer-kin gladiator tailpiece	Mer-kin saltmint
+61	Mer-kin Scholar's Vestments	merkstat.gif	Mer-kin scholar mask, Mer-kin scholar tailpiece	Mer-kin saltsquid
+62	Snowman Suit	snowmantat.gif	snow hat, snow pants, snow belly	snowball
+63	Frigid Northlands Garb	nosealtat.gif	sealhide hood, sealhide buckler, sealhide leggings	Northern pemmican
+64	Legendary Regalia of the Seal Crusher	revclass1.gif	Scalp of Gorgolok, Sledgehammer of the V&aelig;lkyr, Krakrox's Loincloth, Claw of the Infernal Seal	chocolate seal-clubbing club
+65	Legendary Regalia of the Chelonian Overlord	revclass2.gif	Elder Turtle Shell, Flail of the Seven Aspects, Galapagosian Cuisses, Garter of the Turtle Poacher	chocolate turtle totem
+66	Legendary Regalia of the Pasta Master	revclass3.gif	Colander of Em-er'il, Wrath of the Capsaician Pastalords, Angelhair Culottes, Bandolier of the Spaghetti Elemental	chocolate pasta spoon
+67	Legendary Regalia of the Saucemaestro	revclass4.gif	Ancient Saucehelm, Windsor Pan of the Source, Newman's Own Trousers, Gravyskin Belt of the Sauceblob	chocolate saucepan
+68	Legendary Regalia of the Groovelord	revclass5.gif	Disco 'Fro Pick, Seeger's Unstoppable Banjo, Volartta's bellbottoms, Bling of the New Wave	chocolate disco ball
+69	Legendary Regalia of the Master Squeezeboxer	revclass6.gif	El Sombrero De Lopez, The Trickster's Trikitixa, Lederhosen of the Night, La Hebilla del Cintur&oacute;n de Lopez	chocolate stolen accordion
+70	BRICKOfig Outfit	minifigtat.gif	BRICKO hat, BRICKO sword, BRICKO pants	BRICKO brick
+71	Knight's Armor	bknight.gif	helm of the white knight, trousers of the white knight, wristwatch of the white knight	pawn cookie
+72	Fancy Tux	blacktie.gif	fancy tophat, fancy tuxedo pants, fancy black tie	chocolate-covered caviar
+73	Transparent Trappings	plexitat.gif	plexiglass pith helmet, plexiglass pikestaff, plexiglass pants, plexiglass pendant, plexiglass pocketwatch, plexiglass pinky ring	PlexiPips
+74	Unblemished Uniform	staintat.gif	stainless steel skullcap, stainless steel shillelagh, stainless steel slacks, stainless steel scarf, stainless steel solitaire, stainless steel suspenders	Wax Flask
+75	Blasphemous Bedizenment	brimtat.gif	Brimstone Beret, Brimstone Bludgeon, Brimstone Bunker, Brimstone Boxers, Brimstone Brooch, Brimstone Bracelet	Pain Dip
+76	Smoked Pottery	potterytat.gif	pottery hat, pottery shield, pottery training pants	volcanic ash
+77	Thousandth Birthday Suit	skeletat.gif	bonedanna, boneana hammock, bone spurs	candy skeleton
+78	Uncle Hobo's Rags	crimbeard.gif	Uncle Hobo's stocking cap, Uncle Hobo's gift baggy pants, Uncle Hobo's epic beard	holly-flavored Hob-O
+79	Paperclippery	cliptat.gif	paperclip turban, paperclip cape, paperclip pants, paperclip-on tie	elderly jawbreaker
+# Treat: drops double-ice gum when Russian Ice is in inventory, otherwise adds 1 drunk
 80	Cold Comforts	doubicetat.gif	double-ice cap, double-ice box, double-ice britches
-81	Bits o' Honey	honeytat.gif	honeycap, honey dipper, honeybritches
-82	Luniform	lunartat.gif	Moonthril Circlet, Moonthril Flamberge, Moonthril Greaves
-83	Dark Bro's Vestments	necbrotat.gif	The Necbromancer's Hat, The Necbromancer's Stein, The Necbromancer's Shorts
-84	Sucker Samurai Suit	lollitat.gif	sucker kabuto, sucker tachi, sucker hakama
-85	Wax Wardrobe	crayontat.gif	wax hat, wax pants
-86	Hot Daub Ensemble	claytat.gif	hot daub bun, foot-long hot daub, hot daub stand
-87	Pinata Provisions	rad_tat.gif	papier-mitre, papier-m&acirc;churidars, papier-masque
-88	Oil Rig	oiltat.gif	oil cap, oil lamp, oil slacks
-89	Animelf Apparel	animelftat.gif	brainwave-controlled unicorn horn, electronic dulcimer pants, Frown Exerciser
-90	Seafaring Suit	sailortat.gif	foam commodore's hat, miniature deck cannon, foam naval trousers
-91	Raiments of the Final Boss	bosstat.gif	Helm of the Scream Emperor, Sword of Dark Omens, Shield of Icy Fate, Cloak of Dire Shadows, Greaves of the Murk Lord, Boots of Twilight Whispers, Belt of Howling Anger, Gauntlets of the Blood Moon
-92	Violent Vestments	shubtat.gif	Lens of Violence, Pigsticker of Violence, Brand of Violence, Jodhpurs of Violence, Ass-Stompers of Violence, Novelty Belt Buckle of Violence
-93	Hateful Habiliment	yogtat.gif	Lens of Hatred, Staff of Simmering Hatred, Cold Stone of Hatred, Pantaloons of Hatred, Fuzzy Slippers of Hatred, Girdle of Hatred
-94	Clothing of Loathing	loathetat.gif	Goggles of Loathing, Stick-Knife of Loathing, Scepter of Loathing, Jeans of Loathing, Treads of Loathing, Belt of Loathing, Pocket Square of Loathing
-95	Dreadful Pajamas	dvotat1.gif	dreadful fedora, dreadful glove, dreadful sweater
-96	Dreadful Bugbear Suit	dvotat2.gif	Covers-Your-Head, Drapes-You-Regally, Warms-Your-Tush
-97	Dreadful Werewolf Suit	dvotat3.gif	Great Wolf's headband, Great Wolf's right paw, Great Wolf's left paw
-98	Dreadful Zombie Suit	dvotat4.gif	zombie mariachi hat, zombie accordion, zombie mariachi pants
-99	Dreadful Ghost Suit	dvotat5.gif	Mayor Ghost's toupee, Mayor Ghost's cloak, Mayor Ghost's khakis
-100	Dreadful Vampire Suit	dvotat7.gif	Thunkula's drinking cap, Drunkula's cape, Drunkula's silky pants
-101	Dreadful Skeleton Suit	dvotat6.gif	Unkillable Skeleton's skullcap, Unkillable Skeleton's breastplate, Unkillable Skeleton's shinguards
-102	Cool Irons	dvotat8.gif	cool iron helmet, cool iron breastplate, cool iron greaves
-103	Warbear Dress Armor	bearclawta.gif	warbear dress helmet, warbear dress greaves, warbear dress bracers
-104	Workoutfit	workouttat.gif	sweatband, gym shorts, ankleweights
-105	Ghast Iron Gear	hotghosttat.gif	ghast iron Garibaldi, ghast iron heater shield, ghast iron codpiece
-106	Brogre Brouture	brogretat.gif	Brogre bucket hat, Brogre brolo shirt, Brogre brorts
-107	Space Beast Furs	sbeasttat.gif	space beast fur hat, space beast fur whip, space beast fur pants
-108	Gladiatorial Glad Rags	spqktat.gif	centurion helmet, madius, radiator heater shield, gladiator tunica, pteruges, Roman sadnals
-109	Xiblaxian Stealth Suit	xiblaxtat.gif	Xiblaxian stealth cowl, Xiblaxian stealth vest, Xiblaxian stealth trousers
-110	High-Radiation Mining Gear	radminetat.gif	radiation-resistant helmet, high-energy mining laser, servo-assisted exo-pants
-111	Crimbot Crimboutfit	zaptat.gif	toy Crimbot mega face, toy Crimbot power glove, toy Crimbot super fist, toy Crimbot rocket legs
-112	Topiaria	topitat.gif	tope&eacute;, topiary tights, topiary necktie
-113	Synthetic Suit	polytat.gif	polyester panama hat, polyester peeler, polyester pad, polyester parachute, polyester pettipants, polyester pulsera
-114	Ceramic Suit	porctat.gif	porcelain porkpie, porcelain police baton, porcelain pepper mill, porcelain pelerine, porcelain plus-fours, porcelain phantom mask
-115	Spelunker's Gear	spelunktat.gif	Spelunker's fedora, Spelunker's whip, Spelunker's khakis
-116	Wicker Wear	wickertat.gif	wicker sticker, wicker clicker, wicker slicker, wicker knickers, wicker ticker, wicker kickers
-117	Bakelite Brigandine	baketat.gif	bakelite bowl, bakelite backpack, bakelite breeches, bakelite belt, bakelite badge, bakelite brooch
-118	Aeroutfit	aerotat.gif	aerogel akubra, aerogel accordion, aerogel attache case, aerogel anvil, aerogel apron, aerogel ascot
-119	Wrought Wrappings	wroughttat.gif	wrought-iron wig, wrought-iron whisk, wrought-iron waders, wrought-iron winch crank, wrought-iron widget, wrought-iron walker
-120	Gabardine Guise	gabtat.gif	gabardine garibaldi, gabardine gunnysack, gabardine gaiters, gabardine garland, gabardine girdle, gabardine gloves
-121	Fiberglass Finery	fibertat.gif	fiberglass fedora, fiberglass foil, fiberglass fetish, fiberglass frock, fiberglass fannypack, fiberglass fingerguard
-122	Toxic Togs	toxictat.gif	isotophat, toxic mop, Three Mile Island shorts
-123	Dinsey's Exoskeleton	wdbraintat.gif	Dinsey's oculus, Dinsey's radar dish, Dinsey's pizza cutter, Dinsey's brain, Dinsey's glove, Dinsey's pants
-124	The Emperor's New Clothes	emperortat.gif	The Emperor's new hat, The Emperor's new shirt, The Emperor's new pants
-125	SMOOCH Army Uniform	smoochtat.gif	SMOOCH breastplate, SMOOCH codpiece, SMOOCH bracers, SMOOCH kneepads, SMOOCH spaulders
-126	Cooper's Couture	barreltat.gif	barrelhead, chest barrel, bottoms of the barrel
-127	The Jokester's Costume	jokestertat.gif	The Jokester's wig, The Jokester's gun, The Jokester's pants
+81	Bits o' Honey	honeytat.gif	honeycap, honey dipper, honeybritches	honey stick
+82	Luniform	lunartat.gif	Moonthril Circlet, Moonthril Flamberge, Moonthril Greaves	Comet Drop
+83	Dark Bro's Vestments	necbrotat.gif	The Necbromancer's Hat, The Necbromancer's Stein, The Necbromancer's Shorts	Necbro wafers
+84	Sucker Samurai Suit	lollitat.gif	sucker kabuto, sucker tachi, sucker hakama	Atomic Pop
+85	Wax Wardrobe	crayontat.gif	wax hat, wax pants	Drizzlers&trade; Black Licorice
+86	Hot Daub Ensemble	claytat.gif	hot daub bun, foot-long hot daub, hot daub stand	daub-breaker
+87	Pinata Provisions	rad_tat.gif	papier-mitre, papier-m&acirc;churidars, papier-masque	pile of candy
+88	Oil Rig	oiltat.gif	oil cap, oil lamp, oil slacks	crude crudit&eacute;s
+89	Animelf Apparel	animelftat.gif	brainwave-controlled unicorn horn, electronic dulcimer pants, Frown Exerciser	blind-packed capsule toy
+90	Seafaring Suit	sailortat.gif	foam commodore's hat, miniature deck cannon, foam naval trousers	candy crayons
+91	Raiments of the Final Boss	bosstat.gif	Helm of the Scream Emperor, Sword of Dark Omens, Shield of Icy Fate, Cloak of Dire Shadows, Greaves of the Murk Lord, Boots of Twilight Whispers, Belt of Howling Anger, Gauntlets of the Blood Moon	Boss Drops
+92	Violent Vestments	shubtat.gif	Lens of Violence, Pigsticker of Violence, Brand of Violence, Jodhpurs of Violence, Ass-Stompers of Violence, Novelty Belt Buckle of Violence	violent pastilles
+93	Hateful Habiliment	yogtat.gif	Lens of Hatred, Staff of Simmering Hatred, Cold Stone of Hatred, Pantaloons of Hatred, Fuzzy Slippers of Hatred, Girdle of Hatred	worst candy
+94	Clothing of Loathing	loathetat.gif	Goggles of Loathing, Stick-Knife of Loathing, Scepter of Loathing, Jeans of Loathing, Treads of Loathing, Belt of Loathing, Pocket Square of Loathing	fudge-shaped hole in space-time
+95	Dreadful Pajamas	dvotat1.gif	dreadful fedora, dreadful glove, dreadful sweater	Tallowcreme Halloween Pumpkin
+96	Dreadful Bugbear Suit	dvotat2.gif	Covers-Your-Head, Drapes-You-Regally, Warms-Your-Tush	Bugbearclaw Donut
+97	Dreadful Werewolf Suit	dvotat3.gif	Great Wolf's headband, Great Wolf's right paw, Great Wolf's left paw	little red jam
+98	Dreadful Zombie Suit	dvotat4.gif	zombie mariachi hat, zombie accordion, zombie mariachi pants	Whenchamacallit bar
+99	Dreadful Ghost Suit	dvotat5.gif	Mayor Ghost's toupee, Mayor Ghost's cloak, Mayor Ghost's khakis	8-bit banana
+100	Dreadful Vampire Suit	dvotat7.gif	Thunkula's drinking cap, Drunkula's cape, Drunkula's silky pants	vial of blood simple syrup
+101	Dreadful Skeleton Suit	dvotat6.gif	Unkillable Skeleton's skullcap, Unkillable Skeleton's breastplate, Unkillable Skeleton's shinguards	bone bons
+102	Cool Irons	dvotat8.gif	cool iron helmet, cool iron breastplate, cool iron greaves	ironic mint
+103	Warbear Dress Armor	bearclawta.gif	warbear dress helmet, warbear dress greaves, warbear dress bracers	warbear whosit
+104	Workoutfit	workouttat.gif	sweatband, gym shorts, ankleweights	pint of sweat
+105	Ghast Iron Gear	hotghosttat.gif	ghast iron Garibaldi, ghast iron heater shield, ghast iron codpiece	Hot 'n' Scarys
+106	Brogre Brouture	brogretat.gif	Brogre bucket hat, Brogre brolo shirt, Brogre brorts	Yolo&trade; chocolates
+107	Space Beast Furs	sbeasttat.gif	space beast fur hat, space beast fur whip, space beast fur pants	candy UFOs
+108	Gladiatorial Glad Rags	spqktat.gif	centurion helmet, madius, radiator heater shield, gladiator tunica, pteruges, Roman sadnals	Bit O' Quail Spleen
+109	Xiblaxian Stealth Suit	xiblaxtat.gif	Xiblaxian stealth cowl, Xiblaxian stealth vest, Xiblaxian stealth trousers	Take Eleven Bar
+110	High-Radiation Mining Gear	radminetat.gif	radiation-resistant helmet, high-energy mining laser, servo-assisted exo-pants	Glo-Pop
+111	Crimbot Crimboutfit	zaptat.gif	toy Crimbot mega face, toy Crimbot power glove, toy Crimbot super fist, toy Crimbot rocket legs	sugar sphere
+112	Topiaria	topitat.gif	tope&eacute;, topiary tights, topiary necktie	Shrubble Bubble
+113	Synthetic Suit	polytat.gif	polyester panama hat, polyester peeler, polyester pad, polyester parachute, polyester pettipants, polyester pulsera	polyeaster egg
+114	Ceramic Suit	porctat.gif	porcelain porkpie, porcelain police baton, porcelain pepper mill, porcelain pelerine, porcelain plus-fours, porcelain phantom mask	porcelain candy dish
+115	Spelunker's Gear	spelunktat.gif	Spelunker's fedora, Spelunker's whip, Spelunker's khakis	Spechunky bar
+116	Wicker Wear	wickertat.gif	wicker sticker, wicker clicker, wicker slicker, wicker knickers, wicker ticker, wicker kickers	Wickers bar
+117	Bakelite Brigandine	baketat.gif	bakelite bowl, bakelite backpack, bakelite breeches, bakelite belt, bakelite badge, bakelite brooch	bakelite-covered bacon
+118	Aeroutfit	aerotat.gif	aerogel akubra, aerogel accordion, aerogel attache case, aerogel anvil, aerogel apron, aerogel ascot	Aerheads
+119	Wrought Wrappings	wroughttat.gif	wrought-iron wig, wrought-iron whisk, wrought-iron waders, wrought-iron winch crank, wrought-iron widget, wrought-iron walker	Wrotz
+120	Gabardine Guise	gabtat.gif	gabardine garibaldi, gabardine gunnysack, gabardine gaiters, gabardine garland, gabardine girdle, gabardine gloves	Gabarbar
+121	Fiberglass Finery	fibertat.gif	fiberglass fedora, fiberglass foil, fiberglass fetish, fiberglass frock, fiberglass fannypack, fiberglass fingerguard	fiberglass insulation
+122	Toxic Togs	toxictat.gif	isotophat, toxic mop, Three Mile Island shorts	nasty gum
+123	Dinsey's Exoskeleton	wdbraintat.gif	Dinsey's oculus, Dinsey's radar dish, Dinsey's pizza cutter, Dinsey's brain, Dinsey's glove, Dinsey's pants	sludgesicle
+124	The Emperor's New Clothes	emperortat.gif	The Emperor's new hat, The Emperor's new shirt, The Emperor's new pants	The Emperor's new cookie
+125	SMOOCH Army Uniform	smoochtat.gif	SMOOCH breastplate, SMOOCH codpiece, SMOOCH bracers, SMOOCH kneepads, SMOOCH spaulders	Hersey&trade; SMOOCH
+126	Cooper's Couture	barreltat.gif	barrelhead, chest barrel, bottoms of the barrel	root beer barrel
+127	The Jokester's Costume	jokestertat.gif	The Jokester's wig, The Jokester's gun, The Jokester's pants	exploding gum
+# Treat: eldritch essence OR eldritch effluvium
 128	Eldritch Equipage	elditchtat.gif	eldritch hat, eldritch pants
-129	Gingerbread Best	gingertat.gif	candy dress shoes, candy necktie, chocolate pocketwatch, gingerbread waistcoat, gingerbread trousers, gingerbread tophat
-130	Spant Armor	spantat.gif	spant spear, spant backplate, spant shield, spant shoulderpads, spants
+129	Gingerbread Best	gingertat.gif	candy dress shoes, candy necktie, chocolate pocketwatch, gingerbread waistcoat, gingerbread trousers, gingerbread tophat	gingerbread bugbear
+130	Spant Armor	spantat.gif	spant spear, spant backplate, spant shield, spant shoulderpads, spants	Spant eggs
 # Meteor Masquerade can use meteorite guard in place of meteorb, but there's no good way to support that, and
 # KoL equips meteorb when equipping the outfit
-131	Meteor Masquerade	meteortat.gif	meteortarboard, shooting morning star, meteorb, meteorthopedic shoes, asteroid belt
-132	Cheerful Reindeer Suit	reintat.gif	cheerful antler hat, cheerful Crimbo sweater, cheerful pajama pants
-133	Miming Paraphernalia	mimetat.gif	miming beret, miming shirt, miming corduroys, miming gloves, miming boots
-134	Pyrotechnic Paper Paraphernalia	fpmtat.gif	burning paper hat, burning cape, burning paper slippers, burning paper jorts, burning paper crane
-135	Genie Garments	genietat.gif	genie's turbane, genie's scimitar, genie's pants, genie's bracers
-136	Psychic Enpsemble	psychictat.gif	psychic's amulet, psychic's circlet, psychic's crystal ball, psychic's pslacks
-137	FantasyRealm Warrior's Outfit	frtat1.gif	FantasyRealm Warrior's Helm, Dragonscale breastplate, belt of Ogrekind, The Ghoul King's ghoulottes
-138	FantasyRealm Wizard's Outfit	frtat2.gif	FantasyRealm Mage's Hat, nozzle of the Phoenix, the Archwizard's briefs, the Ley Incursion's waist
-139	FantasyRealm Thief's Outfit	frtat3.gif	FantasyRealm Rogue's Mask, Duke Vampire's regal cloak, leggings of the Spider Queen, Master Thief's utility belt
-140	Snakeskin Suit	vwsnaketat.gif	snakeskin cowboy hat, snakeskin jacket, snakeskin thighboots
-141	Slime Enslamble	vwslimetat.gif	slime fedora, slime knuckles, slime waders
-142	Mutant Parts Apparel	vwmuttat.gif	mutant arm, mutant legs, mutant crown
-143	Government-Issued Garb	vwgovttat.gif	government-issued slacks, government-issued eyeshade, government-issued necktie
-144	Bauxite Baubles	bauxtat.gif	bauxite beret, bauxite boxers, bauxite bow-tie
-145	Chalk Chostume	chalktat.gif	chalk chapeau, chalk chalice, chalk chlamys, chalk chinos, chalk chain, chalk choker
-146	Marble Materials	marbletat.gif	marble mariachi hat, marble mignonette bowl, marble mantle, marble maebari, marble magnet, marble medallion
-147	Paraffinalia	para_tat.gif	paraffin pith helmet, paraffin pseudoaccordion, paraffin poncho, paraffin palazzos, paraffin punching bag, paraffin pendant
-148	Terra Cotta Tackle	tc_tat.gif	terra cotta tongs, terra cotta tambourine, terra cotta train, terra cotta trousers, terra cotta tie tack, terra cotta truss
-149	Velour Vestments	velourtat.gif	velour voulge, velour valise, velour vaqueros, velour vambraces, velour veil, velour viscometer
-150	Stained Glass Suit	stainedtat.gif	stained glass stetson, stained glass shiv, stained glass shield, stained glass serape, stained glass suspenders, stained glass spectacles
+131	Meteor Masquerade	meteortat.gif	meteortarboard, shooting morning star, meteorb, meteorthopedic shoes, asteroid belt	cocoa chondrule
+132	Cheerful Reindeer Suit	reintat.gif	cheerful antler hat, cheerful Crimbo sweater, cheerful pajama pants	sweetened reindeer fat
+133	Miming Paraphernalia	mimetat.gif	miming beret, miming shirt, miming corduroys, miming gloves, miming boots	Good 'n' Quiet
+134	Pyrotechnic Paper Paraphernalia	fpmtat.gif	burning paper hat, burning cape, burning paper slippers, burning paper jorts, burning paper crane	hot button candy
+135	Genie Garments	genietat.gif	genie's turbane, genie's scimitar, genie's pants, genie's bracers	rainbow jellybean
+136	Psychic Enpsemble	psychictat.gif	psychic's amulet, psychic's circlet, psychic's crystal ball, psychic's pslacks	mystery lollipop
+137	FantasyRealm Warrior's Outfit	frtat1.gif	FantasyRealm Warrior's Helm, Dragonscale breastplate, belt of Ogrekind, The Ghoul King's ghoulottes	chocolate Ogre Chieftain
+138	FantasyRealm Wizard's Outfit	frtat2.gif	FantasyRealm Mage's Hat, nozzle of the Phoenix, the Archwizard's briefs, the Ley Incursion's waist	chocolate "Phoenix"
+139	FantasyRealm Thief's Outfit	frtat3.gif	FantasyRealm Rogue's Mask, Duke Vampire's regal cloak, leggings of the Spider Queen, Master Thief's utility belt	chocolate Spider Queen
+140	Snakeskin Suit	vwsnaketat.gif	snakeskin cowboy hat, snakeskin jacket, snakeskin thighboots	licorice snake
+141	Slime Enslamble	vwslimetat.gif	slime fedora, slime knuckles, slime waders	virgin jello shot
+142	Mutant Parts Apparel	vwmuttat.gif	mutant arm, mutant legs, mutant crown	mutated candy lump
+143	Government-Issued Garb	vwgovttat.gif	government-issued slacks, government-issued eyeshade, government-issued necktie	government-issued candy
+144	Bauxite Baubles	bauxtat.gif	bauxite beret, bauxite boxers, bauxite bow-tie	Pneumo bar
+145	Chalk Chostume	chalktat.gif	chalk chapeau, chalk chalice, chalk chlamys, chalk chinos, chalk chain, chalk choker	candy chalk
+146	Marble Materials	marbletat.gif	marble mariachi hat, marble mignonette bowl, marble mantle, marble maebari, marble magnet, marble medallion	Mallomarbles
+147	Paraffinalia	para_tat.gif	paraffin pith helmet, paraffin pseudoaccordion, paraffin poncho, paraffin palazzos, paraffin punching bag, paraffin pendant	Para-Pop
+148	Terra Cotta Tackle	tc_tat.gif	terra cotta tongs, terra cotta tambourine, terra cotta train, terra cotta trousers, terra cotta tie tack, terra cotta truss	terra panna cotta
+149	Velour Vestments	velourtat.gif	velour voulge, velour valise, velour vaqueros, velour vambraces, velour veil, velour viscometer	Velougats&trade;
+150	Stained Glass Suit	stainedtat.gif	stained glass stetson, stained glass shiv, stained glass shield, stained glass serape, stained glass suspenders, stained glass spectacles	stained hard candy
 151
 152
-153	PirateRealm Assortment	prealmtat.gif	PirateRealm party hat, piratical blunderbuss, conquistador's breastplate, plush sea serpent, pirate radio ring
-154	Shallow Sea Fishing Outfit	fishingtat.gif	spearfish fishing spear, waders, lucky rabbitfish fin
-155	Cursed Skeleton Pirate Costume	skelepiratetat.gif	cursed tricorn hat, cursed pirate cutlass, cursed swash buckle
-156	Whittled Wearables	whittletat.gif	whittled tiara, whittled shorts
-157	Antique Nutcracker Outfit	nutctat.gif	antique nutcracker hat, antique nutcracker sword, antique nutcracker drumstick, antique nutcracker cape, antique nutcracker waistcoat, antique nutcracker pants, antique nutcracker beard, antique nutcracker epaulets, antique nutcracker boots
-158	Mushroom Masquerade	mushtat.gif	mushroom cap, mushroom shield, mushroom pants, mushroom badge
+153	PirateRealm Assortment	prealmtat.gif	PirateRealm party hat, piratical blunderbuss, conquistador's breastplate, plush sea serpent, pirate radio ring	one piece of bubble gum
+154	Shallow Sea Fishing Outfit	fishingtat.gif	spearfish fishing spear, waders, lucky rabbitfish fin	Finnish Fish
+155	Cursed Skeleton Pirate Costume	skelepiratetat.gif	cursed tricorn hat, cursed pirate cutlass, cursed swash buckle	cursed chocolate doubloon
+156	Whittled Wearables	whittletat.gif	whittled tiara, whittled shorts	leftover chocolate bar
+157	Antique Nutcracker Outfit	nutctat.gif	antique nutcracker hat, antique nutcracker sword, antique nutcracker drumstick, antique nutcracker cape, antique nutcracker waistcoat, antique nutcracker pants, antique nutcracker beard, antique nutcracker epaulets, antique nutcracker boots	candied almond
+158	Mushroom Masquerade	mushtat.gif	mushroom cap, mushroom shield, mushroom pants, mushroom badge	marshroom
+# Treats: Random booze from specific subset
 159	Guzzlr Uniform	guzzlrtat.gif	Guzzlr hat, Guzzlr shoes, Guzzlr pants
-160	Lathed Livery	lathetat.gif	hemlock helm, balsam barrel, purpleheart &quot;pants&quot;, wormwood wedding ring
+160	Lathed Livery	lathetat.gif	hemlock helm, balsam barrel, purpleheart &quot;pants&quot;, wormwood wedding ring	fistful of wood shavings

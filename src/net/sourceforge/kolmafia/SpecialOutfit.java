@@ -74,11 +74,16 @@ public class SpecialOutfit
 	// This is TreeMap so that the pieces will be ordered by slot
 	private final TreeMap<Integer, AdventureResult> pieces;
 
+	private final ArrayList<AdventureResult> treats;
+
 	private int hash;
 
 	public static final SpecialOutfit NO_CHANGE = new SpecialOutfit( Integer.MAX_VALUE, " - No Change - " );
 	public static final SpecialOutfit BIRTHDAY_SUIT = new SpecialOutfit( Integer.MAX_VALUE, "Birthday Suit" );
 	public static final SpecialOutfit PREVIOUS_OUTFIT = new SpecialOutfit( Integer.MAX_VALUE, "Your Previous Outfit" );
+
+	// Pool of outfit ids
+	public static final int COLD_COMFORTS = 80;
 
 	public SpecialOutfit( final int outfitId, final String outfitName )
 	{
@@ -89,6 +94,7 @@ public class SpecialOutfit
 		this.outfitImage = null;
 		this.pieces = new TreeMap<Integer, AdventureResult>();
 		this.hash = 0;
+		this.treats = new ArrayList<AdventureResult>();
 	}
 
 	public int pieceCount( AdventureResult piece )
@@ -289,6 +295,11 @@ public class SpecialOutfit
 		return hash;
 	}
 
+	public void addTreat( final AdventureResult treat )
+	{
+		this.treats.add( treat );
+	}
+
 	public void addPiece( final AdventureResult piece )
 	{
 		if ( piece != EquipmentRequest.UNEQUIP )
@@ -385,6 +396,24 @@ public class SpecialOutfit
 	public String getImage()
 	{
 		return this.outfitImage;
+	}
+
+	public ArrayList<AdventureResult> getTreats()
+	{
+
+		if ( this.getOutfitId() == SpecialOutfit.COLD_COMFORTS )
+		{
+			if ( ItemPool.get( ItemPool.RUSSIAN_ICE ).getCount( KoLConstants.inventory ) > 0 )
+			{
+				this.treats.add( ItemPool.get( ItemPool.DOUBLE_ICE_GUM ) );
+			}
+			else
+			{
+				this.treats.clear();
+			}
+		}
+
+		return this.treats;
 	}
 
 	@Override

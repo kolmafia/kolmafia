@@ -1622,6 +1622,7 @@ public class ItemPool
 	public static final int MOON_POTION_1 = 5180;
 	public static final int MOON_POTION_2 = 5181;
 	public static final int MOON_POTION_3 = 5182;
+	public static final int DOUBLE_ICE_GUM = 5189;
 	public static final int PATRIOT_SHIELD = 5190;
 	public static final int BIG_KNOB_SAUSAGE = 5193;
 	public static final int EXORCISED_SANDWICH = 5194;
