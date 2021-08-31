@@ -45,12 +45,12 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
@@ -715,7 +715,7 @@ public class NPCStoreDatabase
 		if ( items == null )
 		{
 			// Worth a shot...
-			return ConcoctionDatabase.itemIdByRow( row );
+			return ConcoctionPool.rowToId( row );
 		}
 
 		for ( NPCPurchaseRequest item : items )
