@@ -1533,6 +1533,10 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "outfit_tattoo", DataTypes.STRING_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "outfit_treats", new
+				AggregateType( DataTypes.FLOAT_TYPE, DataTypes.ITEM_TYPE ), params ) );
+
 		// Familiar functions.
 
 		params = new Type[] {};
@@ -6784,7 +6788,28 @@ public abstract class RuntimeLibrary
 
 		return new Value( so.getImage() );
 	}
-	
+
+	public static Value outfit_treats( ScriptRuntime controller, final Value outfit )
+	{
+		SpecialOutfit so = EquipmentManager.getMatchingOutfit( outfit.toString() );
+		AggregateType type = new AggregateType( DataTypes.FLOAT_TYPE, DataTypes.ITEM_TYPE );
+		MapValue value = new MapValue( type );
+
+		if ( so == null )
+		{
+			return value;
+		}
+
+		ArrayList<AdventureResult> treats = so.getTreats();
+
+		for ( AdventureResult treat : treats )
+		{
+			value.aset( DataTypes.makeItemValue( treat ), DataTypes.makeFloatValue( 1.0 ) );
+		}
+
+		return value;
+	}
+
 	public static Value get_outfits( ScriptRuntime controller )
 	{
 		return RuntimeLibrary.outfitListToValue( controller, EquipmentManager.getOutfits(), false );
