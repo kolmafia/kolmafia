@@ -172,8 +172,6 @@ public class ConcoctionDatabase
 	private static final HashMap<Integer,Concoction> noodles = new HashMap<Integer,Concoction>();
 	private static final HashMap<Integer,Concoction> meatStack = new HashMap<Integer,Concoction>();
 
-	private static final HashMap<Integer,Integer> itemIdByRow = new HashMap<Integer,Integer>();
-
 	private static CraftingType mixingMethod = null;
 	private static final EnumSet<CraftingRequirements> requirements = EnumSet.noneOf(CraftingRequirements.class);
 	private static final EnumSet<CraftingMisc> info = EnumSet.noneOf(CraftingMisc.class);
@@ -304,10 +302,6 @@ public class ConcoctionDatabase
 
 		if ( !bogus )
 		{
-			if ( ConcoctionDatabase.row != 0 )
-			{
-				ConcoctionDatabase.itemIdByRow.put( row, itemId );
-			}
 			Concoction concoction = new Concoction( item, ConcoctionDatabase.mixingMethod, 
 				  ConcoctionDatabase.requirements.clone(), ConcoctionDatabase.info.clone(), ConcoctionDatabase.row );
 			concoction.setParam( param );
@@ -392,16 +386,6 @@ public class ConcoctionDatabase
 	{
 		SortedListModel<AdventureResult> uses = ConcoctionDatabase.knownUses.get( itemId );
 		return uses == null ? ConcoctionDatabase.EMPTY_LIST : uses;
-	}
-
-	public static final int itemIdByRow( final int row )
-	{
-		Integer itemId = ConcoctionDatabase.itemIdByRow.get( row );
-		if ( itemId != null )
-		{
-			return itemId;
-		}
-		return -1;
 	}
 
 	public static final SortedListModel<AdventureResult> getKnownUses( final AdventureResult item )
