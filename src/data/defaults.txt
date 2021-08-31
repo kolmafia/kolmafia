@@ -865,7 +865,7 @@ user	lastTempleButtonsUnlock	-1
 user	lastTempleUnlock	-1
 user	lastTr4pz0rQuest	-1
 user	lastVioletFogMap	0
-user	lastVoteMonsterTurn	
+user	lastVoteMonsterTurn	0
 user	lastWartDinseyDefeated	-1
 user	lastWuTangDefeated	-1
 user	lastYearbookCameraAscension	-1
