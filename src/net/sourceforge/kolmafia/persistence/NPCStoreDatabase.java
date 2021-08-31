@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
@@ -713,7 +714,8 @@ public class NPCStoreDatabase
 		List<NPCPurchaseRequest> items = NPCStoreDatabase.ROW_ITEMS.get( row );
 		if ( items == null )
 		{
-			return -1;
+			// Worth a shot...
+			return ConcoctionDatabase.itemIdByRow( row );
 		}
 
 		for ( NPCPurchaseRequest item : items )
