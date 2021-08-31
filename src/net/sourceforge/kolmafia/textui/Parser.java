@@ -1350,11 +1350,14 @@ public class Parser
 		return isArray ? new ArrayLiteral( aggr, values ) :  new MapLiteral( aggr, keys, values );
 	}
 
-	private Type parseAggregateType( final Type dataType, final BasicScope scope )
+	private Type parseAggregateType( Type dataType, final BasicScope scope )
 	{
 		Token separatorToken = this.currentToken();
 
 		this.readToken(); // [ or ,
+
+		Type indexType = null;
+		int size = 0;
 
 		if ( this.currentToken().equals( "]" ) )
 		{
@@ -1362,43 +1365,15 @@ public class Parser
 			{
 				throw this.parseException( "Missing index token" );
 			}
-
-			this.readToken(); // ]
-
-			if ( this.currentToken().equals( "[" ) )
-			{
-				return new AggregateType( this.parseAggregateType( dataType, scope ), 0 );
-			}
-
-			return new AggregateType( dataType, 0 );
 		}
 		else if ( this.readIntegerToken( this.currentToken().content ) )
 		{
-			int size = StringUtilities.parseInt( this.currentToken().content );
+			size = StringUtilities.parseInt( this.currentToken().content );
 			this.readToken(); // integer
-
-			if ( this.currentToken().equals( "]" ) )
-			{
-				this.readToken(); // ]
-
-				if ( this.currentToken().equals( "[" ) )
-				{
-					return new AggregateType( this.parseAggregateType( dataType, scope ), size );
-				}
-
-				return new AggregateType( dataType, size );
-			}
-
-			if ( this.currentToken().equals( "," ) )
-			{
-				return new AggregateType( this.parseAggregateType( dataType, scope ), size );
-			}
-
-			throw this.parseException( "]", this.currentToken() );
 		}
 		else if ( this.parseIdentifier( this.currentToken().content ) )
 		{
-			Type indexType = scope.findType( this.currentToken().content );
+			indexType = scope.findType( this.currentToken().content );
 			if ( indexType == null )
 			{
 				throw this.parseException( "Invalid type name '" + this.currentToken() + "'" );
@@ -1410,30 +1385,35 @@ public class Parser
 			}
 
 			this.readToken(); // type name
-
-			if ( this.currentToken().equals( "]" ) )
-			{
-				this.readToken(); // ]
-
-				if ( this.currentToken().equals( "[" ) )
-				{
-					return new AggregateType( this.parseAggregateType( dataType, scope ), indexType );
-				}
-
-				return new AggregateType( dataType, indexType );
-			}
-
-			if ( this.currentToken().equals( "," ) )
-			{
-				return new AggregateType( this.parseAggregateType( dataType, scope ), indexType );
-			}
-
-			throw this.parseException( ", or ]", this.currentToken() );
 		}
 		else
 		{
 			throw this.parseException( "Missing index token" );
 		}
+
+		if ( this.currentToken().equals( "," ) ||
+		     ( this.currentToken().equals( "]" ) &&
+		       "[".equals( this.nextToken() ) ) )
+		{
+			if ( this.currentToken().equals( "]" ) )
+			{
+				this.readToken(); // ]
+			}
+
+			dataType = this.parseAggregateType( dataType, scope );
+		}
+		else if ( this.currentToken().equals( "]" ) )
+		{
+			this.readToken(); // ]
+		}
+		else
+		{
+			throw this.parseException( ", or ]", this.currentToken() );
+		}
+
+		return indexType != null ?
+			new AggregateType( dataType, indexType ) :
+			new AggregateType( dataType, size );
 	}
 
 	private boolean parseIdentifier( final String identifier )
