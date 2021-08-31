@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 import java.io.BufferedReader;
@@ -45,7 +47,8 @@ public class DataFileMechanicsTest {
 				//monsters.txt is too complex
 				{"nonfilling.txt", 1, 2, 3},
 				{"npcstores.txt", 2, 4, 5},
-				{"outfits.txt", 2, 4, 4},
+				// Trick-or-treat candy is optional if too complicated
+				{"outfits.txt", 3, 4, 5},
 				{"packages.txt", 1, 4, 4},
 				{"pulverize.txt", 2, 2, 2},
 				{"questscouncil.txt", 1, 3, 5},
@@ -108,7 +111,7 @@ public class DataFileMechanicsTest {
 			if (skipMe(fieldsRead)) continue;
 			String msg = fname + " " + fields[0];
 			//Line has too many or too few fields.
-			assertTrue (msg, ((lowCount <= fieldsRead) && (fieldsRead <= highCount)));
+			assertThat(msg, fieldsRead, allOf(greaterThanOrEqualTo(lowCount), lessThanOrEqualTo(highCount)));
 		}
 		//No lines is sometimes a symptom caused by a bad file name.
 		assertFalse("No lines in "+fname, noLines);
