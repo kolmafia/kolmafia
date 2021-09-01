@@ -933,6 +933,12 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.INT_TYPE, DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("retrieve_item", DataTypes.BOOLEAN_TYPE, params));
 
+    params = new Type[] {};
+    functions.add(new LibraryFunction("receive_fax", DataTypes.VOID_TYPE, params));
+
+    params = new Type[] {};
+    functions.add(new LibraryFunction("send_fax", DataTypes.VOID_TYPE, params));
+
     params = new Type[] {DataTypes.MONSTER_TYPE};
     functions.add(new LibraryFunction("faxbot", DataTypes.BOOLEAN_TYPE, params));
 
@@ -4610,6 +4616,16 @@ public abstract class RuntimeLibrary {
 
   public static Value retrieve_item(ScriptRuntime controller, final Value item) {
     return retrieve_item(controller, new Value(1), item);
+  }
+
+  public static Value receive_fax(ScriptRuntime controller) {
+    KoLmafiaCLI.DEFAULT_SHELL.executeCommand("fax", "receive");
+    return RuntimeLibrary.continueValue();
+  }
+
+  public static Value send_fax(ScriptRuntime controller) {
+    KoLmafiaCLI.DEFAULT_SHELL.executeCommand("fax", "send");
+    return RuntimeLibrary.continueValue();
   }
 
   public static Value faxbot(
