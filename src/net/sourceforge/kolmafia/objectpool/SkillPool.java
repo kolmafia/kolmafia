@@ -441,4 +441,9 @@ public class SkillPool
 	public static final int FIREBALL_BARRAGE = 25004;
 	public static final int SPIN_JUMP = 25005;
 	public static final int MULTI_BOUNCE = 25006;
+	public static final int FIRE_EXTINGUISHER__FOAM_EM_UP = 7386;
+	public static final int FIRE_EXTINGUISHER__POLAR_VORTEX = 7387;
+	public static final int FIRE_EXTINGUISHER__FOAM_YOURSELF = 7388;
+	public static final int FIRE_EXTINGUISHER__BLAST_THE_AREA = 7389;
+	public static final int FIRE_EXTINGUISHER__ZONE_SPECIFIC = 7390;
 }

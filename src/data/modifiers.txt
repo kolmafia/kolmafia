@@ -1465,6 +1465,7 @@ Item	huge spoon	Spell Damage: +10
 Item	ice nine	Critical Hit Percent: +10, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Meat Drop: +30, PvP Fights: +5, Lasts Until Rollover
 Item	ice sickle	Monster Level: +15, Cold Damage: +5, Softcore Only
 Item	icy-hot katana	Hot Damage: +3, Cold Damage: +3
+Item	industrial fire extinguisher	Hot Resistance: +3, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Cold Damage: +15, Cold Spell Damage: +15, Maximum HP: +20, Maximum MP: +20, Adventures: +3, Free Pull
 Item	iFlail	Monster Level: +11, Familiar Weight: +5, Combat Rate: -5
 Item	immense cyborg hand	Weapon Damage: +5, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
 Item	infernal fife	Hot Damage: +7
@@ -5706,6 +5707,7 @@ Effect	Finstrong	Initiative Penalty: [30*env(underwater)], Item Drop Penalty: [3
 Effect	Fire cracked	Experience: +20
 Effect	Fire Down Below	Hot Damage: [min(100,T)]
 Effect	Fire Inside	Hot Damage: +25
+Effect	Fireproof Foam Suit	Hot Resistance: +30
 Effect	Fireproof Lips	Hot Resistance: +9
 Effect	First Blood Kiwi	Spooky Damage: +30
 Effect	First Eye Blind	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
@@ -11181,6 +11183,7 @@ Item	Our Daily Candles&trade; order form	Free Pull
 # pacification grenade: Weakens enemies somewhat
 Item	Pack of Every Card	Free Pull
 Item	packaged familiar scrapbook	Free Pull
+Item	packaged industrial fire extinguisher	Free Pull
 Item	packaged knock-off retro superhero cape	Free Pull
 Item	packaged Pocket Professor	Free Pull
 Item	packaged SpinMaster&trade; lathe	Free Pull

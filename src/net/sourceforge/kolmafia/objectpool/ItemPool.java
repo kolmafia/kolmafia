@@ -3328,6 +3328,7 @@ public class ItemPool
 	public static final int BLART = 10790;
 	public static final int RAINPROOF_BARREL_CAULK = 10794;
 	public static final int PUMP_GREASE = 10795;
+	public static final int INDUSTRIAL_FIRE_EXTINGUISHER = 10797;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
