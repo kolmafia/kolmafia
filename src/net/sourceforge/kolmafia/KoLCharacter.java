@@ -504,6 +504,7 @@ public abstract class KoLCharacter
 		KoLCharacter.thunder = 0;
 		KoLCharacter.rain = 0;
 		KoLCharacter.lightning = 0;
+		KoLCharacter.absorbs = 0;
 
 		KoLCharacter.mask = null;
 
@@ -513,6 +514,7 @@ public abstract class KoLCharacter
 		KoLCharacter.resetTriggers();
 
 		KoLCharacter.currentModifiers.reset();
+		KoLCharacter.currentModifiers.resetModifiers();
 
 		KoLConstants.inventory.clear();
 		KoLConstants.closet.clear();
@@ -3750,6 +3752,9 @@ public abstract class KoLCharacter
 			
 		// We may want to re-run breakfast, for various reasons
 		Preferences.setBoolean( "breakfastCompleted", false );
+
+		// Reset modifiers in case we had modifiers that no longer apply
+		KoLCharacter.currentModifiers.resetModifiers();
 
 		// If leaving a path with a unique class, finish when player picks a new class.
 		// We can't interrupt choice.php with (most) requests.
