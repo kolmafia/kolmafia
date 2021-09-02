@@ -525,6 +525,8 @@ public class ResponseTextParser
 				case ItemPool.FAMILIAR_SCRAPBOOK:
 					ItemDatabase.parseFamiliarScrapbook( responseText );
 					break;
+				case ItemPool.INDUSTRIAL_FIRE_EXTINGUISHER:
+					ItemDatabase.parseFireExtinguisher( responseText );
 				default:
 					changesFromTimeToTime = false;
 					break;

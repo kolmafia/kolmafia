@@ -576,6 +576,11 @@ user	falloutShelterLevel	0
 user	familiarScript
 user	lastCopyableMonster
 user	fingernailsClipped	0
+user	fireExtinguisherBatHoleUsed	false
+user	fireExtinguisherChasmUsed	false
+user	fireExtinguisherCyrptUsed	false
+user	fireExtinguisherDesertUsed	false
+user	fireExtinguisherHaremUsed	false
 user	fistSkillsKnown	0
 user	fistTeachingsHaikuDungeon	false
 user	fistTeachingsPokerRoom	false
@@ -1609,6 +1614,8 @@ user	_feelNostalgicUsed	0
 user	_feelPeacefulUsed	0
 user	_fingertrapArrows	0
 user	_firedJokestersGun	false
+user	_fireExtinguisherCharge	100
+user	_fireExtinguisherRefilled	false
 user	_fireStartingKitUsed	false
 user	_fireworksShop	false
 user	_fireworksShopHatBought	false
