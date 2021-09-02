@@ -911,6 +911,11 @@
 7383	B. L. A. R. T. Spray (medium)	blartspray2.gif	5	0	0
 7384	B. L. A. R. T. Spray (wide)	blartspray3.gif	5	0	0
 7385	B. L. A. R. T. Spray (narrow)	blartspray1.gif	5	0	0
+7386	Fire Extinguisher: Foam 'em Up	foam1.gif	5	0	0
+7387	Fire Extinguisher: Polar Vortex	foam2.gif	5	0	0
+7388	Fire Extinguisher: Foam Yourself	foam4.gif	5	0	0
+7389	Fire Extinguisher: Blast the Area	foam3.gif	5	0	0
+7390	Fire Extinguisher: Zone Specific	exting2.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

@@ -2213,7 +2213,7 @@ public class GenericRequest
 		this.redirectCount++;
 
 		// Let ChoiceManager clean up if you are walking away from a request.
-		ChoiceManager.handleWalkingAway( this.formURLString, this.redirectLocation );
+		ChoiceManager.handleWalkingAway( this.formURLString );
 
 		if ( this.redirectLocation.startsWith( "maint.php" ) )
 		{

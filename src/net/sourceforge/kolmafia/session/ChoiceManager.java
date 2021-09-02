@@ -259,7 +259,7 @@ public abstract class ChoiceManager
 	private static final Pattern DAYCARE_RECRUITS_PATTERN = Pattern.compile( "<font color=blue><b>[(.*?) Meat]</b></font>" );
 	private static final Pattern DAYCARE_RECRUIT_PATTERN = Pattern.compile( "attract (.*?) new children" );
 	private static final Pattern DAYCARE_EQUIPMENT_PATTERN = Pattern.compile( "manage to find (.*?) used" );
-	private static final Pattern DAYCARE_ITEM_PATTERN = Pattern.compile( "<td valign=center>You lose an item: </td>(?:.*?)<b>(.*?)</b> \\((.*?)\\)</td>" );
+	private static final Pattern DAYCARE_ITEM_PATTERN = Pattern.compile( "<td valign=center>You lose an item: </td>.*?<b>(.*?)</b> \\((.*?)\\)</td>" );
 	private static final Pattern SAUSAGE_PATTERN = Pattern.compile( "grinder needs (.*?) of the (.*?) required units of filling to make a sausage.  Your grinder reads \\\"(\\d+)\\\" units." );
 	private static final Pattern DOCTOR_BAG_PATTERN = Pattern.compile( "We've received a report of a patient (.*?), in (.*?)\\." );
 	private static final Pattern RED_SNAPPER_PATTERN = Pattern.compile( "guiding you towards: <b>(.*?)</b>.  You've found <b>(\\d+)</b> of them" );
@@ -12565,6 +12565,14 @@ public abstract class ChoiceManager
 					WildfireCampRequest.reduceFireLevel( location );
 				}
 			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				if ( text.contains( "Hagnk takes your fire extinguisher" ) )
+				{
+					Preferences.setInteger( "_fireExtinguisherCharge", 100 );
+					Preferences.setBoolean( "_fireExtinguisherRefilled", true );
+				}
+			}
 			WildfireCampRequest.parseCaptain( text );
 			break;
 		case 1452:
@@ -14559,7 +14567,7 @@ public abstract class ChoiceManager
 		}
 	}
 
-	public static void handleWalkingAway( final String urlString, final String redirectLocation )
+	public static void handleWalkingAway( final String urlString )
 	{
 		// If we are not handling a choice, nothing to do
 		if ( !ChoiceManager.handlingChoice )

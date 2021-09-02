@@ -573,6 +573,11 @@ public class ValhallaManager
 		Preferences.setInteger( "shockingLickCharges", 0 );
 		Preferences.setString( "backupCameraMode", "meat" );
 		Preferences.setBoolean( "backupCameraReverserEnabled", false );
+		Preferences.setBoolean( "fireExtinguisherBatHoleUsed", false );
+		Preferences.setBoolean( "fireExtinguisherChasmUsed", false );
+		Preferences.setBoolean( "fireExtinguisherCyrptUsed", false );
+		Preferences.setBoolean( "fireExtinguisherDesertUsed", false );
+		Preferences.setBoolean( "fireExtinguisherHaremUsed", false );
 		MonorailManager.resetMuffinOrder();
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );

@@ -107,16 +107,17 @@ public class WildfireCampRequest
 	}
 
 	private static final Pattern CAPTAIN_ZONE = Pattern.compile( "<option.*?value=\"(\\d+)\">.*? \\(.*?: (\\d)\\)</option>" );
+	private static final Pattern CAPTAIN_REFILL = Pattern.compile( "It is only (\\d+)% full." );
 	public static void parseCaptain( final String responseText )
 	{
-		Matcher m = CAPTAIN_ZONE.matcher( responseText );
+		Matcher zoneMatcher = CAPTAIN_ZONE.matcher( responseText );
 
 		FIRE_LEVEL.clear();
 
-		while ( m.find() )
+		while ( zoneMatcher.find() )
 		{
-			int locationId = StringUtilities.parseInt( m.group( 1 ) );
-			int level = StringUtilities.parseInt( m.group( 2 ) );
+			int locationId = StringUtilities.parseInt( zoneMatcher.group( 1 ) );
+			int level = StringUtilities.parseInt( zoneMatcher.group( 2 ) );
 
 			KoLAdventure location = AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=" + locationId );
 
@@ -124,6 +125,15 @@ public class WildfireCampRequest
 			{
 				FIRE_LEVEL.put( location, level );
 			}
+		}
+
+		Matcher refillMatcher = CAPTAIN_REFILL.matcher( responseText );
+
+		if ( refillMatcher.find() )
+		{
+			int charge = StringUtilities.parseInt( refillMatcher.group( 1 ) );
+			Preferences.setInteger( "_fireExtinguisherCharge", charge );
+			Preferences.setBoolean( "_fireExtinguisherRefilled", false );
 		}
 	}
 

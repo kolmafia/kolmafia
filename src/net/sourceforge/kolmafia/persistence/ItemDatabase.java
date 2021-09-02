@@ -2518,6 +2518,18 @@ public class ItemDatabase
 		}
 	}
 
+	private static Pattern FIRE_EXTINGUISHER_PATTERN = Pattern.compile( "The extinguisher's tank is currently <b>([\\d]+)% full</b>" );
+
+	public static void parseFireExtinguisher( final String desc )
+	{
+		Matcher matcher = FIRE_EXTINGUISHER_PATTERN.matcher( desc );
+		if ( matcher.find() )
+		{
+			int charge = StringUtilities.parseInt( matcher.group( 1 ) );
+			Preferences.setInteger( "_fireExtinguisherCharge", charge );
+		}
+	}
+
 	public static int parseYearbookCamera( final String desc )
 	{
 		int upgrades;
