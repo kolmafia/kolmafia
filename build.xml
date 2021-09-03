@@ -289,6 +289,13 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 	  <clover-html-report outdir="clover/clover_html" title="KoLmafia coverage"/>
 	</target>
 
+	<target name="clover.xml">
+	  <!-- Generate XML report. -->
+	  <clover-report>
+		<current title="KoLmafia coverage" outfile="clover/coverage.xml" />
+	  </clover-report>
+	</target>
+
 	<!-- ========================================== -->
 	<!--  generate a zipped TAR of the source code  -->
 	<!-- ========================================== -->
