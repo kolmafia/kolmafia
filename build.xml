@@ -40,6 +40,7 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 
 		<tstamp />
 		<mkdir dir="${build}" />
+		<mkdir dir="${build}/clover" />
 		<mkdir dir="${dist}" />
 
 	</target>
@@ -264,7 +265,7 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 	  </clover-setup>
 	</target>
 
-	<target name="coverage-compile" depends="with.clover,compile-deps">
+	<target name="coverage-compile" depends="init,with.clover,compile-deps">
 		<javac source="1.8" srcdir="${src}" destdir="${build}" includeantruntime="false">
 		  <include name="**/*.java" />
 		  <classpath>
@@ -283,7 +284,15 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
       <clover-snapshot file="${clover.snapshot.file}"/>
 	</target>
 
-	<target name="coverage" depends="coverage-compile, test, clover.snapshot" description="Runs tests with all sources instrumented." />
+	<target name="coverage" depends="with.clover" description="Runs tests with all sources instrumented.">
+	  <antcall target="coverage-compile">
+		<param name="build" value="${build}/clover" />
+	  </antcall>
+	  <antcall target="test">
+		<param name="build" value="${build}/clover" />
+	  </antcall>
+	  <antcall target="clover.snapshot" />
+	</target>
 
 	<target name="clover.report">
 	  <clover-html-report outdir="clover/clover_html" title="KoLmafia coverage"/>
