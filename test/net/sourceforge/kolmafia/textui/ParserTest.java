@@ -2031,7 +2031,6 @@ public class ParserTest
 	}
 
 	@Test
-	@Ignore("Intermittent failure")
 	public void testScriptValidity()
 	{
 		ByteArrayInputStream istream = new ByteArrayInputStream( this.script.getBytes( StandardCharsets.UTF_8 ) );
