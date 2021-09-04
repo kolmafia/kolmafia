@@ -1657,6 +1657,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "hippy_stone_broken", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "get_counter", DataTypes.INT_TYPE, params ) );
+
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "get_counters", DataTypes.STRING_TYPE, params ) );
 
@@ -7072,6 +7075,11 @@ public abstract class RuntimeLibrary
 	public static Value hippy_stone_broken( ScriptRuntime controller )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.getHippyStoneBroken() );
+	}
+
+	public static Value get_counter( ScriptRuntime controller, final Value label )
+	{
+		return new Value( TurnCounter.getCounter( label.toString() ) );
 	}
 
 	public static Value get_counters( ScriptRuntime controller, final Value label, final Value min, final Value max )

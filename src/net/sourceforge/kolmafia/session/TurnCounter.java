@@ -520,6 +520,30 @@ public class TurnCounter
 		return buf.toString();
 	}
 
+	public static final int getCounter( String label )
+	{
+		label = label.toLowerCase();
+		boolean checkExempt = label.length() == 0;
+
+		synchronized ( TurnCounter.relayCounters )
+		{
+			for ( TurnCounter current : TurnCounter.relayCounters )
+			{
+				if ( checkExempt && current.isExempt( "" ) )
+				{
+					continue;
+				}
+				if ( !current.parsedLabel.toLowerCase().contains( label ) )
+				{
+					continue;
+				}
+				return current.value - KoLCharacter.getCurrentRun();
+			}
+		}
+
+		return -1;
+	}
+
 	public static final void startCountingTemporary( int value, String label, String image )
 	{
 		String temp = Preferences.getString( "_tempRelayCounters" );
