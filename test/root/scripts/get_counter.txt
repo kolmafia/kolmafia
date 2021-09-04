@@ -1,0 +1,6 @@
+ash get_counter("Manual")
+counters add 10
+ash get_counter("Manual")
+ash get_counter("non-matching")
+counters clear
+ash get_counter("Manual")
