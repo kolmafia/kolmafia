@@ -81,15 +81,16 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 
 	</target>
 
-	<!-- ============================================ -->
-	<!--  get SVN revision number using git find-rev  -->
-	<!-- ============================================ -->
+    <!-- ============================================ -->
+    <!--  get SVN revision number using git rev-list  -->
+    <!-- ============================================ -->
 
 	<target name="gitsvn-version" if="using.gitsvn">
 
-		<exec executable="sh" outputproperty="revision" failifexecutionfails="false">
-			<arg value="-c" />
-			<arg value="git svn info | grep '^Revision: [0-9]*$' | awk '{ print $2 }'" />
+		<exec executable="git" outputproperty="revision" failifexecutionfails="false">
+			<arg value="rev-list" />
+			<arg value="--count" />
+			<arg value="HEAD" />
 		</exec>
 
 	</target>

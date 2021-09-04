@@ -80,6 +80,11 @@ test {
   systemProperty 'line.separator', '\n'
   jvmArgs '-DuseCWDasROOT=true'
   workingDir 'test/root'
+
+  reports {
+    html.enabled = true
+    junitXml.enabled = true
+  }
 }
 
 jar {
@@ -135,6 +140,11 @@ clover {
 
   report {
     html = true
+    xml = true
+
+    // Support capturing test results from JUnix XML report
+    testResultsDir = project.tasks.getByName('test').reports.junitXml.destination
+    testResultsInclude = 'TEST-*.xml'
   }
 }
 
