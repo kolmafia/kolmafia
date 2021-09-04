@@ -19,7 +19,7 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 	<property file="default.properties" />
 	<property environment="env" />
 	<taskdef resource="cloverlib.xml" classpath="${lib}/testjar/clover.jar"/>
-	<property name="clover.snapshot.file" value=".clover/coverage.db.snapshot"/>
+	<property name="clover.snapshot.file" value="${build}/coverage.db.snapshot"/>
 
 	<available file=".svn" property="using.svn" />
 	<available file=".git" property="using.gitsvn" />
@@ -106,7 +106,7 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 		-->
 		<symlink action="delete" link="${dist}/${version-name}/Applications" failonerror="false" />
 
-		<clover-clean/>
+		<clover-clean />
 		<delete dir="${appfile}" failonerror="false" />
 
 		<delete failonerror="false" includeemptydirs="true">
