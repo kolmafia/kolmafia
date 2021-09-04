@@ -68,7 +68,6 @@ public class CustomScriptTest
 	}
 
 	@Test
-	@Ignore("Intermittent failure")
 	public void testScripts()
 	{
 		for ( String script : data() )
