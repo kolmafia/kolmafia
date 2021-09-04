@@ -480,6 +480,76 @@ public class ParserTest
 				Arrays.asList( "void", "f", "(", "int", "a", ")", "{", "}" ),
 			},
 			{
+				"Invalid function name",
+				"void float() {}",
+				"Reserved word 'float' cannot be used as a function name",
+				null,
+			},
+			{
+				"Basic function interrupted",
+				"void f(",
+				"Expected ), found end of file",
+				null,
+			},
+			{
+				"Basic function parameter interrupted",
+				"void f(int",
+				"Expected identifier, found end of file",
+				null,
+			},
+			{
+				"Basic function duplicate parameter",
+				"void f(int a, float a) {}",
+				"Parameter a is already defined",
+				null,
+			},
+			{
+				"Basic function missing parameter separator",
+				"void f(int a float a) {}",
+				"Expected ,, found float", // Uh... doesn't quite stand out does it...
+				null,
+			},
+			{
+				"Basic function with vararg",
+				"void f(int a, string b, float... c) {}",
+				null,
+				Arrays.asList( "void", "f", "(", "int", "a", ",", "string", "b", ",",
+				               "float", "...", "c", ")", "{", "}" ),
+			},
+			/*{
+				// Is currently trumped by
+				// "The vararg parameter must be the last one"
+
+				"Basic function with multiple varargs",
+				"void f(int ... a, int ... b) {}",
+				"Only one vararg parameter is allowed",
+				null,
+			},*/
+			{
+				"Basic function with non-terminal vararg",
+				"void f(int ... a, float b) {}",
+				"The vararg parameter must be the last one",
+				null,
+			},
+			{
+				"Basic function overrides library",
+				"void round(float n) {}",
+				"Function 'round(float)' overrides a library function.",
+				null,
+			},
+			{
+				"Basic function defined multiple times",
+				"void f() {} void f() {}",
+				"Function 'f()' defined multiple times.",
+				null,
+			},
+			{
+				"Basic function vararg clash",
+				"void f(int a, int ... b) {} void f(int ... a) {}",
+				"Function 'f(int ...)' clashes with existing function 'f(int, int ...)'.",
+				null,
+			},
+			{
 				"Complex expression parsing",
 				// Among other things, this tests that true / false are case insensitive, in case
 				// you want to pretend you're working in Python, C, or both.
@@ -495,21 +565,30 @@ public class ParserTest
 				"-/*negative \nnumber*/1.23;",
 				null,
 				Arrays.asList( "-", "/*negative", "number*/", "1", ".", "23", ";" ),
-
 			},
 			{
 				"Float literal split after decimal",
 				"1./*decimal\n*/23;",
 				null,
 				Arrays.asList( "1", ".", "/*decimal", "*/", "23", ";" ),
-
 			},
 			{
 				"Float literal with no integral component",
 				"-.123;",
 				null,
 				Arrays.asList( "-", ".", "123", ";" ),
-
+			},
+			{
+				"Float literal with no integral part, non-numeric fractional part",
+				"-.123abc;",
+				"Expected numeric value, found 123abc",
+				null,
+			},
+			{
+				"unary negation",
+				"int x; (-x);",
+				null,
+				Arrays.asList( "int", "x", ";", "(", "-", "x", ")", ";" ),
 			},
 			/*
 			  There's code for this case, but we encounter a separate error ("Record expected").
@@ -518,7 +597,6 @@ public class ParserTest
 				"123.;",
 				null,
 				Arrays.asList( "123", ".", ";" ),
-
 			},
 			*/
 			{
@@ -526,14 +604,12 @@ public class ParserTest
 				"123.to_string();",
 				null,
 				Arrays.asList( "123", ".", "to_string", "(", ")", ";" ),
-
 			},
 			{
 				"Unary minus",
 				"int x; (-x);",
 				null,
 				Arrays.asList( "int", "x", ";", "(", "-", "x", ")", ";" ),
-
 			},
 			{
 				"Chained if/else-if/else",
@@ -543,28 +619,24 @@ public class ParserTest
 				               "else", "if", "(", "false", ")", "{", "}",
 				               "else", "if", "(", "false", ")", "{", "}",
 				               "else", "{", "}" ),
-
 			},
 			{
 				"Multiple else",
 				"if (false) {} else {} else {}",
 				"Else without if",
 				null,
-
 			},
 			{
 				"else-if after else",
 				"if (false) {} else {} else if (true) {}",
 				"Else without if",
 				null,
-
 			},
 			{
 				"else without if",
 				"else {}",
 				"Unknown variable 'else'",
 				null,
-
 			},
 			{
 				"Multiline cli_execute script",
@@ -574,7 +646,6 @@ public class ParserTest
 				              "echo hello world;",
 				              "echo sometimes we don't have a semicolon",
 				              "}"),
-
 			},
 			{
 				"For loop, no/bad initial expression",
@@ -599,7 +670,6 @@ public class ParserTest
 				"`this is some math: {4 + 7}`",
 				null,
 				Arrays.asList( "`this is some math: {", "4", "+", "7", "}`" ),
-
 			},
 			{
 				"template string with a new variable",
@@ -620,7 +690,6 @@ public class ParserTest
 				"`this is some math: {7 // what determines the end?}`",
 				"Expected }, found end of file",
 				null,
-
 			},
 			{
 				"template string with terminated comment",
@@ -1649,6 +1718,12 @@ public class ParserTest
 							   "i", "=", "1", ")", ";" ),
 			},
 			{
+				"undefined function call",
+				"prin();",
+				"Function 'prin( )' undefined.  This script may require a more recent version of KoLmafia and/or its supporting scripts.",
+				null,
+			},
+			{
 				"function call interrupted",
 				"print(",
 				"Expected ), found end of file",
@@ -1677,6 +1752,32 @@ public class ParserTest
 				"print(1; 2);",
 				"Expected ), found ;",
 				null,
+			},
+			{
+				"function invocation interrupted",
+				"call",
+				"Variable reference expected for function name",
+				null,
+			},
+			{
+				"function invocation non-string expression",
+				"call (2)()",
+				"String expression expected for function name",
+				null,
+			},
+			{
+				"function invocation interrupted after name expression",
+				"call ('foo')",
+				"Expected (, found end of file",
+				null,
+			},
+			{
+				"function invocation with non-void function",
+				// ummm this should insist that the variable is a string...
+				"int x; call string x('foo')",
+				null,
+				Arrays.asList("int", "x", ";",
+							  "call", "string", "x", "(", "'foo'", ")"),
 			},
 			{
 				"preincrement with non-numeric variable",
@@ -1848,6 +1949,71 @@ public class ParserTest
 				"record unknown field reference",
 				"record {int a;} r; r.b;",
 				"Invalid field name 'b'",
+				null,
+			},
+			{
+				"standalone new",
+				"new;",
+				"Expected Record name, found ;",
+				null,
+			},
+			{
+				"new non-record",
+				"int x = new int();",
+				"'int' is not a record type",
+				null,
+			},
+			{
+				"new record without parens",
+				// Yields a default-constructed record.
+				"record r {int a;}; new r;",
+				null,
+				Arrays.asList( "record", "r", "{",
+							   "int", "a", ";",
+							   "}", ";",
+							   "new", "r", ";"),
+			},
+			{
+				"new record with semicolon",
+				"record r {int a;}; new r(;",
+				"Expression expected for field #1 (a)",
+				null,
+			},
+			{
+				"new with skippable void field",
+				"record r {void a; int b;}; new r(, 2);",
+				null,
+				Arrays.asList( "record", "r", "{",
+							   "void", "a", ";",
+							   "int", "b", ";",
+							   "}", ";",
+							   "new", "r", "(", ",", "2", ")", ";" ),
+			},
+			{
+				"new with aggregate field",
+				"record r {int[] a;}; new r({1,2});",
+				null,
+				Arrays.asList( "record", "r", "{",
+							   "int", "[", "]", "a", ";",
+							   "}", ";",
+							   "new", "r", "(", "{", "1", ",", "2", "}", ")", ";" ),
+			},
+			{
+				"new with field type mismatch",
+				"record r {int a;}; new r('str');",
+				"string found when int expected for field #1 (a)",
+				null,
+			},
+			{
+				"new with too many void fields",
+				"record r {int a;}; new r(,,,,,,,);",
+				"Too many field initializers for record r",
+				null,
+			},
+			{
+				"new without closing paren",
+				"record r {int a;}; new r(4",
+				"Expected ), found end of file",
 				null,
 			},
 		} );

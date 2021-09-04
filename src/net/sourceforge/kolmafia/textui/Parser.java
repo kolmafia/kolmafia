@@ -441,11 +441,8 @@ public class Parser
 			{
 				throw this.parseException( "command or declaration required" );
 			}
-
-			return result;
 		}
-
-		if ( this.parseVariables( t, result ) )
+		else if ( this.parseVariables( t, result ) )
 		{
 			if ( this.currentToken().equals( ";" ) )
 			{
@@ -455,12 +452,14 @@ public class Parser
 			{
 				throw this.parseException( ";", this.currentToken() );
 			}
-
-			return result;
+		}
+		else
+		{
+			//Found a type but no function or variable to tie it to
+			throw this.parseException( "Type given but not used to declare anything" );
 		}
 
-		//Found a type but no function or variable to tie it to
-		throw this.parseException( "Type given but not used to declare anything" );
+		return result;
 	}
 
 	private Scope parseScope( final Scope startScope,
@@ -764,7 +763,7 @@ public class Parser
 
 			if ( !paramList.add( param ) )
 			{
-				throw this.parseException( "Variable " + param.getName() + " is already defined" );
+				throw this.parseException( "Parameter " + param.getName() + " is already defined" );
 			}
 
 			if ( !this.currentToken().equals( ")" ) )
@@ -775,12 +774,14 @@ public class Parser
 					throw this.parseException( "The vararg parameter must be the last one" );
 				}
 
-				if ( !this.currentToken().equals( "," ) )
+				if ( this.currentToken().equals( "," ) )
+				{
+					this.readToken(); //read comma
+				}
+				else
 				{
 					throw this.parseException( ",", this.currentToken() );
 				}
-
-				this.readToken(); //read comma
 			}
 
 			variableReferences.add( new VariableReference( param ) );
@@ -1074,10 +1075,12 @@ public class Parser
 				
 			throw this.parseException( "Type name '" + typeName + "' is already defined" );
 		}
-
-		// Add the type to the type table
-		TypeDef type = new TypeDef( typeName.content, t );
-		parentScope.addType( type );
+		else
+		{
+			// Add the type to the type table
+			TypeDef type = new TypeDef( typeName.content, t );
+			parentScope.addType( type );
+		}
 
 		return true;
 	}
@@ -1408,14 +1411,17 @@ public class Parser
 		else if ( this.parseIdentifier( this.currentToken().content ) )
 		{
 			indexType = scope.findType( this.currentToken().content );
-			if ( indexType == null )
+
+			if ( indexType != null )
+			{
+				if ( !indexType.isPrimitive() )
+				{
+					throw this.parseException( "Index type '" + this.currentToken() + "' is not a primitive type" );
+				}
+			}
+			else
 			{
 				throw this.parseException( "Invalid type name '" + this.currentToken() + "'" );
-			}
-
-			if ( !indexType.isPrimitive() )
-			{
-				throw this.parseException( "Index type '" + this.currentToken() + "' is not a primitive type" );
 			}
 
 			this.readToken(); // type name
@@ -2018,24 +2024,23 @@ public class Parser
 				break;
 			}
 
-			if ( this.parseVariables( t, scope ) )
+			if ( !this.parseVariables( t, scope ) )
 			{
-				if ( this.currentToken().equals( ";" ) )
-				{
-					this.readToken(); //read ;
-				}
-				else
-				{
-					throw this.parseException( ";", this.currentToken() );
-				}
-
-				currentIndex = scope.commandCount();
-				currentInteger = null;
-				continue;
+				//Found a type but no function or variable to tie it to
+				throw this.parseException( "Type given but not used to declare anything" );
 			}
 
-			//Found a type but no function or variable to tie it to
-			throw this.parseException( "Type given but not used to declare anything" );
+			if ( this.currentToken().equals( ";" ) )
+			{
+				this.readToken(); //read ;
+			}
+			else
+			{
+				throw this.parseException( ";", this.currentToken() );
+			}
+
+			currentIndex = scope.commandCount();
+			currentInteger = null;
 		}
 
 		if ( this.currentToken().equals( "}" ) )
@@ -2756,12 +2761,15 @@ public class Parser
 		List<Value> params = this.parseParameters( scope, firstParam );
 		Function target = scope.findFunction( name.content, params );
 
-		if ( target == null )
+		if ( target != null )
+		{
+			params = this.autoCoerceParameters( target, params, scope );
+		}
+		else
 		{
 			throw this.undefinedFunctionException( name.content, params );
 		}
 
-		params = this.autoCoerceParameters( target, params, scope );
 		FunctionCall call = new FunctionCall( target, params, this );
 
 		return parsePostCall( scope, call );
@@ -2893,12 +2901,16 @@ public class Parser
 			}
 		}
 
-		if ( !this.currentToken().equals( "(" ) )
+		List<Value> params;
+
+		if ( this.currentToken().equals( "(" ) )
+		{
+			params = parseParameters( scope, null );
+		}
+		else
 		{
 			throw this.parseException( "(", this.currentToken() );
 		}
-
-		List<Value> params = parseParameters( scope, null );
 
 		FunctionInvocation call = new FunctionInvocation( scope, type, name, params, this );
 
@@ -3400,12 +3412,15 @@ public class Parser
 			this.readToken();
 			Token fraction = this.currentToken();
 
-			if ( !this.readIntegerToken( fraction.content ) )
+			if ( this.readIntegerToken( fraction.content ) )
+			{
+				this.readToken(); // integer
+			}
+			else
 			{
 				throw this.parseException( "numeric value", fraction );
 			}
 
-			this.readToken(); // integer
 			return new Value( sign * StringUtilities.parseDouble( "0." + fraction ) );
 		}
 
