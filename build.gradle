@@ -1,0 +1,137 @@
+//-*- mode: groovy -*-
+
+plugins {
+  id 'application'
+  id 'java'
+  id 'com.bmuschko.clover' version '3.0.1'
+}
+
+ant.importBuild('build.xml') { String oldTargetName ->
+  return 'ant_' + oldTargetName
+}
+
+sourceSets {
+  main {
+    java {
+      srcDirs = [ 'lib', 'build/generated-src' ]
+      destinationDirectory.set(file('build'))
+    }
+    resources {
+      srcDirs = [ 'src' ]
+    }
+  }
+
+  test {
+    java {
+      srcDirs = [ 'test' ]
+      destinationDirectory.set(file('build'))
+    }
+  }
+}
+
+repositories {
+  // Use Maven Central for resolving dependencies.
+  mavenCentral()
+}
+
+configurations {
+  toCopy
+  implementation.canBeResolved = true
+}
+
+dependencies {
+  // Use JUnit Jupiter for testing. At least, that's the eventual plan.
+  testCompileOnly 'org.junit.jupiter:junit-jupiter-api:5.7.1'
+  testCompileOnly 'junit:junit:4.13.2'
+  testRuntimeOnly 'org.junit.vintage:junit-vintage-engine'
+  testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.7.2'
+
+  testImplementation 'org.hamcrest:hamcrest:2.2'
+
+  clover 'org.openclover:clover:4.4.1'
+
+  compileOnly 'org.antlr:antlr-runtime:3.4'
+  compileOnly 'net.java.dev.jna:jna:5.6.0'
+  compileOnly 'net.java.dev.jna:jna-platform:5.6.0'
+  compileOnly 'com.trilead:trilead-ssh2:1.0.0-build222'
+
+  implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.24'
+  implementation 'org.fusesource.jansi:jansi:2.3.2'
+  implementation 'org.json:json:20210307'
+  implementation 'org.mozilla:rhino:1.7.13'
+  implementation 'org.swinglabs:swingx:1.6.1'
+  implementation 'org.tmatesoft.svnkit:svnkit:1.10.3'
+
+  toCopy 'org.swinglabs:swingx:1.6.1'
+  toCopy 'org.json:json:20210307'
+  toCopy 'org.hamcrest:hamcrest:2.2'
+}
+
+application {
+  // Define the main class for the application.
+  mainClass = 'net.sourceforge.kolmafia.KoLmafia'
+}
+
+test {
+  systemProperty 'line.separator', '\n'
+  jvmArgs '-DuseCWDasROOT=true'
+  workingDir 'test/root'
+}
+
+jar {
+  manifest {
+    attributes(
+      'Main-Class': 'net.sourceforge.kolmafia.KoLmafia'
+    )
+  }
+  from { configurations.implementation.collect { it.isDirectory() ? it : zipTree(it) } }
+  duplicatesStrategy = 'exclude'
+  destinationDirectory = file('dist/')
+  archiveBaseName = ant.properties['version-name']
+}
+
+task download(type: Copy) {
+  from configurations.toCopy
+  into 'src/jar'
+}
+
+task setVersion(type: Copy, dependsOn: 'ant_version') {
+  def revision = ''
+  doFirst {
+    revision = ant.properties['revision']
+  }
+  from('src') {
+    exclude '**/*.jar'
+  }
+  into 'build/generated-src'
+  filter {
+    line -> line.replaceAll(
+      'String REVISION = null', "String REVISION = \"${revision}\"")
+  }
+}
+
+clover {
+  excludes = [
+    '**/UseItemRequest.java', '**/ChoiceManager.java',
+    // I don't know how to do this without manually excluding all the libs...
+    'apple/**', 'ca/**', 'com/**', 'darrylbu/**', 'net/java/**', 'org/**', 'tab/**',
+  ]
+  additionalSourceSet {
+    srcDirs = sourceSets.main.java.srcDirs
+    classesDir = file(sourceSets.main.java.destinationDirectory)
+  }
+
+  compiler {
+    encoding = 'UTF-8'
+
+    // Override the Java Compiler source and target compatibility settings
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+  }
+
+  report {
+    html = true
+  }
+}
+
+compileJava.dependsOn setVersion
