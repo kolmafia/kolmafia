@@ -43,7 +43,7 @@ dependencies {
   // Use JUnit Jupiter for testing. At least, that's the eventual plan.
   testCompileOnly 'org.junit.jupiter:junit-jupiter-api:5.7.1'
   testCompileOnly 'junit:junit:4.13.2'
-  testRuntimeOnly 'org.junit.vintage:junit-vintage-engine'
+  testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.7.1'
   testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.7.2'
 
   testImplementation 'org.hamcrest:hamcrest:2.2'
@@ -73,6 +73,10 @@ application {
 }
 
 test {
+  useJUnitPlatform()
+  // Exclude Clover-instrumented inner classes...
+  exclude '**/*$__CLR*.class'
+
   systemProperty 'line.separator', '\n'
   jvmArgs '-DuseCWDasROOT=true'
   workingDir 'test/root'
