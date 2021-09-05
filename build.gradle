@@ -13,8 +13,20 @@ ant.importBuild('build.xml') { String oldTargetName ->
 sourceSets {
   main {
     java {
-      srcDirs = [ 'lib', 'build/generated-src' ]
-      destinationDirectory.set(file('build'))
+      srcDirs = [ 'build/generated-src' ]
+      destinationDirectory.set(file('build/main'))
+    }
+    resources {
+      srcDirs = [ 'src' ]
+      excludes = ['**/*.java']
+    }
+  }
+
+  lib {
+    java {
+      srcDirs = [ 'lib' ]
+      excludes = [ '**/jdesktop/**' ]
+      destinationDirectory.set(file('build/lib'))
     }
     resources {
       srcDirs = [ 'src' ]
@@ -24,7 +36,7 @@ sourceSets {
   test {
     java {
       srcDirs = [ 'test' ]
-      destinationDirectory.set(file('build'))
+      destinationDirectory.set(file('build/test'))
     }
   }
 }
@@ -57,6 +69,12 @@ dependencies {
   runtimeOnly 'net.java.dev.jna:jna:5.6.0'
   runtimeOnly 'net.java.dev.jna:jna-platform:5.6.0'
   runtimeOnly 'org.antlr:antlr-runtime:3.4'
+
+  libImplementation 'org.swinglabs:swingx:1.6.1'
+
+  implementation files('build/lib') {
+    builtBy 'compileLibJava'
+  }
 
   implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.24'
   implementation 'org.fusesource.jansi:jansi:2.3.2'
@@ -112,7 +130,7 @@ task setVersion(type: Copy, dependsOn: 'ant_version') {
   doFirst {
     revision = ant.properties['revision']
   }
-  from('src') {
+  from('src/') {
     exclude '**/*.jar'
   }
   into 'build/generated-src'
@@ -122,24 +140,24 @@ task setVersion(type: Copy, dependsOn: 'ant_version') {
   }
 }
 
+java {
+  sourceCompatibility = JavaVersion.VERSION_1_8
+  targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+tasks.withType(JavaCompile) {
+  options.encoding = 'UTF-8'
+}
+
 clover {
   excludes = [
+    // These files have huge methods. Ideally we'd use a method filter, but that's broken in the
+    // latest versions of Gradle; tracked in
+    // https://github.com/bmuschko/gradle-clover-plugin/issues/153
     '**/UseItemRequest.java', '**/ChoiceManager.java',
     // I don't know how to do this without manually excluding all the libs...
     'apple/**', 'ca/**', 'com/**', 'darrylbu/**', 'net/java/**', 'org/**', 'tab/**',
   ]
-  additionalSourceSet {
-    srcDirs = sourceSets.main.java.srcDirs
-    classesDir = file(sourceSets.main.java.destinationDirectory)
-  }
-
-  compiler {
-    encoding = 'UTF-8'
-
-    // Override the Java Compiler source and target compatibility settings
-    sourceCompatibility = '1.8'
-    targetCompatibility = '1.8'
-  }
 
   report {
     html = true
