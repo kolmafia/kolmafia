@@ -22,6 +22,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Setup Java ${{ matrix.java-version }}
         uses: actions/setup-java@v2
