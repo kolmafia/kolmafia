@@ -126,17 +126,41 @@ task download(type: Copy) {
 }
 
 task setVersion(type: Copy, dependsOn: 'ant_version') {
+  outputs.upToDateWhen { false }
+
+  def KOL_CONSTANTS = 'net/sourceforge/kolmafia/KoLConstants.java'
   def revision = ''
   doFirst {
     revision = ant.properties['revision']
   }
+
+  def copyDetails = []
   from('src/') {
     exclude '**/*.jar'
+  }
+  def targetFile = null
+  eachFile { FileCopyDetails details ->
+    targetFile = new File('build/generated-src', path)
+    if (file.lastModified() == targetFile.lastModified() && file.length() == targetFile.length()) {
+        exclude()
+    }
+    // Always update KoLConstants.java, since we should set REVISION even if the
+    // rest of the file is unchanged.
+    if (details.path != KOL_CONSTANTS) {
+      copyDetails << details
+    }
   }
   into 'build/generated-src'
   filter {
     line -> line.replaceAll(
       'String REVISION = null', "String REVISION = \"${revision}\"")
+  }
+  // Taken from https://github.com/gradle/gradle/issues/1252#issuecomment-421744595
+  doLast {
+    copyDetails.each { FileCopyDetails details ->
+      def target = new File(destinationDir, details.path)
+      if (target.exists()) { target.setLastModified(details.lastModified) }
+    }
   }
 }
 
