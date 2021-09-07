@@ -189,19 +189,19 @@ public class MallPurchaseRequest
 
 		if ( MallPurchaseRequest.disabledStores.contains( this.shopId ) )
 		{
-			KoLmafia.updateDisplay( "This shop (" + this.shopName + ", owned by #" + this.shopId + ") is disabled. Skipping..." );
+			KoLmafia.updateDisplay( "This shop " + this.shopName + ", owned by #" + this.shopId + ") is disabled. Skipping..." );
 			return;
 		}
 
 		if ( MallPurchaseRequest.ignoringStores.contains( this.shopId ) )
 		{
-			KoLmafia.updateDisplay( "This shop (#" + this.shopName + ", owned by #" + this.shopId + ") is ignoring you. Skipping..." );
+			KoLmafia.updateDisplay( "This shop (" + this.shopName + ", owned by #" + this.shopId + ") is ignoring you. Skipping..." );
 			return;
 		}
 		
 		if ( Arrays.asList( Preferences.getString( "forbiddenStores" ).split( "," ) ).contains( String.valueOf( this.shopId ) ) )
 		{
-			KoLmafia.updateDisplay( "This shop (#" + this.shopName + ", owned by #" + this.shopId + ") is on your forbidden list. Skipping..." );
+			KoLmafia.updateDisplay( "This shop (" +  this.shopName + ", owned by #" + this.shopId + ") is on your forbidden list. Skipping..." );
 			return;
 		}
 
