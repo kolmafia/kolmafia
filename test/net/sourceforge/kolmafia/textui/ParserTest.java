@@ -185,6 +185,22 @@ public class ParserTest
 				null,
 			},
 			{
+				"Typed constant, numeric literal",
+				"$item[1]",
+				null,
+				Arrays.asList( "$", "item", "[", "1", "]" ),
+			},
+			{
+				"Typed constant literal correction",
+				"$item[rock]; $effect[buy!]; $monster[eldritch]; $skill[boon]; $location[dire warren]",
+				null,
+				Arrays.asList( "$", "item", "[", "rock", "]", ";",
+				               "$", "effect", "[", "buy!", "]", ";",
+				               "$", "monster", "[", "eldritch", "]", ";",
+				               "$", "skill", "[", "boon", "]", ";",
+				               "$", "location", "[", "dire warren", "]" ),
+			},
+			{
 				"empty typed constant",
 				"$string[]",
 				null,
@@ -306,6 +322,18 @@ public class ParserTest
 				               "$", "item", "[", "helmet turtle", "]", ":", "2", "}" ),
 			},
 			{
+				"Unterminated aggregate literal",
+				"int[int] {",
+				"Expected }, found end of file",
+				null,
+			},
+			{
+				"Interrupted map literal",
+				"int[int] {:",
+				"Script parsing error",
+				null,
+			},
+			{
 				"Simple array literal",
 				"int[5] { 1, 2, 3, 4, 5}",
 				null,
@@ -352,6 +380,38 @@ public class ParserTest
 				Arrays.asList( "int", "[", "int", ",", "int", "]", "{", "}" ),
 			},
 			{
+				"Non-empty multidimensional map literal",
+				"int[int, int, int]{ {}, { 1:{2, 3} } }",
+				null,
+				Arrays.asList( "int", "[", "int", ",", "int", ",", "int", "]",
+				               "{", "{", "}", ",", "{", "1", ":",
+				               "{", "2", ",", "3", "}", "}", "}" ),
+			},
+			{
+				"Interrupted multidimensional map literal",
+				"int[int, int] {1:",
+				"Script parsing error",
+				null,
+			},
+			{
+				"Invalid array literal coercion",
+				"int[int]{ 'foo' }",
+				"Invalid array literal",
+				null,
+			},
+			{
+				"Invalid map literal coercion",
+				"int[int]{ 'foo':'bar' }",
+				"Invalid map literal",
+				null,
+			},
+			{
+				"Ambiguity between array and map literal",
+				"boolean[5]{ 0:true, 1:true, 2:false, true, 4:false }",
+				"Expected :, found ,",
+				null,
+			},
+			{
 				// This... exercises a different code path.
 				"Parenthesized map literal",
 				"(int[int]{})",
@@ -367,6 +427,12 @@ public class ParserTest
 				Arrays.asList( "int", "foo", ";",
 				               "typedef", "int", "foo", ";",
 				               "(", "foo", "+", "2", ")", ";" ),
+			},
+			{
+				"interrupted script directive",
+				"script",
+				"Expected <, found end of file",
+				null,
 			},
 			{
 				"script directive delimited with <>",
@@ -481,6 +547,15 @@ public class ParserTest
 				Arrays.asList( "void", "f", "(", "int", "a", ")", "{", "}" ),
 			},
 			{
+				"Basic function with forward reference",
+				"void foo(); void bar() { foo(); } void foo() { return; } bar();",
+				null,
+				Arrays.asList( "void", "foo", "(", ")", ";",
+				               "void", "bar", "(", ")", "{", "foo", "(", ")", ";", "}",
+				               "void", "foo", "(", ")", "{", "return", ";", "}",
+				               "bar", "(", ")", ";" ),
+			},
+			{
 				"Invalid function name",
 				"void float() {}",
 				"Reserved word 'float' cannot be used as a function name",
@@ -512,10 +587,13 @@ public class ParserTest
 			},
 			{
 				"Basic function with vararg",
-				"void f(int a, string b, float... c) {}",
+				"void f(int a, string b, float... c) {} f(5, 'foo', 1.2, 6.3, 4.9, 10, -0)",
 				null,
 				Arrays.asList( "void", "f", "(", "int", "a", ",", "string", "b", ",",
-				               "float", "...", "c", ")", "{", "}" ),
+				               "float", "...", "c", ")", "{", "}",
+				               "f", "(", "5", ",", "'foo'", ",", "1", ".", "2", ",",
+				               "6", ".", "3", ",", "4", ".", "9", ",", "10", ",",
+				               "-", "0", ")" ),
 			},
 			/*{
 				// Is currently trumped by
@@ -560,6 +638,60 @@ public class ParserTest
 				               "(", "~", "-", "5", "==", "10", ")",
 				               "&&", "True", "||", "FALSE",
 				               ")", ";" ),
+			},
+			{
+				"Interrupted ! expression",
+				"(!",
+				"Value expected",
+				null,
+			},
+			{
+				"Non-boolean ! expression",
+				"(!'abc');",
+				"\"!\" operator requires a boolean value",
+				null,
+			},
+			{
+				"Interrupted ~ expression",
+				"(~",
+				"Value expected",
+				null,
+			},
+			{
+				"Non-boolean/integer ~ expression",
+				"(~'abc');",
+				"\"~\" operator requires an integer or boolean value",
+				null,
+			},
+			{
+				"Interrupted - expression",
+				"(-",
+				"Value expected",
+				null,
+			},
+			{
+				"Interrupted expression after operator",
+				"(1 +",
+				"Value expected",
+				null,
+			},
+			{
+				"String concatenation with left-side coercion",
+				"(1 + 'abc');",
+				null,
+				Arrays.asList( "(", "1", "+", "'abc'", ")", ";" ),
+			},
+			{
+				"String concatenation with right-side coercion",
+				"('abc' + 1);",
+				null,
+				Arrays.asList( "(", "'abc'", "+", "1", ")", ";" ),
+			},
+			{
+				"Invalid expression coercion",
+				"(true + 1);",
+				"Cannot apply operator + to true (boolean) and 1 (int)",
+				null,
 			},
 			{
 				"Numeric literal split after negative",
@@ -647,6 +779,18 @@ public class ParserTest
 				              "echo hello world;",
 				              "echo sometimes we don't have a semicolon",
 				              "}"),
+			},
+			{
+				"Interrupted cli_execute script",
+				"cli_execute {",
+				"Expected }, found end of file",
+				null,
+			},
+			{
+				"Non-basic-script cli_execute",
+				"int cli_execute; cli_execute++",
+				null,
+				Arrays.asList( "int", "cli_execute", ";", "cli_execute", "++" ),
 			},
 			{
 				"For loop, no/bad initial expression",
@@ -1151,6 +1295,30 @@ public class ParserTest
 				null,
 			},
 			{
+				"assignment missing rhs 2",
+				"int x; x =",
+				"Expression expected",
+				null,
+			},
+			{
+				"Invalid assignment coercion - logical",
+				"int x; x &= true",
+				"&= requires an integer or boolean expression and an integer or boolean variable reference",
+				null,
+			},
+			{
+				"Invalid assignment coercion - integer",
+				"boolean x; x >>= 1",
+				">>= requires an integer expression and an integer variable reference",
+				null,
+			},
+			{
+				"Invalid assignment coercion - assignment",
+				"boolean x; x += 'foo'",
+				"Cannot store string in x of type boolean",
+				null,
+			},
+			{
 				"break outside loop",
 				"break;",
 				"Encountered 'break' outside of loop",
@@ -1196,6 +1364,24 @@ public class ParserTest
 				"try {} finally {}",
 				null,
 				Arrays.asList( "try", "{", "}", "finally", "{", "}" ),
+			},
+			{
+				"catch value block",
+				"string error_message = catch {}",
+				null,
+				Arrays.asList( "string", "error_message", "=", "catch", "{", "}" ),
+			},
+			{
+				"catch value expression",
+				"string error_message = catch ( print(__FILE__) )",
+				null,
+				Arrays.asList( "string", "error_message", "=", "catch", "(", "print", "(", "__FILE__", ")", ")" ),
+			},
+			{
+				"catch value interrupted",
+				"string error_message = catch",
+				"\"catch\" requires a block or an expression",
+				null,
 			},
 			{
 				// This has been permitted historically...
@@ -1579,9 +1765,9 @@ public class ParserTest
 			},
 			{
 				"function named sort",
-				"void sort(){}",
+				"void sort(){} sort();",
 				null,
-				Arrays.asList( "void", "sort", "(", ")", "{", "}" ),
+				Arrays.asList( "void", "sort", "(", ")", "{", "}", "sort", "(", ")", ";" ),
 			},
 			{
 				"sort not-a-variable primitive",
@@ -1703,6 +1889,27 @@ public class ParserTest
 							   "i", "+=", "1", ")", ";" ),
 			},
 			{
+				"javaFor with existing variable",
+				"int i; for (i=0; i < 5; i++);",
+				null,
+				Arrays.asList( "int", "i", ";",
+				               "for", "(", "i", "=", "0", ";",
+				               "i", "<", "5", ";",
+				               "i", "++", ")", ";" ),
+			},
+			{
+				"javaFor with unknown existing variable",
+				"for (i=0; i < 5; i++);",
+				"Unknown variable 'i'",
+				null,
+			},
+			{
+				"javaFor with redefined existing variable",
+				"int i; for (int i=0; i < 5; i++);",
+				"Variable 'i' already defined",
+				null,
+			},
+			{
 				"javaFor with not-an-increment",
 				"for (int i=0; i < 5; i==1);",
 				"Variable 'i' not incremented",
@@ -1717,6 +1924,44 @@ public class ParserTest
 				Arrays.asList( "for", "(", "int", "i", "=", "0", ";",
 							   "i", "<", "5", ";",
 							   "i", "=", "1", ")", ";" ),
+			},
+			{
+				"javaFor missing initial identifier",
+				"for (0; i < 5; i++);",
+				"Identifier required",
+				null,
+			},
+			{
+				"javaFor missing initializer expression",
+				"for (int i =; i < 5; i++);",
+				"Expression expected",
+				null,
+			},
+			{
+				"javaFor invalid assignment",
+				"for (int i ='abc'; i < 5; i++);",
+				"Cannot store string in i of type int",
+				null,
+			},
+			{
+				"javaFor non-boolean condition",
+				"for (int i; i + 5; i++);",
+				"\"for\" requires a boolean conditional expression",
+				null,
+			},
+			{
+				"javaFor multiple increments",
+				"for (int i, int j; i + j < 5; i++, j++);",
+				null,
+				Arrays.asList( "for", "(", "int", "i", ",", "int", "j", ";",
+				               "i", "+", "j", "<", "5", ";",
+				               "i", "++", ",", "j", "++", ")", ";" ),
+			},
+			{
+				"javaFor interrupted multiple increments",
+				"for (int i; i < 5; i++,);",
+				"Identifier expected",
+				null,
 			},
 			{
 				"undefined function call",
@@ -1753,6 +1998,40 @@ public class ParserTest
 				"print(1; 2);",
 				"Expected ), found ;",
 				null,
+			},
+			{
+				"function parameter coercion to ANY_TYPE",
+				"dump('foo', 'bar');",
+				null,
+				Arrays.asList( "dump", "(", "'foo'", ",", "'bar'", ")", ";" ),
+			},
+			{
+				"function parameter no typedef coercion",
+				"typedef int foo; foo a = 1; void bar(int x, foo y) {} bar(a, 1);",
+				null,
+				Arrays.asList( "typedef", "int", "foo", ";", "foo", "a", "=", "1", ";",
+				               "void", "bar", "(", "int", "x", ",", "foo", "y", ")", "{", "}",
+				               "bar", "(", "a", ",", "1", ")", ";" ),
+			},
+			{
+				"function parameter typedef-to-simple typedef coercion",
+				// Mmh... there's no real way to "prove" the function was used other than
+				// seeing it checked from clover...
+				"typedef int foo; foo a = 1; int to_int(foo x) {return 1;} void bar(int x) {} bar(a);",
+				null,
+				Arrays.asList( "typedef", "int", "foo", ";", "foo", "a", "=", "1", ";",
+				               "int", "to_int", "(", "foo", "x", ")", "{", "return", "1", ";", "}",
+				               "void", "bar", "(", "int", "x", ")", "{", "}",
+				               "bar", "(", "a", ")", ";" ),
+			},
+			{
+				"function parameter simple-to-typedef typedef coercion",
+				"typedef int foo; foo a = 1; foo to_foo(int x) {return a;} void bar(foo x) {} bar(1);",
+				null,
+				Arrays.asList( "typedef", "int", "foo", ";", "foo", "a", "=", "1", ";",
+				               "foo", "to_foo", "(", "int", "x", ")", "{", "return", "a", ";", "}",
+				               "void", "bar", "(", "foo", "x", ")", "{", "}",
+				               "bar", "(", "1", ")", ";" ),
 			},
 			{
 				"function invocation interrupted",
@@ -1953,6 +2232,12 @@ public class ParserTest
 				null,
 			},
 			{
+				"array of record",
+				"record {int a;}[] r;",
+				null,
+				Arrays.asList( "record", "{", "int", "a",";", "}", "[", "]", "r", ";" ),
+			},
+			{
 				"standalone new",
 				"new;",
 				"Expected Record name, found ;",
@@ -2016,6 +2301,19 @@ public class ParserTest
 				"record r {int a;}; new r(4",
 				"Expected ), found end of file",
 				null,
+			},
+			{
+				"improper remove",
+				"int i; remove i;",
+				"Aggregate reference expected",
+				null,
+			},
+			{
+				"proper remove",
+				"int[] map; remove map[0];",
+				null,
+				Arrays.asList( "int", "[", "]", "map", ";",
+				               "remove", "map", "[", "0", "]", ";" ),
 			},
 		} );
 	}
