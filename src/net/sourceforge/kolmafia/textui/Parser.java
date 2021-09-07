@@ -564,7 +564,6 @@ public class Parser
 
 			if ( ( t.getBaseType() instanceof AggregateType ) && this.currentToken().equals( "{" ) )
 			{
-				this.readToken(); // read {
 				result.addCommand( this.parseAggregateLiteral( result, (AggregateType) t ), this );
 			}
 			else
@@ -905,7 +904,6 @@ public class Parser
 			{
 				if ( ltype instanceof AggregateType )
 				{
-					this.readToken(); // read {
 					rhs = this.parseAggregateLiteral( scope, (AggregateType) ltype );
 				}
 				else
@@ -934,7 +932,6 @@ public class Parser
 		}
 		else if ( this.currentToken().equals( "{" ) && ltype instanceof AggregateType )
 		{
-			this.readToken(); // read {
 			rhs = this.parseAggregateLiteral( scope, (AggregateType) ltype );
 		}
 		else
@@ -1250,8 +1247,16 @@ public class Parser
 		return valType;
 	}
 
+	/**
+	 * Parses the content of an aggregate literal, e.g., `{1:true, 2:false, 3:false}`.
+	 *
+	 * <p>The presence of the opening bracket "{" is ALWAYS assumed when entering this method,
+	 * and as such, MUST be checked before calling it. This method will never return null.
+	 */
 	private Value parseAggregateLiteral( final BasicScope scope, final AggregateType aggr )
 	{
+		this.readToken(); // read {
+
 		Type index = aggr.getIndexType();
 		Type data = aggr.getDataType();
 
@@ -1274,7 +1279,6 @@ public class Parser
 			Type dataType = data.getBaseType();
 			if ( ( isArray || arrayAllowed ) && this.currentToken().equals( "{" ) && dataType instanceof AggregateType )
 			{
-				this.readToken(); // read {
 				lhs = parseAggregateLiteral( scope, (AggregateType) dataType );
 			}
 			else
@@ -1335,7 +1339,6 @@ public class Parser
 			Value rhs;
 			if ( this.currentToken().equals( "{" ) && dataType instanceof AggregateType )
 			{
-				this.readToken(); // read {
 				rhs = parseAggregateLiteral( scope, (AggregateType) dataType );
 			}
 			else
@@ -2652,9 +2655,15 @@ public class Parser
 
 	private Value parseNewRecord( final BasicScope scope )
 	{
+		if ( !this.currentToken().equalsIgnoreCase( "new" ) )
+		{
+			return null;
+		}
+
+		this.readToken();
+
 		if ( !this.parseIdentifier( this.currentToken().content ) )
 		{
-			// Our caller already read a "new" token; it's too late to just "return null".
 			throw this.parseException( "Record name", this.currentToken() );
 		}
 
@@ -2690,7 +2699,6 @@ public class Parser
 				}
 				else if ( this.currentToken().equals( "{" ) && expected instanceof AggregateType )
 				{
-					this.readToken(); // read {
 					val = this.parseAggregateLiteral( scope, (AggregateType) expected );
 				}
 				else
@@ -2949,7 +2957,6 @@ public class Parser
 		{
 			if ( isAggregate )
 			{
-				this.readToken(); // read {
 				rhs = this.parseAggregateLiteral( scope, (AggregateType) ltype );
 			}
 			else
@@ -3304,15 +3311,12 @@ public class Parser
 		{
 		}
 
-		else if ( this.currentToken().equals( "$" ) )
+		else if ( ( result = this.parseTypedConstant( scope ) ) != null )
 		{
-			result = this.parseTypedConstant( scope );
 		}
 
-		else if ( this.currentToken().equalsIgnoreCase( "new" ) )
+		else if ( ( result = this.parseNewRecord( scope ) ) != null )
 		{
-			this.readToken();
-			result = this.parseNewRecord( scope );
 		}
 
 		else if ( ( result = this.parseCatchValue( scope ) ) != null )
@@ -3341,7 +3345,6 @@ public class Parser
 			{
 				if ( this.currentToken().equals( "{" ) )
 				{
-					this.readToken();
 					result = this.parseAggregateLiteral( scope, (AggregateType) baseType.getBaseType() );
 				}
 				else
@@ -3738,6 +3741,11 @@ public class Parser
 
 	private Value parseTypedConstant( final BasicScope scope )
 	{
+		if ( !this.currentToken().equals( "$" ) )
+		{
+			return null;
+		}
+
 		this.readToken(); // read $
 
 		Token name = this.currentToken();
