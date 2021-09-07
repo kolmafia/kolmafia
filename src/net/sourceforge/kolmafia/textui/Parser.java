@@ -2888,11 +2888,6 @@ public class Parser
 		}
 		else
 		{
-			if ( !this.parseIdentifier( current.content ) )
-			{
-				throw this.parseException( "Variable reference expected for function name" );
-			}
-
 			name = this.parseVariableReference( scope );
 
 			if ( !( name instanceof VariableReference ) )
