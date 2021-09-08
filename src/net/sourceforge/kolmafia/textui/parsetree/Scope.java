@@ -58,15 +58,6 @@ public class Scope
 		this.commands = new ArrayList<ParseTreeNode>();
 	}
 
-	public Scope( final ParseTreeNode command, final BasicScope parentScope )
-	{
-		super( parentScope );
-		this.commands = new ArrayList<ParseTreeNode>();
-		this.commands.add( command );
-		this.barrier = command.assertBarrier() ? BasicScope.BARRIER_SEEN : 0;
-		this.breakable = command.assertBreakable();
-	}
-
 	public Scope( FunctionList functions, VariableList variables, TypeList types )
 	{
 		super( functions, variables, types, null );
