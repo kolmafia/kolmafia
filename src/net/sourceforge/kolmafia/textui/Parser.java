@@ -683,11 +683,10 @@ public class Parser
 
 			if ( this.currentToken().equals( "}" ) )
 			{
+				this.readToken(); // read }
 				break;
 			}
 		}
-
-		this.readToken(); // read }
 
 		String[] fieldNameArray = new String[ fieldNames.size() ];
 		Type[] fieldTypeArray = new Type[ fieldTypes.size() ];
@@ -735,8 +734,13 @@ public class Parser
 		List<VariableReference> variableReferences = new ArrayList<VariableReference>();
 		boolean vararg = false;
 
-		while ( !this.currentToken().equals( ")" ) )
+		while ( true )
 		{
+			if ( this.currentToken().equals( ")" ) )
+			{
+				this.readToken(); //read )
+				break;
+			}
 			Type paramType = this.parseType( parentScope, false );
 			if ( paramType == null )
 			{
@@ -790,8 +794,6 @@ public class Parser
 
 			variableReferences.add( new VariableReference( param ) );
 		}
-
-		this.readToken(); //read )
 
 		// Add the function to the parent scope before we parse the
 		// function scope to allow recursion.
@@ -1274,8 +1276,19 @@ public class Parser
 		// Assume it is a map.
 		boolean isArray = false;
 
-		while ( !this.atEndOfFile() && !this.currentToken().equals( "}" ) )
+		while ( true )
 		{
+			if ( this.atEndOfFile() )
+			{
+				throw this.parseException( "}", this.currentToken() );
+			}
+
+			if ( this.currentToken().equals( "}" ) )
+			{
+				this.readToken(); // read }
+				break;
+			}
+
 			Value lhs;
 
 			// If we know we are reading an ArrayLiteral or haven't
@@ -1322,14 +1335,16 @@ public class Parser
 
 				values.add( lhs );
 
-				// If there is not another value, done parsing values
-				if ( !delim.equals( "," ) )
+				// Move on to the next value
+				if ( delim.equals( "," ) )
 				{
-					break;
+					this.readToken(); // read ;
+				}
+				else if ( !delim.equals( "}" ) )
+				{
+					throw this.parseException( "}", delim );
 				}
 
-				// Otherwise, move on to the next value
-				this.readToken(); // read ;
 				continue;
 			}
 
@@ -1368,20 +1383,16 @@ public class Parser
 			keys.add( lhs );
 			values.add( rhs );
 
-			if ( !this.currentToken().equals( "," ) )
+			// Move on to the next value
+			if ( this.currentToken().equals( "," ) )
 			{
-				break;
+				this.readToken(); // read ,
 			}
-
-			this.readToken();
+			else if ( !this.currentToken().equals( "}" ) )
+			{
+				throw this.parseException( "}", this.currentToken() );
+			}
 		}
-
-		if ( !this.currentToken().equals( "}" ) )
-		{
-			throw this.parseException( "}", this.currentToken() );
-		}
-
-		this.readToken(); // "}"
 
 		if ( isArray )
 		{
@@ -1760,8 +1771,19 @@ public class Parser
 
 		ByteArrayStream ostream = new ByteArrayStream();
 
-		while ( !this.atEndOfFile() && !this.currentToken().equals( "}" ) )
+		while ( true )
 		{
+			if ( this.atEndOfFile() )
+			{
+				throw this.parseException( "}", this.currentToken() );
+			}
+
+			if ( this.currentToken().equals( "}" ) )
+			{
+				this.readToken(); // }
+				break;
+			}
+
 			this.clearCurrentToken();
 
 			final String line = this.restOfLine();
@@ -1786,13 +1808,6 @@ public class Parser
 			this.currentLine = this.currentLine.nextLine;
 			this.currentIndex = this.currentLine.offset;
 		}
-
-		if ( this.atEndOfFile() )
-		{
-			throw this.parseException( "}", this.currentToken() );
-		}
-
-		this.readToken(); // }
 
 		return new BasicScript( ostream );
 	}
@@ -2706,8 +2721,19 @@ public class Parser
 		{
 			this.readToken(); //(
 
-			while ( !this.atEndOfFile() && !this.currentToken().equals( ")" ) )
+			while ( true )
 			{
+				if ( this.atEndOfFile() )
+				{
+					throw this.parseException( ")", this.currentToken() );
+				}
+
+				if ( this.currentToken().equals( ")" ) )
+				{
+					this.readToken(); // )
+					break;
+				}
+
 				Type expected = types[param].getBaseType();
 				Value val;
 
@@ -2752,13 +2778,6 @@ public class Parser
 					this.readToken(); // ,
 				}
 			}
-
-			if ( this.atEndOfFile() )
-			{
-				throw this.parseException( ")", this.currentToken() );
-			}
-
-			this.readToken(); // )
 		}
 
 		return target.initialValueExpression( params );
@@ -2816,8 +2835,19 @@ public class Parser
 			params.add( firstParam );
 		}
 
-		while ( !this.atEndOfFile() && !this.currentToken().equals( ")" ) )
+		while ( true )
 		{
+			if ( this.atEndOfFile() )
+			{
+				throw this.parseException( ")", this.currentToken() );
+			}
+
+			if ( this.currentToken().equals( ")" ) )
+			{
+				this.readToken(); // )
+				break;
+			}
+
 			Value val = this.parseExpression( scope );
 			if ( val != null )
 			{
@@ -2849,20 +2879,6 @@ public class Parser
 			{
 				throw this.parseException( "parameter", this.currentToken() );
 			}
-		}
-
-		if ( this.atEndOfFile() )
-		{
-			throw this.parseException( ")", this.currentToken() );
-		}
-
-		if ( this.currentToken().equals( ")" ) )
-		{
-			this.readToken(); // )
-		}
-		else
-		{
-			throw this.parseException( ")", this.currentToken() );
 		}
 
 		return params;
