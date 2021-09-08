@@ -324,24 +324,35 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 	<!-- =========================== -->
 
 	<target name="jar" depends="compile">
+	  <jar destfile="${build}/bundled-libs.jar"
+		   basedir="${build}"
+		   update="true"
+		   index="true"
+		   compress="true">
+		<zipgroupfileset dir="${lib}/jar">
+		  <include name="*.jar"/>
+		</zipgroupfileset>
+		<zipgroupfileset dir="${src}/jar">
+		  <include name="*.jar"/>
+		</zipgroupfileset>
+	  </jar>
 
-		<jar
-			destfile="${jarfile}"
-			basedir="${build}"
-			update="true"
-			index="true"
-			compress="true">
+	  <jar
+		  destfile="${jarfile}"
+		  basedir="${build}"
+		  update="true"
+		  index="true"
+		  compress="true">
 
-			<manifest>
-				<attribute name="Main-Class" value="${main}" />
-			</manifest>
-			<zipgroupfileset dir="${lib}/jar">
-				<include name="*.jar"/>
-			</zipgroupfileset>
-			<zipgroupfileset dir="${src}/jar">
-				<include name="*.jar"/>
-			</zipgroupfileset>
-		</jar>
+		<manifest>
+		  <attribute name="Main-Class" value="${main}" />
+		</manifest>
+		<zipfileset src="${build}/bundled-libs.jar">
+		  <exclude name="META-INF/*.RSA"/>
+		  <exclude name="META-INF/*.DSA"/>
+		  <exclude name="META-INF/*.SF"/>
+		</zipfileset>
+	  </jar>
 
 	</target>
 
@@ -457,23 +468,9 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 
 		<antcall target="compile" />
 
-		<jar
-			destfile="${dist}/${ant.project.name}-${revision}.jar"
-			basedir="${build}"
-			update="true"
-			index="true"
-			compress="true">
-
-			<manifest>
-				<attribute name="Main-Class" value="${main}" />
-			</manifest>
-			<zipgroupfileset dir="${lib}/jar">
-				<include name="*.jar"/>
-			</zipgroupfileset>
-			<zipgroupfileset dir="${src}/jar">
-				<include name="*.jar"/>
-			</zipgroupfileset>
-		</jar>
+		<antcall target="jar">
+		  <param name="jarfile" value="${dist}/${ant.project.name}-${revision}.jar"/>
+		</antcall>
 
 	</target>
 	
