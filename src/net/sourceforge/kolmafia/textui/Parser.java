@@ -2123,19 +2123,21 @@ public class Parser
 
 		this.readToken(); // catch
 
-		Scope body = this.parseBlock( null, null, parentScope, true, false, false );
-		if ( body != null )
+		ParseTreeNode body = this.parseBlock( null, null, parentScope, true, false, false );
+		if ( body == null )
 		{
-			return new Catch( body );
+			Value value = this.parseExpression( parentScope );
+			if ( value != null )
+			{
+				body = value;
+			}
+			else
+			{
+				throw this.parseException( "\"catch\" requires a block or an expression" );
+			}
 		}
 
-		Value value = this.parseExpression( parentScope );
-		if ( value != null )
-		{
-			return new Catch( value );
-		}
-
-		throw this.parseException( "\"catch\" requires a block or an expression" );
+		return new Catch( body );
 	}
 
 	private Scope parseStatic( final Type functionType, final BasicScope parentScope )
@@ -2149,22 +2151,24 @@ public class Parser
 
 		Scope result = new StaticScope( parentScope );
 
-		if ( !this.currentToken().equals( "{" ) )	// body is a single call
+		if ( this.currentToken().equals( "{" ) )
 		{
-			return this.parseCommandOrDeclaration( result, functionType );
+			this.readToken(); //read {
+
+			this.parseScope( result, functionType, parentScope, false, false );
+
+			if ( this.currentToken().equals( "}" ) )
+			{
+				this.readToken(); //read }
+			}
+			else
+			{
+				throw this.parseException( "}", this.currentToken() );
+			}
 		}
-
-		this.readToken(); //read {
-
-		this.parseScope( result, functionType, parentScope, false, false );
-
-		if ( this.currentToken().equals( "}" ) )
+		else	// body is a single call
 		{
-			this.readToken(); //read }
-		}
-		else
-		{
-			throw this.parseException( "}", this.currentToken() );
+			this.parseCommandOrDeclaration( result, functionType );
 		}
 
 		return result;
