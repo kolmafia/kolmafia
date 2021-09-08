@@ -1813,6 +1813,24 @@ public class ParserTest
 				null,
 			},
 			{
+				"foreach missing key variable name",
+				"foreach in it;",
+				"Key variable name expected",
+				null,
+			},
+			{
+				"foreach key variable named 'in'",
+				"foreach in in it;",
+				"Reserved word 'in' cannot be a key variable name",
+				null,
+			},
+			{
+				"foreach key variable named 'in' 2",
+				"foreach in, on, under, below, through in it;",
+				"Reserved word 'in' cannot be a key variable name",
+				null,
+			},
+			{
 				"foreach in not-a-reference",
 				"foreach it in $item[none];",
 				"Aggregate reference expected",
