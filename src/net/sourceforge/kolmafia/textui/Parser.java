@@ -2268,7 +2268,11 @@ public class Parser
 		{
 			Token name = this.currentToken();
 
-			if ( !this.parseIdentifier( name.content ) )
+			if ( !this.parseIdentifier( name.content ) ||
+			     // "foreach in aggregate" (i.e. no key)
+			     name.equalsIgnoreCase( "in" ) &&
+			     !"in".equalsIgnoreCase( this.nextToken() ) &&
+			     !",".equals( this.nextToken() ) )
 			{
 				throw this.parseException( "Key variable name expected" );
 			}
