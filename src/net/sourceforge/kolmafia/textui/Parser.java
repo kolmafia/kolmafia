@@ -2896,7 +2896,7 @@ public class Parser
 			Variable current = new Variable( result.getType() );
 			current.setExpression( result );
 
-			result = this.parseVariableReference( scope, current );
+			result = this.parseVariableReference( scope, new VariableReference( current ) );
 		}
 
 		return result;
@@ -3407,7 +3407,7 @@ public class Parser
 			Variable current = new Variable( result.getType() );
 			current.setExpression( result );
 
-			result = this.parseVariableReference( scope, current );
+			result = this.parseVariableReference( scope, new VariableReference( current ) );
 		}
 
 		if ( result instanceof VariableReference )
@@ -4086,16 +4086,22 @@ public class Parser
 
 		this.readToken(); // read name
 
-		if ( !this.currentToken().equals( "[" ) && !this.currentToken().equals( "." ) )
-		{
-			return new VariableReference( var );
-		}
-
-		return this.parseVariableReference( scope, var );
+		return this.parseVariableReference( scope, new VariableReference( var ) );
 	}
 
-	private Value parseVariableReference( final BasicScope scope, final Variable var )
+	/**
+	 * Look for an index/key, and return the corresponding data, expecting {@code var} to be a
+	 * {@link AggregateType}/{@link RecordType}, e.g., {@code map.key}, {@code array[0]}.
+	 *
+	 * <p>May also return a {@link FunctionCall} if the chain ends with/is a function call,
+	 * e.g., {@code var.function()}.
+	 *
+	 * <p>There may also be nothing, in which case the submitted variable reference is returned
+	 * as is.
+	 */
+	private Value parseVariableReference( final BasicScope scope, final VariableReference var )
 	{
+		VariableReference current = var;
 		Type type = var.getType();
 		List<Value> indices = new ArrayList<Value>();
 
@@ -4130,13 +4136,13 @@ public class Parser
 				index = this.parseExpression( scope );
 				if ( index == null )
 				{
-					throw this.parseException( "Index for '" + var.getName() + "' expected" );
+					throw this.parseException( "Index for '" + current.getName() + "' expected" );
 				}
 
 				if ( !index.getType().getBaseType().equals( atype.getIndexType().getBaseType() ) )
 				{
 					throw this.parseException(
-						"Index for '" + var.getName() + "' has wrong data type " + "(expected " + atype.getIndexType() + ", got " + index.getType() + ")" );
+						"Index for '" + current.getName() + "' has wrong data type " + "(expected " + atype.getIndexType() + ", got " + index.getType() + ")" );
 				}
 
 				type = atype.getDataType();
@@ -4149,8 +4155,7 @@ public class Parser
 
 				if ( "(".equals( this.nextToken() ) )
 				{
-					return this.parseCall(
-						scope, indices.isEmpty() ? new VariableReference( var ) : new CompositeReference( var, indices, this ) );
+					return this.parseCall( scope, current );
 				}
 
 				type = type.asProxy();
@@ -4189,6 +4194,8 @@ public class Parser
 				this.readToken(); // read ]
 				parseAggregate = false;
 			}
+
+			current = new CompositeReference( current.target, indices, this );
 		}
 
 		if ( parseAggregate )
@@ -4196,7 +4203,7 @@ public class Parser
 			throw this.parseException( "]", this.currentToken() );
 		}
 
-		return new CompositeReference( var, indices, this );
+		return current;
 	}
 
 	private String parseDirective( final String directive )

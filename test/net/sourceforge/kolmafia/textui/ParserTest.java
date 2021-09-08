@@ -2197,6 +2197,12 @@ public class ParserTest
 				null,
 			},
 			{
+				"type-mismatched indexed composite reference",
+				"int[5, 5] x; x[0]['str'];",
+				"Index for 'x[]' has wrong data type (expected int, got string)",
+				null,
+			},
+			{
 				"multidimensional comma-separated array index",
 				"int[5,5] x; x[0,1];",
 				null,
