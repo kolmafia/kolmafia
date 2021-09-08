@@ -150,25 +150,30 @@ public class Parser
 
 	public Parser( final File scriptFile, final InputStream stream, final Map<File, Long> imports )
 	{
-		this.imports = ( imports != null ) ? imports : new TreeMap<>();
+		this.imports = imports != null ? imports : new TreeMap<>();
+
+		this.istream = stream != null ? stream :
+		               scriptFile != null ? DataUtilities.getInputStream( scriptFile ) :
+		               null;
 
 		if ( scriptFile != null )
 		{
 			this.fileName = scriptFile.getPath();
 			this.shortFileName = this.fileName.substring( this.fileName.lastIndexOf( File.separator ) + 1 );
-			this.istream = DataUtilities.getInputStream( scriptFile );
-		}
-		else if ( stream != null )
-		{
-			this.fileName = null;
-			this.shortFileName = null;
-			this.istream = stream;
+
+			if ( this.imports.isEmpty() )
+			{
+				this.imports.put( scriptFile, scriptFile.lastModified() );
+			}
 		}
 		else
 		{
 			this.fileName = null;
 			this.shortFileName = null;
-			this.istream = null;
+		}
+
+		if ( this.istream == null )
+		{
 			return;
 		}
 
