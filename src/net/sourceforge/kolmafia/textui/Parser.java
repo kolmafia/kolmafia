@@ -427,7 +427,7 @@ public class Parser
 
 	private Scope parseCommandOrDeclaration( final Scope result, final Type expectedType )
 	{
-		Type t = this.parseType( result, true, true );
+		Type t = this.parseType( result, true );
 
 		// If there is no data type, it's a command of some sort
 		if ( t == null )
@@ -506,7 +506,7 @@ public class Parser
 				continue;
 			}
 
-			Type t = this.parseType( result, true, true );
+			Type t = this.parseType( result, true );
 
 			// If there is no data type, it's a command of some sort
 			if ( t == null )
@@ -630,7 +630,7 @@ public class Parser
 		while ( true )
 		{
 			// Get the field type
-			Type fieldType = this.parseType( parentScope, true, true );
+			Type fieldType = this.parseType( parentScope, true );
 			if ( fieldType == null )
 			{
 				throw this.parseException( "Type name expected" );
@@ -732,7 +732,7 @@ public class Parser
 
 		while ( !this.currentToken().equals( ")" ) )
 		{
-			Type paramType = this.parseType( parentScope, true, false );
+			Type paramType = this.parseType( parentScope, false );
 			if ( paramType == null )
 			{
 				throw this.parseException( ")", this.currentToken() );
@@ -1036,7 +1036,7 @@ public class Parser
 		}
 		this.readToken(); // read typedef
 
-		Type t = this.parseType( parentScope, true, true );
+		Type t = this.parseType( parentScope, true );
 		if ( t == null )
 		{
 			throw this.parseException( "Missing data type for typedef" );
@@ -1207,7 +1207,7 @@ public class Parser
 		return result;
 	}
 
-	private Type parseType( final BasicScope scope, final boolean aggregates, final boolean records )
+	private Type parseType( final BasicScope scope, final boolean records )
 	{
 		if ( !this.parseIdentifier( this.currentToken().content ) )
 		{
@@ -1226,7 +1226,7 @@ public class Parser
 					return null;
 				}
 
-				if ( aggregates && this.currentToken().equals( "[" ) )
+				if ( this.currentToken().equals( "[" ) )
 				{
 					return this.parseAggregateType( valType, scope );
 				}
@@ -1239,7 +1239,7 @@ public class Parser
 
 		this.readToken();
 
-		if ( aggregates && this.currentToken().equals( "[" ) )
+		if ( this.currentToken().equals( "[" ) )
 		{
 			return this.parseAggregateType( valType, scope );
 		}
@@ -2008,7 +2008,7 @@ public class Parser
 				continue;
 			}
 
-			Type t = this.parseType( scope, true, true );
+			Type t = this.parseType( scope, true );
 
 			// If there is no data type, it's a command of some sort
 			if ( t == null )
@@ -2435,7 +2435,7 @@ public class Parser
 
 		while ( !this.currentToken().equals( ";" ) )
 		{
-			Type t = this.parseType( scope, true, true );
+			Type t = this.parseType( scope, true );
 
 			Token name = this.currentToken();
 			Variable variable;
@@ -2873,7 +2873,7 @@ public class Parser
 
 		this.readToken(); // call
 
-		Type type = this.parseType( scope, true, false );
+		Type type = this.parseType( scope, false );
 
 		// You can omit the type, but then this function invocation
 		// cannot be used in an expression
@@ -3340,7 +3340,7 @@ public class Parser
 		{
 			Token anchor = this.currentToken();
 
-			Type baseType = this.parseType( scope, true, false );
+			Type baseType = this.parseType( scope, false );
 			if ( baseType != null && baseType.getBaseType() instanceof AggregateType )
 			{
 				if ( this.currentToken().equals( "{" ) )
