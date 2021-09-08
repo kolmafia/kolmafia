@@ -1553,10 +1553,20 @@ public class Parser
 		return new FunctionReturn( value, expectedType );
 	}
 
-	private Scope parseSingleCommandScope( final Type functionType, final BasicScope parentScope, final boolean noElse, boolean allowBreak, boolean allowContinue )
+	private Scope parseSingleCommandScope( final Type functionType,
+	                                       final BasicScope parentScope,
+	                                       final boolean noElse,
+	                                       final boolean allowBreak,
+	                                       final boolean allowContinue )
 	{
+		Scope result = new Scope( parentScope );
+
 		ParseTreeNode command = this.parseCommand( functionType, parentScope, noElse, allowBreak, allowContinue );
-		if ( command == null )
+		if ( command != null )
+		{
+			result.addCommand( command, this );
+		}
+		else
 		{
 			if ( this.currentToken().equals( ";" ) )
 			{
@@ -1566,10 +1576,9 @@ public class Parser
 			{
 				throw this.parseException( ";", this.currentToken() );
 			}
-
-			return new Scope( parentScope );
 		}
-		return new Scope( command, parentScope );
+
+		return result;
 	}
 
 	private Scope parseBlockOrSingleCommand( final Type functionType,
