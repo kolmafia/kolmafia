@@ -634,11 +634,32 @@ public class Parser
 
 		while ( true )
 		{
+			if ( this.atEndOfFile() )
+			{
+				throw this.parseException( "}", this.currentToken() );
+			}
+
+			if ( this.currentToken().equals( "}" ) )
+			{
+				if ( fieldTypes.isEmpty() )
+				{
+					throw this.parseException( "Record field(s) expected" );
+				}
+
+				this.readToken(); // read }
+				break;
+			}
+
 			// Get the field type
 			Type fieldType = this.parseType( parentScope, true );
 			if ( fieldType == null )
 			{
 				throw this.parseException( "Type name expected" );
+			}
+
+			if ( fieldType.getBaseType().equals( DataTypes.VOID_TYPE ) )
+			{
+				throw this.parseException( "Non-void field type expected" );
 			}
 
 			// Get the field name
@@ -664,6 +685,9 @@ public class Parser
 				this.readToken(); // read name
 			}
 
+			fieldTypes.add( fieldType );
+			fieldNames.add( fieldName.content.toLowerCase() );
+
 			if ( this.currentToken().equals( ";" ) )
 			{
 				this.readToken(); // read ;
@@ -671,20 +695,6 @@ public class Parser
 			else
 			{
 				throw this.parseException( ";", this.currentToken() );
-			}
-
-			fieldTypes.add( fieldType );
-			fieldNames.add( fieldName.content.toLowerCase() );
-
-			if ( this.atEndOfFile() )
-			{
-				throw this.parseException( "}", this.currentToken() );
-			}
-
-			if ( this.currentToken().equals( "}" ) )
-			{
-				this.readToken(); // read }
-				break;
 			}
 		}
 
@@ -2738,7 +2748,20 @@ public class Parser
 					break;
 				}
 
-				Type expected = types[param].getBaseType();
+				Type currentType;
+				String errorMessageFieldName = "";
+
+				if ( param < types.length )
+				{
+					currentType = types[param];
+					errorMessageFieldName = " (" + names[param] + ")";
+				}
+				else
+				{
+					throw this.parseException( "Too many field initializers for record " + name );
+				}
+
+				Type expected = currentType.getBaseType();
 				Value val;
 
 				if ( this.currentToken().equals( "," ) )
@@ -2756,7 +2779,7 @@ public class Parser
 
 				if ( val == null )
 				{
-					throw this.parseException( "Expression expected for field #" + ( param + 1 ) + " (" + names[param] + ")" );
+					throw this.parseException( "Expression expected for field #" + ( param + 1 ) + errorMessageFieldName );
 				}
 
 				if ( val != DataTypes.VOID_VALUE )
@@ -2765,7 +2788,7 @@ public class Parser
 					Type given = val.getType();
 					if ( !Operator.validCoercion( expected, given, "assign" ) )
 					{
-						throw this.parseException( given + " found when " + expected + " expected for field #" + ( param + 1 ) + " (" + names[param] + ")" );
+						throw this.parseException( given + " found when " + expected + " expected for field #" + ( param + 1 ) + errorMessageFieldName );
 					}
 				}
 
@@ -2774,12 +2797,11 @@ public class Parser
 
 				if ( this.currentToken().equals( "," ) )
 				{
-					if ( param == names.length )
-					{
-						throw this.parseException( "Too many field initializers for record " + name );
-					}
-
 					this.readToken(); // ,
+				}
+				else if ( !this.currentToken().equals( ")" ) )
+				{
+					throw this.parseException( ", or )", this.currentToken() );
 				}
 			}
 		}
