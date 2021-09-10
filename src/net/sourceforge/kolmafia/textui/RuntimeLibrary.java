@@ -2235,6 +2235,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "string_modifier", DataTypes.STRING_TYPE, params ) );
 
+		params = new Type[] { DataTypes.EFFECT_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "string_modifier", DataTypes.STRING_TYPE, params ) );
+
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "effect_modifier", DataTypes.EFFECT_TYPE, params ) );
 
@@ -2246,6 +2249,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "class_modifier", DataTypes.CLASS_TYPE, params ) );
+
+		params = new Type[] { DataTypes.EFFECT_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "monster_modifier", DataTypes.MONSTER_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "skill_modifier", DataTypes.SKILL_TYPE, params ) );
@@ -9577,6 +9583,14 @@ public abstract class RuntimeLibrary
 		String name = RuntimeLibrary.getModifierName( arg );
 		String mod = modifier.toString();
 		return new Value( DataTypes.parseStatValue( Modifiers.getStringModifier( type, name, mod ), true ) );
+	}
+
+	public static Value monster_modifier( ScriptRuntime controller, final Value arg, final Value modifier )
+	{
+		String type = RuntimeLibrary.getModifierType( arg );
+		String name = RuntimeLibrary.getModifierName( arg );
+		String mod = modifier.toString();
+		return new Value( DataTypes.parseMonsterValue( Modifiers.getStringModifier( type, name, mod ), true ) );
 	}
 
 	public static Value white_citadel_available( ScriptRuntime controller )
