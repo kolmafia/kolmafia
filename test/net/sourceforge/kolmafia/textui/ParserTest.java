@@ -1184,6 +1184,18 @@ public class ParserTest
 				null,
 			},
 			{
+				"record without fields",
+				"record a {};",
+				"Record field(s) expected",
+				null,
+			},
+			{
+				"record with void field type",
+				"record a { void a;};",
+				"Non-void field type expected",
+				null,
+			},
+			{
 				"record with unknown field type",
 				"record a { foo a;};",
 				"Type name expected",
@@ -2290,16 +2302,6 @@ public class ParserTest
 				null,
 			},
 			{
-				"new with skippable void field",
-				"record r {void a; int b;}; new r(, 2);",
-				null,
-				Arrays.asList( "record", "r", "{",
-							   "void", "a", ";",
-							   "int", "b", ";",
-							   "}", ";",
-							   "new", "r", "(", ",", "2", ")", ";" ),
-			},
-			{
 				"new with aggregate field",
 				"record r {int[] a;}; new r({1,2});",
 				null,
@@ -2322,8 +2324,20 @@ public class ParserTest
 			},
 			{
 				"new without closing paren",
-				"record r {int a;}; new r(4",
+				"record r {int a;}; new r(",
 				"Expected ), found end of file",
+				null,
+			},
+			{
+				"new without closing paren 2",
+				"record r {int a;}; new r(4",
+				"Expected , or ), found end of file",
+				null,
+			},
+			{
+				"new without closing comma separator",
+				"record r {int a; int b;}; new r(4 5)",
+				"Expected , or ), found 5",
 				null,
 			},
 			{
