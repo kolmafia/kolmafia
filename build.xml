@@ -354,6 +354,7 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 		</zipfileset>
 	  </jar>
 
+	  <delete file="${build}/bundled-libs.jar" />
 	</target>
 
 	<!-- =========================== -->
