@@ -328,6 +328,7 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 		   basedir="${build}"
 		   update="true"
 		   index="true"
+		   excludes="**"
 		   compress="true">
 		<zipgroupfileset dir="${lib}/jar">
 		  <include name="*.jar"/>
@@ -341,6 +342,7 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 		  destfile="${jarfile}"
 		  basedir="${build}"
 		  update="true"
+		  excludes="**/*.jar"
 		  index="true"
 		  compress="true">
 
