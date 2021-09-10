@@ -167,8 +167,8 @@ task setVersion(type: Copy, dependsOn: 'ant_version') {
 }
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_1_8
-  targetCompatibility = JavaVersion.VERSION_1_8
+  sourceCompatibility = JavaVersion.toVersion(ant.properties['java.release'])
+  targetCompatibility = JavaVersion.toVersion(ant.properties['java.release'])
 }
 
 tasks.withType(JavaCompile) {
