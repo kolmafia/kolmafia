@@ -72,11 +72,11 @@ public abstract class SystemTrayFrame
 		// Now, make calls to SystemTrayIconManager in order
 		// to make use of the system tray.
 
-		FileUtilities.loadLibrary( KoLConstants.IMAGE_LOCATION, "", "TrayIcon12.gif" );
+		FileUtilities.loadLibrary( KoLConstants.IMAGE_LOCATION, "images/", "TrayIcon12.gif" );
 
 		try
 		{
-			Image image = JComponentUtilities.getImage( "", "TrayIcon12.gif" ).getImage();
+			Image image = JComponentUtilities.getImage( "images/", "TrayIcon12.gif" ).getImage();
 
 			TrayIcon icon = new TrayIcon( image.getScaledInstance( 16, 16, Image.SCALE_DEFAULT ), "KoLmafia" );
 			icon.addMouseListener( new SetVisibleListener() );
