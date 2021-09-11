@@ -20,6 +20,9 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 	<property environment="env" />
 	<taskdef resource="cloverlib.xml" classpath="${lib}/testjar/clover.jar"/>
 	<property name="clover.snapshot.file" value="${build}/coverage.db.snapshot"/>
+	<property name="data-driven-test-patterns"
+	          value="**/CustomScriptTest.java
+	                 **/DataFile*Test.java" />
 
 	<available file=".svn" property="using.svn" />
 	<available file=".git" property="using.gitsvn" />
@@ -29,7 +32,6 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 			<arg value="-emacs" />
 			<arg value="-projecthelp" />
 		</java>
-
 	</target>
 	
 	<!-- ========================================== -->
@@ -238,13 +240,10 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 			<formatter type="brief" usefile="false" />
 			<batchtest>
 			  <clover-optimized-testset snapshotfile="${clover.snapshot.file}">
-				<fileset dir="${test}" includes="**/*Test.java">
-				  <exclude name="**/CustomScriptTest.java" />
-				  <exclude name="**/DataFile*Test.java" />
-				</fileset>
+				<fileset dir="${test}" includes="**/*Test.java"
+				         excludes="${data-driven-test-patterns}" />
 			  </clover-optimized-testset>
-			  <fileset dir="${test}" includes="**/CustomScriptTest.java" />
-			  <fileset dir="${test}" includes="**/DataFile*Test.java" />
+			  <fileset dir="${test}" includes="${data-driven-test-patterns}" />
 			</batchtest>
 		</junit>
 	</target>
