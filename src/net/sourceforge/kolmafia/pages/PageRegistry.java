@@ -91,7 +91,7 @@ public class PageRegistry
 
 		try
 		{
-			page = (Page) pageClass.newInstance();
+			page = (Page) pageClass.getDeclaredConstructor().newInstance();
 
 			pagesByLocation.put( path, page );
 		}

@@ -2987,7 +2987,7 @@ public abstract class RuntimeLibrary
 			if ( ob instanceof TagNode )
 			{
 				TagNode tag = (TagNode) ob;
-				result[ i ] = serializer.getXmlAsString( tag );
+				result[ i ] = serializer.getAsString( tag );
 			}
 
 			value.aset( new Value( i ), new Value( result[ i ].toString() ) );
