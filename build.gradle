@@ -126,13 +126,41 @@ task download(type: Copy) {
   into 'src/jar'
 }
 
-task setVersion(type: Copy, dependsOn: 'ant_version') {
-  outputs.upToDateWhen { false }
+task gitRevList(type: Exec) {
+  onlyIf {
+    file('.git').exists()
+  }
+  inputs.dir('.git')
+  outputs.files file('build/revision.txt')
+  commandLine 'git', 'rev-list', '--count', 'HEAD'
+  standardOutput = new ByteArrayOutputStream()
+
+  doLast {
+    new File('build', 'revision.txt').text = standardOutput.toString().trim()
+  }
+}
+
+task svnRevList(type: Exec) {
+  onlyIf {
+    file('.svn').exists()
+  }
+  inputs.dir('.svn')
+  outputs.files file('build/revision.txt')
+  commandLine 'svnversion', '-n', '.'
+  standardOutput = new ByteArrayOutputStream()
+
+  doLast {
+    new File('build/revision.txt').text = standardOutput.toString().trim()
+  }
+}
+
+task setVersion(type: Copy, dependsOn: ['gitRevList', 'svnRevList']) {
+  inputs.files file('build/revision.txt')
 
   def KOL_CONSTANTS = 'net/sourceforge/kolmafia/KoLConstants.java'
   def revision = ''
   doFirst {
-    revision = ant.properties['revision']
+    revision = new File('build/revision.txt').text.trim()
   }
 
   def copyDetails = []
