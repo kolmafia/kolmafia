@@ -161,7 +161,7 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 			includeantruntime="false"
 			errorProperty="compile.failed">
 			<classpath>
-				<fileset dir="${src}/jar" includes="**/*.jar"/>
+				<fileset dir="${lib}/jar" includes="**/*.jar"/>
 				<fileset dir="${lib}/testjar" includes="**/*.jar"/>
 			</classpath>
 		</javac>
@@ -232,6 +232,7 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 			<jvmarg value="-DuseCWDasROOT=true" />
 			<classpath>
 				<pathelement location="${build}"/>
+				<fileset dir="${lib}/jar" includes="**/*.jar" />
 				<fileset dir="${lib}/testjar" includes="**/*.jar" />
 				<fileset dir="${src}/jar" includes="**/*.jar" />
 			</classpath>
@@ -267,6 +268,7 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 		<javac source="${java.release}" srcdir="${src}" destdir="${build}" includeantruntime="false">
 		  <include name="**/*.java" />
 		  <classpath>
+			<fileset dir="${lib}/jar" includes="**/*.jar" />
 			<fileset dir="${src}/jar" includes="**/*.jar" />
 		  </classpath>
 		</javac>
@@ -326,6 +328,9 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 		   index="true"
 		   excludes="**"
 		   compress="true">
+		<zipgroupfileset dir="${lib}/jar">
+		  <include name="*.jar"/>
+		</zipgroupfileset>
 		<zipgroupfileset dir="${src}/jar">
 		  <include name="*.jar"/>
 		</zipgroupfileset>
