@@ -70,7 +70,7 @@ dependencies {
   runtimeOnly 'net.java.dev.jna:jna-platform:5.6.0'
   runtimeOnly 'org.antlr:antlr-runtime:3.4'
 
-  libImplementation 'org.swinglabs:swingx:1.6.1'
+  libImplementation 'org.swinglabs:swingx:1.0'
 
   implementation files('build/lib') {
     builtBy 'compileLibJava'
@@ -80,11 +80,10 @@ dependencies {
   implementation 'org.fusesource.jansi:jansi:2.3.2'
   implementation 'org.json:json:20210307'
   implementation 'org.mozilla:rhino:1.7.13'
-  implementation 'org.swinglabs:swingx:1.6.1'
+  implementation 'org.swinglabs:swingx:1.0'
   implementation 'org.tmatesoft.svnkit:svnkit:1.10.3'
 
-  toCopy 'org.swinglabs:swingx:1.6.1'
-  toCopy 'org.eclipse.lsp4j:org.eclipse.lsp4j:0.12.0'
+  toCopy 'org.swinglabs:swingx:1.0'
 }
 
 application {
