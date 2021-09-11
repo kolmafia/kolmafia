@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Container;
+import java.awt.SystemTray;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -246,28 +247,14 @@ public abstract class StaticEntity
 
 			boolean useTrayIcon = Preferences.getBoolean( "useSystemTrayIcon" );
 
-			if ( !System.getProperty( "os.name" ).startsWith( "Windows" ) )
-			{
-				useTrayIcon = false;
-			}
-
-			String javaArchitecture = System.getProperty( "sun.arch.data.model" );
-
-			if ( javaArchitecture == null || !javaArchitecture.equals( "32" ) )
+			if ( SystemTray.isSupported() )
 			{
 				useTrayIcon = false;
 			}
 
 			if ( useTrayIcon )
 			{
-				try
-				{
-					FileUtilities.loadLibrary( KoLConstants.IMAGE_LOCATION, "", "TrayIcon12.dll" );
-					StaticEntity.usesSystemTray = 1;
-				}
-				catch ( Exception e )
-				{
-				}
+				StaticEntity.usesSystemTray = 1;
 			}
 		}
 
