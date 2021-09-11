@@ -93,7 +93,7 @@ public abstract class ThreadedListener
 		}
 		else if ( this.keyEvent != null )
 		{
-			modifiers = this.keyEvent.getModifiers();
+			modifiers = this.keyEvent.getModifiersEx();
 		}
 
 		return ( modifiers & ActionEvent.SHIFT_MASK ) != 0;
