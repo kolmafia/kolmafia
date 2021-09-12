@@ -1,0 +1,39 @@
+name: Coverage
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  coverage:
+    if: github.repository == 'kolmafia/kolmafia'
+    runs-on: ubuntu-latest
+
+    name: Run Coverage
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup Java ${{ matrix.java-version }}
+        uses: actions/setup-java@v2
+        with:
+          distribution: "temurin"
+          java-version: "16"
+
+      - name: Gradle Wrapper Validation
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Prepare Workspace
+        run: mkdir -p ./build
+
+      - name: Run Tests
+        run: ./gradlew --no-daemon cloverGenerateReport
+
+      - name: Publish Coverage Report
+        uses: codecov/codecov-action@v2
+        if: always()
+        with:
+          file: ./build/reports/clover-root/clover.xml

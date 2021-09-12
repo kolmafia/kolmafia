@@ -14,14 +14,12 @@ name: "CodeQL"
 on:
   push:
     branches: [main]
-  pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [main]
   schedule:
     - cron: "24 5 * * 0"
 
 jobs:
   analyze:
+    if: github.repository == 'kolmafia/kolmafia'
     name: Analyze
     runs-on: ubuntu-latest
     permissions:
