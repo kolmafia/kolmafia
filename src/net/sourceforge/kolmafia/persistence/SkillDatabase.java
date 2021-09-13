@@ -41,6 +41,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -1832,7 +1833,7 @@ public class SkillDatabase
 	 * @return The set of skills keyed by name
 	 */
 
-	public static final Set entrySet()
+	public static final Set<Entry<Integer, String>> entrySet()
 	{
 		return SkillDatabase.nameById.entrySet();
 	}

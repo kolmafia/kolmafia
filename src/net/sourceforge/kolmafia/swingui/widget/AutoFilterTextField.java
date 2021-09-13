@@ -236,7 +236,7 @@ public class AutoFilterTextField
 		}
 		if ( element instanceof LowerCaseEntry )
 		{
-			return ( (LowerCaseEntry) element ).getLowerCase();
+			return ( (LowerCaseEntry<?, ?>) element ).getLowerCase();
 		}
 		if ( element instanceof KoLAdventure )
 		{

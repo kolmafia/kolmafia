@@ -914,7 +914,7 @@ public class MonsterDatabase
 		return MonsterDatabase.MONSTER_IDS.keySet();
 	}
 
-	public static final Set idEntrySet()
+	public static final Set<Entry<Integer, MonsterData>> idEntrySet()
 	{
 		return MonsterDatabase.MONSTER_IDS.entrySet();
 	}

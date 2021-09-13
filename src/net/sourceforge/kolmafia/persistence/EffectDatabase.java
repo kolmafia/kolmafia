@@ -546,7 +546,7 @@ public class EffectDatabase
 	 * @return The set of status effects keyed by Id
 	 */
 
-	public static final Set entrySet()
+	public static final Set<Entry<Integer, String>> entrySet()
 	{
 		return EffectDatabase.nameById.entrySet();
 	}
