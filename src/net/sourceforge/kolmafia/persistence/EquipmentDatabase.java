@@ -1102,7 +1102,7 @@ public class EquipmentDatabase
 		return pulver;
 	}
 
-	public static final Set outfitEntrySet()
+	public static final Set<Entry<Integer, String>> outfitEntrySet()
 	{
 		return EquipmentDatabase.outfitById.entrySet();
 	}

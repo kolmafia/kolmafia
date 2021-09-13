@@ -42,6 +42,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -896,7 +897,7 @@ public class FamiliarDatabase
 	 * @return The set of familiars keyed by name
 	 */
 
-	public static final Set entrySet()
+	public static final Set<Entry<Integer, String>> entrySet()
 	{
 		return FamiliarDatabase.familiarById.entrySet();
 	}

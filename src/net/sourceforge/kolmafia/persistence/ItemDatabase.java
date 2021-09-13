@@ -2408,7 +2408,7 @@ public class ItemDatabase
 	 * @return The set of item names keyed by id
 	 */
 
-	public static final Set entrySet()
+	public static final Set<Entry<Integer, String>> entrySet()
 	{
 		return ItemDatabase.nameById.entrySet();
 	}

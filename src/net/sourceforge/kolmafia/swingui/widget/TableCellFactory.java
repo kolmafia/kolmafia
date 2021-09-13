@@ -93,9 +93,9 @@ public class TableCellFactory
 		{
 			if ( model == DatabaseFrame.allItems )
 			{
-				return getAllItemsCell( columnIndex, isSelected, (LowerCaseEntry) result, raw );
+				return getAllItemsCell( columnIndex, isSelected, (LowerCaseEntry<Integer, String>) result, raw );
 			}
-			return getGeneralDatabaseCell( columnIndex, isSelected, (LowerCaseEntry) result, raw );
+			return getGeneralDatabaseCell( columnIndex, isSelected, (LowerCaseEntry<Integer, ?>) result, raw );
 		}
 		if ( result instanceof String || result instanceof Integer || result instanceof JButton )
 		{
@@ -126,7 +126,7 @@ public class TableCellFactory
 		return null;
 	}
 
-	private static Object getGeneralDatabaseCell( int columnIndex, boolean isSelected, LowerCaseEntry result,
+	private static Object getGeneralDatabaseCell( int columnIndex, boolean isSelected, LowerCaseEntry<Integer, ?> result,
 		boolean raw )
 	{
 		switch ( columnIndex )
@@ -134,35 +134,35 @@ public class TableCellFactory
 		case 0:
 			return result.getValue().toString();
 		case 1:
-			return IntegerPool.get( (Integer) result.getKey() );
+			return IntegerPool.get( result.getKey() );
 		}
 		return null;
 	}
 
-	private static Object getAllItemsCell( int columnIndex, boolean isSelected, LowerCaseEntry result, boolean raw )
+	private static Object getAllItemsCell( int columnIndex, boolean isSelected, LowerCaseEntry<Integer, String> result, boolean raw )
 	{
 		switch ( columnIndex )
 		{
 		case 0:
-			return ItemDatabase.getDisplayName( (Integer) result.getKey() );
+			return ItemDatabase.getDisplayName( result.getKey() );
 		case 1:
-			return IntegerPool.get( (Integer) result.getKey() );
+			return IntegerPool.get( result.getKey() );
 		case 2:
-			return IntegerPool.get( ItemDatabase.getPriceById( (Integer) result.getKey() ) );
+			return IntegerPool.get( ItemDatabase.getPriceById( result.getKey() ) );
 		case 3:
-			return IntegerPool.get( MallPriceDatabase.getPrice( (Integer) result.getKey() ) );
+			return IntegerPool.get( MallPriceDatabase.getPrice( result.getKey() ) );
 		case 4:
-			return ConsumablesDatabase.getFullness( (String) result.getValue() ) + ConsumablesDatabase.getInebriety( (String) result.getValue() ) + ConsumablesDatabase.getSpleenHit( (String) result.getValue() );
+			return ConsumablesDatabase.getFullness( result.getValue() ) + ConsumablesDatabase.getInebriety( result.getValue() ) + ConsumablesDatabase.getSpleenHit( result.getValue() );
 		case 5:
-			return ConsumablesDatabase.getAdvRangeByName( ItemDatabase.getCanonicalName( (Integer) result.getKey() ) );
+			return ConsumablesDatabase.getAdvRangeByName( ItemDatabase.getCanonicalName( result.getKey() ) );
 		case 6:
-			return ConsumablesDatabase.getLevelReqByName( (String) result.getValue() );
+			return ConsumablesDatabase.getLevelReqByName( result.getValue() );
 		}
 		return null;
 	}
 
 	private static Object getGeneralCell( int columnIndex, boolean isSelected, AdventureResult advresult, boolean raw )
-	{		
+	{
 		Integer fill;
 
 		switch ( columnIndex )
