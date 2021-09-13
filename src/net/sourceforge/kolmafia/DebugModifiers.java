@@ -46,15 +46,15 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 public class DebugModifiers
 	extends Modifiers
 {
-	private static HashMap wanted, adjustments;
+	private static HashMap<Integer, String> wanted, adjustments;
 	private static String currentType;
 	private static String currentDesc;
 	private static StringBuffer buffer;
 
 	public static int setup( String parameters )
 	{
-		DebugModifiers.wanted = new HashMap();
-		DebugModifiers.adjustments = new HashMap();
+		DebugModifiers.wanted = new HashMap<>();
+		DebugModifiers.adjustments = new HashMap<>();
 		for ( int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i )
 		{
 			String name = Modifiers.getModifierName( i );
@@ -90,11 +90,11 @@ public class DebugModifiers
 			DebugModifiers.buffer.append( DebugModifiers.currentDesc );
 		}
 		DebugModifiers.buffer.append( "</td>" );
-		Iterator i = DebugModifiers.wanted.keySet().iterator();
+		Iterator<Integer> i = DebugModifiers.wanted.keySet().iterator();
 		while ( i.hasNext() )
 		{
-			Object key = i.next();
-			String item = (String) DebugModifiers.adjustments.get( key );
+			Integer key = i.next();
+			String item = DebugModifiers.adjustments.get( key );
 			if ( item != null )
 			{
 				DebugModifiers.buffer.append( item );
@@ -162,25 +162,25 @@ public class DebugModifiers
 	public static void allModifiers()
 	{
 		DebugModifiers.buffer.append( "<tr>" );
-		Iterator i = DebugModifiers.wanted.keySet().iterator();
+		Iterator<Integer> i = DebugModifiers.wanted.keySet().iterator();
+		HashMap<Integer, Iterator<Change>> modifiersChangers = new HashMap<>();
 		while ( i.hasNext() )
 		{
-			Object key = i.next();
-			int ikey = ((Integer) key).intValue();
-			String item = (String) DebugModifiers.wanted.get( key );
-			DebugModifiers.buffer.append( item );
-			ArrayList list = new ArrayList();
-			Iterator allmods = Modifiers.getAllModifiers();
+			Integer key = i.next();
+			String modifier = DebugModifiers.wanted.get( key );
+			DebugModifiers.buffer.append( modifier );
+			ArrayList<Change> modChangers = new ArrayList<>();
+			Iterator<String> allmods = Modifiers.getAllModifiers();
 			while ( allmods.hasNext() )
 			{
-				String lookup = (String) allmods.next();
+				String lookup = allmods.next();
 				String type = null;
 				String name = null;
 				int ind = lookup.indexOf( ":" );
 				if ( ind > 0 )
 				{
 					type = lookup.substring( 0, ind );
-					name = lookup.replace( type + ":", "" );			
+					name = lookup.replace( type + ":", "" );
 				}
 				else
 				{
@@ -192,43 +192,39 @@ public class DebugModifiers
 				{
 					continue;
 				}
-				double value = mods.get( ikey );
+				double value = mods.get( key );
 				if ( value != 0.0 )
 				{
-					list.add( new Change( type, name, value, mods.variable ) );
+					modChangers.add( new Change( type, name, value, mods.variable ) );
 				}
-				if ( list.size() > 0 )
-				{
-					Collections.sort( list );
-					DebugModifiers.adjustments.put( key, list.iterator() );
-				}
-				else
-				{
-					DebugModifiers.adjustments.remove( key );
-				}
+			}
+			if ( modChangers.size() > 0 )
+			{
+				Collections.sort( modChangers );
+				modifiersChangers.put( key, modChangers.iterator() );
 			}
 		}
 		DebugModifiers.buffer.append( "</tr>" );
-		while ( DebugModifiers.adjustments.size() > 0 )
+		while ( modifiersChangers.size() > 0 )
 		{
 			DebugModifiers.buffer.append( "<tr>" );
 			i = DebugModifiers.wanted.keySet().iterator();
 			while ( i.hasNext() )
 			{
-				Object key = i.next();
-				Iterator li = (Iterator) DebugModifiers.adjustments.get( key );
+				Integer key = i.next();
+				Iterator<Change> li = modifiersChangers.get( key );
 				if ( li == null )
 				{
 					DebugModifiers.buffer.append( "<td colspan=3></td>" );
 				}
 				else
 				{
-					Change c = (Change) li.next();
+					Change c = li.next();
 					DebugModifiers.buffer.append( c.toString() );
 					
 					if ( !li.hasNext() )
 					{
-						DebugModifiers.adjustments.remove( key );
+						modifiersChangers.remove( key );
 					}
 				}
 			}
@@ -241,7 +237,7 @@ public class DebugModifiers
 	}
 	
 	private static class Change
-	implements Comparable<Change>
+		implements Comparable<Change>
 	{
 		String type;
 		String name;

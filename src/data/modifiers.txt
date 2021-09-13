@@ -11917,7 +11917,7 @@ Ensorcel	construct	Damage Reduction: [pref(ensorceleeLevel)/15.0]
 Ensorcel	elemental	Cold Resistance: [max(1,min(30,pref(ensorceleeLevel)/50.0))], Hot Resistance: [max(1,min(30,pref(ensorceleeLevel)/50.0))], Sleaze Resistance: [max(1,min(30,pref(ensorceleeLevel)/50.0))], Spooky Resistance: [max(1,min(30,pref(ensorceleeLevel)/50.0))], Stench Resistance: [max(1,min(30,pref(ensorceleeLevel)/50.0))]
 Ensorcel	elf	Candy Drop: [max(10,min(300,pref(ensorceleeLevel)/5.0))]
 Ensorcel	plant	Monster Level: [max(10,ceil(pref(ensorceleeLevel)/10.0))]
-Ensorcel	slime	Initiative: [pref(ensorceleeLevel)/2.5)]
+Ensorcel	slime	Initiative: [pref(ensorceleeLevel)/2.5]
 
 # You, Robot
 RobotTop	3	Energy: +1
