@@ -11,11 +11,11 @@ public class LowerCaseEntryTest {
 
     @Test
     public void itShouldCreateWhatWasAskedFor() {
-        LowerCaseEntry lca = new LowerCaseEntry("Key", "Value");
+        LowerCaseEntry<String, String> lca = new LowerCaseEntry<>("Key", "Value");
         assertEquals(lca.getKey(), "Key");
         assertEquals(lca.getValue(), "Value");
         assertEquals(lca.toString(), "Value (Key)");
-        LowerCaseEntry lcb = new LowerCaseEntry("kEY", "vALUE");
+        LowerCaseEntry<String, String> lcb = new LowerCaseEntry<>("kEY", "vALUE");
         assertNotEquals(lca, lcb);
         assertEquals(lca.getLowerCase(), lcb.getLowerCase());
         assertNotEquals(lcb.getValue(), "value");
@@ -23,24 +23,22 @@ public class LowerCaseEntryTest {
 
     @Test
     public void itShouldChangeValueWhenAsked() {
-        LowerCaseEntry lca = new LowerCaseEntry("Key", "Value");
-        LowerCaseEntry lcb = new LowerCaseEntry("Key", "Value");
+        LowerCaseEntry<String, String> lca = new LowerCaseEntry<>("Key", "Value");
+        LowerCaseEntry<String, String> lcb = new LowerCaseEntry<>("Key", "Value");
         assertEquals(lca, lcb);
-        Object sv = lcb.setValue("NotValue");
+        String sv = lcb.setValue("NotValue");
         assertEquals(sv, "Value");
         assertNotEquals(lca, lcb);
     }
 
     @Test
     public void itShouldBuildAlist() {
-        LockableListModel llm = LowerCaseEntry.createListModel(ItemDatabase.entrySet());
+        LockableListModel<LowerCaseEntry<Integer, String>> llm = LowerCaseEntry.createListModel(ItemDatabase.entrySet());
         assertNotNull(llm);
-        Object e = llm.get(50);
-        assertTrue(e instanceof LowerCaseEntry);
-        LowerCaseEntry lce = (LowerCaseEntry) e;
+        LowerCaseEntry<Integer, String> lce = llm.get(50);
         assertEquals(lce.getLowerCase(),"knob goblin uberpants");
-        Object z = lce.setValue("Knob Goblin Panties");
-        assertEquals(z.toString(), "Knob Goblin Uberpants");
+        String z = lce.setValue("Knob Goblin Panties");
+        assertEquals(z, "Knob Goblin Uberpants");
         assertEquals(lce.getLowerCase(), "knob goblin panties");
     }
 }
