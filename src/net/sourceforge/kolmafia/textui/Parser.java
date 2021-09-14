@@ -42,6 +42,7 @@ import java.io.PrintStream;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 
@@ -58,6 +59,8 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.textui.Parser.Line.Token;
 
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayLiteral;
@@ -114,11 +117,11 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Parser
 {
-	public static String APPROX = "\u2248";
-	public static String PRE_INCREMENT = "++X";
-	public static String PRE_DECREMENT = "--X";
-	public static String POST_INCREMENT = "X++";
-	public static String POST_DECREMENT = "X--";
+	public static final String APPROX = "\u2248";
+	public static final String PRE_INCREMENT = "++X";
+	public static final String PRE_DECREMENT = "--X";
+	public static final String POST_INCREMENT = "X++";
+	public static final String POST_DECREMENT = "X--";
 
 	// Variables used during parsing
 
@@ -127,11 +130,9 @@ public class Parser
 	private String scriptName;
 	private final InputStream istream;
 
-	private LineNumberReader commandStream;
-	private String currentLine;
-	private String nextLine;
-	private String currentToken;
-	private int lineNumber;
+	private Line currentLine;
+	private int currentIndex;
+	private Token currentToken;
 
 	private final Map<File, Long> imports;
 	private Function mainMethod = null;
@@ -149,34 +150,51 @@ public class Parser
 
 	public Parser( final File scriptFile, final InputStream stream, final Map<File, Long> imports )
 	{
-		this.imports = ( imports != null ) ? imports : new TreeMap<>();
+		this.imports = imports != null ? imports : new TreeMap<>();
+
+		this.istream = stream != null ? stream :
+		               scriptFile != null ? DataUtilities.getInputStream( scriptFile ) :
+		               null;
 
 		if ( scriptFile != null )
 		{
 			this.fileName = scriptFile.getPath();
 			this.shortFileName = this.fileName.substring( this.fileName.lastIndexOf( File.separator ) + 1 );
-			this.istream = DataUtilities.getInputStream( scriptFile );
-		}
-		else if ( stream != null )
-		{
-			this.fileName = null;
-			this.shortFileName = null;
-			this.istream = stream;
+
+			if ( this.imports.isEmpty() )
+			{
+				this.imports.put( scriptFile, scriptFile.lastModified() );
+			}
 		}
 		else
 		{
 			this.fileName = null;
 			this.shortFileName = null;
-			this.istream = null;
+		}
+
+		if ( this.istream == null )
+		{
 			return;
 		}
 
 		try
 		{
-			this.commandStream = new LineNumberReader( new InputStreamReader( this.istream, StandardCharsets.UTF_8 ) );
-			this.currentLine = this.getNextLine();
-			this.lineNumber = this.commandStream.getLineNumber();
-			this.nextLine = this.getNextLine();
+			final LineNumberReader commandStream = new LineNumberReader( new InputStreamReader( this.istream, StandardCharsets.UTF_8 ) );
+			this.currentLine = new Line( commandStream );
+
+			Line line = this.currentLine;
+			while ( line.content != null )
+			{
+				line = new Line( commandStream, line );
+			}
+
+			// Move up to the first non-empty line
+			while ( this.currentLine.content != null &&
+			        this.currentLine.content.length() == 0 )
+			{
+				this.currentLine = this.currentLine.nextLine;
+			}
+			this.currentIndex = this.currentLine.offset;
 		}
 		catch ( Exception e )
 		{
@@ -185,37 +203,33 @@ public class Parser
 
 			throw this.parseException( this.fileName + " could not be accessed" );
 		}
-	}
-
-	private void disconnect()
-	{
-		try
+		finally
 		{
-			this.commandStream = null;
-			this.istream.close();
-		}
-		catch ( IOException e )
-		{
+			try
+			{
+				this.istream.close();
+			}
+			catch ( IOException e )
+			{
+			}
 		}
 	}
 
 	public Scope parse()
 	{
-		try
+		if ( this.istream == null )
 		{
-			Scope scope = this.parseScope( null, null, null, Parser.getExistingFunctionScope(), false, false );
-
-			if ( this.currentLine != null )
-			{
-				throw this.parseException( "Script parsing error" );
-			}
-
-			return scope;
+			throw new RuntimeException( "Parser was not properly initialized before parsing was attempted" );
 		}
-		finally
+
+		Scope scope = this.parseScope( null, null, null, Parser.getExistingFunctionScope(), false, false );
+
+		if ( this.currentLine.nextLine != null )
 		{
-			this.disconnect();
+			throw this.parseException( "Script parsing error" );
 		}
+
+		return scope;
 	}
 
 	public String getFileName()
@@ -237,7 +251,12 @@ public class Parser
 
 	public int getLineNumber()
 	{
-		return this.lineNumber;
+		if ( this.istream == null )
+		{
+			return 0;
+		}
+
+		return this.currentLine.lineNumber;
 	}
 
 	public Map<File, Long> getImports()
@@ -358,7 +377,7 @@ public class Parser
 
 	private static boolean isReservedWord( final String name )
 	{
-		return Parser.reservedWords.contains( name.toLowerCase() );
+		return name != null && Parser.reservedWords.contains( name.toLowerCase() );
 	}
 
 	public Scope importFile( final String fileName, final Scope scope )
@@ -389,24 +408,11 @@ public class Parser
 
 		this.imports.put( scriptFile, scriptFile.lastModified() );
 
-		Scope result = scope;
-		Parser parser = null;
-
-		try
+		Parser parser = new Parser( scriptFile, null, this.imports );
+		Scope result = parser.parseScope( scope, null, null, scope.getParentScope(), false, false );
+		if ( parser.currentLine.nextLine != null )
 		{
-			parser = new Parser( scriptFile, null, this.imports );
-			result = parser.parseScope( scope, null, null, scope.getParentScope(), false, false );
-			if ( parser.currentLine != null )
-			{
-				throw this.parseException( "Script parsing error" );
-			}
-		}
-		finally
-		{
-			if ( parser != null )
-			{
-				parser.disconnect();
-			}
+			throw this.parseException( "Script parsing error" );
 		}
 
 		if ( parser.mainMethod != null )
@@ -426,34 +432,39 @@ public class Parser
 
 	private Scope parseCommandOrDeclaration( final Scope result, final Type expectedType )
 	{
-		Type t = this.parseType( result, true, true );
+		Type t = this.parseType( result, true );
 
 		// If there is no data type, it's a command of some sort
 		if ( t == null )
 		{
 			ParseTreeNode c = this.parseCommand( expectedType, result, false, false, false );
-			if ( c == null )
+			if ( c != null )
+			{
+				result.addCommand( c, this );
+			}
+			else
 			{
 				throw this.parseException( "command or declaration required" );
 			}
-
-			result.addCommand( c, this );
-			return result;
 		}
-
-		if ( this.parseVariables( t, result ) )
+		else if ( this.parseVariables( t, result ) )
 		{
-			if ( !this.currentToken().equals( ";" ) )
+			if ( this.currentToken().equals( ";" ) )
+			{
+				this.readToken(); //read ;
+			}
+			else
 			{
 				throw this.parseException( ";", this.currentToken() );
 			}
-
-			this.readToken(); //read ;
-			return result;
+		}
+		else
+		{
+			//Found a type but no function or variable to tie it to
+			throw this.parseException( "Type given but not used to declare anything" );
 		}
 
-		//Found a type but no function or variable to tie it to
-		throw this.parseException( "Type given but not used to declare anything" );
+		return result;
 	}
 
 	private Scope parseScope( final Scope startScope,
@@ -488,16 +499,19 @@ public class Parser
 		{
 			if ( this.parseTypedef( result ) )
 			{
-				if ( !this.currentToken().equals( ";" ) )
+				if ( this.currentToken().equals( ";" ) )
+				{
+					this.readToken(); //read ;
+				}
+				else
 				{
 					throw this.parseException( ";", this.currentToken() );
 				}
 
-				this.readToken(); //read ;
 				continue;
 			}
 
-			Type t = this.parseType( result, true, true );
+			Type t = this.parseType( result, true );
 
 			// If there is no data type, it's a command of some sort
 			if ( t == null )
@@ -526,11 +540,14 @@ public class Parser
 			{
 				if ( f.getName().equalsIgnoreCase( "main" ) )
 				{
-					if ( parentScope.getParentScope() != null )
+					if ( parentScope.getParentScope() == null )
+					{
+						this.mainMethod = f;
+					}
+					else
 					{
 						throw this.parseException( "main method must appear at top level" );
 					}
-					this.mainMethod = f;
 				}
 
 				continue;
@@ -538,21 +555,24 @@ public class Parser
 
 			if ( this.parseVariables( t, result ) )
 			{
-				if ( !this.currentToken().equals( ";" ) )
+				if ( this.currentToken().equals( ";" ) )
+				{
+					this.readToken(); //read ;
+				}
+				else
 				{
 					throw this.parseException( ";", this.currentToken() );
 				}
 
-				this.readToken(); //read ;
 				continue;
 			}
 
 			if ( ( t.getBaseType() instanceof AggregateType ) && this.currentToken().equals( "{" ) )
 			{
-				this.readToken(); // read {
 				result.addCommand( this.parseAggregateLiteral( result, (AggregateType) t ), this );
 			}
-			else {
+			else
+			{
 				//Found a type but no function or variable to tie it to
 				throw this.parseException( "Type given but not used to declare anything" );
 			}
@@ -570,7 +590,7 @@ public class Parser
 
 		this.readToken(); // read record
 
-		if ( this.currentToken() == null )
+		if ( this.currentToken().equals( ";" ) )
 		{
 			throw this.parseException( "Record name expected" );
 		}
@@ -581,19 +601,17 @@ public class Parser
 		if ( !this.currentToken().equals( "{" ) )
 		{
 			// Named record
-			recordName = this.currentToken();
+			recordName = this.currentToken().content;
 
 			if ( !this.parseIdentifier( recordName ) )
 			{
 				throw this.parseException( "Invalid record name '" + recordName + "'" );
 			}
-
-			if ( Parser.isReservedWord( recordName ) )
+			else if ( Parser.isReservedWord( recordName ) )
 			{
 				throw this.parseException( "Reserved word '" + recordName + "' cannot be a record name" );
 			}
-
-			if ( parentScope.findType( recordName ) != null )
+			else if ( parentScope.findType( recordName ) != null )
 			{
 				throw this.parseException( "Record name '" + recordName + "' is already defined" );
 			}
@@ -601,12 +619,14 @@ public class Parser
 			this.readToken(); // read name
 		}
 
-		if ( !this.currentToken().equals( "{" ) )
+		if ( this.currentToken().equals( "{" ) )
+		{
+			this.readToken(); // read {
+		}
+		else
 		{
 			throw this.parseException( "{", this.currentToken() );
 		}
-
-		this.readToken(); // read {
 
 		// Loop collecting fields
 		List<Type> fieldTypes = new ArrayList<Type>();
@@ -614,59 +634,69 @@ public class Parser
 
 		while ( true )
 		{
+			if ( this.atEndOfFile() )
+			{
+				throw this.parseException( "}", this.currentToken() );
+			}
+
+			if ( this.currentToken().equals( "}" ) )
+			{
+				if ( fieldTypes.isEmpty() )
+				{
+					throw this.parseException( "Record field(s) expected" );
+				}
+
+				this.readToken(); // read }
+				break;
+			}
+
 			// Get the field type
-			Type fieldType = this.parseType( parentScope, true, true );
+			Type fieldType = this.parseType( parentScope, true );
 			if ( fieldType == null )
 			{
 				throw this.parseException( "Type name expected" );
 			}
 
+			if ( fieldType.getBaseType().equals( DataTypes.VOID_TYPE ) )
+			{
+				throw this.parseException( "Non-void field type expected" );
+			}
+
 			// Get the field name
-			String fieldName = this.currentToken();
-			if ( fieldName == null )
+			Token fieldName = this.currentToken();
+			if ( fieldName.equals( ";" ) )
 			{
 				throw this.parseException( "Field name expected" );
 			}
-
-			if ( !this.parseIdentifier( fieldName ) )
+			else if ( !this.parseIdentifier( fieldName.content ) )
 			{
 				throw this.parseException( "Invalid field name '" + fieldName + "'" );
 			}
-
-			if ( Parser.isReservedWord( fieldName ) )
+			else if ( Parser.isReservedWord( fieldName.content ) )
 			{
 				throw this.parseException( "Reserved word '" + fieldName + "' cannot be used as a field name" );
 			}
-
-			if ( fieldNames.contains( fieldName ) )
+			else if ( fieldNames.contains( fieldName.content ) )
 			{
 				throw this.parseException( "Field name '" + fieldName + "' is already defined" );
 			}
+			else
+			{
+				this.readToken(); // read name
+			}
 
-			this.readToken(); // read name
+			fieldTypes.add( fieldType );
+			fieldNames.add( fieldName.content.toLowerCase() );
 
-			if ( !this.currentToken().equals( ";" ) )
+			if ( this.currentToken().equals( ";" ) )
+			{
+				this.readToken(); // read ;
+			}
+			else
 			{
 				throw this.parseException( ";", this.currentToken() );
 			}
-
-			this.readToken(); // read ;
-
-			fieldTypes.add( fieldType );
-			fieldNames.add( fieldName.toLowerCase() );
-
-			if ( this.currentToken() == null )
-			{
-				throw this.parseException( "}", "EOF" );
-			}
-
-			if ( this.currentToken().equals( "}" ) )
-			{
-				break;
-			}
 		}
-
-		this.readToken(); // read }
 
 		String[] fieldNameArray = new String[ fieldNames.size() ];
 		Type[] fieldTypeArray = new Type[ fieldTypes.size() ];
@@ -690,7 +720,7 @@ public class Parser
 
 	private Function parseFunction( final Type functionType, final Scope parentScope )
 	{
-		if ( !this.parseIdentifier( this.currentToken() ) )
+		if ( !this.parseIdentifier( this.currentToken().content ) )
 		{
 			return null;
 		}
@@ -700,9 +730,9 @@ public class Parser
 			return null;
 		}
 
-		String functionName = this.currentToken();
+		Token functionName = this.currentToken();
 
-		if ( Parser.isReservedWord( functionName ) )
+		if ( Parser.isReservedWord( functionName.content ) )
 		{
 			throw this.parseException( "Reserved word '" + functionName + "' cannot be used as a function name" );
 		}
@@ -714,9 +744,14 @@ public class Parser
 		List<VariableReference> variableReferences = new ArrayList<VariableReference>();
 		boolean vararg = false;
 
-		while ( !this.currentToken().equals( ")" ) )
+		while ( true )
 		{
-			Type paramType = this.parseType( parentScope, true, false );
+			if ( this.currentToken().equals( ")" ) )
+			{
+				this.readToken(); //read )
+				break;
+			}
+			Type paramType = this.parseType( parentScope, false );
 			if ( paramType == null )
 			{
 				throw this.parseException( ")", this.currentToken() );
@@ -746,7 +781,7 @@ public class Parser
 
 			if ( !paramList.add( param ) )
 			{
-				throw this.parseException( "Variable " + param.getName() + " is already defined" );
+				throw this.parseException( "Parameter " + param.getName() + " is already defined" );
 			}
 
 			if ( !this.currentToken().equals( ")" ) )
@@ -757,23 +792,23 @@ public class Parser
 					throw this.parseException( "The vararg parameter must be the last one" );
 				}
 
-				if ( !this.currentToken().equals( "," ) )
+				if ( this.currentToken().equals( "," ) )
+				{
+					this.readToken(); //read comma
+				}
+				else
 				{
 					throw this.parseException( ",", this.currentToken() );
 				}
-
-				this.readToken(); //read comma
 			}
 
 			variableReferences.add( new VariableReference( param ) );
 		}
 
-		this.readToken(); //read )
-
 		// Add the function to the parent scope before we parse the
 		// function scope to allow recursion.
 
-		UserDefinedFunction f = new UserDefinedFunction( functionName, functionType, variableReferences );
+		UserDefinedFunction f = new UserDefinedFunction( functionName.content, functionType, variableReferences );
 
 		if ( f.overridesLibraryFunction() )
 		{
@@ -841,23 +876,26 @@ public class Parser
 
 	private Variable parseVariable( final Type t, final BasicScope scope )
 	{
-		if ( !this.parseIdentifier( this.currentToken() ) )
+		if ( !this.parseIdentifier( this.currentToken().content ) )
 		{
 			return null;
 		}
 
-		String variableName = this.currentToken();
-		if ( Parser.isReservedWord( variableName ) )
+		Token variableName = this.currentToken();
+		Variable result;
+
+		if ( Parser.isReservedWord( variableName.content ) )
 		{
 			throw this.parseException( "Reserved word '" + variableName + "' cannot be a variable name" );
 		}
-
-		if ( scope != null && scope.findVariable( variableName ) != null )
+		else if ( scope != null && scope.findVariable( variableName.content ) != null )
 		{
 			throw this.parseException( "Variable " + variableName + " is already defined" );
 		}
-
-		Variable result = new Variable( variableName, t );
+		else
+		{
+			result = new Variable( variableName.content, t );
+		}
 
 		this.readToken(); // If parsing of Identifier succeeded, go to next token.
 		// If we are parsing a parameter declaration, we are done
@@ -881,33 +919,36 @@ public class Parser
 
 			if ( this.currentToken().equals( "{" ) )
 			{
-				if ( !( ltype instanceof AggregateType ) )
+				if ( ltype instanceof AggregateType )
+				{
+					rhs = this.parseAggregateLiteral( scope, (AggregateType) ltype );
+				}
+				else
 				{
 					throw this.parseException(
 						"Cannot initialize " + variableName + " of type " + t + " with an aggregate literal" );
 				}
-				this.readToken(); // read {
-				rhs = this.parseAggregateLiteral( scope, (AggregateType) ltype );
 			}
 			else
 			{
 				rhs = this.parseExpression( scope );
 			}
 
-			if ( rhs == null )
+			if ( rhs != null )
+			{
+				rhs = this.autoCoerceValue( t, rhs, scope );
+				if ( !Operator.validCoercion( ltype, rhs.getType(), "assign" ) )
+				{
+					throw this.parseException( "Cannot store " + rhs.getType() + " in " + variableName + " of type " + ltype );
+				}
+			}
+			else
 			{
 				throw this.parseException( "Expression expected" );
-			}
-
-			rhs = this.autoCoerceValue( t, rhs, scope );
-			if ( !Operator.validCoercion( ltype, rhs.getType(), "assign" ) )
-			{
-				throw this.parseException( "Cannot store " + rhs.getType() + " in " + variableName + " of type " + ltype );
 			}
 		}
 		else if ( this.currentToken().equals( "{" ) && ltype instanceof AggregateType )
 		{
-			this.readToken(); // read {
 			rhs = this.parseAggregateLiteral( scope, (AggregateType) ltype );
 		}
 		else
@@ -916,7 +957,7 @@ public class Parser
 		}
 
 		scope.addVariable( result );
-		VariableReference lhs = new VariableReference( variableName, scope );
+		VariableReference lhs = new VariableReference( variableName.content, scope );
 		scope.addCommand( new Assignment( lhs, rhs ), this );
 
 		return result;
@@ -1012,27 +1053,32 @@ public class Parser
 		}
 		this.readToken(); // read typedef
 
-		Type t = this.parseType( parentScope, true, true );
+		Type t = this.parseType( parentScope, true );
 		if ( t == null )
 		{
 			throw this.parseException( "Missing data type for typedef" );
 		}
 
-		String typeName = this.currentToken();
+		Token typeName = this.currentToken();
 
-		if ( !this.parseIdentifier( typeName ) )
+		if ( typeName.equals( ";" ) )
+		{
+			throw this.parseException( "Type name expected" );
+		}
+		else if ( !this.parseIdentifier( typeName.content ) )
 		{
 			throw this.parseException( "Invalid type name '" + typeName + "'" );
 		}
-
-		if ( Parser.isReservedWord( typeName ) )
+		else if ( Parser.isReservedWord( typeName.content ) )
 		{
 			throw this.parseException( "Reserved word '" + typeName + "' cannot be a type name" );
 		}
+		else
+		{
+			this.readToken(); // read name
+		}
 
-		this.readToken(); // read name
-
-		Type existingType = parentScope.findType( typeName );
+		Type existingType = parentScope.findType( typeName.content );
 		if ( existingType != null )
 		{
 			if ( existingType.getBaseType().equals( t ) )
@@ -1043,10 +1089,12 @@ public class Parser
 				
 			throw this.parseException( "Type name '" + typeName + "' is already defined" );
 		}
-
-		// Add the type to the type table
-		TypeDef type = new TypeDef( typeName, t );
-		parentScope.addType( type );
+		else
+		{
+			// Add the type to the type table
+			TypeDef type = new TypeDef( typeName.content, t );
+			parentScope.addType( type );
+		}
 
 		return true;
 	}
@@ -1055,30 +1103,31 @@ public class Parser
 	{
 		ParseTreeNode result;
 
-		if ( this.currentToken() == null )
-		{
-			return null;
-		}
-
 		if ( this.currentToken().equalsIgnoreCase( "break" ) )
 		{
-			if ( !allowBreak )
+			if ( allowBreak )
+			{
+				result = new LoopBreak();
+			}
+			else
 			{
 				throw this.parseException( "Encountered 'break' outside of loop" );
 			}
 
-			result = new LoopBreak();
 			this.readToken(); //break
 		}
 
 		else if ( this.currentToken().equalsIgnoreCase( "continue" ) )
 		{
-			if ( !allowContinue )
+			if ( allowContinue )
+			{
+				result = new LoopContinue();
+			}
+			else
 			{
 				throw this.parseException( "Encountered 'continue' outside of loop" );
 			}
 
-			result = new LoopContinue();
 			this.readToken(); //continue
 		}
 
@@ -1163,23 +1212,26 @@ public class Parser
 			return null;
 		}
 
-		if ( !this.currentToken().equals( ";" ) )
+		if ( this.currentToken().equals( ";" ) )
+		{
+			this.readToken(); // ;
+		}
+		else
 		{
 			throw this.parseException( ";", this.currentToken() );
 		}
 
-		this.readToken(); // ;
 		return result;
 	}
 
-	private Type parseType( final BasicScope scope, final boolean aggregates, final boolean records )
+	private Type parseType( final BasicScope scope, final boolean records )
 	{
-		if ( this.currentToken() == null )
+		if ( !this.parseIdentifier( this.currentToken().content ) )
 		{
 			return null;
 		}
 
-		Type valType = scope.findType( this.currentToken() );
+		Type valType = scope.findType( this.currentToken().content );
 		if ( valType == null )
 		{
 			if ( records && this.currentToken().equalsIgnoreCase( "record" ) )
@@ -1191,7 +1243,7 @@ public class Parser
 					return null;
 				}
 
-				if ( aggregates && this.currentToken().equals( "[" ) )
+				if ( this.currentToken().equals( "[" ) )
 				{
 					return this.parseAggregateType( valType, scope );
 				}
@@ -1204,7 +1256,7 @@ public class Parser
 
 		this.readToken();
 
-		if ( aggregates && this.currentToken().equals( "[" ) )
+		if ( this.currentToken().equals( "[" ) )
 		{
 			return this.parseAggregateType( valType, scope );
 		}
@@ -1212,8 +1264,16 @@ public class Parser
 		return valType;
 	}
 
+	/**
+	 * Parses the content of an aggregate literal, e.g., `{1:true, 2:false, 3:false}`.
+	 *
+	 * <p>The presence of the opening bracket "{" is ALWAYS assumed when entering this method,
+	 * and as such, MUST be checked before calling it. This method will never return null.
+	 */
 	private Value parseAggregateLiteral( final BasicScope scope, final AggregateType aggr )
 	{
+		this.readToken(); // read {
+
 		Type index = aggr.getIndexType();
 		Type data = aggr.getDataType();
 
@@ -1226,8 +1286,19 @@ public class Parser
 		// Assume it is a map.
 		boolean isArray = false;
 
-		while ( this.currentToken() != null && !this.currentToken().equals( "}" ) )
+		while ( true )
 		{
+			if ( this.atEndOfFile() )
+			{
+				throw this.parseException( "}", this.currentToken() );
+			}
+
+			if ( this.currentToken().equals( "}" ) )
+			{
+				this.readToken(); // read }
+				break;
+			}
+
 			Value lhs;
 
 			// If we know we are reading an ArrayLiteral or haven't
@@ -1236,7 +1307,6 @@ public class Parser
 			Type dataType = data.getBaseType();
 			if ( ( isArray || arrayAllowed ) && this.currentToken().equals( "{" ) && dataType instanceof AggregateType )
 			{
-				this.readToken(); // read {
 				lhs = parseAggregateLiteral( scope, (AggregateType) dataType );
 			}
 			else
@@ -1244,12 +1314,12 @@ public class Parser
 				lhs = this.parseExpression( scope );
 			}
 
-			if ( lhs == null || this.currentToken() == null )
+			if ( lhs == null )
 			{
 				throw this.parseException( "Script parsing error" );
 			}
 
-			String delim = this.currentToken();
+			Token delim = this.currentToken();
 
 			// If this could be an array and we haven't already
 			// decided it is one, if the delimiter is a comma,
@@ -1275,14 +1345,16 @@ public class Parser
 
 				values.add( lhs );
 
-				// If there is not another value, done parsing values
-				if ( !delim.equals( "," ) )
+				// Move on to the next value
+				if ( delim.equals( "," ) )
 				{
-					break;
+					this.readToken(); // read ;
+				}
+				else if ( !delim.equals( "}" ) )
+				{
+					throw this.parseException( "}", delim );
 				}
 
-				// Otherwise, move on to the next value
-				this.readToken(); // read ;
 				continue;
 			}
 
@@ -1297,7 +1369,6 @@ public class Parser
 			Value rhs;
 			if ( this.currentToken().equals( "{" ) && dataType instanceof AggregateType )
 			{
-				this.readToken(); // read {
 				rhs = parseAggregateLiteral( scope, (AggregateType) dataType );
 			}
 			else
@@ -1322,20 +1393,16 @@ public class Parser
 			keys.add( lhs );
 			values.add( rhs );
 
-			if ( !this.currentToken().equals( "," ) )
+			// Move on to the next value
+			if ( this.currentToken().equals( "," ) )
 			{
-				break;
+				this.readToken(); // read ,
 			}
-
-			this.readToken();
+			else if ( !this.currentToken().equals( "}" ) )
+			{
+				throw this.parseException( "}", this.currentToken() );
+			}
 		}
-
-		if ( !this.currentToken().equals( "}" ) )
-		{
-			throw this.parseException( "}", this.currentToken() );
-		}
-
-		this.readToken(); // "}"
 
 		if ( isArray )
 		{
@@ -1349,95 +1416,82 @@ public class Parser
 		return isArray ? new ArrayLiteral( aggr, values ) :  new MapLiteral( aggr, keys, values );
 	}
 
-	private Type parseAggregateType( final Type dataType, final BasicScope scope )
+	private Type parseAggregateType( Type dataType, final BasicScope scope )
 	{
+		Token separatorToken = this.currentToken();
+
 		this.readToken(); // [ or ,
-		if ( this.currentToken() == null )
+
+		Type indexType = null;
+		int size = 0;
+
+		if ( this.currentToken().equals( "]" ) )
+		{
+			if ( !separatorToken.equals( "[" ) )
+			{
+				throw this.parseException( "Missing index token" );
+			}
+		}
+		else if ( this.readIntegerToken( this.currentToken().content ) )
+		{
+			size = StringUtilities.parseInt( this.currentToken().content );
+			this.readToken(); // integer
+		}
+		else if ( this.parseIdentifier( this.currentToken().content ) )
+		{
+			indexType = scope.findType( this.currentToken().content );
+
+			if ( indexType != null )
+			{
+				if ( !indexType.isPrimitive() )
+				{
+					throw this.parseException( "Index type '" + this.currentToken() + "' is not a primitive type" );
+				}
+			}
+			else
+			{
+				throw this.parseException( "Invalid type name '" + this.currentToken() + "'" );
+			}
+
+			this.readToken(); // type name
+		}
+		else
 		{
 			throw this.parseException( "Missing index token" );
 		}
 
-		if ( this.currentToken().equals( "]" ) )
+		if ( this.currentToken().equals( "," ) ||
+		     ( this.currentToken().equals( "]" ) &&
+		       "[".equals( this.nextToken() ) ) )
 		{
-			this.readToken(); // ]
-
-			if ( this.currentToken().equals( "[" ) )
-			{
-				return new AggregateType( this.parseAggregateType( dataType, scope ), 0 );
-			}
-
-			return new AggregateType( dataType, 0 );
-		}
-
-		if ( this.readIntegerToken( this.currentToken() ) )
-		{
-			int size = StringUtilities.parseInt( this.currentToken() );
-			this.readToken(); // integer
-
-			if ( this.currentToken() == null )
-			{
-				throw this.parseException( "]", this.currentToken() );
-			}
-
 			if ( this.currentToken().equals( "]" ) )
 			{
 				this.readToken(); // ]
-
-				if ( this.currentToken().equals( "[" ) )
-				{
-					return new AggregateType( this.parseAggregateType( dataType, scope ), size );
-				}
-
-				return new AggregateType( dataType, size );
 			}
 
-			if ( this.currentToken().equals( "," ) )
-			{
-				return new AggregateType( this.parseAggregateType( dataType, scope ), size );
-			}
-
-			throw this.parseException( "]", this.currentToken() );
+			dataType = this.parseAggregateType( dataType, scope );
 		}
-
-		Type indexType = scope.findType( this.currentToken() );
-		if ( indexType == null )
-		{
-			throw this.parseException( "Invalid type name '" + this.currentToken() + "'" );
-		}
-
-		if ( !indexType.isPrimitive() )
-		{
-			throw this.parseException( "Index type '" + this.currentToken() + "' is not a primitive type" );
-		}
-
-		this.readToken(); // type name
-		if ( this.currentToken() == null )
-		{
-			throw this.parseException( "]", this.currentToken() );
-		}
-
-		if ( this.currentToken().equals( "]" ) )
+		else if ( this.currentToken().equals( "]" ) )
 		{
 			this.readToken(); // ]
-
-			if ( this.currentToken().equals( "[" ) )
-			{
-				return new AggregateType( this.parseAggregateType( dataType, scope ), indexType );
-			}
-
-			return new AggregateType( dataType, indexType );
 		}
-
-		if ( this.currentToken().equals( "," ) )
+		else
 		{
-			return new AggregateType( this.parseAggregateType( dataType, scope ), indexType );
+			throw this.parseException( ", or ]", this.currentToken() );
 		}
 
-		throw this.parseException( ", or ]", this.currentToken() );
+		return indexType != null ?
+			new AggregateType( dataType, indexType ) :
+			new AggregateType( dataType, size );
 	}
 
 	private boolean parseIdentifier( final String identifier )
 	{
+		if ( identifier == null )
+		{
+			return false;
+		}
+
 		if ( !Character.isLetter( identifier.charAt( 0 ) ) && identifier.charAt( 0 ) != '_' )
 		{
 			return false;
@@ -1456,6 +1510,11 @@ public class Parser
 
 	private boolean parseScopedIdentifier( final String identifier )
 	{
+		if ( identifier == null )
+		{
+			return false;
+		}
+
 		if ( !Character.isLetter( identifier.charAt( 0 ) ) && identifier.charAt( 0 ) != '_' )
 		{
 			return false;
@@ -1481,14 +1540,19 @@ public class Parser
 
 		this.readToken(); //return
 
+		if ( expectedType == null )
+		{
+			throw this.parseException( "Cannot return when outside of a function" );
+		}
+
 		if ( this.currentToken().equals( ";" ) )
 		{
-			if ( expectedType != null && expectedType.equals( DataTypes.TYPE_VOID ) )
+			if ( expectedType != null && !expectedType.equals( DataTypes.TYPE_VOID ) )
 			{
-				return new FunctionReturn( null, DataTypes.VOID_TYPE );
+				throw this.parseException( "Return needs " + expectedType + " value" );
 			}
 
-			throw this.parseException( "Return needs " + expectedType + " value" );
+			return new FunctionReturn( null, DataTypes.VOID_TYPE );
 		}
 
 		if ( expectedType != null && expectedType.equals( DataTypes.TYPE_VOID ) )
@@ -1498,12 +1562,15 @@ public class Parser
 
 		Value value = this.parseExpression( parentScope );
 
-		if ( value == null )
+		if ( value != null )
+		{
+			value = this.autoCoerceValue( expectedType, value, parentScope );
+		}
+		else
 		{
 			throw this.parseException( "Expression expected" );
 		}
 
-		value = this.autoCoerceValue( expectedType, value, parentScope );
 		if ( expectedType != null && !Operator.validCoercion( expectedType, value.getType(), "return" ) )
 		{
 			throw this.parseException( "Cannot return " + value.getType() + " value from " + expectedType + " function" );
@@ -1512,20 +1579,32 @@ public class Parser
 		return new FunctionReturn( value, expectedType );
 	}
 
-	private Scope parseSingleCommandScope( final Type functionType, final BasicScope parentScope, final boolean noElse, boolean allowBreak, boolean allowContinue )
+	private Scope parseSingleCommandScope( final Type functionType,
+	                                       final BasicScope parentScope,
+	                                       final boolean noElse,
+	                                       final boolean allowBreak,
+	                                       final boolean allowContinue )
 	{
+		Scope result = new Scope( parentScope );
+
 		ParseTreeNode command = this.parseCommand( functionType, parentScope, noElse, allowBreak, allowContinue );
-		if ( command == null )
+		if ( command != null )
 		{
-			if ( !this.currentToken().equals( ";" ) )
+			result.addCommand( command, this );
+		}
+		else
+		{
+			if ( this.currentToken().equals( ";" ) )
+			{
+				this.readToken(); // ;
+			}
+			else
 			{
 				throw this.parseException( ";", this.currentToken() );
 			}
-
-			this.readToken(); // ;
-			return new Scope( parentScope );
 		}
-		return new Scope( command, parentScope );
+
+		return result;
 	}
 
 	private Scope parseBlockOrSingleCommand( final Type functionType,
@@ -1559,12 +1638,14 @@ public class Parser
 
 		Scope scope = this.parseScope( null, functionType, variables, parentScope, allowBreak, allowContinue );
 
-		if ( !this.currentToken().equals( "}" ) )
+		if ( this.currentToken().equals( "}" ) )
+		{
+			this.readToken(); //read }
+		}
+		else
 		{
 			throw this.parseException( "}", this.currentToken() );
 		}
-
-		this.readToken(); //read }
 
 		return scope;
 	}
@@ -1580,16 +1661,24 @@ public class Parser
 			return null;
 		}
 
-		if ( !"(".equals( this.nextToken() ) )
+		this.readToken(); // if
+
+		if ( this.currentToken().equals( "(" ) )
 		{
-			throw this.parseException( "(", this.nextToken() );
+			this.readToken(); // (
+		}
+		else
+		{
+			throw this.parseException( "(", this.currentToken() );
 		}
 
-		this.readToken(); // if
-		this.readToken(); // (
-
 		Value condition = this.parseExpression( parentScope );
-		if ( this.currentToken() == null || !this.currentToken().equals( ")" ) )
+
+		if ( this.currentToken().equals( ")" ) )
+		{
+			this.readToken(); // )
+		}
+		else
 		{
 			throw this.parseException( ")", this.currentToken() );
 		}
@@ -1598,8 +1687,6 @@ public class Parser
 		{
 			throw this.parseException( "\"if\" requires a boolean conditional expression" );
 		}
-
-		this.readToken(); // )
 
 		If result = null;
 		boolean elseFound = false;
@@ -1629,20 +1716,27 @@ public class Parser
 					throw this.parseException( "Else without if" );
 				}
 
-				if ( "if".equalsIgnoreCase( this.nextToken() ) )
+				this.readToken(); //else
+				if ( this.currentToken().equalsIgnoreCase( "if" ) )
 				{
-					this.readToken(); //else
 					this.readToken(); //if
 
-					if ( !this.currentToken().equals( "(" ) )
+					if ( this.currentToken().equals( "(" ) )
+					{
+						this.readToken(); //(
+					}
+					else
 					{
 						throw this.parseException( "(", this.currentToken() );
 					}
 
-					this.readToken(); //(
 					condition = this.parseExpression( parentScope );
 
-					if ( !this.currentToken().equals( ")" ) )
+					if ( this.currentToken().equals( ")" ) )
+					{
+						this.readToken(); // )
+					}
+					else
 					{
 						throw this.parseException( ")", this.currentToken() );
 					}
@@ -1651,13 +1745,10 @@ public class Parser
 					{
 						throw this.parseException( "\"if\" requires a boolean conditional expression" );
 					}
-
-					this.readToken(); // )
 				}
 				else
 				//else without condition
 				{
-					this.readToken(); //else
 					condition = DataTypes.TRUE_VALUE;
 					finalElse = true;
 				}
@@ -1675,11 +1766,6 @@ public class Parser
 
 	private BasicScript parseBasicScript()
 	{
-		if ( this.currentToken() == null )
-		{
-			return null;
-		}
-
 		if ( !this.currentToken().equalsIgnoreCase( "cli_execute" ) )
 		{
 			return null;
@@ -1695,11 +1781,26 @@ public class Parser
 
 		ByteArrayStream ostream = new ByteArrayStream();
 
-		while ( this.currentToken() != null && !this.currentToken().equals( "}" ) )
+		while ( true )
 		{
+			if ( this.atEndOfFile() )
+			{
+				throw this.parseException( "}", this.currentToken() );
+			}
+
+			if ( this.currentToken().equals( "}" ) )
+			{
+				this.readToken(); // }
+				break;
+			}
+
+			this.clearCurrentToken();
+
+			final String line = this.restOfLine();
+
 			try
 			{
-				ostream.write( this.currentLine.getBytes() );
+				ostream.write( line.getBytes() );
 				ostream.write( KoLConstants.LINE_BREAK.getBytes() );
 			}
 			catch ( Exception e )
@@ -1710,16 +1811,13 @@ public class Parser
 				StaticEntity.printStackTrace( e );
 			}
 
-			this.currentLine = "";
-			this.fixLines();
+			if ( line.length() > 0 )
+			{
+				this.currentLine.makeToken( line.length() );
+			}
+			this.currentLine = this.currentLine.nextLine;
+			this.currentIndex = this.currentLine.offset;
 		}
-
-		if ( this.currentToken() == null )
-		{
-			throw this.parseException( "}", this.currentToken() );
-		}
-
-		this.readToken(); // }
 
 		return new BasicScript( ostream );
 	}
@@ -1731,16 +1829,24 @@ public class Parser
 			return null;
 		}
 
-		if ( !"(".equals( this.nextToken() ) )
+		this.readToken(); // while
+
+		if ( this.currentToken().equals( "(" ) )
 		{
-			throw this.parseException( "(", this.nextToken() );
+			this.readToken(); // (
+		}
+		else
+		{
+			throw this.parseException( "(", this.currentToken() );
 		}
 
-		this.readToken(); // while
-		this.readToken(); // (
-
 		Value condition = this.parseExpression( parentScope );
-		if ( !this.currentToken().equals( ")" ) )
+
+		if ( this.currentToken().equals( ")" ) )
+		{
+			this.readToken(); // )
+		}
+		else
 		{
 			throw this.parseException( ")", this.currentToken() );
 		}
@@ -1749,8 +1855,6 @@ public class Parser
 		{
 			throw this.parseException( "\"while\" requires a boolean conditional expression" );
 		}
-
-		this.readToken(); // )
 
 		Scope scope = this.parseLoopScope( functionType, null, parentScope );
 
@@ -1767,21 +1871,32 @@ public class Parser
 		this.readToken(); // repeat
 
 		Scope scope = this.parseLoopScope( functionType, null, parentScope );
-		if ( !this.currentToken().equalsIgnoreCase( "until" ) )
+
+		if ( this.currentToken().equalsIgnoreCase( "until" ) )
+		{
+			this.readToken(); // until
+		}
+		else
 		{
 			throw this.parseException( "until", this.currentToken() );
 		}
 
-		if ( !"(".equals( this.nextToken() ) )
+		if ( this.currentToken().equals( "(" ) )
 		{
-			throw this.parseException( "(", this.nextToken() );
+			this.readToken(); // (
+		}
+		else
+		{
+			throw this.parseException( "(", this.currentToken() );
 		}
 
-		this.readToken(); // until
-		this.readToken(); // (
-
 		Value condition = this.parseExpression( parentScope );
-		if ( !this.currentToken().equals( ")" ) )
+
+		if ( this.currentToken().equals( ")" ) )
+		{
+			this.readToken(); // )
+		}
+		else
 		{
 			throw this.parseException( ")", this.currentToken() );
 		}
@@ -1790,8 +1905,6 @@ public class Parser
 		{
 			throw this.parseException( "\"repeat\" requires a boolean conditional expression" );
 		}
-
-		this.readToken(); // )
 
 		return new RepeatUntilLoop( scope, condition );
 	}
@@ -1803,12 +1916,12 @@ public class Parser
 			return null;
 		}
 
-		if ( !"(".equals( this.nextToken() ) && !"{".equals( this.nextToken() ) )
-		{
-			throw this.parseException( "( or {", this.nextToken() );
-		}
-
 		this.readToken(); // switch
+
+		if ( !this.currentToken().equals( "(" ) && !this.currentToken().equals( "{" ) )
+		{
+			throw this.parseException( "( or {", this.currentToken() );
+		}
 
 		Value condition = DataTypes.TRUE_VALUE;
 		if ( this.currentToken().equals( "(" ) )
@@ -1816,12 +1929,15 @@ public class Parser
 			this.readToken(); // (
 
 			condition = this.parseExpression( parentScope );
-			if ( !this.currentToken().equals( ")" ) )
+
+			if ( this.currentToken().equals( ")" ) )
+			{
+				this.readToken(); // )
+			}
+			else
 			{
 				throw this.parseException( ")", this.currentToken() );
 			}
-
-			this.readToken(); // )
 
 			if ( condition == null )
 			{
@@ -1831,12 +1947,14 @@ public class Parser
 
 		Type type = condition.getType();
 
-		if ( !this.currentToken().equals( "{" ) )
+		if ( this.currentToken().equals( "{" ) )
+		{
+			this.readToken(); // {
+		}
+		else
 		{
 			throw this.parseException( "{", this.currentToken() );
 		}
-
-		this.readToken(); // {
 
 		List<Value> tests = new ArrayList<Value>();
 		List<Integer> indices = new ArrayList<Integer>();
@@ -1857,7 +1975,16 @@ public class Parser
 
 				Value test = this.parseExpression( parentScope );
 
-				if ( !this.currentToken().equals( ":" ) )
+				if ( test == null )
+				{
+					throw this.parseException( "Case label needs to be followed by an expression" );
+				}
+
+				if ( this.currentToken().equals( ":" ) )
+				{
+					this.readToken(); // :
+				}
+				else
 				{
 					throw this.parseException( ":", this.currentToken() );
 				}
@@ -1866,8 +1993,6 @@ public class Parser
 				{
 					throw this.parseException( "Switch conditional has type " + type + " but label expression has type " + test.getType() );
 				}
-
-				this.readToken(); // :
 
 				if ( currentInteger == null )
 				{
@@ -1899,25 +2024,30 @@ public class Parser
 			{
 				this.readToken(); // default
 
-				if ( !this.currentToken().equals( ":" ) )
+				if ( this.currentToken().equals( ":" ) )
+				{
+					this.readToken(); // :
+				}
+				else
 				{
 					throw this.parseException( ":", this.currentToken() );
 				}
 
-				if ( defaultIndex != -1 )
+				if ( defaultIndex == -1 )
+				{
+					defaultIndex = currentIndex;
+				}
+				else
 				{
 					throw this.parseException( "Only one default label allowed in a switch statement" );
 				}
 
-				this.readToken(); // :
-
-				defaultIndex = currentIndex;
 				scope.resetBarrier();
 
 				continue;
 			}
 
-			Type t = this.parseType( scope, true, true );
+			Type t = this.parseType( scope, true );
 
 			// If there is no data type, it's a command of some sort
 			if ( t == null )
@@ -1936,29 +2066,33 @@ public class Parser
 				break;
 			}
 
-			if ( this.parseVariables( t, scope ) )
+			if ( !this.parseVariables( t, scope ) )
 			{
-				if ( !this.currentToken().equals( ";" ) )
-				{
-					throw this.parseException( ";", this.currentToken() );
-				}
-
-				this.readToken(); //read ;
-				currentIndex = scope.commandCount();
-				currentInteger = null;
-				continue;
+				//Found a type but no function or variable to tie it to
+				throw this.parseException( "Type given but not used to declare anything" );
 			}
 
-			//Found a type but no function or variable to tie it to
-			throw this.parseException( "Type given but not used to declare anything" );
+			if ( this.currentToken().equals( ";" ) )
+			{
+				this.readToken(); //read ;
+			}
+			else
+			{
+				throw this.parseException( ";", this.currentToken() );
+			}
+
+			currentIndex = scope.commandCount();
+			currentInteger = null;
 		}
 
-		if ( !this.currentToken().equals( "}" ) )
+		if ( this.currentToken().equals( "}" ) )
+		{
+			this.readToken(); // }
+		}
+		else
 		{
 			throw this.parseException( "}", this.currentToken() );
 		}
-
-		this.readToken(); // }
 
 		return new Switch( condition, tests, indices, defaultIndex, scope,
 				   constantLabels ? labels : null );
@@ -1978,14 +2112,19 @@ public class Parser
 
 		// catch clauses would be parsed here
 
-		if ( !this.currentToken().equalsIgnoreCase( "finally" ) )
+		Scope finalClause;
+
+		if ( this.currentToken().equalsIgnoreCase( "finally" ) )
+		{
+			this.readToken(); // finally
+
+			finalClause = this.parseBlockOrSingleCommand( functionType, null, body, false, allowBreak, allowContinue );
+		}
+		else
 		{
 			// this would not be an error if at least one catch was present
 			throw this.parseException( "\"try\" without \"finally\" is pointless" );
 		}
-		this.readToken(); // finally
-
-		Scope finalClause = this.parseBlockOrSingleCommand( functionType, null, body, false, allowBreak, allowContinue );
 
 		return new Try( body, finalClause );
 	}
@@ -2014,19 +2153,21 @@ public class Parser
 
 		this.readToken(); // catch
 
-		Scope body = this.parseBlock( null, null, parentScope, true, false, false );
-		if ( body != null )
+		ParseTreeNode body = this.parseBlock( null, null, parentScope, true, false, false );
+		if ( body == null )
 		{
-			return new Catch( body );
+			Value value = this.parseExpression( parentScope );
+			if ( value != null )
+			{
+				body = value;
+			}
+			else
+			{
+				throw this.parseException( "\"catch\" requires a block or an expression" );
+			}
 		}
 
-		Value value = this.parseExpression( parentScope );
-		if ( value != null )
-		{
-			return new Catch( value );
-		}
-
-		throw this.parseException( "\"catch\" requires a block or an expression" );
+		return new Catch( body );
 	}
 
 	private Scope parseStatic( final Type functionType, final BasicScope parentScope )
@@ -2036,25 +2177,29 @@ public class Parser
 			return null;
 		}
 
-		this.readToken(); // final
+		this.readToken(); // static
 
 		Scope result = new StaticScope( parentScope );
 
-		if ( !this.currentToken().equals( "{" ) )	// body is a single call
+		if ( this.currentToken().equals( "{" ) )
 		{
-			return this.parseCommandOrDeclaration( result, functionType );
+			this.readToken(); //read {
+
+			this.parseScope( result, functionType, parentScope, false, false );
+
+			if ( this.currentToken().equals( "}" ) )
+			{
+				this.readToken(); //read }
+			}
+			else
+			{
+				throw this.parseException( "}", this.currentToken() );
+			}
 		}
-
-		this.readToken(); //read {
-
-		this.parseScope( result, functionType, parentScope, false, false );
-
-		if ( !this.currentToken().equals( "}" ) )
+		else	// body is a single call
 		{
-			throw this.parseException( "}", this.currentToken() );
+			this.parseCommandOrDeclaration( result, functionType );
 		}
-
-		this.readToken(); //read }
 
 		return result;
 	}
@@ -2087,11 +2232,14 @@ public class Parser
 			throw this.parseException( "Aggregate reference expected" );
 		}
 
-		if ( !this.currentToken().equalsIgnoreCase( "by" ) )
+		if ( this.currentToken().equalsIgnoreCase( "by" ) )
+		{
+			this.readToken();	// by
+		}
+		else
 		{
 			throw this.parseException( "by", this.currentToken() );
 		}
-		this.readToken();	// by
 
 		// Define key variables of appropriate type
 		VariableList varList = new VariableList();
@@ -2104,6 +2252,11 @@ public class Parser
 		// Parse the key expression in a new scope containing 'index' and 'value'
 		Scope scope = new Scope( varList, parentScope );
 		Value expr = this.parseExpression( scope );
+
+		if ( expr == null )
+		{
+			throw this.parseException( "Expression expected" );
+		}
 
 		return new SortBy( (VariableReference) aggregate, indexvar, valuevar, expr, this );
 	}
@@ -2123,39 +2276,41 @@ public class Parser
 
 		while ( true )
 		{
-			String name = this.currentToken();
+			Token name = this.currentToken();
 
-			if ( !this.parseIdentifier( name ) )
+			if ( !this.parseIdentifier( name.content ) ||
+			     // "foreach in aggregate" (i.e. no key)
+			     name.equalsIgnoreCase( "in" ) &&
+			     !"in".equalsIgnoreCase( this.nextToken() ) &&
+			     !",".equals( this.nextToken() ) )
 			{
 				throw this.parseException( "Key variable name expected" );
 			}
-
-			if ( Parser.isReservedWord( name ) )
+			else if ( Parser.isReservedWord( name.content ) )
 			{
 				throw this.parseException( "Reserved word '" + name + "' cannot be a key variable name" );
 			}
-
-			if ( names.contains( name ) )
+			else if ( names.contains( name.content ) )
 			{
 				throw this.parseException( "Key variable '" + name + "' is already defined" );
 			}
+			else
+			{
+				names.add( name.content );
+			}
 
-			names.add( name );
 			this.readToken(); // name
 
-			if ( this.currentToken() != null )
+			if ( this.currentToken().equals( "," ) )
 			{
-				if ( this.currentToken().equals( "," ) )
-				{
-					this.readToken(); // ,
-					continue;
-				}
+				this.readToken(); // ,
+				continue;
+			}
 
-				if ( this.currentToken().equalsIgnoreCase( "in" ) )
-				{
-					this.readToken(); // in
-					break;
-				}
+			if ( this.currentToken().equalsIgnoreCase( "in" ) )
+			{
+				this.readToken(); // in
+				break;
 			}
 
 			throw this.parseException( "in", this.currentToken() );
@@ -2181,15 +2336,15 @@ public class Parser
 			{
 				throw this.parseException( "Too many key variables specified" );
 			}
-			else if ( !( type instanceof AggregateType ) )
-			{	// Variable after all key vars holds the value instead
-				itype = type;
-				type = null;
-			}
-			else
+			else if ( type instanceof AggregateType )
 			{
 				itype = ( (AggregateType) type ).getIndexType();
 				type = ( (AggregateType) type ).getDataType();
+			}
+			else
+			{	// Variable after all key vars holds the value instead
+				itype = type;
+				type = null;
 			}
 
 			Variable keyvar = new Variable( name, itype );
@@ -2213,34 +2368,41 @@ public class Parser
 			return null;
 		}
 
-		String name = this.nextToken();
-
-		if ( !this.parseIdentifier( name ) )
+		if ( !this.parseIdentifier( this.nextToken() ) )
 		{
 			return null;
 		}
 
-		if ( Parser.isReservedWord( name ) )
+		this.readToken(); // for
+
+		Token name = this.currentToken();
+
+		if ( Parser.isReservedWord( name.content ) )
 		{
 			throw this.parseException( "Reserved word '" + name + "' cannot be an index variable name" );
 		}
-
-		if ( parentScope.findVariable( name ) != null )
+		else if ( parentScope.findVariable( name.content ) != null )
 		{
 			throw this.parseException( "Index variable '" + name + "' is already defined" );
 		}
 
-		this.readToken(); // for
 		this.readToken(); // name
 
-		if ( !this.currentToken().equalsIgnoreCase( "from" ) )
+		if ( this.currentToken().equalsIgnoreCase( "from" ) )
+		{
+			this.readToken(); // from
+		}
+		else
 		{
 			throw this.parseException( "from", this.currentToken() );
 		}
 
-		this.readToken(); // from
-
 		Value initial = this.parseExpression( parentScope );
+
+		if ( initial == null )
+		{
+			throw this.parseException( "Expression for initial value expected" );
+		}
 
 		int direction = 0;
 
@@ -2265,15 +2427,25 @@ public class Parser
 
 		Value last = this.parseExpression( parentScope );
 
+		if ( last == null )
+		{
+			throw this.parseException( "Expression for floor/ceiling value expected" );
+		}
+
 		Value increment = DataTypes.ONE_VALUE;
 		if ( this.currentToken().equalsIgnoreCase( "by" ) )
 		{
 			this.readToken(); // by
 			increment = this.parseExpression( parentScope );
+
+			if ( increment == null )
+			{
+				throw this.parseException( "Expression for increment value expected" );
+			}
 		}
 
 		// Create integer index variable
-		Variable indexvar = new Variable( name, DataTypes.INT_TYPE );
+		Variable indexvar = new Variable( name.content, DataTypes.INT_TYPE );
 
 		// Put index variable onto a list
 		VariableList varList = new VariableList();
@@ -2308,14 +2480,14 @@ public class Parser
 		// variable to variable list in the scope, and saving
 		// initialization expressions in initializers.
 
-		while ( this.currentToken() != null && !this.currentToken().equals( ";" ) )
+		while ( !this.currentToken().equals( ";" ) )
 		{
-			Type t = this.parseType( scope, true, true );
+			Type t = this.parseType( scope, true );
 
-			String name = this.currentToken();
+			Token name = this.currentToken();
 			Variable variable;
 
-			if ( name == null || !this.parseIdentifier( name ) || Parser.isReservedWord( name ) )
+			if ( !this.parseIdentifier( name.content ) || Parser.isReservedWord( name.content ) )
 			{
 				throw this.parseException( "Identifier required" );
 			}
@@ -2323,7 +2495,7 @@ public class Parser
 			// If there is no data type, it is using an existing variable
 			if ( t == null )
 			{
-				variable = parentScope.findVariable( name );
+				variable = parentScope.findVariable( name.content );
 				if ( variable == null )
 				{
 					throw this.parseException( "Unknown variable '" + name + "'" );
@@ -2332,19 +2504,19 @@ public class Parser
 			}
 			else
 			{
-				if ( scope.findVariable( name, true ) != null )
+				if ( scope.findVariable( name.content, true ) != null )
 				{
 					throw this.parseException( "Variable '" + name + "' already defined" );
 				}
 
 				// Create variable and add it to the scope
-				variable = new Variable( name, t );
+				variable = new Variable( name.content, t );
 				scope.addVariable( variable );
 			}
 
 			this.readToken(); // name
 
-			VariableReference lhs = new VariableReference( name, scope );
+			VariableReference lhs = new VariableReference( name.content, scope );
 			Value rhs = null;
 
 			if ( this.currentToken().equals( "=" ) )
@@ -2377,27 +2549,33 @@ public class Parser
 			{
 				this.readToken(); // ,
 
-				if ( this.currentToken() == null || this.currentToken().equals( ";" ) )
+				if ( this.currentToken().equals( ";" ) )
 				{
 					throw this.parseException( "Identifier expected" );
 				}
 			}
 		}
 
-		if ( !this.currentToken().equals( ";" ) )
+		if ( this.currentToken().equals( ";" ) )
+		{
+			this.readToken(); // ;
+		}
+		else
 		{
 			throw this.parseException( ";", this.currentToken() );
 		}
 
-		this.readToken(); // ;
-
 		// Parse condition in context of scope
 
 		Value condition =
-			( this.currentToken() != null && this.currentToken().equals( ";" ) ) ?
+			( this.currentToken().equals( ";" ) ) ?
 			DataTypes.TRUE_VALUE : this.parseExpression( scope );
 
-		if ( !this.currentToken().equals( ";" ) )
+		if ( this.currentToken().equals( ";" ) )
+		{
+			this.readToken(); // ;
+		}
+		else
 		{
 			throw this.parseException( ";", this.currentToken() );
 		}
@@ -2407,13 +2585,11 @@ public class Parser
 			throw this.parseException( "\"for\" requires a boolean conditional expression" );
 		}
 
-		this.readToken(); // ;
-
 		// Parse incrementers in context of scope
 
 		List<ParseTreeNode> incrementers = new ArrayList<ParseTreeNode>();
 
-		while ( this.currentToken() != null && !this.currentToken().equals( ")" ) )
+		while ( !this.atEndOfFile() && !this.currentToken().equals( ")" ) )
 		{
 			Value value = parsePreIncDec( scope );
 			if ( value != null )
@@ -2435,12 +2611,14 @@ public class Parser
 				{
 					Assignment incrementer = parseAssignment( scope, ref );
 
-					if ( incrementer == null )
+					if ( incrementer != null )
+					{
+						incrementers.add( incrementer );
+					}
+					else
 					{
 						throw this.parseException( "Variable '" + ref.getName() + "' not incremented" );
 					}
-
-					incrementers.add( incrementer );
 				}
 				else 
 				{
@@ -2452,19 +2630,21 @@ public class Parser
 			{
 				this.readToken(); // ,
 
-				if ( this.currentToken() == null || this.currentToken().equals( ")" ) )
+				if ( this.atEndOfFile() || this.currentToken().equals( ")" ) )
 				{
 					throw this.parseException( "Identifier expected" );
 				}
 			}
 		}
 
-		if ( !this.currentToken().equals( ")" ) )
+		if ( this.currentToken().equals( ")" ) )
+		{
+			this.readToken(); // )
+		}
+		else
 		{
 			throw this.parseException( ")", this.currentToken() );
 		}
-
-		this.readToken(); // )
 
 		// Parse scope body
 		this.parseLoopScope( scope, functionType, parentScope );
@@ -2486,12 +2666,15 @@ public class Parser
 			this.readToken(); // {
 
 			this.parseScope( result, functionType, parentScope, true, true );
-			if ( !this.currentToken().equals( "}" ) )
+
+			if ( this.currentToken().equals( "}" ) )
+			{
+				this.readToken(); // }
+			}
+			else
 			{
 				throw this.parseException( "}", this.currentToken() );
 			}
-
-			this.readToken(); // }
 		}
 		else
 		{
@@ -2499,12 +2682,14 @@ public class Parser
 			ParseTreeNode command = this.parseCommand( functionType, result, false, true, true );
 			if ( command == null )
 			{
-				if ( !this.currentToken().equals( ";" ) )
+				if ( this.currentToken().equals( ";" ) )
+				{
+					this.readToken(); // ;
+				}
+				else
 				{
 					throw this.parseException( ";", this.currentToken() );
 				}
-
-				this.readToken(); // ;
 			}
 			else
 			{
@@ -2517,12 +2702,19 @@ public class Parser
 
 	private Value parseNewRecord( final BasicScope scope )
 	{
-		if ( !this.parseIdentifier( this.currentToken() ) )
+		if ( !this.currentToken().equalsIgnoreCase( "new" ) )
 		{
 			return null;
 		}
 
-		String name = this.currentToken();
+		this.readToken();
+
+		if ( !this.parseIdentifier( this.currentToken().content ) )
+		{
+			throw this.parseException( "Record name", this.currentToken() );
+		}
+
+		String name = this.currentToken().content;
 		Type type = scope.findType( name );
 
 		if ( !( type instanceof RecordType ) )
@@ -2543,9 +2735,33 @@ public class Parser
 		{
 			this.readToken(); //(
 
-			while ( this.currentToken() != null && !this.currentToken().equals( ")" ) )
+			while ( true )
 			{
-				Type expected = types[param].getBaseType();
+				if ( this.atEndOfFile() )
+				{
+					throw this.parseException( ")", this.currentToken() );
+				}
+
+				if ( this.currentToken().equals( ")" ) )
+				{
+					this.readToken(); // )
+					break;
+				}
+
+				Type currentType;
+				String errorMessageFieldName = "";
+
+				if ( param < types.length )
+				{
+					currentType = types[param];
+					errorMessageFieldName = " (" + names[param] + ")";
+				}
+				else
+				{
+					throw this.parseException( "Too many field initializers for record " + name );
+				}
+
+				Type expected = currentType.getBaseType();
 				Value val;
 
 				if ( this.currentToken().equals( "," ) )
@@ -2554,7 +2770,6 @@ public class Parser
 				}
 				else if ( this.currentToken().equals( "{" ) && expected instanceof AggregateType )
 				{
-					this.readToken(); // read {
 					val = this.parseAggregateLiteral( scope, (AggregateType) expected );
 				}
 				else
@@ -2564,7 +2779,7 @@ public class Parser
 
 				if ( val == null )
 				{
-					throw this.parseException( "Expression expected for field #" + ( param + 1 ) + " (" + names[param] + ")" );
+					throw this.parseException( "Expression expected for field #" + ( param + 1 ) + errorMessageFieldName );
 				}
 
 				if ( val != DataTypes.VOID_VALUE )
@@ -2573,7 +2788,7 @@ public class Parser
 					Type given = val.getType();
 					if ( !Operator.validCoercion( expected, given, "assign" ) )
 					{
-						throw this.parseException( given + " found when " + expected + " expected for field #" + ( param + 1 ) + " (" + names[param] + ")" );
+						throw this.parseException( given + " found when " + expected + " expected for field #" + ( param + 1 ) + errorMessageFieldName );
 					}
 				}
 
@@ -2582,21 +2797,13 @@ public class Parser
 
 				if ( this.currentToken().equals( "," ) )
 				{
-					if ( param == names.length )
-					{
-						throw this.parseException( "Too many field initializers for record " + name );
-					}
-
 					this.readToken(); // ,
 				}
+				else if ( !this.currentToken().equals( ")" ) )
+				{
+					throw this.parseException( ", or )", this.currentToken() );
+				}
 			}
-
-			if ( this.currentToken() == null )
-			{
-				throw this.parseException( ")", this.currentToken() );
-			}
-
-			this.readToken(); // )
 		}
 
 		return target.initialValueExpression( params );
@@ -2614,23 +2821,26 @@ public class Parser
 			return null;
 		}
 
-		if ( !this.parseScopedIdentifier( this.currentToken() ) )
+		if ( !this.parseScopedIdentifier( this.currentToken().content ) )
 		{
 			return null;
 		}
 
-		String name = this.currentToken();
+		Token name = this.currentToken();
 		this.readToken(); //name
 
 		List<Value> params = this.parseParameters( scope, firstParam );
-		Function target = scope.findFunction( name, params );
+		Function target = scope.findFunction( name.content, params );
 
-		if ( target == null )
+		if ( target != null )
 		{
-			throw this.undefinedFunctionException( name, params );
+			params = this.autoCoerceParameters( target, params, scope );
+		}
+		else
+		{
+			throw this.undefinedFunctionException( name.content, params );
 		}
 
-		params = this.autoCoerceParameters( target, params, scope );
 		FunctionCall call = new FunctionCall( target, params, this );
 
 		return parsePostCall( scope, call );
@@ -2651,17 +2861,28 @@ public class Parser
 			params.add( firstParam );
 		}
 
-		while ( this.currentToken() != null && !this.currentToken().equals( ")" ) )
+		while ( true )
 		{
+			if ( this.atEndOfFile() )
+			{
+				throw this.parseException( ")", this.currentToken() );
+			}
+
+			if ( this.currentToken().equals( ")" ) )
+			{
+				this.readToken(); // )
+				break;
+			}
+
 			Value val = this.parseExpression( scope );
 			if ( val != null )
 			{
 				params.add( val );
 			}
 
-			if ( this.currentToken() == null )
+			if ( this.atEndOfFile() )
 			{
-				throw this.parseException( ")", "end of file" );
+				throw this.parseException( ")", this.currentToken() );
 			}
 
 			if ( !this.currentToken().equals( "," ) )
@@ -2675,9 +2896,9 @@ public class Parser
 
 			this.readToken(); // ,
 
-			if ( this.currentToken() == null )
+			if ( this.atEndOfFile() )
 			{
-				throw this.parseException( ")", "end of file" );
+				throw this.parseException( "parameter", this.currentToken() );
 			}
 
 			if ( this.currentToken().equals( ")" ) )
@@ -2686,30 +2907,18 @@ public class Parser
 			}
 		}
 
-		if ( this.currentToken() == null )
-		{
-			throw this.parseException( ")", "end of file" );
-		}
-
-		if ( !this.currentToken().equals( ")" ) )
-		{
-			throw this.parseException( ")", this.currentToken() );
-		}
-
-		this.readToken(); // )
-
 		return params;
 	}
 
 	private Value parsePostCall( final BasicScope scope, FunctionCall call )
 	{
 		Value result = call;
-		while ( result != null && this.currentToken() != null && this.currentToken().equals( "." ) )
+		while ( result != null && this.currentToken().equals( "." ) )
 		{
 			Variable current = new Variable( result.getType() );
 			current.setExpression( result );
 
-			result = this.parseVariableReference( scope, current );
+			result = this.parseVariableReference( scope, new VariableReference( current ) );
 		}
 
 		return result;
@@ -2724,7 +2933,7 @@ public class Parser
 
 		this.readToken(); // call
 
-		Type type = this.parseType( scope, true, false );
+		Type type = this.parseType( scope, false );
 
 		// You can omit the type, but then this function invocation
 		// cannot be used in an expression
@@ -2734,7 +2943,7 @@ public class Parser
 			type = DataTypes.VOID_TYPE;
 		}
 
-		String current = this.currentToken();
+		Token current = this.currentToken();
 		Value name = null;
 
 		if ( current.equals( "(" ) )
@@ -2747,11 +2956,6 @@ public class Parser
 		}
 		else
 		{
-			if ( !this.parseIdentifier( current ) )
-			{
-				throw this.parseException( "Variable reference expected for function name" );
-			}
-
 			name = this.parseVariableReference( scope );
 
 			if ( !( name instanceof VariableReference ) )
@@ -2760,7 +2964,16 @@ public class Parser
 			}
 		}
 
-		List<Value> params = parseParameters( scope, null );
+		List<Value> params;
+
+		if ( this.currentToken().equals( "(" ) )
+		{
+			params = parseParameters( scope, null );
+		}
+		else
+		{
+			throw this.parseException( "(", this.currentToken() );
+		}
 
 		FunctionInvocation call = new FunctionInvocation( scope, type, name, params, this );
 
@@ -2769,7 +2982,7 @@ public class Parser
 
 	private Assignment parseAssignment( final BasicScope scope, final VariableReference lhs )
 	{
-		String operStr = this.currentToken();
+		Token operStr = this.currentToken();
 		if ( !operStr.equals( "=" ) &&
 		     !operStr.equals( "+=" ) &&
 		     !operStr.equals( "-=" ) &&
@@ -2795,19 +3008,21 @@ public class Parser
 			throw this.parseException( "Cannot use '" + operStr + "' on an aggregate" );
 		}
 
-		Operator oper = new Operator( operStr, this );
+		Operator oper = new Operator( operStr.content, this );
 		this.readToken(); // oper
 
 		Value rhs;
 
 		if ( this.currentToken().equals( "{" ) )
 		{
-			if ( !isAggregate )
+			if ( isAggregate )
+			{
+				rhs = this.parseAggregateLiteral( scope, (AggregateType) ltype );
+			}
+			else
 			{
 				throw this.parseException( "Cannot use an aggregate literal for type " + lhs.getType() );
 			}
-			this.readToken(); // read {
-			rhs = this.parseAggregateLiteral( scope, (AggregateType) ltype );
 		}
 		else
 		{
@@ -2816,7 +3031,7 @@ public class Parser
 
 		if ( rhs == null )
 		{
-			throw this.parseException( "Internal error" );
+			throw this.parseException( "Expression expected" );
 		}
 
 		rhs = this.autoCoerceValue( lhs.getRawType(), rhs, scope );
@@ -2866,21 +3081,19 @@ public class Parser
 		// --[VariableReference]
 		// ++[VariableReference]
 
-		if ( this.currentToken().equals( "++" ) ||
-		     this.currentToken().equals( "--" ) )
-		{
-			operStr = this.currentToken().equals( "++" ) ? Parser.PRE_INCREMENT : Parser.PRE_DECREMENT;
-			this.readToken(); // oper
-
-			lhs = this.parseVariableReference( scope );
-			if ( lhs == null )
-			{
-				throw this.parseException( "Variable reference expected" );
-			}
-		}
-		else
+		if ( !this.currentToken().equals( "++" ) &&
+		     !this.currentToken().equals( "--" ) )
 		{
 			return null;
+		}
+
+		operStr = this.currentToken().equals( "++" ) ? Parser.PRE_INCREMENT : Parser.PRE_DECREMENT;
+		this.readToken(); // oper
+
+		lhs = this.parseVariableReference( scope );
+		if ( lhs == null )
+		{
+			throw this.parseException( "Variable reference expected" );
 		}
 
 		int ltype = lhs.getType().getType();
@@ -2896,11 +3109,6 @@ public class Parser
 
 	private Value parsePostIncDec( final VariableReference lhs )
 	{
-		if ( this.currentToken() == null )
-		{
-			return lhs;
-		}
-
 		// [VariableReference]++
 		// [VariableReference]--
 
@@ -2932,7 +3140,7 @@ public class Parser
 
 	private Value parseExpression( final BasicScope scope, final Operator previousOper )
 	{
-		if ( this.currentToken() == null )
+		if ( this.currentToken().equals( ";" ) )
 		{
 			return null;
 		}
@@ -2941,9 +3149,9 @@ public class Parser
 		Value rhs = null;
 		Operator oper = null;
 
-		if ( this.currentToken().equals( "!" ) )
+		Token operator = this.currentToken();
+		if ( operator.equals( "!" ) )
 		{
-			String operator = this.currentToken();
 			this.readToken(); // !
 			if ( ( lhs = this.parseValue( scope ) ) == null )
 			{
@@ -2951,46 +3159,43 @@ public class Parser
 			}
 
 			lhs = this.autoCoerceValue( DataTypes.BOOLEAN_TYPE, lhs, scope );
-			lhs = new Operation( lhs, new Operator( operator, this ) );
+			lhs = new Operation( lhs, new Operator( operator.content, this ) );
 			if ( lhs.getType() != DataTypes.BOOLEAN_TYPE )
 			{
 				throw this.parseException( "\"!\" operator requires a boolean value" );
 			}
 		}
-		else if ( this.currentToken().equals( "~" ) )
+		else if ( operator.equals( "~" ) )
 		{
-			String operator = this.currentToken();
 			this.readToken(); // ~
 			if ( ( lhs = this.parseValue( scope ) ) == null )
 			{
 				throw this.parseException( "Value expected" );
 			}
 
-			lhs = new Operation( lhs, new Operator( operator, this ) );
+			lhs = new Operation( lhs, new Operator( operator.content, this ) );
 			if ( lhs.getType() != DataTypes.INT_TYPE && lhs.getType() != DataTypes.BOOLEAN_TYPE )
 			{
 				throw this.parseException( "\"~\" operator requires an integer or boolean value" );
 			}
 		}
-		else if ( this.currentToken().equals( "-" ) )
+		else if ( operator.equals( "-" ) )
 		{
 			// See if it's a negative numeric constant
 			if ( ( lhs = this.parseValue( scope ) ) == null )
 			{
 				// Nope. Unary minus.
-				String operator = this.currentToken();
 				this.readToken(); // -
 				if ( ( lhs = this.parseValue( scope ) ) == null )
 				{
 					throw this.parseException( "Value expected" );
 				}
 
-				lhs = new Operation( lhs, new Operator( operator, this ) );
+				lhs = new Operation( lhs, new Operator( operator.content, this ) );
 			}
 		}
-		else if ( this.currentToken().equals( "remove" ) )
+		else if ( operator.equals( "remove" ) )
 		{
-			String operator = this.currentToken();
 			this.readToken(); // remove
 
 			lhs = this.parseVariableReference( scope );
@@ -2999,7 +3204,7 @@ public class Parser
 				throw this.parseException( "Aggregate reference expected" );
 			}
 
-			lhs = new Operation( lhs, new Operator( operator, this ) );
+			lhs = new Operation( lhs, new Operator( operator.content, this ) );
 		}
 		else if ( ( lhs = this.parseValue( scope ) ) == null )
 		{
@@ -3042,12 +3247,14 @@ public class Parser
 					throw this.parseException( "Value expected in left hand side" );
 				}
 
-				if ( !this.currentToken().equals( ":" ) )
+				if ( this.currentToken().equals( ":" ) )
 				{
-					throw this.parseException( "\":\" expected" );
+					this.readToken(); // :
 				}
-
-				this.readToken(); // :
+				else
+				{
+					throw this.parseException( ":", this.currentToken() );
+				}
 
 				if ( ( rhs = this.parseExpression( scope, null ) ) == null )
 				{
@@ -3111,7 +3318,7 @@ public class Parser
 
 	private Value parseValue( final BasicScope scope )
 	{
-		if ( this.currentToken() == null )
+		if ( this.currentToken().equals( ";" ) )
 		{
 			return null;
 		}
@@ -3124,12 +3331,14 @@ public class Parser
 			this.readToken(); // (
 
 			result = this.parseExpression( scope );
-			if ( this.currentToken() == null || !this.currentToken().equals( ")" ) )
+			if ( this.currentToken().equals( ")" ) )
+			{
+				this.readToken(); // )
+			}
+			else
 			{
 				throw this.parseException( ")", this.currentToken() );
 			}
-
-			this.readToken(); // )
 		}
 
 		// Parse constant values
@@ -3158,20 +3367,16 @@ public class Parser
 		{
         }
 
-		else if ( this.currentToken().equals( "\"" ) || this.currentToken().equals( "'" ) || this.currentToken().equals( "`" ) )
+		else if ( ( result = this.parseString( scope ) ) != null )
 		{
-			result = this.parseString( scope, null );
 		}
 
-		else if ( this.currentToken().equals( "$" ) )
+		else if ( ( result = this.parseTypedConstant( scope ) ) != null )
 		{
-			result = this.parseTypedConstant( scope );
 		}
 
-		else if ( this.currentToken().equalsIgnoreCase( "new" ) )
+		else if ( ( result = this.parseNewRecord( scope ) ) != null )
 		{
-			this.readToken();
-			result = this.parseNewRecord( scope );
 		}
 
 		else if ( ( result = this.parseCatchValue( scope ) ) != null )
@@ -3193,21 +3398,25 @@ public class Parser
 
 		else
 		{
-			Type baseType = this.parseType( scope, true, false );
+			Token anchor = this.currentToken();
+
+			Type baseType = this.parseType( scope, false );
 			if ( baseType != null && baseType.getBaseType() instanceof AggregateType )
 			{
-				if ( !this.currentToken().equals( "{" ) )
+				if ( this.currentToken().equals( "{" ) )
+				{
+					result = this.parseAggregateLiteral( scope, (AggregateType) baseType.getBaseType() );
+				}
+				else
 				{
 					throw this.parseException( "{", this.currentToken() );
 				}
-				this.readToken();
-				result = this.parseAggregateLiteral( scope, (AggregateType) baseType.getBaseType() );
 			}
 			else
 			{
 				if ( baseType != null )
 				{
-					this.replaceToken( baseType.name );
+					this.rewindBackTo( anchor );
 				}
 				if ( ( result = this.parseVariableReference( scope ) ) != null )
 				{
@@ -3215,12 +3424,12 @@ public class Parser
 			}
 		}
 
-		while ( result != null && this.currentToken() != null && ( this.currentToken().equals( "." ) || this.currentToken().equals( "[" ) ) )
+		while ( result != null && ( this.currentToken().equals( "." ) || this.currentToken().equals( "[" ) ) )
 		{
 			Variable current = new Variable( result.getType() );
 			current.setExpression( result );
 
-			result = this.parseVariableReference( scope, current );
+			result = this.parseVariableReference( scope, new VariableReference( current ) );
 		}
 
 		if ( result instanceof VariableReference )
@@ -3235,11 +3444,6 @@ public class Parser
 
 	private Value parseNumber()
 	{
-		if ( this.currentToken() == null )
-		{
-			return null;
-		}
-
 		int sign = 1;
 
 		if ( this.currentToken().equals( "-" ) )
@@ -3264,19 +3468,22 @@ public class Parser
 		if ( this.currentToken().equals( "." ) )
 		{
 			this.readToken();
-			String fraction = this.currentToken();
+			Token fraction = this.currentToken();
 
-			if ( !this.readIntegerToken( fraction ) )
+			if ( this.readIntegerToken( fraction.content ) )
+			{
+				this.readToken(); // integer
+			}
+			else
 			{
 				throw this.parseException( "numeric value", fraction );
 			}
 
-			this.readToken(); // integer
 			return new Value( sign * StringUtilities.parseDouble( "0." + fraction ) );
 		}
 
-		String integer = this.currentToken();
-		if ( !this.readIntegerToken( integer ) )
+		Token integer = this.currentToken();
+		if ( !this.readIntegerToken( integer.content ) )
 		{
 			return null;
 		}
@@ -3288,7 +3495,7 @@ public class Parser
 			String fraction = this.nextToken();
 			if ( !this.readIntegerToken( fraction ) )
 			{
-				return new Value( sign * StringUtilities.parseLong( integer ) );
+				return new Value( sign * StringUtilities.parseLong( integer.content ) );
 			}
 
 			this.readToken(); // .
@@ -3297,7 +3504,7 @@ public class Parser
 			return new Value( sign * StringUtilities.parseDouble( integer + "." + fraction ) );
 		}
 
-		return new Value( sign * StringUtilities.parseLong( integer ) );
+		return new Value( sign * StringUtilities.parseLong( integer.content ) );
 	}
 
 	private boolean readIntegerToken( final String token )
@@ -3318,131 +3525,51 @@ public class Parser
 		return true;
 	}
 
-	private Value parseString( final BasicScope scope, Type type )
+	private Value parseString( final BasicScope scope )
 	{
+		if ( !this.currentToken().equals( "\"" ) &&
+		     !this.currentToken().equals( "'" ) &&
+		     !this.currentToken().equals( "`" ) )
+		{
+			return null;
+		}
+
+		this.clearCurrentToken();
+
 		// Directly work with currentLine - ignore any "tokens" you meet until
 		// the string is closed
 
-		char startCharacter = this.currentToken().charAt( 0 );
-		this.readToken();
-
+		char startCharacter = this.restOfLine().charAt( 0 );
 		char stopCharacter = startCharacter;
-		boolean template = startCharacter == "`".charAt( 0 );
-		boolean allowComments = false;
-
-		List<Value> list = null;
-
-		if ( type != null )
-		{
-			// Typed plural constant - handled by same code as plain strings
-			// so that they can share escape character processing
-			stopCharacter = ']';
-			allowComments = true;
-			list = new ArrayList<Value>();
-		}
-
-		int level = 1;
-		boolean slash = false;
+		boolean template = startCharacter == '`';
 
 		Concatenate conc = null;
 		StringBuilder resultString = new StringBuilder();
-		for ( int i = 0; ; ++i )
+		for ( int i = 1; ; ++i )
 		{
-			if ( i == this.currentLine.length() )
+			final String line = this.restOfLine();
+
+			if ( i == line.length() )
 			{
-				// Plain strings can't span lines
-				if ( type == null )
+				if ( i == 0 && this.currentIndex == this.currentLine.offset && this.currentLine.content != null )
 				{
-					throw this.parseException( "No closing " + stopCharacter + " found" );
+					// Empty lines are OK.
+					this.currentLine = this.currentLine.nextLine;
+					this.currentIndex = this.currentLine.offset;
+					i = -1;
+					continue;
 				}
 
-				this.currentLine = "";
-				this.fixLines();
-				i = 0;
-				if ( this.currentLine == null )
-				{
-					throw this.parseException( "No closing ] found" );
-				}
+				// Plain strings can't span lines
+				throw this.parseException( "No closing " + stopCharacter + " found" );
 			}
 
-			char ch = this.currentLine.charAt( i );
+			char ch = line.charAt( i );
 
 			// Handle escape sequences
 			if ( ch == '\\' )
 			{
-				if ( i == this.currentLine.length() - 1 )
-				{
-					i = -1;
-					ch = '\n';
-					this.currentLine = this.nextLine;
-					this.nextLine = this.getNextLine();
-				}
-				else
-				{
-					ch = this.currentLine.charAt( ++i );
-				}
-
-				switch ( ch )
-				{
-				case 'n':
-					resultString.append( '\n' );
-					break;
-
-				case 'r':
-					resultString.append( '\r' );
-					break;
-
-				case 't':
-					resultString.append( '\t' );
-					break;
-
-				case ',':
-					resultString.append( ',' );
-					break;
-
-				case 'x':
-					try
-					{
-						int hex08 = Integer.parseInt( this.currentLine.substring( i + 1, i + 3 ), 16 );
-						resultString.append( (char) hex08 );
-						i += 2;
-					}
-					catch ( NumberFormatException e )
-					{
-						throw this.parseException( "Hexadecimal character escape requires 2 digits" );
-					}
-					break;
-
-				case 'u':
-					try
-					{
-						int hex16 = Integer.parseInt( this.currentLine.substring( i + 1, i + 5 ), 16 );
-						resultString.append( (char) hex16 );
-						i += 4;
-					}
-					catch ( NumberFormatException e )
-					{
-						throw this.parseException( "Unicode character escape requires 4 digits" );
-					}
-					break;
-
-				default:
-					if ( Character.isDigit( ch ) )
-					{
-						try
-						{
-							int octal = Integer.parseInt( this.currentLine.substring( i, i + 3 ), 8 );
-							resultString.append( (char) octal );
-							i += 2;
-							break;
-						}
-						catch ( NumberFormatException e )
-						{
-							throw this.parseException( "Octal character escape requires 3 digits" );
-						}
-					}
-					resultString.append( ch );
-				}
+				i = this.parseEscapeSequence( resultString, i );
 				continue;
 			}
 
@@ -3450,18 +3577,33 @@ public class Parser
 			if ( template && ch == '{' )
 			{
 				// Move the current token to the expression
-				this.currentLine = this.currentLine.substring( i + 1 );
+				this.currentToken = this.currentLine.makeToken( ++i );
+				this.readToken(); // read the string so far, including the {
 
 				Value rhs = this.parseExpression( scope );
-				if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
+
+				if ( rhs == null )
+				{
+					throw this.parseException( "Expression expected" );
+				}
+
+				// Set i to -1 so that it is set to zero by the loop, as the
+				// currentLine has been shortened.
+				i = -1;
+
+				// Skip comments before the next token, look at what it is, then
+				// discard said token.
+				if ( this.currentToken().equals( "}" ) )
+				{
+					// Increment manually to not skip whitespace after the curly brace.
+					++i; // }
+				}
+				else
 				{
 					throw this.parseException( "}", this.currentToken() );
 				}
 
-				this.readToken(); // }
-
-				// Set i to -1 so that it is set to zero by the loop as the currentLine has been shortened
-				i = -1;
+				this.clearCurrentToken();
 
 				Value lhs = new Value( resultString.toString() );
 				if ( conc == null )
@@ -3474,98 +3616,105 @@ public class Parser
 					conc.addString( rhs );
 				}
 				
-				resultString.setLength(0);
+				resultString.setLength( 0 );
 				continue;
-			}
-
-			// Potentially handle comments
-			if ( allowComments )
-			{
-				// If we've already seen a slash
-				if ( slash )
-				{
-					slash = false;
-					if ( ch == '/' )
-					{
-						// Throw away the rest of the line
-						i = this.currentLine.length() - 1;
-						continue;
-					}
-					resultString.append( '/' );
-				}
-				else if ( ch == '/' )
-				{
-					slash = true;
-					continue;
-				}
-			} 
-
-			// Handle plain strings
-			if ( type == null )
-			{
-				if ( ch == stopCharacter )
-				{
-					this.currentLine = this.currentLine.substring( i + 1 ); //+ 1 to get rid of stop character token
-					this.currentToken = null;
-
-					Value result = new Value( resultString.toString() );
-
-					if ( conc == null )
-					{
-						return result;
-					}
-					else
-					{
-						conc.addString( result );
-						return conc;
-					}
-				}
-				resultString.append( ch );
-				continue;
-			}
-
-			// Handle typed constants
-			// Allow start char without escaping
-			if ( ch == startCharacter )
-			{
-				level++;
-				resultString.append( ch );
-				continue;
-			}
-
-			// Match non-initial start char
-			if ( ch == stopCharacter && --level > 0 )
-			{
-				resultString.append( ch );
-				continue;
-			}
-
-			if ( ch != stopCharacter && ch != ',' )
-			{
-				resultString.append( ch );
-				continue;
-			}
-
-			// Add a new element to the list
-			String element = resultString.toString().trim();
-			resultString.setLength( 0 );
-			if ( element.length() != 0 )
-			{
-				list.add( parseLiteral( type, element ) );
 			}
 
 			if ( ch == stopCharacter )
 			{
-				this.currentLine = this.currentLine.substring( i + 1 );
-				this.currentToken = null;
-				if ( list.size() == 0 )
+				this.currentToken = this.currentLine.makeToken( i + 1 ); //+ 1 to get rid of stop character token
+				this.readToken();
+
+				Value result = new Value( resultString.toString() );
+
+				if ( conc == null )
 				{
-					// Empty list - caller will interpret this specially
-					return null;
+					return result;
 				}
-				return new PluralValue( type, list );
+				else
+				{
+					conc.addString( result );
+					return conc;
+				}
 			}
+			resultString.append( ch );
 		}
+	}
+
+	private int parseEscapeSequence( final StringBuilder resultString, int i )
+	{
+		final String line = this.restOfLine();
+
+		if ( ++i == line.length() )
+		{
+			resultString.append( '\n' );
+			this.currentLine.makeToken( i );
+			this.currentLine = this.currentLine.nextLine;
+			this.currentIndex = this.currentLine.offset;
+			return -1;
+		}
+
+		char ch = line.charAt( i );
+
+		switch ( ch )
+		{
+		case 'n':
+			resultString.append( '\n' );
+			break;
+
+		case 'r':
+			resultString.append( '\r' );
+			break;
+
+		case 't':
+			resultString.append( '\t' );
+			break;
+
+		case 'x':
+			try
+			{
+				int hex08 = Integer.parseInt( line.substring( i + 1, i + 3 ), 16 );
+				resultString.append( (char) hex08 );
+				i += 2;
+			}
+			catch ( IndexOutOfBoundsException | NumberFormatException e )
+			{
+				throw this.parseException( "Hexadecimal character escape requires 2 digits" );
+			}
+			break;
+
+		case 'u':
+			try
+			{
+				int hex16 = Integer.parseInt( line.substring( i + 1, i + 5 ), 16 );
+				resultString.append( (char) hex16 );
+				i += 4;
+			}
+			catch ( IndexOutOfBoundsException | NumberFormatException e )
+			{
+				throw this.parseException( "Unicode character escape requires 4 digits" );
+			}
+			break;
+
+		default:
+			if ( Character.isDigit( ch ) )
+			{
+				try
+				{
+					int octal = Integer.parseInt( line.substring( i, i + 3 ), 8 );
+					resultString.append( (char) octal );
+					i += 2;
+					break;
+				}
+				catch ( IndexOutOfBoundsException | NumberFormatException e )
+				{
+					throw this.parseException( "Octal character escape requires 3 digits" );
+				}
+			}
+			resultString.append( ch );
+		}
+
+		return i;
 	}
 
 	private Value parseLiteral( Type type, String element )
@@ -3652,15 +3801,20 @@ public class Parser
 
 	private Value parseTypedConstant( final BasicScope scope )
 	{
+		if ( !this.currentToken().equals( "$" ) )
+		{
+			return null;
+		}
+
 		this.readToken(); // read $
 
-		String name = this.currentToken();
-		Type type = this.parseType( scope, false, false );
+		Token name = this.currentToken();
+		Type type = scope.findType( name.content );
 		boolean plurals = false;
 
 		if ( type == null )
 		{
-			StringBuilder buf = new StringBuilder( this.currentLine );
+			StringBuilder buf = new StringBuilder( name.content );
 			int length = name.length();
 
 			if ( name.endsWith( "ies" ) )
@@ -3686,12 +3840,12 @@ public class Parser
 				throw this.parseException( "Unknown type " + name );
 			}
 
-			this.currentLine = buf.toString();
-			this.currentToken = null;
-			type = this.parseType( scope, false, false );
+			type = scope.findType( buf.toString() );
 
 			plurals = true;
 		}
+
+		this.readToken();
 
 		if ( type == null )
 		{
@@ -3703,14 +3857,18 @@ public class Parser
 			throw this.parseException( "Non-primitive type " + name );
 		}
 
-		if ( !this.currentToken().equals( "[" ) )
+		if ( this.currentToken().equals( "[" ) )
+		{
+			this.readToken(); // read [
+		}
+		else
 		{
 			throw this.parseException( "[", this.currentToken() );
 		}
 
 		if ( plurals )
 		{
-			Value value = this.parseString( scope, type );
+			Value value = this.parsePluralConstant( scope, type );
 			if ( value != null )
 			{
 				return value;	// explicit list of values
@@ -3726,17 +3884,24 @@ public class Parser
 		StringBuilder resultString = new StringBuilder();
 
 		int level = 1;
-		for ( int i = 1;; ++i )
+		for ( int i = 0; ; ++i )
 		{
-			if ( i == this.currentLine.length() )
+			final String line = this.restOfLine();
+
+			if ( i == line.length() )
 			{
 				throw this.parseException( "No closing ] found" );
 			}
 
-			char c = this.currentLine.charAt( i );
+			char c = line.charAt( i );
 			if ( c == '\\' )
 			{
-				resultString.append( this.currentLine.charAt( ++i ) );
+				if ( ++i == line.length() )
+				{
+					throw this.parseException( "No closing ] found" );
+				}
+
+				resultString.append( line.charAt( i ) );
 			}
 			else if ( c == '[' )
 			{
@@ -3750,8 +3915,13 @@ public class Parser
 					resultString.append( c );
 					continue;
 				}
-				this.currentLine = this.currentLine.substring( i + 1 ); //+1 to get rid of ']' token
-				this.currentToken = null;
+
+				if ( i > 0 )
+				{
+					this.currentLine.makeToken( i );
+					this.currentIndex += i;
+				}
+				this.readToken(); // read ]
 				String input = resultString.toString().trim();
 				return parseLiteral( type, input );
 			}
@@ -3762,14 +3932,132 @@ public class Parser
 		}
 	}
 
-	private Operator parseOperator( final String oper )
+	private PluralValue parsePluralConstant( final BasicScope scope, final Type type )
 	{
-		if ( oper == null || !this.isOperator( oper ) )
+		// Directly work with currentLine - ignore any "tokens" you meet until
+		// the string is closed
+
+		List<Value> list = new ArrayList<>();
+		int level = 1;
+		boolean slash = false;
+
+		StringBuilder resultString = new StringBuilder();
+		for ( int i = 0; ; ++i )
+		{
+			final String line = this.restOfLine();
+
+			if ( i == line.length() )
+			{
+				if ( i > 0 )
+				{
+					this.currentLine.makeToken( i );
+					this.currentIndex += i;
+				}
+
+				if ( slash )
+				{
+					slash = false;
+					resultString.append( '/' );
+				}
+
+				if ( this.currentLine.content == null )
+				{
+					throw this.parseException( "No closing ] found" );
+				}
+
+				this.currentLine = this.currentLine.nextLine;
+				this.currentIndex = this.currentLine.offset;
+				i = -1;
+				continue;
+			}
+
+			char ch = line.charAt( i );
+
+			// Handle escape sequences
+			if ( ch == '\\' )
+			{
+				i = this.parseEscapeSequence( resultString, i );
+				continue;
+			}
+
+			// Potentially handle comments
+			// If we've already seen a slash
+			if ( slash )
+			{
+				slash = false;
+				if ( ch == '/' )
+				{
+					this.currentLine.makeToken( i - 1 );
+					this.currentIndex += i - 1;
+					// Throw away the rest of the line
+					this.currentLine.makeComment( this.restOfLine().length() );
+					this.currentIndex += this.restOfLine().length();
+					i = -1;
+					continue;
+				}
+				resultString.append( '/' );
+			}
+			else if ( ch == '/' )
+			{
+				slash = true;
+				continue;
+			}
+
+			// Allow start char without escaping
+			if ( ch == '[' )
+			{
+				level++;
+				resultString.append( ch );
+				continue;
+			}
+
+			// Match non-initial start char
+			if ( ch == ']' && --level > 0 )
+			{
+				resultString.append( ch );
+				continue;
+			}
+
+			if ( ch != ']' && ch != ',' )
+			{
+				resultString.append( ch );
+				continue;
+			}
+
+			// Add a new element to the list
+			String element = resultString.toString().trim();
+			resultString.setLength( 0 );
+			if ( element.length() != 0 )
+			{
+				list.add( this.parseLiteral( type, element ) );
+			}
+
+			if ( ch == ']' )
+			{
+				if ( i > 0 )
+				{
+					this.currentLine.makeToken( i );
+					this.currentIndex += i;
+				}
+				this.readToken(); // read ]
+				if ( list.size() == 0 )
+				{
+					// Empty list - caller will interpret this specially
+					return null;
+				}
+				return new PluralValue( type, list );
+			}
+		}
+	}
+
+	private Operator parseOperator( final Token oper )
+	{
+		if ( !this.isOperator( oper.content ) )
 		{
 			return null;
 		}
 
-		return new Operator( oper, this );
+		return new Operator( oper.content, this );
 	}
 
 	private boolean isOperator( final String oper )
@@ -3805,13 +4093,13 @@ public class Parser
 
 	private Value parseVariableReference( final BasicScope scope )
 	{
-		if ( this.currentToken() == null || !this.parseIdentifier( this.currentToken() ) )
+		if ( !this.parseIdentifier( this.currentToken().content ) )
 		{
 			return null;
 		}
 
-		String name = this.currentToken();
-		Variable var = scope.findVariable( name, true );
+		Token name = this.currentToken();
+		Variable var = scope.findVariable( name.content, true );
 
 		if ( var == null )
 		{
@@ -3820,25 +4108,30 @@ public class Parser
 
 		this.readToken(); // read name
 
-		if ( this.currentToken() == null || !this.currentToken().equals( "[" ) && !this.currentToken().equals( "." ) )
-		{
-			return new VariableReference( var );
-		}
-
-		return this.parseVariableReference( scope, var );
+		return this.parseVariableReference( scope, new VariableReference( var ) );
 	}
 
-	private Value parseVariableReference( final BasicScope scope, final Variable var )
+	/**
+	 * Look for an index/key, and return the corresponding data, expecting {@code var} to be a
+	 * {@link AggregateType}/{@link RecordType}, e.g., {@code map.key}, {@code array[0]}.
+	 *
+	 * <p>May also return a {@link FunctionCall} if the chain ends with/is a function call,
+	 * e.g., {@code var.function()}.
+	 *
+	 * <p>There may also be nothing, in which case the submitted variable reference is returned
+	 * as is.
+	 */
+	private Value parseVariableReference( final BasicScope scope, final VariableReference var )
 	{
+		VariableReference current = var;
 		Type type = var.getType();
 		List<Value> indices = new ArrayList<Value>();
 
 		boolean parseAggregate = this.currentToken().equals( "[" );
 
-		while ( this.currentToken() != null &&
-			( this.currentToken().equals( "[" ) ||
-			  this.currentToken().equals( "." ) ||
-			  parseAggregate && this.currentToken().equals( "," ) ) )
+		while ( this.currentToken().equals( "[" ) ||
+		        this.currentToken().equals( "." ) ||
+		        parseAggregate && this.currentToken().equals( "," ) )
 		{
 			Value index;
 
@@ -3865,13 +4158,13 @@ public class Parser
 				index = this.parseExpression( scope );
 				if ( index == null )
 				{
-					throw this.parseException( "Index for '" + var.getName() + "' expected" );
+					throw this.parseException( "Index for '" + current.getName() + "' expected" );
 				}
 
 				if ( !index.getType().getBaseType().equals( atype.getIndexType().getBaseType() ) )
 				{
 					throw this.parseException(
-						"Index for '" + var.getName() + "' has wrong data type " + "(expected " + atype.getIndexType() + ", got " + index.getType() + ")" );
+						"Index for '" + current.getName() + "' has wrong data type " + "(expected " + atype.getIndexType() + ", got " + index.getType() + ")" );
 				}
 
 				type = atype.getDataType();
@@ -3884,8 +4177,7 @@ public class Parser
 
 				if ( "(".equals( this.nextToken() ) )
 				{
-					return this.parseCall(
-						scope, indices.isEmpty() ? new VariableReference( var ) : new CompositeReference( var, indices, this ) );
+					return this.parseCall( scope, current );
 				}
 
 				type = type.asProxy();
@@ -3896,39 +4188,44 @@ public class Parser
 
 				RecordType rtype = (RecordType) type;
 
-				String field = this.currentToken();
-				if ( field == null || !this.parseIdentifier( field ) )
+				Token field = this.currentToken();
+				if ( this.parseIdentifier( field.content ) )
+				{
+					this.readToken(); // read name
+				}
+				else
 				{
 					throw this.parseException( "Field name expected" );
 				}
 
-				index = rtype.getFieldIndex( field );
-				if ( index == null )
+				index = rtype.getFieldIndex( field.content );
+				if ( index != null )
+				{
+					type = rtype.getDataType( index );
+				}
+				else
 				{
 					throw this.parseException( "Invalid field name '" + field + "'" );
 				}
-				this.readToken(); // read name
-				type = rtype.getDataType( index );
 			}
 
 			indices.add( index );
 
-			if ( parseAggregate && this.currentToken() != null )
+			if ( parseAggregate && this.currentToken().equals( "]" ) )
 			{
-				if ( this.currentToken().equals( "]" ) )
-				{
-					this.readToken(); // read ]
-					parseAggregate = false;
-				}
+				this.readToken(); // read ]
+				parseAggregate = false;
 			}
+
+			current = new CompositeReference( current.target, indices, this );
 		}
 
 		if ( parseAggregate )
 		{
-			throw this.parseException( this.currentToken(), "]" );
+			throw this.parseException( "]", this.currentToken() );
 		}
 
-		return new CompositeReference( var, indices, this );
+		return current;
 	}
 
 	private String parseDirective( final String directive )
@@ -3940,66 +4237,60 @@ public class Parser
 
 		this.readToken(); //directive
 
-		if ( this.currentToken() == null )
+		if ( this.atEndOfFile() )
 		{
 			throw this.parseException( "<", this.currentToken() );
 		}
 
-		int directiveEndIndex = this.currentLine.indexOf( ";" );
-		if ( directiveEndIndex == -1 )
+		// We called atEndOfFile(), which calls currentToken() to trim whitespace
+		// and skip comments. Remove the resulting token.
+
+		this.clearCurrentToken();
+
+		String resultString = null;
+		int endIndex = -1;
+		final String line = this.restOfLine();
+		final char firstChar = line.charAt( 0 );
+
+		for ( char ch : new char[] { '<', '\'', '"' } )
 		{
-			directiveEndIndex = this.currentLine.length();
-		}
-		String resultString = this.currentLine.substring( 0, directiveEndIndex );
-
-		int startIndex = resultString.indexOf( "<" );
-		int endIndex = resultString.indexOf( ">" );
-
-		if ( startIndex != -1 && endIndex == -1 )
-		{
-			throw this.parseException( "No closing > found" );
-		}
-
-		if ( startIndex == -1 )
-		{
-			startIndex = resultString.indexOf( "\"" );
-			endIndex = resultString.indexOf( "\"", startIndex + 1 );
-
-			if ( startIndex != -1 && endIndex == -1 )
+			if ( ch != firstChar )
 			{
-				throw this.parseException( "No closing \" found" );
+				continue;
 			}
-		}
 
-		if ( startIndex == -1 )
-		{
-			startIndex = resultString.indexOf( "'" );
-			endIndex = resultString.indexOf( "'", startIndex + 1 );
-
-			if ( startIndex != -1 && endIndex == -1 )
+			if ( ch == '<' )
 			{
-				throw this.parseException( "No closing ' found" );
+				ch = '>';
 			}
+
+			endIndex = line.indexOf( ch, 1 );
+
+			if ( endIndex == -1 )
+			{
+				throw this.parseException( "No closing " + ch + " found" );
+			}
+
+			resultString = line.substring( 1, endIndex );
+			// +1 to include and get rid of '>', '\'' or '"' token
+			this.currentToken = this.currentLine.makeToken( endIndex + 1 );
+			this.readToken();
+
+			break;
 		}
 
 		if ( endIndex == -1 )
 		{
-			endIndex = resultString.indexOf( ";" );
+			endIndex = line.indexOf( ";" );
+
 			if ( endIndex == -1 )
 			{
-				endIndex = resultString.length();
+				endIndex = line.length();
 			}
-		}
 
-		resultString = resultString.substring( startIndex + 1, endIndex );
-		this.currentLine = this.currentLine.substring( endIndex );
-		this.currentToken = null;
-
-		if ( this.currentToken().equals( ">" ) ||
-		     this.currentToken().equals( "\"" ) ||
-		     this.currentToken().equals( "'" ) )
-		{
-			this.readToken(); //get rid of '>' or '"' token
+			resultString = line.substring( 0, endIndex );
+			this.currentToken = this.currentLine.makeToken( endIndex );
+			this.readToken();
 		}
 
 		if ( this.currentToken().equals( ";" ) )
@@ -4046,167 +4337,224 @@ public class Parser
 	// **************** Tokenizer *****************
 
 	private static final char BOM = '\ufeff';
-	private String getNextLine()
+
+	/**
+	 * Returns {@link #currentToken} if non-null. Otherwise, moves in front of
+	 * the next non-comment token that we can find, before assigning it to
+	 * {@link #currentToken} and returning it.
+	 *
+	 * <p>
+	 * Never returns {@code null}.
+	 */
+	private Token currentToken()
 	{
-		try
+		// If we've already parsed a token, return it
+		if ( this.currentToken != null )
 		{
-			String fullLine;
-			do
-			{
-				// Read a line from input, and break out of the
-				// do-while loop when you've read a valid line
-
-				fullLine = this.commandStream.readLine();
-
-				// Return null at end of file
-				if ( fullLine == null )
-				{
-					return null;
-				}
-
-				if ( fullLine.length() == 0 )
-				{
-					continue;
-				}
-
-				// If the line starts with a Unicode BOM, remove it.
-				if ( fullLine.charAt( 0 ) == Parser.BOM )
-				{
-					fullLine = fullLine.substring( 1 );
-				}
-
-				// Remove whitespace at front and end
-				fullLine = fullLine.trim();
-			}
-			while ( fullLine.length() == 0 );
-
-			// Found valid currentLine - return it
-
-			return fullLine;
+			return this.currentToken;
 		}
-		catch ( IOException e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
-			return null;
-		}
-	}
+		boolean inMultiLineComment = false;
 
-	private String currentToken()
-	{
 		// Repeat until we get a token
 		while ( true )
 		{
-			// If we've already parsed a token, return it
-			if ( this.currentToken != null )
+			// at "end of file"
+			if ( this.currentLine.content == null )
 			{
-				return this.currentToken;
+				// will make an "end of file" token
+				return this.currentToken = this.currentLine.makeToken( 0 );
 			}
 
-			// Locate next token
-			this.fixLines();
-			if ( this.currentLine == null )
-			{
-				return ";";
-			}
+			final String restOfLine = this.restOfLine();
 
-			// "#" starts a whole-line comment
-			if ( this.currentLine.startsWith( "#" ) )
+			if ( inMultiLineComment )
 			{
-				// Skip the comment
-				this.currentLine = "";
+				final int commentEnd = restOfLine.indexOf( "*/" );
+
+				if ( commentEnd == -1 )
+				{
+					this.currentLine.makeComment( restOfLine.length() );
+
+					this.currentLine = this.currentLine.nextLine;
+					this.currentIndex = this.currentLine.offset;
+				}
+				else
+				{
+					this.currentToken = this.currentLine.makeComment( commentEnd + 2 );
+					this.readToken();
+					inMultiLineComment = false;
+				}
+
 				continue;
 			}
 
-			// Get the next token for consideration
-			this.currentToken = this.currentLine.substring( 0, this.tokenLength( this.currentLine ) );
+			if ( restOfLine.length() == 0 )
+			{
+				this.currentLine = this.currentLine.nextLine;
+				this.currentIndex = this.currentLine.offset;
+				continue;
+			}
+
+			// "#" was "supposed" to start a whole-line comment, but a bad implementation made it
+			// act just like "//"
 
 			// "//" starts a comment which consumes the rest of the line
-			if ( this.currentToken.equals( "//" ) )
+			if ( restOfLine.startsWith( "#" ) ||
+			     restOfLine.startsWith( "//" ) )
 			{
-				// Skip the comment
-				this.currentToken = null;
-				this.currentLine = "";
+				this.currentLine.makeComment( restOfLine.length() );
+
+				this.currentLine = this.currentLine.nextLine;
+				this.currentIndex = this.currentLine.offset;
 				continue;
 			}
 
 			// "/*" starts a comment which is terminated by "*/"
-			if ( !this.currentToken.equals( "/*" ) )
+			if ( restOfLine.startsWith( "/*" ) )
 			{
-				return this.currentToken;
-			}
+				final int commentEnd = restOfLine.indexOf( "*/", 2 );
 
-			while ( this.currentLine != null )
-			{
-				int end = this.currentLine.indexOf( "*/" );
-				if ( end == -1 )
+				if ( commentEnd == -1 )
 				{
-					// Skip entire line
-					this.currentLine = "";
-					this.fixLines();
-					continue;
+					this.currentLine.makeComment( restOfLine.length() );
+
+					this.currentLine = this.currentLine.nextLine;
+					this.currentIndex = this.currentLine.offset;
+					inMultiLineComment = true;
+				}
+				else
+				{
+					this.currentToken = this.currentLine.makeComment( commentEnd + 2 );
+					this.readToken();
 				}
 
-				this.currentLine = this.currentLine.substring( end + 2 );
-				this.currentToken = null;
-				break;
+				continue;
 			}
+
+			return this.currentToken = this.currentLine.makeToken( this.tokenLength( restOfLine ) );
 		}
 	}
 
+	/**
+	 * Calls {@link #currentToken()} to make sure we are currently in front of an unread
+	 * token. Then, returns a string version of the next token that can be found after that.
+	 *
+	 * @return the content of the next token to come after the token we are currently in front of,
+	 *         or {@code null} if we are at the end of the file.
+	 */
 	private String nextToken()
 	{
-		this.fixLines();
+		int offset = this.currentToken().restOfLineStart;
+		Line line = this.currentLine;
+		boolean inMultiLineComment = false;
 
-		if ( this.currentLine == null )
+		while ( true )
 		{
-			return null;
-		}
-
-		if ( this.tokenLength( this.currentLine ) >= this.currentLine.length() )
-		{
-			if ( this.nextLine == null )
+			// at "end of file"
+			if ( line.content == null )
 			{
 				return null;
 			}
 
-			return this.nextLine.substring( 0, this.tokenLength( this.nextLine ) ).trim();
-		}
+			final String restOfLine = line.substring( offset ).trim();
 
-		String result = this.currentLine.substring( this.tokenLength( this.currentLine ) ).trim();
-
-		if ( result.equals( "" ) )
-		{
-			if ( this.nextLine == null )
+			if ( inMultiLineComment )
 			{
-				return null;
+				final int commentEnd = restOfLine.indexOf( "*/" );
+
+				if ( commentEnd == -1 )
+				{
+					line = line.nextLine;
+					offset = line.offset;
+				}
+				else
+				{
+					offset += commentEnd + 2;
+					inMultiLineComment = false;
+				}
+
+				continue;
 			}
 
-			return this.nextLine.substring( 0, this.tokenLength( this.nextLine ) );
-		}
+			// "#" was "supposed" to start a whole-line comment, but a bad implementation made it
+			// act just like "//"
 
-		return result.substring( 0, this.tokenLength( result ) );
+			if ( restOfLine.length() == 0 ||
+			     restOfLine.startsWith( "#" ) ||
+			     restOfLine.startsWith( "//" ) )
+			{
+				line = line.nextLine;
+				offset = line.offset;
+				continue;
+			}
+
+			if ( restOfLine.startsWith( "/*" ) )
+			{
+				offset += 2;
+				inMultiLineComment = true;
+				continue;
+			}
+
+			return restOfLine.substring( 0, this.tokenLength( restOfLine ) );
+		}
 	}
 
-	// Put a token back, so it can be parsed again later.
-	private void replaceToken( String s )
+	/**
+	 * Forget every token up to {@code destinationToken}, so that we can resume parsing from there.
+	 */
+	private void rewindBackTo( final Token destinationToken )
 	{
-		this.currentLine = s + this.currentLine;
-		this.currentToken = null;
+		this.currentToken();
+
+		while ( this.currentToken != destinationToken )
+		{
+			this.currentLine.tokens.removeLast();
+
+			while ( this.currentLine.tokens.isEmpty() )
+			{
+				// Don't do null checks. If previousLine is null, it means we never saw the
+				// destination token, meaning we'd want to throw an error anyway.
+				this.currentLine = this.currentLine.previousLine;
+			}
+
+			this.currentToken = this.currentLine.tokens.getLast();
+			this.currentIndex = this.currentToken.offset;
+		}
 	}
 
+	/**
+	 * If we are not at the end of the file, null out
+	 * {@link #currentToken} (allowing a new one to be gathered
+	 * next time we call {@link #currentToken()}), and move
+	 * {@link #currentIndex} forward.
+	 */
 	private void readToken()
 	{
-		this.fixLines();
-
-		if ( this.currentLine == null )
+		// at "end of file"
+		if ( this.currentToken().getLine().content == null )
 		{
 			return;
 		}
 
-		this.currentLine = this.currentLine.substring( this.tokenLength( this.currentLine ) );
+		this.currentIndex = this.currentToken.restOfLineStart;
+		this.currentToken = null;
+	}
+
+	/**
+	 * If we have an unread token saved in {@link #currentToken}, null the field,
+	 * and delete it from its {@link Line#tokens}, effectively forgetting that we saw it.
+	 * <p>
+	 * This method is made for parsing methods that manipulate lines character-by-character,
+	 * and need to create Tokens of custom lengths.
+	 */
+	private void clearCurrentToken()
+	{
+		if ( this.currentToken != null )
+		{
+			this.currentToken = null;
+			this.currentLine.tokens.removeLast();
+		}
 	}
 
 	private int tokenLength( final String s )
@@ -4241,45 +4589,6 @@ public class Parser
 		}
 
 		return result; //== s.length()
-	}
-
-	private void fixLines()
-	{
-		this.currentToken = null;
-		if ( this.currentLine == null )
-		{
-			return;
-		}
-
-		while ( this.currentLine.equals( "" ) )
-		{
-			this.currentLine = this.nextLine;
-			this.lineNumber = this.commandStream.getLineNumber();
-			this.nextLine = this.getNextLine();
-
-			if ( this.currentLine == null )
-			{
-				return;
-			}
-		}
-
-		this.currentLine = this.currentLine.trim();
-
-		if ( this.nextLine == null )
-		{
-			return;
-		}
-
-		while ( this.nextLine.equals( "" ) )
-		{
-			this.nextLine = this.getNextLine();
-			if ( this.nextLine == null )
-			{
-				return;
-			}
-		}
-
-		this.nextLine = this.nextLine.trim();
 	}
 
 	private boolean tokenChar( char ch )
@@ -4327,11 +4636,285 @@ public class Parser
 		return Parser.multiCharTokens.contains( s );
 	}
 
+	/**
+	 * Returns the content of {@link #currentLine} starting at {@link #currentIndex}.
+	 */
+	private String restOfLine()
+	{
+		return this.currentLine.substring( this.currentIndex );
+	}
+
+	/**
+	 * Calls {@link #currentToken()} in order to skip any
+	 * comment or whitespace we would be in front of,
+	 * then return whether or not we reached the end
+	 * of the file.
+	 */
+	private boolean atEndOfFile()
+	{
+		this.currentToken();
+
+		return this.currentLine.content == null;
+	}
+
+	public final class Line
+	{
+		private final String content;
+		private final int lineNumber;
+		private final int offset;
+
+		private final Deque<Token> tokens = new LinkedList<>();
+
+		private final Line previousLine;
+		/* Not made final to avoid a possible StackOverflowError. Do not modify. */
+		private Line nextLine = null;
+
+		private Line( final LineNumberReader commandStream )
+		{
+			this( commandStream, null );
+		}
+
+		private Line( final LineNumberReader commandStream, final Line previousLine )
+		{
+			this.previousLine = previousLine;
+			if ( previousLine != null )
+			{
+				previousLine.nextLine = this;
+			}
+
+			int offset = 0;
+			String line;
+
+			try
+			{
+				line = commandStream.readLine();
+			}
+			catch ( IOException e )
+			{
+				// This should not happen. Therefore, print a stack trace for debug purposes.
+				StaticEntity.printStackTrace( e );
+				line = null;
+			}
+
+			if ( line == null )
+			{
+				// We are the "end of file" (or there was an IOException when reading)
+				this.content = null;
+				this.lineNumber = this.previousLine != null ? this.previousLine.lineNumber : 0;
+				this.offset = this.previousLine != null ? this.previousLine.offset : 0;
+				return;
+			}
+
+			// If the line starts with a Unicode BOM, remove it.
+			if ( line.length() > 0 &&
+			     line.charAt( 0 ) == Parser.BOM )
+			{
+				line = line.substring( 1 );
+				offset += 1;
+			}
+
+			// Remove whitespace at front and end
+			final String trimmed = line.trim();
+
+			if ( !trimmed.isEmpty() )
+			{
+				// While the more "obvious" solution would be to use line.indexOf( trimmed ), we
+				// know that the only difference between these strings is leading/trailing
+				// whitespace.
+				//
+				// There are two cases:
+				//  1. `trimmed` is empty, in which case `line` was entirely composed of whitespace.
+				//  2. `trimmed` is non-empty. The first non-whitespace character in `line`
+				//     indicates the start of `trimmed`.
+				//
+				// This is more efficient in that we don't need to confirm that the rest of
+				// `trimmed` is present in `line`.
+
+				final int ltrim = line.indexOf( trimmed.charAt( 0 ) );
+				offset += ltrim;
+			}
+
+			line = trimmed;
+
+			this.content = line;
+			this.lineNumber = commandStream.getLineNumber();
+			this.offset = offset;
+		}
+
+		private String substring( final int beginIndex )
+		{
+			if ( this.content == null )
+			{
+				return "";
+			}
+
+			// subtract "offset" from beginIndex, since we already removed it
+			return this.content.substring( beginIndex - this.offset );
+		}
+
+		private Token makeToken( final int tokenLength )
+		{
+			final Token newToken = new Token( tokenLength );
+			this.tokens.addLast( newToken );
+			return newToken;
+		}
+
+		private Token makeComment( final int commentLength )
+		{
+			final Token newToken = new Comment( commentLength );
+			this.tokens.addLast( newToken );
+			return newToken;
+		}
+
+		@Override
+		public String toString()
+		{
+			return this.content;
+		}
+
+		public class Token
+		{
+			final int offset;
+			final String content;
+			final String followingWhitespace;
+			final int restOfLineStart;
+
+			private Token( final int tokenLength )
+			{
+				if ( !Line.this.tokens.isEmpty() )
+				{
+					offset = Line.this.tokens.getLast().restOfLineStart;
+				}
+				else
+				{
+					offset = Line.this.offset;
+				}
+
+				final String lineRemainder;
+
+				if ( Line.this.content == null )
+				{
+					// At end of file
+					this.content = ";";
+					// Going forward, we can just assume lineRemainder is an
+					// empty string.
+					lineRemainder = "";
+				}
+				else
+				{
+					final String lineRemainderWithToken = Line.this.substring( offset );
+
+					this.content = lineRemainderWithToken.substring( 0, tokenLength );
+					lineRemainder = lineRemainderWithToken.substring( tokenLength );
+				}
+
+				// As in Line(), this is more efficient than lineRemainder.indexOf( lineRemainder.trim() ).
+				String trimmed = lineRemainder.trim();
+				final int lTrim = trimmed.isEmpty() ? 0 : lineRemainder.indexOf( trimmed.charAt( 0 ) );
+
+				this.followingWhitespace = lineRemainder.substring( 0, lTrim );
+
+				this.restOfLineStart = offset + tokenLength + lTrim;
+			}
+
+			/** The Line in which this token exists */
+			final Line getLine()
+			{
+				return Line.this;
+			}
+
+			public boolean equals( final String s )
+			{
+				return this.content.equals( s );
+			}
+
+			public boolean equalsIgnoreCase( final String s )
+			{
+				return this.content.equalsIgnoreCase( s );
+			}
+
+			public int length()
+			{
+				return this.content.length();
+			}
+
+			public String substring( final int beginIndex )
+			{
+				return this.content.substring( beginIndex );
+			}
+
+			public String substring( final int beginIndex, final int endIndex )
+			{
+				return this.content.substring( beginIndex, endIndex );
+			}
+
+			public boolean endsWith( final String suffix )
+			{
+				return this.content.endsWith( suffix );
+			}
+
+			@Override
+			public String toString()
+			{
+				return this.content;
+			}
+		}
+
+		private class Comment
+			extends Token
+		{
+			private Comment( final int commentLength )
+			{
+				super( commentLength );
+			}
+		}
+	}
+
+	public List<Token> getTokens()
+	{
+		final List<Token> result = new LinkedList<>();
+
+		Line line = this.currentLine;
+
+		// Go back to the start
+		while ( line != null &&
+		        line.previousLine != null )
+		{
+			line = line.previousLine;
+		}
+
+		while ( line != null &&
+		        line.content != null )
+		{
+			for ( final Token token : line.tokens )
+			{
+				result.add( token );
+			}
+
+			line = line.nextLine;
+		}
+
+		return result;
+	}
+
+	public List<String> getTokensContent()
+	{
+		return this.getTokens()
+			.stream().map( token -> token.content ).collect( Collectors.toList() );
+	}
+
 	// **************** Parse errors *****************
 
-	private ScriptException parseException( final String expected, final String actual )
+	private ScriptException parseException( final String expected, final Token found )
 	{
-		return this.parseException( "Expected " + expected + ", found " + actual );
+		String foundString = found.content;
+
+		if ( found.getLine().content == null )
+		{
+			foundString = "end of file";
+		}
+
+		return this.parseException( "Expected " + expected + ", found " + foundString );
 	}
 
 	private ScriptException parseException( final String message )
@@ -4474,7 +5057,7 @@ public class Parser
 
 	private String getLineAndFile()
 	{
-		return Parser.getLineAndFile( this.shortFileName, this.lineNumber );
+		return Parser.getLineAndFile( this.shortFileName, this.getLineNumber() );
 	}
 
 	public static String getLineAndFile( final String fileName, final int lineNumber )

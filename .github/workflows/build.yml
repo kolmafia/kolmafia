@@ -1,0 +1,45 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  daily:
+    if: github.repository == 'kolmafia/kolmafia'
+    name: Build daily
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup Java 16
+        uses: actions/setup-java@v2
+        with:
+          distribution: "temurin"
+          java-version: "16"
+
+      - name: Gradle Wrapper Validation
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Build
+        run: ./gradlew --no-daemon ant_daily
+
+      #- name: Retrieve version and tag
+      #  run: |
+      #    KOLMAFIA_VERSION=$(git rev-list --count HEAD)
+      #    git tag "r$KOLMAFIA_VERSION"
+      #    echo "KOLMAFIA_VERSION=$KOLMAFIA_VERSION" >> $GITHUB_ENV
+
+      #- name: Release
+      #  uses: softprops/action-gh-release@v1
+      #  with:
+      #    files: dist/*.jar
+      #    tag_name: r${{ env.KOLMAFIA_VERSION }}
+      #    name: ${{ env.KOLMAFIA_VERSION }}
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -457,6 +457,9 @@ public class ValhallaManager
 		Preferences.setInteger( "guzzlrDeliveryProgress", 0 );
 		Preferences.setBoolean( "itemBoughtPerAscension637", false );
 		Preferences.setBoolean( "itemBoughtPerAscension8266", false );
+		Preferences.setBoolean( "itemBoughtPerAscension10790", false );
+		Preferences.setBoolean( "itemBoughtPerAscension10794", false );
+		Preferences.setBoolean( "itemBoughtPerAscension10795", false );
 		Preferences.setString( "mayoInMouth", "" );
 		Preferences.setInteger( "mayoLevel", 0 );
 		Preferences.setString( "mayoMinderSetting", "" );
@@ -570,6 +573,11 @@ public class ValhallaManager
 		Preferences.setInteger( "shockingLickCharges", 0 );
 		Preferences.setString( "backupCameraMode", "meat" );
 		Preferences.setBoolean( "backupCameraReverserEnabled", false );
+		Preferences.setBoolean( "fireExtinguisherBatHoleUsed", false );
+		Preferences.setBoolean( "fireExtinguisherChasmUsed", false );
+		Preferences.setBoolean( "fireExtinguisherCyrptUsed", false );
+		Preferences.setBoolean( "fireExtinguisherDesertUsed", false );
+		Preferences.setBoolean( "fireExtinguisherHaremUsed", false );
 		MonorailManager.resetMuffinOrder();
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );
@@ -737,6 +745,12 @@ public class ValhallaManager
 		Preferences.setInteger( "youRobotRight", 0 );
 		Preferences.setInteger( "youRobotTop", 0 );
 		Preferences.setInteger( "statbotUses", 0 );
+		// Wildfire
+		Preferences.setBoolean( "wildfireBarrelCaulked", false );
+		Preferences.setBoolean( "wildfireDusted", false );
+		Preferences.setBoolean( "wildfireFracked", false );
+		Preferences.setBoolean( "wildfirePumpGreased", false );
+		Preferences.setBoolean( "wildfireSprinkled", false );
 		// Campground resets
 		Preferences.setBoolean( "hasBartender", false );
 		Preferences.setBoolean( "hasChef", false );

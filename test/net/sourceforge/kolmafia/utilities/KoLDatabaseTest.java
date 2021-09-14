@@ -55,25 +55,25 @@ public class KoLDatabaseTest {
   @Test
   public void itShouldAddAListOfOnlyIntegers() {
     theOtherList.clear();
-    theOtherList.add(new Integer(3));
-    theOtherList.add(new Integer(1));
-    theOtherList.add(new Integer(2));
+    theOtherList.add(Integer.valueOf(3));
+    theOtherList.add(Integer.valueOf(1));
+    theOtherList.add(Integer.valueOf(2));
     assertEquals(KoLDatabase.calculateTotal(theOtherList), 6);
     theOtherList.clear();
     theOtherList.add(null);
-    theOtherList.add(new Integer(3));
-    theOtherList.add(new Integer(1));
+    theOtherList.add(Integer.valueOf(3));
+    theOtherList.add(Integer.valueOf(1));
     theOtherList.add(null);
-    theOtherList.add(new Integer(2));
+    theOtherList.add(Integer.valueOf(2));
     assertEquals(KoLDatabase.calculateTotal(theOtherList), 6);
   }
 
   @Test
   public void itShouldAverageAListOfOnlyIntegers() {
     theOtherList.clear();
-    theOtherList.add(new Integer(3));
-    theOtherList.add(new Integer(1));
-    theOtherList.add(new Integer(2));
+    theOtherList.add(Integer.valueOf(3));
+    theOtherList.add(Integer.valueOf(1));
+    theOtherList.add(Integer.valueOf(2));
     assertEquals(KoLDatabase.calculateAverage(theOtherList), 2.0, 0.0);
   }
 }

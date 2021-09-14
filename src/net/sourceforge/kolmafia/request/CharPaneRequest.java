@@ -865,6 +865,20 @@ public class CharPaneRequest
 				KoLCharacter.setLightning( 0 );
 			}
 		}
+		else if ( KoLCharacter.inFirecore() )
+		{
+			pattern = Pattern.compile( "Water:</td><td align=left><b>([\\d,]+)</b>" );
+			matcher = pattern.matcher( responseText );
+			if ( matcher != null && matcher.find() )
+			{
+				int water = StringUtilities.parseInt( matcher.group( 1 ).replaceAll(",", "") );
+				KoLCharacter.setWildfireWater( water );
+			}
+			else
+			{
+				KoLCharacter.setWildfireWater( 0 );
+			}
+		}
 
 	}
 
@@ -1785,13 +1799,14 @@ public class CharPaneRequest
 			ResultProcessor.processAdventuresUsed( turnsThisRun - mafiaTurnsThisRun );
 		}
 
-		KoLCharacter.setLimitmode( JSON.getString( "limitmode" ) );
+		Object lmo = JSON.get("limitmode");
+		KoLCharacter.setLimitmode( lmo.toString() );
 
 		JSONObject lastadv = JSON.getJSONObject( "lastadv" );
 		String adventureId = lastadv.getString( "id" );
 		String adventureName = lastadv.getString( "name" );
 		String adventureURL = lastadv.getString( "link" );
-		String container = lastadv.getString( "container" );
+		String container = lastadv.optString( "container" );
 		CharPaneRequest.setLastAdventure( adventureId, adventureName, adventureURL, container );
 
 		int fury = JSON.getInt( "fury" );

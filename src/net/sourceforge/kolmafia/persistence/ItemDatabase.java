@@ -2408,7 +2408,7 @@ public class ItemDatabase
 	 * @return The set of item names keyed by id
 	 */
 
-	public static final Set entrySet()
+	public static final Set<Entry<Integer, String>> entrySet()
 	{
 		return ItemDatabase.nameById.entrySet();
 	}
@@ -2515,6 +2515,18 @@ public class ItemDatabase
 		{
 			int charge = StringUtilities.parseInt( matcher.group( 1 ) );
 			Preferences.setInteger( "scrapbookCharges", charge );
+		}
+	}
+
+	private static Pattern FIRE_EXTINGUISHER_PATTERN = Pattern.compile( "The extinguisher's tank is currently <b>([\\d]+)% full</b>" );
+
+	public static void parseFireExtinguisher( final String desc )
+	{
+		Matcher matcher = FIRE_EXTINGUISHER_PATTERN.matcher( desc );
+		if ( matcher.find() )
+		{
+			int charge = StringUtilities.parseInt( matcher.group( 1 ) );
+			Preferences.setInteger( "_fireExtinguisherCharge", charge );
 		}
 	}
 

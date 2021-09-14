@@ -33,18 +33,19 @@
 
 package net.sourceforge.kolmafia.swingui;
 
-import com.jeans.trayicon.TrayIconPopup;
-import com.jeans.trayicon.TrayIconPopupSimpleItem;
-import com.jeans.trayicon.WindowsTrayIcon;
-
 import java.awt.Frame;
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 
-import javax.swing.ImageIcon;
+import javax.imageio.ImageIO;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -59,7 +60,7 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 
 public abstract class SystemTrayFrame
 {
-	private static WindowsTrayIcon icon = null;
+	private static TrayIcon icon = null;
 
 	public synchronized static final void addTrayIcon()
 	{
@@ -71,31 +72,26 @@ public abstract class SystemTrayFrame
 		// Now, make calls to SystemTrayIconManager in order
 		// to make use of the system tray.
 
-		FileUtilities.loadLibrary( KoLConstants.IMAGE_LOCATION, "", "TrayIcon12.gif" );
+		FileUtilities.loadLibrary( KoLConstants.IMAGE_LOCATION, "images/", "TrayIcon12.gif" );
 
 		try
 		{
-			File iconfile = new File( KoLConstants.IMAGE_LOCATION, "TrayIcon12.dll" );
-			System.load( iconfile.getCanonicalPath() );
-			WindowsTrayIcon.initTrayIcon( "KoLmafia" );
+			Image image = JComponentUtilities.getImage( "images/", "TrayIcon12.gif" ).getImage();
 
-			ImageIcon image = JComponentUtilities.getImage( "", "TrayIcon12.gif" );
-
-			WindowsTrayIcon icon = new WindowsTrayIcon( image.getImage(), 16, 16 );
+			TrayIcon icon = new TrayIcon( image.getScaledInstance( 16, 16, Image.SCALE_DEFAULT ), "KoLmafia" );
 			icon.addMouseListener( new SetVisibleListener() );
 
-			TrayIconPopup popup = new TrayIconPopup();
-			popup.addMenuItem( new ShowMainWindowPopupItem() );
-			popup.addMenuItem( new ConstructFramePopupItem( "Graphical CLI", "CommandDisplayFrame" ) );
-			popup.addMenuItem( new ConstructFramePopupItem( "Preferences", "OptionsFrame" ) );
-			popup.addMenuItem( new ConstructFramePopupItem( "Relay Browser", "LocalRelayServer" ) );
-			popup.addMenuItem( new ConstructFramePopupItem( "KoLmafia Chat", "ChatManager" ) );
-			popup.addMenuItem( new LogoutPopupItem() );
-			popup.addMenuItem( new EndSessionPopupItem() );
+			PopupMenu popup = new PopupMenu();
+			popup.add( new ShowMainWindowPopupItem() );
+			popup.add( new ConstructFramePopupItem( "Graphical CLI", "CommandDisplayFrame" ) );
+			popup.add( new ConstructFramePopupItem( "Preferences", "OptionsFrame" ) );
+			popup.add( new ConstructFramePopupItem( "Relay Browser", "LocalRelayServer" ) );
+			popup.add( new ConstructFramePopupItem( "KoLmafia Chat", "ChatManager" ) );
+			popup.add( new LogoutPopupItem() );
+			popup.add( new EndSessionPopupItem() );
 
-			icon.setPopup( popup );
-			SystemTrayFrame.icon = icon;
-			SystemTrayFrame.updateToolTip();
+			icon.setPopupMenu( popup );
+			SystemTray.getSystemTray().add( icon );
 		}
 		catch ( Exception e )
 		{
@@ -108,7 +104,7 @@ public abstract class SystemTrayFrame
 	{
 		if ( SystemTrayFrame.icon != null )
 		{
-			WindowsTrayIcon.cleanUp();
+			SystemTray.getSystemTray().remove( icon );
 		}
 	}
 
@@ -131,8 +127,7 @@ public abstract class SystemTrayFrame
 			return;
 		}
 
-		SystemTrayFrame.icon.setVisible( true );
-		SystemTrayFrame.icon.setToolTipText( message );
+		SystemTrayFrame.icon.setToolTip( message );
 	}
 
 	public static final void showBalloon( final String message )
@@ -158,7 +153,7 @@ public abstract class SystemTrayFrame
 
 		try
 		{
-			SystemTrayFrame.icon.showBalloon( message, StaticEntity.getVersion(), 0, WindowsTrayIcon.BALLOON_INFO );
+			SystemTrayFrame.icon.displayMessage( message, StaticEntity.getVersion(), TrayIcon.MessageType.INFO );
 		}
 		catch ( Exception e )
 		{
@@ -188,11 +183,11 @@ public abstract class SystemTrayFrame
 		KoLDesktop.getInstance().setVisible( true );
 	}
 
-	private static abstract class ThreadedTrayIconPopupSimpleItem
-		extends TrayIconPopupSimpleItem
+	private static abstract class ThreadedTrayIconMenuItem
+		extends MenuItem
 		implements ActionListener, Runnable
 	{
-		public ThreadedTrayIconPopupSimpleItem( final String title )
+		public ThreadedTrayIconMenuItem( final String title )
 		{
 			super( title );
 			this.addActionListener( this );
@@ -205,7 +200,7 @@ public abstract class SystemTrayFrame
 	}
 
 	private static class ShowMainWindowPopupItem
-		extends ThreadedTrayIconPopupSimpleItem
+		extends ThreadedTrayIconMenuItem
 	{
 		public ShowMainWindowPopupItem()
 		{
@@ -219,7 +214,7 @@ public abstract class SystemTrayFrame
 	}
 
 	private static class ConstructFramePopupItem
-		extends ThreadedTrayIconPopupSimpleItem
+		extends ThreadedTrayIconMenuItem
 	{
 		private final String frame;
 
@@ -236,7 +231,7 @@ public abstract class SystemTrayFrame
 	}
 
 	private static class LogoutPopupItem
-		extends ThreadedTrayIconPopupSimpleItem
+		extends ThreadedTrayIconMenuItem
 	{
 		public LogoutPopupItem()
 		{
@@ -250,7 +245,7 @@ public abstract class SystemTrayFrame
 	}
 
 	private static class EndSessionPopupItem
-		extends ThreadedTrayIconPopupSimpleItem
+		extends ThreadedTrayIconMenuItem
 	{
 		public EndSessionPopupItem()
 		{

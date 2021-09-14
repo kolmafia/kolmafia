@@ -576,6 +576,11 @@ user	falloutShelterLevel	0
 user	familiarScript
 user	lastCopyableMonster
 user	fingernailsClipped	0
+user	fireExtinguisherBatHoleUsed	false
+user	fireExtinguisherChasmUsed	false
+user	fireExtinguisherCyrptUsed	false
+user	fireExtinguisherDesertUsed	false
+user	fireExtinguisherHaremUsed	false
 user	fistSkillsKnown	0
 user	fistTeachingsHaikuDungeon	false
 user	fistTeachingsPokerRoom	false
@@ -722,6 +727,9 @@ user	invalidBuffMessage	You sent an amount which does not correspond to a valid 
 user	item9084	0
 user	itemBoughtPerAscension637	false
 user	itemBoughtPerAscension8266	false
+user	itemBoughtPerAscension10790	false
+user	itemBoughtPerAscension10794	false
+user	itemBoughtPerAscension10795	false
 user	itemBoughtPerCharacter6423	false
 user	itemBoughtPerCharacter6428	false
 user	itemBoughtPerCharacter6429	false
@@ -807,6 +815,7 @@ user	lastIslandUnlock	-1
 user	lastKeyotronUse	-1
 user	lastKingLiberation	-1
 user	lastLightsOutTurn	-1
+user	lastMacroError
 user	lastMushroomPlot	-1
 user	lastMessageId
 user	lastMiningReset	-1
@@ -861,7 +870,7 @@ user	lastTempleButtonsUnlock	-1
 user	lastTempleUnlock	-1
 user	lastTr4pz0rQuest	-1
 user	lastVioletFogMap	0
-user	lastVoteMonsterTurn	
+user	lastVoteMonsterTurn	0
 user	lastWartDinseyDefeated	-1
 user	lastWuTangDefeated	-1
 user	lastYearbookCameraAscension	-1
@@ -1407,6 +1416,11 @@ user	warProgress	unstarted
 user	warehouseProgress	0
 user	waxMonster
 user	welcomeBackAdv	0
+user	wildfireBarrelCaulked	false
+user	wildfireDusted	false
+user	wildfireFracked	false
+user	wildfirePumpGreased	false
+user	wildfireSprinkled	false
 user	workteaClue
 user	writingDesksDefeated	0
 user	xoSkeleltonXProgress	8
@@ -1600,6 +1614,8 @@ user	_feelNostalgicUsed	0
 user	_feelPeacefulUsed	0
 user	_fingertrapArrows	0
 user	_firedJokestersGun	false
+user	_fireExtinguisherCharge	100
+user	_fireExtinguisherRefilled	false
 user	_fireStartingKitUsed	false
 user	_fireworksShop	false
 user	_fireworksShopHatBought	false
@@ -2051,6 +2067,7 @@ user	_warbearBreakfastMachineUsed	false
 user	_warbearGyrocopterUsed	false
 user	_warbearSodaMachineUsed	false
 user	_whiteRiceDrops	0
+user	_wildfireBarrelHarvested	false
 user	_witchessBuff	false
 user	_witchessFights	0
 user	_workshedItemUsed	false
@@ -2058,7 +2075,7 @@ user	_xoHugsUsed	0
 user	_yellowPixelDropsCrown	0
 user	_zapCount	0
 user	_zombieClover	false
-user 	_preventScurvy	false
+user	_preventScurvy	false
 user	choiceAdventure2	2
 user	choiceAdventure3	3
 user	choiceAdventure4	3
@@ -2203,6 +2220,7 @@ user	choiceAdventure222	1
 user	choiceAdventure223	0
 user	choiceAdventure224	2
 user	choiceAdventure225	0
+user	choiceAdventure230	0
 user	choiceAdventure272	2
 user	choiceAdventure273	3
 user	choiceAdventure276	0
@@ -2214,6 +2232,7 @@ user	choiceAdventure281	0
 user	choiceAdventure282	0
 user	choiceAdventure283	0
 user	choiceAdventure284	0
+user	choiceAdventure285	0
 user	choiceAdventure286	0
 user	choiceAdventure287	0
 user	choiceAdventure288	0
@@ -2284,6 +2303,8 @@ user	choiceAdventure363	0
 user	choiceAdventure364	2
 user	choiceAdventure365	2
 user	choiceAdventure366	0
+user	choiceAdventure367	0
+user	choiceAdventure372	0
 user	choiceAdventure376	1
 user	choiceAdventure387	1
 user	choiceAdventure388	1
@@ -2315,6 +2336,7 @@ user	choiceAdventure433	1
 user	choiceAdventure435	1
 user	choiceAdventure438	1
 user	choiceAdventure439	1
+user	choiceAdventure442	0
 user	choiceAdventure444	1
 user	choiceAdventure445	1
 user	choiceAdventure446	1
@@ -2322,6 +2344,11 @@ user	choiceAdventure447	1
 user	choiceAdventure448	1
 user	choiceAdventure449	1
 user	choiceAdventure451	5
+user	choiceAdventure452	0
+user	choiceAdventure453	0
+user	choiceAdventure454	0
+user	choiceAdventure455	0
+user	choiceAdventure456	0
 user	choiceAdventure457	2
 user	choiceAdventure458	1
 user	choiceAdventure460	0
@@ -2366,6 +2393,7 @@ user	choiceAdventure513	1
 user	choiceAdventure514	1
 user	choiceAdventure515	1
 user	choiceAdventure517	1
+user	choiceAdventure518	0
 user	choiceAdventure519	0
 user	choiceAdventure521	1
 user	choiceAdventure522	2
@@ -2431,6 +2459,7 @@ user	choiceAdventure603	0
 user	choiceAdventure604	1
 user	choiceAdventure616	1
 user	choiceAdventure634	1
+user	choiceAdventure640	0
 user	choiceAdventure654	1
 user	choiceAdventure655	1
 user	choiceAdventure656	1
@@ -2456,11 +2485,18 @@ user	choiceAdventure686	1
 user	choiceAdventure687	1
 user	choiceAdventure688	1
 user	choiceAdventure689	1
+user	choiceAdventure690	0
+user	choiceAdventure691	0
+user	choiceAdventure692	0
+user	choiceAdventure693	0
 user	choiceAdventure694	1
 user	choiceAdventure695	1
 user	choiceAdventure696	0
 user	choiceAdventure697	0
 user	choiceAdventure698	0
+user	choiceAdventure700	0
+user	choiceAdventure701	0
+user	choiceAdventure705	0
 user	choiceAdventure706	1
 user	choiceAdventure707	1
 user	choiceAdventure708	1
@@ -2495,24 +2531,61 @@ user	choiceAdventure788	0
 user	choiceAdventure789	0
 user	choiceAdventure791	0
 user	choiceAdventure793	0
+user	choiceAdventure794	0
+user	choiceAdventure795	0
+user	choiceAdventure796	0
+user	choiceAdventure797	0
 user	choiceAdventure805	1
 user	choiceAdventure808	1
 user	choiceAdventure809	1
 user	choiceAdventure813	1
 user	choiceAdventure815	1
+user	choiceAdventure830	0
+user	choiceAdventure832	0
+user	choiceAdventure833	0
+user	choiceAdventure834	0
+user	choiceAdventure835	0
+user	choiceAdventure837	0
+user	choiceAdventure838	0
+user	choiceAdventure839	0
+user	choiceAdventure840	0
+user	choiceAdventure841	0
+user	choiceAdventure842	0
 user	choiceAdventure851	1
 user	choiceAdventure852	1
 user	choiceAdventure853	1
 user	choiceAdventure854	1
+user	choiceAdventure855	0
+user	choiceAdventure856	0
+user	choiceAdventure857	0
+user	choiceAdventure858	0
+user	choiceAdventure866	0
 user	choiceAdventure873	1
+user	choiceAdventure875	0
+user	choiceAdventure876	0
+user	choiceAdventure877	0
+user	choiceAdventure878	0
+user	choiceAdventure879	0
+user	choiceAdventure880	0
 user	choiceAdventure881	1
 user	choiceAdventure882	0
 user	choiceAdventure888	0
 user	choiceAdventure889	0
+user	choiceAdventure918	0
+user	choiceAdventure919	0
+user	choiceAdventure920	0
 user	choiceAdventure921	1
+user	choiceAdventure923	0
+user	choiceAdventure924	0
+user	choiceAdventure925	0
+user	choiceAdventure926	0
+user	choiceAdventure927	0
+user	choiceAdventure928	0
+user	choiceAdventure929	0
 user	choiceAdventure930	1
 user	choiceAdventure931	0
 user	choiceAdventure932	0
+user	choiceAdventure940	0
 user	choiceAdventure941	1
 user	choiceAdventure942	1
 user	choiceAdventure943	1
@@ -2520,6 +2593,7 @@ user	choiceAdventure944	1
 user	choiceAdventure945	1
 user	choiceAdventure946	1
 user	choiceAdventure950	0
+user	choiceAdventure955	0
 user	choiceAdventure957	1
 user	choiceAdventure958	1
 user	choiceAdventure959	1
@@ -2544,6 +2618,7 @@ user	choiceAdventure983	0
 user	choiceAdventure988	0
 user	choiceAdventure989	0
 user	choiceAdventure993	0
+user	choiceAdventure998	0
 user	choiceAdventure1000	1
 user	choiceAdventure1003	4
 user	choiceAdventure1005	0
@@ -2555,12 +2630,16 @@ user	choiceAdventure1010	0
 user	choiceAdventure1011	0
 user	choiceAdventure1012	0
 user	choiceAdventure1013	1
+user	choiceAdventure1015	0
 user	choiceAdventure1016	1
 user	choiceAdventure1017	1
+user	choiceAdventure1018	0
+user	choiceAdventure1019	0
 user	choiceAdventure1020	1
 user	choiceAdventure1021	1
 user	choiceAdventure1022	1
 user	choiceAdventure1023	0
+user	choiceAdventure1026	0
 user	choiceAdventure1027	0
 user	choiceAdventure1028	0
 user	choiceAdventure1029	0
@@ -2570,8 +2649,10 @@ user	choiceAdventure1032	0
 user	choiceAdventure1033	0
 user	choiceAdventure1034	0
 user	choiceAdventure1035	1
+user	choiceAdventure1036	0
 user	choiceAdventure1037	0
 user	choiceAdventure1038	0
+user	choiceAdventure1039	0
 user	choiceAdventure1040	0
 user	choiceAdventure1041	0
 user	choiceAdventure1042	0
@@ -2589,6 +2670,7 @@ user	choiceAdventure1057	0
 user	choiceAdventure1059	0
 user	choiceAdventure1060	0
 user	choiceAdventure1061	0
+user	choiceAdventure1062	0
 user	choiceAdventure1065	0
 user	choiceAdventure1067	0
 user	choiceAdventure1068	0
@@ -2597,11 +2679,13 @@ user	choiceAdventure1070	0
 user	choiceAdventure1071	0
 user	choiceAdventure1073	1
 user	choiceAdventure1077	1
+user	choiceAdventure1080	0
 user	choiceAdventure1081	4
 user	choiceAdventure1082	1
 user	choiceAdventure1083	1
 user	choiceAdventure1084	0
 user	choiceAdventure1085	1
+user	choiceAdventure1091	0
 user	choiceAdventure1094	0
 user	choiceAdventure1095	0
 user	choiceAdventure1096	0
@@ -2615,6 +2699,7 @@ user	choiceAdventure1114	0
 user	choiceAdventure1115	0
 user	choiceAdventure1116	0
 user	choiceAdventure1118	0
+user	choiceAdventure1119	0
 user	choiceAdventure1120	0
 user	choiceAdventure1121	0
 user	choiceAdventure1122	0
@@ -2681,6 +2766,7 @@ user	choiceAdventure1282	0
 user	choiceAdventure1283	0
 user	choiceAdventure1284	0
 user	choiceAdventure1285	0
+user	choiceAdventure1286	0
 user	choiceAdventure1287	0
 user	choiceAdventure1288	0
 user	choiceAdventure1289	0
@@ -2723,6 +2809,7 @@ user	choiceAdventure1333	0
 user	choiceAdventure1335	0
 user	choiceAdventure1340	0
 user	choiceAdventure1341	0
+user	choiceAdventure1345	0
 user	choiceAdventure1389	25
 user	choiceAdventure1392	0
 user	choiceAdventure1399	2

@@ -313,16 +313,16 @@ public class Type
 			return DataTypes.makeThrallValue( id, returnDefault );
 		case DataTypes.TYPE_SERVANT:
 			return DataTypes.makeServantValue( id, returnDefault );
+		case DataTypes.TYPE_LOCATION:
+			return DataTypes.parseLocationValue( id, returnDefault );
+		case DataTypes.TYPE_SLOT:
+			return DataTypes.makeSlotValue( id, returnDefault );
 
 			// The following don't have an integer -> object mapping
-		case DataTypes.TYPE_LOCATION:
-			return DataTypes.LOCATION_INIT;
 		case DataTypes.TYPE_CLASS:
 			return DataTypes.CLASS_INIT;
 		case DataTypes.TYPE_STAT:
 			return DataTypes.STAT_INIT;
-		case DataTypes.TYPE_SLOT:
-			return DataTypes.SLOT_INIT;
 		case DataTypes.TYPE_ELEMENT:
 			return DataTypes.ELEMENT_INIT;
 		case DataTypes.TYPE_COINMASTER:
@@ -330,7 +330,10 @@ public class Type
 		case DataTypes.TYPE_PHYLUM:
 			return DataTypes.PHYLUM_INIT;
 		case DataTypes.TYPE_BOUNTY:
-			return DataTypes.SERVANT_INIT;
+			return DataTypes.BOUNTY_INIT;
+		case DataTypes.TYPE_VYKEA:
+			return DataTypes.VYKEA_INIT;
+
 		}
 		return null;
 	}

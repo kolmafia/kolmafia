@@ -251,7 +251,7 @@ expired bottle of peppermint schnapps	3	1	awesome	7-10	20-40	20-40	20-40	30 Crim
 Extra-slimy Slimosa	2	4	awesome	6-7	0	0	20-30	10 In the Slimelight (+50 Stench Dam)
 extra-spicy bloody mary	3	3	good	5-10	5-11	5-11	5-11
 extremely slippery nipple	1	1	awesome	4-6	0	0	0	40 Slippery Tongue (+20 Sleaze Dam, +20 Sleaze Spell Dam)
-Eye and a Twist	1	1	EPIC	5-6	0	0	0	30 Twist and an Eye (+50 Maximum MP)
+Eye and a Twist	1	1	EPIC	5-6	0	0	0	30 Twist and an Eye (+50 Maximum MP), MARTINI
 Falcon&trade; Maltese Liquor	1	1	awesome	3-4	0	0	0	50 Too Noir For Snoir (+50 ML)
 Fantasma en la M&aacute;quina	3	1	good	8-10	0	0	13	13 Sangre Brillante (+3 Moxie exp, +5-6 MP regen)
 FantasyRealm mead	1	1	EPIC	6-8	10-20	10-20	10-20

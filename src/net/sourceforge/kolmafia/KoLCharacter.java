@@ -355,6 +355,9 @@ public abstract class KoLCharacter
 	// Robots only
 	private static int youRobotEnergy, youRobotScraps;
 
+	// Wildfire only
+	private static int wildfireWater;
+
 	private static int[] adjustedStats = new int[ 3 ];
 	private static long[] totalSubpoints = new long[ 3 ];
 	private static final long[] triggerSubpoints = new long[ 3 ];
@@ -501,6 +504,7 @@ public abstract class KoLCharacter
 		KoLCharacter.thunder = 0;
 		KoLCharacter.rain = 0;
 		KoLCharacter.lightning = 0;
+		KoLCharacter.absorbs = 0;
 
 		KoLCharacter.mask = null;
 
@@ -510,6 +514,7 @@ public abstract class KoLCharacter
 		KoLCharacter.resetTriggers();
 
 		KoLCharacter.currentModifiers.reset();
+		KoLCharacter.currentModifiers.resetModifiers();
 
 		KoLConstants.inventory.clear();
 		KoLConstants.closet.clear();
@@ -2001,9 +2006,9 @@ public abstract class KoLCharacter
 	}
 
 	/**
-	 * Accessor method to retrieve the character's current energy for the "You, Robot" path
+	 * Accessor method to retrieve the character's current scraps for the "You, Robot" path
 	 *
-	 * @return The character's energy
+	 * @return The character's scraps
 	 */
 	public static final int getYouRobotScraps()
 	{
@@ -2045,6 +2050,28 @@ public abstract class KoLCharacter
 	public static final int getMaximumPP()
 	{
 		return KoLCharacter.maximumPP;
+	}
+
+	/**
+	 * Accessor method to retrieve the character's current water for the "Wildfire" path
+	 *
+	 * @return The character's water
+	 */
+	public static final int getWildfireWater()
+	{
+		return KoLCharacter.wildfireWater;
+	}
+
+	/**
+	 * Accessor method to set the character's current water for the "Wildfire" path
+	 *
+	 * @param wildfireWater The character's current water
+	 */
+	public static final void setWildfireWater( final int wildfireWater )
+	{
+		KoLCharacter.wildfireWater = wildfireWater;
+
+		KoLCharacter.updateStatus();
 	}
 
 	public static final int calculateMaximumPP()
@@ -3726,6 +3753,9 @@ public abstract class KoLCharacter
 		// We may want to re-run breakfast, for various reasons
 		Preferences.setBoolean( "breakfastCompleted", false );
 
+		// Reset modifiers in case we had modifiers that no longer apply
+		KoLCharacter.currentModifiers.resetModifiers();
+
 		// If leaving a path with a unique class, finish when player picks a new class.
 		// We can't interrupt choice.php with (most) requests.
 		if ( oldPath.isAvatar() )
@@ -4304,6 +4334,10 @@ public abstract class KoLCharacter
 	public static final boolean inQuantum()
 	{
 		return KoLCharacter.ascensionPath == Path.QUANTUM;
+	}
+
+	public static final boolean inFirecore() {
+		return KoLCharacter.ascensionPath == Path.WILDFIRE;
 	}
 
 	public static final boolean isUnarmed()

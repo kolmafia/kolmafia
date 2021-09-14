@@ -123,6 +123,7 @@ public class BanishManager
 		new Banisher( "Spring-Loaded Front Bumper", 30, 1, true, Reset.TURN_ROLLOVER_RESET ),
 		new Banisher( "Throw Latte on Opponent", 30, 1, true, Reset.TURN_ROLLOVER_RESET ),
 		new Banisher( "Ultra Hammer", -1, 1, false, Reset.ROLLOVER_RESET ),
+		new Banisher( "B. L. A. R. T. Spray (wide)", -1, 1, true, Reset.ROLLOVER_RESET ),
 		new Banisher( "baleful howl", -1, 1, true, Reset.ROLLOVER_RESET ),
 		new Banisher( "banishing shout", -1, 3, false, Reset.AVATAR_RESET ),
 		new Banisher( "batter up!", -1, 1, false, Reset.ROLLOVER_RESET ),

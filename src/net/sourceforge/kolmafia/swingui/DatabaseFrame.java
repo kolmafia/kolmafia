@@ -65,12 +65,12 @@ import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
 public class DatabaseFrame
 	extends GenericFrame
 {
-	public static final LockableListModel allItems = LowerCaseEntry.createListModel( ItemDatabase.entrySet() );
-	public static final LockableListModel allEffects = LowerCaseEntry.createListModel( EffectDatabase.entrySet() );
-	public static final LockableListModel allSkills = LowerCaseEntry.createListModel( SkillDatabase.entrySet() );
-	public static final LockableListModel allFamiliars = LowerCaseEntry.createListModel( FamiliarDatabase.entrySet() );
-	public static final LockableListModel allOutfits = LowerCaseEntry.createListModel( EquipmentDatabase.outfitEntrySet() );
-	public static final LockableListModel allMonsters = LowerCaseEntry.createListModel( MonsterDatabase.idEntrySet() );
+	public static final LockableListModel<LowerCaseEntry<Integer, String>> allItems = LowerCaseEntry.createListModel( ItemDatabase.entrySet() );
+	public static final LockableListModel<LowerCaseEntry<Integer, String>> allEffects = LowerCaseEntry.createListModel( EffectDatabase.entrySet() );
+	public static final LockableListModel<LowerCaseEntry<Integer, String>> allSkills = LowerCaseEntry.createListModel( SkillDatabase.entrySet() );
+	public static final LockableListModel<LowerCaseEntry<Integer, String>> allFamiliars = LowerCaseEntry.createListModel( FamiliarDatabase.entrySet() );
+	public static final LockableListModel<LowerCaseEntry<Integer, String>> allOutfits = LowerCaseEntry.createListModel( EquipmentDatabase.outfitEntrySet() );
+	public static final LockableListModel<LowerCaseEntry<Integer, MonsterData>> allMonsters = LowerCaseEntry.createListModel( MonsterDatabase.idEntrySet() );
 
 	public DatabaseFrame()
 	{
@@ -87,9 +87,9 @@ public class DatabaseFrame
 	}
 
 	private static class IntegerEntryKeyComparator
-		implements Comparator<LowerCaseEntry>
+		implements Comparator<LowerCaseEntry<?, ?>>
 	{
-		public int compare( LowerCaseEntry o1, LowerCaseEntry o2 )
+		public int compare( LowerCaseEntry<?, ?> o1, LowerCaseEntry<?, ?> o2 )
 		{
 			Object key1 = o1.getKey();
 			Object key2 = o2.getKey();

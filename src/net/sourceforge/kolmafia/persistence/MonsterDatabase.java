@@ -383,6 +383,18 @@ public class MonsterDatabase
 		MonsterDatabase.addMapping( actuallyEdMap, "Naughty Sorceress", "You the Adventurer" );
 		MonsterDatabase.MONSTER_PATH_MAP.put( Path.ACTUALLY_ED_THE_UNDYING.getName(), actuallyEdMap );
 
+		Map<MonsterData, MonsterData> wildfireMap = new TreeMap<>();
+		MonsterDatabase.addMapping( wildfireMap, "Boss Bat", "Blaze Bat" );
+		MonsterDatabase.addMapping( wildfireMap, "Knob Goblin King", "fired-up Knob Goblin King" );
+		MonsterDatabase.addMapping( wildfireMap, "Bonerdagon", "Burnerdagon" );
+		MonsterDatabase.addMapping( wildfireMap, "Groar", "Groar, Except Hot" );
+		MonsterDatabase.addMapping( wildfireMap, "Dr. Awkward", "Dr. Awkward, who is on fire" );
+		MonsterDatabase.addMapping( wildfireMap, "Lord Spookyraven", "Lord Sootyraven" );
+		MonsterDatabase.addMapping( wildfireMap, "Protector Spectre", "Protector Spectre (Wildfire)" );
+		MonsterDatabase.addMapping( wildfireMap, "The Big Wisniewski", "The Big Ignatowicz" );
+		MonsterDatabase.addMapping( wildfireMap, "The Man", "The Man on Fire" );
+		MonsterDatabase.addMapping( wildfireMap, "Naughty Sorceress", "The Naughty Scorcheress" );
+		MonsterDatabase.MONSTER_PATH_MAP.put( Path.WILDFIRE.getName(), wildfireMap );
 	}
 
 	public static Map<MonsterData, MonsterData> getMonsterPathMap( final String path )
@@ -902,7 +914,7 @@ public class MonsterDatabase
 		return MonsterDatabase.MONSTER_IDS.keySet();
 	}
 
-	public static final Set idEntrySet()
+	public static final Set<Entry<Integer, MonsterData>> idEntrySet()
 	{
 		return MonsterDatabase.MONSTER_IDS.entrySet();
 	}

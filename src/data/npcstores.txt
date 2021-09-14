@@ -455,3 +455,9 @@ Clan Underground Fireworks Shop	fwshop	sombrero-mounted sparkler	500	ROW1248
 Clan Underground Fireworks Shop	fwshop	Catherine Wheel	1000	ROW1255
 Clan Underground Fireworks Shop	fwshop	oversized sparkler	1000	ROW1257
 Clan Underground Fireworks Shop	fwshop	rocket boots	1000	ROW1256
+
+FDKOL Auxiliary	wildfire	B. L. A. R. T.	10000	ROW1258
+FDKOL Auxiliary	wildfire	rusty empty nacho cheese can	1000	ROW1259
+FDKOL Auxiliary	wildfire	pump grease	5000	ROW1262
+FDKOL Auxiliary	wildfire	rainproof barrel caulk	5000	ROW1261
+FDKOL Auxiliary	wildfire	literal bucket hat	5000	ROW1260

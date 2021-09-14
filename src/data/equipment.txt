@@ -210,6 +210,7 @@ Lens of Hatred	200	Mox: 125
 Lens of Violence	200	Mys: 125
 lihc face	90	Mox: 30
 linoleum helmet turtle	100	Mox: 35
+literal bucket hat	100	Mus: 35
 longhaired hippy wig	200	Mox: 85
 lynyrdskin cap	170	Mox: 70
 MAHI fez	200	Mox: 85
@@ -1241,6 +1242,7 @@ huge spoon	90	Mys: 30	1-handed utensil
 ice nine	100	Mox: 0	1-handed pistol
 ice sickle	100	Mus: 0	1-handed knife
 icy-hot katana	90	Mus: 30	2-handed sword
+industrial fire extinguisher	100	Mus: 0	1-handed extinguisher
 iFlail	100	Mox: 35	1-handed flail
 immense cyborg hand	150	Mus: 60	1-handed club
 infernal fife	55	Mox: 12	2-handed flute
@@ -2062,6 +2064,7 @@ Royal scepter	100	none
 rubber baby doll	100	none
 rubber ribcage	120	Mus: 45	shield
 rusty compass	60	Mys: 15
+rusty empty nacho cheese can	0	none
 rusty kettle bell	50	none
 rusty old lantern	200	Mys: 85
 rxr shield	100	Mus: 35	shield
@@ -2208,6 +2211,7 @@ Wal-Mart snowglobe	200	Mus: 50
 Walford's bucket	10	none
 Wand of Oscus	200	Mys: 200
 washboard shield	160	Mus: 150	shield
+water candle	0	none
 Whatsian Ionic Pliers	110	Mys: 40
 white balloon	10	none
 white satin shield	80	Mus: 25	shield
@@ -3337,6 +3341,7 @@ Zombo's skull ring	200	Mys: 200
 anniversary pewter cape	10	none
 antique nutcracker cape	150	Mys: 30
 auxiliary backbone	0	Mus: 75
+B. L. A. R. T.	0	none
 back shell	0	none
 bakelite backpack	120	Mus: 40
 balsam barrel	200	Mus: 50

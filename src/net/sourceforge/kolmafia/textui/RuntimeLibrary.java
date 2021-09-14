@@ -1188,7 +1188,7 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_robot_scraps", DataTypes.INT_TYPE, params ) );
-
+		
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_primestat", DataTypes.STAT_TYPE, params ) );
 
@@ -1278,6 +1278,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "spleen_limit", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_wildfire_water", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "can_eat", DataTypes.BOOLEAN_TYPE, params ) );
@@ -1530,6 +1533,10 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "outfit_tattoo", DataTypes.STRING_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "outfit_treats", new
+				AggregateType( DataTypes.FLOAT_TYPE, DataTypes.ITEM_TYPE ), params ) );
+
 		// Familiar functions.
 
 		params = new Type[] {};
@@ -1649,6 +1656,9 @@ public abstract class RuntimeLibrary
 		
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "hippy_stone_broken", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "get_counter", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "get_counters", DataTypes.STRING_TYPE, params ) );
@@ -2225,6 +2235,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "string_modifier", DataTypes.STRING_TYPE, params ) );
 
+		params = new Type[] { DataTypes.EFFECT_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "string_modifier", DataTypes.STRING_TYPE, params ) );
+
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "effect_modifier", DataTypes.EFFECT_TYPE, params ) );
 
@@ -2236,6 +2249,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "class_modifier", DataTypes.CLASS_TYPE, params ) );
+
+		params = new Type[] { DataTypes.EFFECT_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "monster_modifier", DataTypes.MONSTER_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "skill_modifier", DataTypes.SKILL_TYPE, params ) );
@@ -2971,7 +2987,7 @@ public abstract class RuntimeLibrary
 			if ( ob instanceof TagNode )
 			{
 				TagNode tag = (TagNode) ob;
-				result[ i ] = serializer.getXmlAsString( tag );
+				result[ i ] = serializer.getAsString( tag );
 			}
 
 			value.aset( new Value( i ), new Value( result[ i ].toString() ) );
@@ -5747,9 +5763,11 @@ public abstract class RuntimeLibrary
 		return new Value( KoLCharacter.getMaximumPP() );
 	}
 
-	public static Value my_robot_energy( ScriptRuntime controller ) { return new Value( KoLCharacter.getYouRobotEnergy()); }
+	public static Value my_robot_energy( ScriptRuntime controller ) { return new Value( KoLCharacter.getYouRobotEnergy() ); }
 
-	public static Value my_robot_scraps( ScriptRuntime controller ) { return new Value( KoLCharacter.getYouRobotScraps()); }
+	public static Value my_robot_scraps( ScriptRuntime controller ) { return new Value( KoLCharacter.getYouRobotScraps() ); }
+
+	public static Value my_wildfire_water( ScriptRuntime controller ) { return new Value( KoLCharacter.getWildfireWater() ); }
 
 	public static Value my_primestat( ScriptRuntime controller )
 	{
@@ -6779,7 +6797,28 @@ public abstract class RuntimeLibrary
 
 		return new Value( so.getImage() );
 	}
-	
+
+	public static Value outfit_treats( ScriptRuntime controller, final Value outfit )
+	{
+		SpecialOutfit so = EquipmentManager.getMatchingOutfit( outfit.toString() );
+		AggregateType type = new AggregateType( DataTypes.FLOAT_TYPE, DataTypes.ITEM_TYPE );
+		MapValue value = new MapValue( type );
+
+		if ( so == null )
+		{
+			return value;
+		}
+
+		ArrayList<AdventureResult> treats = so.getTreats();
+
+		for ( AdventureResult treat : treats )
+		{
+			value.aset( DataTypes.makeItemValue( treat ), DataTypes.makeFloatValue( 1.0 ) );
+		}
+
+		return value;
+	}
+
 	public static Value get_outfits( ScriptRuntime controller )
 	{
 		return RuntimeLibrary.outfitListToValue( controller, EquipmentManager.getOutfits(), false );
@@ -7042,6 +7081,11 @@ public abstract class RuntimeLibrary
 	public static Value hippy_stone_broken( ScriptRuntime controller )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.getHippyStoneBroken() );
+	}
+
+	public static Value get_counter( ScriptRuntime controller, final Value label )
+	{
+		return new Value( TurnCounter.getCounter( label.toString() ) );
 	}
 
 	public static Value get_counters( ScriptRuntime controller, final Value label, final Value min, final Value max )
@@ -9539,6 +9583,14 @@ public abstract class RuntimeLibrary
 		String name = RuntimeLibrary.getModifierName( arg );
 		String mod = modifier.toString();
 		return new Value( DataTypes.parseStatValue( Modifiers.getStringModifier( type, name, mod ), true ) );
+	}
+
+	public static Value monster_modifier( ScriptRuntime controller, final Value arg, final Value modifier )
+	{
+		String type = RuntimeLibrary.getModifierType( arg );
+		String name = RuntimeLibrary.getModifierName( arg );
+		String mod = modifier.toString();
+		return new Value( DataTypes.parseMonsterValue( Modifiers.getStringModifier( type, name, mod ), true ) );
 	}
 
 	public static Value white_citadel_available( ScriptRuntime controller )

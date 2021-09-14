@@ -209,7 +209,7 @@ public class EquipmentDatabase
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
-			if ( data.length == 4 )
+			if ( data.length >= 4 )
 			{
 				outfitId = StringUtilities.parseInt( data[ 0 ] );
 
@@ -232,13 +232,36 @@ public class EquipmentDatabase
 				outfit.setImage( image );
 
 				String[] pieces = data[ 3 ].split( "\\s*,\\s*" );
+
+				if ( data.length >= 5 )
+				{
+					String[] treats = data[ 4 ].split( "\\s*,\\s*" );
+					for ( String treat : treats )
+					{
+						if ( treat.equals( "none" ) )
+						{
+							break;
+						}
+
+						int treatId = ItemDatabase.getItemId( treat );
+						if ( treatId != -1 )
+						{
+							outfit.addTreat( ItemPool.get( treatId ) );
+						}
+						else
+						{
+							RequestLogger.printLine( "Outfit \"" + name + "\" has an invalid treat: \"" + treat + "\"" );
+						}
+					}
+				}
+
 				Integer id = IntegerPool.get( outfitId );
 
 				EquipmentDatabase.outfitById.put( id, name );
 
-				for ( int i = 0; i < pieces.length; ++i )
+				for ( String piece : pieces )
 				{
-					int pieceId = ItemDatabase.getItemId( pieces[ i ] );
+					int pieceId = ItemDatabase.getItemId( piece );
 					if ( pieceId != -1 )
 					{
 						EquipmentDatabase.outfitPieces.put( IntegerPool.get( pieceId ), id );
@@ -1079,7 +1102,7 @@ public class EquipmentDatabase
 		return pulver;
 	}
 
-	public static final Set outfitEntrySet()
+	public static final Set<Entry<Integer, String>> outfitEntrySet()
 	{
 		return EquipmentDatabase.outfitById.entrySet();
 	}

@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -675,7 +676,6 @@ public class NPCStoreDatabase
 		}
 		else if ( storeId.equals( "vault3" ) )
 		{
-
 			if ( !KoLCharacter.inNuclearAutumn() || Preferences.getInteger( "falloutShelterLevel" ) < 7 )
 			{
 				return false;
@@ -683,6 +683,23 @@ public class NPCStoreDatabase
 			if ( itemId == ItemPool.TRICK_TOT_LIBERTY || itemId == ItemPool.TRICK_TOT_UNICORN )
 			{
 				return KoLCharacter.findFamiliar( FamiliarPool.TRICK_TOT ) != null;
+			}
+		}
+		else if ( storeId.equals( "wildfire" ) )
+		{
+			if ( !KoLCharacter.inFirecore() )
+			{
+				return false;
+			}
+
+			switch ( itemId )
+			{
+			case ItemPool.BLART:
+				return !Preferences.getBoolean( "itemBoughtPerAscension10790" );
+			case ItemPool.RAINPROOF_BARREL_CAULK:
+				return !Preferences.getBoolean( "itemBoughtPerAscension10794" );
+			case ItemPool.PUMP_GREASE:
+				return !Preferences.getBoolean( "itemBoughtPerAscension10795" );
 			}
 		}
 
@@ -697,7 +714,8 @@ public class NPCStoreDatabase
 		List<NPCPurchaseRequest> items = NPCStoreDatabase.ROW_ITEMS.get( row );
 		if ( items == null )
 		{
-			return -1;
+			// Worth a shot...
+			return ConcoctionPool.rowToId( row );
 		}
 
 		for ( NPCPurchaseRequest item : items )

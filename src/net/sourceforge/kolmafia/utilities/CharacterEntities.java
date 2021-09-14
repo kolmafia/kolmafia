@@ -1145,18 +1145,22 @@ public class CharacterEntities
 		for ( int i = 0; i < CharacterEntities.UNICODE_TABLE.length; ++i )
 		{
 			String entity = CharacterEntities.UNICODE_TABLE[ i ][ 0 ];
-			Character unicode = new Character( CharacterEntities.UNICODE_TABLE[ i ][ 1 ].charAt( 0 ) );
+			Character unicode = CharacterEntities.UNICODE_TABLE[i][1].charAt(0);
 
 			CharacterEntities.entities.put( unicode, entity );
 			CharacterEntities.unicodes.put( entity, unicode );
 		}
 	}
 
-	public static final String escape( final String unicodeVersion )
+	public static String escape(final String unicodeVersion )
 	{
+		//Trap null and return empty string
+		if (unicodeVersion == null) {
+			return "";
+		}
 		// Iterate over all the characters in the string looking for unicode
 
-		StringBuffer entityVersion = null;
+		StringBuilder entityVersion = null;
 
 		char ch;
 		int start = 0;
@@ -1171,7 +1175,7 @@ public class CharacterEntities
 				continue;
 			}
 
-			String entity = CharacterEntities.entities.get( new Character( ch ) );
+			String entity = CharacterEntities.entities.get(ch);
 
 			// If we don't have a translation, use Unicode escape
 			if ( entity == null )
@@ -1186,7 +1190,7 @@ public class CharacterEntities
 			// If we don't have a string buffer, make one
 			if ( entityVersion == null )
 			{
-				entityVersion = new StringBuffer();
+				entityVersion = new StringBuilder();
 			}
 
 			// Append prefix
@@ -1217,8 +1221,12 @@ public class CharacterEntities
 		return entityVersion.toString();
 	}
 
-	public static final String unescape( final String entityVersion )
+	public static String unescape(final String entityVersion )
 	{
+		//Trap null and return empty String
+		if (entityVersion == null) {
+			return "";
+		}
 		int index = entityVersion.indexOf( "&" );
 
 		// If there are no character entities, return original string
@@ -1228,7 +1236,7 @@ public class CharacterEntities
 		}
 
 		// Otherwise, make a StringBuffer to create unicode version of input
-		StringBuffer unicodeVersion = null;
+		StringBuilder unicodeVersion = null;
 		int start = 0;
 
 		// Replace all entities
@@ -1249,7 +1257,7 @@ public class CharacterEntities
 			Character unicode;
 			if ( entity.charAt( 1 ) == '#' )
 			{
-				unicode = new Character( (char) StringUtilities.parseInt( entity.substring( 2, entity.length() - 1 ) ) );
+				unicode = (char) StringUtilities.parseInt(entity.substring(2, entity.length() - 1));
 			}
 			else
 			{
@@ -1266,7 +1274,7 @@ public class CharacterEntities
 			// If we don't have a string buffer, make one
 			if ( unicodeVersion == null )
 			{
-				unicodeVersion = new StringBuffer();
+				unicodeVersion = new StringBuilder();
 			}
 
 			// Copy in prefix

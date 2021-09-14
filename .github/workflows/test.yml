@@ -1,0 +1,48 @@
+name: Test
+
+on:
+  push:
+  pull_request_target:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    name: Run Tests
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup Java ${{ matrix.java-version }}
+        uses: actions/setup-java@v2
+        with:
+          distribution: "temurin"
+          java-version: "16"
+
+      - name: Gradle Wrapper Validation
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Prepare Workspace
+        run: mkdir -p ./build
+
+      - name: Run Tests
+        run: ./gradlew --no-daemon test
+
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v2
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          report_paths: "**/build/test-results/test/TEST-*.xml"
+
+      # Requires 'pull_request_target' instead of `pull_request'
+      # Disabled, creates a comment that is too large to post
+      #- name: Coverage Report as Comment (Clover)
+      #  uses: lucassabreu/comment-coverage-clover@main
+      #  if: github.event_name == 'pull_request_target'
+      #  with:
+      #    github-token: ${{ secrets.GITHUB_TOKEN }}
+      #    file: ./build/clover-root/clover.xml

@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -388,6 +389,7 @@ public class FightRequest
 	public static boolean fightingCopy = false;
 
 	private static String nextAction = null;
+	private static String macroErrorMessage = null;
 
 	private static AdventureResult desiredScroll = null;
 
@@ -1515,8 +1517,9 @@ public class FightRequest
 			return;
 		}
 
-		if ( skillName.equals( "Transcendent Olfaction" ) )
+		switch ( skillName )
 		{
+		case "Transcendent Olfaction":
 			// You can't sniff if you are already on the trail.
 
 			// You can't sniff in Bad Moon, even though the skill
@@ -1524,14 +1527,13 @@ public class FightRequest
 			// your skills.
 
 			if ( ( KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled() ) ||
-			     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
+					KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Consume Burrowgrub" ) )
-		{
+			break;
+		case "Consume Burrowgrub":
 			// You can only consume 3 burrowgrubs per day
 
 			if ( Preferences.getInteger( "burrowgrubSummonsRemaining" ) <= 0 )
@@ -1539,138 +1541,125 @@ public class FightRequest
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Entangling Noodles" ) || skillName.equals( "Shadow Noodles" ) )
-		{
+			break;
+		case "Entangling Noodles":
+		case "Shadow Noodles":
 			// You can only use this skill once per combat
 			if ( FightRequest.castNoodles )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Club Foot" ) )
-		{
+			break;
+		case "Club Foot":
 			// You can only use this skill once per combat
 			if ( FightRequest.castClubFoot )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Shell Up" ) )
-		{
+			break;
+		case "Shell Up":
 			// You can only use this skill once per combat
 			if ( FightRequest.castShellUp )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Accordion Bash" ) )
-		{
+			break;
+		case "Accordion Bash":
 			// You can only use this skill once per combat
 			if ( FightRequest.castAccordionBash )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Unleash Terra Cotta Army" ) )
-		{
+			break;
+		case "Unleash Terra Cotta Army":
 			// You can only use this skill once per combat
 			if ( FightRequest.castTerracottaArmy )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Paraffin Prism" ) )
-		{
+			break;
+		case "Paraffin Prism":
 			// You can only use this skill once per combat
 			if ( FightRequest.castParaffinPrism )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Squeeze Stress Ball" ) )
-		{
+			break;
+		case "Squeeze Stress Ball":
 			// You can only use this skill once per combat
 			if ( FightRequest.squeezedStressBall )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Fire a badly romantic arrow" ) )
-		{
+			break;
+		case "Fire a badly romantic arrow":
 			// You can only shoot 1 badly romantic arrow per day
 
 			if ( Preferences.getInteger( "_badlyRomanticArrows" ) >= 1 ||
-			     KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
+					KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Wink at" ) )
-		{
+			break;
+		case "Wink at":
 			// You can only shoot 1 badly romantic arrow per day
 
 			if ( Preferences.getInteger( "_badlyRomanticArrows" ) >= 1 ||
-			     KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.REANIMATOR )
+					KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.REANIMATOR )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Fire a boxing-glove arrow" ) )
-		{
+			break;
+		case "Fire a boxing-glove arrow":
 			// You can only shoot 5 boxing-glove arrows per day
 
 			if ( Preferences.getInteger( "_boxingGloveArrows" ) >= 5 ||
-			     KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
+					KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Fire a poison arrow" ) )
-		{
+			break;
+		case "Fire a poison arrow":
 			// You can only shoot 10 poison arrows per day
 
 			if ( Preferences.getInteger( "_poisonArrows" ) >= 1 ||
-			     KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
+					KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Fire a fingertrap arrow" ) )
-		{
+			break;
+		case "Fire a fingertrap arrow":
 			// You can only shoot 10 fingertrap arrows per day
 
 			if ( Preferences.getInteger( "_fingertrapArrows" ) >= 10 ||
-			     KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
+					KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Talk About Politics" ) )
-		{
+			break;
+		case "Talk About Politics":
 			// You can only use 5 Pantsgiving banishes per day
 
 			if ( Preferences.getInteger( "_pantsgivingBanish" ) >= 5 ||
-			    !KoLCharacter.hasEquipped( ItemPool.get( ItemPool.PANTSGIVING, 1 ) ) )
+					!KoLCharacter.hasEquipped( ItemPool.get( ItemPool.PANTSGIVING, 1 ) ) )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Release the Boots" ) )
-		{
+			break;
+		case "Release the Boots":
 			// You can only release the boots 7 times per day
 
 			if ( !FightRequest.canStomp )
@@ -1678,9 +1667,8 @@ public class FightRequest
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Fix Jukebox" ) )
-		{
+			break;
+		case "Fix Jukebox":
 			// You can only fix 3 Jukeboxes per day
 
 			if ( Preferences.getInteger( "_peteJukeboxFixed" ) >= 3 )
@@ -1688,9 +1676,8 @@ public class FightRequest
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Peel Out" ) )
-		{
+			break;
+		case "Peel Out":
 			// You can only Peel Out 10 times per day, 30 with Racing Slicks
 			int max = 10 + ( Preferences.getString( "peteMotorbikeTires" ).equals( "Racing Slicks" ) ? 20 : 0 );
 			if ( Preferences.getInteger( "_petePeeledOut" ) >= max )
@@ -1698,9 +1685,8 @@ public class FightRequest
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Jump Shark" ) )
-		{
+			break;
+		case "Jump Shark":
 			// You can only jump the shark 3 times per day
 
 			if ( Preferences.getInteger( "_peteJumpedShark" ) >= 3 )
@@ -1708,9 +1694,8 @@ public class FightRequest
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Snokebomb" ) )
-		{
+			break;
+		case "Snokebomb":
 			// You can only snokebomb 3 times per day
 
 			if ( Preferences.getInteger( "_snokebombUsed" ) >= 3 )
@@ -1718,49 +1703,43 @@ public class FightRequest
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Shattering Punch" ) )
-		{
+			break;
+		case "Shattering Punch":
 			if ( Preferences.getInteger( "_shatteringPunchUsed" ) >= 3 )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Gingerbread Mob Hit" ) )
-		{
+			break;
+		case "Gingerbread Mob Hit":
 			if ( Preferences.getBoolean( "_gingerbreadMobHitUsed" ) )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Throw Latte on Opponent" ) )
-		{
+			break;
+		case "Throw Latte on Opponent":
 			if ( Preferences.getBoolean( "_latteBanishUsed" ) )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Offer Latte to Opponent" ) )
-		{
+			break;
+		case "Offer Latte to Opponent":
 			if ( Preferences.getBoolean( "_latteCopyUsed" ) )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Gulp Latte" ) )
-		{
+			break;
+		case "Gulp Latte":
 			if ( Preferences.getBoolean( "_latteDrinkUsed" ) )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		if ( skillName.equals( "Walk Away From Explosion" ) )
-		{
+			break;
+		case "Walk Away From Explosion":
 			// You can't walk away from explosions whilst bored of them
 
 			if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.BORED_WITH_EXPLOSIONS ) ) )
@@ -1768,9 +1747,8 @@ public class FightRequest
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Nuclear Breath" ) )
-		{
+			break;
+		case "Nuclear Breath":
 			// You can only use this skill if you have the Taste the Inferno effect
 
 			if ( !KoLConstants.activeEffects.contains( FightRequest.INFERNO ) )
@@ -1778,10 +1756,8 @@ public class FightRequest
 				this.skipRound();
 				return;
 			}
-		}
-
-		else if ( skillName.equals( "Carbohydrate Cudgel" ) )
-		{
+			break;
+		case "Carbohydrate Cudgel":
 			// You can only use this skill if you have dry noodles
 
 			if ( !KoLConstants.inventory.contains( ItemPool.get( ItemPool.DRY_NOODLES, 1 ) ) )
@@ -1789,9 +1765,8 @@ public class FightRequest
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Unload Tommy Gun" ) )
-		{
+			break;
+		case "Unload Tommy Gun":
 			// You can only use this skill if you have ammunition
 
 			if ( !KoLConstants.inventory.contains( ItemPool.get( ItemPool.TOMMY_AMMO, 1 ) ) )
@@ -1799,9 +1774,8 @@ public class FightRequest
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Shovel Hot Coal" ) )
-		{
+			break;
+		case "Shovel Hot Coal":
 			// You can only use this skill if you have hot coal
 
 			if ( !KoLConstants.inventory.contains( ItemPool.get( ItemPool.HOT_COAL, 1 ) ) )
@@ -1809,9 +1783,8 @@ public class FightRequest
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Lash of the Cobra" ) )
-		{
+			break;
+		case "Lash of the Cobra":
 			// You can only use this skill successfully once per Ed combat
 
 			if ( Preferences.getBoolean( "edUsedLash" ) )
@@ -1819,9 +1792,8 @@ public class FightRequest
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Curse of Fortune" ) )
-		{
+			break;
+		case "Curse of Fortune":
 			// You can only use this skill if you have ka coins
 
 			if ( !KoLConstants.inventory.contains( ItemPool.get( ItemPool.KA_COIN, 1 ) ) )
@@ -1829,9 +1801,8 @@ public class FightRequest
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "One-Two Punch" ) )
-		{
+			break;
+		case "One-Two Punch":
 			// You can only use One-Two Punch unarmed
 
 			if ( !KoLCharacter.isUnarmed() )
@@ -1839,9 +1810,10 @@ public class FightRequest
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Pistolwhip" ) )
-		{
+			break;
+		case "Pistolwhip":
+		case "Fan Hammer":
+			// You can only use Fan Hammer with a Holstered Pistol
 			// You can only use Pistolwhip with a Holstered Pistol
 
 			if ( !EquipmentManager.holsteredSixgun() )
@@ -1849,18 +1821,16 @@ public class FightRequest
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Unleash Cowrruption" ) )
-		{
+			break;
+		case "Unleash Cowrruption":
 			// You can only use Unleash Cowrruption with 30 or more Cowrruption
 			if ( FightRequest.COWRRUPTION.getCount( KoLConstants.activeEffects ) < 30 )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Beancannon" ) )
-		{
+			break;
+		case "Beancannon":
 			// You can only use Beancannon with an offhand Can of Beans
 
 			if ( Preferences.getInteger( "_beanCannonUses" ) >= 5 || !EquipmentManager.usingCanOfBeans() )
@@ -1868,19 +1838,8 @@ public class FightRequest
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Fan Hammer" ) )
-		{
-			// You can only use Fan Hammer with a Holstered Pistol
-
-			if ( !EquipmentManager.holsteredSixgun() )
-			{
-				this.skipRound();
-				return;
-			}
-		}
-		else if ( skillName.equals( "Extract Oil" ) )
-		{
+			break;
+		case "Extract Oil":
 			// You can only extract 15 oil a day
 
 			if ( Preferences.getInteger( "_oilExtracted" ) > 14 )
@@ -1888,9 +1847,8 @@ public class FightRequest
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Long Con" ) )
-		{
+			break;
+		case "Long Con":
 			// You can only use Long Con 5 times per day
 
 			if ( Preferences.getInteger( "_longConUsed" ) >= 5 )
@@ -1898,9 +1856,8 @@ public class FightRequest
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Fire the Jokester's Gun" ) )
-		{
+			break;
+		case "Fire the Jokester's Gun":
 			// You can only fire the gun once per day per day
 
 			if ( Preferences.getBoolean( "_firedJokestersGun" ) )
@@ -1908,64 +1865,81 @@ public class FightRequest
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "CHEAT CODE: Replace Enemy" ) )
-		{
+			break;
+		case "CHEAT CODE: Replace Enemy":
 			// Replace Enemy takes 10% of your daily battery power
-			if ( EquipmentManager.powerfulGloveUsableBatteryPower() < 10)
+			if ( EquipmentManager.powerfulGloveUsableBatteryPower() < 10 )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "CHEAT CODE: Shrink Enemy" ) )
-		{
+			break;
+		case "CHEAT CODE: Shrink Enemy":
 			// Shrink Enemy takes 5% of your daily battery power
-			if ( EquipmentManager.powerfulGloveUsableBatteryPower() < 5)
+			if ( EquipmentManager.powerfulGloveUsableBatteryPower() < 5 )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Feel Nostalgic" ) )
-		{
+			break;
+		case "Feel Nostalgic":
 			if ( Preferences.getInteger( "_feelNostalgicUsed" ) >= 3 )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Feel Hatred"  ) )
-		{
+			break;
+		case "Feel Hatred":
 			if ( Preferences.getInteger( "_feelHatredUsed" ) >= 3 )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Feel Pride" ) )
-		{
+			break;
+		case "Feel Pride":
 			if ( Preferences.getInteger( "_feelPrideUsed" ) >= 3 )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Feel Envy" ) )
-		{
+			break;
+		case "Feel Envy":
 			if ( Preferences.getInteger( "_feelEnvyUsed" ) >= 3 )
 			{
 				this.skipRound();
 				return;
 			}
-		}
-		else if ( skillName.equals( "Feel Superior" ) )
-		{
+			break;
+		case "Feel Superior":
 			if ( Preferences.getInteger( "_feelSuperiorUsed" ) >= 3 )
 			{
 				this.skipRound();
 				return;
 			}
+			break;
+		case "Fire Extinguisher: Foam 'em Up":
+		case "Fire Extinguisher: Blast the Area":
+			if ( EquipmentManager.fireExtinguisherAvailableFoam() < 5 )
+			{
+				this.skipRound();
+				return;
+			}
+			break;
+		case "Fire Extinguisher: Foam Yourself":
+		case "Fire Extinguisher: Polar Vortex":
+			if ( EquipmentManager.fireExtinguisherAvailableFoam() < 10 )
+			{
+				this.skipRound();
+				return;
+			}
+			break;
+		case "Fire Extinguisher: Zone Specific":
+			if ( EquipmentManager.fireExtinguisherAvailableFoam() < 20 )
+			{
+				this.skipRound();
+				return;
+			}
+			break;
 		}
 
 		// Skills use MP. Make sure the character has enough.
@@ -2081,6 +2055,16 @@ public class FightRequest
 		       FightRequest.isInvalidLocationAttack( action );
 	}
 
+	public static final boolean containsMacroError( final String str )
+	{
+		return str.contains( "Macro Abort" ) ||
+			str.contains( "Macro abort" ) ||
+			str.contains( "macro abort" ) ||
+			str.contains( "Could not match item(s) for use" ) ||
+			str.contains( "Invalid Macro") ||
+			str.contains( "Invalid macro");
+	}
+
 	public synchronized void runOnce( final String desiredAction )
 	{
 		this.clearDataFields();
@@ -2100,10 +2084,7 @@ public class FightRequest
 			{
 				super.run();
 
-				if ( responseText.contains( "Macro Abort" ) ||
-					responseText.contains( "Macro abort" ) ||
-					responseText.contains( "macro abort" ) ||
-					responseText.contains( "Could not match item(s) for use" ) )
+				if ( containsMacroError( responseText ) )
 				{
 					FightRequest.nextAction = "abort";
 				}
@@ -2118,7 +2099,12 @@ public class FightRequest
 
 		if ( FightRequest.nextAction != null && FightRequest.nextAction.equals( "abort" ) )
 		{
-			KoLmafia.updateDisplay( MafiaState.ABORT, "You're on your own, partner." );
+			String message = "You're on your own, partner.";
+			if ( FightRequest.macroErrorMessage != null )
+			{
+				message += " (" + macroErrorMessage + ")";
+			}
+			KoLmafia.updateDisplay( MafiaState.ABORT, message );
 		}
 	}
 
@@ -7124,6 +7110,13 @@ public class FightRequest
 
 			String str = FightRequest.getContentNodeText( node );
 
+			if ( containsMacroError( str ) )
+			{
+				FightRequest.macroErrorMessage = str;
+				Preferences.setString( "lastMacroError", str );
+				return;
+			}
+
 			// Camera flashes
 			// A monster caught on the film
 			// Back to yearbook club.
@@ -8373,20 +8366,8 @@ public class FightRequest
 
 		FightRequest.logText( text, status );
 
-		String setting = null;
-
 		MonsterData monster = status.monster;
-		for ( int i = 0; i < FightRequest.EVIL_ZONES.length; ++i )
-		{
-			String[] data = FightRequest.EVIL_ZONES[ i ];
-			KoLAdventure adventure = AdventureDatabase.getAdventure( data[ 0 ] );
-			AreaCombatData area = adventure.getAreaSummary();
-			if ( area.hasMonster( monster ) )
-			{
-				setting = data[ 1 ];
-				break;
-			}
-		}
+		String setting = getEvilZoneSetting( monster );
 
 		if ( setting == null )
 		{
@@ -8441,21 +8422,39 @@ public class FightRequest
 		return true;
 	}
 
+	private static String getEvilZoneSetting( final Function<String, Boolean> isLocation )
+	{
+		for ( String[] data : FightRequest.EVIL_ZONES )
+		{
+			if ( isLocation.apply( data[ 0 ] ) )
+			{
+				return data[ 1 ];
+			}
+		}
+
+		return null;
+	}
+
+	private static String getEvilZoneSetting( final String location )
+	{
+		return getEvilZoneSetting( l -> l.equals( location ) );
+	}
+
+	private static String getEvilZoneSetting( final MonsterData monster )
+	{
+		return getEvilZoneSetting( l -> AdventureDatabase.getAdventure( l ).getAreaSummary().hasMonster( monster ) );
+	}
+
+	private static String getEvilZoneSetting()
+	{
+		return getEvilZoneSetting( KoLAdventure.lastLocationName );
+	}
+
 	private static boolean handleEvilometerLovebug( final String text )
 	{
-		String setting = null;
 		if ( text.contains( "Evilometer beeps once" ) )
 		{
-			String loc = KoLAdventure.lastLocationName;
-			for ( int i = 0; i < FightRequest.EVIL_ZONES.length; ++i )
-			{
-				String[] data = FightRequest.EVIL_ZONES[ i ];
-				if ( loc.equals( data[ 0 ] ) )
-				{
-					setting = data[ 1 ];
-					break;
-				}
-			}
+			String setting = getEvilZoneSetting();
 			if ( setting != null )
 			{
 				int evilness = 1;
@@ -8828,6 +8827,7 @@ public class FightRequest
 		// FightRequest.anapest = false;
 
 		FightRequest.nextAction = null;
+		FightRequest.macroErrorMessage = null;
 
 		FightRequest.currentRound = 0;
 		FightRequest.preparatoryRounds = 0;
@@ -10523,15 +10523,131 @@ public class FightRequest
 
 		case SkillPool.SHOW_SCRAPBOOK:
 			if (
-					responseText.contains( "You take out your scrapbook and start showing photos of your familiars to your opponent" ) ||
-					responseText.contains( "waving your scrapbook" ) ||
-					skillSuccess )
+				responseText.contains( "You take out your scrapbook and start showing photos of your familiars to your opponent" ) ||
+				responseText.contains( "waving your scrapbook" ) ||
+				skillSuccess
+			)
 			{
 				BanishManager.banishMonster( monsterName, "Show your boring familiar pictures" );
 				Preferences.decrement( "scrapbookCharges", 100, 0 );
 			}
 			break;
 
+		case SkillPool.BLART_SPRAY_WIDE:
+			if (
+				responseText.contains( "nozzle all the way and blast it out of sight" ) ||
+				skillSuccess
+			)
+			{
+				BanishManager.banishMonster( monsterName, "B. L. A. R. T. Spray (wide)" );
+			}
+			break;
+
+		case SkillPool.FIRE_EXTINGUISHER__FOAM_EM_UP:
+			if
+			(
+				responseText.contains( "both comical and immobile" ) ||
+				skillSuccess
+			)
+			{
+				Preferences.decrement( "_fireExtinguisherCharge", 5 );
+			}
+			break;
+
+		case SkillPool.FIRE_EXTINGUISHER__POLAR_VORTEX:
+			if
+			(
+				responseText.contains( "Looks like they had more than one" ) ||
+				skillSuccess
+			)
+			{
+				Preferences.decrement( "_fireExtinguisherCharge", 10 );
+			}
+			break;
+
+		case SkillPool.FIRE_EXTINGUISHER__FOAM_YOURSELF:
+			if
+			(
+				responseText.contains( "create a suit made of flame-retardant foam" ) ||
+				skillSuccess
+			)
+			{
+				Preferences.decrement( "_fireExtinguisherCharge", 10 );
+			}
+			break;
+
+		case SkillPool.FIRE_EXTINGUISHER__BLAST_THE_AREA:
+			if
+			(
+				responseText.contains( "dust and debris is kicked up into a cyclone" ) ||
+				skillSuccess
+			)
+			{
+				Preferences.decrement( "_fireExtinguisherCharge", 5 );
+			}
+			break;
+
+		case SkillPool.FIRE_EXTINGUISHER__ZONE_SPECIFIC:
+			boolean success = false;
+			KoLAdventure location = KoLAdventure.lastVisitedLocation();
+			switch ( location.getZone() )
+			{
+			case "BatHole":
+				if ( responseText.contains( "You squeeze down the nozzle on your fire extinguisher and release a blast" ) || skillSuccess )
+				{
+					if ( !QuestDatabase.isQuestLaterThan( Quest.BAT, "step2" ) )
+					{
+						QuestDatabase.advanceQuest( Quest.BAT );
+					}
+					Preferences.setBoolean( "fireExtinguisherBatHoleUsed", true );
+					success = true;
+				}
+				break;
+			case "Cyrpt":
+				if ( responseText.contains( "The chill of the refrigerant quickly replaces some of the chill of evil in the air" ) || skillSuccess )
+				{
+					String setting = getEvilZoneSetting();
+					if ( setting != null )
+					{
+						Preferences.decrement( setting, 10, 0 );
+						Preferences.decrement( "cyrptTotalEvilness", 10, 0 );
+					}
+					Preferences.setBoolean( "fireExtinguisherCyrptUsed", true );
+					success = true;
+				}
+				break;
+			}
+
+			switch ( location.getAdventureName() )
+			{
+			case "Cobb's Knob Harem":
+				if ( responseText.contains( "You fill the harem with foam" ) || skillSuccess )
+				{
+					Preferences.setBoolean( "fireExtinguisherHaremUsed", true );
+					success = true;
+				}
+				break;
+			case "The Smut Orc Logging Camp":
+				if ( responseText.contains( "You wantonly spray the area with your fire extinguisher" ) || skillSuccess )
+				{
+					Preferences.increment( "smutOrcNoncombatProgress", 10, 15, false );
+					Preferences.setBoolean( "fireExtinguisherChasmUsed", true );
+					success = true;
+				}
+				break;
+			case "The Arid, Extra-Dry Desert":
+				if ( responseText.contains( "You aim the nozzle directly into your mouth" ) || skillSuccess )
+				{
+					Preferences.setBoolean( "fireExtinguisherDesertUsed", true );
+					success = true;
+				}
+				break;
+			}
+
+			if ( success )
+			{
+				Preferences.decrement( "_fireExtinguisherCharge", 20 );
+			}
 		}
 	}
 

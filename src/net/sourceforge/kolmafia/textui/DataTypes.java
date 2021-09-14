@@ -1035,6 +1035,16 @@ public class DataTypes
 		return makeMonsterValue( monster );
 	}
 
+	public static final Value makeSlotValue( final int num, final boolean returnDefault )
+	{
+		String name = EquipmentRequest.slotNames[ num ];
+		if ( name == null )
+		{
+			return returnDefault? DataTypes.SLOT_INIT : null;
+		}
+		return new Value( DataTypes.SLOT_TYPE, num, name );
+	}
+
 	public static final Value makeElementValue( Element elem, final boolean returnDefault )
 	{
 		if ( elem == Element.NONE )

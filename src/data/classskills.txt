@@ -226,6 +226,8 @@
 201	Dimples, How Merry!	dimples.gif	0	0	0
 202	Chubby and Plump	chubbybar.gif	1	50	0
 203	Emotionally Chipped	emochip_clean.gif	0	0	0
+204
+205	Dead Nostrils		0	0	0
 
 # Skills available to Clubbers
 
@@ -881,7 +883,7 @@
 7355	Blow a Robo-Kiss	lips.gif	5	0	0
 7356	Precision Shot		5	0	0
 7357	Feel Pride	emochip9.gif	5	0	0
-7358	Feel Excitement	emochip1.gif	3	0	15
+7358	Feel Excitement	emochip1.gif	3	0	20
 7359	Feel Hatred	emochip8.gif	5	0	0
 7360	Feel Lonely	emochip11.gif	3	0	20
 7361	Feel Nervous	emochip4.gif	3	0	20
@@ -906,7 +908,14 @@
 7380	Shocking Lick	tonguewalrus.gif	5	0	0
 7381	Back-Up to your Last Enemy	backupcamera.gif	5	0	0
 7382	Show your boring familiar pictures	dogphoto.gif	5	0	0
-
+7383	B. L. A. R. T. Spray (medium)	blartspray2.gif	5	0	0
+7384	B. L. A. R. T. Spray (wide)	blartspray3.gif	5	0	0
+7385	B. L. A. R. T. Spray (narrow)	blartspray1.gif	5	0	0
+7386	Fire Extinguisher: Foam 'em Up	foam1.gif	5	0	0
+7387	Fire Extinguisher: Polar Vortex	foam2.gif	5	0	0
+7388	Fire Extinguisher: Foam Yourself	foam4.gif	5	0	0
+7389	Fire Extinguisher: Blast the Area	foam3.gif	5	0	0
+7390	Fire Extinguisher: Zone Specific	exting2.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

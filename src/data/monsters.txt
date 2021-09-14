@@ -94,12 +94,12 @@ Bob Racecar	132	naskar2.gif	Atk: 138 Def: 129 HP: 139 Init: 80 Meat: 120 P: dude
 bog leech	1345	bogleech.gif	Atk: 44 Def: 50 HP: 60 Init: 20 P: bug Meat: 30	delicious swamp muck (0)	leechknife (0)
 bog skeleton	1346	bogskeleton.gif	Atk: 50 Def: 52 HP: 50 Init: 25 P: undead E: spooky Meat: 10	delicious swamp muck (0)	skeleton bone (0)
 bogart	1348	bogart.gif	Atk: 54 Def: 48 HP: 48 Init: 70 P: humanoid Meat: 30	fine aged cheddarwurst (0)	stolen meatpouch (0)
-Bonerdagon	198	foss_wyrm.gif	NOCOPY BOSS Atk: 90 Def: 81 HP: 120 Init: 90 Item: 25 Skill: 50 E: spooky P: undead
+Bonerdagon	198	foss_wyrm.gif	NOCOPY BOSS Atk: 90 Def: 81 HP: 120 Init: 90 Item: 25 Skill: 50 E: spooky P: undead	skull of the Bonerdagon (n100)	chest of the Bonerdagon (n100)
 bookbat	387	bookbat.gif	Atk: 26 Def: 24 HP: 26 Init: 70 P: construct	tattered scrap of paper (15)
 booth slime	803	boothslime.gif	Atk: 140 Def: 126 HP: 150 Init: 50 P: slime NOBANISH	vial of blue slime (f66)
 booty crab	634	bootycrab.gif	NOCOPY Atk: 100 Def: 90 HP: 70 Init: 10000 Meat: 300 E: sleaze Phys: 25 P: beast	Cap'm Caronch's nasty booty (100)
 Booze Giant	95	boozegiant.gif	Atk: 76 Def: 68 HP: 66 Init: 80 P: humanoid	bottle of gin (15)	bottle of rum (15)	bottle of tequila (15)	bottle of vodka (15)	bottle of whiskey (15)	boxed wine (15)	giant breath mint (c0)
-Boss Bat	49	bossbat.gif	NOCOPY BOSS Atk: 33 Def: 29 HP: 40 Init: 60 P: beast NOBANISH	batskin belt (100)	dense Meat stack (100)	Boss Bat britches (c100)	boss Bat bling (c100)
+Boss Bat	49	bigbossbat.gif	NOCOPY BOSS Atk: 33 Def: 29 HP: 40 Init: 60 P: beast NOBANISH	batskin belt (100)	dense Meat stack (100)	Boss Bat britches (c100)	boss Bat bling (c100)
 Box	535	box.gif	Atk: 150 Def: 135 HP: 150 E: sleaze Init: 70 P: constellation	line (30)	line (30)	line (30)
 Brainsweeper	34	broombrain.gif	Atk: 18 Def: 16 HP: 9 Init: 60 Meat: 36 P: construct	disembodied brain (30)
 Bram the Stoker	1559	bram.gif	SEMIRARE Atk: 164 Def: 148 HP: 170 Init: 50 Meat: 250 P: undead	Bram's choker (100)
@@ -1259,6 +1259,9 @@ invader bullet	2137	invaderbullet.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: 1
 skeleton astronaut	2136	astroskeleton.gif	WANDERER Atk: 100 Def: 100 HP: 100 Init: 100 P: undead
 the invader	2138	invader.gif	Atk: 1000 Def: 1000 HP: 1000 Init: -10000 P: construct
 
+# Glitch Season
+%monster%	2140	nopic.gif	NOCOPY Atk: [pref(glitchItemImplementationCount)*5+1] Def: [pref(glitchItemImplementationCount)*5] HP: [pref(glitchItemImplementationCount)*5+1] Init: 1 P: construct
+
 # Path of the Plumber
 Koopa Paratroopa	2165	paratroopa.gif	NOCOPY BOSS Atk: 40 Def: 40 HP: 40 Init: 50 P: beast
 Hammer Brother	2166	hammerbrother.gif	NOCOPY BOSS Atk: 60 Def: 60 HP: 80 Init: 50 P: beast
@@ -1305,8 +1308,17 @@ The Artificial Wisniewski	2208	roboss_dude.gif	Atk: 250 Def: 230 HP: 2000 Init: 
 The Android	2209	roboss_man.gif	Atk: 250 Def: 230 HP: 2000 Init: 60 P: construct NOCOPY BOSS	robo-battery (n100)
 Nautomatic Sorceress	2210	roboss_sorc.gif	Atk: 300 Def: 300 HP: 1000 Init: 10000 P: construct NOCOPY BOSS
 
-# Glitch Season
-%monster%	2140	nopic.gif	NOCOPY Atk: [pref(glitchItemImplementationCount)*5+1] Def: [pref(glitchItemImplementationCount)*5] HP: [pref(glitchItemImplementationCount)*5+1] Init: 1 P: construct
+# Wildfires
+Blaze Bat	2211	firebossbat.gif	Atk: 33 Def: 29 HP: 40 Init: 60 P: beast E: hot NOCOPY BOSS	batskin belt (100)	dense Meat stack (100)	Boss Bat britches (c100)	boss Bat bling (c100)
+fired-up Knob Goblin King	2212	firegoblinking.gif	Atk: 53 Def: 47 HP: 50 Init: 100 P: goblin E: hot NOCOPY BOSS	dense meat stack (100)	dense meat stack (100)
+Burnerdagon	2213	burnerdagon.gif	Atk: 90 Def: 81 HP: 120 Init: 90 P: undead E: hot NOCOPY BOSS	skull of the Bonerdagon (n100)	chest of the Bonerdagon (n100)
+Dr. Awkward, who is on fire	2214	fireawkward.gif	Atk: 175 Def: 157 HP: 200 Init: 0 P: dude E: hot NOCOPY BOSS	Drowsy Sword (n100)	Staff of Fats (n100)
+Lord Sootyraven	2215	fireyraven.gif	Atk: 165 Def: 148 HP: 200 Init: 10000 P: undead E: hot NOCOPY BOSS	Eye of Ed (n100)	Lord Spookyraven's ear trumpet (n100)
+Protector Spectre (Wildfire)	2216	firespectre.gif	Atk: 164 Def: 151 HP: 100 Init: 30 P: undead E: hot NOCOPY BOSS	ancient amulet (n100)	spectre scepter (n100)
+Groar, Except Hot	2217	firegroar.gif	Atk: 120 Def: 108 HP: 250 Init: 50 P: beast E: hot NOCOPY BOSS	Groar's fur (100)	dense meat stack (100)	dense meat stack (100)	dense meat stack (100)	dense meat stack (100)	dense meat stack (100)
+The Big Ignatowicz	2218	firethedude.gif	Atk: 250 Def: 225 HP: 2000 Init: 60 P: hippy E: hot NOCOPY BOSS	solid gold bowling ball (100)
+The Man on Fire	2219	firetheman.gif	Atk: 250 Def: 225 HP: 2000 Init: 60 P: dude E: hot NOCOPY BOSS	really dense meat stack (100)
+The Naughty Scorcheress	2220	sorcform1.gif	Atk: 190 Def: 171 HP: 400 Init: 10000 P: dude E: hot NOCOPY BOSS	Instant Karma (c100)	Thwaitgold maggot statuette (n100)
 
 # Items of the Month
 

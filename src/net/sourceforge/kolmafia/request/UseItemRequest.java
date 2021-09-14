@@ -805,9 +805,14 @@ public class UseItemRequest
 			return EquipmentRequest.availableFolder() == -1 ? 0 : 1;
 
 		case ItemPool.PASTA_ADDITIVE:
-			if ( KoLCharacter.getClassType().equals( KoLCharacter.PASTAMANCER ) )
+			if ( !KoLCharacter.getClassType().equals( KoLCharacter.PASTAMANCER ) )
 			{
 				UseItemRequest.limiter = "character class";
+				return 0;
+			}
+			if ( Preferences.getBoolean( "_pastaAdditive" ) )
+			{
+				UseItemRequest.limiter = "daily limit";
 				return 0;
 			}
 			break;
@@ -6291,6 +6296,18 @@ public class UseItemRequest
 			if ( responseText.contains( "Your tongue crackles with electricity" ) )
 			{
 				Preferences.increment( "shockingLickCharges", count );
+			}
+			break;
+		case ItemPool.RAINPROOF_BARREL_CAULK:
+			if ( responseText.contains( "You smear the caulk" ) )
+			{
+				Preferences.setBoolean( "wildfireBarrelCaulked", true );
+			}
+			break;
+		case ItemPool.PUMP_GREASE:
+			if ( responseText.contains( "You smear the grease" ) )
+			{
+				Preferences.setBoolean( "wildfirePumpGreased", true );
 			}
 			break;
 		}

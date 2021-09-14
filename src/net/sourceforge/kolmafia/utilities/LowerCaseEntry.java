@@ -39,15 +39,15 @@ import java.util.Set;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class LowerCaseEntry
-	implements Entry<Object, Object>
+public class LowerCaseEntry<K, V>
+	implements Entry<K, V>
 {
-	private final Entry<Object, Object> original;
-	private final Object key;
-	private Object value;
+	private final Entry<K, V> original;
+	private final K key;
+	private V value;
 	private String pairString, lowercase;
 
-	public LowerCaseEntry( final Entry<Object, Object> original )
+	public LowerCaseEntry( final Entry<K, V> original )
 	{
 		this.original = original;
 
@@ -58,7 +58,7 @@ public class LowerCaseEntry
 		this.lowercase = this.value.toString().toLowerCase();
 	}
 
-	public LowerCaseEntry( final Object key, final Object value )
+	public LowerCaseEntry( final K key, final V value )
 	{
 		this.original = null;
 
@@ -74,7 +74,7 @@ public class LowerCaseEntry
 	{
 		if ( o instanceof Entry )
 		{
-			Entry entry = (Entry) o;
+			Entry<?, ?> entry = (Entry<?, ?>) o;
 
 			return this.key.equals( entry.getKey() ) && this.value.equals( entry.getValue() );
 		}
@@ -82,12 +82,12 @@ public class LowerCaseEntry
 		return false;
 	}
 
-	public Object getKey()
+	public K getKey()
 	{
 		return this.key;
 	}
 
-	public Object getValue()
+	public V getValue()
 	{
 		return this.value;
 	}
@@ -104,9 +104,9 @@ public class LowerCaseEntry
 		return this.key.hashCode();
 	}
 
-	public Object setValue( final Object newValue )
+	public V setValue( final V newValue )
 	{
-		Object returnValue = this.value;
+		V returnValue = this.value;
 		this.value = newValue;
 
 		if ( this.original != null )
@@ -125,14 +125,14 @@ public class LowerCaseEntry
 		return this.lowercase;
 	}
 
-	public static final LockableListModel createListModel( final Set<Entry<Object, Object>> entries )
+	public static final <K, V> LockableListModel<LowerCaseEntry<K, V>> createListModel( final Set<Entry<K, V>> entries )
 	{
-		LockableListModel model = new LockableListModel();
+		LockableListModel<LowerCaseEntry<K, V>> model = new LockableListModel<>();
 
-		Iterator<Entry<Object, Object>> it = entries.iterator();
+		Iterator<Entry<K, V>> it = entries.iterator();
 		while ( it.hasNext() )
 		{
-			model.add( new LowerCaseEntry( it.next() ) );
+			model.add( new LowerCaseEntry<>( it.next() ) );
 		}
 
 		return model;

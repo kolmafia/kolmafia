@@ -877,6 +877,18 @@ public class EquipmentManager
 		case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
 			ItemDatabase.setCapeSkills();
 			break;
+		case ItemPool.BLART:
+			KoLCharacter.removeAvailableSkill( "B. L. A. R. T. Spray (narrow)" );
+			KoLCharacter.removeAvailableSkill( "B. L. A. R. T. Spray (medium)" );
+			KoLCharacter.removeAvailableSkill( "B. L. A. R. T. Spray (wide)" );
+			break;
+		case ItemPool.INDUSTRIAL_FIRE_EXTINGUISHER:
+			KoLCharacter.removeAvailableSkill( "Fire Extinguisher: Foam 'em Up" );
+			KoLCharacter.removeAvailableSkill( "Fire Extinguisher: Polar Vortex" );
+			KoLCharacter.removeAvailableSkill( "Fire Extinguisher: Foam Yourself" );
+			KoLCharacter.removeAvailableSkill( "Fire Extinguisher: Blast the Area" );
+			KoLCharacter.removeAvailableSkill( "Fire Extinguisher: Zone Specific" );
+			break;
 		}
 	}
 
@@ -1208,6 +1220,18 @@ public class EquipmentManager
 			break;
 		case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
 			ItemDatabase.setCapeSkills();
+			break;
+		case ItemPool.BLART:
+			KoLCharacter.addAvailableSkill( "B. L. A. R. T. Spray (narrow)" );
+			KoLCharacter.addAvailableSkill( "B. L. A. R. T. Spray (medium)" );
+			KoLCharacter.addAvailableSkill( "B. L. A. R. T. Spray (wide)" );
+			break;
+		case ItemPool.INDUSTRIAL_FIRE_EXTINGUISHER:
+			KoLCharacter.addAvailableSkill( "Fire Extinguisher: Foam 'em Up" );
+			KoLCharacter.addAvailableSkill( "Fire Extinguisher: Polar Vortex" );
+			KoLCharacter.addAvailableSkill( "Fire Extinguisher: Foam Yourself" );
+			KoLCharacter.addAvailableSkill( "Fire Extinguisher: Blast the Area" );
+			KoLCharacter.addAvailableSkill( "Fire Extinguisher: Zone Specific" );
 			break;
 		}
 	}
@@ -2126,6 +2150,11 @@ public class EquipmentManager
 	public static final int powerfulGloveAvailableBatteryPower()
 	{
 		return 100 - Preferences.getInteger( "_powerfulGloveBatteryPowerUsed" );
+	}
+
+	public static final int fireExtinguisherAvailableFoam()
+	{
+		return Preferences.getInteger( "_fireExtinguisherCharge" );
 	}
 
 	/**

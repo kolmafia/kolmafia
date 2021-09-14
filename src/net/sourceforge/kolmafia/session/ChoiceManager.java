@@ -259,7 +259,7 @@ public abstract class ChoiceManager
 	private static final Pattern DAYCARE_RECRUITS_PATTERN = Pattern.compile( "<font color=blue><b>[(.*?) Meat]</b></font>" );
 	private static final Pattern DAYCARE_RECRUIT_PATTERN = Pattern.compile( "attract (.*?) new children" );
 	private static final Pattern DAYCARE_EQUIPMENT_PATTERN = Pattern.compile( "manage to find (.*?) used" );
-	private static final Pattern DAYCARE_ITEM_PATTERN = Pattern.compile( "<td valign=center>You lose an item: </td>(?:.*?)<b>(.*?)</b> \\((.*?)\\)</td>" );
+	private static final Pattern DAYCARE_ITEM_PATTERN = Pattern.compile( "<td valign=center>You lose an item: </td>.*?<b>(.*?)</b> \\((.*?)\\)</td>" );
 	private static final Pattern SAUSAGE_PATTERN = Pattern.compile( "grinder needs (.*?) of the (.*?) required units of filling to make a sausage.  Your grinder reads \\\"(\\d+)\\\" units." );
 	private static final Pattern DOCTOR_BAG_PATTERN = Pattern.compile( "We've received a report of a patient (.*?), in (.*?)\\." );
 	private static final Pattern RED_SNAPPER_PATTERN = Pattern.compile( "guiding you towards: <b>(.*?)</b>.  You've found <b>(\\d+)</b> of them" );
@@ -7879,6 +7879,31 @@ public abstract class ChoiceManager
 			}
 			break;
 		}
+		case 1451:
+			// Fire Captain Hagnk
+			WildfireCampRequest.parseCaptain( text );
+			break;
+		case 1452:
+			// Sprinkler Joe
+			if ( text.contains( "Thanks again for your help!" ) )
+			{
+				Preferences.setBoolean( "wildfireSprinkled", true );
+			}
+			break;
+		case 1453:
+			// Fracker Dan
+			if ( text.contains( "Thanks for the help!" ) )
+			{
+				Preferences.setBoolean( "wildfireFracked", true );
+			}
+			break;
+		case 1454:
+			// Cropduster Dusty
+			if ( text.contains( "Thanks for helping out." ) )
+			{
+				Preferences.setBoolean( "wildfireDusted", true );
+			}
+			break;
 		}
 	}
 
@@ -12528,6 +12553,49 @@ public abstract class ChoiceManager
 
 			break;
 		}
+		case 1451:
+			// Fire Captain Hagnk
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Matcher locationIdMatcher = Pattern.compile( "zid=([^&]*)" ).matcher( urlString );
+				if ( locationIdMatcher.find() )
+				{
+					int zid = StringUtilities.parseInt( locationIdMatcher.group( 1 ) );
+					KoLAdventure location = AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=" + zid );
+					WildfireCampRequest.reduceFireLevel( location );
+				}
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				if ( text.contains( "Hagnk takes your fire extinguisher" ) )
+				{
+					Preferences.setInteger( "_fireExtinguisherCharge", 100 );
+					Preferences.setBoolean( "_fireExtinguisherRefilled", true );
+				}
+			}
+			WildfireCampRequest.parseCaptain( text );
+			break;
+		case 1452:
+			// Sprinkler Joe
+			if ( ChoiceManager.lastDecision == 1 && text.contains( "raindrop.gif") )
+			{
+				Preferences.setBoolean( "wildfireSprinkled", true );
+			}
+			break;
+		case 1453:
+			// Fracker Dan
+			if ( ChoiceManager.lastDecision == 1 && text.contains( "raindrop.gif") )
+			{
+				Preferences.setBoolean( "wildfireFracked", true );
+			}
+			break;
+		case 1454:
+			// Cropduster Dusty
+			if ( ChoiceManager.lastDecision == 1 && text.contains( "raindrop.gif") )
+			{
+				Preferences.setBoolean( "wildfireDusted", true );
+			}
+			break;
 		}
 		
 		// Certain choices cost meat or items when selected
@@ -14454,6 +14522,11 @@ public abstract class ChoiceManager
 				}
 			}
 			break;
+		case 1452: // Sprinkler Joe
+		case 1453: // Fracker Dan
+		case 1454: // Cropduster Dusty
+			WildfireCampRequest.refresh();
+			break;
 		}
 
 		if ( ChoiceManager.handlingChoice )
@@ -14494,7 +14567,7 @@ public abstract class ChoiceManager
 		}
 	}
 
-	public static void handleWalkingAway( final String urlString, final String redirectLocation )
+	public static void handleWalkingAway( final String urlString )
 	{
 		// If we are not handling a choice, nothing to do
 		if ( !ChoiceManager.handlingChoice )
@@ -19173,6 +19246,10 @@ public abstract class ChoiceManager
 		case 1447: // Statbot 5000
 		case 1448: // Potted Power Plant
 		case 1449: // Set Backup Camera Mode
+		case 1451: // Fire Captain Hagnk
+		case 1452: // Sprinkler Joe
+		case 1453: // Fracker Dan
+		case 1454: // Cropduster Dusty
 			return true;
 
 		default:

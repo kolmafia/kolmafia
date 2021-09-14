@@ -10814,3 +10814,14 @@
 10786	banana candle	822250066	candlecbanana.gif	potion, usable	t,d	5
 10787	ear candle	159239343	candlecear.gif	potion, usable	t,d	5
 10788	votive of confidence	573165116	candlecvotive.gif	potion, usable	t,d	5
+10789	water candle	525043319	candlecwater.gif	offhand	q	0
+10790	B. L. A. R. T.	228126103	blart.gif	container	q	0
+10791	Thwaitgold fire beetle statuette	255309306	thwaitfirebeetle.gif	none		0
+10792	rusty empty nacho cheese can	731079488	nachocan.gif	offhand	q,d	10
+10793	literal bucket hat	726775410	pailhat.gif	hat	q,d	500
+10794	rainproof barrel caulk	248987421	greasegun.gif	usable	q	0
+10795	pump grease	246433016	groosegrease.gif	usable	q	0
+10796	packaged industrial fire extinguisher	986080936	exting2box.gif	usable	t	0
+10797	industrial fire extinguisher	418444931	exting2.gif	weapon		0
+10798	The Nose Knows, A Guide to Smells	147329106	book5.gif	usable	t	0
+10799	The Nose Knows, A Guide to Smells (read)	250620886	book5.gif	reusable		0

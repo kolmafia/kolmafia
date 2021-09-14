@@ -1,0 +1,225 @@
+//-*- mode: groovy -*-
+
+plugins {
+  id 'application'
+  id 'java'
+  id 'com.bmuschko.clover' version '3.0.1'
+}
+
+ant.importBuild('build.xml') { String oldTargetName ->
+  return 'ant_' + oldTargetName
+}
+
+sourceSets {
+  main {
+    java {
+      srcDirs = [ 'build/generated-src' ]
+      destinationDirectory.set(file('build/main'))
+    }
+    resources {
+      srcDirs = [ 'src' ]
+      excludes = ['**/*.java']
+    }
+  }
+
+  lib {
+    java {
+      srcDirs = [ 'lib' ]
+      excludes = [ '**/jdesktop/**' ]
+      destinationDirectory.set(file('build/lib'))
+    }
+    resources {
+      srcDirs = [ 'src' ]
+    }
+  }
+
+  test {
+    java {
+      srcDirs = [ 'test' ]
+      destinationDirectory.set(file('build/test'))
+    }
+  }
+}
+
+repositories {
+  // Use Maven Central for resolving dependencies.
+  mavenCentral()
+}
+
+configurations {
+  toCopy
+  implementation.canBeResolved = true
+}
+
+dependencies {
+  // Use JUnit Jupiter for testing. At least, that's the eventual plan.
+  testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.7.1'
+  testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.7.2'
+
+  testImplementation 'org.hamcrest:hamcrest:2.2'
+  testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
+  testImplementation 'junit:junit:4.13.2'
+
+  clover 'org.openclover:clover:4.4.1'
+
+  runtimeOnly 'com.formdev:flatlaf:1.5'
+  runtimeOnly 'com.formdev:flatlaf-intellij-themes:1.5'
+  // Optional runtime deps for svnkit
+  runtimeOnly 'com.trilead:trilead-ssh2:1.0.0-build222'
+  runtimeOnly 'net.java.dev.jna:jna:5.6.0'
+  runtimeOnly 'net.java.dev.jna:jna-platform:5.6.0'
+  runtimeOnly 'org.antlr:antlr-runtime:3.4'
+
+  libImplementation 'org.swinglabs:swingx:1.0'
+
+  implementation files('build/lib') {
+    builtBy 'compileLibJava'
+  }
+
+  implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.24'
+  implementation 'org.fusesource.jansi:jansi:2.3.2'
+  implementation 'org.json:json:20210307'
+  implementation 'org.mozilla:rhino:1.7.13'
+  implementation 'org.swinglabs:swingx:1.0'
+  implementation 'org.tmatesoft.svnkit:svnkit:1.10.3'
+
+  toCopy 'org.swinglabs:swingx:1.0'
+}
+
+application {
+  // Define the main class for the application.
+  mainClass = 'net.sourceforge.kolmafia.KoLmafia'
+}
+
+test {
+  useJUnitPlatform()
+  // Exclude Clover-instrumented inner classes...
+  exclude '**/*$__CLR*.class'
+
+  systemProperty 'line.separator', '\n'
+  jvmArgs '-DuseCWDasROOT=true'
+  workingDir 'test/root'
+
+  reports {
+    html.enabled = true
+    junitXml.enabled = true
+  }
+}
+
+jar {
+  manifest {
+    attributes(
+      'Main-Class': 'net.sourceforge.kolmafia.KoLmafia'
+    )
+  }
+
+  from { configurations.implementation.collect { it.isDirectory() ? it : zipTree(it) } } {
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+  }
+  duplicatesStrategy = 'exclude'
+  destinationDirectory = file('dist/')
+  archiveBaseName = ant.properties['version-name']
+}
+
+task download(type: Copy) {
+  from configurations.toCopy
+  into 'src/jar'
+}
+
+task gitRevList(type: Exec) {
+  onlyIf {
+    file('.git').exists()
+  }
+  inputs.dir('.git')
+  outputs.files file('build/revision.txt')
+  commandLine 'git', 'rev-list', '--count', 'HEAD'
+  standardOutput = new ByteArrayOutputStream()
+
+  doLast {
+    new File('build', 'revision.txt').text = standardOutput.toString().trim()
+  }
+}
+
+task svnRevList(type: Exec) {
+  onlyIf {
+    file('.svn').exists()
+  }
+  inputs.dir('.svn')
+  outputs.files file('build/revision.txt')
+  commandLine 'svnversion', '-n', '.'
+  standardOutput = new ByteArrayOutputStream()
+
+  doLast {
+    new File('build/revision.txt').text = standardOutput.toString().trim()
+  }
+}
+
+task setVersion(type: Copy, dependsOn: ['gitRevList', 'svnRevList']) {
+  inputs.files file('build/revision.txt')
+
+  def KOL_CONSTANTS = 'net/sourceforge/kolmafia/KoLConstants.java'
+  def revision = ''
+  doFirst {
+    revision = new File('build/revision.txt').text.trim()
+  }
+
+  def copyDetails = []
+  from('src/') {
+    exclude '**/*.jar'
+  }
+  def targetFile = null
+  eachFile { FileCopyDetails details ->
+    targetFile = new File('build/generated-src', path)
+    if (file.lastModified() == targetFile.lastModified() && file.length() == targetFile.length()) {
+        exclude()
+    }
+    // Always update KoLConstants.java, since we should set REVISION even if the
+    // rest of the file is unchanged.
+    if (details.path != KOL_CONSTANTS) {
+      copyDetails << details
+    }
+  }
+  into 'build/generated-src'
+  filter {
+    line -> line.replaceAll(
+      'String REVISION = null', "String REVISION = \"${revision}\"")
+  }
+  // Taken from https://github.com/gradle/gradle/issues/1252#issuecomment-421744595
+  doLast {
+    copyDetails.each { FileCopyDetails details ->
+      def target = new File(destinationDir, details.path)
+      if (target.exists()) { target.setLastModified(details.lastModified) }
+    }
+  }
+}
+
+java {
+  sourceCompatibility = JavaVersion.toVersion(ant.properties['java.release'])
+  targetCompatibility = JavaVersion.toVersion(ant.properties['java.release'])
+}
+
+tasks.withType(JavaCompile) {
+  options.encoding = 'UTF-8'
+}
+
+clover {
+  excludes = [
+    // These files have huge methods. Ideally we'd use a method filter, but that's broken in the
+    // latest versions of Gradle; tracked in
+    // https://github.com/bmuschko/gradle-clover-plugin/issues/153
+    '**/UseItemRequest.java', '**/ChoiceManager.java',
+    // I don't know how to do this without manually excluding all the libs...
+    'apple/**', 'ca/**', 'com/**', 'darrylbu/**', 'net/java/**', 'org/**', 'tab/**',
+  ]
+
+  report {
+    html = true
+    xml = true
+
+    // Support capturing test results from JUnix XML report
+    testResultsDir = project.tasks.getByName('test').reports.junitXml.destination
+    testResultsInclude = 'TEST-*.xml'
+  }
+}
+
+compileJava.dependsOn setVersion

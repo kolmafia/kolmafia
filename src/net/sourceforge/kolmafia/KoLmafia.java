@@ -126,6 +126,7 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
+import net.sourceforge.kolmafia.request.WildfireCampRequest;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -914,8 +915,9 @@ public abstract class KoLmafia
 			RequestThread.postRequest( new CustomOutfitRequest() );
 		}
 
-		// Look at the Quest Log
 
+
+		// Look at the Quest Log
 		RequestThread.postRequest( new QuestLogRequest() );
 
 		// if the Cyrpt quest is active, force evilometer refresh
@@ -928,6 +930,7 @@ public abstract class KoLmafia
 			}
 		}
 
+		// Path-related stuff
 		if ( KoLCharacter.isEd() )
 		{
 			// Inspect your servants
@@ -941,22 +944,24 @@ public abstract class KoLmafia
 		{
 			RequestThread.postRequest( new QuantumTerrariumRequest() );
 		}
-		else if ( !KoLCharacter.inAxecore() && !KoLCharacter.isJarlsberg() && !KoLCharacter.isSneakyPete() &&
-			  !KoLCharacter.inBondcore() && !KoLCharacter.isVampyre() )
-		{
-			// Retrieve the Terrarium
-			RequestThread.postRequest( new FamiliarRequest() );
-		}
-
-		if ( KoLCharacter.isPlumber() )
+		else if ( KoLCharacter.isPlumber() )
 		{
 			KoLCharacter.resetCurrentPP();
 		}
-
-		if ( KoLCharacter.inRobocore() )
+		else if ( KoLCharacter.inRobocore() )
 		{
 			RequestThread.postRequest( new GenericRequest( "place.php?whichplace=scrapheap&action=sh_configure" ) );
 			RequestThread.postRequest( new GenericRequest( "choice.php?whichchoice=1445&show=cpus" ) );
+		}
+
+		// Refresh fire levels
+		WildfireCampRequest.refresh();
+
+		if ( !( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() ||
+				KoLCharacter.inBondcore() || KoLCharacter.isVampyre() || KoLCharacter.isEd() || KoLCharacter.inPokefam() || KoLCharacter.inQuantum() ) )
+		{
+			// Retrieve the Terrarium
+			RequestThread.postRequest( new FamiliarRequest() );
 		}
 
 		ChateauRequest.refresh();

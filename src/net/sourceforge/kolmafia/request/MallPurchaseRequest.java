@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -52,6 +53,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.StoreManager;
@@ -186,13 +189,19 @@ public class MallPurchaseRequest
 
 		if ( MallPurchaseRequest.disabledStores.contains( this.shopId ) )
 		{
-			KoLmafia.updateDisplay( "This shop (#" + this.shopId + ") is disabled. Skipping..." );
+			KoLmafia.updateDisplay( "This shop " + this.shopName + ", owned by #" + this.shopId + ") is disabled. Skipping..." );
 			return;
 		}
 
 		if ( MallPurchaseRequest.ignoringStores.contains( this.shopId ) )
 		{
-			KoLmafia.updateDisplay( "This shop (#" + this.shopId + ") is ignoring you. Skipping..." );
+			KoLmafia.updateDisplay( "This shop (" + this.shopName + ", owned by #" + this.shopId + ") is ignoring you. Skipping..." );
+			return;
+		}
+		
+		if ( Arrays.asList( Preferences.getString( "forbiddenStores" ).split( "," ) ).contains( String.valueOf( this.shopId ) ) )
+		{
+			KoLmafia.updateDisplay( "This shop (" +  this.shopName + ", owned by #" + this.shopId + ") is on your forbidden list. Skipping..." );
 			return;
 		}
 

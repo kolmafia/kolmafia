@@ -313,6 +313,7 @@ Item	Lens of Hatred	Meat Drop: +15, Reduce Enemy Defense: 10, Spell Damage Perce
 Item	Lens of Violence	Item Drop: +15, Critical Hit Percent: +5, Weapon Damage Percent: +30, Familiar Effect: "atk, 1xBarrr"
 Item	lihc face	Spooky Resistance: +2, Familiar Effect: "spooky atk, 1xBarrr, cap 22"
 Item	linoleum helmet turtle	Maximum HP: +10, Maximum MP: +10, Familiar Effect: "stench atk, 1xFairy, cap 25"
+Item	literal bucket hat	Water: +1
 Item	longhaired hippy wig	Stench Damage: +20, Mysticality Percent: +5, Familiar Effect: "1xPotato, 1xGhuol"
 Item	lynyrdskin cap	Initiative: +25, Familiar Effect: "1xPotato, 1xVolley, cap 42"
 Item	MAHI fez	Moxie: +30, Familiar Effect: "0.5xVolley, 0.5xPotato, 0.5xLep, 0.5xFairy"
@@ -1464,6 +1465,7 @@ Item	huge spoon	Spell Damage: +10
 Item	ice nine	Critical Hit Percent: +10, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Meat Drop: +30, PvP Fights: +5, Lasts Until Rollover
 Item	ice sickle	Monster Level: +15, Cold Damage: +5, Softcore Only
 Item	icy-hot katana	Hot Damage: +3, Cold Damage: +3
+Item	industrial fire extinguisher	Hot Resistance: +3, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Cold Damage: +15, Cold Spell Damage: +15, Maximum HP: +20, Maximum MP: +20, Adventures: +3, Free Pull
 Item	iFlail	Monster Level: +11, Familiar Weight: +5, Combat Rate: -5
 Item	immense cyborg hand	Weapon Damage: +5, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
 Item	infernal fife	Hot Damage: +7
@@ -2427,6 +2429,7 @@ Item	Royal scepter	Adventures: +4, PvP Fights: +8, Rollover Effect: "It's Good T
 # rubber baby doll: Deals 13 <font color=gray>Spooky Damage</font> to your enemies every round
 Item	rubber ribcage	Spooky Resistance: +3, Damage Reduction: 12
 Item	rusty compass	Initiative: +30
+Item	rusty empty nacho cheese can	Water: +1
 Item	rusty kettle bell	Muscle Percent: +50
 # rusty old lantern
 Item	rxr shield	Damage Absorption: +10, Damage Reduction: 6
@@ -2586,6 +2589,7 @@ Item	Wal-Mart snowglobe	Muscle Percent: +40, Experience (Muscle): +4, Familiar W
 # Wand of Oscus: All Spells Cast Are Stinky
 Item	Wand of Oscus	Spell Damage Percent: +100, Stench Spell Damage: +30, Class: "Pastamancer"
 Item	washboard shield	Damage Absorption: +50, Class: "Turtle Tamer", Damage Reduction: 10
+Item	water candle	Hot Resistance: +3, Lasts Until Rollover, Water: +3
 Item	Whatsian Ionic Pliers	HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5
 # white balloon
 Item	white satin shield	Moxie: +2, Damage Reduction: 5
@@ -3914,6 +3918,8 @@ Item	Zombo's skull ring	Moxie Percent: +15, PvP Fights: +4, Single Equip
 Item	anniversary pewter cape	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	antique nutcracker cape	Spell Damage Percent: +30, Mysticality Percent: +15
 Item	auxiliary backbone	PvP Fights: +3
+# Item B. L. A. R. T.: Spray water at your foes in various stream configurations
+Item	B. L. A. R. T.	Hot Resistance: +3
 Item	back shell	Damage Absorption: +200, Damage Reduction: 20
 # bakelite backpack: Makes Accordion Bash knock loose some Meat
 Item	bakelite backpack	Monster Level: +10, Candy Drop: +20
@@ -5701,6 +5707,7 @@ Effect	Finstrong	Initiative Penalty: [30*env(underwater)], Item Drop Penalty: [3
 Effect	Fire cracked	Experience: +20
 Effect	Fire Down Below	Hot Damage: [min(100,T)]
 Effect	Fire Inside	Hot Damage: +25
+Effect	Fireproof Foam Suit	Hot Resistance: +30
 Effect	Fireproof Lips	Hot Resistance: +9
 Effect	First Blood Kiwi	Spooky Damage: +30
 Effect	First Eye Blind	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
@@ -7635,6 +7642,8 @@ Skill	Cosmic Ugnderstanding	Maximum MP Percent: +5
 Skill	Crush	Maximum HP: -20
 Skill	Dark Circles Under Your Eyes	Spooky Damage: +7
 # Data Siphon: Makes Source Punches and Source Kicks restore MP
+# Skill Dead Nostrils: Stay fresh a little longer
+Skill	Dead Nostrils	Stench Spell Damage: +1, Stench Resistance: +1
 Skill	Deductive Reasoning	Mysticality: +15
 # Deep Saucery: Lets you cook with Deep Sauce
 # Deft Hands: +25% damage from combat items
@@ -9281,7 +9290,7 @@ Item	demon makeup kit	Effect: "Demonicity", Effect Duration: 40
 Item	demonic cow's blood	Effect: "Cowrruption", Effect Duration: 20
 Item	Dennis's blessing of Minerva	Effect: "Minerva's Zen", Effect Duration: 50
 Item	dented spoon	Effect: "There Is A Spoon", Effect Duration: 20
-Item	deodorant	Effect: "Fresh Scent", Effect Duration: 10
+Item	deodorant	Effect: "Fresh Scent", Effect Duration: [10+skill(Dead Nostrils)]
 Item	desktop zen garden	Effect: "Everything's Zen", Effect Duration: 10
 Item	devilish folio	Effect: "Dis Abled", Effect Duration: 30
 Item	digital underground potion	Effect: "Digitally Converted", Effect Duration: 20
@@ -11174,6 +11183,7 @@ Item	Our Daily Candles&trade; order form	Free Pull
 # pacification grenade: Weakens enemies somewhat
 Item	Pack of Every Card	Free Pull
 Item	packaged familiar scrapbook	Free Pull
+Item	packaged industrial fire extinguisher	Free Pull
 Item	packaged knock-off retro superhero cape	Free Pull
 Item	packaged Pocket Professor	Free Pull
 Item	packaged SpinMaster&trade; lathe	Free Pull
@@ -11589,6 +11599,8 @@ Item	The Night Before Crimbo, Ch. 5	Skill: "Dimples, How Merry!"
 Item	The Night Before Crimbo, Ch. 5 (used)	Skill: "Dimples, How Merry!"
 Item	The Night Before Crimbo, Ch. 6	Skill: "Chubby and Plump"
 Item	The Night Before Crimbo, Ch. 6 (used)	Skill: "Chubby and Plump"
+Item	The Nose Knows, A Guide to Smells	Skill: "Dead Nostrils"
+Item	The Nose Knows, A Guide to Smells (read)	Skill: "Dead Nostrils"
 # The Six-Pack of Pain: Deals Physical Damage based on your Muscle
 # The Six-Pack of Pain: Weakens Enemies a Whole Lot
 Item	The Smith's Tome	Free Pull, Skill: "Summon Smithsness"
@@ -11905,7 +11917,7 @@ Ensorcel	construct	Damage Reduction: [pref(ensorceleeLevel)/15.0]
 Ensorcel	elemental	Cold Resistance: [max(1,min(30,pref(ensorceleeLevel)/50.0))], Hot Resistance: [max(1,min(30,pref(ensorceleeLevel)/50.0))], Sleaze Resistance: [max(1,min(30,pref(ensorceleeLevel)/50.0))], Spooky Resistance: [max(1,min(30,pref(ensorceleeLevel)/50.0))], Stench Resistance: [max(1,min(30,pref(ensorceleeLevel)/50.0))]
 Ensorcel	elf	Candy Drop: [max(10,min(300,pref(ensorceleeLevel)/5.0))]
 Ensorcel	plant	Monster Level: [max(10,ceil(pref(ensorceleeLevel)/10.0))]
-Ensorcel	slime	Initiative: [pref(ensorceleeLevel)/2.5)]
+Ensorcel	slime	Initiative: [pref(ensorceleeLevel)/2.5]
 
 # You, Robot
 RobotTop	3	Energy: +1
