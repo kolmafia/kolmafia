@@ -1922,6 +1922,24 @@ public abstract class KoLCharacter
 	}
 
 	/**
+	 * Accessor method to check whether the character uses MP as a resource.
+	 *
+	 * @return Whether the character uses MP as a resource
+	 */
+	public static final boolean usesMP()
+	{
+		if ( KoLCharacter.isVampyre() )
+		{
+			// Vampyre don't have MP, despite api.php saying otherwise
+			return false;
+		}
+
+		// Plumber notably not included because they actually can use MP with bird calendar
+
+		return true;
+	}
+
+	/**
 	 * Accessor method to set the character's current mana limits.
 	 *
 	 * @param currentMP The character's current MP value
@@ -1931,9 +1949,16 @@ public abstract class KoLCharacter
 
 	public static final void setMP( final long currentMP, final long maximumMP, final long baseMaxMP )
 	{
-		KoLCharacter.currentMP = currentMP < 0 ? 0 : Math.min( currentMP, maximumMP );
-		KoLCharacter.maximumMP = maximumMP;
-		KoLCharacter.baseMaxMP = baseMaxMP;
+		if ( KoLCharacter.usesMP() )
+		{
+			KoLCharacter.currentMP = currentMP < 0 ? 0 : Math.min( currentMP, maximumMP );
+			KoLCharacter.maximumMP = maximumMP;
+			KoLCharacter.baseMaxMP = baseMaxMP;
+		}
+		else
+		{
+			KoLCharacter.currentMP = KoLCharacter.maximumMP = KoLCharacter.baseMaxMP = 0;
+		}
 
 		KoLCharacter.updateStatus();
 	}
