@@ -17,19 +17,15 @@ sourceSets {
       destinationDirectory.set(file('build/main'))
     }
     resources {
-      srcDirs = [ 'src' ]
-      excludes = ['**/*.java']
+      srcDirs = [ 'src', 'lib' ]
+      excludes = ['**/*.java', '**/*.jar']
     }
   }
 
   lib {
     java {
       srcDirs = [ 'lib' ]
-      excludes = [ '**/jdesktop/**' ]
       destinationDirectory.set(file('build/lib'))
-    }
-    resources {
-      srcDirs = [ 'src' ]
     }
   }
 
@@ -209,7 +205,7 @@ clover {
     // https://github.com/bmuschko/gradle-clover-plugin/issues/153
     '**/UseItemRequest.java', '**/ChoiceManager.java',
     // I don't know how to do this without manually excluding all the libs...
-    'apple/**', 'ca/**', 'com/**', 'darrylbu/**', 'net/java/**', 'org/**', 'tab/**',
+    'apple/**', 'ca/**', 'com/**', 'darrylbu/**', 'net/java/**', 'tab/**',
   ]
 
   report {
