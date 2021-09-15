@@ -3631,7 +3631,7 @@ public class GenericRequest
 		}
 		if ( agent.equals( "" ) )
 		{
-			agent = KoLConstants.VERSION_NAME;
+			agent = StaticEntity.getVersion();
 		}
 		GenericRequest.setUserAgent( agent );
 	}

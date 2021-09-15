@@ -4,6 +4,7 @@ plugins {
   id 'application'
   id 'java'
   id 'com.bmuschko.clover' version '3.0.1'
+  id 'net.nemerosa.versioning' version '2.8.2'
 }
 
 ant.importBuild('build.xml') { String oldTargetName ->
@@ -13,7 +14,7 @@ ant.importBuild('build.xml') { String oldTargetName ->
 sourceSets {
   main {
     java {
-      srcDirs = [ 'build/generated-src' ]
+      srcDirs = [ 'src' ]
       destinationDirectory.set(file('build/main'))
     }
     resources {
@@ -105,7 +106,12 @@ test {
 jar {
   manifest {
     attributes(
-      'Main-Class': 'net.sourceforge.kolmafia.KoLmafia'
+      'Main-Class'      : 'net.sourceforge.kolmafia.KoLmafia',
+      'Build-Revision'  : new Object() { String toString() { getVersion() } },
+      'Build-Branch'    : versioning.info.branch,
+      'Build-Commit'    : versioning.info.commit,
+      'Build-Jdk'       : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
+      'Build-OS'        : "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}"
     )
   }
 
@@ -114,7 +120,8 @@ jar {
   }
   duplicatesStrategy = 'exclude'
   destinationDirectory = file('dist/')
-  archiveBaseName = ant.properties['version-name']
+  archiveBaseName = "KoLmafia"
+  classifier = "${versioning.info.dirty ? 'Modified' : ''}"
 }
 
 task download(type: Copy) {
@@ -132,7 +139,9 @@ task gitRevList(type: Exec) {
   standardOutput = new ByteArrayOutputStream()
 
   doLast {
-    new File('build', 'revision.txt').text = standardOutput.toString().trim()
+    new File('build/revision.txt').text = standardOutput.toString().trim()
+    // Update the version to the new revision
+    project.setVersion(standardOutput.toString().trim())
   }
 }
 
@@ -147,45 +156,8 @@ task svnRevList(type: Exec) {
 
   doLast {
     new File('build/revision.txt').text = standardOutput.toString().trim()
-  }
-}
-
-task setVersion(type: Copy, dependsOn: ['gitRevList', 'svnRevList']) {
-  inputs.files file('build/revision.txt')
-
-  def KOL_CONSTANTS = 'net/sourceforge/kolmafia/KoLConstants.java'
-  def revision = ''
-  doFirst {
-    revision = new File('build/revision.txt').text.trim()
-  }
-
-  def copyDetails = []
-  from('src/') {
-    exclude '**/*.jar'
-  }
-  def targetFile = null
-  eachFile { FileCopyDetails details ->
-    targetFile = new File('build/generated-src', path)
-    if (file.lastModified() == targetFile.lastModified() && file.length() == targetFile.length()) {
-        exclude()
-    }
-    // Always update KoLConstants.java, since we should set REVISION even if the
-    // rest of the file is unchanged.
-    if (details.path != KOL_CONSTANTS) {
-      copyDetails << details
-    }
-  }
-  into 'build/generated-src'
-  filter {
-    line -> line.replaceAll(
-      'String REVISION = null', "String REVISION = \"${revision}\"")
-  }
-  // Taken from https://github.com/gradle/gradle/issues/1252#issuecomment-421744595
-  doLast {
-    copyDetails.each { FileCopyDetails details ->
-      def target = new File(destinationDir, details.path)
-      if (target.exists()) { target.setLastModified(details.lastModified) }
-    }
+    // Update the version to the new revision
+    project.setVersion(standardOutput.toString().trim())
   }
 }
 
@@ -218,4 +190,13 @@ clover {
   }
 }
 
-compileJava.dependsOn setVersion
+jar.dependsOn gitRevList
+jar.dependsOn svnRevList
+
+def lastRevision() {
+  def revisionFile = new File('build/revision.txt')
+  return revisionFile.exists() ? revisionFile.text.trim() : "0"
+}
+
+// Set version from last build/revision.txt if up-to-date
+version = lastRevision()

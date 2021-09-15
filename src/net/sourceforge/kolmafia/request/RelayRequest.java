@@ -625,7 +625,7 @@ public class RelayRequest
 		this.statusLine = status;
 
 		this.headers.add( "Date: " + new Date() );
-		this.headers.add( "Server: " + KoLConstants.VERSION_NAME );
+		this.headers.add( "Server: " + StaticEntity.getVersion() );
 
 		if ( status.contains( "302" ) )
 		{
