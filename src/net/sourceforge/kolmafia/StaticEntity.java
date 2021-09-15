@@ -37,11 +37,15 @@ import java.awt.Container;
 import java.awt.SystemTray;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.ClassLoader;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.jar.Manifest;
 import java.util.StringTokenizer;
 
 import org.tmatesoft.svn.core.SVNException;
@@ -73,7 +77,7 @@ public abstract class StaticEntity
 	private static ActionPanel[] panelArray = new GenericPanel[ 0 ];
 
 	public static String backtraceTrigger = null;
-	private static Integer cachedSVNRevisionNumber = null;
+	private static Integer cachedRevisionNumber = null;
 
 	public static boolean userAborted = false;
 	private static MafiaState globalContinuationState = MafiaState.CONTINUE;
@@ -106,22 +110,48 @@ public abstract class StaticEntity
 
 	public static final int getRevision()
 	{
+		if ( StaticEntity.cachedRevisionNumber != null )
+		{
+			return StaticEntity.cachedRevisionNumber;
+		}
 		try
 		{
-			if ( StaticEntity.cachedSVNRevisionNumber != null )
-			{
-				return StaticEntity.cachedSVNRevisionNumber;
-			}
 			if ( KoLConstants.REVISION == null && SVNWCUtil.isWorkingCopyRoot( KoLConstants.ROOT_LOCATION ) )
 			{
 				SVNInfo info = SVNManager.doInfo( KoLConstants.ROOT_LOCATION );
-				StaticEntity.cachedSVNRevisionNumber = (int) info.getRevision().getNumber();
-				return StaticEntity.cachedSVNRevisionNumber;
+				StaticEntity.cachedRevisionNumber = (int) info.getRevision().getNumber();
+				return StaticEntity.cachedRevisionNumber;
 			}
 		}
 		catch ( SVNException e )
 		{
 			// fall through
+		}
+		// Get the revision from the jar manifest attributes
+		if ( KoLConstants.REVISION == null )
+		{
+			try
+			{
+				ClassLoader classLoader = StaticEntity.class.getClassLoader();
+				if (classLoader != null)
+				{
+					Enumeration<URL> resources = classLoader.getResources("META-INF/MANIFEST.MF");
+					while (resources.hasMoreElements()) 
+					{
+						Manifest manifest = new Manifest(resources.nextElement().openStream());
+						String buildRevision = manifest.getMainAttributes().getValue("Build-Revision");
+						if ( buildRevision != null && StringUtilities.isNumeric( buildRevision ) )
+						{
+							StaticEntity.cachedRevisionNumber = StringUtilities.parseInt( buildRevision );
+							return StaticEntity.cachedRevisionNumber;
+						}
+					}
+				}
+			}
+			catch ( IOException e )
+			{
+				// fall through
+			}
 		}
 		if ( KoLConstants.REVISION == null )
 		{

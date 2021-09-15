@@ -247,7 +247,7 @@ public abstract class KoLmafia
 			}
 
 			PrintStream ostream = LogStream.openStream( KoLmafia.SESSION_FILE, true );
-			ostream.println( KoLConstants.VERSION_NAME );
+			ostream.println( StaticEntity.getVersion() );
 			ostream.close();
 
 			KoLmafia.SESSION_CHANNEL = new RandomAccessFile( KoLmafia.SESSION_FILE, "rw" ).getChannel();
@@ -2149,7 +2149,7 @@ public abstract class KoLmafia
 	{
 		public void run()
 		{
-			if ( KoLConstants.VERSION_NAME.startsWith( "KoLmafia r" ) )
+			if ( !KoLConstants.RELEASED )
 			{
 				return;
 			}

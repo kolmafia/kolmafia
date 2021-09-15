@@ -1529,7 +1529,7 @@ public class FamiliarData
 			if ( !( value instanceof FamiliarData ) || ( ( FamiliarData ) value ).id == -1 )
 			{
 				defaultComponent.setIcon( JComponentUtilities.getImage( "debug.gif" ) );
-				defaultComponent.setText( KoLConstants.VERSION_NAME + ", the 0 lb. \"No Familiar Plz\" Placeholder" );
+				defaultComponent.setText( StaticEntity.getVersion() + ", the 0 lb. \"No Familiar Plz\" Placeholder" );
 
 				defaultComponent.setVerticalTextPosition( SwingConstants.CENTER );
 				defaultComponent.setHorizontalTextPosition( SwingConstants.RIGHT );
