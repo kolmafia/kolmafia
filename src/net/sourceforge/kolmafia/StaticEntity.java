@@ -185,6 +185,11 @@ public abstract class StaticEntity
 		return StringUtilities.isNumeric( version ) ? StringUtilities.parseInt( version ) : 0;
 	}
 
+	public static final void overrideRevision( Integer revision )
+	{
+		StaticEntity.cachedRevisionNumber = revision;
+	}
+
 	public static final void setGUIRequired( boolean isGUIRequired )
 	{
 		StaticEntity.isGUIRequired = isGUIRequired;
