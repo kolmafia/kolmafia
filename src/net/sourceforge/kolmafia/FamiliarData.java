@@ -894,6 +894,9 @@ public class FamiliarData
 
 	public boolean canCarry()
 	{
+		if ( !canEquip() ) {
+			return false;
+		}
 		switch ( this.id )
 		{
 		case FamiliarPool.DOPPEL:
