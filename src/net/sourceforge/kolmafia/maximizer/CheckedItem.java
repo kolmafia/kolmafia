@@ -62,15 +62,17 @@ public class CheckedItem
 	{
 		super( itemId, 1, false );
 
-		// special case used to get a CheckItem that .equals( EquipmentRequest.UNEQUIP ).
-		if ( itemId == 0 )
-		{
-			this.name = "(none)";
-		}
-
 		this.inventory = InventoryManager.getCount( itemId );
 
 		this.initial = InventoryManager.getAccessibleCount( itemId );
+
+		// special case used to get a CheckItem that .equals( EquipmentRequest.UNEQUIP ).
+		if ( itemId == -1 )
+		{
+			this.name = "(none)";
+			this.inventory = Integer.MAX_VALUE;
+			this.initial = Integer.MAX_VALUE;
+		}
 
 		String itemName = this.getName();
 		this.foldable = 0;
