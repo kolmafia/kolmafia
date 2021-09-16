@@ -120,7 +120,6 @@ public class MaximizerTest
 
 	// Sample test for https://kolmafia.us/showthread.php?23648&p=151903#post151903.
 	@Test
-	@Ignore("Currently failing")
 	public void noTieCanLeaveSlotsEmpty()
 	{
 		// 1 helmet turtle.

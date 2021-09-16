@@ -2039,7 +2039,7 @@ public class Evaluator
 			// If we currently have nothing equipped, also consider leaving nothing equipped
 			if ( EquipmentManager.getEquipment( Evaluator.toUseSlot( slot ) ) == EquipmentRequest.UNEQUIP )
 			{
-				ranked[ slot ].add( new CheckedItem( 0, equipScope, maxPrice, priceLevel ) );
+				ranked[ slot ].add( new CheckedItem( -1, equipScope, maxPrice, priceLevel ) );
 			}
 
 			for ( CheckedItem item : checkedItemList )
