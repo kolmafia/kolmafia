@@ -433,6 +433,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "is_dark_mode", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "is_headless", DataTypes.BOOLEAN_TYPE, params ) );
+
 		// Type conversion functions which allow conversion
 		// of one data format to another.
 
@@ -3119,6 +3122,8 @@ public abstract class RuntimeLibrary
 	}
 
 	public static Value is_dark_mode( ScriptRuntime controller) { return new Value( KoLmafiaGUI.isDarkTheme() ); }
+
+	public static Value is_headless( ScriptRuntime controller) { return new Value( StaticEntity.isHeadless() ); }
 
 	// Type conversion functions which allow conversion
 	// of one data format to another.
