@@ -48,19 +48,12 @@ import java.util.Iterator;
 import java.util.jar.Manifest;
 import java.util.StringTokenizer;
 
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.wc.SVNInfo;
-import org.tmatesoft.svn.core.wc.SVNWCUtil;
-
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.svn.SVNManager;
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
@@ -91,19 +84,11 @@ public abstract class StaticEntity
 
 	public static final String getVersion()
 	{
-		return StaticEntity.getVersion( false );
-	}
-
-	public static final String getVersion( final boolean forceRevision )
-	{
 		String version = KoLConstants.VERSION_NAME;
-		if ( !KoLConstants.RELEASED || forceRevision )
+		int revision = StaticEntity.getRevision();
+		if ( revision != 0 )
 		{
-			int revision = StaticEntity.getRevision();
-			if ( revision != 0 )
-			{
-				version += " r" + revision;
-			}
+			version += " r" + revision;
 		}
 		return version;
 	}
@@ -113,19 +98,6 @@ public abstract class StaticEntity
 		if ( StaticEntity.cachedRevisionNumber != null )
 		{
 			return StaticEntity.cachedRevisionNumber;
-		}
-		try
-		{
-			if ( KoLConstants.REVISION == null && SVNWCUtil.isWorkingCopyRoot( KoLConstants.ROOT_LOCATION ) )
-			{
-				SVNInfo info = SVNManager.doInfo( KoLConstants.ROOT_LOCATION );
-				StaticEntity.cachedRevisionNumber = (int) info.getRevision().getNumber();
-				return StaticEntity.cachedRevisionNumber;
-			}
-		}
-		catch ( SVNException e )
-		{
-			// fall through
 		}
 		// Get the revision from the jar manifest attributes
 		if ( KoLConstants.REVISION == null )
