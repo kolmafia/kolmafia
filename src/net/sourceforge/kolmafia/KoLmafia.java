@@ -2149,11 +2149,7 @@ public abstract class KoLmafia
 	{
 		public void run()
 		{
-			if ( !KoLConstants.RELEASED )
-			{
-				return;
-			}
-
+			/* TODO: Check for new version on jenkins\github after migrated
 			long lastUpdate = Long.parseLong( Preferences.getString( "lastRssUpdate" ) );
 			long now = System.currentTimeMillis();
 			if ( now - lastUpdate < 86400000L )
@@ -2206,6 +2202,7 @@ public abstract class KoLmafia
 			{
 				System.out.println(e.getMessage()+" while trying to read from or close KolConstants.");
 			}
+			*/
 		}
 	}
 
