@@ -50,7 +50,7 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 public class IntegerArray
 	implements Iterable<Integer>
 {
-	private final ArrayList<Integer> internalList = new ArrayList<Integer>();
+	private final ArrayList<Integer> internalList = new ArrayList<>();
 
 	public Iterator<Integer> iterator()
 	{
@@ -64,7 +64,7 @@ public class IntegerArray
 
 	public int get( final int index )
 	{
-		return index < 0 || index >= this.internalList.size() ? 0 : this.internalList.get( index ).intValue();
+		return index < 0 || index >= this.internalList.size() ? 0 : this.internalList.get(index);
 	}
 
 	public void set( final int index, final int value )
@@ -94,7 +94,7 @@ public class IntegerArray
 
 		for ( int i = 0; i < array.length; ++i )
 		{
-			array[ i ] = iterator.next().intValue();
+			array[ i ] = iterator.next();
 		}
 
 		return array;
