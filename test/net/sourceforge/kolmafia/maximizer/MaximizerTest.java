@@ -1,10 +1,14 @@
-package net.sourceforge.kolmafia;
+package net.sourceforge.kolmafia.maximizer;
 
 import static org.junit.Assert.*;
 
-import net.sourceforge.kolmafia.maximizer.Boost;
-import net.sourceforge.kolmafia.maximizer.Maximizer;
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.FamiliarData;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
@@ -84,7 +88,7 @@ public class MaximizerTest
 				.map(Boost::getItem)
 				.findAny();
 		assertTrue(acc1.isPresent());
-		assertEquals(acc1.get().id, 9274);
+		assertEquals(acc1.get().getItemId(), 9274);
 	}
 
 	@Test
@@ -129,7 +133,70 @@ public class MaximizerTest
 			0, modFor( "Buffed Muscle" ), 0.01 );
 	}
 
-	private void loadInventory(String jsonInventory)
+	// Tests for https://kolmafia.us/threads/26413
+	@Test
+	public void keepBjornInhabitantEvenWhenUseless()
+	{
+		addItem( "Buddy Bjorn" );
+		KoLCharacter.setBjorned( new FamiliarData( FamiliarPool.HAPPY_MEDIUM ) );
+
+		assertTrue( maximize( "+25 bonus buddy bjorn -tie" ) );
+
+		// Actually equipped the buddy bjorn with its current inhabitant.
+		assertEquals( 25, modFor( "Meat Drop" ), 0.01 );
+	}
+
+	// Tests for https://kolmafia.us/threads/26413
+	@Test
+	public void actuallyEquipsBonusBjorn()
+	{
+		addItem( "Buddy Bjorn" );
+		KoLCharacter.setBjorned( new FamiliarData( FamiliarPool.HAPPY_MEDIUM ) );
+		// +10 to all attributes. Should not be equipped.
+		KoLCharacter.addFamiliar( new FamiliarData( FamiliarPool.DICE ) );
+
+		// +7 Muscle
+		equip( EquipmentManager.CONTAINER, "barskin cloak" );
+
+		assertTrue( maximize( "mus -buddy-bjorn +25 bonus buddy bjorn -tie" ) );
+		// Unequipped the barskin cloak
+		assertEquals( 0, modFor( "Buffed Muscle" ), 0.01 );
+		// Actually equipped the buddy bjorn
+		assertEquals( 25, modFor( "Meat Drop" ), 0.01 );
+	}
+
+	@Test
+	public void keepsBonusBjornUnchanged()
+	{
+		addItem( "Buddy Bjorn" );
+		addItem( "Crown of Thrones" );
+		KoLCharacter.setBjorned( new FamiliarData( FamiliarPool.HAPPY_MEDIUM ) );
+		// +10 to all attributes. Worse than current hat.
+		KoLCharacter.addFamiliar( new FamiliarData( FamiliarPool.DICE ) );
+
+		// +7 Muscle
+		equip( EquipmentManager.CONTAINER, "barskin cloak" );
+		// +25 Muscle
+		equip( EquipmentManager.HAT, "wreath of laurels" );
+
+		assertTrue( maximize( "mus -buddy-bjorn +25 bonus buddy bjorn -tie" ) );
+		// Unequipped the barskin cloak, still have wreath of laurels equipped.
+		assertEquals( 25, modFor( "Buffed Muscle" ), 0.01 );
+		// Actually equipped the buddy bjorn
+		assertEquals( 25, modFor( "Meat Drop" ), 0.01 );
+	}
+
+	private void equip( int slot, String item )
+	{
+		EquipmentManager.setEquipment( slot, AdventureResult.parseResult( item ) );
+	}
+
+	private void addItem( String item )
+	{
+		AdventureResult.addResultToList( KoLConstants.inventory, AdventureResult.parseResult( item ) );
+	}
+
+	private void loadInventory( String jsonInventory )
 	{
 		try
 		{
@@ -141,7 +208,7 @@ public class MaximizerTest
 		}
 	}
 
-	private boolean maximize(String maximizerString) {
+	private boolean maximize( String maximizerString ) {
 		return Maximizer.maximize( maximizerString, 0, 0, true );
 	}
 

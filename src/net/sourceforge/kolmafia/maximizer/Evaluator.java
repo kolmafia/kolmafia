@@ -1761,30 +1761,27 @@ public class Evaluator
 		FamiliarData secondBestCarriedFamiliar = FamiliarData.NO_FAMILIAR;
 		FamiliarData useBjornFamiliar = FamiliarData.NO_FAMILIAR;
 		FamiliarData useCrownFamiliar = FamiliarData.NO_FAMILIAR;
-		if ( KoLCharacter.hasEquipped( ItemPool.BUDDY_BJORN, EquipmentManager.CONTAINER ) )
+
+		// If we're not allowed to change the current familiar, lock it
+		if ( this.slots[ EquipmentManager.BUDDYBJORN ] < 0 )
 		{
-			// If we're not allowed to change the current familiar, blacklist it
-			if ( this.slots[ EquipmentManager.BUDDYBJORN ] < 0 )
-			{
-				useBjornFamiliar = KoLCharacter.getBjorned();
-			}
-			else
-			{
-				bestCarriedFamiliar = KoLCharacter.getBjorned();
-			}
+			useBjornFamiliar = KoLCharacter.getBjorned();
 		}
-		if ( KoLCharacter.hasEquipped( ItemPool.HATSEAT, EquipmentManager.HAT ) )
+		else
 		{
-			// If we're not allowed to change the current familiar, add it
-			if ( this.slots[ EquipmentManager.CROWNOFTHRONES ] < 0 )
-			{
-				useCrownFamiliar = KoLCharacter.getEnthroned();
-			}
-			else
-			{
-				secondBestCarriedFamiliar = KoLCharacter.getEnthroned();
-			}
+			bestCarriedFamiliar = KoLCharacter.getBjorned();
 		}
+
+		// If we're not allowed to change the current familiar, lock it
+		if ( this.slots[ EquipmentManager.CROWNOFTHRONES ] < 0 )
+		{
+			useCrownFamiliar = KoLCharacter.getEnthroned();
+		}
+		else
+		{
+			secondBestCarriedFamiliar = KoLCharacter.getEnthroned();
+		}
+
 		if ( bestCarriedFamiliar == FamiliarData.NO_FAMILIAR && !(secondBestCarriedFamiliar == FamiliarData.NO_FAMILIAR ) )
 		{
 			bestCarriedFamiliar = secondBestCarriedFamiliar;
