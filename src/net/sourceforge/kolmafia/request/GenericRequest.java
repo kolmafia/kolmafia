@@ -3232,6 +3232,7 @@ public class GenericRequest
 		case ItemPool.WHITE_PAGE:
 			itemName = "white page";
 			consumed = true;
+			nextAdventure = "Whitey's Grove";
 			break;
 
 		case ItemPool.XIBLAXIAN_HOLOTRAINING_SIMCODE:
@@ -3283,6 +3284,7 @@ public class GenericRequest
 		case ItemPool.LYNYRD_SNARE:
 			itemName = "lynyrd snare";
 			consumed = true;
+			nextAdventure = "A Mob of Zeppelin Protesters";
 			Preferences.increment( "_lynyrdSnareUses" );
 			break;
 

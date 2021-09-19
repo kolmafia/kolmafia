@@ -124,7 +124,7 @@ public class TCRSDatabase
 	{
 		if ( !validate( cclass, sign ) )
 		{
-			return null;
+			return "";
 		}
 
 		return "TCRS_" + StringUtilities.globalStringReplace( cclass, " ", "_" ) + "_" + sign + suffix + ".txt";
