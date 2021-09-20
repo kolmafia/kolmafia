@@ -313,7 +313,7 @@ Item	Lens of Hatred	Meat Drop: +15, Reduce Enemy Defense: 10, Spell Damage Perce
 Item	Lens of Violence	Item Drop: +15, Critical Hit Percent: +5, Weapon Damage Percent: +30, Familiar Effect: "atk, 1xBarrr"
 Item	lihc face	Spooky Resistance: +2, Familiar Effect: "spooky atk, 1xBarrr, cap 22"
 Item	linoleum helmet turtle	Maximum HP: +10, Maximum MP: +10, Familiar Effect: "stench atk, 1xFairy, cap 25"
-Item	literal bucket hat	Water: +1
+Item	literal bucket hat	Water: +5
 Item	longhaired hippy wig	Stench Damage: +20, Mysticality Percent: +5, Familiar Effect: "1xPotato, 1xGhuol"
 Item	lynyrdskin cap	Initiative: +25, Familiar Effect: "1xPotato, 1xVolley, cap 42"
 Item	MAHI fez	Moxie: +30, Familiar Effect: "0.5xVolley, 0.5xPotato, 0.5xLep, 0.5xFairy"
@@ -3882,7 +3882,7 @@ Item	work boots	Plumber Stat: "Moxie", Plumber Power: 1, Single Equip
 # worksite credentials: Grants access to worksites
 Item	worksite credentials	Adventures: +1, Single Equip
 Item	World's Best Adventurer sash	Muscle: [min(100,A+1)], Mysticality: [min(100,A+1)], Moxie: [min(100,A+1)]
-Item	wormwood wedding ring	Mysticality Percent: +100, Meat Drop: +50, Spooky Damage: +30, Spooky Spell Damage: +30, Spooky Resistance: +3
+Item	wormwood wedding ring	Mysticality Percent: +100, Meat Drop: +50, Spooky Damage: +30, Spooky Spell Damage: +30, Spooky Resistance: +3, Single Equip
 Item	woven baling wire bracelets	Spell Damage: +15, Mana Cost: -1
 Item	wrench bracelet	Muscle: +5, Weapon Damage: +9
 # Wrist-Boy: Allows use of holo-records
@@ -9124,6 +9124,7 @@ Item	blue grass	Effect: "The Grass...  Is Blue...", Effect Duration: 20
 Item	blue snowcone	Effect: "Blue Tongue", Effect Duration: 20
 Item	blue-frosted astral cupcake	Effect: "Cupcake of Choice", Effect Duration: 20
 Item	boiling broth	Effect: "Boiling Determination", Effect Duration: 1
+Item	boiling hot cocoa	Effect: "Cocoa-Crispy", Effect Duration: 20
 Item	boiling seal blood	Effect: "Abyssal Blood", Effect Duration: 20
 Item	Boletus Broletus mushroom	Effect: "Boletus Swoletus", Effect Duration: 10
 Item	bone bons	Effect: "Bone Chilling", Effect Duration: 20
@@ -9167,6 +9168,7 @@ Item	candy brain	Effect: "Sugar Rush", Effect Duration: 15
 Item	candy chalk	Effect: "Chalked-Up Teeth", Effect Duration: 20
 Item	candy cigarette	Effect: "Hollow Inside", Effect Duration: 20
 Item	candy crayons	Effect: "A Taste of Rainbow", Effect Duration: 5
+Item	candy harmonica	Effect: "Self-Harmonizing", Effect Duration: 100
 Item	candy skeleton	Effect: "Candied Skeleton", Effect Duration: 10
 Item	candy UFOs	Effect: "Fizzier Than Light", Effect Duration: 10
 Item	catfish whiskers	Effect: "Fishy Whiskers", Effect Duration: 40
@@ -9213,6 +9215,7 @@ Item	confiscated love note	Effect: "Notably Lovely", Effect Duration: 20
 Item	Connery's Elixir of Audacity	Effect: "Cock of the Walk", Effect Duration: [R]
 Item	Conspiracy&trade; mascara	Effect: "Conspiratory Eyes", Effect Duration: 50
 Item	cool cat elixir	Effect: "Cool, Catlike", Effect Duration: 20
+Item	cool hot cocoa	Effect: "Cocoa-Chanel", Effect Duration: 20
 Item	cordial of concentration	Effect: "Concentration", Effect Duration: [R]
 Item	correction fluid	Effect: "The Solution", Effect Duration: 30
 Item	corrupted data	Effect: "Corrupted", Effect Duration: 30
@@ -9388,6 +9391,7 @@ Item	Flaskfull of Hollow	Effect: "Merry Smithsness", Effect Duration: 150
 Item	floaty sand	Effect: "5 Pounds Lighter", Effect Duration: 10
 Item	fluid of fudge-finding	Effect: "Fudgehound", Effect Duration: 5
 Item	foetid seal tear	Effect: "Abyssal Tears", Effect Duration: 20
+Item	fortifying hot cocoa	Effect: "Cocoa-Fortified", Effect Duration: 20
 Item	Freddie's blessing of Mercury	Effect: "You're High as a Crow, Marty", Effect Duration: 50
 Item	freezer-burned frost-bitten tortellini	Effect: "Blessing of the Frozen Tortellini", Effect Duration: 10
 Item	freezerburned ice cube	Effect: "Permafrosty", Effect Duration: 10
@@ -9513,6 +9517,8 @@ Item	honeypot	Effect: "Float Like a Butterfly, Smell Like a Bee", Effect Duratio
 Item	Hot 'n' Scarys	Effect: "Sugar Rush", Effect Duration: 3, Effect: "Hot Breath", Effect: "Spooky Breath"
 Item	hot button candy	Effect: "Hot Buttoned", Effect Duration: 10
 Item	hot coal	Effect: "Fire Inside", Effect Duration: 15
+Item	hot cocoa au beurre	Effect: "Cocoa-Buttery", Effect Duration: 20
+Item	hot cocoa with rainbow marshmallows	Effect: "Cocoa-Nuts", Effect Duration: 20
 Item	hot nuggets	Effect: "Flaming Weapon", Effect Duration: 5
 Item	hot powder	Effect: "Flame-Retardant Trousers", Effect Duration: 5
 Item	Hotwire&trade; brand candy rope	Effect: "Grand Theft Candy", Effect Duration: 20
@@ -9638,6 +9644,7 @@ Item	mother's little helper	Effect: "Tranquilized Mind", Effect Duration: 10
 Item	motivational poster	Effect: "Loco Motives", Effect Duration: 10
 Item	mouse skull	Effect: "Little Mouse Skull Buddy", Effect Duration: 20
 Item	Mr. Mediocrebar	Effect: "Apathy", Effect Duration: 10
+Item	multi-level marzipan	Effect: "Multi-Level Mindset", Effect Duration: 100
 Item	murderbot shield unit	Effect: "Shielded Unit", Effect Duration: 20
 Item	murderbot spring injector	Effect: "Spring Training", Effect Duration: 20
 Item	musk turtle	Effect: "High Colognic", Effect Duration: 15
@@ -9682,6 +9689,7 @@ Item	orcish nailing lube	Effect: "Well-Lubed", Effect Duration: 10
 Item	orcish rubber	Effect: "Using Protection", Effect Duration: 10
 Item	organic potpourri	Effect: "Potpourri Committed", Effect Duration: 20
 Item	Outer Wolf&trade; cologne	Effect: "Outer Wolf&trade;", Effect Duration: 20
+Item	overly-fancy hot cocoa	Effect: "Smug of Cocoa", Effect Duration: 20
 Item	Pain Dip	Effect: "The HeyDezebound Heart", Effect Duration: 1
 Item	pair of candy glasses	Effect: "Sucrose-Colored Glasses", Effect Duration: 10
 Item	panty raider camouflage	Effect: "Hiding in Plain Sight", Effect Duration: 10
@@ -9761,6 +9769,7 @@ Item	potion of the litterbox	Effect: "Litterboxing", Effect Duration: 20
 Item	potion of X-ray vision	Effect: "X-Ray Vision", Effect Duration: 30
 Item	powdered candy sushi set	Effect: "Fishy", Effect Duration: 30
 Item	powdered dice	Effect: "Curse of Randomness", Effect Duration: 100
+Item	powdered powdered sugar	Effect: "Festively-Dusted", Effect Duration: 100
 Item	powdered toad horn	Effect: "Squirming Like a Toad", Effect Duration: 10
 # power pill: Can also be fed to Puck Mans in combat
 Item	power pill	Effect: "Pill Power", Effect Duration: 30
@@ -9917,6 +9926,7 @@ Item	spoonful of Linguine-Os	Effect: "Blessing of the Hot Linguine", Effect Dura
 Item	Spring Break Beach &quot;swimsuit&quot;	Effect: "Painted-On Bikini", Effect Duration: 50
 Item	Squat-Thrust Magazine	Effect: "Squatting and Thrusting", Effect Duration: 20
 Item	squeaky toy rose	Effect: "A Rose by Any Other Material", Effect Duration: 1
+Item	stained hard candy	Effect: "Stained", Effect Duration: 20
 Item	Steal This Candy	Effect: "A Revolution in Your Mouth", Effect Duration: 10
 Item	Stemonitis Staticus mushroom	Effect: "Stemonitis Storm", Effect Duration: 10
 Item	stench nuggets	Effect: "Stinky Weapon", Effect Duration: 5
@@ -10753,6 +10763,7 @@ Item	Fly-By-Knight Heraldry form	Free Pull
 # forest tears: Restores 5-10 HP
 Item	Fourth of May Cosplay Saber kit	Free Pull
 Item	fragment of Jarlsberg's soul	Free Pull
+Item	fresh can of paint	Free Pull
 # frightful feather: Deals 80-120 <font color=gray>Spooky Damage</font>
 # frigid ninja stars: Deals 20-25 <font color=blue>Cold Damage</font>
 # frontwinder skin: Adds +50% Mysticality to your cowboy boots
@@ -11182,9 +11193,11 @@ Item	Our Daily Candles&trade; order form	Free Pull
 # ovoid leather thing: Deals 80-100 Physical Damage
 # pacification grenade: Weakens enemies somewhat
 Item	Pack of Every Card	Free Pull
+Item	packaged backup camera	Free Pull
 Item	packaged familiar scrapbook	Free Pull
 Item	packaged industrial fire extinguisher	Free Pull
 Item	packaged knock-off retro superhero cape	Free Pull
+Item	packaged miniature crystal ball	Free Pull
 Item	packaged Pocket Professor	Free Pull
 Item	packaged SpinMaster&trade; lathe	Free Pull
 # PADL Phone: Summons Frat Army Aid

@@ -420,7 +420,7 @@ ham steak	3	5	good	8-10	30-50	0	0
 hambrosier	3	1	awesome	11-13	0	0	0	50 The Power of Positive Thinking
 hamburger	2	5	awesome	8	18-22	18-22	18-22
 hamlet sandwich	3	1	awesome	13-14	1-11	1-11	1-11	50 Oh Hamlet Hamlet Hamlet Hamlet (+50% HP, +50% MP, +50 damage vs Ghosts)
-hand-crafted candy cane	2	1	EPIC	0	0	0	0	Unspaded
+hand-crafted candy cane	2	13	EPIC	0	0	0	0	Unspaded
 handful of nuts and berries	1	12	awesome	3-4	0	50-60	0
 handful of walnuts	1	10	good	2-4	0	0	20-30
 Happy Birthday, Claude! cake	3	1	crappy	3	0	0	0

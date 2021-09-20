@@ -3153,7 +3153,7 @@
 3125	piece of after eight	653012160	pieceof13.gif	potion, usable, candy2	t,d	35	pieces of after eight
 3126	hobo nickel	972721571	nickel.gif	none		0
 3127	sandcastle	445850699	sandcastle.gif	usable	t,d	300
-3128	marshmallow	555622888	marshmallow.gif	none	t	0
+3128	marshmallow	555622888	marshmallow.gif	none, paste	t	0
 3129	roasted marshmallow	498235185	roastmallow.gif	food	t	0
 3130	strange shiny disc	722107846	cd.gif	none	t	0
 3131	tin cup of mulligan stew	334311392	stewcup.gif	food	t	0	tin cups of mulligan stew
@@ -10684,9 +10684,9 @@
 10656	overly-fancy hot cocoa	417568026	coffeecup.gif	potion, usable	t,d	10
 10657	hot cocoa au beurre	592163063	coffeecup.gif	potion, usable	t,d	10
 10658	hot cocoa with rainbow marshmallows	527418109	coffeecup.gif	potion, usable	t,d	10
-10659	Book of Old-Timey Carols	908927941	book3.gif	offhand	t,d	5
-10660	Crimbo smile	485610584	beardgrin.gif	offhand	t,d	5
-10661	SalesCo sample kit	731340264	briefcase.gif	offhand	t,d	10
+10659	Book of Old-Timey Carols	908927941	book3.gif	offhand		0
+10660	Crimbo smile	485610584	beardgrin.gif	offhand		0
+10661	SalesCo sample kit	731340264	briefcase.gif	offhand		0
 10662	candy harmonica	532630113	smallharmonica.gif	potion, usable	t,d	10
 10663	powdered powdered sugar	624981098	snowpile.gif	potion, usable	t,d	10
 10664	multi-level marzipan	290902272	mlmarzipan.gif	potion, usable	t,d	10
@@ -10742,9 +10742,9 @@
 10714	The Night Before Crimbo, Ch. 6 (used)	440337817	book4.gif	reusable		0
 10715	stuffed red and green pepper (stale)	353885496	crimbopepper.gif	food	t,d	10
 10716	cranberry margarita (brackish)	761622847	cranmarg.gif	drink	t,d	10
-10717	fuzzy polar bear ears	244293817	bearears.gif	familiar	t,d	20
-10718	tiny glowing red nose	296251642	glownose.gif	familiar	t,d	20
-10719	miniature goose mask	849657392	goosemask.gif	familiar	t,d	20
+10717	fuzzy polar bear ears	244293817	bearears.gif	familiar	t	0
+10718	tiny glowing red nose	296251642	glownose.gif	familiar	t	0
+10719	miniature goose mask	849657392	goosemask.gif	familiar	t	0
 10720	barrel-aged eggnog	115704459	coffeecup.gif	drink	t	0
 10721	hand-crafted candy cane	652206867	candycane.gif	food	t	0
 10722	drive-thru burger	235084046	hamburger.gif	food	t,d	10
@@ -10771,7 +10771,7 @@
 10743	battery (lantern)	609332450	ppbattery5.gif	potion, multiple, paste	t	0	batteries (lantern)
 10744	battery (car)	331021839	ppbattery6.gif	potion, multiple	t	0	batteries (car)
 10745
-10746	green marshmallow	762874061	greenmallow.gif	none, paste	t	0
+10746	green marshmallow	762874061	greenmallow.gif	none	t	0
 10747	marshmallow bomb	415111150	shot_f.gif	drink	t	0
 10748	packaged backup camera	139667233	backcamera_box.gif	usable	t	0
 10749	backup camera	703497599	backcamera.gif	accessory		0

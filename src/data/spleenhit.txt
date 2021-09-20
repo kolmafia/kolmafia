@@ -152,7 +152,7 @@ off-white striped oyster egg	1	1	awesome	0	11-15	0	0	20 Eggs-tra Sensory Percept
 oily paste	4	4	good	5-10	18-22	18-22	18-22	10 Oily Flavor (+15 mus)
 orc paste	4	4	good	5-10	18-22	18-22	18-22	10 Fratty Flavor (+15 mox)
 oversized ice molecule	1	1	awesome	0	0	0	0	Unspaded
-paraffin pieces	2	12	awesome	0	0	0	0	Unspaded
+paraffin pieces	2	6	good	0	0	0	0	Unspaded
 party balloon	1	2	good	0	10-20	10-20	10-20	50 Lifted Spirits (+25 init, +5 stats/fight)
 Party-in-a-Can&trade;	1	4	crappy	0	1-50	1-50	1-50	50 Party on Your Skin (+50% HP, +50% MP, +5 familiar weight, +3 all res)
 patent antipsychotics	1	1	good	0	0	10-12	0
@@ -195,7 +195,7 @@ strongness elixir	1	1	crappy	0	1-3	0	0
 super-sweet fish goo (spoiled)	5	1	decent	0	0	0	0
 suntan lotion of moxiousness	1	3	good	0	0	0	8-10
 synthetic marrow	1	1	EPIC	0	30-40	0	0
-terra cotta tidbits	3	12	EPIC	0	0	0	0	Unspaded
+terra cotta tidbits	3	8	awesome	0	0	0	0	Unspaded
 The Author's ink	1	4	awesome	0	0	0	0	200 It's a Good Life! (+10 stat gain, +200% all)
 The Inquisitor's unidentifiable object	1	6	EPIC	0	50-100	50-100	50-100	100 The Inquisitor's Unknown Effect (+10 fam weight, +25 DR, +100% init, +100% meat, +100% item, +100% MP, +100% weapon dmg, +200% spell dmg)
 the funk	1	1	EPIC	0	0	0	30-40
