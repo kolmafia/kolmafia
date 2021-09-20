@@ -71,8 +71,8 @@ public interface KoLConstants
 	// Version information for the current version of KoLmafia.
 	// Rendered in various locations and therefore made public.
 
-	String VERSION_NAME = "KoLmafia v20.7";
-	String VERSION_DATE = "Released on July 30, 2020";
+	String VERSION_NAME = "KoLmafia v21.9";
+	String VERSION_DATE = "Released on September 20, 2021";
 	boolean RELEASED = true;
 	String REVISION = null;
 
