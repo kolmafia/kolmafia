@@ -759,18 +759,10 @@ public class Parser
 
 			if ( this.currentToken().equals( "..." ) )
 			{
-				// We can only have a single vararg parameter
-				if ( vararg )
-				{
-					throw this.parseException( "Only one vararg parameter is allowed" );
-				}
 				// Make an vararg type out of the previously parsed type.
 				paramType = new VarArgType( paramType );
 
 				this.readToken(); //read ...
-
-				// Only one vararg is allowed
-				vararg = true;
 			}
 
 			Variable param = this.parseVariable( paramType, null );
@@ -779,19 +771,32 @@ public class Parser
 				throw this.parseException( "identifier", this.currentToken() );
 			}
 
-			if ( !paramList.add( param ) )
+			if ( vararg )
+			{
+				if ( paramType instanceof VarArgType )
+				{
+					// We can only have a single vararg parameter
+					throw this.parseException( "Only one vararg parameter is allowed" );
+				}
+				else
+				{
+					// The single vararg parameter must be the last one
+					throw this.parseException( "The vararg parameter must be the last one" );
+				}
+			}
+			else if ( !paramList.add( param ) )
 			{
 				throw this.parseException( "Parameter " + param.getName() + " is already defined" );
 			}
 
+			if ( paramType instanceof VarArgType )
+			{
+				// Only one vararg is allowed
+				vararg = true;
+			}
+
 			if ( !this.currentToken().equals( ")" ) )
 			{
-				// The single vararg parameter must be the last one
-				if ( vararg )
-				{
-					throw this.parseException( "The vararg parameter must be the last one" );
-				}
-
 				if ( this.currentToken().equals( "," ) )
 				{
 					this.readToken(); //read comma
