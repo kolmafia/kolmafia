@@ -45,7 +45,7 @@ import net.sourceforge.kolmafia.textui.ScriptException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class CompositeValue
+public abstract class CompositeValue
 	extends Value
 {
 	public CompositeValue( final CompositeType type )

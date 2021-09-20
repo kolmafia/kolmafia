@@ -191,12 +191,6 @@ public class RecordType
 	}
 
 	@Override
-	public String toString()
-	{
-		return this.name;
-	}
-
-	@Override
 	public Value initialValue()
 	{
 		return new RecordValue( this );
