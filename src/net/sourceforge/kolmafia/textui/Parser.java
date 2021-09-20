@@ -1333,17 +1333,24 @@ public class Parser
 				arrayAllowed = false;
 			}
 
-			// If parsing an ArrayLiteral, accumulate only values
-			if ( isArray )
+			if ( !delim.equals( ":" ) )
 			{
-				// The value must have the correct data type
-				lhs = this.autoCoerceValue( data, lhs, scope );
-				if ( !Operator.validCoercion( dataType, lhs.getType(), "assign" ) )
+				// If parsing an ArrayLiteral, accumulate only values
+				if ( isArray )
 				{
-					throw this.parseException( "Invalid array literal" );
-				}
+					// The value must have the correct data type
+					lhs = this.autoCoerceValue( data, lhs, scope );
+					if ( !Operator.validCoercion( dataType, lhs.getType(), "assign" ) )
+					{
+						throw this.parseException( "Invalid array literal" );
+					}
 
-				values.add( lhs );
+					values.add( lhs );
+				}
+				else
+				{
+					throw this.parseException( ":", delim );
+				}
 
 				// Move on to the next value
 				if ( delim.equals( "," ) )
@@ -1359,12 +1366,15 @@ public class Parser
 			}
 
 			// We are parsing a MapLiteral
-			if ( !delim.equals( ":" ) )
-			{
-				throw this.parseException( ":", this.currentToken() );
-			}
-
 			this.readToken(); // read :
+
+			if ( isArray )
+			{
+				// Not entirely correct, since, to get here, what we got so far must have matched
+				// the value's datatype, but we can't tell what they put after the :, so just
+				// assume it's a key:value pair anyway.
+				throw this.parseException( "Cannot include keys when making an array literal" );
+			}
 
 			Value rhs;
 			if ( this.currentToken().equals( "{" ) && dataType instanceof AggregateType )

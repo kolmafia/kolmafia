@@ -412,6 +412,12 @@ public class ParserTest
 				null,
 			},
 			{
+				"Ambiguity between array and map literal 2",
+				"int[5]{ 0, 1, 2, 3:3, 4 }",
+				"Cannot include keys when making an array literal",
+				null,
+			},
+			{
 				// This... exercises a different code path.
 				"Parenthesized map literal",
 				"(int[int]{})",
