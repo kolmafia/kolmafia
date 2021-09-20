@@ -2268,6 +2268,12 @@ public class ParserTest
 				null,
 			},
 			{
+				"Illegal record creation",
+				"void f( record foo {int a; int b;} bar )",
+				"Record creation is not allowed here",
+				null,
+			},
+			{
 				"array of record",
 				"record {int a;}[] r;",
 				null,

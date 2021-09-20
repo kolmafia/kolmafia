@@ -1231,30 +1231,23 @@ public class Parser
 			return null;
 		}
 
-		Type valType = scope.findType( this.currentToken().content );
-		if ( valType == null )
+		Type valType;
+
+		if ( ( valType = this.parseRecord( scope ) ) != null )
 		{
-			if ( records && this.currentToken().equalsIgnoreCase( "record" ) )
+			if ( !records )
 			{
-				valType = this.parseRecord( scope );
-
-				if ( valType == null )
-				{
-					return null;
-				}
-
-				if ( this.currentToken().equals( "[" ) )
-				{
-					return this.parseAggregateType( valType, scope );
-				}
-
-				return valType;
+				throw this.parseException( "Record creation is not allowed here" );
 			}
-
+		}
+		else if ( ( valType = scope.findType( this.currentToken().content ) ) != null )
+		{
+			this.readToken();
+		}
+		else
+		{
 			return null;
 		}
-
-		this.readToken();
 
 		if ( this.currentToken().equals( "[" ) )
 		{
