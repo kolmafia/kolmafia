@@ -1269,6 +1269,18 @@ public class ParserTest
 				null,
 			},
 			{
+				"parameter incorrect initialization",
+				"int f(int x =) {}",
+				"Cannot initialize parameter x",
+				null,
+			},
+			{
+				"parameter incorrect initialization 2",
+				"int f(int x = {}) {}",
+				"Cannot initialize parameter x",
+				null,
+			},
+			{
 				"brace assignment of primitive",
 				"int x = {1}",
 				"Cannot initialize x of type int with an aggregate literal",
