@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -63,6 +64,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.IntStream;
 
 public class TCRSDatabase
 {
@@ -657,6 +659,11 @@ public class TCRSDatabase
 		}
 
 		if ( ItemDatabase.isFamiliarEquipment( itemId ) )
+		{
+			return false;
+		}
+
+		if ( IntStream.of( CampgroundRequest.campgroundItems ).anyMatch( i -> i == itemId ) )
 		{
 			return false;
 		}
