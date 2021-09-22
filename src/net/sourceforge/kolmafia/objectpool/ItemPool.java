@@ -2721,6 +2721,15 @@ public class ItemPool
 	public static final int GLOB_OF_BAT_GLUE = 8813;
 	public static final int BAT_AID_BANDAGE = 8814;
 	public static final int BAT_BEARING = 8815;
+	public static final int KUDZU_SALAD = 8816;
+	public static final int MANSQUITO_SERUM = 8817;
+	public static final int MISS_GRAVES_VERMOUTH = 8818;
+	public static final int PLUMBERS_MUSHROOM_STEW = 8819;
+	public static final int AUTHORS_INK = 8820;
+	public static final int MAD_LIQUOR = 8821;
+	public static final int DOC_CLOCKS_THYME_COCKTAIL = 8822;
+	public static final int MR_BURNSGER = 8823;
+	public static final int INQUISITORS_UNIDENTIFIABLE_OBJECT = 8824;
 	public static final int REPLICA_BAT_OOMERANG = 8829;
 	public static final int ROBIN_EGG = 8833;
 	public static final int TELEGRAPH_OFFICE_DEED = 8836;

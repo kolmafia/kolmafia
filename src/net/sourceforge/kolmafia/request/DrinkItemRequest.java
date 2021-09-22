@@ -154,6 +154,18 @@ public class DrinkItemRequest
 
 		switch ( itemId )
 		{
+		case ItemPool.MISS_GRAVES_VERMOUTH:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_missGravesVermouthDrunk" ) ? 0 : 1;
+
+		case ItemPool.MAD_LIQUOR:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_madLiquorDrunk" ) ? 0 : 1;
+
+		case ItemPool.DOC_CLOCKS_THYME_COCKTAIL:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_docClocksThymeCocktailDrunk" ) ? 0 : 1;
+
 		case ItemPool.DRIPPY_PILSNER:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_drippyPilsnerUsed" ) ? 0 : 1;
@@ -926,6 +938,18 @@ public class DrinkItemRequest
 
 		case ItemPool.BLOODWEISER:
 			Preferences.increment( "bloodweiserDrunk", item.getCount() );
+			return;
+
+		case ItemPool.MISS_GRAVES_VERMOUTH:
+			Preferences.setBoolean( "_missGravesVermouthDrunk", true );
+			return;
+
+		case ItemPool.MAD_LIQUOR:
+			Preferences.setBoolean( "_madLiquorDrunk", true );
+			return;
+
+		case ItemPool.DOC_CLOCKS_THYME_COCKTAIL:
+			Preferences.setBoolean( "_docClocksThymeCocktailDrunk", true );
 			return;
 
 		case ItemPool.DRIPPY_PILSNER:
