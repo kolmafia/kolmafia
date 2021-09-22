@@ -1370,10 +1370,22 @@ public class Parser
 
 			if ( isArray )
 			{
-				// Not entirely correct, since, to get here, what we got so far must have matched
-				// the value's datatype, but we can't tell what they put after the :, so just
-				// assume it's a key:value pair anyway.
-				throw this.parseException( "Cannot include keys when making an array literal" );
+				// In order to reach this point without an error, we must have had a correct
+				// array literal so far, meaning the index type is an integer, and what we saw before
+				// the colon must have matched the aggregate's data type. Therefore, the next
+				// question is: is the data type also an integer?
+
+				if ( data.equals( DataTypes.INT_TYPE ) )
+				{
+					// If so, this is an int[int] aggregate. They could have done something like
+					// {0, 1, 2, 3:3, 4:4, 5:5}
+					throw this.parseException( "Cannot include keys when making an array literal" );
+				}
+				else
+				{
+					// If not, we can't tell why there's a colon here.
+					throw this.parseException( ", or }", delim );
+				}
 			}
 
 			Value rhs;
