@@ -185,6 +185,18 @@ public class EatItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_affirmationCookieEaten" ) ? 0 : ( 1 - ConcoctionDatabase.queuedAffirmationCookies );
 
+		case ItemPool.KUDZU_SALAD:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_kudzuSaladEaten" ) ? 0 : 1;
+
+		case ItemPool.PLUMBERS_MUSHROOM_STEW:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_plumbersMushroomStewEaten" ) ? 0 : 1;
+
+		case ItemPool.MR_BURNSGER:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_mrBurnsgerEaten" ) ? 0 : 1;
+
 		case ItemPool.DRIPPY_CAVIAR:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_drippyCaviarUsed" ) ? 0 : 1;
@@ -1064,6 +1076,18 @@ public class EatItemRequest
 			Preferences.setBoolean( "_affirmationCookieEaten", true );
 			ConsumablesDatabase.setAffirmationCookieData();
 			ConsumablesDatabase.calculateAdventureRanges();
+			return;
+
+		case ItemPool.KUDZU_SALAD:
+			Preferences.setBoolean( "_kudzuSaladEaten", true );
+			return;
+
+		case ItemPool.PLUMBERS_MUSHROOM_STEW:
+			Preferences.setBoolean( "_plumbersMushroomStewEaten", true );
+			return;
+
+		case ItemPool.MR_BURNSGER:
+			Preferences.setBoolean( "_mrBurnsgerEaten", true );
 			return;
 
 		case ItemPool.MAGICAL_SAUSAGE:

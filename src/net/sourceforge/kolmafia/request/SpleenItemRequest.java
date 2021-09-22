@@ -89,6 +89,18 @@ public class SpleenItemRequest
 		case ItemPool.TURKEY_BLASTER:
 			UseItemRequest.limiter = "daily limit";
 			return Math.min( usableMaximum, ( 3 - Preferences.getInteger( "_turkeyBlastersUsed" ) ) );
+		case ItemPool.MOJO_FILTER:
+			UseItemRequest.limiter = "daily limit";
+			return Math.min( usableMaximum, ( 3 - Preferences.getInteger( "currentMojoFilters" ) ) );
+		case ItemPool.MANSQUITO_SERUM:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_mansquitoSerumUsed" ) ? 0 : 1;
+		case ItemPool.AUTHORS_INK:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_authorsInkUsed" ) ? 0 : 1;
+		case ItemPool.INQUISITORS_UNIDENTIFIABLE_OBJECT:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_inquisitorsUnidentifiableObjectUsed" ) ? 0 : 1;
 		}
 
 		return (int) Math.min( restorationMaximum, usableMaximum );
@@ -308,6 +320,18 @@ public class SpleenItemRequest
 
 				Preferences.increment( "_turkeyBlastersUsed", count );
 			}
+			break;
+
+		case ItemPool.MANSQUITO_SERUM:
+			Preferences.setBoolean( "_mansquitoSerumUsed", true );
+			break;
+
+		case ItemPool.AUTHORS_INK:
+			Preferences.setBoolean( "_authorsInkUsed", true );
+			break;
+
+		case ItemPool.INQUISITORS_UNIDENTIFIABLE_OBJECT:
+			Preferences.setBoolean( "_inquisitorsUnidentifiableObjectUsed", true );
 			break;
 
 		case ItemPool.HOT_JELLY:

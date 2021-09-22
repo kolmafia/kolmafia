@@ -1454,6 +1454,7 @@ user	_antihangoverBonus	5
 user	_aprilShower	false
 user	_armyToddlerCast	false
 user	_astralDrops	0
+user	_authorsInkUsed	false
 user	_backUpUses	0
 user	_baconMachineUsed	false
 user	_badlyRomanticArrows	0
@@ -1566,6 +1567,7 @@ user	_discoKnife	false
 user	_distentionPillUsed	false
 user	_dnaHybrid	false
 user	_dnaPotionsMade	0
+user	_docClocksThymeCocktailDrunk	false
 user	_donhosCasts	0
 user	_dreamJarDrops	0
 user	_drippingHallDoor1	false
@@ -1719,6 +1721,7 @@ user	_internetViralVideoBought	false
 user	_interviewIsabella	false
 user	_interviewMasquerade	false
 user	_interviewVlad	false
+user	_inquisitorsUnidentifiableObjectUsed	false
 user	_ironicMoustache	false
 user	_jackassPlumberGame	false
 user	_jarlsCheeseSummoned	false
@@ -1758,6 +1761,7 @@ user	_kolhsIsskayLikeAnAshtray	false
 user	_kolhsPoeticallyLicenced	false
 user	_kolhsSavedByTheBell	0
 user	_kolhsSchoolSpirited	false
+user	_kudzuSaladEaten	false
 user	_lastCombatStarted
 user	_lastDailyDungeonRoom	0
 user	_LastPirateRealmIsland
@@ -1784,10 +1788,12 @@ user	_lyleFavored	false
 user	_lynyrdSnareUses	0
 user	_machineTunnelsAdv	0
 user	_macrometeoriteUses	0
+user	_madLiquorDrunk	false
 user	_madTeaParty	false
 user	_mafiaMiddleFingerRingUsed	false
 user	_mafiaThumbRingAdvs	0
 user	_managerialManipulationUsed	false
+user	_mansquitoSerumUsed	false
 user	_monstersMapped	0
 user	_mayflowerDrops	0
 user	_mayflySummons	0
@@ -1800,8 +1806,10 @@ user	_micrometeoriteUses	0
 user	_milkOfMagnesiumUsed	false
 user	_mimeArmyShotglassUsed	false
 user	_miniMartiniDrops	0
+user	_missGravesVermouthDrunk	false
 user	_missileLauncherUsed	false
 user	_momFoodReceived	false
+user	_mrBurnsgerEaten	false
 user	_muffinOrderedToday	false
 user	_mummeryMods
 user	_mummeryUses
@@ -1852,6 +1860,7 @@ user	_pirateBellowUsed	false
 user	_pirateForkUsed	false
 user	_pixelOrbUsed	false
 user	_pixieCharge	0
+user	_plumbersMushroomStewEaten	false
 user	_pneumaticityPotionUsed	false
 user	_pocketProfessorLectures	0
 user	_poisonArrows	0
