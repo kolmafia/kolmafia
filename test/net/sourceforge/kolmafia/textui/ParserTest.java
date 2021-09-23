@@ -1970,7 +1970,7 @@ public class ParserTest
 			{
 				"javaFor invalid assignment",
 				"for (int i ='abc'; i < 5; i++);",
-				"Cannot store string in a variable of type int",
+				"Cannot store string in i of type int",
 				null,
 			},
 			{
