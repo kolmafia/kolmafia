@@ -932,6 +932,10 @@ public class Parser
 		return result;
 	}
 
+	/**
+	 * Parses the right-hand-side of a variable definition. It is assumed that the caller expects
+	 * an expression to be found, so this method never returns null.
+	 */
 	private Value parseInitialization( final Type t, final BasicScope scope )
 	{
 		Value result;
