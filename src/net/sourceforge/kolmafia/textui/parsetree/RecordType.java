@@ -91,6 +91,12 @@ public class RecordType
 	}
 
 	@Override
+	public Type getDataType()
+	{
+		return null;
+	}
+
+	@Override
 	public Type getDataType( final Object key )
 	{
 		if ( !( key instanceof Value ) )

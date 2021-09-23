@@ -42,22 +42,13 @@ public abstract class CompositeType
 		this.primitive = false;
 	}
 
-	public Type getIndexType()
-	{
-		return null;
-	}
+	public abstract Type getIndexType();
 
-	public Type getDataType()
-	{
-		return null;
-	}
+	public abstract Type getDataType();
 
 	public abstract Type getDataType( final Object key );
 
-	public Value getKey( final Value key )
-	{
-		return key;
-	}
+	public abstract Value getKey( final Value key );
 
 	@Override
 	public Value initialValueExpression()

@@ -112,6 +112,12 @@ public class AggregateType
 		return this.indexType;
 	}
 
+	@Override
+	public Value getKey( final Value key )
+	{
+		return key;
+	}
+
 	public int getSize()
 	{
 		return this.size;

@@ -63,34 +63,23 @@ public abstract class CompositeValue
 		return this.aref( key, null );
 	}
 
-	public Value aref( final Value key, final AshRuntime interpreter )
-	{
-		return null;
-	}
+	public abstract Value aref( final Value key, final AshRuntime interpreter );
 
 	public void aset( final Value key, final Value val )
 	{
 		this.aset( key, val, null );
 	}
 
-	public void aset( final Value key, final Value val, final AshRuntime interpreter )
-	{
-	}
+	public abstract void aset( final Value key, final Value val, final AshRuntime interpreter );
 
-	public Value remove( final Value key, final AshRuntime interpreter )
-	{
-		return null;
-	}
+	public abstract Value remove( final Value key, final AshRuntime interpreter );
 
 	@Override
 	public void clear()
 	{
 	}
 
-	public Value[] keys()
-	{
-		return new Value[ 0 ];
-	}
+	public abstract Value[] keys();
 
 	public Iterator<Value> iterator()
 	{
@@ -184,12 +173,6 @@ public abstract class CompositeValue
 
 		this.aset( key, value );
 		return 2;
-	}
-
-	@Override
-	public String toString()
-	{
-		return "composite " + this.type.toString();
 	}
 
 	@Override
