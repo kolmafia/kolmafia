@@ -486,7 +486,7 @@ public class ParserTest
 			{
 				"Primitive assignment to aggregate",
 				"int[4] x = 1;",
-				"Cannot store int in x of type int [4]",
+				"Cannot store int in a variable of type int [4]",
 				null,
 			},
 			{
@@ -1283,7 +1283,7 @@ public class ParserTest
 			{
 				"brace assignment of primitive",
 				"int x = {1}",
-				"Cannot initialize x of type int with an aggregate literal",
+				"Cannot initialize a variable of type int with an aggregate literal",
 				null,
 			},
 			{
@@ -1297,7 +1297,7 @@ public class ParserTest
 			{
 				"invalid coercion",
 				"int x = 'hello';",
-				"Cannot store string in x of type int",
+				"Cannot store string in a variable of type int",
 				null,
 			},
 			{
@@ -1339,7 +1339,7 @@ public class ParserTest
 			{
 				"Invalid assignment coercion - assignment",
 				"boolean x; x += 'foo'",
-				"Cannot store string in x of type boolean",
+				"Cannot store string in a variable of type boolean",
 				null,
 			},
 			{
@@ -1982,7 +1982,7 @@ public class ParserTest
 			{
 				"javaFor invalid assignment",
 				"for (int i ='abc'; i < 5; i++);",
-				"Cannot store string in i of type int",
+				"Cannot store string in a variable of type int",
 				null,
 			},
 			{

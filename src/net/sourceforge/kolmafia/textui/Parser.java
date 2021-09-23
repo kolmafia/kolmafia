@@ -773,7 +773,7 @@ public class Parser
 				vararg = true;
 			}
 
-			Variable param = this.parseVariable( paramType, parentScope, false );
+			Variable param = this.parseVariable( paramType, null );
 			if ( param == null )
 			{
 				throw this.parseException( "identifier", this.currentToken() );
@@ -782,6 +782,11 @@ public class Parser
 			if ( !paramList.add( param ) )
 			{
 				throw this.parseException( "Parameter " + param.getName() + " is already defined" );
+			}
+
+			if ( this.currentToken().equals( "=" ) )
+			{
+				throw this.parseException( "Cannot initialize parameter " + param.getName() );
 			}
 
 			if ( !this.currentToken().equals( ")" ) )
@@ -858,11 +863,36 @@ public class Parser
 	{
 		while ( true )
 		{
-			Variable v = this.parseVariable( t, parentScope, true );
+			Variable v = this.parseVariable( t, parentScope );
 			if ( v == null )
 			{
 				return false;
 			}
+
+			parentScope.addVariable( v );
+			VariableReference lhs = new VariableReference( v );
+			Value rhs;
+
+			if ( this.currentToken().equals( "=" ) )
+			{
+				this.readToken(); //read =
+
+				rhs = this.parseInitialization( t, parentScope );
+			}
+			else if ( this.currentToken().equals( "{" ) )
+			{
+				// We allow two ways of initializing aggregates:
+				// <aggregate type> <name> = {};
+				// <aggregate type> <name> {};
+
+				rhs = this.parseInitialization( t, parentScope );
+			}
+			else
+			{
+				rhs = null;
+			}
+
+			parentScope.addCommand( new Assignment( lhs, rhs ), this );
 
 			if ( this.currentToken().equals( "," ) )
 			{
@@ -874,7 +904,7 @@ public class Parser
 		}
 	}
 
-	private Variable parseVariable( final Type t, final BasicScope scope, final boolean allowInitialization )
+	private Variable parseVariable( final Type t, final BasicScope scope )
 	{
 		if ( !this.parseIdentifier( this.currentToken().content ) )
 		{
@@ -898,82 +928,43 @@ public class Parser
 		}
 
 		this.readToken(); // read name
-		// If we are parsing a parameter declaration, we are done
-		// Otherwise, we must initialize the variable.
 
-		Value rhs;
+		return result;
+	}
 
-		Token postVariableToken = this.currentToken();
+	private Value parseInitialization( final Type t, final BasicScope scope )
+	{
+		Value result;
 
 		Type ltype = t.getBaseType();
-		if ( postVariableToken.equals( "=" ) )
-		{
-			// We allow two ways of initializing aggregates:
-			// <aggregate type> <name> = {};
-			// <aggregate type> <name> {};
-			//
-			// Which is why our steps are:
-			// 1- is there a "="? If so, read it.
-			// 2- Either way, is there a "{" now? If so, parse an aggregate.
-			// 3- If not, did we see a "=" on step 1? If so, parse an expression.
-
-			this.readToken(); // read =
-		}
-
 		if ( this.currentToken().equals( "{" ) )
 		{
 			if ( ltype instanceof AggregateType )
 			{
-				rhs = this.parseAggregateLiteral( scope, (AggregateType) ltype );
+				result = this.parseAggregateLiteral( scope, (AggregateType) ltype );
 			}
 			else
 			{
-				rhs = null;
-
-				if ( allowInitialization )
-				{
-					throw this.parseException(
-						"Cannot initialize " + variableName + " of type " + t + " with an aggregate literal" );
-				}
-			}
-		}
-		else if ( postVariableToken.equals( "=" ) )
-		{
-			rhs = this.parseExpression( scope );
-
-			if ( rhs != null )
-			{
-				rhs = this.autoCoerceValue( t, rhs, scope );
-				if ( allowInitialization && !Operator.validCoercion( ltype, rhs.getType(), "assign" ) )
-				{
-					throw this.parseException( "Cannot store " + rhs.getType() + " in " + variableName + " of type " + ltype );
-				}
-			}
-			else
-			{
-				if ( allowInitialization )
-				{
-					throw this.parseException( "Expression expected" );
-				}
+				throw this.parseException(
+					"Cannot initialize a variable of type " + t + " with an aggregate literal" );
 			}
 		}
 		else
 		{
-			rhs = null;
-		}
+			result = this.parseExpression( scope );
 
-		if ( !allowInitialization &&
-		     ( postVariableToken.equals( "=" ) ||
-		       postVariableToken.equals( "{" ) ) )
-		{
-			throw this.parseException( "Cannot initialize parameter " + variableName );
-		}
-
-		if ( allowInitialization )
-		{
-			scope.addVariable( result );
-			VariableReference lhs = new VariableReference( variableName.content, scope );
-			scope.addCommand( new Assignment( lhs, rhs ), this );
+			if ( result != null )
+			{
+				result = this.autoCoerceValue( t, result, scope );
+				if ( !Operator.validCoercion( ltype, result.getType(), "assign" ) )
+				{
+					throw this.parseException( "Cannot store " + result.getType() + " in a variable of type " + ltype );
+				}
+			}
+			else
+			{
+				throw this.parseException( "Expression expected" );
+			}
 		}
 
 		return result;
