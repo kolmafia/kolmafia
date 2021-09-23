@@ -3898,6 +3898,11 @@ public class FightRequest
 			Preferences.decrement( "encountersUntilDMTChoice" );
 		}
 
+		if ( adventure == AdventurePool.NEVERENDING_PARTY )
+		{
+			Preferences.decrement( "encountersUntilNEPChoice", 1, 0 );
+		}
+
 		if ( monsterName.equals( "unusual construct" ) )
 		{
 			ResultProcessor.removeItem( ItemPool.STRANGE_DISC_WHITE );
