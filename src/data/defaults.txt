@@ -558,6 +558,7 @@ user	eldritchHorrorAvailable	false
 user	eldritchTentaclesFought	0
 user	electricKoolAidEaten	0
 user	encountersUntilDMTChoice	5
+user	encountersUntilNEPChoice	7
 user	enamorangMonster
 user	ensorcelee
 user	ensorceleeLevel	0

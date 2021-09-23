@@ -33,34 +33,25 @@
 
 package net.sourceforge.kolmafia.session;
 
-import java.io.PrintStream;
-
-import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-
 import net.sourceforge.kolmafia.chat.ChatManager;
-
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
-
 import net.sourceforge.kolmafia.moods.MoodManager;
-
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -75,12 +66,9 @@ import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
-
-import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.MonorailManager;
-import net.sourceforge.kolmafia.session.MushroomManager;
-
 import net.sourceforge.kolmafia.utilities.AdventureResultArray;
+
+import java.io.PrintStream;
 
 public class ValhallaManager
 
@@ -618,6 +606,7 @@ public class ValhallaManager
 		Preferences.setInteger( "dreadScroll7", 0 );
 		Preferences.setInteger( "dreadScroll8", 0 );
 		Preferences.setInteger( "encountersUntilDMTChoice", 5 );
+		Preferences.setInteger( "encountersUntilNEPChoice", 7 );
 		Preferences.setInteger( "gladiatorBallMovesKnown", 0 );
 		Preferences.setInteger( "gladiatorBladeMovesKnown", 0 );
 		Preferences.setInteger( "gladiatorNetMovesKnown", 0 );

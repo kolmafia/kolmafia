@@ -33,24 +33,6 @@
 
 package net.sourceforge.kolmafia.session;
 
-import java.io.File;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
-import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.EdServantData;
@@ -69,17 +51,13 @@ import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.VYKEACompanionData;
-
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
-
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
-
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
-
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -90,24 +68,65 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
-import net.sourceforge.kolmafia.request.*;
+import net.sourceforge.kolmafia.request.AdventureRequest;
+import net.sourceforge.kolmafia.request.ApiRequest;
+import net.sourceforge.kolmafia.request.ArcadeRequest;
+import net.sourceforge.kolmafia.request.BeachCombRequest;
+import net.sourceforge.kolmafia.request.BeerPongRequest;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest.Mushroom;
+import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
+import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
+import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest;
+import net.sourceforge.kolmafia.request.DecorateTentRequest;
+import net.sourceforge.kolmafia.request.EatItemRequest;
+import net.sourceforge.kolmafia.request.EdBaseRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
-
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.GenieRequest;
+import net.sourceforge.kolmafia.request.LatteRequest;
+import net.sourceforge.kolmafia.request.MummeryRequest;
+import net.sourceforge.kolmafia.request.PantogramRequest;
+import net.sourceforge.kolmafia.request.PyramidRequest;
+import net.sourceforge.kolmafia.request.QuestLogRequest;
+import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.request.SaberRequest;
+import net.sourceforge.kolmafia.request.ScrapheapRequest;
+import net.sourceforge.kolmafia.request.SpaaaceRequest;
+import net.sourceforge.kolmafia.request.SpelunkyRequest;
+import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
+import net.sourceforge.kolmafia.request.TavernRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.WildfireCampRequest;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
-
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-
 import net.sourceforge.kolmafia.webui.ClanFortuneDecorator;
 import net.sourceforge.kolmafia.webui.MemoriesDecorator;
 import net.sourceforge.kolmafia.webui.VillainLairDecorator;
+
+import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public abstract class ChoiceManager
 {
@@ -11568,6 +11587,8 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 1 )
 			{
 				// Decided to quest
+				Preferences.setInteger( "encountersUntilNEPChoice", 7 );
+
 				String quest = Preferences.getString( "_questPartyFairQuest" );
 				if ( quest.equals( "booze" ) || quest.equals( "food" ) )
 				{
@@ -11629,13 +11650,11 @@ public abstract class ChoiceManager
 
 		case 1324:
 			// It Hasn't Ended, It's Just Paused
+			// Decision 5 is followed by a fight, which will decrement the free turns available itself
 			if ( ChoiceManager.lastDecision != 5 )
 			{
-				int turnsSpent = Preferences.getInteger( "_neverendingPartyFreeTurns" );
-				if ( turnsSpent < 10 )
-				{
-					Preferences.setInteger( "_neverendingPartyFreeTurns", turnsSpent + 1 );
-				}
+				Preferences.decrement( "encountersUntilNEPChoice", 1, 0 );
+				Preferences.increment( "_neverendingPartyFreeTurns", 1, 10, false );
 			}
 			break;
 
@@ -15949,6 +15968,11 @@ public abstract class ChoiceManager
 			{
 				Preferences.setString( "_questPartyFairQuest", "partiers" );
 			}
+			break;
+
+		case 1324:
+			// It Hasn't Ended, It's Just Paused
+			Preferences.setInteger( "encountersUntilNEPChoice", 7 );
 			break;
 
 		case 1329:
