@@ -33,12 +33,6 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -54,42 +48,35 @@ import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
-
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
-
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-
-import net.sourceforge.kolmafia.request.SpelunkyRequest;
-
 import net.sourceforge.kolmafia.session.BatManager;
-import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-
 import net.sourceforge.kolmafia.swingui.MallSearchFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
-
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
-
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.XPatherException;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CharPaneRequest
 	extends GenericRequest
@@ -867,9 +854,9 @@ public class CharPaneRequest
 		}
 		else if ( KoLCharacter.inFirecore() )
 		{
-			pattern = Pattern.compile( "Water:</td><td align=left><b>([\\d,]+)</b>" );
+			pattern = Pattern.compile( "Water(?: Collected)?:</td><td align=left><b>([\\d,]+)</b>" );
 			matcher = pattern.matcher( responseText );
-			if ( matcher != null && matcher.find() )
+			if ( matcher.find() )
 			{
 				int water = StringUtilities.parseInt( matcher.group( 1 ).replaceAll(",", "") );
 				KoLCharacter.setWildfireWater( water );

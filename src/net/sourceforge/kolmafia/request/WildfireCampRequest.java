@@ -106,6 +106,7 @@ public class WildfireCampRequest
 		}
 	}
 
+	private static final Pattern CAPTAIN_ZONE_COST = Pattern.compile("provide (\\d+) gallons of water" );
 	private static final Pattern CAPTAIN_ZONE = Pattern.compile( "<option.*?value=\"(\\d+)\">.*? \\(.*?: (\\d)\\)</option>" );
 	private static final Pattern CAPTAIN_REFILL = Pattern.compile( "It is only (\\d+)% full." );
 	public static void parseCaptain( final String responseText )
@@ -134,6 +135,14 @@ public class WildfireCampRequest
 			int charge = StringUtilities.parseInt( refillMatcher.group( 1 ) );
 			Preferences.setInteger( "_fireExtinguisherCharge", charge );
 			Preferences.setBoolean( "_fireExtinguisherRefilled", false );
+		}
+
+		Matcher zoneCostMatcher = CAPTAIN_ZONE_COST.matcher( responseText );
+
+		if ( zoneCostMatcher.find() )
+		{
+			int cost = StringUtilities.parseInt( zoneCostMatcher.group( 1 ) );
+			Preferences.setInteger( "_captainHagnkUsed", cost / 10 );
 		}
 	}
 

@@ -1503,6 +1503,7 @@ user	_campAwaySmileBuffSign
 user	_campAwaySmileBuffs	0
 user	_canSeekBirds	false
 user	_candySummons	0
+user	_captainHagnkUsed	0
 user	_carboLoaded	false
 user	_cargoPocketEmptied	false
 user	_carnieCandyDrops	0
