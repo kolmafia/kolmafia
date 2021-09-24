@@ -75,9 +75,7 @@ public abstract class CompositeValue
 	public abstract Value remove( final Value key, final AshRuntime interpreter );
 
 	@Override
-	public void clear()
-	{
-	}
+	public abstract void clear();
 
 	public abstract Value[] keys();
 

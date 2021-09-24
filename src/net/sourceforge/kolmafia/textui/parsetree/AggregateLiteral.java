@@ -63,6 +63,11 @@ public abstract class AggregateLiteral
 	}
 
 	@Override
+	public void clear()
+	{
+	}
+
+	@Override
 	public Value[] keys()
 	{
 		return new Value[ 0 ];
