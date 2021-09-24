@@ -39,11 +39,6 @@ public abstract class Symbol
 {
 	public final String name;
 
-	public Symbol()
-	{
-		this( null );
-	}
-
 	public Symbol( final String name )
 	{
 		this.name = name;
