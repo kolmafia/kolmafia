@@ -60,6 +60,10 @@ import net.sourceforge.kolmafia.webui.RelayServer;
 
 public abstract class StaticEntity
 {
+	// Version information for the current version of KoLmafia.
+
+	private static final String productName = "KoLmafia";
+
 	private static int usesSystemTray = 0;
 	private static int usesRelayWindows = 0;
 
@@ -71,6 +75,8 @@ public abstract class StaticEntity
 
 	public static String backtraceTrigger = null;
 	private static Integer cachedRevisionNumber = null;
+	private static String cachedversionName = null;
+	private static String cachedBuildInfo = null;
 
 	public static boolean userAborted = false;
 	private static MafiaState globalContinuationState = MafiaState.CONTINUE;
@@ -84,13 +90,21 @@ public abstract class StaticEntity
 
 	public static final String getVersion()
 	{
-		String version = KoLConstants.VERSION_NAME;
+		if ( StaticEntity.cachedversionName != null )
+		{
+			return StaticEntity.cachedversionName;
+		}
+		StaticEntity.cachedversionName = productName;
 		int revision = StaticEntity.getRevision();
 		if ( revision != 0 )
 		{
-			version += " r" + revision;
+			StaticEntity.cachedversionName += " r" + revision;
 		}
-		return version;
+		else
+		{
+			StaticEntity.cachedversionName += " rUnknown";
+		}
+		return StaticEntity.cachedversionName;
 	}
 
 	public static final int getRevision()
@@ -99,62 +113,87 @@ public abstract class StaticEntity
 		{
 			return StaticEntity.cachedRevisionNumber;
 		}
+
 		// Get the revision from the jar manifest attributes
-		if ( KoLConstants.REVISION == null )
+		try
 		{
-			try
+			ClassLoader classLoader = StaticEntity.class.getClassLoader();
+			if ( classLoader != null )
 			{
-				ClassLoader classLoader = StaticEntity.class.getClassLoader();
-				if (classLoader != null)
+				Enumeration<URL> resources = classLoader.getResources( "META-INF/MANIFEST.MF" );
+				while ( resources.hasMoreElements() ) 
 				{
-					Enumeration<URL> resources = classLoader.getResources("META-INF/MANIFEST.MF");
-					while (resources.hasMoreElements()) 
+					Manifest manifest = new Manifest( resources.nextElement().openStream() );
+					String buildRevision = manifest.getMainAttributes().getValue( "Build-Revision" );
+					if ( buildRevision != null && StringUtilities.isNumeric( buildRevision ) )
 					{
-						Manifest manifest = new Manifest(resources.nextElement().openStream());
-						String buildRevision = manifest.getMainAttributes().getValue("Build-Revision");
-						if ( buildRevision != null && StringUtilities.isNumeric( buildRevision ) )
-						{
-							StaticEntity.cachedRevisionNumber = StringUtilities.parseInt( buildRevision );
-							return StaticEntity.cachedRevisionNumber;
-						}
+						StaticEntity.cachedRevisionNumber = StringUtilities.parseInt( buildRevision );
+						return StaticEntity.cachedRevisionNumber;
 					}
 				}
 			}
-			catch ( IOException e )
-			{
-				// fall through
-			}
 		}
-		if ( KoLConstants.REVISION == null )
+		catch ( IOException e )
 		{
-			return 0;
+			// fall through
 		}
 
-		int colonIndex = KoLConstants.REVISION.indexOf( ":" );
-		String revision = KoLConstants.REVISION;
-		if ( colonIndex != -1 )
-		{
-			revision = KoLConstants.REVISION.substring( 0, colonIndex );
-		}
-		else if ( KoLConstants.REVISION.endsWith( "M" ) )
-		{
-			revision = KoLConstants.REVISION.substring( 0, KoLConstants.REVISION.length() - 1 );
-		}
-
-		return StringUtilities.isNumeric( revision ) ? StringUtilities.parseInt( revision ) : 0;
+		return 0;
 	}
 
-	public static final int parseRevision( String version )
+	public static final String getbuildInfo()
 	{
-		if ( version == null )
+		if ( StaticEntity.cachedBuildInfo != null )
 		{
-			return 0;
+			return StaticEntity.cachedBuildInfo;
 		}
-		if ( version.startsWith( "KoLmafia r" ) )
+
+		StaticEntity.cachedBuildInfo = "Build";
+
+		// Get the revision from the jar manifest attributes
+		try
 		{
-			version = version.substring( 10 );
+			ClassLoader classLoader = StaticEntity.class.getClassLoader();
+			if ( classLoader != null )
+			{
+				Enumeration<URL> resources = classLoader.getResources( "META-INF/MANIFEST.MF" );
+				while ( resources.hasMoreElements() ) 
+				{
+					Manifest manifest = new Manifest( resources.nextElement().openStream() );
+					String attribute = manifest.getMainAttributes().getValue( "Build-Branch" );
+					if ( attribute != null )
+					{
+						StaticEntity.cachedBuildInfo += " " + attribute;
+					}
+					attribute = manifest.getMainAttributes().getValue( "Build-Commit" );
+					if ( attribute != null )
+					{
+						StaticEntity.cachedBuildInfo += " " + attribute;
+					}
+					attribute = manifest.getMainAttributes().getValue( "Build-Jdk" );
+					if ( attribute != null )
+					{
+						StaticEntity.cachedBuildInfo += " " + attribute;
+					}
+					attribute = manifest.getMainAttributes().getValue( "Build-OS" );
+					if ( attribute != null )
+					{
+						StaticEntity.cachedBuildInfo += " " + attribute;
+					}
+				}
+			}
 		}
-		return StringUtilities.isNumeric( version ) ? StringUtilities.parseInt( version ) : 0;
+		catch ( IOException e )
+		{
+			// fall through
+		}
+
+		if ( StaticEntity.cachedBuildInfo == "Build" )
+		{
+			StaticEntity.cachedBuildInfo += " Unknown";
+		}
+
+		return StaticEntity.cachedBuildInfo;
 	}
 
 	public static final void overrideRevision( Integer revision )
@@ -196,7 +235,7 @@ public abstract class StaticEntity
 
 		synchronized ( StaticEntity.existingPanels )
 		{
-			Iterator panelIterator = StaticEntity.existingPanels.iterator();
+			Iterator<ActionPanel> panelIterator = StaticEntity.existingPanels.iterator();
 
 			while ( panelIterator.hasNext() )
 			{
