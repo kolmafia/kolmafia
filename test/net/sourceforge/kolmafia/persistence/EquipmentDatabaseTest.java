@@ -49,4 +49,43 @@ public class EquipmentDatabaseTest {
         assertTrue(EquipmentDatabase.isPulverizable(1)); //seal club
         assertFalse(EquipmentDatabase.isPulverizable(26)); // quest item Dolphin Map
     }
+
+    //This is a canary test.  There are homebrew array implementations that are used in
+    //EquipmentDatabase (and elsewhere).  They are basically arrays but as implemented
+    //an index out of bounds returns a reasonable value and there is a version of set that
+    //initializes everything from the current end of the array to the index value with
+    //a reasonable value and then sets the requested value.  This attempts to test those
+    //features so that refactoring can provide the same behavior.
+    @Test
+    public void powerStorageShouldBehave() {
+        //negative indices
+        assertEquals(EquipmentDatabase.getPower(-1), 0);
+        assertEquals(EquipmentDatabase.getPower(-999), 0);
+        //there is no item 13 but it should return zero and not an access violation
+        assertEquals(EquipmentDatabase.getPower(13), 0);
+        //an index past the end of the array
+        assertEquals(EquipmentDatabase.getPower(ItemDatabase.maxItemId() + 5), 0);
+    }
+    @Test
+    public void handsStorageShouldBehave() {
+        //negative indices
+        assertEquals(EquipmentDatabase.getHands(-1), 0);
+        assertEquals(EquipmentDatabase.getHands(-999), 0);
+        //there is no item 13 but it should return zero and not an access violation
+        assertEquals(EquipmentDatabase.getHands(13), 0);
+        //an index past the end of the array
+        assertEquals(EquipmentDatabase.getHands(ItemDatabase.maxItemId() + 5), 0);
+    }
+    @Test
+    public void pulverizationStorageShouldBehave() {
+        //negative indices - pulverization is special and -1 is trapped
+        //by code and not storage access.  -1 is returned for not-pulverizable
+        assertEquals(EquipmentDatabase.getPulverization(-1), -1);
+        assertEquals(EquipmentDatabase.getPulverization(-999), -1);
+        //there is no item 13 but it should return -1 and not an access violation
+        assertEquals(EquipmentDatabase.getPulverization(13), -1);
+        //an index past the end of the array
+        assertEquals(EquipmentDatabase.getPulverization(ItemDatabase.maxItemId() + 5), -1);
+    }
+
 }
