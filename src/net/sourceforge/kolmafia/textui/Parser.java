@@ -1333,17 +1333,24 @@ public class Parser
 				arrayAllowed = false;
 			}
 
-			// If parsing an ArrayLiteral, accumulate only values
-			if ( isArray )
+			if ( !delim.equals( ":" ) )
 			{
-				// The value must have the correct data type
-				lhs = this.autoCoerceValue( data, lhs, scope );
-				if ( !Operator.validCoercion( dataType, lhs.getType(), "assign" ) )
+				// If parsing an ArrayLiteral, accumulate only values
+				if ( isArray )
 				{
-					throw this.parseException( "Invalid array literal" );
-				}
+					// The value must have the correct data type
+					lhs = this.autoCoerceValue( data, lhs, scope );
+					if ( !Operator.validCoercion( dataType, lhs.getType(), "assign" ) )
+					{
+						throw this.parseException( "Invalid array literal" );
+					}
 
-				values.add( lhs );
+					values.add( lhs );
+				}
+				else
+				{
+					throw this.parseException( ":", delim );
+				}
 
 				// Move on to the next value
 				if ( delim.equals( "," ) )
@@ -1359,12 +1366,27 @@ public class Parser
 			}
 
 			// We are parsing a MapLiteral
-			if ( !delim.equals( ":" ) )
-			{
-				throw this.parseException( ":", this.currentToken() );
-			}
-
 			this.readToken(); // read :
+
+			if ( isArray )
+			{
+				// In order to reach this point without an error, we must have had a correct
+				// array literal so far, meaning the index type is an integer, and what we saw before
+				// the colon must have matched the aggregate's data type. Therefore, the next
+				// question is: is the data type also an integer?
+
+				if ( data.equals( DataTypes.INT_TYPE ) )
+				{
+					// If so, this is an int[int] aggregate. They could have done something like
+					// {0, 1, 2, 3:3, 4:4, 5:5}
+					throw this.parseException( "Cannot include keys when making an array literal" );
+				}
+				else
+				{
+					// If not, we can't tell why there's a colon here.
+					throw this.parseException( ", or }", delim );
+				}
+			}
 
 			Value rhs;
 			if ( this.currentToken().equals( "{" ) && dataType instanceof AggregateType )

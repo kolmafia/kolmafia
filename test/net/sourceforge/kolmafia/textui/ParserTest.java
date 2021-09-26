@@ -412,6 +412,18 @@ public class ParserTest
 				null,
 			},
 			{
+				"Ambiguity between array and map literal 2: index and data are both integers",
+				"int[5]{ 0, 1, 2, 3:3, 4 }",
+				"Cannot include keys when making an array literal",
+				null,
+			},
+			{
+				"Ambiguity between array and map literal 3: that can't be a key",
+				"string[5]{ '0', '1', '2', '3':'3', '4' }",
+				"Expected , or }, found :",
+				null,
+			},
+			{
 				// This... exercises a different code path.
 				"Parenthesized map literal",
 				"(int[int]{})",
