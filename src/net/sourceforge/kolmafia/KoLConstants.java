@@ -68,14 +68,6 @@ import net.sourceforge.kolmafia.session.EncounterManager.RegisteredEncounter;
 public interface KoLConstants
 	extends UtilityConstants
 {
-	// Version information for the current version of KoLmafia.
-	// Rendered in various locations and therefore made public.
-
-	String VERSION_NAME = "KoLmafia v21.9";
-	String VERSION_DATE = "Released on September 20, 2021";
-	boolean RELEASED = true;
-	String REVISION = null;
-
 	// General constants used for calculations and formatting of
 	// strings, as well as for string parsing.
 

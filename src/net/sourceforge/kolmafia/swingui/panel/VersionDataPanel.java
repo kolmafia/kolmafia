@@ -59,7 +59,7 @@ public class VersionDataPanel
 	private final String[] versionData =
 	{
 		StaticEntity.getVersion(),
-		KoLConstants.VERSION_DATE,
+		StaticEntity.getBuildInfo(),
 		" ",
 		"Copyright \u00a9 2005-2021 KoLmafia development team",
 		"Berkeley Software Development (BSD) License",

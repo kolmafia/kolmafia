@@ -247,7 +247,7 @@ public abstract class KoLmafia
 			}
 
 			PrintStream ostream = LogStream.openStream( KoLmafia.SESSION_FILE, true );
-			ostream.println( KoLConstants.VERSION_NAME );
+			ostream.println( StaticEntity.getVersion() );
 			ostream.close();
 
 			KoLmafia.SESSION_CHANNEL = new RandomAccessFile( KoLmafia.SESSION_FILE, "rw" ).getChannel();
@@ -268,7 +268,7 @@ public abstract class KoLmafia
 	{
 		System.out.println();
 		System.out.println( StaticEntity.getVersion() );
-		System.out.println( KoLConstants.VERSION_DATE );
+		System.out.println( StaticEntity.getBuildInfo() );
 		System.out.println();
 		System.out.println( "Currently Running on " + System.getProperty( "os.name" ) );
 
@@ -540,7 +540,7 @@ public abstract class KoLmafia
 		{
 			message = "Clearing data overrides: initializing from " + currentVersion;
 		}
-		else if ( !lastVersion.equals( KoLConstants.VERSION_NAME ) )
+		else if ( !lastVersion.equals( currentVersion ) )
 		{
 			message = "Clearing data overrides: upgrade from " + lastVersion + " to " + currentVersion;
 		}
@@ -548,7 +548,7 @@ public abstract class KoLmafia
 		// Save revision, just for fun, but do not clear override files
 		// for minor version upgrades.
 
-		Preferences.setString( "previousUpdateVersion", KoLConstants.VERSION_NAME );
+		Preferences.setString( "previousUpdateVersion", currentVersion );
 		Preferences.setInteger( "previousUpdateRevision", currentRevision );
 
 		if ( message == null )
@@ -2149,63 +2149,7 @@ public abstract class KoLmafia
 	{
 		public void run()
 		{
-			if ( KoLConstants.VERSION_NAME.startsWith( "KoLmafia r" ) )
-			{
-				return;
-			}
-
-			long lastUpdate = Long.parseLong( Preferences.getString( "lastRssUpdate" ) );
-			long now = System.currentTimeMillis();
-			if ( now - lastUpdate < 86400000L )
-			{
-				return;
-			}
-
-			try
-			{
-				String line;
-
-				BufferedReader reader =
-					FileUtilities.getReader( "http://svn.code.sf.net/p/kolmafia/code/src/net/sourceforge/kolmafia/KoLConstants.java" );
-
-				String lastVersion = Preferences.getString( "lastRssVersion" );
-				String currentVersion = null;
-
-				while ( ( line = reader.readLine() ) != null )
-				{
-					if ( line.contains( "public static final String VERSION_NAME" ) )
-					{
-						int quote1 = line.indexOf( "\"" ) + 1;
-						int quote2 = line.lastIndexOf( "\"" );
-
-						currentVersion = line.substring( quote1, quote2 );
-					}
-				}
-
-				reader.close();
-
-				if ( currentVersion == null )
-				{
-					return;
-				}
-
-				Preferences.setString( "lastRssVersion", currentVersion );
-				Preferences.setString( "lastRssUpdate", Long.toString(now) );
-
-				if ( currentVersion.equals( KoLConstants.VERSION_NAME ) || currentVersion.equals( lastVersion ) )
-				{
-					return;
-				}
-
-				if ( InputFieldUtilities.confirm( "A new version of KoLmafia is now available.  Would you like to download it now?" ) )
-				{
-					RelayLoader.openSystemBrowser( "https://sourceforge.net/projects/kolmafia/files/" );
-				}
-			}
-			catch ( Exception e )
-			{
-				System.out.println(e.getMessage()+" while trying to read from or close KolConstants.");
-			}
+			// TODO: Check for new version on jenkins\github after migration is complete. See revision history for old release update check.
 		}
 	}
 

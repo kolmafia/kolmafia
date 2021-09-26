@@ -11,8 +11,11 @@ import java.lang.StringBuilder;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.textui.command.CallScriptCommand;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -66,6 +69,16 @@ public class CustomScriptTest
 		String output = ostream.toString();
 		assertEquals( script + " output does not match: ", expectedOutput, output );
 	}
+
+	@Before public void setRevision()
+	{
+		StaticEntity.overrideRevision( 10000 );
+	}
+
+	@After public void clearRevision()
+	{
+		StaticEntity.overrideRevision( null );
+	} 
 
 	@Test
 	public void testScripts()

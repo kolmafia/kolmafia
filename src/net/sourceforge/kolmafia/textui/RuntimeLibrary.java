@@ -2572,7 +2572,7 @@ public abstract class RuntimeLibrary
 
 	public static Value get_version( ScriptRuntime controller )
 	{
-		return new Value( KoLConstants.VERSION_NAME );
+		return new Value( StaticEntity.getVersion() );
 	}
 
 	public static Value get_revision( ScriptRuntime controller )
