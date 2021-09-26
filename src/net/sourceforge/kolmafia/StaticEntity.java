@@ -120,17 +120,16 @@ public abstract class StaticEntity
 				{
 					Manifest manifest = new Manifest( resource.openStream() );
 					String buildRevision = manifest.getMainAttributes().getValue( "Build-Revision" );
-					if ( StringUtilities.isNumeric( buildRevision ) )
+					StaticEntity.cachedRevisionNumber = 0;
+					try
 					{
-						try
-						{
-							StaticEntity.cachedRevisionNumber = Integer.parseInt( buildRevision );
-						}
-						catch ( NumberFormatException e )
-						{
-							StaticEntity.cachedRevisionNumber = 0;
-						}
+						StaticEntity.cachedRevisionNumber = Integer.parseInt( buildRevision );
 					}
+					catch ( Exception e )
+					{
+						// ignore the exception becuase we pre-set it to 0...
+					}
+
 				}
 
 				return StaticEntity.cachedRevisionNumber;

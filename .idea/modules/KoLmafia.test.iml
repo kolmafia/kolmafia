@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id="KoLmafia:test" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="" external.system.module.type="sourceSet" external.system.module.version="25700" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <output-test url="file://$MODULE_DIR$/../../build/test" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../src/test" />
+    <content url="file://$MODULE_DIR$/../../test">
+      <sourceFolder url="file://$MODULE_DIR$/../../test" isTestSource="true" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="KoLmafia.lib" />
+    <orderEntry type="module" module-name="KoLmafia.main" />
+    <orderEntry type="library" name="Gradle: com.formdev:flatlaf:1.5" level="project" />
+    <orderEntry type="library" name="Gradle: com.formdev:flatlaf-intellij-themes:1.5" level="project" />
+    <orderEntry type="library" name="Gradle: net.sourceforge.htmlcleaner:htmlcleaner:2.24" level="project" />
+    <orderEntry type="library" name="Gradle: org.fusesource.jansi:jansi:2.3.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.json:json:20210307" level="project" />
+    <orderEntry type="library" name="Gradle: org.mozilla:rhino:1.7.13" level="project" />
+    <orderEntry type="library" name="Gradle: org.swinglabs:swingx:1.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.tmatesoft.svnkit:svnkit:1.10.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.hamcrest:hamcrest:2.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.7.1" level="project" />
+    <orderEntry type="library" name="Gradle: junit:junit:4.13.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.jdom:jdom2:2.0.5" level="project" />
+    <orderEntry type="library" name="Gradle: com.jhlabs:filters:2.0.235" level="project" />
+    <orderEntry type="library" name="Gradle: org.swinglabs:swing-worker:1.1" level="project" />
+    <orderEntry type="library" name="Gradle: de.regnis.q.sequence:sequence-library:1.0.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.tmatesoft.sqljet:sqljet:1.1.14" level="project" />
+    <orderEntry type="library" name="Gradle: net.java.dev.jna:jna-platform:5.6.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.jcraft:jsch.agentproxy.connector-factory:0.0.7" level="project" />
+    <orderEntry type="library" name="Gradle: net.java.dev.jna:jna:5.6.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.jcraft:jsch.agentproxy.svnkit-trilead-ssh2:0.0.7" level="project" />
+    <orderEntry type="library" name="Gradle: com.trilead:trilead-ssh2:1.0.0-build222" level="project" />
+    <orderEntry type="library" name="Gradle: org.lz4:lz4-java:1.4.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: org.junit.platform:junit-platform-commons:1.7.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.apiguardian:apiguardian-api:1.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.opentest4j:opentest4j:1.2.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.hamcrest:hamcrest-core:1.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.antlr:antlr-runtime:3.4" level="project" />
+    <orderEntry type="library" name="Gradle: com.jcraft:jsch.agentproxy.usocket-jna:0.0.7" level="project" />
+    <orderEntry type="library" name="Gradle: com.jcraft:jsch.agentproxy.pageant:0.0.7" level="project" />
+    <orderEntry type="library" name="Gradle: com.jcraft:jsch.agentproxy.usocket-nc:0.0.7" level="project" />
+    <orderEntry type="library" name="Gradle: com.jcraft:jsch.agentproxy.sshagent:0.0.7" level="project" />
+    <orderEntry type="library" name="Gradle: com.jcraft:jsch.agentproxy.core:0.0.7" level="project" />
+    <orderEntry type="library" name="Gradle: net.java.dev.jna:platform:3.4.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.junit.platform:junit-platform-launcher:1.7.2" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.junit.vintage:junit-vintage-engine:5.7.2" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.7.2" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.antlr:stringtemplate:3.2.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: antlr:antlr:2.7.7" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.junit.platform:junit-platform-engine:1.7.2" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.junit.platform:junit-platform-commons:1.7.2" level="project" />
+  </component>
+  <component name="TestModuleProperties" production-module="KoLmafia.main" />
+</module>
