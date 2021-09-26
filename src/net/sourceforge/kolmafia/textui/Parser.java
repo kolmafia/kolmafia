@@ -4991,7 +4991,9 @@ public class Parser
 				revision = revision.substring( 1 );
 				int targetRevision = Integer.parseInt( revision );
 				int currentRevision = StaticEntity.getRevision();
-				if ( currentRevision < targetRevision )
+				// A revision of zero means you're probably running in a debugger, in which
+				// case you should be able to run anything.
+				if ( currentRevision != 0 && currentRevision < targetRevision )
 				{
 					throw this.sinceException( String.valueOf( currentRevision ), revision, true );
 				}

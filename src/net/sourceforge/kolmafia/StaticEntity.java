@@ -90,20 +90,11 @@ public abstract class StaticEntity
 
 	public static final String getVersion()
 	{
-		if ( StaticEntity.cachedversionName != null )
+		if ( StaticEntity.cachedversionName == null )
 		{
-			return StaticEntity.cachedversionName;
+			StaticEntity.cachedversionName = PRODUCT_NAME + " r" + StaticEntity.getRevision();
 		}
-		StaticEntity.cachedversionName = PRODUCT_NAME;
-		int revision = StaticEntity.getRevision();
-		if ( revision != 0 )
-		{
-			StaticEntity.cachedversionName += " r" + revision;
-		}
-		else
-		{
-			StaticEntity.cachedversionName += " rUnknown";
-		}
+
 		return StaticEntity.cachedversionName;
 	}
 
@@ -148,7 +139,7 @@ public abstract class StaticEntity
 			return StaticEntity.cachedBuildInfo;
 		}
 
-		StaticEntity.cachedBuildInfo = "Build";
+		StringBuilder cachedBuildInfo = new StringBuilder( "Build" );
 
 		// Get the revision from the jar manifest attributes
 		try
@@ -162,22 +153,22 @@ public abstract class StaticEntity
 				String attribute = manifest.getMainAttributes().getValue( "Build-Branch" );
 				if ( attribute != null )
 				{
-					StaticEntity.cachedBuildInfo += " " + attribute;
+					cachedBuildInfo.append( " " ).append( attribute );
 				}
 				attribute = manifest.getMainAttributes().getValue( "Build-Commit" );
 				if ( attribute != null )
 				{
-					StaticEntity.cachedBuildInfo += " " + attribute;
+					cachedBuildInfo.append( " " ).append( attribute );
 				}
 				attribute = manifest.getMainAttributes().getValue( "Build-Jdk" );
 				if ( attribute != null )
 				{
-					StaticEntity.cachedBuildInfo += " " + attribute;
+					cachedBuildInfo.append( " " ).append( attribute );
 				}
 				attribute = manifest.getMainAttributes().getValue( "Build-OS" );
 				if ( attribute != null )
 				{
-					StaticEntity.cachedBuildInfo += " " + attribute;
+					cachedBuildInfo.append( " " ).append( attribute );
 				}
 			}
 		}
@@ -186,10 +177,12 @@ public abstract class StaticEntity
 			// fall through
 		}
 
-		if ( StaticEntity.cachedBuildInfo.equals( "Build" ) )
+		if ( cachedBuildInfo.toString().equals( "Build" ) )
 		{
-			StaticEntity.cachedBuildInfo += " Unknown";
+			cachedBuildInfo.append( " Unknown" );
 		}
+
+		StaticEntity.cachedBuildInfo = cachedBuildInfo.toString();
 
 		return StaticEntity.cachedBuildInfo;
 	}
