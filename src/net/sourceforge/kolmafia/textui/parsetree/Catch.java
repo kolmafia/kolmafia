@@ -43,11 +43,11 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.ScriptException;
 
 public class Catch
-        extends Value
+	extends Value
 {
-	private final ParseTreeNode node;
+	private final Command node;
 
-	public Catch( final ParseTreeNode node  )
+	public Catch( final Command node  )
 	{
 		super( DataTypes.STRING_TYPE );
 		this.node = node;
@@ -109,13 +109,13 @@ public class Catch
 
 		return new Value( errorMessage );
 	}
-	
+
 	@Override
 	public boolean assertBarrier()
 	{
 		return this.node.assertBarrier();
 	}
-	
+
 	@Override
 	public boolean assertBreakable()
 	{

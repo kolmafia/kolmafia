@@ -528,10 +528,10 @@ public abstract class BasicScope
 		AshRuntime.indentLine( stream, indent + 1 );
 		stream.println( "<COMMANDS>" );
 
-		Iterator<ParseTreeNode> it = this.getCommands();
+		Iterator<Command> it = this.getCommands();
 		while ( it.hasNext() )
 		{
-			ParseTreeNode currentCommand = it.next();
+			Command currentCommand = it.next();
 			currentCommand.print( stream, indent + 2 );
 		}
 	}
@@ -559,10 +559,10 @@ public abstract class BasicScope
 			Value result = DataTypes.VOID_VALUE;
 			interpreter.traceIndent();
 
-			Iterator<ParseTreeNode> it = this.getCommands();
+			Iterator<Command> it = this.getCommands();
 			while ( it.hasNext() )
 			{
-				ParseTreeNode current = it.next();
+				Command current = it.next();
 				result = current.execute( interpreter );
 
 				// Abort processing now if command failed
@@ -596,7 +596,7 @@ public abstract class BasicScope
 		}
 	}
 
-	public abstract void addCommand( final ParseTreeNode c, final Parser p );
+	public abstract void addCommand( final Command c, final Parser p );
 
-	public abstract Iterator<ParseTreeNode> getCommands();
+	public abstract Iterator<Command> getCommands();
 }
