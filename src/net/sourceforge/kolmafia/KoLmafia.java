@@ -268,7 +268,7 @@ public abstract class KoLmafia
 	{
 		System.out.println();
 		System.out.println( StaticEntity.getVersion() );
-		System.out.println( StaticEntity.getbuildInfo() );
+		System.out.println( StaticEntity.getBuildInfo() );
 		System.out.println();
 		System.out.println( "Currently Running on " + System.getProperty( "os.name" ) );
 

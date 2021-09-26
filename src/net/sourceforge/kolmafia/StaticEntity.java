@@ -141,7 +141,7 @@ public abstract class StaticEntity
 		return 0;
 	}
 
-	public static final String getbuildInfo()
+	public static final String getBuildInfo()
 	{
 		if ( StaticEntity.cachedBuildInfo != null )
 		{
@@ -188,7 +188,7 @@ public abstract class StaticEntity
 			// fall through
 		}
 
-		if ( StaticEntity.cachedBuildInfo == "Build" )
+		if ( StaticEntity.cachedBuildInfo.equals( "Build" ) )
 		{
 			StaticEntity.cachedBuildInfo += " Unknown";
 		}
