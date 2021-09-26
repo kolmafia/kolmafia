@@ -139,7 +139,7 @@ task gitRevList(type: Exec) {
   standardOutput = new ByteArrayOutputStream()
 
   doLast {
-    new File('build/revision.txt').text = standardOutput.toString().trim()
+    new File('build', 'revision.txt').text = standardOutput.toString().trim()
     // Update the version to the new revision
     project.setVersion(standardOutput.toString().trim())
   }
@@ -155,7 +155,7 @@ task svnRevList(type: Exec) {
   standardOutput = new ByteArrayOutputStream()
 
   doLast {
-    new File('build/revision.txt').text = standardOutput.toString().trim()
+    new File('build', 'revision.txt').text = standardOutput.toString().trim()
     // Update the version to the new revision
     project.setVersion(standardOutput.toString().trim())
   }
@@ -194,7 +194,7 @@ jar.dependsOn gitRevList
 jar.dependsOn svnRevList
 
 def lastRevision() {
-  def revisionFile = new File('build/revision.txt')
+  def revisionFile = new File('build', 'revision.txt')
   return revisionFile.exists() ? revisionFile.text.trim() : "0"
 }
 
