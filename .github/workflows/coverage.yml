@@ -32,6 +32,13 @@ jobs:
       - name: Run Tests
         run: ./gradlew --no-daemon cloverGenerateReport
 
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v2
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          report_paths: "**/build/test-results/test/TEST-*.xml"
+
       - name: Publish Coverage Report
         uses: codecov/codecov-action@v2
         if: always()
