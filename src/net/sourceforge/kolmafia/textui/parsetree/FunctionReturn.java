@@ -42,7 +42,7 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class FunctionReturn
-	extends ParseTreeNode
+	extends Command
 {
 	private final Value returnValue;
 	private final Type expectedType;
@@ -116,7 +116,7 @@ public class FunctionReturn
 		{
 			interpreter.setState( ScriptRuntime.State.RETURN );
 		}
-		
+
 		if ( this.expectedType == null )
 		{
 			return result;
@@ -156,7 +156,7 @@ public class FunctionReturn
 			this.returnValue.print( stream, indent + 1 );
 		}
 	}
-	
+
 	@Override
 	public boolean assertBarrier()
 	{

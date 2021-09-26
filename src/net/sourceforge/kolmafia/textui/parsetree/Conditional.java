@@ -40,7 +40,7 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public abstract class Conditional
-	extends ParseTreeNode
+	extends Command
 {
 	public Scope scope;
 	private final Value condition;

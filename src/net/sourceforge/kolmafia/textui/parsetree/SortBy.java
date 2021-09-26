@@ -47,7 +47,7 @@ import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class SortBy
-	extends ParseTreeNode
+	extends Command
 {
 	private final VariableReference aggregate;
 	private final Variable indexvar, valuevar;
@@ -94,7 +94,7 @@ public class SortBy
 
 		Value[] keys = map.keys();
 		Pair[] values = new Pair[ keys.length ];
-		
+
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			Value index = keys[i];
@@ -118,7 +118,7 @@ public class SortBy
 			}
 			values[i] = new Pair( sortkey, value );
 		}
-		
+
 		try
 		{
 			Arrays.sort( values );
@@ -128,7 +128,7 @@ public class SortBy
 			interpreter.setLineAndFile( this.fileName, this.lineNumber );
 			throw interpreter.runtimeException( "Illegal argument exception during sort" );
 		}
-		
+
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			Value index = keys[ i ];
@@ -153,18 +153,18 @@ public class SortBy
 		this.aggregate.print( stream, indent + 1 );
 		this.expr.print( stream, indent + 1 );
 	}
-	
+
 	private static class Pair
 		implements Comparable<Pair>
 	{
 		public Value key, value;
-		
+
 		public Pair( Value key, Value value )
 		{
 			this.key = key;
 			this.value = value;
 		}
-		
+
 		public int compareTo( Pair o )
 		{
 			return this.key.compareTo( o.key );

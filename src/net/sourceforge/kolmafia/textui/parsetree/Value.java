@@ -54,7 +54,7 @@ import net.sourceforge.kolmafia.textui.Parser;
 import org.json.JSONException;
 
 public class Value
-	extends ParseTreeNode
+	extends Command
 	implements Comparable<Value>
 {
 	public Type type;
@@ -247,7 +247,7 @@ public class Value
 	{
 		return this;
 	}
-	
+
 	public Value asProxy()
 	{
 		if ( this.getType() == DataTypes.CLASS_TYPE )
@@ -316,7 +316,7 @@ public class Value
 		}
 		return this;
 	}
-	
+
 	/* null-safe version of the above */
 	public static Value asProxy( Value value )
 	{

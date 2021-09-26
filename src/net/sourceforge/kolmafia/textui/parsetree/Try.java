@@ -44,7 +44,7 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class Try
-	extends ParseTreeNode
+	extends Command
 {
 	private final Scope body, finalClause;
 
@@ -111,17 +111,17 @@ public class Try
 				}
 			}
 		}
-	
+
 		interpreter.traceUnindent();
 		return result;
 	}
-	
+
 	@Override
 	public boolean assertBarrier()
 	{
 		return this.body.assertBarrier() || this.finalClause.assertBarrier();
 	}
-	
+
 	@Override
 	public boolean assertBreakable()
 	{
@@ -141,7 +141,7 @@ public class Try
 		stream.println( "<TRY>" );
 
 		this.body.print( stream, indent + 1 );
-		
+
 		if ( this.finalClause != null )
 		{
 			AshRuntime.indentLine( stream, indent );
