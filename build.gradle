@@ -122,8 +122,14 @@ jar {
   }
   duplicatesStrategy = 'exclude'
   destinationDirectory = file('dist/')
-  archiveBaseName = "KoLmafia"
-  classifier = "${versioning.info.dirty ? 'M' : ''}"
+  archiveBaseName.set("KoLmafia")
+  archiveClassifier.set("${versioning.info.dirty ? 'M' : ''}")
+}
+
+shadowJar {
+  duplicatesStrategy = 'exclude'
+  destinationDirectory = file('dist/')
+  archiveClassifier.set("${versioning.info.dirty ? 'M' : ''}")
 }
 
 task download(type: Copy) {
@@ -137,11 +143,11 @@ task gitRevList(type: Exec) {
   }
   inputs.dir('.git')
   outputs.files file('build/revision.txt')
-  commandLine 'git', 'rev-list', '--count', 'HEAD'
+  commandLine 'git', 'rev-list', '--count', 'main'
   standardOutput = new ByteArrayOutputStream()
 
   doLast {
-    new File('build', 'revision.txt').text = standardOutput.toString().trim()
+    file('build/revision.txt').text = standardOutput.toString().trim()
     // Update the version to the new revision
     project.setVersion(standardOutput.toString().trim())
   }
@@ -157,7 +163,7 @@ task svnRevList(type: Exec) {
   standardOutput = new ByteArrayOutputStream()
 
   doLast {
-    new File('build', 'revision.txt').text = standardOutput.toString().trim()
+    file('build/revision.txt').text = standardOutput.toString().trim()
     // Update the version to the new revision
     project.setVersion(standardOutput.toString().trim())
   }
@@ -192,11 +198,11 @@ clover {
   }
 }
 
-jar.dependsOn gitRevList
-jar.dependsOn svnRevList
+shadowJar.dependsOn gitRevList
+shadowJar.dependsOn svnRevList
 
 def lastRevision() {
-  def revisionFile = new File('build', 'revision.txt')
+  def revisionFile = file('build/revision.txt')
   return revisionFile.exists() ? revisionFile.text.trim() : "0"
 }
 
