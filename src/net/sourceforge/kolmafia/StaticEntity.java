@@ -120,6 +120,8 @@ public abstract class StaticEntity
 				{
 					Manifest manifest = new Manifest( resource.openStream() );
 					String buildRevision = manifest.getMainAttributes().getValue( "Build-Revision" );
+
+					StaticEntity.cachedRevisionNumber = 0;
 					if ( StringUtilities.isNumeric( buildRevision ) )
 					{
 						try
@@ -129,6 +131,7 @@ public abstract class StaticEntity
 						catch ( NumberFormatException e )
 						{
 							StaticEntity.cachedRevisionNumber = 0;
+
 						}
 					}
 				}
