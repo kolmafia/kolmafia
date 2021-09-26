@@ -143,7 +143,7 @@ task gitRevList(type: Exec) {
   }
   inputs.dir('.git')
   outputs.files file('build/revision.txt')
-  commandLine 'git', 'rev-list', '--count', 'main'
+  commandLine 'git', 'rev-list', '--count', 'origin/main'
   standardOutput = new ByteArrayOutputStream()
 
   doLast {
@@ -198,6 +198,8 @@ clover {
   }
 }
 
+jar.dependsOn gitRevList
+jar.dependsOn svnRevList
 shadowJar.dependsOn gitRevList
 shadowJar.dependsOn svnRevList
 
