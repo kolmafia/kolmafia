@@ -784,6 +784,11 @@ public class Parser
 				throw this.parseException( "Parameter " + param.getName() + " is already defined" );
 			}
 
+			if ( this.currentToken().equals( "=" ) )
+			{
+				throw this.parseException( "Cannot initialize parameter " + param.getName() );
+			}
+
 			if ( !this.currentToken().equals( ")" ) )
 			{
 				// The single vararg parameter must be the last one
@@ -864,6 +869,31 @@ public class Parser
 				return false;
 			}
 
+			parentScope.addVariable( v );
+			VariableReference lhs = new VariableReference( v );
+			Value rhs;
+
+			if ( this.currentToken().equals( "=" ) )
+			{
+				this.readToken(); //read =
+
+				rhs = this.parseInitialization( t, parentScope );
+			}
+			else if ( this.currentToken().equals( "{" ) )
+			{
+				// We allow two ways of initializing aggregates:
+				// <aggregate type> <name> = {};
+				// <aggregate type> <name> {};
+
+				rhs = this.parseInitialization( t, parentScope );
+			}
+			else
+			{
+				rhs = null;
+			}
+
+			parentScope.addCommand( new Assignment( lhs, rhs ), this );
+
 			if ( this.currentToken().equals( "," ) )
 			{
 				this.readToken(); //read ,
@@ -897,49 +927,42 @@ public class Parser
 			result = new Variable( variableName.content, t );
 		}
 
-		this.readToken(); // If parsing of Identifier succeeded, go to next token.
-		// If we are parsing a parameter declaration, we are done
-		if ( scope == null )
-		{
-			if ( this.currentToken().equals( "=" ) )
-			{
-				throw this.parseException( "Cannot initialize parameter " + variableName );
-			}
-			return result;
-		}
+		this.readToken(); // read name
 
-		// Otherwise, we must initialize the variable.
+		return result;
+	}
 
-		Value rhs;
+	/**
+	 * Parses the right-hand-side of a variable definition. It is assumed that the caller expects
+	 * an expression to be found, so this method never returns null.
+	 */
+	private Value parseInitialization( final Type t, final BasicScope scope )
+	{
+		Value result;
 
 		Type ltype = t.getBaseType();
-		if ( this.currentToken().equals( "=" ) )
+		if ( this.currentToken().equals( "{" ) )
 		{
-			this.readToken(); // read =
-
-			if ( this.currentToken().equals( "{" ) )
+			if ( ltype instanceof AggregateType )
 			{
-				if ( ltype instanceof AggregateType )
-				{
-					rhs = this.parseAggregateLiteral( scope, (AggregateType) ltype );
-				}
-				else
-				{
-					throw this.parseException(
-						"Cannot initialize " + variableName + " of type " + t + " with an aggregate literal" );
-				}
+				result = this.parseAggregateLiteral( scope, (AggregateType) ltype );
 			}
 			else
 			{
-				rhs = this.parseExpression( scope );
+				throw this.parseException(
+					"Cannot initialize a variable of type " + t + " with an aggregate literal" );
 			}
+		}
+		else
+		{
+			result = this.parseExpression( scope );
 
-			if ( rhs != null )
+			if ( result != null )
 			{
-				rhs = this.autoCoerceValue( t, rhs, scope );
-				if ( !Operator.validCoercion( ltype, rhs.getType(), "assign" ) )
+				result = this.autoCoerceValue( t, result, scope );
+				if ( !Operator.validCoercion( ltype, result.getType(), "assign" ) )
 				{
-					throw this.parseException( "Cannot store " + rhs.getType() + " in " + variableName + " of type " + ltype );
+					throw this.parseException( "Cannot store " + result.getType() + " in a variable of type " + ltype );
 				}
 			}
 			else
@@ -947,18 +970,6 @@ public class Parser
 				throw this.parseException( "Expression expected" );
 			}
 		}
-		else if ( this.currentToken().equals( "{" ) && ltype instanceof AggregateType )
-		{
-			rhs = this.parseAggregateLiteral( scope, (AggregateType) ltype );
-		}
-		else
-		{
-			rhs = null;
-		}
-
-		scope.addVariable( result );
-		VariableReference lhs = new VariableReference( variableName.content, scope );
-		scope.addCommand( new Assignment( lhs, rhs ), this );
 
 		return result;
 	}
