@@ -121,7 +121,7 @@ jar {
   duplicatesStrategy = 'exclude'
   destinationDirectory = file('dist/')
   archiveBaseName = "KoLmafia"
-  classifier = "${versioning.info.dirty ? 'Modified' : ''}"
+  classifier = "${versioning.info.dirty ? 'M' : ''}"
 }
 
 task download(type: Copy) {
