@@ -5007,24 +5007,9 @@ public class Parser
 				int targetMajor = Integer.parseInt( target[ 0 ] );
 				int targetMinor = Integer.parseInt( target[ 1 ] );
 
-				// strip "KoLMafia v" from the front
-				String currentVersion = StaticEntity.getVersion();
-				currentVersion = currentVersion.substring( currentVersion.indexOf( "v" ) + 1 );
-
-				// Strip " rxxxx" from end
-				int rindex = currentVersion.indexOf( " r" );
-				if ( rindex != -1 )
+				if ( targetMajor > 21 || targetMajor == 21 && targetMinor > 9 )
 				{
-					currentVersion = currentVersion.substring( 0, rindex );
-				}
-
-				String [] current = currentVersion.split( "\\." );
-				int currentMajor = Integer.parseInt( current[ 0 ] );
-				int currentMinor = Integer.parseInt( current[ 1 ] );
-
-				if ( targetMajor > currentMajor || ( targetMajor == currentMajor && targetMinor > currentMinor ) )
-				{
-					throw this.sinceException( currentVersion, revision, false );
+					throw this.parseException("invalid 'since' format (21.09 was the final point release)");
 				}
 			}
 		}

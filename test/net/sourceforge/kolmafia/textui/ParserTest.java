@@ -544,7 +544,7 @@ public class ParserTest
 			{
 				"since fails for high version",
 				"since 2000000000.0;",
-				"requires version 2000000000.0 of kolmafia or higher",
+				"final point release",
 				null,
 			},
 			{
