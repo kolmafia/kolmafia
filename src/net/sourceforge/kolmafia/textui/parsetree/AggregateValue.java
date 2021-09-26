@@ -33,8 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.parsetree;
 
-
-public class AggregateValue
+public abstract class AggregateValue
 	extends CompositeValue
 {
 	public AggregateValue( final AggregateType type )
@@ -48,16 +47,10 @@ public class AggregateValue
 	}
 
 	@Override
-	public int count()
-	{
-		return 0;
-	}
+	public abstract int count();
 
 	@Override
-	public boolean contains( final Value index )
-	{
-		return false;
-	}
+	public abstract boolean contains( final Value index );
 
 	@Override
 	public String toString()

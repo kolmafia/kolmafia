@@ -91,6 +91,12 @@ public class RecordType
 	}
 
 	@Override
+	public Type getDataType()
+	{
+		return null;
+	}
+
+	@Override
 	public Type getDataType( final Object key )
 	{
 		if ( !( key instanceof Value ) )
@@ -188,12 +194,6 @@ public class RecordType
 	public Type simpleType()
 	{
 		return this;
-	}
-
-	@Override
-	public String toString()
-	{
-		return this.name;
 	}
 
 	@Override

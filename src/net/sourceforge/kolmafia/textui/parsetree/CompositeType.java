@@ -33,8 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.parsetree;
 
-
-public class CompositeType
+public abstract class CompositeType
 	extends Type
 {
 	public CompositeType( final String name, final int type )
@@ -43,25 +42,26 @@ public class CompositeType
 		this.primitive = false;
 	}
 
-	public Type getIndexType()
-	{
-		return null;
-	}
+	/**
+	 * Returns the Type of the keys used in this composite type.
+	 */
+	public abstract Type getIndexType();
 
-	public Type getDataType()
-	{
-		return null;
-	}
+	/**
+	 * For {@link AggregateType}, returns the type of the values of this composite type.
+	 * 
+	 * <p>For {@link RecordType}, use {@link CompositeType#getDataType(Object)}.
+	 */
+	public abstract Type getDataType();
 
-	public Type getDataType( final Object key )
-	{
-		return null;
-	}
+	/**
+	 * For {@link RecordType}, returns the type of the value associated with this key (if any).
+	 * 
+	 * <p>For {@link AggregateType}, use {@link CompositeType#getDataType()}.
+	 */
+	public abstract Type getDataType( final Object key );
 
-	public Value getKey( final Value key )
-	{
-		return key;
-	}
+	public abstract Value getKey( final Value key );
 
 	@Override
 	public Value initialValueExpression()

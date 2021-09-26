@@ -45,7 +45,7 @@ import net.sourceforge.kolmafia.textui.ScriptException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class CompositeValue
+public abstract class CompositeValue
 	extends Value
 {
 	public CompositeValue( final CompositeType type )
@@ -63,34 +63,21 @@ public class CompositeValue
 		return this.aref( key, null );
 	}
 
-	public Value aref( final Value key, final AshRuntime interpreter )
-	{
-		return null;
-	}
+	public abstract Value aref( final Value key, final AshRuntime interpreter );
 
 	public void aset( final Value key, final Value val )
 	{
 		this.aset( key, val, null );
 	}
 
-	public void aset( final Value key, final Value val, final AshRuntime interpreter )
-	{
-	}
+	public abstract void aset( final Value key, final Value val, final AshRuntime interpreter );
 
-	public Value remove( final Value key, final AshRuntime interpreter )
-	{
-		return null;
-	}
+	public abstract Value remove( final Value key, final AshRuntime interpreter );
 
 	@Override
-	public void clear()
-	{
-	}
+	public abstract void clear();
 
-	public Value[] keys()
-	{
-		return new Value[ 0 ];
-	}
+	public abstract Value[] keys();
 
 	public Iterator<Value> iterator()
 	{
@@ -187,10 +174,7 @@ public class CompositeValue
 	}
 
 	@Override
-	public String toString()
-	{
-		return "composite " + this.type.toString();
-	}
+	public abstract String toString();
 
 	@Override
 	public Object toJSON()

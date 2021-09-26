@@ -37,11 +37,7 @@ public abstract class Symbol
 	extends ParseTreeNode
 	implements Comparable<Symbol>
 {
-	public String name;
-
-	public Symbol()
-	{
-	}
+	public final String name;
 
 	public Symbol( final String name )
 	{
@@ -49,6 +45,12 @@ public abstract class Symbol
 	}
 
 	public String getName()
+	{
+		return this.name;
+	}
+
+	@Override
+	public String toString()
 	{
 		return this.name;
 	}
