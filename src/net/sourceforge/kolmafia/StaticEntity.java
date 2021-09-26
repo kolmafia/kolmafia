@@ -111,16 +111,14 @@ public abstract class StaticEntity
 			ClassLoader classLoader = StaticEntity.class.getClassLoader();
 			if ( classLoader != null )
 			{
-				Enumeration<URL> resources = classLoader.getResources( "META-INF/MANIFEST.MF" );
-				while ( resources.hasMoreElements() ) 
+				URL resources = classLoader.getResource( "META-INF/MANIFEST.MF" );
+
+				Manifest manifest = new Manifest( resources.openStream() );
+				String buildRevision = manifest.getMainAttributes().getValue( "Build-Revision" );
+				if ( buildRevision != null && StringUtilities.isNumeric( buildRevision ) )
 				{
-					Manifest manifest = new Manifest( resources.nextElement().openStream() );
-					String buildRevision = manifest.getMainAttributes().getValue( "Build-Revision" );
-					if ( buildRevision != null && StringUtilities.isNumeric( buildRevision ) )
-					{
-						StaticEntity.cachedRevisionNumber = StringUtilities.parseInt( buildRevision );
-						return StaticEntity.cachedRevisionNumber;
-					}
+					StaticEntity.cachedRevisionNumber = StringUtilities.parseInt( buildRevision );
+					return StaticEntity.cachedRevisionNumber;
 				}
 			}
 		}
