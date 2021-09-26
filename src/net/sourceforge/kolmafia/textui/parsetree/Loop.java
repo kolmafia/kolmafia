@@ -40,7 +40,7 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public abstract class Loop
-	extends ParseTreeNode
+	extends Command
 {
 	private final Scope scope;
 

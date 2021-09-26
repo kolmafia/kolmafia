@@ -68,6 +68,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Assignment;
 import net.sourceforge.kolmafia.textui.parsetree.BasicScope;
 import net.sourceforge.kolmafia.textui.parsetree.BasicScript;
 import net.sourceforge.kolmafia.textui.parsetree.Catch;
+import net.sourceforge.kolmafia.textui.parsetree.Command;
 import net.sourceforge.kolmafia.textui.parsetree.CompositeReference;
 import net.sourceforge.kolmafia.textui.parsetree.Concatenate;
 import net.sourceforge.kolmafia.textui.parsetree.Conditional;
@@ -89,7 +90,6 @@ import net.sourceforge.kolmafia.textui.parsetree.LoopContinue;
 import net.sourceforge.kolmafia.textui.parsetree.MapLiteral;
 import net.sourceforge.kolmafia.textui.parsetree.Operation;
 import net.sourceforge.kolmafia.textui.parsetree.Operator;
-import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNode;
 import net.sourceforge.kolmafia.textui.parsetree.PluralValue;
 import net.sourceforge.kolmafia.textui.parsetree.RecordType;
 import net.sourceforge.kolmafia.textui.parsetree.RepeatUntilLoop;
@@ -437,7 +437,7 @@ public class Parser
 		// If there is no data type, it's a command of some sort
 		if ( t == null )
 		{
-			ParseTreeNode c = this.parseCommand( expectedType, result, false, false, false );
+			Command c = this.parseCommand( expectedType, result, false, false, false );
 			if ( c != null )
 			{
 				result.addCommand( c, this );
@@ -517,7 +517,7 @@ public class Parser
 			if ( t == null )
 			{
 				// See if it's a regular command
-				ParseTreeNode c = this.parseCommand( expectedType, result, false, allowBreak, allowContinue );
+				Command c = this.parseCommand( expectedType, result, false, allowBreak, allowContinue );
 				if ( c != null )
 				{
 					result.addCommand( c, this );
@@ -846,7 +846,7 @@ public class Parser
 		Scope scope = this.parseBlockOrSingleCommand( functionType, paramList, parentScope, false, false, false );
 
 		result.setScope( scope );
-		if ( !result.assertBarrier() && !functionType.equals( DataTypes.TYPE_VOID ) )
+		if ( !scope.assertBarrier() && !functionType.equals( DataTypes.TYPE_VOID ) )
 		{
 			throw this.parseException( "Missing return value" );
 		}
@@ -1086,7 +1086,7 @@ public class Parser
 				// It is OK to redefine a typedef with an equivalent type
 				return true;
 			}
-				
+
 			throw this.parseException( "Type name '" + typeName + "' is already defined" );
 		}
 		else
@@ -1099,9 +1099,9 @@ public class Parser
 		return true;
 	}
 
-	private ParseTreeNode parseCommand( final Type functionType, final BasicScope scope, final boolean noElse, boolean allowBreak, boolean allowContinue )
+	private Command parseCommand( final Type functionType, final BasicScope scope, final boolean noElse, boolean allowBreak, boolean allowContinue )
 	{
-		ParseTreeNode result;
+		Command result;
 
 		if ( this.currentToken().equalsIgnoreCase( "break" ) )
 		{
@@ -1587,7 +1587,7 @@ public class Parser
 	{
 		Scope result = new Scope( parentScope );
 
-		ParseTreeNode command = this.parseCommand( functionType, parentScope, noElse, allowBreak, allowContinue );
+		Command command = this.parseCommand( functionType, parentScope, noElse, allowBreak, allowContinue );
 		if ( command != null )
 		{
 			result.addCommand( command, this );
@@ -2053,7 +2053,7 @@ public class Parser
 			if ( t == null )
 			{
 				// See if it's a regular command
-				ParseTreeNode c = this.parseCommand( functionType, scope, false, true, allowContinue );
+				Command c = this.parseCommand( functionType, scope, false, true, allowContinue );
 				if ( c != null )
 				{
 					scope.addCommand( c, this );
@@ -2153,7 +2153,7 @@ public class Parser
 
 		this.readToken(); // catch
 
-		ParseTreeNode body = this.parseBlock( null, null, parentScope, true, false, false );
+		Command body = this.parseBlock( null, null, parentScope, true, false, false );
 		if ( body == null )
 		{
 			Value value = this.parseExpression( parentScope );
@@ -2587,7 +2587,7 @@ public class Parser
 
 		// Parse incrementers in context of scope
 
-		List<ParseTreeNode> incrementers = new ArrayList<ParseTreeNode>();
+		List<Command> incrementers = new ArrayList<>();
 
 		while ( !this.atEndOfFile() && !this.currentToken().equals( ")" ) )
 		{
@@ -2679,7 +2679,7 @@ public class Parser
 		else
 		{
 			// Scope is a single command
-			ParseTreeNode command = this.parseCommand( functionType, result, false, true, true );
+			Command command = this.parseCommand( functionType, result, false, true, true );
 			if ( command == null )
 			{
 				if ( this.currentToken().equals( ";" ) )
@@ -3615,7 +3615,7 @@ public class Parser
 					conc.addString( lhs );
 					conc.addString( rhs );
 				}
-				
+
 				resultString.setLength( 0 );
 				continue;
 			}

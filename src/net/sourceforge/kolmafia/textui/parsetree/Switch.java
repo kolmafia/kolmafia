@@ -45,7 +45,7 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class Switch
-	extends ParseTreeNode
+	extends Command
 {
 	private final Value condition;
 	private final Value [] tests;
@@ -187,7 +187,7 @@ public class Switch
 		this.getCondition().print( stream, indent + 1 );
 		this.getScope().print( stream, indent + 1, tests, offsets, defaultIndex );
 	}
-	
+
 	@Override
 	public boolean assertBarrier()
 	{

@@ -44,7 +44,7 @@ import net.sourceforge.kolmafia.textui.Parser;
 public class SwitchScope
 	extends BasicScope
 {
-	private final ArrayList<ParseTreeNode> commands = new ArrayList<ParseTreeNode>();
+	private final ArrayList<Command> commands = new ArrayList<>();
 	private int offset = -1;
 	private int barrier = BasicScope.BARRIER_SEEN;
 	private boolean breakable = false;
@@ -55,7 +55,7 @@ public class SwitchScope
 	}
 
 	@Override
-	public void addCommand( final ParseTreeNode c, final Parser p )
+	public void addCommand( final Command c, final Parser p )
 	{
 		this.commands.add( c );
 		if ( this.barrier == BasicScope.BARRIER_NONE &&
@@ -68,20 +68,20 @@ public class SwitchScope
 			this.barrier = BasicScope.BARRIER_PAST;
 			p.warning( "Unreachable code" );
 		}
-		
+
 		if ( !this.breakable )
 		{
 			this.breakable = c.assertBreakable();
 		}
 	}
-	
+
 	public void resetBarrier()
 	{
 		this.barrier = BasicScope.BARRIER_NONE;
 	}
 
 	@Override
-	public Iterator<ParseTreeNode> getCommands()
+	public Iterator<Command> getCommands()
 	{
 		return this.commands.listIterator( this.offset );
 	}
@@ -101,7 +101,7 @@ public class SwitchScope
 	{
 		return this.barrier >= BasicScope.BARRIER_SEEN;
 	}
-	
+
 	@Override
 	public boolean assertBreakable()
 	{
@@ -145,13 +145,13 @@ public class SwitchScope
 				testIndex++;
 			}
 
-                        if ( defaultIndex == index )
-                        {
-                                AshRuntime.indentLine( stream, indent + 1 );
-                                stream.println( "<DEFAULT>" );
-                        }
+			if ( defaultIndex == index )
+			{
+				AshRuntime.indentLine( stream, indent + 1 );
+				stream.println( "<DEFAULT>" );
+			}
 
-			ParseTreeNode command = commands.get( index );
+			Command command = commands.get( index );
 			command.print( stream, indent + 2 );
 		}
 	}
