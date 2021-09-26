@@ -62,7 +62,7 @@ public abstract class StaticEntity
 {
 	// Version information for the current version of KoLmafia.
 
-	private static final String productName = "KoLmafia";
+	private static final String PRODUCT_NAME = "KoLmafia";
 
 	private static int usesSystemTray = 0;
 	private static int usesRelayWindows = 0;
@@ -94,7 +94,7 @@ public abstract class StaticEntity
 		{
 			return StaticEntity.cachedversionName;
 		}
-		StaticEntity.cachedversionName = productName;
+		StaticEntity.cachedversionName = PRODUCT_NAME;
 		int revision = StaticEntity.getRevision();
 		if ( revision != 0 )
 		{
