@@ -43,7 +43,6 @@ import java.io.PrintStream;
 import java.lang.ClassLoader;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.jar.Manifest;
 import java.util.StringTokenizer;
@@ -70,7 +69,7 @@ public abstract class StaticEntity
 	private static boolean isGUIRequired = false;
 	private static final boolean isHeadless = System.getProperty( "java.awt.headless", "" ).equals( "true" );
 
-	public static final ArrayList<ActionPanel> existingPanels = new ArrayList<ActionPanel>();
+	public static final ArrayList<ActionPanel> existingPanels = new ArrayList<>();
 	private static ActionPanel[] panelArray = new GenericPanel[ 0 ];
 
 	public static String backtraceTrigger = null;
@@ -111,15 +110,30 @@ public abstract class StaticEntity
 			ClassLoader classLoader = StaticEntity.class.getClassLoader();
 			if ( classLoader != null )
 			{
-				URL resources = classLoader.getResource( "META-INF/MANIFEST.MF" );
+				URL resource = classLoader.getResource( "META-INF/MANIFEST.MF" );
 
-				Manifest manifest = new Manifest( resources.openStream() );
-				String buildRevision = manifest.getMainAttributes().getValue( "Build-Revision" );
-				if ( buildRevision != null && StringUtilities.isNumeric( buildRevision ) )
+				if ( resource == null )
 				{
-					StaticEntity.cachedRevisionNumber = StringUtilities.parseInt( buildRevision );
-					return StaticEntity.cachedRevisionNumber;
+					StaticEntity.cachedRevisionNumber = 0;
 				}
+				else
+				{
+					Manifest manifest = new Manifest( resource.openStream() );
+					String buildRevision = manifest.getMainAttributes().getValue( "Build-Revision" );
+					if ( StringUtilities.isNumeric( buildRevision ) )
+					{
+						try
+						{
+							StaticEntity.cachedRevisionNumber = Integer.parseInt( buildRevision );
+						}
+						catch ( NumberFormatException e )
+						{
+							StaticEntity.cachedRevisionNumber = 0;
+						}
+					}
+				}
+
+				return StaticEntity.cachedRevisionNumber;
 			}
 		}
 		catch ( IOException e )
@@ -147,26 +161,29 @@ public abstract class StaticEntity
 			{
 				URL resource = classLoader.getResource( "META-INF/MANIFEST.MF" );
 
-				Manifest manifest = new Manifest( resource.openStream() );
-				String attribute = manifest.getMainAttributes().getValue( "Build-Branch" );
-				if ( attribute != null )
+				if ( resource != null )
 				{
-					cachedBuildInfo.append( " " ).append( attribute );
-				}
-				attribute = manifest.getMainAttributes().getValue( "Build-Commit" );
-				if ( attribute != null )
-				{
-					cachedBuildInfo.append( " " ).append( attribute );
-				}
-				attribute = manifest.getMainAttributes().getValue( "Build-Jdk" );
-				if ( attribute != null )
-				{
-					cachedBuildInfo.append( " " ).append( attribute );
-				}
-				attribute = manifest.getMainAttributes().getValue( "Build-OS" );
-				if ( attribute != null )
-				{
-					cachedBuildInfo.append( " " ).append( attribute );
+					Manifest manifest = new Manifest( resource.openStream() );
+					String attribute = manifest.getMainAttributes().getValue( "Build-Branch" );
+					if ( attribute != null )
+					{
+						cachedBuildInfo.append( " " ).append( attribute );
+					}
+					attribute = manifest.getMainAttributes().getValue( "Build-Commit" );
+					if ( attribute != null )
+					{
+						cachedBuildInfo.append( " " ).append( attribute );
+					}
+					attribute = manifest.getMainAttributes().getValue( "Build-Jdk" );
+					if ( attribute != null )
+					{
+						cachedBuildInfo.append( " " ).append( attribute );
+					}
+					attribute = manifest.getMainAttributes().getValue( "Build-OS" );
+					if ( attribute != null )
+					{
+						cachedBuildInfo.append( " " ).append( attribute );
+					}
 				}
 			}
 		}
