@@ -156,30 +156,28 @@ public abstract class StaticEntity
 			ClassLoader classLoader = StaticEntity.class.getClassLoader();
 			if ( classLoader != null )
 			{
-				Enumeration<URL> resources = classLoader.getResources( "META-INF/MANIFEST.MF" );
-				while ( resources.hasMoreElements() ) 
+				URL resource = classLoader.getResource( "META-INF/MANIFEST.MF" );
+
+				Manifest manifest = new Manifest( resource.openStream() );
+				String attribute = manifest.getMainAttributes().getValue( "Build-Branch" );
+				if ( attribute != null )
 				{
-					Manifest manifest = new Manifest( resources.nextElement().openStream() );
-					String attribute = manifest.getMainAttributes().getValue( "Build-Branch" );
-					if ( attribute != null )
-					{
-						StaticEntity.cachedBuildInfo += " " + attribute;
-					}
-					attribute = manifest.getMainAttributes().getValue( "Build-Commit" );
-					if ( attribute != null )
-					{
-						StaticEntity.cachedBuildInfo += " " + attribute;
-					}
-					attribute = manifest.getMainAttributes().getValue( "Build-Jdk" );
-					if ( attribute != null )
-					{
-						StaticEntity.cachedBuildInfo += " " + attribute;
-					}
-					attribute = manifest.getMainAttributes().getValue( "Build-OS" );
-					if ( attribute != null )
-					{
-						StaticEntity.cachedBuildInfo += " " + attribute;
-					}
+					StaticEntity.cachedBuildInfo += " " + attribute;
+				}
+				attribute = manifest.getMainAttributes().getValue( "Build-Commit" );
+				if ( attribute != null )
+				{
+					StaticEntity.cachedBuildInfo += " " + attribute;
+				}
+				attribute = manifest.getMainAttributes().getValue( "Build-Jdk" );
+				if ( attribute != null )
+				{
+					StaticEntity.cachedBuildInfo += " " + attribute;
+				}
+				attribute = manifest.getMainAttributes().getValue( "Build-OS" );
+				if ( attribute != null )
+				{
+					StaticEntity.cachedBuildInfo += " " + attribute;
 				}
 			}
 		}
