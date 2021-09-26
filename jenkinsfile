@@ -7,7 +7,7 @@ pipeline {
           checkout([$class: 'GitSCM', branches: [
             [name: '*/main']
           ], extensions: [
-            [$class: 'CloneOption', depth: 10000, noTags: false, reference: '', shallow: true]
+            [$class: 'CloneOption', depth: 1000000, noTags: false, reference: '', shallow: true]
           ], userRemoteConfigs: [
             [url: 'https://github.com/kolmafia/kolmafia']
           ]])
@@ -20,7 +20,7 @@ pipeline {
           withEnv(["JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64"]) {
             sh 'java --version'
             sh './gradlew -v'
-            sh './gradlew --no-daemon shadowJar'
+			sh './gradlew --no-daemon shadowJar'
           }
         }
       }
