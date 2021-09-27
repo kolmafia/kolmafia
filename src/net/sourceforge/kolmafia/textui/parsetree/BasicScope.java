@@ -156,14 +156,14 @@ public abstract class BasicScope
 		if ( matchType == MatchType.ANY || matchType == MatchType.EXACT )
 		{
 			// Exact, no vararg
-			result = this.findFunction( functions, false, name, params, MatchType.EXACT, false );
+			result = this.findFunction( functions, name, params, MatchType.EXACT, false );
 			if ( result != null )
 			{
 				return result;
 			}
 
 			// Exact, vararg
-			result = this.findFunction( functions, false, name, params, MatchType.EXACT, true );
+			result = this.findFunction( functions, name, params, MatchType.EXACT, true );
 			if ( result != null )
 			{
 				return result;
@@ -173,14 +173,14 @@ public abstract class BasicScope
 		if ( matchType == MatchType.ANY || matchType == MatchType.BASE )
 		{
 			// Base, no vararg
-			result = this.findFunction( functions, false, name, params, MatchType.BASE, false );
+			result = this.findFunction( functions, name, params, MatchType.BASE, false );
 			if ( result != null )
 			{
 				return result;
 			}
 
 			// Base, vararg
-			result = this.findFunction( functions, false, name, params, MatchType.BASE, true );
+			result = this.findFunction( functions, name, params, MatchType.BASE, true );
 			if ( result != null )
 			{
 				return result;
@@ -190,14 +190,14 @@ public abstract class BasicScope
 		if ( matchType == MatchType.ANY || matchType == MatchType.COERCE )
 		{
 			// Coerce, no vararg
-			result = this.findFunction( functions, false, name, params, MatchType.COERCE, false );
+			result = this.findFunction( functions, name, params, MatchType.COERCE, false );
 			if ( result != null )
 			{
 				return result;
 			}
 
 			// Coerce, vararg
-			result = this.findFunction( functions, false, name, params, MatchType.COERCE, true );
+			result = this.findFunction( functions, name, params, MatchType.COERCE, true );
 			if ( result != null )
 			{
 				return result;
@@ -207,8 +207,8 @@ public abstract class BasicScope
 		return null;
 	}
 
-	private Function findFunction( final Function[] functions, boolean library, String name,
-                                   final List<Value> params, MatchType match, boolean vararg )
+	private Function findFunction( final Function[] functions, final String name,
+	                               final List<Value> params, final MatchType match, final boolean vararg )
 	{
 		// Search the function list for a match
 		for ( Function function : functions )
@@ -219,18 +219,12 @@ public abstract class BasicScope
 			}
 		}
 
-		// If we are searching the RuntimeLibrary, no parent scope
-		if ( library )
-		{
-			return null;
-		}
-
 		// We are searching a scope. Search the parent scope.
 		BasicScope parent = this.getParentScope();
 		if ( parent != null )
 		{
 			Function[] parentFunctions = parent.functions.findFunctions( name );
-			return parent.findFunction( parentFunctions, false, name, params, match, vararg );
+			return parent.findFunction( parentFunctions, name, params, match, vararg );
 		}
 
 		return null;
