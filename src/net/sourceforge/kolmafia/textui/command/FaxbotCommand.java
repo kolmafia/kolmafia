@@ -26,6 +26,8 @@ public class FaxbotCommand
 	{	
 		FaxBotDatabase.configure();
 
+		boolean tried = false;
+
 		for ( FaxBot bot : FaxBotDatabase.faxbots )
 		{
 			if ( bot == null )
@@ -59,9 +61,13 @@ public class FaxbotCommand
 			}
 
 			Monster monster = bot.getMonsterByCommand( (String)commands.get( 0 ) );
-			FaxRequestFrame.requestFax( botName, monster, false );
-			return;
+			tried = true;
+			if (FaxRequestFrame.requestFax( botName, monster, false )) {
+				return;
+			}
 		}
-		KoLmafia.updateDisplay( KoLConstants.MafiaState.ABORT, "No faxbots accept that command." );
+		if (!tried) {
+			KoLmafia.updateDisplay(KoLConstants.MafiaState.ABORT, "No faxbots accept that command.");
+		}
 	}
 }
