@@ -608,15 +608,12 @@ public class ParserTest
 				               "6", ".", "3", ",", "4", ".", "9", ",", "10", ",",
 				               "-", "0", ")" ),
 			},
-			/*{
-				// Is currently trumped by
-				// "The vararg parameter must be the last one"
-
+			{
 				"Basic function with multiple varargs",
 				"void f(int ... a, int ... b) {}",
 				"Only one vararg parameter is allowed",
 				null,
-			},*/
+			},
 			{
 				"Basic function with non-terminal vararg",
 				"void f(int ... a, float b) {}",
