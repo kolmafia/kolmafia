@@ -9502,7 +9502,7 @@
 9474	alien sandwich	264675078	sammich.gif	food	t,d	44	alien sandwiches
 9475
 9476	Spant eggs	622124078	spanteggs.gif	potion, multiple	t,d	5	bundles of Spant eggs
-9477
+9477	portable Spacegate (open)	198155670	portablesg.gif	none	q	0
 9478	New-You Club Membership Form	452518496	newyouform.gif	usable	t	0
 9479	Daily Affirmation: Always be Collecting	121669048	newyoucard1.gif	potion, combat, multiple	t,d	5	Daily Affirmations: Always be Collecting
 9480	Daily Affirmation: Think Win-Lose	190121003	newyoucard2.gif	potion, combat, multiple	t,d	5	Daily Affirmations: Think Win-Lose

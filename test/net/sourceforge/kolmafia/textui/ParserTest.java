@@ -13,9 +13,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptException;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,6 +42,16 @@ public class ParserTest
 	// Error text. If null, then we expect no error to be thrown (i.e. the provided script is
 	// well-formed).
 	public final String errorText;
+
+	@Before public void setRevision()
+	{
+		StaticEntity.overrideRevision( 10000 );
+	}
+
+	@After public void clearRevision()
+	{
+		StaticEntity.overrideRevision( null );
+	} 
 
 	@Parameters(name = "{0}")
 	public static Collection<Object[]> data()
@@ -543,7 +556,7 @@ public class ParserTest
 			{
 				"since fails for high version",
 				"since 2000000000.0;",
-				"requires version 2000000000.0 of kolmafia or higher",
+				"final point release",
 				null,
 			},
 			{
