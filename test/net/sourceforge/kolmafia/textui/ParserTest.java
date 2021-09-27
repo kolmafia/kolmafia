@@ -1340,7 +1340,7 @@ public class ParserTest
 			{
 				"Invalid assignment coercion - assignment",
 				"boolean x; x += 'foo'",
-				"Cannot store string in a variable of type boolean",
+				"Cannot store string in x of type boolean",
 				null,
 			},
 			{
