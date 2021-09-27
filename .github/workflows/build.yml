@@ -8,7 +8,7 @@ on:
 jobs:
   daily:
     if: github.repository == 'kolmafia/kolmafia'
-    name: Build daily
+    name: Build Release
     runs-on: ubuntu-latest
 
     steps:
@@ -27,11 +27,11 @@ jobs:
         uses: gradle/wrapper-validation-action@v1
 
       - name: Build
-        run: ./gradlew --no-daemon jar
+        run: ./gradlew --no-daemon shadowJar
 
       - name: Retrieve version and tag
         run: |
-          KOLMAFIA_VERSION=$(git rev-list --count HEAD)
+          KOLMAFIA_VERSION=$(git rev-list --count origin/main)
           git tag "r$KOLMAFIA_VERSION"
           echo "KOLMAFIA_VERSION=$KOLMAFIA_VERSION" >> $GITHUB_ENV
 
