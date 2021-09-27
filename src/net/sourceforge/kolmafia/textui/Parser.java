@@ -2515,7 +2515,7 @@ public class Parser
 
 			this.readToken(); // name
 
-			VariableReference lhs = new VariableReference( name.content, scope );
+			VariableReference lhs = new VariableReference( variable );
 			Value rhs = null;
 
 			if ( this.currentToken().equals( "=" ) )
