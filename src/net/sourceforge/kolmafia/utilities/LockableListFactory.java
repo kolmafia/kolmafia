@@ -1,4 +1,3 @@
-
 package net.sourceforge.kolmafia.utilities;
 
 import java.util.ArrayList;

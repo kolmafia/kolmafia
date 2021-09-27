@@ -1,4 +1,4 @@
- package net.sourceforge.kolmafia.maximizer;
+package net.sourceforge.kolmafia.maximizer;
 
 import java.util.List;
 
