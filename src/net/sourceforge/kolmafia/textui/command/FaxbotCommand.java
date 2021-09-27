@@ -20,10 +20,10 @@ public class FaxbotCommand
 	{
 		this.usage = " [command] - send the command to faxbot";
 	}
-	
+
 	@Override
 	public void run( final String cmd, final String command )
-	{	
+	{
 		FaxBotDatabase.configure();
 
 		boolean tried = false;
@@ -62,12 +62,14 @@ public class FaxbotCommand
 
 			Monster monster = bot.getMonsterByCommand( (String)commands.get( 0 ) );
 			tried = true;
-			if (FaxRequestFrame.requestFax( botName, monster, false )) {
+			if ( FaxRequestFrame.requestFax( botName, monster, false ) )
+			{
 				return;
 			}
 		}
-		if (!tried) {
-			KoLmafia.updateDisplay(KoLConstants.MafiaState.ABORT, "No faxbots accept that command.");
+		if ( !tried )
+		{
+			KoLmafia.updateDisplay( KoLConstants.MafiaState.ABORT, "No faxbots accept that command." );
 		}
 	}
 }
