@@ -435,6 +435,8 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
 		params = new Type[] { DataTypes.FAMILIAR_TYPE };
 		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.LOCATION_TYPE };
+		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
 		params = new Type[] { DataTypes.SKILL_TYPE };
 		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
 		params = new Type[] { DataTypes.EFFECT_TYPE };
@@ -3153,7 +3155,6 @@ public abstract class RuntimeLibrary
 			}
 
 			// Try again with lax parsing
-
 			try
 			{
 				long retval = StringUtilities.parseLongInternal2( string );
@@ -3168,6 +3169,11 @@ public abstract class RuntimeLibrary
 				RequestLogger.printLine( ex.getMessage() );
 				return DataTypes.ZERO_VALUE;
 			}
+		}
+
+		if ( value.getType().equals( DataTypes.LOCATION_TYPE) )
+		{
+			return new Value( ((KoLAdventure) value.content).getSnarfblat() );
 		}
 
 		return new Value( value.intValue() );
