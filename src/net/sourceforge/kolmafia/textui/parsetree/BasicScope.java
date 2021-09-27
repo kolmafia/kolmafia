@@ -149,21 +149,21 @@ public abstract class BasicScope
 		}
 
 		// We will consider functions from this scope and from the RuntimeLibrary.
-		Function[] userFunctions = this.functions.findFunctions( name );
+		Function[] functions = this.functions.findFunctions( name );
 
 		Function result = null;
 
 		if ( matchType == MatchType.ANY || matchType == MatchType.EXACT )
 		{
-			// Exact, no vararg, user functions
-			result = this.findFunction( userFunctions, false, name, params, MatchType.EXACT, false );
+			// Exact, no vararg
+			result = this.findFunction( functions, false, name, params, MatchType.EXACT, false );
 			if ( result != null )
 			{
 				return result;
 			}
 
-			// Exact, vararg, user functions
-			result = this.findFunction( userFunctions, false, name, params, MatchType.EXACT, true );
+			// Exact, vararg
+			result = this.findFunction( functions, false, name, params, MatchType.EXACT, true );
 			if ( result != null )
 			{
 				return result;
@@ -172,15 +172,15 @@ public abstract class BasicScope
 
 		if ( matchType == MatchType.ANY || matchType == MatchType.BASE )
 		{
-			// Base, no vararg, user functions
-			result = this.findFunction( userFunctions, false, name, params, MatchType.BASE, false );
+			// Base, no vararg
+			result = this.findFunction( functions, false, name, params, MatchType.BASE, false );
 			if ( result != null )
 			{
 				return result;
 			}
 
-			// Base, vararg, user functions
-			result = this.findFunction( userFunctions, false, name, params, MatchType.BASE, true );
+			// Base, vararg
+			result = this.findFunction( functions, false, name, params, MatchType.BASE, true );
 			if ( result != null )
 			{
 				return result;
@@ -189,15 +189,15 @@ public abstract class BasicScope
 
 		if ( matchType == MatchType.ANY || matchType == MatchType.COERCE )
 		{
-			// Coerce, no vararg, user functions
-			result = this.findFunction( userFunctions, false, name, params, MatchType.COERCE, false );
+			// Coerce, no vararg
+			result = this.findFunction( functions, false, name, params, MatchType.COERCE, false );
 			if ( result != null )
 			{
 				return result;
 			}
 
-			// Coerce, vararg, user functions
-			result = this.findFunction( userFunctions, false, name, params, MatchType.COERCE, true );
+			// Coerce, vararg
+			result = this.findFunction( functions, false, name, params, MatchType.COERCE, true );
 			if ( result != null )
 			{
 				return result;
