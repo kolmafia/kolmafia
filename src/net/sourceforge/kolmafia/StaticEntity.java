@@ -1,79 +1,49 @@
-/*
- * Copyright (c) 2005-2021, KoLmafia development team
- * http://kolmafia.sourceforge.net/
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *  [1] Redistributions of source code must retain the above copyright
- *      notice, this list of conditions and the following disclaimer.
- *  [2] Redistributions in binary form must reproduce the above copyright
- *      notice, this list of conditions and the following disclaimer in
- *      the documentation and/or other materials provided with the
- *      distribution.
- *  [3] Neither the name "KoLmafia" nor the names of its contributors may
- *      be used to endorse or promote products derived from this software
- *      without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
- * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
- * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
- * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
- * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
- * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
-
 package net.sourceforge.kolmafia;
 
 import java.awt.Container;
 import java.awt.SystemTray;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.ClassLoader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
 import java.util.StringTokenizer;
-
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.wc.SVNInfo;
-import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.svn.SVNManager;
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
 
 public abstract class StaticEntity
 {
+	// Version information for the current version of KoLmafia.
+
+	private static final String PRODUCT_NAME = "KoLmafia";
+
 	private static int usesSystemTray = 0;
 	private static int usesRelayWindows = 0;
 
 	private static boolean isGUIRequired = false;
 	private static final boolean isHeadless = System.getProperty( "java.awt.headless", "" ).equals( "true" );
 
-	public static final ArrayList<ActionPanel> existingPanels = new ArrayList<ActionPanel>();
+	public static final ArrayList<ActionPanel> existingPanels = new ArrayList<>();
 	private static ActionPanel[] panelArray = new GenericPanel[ 0 ];
 
 	public static String backtraceTrigger = null;
-	private static Integer cachedSVNRevisionNumber = null;
+	private static Integer cachedRevisionNumber = null;
+	private static String cachedversionName = null;
+	private static String cachedBuildInfo = null;
 
 	public static boolean userAborted = false;
 	private static MafiaState globalContinuationState = MafiaState.CONTINUE;
@@ -87,72 +57,128 @@ public abstract class StaticEntity
 
 	public static final String getVersion()
 	{
-		return StaticEntity.getVersion( false );
-	}
-
-	public static final String getVersion( final boolean forceRevision )
-	{
-		String version = KoLConstants.VERSION_NAME;
-		if ( !KoLConstants.RELEASED || forceRevision )
+		if ( StaticEntity.cachedversionName == null )
 		{
-			int revision = StaticEntity.getRevision();
-			if ( revision != 0 )
-			{
-				version += " r" + revision;
-			}
+			StringBuilder versionName = new StringBuilder( PRODUCT_NAME ).append( " r" ).append( StaticEntity.getRevision() );
+			StaticEntity.cachedversionName = versionName.toString();
 		}
-		return version;
+
+		return StaticEntity.cachedversionName;
 	}
 
 	public static final int getRevision()
 	{
-		try
+		if ( StaticEntity.cachedRevisionNumber == null )
 		{
-			if ( StaticEntity.cachedSVNRevisionNumber != null )
+			// Get the revision from the jar manifest attributes
+			try
 			{
-				return StaticEntity.cachedSVNRevisionNumber;
+				ClassLoader classLoader = StaticEntity.class.getClassLoader();
+				if ( classLoader != null )
+				{
+					URL resource = classLoader.getResource( "META-INF/MANIFEST.MF" );
+					if ( resource != null )
+					{
+						Manifest manifest = new Manifest( resource.openStream() );
+						Attributes attributes = manifest.getMainAttributes();
+						if ( attributes != null )
+						{
+							String buildRevision = attributes.getValue( "Build-Revision" );
+							if ( buildRevision != null && StringUtilities.isNumeric( buildRevision ) )
+							{
+								try
+								{
+									StaticEntity.cachedRevisionNumber = Integer.parseInt( buildRevision );
+								}
+								catch ( NumberFormatException e )
+								{
+									// fall through
+								}
+							}
+						}
+					}
+				}
 			}
-			if ( KoLConstants.REVISION == null && SVNWCUtil.isWorkingCopyRoot( KoLConstants.ROOT_LOCATION ) )
+			catch ( IOException e )
 			{
-				SVNInfo info = SVNManager.doInfo( KoLConstants.ROOT_LOCATION );
-				StaticEntity.cachedSVNRevisionNumber = (int) info.getRevision().getNumber();
-				return StaticEntity.cachedSVNRevisionNumber;
+				// fall through
 			}
-		}
-		catch ( SVNException e )
-		{
-			// fall through
-		}
-		if ( KoLConstants.REVISION == null )
-		{
-			return 0;
+
+			if ( StaticEntity.cachedRevisionNumber == null )
+			{
+				StaticEntity.cachedRevisionNumber = Integer.valueOf( 0 );
+			}
 		}
 
-		int colonIndex = KoLConstants.REVISION.indexOf( ":" );
-		String revision = KoLConstants.REVISION;
-		if ( colonIndex != -1 )
-		{
-			revision = KoLConstants.REVISION.substring( 0, colonIndex );
-		}
-		else if ( KoLConstants.REVISION.endsWith( "M" ) )
-		{
-			revision = KoLConstants.REVISION.substring( 0, KoLConstants.REVISION.length() - 1 );
-		}
-
-		return StringUtilities.isNumeric( revision ) ? StringUtilities.parseInt( revision ) : 0;
+		return StaticEntity.cachedRevisionNumber;
 	}
 
-	public static final int parseRevision( String version )
+	public static final String getBuildInfo()
 	{
-		if ( version == null )
+		if ( StaticEntity.cachedBuildInfo == null )
 		{
-			return 0;
+			StringBuilder cachedBuildInfo = new StringBuilder( "Build" );
+
+			// Get the revision from the jar manifest attributes
+			try
+			{
+				ClassLoader classLoader = StaticEntity.class.getClassLoader();
+				if ( classLoader != null )
+				{
+					URL resource = classLoader.getResource( "META-INF/MANIFEST.MF" );
+					if ( resource != null )
+					{
+						Manifest manifest = new Manifest( resource.openStream() );
+						Attributes attributes = manifest.getMainAttributes();
+						if ( attributes != null )
+						{
+							String attribute = attributes.getValue( "Build-Branch" );
+							if ( attribute != null )
+							{
+								cachedBuildInfo.append( " " ).append( attribute );
+							}
+							attribute = attributes.getValue( "Build-Commit" );
+							if ( attribute != null )
+							{
+								cachedBuildInfo.append( " " ).append( attribute );
+							}
+							attribute = attributes.getValue( "Build-Jdk" );
+							if ( attribute != null )
+							{
+								cachedBuildInfo.append( " " ).append( attribute );
+							}
+							attribute = attributes.getValue( "Build-OS" );
+							if ( attribute != null )
+							{
+								cachedBuildInfo.append( " " ).append( attribute );
+							}
+						}
+					}
+				}
+			}
+			catch ( IOException e )
+			{
+				// fall through
+			}
+
+			if ( cachedBuildInfo.toString().equals( "Build" ) )
+			{
+				cachedBuildInfo.append( " Unknown" );
+			}
+
+			StaticEntity.cachedBuildInfo = cachedBuildInfo.toString();
 		}
-		if ( version.startsWith( "KoLmafia r" ) )
+
+		return StaticEntity.cachedBuildInfo;
+	}
+
+	public static final void overrideRevision( Integer revision )
+	{
+		StaticEntity.cachedRevisionNumber = revision;
+		if ( revision == null )
 		{
-			version = version.substring( 10 );
+			StaticEntity.getRevision();
 		}
-		return StringUtilities.isNumeric( version ) ? StringUtilities.parseInt( version ) : 0;
 	}
 
 	public static final void setGUIRequired( boolean isGUIRequired )
@@ -189,7 +215,7 @@ public abstract class StaticEntity
 
 		synchronized ( StaticEntity.existingPanels )
 		{
-			Iterator panelIterator = StaticEntity.existingPanels.iterator();
+			Iterator<ActionPanel> panelIterator = StaticEntity.existingPanels.iterator();
 
 			while ( panelIterator.hasNext() )
 			{
