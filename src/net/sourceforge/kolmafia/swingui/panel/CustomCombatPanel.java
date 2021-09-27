@@ -554,7 +554,7 @@ public class CustomCombatPanel
 			CustomCombatPanel.this.combatEditor.setFont( KoLGUIConstants.DEFAULT_FONT );
 			CustomCombatPanel.this.refreshCombatTree();
 
-			this.eastPanel.add( new RelayBrowserButton( "help", "http://kolmafia.sourceforge.net/combat.html" ), BorderLayout.SOUTH );
+			this.eastPanel.add( new RelayBrowserButton( "help", "https://wiki.kolmafia.us/index.php/Custom_Combat_Script" ), BorderLayout.SOUTH );
 		}
 
 		@Override
@@ -628,7 +628,7 @@ public class CustomCombatPanel
 		@Override
 		public void actionCancelled()
 		{
-			RelayLoader.openSystemBrowser( "http://kolmafia.sourceforge.net/combat.html" );
+			RelayLoader.openSystemBrowser( "https://wiki.kolmafia.us/index.php/Custom_Combat_Script" );
 		}
 
 		@Override
