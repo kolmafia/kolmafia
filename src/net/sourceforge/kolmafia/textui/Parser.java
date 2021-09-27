@@ -1650,7 +1650,7 @@ public class Parser
 			throw this.parseException( ")", this.currentToken() );
 		}
 
-		if ( condition == null || condition.getType() != DataTypes.BOOLEAN_TYPE )
+		if ( condition == null || !condition.getType().equals( DataTypes.BOOLEAN_TYPE ) )
 		{
 			throw this.parseException( "\"if\" requires a boolean conditional expression" );
 		}
@@ -1708,7 +1708,7 @@ public class Parser
 						throw this.parseException( ")", this.currentToken() );
 					}
 
-					if ( condition == null || condition.getType() != DataTypes.BOOLEAN_TYPE )
+					if ( condition == null || !condition.getType().equals( DataTypes.BOOLEAN_TYPE ) )
 					{
 						throw this.parseException( "\"if\" requires a boolean conditional expression" );
 					}
@@ -1818,7 +1818,7 @@ public class Parser
 			throw this.parseException( ")", this.currentToken() );
 		}
 
-		if ( condition == null || condition.getType() != DataTypes.BOOLEAN_TYPE )
+		if ( condition == null || !condition.getType().equals( DataTypes.BOOLEAN_TYPE ) )
 		{
 			throw this.parseException( "\"while\" requires a boolean conditional expression" );
 		}
@@ -1868,7 +1868,7 @@ public class Parser
 			throw this.parseException( ")", this.currentToken() );
 		}
 
-		if ( condition == null || condition.getType() != DataTypes.BOOLEAN_TYPE )
+		if ( condition == null || !condition.getType().equals( DataTypes.BOOLEAN_TYPE ) )
 		{
 			throw this.parseException( "\"repeat\" requires a boolean conditional expression" );
 		}
@@ -2547,7 +2547,7 @@ public class Parser
 			throw this.parseException( ";", this.currentToken() );
 		}
 
-		if ( condition == null || condition.getType() != DataTypes.BOOLEAN_TYPE )
+		if ( condition == null || !condition.getType().equals( DataTypes.BOOLEAN_TYPE ) )
 		{
 			throw this.parseException( "\"for\" requires a boolean conditional expression" );
 		}
@@ -3127,7 +3127,7 @@ public class Parser
 
 			lhs = this.autoCoerceValue( DataTypes.BOOLEAN_TYPE, lhs, scope );
 			lhs = new Operation( lhs, new Operator( operator.content, this ) );
-			if ( lhs.getType() != DataTypes.BOOLEAN_TYPE )
+			if ( !lhs.getType().equals( DataTypes.BOOLEAN_TYPE ) )
 			{
 				throw this.parseException( "\"!\" operator requires a boolean value" );
 			}
@@ -3141,7 +3141,7 @@ public class Parser
 			}
 
 			lhs = new Operation( lhs, new Operator( operator.content, this ) );
-			if ( lhs.getType() != DataTypes.INT_TYPE && lhs.getType() != DataTypes.BOOLEAN_TYPE )
+			if ( !lhs.getType().equals( DataTypes.INT_TYPE ) && !lhs.getType().equals( DataTypes.BOOLEAN_TYPE ) )
 			{
 				throw this.parseException( "\"~\" operator requires an integer or boolean value" );
 			}
@@ -3203,7 +3203,7 @@ public class Parser
 
 				Value conditional = lhs;
 
-				if ( conditional.getType() != DataTypes.BOOLEAN_TYPE )
+				if ( !conditional.getType().equals( DataTypes.BOOLEAN_TYPE ) )
 				{
 					throw this.parseException(
 						"Non-boolean expression " + conditional + " (" + conditional.getType() + ")" );
@@ -3697,10 +3697,10 @@ public class Parser
 			String fullName = value.toString();
 			if ( !element.equalsIgnoreCase( fullName ) )
 			{
-				String s1 = CharacterEntities.escape( StringUtilities.globalStringReplace( element, ",", "\\," ).replaceAll("(?<= ) ", "\\\\ " ) );
-				String s2 = CharacterEntities.escape( StringUtilities.globalStringReplace( fullName, ",", "\\," ).replaceAll("(?<= ) ", "\\\\ " ) );
+				String s1 = CharacterEntities.escape( StringUtilities.globalStringReplace( element, ",", "\\," ).replaceAll( "(?<= ) ", "\\\\ " ) );
+				String s2 = CharacterEntities.escape( StringUtilities.globalStringReplace( fullName, ",", "\\," ).replaceAll( "(?<= ) ", "\\\\ " ) );
 				List<String> names = new ArrayList<String>();
-				if ( type == DataTypes.ITEM_TYPE )
+				if ( type.equals( DataTypes.ITEM_TYPE ) )
 				{
 					int itemId = (int)value.contentLong;
 					String name = ItemDatabase.getItemName( itemId );
@@ -3711,7 +3711,7 @@ public class Parser
 						names.add( s3 );
 					}
 				}
-				else if ( type == DataTypes.EFFECT_TYPE )
+				else if ( type.equals( DataTypes.EFFECT_TYPE ) )
 				{
 					int effectId = (int)value.contentLong;
 					String name = EffectDatabase.getEffectName( effectId );
@@ -3722,7 +3722,7 @@ public class Parser
 						names.add( s3 );
 					}
 				}
-				else if ( type == DataTypes.MONSTER_TYPE )
+				else if ( type.equals( DataTypes.MONSTER_TYPE ) )
 				{
 					int monsterId = (int)value.contentLong;
 					String name = MonsterDatabase.findMonsterById( monsterId ).getName();
@@ -3733,7 +3733,7 @@ public class Parser
 						names.add( s3 );
 					}
 				}
-				else if ( type == DataTypes.SKILL_TYPE )
+				else if ( type.equals( DataTypes.SKILL_TYPE ) )
 				{
 					int skillId = (int)value.contentLong;
 					String name = SkillDatabase.getSkillName( skillId );
