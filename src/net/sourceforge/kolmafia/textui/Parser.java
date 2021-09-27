@@ -849,7 +849,7 @@ public class Parser
 			{
 				this.readToken(); //read =
 
-				rhs = this.parseInitialization( t, parentScope );
+				rhs = this.parseInitialization( lhs, parentScope );
 			}
 			else if ( this.currentToken().equals( "{" ) )
 			{
@@ -857,7 +857,7 @@ public class Parser
 				// <aggregate type> <name> = {};
 				// <aggregate type> <name> {};
 
-				rhs = this.parseInitialization( t, parentScope );
+				rhs = this.parseInitialization( lhs, parentScope );
 			}
 			else
 			{
@@ -908,10 +908,11 @@ public class Parser
 	 * Parses the right-hand-side of a variable definition. It is assumed that the caller expects
 	 * an expression to be found, so this method never returns null.
 	 */
-	private Value parseInitialization( final Type t, final BasicScope scope )
+	private Value parseInitialization( final VariableReference lhs, final BasicScope scope )
 	{
 		Value result;
 
+		Type t = lhs.target.getType();
 		Type ltype = t.getBaseType();
 		if ( this.currentToken().equals( "{" ) )
 		{
@@ -922,7 +923,7 @@ public class Parser
 			else
 			{
 				throw this.parseException(
-					"Cannot initialize a variable of type " + t + " with an aggregate literal" );
+					"Cannot initialize " + lhs + " of type " + t + " with an aggregate literal" );
 			}
 		}
 		else
@@ -934,7 +935,7 @@ public class Parser
 				result = this.autoCoerceValue( t, result, scope );
 				if ( !Operator.validCoercion( ltype, result.getType(), "assign" ) )
 				{
-					throw this.parseException( "Cannot store " + result.getType() + " in a variable of type " + ltype );
+					throw this.parseException( "Cannot store " + result.getType() + " in " + lhs + " of type " + ltype );
 				}
 			}
 			else
