@@ -1,0 +1,59 @@
+pipeline {
+  agent any
+  stages {
+    stage('Git Update') {
+      steps {
+        script {
+          checkout([$class: 'GitSCM', branches: [
+            [name: '*/main']
+          ], extensions: [], userRemoteConfigs: [
+            [url: 'https://github.com/kolmafia/kolmafia']
+          ]])
+        }
+      }
+    }
+    stage('Building') {
+      steps {
+        script {
+          withEnv(["JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64"]) {
+            sh 'java --version'
+            sh './gradlew -v'
+            sh './gradlew shadowJar'
+          }
+        }
+      }
+    }
+    stage('Testing') {
+      steps {
+        script {
+          withEnv(["JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64"]) {
+            sh './gradlew cloverInstrumentCodeForTest cloverAggregateDatabases cloverGenerateReport'
+            step([
+              $class: 'CloverPublisher',
+              cloverReportDir: 'build/reports/clover-root',
+              cloverReportFileName: 'clover.xml',
+              healthyTarget: [methodCoverage: 70, conditionalCoverage: 70, statementCoverage: 70],
+              unhealthyTarget: [methodCoverage: 50, conditionalCoverage: 50, statementCoverage: 50],
+              failingTarget: [methodCoverage: 0, conditionalCoverage: 0, statementCoverage: 0]
+            ])
+            publishHTML([
+              allowMissing: true,
+              alwaysLinkToLastBuild: false,
+              keepAll: true,
+              reportDir: 'build/reports/tests/test',
+              reportFiles: 'index.html',
+              reportName: 'JDK 8 Test Report'
+            ])
+          }
+        }
+      }
+    }
+    stage('Archiving') {
+      steps {
+        script {
+          archiveArtifacts 'dist/*.jar'
+        }
+      }
+    }
+  }
+}

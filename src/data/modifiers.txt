@@ -407,6 +407,7 @@ Item	pointy red hat	Damage Reduction: 5, Familiar Effect: "1xVolley, 1xLep, cap 
 Item	polyester panama hat	Experience (Moxie): +2, Meat Drop: +10
 # porcelain porkpie: Adds <font color=purple>Sleaze Damage</font> to all Pastamancer Spells
 Item	porcelain porkpie	Food Drop: +20, Mysticality Percent: +20
+Item	portable Spacegate (open)	Lasts Until Rollover
 Item	pottery hat	Cold Resistance: +1, Hot Damage: +5, Familiar Effect: "hot atk, cap 11"
 Item	powdered wig	Moxie: +3, MP Regen Min: 2, MP Regen Max: 4, Familiar Effect: "2xPotato, 1xGhuol, cap 17"
 # primitive alien mask: Reveals your inner alien
