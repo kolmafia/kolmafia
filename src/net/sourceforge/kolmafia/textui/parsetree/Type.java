@@ -1,5 +1,4 @@
- 
- package net.sourceforge.kolmafia.textui.parsetree;
+package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
