@@ -222,7 +222,7 @@ public abstract class BuffBotManager
 			return;
 		}
 
-		FileUtilities.downloadFile( "http://kolmafia.sourceforge.net/buffbot.xsl", new File(
+		FileUtilities.downloadFile( "https://raw.githubusercontent.com/kolmafia/kolmafia/main/data/buffbot.xsl", new File(
 			KoLConstants.BUFFBOT_LOCATION, "buffbot.xsl" ) );
 
 		File datafile = new File( KoLConstants.BUFFBOT_LOCATION, KoLCharacter.baseUserName() + ".txt" );
