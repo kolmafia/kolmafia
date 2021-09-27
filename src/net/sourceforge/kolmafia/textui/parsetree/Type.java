@@ -75,70 +75,70 @@ public class Type
 	{
 		return this;
 	}
-	
+
 	public Type asProxy()
 	{
-		if ( this == DataTypes.CLASS_TYPE )
+		if ( this.equals( DataTypes.CLASS_TYPE ) )
 		{
 			return ProxyRecordValue.ClassProxy._type;
 		}
-		if ( this == DataTypes.ITEM_TYPE )
+		if ( this.equals( DataTypes.ITEM_TYPE ) )
 		{
 			return ProxyRecordValue.ItemProxy._type;
 		}
-		if ( this == DataTypes.FAMILIAR_TYPE )
+		if ( this.equals( DataTypes.FAMILIAR_TYPE ) )
 		{
 			return ProxyRecordValue.FamiliarProxy._type;
 		}
-		if ( this == DataTypes.SKILL_TYPE )
+		if ( this.equals( DataTypes.SKILL_TYPE ) )
 		{
 			return ProxyRecordValue.SkillProxy._type;
 		}
-		if ( this == DataTypes.EFFECT_TYPE )
+		if ( this.equals( DataTypes.EFFECT_TYPE ) )
 		{
 			return ProxyRecordValue.EffectProxy._type;
 		}
-		if ( this == DataTypes.LOCATION_TYPE )
+		if ( this.equals( DataTypes.LOCATION_TYPE ) )
 		{
 			return ProxyRecordValue.LocationProxy._type;
 		}
-		if ( this == DataTypes.MONSTER_TYPE )
+		if ( this.equals( DataTypes.MONSTER_TYPE ) )
 		{
 			return ProxyRecordValue.MonsterProxy._type;
 		}
-		if ( this == DataTypes.COINMASTER_TYPE )
+		if ( this.equals( DataTypes.COINMASTER_TYPE ) )
 		{
 			return ProxyRecordValue.CoinmasterProxy._type;
 		}
-		if ( this == DataTypes.BOUNTY_TYPE )
+		if ( this.equals( DataTypes.BOUNTY_TYPE ) )
 		{
 			return ProxyRecordValue.BountyProxy._type;
 		}
-		if ( this == DataTypes.THRALL_TYPE )
+		if ( this.equals( DataTypes.THRALL_TYPE ) )
 		{
 			return ProxyRecordValue.ThrallProxy._type;
 		}
-		if ( this == DataTypes.SERVANT_TYPE )
+		if ( this.equals( DataTypes.SERVANT_TYPE ) )
 		{
 			return ProxyRecordValue.ServantProxy._type;
 		}
-		if ( this == DataTypes.VYKEA_TYPE )
+		if ( this.equals( DataTypes.VYKEA_TYPE ) )
 		{
 			return ProxyRecordValue.VykeaProxy._type;
 		}
-		if ( this == DataTypes.ELEMENT_TYPE )
+		if ( this.equals( DataTypes.ELEMENT_TYPE ) )
 		{
 			return ProxyRecordValue.ElementProxy._type;
 		}
-		if ( this == DataTypes.PHYLUM_TYPE )
+		if ( this.equals( DataTypes.PHYLUM_TYPE ) )
 		{
 			return ProxyRecordValue.PhylumProxy._type;
 		}
-		if ( this == DataTypes.SLOT_TYPE )
+		if ( this.equals( DataTypes.SLOT_TYPE ) )
 		{
 			return ProxyRecordValue.SlotProxy._type;
 		}
-		if ( this == DataTypes.STAT_TYPE )
+		if ( this.equals( DataTypes.STAT_TYPE ) )
 		{
 			return ProxyRecordValue.StatProxy._type;
 		}
@@ -507,7 +507,7 @@ public class Type
 		this.allValues = new PluralValue( this, list );
 		return this.allValues;
 	}
-	
+
 	private void addValues( List<Value> results, String[] values )
 	{
 		this.addValues( results, values, 0, -1 );
@@ -553,7 +553,7 @@ public class Type
 	{
 		return 1;
 	}
-	
+
 	@Override
 	public Value execute( final AshRuntime interpreter )
 	{
