@@ -22,6 +22,7 @@ import org.junit.runner.RunWith;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 
+import net.sourceforge.kolmafia.session.TurnCounter;
 public class CustomScriptTest
 {
 	// Directory containing expected output.
@@ -83,6 +84,7 @@ public class CustomScriptTest
 	@Test
 	public void testScripts()
 	{
+		TurnCounter.clearCounters();
 		for ( String script : data() )
 		{
 			testScript( script );
