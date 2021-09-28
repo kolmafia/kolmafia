@@ -3168,6 +3168,12 @@ public class RelayRequest
 			submitCommand( this.getFormField( "cmd", false ) );
 			this.pseudoResponse( "HTTP/1.1 200 OK", "" );
 		}
+		else if ( path.endsWith( "getPref" ) )
+		{
+			String pref = this.getFormField( "pref" );
+			String prefval = Preferences.getString( pref );
+			this.pseudoResponse( "HTTP/1.1 200 OK", prefval );
+		}
 		else if ( path.endsWith( "redirectedCommand" ) )
 		{
 			submitCommand( this.getFormField( "cmd" ) );
