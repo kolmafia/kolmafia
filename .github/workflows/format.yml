@@ -1,0 +1,16 @@
+name: Format
+
+on:
+  push
+
+jobs:
+  formatting:
+    name: Format Code
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2 # v2 minimum required
+      - uses: axel-op/googlejavaformat-action@v3
+        with:
+          args: "--replace"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
