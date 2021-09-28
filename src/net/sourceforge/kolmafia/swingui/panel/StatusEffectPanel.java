@@ -15,7 +15,8 @@ import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 
 public class StatusEffectPanel
-	extends ScrollablePanel
+	//extends ScrollablePanel
+	extends ScrollableFilteredPanel
 {
 	private final ShowDescriptionList elementList;
 
