@@ -629,7 +629,7 @@ public class Macrofier
 
 	public static void macroCombo( StringBuffer macro, int[] combo )
 	{
-		int cost = 0;
+		long cost = 0;
 		for ( int i = 0; i < combo.length; ++i )
 		{
 			cost += SkillDatabase.getMPConsumptionById( combo[ i ] );

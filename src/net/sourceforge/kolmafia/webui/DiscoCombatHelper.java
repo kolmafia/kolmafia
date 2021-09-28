@@ -802,7 +802,7 @@ public class DiscoCombatHelper
 		buffer.append( "<input type=hidden name=\"action\" value=\"macro\">" );
 		buffer.append( "<input type=hidden name=\"macrotext\" value=\"" );
 
-		int cost = 0;
+		long cost = 0;
 		for ( int i = 0; i < combo.length; ++i )
 		{
 			int skillId = combo[ i ];
