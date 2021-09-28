@@ -776,7 +776,8 @@ public class Preferences
 			if ( !preferenceFilter.contains( name ) )
 			{
 				String message = "Preference " + name + " changed from " + Preferences.getString( name ) + " to " + value;
-				RequestLogger.printLine( message );
+				String climessage = "Preference <b>" + name + "</b> changed from " + Preferences.getString( name ) + " <b>to</b> <span style='color:maroon;font-weight:bold;'>" + value + "</span>";
+				RequestLogger.printLine( climessage );
 				RequestLogger.updateSessionLog( message );
 			}
 		}
