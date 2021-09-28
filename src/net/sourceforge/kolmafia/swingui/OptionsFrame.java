@@ -187,7 +187,9 @@ public class OptionsFrame
 				{ "logStatGains", "Session log records stat gains" },
 				{ "logAcquiredItems", "Session log records items acquired" },
 				{ "logStatusEffects", "Session log records status effects gained" },
-				{ "logPreferenceChange", "Log preference changes" }
+				{ "logPreferenceChange", "Log preference changes" },
+				{ "aaaDefaultsEnableSetLocationLogging", "Log all uses of set_location" },
+				{ "printStackOnAbort", "Print stack on abort" }
 			};
 
 			this.setOptions( options );
