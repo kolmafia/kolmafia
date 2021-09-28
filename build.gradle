@@ -113,8 +113,10 @@ task pruneDist(type: Delete) {
   outputs.upToDateWhen { true }
   doLast {
     file('dist').eachFile(groovy.io.FileType.FILES) { File file ->
-      if (file.name.startsWith('KoLmafia-') && file.name.endsWith('.jar') && !file.name.contains(project.getVersion())) {
+      if (file.name.startsWith('KoLmafia-') && file.name.endsWith('.jar')) {
+        if (!file.name.contains(project.getVersion()) || (versioning.info.dirty != file.name.endsWith('-M.jar'))) {
           delete file
+        }
       }
     }
   }
