@@ -13,6 +13,18 @@ public class WindowOpenCommand
 	@Override
 	public void run( final String command, final String parameters )
 	{
+		if ( command.equals( "deeds" ) )
+		{
+			KoLmafiaGUI.constructFrame( "CharSheetFrame" );
+			return;
+		}
+
+		if ( command.equals( "cli" ) )
+		{
+			KoLmafiaGUI.constructFrame( "CommandDisplayFrame" );
+			return;
+		}
+
 		if ( command.equals( "chat" ) )
 		{
 			KoLmafiaGUI.constructFrame( "ChatManager" );
