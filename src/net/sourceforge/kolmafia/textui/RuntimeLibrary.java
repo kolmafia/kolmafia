@@ -8604,6 +8604,11 @@ public abstract class RuntimeLibrary
 
 	public static Value set_location( ScriptRuntime controller, final Value location )
 	{
+		if ( Preferences.getBoolean( "aaaDefaultsEnableSetLocationLogging" ) )
+		{
+			RequestLogger.printLine( "<font color=maroon>Setting location: "+location+"</font>" );
+			RequestLogger.updateSessionLog( "Setting location: "+location );
+		}
 		KoLAdventure adventure = (KoLAdventure) location.rawValue();
 		KoLAdventure.setNextAdventure( adventure );
 		return DataTypes.VOID_VALUE;
