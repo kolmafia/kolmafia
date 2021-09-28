@@ -1,12 +1,9 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.io.File;
-
 import java.util.List;
 import java.util.regex.Pattern;
-
 import net.java.dev.spellcast.utilities.DataUtilities;
-
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -14,252 +11,218 @@ import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.swingui.GenericFrame;
-
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.Profiler;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
-
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class CallScriptCommand
-	extends AbstractCommand
-{
-	private static final Pattern ASHNAME_PATTERN = Pattern.compile( "\\.ash", Pattern.CASE_INSENSITIVE );
-	private static final Pattern JSNAME_PATTERN = Pattern.compile( "\\.js", Pattern.CASE_INSENSITIVE );
+public class CallScriptCommand extends AbstractCommand {
+  private static final Pattern ASHNAME_PATTERN =
+      Pattern.compile("\\.ash", Pattern.CASE_INSENSITIVE);
+  private static final Pattern JSNAME_PATTERN = Pattern.compile("\\.js", Pattern.CASE_INSENSITIVE);
 
-	public CallScriptCommand()
-	{
-		this.usage = " [<number>x] <filename> | <function> [<parameters>] - check/run script.";
-	}
+  public CallScriptCommand() {
+    this.usage = " [<number>x] <filename> | <function> [<parameters>] - check/run script.";
+  }
 
-	@Override
-	public void run( final String command, final String parameters )
-	{
-		CallScriptCommand.call( command, parameters, this.callerController );
-	}
+  @Override
+  public void run(final String command, final String parameters) {
+    CallScriptCommand.call(command, parameters, this.callerController);
+  }
 
-	public static void call( final String command, String parameters, ScriptRuntime caller )
-	{
-		try
-		{
-			int runCount = 1;
-			String[] arguments = null;
+  public static void call(final String command, String parameters, ScriptRuntime caller) {
+    try {
+      int runCount = 1;
+      String[] arguments = null;
 
-			parameters = parameters.trim();
-			List<File> scriptMatches = KoLmafiaCLI.findScriptFile( parameters );
+      parameters = parameters.trim();
+      List<File> scriptMatches = KoLmafiaCLI.findScriptFile(parameters);
 
-			// If still no script was found, perhaps it's the
-			// secret invocation of the "#x script" that allows a
-			// script to be run multiple times.
+      // If still no script was found, perhaps it's the
+      // secret invocation of the "#x script" that allows a
+      // script to be run multiple times.
 
-			if ( scriptMatches.size() == 0 )
-			{
-				String runCountString = parameters.split( " " )[ 0 ];
-				boolean hasMultipleRuns = runCountString.endsWith( "x" );
+      if (scriptMatches.size() == 0) {
+        String runCountString = parameters.split(" ")[0];
+        boolean hasMultipleRuns = runCountString.endsWith("x");
 
-				for ( int i = 0; i < runCountString.length() - 1 && hasMultipleRuns; ++i )
-				{
-					hasMultipleRuns = Character.isDigit( runCountString.charAt( i ) );
-				}
+        for (int i = 0; i < runCountString.length() - 1 && hasMultipleRuns; ++i) {
+          hasMultipleRuns = Character.isDigit(runCountString.charAt(i));
+        }
 
-				if ( hasMultipleRuns )
-				{
-					runCount = StringUtilities.parseInt( runCountString );
-					//Fixes StringIndexOutOfBoundsException error when "x" is entered
-					//as a command.  This may be addressing the symptom and not the
-					//cause and but should not break x as a "repeat indicator".
-					if (runCount <= 0) {
-						return;
-					}
-					parameters = parameters.substring( parameters.indexOf( " " ) ).trim();
-					scriptMatches = KoLmafiaCLI.findScriptFile( parameters );
-				}
-			}
+        if (hasMultipleRuns) {
+          runCount = StringUtilities.parseInt(runCountString);
+          // Fixes StringIndexOutOfBoundsException error when "x" is entered
+          // as a command.  This may be addressing the symptom and not the
+          // cause and but should not break x as a "repeat indicator".
+          if (runCount <= 0) {
+            return;
+          }
+          parameters = parameters.substring(parameters.indexOf(" ")).trim();
+          scriptMatches = KoLmafiaCLI.findScriptFile(parameters);
+        }
+      }
 
-			// Maybe the more ambiguous invocation of an ASH script
-			// which does not use parentheses?
+      // Maybe the more ambiguous invocation of an ASH script
+      // which does not use parentheses?
 
-			if ( scriptMatches.size() == 0 )
-			{
-				int spaceIndex = parameters.indexOf( " " );
-				if ( spaceIndex != -1 )
-				{
-					String argumentString = parameters.substring( spaceIndex + 1 ).trim();
-					if ( argumentString.startsWith( "(" ) && argumentString.endsWith( ")" ) )
-					{
-						argumentString = argumentString.substring( 1, argumentString.length() - 1 );
-						arguments = argumentString.split( "," );
-						for ( int i = 0; i < arguments.length; i++ )
-						{
-							arguments[i] = arguments[i].trim();
-						}
-					}
-					else
-					{
-						arguments = new String[] { argumentString };
-					}
-					
-					parameters = parameters.substring( 0, spaceIndex );
-					scriptMatches = KoLmafiaCLI.findScriptFile( parameters );
-				}
-			}
+      if (scriptMatches.size() == 0) {
+        int spaceIndex = parameters.indexOf(" ");
+        if (spaceIndex != -1) {
+          String argumentString = parameters.substring(spaceIndex + 1).trim();
+          if (argumentString.startsWith("(") && argumentString.endsWith(")")) {
+            argumentString = argumentString.substring(1, argumentString.length() - 1);
+            arguments = argumentString.split(",");
+            for (int i = 0; i < arguments.length; i++) {
+              arguments[i] = arguments[i].trim();
+            }
+          } else {
+            arguments = new String[] {argumentString};
+          }
 
-			// If not even that, perhaps it's the invocation of a
-			// function which is defined in the ASH namespace?
+          parameters = parameters.substring(0, spaceIndex);
+          scriptMatches = KoLmafiaCLI.findScriptFile(parameters);
+        }
+      }
 
-			if ( scriptMatches.size() == 0 )
-			{
-				Value rv = KoLmafiaASH.NAMESPACE_INTERPRETER.execute( parameters, arguments );
-				// A script only has a meaningful return value
-				// if it succeeded.
-				if ( KoLmafia.permitsContinue() )
-				{
-					KoLmafia.updateDisplay( "Returned: " + rv );
-				}
-				return;
-			}
-			
-			// If we have multiple matches, punt here.
+      // If not even that, perhaps it's the invocation of a
+      // function which is defined in the ASH namespace?
 
-			if ( scriptMatches.size() > 1 )
-			{
-				// too many matches, punt
-				RequestLogger.printList( scriptMatches );
-				RequestLogger.printLine();
-				KoLmafia.updateDisplay( MafiaState.ERROR, "[" + parameters + "] has too many matches." );
-				return;
-			}
+      if (scriptMatches.size() == 0) {
+        Value rv = KoLmafiaASH.NAMESPACE_INTERPRETER.execute(parameters, arguments);
+        // A script only has a meaningful return value
+        // if it succeeded.
+        if (KoLmafia.permitsContinue()) {
+          KoLmafia.updateDisplay("Returned: " + rv);
+        }
+        return;
+      }
 
-			// Else we have a single, unique match and can proceed normally.
+      // If we have multiple matches, punt here.
 
-			File scriptFile = scriptMatches.get( 0 );
+      if (scriptMatches.size() > 1) {
+        // too many matches, punt
+        RequestLogger.printList(scriptMatches);
+        RequestLogger.printLine();
+        KoLmafia.updateDisplay(MafiaState.ERROR, "[" + parameters + "] has too many matches.");
+        return;
+      }
 
-			// In theory, you could execute EVERY script in a
-			// directory, but instead, let's make it an error.
+      // Else we have a single, unique match and can proceed normally.
 
-			if ( scriptFile.isDirectory() )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, scriptFile.getCanonicalPath() + " is a directory." );
-				return;
-			}
+      File scriptFile = scriptMatches.get(0);
 
-			// Got here so have valid script file name and not a directory.
+      // In theory, you could execute EVERY script in a
+      // directory, but instead, let's make it an error.
 
-			if ( Preferences.getInteger( "scriptMRULength" ) > 0 )
-			{
-				// Add name, without path, to MRU list
-				KoLConstants.scriptMList.addItem( scriptFile.getName() );
-				GenericFrame.compileScripts( true );
-			}
+      if (scriptFile.isDirectory()) {
+        KoLmafia.updateDisplay(
+            MafiaState.ERROR, scriptFile.getCanonicalPath() + " is a directory.");
+        return;
+      }
 
-			// Allow the ".ash" or ".js" to appear anywhere in the filename
-			// in a case-insensitive manner.
+      // Got here so have valid script file name and not a directory.
 
-			if ( CallScriptCommand.ASHNAME_PATTERN.matcher( scriptFile.getPath() ).find() || CallScriptCommand.JSNAME_PATTERN.matcher( scriptFile.getPath() ).find() )
-			{
-				ScriptRuntime interpreter = KoLmafiaASH.getInterpreter( scriptFile );
+      if (Preferences.getInteger("scriptMRULength") > 0) {
+        // Add name, without path, to MRU list
+        KoLConstants.scriptMList.addItem(scriptFile.getName());
+        GenericFrame.compileScripts(true);
+      }
 
-				if ( !command.equals( "call" ) && interpreter instanceof JavascriptRuntime )
-				{
-					KoLmafia.updateDisplay( MafiaState.ERROR, "Cannot use command " + command + " with JavaScript scripts." );
-					return;
-				}
+      // Allow the ".ash" or ".js" to appear anywhere in the filename
+      // in a case-insensitive manner.
 
-				// If there's an alternate namespace being
-				// used, then be sure to switch.
+      if (CallScriptCommand.ASHNAME_PATTERN.matcher(scriptFile.getPath()).find()
+          || CallScriptCommand.JSNAME_PATTERN.matcher(scriptFile.getPath()).find()) {
+        ScriptRuntime interpreter = KoLmafiaASH.getInterpreter(scriptFile);
 
-				if ( command.equals( "validate" ) || command.equals( "verify" ) || command.equals( "check" ) )
-				{
-					if ( interpreter instanceof AshRuntime )
-					{
-						RequestLogger.printLine();
-						KoLmafiaASH.showUserFunctions( (AshRuntime) interpreter, "" );
+        if (!command.equals("call") && interpreter instanceof JavascriptRuntime) {
+          KoLmafia.updateDisplay(
+              MafiaState.ERROR, "Cannot use command " + command + " with JavaScript scripts.");
+          return;
+        }
 
-						RequestLogger.printLine();
-						RequestLogger.printLine( "Script verification complete." );
-					}
+        // If there's an alternate namespace being
+        // used, then be sure to switch.
 
-					return;
-				}
+        if (command.equals("validate") || command.equals("verify") || command.equals("check")) {
+          if (interpreter instanceof AshRuntime) {
+            RequestLogger.printLine();
+            KoLmafiaASH.showUserFunctions((AshRuntime) interpreter, "");
 
-				if ( command.equals( "profile" ) )
-				{
-					if ( interpreter instanceof AshRuntime )
-					{
-						AshRuntime ashInterpreter = (AshRuntime) interpreter;
-						Profiler prof = Profiler.create( "toplevel" );
-						long t0 = System.nanoTime();
-						prof.net0 = t0;
-						ashInterpreter.profiler = prof;
+            RequestLogger.printLine();
+            RequestLogger.printLine("Script verification complete.");
+          }
 
-						for ( int i = 0; i < runCount && KoLmafia.permitsContinue(); ++i )
-						{
-							KoLmafiaASH.logScriptExecution( "Starting ASH script: ", scriptFile.getName(), interpreter );
-							ashInterpreter.execute( "main", arguments );
-							KoLmafiaASH.logScriptExecution( "Finished ASH script: ", scriptFile.getName(), interpreter );
-						}
+          return;
+        }
 
-						long t1 = System.nanoTime();
-						prof.total = t1 - t0;
-						prof.net += t1 - prof.net0;
-						prof.finish();
-						ashInterpreter.profiler = null;
-						RequestLogger.printLine( Profiler.summary() );
-					}
-					return;
-				}
+        if (command.equals("profile")) {
+          if (interpreter instanceof AshRuntime) {
+            AshRuntime ashInterpreter = (AshRuntime) interpreter;
+            Profiler prof = Profiler.create("toplevel");
+            long t0 = System.nanoTime();
+            prof.net0 = t0;
+            ashInterpreter.profiler = prof;
 
-				// If there's an alternate namespace being
-				// used, then be sure to switch.
+            for (int i = 0; i < runCount && KoLmafia.permitsContinue(); ++i) {
+              KoLmafiaASH.logScriptExecution(
+                  "Starting ASH script: ", scriptFile.getName(), interpreter);
+              ashInterpreter.execute("main", arguments);
+              KoLmafiaASH.logScriptExecution(
+                  "Finished ASH script: ", scriptFile.getName(), interpreter);
+            }
 
-				if ( interpreter != null )
-				{
-					try
-					{
-						interpreter.cloneRelayScript( caller );
-						interpreter.resetTracing();
+            long t1 = System.nanoTime();
+            prof.total = t1 - t0;
+            prof.net += t1 - prof.net0;
+            prof.finish();
+            ashInterpreter.profiler = null;
+            RequestLogger.printLine(Profiler.summary());
+          }
+          return;
+        }
 
-						for ( int i = 0; i < runCount && KoLmafia.permitsContinue(); ++i )
-						{
-							KoLmafiaASH.logScriptExecution( "Starting script: ", scriptFile.getName(), interpreter );
-							interpreter.execute( "main", arguments );
-							KoLmafiaASH.logScriptExecution( "Finished script: ", scriptFile.getName(), interpreter );
-						}
-					}
-					finally
-					{
-						interpreter.finishRelayScript();
-					}
-				}
-			}
-			else
-			{
-				if ( arguments != null )
-				{
-					KoLmafia.updateDisplay(
-						MafiaState.ERROR, "You can only specify arguments for an ASH script" );
-					return;
-				}
+        // If there's an alternate namespace being
+        // used, then be sure to switch.
 
-				for ( int i = 0; i < runCount && KoLmafia.permitsContinue(); ++i )
-				{
-					new KoLmafiaCLI( DataUtilities.getInputStream( scriptFile ) ).listenForCommands();
-				}
-			}
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
+        if (interpreter != null) {
+          try {
+            interpreter.cloneRelayScript(caller);
+            interpreter.resetTracing();
 
-			StaticEntity.printStackTrace( e );
-			return;
-		}
-	}
+            for (int i = 0; i < runCount && KoLmafia.permitsContinue(); ++i) {
+              KoLmafiaASH.logScriptExecution(
+                  "Starting script: ", scriptFile.getName(), interpreter);
+              interpreter.execute("main", arguments);
+              KoLmafiaASH.logScriptExecution(
+                  "Finished script: ", scriptFile.getName(), interpreter);
+            }
+          } finally {
+            interpreter.finishRelayScript();
+          }
+        }
+      } else {
+        if (arguments != null) {
+          KoLmafia.updateDisplay(
+              MafiaState.ERROR, "You can only specify arguments for an ASH script");
+          return;
+        }
+
+        for (int i = 0; i < runCount && KoLmafia.permitsContinue(); ++i) {
+          new KoLmafiaCLI(DataUtilities.getInputStream(scriptFile)).listenForCommands();
+        }
+      }
+    } catch (Exception e) {
+      // This should not happen.  Therefore, print
+      // a stack trace for debug purposes.
+
+      StaticEntity.printStackTrace(e);
+      return;
+    }
+  }
 }

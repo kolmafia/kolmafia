@@ -1,79 +1,66 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
 import net.sourceforge.kolmafia.KoLmafia;
-
-import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
-public abstract class Conditional
-	extends Command
-{
-	public Scope scope;
-	private final Value condition;
+public abstract class Conditional extends Command {
+  public Scope scope;
+  private final Value condition;
 
-	public Conditional( final Scope scope, final Value condition )
-	{
-		this.scope = scope;
-		this.condition = condition;
-	}
+  public Conditional(final Scope scope, final Value condition) {
+    this.scope = scope;
+    this.condition = condition;
+  }
 
-	public Scope getScope()
-	{
-		return this.scope;
-	}
+  public Scope getScope() {
+    return this.scope;
+  }
 
-	public Value getCondition()
-	{
-		return this.condition;
-	}
+  public Value getCondition() {
+    return this.condition;
+  }
 
-	@Override
-	public Value execute( final AshRuntime interpreter )
-	{
-		if ( !KoLmafia.permitsContinue() )
-		{
-			interpreter.setState( ScriptRuntime.State.EXIT );
-			return null;
-		}
+  @Override
+  public Value execute(final AshRuntime interpreter) {
+    if (!KoLmafia.permitsContinue()) {
+      interpreter.setState(ScriptRuntime.State.EXIT);
+      return null;
+    }
 
-		interpreter.traceIndent();
+    interpreter.traceIndent();
 
-		if ( ScriptRuntime.isTracing() )
-		{
-			interpreter.trace( this.toString() );
-			interpreter.trace( "Test: " + this.condition );
-		}
+    if (ScriptRuntime.isTracing()) {
+      interpreter.trace(this.toString());
+      interpreter.trace("Test: " + this.condition);
+    }
 
-		Value conditionResult = this.condition.execute( interpreter );
-		interpreter.captureValue( conditionResult );
+    Value conditionResult = this.condition.execute(interpreter);
+    interpreter.captureValue(conditionResult);
 
-		if ( ScriptRuntime.isTracing() )
-		{
-			interpreter.trace( "[" + interpreter.getState() + "] <- " + conditionResult );
-		}
+    if (ScriptRuntime.isTracing()) {
+      interpreter.trace("[" + interpreter.getState() + "] <- " + conditionResult);
+    }
 
-		if ( conditionResult == null )
-		{
-			interpreter.traceUnindent();
-			return null;
-		}
+    if (conditionResult == null) {
+      interpreter.traceUnindent();
+      return null;
+    }
 
-		if ( conditionResult.intValue() == 1 )
-		{
-			Value result = this.scope.execute( interpreter );
+    if (conditionResult.intValue() == 1) {
+      Value result = this.scope.execute(interpreter);
 
-			interpreter.traceUnindent();
+      interpreter.traceUnindent();
 
-			if ( interpreter.getState() != ScriptRuntime.State.NORMAL )
-			{
-				return result;
-			}
+      if (interpreter.getState() != ScriptRuntime.State.NORMAL) {
+        return result;
+      }
 
-			return DataTypes.TRUE_VALUE;
-		}
+      return DataTypes.TRUE_VALUE;
+    }
 
-		interpreter.traceUnindent();
-		return DataTypes.FALSE_VALUE;
-	}
+    interpreter.traceUnindent();
+    return DataTypes.FALSE_VALUE;
+  }
 }
