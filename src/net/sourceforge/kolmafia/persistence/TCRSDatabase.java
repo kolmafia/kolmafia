@@ -901,8 +901,7 @@ public class TCRSDatabase
 
 	public static boolean fetchRemoteFile( String localFilename, final boolean verbose )
 	{
-		String remoteFileName = "https://sourceforge.net/p/kolmafia/code/HEAD/tree/data/TCRS/" +
-				localFilename + "?format=raw";
+		String remoteFileName = "https://raw.githubusercontent.com/kolmafia/kolmafia/main/data/TCRS/" + localFilename;
 		if ( remoteFetched.contains( remoteFileName ) )
 		{
 			if ( verbose )

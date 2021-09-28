@@ -20,11 +20,13 @@ public class FaxbotCommand
 	{
 		this.usage = " [command] - send the command to faxbot";
 	}
-	
+
 	@Override
 	public void run( final String cmd, final String command )
-	{	
+	{
 		FaxBotDatabase.configure();
+
+		boolean tried = false;
 
 		for ( FaxBot bot : FaxBotDatabase.faxbots )
 		{
@@ -49,8 +51,8 @@ public class FaxbotCommand
 				RequestLogger.printList( commands );
 				RequestLogger.printLine();
 
-				KoLmafia.updateDisplay( MafiaState.ERROR, "[" + command + "] has too many matches in bot " + botName );
-				return;
+				RequestLogger.printLine( "[" + command + "] has too many matches in bot " + botName );
+				continue;
 			}
 
 			if ( !FaxRequestFrame.isBotOnline( botName ) )
@@ -59,9 +61,15 @@ public class FaxbotCommand
 			}
 
 			Monster monster = bot.getMonsterByCommand( (String)commands.get( 0 ) );
-			FaxRequestFrame.requestFax( botName, monster, false );
-			return;
+			tried = true;
+			if ( FaxRequestFrame.requestFax( botName, monster, false ) )
+			{
+				return;
+			}
 		}
-		KoLmafia.updateDisplay( KoLConstants.MafiaState.ABORT, "No faxbots accept that command." );
+		if ( !tried )
+		{
+			KoLmafia.updateDisplay( KoLConstants.MafiaState.ABORT, "No faxbots accept that command." );
+		}
 	}
 }

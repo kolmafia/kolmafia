@@ -90,6 +90,38 @@ application {
   mainClass = 'net.sourceforge.kolmafia.KoLmafia'
 }
 
+task cleanDist(type: Delete) {
+  onlyIf {
+    file('dist').exists()
+  }
+  inputs.dir('dist')
+  outputs.upToDateWhen { true }
+  doLast {
+    file('dist').eachFile(groovy.io.FileType.FILES) { File file ->
+      if (file.name.startsWith('KoLmafia-') && file.name.endsWith('.jar')) {
+          delete file
+      }
+    }
+  }
+}
+
+task pruneDist(type: Delete) {
+  onlyIf {
+    file('dist').exists()
+  }
+  inputs.dir('dist')
+  outputs.upToDateWhen { true }
+  doLast {
+    file('dist').eachFile(groovy.io.FileType.FILES) { File file ->
+      if (file.name.startsWith('KoLmafia-') && file.name.endsWith('.jar')) {
+        if (!file.name.contains(project.getVersion()) || (versioning.info.dirty != file.name.endsWith('-M.jar'))) {
+          delete file
+        }
+      }
+    }
+  }
+}
+
 test {
   useJUnitPlatform()
   // Exclude Clover-instrumented inner classes...
@@ -109,7 +141,7 @@ jar {
   manifest {
     attributes(
       'Main-Class'      : 'net.sourceforge.kolmafia.KoLmafia',
-      'Build-Revision'  : new Object() { String toString() { getVersion() } },
+      'Build-Revision'  : new Object() { String toString() { project.getVersion() } },
       'Build-Branch'    : versioning.info.branch,
       'Build-Commit'    : versioning.info.commit,
       'Build-Jdk'       : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
@@ -198,8 +230,13 @@ clover {
   }
 }
 
+clean.dependsOn cleanDist
+pruneDist.dependsOn gitRevList
+pruneDist.dependsOn svnRevList
+jar.dependsOn pruneDist
 jar.dependsOn gitRevList
 jar.dependsOn svnRevList
+shadowJar.dependsOn pruneDist
 shadowJar.dependsOn gitRevList
 shadowJar.dependsOn svnRevList
 

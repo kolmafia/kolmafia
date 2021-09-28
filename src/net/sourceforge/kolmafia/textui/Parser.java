@@ -726,18 +726,10 @@ public class Parser
 
 			if ( this.currentToken().equals( "..." ) )
 			{
-				// We can only have a single vararg parameter
-				if ( vararg )
-				{
-					throw this.parseException( "Only one vararg parameter is allowed" );
-				}
 				// Make an vararg type out of the previously parsed type.
 				paramType = new VarArgType( paramType );
 
 				this.readToken(); //read ...
-
-				// Only one vararg is allowed
-				vararg = true;
 			}
 
 			Variable param = this.parseVariable( paramType, null );
@@ -746,19 +738,37 @@ public class Parser
 				throw this.parseException( "identifier", this.currentToken() );
 			}
 
-			if ( !paramList.add( param ) )
+			if ( vararg )
+			{
+				if ( paramType instanceof VarArgType )
+				{
+					// We can only have a single vararg parameter
+					throw this.parseException( "Only one vararg parameter is allowed" );
+				}
+				else
+				{
+					// The single vararg parameter must be the last one
+					throw this.parseException( "The vararg parameter must be the last one" );
+				}
+			}
+			else if ( !paramList.add( param ) )
 			{
 				throw this.parseException( "Parameter " + param.getName() + " is already defined" );
 			}
 
+			if ( this.currentToken().equals( "=" ) )
+			{
+				throw this.parseException( "Cannot initialize parameter " + param.getName() );
+			}
+
+			if ( paramType instanceof VarArgType )
+			{
+				// Only one vararg is allowed
+				vararg = true;
+			}
+
 			if ( !this.currentToken().equals( ")" ) )
 			{
-				// The single vararg parameter must be the last one
-				if ( vararg )
-				{
-					throw this.parseException( "The vararg parameter must be the last one" );
-				}
-
 				if ( this.currentToken().equals( "," ) )
 				{
 					this.readToken(); //read comma
@@ -831,6 +841,31 @@ public class Parser
 				return false;
 			}
 
+			parentScope.addVariable( v );
+			VariableReference lhs = new VariableReference( v );
+			Value rhs;
+
+			if ( this.currentToken().equals( "=" ) )
+			{
+				this.readToken(); //read =
+
+				rhs = this.parseInitialization( lhs, parentScope );
+			}
+			else if ( this.currentToken().equals( "{" ) )
+			{
+				// We allow two ways of initializing aggregates:
+				// <aggregate type> <name> = {};
+				// <aggregate type> <name> {};
+
+				rhs = this.parseInitialization( lhs, parentScope );
+			}
+			else
+			{
+				rhs = null;
+			}
+
+			parentScope.addCommand( new Assignment( lhs, rhs ), this );
+
 			if ( this.currentToken().equals( "," ) )
 			{
 				this.readToken(); //read ,
@@ -864,49 +899,43 @@ public class Parser
 			result = new Variable( variableName.content, t );
 		}
 
-		this.readToken(); // If parsing of Identifier succeeded, go to next token.
-		// If we are parsing a parameter declaration, we are done
-		if ( scope == null )
-		{
-			if ( this.currentToken().equals( "=" ) )
-			{
-				throw this.parseException( "Cannot initialize parameter " + variableName );
-			}
-			return result;
-		}
+		this.readToken(); // read name
 
-		// Otherwise, we must initialize the variable.
+		return result;
+	}
 
-		Value rhs;
+	/**
+	 * Parses the right-hand-side of a variable definition. It is assumed that the caller expects
+	 * an expression to be found, so this method never returns null.
+	 */
+	private Value parseInitialization( final VariableReference lhs, final BasicScope scope )
+	{
+		Value result;
 
+		Type t = lhs.target.getType();
 		Type ltype = t.getBaseType();
-		if ( this.currentToken().equals( "=" ) )
+		if ( this.currentToken().equals( "{" ) )
 		{
-			this.readToken(); // read =
-
-			if ( this.currentToken().equals( "{" ) )
+			if ( ltype instanceof AggregateType )
 			{
-				if ( ltype instanceof AggregateType )
-				{
-					rhs = this.parseAggregateLiteral( scope, (AggregateType) ltype );
-				}
-				else
-				{
-					throw this.parseException(
-						"Cannot initialize " + variableName + " of type " + t + " with an aggregate literal" );
-				}
+				result = this.parseAggregateLiteral( scope, (AggregateType) ltype );
 			}
 			else
 			{
-				rhs = this.parseExpression( scope );
+				throw this.parseException(
+					"Cannot initialize " + lhs + " of type " + t + " with an aggregate literal" );
 			}
+		}
+		else
+		{
+			result = this.parseExpression( scope );
 
-			if ( rhs != null )
+			if ( result != null )
 			{
-				rhs = this.autoCoerceValue( t, rhs, scope );
-				if ( !Operator.validCoercion( ltype, rhs.getType(), "assign" ) )
+				result = this.autoCoerceValue( t, result, scope );
+				if ( !Operator.validCoercion( ltype, result.getType(), "assign" ) )
 				{
-					throw this.parseException( "Cannot store " + rhs.getType() + " in " + variableName + " of type " + ltype );
+					throw this.parseException( "Cannot store " + result.getType() + " in " + lhs + " of type " + ltype );
 				}
 			}
 			else
@@ -914,18 +943,6 @@ public class Parser
 				throw this.parseException( "Expression expected" );
 			}
 		}
-		else if ( this.currentToken().equals( "{" ) && ltype instanceof AggregateType )
-		{
-			rhs = this.parseAggregateLiteral( scope, (AggregateType) ltype );
-		}
-		else
-		{
-			rhs = null;
-		}
-
-		scope.addVariable( result );
-		VariableReference lhs = new VariableReference( variableName.content, scope );
-		scope.addCommand( new Assignment( lhs, rhs ), this );
 
 		return result;
 	}
@@ -1198,30 +1215,23 @@ public class Parser
 			return null;
 		}
 
-		Type valType = scope.findType( this.currentToken().content );
-		if ( valType == null )
+		Type valType;
+
+		if ( ( valType = this.parseRecord( scope ) ) != null )
 		{
-			if ( records && this.currentToken().equalsIgnoreCase( "record" ) )
+			if ( !records )
 			{
-				valType = this.parseRecord( scope );
-
-				if ( valType == null )
-				{
-					return null;
-				}
-
-				if ( this.currentToken().equals( "[" ) )
-				{
-					return this.parseAggregateType( valType, scope );
-				}
-
-				return valType;
+				throw this.parseException( "Existing type expected for function parameter" );
 			}
-
+		}
+		else if ( ( valType = scope.findType( this.currentToken().content ) ) != null )
+		{
+			this.readToken();
+		}
+		else
+		{
 			return null;
 		}
-
-		this.readToken();
 
 		if ( this.currentToken().equals( "[" ) )
 		{
@@ -1300,17 +1310,24 @@ public class Parser
 				arrayAllowed = false;
 			}
 
-			// If parsing an ArrayLiteral, accumulate only values
-			if ( isArray )
+			if ( !delim.equals( ":" ) )
 			{
-				// The value must have the correct data type
-				lhs = this.autoCoerceValue( data, lhs, scope );
-				if ( !Operator.validCoercion( dataType, lhs.getType(), "assign" ) )
+				// If parsing an ArrayLiteral, accumulate only values
+				if ( isArray )
 				{
-					throw this.parseException( "Invalid array literal" );
-				}
+					// The value must have the correct data type
+					lhs = this.autoCoerceValue( data, lhs, scope );
+					if ( !Operator.validCoercion( dataType, lhs.getType(), "assign" ) )
+					{
+						throw this.parseException( "Invalid array literal" );
+					}
 
-				values.add( lhs );
+					values.add( lhs );
+				}
+				else
+				{
+					throw this.parseException( ":", delim );
+				}
 
 				// Move on to the next value
 				if ( delim.equals( "," ) )
@@ -1326,12 +1343,27 @@ public class Parser
 			}
 
 			// We are parsing a MapLiteral
-			if ( !delim.equals( ":" ) )
-			{
-				throw this.parseException( ":", this.currentToken() );
-			}
-
 			this.readToken(); // read :
+
+			if ( isArray )
+			{
+				// In order to reach this point without an error, we must have had a correct
+				// array literal so far, meaning the index type is an integer, and what we saw before
+				// the colon must have matched the aggregate's data type. Therefore, the next
+				// question is: is the data type also an integer?
+
+				if ( data.equals( DataTypes.INT_TYPE ) )
+				{
+					// If so, this is an int[int] aggregate. They could have done something like
+					// {0, 1, 2, 3:3, 4:4, 5:5}
+					throw this.parseException( "Cannot include keys when making an array literal" );
+				}
+				else
+				{
+					// If not, we can't tell why there's a colon here.
+					throw this.parseException( ", or }", delim );
+				}
+			}
 
 			Value rhs;
 			if ( this.currentToken().equals( "{" ) && dataType instanceof AggregateType )
@@ -1650,7 +1682,7 @@ public class Parser
 			throw this.parseException( ")", this.currentToken() );
 		}
 
-		if ( condition == null || condition.getType() != DataTypes.BOOLEAN_TYPE )
+		if ( condition == null || !condition.getType().equals( DataTypes.BOOLEAN_TYPE ) )
 		{
 			throw this.parseException( "\"if\" requires a boolean conditional expression" );
 		}
@@ -1708,7 +1740,7 @@ public class Parser
 						throw this.parseException( ")", this.currentToken() );
 					}
 
-					if ( condition == null || condition.getType() != DataTypes.BOOLEAN_TYPE )
+					if ( condition == null || !condition.getType().equals( DataTypes.BOOLEAN_TYPE ) )
 					{
 						throw this.parseException( "\"if\" requires a boolean conditional expression" );
 					}
@@ -1818,7 +1850,7 @@ public class Parser
 			throw this.parseException( ")", this.currentToken() );
 		}
 
-		if ( condition == null || condition.getType() != DataTypes.BOOLEAN_TYPE )
+		if ( condition == null || !condition.getType().equals( DataTypes.BOOLEAN_TYPE ) )
 		{
 			throw this.parseException( "\"while\" requires a boolean conditional expression" );
 		}
@@ -1868,7 +1900,7 @@ public class Parser
 			throw this.parseException( ")", this.currentToken() );
 		}
 
-		if ( condition == null || condition.getType() != DataTypes.BOOLEAN_TYPE )
+		if ( condition == null || !condition.getType().equals( DataTypes.BOOLEAN_TYPE ) )
 		{
 			throw this.parseException( "\"repeat\" requires a boolean conditional expression" );
 		}
@@ -2483,7 +2515,7 @@ public class Parser
 
 			this.readToken(); // name
 
-			VariableReference lhs = new VariableReference( name.content, scope );
+			VariableReference lhs = new VariableReference( variable );
 			Value rhs = null;
 
 			if ( this.currentToken().equals( "=" ) )
@@ -2547,7 +2579,7 @@ public class Parser
 			throw this.parseException( ";", this.currentToken() );
 		}
 
-		if ( condition == null || condition.getType() != DataTypes.BOOLEAN_TYPE )
+		if ( condition == null || !condition.getType().equals( DataTypes.BOOLEAN_TYPE ) )
 		{
 			throw this.parseException( "\"for\" requires a boolean conditional expression" );
 		}
@@ -3127,7 +3159,7 @@ public class Parser
 
 			lhs = this.autoCoerceValue( DataTypes.BOOLEAN_TYPE, lhs, scope );
 			lhs = new Operation( lhs, new Operator( operator.content, this ) );
-			if ( lhs.getType() != DataTypes.BOOLEAN_TYPE )
+			if ( !lhs.getType().equals( DataTypes.BOOLEAN_TYPE ) )
 			{
 				throw this.parseException( "\"!\" operator requires a boolean value" );
 			}
@@ -3141,7 +3173,7 @@ public class Parser
 			}
 
 			lhs = new Operation( lhs, new Operator( operator.content, this ) );
-			if ( lhs.getType() != DataTypes.INT_TYPE && lhs.getType() != DataTypes.BOOLEAN_TYPE )
+			if ( !lhs.getType().equals( DataTypes.INT_TYPE ) && !lhs.getType().equals( DataTypes.BOOLEAN_TYPE ) )
 			{
 				throw this.parseException( "\"~\" operator requires an integer or boolean value" );
 			}
@@ -3203,7 +3235,7 @@ public class Parser
 
 				Value conditional = lhs;
 
-				if ( conditional.getType() != DataTypes.BOOLEAN_TYPE )
+				if ( !conditional.getType().equals( DataTypes.BOOLEAN_TYPE ) )
 				{
 					throw this.parseException(
 						"Non-boolean expression " + conditional + " (" + conditional.getType() + ")" );
@@ -3697,10 +3729,10 @@ public class Parser
 			String fullName = value.toString();
 			if ( !element.equalsIgnoreCase( fullName ) )
 			{
-				String s1 = CharacterEntities.escape( StringUtilities.globalStringReplace( element, ",", "\\," ).replaceAll("(?<= ) ", "\\\\ " ) );
-				String s2 = CharacterEntities.escape( StringUtilities.globalStringReplace( fullName, ",", "\\," ).replaceAll("(?<= ) ", "\\\\ " ) );
+				String s1 = CharacterEntities.escape( StringUtilities.globalStringReplace( element, ",", "\\," ).replaceAll( "(?<= ) ", "\\\\ " ) );
+				String s2 = CharacterEntities.escape( StringUtilities.globalStringReplace( fullName, ",", "\\," ).replaceAll( "(?<= ) ", "\\\\ " ) );
 				List<String> names = new ArrayList<String>();
-				if ( type == DataTypes.ITEM_TYPE )
+				if ( type.equals( DataTypes.ITEM_TYPE ) )
 				{
 					int itemId = (int)value.contentLong;
 					String name = ItemDatabase.getItemName( itemId );
@@ -3711,7 +3743,7 @@ public class Parser
 						names.add( s3 );
 					}
 				}
-				else if ( type == DataTypes.EFFECT_TYPE )
+				else if ( type.equals( DataTypes.EFFECT_TYPE ) )
 				{
 					int effectId = (int)value.contentLong;
 					String name = EffectDatabase.getEffectName( effectId );
@@ -3722,7 +3754,7 @@ public class Parser
 						names.add( s3 );
 					}
 				}
-				else if ( type == DataTypes.MONSTER_TYPE )
+				else if ( type.equals( DataTypes.MONSTER_TYPE ) )
 				{
 					int monsterId = (int)value.contentLong;
 					String name = MonsterDatabase.findMonsterById( monsterId ).getName();
@@ -3733,7 +3765,7 @@ public class Parser
 						names.add( s3 );
 					}
 				}
-				else if ( type == DataTypes.SKILL_TYPE )
+				else if ( type.equals( DataTypes.SKILL_TYPE ) )
 				{
 					int skillId = (int)value.contentLong;
 					String name = SkillDatabase.getSkillName( skillId );

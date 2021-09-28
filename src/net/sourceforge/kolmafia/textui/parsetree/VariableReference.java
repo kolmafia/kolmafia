@@ -9,21 +9,11 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 public class VariableReference
 	extends Value
 {
-	public Variable target;
+	public final Variable target;
 
 	public VariableReference( final Variable target )
 	{
 		this.target = target;
-	}
-
-	public VariableReference( final String varName, final BasicScope scope )
-	{
-		this.target = scope.findVariable( varName, true );
-	}
-
-	public boolean valid()
-	{
-		return this.target != null;
 	}
 
 	@Override
@@ -32,6 +22,7 @@ public class VariableReference
 		return this.target.getBaseType();
 	}
 
+	@Override
 	public Type getRawType()
 	{
 		return this.target.getType();

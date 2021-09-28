@@ -139,17 +139,30 @@ public class AdventureSpentDatabase
 
 	public static int getTurns( KoLAdventure adv )
 	{
-		return AdventureSpentDatabase.getTurns( adv.getAdventureName() );
+		return AdventureSpentDatabase.getTurns( adv.getAdventureName(), false );
+	}
+
+	public static int getTurns( KoLAdventure adv, final boolean suppressPrint )
+	{
+		return AdventureSpentDatabase.getTurns( adv.getAdventureName(), suppressPrint );
+	}
+
+	public static int getTurns( final String loc, final boolean suppressPrint )
+	{
+		if ( !AdventureSpentDatabase.TURNS.containsKey( loc ) )
+		{
+			if ( !suppressPrint )
+			{
+				RequestLogger.printLine( loc + " is not a recognized location." );
+			}
+			return -1;
+		}
+		return AdventureSpentDatabase.TURNS.get( loc );
 	}
 
 	public static int getTurns( final String loc )
 	{
-		if ( !AdventureSpentDatabase.TURNS.containsKey( loc ) )
-		{
-			RequestLogger.printLine( loc + " is not a recognized location." );
-			return -1;
-		}
-		return AdventureSpentDatabase.TURNS.get( loc );
+		return getTurns( loc, false );
 	}
 
 	public static void serialize()

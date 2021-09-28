@@ -305,7 +305,7 @@ public class AshRuntime
 
 			while ( value == null )
 			{
-				if ( type == DataTypes.VOID_TYPE )
+				if ( type.equals( DataTypes.VOID_TYPE ) )
 				{
 					value = DataTypes.VOID_VALUE;
 					break;

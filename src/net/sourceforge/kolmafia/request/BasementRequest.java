@@ -607,7 +607,7 @@ public class BasementRequest
 		BasementRequest.expected2 = Math.max( 1.0, damage2 * ( 100.0 - BasementRequest.resistance2 ) / 100.0 );
 
 		BasementRequest.averageResistanceNeeded =
-			Math.max( 0, (int) Math.ceil( 100.0 * ( 1.0 - KoLCharacter.getMaximumHP() / ( damage1 + damage2 ) ) ) );
+			Math.max( 0.0, Math.ceil( 100.0 * ( 1.0 - KoLCharacter.getMaximumHP() / ( damage1 + damage2 ) ) ) );
 
 		BasementRequest.basementTestValue = BasementRequest.expected1 + BasementRequest.expected2;
 		BasementRequest.basementTestCurrent = KoLCharacter.getMaximumHP();
@@ -629,7 +629,7 @@ public class BasementRequest
 		{
 			if ( autoSwitch )
 			{
-				RecoveryManager.recoverHP( (int) ( BasementRequest.expected1 + BasementRequest.expected2 ) );
+				RecoveryManager.recoverHP( (long) ( BasementRequest.expected1 + BasementRequest.expected2 ) );
 			}
 
 			return KoLmafia.permitsContinue();
@@ -685,7 +685,7 @@ public class BasementRequest
 
 		double damage =
                 Math.min( BasementRequest.expected1, BasementRequest.expected2 );
-		RecoveryManager.recoverHP( (int) ( 1.0 + damage ) );
+		RecoveryManager.recoverHP( (long) ( 1.0 + damage ) );
 
 		return KoLmafia.permitsContinue();
 	}
@@ -724,7 +724,7 @@ public class BasementRequest
 
 		BasementRequest.basementTestString = "Buffed Muscle";
 		BasementRequest.basementTestCurrent = KoLCharacter.getAdjustedMuscle();
-		BasementRequest.basementTestValue = (int) statRequirement;
+		BasementRequest.basementTestValue = (long) statRequirement;
 
 		BasementRequest.actualStatNeeded = Modifiers.MUS;
 		BasementRequest.primaryBoost = Modifiers.MUS_PCT;
@@ -743,7 +743,7 @@ public class BasementRequest
 
 		BasementRequest.basementTestString = "Buffed Mysticality";
 		BasementRequest.basementTestCurrent = KoLCharacter.getAdjustedMysticality();
-		BasementRequest.basementTestValue = (int) statRequirement;
+		BasementRequest.basementTestValue = (long) statRequirement;
 
 		BasementRequest.actualStatNeeded = Modifiers.MYS;
 		BasementRequest.primaryBoost = Modifiers.MYS_PCT;
@@ -762,7 +762,7 @@ public class BasementRequest
 
 		BasementRequest.basementTestString = "Buffed Moxie";
 		BasementRequest.basementTestCurrent = KoLCharacter.getAdjustedMoxie();
-		BasementRequest.basementTestValue = (int) statRequirement;
+		BasementRequest.basementTestValue = (long) statRequirement;
 
 		BasementRequest.actualStatNeeded = Modifiers.MOX;
 		BasementRequest.primaryBoost = Modifiers.MOX_PCT;
@@ -868,7 +868,7 @@ public class BasementRequest
 
 		BasementRequest.basementTestString = "Maximum MP";
 		BasementRequest.basementTestCurrent = KoLCharacter.getMaximumMP();
-		BasementRequest.basementTestValue = (int) drainRequirement;
+		BasementRequest.basementTestValue = (long) drainRequirement;
 
 		BasementRequest.actualStatNeeded = Modifiers.MP;
 		if ( StatBooster.moxieControlsMP() )
@@ -905,9 +905,9 @@ public class BasementRequest
 			1.0 - ( Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0 ) - 1.0 ) / 10.0;
 		double healthRequirement = drainRequirement * damageAbsorb;
 
-		BasementRequest.basementTestValue = (int) healthRequirement;
+		BasementRequest.basementTestValue = (long) healthRequirement;
 		BasementRequest.gauntletString =
-			(int) drainRequirement + " * " + KoLConstants.FLOAT_FORMAT.format( damageAbsorb ) + " (" + KoLCharacter.getDamageAbsorption() + " DA) = " + KoLConstants.COMMA_FORMAT.format( healthRequirement );
+			(long) drainRequirement + " * " + KoLConstants.FLOAT_FORMAT.format( damageAbsorb ) + " (" + KoLCharacter.getDamageAbsorption() + " DA) = " + KoLConstants.COMMA_FORMAT.format( healthRequirement );
 
 		return drainRequirement;
 	}
@@ -941,7 +941,7 @@ public class BasementRequest
 
 			if ( autoSwitch )
 			{
-				RecoveryManager.recoverMP( (int) drainRequirement );
+				RecoveryManager.recoverMP( (long) drainRequirement );
 			}
 
 			return true;
@@ -977,7 +977,7 @@ public class BasementRequest
 					damageAbsorb =
 						1.0 - ( Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0 ) - 1.0 ) / 10.0;
 					healthRequirement = drainRequirement * damageAbsorb;
-					BasementRequest.basementTestValue = (int) healthRequirement;
+					BasementRequest.basementTestValue = (long) healthRequirement;
 				}
 
 				if ( KoLCharacter.getMaximumHP() < healthRequirement )
@@ -989,7 +989,7 @@ public class BasementRequest
 
 			if ( autoSwitch )
 			{
-				RecoveryManager.recoverHP( (int) healthRequirement );
+				RecoveryManager.recoverHP( (long) healthRequirement );
 			}
 
 			return true;
@@ -1055,7 +1055,7 @@ public class BasementRequest
 	{
 		double level =
 			2.0 * Math.pow( BasementRequest.basementLevel, 1.4 ) + KoLCharacter.getMonsterLevelAdjustment();
-		return "Monster: Attack/Defense = " + (int) level;
+		return "Monster: Attack/Defense = " + (long) level;
 	}
 
 	private static boolean checkForMonster( final String responseText )
@@ -1286,14 +1286,14 @@ public class BasementRequest
 		return targetList;
 	}
 
-	public static int getBasementTestCurrent()
+	public static long getBasementTestCurrent()
 	{
-		return (int) BasementRequest.basementTestCurrent;
+		return (long) BasementRequest.basementTestCurrent;
 	}
 
-	public static int getBasementTestValue()
+	public static long getBasementTestValue()
 	{
-		return (int) BasementRequest.basementTestValue;
+		return (long) BasementRequest.basementTestValue;
 	}
 
 	public static int getActualStatNeeded()

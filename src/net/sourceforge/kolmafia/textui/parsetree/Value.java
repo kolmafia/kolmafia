@@ -217,67 +217,67 @@ public class Value
 
 	public Value asProxy()
 	{
-		if ( this.getType() == DataTypes.CLASS_TYPE )
+		if ( this.getType().equals( DataTypes.CLASS_TYPE ) )
 		{
 			return new ProxyRecordValue.ClassProxy( this );
 		}
-		if ( this.getType() == DataTypes.ITEM_TYPE )
+		if ( this.getType().equals( DataTypes.ITEM_TYPE ) )
 		{
 			return new ProxyRecordValue.ItemProxy( this );
 		}
-		if ( this.getType() == DataTypes.FAMILIAR_TYPE )
+		if ( this.getType().equals( DataTypes.FAMILIAR_TYPE ) )
 		{
 			return new ProxyRecordValue.FamiliarProxy( this );
 		}
-		if ( this.getType() == DataTypes.SKILL_TYPE )
+		if ( this.getType().equals( DataTypes.SKILL_TYPE ) )
 		{
 			return new ProxyRecordValue.SkillProxy( this );
 		}
-		if ( this.getType() == DataTypes.EFFECT_TYPE )
+		if ( this.getType().equals( DataTypes.EFFECT_TYPE ) )
 		{
 			return new ProxyRecordValue.EffectProxy( this );
 		}
-		if ( this.getType() == DataTypes.LOCATION_TYPE )
+		if ( this.getType().equals( DataTypes.LOCATION_TYPE ) )
 		{
 			return new ProxyRecordValue.LocationProxy( this );
 		}
-		if ( this.getType() == DataTypes.MONSTER_TYPE )
+		if ( this.getType().equals( DataTypes.MONSTER_TYPE ) )
 		{
 			return new ProxyRecordValue.MonsterProxy( this );
 		}
-		if ( this.getType() == DataTypes.COINMASTER_TYPE )
+		if ( this.getType().equals( DataTypes.COINMASTER_TYPE ) )
 		{
 			return new ProxyRecordValue.CoinmasterProxy( this );
 		}
-		if ( this.getType() == DataTypes.BOUNTY_TYPE )
+		if ( this.getType().equals( DataTypes.BOUNTY_TYPE ) )
 		{
 			return new ProxyRecordValue.BountyProxy( this );
 		}
-		if ( this.getType() == DataTypes.THRALL_TYPE )
+		if ( this.getType().equals( DataTypes.THRALL_TYPE ) )
 		{
 			return new ProxyRecordValue.ThrallProxy( this );
 		}
-		if ( this.getType() == DataTypes.SERVANT_TYPE )
+		if ( this.getType().equals( DataTypes.SERVANT_TYPE ) )
 		{
 			return new ProxyRecordValue.ServantProxy( this );
 		}
-		if ( this.getType() == DataTypes.VYKEA_TYPE )
+		if ( this.getType().equals( DataTypes.VYKEA_TYPE ) )
 		{
 			return new ProxyRecordValue.VykeaProxy( this );
 		}
-		if ( this.getType() == DataTypes.ELEMENT_TYPE )
+		if ( this.getType().equals( DataTypes.ELEMENT_TYPE ) )
 		{
 			return new ProxyRecordValue.ElementProxy( this );
 		}
-		if ( this.getType() == DataTypes.PHYLUM_TYPE )
+		if ( this.getType().equals( DataTypes.PHYLUM_TYPE ) )
 		{
 			return new ProxyRecordValue.PhylumProxy( this );
 		}
-		if ( this.getType() == DataTypes.STAT_TYPE )
+		if ( this.getType().equals( DataTypes.STAT_TYPE ) )
 		{
 			return new ProxyRecordValue.StatProxy( this );
 		}
-		if ( this.getType() == DataTypes.SLOT_TYPE )
+		if ( this.getType().equals( DataTypes.SLOT_TYPE ) )
 		{
 			return new ProxyRecordValue.SlotProxy( this );
 		}
@@ -319,21 +319,21 @@ public class Value
 			throw new ClassCastException();
 		}
 
-		if ( this.getType() == DataTypes.BOOLEAN_TYPE ||
-		     this.getType() == DataTypes.INT_TYPE ||
-		     this.getType() == DataTypes.ITEM_TYPE ||
-		     this.getType() == DataTypes.EFFECT_TYPE ||
-		     this.getType() == DataTypes.CLASS_TYPE ||
-		     this.getType() == DataTypes.SKILL_TYPE ||
-		     this.getType() == DataTypes.FAMILIAR_TYPE ||
-		     this.getType() == DataTypes.SLOT_TYPE ||
-		     this.getType() == DataTypes.THRALL_TYPE ||
-		     this.getType() == DataTypes.SERVANT_TYPE )
+		if ( this.getType().equals( DataTypes.BOOLEAN_TYPE ) ||
+		     this.getType().equals( DataTypes.INT_TYPE ) ||
+		     this.getType().equals( DataTypes.ITEM_TYPE ) ||
+		     this.getType().equals( DataTypes.EFFECT_TYPE ) ||
+		     this.getType().equals( DataTypes.CLASS_TYPE ) ||
+		     this.getType().equals( DataTypes.SKILL_TYPE ) ||
+		     this.getType().equals( DataTypes.FAMILIAR_TYPE ) ||
+		     this.getType().equals( DataTypes.SLOT_TYPE ) ||
+		     this.getType().equals( DataTypes.THRALL_TYPE ) ||
+		     this.getType().equals( DataTypes.SERVANT_TYPE ) )
 		{
 			return this.contentLong < o.contentLong ? -1 : this.contentLong == o.contentLong ? 0 : 1;
 		}
 
-		if ( this.getType() == DataTypes.VYKEA_TYPE )
+		if ( this.getType().equals( DataTypes.VYKEA_TYPE ) )
 		{
 			// Let the underlying data type itself decide
 			VYKEACompanionData v1 = (VYKEACompanionData)( this.content );
@@ -341,14 +341,14 @@ public class Value
 			return v1.compareTo( v2 );
 		}
 
-		if ( this.getType() == DataTypes.FLOAT_TYPE )
+		if ( this.getType().equals( DataTypes.FLOAT_TYPE ) )
 		{
 			return Double.compare(
 				Double.longBitsToDouble( this.contentLong ),
 				Double.longBitsToDouble( o.contentLong ) );
 		}
 
-		if ( this.getType() == DataTypes.MONSTER_TYPE )
+		if ( this.getType().equals( DataTypes.MONSTER_TYPE ) )
 		{
 			// If we know a monster ID, compare it
 			if ( this.contentLong != 0 || o.contentLong != 0 )
@@ -471,7 +471,7 @@ public class Value
 
 		if ( saw_backslash )
 		{
-			buffer.append('\\');
+			buffer.append( '\\' );
 		}
 
 		return buffer.toString();
@@ -491,14 +491,14 @@ public class Value
 		List<String> names = type.getAmbiguousNames( string, value, false );
 		if ( names != null && names.size() > 1 )
 		{
-            String message = "Multiple matches for " +
-                    string +
-                    "; using " +
-                    value.toString() +
-                    " in " +
-                    Parser.getLineAndFile( filename, line ) +
-                    ". Clarify by using one of:";
-            RequestLogger.printLine( message );
+			String message = "Multiple matches for " +
+					string +
+					"; using " +
+					value.toString() +
+					" in " +
+					Parser.getLineAndFile( filename, line ) +
+					". Clarify by using one of:";
+			RequestLogger.printLine( message );
 			for ( String str : names )
 			{
 				RequestLogger.printLine( str );

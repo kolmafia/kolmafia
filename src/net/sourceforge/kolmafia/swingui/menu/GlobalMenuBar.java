@@ -178,7 +178,6 @@ public class GlobalMenuBar
 		helperMenu.add( new ThreadedMenuItem( "Copyright Notice", new LicenseDisplayListener() ) );
 		helperMenu.add( new DebugLogMenuItem() );
 		helperMenu.add( new DebugLogNoteMenuItem() );
-		helperMenu.add( new RelayBrowserMenuItem( "Donate to KoLmafia", "http://kolmafia.sourceforge.net/credits.html" ) );
 
 		helperMenu.add( new JSeparator() );
 

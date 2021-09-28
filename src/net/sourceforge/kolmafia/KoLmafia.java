@@ -257,7 +257,7 @@ public abstract class KoLmafia
 			if ( args[ i ].equalsIgnoreCase( "--HELP" ) || args[ i ].equalsIgnoreCase( "/?" ) )
 			{
 				System.out.println( "An interface for the online adventure game, The Kingdom of Loathing." );
-				System.out.println( "Please visit kolmafia.sourceforge.net for more information." );
+				System.out.println( "Please visit https://kolmafia.us for more information." );
 				System.out.println();
 				System.out.println( "KoLmafia [--Help] [--Version] [--CLI] [--GUI] script" );
 				System.out.println();

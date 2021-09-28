@@ -3,10 +3,13 @@ pipeline {
   stages {
     stage('Git Update') {
       steps {
+        cleanWs()
         script {
           checkout([$class: 'GitSCM', branches: [
             [name: '*/main']
-          ], extensions: [], userRemoteConfigs: [
+          ], extensions: [
+            [$class: 'CloneOption', depth: 1000000, noTags: false, reference: '', shallow: true]
+          ], userRemoteConfigs: [
             [url: 'https://github.com/kolmafia/kolmafia']
           ]])
         }
@@ -15,10 +18,11 @@ pipeline {
     stage('Building') {
       steps {
         script {
-          withEnv(["JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64"]) {
+          withEnv(["JAVA_HOME=/usr/lib/jvm/adoptopenjdk-16-hotspot-amd64"]) {
+            sh 'ls'
             sh 'java --version'
             sh './gradlew -v'
-            sh './gradlew shadowJar'
+            sh './gradlew --no-daemon clean shadowJar'
           }
         }
       }
@@ -26,8 +30,8 @@ pipeline {
     stage('Testing') {
       steps {
         script {
-          withEnv(["JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64"]) {
-            sh './gradlew cloverInstrumentCodeForTest cloverAggregateDatabases cloverGenerateReport'
+          withEnv(["JAVA_HOME=/usr/lib/jvm/adoptopenjdk-16-hotspot-amd64"]) {
+            sh './gradlew --no-daemon --stacktrace cloverGenerateReport'
             step([
               $class: 'CloverPublisher',
               cloverReportDir: 'build/reports/clover-root',
@@ -42,7 +46,7 @@ pipeline {
               keepAll: true,
               reportDir: 'build/reports/tests/test',
               reportFiles: 'index.html',
-              reportName: 'JDK 8 Test Report'
+              reportName: 'Clover Test Report'
             ])
           }
         }

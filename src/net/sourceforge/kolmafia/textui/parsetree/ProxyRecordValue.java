@@ -1428,6 +1428,7 @@ public class ProxyRecordValue
 		extends ProxyRecordValue
 	{
 		public static RecordType _type = new RecordBuilder()
+			.add( "id", DataTypes.BOOLEAN_TYPE )
 			.add( "nocombats", DataTypes.BOOLEAN_TYPE )
 			.add( "combat_percent", DataTypes.FLOAT_TYPE )
 			.add( "zone", DataTypes.STRING_TYPE )
@@ -1448,6 +1449,11 @@ public class ProxyRecordValue
 		public LocationProxy( Value obj )
 		{
 			super( _type, obj );
+		}
+
+		public int get_id()
+		{
+			return this.content != null ? ( (KoLAdventure) this.content ).getSnarfblat() : -1;
 		}
 
 		public boolean get_nocombats()
@@ -1562,7 +1568,7 @@ public class ProxyRecordValue
 
 		public int get_turns_spent()
 		{
-			return this.content != null ? AdventureSpentDatabase.getTurns( (KoLAdventure) this.content ) : 0;
+			return this.content != null ? AdventureSpentDatabase.getTurns( (KoLAdventure) this.content, true ) : 0;
 		}
 
 		public int get_kisses()

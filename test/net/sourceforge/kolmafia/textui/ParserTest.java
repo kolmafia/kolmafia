@@ -425,6 +425,18 @@ public class ParserTest
 				null,
 			},
 			{
+				"Ambiguity between array and map literal 2: index and data are both integers",
+				"int[5]{ 0, 1, 2, 3:3, 4 }",
+				"Cannot include keys when making an array literal",
+				null,
+			},
+			{
+				"Ambiguity between array and map literal 3: that can't be a key",
+				"string[5]{ '0', '1', '2', '3':'3', '4' }",
+				"Expected , or }, found :",
+				null,
+			},
+			{
 				// This... exercises a different code path.
 				"Parenthesized map literal",
 				"(int[int]{})",
@@ -608,15 +620,12 @@ public class ParserTest
 				               "6", ".", "3", ",", "4", ".", "9", ",", "10", ",",
 				               "-", "0", ")" ),
 			},
-			/*{
-				// Is currently trumped by
-				// "The vararg parameter must be the last one"
-
+			{
 				"Basic function with multiple varargs",
 				"void f(int ... a, int ... b) {}",
 				"Only one vararg parameter is allowed",
 				null,
-			},*/
+			},
 			{
 				"Basic function with non-terminal vararg",
 				"void f(int ... a, float b) {}",
@@ -2278,6 +2287,12 @@ public class ParserTest
 				"record unknown field reference",
 				"record {int a;} r; r.b;",
 				"Invalid field name 'b'",
+				null,
+			},
+			{
+				"Illegal record creation",
+				"void f( record foo {int a; int b;} bar )",
+				"Existing type expected for function parameter",
 				null,
 			},
 			{
