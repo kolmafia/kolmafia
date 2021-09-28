@@ -109,7 +109,7 @@ public class AdventureSelectPanel
 		// locations -- to be included is a map on a separate tab.
 
 		this.locationSelect = new JList( this.matchingAdventures );
-		this.locationSelect.setVisibleRowCount( 4 );
+		this.locationSelect.setVisibleRowCount( 10 );
 
 		JPanel zonePanel = new JPanel( new BorderLayout( 5, 5 ) );
 
