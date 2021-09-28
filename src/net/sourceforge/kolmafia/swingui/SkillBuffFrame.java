@@ -428,6 +428,7 @@ public class SkillBuffFrame
 			super.setEnabled( isEnabled );
 
 			SkillBuffFrame.this.skillSelect.setEnabled( isEnabled );
+			SkillBuffFrame.this.skillSelect.setMaximumRowCount( 45 );
 			SkillBuffFrame.this.targetSelect.setEnabled( isEnabled );
 		}
 
