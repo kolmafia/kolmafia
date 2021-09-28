@@ -810,7 +810,7 @@ public abstract class BuffBotManager
 
 		public void updateFreeState()
 		{
-			int totalCost = 0;
+			long totalCost = 0;
 
 			for ( int i = 0; i < this.casts.length; ++i )
 			{
