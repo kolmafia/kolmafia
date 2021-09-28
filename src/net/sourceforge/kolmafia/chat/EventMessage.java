@@ -1,33 +1,25 @@
 package net.sourceforge.kolmafia.chat;
 
+public class EventMessage extends ChatMessage {
+  private final String color;
+  private boolean hidden;
 
+  public EventMessage(String content, String color) {
+    this.setContent(content);
 
-public class EventMessage
-	extends ChatMessage
-{
-	private final String color;
-	private boolean hidden;
+    this.color = color;
+    this.hidden = false;
+  }
 
-	public EventMessage( String content, String color )
-	{
-		this.setContent( content );
+  public String getColor() {
+    return this.color;
+  }
 
-		this.color = color;
-		this.hidden = false;
-	}
+  public boolean isHidden() {
+    return this.hidden;
+  }
 
-	public String getColor()
-	{
-		return this.color;
-	}
-
-	public boolean isHidden()
-	{
-		return this.hidden;
-	}
-
-	public void setHidden( boolean hidden )
-	{
-		this.hidden = hidden;
-	}
+  public void setHidden(boolean hidden) {
+    this.hidden = hidden;
+  }
 }

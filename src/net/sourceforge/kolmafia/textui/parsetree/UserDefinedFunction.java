@@ -1,146 +1,119 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
-
 import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 
-public class UserDefinedFunction
-	extends Function
-{
-	private Scope scope;
-	private final Stack<ArrayList<Value>> callStack;
+public class UserDefinedFunction extends Function {
+  private Scope scope;
+  private final Stack<ArrayList<Value>> callStack;
 
-	public UserDefinedFunction( final String name, final Type type, final List<VariableReference> variableReferences )
-	{
-		super( name, type, variableReferences );
+  public UserDefinedFunction(
+      final String name, final Type type, final List<VariableReference> variableReferences) {
+    super(name, type, variableReferences);
 
-		this.scope = null;
-		this.callStack = new Stack<ArrayList<Value>>();
-	}
+    this.scope = null;
+    this.callStack = new Stack<ArrayList<Value>>();
+  }
 
-	public void setScope( final Scope s )
-	{
-		this.scope = s;
-	}
+  public void setScope(final Scope s) {
+    this.scope = s;
+  }
 
-	public Scope getScope()
-	{
-		return this.scope;
-	}
+  public Scope getScope() {
+    return this.scope;
+  }
 
-	private void saveBindings( AshRuntime interpreter )
-	{
-		if ( this.scope == null )
-		{
-			return;
-		}
-		
-		ArrayList<Value> values = new ArrayList<Value>();
+  private void saveBindings(AshRuntime interpreter) {
+    if (this.scope == null) {
+      return;
+    }
 
-		for ( BasicScope next : this.scope.getScopes() )
-		{
-			for ( Variable current : next.getVariables() )
-			{
-				if ( !current.isStatic() )
-				{
-					values.add( current.getValue( interpreter ) );
-				}
-			}
-		}
+    ArrayList<Value> values = new ArrayList<Value>();
 
-		this.callStack.push( values );
-	}
+    for (BasicScope next : this.scope.getScopes()) {
+      for (Variable current : next.getVariables()) {
+        if (!current.isStatic()) {
+          values.add(current.getValue(interpreter));
+        }
+      }
+    }
 
-	private void restoreBindings( AshRuntime interpreter )
-	{
-		if ( this.scope == null )
-		{
-			return;
-		}
+    this.callStack.push(values);
+  }
 
-		ArrayList<Value> values = this.callStack.pop();
-		int i = 0;
+  private void restoreBindings(AshRuntime interpreter) {
+    if (this.scope == null) {
+      return;
+    }
 
-		for ( BasicScope next : this.scope.getScopes() )
-		{
-			for ( Variable current : next.getVariables() )
-			{
-				if ( !current.isStatic() )
-				{
-					current.forceValue( values.get( i++ ) );
-				}
-			}
-		}
-	}
+    ArrayList<Value> values = this.callStack.pop();
+    int i = 0;
 
-	@Override
-	public Value execute( final AshRuntime interpreter, Object[] values )
-	{
-		if ( StaticEntity.isDisabled( this.getName() ) )
-		{
-			this.printDisabledMessage( interpreter );
-			return this.type.initialValue();
-		}
+    for (BasicScope next : this.scope.getScopes()) {
+      for (Variable current : next.getVariables()) {
+        if (!current.isStatic()) {
+          current.forceValue(values.get(i++));
+        }
+      }
+    }
+  }
 
-		if ( this.scope == null )
-		{
-			throw interpreter.runtimeException( "Calling undefined user function: " + this.getName() );
-		}
+  @Override
+  public Value execute(final AshRuntime interpreter, Object[] values) {
+    if (StaticEntity.isDisabled(this.getName())) {
+      this.printDisabledMessage(interpreter);
+      return this.type.initialValue();
+    }
 
-		// Save current variable bindings
-		this.saveBindings( interpreter );
+    if (this.scope == null) {
+      throw interpreter.runtimeException("Calling undefined user function: " + this.getName());
+    }
 
-		// Bind values to variable references
-		this.bindVariableReferences( interpreter, values );
+    // Save current variable bindings
+    this.saveBindings(interpreter);
 
-		Value result = this.scope.execute( interpreter );
+    // Bind values to variable references
+    this.bindVariableReferences(interpreter, values);
 
-		// Restore initial variable bindings
-		this.restoreBindings( interpreter );
+    Value result = this.scope.execute(interpreter);
 
-		if ( result.getType().equals( this.type.getBaseType() ) )
-		{
-			return result;
-		}
+    // Restore initial variable bindings
+    this.restoreBindings(interpreter);
 
-		return this.type.initialValue();
-	}
+    if (result.getType().equals(this.type.getBaseType())) {
+      return result;
+    }
 
-	public boolean overridesLibraryFunction()
-	{
-		Function[] functions = RuntimeLibrary.functions.findFunctions( this.name );
+    return this.type.initialValue();
+  }
 
-		for ( Function function : functions )
-		{
-			if ( this.paramsMatch( function ) )
-			{
-				return true;
-			}
-		}
+  public boolean overridesLibraryFunction() {
+    Function[] functions = RuntimeLibrary.functions.findFunctions(this.name);
 
-		return false;
-	}
+    for (Function function : functions) {
+      if (this.paramsMatch(function)) {
+        return true;
+      }
+    }
 
-	@Override
-	public boolean assertBarrier()
-	{
-		return this.scope.assertBarrier();
-	}
+    return false;
+  }
 
-	@Override
-	public void print( final PrintStream stream, final int indent )
-	{
-		super.print( stream, indent );
-		if ( this.scope != null )
-		{
-			this.scope.print( stream, indent + 1 );
-		}
-	}
+  @Override
+  public boolean assertBarrier() {
+    return this.scope.assertBarrier();
+  }
+
+  @Override
+  public void print(final PrintStream stream, final int indent) {
+    super.print(stream, indent);
+    if (this.scope != null) {
+      this.scope.print(stream, indent + 1);
+    }
+  }
 }

@@ -1,125 +1,107 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
-
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.Parser;
 
-public class SwitchScope
-	extends BasicScope
-{
-	private final ArrayList<ParseTreeNode> commands = new ArrayList<ParseTreeNode>();
-	private int offset = -1;
-	private int barrier = BasicScope.BARRIER_SEEN;
-	private boolean breakable = false;
+public class SwitchScope extends BasicScope {
+  private final ArrayList<ParseTreeNode> commands = new ArrayList<ParseTreeNode>();
+  private int offset = -1;
+  private int barrier = BasicScope.BARRIER_SEEN;
+  private boolean breakable = false;
 
-	public SwitchScope( final BasicScope parentScope )
-	{
-		super( parentScope );
-	}
+  public SwitchScope(final BasicScope parentScope) {
+    super(parentScope);
+  }
 
-	@Override
-	public void addCommand( final ParseTreeNode c, final Parser p )
-	{
-		this.commands.add( c );
-		if ( this.barrier == BasicScope.BARRIER_NONE &&
-			c.assertBarrier() )
-		{
-			this.barrier = BasicScope.BARRIER_SEEN;
-		}
-		else if ( this.barrier == BasicScope.BARRIER_SEEN )
-		{
-			this.barrier = BasicScope.BARRIER_PAST;
-			p.warning( "Unreachable code" );
-		}
-		
-		if ( !this.breakable )
-		{
-			this.breakable = c.assertBreakable();
-		}
-	}
-	
-	public void resetBarrier()
-	{
-		this.barrier = BasicScope.BARRIER_NONE;
-	}
+  @Override
+  public void addCommand(final ParseTreeNode c, final Parser p) {
+    this.commands.add(c);
+    if (this.barrier == BasicScope.BARRIER_NONE && c.assertBarrier()) {
+      this.barrier = BasicScope.BARRIER_SEEN;
+    } else if (this.barrier == BasicScope.BARRIER_SEEN) {
+      this.barrier = BasicScope.BARRIER_PAST;
+      p.warning("Unreachable code");
+    }
 
-	@Override
-	public Iterator<ParseTreeNode> getCommands()
-	{
-		return this.commands.listIterator( this.offset );
-	}
+    if (!this.breakable) {
+      this.breakable = c.assertBreakable();
+    }
+  }
 
-	public int commandCount()
-	{
-		return this.commands.size();
-	}
+  public void resetBarrier() {
+    this.barrier = BasicScope.BARRIER_NONE;
+  }
 
-	public void setOffset( final int offset )
-	{
-		this.offset = offset;
-	}
+  @Override
+  public Iterator<ParseTreeNode> getCommands() {
+    return this.commands.listIterator(this.offset);
+  }
 
-	@Override
-	public boolean assertBarrier()
-	{
-		return this.barrier >= BasicScope.BARRIER_SEEN;
-	}
-	
-	@Override
-	public boolean assertBreakable()
-	{
-		return this.breakable;
-	}
+  public int commandCount() {
+    return this.commands.size();
+  }
 
-	public void print( final PrintStream stream, final int indent, Value [] tests, Integer [] offsets, int defaultIndex )
-	{
-		AshRuntime.indentLine( stream, indent );
-		stream.println( "<SCOPE>" );
+  public void setOffset(final int offset) {
+    this.offset = offset;
+  }
 
-		AshRuntime.indentLine( stream, indent + 1 );
-		stream.println( "<VARIABLES>" );
+  @Override
+  public boolean assertBarrier() {
+    return this.barrier >= BasicScope.BARRIER_SEEN;
+  }
 
-		for ( Variable currentVar : this.getVariables() )
-		{
-			currentVar.print( stream, indent + 2 );
-		}
+  @Override
+  public boolean assertBreakable() {
+    return this.breakable;
+  }
 
-		AshRuntime.indentLine( stream, indent + 1 );
-		stream.println( "<COMMANDS>" );
+  public void print(
+      final PrintStream stream,
+      final int indent,
+      Value[] tests,
+      Integer[] offsets,
+      int defaultIndex) {
+    AshRuntime.indentLine(stream, indent);
+    stream.println("<SCOPE>");
 
-		int commandCount = this.commands.size();
-		int testIndex = 0;
-		int testCount = tests.length;
+    AshRuntime.indentLine(stream, indent + 1);
+    stream.println("<VARIABLES>");
 
-		for ( int index = 0; index < commandCount; ++index )
-		{
-			while ( testIndex < testCount )
-			{
-				Value test = tests[testIndex];
-				Integer offset = offsets[testIndex];
-				if ( offset.intValue() != index )
-				{
-					break;
-				}
+    for (Variable currentVar : this.getVariables()) {
+      currentVar.print(stream, indent + 2);
+    }
 
-				AshRuntime.indentLine( stream, indent + 1 );
-				stream.println( "<CASE>" );
-				test.print( stream, indent + 2 );
-				testIndex++;
-			}
+    AshRuntime.indentLine(stream, indent + 1);
+    stream.println("<COMMANDS>");
 
-                        if ( defaultIndex == index )
-                        {
-                                AshRuntime.indentLine( stream, indent + 1 );
-                                stream.println( "<DEFAULT>" );
-                        }
+    int commandCount = this.commands.size();
+    int testIndex = 0;
+    int testCount = tests.length;
 
-			ParseTreeNode command = commands.get( index );
-			command.print( stream, indent + 2 );
-		}
-	}
+    for (int index = 0; index < commandCount; ++index) {
+      while (testIndex < testCount) {
+        Value test = tests[testIndex];
+        Integer offset = offsets[testIndex];
+        if (offset.intValue() != index) {
+          break;
+        }
+
+        AshRuntime.indentLine(stream, indent + 1);
+        stream.println("<CASE>");
+        test.print(stream, indent + 2);
+        testIndex++;
+      }
+
+      if (defaultIndex == index) {
+        AshRuntime.indentLine(stream, indent + 1);
+        stream.println("<DEFAULT>");
+      }
+
+      ParseTreeNode command = commands.get(index);
+      command.print(stream, indent + 2);
+    }
+  }
 }

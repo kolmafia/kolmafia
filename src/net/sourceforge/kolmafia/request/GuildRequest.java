@@ -2,426 +2,349 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
-
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
-
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
-
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
-
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class GuildRequest
-	extends GenericRequest
-{
-	public static final Pattern SKILL_PATTERN = Pattern.compile( "skillid=(\\d*)" );
+public class GuildRequest extends GenericRequest {
+  public static final Pattern SKILL_PATTERN = Pattern.compile("skillid=(\\d*)");
 
-	public GuildRequest()
-	{
-		super( "guild.php" );
-	}
+  public GuildRequest() {
+    super("guild.php");
+  }
 
-	public GuildRequest( final String place)
-	{
-		this();
-		this.addFormField( "place", place );
-	}
+  public GuildRequest(final String place) {
+    this();
+    this.addFormField("place", place);
+  }
 
-	public static String whichGuild()
-	{
-		switch ( KoLCharacter.mainStat() )
-		{
-		case MUSCLE:
-			return "The Brotherhood of the Smackdown";
-		case MYSTICALITY:
-			return "The League of Chef-Magi";
-		case MOXIE:
-			return "The Department of Shadowy Arts and Crafts";
-		}
+  public static String whichGuild() {
+    switch (KoLCharacter.mainStat()) {
+      case MUSCLE:
+        return "The Brotherhood of the Smackdown";
+      case MYSTICALITY:
+        return "The League of Chef-Magi";
+      case MOXIE:
+        return "The Department of Shadowy Arts and Crafts";
+    }
 
-		return "None";
-	}
+    return "None";
+  }
 
-	public static String getStoreName()
-	{
-		switch ( KoLCharacter.mainStat() )
-		{
-		case MUSCLE:
-			return "The Smacketeria";
-		case MYSTICALITY:
-			return "Gouda's Grimoire and Grocery";
-		case MOXIE:
-			return "The Shadowy Store";
-		}
+  public static String getStoreName() {
+    switch (KoLCharacter.mainStat()) {
+      case MUSCLE:
+        return "The Smacketeria";
+      case MYSTICALITY:
+        return "Gouda's Grimoire and Grocery";
+      case MOXIE:
+        return "The Shadowy Store";
+    }
 
-		return "Nowhere";
-	}
+    return "Nowhere";
+  }
 
-	public static String getImplementName()
-	{
-		switch ( KoLCharacter.mainStat() )
-		{
-		case MUSCLE:
-			return "The Malus of Forethought";
-		case MOXIE:
-			return "Nash Crosby's Still";
-		}
+  public static String getImplementName() {
+    switch (KoLCharacter.mainStat()) {
+      case MUSCLE:
+        return "The Malus of Forethought";
+      case MOXIE:
+        return "Nash Crosby's Still";
+    }
 
-		return "Nothing";
-	}
+    return "Nothing";
+  }
 
-	public static String getMasterName()
-	{
-		switch ( KoLCharacter.mainStat() )
-		{
-		case MUSCLE:
-			return "Gunther, Lord of the Smackdown";
-		case MYSTICALITY:
-			return "Gorgonzola, the Chief Chef";
-		case MOXIE:
-			return "Shifty, the Thief Chief";
-		}
+  public static String getMasterName() {
+    switch (KoLCharacter.mainStat()) {
+      case MUSCLE:
+        return "Gunther, Lord of the Smackdown";
+      case MYSTICALITY:
+        return "Gorgonzola, the Chief Chef";
+      case MOXIE:
+        return "Shifty, the Thief Chief";
+    }
 
-		return "Nobody";
-	}
+    return "Nobody";
+  }
 
-	public static String getTrainerName()
-	{
-		switch ( KoLCharacter.mainStat() )
-		{
-		case MUSCLE:
-			return "Torg, the Trainer";
-		case MYSTICALITY:
-			return "Brie, the Trainer";
-		case MOXIE:
-			return "Lefty, the Trainer";
-		}
+  public static String getTrainerName() {
+    switch (KoLCharacter.mainStat()) {
+      case MUSCLE:
+        return "Torg, the Trainer";
+      case MYSTICALITY:
+        return "Brie, the Trainer";
+      case MOXIE:
+        return "Lefty, the Trainer";
+    }
 
-		return "Nobody";
-	}
+    return "Nobody";
+  }
 
-	public static String getPacoName()
-	{
-		switch ( KoLCharacter.mainStat() )
-		{
-		case MUSCLE:
-			return "Olaf the Janitor";
-		case MYSTICALITY:
-			return "Blaine";
-		case MOXIE:
-			return "Izzy the Lizard";
-		}
+  public static String getPacoName() {
+    switch (KoLCharacter.mainStat()) {
+      case MUSCLE:
+        return "Olaf the Janitor";
+      case MYSTICALITY:
+        return "Blaine";
+      case MOXIE:
+        return "Izzy the Lizard";
+    }
 
-		return "Nobody";
-	}
+    return "Nobody";
+  }
 
-	public static String getSCGName()
-	{
-		String name = KoLCharacter.getClassType();
-		if ( name.equals( KoLCharacter.SEAL_CLUBBER ) )
-		{
-			return "Grignr, the Seal Clubber";
-		}
-		if ( name.equals( KoLCharacter.TURTLE_TAMER ) )
-		{
-			return "Terry, the Turtle Tamer";
-		}
-		if ( name.equals( KoLCharacter.PASTAMANCER ) )
-		{
-			return "Asiago, the Pastamancer";
-		}
-		if ( name.equals( KoLCharacter.SAUCEROR ) )
-		{
-			return "Edam, the Sauceror";
-		}
-		if ( name.equals( KoLCharacter.DISCO_BANDIT ) )
-		{
-			return "Duncan Drisorderly, the Disco Bandit";
-		}
-		if ( name.equals( KoLCharacter.ACCORDION_THIEF ) )
-		{
-			return "Stradella, the Accordion Thief";
-		}
+  public static String getSCGName() {
+    String name = KoLCharacter.getClassType();
+    if (name.equals(KoLCharacter.SEAL_CLUBBER)) {
+      return "Grignr, the Seal Clubber";
+    }
+    if (name.equals(KoLCharacter.TURTLE_TAMER)) {
+      return "Terry, the Turtle Tamer";
+    }
+    if (name.equals(KoLCharacter.PASTAMANCER)) {
+      return "Asiago, the Pastamancer";
+    }
+    if (name.equals(KoLCharacter.SAUCEROR)) {
+      return "Edam, the Sauceror";
+    }
+    if (name.equals(KoLCharacter.DISCO_BANDIT)) {
+      return "Duncan Drisorderly, the Disco Bandit";
+    }
+    if (name.equals(KoLCharacter.ACCORDION_THIEF)) {
+      return "Stradella, the Accordion Thief";
+    }
 
-		return "Nobody";
-	}
+    return "Nobody";
+  }
 
-	public static String getOCGName()
-	{
-		String name = KoLCharacter.getClassType();
-		if ( name.equals( KoLCharacter.SEAL_CLUBBER ) )
-		{
-			return "Terry, the Turtle Tamer";
-		}
-		if ( name.equals( KoLCharacter.TURTLE_TAMER ) )
-		{
-			return "Grignr, the Seal Clubber";
-		}
-		if ( name.equals( KoLCharacter.PASTAMANCER ) )
-		{
-			return "Edam, the Sauceror";
-		}
-		if ( name.equals( KoLCharacter.SAUCEROR ) )
-		{
-			return "Asiago, the Pastamancer";
-		}
-		if ( name.equals( KoLCharacter.DISCO_BANDIT ) )
-		{
-			return "Stradella, the Accordion Thief";
-		}
-		if ( name.equals( KoLCharacter.ACCORDION_THIEF ) )
-		{
-			return "Duncan Drisorderly, the Disco Bandit";
-		}
+  public static String getOCGName() {
+    String name = KoLCharacter.getClassType();
+    if (name.equals(KoLCharacter.SEAL_CLUBBER)) {
+      return "Terry, the Turtle Tamer";
+    }
+    if (name.equals(KoLCharacter.TURTLE_TAMER)) {
+      return "Grignr, the Seal Clubber";
+    }
+    if (name.equals(KoLCharacter.PASTAMANCER)) {
+      return "Edam, the Sauceror";
+    }
+    if (name.equals(KoLCharacter.SAUCEROR)) {
+      return "Asiago, the Pastamancer";
+    }
+    if (name.equals(KoLCharacter.DISCO_BANDIT)) {
+      return "Stradella, the Accordion Thief";
+    }
+    if (name.equals(KoLCharacter.ACCORDION_THIEF)) {
+      return "Duncan Drisorderly, the Disco Bandit";
+    }
 
-		return "Nobody";
-	}
+    return "Nobody";
+  }
 
-	public static String getNPCName( final String place )
-	{
-		if ( place == null )
-		{
-			return null;
-		}
+  public static String getNPCName(final String place) {
+    if (place == null) {
+      return null;
+    }
 
-		if ( place.equals( "paco" ) )
-		{
-			return GuildRequest.getPacoName();
-		}
+    if (place.equals("paco")) {
+      return GuildRequest.getPacoName();
+    }
 
-		if ( place.equals( "ocg" ) )
-		{
-			return GuildRequest.getOCGName();
-		}
+    if (place.equals("ocg")) {
+      return GuildRequest.getOCGName();
+    }
 
-		if ( place.equals( "scg" ) )
-		{
-			return GuildRequest.getSCGName();
-		}
+    if (place.equals("scg")) {
+      return GuildRequest.getSCGName();
+    }
 
-		if ( place.equals( "trainer" ) )
-		{
-			return GuildRequest.getTrainerName();
-		}
+    if (place.equals("trainer")) {
+      return GuildRequest.getTrainerName();
+    }
 
-		if ( place.equals( "challenge" ) )
-		{
-			return GuildRequest.getMasterName();
-		}
+    if (place.equals("challenge")) {
+      return GuildRequest.getMasterName();
+    }
 
-		return null;
-	}
+    return null;
+  }
 
-	@Override
-	public void processResults()
-	{
-		GuildRequest.parseResponse( this.getURLString(), this.responseText );
-	}
+  @Override
+  public void processResults() {
+    GuildRequest.parseResponse(this.getURLString(), this.responseText);
+  }
 
-	public static final int findSkill( final String urlString )
-	{
-		Matcher matcher = GuildRequest.SKILL_PATTERN.matcher( urlString );
-		if ( !matcher.find() )
-		{
-			return 0;
-		}
+  public static final int findSkill(final String urlString) {
+    Matcher matcher = GuildRequest.SKILL_PATTERN.matcher(urlString);
+    if (!matcher.find()) {
+      return 0;
+    }
 
-		return SkillDatabase.classSkillsBase() + StringUtilities.parseInt( matcher.group( 1 ) );
-	}
+    return SkillDatabase.classSkillsBase() + StringUtilities.parseInt(matcher.group(1));
+  }
 
-	public static final void parseResponse( final String urlString, final String responseText )
-	{
-		if ( !urlString.startsWith( "guild.php" ) )
-		{
-			return;
-		}
-		
-		KoLCharacter.setGuildStoreOpen( responseText.contains( "\"shop.php" ) );
+  public static final void parseResponse(final String urlString, final String responseText) {
+    if (!urlString.startsWith("guild.php")) {
+      return;
+    }
 
-		Matcher matcher = GenericRequest.PLACE_PATTERN.matcher( urlString );
-		String place = matcher.find() ? matcher.group( 1 ) : null;
+    KoLCharacter.setGuildStoreOpen(responseText.contains("\"shop.php"));
 
-		if ( place != null && place.equals( "paco" ) )
-		{
-			// "paco" assigns the meat car, white citadel, and dwarven factory quests
-			if ( InventoryManager.hasItem( ItemPool.CITADEL_SATCHEL ) )
-			{
-				ResultProcessor.processItem( ItemPool.CITADEL_SATCHEL, -1 );
-				QuestDatabase.setQuestProgress( Quest.CITADEL, QuestDatabase.FINISHED );
-			}
+    Matcher matcher = GenericRequest.PLACE_PATTERN.matcher(urlString);
+    String place = matcher.find() ? matcher.group(1) : null;
 
-			if ( InventoryManager.hasItem( ItemPool.THICK_PADDED_ENVELOPE ) )
-			{
-				ResultProcessor.processItem( ItemPool.THICK_PADDED_ENVELOPE, -1 );
-			}
+    if (place != null && place.equals("paco")) {
+      // "paco" assigns the meat car, white citadel, and dwarven factory quests
+      if (InventoryManager.hasItem(ItemPool.CITADEL_SATCHEL)) {
+        ResultProcessor.processItem(ItemPool.CITADEL_SATCHEL, -1);
+        QuestDatabase.setQuestProgress(Quest.CITADEL, QuestDatabase.FINISHED);
+      }
 
-			if ( responseText.contains( "White Citadel" ) )
-			{
-				QuestDatabase.setQuestIfBetter( Quest.CITADEL, QuestDatabase.STARTED );
-			}
+      if (InventoryManager.hasItem(ItemPool.THICK_PADDED_ENVELOPE)) {
+        ResultProcessor.processItem(ItemPool.THICK_PADDED_ENVELOPE, -1);
+      }
 
-			return;
-		}
+      if (responseText.contains("White Citadel")) {
+        QuestDatabase.setQuestIfBetter(Quest.CITADEL, QuestDatabase.STARTED);
+      }
 
-		if ( place != null && place.equals( "ocg" ) )
-		{
-			// "ocg" (Other Class in Guild) assigns Fernswarthy
-			// quest
+      return;
+    }
 
-			// <Muscle class> looks surprised as you hand over
-			// Fernswarthy's key.
+    if (place != null && place.equals("ocg")) {
+      // "ocg" (Other Class in Guild) assigns Fernswarthy
+      // quest
 
-			// "So, have you returned with Fernswarthy's key?"
-			// <Mysticality class> nods approvingly as you hand the
-			// key to him.
+      // <Muscle class> looks surprised as you hand over
+      // Fernswarthy's key.
 
-			// <Moxie class> grins and takes Fernswarthy's key from
-			// you.
+      // "So, have you returned with Fernswarthy's key?"
+      // <Mysticality class> nods approvingly as you hand the
+      // key to him.
 
-			if ( responseText.contains( "hand over Fernswarthy's key" ) ||
-			     responseText.contains( "returned with Fernswarthy's key" ) ||
-			     responseText.contains( "takes Fernswarthy's key" ) )
-			{
-				ResultProcessor.processItem( ItemPool.FERNSWARTHYS_KEY, -1 );
-			}
+      // <Moxie class> grins and takes Fernswarthy's key from
+      // you.
 
-			return;
-		}
+      if (responseText.contains("hand over Fernswarthy's key")
+          || responseText.contains("returned with Fernswarthy's key")
+          || responseText.contains("takes Fernswarthy's key")) {
+        ResultProcessor.processItem(ItemPool.FERNSWARTHYS_KEY, -1);
+      }
 
-		if ( place != null && place.equals( "challenge" ) )
-		{
-			// Muscle guild quest
-			// "Eleven inches!" he exclaims.
-			if ( responseText.contains( "Eleven inches" ) )
-			{
-				ResultProcessor.processItem( ItemPool.BIG_KNOB_SAUSAGE, -1 );
-				QuestDatabase.setQuestProgress( Quest.MUSCLE, QuestDatabase.FINISHED );
-			}
-			else if ( responseText.contains( "sausage" ) )
-			{
-				QuestDatabase.setQuestProgress( Quest.MUSCLE, QuestDatabase.STARTED );
-			}
-			// Myst guild quests
-			else if ( responseText.contains( "captured poltersandwich" ) )
-			{
-				ResultProcessor.processItem( ItemPool.EXORCISED_SANDWICH, -1 );
-				QuestDatabase.setQuestProgress( Quest.MYST, QuestDatabase.FINISHED );
-			}
-			else if ( responseText.contains( "poltersandwich" ) )
-			{
-				QuestDatabase.setQuestProgress( Quest.MYST, QuestDatabase.STARTED );
-			}
-			// Moxie guild quests
-			else if ( responseText.contains( "stole my own pants" ) )
-			{
-				QuestDatabase.setQuestProgress( Quest.MOXIE, QuestDatabase.FINISHED );
-			}
-			else if ( responseText.contains( "check out the Sleazy Back Alley" ) )
-			{
-				QuestDatabase.setQuestProgress( Quest.MOXIE, QuestDatabase.STARTED );
-			}
-		}
+      return;
+    }
 
-		matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
-		String action = matcher.find() ? matcher.group(1) : null;
+    if (place != null && place.equals("challenge")) {
+      // Muscle guild quest
+      // "Eleven inches!" he exclaims.
+      if (responseText.contains("Eleven inches")) {
+        ResultProcessor.processItem(ItemPool.BIG_KNOB_SAUSAGE, -1);
+        QuestDatabase.setQuestProgress(Quest.MUSCLE, QuestDatabase.FINISHED);
+      } else if (responseText.contains("sausage")) {
+        QuestDatabase.setQuestProgress(Quest.MUSCLE, QuestDatabase.STARTED);
+      }
+      // Myst guild quests
+      else if (responseText.contains("captured poltersandwich")) {
+        ResultProcessor.processItem(ItemPool.EXORCISED_SANDWICH, -1);
+        QuestDatabase.setQuestProgress(Quest.MYST, QuestDatabase.FINISHED);
+      } else if (responseText.contains("poltersandwich")) {
+        QuestDatabase.setQuestProgress(Quest.MYST, QuestDatabase.STARTED);
+      }
+      // Moxie guild quests
+      else if (responseText.contains("stole my own pants")) {
+        QuestDatabase.setQuestProgress(Quest.MOXIE, QuestDatabase.FINISHED);
+      } else if (responseText.contains("check out the Sleazy Back Alley")) {
+        QuestDatabase.setQuestProgress(Quest.MOXIE, QuestDatabase.STARTED);
+      }
+    }
 
-		// We have nothing special to do for other simple visits.
+    matcher = GenericRequest.ACTION_PATTERN.matcher(urlString);
+    String action = matcher.find() ? matcher.group(1) : null;
 
-		if ( action == null )
-		{
-			return;
-		}
+    // We have nothing special to do for other simple visits.
 
-		if ( action.equals( "buyskill" ) )
-		{
-			if ( responseText.contains( "You learn a new skill" ) )
-			{
-				int skillId = GuildRequest.findSkill( urlString );
-				int cost = SkillDatabase.getSkillPurchaseCost( skillId );
-				if ( cost > 0 )
-				{
-					ResultProcessor.processMeat( -cost );
-				}
-				// New skill may affect concocoction list,
-				// uneffect methods, or amount healed.
-				ConcoctionDatabase.refreshConcoctions();
-				if ( skillId == SkillPool.ADVENTURER_OF_LEISURE )
-				{
-					UneffectRequest.reset();
-					HPRestoreItemList.updateHealthRestored();
-				}
-			}
-			return;
-		}
+    if (action == null) {
+      return;
+    }
 
-		if ( action.equals( "makestaff" ) )
-		{
-			ChefStaffRequest.parseCreation( urlString, responseText );
-			return;
-		}
+    if (action.equals("buyskill")) {
+      if (responseText.contains("You learn a new skill")) {
+        int skillId = GuildRequest.findSkill(urlString);
+        int cost = SkillDatabase.getSkillPurchaseCost(skillId);
+        if (cost > 0) {
+          ResultProcessor.processMeat(-cost);
+        }
+        // New skill may affect concocoction list,
+        // uneffect methods, or amount healed.
+        ConcoctionDatabase.refreshConcoctions();
+        if (skillId == SkillPool.ADVENTURER_OF_LEISURE) {
+          UneffectRequest.reset();
+          HPRestoreItemList.updateHealthRestored();
+        }
+      }
+      return;
+    }
 
-		if ( action.equals( "malussmash" ) )
-		{
-			CreateItemRequest.parseGuildCreation( urlString, responseText );
-			return;
-		}
-	}
+    if (action.equals("makestaff")) {
+      ChefStaffRequest.parseCreation(urlString, responseText);
+      return;
+    }
 
-	public static final boolean registerRequest( final String urlString )
-	{
-		if ( !urlString.startsWith( "guild.php" ) )
-		{
-			return false;
-		}
+    if (action.equals("malussmash")) {
+      CreateItemRequest.parseGuildCreation(urlString, responseText);
+      return;
+    }
+  }
 
-		Matcher matcher = GenericRequest.PLACE_PATTERN.matcher( urlString );
-		String place = matcher.find() ? matcher.group(1) : null;
+  public static final boolean registerRequest(final String urlString) {
+    if (!urlString.startsWith("guild.php")) {
+      return false;
+    }
 
-		if ( place != null && place.equals( "still" ) )
-		{
-			return true;
-		}
+    Matcher matcher = GenericRequest.PLACE_PATTERN.matcher(urlString);
+    String place = matcher.find() ? matcher.group(1) : null;
 
-		String npc = getNPCName( place );
+    if (place != null && place.equals("still")) {
+      return true;
+    }
 
-		if ( npc != null )
-		{
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "Visiting " + npc );
-			return true;
-		}
+    String npc = getNPCName(place);
 
-		matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
-		String action = matcher.find() ? matcher.group(1) : null;
+    if (npc != null) {
+      RequestLogger.updateSessionLog();
+      RequestLogger.updateSessionLog("Visiting " + npc);
+      return true;
+    }
 
-		// We have nothing special to do for other simple visits.
+    matcher = GenericRequest.ACTION_PATTERN.matcher(urlString);
+    String action = matcher.find() ? matcher.group(1) : null;
 
-		if ( action == null )
-		{
-			return true;
-		}
+    // We have nothing special to do for other simple visits.
 
-		if ( action.equals( "train" ) )
-		{
-			return true;
-		}
+    if (action == null) {
+      return true;
+    }
 
-		// Other requests handle other actions in the Guild
+    if (action.equals("train")) {
+      return true;
+    }
 
-		// action = makestaff
-		// action = wokcook
-		// action = malussmash
+    // Other requests handle other actions in the Guild
 
-		return false;
-	}
+    // action = makestaff
+    // action = wokcook
+    // action = malussmash
+
+    return false;
+  }
 }

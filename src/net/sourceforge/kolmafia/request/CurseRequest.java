@@ -2,184 +2,158 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class CurseRequest
-	extends GenericRequest
-{
-	private static final Pattern ITEM_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
-	private static final Pattern PLAYER_PATTERN = Pattern.compile( "(?=.*action=use).*targetplayer=([^&]*)" );
-	private static final Pattern QTY_PATTERN = Pattern.compile( "You have ([\\d,]+) more |You don't have any more " );
+public class CurseRequest extends GenericRequest {
+  private static final Pattern ITEM_PATTERN = Pattern.compile("whichitem=(\\d+)");
+  private static final Pattern PLAYER_PATTERN =
+      Pattern.compile("(?=.*action=use).*targetplayer=([^&]*)");
+  private static final Pattern QTY_PATTERN =
+      Pattern.compile("You have ([\\d,]+) more |You don't have any more ");
 
-	private final AdventureResult itemUsed;
+  private final AdventureResult itemUsed;
 
-	private static final AdventureResult SMORE_GUN = ItemPool.get( ItemPool.SMORE_GUN, 1 );
-	private static final AdventureResult MARSHMALLLOW = ItemPool.get( ItemPool.MARSHMALLOW, 1 );
+  private static final AdventureResult SMORE_GUN = ItemPool.get(ItemPool.SMORE_GUN, 1);
+  private static final AdventureResult MARSHMALLLOW = ItemPool.get(ItemPool.MARSHMALLOW, 1);
 
-	public CurseRequest( final AdventureResult item )
-	{
-		this( item, KoLCharacter.getPlayerId(), "" );
-	}
+  public CurseRequest(final AdventureResult item) {
+    this(item, KoLCharacter.getPlayerId(), "");
+  }
 
-	public CurseRequest( final AdventureResult item, final String target, final String message )
-	{
-		super( "curse.php" );
-		this.itemUsed = item;
-		this.addFormField( "action", "use" );
-		this.addFormField( "whichitem", String.valueOf( item.getItemId() ) );
-		this.addFormField( "targetplayer", target );
-		this.addMessage( message );
-	}
+  public CurseRequest(final AdventureResult item, final String target, final String message) {
+    super("curse.php");
+    this.itemUsed = item;
+    this.addFormField("action", "use");
+    this.addFormField("whichitem", String.valueOf(item.getItemId()));
+    this.addFormField("targetplayer", target);
+    this.addMessage(message);
+  }
 
-	@Override
-	public void run()
-	{
-		InventoryManager.retrieveItem( this.itemUsed );
+  @Override
+  public void run() {
+    InventoryManager.retrieveItem(this.itemUsed);
 
-		for ( int i = this.itemUsed.getCount(); KoLmafia.permitsContinue() && i > 0; --i )
-		{
-			KoLmafia.updateDisplay( "Throwing " + this.itemUsed.getName() +
-				" at " + this.getFormField( "targetplayer" ) + "..." );
-			super.run();
-		}
-	}
+    for (int i = this.itemUsed.getCount(); KoLmafia.permitsContinue() && i > 0; --i) {
+      KoLmafia.updateDisplay(
+          "Throwing "
+              + this.itemUsed.getName()
+              + " at "
+              + this.getFormField("targetplayer")
+              + "...");
+      super.run();
+    }
+  }
 
-	@Override
-	public void processResults()
-	{
-		CurseRequest.parseResponse( this.getURLString(), this.responseText );
-	}
+  @Override
+  public void processResults() {
+    CurseRequest.parseResponse(this.getURLString(), this.responseText);
+  }
 
-	public static final void parseResponse( final String location, final String responseText )
-	{
-		if ( !location.startsWith( "curse.php" ) )
-		{
-			return;
-		}
+  public static final void parseResponse(final String location, final String responseText) {
+    if (!location.startsWith("curse.php")) {
+      return;
+    }
 
-		Matcher m = CurseRequest.ITEM_PATTERN.matcher( location );
-		if ( !m.find() )
-		{
-			return;
-		}
-		AdventureResult item = ItemPool.get( StringUtilities.parseInt( m.group( 1 ) ), 1 );
-		if ( item.equals( CurseRequest.SMORE_GUN ) )
-		{
-			// When you "throw" a s'more gun at someone, marshmallows get used up
-			item = CurseRequest.MARSHMALLLOW;
-		}
+    Matcher m = CurseRequest.ITEM_PATTERN.matcher(location);
+    if (!m.find()) {
+      return;
+    }
+    AdventureResult item = ItemPool.get(StringUtilities.parseInt(m.group(1)), 1);
+    if (item.equals(CurseRequest.SMORE_GUN)) {
+      // When you "throw" a s'more gun at someone, marshmallows get used up
+      item = CurseRequest.MARSHMALLLOW;
+    }
 
-		m = CurseRequest.QTY_PATTERN.matcher( responseText );
-		if ( !m.find() )
-		{
-			return;
-		}
-		int qty = m.group( 1 ) == null ? 0
-			: StringUtilities.parseInt( m.group( 1 ) );
-		qty = item.getCount( KoLConstants.inventory ) - qty;
-		if ( qty != 0 )
-		{
-			item = item.getInstance( qty );
-			ResultProcessor.processResult( item.getNegation() );
-		}
+    m = CurseRequest.QTY_PATTERN.matcher(responseText);
+    if (!m.find()) {
+      return;
+    }
+    int qty = m.group(1) == null ? 0 : StringUtilities.parseInt(m.group(1));
+    qty = item.getCount(KoLConstants.inventory) - qty;
+    if (qty != 0) {
+      item = item.getInstance(qty);
+      ResultProcessor.processResult(item.getNegation());
+    }
 
-		m = CurseRequest.PLAYER_PATTERN.matcher( location );
-		if ( !m.find() )
-		{
-			return;
-		}
+    m = CurseRequest.PLAYER_PATTERN.matcher(location);
+    if (!m.find()) {
+      return;
+    }
 
-		if ( responseText.contains( "You don't have that item" ) )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Have not, throw not." );
-			return;
-		}
+    if (responseText.contains("You don't have that item")) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Have not, throw not.");
+      return;
+    }
 
-		if ( responseText.contains( "No message?" ) ||
-			responseText.contains( "no message" ) )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "That item requires a message." );
-			return;
-		}
+    if (responseText.contains("No message?") || responseText.contains("no message")) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "That item requires a message.");
+      return;
+    }
 
-		if ( responseText.contains( "That player could not be found" ) )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, m.group( 1 ) + " evaded your thrown item by the unusual strategy of being nonexistent." );
-			return;
-		}
+    if (responseText.contains("That player could not be found")) {
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR,
+          m.group(1) + " evaded your thrown item by the unusual strategy of being nonexistent.");
+      return;
+    }
 
-		if ( responseText.contains( "try again later" ) ||
-			responseText.contains( "cannot be used" ) ||
-			responseText.contains( "can't use this item" ) )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Can't use the item on that player at the moment." );
-			return;
-		}
-		
-		if ( responseText.contains( "You can't fire" ) || responseText.contains( "That player has already been hit" ) )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot arrow that person." );
-			return;
-		}
+    if (responseText.contains("try again later")
+        || responseText.contains("cannot be used")
+        || responseText.contains("can't use this item")) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Can't use the item on that player at the moment.");
+      return;
+    }
 
-		if ( responseText.contains( "FAA regulations prevent" ) )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You've already used a Warbear Gyrocopter today." );
-			Preferences.setBoolean( "_warbearGyrocopterUsed", true );
-			return;
-		}
+    if (responseText.contains("You can't fire")
+        || responseText.contains("That player has already been hit")) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "You cannot arrow that person.");
+      return;
+    }
 
-		if ( responseText.contains( "You input the address" ) )
-		{
-			Preferences.setBoolean( "_warbearGyrocopterUsed", true );
-		}
+    if (responseText.contains("FAA regulations prevent")) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "You've already used a Warbear Gyrocopter today.");
+      Preferences.setBoolean("_warbearGyrocopterUsed", true);
+      return;
+    }
 
-		RequestLogger.updateSessionLog( "throw " + item +
-			" at " + m.group( 1 ) );
-	}
+    if (responseText.contains("You input the address")) {
+      Preferences.setBoolean("_warbearGyrocopterUsed", true);
+    }
 
-	public static final boolean registerRequest( final String urlString )
-	{
-		if ( !urlString.startsWith( "curse.php" ) )
-		{
-			return false;
-		}
+    RequestLogger.updateSessionLog("throw " + item + " at " + m.group(1));
+  }
 
-		return true;
-	}
+  public static final boolean registerRequest(final String urlString) {
+    if (!urlString.startsWith("curse.php")) {
+      return false;
+    }
 
-	private void addMessage( final String message )
-	{
-		if ( message.length() == 0 )
-		{
-			return;
-		}
+    return true;
+  }
 
-		if ( this.itemUsed.equals( ItemPool.get( ItemPool.BRICK, 1 ) ) )
-		{
-			this.addFormField( "message", message );
-			return;
-		}
+  private void addMessage(final String message) {
+    if (message.length() == 0) {
+      return;
+    }
 
-		String[] msg = message.split( "\\s*\\|\\s*" );
-		for ( int i = 0; i < msg.length; ++i )
-		{
-			this.addFormField( "text" + ((char) (i + 'a')), msg[i] );
-		}
-	}
+    if (this.itemUsed.equals(ItemPool.get(ItemPool.BRICK, 1))) {
+      this.addFormField("message", message);
+      return;
+    }
+
+    String[] msg = message.split("\\s*\\|\\s*");
+    for (int i = 0; i < msg.length; ++i) {
+      this.addFormField("text" + ((char) (i + 'a')), msg[i]);
+    }
+  }
 }
