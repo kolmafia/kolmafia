@@ -13,4 +13,10 @@ jobs:
       - uses: axel-op/googlejavaformat-action@v3
         with:
           args: "--replace"
+          files: "src/**/*.java"
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+      - uses: axel-op/googlejavaformat-action@v3
+        with:
+          args: "--replace"
+          files: "test/**/*.java"
           githubToken: ${{ secrets.GITHUB_TOKEN }}
