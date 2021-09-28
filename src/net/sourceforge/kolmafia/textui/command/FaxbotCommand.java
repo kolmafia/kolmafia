@@ -51,8 +51,8 @@ public class FaxbotCommand
 				RequestLogger.printList( commands );
 				RequestLogger.printLine();
 
-				KoLmafia.updateDisplay( MafiaState.ERROR, "[" + command + "] has too many matches in bot " + botName );
-				return;
+				RequestLogger.printLine( "[" + command + "] has too many matches in bot " + botName );
+				continue;
 			}
 
 			if ( !FaxRequestFrame.isBotOnline( botName ) )
