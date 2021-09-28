@@ -69,6 +69,7 @@ public class MaximizerFrame
 		// CLI "maximize" command can set the selected item prior to the
 		// frame being instantiated.
 		expressionSelect.setEditable( true );
+		expressionSelect.setMaximumRowCount( 45 );
 		KoLConstants.maximizerMList.updateJComboData( expressionSelect );
 	}
 	private SmartButtonGroup equipmentSelect, mallSelect;
