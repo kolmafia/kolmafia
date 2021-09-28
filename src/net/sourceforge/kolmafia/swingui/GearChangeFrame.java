@@ -891,6 +891,7 @@ public class GearChangeFrame
 
 			this.setRenderer( renderer );
 			this.addPopupMenuListener( new ChangeItemListener() );
+			this.setMaximumRowCount( 45 );
 		}
 
 		private class ChangeItemListener
@@ -922,6 +923,7 @@ public class GearChangeFrame
 
 			this.setRenderer( ListCellRendererFactory.getDefaultRenderer() );
 			this.addActionListener( new ChangeOutfitListener() );
+			this.setMaximumRowCount( 45 );
 		}
 
 		private class ChangeOutfitListener
@@ -984,6 +986,7 @@ public class GearChangeFrame
 			super( model );
 			DefaultListCellRenderer renderer = ListCellRendererFactory.getFamiliarRenderer();
 			this.setRenderer( renderer );
+			this.setMaximumRowCount( 45 );
 		}
 	}
 
@@ -996,6 +999,7 @@ public class GearChangeFrame
 			super( model );
 			NamedListenerRegistry.registerNamedListener( "(throne)", this );
 			this.update();
+			this.setMaximumRowCount( 45 );
 		}
 
 		public void update()
@@ -1018,6 +1022,7 @@ public class GearChangeFrame
 			super( model );
 			NamedListenerRegistry.registerNamedListener( "(bjorn)", this );
 			this.update();
+			this.setMaximumRowCount( 45 );
 		}
 
 		public void update()
@@ -1038,6 +1043,7 @@ public class GearChangeFrame
 		{
 			super( model );
 			this.addActionListener( new ChangeFamiliarListener() );
+			this.setMaximumRowCount( 45 );
 		}
 
 		private class ChangeFamiliarListener
