@@ -41,7 +41,7 @@ public class UserDefinedFunction
 		{
 			return;
 		}
-		
+
 		ArrayList<Value> values = new ArrayList<Value>();
 
 		for ( BasicScope next : this.scope.getScopes() )
@@ -126,12 +126,6 @@ public class UserDefinedFunction
 		}
 
 		return false;
-	}
-
-	@Override
-	public boolean assertBarrier()
-	{
-		return this.scope.assertBarrier();
 	}
 
 	@Override

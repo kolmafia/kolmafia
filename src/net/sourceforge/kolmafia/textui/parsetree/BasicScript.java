@@ -10,7 +10,7 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.utilities.ByteArrayStream;
 
 public class BasicScript
-	extends ParseTreeNode
+	extends Command
 {
 	private final ByteArrayStream data;
 

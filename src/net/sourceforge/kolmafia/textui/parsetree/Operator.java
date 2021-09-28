@@ -10,7 +10,7 @@ import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class Operator
-	extends ParseTreeNode
+	extends Command
 {
 	String operator;
 

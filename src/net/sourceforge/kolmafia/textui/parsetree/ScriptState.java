@@ -7,7 +7,7 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public abstract class ScriptState
-	extends ParseTreeNode
+	extends Command
 {
 	private final ScriptRuntime.State state;
 
@@ -41,7 +41,7 @@ public abstract class ScriptState
 		AshRuntime.indentLine( stream, indent );
 		stream.println( "<COMMAND " + this.state + ">" );
 	}
-	
+
 	@Override
 	public boolean assertBarrier()
 	{

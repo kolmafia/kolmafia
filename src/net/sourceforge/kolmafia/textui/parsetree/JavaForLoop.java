@@ -15,12 +15,12 @@ public class JavaForLoop
 {
 	private final List<Assignment> initializers;
 	private final Value condition;
-	private final List<ParseTreeNode> incrementers;
+	private final List<Command> incrementers;
 
 	public JavaForLoop( final Scope scope,
 			    final List<Assignment> initializers,
 			    final Value condition,
-			    final List<ParseTreeNode> incrementers )
+			    final List<Command> incrementers )
 	{
 		super( scope );
 		this.initializers = initializers;
@@ -121,7 +121,7 @@ public class JavaForLoop
 			}
 
 			// Execute incrementers
-			for ( ParseTreeNode incrementer : this.incrementers )
+			for ( Command incrementer : this.incrementers )
 			{
 				Value iresult = incrementer.execute( interpreter );
 
@@ -165,7 +165,7 @@ public class JavaForLoop
 			initializer.print( stream, indent + 1 );
 		}
 		this.getCondition().print( stream, indent + 1 );
-		for ( ParseTreeNode incrementer : this.incrementers )
+		for ( Command incrementer : this.incrementers )
 		{
 			AshRuntime.indentLine( stream, indent + 1 );
 			stream.println( "<ITERATE>" );
