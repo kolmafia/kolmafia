@@ -1992,7 +1992,7 @@ translucent monkey	2120	pr_monkey.gif	Atk: 30 Def: 30 HP: 40 Init: 75 P: beast
 giant giant crab	2121	pr_bosscrab.gif	Atk: 80 Def: 80 HP: 200 Init: 50 Meat: 2000 P: beast
 toy dinosaur	2123	pr_dinosaur.gif	Atk: 50 Def: 50 HP: 60 Init: 75 P: beast
 cockroach	2124	pr_cockroach.gif	Atk: 40 Def: 80 HP: 60 Init: 50 Meat: 500 P: bug
-vape ghost	2125	pr_vapeghost.gif	Atk: 60 Def: 30 HP: 60 Init: 30 P: undead
+vape ghost	2125	pr_vapeghost.gif	Atk: 60 Def: 30 HP: 60 Init: 30 P: undead GHOST
 signal	2126	pr_signal.gif	Atk: 90 Def: 90 HP: 100 Init: 200 P: weird	signal fragment
 tiki idol	2127	pr_tiki.gif	Atk: 90 Def: 110 HP: 100 Init: 50 E: sleaze P: construct	hibiscus petal	huge mint leaf	pineapple slab
 pewter torsohunter	2128	pr_headhunter.gif	Atk: 120 Def: 80 HP: 100 Init: 80 P: construct	pewter shavings
