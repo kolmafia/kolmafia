@@ -1,4 +1,5 @@
 1
+global	aaaDefaultsEnableSetLocationLogging	true
 global	aaa_lastClanLeaderLogin	2020.01.01
 global	addChatCommandLine	false
 global	addCreationQueue	true
