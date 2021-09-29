@@ -1379,7 +1379,7 @@ public class UseSkillRequest
 			++rv;
 		}
 
-		rv += KoLCharacter.currentNumericModifier( Modifiers.ADDITIONAL_SONG );
+		rv += (int) KoLCharacter.currentNumericModifier( Modifiers.ADDITIONAL_SONG );
 
 		return rv;
 	}
@@ -2401,7 +2401,7 @@ public class UseSkillRequest
 				// at a time.
 				count = 1;
 			}
-			mpCost = 0;
+			mpCost = 0L;
 		}
 
 		switch ( skillId )

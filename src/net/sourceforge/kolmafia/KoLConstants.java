@@ -26,9 +26,6 @@ import net.sourceforge.kolmafia.swingui.menu.ScriptMRUList;
 
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 
-// The following are objects that go into various global data lists.
-// Perhaps we should have a DataModel.java?
-
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.EncounterManager.RegisteredEncounter;
 
