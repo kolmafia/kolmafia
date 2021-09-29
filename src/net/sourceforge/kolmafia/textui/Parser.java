@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.textui.parsetree.SwitchScope;
 import net.sourceforge.kolmafia.textui.parsetree.TernaryExpression;
 import net.sourceforge.kolmafia.textui.parsetree.Try;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
+import net.sourceforge.kolmafia.textui.parsetree.Type.TypeReference;
 import net.sourceforge.kolmafia.textui.parsetree.TypeDef;
 import net.sourceforge.kolmafia.textui.parsetree.UserDefinedFunction;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
@@ -748,6 +749,7 @@ public class Parser
 			{
 				// Make a vararg type out of the previously parsed type.
 				paramType = new VarArgType( paramType );
+				paramType = new TypeReference( paramType, this.makeLocation( paramType.getLocation(), this.currentToken() ) );
 
 				this.readToken(); //read ...
 			}
@@ -760,7 +762,8 @@ public class Parser
 
 			if ( vararg )
 			{
-				if ( paramType instanceof VarArgType )
+				if ( paramType instanceof TypeReference &&
+				     ((TypeReference) paramType).getTarget() instanceof VarArgType )
 				{
 					// We can only have a single vararg parameter
 					throw this.parseException( "Only one vararg parameter is allowed" );
@@ -781,7 +784,8 @@ public class Parser
 				throw this.parseException( "Cannot initialize parameter " + param.getName() );
 			}
 
-			if ( paramType instanceof VarArgType )
+			if ( paramType instanceof TypeReference &&
+			     ((TypeReference) paramType).getTarget() instanceof VarArgType )
 			{
 				// Only one vararg is allowed
 				vararg = true;
@@ -975,6 +979,11 @@ public class Parser
 		if ( ltype == null || ltype.getName() == null )
 		{
 			return rhs;
+		}
+
+		if ( ltype instanceof TypeReference )
+		{
+			ltype = ((TypeReference) ltype).getTarget();
 		}
 
 		// If the types are the same no coercion needed
@@ -1255,6 +1264,7 @@ public class Parser
 		}
 		else if ( ( valType = scope.findType( this.currentToken().content ) ) != null )
 		{
+			valType = new TypeReference( valType, this.makeLocation( this.currentToken() ) );
 			this.readToken();
 		}
 		else
@@ -1471,6 +1481,8 @@ public class Parser
 
 			if ( indexType != null )
 			{
+				indexType = new TypeReference( indexType, this.makeLocation( indexToken ) );
+
 				if ( !indexType.isPrimitive() )
 				{
 					throw this.parseException( "Index type '" + this.currentToken() + "' is not a primitive type" );
@@ -1508,9 +1520,11 @@ public class Parser
 			throw this.parseException( ", or ]", this.currentToken() );
 		}
 
-		return indexType != null ?
+		Type type = indexType != null ?
 			new AggregateType( dataType, indexType ) :
 			new AggregateType( dataType, size );
+
+		return new TypeReference( type, this.makeLocation( dataType.getLocation(), this.peekPreviousToken() ) );
 	}
 
 	private boolean parseIdentifier( final String identifier )
@@ -2371,6 +2385,11 @@ public class Parser
 			if ( type == null )
 			{
 				throw this.parseException( "Too many key variables specified" );
+			}
+
+			if ( type instanceof TypeReference )
+			{
+				type = ((TypeReference) type).getTarget();
 			}
 
 			if ( type instanceof AggregateType )
@@ -3882,6 +3901,10 @@ public class Parser
 		if ( type == null )
 		{
 			throw this.parseException( "Unknown type " + name );
+		}
+		else
+		{
+			type = new TypeReference( type, this.makeLocation( typedConstantTypeToken ) );
 		}
 
 		if ( !type.isPrimitive() )

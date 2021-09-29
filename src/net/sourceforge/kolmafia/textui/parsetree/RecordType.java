@@ -159,8 +159,13 @@ public class RecordType
 	}
 
 	@Override
-	public boolean equals( final Type o )
+	public boolean equals( Type o )
 	{
+		if ( o instanceof TypeReference )
+		{
+			o = ((TypeReference) o).getTarget();
+		}
+
 		return o instanceof RecordType && this.name.equals( o.name );
 	}
 

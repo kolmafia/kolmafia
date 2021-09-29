@@ -96,8 +96,13 @@ public class AggregateType
 	}
 
 	@Override
-	public boolean equals( final Type o )
+	public boolean equals( Type o )
 	{
+		if ( o instanceof TypeReference )
+		{
+			o = ((TypeReference) o).getTarget();
+		}
+
 		return o instanceof AggregateType &&
 			this.dataType.equals( ( (AggregateType) o ).dataType ) &&
 			this.indexType.equals( ( (AggregateType) o ).indexType );
