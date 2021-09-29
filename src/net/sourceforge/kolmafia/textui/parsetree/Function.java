@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.lsp4j.Location;
+
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.textui.AshRuntime;
@@ -18,16 +20,16 @@ public abstract class Function
 	protected List<VariableReference> variableReferences;
 	private String signature;
 
-	public Function( final String name, final Type type, final List<VariableReference> variableReferences )
+	public Function( final String name, final Type type, final List<VariableReference> variableReferences, final Location location )
 	{
-		super( name );
+		super( name, location );
 		this.type = type;
 		this.variableReferences = variableReferences;
 	}
 
 	public Function( final String name, final Type type )
 	{
-		this( name, type, new ArrayList<VariableReference>() );
+		this( name, type, new ArrayList<>(), null );
 	}
 
 	public Type getType()
@@ -44,7 +46,7 @@ public abstract class Function
 	{
 		this.variableReferences = variableReferences;
 	}
-	
+
 	public String getSignature()
 	{
 		if ( this.signature == null )
@@ -57,7 +59,7 @@ public abstract class Function
 			//buf.append( " " );
 			buf.append( this.name );
 			buf.append( "(" );
-		
+
 			String sep = "";
 			for ( VariableReference current : this.variableReferences )
 			{
@@ -66,7 +68,7 @@ public abstract class Function
 				Type paramType = current.getType();
 				buf.append( paramType );
 			}
-			
+
 			buf.append( ")" );
 			this.signature = buf.toString();
 		}
@@ -79,7 +81,7 @@ public abstract class Function
 		EXACT,
 		BASE,
 		COERCE
-    }
+	}
 
 	public boolean paramsMatch( final Function that )
 	{
@@ -182,7 +184,7 @@ public abstract class Function
 
 	public boolean paramsMatch( final List<Value> params, MatchType match, boolean vararg )
 	{
-		return ( vararg ) ? this.paramsMatchVararg( params, match ) : this.paramsMatchNoVararg(  params, match );
+		return ( vararg ) ? this.paramsMatchVararg( params, match ) : this.paramsMatchNoVararg( params, match );
 	}
 
 	private boolean paramsMatchNoVararg( final List<Value> params, MatchType match )
@@ -275,7 +277,7 @@ public abstract class Function
 					matched = false;
 				}
 				break;
-						
+
 			case BASE:
 				if ( vararg != null )
 				{
@@ -306,7 +308,7 @@ public abstract class Function
 			// allowed if we ran out of parameters.
 			VariableReference currentParam = refIterator.next();
 			Type paramType = currentParam.getType();
-				
+
 			if ( paramType instanceof VarArgType )
 			{
 				vararg = currentParam;
@@ -393,12 +395,12 @@ public abstract class Function
 			}
 			else
 			{
-				 value = (Value)values[ paramCount ];
+				value = (Value)values[ paramCount ];
 			}
 
 			paramCount++;
 
-			if (interpreter != null)
+			if ( interpreter != null )
 			{
 				// Bind parameter to new value
 				paramVarRef.setValue( interpreter, value );
@@ -417,7 +419,7 @@ public abstract class Function
 	public Value execute( final AshRuntime interpreter )
 	{
 		// Dereference variables and pass Values to function
-		Object[] values = new Object[ this.variableReferences.size() + 1];
+		Object[] values = new Object[ this.variableReferences.size() + 1 ];
 		values[ 0 ] = interpreter;
 
 		int index = 1;

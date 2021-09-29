@@ -1,4 +1,7 @@
 package net.sourceforge.kolmafia.textui.parsetree;
+
+import org.eclipse.lsp4j.Location;
+
 import net.sourceforge.kolmafia.textui.DataTypes;
 
 public class TypeDef
@@ -6,9 +9,9 @@ public class TypeDef
 {
 	Type base;
 
-	public TypeDef( final String name, final Type base )
+	public TypeDef( final String name, final Type base, final Location location )
 	{
-		super( name, DataTypes.TYPE_TYPEDEF );
+		super( name, DataTypes.TYPE_TYPEDEF, location );
 		this.base = base;
 	}
 

@@ -2,6 +2,8 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.util.List;
 
+import org.eclipse.lsp4j.Location;
+
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptException;
 
@@ -14,7 +16,12 @@ public class RecordType
 
 	public RecordType( final String name, final String[] fieldNames, final Type[] fieldTypes )
 	{
-		super( name, DataTypes.TYPE_RECORD );
+		this( name, fieldNames, fieldTypes, null );
+	}
+
+	public RecordType( final String name, final String[] fieldNames, final Type[] fieldTypes, final Location location )
+	{
+		super( name, DataTypes.TYPE_RECORD, location );
 
 		this.fieldNames = fieldNames;
 		this.fieldTypes = fieldTypes;

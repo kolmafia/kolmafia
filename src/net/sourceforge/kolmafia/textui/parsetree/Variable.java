@@ -2,6 +2,8 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
+import org.eclipse.lsp4j.Location;
+
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 
@@ -15,14 +17,12 @@ public class Variable
 
 	public Variable( final Type type )
 	{
-		super( null );
-		this.type = type;
-		this.content = new Value( type );
+		this( null, type, null );
 	}
 
-	public Variable( final String name, final Type type )
+	public Variable( final String name, final Type type, final Location location )
 	{
-		super( name );
+		super( name, location );
 		this.type = type;
 		this.content = new Value( type );
 	}

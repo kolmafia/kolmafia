@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import org.eclipse.lsp4j.Location;
+
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.textui.AshRuntime;
@@ -17,12 +19,12 @@ public class UserDefinedFunction
 	private Scope scope;
 	private final Stack<ArrayList<Value>> callStack;
 
-	public UserDefinedFunction( final String name, final Type type, final List<VariableReference> variableReferences )
+	public UserDefinedFunction( final String name, final Type type, final List<VariableReference> variableReferences, final Location location )
 	{
-		super( name, type, variableReferences );
+		super( name, type, variableReferences, location );
 
 		this.scope = null;
-		this.callStack = new Stack<ArrayList<Value>>();
+		this.callStack = new Stack<>();
 	}
 
 	public void setScope( final Scope s )
@@ -42,7 +44,7 @@ public class UserDefinedFunction
 			return;
 		}
 
-		ArrayList<Value> values = new ArrayList<Value>();
+		ArrayList<Value> values = new ArrayList<>();
 
 		for ( BasicScope next : this.scope.getScopes() )
 		{

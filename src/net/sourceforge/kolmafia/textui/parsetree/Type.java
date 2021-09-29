@@ -9,6 +9,8 @@ import java.util.Map;
 
 import java.util.regex.Pattern;
 
+import org.eclipse.lsp4j.Location;
+
 import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -41,7 +43,12 @@ public class Type
 
 	public Type( final String name, final int type )
 	{
-		super( name );
+		this( name, type, null );
+	}
+
+	public Type( final String name, final int type, final Location location )
+	{
+		super( name, location );
 		this.primitive = true;
 		this.type = type;
 	}

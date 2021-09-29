@@ -1,11 +1,18 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
+import org.eclipse.lsp4j.Location;
+
 public abstract class CompositeType
 	extends Type
 {
 	public CompositeType( final String name, final int type )
 	{
-		super( name, type );
+		this( name, type, null );
+	}
+
+	public CompositeType( final String name, final int type, final Location location )
+	{
+		super( name, type, location );
 		this.primitive = false;
 	}
 

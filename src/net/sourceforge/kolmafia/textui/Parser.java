@@ -403,6 +403,7 @@ public class Parser
 					parser.getScriptName().replace( ".ash", "" )
 						.replaceAll( "[^a-zA-Z0-9]", "_" ),
 				parser.mainMethod.getType(),
+				parser.mainMethod.getDefinitionLocation(),
 				parser.mainMethod.getVariableReferences() );
 			f.setScope( ((UserDefinedFunction)parser.mainMethod).getScope() );
 			result.addFunction( f );
@@ -569,6 +570,8 @@ public class Parser
 			return null;
 		}
 
+		Token recordStartToken = this.currentToken();
+
 		this.readToken(); // read record
 
 		if ( this.currentToken().equals( ";" ) )
@@ -679,6 +682,8 @@ public class Parser
 			}
 		}
 
+		Location recordDefinition = this.makeLocation( recordStartToken, this.peekPreviousToken() );
+
 		String[] fieldNameArray = new String[ fieldNames.size() ];
 		Type[] fieldTypeArray = new Type[ fieldTypes.size() ];
 		fieldNames.toArray( fieldNameArray );
@@ -688,7 +693,7 @@ public class Parser
 			new RecordType(
 				recordName != null ? recordName :
 					( "(anonymous record " + Integer.toHexString( Arrays.hashCode( fieldNameArray ) ) + ")" ),
-				fieldNameArray, fieldTypeArray );
+				fieldNameArray, fieldTypeArray, recordDefinition );
 
 		if ( recordName != null )
 		{
@@ -740,7 +745,7 @@ public class Parser
 
 			if ( this.currentToken().equals( "..." ) )
 			{
-				// Make an vararg type out of the previously parsed type.
+				// Make a vararg type out of the previously parsed type.
 				paramType = new VarArgType( paramType );
 
 				this.readToken(); //read ...
@@ -799,7 +804,9 @@ public class Parser
 		// Add the function to the parent scope before we parse the
 		// function scope to allow recursion.
 
-		UserDefinedFunction f = new UserDefinedFunction( functionName.content, functionType, variableReferences );
+		Location functionLocation = this.makeLocation( functionName, this.peekLastToken() );
+
+		UserDefinedFunction f = new UserDefinedFunction( functionName.content, functionType, functionLocation, variableReferences );
 
 		if ( f.overridesLibraryFunction() )
 		{
@@ -910,7 +917,7 @@ public class Parser
 		}
 		else
 		{
-			result = new Variable( variableName.content, t );
+			result = new Variable( variableName.content, t, this.makeLocation( variableName ) );
 		}
 
 		this.readToken(); // read name
@@ -1049,6 +1056,9 @@ public class Parser
 		{
 			return false;
 		}
+
+		Token typedefToken = this.currentToken();
+
 		this.readToken(); // read typedef
 
 		Type t = this.parseType( parentScope, true );
@@ -1090,7 +1100,7 @@ public class Parser
 		else
 		{
 			// Add the type to the type table
-			TypeDef type = new TypeDef( typeName.content, t );
+			TypeDef type = new TypeDef( typeName.content, t, this.makeLocation( typedefToken, this.peekPreviousToken() ) );
 			parentScope.addType( type );
 		}
 
@@ -1346,7 +1356,7 @@ public class Parser
 				// Move on to the next value
 				if ( delim.equals( "," ) )
 				{
-					this.readToken(); // read ;
+					this.readToken(); // read ,
 				}
 				else if ( !delim.equals( "}" ) )
 				{
@@ -2257,9 +2267,9 @@ public class Parser
 		// Define key variables of appropriate type
 		VariableList varList = new VariableList();
 		AggregateType type = (AggregateType) aggregate.getType().getBaseType();
-		Variable valuevar = new Variable( "value", type.getDataType() );
+		Variable valuevar = new Variable( "value", type.getDataType(), this.make0WidthLocation() );
 		varList.add( valuevar );
-		Variable indexvar = new Variable( "index", type.getIndexType() );
+		Variable indexvar = new Variable( "index", type.getIndexType(), this.make0WidthLocation() );
 		varList.add( indexvar );
 
 		// Parse the key expression in a new scope containing 'index' and 'value'
@@ -2285,7 +2295,8 @@ public class Parser
 
 		this.readToken(); // foreach
 
-		List<String> names = new ArrayList<String>();
+		List<String> names = new ArrayList<>();
+		List<Location> locations = new ArrayList<>();
 
 		while ( true )
 		{
@@ -2310,6 +2321,7 @@ public class Parser
 			else
 			{
 				names.add( name.content );
+				locations.add( this.makeLocation( name ) );
 			}
 
 			this.readToken(); // name
@@ -2342,8 +2354,11 @@ public class Parser
 		List<VariableReference> variableReferences = new ArrayList<VariableReference>();
 		Type type = aggregate.getType().getBaseType();
 
-		for ( String name : names )
+		for ( int i = 0; i < names.size(); i++ )
 		{
+			String name = names.get( i );
+			Location location = locations.get( i );
+
 			Type itype;
 			if ( type == null )
 			{
@@ -2360,7 +2375,7 @@ public class Parser
 				type = null;
 			}
 
-			Variable keyvar = new Variable( name, itype );
+			Variable keyvar = new Variable( name, itype, location );
 			varList.add( keyvar );
 			variableReferences.add( new VariableReference( keyvar ) );
 		}
@@ -2458,7 +2473,7 @@ public class Parser
 		}
 
 		// Create integer index variable
-		Variable indexvar = new Variable( name.content, DataTypes.INT_TYPE );
+		Variable indexvar = new Variable( name.content, DataTypes.INT_TYPE, this.makeLocation( name ) );
 
 		// Put index variable onto a list
 		VariableList varList = new VariableList();
@@ -2523,7 +2538,7 @@ public class Parser
 				}
 
 				// Create variable and add it to the scope
-				variable = new Variable( name.content, t );
+				variable = new Variable( name.content, t, this.makeLocation( name ) );
 				scope.addVariable( variable );
 			}
 
@@ -2556,7 +2571,7 @@ public class Parser
 
 			Assignment initializer = new Assignment( lhs, rhs );
 
-			initializers.add( initializer);
+			initializers.add( initializer );
 
 			if ( this.currentToken().equals( "," ) )
 			{
@@ -2633,7 +2648,7 @@ public class Parser
 						throw this.parseException( "Variable '" + ref.getName() + "' not incremented" );
 					}
 				}
-				else 
+				else
 				{
 					incrementers.add( lhs );
 				}
