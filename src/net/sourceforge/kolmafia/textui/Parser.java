@@ -403,8 +403,8 @@ public class Parser
 					parser.getScriptName().replace( ".ash", "" )
 						.replaceAll( "[^a-zA-Z0-9]", "_" ),
 				parser.mainMethod.getType(),
-				parser.mainMethod.getDefinitionLocation(),
-				parser.mainMethod.getVariableReferences() );
+				parser.mainMethod.getVariableReferences(),
+				parser.mainMethod.getDefinitionLocation() );
 			f.setScope( ((UserDefinedFunction)parser.mainMethod).getScope() );
 			result.addFunction( f );
 		}
@@ -806,7 +806,7 @@ public class Parser
 
 		Location functionLocation = this.makeLocation( functionName, this.peekLastToken() );
 
-		UserDefinedFunction f = new UserDefinedFunction( functionName.content, functionType, functionLocation, variableReferences );
+		UserDefinedFunction f = new UserDefinedFunction( functionName.content, functionType, variableReferences, functionLocation );
 
 		if ( f.overridesLibraryFunction() )
 		{
