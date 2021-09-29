@@ -4838,7 +4838,6 @@ public class Parser
 				}
 
 				line = this.previousLine;
-				break;
 			}
 
 			return null;
