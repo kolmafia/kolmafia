@@ -21,7 +21,7 @@ import net.sourceforge.kolmafia.textui.Parser;
 import org.json.JSONException;
 
 public class Value
-	extends ParseTreeNode
+	extends Command
 	implements Comparable<Value>
 {
 	public Type type;
