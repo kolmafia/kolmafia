@@ -1463,6 +1463,8 @@ public class Parser
 		Type indexType = null;
 		int size = 0;
 
+		Token indexToken = this.currentToken();
+
 		if ( this.currentToken().equals( "]" ) )
 		{
 			if ( !separatorToken.equals( "[" ) )
@@ -3904,7 +3906,7 @@ public class Parser
 		}
 		else
 		{
-			type = new TypeReference( type, this.makeLocation( typedConstantTypeToken ) );
+			type = new TypeReference( type, this.makeLocation( name ) );
 		}
 
 		if ( !type.isPrimitive() )
