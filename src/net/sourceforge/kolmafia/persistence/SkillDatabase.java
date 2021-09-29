@@ -1041,7 +1041,7 @@ public class SkillDatabase
 		if ( casts < 0 ) return mpCost;
 		for ( int i = 0; i <= casts; i++ )
 		{
-			mpCost += 10*Math.pow( 10, i );
+			mpCost += 10*(long)Math.pow( 10, i );
 		}
 
 		return mpCost;
