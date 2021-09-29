@@ -5,6 +5,7 @@ plugins {
   id 'jacoco'
   id 'java'
 
+  id 'com.diffplug.spotless' version '5.15.1'
   id 'com.github.johnrengelman.shadow' version '6.0.0'
   id 'net.nemerosa.versioning' version '2.8.2'
 }
@@ -87,6 +88,20 @@ dependencies {
 application {
   // Define the main class for the application.
   mainClass = 'net.sourceforge.kolmafia.KoLmafia'
+}
+
+spotless {
+  format 'misc', {
+    target '*.gradle', '*.md', '.gitignore'
+
+    trimTrailingWhitespace()
+    indentWithSpaces(2)
+    endWithNewline()
+  }
+  java {
+    target 'src/**/*.java', 'test/**/*.java'
+    googleJavaFormat()
+  }
 }
 
 task cleanDist(type: Delete) {
