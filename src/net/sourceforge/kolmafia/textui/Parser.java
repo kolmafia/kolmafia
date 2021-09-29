@@ -7,11 +7,17 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.io.PrintStream;
 
+import java.net.URI;
+
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
+
+import org.eclipse.lsp4j.Location;
+import org.eclipse.lsp4j.Position;
+import org.eclipse.lsp4j.Range;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -94,6 +100,7 @@ public class Parser
 
 	private final String fileName;
 	private final String shortFileName;
+	private final URI fileURI;
 	private String scriptName;
 	private final InputStream istream;
 
@@ -127,6 +134,7 @@ public class Parser
 		{
 			this.fileName = scriptFile.getPath();
 			this.shortFileName = this.fileName.substring( this.fileName.lastIndexOf( File.separator ) + 1 );
+			this.fileURI = scriptFile.toURI();
 
 			if ( this.imports.isEmpty() )
 			{
@@ -137,6 +145,7 @@ public class Parser
 		{
 			this.fileName = null;
 			this.shortFileName = null;
+			this.fileURI = null;
 		}
 
 		if ( this.istream == null )
@@ -207,6 +216,11 @@ public class Parser
 	public String getShortFileName()
 	{
 		return this.shortFileName;
+	}
+
+	public URI getUri()
+	{
+		return this.fileURI;
 	}
 
 	public String getScriptName()
@@ -4518,8 +4532,34 @@ public class Parser
 			}
 
 			this.currentToken = this.currentLine.tokens.getLast();
-			this.currentIndex = this.currentToken.offset;
+			this.currentIndex = this.currentToken.getStart().getCharacter();
 		}
+	}
+
+	/** Finds the last token that was *read* */
+	private final Token peekPreviousToken()
+	{
+		if ( this.currentToken != null )
+		{
+			// Temporarily remove currentToken
+			this.currentLine.tokens.removeLast();
+		}
+
+		final Token previousToken = this.peekLastToken();
+
+		if ( this.currentToken != null )
+		{
+			// Add the previously removed token back in
+			this.currentLine.tokens.addLast( this.currentToken );
+		}
+
+		return previousToken;
+	}
+
+	/** Finds the last token that was *discovered* */
+	private final Token peekLastToken()
+	{
+		return this.currentLine.peekLastToken();
 	}
 
 	/**
@@ -4765,6 +4805,33 @@ public class Parser
 			return newToken;
 		}
 
+		private Token peekLastToken()
+		{
+			if ( this.tokens.isEmpty() )
+			{
+				if ( this.previousLine == null )
+				{
+					return null;
+				}
+
+				return this.previousLine.peekLastToken();
+			}
+
+			final Token lastToken = this.tokens.peekLast();
+
+			if ( lastToken instanceof Comment )
+			{
+				// Temporarily remove it before digging deeper
+				this.tokens.removeLast();
+				final Token previousToken = this.peekLastToken();
+				this.tokens.addLast( lastToken );
+
+				return previousToken;
+			}
+
+			return lastToken;
+		}
+
 		@Override
 		public String toString()
 		{
@@ -4772,14 +4839,16 @@ public class Parser
 		}
 
 		public class Token
+			extends Range
 		{
-			final int offset;
 			final String content;
 			final String followingWhitespace;
 			final int restOfLineStart;
 
 			private Token( final int tokenLength )
 			{
+				final int offset;
+
 				if ( !Line.this.tokens.isEmpty() )
 				{
 					offset = Line.this.tokens.getLast().restOfLineStart;
@@ -4806,6 +4875,11 @@ public class Parser
 					this.content = lineRemainderWithToken.substring( 0, tokenLength );
 					lineRemainder = lineRemainderWithToken.substring( tokenLength );
 				}
+
+				// 0-indexed line
+				final int lineNumber = Math.max( 0, Line.this.lineNumber - 1 );
+				this.setStart( new Position( lineNumber, offset ) );
+				this.setEnd( new Position( lineNumber, offset + tokenLength ) );
 
 				// As in Line(), this is more efficient than lineRemainder.indexOf( lineRemainder.trim() ).
 				String trimmed = lineRemainder.trim();
@@ -4900,6 +4974,77 @@ public class Parser
 	{
 		return this.getTokens()
 			.stream().map( token -> token.content ).collect( Collectors.toList() );
+	}
+
+
+	private Position getCurrentPosition()
+	{
+		// 0-indexed
+		int lineNumber = Math.max( 0, this.getLineNumber() - 1 );
+		return new Position( lineNumber, this.currentIndex );
+	}
+
+	private Range rangeToHere( final Position start )
+	{
+		return new Range( start != null ? start : this.getCurrentPosition(), this.getCurrentPosition() );
+	}
+
+	private Range makeInlineRange( final Position start, final int offset )
+	{
+		Position end = new Position( start.getLine(), start.getCharacter() + offset );
+
+		return offset >= 0 ?
+		       new Range( start, end ) :
+		       new Range( end, start );
+	}
+
+	private Range makeRange( final Range start, final Range end )
+	{
+		if ( end == null ||
+		     start.getStart().getLine() > end.getEnd().getLine() ||
+		     ( start.getStart().getLine() == end.getEnd().getLine() &&
+		       start.getStart().getCharacter() > end.getEnd().getCharacter() ) )
+		{
+			return start;
+		}
+
+		return new Range( start.getStart(), end.getEnd() );
+	}
+
+	private Location makeLocation( final Position start )
+	{
+		return this.makeLocation( this.rangeToHere( start ) );
+	}
+
+	private Location makeLocation( final Range start, final Range end )
+	{
+		return this.makeLocation( this.makeRange( start, end ) );
+	}
+
+	private Location makeLocation( final Location start, final Location end )
+	{
+		return this.makeLocation( start.getRange(), end.getRange() );
+	}
+
+	private Location makeLocation( final Location start, final Range end )
+	{
+		return this.makeLocation( start.getRange(), end );
+	}
+
+	private Location makeLocation( final Range range )
+	{
+		String uri = this.fileURI != null ? this.fileURI.toString() : this.istream.toString();
+		return new Location( uri, range );
+	}
+
+	private Location make0WidthLocation()
+	{
+		return this.makeLocation( this.getCurrentPosition() );
+	}
+
+	private Location make0WidthLocation( final Position position )
+	{
+		return this.makeLocation( new Range( position, position ) );
 	}
 
 	// **************** Parse errors *****************
