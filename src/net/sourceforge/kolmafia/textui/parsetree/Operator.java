@@ -368,7 +368,7 @@ public class Operator
 		Value result;
 
 		// If either side is non-numeric, perform string operations
-		if ( Operator.isStringLike( ltype) || Operator.isStringLike( rtype ) )
+		if ( Operator.isStringLike( ltype ) || Operator.isStringLike( rtype ) )
 		{
 			// Since we only do string concatenation, we should
 			// only get here if the operator is "+".
@@ -386,8 +386,8 @@ public class Operator
 		else if ( ltype.equals( DataTypes.TYPE_FLOAT ) || rtype.equals( DataTypes.TYPE_FLOAT ) )
 		{
 			double rfloat = rightValue.toFloatValue().floatValue();
-			if (  ( this.operator.equals( "/" ) || this.operator.equals( "%" ) ) &&
-			      rfloat == 0.0 )
+			if ( ( this.operator.equals( "/" ) || this.operator.equals( "%" ) ) &&
+			     rfloat == 0.0 )
 			{
 				throw interpreter.runtimeException( "Division by zero", this.fileName, this.lineNumber );
 			}

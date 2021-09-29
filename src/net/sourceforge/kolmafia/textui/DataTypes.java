@@ -131,7 +131,7 @@ public class DataTypes
 
 	public static final Type STRICT_STRING_TYPE = new Type( "strict_string", DataTypes.TYPE_STRICT_STRING );
 	public static final Type AGGREGATE_TYPE = new Type( "aggregate", DataTypes.TYPE_AGGREGATE );
-	
+
 	// Map from ITEM -> INT
 	public static final AggregateType ITEM_TO_INT_TYPE =
 		new AggregateType( DataTypes.INT_TYPE, DataTypes.ITEM_TYPE );

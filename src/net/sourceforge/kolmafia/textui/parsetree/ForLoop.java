@@ -21,8 +21,8 @@ public class ForLoop
 	private final int lineNumber;
 
 	public ForLoop( final Scope scope, final VariableReference variable,
-		final Value initial, final Value last, final Value increment,
-		final int direction, final Parser parser )
+	                final Value initial, final Value last, final Value increment,
+	                final int direction, final Parser parser )
 	{
 		super( scope );
 		this.variable = variable;

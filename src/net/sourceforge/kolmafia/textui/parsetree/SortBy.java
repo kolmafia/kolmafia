@@ -25,7 +25,7 @@ public class SortBy
 	int lineNumber;
 
 	public SortBy( final VariableReference aggregate, final Variable indexvar,
-		       final Variable valuevar, final Value expr, final Parser parser )
+	               final Variable valuevar, final Value expr, final Parser parser )
 	{
 		this.aggregate = aggregate;
 		this.indexvar = indexvar;

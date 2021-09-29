@@ -12,7 +12,7 @@ public class MapLiteral
 	private final List<Value> keys;
 	private final List<Value> values;
 
-        public MapLiteral( final AggregateType type, final List<Value> keys, final List<Value> values )
+	public MapLiteral( final AggregateType type, final List<Value> keys, final List<Value> values )
 	{
 		super( type );
 		this.keys = keys;

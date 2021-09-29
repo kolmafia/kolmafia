@@ -18,9 +18,9 @@ public class JavaForLoop
 	private final List<Command> incrementers;
 
 	public JavaForLoop( final Scope scope,
-			    final List<Assignment> initializers,
-			    final Value condition,
-			    final List<Command> incrementers )
+	                    final List<Assignment> initializers,
+	                    final Value condition,
+	                    final List<Command> incrementers )
 	{
 		super( scope );
 		this.initializers = initializers;

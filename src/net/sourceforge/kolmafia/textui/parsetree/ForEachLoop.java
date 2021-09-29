@@ -25,8 +25,8 @@ public class ForEachLoop
 	int lineNumber;
 
 	public ForEachLoop( final Scope scope,
-			    final List<VariableReference> variableReferences,
-			    final Value aggregate, final Parser parser )
+	                    final List<VariableReference> variableReferences,
+	                    final Value aggregate, final Parser parser )
 	{
 		super( scope );
 		this.variableReferences = variableReferences;
@@ -83,7 +83,7 @@ public class ForEachLoop
 	}
 
 	private Value executeSlice( final AshRuntime interpreter, final AggregateValue slice,
-				    final ListIterator<VariableReference> it, final VariableReference variable )
+	                            final ListIterator<VariableReference> it, final VariableReference variable )
 	{
 		// Get the next key variable
 		VariableReference nextVariable = it.hasNext() ? it.next() : null;
@@ -97,7 +97,7 @@ public class ForEachLoop
 
 		// Get an iterator over the keys for the slice
 		Iterator<Value> keys = slice.iterator();
-		
+
 		int stackPos = interpreter.iterators.size();
 		interpreter.iterators.add( null );	// key
 		interpreter.iterators.add( slice );	// map

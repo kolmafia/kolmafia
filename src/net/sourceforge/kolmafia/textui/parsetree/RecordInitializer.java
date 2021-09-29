@@ -9,12 +9,12 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 public class RecordInitializer
 	extends TypeInitializer
 {
-        List<Value> params;
+	List<Value> params;
 
 	public RecordInitializer( final RecordType type, List<Value> params )
 	{
 		super( type );
-                this.params = params;
+		this.params = params;
 	}
 
 	@Override

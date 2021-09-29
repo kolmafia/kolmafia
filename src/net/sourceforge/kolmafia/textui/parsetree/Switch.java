@@ -25,7 +25,7 @@ public class Switch
 	{
 		this.condition = condition;
 		this.tests = tests.toArray( new Value[tests.size()] );
-		this.offsets = offsets.toArray(new Integer[offsets.size()] );
+		this.offsets = offsets.toArray( new Integer[offsets.size()] );
 		this.defaultIndex = defaultIndex;
 		this.scope = scope;
 		this.labels = labels;

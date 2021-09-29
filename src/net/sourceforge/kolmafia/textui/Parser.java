@@ -450,21 +450,21 @@ public class Parser
 	}
 
 	private Scope parseScope( final Scope startScope,
-				  final Type expectedType,
-				  final VariableList variables,
-				  final BasicScope parentScope,
-				  final boolean allowBreak,
-				  final boolean allowContinue )
+	                          final Type expectedType,
+	                          final VariableList variables,
+	                          final BasicScope parentScope,
+	                          final boolean allowBreak,
+	                          final boolean allowContinue )
 	{
 		Scope result = startScope == null ? new Scope( variables, parentScope ) : startScope;
 		return this.parseScope( result, expectedType, parentScope, allowBreak, allowContinue );
 	}
 
 	private Scope parseScope( Scope result,
-				  final Type expectedType,
-				  final BasicScope parentScope,
-				  final boolean allowBreak,
-				  final boolean allowContinue )
+	                          final Type expectedType,
+	                          final BasicScope parentScope,
+	                          final boolean allowBreak,
+	                          final boolean allowContinue )
 	{
 		String importString;
 
@@ -737,6 +737,7 @@ public class Parser
 				this.readToken(); //read )
 				break;
 			}
+
 			Type paramType = this.parseType( parentScope, false );
 			if ( paramType == null )
 			{
@@ -971,7 +972,7 @@ public class Parser
 	private Value autoCoerceValue( Type ltype, Value rhs, final BasicScope scope )
 	{
 		// DataTypes.TYPE_ANY has no name
-		if ( ltype == null || ltype.getName() == null)
+		if ( ltype == null || ltype.getName() == null )
 		{
 			return rhs;
 		}
@@ -1107,7 +1108,11 @@ public class Parser
 		return true;
 	}
 
-	private Command parseCommand( final Type functionType, final BasicScope scope, final boolean noElse, boolean allowBreak, boolean allowContinue )
+	private Command parseCommand( final Type functionType,
+	                              final BasicScope scope,
+	                              final boolean noElse,
+	                              final boolean allowBreak,
+	                              final boolean allowContinue )
 	{
 		Command result;
 
@@ -1147,7 +1152,7 @@ public class Parser
 
 		else if ( ( result = this.parseReturn( functionType, scope ) ) != null )
 		{
-        }
+		}
 		else if ( ( result = this.parseBasicScript() ) != null )
 		{
 			// basic_script doesn't have a ; token
@@ -1175,7 +1180,7 @@ public class Parser
 		}
 		else if ( ( result = this.parseRepeat( functionType, scope ) ) != null )
 		{
-        }
+		}
 		else if ( ( result = this.parseSwitch( functionType, scope, allowContinue ) ) != null )
 		{
 			// switch doesn't have a ; token
@@ -1203,10 +1208,10 @@ public class Parser
 		}
 		else if ( ( result = this.parseSort( scope ) ) != null )
 		{
-        }
+		}
 		else if ( ( result = this.parseRemove( scope ) ) != null )
 		{
-        }
+		}
 		else if ( ( result = this.parseBlock( functionType, null, scope, noElse, allowBreak, allowContinue ) ) != null )
 		{
 			// {} doesn't have a ; token
@@ -1214,7 +1219,7 @@ public class Parser
 		}
 		else if ( ( result = this.parseValue( scope ) ) != null )
 		{
-        }
+		}
 		else
 		{
 			return null;
@@ -1308,7 +1313,7 @@ public class Parser
 			Type dataType = data.getBaseType();
 			if ( ( isArray || arrayAllowed ) && this.currentToken().equals( "{" ) && dataType instanceof AggregateType )
 			{
-				lhs = parseAggregateLiteral( scope, (AggregateType) dataType );
+				lhs = this.parseAggregateLiteral( scope, (AggregateType) dataType );
 			}
 			else
 			{
@@ -1392,7 +1397,7 @@ public class Parser
 			Value rhs;
 			if ( this.currentToken().equals( "{" ) && dataType instanceof AggregateType )
 			{
-				rhs = parseAggregateLiteral( scope, (AggregateType) dataType );
+				rhs = this.parseAggregateLiteral( scope, (AggregateType) dataType );
 			}
 			else
 			{
@@ -1429,7 +1434,7 @@ public class Parser
 
 		if ( isArray )
 		{
-			int size = aggr.getSize ();
+			int size = aggr.getSize();
 			if ( size > 0 && size < values.size() )
 			{
 				throw this.parseException( "Array has " + size + " elements but " + values.size() + " initializers." );
@@ -1545,7 +1550,7 @@ public class Parser
 
 		for ( int i = 1; i < identifier.length(); ++i )
 		{
-			if ( !Character.isLetterOrDigit( identifier.charAt( i ) ) && identifier.charAt( i ) != '_'  && identifier.charAt( i ) != '@' )
+			if ( !Character.isLetterOrDigit( identifier.charAt( i ) ) && identifier.charAt( i ) != '_' && identifier.charAt( i ) != '@' )
 			{
 				return false;
 			}
@@ -1631,11 +1636,11 @@ public class Parser
 	}
 
 	private Scope parseBlockOrSingleCommand( final Type functionType,
-						 final VariableList variables,
-						 final BasicScope parentScope,
-						 final boolean noElse,
-						 boolean allowBreak,
-						 boolean allowContinue )
+	                                         final VariableList variables,
+	                                         final BasicScope parentScope,
+	                                         final boolean noElse,
+	                                         final boolean allowBreak,
+	                                         final boolean allowContinue )
 	{
 		Scope scope = this.parseBlock( functionType, variables, parentScope, noElse, allowBreak, allowContinue );
 		if ( scope != null )
@@ -1646,11 +1651,11 @@ public class Parser
 	}
 
 	private Scope parseBlock( final Type functionType,
-				  final VariableList variables,
-				  final BasicScope parentScope,
-				  final boolean noElse,
-				  final boolean allowBreak,
-				  final boolean allowContinue )
+	                          final VariableList variables,
+	                          final BasicScope parentScope,
+	                          final boolean noElse,
+	                          final boolean allowBreak,
+	                          final boolean allowContinue )
 	{
 		if ( !this.currentToken().equals( "{" ) )
 		{
@@ -1674,10 +1679,10 @@ public class Parser
 	}
 
 	private Conditional parseConditional( final Type functionType,
-					      final BasicScope parentScope,
-					      boolean noElse,
-					      final boolean allowBreak,
-					      final boolean allowContinue )
+	                                      final BasicScope parentScope,
+	                                      final boolean noElse,
+	                                      final boolean allowBreak,
+	                                      final boolean allowContinue )
 	{
 		if ( !this.currentToken().equalsIgnoreCase( "if" ) )
 		{
@@ -2028,7 +2033,10 @@ public class Parser
 					{
 						throw this.parseException( "Duplicate case label: " + test );
 					}
-					labels.put( test, currentInteger );
+					else
+					{
+						labels.put( test, currentInteger );
+					}
 				}
 				else
 				{
@@ -2122,7 +2130,7 @@ public class Parser
 	}
 
 	private Try parseTry( final Type functionType, final BasicScope parentScope,
-			      final boolean allowBreak, final boolean allowContinue )
+	                      final boolean allowBreak, final boolean allowContinue )
 	{
 		if ( !this.currentToken().equalsIgnoreCase( "try" ) )
 		{
@@ -2153,7 +2161,7 @@ public class Parser
 	}
 
 	private Catch parseCatch( final Type functionType, final BasicScope parentScope,
-				  final boolean allowBreak, final boolean allowContinue )
+	                          final boolean allowBreak, final boolean allowContinue )
 	{
 		if ( !this.currentToken().equalsIgnoreCase( "catch" ) )
 		{
@@ -2364,7 +2372,8 @@ public class Parser
 			{
 				throw this.parseException( "Too many key variables specified" );
 			}
-			else if ( type instanceof AggregateType )
+
+			if ( type instanceof AggregateType )
 			{
 				itype = ( (AggregateType) type ).getIndexType();
 				type = ( (AggregateType) type ).getDataType();
@@ -2451,7 +2460,7 @@ public class Parser
 			throw this.parseException( "to, upto, or downto", this.currentToken() );
 		}
 
-		this.readToken(); // upto/downto
+		this.readToken(); // upto/downto/to
 
 		Value last = this.parseExpression( parentScope );
 
@@ -2619,7 +2628,7 @@ public class Parser
 
 		while ( !this.atEndOfFile() && !this.currentToken().equals( ")" ) )
 		{
-			Value value = parsePreIncDec( scope );
+			Value value = this.parsePreIncDec( scope );
 			if ( value != null )
 			{
 				incrementers.add( value );
@@ -2637,7 +2646,7 @@ public class Parser
 
 				if ( lhs == ref )
 				{
-					Assignment incrementer = parseAssignment( scope, ref );
+					Assignment incrementer = this.parseAssignment( scope, ref );
 
 					if ( incrementer != null )
 					{
@@ -2871,7 +2880,7 @@ public class Parser
 
 		FunctionCall call = new FunctionCall( target, params, this );
 
-		return parsePostCall( scope, call );
+		return this.parsePostCall( scope, call );
 	}
 
 	private List<Value> parseParameters( final BasicScope scope, final Value firstParam )
@@ -2996,7 +3005,7 @@ public class Parser
 
 		if ( this.currentToken().equals( "(" ) )
 		{
-			params = parseParameters( scope, null );
+			params = this.parseParameters( scope, null );
 		}
 		else
 		{
@@ -3005,7 +3014,7 @@ public class Parser
 
 		FunctionInvocation call = new FunctionInvocation( scope, type, name, params, this );
 
-		return parsePostCall( scope, call );
+		return this.parsePostCall( scope, call );
 	}
 
 	private Assignment parseAssignment( final BasicScope scope, final VariableReference lhs )
@@ -3393,7 +3402,7 @@ public class Parser
 		// numbers
 		else if ( ( result = this.parseNumber() ) != null )
 		{
-        }
+		}
 
 		else if ( ( result = this.parseString( scope ) ) != null )
 		{
@@ -3409,7 +3418,7 @@ public class Parser
 
 		else if ( ( result = this.parseCatchValue( scope ) ) != null )
 		{
-        }
+		}
 
 		else if ( ( result = this.parsePreIncDec( scope ) ) != null )
 		{
@@ -3418,11 +3427,11 @@ public class Parser
 
 		else if ( ( result = this.parseInvoke( scope ) ) != null )
 		{
-        }
+		}
 
-		else if ( ( result = this.parseCall( scope, null ) ) != null )
+		else if ( ( result = this.parseCall( scope ) ) != null )
 		{
-        }
+		}
 
 		else
 		{
@@ -3448,7 +3457,7 @@ public class Parser
 				}
 				if ( ( result = this.parseVariableReference( scope ) ) != null )
 				{
-                }
+				}
 			}
 		}
 
@@ -3478,12 +3487,7 @@ public class Parser
 		{
 			String next = this.nextToken();
 
-			if ( next == null )
-			{
-				return null;
-			}
-
-			if ( !next.equals( "." ) && !this.readIntegerToken( next ) )
+			if ( !".".equals( next ) && !this.readIntegerToken( next ) )
 			{
 				// Unary minus
 				return null;
@@ -3495,7 +3499,7 @@ public class Parser
 
 		if ( this.currentToken().equals( "." ) )
 		{
-			this.readToken();
+			this.readToken(); // Read .
 			Token fraction = this.currentToken();
 
 			if ( this.readIntegerToken( fraction.content ) )
@@ -3951,7 +3955,7 @@ public class Parser
 				}
 				this.readToken(); // read ]
 				String input = resultString.toString().trim();
-				return parseLiteral( type, input );
+				return this.parseLiteral( type, input );
 			}
 			else
 			{
@@ -4987,7 +4991,6 @@ public class Parser
 			.stream().map( token -> token.content ).collect( Collectors.toList() );
 	}
 
-
 	private Position getCurrentPosition()
 	{
 		// 0-indexed
@@ -5089,28 +5092,28 @@ public class Parser
 
 	private ScriptException multiplyDefinedFunctionException( final Function f )
 	{
-        String buffer = "Function '" +
-                f.getSignature() +
-                "' defined multiple times.";
-        return this.parseException( buffer );
+		String buffer = "Function '" +
+				f.getSignature() +
+				"' defined multiple times.";
+		return this.parseException( buffer );
 	}
 
 	private ScriptException overridesLibraryFunctionException( final Function f )
 	{
-        String buffer = "Function '" +
-                f.getSignature() +
-                "' overrides a library function.";
-        return this.parseException( buffer );
+		String buffer = "Function '" +
+				f.getSignature() +
+				"' overrides a library function.";
+		return this.parseException( buffer );
 	}
 
 	private ScriptException varargClashException( final Function f, final Function clash )
 	{
-        String buffer = "Function '" +
-                f.getSignature() +
-                "' clashes with existing function '" +
-                clash.getSignature() +
-                "'.";
-        return this.parseException( buffer );
+		String buffer = "Function '" +
+				f.getSignature() +
+				"' clashes with existing function '" +
+				clash.getSignature() +
+				"'.";
+		return this.parseException( buffer );
 	}
 
 	public final ScriptException sinceException( String current, String target, boolean targetIsRevision )

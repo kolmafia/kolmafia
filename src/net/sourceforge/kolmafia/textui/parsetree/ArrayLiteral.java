@@ -10,7 +10,7 @@ public class ArrayLiteral
 {
 	private final List<Value> values;
 
-        public ArrayLiteral( AggregateType type, final List<Value> values )
+	public ArrayLiteral( AggregateType type, final List<Value> values )
 	{
 		super( new AggregateType( type ) );
 		this.values = values;

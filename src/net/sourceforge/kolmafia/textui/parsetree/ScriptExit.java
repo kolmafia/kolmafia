@@ -18,7 +18,7 @@ public class ScriptExit
 		interpreter.setExiting();
 		return null;
 	}
-	
+
 	@Override
 	public boolean assertBarrier()
 	{

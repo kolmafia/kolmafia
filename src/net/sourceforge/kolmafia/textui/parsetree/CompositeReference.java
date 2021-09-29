@@ -45,6 +45,7 @@ public class CompositeReference
 		return type;
 	}
 
+	@Override
 	public Type getRawType()
 	{
 		Type type = this.target.getType();

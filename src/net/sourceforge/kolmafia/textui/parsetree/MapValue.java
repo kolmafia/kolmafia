@@ -32,7 +32,7 @@ public class MapValue
 		this.content = value;
 	}
 
-	@SuppressWarnings("unchecked") 
+	@SuppressWarnings("unchecked")
 	private Map<Value,Value> getMap()
 	{
 		return (Map<Value,Value>) this.content;
@@ -63,12 +63,12 @@ public class MapValue
 			map.put( key, val.toStringValue() );
 		}
 		else if ( baseType.equals( DataTypes.TYPE_INT ) &&
-			  valType.equals( DataTypes.TYPE_FLOAT ) )
+		          valType.equals( DataTypes.TYPE_FLOAT ) )
 		{
 			map.put( key, val.toIntValue() );
 		}
 		else if ( baseType.equals( DataTypes.TYPE_FLOAT ) &&
-			  valType.equals( DataTypes.TYPE_INT ) )
+		          valType.equals( DataTypes.TYPE_INT ) )
 		{
 			map.put( key, val.toFloatValue() );
 		}
@@ -103,7 +103,7 @@ public class MapValue
 			// Return the current value
 			Value rv = this.aref( key, interpreter );
 
-			@SuppressWarnings("unchecked") 
+			@SuppressWarnings("unchecked")
 			Iterator<Value> it = (Iterator<Value>) interpreter.iterators.get( i + 2 );
 			it.remove();
 
@@ -113,7 +113,7 @@ public class MapValue
 
 			return rv;
 		}
-		
+
 		Map<Value,Value> map = this.getMap();
 		return map.remove( key );
 	}

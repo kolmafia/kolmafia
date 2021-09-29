@@ -5,7 +5,7 @@ public class ScriptException
 {
 	private static final long serialVersionUID = 1L;
 
-	public ScriptException(final String message)
+	public ScriptException( final String message )
 	{
 		super( message );
 	}
