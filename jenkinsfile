@@ -31,11 +31,11 @@ pipeline {
       steps {
         script {
           withEnv(["JAVA_HOME=/usr/lib/jvm/adoptopenjdk-16-hotspot-amd64"]) {
-            sh './gradlew --no-daemon --stacktrace cloverGenerateReport'
+            sh './gradlew --no-daemon --stacktrace jacocoTestReport'
             step([
-              $class: 'CloverPublisher',
-              cloverReportDir: 'build/reports/clover-root',
-              cloverReportFileName: 'clover.xml',
+              $class: 'JacocoPublisher',
+              reportDir: 'build/reports/jacoco/test',
+              reportFileName: 'jacocoTestReport.xml',
               healthyTarget: [methodCoverage: 70, conditionalCoverage: 70, statementCoverage: 70],
               unhealthyTarget: [methodCoverage: 50, conditionalCoverage: 50, statementCoverage: 50],
               failingTarget: [methodCoverage: 0, conditionalCoverage: 0, statementCoverage: 0]
@@ -46,7 +46,7 @@ pipeline {
               keepAll: true,
               reportDir: 'build/reports/tests/test',
               reportFiles: 'index.html',
-              reportName: 'Clover Test Report'
+              reportName: 'JaCoCo Test Report'
             ])
           }
         }
