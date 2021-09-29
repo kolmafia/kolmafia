@@ -32,22 +32,9 @@ pipeline {
         script {
           withEnv(["JAVA_HOME=/usr/lib/jvm/adoptopenjdk-16-hotspot-amd64"]) {
             sh './gradlew --no-daemon --stacktrace jacocoTestReport'
-            step([
-              $class: 'JacocoPublisher',
-              reportDir: 'build/reports/jacoco/test',
-              reportFileName: 'jacocoTestReport.xml',
-              healthyTarget: [methodCoverage: 70, conditionalCoverage: 70, statementCoverage: 70],
-              unhealthyTarget: [methodCoverage: 50, conditionalCoverage: 50, statementCoverage: 50],
-              failingTarget: [methodCoverage: 0, conditionalCoverage: 0, statementCoverage: 0]
-            ])
-            publishHTML([
-              allowMissing: true,
-              alwaysLinkToLastBuild: false,
-              keepAll: true,
-              reportDir: 'build/reports/tests/test',
-              reportFiles: 'index.html',
-              reportName: 'JaCoCo Test Report'
-            ])
+            jacoco buildOverBuild: true, changeBuildStatus: true, deltaBranchCoverage: '5', deltaClassCoverage: '5', deltaComplexityCoverage: '5', deltaInstructionCoverage: '5', deltaLineCoverage: '5', deltaMethodCoverage: '5', maximumBranchCoverage: '70', maximumClassCoverage: '70', maximumComplexityCoverage: '70', maximumInstructionCoverage: '70', maximumLineCoverage: '70', maximumMethodCoverage: '70', runAlways: true
+            publishCoverage adapters: [jacocoAdapter(mergeToOneReport: true, path: 'build/reports/jacoco/test/jacocoTestReport.xml')], sourceFileResolver: sourceFiles('NEVER_STORE')
+            publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'build/reports/jacoco/test/html/', reportFiles: 'index.html', reportName: 'JaCoCo Test Report', reportTitles: ''])
           }
         }
       }
