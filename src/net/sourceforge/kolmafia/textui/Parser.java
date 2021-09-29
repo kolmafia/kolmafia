@@ -2267,9 +2267,9 @@ public class Parser
 		// Define key variables of appropriate type
 		VariableList varList = new VariableList();
 		AggregateType type = (AggregateType) aggregate.getType().getBaseType();
-		Variable valuevar = new Variable( "value", type.getDataType(), this.make0WidthLocation() );
+		Variable valuevar = new Variable( "value", type.getDataType(), this.makeZeroWidthLocation() );
 		varList.add( valuevar );
-		Variable indexvar = new Variable( "index", type.getIndexType(), this.make0WidthLocation() );
+		Variable indexvar = new Variable( "index", type.getIndexType(), this.makeZeroWidthLocation() );
 		varList.add( indexvar );
 
 		// Parse the key expression in a new scope containing 'index' and 'value'
@@ -5052,7 +5052,7 @@ public class Parser
 		return new Location( uri, range );
 	}
 
-	private Location make0WidthLocation()
+	private Location makeZeroWidthLocation()
 	{
 		return this.makeLocation( this.getCurrentPosition() );
 	}
