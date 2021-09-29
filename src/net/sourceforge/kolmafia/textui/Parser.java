@@ -5057,7 +5057,7 @@ public class Parser
 		return this.makeLocation( this.getCurrentPosition() );
 	}
 
-	private Location make0WidthLocation( final Position position )
+	private Location makeZeroWidthLocation( final Position position )
 	{
 		return this.makeLocation( new Range( position, position ) );
 	}
