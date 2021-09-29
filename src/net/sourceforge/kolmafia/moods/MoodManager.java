@@ -528,14 +528,14 @@ public abstract class MoodManager {
     }
   }
 
-  public static final int getMaintenanceCost() {
+  public static final long getMaintenanceCost() {
     List<MoodTrigger> triggers = MoodManager.currentMood.getTriggers();
 
     if (triggers.isEmpty()) {
       return 0;
     }
 
-    int runningTally = 0;
+    long runningTally = 0;
 
     // Iterate over the entire list of applicable triggers,
     // locate the ones which involve spellcasting, and add

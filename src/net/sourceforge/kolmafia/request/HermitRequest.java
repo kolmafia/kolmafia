@@ -396,7 +396,7 @@ public class HermitRequest extends CoinMasterRequest {
     int count = HermitRequest.getAvailableWorthlessItemCount();
     if (InventoryManager.canUseNPCStores()) {
       int cost = SewerRequest.currentWorthlessItemCost();
-      count += KoLCharacter.getAvailableMeat() / cost;
+      count += ((int) KoLCharacter.getAvailableMeat()) / cost;
     }
     return count;
   }
