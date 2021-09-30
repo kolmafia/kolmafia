@@ -37,12 +37,3 @@ jobs:
       #  with:
       #    github_token: ${{ secrets.GITHUB_TOKEN }}
       #    report_paths: "**/build/test-results/test/TEST-*.xml"
-
-      # Requires 'pull_request_target' instead of `pull_request' which doesn't checkout PR code
-      # Disabled, creates a comment that is too large to post
-      #- name: Coverage Report as Comment (Clover)
-      #  uses: lucassabreu/comment-coverage-clover@main
-      #  if: github.event_name == 'pull_request_target'
-      #  with:
-      #    github-token: ${{ secrets.GITHUB_TOKEN }}
-      #    file: ./build/clover-root/clover.xml

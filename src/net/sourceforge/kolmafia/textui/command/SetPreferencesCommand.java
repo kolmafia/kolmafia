@@ -4,134 +4,104 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
-
 import net.sourceforge.kolmafia.combat.CombatActionManager;
-
 import net.sourceforge.kolmafia.moods.MoodManager;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
-
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 
-public class SetPreferencesCommand
-	extends AbstractCommand
-{
-	public SetPreferencesCommand()
-	{
-		this.usage = " <preference> [ = <value> ] - show/change preference settings";
-		this.flags = KoLmafiaCLI.FULL_LINE_CMD;
-	}
+public class SetPreferencesCommand extends AbstractCommand {
+  public SetPreferencesCommand() {
+    this.usage = " <preference> [ = <value> ] - show/change preference settings";
+    this.flags = KoLmafiaCLI.FULL_LINE_CMD;
+  }
 
-	@Override
-	public void run( final String cmd, final String parameters )
-	{
-		int splitIndex = parameters.indexOf( "=" );
-		if ( splitIndex == -1 )
-		{
-			// Allow reading of system properties
+  @Override
+  public void run(final String cmd, final String parameters) {
+    int splitIndex = parameters.indexOf("=");
+    if (splitIndex == -1) {
+      // Allow reading of system properties
 
-			if ( parameters.startsWith( "System." ) )
-			{
-				RequestLogger.printLine( System.getProperty( parameters.substring( 7 ) ) );
-			}
-			else if ( Preferences.isUserEditable( parameters ) )
-			{
-				RequestLogger.printLine( Preferences.getString( parameters ) );
-			}
+      if (parameters.startsWith("System.")) {
+        RequestLogger.printLine(System.getProperty(parameters.substring(7)));
+      } else if (Preferences.isUserEditable(parameters)) {
+        RequestLogger.printLine(Preferences.getString(parameters));
+      }
 
-			return;
-		}
+      return;
+    }
 
-		String name = parameters.substring( 0, splitIndex ).trim();
-		if ( !Preferences.isUserEditable( name ) )
-		{
-			return;
-		}
+    String name = parameters.substring(0, splitIndex).trim();
+    if (!Preferences.isUserEditable(name)) {
+      return;
+    }
 
-		String value = parameters.substring( splitIndex + 1 ).trim();
-		if ( value.startsWith( "\"" ) )
-		{
-			value = value.substring( 1, value.endsWith( "\"" ) ? value.length() - 1 : value.length() );
-		}
+    String value = parameters.substring(splitIndex + 1).trim();
+    if (value.startsWith("\"")) {
+      value = value.substring(1, value.endsWith("\"") ? value.length() - 1 : value.length());
+    }
 
-		while ( value.endsWith( ";" ) )
-		{
-			value = value.substring( 0, value.length() - 1 ).trim();
-		}
+    while (value.endsWith(";")) {
+      value = value.substring(0, value.length() - 1).trim();
+    }
 
-		SetPreferencesCommand.setProperty( name, value, true );
-	}
+    SetPreferencesCommand.setProperty(name, value, true);
+  }
 
-	public static void setProperty( String name, String value, boolean print )
-	{
-		if ( name.equals( "battleAction" ) )
-		{
-			if ( value.contains( ";" ) || value.startsWith( "consult" ) )
-			{
-				CombatActionManager.setDefaultAction( value );
-				value = "custom combat script";
-			}
-			else
-			{
-				value = CombatActionManager.getLongCombatOptionName( value );
-			}
+  public static void setProperty(String name, String value, boolean print) {
+    if (name.equals("battleAction")) {
+      if (value.contains(";") || value.startsWith("consult")) {
+        CombatActionManager.setDefaultAction(value);
+        value = "custom combat script";
+      } else {
+        value = CombatActionManager.getLongCombatOptionName(value);
+      }
 
-			if ( value == null )
-			{
-				return;
-			}
-			
-			// Special handling of the battle action property,
-			// such that auto-recovery gets reset as needed.
-			LockableListFactory.setSelectedItem( KoLCharacter.getBattleSkillNames(), value );
-		}
+      if (value == null) {
+        return;
+      }
 
-		if ( name.equals( "customCombatScript" ) )
-		{
-			ChangeCombatScriptCommand.update( value );
-			return;
-		}
+      // Special handling of the battle action property,
+      // such that auto-recovery gets reset as needed.
+      LockableListFactory.setSelectedItem(KoLCharacter.getBattleSkillNames(), value);
+    }
 
-		if ( name.startsWith( "combatHotkey" ) )
-		{
-			String desiredValue = CombatActionManager.getLongCombatOptionName( value );
+    if (name.equals("customCombatScript")) {
+      ChangeCombatScriptCommand.update(value);
+      return;
+    }
 
-			if ( !desiredValue.startsWith( "attack" ) || value.startsWith( "attack" ) )
-			{
-				value = desiredValue;
-			}
-		}
+    if (name.startsWith("combatHotkey")) {
+      String desiredValue = CombatActionManager.getLongCombatOptionName(value);
 
-		if ( name.equals( "_userMods" ) )
-		{
-			Modifiers.overrideModifier( "Generated:_userMods", value );
-			KoLCharacter.recalculateAdjustments();
-			KoLCharacter.updateStatus();
-		}
+      if (!desiredValue.startsWith("attack") || value.startsWith("attack")) {
+        value = desiredValue;
+      }
+    }
 
-		if ( Preferences.getString( name ).equals( value ) )
-		{
-			return;
-		}
+    if (name.equals("_userMods")) {
+      Modifiers.overrideModifier("Generated:_userMods", value);
+      KoLCharacter.recalculateAdjustments();
+      KoLCharacter.updateStatus();
+    }
 
-		// suppress CLI output iff it is a pref that starts with _ AND is not defined in defaults.txt
-		if ( print && !name.startsWith( "_" ) || Preferences.containsDefault( name ) )
-		{
-			RequestLogger.printLine( name + " => " + value );
-		}
+    if (Preferences.getString(name).equals(value)) {
+      return;
+    }
 
-		Preferences.setString( name, value );
+    // suppress CLI output iff it is a pref that starts with _ AND is not defined in defaults.txt
+    if (print && !name.startsWith("_") || Preferences.containsDefault(name)) {
+      RequestLogger.printLine(name + " => " + value);
+    }
 
-		if ( name.equals( "currentMood" ) )
-		{
-			MoodManager.setMood( value );
-		}
+    Preferences.setString(name, value);
 
-		if ( name.startsWith( "combatHotkey" ) )
-		{
-			StationaryButtonDecorator.reloadCombatHotkeyMap();
-		}
-	}
+    if (name.equals("currentMood")) {
+      MoodManager.setMood(value);
+    }
+
+    if (name.startsWith("combatHotkey")) {
+      StationaryButtonDecorator.reloadCombatHotkeyMap();
+    }
+  }
 }

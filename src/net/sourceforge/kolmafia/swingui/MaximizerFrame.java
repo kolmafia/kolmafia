@@ -4,13 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.InputStream;
-
+import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.Enumeration;
+import java.util.Iterator;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -21,529 +23,442 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
-
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
-import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.Enumeration;
-import java.util.Iterator;
-
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
-
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.maximizer.MaximizerSpeculation;
-
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollableFilteredPanel;
-
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
-
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class MaximizerFrame
-	extends GenericFrame
-	implements ListSelectionListener
-{
-	public static final JComboBox expressionSelect = new JComboBox();
-	static
-	{	// This has to be done before the constructor runs, since the
-		// CLI "maximize" command can set the selected item prior to the
-		// frame being instantiated.
-		expressionSelect.setEditable( true );
-		KoLConstants.maximizerMList.updateJComboData( expressionSelect );
-	}
-	private SmartButtonGroup equipmentSelect, mallSelect;
-	private AutoHighlightTextField maxPriceField;
-	private final ShowDescriptionList boostList;
-	private final EnumMap<KoLConstants.filterType, Boolean> activeFilters;
-	private EnumMap<KoLConstants.filterType, JCheckBox> filterButtons;
-	private JLabel listTitle = null;
+public class MaximizerFrame extends GenericFrame implements ListSelectionListener {
+  public static final JComboBox expressionSelect = new JComboBox();
 
-	private static String HELP_STRING;
-	static
-	{
-		InputStream stream = DataUtilities.getInputStream( KoLConstants.DATA_DIRECTORY, "maximizer-help.html", false );
-		byte[] bytes = ByteBufferUtilities.read( stream );
-		MaximizerFrame.HELP_STRING = StringUtilities.getEncodedString( bytes, "UTF-8" );
-	}
+  static { // This has to be done before the constructor runs, since the
+    // CLI "maximize" command can set the selected item prior to the
+    // frame being instantiated.
+    expressionSelect.setEditable(true);
+    KoLConstants.maximizerMList.updateJComboData(expressionSelect);
+  }
 
-    public MaximizerFrame()
-	{
-		super( "Modifier Maximizer" );
+  private SmartButtonGroup equipmentSelect, mallSelect;
+  private AutoHighlightTextField maxPriceField;
+  private final ShowDescriptionList boostList;
+  private final EnumMap<KoLConstants.filterType, Boolean> activeFilters;
+  private EnumMap<KoLConstants.filterType, JCheckBox> filterButtons;
+  private JLabel listTitle = null;
 
-		JPanel wrapperPanel = new JPanel( new BorderLayout() );
-		wrapperPanel.add( new MaximizerPanel(), BorderLayout.NORTH );
+  private static String HELP_STRING;
 
-		this.boostList = new ShowDescriptionList( Maximizer.boosts, 12 );
-		this.boostList.addListSelectionListener( this );
-		this.activeFilters = new EnumMap<>( KoLConstants.filterType.class);
+  static {
+    InputStream stream =
+        DataUtilities.getInputStream(KoLConstants.DATA_DIRECTORY, "maximizer-help.html", false);
+    byte[] bytes = ByteBufferUtilities.read(stream);
+    MaximizerFrame.HELP_STRING = StringUtilities.getEncodedString(bytes, "UTF-8");
+  }
 
-		wrapperPanel.add( new BoostsPanel( this.boostList ), BorderLayout.CENTER );
+  public MaximizerFrame() {
+    super("Modifier Maximizer");
 
-		this.setCenterComponent( wrapperPanel );
+    JPanel wrapperPanel = new JPanel(new BorderLayout());
+    wrapperPanel.add(new MaximizerPanel(), BorderLayout.NORTH);
 
-		if ( Maximizer.eval != null )
-		{
-			this.valueChanged( null );
-		}
-		else
-		{
-			if ( Preferences.getInteger( "maximizerMRUSize" ) > 0 )
-			{
-				KoLConstants.maximizerMList.updateJComboData( expressionSelect );
-			}
-		}
-		for ( KoLConstants.filterType f : KoLConstants.filterType.values() )
-		{
-			activeFilters.put(f, true);
-		}
-	}
+    this.boostList = new ShowDescriptionList(Maximizer.boosts, 12);
+    this.boostList.addListSelectionListener(this);
+    this.activeFilters = new EnumMap<>(KoLConstants.filterType.class);
 
-	@Override
-	public JTabbedPane getTabbedPane()
-	{
-		return null;
-	}
+    wrapperPanel.add(new BoostsPanel(this.boostList), BorderLayout.CENTER);
 
-	public void valueChanged( final ListSelectionEvent e )
-	{
-		double current = Maximizer.eval.getScore(
-			KoLCharacter.getCurrentModifiers() );
-		boolean failed = Maximizer.eval.failed;
-		Object[] items = this.boostList.getSelectedValuesList().toArray();
+    this.setCenterComponent(wrapperPanel);
 
-		StringBuffer buff = new StringBuffer( "Current score: " );
-		buff.append( KoLConstants.FLOAT_FORMAT.format( current ) );
-		if ( failed )
-		{
-			buff.append( " (FAILED)" );
-		}
-		buff.append( " \u25CA Predicted: " );
-		if ( items.length == 0 )
-		{
-			buff.append( "---" );
-		}
-		else
-		{
-			MaximizerSpeculation spec = new MaximizerSpeculation();
-			for ( Object item : items )
-			{
-				if ( item instanceof Boost )
-				{
-					((Boost) item).addTo( spec );
-				}
-			}
-			double score = spec.getScore();
-			buff.append( KoLConstants.FLOAT_FORMAT.format( score ) );
-			buff.append( " (" );
-			buff.append( KoLConstants.MODIFIER_FORMAT.format( score - current ) );
-			if ( spec.failed )
-			{
-				buff.append( ", FAILED)" );
-			}
-			else
-			{
-				buff.append( ")" );
-			}
-		}
-		if ( this.listTitle != null )
-		{
-			this.listTitle.setText( buff.toString() );
-		}
-		if ( Preferences.getInteger( "maximizerMRUSize") > 0)
-		{
-			KoLConstants.maximizerMList.updateJComboData( expressionSelect );
-		}
-	}
+    if (Maximizer.eval != null) {
+      this.valueChanged(null);
+    } else {
+      if (Preferences.getInteger("maximizerMRUSize") > 0) {
+        KoLConstants.maximizerMList.updateJComboData(expressionSelect);
+      }
+    }
+    for (KoLConstants.filterType f : KoLConstants.filterType.values()) {
+      activeFilters.put(f, true);
+    }
+  }
 
-	public void maximize()
-	{
-		Maximizer.maximize( this.equipmentSelect.getSelectedIndex(),
-			InputFieldUtilities.getValue( this.maxPriceField ),
-			this.mallSelect.getSelectedIndex(),
-			Preferences.getBoolean( "maximizerIncludeAll" ),
-			this.activeFilters );
+  @Override
+  public JTabbedPane getTabbedPane() {
+    return null;
+  }
 
-		this.valueChanged( null );
-	}
+  public void valueChanged(final ListSelectionEvent e) {
+    double current = Maximizer.eval.getScore(KoLCharacter.getCurrentModifiers());
+    boolean failed = Maximizer.eval.failed;
+    Object[] items = this.boostList.getSelectedValuesList().toArray();
 
-	private class MaximizerPanel
-		extends GenericPanel
-		implements ItemListener, ActionListener
-	{
-		public MaximizerPanel()
-		{
-			super( "update", "help", new Dimension( 80, 22 ), new Dimension( 450, 22 ) );
-			filterButtons = new EnumMap(KoLConstants.filterType.class);
+    StringBuffer buff = new StringBuffer("Current score: ");
+    buff.append(KoLConstants.FLOAT_FORMAT.format(current));
+    if (failed) {
+      buff.append(" (FAILED)");
+    }
+    buff.append(" \u25CA Predicted: ");
+    if (items.length == 0) {
+      buff.append("---");
+    } else {
+      MaximizerSpeculation spec = new MaximizerSpeculation();
+      for (Object item : items) {
+        if (item instanceof Boost) {
+          ((Boost) item).addTo(spec);
+        }
+      }
+      double score = spec.getScore();
+      buff.append(KoLConstants.FLOAT_FORMAT.format(score));
+      buff.append(" (");
+      buff.append(KoLConstants.MODIFIER_FORMAT.format(score - current));
+      if (spec.failed) {
+        buff.append(", FAILED)");
+      } else {
+        buff.append(")");
+      }
+    }
+    if (this.listTitle != null) {
+      this.listTitle.setText(buff.toString());
+    }
+    if (Preferences.getInteger("maximizerMRUSize") > 0) {
+      KoLConstants.maximizerMList.updateJComboData(expressionSelect);
+    }
+  }
 
-			MaximizerFrame.this.maxPriceField = new AutoHighlightTextField();
-			JComponentUtilities.setComponentSize( MaximizerFrame.this.maxPriceField, 80, -1 );
-			if ( Preferences.getInteger( "maximizerMaxPrice" ) > 0 )
-			{
-				MaximizerFrame.this.maxPriceField.setText( Preferences.getString( "maximizerMaxPrice" ) );
-			}
+  public void maximize() {
+    Maximizer.maximize(
+        this.equipmentSelect.getSelectedIndex(),
+        InputFieldUtilities.getValue(this.maxPriceField),
+        this.mallSelect.getSelectedIndex(),
+        Preferences.getBoolean("maximizerIncludeAll"),
+        this.activeFilters);
 
-			JPanel equipPanel = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
-			MaximizerFrame.this.equipmentSelect = new SmartButtonGroup( equipPanel );
-			MaximizerFrame.this.equipmentSelect.add( new JRadioButton( "on hand" ) );
-			MaximizerFrame.this.equipmentSelect.add( new JRadioButton( "creatable" ) );
-			MaximizerFrame.this.equipmentSelect.add( new PullableRadioButton( "pullable/buyable" ) );
+    this.valueChanged(null);
+  }
 
-			if ( ! Preferences.getBoolean( "maximizerUseScope" ) )
-			{
-				Integer maximizerEquipmentLevel = Preferences.getInteger( "maximizerEquipmentLevel" );
-				if ( maximizerEquipmentLevel == 0 )
-				{
-					// no longer supported...
-					maximizerEquipmentLevel = 1;
-				}
-				Preferences.setInteger( "maximizerEquipmentScope", maximizerEquipmentLevel -1 );
-				Preferences.setBoolean( "maximizerUseScope",true );
-			}
+  private class MaximizerPanel extends GenericPanel implements ItemListener, ActionListener {
+    public MaximizerPanel() {
+      super("update", "help", new Dimension(80, 22), new Dimension(450, 22));
+      filterButtons = new EnumMap(KoLConstants.filterType.class);
 
-			MaximizerFrame.this.equipmentSelect.setSelectedIndex( Preferences.getInteger( "maximizerEquipmentScope" ) );
+      MaximizerFrame.this.maxPriceField = new AutoHighlightTextField();
+      JComponentUtilities.setComponentSize(MaximizerFrame.this.maxPriceField, 80, -1);
+      if (Preferences.getInteger("maximizerMaxPrice") > 0) {
+        MaximizerFrame.this.maxPriceField.setText(Preferences.getString("maximizerMaxPrice"));
+      }
 
-			JPanel mallPanel = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
-			mallPanel.add( MaximizerFrame.this.maxPriceField );
-			MaximizerFrame.this.mallSelect = new SmartButtonGroup( mallPanel );
-			MaximizerFrame.this.mallSelect.add( new JRadioButton( "don't check" ) );
-			MaximizerFrame.this.mallSelect.add( new JRadioButton( "buyable only" ) );
-			MaximizerFrame.this.mallSelect.add( new JRadioButton( "all consumables" ) );
-			MaximizerFrame.this.mallSelect.setSelectedIndex( Preferences.getInteger( "maximizerPriceLevel" ) );
+      JPanel equipPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
+      MaximizerFrame.this.equipmentSelect = new SmartButtonGroup(equipPanel);
+      MaximizerFrame.this.equipmentSelect.add(new JRadioButton("on hand"));
+      MaximizerFrame.this.equipmentSelect.add(new JRadioButton("creatable"));
+      MaximizerFrame.this.equipmentSelect.add(new PullableRadioButton("pullable/buyable"));
 
-			KoLConstants.filterType[] TopRowFilters = new KoLConstants.filterType[] {KoLConstants.filterType.EQUIP, KoLConstants.filterType.CAST, KoLConstants.filterType.OTHER };
-			// JPanel filterPanel= new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
-			JPanel filterCheckboxTopPanel= new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
-			JPanel filterCheckboxBottomPanel= new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
+      if (!Preferences.getBoolean("maximizerUseScope")) {
+        Integer maximizerEquipmentLevel = Preferences.getInteger("maximizerEquipmentLevel");
+        if (maximizerEquipmentLevel == 0) {
+          // no longer supported...
+          maximizerEquipmentLevel = 1;
+        }
+        Preferences.setInteger("maximizerEquipmentScope", maximizerEquipmentLevel - 1);
+        Preferences.setBoolean("maximizerUseScope", true);
+      }
 
-			JPanel filterPanelTopRow = new JPanel( new BorderLayout() );
-			JPanel filterPanelBottomRow = new JPanel( new BorderLayout() );
+      MaximizerFrame.this.equipmentSelect.setSelectedIndex(
+          Preferences.getInteger("maximizerEquipmentScope"));
 
-			JButton filterAllButton = new JButton("Set All Filters");
-			JButton filterNoneButton = new JButton("Clear Filters");
-			filterAllButton.addActionListener( this );
-			filterNoneButton.addActionListener( this );
-			filterAllButton.setPreferredSize(new Dimension(110, 20));
-			filterNoneButton.setPreferredSize(new Dimension(110, 20));
+      JPanel mallPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
+      mallPanel.add(MaximizerFrame.this.maxPriceField);
+      MaximizerFrame.this.mallSelect = new SmartButtonGroup(mallPanel);
+      MaximizerFrame.this.mallSelect.add(new JRadioButton("don't check"));
+      MaximizerFrame.this.mallSelect.add(new JRadioButton("buyable only"));
+      MaximizerFrame.this.mallSelect.add(new JRadioButton("all consumables"));
+      MaximizerFrame.this.mallSelect.setSelectedIndex(
+          Preferences.getInteger("maximizerPriceLevel"));
 
-			if ( ! Preferences.getBoolean( "maximizerSingleFilter" ))
-			{
-				filterPanelTopRow.add( filterAllButton, BorderLayout.LINE_END );
-				filterPanelBottomRow.add( filterNoneButton, BorderLayout.LINE_END );
-			}
-			Boolean usageUnderLimit;
-			for ( KoLConstants.filterType fType : KoLConstants.filterType.values() )
-			{
-				switch( fType ){
-				case BOOZE:
-					usageUnderLimit = ( KoLCharacter.canDrink() && KoLCharacter.getInebriety() < KoLCharacter.getInebrietyLimit() );
-					break;
-				case FOOD:
-					usageUnderLimit = ( KoLCharacter.canEat() &&  KoLCharacter.getFullness() < KoLCharacter.getFullnessLimit() );
-					break;
-				case SPLEEN:
-					usageUnderLimit = ( KoLCharacter.getSpleenUse() < KoLCharacter.getSpleenLimit() );
-					break;
-				default:
-					usageUnderLimit = true;
-				}
-				Boolean isLastUsedFilter = Preferences.getString( "maximizerLastSingleFilter" ).equalsIgnoreCase( fType.name() );
-				if ( Preferences.getBoolean( "maximizerSingleFilter" ) )
-				{
-					usageUnderLimit = isLastUsedFilter;
-				}
-				filterButtons.put( fType, new JCheckBox (fType.toString().toLowerCase(), usageUnderLimit) );
-				filterButtons.get(fType).addItemListener( this );
+      KoLConstants.filterType[] TopRowFilters =
+          new KoLConstants.filterType[] {
+            KoLConstants.filterType.EQUIP,
+            KoLConstants.filterType.CAST,
+            KoLConstants.filterType.OTHER
+          };
+      // JPanel filterPanel= new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
+      JPanel filterCheckboxTopPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
+      JPanel filterCheckboxBottomPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
 
-				if ( Arrays.asList( TopRowFilters ).contains( fType ) )
-				{
-					filterCheckboxTopPanel.add(filterButtons.get( fType ) );
-				}
-				else
-				{
-					filterCheckboxBottomPanel.add(filterButtons.get( fType ) );
+      JPanel filterPanelTopRow = new JPanel(new BorderLayout());
+      JPanel filterPanelBottomRow = new JPanel(new BorderLayout());
 
-				}
-				updateFilter( fType, usageUnderLimit );
-			}
-			filterPanelTopRow.add(filterCheckboxTopPanel, BorderLayout.CENTER);
-			filterPanelBottomRow.add(filterCheckboxBottomPanel, BorderLayout.CENTER);
+      JButton filterAllButton = new JButton("Set All Filters");
+      JButton filterNoneButton = new JButton("Clear Filters");
+      filterAllButton.addActionListener(this);
+      filterNoneButton.addActionListener(this);
+      filterAllButton.setPreferredSize(new Dimension(110, 20));
+      filterNoneButton.setPreferredSize(new Dimension(110, 20));
 
-			VerifiableElement[] elements = new VerifiableElement[ 5 ];
-			elements[ 0 ] = new VerifiableElement( "Maximize: ", MaximizerFrame.expressionSelect );
-			elements[ 1 ] = new VerifiableElement( "Equipment: ", equipPanel );
-			elements[ 2 ] = new VerifiableElement( "Max price: ", mallPanel );
-			elements[ 3 ] = new VerifiableElement( "Filters: ", filterPanelTopRow );
-			elements[ 4 ] = new VerifiableElement( filterPanelBottomRow );
-			elements[ 3 ].getLabel().setToolTipText( "Other options available under menu General -> Preferences, tab General - Maximizer." );
+      if (!Preferences.getBoolean("maximizerSingleFilter")) {
+        filterPanelTopRow.add(filterAllButton, BorderLayout.LINE_END);
+        filterPanelBottomRow.add(filterNoneButton, BorderLayout.LINE_END);
+      }
+      Boolean usageUnderLimit;
+      for (KoLConstants.filterType fType : KoLConstants.filterType.values()) {
+        switch (fType) {
+          case BOOZE:
+            usageUnderLimit =
+                (KoLCharacter.canDrink()
+                    && KoLCharacter.getInebriety() < KoLCharacter.getInebrietyLimit());
+            break;
+          case FOOD:
+            usageUnderLimit =
+                (KoLCharacter.canEat()
+                    && KoLCharacter.getFullness() < KoLCharacter.getFullnessLimit());
+            break;
+          case SPLEEN:
+            usageUnderLimit = (KoLCharacter.getSpleenUse() < KoLCharacter.getSpleenLimit());
+            break;
+          default:
+            usageUnderLimit = true;
+        }
+        Boolean isLastUsedFilter =
+            Preferences.getString("maximizerLastSingleFilter").equalsIgnoreCase(fType.name());
+        if (Preferences.getBoolean("maximizerSingleFilter")) {
+          usageUnderLimit = isLastUsedFilter;
+        }
+        filterButtons.put(fType, new JCheckBox(fType.toString().toLowerCase(), usageUnderLimit));
+        filterButtons.get(fType).addItemListener(this);
 
-			this.setContent( elements );
-			expressionSelect.requestFocus();
-		}
+        if (Arrays.asList(TopRowFilters).contains(fType)) {
+          filterCheckboxTopPanel.add(filterButtons.get(fType));
+        } else {
+          filterCheckboxBottomPanel.add(filterButtons.get(fType));
+        }
+        updateFilter(fType, usageUnderLimit);
+      }
+      filterPanelTopRow.add(filterCheckboxTopPanel, BorderLayout.CENTER);
+      filterPanelBottomRow.add(filterCheckboxBottomPanel, BorderLayout.CENTER);
 
-		@Override
-		public void itemStateChanged( ItemEvent e )
-		{
-			JCheckBox changedBox = (JCheckBox) e.getSource();
-			KoLConstants.filterType thisFilter =null;
-			boolean updatedValue =  ( e.getStateChange() == ItemEvent.SELECTED );
-			if ( Preferences.getBoolean( "maximizerSingleFilter" ) )
-			{
-				if ( ! changedBox.isSelected() )
-				{
-					return;
-				}
-				// selecting a filter turns off all others, as if it was a radio button
-				Boolean singleSelect;
+      VerifiableElement[] elements = new VerifiableElement[5];
+      elements[0] = new VerifiableElement("Maximize: ", MaximizerFrame.expressionSelect);
+      elements[1] = new VerifiableElement("Equipment: ", equipPanel);
+      elements[2] = new VerifiableElement("Max price: ", mallPanel);
+      elements[3] = new VerifiableElement("Filters: ", filterPanelTopRow);
+      elements[4] = new VerifiableElement(filterPanelBottomRow);
+      elements[3]
+          .getLabel()
+          .setToolTipText(
+              "Other options available under menu General -> Preferences, tab General - Maximizer.");
 
-				for ( KoLConstants.filterType fType : KoLConstants.filterType.values() )
-				{
-					singleSelect = (fType.toString().equalsIgnoreCase( changedBox.getText() ));
+      this.setContent(elements);
+      expressionSelect.requestFocus();
+    }
 
-					filterButtons.get( fType ).setSelected( singleSelect );
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+      JCheckBox changedBox = (JCheckBox) e.getSource();
+      KoLConstants.filterType thisFilter = null;
+      boolean updatedValue = (e.getStateChange() == ItemEvent.SELECTED);
+      if (Preferences.getBoolean("maximizerSingleFilter")) {
+        if (!changedBox.isSelected()) {
+          return;
+        }
+        // selecting a filter turns off all others, as if it was a radio button
+        Boolean singleSelect;
 
-					if ( activeFilters.containsKey( changedBox.getText() ) )
-					{
-						activeFilters.replace( fType, singleSelect );
-					}
-					else
-					{
-						activeFilters.put( fType, singleSelect );
-					}
-				}
-				Preferences.setString( "maximizerLastSingleFilter", changedBox.getText() );
-			}
-			else
-			{
-				for ( KoLConstants.filterType fType : KoLConstants.filterType.values() )
-				{
-					if ( fType.name().equalsIgnoreCase( changedBox.getText() ) )
-					{
-						thisFilter = fType;
-						break;
-					}
-				}
-				if ( !(thisFilter == null) )
-				{
-					updateFilter( thisFilter, updatedValue );
-				}
-			}
-		}
-		@Override
-		public void actionConfirmed()
-		{
-			MaximizerFrame.this.maximize();
-		}
+        for (KoLConstants.filterType fType : KoLConstants.filterType.values()) {
+          singleSelect = (fType.toString().equalsIgnoreCase(changedBox.getText()));
 
-		@Override
-		public void actionCancelled()
-		{
-			//InputFieldUtilities.alert( MaximizerFrame.HELP_STRING );
-			JLabel help = new JLabel( MaximizerFrame.HELP_STRING );
-			//JComponentUtilities.setComponentSize( help, 750, -1 );
-			GenericScrollPane content = new GenericScrollPane( help );
-			JComponentUtilities.setComponentSize( content, -1, 500 );
-			JOptionPane.showMessageDialog( this, content, "Modifier Maximizer help",
-				JOptionPane.PLAIN_MESSAGE );
-		}
+          filterButtons.get(fType).setSelected(singleSelect);
 
-		@Override
-		public void actionPerformed( ActionEvent e )
-		{
-			JButton SourceButton = (JButton) e.getSource();
-			Boolean filterOn = (SourceButton.getText().equalsIgnoreCase( "Set All Filters" ));
-			updateCheckboxes( filterOn );
-		}
-	}
+          if (activeFilters.containsKey(changedBox.getText())) {
+            activeFilters.replace(fType, singleSelect);
+          } else {
+            activeFilters.put(fType, singleSelect);
+          }
+        }
+        Preferences.setString("maximizerLastSingleFilter", changedBox.getText());
+      } else {
+        for (KoLConstants.filterType fType : KoLConstants.filterType.values()) {
+          if (fType.name().equalsIgnoreCase(changedBox.getText())) {
+            thisFilter = fType;
+            break;
+          }
+        }
+        if (!(thisFilter == null)) {
+          updateFilter(thisFilter, updatedValue);
+        }
+      }
+    }
 
-	private void updateCheckboxes ( Boolean filterAll )
-	{
-		for ( KoLConstants.filterType fType: KoLConstants.filterType.values())
-		{
-			filterButtons.get(fType).setSelected ( filterAll );
-		}
-	}
-	protected void updateFilter( KoLConstants.filterType f, Boolean value)
-	{
-		try
-		{
-			if ( activeFilters.containsKey( f ) )
-			{
-				activeFilters.replace( f, value );
-			}
-			else
-			{
-				activeFilters.put( f, value );
-			}
-		}
-		catch (Exception Ex)
-		{
-			// This should probably log the error...
-		}
-	}
+    @Override
+    public void actionConfirmed() {
+      MaximizerFrame.this.maximize();
+    }
 
-	private class PullableRadioButton
-		extends JRadioButton
-		implements Listener
-	{
-		final String text;
+    @Override
+    public void actionCancelled() {
+      // InputFieldUtilities.alert( MaximizerFrame.HELP_STRING );
+      JLabel help = new JLabel(MaximizerFrame.HELP_STRING);
+      // JComponentUtilities.setComponentSize( help, 750, -1 );
+      GenericScrollPane content = new GenericScrollPane(help);
+      JComponentUtilities.setComponentSize(content, -1, 500);
+      JOptionPane.showMessageDialog(
+          this, content, "Modifier Maximizer help", JOptionPane.PLAIN_MESSAGE);
+    }
 
-		public PullableRadioButton( String text )
-		{
-			super( text );
-			this.text = text;
-			NamedListenerRegistry.registerNamedListener( "(pullsremaining)", this );
-			this.update();
-		}
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      JButton SourceButton = (JButton) e.getSource();
+      Boolean filterOn = (SourceButton.getText().equalsIgnoreCase("Set All Filters"));
+      updateCheckboxes(filterOn);
+    }
+  }
 
-		public void update()
-		{
-			int pulls = ConcoctionDatabase.getPullsRemaining();
-			StringBuilder buf = new StringBuilder( this.text );
-			if ( pulls == -1 )
-			{
-				buf.append( " (unlimited)" );
-			}
-			else
-			{
-				buf.append( " (" );
-				buf.append( pulls );
-				buf.append( " pull" );
-				if ( pulls != 1 )
-				{
-					buf.append( "s" );
-				}
-				buf.append( " left)" );
-			}
-			this.setText( buf.toString() );
-		}
-	}
+  private void updateCheckboxes(Boolean filterAll) {
+    for (KoLConstants.filterType fType : KoLConstants.filterType.values()) {
+      filterButtons.get(fType).setSelected(filterAll);
+    }
+  }
 
-	private class BoostsPanel
-		extends ScrollableFilteredPanel
-	{
-		private final ShowDescriptionList elementList;
+  protected void updateFilter(KoLConstants.filterType f, Boolean value) {
+    try {
+      if (activeFilters.containsKey(f)) {
+        activeFilters.replace(f, value);
+      } else {
+        activeFilters.put(f, value);
+      }
+    } catch (Exception Ex) {
+      // This should probably log the error...
+    }
+  }
 
-		public BoostsPanel( final ShowDescriptionList list )
-		{
-			super( "Current score: --- \u25CA Predicted: ---",
-				"equip all", "exec selected", list );
-			this.elementList = (ShowDescriptionList) this.scrollComponent;
-			MaximizerFrame.this.listTitle = this.titleComponent;
-		}
+  private class PullableRadioButton extends JRadioButton implements Listener {
+    final String text;
 
-		@Override
-		public void actionConfirmed()
-		{
-			KoLmafia.forceContinue();
-			boolean any = false;
-			Iterator i = Maximizer.boosts.iterator();
-			while ( i.hasNext() )
-			{
-				Object boost = i.next();
-				if ( boost instanceof Boost )
-				{
-					boolean did = ((Boost) boost).execute( true );
-					if ( !KoLmafia.permitsContinue() ) return;
-					any |= did;
-				}
-			}
-			if ( any )
-			{
-				MaximizerFrame.this.maximize();
-			}
-		}
+    public PullableRadioButton(String text) {
+      super(text);
+      this.text = text;
+      NamedListenerRegistry.registerNamedListener("(pullsremaining)", this);
+      this.update();
+    }
 
-		@Override
-		public void actionCancelled()
-		{
-			KoLmafia.forceContinue();
-			boolean any = false;
-			Object[] boosts = this.elementList.getSelectedValuesList().toArray();
-			for ( Object boost : boosts )
-			{
-				if ( boost instanceof Boost )
-				{
-					boolean did = ((Boost) boost).execute( false );
-					if ( !KoLmafia.permitsContinue() )
-						return;
-					any |= did;
-				}
-			}
-			if ( any )
-			{
-				MaximizerFrame.this.maximize();
-			}
-		}
-	}
+    public void update() {
+      int pulls = ConcoctionDatabase.getPullsRemaining();
+      StringBuilder buf = new StringBuilder(this.text);
+      if (pulls == -1) {
+        buf.append(" (unlimited)");
+      } else {
+        buf.append(" (");
+        buf.append(pulls);
+        buf.append(" pull");
+        if (pulls != 1) {
+          buf.append("s");
+        }
+        buf.append(" left)");
+      }
+      this.setText(buf.toString());
+    }
+  }
 
-	public static class SmartButtonGroup
-		extends ButtonGroup
-	{	// A version of ButtonGroup that actually does useful things:
-		// * Constructor takes a parent container, adding buttons to
-		// the group adds them to the container as well.  This generally
-		// removes any need for a temp variable to hold the individual
-		// buttons as they're being created.
-		// * getSelectedIndex() to determine which button (0-based) is
-		// selected.  How could that have been missing???
+  private class BoostsPanel extends ScrollableFilteredPanel {
+    private final ShowDescriptionList elementList;
 
-		private final Container parent;
+    public BoostsPanel(final ShowDescriptionList list) {
+      super("Current score: --- \u25CA Predicted: ---", "equip all", "exec selected", list);
+      this.elementList = (ShowDescriptionList) this.scrollComponent;
+      MaximizerFrame.this.listTitle = this.titleComponent;
+    }
 
-		public SmartButtonGroup( Container parent )
-		{
-			this.parent = parent;
-		}
+    @Override
+    public void actionConfirmed() {
+      KoLmafia.forceContinue();
+      boolean any = false;
+      Iterator i = Maximizer.boosts.iterator();
+      while (i.hasNext()) {
+        Object boost = i.next();
+        if (boost instanceof Boost) {
+          boolean did = ((Boost) boost).execute(true);
+          if (!KoLmafia.permitsContinue()) return;
+          any |= did;
+        }
+      }
+      if (any) {
+        MaximizerFrame.this.maximize();
+      }
+    }
 
-		@Override
-		public void add( AbstractButton b )
-		{
-			super.add( b );
-			parent.add( b );
-		}
+    @Override
+    public void actionCancelled() {
+      KoLmafia.forceContinue();
+      boolean any = false;
+      Object[] boosts = this.elementList.getSelectedValuesList().toArray();
+      for (Object boost : boosts) {
+        if (boost instanceof Boost) {
+          boolean did = ((Boost) boost).execute(false);
+          if (!KoLmafia.permitsContinue()) return;
+          any |= did;
+        }
+      }
+      if (any) {
+        MaximizerFrame.this.maximize();
+      }
+    }
+  }
 
-		public void setSelectedIndex( int index )
-		{
-			int i = 0;
-			Enumeration e = this.getElements();
-			while ( e.hasMoreElements() )
-			{
-				((AbstractButton) e.nextElement()).setSelected( i == index );
-				++i;
-			}
-		}
+  public static class SmartButtonGroup
+      extends ButtonGroup { // A version of ButtonGroup that actually does useful things:
+    // * Constructor takes a parent container, adding buttons to
+    // the group adds them to the container as well.  This generally
+    // removes any need for a temp variable to hold the individual
+    // buttons as they're being created.
+    // * getSelectedIndex() to determine which button (0-based) is
+    // selected.  How could that have been missing???
 
-		public int getSelectedIndex()
-		{
-			int i = 0;
-			Enumeration e = this.getElements();
-			while ( e.hasMoreElements() )
-			{
-				if ( ((AbstractButton) e.nextElement()).isSelected() )
-				{
-					return i;
-				}
-				++i;
-			}
-			return -1;
-		}
-	}
+    private final Container parent;
+
+    public SmartButtonGroup(Container parent) {
+      this.parent = parent;
+    }
+
+    @Override
+    public void add(AbstractButton b) {
+      super.add(b);
+      parent.add(b);
+    }
+
+    public void setSelectedIndex(int index) {
+      int i = 0;
+      Enumeration e = this.getElements();
+      while (e.hasMoreElements()) {
+        ((AbstractButton) e.nextElement()).setSelected(i == index);
+        ++i;
+      }
+    }
+
+    public int getSelectedIndex() {
+      int i = 0;
+      Enumeration e = this.getElements();
+      while (e.hasMoreElements()) {
+        if (((AbstractButton) e.nextElement()).isSelected()) {
+          return i;
+        }
+        ++i;
+      }
+      return -1;
+    }
+  }
 }

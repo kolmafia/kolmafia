@@ -2,250 +2,192 @@ package net.sourceforge.kolmafia.swingui;
 
 import com.sun.java.forums.CloseableTabbedPane;
 import com.sun.java.forums.CloseableTabbedPaneListener;
-
 import java.awt.event.MouseEvent;
-
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
-
 import net.sourceforge.kolmafia.RequestThread;
-
 import net.sourceforge.kolmafia.chat.ChatManager;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.swingui.listener.TabFocusingListener;
-
 import net.sourceforge.kolmafia.swingui.panel.CommandDisplayPanel;
-
 import tab.CloseListener;
 import tab.CloseTabPaneUI;
 import tab.CloseTabbedPane;
 
-public class TabbedChatFrame
-	extends ChatFrame
-	implements CloseListener, CloseableTabbedPaneListener
-{
-	public TabbedChatFrame()
-	{
-		super( null );
+public class TabbedChatFrame extends ChatFrame
+    implements CloseListener, CloseableTabbedPaneListener {
+  public TabbedChatFrame() {
+    super(null);
 
-		this.setTitle( "Loathing Chat" );
+    this.setTitle("Loathing Chat");
 
-		if ( Preferences.getBoolean( "addChatCommandLine" ) )
-		{
-			this.tabs.addTab( "[gcli]", new CommandDisplayPanel() );
-		}
+    if (Preferences.getBoolean("addChatCommandLine")) {
+      this.tabs.addTab("[gcli]", new CommandDisplayPanel());
+    }
 
-		this.tabs.addChangeListener( new TabFocusingListener() );
-	}
+    this.tabs.addChangeListener(new TabFocusingListener());
+  }
 
-	@Override
-	public JTabbedPane getTabbedPane()
-	{
-		return Preferences.getBoolean( "useShinyTabbedChat" ) ? new CloseTabbedPane() : new CloseableTabbedPane();
-	}
+  @Override
+  public JTabbedPane getTabbedPane() {
+    return Preferences.getBoolean("useShinyTabbedChat")
+        ? new CloseTabbedPane()
+        : new CloseableTabbedPane();
+  }
 
-	/**
-	 * Utility method called to initialize the frame. This method should be overridden, should a different means of
-	 * initializing the content of the frame be needed.
-	 */
+  /**
+   * Utility method called to initialize the frame. This method should be overridden, should a
+   * different means of initializing the content of the frame be needed.
+   */
+  @Override
+  public void initialize(final String associatedContact) {
+    if (this.tabs instanceof CloseTabbedPane) {
+      ((CloseTabbedPane) this.tabs).setCloseIconStyle(CloseTabPaneUI.GRAY_CLOSE_ICON);
+      ((CloseTabbedPane) this.tabs).addCloseListener(this);
+    } else {
+      ((CloseableTabbedPane) this.tabs).addCloseableTabbedPaneListener(this);
+    }
 
-	@Override
-	public void initialize( final String associatedContact )
-	{
-		if ( this.tabs instanceof CloseTabbedPane )
-		{
-			( (CloseTabbedPane) this.tabs ).setCloseIconStyle( CloseTabPaneUI.GRAY_CLOSE_ICON );
-			( (CloseTabbedPane) this.tabs ).addCloseListener( this );
-		}
-		else
-		{
-			( (CloseableTabbedPane) this.tabs ).addCloseableTabbedPaneListener( this );
-		}
+    this.setCenterComponent(this.tabs);
+  }
 
-		this.setCenterComponent( this.tabs );
-	}
+  public boolean closeTab(final int tabIndexToClose) {
+    if (tabIndexToClose == -1) {
+      return false;
+    }
 
-	public boolean closeTab( final int tabIndexToClose )
-	{
-		if ( tabIndexToClose == -1 )
-		{
-			return false;
-		}
+    String closedTab = this.tabs.getTitleAt(tabIndexToClose);
 
-		String closedTab = this.tabs.getTitleAt( tabIndexToClose );
+    RequestThread.runInParallel(new CloseWindowRunnable(closedTab));
 
-		RequestThread.runInParallel( new CloseWindowRunnable( closedTab ) );
+    return true;
+  }
 
-		return true;
-	}
+  public void closeOperation(final MouseEvent e, final int overTabIndex) {
+    if (this.closeTab(overTabIndex)) {
+      this.tabs.removeTabAt(overTabIndex);
+    }
+  }
 
-	public void closeOperation( final MouseEvent e, final int overTabIndex )
-	{
-		if ( this.closeTab( overTabIndex ) )
-		{
-			this.tabs.removeTabAt( overTabIndex );
-		}
-	}
+  /**
+   * Adds a new tab to represent the given name. Note that this will not shift tab focus; however,
+   * if it is the first tab added, the name of the contact will be reset.
+   */
+  public void addTab(final String tabName) {
+    for (int i = 0; i < this.tabs.getTabCount(); ++i) {
+      if (this.tabs.getTitleAt(i).trim().equals(tabName)) {
+        return;
+      }
+    }
 
-	/**
-	 * Adds a new tab to represent the given name. Note that this will not shift tab focus; however, if it is the first
-	 * tab added, the name of the contact will be reset.
-	 */
+    try {
+      TabAdder add = new TabAdder(tabName);
 
-	public void addTab( final String tabName )
-	{
-		for ( int i = 0; i < this.tabs.getTabCount(); ++i )
-		{
-			if ( this.tabs.getTitleAt( i ).trim().equals( tabName ) )
-			{
-				return;
-			}
-		}
+      if (SwingUtilities.isEventDispatchThread()) {
+        add.run();
+      } else {
+        SwingUtilities.invokeAndWait(add);
+      }
+    } catch (Exception e) {
+      // This should not happen.  However, skip it
+      // since nothing bad really happened.
+    }
+  }
 
-		try
-		{
-			TabAdder add = new TabAdder( tabName );
+  public void removeTab(final String tabName) {
+    for (int i = 0; i < this.tabs.getTabCount(); ++i) {
+      if (this.tabs.getTitleAt(i).trim().equals(tabName)) {
+        this.closeOperation(null, i);
+        return;
+      }
+    }
+  }
 
-			if ( SwingUtilities.isEventDispatchThread() )
-			{
-				add.run();
-			}
-			else
-			{
-				SwingUtilities.invokeAndWait( add );
-			}
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  However, skip it
-			// since nothing bad really happened.
-		}
-	}
+  public void highlightTab(final String tabName) {
+    if (tabName == null) {
+      return;
+    }
 
-	public void removeTab( final String tabName )
-	{
-		for ( int i = 0; i < this.tabs.getTabCount(); ++i )
-		{
-			if ( this.tabs.getTitleAt( i ).trim().equals( tabName ) )
-			{
-				this.closeOperation( null, i );
-				return;
-			}
-		}
-	}
+    for (int i = 0; i < this.tabs.getTabCount(); ++i) {
+      if (tabName.equals(this.tabs.getTitleAt(i).trim())) {
+        SwingUtilities.invokeLater(new TabHighlighter(i));
+        return;
+      }
+    }
+  }
 
-	public void highlightTab( final String tabName )
-	{
-		if ( tabName == null )
-		{
-			return;
-		}
+  private class TabAdder implements Runnable {
+    private final String tabName;
 
-		for ( int i = 0; i < this.tabs.getTabCount(); ++i )
-		{
-			if ( tabName.equals( this.tabs.getTitleAt( i ).trim() ) )
-			{
-				SwingUtilities.invokeLater( new TabHighlighter( i ) );
-				return;
-			}
-		}
-	}
+    private TabAdder(final String tabName) {
+      this.tabName = tabName;
+    }
 
-	private class TabAdder
-		implements Runnable
-	{
-		private final String tabName;
+    public void run() {
+      JTabbedPane tabs = TabbedChatFrame.this.tabs;
+      ChatPanel createdPanel = new ChatPanel(this.tabName);
 
-		private TabAdder( final String tabName )
-		{
-			this.tabName = tabName;
-		}
+      int tabOrder = this.getTabOrder(this.tabName);
 
-		public void run()
-		{
-			JTabbedPane tabs = TabbedChatFrame.this.tabs;
-			ChatPanel createdPanel = new ChatPanel( this.tabName );
+      int tabCount = tabs.getTabCount();
+      int tabIndex = tabCount;
 
-			int tabOrder = this.getTabOrder( this.tabName );
+      for (int i = 0; i < tabCount; ++i) {
+        String currentTabName = tabs.getTitleAt(i).trim();
 
-			int tabCount = tabs.getTabCount();
-			int tabIndex = tabCount;
+        int currentTabOrder = this.getTabOrder(currentTabName);
 
-			for ( int i = 0; i < tabCount; ++i )
-			{
-				String currentTabName = tabs.getTitleAt( i ).trim();
+        if (tabOrder < currentTabOrder) {
+          tabIndex = i;
+          break;
+        }
+      }
 
-				int currentTabOrder = this.getTabOrder( currentTabName );
+      tabs.insertTab(this.tabName, null, createdPanel, "", tabIndex);
+    }
 
-				if ( tabOrder < currentTabOrder )
-				{
-					tabIndex = i;
-					break;
-				}
-			}
+    private int getTabOrder(final String tabName) {
+      if (tabName.startsWith("[")) {
+        return 2;
+      }
 
-			tabs.insertTab( this.tabName, null, createdPanel, "", tabIndex );
-		}
+      if (tabName.startsWith("/")) {
+        return 0;
+      }
 
-		private int getTabOrder( final String tabName )
-		{
-			if ( tabName.startsWith( "[" ) )
-			{
-				return 2;
-			}
+      return 1;
+    }
+  }
 
-			if ( tabName.startsWith( "/" ) )
-			{
-				return 0;
-			}
+  private class TabHighlighter implements Runnable {
+    private final int tabIndex;
 
-			return 1;
-		}
-	}
+    public TabHighlighter(final int tabIndex) {
+      this.tabIndex = tabIndex;
+    }
 
-	private class TabHighlighter
-		implements Runnable
-	{
-		private final int tabIndex;
+    public void run() {
+      if (TabbedChatFrame.this.tabs.getSelectedIndex() == this.tabIndex) {
+        return;
+      }
 
-		public TabHighlighter( final int tabIndex )
-		{
-			this.tabIndex = tabIndex;
-		}
+      if (TabbedChatFrame.this.tabs instanceof CloseTabbedPane) {
+        ((CloseTabbedPane) TabbedChatFrame.this.tabs).highlightTab(this.tabIndex);
+      } else {
+        ((CloseableTabbedPane) TabbedChatFrame.this.tabs).highlightTab(this.tabIndex);
+      }
+    }
+  }
 
-		public void run()
-		{
-			if ( TabbedChatFrame.this.tabs.getSelectedIndex() == this.tabIndex )
-			{
-				return;
-			}
+  private static class CloseWindowRunnable implements Runnable {
+    private final String closedTab;
 
-			if ( TabbedChatFrame.this.tabs instanceof CloseTabbedPane )
-			{
-				( (CloseTabbedPane) TabbedChatFrame.this.tabs ).highlightTab( this.tabIndex );
-			}
-			else
-			{
-				( (CloseableTabbedPane) TabbedChatFrame.this.tabs ).highlightTab( this.tabIndex );
-			}
-		}
-	}
+    public CloseWindowRunnable(String closedTab) {
+      this.closedTab = closedTab;
+    }
 
-	private static class CloseWindowRunnable
-		implements Runnable
-	{
-		private final String closedTab;
-
-		public CloseWindowRunnable( String closedTab )
-		{
-			this.closedTab = closedTab;
-		}
-
-		public void run()
-		{
-			ChatManager.closeWindow( this.closedTab );
-		}
-	}
+    public void run() {
+      ChatManager.closeWindow(this.closedTab);
+    }
+  }
 }

@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.List;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -10,118 +9,89 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
-
 import net.sourceforge.kolmafia.session.EquipmentManager;
-
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class EnthroneCommand
-	extends AbstractCommand
-{
-	private static final AdventureResult HATSEAT = ItemPool.get( ItemPool.HATSEAT, 1 );
-	
-	public EnthroneCommand()
-	{
-		this.usage = "[?] <species> - place a familiar in the Crown of Thrones.";
-	}
+public class EnthroneCommand extends AbstractCommand {
+  private static final AdventureResult HATSEAT = ItemPool.get(ItemPool.HATSEAT, 1);
 
-	@Override
-	public void run( final String cmd, String parameters )
-	{
-		if ( parameters.length() == 0 )
-		{
-			ShowDataCommand.show( "familiars" );
-			return;
-		}
-		else if ( parameters.equalsIgnoreCase( "none" ) || parameters.equalsIgnoreCase( "unequip" ) )
-		{
-			if ( KoLCharacter.getEnthroned().equals( FamiliarData.NO_FAMILIAR ) )
-			{
-				return;
-			}
+  public EnthroneCommand() {
+    this.usage = "[?] <species> - place a familiar in the Crown of Thrones.";
+  }
 
-			RequestThread.postRequest( FamiliarRequest.enthroneRequest( FamiliarData.NO_FAMILIAR ) );
-			return;
-		}
-		else if ( parameters.indexOf( "(no change)" ) != -1 )
-		{
-			return;
-		}
+  @Override
+  public void run(final String cmd, String parameters) {
+    if (parameters.length() == 0) {
+      ShowDataCommand.show("familiars");
+      return;
+    } else if (parameters.equalsIgnoreCase("none") || parameters.equalsIgnoreCase("unequip")) {
+      if (KoLCharacter.getEnthroned().equals(FamiliarData.NO_FAMILIAR)) {
+        return;
+      }
 
-		List familiarList = KoLCharacter.getFamiliarList();
+      RequestThread.postRequest(FamiliarRequest.enthroneRequest(FamiliarData.NO_FAMILIAR));
+      return;
+    } else if (parameters.indexOf("(no change)") != -1) {
+      return;
+    }
 
-		String[] familiars = new String[ familiarList.size() ];
-		for ( int i = 0; i < familiarList.size(); ++i )
-		{
-			FamiliarData familiar = (FamiliarData) familiarList.get( i );
-			familiars[ i ] = StringUtilities.getCanonicalName( familiar.getRace() );
-		}
+    List familiarList = KoLCharacter.getFamiliarList();
 
-		List matchList = StringUtilities.getMatchingNames( familiars, parameters );
+    String[] familiars = new String[familiarList.size()];
+    for (int i = 0; i < familiarList.size(); ++i) {
+      FamiliarData familiar = (FamiliarData) familiarList.get(i);
+      familiars[i] = StringUtilities.getCanonicalName(familiar.getRace());
+    }
 
-		if ( matchList.size() > 1 )
-		{
-			RequestLogger.printList( matchList );
-			RequestLogger.printLine();
+    List matchList = StringUtilities.getMatchingNames(familiars, parameters);
 
-			KoLmafia.updateDisplay( MafiaState.ERROR, "[" + parameters + "] has too many matches." );
-		}
-		else if ( matchList.size() == 1 )
-		{
-			String race = (String) matchList.get( 0 );
-			FamiliarData change = null;
-			for ( int i = 0; i < familiars.length; ++i )
-			{
-				if ( race.equals( familiars[ i ] ) )
-				{
-					change = (FamiliarData) familiarList.get( i );
-					break;
-				}
-			}
+    if (matchList.size() > 1) {
+      RequestLogger.printList(matchList);
+      RequestLogger.printLine();
 
-			if ( change == null )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't enthrone an unknown familiar!" );
-				return;
-			}
+      KoLmafia.updateDisplay(MafiaState.ERROR, "[" + parameters + "] has too many matches.");
+    } else if (matchList.size() == 1) {
+      String race = (String) matchList.get(0);
+      FamiliarData change = null;
+      for (int i = 0; i < familiars.length; ++i) {
+        if (race.equals(familiars[i])) {
+          change = (FamiliarData) familiarList.get(i);
+          break;
+        }
+      }
 
-			if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
-			{
-				RequestLogger.printLine( change.toString() );
-				return;
-			}
+      if (change == null) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "You can't enthrone an unknown familiar!");
+        return;
+      }
 
-			if ( !change.canCarry() )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't enthrone a " + change.getRace() + "!" );
-				return;
-			}
+      if (KoLmafiaCLI.isExecutingCheckOnlyCommand) {
+        RequestLogger.printLine(change.toString());
+        return;
+      }
 
-			if ( KoLCharacter.getFamiliar().equals( change ) )
-			{
-				RequestThread.postRequest( new FamiliarRequest( FamiliarData.NO_FAMILIAR ) );
-			}
+      if (!change.canCarry()) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "You can't enthrone a " + change.getRace() + "!");
+        return;
+      }
 
-			else if ( KoLCharacter.getBjorned().equals( change ) )
-			{
-				RequestThread.postRequest( FamiliarRequest.bjornifyRequest( FamiliarData.NO_FAMILIAR ) );
-			}
+      if (KoLCharacter.getFamiliar().equals(change)) {
+        RequestThread.postRequest(new FamiliarRequest(FamiliarData.NO_FAMILIAR));
+      } else if (KoLCharacter.getBjorned().equals(change)) {
+        RequestThread.postRequest(FamiliarRequest.bjornifyRequest(FamiliarData.NO_FAMILIAR));
+      }
 
-			RequestThread.postRequest( new EquipmentRequest( HATSEAT, EquipmentManager.HAT ) );
+      RequestThread.postRequest(new EquipmentRequest(HATSEAT, EquipmentManager.HAT));
 
-			if ( KoLmafia.permitsContinue() && !KoLCharacter.getEnthroned().equals( change ) )
-			{
-				RequestThread.postRequest( FamiliarRequest.enthroneRequest( change ) );
-			}
-		}
-		else
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a " + parameters + " for a familiar." );
-		}
-	}
+      if (KoLmafia.permitsContinue() && !KoLCharacter.getEnthroned().equals(change)) {
+        RequestThread.postRequest(FamiliarRequest.enthroneRequest(change));
+      }
+    } else {
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR, "You don't have a " + parameters + " for a familiar.");
+    }
+  }
 }

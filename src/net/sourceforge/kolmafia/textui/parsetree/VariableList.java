@@ -3,37 +3,29 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class VariableList
-	implements Iterable<Variable>
-{
-	private final ArrayList<Variable> list = new ArrayList<Variable>();
+public class VariableList implements Iterable<Variable> {
+  private final ArrayList<Variable> list = new ArrayList<Variable>();
 
-	public boolean add( final Variable n )
-	{
-		if ( this.find( n.getName() ) != null )
-		{
-			return false;
-		}
+  public boolean add(final Variable n) {
+    if (this.find(n.getName()) != null) {
+      return false;
+    }
 
-		list.add( n );
-		return true;
-	}
+    list.add(n);
+    return true;
+  }
 
-	public Variable find( final String name )
-	{
-		for ( Variable variable : this.list )
-		{
-			if ( variable.getName().equalsIgnoreCase( name ) )
-			{
-				return variable;
-			}
-		}
+  public Variable find(final String name) {
+    for (Variable variable : this.list) {
+      if (variable.getName().equalsIgnoreCase(name)) {
+        return variable;
+      }
+    }
 
-		return null;
-	}
+    return null;
+  }
 
-	public Iterator<Variable> iterator()
-	{
-		return list.iterator();
-	}
+  public Iterator<Variable> iterator() {
+    return list.iterator();
+  }
 }
