@@ -104,7 +104,6 @@ global	mementoListActive	false
 global	mergeHobopolisChat	false
 global	outerChatColor	#b4460f
 global	outerTabColor	#0f46b4
-global	preferredWebBrowser
 global	previousNotifyList	<>
 global	previousUpdateVersion
 global	previousUpdateRevision	0
