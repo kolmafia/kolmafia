@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
+import org.eclipse.lsp4j.Location;
+
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
@@ -12,8 +14,9 @@ public abstract class Conditional
 	public Scope scope;
 	private final Value condition;
 
-	public Conditional( final Scope scope, final Value condition )
+	public Conditional( final Location location, final Scope scope, final Value condition )
 	{
+		super( location );
 		this.scope = scope;
 		this.condition = condition;
 	}

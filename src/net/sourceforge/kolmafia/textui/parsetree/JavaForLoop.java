@@ -4,6 +4,8 @@ import java.io.PrintStream;
 
 import java.util.List;
 
+import org.eclipse.lsp4j.Location;
+
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
@@ -17,12 +19,13 @@ public class JavaForLoop
 	private final Value condition;
 	private final List<Command> incrementers;
 
-	public JavaForLoop( final Scope scope,
+	public JavaForLoop( final Location location,
+	                    final Scope scope,
 	                    final List<Assignment> initializers,
 	                    final Value condition,
 	                    final List<Command> incrementers )
 	{
-		super( scope );
+		super( location, scope );
 		this.initializers = initializers;
 		this.condition = condition;
 		this.incrementers = incrementers;
