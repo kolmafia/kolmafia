@@ -3574,6 +3574,7 @@ public class Parser
 
 	private Value parseNumber()
 	{
+		Value number;
 		int sign = 1;
 
 		if ( this.currentToken().equals( "-" ) )
@@ -3598,13 +3599,14 @@ public class Parser
 			if ( this.readIntegerToken( fraction.content ) )
 			{
 				this.readToken(); // integer
+				number = new Value( sign * StringUtilities.parseDouble( "0." + fraction ) );
 			}
 			else
 			{
 				throw this.parseException( "numeric value", fraction );
 			}
 
-			return new Value( sign * StringUtilities.parseDouble( "0." + fraction ) );
+			return number;
 		}
 
 		Token integer = this.currentToken();
@@ -3615,21 +3617,22 @@ public class Parser
 
 		this.readToken(); // integer
 
-		if ( this.currentToken().equals( "." ) )
-		{
-			String fraction = this.nextToken();
-			if ( !this.readIntegerToken( fraction ) )
-			{
-				return new Value( sign * StringUtilities.parseLong( integer.content ) );
-			}
+		String fraction = this.nextToken();
 
+		if ( this.currentToken().equals( "." ) &&
+		     this.readIntegerToken( fraction ) )
+		{
 			this.readToken(); // .
 			this.readToken(); // fraction
 
-			return new Value( sign * StringUtilities.parseDouble( integer + "." + fraction ) );
+			number = new Value( sign * StringUtilities.parseDouble( integer + "." + fraction ) );
+		}
+		else
+		{
+			number = new Value( sign * StringUtilities.parseLong( integer.content ) );
 		}
 
-		return new Value( sign * StringUtilities.parseLong( integer.content ) );
+		return number;
 	}
 
 	private boolean readIntegerToken( final String token )
