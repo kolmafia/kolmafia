@@ -1,13 +1,13 @@
-name: Test
+name: Check
 
 on:
   pull_request:
 
 jobs:
-  test:
+  check:
     runs-on: ubuntu-latest
 
-    name: Run Tests
+    name: Run Checks
 
     steps:
       - name: Checkout repository
@@ -27,8 +27,8 @@ jobs:
       - name: Prepare Workspace
         run: mkdir -p ./build
 
-      - name: Run Tests
-        run: ./gradlew --no-daemon test
+      - name: Run Checks (including tests)
+        run: ./gradlew --no-daemon check
 
       # Requires 'pull_request_target' instead of `pull_request' which doesn't checkout PR code
       #- name: Publish Test Report
