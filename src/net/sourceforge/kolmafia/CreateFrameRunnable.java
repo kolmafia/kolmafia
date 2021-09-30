@@ -1,7 +1,14 @@
 package net.sourceforge.kolmafia;
 
-import apple.dts.samplecode.osxadapter.OSXAdapter;
+import java.awt.Desktop;
 import java.awt.Frame;
+import java.awt.desktop.AboutEvent;
+import java.awt.desktop.AboutHandler;
+import java.awt.desktop.PreferencesEvent;
+import java.awt.desktop.PreferencesHandler;
+import java.awt.desktop.QuitEvent;
+import java.awt.desktop.QuitHandler;
+import java.awt.desktop.QuitResponse;
 import java.lang.reflect.Constructor;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -241,12 +248,7 @@ public class CreateFrameRunnable implements Runnable {
         frame.setJMenuBar(new GlobalMenuBar());
       }
 
-      // In the case of OSX, we'll also need a shutdown hook
-
-      boolean isUsingMac = System.getProperty("os.name").startsWith("Mac");
-      if (isUsingMac) {
-        CreateFrameRunnable.addOSXMenuItems();
-      }
+      CreateFrameRunnable.addMenuItems();
     } catch (Exception e) {
       // This should not happen.  Therefore, print
       // a stack trace for debug purposes.
@@ -255,23 +257,28 @@ public class CreateFrameRunnable implements Runnable {
     }
   }
 
-  private static void addOSXMenuItems() {
-    // Generate and register the OSXAdapter, passing it a hash of
-    // all the methods we wish to use as delegates for various
-    // com.apple.eawt.ApplicationListener methods
+  private static void addMenuItems() {
+    Desktop desktop = Desktop.getDesktop();
 
-    try {
-      OSXAdapter.setQuitHandler(
-          KoLmafia.class, KoLmafia.class.getDeclaredMethod("quit", (Class[]) null));
-      OSXAdapter.setAboutHandler(
-          KoLmafia.class, KoLmafia.class.getDeclaredMethod("about", (Class[]) null));
-      OSXAdapter.setPreferencesHandler(
-          KoLmafia.class, KoLmafia.class.getDeclaredMethod("preferencesThreaded", (Class[]) null));
-    } catch (Exception e) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
+    DesktopHandler handler = new DesktopHandler();
+    desktop.setPreferencesHandler(handler);
+    desktop.setQuitHandler(handler);
+    desktop.setAboutHandler(handler);
 
-      StaticEntity.printStackTrace(e, "Could not install OS/X menu hooks");
+  }
+
+  private static class DesktopHandler implements PreferencesHandler, QuitHandler, AboutHandler {
+    public void handlePreferences(PreferencesEvent e) {
+      KoLmafia.preferences();
+    }
+
+    public void handleQuitRequestWith(QuitEvent e, QuitResponse r) {
+      KoLmafia.quit();
+      r.performQuit();
+    }
+
+    public void handleAbout(AboutEvent e) {
+      KoLmafia.about();
     }
   }
 }
