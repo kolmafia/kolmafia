@@ -1,10 +1,10 @@
 package net.sourceforge.kolmafia.webui;
 
-import com.centerkey.BareBonesBrowserLaunch;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 
 public class RelayLoader extends Thread {
@@ -36,7 +36,6 @@ public class RelayLoader extends Thread {
 
   @Override
   public void run() {
-    String preferredBrowser = Preferences.getString("preferredWebBrowser");
     String location = this.location;
 
     if (location.startsWith("/")) {
@@ -54,7 +53,12 @@ public class RelayLoader extends Thread {
       location = "http://127.0.0.1:" + RelayServer.getPort() + this.location;
     }
 
-    BareBonesBrowserLaunch.openURL(preferredBrowser, location);
+    URI uri = URI.create(location);
+
+    try {
+      Desktop.getDesktop().browse(uri);
+    } catch (IOException e) {
+    }
   }
 
   public static final synchronized void startRelayServer() {
