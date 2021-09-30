@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.List;
 
+import org.eclipse.lsp4j.Location;
+
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
@@ -24,11 +26,11 @@ public class ForEachLoop
 	String fileName;
 	int lineNumber;
 
-	public ForEachLoop( final Scope scope,
+	public ForEachLoop( final Location location, final Scope scope,
 	                    final List<VariableReference> variableReferences,
 	                    final Value aggregate, final Parser parser )
 	{
-		super( scope );
+		super( location, scope );
 		this.variableReferences = variableReferences;
 		this.aggregate = aggregate;
 		this.fileName = parser.getShortFileName();

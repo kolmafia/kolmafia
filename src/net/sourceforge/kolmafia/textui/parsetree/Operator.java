@@ -2,6 +2,8 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
+import org.eclipse.lsp4j.Location;
+
 import net.sourceforge.kolmafia.VYKEACompanionData;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
@@ -18,8 +20,9 @@ public class Operator
 	String fileName;
 	int lineNumber;
 
-	public Operator( final String operator, final Parser parser )
+	public Operator( final Location location, final String operator, final Parser parser )
 	{
+		super( location );
 		this.operator = operator;
 		this.fileName = parser.getShortFileName();
 		this.lineNumber = parser.getLineNumber();

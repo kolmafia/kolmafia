@@ -2,6 +2,8 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
+import org.eclipse.lsp4j.Location;
+
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
@@ -20,11 +22,11 @@ public class ForLoop
 	private final String fileName;
 	private final int lineNumber;
 
-	public ForLoop( final Scope scope, final VariableReference variable,
+	public ForLoop( final Location location, final Scope scope, final VariableReference variable,
 	                final Value initial, final Value last, final Value increment,
 	                final int direction, final Parser parser )
 	{
-		super( scope );
+		super( location, scope );
 		this.variable = variable;
 		this.initial = initial;
 		this.last = last;

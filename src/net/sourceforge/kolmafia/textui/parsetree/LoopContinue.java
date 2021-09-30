@@ -1,12 +1,14 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
+import org.eclipse.lsp4j.Location;
+
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class LoopContinue
 	extends ScriptState
 {
-	public LoopContinue()
+	public LoopContinue( final Location location )
 	{
-		super( ScriptRuntime.State.CONTINUE );
+		super( location, ScriptRuntime.State.CONTINUE );
 	}
 }

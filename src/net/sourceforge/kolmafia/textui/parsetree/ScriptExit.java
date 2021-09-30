@@ -1,14 +1,16 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
+import org.eclipse.lsp4j.Location;
+
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class ScriptExit
 	extends ScriptState
 {
-	public ScriptExit()
+	public ScriptExit( final Location location )
 	{
-		super( ScriptRuntime.State.EXIT );
+		super( location, ScriptRuntime.State.EXIT );
 	}
 
 	@Override

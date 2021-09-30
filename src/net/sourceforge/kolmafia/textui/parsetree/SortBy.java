@@ -6,6 +6,8 @@ import java.lang.IllegalArgumentException;
 
 import java.util.Arrays;
 
+import org.eclipse.lsp4j.Location;
+
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
@@ -24,9 +26,10 @@ public class SortBy
 	String fileName;
 	int lineNumber;
 
-	public SortBy( final VariableReference aggregate, final Variable indexvar,
+	public SortBy( final Location location, final VariableReference aggregate, final Variable indexvar,
 	               final Variable valuevar, final Value expr, final Parser parser )
 	{
+		super( location );
 		this.aggregate = aggregate;
 		this.indexvar = indexvar;
 		this.valuevar = valuevar;

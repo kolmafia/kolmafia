@@ -1,15 +1,17 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
+import org.eclipse.lsp4j.Location;
+
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class LoopBreak
 	extends ScriptState
 {
-	public LoopBreak()
+	public LoopBreak( final Location location )
 	{
-		super( ScriptRuntime.State.BREAK );
+		super( location, ScriptRuntime.State.BREAK );
 	}
-	
+
 	@Override
 	public boolean assertBreakable()
 	{

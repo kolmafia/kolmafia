@@ -1,8 +1,39 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
+import org.eclipse.lsp4j.Location;
+
 public abstract class Command
 	extends ParseTreeNode
 {
+	private Location location;
+
+	/**
+	 * For {@link Value}, which uses {@link Value.LocatedValue} to store a Location instead.
+	 */
+	public Command()
+	{
+		this.location = null;
+	}
+
+	public Command( final Location location )
+	{
+		this.location = location;
+	}
+
+	/**
+	 * {@link BasicScope} and its subtypes don't know their location at the time of the
+	 * initialization, and need to have it set later.
+	 */
+	protected void setLocation( final Location location )
+	{
+		this.location = location;
+	}
+
+	public Location getLocation()
+	{
+		return this.location;
+	}
+
 	// A barrier is any code construct that is fundamentally incapable of
 	// completing normally; any subsequent code in the same scope is
 	// therefore dead code (exception: case labels can make code live again).

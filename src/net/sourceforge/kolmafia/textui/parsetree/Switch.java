@@ -5,6 +5,8 @@ import java.io.PrintStream;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.lsp4j.Location;
+
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
@@ -21,8 +23,9 @@ public class Switch
 	private final SwitchScope scope;
 	private final Map<Value, Integer> labels;
 
-	public Switch( final Value condition, final List<Value> tests, final List<Integer> offsets, final int defaultIndex, final SwitchScope scope, final Map<Value, Integer> labels )
+	public Switch( final Location location, final Value condition, final List<Value> tests, final List<Integer> offsets, final int defaultIndex, final SwitchScope scope, final Map<Value, Integer> labels )
 	{
+		super( location );
 		this.condition = condition;
 		this.tests = tests.toArray( new Value[tests.size()] );
 		this.offsets = offsets.toArray( new Integer[offsets.size()] );

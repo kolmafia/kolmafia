@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.lsp4j.Location;
+
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
@@ -38,6 +40,9 @@ public abstract class BasicScope
 
 	public BasicScope( FunctionList functions, VariableList variables, TypeList types, BasicScope parentScope )
 	{
+		// Scopes need to be instantiated before we reach their end,
+		// so we can't send their location straight away.
+		super( null );
 		this.functions = ( functions == null ) ? new FunctionList() : functions;
 		this.types = ( types == null ) ? new TypeList() : types;
 		this.variables = ( variables == null ) ? new VariableList() : variables;
@@ -60,6 +65,18 @@ public abstract class BasicScope
 	public BasicScope( final BasicScope parentScope )
 	{
 		this( null, null, null, parentScope );
+	}
+
+	/**
+	 * Scopes need to be instantiated before we reach their end,
+	 * so we can't send their location straight away.
+	 */
+	public void setScopeLocation( final Location location )
+	{
+		if ( this.getLocation() == null )
+		{
+			this.setLocation( location );
+		}
 	}
 
 	public BasicScope getParentScope()
