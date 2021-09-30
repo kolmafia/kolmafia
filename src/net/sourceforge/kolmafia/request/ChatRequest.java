@@ -1,101 +1,86 @@
 package net.sourceforge.kolmafia.request;
 
 import net.sourceforge.kolmafia.KoLCharacter;
-
 import net.sourceforge.kolmafia.chat.ChatManager;
 
-public class ChatRequest
-	extends GenericRequest
-{
-	protected final String graf;
+public class ChatRequest extends GenericRequest {
+  protected final String graf;
 
-	/**
-	 * Constructs a new <code>ChatRequest</code> where the given parameter
-	 * will be passed to the PHP file to indicate where you left off.
-	 *
-	 * @param lastSeen   The timestamp of the last message received
-	 * @param tabbedChat true if "modern" chat, false if "older" chat
-	 */
+  /**
+   * Constructs a new <code>ChatRequest</code> where the given parameter will be passed to the PHP
+   * file to indicate where you left off.
+   *
+   * @param lastSeen The timestamp of the last message received
+   * @param tabbedChat true if "modern" chat, false if "older" chat
+   */
+  public ChatRequest(final long lastSeen, final boolean tabbedChat, final boolean afk) {
+    super("", false);
 
-	public ChatRequest( final long lastSeen, final boolean tabbedChat, final boolean afk )
-	{
-		super( "", false );
+    // Construct a URL to submit via GET, just like the browser
+    StringBuilder newURLString = new StringBuilder("newchatmessages.php?");
 
-		// Construct a URL to submit via GET, just like the browser
-		StringBuilder newURLString = new StringBuilder( "newchatmessages.php?" );
+    if (tabbedChat) {
+      newURLString.append("j=1&");
+    }
 
-		if ( tabbedChat )
-		{
-			newURLString.append( "j=1&" );
-		}
+    newURLString.append("lasttime=");
+    newURLString.append(lastSeen);
 
-		newURLString.append( "lasttime=" );
-		newURLString.append( lastSeen );
+    if (!tabbedChat) {
+      newURLString.append("&afk=");
+      newURLString.append(afk ? "1" : "0");
+    }
 
-		if ( !tabbedChat )
-		{
-			newURLString.append( "&afk=" );
-			newURLString.append( afk ? "1" : "0" );
-		}
+    this.constructURLString(newURLString.toString(), false);
 
-		this.constructURLString( newURLString.toString(), false );
+    this.graf = "";
+  }
 
-		this.graf = "";
-	}
+  /**
+   * Constructs a new <code>ChatRequest</code> that will send the given string to the server.
+   *
+   * @param graf The message to be sent
+   * @param tabbedChat true if "modern" chat, false if "older" chat
+   */
+  public ChatRequest(final String graf, final boolean tabbedChat) {
+    super("", false);
 
-	/**
-	 * Constructs a new <code>ChatRequest</code> that will send the given
-	 * string to the server.
-	 *
-	 * @param graf       The message to be sent
-	 * @param tabbedChat true if "modern" chat, false if "older" chat
-	 */
+    // Construct a URL to submit via GET, just like the browser
+    StringBuilder newURLString = new StringBuilder("submitnewchat.php?");
 
-	public ChatRequest( final String graf, final boolean tabbedChat )
-	{
-		super( "", false );
+    if (tabbedChat) {
+      newURLString.append("j=1&");
+    }
 
-		// Construct a URL to submit via GET, just like the browser
-		StringBuilder newURLString = new StringBuilder( "submitnewchat.php?" );
+    newURLString.append("pwd=");
+    newURLString.append(GenericRequest.passwordHash);
 
-		if ( tabbedChat )
-		{
-			newURLString.append( "j=1&" );
-		}
+    newURLString.append("&playerid=");
+    newURLString.append(KoLCharacter.getUserId());
 
-		newURLString.append( "pwd=" );
-		newURLString.append( GenericRequest.passwordHash );
+    newURLString.append("&graf=");
+    newURLString.append(GenericRequest.encodeURL(graf, "ISO-8859-1"));
 
-		newURLString.append( "&playerid=" );
-		newURLString.append( KoLCharacter.getUserId() );
+    this.constructURLString(newURLString.toString(), false);
 
-		newURLString.append( "&graf=" );
-		newURLString.append( GenericRequest.encodeURL( graf, "ISO-8859-1" ) );
+    this.graf = graf;
+  }
 
-		this.constructURLString( newURLString.toString(), false );
+  public String getGraf() {
+    return this.graf;
+  }
 
-		this.graf = graf;
-	}
+  @Override
+  public void run() {
+    if (!ChatManager.chatLiterate()) {
+      return;
+    }
 
-	public String getGraf()
-	{
-		return this.graf;
-	}
+    super.run();
+  }
 
-	@Override
-	public void run()
-	{
-		if ( !ChatManager.chatLiterate() )
-		{
-			return;
-		}
-
-		super.run();
-	}
-
-	@Override
-	protected boolean retryOnTimeout()
-	{
-		return true;
-	}
+  @Override
+  protected boolean retryOnTimeout() {
+    return true;
+  }
 }
