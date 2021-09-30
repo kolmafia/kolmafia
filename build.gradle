@@ -54,20 +54,21 @@ configurations {
 
 dependencies {
   // Use JUnit Jupiter for testing. At least, that's the eventual plan.
-  testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.7.1'
-  testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.7.2'
+  testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.8.0'
+  testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.8.0'
 
   testImplementation 'org.hamcrest:hamcrest:2.2'
-  testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
+  testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.0'
   testImplementation 'junit:junit:4.13.2'
 
-  implementation 'com.formdev:flatlaf:1.5'
-  implementation 'com.formdev:flatlaf-intellij-themes:1.5'
+  implementation 'com.formdev:flatlaf:1.6'
+  implementation 'com.formdev:flatlaf-intellij-themes:1.6'
+  implementation 'com.formdev:flatlaf-swingx:1.6'
   // Optional runtime deps for svnkit
   runtimeOnly 'com.trilead:trilead-ssh2:1.0.0-build222'
-  runtimeOnly 'net.java.dev.jna:jna:5.6.0'
-  runtimeOnly 'net.java.dev.jna:jna-platform:5.6.0'
-  runtimeOnly 'org.antlr:antlr-runtime:3.4'
+  runtimeOnly 'net.java.dev.jna:jna:5.9.0'
+  runtimeOnly 'net.java.dev.jna:jna-platform:5.9.0'
+  runtimeOnly 'org.antlr:antlr-runtime:3.5.2'
 
   libImplementation 'org.swinglabs:swingx:1.0'
 
@@ -76,7 +77,7 @@ dependencies {
   }
 
   implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.24'
-  implementation 'org.fusesource.jansi:jansi:2.3.2'
+  implementation 'org.fusesource.jansi:jansi:2.3.4'
   implementation 'org.json:json:20210307'
   implementation 'org.mozilla:rhino:1.7.13'
   implementation 'org.swinglabs:swingx:1.0'
