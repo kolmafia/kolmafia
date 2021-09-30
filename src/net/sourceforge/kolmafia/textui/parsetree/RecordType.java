@@ -159,13 +159,8 @@ public class RecordType
 	}
 
 	@Override
-	public boolean equals( Type o )
+	public boolean equals( final Type o )
 	{
-		if ( o instanceof TypeReference )
-		{
-			o = ((TypeReference) o).getTarget();
-		}
-
 		return o instanceof RecordType && this.name.equals( o.name );
 	}
 
@@ -205,5 +200,25 @@ public class RecordType
 			values += value;
 		}
 		return values;
+	}
+
+	public RecordType reference( final Location location )
+	{
+		return new RecordTypeReference( location );
+	}
+
+	private class RecordTypeReference
+		extends RecordType
+	{
+		public RecordTypeReference( final Location location )
+		{
+			super( RecordType.this.name, RecordType.this.fieldNames, RecordType.this.fieldTypes, location );
+		}
+
+		@Override
+		public Location getDefinitionLocation()
+		{
+			return RecordType.this.getDefinitionLocation();
+		}
 	}
 }

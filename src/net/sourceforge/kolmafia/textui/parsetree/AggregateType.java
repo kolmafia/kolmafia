@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
+import org.eclipse.lsp4j.Location;
+
 import net.sourceforge.kolmafia.textui.DataTypes;
 
 public class AggregateType
@@ -12,7 +14,12 @@ public class AggregateType
 
 	private AggregateType( final String name, final Type dataType, final Type indexType, final int size, final boolean caseInsensitive )
 	{
-		super( name, DataTypes.TYPE_AGGREGATE );
+		this( name, dataType, indexType, size, caseInsensitive, null );
+	}
+
+	private AggregateType( final String name, final Type dataType, final Type indexType, final int size, final boolean caseInsensitive, final Location location )
+	{
+		super( name, DataTypes.TYPE_AGGREGATE, location );
 		this.dataType = dataType;
 		this.indexType = indexType;
 		this.size = size;
@@ -21,7 +28,12 @@ public class AggregateType
 
 	public AggregateType( final AggregateType original )
 	{
-		this( "aggregate", original.dataType, original.indexType, original.size, original.caseInsensitive );
+		this( original, (Location) null );
+	}
+
+	public AggregateType( final AggregateType original, final Location location )
+	{
+		this( "aggregate", original.dataType, original.indexType, original.size, original.caseInsensitive, location );
 	}
 
 	// Map
@@ -43,9 +55,9 @@ public class AggregateType
 	}
 
 	// VarArg
-	public AggregateType( final String name, final Type dataType, final int size )
+	public AggregateType( final String name, final Type dataType, final int size, final Location location )
 	{
-		this( name, dataType, DataTypes.INT_TYPE, size, false );
+		this( name, dataType, DataTypes.INT_TYPE, size, false, location );
 	}
 
 	@Override
@@ -83,13 +95,8 @@ public class AggregateType
 	}
 
 	@Override
-	public boolean equals( Type o )
+	public boolean equals( final Type o )
 	{
-		if ( o instanceof TypeReference )
-		{
-			o = ((TypeReference) o).getTarget();
-		}
-
 		return o instanceof AggregateType &&
 			this.dataType.equals( ( (AggregateType) o ).dataType ) &&
 			this.indexType.equals( ( (AggregateType) o ).indexType );
@@ -151,5 +158,26 @@ public class AggregateType
 			return -1;
 		}
 		return this.size * values;
+	}
+
+	@Override
+	public AggregateType reference( final Location location )
+	{
+		return new AggregateTypeReference( location );
+	}
+
+	private class AggregateTypeReference
+		extends AggregateType
+	{
+		public AggregateTypeReference( final Location location )
+		{
+			super( AggregateType.this, location );
+		}
+
+		@Override
+		public Location getDefinitionLocation()
+		{
+			return AggregateType.this.getDefinitionLocation();
+		}
 	}
 }
