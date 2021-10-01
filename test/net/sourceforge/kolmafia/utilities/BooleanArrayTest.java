@@ -1,8 +1,8 @@
 package net.sourceforge.kolmafia.utilities;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * This is a simple test for BooleanArray primarily written as an example for testing a single class

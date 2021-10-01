@@ -1,21 +1,21 @@
 package net.sourceforge.kolmafia.persistence;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import net.sourceforge.kolmafia.RequestLogger;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class DebugDatabaseTest {
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {}
 
-  @After
+  @AfterEach
   public void tearDown() throws Exception {}
   /* TODO: implement or delete these tests
   @Test
@@ -58,8 +58,8 @@ public class DebugDatabaseTest {
   public void parseName() {
     String goodName = DebugDatabase.parseName("<b>goodName</b>");
     String badName = DebugDatabase.parseName("badName");
-    assertEquals("Could not parse name", "goodName", goodName);
-    assertEquals("Name Returned " + badName, "", badName);
+    assertEquals("goodName", goodName, "Could not parse name");
+    assertEquals("", badName, "Name Returned " + badName);
   }
   /* TODO: implement or delete these tests
   @Test
@@ -348,7 +348,7 @@ public class DebugDatabaseTest {
   }
   */
   @Test
-  @Ignore("fails due to data problems")
+  @Disabled("fails due to data problems")
   public void checkPulverizationData() {
     String expectedOutput = "Checking pulverization data...\n";
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
@@ -359,7 +359,7 @@ public class DebugDatabaseTest {
     DebugDatabase.checkPulverizationData();
 
     String output = ostream.toString();
-    assertEquals("checkPulverizationData variances: \n" + output, expectedOutput, output);
+    assertEquals(expectedOutput, output, "checkPulverizationData variances: \n" + output);
   }
 
   @Test
@@ -373,7 +373,7 @@ public class DebugDatabaseTest {
     DebugDatabase.checkZapGroups();
 
     String output = ostream.toString();
-    assertEquals("checkZapGroups variances: \n" + output, expectedOutput, output);
+    assertEquals(expectedOutput, output, "checkZapGroups variances: \n" + output);
   }
 
   @Test
@@ -415,11 +415,11 @@ public class DebugDatabaseTest {
     DebugDatabase.checkManuel();
 
     String output = ostream.toString();
-    assertEquals("checkManuel variances: \n" + output, expectedOutput, output);
+    assertEquals(expectedOutput, output, "checkManuel variances: \n" + output);
   }
 
   @Test
-  @Ignore("need to figure out if test is reporting valid errors.")
+  @Disabled("need to figure out if test is reporting valid errors.")
   public void checkMeat() {
     String expectedOutput = "";
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
@@ -430,6 +430,6 @@ public class DebugDatabaseTest {
     DebugDatabase.checkMeat();
 
     String output = ostream.toString();
-    assertEquals("checkMeat variances: \n" + output, expectedOutput, output);
+    assertEquals(expectedOutput, output, "checkMeat variances: \n" + output);
   }
 }

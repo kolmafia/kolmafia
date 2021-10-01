@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -10,9 +10,9 @@ import java.io.PrintStream;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.textui.command.CallScriptCommand;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class CustomScriptTest {
   // Directory containing expected output.
@@ -52,15 +52,15 @@ public class CustomScriptTest {
     command.run("call", script);
 
     String output = ostream.toString();
-    assertEquals(script + " output does not match: ", expectedOutput, output);
+    assertEquals(expectedOutput, output, script + " output does not match: ");
   }
 
-  @Before
+  @BeforeEach
   public void setRevision() {
     StaticEntity.overrideRevision(10000);
   }
 
-  @After
+  @AfterEach
   public void clearRevision() {
     StaticEntity.overrideRevision(null);
   }

@@ -1,10 +1,10 @@
 package net.sourceforge.kolmafia.persistence;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import net.sourceforge.kolmafia.KoLConstants;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class EquipmentDatabaseTest {
 

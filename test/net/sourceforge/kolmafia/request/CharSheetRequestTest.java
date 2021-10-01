@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -12,7 +12,7 @@ import net.sourceforge.kolmafia.request.CharSheetRequest.ParsedSkillInfo.PermSta
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import org.htmlcleaner.DomSerializer;
 import org.htmlcleaner.HtmlCleaner;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 
 public class CharSheetRequestTest {
