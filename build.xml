@@ -1,6 +1,21 @@
 <project name="KoLmafia" default="debug" basedir=".">
 <description>
-KoLmafia is an open-source Java-based helper application for the browser-based game Kingdom of Loathing.
+	Following our recent move from SourceForge to GitHub, this buildfile is deprecated.
+
+	All tasks are frozen, and people using it to build should be aware that it is no longer supported.  It's still here,
+	but we can only encourage you to use the newer toolchain.
+
+	The new buildfile is written in gradle, and can be executed with "./gradlew" or "gradlew.bat"
+
+	Common tasks to run (which can be discovered with "./gradlew tasks") include "test", "run", and "shadowJar"
+
+	See this forum thread on our move and recent and upcoming changes:
+	https://kolmafia.us/threads/were-moving-from-sourceforge-to-github.26407/
+
+	Since Sourceforge will no longer be updated, this version (and this buildfile) will gradually become out of date.
+
+	---
+	KoLmafia is an open-source Java-based helper application for the browser-based game Kingdom of Loathing.
 
 KoLmafia enriches the Kingdom of Loathing interface with additional features and shortcuts and also allows
 you to load or develop your own automation scripts to complete repetitive tasks easily.
@@ -471,7 +486,9 @@ All code copyright the respective sourcecode rightsholders.  Please see copyrigh
 		<antcall target="jar">
 		  <param name="jarfile" value="${dist}/${ant.project.name}-${revision}.jar"/>
 		</antcall>
-
+		<echo message="" />
+		<echo message="With the move to Github from sourceforge, ANT has been replaced by Gradle." />
+		<echo message = "https://kolmafia.us/threads/were-moving-from-sourceforge-to-github.26407/ for more information." />
 	</target>
 	
 	<!-- ============================================ -->

@@ -5,207 +5,170 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.RequestLogger;
-
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
-
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class RecipeCommand
-	extends AbstractCommand
-{
-	public RecipeCommand()
-	{
-		this.usage = " <item> [, <item>]... - get ingredients or recipe for items.";
-	}
+public class RecipeCommand extends AbstractCommand {
+  public RecipeCommand() {
+    this.usage = " <item> [, <item>]... - get ingredients or recipe for items.";
+  }
 
-	@Override
-	public void run( final String cmd, final String params )
-	{
-		String[] concoctions = params.split( "\\s*,\\s*" );
-		
-		if ( concoctions.length == 0 )
-		{
-			return;
-		}
+  @Override
+  public void run(final String cmd, final String params) {
+    String[] concoctions = params.split("\\s*,\\s*");
 
-		StringBuffer buffer = new StringBuffer();
+    if (concoctions.length == 0) {
+      return;
+    }
 
-		for ( int i = 0; i < concoctions.length; ++i )
-		{
-			AdventureResult item = ItemFinder.getFirstMatchingItem( concoctions[ i ] );
-			if ( item == null )
-			{
-				continue;
-			}
+    StringBuffer buffer = new StringBuffer();
 
-			int itemId = item.getItemId();
-			String name = item.getName();
+    for (int i = 0; i < concoctions.length; ++i) {
+      AdventureResult item = ItemFinder.getFirstMatchingItem(concoctions[i]);
+      if (item == null) {
+        continue;
+      }
 
-			if ( ConcoctionDatabase.getMixingMethod( itemId ) == CraftingType.NOCREATE )
-			{
-				RequestLogger.printLine( "This item cannot be created: <b>" + name + "</b>" );
-				continue;
-			}
+      int itemId = item.getItemId();
+      String name = item.getName();
 
-			buffer.setLength( 0 );
-			if ( concoctions.length > 1 )
-			{
-				buffer.append( ( i + 1 ) );
-				buffer.append( ". " );
-			}
+      if (ConcoctionDatabase.getMixingMethod(itemId) == CraftingType.NOCREATE) {
+        RequestLogger.printLine("This item cannot be created: <b>" + name + "</b>");
+        continue;
+      }
 
-			if ( cmd.equals( "ingredients" ) )
-			{
-				RecipeCommand.getIngredients( item, buffer );
-			}
-			else if ( cmd.equals( "recipe" ) )
-			{
-				RecipeCommand.getRecipe( item, buffer, 0 );
-			}
+      buffer.setLength(0);
+      if (concoctions.length > 1) {
+        buffer.append((i + 1));
+        buffer.append(". ");
+      }
 
-			RequestLogger.printLine( buffer.toString() );
-		}
-	}
-	
-	private static void getIngredients( final AdventureResult ar, final StringBuffer sb )
-	{
-		sb.append( "<b>" );
-		sb.append( ar.getInstance( ConcoctionDatabase.getYield( ar.getItemId() ) ).toString() );
-		sb.append( "</b>: " );
+      if (cmd.equals("ingredients")) {
+        RecipeCommand.getIngredients(item, buffer);
+      } else if (cmd.equals("recipe")) {
+        RecipeCommand.getRecipe(item, buffer, 0);
+      }
 
-		List ingredients = RecipeCommand.getFlattenedIngredients( ar, new ArrayList(), false );
-		Collections.sort( ingredients );
+      RequestLogger.printLine(buffer.toString());
+    }
+  }
 
-		Iterator it = ingredients.iterator();
-		boolean first = true;
-		while ( it.hasNext() )
-		{
-			AdventureResult ingredient = (AdventureResult) it.next();
-			int need = ingredient.getCount();
-			int have = InventoryManager.getAccessibleCount( ingredient );
-			int missing = need - have;
+  private static void getIngredients(final AdventureResult ar, final StringBuffer sb) {
+    sb.append("<b>");
+    sb.append(ar.getInstance(ConcoctionDatabase.getYield(ar.getItemId())).toString());
+    sb.append("</b>: ");
 
-			if ( !first )
-			{
-				sb.append( ", " );
-			}
+    List ingredients = RecipeCommand.getFlattenedIngredients(ar, new ArrayList(), false);
+    Collections.sort(ingredients);
 
-			first = false;
+    Iterator it = ingredients.iterator();
+    boolean first = true;
+    while (it.hasNext()) {
+      AdventureResult ingredient = (AdventureResult) it.next();
+      int need = ingredient.getCount();
+      int have = InventoryManager.getAccessibleCount(ingredient);
+      int missing = need - have;
 
-			if ( missing < 1 )
-			{
-				sb.append( ingredient.toString() );
-				continue;
-			}
-		
-			sb.append( "<i>" );
-			sb.append( ingredient.getName() );
-			sb.append( " (" );
-			sb.append( have );
-			sb.append( "/" );
-			sb.append( need );
-			sb.append( ")</i>" );
-		}
-	}
+      if (!first) {
+        sb.append(", ");
+      }
 
-	private static List getFlattenedIngredients( AdventureResult ar, List list, boolean deep )
-	{
-		AdventureResult [] ingredients = ConcoctionDatabase.getIngredients( ar.getItemId() );
-		for ( int i = 0; i < ingredients.length; ++i )
-		{
-			AdventureResult ingredient = ingredients[ i ];
-			if ( ConcoctionDatabase.getMixingMethod( ingredient.getItemId() ) != CraftingType.NOCREATE )
-			{
-				int have = InventoryManager.getAccessibleCount( ingredient );
-				if ( !RecipeCommand.isRecursing( ar, ingredient ) &&
-				     ( deep || have == 0 ) )
-				{
-					RecipeCommand.getFlattenedIngredients( ingredient, list, deep );
-					continue;
-				}
-			}
-			AdventureResult.addResultToList( list, ingredient );
-		}
+      first = false;
 
-		return list;
-	}
+      if (missing < 1) {
+        sb.append(ingredient.toString());
+        continue;
+      }
 
-	private static boolean isRecursing( final AdventureResult parent, final AdventureResult child )
-	{
-		if ( parent.equals( child ) )
-		{
-			// should never actually happen, but eh
-			return true;
-		}
+      sb.append("<i>");
+      sb.append(ingredient.getName());
+      sb.append(" (");
+      sb.append(have);
+      sb.append("/");
+      sb.append(need);
+      sb.append(")</i>");
+    }
+  }
 
-		if ( ConcoctionDatabase.getMixingMethod( parent.getItemId() ) == CraftingType.ROLLING_PIN )
-		{
-			return true;
-		}
-		
-		AdventureResult [] ingredients = ConcoctionDatabase.getIngredients( child.getItemId() );
-		for ( int i = 0; i < ingredients.length; ++i )
-		{
-			if ( ingredients[ i ].equals( parent ) )
-			{
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	private static void getRecipe( final AdventureResult ar, final StringBuffer sb, final int depth )
-	{
-		if ( depth > 0 )
-		{
-			sb.append( "<br>" );
-			for ( int i = 0; i < depth; i++ )
-			{
-				sb.append( "\u00a0\u00a0\u00a0" );
-			}
-		}
-		
-		int itemId = ar.getItemId();
-		
-		sb.append( "<b>" );
-		sb.append( ar.getInstance( ConcoctionDatabase.getYield( ar.getItemId() ) ).toString() );
-		sb.append( "</b>" );
-		
-		CraftingType mixingMethod = ConcoctionDatabase.getMixingMethod( itemId );
-		EnumSet<CraftingRequirements> requirements = ConcoctionDatabase.getRequirements( itemId );
-		if ( mixingMethod != CraftingType.NOCREATE )
-		{
-			sb.append( "<b>:</b> <i>[" );
-			sb.append( ConcoctionDatabase.mixingMethodDescription( mixingMethod, requirements ) );
-			sb.append( "]</i> " );
+  private static List getFlattenedIngredients(AdventureResult ar, List list, boolean deep) {
+    AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(ar.getItemId());
+    for (int i = 0; i < ingredients.length; ++i) {
+      AdventureResult ingredient = ingredients[i];
+      if (ConcoctionDatabase.getMixingMethod(ingredient.getItemId()) != CraftingType.NOCREATE) {
+        int have = InventoryManager.getAccessibleCount(ingredient);
+        if (!RecipeCommand.isRecursing(ar, ingredient) && (deep || have == 0)) {
+          RecipeCommand.getFlattenedIngredients(ingredient, list, deep);
+          continue;
+        }
+      }
+      AdventureResult.addResultToList(list, ingredient);
+    }
 
-			AdventureResult [] ingredients = ConcoctionDatabase.getIngredients( itemId );
-			for ( int i = 0; i < ingredients.length; ++i )
-			{
-				AdventureResult ingredient = ingredients[ i ];
-				if ( i > 0 )
-				{
-					sb.append( " + " );
-				}
-				sb.append( ingredient.toString() );
-			}
+    return list;
+  }
 
-			for ( int i = 0; i < ingredients.length; ++i )
-			{
-				AdventureResult ingredient = ingredients[ i ];
-				if ( RecipeCommand.isRecursing( ar, ingredient ) )
-				{
-					continue;
-				}
-				RecipeCommand.getRecipe( ingredient, sb, depth + 1 );
-			}
-		}
-	}
+  private static boolean isRecursing(final AdventureResult parent, final AdventureResult child) {
+    if (parent.equals(child)) {
+      // should never actually happen, but eh
+      return true;
+    }
+
+    if (ConcoctionDatabase.getMixingMethod(parent.getItemId()) == CraftingType.ROLLING_PIN) {
+      return true;
+    }
+
+    AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(child.getItemId());
+    for (int i = 0; i < ingredients.length; ++i) {
+      if (ingredients[i].equals(parent)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  private static void getRecipe(final AdventureResult ar, final StringBuffer sb, final int depth) {
+    if (depth > 0) {
+      sb.append("<br>");
+      for (int i = 0; i < depth; i++) {
+        sb.append("\u00a0\u00a0\u00a0");
+      }
+    }
+
+    int itemId = ar.getItemId();
+
+    sb.append("<b>");
+    sb.append(ar.getInstance(ConcoctionDatabase.getYield(ar.getItemId())).toString());
+    sb.append("</b>");
+
+    CraftingType mixingMethod = ConcoctionDatabase.getMixingMethod(itemId);
+    EnumSet<CraftingRequirements> requirements = ConcoctionDatabase.getRequirements(itemId);
+    if (mixingMethod != CraftingType.NOCREATE) {
+      sb.append("<b>:</b> <i>[");
+      sb.append(ConcoctionDatabase.mixingMethodDescription(mixingMethod, requirements));
+      sb.append("]</i> ");
+
+      AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(itemId);
+      for (int i = 0; i < ingredients.length; ++i) {
+        AdventureResult ingredient = ingredients[i];
+        if (i > 0) {
+          sb.append(" + ");
+        }
+        sb.append(ingredient.toString());
+      }
+
+      for (int i = 0; i < ingredients.length; ++i) {
+        AdventureResult ingredient = ingredients[i];
+        if (RecipeCommand.isRecursing(ar, ingredient)) {
+          continue;
+        }
+        RecipeCommand.getRecipe(ingredient, sb, depth + 1);
+      }
+    }
+  }
 }

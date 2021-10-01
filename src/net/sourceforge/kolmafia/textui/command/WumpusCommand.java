@@ -1,133 +1,115 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.io.File;
-
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-
 import net.sourceforge.kolmafia.session.WumpusManager;
-
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class WumpusCommand
-	extends AbstractCommand
-{
-	public WumpusCommand()
-	{
-		this.usage = " status - Display status of last wumpus cave.";
-	}
+public class WumpusCommand extends AbstractCommand {
+  public WumpusCommand() {
+    this.usage = " status - Display status of last wumpus cave.";
+  }
 
-	@Override
-	public void run( final String cmd, final String parameters )
-	{
-		String[] tokens = parameters.split( "\\s+" );
-		if ( tokens.length < 1 )
-		{
-			return;
-		}
+  @Override
+  public void run(final String cmd, final String parameters) {
+    String[] tokens = parameters.split("\\s+");
+    if (tokens.length < 1) {
+      return;
+    }
 
-		String option = tokens[ 0 ];
+    String option = tokens[0];
 
-		if ( option.equals( "status" ) )
-		{
-			WumpusManager.printStatus();
-			return;
-		}
+    if (option.equals("status")) {
+      WumpusManager.printStatus();
+      return;
+    }
 
-		if ( option.equals( "code" ) )
-		{
-			String code = WumpusManager.getWumpinatorCode();
-			RequestLogger.printLine( code );
-			return;
-		}
+    if (option.equals("code")) {
+      String code = WumpusManager.getWumpinatorCode();
+      RequestLogger.printLine(code);
+      return;
+    }
 
-		if ( option.equals( "reset" ) )
-		{
-			WumpusManager.reset();
-			return;
-		}
+    if (option.equals("reset")) {
+      WumpusManager.reset();
+      return;
+    }
 
-		if ( option.equals( "replay" ) )
-		{
-			if ( tokens.length < 2 )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "Replay from what file?" );
-				return;
-			}
+    if (option.equals("replay")) {
+      if (tokens.length < 2) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Replay from what file?");
+        return;
+      }
 
-			String fileName = tokens[ 1 ];
-			File file = new File( KoLConstants.DATA_LOCATION, fileName );
+      String fileName = tokens[1];
+      File file = new File(KoLConstants.DATA_LOCATION, fileName);
 
-			if ( !file.exists() )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "File " + file + " does not exist" );
-				return;
-			}
-			
-			byte[] bytes = ByteBufferUtilities.read( file );
-			String text = StringUtilities.getEncodedString( bytes, "UTF-8" );
+      if (!file.exists()) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "File " + file + " does not exist");
+        return;
+      }
 
-			KoLmafia.updateDisplay( "Read " + KoLConstants.COMMA_FORMAT.format( bytes.length ) +
-						" bytes into a " + KoLConstants.COMMA_FORMAT.format( text.length() ) +
-						" character string" );
+      byte[] bytes = ByteBufferUtilities.read(file);
+      String text = StringUtilities.getEncodedString(bytes, "UTF-8");
 
-			String[] lines = text.split( "\\n" );
+      KoLmafia.updateDisplay(
+          "Read "
+              + KoLConstants.COMMA_FORMAT.format(bytes.length)
+              + " bytes into a "
+              + KoLConstants.COMMA_FORMAT.format(text.length())
+              + " character string");
 
-			// Start with fresh cave data
-			WumpusManager.reset();
+      String[] lines = text.split("\\n");
 
-			int index = 0;
-			while ( index < lines.length )
-			{
-				String encounter = null, exits = null, sounds = null;
-				String line = lines[ index++ ];
+      // Start with fresh cave data
+      WumpusManager.reset();
 
-				// Find the next encounter
-				if ( !line.startsWith( "Encounter:" ) )
-				{
-					continue;
-				}
+      int index = 0;
+      while (index < lines.length) {
+        String encounter = null, exits = null, sounds = null;
+        String line = lines[index++];
 
-				encounter = line;
+        // Find the next encounter
+        if (!line.startsWith("Encounter:")) {
+          continue;
+        }
 
-				// Look at all lines up to next encounter, collecting exits and sounds
-				while ( index < lines.length )
-				{
-					line = lines[ index];
-					if ( line.startsWith( "Encounter:" ) )
-					{
-						break;
-					}
+        encounter = line;
 
-					index += 1;
-					
-					if ( line.startsWith( "Exits:" ) )
-					{
-						exits = line;
-					}
-					else if ( line.startsWith( "Sounds:" ) )
-					{
-						sounds = line;
-					}
-				}
+        // Look at all lines up to next encounter, collecting exits and sounds
+        while (index < lines.length) {
+          line = lines[index];
+          if (line.startsWith("Encounter:")) {
+            break;
+          }
 
-				RequestLogger.printLine( encounter );
-				String responseText = WumpusManager.reconstructResponseText( encounter, exits, sounds );
-				if ( responseText != null )
-				{
-					WumpusManager.visitChoice( responseText );
-                    String buffer = "Wumpinator: " +
-                            "<a href=\"" +
-                            WumpusManager.getWumpinatorURL() +
-                            "\">" +
-                            "&lt;click here&gt;" +
-                            "</a>";
-                    RequestLogger.printLine( buffer );
-				}
-			}
-		}
-	}
+          index += 1;
+
+          if (line.startsWith("Exits:")) {
+            exits = line;
+          } else if (line.startsWith("Sounds:")) {
+            sounds = line;
+          }
+        }
+
+        RequestLogger.printLine(encounter);
+        String responseText = WumpusManager.reconstructResponseText(encounter, exits, sounds);
+        if (responseText != null) {
+          WumpusManager.visitChoice(responseText);
+          String buffer =
+              "Wumpinator: "
+                  + "<a href=\""
+                  + WumpusManager.getWumpinatorURL()
+                  + "\">"
+                  + "&lt;click here&gt;"
+                  + "</a>";
+          RequestLogger.printLine(buffer);
+        }
+      }
+    }
+  }
 }

@@ -2,351 +2,278 @@ package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import net.java.dev.spellcast.utilities.LockableListModel;
-
 import net.sourceforge.kolmafia.KoLmafiaCLI;
-
 import net.sourceforge.kolmafia.moods.Mood;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
-
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
-
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
-
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
-public class MoodOptionsPanel
-	extends JPanel
-{
-	protected JList moodList;
+public class MoodOptionsPanel extends JPanel {
+  protected JList moodList;
 
-	public MoodOptionsPanel()
-	{
-		super( new BorderLayout() );
+  public MoodOptionsPanel() {
+    super(new BorderLayout());
 
-		this.add( new MoodTriggerListPanel(), BorderLayout.CENTER );
+    this.add(new MoodTriggerListPanel(), BorderLayout.CENTER);
 
-		AddTriggerPanel triggers = new AddTriggerPanel();
-		this.moodList.addListSelectionListener( triggers );
-		this.add( triggers, BorderLayout.NORTH );
-	}
+    AddTriggerPanel triggers = new AddTriggerPanel();
+    this.moodList.addListSelectionListener(triggers);
+    this.add(triggers, BorderLayout.NORTH);
+  }
 
-	private class MoodTriggerListPanel
-		extends ScrollablePanel
-	{
-		public JComboBox availableMoods;
+  private class MoodTriggerListPanel extends ScrollablePanel {
+    public JComboBox availableMoods;
 
-		public MoodTriggerListPanel()
-		{
-			super( "", new ShowDescriptionList( MoodManager.getTriggers() ) );
+    public MoodTriggerListPanel() {
+      super("", new ShowDescriptionList(MoodManager.getTriggers()));
 
-			this.availableMoods = new MoodComboBox();
+      this.availableMoods = new MoodComboBox();
 
-			this.centerPanel.add( this.availableMoods, BorderLayout.NORTH );
-			MoodOptionsPanel.this.moodList = (JList) this.scrollComponent;
+      this.centerPanel.add(this.availableMoods, BorderLayout.NORTH);
+      MoodOptionsPanel.this.moodList = (JList) this.scrollComponent;
 
-			JPanel extraButtons = new JPanel( new GridLayout( 4, 1, 5, 5 ) );
+      JPanel extraButtons = new JPanel(new GridLayout(4, 1, 5, 5));
 
-			extraButtons.add( new ThreadedButton( "new list", new NewMoodRunnable() ) );
-			extraButtons.add( new ThreadedButton( "delete list", new DeleteMoodRunnable() ) );
-			extraButtons.add( new ThreadedButton( "copy list", new CopyMoodRunnable() ) );
-			extraButtons.add( new ThreadedButton( "execute", new ExecuteRunnable() ) );
+      extraButtons.add(new ThreadedButton("new list", new NewMoodRunnable()));
+      extraButtons.add(new ThreadedButton("delete list", new DeleteMoodRunnable()));
+      extraButtons.add(new ThreadedButton("copy list", new CopyMoodRunnable()));
+      extraButtons.add(new ThreadedButton("execute", new ExecuteRunnable()));
 
-			JPanel buttonHolder = new JPanel( new BorderLayout() );
-			buttonHolder.add( extraButtons, BorderLayout.NORTH );
+      JPanel buttonHolder = new JPanel(new BorderLayout());
+      buttonHolder.add(extraButtons, BorderLayout.NORTH);
 
-			this.actualPanel.add( buttonHolder, BorderLayout.EAST );
-		}
+      this.actualPanel.add(buttonHolder, BorderLayout.EAST);
+    }
 
-		@Override
-		public void actionConfirmed()
-		{
-		}
+    @Override
+    public void actionConfirmed() {}
 
-		@Override
-		public void actionCancelled()
-		{
-		}
+    @Override
+    public void actionCancelled() {}
 
-		@Override
-		public void setEnabled( final boolean isEnabled )
-		{
-		}
+    @Override
+    public void setEnabled(final boolean isEnabled) {}
 
-		private class MoodComboBox
-			extends JComboBox
-		{
-			public MoodComboBox()
-			{
-				super( MoodManager.getAvailableMoods() );
+    private class MoodComboBox extends JComboBox {
+      public MoodComboBox() {
+        super(MoodManager.getAvailableMoods());
 
-				MoodManager.updateFromPreferences();
+        MoodManager.updateFromPreferences();
 
-				this.addActionListener( new MoodComboBoxListener() );
-			}
+        this.addActionListener(new MoodComboBoxListener());
+      }
 
-			public class MoodComboBoxListener
-				implements ActionListener
-			{
-				public void actionPerformed( final ActionEvent e )
-				{
-					Mood mood = (Mood) MoodComboBox.this.getSelectedItem();
-					if ( mood != null )
-					{
-						MoodManager.setMood( mood.toString() );
-					}
-				}
-			}
-		}
+      public class MoodComboBoxListener implements ActionListener {
+        public void actionPerformed(final ActionEvent e) {
+          Mood mood = (Mood) MoodComboBox.this.getSelectedItem();
+          if (mood != null) {
+            MoodManager.setMood(mood.toString());
+          }
+        }
+      }
+    }
 
-		private class NewMoodRunnable
-			implements Runnable
-		{
-			public void run()
-			{
-				String name = InputFieldUtilities.input( "Give your list a name!" );
-				if ( name == null )
-				{
-					return;
-				}
+    private class NewMoodRunnable implements Runnable {
+      public void run() {
+        String name = InputFieldUtilities.input("Give your list a name!");
+        if (name == null) {
+          return;
+        }
 
-				MoodManager.setMood( name );
-				MoodManager.saveSettings();
-			}
-		}
+        MoodManager.setMood(name);
+        MoodManager.saveSettings();
+      }
+    }
 
-		private class DeleteMoodRunnable
-			implements Runnable
-		{
-			public void run()
-			{
-				MoodManager.deleteCurrentMood();
-				MoodManager.saveSettings();
-			}
-		}
+    private class DeleteMoodRunnable implements Runnable {
+      public void run() {
+        MoodManager.deleteCurrentMood();
+        MoodManager.saveSettings();
+      }
+    }
 
-		private class CopyMoodRunnable
-			implements Runnable
-		{
-			public void run()
-			{
-				String moodName = InputFieldUtilities.input( "Make a copy of current mood list called:" );
-				if ( moodName == null )
-				{
-					return;
-				}
+    private class CopyMoodRunnable implements Runnable {
+      public void run() {
+        String moodName = InputFieldUtilities.input("Make a copy of current mood list called:");
+        if (moodName == null) {
+          return;
+        }
 
-				if ( moodName.equals( "default" ) )
-				{
-					return;
-				}
+        if (moodName.equals("default")) {
+          return;
+        }
 
-				MoodManager.copyTriggers( moodName );
-				MoodManager.setMood( moodName );
-				MoodManager.saveSettings();
-			}
-		}
+        MoodManager.copyTriggers(moodName);
+        MoodManager.setMood(moodName);
+        MoodManager.saveSettings();
+      }
+    }
 
-		private class ExecuteRunnable
-			implements Runnable
-		{
-			public void run()
-			{
-				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "mood execute" );
-			}
-		}
-	}
+    private class ExecuteRunnable implements Runnable {
+      public void run() {
+        KoLmafiaCLI.DEFAULT_SHELL.executeLine("mood execute");
+      }
+    }
+  }
 
-	public class AddTriggerPanel
-		extends GenericPanel
-		implements ListSelectionListener
-	{
-		public LockableListModel EMPTY_MODEL = new LockableListModel();
-		public LockableListModel EFFECT_MODEL = new LockableListModel();
+  public class AddTriggerPanel extends GenericPanel implements ListSelectionListener {
+    public LockableListModel EMPTY_MODEL = new LockableListModel();
+    public LockableListModel EFFECT_MODEL = new LockableListModel();
 
-		public TypeComboBox typeSelect;
-		public ValueComboBox valueSelect;
-		public JTextField commandField;
+    public TypeComboBox typeSelect;
+    public ValueComboBox valueSelect;
+    public JTextField commandField;
 
-		public AddTriggerPanel()
-		{
-			super( "add entry", "auto-fill" );
+    public AddTriggerPanel() {
+      super("add entry", "auto-fill");
 
-			this.typeSelect = new TypeComboBox();
+      this.typeSelect = new TypeComboBox();
 
-			Object[] names = EffectDatabase.values().toArray();
+      Object[] names = EffectDatabase.values().toArray();
 
-			for ( int i = 0; i < names.length; ++i )
-			{
-				this.EFFECT_MODEL.add( names[ i ].toString() );
-			}
+      for (int i = 0; i < names.length; ++i) {
+        this.EFFECT_MODEL.add(names[i].toString());
+      }
 
-			this.EFFECT_MODEL.sort();
+      this.EFFECT_MODEL.sort();
 
-			this.valueSelect = new ValueComboBox();
-			this.commandField = new JTextField();
+      this.valueSelect = new ValueComboBox();
+      this.commandField = new JTextField();
 
-			VerifiableElement[] elements = new VerifiableElement[ 3 ];
-			elements[ 0 ] = new VerifiableElement( "Trigger On: ", this.typeSelect );
-			elements[ 1 ] = new VerifiableElement( "Check For: ", this.valueSelect );
-			elements[ 2 ] = new VerifiableElement( "Command: ", this.commandField );
+      VerifiableElement[] elements = new VerifiableElement[3];
+      elements[0] = new VerifiableElement("Trigger On: ", this.typeSelect);
+      elements[1] = new VerifiableElement("Check For: ", this.valueSelect);
+      elements[2] = new VerifiableElement("Command: ", this.commandField);
 
-			this.setContent( elements );
-		}
+      this.setContent(elements);
+    }
 
-		public void valueChanged( final ListSelectionEvent e )
-		{
-			Object selected = MoodOptionsPanel.this.moodList.getSelectedValue();
-			if ( selected == null )
-			{
-				return;
-			}
+    public void valueChanged(final ListSelectionEvent e) {
+      Object selected = MoodOptionsPanel.this.moodList.getSelectedValue();
+      if (selected == null) {
+        return;
+      }
 
-			MoodTrigger node = (MoodTrigger) selected;
-			String type = node.getType();
+      MoodTrigger node = (MoodTrigger) selected;
+      String type = node.getType();
 
-			// Update the selected type
+      // Update the selected type
 
-			if ( type.equals( "lose_effect" ) )
-			{
-				this.typeSelect.setSelectedIndex( 0 );
-			}
-			else if ( type.equals( "gain_effect" ) )
-			{
-				this.typeSelect.setSelectedIndex( 1 );
-			}
-			else if ( type.equals( "unconditional" ) )
-			{
-				this.typeSelect.setSelectedIndex( 2 );
-			}
+      if (type.equals("lose_effect")) {
+        this.typeSelect.setSelectedIndex(0);
+      } else if (type.equals("gain_effect")) {
+        this.typeSelect.setSelectedIndex(1);
+      } else if (type.equals("unconditional")) {
+        this.typeSelect.setSelectedIndex(2);
+      }
 
-			// Update the selected effect
+      // Update the selected effect
 
-			this.valueSelect.setSelectedItem( node.getName() );
-			this.commandField.setText( node.getAction() );
-		}
+      this.valueSelect.setSelectedItem(node.getName());
+      this.commandField.setText(node.getAction());
+    }
 
-		@Override
-		public void actionConfirmed()
-		{
-			String currentMood = Preferences.getString( "currentMood" );
-			if ( currentMood.equals( "apathetic" ) )
-			{
-				InputFieldUtilities.alert( "You cannot add triggers to an apathetic mood." );
-				return;
-			}
+    @Override
+    public void actionConfirmed() {
+      String currentMood = Preferences.getString("currentMood");
+      if (currentMood.equals("apathetic")) {
+        InputFieldUtilities.alert("You cannot add triggers to an apathetic mood.");
+        return;
+      }
 
-			MoodManager.addTrigger(
-				this.typeSelect.getSelectedType(), (String) this.valueSelect.getSelectedItem(),
-				this.commandField.getText() );
-			MoodManager.saveSettings();
-		}
+      MoodManager.addTrigger(
+          this.typeSelect.getSelectedType(),
+          (String) this.valueSelect.getSelectedItem(),
+          this.commandField.getText());
+      MoodManager.saveSettings();
+    }
 
-		@Override
-		public void actionCancelled()
-		{
-			String[] autoFillTypes =
-				new String[] { "minimal set (current active buffs)", "maximal set (all castable buffs)" };
-			String desiredType =
-				(String) InputFieldUtilities.input( "Which kind of buff set would you like to use?", autoFillTypes );
+    @Override
+    public void actionCancelled() {
+      String[] autoFillTypes =
+          new String[] {"minimal set (current active buffs)", "maximal set (all castable buffs)"};
+      String desiredType =
+          (String)
+              InputFieldUtilities.input(
+                  "Which kind of buff set would you like to use?", autoFillTypes);
 
-			if ( desiredType == null )
-			{
-				return;
-			}
+      if (desiredType == null) {
+        return;
+      }
 
-			if ( desiredType.equals( autoFillTypes[ 0 ] ) )
-			{
-				MoodManager.minimalSet();
-			}
-			else
-			{
-				MoodManager.maximalSet();
-			}
+      if (desiredType.equals(autoFillTypes[0])) {
+        MoodManager.minimalSet();
+      } else {
+        MoodManager.maximalSet();
+      }
 
-			MoodManager.saveSettings();
-		}
+      MoodManager.saveSettings();
+    }
 
-		@Override
-		public void setEnabled( final boolean isEnabled )
-		{
-		}
+    @Override
+    public void setEnabled(final boolean isEnabled) {}
 
-		@Override
-		public void addStatusLabel()
-		{
-		}
+    @Override
+    public void addStatusLabel() {}
 
-		private class ValueComboBox
-			extends AutoFilterComboBox
-		{
-			public ValueComboBox()
-			{
-				super( AddTriggerPanel.this.EFFECT_MODEL, false );
-			}
+    private class ValueComboBox extends AutoFilterComboBox {
+      public ValueComboBox() {
+        super(AddTriggerPanel.this.EFFECT_MODEL, false);
+      }
 
-			@Override
-			public void setSelectedItem( final Object anObject )
-			{
-				AddTriggerPanel.this.commandField.setText( MoodManager.getDefaultAction(
-					AddTriggerPanel.this.typeSelect.getSelectedType(), (String) anObject ) );
-				super.setSelectedItem( anObject );
-			}
-		}
+      @Override
+      public void setSelectedItem(final Object anObject) {
+        AddTriggerPanel.this.commandField.setText(
+            MoodManager.getDefaultAction(
+                AddTriggerPanel.this.typeSelect.getSelectedType(), (String) anObject));
+        super.setSelectedItem(anObject);
+      }
+    }
 
-		private class TypeComboBox
-			extends JComboBox
-		{
-			public TypeComboBox()
-			{
-				this.addItem( "When an effect is lost" );
-				this.addItem( "When an effect is gained" );
-				this.addItem( "Unconditional trigger" );
+    private class TypeComboBox extends JComboBox {
+      public TypeComboBox() {
+        this.addItem("When an effect is lost");
+        this.addItem("When an effect is gained");
+        this.addItem("Unconditional trigger");
 
-				this.addActionListener( new TypeComboBoxListener() );
-			}
+        this.addActionListener(new TypeComboBoxListener());
+      }
 
-			public String getSelectedType()
-			{
-				switch ( this.getSelectedIndex() )
-				{
-				case 0:
-					return "lose_effect";
-				case 1:
-					return "gain_effect";
-				case 2:
-					return "unconditional";
-				default:
-					return null;
-				}
-			}
+      public String getSelectedType() {
+        switch (this.getSelectedIndex()) {
+          case 0:
+            return "lose_effect";
+          case 1:
+            return "gain_effect";
+          case 2:
+            return "unconditional";
+          default:
+            return null;
+        }
+      }
 
-			private class TypeComboBoxListener
-				implements ActionListener
-			{
-				public void actionPerformed( final ActionEvent e )
-				{
-					AddTriggerPanel.this.valueSelect.setModel( TypeComboBox.this.getSelectedIndex() == 2 ? AddTriggerPanel.this.EMPTY_MODEL : AddTriggerPanel.this.EFFECT_MODEL );
-				}
-			}
-		}
-	}
+      private class TypeComboBoxListener implements ActionListener {
+        public void actionPerformed(final ActionEvent e) {
+          AddTriggerPanel.this.valueSelect.setModel(
+              TypeComboBox.this.getSelectedIndex() == 2
+                  ? AddTriggerPanel.this.EMPTY_MODEL
+                  : AddTriggerPanel.this.EFFECT_MODEL);
+        }
+      }
+    }
+  }
 }

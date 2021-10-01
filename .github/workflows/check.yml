@@ -1,12 +1,13 @@
-name: Test
+name: Check
 
 on:
   pull_request:
 
 jobs:
-  test:
+  check:
     runs-on: ubuntu-latest
 
+    # This needs to be called Run Tests to satisfy our github setup.
     name: Run Tests
 
     steps:
@@ -15,11 +16,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Java 16
+      - name: Setup Java 17
         uses: actions/setup-java@v2
         with:
           distribution: "temurin"
-          java-version: "16"
+          java-version: "17"
+          cache: "gradle"
 
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1
@@ -27,8 +29,8 @@ jobs:
       - name: Prepare Workspace
         run: mkdir -p ./build
 
-      - name: Run Tests
-        run: ./gradlew --no-daemon test
+      - name: Run Checks (including tests)
+        run: ./gradlew --no-daemon check
 
       # Requires 'pull_request_target' instead of `pull_request' which doesn't checkout PR code
       #- name: Publish Test Report
@@ -37,12 +39,3 @@ jobs:
       #  with:
       #    github_token: ${{ secrets.GITHUB_TOKEN }}
       #    report_paths: "**/build/test-results/test/TEST-*.xml"
-
-      # Requires 'pull_request_target' instead of `pull_request' which doesn't checkout PR code
-      # Disabled, creates a comment that is too large to post
-      #- name: Coverage Report as Comment (Clover)
-      #  uses: lucassabreu/comment-coverage-clover@main
-      #  if: github.event_name == 'pull_request_target'
-      #  with:
-      #    github-token: ${{ secrets.GITHUB_TOKEN }}
-      #    file: ./build/clover-root/clover.xml
