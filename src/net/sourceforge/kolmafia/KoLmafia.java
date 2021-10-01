@@ -398,7 +398,12 @@ public abstract class KoLmafia {
       SystemTrayFrame.addTrayIcon();
     }
 
-    Taskbar.getTaskbar().setIconImage(JComponentUtilities.getImage("limeglass.gif").getImage());
+    if (Taskbar.isTaskbarSupported()) {
+      Taskbar taskbar = Taskbar.getTaskbar();
+      if (taskbar.isSupported(Taskbar.Feature.ICON_IMAGE)) {
+        taskbar.setIconImage(JComponentUtilities.getImage("limeglass.gif").getImage());
+      }
+    }
 
     if (System.getProperty("os.name").startsWith("Win")
         || lookAndFeel.equals(UIManager.getCrossPlatformLookAndFeelClassName())) {
