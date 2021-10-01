@@ -40,8 +40,9 @@ public abstract class StaticEntity {
 
   public static String backtraceTrigger = null;
   private static Integer cachedRevisionNumber = null;
-  private static String cachedversionName = null;
+  private static String cachedVersionName = null;
   private static String cachedBuildInfo = null;
+  private static Attributes cachedAttributes = null;
 
   public static boolean userAborted = false;
   private static MafiaState globalContinuationState = MafiaState.CONTINUE;
@@ -52,40 +53,52 @@ public abstract class StaticEntity {
         }
       };
 
-  public static final String getVersion() {
-    if (StaticEntity.cachedversionName == null) {
-      StringBuilder versionName =
-          new StringBuilder(PRODUCT_NAME).append(" r").append(StaticEntity.getRevision());
-      StaticEntity.cachedversionName = versionName.toString();
-    }
-
-    return StaticEntity.cachedversionName;
-  }
-
-  public static final int getRevision() {
-    if (StaticEntity.cachedRevisionNumber == null) {
-      // Get the revision from the jar manifest attributes
+  public static final Attributes getAttributes() {
+    if (StaticEntity.cachedAttributes == null) {
       try {
         ClassLoader classLoader = StaticEntity.class.getClassLoader();
         if (classLoader != null) {
-          URL resource = classLoader.getResource("META-INF/MANIFEST.MF");
-          if (resource != null) {
-            Manifest manifest = new Manifest(resource.openStream());
-            Attributes attributes = manifest.getMainAttributes();
-            if (attributes != null) {
-              String buildRevision = attributes.getValue("Build-Revision");
-              if (buildRevision != null && StringUtilities.isNumeric(buildRevision)) {
-                try {
-                  StaticEntity.cachedRevisionNumber = Integer.parseInt(buildRevision);
-                } catch (NumberFormatException e) {
-                  // fall through
-                }
-              }
+          for (Iterator<URL> it = classLoader.getResources("META-INF/MANIFEST.MF").asIterator();
+              it.hasNext(); ) {
+            Attributes attributes = new Manifest(it.next().openStream()).getMainAttributes();
+            if (attributes != null
+                && attributes.getValue("Main-Class") != null
+                && attributes
+                    .getValue("Main-Class")
+                    .startsWith(StaticEntity.class.getPackageName())) {
+              StaticEntity.cachedAttributes = attributes;
             }
           }
         }
       } catch (IOException e) {
-        // fall through
+      }
+    }
+
+    return StaticEntity.cachedAttributes;
+  }
+
+  public static final String getVersion() {
+    if (StaticEntity.cachedVersionName == null) {
+      StringBuilder versionName =
+          new StringBuilder(PRODUCT_NAME).append(" r").append(StaticEntity.getRevision());
+      StaticEntity.cachedVersionName = versionName.toString();
+    }
+
+    return StaticEntity.cachedVersionName;
+  }
+
+  public static final int getRevision() {
+    if (StaticEntity.cachedRevisionNumber == null) {
+      Attributes attributes = getAttributes();
+      if (attributes != null) {
+        String buildRevision = attributes.getValue("Build-Revision");
+        if (buildRevision != null && StringUtilities.isNumeric(buildRevision)) {
+          try {
+            StaticEntity.cachedRevisionNumber = Integer.parseInt(buildRevision);
+          } catch (NumberFormatException e) {
+            // fall through
+          }
+        }
       }
 
       if (StaticEntity.cachedRevisionNumber == null) {
@@ -100,36 +113,25 @@ public abstract class StaticEntity {
     if (StaticEntity.cachedBuildInfo == null) {
       StringBuilder cachedBuildInfo = new StringBuilder("Build");
 
-      // Get the revision from the jar manifest attributes
-      try {
-        ClassLoader classLoader = StaticEntity.class.getClassLoader();
-        if (classLoader != null) {
-          URL resource = classLoader.getResource("META-INF/MANIFEST.MF");
-          if (resource != null) {
-            Manifest manifest = new Manifest(resource.openStream());
-            Attributes attributes = manifest.getMainAttributes();
-            if (attributes != null) {
-              String attribute = attributes.getValue("Build-Branch");
-              if (attribute != null) {
-                cachedBuildInfo.append(" ").append(attribute);
-              }
-              attribute = attributes.getValue("Build-Commit");
-              if (attribute != null) {
-                cachedBuildInfo.append(" ").append(attribute);
-              }
-              attribute = attributes.getValue("Build-Jdk");
-              if (attribute != null) {
-                cachedBuildInfo.append(" ").append(attribute);
-              }
-              attribute = attributes.getValue("Build-OS");
-              if (attribute != null) {
-                cachedBuildInfo.append(" ").append(attribute);
-              }
-            }
-          }
+      Attributes attributes = getAttributes();
+
+      if (attributes != null) {
+        String attribute = attributes.getValue("Build-Branch");
+        if (attribute != null) {
+          cachedBuildInfo.append(" ").append(attribute);
         }
-      } catch (IOException e) {
-        // fall through
+        attribute = attributes.getValue("Build-Commit");
+        if (attribute != null) {
+          cachedBuildInfo.append(" ").append(attribute);
+        }
+        attribute = attributes.getValue("Build-Jdk");
+        if (attribute != null) {
+          cachedBuildInfo.append(" ").append(attribute);
+        }
+        attribute = attributes.getValue("Build-OS");
+        if (attribute != null) {
+          cachedBuildInfo.append(" ").append(attribute);
+        }
       }
 
       if (cachedBuildInfo.toString().equals("Build")) {
