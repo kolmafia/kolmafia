@@ -15,25 +15,25 @@ mainClassName = 'net.sourceforge.kolmafia.KoLmafia'
 sourceSets {
   main {
     java {
-      srcDirs = [ 'src', 'lib' ]
+      srcDirs = ['src', 'lib']
       destinationDirectory.set(file('build/main'))
     }
     resources {
-      srcDirs = [ 'src', 'lib' ]
+      srcDirs = ['src', 'lib']
       excludes = ['**/*.java', '**/*.jar']
     }
   }
 
   lib {
     java {
-      srcDirs = [ 'lib' ]
+      srcDirs = ['lib']
       destinationDirectory.set(file('build/lib'))
     }
   }
 
   test {
     java {
-      srcDirs = [ 'test' ]
+      srcDirs = ['test']
       destinationDirectory.set(file('build/test'))
     }
   }
@@ -96,6 +96,10 @@ spotless {
     indentWithSpaces(2)
     endWithNewline()
   }
+  groovyGradle {
+    target '*.gradle' // default target of groovyGradle
+    greclipse()
+  }
   java {
     target 'src/**/*.java', 'test/**/*.java'
     googleJavaFormat()
@@ -111,7 +115,7 @@ task cleanDist(type: Delete) {
   doLast {
     file('dist').eachFile(groovy.io.FileType.FILES) { File file ->
       if (file.name.startsWith('KoLmafia-') && file.name.endsWith('.jar')) {
-          delete file
+        delete file
       }
     }
   }
@@ -156,13 +160,13 @@ jacocoTestReport {
 jar {
   manifest {
     attributes(
-      'Main-Class'      : 'net.sourceforge.kolmafia.KoLmafia',
-      'Build-Revision'  : new Object() { String toString() { project.getVersion() } },
-      'Build-Branch'    : versioning.info.branch,
-      'Build-Commit'    : versioning.info.commit,
-      'Build-Jdk'       : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
-      'Build-OS'        : "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}"
-    )
+        'Main-Class'      : 'net.sourceforge.kolmafia.KoLmafia',
+        'Build-Revision'  : new Object() { String toString() { project.getVersion() } },
+        'Build-Branch'    : versioning.info.branch,
+        'Build-Commit'    : versioning.info.commit,
+        'Build-Jdk'       : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
+        'Build-OS'        : "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}"
+        )
   }
 
   from { configurations.implementation.collect { it.isDirectory() ? it : zipTree(it) } } {
@@ -202,33 +206,33 @@ task gitRevList() {
 
 task gitUpdate() {
   doLast {
-	def remote = grgit.branch.current().trackingBranch.getName()
-	def latestHead = grgit.resolve.toCommit(remote)
-	grgit.fetch {
-	  remote = remote
-	}
-	if (grgit.resolve.toCommit(remote) == latestHead) {
-	  println "Already up-to-date, nothing to do."
-	  return
-	}
-	def dirty = versioning.info.dirty
-	if (dirty) {
-	  // This pollutes the reflog, but there's no stash functionality in
-	  // grgit...
-	  grgit.commit {
-		message = "temporary stash commit"
-		all = true
-	  }
-	}
+    def remote = grgit.branch.current().trackingBranch.getName()
+    def latestHead = grgit.resolve.toCommit(remote)
+    grgit.fetch {
+      remote = remote
+    }
+    if (grgit.resolve.toCommit(remote) == latestHead) {
+      println "Already up-to-date, nothing to do."
+      return
+    }
+    def dirty = versioning.info.dirty
+    if (dirty) {
+      // This pollutes the reflog, but there's no stash functionality in
+      // grgit...
+      grgit.commit {
+        message = "temporary stash commit"
+        all = true
+      }
+    }
     grgit.pull {
-	  rebase = true
-	}
-	if (dirty) {
-	  grgit.reset {
-		mode = 'mixed'
-		commit = 'HEAD^'
-	  }
-	}
+      rebase = true
+    }
+    if (dirty) {
+      grgit.reset {
+        mode = 'mixed'
+        commit = 'HEAD^'
+      }
+    }
   }
 }
 
