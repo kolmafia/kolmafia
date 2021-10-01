@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia;
 
-import apple.dts.samplecode.osxadapter.OSXAdapter;
+import java.awt.Taskbar;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -2328,8 +2328,12 @@ public abstract class KoLCharacter {
    */
   public static final void setAdventuresLeft(final int adventuresLeft) {
     if (adventuresLeft != KoLCharacter.adventuresLeft) {
-      if (Preferences.getBoolean("useDockIconBadge")) {
-        OSXAdapter.setDockIconBadge(String.valueOf(adventuresLeft));
+      if (Taskbar.isTaskbarSupported()) {
+        Taskbar taskbar = Taskbar.getTaskbar();
+        if (taskbar.isSupported(Taskbar.Feature.ICON_BADGE_TEXT)
+            || Preferences.getBoolean("useDockIconBadge")) {
+          taskbar.setIconBadge(String.valueOf(adventuresLeft));
+        }
       }
 
       KoLCharacter.adventuresLeft = adventuresLeft;

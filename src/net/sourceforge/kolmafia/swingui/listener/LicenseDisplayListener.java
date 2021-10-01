@@ -9,10 +9,8 @@ public class LicenseDisplayListener extends ThreadedListener {
   private static final String[] LICENSE_FILENAME = {
     "kolmafia-license.txt",
     "spellcast-license.txt",
-    "centerkey-license.txt",
     "sungraphics-license.txt",
     "jsmooth-license.txt",
-    "osxadapter-license.txt",
     "htmlcleaner-license.txt",
     "json.txt",
     "swinglabs-license.txt",
@@ -25,10 +23,8 @@ public class LicenseDisplayListener extends ThreadedListener {
   private static final String[] LICENSE_NAME = {
     "KoLmafia",
     "Spellcast",
-    "BrowserLauncher",
     "Sun Graphics",
     "JSmooth",
-    "OSXAdapter",
     "HtmlCleaner",
     "JSON",
     "SwingLabs",
