@@ -62,6 +62,7 @@ public abstract class StaticEntity {
               it.hasNext(); ) {
             Attributes attributes = new Manifest(it.next().openStream()).getMainAttributes();
             if (attributes != null
+                && attributes.getValue("Main-Class") != null
                 && attributes
                     .getValue("Main-Class")
                     .startsWith(StaticEntity.class.getPackageName())) {
