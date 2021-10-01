@@ -8,12 +8,9 @@ plugins {
   id 'com.diffplug.spotless' version '5.15.1'
   id 'com.github.johnrengelman.shadow' version '6.0.0'
   id 'net.nemerosa.versioning' version '2.8.2'
+  id 'org.ajoberstar.grgit' version '4.1.0'
 }
 mainClassName = 'net.sourceforge.kolmafia.KoLmafia'
-
-ant.importBuild('build.xml') { String oldTargetName ->
-  return 'ant_' + oldTargetName
-}
 
 sourceSets {
   main {
@@ -188,19 +185,27 @@ task download(type: Copy) {
   into 'src/jar'
 }
 
-task gitRevList(type: Exec) {
+task gitRevList() {
   onlyIf {
     file('.git').exists()
   }
   inputs.dir('.git')
   outputs.files file('build/revision.txt')
-  commandLine 'git', 'rev-list', '--count', 'origin/main'
-  standardOutput = new ByteArrayOutputStream()
 
   doLast {
-    file('build/revision.txt').text = standardOutput.toString().trim()
+    def revision = grgit.log(includes:['HEAD']).size()
+    file('build/revision.txt').text = revision.toString().trim()
     // Update the version to the new revision
-    project.setVersion(standardOutput.toString().trim())
+    project.setVersion(revision.toString().trim())
+  }
+}
+
+task gitUpdate() {
+  doLast {
+  grgit.pull {
+    remote= 'origin'
+    branch= 'main'
+  }
   }
 }
 
@@ -221,8 +226,8 @@ task svnRevList(type: Exec) {
 }
 
 java {
-  sourceCompatibility = JavaVersion.toVersion(ant.properties['java.release'])
-  targetCompatibility = JavaVersion.toVersion(ant.properties['java.release'])
+  sourceCompatibility = JavaVersion.toVersion(gradle.properties['java.release'])
+  targetCompatibility = JavaVersion.toVersion(gradle.properties['java.release'])
 }
 
 tasks.withType(JavaCompile) {
