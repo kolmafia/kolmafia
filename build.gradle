@@ -202,10 +202,33 @@ task gitRevList() {
 
 task gitUpdate() {
   doLast {
+	def remote = grgit.branch.current().trackingBranch.getName()
+	def latestHead = grgit.resolve.toCommit(remote)
+	grgit.fetch {
+	  remote = remote
+	}
+	if (grgit.resolve.toCommit(remote) == latestHead) {
+	  println "Already up-to-date, nothing to do."
+	  return
+	}
+	def dirty = versioning.info.dirty
+	if (dirty) {
+	  // This pollutes the reflog, but there's no stash functionality in
+	  // grgit...
+	  grgit.commit {
+		message = "temporary stash commit"
+		all = true
+	  }
+	}
     grgit.pull {
-      remote = 'origin'
-      branch = 'main'
-    }
+	  rebase = true
+	}
+	if (dirty) {
+	  grgit.reset {
+		mode = 'mixed'
+		commit = 'HEAD^'
+	  }
+	}
   }
 }
 
