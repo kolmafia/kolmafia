@@ -10,12 +10,14 @@ public class SkillDatabaseTest {
     //that was replaced by an alternative calculation.
     @Test
     public void itShouldCalculateCostCorrectlyAsAFunctionOfCasts() {
+        Preferences.setInteger("_stackLumpsUses", -10);
+        assertEquals(SkillDatabase.stackLumpsCost(), 1);
         Preferences.setInteger("_stackLumpsUses", 0);
         assertEquals(SkillDatabase.stackLumpsCost(), 11);
         Preferences.setInteger("_stackLumpsUses", 1);
-        //assertEquals(SkillDatabase.stackLumpsCost(), 111);
+        assertEquals(SkillDatabase.stackLumpsCost(), 111);
         Preferences.setInteger("_stackLumpsUses", 2);
-        //assertEquals(SkillDatabase.stackLumpsCost(), 1111);
+        assertEquals(SkillDatabase.stackLumpsCost(), 1111);
     }
 
 }
