@@ -79,6 +79,8 @@ dependencies {
   implementation 'org.mozilla:rhino:1.7.13'
   implementation 'org.swinglabs:swingx:1.0'
   implementation 'org.tmatesoft.svnkit:svnkit:1.10.3'
+
+  toCopy 'org.swinglabs:swingx:1.0'
 }
 
 application {
@@ -178,6 +180,11 @@ shadowJar {
   archiveClassifier.set("${versioning.info.dirty ? 'M' : ''}")
 }
 
+task download(type: Copy) {
+  from configurations.toCopy
+  into 'src/jar'
+}
+
 task gitRevList() {
   onlyIf {
     file('.git').exists()
@@ -186,7 +193,7 @@ task gitRevList() {
   outputs.files file('build/revision.txt')
 
   doLast {
-    def revision = grgit.log(includes:['HEAD']).size()
+    def revision = grgit.log(includes:['origin/main']).size()
     file('build/revision.txt').text = revision.toString().trim()
     // Update the version to the new revision
     project.setVersion(revision.toString().trim())
