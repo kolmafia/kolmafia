@@ -202,26 +202,10 @@ task gitRevList() {
 
 task gitUpdate() {
   doLast {
-  grgit.pull {
-    remote= 'origin'
-    branch= 'main'
-  }
-  }
-}
-
-task svnRevList(type: Exec) {
-  onlyIf {
-    file('.svn').exists()
-  }
-  inputs.dir('.svn')
-  outputs.files file('build/revision.txt')
-  commandLine 'svnversion', '-n', '.'
-  standardOutput = new ByteArrayOutputStream()
-
-  doLast {
-    file('build/revision.txt').text = standardOutput.toString().trim()
-    // Update the version to the new revision
-    project.setVersion(standardOutput.toString().trim())
+    grgit.pull {
+      remote = 'origin'
+      branch = 'main'
+    }
   }
 }
 
@@ -237,13 +221,10 @@ tasks.withType(JavaCompile) {
 
 clean.dependsOn cleanDist
 pruneDist.dependsOn gitRevList
-pruneDist.dependsOn svnRevList
+
+// Note that pruneDist relies on gitRevList.
 jar.dependsOn pruneDist
-jar.dependsOn gitRevList
-jar.dependsOn svnRevList
 shadowJar.dependsOn pruneDist
-shadowJar.dependsOn gitRevList
-shadowJar.dependsOn svnRevList
 
 jacocoTestReport.dependsOn test
 
