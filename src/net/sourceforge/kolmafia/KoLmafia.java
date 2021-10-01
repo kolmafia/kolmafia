@@ -3,9 +3,9 @@ package net.sourceforge.kolmafia;
 import static net.sourceforge.kolmafia.KoLGUIConstants.FLATMAP_DARK_LOOKS;
 import static net.sourceforge.kolmafia.KoLGUIConstants.FLATMAP_LIGHT_LOOKS;
 
-import apple.dts.samplecode.osxadapter.OSXAdapter;
 import java.awt.Color;
 import java.awt.Frame;
+import java.awt.Taskbar;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -398,7 +398,7 @@ public abstract class KoLmafia {
       SystemTrayFrame.addTrayIcon();
     }
 
-    OSXAdapter.setDockIconImage(JComponentUtilities.getImage("limeglass.gif").getImage());
+    Taskbar.getTaskbar().setIconImage(JComponentUtilities.getImage("limeglass.gif").getImage());
 
     if (System.getProperty("os.name").startsWith("Win")
         || lookAndFeel.equals(UIManager.getCrossPlatformLookAndFeelClassName())) {
