@@ -191,7 +191,7 @@ task download(type: Copy) {
 	into 'src/jar'
 }
 
-task gitRevList() {
+task getRevision() {
 	onlyIf {
 		file('.git').exists()
 	}
@@ -199,7 +199,11 @@ task gitRevList() {
 	outputs.files file('build/revision.txt')
 
 	doLast {
-		def revision = grgit.log(includes:['origin/main']).size()
+		def remote = System.getenv('HEAD_COMMIT_HASH')
+		if (remote == null) {
+			remote = 'origin/main'
+		}
+		def revision = grgit.log(includes:[remote]).size()
 		file('build/revision.txt').text = revision.toString().trim()
 		// Update the version to the new revision
 		project.setVersion(revision.toString().trim())
@@ -249,9 +253,9 @@ tasks.withType(JavaCompile) {
 
 
 clean.dependsOn cleanDist
-pruneDist.dependsOn gitRevList
+pruneDist.dependsOn getRevision
 
-// Note that pruneDist relies on gitRevList.
+// Note that pruneDist relies on getRevision.
 jar.dependsOn pruneDist
 shadowJar.dependsOn pruneDist
 
