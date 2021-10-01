@@ -261,10 +261,18 @@ public class CreateFrameRunnable implements Runnable {
     Desktop desktop = Desktop.getDesktop();
 
     DesktopHandler handler = new DesktopHandler();
-    desktop.setPreferencesHandler(handler);
-    desktop.setQuitHandler(handler);
-    desktop.setAboutHandler(handler);
 
+    if (desktop.isSupported(Desktop.Action.APP_PREFERENCES)) {
+      desktop.setPreferencesHandler(handler);
+    }
+
+    if (desktop.isSupported(Desktop.Action.APP_QUIT_HANDLER)) {
+      desktop.setQuitHandler(handler);
+    }
+
+    if (desktop.isSupported(Desktop.Action.APP_ABOUT)) {
+      desktop.setAboutHandler(handler);
+    }
   }
 
   private static class DesktopHandler implements PreferencesHandler, QuitHandler, AboutHandler {
