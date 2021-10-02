@@ -34,6 +34,18 @@ jobs:
       - name: Run Checks (including tests)
         run: ./gradlew --no-daemon check
 
+      - name: Run Checks Java 11 (including tests)
+        env:
+          ORG_GRADLE_PROJECT_javaSourceCompatibility: 11
+          ORG_GRADLE_PROJECT_javaTargetCompatibility: 11
+        run: ./gradlew --no-daemon check
+
+      - name: Run Checks Java 17 (including tests)
+        env:
+          ORG_GRADLE_PROJECT_javaSourceCompatibility: 17
+          ORG_GRADLE_PROJECT_javaTargetCompatibility: 17
+        run: ./gradlew --no-daemon check
+
       # Requires 'pull_request_target' instead of `pull_request' which doesn't checkout PR code
       #- name: Publish Test Report
       #  uses: mikepenz/action-junit-report@v2
