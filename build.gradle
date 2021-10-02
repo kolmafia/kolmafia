@@ -243,8 +243,8 @@ task gitUpdate() {
 }
 
 java {
-	sourceCompatibility = JavaVersion.toVersion(property(javaSourceCompatibility))
-	targetCompatibility = JavaVersion.toVersion(property(javaTargetCompatibility))
+	sourceCompatibility = JavaVersion.toVersion(javaSourceCompatibility)
+	targetCompatibility = JavaVersion.toVersion(javaTargetCompatibility)
 }
 
 tasks.withType(JavaCompile) {
