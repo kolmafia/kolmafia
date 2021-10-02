@@ -195,12 +195,13 @@ task getRevision() {
 	onlyIf {
 		file('.git').exists()
 	}
+	def commit = System.getProperty("commit") ?: 'origin/main'
 	inputs.dir('.git')
+	inputs.property('commit', commit)
 	outputs.files file('build/revision.txt')
 
 	doLast {
-		def remote = System.getProperty("commit") ?: 'origin/main'
-		def revision = grgit.log(includes:[remote]).size()
+		def revision = grgit.log(includes:[commit]).size()
 		file('build/revision.txt').text = revision.toString().trim()
 		// Update the version to the new revision
 		project.setVersion(revision.toString().trim())
