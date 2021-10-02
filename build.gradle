@@ -199,10 +199,7 @@ task getRevision() {
 	outputs.files file('build/revision.txt')
 
 	doLast {
-		def remote = System.getenv('HEAD_COMMIT_HASH')
-		if (remote == null) {
-			remote = 'origin/main'
-		}
+		def remote = System.getProperty("commit") ?: 'origin/main'
 		def revision = grgit.log(includes:[remote]).size()
 		file('build/revision.txt').text = revision.toString().trim()
 		// Update the version to the new revision
