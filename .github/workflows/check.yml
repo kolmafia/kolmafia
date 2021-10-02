@@ -5,10 +5,12 @@ on:
 
 jobs:
   check:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
 
-    # This needs to be called Run Tests to satisfy our github setup.
-    name: Run Tests
+    name: Run Checks
 
     steps:
       - name: Checkout repository
@@ -39,3 +41,14 @@ jobs:
       #  with:
       #    github_token: ${{ secrets.GITHUB_TOKEN }}
       #    report_paths: "**/build/test-results/test/TEST-*.xml"
+
+  # Our branch protection requires a check called "Run Tests".
+  # This is incompatible with the strategy matrix we use above, since that
+  # mutates the job name for each subjob. Thus, create a single dependent task
+  # that blocks on all of the components of `check` passing before it runs.
+  test:
+    needs: check
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'All checks succeeded.'
