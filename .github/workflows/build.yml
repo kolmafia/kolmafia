@@ -28,7 +28,9 @@ jobs:
         uses: gradle/wrapper-validation-action@v1
 
       - name: Build
-        run: ./gradlew --no-daemon shadowJar -Dcommit=$GITHUB_SHA
+        env:
+          ORG_GRADLE_PROJECT_commit: ${{ github.sha }}
+        run: ./gradlew --no-daemon shadowJar
 
       - name: Retrieve version and tag
         run: |

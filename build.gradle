@@ -195,7 +195,7 @@ task getRevision() {
 	onlyIf {
 		file('.git').exists()
 	}
-	def commit = System.getProperty("commit") ?: 'origin/main'
+	def commit = findProperty("commit") ?: 'origin/main'
 	inputs.dir('.git')
 	inputs.property('commit', commit)
 	outputs.files file('build/revision.txt')
