@@ -202,6 +202,7 @@ public class RecordType
 		return values;
 	}
 
+	@Override
 	public RecordType reference( final Location location )
 	{
 		return new RecordTypeReference( location );

@@ -21,6 +21,7 @@ public class VarArgType
 		return this.dataType.toString() + " ...";
 	}
 
+	@Override
 	public VarArgType reference( final Location location )
 	{
 		return new VarArgTypeReference( location );
