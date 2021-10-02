@@ -1,8 +1,8 @@
 package net.sourceforge.kolmafia.persistence;
 
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 public class SkillDatabaseTest {
   // This is just one simple test to verify before and after behavior for an implicit narrowing cast

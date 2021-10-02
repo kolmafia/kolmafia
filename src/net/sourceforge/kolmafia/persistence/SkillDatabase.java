@@ -1,5 +1,8 @@
 package net.sourceforge.kolmafia.persistence;
 
+import java.io.BufferedReader;
+import java.util.*;
+import java.util.Map.Entry;
 import net.sourceforge.kolmafia.*;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
@@ -13,10 +16,6 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-
-import java.io.BufferedReader;
-import java.util.*;
-import java.util.Map.Entry;
 
 public class SkillDatabase {
   public static final int ALL = -2;
