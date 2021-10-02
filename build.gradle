@@ -202,6 +202,7 @@ task getRevision() {
 
 	doLast {
 		def revision = grgit.log(includes:[commit]).size()
+		logger.info('Commit: {} Revision: {}', commit, revision)
 		file('build/revision.txt').text = revision.toString().trim()
 		// Update the version to the new revision
 		project.setVersion(revision.toString().trim())
