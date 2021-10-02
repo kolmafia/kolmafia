@@ -515,7 +515,7 @@ public class SVNManager {
 
     if (failed && !quiet) {
       KoLmafia.updateDisplay(
-          MafiaState.ERROR, "The requested repo (" + repo.getPath() + " failed validation.");
+          MafiaState.ERROR, "The requested repo (" + repo.getPath() + ") failed validation.");
     } else {
       if (!quiet) RequestLogger.printLine("Repo validated.");
     }
