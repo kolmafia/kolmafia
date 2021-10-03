@@ -96,8 +96,8 @@ public abstract class StaticEntity {
   public static final boolean isCodeModified() {
     Attributes attributes = getAttributes();
     if (attributes != null) {
-      String buildRevision = attributes.getValue("Build-Revision");
-      return (buildRevision != null && buildRevision.endsWith("-M"));
+      String buildRevision = attributes.getValue("Build-Dirty");
+      return buildRevision.equals("true");
     }
     return false;
   }
@@ -107,9 +107,6 @@ public abstract class StaticEntity {
       Attributes attributes = getAttributes();
       if (attributes != null) {
         String buildRevision = attributes.getValue("Build-Revision");
-        if (buildRevision.endsWith("-M")) {
-          buildRevision = buildRevision.substring(0, buildRevision.length() - 2);
-        }
 
         if (buildRevision != null && StringUtilities.isNumeric(buildRevision)) {
           try {
