@@ -6,6 +6,7 @@ import static net.sourceforge.kolmafia.KoLGUIConstants.FLATMAP_LIGHT_LOOKS;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Taskbar;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -15,6 +16,7 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -105,11 +107,16 @@ import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.SwinglessUIUtils;
+import net.sourceforge.kolmafia.webui.RelayLoader;
 import net.sourceforge.kolmafia.webui.RelayServer;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public abstract class KoLmafia {
   private static boolean isRefreshing = false;
@@ -259,7 +266,8 @@ public abstract class KoLmafia {
       KoLConstants.saveStateNames.add(actualName);
     }
 
-    // Set a user agent preemptively.  Workaround to allow https support for file_to_map and price
+    // Set a user agent preemptively. Workaround to allow https support for
+    // file_to_map and price
     // updates to coexist.
     GenericRequest.setUserAgent();
 
@@ -349,7 +357,8 @@ public abstract class KoLmafia {
 
     String defaultLookAndFeel;
 
-    // Tell UIManager about Look and Feel files in external jars ( defined in KoLGUIConstants)
+    // Tell UIManager about Look and Feel files in external jars ( defined in
+    // KoLGUIConstants)
     FLATMAP_LIGHT_LOOKS.forEach(
         (lookName, lookClass) -> UIManager.installLookAndFeel(lookName, lookClass));
     FLATMAP_DARK_LOOKS.forEach(
@@ -582,7 +591,8 @@ public abstract class KoLmafia {
     Preferences.setInteger("timesRested", 0);
     Preferences.setInteger("tomeSummons", 0);
 
-    // Reset kolhsTotalSchoolSpirited to 0 if _kolhsSchoolSpirited wasn't set yesterday
+    // Reset kolhsTotalSchoolSpirited to 0 if _kolhsSchoolSpirited wasn't set
+    // yesterday
     if (!Preferences.getBoolean("_kolhsSchoolSpirited")) {
       Preferences.setInteger("kolhsTotalSchoolSpirited", 0);
     }
@@ -660,7 +670,8 @@ public abstract class KoLmafia {
 
     boolean shouldResetCounters = false;
     boolean shouldResetGlobalCounters = false;
-    // Assume if rollover has changed by an hour, it is a new rollover. Time varies slightly between
+    // Assume if rollover has changed by an hour, it is a new rollover. Time varies
+    // slightly between
     // servers by a few seconds.
     shouldResetCounters = KoLCharacter.getRollover() - Preferences.getLong("lastCounterDay") > 3600;
     shouldResetGlobalCounters =
@@ -1257,7 +1268,8 @@ public abstract class KoLmafia {
       KoLmafia.executeRequestOnce(
           request, currentIteration, totalIterations, items, creatables, wasAdventuring);
 
-      // If updates are suppressed, turn counter doesn't change, so we get stuck in an infinite loop
+      // If updates are suppressed, turn counter doesn't change, so we get stuck in an
+      // infinite loop
       // Avoid an API update in that case.
       if (GenericRequest.updateSuppressed()) {
         ApiRequest.updateStatus(true);
@@ -1709,7 +1721,7 @@ public abstract class KoLmafia {
     int firstIndex = 0;
 
     if (isAutomated) {
-      // PC stores can be cheaper than NPC stores.  If we are
+      // PC stores can be cheaper than NPC stores. If we are
       // not allowed to purchase from the mall, skip through
       // requests until we find an NPC seller, if any.
 
@@ -1781,7 +1793,8 @@ public abstract class KoLmafia {
         // "Stopped purchasing " + currentRequest.getItemName() + " @ " +
         // KoLConstants.COMMA_FORMAT.format( currentPrice ) + "." );
 
-        // If we are purchasing multiple different items, the next item might be affordable.
+        // If we are purchasing multiple different items, the next item might be
+        // affordable.
         continue;
       }
 
@@ -1861,15 +1874,79 @@ public abstract class KoLmafia {
   public static boolean isPlayerOnline(final String player) {
     // This player is currently online.
     // This player is currently online in channel clan.
-    // This player is currently away from KoL in channel trade and listening to clan.
+    // This player is currently away from KoL in channel trade and listening to
+    // clan.
     String text = KoLmafia.whoisPlayer(player);
     return text != null && text.contains("This player is currently");
   }
 
   private static class UpdateCheckRunnable implements Runnable {
     public void run() {
-      // TODO: Check for new version on jenkins\github after migration is complete. See revision
-      // history for old release update check.
+      boolean checkUpdate = Preferences.getBoolean("checkRssUpdate");
+      if (!checkUpdate) {
+        return;
+      }
+
+      long lastUpdate = Long.parseLong(Preferences.getString("lastRssUpdate"));
+      long now = System.currentTimeMillis();
+      if (now - lastUpdate < 86400000L) {
+        return;
+      }
+
+      String contents = null;
+
+      try {
+        BufferedReader reader =
+            FileUtilities.getReader(
+                "https://api.github.com/repos/kolmafia/kolmafia/releases/latest");
+
+        contents = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        reader.close();
+      } catch (IOException e) {
+        System.out.println(e.getMessage() + " while trying to read from or close GitHub releases.");
+        return;
+      }
+
+      if (contents == null) {
+        return;
+      }
+
+      String currentVersion = null;
+
+      try {
+        JSONObject json = new JSONObject(contents);
+        currentVersion = (String) json.get("name");
+      } catch (JSONException e) {
+        System.out.println(e.getMessage() + " while loading JSON");
+        return;
+      }
+
+      if (currentVersion == null) {
+        return;
+      }
+
+      int currentVersionInt;
+      try {
+        currentVersionInt = Integer.parseInt(currentVersion) + 1;
+      } catch (NumberFormatException e) {
+        System.out.println(e.getMessage() + " while parsing version number");
+        return;
+      }
+
+      String lastVersion = Preferences.getString("lastRssVersion");
+      Preferences.setString("lastRssVersion", currentVersion);
+      Preferences.setString("lastRssUpdate", Long.toString(now));
+
+      if (currentVersionInt <= StaticEntity.getRevision() || currentVersion.equals(lastVersion)) {
+        return;
+      }
+
+      if (InputFieldUtilities.confirm(
+          String.format(
+              "A new version KoLmafia r%s is now available. Would you like to download it now?",
+              currentVersion))) {
+        RelayLoader.openSystemBrowser("https://github.com/kolmafia/kolmafia/releases/latest");
+      }
     }
   }
 
