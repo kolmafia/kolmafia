@@ -204,9 +204,15 @@ task getRevision() {
 			remote = 'origin/main'
 		}
 		def revision = grgit.log(includes:[remote]).size()
-		file('build/revision.txt').text = revision.toString().trim()
+		def revString = revision.toString().trim()
+	 	def dirty = versioning.info.dirty
+		if (dirty) {
+			// adding the dirty flag to the version
+			revString += "-M"
+		}
+		file('build/revision.txt').text = revString
 		// Update the version to the new revision
-		project.setVersion(revision.toString().trim())
+		project.setVersion(revString)
 	}
 }
 
