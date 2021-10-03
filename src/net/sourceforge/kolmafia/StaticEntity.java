@@ -91,13 +91,12 @@ public abstract class StaticEntity {
 
   private static boolean isCodeModified() {
     Attributes attributes = getAttributes();
-    if (attributes != null) {
-      String buildRevision = attributes.getValue("Build-Dirty");
-      return buildRevision.equals("true");
+    if (attributes == null) {
+      return false;
     }
-    return false;
+  
+    return attributes.getValue("Build-Dirty").equals("true");
   }
-
   public static final int getRevision() {
     if (StaticEntity.cachedRevisionNumber == null) {
       Attributes attributes = getAttributes();
