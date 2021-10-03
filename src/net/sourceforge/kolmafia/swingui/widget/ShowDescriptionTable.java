@@ -282,6 +282,9 @@ public class ShowDescriptionTable extends JXTable {
 
     // install a handler to provide saner clipboard behavior
     this.setTransferHandler(new ClipboardHandler());
+
+    this.setAutoCreateRowSorter(false);
+    this.setRowSorter(null);
   }
 
   protected void fireSearch(String searchField) {
