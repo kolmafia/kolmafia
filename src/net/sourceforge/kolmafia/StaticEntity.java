@@ -81,17 +81,35 @@ public abstract class StaticEntity {
     if (StaticEntity.cachedVersionName == null) {
       StringBuilder versionName =
           new StringBuilder(PRODUCT_NAME).append(" r").append(StaticEntity.getRevision());
+
+      if (isCodeModified()) {
+
+        versionName.append("-M");
+      }
+
       StaticEntity.cachedVersionName = versionName.toString();
     }
 
     return StaticEntity.cachedVersionName;
   }
-
+public static final boolean isCodeModified() {
+  Attributes attributes = getAttributes();
+  if ( attributes != null )
+  {
+    String buildRevision = attributes.getValue( "Build-Revision" );
+    return (buildRevision != null && buildRevision.endsWith( "-M" ));
+  }
+  return false;
+}
   public static final int getRevision() {
     if (StaticEntity.cachedRevisionNumber == null) {
       Attributes attributes = getAttributes();
       if (attributes != null) {
         String buildRevision = attributes.getValue("Build-Revision");
+        if (buildRevision.endsWith( "-M" )) {
+          buildRevision = buildRevision.substring(0, buildRevision.length() - 2);
+        }
+
         if (buildRevision != null && StringUtilities.isNumeric(buildRevision)) {
           try {
             StaticEntity.cachedRevisionNumber = Integer.parseInt(buildRevision);
