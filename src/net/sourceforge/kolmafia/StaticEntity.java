@@ -92,21 +92,22 @@ public abstract class StaticEntity {
 
     return StaticEntity.cachedVersionName;
   }
-public static final boolean isCodeModified() {
-  Attributes attributes = getAttributes();
-  if ( attributes != null )
-  {
-    String buildRevision = attributes.getValue( "Build-Revision" );
-    return (buildRevision != null && buildRevision.endsWith( "-M" ));
+
+  public static final boolean isCodeModified() {
+    Attributes attributes = getAttributes();
+    if (attributes != null) {
+      String buildRevision = attributes.getValue("Build-Revision");
+      return (buildRevision != null && buildRevision.endsWith("-M"));
+    }
+    return false;
   }
-  return false;
-}
+
   public static final int getRevision() {
     if (StaticEntity.cachedRevisionNumber == null) {
       Attributes attributes = getAttributes();
       if (attributes != null) {
         String buildRevision = attributes.getValue("Build-Revision");
-        if (buildRevision.endsWith( "-M" )) {
+        if (buildRevision.endsWith("-M")) {
           buildRevision = buildRevision.substring(0, buildRevision.length() - 2);
         }
 

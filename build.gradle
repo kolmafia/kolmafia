@@ -205,7 +205,7 @@ task getRevision() {
 		}
 		def revision = grgit.log(includes:[remote]).size()
 		def revString = revision.toString().trim()
-	 	def dirty = versioning.info.dirty
+		def dirty = versioning.info.dirty
 		if (dirty) {
 			// adding the dirty flag to the version
 			revString += "-M"
