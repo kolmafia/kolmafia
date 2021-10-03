@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.textui;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayInputStream;
@@ -16,7 +15,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.runners.Parameterized.Parameters;
 
 /** Tries to parse valid and invalid ASH programs. */
 public class ParserTest {
@@ -31,7 +29,6 @@ public class ParserTest {
     StaticEntity.overrideRevision(null);
   }
 
-  @Parameters(name = "{0}")
   public static Stream<Arguments> data() {
     /**
      * @return A list containing arrays with the following spec: String description String errorText
@@ -1743,7 +1740,7 @@ public class ParserTest {
     Parser p = new Parser(/*scriptFile=*/ null, /*stream=*/ istream, /*imports=*/ null);
 
     if (errorText != null) {
-      ScriptException e = assertThrows(desc, ScriptException.class, p::parse);
+      ScriptException e = assertThrows(ScriptException.class, p::parse, desc);
       assertThat(desc, e.getMessage(), containsString(errorText));
       return;
     }
