@@ -94,9 +94,10 @@ public abstract class StaticEntity {
     if (attributes == null) {
       return false;
     }
-  
+
     return attributes.getValue("Build-Dirty").equals("true");
   }
+
   public static final int getRevision() {
     if (StaticEntity.cachedRevisionNumber == null) {
       Attributes attributes = getAttributes();
