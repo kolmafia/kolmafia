@@ -196,20 +196,17 @@ task getRevision() {
 	onlyIf {
 		file('.git').exists()
 	}
+	def commit = findProperty("commit") ?: 'origin/main'
 	inputs.dir('.git')
+	inputs.property('commit', commit)
 	outputs.files file('build/revision.txt')
 
 	doLast {
-		def remote = System.getenv('HEAD_COMMIT_HASH')
-		if (remote == null) {
-			remote = 'origin/main'
-		}
-		def revision = grgit.log(includes:[remote]).size()
-		def revString = revision.toString().trim()
-		file('build/revision.txt').text = revString
+		def revision = grgit.log(includes:[commit]).size()
+		logger.info('Commit: {} Revision: {}', commit, revision)
+		file('build/revision.txt').text = revision.toString().trim()
 		// Update the version to the new revision
-		project.setVersion(revString)
-		println("KoLmafia version: r" + project.getVersion())
+		project.setVersion(revision.toString().trim())
 	}
 }
 
