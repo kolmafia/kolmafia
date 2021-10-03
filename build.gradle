@@ -209,6 +209,7 @@ task getRevision() {
 		file('build/revision.txt').text = revString
 		// Update the version to the new revision
 		project.setVersion(revString)
+		println("KoLmafia version :" + project.getVersion())
 	}
 }
 
