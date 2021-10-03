@@ -240,7 +240,7 @@ public class InputFieldUtilities {
               }
             },
         BorderLayout.NORTH);
-    inputs.updateFilter(false);
+    inputs.updateFilter();
     panel.add(new GenericScrollPane(selector), BorderLayout.CENTER);
 
     int option =

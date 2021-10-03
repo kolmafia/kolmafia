@@ -268,11 +268,11 @@ public class AutoFilterTextField extends AutoHighlightTextField
     }
 
     AutoFilterTextField.this.strict = true;
-    AutoFilterTextField.this.model.updateFilter(true);
+    AutoFilterTextField.this.model.updateFilter();
 
     if (AutoFilterTextField.this.model.getSize() == 0) {
       AutoFilterTextField.this.strict = false;
-      AutoFilterTextField.this.model.updateFilter(true);
+      AutoFilterTextField.this.model.updateFilter();
     }
 
     if (AutoFilterTextField.this.list != null) {
