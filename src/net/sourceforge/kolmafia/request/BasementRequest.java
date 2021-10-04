@@ -1184,8 +1184,8 @@ public class BasementRequest extends AdventureRequest {
     return (long) BasementRequest.basementTestCurrent;
   }
 
-  public static double getBasementTestValue() {
-    return BasementRequest.basementTestValue;
+  public static long getBasementTestValue() {
+    return Double.valueOf(BasementRequest.basementTestValue).longValue();
   }
 
   public static int getActualStatNeeded() {
