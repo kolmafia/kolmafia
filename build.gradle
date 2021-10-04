@@ -58,8 +58,9 @@ dependencies {
 
 	testImplementation 'org.hamcrest:hamcrest:2.2'
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.0'
+	testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.0'
 	testImplementation 'junit:junit:4.13.2'
-	testImplementation 'org.mockito:mockito-core:3.+'
+	testImplementation 'org.mockito:mockito-inline:3.+'
 
 	implementation 'com.formdev:flatlaf:1.6'
 	implementation 'com.formdev:flatlaf-intellij-themes:1.6'
