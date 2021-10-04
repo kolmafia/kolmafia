@@ -130,7 +130,7 @@ task pruneDist(type: Delete) {
 	doLast {
 		file('dist').eachFile(groovy.io.FileType.FILES) { File file ->
 			if (file.name.startsWith('KoLmafia-') && file.name.endsWith('.jar')) {
-				if (!file.name.contains(project.getVersion()) || (versioning.info.dirty != file.name.endsWith('-M.jar'))) {
+				if (!file.name.contains(project.getVersion().toString()) || (versioning.info.dirty != file.name.endsWith('-M.jar'))) {
 					delete file
 				}
 			}
@@ -164,6 +164,7 @@ jar {
 				'Build-Revision'  : new Object() { String toString() { project.getVersion() } },
 				'Build-Branch'    : versioning.info.branch,
 				'Build-Commit'    : versioning.info.commit,
+				'Build-Dirty'     : versioning.info.dirty,
 				'Build-Jdk'       : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
 				'Build-OS'        : "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}"
 				)
@@ -204,6 +205,9 @@ task getRevision() {
 		file('build/revision.txt').text = revision.toString().trim()
 		// Update the version to the new revision
 		project.setVersion(revision.toString().trim())
+		def revString = versioning.info.dirty ? project.getVersion() +'-M': project.getVersion()
+		println '\nRevision: ' + revString
+
 	}
 }
 
