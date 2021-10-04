@@ -1,11 +1,11 @@
 package net.sourceforge.kolmafia.objectpool;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /* This test was triggered by a runtime error traced back to sorting usable concoctions that
 said "Comparison method violates its general contract!"  It is likely that the error was caused by
@@ -33,7 +33,7 @@ public class ConcoctionTest {
   // tests the portion of the contract that says sgn(x.compareTo(y)) == -sgn(y.compareTo(x) and
   // (x.compareTo(y)==0) == (x.equals(y))
   @Test
-  @Ignore("Nested for-loops are slow...")
+  @Disabled("Nested for-loops are slow...")
   public void itShouldBeSymmetric() {
     LockableListModel<Concoction> first = ConcoctionDatabase.getUsables();
     LockableListModel<Concoction> second = ConcoctionDatabase.getUsables();
@@ -42,8 +42,8 @@ public class ConcoctionTest {
         int x = acon.compareTo(bcon);
         int y = bcon.compareTo(acon);
         String msg = acon.toString() + " * " + bcon.toString();
-        assertEquals(msg, sgn(x), -sgn(y));
-        if (x == 0) assertEquals(msg, acon, bcon);
+        assertEquals(sgn(x), -sgn(y), msg);
+        if (x == 0) assertEquals(acon, bcon, msg);
       }
     }
   }
@@ -51,7 +51,7 @@ public class ConcoctionTest {
   // x.compareTo(y)==0 implies
   //	  that sgn(x.compareTo(z)) == sgn(y.compareTo(z)), for all z.
   @Test
-  @Ignore("Nested for-loops are slow...")
+  @Disabled("Nested for-loops are slow...")
   public void itShouldBePreserveEquality() {
     LockableListModel<Concoction> first = ConcoctionDatabase.getUsables();
     LockableListModel<Concoction> second = ConcoctionDatabase.getUsables();
@@ -63,7 +63,7 @@ public class ConcoctionTest {
             String msg = acon.toString() + " * " + bcon.toString() + " * " + ccon.toString();
             int x = sgn(acon.compareTo(ccon));
             int y = sgn(bcon.compareTo(ccon));
-            assertEquals(msg, sgn(x), sgn(y));
+            assertEquals(sgn(x), sgn(y), msg);
           }
         }
       }
@@ -72,7 +72,7 @@ public class ConcoctionTest {
 
   // (x.compareTo(y)>0 && y.compareTo(z)>0) implies x.compareTo(z)>0.
   @Test
-  @Ignore("Test takes too much resources.  Needs optimization")
+  @Disabled("Test takes too much resources.  Needs optimization")
   public void isBT() {
     LockableListModel<Concoction> first = ConcoctionDatabase.getUsables();
     first.sort();
@@ -84,7 +84,7 @@ public class ConcoctionTest {
           for (Concoction ccon : cons) {
             String msg = acon.toString() + " * " + bcon.toString() + " *" + ccon.toString();
             int y = sgn(bcon.compareTo(ccon));
-            if (y > 0) assertTrue(msg, sgn(acon.compareTo(ccon)) > 0);
+            if (y > 0) assertTrue(sgn(acon.compareTo(ccon)) > 0, msg);
           }
         }
       }

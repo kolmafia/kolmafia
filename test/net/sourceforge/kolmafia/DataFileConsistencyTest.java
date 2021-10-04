@@ -1,7 +1,8 @@
 package net.sourceforge.kolmafia;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,9 +12,7 @@ import java.util.List;
 import java.util.Set;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
+import org.junit.jupiter.api.Test;
 
 /* Checks for consistency across datafiles.
 
@@ -21,7 +20,6 @@ import org.junit.rules.ErrorCollector;
   corresponding entries in equipment.txt.
 */
 public class DataFileConsistencyTest {
-  @Rule public ErrorCollector collector = new ErrorCollector();
 
   Set<String> datafileItems(String file, int version) throws IOException {
     Set<String> items = new HashSet<String>();
@@ -68,7 +66,7 @@ public class DataFileConsistencyTest {
         // At least one of "seal-clubbing club", "[1]seal-clubbing club" should be present.
         String name = ItemDatabase.getItemDataName(id);
         String bracketedName = "[" + id + "]" + name;
-        collector.checkThat(
+        assertThat(
             bracketedName + " is not present in equipment.txt",
             true,
             // Explicitly apply the matcher to keep the error message manageable.

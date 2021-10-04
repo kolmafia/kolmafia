@@ -1,8 +1,8 @@
 package net.sourceforge.kolmafia.request;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * This is a simple test for ChatRequest. It is still driven by coverage maps and not function.

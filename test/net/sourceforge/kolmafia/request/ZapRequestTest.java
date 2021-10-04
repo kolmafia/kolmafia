@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -8,12 +8,12 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 public class ZapRequestTest {
 
-  @After
+  @AfterEach
   public void after() {
     KoLCharacter.reset(false);
   }

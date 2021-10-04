@@ -138,8 +138,6 @@ public class BasementRequest extends AdventureRequest {
    * notifying the givenof results (or errors).
    *
    * @param	adventureName	The name of the adventure location
-   * @param	formSource	The form to which the data will be posted
-   * @param	adventureId	The identifier for the adventure to be executed
    */
   public BasementRequest(final String adventureName) {
     super(adventureName, "basement.php", "0");
@@ -177,7 +175,7 @@ public class BasementRequest extends AdventureRequest {
       // If it was a fight and we won, good.
 
       if (FightRequest.INSTANCE.responseCode == 200
-          && FightRequest.lastResponseText.indexOf("<!--WINWINWIN-->") != -1) {
+          && FightRequest.lastResponseText.contains("<!--WINWINWIN-->")) {
         return;
       }
 
@@ -200,13 +198,13 @@ public class BasementRequest extends AdventureRequest {
   }
 
   public static final String getBasementAction(final String text) {
-    if (text.indexOf("Got Silk?") != -1) {
+    if (text.contains("Got Silk?")) {
       return KoLCharacter.isMoxieClass() ? "1" : "2";
     }
-    if (text.indexOf("Save the Dolls") != -1) {
+    if (text.contains("Save the Dolls")) {
       return KoLCharacter.isMysticalityClass() ? "1" : "2";
     }
-    if (text.indexOf("Take the Red Pill") != -1) {
+    if (text.contains("Take the Red Pill")) {
       return KoLCharacter.isMuscleClass() ? "1" : "2";
     }
     return "1";
@@ -261,14 +259,12 @@ public class BasementRequest extends AdventureRequest {
       case HPDRAIN:
         {
           BasementRequest.updateHPDrainParameters();
-          String buffer =
-              BasementRequest.basementTestString
-                  + " Test: "
-                  + KoLConstants.COMMA_FORMAT.format(BasementRequest.basementTestCurrent)
-                  + " current, "
-                  + BasementRequest.gauntletString
-                  + " needed";
-          return buffer;
+          return BasementRequest.basementTestString
+              + " Test: "
+              + KoLConstants.COMMA_FORMAT.format(BasementRequest.basementTestCurrent)
+              + " current, "
+              + BasementRequest.gauntletString
+              + " needed";
         }
 
       case MUSCLE:
@@ -286,14 +282,12 @@ public class BasementRequest extends AdventureRequest {
     }
 
     // Stat Test
-    String buffer =
-        BasementRequest.basementTestString
-            + " Test: "
-            + KoLConstants.COMMA_FORMAT.format(BasementRequest.basementTestCurrent)
-            + " current, "
-            + KoLConstants.COMMA_FORMAT.format(BasementRequest.basementTestValue)
-            + " needed";
-    return buffer;
+    return BasementRequest.basementTestString
+        + " Test: "
+        + KoLConstants.COMMA_FORMAT.format(BasementRequest.basementTestCurrent)
+        + " current, "
+        + KoLConstants.COMMA_FORMAT.format(BasementRequest.basementTestValue)
+        + " needed";
   }
 
   public static final String getRequirement() {
@@ -377,7 +371,7 @@ public class BasementRequest extends AdventureRequest {
   }
 
   private static boolean checkForElementalTest(boolean autoSwitch, final String responseText) {
-    if (responseText.indexOf("<b>Peace, Bra!</b>") != -1) {
+    if (responseText.contains("<b>Peace, Bra!</b>")) {
       BasementRequest.element1 = Element.STENCH;
       BasementRequest.element2 = Element.SLEAZE;
 
@@ -396,7 +390,7 @@ public class BasementRequest extends AdventureRequest {
       // Hot is vulnerable to Sleaze and Stench
       BasementRequest.badelement3 = Element.HOT;
       BasementRequest.badeffect3 = BasementRequest.HOT_FORM;
-    } else if (responseText.indexOf("<b>Singled Out</b>") != -1) {
+    } else if (responseText.contains("<b>Singled Out</b>")) {
       BasementRequest.element1 = Element.COLD;
       BasementRequest.element2 = Element.SLEAZE;
 
@@ -415,7 +409,7 @@ public class BasementRequest extends AdventureRequest {
       // Hot is vulnerable to Sleaze
       BasementRequest.badelement3 = Element.HOT;
       BasementRequest.badeffect3 = BasementRequest.HOT_FORM;
-    } else if (responseText.indexOf("<b>Still Better than Pistachio</b>") != -1) {
+    } else if (responseText.contains("<b>Still Better than Pistachio</b>")) {
       BasementRequest.element1 = Element.STENCH;
       BasementRequest.element2 = Element.HOT;
 
@@ -434,7 +428,7 @@ public class BasementRequest extends AdventureRequest {
       // Hot is vulnerable to Stench
       BasementRequest.badelement3 = Element.HOT;
       BasementRequest.badeffect3 = BasementRequest.HOT_FORM;
-    } else if (responseText.indexOf("<b>Unholy Writes</b>") != -1) {
+    } else if (responseText.contains("<b>Unholy Writes</b>")) {
       BasementRequest.element1 = Element.HOT;
       BasementRequest.element2 = Element.SPOOKY;
 
@@ -453,7 +447,7 @@ public class BasementRequest extends AdventureRequest {
       // Sleaze is vulnerable to Spooky
       BasementRequest.badelement3 = Element.SLEAZE;
       BasementRequest.badeffect3 = BasementRequest.SLEAZE_FORM;
-    } else if (responseText.indexOf("<b>The Unthawed</b>") != -1) {
+    } else if (responseText.contains("<b>The Unthawed</b>")) {
       BasementRequest.element1 = Element.COLD;
       BasementRequest.element2 = Element.SPOOKY;
 
@@ -526,7 +520,7 @@ public class BasementRequest extends AdventureRequest {
     }
 
     BasementRequest.changeBasementOutfit("element");
-    BasementRequest.canHandleElementTest(autoSwitch, true);
+    BasementRequest.canHandleElementTest(true, true);
     return true;
   }
 
@@ -732,9 +726,9 @@ public class BasementRequest extends AdventureRequest {
   }
 
   private static boolean checkForStatTest(final boolean autoSwitch, final String responseText) {
-    if (responseText.indexOf("Lift 'em") != -1
-        || responseText.indexOf("Push it Real Good") != -1
-        || responseText.indexOf("Ring that Bell") != -1) {
+    if (responseText.contains("Lift 'em")
+        || responseText.contains("Push it Real Good")
+        || responseText.contains("Ring that Bell")) {
       double statRequirement = BasementRequest.updateMuscleParameters();
       BasementRequest.basementTest = TestType.MUSCLE;
       BasementRequest.addDesiredEqualizer();
@@ -756,9 +750,9 @@ public class BasementRequest extends AdventureRequest {
       return true;
     }
 
-    if (responseText.indexOf("Gathering:  The Magic") != -1
-        || responseText.indexOf("Mop the Floor") != -1
-        || responseText.indexOf("'doo") != -1) {
+    if (responseText.contains("Gathering:  The Magic")
+        || responseText.contains("Mop the Floor")
+        || responseText.contains("'doo")) {
       double statRequirement = BasementRequest.updateMysticalityParameters();
       BasementRequest.basementTest = TestType.MYSTICALITY;
       BasementRequest.addDesiredEqualizer();
@@ -780,9 +774,9 @@ public class BasementRequest extends AdventureRequest {
       return true;
     }
 
-    if (responseText.indexOf("Don't Wake the Baby") != -1
-        || responseText.indexOf("Grab a cue") != -1
-        || responseText.indexOf("Smooth Moves") != -1) {
+    if (responseText.contains("Don't Wake the Baby")
+        || responseText.contains("Grab a cue")
+        || responseText.contains("Smooth Moves")) {
       double statRequirement = BasementRequest.updateMoxieParameters();
       BasementRequest.basementTest = TestType.MOXIE;
       BasementRequest.addDesiredEqualizer();
@@ -864,7 +858,7 @@ public class BasementRequest extends AdventureRequest {
   }
 
   private static boolean checkForDrainTest(final boolean autoSwitch, final String responseText) {
-    if (responseText.indexOf("Grab the Handles") != -1) {
+    if (responseText.contains("Grab the Handles")) {
       double drainRequirement = BasementRequest.updateMPDrainParameters();
       BasementRequest.basementTest = TestType.MPDRAIN;
       BasementRequest.addDesiredEqualizer();
@@ -890,7 +884,7 @@ public class BasementRequest extends AdventureRequest {
       return true;
     }
 
-    if (responseText.indexOf("Run the Gauntlet Gauntlet") != -1) {
+    if (responseText.contains("Run the Gauntlet Gauntlet")) {
       double drainRequirement = BasementRequest.updateHPDrainParameters();
       BasementRequest.basementTest = TestType.HPDRAIN;
       BasementRequest.addDesiredEqualizer();
@@ -937,42 +931,42 @@ public class BasementRequest extends AdventureRequest {
   }
 
   private static boolean checkForReward(final String responseText) {
-    if (responseText.indexOf("De Los Dioses") != -1) {
+    if (responseText.contains("De Los Dioses")) {
       BasementRequest.basementTestString = "Encounter: De Los Dioses";
       return true;
     }
 
-    if (responseText.indexOf("The Dusk Zone") != -1) {
+    if (responseText.contains("The Dusk Zone")) {
       BasementRequest.basementTestString = "Encounter: The Dusk Zone";
       return true;
     }
 
-    if (responseText.indexOf("Giggity Bobbity Boo!") != -1) {
+    if (responseText.contains("Giggity Bobbity Boo!")) {
       BasementRequest.basementTestString = "Encounter: Giggity Bobbity Boo!";
       return true;
     }
 
-    if (responseText.indexOf("No Good Deed") != -1) {
+    if (responseText.contains("No Good Deed")) {
       BasementRequest.basementTestString = "Encounter: No Good Deed";
       return true;
     }
 
-    if (responseText.indexOf("<b>Fernswarthy's Basement, Level 500</b>") != -1) {
+    if (responseText.contains("<b>Fernswarthy's Basement, Level 500</b>")) {
       BasementRequest.basementTestString = "Encounter: Fernswarthy's Basement, Level 500";
       return true;
     }
 
-    if (responseText.indexOf("Got Silk?") != -1) {
+    if (responseText.contains("Got Silk?")) {
       BasementRequest.basementTestString = "Encounter: Got Silk?/Leather is Betther";
       return true;
     }
 
-    if (responseText.indexOf("Save the Dolls") != -1) {
+    if (responseText.contains("Save the Dolls")) {
       BasementRequest.basementTestString = "Encounter: Save the Dolls/Save the Cardboard";
       return true;
     }
 
-    if (responseText.indexOf("Take the Red Pill") != -1) {
+    if (responseText.contains("Take the Red Pill")) {
       BasementRequest.basementTestString = "Encounter: Take the Red Pill/Take the Blue Pill";
       return true;
     }
@@ -988,35 +982,35 @@ public class BasementRequest extends AdventureRequest {
   }
 
   private static boolean checkForMonster(final String responseText) {
-    if (responseText.indexOf("Don't Fear the Ear") != -1) {
+    if (responseText.contains("Don't Fear the Ear")) {
       // Beast with X Ears
       BasementRequest.basementMonster = "Beast with X Ears";
       BasementRequest.basementTestString = BasementRequest.monsterLevelString();
       return true;
     }
 
-    if (responseText.indexOf("Commence to Pokin") != -1) {
+    if (responseText.contains("Commence to Pokin")) {
       // Beast with X Eyes
       BasementRequest.basementMonster = "Beast with X Eyes";
       BasementRequest.basementTestString = BasementRequest.monsterLevelString();
       return true;
     }
 
-    if (responseText.indexOf("Stone Golem") != -1) {
+    if (responseText.contains("Stone Golem")) {
       // X Stone Golem
       BasementRequest.basementMonster = "X Stone Golem";
       BasementRequest.basementTestString = BasementRequest.monsterLevelString();
       return true;
     }
 
-    if (responseText.indexOf("Hydra") != -1) {
+    if (responseText.contains("Hydra")) {
       // X-headed Hydra
       BasementRequest.basementMonster = "X-headed Hydra";
       BasementRequest.basementTestString = BasementRequest.monsterLevelString();
       return true;
     }
 
-    if (responseText.indexOf("Toast that Ghost") != -1) {
+    if (responseText.contains("Toast that Ghost")) {
       // Ghost of Fernswarthy's Grandfather
       BasementRequest.basementMonster = "Ghost of Fernswarthy's Grandfather";
       BasementRequest.basementTestString =
@@ -1024,7 +1018,7 @@ public class BasementRequest extends AdventureRequest {
       return true;
     }
 
-    if (responseText.indexOf("Bottles of Beer on a Golem") != -1) {
+    if (responseText.contains("Bottles of Beer on a Golem")) {
       // X Bottles of Beer on a Golem
       BasementRequest.basementMonster = "X Bottles of Beer on a Golem";
       BasementRequest.basementTestString =
@@ -1032,7 +1026,7 @@ public class BasementRequest extends AdventureRequest {
       return true;
     }
 
-    if (responseText.indexOf("Collapse That Waveform") != -1) {
+    if (responseText.contains("Collapse That Waveform")) {
       // X-dimensional horror
       BasementRequest.basementMonster = "X-dimensional horror";
       BasementRequest.basementTestString =
@@ -1158,9 +1152,7 @@ public class BasementRequest extends AdventureRequest {
     }
 
     if (action.startsWith("cast")) {
-      if (!KoLCharacter.hasSkill(UneffectRequest.effectToSkill(effect.getName()))) {
-        return false;
-      }
+      return KoLCharacter.hasSkill(UneffectRequest.effectToSkill(effect.getName()));
     }
 
     return true;
@@ -1193,7 +1185,7 @@ public class BasementRequest extends AdventureRequest {
   }
 
   public static long getBasementTestValue() {
-    return (long) BasementRequest.basementTestValue;
+    return Double.valueOf(BasementRequest.basementTestValue).longValue();
   }
 
   public static int getActualStatNeeded() {
