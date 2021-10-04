@@ -1,19 +1,33 @@
 package net.sourceforge.kolmafia.request;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
 
 import java.util.stream.Stream;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class BasementRequestTest extends RequestTestBase {
+
+  @BeforeAll
+  private static void injectPreferences() {
+    KoLCharacter.reset("fakeUserName");
+
+    // Now that we have a username set, we can edit preferences and have per-user defaults.
+    // But first, make sure we don't persist anything.
+    Preferences.setBoolean("saveSettingsOnSet", false);
+  }
+
+  @AfterAll
+  private static void cleanupSession() {
+    KoLCharacter.reset("");
+  }
 
   private static Stream<Arguments> monsterFights() {
     return Stream.of(
@@ -55,21 +69,15 @@ class BasementRequestTest extends RequestTestBase {
   @ParameterizedTest
   @MethodSource("statTests")
   void matchesImpassableStatTestFromResponse(String encounter, String summary) {
-    try (var mockPreferences = mockStatic(Preferences.class)) {
-      mockPreferences.when(() -> Preferences.getFloat("basementSafetyMargin")).thenReturn(1.08f);
-      // Default expectation returns null, which generates NPEs all over the place.
-      mockPreferences.when(() -> Preferences.getString(any())).thenReturn("");
-      var req = spy(new BasementRequest("Fernswarthy's Basement, Level 499"));
-      expectSuccess(req, "Fernswarthy's Basement, Level 499: " + encounter);
-      // Clear the error state, since we can't pass any of these tests.
-      KoLmafia.forceContinue();
+    var req = spy(new BasementRequest("Fernswarthy's Basement, Level 499"));
+    expectSuccess(req, "Fernswarthy's Basement, Level 499: " + encounter);
+    // Clear the error state, since we can't pass any of these tests.
+    KoLmafia.forceContinue();
 
-      req.run();
+    req.run();
 
-      assertEquals(499, BasementRequest.getBasementLevel());
-      assertEquals(6470, BasementRequest.getBasementTestValue());
-      assertEquals(
-          summary + ": 0 current, 6,470 needed", BasementRequest.getBasementLevelSummary());
-    }
+    assertEquals(499, BasementRequest.getBasementLevel());
+    assertEquals(6470, BasementRequest.getBasementTestValue());
+    assertEquals(summary + ": 0 current, 6,470 needed", BasementRequest.getBasementLevelSummary());
   }
 }

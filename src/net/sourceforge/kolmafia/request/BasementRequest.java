@@ -737,7 +737,7 @@ public class BasementRequest extends AdventureRequest {
         if (autoSwitch) {
           BasementRequest.changeBasementOutfit("muscle");
           if (KoLCharacter.getAdjustedMuscle() < statRequirement) {
-            KoLmafiaCLI.DEFAULT_SHELL.executeCommand("maximize", "mus");
+            KoLmafiaCLI.DEFAULT_SHELL.executeCommand("maximize", "mus " + statRequirement + " min");
           }
         }
 
@@ -761,7 +761,7 @@ public class BasementRequest extends AdventureRequest {
         if (autoSwitch) {
           BasementRequest.changeBasementOutfit("mysticality");
           if (KoLCharacter.getAdjustedMysticality() < statRequirement) {
-            KoLmafiaCLI.DEFAULT_SHELL.executeCommand("maximize", "mys");
+            KoLmafiaCLI.DEFAULT_SHELL.executeCommand("maximize", "mys " + statRequirement + " min");
           }
         }
 
@@ -785,7 +785,7 @@ public class BasementRequest extends AdventureRequest {
         if (autoSwitch) {
           BasementRequest.changeBasementOutfit("moxie");
           if (KoLCharacter.getAdjustedMoxie() < statRequirement) {
-            KoLmafiaCLI.DEFAULT_SHELL.executeCommand("maximize", "mox");
+            KoLmafiaCLI.DEFAULT_SHELL.executeCommand("maximize", "mox " + statRequirement + " min");
           }
         }
 
@@ -867,7 +867,7 @@ public class BasementRequest extends AdventureRequest {
         if (autoSwitch) {
           BasementRequest.changeBasementOutfit("mpdrain");
           if (KoLCharacter.getMaximumMP() < drainRequirement) {
-            KoLmafiaCLI.DEFAULT_SHELL.executeCommand("maximize", "MP");
+            KoLmafiaCLI.DEFAULT_SHELL.executeCommand("maximize", "MP " + drainRequirement + " min");
           }
         }
 
