@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.maximizer;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Optional;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -14,11 +14,11 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 public class MaximizerTest {
-  @After
+  @AfterEach
   public void after() {
     KoLCharacter.reset(false);
   }
@@ -47,12 +47,12 @@ public class MaximizerTest {
     // 2 flaming crutch, 2 white sword, 1 dense meat sword.
     // Max required muscle to equip any of these is 15.
     loadInventory("{\"473\": \"2\", \"269\": \"2\", \"1728\": \"1\"}");
-    assertTrue("Can equip white sword", EquipmentManager.canEquip(269));
-    assertTrue("Can equip flaming crutch", EquipmentManager.canEquip(473));
+    assertTrue(EquipmentManager.canEquip(269), "Can equip white sword");
+    assertTrue(EquipmentManager.canEquip(473), "Can equip flaming crutch");
     assertTrue(maximize("mus, club"));
     // Should equip 1 flaming crutch, 1 white sword.
-    assertEquals("Muscle as expected.", 2, modFor("Muscle"), 0.01);
-    assertEquals("Hot damage as expected.", 3, modFor("Hot Damage"), 0.01);
+    assertEquals(2, modFor("Muscle"), 0.01, "Muscle as expected.");
+    assertEquals(3, modFor("Hot Damage"), 0.01, "Hot damage as expected.");
   }
 
   @Test
@@ -66,18 +66,18 @@ public class MaximizerTest {
     // check we can equip everything
     KoLCharacter.setStatPoints(0, 0, 40, 1600, 125, 15625);
     KoLCharacter.recalculateAdjustments();
-    assertTrue("Cannot equip space trip safety headphones", EquipmentManager.canEquip(4639));
-    assertTrue("Cannot equip Krampus Horn", EquipmentManager.canEquip(9274));
+    assertTrue(EquipmentManager.canEquip(4639), "Cannot equip space trip safety headphones");
+    assertTrue(EquipmentManager.canEquip(9274), "Cannot equip Krampus Horn");
     assertTrue(
         maximize(
             "cold res,-combat -hat -weapon -offhand -back -shirt -pants -familiar -acc1 -acc2 -acc3"));
-    assertEquals("Base score is 25", 25, modFor("Cold Resistance") - modFor("Combat Rate"), 0.01);
+    assertEquals(25, modFor("Cold Resistance") - modFor("Combat Rate"), 0.01, "Base score is 25");
     assertTrue(maximize("cold res,-combat -acc2 -acc3"));
     assertEquals(
-        "Maximizing one slot should reach 27",
         27,
         modFor("Cold Resistance") - modFor("Combat Rate"),
-        0.01);
+        0.01,
+        "Maximizing one slot should reach 27");
     Optional<AdventureResult> acc1 =
         Maximizer.boosts.stream()
             .filter(Boost::isEquipment)
@@ -96,19 +96,19 @@ public class MaximizerTest {
     // get our Moxie below 125 (e.g. basic hot dogs, stat limiting effects)
     KoLCharacter.setStatPoints(0, 0, 0, 0, 0, 0);
     KoLCharacter.recalculateAdjustments();
-    assertFalse("Can still equip Fuzzy Slippers of Hatred", EquipmentManager.canEquip(4307));
+    assertFalse(EquipmentManager.canEquip(4307), "Can still equip Fuzzy Slippers of Hatred");
     assertTrue(
         maximize("-combat -hat -weapon -offhand -back -shirt -pants -familiar -acc1 -acc2 -acc3"));
-    assertEquals("Base score is 5", 5, -modFor("Combat Rate"), 0.01);
+    assertEquals(5, -modFor("Combat Rate"), 0.01, "Base score is 5");
     assertTrue(maximize("-combat"));
-    assertEquals("Maximizing should not reduce score", 5, -modFor("Combat Rate"), 0.01);
+    assertEquals(5, -modFor("Combat Rate"), 0.01, "Maximizing should not reduce score");
   }
 
   @Test
   public void freshCharacterShouldNotRecommendEverythingWithCurrentScore() {
     KoLCharacter.setSign("Platypus");
     assertTrue(maximize("familiar weight"));
-    assertEquals("Base score is 5", 5, modFor("Familiar Weight"), 0.01);
+    assertEquals(5, modFor("Familiar Weight"), 0.01, "Base score is 5");
     // monorail buff should always be available, but should not improve familiar weight.
     // so are friars, but I don't know why and that might be a bug
     assertEquals(1, Maximizer.boosts.size());

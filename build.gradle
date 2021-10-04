@@ -50,15 +50,13 @@ configurations {
 }
 
 dependencies {
-	// Use vintage engine for running legacy JUnit4 tests.
-	testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.8.0'
 	// Use JUnit Jupiter for running JUnit5 tests.
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.8.0'
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter:5.8.0'
 
 	testImplementation 'org.hamcrest:hamcrest:2.2'
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.0'
-	testImplementation 'junit:junit:4.13.2'
+	testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.0'
 	testImplementation 'org.mockito:mockito-core:3.+'
 
 	implementation 'com.formdev:flatlaf:1.6'
