@@ -155,6 +155,10 @@ jacocoTestReport {
 	}
 }
 
+configurations {
+	implementation.canBeResolved = true
+}
+
 jar {
 	manifest {
 		attributes(
