@@ -65,6 +65,9 @@ Some tasks of interest:
 We currently require at least Java 9, but strongly recommend building
 and running via the latest LTS release (Java 17 as of October 2021).
 
+See [this thread](https://kolmafia.us/threads/rocking-the-gradle.26583/) for
+some additional notes on Gradle usage.
+
 ### Testing
 
 We use [JUnit 5](https://junit.org/junit5/docs/current/user-guide/) for all of
@@ -80,6 +83,9 @@ We provide CustomScriptTest.java if you wish to write ASH / CLI / JS scripts in
 test/root/scripts. This wrapper compares the output of these scripts against
 golden files in test/root/expected. Tests of this form must clean up after
 themselves, to avoid polluting the shared environment.
+
+See [this thread](https://kolmafia.us/threads/scripts-in-tests.26380/) for a
+discussion on setting up the environment for these custom script tests.
 
 ### Code style
 
