@@ -33,9 +33,14 @@ jobs:
           ORG_GRADLE_PROJECT_commit: ${{ github.sha }}
         run: ./gradlew --no-daemon bin
 
-      - name: Display structure of built artifacts
-        run: ls -R
-        working-directory: build/bin
+      - name: Upload binaries
+        uses: actions/upload-artifact@v2
+        with:
+          name: binary
+          path: |
+            build/bin/KoLmafia.app/Contents/MacOS/KoLmafia
+            build/bin/KoLmafia/KoLmafia.exe
+            build/bin/KoLmafia/bin/KoLmafia
 
   daily:
     if: github.repository == 'kolmafia/kolmafia'
@@ -77,3 +82,12 @@ jobs:
           name: ${{ env.KOLMAFIA_VERSION }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  release:
+    needs: bin
+    steps:
+      - name: Download binaries
+        uses: actions/download-artifact@v2
+
+      - name: List all downloaded artifacts
+        run: ls -lR
