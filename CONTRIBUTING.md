@@ -3,15 +3,17 @@
 First off, thank you for contributing your time and knowledge. This project
 would not exist if not for volunteers like you!
 
-## Some useful prerequisites (lifted from [Github docs](https://github.com/github/docs/blob/main/CONTRIBUTING.md))
+## Workflow Overview
+
+Some suggested reading (lifted from [Github docs](https://github.com/github/docs/blob/main/CONTRIBUTING.md)):
 
 - [Set up Git](https://docs.github.com/en/get-started/quickstart/set-up-git)
 - [GitHub flow](https://docs.github.com/en/get-started/quickstart/github-flow)
 - [Collaborating with pull requests](https://docs.github.com/en/github/collaborating-with-pull-requests)
 
-All work must be done in feature branches (typically within your fork of the
-project), and reviewed by at least one of the core developers through Github's
-Pull Request feature.
+In the spirit of Github flow, all work must be done in feature branches
+(typically within your fork of the project), and reviewed by at least one of the
+core developers through Github's Pull Request (PR) feature.
 
 We strongly encourage that you provide tests as part of your pull request, as
 this helps us understand the problem at hand and avoid breaking your change in
@@ -19,14 +21,11 @@ the future.
 
 ## Guidelines (adapted from [our previous guide](https://kolmafia.us/threads/25364))
 
-(Editor's note: you can mentally replace all instances of "patch" with
-"pull request".)
-
-A successful submit requires social and technical skills.
-
-The set of social skills includes the ability to get along with devs at the
-KoLmafia.us community. Users that have managed to alienate themselves from
-members of the dev team tend to have their proposed patches ignored.
+Before creating a PR, we strongly recommend creating a bug in the [KoLmafia
+forums](https://kolmafia.us/forums/bug-reports.24/), in order to provide broader
+context regarding the change, and to discuss whether the change is a good
+idea. We'd hate for you to waste effort and be discouraged from submitting
+future PRs because some fundamental concerns arise during code review.
 
 The ability to determine the appropriateness of a patch and the level of support
 for it is extremely useful. A patch that violates the spirit of KoLmafia (for
@@ -40,8 +39,9 @@ the context of KoLmafia. A prerequisite for success is the ability to read and
 understand KoLmafia's code and infer its architecture since those are not well
 documented in the traditional sense.
 
-Individuals with a good track record of creating and submitting patches can ask
-to be made a dev. The active devs who can do this are MCroft and gausie.
+Individuals with a good track record of creating PRs and constructively engaging
+in other pull requests can ask to be made a dev. The active devs who can do this
+are MCroft and gausie. We may also reach out to you.
 
 ## Project-specific details
 
