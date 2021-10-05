@@ -9,6 +9,7 @@ plugins {
 	id 'com.github.johnrengelman.shadow' version '6.0.0'
 	id 'net.nemerosa.versioning' version '2.8.2'
 	id 'org.ajoberstar.grgit' version '4.1.0'
+	id "org.panteleyev.jpackageplugin" version "1.3.1"
 }
 mainClassName = 'net.sourceforge.kolmafia.KoLmafia'
 
@@ -252,31 +253,21 @@ tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
 
-task pruneBin(type: Delete) {
+task cleanJpackage(type: Delete) {
 	onlyIf {
 		file('build/releases/KoLmafia').exists()
 	}
 	delete 'build/releases/KoLmafia'
 }
 
-task bin(type: Exec) {
-	dependsOn shadowJar
-	outputs.files file('build/releases/')
-
-	executable 'jpackage'
+tasks.jpackage {
+	dependsOn shadowJar, cleanJpackage
+	input = 'dist'
+	destination = 'build/releases'
+	mainClass = mainClassName
+	type = 'APP_IMAGE'
 	doFirst {
-		args = [
-			'-t',
-			'app-image',
-			'-i',
-			'dist/',
-			'--main-jar',
-			"KoLmafia-${version}${versioning.info.dirty ? '-M' : ''}.jar",
-			'--main-class',
-			'net.sourceforge.kolmafia.KoLmafia',
-			'-d',
-			'build/releases'
-		]
+		mainJar = tasks.shadowJar.archiveFileName.get()
 	}
 }
 
