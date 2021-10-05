@@ -136,11 +136,11 @@ public class AutoFilterTextField extends AutoHighlightTextField
     String elementName = AutoFilterTextField.getResultName(element);
 
     if (this.notChecked) {
-      return elementName.indexOf(this.text) == -1;
+      return !elementName.contains(this.text);
     }
 
     return this.strict
-        ? elementName.indexOf(this.text) != -1
+        ? elementName.contains(this.text)
         : StringUtilities.fuzzyMatches(elementName, this.text);
   }
 
@@ -242,9 +242,9 @@ public class AutoFilterTextField extends AutoHighlightTextField
 
       String op = mqty.group(1);
 
-      AutoFilterTextField.this.qtyEQ = op.indexOf("=") != -1;
-      AutoFilterTextField.this.qtyLT = op.indexOf("<") != -1;
-      AutoFilterTextField.this.qtyGT = op.indexOf(">") != -1;
+      AutoFilterTextField.this.qtyEQ = op.contains("=");
+      AutoFilterTextField.this.qtyLT = op.contains("<");
+      AutoFilterTextField.this.qtyGT = op.contains(">");
       AutoFilterTextField.this.text = mqty.replaceFirst("");
     }
 
@@ -255,9 +255,9 @@ public class AutoFilterTextField extends AutoHighlightTextField
 
       String op = mas.group(1);
 
-      AutoFilterTextField.this.asEQ = op.indexOf("=") != -1;
-      AutoFilterTextField.this.asLT = op.indexOf("<") != -1;
-      AutoFilterTextField.this.asGT = op.indexOf(">") != -1;
+      AutoFilterTextField.this.asEQ = op.contains("=");
+      AutoFilterTextField.this.asLT = op.contains("<");
+      AutoFilterTextField.this.asGT = op.contains(">");
       AutoFilterTextField.this.text = mas.replaceFirst("");
     }
 
