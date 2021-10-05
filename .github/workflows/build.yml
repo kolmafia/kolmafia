@@ -34,7 +34,6 @@ jobs:
           ORG_GRADLE_PROJECT_commit: ${{ github.sha }}
         run: ./gradlew --no-daemon bin
 
-
       - name: Zip binaries
         uses: thedoctor0/zip-release@master
         with:
