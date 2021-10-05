@@ -39,7 +39,7 @@ jobs:
         with:
           type: 'zip'
           filename: '${{runner.os}}.zip'
-		  directory: 'build/KoLmafia*'
+          directory: 'build/KoLmafia*'
 
       - name: Upload zipballs
         uses: actions/upload-artifact@v2
