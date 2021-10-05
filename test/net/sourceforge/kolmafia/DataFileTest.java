@@ -1,24 +1,19 @@
 package net.sourceforge.kolmafia;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@RunWith(Parameterized.class)
 public class DataFileTest {
-  @Parameters
-  public static Collection<Object[]> data() {
-    return Arrays.asList(
-        new Object[][] {
-          {
+  public static Stream<Arguments> data() {
+    return Stream.of(
+        Arguments.of(
             "items.txt",
             1,
             new String[] {
@@ -33,9 +28,8 @@ public class DataFileTest {
                   + "solo|curse|bounty|candy1|candy2|candy|chocolate|matchable|fancy|paste|smith|cook|mix))*"), // use
               "([qgtd](,[qgtd])*)?", // access
               "\\d+", // autosell
-            }
-          },
-          {
+            }),
+        Arguments.of(
             "fullness.txt",
             2,
             new String[] {
@@ -48,9 +42,8 @@ public class DataFileTest {
               "-?\\d+(-\\d+)?", // mus
               "-?\\d+(-\\d+)?", // mys
               "-?\\d+(-\\d+)?", // mox
-            }
-          },
-          {
+            }),
+        Arguments.of(
             "inebriety.txt",
             2,
             new String[] {
@@ -63,9 +56,8 @@ public class DataFileTest {
               "-?\\d+(-\\d+)?", // mus
               "-?\\d+(-\\d+)?", // mys
               "-?\\d+(-\\d+)?", // mox
-            }
-          },
-          {
+            }),
+        Arguments.of(
             "spleenhit.txt",
             2,
             new String[] {
@@ -77,19 +69,7 @@ public class DataFileTest {
               "-?\\d+(-\\d+)?", // mus
               "-?\\d+(-\\d+)?", // mys
               "-?\\d+(-\\d+)?", // mox
-            }
-          },
-        });
-  }
-
-  private String fname;
-  private int version;
-  private String[] regexes;
-
-  public DataFileTest(String fname, int version, String[] regexes) {
-    this.fname = fname;
-    this.version = version;
-    this.regexes = regexes;
+            }));
   }
 
   private static String join(String[] parts, String delimiter) {
@@ -104,8 +84,9 @@ public class DataFileTest {
     return sb.toString();
   }
 
-  @Test
-  public void testDataFileAgainstRegex() {
+  @ParameterizedTest
+  @MethodSource("data")
+  public void testDataFileAgainstRegex(String fname, int version, String[] regexes) {
     BufferedReader reader = FileUtilities.getVersionedReader(fname, version);
     String[] fields;
 
@@ -120,8 +101,8 @@ public class DataFileTest {
       for (int i = 0; i < regexes.length; ++i) {
         // Assume fields[0] is something that uniquely identifies the row.
         assertTrue(
-            "Field " + i + " (" + fields[i] + ") did not match:\n" + join(fields, "\t"),
-            Pattern.matches(regexes[i], fields[i]));
+            Pattern.matches(regexes[i], fields[i]),
+            "Field " + i + " (" + fields[i] + ") did not match:\n" + join(fields, "\t"));
       }
     }
 

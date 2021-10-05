@@ -1,10 +1,10 @@
 package net.sourceforge.kolmafia.utilities;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * As implemented RollingLinkedList will fail if passed an initial length that is negative. addAll
@@ -68,7 +68,7 @@ public class RollingLinkedListTest {
   }
 
   @Test
-  @Ignore("Class under test needs to be augmented")
+  @Disabled("Class under test needs to be augmented")
   public void itShouldBehaveForABulkAdd() {
     rll = new RollingLinkedList<>(2);
     rll.add("Alpha");

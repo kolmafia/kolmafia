@@ -50,15 +50,13 @@ configurations {
 }
 
 dependencies {
-	// Use vintage engine for running legacy JUnit4 tests.
-	testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.8.0'
 	// Use JUnit Jupiter for running JUnit5 tests.
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.8.0'
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter:5.8.0'
 
 	testImplementation 'org.hamcrest:hamcrest:2.2'
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.0'
-	testImplementation 'junit:junit:4.13.2'
+	testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.0'
 	testImplementation 'org.mockito:mockito-core:3.+'
 
 	implementation 'com.formdev:flatlaf:1.6'
@@ -130,7 +128,7 @@ task pruneDist(type: Delete) {
 	doLast {
 		file('dist').eachFile(groovy.io.FileType.FILES) { File file ->
 			if (file.name.startsWith('KoLmafia-') && file.name.endsWith('.jar')) {
-				if (!file.name.contains(project.getVersion()) || (versioning.info.dirty != file.name.endsWith('-M.jar'))) {
+				if (!file.name.contains(project.getVersion().toString()) || (versioning.info.dirty != file.name.endsWith('-M.jar'))) {
 					delete file
 				}
 			}
@@ -164,6 +162,7 @@ jar {
 				'Build-Revision'  : new Object() { String toString() { project.getVersion() } },
 				'Build-Branch'    : versioning.info.branch,
 				'Build-Commit'    : versioning.info.commit,
+				'Build-Dirty'     : versioning.info.dirty,
 				'Build-Jdk'       : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
 				'Build-OS'        : "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}"
 				)
@@ -188,18 +187,20 @@ task getRevision() {
 	onlyIf {
 		file('.git').exists()
 	}
+	def commit = findProperty("commit") ?: 'origin/main'
 	inputs.dir('.git')
+	inputs.property('commit', commit)
 	outputs.files file('build/revision.txt')
 
 	doLast {
-		def remote = System.getenv('HEAD_COMMIT_HASH')
-		if (remote == null) {
-			remote = 'origin/main'
-		}
-		def revision = grgit.log(includes:[remote]).size()
+		def revision = grgit.log(includes:[commit]).size()
+		logger.info('Commit: {} Revision: {}', commit, revision)
 		file('build/revision.txt').text = revision.toString().trim()
 		// Update the version to the new revision
 		project.setVersion(revision.toString().trim())
+		def revString = versioning.info.dirty ? project.getVersion() +'-M': project.getVersion()
+		println '\nRevision: ' + revString
+
 	}
 }
 

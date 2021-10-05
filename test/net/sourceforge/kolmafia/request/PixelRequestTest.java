@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -8,11 +8,11 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 public class PixelRequestTest {
-  @After
+  @AfterEach
   public void after() {
     KoLCharacter.reset(false);
   }
@@ -32,14 +32,14 @@ public class PixelRequestTest {
 
     // Check pixel counts.
     for (int itemId : PIXELS) {
-      assertEquals("item " + itemId + " (before): ", 1, InventoryManager.getCount(itemId));
+      assertEquals(1, InventoryManager.getCount(itemId), "item " + itemId + " (before): ");
     }
 
     final String url = "shop.php?whichshop=mystic&action=buyitem&whichrow=26&quantity=1";
     request.parseResponse(url, "");
 
     for (int itemId : PIXELS) {
-      assertEquals("item " + itemId + " (after): ", 0, InventoryManager.getCount(itemId));
+      assertEquals(0, InventoryManager.getCount(itemId), "item " + itemId + " (after): ");
     }
   }
 
