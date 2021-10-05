@@ -31,13 +31,13 @@ members of the dev team tend to have their proposed patches ignored.
 The ability to determine the appropriateness of a patch and the level of support
 for it is extremely useful. A patch that violates the spirit of KoLmafia (for
 example, that allows access to non-KoLmafia directories in the user's file
-system) will be rejected. A patch that changes an existing feature would need
+system) will be rejected. A patch that changes an existing feature will need
 some discussion. A patch that changes a lot of code to implement a feature of at
 best niche interest is unlikely to be accepted.
 
 The technical skills are the ability to write and test Java code that works in
 the context of KoLmafia. A prerequisite for success is the ability to read and
-understand KoLmafia's code and infer its archetecture since those are not well
+understand KoLmafia's code and infer its architecture since those are not well
 documented in the traditional sense.
 
 Individuals with a good track record of creating and submitting patches can ask
