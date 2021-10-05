@@ -252,6 +252,32 @@ tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
 
+task pruneBin(type: Delete) {
+	onlyIf {
+		file('build/KoLmafia').exists()
+	}
+	delete 'build/KoLmafia'
+}
+
+task bin(type: Exec) {
+	dependsOn shadowJar
+
+	executable 'jpackage'
+	doFirst {
+		args = [
+			'-t',
+			'app-image',
+			'-i',
+			'dist/',
+			'--main-jar',
+			"KoLmafia-${version}${versioning.info.dirty ? '-M' : ''}.jar",
+			'--main-class',
+			'net.sourceforge.kolmafia.KoLmafia',
+			'-d',
+			'build'
+		]
+	}
+}
 
 clean.dependsOn cleanDist
 pruneDist.dependsOn getRevision
