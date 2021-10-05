@@ -136,11 +136,11 @@ public class AutoFilterTextField extends AutoHighlightTextField
     String elementName = AutoFilterTextField.getResultName(element);
 
     if (this.notChecked) {
-      return elementName.indexOf(this.text) == -1;
+      return !elementName.contains(this.text);
     }
 
     return this.strict
-        ? elementName.indexOf(this.text) != -1
+        ? elementName.contains(this.text)
         : StringUtilities.fuzzyMatches(elementName, this.text);
   }
 
@@ -223,73 +223,66 @@ public class AutoFilterTextField extends AutoHighlightTextField
   }
 
   public void update() {
-    try {
-      AutoFilterTextField.this.qtyChecked = false;
-      AutoFilterTextField.this.asChecked = false;
-      AutoFilterTextField.this.notChecked = false;
-      AutoFilterTextField.this.text = AutoFilterTextField.this.getText().toLowerCase();
+    AutoFilterTextField.this.qtyChecked = false;
+    AutoFilterTextField.this.asChecked = false;
+    AutoFilterTextField.this.notChecked = false;
+    AutoFilterTextField.this.text = AutoFilterTextField.this.getText().toLowerCase();
 
-      if (AutoFilterTextField.this.text != null
-          && AutoFilterTextField.this.text.length() > 1
-          && AutoFilterTextField.this.text.charAt(0) == "-".charAt(0)) {
-        AutoFilterTextField.this.notChecked = true;
-        AutoFilterTextField.this.text = AutoFilterTextField.this.text.substring(1).trim();
-      }
+    if (AutoFilterTextField.this.text != null
+        && AutoFilterTextField.this.text.length() > 1
+        && AutoFilterTextField.this.text.charAt(0) == "-".charAt(0)) {
+      AutoFilterTextField.this.notChecked = true;
+      AutoFilterTextField.this.text = AutoFilterTextField.this.text.substring(1).trim();
+    }
 
-      Matcher mqty = AutoFilterTextField.QTYSEARCH_PATTERN.matcher(AutoFilterTextField.this.text);
-      if (mqty.find()) {
-        AutoFilterTextField.this.qtyChecked = true;
-        AutoFilterTextField.this.quantity = StringUtilities.parseInt(mqty.group(2));
+    Matcher mqty = AutoFilterTextField.QTYSEARCH_PATTERN.matcher(AutoFilterTextField.this.text);
+    if (mqty.find()) {
+      AutoFilterTextField.this.qtyChecked = true;
+      AutoFilterTextField.this.quantity = StringUtilities.parseInt(mqty.group(2));
 
-        String op = mqty.group(1);
+      String op = mqty.group(1);
 
-        AutoFilterTextField.this.qtyEQ = op.indexOf("=") != -1;
-        AutoFilterTextField.this.qtyLT = op.indexOf("<") != -1;
-        AutoFilterTextField.this.qtyGT = op.indexOf(">") != -1;
-        AutoFilterTextField.this.text = mqty.replaceFirst("");
-      }
+      AutoFilterTextField.this.qtyEQ = op.contains("=");
+      AutoFilterTextField.this.qtyLT = op.contains("<");
+      AutoFilterTextField.this.qtyGT = op.contains(">");
+      AutoFilterTextField.this.text = mqty.replaceFirst("");
+    }
 
-      Matcher mas = AutoFilterTextField.ASSEARCH_PATTERN.matcher(AutoFilterTextField.this.text);
-      if (mas.find()) {
-        AutoFilterTextField.this.asChecked = true;
-        AutoFilterTextField.this.price = StringUtilities.parseInt(mas.group(2));
+    Matcher mas = AutoFilterTextField.ASSEARCH_PATTERN.matcher(AutoFilterTextField.this.text);
+    if (mas.find()) {
+      AutoFilterTextField.this.asChecked = true;
+      AutoFilterTextField.this.price = StringUtilities.parseInt(mas.group(2));
 
-        String op = mas.group(1);
+      String op = mas.group(1);
 
-        AutoFilterTextField.this.asEQ = op.indexOf("=") != -1;
-        AutoFilterTextField.this.asLT = op.indexOf("<") != -1;
-        AutoFilterTextField.this.asGT = op.indexOf(">") != -1;
-        AutoFilterTextField.this.text = mas.replaceFirst("");
-      }
+      AutoFilterTextField.this.asEQ = op.contains("=");
+      AutoFilterTextField.this.asLT = op.contains("<");
+      AutoFilterTextField.this.asGT = op.contains(">");
+      AutoFilterTextField.this.text = mas.replaceFirst("");
+    }
 
-      Matcher mnot = AutoFilterTextField.NOTSEARCH_PATTERN.matcher(AutoFilterTextField.this.text);
-      if (mnot.find()) {
-        AutoFilterTextField.this.notChecked = true;
-        AutoFilterTextField.this.text = mnot.group(1);
-      }
+    Matcher mnot = AutoFilterTextField.NOTSEARCH_PATTERN.matcher(AutoFilterTextField.this.text);
+    if (mnot.find()) {
+      AutoFilterTextField.this.notChecked = true;
+      AutoFilterTextField.this.text = mnot.group(1);
+    }
 
-      AutoFilterTextField.this.strict = true;
-      AutoFilterTextField.this.model.updateFilter(false);
+    AutoFilterTextField.this.strict = true;
+    AutoFilterTextField.this.model.updateFilter();
 
-      if (AutoFilterTextField.this.model.getSize() == 0) {
-        AutoFilterTextField.this.strict = false;
-        AutoFilterTextField.this.model.updateFilter(false);
-      }
+    if (AutoFilterTextField.this.model.getSize() == 0) {
+      AutoFilterTextField.this.strict = false;
+      AutoFilterTextField.this.model.updateFilter();
+    }
 
-      if (AutoFilterTextField.this.list != null) {
-        JList list = AutoFilterTextField.this.list;
-        if (AutoFilterTextField.this.model.getSize() == 1) {
-          list.setSelectedIndex(0);
-        } else if (list.getSelectedIndices().length == 1) {
-          list.ensureIndexIsVisible(list.getSelectedIndex());
-        } else {
-          list.clearSelection();
-        }
-      }
-    } finally {
-      if (AutoFilterTextField.this.model.size() > 0) {
-        AutoFilterTextField.this.model.fireContentsChanged(
-            AutoFilterTextField.this.model, 0, AutoFilterTextField.this.model.size() - 1);
+    if (AutoFilterTextField.this.list != null) {
+      JList list = AutoFilterTextField.this.list;
+      if (AutoFilterTextField.this.model.getSize() == 1) {
+        list.setSelectedIndex(0);
+      } else if (list.getSelectedIndices().length == 1) {
+        list.ensureIndexIsVisible(list.getSelectedIndex());
+      } else {
+        list.clearSelection();
       }
     }
   }
