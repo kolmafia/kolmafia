@@ -85,6 +85,8 @@ jobs:
 
   release:
     needs: bin
+    name: Publish Artifacts
+    runs-on: ubuntu-latest
     steps:
       - name: Download binaries
         uses: actions/download-artifact@v2
