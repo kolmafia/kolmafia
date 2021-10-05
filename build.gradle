@@ -91,12 +91,17 @@ application {
 
 spotless {
 	format 'misc', {
-		target '*.md', '.gitignore'
+		target '.gitignore'
 
 		trimTrailingWhitespace()
 		indentWithSpaces(2)
 		endWithNewline()
 	}
+
+	freshmark {
+		target '*.md'
+	}
+
 	groovyGradle {
 		greclipse()
 	}
