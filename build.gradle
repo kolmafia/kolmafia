@@ -255,9 +255,9 @@ tasks.withType(JavaCompile) {
 
 task cleanJpackage(type: Delete) {
 	onlyIf {
-		file('build/releases/KoLmafia').exists()
+		file('build/releases').exists()
 	}
-	delete 'build/releases/KoLmafia'
+	delete 'build/releases'
 }
 
 tasks.jpackage {
