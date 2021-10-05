@@ -33,9 +33,9 @@ jobs:
           ORG_GRADLE_PROJECT_commit: ${{ github.sha }}
         run: ./gradlew --no-daemon bin
 
-      - name: Display structure of downloaded files
+      - name: Display structure of built artifacts
         run: ls -R
-        working-directory: build/KoLmafia/bin
+        working-directory: build/KoLmafia
 
   daily:
     if: github.repository == 'kolmafia/kolmafia'
