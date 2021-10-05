@@ -33,14 +33,19 @@ jobs:
           ORG_GRADLE_PROJECT_commit: ${{ github.sha }}
         run: ./gradlew --no-daemon bin
 
-      - name: Upload binaries
+
+      - name: Zip binaries
+        uses: thedoctor0/zip-release@master
+        with:
+          type: 'zip'
+          filename: '${{runner.os}}.zip'
+		  directory: 'build/KoLmafia*'
+
+      - name: Upload zipballs
         uses: actions/upload-artifact@v2
         with:
-          name: binary
-          path: |
-            build/bin/KoLmafia.app/Contents/MacOS/KoLmafia
-            build/bin/KoLmafia/KoLmafia.exe
-            build/bin/KoLmafia/bin/KoLmafia
+          name: releases
+          path: build/**/*.zip
 
   daily:
     if: github.repository == 'kolmafia/kolmafia'
