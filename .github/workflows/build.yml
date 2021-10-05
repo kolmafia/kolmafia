@@ -35,7 +35,7 @@ jobs:
 
       - name: Display structure of built artifacts
         run: ls -R
-        working-directory: build/KoLmafia
+        working-directory: dist
 
   daily:
     if: github.repository == 'kolmafia/kolmafia'

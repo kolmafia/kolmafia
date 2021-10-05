@@ -254,9 +254,9 @@ tasks.withType(JavaCompile) {
 
 task pruneBin(type: Delete) {
 	onlyIf {
-		file('build/KoLmafia').exists()
+		file('dist/KoLmafia').exists()
 	}
-	delete 'build/KoLmafia'
+	delete 'dist/KoLmafia'
 }
 
 task bin(type: Exec) {
@@ -274,7 +274,7 @@ task bin(type: Exec) {
 			'--main-class',
 			'net.sourceforge.kolmafia.KoLmafia',
 			'-d',
-			'build'
+			'dist'
 		]
 	}
 }
