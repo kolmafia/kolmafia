@@ -2,7 +2,7 @@ name: Build
 
 on:
   push:
-    branches: [main]
+    branches: [main, jpackage]
   workflow_dispatch:
 
 jobs:
