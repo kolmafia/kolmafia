@@ -265,7 +265,17 @@ tasks.jpackage {
 	input = 'dist'
 	destination = 'build/releases'
 	mainClass = mainClassName
-	type = 'APP_IMAGE'
+	appVersion = new Date().format("yy.MM")
+	linux {
+		type = 'APP_IMAGE'
+	}
+	mac {
+		type = 'pkg'
+		icon = 'util/macosx/limeglass.icns'
+	}
+	windows{
+		type = 'exe'
+	}
 	doFirst {
 		mainJar = tasks.shadowJar.archiveFileName.get()
 	}
