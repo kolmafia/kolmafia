@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -433,8 +432,8 @@ public abstract class KoLCharacter {
       return;
     }
 
-    // Forbid characters that could be used for directory traversal.
-    if (Stream.of("/", "\\", ".").anyMatch(newUserName::contains)) {
+    // Check that character names contain a narrow range of characters.
+    if (!newUserName.matches("^[a-zA-Z_ 0-9]{3,30}$")) {
       return;
     }
 
