@@ -272,6 +272,7 @@ tasks.jpackage {
 	}
 	windows{
 		type = 'exe'
+		icon = 'util/windows/KoLmelion.ico'
 	}
 	doFirst {
 		mainJar = tasks.shadowJar.archiveFileName.get()
