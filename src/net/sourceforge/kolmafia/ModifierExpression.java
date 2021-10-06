@@ -82,6 +82,9 @@ public class ModifierExpression extends Expression {
     if (this.optional("interact(")) {
       return this.literal(this.until(")"), '\u0094');
     }
+    if (this.optional("stripcommas(")) {
+      return this.literal(this.until(")"), '\u0096');
+    }
     if (this.optional("mus")) {
       return "\u0080";
     }

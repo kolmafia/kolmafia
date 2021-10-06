@@ -12,10 +12,12 @@ import java.util.regex.PatternSyntaxException;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.ModifierExpression;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
+import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -268,11 +270,23 @@ public abstract class ConsequenceManager {
         return action.substring(1, pos);
       }
 
+      String type = this.getType();
+      String mods = "";
+      if (type.equals("DESC_ITEM")) {
+        int itemId = ItemDatabase.getItemId(this.getSpec());
+        int equipType = ItemDatabase.getConsumptionType(itemId);
+        mods =
+            DebugDatabase.parseItemEnchantments(
+                match.replaceFirst(match.group(0)), new ArrayList<>(), equipType);
+        Modifiers.overrideModifier("Item:[" + itemId + "]", mods);
+      }
+
       pos = action.indexOf('=');
       if (pos != -1) {
         String setting = action.substring(0, pos).trim();
         String value = action.substring(pos + 1).trim();
         if (value.equals("ascensions")) value = String.valueOf(KoLCharacter.getAscensions());
+        if (value.equals("mods")) value = mods;
         Preferences.setString(setting, value);
         return null;
       }
