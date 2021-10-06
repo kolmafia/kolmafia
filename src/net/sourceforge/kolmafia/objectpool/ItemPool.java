@@ -2271,6 +2271,7 @@ public class ItemPool {
   public static final int TRIPLE_DISTILLED_TURPENTINE = 7488;
   public static final int DETARTRATED_ANHYDROUS_SUBLICALC = 7489;
   public static final int TRIATOMACEOUS_DUST = 7490;
+  public static final int BOTTLE_OF_CHATEAU_DE_VINEGAR = 7491;
   public static final int UNSTABLE_FULMINATE = 7493;
   public static final int WINE_BOMB = 7494;
   public static final int MORTAR_DISSOLVING_RECIPE = 7495;
@@ -3300,6 +3301,7 @@ public class ItemPool {
   public static final int RAINPROOF_BARREL_CAULK = 10794;
   public static final int PUMP_GREASE = 10795;
   public static final int INDUSTRIAL_FIRE_EXTINGUISHER = 10797;
+  public static final int VAMPIRE_VINTNER_WINE = 10800;
 
   public static final AdventureResult get(String itemName, int count) {
     int itemId = ItemDatabase.getItemId(itemName, 1, false);

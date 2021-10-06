@@ -2208,6 +2208,36 @@ public class ItemDatabase {
     }
   }
 
+  public static void parseVampireVintnerWine(final String desc) {
+    String mod = DebugDatabase.parseItemEnchantments(desc, KoLConstants.CONSUME_DRINK);
+    Modifiers.overrideModifier("Item:[" + ItemPool.VAMPIRE_VINTNER_WINE + "]", mod);
+    String type = "";
+    switch (Modifiers.getStringModifier("Item", ItemPool.VAMPIRE_VINTNER_WINE, "Effect")) {
+      case "Wine-Befouled":
+        type = "stench";
+        break;
+      case "Wine-Cold":
+        type = "cold";
+        break;
+      case "Wine-Dark":
+        type = "spooky";
+        break;
+      case "Wine-Fortified":
+        type = "physical";
+        break;
+      case "Wine-Frisky":
+        type = "sleaze";
+        break;
+      case "Wine-Friendly":
+        type = "familiar";
+        break;
+      case "Wine-Hot":
+        type = "hot";
+        break;
+    }
+    Preferences.setString("vintnerWineType", type);
+  }
+
   public static int parseYearbookCamera(final String desc) {
     int upgrades;
     if (desc.contains("Blinding")) {

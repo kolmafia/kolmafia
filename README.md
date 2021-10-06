@@ -9,5 +9,3 @@
 [![wiki](https://img.shields.io/static/v1?label=wiki&message=documentation&color=informational)](https://wiki.kolmafia.us)
 
 KoLmafia is a cross-platform desktop tool which interfaces with the online adventure game, Kingdom of Loathing.
-
-
