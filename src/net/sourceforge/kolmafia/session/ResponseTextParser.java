@@ -356,6 +356,8 @@ public class ResponseTextParser {
             break;
           case ItemPool.INDUSTRIAL_FIRE_EXTINGUISHER:
             ItemDatabase.parseFireExtinguisher(responseText);
+          case ItemPool.VAMPIRE_VINTNER_WINE:
+            ItemDatabase.parseVampireVintnerWine(responseText);
           default:
             changesFromTimeToTime = false;
             break;

@@ -7516,7 +7516,7 @@
 7488	triple-distilled turpentine	792003365	flask.gif	none	q	0
 7489	detartrated anhydrous sublicalc	277522897	potion1.gif	none	q	0
 7490	triatomaceous dust	237194343	powderpile2.gif	none	q	0
-7491	bottle of Chateau de Vinegar	650950724	wine2.gif	none, fancy, cook	q	0
+7491	bottle of Chateau de Vinegar	650950724	wine2.gif	drink, fancy, cook	q	0
 7492	blasting soda	508369326	powder.gif	none, cook	q	0
 7493	unstable fulminate	321705934	wine2.gif	offhand	q	0
 7494	wine bomb	152995888	wine2.gif	none	q	0
@@ -10825,3 +10825,6 @@
 10797	industrial fire extinguisher	418444931	exting2.gif	weapon		0
 10798	The Nose Knows, A Guide to Smells	147329106	book5.gif	usable	t	0
 10799	The Nose Knows, A Guide to Smells (read)	250620886	book5.gif	reusable		0
+10800	1950 Vampire Vintner wine	140977937	redwine.gif	drink	d	111
+10801	bottled Vampire Vintner	477408262	vampvintbottle.gif	grow	t	0
+10802	French-Transylvanian Dictionary	758632519	redbook.gif	familiar	t	75

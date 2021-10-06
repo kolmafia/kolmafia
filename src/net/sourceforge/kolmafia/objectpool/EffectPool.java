@@ -327,6 +327,13 @@ public class EffectPool {
   public static final int CARTOGRAPHICALLY_ROOTED = 2602;
   public static final int EW_THE_HUMANITY = 2647;
   public static final int A_BEASTLY_ODOR = 2648;
+  public static final int WINE_FORTIFIED = 2659;
+  public static final int WINE_HOT = 2660;
+  public static final int WINE_FRISKY = 2661;
+  public static final int WINE_COLD = 2662;
+  public static final int WINE_DARK = 2663;
+  public static final int WINE_BEFOULED = 2664;
+  public static final int WINE_FRIENDLY = 2665;
 
   public static final AdventureResult CURSE1_EFFECT = EffectPool.get(EffectPool.ONCE_CURSED);
   public static final AdventureResult CURSE2_EFFECT = EffectPool.get(EffectPool.TWICE_CURSED);

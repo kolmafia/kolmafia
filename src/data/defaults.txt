@@ -1398,6 +1398,8 @@ user	valueOfInventory	1.8
 user	valueOfStill	0
 user	valueOfTome	0
 user	verboseMaximizer	false
+user	vintnerWineLevel	0
+user	vintnerWineType
 user	violetFogGoal	0
 user	violetFogLayout
 user	visitLoungeHardcore	true
