@@ -1,9 +1,11 @@
 package net.sourceforge.kolmafia.webui;
 
 import java.awt.Desktop;
+import java.awt.Desktop.Action;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 
@@ -51,6 +53,16 @@ public class RelayLoader extends Thread {
       }
 
       location = "http://127.0.0.1:" + RelayServer.getPort() + this.location;
+    }
+
+    if (!Desktop.isDesktopSupported() || !Desktop.getDesktop().isSupported(Action.BROWSE)) {
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR,
+          "Cannot launch a browser in this environment. "
+              + "Please visit "
+              + location
+              + " manually");
+      return;
     }
 
     URI uri = URI.create(location);

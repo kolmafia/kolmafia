@@ -1329,12 +1329,14 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.usableList.sort();
 
     // Now tell the GUI about the changes
-    ConcoctionDatabase.creatableList.updateFilter(changeDetected);
-    ConcoctionDatabase.usableList.updateFilter(changeDetected);
-    ConcoctionDatabase.queuedFood.updateFilter(changeDetected);
-    ConcoctionDatabase.queuedBooze.updateFilter(changeDetected);
-    ConcoctionDatabase.queuedSpleen.updateFilter(changeDetected);
-    ConcoctionDatabase.queuedPotions.updateFilter(changeDetected);
+    if (changeDetected) {
+      ConcoctionDatabase.creatableList.updateFilter();
+      ConcoctionDatabase.usableList.updateFilter();
+      ConcoctionDatabase.queuedFood.updateFilter();
+      ConcoctionDatabase.queuedBooze.updateFilter();
+      ConcoctionDatabase.queuedSpleen.updateFilter();
+      ConcoctionDatabase.queuedPotions.updateFilter();
+    }
   }
 
   /** Reset concoction stat gains when you've logged in a new character. */
