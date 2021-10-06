@@ -234,7 +234,7 @@ public interface KoLConstants extends UtilityConstants {
   String ONFOCUS_JS = "onfocus.1.js";
   String SORTTABLE_JS = "sorttable.2.js";
   String STATIONARYBUTTONS_CSS = "stationarybuttons.2.css";
-  String STATIONARYBUTTONS_JS = "stationarybuttons.1.js";
+  String STATIONARYBUTTONS_JS = "stationarybuttons.2.js";
 
   String[] RELAY_FILES = {
     AFTERLIFE_ASH,
