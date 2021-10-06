@@ -9,6 +9,7 @@ plugins {
 	id 'com.github.johnrengelman.shadow' version '6.0.0'
 	id 'net.nemerosa.versioning' version '2.8.2'
 	id 'org.ajoberstar.grgit' version '4.1.0'
+	id "org.panteleyev.jpackageplugin" version "1.3.1"
 }
 mainClassName = 'net.sourceforge.kolmafia.KoLmafia'
 
@@ -249,6 +250,34 @@ tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
 
+task cleanJpackage(type: Delete) {
+	onlyIf {
+		file('build/releases').exists()
+	}
+	delete 'build/releases'
+}
+
+tasks.jpackage {
+	dependsOn shadowJar, cleanJpackage
+	input = 'dist'
+	destination = 'build/releases'
+	mainClass = mainClassName
+	appVersion = new Date().format("yy.MM")
+	linux {
+		type = 'APP_IMAGE'
+	}
+	mac {
+		type = 'pkg'
+		icon = 'util/macosx/limeglass.icns'
+	}
+	windows{
+		type = 'exe'
+		icon = 'util/windows/KoLmelion.ico'
+	}
+	doFirst {
+		mainJar = tasks.shadowJar.archiveFileName.get()
+	}
+}
 
 clean.dependsOn cleanDist
 pruneDist.dependsOn getRevision
