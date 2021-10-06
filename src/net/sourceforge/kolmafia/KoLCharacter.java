@@ -432,6 +432,18 @@ public abstract class KoLCharacter {
       return;
     }
 
+    // Check that character names contain a narrow range of characters. Note
+    // that we explicitly allow empty usernames so we can revert to the initial
+    // not-logged-in state.
+    if (!newUserName.matches("^[a-zA-Z_ 0-9]{3,30}$") && !newUserName.isEmpty()) {
+      return;
+    }
+
+    // Apparently the CodeQL security scan requires this as a fix...
+    if (newUserName.contains("..")) {
+      return;
+    }
+
     KoLCharacter.username = newUserName;
     Preferences.reset(KoLCharacter.username);
     KoLCharacter.reset(true);

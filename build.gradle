@@ -265,6 +265,7 @@ tasks.jpackage {
 	appVersion = new Date().format("yy.MM")
 	linux {
 		type = 'APP_IMAGE'
+		icon = 'util/linux/KoLmafia.ico'
 	}
 	mac {
 		type = 'pkg'
@@ -272,7 +273,7 @@ tasks.jpackage {
 	}
 	windows{
 		type = 'exe'
-		icon = 'util/windows/KoLmelion.ico'
+		icon = 'util/windows/KoLmafia.ico'
 	}
 	doFirst {
 		mainJar = tasks.shadowJar.archiveFileName.get()
