@@ -58,7 +58,7 @@ public class CreateItemPanel extends InventoryPanel {
       this.setFixedFilter(food, booze, equip, other, true);
     }
 
-    ConcoctionDatabase.getCreatables().updateFilter(false);
+    ConcoctionDatabase.getCreatables().updateFilter();
   }
 
   @Override

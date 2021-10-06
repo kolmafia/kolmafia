@@ -119,7 +119,7 @@ public class LockableListModel<E>
 			}
 			else
 			{
-				this.updateFilter( false );
+				this.updateFilter();
 			}
 		}
 	}
@@ -260,7 +260,7 @@ public class LockableListModel<E>
 		{
 			if ( this.currentFilter != LockableListModel.NO_FILTER || !this.mirrorList.isEmpty() )
 			{
-				this.updateFilter( false );
+				this.updateFilter();
 			}
 
 			this.actualElements.add( index, element );
@@ -333,7 +333,7 @@ public class LockableListModel<E>
 		synchronized ( this.actualElements )
 		{
 			boolean result = this.actualElements.addAll( index, c );
-			this.updateFilter( false );
+			this.updateFilter();
 			return result;
 		}
 	}
@@ -597,7 +597,7 @@ public class LockableListModel<E>
 
 			if ( this.currentFilter != LockableListModel.NO_FILTER || !this.mirrorList.isEmpty() )
 			{
-				this.updateFilter( false );
+				this.updateFilter();
 			}
 
 			E originalValue = this.actualElements.get( index );
@@ -707,7 +707,7 @@ public class LockableListModel<E>
 
 			if ( this.currentFilter != LockableListModel.NO_FILTER || !this.mirrorList.isEmpty() )
 			{
-				this.updateFilter( false );
+				this.updateFilter();
 			}
 
 			E originalValue = this.actualElements.set( index, element );
@@ -794,11 +794,11 @@ public class LockableListModel<E>
 		return this.actualElements.toArray( a );
 	}
 
-	public void updateFilter( final boolean refresh )
+	public void updateFilter()
 	{
 		synchronized ( this.actualElements )
 		{
-			this.updateSingleFilter( refresh );
+			this.updateSingleFilter();
 
 			Iterator<WeakReference<LockableListModel<E>>> it = this.mirrorList.iterator();
 			while ( it.hasNext() )
@@ -809,12 +809,12 @@ public class LockableListModel<E>
 					return;
 				}
 
-				mirror.updateSingleFilter( refresh );
+				mirror.updateSingleFilter();
 			}
 		}
 	}
 
-	private void updateSingleFilter( final boolean refresh )
+	private void updateSingleFilter()
 	{
 		int visibleIndex = 0;
 		int low = -1;
@@ -885,10 +885,7 @@ public class LockableListModel<E>
 			}
 		}
 
-		if ( refresh )
-		{
-			this.fireContentsChanged( this, 0, this.visibleElements.size() - 1 );
-		}
+		this.fireContentsChanged( this, 0, this.visibleElements.size() - 1 );
 	}
 
 	private int computeVisibleIndex( final int actualIndex )

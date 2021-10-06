@@ -78,7 +78,7 @@ public class UseItemDequeuePanel extends ItemListManagePanel {
 
   @Override
   public void filterItems() {
-    this.queue.updateFilter(true);
+    this.queue.updateFilter();
   }
 
   public JTabbedPane getQueueTabs() {
