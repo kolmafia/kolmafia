@@ -1,8 +1,7 @@
 function resetPosition() {
-	var topbar = getComputedStyle(document.getElementById('#mafiabuttons')[0]).height;
+	var topbar = getComputedStyle(document.getElementById('mafiabuttons')).height;
 	document.getElementById('content_').style.top = topbar;
 }
-
 
 if (document.readyState != 'loading'){
 	resetPosition();
