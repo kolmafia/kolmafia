@@ -34,20 +34,12 @@ jobs:
           ORG_GRADLE_PROJECT_commit: ${{ github.sha }}
         run: ./gradlew --no-daemon jpackage
 
-      - name: Zip binaries
-	    if: runner.os == 'Linux'
-        uses: thedoctor0/zip-release@master
-        with:
-          type: 'zip'
-          filename: '${{runner.os}}.zip'
-          directory: 'build/releases/'
-
       - name: Upload binaries
         uses: actions/upload-artifact@v2
         with:
           name: releases
           path: |
-            build/releases/*.zip
+            build/releases/*.deb
             build/releases/*.exe
             build/releases/*.pkg
 
@@ -108,7 +100,7 @@ jobs:
         with:
           files: |
             dist/*.jar
-            releases/*.zip
+            releases/*.deb
             releases/*.exe
             releases/*.pkg
           tag_name: r${{ env.KOLMAFIA_VERSION }}

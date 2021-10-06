@@ -264,7 +264,6 @@ tasks.jpackage {
 	mainClass = mainClassName
 	appVersion = new Date().format("yy.MM")
 	linux {
-		type = 'APP_IMAGE'
 		icon = 'util/linux/KoLmafia.ico'
 	}
 	mac {
@@ -277,6 +276,31 @@ tasks.jpackage {
 	}
 	doFirst {
 		mainJar = tasks.shadowJar.archiveFileName.get()
+		if (System.properties['os.name'] != 'Linux') {
+			return
+		}
+		def hasDeb = exec {
+			ignoreExitValue = true
+			errorOutput = OutputStream.nullOutputStream()
+			executable 'bash'
+			args '-c', 'which dpkg-deb'
+		}
+		def hasRpm = exec {
+			ignoreExitValue = true
+			errorOutput = OutputStream.nullOutputStream()
+			executable 'bash'
+			args '-c', 'which rpmbuild'
+		}
+		if (hasDeb.getExitValue() == 0) {
+			println 'Targeting deb for jpackage.'
+			linux { type = 'deb' }
+		} else if (hasRpm.getExitValue() == 0) {
+			println 'Targeting rpm for jpackage.'
+			linux { type = 'rpm' }
+		} else {
+			println 'Bundling all files for jpackage.'
+			linux { type = 'app-image' }
+		}
 	}
 }
 
