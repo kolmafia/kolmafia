@@ -267,12 +267,16 @@ tasks.jpackage {
 		icon = 'util/linux/KoLmafia.ico'
 	}
 	mac {
-		type = 'pkg'
+		type = 'dmg'
 		icon = 'util/macosx/limeglass.icns'
+
 	}
 	windows{
 		type = 'exe'
 		icon = 'util/windows/KoLmafia.ico'
+		winShortcut = 'true'
+		winDirChooser = 'true'
+		javaOptions = ["-DuseCWDasROOT=true"]
 	}
 	doFirst {
 		mainJar = tasks.shadowJar.archiveFileName.get()
