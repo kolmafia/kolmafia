@@ -41,7 +41,7 @@ jobs:
           path: |
             build/releases/*.deb
             build/releases/*.exe
-            build/releases/*.pkg
+            build/releases/*.dmg
 
   jar:
     if: github.repository == 'kolmafia/kolmafia'
@@ -102,7 +102,7 @@ jobs:
             dist/*.jar
             releases/*.deb
             releases/*.exe
-            releases/*.pkg
+            releases/*.dmg
           tag_name: r${{ env.KOLMAFIA_VERSION }}
           name: ${{ env.KOLMAFIA_VERSION }}
         env:
