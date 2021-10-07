@@ -222,6 +222,12 @@ public class Value extends Command implements Comparable<Value> {
     if (this.getType().equals(DataTypes.SLOT_TYPE)) {
       return new ProxyRecordValue.SlotProxy(this);
     }
+    if (this.getType().equals(DataTypes.OUTFIT_TYPE)) {
+      return new ProxyRecordValue.OutfitProxy(this);
+    }
+    if (this.getType().equals(DataTypes.TATTOO_TYPE)) {
+      return new ProxyRecordValue.TattooProxy(this);
+    }
     return this;
   }
 
@@ -262,7 +268,8 @@ public class Value extends Command implements Comparable<Value> {
         || this.getType().equals(DataTypes.FAMILIAR_TYPE)
         || this.getType().equals(DataTypes.SLOT_TYPE)
         || this.getType().equals(DataTypes.THRALL_TYPE)
-        || this.getType().equals(DataTypes.SERVANT_TYPE)) {
+        || this.getType().equals(DataTypes.SERVANT_TYPE)
+        || this.getType().equals(DataTypes.OUTFIT_TYPE)) {
       return this.contentLong < o.contentLong ? -1 : this.contentLong == o.contentLong ? 0 : 1;
     }
 

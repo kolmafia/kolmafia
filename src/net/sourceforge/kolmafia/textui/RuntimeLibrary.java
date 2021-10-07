@@ -1524,23 +1524,23 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {};
     functions.add(
-        new LibraryFunction("get_outfits", new AggregateType(DataTypes.STRING_TYPE, 0), params));
-
-    params = new Type[] {};
-    functions.add(
         new LibraryFunction(
             "get_custom_outfits", new AggregateType(DataTypes.STRING_TYPE, 0), params));
 
-    params = new Type[] {};
-    functions.add(
-        new LibraryFunction(
-            "all_normal_outfits", new AggregateType(DataTypes.STRING_TYPE, 0), params));
+    params = new Type[] {DataTypes.OUTFIT_TYPE};
+    functions.add(new LibraryFunction("outfit", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("outfit", DataTypes.BOOLEAN_TYPE, params));
 
+    params = new Type[] {DataTypes.OUTFIT_TYPE};
+    functions.add(new LibraryFunction("have_outfit", DataTypes.BOOLEAN_TYPE, params));
+
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("have_outfit", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.OUTFIT_TYPE};
+    functions.add(new LibraryFunction("is_wearing_outfit", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("is_wearing_outfit", DataTypes.BOOLEAN_TYPE, params));
@@ -1548,14 +1548,6 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(
         new LibraryFunction("outfit_pieces", new AggregateType(DataTypes.ITEM_TYPE, 0), params));
-
-    params = new Type[] {DataTypes.STRING_TYPE};
-    functions.add(new LibraryFunction("outfit_tattoo", DataTypes.STRING_TYPE, params));
-
-    params = new Type[] {DataTypes.STRING_TYPE};
-    functions.add(
-        new LibraryFunction(
-            "outfit_treats", new AggregateType(DataTypes.FLOAT_TYPE, DataTypes.ITEM_TYPE), params));
 
     // Familiar functions.
 
@@ -6260,7 +6252,10 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value have_outfit(ScriptRuntime controller, final Value outfit) {
-    SpecialOutfit so = EquipmentManager.getMatchingOutfit(outfit.toString());
+    SpecialOutfit so =
+        outfit.getType().equals(DataTypes.STRING_TYPE)
+            ? EquipmentManager.getMatchingOutfit(outfit.toString())
+            : (SpecialOutfit) outfit.content;
 
     if (so == null) {
       return DataTypes.FALSE_VALUE;
@@ -6271,7 +6266,10 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value is_wearing_outfit(ScriptRuntime controller, final Value outfit) {
-    SpecialOutfit so = EquipmentManager.getMatchingOutfit(outfit.toString());
+    SpecialOutfit so =
+        outfit.getType().equals(DataTypes.STRING_TYPE)
+            ? EquipmentManager.getMatchingOutfit(outfit.toString())
+            : (SpecialOutfit) outfit.content;
 
     if (so == null) {
       return DataTypes.FALSE_VALUE;
@@ -6281,7 +6279,11 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value outfit_pieces(ScriptRuntime controller, final Value outfit) {
-    SpecialOutfit so = EquipmentManager.getMatchingOutfit(outfit.toString());
+    SpecialOutfit so =
+        outfit.getType().equals(DataTypes.STRING_TYPE)
+            ? EquipmentManager.getMatchingOutfit(outfit.toString())
+            : (SpecialOutfit) outfit.content;
+
     if (so == null) {
       return new ArrayValue(new AggregateType(DataTypes.ITEM_TYPE, 0));
     }
@@ -6298,58 +6300,25 @@ public abstract class RuntimeLibrary {
     return value;
   }
 
-  public static Value outfit_tattoo(ScriptRuntime controller, final Value outfit) {
-    SpecialOutfit so = EquipmentManager.getMatchingOutfit(outfit.toString());
-
-    if (so == null || so.getImage() == null) {
-      return DataTypes.STRING_INIT;
-    }
-
-    return new Value(so.getImage());
-  }
-
-  public static Value outfit_treats(ScriptRuntime controller, final Value outfit) {
-    SpecialOutfit so = EquipmentManager.getMatchingOutfit(outfit.toString());
-    AggregateType type = new AggregateType(DataTypes.FLOAT_TYPE, DataTypes.ITEM_TYPE);
-    MapValue value = new MapValue(type);
-
-    if (so == null) {
-      return value;
-    }
-
-    ArrayList<AdventureResult> treats = so.getTreats();
-
-    for (AdventureResult treat : treats) {
-      value.aset(DataTypes.makeItemValue(treat), DataTypes.makeFloatValue(1.0));
-    }
-
-    return value;
-  }
-
-  public static Value get_outfits(ScriptRuntime controller) {
-    return RuntimeLibrary.outfitListToValue(controller, EquipmentManager.getOutfits(), false);
-  }
-
   public static Value get_custom_outfits(ScriptRuntime controller) {
-    return RuntimeLibrary.outfitListToValue(controller, EquipmentManager.getCustomOutfits(), false);
-  }
-
-  public static Value all_normal_outfits(ScriptRuntime controller) {
     return RuntimeLibrary.outfitListToValue(
-        controller, EquipmentDatabase.normalOutfits.toList(), true);
+        controller, EquipmentManager.getCustomOutfits(), false, true);
   }
 
   private static Value outfitListToValue(
-      ScriptRuntime controller, List<SpecialOutfit> outfits, boolean map) {
+      ScriptRuntime controller, List<SpecialOutfit> outfits, boolean map, boolean custom) {
     AggregateValue value =
         map
-            ? new MapValue(new AggregateType(DataTypes.STRING_TYPE, DataTypes.INT_TYPE))
-            : new ArrayValue(new AggregateType(DataTypes.STRING_TYPE, outfits.size()));
+            ? new MapValue(new AggregateType(DataTypes.OUTFIT_TYPE, DataTypes.INT_TYPE))
+            : new ArrayValue(
+                new AggregateType(
+                    custom ? DataTypes.STRING_TYPE : DataTypes.OUTFIT_TYPE, outfits.size()));
 
     for (int i = 1; i < outfits.size(); ++i) {
       SpecialOutfit it = outfits.get(i);
       if (it != null) {
-        value.aset(new Value(i), new Value(it.toString()));
+        value.aset(
+            new Value(i), custom ? new Value(it.toString()) : DataTypes.makeOutfitValue(it, true));
       }
     }
 

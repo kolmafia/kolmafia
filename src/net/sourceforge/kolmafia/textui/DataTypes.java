@@ -12,16 +12,19 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.PastaThrallData;
+import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.TattooDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -59,6 +62,8 @@ public class DataTypes {
   public static final int TYPE_BOUNTY = 113;
   public static final int TYPE_SERVANT = 114;
   public static final int TYPE_VYKEA = 115;
+  public static final int TYPE_OUTFIT = 116;
+  public static final int TYPE_TATTOO = 117;
 
   public static final int TYPE_STRICT_STRING = 1000;
   public static final int TYPE_AGGREGATE = 1001;
@@ -119,6 +124,8 @@ public class DataTypes {
   public static final Type THRALL_TYPE = new Type("thrall", DataTypes.TYPE_THRALL);
   public static final Type SERVANT_TYPE = new Type("servant", DataTypes.TYPE_SERVANT);
   public static final Type VYKEA_TYPE = new Type("vykea", DataTypes.TYPE_VYKEA);
+  public static final Type OUTFIT_TYPE = new Type("outfit", DataTypes.TYPE_OUTFIT);
+  public static final Type TATTOO_TYPE = new Type("tattoo", DataTypes.TYPE_TATTOO);
 
   public static final Type STRICT_STRING_TYPE =
       new Type("strict_string", DataTypes.TYPE_STRICT_STRING);
@@ -207,6 +214,8 @@ public class DataTypes {
   public static final Value SERVANT_INIT = new Value(DataTypes.SERVANT_TYPE, 0, "none", null);
   public static final Value VYKEA_INIT =
       new Value(DataTypes.VYKEA_TYPE, 0, "none", VYKEACompanionData.NO_COMPANION);
+  public static final Value OUTFIT_INIT = new Value(DataTypes.OUTFIT_TYPE, 0, "none", null);
+  public static final Value TATTOO_INIT = new Value(DataTypes.TATTOO_TYPE, 0, "none", null);
 
   public static final TypeList enumeratedTypes = new TypeList();
   public static final TypeList simpleTypes = new TypeList();
@@ -237,6 +246,8 @@ public class DataTypes {
     enumeratedTypes.add(DataTypes.THRALL_TYPE);
     enumeratedTypes.add(DataTypes.SERVANT_TYPE);
     enumeratedTypes.add(DataTypes.VYKEA_TYPE);
+    enumeratedTypes.add(DataTypes.OUTFIT_TYPE);
+    enumeratedTypes.add(DataTypes.TATTOO_TYPE);
 
     for (Type type : enumeratedTypes) {
       simpleTypes.add(type);
@@ -663,6 +674,31 @@ public class DataTypes {
     return new Value(DataTypes.VYKEA_TYPE, companion.getType(), name, companion);
   }
 
+  public static final Value parseOutfitValue(String name, final boolean returnDefault) {
+    if (name == null || name.equals("")) {
+      return returnDefault ? DataTypes.OUTFIT_INIT : null;
+    }
+
+    if (name.equalsIgnoreCase("none")) {
+      return DataTypes.OUTFIT_INIT;
+    }
+
+    SpecialOutfit outfit = EquipmentDatabase.getOutfit(name);
+
+    if (outfit == null) {
+      return returnDefault ? DataTypes.OUTFIT_INIT : null;
+    }
+
+    return new Value(DataTypes.OUTFIT_TYPE, outfit.getOutfitId(), outfit.getName(), outfit);
+  }
+
+  public static final Value parseTattooValue(final String name, final boolean returnDefault) {
+    if (name == null || name.equals("")) {
+      return returnDefault ? DataTypes.TATTOO_INIT : null;
+    }
+    return new Value(DataTypes.TATTOO_TYPE, name, name);
+  }
+
   public static final Value parseBountyValue(String name, final boolean returnDefault) {
     if (name == null || name.equals("")) {
       return returnDefault ? DataTypes.BOUNTY_INIT : null;
@@ -915,6 +951,19 @@ public class DataTypes {
     return new Value(DataTypes.VYKEA_TYPE, companion.getType(), companion.toString(), companion);
   }
 
+  public static final Value makeOutfitValue(
+      final SpecialOutfit outfit, final boolean returnDefault) {
+    if (outfit == null || outfit.getOutfitId() == 0) {
+      return returnDefault ? DataTypes.OUTFIT_INIT : null;
+    }
+    return new Value(DataTypes.OUTFIT_TYPE, outfit.getOutfitId(), outfit.getName(), outfit);
+  }
+
+  public static final Value makeOutfitValue(final int outfitId, final boolean returnDefault) {
+    SpecialOutfit outfit = EquipmentDatabase.getOutfit(outfitId);
+    return makeOutfitValue(outfit, returnDefault);
+  }
+
   public static final Value makeMonsterValue(final MonsterData monster) {
     if (monster == null) {
       return DataTypes.MONSTER_INIT;
@@ -986,6 +1035,13 @@ public class DataTypes {
 
       case TYPE_VYKEA:
         return (String) InputFieldUtilities.input(message, VYKEACompanionData.VYKEA);
+
+      case TYPE_OUTFIT:
+        return (String)
+            InputFieldUtilities.input(message, EquipmentDatabase.outfitEntrySet().toArray());
+
+      case TYPE_TATTOO:
+        return (String) InputFieldUtilities.input(message, TattooDatabase.tattoos.toArray());
 
       case TYPE_CLASS:
         return (String) InputFieldUtilities.input(message, DataTypes.CLASSES);

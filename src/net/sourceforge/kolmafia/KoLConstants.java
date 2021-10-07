@@ -211,6 +211,7 @@ public interface KoLConstants extends UtilityConstants {
   int QUESTSLOG_VERSION = 1;
   int SPLEENHIT_VERSION = 3;
   int STATUSEFFECTS_VERSION = 4;
+  int TATTOOS_VERSION = 1;
   int ZAPGROUPS_VERSION = 1;
   int ZONELIST_VERSION = 1;
 

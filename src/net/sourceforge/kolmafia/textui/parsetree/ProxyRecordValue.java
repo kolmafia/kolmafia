@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.PokefamData;
+import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.persistence.*;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
@@ -1689,6 +1690,109 @@ public class ProxyRecordValue extends RecordValue {
 
     public SlotProxy(Value obj) {
       super(_type, obj);
+    }
+  }
+
+  public static class OutfitProxy extends ProxyRecordValue {
+    public static RecordType _type =
+        new RecordBuilder()
+            .add("name", DataTypes.STRING_TYPE)
+            .add("pieces", new AggregateType(DataTypes.ITEM_TYPE, DataTypes.INT_TYPE))
+            .add("tattoo", DataTypes.STRING_TYPE)
+            .add("treats", new AggregateType(DataTypes.FLOAT_TYPE, DataTypes.ITEM_TYPE))
+            .finish("outfit proxy");
+
+    public OutfitProxy(Value obj) {
+      super(_type, obj);
+    }
+
+    public String get_name() {
+      return this.contentString;
+    }
+
+    public Value get_pieces() {
+      SpecialOutfit outfit = (SpecialOutfit) this.content;
+
+      if (outfit == null) {
+        return new ArrayValue(new AggregateType(DataTypes.ITEM_TYPE, 0));
+      }
+
+      AdventureResult[] pieces = outfit.getPieces();
+      AggregateType type = new AggregateType(DataTypes.ITEM_TYPE, pieces.length);
+      ArrayValue value = new ArrayValue(type);
+
+      for (int i = 0; i < pieces.length; ++i) {
+        AdventureResult piece = pieces[i];
+        value.aset(DataTypes.makeIntValue(i), DataTypes.makeItemValue(piece));
+      }
+
+      return value;
+    }
+
+    public Value get_tattoo() {
+      SpecialOutfit so = (SpecialOutfit) this.content;
+
+      if (so == null || so.getImage() == null) {
+        return DataTypes.TATTOO_INIT;
+      }
+
+      return DataTypes.parseTattooValue(so.getImage(), true);
+    }
+
+    public Value get_treats() {
+      SpecialOutfit so = (SpecialOutfit) this.content;
+      AggregateType type = new AggregateType(DataTypes.FLOAT_TYPE, DataTypes.ITEM_TYPE);
+      MapValue value = new MapValue(type);
+
+      if (so == null) {
+        return value;
+      }
+
+      ArrayList<AdventureResult> treats = so.getTreats();
+
+      for (AdventureResult treat : treats) {
+        value.aset(DataTypes.makeItemValue(treat), DataTypes.makeFloatValue(1.0));
+      }
+
+      return value;
+    }
+  }
+
+  public static class TattooProxy extends ProxyRecordValue {
+    public static RecordType _type =
+        new RecordBuilder()
+            .add("name", DataTypes.STRING_TYPE)
+            .add("image", DataTypes.STRING_TYPE)
+            .add("item", DataTypes.ITEM_TYPE)
+            .add("outfit", DataTypes.OUTFIT_TYPE)
+            .add("class", DataTypes.CLASS_TYPE)
+            .finish("tattoo proxy");
+
+    public TattooProxy(Value obj) {
+      super(_type, obj);
+    }
+
+    public String get_name() {
+      return this.contentString;
+    }
+
+    public String get_image() {
+      return TattooDatabase.getImage(this.contentString);
+    }
+
+    public Value get_item() {
+      AdventureResult item = TattooDatabase.getItemRequirement(this.contentString);
+      return item == null ? DataTypes.ITEM_INIT : DataTypes.makeItemValue(item);
+    }
+
+    public Value get_outfit() {
+      return DataTypes.makeOutfitValue(
+          TattooDatabase.getOutfitRequirement(this.contentString), true);
+    }
+
+    public Value get_class() {
+      return DataTypes.parseClassValue(
+          TattooDatabase.getClassRequirement(this.contentString), true);
     }
   }
 }

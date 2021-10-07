@@ -43,7 +43,7 @@ public class EquipmentDatabase {
 
   private static final HashMap<Integer, Integer> outfitPieces = new HashMap<Integer, Integer>();
   public static final SpecialOutfitArray normalOutfits = new SpecialOutfitArray();
-  private static final Map<Integer, String> outfitById = new TreeMap<Integer, String>();
+  private static final Map<Integer, String> outfitById = new TreeMap<>();
   public static final SpecialOutfitArray weirdOutfits = new SpecialOutfitArray();
 
   private static final IntegerArray pulverize = new IntegerArray();
@@ -926,6 +926,16 @@ public class EquipmentDatabase {
 
   public static final SpecialOutfit getOutfit(final int id) {
     return EquipmentDatabase.normalOutfits.get(id);
+  }
+
+  public static final SpecialOutfit getOutfit(final String name) {
+    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits) {
+      if (outfit != null && outfit.getName().equalsIgnoreCase(name)) {
+        return outfit;
+      }
+    }
+
+    return null;
   }
 
   public static final SpecialOutfit getAvailableOutfit(final int id) {

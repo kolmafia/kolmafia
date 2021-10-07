@@ -16,10 +16,12 @@ import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.TattooDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
@@ -109,6 +111,12 @@ public class Type extends Symbol {
     }
     if (this.equals(DataTypes.STAT_TYPE)) {
       return ProxyRecordValue.StatProxy._type;
+    }
+    if (this.equals(DataTypes.OUTFIT_TYPE)) {
+      return ProxyRecordValue.OutfitProxy._type;
+    }
+    if (this.equals(DataTypes.TATTOO_TYPE)) {
+      return ProxyRecordValue.TattooProxy._type;
     }
     return this;
   }
@@ -207,6 +215,10 @@ public class Type extends Symbol {
         return DataTypes.parseServantValue(name, returnDefault);
       case DataTypes.TYPE_VYKEA:
         return DataTypes.parseVykeaValue(name, returnDefault);
+      case DataTypes.TYPE_OUTFIT:
+        return DataTypes.parseOutfitValue(name, returnDefault);
+      case DataTypes.TYPE_TATTOO:
+        return DataTypes.parseTattooValue(name, returnDefault);
     }
     return null;
   }
@@ -240,6 +252,8 @@ public class Type extends Symbol {
         return DataTypes.parseLocationValue(id, returnDefault);
       case DataTypes.TYPE_SLOT:
         return DataTypes.makeSlotValue(id, returnDefault);
+      case DataTypes.TYPE_OUTFIT:
+        return DataTypes.makeOutfitValue(id, returnDefault);
 
         // The following don't have an integer -> object mapping
       case DataTypes.TYPE_CLASS:
@@ -256,6 +270,8 @@ public class Type extends Symbol {
         return DataTypes.BOUNTY_INIT;
       case DataTypes.TYPE_VYKEA:
         return DataTypes.VYKEA_INIT;
+      case DataTypes.TYPE_TATTOO:
+        return DataTypes.TATTOO_INIT;
     }
     return null;
   }
@@ -362,6 +378,8 @@ public class Type extends Symbol {
           return DataTypes.makeThrallValue(integer, returnDefault);
         case DataTypes.TYPE_SERVANT:
           return DataTypes.makeServantValue(integer, returnDefault);
+        case DataTypes.TYPE_OUTFIT:
+          return DataTypes.makeOutfitValue(integer, returnDefault);
       }
       return null;
     }
@@ -440,6 +458,12 @@ public class Type extends Symbol {
         break;
       case DataTypes.TYPE_VYKEA:
         this.addValues(list, VYKEACompanionData.VYKEA);
+        break;
+      case DataTypes.TYPE_OUTFIT:
+        this.addValues(list, EquipmentDatabase.outfitEntrySet());
+        break;
+      case DataTypes.TYPE_TATTOO:
+        this.addValues(list, TattooDatabase.tattoos);
         break;
       default:
         return null;

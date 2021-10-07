@@ -1,0 +1,306 @@
+1
+# image	requirement type	requirement
+aerotat.gif	outfit	Aeroutfit
+animelftat.gif	outfit	Animelf Apparel
+aol1.gif	other
+aol2.gif	other
+aol3.gif	other
+aol4.gif	other
+aol5.gif	other
+arbortat.gif	outfit	Arrrbor Day Apparrrrrel
+arborween.gif	outfit	Vestments of the Treeslayer
+armortat.gif	outfit	Antique Arms And Armor
+asc01.gif	ascension	1
+asc02.gif	ascension	2
+asc03.gif	ascension	3
+asc04.gif	ascension	4
+asc05.gif	ascension	5
+asc06.gif	ascension	6
+asc07.gif	ascension	7
+asc08.gif	ascension	8
+asc09.gif	ascension	9
+asc10.gif	ascension	10
+asc11.gif	ascension	11
+asc12.gif	ascension	12
+baketat.gif	outfit	Bakelite Brigandine
+barreltat.gif	outfit	Cooper's Couture
+batmantat.gif	item	battoo kit
+bauxtat.gif	outfit	Bauxite Baubles
+bbatttat.gif	item	Bastille Battalion tattoo kit
+bearclawta.gif	outfit	Warbear Dress Armor
+bknight.gif	outfit	Knight's Armor
+blacktat.gif	outfit	Black Armaments
+blacktie.gif	outfit	Fancy Tux
+bonertat.gif	custom
+bosstat.gif	outfit	Raiments of the Final Boss
+bowtat.gif	outfit	Bow Tux
+brimtat.gif	outfit	Blasphemous Bedizenment
+brogretat.gif	outfit	Brogre Brouture
+bugbear.gif	outfit	Bugbear Costume
+bunny.gif	custom
+c18tattoo.gif	item	Crimbo tattoo kit
+c20carols.gif	item	Crimbo Carol tattoo kit
+c20cheer.gif	item	Crimbo Cheer tattoo kit
+c20commerce.gif	item	Crimbo Commerce tattoo kit
+canadiatat.gif	outfit	OK Lumberjack Outfit
+chalktat.gif	outfit	Chalk Chostume
+class1.gif	class	Seal Clubber
+class11.gif	class	Avatar of Boris
+class11hc.gif	hc_class	Avatar of Boris
+class12.gif	class	Zombie Master
+class12hc.gif	hc_class	Zombie Master
+class14.gif	class	Avatar of Jarlsberg
+class14hc.gif	hc_class	Avatar of Jarlsberg
+class15.gif	class	Avatar of Sneaky Pete
+class15hc.gif	hc_class	Avatar of Sneaky Pete
+class17.gif	class	Actually Ed the Undying
+class17hc.gif	hc_class	Actually Ed the Undying
+class18.gif	class	Cow Puncher
+class18hc.gif	hc_class	Cow Puncher
+class19.gif	class	Beanslinger
+class19hc.gif	hc_class	Beanslinger
+class1hc.gif	hc_class	Seal Clubber
+class1hc0.gif	other
+class2.gif	class	Turtle Tamer
+class20.gif	class	Snake Oiler
+class20hc.gif	hc_class	Snake Oiler
+class23.gif	class	Gelatinous Noob
+class23hc.gif	hc_class	Gelatinous Noob
+class24.gif	class	Vampyre
+class24hc.gif	hc_class	Vampyre
+class25.gif	class	Plumber
+class25hc.gif	hc_class	Plumber
+class2hc.gif	hc_class	Turtle Tamer
+class2hc0.gif	other
+class3.gif	class	Pastamancer
+class3hc.gif	hc_class	Pastamancer
+class3hc0.gif	other
+class4.gif	class	Sauceror
+class4hc.gif	hc_class	Sauceror
+class4hc0.gif	other
+class5.gif	class	Disco Bandit
+class5hc.gif	hc_class	Disco Bandit
+class5hc0.gif	other
+class6.gif	class	Accordion Thief
+class6hc.gif	hc_class	Accordion Thief
+class6hc0.gif	other
+claytat.gif	outfit	Hot Daub Ensemble
+cliptat.gif	outfit	Paperclippery
+clocktat.gif	outfit	Clockwork Apparatus
+clown.gif	outfit	Terrifying Clown Suit
+cola1tat.gif	outfit	Cloaca-Cola Uniform
+cola2tat.gif	outfit	Dyspepsi-Cola Uniform
+coldgear.gif	outfit	eXtreme-Cold Weather gear
+colhobotat.gif	outfit	Hyperborean Hobo Habiliments
+crayontat.gif	outfit	Wax Wardrobe
+crimbeard.gif	outfit	Uncle Hobo's Rags
+cutter.gif	custom
+daisytat.gif	custom
+datatat.gif	itemchance	currupted data
+debbietat.gif	item	"DEBBIE" tattoo kit
+demontat.gif	item	red-hot medallion
+detbadge.gif	item	detective tattoo
+dinseytat.gif	item	Dinsey tattoo kit
+dnatat.gif	outfit	Mutant Couture
+doubicetat.gif	outfit	Cold Comforts
+ducttat.gif	outfit	Tapered Threads
+dv_tat1.gif	item	Mark of the Bugbear
+dv_tat2.gif	item	Mark of the Werewolf
+dv_tat3.gif	item	Mark of the Zombie
+dv_tat4.gif	item	Mark of the Ghost
+dv_tat5.gif	item	Mark of the Vampire
+dv_tat6.gif	item	Mark of the Skeleton
+dvinntat.gif	item	Official Seal of Dreadsylvania
+dvotat1.gif	outfit	Dreadful Pajamas
+dvotat2.gif	outfit	Dreadful Bugbear Suit
+dvotat3.gif	outfit	Dreadful Werewolf Suit
+dvotat4.gif	outfit	Dreadful Zombie Suit
+dvotat5.gif	outfit	Dreadful Ghost Suit
+dvotat6.gif	outfit	Dreadful Skeleton Suit
+dvotat7.gif	outfit	Dreadful Vampire Suit
+dvotat8.gif	outfit	Cool Irons
+dwarvish.gif	outfit	Dwarvish War uniform
+eggtat.gif	outfit	Grass Guise
+elbereth.gif	outfit	Yendorian Finery
+elditchtat.gif	outfit	Eldritch Equipage
+eliteguard.gif	outfit	Knob Goblin Elite Guard Uniform
+elvtat.gif	outfit	El Vibrato Relics
+emperortat.gif	outfit	The Emperor's New Clothes
+eternaltat.gif	item	eternal knot tattoo
+fdkoltat.gif	other
+fibertat.gif	outfit	Fiberglass Finery
+fishingtat.gif	outfit	Shallow Sea Fishing Outfit
+foilheart.gif	item	Alice's Army Foil tattoo
+fpmtat.gif	outfit	Pyrotechnic Paper Paraphernalia
+fratboy.gif	outfit	Frat Boy Ensemble
+frtat.gif	item	FantasyRealm tattoo kit
+frtat1.gif	outfit	FantasyRealm Warrior's Outfit
+frtat2.gif	outfit	FantasyRealm Wizard's Outfit
+frtat3.gif	outfit	FantasyRealm Thief's Outfit
+gabtat.gif	outfit	Garbardine Guise
+genietat.gif	outfit	Genie Garments
+gingercitytat.gif	other
+gingertat.gif	outfit	Gingerbread Best
+gnaugatat.gif	outfit	Gnauga Hides
+gtat.gif	other
+guzzlrtat.gif	outfit	Guzzlr Uniform
+guzzlrtat2.gif	item	Guzzlr tattoo kit
+halotat.gif	outfit	Crimborg Assault Armor
+haremgirl.gif	outfit	Knob Goblin Harem Girl Disguise
+hasc01.gif	hc_ascension	1
+hasc02.gif	hc_ascension	2
+hasc03.gif	hc_ascension	3
+hasc04.gif	hc_ascension	4
+hasc05.gif	hc_ascension	5
+hasc06.gif	hc_ascension	6
+hasc07.gif	hc_ascension	7
+hasc08.gif	hc_ascension	8
+hasc09.gif	hc_ascension	9
+hasc10.gif	hc_ascension	10
+hasc11.gif	hc_ascension	11
+hasc12.gif	hc_ascension	12
+hippy.gif	outfit	Filthy Hippy Disguise
+hobotat1.gif	other
+hobotat10.gif	other
+hobotat11.gif	other
+hobotat12.gif	other
+hobotat13.gif	other
+hobotat14.gif	other
+hobotat15.gif	other
+hobotat16.gif	other
+hobotat17.gif	other
+hobotat18.gif	other
+hobotat19.gif	other
+hobotat2.gif	other
+hobotat3.gif	other
+hobotat4.gif	other
+hobotat5.gif	other
+hobotat6.gif	other
+hobotat7.gif	other
+hobotat8.gif	other
+hobotat9.gif	other
+hodgmantat.gif	outfit	Hodgman's Regal Frippery
+honeytat.gif	outfit	Bits o' Honey
+hotghosttat.gif	outfit	Ghast Iron Gear
+hothobotat.gif	outfit	Pyretic Panhandler Paraphernalia
+hourtat.gif	outfit	Time Trappings
+jfishtat.gif	outfit	Encephalic Ensemble
+kgbtat.gif	item	golden tattoo gun
+lathetat.gif	outfit	Lathed Livery
+lltat.gif	item	Loathing Legion tattoo needle
+loathetat.gif	outfit	Clothing of Loathing
+lollitat.gif	outfit	Sucker Samurai Suit
+losertat.gif	outfit	Furry Suit
+ltttat.gif	item	LT&T tattoo kit
+lunartat.gif	outfit	Luniform
+marbletat.gif	outfit	Marble Materials
+margaraxe.gif	item	BGE temporary tattoo
+martinitat.gif	itemchance	delicious salad
+meattat.gif	outfit	Bounty-Hunting Rig
+merctat.gif	item	Merc Core challenge coin
+merkgtat.gif	outfit	Mer-kin Gladiatorial Gear
+merkintat.gif	outfit	Crappy Mer-kin Disguise
+merkstat.gif	outfit	Mer-kin Scholar's Vestments
+meteortat.gif	outfit	Meteor Masquerade
+mimetat.gif	outfit	Miming Paraphernalia
+miner.gif	outfit	Mining Gear
+minifigtat.gif	outfit	BRICKOfig Outfit
+mushtat.gif	outfit	Mushroom Masquerade
+necbrotat.gif	outfit	Dark Bro's Vestments
+newyou.gif	other
+ninja.gif	outfit	Hot and Cold Running Ninja Suit
+nobeertat.gif	path	Teetotaler
+nofood.gif	path	Boozetefarian
+nosealtat.gif	outfit	Frigid Northlands Garb
+nutctat.gif	outfit	Antique Nutcracker Outfit
+oiltat.gif	outfit	Oil Rig
+orbisontat.gif	outfit	Roy Orbison Disguise
+oxy.gif	path	Oxygenarian
+palette2.gif	itemchance	martini
+palmtat.gif	outfit	Palmist Paraphernalia
+para_tat.gif	outfit	Paraffinalia
+partytat.gif	item	Party Tattoo™ gift certificate
+pigirontat.gif	outfit	Pork Elf Prizes
+pirate.gif	outfit	Swashbuckling Getup
+planetat.gif	item	airplane tattoo
+platytat.gif	custom
+plexitat.gif	outfit	Transparent Trappings
+polytat.gif	outfit	Synthetic Suit
+porctat.gif	outfit	Ceramic Suit
+potterytat.gif	outfit	Smoked Pottery
+prealmtat.gif	outfit	PirateRealm Assortment
+pressietat.gif	outfit	Crimbo Duds
+protontat.gif	other
+psychictat.gif	outfit	Psychic Enpsemble
+rad_tat.gif	outfit	Pinata Provisions
+radiotat.gif	outfit	Radio Free Regalia
+radminetat.gif	outfit	High-Radiation Mining Gear
+reapertat.gif	outfit	Grimy Reaper's Vestments
+recyctat.gif	outfit	Glad Bag Glad Rags
+reintat.gif	outfit	Cheerful Reindeer Suit
+revclass1.gif	outfit	Legendary Regalia of the Seal Crusher
+revclass2.gif	outfit	Legendary Regalia of the Chelonian Overlord
+revclass3.gif	outfit	Legendary Regalia of the Pasta Master
+revclass4.gif	outfit	Legendary Regalia of the Saucemaestro
+revclass5.gif	outfit	Legendary Regalia of the Groovelord
+revclass6.gif	outfit	Legendary Regalia of the Master Squeezeboxer
+rock_tat.gif	outfit	Floaty Fatigues
+sailortat.gif	outfit	Seafaring Suit
+sbeasttat.gif	outfit	Space Beast Furs
+sbreaktat.gif	item	Spring Break Beach tattoo coupon
+sgtat.gif	item	Spacegate Initiative tattoo unit
+shubtat.gif	outfit	Violent Vestments
+skelepiratetat.gif	outfit	Cursed Skeleton Pirate Costume
+skeletat.gif	outfit	Thousandth Birthday Suit
+slehobotat.gif	outfit	Tawdry Tramp Togs
+slimetat.gif	outfit	Slimesuit
+slimetat.gif	outfit	The Jokester's Costume
+smoochtat.gif	outfit	SMOOCH Army Uniform
+snowmantat.gif	outfit	Snowman Suit
+sourcetat.gif	item	green pill
+spantat.gif	outfit	Spant Armor
+spelunktat.gif	outfit	Spelunker's Gear
+spohobotat.gif	outfit	Dire Drifter Duds
+spqktat.gif	outfit	Gladiatorial Glad Rags
+ssodfi5if.gif	other
+sspd4plunk.gif	other
+sspdfipp3.gif	other
+sspdpook2.gif	other
+sspdtat1.gif	other
+stainedtat.gif	outfit	Stained Glass Suit
+staintat.gif	outfit	Unblemished Uniform
+startat.gif	outfit	Star Garb
+stehobotat.gif	outfit	Vile Vagrant Vestments
+swordtat.gif	outfit	8-Bit Finery
+tc_tat.gif	outfit	Terra Cotta Tackle
+tedrogertat.gif	item	Red Roger tattoo kit
+tehclub.gif	custom
+tehclub_f.gif	custom
+tikidemon.gif	custom
+topitat.gif	outfit	Topiaria
+toweltat.gif	outfit	Terrycloth Tackle
+toxictat.gif	outfit	Toxic Togs
+tropictat.gif	outfit	Tropical Crimbo Duds
+twitchtat.gif	item	Twitching Television Tattoo
+velourtat.gif	outfit	Velour Vestments
+vol_tat.gif	outfit	Primitive Radio Duds
+vwgovttat.gif	outfit	Government-Issued Garb
+vwmuttat.gif	outfit	Mutant Parts Apparel
+vwslimetat.gif	outfit	Slime Enslamble
+vwsnaketat.gif	outfit	Snakeskin Suit
+walmarttat.gif	item	Wal-Mart tattoo kit
+warfrattat.gif	outfit	Frat Warrior Fatigues
+warhiptat.gif	outfit	War Hippy Fatigues
+wdbraintat.gif	outfit	Dinsey's Exoskeleton
+whittletat.gif	outfit	Whittled Wearables
+wickertat.gif	outfit	Wicker Wear
+wintat.gif	custom
+workouttat.gif	outfit	Workoutfit
+wreathtat.gif	outfit	Arboreal Raiment
+wroughttat.gif	outfit	Wrought Wrappings
+wumpustat.gif	outfit	Wumpus-Hair Wardrobe
+xiblaxtat.gif	outfit	Xiblaxian Stealth Suit
+yegtat.gif	item	fancy chess set
+yogtat.gif	outfit	Hateful Habiliment
+zaptat.gif	outfit	Crimbot Crimboutfit
+zompirtat.gif	outfit	Cursed Zombie Pirate Costume
