@@ -46,7 +46,6 @@ repositories {
 }
 
 configurations {
-	toCopy
 	implementation.canBeResolved = true
 }
 
@@ -81,8 +80,6 @@ dependencies {
 	implementation 'org.mozilla:rhino:1.7.13'
 	implementation 'org.swinglabs:swingx:1.0'
 	implementation 'org.tmatesoft.svnkit:svnkit:1.10.3'
-
-	toCopy 'org.swinglabs:swingx:1.0'
 }
 
 application {
@@ -193,11 +190,6 @@ shadowJar {
 	duplicatesStrategy = 'exclude'
 	destinationDirectory = file('dist/')
 	archiveClassifier.set("${versioning.info.dirty ? 'M' : ''}")
-}
-
-task download(type: Copy) {
-	from configurations.toCopy
-	into 'src/jar'
 }
 
 task getRevision() {
