@@ -1029,7 +1029,8 @@ public class ParserTest {
             // "Return needs null value",
             "Cannot return when outside of a function",
             null,
-            // Arrays.asList( "return", ";" )),
+            // Arrays.asList( "return", ";" )
+        ),
             Arguments.of("top-level exit", "exit;", null, Arrays.asList("exit", ";")),
             Arguments.of("empty block", "{}", null, Arrays.asList("{", "}")),
             Arguments.of("exit with parameter", "exit 1;", "Expected ;, found 1", null),
@@ -1728,7 +1729,7 @@ public class ParserTest {
                 "proper remove",
                 "int[] map; remove map[0];",
                 null,
-                Arrays.asList("int", "[", "]", "map", ";", "remove", "map", "[", "0", "]", ";"))));
+                Arrays.asList("int", "[", "]", "map", ";", "remove", "map", "[", "0", "]", ";")));
   }
 
   @ParameterizedTest
