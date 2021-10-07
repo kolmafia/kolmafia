@@ -1030,7 +1030,7 @@ public class ParserTest {
             "Cannot return when outside of a function",
             null
             // Arrays.asList( "return", ";" )
-        ),
+            ),
         Arguments.of("top-level exit", "exit;", null, Arrays.asList("exit", ";")),
         Arguments.of("empty block", "{}", null, Arrays.asList("{", "}")),
         Arguments.of("exit with parameter", "exit 1;", "Expected ;, found 1", null),
@@ -1082,10 +1082,7 @@ public class ParserTest {
             Arrays.asList("for", "i", "from", "1", "downto", "10000", ";")),
         Arguments.of("no return from int function", "int f() {}", "Missing return value", null),
         Arguments.of(
-            "return void from int function",
-            "int f() { return; }",
-            "Return needs int value",
-            null),
+            "return void from int function", "int f() { return; }", "Return needs int value", null),
         Arguments.of(
             "return string from int function",
             "int f() { return 'str'; }",
@@ -1103,8 +1100,7 @@ public class ParserTest {
             "if (true) print('msg');",
             null,
             Arrays.asList("if", "(", "true", ")", "print", "(", "'msg'", ")", ";")),
-        Arguments.of(
-            "empty if", "if (true);", null, Arrays.asList("if", "(", "true", ")", ";")),
+        Arguments.of("empty if", "if (true);", null, Arrays.asList("if", "(", "true", ")", ";")),
         Arguments.of("unclosed block scope", "{", "Expected }, found end of file", null),
         // if / else-if / else
         Arguments.of("if without condition", "if true", "Expected (, found true", null),
@@ -1138,15 +1134,9 @@ public class ParserTest {
             "\"while\" requires a boolean condition",
             null),
         Arguments.of(
-            "while with unclosed condition",
-            "while (true",
-            "Expected ), found end of file",
-            null),
+            "while with unclosed condition", "while (true", "Expected ), found end of file", null),
         Arguments.of(
-            "while with unclosed loop",
-            "while (true) {",
-            "Expected }, found end of file",
-            null),
+            "while with unclosed loop", "while (true) {", "Expected }, found end of file", null),
         Arguments.of(
             "while with multiple statements but no semicolon",
             "while (true) print(5)\nprint(6)",
@@ -1279,10 +1269,7 @@ public class ParserTest {
             null,
             Arrays.asList("int", "sort", "=", "0", ";")),
         Arguments.of(
-            "variable declaration of sort",
-            "int sort;",
-            null,
-            Arrays.asList("int", "sort", ";")),
+            "variable declaration of sort", "int sort;", null, Arrays.asList("int", "sort", ";")),
         Arguments.of(
             "function named sort",
             "void sort(){} sort();",
@@ -1293,16 +1280,14 @@ public class ParserTest {
             "sort 2 by value;",
             "Aggregate reference expected",
             null),
-        Arguments.of(
-            "sort without by", "int[] x {3,2,1}; sort x;", "Expected by, found ;", null),
+        Arguments.of("sort without by", "int[] x {3,2,1}; sort x;", "Expected by, found ;", null),
         Arguments.of(
             "Sort, no sorting expression", "int[] x; sort x by", "Expression expected", null),
         Arguments.of(
             "valid sort",
             "int[] x; sort x by value*3;",
             null,
-            Arrays.asList(
-                "int", "[", "]", "x", ";", "sort", "x", "by", "value", "*", "3", ";")),
+            Arrays.asList("int", "[", "]", "x", ";", "sort", "x", "by", "value", "*", "3", ";")),
         Arguments.of(
             "foreach with non-identifier key",
             "foreach 'key' in $items[];",
@@ -1344,8 +1329,7 @@ public class ParserTest {
             "foreach key, value in int[int]{} {}",
             null,
             Arrays.asList(
-                "foreach", "key", ",", "value", "in", "int", "[", "int", "]", "{", "}", "{",
-                "}")),
+                "foreach", "key", ",", "value", "in", "int", "[", "int", "]", "{", "}", "{", "}")),
         Arguments.of(
             "foreach with too many keys",
             "foreach a, b, c in $items[];",
@@ -1364,10 +1348,7 @@ public class ParserTest {
             "Index variable 'i' is already defined",
             null),
         Arguments.of(
-            "for without from",
-            "for i in range(10):\n  print(i)",
-            "Expected from, found in",
-            null),
+            "for without from", "for i in range(10):\n  print(i)", "Expected from, found in", null),
         Arguments.of(
             "for with invalid dest keyword",
             "for i from 1 until 10;",
@@ -1397,8 +1378,8 @@ public class ParserTest {
             "int i; for (i=0; i < 5; i++);",
             null,
             Arrays.asList(
-                "int", "i", ";", "for", "(", "i", "=", "0", ";", "i", "<", "5", ";", "i", "++",
-                ")", ";")),
+                "int", "i", ";", "for", "(", "i", "=", "0", ";", "i", "<", "5", ";", "i", "++", ")",
+                ";")),
         Arguments.of(
             "javaFor with unknown existing variable",
             "for (i=0; i < 5; i++);",
@@ -1460,28 +1441,21 @@ public class ParserTest {
             "prin();",
             "Function 'prin( )' undefined.  This script may require a more recent version of KoLmafia and/or its supporting scripts.",
             null),
-        Arguments.of(
-            "function call interrupted", "print(", "Expected ), found end of file", null),
+        Arguments.of("function call interrupted", "print(", "Expected ), found end of file", null),
         Arguments.of(
             "function call interrupted after comma",
             "print(1,",
             "Expected parameter, found end of file",
             null),
         Arguments.of(
-            "function call closed after comma",
-            "print(1,);",
-            "Expected parameter, found )",
-            null),
+            "function call closed after comma", "print(1,);", "Expected parameter, found )", null),
         Arguments.of(
             "function call interrupted after param",
             "print(1",
             "Expected ), found end of file",
             null),
         Arguments.of(
-            "function call with non-comma separator",
-            "print(1; 2);",
-            "Expected ), found ;",
-            null),
+            "function call with non-comma separator", "print(1; 2);", "Expected ), found ;", null),
         Arguments.of(
             "function parameter coercion to ANY_TYPE",
             "dump('foo', 'bar');",
@@ -1492,9 +1466,8 @@ public class ParserTest {
             "typedef int foo; foo a = 1; void bar(int x, foo y) {} bar(a, 1);",
             null,
             Arrays.asList(
-                "typedef", "int", "foo", ";", "foo", "a", "=", "1", ";", "void", "bar", "(",
-                "int", "x", ",", "foo", "y", ")", "{", "}", "bar", "(", "a", ",", "1", ")",
-                ";")),
+                "typedef", "int", "foo", ";", "foo", "a", "=", "1", ";", "void", "bar", "(", "int",
+                "x", ",", "foo", "y", ")", "{", "}", "bar", "(", "a", ",", "1", ")", ";")),
         Arguments.of(
             "function parameter typedef-to-simple typedef coercion",
             // Mmh... there's no real way to "prove" the function was used other than
@@ -1503,16 +1476,16 @@ public class ParserTest {
             null,
             Arrays.asList(
                 "typedef", "int", "foo", ";", "foo", "a", "=", "1", ";", "int", "to_int", "(",
-                "foo", "x", ")", "{", "return", "1", ";", "}", "void", "bar", "(", "int", "x",
-                ")", "{", "}", "bar", "(", "a", ")", ";")),
+                "foo", "x", ")", "{", "return", "1", ";", "}", "void", "bar", "(", "int", "x", ")",
+                "{", "}", "bar", "(", "a", ")", ";")),
         Arguments.of(
             "function parameter simple-to-typedef typedef coercion",
             "typedef int foo; foo a = 1; foo to_foo(int x) {return a;} void bar(foo x) {} bar(1);",
             null,
             Arrays.asList(
                 "typedef", "int", "foo", ";", "foo", "a", "=", "1", ";", "foo", "to_foo", "(",
-                "int", "x", ")", "{", "return", "a", ";", "}", "void", "bar", "(", "foo", "x",
-                ")", "{", "}", "bar", "(", "1", ")", ";")),
+                "int", "x", ")", "{", "return", "a", ";", "}", "void", "bar", "(", "foo", "x", ")",
+                "{", "}", "bar", "(", "1", ")", ";")),
         Arguments.of(
             "function invocation interrupted",
             "call",
@@ -1569,10 +1542,7 @@ public class ParserTest {
             "Non-boolean expression 1 (int)",
             null),
         Arguments.of(
-            "ternary without lhs",
-            "int x = true ? : 2;",
-            "Value expected in left hand side",
-            null),
+            "ternary without lhs", "int x = true ? : 2;", "Value expected in left hand side", null),
         Arguments.of("ternary without colon", "int x = true ? 1;", "Expected :, found ;", null),
         Arguments.of(
             "ternary without rhs",
@@ -1587,29 +1557,18 @@ public class ParserTest {
             null),
         // parseValue
         Arguments.of(
-            "unclosed parenthetical expression",
-            "(true",
-            "Expected ), found end of file",
-            null),
-        Arguments.of(
-            "aggregate literal without braces", "(int[])", "Expected {, found )", null),
+            "unclosed parenthetical expression", "(true", "Expected ), found end of file", null),
+        Arguments.of("aggregate literal without braces", "(int[])", "Expected {, found )", null),
         Arguments.of(
             "indexed variable reference",
             "int[5] x; x[0];",
             null,
             Arrays.asList("int", "[", "5", "]", "x", ";", "x", "[", "0", "]", ";")),
+        Arguments.of("indexed primitive", "int x; x[0];", "Variable 'x' cannot be indexed", null),
         Arguments.of(
-            "indexed primitive", "int x; x[0];", "Variable 'x' cannot be indexed", null),
+            "over-indexed variable reference", "int[5] x; x[0,1];", "Too many keys for 'x'", null),
         Arguments.of(
-            "over-indexed variable reference",
-            "int[5] x; x[0,1];",
-            "Too many keys for 'x'",
-            null),
-        Arguments.of(
-            "empty indexed variable reference",
-            "int[5] x; x[];",
-            "Index for 'x' expected",
-            null),
+            "empty indexed variable reference", "int[5] x; x[];", "Index for 'x' expected", null),
         Arguments.of(
             "unterminated aggregate variable reference",
             "int[5] x; x[0",
@@ -1636,14 +1595,12 @@ public class ParserTest {
             "int[5,5] x; x[0][1];",
             null,
             Arrays.asList(
-                "int", "[", "5", ",", "5", "]", "x", ";", "x", "[", "0", "]", "[", "1", "]",
-                ";")),
+                "int", "[", "5", ",", "5", "]", "x", ";", "x", "[", "0", "]", "[", "1", "]", ";")),
         Arguments.of(
             "method call of primitive var",
             "string x = 'hello'; x.print();",
             null,
-            Arrays.asList(
-                "string", "x", "=", "'hello'", ";", "x", ".", "print", "(", ")", ";")),
+            Arrays.asList("string", "x", "=", "'hello'", ";", "x", ".", "print", "(", ")", ";")),
         Arguments.of(
             "method call of aggregate index",
             "string[2] x; x[0].print();",
@@ -1678,8 +1635,7 @@ public class ParserTest {
             null,
             Arrays.asList("record", "{", "int", "a", ";", "}", "[", "]", "r", ";")),
         Arguments.of("standalone new", "new;", "Expected Record name, found ;", null),
-        Arguments.of(
-            "new non-record", "int x = new int();", "'int' is not a record type", null),
+        Arguments.of("new non-record", "int x = new int();", "'int' is not a record type", null),
         Arguments.of(
             "new record without parens",
             // Yields a default-constructed record.
@@ -1696,8 +1652,8 @@ public class ParserTest {
             "record r {int[] a;}; new r({1,2});",
             null,
             Arrays.asList(
-                "record", "r", "{", "int", "[", "]", "a", ";", "}", ";", "new", "r", "(", "{",
-                "1", ",", "2", "}", ")", ";")),
+                "record", "r", "{", "int", "[", "]", "a", ";", "}", ";", "new", "r", "(", "{", "1",
+                ",", "2", "}", ")", ";")),
         Arguments.of(
             "new with field type mismatch",
             "record r {int a;}; new r('str');",
@@ -1723,8 +1679,7 @@ public class ParserTest {
             "record r {int a; int b;}; new r(4 5)",
             "Expected , or ), found 5",
             null),
-        Arguments.of(
-            "improper remove", "int i; remove i;", "Aggregate reference expected", null),
+        Arguments.of("improper remove", "int i; remove i;", "Aggregate reference expected", null),
         Arguments.of(
             "proper remove",
             "int[] map; remove map[0];",
