@@ -8890,7 +8890,7 @@ Item	Turtle Bowl	Effect: "Tiki Thoughtfulness", Effect Duration: 40
 Item	twice-haunted screwdriver	Effect: "Haunted Liver", Effect Duration: 40
 Item	unfinished fruitcake	Effect: "Holiday Disappointment", Effect Duration: 10
 Item	unquiet spirits	Effect: "Hollow Inside", Effect Duration: 50
-Item	Vampire Vintner wine	Effect Duration: 10
+Item	1950 Vampire Vintner wine	Effect Duration: 10
 Item	vintage smart drink	Effect: "Smart Drunk", Effect Duration: 1
 Item	vodka barracuda	Effect: "Mer-kinkiness", Effect Duration: 40
 Item	vodka stinger	Effect: "Mer-kindliness", Effect Duration: 40
