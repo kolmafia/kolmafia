@@ -1028,7 +1028,7 @@ public class ParserTest {
             "return;",
             // "Return needs null value",
             "Cannot return when outside of a function",
-            null,
+            null
             // Arrays.asList( "return", ";" )
         ),
             Arguments.of("top-level exit", "exit;", null, Arrays.asList("exit", ";")),
