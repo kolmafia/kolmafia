@@ -508,8 +508,11 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
       }
 
       public void filterItems(final Candy selected) {
-        this.model.updateFilter();
+        this.model.updateFilter(false);
         int size = this.model.getSize();
+
+        // Update displayed rows
+        this.model.fireContentsChanged(this.model, 0, size - 1);
 
         if (size == 0) {
           this.table.clearSelection();

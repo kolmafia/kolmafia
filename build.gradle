@@ -45,6 +45,11 @@ repositories {
 	mavenCentral()
 }
 
+configurations {
+	toCopy
+	implementation.canBeResolved = true
+}
+
 dependencies {
 	// Use JUnit Jupiter for running JUnit5 tests.
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.8.0'
@@ -64,7 +69,7 @@ dependencies {
 	runtimeOnly 'net.java.dev.jna:jna-platform:5.9.0'
 	runtimeOnly 'org.antlr:antlr-runtime:3.5.2'
 
-	libImplementation 'org.swinglabs:swingx:1.6.1'
+	libImplementation 'org.swinglabs:swingx:1.0'
 
 	implementation files('build/lib') {
 		builtBy 'compileLibJava'
@@ -74,8 +79,10 @@ dependencies {
 	implementation 'org.fusesource.jansi:jansi:2.3.4'
 	implementation 'org.json:json:20210307'
 	implementation 'org.mozilla:rhino:1.7.13'
-	implementation 'org.swinglabs:swingx:1.6.1'
+	implementation 'org.swinglabs:swingx:1.0'
 	implementation 'org.tmatesoft.svnkit:svnkit:1.10.3'
+
+	toCopy 'org.swinglabs:swingx:1.0'
 }
 
 application {
@@ -186,6 +193,11 @@ shadowJar {
 	duplicatesStrategy = 'exclude'
 	destinationDirectory = file('dist/')
 	archiveClassifier.set("${versioning.info.dirty ? 'M' : ''}")
+}
+
+task download(type: Copy) {
+	from configurations.toCopy
+	into 'src/jar'
 }
 
 task getRevision() {

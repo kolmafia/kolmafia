@@ -86,14 +86,14 @@ public class AutoFilterComboBox extends DisabledItemsComboBox implements ListEle
     this.matchString = this.currentName.toLowerCase();
 
     this.strict = true;
-    this.model.updateFilter();
+    this.model.updateFilter(false);
 
     if (this.model.getSize() > 0) {
       return;
     }
 
     this.strict = false;
-    this.model.updateFilter();
+    this.model.updateFilter(false);
   }
 
   public synchronized void findMatch(final int keyCode) {
@@ -189,7 +189,7 @@ public class AutoFilterComboBox extends DisabledItemsComboBox implements ListEle
 
       if (!AutoFilterComboBox.this.isPopupVisible()) {
         AutoFilterComboBox.this.active = false;
-        AutoFilterComboBox.this.model.updateFilter();
+        AutoFilterComboBox.this.model.updateFilter(false);
       }
     }
 

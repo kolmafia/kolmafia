@@ -73,6 +73,10 @@ public class CreateSpecialPanel extends InventoryPanel {
     box.add(Box.createGlue());
     box.add(new JLabel("List below is not implemented yet:"));
     this.northPanel.add(box, BorderLayout.CENTER);
+
+    // this.setFixedFilter( food, booze, equip, other, true );
+
+    // ConcoctionDatabase.getCreatables().updateFilter( false );
   }
 
   @Override
