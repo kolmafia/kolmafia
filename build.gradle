@@ -45,10 +45,6 @@ repositories {
 	mavenCentral()
 }
 
-configurations {
-	implementation.canBeResolved = true
-}
-
 dependencies {
 	// Use JUnit Jupiter for running JUnit5 tests.
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.8.0'
