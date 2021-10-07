@@ -1028,707 +1028,663 @@ public class ParserTest {
             "return;",
             // "Return needs null value",
             "Cannot return when outside of a function",
+            null
+            // Arrays.asList( "return", ";" )
+            ),
+        Arguments.of("top-level exit", "exit;", null, Arrays.asList("exit", ";")),
+        Arguments.of("empty block", "{}", null, Arrays.asList("{", "}")),
+        Arguments.of("exit with parameter", "exit 1;", "Expected ;, found 1", null),
+        Arguments.of(
+            "break inside while-loop",
+            "while (true) break;",
             null,
-            // Arrays.asList( "return", ";" )),
-            Arguments.of("top-level exit", "exit;", null, Arrays.asList("exit", ";")),
-            Arguments.of("empty block", "{}", null, Arrays.asList("{", "}")),
-            Arguments.of("exit with parameter", "exit 1;", "Expected ;, found 1", null),
-            Arguments.of(
-                "break inside while-loop",
-                "while (true) break;",
-                null,
-                Arrays.asList("while", "(", "true", ")", "break", ";")),
-            Arguments.of(
-                "continue inside while-loop",
-                "while (true) continue;",
-                null,
-                Arrays.asList("while", "(", "true", ")", "continue", ";")),
-            Arguments.of(
-                "break inside switch",
-                "switch (true) { default: break; }",
-                null,
-                Arrays.asList("switch", "(", "true", ")", "{", "default", ":", "break", ";", "}")),
-            Arguments.of(
-                "continue inside switch",
-                "switch (true) { default: continue; }",
-                "Encountered 'continue' outside of loop",
-                null),
-            Arguments.of(
-                "empty foreach",
-                "foreach cls in $classes[];",
-                null,
-                Arrays.asList("foreach", "cls", "in", "$", "classes", "[", "]", ";")),
-            Arguments.of(
-                "for-from-to",
-                "for i from 1 to 10000;",
-                null,
-                Arrays.asList("for", "i", "from", "1", "to", "10000", ";")),
-            Arguments.of(
-                "for-from-upto",
-                "for i from 1 upto 10000;",
-                null,
-                Arrays.asList("for", "i", "from", "1", "upto", "10000", ";")),
-            Arguments.of(
-                "for-from-to-by",
-                "for i from 1 to 10000 by 100;",
-                null,
-                Arrays.asList("for", "i", "from", "1", "to", "10000", "by", "100", ";")),
-            Arguments.of(
-                "for-from-downto",
-                // This is valid, but will immediately return.
-                "for i from 1 downto 10000;",
-                null,
-                Arrays.asList("for", "i", "from", "1", "downto", "10000", ";")),
-            Arguments.of("no return from int function", "int f() {}", "Missing return value", null),
-            Arguments.of(
-                "return void from int function",
-                "int f() { return; }",
-                "Return needs int value",
-                null),
-            Arguments.of(
-                "return string from int function",
-                "int f() { return 'str'; }",
-                "Cannot return string value from int function",
-                null),
-            Arguments.of(
-                "return int from void function",
-                "void f() { return 1; }",
-                "Cannot return a value from a void function",
-                null),
-            Arguments.of(
-                "non-expression return", "int f() { return (); }", "Expression expected", null),
-            Arguments.of(
-                "single-command if",
-                "if (true) print('msg');",
-                null,
-                Arrays.asList("if", "(", "true", ")", "print", "(", "'msg'", ")", ";")),
-            Arguments.of(
-                "empty if", "if (true);", null, Arrays.asList("if", "(", "true", ")", ";")),
-            Arguments.of("unclosed block scope", "{", "Expected }, found end of file", null),
-            // if / else-if / else
-            Arguments.of("if without condition", "if true", "Expected (, found true", null),
-            Arguments.of(
-                "if with empty condition", "if ()", "\"if\" requires a boolean condition", null),
-            Arguments.of(
-                "if with numeric condition", "if (1)", "\"if\" requires a boolean condition", null),
-            Arguments.of(
-                "if with unclosed condition", "if (true", "Expected ), found end of file", null),
-            // These probably shouldn't need to be separate test cases...
-            Arguments.of(
-                "else if without condition",
-                "if (false); else if true",
-                "Expected (, found true",
-                null),
-            Arguments.of(
-                "else if with empty condition",
-                "if (false); else if ()",
-                "\"if\" requires a boolean condition",
-                null),
-            Arguments.of(
-                "else if with unclosed condition",
-                "if (false); else if (true",
-                "Expected ), found end of file",
-                null),
-            // while
-            Arguments.of("while without condition", "while true", "Expected (, found true", null),
-            Arguments.of(
-                "while with empty condition",
-                "while ()",
-                "\"while\" requires a boolean condition",
-                null),
-            Arguments.of(
-                "while with unclosed condition",
-                "while (true",
-                "Expected ), found end of file",
-                null),
-            Arguments.of(
-                "while with unclosed loop",
-                "while (true) {",
-                "Expected }, found end of file",
-                null),
-            Arguments.of(
-                "while with multiple statements but no semicolon",
-                "while (true) print(5)\nprint(6)",
-                "Expected ;, found print",
-                null),
-            // repeat
-            Arguments.of(
-                "repeat statement",
-                "repeat print('hello'); until(true);",
-                null,
-                Arrays.asList(
-                    "repeat", "print", "(", "'hello'", ")", ";", "until", "(", "true", ")", ";")),
-            Arguments.of(
-                "repeat without until", "repeat {}", "Expected until, found end of file", null),
-            Arguments.of(
-                "repeat without condition", "repeat {} until true", "Expected (, found true", null),
-            Arguments.of(
-                "repeat with empty condition",
-                "repeat {} until ('done')",
-                // This should probably read as "'until' requires a
-                // boolean condition"...
-                "\"repeat\" requires a boolean condition",
-                null),
-            // So many cases of identical tests for duplicate code...
-            Arguments.of(
-                "repeat with unclosed condition",
-                "repeat {} until (true",
-                "Expected ), found end of file",
-                null),
-            // switch
-            Arguments.of(
-                "switch without condition or block",
-                "switch true {}",
-                "Expected ( or {, found true",
-                null),
-            Arguments.of(
-                "switch with empty condition",
-                "switch ()",
-                "\"switch ()\" requires an expression",
-                null),
-            Arguments.of(
-                "switch with unclosed condition",
-                "switch (true",
-                "Expected ), found end of file",
-                null),
-            Arguments.of(
-                "switch with condition but no block",
-                "switch (true)",
-                "Expected {, found end of file",
-                null),
-            Arguments.of(
-                "switch with condition but unclosed block",
-                "switch (true) {",
-                "Expected }, found end of file",
-                null),
-            Arguments.of(
-                "switch with block and no condition",
-                "switch { }",
-                null,
-                Arrays.asList("switch", "{", "}")),
-            Arguments.of(
-                "switch with block, non-const label",
-                "boolean x; switch { case x: }",
-                null,
-                Arrays.asList("boolean", "x", ";", "switch", "{", "case", "x", ":", "}")),
-            Arguments.of(
-                "switch with block, label expression",
-                "boolean x; switch { case !x: }",
-                null,
-                Arrays.asList("boolean", "x", ";", "switch", "{", "case", "!", "x", ":", "}")),
-            Arguments.of(
-                "switch with block, nested variable",
-                "switch { case true: int x; }",
-                null,
-                Arrays.asList("switch", "{", "case", "true", ":", "int", "x", ";", "}")),
-            Arguments.of(
-                "switch with block, nested type but no variable",
-                "switch { case true: int; }",
-                "Type given but not used to declare anything",
-                null),
-            Arguments.of(
-                "switch with block, nested variable but missing semicolon",
-                "switch { case true: int x }",
-                "Expected ;, found }",
-                null),
-            Arguments.of(
-                "switch, case label without expression",
-                "switch { case: }",
-                "Case label needs to be followed by an expression",
-                null),
-            Arguments.of(
-                "switch case not terminated by colon",
-                "switch { case true; }",
-                "Expected :, found ;",
-                null),
-            Arguments.of(
-                "switch default not terminated by colon",
-                "switch { default true; }",
-                "Expected :, found true",
-                null),
-            Arguments.of(
-                "switch type mismatch",
-                "switch (1) { case true: }",
-                "Switch conditional has type int but label expression has type boolean",
-                null),
-            Arguments.of(
-                "switch block type mismatch",
-                // Note that the implicit switch type is boolean here.
-                "switch { case 1: }",
-                "Switch conditional has type boolean but label expression has type int",
-                null),
-            Arguments.of(
-                "duplicate switch label",
-                "switch (1) { case 0: case 0: }",
-                "Duplicate case label: 0",
-                null),
-            Arguments.of(
-                "switch, multiple default labels",
-                "switch (1) { default: default: }",
-                "Only one default label allowed in a switch statement",
-                null),
-            Arguments.of(
-                "switch block, multiple default labels",
-                "switch { default: default: }",
-                "Only one default label allowed in a switch statement",
-                null),
-            Arguments.of(
-                "variable definition of sort",
-                "int sort = 0;",
-                null,
-                Arrays.asList("int", "sort", "=", "0", ";")),
-            Arguments.of(
-                "variable declaration of sort",
-                "int sort;",
-                null,
-                Arrays.asList("int", "sort", ";")),
-            Arguments.of(
-                "function named sort",
-                "void sort(){} sort();",
-                null,
-                Arrays.asList("void", "sort", "(", ")", "{", "}", "sort", "(", ")", ";")),
-            Arguments.of(
-                "sort not-a-variable primitive",
-                "sort 2 by value;",
-                "Aggregate reference expected",
-                null),
-            Arguments.of(
-                "sort without by", "int[] x {3,2,1}; sort x;", "Expected by, found ;", null),
-            Arguments.of(
-                "Sort, no sorting expression", "int[] x; sort x by", "Expression expected", null),
-            Arguments.of(
-                "valid sort",
-                "int[] x; sort x by value*3;",
-                null,
-                Arrays.asList(
-                    "int", "[", "]", "x", ";", "sort", "x", "by", "value", "*", "3", ";")),
-            Arguments.of(
-                "foreach with non-identifier key",
-                "foreach 'key' in $items[];",
-                "Key variable name expected",
-                null),
-            Arguments.of(
-                "foreach with reserved key",
-                "foreach item in $items[];",
-                "Reserved word 'item' cannot be a key variable",
-                null),
-            Arguments.of("foreach missing `in`", "foreach it;", "Expected in, found ;", null),
-            Arguments.of(
-                "foreach missing key variable name",
-                "foreach in it;",
-                "Key variable name expected",
-                null),
-            Arguments.of(
-                "foreach key variable named 'in'",
-                "foreach in in it;",
-                "Reserved word 'in' cannot be a key variable name",
-                null),
-            Arguments.of(
-                "foreach key variable named 'in' 2",
-                "foreach in, on, under, below, through in it;",
-                "Reserved word 'in' cannot be a key variable name",
-                null),
-            Arguments.of(
-                "foreach in not-a-reference",
-                "foreach it in $item[none];",
-                "Aggregate reference expected",
-                null),
-            Arguments.of(
-                "foreach with duplicate key",
-                "foreach it, it in $items[];",
-                "Key variable 'it' is already defined",
-                null),
-            Arguments.of(
-                "foreach with multiple keys",
-                "foreach key, value in int[int]{} {}",
-                null,
-                Arrays.asList(
-                    "foreach", "key", ",", "value", "in", "int", "[", "int", "]", "{", "}", "{",
-                    "}")),
-            Arguments.of(
-                "foreach with too many keys",
-                "foreach a, b, c in $items[];",
-                "Too many key variables specified",
-                null),
-            Arguments.of(
-                "for with reserved index",
-                "for int from 1 upto 10;",
-                "Reserved word 'int' cannot be an index variable",
-                null),
-            Arguments.of(
-                "for with existing index",
-                // Oddly, this is unsupported, when other for loops will create
-                // a nested scope.
-                "int i; for i from 1 upto 10;",
-                "Index variable 'i' is already defined",
-                null),
-            Arguments.of(
-                "for without from",
-                "for i in range(10):\n  print(i)",
-                "Expected from, found in",
-                null),
-            Arguments.of(
-                "for with invalid dest keyword",
-                "for i from 1 until 10;",
-                "Expected to, upto, or downto, found until",
-                null),
-            Arguments.of(
-                "javaFor with multiple declarations",
-                "for (int i=0, int length=5; i < length; i++);",
-                null,
-                Arrays.asList(
-                    "for", "(", "int", "i", "=", "0", ",", "int", "length", "=", "5", ";", "i", "<",
-                    "length", ";", "i", "++", ")", ";")),
-            Arguments.of(
-                "javaFor with empty initializer",
-                "for (int i=0,; i < 5; ++i);",
-                "Identifier expected",
-                null),
-            Arguments.of(
-                "javaFor with compound increment",
-                "for (int i=0; i < 5; i+=1);",
-                null,
-                Arrays.asList(
-                    "for", "(", "int", "i", "=", "0", ";", "i", "<", "5", ";", "i", "+=", "1", ")",
-                    ";")),
-            Arguments.of(
-                "javaFor with existing variable",
-                "int i; for (i=0; i < 5; i++);",
-                null,
-                Arrays.asList(
-                    "int", "i", ";", "for", "(", "i", "=", "0", ";", "i", "<", "5", ";", "i", "++",
-                    ")", ";")),
-            Arguments.of(
-                "javaFor with unknown existing variable",
-                "for (i=0; i < 5; i++);",
-                "Unknown variable 'i'",
-                null),
-            Arguments.of(
-                "javaFor with redefined existing variable",
-                "int i; for (int i=0; i < 5; i++);",
-                "Variable 'i' already defined",
-                null),
-            Arguments.of(
-                "javaFor with not-an-increment",
-                "for (int i=0; i < 5; i==1);",
-                "Variable 'i' not incremented",
-                null),
-            Arguments.of(
-                "javaFor with constant assignment",
-                // I guess this technically works... but will be an infinite
-                // loop in practice.
-                "for (int i=0; i < 5; i=1);",
-                null,
-                Arrays.asList(
-                    "for", "(", "int", "i", "=", "0", ";", "i", "<", "5", ";", "i", "=", "1", ")",
-                    ";")),
-            Arguments.of(
-                "javaFor missing initial identifier",
-                "for (0; i < 5; i++);",
-                "Identifier required",
-                null),
-            Arguments.of(
-                "javaFor missing initializer expression",
-                "for (int i =; i < 5; i++);",
-                "Expression expected",
-                null),
-            Arguments.of(
-                "javaFor invalid assignment",
-                "for (int i ='abc'; i < 5; i++);",
-                "Cannot store string in i of type int",
-                null),
-            Arguments.of(
-                "javaFor non-boolean condition",
-                "for (int i; i + 5; i++);",
-                "\"for\" requires a boolean conditional expression",
-                null),
-            Arguments.of(
-                "javaFor multiple increments",
-                "for (int i, int j; i + j < 5; i++, j++);",
-                null,
-                Arrays.asList(
-                    "for", "(", "int", "i", ",", "int", "j", ";", "i", "+", "j", "<", "5", ";", "i",
-                    "++", ",", "j", "++", ")", ";")),
-            Arguments.of(
-                "javaFor interrupted multiple increments",
-                "for (int i; i < 5; i++,);",
-                "Identifier expected",
-                null),
-            Arguments.of(
-                "undefined function call",
-                "prin();",
-                "Function 'prin( )' undefined.  This script may require a more recent version of KoLmafia and/or its supporting scripts.",
-                null),
-            Arguments.of(
-                "function call interrupted", "print(", "Expected ), found end of file", null),
-            Arguments.of(
-                "function call interrupted after comma",
-                "print(1,",
-                "Expected parameter, found end of file",
-                null),
-            Arguments.of(
-                "function call closed after comma",
-                "print(1,);",
-                "Expected parameter, found )",
-                null),
-            Arguments.of(
-                "function call interrupted after param",
-                "print(1",
-                "Expected ), found end of file",
-                null),
-            Arguments.of(
-                "function call with non-comma separator",
-                "print(1; 2);",
-                "Expected ), found ;",
-                null),
-            Arguments.of(
-                "function parameter coercion to ANY_TYPE",
-                "dump('foo', 'bar');",
-                null,
-                Arrays.asList("dump", "(", "'foo'", ",", "'bar'", ")", ";")),
-            Arguments.of(
-                "function parameter no typedef coercion",
-                "typedef int foo; foo a = 1; void bar(int x, foo y) {} bar(a, 1);",
-                null,
-                Arrays.asList(
-                    "typedef", "int", "foo", ";", "foo", "a", "=", "1", ";", "void", "bar", "(",
-                    "int", "x", ",", "foo", "y", ")", "{", "}", "bar", "(", "a", ",", "1", ")",
-                    ";")),
-            Arguments.of(
-                "function parameter typedef-to-simple typedef coercion",
-                // Mmh... there's no real way to "prove" the function was used other than
-                // seeing it checked from clover...
-                "typedef int foo; foo a = 1; int to_int(foo x) {return 1;} void bar(int x) {} bar(a);",
-                null,
-                Arrays.asList(
-                    "typedef", "int", "foo", ";", "foo", "a", "=", "1", ";", "int", "to_int", "(",
-                    "foo", "x", ")", "{", "return", "1", ";", "}", "void", "bar", "(", "int", "x",
-                    ")", "{", "}", "bar", "(", "a", ")", ";")),
-            Arguments.of(
-                "function parameter simple-to-typedef typedef coercion",
-                "typedef int foo; foo a = 1; foo to_foo(int x) {return a;} void bar(foo x) {} bar(1);",
-                null,
-                Arrays.asList(
-                    "typedef", "int", "foo", ";", "foo", "a", "=", "1", ";", "foo", "to_foo", "(",
-                    "int", "x", ")", "{", "return", "a", ";", "}", "void", "bar", "(", "foo", "x",
-                    ")", "{", "}", "bar", "(", "1", ")", ";")),
-            Arguments.of(
-                "function invocation interrupted",
-                "call",
-                "Variable reference expected for function name",
-                null),
-            Arguments.of(
-                "function invocation non-string expression",
-                "call (2)()",
-                "String expression expected for function name",
-                null),
-            Arguments.of(
-                "function invocation interrupted after name expression",
-                "call ('foo')",
-                "Expected (, found end of file",
-                null),
-            Arguments.of(
-                "function invocation with non-void function",
-                // ummm this should insist that the variable is a string...
-                "int x; call string x('foo')",
-                null,
-                Arrays.asList("int", "x", ";", "call", "string", "x", "(", "'foo'", ")")),
-            Arguments.of(
-                "preincrement with non-numeric variable",
-                "string x; ++x;",
-                "++X requires a numeric variable reference",
-                null),
-            Arguments.of(
-                "preincrement requires a variable", "++1;", "Variable reference expected", null),
-            Arguments.of(
-                "predecrement with float variable",
-                "float x; --x;",
-                null,
-                Arrays.asList("float", "x", ";", "--", "x", ";")),
-            Arguments.of(
-                "postincrement with non-numeric variable",
-                "string x; x++;",
-                "X++ requires a numeric variable reference",
-                null),
-            /* Currently fails with "Expected ;, found ++" which is asymmetric.
-            Arguments.of(
-              "postincrement requires a variable",
-              "1++;",
-              "Variable reference expected",
-              null),
-            */
-            Arguments.of(
-                "postdecrement with float variable",
-                "float x; x--;",
-                null,
-                Arrays.asList("float", "x", ";", "x", "--", ";")),
-            Arguments.of(
-                "ternary with non-boolean condition",
-                "int x = 1 ? 1 : 2;",
-                "Non-boolean expression 1 (int)",
-                null),
-            Arguments.of(
-                "ternary without lhs",
-                "int x = true ? : 2;",
-                "Value expected in left hand side",
-                null),
-            Arguments.of("ternary without colon", "int x = true ? 1;", "Expected :, found ;", null),
-            Arguments.of(
-                "ternary without rhs",
-                "int x = true ? 1:;",
-                // Another asymmetry: not "Value expected in right hand side"
-                "Value expected",
-                null),
-            Arguments.of(
-                "non-coercible value mismatch",
-                "(true ? 1 : $item[none];",
-                "Cannot choose between 1 (int) and none (item)",
-                null),
-            // parseValue
-            Arguments.of(
-                "unclosed parenthetical expression",
-                "(true",
-                "Expected ), found end of file",
-                null),
-            Arguments.of(
-                "aggregate literal without braces", "(int[])", "Expected {, found )", null),
-            Arguments.of(
-                "indexed variable reference",
-                "int[5] x; x[0];",
-                null,
-                Arrays.asList("int", "[", "5", "]", "x", ";", "x", "[", "0", "]", ";")),
-            Arguments.of(
-                "indexed primitive", "int x; x[0];", "Variable 'x' cannot be indexed", null),
-            Arguments.of(
-                "over-indexed variable reference",
-                "int[5] x; x[0,1];",
-                "Too many keys for 'x'",
-                null),
-            Arguments.of(
-                "empty indexed variable reference",
-                "int[5] x; x[];",
-                "Index for 'x' expected",
-                null),
-            Arguments.of(
-                "unterminated aggregate variable reference",
-                "int[5] x; x[0",
-                "Expected ], found end of file",
-                null),
-            Arguments.of(
-                "type-mismatched indexed variable reference",
-                "int[5] x; x['str'];",
-                "Index for 'x' has wrong data type (expected int, got string)",
-                null),
-            Arguments.of(
-                "type-mismatched indexed composite reference",
-                "int[5, 5] x; x[0]['str'];",
-                "Index for 'x[]' has wrong data type (expected int, got string)",
-                null),
-            Arguments.of(
-                "multidimensional comma-separated array index",
-                "int[5,5] x; x[0,1];",
-                null,
-                Arrays.asList(
-                    "int", "[", "5", ",", "5", "]", "x", ";", "x", "[", "0", ",", "1", "]", ";")),
-            Arguments.of(
-                "multidimensional bracket-separated array index",
-                "int[5,5] x; x[0][1];",
-                null,
-                Arrays.asList(
-                    "int", "[", "5", ",", "5", "]", "x", ";", "x", "[", "0", "]", "[", "1", "]",
-                    ";")),
-            Arguments.of(
-                "method call of primitive var",
-                "string x = 'hello'; x.print();",
-                null,
-                Arrays.asList(
-                    "string", "x", "=", "'hello'", ";", "x", ".", "print", "(", ")", ";")),
-            Arguments.of(
-                "method call of aggregate index",
-                "string[2] x; x[0].print();",
-                null,
-                Arrays.asList(
-                    "string", "[", "2", "]", "x", ";", "x", "[", "0", "]", ".", "print", "(", ")",
-                    ";")),
-            Arguments.of("non-record property reference", "int i; i.a;", "Record expected", null),
-            Arguments.of(
-                "record field reference",
-                "record {int a;} r; r.a;",
-                null,
-                Arrays.asList("record", "{", "int", "a", ";", "}", "r", ";", "r", ".", "a", ";")),
-            Arguments.of(
-                "record field reference without field",
-                "record {int a;} r; r.",
-                "Field name expected",
-                null),
-            Arguments.of(
-                "record unknown field reference",
-                "record {int a;} r; r.b;",
-                "Invalid field name 'b'",
-                null),
-            Arguments.of(
-                "Illegal record creation",
-                "void f( record foo {int a; int b;} bar )",
-                "Existing type expected for function parameter",
-                null),
-            Arguments.of(
-                "array of record",
-                "record {int a;}[] r;",
-                null,
-                Arrays.asList("record", "{", "int", "a", ";", "}", "[", "]", "r", ";")),
-            Arguments.of("standalone new", "new;", "Expected Record name, found ;", null),
-            Arguments.of(
-                "new non-record", "int x = new int();", "'int' is not a record type", null),
-            Arguments.of(
-                "new record without parens",
-                // Yields a default-constructed record.
-                "record r {int a;}; new r;",
-                null,
-                Arrays.asList("record", "r", "{", "int", "a", ";", "}", ";", "new", "r", ";")),
-            Arguments.of(
-                "new record with semicolon",
-                "record r {int a;}; new r(;",
-                "Expression expected for field #1 (a)",
-                null),
-            Arguments.of(
-                "new with aggregate field",
-                "record r {int[] a;}; new r({1,2});",
-                null,
-                Arrays.asList(
-                    "record", "r", "{", "int", "[", "]", "a", ";", "}", ";", "new", "r", "(", "{",
-                    "1", ",", "2", "}", ")", ";")),
-            Arguments.of(
-                "new with field type mismatch",
-                "record r {int a;}; new r('str');",
-                "string found when int expected for field #1 (a)",
-                null),
-            Arguments.of(
-                "new with too many void fields",
-                "record r {int a;}; new r(,,,,,,,);",
-                "Too many field initializers for record r",
-                null),
-            Arguments.of(
-                "new without closing paren",
-                "record r {int a;}; new r(",
-                "Expected ), found end of file",
-                null),
-            Arguments.of(
-                "new without closing paren 2",
-                "record r {int a;}; new r(4",
-                "Expected , or ), found end of file",
-                null),
-            Arguments.of(
-                "new without closing comma separator",
-                "record r {int a; int b;}; new r(4 5)",
-                "Expected , or ), found 5",
-                null),
-            Arguments.of(
-                "improper remove", "int i; remove i;", "Aggregate reference expected", null),
-            Arguments.of(
-                "proper remove",
-                "int[] map; remove map[0];",
-                null,
-                Arrays.asList("int", "[", "]", "map", ";", "remove", "map", "[", "0", "]", ";"))));
+            Arrays.asList("while", "(", "true", ")", "break", ";")),
+        Arguments.of(
+            "continue inside while-loop",
+            "while (true) continue;",
+            null,
+            Arrays.asList("while", "(", "true", ")", "continue", ";")),
+        Arguments.of(
+            "break inside switch",
+            "switch (true) { default: break; }",
+            null,
+            Arrays.asList("switch", "(", "true", ")", "{", "default", ":", "break", ";", "}")),
+        Arguments.of(
+            "continue inside switch",
+            "switch (true) { default: continue; }",
+            "Encountered 'continue' outside of loop",
+            null),
+        Arguments.of(
+            "empty foreach",
+            "foreach cls in $classes[];",
+            null,
+            Arrays.asList("foreach", "cls", "in", "$", "classes", "[", "]", ";")),
+        Arguments.of(
+            "for-from-to",
+            "for i from 1 to 10000;",
+            null,
+            Arrays.asList("for", "i", "from", "1", "to", "10000", ";")),
+        Arguments.of(
+            "for-from-upto",
+            "for i from 1 upto 10000;",
+            null,
+            Arrays.asList("for", "i", "from", "1", "upto", "10000", ";")),
+        Arguments.of(
+            "for-from-to-by",
+            "for i from 1 to 10000 by 100;",
+            null,
+            Arrays.asList("for", "i", "from", "1", "to", "10000", "by", "100", ";")),
+        Arguments.of(
+            "for-from-downto",
+            // This is valid, but will immediately return.
+            "for i from 1 downto 10000;",
+            null,
+            Arrays.asList("for", "i", "from", "1", "downto", "10000", ";")),
+        Arguments.of("no return from int function", "int f() {}", "Missing return value", null),
+        Arguments.of(
+            "return void from int function", "int f() { return; }", "Return needs int value", null),
+        Arguments.of(
+            "return string from int function",
+            "int f() { return 'str'; }",
+            "Cannot return string value from int function",
+            null),
+        Arguments.of(
+            "return int from void function",
+            "void f() { return 1; }",
+            "Cannot return a value from a void function",
+            null),
+        Arguments.of(
+            "non-expression return", "int f() { return (); }", "Expression expected", null),
+        Arguments.of(
+            "single-command if",
+            "if (true) print('msg');",
+            null,
+            Arrays.asList("if", "(", "true", ")", "print", "(", "'msg'", ")", ";")),
+        Arguments.of("empty if", "if (true);", null, Arrays.asList("if", "(", "true", ")", ";")),
+        Arguments.of("unclosed block scope", "{", "Expected }, found end of file", null),
+        // if / else-if / else
+        Arguments.of("if without condition", "if true", "Expected (, found true", null),
+        Arguments.of(
+            "if with empty condition", "if ()", "\"if\" requires a boolean condition", null),
+        Arguments.of(
+            "if with numeric condition", "if (1)", "\"if\" requires a boolean condition", null),
+        Arguments.of(
+            "if with unclosed condition", "if (true", "Expected ), found end of file", null),
+        // These probably shouldn't need to be separate test cases...
+        Arguments.of(
+            "else if without condition",
+            "if (false); else if true",
+            "Expected (, found true",
+            null),
+        Arguments.of(
+            "else if with empty condition",
+            "if (false); else if ()",
+            "\"if\" requires a boolean condition",
+            null),
+        Arguments.of(
+            "else if with unclosed condition",
+            "if (false); else if (true",
+            "Expected ), found end of file",
+            null),
+        // while
+        Arguments.of("while without condition", "while true", "Expected (, found true", null),
+        Arguments.of(
+            "while with empty condition",
+            "while ()",
+            "\"while\" requires a boolean condition",
+            null),
+        Arguments.of(
+            "while with unclosed condition", "while (true", "Expected ), found end of file", null),
+        Arguments.of(
+            "while with unclosed loop", "while (true) {", "Expected }, found end of file", null),
+        Arguments.of(
+            "while with multiple statements but no semicolon",
+            "while (true) print(5)\nprint(6)",
+            "Expected ;, found print",
+            null),
+        // repeat
+        Arguments.of(
+            "repeat statement",
+            "repeat print('hello'); until(true);",
+            null,
+            Arrays.asList(
+                "repeat", "print", "(", "'hello'", ")", ";", "until", "(", "true", ")", ";")),
+        Arguments.of(
+            "repeat without until", "repeat {}", "Expected until, found end of file", null),
+        Arguments.of(
+            "repeat without condition", "repeat {} until true", "Expected (, found true", null),
+        Arguments.of(
+            "repeat with empty condition",
+            "repeat {} until ('done')",
+            // This should probably read as "'until' requires a
+            // boolean condition"...
+            "\"repeat\" requires a boolean condition",
+            null),
+        // So many cases of identical tests for duplicate code...
+        Arguments.of(
+            "repeat with unclosed condition",
+            "repeat {} until (true",
+            "Expected ), found end of file",
+            null),
+        // switch
+        Arguments.of(
+            "switch without condition or block",
+            "switch true {}",
+            "Expected ( or {, found true",
+            null),
+        Arguments.of(
+            "switch with empty condition",
+            "switch ()",
+            "\"switch ()\" requires an expression",
+            null),
+        Arguments.of(
+            "switch with unclosed condition",
+            "switch (true",
+            "Expected ), found end of file",
+            null),
+        Arguments.of(
+            "switch with condition but no block",
+            "switch (true)",
+            "Expected {, found end of file",
+            null),
+        Arguments.of(
+            "switch with condition but unclosed block",
+            "switch (true) {",
+            "Expected }, found end of file",
+            null),
+        Arguments.of(
+            "switch with block and no condition",
+            "switch { }",
+            null,
+            Arrays.asList("switch", "{", "}")),
+        Arguments.of(
+            "switch with block, non-const label",
+            "boolean x; switch { case x: }",
+            null,
+            Arrays.asList("boolean", "x", ";", "switch", "{", "case", "x", ":", "}")),
+        Arguments.of(
+            "switch with block, label expression",
+            "boolean x; switch { case !x: }",
+            null,
+            Arrays.asList("boolean", "x", ";", "switch", "{", "case", "!", "x", ":", "}")),
+        Arguments.of(
+            "switch with block, nested variable",
+            "switch { case true: int x; }",
+            null,
+            Arrays.asList("switch", "{", "case", "true", ":", "int", "x", ";", "}")),
+        Arguments.of(
+            "switch with block, nested type but no variable",
+            "switch { case true: int; }",
+            "Type given but not used to declare anything",
+            null),
+        Arguments.of(
+            "switch with block, nested variable but missing semicolon",
+            "switch { case true: int x }",
+            "Expected ;, found }",
+            null),
+        Arguments.of(
+            "switch, case label without expression",
+            "switch { case: }",
+            "Case label needs to be followed by an expression",
+            null),
+        Arguments.of(
+            "switch case not terminated by colon",
+            "switch { case true; }",
+            "Expected :, found ;",
+            null),
+        Arguments.of(
+            "switch default not terminated by colon",
+            "switch { default true; }",
+            "Expected :, found true",
+            null),
+        Arguments.of(
+            "switch type mismatch",
+            "switch (1) { case true: }",
+            "Switch conditional has type int but label expression has type boolean",
+            null),
+        Arguments.of(
+            "switch block type mismatch",
+            // Note that the implicit switch type is boolean here.
+            "switch { case 1: }",
+            "Switch conditional has type boolean but label expression has type int",
+            null),
+        Arguments.of(
+            "duplicate switch label",
+            "switch (1) { case 0: case 0: }",
+            "Duplicate case label: 0",
+            null),
+        Arguments.of(
+            "switch, multiple default labels",
+            "switch (1) { default: default: }",
+            "Only one default label allowed in a switch statement",
+            null),
+        Arguments.of(
+            "switch block, multiple default labels",
+            "switch { default: default: }",
+            "Only one default label allowed in a switch statement",
+            null),
+        Arguments.of(
+            "variable definition of sort",
+            "int sort = 0;",
+            null,
+            Arrays.asList("int", "sort", "=", "0", ";")),
+        Arguments.of(
+            "variable declaration of sort", "int sort;", null, Arrays.asList("int", "sort", ";")),
+        Arguments.of(
+            "function named sort",
+            "void sort(){} sort();",
+            null,
+            Arrays.asList("void", "sort", "(", ")", "{", "}", "sort", "(", ")", ";")),
+        Arguments.of(
+            "sort not-a-variable primitive",
+            "sort 2 by value;",
+            "Aggregate reference expected",
+            null),
+        Arguments.of("sort without by", "int[] x {3,2,1}; sort x;", "Expected by, found ;", null),
+        Arguments.of(
+            "Sort, no sorting expression", "int[] x; sort x by", "Expression expected", null),
+        Arguments.of(
+            "valid sort",
+            "int[] x; sort x by value*3;",
+            null,
+            Arrays.asList("int", "[", "]", "x", ";", "sort", "x", "by", "value", "*", "3", ";")),
+        Arguments.of(
+            "foreach with non-identifier key",
+            "foreach 'key' in $items[];",
+            "Key variable name expected",
+            null),
+        Arguments.of(
+            "foreach with reserved key",
+            "foreach item in $items[];",
+            "Reserved word 'item' cannot be a key variable",
+            null),
+        Arguments.of("foreach missing `in`", "foreach it;", "Expected in, found ;", null),
+        Arguments.of(
+            "foreach missing key variable name",
+            "foreach in it;",
+            "Key variable name expected",
+            null),
+        Arguments.of(
+            "foreach key variable named 'in'",
+            "foreach in in it;",
+            "Reserved word 'in' cannot be a key variable name",
+            null),
+        Arguments.of(
+            "foreach key variable named 'in' 2",
+            "foreach in, on, under, below, through in it;",
+            "Reserved word 'in' cannot be a key variable name",
+            null),
+        Arguments.of(
+            "foreach in not-a-reference",
+            "foreach it in $item[none];",
+            "Aggregate reference expected",
+            null),
+        Arguments.of(
+            "foreach with duplicate key",
+            "foreach it, it in $items[];",
+            "Key variable 'it' is already defined",
+            null),
+        Arguments.of(
+            "foreach with multiple keys",
+            "foreach key, value in int[int]{} {}",
+            null,
+            Arrays.asList(
+                "foreach", "key", ",", "value", "in", "int", "[", "int", "]", "{", "}", "{", "}")),
+        Arguments.of(
+            "foreach with too many keys",
+            "foreach a, b, c in $items[];",
+            "Too many key variables specified",
+            null),
+        Arguments.of(
+            "for with reserved index",
+            "for int from 1 upto 10;",
+            "Reserved word 'int' cannot be an index variable",
+            null),
+        Arguments.of(
+            "for with existing index",
+            // Oddly, this is unsupported, when other for loops will create
+            // a nested scope.
+            "int i; for i from 1 upto 10;",
+            "Index variable 'i' is already defined",
+            null),
+        Arguments.of(
+            "for without from", "for i in range(10):\n  print(i)", "Expected from, found in", null),
+        Arguments.of(
+            "for with invalid dest keyword",
+            "for i from 1 until 10;",
+            "Expected to, upto, or downto, found until",
+            null),
+        Arguments.of(
+            "javaFor with multiple declarations",
+            "for (int i=0, int length=5; i < length; i++);",
+            null,
+            Arrays.asList(
+                "for", "(", "int", "i", "=", "0", ",", "int", "length", "=", "5", ";", "i", "<",
+                "length", ";", "i", "++", ")", ";")),
+        Arguments.of(
+            "javaFor with empty initializer",
+            "for (int i=0,; i < 5; ++i);",
+            "Identifier expected",
+            null),
+        Arguments.of(
+            "javaFor with compound increment",
+            "for (int i=0; i < 5; i+=1);",
+            null,
+            Arrays.asList(
+                "for", "(", "int", "i", "=", "0", ";", "i", "<", "5", ";", "i", "+=", "1", ")",
+                ";")),
+        Arguments.of(
+            "javaFor with existing variable",
+            "int i; for (i=0; i < 5; i++);",
+            null,
+            Arrays.asList(
+                "int", "i", ";", "for", "(", "i", "=", "0", ";", "i", "<", "5", ";", "i", "++", ")",
+                ";")),
+        Arguments.of(
+            "javaFor with unknown existing variable",
+            "for (i=0; i < 5; i++);",
+            "Unknown variable 'i'",
+            null),
+        Arguments.of(
+            "javaFor with redefined existing variable",
+            "int i; for (int i=0; i < 5; i++);",
+            "Variable 'i' already defined",
+            null),
+        Arguments.of(
+            "javaFor with not-an-increment",
+            "for (int i=0; i < 5; i==1);",
+            "Variable 'i' not incremented",
+            null),
+        Arguments.of(
+            "javaFor with constant assignment",
+            // I guess this technically works... but will be an infinite
+            // loop in practice.
+            "for (int i=0; i < 5; i=1);",
+            null,
+            Arrays.asList(
+                "for", "(", "int", "i", "=", "0", ";", "i", "<", "5", ";", "i", "=", "1", ")",
+                ";")),
+        Arguments.of(
+            "javaFor missing initial identifier",
+            "for (0; i < 5; i++);",
+            "Identifier required",
+            null),
+        Arguments.of(
+            "javaFor missing initializer expression",
+            "for (int i =; i < 5; i++);",
+            "Expression expected",
+            null),
+        Arguments.of(
+            "javaFor invalid assignment",
+            "for (int i ='abc'; i < 5; i++);",
+            "Cannot store string in i of type int",
+            null),
+        Arguments.of(
+            "javaFor non-boolean condition",
+            "for (int i; i + 5; i++);",
+            "\"for\" requires a boolean conditional expression",
+            null),
+        Arguments.of(
+            "javaFor multiple increments",
+            "for (int i, int j; i + j < 5; i++, j++);",
+            null,
+            Arrays.asList(
+                "for", "(", "int", "i", ",", "int", "j", ";", "i", "+", "j", "<", "5", ";", "i",
+                "++", ",", "j", "++", ")", ";")),
+        Arguments.of(
+            "javaFor interrupted multiple increments",
+            "for (int i; i < 5; i++,);",
+            "Identifier expected",
+            null),
+        Arguments.of(
+            "undefined function call",
+            "prin();",
+            "Function 'prin( )' undefined.  This script may require a more recent version of KoLmafia and/or its supporting scripts.",
+            null),
+        Arguments.of("function call interrupted", "print(", "Expected ), found end of file", null),
+        Arguments.of(
+            "function call interrupted after comma",
+            "print(1,",
+            "Expected parameter, found end of file",
+            null),
+        Arguments.of(
+            "function call closed after comma", "print(1,);", "Expected parameter, found )", null),
+        Arguments.of(
+            "function call interrupted after param",
+            "print(1",
+            "Expected ), found end of file",
+            null),
+        Arguments.of(
+            "function call with non-comma separator", "print(1; 2);", "Expected ), found ;", null),
+        Arguments.of(
+            "function parameter coercion to ANY_TYPE",
+            "dump('foo', 'bar');",
+            null,
+            Arrays.asList("dump", "(", "'foo'", ",", "'bar'", ")", ";")),
+        Arguments.of(
+            "function parameter no typedef coercion",
+            "typedef int foo; foo a = 1; void bar(int x, foo y) {} bar(a, 1);",
+            null,
+            Arrays.asList(
+                "typedef", "int", "foo", ";", "foo", "a", "=", "1", ";", "void", "bar", "(", "int",
+                "x", ",", "foo", "y", ")", "{", "}", "bar", "(", "a", ",", "1", ")", ";")),
+        Arguments.of(
+            "function parameter typedef-to-simple typedef coercion",
+            // Mmh... there's no real way to "prove" the function was used other than
+            // seeing it checked from clover...
+            "typedef int foo; foo a = 1; int to_int(foo x) {return 1;} void bar(int x) {} bar(a);",
+            null,
+            Arrays.asList(
+                "typedef", "int", "foo", ";", "foo", "a", "=", "1", ";", "int", "to_int", "(",
+                "foo", "x", ")", "{", "return", "1", ";", "}", "void", "bar", "(", "int", "x", ")",
+                "{", "}", "bar", "(", "a", ")", ";")),
+        Arguments.of(
+            "function parameter simple-to-typedef typedef coercion",
+            "typedef int foo; foo a = 1; foo to_foo(int x) {return a;} void bar(foo x) {} bar(1);",
+            null,
+            Arrays.asList(
+                "typedef", "int", "foo", ";", "foo", "a", "=", "1", ";", "foo", "to_foo", "(",
+                "int", "x", ")", "{", "return", "a", ";", "}", "void", "bar", "(", "foo", "x", ")",
+                "{", "}", "bar", "(", "1", ")", ";")),
+        Arguments.of(
+            "function invocation interrupted",
+            "call",
+            "Variable reference expected for function name",
+            null),
+        Arguments.of(
+            "function invocation non-string expression",
+            "call (2)()",
+            "String expression expected for function name",
+            null),
+        Arguments.of(
+            "function invocation interrupted after name expression",
+            "call ('foo')",
+            "Expected (, found end of file",
+            null),
+        Arguments.of(
+            "function invocation with non-void function",
+            // ummm this should insist that the variable is a string...
+            "int x; call string x('foo')",
+            null,
+            Arrays.asList("int", "x", ";", "call", "string", "x", "(", "'foo'", ")")),
+        Arguments.of(
+            "preincrement with non-numeric variable",
+            "string x; ++x;",
+            "++X requires a numeric variable reference",
+            null),
+        Arguments.of(
+            "preincrement requires a variable", "++1;", "Variable reference expected", null),
+        Arguments.of(
+            "predecrement with float variable",
+            "float x; --x;",
+            null,
+            Arrays.asList("float", "x", ";", "--", "x", ";")),
+        Arguments.of(
+            "postincrement with non-numeric variable",
+            "string x; x++;",
+            "X++ requires a numeric variable reference",
+            null),
+        /* Currently fails with "Expected ;, found ++" which is asymmetric.
+        Arguments.of(
+          "postincrement requires a variable",
+          "1++;",
+          "Variable reference expected",
+          null),
+        */
+        Arguments.of(
+            "postdecrement with float variable",
+            "float x; x--;",
+            null,
+            Arrays.asList("float", "x", ";", "x", "--", ";")),
+        Arguments.of(
+            "ternary with non-boolean condition",
+            "int x = 1 ? 1 : 2;",
+            "Non-boolean expression 1 (int)",
+            null),
+        Arguments.of(
+            "ternary without lhs", "int x = true ? : 2;", "Value expected in left hand side", null),
+        Arguments.of("ternary without colon", "int x = true ? 1;", "Expected :, found ;", null),
+        Arguments.of(
+            "ternary without rhs",
+            "int x = true ? 1:;",
+            // Another asymmetry: not "Value expected in right hand side"
+            "Value expected",
+            null),
+        Arguments.of(
+            "non-coercible value mismatch",
+            "(true ? 1 : $item[none];",
+            "Cannot choose between 1 (int) and none (item)",
+            null),
+        // parseValue
+        Arguments.of(
+            "unclosed parenthetical expression", "(true", "Expected ), found end of file", null),
+        Arguments.of("aggregate literal without braces", "(int[])", "Expected {, found )", null),
+        Arguments.of(
+            "indexed variable reference",
+            "int[5] x; x[0];",
+            null,
+            Arrays.asList("int", "[", "5", "]", "x", ";", "x", "[", "0", "]", ";")),
+        Arguments.of("indexed primitive", "int x; x[0];", "Variable 'x' cannot be indexed", null),
+        Arguments.of(
+            "over-indexed variable reference", "int[5] x; x[0,1];", "Too many keys for 'x'", null),
+        Arguments.of(
+            "empty indexed variable reference", "int[5] x; x[];", "Index for 'x' expected", null),
+        Arguments.of(
+            "unterminated aggregate variable reference",
+            "int[5] x; x[0",
+            "Expected ], found end of file",
+            null),
+        Arguments.of(
+            "type-mismatched indexed variable reference",
+            "int[5] x; x['str'];",
+            "Index for 'x' has wrong data type (expected int, got string)",
+            null),
+        Arguments.of(
+            "type-mismatched indexed composite reference",
+            "int[5, 5] x; x[0]['str'];",
+            "Index for 'x[]' has wrong data type (expected int, got string)",
+            null),
+        Arguments.of(
+            "multidimensional comma-separated array index",
+            "int[5,5] x; x[0,1];",
+            null,
+            Arrays.asList(
+                "int", "[", "5", ",", "5", "]", "x", ";", "x", "[", "0", ",", "1", "]", ";")),
+        Arguments.of(
+            "multidimensional bracket-separated array index",
+            "int[5,5] x; x[0][1];",
+            null,
+            Arrays.asList(
+                "int", "[", "5", ",", "5", "]", "x", ";", "x", "[", "0", "]", "[", "1", "]", ";")),
+        Arguments.of(
+            "method call of primitive var",
+            "string x = 'hello'; x.print();",
+            null,
+            Arrays.asList("string", "x", "=", "'hello'", ";", "x", ".", "print", "(", ")", ";")),
+        Arguments.of(
+            "method call of aggregate index",
+            "string[2] x; x[0].print();",
+            null,
+            Arrays.asList(
+                "string", "[", "2", "]", "x", ";", "x", "[", "0", "]", ".", "print", "(", ")",
+                ";")),
+        Arguments.of("non-record property reference", "int i; i.a;", "Record expected", null),
+        Arguments.of(
+            "record field reference",
+            "record {int a;} r; r.a;",
+            null,
+            Arrays.asList("record", "{", "int", "a", ";", "}", "r", ";", "r", ".", "a", ";")),
+        Arguments.of(
+            "record field reference without field",
+            "record {int a;} r; r.",
+            "Field name expected",
+            null),
+        Arguments.of(
+            "record unknown field reference",
+            "record {int a;} r; r.b;",
+            "Invalid field name 'b'",
+            null),
+        Arguments.of(
+            "Illegal record creation",
+            "void f( record foo {int a; int b;} bar )",
+            "Existing type expected for function parameter",
+            null),
+        Arguments.of(
+            "array of record",
+            "record {int a;}[] r;",
+            null,
+            Arrays.asList("record", "{", "int", "a", ";", "}", "[", "]", "r", ";")),
+        Arguments.of("standalone new", "new;", "Expected Record name, found ;", null),
+        Arguments.of("new non-record", "int x = new int();", "'int' is not a record type", null),
+        Arguments.of(
+            "new record without parens",
+            // Yields a default-constructed record.
+            "record r {int a;}; new r;",
+            null,
+            Arrays.asList("record", "r", "{", "int", "a", ";", "}", ";", "new", "r", ";")),
+        Arguments.of(
+            "new record with semicolon",
+            "record r {int a;}; new r(;",
+            "Expression expected for field #1 (a)",
+            null),
+        Arguments.of(
+            "new with aggregate field",
+            "record r {int[] a;}; new r({1,2});",
+            null,
+            Arrays.asList(
+                "record", "r", "{", "int", "[", "]", "a", ";", "}", ";", "new", "r", "(", "{", "1",
+                ",", "2", "}", ")", ";")),
+        Arguments.of(
+            "new with field type mismatch",
+            "record r {int a;}; new r('str');",
+            "string found when int expected for field #1 (a)",
+            null),
+        Arguments.of(
+            "new with too many void fields",
+            "record r {int a;}; new r(,,,,,,,);",
+            "Too many field initializers for record r",
+            null),
+        Arguments.of(
+            "new without closing paren",
+            "record r {int a;}; new r(",
+            "Expected ), found end of file",
+            null),
+        Arguments.of(
+            "new without closing paren 2",
+            "record r {int a;}; new r(4",
+            "Expected , or ), found end of file",
+            null),
+        Arguments.of(
+            "new without closing comma separator",
+            "record r {int a; int b;}; new r(4 5)",
+            "Expected , or ), found 5",
+            null),
+        Arguments.of("improper remove", "int i; remove i;", "Aggregate reference expected", null),
+        Arguments.of(
+            "proper remove",
+            "int[] map; remove map[0];",
+            null,
+            Arrays.asList("int", "[", "]", "map", ";", "remove", "map", "[", "0", "]", ";")));
   }
 
   @ParameterizedTest
