@@ -30,7 +30,6 @@ public class AshInteropTest {
     var js = new JavascriptRuntime("getPlayerName(354981)");
     assertEquals("", KoLmafia.lastMessage);
     assertEquals("heeheehee", js.execute(null, null, true).toString());
-
   }
 
   @Test
