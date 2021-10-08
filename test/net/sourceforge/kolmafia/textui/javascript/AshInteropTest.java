@@ -62,16 +62,10 @@ public class AshInteropTest {
   void getPlayerNameInvertsGetPlayerId() {
     ContactManager.registerPlayerId("heeheehee", "354981");
 
-    var js = new JavascriptRuntime("getPlayerId(parseString(getPlayerName(354981)))");
+    var js = new JavascriptRuntime("getPlayerId(getPlayerName(354981).toString())");
     assertEquals("", KoLmafia.lastMessage);
     Value ret = js.execute(null, null, true);
-    // ret is now null, matching other experience.  break in getPlayerName has right values
-    // getPlayerId never called
-    // js.execute threw an exception and returned null
-    // exception was not finding parseString 
     String retS = ret.toString();
-    // currently fails with retS NaN
-    // NaN was a red herring used parseInt when String was wanted
-    assertEquals("heeheehee", retS);
+    assertEquals("354981", retS);
   }
 }
