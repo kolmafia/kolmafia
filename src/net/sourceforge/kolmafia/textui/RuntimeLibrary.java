@@ -7326,7 +7326,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value get_player_name(ScriptRuntime controller, final Value playerIdValue) {
-    String playerId = playerIdValue.toString();
+    String playerId = playerIdValue.toIntValue().toString();
 
     return new Value(ContactManager.getPlayerName(playerId, true));
   }
