@@ -45,7 +45,7 @@ public class AshInteropTest {
     assertEquals("", KoLmafia.lastMessage);
     Value ret = js.execute(null, null, true);
     String retS = ret.toString();
-    //currently fails rith retS 354981.0
+    // currently fails rith retS 354981.0
     assertEquals("heeheehee", retS);
   }
 
@@ -56,7 +56,6 @@ public class AshInteropTest {
     var js = new JavascriptRuntime("getPlayerName(354981.0)");
     assertEquals("", KoLmafia.lastMessage);
     assertEquals(new Value("heeheehee"), js.execute(null, null, true));
-
   }
 
   @Test
@@ -67,7 +66,7 @@ public class AshInteropTest {
     assertEquals("", KoLmafia.lastMessage);
     Value ret = js.execute(null, null, true);
     String retS = ret.toString();
-    //currently fails with retS NaN
+    // currently fails with retS NaN
     assertEquals("heeheehee", retS);
   }
 }
