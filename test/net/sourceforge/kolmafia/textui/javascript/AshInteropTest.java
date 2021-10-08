@@ -62,11 +62,13 @@ public class AshInteropTest {
   void getPlayerNameInvertsGetPlayerId() {
     ContactManager.registerPlayerId("heeheehee", "354981");
 
-    var js = new JavascriptRuntime("getPlayerId(parseInt(getPlayerName(354981)))");
+    var js = new JavascriptRuntime("getPlayerId(parseString(getPlayerName(354981)))");
     assertEquals("", KoLmafia.lastMessage);
     Value ret = js.execute(null, null, true);
+    //ret is now null, matching other experience
     String retS = ret.toString();
     // currently fails with retS NaN
+    //NaN was a red herring used parseInt when String was wanted
     assertEquals("heeheehee", retS);
   }
 }
