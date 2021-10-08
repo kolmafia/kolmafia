@@ -234,7 +234,7 @@ public class AdventureSelectPanel extends JPanel {
     public void setSelectedItem(final Object element) {
       super.setSelectedItem(element);
       this.selectedZone = element;
-      AdventureSelectPanel.this.matchingAdventures.updateFilter();
+      AdventureSelectPanel.this.matchingAdventures.updateFilter(false);
     }
 
     public boolean isVisible(final Object element) {
