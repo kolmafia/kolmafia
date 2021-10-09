@@ -34,12 +34,6 @@ jobs:
       - name: Run Checks (including tests)
         run: ./gradlew --no-daemon check
 
-      - name: Run Checks Java 11 (including tests)
-        env:
-          ORG_GRADLE_PROJECT_javaSourceCompatibility: 11
-          ORG_GRADLE_PROJECT_javaTargetCompatibility: 11
-        run: ./gradlew --no-daemon check
-
       - name: Run Checks Java 17 (including tests)
         env:
           ORG_GRADLE_PROJECT_javaSourceCompatibility: 17
@@ -52,14 +46,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: "**/build/test-results/test/TEST-*.xml"
-
-  # Our branch protection requires a check called "Run Tests".
-  # This is incompatible with the strategy matrix we use above, since that
-  # mutates the job name for each subjob. Thus, create a single dependent task
-  # that blocks on all of the components of `check` passing before it runs.
-  test:
-    needs: check
-    name: Run Tests
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo 'All checks succeeded.'
