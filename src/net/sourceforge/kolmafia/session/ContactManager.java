@@ -4,279 +4,233 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
-
 import net.sourceforge.kolmafia.RequestThread;
-
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.ChatSender;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ContactListRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
-
 import net.sourceforge.kolmafia.swingui.ContactListFrame;
-
 import net.sourceforge.kolmafia.utilities.HTMLListEntry;
 
-public class ContactManager
-{
-	private static final HashMap<String, String> seenPlayerIds = new HashMap<>();
-	private static final HashMap<String, String> seenPlayerNames = new HashMap<>();
+public class ContactManager {
+  private static final HashMap<String, String> seenPlayerIds = new HashMap<>();
+  private static final HashMap<String, String> seenPlayerNames = new HashMap<>();
 
-	private static final SortedListModel<String> mailContacts = new SortedListModel<>();
-	private static final SortedListModel<HTMLListEntry> chatContacts = new SortedListModel<>();
+  private static final SortedListModel<String> mailContacts = new SortedListModel<>();
+  private static final SortedListModel<HTMLListEntry> chatContacts = new SortedListModel<>();
 
-	private static ContactListFrame contactsFrame = null;
+  private static ContactListFrame contactsFrame = null;
 
-	public static final void updateMailContacts()
-	{
-		if ( ContactManager.mailContacts.isEmpty() &&
-		     !CharPaneRequest.inValhalla() &&
-		     !FightRequest.initializingAfterFight() &&
-		     !ChoiceManager.initializingAfterChoice() )
-		{
-			RequestThread.postRequest( new ContactListRequest() );
-		}
-	}
+  public static final void updateMailContacts() {
+    if (ContactManager.mailContacts.isEmpty()
+        && !CharPaneRequest.inValhalla()
+        && !FightRequest.initializingAfterFight()
+        && !ChoiceManager.initializingAfterChoice()) {
+      RequestThread.postRequest(new ContactListRequest());
+    }
+  }
 
-	public static final boolean isMailContact( final String playerName )
-	{
-		return ContactManager.mailContacts.contains( playerName );
-	}
+  public static final boolean isMailContact(final String playerName) {
+    return ContactManager.mailContacts.contains(playerName);
+  }
 
-	public static final LockableListModel<String> getMailContacts()
-	{
-		return ContactManager.mailContacts;
-	}
+  public static final LockableListModel<String> getMailContacts() {
+    return ContactManager.mailContacts;
+  }
 
-	public static final void clearMailContacts()
-	{
-		ContactManager.mailContacts.clear();
-	}
+  public static final void clearMailContacts() {
+    ContactManager.mailContacts.clear();
+  }
 
-	/**
-	 * Replaces the current contact list with the given contact list. This is used after every call to /friends or /who.
-	 */
+  /**
+   * Replaces the current contact list with the given contact list. This is used after every call to
+   * /friends or /who.
+   */
+  public static final void updateContactList(
+      final String title, final Map<String, Boolean> contacts) {
+    if (!ChatManager.isRunning()) {
+      return;
+    }
 
-	public static final void updateContactList( final String title, final Map<String, Boolean> contacts )
-	{
-		if ( !ChatManager.isRunning() )
-		{
-			return;
-		}
+    ContactManager.chatContacts.clear();
 
-		ContactManager.chatContacts.clear();
+    for (Entry<String, Boolean> entry : contacts.entrySet()) {
+      String playerName = entry.getKey().toLowerCase();
+      String color = entry.getValue() == Boolean.TRUE ? "black" : "gray";
 
-		for ( Entry<String, Boolean> entry : contacts.entrySet() )
-		{
-			String playerName = entry.getKey().toLowerCase();
-			String color = entry.getValue() == Boolean.TRUE ? "black" : "gray";
+      ContactManager.chatContacts.add(new HTMLListEntry(playerName, color));
+    }
 
-			ContactManager.chatContacts.add( new HTMLListEntry( playerName, color ) );
-		}
+    if (Preferences.getBoolean("useContactsFrame")) {
+      if (ContactManager.contactsFrame == null) {
+        ContactManager.contactsFrame = new ContactListFrame(ContactManager.chatContacts);
+      }
 
-		if ( Preferences.getBoolean( "useContactsFrame" ) )
-		{
-			if ( ContactManager.contactsFrame == null )
-			{
-				ContactManager.contactsFrame = new ContactListFrame( ContactManager.chatContacts );
-			}
+      ContactManager.contactsFrame.setTitle(title);
+      ContactManager.contactsFrame.setVisible(true);
+    }
+  }
 
-			ContactManager.contactsFrame.setTitle( title );
-			ContactManager.contactsFrame.setVisible( true );
-		}
-	}
+  public static final void addMailContact(String playerName, final String playerId) {
+    ContactManager.registerPlayerId(playerName, playerId);
 
-	public static final void addMailContact( String playerName, final String playerId )
-	{
-		ContactManager.registerPlayerId( playerName, playerId );
+    playerName = playerName.toLowerCase().replaceAll("[^0-9A-Za-z_ ]", "");
 
-		playerName = playerName.toLowerCase().replaceAll( "[^0-9A-Za-z_ ]", "" );
+    if (!ContactManager.mailContacts.contains(playerName)) {
+      ContactManager.mailContacts.add(playerName.toLowerCase());
+    }
+  }
 
-		if ( !ContactManager.mailContacts.contains( playerName ) )
-		{
-			ContactManager.mailContacts.add( playerName.toLowerCase() );
-		}
-	}
+  /**
+   * Registers the given player name and player Id with KoLmafia's player name tracker.
+   *
+   * @param playerName The name of the player
+   * @param playerId The player Id associated with this player
+   */
+  public static final void registerPlayerId(String playerName, final String playerId) {
+    if (playerId.startsWith("-")) {
+      return;
+    }
 
-	/**
-	 * Registers the given player name and player Id with KoLmafia's player name tracker.
-	 *
-	 * @param playerName The name of the player
-	 * @param playerId The player Id associated with this player
-	 */
+    String lowercase = playerName.toLowerCase().trim();
 
-	public static final void registerPlayerId( String playerName, final String playerId )
-	{
-		if ( playerId.startsWith( "-" ) )
-		{
-			return;
-		}
+    if (ContactManager.seenPlayerIds.containsKey(lowercase)) {
+      return;
+    }
 
-		String lowercase = playerName.toLowerCase().trim();
+    ContactManager.seenPlayerIds.put(lowercase, playerId);
+    ContactManager.seenPlayerNames.put(playerId, playerName);
+  }
 
-		if ( ContactManager.seenPlayerIds.containsKey( lowercase ) )
-		{
-			return;
-		}
+  /**
+   * Returns the string form of the player Id associated with the given player name.
+   *
+   * @param playerName The name of the player
+   * @return The player's Id if the player has been seen, or the player's name with spaces replaced
+   *     with underscores and other elements encoded if the player's Id has not been seen.
+   */
+  public static final String getPlayerId(final String playerName) {
+    return ContactManager.getPlayerId(playerName, false);
+  }
 
-		ContactManager.seenPlayerIds.put( lowercase, playerId );
-		ContactManager.seenPlayerNames.put( playerId, playerName );
-	}
+  public static final String getPlayerId(final String playerName, boolean retrieveId) {
+    if (playerName == null) {
+      return null;
+    }
 
-	/**
-	 * Returns the string form of the player Id associated with the given player name.
-	 *
-	 * @param playerName The name of the player
-	 * @return The player's Id if the player has been seen, or the player's name with spaces replaced with underscores
-	 *         and other elements encoded if the player's Id has not been seen.
-	 */
+    String playerId = ContactManager.seenPlayerIds.get(playerName.toLowerCase());
 
-	public static final String getPlayerId( final String playerName )
-	{
-		return ContactManager.getPlayerId( playerName, false );
-	}
+    if (playerId != null) {
+      return playerId;
+    }
 
-	public static final String getPlayerId( final String playerName, boolean retrieveId )
-	{
-		if ( playerName == null )
-		{
-			return null;
-		}
+    if (!retrieveId) {
+      return playerName;
+    }
 
-		String playerId = ContactManager.seenPlayerIds.get( playerName.toLowerCase() );
+    ChatSender.executeMacro("/whois " + playerName);
 
-		if ( playerId != null )
-		{
-			return playerId;
-		}
+    return ContactManager.getPlayerId(playerName, false);
+  }
 
-		if ( !retrieveId )
-		{
-			return playerName;
-		}
+  /**
+   * Returns the string form of the player Id associated with the given player name.
+   *
+   * @param playerId The Id of the player
+   * @return The player's name if it has been seen, or null if it has not yet appeared in the chat
+   *     (not likely, but possible).
+   */
+  public static final String getPlayerName(final String playerId) {
+    return ContactManager.getPlayerName(playerId, false);
+  }
 
-		ChatSender.executeMacro( "/whois " + playerName );
+  public static final String getPlayerName(final String playerId, boolean retrieveName) {
+    if (playerId == null) {
+      return null;
+    }
 
-		return ContactManager.getPlayerId( playerName, false );
-	}
+    String playerName = ContactManager.seenPlayerNames.get(playerId);
 
-	/**
-	 * Returns the string form of the player Id associated with the given player name.
-	 *
-	 * @param playerId The Id of the player
-	 * @return The player's name if it has been seen, or null if it has not yet appeared in the chat (not likely, but
-	 *         possible).
-	 */
+    if (playerName != null) {
+      return playerName;
+    }
 
-	public static final String getPlayerName( final String playerId )
-	{
-		return ContactManager.getPlayerName( playerId, false );
-	}
+    if (!retrieveName) {
+      return playerId;
+    }
 
-	public static final String getPlayerName( final String playerId, boolean retrieveName )
-	{
-		if ( playerId == null )
-		{
-			return null;
-		}
+    ChatSender.executeMacro("/whois " + playerId);
 
-		String playerName = ContactManager.seenPlayerNames.get( playerId );
+    return ContactManager.getPlayerName(playerId, false);
+  }
 
-		if ( playerName != null )
-		{
-			return playerName;
-		}
+  public static final String[] extractTargets(final String targetList) {
+    // If there are no targets in the list, then
+    // return absolutely nothing.
 
-		if ( !retrieveName )
-		{
-			return playerId;
-		}
+    if (targetList == null || targetList.trim().length() == 0) {
+      return new String[0];
+    }
 
-		ChatSender.executeMacro( "/whois " + playerId );
+    // Otherwise, split the list of targets, and
+    // determine who all the unique targets are.
 
-		return ContactManager.getPlayerName( playerId, false );
-	}
+    String[] targets = targetList.trim().split("\\s*,\\s*");
+    for (int i = 0; i < targets.length; ++i) {
+      targets[i] = getPlayerId(targets[i]) == null ? targets[i] : getPlayerId(targets[i]);
+    }
 
-	public static final String[] extractTargets( final String targetList )
-	{
-		// If there are no targets in the list, then
-		// return absolutely nothing.
+    // Sort the list in order to increase the
+    // speed of duplicate detection.
 
-		if ( targetList == null || targetList.trim().length() == 0 )
-		{
-			return new String[ 0 ];
-		}
+    Arrays.sort(targets);
 
-		// Otherwise, split the list of targets, and
-		// determine who all the unique targets are.
+    // Determine who all the duplicates are.
 
-		String[] targets = targetList.trim().split( "\\s*,\\s*" );
-		for ( int i = 0; i < targets.length; ++i )
-		{
-			targets[ i ] =
-				getPlayerId( targets[ i ] ) == null ? targets[ i ] : getPlayerId( targets[ i ] );
-		}
+    int uniqueListSize = targets.length;
+    for (int i = 1; i < targets.length; ++i) {
+      if (targets[i].equals(targets[i - 1])) {
+        targets[i - 1] = null;
+        --uniqueListSize;
+      }
+    }
 
-		// Sort the list in order to increase the
-		// speed of duplicate detection.
+    // Now, create the list of unique targets;
+    // if the list has the same size as the original,
+    // you can skip this step.
 
-		Arrays.sort( targets );
+    if (uniqueListSize != targets.length) {
+      int addedCount = 0;
+      String[] uniqueList = new String[uniqueListSize];
+      for (int i = 0; i < targets.length; ++i) {
+        if (targets[i] != null) {
+          uniqueList[addedCount++] = targets[i];
+        }
+      }
 
-		// Determine who all the duplicates are.
+      targets = uniqueList;
+    }
 
-		int uniqueListSize = targets.length;
-		for ( int i = 1; i < targets.length; ++i )
-		{
-			if ( targets[ i ].equals( targets[ i - 1 ] ) )
-			{
-				targets[ i - 1 ] = null;
-				--uniqueListSize;
-			}
-		}
+    // Convert all the user Ids back to the
+    // original player names so that the results
+    // are easy to understand for the user.
 
-		// Now, create the list of unique targets;
-		// if the list has the same size as the original,
-		// you can skip this step.
+    for (int i = 0; i < targets.length; ++i) {
+      targets[i] = getPlayerName(targets[i]) == null ? targets[i] : getPlayerName(targets[i]);
+    }
 
-		if ( uniqueListSize != targets.length )
-		{
-			int addedCount = 0;
-			String[] uniqueList = new String[ uniqueListSize ];
-			for ( int i = 0; i < targets.length; ++i )
-			{
-				if ( targets[ i ] != null )
-				{
-					uniqueList[ addedCount++ ] = targets[ i ];
-				}
-			}
+    // Sort the list one more time, this time
+    // by player name.
 
-			targets = uniqueList;
-		}
+    Arrays.sort(targets);
 
-		// Convert all the user Ids back to the
-		// original player names so that the results
-		// are easy to understand for the user.
+    // Parsing complete. Return the list of
+    // unique targets.
 
-		for ( int i = 0; i < targets.length; ++i )
-		{
-			targets[ i ] =
-				getPlayerName( targets[ i ] ) == null ? targets[ i ] : getPlayerName( targets[ i ] );
-		}
-
-		// Sort the list one more time, this time
-		// by player name.
-
-		Arrays.sort( targets );
-
-		// Parsing complete. Return the list of
-		// unique targets.
-
-		return targets;
-	}
+    return targets;
+  }
 }

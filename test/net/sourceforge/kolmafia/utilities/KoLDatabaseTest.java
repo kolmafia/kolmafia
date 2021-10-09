@@ -1,11 +1,11 @@
 package net.sourceforge.kolmafia.utilities;
 
-import static org.junit.Assert.*;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import net.sourceforge.kolmafia.KoLConstants;
+import org.junit.jupiter.api.Test;
 
 public class KoLDatabaseTest {
 

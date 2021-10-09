@@ -1,111 +1,90 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
-
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import org.eclipse.lsp4j.Location;
 
-import net.sourceforge.kolmafia.KoLmafia;
+public class WhileLoop extends Loop {
+  private final Value condition;
 
-import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.AshRuntime;
-import net.sourceforge.kolmafia.textui.ScriptRuntime;
+  public WhileLoop(final Location location, final Scope scope, final Value condition) {
+    super(location, scope);
+    this.condition = condition;
+  }
 
-public class WhileLoop
-	extends Loop
-{
-	private final Value condition;
+  public Value getCondition() {
+    return this.condition;
+  }
 
-	public WhileLoop( final Location location, final Scope scope, final Value condition )
-	{
-		super( location, scope );
-		this.condition = condition;
-	}
+  @Override
+  public Value execute(final AshRuntime interpreter) {
+    if (!KoLmafia.permitsContinue()) {
+      interpreter.setState(ScriptRuntime.State.EXIT);
+      return null;
+    }
 
-	public Value getCondition()
-	{
-		return this.condition;
-	}
+    interpreter.traceIndent();
+    if (ScriptRuntime.isTracing()) {
+      interpreter.trace(this.toString());
+    }
 
-	@Override
-	public Value execute( final AshRuntime interpreter )
-	{
-		if ( !KoLmafia.permitsContinue() )
-		{
-			interpreter.setState( ScriptRuntime.State.EXIT );
-			return null;
-		}
+    while (true) {
+      if (ScriptRuntime.isTracing()) {
+        interpreter.trace("Test: " + this.condition);
+      }
 
-		interpreter.traceIndent();
-		if ( ScriptRuntime.isTracing() )
-		{
-			interpreter.trace( this.toString() );
-		}
+      Value conditionResult = this.condition.execute(interpreter);
+      interpreter.captureValue(conditionResult);
 
-		while ( true )
-		{
-			if ( ScriptRuntime.isTracing() )
-			{
-				interpreter.trace( "Test: " + this.condition );
-			}
+      if (ScriptRuntime.isTracing()) {
+        interpreter.trace("[" + interpreter.getState() + "] <- " + conditionResult);
+      }
 
-			Value conditionResult = this.condition.execute( interpreter );
-			interpreter.captureValue( conditionResult );
+      if (conditionResult == null) {
+        interpreter.traceUnindent();
+        return null;
+      }
 
-			if ( ScriptRuntime.isTracing() )
-			{
-				interpreter.trace( "[" + interpreter.getState() + "] <- " + conditionResult );
-			}
+      if (conditionResult.intValue() != 1) {
+        break;
+      }
 
-			if ( conditionResult == null )
-			{
-				interpreter.traceUnindent();
-				return null;
-			}
+      Value result = super.execute(interpreter);
 
-			if ( conditionResult.intValue() != 1 )
-			{
-				break;
-			}
+      if (interpreter.getState() == ScriptRuntime.State.BREAK) {
+        interpreter.setState(ScriptRuntime.State.NORMAL);
+        interpreter.traceUnindent();
+        return DataTypes.VOID_VALUE;
+      }
 
-			Value result = super.execute( interpreter );
+      if (interpreter.getState() != ScriptRuntime.State.NORMAL) {
+        interpreter.traceUnindent();
+        return result;
+      }
+    }
 
-			if ( interpreter.getState() == ScriptRuntime.State.BREAK )
-			{
-				interpreter.setState( ScriptRuntime.State.NORMAL );
-				interpreter.traceUnindent();
-				return DataTypes.VOID_VALUE;
-			}
+    interpreter.traceUnindent();
+    return DataTypes.VOID_VALUE;
+  }
 
-			if ( interpreter.getState() != ScriptRuntime.State.NORMAL )
-			{
-				interpreter.traceUnindent();
-				return result;
-			}
-		}
+  @Override
+  public boolean assertBarrier() {
+    return this.condition == DataTypes.TRUE_VALUE && !this.getScope().assertBreakable();
+  }
 
-		interpreter.traceUnindent();
-		return DataTypes.VOID_VALUE;
-	}
+  @Override
+  public String toString() {
+    return "while";
+  }
 
-	@Override
-	public boolean assertBarrier()
-	{
-		return this.condition == DataTypes.TRUE_VALUE &&
-			!this.getScope().assertBreakable();
-	}
-
-	@Override
-	public String toString()
-	{
-		return "while";
-	}
-
-	@Override
-	public void print( final PrintStream stream, final int indent )
-	{
-		AshRuntime.indentLine( stream, indent );
-		stream.println( "<WHILE>" );
-		this.getCondition().print( stream, indent + 1 );
-		this.getScope().print( stream, indent + 1 );
-	}
+  @Override
+  public void print(final PrintStream stream, final int indent) {
+    AshRuntime.indentLine(stream, indent);
+    stream.println("<WHILE>");
+    this.getCondition().print(stream, indent + 1);
+    this.getScope().print(stream, indent + 1);
+  }
 }

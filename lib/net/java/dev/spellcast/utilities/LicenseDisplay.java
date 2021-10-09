@@ -37,10 +37,12 @@ package net.java.dev.spellcast.utilities;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.SystemColor;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.net.URI;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -57,8 +59,6 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
-import com.centerkey.BareBonesBrowserLaunch;
 
 public class LicenseDisplay
 	extends JFrame
@@ -268,7 +268,11 @@ public class LicenseDisplay
 			if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED )
 			{
 				String location = e.getDescription();
-				BareBonesBrowserLaunch.openURL( location );
+				URI uri = URI.create(location);
+				try {
+					Desktop.getDesktop().browse(uri);
+				} catch (IOException error) {
+				}
 			}
 		}
 	}

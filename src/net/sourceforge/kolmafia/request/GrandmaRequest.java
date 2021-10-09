@@ -2,69 +2,58 @@ package net.sourceforge.kolmafia.request;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 
-public class GrandmaRequest
-	extends CreateItemRequest
-{
-	public GrandmaRequest( final Concoction conc )
-	{
-		super( "shop.php", conc );
+public class GrandmaRequest extends CreateItemRequest {
+  public GrandmaRequest(final Concoction conc) {
+    super("shop.php", conc);
 
-		this.addFormField( "whichshop", "grandma" );
-		this.addFormField( "action", "buyitem" );
-		int row = ConcoctionPool.idToRow( this.getItemId() );
-		this.addFormField( "whichrow", String.valueOf( row ) );
-	}
+    this.addFormField("whichshop", "grandma");
+    this.addFormField("action", "buyitem");
+    int row = ConcoctionPool.idToRow(this.getItemId());
+    this.addFormField("whichrow", String.valueOf(row));
+  }
 
-	@Override
-	public void run()
-	{
-		// Attempt to retrieve the ingredients
-		if ( !this.makeIngredients() )
-		{
-			return;
-		}
+  @Override
+  public void run() {
+    // Attempt to retrieve the ingredients
+    if (!this.makeIngredients()) {
+      return;
+    }
 
-		KoLmafia.updateDisplay( "Creating " + this.getQuantityNeeded() + " " + this.getName() + "..." );
-		this.addFormField( "quantity", String.valueOf( this.getQuantityNeeded() ) );
-		super.run();
-	}
+    KoLmafia.updateDisplay("Creating " + this.getQuantityNeeded() + " " + this.getName() + "...");
+    this.addFormField("quantity", String.valueOf(this.getQuantityNeeded()));
+    super.run();
+  }
 
-	@Override
-	public void processResults()
-	{
-		String urlString = this.getURLString();
-		String responseText = this.responseText;
+  @Override
+  public void processResults() {
+    String urlString = this.getURLString();
+    String responseText = this.responseText;
 
-		if ( urlString.contains( "action=buyitem" ) && !responseText.contains( "You acquire" ) )
-		{
-			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "Buying from Grandma was unsuccessful." );
-			return;
-		}
+    if (urlString.contains("action=buyitem") && !responseText.contains("You acquire")) {
+      KoLmafia.updateDisplay(
+          KoLConstants.MafiaState.ERROR, "Buying from Grandma was unsuccessful.");
+      return;
+    }
 
-		GrandmaRequest.parseResponse( urlString, responseText );
-	}
+    GrandmaRequest.parseResponse(urlString, responseText);
+  }
 
-	public static void parseResponse( final String urlString, final String responseText )
-	{
-		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=grandma" ) )
-		{
-			return;
-		}
+  public static void parseResponse(final String urlString, final String responseText) {
+    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=grandma")) {
+      return;
+    }
 
-		NPCPurchaseRequest.parseShopRowResponse( urlString, responseText );
-	}
+    NPCPurchaseRequest.parseShopRowResponse(urlString, responseText);
+  }
 
-	public static final boolean registerRequest( final String urlString )
-	{
-		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=grandma" ) )
-		{
-			return false;
-		}
+  public static final boolean registerRequest(final String urlString) {
+    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=grandma")) {
+      return false;
+    }
 
-		return NPCPurchaseRequest.registerShopRowRequest( urlString );
-	}
+    return NPCPurchaseRequest.registerShopRowRequest(urlString);
+  }
 }

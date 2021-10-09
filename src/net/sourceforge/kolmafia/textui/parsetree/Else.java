@@ -1,59 +1,47 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
-
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import org.eclipse.lsp4j.Location;
 
-import net.sourceforge.kolmafia.KoLmafia;
+public class Else extends Conditional {
+  public Else(final Location location, final Scope scope, final Value condition) {
+    super(location, scope, condition);
+  }
 
-import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.AshRuntime;
-import net.sourceforge.kolmafia.textui.ScriptRuntime;
+  @Override
+  public Value execute(final AshRuntime interpreter) {
+    if (!KoLmafia.permitsContinue()) {
+      interpreter.setState(ScriptRuntime.State.EXIT);
+      return null;
+    }
 
-public class Else
-	extends Conditional
-{
-	public Else( final Location location, final Scope scope, final Value condition )
-	{
-		super( location, scope, condition );
-	}
+    interpreter.traceIndent();
+    if (ScriptRuntime.isTracing()) {
+      interpreter.trace("else");
+    }
+    Value result = this.scope.execute(interpreter);
+    interpreter.traceUnindent();
 
-	@Override
-	public Value execute( final AshRuntime interpreter )
-	{
-		if ( !KoLmafia.permitsContinue() )
-		{
-			interpreter.setState( ScriptRuntime.State.EXIT );
-			return null;
-		}
+    if (interpreter.getState() != ScriptRuntime.State.NORMAL) {
+      return result;
+    }
 
-		interpreter.traceIndent();
-		if ( ScriptRuntime.isTracing() )
-		{
-			interpreter.trace( "else" );
-		}
-		Value result = this.scope.execute( interpreter );
-		interpreter.traceUnindent();
+    return DataTypes.TRUE_VALUE;
+  }
 
-		if ( interpreter.getState() != ScriptRuntime.State.NORMAL )
-		{
-			return result;
-		}
+  @Override
+  public String toString() {
+    return "else";
+  }
 
-		return DataTypes.TRUE_VALUE;
-	}
-
-	@Override
-	public String toString()
-	{
-		return "else";
-	}
-
-	@Override
-	public void print( final PrintStream stream, final int indent )
-	{
-		AshRuntime.indentLine( stream, indent );
-		stream.println( "<ELSE>" );
-		this.getScope().print( stream, indent + 1 );
-	}
+  @Override
+  public void print(final PrintStream stream, final int indent) {
+    AshRuntime.indentLine(stream, indent);
+    stream.println("<ELSE>");
+    this.getScope().print(stream, indent + 1);
+  }
 }

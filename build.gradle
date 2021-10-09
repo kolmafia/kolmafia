@@ -1,251 +1,299 @@
 //-*- mode: groovy -*-
 
 plugins {
-  id 'application'
-  id 'java'
-  id 'com.bmuschko.clover' version '3.0.1'
-  id 'net.nemerosa.versioning' version '2.8.2'
-  id 'com.github.johnrengelman.shadow' version '6.0.0'
+	id 'application'
+	id 'jacoco'
+	id 'java'
+
+	id 'com.diffplug.spotless' version '5.15.1'
+	id 'com.github.johnrengelman.shadow' version '6.0.0'
+	id 'net.nemerosa.versioning' version '2.8.2'
+	id 'org.ajoberstar.grgit' version '4.1.0'
+	id "org.panteleyev.jpackageplugin" version "1.3.1"
 }
 mainClassName = 'net.sourceforge.kolmafia.KoLmafia'
 
-ant.importBuild('build.xml') { String oldTargetName ->
-  return 'ant_' + oldTargetName
-}
-
 sourceSets {
-  main {
-    java {
-      srcDirs = [ 'src', 'lib' ]
-      destinationDirectory.set(file('build/main'))
-    }
-    resources {
-      srcDirs = [ 'src', 'lib' ]
-      excludes = ['**/*.java', '**/*.jar']
-    }
-  }
+	main {
+		java {
+			srcDirs = ['src', 'lib']
+			destinationDirectory.set(file('build/main'))
+		}
+		resources {
+			srcDirs = ['src', 'lib']
+			excludes = ['**/*.java', '**/*.jar']
+		}
+	}
 
-  lib {
-    java {
-      srcDirs = [ 'lib' ]
-      destinationDirectory.set(file('build/lib'))
-    }
-  }
+	lib {
+		java {
+			srcDirs = ['lib']
+			destinationDirectory.set(file('build/lib'))
+		}
+	}
 
-  test {
-    java {
-      srcDirs = [ 'test' ]
-      destinationDirectory.set(file('build/test'))
-    }
-  }
+	test {
+		java {
+			srcDirs = ['test']
+			destinationDirectory.set(file('build/test'))
+		}
+	}
 }
 
 repositories {
-  // Use Maven Central for resolving dependencies.
-  mavenCentral()
-}
-
-configurations {
-  toCopy
-  implementation.canBeResolved = true
+	// Use Maven Central for resolving dependencies.
+	mavenCentral()
 }
 
 dependencies {
-  // Use JUnit Jupiter for testing. At least, that's the eventual plan.
-  testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.7.1'
-  testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.7.2'
+	// Use JUnit Jupiter for running JUnit5 tests.
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.8.0'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter:5.8.0'
 
-  testImplementation 'org.hamcrest:hamcrest:2.2'
-  testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
-  testImplementation 'junit:junit:4.13.2'
+	testImplementation 'org.hamcrest:hamcrest:2.2'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.0'
+	testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.0'
+	testImplementation 'org.mockito:mockito-core:3.+'
 
-  clover 'org.openclover:clover:4.4.1'
+	implementation 'com.formdev:flatlaf:1.6'
+	implementation 'com.formdev:flatlaf-intellij-themes:1.6'
+	implementation 'com.formdev:flatlaf-swingx:1.6'
+	// Optional runtime deps for svnkit
+	runtimeOnly 'com.trilead:trilead-ssh2:1.0.0-build222'
+	runtimeOnly 'net.java.dev.jna:jna:5.9.0'
+	runtimeOnly 'net.java.dev.jna:jna-platform:5.9.0'
+	runtimeOnly 'org.antlr:antlr-runtime:3.5.2'
 
-  implementation 'com.formdev:flatlaf:1.5'
-  implementation 'com.formdev:flatlaf-intellij-themes:1.5'
-  // Optional runtime deps for svnkit
-  runtimeOnly 'com.trilead:trilead-ssh2:1.0.0-build222'
-  runtimeOnly 'net.java.dev.jna:jna:5.6.0'
-  runtimeOnly 'net.java.dev.jna:jna-platform:5.6.0'
-  runtimeOnly 'org.antlr:antlr-runtime:3.4'
+	libImplementation 'org.swinglabs:swingx:1.0'
 
-  libImplementation 'org.swinglabs:swingx:1.0'
+	implementation files('build/lib') {
+		builtBy 'compileLibJava'
+	}
 
-  implementation files('build/lib') {
-    builtBy 'compileLibJava'
-  }
-
-  implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.24'
-  implementation('org.eclipse.lsp4j:org.eclipse.lsp4j:0.12.0') {
-    exclude group: 'org.eclipse.xtend', module: 'org.eclipse.xtend.lib'
-  }
-  implementation 'org.fusesource.jansi:jansi:2.3.2'
-  implementation 'org.json:json:20210307'
-  implementation 'org.mozilla:rhino:1.7.13'
-  implementation 'org.swinglabs:swingx:1.0'
-  implementation 'org.tmatesoft.svnkit:svnkit:1.10.3'
-
-  toCopy 'org.swinglabs:swingx:1.0'
+	implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.24'
+	implementation('org.eclipse.lsp4j:org.eclipse.lsp4j:0.12.0') {
+		exclude group: 'org.eclipse.xtend', module: 'org.eclipse.xtend.lib'
+	}
+	implementation 'org.fusesource.jansi:jansi:2.3.4'
+	implementation 'org.json:json:20210307'
+	implementation 'org.mozilla:rhino:1.7.13'
+	implementation 'org.swinglabs:swingx:1.0'
+	implementation 'org.tmatesoft.svnkit:svnkit:1.10.3'
 }
 
 application {
-  // Define the main class for the application.
-  mainClass = 'net.sourceforge.kolmafia.KoLmafia'
+	// Define the main class for the application.
+	mainClass = 'net.sourceforge.kolmafia.KoLmafia'
+}
+
+spotless {
+	format 'misc', {
+		target '.gitignore'
+
+		trimTrailingWhitespace()
+		indentWithSpaces(2)
+		endWithNewline()
+	}
+
+	freshmark {
+		target '*.md'
+	}
+
+	groovyGradle {
+		greclipse()
+	}
+	java {
+		target 'src/**/*.java', 'test/**/*.java'
+		googleJavaFormat()
+	}
 }
 
 task cleanDist(type: Delete) {
-  onlyIf {
-    file('dist').exists()
-  }
-  inputs.dir('dist')
-  outputs.upToDateWhen { true }
-  doLast {
-    file('dist').eachFile(groovy.io.FileType.FILES) { File file ->
-      if (file.name.startsWith('KoLmafia-') && file.name.endsWith('.jar')) {
-          delete file
-      }
-    }
-  }
+	onlyIf {
+		file('dist').exists()
+	}
+	inputs.dir('dist')
+	outputs.upToDateWhen { true }
+	doLast {
+		file('dist').eachFile(groovy.io.FileType.FILES) { File file ->
+			if (file.name.startsWith('KoLmafia-') && file.name.endsWith('.jar')) {
+				delete file
+			}
+		}
+	}
 }
 
 task pruneDist(type: Delete) {
-  onlyIf {
-    file('dist').exists()
-  }
-  inputs.dir('dist')
-  outputs.upToDateWhen { true }
-  doLast {
-    file('dist').eachFile(groovy.io.FileType.FILES) { File file ->
-      if (file.name.startsWith('KoLmafia-') && file.name.endsWith('.jar')) {
-        if (!file.name.contains(project.getVersion()) || (versioning.info.dirty != file.name.endsWith('-M.jar'))) {
-          delete file
-        }
-      }
-    }
-  }
+	onlyIf {
+		file('dist').exists()
+	}
+	inputs.dir('dist')
+	outputs.upToDateWhen { true }
+	doLast {
+		file('dist').eachFile(groovy.io.FileType.FILES) { File file ->
+			if (file.name.startsWith('KoLmafia-') && file.name.endsWith('.jar')) {
+				if (!file.name.contains(project.getVersion().toString()) || (versioning.info.dirty != file.name.endsWith('-M.jar'))) {
+					delete file
+				}
+			}
+		}
+	}
 }
 
 test {
-  useJUnitPlatform()
-  // Exclude Clover-instrumented inner classes...
-  exclude '**/*$__CLR*.class'
+	useJUnitPlatform()
 
-  systemProperty 'line.separator', '\n'
-  jvmArgs '-DuseCWDasROOT=true'
-  workingDir 'test/root'
+	systemProperty 'line.separator', '\n'
+	jvmArgs '-DuseCWDasROOT=true'
+	workingDir 'test/root'
 
-  reports {
-    html.enabled = true
-    junitXml.enabled = true
-  }
+	reports {
+		html.enabled = true
+		junitXml.enabled = true
+	}
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled = true
+	}
+}
+
+configurations {
+	implementation.canBeResolved = true
 }
 
 jar {
-  manifest {
-    attributes(
-      'Main-Class'      : 'net.sourceforge.kolmafia.KoLmafia',
-      'Build-Revision'  : new Object() { String toString() { project.getVersion() } },
-      'Build-Branch'    : versioning.info.branch,
-      'Build-Commit'    : versioning.info.commit,
-      'Build-Jdk'       : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
-      'Build-OS'        : "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}"
-    )
-  }
+	manifest {
+		attributes(
+				'Main-Class'      : 'net.sourceforge.kolmafia.KoLmafia',
+				'Build-Revision'  : new Object() { String toString() { project.getVersion() } },
+				'Build-Branch'    : versioning.info.branch,
+				'Build-Commit'    : versioning.info.commit,
+				'Build-Dirty'     : versioning.info.dirty,
+				'Build-Jdk'       : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
+				'Build-OS'        : "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}"
+				)
+	}
 
-  from { configurations.implementation.collect { it.isDirectory() ? it : zipTree(it) } } {
-    exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
-  }
-  duplicatesStrategy = 'exclude'
-  destinationDirectory = file('dist/')
-  archiveBaseName.set("KoLmafia")
-  archiveClassifier.set("${versioning.info.dirty ? 'M' : ''}")
+	from { configurations.implementation.collect { it.isDirectory() ? it : zipTree(it) } } {
+		exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+	}
+	duplicatesStrategy = 'exclude'
+	destinationDirectory = file('dist/')
+	archiveBaseName.set("KoLmafia")
+	archiveClassifier.set("${versioning.info.dirty ? 'M' : ''}")
 }
 
 shadowJar {
-  duplicatesStrategy = 'exclude'
-  destinationDirectory = file('dist/')
-  archiveClassifier.set("${versioning.info.dirty ? 'M' : ''}")
+	duplicatesStrategy = 'exclude'
+	destinationDirectory = file('dist/')
+	archiveClassifier.set("${versioning.info.dirty ? 'M' : ''}")
 }
 
-task download(type: Copy) {
-  from configurations.toCopy
-  into 'src/jar'
+task getRevision() {
+	onlyIf {
+		file('.git').exists()
+	}
+	def commit = findProperty("commit") ?: 'origin/main'
+	inputs.dir('.git')
+	inputs.property('commit', commit)
+	outputs.files file('build/revision.txt')
+
+	doLast {
+		def revision = grgit.log(includes:[commit]).size()
+		logger.info('Commit: {} Revision: {}', commit, revision)
+		file('build/revision.txt').text = revision.toString().trim()
+		// Update the version to the new revision
+		project.setVersion(revision.toString().trim())
+		def revString = versioning.info.dirty ? project.getVersion() +'-M': project.getVersion()
+		println '\nRevision: ' + revString
+
+	}
 }
 
-task gitRevList(type: Exec) {
-  onlyIf {
-    file('.git').exists()
-  }
-  inputs.dir('.git')
-  outputs.files file('build/revision.txt')
-  commandLine 'git', 'rev-list', '--count', 'origin/main'
-  standardOutput = new ByteArrayOutputStream()
-
-  doLast {
-    file('build/revision.txt').text = standardOutput.toString().trim()
-    // Update the version to the new revision
-    project.setVersion(standardOutput.toString().trim())
-  }
-}
-
-task svnRevList(type: Exec) {
-  onlyIf {
-    file('.svn').exists()
-  }
-  inputs.dir('.svn')
-  outputs.files file('build/revision.txt')
-  commandLine 'svnversion', '-n', '.'
-  standardOutput = new ByteArrayOutputStream()
-
-  doLast {
-    file('build/revision.txt').text = standardOutput.toString().trim()
-    // Update the version to the new revision
-    project.setVersion(standardOutput.toString().trim())
-  }
+task gitUpdate() {
+	doLast {
+		def remote = grgit.branch.current().trackingBranch.getName()
+		def latestHead = grgit.resolve.toCommit(remote)
+		grgit.fetch {
+			remote = remote
+		}
+		if (grgit.resolve.toCommit(remote) == latestHead) {
+			println "Already up-to-date, nothing to do."
+			return
+		}
+		def dirty = versioning.info.dirty
+		if (dirty) {
+			// This pollutes the reflog, but there's no stash functionality in
+			// grgit...
+			grgit.commit {
+				message = "temporary stash commit"
+				all = true
+			}
+		}
+		grgit.pull {
+			rebase = true
+		}
+		if (dirty) {
+			grgit.reset {
+				mode = 'mixed'
+				commit = 'HEAD^'
+			}
+		}
+	}
 }
 
 java {
-  sourceCompatibility = JavaVersion.toVersion(ant.properties['java.release'])
-  targetCompatibility = JavaVersion.toVersion(ant.properties['java.release'])
+	sourceCompatibility = JavaVersion.toVersion(javaSourceCompatibility)
+	targetCompatibility = JavaVersion.toVersion(javaTargetCompatibility)
 }
 
 tasks.withType(JavaCompile) {
-  options.encoding = 'UTF-8'
+	options.encoding = 'UTF-8'
 }
 
-clover {
-  excludes = [
-    // These files have huge methods. Ideally we'd use a method filter, but that's broken in the
-    // latest versions of Gradle; tracked in
-    // https://github.com/bmuschko/gradle-clover-plugin/issues/153
-    '**/UseItemRequest.java', '**/ChoiceManager.java',
-    // I don't know how to do this without manually excluding all the libs...
-    'apple/**', 'ca/**', 'com/**', 'darrylbu/**', 'net/java/**', 'tab/**',
-  ]
+task cleanJpackage(type: Delete) {
+	onlyIf {
+		file('build/releases').exists()
+	}
+	delete 'build/releases'
+}
 
-  report {
-    html = true
-    xml = true
-
-    // Support capturing test results from JUnix XML report
-    testResultsDir = project.tasks.getByName('test').reports.junitXml.destination
-    testResultsInclude = 'TEST-*.xml'
-  }
+tasks.jpackage {
+	dependsOn shadowJar, cleanJpackage
+	input = 'dist'
+	destination = 'build/releases'
+	mainClass = mainClassName
+	appVersion = new Date().format("yy.MM")
+	linux {
+		type = 'APP_IMAGE'
+	}
+	mac {
+		type = 'pkg'
+		icon = 'util/macosx/limeglass.icns'
+	}
+	windows{
+		type = 'exe'
+		icon = 'util/windows/KoLmelion.ico'
+	}
+	doFirst {
+		mainJar = tasks.shadowJar.archiveFileName.get()
+	}
 }
 
 clean.dependsOn cleanDist
-pruneDist.dependsOn gitRevList
-pruneDist.dependsOn svnRevList
+pruneDist.dependsOn getRevision
+
+// Note that pruneDist relies on getRevision.
 jar.dependsOn pruneDist
-jar.dependsOn gitRevList
-jar.dependsOn svnRevList
 shadowJar.dependsOn pruneDist
-shadowJar.dependsOn gitRevList
-shadowJar.dependsOn svnRevList
+
+jacocoTestReport.dependsOn test
 
 def lastRevision() {
-  def revisionFile = file('build/revision.txt')
-  return revisionFile.exists() ? revisionFile.text.trim() : "0"
+	def revisionFile = file('build/revision.txt')
+	return revisionFile.exists() ? revisionFile.text.trim() : "0"
 }
 
 // Set version from last build/revision.txt if up-to-date
