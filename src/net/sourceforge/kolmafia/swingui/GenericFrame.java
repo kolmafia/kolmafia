@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.swingui;
 
+import apple.dts.samplecode.osxadapter.OSXAdapter;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
