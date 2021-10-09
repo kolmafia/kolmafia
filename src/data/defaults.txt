@@ -104,7 +104,6 @@ global	mementoListActive	false
 global	mergeHobopolisChat	false
 global	outerChatColor	#b4460f
 global	outerTabColor	#0f46b4
-global	preferredWebBrowser
 global	previousNotifyList	<>
 global	previousUpdateVersion
 global	previousUpdateRevision	0
@@ -1399,6 +1398,8 @@ user	valueOfInventory	1.8
 user	valueOfStill	0
 user	valueOfTome	0
 user	verboseMaximizer	false
+user	vintnerWineLevel	0
+user	vintnerWineType
 user	violetFogGoal	0
 user	violetFogLayout
 user	visitLoungeHardcore	true

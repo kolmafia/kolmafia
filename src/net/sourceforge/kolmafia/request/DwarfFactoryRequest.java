@@ -1474,35 +1474,35 @@ public class DwarfFactoryRequest extends GenericRequest {
 
     private void deduceLastDigit()
     {
-    	// Only do this if we know all but one of the digits
-    	// and all the characters which are used as digits.
-    	if ( this.digitMap.size() != 6 || this.digits.size() != 7 )
-    	{
-    		return;
-    	}
+      // Only do this if we know all but one of the digits
+      // and all the characters which are used as digits.
+      if ( this.digitMap.size() != 6 || this.digits.size() != 7 )
+      {
+        return;
+      }
 
-    	// Find the character we have not used for a digit
-    	Character code = null;
-    	for ( int i = 0; i < 7; ++i )
-    	{
-    		Character c = (Character)this.digits.get( i );
-    		if ( !this.digitMap.containsKey( c ) )
-    		{
-    			code = c;
-    			break;
-    		}
-    	}
+      // Find the character we have not used for a digit
+      Character code = null;
+      for ( int i = 0; i < 7; ++i )
+      {
+        Character c = (Character)this.digits.get( i );
+        if ( !this.digitMap.containsKey( c ) )
+        {
+          code = c;
+          break;
+        }
+      }
 
-    	// Find the digit we have not identified
-    	for ( int i = 0; i < 7; ++i )
-    	{
-    		Integer val = PrimitiveAutoBoxCache.valueOf( i );
-    		if ( this.charMap.get( val ) == null )
-    		{
-    			this.mapCharacter( code, val );
-    			return;
-    		}
-    	}
+      // Find the digit we have not identified
+      for ( int i = 0; i < 7; ++i )
+      {
+        Integer val = PrimitiveAutoBoxCache.valueOf( i );
+        if ( this.charMap.get( val ) == null )
+        {
+          this.mapCharacter( code, val );
+          return;
+        }
+      }
     }
 
     // The following technique is no longer used; solving via
@@ -1511,339 +1511,339 @@ public class DwarfFactoryRequest extends GenericRequest {
 
     private LinearSystem makeSystem()
     {
-    	// Iterate until we stop learning variables by simple
-    	// substitution.
-    	while ( true )
-    	{
-    		// The digit for zero is special: a roll of
-    		// "00" equals 49
-    		Character z = (Character)this.charMap.get( PrimitiveAutoBoxCache.valueOf( 0 ) );
-    		LinearSystem system = this.makeSystem( z );
-    		if ( system != null )
-    		{
-    			return system;
-    		}
-    	}
+      // Iterate until we stop learning variables by simple
+      // substitution.
+      while ( true )
+      {
+        // The digit for zero is special: a roll of
+        // "00" equals 49
+        Character z = (Character)this.charMap.get( PrimitiveAutoBoxCache.valueOf( 0 ) );
+        LinearSystem system = this.makeSystem( z );
+        if ( system != null )
+        {
+          return system;
+        }
+      }
     }
 
     private LinearSystem makeSystem( final Character zero)
     {
-    	// Make a list of variables
-    	ArrayList variables = new ArrayList();
-    	for ( int i = 0; i < this.digits.size(); ++i )
-    	{
-    		Character c = (Character)this.digits.get( i );
-    		if ( !this.digitMap.containsKey( c ) )
-    		{
-    			variables.add( c );
-    		}
-    	}
+      // Make a list of variables
+      ArrayList variables = new ArrayList();
+      for ( int i = 0; i < this.digits.size(); ++i )
+      {
+        Character c = (Character)this.digits.get( i );
+        if ( !this.digitMap.containsKey( c ) )
+        {
+          variables.add( c );
+        }
+      }
 
-    	// Make a linear system containing these variables
-    	LinearSystem system = new LinearSystem( variables );
+      // Make a linear system containing these variables
+      LinearSystem system = new LinearSystem( variables );
 
-    	// Give it equations
-    	for ( int i = 0; i < this.rolls.size(); ++i )
-    	{
-    		String roll = (String) this.rolls.get( i );
+      // Give it equations
+      for ( int i = 0; i < this.rolls.size(); ++i )
+      {
+        String roll = (String) this.rolls.get( i );
 
-    		// AB-CD=xx
-    		if ( roll.length() != 8 )
-    		{
-    			continue;
-    		}
+        // AB-CD=xx
+        if ( roll.length() != 8 )
+        {
+          continue;
+        }
 
-    		char d1 = roll.charAt( 0 );
-    		char d2 = roll.charAt( 1 );
-    		char d3 = roll.charAt( 3 );
-    		char d4 = roll.charAt( 4 );
-    		int high = roll.charAt( 6 ) - '0';
-    		int low = roll.charAt( 7 ) - '0';
-    		int val = ( high * 7) + low;
+        char d1 = roll.charAt( 0 );
+        char d2 = roll.charAt( 1 );
+        char d3 = roll.charAt( 3 );
+        char d4 = roll.charAt( 4 );
+        int high = roll.charAt( 6 ) - '0';
+        int low = roll.charAt( 7 ) - '0';
+        int val = ( high * 7) + low;
 
-    		// Double zero = 49, not 0. Unless we know what
-    		// zero is, we can't make that conversion, so
-    		// skip all doubles until we learn 0.
+        // Double zero = 49, not 0. Unless we know what
+        // zero is, we can't make that conversion, so
+        // skip all doubles until we learn 0.
 
-    		if ( d1 == d2 )
-    		{
-    			if ( !this.digitMap.containsKey( new Character( d1 ) ) && zero == null )
-    			{
-    				continue;
-    			}
+        if ( d1 == d2 )
+        {
+          if ( !this.digitMap.containsKey( new Character( d1 ) ) && zero == null )
+          {
+            continue;
+          }
 
-    			// The linear equation solver doesn't
-    			// know that 00 is 49. Adjust sum.
-    			if ( d1 == zero.charValue() )
-    			{
-    				val -= 49;
-    			}
-    		}
+          // The linear equation solver doesn't
+          // know that 00 is 49. Adjust sum.
+          if ( d1 == zero.charValue() )
+          {
+            val -= 49;
+          }
+        }
 
-    		int known = this.digitMap.size();
-    		system.addEquation( 7, d1, 1, d2, -7, d3, -1, d4, val );
+        int known = this.digitMap.size();
+        system.addEquation( 7, d1, 1, d2, -7, d3, -1, d4, val );
 
-    		// If adding an equation found a variable by
-    		// substitution, punt, since that could make
-    		// already added equations simpler.
+        // If adding an equation found a variable by
+        // substitution, punt, since that could make
+        // already added equations simpler.
 
-    		if ( known != this.digitMap.size() )
-    		{
-    			return null;
-    		}
-    	}
+        if ( known != this.digitMap.size() )
+        {
+          return null;
+        }
+      }
 
-    	return system;
+      return system;
     }
 
     private class LinearSystem
     {
-    	private final int vcount;
-    	private final Character[] variables;
-    	private final ArrayList equations;
+      private final int vcount;
+      private final Character[] variables;
+      private final ArrayList equations;
 
-    	public LinearSystem( final ArrayList variables )
-    	{
-    		this.vcount = variables.size();
-    		this.variables = (Character[]) variables.toArray( new Character[ this.vcount ] );
-    		this.equations = new ArrayList();
-    	}
+      public LinearSystem( final ArrayList variables )
+      {
+        this.vcount = variables.size();
+        this.variables = (Character[]) variables.toArray( new Character[ this.vcount ] );
+        this.equations = new ArrayList();
+      }
 
-    	public void addEquation( final int c1, final char v1,
-    				 final int c2, final char v2,
-    				 final int c3, final char v3,
-    				 final int c4, final char v4,
-    				 final int val )
-    	{
-    		int[] equation = new int[ this.vcount + 1];
+      public void addEquation( final int c1, final char v1,
+             final int c2, final char v2,
+             final int c3, final char v3,
+             final int c4, final char v4,
+             final int val )
+      {
+        int[] equation = new int[ this.vcount + 1];
 
-    		// Store the sum first, since we will adjust it.
-    		equation[ this.vcount ] = val;
+        // Store the sum first, since we will adjust it.
+        equation[ this.vcount ] = val;
 
-    		// Store or substitute all the variables
-    		this.addVariable( equation, c1, v1 );
-    		this.addVariable( equation, c2, v2 );
-    		this.addVariable( equation, c3, v3 );
-    		this.addVariable( equation, c4, v4 );
+        // Store or substitute all the variables
+        this.addVariable( equation, c1, v1 );
+        this.addVariable( equation, c2, v2 );
+        this.addVariable( equation, c3, v3 );
+        this.addVariable( equation, c4, v4 );
 
-    		// If we only have one variable unsubstituted
-    		// in this equation, we've discovered a new
-    		// digit.
+        // If we only have one variable unsubstituted
+        // in this equation, we've discovered a new
+        // digit.
 
-    		int offset = -1;
-    		for ( int i = 0; i < this.vcount; ++i )
-    		{
-    			// Skip unused variables
-    			if ( equation[i] == 0 )
-    			{
-    				continue;
-    			}
+        int offset = -1;
+        for ( int i = 0; i < this.vcount; ++i )
+        {
+          // Skip unused variables
+          if ( equation[i] == 0 )
+          {
+            continue;
+          }
 
-    			// At least two unknown variables.
-    			// Register equation.
-    			if ( offset != -1 )
-    			{
-    				this.equations.add( equation );
-    				return;
-    			}
+          // At least two unknown variables.
+          // Register equation.
+          if ( offset != -1 )
+          {
+            this.equations.add( equation );
+            return;
+          }
 
-    			// This variable is unknown
-    			offset = i;
-    		}
+          // This variable is unknown
+          offset = i;
+        }
 
-    		// If there is only one unsubstituted variable,
-    		// register the new digit.
-    		if ( offset != -1 )
-    		{
-    			char code = this.variables[ offset ].charValue();
-    			int i = equation[ this.vcount ] / equation [ offset ];
+        // If there is only one unsubstituted variable,
+        // register the new digit.
+        if ( offset != -1 )
+        {
+          char code = this.variables[ offset ].charValue();
+          int i = equation[ this.vcount ] / equation [ offset ];
 
-    			DwarfNumberTranslator.this.mapCharacter( code, i );
-    		}
+          DwarfNumberTranslator.this.mapCharacter( code, i );
+        }
 
-    		// All the variables in this equation are
-    		// already known. Ignore it.
-    	}
+        // All the variables in this equation are
+        // already known. Ignore it.
+      }
 
-    	public void addVariable( final int[] equation, final int c1, final char v1 )
-    	{
-    		Integer digit = DwarfNumberTranslator.this.getDigit( v1 );
-    		// If this is a known variable, substitute
-    		if ( digit != null )
-    		{
-    			int val = c1 * digit.intValue();
-    			equation[ this.vcount ] -= val;
-    			return;
-    		}
+      public void addVariable( final int[] equation, final int c1, final char v1 )
+      {
+        Integer digit = DwarfNumberTranslator.this.getDigit( v1 );
+        // If this is a known variable, substitute
+        if ( digit != null )
+        {
+          int val = c1 * digit.intValue();
+          equation[ this.vcount ] -= val;
+          return;
+        }
 
-    		// This is an unknown variable. Find it in the
-    		// list.
+        // This is an unknown variable. Find it in the
+        // list.
 
-    		for ( int i = 0; i < this.vcount; ++i )
-    		{
-    			if ( v1 == this.variables[ i ].charValue() )
-    			{
-    				equation[ i ] += c1;
-    				return;
-    			}
-    		}
-    	}
+        for ( int i = 0; i < this.vcount; ++i )
+        {
+          if ( v1 == this.variables[ i ].charValue() )
+          {
+            equation[ i ] += c1;
+            return;
+          }
+        }
+      }
 
-    	private int [][] eqs = null;
+      private int [][] eqs = null;
 
-    	public void calculate()
-    	{
-    		int rows = this.equations.size();
-    		int cols = this.vcount;
-    		if ( rows == 0 || cols == 0 )
-    		{
-    			return;
-    		}
+      public void calculate()
+      {
+        int rows = this.equations.size();
+        int cols = this.vcount;
+        if ( rows == 0 || cols == 0 )
+        {
+          return;
+        }
 
-    		// Make temporary array out of ArrayList
-    		this.eqs = (int[][])this.equations.toArray( new int[rows][cols+1]);
+        // Make temporary array out of ArrayList
+        this.eqs = (int[][])this.equations.toArray( new int[rows][cols+1]);
 
-    		// Start examining matrix at upper left corner
-    		int row = 0;
-    		int col = 0;
+        // Start examining matrix at upper left corner
+        int row = 0;
+        int col = 0;
 
-    		// Iterate over the columns, going down the rows
-    		while ( col < cols )
-    		{
-    			// Find row which contains this variable
-    			int newRow = this.findRow( row, col );
+        // Iterate over the columns, going down the rows
+        while ( col < cols )
+        {
+          // Find row which contains this variable
+          int newRow = this.findRow( row, col );
 
-    			// If we found one, work with it.
-    			if ( newRow != -1 )
-    			{
-    				this.swapRows( row, newRow );
+          // If we found one, work with it.
+          if ( newRow != -1 )
+          {
+            this.swapRows( row, newRow );
 
-    				// Eliminate this variable in
-    				// all rows below this one.
-    				this.eliminate( row, col );
+            // Eliminate this variable in
+            // all rows below this one.
+            this.eliminate( row, col );
 
-    				// Move to next row
-    				row++;
-    			}
+            // Move to next row
+            row++;
+          }
 
-    			// Move to next column
-    			col++;
-    		}
+          // Move to next column
+          col++;
+        }
 
-    		// Go back up the rows, substituting variables
-    		while ( --row >= 0 )
-    		{
-    			this.substitute( row );
-    		}
+        // Go back up the rows, substituting variables
+        while ( --row >= 0 )
+        {
+          this.substitute( row );
+        }
 
-    		// Clear temporary array
-    		this.eqs = null;
-    	}
+        // Clear temporary array
+        this.eqs = null;
+      }
 
-    	private int findRow( int row, final int col )
-    	{
-    		int nrows = this.eqs.length;
-    		while ( row < nrows )
-    		{
-    			if ( this.eqs[ row ][ col ] != 0 )
-    			{
-    				return row;
-    			}
-    			row++;
-    		}
-    		return -1;
-    	}
+      private int findRow( int row, final int col )
+      {
+        int nrows = this.eqs.length;
+        while ( row < nrows )
+        {
+          if ( this.eqs[ row ][ col ] != 0 )
+          {
+            return row;
+          }
+          row++;
+        }
+        return -1;
+      }
 
-    	private void swapRows( final int row1, final int row2 )
-    	{
-    		if ( row1 != row2 )
-    		{
-    			int[] temp = this.eqs[ row1 ];
-    			this.eqs[ row1 ] = this.eqs[ row2 ];
-    			this.eqs[ row2 ] = temp;
-    		}
-    	}
+      private void swapRows( final int row1, final int row2 )
+      {
+        if ( row1 != row2 )
+        {
+          int[] temp = this.eqs[ row1 ];
+          this.eqs[ row1 ] = this.eqs[ row2 ];
+          this.eqs[ row2 ] = temp;
+        }
+      }
 
-    	private void eliminate( final int row, final int col )
-    	{
-    		// We will subtract row from all lower rows.
-    		// Its value for the specified column is a
-    		// constant we will use frequently.
-    		int[] row1 = this.eqs[ row ];
-    		int c1 = row1[ col ];
+      private void eliminate( final int row, final int col )
+      {
+        // We will subtract row from all lower rows.
+        // Its value for the specified column is a
+        // constant we will use frequently.
+        int[] row1 = this.eqs[ row ];
+        int c1 = row1[ col ];
 
-    		int nrows = this.eqs.length;
-    		int ncols = this.vcount + 1;
-    		int current = row + 1;
+        int nrows = this.eqs.length;
+        int ncols = this.vcount + 1;
+        int current = row + 1;
 
-    		// Iterate over all rows below the specified row
-    		while ( current < nrows )
-    		{
-    			int[] row2 = this.eqs[ current++ ];
-    			int c2 = row2[ col ];
-    			if ( c2 == 0 )
-    			{
-    				continue;
-    			}
+        // Iterate over all rows below the specified row
+        while ( current < nrows )
+        {
+          int[] row2 = this.eqs[ current++ ];
+          int c2 = row2[ col ];
+          if ( c2 == 0 )
+          {
+            continue;
+          }
 
-    			// row2 = ( c1 * row2 ) - (c2 * row1)
-    			for ( int i = col; i < ncols; ++i )
-    			{
-    				row2[i] = c1 * row2[i] - c2 * row1[i] ;
-    			}
-    		}
-    	}
+          // row2 = ( c1 * row2 ) - (c2 * row1)
+          for ( int i = col; i < ncols; ++i )
+          {
+            row2[i] = c1 * row2[i] - c2 * row1[i] ;
+          }
+        }
+      }
 
-    	private void substitute( final int row )
-    	{
-    		int[] row1 = this.eqs[ row ];
+      private void substitute( final int row )
+      {
+        int[] row1 = this.eqs[ row ];
 
-    		// Iterate over the variables
-    		int ncols = this.vcount;
-    		int index = -1;
-    		boolean valid = true;
+        // Iterate over the variables
+        int ncols = this.vcount;
+        int index = -1;
+        boolean valid = true;
 
-    		for ( int col = 0; col < ncols; ++col )
-    		{
-    			int c1 = row1[col];
-    			if ( c1 == 0 )
-    			{
-    				continue;
-    			}
+        for ( int col = 0; col < ncols; ++col )
+        {
+          int c1 = row1[col];
+          if ( c1 == 0 )
+          {
+            continue;
+          }
 
-    			Integer digit = DwarfNumberTranslator.this.getDigit( this.variables[col] );
-    			// If this variable is known, substitute
-    			if ( digit != null )
-    			{
-    				int val = c1 * digit.intValue();
+          Integer digit = DwarfNumberTranslator.this.getDigit( this.variables[col] );
+          // If this variable is known, substitute
+          if ( digit != null )
+          {
+            int val = c1 * digit.intValue();
 
-    				row1[col] = 0;
-    				row1[ ncols ] -= val;
-    				continue;
-    			}
+            row1[col] = 0;
+            row1[ ncols ] -= val;
+            continue;
+          }
 
-    			// If this variable is unknown, it's a
-    			// candidate for discover.
+          // If this variable is unknown, it's a
+          // candidate for discover.
 
-    			if ( index != -1 )
-    			{
-    				// Oops. More than one unknown
-    				valid = false;
-    			}
+          if ( index != -1 )
+          {
+            // Oops. More than one unknown
+            valid = false;
+          }
 
-    			// Save index of unknown variable
-    			index = col;
-    		}
+          // Save index of unknown variable
+          index = col;
+        }
 
-    		// If we discovered a single unknown variable,
-    		// we can now solve for it.
-    		if ( valid && index != -1 )
-    		{
-    			Character digit = this.variables[index];
-    			Integer val = PrimitiveAutoBoxCache.valueOf( row1[ncols] / row1[index] );
-    			DwarfNumberTranslator.this.mapCharacter( digit, val );
-    		}
-    	}
+        // If we discovered a single unknown variable,
+        // we can now solve for it.
+        if ( valid && index != -1 )
+        {
+          Character digit = this.variables[index];
+          Integer val = PrimitiveAutoBoxCache.valueOf( row1[ncols] / row1[index] );
+          DwarfNumberTranslator.this.mapCharacter( digit, val );
+        }
+      }
     }
 
     * End of obsolete code

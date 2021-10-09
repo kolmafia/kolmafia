@@ -832,24 +832,24 @@ public class RelayRequest extends PasswordHashRequest {
       // If you don't have any coins, nothing to spend
       if ( InventoryManager.getCount( ItemPool.COIN ) > 0 )
       {
-      	if ( this.getFormField( CONFIRM_RALPH2 ) == null )
-      	{
-      		StringBuilder warning = new StringBuilder();
-      		warning.append( "When you stop being a plumber, you will lose access to the Mushroom District." );
-      		warning.append( " Since you have unspent coins, perhaps you would like to visit some shops?" );
-      		warning.append( " If you are sure you don't want to spend your coins, click the icon on the left. " );
-      		warning.append( " If you wish to visit the Mushroom District, click on icon on the right." );
-      		this.sendOptionalWarning(
-      			CONFIRM_RALPH2,
-      			warning.toString(),
-      			"mario_coin.gif",
-      			"mario_mushroom1.gif",
-      			"place.php?whichplace=mario",
-      			null,
-      			null
-      			);
-      		return true;
-      	}
+        if ( this.getFormField( CONFIRM_RALPH2 ) == null )
+        {
+          StringBuilder warning = new StringBuilder();
+          warning.append( "When you stop being a plumber, you will lose access to the Mushroom District." );
+          warning.append( " Since you have unspent coins, perhaps you would like to visit some shops?" );
+          warning.append( " If you are sure you don't want to spend your coins, click the icon on the left. " );
+          warning.append( " If you wish to visit the Mushroom District, click on icon on the right." );
+          this.sendOptionalWarning(
+            CONFIRM_RALPH2,
+            warning.toString(),
+            "mario_coin.gif",
+            "mario_mushroom1.gif",
+            "place.php?whichplace=mario",
+            null,
+            null
+            );
+          return true;
+        }
       }
       */
 

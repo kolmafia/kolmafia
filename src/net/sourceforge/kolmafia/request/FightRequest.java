@@ -3648,15 +3648,15 @@ public class FightRequest extends GenericRequest {
             familiar.setCharges(3);
           }
           /*
-          				if ( responseText.indexOf( "waves her hands and extracts some of your opponent aura into a cocktail shaker") != -1
-          					|| responseText.indexOf( "holds out a cocktail glass and siphons some of his aura into the glass" ) != -1
-          					|| responseText.indexOf( "draws out some of its spirit and makes a cocktail with it." ) != -1
-          					|| responseText.indexOf( "Let's see. . . a little of this, a little of that, and some of that creature's aura, and presto!" ) != -1
-          					|| responseText.indexOf( "conjurs the spirit of your opponent into a cocktail glass and mixes you a drink." ) != -1 )
-          				{
-          					KoLCharacter.setFamiliarImage( "medium_0.gif" );
-          					familiar.setCharges( 0 );
-          				}
+                  if ( responseText.indexOf( "waves her hands and extracts some of your opponent aura into a cocktail shaker") != -1
+                    || responseText.indexOf( "holds out a cocktail glass and siphons some of his aura into the glass" ) != -1
+                    || responseText.indexOf( "draws out some of its spirit and makes a cocktail with it." ) != -1
+                    || responseText.indexOf( "Let's see. . . a little of this, a little of that, and some of that creature's aura, and presto!" ) != -1
+                    || responseText.indexOf( "conjurs the spirit of your opponent into a cocktail glass and mixes you a drink." ) != -1 )
+                  {
+                    KoLCharacter.setFamiliarImage( "medium_0.gif" );
+                    familiar.setCharges( 0 );
+                  }
           */
           break;
         case FamiliarPool.GRINDER:

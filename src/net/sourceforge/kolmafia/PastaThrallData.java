@@ -177,28 +177,28 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
 
     /*
     {
-    	"Boba Fettucini",
-    	IntegerPool.get( ItemPool.TWITCHING_TRIGGER_FINGER ),
-    	// You decide to name it <name>.
-    	Pattern.compile( "You decide to name it ([^.]*)\\." ),
-    	// <i>pew pew pew!&quot;</i> <name> shouts excitedly,
-    	// drawing a laser pistol from some spiritual dimension
-    	// of necessity.
-    	Pattern.compile( "</i> (.*) shouts excitedly" ),
-    	"bobafett.gif",
+      "Boba Fettucini",
+      IntegerPool.get( ItemPool.TWITCHING_TRIGGER_FINGER ),
+      // You decide to name it <name>.
+      Pattern.compile( "You decide to name it ([^.]*)\\." ),
+      // <i>pew pew pew!&quot;</i> <name> shouts excitedly,
+      // drawing a laser pistol from some spiritual dimension
+      // of necessity.
+      Pattern.compile( "</i> (.*) shouts excitedly" ),
+      "bobafett.gif",
     },
     {
-    	"Bow Tie Bat",
-    	IntegerPool.get( ItemPool.SMOKING_TALON ),
-    	// Ugh. I'll take that guano as a yes? You'll need a
-    	// name. Let's call you..." You glance around, hoping
-    	// for some inspiration. "How about... <name>."
-    	Pattern.compile( "How about... ([^.]*)\\." ),
-    	// You call out to <name> with your mind, summoning his
-    	// spirit even as you create a body for him. He lets
-    	// loose an ear-splitting screech.
-    	Pattern.compile( "You call out to (.*?) with your mind" ),
-    	"bowtiebat.gif",
+      "Bow Tie Bat",
+      IntegerPool.get( ItemPool.SMOKING_TALON ),
+      // Ugh. I'll take that guano as a yes? You'll need a
+      // name. Let's call you..." You glance around, hoping
+      // for some inspiration. "How about... <name>."
+      Pattern.compile( "How about... ([^.]*)\\." ),
+      // You call out to <name> with your mind, summoning his
+      // spirit even as you create a body for him. He lets
+      // loose an ear-splitting screech.
+      Pattern.compile( "You call out to (.*?) with your mind" ),
+      "bowtiebat.gif",
     },
     */
   };

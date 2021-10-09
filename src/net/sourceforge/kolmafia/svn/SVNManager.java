@@ -145,14 +145,14 @@ public class SVNManager {
    * repository.
    */
   /*	private static SVNCommitInfo makeDirectory( SVNURL url, String commitMessage )
-  	throws SVNException
+    throws SVNException
   {
 
-  	 * Returns SVNCommitInfo containing information on the new revision committed (revision number, etc.)
+     * Returns SVNCommitInfo containing information on the new revision committed (revision number, etc.)
 
-  	return ourClientManager.getCommitClient().doMkDir( new SVNURL[]
-  	{ url
-  	}, commitMessage );
+    return ourClientManager.getCommitClient().doMkDir( new SVNURL[]
+    { url
+    }, commitMessage );
   }*/
 
   /*
@@ -168,13 +168,13 @@ public class SVNManager {
    * only the directory itself (only those files which are located in the directory).
    */
   /*	private static SVNCommitInfo importDirectory( File localPath, SVNURL dstURL, String commitMessage,
-  	boolean isRecursive )
-  	throws SVNException
+    boolean isRecursive )
+    throws SVNException
   {
 
-  	 * Returns SVNCommitInfo containing information on the new revision committed (revision number, etc.)
+     * Returns SVNCommitInfo containing information on the new revision committed (revision number, etc.)
 
-  	return ourClientManager.getCommitClient().doImport( localPath, dstURL, commitMessage, isRecursive );
+    return ourClientManager.getCommitClient().doImport( localPath, dstURL, commitMessage, isRecursive );
 
   }*/
 
@@ -188,14 +188,14 @@ public class SVNManager {
    * changes for the entire directory, otherwise - only for child entries of the directory;
    */
   /*	private static SVNCommitInfo commit( File wcPath, boolean keepLocks, String commitMessage )
-  	throws SVNException
+    throws SVNException
   {
 
-  	 * Returns SVNCommitInfo containing information on the new revision committed (revision number, etc.)
+     * Returns SVNCommitInfo containing information on the new revision committed (revision number, etc.)
 
-  	return ourClientManager.getCommitClient().doCommit( new File[]
-  	{ wcPath
-  	}, keepLocks, commitMessage, false, true );
+    return ourClientManager.getCommitClient().doCommit( new File[]
+    { wcPath
+    }, keepLocks, commitMessage, false, true );
   }*/
 
   /*
@@ -277,17 +277,17 @@ public class SVNManager {
    * otherwise - only child entries of the directory;
    */
   /*	private static long switchToURL( File wcPath, SVNURL url, SVNRevision updateToRevision, boolean isRecursive )
-  	throws SVNException
+    throws SVNException
   {
-  	SVNUpdateClient updateClient = ourClientManager.getUpdateClient();
+    SVNUpdateClient updateClient = ourClientManager.getUpdateClient();
 
-  	 * sets externals not to be ignored during the switch
+     * sets externals not to be ignored during the switch
 
-  	updateClient.setIgnoreExternals( false );
+    updateClient.setIgnoreExternals( false );
 
-  	 * returns the number of the revision wcPath was updated to
+     * returns the number of the revision wcPath was updated to
 
-  	return updateClient.doSwitch( wcPath, url, updateToRevision, isRecursive );
+    return updateClient.doSwitch( wcPath, url, updateToRevision, isRecursive );
   }*/
 
   /*
@@ -304,15 +304,15 @@ public class SVNManager {
    * handleStatus(SVNStatus status) method where an implementor decides what to do with it.
    */
   /*	private static void showStatus( File wcPath, boolean isRecursive, boolean isRemote, boolean isReportAll,
-  	boolean isIncludeIgnored, boolean isCollectParentExternals )
-  	throws SVNException
+    boolean isIncludeIgnored, boolean isCollectParentExternals )
+    throws SVNException
   {
 
-  	 * StatusHandler displays status information for each entry in the console (in the manner of the native
-  	 * Subversion command line client)
+     * StatusHandler displays status information for each entry in the console (in the manner of the native
+     * Subversion command line client)
 
-  	ourClientManager.getStatusClient().doStatus( wcPath, isRecursive, isRemote, isReportAll, isIncludeIgnored, isCollectParentExternals, new StatusHandler(
-  		isRemote ) );
+    ourClientManager.getStatusClient().doStatus( wcPath, isRecursive, isRemote, isReportAll, isIncludeIgnored, isCollectParentExternals, new StatusHandler(
+      isRemote ) );
   }*/
 
   /*
@@ -393,9 +393,9 @@ public class SVNManager {
    * a directory then doAdd(..) recursively schedules all its inner dir entries for addition as well.
    */
   /*	private static void addEntry( File wcPath )
-  	throws SVNException
+    throws SVNException
   {
-  	ourClientManager.getWCClient().doAdd( wcPath, false, false, false, true );
+    ourClientManager.getWCClient().doAdd( wcPath, false, false, false, true );
   }*/
 
   /*
@@ -405,11 +405,11 @@ public class SVNManager {
    * from another user or working copy; lockMessage - an optional lock comment string.
    */
   /*	private static void lock( File wcPath, boolean isStealLock, String lockComment )
-  	throws SVNException
+    throws SVNException
   {
-  	ourClientManager.getWCClient().doLock( new File[]
-  	{ wcPath
-  	}, isStealLock, lockComment );
+    ourClientManager.getWCClient().doLock( new File[]
+    { wcPath
+    }, isStealLock, lockComment );
   }*/
 
   /*
@@ -420,14 +420,14 @@ public class SVNManager {
    * but to check if it can be deleted; if false - then it's a deletion itself.
    */
   /*	private static void delete( File wcPath, boolean force )
-  	throws SVNException
+    throws SVNException
   {
-  	if ( ourClientManager == null )
-  	{
-  		setupLibrary();
-  	}
+    if ( ourClientManager == null )
+    {
+      setupLibrary();
+    }
 
-  	ourClientManager.getWCClient().doDelete( wcPath, force, false );
+    ourClientManager.getWCClient().doDelete( wcPath, force, false );
   }*/
 
   public static void doCleanup() {
@@ -515,8 +515,7 @@ public class SVNManager {
 
     if (failed && !quiet) {
       KoLmafia.updateDisplay(
-          MafiaState.ERROR,
-          "The requested repo failed validation.  Complain to the script's author.");
+          MafiaState.ERROR, "The requested repo (" + repo.getPath() + ") failed validation.");
     } else {
       if (!quiet) RequestLogger.printLine("Repo validated.");
     }

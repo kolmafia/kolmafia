@@ -133,36 +133,36 @@ public class DebugDatabase {
 
   /*public static final void determineWikiData( final String name )
   {
-  	String wikiData = DebugDatabase.readWikiItemData( name );
+    String wikiData = DebugDatabase.readWikiItemData( name );
 
-  	Matcher itemMatcher = DebugDatabase.WIKI_ITEMID_PATTERN.matcher( wikiData );
-  	if ( !itemMatcher.find() )
-  	{
-  		RequestLogger.printLine( name + " did not match a valid an item entry." );
-  		return;
-  	}
+    Matcher itemMatcher = DebugDatabase.WIKI_ITEMID_PATTERN.matcher( wikiData );
+    if ( !itemMatcher.find() )
+    {
+      RequestLogger.printLine( name + " did not match a valid an item entry." );
+      return;
+    }
 
-  	Matcher descMatcher = DebugDatabase.WIKI_DESCID_PATTERN.matcher( wikiData );
-  	if ( !descMatcher.find() )
-  	{
-  		RequestLogger.printLine( name + " did not match a valid an item entry." );
-  		return;
-  	}
+    Matcher descMatcher = DebugDatabase.WIKI_DESCID_PATTERN.matcher( wikiData );
+    if ( !descMatcher.find() )
+    {
+      RequestLogger.printLine( name + " did not match a valid an item entry." );
+      return;
+    }
 
-  	RequestLogger.printLine( "item: " + name + " (#" + itemMatcher.group( 1 ) + ")" );
-  	RequestLogger.printLine( "desc: " + descMatcher.group( 1 ) );
+    RequestLogger.printLine( "item: " + name + " (#" + itemMatcher.group( 1 ) + ")" );
+    RequestLogger.printLine( "desc: " + descMatcher.group( 1 ) );
 
-  	Matcher pluralMatcher = DebugDatabase.WIKI_PLURAL_PATTERN.matcher( wikiData );
-  	if ( pluralMatcher.find() )
-  	{
-  		RequestLogger.printLine( "plural: " + pluralMatcher.group( 1 ) );
-  	}
+    Matcher pluralMatcher = DebugDatabase.WIKI_PLURAL_PATTERN.matcher( wikiData );
+    if ( pluralMatcher.find() )
+    {
+      RequestLogger.printLine( "plural: " + pluralMatcher.group( 1 ) );
+    }
 
-  	Matcher sellMatcher = DebugDatabase.WIKI_AUTOSELL_PATTERN.matcher( wikiData );
-  	if ( sellMatcher.find() )
-  	{
-  		RequestLogger.printLine( "autosell: " + sellMatcher.group( 1 ) );
-  	}
+    Matcher sellMatcher = DebugDatabase.WIKI_AUTOSELL_PATTERN.matcher( wikiData );
+    if ( sellMatcher.find() )
+    {
+      RequestLogger.printLine( "autosell: " + sellMatcher.group( 1 ) );
+    }
   }*/
 
   // **********************************************************

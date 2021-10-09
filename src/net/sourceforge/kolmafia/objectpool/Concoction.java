@@ -362,7 +362,7 @@ public class Concoction implements Comparable<Concoction> {
     than, equal to, or greater than the specified object.
 
     The implementor must ensure
-    	sgn(x.compareTo(y)) == -sgn(y.compareTo(x)
+      sgn(x.compareTo(y)) == -sgn(y.compareTo(x)
     for all x and y. (This implies that x.compareTo(y) must throw an
     exception iff y.compareTo(x) throws an exception.)
 

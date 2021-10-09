@@ -472,11 +472,11 @@ public class AccountRequest extends PasswordHashRequest {
     // This is currently busted
     int topmenu = flags.getInt( "topmenu" );
     GenericRequest.topMenuStyle =
-    	(topmenu == 2 ) ?
-    	GenericRequest.MENU_FANCY :
-    	(topmenu == 1 ) ?
-    	GenericRequest.MENU_COMPACT :
-    	GenericRequest.MENU_NORMAL;
+      (topmenu == 2 ) ?
+      GenericRequest.MENU_FANCY :
+      (topmenu == 1 ) ?
+      GenericRequest.MENU_COMPACT :
+      GenericRequest.MENU_NORMAL;
     */
 
     checked = flags.getInt("compactchar") == 1;

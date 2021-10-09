@@ -386,6 +386,17 @@ public class ResultProcessor {
     Preferences.setString(property + "Mods", mods);
   }
 
+  public static void updateVintner() {
+    // Check the wine's type
+    RequestThread.postRequest(
+        new GenericRequest("desc_item.php?whichitem=" + ItemPool.VAMPIRE_VINTNER_WINE));
+    // We can just check any of the effects for the level
+    RequestThread.postRequest(
+        new GenericRequest(
+            "desc_effect.php?whicheffect="
+                + EffectDatabase.getDescriptionId(EffectPool.WINE_BEFOULED)));
+  }
+
   public static Pattern EFFECT_TABLE_PATTERN =
       Pattern.compile(
           "<table><tr><td><img[^>]*eff\\(\"(.*?)\"\\)[^>]*>.*?class=effect>(.*?)<b>(.*?)</b>(?:<br>| )?(?:\\((?:duration: )?(\\d+) Adventures?\\))?</td></tr></table>");
@@ -409,11 +420,22 @@ public class ResultProcessor {
 
       // If the effect is "Blessing of the Bird", KoL changes
       // it to "Blessing of the XXX", where XXX is today's bird
-      if (effectId == EffectPool.BLESSING_OF_THE_BIRD) {
-        ResultProcessor.updateBird(EffectPool.BLESSING_OF_THE_BIRD, effectName, "_birdOfTheDay");
-      } else if (effectId == EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD) {
-        ResultProcessor.updateBird(
-            EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, effectName, "yourFavoriteBird");
+      switch (effectId) {
+        case EffectPool.BLESSING_OF_THE_BIRD:
+          ResultProcessor.updateBird(EffectPool.BLESSING_OF_THE_BIRD, effectName, "_birdOfTheDay");
+          break;
+        case EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD:
+          ResultProcessor.updateBird(
+              EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, effectName, "yourFavoriteBird");
+          break;
+        case EffectPool.WINE_FORTIFIED:
+        case EffectPool.WINE_HOT:
+        case EffectPool.WINE_FRISKY:
+        case EffectPool.WINE_COLD:
+        case EffectPool.WINE_FRIENDLY:
+        case EffectPool.WINE_DARK:
+        case EffectPool.WINE_BEFOULED:
+          ResultProcessor.updateVintner();
       }
 
       String acquisition = effectMatcher.group(2);
@@ -1091,7 +1113,7 @@ public class ResultProcessor {
         long diff =
             KoLCharacter.calculateBasePoints(stat + count) - KoLCharacter.calculateBasePoints(stat);
         AdventureResult.SESSION_SUBSTATS[0] += count;
-        AdventureResult.SESSION_FULLSTATS[0] += diff;
+        AdventureResult.SESSION_FULLSTATS[0] += (int) diff;
         substatChanged = true;
         fullstatChanged |= (diff != 0);
       }
@@ -1102,7 +1124,7 @@ public class ResultProcessor {
         long diff =
             KoLCharacter.calculateBasePoints(stat + count) - KoLCharacter.calculateBasePoints(stat);
         AdventureResult.SESSION_SUBSTATS[1] += count;
-        AdventureResult.SESSION_FULLSTATS[1] += diff;
+        AdventureResult.SESSION_FULLSTATS[1] += (int) diff;
         substatChanged = true;
         fullstatChanged |= (diff != 0);
       }
@@ -1113,7 +1135,7 @@ public class ResultProcessor {
         long diff =
             KoLCharacter.calculateBasePoints(stat + count) - KoLCharacter.calculateBasePoints(stat);
         AdventureResult.SESSION_SUBSTATS[2] += count;
-        AdventureResult.SESSION_FULLSTATS[2] += diff;
+        AdventureResult.SESSION_FULLSTATS[2] += (int) diff;
         substatChanged = true;
         fullstatChanged |= (diff != 0);
       }
@@ -3287,6 +3309,10 @@ public class ResultProcessor {
         if (combatResults && KoLCharacter.hasEquipped(ItemPool.get(ItemPool.LUCKY_GOLD_RING, 1))) {
           Preferences.setBoolean("_luckyGoldRingVolcoino", true);
         }
+        break;
+
+      case ItemPool.VAMPIRE_VINTNER_WINE:
+        ResultProcessor.updateVintner();
         break;
     }
 

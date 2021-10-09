@@ -101,7 +101,6 @@ public class OptionsFrame extends GenericFrame {
     JPanel programsPanel = new JPanel();
     programsPanel.setLayout(new BoxLayout(programsPanel, BoxLayout.Y_AXIS));
     programsPanel.add(new EditorPanel());
-    programsPanel.add(new BrowserPanel());
     programsPanel.add(Box.createVerticalGlue());
     selectorPanel.addPanel(" - External Programs", programsPanel, true);
 
@@ -1840,69 +1839,6 @@ public class OptionsFrame extends GenericFrame {
           }
         }
       }
-    }
-  }
-
-  protected class BrowserPanel extends OptionsPanel {
-    private final FileSelectPanel preferredWebBrowser;
-
-    public BrowserPanel() {
-      AutoHighlightTextField textField = new AutoHighlightTextField();
-      boolean button = true;
-      String helpText = "";
-      String path = null;
-
-      if (KoLConstants.USE_OSX_STYLE_DIRECTORIES) {
-        button = false;
-        path = "/Applications";
-        helpText =
-            "If KoLmafia opens a browser other than your default, enter the name of your preferred browser here. The browser must be in your Applications directory";
-      } else if (KoLConstants.USE_LINUX_STYLE_DIRECTORIES) {
-        // button = true;
-        path = "/";
-        helpText =
-            "If KoLmafia opens a browser other than your default, enter the name of your preferred browser here. If that doesn't work, click the button and browse to the location of your browser.";
-      } else
-      // Windows
-      {
-        // button = true;
-        path = "";
-        helpText =
-            "If KoLmafia opens a browser other than your default, enter the name of your preferred browser here. If that doesn't work, click the button and browse to the location of your browser.";
-      }
-
-      this.preferredWebBrowser = new FileSelectPanel(textField, button);
-      if (button) {
-        this.preferredWebBrowser.setPath(new File(path));
-      }
-
-      VerifiableElement[] elements = new VerifiableElement[1];
-      elements[0] = new VerifiableElement("Browser: ", this.preferredWebBrowser);
-
-      this.setContent(elements);
-
-      JTextArea message = new JTextArea(helpText);
-      message.setColumns(40);
-      message.setLineWrap(true);
-      message.setWrapStyleWord(true);
-      message.setEditable(false);
-      message.setOpaque(false);
-      message.setFont(KoLGUIConstants.DEFAULT_FONT);
-      message.setPreferredSize(this.getPreferredSize());
-
-      this.container.add(message, BorderLayout.SOUTH);
-
-      this.actionCancelled();
-    }
-
-    @Override
-    public void actionConfirmed() {
-      Preferences.setString("preferredWebBrowser", this.preferredWebBrowser.getText());
-    }
-
-    @Override
-    public void actionCancelled() {
-      this.preferredWebBrowser.setText(Preferences.getString("preferredWebBrowser"));
     }
   }
 

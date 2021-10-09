@@ -226,11 +226,11 @@ public class QuestLogRequest extends GenericRequest {
 
       /*if ( !pref.equals( "" ) )
       {
-      	RequestLogger.printLine( pref + " (" + status + ")" );
+        RequestLogger.printLine( pref + " (" + status + ")" );
       }
       else
       {
-      	RequestLogger.printLine( "unhandled: " + title );
+        RequestLogger.printLine( "unhandled: " + title );
       }*/
 
       // Once we've implemented everything, we can do some error checking to make sure we handled

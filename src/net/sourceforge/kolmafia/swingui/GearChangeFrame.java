@@ -1062,24 +1062,24 @@ public class GearChangeFrame extends GenericFrame {
 
           /*
           case KoLConstants.CONSUME_STICKER:
-          	if ( this.shouldAddItem( item, consumption, slot ) )
-          	{
-          		lists[ EquipmentManager.STICKER1 ].add( item );
-          		lists[ EquipmentManager.STICKER2 ].add( item );
-          		lists[ EquipmentManager.STICKER3 ].add( item );
-          	}
-          	break;
+            if ( this.shouldAddItem( item, consumption, slot ) )
+            {
+              lists[ EquipmentManager.STICKER1 ].add( item );
+              lists[ EquipmentManager.STICKER2 ].add( item );
+              lists[ EquipmentManager.STICKER3 ].add( item );
+            }
+            break;
 
           case KoLConstants.CONSUME_FOLDER:
-          	if ( this.shouldAddItem( item, consumption, slot ) )
-          	{
-          		lists[ EquipmentManager.FOLDER1 ].add( item );
-          		lists[ EquipmentManager.FOLDER2 ].add( item );
-          		lists[ EquipmentManager.FOLDER3 ].add( item );
-          		lists[ EquipmentManager.FOLDER4 ].add( item );
-          		lists[ EquipmentManager.FOLDER5 ].add( item );
-          	}
-          	break;
+            if ( this.shouldAddItem( item, consumption, slot ) )
+            {
+              lists[ EquipmentManager.FOLDER1 ].add( item );
+              lists[ EquipmentManager.FOLDER2 ].add( item );
+              lists[ EquipmentManager.FOLDER3 ].add( item );
+              lists[ EquipmentManager.FOLDER4 ].add( item );
+              lists[ EquipmentManager.FOLDER5 ].add( item );
+            }
+            break;
           */
 
         default:

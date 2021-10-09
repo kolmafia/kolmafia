@@ -1,10 +1,10 @@
 package net.sourceforge.kolmafia.utilities;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class LowerCaseEntryTest {
 

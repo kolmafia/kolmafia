@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
-import com.centerkey.BareBonesBrowserLaunch;
 import com.jgoodies.binding.adapter.AbstractTableAdapter;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -68,6 +67,7 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
+import net.sourceforge.kolmafia.webui.RelayLoader;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.table.ColumnControlButton;
 import org.jdesktop.swingx.table.TableColumnExt;
@@ -1019,8 +1019,7 @@ public class ShowDescriptionTable extends JXTable {
             new Runnable() {
               public void run() {
                 String ft = ((Script) ob).getForumThread();
-                if (ft != null && !ft.equals(""))
-                  BareBonesBrowserLaunch.openURL(Preferences.getString("preferredWebBrowser"), ft);
+                if (ft != null && !ft.equals("")) RelayLoader.openSystemBrowser(ft);
               }
             });
       }

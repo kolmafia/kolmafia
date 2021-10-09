@@ -758,6 +758,12 @@ public class UseItemEnqueuePanel extends ItemListManagePanel {
         return false;
       }
 
+      if (item != null
+          && item.getItemId() == ItemPool.BOTTLE_OF_CHATEAU_DE_VINEGAR
+          && ConsumablesDatabase.getAdventureRange(item.getName()) == 0) {
+        return false;
+      }
+
       if (KoLCharacter.inBeecore()) {
         // If you have a GGG or Spirit Hobo equipped,
         // disable B filtering, since you may want to

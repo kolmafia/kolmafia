@@ -1686,10 +1686,10 @@ public class ConcoctionDatabase {
     // If we don't have a chef, Inigo's makes cooking free
     /*		else if ( Inigo > 0 )
     {
-    	ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK_FANCY ] = true;
-    	ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK_FANCY ] = 0;
-    	ConcoctionDatabase.CREATION_COST[ KoLConstants.COOK_FANCY ] = 0;
-    	ConcoctionDatabase.EXCUSE[ KoLConstants.COOK_FANCY ] = null;
+      ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK_FANCY ] = true;
+      ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK_FANCY ] = 0;
+      ConcoctionDatabase.CREATION_COST[ KoLConstants.COOK_FANCY ] = 0;
+      ConcoctionDatabase.EXCUSE[ KoLConstants.COOK_FANCY ] = null;
     }*/
     // We might not care if cooking takes adventures
     else if (Preferences.getBoolean("requireBoxServants") && !KoLCharacter.inGLover()) {
@@ -1788,10 +1788,10 @@ public class ConcoctionDatabase {
     // If we don't have a bartender, Inigo's makes mixing free
     /*		else if ( Inigo > 0 )
     {
-    	ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX_FANCY ] = true;
-    	ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX_FANCY ] = 0;
-    	ConcoctionDatabase.CREATION_COST[ KoLConstants.MIX_FANCY ] = 0;
-    	ConcoctionDatabase.EXCUSE[ KoLConstants.MIX_FANCY ] = null;
+      ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX_FANCY ] = true;
+      ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX_FANCY ] = 0;
+      ConcoctionDatabase.CREATION_COST[ KoLConstants.MIX_FANCY ] = 0;
+      ConcoctionDatabase.EXCUSE[ KoLConstants.MIX_FANCY ] = null;
     }*/
     // We might not care if mixing takes adventures
     else if (Preferences.getBoolean("requireBoxServants") && !KoLCharacter.inGLover()) {

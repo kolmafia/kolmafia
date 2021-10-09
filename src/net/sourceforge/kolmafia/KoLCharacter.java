@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia;
 
-import apple.dts.samplecode.osxadapter.OSXAdapter;
+import java.awt.Taskbar;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -429,6 +429,18 @@ public abstract class KoLCharacter {
 
   public static final void reset(final String newUserName) {
     if (newUserName.equals(KoLCharacter.username)) {
+      return;
+    }
+
+    // Check that character names contain a narrow range of characters. Note
+    // that we explicitly allow empty usernames so we can revert to the initial
+    // not-logged-in state.
+    if (!newUserName.matches("^[a-zA-Z_ 0-9]{3,30}$") && !newUserName.isEmpty()) {
+      return;
+    }
+
+    // Apparently the CodeQL security scan requires this as a fix...
+    if (newUserName.contains("..")) {
       return;
     }
 
@@ -2328,8 +2340,12 @@ public abstract class KoLCharacter {
    */
   public static final void setAdventuresLeft(final int adventuresLeft) {
     if (adventuresLeft != KoLCharacter.adventuresLeft) {
-      if (Preferences.getBoolean("useDockIconBadge")) {
-        OSXAdapter.setDockIconBadge(String.valueOf(adventuresLeft));
+      if (Taskbar.isTaskbarSupported()) {
+        Taskbar taskbar = Taskbar.getTaskbar();
+        if (taskbar.isSupported(Taskbar.Feature.ICON_BADGE_TEXT)
+            || Preferences.getBoolean("useDockIconBadge")) {
+          taskbar.setIconBadge(String.valueOf(adventuresLeft));
+        }
       }
 
       KoLCharacter.adventuresLeft = adventuresLeft;

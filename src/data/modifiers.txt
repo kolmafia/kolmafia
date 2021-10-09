@@ -2999,7 +2999,7 @@ Item	guts necklace	Stench Resistance: +4, Single Equip
 # Guzzlr shoes: Make Guzzlr deliveries in less time
 Item	Guzzlr shoes	Single Equip
 # Guzzlr tablet: Dispatches you to deliver booze to clients
-Item	Guzzlr tablet	Item Drop: +10, Maximum HP: +10, Maximum MP: +10, Booze Drop: [min(50,1+floor(pref(guzzlrBronzeDeliveries)/4))], MP Regen Min: [min(7,1+floor((sqrt(pref(guzzlrPlatinumDeliveries))))+floor(pref(guzzlrPlatinumDeliveries)/30))], MP Regen Max: [min(8,2+floor((sqrt(pref(guzzlrPlatinumDeliveries))))+floor(pref(guzzlrPlatinumDeliveries)/30))], HP Regen Min: 3, HP Regen Max: 6
+Item	Guzzlr tablet	Item Drop: +10, Maximum HP: +10, Maximum MP: +10, Booze Drop: [min(50,1+floor(pref(guzzlrBronzeDeliveries)/4))], MP Regen Min: [min(7,1+floor((sqrt(pref(guzzlrPlatinumDeliveries))))+floor(pref(guzzlrPlatinumDeliveries)/30))], MP Regen Max: [min(8,2+floor((sqrt(pref(guzzlrPlatinumDeliveries))))+floor(pref(guzzlrPlatinumDeliveries)/30))], HP Regen Min: [min(9,3+floor(pref(guzzlrGoldDeliveries)^0.35)+floor(pref(guzzlrGoldDeliveries)/150))], HP Regen Max: [min(12,3+floor(pref(guzzlrGoldDeliveries)^0.35)+floor(pref(guzzlrGoldDeliveries)/150))]
 # haggis socks: Allows you to deliver disgusting kicks
 Item	haggis socks	Initiative: +5, Single Equip
 Item	hamethyst bracelet	Muscle: +3, Critical Hit Percent: +5, Single Equip
@@ -4439,6 +4439,7 @@ Familiar	Red-Nosed Snapper	Fairy: [1+0.5*env(underwater)]
 Familiar	Robortender	Experience (Muscle): [max(3*pref(_roboDrinks,literal grasshopper),5*pref(_roboDrinks,eighth plague))], Fairy: [max(pref(_roboDrinks,single entendre),0.5*pref(_roboDrinks,double entendre))], Experience (Moxie): [max(3*pref(_roboDrinks,shroomtini),5*pref(_roboDrinks,moreltini))], Leprechaun: [1+max(0.5*pref(_roboDrinks,piscatini),pref(_roboDrinks,drive-by shooting))], Experience (Mysticality): [max(3*pref(_roboDrinks,soilzerac),5*pref(_roboDrinks,dirt julep))], Familiar Weight (hidden): [10*env(underwater)*pref(_roboDrinks,Bloody Nora)]
 Familiar	Space Jellyfish	Item Drop: [max(sqrt(55*W)+W-3,0)*env(underwater)], Experience: [max(2+W/5,2)*env(underwater)]
 Familiar	Steam-Powered Cheerleader	Fairy: [1+0.1*ceil(pref(_cheerleaderSteam)/50)]
+Familiar	Vampire Vintner	Booze Drop: [1.5*W]
 Familiar	Wizard Action Figure	Volleyball: 0.3333, Fairy: 0.3333
 Familiar	Xiblaxian Holo-Companion	Initiative: [2*W]
 
@@ -4633,6 +4634,7 @@ Throne	Underworld Bonsai	Spell Damage Percent: +10
 Throne	Uniclops	Experience (Mysticality): +2
 Throne	Untamed Turtle	Initiative: +20, Drops Items
 Throne	Urchin Urchin	Weapon Damage: +10
+Throne	Vampire Vintner	HP: +10, HP Regen Min: 10, HP Regen Max: 12
 Throne	Warbear Drone	Maximum HP: +10, Maximum MP: +10, Drops Items
 Throne	Wereturtle	Muscle Percent: +15, Drops Meat
 Throne	Whirling Maple Leaf	Spell Damage Percent: +10
@@ -7476,6 +7478,13 @@ Effect	Whole Latte Love	Familiar Weight: +10
 Effect	Whose Drinks Are These?	Avatar: "Resort Waiter"
 Effect	Why is the Shampoo Always Gone?	Avatar: "flashy pirate"
 Effect	Why So Serious?	Hot Damage: +25, Cold Damage: +25, Stench Damage: +25, Spooky Damage: +25, Sleaze Damage: +25, Hot Spell Damage: +25, Cold Spell Damage: +25, Stench Spell Damage: +25, Spooky Spell Damage: +25, Sleaze Spell Damage: +25
+Effect	Wine-Befouled	Stench Damage: [pref(vintnerWineLevel)*3], Stench Resistance: [pref(vintnerWineLevel)-2], Muscle: [pref(vintnerWineLevel)*5], Familiar Weight: [pref(vintnerWineLevel)]
+Effect	Wine-Cold	Cold Damage: [pref(vintnerWineLevel)*3], Cold Resistance: [pref(vintnerWineLevel)-2], Maximum MP: [pref(vintnerWineLevel)*5], Meat Drop: [pref(vintnerWineLevel)*5]
+Effect	Wine-Dark	Spooky Damage: [pref(vintnerWineLevel)*4], Spooky Resistance: [pref(vintnerWineLevel)-2], Mysticality: [pref(vintnerWineLevel)*5], Spell Critical Percent: [pref(vintnerWineLevel)*2]
+Effect	Wine-Fortified	Weapon Damage: [pref(vintnerWineLevel)*3], Damage Reduction: [pref(vintnerWineLevel)*3], Initiative: [pref(vintnerWineLevel)*10], Critical Hit Percent: [pref(vintnerWineLevel)*2]
+Effect	Wine-Friendly	Familiar Damage: [pref(vintnerWineLevel)*3], Experience (familiar): [pref(vintnerWineLevel)], Spell Damage: [pref(vintnerWineLevel)*3], Monster Level: [pref(vintnerWineLevel)*3]
+Effect	Wine-Frisky	Sleaze Damage: [pref(vintnerWineLevel)*3], Sleaze Resistance: [pref(vintnerWineLevel)-2], Moxie: [pref(vintnerWineLevel)*5], Pickpocket Chance: [pref(vintnerWineLevel)*5]
+Effect	Wine-Hot	Hot Damage: [pref(vintnerWineLevel)*3], Hot Resistance: [pref(vintnerWineLevel)-2], Maximum HP: [pref(vintnerWineLevel)*10], Item Drop: [pref(vintnerWineLevel)*5]
 # Wings: You believe you can fly!
 Effect	Wings of the Dragonfly	Initiative: +100
 Effect	Wings of the Grasshopper	Initiative: +50
@@ -8881,6 +8890,7 @@ Item	Turtle Bowl	Effect: "Tiki Thoughtfulness", Effect Duration: 40
 Item	twice-haunted screwdriver	Effect: "Haunted Liver", Effect Duration: 40
 Item	unfinished fruitcake	Effect: "Holiday Disappointment", Effect Duration: 10
 Item	unquiet spirits	Effect: "Hollow Inside", Effect Duration: 50
+Item	1950 Vampire Vintner wine	Effect Duration: 10
 Item	vintage smart drink	Effect: "Smart Drunk", Effect Duration: 1
 Item	vodka barracuda	Effect: "Mer-kinkiness", Effect Duration: 40
 Item	vodka stinger	Effect: "Mer-kindliness", Effect Duration: 40
