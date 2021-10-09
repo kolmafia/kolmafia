@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Parser;
+import org.eclipse.lsp4j.Location;
 import org.json.JSONException;
 
 public class Value extends Command implements Comparable<Value> {
@@ -463,6 +464,48 @@ public class Value extends Command implements Comparable<Value> {
       return Double.valueOf(Double.longBitsToDouble(this.contentLong));
     } else {
       return this.toString();
+    }
+  }
+
+  /**
+   * Returns a {@link LocatedValue} holding {@code value} and {@code location}.
+   *
+   * <p>If {@code value} is {@code null}, returns {@code null}.
+   */
+  public static final <V extends Value> LocatedValue<V> wrap(
+      final V value, final Location location) {
+    if (value == null) {
+      return null;
+    }
+
+    return new LocatedValue<>(value, location);
+  }
+
+  /**
+   * {@link Value}s are used in various ways outside of {@link Parser}. From constants to instances
+   * made at runtime (i.e. dynamically), we can't force {@link Value} to hold a {@link Location}
+   * without imposing an useless burden on the rest of KoLmafia, and tons of null checks.
+   *
+   * <p>So instead, we use this class to pass around locations throughout {@link Parser}.
+   *
+   * <p>{@link #value} is never {@code null}.
+   *
+   * <p>It is recommended to store this type's generic with the {@code ? extends} capture group,
+   * regardless of if you are certain of the content's datatype, to allow type casting to be as easy
+   * as casting the type of {@link #value} itself.
+   */
+  public static final class LocatedValue<V extends Value> {
+    public final V value;
+    public final Location location;
+
+    private LocatedValue(final V value, final Location location) {
+      this.value = value;
+      this.location = location;
+    }
+
+    @Override
+    public String toString() {
+      return this.value.toString();
     }
   }
 }
