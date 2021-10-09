@@ -5,10 +5,12 @@ on:
 
 jobs:
   check:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
 
-    # This needs to be called Run Tests to satisfy our github setup.
-    name: Run Tests
+    name: Run Checks
 
     steps:
       - name: Checkout repository
@@ -16,11 +18,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Java 16
+      - name: Setup Java 17
         uses: actions/setup-java@v2
         with:
           distribution: "temurin"
-          java-version: "16"
+          java-version: "17"
+          cache: "gradle"
 
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1
