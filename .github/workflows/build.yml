@@ -34,18 +34,14 @@ jobs:
           ORG_GRADLE_PROJECT_commit: ${{ github.sha }}
         run: ./gradlew --no-daemon jpackage
 
-      - name: Zip binaries
-        uses: thedoctor0/zip-release@master
-        with:
-          type: 'zip'
-          filename: '${{runner.os}}.zip'
-          directory: 'build/releases/'
-
-      - name: Upload zipballs
+      - name: Upload binaries
         uses: actions/upload-artifact@v2
         with:
           name: releases
-          path: build/releases/*.zip
+          path: |
+            build/releases/*.deb
+            build/releases/*.exe
+            build/releases/*.dmg
 
   jar:
     if: github.repository == 'kolmafia/kolmafia'
@@ -104,7 +100,9 @@ jobs:
         with:
           files: |
             dist/*.jar
-            releases/*.zip
+            releases/*.deb
+            releases/*.exe
+            releases/*.dmg
           tag_name: r${{ env.KOLMAFIA_VERSION }}
           name: ${{ env.KOLMAFIA_VERSION }}
         env:
