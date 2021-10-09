@@ -4404,10 +4404,6 @@ public class Parser {
     return this.makeLocation(this.getCurrentPosition());
   }
 
-  private Location makeZeroWidthLocation(final Position position) {
-    return this.makeLocation(new Range(position, position));
-  }
-
   // **************** Parse errors *****************
 
   private ScriptException parseException(final String expected, final Token found) {
