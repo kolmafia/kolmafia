@@ -1,82 +1,68 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import org.eclipse.lsp4j.Location;
 
-import net.sourceforge.kolmafia.KoLmafia;
+public abstract class Conditional extends Command {
+  public Scope scope;
+  private final Value condition;
 
-import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.AshRuntime;
-import net.sourceforge.kolmafia.textui.ScriptRuntime;
+  public Conditional(final Location location, final Scope scope, final Value condition) {
+    super(location);
+    this.scope = scope;
+    this.condition = condition;
+  }
 
-public abstract class Conditional
-	extends Command
-{
-	public Scope scope;
-	private final Value condition;
+  public Scope getScope() {
+    return this.scope;
+  }
 
-	public Conditional( final Location location, final Scope scope, final Value condition )
-	{
-		super( location );
-		this.scope = scope;
-		this.condition = condition;
-	}
+  public Value getCondition() {
+    return this.condition;
+  }
 
-	public Scope getScope()
-	{
-		return this.scope;
-	}
+  @Override
+  public Value execute(final AshRuntime interpreter) {
+    if (!KoLmafia.permitsContinue()) {
+      interpreter.setState(ScriptRuntime.State.EXIT);
+      return null;
+    }
 
-	public Value getCondition()
-	{
-		return this.condition;
-	}
+    interpreter.traceIndent();
 
-	@Override
-	public Value execute( final AshRuntime interpreter )
-	{
-		if ( !KoLmafia.permitsContinue() )
-		{
-			interpreter.setState( ScriptRuntime.State.EXIT );
-			return null;
-		}
+    if (ScriptRuntime.isTracing()) {
+      interpreter.trace(this.toString());
+      interpreter.trace("Test: " + this.condition);
+    }
 
-		interpreter.traceIndent();
+    Value conditionResult = this.condition.execute(interpreter);
+    interpreter.captureValue(conditionResult);
 
-		if ( ScriptRuntime.isTracing() )
-		{
-			interpreter.trace( this.toString() );
-			interpreter.trace( "Test: " + this.condition );
-		}
+    if (ScriptRuntime.isTracing()) {
+      interpreter.trace("[" + interpreter.getState() + "] <- " + conditionResult);
+    }
 
-		Value conditionResult = this.condition.execute( interpreter );
-		interpreter.captureValue( conditionResult );
+    if (conditionResult == null) {
+      interpreter.traceUnindent();
+      return null;
+    }
 
-		if ( ScriptRuntime.isTracing() )
-		{
-			interpreter.trace( "[" + interpreter.getState() + "] <- " + conditionResult );
-		}
+    if (conditionResult.intValue() == 1) {
+      Value result = this.scope.execute(interpreter);
 
-		if ( conditionResult == null )
-		{
-			interpreter.traceUnindent();
-			return null;
-		}
+      interpreter.traceUnindent();
 
-		if ( conditionResult.intValue() == 1 )
-		{
-			Value result = this.scope.execute( interpreter );
+      if (interpreter.getState() != ScriptRuntime.State.NORMAL) {
+        return result;
+      }
 
-			interpreter.traceUnindent();
+      return DataTypes.TRUE_VALUE;
+    }
 
-			if ( interpreter.getState() != ScriptRuntime.State.NORMAL )
-			{
-				return result;
-			}
-
-			return DataTypes.TRUE_VALUE;
-		}
-
-		interpreter.traceUnindent();
-		return DataTypes.FALSE_VALUE;
-	}
+    interpreter.traceUnindent();
+    return DataTypes.FALSE_VALUE;
+  }
 }

@@ -1,179 +1,149 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
-
 import java.util.List;
-
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import org.eclipse.lsp4j.Location;
 
-import net.sourceforge.kolmafia.KoLmafia;
+public class JavaForLoop extends Loop {
+  private final List<Assignment> initializers;
+  private final Value condition;
+  private final List<Command> incrementers;
 
-import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.AshRuntime;
-import net.sourceforge.kolmafia.textui.ScriptRuntime;
+  public JavaForLoop(
+      final Location location,
+      final Scope scope,
+      final List<Assignment> initializers,
+      final Value condition,
+      final List<Command> incrementers) {
+    super(location, scope);
+    this.initializers = initializers;
+    this.condition = condition;
+    this.incrementers = incrementers;
+  }
 
-public class JavaForLoop
-	extends Loop
-{
-	private final List<Assignment> initializers;
-	private final Value condition;
-	private final List<Command> incrementers;
+  public Value getCondition() {
+    return this.condition;
+  }
 
-	public JavaForLoop( final Location location,
-	                    final Scope scope,
-	                    final List<Assignment> initializers,
-	                    final Value condition,
-	                    final List<Command> incrementers )
-	{
-		super( location, scope );
-		this.initializers = initializers;
-		this.condition = condition;
-		this.incrementers = incrementers;
-	}
+  @Override
+  public Value execute(final AshRuntime interpreter) {
+    if (!KoLmafia.permitsContinue()) {
+      interpreter.setState(ScriptRuntime.State.EXIT);
+      return null;
+    }
 
-	public Value getCondition()
-	{
-		return this.condition;
-	}
+    interpreter.traceIndent();
 
-	@Override
-	public Value execute( final AshRuntime interpreter )
-	{
-		if ( !KoLmafia.permitsContinue() )
-		{
-			interpreter.setState( ScriptRuntime.State.EXIT );
-			return null;
-		}
+    if (ScriptRuntime.isTracing()) {
+      interpreter.trace(this.toString());
+    }
 
-		interpreter.traceIndent();
+    // For all variable references, bind to initial value
+    for (Assignment initializer : initializers) {
+      if (ScriptRuntime.isTracing()) {
+        interpreter.trace("Initialize: " + initializer.getLeftHandSide());
+      }
 
-		if ( ScriptRuntime.isTracing() )
-		{
-			interpreter.trace( this.toString() );
-		}
+      Value value = initializer.execute(interpreter);
+      interpreter.captureValue(value);
 
-		// For all variable references, bind to initial value
-		for ( Assignment initializer : initializers )
-		{
-			if ( ScriptRuntime.isTracing() )
-			{
-				interpreter.trace( "Initialize: " + initializer.getLeftHandSide() );
-			}
+      if (value == null) {
+        value = DataTypes.VOID_VALUE;
+      }
 
-			Value value = initializer.execute( interpreter );
-			interpreter.captureValue( value );
+      if (ScriptRuntime.isTracing()) {
+        interpreter.trace("[" + interpreter.getState() + "] <- " + value);
+      }
 
-			if ( value == null )
-			{
-				value = DataTypes.VOID_VALUE;
-			}
+      if (interpreter.getState() == ScriptRuntime.State.EXIT) {
+        interpreter.traceUnindent();
+        return null;
+      }
+    }
 
-			if ( ScriptRuntime.isTracing() )
-			{
-				interpreter.trace( "[" + interpreter.getState() + "] <- " + value );
-			}
+    while (true) {
+      // Test the exit condition
+      if (ScriptRuntime.isTracing()) {
+        interpreter.trace("Test: " + this.condition);
+      }
 
-			if ( interpreter.getState() == ScriptRuntime.State.EXIT )
-			{
-				interpreter.traceUnindent();
-				return null;
-			}
-		}
+      Value conditionResult = this.condition.execute(interpreter);
+      interpreter.captureValue(conditionResult);
 
-		while ( true )
-		{
-			// Test the exit condition
-			if ( ScriptRuntime.isTracing() )
-			{
-				interpreter.trace( "Test: " + this.condition );
-			}
+      if (ScriptRuntime.isTracing()) {
+        interpreter.trace("[" + interpreter.getState() + "] <- " + conditionResult);
+      }
 
-			Value conditionResult = this.condition.execute( interpreter );
-			interpreter.captureValue( conditionResult );
+      if (conditionResult == null) {
+        interpreter.traceUnindent();
+        return null;
+      }
 
-			if ( ScriptRuntime.isTracing() )
-			{
-				interpreter.trace( "[" + interpreter.getState() + "] <- " + conditionResult );
-			}
+      if (conditionResult.intValue() != 1) {
+        break;
+      }
 
-			if ( conditionResult == null )
-			{
-				interpreter.traceUnindent();
-				return null;
-			}
+      // Execute the loop body
+      Value result = super.execute(interpreter);
 
-			if ( conditionResult.intValue() != 1 )
-			{
-				break;
-			}
+      if (interpreter.getState() == ScriptRuntime.State.BREAK) {
+        interpreter.setState(ScriptRuntime.State.NORMAL);
+        interpreter.traceUnindent();
+        return DataTypes.VOID_VALUE;
+      }
 
-			// Execute the loop body
-			Value result = super.execute( interpreter );
+      if (interpreter.getState() != ScriptRuntime.State.NORMAL) {
+        interpreter.traceUnindent();
+        return result;
+      }
 
-			if ( interpreter.getState() == ScriptRuntime.State.BREAK )
-			{
-				interpreter.setState( ScriptRuntime.State.NORMAL );
-				interpreter.traceUnindent();
-				return DataTypes.VOID_VALUE;
-			}
+      // Execute incrementers
+      for (Command incrementer : this.incrementers) {
+        Value iresult = incrementer.execute(interpreter);
 
-			if ( interpreter.getState() != ScriptRuntime.State.NORMAL )
-			{
-				interpreter.traceUnindent();
-				return result;
-			}
+        // Abort processing now if command failed
+        if (!KoLmafia.permitsContinue()) {
+          interpreter.setState(ScriptRuntime.State.EXIT);
+        }
 
-			// Execute incrementers
-			for ( Command incrementer : this.incrementers )
-			{
-				Value iresult = incrementer.execute( interpreter );
+        if (ScriptRuntime.isTracing()) {
+          interpreter.trace("[" + interpreter.getState() + "] <- " + iresult.toQuotedString());
+        }
 
-				// Abort processing now if command failed
-				if ( !KoLmafia.permitsContinue() )
-				{
-					interpreter.setState( ScriptRuntime.State.EXIT );
-				}
+        if (interpreter.getState() != ScriptRuntime.State.NORMAL) {
+          interpreter.traceUnindent();
+          return DataTypes.VOID_VALUE;
+        }
+      }
+    }
 
-				if ( ScriptRuntime.isTracing() )
-				{
-					interpreter.trace( "[" + interpreter.getState() + "] <- " + iresult.toQuotedString() );
-				}
+    interpreter.traceUnindent();
+    return DataTypes.VOID_VALUE;
+  }
 
-				if ( interpreter.getState() != ScriptRuntime.State.NORMAL )
-				{
-					interpreter.traceUnindent();
-					return DataTypes.VOID_VALUE;
-				}
-			}
-		}
+  @Override
+  public String toString() {
+    return "for";
+  }
 
-		interpreter.traceUnindent();
-		return DataTypes.VOID_VALUE;
-	}
+  @Override
+  public void print(final PrintStream stream, final int indent) {
+    AshRuntime.indentLine(stream, indent);
+    stream.println("<FOR>");
 
-	@Override
-	public String toString()
-	{
-		return "for";
-	}
-
-	@Override
-	public void print( final PrintStream stream, final int indent )
-	{
-		AshRuntime.indentLine( stream, indent );
-		stream.println( "<FOR>" );
-
-		for ( Assignment initializer : initializers )
-		{
-			initializer.print( stream, indent + 1 );
-		}
-		this.getCondition().print( stream, indent + 1 );
-		for ( Command incrementer : this.incrementers )
-		{
-			AshRuntime.indentLine( stream, indent + 1 );
-			stream.println( "<ITERATE>" );
-			incrementer.print( stream, indent + 2 );
-		}
-		this.getScope().print( stream, indent + 1 );
-	}
+    for (Assignment initializer : initializers) {
+      initializer.print(stream, indent + 1);
+    }
+    this.getCondition().print(stream, indent + 1);
+    for (Command incrementer : this.incrementers) {
+      AshRuntime.indentLine(stream, indent + 1);
+      stream.println("<ITERATE>");
+      incrementer.print(stream, indent + 2);
+    }
+    this.getScope().print(stream, indent + 1);
+  }
 }

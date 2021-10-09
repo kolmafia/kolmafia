@@ -1,109 +1,88 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
-
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import org.eclipse.lsp4j.Location;
 
-import net.sourceforge.kolmafia.KoLmafia;
+public class RepeatUntilLoop extends Loop {
+  private final Value condition;
 
-import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.AshRuntime;
-import net.sourceforge.kolmafia.textui.ScriptRuntime;
+  public RepeatUntilLoop(final Location location, final Scope scope, final Value condition) {
+    super(location, scope);
+    this.condition = condition;
+  }
 
-public class RepeatUntilLoop
-	extends Loop
-{
-	private final Value condition;
+  public Value getCondition() {
+    return this.condition;
+  }
 
-	public RepeatUntilLoop( final Location location, final Scope scope, final Value condition )
-	{
-		super( location, scope );
-		this.condition = condition;
-	}
+  @Override
+  public Value execute(final AshRuntime interpreter) {
+    if (!KoLmafia.permitsContinue()) {
+      interpreter.setState(ScriptRuntime.State.EXIT);
+      return null;
+    }
 
-	public Value getCondition()
-	{
-		return this.condition;
-	}
+    interpreter.traceIndent();
+    if (ScriptRuntime.isTracing()) {
+      interpreter.trace(this.toString());
+    }
 
-	@Override
-	public Value execute( final AshRuntime interpreter )
-	{
-		if ( !KoLmafia.permitsContinue() )
-		{
-			interpreter.setState( ScriptRuntime.State.EXIT );
-			return null;
-		}
+    Value conditionResult;
 
-		interpreter.traceIndent();
-		if ( ScriptRuntime.isTracing() )
-		{
-			interpreter.trace( this.toString() );
-		}
+    do {
+      Value result = super.execute(interpreter);
 
-		Value conditionResult;
+      if (interpreter.getState() == ScriptRuntime.State.BREAK) {
+        interpreter.setState(ScriptRuntime.State.NORMAL);
+        interpreter.traceUnindent();
+        return DataTypes.VOID_VALUE;
+      }
 
-		do
-		{
-			Value result = super.execute( interpreter );
+      if (interpreter.getState() != ScriptRuntime.State.NORMAL) {
+        interpreter.traceUnindent();
+        return result;
+      }
 
-			if ( interpreter.getState() == ScriptRuntime.State.BREAK )
-			{
-				interpreter.setState( ScriptRuntime.State.NORMAL );
-				interpreter.traceUnindent();
-				return DataTypes.VOID_VALUE;
-			}
+      if (ScriptRuntime.isTracing()) {
+        interpreter.trace("Test: " + this.condition);
+      }
 
-			if ( interpreter.getState() != ScriptRuntime.State.NORMAL )
-			{
-				interpreter.traceUnindent();
-				return result;
-			}
+      conditionResult = this.condition.execute(interpreter);
+      interpreter.captureValue(conditionResult);
 
-			if ( ScriptRuntime.isTracing() )
-			{
-				interpreter.trace( "Test: " + this.condition );
-			}
+      if (ScriptRuntime.isTracing()) {
+        interpreter.trace("[" + interpreter.getState() + "] <- " + conditionResult);
+      }
 
-			conditionResult = this.condition.execute( interpreter );
-			interpreter.captureValue( conditionResult );
+      if (conditionResult == null) {
+        interpreter.traceUnindent();
+        return null;
+      }
+    } while (conditionResult.intValue() != 1);
 
-			if ( ScriptRuntime.isTracing() )
-			{
-				interpreter.trace( "[" + interpreter.getState() + "] <- " + conditionResult );
-			}
+    interpreter.traceUnindent();
+    return DataTypes.VOID_VALUE;
+  }
 
-			if ( conditionResult == null )
-			{
-				interpreter.traceUnindent();
-				return null;
-			}
-		}
-		while ( conditionResult.intValue() != 1 );
+  @Override
+  public boolean assertBarrier() {
+    return this.condition == DataTypes.FALSE_VALUE && !this.getScope().assertBreakable();
+  }
 
-		interpreter.traceUnindent();
-		return DataTypes.VOID_VALUE;
-	}
-	
-	@Override
-	public boolean assertBarrier()
-	{
-		return this.condition == DataTypes.FALSE_VALUE &&
-			!this.getScope().assertBreakable();
-	}
+  @Override
+  public String toString() {
+    return "repeat";
+  }
 
-	@Override
-	public String toString()
-	{
-		return "repeat";
-	}
-
-	@Override
-	public void print( final PrintStream stream, final int indent )
-	{
-		AshRuntime.indentLine( stream, indent );
-		stream.println( "<REPEAT>" );
-		this.getScope().print( stream, indent + 1 );
-		this.getCondition().print( stream, indent + 1 );
-	}
+  @Override
+  public void print(final PrintStream stream, final int indent) {
+    AshRuntime.indentLine(stream, indent);
+    stream.println("<REPEAT>");
+    this.getScope().print(stream, indent + 1);
+    this.getCondition().print(stream, indent + 1);
+  }
 }

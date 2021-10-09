@@ -1,123 +1,101 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
-
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import org.eclipse.lsp4j.Location;
 
-import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLConstants.MafiaState;
-import net.sourceforge.kolmafia.StaticEntity;
+public class Try extends Command {
+  private final Scope body, finalClause;
 
-import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.AshRuntime;
-import net.sourceforge.kolmafia.textui.ScriptRuntime;
+  public Try(final Location location, final Scope body, final Scope finalClause) {
+    super(location);
+    this.body = body;
+    this.finalClause = finalClause;
+  }
 
-public class Try
-	extends Command
-{
-	private final Scope body, finalClause;
+  @Override
+  public Value execute(final AshRuntime interpreter) {
+    // We can't catch script ABORTs
+    if (!KoLmafia.permitsContinue()) {
+      interpreter.setState(ScriptRuntime.State.EXIT);
+      return null;
+    }
 
-	public Try( final Location location, final Scope body, final Scope finalClause )
-	{
-		super( location );
-		this.body = body;
-		this.finalClause = finalClause;
-	}
+    Value result = DataTypes.VOID_VALUE;
+    interpreter.traceIndent();
+    if (ScriptRuntime.isTracing()) {
+      interpreter.trace("Entering try body");
+    }
 
-	@Override
-	public Value execute( final AshRuntime interpreter )
-	{
-		// We can't catch script ABORTs
-		if ( !KoLmafia.permitsContinue() )
-		{
-			interpreter.setState( ScriptRuntime.State.EXIT );
-			return null;
-		}
+    try {
+      result = this.body.execute(interpreter);
+    } catch (Exception e) {
+      // *** Here is where we wuld look at catch blocks and find which, if any
+      // *** will handle this exception.
+      //
+      // If no catch block swallows this error, propagate it upwards
+      interpreter.traceUnindent();
+      throw e;
+    } finally {
+      if (this.finalClause != null) {
+        ScriptRuntime.State oldState = interpreter.getState();
+        boolean userAborted = StaticEntity.userAborted;
+        MafiaState continuationState = StaticEntity.getContinuationState();
 
-		Value result = DataTypes.VOID_VALUE;
-		interpreter.traceIndent();
-		if ( ScriptRuntime.isTracing() )
-		{
-			interpreter.trace( "Entering try body" );
-		}
+        KoLmafia.forceContinue();
+        interpreter.setState(ScriptRuntime.State.NORMAL);
 
-		try
-		{
-			result = this.body.execute( interpreter );
-		}
-		catch ( Exception e )
-		{
-			// *** Here is where we wuld look at catch blocks and find which, if any
-			// *** will handle this exception.
-			//
-			// If no catch block swallows this error, propagate it upwards
-			interpreter.traceUnindent();
-			throw e;
-		}
-		finally
-		{
-			if ( this.finalClause != null )
-			{
-				ScriptRuntime.State oldState = interpreter.getState();
-				boolean userAborted = StaticEntity.userAborted;
-				MafiaState continuationState = StaticEntity.getContinuationState();
+        if (ScriptRuntime.isTracing()) {
+          interpreter.trace("Entering finally, saved state: " + oldState);
+        }
 
-				KoLmafia.forceContinue();
-				interpreter.setState( ScriptRuntime.State.NORMAL );
+        this.finalClause.execute(interpreter);
 
-				if ( ScriptRuntime.isTracing() )
-				{
-					interpreter.trace( "Entering finally, saved state: " + oldState );
-				}
+        // Unless the finally block aborted, restore previous state
+        if (!KoLmafia.refusesContinue()) {
+          interpreter.setState(oldState);
+          StaticEntity.setContinuationState(continuationState);
+          StaticEntity.userAborted = userAborted;
+        }
+      }
+    }
 
-				this.finalClause.execute( interpreter );
+    interpreter.traceUnindent();
+    return result;
+  }
 
-				// Unless the finally block aborted, restore previous state
-				if ( !KoLmafia.refusesContinue() )
-				{
-					interpreter.setState( oldState );
-					StaticEntity.setContinuationState( continuationState );
-					StaticEntity.userAborted = userAborted;
-				}
-			}
-		}
+  @Override
+  public boolean assertBarrier() {
+    return this.body.assertBarrier() || this.finalClause.assertBarrier();
+  }
 
-		interpreter.traceUnindent();
-		return result;
-	}
+  @Override
+  public boolean assertBreakable() {
+    return this.body.assertBreakable() || this.finalClause.assertBreakable();
+  }
 
-	@Override
-	public boolean assertBarrier()
-	{
-		return this.body.assertBarrier() || this.finalClause.assertBarrier();
-	}
+  @Override
+  public String toString() {
+    return "try";
+  }
 
-	@Override
-	public boolean assertBreakable()
-	{
-		return this.body.assertBreakable() || this.finalClause.assertBreakable();
-	}
+  @Override
+  public void print(final PrintStream stream, final int indent) {
+    AshRuntime.indentLine(stream, indent);
+    stream.println("<TRY>");
 
-	@Override
-	public String toString()
-	{
-		return "try";
-	}
+    this.body.print(stream, indent + 1);
 
-	@Override
-	public void print( final PrintStream stream, final int indent )
-	{
-		AshRuntime.indentLine( stream, indent );
-		stream.println( "<TRY>" );
+    if (this.finalClause != null) {
+      AshRuntime.indentLine(stream, indent);
+      stream.println("<FINALLY>");
 
-		this.body.print( stream, indent + 1 );
-
-		if ( this.finalClause != null )
-		{
-			AshRuntime.indentLine( stream, indent );
-			stream.println( "<FINALLY>" );
-
-			this.finalClause.print( stream, indent + 1 );
-		}
-	}
+      this.finalClause.print(stream, indent + 1);
+    }
+  }
 }

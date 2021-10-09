@@ -2,246 +2,212 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class PulverizeRequest
-	extends GenericRequest
-{
-	public static final Pattern ITEMID_PATTERN = Pattern.compile( "smashitem=(\\d+)" );
-	private static final Map<String, String> UPGRADES = new HashMap<>();
-	static {
-		UPGRADES.put( "powder", "nuggets" );
-		UPGRADES.put( "nuggets", "wad" );
-		UPGRADES.put( "sand", "pebbles" );
-		UPGRADES.put( "pebbles", "gravel" );
-		UPGRADES.put( "gravel", "rock" );
-	}
+public class PulverizeRequest extends GenericRequest {
+  public static final Pattern ITEMID_PATTERN = Pattern.compile("smashitem=(\\d+)");
+  private static final Map<String, String> UPGRADES = new HashMap<>();
 
-	private AdventureResult item;
+  static {
+    UPGRADES.put("powder", "nuggets");
+    UPGRADES.put("nuggets", "wad");
+    UPGRADES.put("sand", "pebbles");
+    UPGRADES.put("pebbles", "gravel");
+    UPGRADES.put("gravel", "rock");
+  }
 
-	public PulverizeRequest( final AdventureResult item )
-	{
-		super( "craft.php" );
-		this.addFormField( "action", "pulverize" );
+  private AdventureResult item;
 
-		this.item = item;
-		this.addFormField( "smashitem", String.valueOf( item.getItemId() ) );
-		this.addFormField( "qty", String.valueOf( item.getCount() ) );
-		this.addFormField( "ajax", "1" );
+  public PulverizeRequest(final AdventureResult item) {
+    super("craft.php");
+    this.addFormField("action", "pulverize");
 
-		// 1 to confirm smashing untradables
-		this.addFormField( "conftrade", "1" );
-	}
+    this.item = item;
+    this.addFormField("smashitem", String.valueOf(item.getItemId()));
+    this.addFormField("qty", String.valueOf(item.getCount()));
+    this.addFormField("ajax", "1");
 
-	public void useMalus( final String itemName, final int quantity )
-	{
-		if ( itemName == null || !ItemDatabase.contains( itemName ) )
-		{
-			return;
-		}
+    // 1 to confirm smashing untradables
+    this.addFormField("conftrade", "1");
+  }
 
-		int itemId = ItemDatabase.getItemId( itemName );
-		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
+  public void useMalus(final String itemName, final int quantity) {
+    if (itemName == null || !ItemDatabase.contains(itemName)) {
+      return;
+    }
 
-		if ( ingredients == null || ingredients.length == 0 )
-		{
-			return;
-		}
+    int itemId = ItemDatabase.getItemId(itemName);
+    AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(itemId);
 
-		int amountNeeded = Math.min( quantity,
-			ingredients[ 0 ].getCount( KoLConstants.inventory ) / 5 );
-		if ( amountNeeded == 0 )
-		{
-			return;
-		}
+    if (ingredients == null || ingredients.length == 0) {
+      return;
+    }
 
-		CreateItemRequest icr = CreateItemRequest.getInstance( itemId );
-		if ( icr == null )
-		{
-			return;
-		}
+    int amountNeeded = Math.min(quantity, ingredients[0].getCount(KoLConstants.inventory) / 5);
+    if (amountNeeded == 0) {
+      return;
+    }
 
-		icr.setQuantityNeeded( amountNeeded );
-		icr.run();
-	}
+    CreateItemRequest icr = CreateItemRequest.getInstance(itemId);
+    if (icr == null) {
+      return;
+    }
 
-	@Override
-	public void run()
-	{
-		if ( Preferences.getBoolean( "mementoListActive" ) && KoLConstants.mementoList.contains( this.item ) )
-		{
-			KoLmafia.updateDisplay( "(smashing of 'Memento' item " + this.item + " disallowed)" );
-			return;
-		}
+    icr.setQuantityNeeded(amountNeeded);
+    icr.run();
+  }
 
-		if ( this.item.getCount( KoLConstants.inventory ) == this.item.getCount() )
-		{
-			if ( !KoLCharacter.canInteract() && !KoLConstants.junkList.contains( this.item ) )
-			{
-				KoLConstants.junkList.add( this.item );
-			}
+  @Override
+  public void run() {
+    if (Preferences.getBoolean("mementoListActive")
+        && KoLConstants.mementoList.contains(this.item)) {
+      KoLmafia.updateDisplay("(smashing of 'Memento' item " + this.item + " disallowed)");
+      return;
+    }
 
-			if ( KoLConstants.singletonList.contains( this.item ) && !KoLConstants.closet.contains( this.item ) )
-			{
-				KoLmafia.updateDisplay( "(smashable quantity of 'Keep One' item " + this.item + " reduced by 1)" );
-				this.item = this.item.getInstance( this.item.getCount() - 1 );
-				if ( this.item.getCount() <= 0 )
-				{
-					return;
-				}
-				this.addFormField( "qty", String.valueOf( this.item.getCount() ) );
-			}
-		}
+    if (this.item.getCount(KoLConstants.inventory) == this.item.getCount()) {
+      if (!KoLCharacter.canInteract() && !KoLConstants.junkList.contains(this.item)) {
+        KoLConstants.junkList.add(this.item);
+      }
 
-		switch ( ItemDatabase.getConsumptionType( this.item.getItemId() ) )
-		{
-		case KoLConstants.EQUIP_ACCESSORY:
-		case KoLConstants.EQUIP_HAT:
-		case KoLConstants.EQUIP_PANTS:
-		case KoLConstants.EQUIP_SHIRT:
-		case KoLConstants.EQUIP_WEAPON:
-		case KoLConstants.EQUIP_OFFHAND:
-		case KoLConstants.EQUIP_CONTAINER:
-			break;
+      if (KoLConstants.singletonList.contains(this.item)
+          && !KoLConstants.closet.contains(this.item)) {
+        KoLmafia.updateDisplay(
+            "(smashable quantity of 'Keep One' item " + this.item + " reduced by 1)");
+        this.item = this.item.getInstance(this.item.getCount() - 1);
+        if (this.item.getCount() <= 0) {
+          return;
+        }
+        this.addFormField("qty", String.valueOf(this.item.getCount()));
+      }
+    }
 
-		default:
-			int qty = this.item.getCount();
-			String name = this.item.getName();
-			int space = name.lastIndexOf( " " ) + 1;
-			String upgrade = PulverizeRequest.UPGRADES.get(
-				name.substring( space ) );
-			if ( upgrade != null )
-			{
-				this.useMalus( name.substring( 0, space ) + upgrade, qty / 5 );
-			}
+    switch (ItemDatabase.getConsumptionType(this.item.getItemId())) {
+      case KoLConstants.EQUIP_ACCESSORY:
+      case KoLConstants.EQUIP_HAT:
+      case KoLConstants.EQUIP_PANTS:
+      case KoLConstants.EQUIP_SHIRT:
+      case KoLConstants.EQUIP_WEAPON:
+      case KoLConstants.EQUIP_OFFHAND:
+      case KoLConstants.EQUIP_CONTAINER:
+        break;
 
-			return;
-		}
+      default:
+        int qty = this.item.getCount();
+        String name = this.item.getName();
+        int space = name.lastIndexOf(" ") + 1;
+        String upgrade = PulverizeRequest.UPGRADES.get(name.substring(space));
+        if (upgrade != null) {
+          this.useMalus(name.substring(0, space) + upgrade, qty / 5);
+        }
 
-		if ( !KoLCharacter.hasSkill( "Pulverize" ) )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't know how to pulverize objects." );
-			return;
-		}
+        return;
+    }
 
-		if ( !InventoryManager.retrieveItem( ItemPool.TENDER_HAMMER ) )
-		{
-			return;
-		}
+    if (!KoLCharacter.hasSkill("Pulverize")) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "You don't know how to pulverize objects.");
+      return;
+    }
 
-		if ( this.item.getCount( KoLConstants.inventory ) < this.item.getCount() )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have that many " + this.item.getName() + "." );
-			return;
-		}
+    if (!InventoryManager.retrieveItem(ItemPool.TENDER_HAMMER)) {
+      return;
+    }
 
-		KoLmafia.updateDisplay( "Pulverizing " + this.item + "..." );
-		super.run();
-	}
+    if (this.item.getCount(KoLConstants.inventory) < this.item.getCount()) {
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR, "You don't have that many " + this.item.getName() + ".");
+      return;
+    }
 
-	@Override
-	public void processResults()
-	{
-		if ( PulverizeRequest.parseResponse( this.getURLString(), this.responseText ) == 0 )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "The " + this.item + " could not be smashed." );
-			return;
-		}
+    KoLmafia.updateDisplay("Pulverizing " + this.item + "...");
+    super.run();
+  }
 
-		KoLmafia.updateDisplay( this.item + " smashed." );
-	}
+  @Override
+  public void processResults() {
+    if (PulverizeRequest.parseResponse(this.getURLString(), this.responseText) == 0) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "The " + this.item + " could not be smashed.");
+      return;
+    }
 
-	public static final int parseResponse( final String urlString, final String responseText )
-	{
-		// That's too important to pulverize.
-		// That's not something you can pulverize.
-		// You don't know how to properly smash stuff.
-		// You haven't got that many.
+    KoLmafia.updateDisplay(this.item + " smashed.");
+  }
 
-		if ( responseText.indexOf( "too important to pulverize" ) != -1 ||
-		     responseText.indexOf( "not something you can pulverize" ) != -1 ||
-		     responseText.indexOf( "don't know how to properly smash stuff" ) != -1 ||
-		     responseText.indexOf( "haven't got that many" ) != -1 )
-		{
-			return 0;
-		}
+  public static final int parseResponse(final String urlString, final String responseText) {
+    // That's too important to pulverize.
+    // That's not something you can pulverize.
+    // You don't know how to properly smash stuff.
+    // You haven't got that many.
 
-		Matcher itemMatcher = PulverizeRequest.ITEMID_PATTERN.matcher( urlString );
+    if (responseText.indexOf("too important to pulverize") != -1
+        || responseText.indexOf("not something you can pulverize") != -1
+        || responseText.indexOf("don't know how to properly smash stuff") != -1
+        || responseText.indexOf("haven't got that many") != -1) {
+      return 0;
+    }
 
-		if ( !itemMatcher.find() )
-		{
-			return 0;
-		}
+    Matcher itemMatcher = PulverizeRequest.ITEMID_PATTERN.matcher(urlString);
 
-		Matcher quantityMatcher = GenericRequest.QTY_PATTERN.matcher( urlString );
+    if (!itemMatcher.find()) {
+      return 0;
+    }
 
-		if ( !quantityMatcher.find() )
-		{
-			return 0;
-		}
+    Matcher quantityMatcher = GenericRequest.QTY_PATTERN.matcher(urlString);
 
-		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-		int quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
+    if (!quantityMatcher.find()) {
+      return 0;
+    }
 
-		ResultProcessor.processResult( ItemPool.get( itemId, 0 - quantity ) );
+    int itemId = StringUtilities.parseInt(itemMatcher.group(1));
+    int quantity = StringUtilities.parseInt(quantityMatcher.group(1));
 
-		return quantity;
-	}
+    ResultProcessor.processResult(ItemPool.get(itemId, 0 - quantity));
 
-	public static final boolean registerRequest( final String urlString )
-	{
-		if ( !urlString.startsWith( "craft.php" ) || urlString.indexOf( "action=pulverize" ) == -1 )
-		{
-			return false;
-		}
+    return quantity;
+  }
 
-		Matcher itemMatcher = PulverizeRequest.ITEMID_PATTERN.matcher( urlString );
+  public static final boolean registerRequest(final String urlString) {
+    if (!urlString.startsWith("craft.php") || urlString.indexOf("action=pulverize") == -1) {
+      return false;
+    }
 
-		if ( !itemMatcher.find() )
-		{
-			return false;
-		}
+    Matcher itemMatcher = PulverizeRequest.ITEMID_PATTERN.matcher(urlString);
 
-		Matcher quantityMatcher = GenericRequest.QTY_PATTERN.matcher( urlString );
+    if (!itemMatcher.find()) {
+      return false;
+    }
 
-		if ( !quantityMatcher.find() )
-		{
-			return false;
-		}
+    Matcher quantityMatcher = GenericRequest.QTY_PATTERN.matcher(urlString);
 
-		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-		String name = ItemDatabase.getItemName( itemId );
+    if (!quantityMatcher.find()) {
+      return false;
+    }
 
-		if ( name == null )
-		{
-			return true;
-		}
+    int itemId = StringUtilities.parseInt(itemMatcher.group(1));
+    String name = ItemDatabase.getItemName(itemId);
 
-		int quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
+    if (name == null) {
+      return true;
+    }
 
-		RequestLogger.updateSessionLog( "pulverize " + quantity + " " + name );
+    int quantity = StringUtilities.parseInt(quantityMatcher.group(1));
 
-		return true;
-	}
+    RequestLogger.updateSessionLog("pulverize " + quantity + " " + name);
+
+    return true;
+  }
 }
