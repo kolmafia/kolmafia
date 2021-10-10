@@ -141,10 +141,6 @@ public abstract class StaticEntity {
         if ( attribute.equals(  "true" ) ) {
           cachedBuildInfo.append("-M");
         }
-        attribute = attributes.getValue("Build-Dirty");
-        if (attribute.equals("true")) {
-          cachedBuildInfo.append("-M");
-        }
         attribute = attributes.getValue("Build-Jdk");
         if (attribute != null) {
           cachedBuildInfo.append(" ").append(attribute);
