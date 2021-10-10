@@ -132,9 +132,13 @@ public abstract class StaticEntity {
         if (attribute != null) {
           cachedBuildInfo.append(" ").append(attribute);
         }
-        attribute = attributes.getValue("Build-Commit");
+        attribute = attributes.getValue("Build-Build");
         if (attribute != null) {
           cachedBuildInfo.append(" ").append(attribute);
+        }
+        attribute = attributes.getValue("Build-Dirty");
+        if (attribute.equals("true")) {
+          cachedBuildInfo.append("-M");
         }
         attribute = attributes.getValue("Build-Jdk");
         if (attribute != null) {
