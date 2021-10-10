@@ -10,6 +10,7 @@ import java.io.PrintStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.StringTokenizer;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
@@ -130,11 +131,15 @@ public abstract class StaticEntity {
       if (attributes != null) {
         String attribute = attributes.getValue("Build-Branch");
         if (attribute != null) {
-          cachedBuildInfo.append(" ").append(attribute);
+          cachedBuildInfo.append(" ").append(attribute).append("-");
         }
-        attribute = attributes.getValue("Build-Commit");
+        attribute = attributes.getValue("Build-Build");
         if (attribute != null) {
-          cachedBuildInfo.append(" ").append(attribute);
+          cachedBuildInfo.append(attribute);
+        }
+        attribute = attributes.getValue("Build-Dirty");
+        if ( attribute.equals(  "true" ) ) {
+          cachedBuildInfo.append("-M");
         }
         attribute = attributes.getValue("Build-Jdk");
         if (attribute != null) {
