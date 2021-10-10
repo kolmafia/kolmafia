@@ -10,7 +10,6 @@ import java.io.PrintStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Objects;
 import java.util.StringTokenizer;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
@@ -138,7 +137,7 @@ public abstract class StaticEntity {
           cachedBuildInfo.append(attribute);
         }
         attribute = attributes.getValue("Build-Dirty");
-        if ( attribute.equals(  "true" ) ) {
+        if (attribute.equals("true")) {
           cachedBuildInfo.append("-M");
         }
         attribute = attributes.getValue("Build-Jdk");
