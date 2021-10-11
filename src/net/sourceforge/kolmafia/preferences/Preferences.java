@@ -41,14 +41,14 @@ public class Preferences {
 
   private static final String[] characterMap = new String[65536];
 
-  private static final HashMap<String, String> globalNames = new HashMap<String, String>();
+  private static final HashMap<String, String> globalNames = new HashMap<>();
   private static final SortedMap<String, Object> globalValues =
-      Collections.synchronizedSortedMap(new TreeMap<String, Object>());
+      Collections.synchronizedSortedMap(new TreeMap<>());
   private static File globalPropertiesFile = null;
 
-  private static final HashMap<String, String> userNames = new HashMap<String, String>();
+  private static final HashMap<String, String> userNames = new HashMap<>();
   private static final SortedMap<String, Object> userValues =
-      Collections.synchronizedSortedMap(new TreeMap<String, Object>());
+      Collections.synchronizedSortedMap(new TreeMap<>());
   private static File userPropertiesFile = null;
 
   private static final Set<String> defaultsSet = new HashSet<>();
@@ -128,7 +128,7 @@ public class Preferences {
 
         HashMap<String, String> otherMap =
             map.equals("global") ? Preferences.userNames : Preferences.globalNames;
-        if (otherMap != null && otherMap.containsKey(name)) {
+        if (otherMap.containsKey(name)) {
           String other = map.equals("global") ? "user" : "global";
           System.out.println(
               map + " setting " + name + " already defined as a " + other + " setting");
@@ -407,7 +407,7 @@ public class Preferences {
   }
 
   public static boolean isPerUserGlobalProperty(final String property) {
-    if (property.indexOf(".") != -1) {
+    if (property.contains(".")) {
       for (String prefix : Preferences.perUserGlobalSet) {
         if (property.startsWith(prefix)) {
           return true;
@@ -572,7 +572,7 @@ public class Preferences {
     }
 
     if (!(value instanceof Long)) {
-      value = Long.valueOf(StringUtilities.parseLong(value.toString()));
+      value = StringUtilities.parseLong(value.toString());
       map.put(name, value);
     }
 
@@ -588,7 +588,7 @@ public class Preferences {
     }
 
     if (!(value instanceof Float)) {
-      value = Float.valueOf(StringUtilities.parseFloat(value.toString()));
+      value = StringUtilities.parseFloat(value.toString());
       map.put(name, value);
     }
 
@@ -604,7 +604,7 @@ public class Preferences {
     }
 
     if (!(value instanceof Double)) {
-      value = Double.valueOf(StringUtilities.parseDouble(value.toString()));
+      value = StringUtilities.parseDouble(value.toString());
       map.put(name, value);
     }
 
@@ -627,9 +627,9 @@ public class Preferences {
 
   public static final TreeMap<String, String> getMap(boolean defaults, boolean user) {
     if (defaults) {
-      return new TreeMap<String, String>(user ? userNames : globalNames);
+      return new TreeMap<>(user ? userNames : globalNames);
     } else {
-      TreeMap<String, String> map = new TreeMap<String, String>();
+      TreeMap<String, String> map = new TreeMap<>();
       Map<String, Object> srcmap = user ? userValues : globalValues;
       for (String pref : srcmap.keySet()) {
         map.put(pref, getString(pref));
@@ -648,7 +648,7 @@ public class Preferences {
   public static final void setBoolean(final String user, final String name, final boolean value) {
     boolean old = Preferences.getBoolean(user, name);
     if (old != value) {
-      Preferences.setObject(user, name, value ? "true" : "false", Boolean.valueOf(value));
+      Preferences.setObject(user, name, value ? "true" : "false", value);
     }
   }
 
@@ -662,28 +662,28 @@ public class Preferences {
   public static final void setLong(final String user, final String name, final long value) {
     long old = Preferences.getLong(user, name);
     if (old != value) {
-      Preferences.setObject(user, name, String.valueOf(value), Long.valueOf(value));
+      Preferences.setObject(user, name, String.valueOf(value), value);
     }
   }
 
   public static final void setFloat(final String user, final String name, final float value) {
     float old = Preferences.getFloat(user, name);
     if (old != value) {
-      Preferences.setObject(user, name, String.valueOf(value), Float.valueOf(value));
+      Preferences.setObject(user, name, String.valueOf(value), value);
     }
   }
 
   public static final void setDouble(final String user, final String name, final double value) {
     double old = Preferences.getDouble(user, name);
     if (old != value) {
-      Preferences.setObject(user, name, String.valueOf(value), Double.valueOf(value));
+      Preferences.setObject(user, name, String.valueOf(value), value);
     }
   }
 
   private static void setObject(
       final String user, final String name, final String value, final Object object) {
     if (Preferences.getBoolean("logPreferenceChange")) {
-      Set<String> preferenceFilter = new HashSet<String>();
+      Set<String> preferenceFilter = new HashSet<>();
       Collections.addAll(
           preferenceFilter, Preferences.getString("logPreferenceChangeFilter").split(","));
       if (!preferenceFilter.contains(name)) {
@@ -792,21 +792,20 @@ public class Preferences {
   }
 
   private static void printDefaults(final ChoiceAdventure[] choices, final PrintStream ostream) {
-    for (int i = 0; i < choices.length; ++i) {
-      String setting = choices[i].getSetting();
+    for (ChoiceAdventure choice : choices) {
+      String setting = choice.getSetting();
 
       ostream.print("[" + setting.substring(15) + "] ");
-      ostream.print(choices[i].getName() + ": ");
+      ostream.print(choice.getName() + ": ");
 
-      Object[] options = choices[i].getOptions();
+      Object[] options = choice.getOptions();
       int defaultOption = StringUtilities.parseInt(Preferences.userNames.get(setting));
       Object def = ChoiceManager.findOption(options, defaultOption);
 
       ostream.print(def.toString() + " [color=gray](");
 
       int printedCount = 0;
-      for (int j = 0; j < options.length; ++j) {
-        Object option = options[j];
+      for (Object option : options) {
         if (option == def) {
           continue;
         }
