@@ -12,12 +12,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -49,8 +51,47 @@ public class Preferences {
       Collections.synchronizedSortedMap(new TreeMap<String, Object>());
   private static File userPropertiesFile = null;
 
-  private static final Set<String> defaultsSet = new HashSet<String>();
-  private static final Set<String> perUserGlobalSet = new HashSet<String>();
+  private static final Set<String> defaultsSet = new HashSet<>();
+  private static final Set<String> perUserGlobalSet = new HashSet<>();
+  private static final Set<String> legacyDailies =
+      new TreeSet<>(
+          List.of(
+              "barrelLayout",
+              "bootsCharged",
+              "breakfastCompleted",
+              "burrowgrubHiveUsed",
+              "burrowgrubSummonsRemaining",
+              "cocktailSummons",
+              "concertVisited",
+              "currentMojoFilters",
+              "currentPvpVictories",
+              "dailyDungeonDone",
+              "demonSummoned",
+              "expressCardUsed",
+              "extraRolloverAdventures",
+              "friarsBlessingReceived",
+              "grimoire1Summons",
+              "grimoire2Summons",
+              "grimoire3Summons",
+              "lastBarrelSmashed",
+              "libramSummons",
+              "libraryCardUsed",
+              "noodleSummons",
+              "nunsVisits",
+              "oscusSodaUsed",
+              "outrageousSombreroUsed",
+              "prismaticSummons",
+              "rageGlandVented",
+              "reagentSummons",
+              "romanticTarget",
+              "seaodesFound",
+              "spiceMelangeUsed",
+              "spookyPuttyCopiesMade",
+              "styxPixieVisited",
+              "telescopeLookedHigh",
+              "tempuraSummons",
+              "timesRested",
+              "tomeSummons"));
 
   static {
     // Initialize perUserGlobalSet and read defaults.txt into
@@ -790,6 +831,10 @@ public class Preferences {
     }
   }
 
+  public static boolean isDaily(String name) {
+    return name.startsWith("_") || legacyDailies.contains(name);
+  }
+
   public static void resetDailies() {
     // See Collections.synchronizedSortedMap
     //
@@ -800,7 +845,7 @@ public class Preferences {
       Iterator<String> it = Preferences.userValues.keySet().iterator();
       while (it.hasNext()) {
         String name = it.next();
-        if (name.startsWith("_")) {
+        if (isDaily(name)) {
           if (!Preferences.containsDefault(name)) {
             // fully delete preferences that start with _ and aren't in defaults.txt
             it.remove();
@@ -826,7 +871,7 @@ public class Preferences {
 
     synchronized (Preferences.globalValues) {
       for (String name : Preferences.globalValues.keySet()) {
-        if (name.startsWith("_")) {
+        if (isDaily(name)) {
           String val = Preferences.globalNames.get(name);
           if (val == null) val = "";
           Preferences.setString(name, val);
