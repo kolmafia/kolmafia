@@ -275,6 +275,23 @@ public class KoLAdventure
 		return this.adventureId;
 	}
 
+	public int getSnarfblat()
+	{
+		if ( !this.getFormSource().equals( "adventure.php" ) )
+		{
+			return -1;
+		}
+
+		try
+		{
+			return Integer.parseInt( this.adventureId );
+		}
+		catch ( NumberFormatException e )
+		{
+			return -1;
+		}
+	}
+
 	public AreaCombatData getAreaSummary()
 	{
 		return this.areaSummary;

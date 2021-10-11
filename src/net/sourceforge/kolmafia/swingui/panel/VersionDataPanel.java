@@ -30,7 +30,7 @@ public class VersionDataPanel
 		" ",
 		"Copyright \u00a9 2005-2021 KoLmafia development team",
 		"Berkeley Software Development (BSD) License",
-		"http://kolmafia.sourceforge.net/",
+		"https://kolmafia.us/",
 		" ",
 		"Current Running on " + System.getProperty( "os.name" ),
 		"Local Directory is " + System.getProperty( "user.dir" ),
@@ -53,16 +53,8 @@ public class VersionDataPanel
 
 		versionPanel.add( labelPanel, BorderLayout.CENTER );
 
-		JButton donateButton = new JButton( JComponentUtilities.getImage( "paypal.gif" ) );
-		JComponentUtilities.setComponentSize( donateButton, 74, 31 );
-		donateButton.addActionListener( new RelayBrowserListener( "http://sourceforge.net/project/project_donations.php?group_id=126572" ) );
-
-		JPanel donatePanel = new JPanel();
-		donatePanel.add( donateButton );
-
 		JPanel centerPanel = new JPanel( new BorderLayout( 20, 20 ) );
 		centerPanel.add( versionPanel, BorderLayout.CENTER );
-		centerPanel.add( donatePanel, BorderLayout.SOUTH );
 
 		this.setLayout( new CardLayout( 20, 20 ) );
 		this.add( centerPanel, "" );

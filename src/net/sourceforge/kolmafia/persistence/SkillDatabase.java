@@ -956,9 +956,9 @@ public class SkillDatabase
 	 * @return the MP cost to cast it
 	 */
 
-	public static final int libramSkillMPConsumption( int cast, int count )
+	public static final long libramSkillMPConsumption( int cast, int count )
 	{
-		int total = 0;
+		long total = 0;
 		while ( count-- > 0 )
 		{
 			total += libramSkillMPConsumption( cast++ );
@@ -1034,9 +1034,9 @@ public class SkillDatabase
 		return SkillDatabase.birdSkillCasts( birds, availableMP );
 	}
 
-	public static final int stackLumpsCost()
+	public static final long stackLumpsCost()
 	{
-		int mpCost = 1;
+		long mpCost = 1;
 		int casts = Preferences.getInteger( "_stackLumpsUses" );
 		if ( casts < 0 ) return mpCost;
 		for ( int i = 0; i <= casts; i++ )

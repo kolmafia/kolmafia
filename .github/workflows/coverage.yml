@@ -30,7 +30,7 @@ jobs:
         run: mkdir -p ./build
 
       - name: Run Tests
-        run: ./gradlew --no-daemon cloverGenerateReport
+        run: ./gradlew --no-daemon jacocoTestReport
 
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v2
@@ -43,4 +43,4 @@ jobs:
         uses: codecov/codecov-action@v2
         if: always()
         with:
-          file: ./build/reports/clover-root/clover.xml
+          file: ./build/reports/jacoco/test/jacocoTestReport.xml

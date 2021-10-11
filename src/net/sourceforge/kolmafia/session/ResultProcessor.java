@@ -1185,7 +1185,7 @@ public class ResultProcessor
 				long diff = KoLCharacter.calculateBasePoints( stat + count ) -
 					    KoLCharacter.calculateBasePoints( stat );
 				AdventureResult.SESSION_SUBSTATS[ 0 ] += count;
-				AdventureResult.SESSION_FULLSTATS[ 0 ] += diff;
+				AdventureResult.SESSION_FULLSTATS[ 0 ] += (int) diff;
 				substatChanged = true;
 				fullstatChanged |= ( diff != 0 );
 			}
@@ -1197,7 +1197,7 @@ public class ResultProcessor
 				long diff = KoLCharacter.calculateBasePoints( stat + count ) -
 					    KoLCharacter.calculateBasePoints( stat );
 				AdventureResult.SESSION_SUBSTATS[ 1 ] += count;
-				AdventureResult.SESSION_FULLSTATS[ 1 ] += diff;
+				AdventureResult.SESSION_FULLSTATS[ 1 ] += (int) diff;
 				substatChanged = true;
 				fullstatChanged |= ( diff != 0 );
 			}
@@ -1209,7 +1209,7 @@ public class ResultProcessor
 				long diff = KoLCharacter.calculateBasePoints( stat + count ) -
 					   KoLCharacter.calculateBasePoints( stat );
 				AdventureResult.SESSION_SUBSTATS[ 2 ] += count;
-				AdventureResult.SESSION_FULLSTATS[ 2 ] += diff;
+				AdventureResult.SESSION_FULLSTATS[ 2 ] += (int) diff;
 				substatChanged = true;
 				fullstatChanged |= ( diff != 0 );
 			}
