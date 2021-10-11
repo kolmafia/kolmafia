@@ -82,7 +82,7 @@ public class DebugDatabase {
   private static String readWikiData(String url) {
     while (true) {
       try {
-        HttpURLConnection connection = (HttpURLConnection) new URL(null, url).openConnection();
+        HttpURLConnection connection = HttpUtilities.openConnection(new URL(null, url));
         connection.setRequestProperty("Connection", "close"); // no need to keep-alive
         InputStream istream = connection.getInputStream();
 

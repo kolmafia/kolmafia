@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -179,7 +180,7 @@ public class MallPriceDatabase {
 
     try {
 
-      HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
+      HttpURLConnection con = HttpUtilities.openConnection(new URL(url));
       con.setConnectTimeout(CONNECT_TIMEOUT);
       con.setDoInput(true);
       con.setDoOutput(true);

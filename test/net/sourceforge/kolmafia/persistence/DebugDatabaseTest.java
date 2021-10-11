@@ -363,6 +363,7 @@ public class DebugDatabaseTest {
   }
 
   @Test
+  @Disabled("Relies on external resources (wiki)")
   public void checkZapGroups() {
     String expectedOutput = "Checking zap groups...\n";
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
