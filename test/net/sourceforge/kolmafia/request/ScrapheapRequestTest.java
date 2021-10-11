@@ -36,8 +36,7 @@ public class ScrapheapRequestTest extends RequestTestBase {
 
   @Test
   public void parseChronolith37() throws IOException {
-    byte[] fileData = Files.readAllBytes(Paths.get("request/test_scrapheap_chronolith_37.html"));
-    String html = new String(fileData, StandardCharsets.UTF_8);
+    String html = Files.readString(Paths.get("request/test_scrapheap_chronolith_37.html"));
 
     var req = new ScrapheapRequest("sh_chrono");
     req.responseText = html;
@@ -48,8 +47,7 @@ public class ScrapheapRequestTest extends RequestTestBase {
 
   @Test
   public void parseChronolith69() throws IOException {
-    byte[] fileData = Files.readAllBytes(Paths.get("request/test_scrapheap_chronolith_69.html"));
-    String html = new String(fileData, StandardCharsets.UTF_8);
+    String html = Files.readString(Paths.get("request/test_scrapheap_chronolith_69.html"));
 
     var req = new ScrapheapRequest("sh_chrono");
     req.responseText = html;
@@ -60,8 +58,7 @@ public class ScrapheapRequestTest extends RequestTestBase {
 
   @Test
   public void parseCPUUpgrades() throws IOException {
-    byte[] fileData = Files.readAllBytes(Paths.get("request/test_scrapheap_cpu_upgrades.html"));
-    String html = new String(fileData, StandardCharsets.UTF_8);
+    String html = Files.readString(Paths.get("request/test_scrapheap_cpu_upgrades.html"));
 
     ChoiceManager.handlingChoice = true;
     var req = new GenericRequest("choice.php?whichchoice=1445&show=cpus");
