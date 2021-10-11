@@ -112,7 +112,6 @@ public class UneffectRequest extends GenericRequest {
     switch (effectId) {
       case -1:
         // So, what about the following?
-      case EffectPool.EAU_DE_TORTUE:
       case EffectPool.CURSED_BY_RNG:
       case EffectPool.FORM_OF_BIRD:
 
