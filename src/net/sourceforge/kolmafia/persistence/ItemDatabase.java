@@ -2141,30 +2141,6 @@ public class ItemDatabase {
     }
   }
 
-  public static void parseItemModifiers(
-      final String desc, final int itemId, final String modifierPref) {
-    int equipType = ItemDatabase.useTypeById.get(itemId);
-    String mod = DebugDatabase.parseItemEnchantments(desc, new ArrayList<String>(), equipType);
-    Preferences.setString(modifierPref, mod);
-    Modifiers.overrideModifier("Item:[" + itemId + "]", mod);
-  }
-
-  public static void parseNoHat(final String desc) {
-    parseItemModifiers(desc, ItemPool.NO_HAT, "_noHatModifier");
-  }
-
-  public static void parseJickSword(final String desc) {
-    parseItemModifiers(desc, ItemPool.JICK_SWORD, "jickSwordModifier");
-  }
-
-  public static void parsePantogramPants(final String desc) {
-    parseItemModifiers(desc, ItemPool.PANTOGRAM_PANTS, "_pantogramModifier");
-  }
-
-  public static void parseLatte(final String desc) {
-    parseItemModifiers(desc, ItemPool.LATTE_MUG, "latteModifier");
-  }
-
   public static void parseSaber(final String desc) {
     if (desc.contains("15-20 MP")) {
       Preferences.setInteger("_saberMod", 1);
@@ -2177,35 +2153,32 @@ public class ItemDatabase {
     }
   }
 
-  public static void parseKGB(final String desc) {
-    String mod = DebugDatabase.parseItemEnchantments(desc, KoLConstants.EQUIP_ACCESSORY);
-    Modifiers.overrideModifier("Item:[" + ItemPool.KREMLIN_BRIEFCASE + "]", mod);
-  }
-
-  public static void parseCoatOfPaint(final String desc) {
-    parseItemModifiers(desc, ItemPool.COAT_OF_PAINT, "_coatOfPaintModifier");
-  }
-
-  private static Pattern FAMILIAR_SCRAPBOOK_PATTERN =
-      Pattern.compile("Scraps Collected: <b>([\\d,]+)</b>");
-
-  public static void parseFamiliarScrapbook(final String desc) {
-    Matcher matcher = FAMILIAR_SCRAPBOOK_PATTERN.matcher(desc);
-    if (matcher.find()) {
-      int charge = StringUtilities.parseInt(matcher.group(1));
-      Preferences.setInteger("scrapbookCharges", charge);
+  public static void parseVampireVintnerWine(final String desc) {
+    String type = "";
+    switch (Modifiers.getStringModifier("Item", ItemPool.VAMPIRE_VINTNER_WINE, "Effect")) {
+      case "Wine-Befouled":
+        type = "stench";
+        break;
+      case "Wine-Cold":
+        type = "cold";
+        break;
+      case "Wine-Dark":
+        type = "spooky";
+        break;
+      case "Wine-Fortified":
+        type = "physical";
+        break;
+      case "Wine-Frisky":
+        type = "sleaze";
+        break;
+      case "Wine-Friendly":
+        type = "familiar";
+        break;
+      case "Wine-Hot":
+        type = "hot";
+        break;
     }
-  }
-
-  private static Pattern FIRE_EXTINGUISHER_PATTERN =
-      Pattern.compile("The extinguisher's tank is currently <b>([\\d]+)% full</b>");
-
-  public static void parseFireExtinguisher(final String desc) {
-    Matcher matcher = FIRE_EXTINGUISHER_PATTERN.matcher(desc);
-    if (matcher.find()) {
-      int charge = StringUtilities.parseInt(matcher.group(1));
-      Preferences.setInteger("_fireExtinguisherCharge", charge);
-    }
+    Preferences.setString("vintnerWineType", type);
   }
 
   public static int parseYearbookCamera(final String desc) {

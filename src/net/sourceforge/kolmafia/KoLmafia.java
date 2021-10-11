@@ -3,9 +3,9 @@ package net.sourceforge.kolmafia;
 import static net.sourceforge.kolmafia.KoLGUIConstants.FLATMAP_DARK_LOOKS;
 import static net.sourceforge.kolmafia.KoLGUIConstants.FLATMAP_LIGHT_LOOKS;
 
-import apple.dts.samplecode.osxadapter.OSXAdapter;
 import java.awt.Color;
 import java.awt.Frame;
+import java.awt.Taskbar;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -398,7 +398,12 @@ public abstract class KoLmafia {
       SystemTrayFrame.addTrayIcon();
     }
 
-    OSXAdapter.setDockIconImage(JComponentUtilities.getImage("limeglass.gif").getImage());
+    if (Taskbar.isTaskbarSupported()) {
+      Taskbar taskbar = Taskbar.getTaskbar();
+      if (taskbar.isSupported(Taskbar.Feature.ICON_IMAGE)) {
+        taskbar.setIconImage(JComponentUtilities.getImage("limeglass.gif").getImage());
+      }
+    }
 
     if (System.getProperty("os.name").startsWith("Win")
         || lookAndFeel.equals(UIManager.getCrossPlatformLookAndFeelClassName())) {
@@ -539,43 +544,6 @@ public abstract class KoLmafia {
 
   public static final void resetCounters() {
     Preferences.setLong("lastCounterDay", KoLCharacter.getRollover());
-
-    Preferences.setString("barrelLayout", "?????????");
-    Preferences.setBoolean("bootsCharged", false);
-    Preferences.setBoolean("breakfastCompleted", false);
-    Preferences.setBoolean("burrowgrubHiveUsed", false);
-    Preferences.setInteger("burrowgrubSummonsRemaining", 0);
-    Preferences.setInteger("cocktailSummons", 0);
-    Preferences.setBoolean("concertVisited", false);
-    Preferences.setInteger("currentMojoFilters", 0);
-    Preferences.setString("currentPvpVictories", "");
-    Preferences.setBoolean("dailyDungeonDone", false);
-    Preferences.setBoolean("demonSummoned", false);
-    Preferences.setBoolean("expressCardUsed", false);
-    Preferences.setInteger("extraRolloverAdventures", 0);
-    Preferences.setBoolean("friarsBlessingReceived", false);
-    Preferences.setInteger("grimoire1Summons", 0);
-    Preferences.setInteger("grimoire2Summons", 0);
-    Preferences.setInteger("grimoire3Summons", 0);
-    Preferences.setInteger("lastBarrelSmashed", 0);
-    Preferences.setInteger("libramSummons", 0);
-    Preferences.setBoolean("libraryCardUsed", false);
-    Preferences.setInteger("noodleSummons", 0);
-    Preferences.setInteger("nunsVisits", 0);
-    Preferences.setBoolean("oscusSodaUsed", false);
-    Preferences.setBoolean("outrageousSombreroUsed", false);
-    Preferences.setInteger("prismaticSummons", 0);
-    Preferences.setBoolean("rageGlandVented", false);
-    Preferences.setInteger("reagentSummons", 0);
-    Preferences.setString("romanticTarget", "");
-    Preferences.setInteger("seaodesFound", 0);
-    Preferences.setBoolean("spiceMelangeUsed", false);
-    Preferences.setInteger("spookyPuttyCopiesMade", 0);
-    Preferences.setBoolean("styxPixieVisited", false);
-    Preferences.setBoolean("telescopeLookedHigh", false);
-    Preferences.setInteger("tempuraSummons", 0);
-    Preferences.setInteger("timesRested", 0);
-    Preferences.setInteger("tomeSummons", 0);
 
     // Reset kolhsTotalSchoolSpirited to 0 if _kolhsSchoolSpirited wasn't set yesterday
     if (!Preferences.getBoolean("_kolhsSchoolSpirited")) {

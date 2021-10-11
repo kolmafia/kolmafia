@@ -1,22 +1,9 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeMap;
-import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.PastaThrallData;
-import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.*;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -31,22 +18,6 @@ import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SkillDatabase {
-  private static String[] canonicalNames = new String[0];
-  private static final Map<Integer, String> nameById = new TreeMap<>();
-  private static final Map<String, int[]> skillIdSetByName = new TreeMap<>();
-
-  private static final Map<Integer, String> imageById = new TreeMap<>();
-  private static final Map<Integer, Long> mpConsumptionById = new HashMap<>();
-  private static final Map<Integer, Integer> skillTypeById = new TreeMap<>();
-  private static final Map<Integer, Integer> durationById = new HashMap<>();
-  private static final Map<Integer, Integer> levelById = new HashMap<>();
-
-  private static final Map<String, List<String>> skillsByCategory = new HashMap<>();
-  private static final Map<Integer, String> skillCategoryById = new HashMap<>();
-
-  // Per-user data. Needs to be reset when log in as a new user.
-  private static final Map<Integer, Integer> castsById = new HashMap<>();
-
   public static final int ALL = -2;
   public static final int CASTABLE = -1;
   public static final int PASSIVE = 0;
@@ -60,6 +31,76 @@ public class SkillDatabase {
   public static final int COMBAT_PASSIVE = 8;
   public static final int EXPRESSION = 9;
   public static final int WALK = 10;
+  private static final Map<Integer, String> nameById = new TreeMap<>();
+  private static final Map<String, int[]> skillIdSetByName = new TreeMap<>();
+  private static final Map<Integer, String> imageById = new TreeMap<>();
+  private static final Map<Integer, Long> mpConsumptionById = new HashMap<>();
+  private static final Map<Integer, Integer> skillTypeById = new TreeMap<>();
+  private static final Map<Integer, Integer> durationById = new HashMap<>();
+  private static final Map<Integer, Integer> levelById = new HashMap<>();
+  private static final Map<String, List<String>> skillsByCategory = new HashMap<>();
+  private static final Map<Integer, String> skillCategoryById = new HashMap<>();
+  // Per-user data. Needs to be reset when log in as a new user.
+  private static final Map<Integer, Integer> castsById = new HashMap<>();
+  private static final String UNCATEGORIZED = "uncategorized";
+  private static final String CONDITIONAL = "conditional";
+  private static final String MR_SKILLS = "mr. skills";
+  private static final String GNOME_SKILLS = "gnome trainer";
+  private static final String BAD_MOON = "bad moon";
+  private static final String AVATAR_OF_BORIS = "avatar of Boris";
+  private static final String ZOMBIE_MASTER = "zombie master";
+  private static final String AVATAR_OF_JARLSBERG = "Avatar of Jarlsberg";
+  private static final String AVATAR_OF_SNEAKY_PETE = "Avatar of Sneaky Pete";
+  private static final String HEAVY_RAINS = "Heavy Rains";
+  private static final String ED = "Ed";
+  private static final String COWPUNCHER = "Cow Puncher";
+  private static final String BEANSLINGER = "Beanslinger";
+  private static final String SNAKE_OILER = "Snake Oiler";
+  private static final String SOURCE = "The Source";
+  private static final String NUCLEAR_AUTUMN = "Nuclear Autumn";
+  private static final String GELATINOUS_NOOB = "Gelatinous Noob";
+  private static final String VAMPYRE = "Vampyre";
+  private static final String PLUMBER = "Plumber";
+  private static final String[] CATEGORIES =
+      new String[] {
+        SkillDatabase.UNCATEGORIZED,
+        "seal clubber", // 1xxx
+        "turtle tamer", // 2xxx
+        "pastamancer", // 3xxx
+        "sauceror", // 4xxx
+        "disco bandit", // 5xxx
+        "accordion thief", // 6xxx
+        SkillDatabase.CONDITIONAL, // 7xxx
+        SkillDatabase.MR_SKILLS, // 8xxx
+        "9XXX", // 9xxx
+        "10XXX", // 10xxx
+        SkillDatabase.AVATAR_OF_BORIS, // 11xxx
+        SkillDatabase.ZOMBIE_MASTER, // 12xxx
+        "13XXX", // 13xxx
+        SkillDatabase.AVATAR_OF_JARLSBERG, // 14xxx
+        SkillDatabase.AVATAR_OF_SNEAKY_PETE, // 15xxx
+        SkillDatabase.HEAVY_RAINS, // 16xxx
+        SkillDatabase.ED, // 17xxx
+        SkillDatabase.COWPUNCHER, // 18xxx
+        SkillDatabase.BEANSLINGER, // 19xxx
+        SkillDatabase.SNAKE_OILER, // 20xxx
+        SkillDatabase.SOURCE, // 21xxx
+        SkillDatabase.NUCLEAR_AUTUMN, // 22xxx
+        SkillDatabase.GELATINOUS_NOOB, // 23xxx
+        SkillDatabase.VAMPYRE, // 24xxx
+        SkillDatabase.PLUMBER, // 25xxx
+        // The following are convenience categories, not implied by skill id
+        SkillDatabase.GNOME_SKILLS,
+        SkillDatabase.BAD_MOON
+      };
+  private static final int[] NO_SKILL_IDS = new int[0];
+  private static final AdventureResult SUPER_SKILL = EffectPool.get(EffectPool.SUPER_SKILL);
+  private static final ArrayList<String> skillNames = new ArrayList<>();
+  private static String[] canonicalNames = new String[0];
+
+  static {
+    SkillDatabase.reset();
+  }
 
   public static final String skillTypeToTypeName(final int type) {
     return type == PASSIVE
@@ -107,63 +148,6 @@ public class SkillDatabase {
                                         : typeName.equals("expression")
                                             ? SkillDatabase.EXPRESSION
                                             : typeName.equals("walk") ? SkillDatabase.WALK : -1;
-  }
-
-  private static final String UNCATEGORIZED = "uncategorized";
-  private static final String CONDITIONAL = "conditional";
-  private static final String MR_SKILLS = "mr. skills";
-  private static final String GNOME_SKILLS = "gnome trainer";
-  private static final String BAD_MOON = "bad moon";
-  private static final String AVATAR_OF_BORIS = "avatar of Boris";
-  private static final String ZOMBIE_MASTER = "zombie master";
-  private static final String AVATAR_OF_JARLSBERG = "Avatar of Jarlsberg";
-  private static final String AVATAR_OF_SNEAKY_PETE = "Avatar of Sneaky Pete";
-  private static final String HEAVY_RAINS = "Heavy Rains";
-  private static final String ED = "Ed";
-  private static final String COWPUNCHER = "Cow Puncher";
-  private static final String BEANSLINGER = "Beanslinger";
-  private static final String SNAKE_OILER = "Snake Oiler";
-  private static final String SOURCE = "The Source";
-  private static final String NUCLEAR_AUTUMN = "Nuclear Autumn";
-  private static final String GELATINOUS_NOOB = "Gelatinous Noob";
-  private static final String VAMPYRE = "Vampyre";
-  private static final String PLUMBER = "Plumber";
-
-  private static final String[] CATEGORIES =
-      new String[] {
-        SkillDatabase.UNCATEGORIZED,
-        "seal clubber", // 1xxx
-        "turtle tamer", // 2xxx
-        "pastamancer", // 3xxx
-        "sauceror", // 4xxx
-        "disco bandit", // 5xxx
-        "accordion thief", // 6xxx
-        SkillDatabase.CONDITIONAL, // 7xxx
-        SkillDatabase.MR_SKILLS, // 8xxx
-        "9XXX", // 9xxx
-        "10XXX", // 10xxx
-        SkillDatabase.AVATAR_OF_BORIS, // 11xxx
-        SkillDatabase.ZOMBIE_MASTER, // 12xxx
-        "13XXX", // 13xxx
-        SkillDatabase.AVATAR_OF_JARLSBERG, // 14xxx
-        SkillDatabase.AVATAR_OF_SNEAKY_PETE, // 15xxx
-        SkillDatabase.HEAVY_RAINS, // 16xxx
-        SkillDatabase.ED, // 17xxx
-        SkillDatabase.COWPUNCHER, // 18xxx
-        SkillDatabase.BEANSLINGER, // 19xxx
-        SkillDatabase.SNAKE_OILER, // 20xxx
-        SkillDatabase.SOURCE, // 21xxx
-        SkillDatabase.NUCLEAR_AUTUMN, // 22xxx
-        SkillDatabase.GELATINOUS_NOOB, // 23xxx
-        SkillDatabase.VAMPYRE, // 24xxx
-        SkillDatabase.PLUMBER, // 25xxx
-        // The following are convenience categories, not implied by skill id
-        SkillDatabase.GNOME_SKILLS,
-        SkillDatabase.BAD_MOON
-      };
-
-  static {
-    SkillDatabase.reset();
   }
 
   public static void reset() {
@@ -430,8 +414,6 @@ public class SkillDatabase {
     return -1;
   }
 
-  private static final int[] NO_SKILL_IDS = new int[0];
-
   public static final int[] getSkillIds(final String skillName, final boolean exact) {
     if (skillName == null) {
       return NO_SKILL_IDS;
@@ -640,8 +622,6 @@ public class SkillDatabase {
   public static final String getSkillImage(final int skillId) {
     return SkillDatabase.imageById.get(IntegerPool.get(skillId));
   }
-
-  private static final AdventureResult SUPER_SKILL = EffectPool.get(EffectPool.SUPER_SKILL);
 
   /**
    * Returns how much MP is consumed by using the skill with the given Id.
@@ -916,11 +896,15 @@ public class SkillDatabase {
   }
 
   public static final long stackLumpsCost() {
+    return stackLumpsCost(Preferences.getInteger("_stackLumpsUses"));
+  }
+
+  public static final long stackLumpsCost(int casts) {
     long mpCost = 1;
-    int casts = Preferences.getInteger("_stackLumpsUses");
     if (casts < 0) return mpCost;
+    if (casts > 17) return Long.MAX_VALUE;
     for (int i = 0; i <= casts; i++) {
-      mpCost += 10 * Math.pow(10, i);
+      mpCost = (10 * mpCost) + 1;
     }
 
     return mpCost;
@@ -1597,8 +1581,6 @@ public class SkillDatabase {
   public static final Set<Entry<Integer, String>> entrySet() {
     return SkillDatabase.nameById.entrySet();
   }
-
-  private static final ArrayList<String> skillNames = new ArrayList<>();
 
   public static final void generateSkillList(final StringBuffer buffer, final boolean appendHTML) {
     ArrayList<String>[] categories = new ArrayList[SkillDatabase.CATEGORIES.length];

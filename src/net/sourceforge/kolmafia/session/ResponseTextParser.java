@@ -330,32 +330,11 @@ public class ResponseTextParser {
           case ItemPool.BUDDY_BJORN:
             ItemDatabase.parseBuddyBjorn(responseText);
             break;
-          case ItemPool.NO_HAT:
-            ItemDatabase.parseNoHat(responseText);
-            break;
-          case ItemPool.JICK_SWORD:
-            ItemDatabase.parseJickSword(responseText);
-            break;
-          case ItemPool.PANTOGRAM_PANTS:
-            ItemDatabase.parsePantogramPants(responseText);
-            break;
-          case ItemPool.LATTE_MUG:
-            ItemDatabase.parseLatte(responseText);
-            break;
           case ItemPool.FOURTH_SABER:
             ItemDatabase.parseSaber(responseText);
             break;
-          case ItemPool.KREMLIN_BRIEFCASE:
-            ItemDatabase.parseKGB(responseText);
-            break;
-          case ItemPool.COAT_OF_PAINT:
-            ItemDatabase.parseCoatOfPaint(responseText);
-            break;
-          case ItemPool.FAMILIAR_SCRAPBOOK:
-            ItemDatabase.parseFamiliarScrapbook(responseText);
-            break;
-          case ItemPool.INDUSTRIAL_FIRE_EXTINGUISHER:
-            ItemDatabase.parseFireExtinguisher(responseText);
+          case ItemPool.VAMPIRE_VINTNER_WINE:
+            ItemDatabase.parseVampireVintnerWine(responseText);
           default:
             changesFromTimeToTime = false;
             break;

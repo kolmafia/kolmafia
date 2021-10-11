@@ -438,6 +438,10 @@ public class Expression {
         case '\u0095':
           v = KoLCharacter.getCurrentHP();
           break;
+        case '\u0096':
+          String arg = (String) this.literals.get((int) s[--sp]);
+          v = StringUtilities.parseInt(arg.replaceAll(",", ""));
+          break;
 
         case 'A':
           v = KoLCharacter.getAscensions();

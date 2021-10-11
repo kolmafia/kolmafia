@@ -2657,3 +2657,10 @@
 2656	Confidence of the Votive	candlecvotive.gif	f52d3796283d5783af6be18126cade6b	neutral	none	use 1 votive of confidence
 2657	Fireproof Foam Suit	foam4.gif	5eab5cbe23379f4c4b969f717401fd06	good	nohookah
 2658	Cyclonic Filth	foam3.gif	c60d5383f361a7fe48cca6d74caae999	good	nohookah
+2659	Wine-Fortified	redwine.gif	e7ec714f1fdc254831f8fec3c74ba803	neutral	none	drink 1 1950 Vampire Vintner wine
+2660	Wine-Hot	redwine.gif	f562dd161fe50cc22b3ab10f04e1f26a	neutral	none	drink 1 1950 Vampire Vintner wine
+2661	Wine-Frisky	redwine.gif	98cf0260d82830c8b4d3723f790b6d9a	neutral	none	drink 1 1950 Vampire Vintner wine
+2662	Wine-Cold	redwine.gif	2c8403618f61dcb65a076c48979812e1	neutral	none	drink 1 1950 Vampire Vintner wine
+2663	Wine-Dark	redwine.gif	91221f225a1cfcc58156624ba3342349	neutral	none	drink 1 1950 Vampire Vintner wine
+2664	Wine-Befouled	redwine.gif	4a8aaadf65ca893d80287e7a4225ff96	neutral	none	drink 1 1950 Vampire Vintner wine
+2665	Wine-Friendly	redwine.gif	14e58c7caa942927ebdb75d93f1de316	neutral	none	drink 1 1950 Vampire Vintner wine

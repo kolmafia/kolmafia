@@ -1,10 +1,10 @@
 package net.sourceforge.kolmafia.request;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** Coverage driven collection of tests for FightRequest. */
 public class FightRequestTest {

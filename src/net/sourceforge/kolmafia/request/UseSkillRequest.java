@@ -246,6 +246,15 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
   private static final int AVOID_REMOVAL_ONLY = 2;
 
+  private enum SkillStatus {
+    // The skill was used successfully.
+    SUCCESS,
+    // The skill was not used successfully, but automation can continue.
+    WARNING,
+    // We encountered a critical error, and want to halt automation
+    ERROR,
+  }
+
   // Other known MP cost items:
   // Vile Vagrant Vestments (-5) - unlikely to be equippable during Ronin.
   // Idol of Ak'gyxoth (-1) - off-hand, would require special handling.
@@ -1948,23 +1957,31 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     UseSkillRequest.lastSkillUsed = -1;
     UseSkillRequest.lastSkillCount = 0;
 
+    SkillStatus status = responseStatus(responseText, skillId, count);
+    if (status == SkillStatus.SUCCESS) {
+      SkillDatabase.registerCasts(skillId, count);
+    }
+    return status == SkillStatus.ERROR;
+  }
+
+  private static SkillStatus responseStatus(final String responseText, int skillId, int count) {
     if (responseText == null || responseText.trim().length() == 0) {
       long initialMP = KoLCharacter.getCurrentMP();
       ApiRequest.updateStatus();
 
       if (initialMP == KoLCharacter.getCurrentMP()) {
         UseSkillRequest.lastUpdate = "Encountered lag problems.";
-        return false;
+        return SkillStatus.WARNING;
       }
 
       UseSkillRequest.lastUpdate = "KoL sent back a blank response, but consumed MP.";
-      return true;
+      return SkillStatus.ERROR;
     }
 
     if (responseText.contains("You don't have that skill")
         || responseText.contains("you don't seem to have that skill")) {
       UseSkillRequest.lastUpdate = "That skill is unavailable.";
-      return true;
+      return SkillStatus.ERROR;
     }
 
     if (responseText.contains("You may only use three Tome summonings each day")) {
@@ -1991,7 +2008,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         UseSkillRequest.lastUpdate = "You've used your Tomes enough today.";
       }
       ConcoctionDatabase.setRefreshNeeded(true);
-      return true;
+      return SkillStatus.ERROR;
     }
 
     // Summon Clip Art cast through the browser has two phases:
@@ -2006,7 +2023,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     // result in an item, since failures just redisplay the bookshelf
 
     if (skillId == SkillPool.CLIP_ART && !responseText.contains("You acquire")) {
-      return false;
+      return SkillStatus.WARNING;
     }
 
     // You can't fit anymore songs in your head right now
@@ -2014,70 +2031,70 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     if (responseText.contains("can't fit anymore songs")
         || responseText.contains("can't fit any more songs")) {
       UseSkillRequest.lastUpdate = "Selected target has the maximum number of AT buffs already.";
-      return false;
+      return SkillStatus.WARNING;
     }
 
     if (responseText.contains("casts left of the Smile of Mr. A")) {
       UseSkillRequest.lastUpdate = "You cannot cast that many smiles.";
-      return false;
+      return SkillStatus.WARNING;
     }
 
     if (responseText.contains("Invalid target player")) {
       UseSkillRequest.lastUpdate = "Selected target is not a valid target.";
-      return true;
+      return SkillStatus.ERROR;
     }
 
     // You can't cast that spell on persons who are lower than
     // level 15, like <name>, who is level 13.
     if (responseText.contains("lower than level")) {
       UseSkillRequest.lastUpdate = "Selected target is too low level.";
-      return false;
+      return SkillStatus.WARNING;
     }
 
     if (responseText.contains("busy fighting")) {
       UseSkillRequest.lastUpdate = "Selected target is busy fighting.";
-      return false;
+      return SkillStatus.WARNING;
     }
 
     if (responseText.contains("receive buffs")) {
       UseSkillRequest.lastUpdate = "Selected target cannot receive buffs.";
-      return false;
+      return SkillStatus.WARNING;
     }
 
     if (responseText.contains("You need")) {
       UseSkillRequest.lastUpdate = "You need special equipment to cast that buff.";
-      return true;
+      return SkillStatus.ERROR;
     }
 
     if (responseText.contains("You can't remember how to use that skill")) {
       UseSkillRequest.lastUpdate = "That skill is currently unavailable.";
-      return true;
+      return SkillStatus.ERROR;
     }
 
     if (responseText.contains("You can't cast this spell because you are not an Accordion Thief")) {
       UseSkillRequest.lastUpdate = "Only Accordion Thieves can use that skill.";
-      return true;
+      return SkillStatus.ERROR;
     }
 
     if (responseText.contains("You're already blessed")) {
       UseSkillRequest.lastUpdate = "You already have that blessing.";
-      return true;
+      return SkillStatus.ERROR;
     }
 
     if (responseText.contains("not attuned to any particular Turtle Spirit")) {
       UseSkillRequest.lastUpdate = "You haven't got a Blessing, so can't get a Boon.";
-      return true;
+      return SkillStatus.ERROR;
     }
 
     if (responseText.contains("You can only declare one Employee of the Month per day")) {
       UseSkillRequest.lastUpdate = "You can only declare one Employee of the Month per day.";
       Preferences.setBoolean("_managerialManipulationUsed", true);
-      return true;
+      return SkillStatus.ERROR;
     }
 
     if (responseText.contains("You decide not to commit")) {
       UseSkillRequest.lastUpdate = "You decide to not change your favorite bird.";
-      return true;
+      return SkillStatus.ERROR;
     }
 
     // You've already recalled a lot of ancestral memories lately. You should
@@ -2086,14 +2103,14 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     if (responseText.contains("You've already recalled a lot of ancestral memories lately")) {
       UseSkillRequest.lastUpdate = "You can only cast Ancestral Recall 10 times per day.";
       Preferences.setInteger("_ancestralRecallCasts", 10);
-      return true;
+      return SkillStatus.ERROR;
     }
 
     // You think your stomach has had enough for one day.
     if (responseText.contains("enough for one day")) {
       UseSkillRequest.lastUpdate = "You can only do that once a day.";
       Preferences.setBoolean("_carboLoaded", true);
-      return false;
+      return SkillStatus.WARNING;
     }
 
     // You can't cast that many turns of that skill today. (You've used 5 casts today,
@@ -2132,7 +2149,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         default:
           break;
       }
-      return false;
+      return SkillStatus.WARNING;
     }
 
     Matcher limitedMatcher = UseSkillRequest.LIMITED_PATTERN.matcher(responseText);
@@ -2182,7 +2199,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
       UseSkillRequest.lastUpdate = "Not enough mana to cast " + skillName + ".";
       ApiRequest.updateStatus();
-      return true;
+      return SkillStatus.ERROR;
     }
 
     // The skill was successfully cast. Deal with its effects.
@@ -2204,7 +2221,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         // Ancestral Recall says "You can't use that
         // skill" if you don't have any blue mana.
         UseSkillRequest.lastUpdate = "You don't have any blue mana.";
-        return true;
+        return SkillStatus.ERROR;
       } else {
         UseSkillRequest.lastUpdate = "Summon limit exceeded.";
 
@@ -2617,7 +2634,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       ResultProcessor.processResult(new AdventureLongCountResult(AdventureResult.MP, 0 - mpCost));
     }
 
-    return false;
+    return SkillStatus.SUCCESS;
   }
 
   public static int getSkillId(final String urlString) {
@@ -2777,8 +2794,6 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
     RequestLogger.updateSessionLog();
     RequestLogger.updateSessionLog("cast " + count + " " + skillName);
-
-    SkillDatabase.registerCasts(skillId, count);
 
     return true;
   }

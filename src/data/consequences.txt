@@ -78,6 +78,16 @@ DESC_ITEM	Staff of the Standalone Cheese	No charges	_jiggleCheese=5
 DESC_ITEM	Staff of the Standalone Cheese	currently banished:<br>&nbsp;&nbsp;([^<]+)<br>&nbsp;&nbsp;(?:([^<]+)<br>&nbsp;&nbsp;(?:<br>&nbsp;&nbsp;([^<]+)<br>&nbsp;&nbsp;(?:([^<]+)<br>&nbsp;&nbsp;(?:<br>&nbsp;&nbsp;([^<]+)<br>&nbsp;&nbsp;))))	_jiggleCheesedMonsters=$1|$2|$3|$4|$5
 DESC_ITEM	The Landscaper's leafblower	\+(\d+) Monster Level	_leafblowerML=$1
 DESC_ITEM	Yearbook Club Camera	asked you to photograph.*?<b>(.*?)</b>	_yearbookCameraTarget=$1
+DESC_ITEM	familiar scrapbook	Scraps Collected: <b>([\d,]+)</b>	scrapbookCharges=[stripcommas($1)]
+DESC_ITEM	industrial fire extinguisher	The extinguisher's tank is currently <b>([\d]+)% full</b>	_fireExtinguisherCharge=$1
+
+# Item modifiers
+DESC_ITEM	no hat		_noHatModifier=mods
+DESC_ITEM	Sword of Procedural Generation		jickSwordModifier=mods
+DESC_ITEM	pantogram pants		_pantogramModifier=mods
+DESC_ITEM	latte lovers member's mug		latteModifier=mods
+DESC_ITEM	Kremlin's Greatest Briefcase
+DESC_ITEM	fresh coat of paint		_coatOfPaintModifier=mods
 
 DESC_SKILL	Banishing Shout	currently banished:<br>([^<]+)<br>(?:([^<]+)<br>(?:([^<]+)<br>|</blockquote>)|</blockquote>)	banishingShoutMonsters=$1|$2|$3
 DESC_SKILL	Slimy Shoulders	giving you \+(\d+)	skillLevel48=$1
@@ -101,6 +111,14 @@ DESC_EFFECT	On the Trail	I mean "(.*?)\."<	olfactedMonster=$1
 DESC_EFFECT	Puzzle Champ	\+(\d+) to Familiar Weight	puzzleChampBonus=$1
 DESC_EFFECT	Starry-Eyed	All Attributes \+(\d+)%	telescopeUpgrades=[$1/5]
 DESC_EFFECT	Towering Strength	\+(\d+)%	chessboardsCleared=[($1-100)/2]
+
+DESC_EFFECT	Wine-Fortified	\+(\d+) .*? Damage	vintnerWineLevel=[$1/3]
+DESC_EFFECT	Wine-Hot	\+(\d+) .*? Damage	vintnerWineLevel=[$1/3]
+DESC_EFFECT	Wine-Frisky	\+(\d+) .*? Damage	vintnerWineLevel=[$1/3]
+DESC_EFFECT	Wine-Cold	\+(\d+) .*? Damage	vintnerWineLevel=[$1/3]
+DESC_EFFECT	Wine-Dark	\+(\d+) .*? Damage	vintnerWineLevel=[$1/4]
+DESC_EFFECT	Wine-Befouled	\+(\d+) .*? Damage	vintnerWineLevel=[$1/3]
+DESC_EFFECT	Wine-Friendly	\+(\d+) .*? Damage	vintnerWineLevel=[$1/3]
 
 # Monster disambiguation:
 

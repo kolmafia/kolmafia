@@ -1,0 +1,4 @@
+Changing "dire warren" to "The Dire Warren" would get rid of this message. (test_ambiguous_literal.ash, line 1)
+Multiple matches for "staff of ed"; using "[7961]Staff of Ed". (test_ambiguous_literal.ash, line 2) Clarify by using one of:
+$item[[2325]Staff of Ed]
+$item[[7961]Staff of Ed]

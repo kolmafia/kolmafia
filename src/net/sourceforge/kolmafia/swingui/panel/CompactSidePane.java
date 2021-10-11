@@ -60,7 +60,7 @@ public class CompactSidePane extends JPanel implements Runnable {
   private final int STAT_LABELS = 3;
   private final JLabel[] statLabel = new JLabel[STAT_LABELS];
   private final JLabel[] statValueLabel = new JLabel[STAT_LABELS];
-  private final int STATUS_LABELS = 7;
+  private final int STATUS_LABELS = 8;
   private final JLabel[] statusLabel = new JLabel[STATUS_LABELS];
   private final JLabel[] statusValueLabel = new JLabel[STATUS_LABELS];
   private final int CONSUMPTION_LABELS = 3;

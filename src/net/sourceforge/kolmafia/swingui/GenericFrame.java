@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.swingui;
 
-import apple.dts.samplecode.osxadapter.OSXAdapter;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -142,8 +141,6 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
     this.setFocusTraversalPolicy(new DefaultComponentFocusTraversalPolicy(this.framePanel));
 
     this.addFocusListener(this);
-
-    OSXAdapter.setWindowCanFullScreen(this, true);
   }
 
   public void focusGained(FocusEvent e) {

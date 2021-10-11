@@ -1,18 +1,23 @@
 package net.sourceforge.kolmafia;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.io.PrintStream;
-import net.java.dev.spellcast.utilities.DataUtilities;
+import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.stream.Stream;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.textui.command.CallScriptCommand;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class CustomScriptTest {
   // Directory containing expected output.
@@ -27,49 +32,43 @@ public class CustomScriptTest {
     }
   }
 
-  private static String[] data() {
-    return KoLConstants.SCRIPT_LOCATION.list(new ScriptNameFilter());
+  private static Stream<Arguments> data() {
+    return Arrays.asList(KoLConstants.SCRIPT_LOCATION.list(new ScriptNameFilter())).stream()
+        .map(Arguments::of);
   }
 
   // Looks for the file "test/root/expected/" + script + ".out".
-  private static String getExpectedOutput(String script) {
-    BufferedReader reader = DataUtilities.getReader(new File(EXPECTED_LOCATION, script + ".out"));
-    StringBuilder sb = new StringBuilder();
-    for (Object line : reader.lines().toArray()) {
-      sb.append(((String) line) + "\n");
-    }
-    return sb.toString();
+  private static String getExpectedOutput(String script) throws IOException {
+    return Files.readString(new File(EXPECTED_LOCATION, script + ".out").toPath());
   }
 
-  private void testScript(String script) {
+  @ParameterizedTest
+  @MethodSource("data")
+  void testScript(String script) throws IOException {
     String expectedOutput = getExpectedOutput(script);
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
-    PrintStream out = new PrintStream(ostream);
-    // Inject custom output stream.
-    RequestLogger.openCustom(out);
+    try (PrintStream out = new PrintStream(ostream, true)) {
+      // Inject custom output stream.
+      RequestLogger.openCustom(out);
 
-    CallScriptCommand command = new CallScriptCommand();
-    command.run("call", script);
+      CallScriptCommand command = new CallScriptCommand();
+      command.run("call", script);
+    }
 
     String output = ostream.toString();
-    assertEquals(script + " output does not match: ", expectedOutput, output);
+    assertEquals(expectedOutput, output, script + " output does not match: ");
   }
 
-  @Before
-  public void setRevision() {
+  @BeforeEach
+  void setUp() {
+    ContactManager.registerPlayerId("heeheehee", "354981");
     StaticEntity.overrideRevision(10000);
-  }
-
-  @After
-  public void clearRevision() {
-    StaticEntity.overrideRevision(null);
-  }
-
-  @Test
-  public void testScripts() {
     TurnCounter.clearCounters();
-    for (String script : data()) {
-      testScript(script);
-    }
+    KoLmafia.forceContinue();
+  }
+
+  @AfterEach
+  void tearDown() {
+    StaticEntity.overrideRevision(null);
   }
 }

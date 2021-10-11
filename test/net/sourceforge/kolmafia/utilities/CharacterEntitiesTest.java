@@ -1,9 +1,9 @@
 package net.sourceforge.kolmafia.utilities;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * CharacterEntities is pretty well tested by other tests. This one is mostly to increase the Clover
@@ -23,7 +23,7 @@ public class CharacterEntitiesTest {
   }
 
   @Test
-  @Ignore("Failing in Windows but not IDE")
+  @Disabled("Failing in Windows but not IDE")
   public void itShouldUnescape() {
     String a = "This is mixed and matched &pound; &curren;";
     String ua = CharacterEntities.unescape(a);

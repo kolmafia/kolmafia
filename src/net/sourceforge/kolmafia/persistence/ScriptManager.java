@@ -119,6 +119,8 @@ public class ScriptManager {
     try {
       return new JSONArray(string);
     } catch (JSONException e) {
+      // This file is evidently bad. Delete it so it doesn't keep causing problems.
+      repoFile.delete();
       StaticEntity.printStackTrace(e);
     }
 
