@@ -4,29 +4,26 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ScrapheapRequestTest extends RequestTestBase {
 
-  @BeforeAll
-  private static void injectPreferences() {
+  @BeforeEach
+  private void injectPreferences() {
     KoLCharacter.reset("fakeUserName");
     Preferences.setBoolean("saveSettingsOnSet", false);
   }
 
   @Test
   public void parseChronolith1() throws IOException {
-    byte[] fileData = Files.readAllBytes(Paths.get("request/test_scrapheap_chronolith_1.html"));
-    String html = new String(fileData, StandardCharsets.UTF_8);
-
+    String html = Files.readString(Paths.get("request/test_scrapheap_chronolith_1.html"));
     var req = new ScrapheapRequest("sh_chrono");
     req.responseText = html;
     req.processResults();
