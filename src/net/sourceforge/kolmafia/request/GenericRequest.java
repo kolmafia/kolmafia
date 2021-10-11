@@ -68,6 +68,7 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.NaiveSecureSocketLayer;
 import net.sourceforge.kolmafia.utilities.PauseObject;
@@ -1415,7 +1416,7 @@ public class GenericRequest implements Runnable {
 
     try {
       this.formURL = this.buildURL();
-      this.formConnection = (HttpURLConnection) this.formURL.openConnection();
+      this.formConnection = HttpUtilities.openConnection(this.formURL);
     } catch (IOException e) {
       if (this.shouldUpdateDebugLog()) {
         String message =

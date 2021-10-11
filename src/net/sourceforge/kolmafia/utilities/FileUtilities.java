@@ -180,7 +180,7 @@ public class FileUtilities {
 
   private static HttpURLConnection connectToRemoteFile(final String remote) {
     try {
-      return (HttpURLConnection) new URL(null, remote).openConnection();
+      return HttpUtilities.openConnection(new URL(null, remote));
     } catch (IOException e) {
       return null;
     }

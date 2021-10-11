@@ -16,7 +16,7 @@ mainClassName = 'net.sourceforge.kolmafia.KoLmafia'
 sourceSets {
 	main {
 		java {
-			srcDirs = ['src', 'lib']
+			srcDirs = ['src']
 			destinationDirectory.set(file('build/main'))
 		}
 		resources {
@@ -36,6 +36,9 @@ sourceSets {
 		java {
 			srcDirs = ['test']
 			destinationDirectory.set(file('build/test'))
+		}
+		resources {
+			srcDirs = ['test/resources']
 		}
 	}
 }
@@ -141,7 +144,8 @@ test {
 	useJUnitPlatform()
 
 	systemProperty 'line.separator', '\n'
-	jvmArgs '-DuseCWDasROOT=true'
+	systemProperty 'junit.jupiter.extensions.autodetection.enabled', true
+	systemProperty 'useCWDasROOT', true
 	workingDir 'test/root'
 
 	reports {
