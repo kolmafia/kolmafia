@@ -16,7 +16,7 @@ mainClassName = 'net.sourceforge.kolmafia.KoLmafia'
 sourceSets {
 	main {
 		java {
-			srcDirs = ['src', 'lib']
+			srcDirs = ['src']
 			destinationDirectory.set(file('build/main'))
 		}
 		resources {
@@ -36,6 +36,9 @@ sourceSets {
 		java {
 			srcDirs = ['test']
 			destinationDirectory.set(file('build/test'))
+		}
+		resources {
+			srcDirs = ['test/resources']
 		}
 	}
 }
@@ -144,7 +147,8 @@ test {
 	useJUnitPlatform()
 
 	systemProperty 'line.separator', '\n'
-	jvmArgs '-DuseCWDasROOT=true'
+	systemProperty 'junit.jupiter.extensions.autodetection.enabled', true
+	systemProperty 'useCWDasROOT', true
 	workingDir 'test/root'
 
 	reports {
@@ -168,8 +172,8 @@ jar {
 		attributes(
 				'Main-Class'      : 'net.sourceforge.kolmafia.KoLmafia',
 				'Build-Revision'  : new Object() { String toString() { project.getVersion() } },
-				'Build-Branch'    : versioning.info.branch,
-				'Build-Commit'    : versioning.info.commit,
+				'Build-Branch'    : versioning.info.branchId,
+				'Build-Build'     : versioning.info.build,
 				'Build-Dirty'     : versioning.info.dirty,
 				'Build-Jdk'       : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
 				'Build-OS'        : "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}"

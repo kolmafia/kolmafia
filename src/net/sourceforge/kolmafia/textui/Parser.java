@@ -3345,19 +3345,27 @@ public class Parser {
         }
 
         if (names.size() > 1) {
-          ScriptException ex =
-              this.parseException2(
-                  "Multiple matches for \"" + s1 + "\"; using \"" + s2 + "\".",
-                  "Clarify by using one of:");
-          RequestLogger.printLine(ex.getMessage());
+          String message =
+              "Multiple matches for \""
+                  + s1
+                  + "\"; using \""
+                  + s2
+                  + "\". "
+                  + this.getLineAndFile()
+                  + " Clarify by using one of:";
+          RequestLogger.printLine(message);
           for (String name : names) {
             RequestLogger.printLine(name);
           }
         } else {
-          ScriptException ex =
-              this.parseException(
-                  "Changing \"" + s1 + "\" to \"" + s2 + "\" would get rid of this message.");
-          RequestLogger.printLine(ex.getMessage());
+          String message =
+              "Changing \""
+                  + s1
+                  + "\" to \""
+                  + s2
+                  + "\" would get rid of this message. "
+                  + this.getLineAndFile();
+          RequestLogger.printLine(message);
         }
       }
     }
@@ -4418,10 +4426,6 @@ public class Parser {
 
   private ScriptException parseException(final String message) {
     return new ScriptException(message + " " + this.getLineAndFile());
-  }
-
-  private ScriptException parseException2(final String message1, final String message2) {
-    return new ScriptException(message1 + " " + this.getLineAndFile() + " " + message2);
   }
 
   private ScriptException undefinedFunctionException(
