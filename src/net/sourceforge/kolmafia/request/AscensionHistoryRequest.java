@@ -111,6 +111,7 @@ public class AscensionHistoryRequest extends GenericRequest
     int masksUnlocked = 0;
     int gyfftePoints = 0;
     int plumberPoints = 0;
+    int youRobotPoints = 0;
     int quantumPoints = 0;
     String playerName = null;
     String playerId = null;
@@ -203,6 +204,9 @@ public class AscensionHistoryRequest extends GenericRequest
         case AscensionSnapshot.PATH_OF_THE_PLUMBER:
           plumberPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
           break;
+        case AscensionSnapshot.YOU_ROBOT:
+          youRobotPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
+          break;
         case AscensionSnapshot.QUANTUM:
           quantumPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
           break;
@@ -253,6 +257,9 @@ public class AscensionHistoryRequest extends GenericRequest
     }
     if (plumberPoints > Preferences.getInteger("plumberPoints")) {
       Preferences.setInteger("plumberPoints", (Math.min(plumberPoints, 22)));
+    }
+    if (youRobotPoints > Preferences.getInteger("youRobotPoints")) {
+      Preferences.setInteger("youRobotPoints", (Math.min(youRobotPoints, 37)));
     }
     if (quantumPoints > Preferences.getInteger("quantumPoints")) {
       Preferences.setInteger("quantumPoints", (Math.min(quantumPoints, 11)));

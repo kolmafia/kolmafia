@@ -3191,6 +3191,9 @@ public abstract class KoLCharacter {
         Preferences.increment("plumberPoints", points, 22, false);
         KoLCharacter.removePlumberQuestItems();
         break;
+      case YOU_ROBOT:
+        Preferences.increment("youRobotPoints", points, 37, false);
+        break;
       case QUANTUM:
         Preferences.increment("quantumPoints", points, 11, false);
         break;
