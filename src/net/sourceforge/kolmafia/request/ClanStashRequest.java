@@ -2,12 +2,9 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import net.java.dev.spellcast.utilities.LockableListModel;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -15,356 +12,307 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-
 import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class ClanStashRequest
-	extends TransferItemRequest
-{
-	private static final Pattern LIST_PATTERN = Pattern.compile( "<form name=takegoodies.*?</select>" );
-	private static final Pattern ITEM_PATTERN =
-		Pattern.compile( "<option value=([\\d]+) descid=([\\d]+)>(.*?)( \\(([\\d,]+)\\))?( \\(-[\\d,]*\\))?</option>" );
+public class ClanStashRequest extends TransferItemRequest {
+  private static final Pattern LIST_PATTERN = Pattern.compile("<form name=takegoodies.*?</select>");
+  private static final Pattern ITEM_PATTERN =
+      Pattern.compile(
+          "<option value=([\\d]+) descid=([\\d]+)>(.*?)( \\(([\\d,]+)\\))?( \\(-[\\d,]*\\))?</option>");
 
-	private final int moveType;
+  private final int moveType;
 
-	public static final int REFRESH_ONLY = 0;
-	public static final int ITEMS_TO_STASH = 1;
-	public static final int MEAT_TO_STASH = 2;
-	public static final int STASH_TO_ITEMS = 3;
+  public static final int REFRESH_ONLY = 0;
+  public static final int ITEMS_TO_STASH = 1;
+  public static final int MEAT_TO_STASH = 2;
+  public static final int STASH_TO_ITEMS = 3;
 
-	public ClanStashRequest()
-	{
-		super( "clan_stash.php" );
-		this.moveType = ClanStashRequest.REFRESH_ONLY;
-		this.destination = new ArrayList<AdventureResult>();
-	}
+  public ClanStashRequest() {
+    super("clan_stash.php");
+    this.moveType = ClanStashRequest.REFRESH_ONLY;
+    this.destination = new ArrayList<AdventureResult>();
+  }
 
-	/**
-	 * Constructs a new <code>ClanStashRequest</code>.
-	 *
-	 * @param amount The amount of meat involved in this transaction
-	 */
+  /**
+   * Constructs a new <code>ClanStashRequest</code>.
+   *
+   * @param amount The amount of meat involved in this transaction
+   */
+  public ClanStashRequest(final long amount) {
+    super("clan_stash.php", new AdventureLongCountResult(AdventureResult.MEAT, amount));
+    this.addFormField("action", "contribute");
 
-	public ClanStashRequest( final long amount )
-	{
-		super( "clan_stash.php", new AdventureLongCountResult( AdventureResult.MEAT, amount ) );
-		this.addFormField( "action", "contribute" );
+    this.moveType = ClanStashRequest.MEAT_TO_STASH;
+    this.destination = new ArrayList<AdventureResult>();
+  }
 
-		this.moveType = ClanStashRequest.MEAT_TO_STASH;
-		this.destination = new ArrayList<AdventureResult>();
-	}
+  public ClanStashRequest(AdventureResult attachment, final int moveType) {
+    this(new AdventureResult[] {attachment}, moveType);
+  }
 
-	public ClanStashRequest( AdventureResult attachment, final int moveType )
-	{
-		this( new AdventureResult[] { attachment }, moveType );
-	}
+  /**
+   * Constructs a new <code>ClanStashRequest</code>.
+   *
+   * @param attachments The list of attachments involved in the request
+   */
+  public ClanStashRequest(final AdventureResult[] attachments, final int moveType) {
+    super("clan_stash.php", attachments);
+    this.moveType = moveType;
 
-	/**
-	 * Constructs a new <code>ClanStashRequest</code>.
-	 *
-	 * @param attachments The list of attachments involved in the request
-	 */
+    if (moveType == ClanStashRequest.ITEMS_TO_STASH) {
+      this.addFormField("action", "addgoodies");
+      this.source = KoLConstants.inventory;
+      this.destination = ClanManager.getStash();
+    } else {
+      this.addFormField("action", "takegoodies");
+      this.source = ClanManager.getStash();
+      this.destination = KoLConstants.inventory;
+    }
+    this.addFormField("ajax", "1");
+  }
 
-	public ClanStashRequest( final AdventureResult[] attachments, final int moveType )
-	{
-		super( "clan_stash.php", attachments );
-		this.moveType = moveType;
+  @Override
+  protected boolean retryOnTimeout() {
+    return this.moveType == ClanStashRequest.REFRESH_ONLY;
+  }
 
-		if ( moveType == ClanStashRequest.ITEMS_TO_STASH )
-		{
-			this.addFormField( "action", "addgoodies" );
-			this.source = KoLConstants.inventory;
-			this.destination = ClanManager.getStash();
-		}
-		else
-		{
-			this.addFormField( "action", "takegoodies" );
-			this.source = ClanManager.getStash();
-			this.destination = KoLConstants.inventory;
-		}
-		this.addFormField( "ajax", "1" );
-	}
+  @Override
+  public String getItemField() {
+    return this.moveType == ClanStashRequest.ITEMS_TO_STASH ? "item" : "whichitem";
+  }
 
-	@Override
-	protected boolean retryOnTimeout()
-	{
-		return this.moveType == ClanStashRequest.REFRESH_ONLY;
-	}
+  @Override
+  public String getQuantityField() {
+    return this.moveType == ClanStashRequest.ITEMS_TO_STASH ? "qty" : "quantity";
+  }
 
-	@Override
-	public String getItemField()
-	{
-		return this.moveType == ClanStashRequest.ITEMS_TO_STASH ? "item" : "whichitem";
-	}
+  @Override
+  public String getMeatField() {
+    return "howmuch";
+  }
 
-	@Override
-	public String getQuantityField()
-	{
-		return this.moveType == ClanStashRequest.ITEMS_TO_STASH ? "qty" : "quantity";
-	}
+  public int getMoveType() {
+    return this.moveType;
+  }
 
-	@Override
-	public String getMeatField()
-	{
-		return "howmuch";
-	}
+  public List<AdventureResult> getItems() {
+    List<AdventureResult> itemList = new ArrayList<>();
 
-	public int getMoveType()
-	{
-		return this.moveType;
-	}
+    if (this.attachments == null) {
+      return itemList;
+    }
 
-	public List<AdventureResult> getItems()
-	{
-		List<AdventureResult> itemList = new ArrayList<>();
+    for (AdventureResult item : this.attachments) {
+      itemList.add(item);
+    }
 
-		if ( this.attachments == null )
-		{
-			return itemList;
-		}
+    return itemList;
+  }
 
-		for ( AdventureResult item : this.attachments )
-		{
-			itemList.add( item );
-		}
+  @Override
+  public int getCapacity() {
+    return this.moveType == ClanStashRequest.STASH_TO_ITEMS ? 1 : 11;
+  }
 
-		return itemList;
-	}
+  @Override
+  public TransferItemRequest getSubInstance(final AdventureResult[] attachments) {
+    return new ClanStashRequest(attachments, this.moveType);
+  }
 
-	@Override
-	public int getCapacity()
-	{
-		return this.moveType == ClanStashRequest.STASH_TO_ITEMS ? 1 : 11;
-	}
+  @Override
+  public void processResults() {
+    super.processResults();
 
-	@Override
-	public TransferItemRequest getSubInstance( final AdventureResult[] attachments )
-	{
-		return new ClanStashRequest( attachments, this.moveType );
-	}
+    switch (this.moveType) {
+      case REFRESH_ONLY:
+        KoLmafia.updateDisplay("Stash list retrieved.");
+        return;
 
-	@Override
-	public void processResults()
-	{
-		super.processResults();
+      case MEAT_TO_STASH:
+        KoLmafia.updateDisplay("Clan donation attempt complete.");
+        break;
 
-		switch ( this.moveType )
-		{
-		case REFRESH_ONLY:
-			KoLmafia.updateDisplay( "Stash list retrieved." );
-			return;
+      case STASH_TO_ITEMS:
+      case ITEMS_TO_STASH:
+        if (!KoLmafia.permitsContinue()) {
+          KoLmafia.updateDisplay(MafiaState.ERROR, "Movement of items failed.");
+        }
 
-		case MEAT_TO_STASH:
-			KoLmafia.updateDisplay( "Clan donation attempt complete." );
-			break;
+        break;
+    }
+  }
 
-		case STASH_TO_ITEMS:
-		case ITEMS_TO_STASH:
+  @Override
+  public boolean parseTransfer() {
+    return ClanStashRequest.parseTransfer(this.getURLString(), this.responseText);
+  }
 
-			if ( !KoLmafia.permitsContinue() )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "Movement of items failed." );
-			}
+  public static final Pattern ITEM_PATTERN1 = Pattern.compile("You add (.*?) to the Goodies Hoard");
+  public static final Pattern ITEM_PATTERN2 =
+      Pattern.compile("(\\d+) (.+?)(?:, (?=\\d)|, and| and (?=\\d)|$)");
 
-			break;
-		}
-	}
+  public static final boolean parseTransfer(final String urlString, final String responseText) {
+    if (urlString.indexOf("takegoodies") != -1) {
+      // If you ask for too many of an item:
+      //     There aren't that many of that item in the stash.
+      //
+      // If you ask for (and are allowed to take) items:
+      //     You acquire 5 xxx
+      if (responseText.indexOf("You acquire") == -1) {
+        return false;
+      }
 
-	@Override
-	public boolean parseTransfer()
-	{
-		return ClanStashRequest.parseTransfer( this.getURLString(), this.responseText );
-	}
+      // Since "you acquire" items, they have already been
+      // added to inventory
+      TransferItemRequest.transferItems(
+          urlString,
+          TransferItemRequest.ITEMID_PATTERN,
+          TransferItemRequest.QUANTITY_PATTERN,
+          ClanManager.getStash(),
+          null,
+          0);
+    } else if (urlString.indexOf("addgoodies") != -1) {
+      // If you didn't have the items you wanted to drop into
+      // the stash:
+      //     You didn't actually have any of the items you
+      //     selected. Tsk, tsk.
+      // Otherwise:
+      //     You add 5 xxx to the Goodies Hoard.
+      if (responseText.indexOf("to the Goodies Hoard") == -1) {
+        return false;
+      }
 
-	public static final Pattern ITEM_PATTERN1 = Pattern.compile( "You add (.*?) to the Goodies Hoard" );
-	public static final Pattern ITEM_PATTERN2 = Pattern.compile( "(\\d+) (.+?)(?:, (?=\\d)|, and| and (?=\\d)|$)" );
+      // Parse the actual number of items moved from the
+      // responseText, rather than believing the URL
+      AdventureResultArray items =
+          TransferItemRequest.getItemList(responseText, ITEM_PATTERN1, null, ITEM_PATTERN2);
+      TransferItemRequest.transferItems(items, KoLConstants.inventory, ClanManager.getStash());
+    } else if (urlString.indexOf("action=contribute") != -1) {
+      long meat = TransferItemRequest.transferredMeat(urlString, "howmuch");
+      ResultProcessor.processMeat(0 - meat);
+      KoLCharacter.updateStatus();
+    }
 
-	public static final boolean parseTransfer( final String urlString, final String responseText )
-	{
-		if ( urlString.indexOf( "takegoodies" ) != -1 )
-		{
-			// If you ask for too many of an item:
-			//     There aren't that many of that item in the stash.
-			//
-			// If you ask for (and are allowed to take) items:
-			//     You acquire 5 xxx
-			if ( responseText.indexOf( "You acquire" ) == -1 )
-			{
-				return false;
-			}
+    if (urlString.contains("ajax=1")) {
+      return true;
+    }
 
-			// Since "you acquire" items, they have already been
-			// added to inventory
-			TransferItemRequest.transferItems( urlString,
-					TransferItemRequest.ITEMID_PATTERN,
-					TransferItemRequest.QUANTITY_PATTERN,
-					ClanManager.getStash(),
-					null, 0 );
-		}
-		else if ( urlString.indexOf( "addgoodies" ) != -1 )
-		{
-			// If you didn't have the items you wanted to drop into
-			// the stash:
-			//     You didn't actually have any of the items you
-			//     selected. Tsk, tsk.
-			// Otherwise:
-			//     You add 5 xxx to the Goodies Hoard.
-			if ( responseText.indexOf( "to the Goodies Hoard" ) == -1 )
-			{
-				return false;
-			}
+    ClanStashRequest.parseStash(responseText);
+    return true;
+  }
 
-			// Parse the actual number of items moved from the
-			// responseText, rather than believing the URL
-			AdventureResultArray items = TransferItemRequest.getItemList( responseText,
-						ITEM_PATTERN1, null, ITEM_PATTERN2 );
-			TransferItemRequest.transferItems( items,
-							   KoLConstants.inventory,
-							   ClanManager.getStash() );
-		}
-		else if ( urlString.indexOf( "action=contribute" ) != -1 )
-		{
-			long meat = TransferItemRequest.transferredMeat( urlString, "howmuch" );
-			ResultProcessor.processMeat( 0 - meat );
-			KoLCharacter.updateStatus();
-		}
+  private static void parseStash(final String responseText) {
+    // In the event that the request was broken up into pieces,
+    // there's nothing to look at. Return from the function call.
 
-		if ( urlString.contains( "ajax=1" ) )
-		{
-			return true;
-		}
+    if (responseText == null || responseText.length() == 0) {
+      return;
+    }
 
-		ClanStashRequest.parseStash( responseText );
-		return true;
-	}
+    ClanManager.setStashRetrieved();
 
-	private static void parseStash( final String responseText )
-	{
-		// In the event that the request was broken up into pieces,
-		// there's nothing to look at. Return from the function call.
+    // Start with current stash contents
+    LockableListModel<AdventureResult> stashContents = ClanManager.getStash();
 
-		if ( responseText == null || responseText.length() == 0 )
-		{
-			return;
-		}
+    // Clear it
+    stashContents.clear();
 
+    // If there's nothing inside the goodies hoard, clear stash and return
+    Matcher stashMatcher = ClanStashRequest.LIST_PATTERN.matcher(responseText);
+    if (!stashMatcher.find()) {
+      return;
+    }
 
-		ClanManager.setStashRetrieved();
+    ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
 
-		// Start with current stash contents
-		LockableListModel<AdventureResult> stashContents = ClanManager.getStash();
+    Matcher matcher = ClanStashRequest.ITEM_PATTERN.matcher(stashMatcher.group());
+    int lastFindIndex = 0;
 
-		// Clear it
-		stashContents.clear();
+    while (matcher.find(lastFindIndex)) {
+      lastFindIndex = matcher.end();
+      int itemId = StringUtilities.parseInt(matcher.group(1));
+      String descId = matcher.group(2);
+      String itemString = matcher.group(3);
 
-		// If there's nothing inside the goodies hoard, clear stash and return
-		Matcher stashMatcher = ClanStashRequest.LIST_PATTERN.matcher( responseText );
-		if ( !stashMatcher.find() )
-		{
-			return;
-		}
+      String quantityString = matcher.group(5);
+      int quantity = 1;
 
-		ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
+      if (quantityString != null) {
+        quantity = StringUtilities.parseInt(quantityString);
+      }
 
-		Matcher matcher = ClanStashRequest.ITEM_PATTERN.matcher( stashMatcher.group() );
-		int lastFindIndex = 0;
+      // If this is a previously unknown item, register it.
+      if (ItemDatabase.getItemName(itemId) == null) {
+        ItemDatabase.registerItem(itemId, itemString, descId);
+      }
 
-		while ( matcher.find( lastFindIndex ) )
-		{
-			lastFindIndex = matcher.end();
-			int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
-			String descId = matcher.group( 2 );
-			String itemString = matcher.group( 3 );
+      items.add(ItemPool.get(itemId, quantity));
+    }
 
-			String quantityString = matcher.group( 5 );
-			int quantity = 1;
+    // Add everything en masse to the stash
+    stashContents.addAll(items);
+  }
 
-			if ( quantityString != null )
-			{
-				quantity = StringUtilities.parseInt( quantityString );
-			}
+  @Override
+  public boolean allowMementoTransfer() {
+    return true;
+  }
 
-			// If this is a previously unknown item, register it.
-			if ( ItemDatabase.getItemName( itemId ) == null )
-			{
-				ItemDatabase.registerItem( itemId, itemString, descId );
-			}
+  @Override
+  public boolean allowUntradeableTransfer() {
+    return true;
+  }
 
-			items.add( ItemPool.get( itemId, quantity ) );
-		}
+  public static final boolean registerRequest(final String urlString) {
+    if (!urlString.startsWith("clan_stash.php")) {
+      return false;
+    }
 
-		// Add everything en masse to the stash
-		stashContents.addAll( items );
-	}
+    if (urlString.indexOf("takegoodies") != -1) {
+      return TransferItemRequest.registerRequest(
+          "remove from stash",
+          urlString,
+          TransferItemRequest.ITEMID_PATTERN,
+          TransferItemRequest.QUANTITY_PATTERN,
+          ClanManager.getStash(),
+          0);
+    }
 
-	@Override
-	public boolean allowMementoTransfer()
-	{
-		return true;
-	}
+    if (urlString.indexOf("addgoodies") != -1) {
+      return TransferItemRequest.registerRequest(
+          "add to stash",
+          urlString,
+          TransferItemRequest.ITEMID_PATTERN,
+          TransferItemRequest.QTY_PATTERN,
+          KoLConstants.inventory,
+          0);
+    }
 
-	@Override
-	public boolean allowUntradeableTransfer()
-	{
-		return true;
-	}
+    if (urlString.indexOf("action=contribute") != -1) {
+      long meat = TransferItemRequest.transferredMeat(urlString, "howmuch");
+      String message = "add to stash: " + meat + " Meat";
+      RequestLogger.updateSessionLog();
+      RequestLogger.updateSessionLog(message);
+    }
 
-	public static final boolean registerRequest( final String urlString )
-	{
-		if ( !urlString.startsWith( "clan_stash.php" ) )
-		{
-			return false;
-		}
+    return true;
+  }
 
-		if ( urlString.indexOf( "takegoodies" ) != -1 )
-		{
-			return TransferItemRequest.registerRequest(
-				"remove from stash", urlString,
-				TransferItemRequest.ITEMID_PATTERN,
-				TransferItemRequest.QUANTITY_PATTERN,
-				ClanManager.getStash(), 0 );
-		}
-
-		if ( urlString.indexOf( "addgoodies" ) != -1 )
-		{
-			return TransferItemRequest.registerRequest(
-				"add to stash", urlString,
-				TransferItemRequest.ITEMID_PATTERN,
-				TransferItemRequest.QTY_PATTERN,
-				KoLConstants.inventory, 0 );
-		}
-
-		if ( urlString.indexOf( "action=contribute" ) != -1 )
-		{
-			long meat = TransferItemRequest.transferredMeat( urlString, "howmuch" );
-			String message = "add to stash: " + meat + " Meat";
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( message );
-		}
-
-		return true;
-	}
-
-	@Override
-	public String getStatusMessage()
-	{
-		switch ( this.moveType )
-		{
-		case ClanStashRequest.ITEMS_TO_STASH:
-			return "Dropping items into stash";
-		case ClanStashRequest.STASH_TO_ITEMS:
-			return "Pulling items from stash";
-		case ClanStashRequest.MEAT_TO_STASH:
-			return "Donating meat to stash";
-		}
-		return "Refreshing stash contents";
-	}
+  @Override
+  public String getStatusMessage() {
+    switch (this.moveType) {
+      case ClanStashRequest.ITEMS_TO_STASH:
+        return "Dropping items into stash";
+      case ClanStashRequest.STASH_TO_ITEMS:
+        return "Pulling items from stash";
+      case ClanStashRequest.MEAT_TO_STASH:
+        return "Donating meat to stash";
+    }
+    return "Refreshing stash contents";
+  }
 }

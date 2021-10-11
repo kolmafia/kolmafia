@@ -1,197 +1,160 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.util.List;
-
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptException;
 
-public class RecordType
-	extends CompositeType
-{
-	private final String[] fieldNames;
-	private final Type[] fieldTypes;
-	private final Value[] fieldIndices;
+public class RecordType extends CompositeType {
+  private final String[] fieldNames;
+  private final Type[] fieldTypes;
+  private final Value[] fieldIndices;
 
-	public RecordType( final String name, final String[] fieldNames, final Type[] fieldTypes )
-	{
-		super( name, DataTypes.TYPE_RECORD );
+  public RecordType(final String name, final String[] fieldNames, final Type[] fieldTypes) {
+    super(name, DataTypes.TYPE_RECORD);
 
-		this.fieldNames = fieldNames;
-		this.fieldTypes = fieldTypes;
+    this.fieldNames = fieldNames;
+    this.fieldTypes = fieldTypes;
 
-		// Build field index values.
-		// These can be either integers or strings.
-		//   Integers don't require a lookup
-		//   Strings make debugging easier.
+    // Build field index values.
+    // These can be either integers or strings.
+    //   Integers don't require a lookup
+    //   Strings make debugging easier.
 
-		this.fieldIndices = new Value[ fieldNames.length ];
-		for ( int i = 0; i < fieldNames.length; ++i )
-		{
-			this.fieldIndices[ i ] = new Value( fieldNames[ i ] );
-		}
-	}
+    this.fieldIndices = new Value[fieldNames.length];
+    for (int i = 0; i < fieldNames.length; ++i) {
+      this.fieldIndices[i] = new Value(fieldNames[i]);
+    }
+  }
 
-	public String[] getFieldNames()
-	{
-		return this.fieldNames;
-	}
+  public String[] getFieldNames() {
+    return this.fieldNames;
+  }
 
-	public Type[] getFieldTypes()
-	{
-		return this.fieldTypes;
-	}
+  public Type[] getFieldTypes() {
+    return this.fieldTypes;
+  }
 
-	public Value[] getFieldIndices()
-	{
-		return this.fieldIndices;
-	}
+  public Value[] getFieldIndices() {
+    return this.fieldIndices;
+  }
 
-	public int fieldCount()
-	{
-		return this.fieldTypes.length;
-	}
+  public int fieldCount() {
+    return this.fieldTypes.length;
+  }
 
-	@Override
-	public Type getIndexType()
-	{
-		return DataTypes.STRING_TYPE;
-	}
+  @Override
+  public Type getIndexType() {
+    return DataTypes.STRING_TYPE;
+  }
 
-	@Override
-	public Type getDataType()
-	{
-		return null;
-	}
+  @Override
+  public Type getDataType() {
+    return null;
+  }
 
-	@Override
-	public Type getDataType( final Object key )
-	{
-		if ( !( key instanceof Value ) )
-		{
-			throw new ScriptException( "Internal error: key is not a Value" );
-		}
-		int index = this.indexOf( (Value) key );
-		if ( index < 0 || index >= this.fieldTypes.length )
-		{
-			return null;
-		}
-		return this.fieldTypes[ index ];
-	}
+  @Override
+  public Type getDataType(final Object key) {
+    if (!(key instanceof Value)) {
+      throw new ScriptException("Internal error: key is not a Value");
+    }
+    int index = this.indexOf((Value) key);
+    if (index < 0 || index >= this.fieldTypes.length) {
+      return null;
+    }
+    return this.fieldTypes[index];
+  }
 
-	public Value getFieldIndex( final String field )
-	{
-		String val = field.toLowerCase();
-		for ( int index = 0; index < this.fieldNames.length; ++index )
-		{
-			if ( val.equals( this.fieldNames[ index ] ) )
-			{
-				return this.fieldIndices[ index ];
-			}
-		}
-		return null;
-	}
+  public Value getFieldIndex(final String field) {
+    String val = field.toLowerCase();
+    for (int index = 0; index < this.fieldNames.length; ++index) {
+      if (val.equals(this.fieldNames[index])) {
+        return this.fieldIndices[index];
+      }
+    }
+    return null;
+  }
 
-	@Override
-	public Value getKey( final Value key )
-	{
-		Type type = key.getType();
+  @Override
+  public Value getKey(final Value key) {
+    Type type = key.getType();
 
-		if ( type.equals( DataTypes.TYPE_INT ) )
-		{
-			int index = (int) key.intValue();
-			if ( index < 0 || index >= this.fieldNames.length )
-			{
-				return null;
-			}
-			return this.fieldIndices[ index ];
-		}
+    if (type.equals(DataTypes.TYPE_INT)) {
+      int index = (int) key.intValue();
+      if (index < 0 || index >= this.fieldNames.length) {
+        return null;
+      }
+      return this.fieldIndices[index];
+    }
 
-		if ( type.equals( DataTypes.TYPE_STRING ) )
-		{
-			String str = key.toString();
-			for ( int index = 0; index < this.fieldNames.length; ++index )
-			{
-				if ( this.fieldNames[ index ].equals( str ) )
-				{
-					return this.fieldIndices[ index ];
-				}
-			}
-			return null;
-		}
+    if (type.equals(DataTypes.TYPE_STRING)) {
+      String str = key.toString();
+      for (int index = 0; index < this.fieldNames.length; ++index) {
+        if (this.fieldNames[index].equals(str)) {
+          return this.fieldIndices[index];
+        }
+      }
+      return null;
+    }
 
-		return null;
-	}
+    return null;
+  }
 
-	public int indexOf( final Value key )
-	{
-		Type type = key.getType();
+  public int indexOf(final Value key) {
+    Type type = key.getType();
 
-		if ( type.equals( DataTypes.TYPE_INT ) )
-		{
-			int index = (int) key.intValue();
-			if ( index < 0 || index >= this.fieldNames.length )
-			{
-				return -1;
-			}
-			return index;
-		}
+    if (type.equals(DataTypes.TYPE_INT)) {
+      int index = (int) key.intValue();
+      if (index < 0 || index >= this.fieldNames.length) {
+        return -1;
+      }
+      return index;
+    }
 
-		if ( type.equals( DataTypes.TYPE_STRING ) )
-		{
-			for ( int index = 0; index < this.fieldNames.length; ++index )
-			{
-				if ( key == this.fieldIndices[ index ] )
-				{
-					return index;
-				}
-			}
-			return -1;
-		}
+    if (type.equals(DataTypes.TYPE_STRING)) {
+      for (int index = 0; index < this.fieldNames.length; ++index) {
+        if (key == this.fieldIndices[index]) {
+          return index;
+        }
+      }
+      return -1;
+    }
 
-		return -1;
-	}
+    return -1;
+  }
 
-	@Override
-	public boolean equals( final Type o )
-	{
-		return o instanceof RecordType && this.name.equals( o.name );
-	}
+  @Override
+  public boolean equals(final Type o) {
+    return o instanceof RecordType && this.name.equals(o.name);
+  }
 
-	@Override
-	public Type simpleType()
-	{
-		return this;
-	}
+  @Override
+  public Type simpleType() {
+    return this;
+  }
 
-	@Override
-	public Value initialValue()
-	{
-		return new RecordValue( this );
-	}
+  @Override
+  public Value initialValue() {
+    return new RecordValue(this);
+  }
 
-	public Value initialValueExpression( List<Value> params )
-	{
-		if ( params.isEmpty() )
-		{
-			return new TypeInitializer( this );
-		}
+  public Value initialValueExpression(List<Value> params) {
+    if (params.isEmpty()) {
+      return new TypeInitializer(this);
+    }
 
-		return new RecordInitializer( this, params );
-	}
+    return new RecordInitializer(this, params);
+  }
 
-	@Override
-	public int dataValues()
-	{
-		int values = 0;
-		for ( Type type : this.fieldTypes )
-		{
-			int value = type.dataValues();
-			if ( value == -1 )
-			{
-				return -1;
-			}
-			values += value;
-		}
-		return values;
-	}
+  @Override
+  public int dataValues() {
+    int values = 0;
+    for (Type type : this.fieldTypes) {
+      int value = type.dataValues();
+      if (value == -1) {
+        return -1;
+      }
+      values += value;
+    }
+    return values;
+  }
 }

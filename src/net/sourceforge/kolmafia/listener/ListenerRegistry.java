@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.listener;
 
 import java.lang.ref.WeakReference;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -9,240 +8,203 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
-public class ListenerRegistry
-{
-	// A registry of listeners:
-	private final HashMap<Object,ArrayList<WeakReference>> listenerMap = new HashMap<Object,ArrayList<WeakReference>>();
+public class ListenerRegistry {
+  // A registry of listeners:
+  private final HashMap<Object, ArrayList<WeakReference>> listenerMap =
+      new HashMap<Object, ArrayList<WeakReference>>();
 
-	// Logging. For now, this applies to all types of listeners
-	private static boolean logging = false;
-	public final static void setLogging( final boolean logging )
-	{
-		ListenerRegistry.logging = logging;
-	}
+  // Logging. For now, this applies to all types of listeners
+  private static boolean logging = false;
 
-	// Deferring
-	private final HashSet<Object> deferred = new HashSet<Object>();
-	private int deferring = 0;
+  public static final void setLogging(final boolean logging) {
+    ListenerRegistry.logging = logging;
+  }
 
-	public ListenerRegistry()
-	{
-	}
+  // Deferring
+  private final HashSet<Object> deferred = new HashSet<Object>();
+  private int deferring = 0;
 
-	public void deferListeners( boolean deferring )
-	{
-		// If we are deferring, increment defer level
-		if ( deferring )
-		{
-			this.deferring += 1;
-			return;
-		}
+  public ListenerRegistry() {}
 
-		// If we are undeferring but are not deferred, do nothing
-		if ( this.deferring == 0 )
-		{
-			return;
-		}
+  public void deferListeners(boolean deferring) {
+    // If we are deferring, increment defer level
+    if (deferring) {
+      this.deferring += 1;
+      return;
+    }
 
-		// If we are undeferring and are still deferred, nothing more to do
-		if ( --this.deferring > 0 )
-		{
-			return;
-		}
+    // If we are undeferring but are not deferred, do nothing
+    if (this.deferring == 0) {
+      return;
+    }
 
-		// We were deferred but are no longer deferred. Fire at Will!
+    // If we are undeferring and are still deferred, nothing more to do
+    if (--this.deferring > 0) {
+      return;
+    }
 
-		boolean logit = ListenerRegistry.logging && RequestLogger.isDebugging();
+    // We were deferred but are no longer deferred. Fire at Will!
 
-		synchronized( this.deferred )
-		{
-			Object[] listenerArray = new Object[ this.deferred.size() ];
-			this.deferred.toArray( listenerArray );
-			this.deferred.clear();
+    boolean logit = ListenerRegistry.logging && RequestLogger.isDebugging();
 
-			for ( Object key : listenerArray )
-			{
-				ArrayList<WeakReference> listenerList = this.listenerMap.get( key );
-				if ( logit )
-				{
-					int count = listenerList == null ? 0 : listenerList.size();
-					RequestLogger.updateDebugLog( "Firing " + count + " listeners for \"" + key + "\"" );
-				}
-				this.fireListeners( listenerList, null );
-			}
-		}
+    synchronized (this.deferred) {
+      Object[] listenerArray = new Object[this.deferred.size()];
+      this.deferred.toArray(listenerArray);
+      this.deferred.clear();
 
-	}
+      for (Object key : listenerArray) {
+        ArrayList<WeakReference> listenerList = this.listenerMap.get(key);
+        if (logit) {
+          int count = listenerList == null ? 0 : listenerList.size();
+          RequestLogger.updateDebugLog("Firing " + count + " listeners for \"" + key + "\"");
+        }
+        this.fireListeners(listenerList, null);
+      }
+    }
+  }
 
-	public final void registerListener( final Object key, final Listener listener )
-	{
-		ArrayList<WeakReference> listenerList = null;
+  public final void registerListener(final Object key, final Listener listener) {
+    ArrayList<WeakReference> listenerList = null;
 
-		synchronized ( this.listenerMap )
-		{
-			listenerList = this.listenerMap.get( key );
+    synchronized (this.listenerMap) {
+      listenerList = this.listenerMap.get(key);
 
-			if ( listenerList == null )
-			{
-				listenerList = new ArrayList<WeakReference>();
-				this.listenerMap.put( key, listenerList );
-			}
-		}
+      if (listenerList == null) {
+        listenerList = new ArrayList<WeakReference>();
+        this.listenerMap.put(key, listenerList);
+      }
+    }
 
-		WeakReference reference = new WeakReference( listener );
+    WeakReference reference = new WeakReference(listener);
 
-		synchronized ( listenerList )
-		{
-			listenerList.add( reference );
-		}
-	}
+    synchronized (listenerList) {
+      listenerList.add(reference);
+    }
+  }
 
-	public final void fireListener( final Object key )
-	{
-		ArrayList<WeakReference> listenerList = null;
+  public final void fireListener(final Object key) {
+    ArrayList<WeakReference> listenerList = null;
 
-		synchronized ( this.listenerMap )
-		{
-			listenerList = this.listenerMap.get( key );
-		}
+    synchronized (this.listenerMap) {
+      listenerList = this.listenerMap.get(key);
+    }
 
-		if ( listenerList == null )
-		{
-			return;
-		}
+    if (listenerList == null) {
+      return;
+    }
 
-		boolean logit = ListenerRegistry.logging && RequestLogger.isDebugging();
+    boolean logit = ListenerRegistry.logging && RequestLogger.isDebugging();
 
-		if ( logit )
-		{
-			int count = listenerList.size();
-			RequestLogger.updateDebugLog( ( this.deferring > 0 ? "Deferring " : "Firing " ) + count + " listeners for \"" + key + "\"" );
-		}
+    if (logit) {
+      int count = listenerList.size();
+      RequestLogger.updateDebugLog(
+          (this.deferring > 0 ? "Deferring " : "Firing ")
+              + count
+              + " listeners for \""
+              + key
+              + "\"");
+    }
 
-		if ( this.deferring > 0 )
-		{
-			synchronized( this.deferred )
-			{
-				this.deferred.add( key );
-			}
-			return;
-		}
+    if (this.deferring > 0) {
+      synchronized (this.deferred) {
+        this.deferred.add(key);
+      }
+      return;
+    }
 
-		this.fireListeners( listenerList, null );
-	}
+    this.fireListeners(listenerList, null);
+  }
 
-	public final void fireAllListeners()
-	{
-		boolean logit = ListenerRegistry.logging && RequestLogger.isDebugging();
+  public final void fireAllListeners() {
+    boolean logit = ListenerRegistry.logging && RequestLogger.isDebugging();
 
-		if ( this.deferring > 0 )
-		{
-			Set<Object> keys = null;
-			synchronized ( this.listenerMap )
-			{
-				keys = this.listenerMap.keySet();
-			}
-			if ( logit )
-			{
-				int count = keys.size();
-				RequestLogger.updateDebugLog( "Deferring all listeners for " + count + " keys" );
-			}
-			synchronized( this.deferred )
-			{
-				this.deferred.addAll( keys );
-			}
-			return;
-		}
+    if (this.deferring > 0) {
+      Set<Object> keys = null;
+      synchronized (this.listenerMap) {
+        keys = this.listenerMap.keySet();
+      }
+      if (logit) {
+        int count = keys.size();
+        RequestLogger.updateDebugLog("Deferring all listeners for " + count + " keys");
+      }
+      synchronized (this.deferred) {
+        this.deferred.addAll(keys);
+      }
+      return;
+    }
 
-		HashSet<ArrayList<WeakReference>> listeners = new HashSet<ArrayList<WeakReference>>();
+    HashSet<ArrayList<WeakReference>> listeners = new HashSet<ArrayList<WeakReference>>();
 
-		if ( logit )
-		{
-			Set<Entry<Object,ArrayList<WeakReference>>> entries = null;
-			synchronized ( this.listenerMap )
-			{
-				entries = this.listenerMap.entrySet();
-			}
+    if (logit) {
+      Set<Entry<Object, ArrayList<WeakReference>>> entries = null;
+      synchronized (this.listenerMap) {
+        entries = this.listenerMap.entrySet();
+      }
 
-			Iterator<Entry<Object,ArrayList<WeakReference>>> i1 = entries.iterator();
-			while ( i1.hasNext() )
-			{
-				Entry<Object,ArrayList<WeakReference>> entry = i1.next();
-				Object key = entry.getKey();
-				ArrayList<WeakReference> listenerList = entry.getValue();
-				int count = listenerList == null ? 0 : listenerList.size();
-				RequestLogger.updateDebugLog( "Firing " + count + " listeners for \"" + key + "\"" );
-				listeners.add( listenerList );
-			}
-		}
-		else
-		{
-			Collection<ArrayList<WeakReference>> values = null;
-			synchronized ( this.listenerMap )
-			{
-				values = this.listenerMap.values();
-			}
-			listeners.addAll( values );
-		}
+      Iterator<Entry<Object, ArrayList<WeakReference>>> i1 = entries.iterator();
+      while (i1.hasNext()) {
+        Entry<Object, ArrayList<WeakReference>> entry = i1.next();
+        Object key = entry.getKey();
+        ArrayList<WeakReference> listenerList = entry.getValue();
+        int count = listenerList == null ? 0 : listenerList.size();
+        RequestLogger.updateDebugLog("Firing " + count + " listeners for \"" + key + "\"");
+        listeners.add(listenerList);
+      }
+    } else {
+      Collection<ArrayList<WeakReference>> values = null;
+      synchronized (this.listenerMap) {
+        values = this.listenerMap.values();
+      }
+      listeners.addAll(values);
+    }
 
-		Iterator<ArrayList<WeakReference>> i2 = listeners.iterator();
-		HashSet<Listener> notified = new HashSet<Listener>();
+    Iterator<ArrayList<WeakReference>> i2 = listeners.iterator();
+    HashSet<Listener> notified = new HashSet<Listener>();
 
-		while ( i2.hasNext() )
-		{
-			this.fireListeners( i2.next(), notified );
-		}
-	}
+    while (i2.hasNext()) {
+      this.fireListeners(i2.next(), notified);
+    }
+  }
 
-	private void fireListeners( final ArrayList<WeakReference> listenerList, final HashSet<Listener> notified )
-	{
-		if ( listenerList == null )
-		{
-			return;
-		}
+  private void fireListeners(
+      final ArrayList<WeakReference> listenerList, final HashSet<Listener> notified) {
+    if (listenerList == null) {
+      return;
+    }
 
-		synchronized ( listenerList )
-		{
-			Iterator<WeakReference> i = listenerList.iterator();
+    synchronized (listenerList) {
+      Iterator<WeakReference> i = listenerList.iterator();
 
-			while ( i.hasNext() )
-			{
-				WeakReference reference = i.next();
+      while (i.hasNext()) {
+        WeakReference reference = i.next();
 
-				Listener listener = (Listener) reference.get();
+        Listener listener = (Listener) reference.get();
 
-				if ( listener == null )
-				{
-					i.remove();
-					continue;
-				}
+        if (listener == null) {
+          i.remove();
+          continue;
+        }
 
-				if ( notified != null )
-				{
-					if ( notified.contains( listener ) )
-					{
-						continue;
-					}
+        if (notified != null) {
+          if (notified.contains(listener)) {
+            continue;
+          }
 
-					notified.add( listener );
-				}
+          notified.add(listener);
+        }
 
-				try
-				{
-					listener.update();
-				}
-				catch ( Exception e )
-				{
-					// Don't let a botched listener interfere with
-					// the code that modified the preference.
+        try {
+          listener.update();
+        } catch (Exception e) {
+          // Don't let a botched listener interfere with
+          // the code that modified the preference.
 
-					StaticEntity.printStackTrace( e );
-				}
-			}
-		}
-	}
+          StaticEntity.printStackTrace(e);
+        }
+      }
+    }
+  }
 }
