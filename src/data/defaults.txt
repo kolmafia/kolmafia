@@ -1439,6 +1439,7 @@ user	youRobotCPUUpgrades
 user	youRobotLeft	0
 user	youRobotPoints	0
 user	youRobotRight	0
+user	youRobotScavenged	false
 user	youRobotTop	0
 user	zeppelinProtestors	0
 user	zombiePoints	0

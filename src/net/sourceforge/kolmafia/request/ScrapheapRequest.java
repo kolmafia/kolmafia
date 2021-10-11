@@ -46,6 +46,12 @@ public class ScrapheapRequest extends PlaceRequest {
 
     if (action.startsWith("sh_getpower")) {
       parseCollectEnergy(responseText);
+      return;
+    }
+
+    if (action.startsWith("sh_scrounge")) {
+      Preferences.setBoolean("youRobotScavenged", true);
+      return;
     }
   }
 
