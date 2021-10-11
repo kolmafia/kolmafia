@@ -12,12 +12,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -39,18 +41,57 @@ public class Preferences {
 
   private static final String[] characterMap = new String[65536];
 
-  private static final HashMap<String, String> globalNames = new HashMap<String, String>();
+  private static final HashMap<String, String> globalNames = new HashMap<>();
   private static final SortedMap<String, Object> globalValues =
-      Collections.synchronizedSortedMap(new TreeMap<String, Object>());
+      Collections.synchronizedSortedMap(new TreeMap<>());
   private static File globalPropertiesFile = null;
 
-  private static final HashMap<String, String> userNames = new HashMap<String, String>();
+  private static final HashMap<String, String> userNames = new HashMap<>();
   private static final SortedMap<String, Object> userValues =
-      Collections.synchronizedSortedMap(new TreeMap<String, Object>());
+      Collections.synchronizedSortedMap(new TreeMap<>());
   private static File userPropertiesFile = null;
 
-  private static final Set<String> defaultsSet = new HashSet<String>();
-  private static final Set<String> perUserGlobalSet = new HashSet<String>();
+  private static final Set<String> defaultsSet = new HashSet<>();
+  private static final Set<String> perUserGlobalSet = new HashSet<>();
+  private static final Set<String> legacyDailies =
+      new TreeSet<>(
+          List.of(
+              "barrelLayout",
+              "bootsCharged",
+              "breakfastCompleted",
+              "burrowgrubHiveUsed",
+              "burrowgrubSummonsRemaining",
+              "cocktailSummons",
+              "concertVisited",
+              "currentMojoFilters",
+              "currentPvpVictories",
+              "dailyDungeonDone",
+              "demonSummoned",
+              "expressCardUsed",
+              "extraRolloverAdventures",
+              "friarsBlessingReceived",
+              "grimoire1Summons",
+              "grimoire2Summons",
+              "grimoire3Summons",
+              "lastBarrelSmashed",
+              "libramSummons",
+              "libraryCardUsed",
+              "noodleSummons",
+              "nunsVisits",
+              "oscusSodaUsed",
+              "outrageousSombreroUsed",
+              "prismaticSummons",
+              "rageGlandVented",
+              "reagentSummons",
+              "romanticTarget",
+              "seaodesFound",
+              "spiceMelangeUsed",
+              "spookyPuttyCopiesMade",
+              "styxPixieVisited",
+              "telescopeLookedHigh",
+              "tempuraSummons",
+              "timesRested",
+              "tomeSummons"));
 
   static {
     // Initialize perUserGlobalSet and read defaults.txt into
@@ -87,7 +128,7 @@ public class Preferences {
 
         HashMap<String, String> otherMap =
             map.equals("global") ? Preferences.userNames : Preferences.globalNames;
-        if (otherMap != null && otherMap.containsKey(name)) {
+        if (otherMap.containsKey(name)) {
           String other = map.equals("global") ? "user" : "global";
           System.out.println(
               map + " setting " + name + " already defined as a " + other + " setting");
@@ -366,7 +407,7 @@ public class Preferences {
   }
 
   public static boolean isPerUserGlobalProperty(final String property) {
-    if (property.indexOf(".") != -1) {
+    if (property.contains(".")) {
       for (String prefix : Preferences.perUserGlobalSet) {
         if (property.startsWith(prefix)) {
           return true;
@@ -531,7 +572,7 @@ public class Preferences {
     }
 
     if (!(value instanceof Long)) {
-      value = Long.valueOf(StringUtilities.parseLong(value.toString()));
+      value = StringUtilities.parseLong(value.toString());
       map.put(name, value);
     }
 
@@ -547,7 +588,7 @@ public class Preferences {
     }
 
     if (!(value instanceof Float)) {
-      value = Float.valueOf(StringUtilities.parseFloat(value.toString()));
+      value = StringUtilities.parseFloat(value.toString());
       map.put(name, value);
     }
 
@@ -563,7 +604,7 @@ public class Preferences {
     }
 
     if (!(value instanceof Double)) {
-      value = Double.valueOf(StringUtilities.parseDouble(value.toString()));
+      value = StringUtilities.parseDouble(value.toString());
       map.put(name, value);
     }
 
@@ -586,9 +627,9 @@ public class Preferences {
 
   public static final TreeMap<String, String> getMap(boolean defaults, boolean user) {
     if (defaults) {
-      return new TreeMap<String, String>(user ? userNames : globalNames);
+      return new TreeMap<>(user ? userNames : globalNames);
     } else {
-      TreeMap<String, String> map = new TreeMap<String, String>();
+      TreeMap<String, String> map = new TreeMap<>();
       Map<String, Object> srcmap = user ? userValues : globalValues;
       for (String pref : srcmap.keySet()) {
         map.put(pref, getString(pref));
@@ -607,7 +648,7 @@ public class Preferences {
   public static final void setBoolean(final String user, final String name, final boolean value) {
     boolean old = Preferences.getBoolean(user, name);
     if (old != value) {
-      Preferences.setObject(user, name, value ? "true" : "false", Boolean.valueOf(value));
+      Preferences.setObject(user, name, value ? "true" : "false", value);
     }
   }
 
@@ -621,28 +662,28 @@ public class Preferences {
   public static final void setLong(final String user, final String name, final long value) {
     long old = Preferences.getLong(user, name);
     if (old != value) {
-      Preferences.setObject(user, name, String.valueOf(value), Long.valueOf(value));
+      Preferences.setObject(user, name, String.valueOf(value), value);
     }
   }
 
   public static final void setFloat(final String user, final String name, final float value) {
     float old = Preferences.getFloat(user, name);
     if (old != value) {
-      Preferences.setObject(user, name, String.valueOf(value), Float.valueOf(value));
+      Preferences.setObject(user, name, String.valueOf(value), value);
     }
   }
 
   public static final void setDouble(final String user, final String name, final double value) {
     double old = Preferences.getDouble(user, name);
     if (old != value) {
-      Preferences.setObject(user, name, String.valueOf(value), Double.valueOf(value));
+      Preferences.setObject(user, name, String.valueOf(value), value);
     }
   }
 
   private static void setObject(
       final String user, final String name, final String value, final Object object) {
     if (Preferences.getBoolean("logPreferenceChange")) {
-      Set<String> preferenceFilter = new HashSet<String>();
+      Set<String> preferenceFilter = new HashSet<>();
       Collections.addAll(
           preferenceFilter, Preferences.getString("logPreferenceChangeFilter").split(","));
       if (!preferenceFilter.contains(name)) {
@@ -751,21 +792,20 @@ public class Preferences {
   }
 
   private static void printDefaults(final ChoiceAdventure[] choices, final PrintStream ostream) {
-    for (int i = 0; i < choices.length; ++i) {
-      String setting = choices[i].getSetting();
+    for (ChoiceAdventure choice : choices) {
+      String setting = choice.getSetting();
 
       ostream.print("[" + setting.substring(15) + "] ");
-      ostream.print(choices[i].getName() + ": ");
+      ostream.print(choice.getName() + ": ");
 
-      Object[] options = choices[i].getOptions();
+      Object[] options = choice.getOptions();
       int defaultOption = StringUtilities.parseInt(Preferences.userNames.get(setting));
       Object def = ChoiceManager.findOption(options, defaultOption);
 
       ostream.print(def.toString() + " [color=gray](");
 
       int printedCount = 0;
-      for (int j = 0; j < options.length; ++j) {
-        Object option = options[j];
+      for (Object option : options) {
         if (option == def) {
           continue;
         }
@@ -790,6 +830,10 @@ public class Preferences {
     }
   }
 
+  public static boolean isDaily(String name) {
+    return name.startsWith("_") || legacyDailies.contains(name);
+  }
+
   public static void resetDailies() {
     // See Collections.synchronizedSortedMap
     //
@@ -800,7 +844,7 @@ public class Preferences {
       Iterator<String> it = Preferences.userValues.keySet().iterator();
       while (it.hasNext()) {
         String name = it.next();
-        if (name.startsWith("_")) {
+        if (isDaily(name)) {
           if (!Preferences.containsDefault(name)) {
             // fully delete preferences that start with _ and aren't in defaults.txt
             it.remove();
@@ -826,7 +870,7 @@ public class Preferences {
 
     synchronized (Preferences.globalValues) {
       for (String name : Preferences.globalValues.keySet()) {
-        if (name.startsWith("_")) {
+        if (isDaily(name)) {
           String val = Preferences.globalNames.get(name);
           if (val == null) val = "";
           Preferences.setString(name, val);
