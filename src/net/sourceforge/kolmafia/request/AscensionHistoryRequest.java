@@ -908,11 +908,16 @@ public class AscensionHistoryRequest extends GenericRequest
                                                                                                                                                                           .GREY_GOO
                                                                                                                                                                       : pathName
                                                                                                                                                                               .equals(
-                                                                                                                                                                                  "Quantum Terrarium")
+                                                                                                                                                                                  "You, Robot")
                                                                                                                                                                           ? AscensionSnapshot
-                                                                                                                                                                              .QUANTUM
-                                                                                                                                                                          : AscensionSnapshot
-                                                                                                                                                                              .UNKNOWN_PATH;
+                                                                                                                                                                              .YOU_ROBOT
+                                                                                                                                                                          : pathName
+                                                                                                                                                                                  .equals(
+                                                                                                                                                                                      "Quantum Terrarium")
+                                                                                                                                                                              ? AscensionSnapshot
+                                                                                                                                                                                  .QUANTUM
+                                                                                                                                                                              : AscensionSnapshot
+                                                                                                                                                                                  .UNKNOWN_PATH;
     }
 
     private void setCurrentColumns(final String[] columns) {
@@ -1137,11 +1142,17 @@ public class AscensionHistoryRequest extends GenericRequest
                                                                                                                                                                     : columns[
                                                                                                                                                                             8]
                                                                                                                                                                             .contains(
-                                                                                                                                                                                "confused")
+                                                                                                                                                                                "robobattery")
                                                                                                                                                                         ? AscensionSnapshot
-                                                                                                                                                                            .QUANTUM
-                                                                                                                                                                        : AscensionSnapshot
-                                                                                                                                                                            .NOPATH;
+                                                                                                                                                                            .YOU_ROBOT
+                                                                                                                                                                        : columns[
+                                                                                                                                                                                8]
+                                                                                                                                                                                .contains(
+                                                                                                                                                                                    "confused")
+                                                                                                                                                                            ? AscensionSnapshot
+                                                                                                                                                                                .QUANTUM
+                                                                                                                                                                            : AscensionSnapshot
+                                                                                                                                                                                .NOPATH;
       } catch (Exception e) {
         // This should not happen.  Therefore, print
         // a stack trace for debug purposes.
