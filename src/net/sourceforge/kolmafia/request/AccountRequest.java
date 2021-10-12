@@ -8,7 +8,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -382,7 +381,7 @@ public class AccountRequest extends PasswordHashRequest {
         || action.equals("Drop+Oxygenarian")) {
       if (location.contains("unpathconfirm=1")) {
         // Dropping consumption restrictions
-        KoLCharacter.setConsumptionRestriction(AscensionSnapshot.NOPATH);
+        KoLCharacter.setPath(Path.NONE);
         RequestLogger.updateSessionLog();
         RequestLogger.updateSessionLog("Dropped consumption restrictions.");
         RequestLogger.updateSessionLog();
