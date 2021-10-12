@@ -25,7 +25,7 @@ public class ScrapheapRequestTest extends RequestTestBase {
   }
 
   @AfterAll
-  private void tidyUp() {
+  private static void tidyUp() {
     KoLCharacter.reset("");
   }
 

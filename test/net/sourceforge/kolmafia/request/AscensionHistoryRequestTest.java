@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
@@ -16,10 +17,16 @@ import org.junit.jupiter.api.condition.OS;
 public class AscensionHistoryRequestTest extends RequestTestBase {
 
   @BeforeAll
-  private static void injectPreferences() {
+  private static void init() {
     KoLCharacter.reset("the Tristero");
     KoLCharacter.setUserId(177122);
     Preferences.setBoolean("saveSettingsOnSet", false);
+  }
+
+  @AfterAll
+  private static void tidyUp() {
+    KoLCharacter.reset("");
+    KoLCharacter.setUserId(0);
   }
 
   @Test
