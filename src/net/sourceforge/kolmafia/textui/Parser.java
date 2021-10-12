@@ -73,6 +73,121 @@ import net.sourceforge.kolmafia.utilities.ByteArrayStream;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+/*
+Scope
+  Typedef
+    Identifier (exactly 1)
+  Type
+    existing type
+    Record
+      ( Type + Identifier ) (0+)
+    AggregateType
+      AggregateType
+        AggregateType
+          (...) (e.g. boolean [string][string,string][][4][int] [...] )
+  Command (one of:)
+    Return
+      Expression
+        Expression
+          Expression
+            (...)
+        Value
+        Operator
+    BasicScript
+    While
+      Expression
+      + LoopScope (one of:)
+          Scope
+          Command
+    Foreach
+      Identifier + Value + LoopScope
+    JavaFor
+      Type + Identifier + Expression (0-1)
+      + Expression
+      + PreIncDec (0-1) + VariableReference + PostIncDec (0-1) + Assignment
+      + LoopScope
+    For
+      Identifier + Expression + Expression + Expression (0-1)
+      + LoopScope
+    Repeat
+      LoopScope + Expression
+    Switch
+      Expression
+      + (1+):
+        Expression (0-1)
+        + Type
+          Command
+          Variables
+    Conditional
+      Expression
+      + (1+)
+        BlockOrSingleCommand
+        + Expression (0-1)
+    Try
+      BlockOrSingleCommand (one of:)
+        Block
+        SingleCommandScope
+          Command (exactly 1)
+      + BlockOrSingleCommand
+    Catch
+      BlockOrSingleCommand
+    Static
+      CommandOrDeclaration
+        Type
+        Command
+        Variables
+      Scope
+    Sort
+      VariableReference + Expression
+    Remove
+      Expression
+    Block
+      Scope
+    Value
+      Expression
+      Number
+      String
+        Expression
+        Literal
+      TypedConstant
+        Type
+        String
+        Literal
+      NewRecord
+        Identifier
+        + AggregateLiteral
+          Expression
+      CatchValue
+        Block
+        Expression
+      PreIncDec
+        VariableReference
+      Invoke
+        Type
+        + Expression
+          Identifier + VariableReference
+        + Parameters
+            Expression (0+)
+        + PostCall
+            VariableReference
+      Call
+        ScopedIdentifier
+        + Parameters
+        + PostCall
+      Type + ( AggregateLiteral / VariableReference )
+  Function
+    Identifier + ( Type + Variable ) (0+)
+    + BlockOrSingleCommand
+  Variables
+    Variable (1+)
+      Identifier
+  AggregateLiteral
+    AggregateLiteral
+      AggregateLiteral
+        (...)
+    Expression
+*/
+
 public class Parser {
   public static final String APPROX = "\u2248";
   public static final String PRE_INCREMENT = "++X";
