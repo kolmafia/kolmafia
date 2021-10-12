@@ -12,7 +12,10 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
+@DisabledOnOs(value = OS.MAC, disabledReason = "Testing preference tracking does not work on Mac")
 public class ScrapheapRequestTest extends RequestTestBase {
 
   @BeforeEach
