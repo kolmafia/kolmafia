@@ -7,10 +7,10 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class FunctionReturn extends Command {
-  private final Value returnValue;
+  private final Evaluable returnValue;
   private final Type expectedType;
 
-  public FunctionReturn(final Value returnValue, final Type expectedType) {
+  public FunctionReturn(final Evaluable returnValue, final Type expectedType) {
     this.returnValue = returnValue;
     this.expectedType = expectedType;
   }
@@ -27,7 +27,7 @@ public class FunctionReturn extends Command {
     return this.returnValue.getType();
   }
 
-  public Value getExpression() {
+  public Evaluable getExpression() {
     return this.returnValue;
   }
 

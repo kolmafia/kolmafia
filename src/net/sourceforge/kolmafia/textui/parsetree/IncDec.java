@@ -6,7 +6,7 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
-public class IncDec extends Value {
+public class IncDec extends Evaluable {
   private final VariableReference lhs;
   private final Operator oper;
 

@@ -9,13 +9,13 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class JavaForLoop extends Loop {
   private final List<Assignment> initializers;
-  private final Value condition;
+  private final Evaluable condition;
   private final List<Command> incrementers;
 
   public JavaForLoop(
       final Scope scope,
       final List<Assignment> initializers,
-      final Value condition,
+      final Evaluable condition,
       final List<Command> incrementers) {
     super(scope);
     this.initializers = initializers;
@@ -23,7 +23,7 @@ public class JavaForLoop extends Loop {
     this.incrementers = incrementers;
   }
 
-  public Value getCondition() {
+  public Evaluable getCondition() {
     return this.condition;
   }
 

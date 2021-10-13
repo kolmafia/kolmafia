@@ -15,7 +15,14 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Parser;
 import org.json.JSONException;
 
-public class Value extends Command implements Comparable<Value> {
+/**
+ * A concrete value, either computed as a result of executing a {@link Command} or created
+ * artificially.
+ *
+ * <p>Is forbidden from interacting with {@link Parser} other than through {@link LocatedValue}. See
+ * it as some sort of... hazmat suit..?
+ */
+public class Value extends ParseTreeNode implements Comparable<Value> {
   public Type type;
 
   public long contentLong = 0;
@@ -463,6 +470,52 @@ public class Value extends Command implements Comparable<Value> {
       return Double.valueOf(Double.longBitsToDouble(this.contentLong));
     } else {
       return this.toString();
+    }
+  }
+
+  public static final Evaluable LocateValue(final Value value) {
+    if (value == null) {
+      return null;
+    }
+
+    return new LocatedValue(value);
+  }
+
+  public static final class LocatedValue extends Evaluable {
+    public final Value value;
+
+    private LocatedValue(final Value value) {
+      this.value = value;
+    }
+
+    @Override
+    public Type getType() {
+      return this.value.getType();
+    }
+
+    @Override
+    public Type getRawType() {
+      return this.value.getRawType();
+    }
+
+    @Override
+    public String toString() {
+      return this.value.toString();
+    }
+
+    @Override
+    public String toQuotedString() {
+      return this.value.toQuotedString();
+    }
+
+    @Override
+    public Value execute(final AshRuntime interpreter) {
+      return this.value.execute(interpreter);
+    }
+
+    @Override
+    public void print(final PrintStream stream, final int indent) {
+      this.value.print(stream, indent);
     }
   }
 }

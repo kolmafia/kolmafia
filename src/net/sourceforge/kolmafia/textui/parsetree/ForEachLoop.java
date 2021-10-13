@@ -13,7 +13,7 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class ForEachLoop extends Loop {
   private final List<VariableReference> variableReferences;
-  private final Value aggregate;
+  private final Evaluable aggregate;
 
   // For runtime error messages
   String fileName;
@@ -22,7 +22,7 @@ public class ForEachLoop extends Loop {
   public ForEachLoop(
       final Scope scope,
       final List<VariableReference> variableReferences,
-      final Value aggregate,
+      final Evaluable aggregate,
       final Parser parser) {
     super(scope);
     this.variableReferences = variableReferences;
@@ -35,7 +35,7 @@ public class ForEachLoop extends Loop {
     return this.variableReferences;
   }
 
-  public Value getAggregate() {
+  public Evaluable getAggregate() {
     return this.aggregate;
   }
 

@@ -9,29 +9,29 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class Switch extends Command {
-  private final Value condition;
-  private final Value[] tests;
+  private final Evaluable condition;
+  private final Evaluable[] tests;
   private final Integer[] offsets;
   private final int defaultIndex;
   private final SwitchScope scope;
   private final Map<Value, Integer> labels;
 
   public Switch(
-      final Value condition,
-      final List<Value> tests,
+      final Evaluable condition,
+      final List<Evaluable> tests,
       final List<Integer> offsets,
       final int defaultIndex,
       final SwitchScope scope,
       final Map<Value, Integer> labels) {
     this.condition = condition;
-    this.tests = tests.toArray(new Value[tests.size()]);
+    this.tests = tests.toArray(new Evaluable[tests.size()]);
     this.offsets = offsets.toArray(new Integer[offsets.size()]);
     this.defaultIndex = defaultIndex;
     this.scope = scope;
     this.labels = labels;
   }
 
-  public Value getCondition() {
+  public Evaluable getCondition() {
     return this.condition;
   }
 
@@ -76,7 +76,7 @@ public class Switch extends Command {
       }
     } else {
       for (int index = 0; index < tests.length; ++index) {
-        Value test = tests[index];
+        Evaluable test = tests[index];
         if (ScriptRuntime.isTracing()) {
           interpreter.trace("test: " + test);
         }

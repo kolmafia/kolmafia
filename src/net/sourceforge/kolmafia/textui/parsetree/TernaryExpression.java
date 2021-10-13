@@ -6,9 +6,9 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class TernaryExpression extends Expression {
-  Value conditional;
+  Evaluable conditional;
 
-  public TernaryExpression(final Value conditional, final Value lhs, final Value rhs) {
+  public TernaryExpression(final Evaluable conditional, final Evaluable lhs, final Evaluable rhs) {
     this.conditional = conditional;
     this.lhs = lhs;
     this.rhs = rhs;
@@ -53,7 +53,7 @@ public class TernaryExpression extends Expression {
       return null;
     }
 
-    Value expression;
+    Evaluable expression;
     String tag;
 
     if (conditionResult.intValue() != 0) {

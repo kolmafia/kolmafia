@@ -7,16 +7,14 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 public class Operation extends Expression {
   Operator oper;
 
-  public Operation(final Value lhs, final Value rhs, final Operator oper) {
+  public Operation(final Evaluable lhs, final Evaluable rhs, final Operator oper) {
     this.lhs = lhs;
     this.rhs = rhs;
     this.oper = oper;
   }
 
-  public Operation(final Value lhs, final Operator oper) {
-    this.lhs = lhs;
-    this.rhs = null;
-    this.oper = oper;
+  public Operation(final Evaluable lhs, final Operator oper) {
+    this(lhs, null, oper);
   }
 
   @Override

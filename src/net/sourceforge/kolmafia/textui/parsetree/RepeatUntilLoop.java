@@ -7,14 +7,14 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class RepeatUntilLoop extends Loop {
-  private final Value condition;
+  private final Evaluable condition;
 
-  public RepeatUntilLoop(final Scope scope, final Value condition) {
+  public RepeatUntilLoop(final Scope scope, final Evaluable condition) {
     super(scope);
     this.condition = condition;
   }
 
-  public Value getCondition() {
+  public Evaluable getCondition() {
     return this.condition;
   }
 
@@ -69,7 +69,7 @@ public class RepeatUntilLoop extends Loop {
 
   @Override
   public boolean assertBarrier() {
-    return this.condition == DataTypes.FALSE_VALUE && !this.getScope().assertBreakable();
+    return this.condition.evaluatesTo(DataTypes.FALSE_VALUE) && !this.getScope().assertBreakable();
   }
 
   @Override

@@ -442,7 +442,7 @@ public class Operator extends Command {
     return result;
   }
 
-  public Value applyTo(final AshRuntime interpreter, final Value lhs) {
+  public Value applyTo(final AshRuntime interpreter, final Evaluable lhs) {
     interpreter.traceIndent();
     if (ScriptRuntime.isTracing()) {
       interpreter.trace("Operator: " + this.operator);
@@ -469,7 +469,24 @@ public class Operator extends Command {
       interpreter.trace("Operand: " + lhs);
     }
 
-    Value leftValue = lhs.execute(interpreter);
+    return this.applyTo(interpreter, lhs.getType(), lhs.execute(interpreter));
+  }
+
+  public Value applyTo(final AshRuntime interpreter, final Value lhs) {
+    interpreter.traceIndent();
+    if (ScriptRuntime.isTracing()) {
+      interpreter.trace("Operator: " + this.operator);
+    }
+
+    interpreter.traceIndent();
+    if (ScriptRuntime.isTracing()) {
+      interpreter.trace("Operand: " + lhs);
+    }
+
+    return this.applyTo(interpreter, lhs.getType(), lhs.execute(interpreter));
+  }
+
+  private Value applyTo(final AshRuntime interpreter, final Type leftType, Value leftValue) {
     interpreter.captureValue(leftValue);
     if (leftValue == null) {
       leftValue = DataTypes.VOID_VALUE;
@@ -497,9 +514,9 @@ public class Operator extends Command {
               ? DataTypes.makeBooleanValue(val == 0)
               : DataTypes.makeIntValue(~val);
     } else if (this.operator.equals("-")) {
-      if (lhs.getType().equals(DataTypes.TYPE_INT)) {
+      if (leftType.equals(DataTypes.TYPE_INT)) {
         result = DataTypes.makeIntValue(0 - leftValue.intValue());
-      } else if (lhs.getType().equals(DataTypes.TYPE_FLOAT)) {
+      } else if (leftType.equals(DataTypes.TYPE_FLOAT)) {
         result = DataTypes.makeFloatValue(0.0 - leftValue.floatValue());
       } else {
         throw interpreter.runtimeException(
@@ -509,9 +526,9 @@ public class Operator extends Command {
       }
     } else if (this.operator.equals(Parser.PRE_INCREMENT)
         || this.operator.equals(Parser.POST_INCREMENT)) {
-      if (lhs.getType().equals(DataTypes.TYPE_INT)) {
+      if (leftType.equals(DataTypes.TYPE_INT)) {
         result = DataTypes.makeIntValue(leftValue.intValue() + 1);
-      } else if (lhs.getType().equals(DataTypes.TYPE_FLOAT)) {
+      } else if (leftType.equals(DataTypes.TYPE_FLOAT)) {
         result = DataTypes.makeFloatValue(leftValue.floatValue() + 1.0);
       } else {
         throw interpreter.runtimeException(
@@ -521,9 +538,9 @@ public class Operator extends Command {
       }
     } else if (this.operator.equals(Parser.PRE_DECREMENT)
         || this.operator.equals(Parser.POST_DECREMENT)) {
-      if (lhs.getType().equals(DataTypes.TYPE_INT)) {
+      if (leftType.equals(DataTypes.TYPE_INT)) {
         result = DataTypes.makeIntValue(leftValue.intValue() - 1);
-      } else if (lhs.getType().equals(DataTypes.TYPE_FLOAT)) {
+      } else if (leftType.equals(DataTypes.TYPE_FLOAT)) {
         result = DataTypes.makeFloatValue(leftValue.floatValue() - 1.0);
       } else {
         throw interpreter.runtimeException(
@@ -544,6 +561,174 @@ public class Operator extends Command {
 
     interpreter.traceUnindent();
     return result;
+  }
+
+  public Value applyTo(final AshRuntime interpreter, final Evaluable lhs, final Evaluable rhs) {
+    interpreter.traceIndent();
+    if (ScriptRuntime.isTracing()) {
+      interpreter.trace("Operator: " + this.operator);
+    }
+
+    interpreter.traceIndent();
+    if (ScriptRuntime.isTracing()) {
+      interpreter.trace("Operand 1: " + lhs);
+    }
+
+    Value leftValue = lhs.execute(interpreter);
+    interpreter.captureValue(leftValue);
+    if (leftValue == null) {
+      leftValue = DataTypes.VOID_VALUE;
+    }
+    if (ScriptRuntime.isTracing()) {
+      interpreter.trace("[" + interpreter.getState() + "] <- " + leftValue.toQuotedString());
+    }
+    interpreter.traceUnindent();
+
+    if (interpreter.getState().equals(ScriptRuntime.State.EXIT)) {
+      interpreter.traceUnindent();
+      return null;
+    }
+
+    // Unknown operator
+    if (rhs == null) {
+      throw interpreter.runtimeException(
+          "Internal error: missing right operand.", this.fileName, this.lineNumber);
+    }
+
+    // Binary operators with optional right values
+    if (this.operator.equals("||")) {
+      if (leftValue.intValue() == 1) {
+        if (ScriptRuntime.isTracing()) {
+          interpreter.trace("<- " + DataTypes.TRUE_VALUE);
+        }
+        interpreter.traceUnindent();
+        return DataTypes.TRUE_VALUE;
+      }
+      interpreter.traceIndent();
+      if (ScriptRuntime.isTracing()) {
+        interpreter.trace("Operand 2: " + rhs);
+      }
+      Value rightValue = rhs.execute(interpreter);
+      interpreter.captureValue(rightValue);
+      if (rightValue == null) {
+        rightValue = DataTypes.VOID_VALUE;
+      }
+      if (ScriptRuntime.isTracing()) {
+        interpreter.trace("[" + interpreter.getState() + "] <- " + rightValue.toQuotedString());
+      }
+      interpreter.traceUnindent();
+      if (interpreter.getState().equals(ScriptRuntime.State.EXIT)) {
+        interpreter.traceUnindent();
+        return null;
+      }
+      if (ScriptRuntime.isTracing()) {
+        interpreter.trace("<- " + rightValue);
+      }
+      interpreter.traceUnindent();
+      return rightValue;
+    }
+
+    if (this.operator.equals("&&")) {
+      if (leftValue.intValue() == 0) {
+        interpreter.traceUnindent();
+        if (ScriptRuntime.isTracing()) {
+          interpreter.trace("<- " + DataTypes.FALSE_VALUE);
+        }
+        return DataTypes.FALSE_VALUE;
+      }
+      interpreter.traceIndent();
+      if (ScriptRuntime.isTracing()) {
+        interpreter.trace("Operand 2: " + rhs);
+      }
+      Value rightValue = rhs.execute(interpreter);
+      interpreter.captureValue(rightValue);
+      if (rightValue == null) {
+        rightValue = DataTypes.VOID_VALUE;
+      }
+      if (ScriptRuntime.isTracing()) {
+        interpreter.trace("[" + interpreter.getState() + "] <- " + rightValue.toQuotedString());
+      }
+      interpreter.traceUnindent();
+      if (interpreter.getState().equals(ScriptRuntime.State.EXIT)) {
+        interpreter.traceUnindent();
+        return null;
+      }
+      if (ScriptRuntime.isTracing()) {
+        interpreter.trace("<- " + rightValue);
+      }
+      interpreter.traceUnindent();
+      return rightValue;
+    }
+
+    // Ensure type compatibility of operands
+    if (!this.validCoercion(lhs.getType(), rhs.getType())) {
+      throw interpreter.runtimeException(
+          "Internal error: left hand side and right hand side do not correspond",
+          this.fileName,
+          this.lineNumber);
+    }
+
+    // Special binary operator: <aggref> contains <any>
+    if (this.operator.equals("contains")) {
+      interpreter.traceIndent();
+      if (ScriptRuntime.isTracing()) {
+        interpreter.trace("Operand 2: " + rhs);
+      }
+      Value rightValue = rhs.execute(interpreter);
+      interpreter.captureValue(rightValue);
+      if (rightValue == null) {
+        rightValue = DataTypes.VOID_VALUE;
+      }
+      if (ScriptRuntime.isTracing()) {
+        interpreter.trace("[" + interpreter.getState() + "] <- " + rightValue.toQuotedString());
+      }
+      interpreter.traceUnindent();
+      if (interpreter.getState().equals(ScriptRuntime.State.EXIT)) {
+        interpreter.traceUnindent();
+        return null;
+      }
+      Value result = DataTypes.makeBooleanValue(leftValue.contains(rightValue));
+      if (ScriptRuntime.isTracing()) {
+        interpreter.trace("<- " + result);
+      }
+      interpreter.traceUnindent();
+      return result;
+    }
+
+    // Binary operators
+    interpreter.traceIndent();
+    if (ScriptRuntime.isTracing()) {
+      interpreter.trace("Operand 2: " + rhs);
+    }
+    Value rightValue = rhs.execute(interpreter);
+    interpreter.captureValue(rightValue);
+    if (rightValue == null) {
+      rightValue = DataTypes.VOID_VALUE;
+    }
+    if (ScriptRuntime.isTracing()) {
+      interpreter.trace("[" + interpreter.getState() + "] <- " + rightValue.toQuotedString());
+    }
+    interpreter.traceUnindent();
+    if (interpreter.getState().equals(ScriptRuntime.State.EXIT)) {
+      interpreter.traceUnindent();
+      return null;
+    }
+
+    // Comparison operators
+    if (this.isComparison()) {
+      return this.compareValues(interpreter, leftValue, rightValue);
+    }
+
+    // Arithmetic operators
+    if (this.isArithmetic() || this.isLogical() || this.isInteger()) {
+      return this.performArithmetic(interpreter, leftValue, rightValue);
+    }
+
+    // Unknown operator
+    throw interpreter.runtimeException(
+        "Internal error: unknown binary operator \"" + this.operator + "\"",
+        this.fileName,
+        this.lineNumber);
   }
 
   public Value applyTo(final AshRuntime interpreter, final Value lhs, final Value rhs) {

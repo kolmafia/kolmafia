@@ -6,10 +6,11 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 
 public class MapLiteral extends AggregateLiteral {
   private AggregateValue aggr = null;
-  private final List<Value> keys;
-  private final List<Value> values;
+  private final List<Evaluable> keys;
+  private final List<Evaluable> values;
 
-  public MapLiteral(final AggregateType type, final List<Value> keys, final List<Value> values) {
+  public MapLiteral(
+      final AggregateType type, final List<Evaluable> keys, final List<Evaluable> values) {
     super(type);
     this.keys = keys;
     this.values = values;
@@ -19,8 +20,8 @@ public class MapLiteral extends AggregateLiteral {
   public Value execute(final AshRuntime interpreter) {
     this.aggr = (AggregateValue) this.type.initialValue();
 
-    Iterator<Value> keyIterator = this.keys.iterator();
-    Iterator<Value> valIterator = this.values.iterator();
+    Iterator<Evaluable> keyIterator = this.keys.iterator();
+    Iterator<Evaluable> valIterator = this.values.iterator();
 
     while (keyIterator.hasNext() && valIterator.hasNext()) {
       Value key = keyIterator.next().execute(interpreter);
