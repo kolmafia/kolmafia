@@ -2,29 +2,30 @@ package net.sourceforge.kolmafia;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public enum AscensionClass {
   ASTRAL_SPIRIT("Astral Spirit", -1),
-  SEAL_CLUBBER("Seal Clubber", 1, 0, "Club Foot"),
-  TURTLE_TAMER("Turtle Tamer", 2, 0, "Shell Up"),
-  PASTAMANCER("Pastamancer", 3, 1, "Entangling Noodles"),
-  SAUCEROR("Sauceror", 4, 1, "Soul Bubble"),
-  DISCO_BANDIT("Disco Bandit", 2, 5),
-  ACCORDION_THIEF("Accordion Thief", 2, 6, "Accordion Bash"),
-  AVATAR_OF_BORIS("Avatar of Boris", 11, 0, "Broadside"),
-  ZOMBIE_MASTER("Zombie Master", 12, 0, "Corpse Pile"),
-  AVATAR_OF_JARLSBERG("Avatar of Jarlsberg", 14, 1, "Blend"),
-  AVATAR_OF_SNEAKY_PETE("Avatar of Sneaky Pete", 2, 15, "Snap Fingers"),
-  ED("Ed", 17, 1, "Curse of Indecision"),
-  COWPUNCHER("Cow Puncher", 18, 0),
-  BEANSLINGER("Beanslinger", 19, 1),
-  SNAKE_OILER("Snake Oiler", 2, 20),
-  GELATINOUS_NOOB("Gelatinous Noob", 2, 23),
-  VAMPYRE("Vampyre", 24, 1, "Chill of the Tomb"),
-  PLUMBER("Plumber", 25, -1);
+  SEAL_CLUBBER("Seal Clubber", 1, "club", 0, "Club Foot"),
+  TURTLE_TAMER("Turtle Tamer", 2, "turtle", 0, "Shell Up"),
+  PASTAMANCER("Pastamancer", 3, "pasta", 1, "Entangling Noodles"),
+  SAUCEROR("Sauceror", 4, "sauce", 1, "Soul Bubble"),
+  DISCO_BANDIT("Disco Bandit", 2, "disco", 5),
+  ACCORDION_THIEF("Accordion Thief", 2, "accordion", 6, "Accordion Bash"),
+  AVATAR_OF_BORIS("Avatar of Boris", 11, "trusty", 0, "Broadside"),
+  ZOMBIE_MASTER("Zombie Master", 12, "tombstone", 0, "Corpse Pile"),
+  AVATAR_OF_JARLSBERG("Avatar of Jarlsberg", 14, "path12icon", 1, "Blend"),
+  AVATAR_OF_SNEAKY_PETE("Avatar of Sneaky Pete", 2, "bigglasses", 15, "Snap Fingers"),
+  ED("Ed", 17, "thoth", 1, "Curse of Indecision"),
+  COWPUNCHER("Cow Puncher", 18, "darkcow", 0),
+  BEANSLINGER("Beanslinger", 19, "beancan", 1),
+  SNAKE_OILER("Snake Oiler", 2, "tinysnake", 20),
+  GELATINOUS_NOOB("Gelatinous Noob", 2, "gelatinousicon", 23),
+  VAMPYRE("Vampyre", 24, "vampirefangs", 1, "Chill of the Tomb"),
+  PLUMBER("Plumber", 25, "mario_hammer2", -1);
 
   private static final List<String> sealClubberRanks =
       Arrays.asList(
@@ -143,8 +144,9 @@ public enum AscensionClass {
           AscensionClass.DISCO_BANDIT,
           AscensionClass.ACCORDION_THIEF);
 
-  public final String name;
-  public final int id;
+  private final String name;
+  private final int id;
+  private final String image;
   private final int primeStatIndex;
   private final String stun;
 
@@ -166,27 +168,32 @@ public enum AscensionClass {
     return null;
   }
 
-  AscensionClass(String name, int id, int primeStatIndex, String stun) {
+  AscensionClass(String name, int id, String image, int primeStatIndex, String stun) {
     this.name = name;
     this.id = id;
+    this.image = image;
     this.primeStatIndex = primeStatIndex;
     this.stun = stun;
   }
 
-  AscensionClass(String name, int id, int primeStatIndex) {
-    this(name, id, -1, null);
+  AscensionClass(String name, int id, String image, int primeStatIndex) {
+    this(name, id, image, -1, null);
   }
 
   AscensionClass(String name, int id) {
-    this(name, id, -1);
+    this(name, id, null, -1);
   }
 
-  public String getName() {
+  public final String getName() {
     return this.name;
   }
 
-  public int getId() {
+  public final int getId() {
     return this.id;
+  }
+
+  public final String getImage() {
+    return this.image;
   }
 
   public String getStun() {
@@ -197,7 +204,7 @@ public enum AscensionClass {
     return Preferences.getBoolean("considerShadowNoodles") ? "Shadow Noodles" : "none";
   }
 
-  public int getStarterWeapon() {
+  public final int getStarterWeapon() {
     switch (this) {
       case SEAL_CLUBBER:
         return ItemPool.SEAL_CLUB;
@@ -240,11 +247,22 @@ public enum AscensionClass {
     return Stat.NONE;
   }
 
-  public boolean isStandard() {
+  public final boolean isStandard() {
     return standardClasses.contains(this);
   }
 
   public final int getSkillBase() {
     return this.getId() * 1000;
+  }
+
+  public final String getInitials() {
+    return Arrays.stream(this.name().split("_"))
+        .map(word -> String.valueOf(word.charAt(0)))
+        .collect(Collectors.joining());
+  }
+
+  @Override
+  public final String toString() {
+    return this.getName();
   }
 }
