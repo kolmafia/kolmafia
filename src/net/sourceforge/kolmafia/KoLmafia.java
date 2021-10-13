@@ -1083,7 +1083,7 @@ public abstract class KoLmafia {
         updatePPNeeded = true;
       } else if (effectId == EffectPool.COWRRUPTION) {
         if (KoLConstants.activeEffects.contains(effect)
-            && KoLCharacter.getClassType() == KoLCharacter.COWPUNCHER) {
+            && KoLCharacter.getAscensionClass() == AscensionClass.COWPUNCHER) {
           KoLCharacter.addAvailableSkill("Absorb Cowrruption");
         } else {
           KoLCharacter.removeAvailableSkill("Absorb Cowrruption");

@@ -531,61 +531,8 @@ public class SkillDatabase {
   }
 
   public static final int classSkillsBase() {
-    String name = KoLCharacter.getClassType();
-
-    if (name.equals(KoLCharacter.SEAL_CLUBBER)) {
-      return 1000;
-    }
-    if (name.equals(KoLCharacter.TURTLE_TAMER)) {
-      return 2000;
-    }
-    if (name.equals(KoLCharacter.PASTAMANCER)) {
-      return 3000;
-    }
-    if (name.equals(KoLCharacter.SAUCEROR)) {
-      return 4000;
-    }
-    if (name.equals(KoLCharacter.DISCO_BANDIT)) {
-      return 5000;
-    }
-    if (name.equals(KoLCharacter.ACCORDION_THIEF)) {
-      return 6000;
-    }
-    if (name.equals(KoLCharacter.AVATAR_OF_BORIS)) {
-      return 11000;
-    }
-    if (name.equals(KoLCharacter.ZOMBIE_MASTER)) {
-      return 12000;
-    }
-    if (name.equals(KoLCharacter.AVATAR_OF_JARLSBERG)) {
-      return 14000;
-    }
-    if (name.equals(KoLCharacter.AVATAR_OF_SNEAKY_PETE)) {
-      return 15000;
-    }
-    if (name.equals(KoLCharacter.ED)) {
-      return 17000;
-    }
-    if (name.equals(KoLCharacter.COWPUNCHER)) {
-      return 18000;
-    }
-    if (name.equals(KoLCharacter.BEANSLINGER)) {
-      return 19000;
-    }
-    if (name.equals(KoLCharacter.SNAKE_OILER)) {
-      return 20000;
-    }
-    if (name.equals(KoLCharacter.GELATINOUS_NOOB)) {
-      return 23000;
-    }
-    if (name.equals(KoLCharacter.VAMPYRE)) {
-      return 24000;
-    }
-    if (name.equals(KoLCharacter.PLUMBER)) {
-      return 25000;
-    }
-
-    return 0;
+    AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
+    return ascensionClass == null ? 0 : ascensionClass.getSkillBase();
   }
 
   /**
@@ -634,7 +581,7 @@ public class SkillDatabase {
       return libramSkillMPConsumption();
     }
 
-    String classType = null;
+    AscensionClass classType = null;
     boolean thrallReduced = false;
     boolean isCombat =
         (SkillDatabase.isCombat(skillId) && !SkillDatabase.isNonCombat(skillId))
@@ -643,25 +590,25 @@ public class SkillDatabase {
 
     switch (skillId) {
       case SkillPool.CLOBBER:
-        classType = KoLCharacter.SEAL_CLUBBER;
+        classType = AscensionClass.SEAL_CLUBBER;
         break;
       case SkillPool.TOSS:
-        classType = KoLCharacter.TURTLE_TAMER;
+        classType = AscensionClass.TURTLE_TAMER;
         break;
       case SkillPool.SPAGHETTI_SPEAR:
-        classType = KoLCharacter.PASTAMANCER;
+        classType = AscensionClass.PASTAMANCER;
         break;
       case SkillPool.SALSABALL:
-        classType = KoLCharacter.SAUCEROR;
+        classType = AscensionClass.SAUCEROR;
         break;
       case SkillPool.SUCKERPUNCH:
-        classType = KoLCharacter.DISCO_BANDIT;
+        classType = AscensionClass.DISCO_BANDIT;
         break;
       case SkillPool.SING:
-        classType = KoLCharacter.ACCORDION_THIEF;
+        classType = AscensionClass.ACCORDION_THIEF;
         break;
       case SkillPool.MILD_CURSE:
-        classType = KoLCharacter.ED;
+        classType = AscensionClass.ED;
         break;
 
       case SkillPool.MAGIC_MISSILE:
@@ -698,7 +645,7 @@ public class SkillDatabase {
     }
 
     if (classType != null) {
-      return KoLCharacter.getClassType().equals(classType)
+      return KoLCharacter.getAscensionClass().equals(classType)
           ? 0
           : Math.max(1 + KoLCharacter.getManaCostAdjustment(), 1);
     }
@@ -942,7 +889,7 @@ public class SkillDatabase {
         case SkillPool.WAR_BLESSING:
         case SkillPool.SHE_WHO_WAS_BLESSING:
         case SkillPool.STORM_BLESSING:
-          if (!KoLCharacter.getClassType().equals(KoLCharacter.TURTLE_TAMER)) {
+          if (!KoLCharacter.isTurtleTamer()) {
             return 10;
           }
           break;
@@ -954,7 +901,7 @@ public class SkillDatabase {
         case SkillPool.BIND_PENNE_DREADFUL:
         case SkillPool.BIND_LASAGMBIE:
         case SkillPool.BIND_SPICE_GHOST:
-          if (!KoLCharacter.getClassType().equals(KoLCharacter.PASTAMANCER)) {
+          if (!KoLCharacter.isPastamancer()) {
             return 10;
           }
           break;
@@ -997,7 +944,8 @@ public class SkillDatabase {
       }
 
       if ((tool.hasEquipped() || KoLConstants.inventory.contains(tool.getItem()))
-          && (!tool.isClassLimited() || KoLCharacter.getClassType().equals(tool.getClassType()))) {
+          && (!tool.isClassLimited()
+              || KoLCharacter.getAscensionClass() == tool.getAscensionClass())) {
         inventoryDuration = current;
       }
     }

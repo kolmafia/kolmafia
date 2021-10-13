@@ -429,7 +429,7 @@ public class UseItemRequest extends GenericRequest {
         return 1;
       case KoLConstants.CONSUME_GUARDIAN:
         UseItemRequest.limiter = "character class";
-        return KoLCharacter.getClassType().equals(KoLCharacter.PASTAMANCER) ? 1 : 0;
+        return KoLCharacter.isPastamancer() ? 1 : 0;
     }
 
     // Delegate to specialized classes as appropriate
@@ -646,7 +646,7 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.INIGO_BOOK:
       case ItemPool.INIGO_BOOK_USED:
         String bookClass = UseItemRequest.itemToClass(itemId);
-        if (!bookClass.equals(KoLCharacter.getClassType())) {
+        if (!bookClass.equals(KoLCharacter.getAscensionClassName())) {
           UseItemRequest.limiter = "your class";
           return 0;
         }
@@ -716,7 +716,7 @@ public class UseItemRequest extends GenericRequest {
         return EquipmentRequest.availableFolder() == -1 ? 0 : 1;
 
       case ItemPool.PASTA_ADDITIVE:
-        if (!KoLCharacter.getClassType().equals(KoLCharacter.PASTAMANCER)) {
+        if (!KoLCharacter.isPastamancer()) {
           UseItemRequest.limiter = "character class";
           return 0;
         }

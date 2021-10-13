@@ -1068,7 +1068,7 @@ public class CharPaneDecorator {
       boolean needsCocoa = UneffectRequest.needsCocoa(effectName);
       boolean isTimer = effectName.startsWith("Timer ");
       boolean isCowrruption = effectName.equals("Cowrruption");
-      boolean isCowpuncher = KoLCharacter.getClassType() == KoLCharacter.COWPUNCHER;
+      boolean isCowpuncher = KoLCharacter.getAscensionClass() == AscensionClass.COWPUNCHER;
       int duration = effect.getCount();
       boolean isIntrinsic = duration == Integer.MAX_VALUE;
 

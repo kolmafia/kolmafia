@@ -133,7 +133,7 @@ public class ShowDataCommand extends AbstractCommand {
 
     if (desiredData.equals("status")) {
       desiredStream.println("Name: " + KoLCharacter.getUserName());
-      desiredStream.println("Class: " + KoLCharacter.getClassType());
+      desiredStream.println("Class: " + KoLCharacter.getAscensionClassName());
       desiredStream.println();
 
       desiredStream.println("Lv: " + KoLCharacter.getLevel());

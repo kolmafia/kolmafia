@@ -324,7 +324,7 @@ public class Expression {
           break;
         case 'n':
           v =
-              KoLCharacter.getClassName()
+              KoLCharacter.getAscensionClassName()
                       .equalsIgnoreCase((String) this.literals.get((int) s[--sp]))
                   ? 1
                   : 0;

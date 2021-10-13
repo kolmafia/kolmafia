@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
@@ -1362,9 +1363,9 @@ public abstract class UseLinkDecorator {
                   "inv_equip.php?which=2&action=equip&slot=3&whichitem="));
         } else if (consumeMethod == KoLConstants.CONSUME_SIXGUN) {
           // Only as WOL class
-          if (KoLCharacter.getClassType() != KoLCharacter.COWPUNCHER
-              && KoLCharacter.getClassType() != KoLCharacter.BEANSLINGER
-              && KoLCharacter.getClassType() != KoLCharacter.SNAKE_OILER) {
+          if (KoLCharacter.getAscensionClass() != AscensionClass.COWPUNCHER
+              && KoLCharacter.getAscensionClass() != AscensionClass.BEANSLINGER
+              && KoLCharacter.getAscensionClass() != AscensionClass.SNAKE_OILER) {
             return null;
           }
           uses.add(

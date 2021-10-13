@@ -334,7 +334,7 @@ public class ValhallaManager {
     String pathName = (path == Path.NONE) ? "No-Path " : path.getName() + " ";
     sessionStream.print(pathName);
 
-    sessionStream.println(KoLCharacter.getClassType());
+    sessionStream.println(KoLCharacter.getAscensionClassName());
 
     sessionStream.println(KoLCharacter.getSign());
     sessionStream.println();
