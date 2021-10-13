@@ -167,7 +167,9 @@ public class Preferences {
     synchronized (Preferences.userValues) {
       if (username == null || username.equals("")) {
         if (Preferences.userPropertiesFile != null) {
-          Preferences.saveToFile(Preferences.userPropertiesFile, Preferences.userValues);
+          if (Preferences.getBoolean("saveSettingsOnSet")) {
+            Preferences.saveToFile(Preferences.userPropertiesFile, Preferences.userValues);
+          }
           Preferences.userPropertiesFile = null;
           Preferences.userValues.clear();
         }

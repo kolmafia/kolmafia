@@ -155,7 +155,7 @@ public class AscensionHistoryRequest extends GenericRequest
       Path path = entry.getKey();
       int points = entry.getValue();
 
-      path.incrementPoints(points);
+      path.setPoints(points);
     }
 
     for (Entry<Integer, Integer> entry : challengeClassPoints.entrySet()) {

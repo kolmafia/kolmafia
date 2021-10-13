@@ -7,24 +7,23 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 
 @DisabledOnOs(value = OS.MAC, disabledReason = "Testing preference tracking does not work on Mac")
 public class AscensionHistoryRequestTest extends RequestTestBase {
-
-  @BeforeAll
-  private static void init() {
+  @BeforeEach
+  private void initEach() {
     KoLCharacter.reset("the Tristero");
     KoLCharacter.setUserId(177122);
     Preferences.setBoolean("saveSettingsOnSet", false);
   }
 
-  @AfterAll
-  private static void tidyUp() {
+  @AfterEach
+  private void tidyUp() {
     KoLCharacter.reset("");
     KoLCharacter.setUserId(0);
   }
@@ -47,7 +46,6 @@ public class AscensionHistoryRequestTest extends RequestTestBase {
     assertEquals(9, Preferences.getInteger("noobPoints"));
     assertEquals(24, Preferences.getInteger("bondPoints"));
     assertEquals(10, Preferences.getInteger("garlandUpgrades"));
-    assertEquals(11, Preferences.getInteger("gloverPoints"));
     assertEquals(3, Preferences.getInteger("masksUnlocked"));
     assertEquals(23, Preferences.getInteger("darkGyfftePoints"));
     assertEquals(22, Preferences.getInteger("plumberPoints"));

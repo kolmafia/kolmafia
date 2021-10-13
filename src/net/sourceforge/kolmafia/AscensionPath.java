@@ -7,7 +7,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 public class AscensionPath {
   public enum Path {
     // Path Name, Path ID, is Avatar?, image in ascension history, article
-    NONE("None", 0, false, "blank.gif", null),
+    NONE("None", 0, false, "blank", null),
     BOOZETAFARIAN("Boozetafarian", 1, false, "martini", "a"),
     TEETOTALER("Teetotaler", 2, false, "bowl", "a"),
     OXYGENARIAN("Oxygenarian", 3, false, "oxy", "an"),
@@ -24,7 +24,7 @@ public class AscensionPath {
     KOLHS("KOLHS", 15, false, "kolhsicon", "a"),
     CLASS_ACT_II("Class Act II: A Class For Pigs", 16, false, "motorboat2", "a"),
     AVATAR_OF_SNEAKY_PETE(
-        "Avatar of Sneaky Pete", 17, true, "bigglasses", "an", "petePoints", 0, true),
+        "Avatar of Sneaky Pete", 17, true, "bigglasses", "an", "sneakyPetePoints", 0, true),
     SLOW_AND_STEADY("Slow and Steady", 18, false, "sas", "a"),
     HEAVY_RAINS("Heavy Rains", 19, false, "familiar31", "a"),
     PICKY("Picky", 21, false, "pickypath", "a"),
@@ -34,7 +34,7 @@ public class AscensionPath {
     CRAZY_RANDOM_SUMMER("One Crazy Random Summer", 24, false, "dice", "the"),
     COMMUNITY_SERVICE("Community Service", 25, false, "csplaquesmall", "a"),
     AVATAR_OF_WEST_OF_LOATHING("Avatar of West of Loathing", 26, false, "badge", "an"),
-    THE_SOURCE("The Source", 27, false, "ss_datasiphon", "a"),
+    THE_SOURCE("The Source", 27, false, "ss_datasiphon", "a", "sourcePoints", 0, false),
     NUCLEAR_AUTUMN("Nuclear Autumn", 28, false, "radiation", "a"),
     GELATINOUS_NOOB("Gelatinous Noob", 29, true, "gcube", "a", "noobPoints", 20, true),
     LICENSE_TO_ADVENTURE(
@@ -43,14 +43,14 @@ public class AscensionPath {
     POKEFAM("Pocket Familiars", 32, false, "spiritorb", "a"),
     GLOVER("G-Lover", 33, false, "g-loveheart", "a", "garlandUpgrades", 10, false),
     DISGUISES_DELIMIT("Disguises Delimit", 34, false, "dd_icon", "a", "masksUnlocked", 25, false),
-    DARK_GYFFTE("Dark Gyffte", 35, true, "darkgift", "a", "gyfftePoints", 23, true),
+    DARK_GYFFTE("Dark Gyffte", 35, true, "darkgift", "a", "darkGyfftePoints", 23, true),
     CRAZY_RANDOM_SUMMER_TWO("Two Crazy Random Summer", 36, false, "twocrazydice", "a"),
     KINGDOM_OF_EXPLOATHING("Kingdom of Exploathing", 37, false, "puff", "a"),
     PATH_OF_THE_PLUMBER(
         "Path of the Plumber", 38, true, "mario_mushroom1", "a", "plumberPoints", 22, false),
     LOWKEY("Low Key Summer", 39, false, "littlelock", "a"),
     GREY_GOO("Grey Goo", 40, false, "greygooball", "a"),
-    YOU_ROBOT("You, Robot", 41, false, "yourobot", "a", "youRobotPoints", 37, false),
+    YOU_ROBOT("You, Robot", 41, false, "robobattery", "a", "youRobotPoints", 37, false),
     // Not yet implemented
     QUANTUM("Quantum Terrarium", 42, false, "quantum", "a", "quantumPoints", 11, false),
     WILDFIRE("Wildfire", 43, false, "brushfire", "a"),
@@ -113,17 +113,19 @@ public class AscensionPath {
     }
 
     public String getPointsPreference() {
-      return this.getPointsPreference();
+      return this.pointsPreference;
     }
 
     public int getPoints() {
-      return Preferences.getInteger(getPointsPreference());
+      String pref = getPointsPreference();
+      return pref == null ? 0 : Preferences.getInteger(pref);
     }
 
     public void setPoints(int points) {
-      if (this.bucket && getPoints() > points) return;
+      String pref = getPointsPreference();
+      if (pref == null || (this.bucket && getPoints() > points)) return;
       points = (this.maximumPoints == 0) ? points : Math.min(maximumPoints, points);
-      Preferences.setInteger(getPointsPreference(), points);
+      Preferences.setInteger(pref, points);
     }
 
     public void incrementPoints(int points) {
