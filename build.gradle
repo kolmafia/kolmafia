@@ -16,7 +16,7 @@ mainClassName = 'net.sourceforge.kolmafia.KoLmafia'
 sourceSets {
 	main {
 		java {
-			srcDirs = ['src']
+			srcDirs = ['src', 'lib']
 			destinationDirectory.set(file('build/main'))
 		}
 		resources {

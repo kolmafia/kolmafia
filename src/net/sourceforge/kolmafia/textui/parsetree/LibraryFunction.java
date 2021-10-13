@@ -24,7 +24,7 @@ public class LibraryFunction extends Function {
     // function will not use them, so that tracing works
     for (int i = 1; i <= params.length; ++i) {
       Variable variable = new Variable(params[i - 1]);
-      this.variableReferences.add(new VariableReference(variable));
+      this.variableReferences.add(new VariableReference(null, variable));
       args[i] = Value.class;
     }
 

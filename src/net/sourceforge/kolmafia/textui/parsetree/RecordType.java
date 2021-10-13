@@ -63,10 +63,13 @@ public class RecordType extends CompositeType {
 
   @Override
   public Type getDataType(final Object key) {
-    if (!(key instanceof Value)) {
+    if (!(key instanceof Value) && !(key instanceof Value.LocatedValue)) {
       throw new ScriptException("Internal error: key is not a Value");
     }
-    int index = this.indexOf((Value) key);
+
+    Value value =
+        key instanceof Value.LocatedValue ? ((Value.LocatedValue) key).value : (Value) key;
+    int index = this.indexOf(value);
     if (index < 0 || index >= this.fieldTypes.length) {
       return null;
     }
@@ -146,7 +149,7 @@ public class RecordType extends CompositeType {
     return new RecordValue(this);
   }
 
-  public Value initialValueExpression(List<Value> params) {
+  public Value initialValueExpression(List<Evaluable> params) {
     if (params.isEmpty()) {
       return new TypeInitializer(this);
     }

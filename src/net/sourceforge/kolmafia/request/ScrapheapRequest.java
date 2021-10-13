@@ -15,7 +15,7 @@ public class ScrapheapRequest extends PlaceRequest {
   private static final Pattern CONFIGURATION =
       Pattern.compile("robot/(left|right|top|bottom|body)(\\d+).png\"");
   private static final Pattern CPU_UPGRADE_INSTALLED =
-      Pattern.compile("value=\"([a-z_]+)\"[^\\(]+\\(already installed\\)");
+      Pattern.compile("<button.*?value=\"([a-z0-9_]+)\"[^\\(]+\\(already installed\\)");
 
   public ScrapheapRequest() {
     super("scrapheap");
@@ -46,6 +46,12 @@ public class ScrapheapRequest extends PlaceRequest {
 
     if (action.startsWith("sh_getpower")) {
       parseCollectEnergy(responseText);
+      return;
+    }
+
+    if (action.startsWith("sh_scrounge")) {
+      Preferences.setBoolean("youRobotScavenged", true);
+      return;
     }
   }
 
@@ -54,7 +60,16 @@ public class ScrapheapRequest extends PlaceRequest {
 
     if (m.find()) {
       int cost = StringUtilities.parseInt(m.group(1));
-      Preferences.setInteger("_chronolithActivations", cost - 10);
+
+      if (cost > 158) {
+        cost /= 10;
+      } else if (cost > 37) {
+        cost /= 2;
+      }
+
+      cost -= 10;
+
+      Preferences.setInteger("_chronolithActivations", cost);
     }
   }
 

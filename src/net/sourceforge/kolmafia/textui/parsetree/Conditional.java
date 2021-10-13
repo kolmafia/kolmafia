@@ -8,9 +8,9 @@ import org.eclipse.lsp4j.Location;
 
 public abstract class Conditional extends Command {
   public Scope scope;
-  private final Value condition;
+  private final Evaluable condition;
 
-  public Conditional(final Location location, final Scope scope, final Value condition) {
+  public Conditional(final Location location, final Scope scope, final Evaluable condition) {
     super(location);
     this.scope = scope;
     this.condition = condition;
@@ -20,7 +20,7 @@ public abstract class Conditional extends Command {
     return this.scope;
   }
 
-  public Value getCondition() {
+  public Evaluable getCondition() {
     return this.condition;
   }
 

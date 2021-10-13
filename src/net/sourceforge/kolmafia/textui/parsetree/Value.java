@@ -16,7 +16,14 @@ import net.sourceforge.kolmafia.textui.Parser;
 import org.eclipse.lsp4j.Location;
 import org.json.JSONException;
 
-public class Value extends Command implements Comparable<Value> {
+/**
+ * A concrete value, either computed as a result of executing a {@link Command} or created
+ * artificially.
+ *
+ * <p>Is forbidden from interacting with {@link Parser} other than through {@link LocatedValue}. See
+ * it as some sort of... hazmat suit..?
+ */
+public class Value extends ParseTreeNode implements Comparable<Value> {
   public Type type;
 
   public long contentLong = 0;
@@ -472,13 +479,12 @@ public class Value extends Command implements Comparable<Value> {
    *
    * <p>If {@code value} is {@code null}, returns {@code null}.
    */
-  public static final <V extends Value> LocatedValue<V> wrap(
-      final V value, final Location location) {
+  public static final Evaluable LocateValue(final Location location, final Value value) {
     if (value == null) {
       return null;
     }
 
-    return new LocatedValue<>(value, location);
+    return new LocatedValue(value, location);
   }
 
   /**
@@ -494,18 +500,42 @@ public class Value extends Command implements Comparable<Value> {
    * regardless of if you are certain of the content's datatype, to allow type casting to be as easy
    * as casting the type of {@link #value} itself.
    */
-  public static final class LocatedValue<V extends Value> {
-    public final V value;
-    public final Location location;
+  public static final class LocatedValue extends Evaluable {
+    public final Value value;
 
-    private LocatedValue(final V value, final Location location) {
+    private LocatedValue(final Value value, final Location location) {
+      super(location);
       this.value = value;
-      this.location = location;
+    }
+
+    @Override
+    public Type getType() {
+      return this.value.getType();
+    }
+
+    @Override
+    public Type getRawType() {
+      return this.value.getRawType();
     }
 
     @Override
     public String toString() {
       return this.value.toString();
+    }
+
+    @Override
+    public String toQuotedString() {
+      return this.value.toQuotedString();
+    }
+
+    @Override
+    public Value execute(final AshRuntime interpreter) {
+      return this.value.execute(interpreter);
+    }
+
+    @Override
+    public void print(final PrintStream stream, final int indent) {
+      this.value.print(stream, indent);
     }
   }
 }

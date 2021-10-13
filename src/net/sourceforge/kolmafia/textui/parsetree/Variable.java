@@ -8,7 +8,7 @@ import org.eclipse.lsp4j.Location;
 public class Variable extends Symbol {
   Type type;
   Value content;
-  Value expression = null;
+  Evaluable expression = null;
   boolean isStatic = false;
 
   public Variable(final Type type) {
@@ -65,7 +65,7 @@ public class Variable extends Symbol {
     return this.getValue(interpreter).floatValue();
   }
 
-  public void setExpression(final Value targetExpression) {
+  public void setExpression(final Evaluable targetExpression) {
     this.expression = targetExpression;
   }
 
