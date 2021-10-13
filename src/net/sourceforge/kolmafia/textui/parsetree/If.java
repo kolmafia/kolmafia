@@ -12,7 +12,7 @@ import org.eclipse.lsp4j.Range;
 public class If extends Conditional {
   private final List<Conditional> elseLoops;
 
-  public If(final Location location, final Scope scope, final Value condition) {
+  public If(final Location location, final Scope scope, final Evaluable condition) {
     super(location, scope, condition);
     this.elseLoops = new ArrayList<>();
   }

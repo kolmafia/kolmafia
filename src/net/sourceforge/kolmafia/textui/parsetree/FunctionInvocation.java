@@ -6,19 +6,21 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
 
 public class FunctionInvocation extends FunctionCall {
   private final BasicScope scope;
-  private final Value name;
+  private final Evaluable name;
   private final Type type;
 
   public FunctionInvocation(
+      final Location location,
       final BasicScope scope,
       final Type type,
-      final Value name,
-      final List<Value> params,
+      final Evaluable name,
+      final List<Evaluable> params,
       final Parser parser) {
-    super(null, params, parser);
+    super(location, null, params, parser);
     this.scope = scope;
     this.type = type;
     this.name = name;
@@ -99,7 +101,7 @@ public class FunctionInvocation extends FunctionCall {
     stream.println("<INVOKE " + this.name.toString() + ">");
     this.type.print(stream, indent + 1);
 
-    for (Value current : this.params) {
+    for (Evaluable current : this.params) {
       current.print(stream, indent + 1);
     }
   }

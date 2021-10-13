@@ -5,12 +5,19 @@ import java.util.ArrayList;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
+import org.eclipse.lsp4j.Range;
 
 public class Concatenate extends Expression {
-  private final ArrayList<Value> strings;
+  private final ArrayList<Evaluable> strings;
 
-  public Concatenate(final Value lhs, final Value rhs) {
-    this.strings = new ArrayList<Value>();
+  public Concatenate(final Evaluable lhs, final Evaluable rhs) {
+    super(
+        new Location(
+            lhs.getLocation().getUri(),
+            new Range(
+                lhs.getLocation().getRange().getStart(), rhs.getLocation().getRange().getEnd())));
+    this.strings = new ArrayList<>();
     strings.add(lhs);
     strings.add(rhs);
   }
@@ -20,8 +27,15 @@ public class Concatenate extends Expression {
     return DataTypes.STRING_TYPE;
   }
 
-  public void addString(final Value string) {
+  public void addString(final Evaluable string) {
     strings.add(string);
+
+    this.growLocation(
+        new Location(
+            this.getLocation().getUri(),
+            new Range(
+                this.getLocation().getRange().getStart(),
+                string.getLocation().getRange().getEnd())));
   }
 
   @Override
@@ -35,7 +49,7 @@ public class Concatenate extends Expression {
 
     int count = 0;
 
-    for (Value arg : this.strings) {
+    for (Evaluable arg : this.strings) {
       interpreter.traceIndent();
       if (ScriptRuntime.isTracing()) {
         interpreter.trace("Arg " + (++count) + ": " + arg);
@@ -76,7 +90,7 @@ public class Concatenate extends Expression {
     StringBuilder output = new StringBuilder("(");
     int count = 0;
 
-    for (Value string : this.strings) {
+    for (Evaluable string : this.strings) {
       if (count++ > 0) {
         output.append(" + ");
       }
@@ -91,7 +105,7 @@ public class Concatenate extends Expression {
   public void print(final PrintStream stream, final int indent) {
     AshRuntime.indentLine(stream, indent);
     stream.println("<CONCATENATE>");
-    for (Value string : this.strings) {
+    for (Evaluable string : this.strings) {
       string.print(stream, indent + 1);
     }
   }

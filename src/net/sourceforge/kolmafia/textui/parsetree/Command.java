@@ -5,11 +5,6 @@ import org.eclipse.lsp4j.Location;
 public abstract class Command extends ParseTreeNode {
   private Location location;
 
-  /** For {@link Value}, which uses {@link Value.LocatedValue} to store a Location instead. */
-  public Command() {
-    this.location = null;
-  }
-
   public Command(final Location location) {
     this.location = location;
   }

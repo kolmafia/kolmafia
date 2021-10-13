@@ -6,19 +6,27 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
+import org.eclipse.lsp4j.Range;
 
-public class Assignment extends Value {
+public class Assignment extends Evaluable {
   private final VariableReference lhs;
-  private final Value rhs;
+  private final Evaluable rhs;
   private final Operator oper;
 
-  public Assignment(final VariableReference lhs, final Value rhs) {
-    this.lhs = lhs;
-    this.rhs = rhs;
-    this.oper = null;
+  public Assignment(final VariableReference lhs, final Evaluable rhs) {
+    this(lhs, rhs, null);
   }
 
-  public Assignment(final VariableReference lhs, final Value rhs, final Operator oper) {
+  public Assignment(final VariableReference lhs, final Evaluable rhs, final Operator oper) {
+    super(
+        rhs == null
+            ? lhs.getLocation()
+            : new Location(
+                lhs.getLocation().getUri(),
+                new Range(
+                    lhs.getLocation().getRange().getStart(),
+                    rhs.getLocation().getRange().getEnd())));
     this.lhs = lhs;
     this.rhs = rhs;
     this.oper = oper;
@@ -28,8 +36,10 @@ public class Assignment extends Value {
     return this.lhs;
   }
 
-  public Value getRightHandSide() {
-    return this.rhs == null ? this.lhs.getType().initialValueExpression() : this.rhs;
+  public Evaluable getRightHandSide() {
+    return this.rhs == null
+        ? Value.LocateValue(this.lhs.getLocation(), this.lhs.getType().initialValueExpression())
+        : this.rhs;
   }
 
   public Type getType() {

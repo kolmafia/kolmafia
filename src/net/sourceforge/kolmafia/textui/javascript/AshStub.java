@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.javascript;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Parser;
@@ -10,6 +11,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.Function.MatchType;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
 import net.sourceforge.kolmafia.textui.parsetree.ProxyRecordValue;
+import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
@@ -43,9 +45,11 @@ public abstract class AshStub extends BaseFunction {
     MatchType[] matchTypes = {MatchType.EXACT, MatchType.BASE, MatchType.COERCE};
     for (MatchType matchType : matchTypes) {
       for (Function testFunction : libraryFunctions) {
+        List<Type> argTypes =
+            ashArgs.stream().map(value -> value.getRawType()).collect(Collectors.toList());
         // Check for match with no vararg, then match with vararg.
-        if (testFunction.paramsMatch(ashArgs, matchType, /* vararg = */ false)
-            || testFunction.paramsMatch(ashArgs, matchType, /* vararg = */ true)) {
+        if (testFunction.paramsMatch(argTypes, matchType, /* vararg = */ false)
+            || testFunction.paramsMatch(argTypes, matchType, /* vararg = */ true)) {
           function = testFunction;
           break;
         }
@@ -77,7 +81,10 @@ public abstract class AshStub extends BaseFunction {
     Function function = findMatchingFunction(ashArgs);
 
     if (function == null) {
-      throw controller.runtimeException(Parser.undefinedFunctionMessage(ashFunctionName, ashArgs));
+      throw controller.runtimeException(
+          Parser.undefinedFunctionMessage(
+              ashFunctionName,
+              ashArgs.stream().map(value -> value.getType()).collect(Collectors.toList())));
     }
 
     // Second, infer the type for any missing arguments from the closest function match.
@@ -95,7 +102,10 @@ public abstract class AshStub extends BaseFunction {
     function = findMatchingFunction(ashArgs);
 
     if (function == null) {
-      throw controller.runtimeException(Parser.undefinedFunctionMessage(ashFunctionName, ashArgs));
+      throw controller.runtimeException(
+          Parser.undefinedFunctionMessage(
+              ashFunctionName,
+              ashArgs.stream().map(value -> value.getType()).collect(Collectors.toList())));
     }
 
     Value ashReturnValue = execute(function, ashArgs);

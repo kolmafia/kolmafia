@@ -6,13 +6,19 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptException;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
 
-public class Catch extends Value {
+public class Catch extends Evaluable {
   private final Command node;
 
-  public Catch(final Command node) {
-    super(DataTypes.STRING_TYPE);
+  public Catch(final Location location, final Command node) {
+    super(location);
     this.node = node;
+  }
+
+  @Override
+  public Type getType() {
+    return DataTypes.STRING_TYPE;
   }
 
   @Override

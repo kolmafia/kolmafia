@@ -4,11 +4,19 @@ import java.io.PrintStream;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
+import org.eclipse.lsp4j.Range;
 
 public class TernaryExpression extends Expression {
-  Value conditional;
+  Evaluable conditional;
 
-  public TernaryExpression(final Value conditional, final Value lhs, final Value rhs) {
+  public TernaryExpression(final Evaluable conditional, final Evaluable lhs, final Evaluable rhs) {
+    super(
+        new Location(
+            lhs.getLocation().getUri(),
+            new Range(
+                conditional.getLocation().getRange().getStart(),
+                rhs.getLocation().getRange().getEnd())));
     this.conditional = conditional;
     this.lhs = lhs;
     this.rhs = rhs;
@@ -53,7 +61,7 @@ public class TernaryExpression extends Expression {
       return null;
     }
 
-    Value expression;
+    Evaluable expression;
     String tag;
 
     if (conditionResult.intValue() != 0) {

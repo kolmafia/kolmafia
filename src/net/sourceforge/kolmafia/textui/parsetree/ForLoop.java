@@ -10,9 +10,9 @@ import org.eclipse.lsp4j.Location;
 
 public class ForLoop extends Loop {
   private final VariableReference variable;
-  private final Value initial;
-  private final Value last;
-  private final Value increment;
+  private final Evaluable initial;
+  private final Evaluable last;
+  private final Evaluable increment;
   private final int direction;
   private final String fileName;
   private final int lineNumber;
@@ -21,9 +21,9 @@ public class ForLoop extends Loop {
       final Location location,
       final Scope scope,
       final VariableReference variable,
-      final Value initial,
-      final Value last,
-      final Value increment,
+      final Evaluable initial,
+      final Evaluable last,
+      final Evaluable increment,
       final int direction,
       final Parser parser) {
     super(location, scope);
@@ -40,15 +40,15 @@ public class ForLoop extends Loop {
     return this.variable;
   }
 
-  public Value getInitial() {
+  public Evaluable getInitial() {
     return this.initial;
   }
 
-  public Value getLast() {
+  public Evaluable getLast() {
     return this.last;
   }
 
-  public Value getIncrement() {
+  public Evaluable getIncrement() {
     return this.increment;
   }
 

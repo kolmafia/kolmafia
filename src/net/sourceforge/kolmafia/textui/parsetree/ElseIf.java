@@ -5,7 +5,7 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import org.eclipse.lsp4j.Location;
 
 public class ElseIf extends Conditional {
-  public ElseIf(final Location location, final Scope scope, final Value condition) {
+  public ElseIf(final Location location, final Scope scope, final Evaluable condition) {
     super(location, scope, condition);
   }
 

@@ -8,14 +8,20 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.Profiler;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
 
-public class FunctionCall extends Value {
+public class FunctionCall extends Evaluable {
   protected Function target;
-  protected final List<Value> params;
+  protected final List<Evaluable> params;
   protected final String fileName;
   protected final int lineNumber;
 
-  public FunctionCall(final Function target, final List<Value> params, final Parser parser) {
+  public FunctionCall(
+      final Location location,
+      final Function target,
+      final List<Evaluable> params,
+      final Parser parser) {
+    super(location);
     this.target = target;
     this.params = params;
     this.fileName = parser.getShortFileName();
@@ -26,7 +32,7 @@ public class FunctionCall extends Value {
     return this.target;
   }
 
-  public List<Value> getParams() {
+  public List<Evaluable> getParams() {
     return this.params;
   }
 
@@ -54,7 +60,7 @@ public class FunctionCall extends Value {
 
     int paramCount = 1;
 
-    for (Value paramValue : this.params) {
+    for (Evaluable paramValue : this.params) {
       if (ScriptRuntime.isTracing()) {
         interpreter.trace("Param #" + paramCount + ": " + paramValue.toQuotedString());
       }
@@ -131,7 +137,7 @@ public class FunctionCall extends Value {
     AshRuntime.indentLine(stream, indent);
     stream.println("<CALL " + this.getTarget().getName() + ">");
 
-    for (Value current : this.params) {
+    for (Evaluable current : this.params) {
       current.print(stream, indent + 1);
     }
   }

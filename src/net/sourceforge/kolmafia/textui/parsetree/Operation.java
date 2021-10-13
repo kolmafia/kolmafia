@@ -3,20 +3,29 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import org.eclipse.lsp4j.Location;
+import org.eclipse.lsp4j.Range;
 
 public class Operation extends Expression {
   Operator oper;
 
-  public Operation(final Value lhs, final Value rhs, final Operator oper) {
+  public Operation(final Evaluable lhs, final Evaluable rhs, final Operator oper) {
+    super(
+        new Location(
+            lhs.getLocation().getUri(),
+            rhs == null
+                ? new Range(
+                    oper.getLocation().getRange().getStart(), lhs.getLocation().getRange().getEnd())
+                : new Range(
+                    lhs.getLocation().getRange().getStart(),
+                    rhs.getLocation().getRange().getEnd())));
     this.lhs = lhs;
     this.rhs = rhs;
     this.oper = oper;
   }
 
-  public Operation(final Value lhs, final Operator oper) {
-    this.lhs = lhs;
-    this.rhs = null;
-    this.oper = oper;
+  public Operation(final Evaluable lhs, final Operator oper) {
+    this(lhs, null, oper);
   }
 
   @Override
