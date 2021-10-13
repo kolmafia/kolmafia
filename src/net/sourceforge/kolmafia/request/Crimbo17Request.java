@@ -50,20 +50,19 @@ public class Crimbo17Request extends CoinMasterRequest {
           true) {
         @Override
         public final boolean canBuyItem(final int itemId) {
-          String classType = KoLCharacter.getClassType();
           switch (itemId) {
             case ItemPool.MIME_SCIENCE_VOL_1:
-              return classType.equals(KoLCharacter.SEAL_CLUBBER);
+              return KoLCharacter.isSealClubber();
             case ItemPool.MIME_SCIENCE_VOL_2:
-              return classType.equals(KoLCharacter.TURTLE_TAMER);
+              return KoLCharacter.isTurtleTamer();
             case ItemPool.MIME_SCIENCE_VOL_3:
-              return classType.equals(KoLCharacter.PASTAMANCER);
+              return KoLCharacter.isPastamancer();
             case ItemPool.MIME_SCIENCE_VOL_4:
-              return classType.equals(KoLCharacter.SAUCEROR);
+              return KoLCharacter.isSauceror();
             case ItemPool.MIME_SCIENCE_VOL_5:
-              return classType.equals(KoLCharacter.DISCO_BANDIT);
+              return KoLCharacter.isDiscoBandit();
             case ItemPool.MIME_SCIENCE_VOL_6:
-              return classType.equals(KoLCharacter.ACCORDION_THIEF);
+              return KoLCharacter.isAccordionThief();
           }
           return super.canBuyItem(itemId);
         }

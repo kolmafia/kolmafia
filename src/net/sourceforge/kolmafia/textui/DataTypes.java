@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui;
 import java.util.List;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.EdServantData;
@@ -64,35 +65,6 @@ public class DataTypes {
   public static final int TYPE_AGGREGATE = 1001;
   public static final int TYPE_RECORD = 1002;
   public static final int TYPE_TYPEDEF = 1003;
-
-  public static final String[] CLASSES = {
-    "",
-    KoLCharacter.SEAL_CLUBBER,
-    KoLCharacter.TURTLE_TAMER,
-    KoLCharacter.PASTAMANCER,
-    KoLCharacter.SAUCEROR,
-    KoLCharacter.DISCO_BANDIT,
-    KoLCharacter.ACCORDION_THIEF,
-    "",
-    "",
-    "",
-    "",
-    KoLCharacter.AVATAR_OF_BORIS,
-    KoLCharacter.ZOMBIE_MASTER,
-    "",
-    KoLCharacter.AVATAR_OF_JARLSBERG,
-    KoLCharacter.AVATAR_OF_SNEAKY_PETE,
-    "",
-    KoLCharacter.ED,
-    KoLCharacter.COWPUNCHER,
-    KoLCharacter.BEANSLINGER,
-    KoLCharacter.SNAKE_OILER,
-    "",
-    "",
-    KoLCharacter.GELATINOUS_NOOB,
-    KoLCharacter.VAMPYRE,
-    KoLCharacter.PLUMBER,
-  };
 
   public static final Type ANY_TYPE = new Type(null, DataTypes.TYPE_ANY);
   public static final Type VOID_TYPE = new Type("void", DataTypes.TYPE_VOID);
@@ -361,15 +333,6 @@ public class DataTypes {
     return new Value(DataTypes.LOCATION_TYPE, adventure.getAdventureName(), adventure);
   }
 
-  public static final int classToInt(final String name) {
-    for (int i = 0; i < DataTypes.CLASSES.length; ++i) {
-      if (name.equalsIgnoreCase(DataTypes.CLASSES[i])) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
   public static final Value parseClassValue(final String name, final boolean returnDefault) {
     if (name == null || name.equals("")) {
       return returnDefault ? DataTypes.CLASS_INIT : null;
@@ -379,12 +342,14 @@ public class DataTypes {
       return DataTypes.CLASS_INIT;
     }
 
-    int num = DataTypes.classToInt(name);
-    if (num < 0) {
+    AscensionClass ascensionClass = AscensionClass.nameToClass(name);
+
+    if (ascensionClass == null || ascensionClass.getId() < 0) {
       return returnDefault ? DataTypes.CLASS_INIT : null;
     }
 
-    return new Value(DataTypes.CLASS_TYPE, num, DataTypes.CLASSES[num]);
+    return new Value(
+        DataTypes.CLASS_TYPE, ascensionClass.getId(), ascensionClass.getName(), ascensionClass);
   }
 
   public static final Value parseStatValue(final String name, final boolean returnDefault) {
@@ -790,8 +755,14 @@ public class DataTypes {
     return DataTypes.makeNormalizedItem(num, name);
   }
 
-  public static final Value makeClassValue(final String name) {
-    return new Value(DataTypes.CLASS_TYPE, DataTypes.classToInt(name), name);
+  public static final Value makeClassValue(
+      final AscensionClass ascensionClass, boolean returnDefault) {
+    if (ascensionClass == null) {
+      return returnDefault ? DataTypes.CLASS_INIT : null;
+    }
+
+    return new Value(
+        DataTypes.CLASS_TYPE, ascensionClass.getId(), ascensionClass.getName(), ascensionClass);
   }
 
   private static Value makeNormalizedSkill(final int num, String name) {
@@ -988,7 +959,7 @@ public class DataTypes {
         return (String) InputFieldUtilities.input(message, VYKEACompanionData.VYKEA);
 
       case TYPE_CLASS:
-        return (String) InputFieldUtilities.input(message, DataTypes.CLASSES);
+        return (String) InputFieldUtilities.input(message, AscensionClass.values());
 
       case TYPE_STAT:
         return (String) InputFieldUtilities.input(message, DataTypes.STAT_ARRAY);

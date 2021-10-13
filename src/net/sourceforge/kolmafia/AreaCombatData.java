@@ -1188,22 +1188,22 @@ public class AreaCombatData {
       }
     } else if (zone.equals("The Fungal Nethers")) {
       if (monster.equals("muscular mushroom guy")) {
-        return KoLCharacter.getClassType() == KoLCharacter.SEAL_CLUBBER ? 1 : 0;
+        return KoLCharacter.isSealClubber() ? 1 : 0;
       }
       if (monster.equals("armored mushroom guy")) {
-        return KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER ? 1 : 0;
+        return KoLCharacter.isTurtleTamer() ? 1 : 0;
       }
       if (monster.equals("wizardly mushroom guy")) {
-        return KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER ? 1 : 0;
+        return KoLCharacter.isPastamancer() ? 1 : 0;
       }
       if (monster.equals("fiery mushroom guy")) {
-        return KoLCharacter.getClassType() == KoLCharacter.SAUCEROR ? 1 : 0;
+        return KoLCharacter.isSauceror() ? 1 : 0;
       }
       if (monster.equals("dancing mushroom guy")) {
-        return KoLCharacter.getClassType() == KoLCharacter.DISCO_BANDIT ? 1 : 0;
+        return KoLCharacter.isDiscoBandit() ? 1 : 0;
       }
       if (monster.equals("wailing mushroom guy")) {
-        return KoLCharacter.getClassType() == KoLCharacter.ACCORDION_THIEF ? 1 : 0;
+        return KoLCharacter.isAccordionThief() ? 1 : 0;
       }
     } else if (zone.equals("Pirates of the Garbage Barges")) {
       if (monster.equals("flashy pirate") && !Preferences.getBoolean("dinseyGarbagePirate")) {
@@ -1401,31 +1401,29 @@ public class AreaCombatData {
     } else if (zone.equals("The Nemesis' Lair")) {
       int lairTurns = AdventureSpentDatabase.getTurns(zone);
       if (monster.equals("hellseal guardian")) {
-        return KoLCharacter.getClassType() == KoLCharacter.SEAL_CLUBBER ? 1 : 0;
+        return KoLCharacter.isSealClubber() ? 1 : 0;
       } else if (monster.equals("Gorgolok, the Infernal Seal (Inner Sanctum)")) {
-        return KoLCharacter.getClassType() == KoLCharacter.SEAL_CLUBBER && lairTurns >= 4 ? 1 : 0;
+        return KoLCharacter.isSealClubber() && lairTurns >= 4 ? 1 : 0;
       } else if (monster.equals("warehouse worker")) {
-        return KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER ? 1 : 0;
+        return KoLCharacter.isTurtleTamer() ? 1 : 0;
       } else if (monster.equals("Stella, the Turtle Poacher (Inner Sanctum)")) {
-        return KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER && lairTurns >= 4 ? 1 : 0;
+        return KoLCharacter.isTurtleTamer() && lairTurns >= 4 ? 1 : 0;
       } else if (monster.equals("evil spaghetti cult zealot")) {
-        return KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER ? 1 : 0;
+        return KoLCharacter.isPastamancer() ? 1 : 0;
       } else if (monster.equals("Spaghetti Elemental (Inner Sanctum)")) {
-        return KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER && lairTurns >= 4 ? 1 : 0;
+        return KoLCharacter.isPastamancer() && lairTurns >= 4 ? 1 : 0;
       } else if (monster.equals("security slime")) {
-        return KoLCharacter.getClassType() == KoLCharacter.SAUCEROR ? 1 : 0;
+        return KoLCharacter.isSauceror() ? 1 : 0;
       } else if (monster.equals("Lumpy, the Sinister Sauceblob (Inner Sanctum)")) {
-        return KoLCharacter.getClassType() == KoLCharacter.SAUCEROR && lairTurns >= 4 ? 1 : 0;
+        return KoLCharacter.isSauceror() && lairTurns >= 4 ? 1 : 0;
       } else if (monster.equals("daft punk")) {
-        return KoLCharacter.getClassType() == KoLCharacter.DISCO_BANDIT ? 1 : 0;
+        return KoLCharacter.isDiscoBandit() ? 1 : 0;
       } else if (monster.equals("Spirit of New Wave (Inner Sanctum)")) {
-        return KoLCharacter.getClassType() == KoLCharacter.DISCO_BANDIT && lairTurns >= 4 ? 1 : 0;
+        return KoLCharacter.isDiscoBandit() && lairTurns >= 4 ? 1 : 0;
       } else if (monster.equals("mariachi bruiser")) {
-        return KoLCharacter.getClassType() == KoLCharacter.ACCORDION_THIEF ? 1 : 0;
+        return KoLCharacter.isAccordionThief() ? 1 : 0;
       } else if (monster.equals("Somerset Lopez, Dread Mariachi (Inner Sanctum)")) {
-        return KoLCharacter.getClassType() == KoLCharacter.ACCORDION_THIEF && lairTurns >= 4
-            ? 1
-            : 0;
+        return KoLCharacter.isAccordionThief() && lairTurns >= 4 ? 1 : 0;
       }
     } else if (zone.equals("The Slime Tube")) {
       int monsterLevel = (int) KoLCharacter.currentNumericModifier(Modifiers.MONSTER_LEVEL);
