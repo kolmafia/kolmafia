@@ -666,6 +666,7 @@ public class ValhallaManager {
     Preferences.setInteger("youRobotRight", 0);
     Preferences.setInteger("youRobotTop", 0);
     Preferences.setInteger("statbotUses", 0);
+    Preferences.setBoolean("youRobotScavenged", false);
     // Wildfire
     Preferences.setBoolean("wildfireBarrelCaulked", false);
     Preferences.setBoolean("wildfireDusted", false);

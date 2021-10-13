@@ -111,6 +111,7 @@ public class AscensionHistoryRequest extends GenericRequest
     int masksUnlocked = 0;
     int gyfftePoints = 0;
     int plumberPoints = 0;
+    int youRobotPoints = 0;
     int quantumPoints = 0;
     String playerName = null;
     String playerId = null;
@@ -203,6 +204,9 @@ public class AscensionHistoryRequest extends GenericRequest
         case AscensionSnapshot.PATH_OF_THE_PLUMBER:
           plumberPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
           break;
+        case AscensionSnapshot.YOU_ROBOT:
+          youRobotPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
+          break;
         case AscensionSnapshot.QUANTUM:
           quantumPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
           break;
@@ -253,6 +257,9 @@ public class AscensionHistoryRequest extends GenericRequest
     }
     if (plumberPoints > Preferences.getInteger("plumberPoints")) {
       Preferences.setInteger("plumberPoints", (Math.min(plumberPoints, 22)));
+    }
+    if (youRobotPoints > Preferences.getInteger("youRobotPoints")) {
+      Preferences.setInteger("youRobotPoints", (Math.min(youRobotPoints, 37)));
     }
     if (quantumPoints > Preferences.getInteger("quantumPoints")) {
       Preferences.setInteger("quantumPoints", (Math.min(quantumPoints, 11)));
@@ -901,11 +908,16 @@ public class AscensionHistoryRequest extends GenericRequest
                                                                                                                                                                           .GREY_GOO
                                                                                                                                                                       : pathName
                                                                                                                                                                               .equals(
-                                                                                                                                                                                  "Quantum Terrarium")
+                                                                                                                                                                                  "You, Robot")
                                                                                                                                                                           ? AscensionSnapshot
-                                                                                                                                                                              .QUANTUM
-                                                                                                                                                                          : AscensionSnapshot
-                                                                                                                                                                              .UNKNOWN_PATH;
+                                                                                                                                                                              .YOU_ROBOT
+                                                                                                                                                                          : pathName
+                                                                                                                                                                                  .equals(
+                                                                                                                                                                                      "Quantum Terrarium")
+                                                                                                                                                                              ? AscensionSnapshot
+                                                                                                                                                                                  .QUANTUM
+                                                                                                                                                                              : AscensionSnapshot
+                                                                                                                                                                                  .UNKNOWN_PATH;
     }
 
     private void setCurrentColumns(final String[] columns) {
@@ -1130,11 +1142,17 @@ public class AscensionHistoryRequest extends GenericRequest
                                                                                                                                                                     : columns[
                                                                                                                                                                             8]
                                                                                                                                                                             .contains(
-                                                                                                                                                                                "confused")
+                                                                                                                                                                                "robobattery")
                                                                                                                                                                         ? AscensionSnapshot
-                                                                                                                                                                            .QUANTUM
-                                                                                                                                                                        : AscensionSnapshot
-                                                                                                                                                                            .NOPATH;
+                                                                                                                                                                            .YOU_ROBOT
+                                                                                                                                                                        : columns[
+                                                                                                                                                                                8]
+                                                                                                                                                                                .contains(
+                                                                                                                                                                                    "confused")
+                                                                                                                                                                            ? AscensionSnapshot
+                                                                                                                                                                                .QUANTUM
+                                                                                                                                                                            : AscensionSnapshot
+                                                                                                                                                                                .NOPATH;
       } catch (Exception e) {
         // This should not happen.  Therefore, print
         // a stack trace for debug purposes.

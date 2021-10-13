@@ -58,6 +58,7 @@ public class AscensionSnapshot {
   public static final int PATH_OF_THE_PLUMBER = 38;
   public static final int LOWKEY = 39;
   public static final int GREY_GOO = 40;
+  public static final int YOU_ROBOT = 41;
   public static final int QUANTUM = 42;
 
   public static final int UNKNOWN_CLASS = -1;
