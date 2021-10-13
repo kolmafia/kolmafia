@@ -1003,7 +1003,7 @@ public class Parser {
         != null) {
       // {} doesn't have a ; token
       return result;
-    } else if ((result = this.parseValue(scope)) != null) {
+    } else if ((result = this.parseEvaluable(scope)) != null) {
     } else {
       return null;
     }
@@ -2006,7 +2006,7 @@ public class Parser {
     }
 
     // Get an aggregate reference
-    Evaluable aggregate = this.parseValue(parentScope);
+    Evaluable aggregate = this.parseEvaluable(parentScope);
 
     if (aggregate == null || !(aggregate.getType().getBaseType() instanceof AggregateType)) {
       throw this.parseException("Aggregate reference expected");
@@ -2756,7 +2756,7 @@ public class Parser {
     if (operator.equals("!")) {
       oper = new Operator(this.makeLocation(operator), operator.content, this);
       this.readToken(); // !
-      if ((lhs = this.parseValue(scope)) == null) {
+      if ((lhs = this.parseEvaluable(scope)) == null) {
         throw this.parseException("Value expected");
       }
 
@@ -2768,7 +2768,7 @@ public class Parser {
     } else if (operator.equals("~")) {
       oper = new Operator(this.makeLocation(operator), operator.content, this);
       this.readToken(); // ~
-      if ((lhs = this.parseValue(scope)) == null) {
+      if ((lhs = this.parseEvaluable(scope)) == null) {
         throw this.parseException("Value expected");
       }
 
@@ -2779,11 +2779,11 @@ public class Parser {
       }
     } else if (operator.equals("-")) {
       // See if it's a negative numeric constant
-      if ((lhs = this.parseValue(scope)) == null) {
+      if ((lhs = this.parseEvaluable(scope)) == null) {
         // Nope. Unary minus.
         oper = new Operator(this.makeLocation(operator), operator.content, this);
         this.readToken(); // -
-        if ((lhs = this.parseValue(scope)) == null) {
+        if ((lhs = this.parseEvaluable(scope)) == null) {
           throw this.parseException("Value expected");
         }
 
@@ -2799,7 +2799,7 @@ public class Parser {
       }
 
       lhs = new Operation(lhs, oper);
-    } else if ((lhs = this.parseValue(scope)) == null) {
+    } else if ((lhs = this.parseEvaluable(scope)) == null) {
       return null;
     }
 
@@ -2902,7 +2902,7 @@ public class Parser {
     } while (true);
   }
 
-  private Evaluable parseValue(final BasicScope scope) {
+  private Evaluable parseEvaluable(final BasicScope scope) {
     if (this.currentToken().equals(";")) {
       return null;
     }
