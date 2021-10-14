@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.textui.parsetree.LoopContinue;
 import net.sourceforge.kolmafia.textui.parsetree.MapLiteral;
 import net.sourceforge.kolmafia.textui.parsetree.Operation;
 import net.sourceforge.kolmafia.textui.parsetree.Operator;
+import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNode.TypedNode;
 import net.sourceforge.kolmafia.textui.parsetree.PluralValue;
 import net.sourceforge.kolmafia.textui.parsetree.RecordType;
 import net.sourceforge.kolmafia.textui.parsetree.RepeatUntilLoop;
@@ -4076,9 +4077,7 @@ public class Parser {
 
   private ScriptException undefinedFunctionException(
       final String name, final List<Evaluable> params) {
-    return this.parseException(
-        Parser.undefinedFunctionMessage(
-            name, params.stream().map(value -> value.getType()).collect(Collectors.toList())));
+    return this.parseException(Parser.undefinedFunctionMessage(name, params));
   }
 
   private ScriptException multiplyDefinedFunctionException(final Function f) {
@@ -4115,7 +4114,8 @@ public class Parser {
     return new ScriptException(String.format(template, this.shortFileName, target, current));
   }
 
-  public static String undefinedFunctionMessage(final String name, final List<Type> params) {
+  public static String undefinedFunctionMessage(
+      final String name, final List<? extends TypedNode> params) {
     StringBuilder buffer = new StringBuilder();
     buffer.append("Function '");
     Parser.appendFunctionCall(buffer, name, params);
@@ -4160,15 +4160,15 @@ public class Parser {
   }
 
   private static void appendFunctionCall(
-      final StringBuilder buffer, final String name, final List<Type> params) {
+      final StringBuilder buffer, final String name, final List<? extends TypedNode> params) {
     buffer.append(name);
     buffer.append("(");
 
     String sep = " ";
-    for (Type current : params) {
+    for (TypedNode current : params) {
       buffer.append(sep);
       sep = ", ";
-      buffer.append(current);
+      buffer.append(current.getType());
     }
 
     buffer.append(" )");
