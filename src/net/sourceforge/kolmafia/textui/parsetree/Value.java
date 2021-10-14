@@ -473,7 +473,7 @@ public class Value extends ParseTreeNode implements Comparable<Value> {
     }
   }
 
-  public static final Evaluable LocateValue(final Value value) {
+  public static final Evaluable locate(final Value value) {
     if (value == null) {
       return null;
     }

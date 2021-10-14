@@ -27,9 +27,7 @@ public class Assignment extends Evaluable {
   }
 
   public Evaluable getRightHandSide() {
-    return this.rhs == null
-        ? Value.LocateValue(this.lhs.getType().initialValueExpression())
-        : this.rhs;
+    return this.rhs == null ? Value.locate(this.lhs.getType().initialValueExpression()) : this.rhs;
   }
 
   public Type getType() {

@@ -1157,7 +1157,7 @@ public class Parser {
 
     Value result = isArray ? new ArrayLiteral(aggr, values) : new MapLiteral(aggr, keys, values);
 
-    return Value.LocateValue(result);
+    return Value.locate(result);
   }
 
   private Type parseAggregateType(Type dataType, final BasicScope scope) {
@@ -1429,7 +1429,7 @@ public class Parser {
         } else
         // else without condition
         {
-          condition = Value.LocateValue(DataTypes.TRUE_VALUE);
+          condition = Value.locate(DataTypes.TRUE_VALUE);
           finalElse = true;
         }
 
@@ -1569,7 +1569,7 @@ public class Parser {
       throw this.parseException("( or {", this.currentToken());
     }
 
-    Evaluable condition = Value.LocateValue(DataTypes.TRUE_VALUE);
+    Evaluable condition = Value.locate(DataTypes.TRUE_VALUE);
     if (this.currentToken().equals("(")) {
       this.readToken(); // (
 
@@ -1996,7 +1996,7 @@ public class Parser {
       throw this.parseException("Expression for floor/ceiling value expected");
     }
 
-    Evaluable increment = Value.LocateValue(DataTypes.ONE_VALUE);
+    Evaluable increment = Value.locate(DataTypes.ONE_VALUE);
     if (this.currentToken().equalsIgnoreCase("by")) {
       this.readToken(); // by
       increment = this.parseExpression(parentScope);
@@ -2113,7 +2113,7 @@ public class Parser {
 
     Evaluable condition =
         this.currentToken().equals(";")
-            ? Value.LocateValue(DataTypes.TRUE_VALUE)
+            ? Value.locate(DataTypes.TRUE_VALUE)
             : this.parseExpression(scope);
 
     if (this.currentToken().equals(";")) {
@@ -2267,7 +2267,7 @@ public class Parser {
         Evaluable val;
 
         if (this.currentToken().equals(",")) {
-          val = Value.LocateValue(DataTypes.VOID_VALUE);
+          val = Value.locate(DataTypes.VOID_VALUE);
         } else if (this.currentToken().equals("{") && expected instanceof AggregateType) {
           val = this.parseAggregateLiteral(scope, (AggregateType) expected);
         } else {
@@ -2304,7 +2304,7 @@ public class Parser {
       }
     }
 
-    return Value.LocateValue(target.initialValueExpression(params));
+    return Value.locate(target.initialValueExpression(params));
   }
 
   private Evaluable parseCall(final BasicScope scope) {
@@ -2767,13 +2767,13 @@ public class Parser {
 
     else if (this.currentToken().equalsIgnoreCase("true")) {
       this.readToken();
-      result = Value.LocateValue(DataTypes.TRUE_VALUE);
+      result = Value.locate(DataTypes.TRUE_VALUE);
     } else if (this.currentToken().equalsIgnoreCase("false")) {
       this.readToken();
-      result = Value.LocateValue(DataTypes.FALSE_VALUE);
+      result = Value.locate(DataTypes.FALSE_VALUE);
     } else if (this.currentToken().equals("__FILE__")) {
       this.readToken();
-      result = Value.LocateValue(new Value(String.valueOf(this.shortFileName)));
+      result = Value.locate(new Value(String.valueOf(this.shortFileName)));
     }
 
     // numbers
@@ -2849,7 +2849,7 @@ public class Parser {
         throw this.parseException("numeric value", fraction);
       }
 
-      return Value.LocateValue(number);
+      return Value.locate(number);
     }
 
     Token integer = this.currentToken();
@@ -2870,7 +2870,7 @@ public class Parser {
       number = new Value(sign * StringUtilities.parseLong(integer.content));
     }
 
-    return Value.LocateValue(number);
+    return Value.locate(number);
   }
 
   private boolean readIntegerToken(final String token) {
@@ -2958,7 +2958,7 @@ public class Parser {
 
         this.clearCurrentToken();
 
-        Evaluable lhs = Value.LocateValue(new Value(resultString.toString()));
+        Evaluable lhs = Value.locate(new Value(resultString.toString()));
         if (conc == null) {
           conc = new Concatenate(lhs, rhs);
         } else {
@@ -2975,7 +2975,7 @@ public class Parser {
             this.currentLine.makeToken(i + 1); // + 1 to get rid of stop character token
         this.readToken();
 
-        Evaluable result = Value.LocateValue(new Value(resultString.toString()));
+        Evaluable result = Value.locate(new Value(resultString.toString()));
 
         if (conc == null) {
           return result;
@@ -3186,11 +3186,11 @@ public class Parser {
       Value value = this.parsePluralConstant(scope, type);
 
       if (value != null) {
-        return Value.LocateValue(value); // explicit list of values
+        return Value.locate(value); // explicit list of values
       }
       value = type.allValues();
       if (value != null) {
-        return Value.LocateValue(value); // implicit enumeration
+        return Value.locate(value); // implicit enumeration
       }
       throw this.parseException("Can't enumerate all " + name);
     }
@@ -3236,7 +3236,7 @@ public class Parser {
       }
     }
 
-    return Value.LocateValue(result);
+    return Value.locate(result);
   }
 
   private PluralValue parsePluralConstant(final BasicScope scope, final Type type) {
@@ -3471,7 +3471,7 @@ public class Parser {
           throw this.parseException("Field name expected");
         }
 
-        index = Value.LocateValue(rtype.getFieldIndex(field.content));
+        index = Value.locate(rtype.getFieldIndex(field.content));
         if (index != null) {
           type = rtype.getDataType(index);
         } else {
