@@ -164,7 +164,7 @@ public class DataTypes {
 
   public static final Value ITEM_INIT = new Value(DataTypes.ITEM_TYPE, -1, "none");
   public static final Value LOCATION_INIT = new Value(DataTypes.LOCATION_TYPE, "none", null);
-  public static final Value CLASS_INIT = new Value(DataTypes.CLASS_TYPE, -1, "none");
+  public static final Value CLASS_INIT = new Value(DataTypes.CLASS_TYPE, -1, "none", null);
   public static final Value STAT_INIT = new Value(DataTypes.STAT_TYPE, -1, "none");
   public static final Value SKILL_INIT = new Value(DataTypes.SKILL_TYPE, -1, "none");
   public static final Value EFFECT_INIT = new Value(DataTypes.EFFECT_TYPE, -1, "none");

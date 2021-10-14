@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.EdServantData;
@@ -151,7 +152,7 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public Value get_primestat() {
-      int primeIndex = KoLCharacter.getPrimeIndex(this.contentString);
+      int primeIndex = ((AscensionClass) this.content).getPrimeStatIndex();
 
       String name = AdventureResult.STAT_NAMES[primeIndex];
 

@@ -3267,8 +3267,8 @@ public abstract class RuntimeLibrary {
     if (value.getType().equals(DataTypes.INT_TYPE)) {
       int num = (int) value.intValue();
 
-      if (num >= 0 && num < DataTypes.CLASSES.length) {
-        name = DataTypes.CLASSES[num];
+      if (num >= 0) {
+        return DataTypes.makeClassValue(AscensionClass.idToClass(num), true);
       }
     } else {
       name = value.toString();
