@@ -33,8 +33,7 @@ public class LibraryFunctionStub extends AshStub {
     if (function instanceof LibraryFunction) {
       ashFunction = (LibraryFunction) function;
     } else {
-      throw controller.runtimeException(
-          Parser.undefinedFunctionMessage(ashFunctionName, ashArgs));
+      throw controller.runtimeException(Parser.undefinedFunctionMessage(ashFunctionName, ashArgs));
     }
 
     List<Object> ashArgsWithInterpreter = new ArrayList<>(ashArgs.size() + 1);

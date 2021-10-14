@@ -81,8 +81,7 @@ public abstract class AshStub extends BaseFunction {
     Function function = findMatchingFunction(ashArgs);
 
     if (function == null) {
-      throw controller.runtimeException(
-          Parser.undefinedFunctionMessage(ashFunctionName, ashArgs));
+      throw controller.runtimeException(Parser.undefinedFunctionMessage(ashFunctionName, ashArgs));
     }
 
     // Second, infer the type for any missing arguments from the closest function match.
@@ -100,8 +99,7 @@ public abstract class AshStub extends BaseFunction {
     function = findMatchingFunction(ashArgs);
 
     if (function == null) {
-      throw controller.runtimeException(
-          Parser.undefinedFunctionMessage(ashFunctionName, ashArgs));
+      throw controller.runtimeException(Parser.undefinedFunctionMessage(ashFunctionName, ashArgs));
     }
 
     Value ashReturnValue = execute(function, ashArgs);

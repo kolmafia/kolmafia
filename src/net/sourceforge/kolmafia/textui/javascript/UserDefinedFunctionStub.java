@@ -27,8 +27,7 @@ public class UserDefinedFunctionStub extends AshStub {
     if (function instanceof UserDefinedFunction) {
       ashFunction = (UserDefinedFunction) function;
     } else {
-      throw controller.runtimeException(
-          Parser.undefinedFunctionMessage(ashFunctionName, ashArgs));
+      throw controller.runtimeException(Parser.undefinedFunctionMessage(ashFunctionName, ashArgs));
     }
 
     List<Object> ashArgsWithInterpreter = new ArrayList<>(ashArgs.size() + 1);

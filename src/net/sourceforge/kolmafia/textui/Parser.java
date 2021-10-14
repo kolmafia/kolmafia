@@ -3021,8 +3021,7 @@ public class Parser {
         throw this.parseException("numeric value", fraction);
       }
 
-      return Value.locate(
-          this.makeLocation(numberStartToken, this.peekPreviousToken()), number);
+      return Value.locate(this.makeLocation(numberStartToken, this.peekPreviousToken()), number);
     }
 
     Token integer = this.currentToken();
