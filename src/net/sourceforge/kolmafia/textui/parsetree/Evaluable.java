@@ -4,10 +4,6 @@ import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNode.TypedNode;
 import net.sourceforge.kolmafia.textui.parsetree.Value.Constant;
 
 public abstract class Evaluable extends Command implements TypedNode {
-  public Type getRawType() {
-    return this.getType();
-  }
-
   public abstract String toString();
 
   public String toQuotedString() {

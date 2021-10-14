@@ -10,5 +10,10 @@ public interface ParseTreeNode {
 
   public static interface TypedNode extends ParseTreeNode {
     public Type getType();
+
+    public default Type getRawType() {
+      return this.getType();
+    }
+    ;
   }
 }
