@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.textui.parsetree.LoopContinue;
 import net.sourceforge.kolmafia.textui.parsetree.MapLiteral;
 import net.sourceforge.kolmafia.textui.parsetree.Operation;
 import net.sourceforge.kolmafia.textui.parsetree.Operator;
+import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNode.TypedNode;
 import net.sourceforge.kolmafia.textui.parsetree.PluralValue;
 import net.sourceforge.kolmafia.textui.parsetree.RecordType;
 import net.sourceforge.kolmafia.textui.parsetree.RepeatUntilLoop;
@@ -66,7 +67,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.TypeDef;
 import net.sourceforge.kolmafia.textui.parsetree.UserDefinedFunction;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
-import net.sourceforge.kolmafia.textui.parsetree.Value.LocatedValue;
+import net.sourceforge.kolmafia.textui.parsetree.Value.Constant;
 import net.sourceforge.kolmafia.textui.parsetree.VarArgType;
 import net.sourceforge.kolmafia.textui.parsetree.Variable;
 import net.sourceforge.kolmafia.textui.parsetree.VariableList;
@@ -1192,7 +1193,7 @@ public class Parser {
 
     Value result = isArray ? new ArrayLiteral(aggr, values) : new MapLiteral(aggr, keys, values);
 
-    return Value.LocateValue(aggregateLiteralLocation, result);
+    return Value.locate(aggregateLiteralLocation, result);
   }
 
   private Type parseAggregateType(Type dataType, final BasicScope scope) {
@@ -1487,7 +1488,7 @@ public class Parser {
         } else
         // else without condition
         {
-          condition = Value.LocateValue(this.makeZeroWidthLocation(), DataTypes.TRUE_VALUE);
+          condition = Value.locate(this.makeZeroWidthLocation(), DataTypes.TRUE_VALUE);
           finalElse = true;
         }
 
@@ -1639,7 +1640,7 @@ public class Parser {
       throw this.parseException("( or {", this.currentToken());
     }
 
-    Evaluable condition = Value.LocateValue(this.makeZeroWidthLocation(), DataTypes.TRUE_VALUE);
+    Evaluable condition = Value.locate(this.makeZeroWidthLocation(), DataTypes.TRUE_VALUE);
     if (this.currentToken().equals("(")) {
       this.readToken(); // (
 
@@ -1705,11 +1706,11 @@ public class Parser {
           currentInteger = IntegerPool.get(currentIndex);
         }
 
-        if (test instanceof LocatedValue && ((LocatedValue) test).value.getClass() == Value.class) {
-          if (labels.get(((LocatedValue) test).value) != null) {
+        if (test instanceof Constant && ((Constant) test).value.getClass() == Value.class) {
+          if (labels.get(((Constant) test).value) != null) {
             throw this.parseException("Duplicate case label: " + test);
           } else {
-            labels.put(((LocatedValue) test).value, currentInteger);
+            labels.put(((Constant) test).value, currentInteger);
           }
         } else {
           constantLabels = false;
@@ -2105,7 +2106,7 @@ public class Parser {
       throw this.parseException("Expression for floor/ceiling value expected");
     }
 
-    Evaluable increment = Value.LocateValue(last.getLocation(), DataTypes.ONE_VALUE);
+    Evaluable increment = Value.locate(last.getLocation(), DataTypes.ONE_VALUE);
     if (this.currentToken().equalsIgnoreCase("by")) {
       this.readToken(); // by
       increment = this.parseExpression(parentScope);
@@ -2234,7 +2235,7 @@ public class Parser {
 
     Evaluable condition =
         this.currentToken().equals(";")
-            ? Value.LocateValue(this.makeZeroWidthLocation(), DataTypes.TRUE_VALUE)
+            ? Value.locate(this.makeZeroWidthLocation(), DataTypes.TRUE_VALUE)
             : this.parseExpression(scope);
 
     if (this.currentToken().equals(";")) {
@@ -2403,7 +2404,7 @@ public class Parser {
         Evaluable val;
 
         if (this.currentToken().equals(",")) {
-          val = Value.LocateValue(this.makeZeroWidthLocation(), DataTypes.VOID_VALUE);
+          val = Value.locate(this.makeZeroWidthLocation(), DataTypes.VOID_VALUE);
         } else if (this.currentToken().equals("{") && expected instanceof AggregateType) {
           val = this.parseAggregateLiteral(scope, (AggregateType) expected);
         } else {
@@ -2441,14 +2442,14 @@ public class Parser {
     }
 
     Location newRecordLocation = this.makeLocation(newRecordStartToken, this.peekPreviousToken());
-    return Value.LocateValue(newRecordLocation, target.initialValueExpression(params));
+    return Value.locate(newRecordLocation, target.initialValueExpression(params));
   }
 
   private Evaluable parseCall(final BasicScope scope) {
     return this.parseCall(scope, null);
   }
 
-  private Evaluable parseCall(final BasicScope scope, final VariableReference firstParam) {
+  private Evaluable parseCall(final BasicScope scope, final Evaluable firstParam) {
     if (!"(".equals(this.nextToken())) {
       return null;
     }
@@ -2480,8 +2481,7 @@ public class Parser {
     return this.parsePostCall(scope, call);
   }
 
-  private List<Evaluable> parseParameters(
-      final BasicScope scope, final VariableReference firstParam) {
+  private List<Evaluable> parseParameters(final BasicScope scope, final Evaluable firstParam) {
     if (!this.currentToken().equals("(")) {
       return null;
     }
@@ -2682,7 +2682,7 @@ public class Parser {
     return lhs;
   }
 
-  private IncDec parsePreIncDec(final BasicScope scope) {
+  private Evaluable parsePreIncDec(final BasicScope scope) {
     if (this.nextToken() == null) {
       return null;
     }
@@ -2700,7 +2700,7 @@ public class Parser {
     this.readToken(); // oper
 
     Evaluable lhs = this.parseVariableReference(scope);
-    if (!(lhs instanceof VariableReference)) {
+    if (lhs == null) {
       throw this.parseException("Variable reference expected");
     }
 
@@ -2934,14 +2934,14 @@ public class Parser {
 
     else if (valueStartToken.equalsIgnoreCase("true")) {
       this.readToken();
-      result = Value.LocateValue(this.makeLocation(valueStartToken), DataTypes.TRUE_VALUE);
+      result = Value.locate(this.makeLocation(valueStartToken), DataTypes.TRUE_VALUE);
     } else if (valueStartToken.equalsIgnoreCase("false")) {
       this.readToken();
-      result = Value.LocateValue(this.makeLocation(valueStartToken), DataTypes.FALSE_VALUE);
+      result = Value.locate(this.makeLocation(valueStartToken), DataTypes.FALSE_VALUE);
     } else if (valueStartToken.equals("__FILE__")) {
       this.readToken();
       result =
-          Value.LocateValue(
+          Value.locate(
               this.makeLocation(valueStartToken), new Value(String.valueOf(this.shortFileName)));
     }
 
@@ -3021,7 +3021,7 @@ public class Parser {
         throw this.parseException("numeric value", fraction);
       }
 
-      return Value.LocateValue(
+      return Value.locate(
           this.makeLocation(numberStartToken, this.peekPreviousToken()), number);
     }
 
@@ -3043,7 +3043,7 @@ public class Parser {
       number = new Value(sign * StringUtilities.parseLong(integer.content));
     }
 
-    return Value.LocateValue(this.makeLocation(numberStartToken, this.peekPreviousToken()), number);
+    return Value.locate(this.makeLocation(numberStartToken, this.peekPreviousToken()), number);
   }
 
   private boolean readIntegerToken(final String token) {
@@ -3134,7 +3134,7 @@ public class Parser {
         this.clearCurrentToken();
 
         Evaluable lhs =
-            Value.LocateValue(
+            Value.locate(
                 this.makeLocation(stringStartPosition), new Value(resultString.toString()));
         if (conc == null) {
           conc = new Concatenate(lhs, rhs);
@@ -3154,7 +3154,7 @@ public class Parser {
         this.readToken();
 
         Evaluable result =
-            Value.LocateValue(
+            Value.locate(
                 this.makeLocation(stringStartPosition), new Value(resultString.toString()));
 
         if (conc == null) {
@@ -3373,11 +3373,11 @@ public class Parser {
           this.makeLocation(typedConstantStartToken, this.peekPreviousToken());
 
       if (value != null) {
-        return Value.LocateValue(typedConstantLocation, value); // explicit list of values
+        return Value.locate(typedConstantLocation, value); // explicit list of values
       }
       value = type.allValues();
       if (value != null) {
-        return Value.LocateValue(typedConstantLocation, value); // implicit enumeration
+        return Value.locate(typedConstantLocation, value); // implicit enumeration
       }
       throw this.parseException("Can't enumerate all " + name);
     }
@@ -3423,7 +3423,7 @@ public class Parser {
       }
     }
 
-    return Value.LocateValue(
+    return Value.locate(
         this.makeLocation(typedConstantStartToken, this.peekPreviousToken()), result);
   }
 
@@ -3661,7 +3661,7 @@ public class Parser {
           throw this.parseException("Field name expected");
         }
 
-        index = Value.LocateValue(this.makeLocation(field), rtype.getFieldIndex(field.content));
+        index = Value.locate(this.makeLocation(field), rtype.getFieldIndex(field.content));
         if (index != null) {
           type = rtype.getDataType(index);
         } else {
@@ -4369,10 +4369,8 @@ public class Parser {
   }
 
   private ScriptException undefinedFunctionException(
-      final String name, final List<Evaluable> params) {
-    return this.parseException(
-        Parser.undefinedFunctionMessage(
-            name, params.stream().map(value -> value.getType()).collect(Collectors.toList())));
+      final String name, final List<? extends TypedNode> params) {
+    return this.parseException(Parser.undefinedFunctionMessage(name, params));
   }
 
   private ScriptException multiplyDefinedFunctionException(final Function f) {
@@ -4409,7 +4407,8 @@ public class Parser {
     return new ScriptException(String.format(template, this.shortFileName, target, current));
   }
 
-  public static String undefinedFunctionMessage(final String name, final List<Type> params) {
+  public static String undefinedFunctionMessage(
+      final String name, final List<? extends TypedNode> params) {
     StringBuilder buffer = new StringBuilder();
     buffer.append("Function '");
     Parser.appendFunctionCall(buffer, name, params);
@@ -4454,12 +4453,12 @@ public class Parser {
   }
 
   private static void appendFunctionCall(
-      final StringBuilder buffer, final String name, final List<Type> params) {
+      final StringBuilder buffer, final String name, final List<? extends TypedNode> params) {
     buffer.append(name);
     buffer.append("(");
 
     String sep = " ";
-    for (Type current : params) {
+    for (TypedNode current : params) {
       buffer.append(sep);
       sep = ", ";
       buffer.append(current);

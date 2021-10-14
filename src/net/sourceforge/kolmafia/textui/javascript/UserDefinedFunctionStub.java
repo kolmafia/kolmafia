@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.textui.javascript;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
@@ -29,9 +28,7 @@ public class UserDefinedFunctionStub extends AshStub {
       ashFunction = (UserDefinedFunction) function;
     } else {
       throw controller.runtimeException(
-          Parser.undefinedFunctionMessage(
-              ashFunctionName,
-              ashArgs.stream().map(value -> value.getType()).collect(Collectors.toList())));
+          Parser.undefinedFunctionMessage(ashFunctionName, ashArgs));
     }
 
     List<Object> ashArgsWithInterpreter = new ArrayList<>(ashArgs.size() + 1);

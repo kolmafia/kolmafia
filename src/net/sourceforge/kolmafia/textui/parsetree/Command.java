@@ -2,7 +2,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import org.eclipse.lsp4j.Location;
 
-public abstract class Command extends ParseTreeNode {
+public abstract class Command implements ParseTreeNode {
   private Location location;
 
   public Command(final Location location) {

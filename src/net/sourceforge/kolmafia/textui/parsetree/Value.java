@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Parser;
+import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNode.TypedNode;
 import org.eclipse.lsp4j.Location;
 import org.json.JSONException;
 
@@ -20,10 +21,10 @@ import org.json.JSONException;
  * A concrete value, either computed as a result of executing a {@link Command} or created
  * artificially.
  *
- * <p>Is forbidden from interacting with {@link Parser} other than through {@link LocatedValue}. See
- * it as some sort of... hazmat suit..?
+ * <p>Is forbidden from interacting with {@link Parser} other than through {@link Constant}. See it
+ * as some sort of... hazmat suit..?
  */
-public class Value extends ParseTreeNode implements Comparable<Value> {
+public class Value implements TypedNode, Comparable<Value> {
   public Type type;
 
   public long contentLong = 0;
@@ -114,6 +115,7 @@ public class Value extends ParseTreeNode implements Comparable<Value> {
     return DataTypes.makeBooleanValue(this.contentLong != 0);
   }
 
+  @Override
   public Type getType() {
     return this.type.getBaseType();
   }
@@ -475,35 +477,28 @@ public class Value extends ParseTreeNode implements Comparable<Value> {
   }
 
   /**
-   * Returns a {@link LocatedValue} holding {@code value} and {@code location}.
+   * Returns a {@link Constant} holding {@code value} and {@code location}.
    *
    * <p>If {@code value} is {@code null}, returns {@code null}.
    */
-  public static final Evaluable LocateValue(final Location location, final Value value) {
+  public static final Evaluable locate(final Location location, final Value value) {
     if (value == null) {
       return null;
     }
 
-    return new LocatedValue(value, location);
+    return new Constant(location, value);
   }
 
   /**
-   * {@link Value}s are used in various ways outside of {@link Parser}. From constants to instances
-   * made at runtime (i.e. dynamically), we can't force {@link Value} to hold a {@link Location}
-   * without imposing an useless burden on the rest of KoLmafia, and tons of null checks.
-   *
-   * <p>So instead, we use this class to pass around locations throughout {@link Parser}.
+   * A specific {@link Value} to which is assigned a {@link Location}, that can be carried across
+   * {@link Parser}.
    *
    * <p>{@link #value} is never {@code null}.
-   *
-   * <p>It is recommended to store this type's generic with the {@code ? extends} capture group,
-   * regardless of if you are certain of the content's datatype, to allow type casting to be as easy
-   * as casting the type of {@link #value} itself.
    */
-  public static final class LocatedValue extends Evaluable {
+  public static final class Constant extends Evaluable {
     public final Value value;
 
-    private LocatedValue(final Value value, final Location location) {
+    private Constant(final Location location, final Value value) {
       super(location);
       this.value = value;
     }

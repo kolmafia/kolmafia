@@ -475,8 +475,6 @@ public class AshRuntime extends AbstractRuntime {
 
   public final ScriptException undefinedFunctionException(
       final String name, final List<Evaluable> params) {
-    return this.runtimeException(
-        Parser.undefinedFunctionMessage(
-            name, params.stream().map(value -> value.getType()).collect(Collectors.toList())));
+    return this.runtimeException(Parser.undefinedFunctionMessage(name, params));
   }
 }

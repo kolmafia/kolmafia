@@ -38,10 +38,11 @@ public class Assignment extends Evaluable {
 
   public Evaluable getRightHandSide() {
     return this.rhs == null
-        ? Value.LocateValue(this.lhs.getLocation(), this.lhs.getType().initialValueExpression())
+        ? Value.locate(this.lhs.getLocation(), this.lhs.getType().initialValueExpression())
         : this.rhs;
   }
 
+  @Override
   public Type getType() {
     return this.lhs.getType();
   }
