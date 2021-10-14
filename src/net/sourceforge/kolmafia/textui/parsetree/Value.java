@@ -116,7 +116,7 @@ public class Value implements TypedNode, Comparable<Value> {
 
   @Override
   public Type getType() {
-    return this.type.getBaseType(); 
+    return this.type.getBaseType();
   }
 
   @Override
