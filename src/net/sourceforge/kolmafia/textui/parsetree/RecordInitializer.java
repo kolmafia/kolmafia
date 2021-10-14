@@ -6,9 +6,9 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class RecordInitializer extends TypeInitializer {
-  List<Value> params;
+  private List<Evaluable> params;
 
-  public RecordInitializer(final RecordType type, List<Value> params) {
+  public RecordInitializer(final RecordType type, List<Evaluable> params) {
     super(type);
     this.params = params;
   }
@@ -23,8 +23,8 @@ public class RecordInitializer extends TypeInitializer {
     interpreter.traceIndent();
 
     int fieldCount = 0;
-    for (Value fieldValue : this.params) {
-      if (fieldValue == DataTypes.VOID_VALUE) {
+    for (Evaluable fieldValue : this.params) {
+      if (fieldValue.evaluatesTo(DataTypes.VOID_VALUE)) {
         fieldCount++;
         continue;
       }

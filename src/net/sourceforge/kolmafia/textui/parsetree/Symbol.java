@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
-public abstract class Symbol extends ParseTreeNode implements Comparable<Symbol> {
+public abstract class Symbol implements ParseTreeNode, Comparable<Symbol> {
   public final String name;
 
   public Symbol(final String name) {

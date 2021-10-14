@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -15,6 +16,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.SendMailRequest;
+import net.sourceforge.kolmafia.textui.parsetree.Evaluable;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
 import net.sourceforge.kolmafia.textui.parsetree.Scope;
@@ -472,7 +474,9 @@ public class AshRuntime extends AbstractRuntime {
   }
 
   public final ScriptException undefinedFunctionException(
-      final String name, final List<Value> params) {
-    return this.runtimeException(Parser.undefinedFunctionMessage(name, params));
+      final String name, final List<Evaluable> params) {
+    return this.runtimeException(
+        Parser.undefinedFunctionMessage(
+            name, params.stream().map(value -> value.getType()).collect(Collectors.toList())));
   }
 }

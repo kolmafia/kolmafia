@@ -61,7 +61,7 @@ public class SwitchScope extends BasicScope {
   public void print(
       final PrintStream stream,
       final int indent,
-      Value[] tests,
+      Evaluable[] tests,
       Integer[] offsets,
       int defaultIndex) {
     AshRuntime.indentLine(stream, indent);
@@ -83,7 +83,7 @@ public class SwitchScope extends BasicScope {
 
     for (int index = 0; index < commandCount; ++index) {
       while (testIndex < testCount) {
-        Value test = tests[testIndex];
+        Evaluable test = tests[testIndex];
         Integer offset = offsets[testIndex];
         if (offset.intValue() != index) {
           break;
