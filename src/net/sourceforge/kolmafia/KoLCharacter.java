@@ -865,7 +865,7 @@ public abstract class KoLCharacter {
    * @return The index of the prime stat
    */
   public static final int getPrimeIndex() {
-    return ascensionClass == null ? -1 : ascensionClass.getPrimeStatIndex();
+    return ascensionClass == null ? 0 : ascensionClass.getPrimeStatIndex();
   }
 
   /**
@@ -1228,7 +1228,7 @@ public abstract class KoLCharacter {
   }
 
   public static final boolean isMuscleClass() {
-    return ascensionClass.getPrimeStatIndex() == 0;
+    return ascensionClass != null && ascensionClass.getPrimeStatIndex() == 0;
   }
 
   public static final boolean isAvatarOfBoris() {
@@ -1240,7 +1240,7 @@ public abstract class KoLCharacter {
   }
 
   public static final boolean isMysticalityClass() {
-    return ascensionClass.getPrimeStatIndex() == 1;
+    return ascensionClass != null && ascensionClass.getPrimeStatIndex() == 1;
   }
 
   public static final boolean isVampyre() {
@@ -1248,7 +1248,7 @@ public abstract class KoLCharacter {
   }
 
   public static final boolean isMoxieClass() {
-    return ascensionClass.getPrimeStatIndex() == 2;
+    return ascensionClass != null && ascensionClass.getPrimeStatIndex() == 2;
   }
 
   public static final boolean isAWoLClass() {
@@ -1258,7 +1258,7 @@ public abstract class KoLCharacter {
   }
 
   public static final Stat mainStat() {
-    return ascensionClass.getMainStat();
+    return ascensionClass == null ? Stat.NONE : ascensionClass.getMainStat();
   }
 
   public static final void setLimitmode(String limitmode) {
