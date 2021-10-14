@@ -20,7 +20,7 @@ import org.json.JSONException;
  * A concrete value, either computed as a result of executing a {@link Command} or created
  * artificially.
  *
- * <p>Is forbidden from interacting with {@link Parser} other than through {@link LocatedValue}. See
+ * <p>Is forbidden from interacting with {@link Parser} other than through {@link Constant}. See
  * it as some sort of... hazmat suit..?
  */
 public class Value implements TypedNode, Comparable<Value> {
@@ -480,13 +480,14 @@ public class Value implements TypedNode, Comparable<Value> {
       return null;
     }
 
-    return new LocatedValue(value);
+    return new Constant(value);
   }
 
-  public static final class LocatedValue extends Evaluable {
+  /** A specific {@link Value}, that can be carried across {@link Parser}. */
+  public static final class Constant extends Evaluable {
     public final Value value;
 
-    private LocatedValue(final Value value) {
+    private Constant(final Value value) {
       this.value = value;
     }
 

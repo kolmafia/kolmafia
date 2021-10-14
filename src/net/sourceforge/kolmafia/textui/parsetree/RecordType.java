@@ -54,12 +54,12 @@ public class RecordType extends CompositeType {
 
   @Override
   public Type getDataType(final Object key) {
-    if (!(key instanceof Value) && !(key instanceof Value.LocatedValue)) {
+    if (!(key instanceof Value) && !(key instanceof Value.Constant)) {
       throw new ScriptException("Internal error: key is not a Value");
     }
 
     Value value =
-        key instanceof Value.LocatedValue ? ((Value.LocatedValue) key).value : (Value) key;
+        key instanceof Value.Constant ? ((Value.Constant) key).value : (Value) key;
     int index = this.indexOf(value);
     if (index < 0 || index >= this.fieldTypes.length) {
       return null;

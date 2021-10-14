@@ -65,7 +65,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.TypeDef;
 import net.sourceforge.kolmafia.textui.parsetree.UserDefinedFunction;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
-import net.sourceforge.kolmafia.textui.parsetree.Value.LocatedValue;
+import net.sourceforge.kolmafia.textui.parsetree.Value.Constant;
 import net.sourceforge.kolmafia.textui.parsetree.VarArgType;
 import net.sourceforge.kolmafia.textui.parsetree.Variable;
 import net.sourceforge.kolmafia.textui.parsetree.VariableList;
@@ -1633,11 +1633,11 @@ public class Parser {
           currentInteger = IntegerPool.get(currentIndex);
         }
 
-        if (test instanceof LocatedValue && ((LocatedValue) test).value.getClass() == Value.class) {
-          if (labels.get(((LocatedValue) test).value) != null) {
+        if (test instanceof Constant && ((Constant) test).value.getClass() == Value.class) {
+          if (labels.get(((Constant) test).value) != null) {
             throw this.parseException("Duplicate case label: " + test);
           } else {
-            labels.put(((LocatedValue) test).value, currentInteger);
+            labels.put(((Constant) test).value, currentInteger);
           }
         } else {
           constantLabels = false;
