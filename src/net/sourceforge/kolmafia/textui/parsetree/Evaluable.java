@@ -1,8 +1,8 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
-public abstract class Evaluable extends Command {
-  public abstract Type getType();
+import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNode.TypedNode;
 
+public abstract class Evaluable extends Command implements TypedNode {
   public Type getRawType() {
     return this.getType();
   }

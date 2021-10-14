@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Parser;
+import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNode.TypedNode;
 import org.json.JSONException;
 
 /**
@@ -22,7 +23,7 @@ import org.json.JSONException;
  * <p>Is forbidden from interacting with {@link Parser} other than through {@link LocatedValue}. See
  * it as some sort of... hazmat suit..?
  */
-public class Value extends ParseTreeNode implements Comparable<Value> {
+public class Value implements TypedNode, Comparable<Value> {
   public Type type;
 
   public long contentLong = 0;
@@ -113,6 +114,7 @@ public class Value extends ParseTreeNode implements Comparable<Value> {
     return DataTypes.makeBooleanValue(this.contentLong != 0);
   }
 
+  @Override
   public Type getType() {
     return this.type.getBaseType();
   }

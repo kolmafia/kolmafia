@@ -19,6 +19,7 @@ public class IncDec extends Evaluable {
     return this.lhs;
   }
 
+  @Override
   public Type getType() {
     return this.lhs.getType();
   }

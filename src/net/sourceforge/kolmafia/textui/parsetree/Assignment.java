@@ -30,6 +30,7 @@ public class Assignment extends Evaluable {
     return this.rhs == null ? Value.locate(this.lhs.getType().initialValueExpression()) : this.rhs;
   }
 
+  @Override
   public Type getType() {
     return this.lhs.getType();
   }
