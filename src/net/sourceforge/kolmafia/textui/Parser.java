@@ -4368,7 +4368,7 @@ public class Parser {
   }
 
   private ScriptException undefinedFunctionException(
-      final String name, final List<? extends TypedNode> params) {
+      final String name, final List<Evaluable> params) {
     return this.parseException(Parser.undefinedFunctionMessage(name, params));
   }
 
@@ -4460,7 +4460,7 @@ public class Parser {
     for (TypedNode current : params) {
       buffer.append(sep);
       sep = ", ";
-      buffer.append(current);
+      buffer.append(current.getType());
     }
 
     buffer.append(" )");
