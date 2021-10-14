@@ -20,8 +20,8 @@ import org.json.JSONException;
  * A concrete value, either computed as a result of executing a {@link Command} or created
  * artificially.
  *
- * <p>Is forbidden from interacting with {@link Parser} other than through {@link Constant}. See
- * it as some sort of... hazmat suit..?
+ * <p>Is forbidden from interacting with {@link Parser} other than through {@link Constant}. See it
+ * as some sort of... hazmat suit..?
  */
 public class Value implements TypedNode, Comparable<Value> {
   public Type type;

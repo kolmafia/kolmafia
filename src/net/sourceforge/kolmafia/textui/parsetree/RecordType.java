@@ -58,8 +58,7 @@ public class RecordType extends CompositeType {
       throw new ScriptException("Internal error: key is not a Value");
     }
 
-    Value value =
-        key instanceof Value.Constant ? ((Value.Constant) key).value : (Value) key;
+    Value value = key instanceof Value.Constant ? ((Value.Constant) key).value : (Value) key;
     int index = this.indexOf(value);
     if (index < 0 || index >= this.fieldTypes.length) {
       return null;
