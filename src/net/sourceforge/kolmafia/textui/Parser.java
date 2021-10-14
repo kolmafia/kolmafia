@@ -4380,7 +4380,7 @@ public class Parser {
   private ScriptException overridesLibraryFunctionException(final Function f) {
     String buffer = "Function '" + f.getSignature() + "' overrides a library function.";
     return this.parseException(buffer);
-  } 
+  }
 
   private ScriptException varargClashException(final Function f, final Function clash) {
     String buffer =
