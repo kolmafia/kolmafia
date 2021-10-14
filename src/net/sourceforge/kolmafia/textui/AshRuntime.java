@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
-import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -475,8 +474,6 @@ public class AshRuntime extends AbstractRuntime {
 
   public final ScriptException undefinedFunctionException(
       final String name, final List<Evaluable> params) {
-    return this.runtimeException(
-        Parser.undefinedFunctionMessage(
-            name, params.stream().map(value -> value.getType()).collect(Collectors.toList())));
+    return this.runtimeException(Parser.undefinedFunctionMessage(name, params));
   }
 }
