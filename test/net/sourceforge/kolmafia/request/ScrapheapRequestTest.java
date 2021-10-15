@@ -16,19 +16,18 @@ import org.junit.jupiter.api.Test;
 public class ScrapheapRequestTest extends RequestTestBase {
 
   @BeforeEach
-  private void initEach() {
-    Preferences.saveSettingsToFile = false;
+   protected void initEach() {
     KoLCharacter.reset("fakeUserName");
+    Preferences.saveSettingsToFile = false;
   }
 
   @AfterEach
-  private void tidyUp() {
+  protected void tidyUp() {
     KoLCharacter.reset("");
     Preferences.saveSettingsToFile = true;
   }
 
   private synchronized int parseActivations(String path) throws IOException {
-    KoLCharacter.reset("fakeUserName");
 
     String html = Files.readString(Paths.get(path));
     var req = new ScrapheapRequest("sh_chrono");

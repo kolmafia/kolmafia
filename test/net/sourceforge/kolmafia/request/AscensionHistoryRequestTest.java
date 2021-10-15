@@ -14,14 +14,14 @@ import org.junit.jupiter.api.Test;
 public class AscensionHistoryRequestTest extends RequestTestBase {
 
   @BeforeAll
-  private static void init() {
+  protected static void init() {
     Preferences.saveSettingsToFile = false;
     KoLCharacter.reset("the Tristero");
     KoLCharacter.setUserId(177122);
   }
 
   @AfterAll
-  private static void tidyUp() {
+  protected static void tidyUp() {
     KoLCharacter.reset("");
     KoLCharacter.setUserId(0);
     Preferences.saveSettingsToFile = true;
@@ -29,28 +29,26 @@ public class AscensionHistoryRequestTest extends RequestTestBase {
 
   @Test
   public void parseAscensionHistory() throws IOException {
-    KoLCharacter.reset("the Tristero");
-
     String html = Files.readString(Paths.get("request/test_ascensionhistory.html"));
 
     AscensionHistoryRequest.parseResponse("ascensionhistory.php?who=177122", html);
 
-    assertEquals(43, Preferences.getInteger("borisPoints"));
-    assertEquals(31, Preferences.getInteger("zombiePoints"));
-    assertEquals(15, Preferences.getInteger("jarlsbergPoints"));
-    assertEquals(15, Preferences.getInteger("sneakyPetePoints"));
-    assertEquals(28, Preferences.getInteger("edPoints"));
-    assertEquals(5, Preferences.getInteger("awolPointsCowpuncher"));
-    assertEquals(5, Preferences.getInteger("awolPointsBeanslinger"));
-    assertEquals(8, Preferences.getInteger("awolPointsSnakeoiler"));
-    assertEquals(13, Preferences.getInteger("sourcePoints"));
-    assertEquals(9, Preferences.getInteger("noobPoints"));
-    assertEquals(24, Preferences.getInteger("bondPoints"));
-    assertEquals(10, Preferences.getInteger("gloverPoints"), "Glover Points Mismatch");
-    assertEquals(3, Preferences.getInteger("masksUnlocked"));
-    assertEquals(23, Preferences.getInteger("darkGyfftePoints"));
-    assertEquals(22, Preferences.getInteger("plumberPoints"));
-    assertEquals(3, Preferences.getInteger("youRobotPoints"));
-    assertEquals(0, Preferences.getInteger("quantumPoints"));
+    assertEquals(43, Preferences.getInteger("borisPoints"), "Boris ascensions mismatch");
+    assertEquals(31, Preferences.getInteger("zombiePoints"), "Zombie ascensions mismatch");
+    assertEquals(15, Preferences.getInteger("jarlsbergPoints"),"Jarlsberg ascensions mismatch");
+    assertEquals(15, Preferences.getInteger("sneakyPetePoints"),"Sneaky Pete ascensions mismatch");
+    assertEquals(28, Preferences.getInteger("edPoints"),"Ed ascensions mismatch");
+    assertEquals(5, Preferences.getInteger("awolPointsCowpuncher"), "Cowpuncher ascensions mismatch");
+    assertEquals(5, Preferences.getInteger("awolPointsBeanslinger"), "Beanslinger ascensions mismatch");
+    assertEquals(8, Preferences.getInteger("awolPointsSnakeoiler"),"Snake Oiler ascensions mismatch");
+    assertEquals(13, Preferences.getInteger("sourcePoints"),"The Source ascensions mismatch");
+    assertEquals(9, Preferences.getInteger("noobPoints"),"Gelatinous Noob ascensions mismatch");
+    assertEquals(24, Preferences.getInteger("bondPoints"),"Bond ascensions mismatch");
+    assertEquals(10, Preferences.getInteger("gloverPoints"), "G-Lover ascensions mismatch");
+    assertEquals(3, Preferences.getInteger("masksUnlocked"), "Masks Unlocked mismatch");
+    assertEquals(23, Preferences.getInteger("darkGyfftePoints"), "Dark Gyffte ascensions mismatch");
+    assertEquals(22, Preferences.getInteger("plumberPoints"), "Plumber ascensions mismatch");
+    assertEquals(3, Preferences.getInteger("youRobotPoints"), "You, Robot ascensions mismatch");
+    assertEquals(0, Preferences.getInteger("quantumPoints"), "Qauntum ascensions mismatch");
   }
 }
