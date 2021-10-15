@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
-public abstract class Command extends ParseTreeNode {
+public abstract class Command implements ParseTreeNode {
   // A barrier is any code construct that is fundamentally incapable of
   // completing normally; any subsequent code in the same scope is
   // therefore dead code (exception: case labels can make code live again).

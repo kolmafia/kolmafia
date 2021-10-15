@@ -7,7 +7,7 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class Else extends Conditional {
-  public Else(final Scope scope, final Value condition) {
+  public Else(final Scope scope, final Evaluable condition) {
     super(scope, condition);
   }
 

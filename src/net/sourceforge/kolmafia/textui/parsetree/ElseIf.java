@@ -4,7 +4,7 @@ import java.io.PrintStream;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 
 public class ElseIf extends Conditional {
-  public ElseIf(final Scope scope, final Value condition) {
+  public ElseIf(final Scope scope, final Evaluable condition) {
     super(scope, condition);
   }
 

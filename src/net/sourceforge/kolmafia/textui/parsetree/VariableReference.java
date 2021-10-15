@@ -4,7 +4,7 @@ import java.io.PrintStream;
 import java.util.List;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 
-public class VariableReference extends Value {
+public class VariableReference extends Evaluable implements Comparable<VariableReference> {
   public final Variable target;
 
   public VariableReference(final Variable target) {
@@ -25,13 +25,13 @@ public class VariableReference extends Value {
     return this.target.getName();
   }
 
-  public List<Value> getIndices() {
+  public List<Evaluable> getIndices() {
     return null;
   }
 
   @Override
-  public int compareTo(final Value o) {
-    return this.target.getName().compareTo(((VariableReference) o).target.getName());
+  public int compareTo(final VariableReference o) {
+    return this.target.getName().compareTo(o.target.getName());
   }
 
   @Override

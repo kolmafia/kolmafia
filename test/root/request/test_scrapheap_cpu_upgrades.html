@@ -1,0 +1,94 @@
+<html><head>
+  <script language=Javascript>
+<!--
+if (parent.frames.length == 0) location.href="game.php";
+//-->
+</script>
+  <script language=Javascript src="https://s3.amazonaws.com/images.kingdomofloathing.com/scripts/jquery-1.5.1.js"></script>
+  <script language=Javascript src="https://s3.amazonaws.com/images.kingdomofloathing.com/scripts/keybinds.min.2.js"></script>
+  <script language=Javascript src="https://s3.amazonaws.com/images.kingdomofloathing.com/scripts/window.20111231.js"></script>
+  <script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script>
+function switchFocus()
+{
+	if (top.chatpane.document.chatform.graf.focus)
+		top.chatpane.document.chatform.graf.focus();
+	return false;
+}
+function repeat()
+{
+	var linx = document.getElementsByTagName("A");
+	for (var i = 0; i < linx.length; i++)
+	{
+		if (typeof timersfunc != 'undefined') {
+			if (!timersfunc()) {
+				return;
+			}
+			timersfunc = null;
+		}
+		var link = linx[i];
+		if (link.innerHTML.match(/Adventure Again/) || link.innerHTML.match(/Do it again/))
+			location.href = link.href;
+	}
+}
+
+defaultBind(47, CTRL, switchFocus);
+defaultBind(191, CTRL, switchFocus);
+defaultBind(47, META, switchFocus);
+defaultBind(191, META, switchFocus);
+defaultBind(192, NONE, repeat);
+defaultBind(220, NONE, repeat);
+</script><script language="javascript">
+	function updateParseItem(iid, field, info) {
+		var tbl = $('#ic'+iid);
+		var data = parseItem(tbl);
+		if (!data) return;
+		data[field] = info;
+		var out = [];
+		for (i in data) {
+			if (!data.hasOwnProperty(i)) continue;
+			out.push(i+'='+data[i]);
+		}
+		tbl.attr('rel', out.join('&'));
+	}
+	function parseItem(tbl) {
+		tbl = $(tbl);
+		var rel = tbl.attr('rel');
+		var data = {};
+		if (!rel) return data;
+		var parts = rel.split('&');
+		for (i in parts) {
+			if (!parts.hasOwnProperty(i)) continue;
+			var kv = parts[i].split('=');
+			tbl.data(kv[0], kv[1]);
+			data[kv[0]] = kv[1];
+		}
+		return data;
+	}
+</script><script type="text/javascript" src="https://s3.amazonaws.com/images.kingdomofloathing.com/scripts/pop_query.20130705.js"></script>
+  <script type="text/javascript"> function pop_ircm(clicked) { return false; } </script><script>
+
+var currentkey = 49;
+$(document).ready(function () {
+	$('form').each(function () {
+		var form = this;
+		defaultBind(currentkey++, NONE, function () { form.submit(); });
+		return currentkey < 58;
+	});
+});
+
+</script>	<link rel="stylesheet" type="text/css" href="https://s3.amazonaws.com/images.kingdomofloathing.com/styles.20151006.css">
+  <style type='text/css'>
+.faded {
+	zoom: 1;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	-khtml-opacity: 0.35;
+    -moz-opacity: 0.35;
+}
+</style>
+
+</head>
+
+<body>
+</center><div style='max-height:200px;overflow:auto;margin-left:2.5%;margin-right:2.5%'><font size=1></font></div><center><Center><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>Reassembly Station</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><table width=100% ><tr><td width=350 valign=top><table cellpadding=10><tr><td colspan="3" valign=top align="center"><a href="/choice.php?whichchoice=1445&show=cpus">CPU Upgrades</a><br><br><a href="/choice.php?whichchoice=1445&show=top">Top<br>Attachment</a></td></tr><tr><td><br><a href="/choice.php?whichchoice=1445&show=left">Left<br>Arm</a></td><td><div style="position: relative; height: 150px; width: 150px"><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/robot/left4.png" height="150" width="150" style="position: absolute; top: 0; left: 0" /><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/robot/right5.png" height="150" width="150" style="position: absolute; top: 0; left: 0" /><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/robot/top2.png" height="150" width="150" style="position: absolute; top: 0; left: 0" /><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/robot/bottom6.png" height="150" width="150" style="position: absolute; top: 0; left: 0" /></div></td><td><br><a href="/choice.php?whichchoice=1445&show=right">Right<br>Arm</a></td></tr><tr><td colspan="3" align="center"><br><a href="/choice.php?whichchoice=1445&show=bottom">Propulsion<br>System</a></td></tr></table></td><td width=450><form method="post" action="/choice.php"><input type="hidden" name="pwd" value="random pwd"><input type="hidden" name="whichchoice" value="1445"><input type="hidden" name="part" value="cpus"><input type="hidden" name="show" value="cpus"><input type="hidden" name="option" value="2"><button name="p" value="robot_muscle" disabled class="disabled button" style="opacity: 0.5"><b>Leverage Coprocessing</b> (already installed)<br /><b style="color: blue">+15 Muscle</b><br />(30 Energy)</button><br><img src=http://images.kingdomofloathing.com/otherimages/spacer.gif width=10 height=10><br><button name="p" value="robot_mysticality" disabled class="disabled button" style="opacity: 0.5"><b>Dynamic Arcane Flux Modeling</b> (already installed)<br /><b style="color: blue">+15 Mysticality</b><br />(30 Energy)</button><br><img src=http://images.kingdomofloathing.com/otherimages/spacer.gif width=10 height=10><br><button name="p" value="robot_moxie" disabled class="disabled button" style="opacity: 0.5"><b>Upgraded Fashion Sensor</b> (already installed)<br /><b style="color: blue">+15 Moxie</b><br />(30 Energy)</button><br><img src=http://images.kingdomofloathing.com/otherimages/spacer.gif width=10 height=10><br><button name="p" value="robot_meat" disabled class="disabled button" style="opacity: 0.5"><b>Finance Neural Net</b> (already installed)<br /><b style="color: blue">+20% Meat Drops</b><br />(30 Energy)</button><br><img src=http://images.kingdomofloathing.com/otherimages/spacer.gif width=10 height=10><br><button name="p" value="robot_hp1" disabled class="disabled button" style="opacity: 0.5"><b>Spatial Compression Functions</b> (already installed)<br /><b style="color: blue">+30 Maximum HP</b><br />(40 Energy)</button><br><img src=http://images.kingdomofloathing.com/otherimages/spacer.gif width=10 height=10><br><button name="p" value="robot_regen" disabled class="disabled button" style="opacity: 0.5"><b>Self-Repair Routines</b> (already installed)<br /><b style="color: blue">Regenerate +10 HP per Adventure</b><br />(40 Energy)</button><br><img src=http://images.kingdomofloathing.com/otherimages/spacer.gif width=10 height=10><br><button name="p" value="robot_resist" disabled class="disabled button" style="opacity: 0.5"><b>Weather Control Algorithms</b> (already installed)<br /><b style="color: blue">+2 Resistance to all elements</b><br />(40 Energy)</button><br><img src=http://images.kingdomofloathing.com/otherimages/spacer.gif width=10 height=10><br><button name="p" value="robot_items" disabled class="disabled button" style="opacity: 0.5"><b>Improved Optical Processing</b> (already installed)<br /><b style="color: blue">+20% Item Drops</b><br />(40 Energy)</button><br><img src=http://images.kingdomofloathing.com/otherimages/spacer.gif width=10 height=10><br><button name="p" value="robot_shirt" disabled class="disabled button" style="opacity: 0.5"><b>Topology Grid</b> (already installed)<br /><b style="color: blue">Allows you to equip shirts</b><br />(50 Energy)</button><br><img src=http://images.kingdomofloathing.com/otherimages/spacer.gif width=10 height=10><br><button name="p" value="robot_energy" disabled class="disabled button" style="opacity: 0.5"><b>Overclocking</b> (already installed)<br /><b style="color: blue">Gain 1 Energy per fight</b><br />(50 Energy)</button><br><img src=http://images.kingdomofloathing.com/otherimages/spacer.gif width=10 height=10><br><button name="p" value="robot_potions" disabled class="disabled button" style="opacity: 0.5"><b>Biomass Processing Function</b> (already installed)<br /><b style="color: blue">Allows use of potions</b><br />(50 Energy)</button><br><img src=http://images.kingdomofloathing.com/otherimages/spacer.gif width=10 height=10><br><button name="p" value="robot_hp2" disabled class="disabled button" style="opacity: 0.5"><b>Holographic Deflector Projection</b> (already installed)<br /><b style="color: blue">+30 Maximum HP</b><br />(50 Energy)</button><br><img src=http://images.kingdomofloathing.com/otherimages/spacer.gif width=10 height=10><br></form></td></tr></table><p><p><center><a href="/campground.php">Back to the Scrapheap</a></center></td></tr></table></center></td></tr><tr><td height=4></td></tr></table></body></html>

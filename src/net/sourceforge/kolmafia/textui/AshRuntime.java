@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.SendMailRequest;
+import net.sourceforge.kolmafia.textui.parsetree.Evaluable;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
 import net.sourceforge.kolmafia.textui.parsetree.Scope;
@@ -472,7 +473,7 @@ public class AshRuntime extends AbstractRuntime {
   }
 
   public final ScriptException undefinedFunctionException(
-      final String name, final List<Value> params) {
+      final String name, final List<Evaluable> params) {
     return this.runtimeException(Parser.undefinedFunctionMessage(name, params));
   }
 }

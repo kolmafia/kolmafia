@@ -9,14 +9,14 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class FunctionInvocation extends FunctionCall {
   private final BasicScope scope;
-  private final Value name;
+  private final Evaluable name;
   private final Type type;
 
   public FunctionInvocation(
       final BasicScope scope,
       final Type type,
-      final Value name,
-      final List<Value> params,
+      final Evaluable name,
+      final List<Evaluable> params,
       final Parser parser) {
     super(null, params, parser);
     this.scope = scope;
@@ -99,7 +99,7 @@ public class FunctionInvocation extends FunctionCall {
     stream.println("<INVOKE " + this.name.toString() + ">");
     this.type.print(stream, indent + 1);
 
-    for (Value current : this.params) {
+    for (Evaluable current : this.params) {
       current.print(stream, indent + 1);
     }
   }

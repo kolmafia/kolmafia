@@ -442,7 +442,7 @@ public class Operator extends Command {
     return result;
   }
 
-  public Value applyTo(final AshRuntime interpreter, final Value lhs) {
+  public Value applyTo(final AshRuntime interpreter, final TypedNode lhs) {
     interpreter.traceIndent();
     if (ScriptRuntime.isTracing()) {
       interpreter.trace("Operator: " + this.operator);
@@ -546,7 +546,7 @@ public class Operator extends Command {
     return result;
   }
 
-  public Value applyTo(final AshRuntime interpreter, final Value lhs, final Value rhs) {
+  public Value applyTo(final AshRuntime interpreter, final TypedNode lhs, final TypedNode rhs) {
     interpreter.traceIndent();
     if (ScriptRuntime.isTracing()) {
       interpreter.trace("Operator: " + this.operator);

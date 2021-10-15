@@ -7,14 +7,14 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class WhileLoop extends Loop {
-  private final Value condition;
+  private final Evaluable condition;
 
-  public WhileLoop(final Scope scope, final Value condition) {
+  public WhileLoop(final Scope scope, final Evaluable condition) {
     super(scope);
     this.condition = condition;
   }
 
-  public Value getCondition() {
+  public Evaluable getCondition() {
     return this.condition;
   }
 
@@ -71,7 +71,7 @@ public class WhileLoop extends Loop {
 
   @Override
   public boolean assertBarrier() {
-    return this.condition == DataTypes.TRUE_VALUE && !this.getScope().assertBreakable();
+    return this.condition.evaluatesTo(DataTypes.TRUE_VALUE) && !this.getScope().assertBreakable();
   }
 
   @Override
