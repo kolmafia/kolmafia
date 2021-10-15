@@ -18,9 +18,9 @@ public class AscensionHistoryRequestTest extends RequestTestBase {
 
   @BeforeAll
   private static void init() {
+    Preferences.saveSettingsToFile = false;
     KoLCharacter.reset("the Tristero");
     KoLCharacter.setUserId(177122);
-    Preferences.setBoolean("saveSettingsOnSet", false);
   }
 
   @AfterAll
