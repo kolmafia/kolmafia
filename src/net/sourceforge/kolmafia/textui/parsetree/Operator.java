@@ -471,24 +471,7 @@ public class Operator extends Command {
       interpreter.trace("Operand: " + lhs);
     }
 
-    return this.applyTo(interpreter, lhs.getType(), lhs.execute(interpreter));
-  }
-
-  public Value applyTo(final AshRuntime interpreter, final Value lhs) {
-    interpreter.traceIndent();
-    if (ScriptRuntime.isTracing()) {
-      interpreter.trace("Operator: " + this.operator);
-    }
-
-    interpreter.traceIndent();
-    if (ScriptRuntime.isTracing()) {
-      interpreter.trace("Operand: " + lhs);
-    }
-
-    return this.applyTo(interpreter, lhs.getType(), lhs.execute(interpreter));
-  }
-
-  private Value applyTo(final AshRuntime interpreter, final Type leftType, Value leftValue) {
+    Value leftValue = lhs.execute(interpreter);
     interpreter.captureValue(leftValue);
     if (leftValue == null) {
       leftValue = DataTypes.VOID_VALUE;
@@ -516,9 +499,9 @@ public class Operator extends Command {
               ? DataTypes.makeBooleanValue(val == 0)
               : DataTypes.makeIntValue(~val);
     } else if (this.operator.equals("-")) {
-      if (leftType.equals(DataTypes.TYPE_INT)) {
+      if (lhs.getType().equals(DataTypes.TYPE_INT)) {
         result = DataTypes.makeIntValue(0 - leftValue.intValue());
-      } else if (leftType.equals(DataTypes.TYPE_FLOAT)) {
+      } else if (lhs.getType().equals(DataTypes.TYPE_FLOAT)) {
         result = DataTypes.makeFloatValue(0.0 - leftValue.floatValue());
       } else {
         throw interpreter.runtimeException(
@@ -528,9 +511,9 @@ public class Operator extends Command {
       }
     } else if (this.operator.equals(Parser.PRE_INCREMENT)
         || this.operator.equals(Parser.POST_INCREMENT)) {
-      if (leftType.equals(DataTypes.TYPE_INT)) {
+      if (lhs.getType().equals(DataTypes.TYPE_INT)) {
         result = DataTypes.makeIntValue(leftValue.intValue() + 1);
-      } else if (leftType.equals(DataTypes.TYPE_FLOAT)) {
+      } else if (lhs.getType().equals(DataTypes.TYPE_FLOAT)) {
         result = DataTypes.makeFloatValue(leftValue.floatValue() + 1.0);
       } else {
         throw interpreter.runtimeException(
@@ -540,9 +523,9 @@ public class Operator extends Command {
       }
     } else if (this.operator.equals(Parser.PRE_DECREMENT)
         || this.operator.equals(Parser.POST_DECREMENT)) {
-      if (leftType.equals(DataTypes.TYPE_INT)) {
+      if (lhs.getType().equals(DataTypes.TYPE_INT)) {
         result = DataTypes.makeIntValue(leftValue.intValue() - 1);
-      } else if (leftType.equals(DataTypes.TYPE_FLOAT)) {
+      } else if (lhs.getType().equals(DataTypes.TYPE_FLOAT)) {
         result = DataTypes.makeFloatValue(leftValue.floatValue() - 1.0);
       } else {
         throw interpreter.runtimeException(
