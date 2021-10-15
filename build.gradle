@@ -143,6 +143,10 @@ task pruneDist(type: Delete) {
 test {
 	useJUnitPlatform()
 
+	// We rely too heavily on global state; parallelism can cause
+	// issues across tests.
+	maxParallelForks = 1
+
 	systemProperty 'line.separator', '\n'
 	systemProperty 'junit.jupiter.extensions.autodetection.enabled', true
 	systemProperty 'useCWDasROOT', true
