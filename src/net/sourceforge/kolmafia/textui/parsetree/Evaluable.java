@@ -7,7 +7,7 @@ import org.eclipse.lsp4j.Position;
 
 public abstract class Evaluable extends Command implements TypedNode {
   public Evaluable(final Location location) {
-    super(location); 
+    super(location);
   }
 
   public abstract String toString();
