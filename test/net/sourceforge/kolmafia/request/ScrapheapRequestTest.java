@@ -28,6 +28,8 @@ public class ScrapheapRequestTest extends RequestTestBase {
   }
 
   private synchronized int parseActivations(String path) throws IOException {
+    KoLCharacter.reset("fakeUserName");
+
     String html = Files.readString(Paths.get(path));
     var req = new ScrapheapRequest("sh_chrono");
     req.responseText = html;

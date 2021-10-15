@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 
-@DisabledOnOs(value = OS.MAC, disabledReason = "Testing preference tracking does not work on Mac")
 public class AscensionHistoryRequestTest extends RequestTestBase {
 
   @BeforeAll
@@ -32,6 +31,8 @@ public class AscensionHistoryRequestTest extends RequestTestBase {
 
   @Test
   public void parseAscensionHistory() throws IOException {
+    KoLCharacter.reset("the Tristero");
+
     String html = Files.readString(Paths.get("request/test_ascensionhistory.html"));
 
     AscensionHistoryRequest.parseResponse("ascensionhistory.php?who=177122", html);
