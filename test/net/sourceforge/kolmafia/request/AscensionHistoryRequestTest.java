@@ -10,8 +10,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.DisabledOnOs;
-import org.junit.jupiter.api.condition.OS;
 
 public class AscensionHistoryRequestTest extends RequestTestBase {
 
@@ -49,7 +47,7 @@ public class AscensionHistoryRequestTest extends RequestTestBase {
     assertEquals(9, Preferences.getInteger("noobPoints"));
     assertEquals(24, Preferences.getInteger("bondPoints"));
     assertEquals(10, Preferences.getInteger("garlandUpgrades"));
-    assertEquals(10, Preferences.getInteger("gloverPoints"),"Glover Points Mismatch");
+    assertEquals(10, Preferences.getInteger("gloverPoints"), "Glover Points Mismatch");
     assertEquals(3, Preferences.getInteger("masksUnlocked"));
     assertEquals(23, Preferences.getInteger("darkGyfftePoints"));
     assertEquals(22, Preferences.getInteger("plumberPoints"));
