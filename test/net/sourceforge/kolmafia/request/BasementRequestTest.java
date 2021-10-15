@@ -25,6 +25,7 @@ class BasementRequestTest extends RequestTestBase {
   @AfterAll
   private static void cleanupSession() {
     KoLCharacter.reset("");
+    Preferences.saveSettingsToFile = true;
   }
 
   private static Stream<Arguments> monsterFights() {

@@ -27,6 +27,7 @@ public class AscensionHistoryRequestTest extends RequestTestBase {
   private static void tidyUp() {
     KoLCharacter.reset("");
     KoLCharacter.setUserId(0);
+    Preferences.saveSettingsToFile = true;
   }
 
   @Test

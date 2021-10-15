@@ -24,38 +24,30 @@ public class ScrapheapRequestTest extends RequestTestBase {
   @AfterEach
   private void tidyUp() {
     KoLCharacter.reset("");
+    Preferences.saveSettingsToFile = true;
+  }
+
+  private synchronized int parseActivations(String path) throws IOException {
+    String html = Files.readString(Paths.get(path));
+    var req = new ScrapheapRequest("sh_chrono");
+    req.responseText = html;
+    req.processResults();
+    return Preferences.getInteger("_chronolithActivations");
   }
 
   @Test
   public void parseChronolith1() throws IOException {
-    String html = Files.readString(Paths.get("request/test_scrapheap_chronolith_1.html"));
-    var req = new ScrapheapRequest("sh_chrono");
-    req.responseText = html;
-    req.processResults();
-
-    assertEquals(7, Preferences.getInteger("_chronolithActivations"));
+    assertEquals(7, parseActivations("request/test_scrapheap_chronolith_1.html"));
   }
 
   @Test
   public void parseChronolith37() throws IOException {
-    String html = Files.readString(Paths.get("request/test_scrapheap_chronolith_37.html"));
-
-    var req = new ScrapheapRequest("sh_chrono");
-    req.responseText = html;
-    req.processResults();
-
-    assertEquals(60, Preferences.getInteger("_chronolithActivations"));
+    assertEquals(60, parseActivations("request/test_scrapheap_chronolith_37.html"));
   }
 
   @Test
   public void parseChronolith69() throws IOException {
-    String html = Files.readString(Paths.get("request/test_scrapheap_chronolith_69.html"));
-
-    var req = new ScrapheapRequest("sh_chrono");
-    req.responseText = html;
-    req.processResults();
-
-    assertEquals(80, Preferences.getInteger("_chronolithActivations"));
+    assertEquals(80, parseActivations("request/test_scrapheap_chronolith_69.html"));
   }
 
   @Test
