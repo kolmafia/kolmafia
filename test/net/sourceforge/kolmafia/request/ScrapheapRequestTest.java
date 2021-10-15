@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 public class ScrapheapRequestTest extends RequestTestBase {
 
   @BeforeEach
-   protected void initEach() {
+  protected void initEach() {
     KoLCharacter.reset("fakeUserName");
     Preferences.saveSettingsToFile = false;
   }
