@@ -5,11 +5,15 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.DataUtilities;
+import net.sourceforge.kolmafia.AscensionPath;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -95,24 +99,9 @@ public class AscensionHistoryRequest extends GenericRequest
       return;
     }
 
-    int borisPoints = 0;
-    int zombiePoints = 0;
-    int jarlsbergPoints = 0;
-    int petePoints = 0;
-    int edPoints = 0;
-    int cowPuncherPoints = 0;
-    int beanSlingerPoints = 0;
-    int snakeOilerPoints = 0;
-    int sourcePoints = 0;
-    int noobPoints = 0;
-    int bondPoints = 0;
-    int garlandUpgrades = 0;
-    int gloverPoints = 0;
-    int masksUnlocked = 0;
-    int gyfftePoints = 0;
-    int plumberPoints = 0;
-    int youRobotPoints = 0;
-    int quantumPoints = 0;
+    var challengePathPoints = new HashMap<Path, Integer>();
+    var challengeClassPoints = new HashMap<Integer, Integer>();
+
     String playerName = null;
     String playerId = null;
 
@@ -153,116 +142,46 @@ public class AscensionHistoryRequest extends GenericRequest
 
       lastField = new AscensionDataField(playerName, playerId, columns);
 
-      switch (lastField.pathId) {
-        case AscensionSnapshot.AVATAR_OF_BORIS:
-          borisPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
-          break;
-        case AscensionSnapshot.ZOMBIE_SLAYER:
-          zombiePoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
-          break;
-        case AscensionSnapshot.AVATAR_OF_JARLSBERG:
-          jarlsbergPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
-          break;
-        case AscensionSnapshot.AVATAR_OF_SNEAKY_PETE:
-          petePoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
-          break;
-        case AscensionSnapshot.ACTUALLY_ED_THE_UNDYING:
-          edPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
-          break;
-        case AscensionSnapshot.AVATAR_OF_WEST_OF_LOATHING:
-          switch (lastField.classId) {
-            case AscensionSnapshot.COW_PUNCHER:
-              cowPuncherPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
-              break;
-            case AscensionSnapshot.BEAN_SLINGER:
-              beanSlingerPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
-              break;
-            case AscensionSnapshot.SNAKE_OILER:
-              snakeOilerPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
-              break;
-          }
-          break;
-        case AscensionSnapshot.THE_SOURCE:
-          sourcePoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
-          break;
-        case AscensionSnapshot.GELATINOUS_NOOB:
-          noobPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
-          break;
-        case AscensionSnapshot.LICENSE:
-          bondPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
-          break;
-        case AscensionSnapshot.GLOVER:
-          gloverPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
-          garlandUpgrades++;
-          break;
-        case AscensionSnapshot.DISGUISES_DELIMIT:
-          masksUnlocked += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
-          break;
-        case AscensionSnapshot.DARK_GYFFTE:
-          gyfftePoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
-          break;
-        case AscensionSnapshot.PATH_OF_THE_PLUMBER:
-          plumberPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
-          break;
-        case AscensionSnapshot.YOU_ROBOT:
-          youRobotPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
-          break;
-        case AscensionSnapshot.QUANTUM:
-          quantumPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
-          break;
+      int pointsEarned = lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
+
+      if (lastField.path == Path.AVATAR_OF_WEST_OF_LOATHING) {
+        challengeClassPoints.merge(lastField.classId, pointsEarned, Integer::sum);
+      } else {
+        challengePathPoints.merge(lastField.path, pointsEarned, Integer::sum);
       }
     }
 
-    // Refresh points totals based on ascension history
-    Preferences.setInteger("borisPoints", borisPoints);
-    Preferences.setInteger("zombiePoints", zombiePoints);
-    Preferences.setInteger("sourcePoints", sourcePoints);
+    for (Entry<Path, Integer> entry : challengePathPoints.entrySet()) {
+      Path path = entry.getKey();
+      int points = entry.getValue();
 
-    // Some can be increased by buying points, so only set these if higher than preference
-    if (jarlsbergPoints > Preferences.getInteger("jarlsbergPoints")) {
-      Preferences.setInteger("jarlsbergPoints", jarlsbergPoints);
+      path.setPoints(points);
     }
-    if (petePoints > Preferences.getInteger("sneakyPetePoints")) {
-      Preferences.setInteger("sneakyPetePoints", petePoints);
-    }
-    if (edPoints > Preferences.getInteger("edPoints")) {
-      Preferences.setInteger("edPoints", edPoints);
-    }
-    if (cowPuncherPoints > Preferences.getInteger("awolPointsCowpuncher")) {
-      Preferences.setInteger("awolPointsCowpuncher", cowPuncherPoints);
-    }
-    if (beanSlingerPoints > Preferences.getInteger("awolPointsBeanslinger")) {
-      Preferences.setInteger("awolPointsBeanslinger", beanSlingerPoints);
-    }
-    if (snakeOilerPoints > Preferences.getInteger("awolPointsSnakeoiler")) {
-      Preferences.setInteger("awolPointsSnakeoiler", snakeOilerPoints);
-    }
-    if (noobPoints > Preferences.getInteger("noobPoints")) {
-      Preferences.setInteger("noobPoints", (noobPoints < 24 ? noobPoints : 20));
-    }
-    if (bondPoints > Preferences.getInteger("bondPoints")) {
-      Preferences.setInteger("bondPoints", (Math.min(bondPoints, 24)));
-    }
-    if (gloverPoints > Preferences.getInteger("gloverPoints")) {
-      Preferences.setInteger("gloverPoints", (Math.min(gloverPoints, 11)));
-    }
-    if (garlandUpgrades > Preferences.getInteger("garlandUpgrades")) {
-      Preferences.setInteger("garlandUpgrades", (garlandUpgrades < 11 ? garlandUpgrades : 10));
-    }
-    if (masksUnlocked > Preferences.getInteger("masksUnlocked")) {
-      Preferences.setInteger("masksUnlocked", (Math.min(masksUnlocked, 25)));
-    }
-    if (gyfftePoints > Preferences.getInteger("darkGyfftePoints")) {
-      Preferences.setInteger("darkGyfftePoints", (Math.min(gyfftePoints, 23)));
-    }
-    if (plumberPoints > Preferences.getInteger("plumberPoints")) {
-      Preferences.setInteger("plumberPoints", (Math.min(plumberPoints, 22)));
-    }
-    if (youRobotPoints > Preferences.getInteger("youRobotPoints")) {
-      Preferences.setInteger("youRobotPoints", (Math.min(youRobotPoints, 37)));
-    }
-    if (quantumPoints > Preferences.getInteger("quantumPoints")) {
-      Preferences.setInteger("quantumPoints", (Math.min(quantumPoints, 11)));
+
+    for (Entry<Integer, Integer> entry : challengeClassPoints.entrySet()) {
+      int points = entry.getValue();
+
+      String pref = null;
+
+      switch (entry.getKey()) {
+        case AscensionSnapshot.COW_PUNCHER:
+          pref = "awolPointsCowpuncher";
+          break;
+        case AscensionSnapshot.BEAN_SLINGER:
+          pref = "awolPointsBeanslinger";
+          break;
+        case AscensionSnapshot.SNAKE_OILER:
+          pref = "awolPointsSnakeoiler";
+          break;
+      }
+
+      if (pref == null) {
+        continue;
+      }
+
+      if (points > Preferences.getInteger(pref)) {
+        Preferences.setInteger(pref, points);
+      }
     }
   }
 
@@ -577,8 +496,9 @@ public class AscensionHistoryRequest extends GenericRequest
     private StringBuffer stringForm;
 
     private Date timestamp;
-    private int level, classId, pathId, typeId;
+    private int level, classId, typeId;
     private int dayCount, turnCount;
+    private Path path;
 
     public AscensionDataField(
         final String playerName, final String playerId, final String rowData) {
@@ -682,7 +602,7 @@ public class AscensionHistoryRequest extends GenericRequest
           this.stringForm.append("SO");
           break;
 
-        case AscensionSnapshot.GELATINOUS_NOOB:
+        case AscensionSnapshot.NOOB:
           this.stringForm.append("GN");
           break;
 
@@ -738,8 +658,7 @@ public class AscensionHistoryRequest extends GenericRequest
                                                               : columns[3].startsWith("SO")
                                                                   ? AscensionSnapshot.SNAKE_OILER
                                                                   : columns[3].startsWith("GN")
-                                                                      ? AscensionSnapshot
-                                                                          .GELATINOUS_NOOB
+                                                                      ? AscensionSnapshot.NOOB
                                                                       : columns[3].startsWith("V")
                                                                           ? AscensionSnapshot
                                                                               .VAMPYRE
@@ -758,166 +677,7 @@ public class AscensionHistoryRequest extends GenericRequest
                       : AscensionSnapshot.UNKNOWN_TYPE;
 
       String pathName = path[1];
-      this.pathId =
-          pathName.equals("No Path")
-              ? AscensionSnapshot.NOPATH
-              : pathName.equals("Teetotaler")
-                  ? AscensionSnapshot.TEETOTALER
-                  : pathName.equals("Boozetafarian")
-                      ? AscensionSnapshot.BOOZETAFARIAN
-                      : pathName.equals("Oxygenarian")
-                          ? AscensionSnapshot.OXYGENARIAN
-                          : pathName.equals("Bad Moon")
-                              ? AscensionSnapshot.BAD_MOON
-                              : pathName.equals("Bees Hate You")
-                                  ? AscensionSnapshot.BEES_HATE_YOU
-                                  : pathName.equals("Way of the Surprising Fist")
-                                      ? AscensionSnapshot.SURPRISING_FIST
-                                      : pathName.equals("Trendy")
-                                          ? AscensionSnapshot.TRENDY
-                                          : pathName.equals("Avatar of Boris")
-                                              ? AscensionSnapshot.AVATAR_OF_BORIS
-                                              : pathName.equals("Bugbear Invasion")
-                                                  ? AscensionSnapshot.BUGBEAR_INVASION
-                                                  : pathName.equals("Zombie Slayer")
-                                                      ? AscensionSnapshot.ZOMBIE_SLAYER
-                                                      : pathName.equals("Class Act")
-                                                          ? AscensionSnapshot.CLASS_ACT
-                                                          : pathName.equals("Avatar of Jarlsberg")
-                                                              ? AscensionSnapshot
-                                                                  .AVATAR_OF_JARLSBERG
-                                                              : pathName.equals("BIG!")
-                                                                  ? AscensionSnapshot.BIG
-                                                                  : pathName.equals("KOLHS")
-                                                                      ? AscensionSnapshot.KOLHS
-                                                                      : pathName.equals(
-                                                                              "Class Act II: A Class For Pigs")
-                                                                          ? AscensionSnapshot
-                                                                              .CLASS_ACT_II
-                                                                          : pathName.equals(
-                                                                                  "Avatar of Sneaky Pete")
-                                                                              ? AscensionSnapshot
-                                                                                  .AVATAR_OF_SNEAKY_PETE
-                                                                              : pathName.equals(
-                                                                                      "Slow and Steady")
-                                                                                  ? AscensionSnapshot
-                                                                                      .SLOW_AND_STEADY
-                                                                                  : pathName.equals(
-                                                                                          "Heavy Rains")
-                                                                                      ? AscensionSnapshot
-                                                                                          .HEAVY_RAINS
-                                                                                      : pathName
-                                                                                              .equals(
-                                                                                                  "Picky")
-                                                                                          ? AscensionSnapshot
-                                                                                              .PICKY
-                                                                                          : pathName
-                                                                                                  .equals(
-                                                                                                      "Standard")
-                                                                                              ? AscensionSnapshot
-                                                                                                  .STANDARD
-                                                                                              : pathName
-                                                                                                      .equals(
-                                                                                                          "Actually Ed the Undying")
-                                                                                                  ? AscensionSnapshot
-                                                                                                      .ACTUALLY_ED_THE_UNDYING
-                                                                                                  : pathName
-                                                                                                          .equals(
-                                                                                                              "One Crazy Random Summer")
-                                                                                                      ? AscensionSnapshot
-                                                                                                          .CRAZY_RANDOM_SUMMER
-                                                                                                      : pathName
-                                                                                                              .equals(
-                                                                                                                  "Community Service")
-                                                                                                          ? AscensionSnapshot
-                                                                                                              .COMMUNITY_SERVICE
-                                                                                                          : pathName
-                                                                                                                  .equals(
-                                                                                                                      "Avatar of West of Loathing")
-                                                                                                              ? AscensionSnapshot
-                                                                                                                  .AVATAR_OF_WEST_OF_LOATHING
-                                                                                                              : pathName
-                                                                                                                      .equals(
-                                                                                                                          "The Source")
-                                                                                                                  ? AscensionSnapshot
-                                                                                                                      .THE_SOURCE
-                                                                                                                  : pathName
-                                                                                                                          .equals(
-                                                                                                                              "Nuclear Autumn")
-                                                                                                                      ? AscensionSnapshot
-                                                                                                                          .NUCLEAR_AUTUMN
-                                                                                                                      : pathName
-                                                                                                                              .equals(
-                                                                                                                                  "Gelatinous Noob")
-                                                                                                                          ? AscensionSnapshot
-                                                                                                                              .GELATINOUS_NOOB
-                                                                                                                          : pathName
-                                                                                                                                  .equals(
-                                                                                                                                      "License to Adventure")
-                                                                                                                              ? AscensionSnapshot
-                                                                                                                                  .LICENSE
-                                                                                                                              : pathName
-                                                                                                                                      .equals(
-                                                                                                                                          "Live. Ascend. Repeat.")
-                                                                                                                                  ? AscensionSnapshot
-                                                                                                                                      .REPEAT
-                                                                                                                                  : pathName
-                                                                                                                                          .equals(
-                                                                                                                                              "Pocket Familiars")
-                                                                                                                                      ? AscensionSnapshot
-                                                                                                                                          .POKEFAM
-                                                                                                                                      : pathName
-                                                                                                                                              .equals(
-                                                                                                                                                  "G-Lover")
-                                                                                                                                          ? AscensionSnapshot
-                                                                                                                                              .GLOVER
-                                                                                                                                          : pathName
-                                                                                                                                                  .equals(
-                                                                                                                                                      "Disguises Delimit")
-                                                                                                                                              ? AscensionSnapshot
-                                                                                                                                                  .DISGUISES_DELIMIT
-                                                                                                                                              : pathName
-                                                                                                                                                      .equals(
-                                                                                                                                                          "Dark Gyffte")
-                                                                                                                                                  ? AscensionSnapshot
-                                                                                                                                                      .DARK_GYFFTE
-                                                                                                                                                  : pathName
-                                                                                                                                                          .equals(
-                                                                                                                                                              "Two Crazy Random Summer")
-                                                                                                                                                      ? AscensionSnapshot
-                                                                                                                                                          .CRAZY_RANDOM_SUMMER_TWO
-                                                                                                                                                      : pathName
-                                                                                                                                                              .equals(
-                                                                                                                                                                  "Kingdom of Exploathing")
-                                                                                                                                                          ? AscensionSnapshot
-                                                                                                                                                              .KINGDOM_OF_EXPLOATHING
-                                                                                                                                                          : pathName
-                                                                                                                                                                  .equals(
-                                                                                                                                                                      "Path of the Plumber")
-                                                                                                                                                              ? AscensionSnapshot
-                                                                                                                                                                  .PATH_OF_THE_PLUMBER
-                                                                                                                                                              : pathName
-                                                                                                                                                                      .equals(
-                                                                                                                                                                          "Low Key Summer")
-                                                                                                                                                                  ? AscensionSnapshot
-                                                                                                                                                                      .LOWKEY
-                                                                                                                                                                  : pathName
-                                                                                                                                                                          .equals(
-                                                                                                                                                                              "Grey Goo")
-                                                                                                                                                                      ? AscensionSnapshot
-                                                                                                                                                                          .GREY_GOO
-                                                                                                                                                                      : pathName
-                                                                                                                                                                              .equals(
-                                                                                                                                                                                  "You, Robot")
-                                                                                                                                                                          ? AscensionSnapshot
-                                                                                                                                                                              .YOU_ROBOT
-                                                                                                                                                                          : pathName
-                                                                                                                                                                                  .equals(
-                                                                                                                                                                                      "Quantum Terrarium")
-                                                                                                                                                                              ? AscensionSnapshot
-                                                                                                                                                                                  .QUANTUM
-                                                                                                                                                                              : AscensionSnapshot
-                                                                                                                                                                                  .UNKNOWN_PATH;
+      this.path = AscensionPath.nameToPath(pathName);
     }
 
     private void setCurrentColumns(final String[] columns) {
@@ -953,8 +713,7 @@ public class AscensionHistoryRequest extends GenericRequest
                                                                     ? AscensionSnapshot.SNAKE_OILER
                                                                     : columns[3].contains(
                                                                             "gelatinousicon")
-                                                                        ? AscensionSnapshot
-                                                                            .GELATINOUS_NOOB
+                                                                        ? AscensionSnapshot.NOOB
                                                                         : columns[3].contains(
                                                                                 "vampirefangs")
                                                                             ? AscensionSnapshot
@@ -973,186 +732,17 @@ public class AscensionHistoryRequest extends GenericRequest
                     ? AscensionSnapshot.CASUAL
                     : AscensionSnapshot.NORMAL;
 
-        this.pathId =
-            columns[8].contains("bowl")
-                ? AscensionSnapshot.TEETOTALER
-                : columns[8].contains("martini")
-                    ? AscensionSnapshot.BOOZETAFARIAN
-                    : columns[8].contains("oxy")
-                        ? AscensionSnapshot.OXYGENARIAN
-                        : columns[8].contains("badmoon")
-                            ? AscensionSnapshot.BAD_MOON
-                            : columns[8].contains("beeicon")
-                                ? AscensionSnapshot.BEES_HATE_YOU
-                                : columns[8].contains("wosp_fist")
-                                    ? AscensionSnapshot.SURPRISING_FIST
-                                    : columns[8].contains("trendyicon")
-                                        ? AscensionSnapshot.TRENDY
-                                        : columns[8].contains("trusty")
-                                            ? AscensionSnapshot.AVATAR_OF_BORIS
-                                            : columns[8].contains("familiar39")
-                                                ? AscensionSnapshot.BUGBEAR_INVASION
-                                                : columns[8].contains("tombstone")
-                                                    ? AscensionSnapshot.ZOMBIE_SLAYER
-                                                    : columns[8].contains("motorboat.")
-                                                        ? AscensionSnapshot.CLASS_ACT
-                                                        : columns[8].contains("jarlhat")
-                                                            ? AscensionSnapshot.AVATAR_OF_JARLSBERG
-                                                            : columns[8].contains("bigicon")
-                                                                ? AscensionSnapshot.BIG
-                                                                : columns[8].contains("kolhsicon")
-                                                                    ? AscensionSnapshot.KOLHS
-                                                                    : columns[8].contains(
-                                                                            "motorboat2")
-                                                                        ? AscensionSnapshot
-                                                                            .CLASS_ACT_II
-                                                                        : columns[8].contains(
-                                                                                "bigglasses")
-                                                                            ? AscensionSnapshot
-                                                                                .AVATAR_OF_SNEAKY_PETE
-                                                                            : columns[8].contains(
-                                                                                    "sas")
-                                                                                ? AscensionSnapshot
-                                                                                    .SLOW_AND_STEADY
-                                                                                : columns[8]
-                                                                                        .contains(
-                                                                                            "familiar31")
-                                                                                    ? AscensionSnapshot
-                                                                                        .HEAVY_RAINS
-                                                                                    : columns[8]
-                                                                                            .contains(
-                                                                                                "pickypath")
-                                                                                        ? AscensionSnapshot
-                                                                                            .PICKY
-                                                                                        : columns[8]
-                                                                                                .contains(
-                                                                                                    "standardicon")
-                                                                                            ? AscensionSnapshot
-                                                                                                .STANDARD
-                                                                                            : columns[
-                                                                                                    8]
-                                                                                                    .contains(
-                                                                                                        "scarab")
-                                                                                                ? AscensionSnapshot
-                                                                                                    .ACTUALLY_ED_THE_UNDYING
-                                                                                                :
-                                                                                                // "twocrazydice" must come before "dice"
-                                                                                                columns[
-                                                                                                        8]
-                                                                                                        .contains(
-                                                                                                            "twocrazydice")
-                                                                                                    ? AscensionSnapshot
-                                                                                                        .CRAZY_RANDOM_SUMMER_TWO
-                                                                                                    : columns[
-                                                                                                            8]
-                                                                                                            .contains(
-                                                                                                                "dice")
-                                                                                                        ? AscensionSnapshot
-                                                                                                            .CRAZY_RANDOM_SUMMER
-                                                                                                        : columns[
-                                                                                                                8]
-                                                                                                                .contains(
-                                                                                                                    "csplaquesmall")
-                                                                                                            ? AscensionSnapshot
-                                                                                                                .COMMUNITY_SERVICE
-                                                                                                            : columns[
-                                                                                                                    8]
-                                                                                                                    .contains(
-                                                                                                                        "badge")
-                                                                                                                ? AscensionSnapshot
-                                                                                                                    .AVATAR_OF_WEST_OF_LOATHING
-                                                                                                                : columns[
-                                                                                                                        8]
-                                                                                                                        .contains(
-                                                                                                                            "ss_datasiphon")
-                                                                                                                    ? AscensionSnapshot
-                                                                                                                        .THE_SOURCE
-                                                                                                                    : columns[
-                                                                                                                            8]
-                                                                                                                            .contains(
-                                                                                                                                "radiation")
-                                                                                                                        ? AscensionSnapshot
-                                                                                                                            .NUCLEAR_AUTUMN
-                                                                                                                        : columns[
-                                                                                                                                8]
-                                                                                                                                .contains(
-                                                                                                                                    "gcube")
-                                                                                                                            ? AscensionSnapshot
-                                                                                                                                .GELATINOUS_NOOB
-                                                                                                                            : columns[
-                                                                                                                                    8]
-                                                                                                                                    .contains(
-                                                                                                                                        "briefcase")
-                                                                                                                                ? AscensionSnapshot
-                                                                                                                                    .LICENSE
-                                                                                                                                : columns[
-                                                                                                                                        8]
-                                                                                                                                        .contains(
-                                                                                                                                            "watch")
-                                                                                                                                    ? AscensionSnapshot
-                                                                                                                                        .REPEAT
-                                                                                                                                    : columns[
-                                                                                                                                            8]
-                                                                                                                                            .contains(
-                                                                                                                                                "spiritorb")
-                                                                                                                                        ? AscensionSnapshot
-                                                                                                                                            .POKEFAM
-                                                                                                                                        : columns[
-                                                                                                                                                8]
-                                                                                                                                                .contains(
-                                                                                                                                                    "g-loveheart")
-                                                                                                                                            ? AscensionSnapshot
-                                                                                                                                                .GLOVER
-                                                                                                                                            : columns[
-                                                                                                                                                    8]
-                                                                                                                                                    .contains(
-                                                                                                                                                        "dd_icon")
-                                                                                                                                                ? AscensionSnapshot
-                                                                                                                                                    .DISGUISES_DELIMIT
-                                                                                                                                                : columns[
-                                                                                                                                                        8]
-                                                                                                                                                        .contains(
-                                                                                                                                                            "darkgift")
-                                                                                                                                                    ? AscensionSnapshot
-                                                                                                                                                        .DARK_GYFFTE
-                                                                                                                                                    : columns[
-                                                                                                                                                            8]
-                                                                                                                                                            .contains(
-                                                                                                                                                                "puff")
-                                                                                                                                                        ? AscensionSnapshot
-                                                                                                                                                            .KINGDOM_OF_EXPLOATHING
-                                                                                                                                                        : columns[
-                                                                                                                                                                8]
-                                                                                                                                                                .contains(
-                                                                                                                                                                    "mario_mushroom1")
-                                                                                                                                                            ? AscensionSnapshot
-                                                                                                                                                                .PATH_OF_THE_PLUMBER
-                                                                                                                                                            : columns[
-                                                                                                                                                                    8]
-                                                                                                                                                                    .contains(
-                                                                                                                                                                        "littlelock")
-                                                                                                                                                                ? AscensionSnapshot
-                                                                                                                                                                    .LOWKEY
-                                                                                                                                                                : columns[
-                                                                                                                                                                        8]
-                                                                                                                                                                        .contains(
-                                                                                                                                                                            "greygooball")
-                                                                                                                                                                    ? AscensionSnapshot
-                                                                                                                                                                        .GREY_GOO
-                                                                                                                                                                    : columns[
-                                                                                                                                                                            8]
-                                                                                                                                                                            .contains(
-                                                                                                                                                                                "robobattery")
-                                                                                                                                                                        ? AscensionSnapshot
-                                                                                                                                                                            .YOU_ROBOT
-                                                                                                                                                                        : columns[
-                                                                                                                                                                                8]
-                                                                                                                                                                                .contains(
-                                                                                                                                                                                    "confused")
-                                                                                                                                                                            ? AscensionSnapshot
-                                                                                                                                                                                .QUANTUM
-                                                                                                                                                                            : AscensionSnapshot
-                                                                                                                                                                                .NOPATH;
+        for (Path path : Path.values()) {
+          String image = path.getImage();
+          if (image != null && columns[8].contains(image)) {
+            this.path = path;
+            break;
+          }
+        }
+
+        if (this.path == null) {
+          this.path = Path.NONE;
+        }
       } catch (Exception e) {
         // This should not happen.  Therefore, print
         // a stack trace for debug purposes.
@@ -1169,8 +759,8 @@ public class AscensionHistoryRequest extends GenericRequest
       return this.typeId;
     }
 
-    public int getPathId() {
-      return this.pathId;
+    public Path getPath() {
+      return this.path;
     }
 
     public int getClassId() {
@@ -1201,17 +791,17 @@ public class AscensionHistoryRequest extends GenericRequest
     }
 
     public boolean matchesFilter(
-        final int typeFilter, final int pathFilter, final int classFilter, final int maxAge) {
+        final int typeFilter, final Path pathFilter, final int classFilter, final int maxAge) {
       return (typeFilter == AscensionSnapshot.NO_FILTER || typeFilter == this.typeId)
-          && (pathFilter == AscensionSnapshot.NO_FILTER || pathFilter == this.pathId)
+          && (pathFilter == null || pathFilter == this.path)
           && (classFilter == AscensionSnapshot.NO_FILTER || classFilter == this.classId)
           && (maxAge == 0 || maxAge >= this.getAge());
     }
 
     public boolean matchesFilter(
-        final int typeFilter, final int pathFilter, final int classFilter) {
+        final int typeFilter, final Path pathFilter, final int classFilter) {
       return (typeFilter == AscensionSnapshot.NO_FILTER || typeFilter == this.typeId)
-          && (pathFilter == AscensionSnapshot.NO_FILTER || pathFilter == this.pathId)
+          && (pathFilter == null || pathFilter == this.path)
           && (classFilter == AscensionSnapshot.NO_FILTER || classFilter == this.classId);
     }
 
