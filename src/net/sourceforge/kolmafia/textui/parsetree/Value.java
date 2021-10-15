@@ -120,6 +120,7 @@ public class Value implements TypedNode, Comparable<Value> {
     return this.type.getBaseType();
   }
 
+  @Override
   public Type getRawType() {
     return this.type;
   }

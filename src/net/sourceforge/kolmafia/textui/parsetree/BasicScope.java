@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
@@ -232,9 +231,7 @@ public abstract class BasicScope extends Command {
       final boolean vararg) {
     // Search the function list for a match
     for (Function function : functions) {
-      List<Type> types =
-          params.stream().map(value -> value.getRawType()).collect(Collectors.toList());
-      if (function.paramsMatch(types, match, vararg)) {
+      if (function.paramsMatch(params, match, vararg)) {
         return function;
       }
     }

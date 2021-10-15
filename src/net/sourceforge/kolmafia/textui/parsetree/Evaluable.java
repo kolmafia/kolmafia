@@ -10,10 +10,6 @@ public abstract class Evaluable extends Command implements TypedNode {
     super(location);
   }
 
-  public Type getRawType() {
-    return this.getType();
-  }
-
   public abstract String toString();
 
   public String toQuotedString() {
