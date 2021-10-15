@@ -1,0 +1,62 @@
+Created an empty checkpoint.
+
+cast 1 Experience Safari
+Created an empty checkpoint.
+
+cast 1 Experience Safari
+
+maximize mox 6470.078466464399 min
+Maximizer: mox 6470.078466464399 min
+
+maximize mox 6470.078466464399 min
+Maximizer: mox 6470.078466464399 min
+
+maximize mox 6470.078466464399 min
+Maximizer: mox 6470.078466464399 min
+
+maximize mus 6470.078466464399 min
+Maximizer: mus 6470.078466464399 min
+
+maximize mus 6470.078466464399 min
+Maximizer: mus 6470.078466464399 min
+
+maximize mus 6470.078466464399 min
+Maximizer: mus 6470.078466464399 min
+
+maximize mys 6470.078466464399 min
+Maximizer: mys 6470.078466464399 min
+
+maximize mys 6470.078466464399 min
+Maximizer: mys 6470.078466464399 min
+
+maximize mys 6470.078466464399 min
+Maximizer: mys 6470.078466464399 min
+> 240
+> 92
+> -1
+> -1
+> Accessing the main function from another script.
+> 354981
+> heeheehee
+Round 2: gargantulihc takes 91 damage.
+Round 2: gargantulihc takes 80 damage.
+Round 2: You lose 17 hit points
+Round 2: wins the fight!
+After Battle: As the gargantulihc fades away into nothingness, your Evilometer emits a single loud beep.
+After Battle: Ben stands up on his hind legs and sniffs the air, chirping adorably.
+After Battle: You gain 3 Mana Points
+You acquire an item: lihc eye
+You acquire an item: lihc eye
+After Battle: You gain 18 Fortitude
+You gain a Muscle point!
+After Battle: You gain 44 Wizardliness
+You gain a Mysticality point!
+After Battle: You gain 19 Smarm
+> Now I know my ABC!
+> This line should only be printed once.
+> cookies true
+> saucepan true
+> Accessing the main function from another script.
+> beanbat has 2 drops.
+> The first drop is enchanted bean with a rate of 50.
+> Its image is bean.gif.
