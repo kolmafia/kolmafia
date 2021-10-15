@@ -49,7 +49,7 @@ public class AscensionHistoryRequestTest extends RequestTestBase {
     assertEquals(9, Preferences.getInteger("noobPoints"));
     assertEquals(24, Preferences.getInteger("bondPoints"));
     assertEquals(10, Preferences.getInteger("garlandUpgrades"));
-    assertEquals(11, Preferences.getInteger("gloverPoints"));
+    assertEquals(10, Preferences.getInteger("gloverPoints"),"Glover Points Mismatch");
     assertEquals(3, Preferences.getInteger("masksUnlocked"));
     assertEquals(23, Preferences.getInteger("darkGyfftePoints"));
     assertEquals(22, Preferences.getInteger("plumberPoints"));
