@@ -16,14 +16,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 class BasementRequestTest extends RequestTestBase {
 
   @BeforeAll
-  private static void injectPreferences() {
+  protected static void injectPreferences() {
     Preferences.saveSettingsToFile = false;
     // Set a username so we can edit preferences and have per-user defaults.
     KoLCharacter.reset("fakeUserName");
   }
 
   @AfterAll
-  private static void cleanupSession() {
+  protected static void cleanupSession() {
     KoLCharacter.reset("");
     Preferences.saveSettingsToFile = true;
   }
