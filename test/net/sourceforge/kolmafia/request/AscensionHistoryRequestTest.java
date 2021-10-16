@@ -28,6 +28,11 @@ public class AscensionHistoryRequestTest extends RequestTestBase {
   }
 
   @Test
+  public void checkUserName() throws IOException {
+    assertEquals("the Tristero", KoLCharacter.getUserName());
+  }
+
+  @Test
   public void parseAscensionHistory() throws IOException {
     String html = Files.readString(Paths.get("request/test_ascensionhistory.html"));
 
