@@ -2660,7 +2660,7 @@ public class Parser {
     if (!operStr.equals("=")) {
       op =
           new Operator(
-              this.makeLocation(this.makeInlineRange(operStr.getStart(), operStr.length() - 1)),
+              this.makeLocation(Parser.makeInlineRange(operStr.getStart(), operStr.length() - 1)),
               operStr.substring(0, operStr.length() - 1),
               this);
     }
@@ -4309,13 +4309,13 @@ public class Parser {
     return new Range(start != null ? start : this.getCurrentPosition(), this.getCurrentPosition());
   }
 
-  private Range makeInlineRange(final Position start, final int offset) {
+  private static Range makeInlineRange(final Position start, final int offset) {
     Position end = new Position(start.getLine(), start.getCharacter() + offset);
 
     return offset >= 0 ? new Range(start, end) : new Range(end, start);
   }
 
-  private Range makeRange(final Range start, final Range end) {
+  private static Range mergeRanges(final Range start, final Range end) {
     if (end == null
         || start.getStart().getLine() > end.getEnd().getLine()
         || (start.getStart().getLine() == end.getEnd().getLine()
@@ -4331,7 +4331,7 @@ public class Parser {
   }
 
   private Location makeLocation(final Range start, final Range end) {
-    return this.makeLocation(this.makeRange(start, end));
+    return this.makeLocation(Parser.mergeRanges(start, end));
   }
 
   private Location makeLocation(final Location start, final Location end) {
