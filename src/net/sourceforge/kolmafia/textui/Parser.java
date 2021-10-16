@@ -640,7 +640,7 @@ public class Parser {
         // Make a vararg type out of the previously parsed type.
         paramType =
             new VarArgType(paramType)
-                .reference(this.makeLocation(paramType.getLocation(), this.currentToken()));
+                .reference(Parser.makeLocation(paramType.getLocation(), this.currentToken()));
 
         this.readToken(); // read ...
       }
@@ -1250,7 +1250,7 @@ public class Parser {
             ? new AggregateType(dataType, indexType)
             : new AggregateType(dataType, size);
 
-    return type.reference(this.makeLocation(dataType.getLocation(), this.peekPreviousToken()));
+    return type.reference(Parser.makeLocation(dataType.getLocation(), this.peekPreviousToken()));
   }
 
   private boolean parseIdentifier(final String identifier) {
@@ -2474,7 +2474,7 @@ public class Parser {
 
     // Include the first parameter, if any, in the FunctionCall's location
     if (firstParam != null) {
-      functionCallLocation = this.makeLocation(firstParam.getLocation(), functionCallLocation);
+      functionCallLocation = Parser.mergeLocations(firstParam.getLocation(), functionCallLocation);
     }
 
     FunctionCall call = new FunctionCall(functionCallLocation, target, params, this);
@@ -2736,7 +2736,7 @@ public class Parser {
 
     Operator oper = new Operator(this.makeLocation(operToken), operStr, this);
 
-    return new IncDec(this.makeLocation(lhs.getLocation(), oper.getLocation()), lhs, oper);
+    return new IncDec(Parser.mergeLocations(lhs.getLocation(), oper.getLocation()), lhs, oper);
   }
 
   private Evaluable parseExpression(final BasicScope scope) {
@@ -3677,7 +3677,7 @@ public class Parser {
 
       current =
           new CompositeReference(
-              this.makeLocation(current.getLocation(), this.peekPreviousToken()),
+              Parser.makeLocation(current.getLocation(), this.peekPreviousToken()),
               current.target,
               indices,
               this);
@@ -4343,12 +4343,20 @@ public class Parser {
     return new Location(uri, range);
   }
 
-  private Location makeLocation(final Location start, final Location end) {
-    return this.makeLocation(start.getRange(), end.getRange());
+  private static Location makeLocation(final Location start, final Range end) {
+    return Parser.mergeLocations(start, new Location(start.getUri(), end));
   }
 
-  private Location makeLocation(final Location start, final Range end) {
-    return this.makeLocation(start.getRange(), end);
+  public static Location mergeLocations(final Location start, final Location end) {
+    if (start == null) {
+      return end;
+    }
+
+    if (end == null || !start.getUri().equals(end.getUri())) {
+      return start;
+    }
+
+    return new Location(start.getUri(), Parser.mergeRanges(start.getRange(), end.getRange()));
   }
 
   // **************** Parse errors *****************
