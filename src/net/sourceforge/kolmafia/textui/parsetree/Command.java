@@ -10,8 +10,13 @@ public abstract class Command implements ParseTreeNode {
   }
 
   /**
-   * {@link BasicScope} and its subtypes don't know their location at the time of the
+   * Allows Commands instantiated early to update their location once they know more about it.
+   *
+   * <p>{@link BasicScope} and its subtypes don't know their location at the time of the
    * initialization, and need to have it set later.
+   *
+   * <p>Some {@link Evaluable}s are made of multiple parts/segments, and need to expand their
+   * location as we discover those segments.
    */
   protected void setLocation(final Location location) {
     this.location = location;
