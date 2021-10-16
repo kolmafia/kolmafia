@@ -11,7 +11,7 @@ public abstract class Command implements ParseTreeNode {
 
   /**
    * Allows Commands instantiated early to update their location once they know more about it.
-   *
+   * 
    * <p>{@link BasicScope} and its subtypes don't know their location at the time of the
    * initialization, and need to have it set later.
    *
