@@ -363,8 +363,8 @@ public class CharacterEntities {
     // euro sign, U+20AC NEW
   };
 
-  private static final Map<Character, String> entities = new HashMap<Character, String>();
-  private static final Map<String, Character> unicodes = new HashMap<String, Character>();
+  private static final Map<Character, String> entities = new HashMap<>();
+  private static final Map<String, Character> unicodes = new HashMap<>();
 
   static {
     for (int i = 0; i < CharacterEntities.UNICODE_TABLE.length; ++i) {
