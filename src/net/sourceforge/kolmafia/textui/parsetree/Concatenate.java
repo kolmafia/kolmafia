@@ -4,19 +4,14 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
-import org.eclipse.lsp4j.Location;
-import org.eclipse.lsp4j.Range;
 
 public class Concatenate extends Expression {
   private final ArrayList<Evaluable> strings;
 
   public Concatenate(final Evaluable lhs, final Evaluable rhs) {
-    super(
-        new Location(
-            lhs.getLocation().getUri(),
-            new Range(
-                lhs.getLocation().getRange().getStart(), rhs.getLocation().getRange().getEnd())));
+    super(Parser.mergeLocations(lhs.getLocation(), rhs.getLocation()));
     this.strings = new ArrayList<>();
     strings.add(lhs);
     strings.add(rhs);
@@ -30,12 +25,7 @@ public class Concatenate extends Expression {
   public void addString(final Evaluable string) {
     strings.add(string);
 
-    this.growLocation(
-        new Location(
-            this.getLocation().getUri(),
-            new Range(
-                this.getLocation().getRange().getStart(),
-                string.getLocation().getRange().getEnd())));
+    this.growLocation(Parser.mergeLocations(this.getLocation(), string.getLocation()));
   }
 
   @Override

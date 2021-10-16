@@ -3,20 +3,14 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
-import org.eclipse.lsp4j.Location;
-import org.eclipse.lsp4j.Range;
 
 public class TernaryExpression extends Expression {
   Evaluable conditional;
 
   public TernaryExpression(final Evaluable conditional, final Evaluable lhs, final Evaluable rhs) {
-    super(
-        new Location(
-            lhs.getLocation().getUri(),
-            new Range(
-                conditional.getLocation().getRange().getStart(),
-                rhs.getLocation().getRange().getEnd())));
+    super(Parser.mergeLocations(conditional.getLocation(), rhs.getLocation()));
     this.conditional = conditional;
     this.lhs = lhs;
     this.rhs = rhs;

@@ -6,8 +6,6 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
-import org.eclipse.lsp4j.Location;
-import org.eclipse.lsp4j.Range;
 
 public class Assignment extends Evaluable {
   private final VariableReference lhs;
@@ -22,11 +20,7 @@ public class Assignment extends Evaluable {
     super(
         rhs == null
             ? lhs.getLocation()
-            : new Location(
-                lhs.getLocation().getUri(),
-                new Range(
-                    lhs.getLocation().getRange().getStart(),
-                    rhs.getLocation().getRange().getEnd())));
+            : Parser.mergeLocations(lhs.getLocation(), rhs.getLocation()));
     this.lhs = lhs;
     this.rhs = rhs;
     this.oper = oper;

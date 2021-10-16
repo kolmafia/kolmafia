@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import org.eclipse.lsp4j.Location;
-import org.eclipse.lsp4j.Range;
 
 public class If extends Conditional {
   private final List<Conditional> elseLoops;
@@ -22,12 +22,7 @@ public class If extends Conditional {
     // It would be better if we could separate the "if" from the whole "if/elseif/elseif..."
     // chain, but currently, If represents the Command all by itself, and needs to have its
     // Location, so update it.
-    this.setLocation(
-        new Location(
-            this.getLocation().getUri(),
-            new Range(
-                this.getLocation().getRange().getStart(),
-                elseLoop.getLocation().getRange().getEnd())));
+    this.setLocation(Parser.mergeLocations(this.getLocation(), elseLoop.getLocation()));
   }
 
   @Override
