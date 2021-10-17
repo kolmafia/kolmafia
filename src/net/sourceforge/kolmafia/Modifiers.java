@@ -2434,41 +2434,44 @@ public class Modifiers {
             this.set(Modifiers.SPELL_DAMAGE, 0.0);
 
             // Set modifiers depending on Character class
-            switch (KoLCharacter.getAscensionClass()) {
-              case SEAL_CLUBBER:
-              case ZOMBIE_MASTER:
-              case ED:
-              case COWPUNCHER:
-              case BEANSLINGER:
-              case SNAKE_OILER:
-                this.set(Modifiers.HP_REGEN_MIN, 10.0);
-                this.set(Modifiers.HP_REGEN_MAX, 12.0);
-                this.set(Modifiers.WEAPON_DAMAGE, 15.0);
-                this.set(Modifiers.DAMAGE_REDUCTION, 1.0);
-                break;
-              case TURTLE_TAMER:
-                this.set(Modifiers.HP_REGEN_MIN, 10.0);
-                this.set(Modifiers.HP_REGEN_MAX, 12.0);
-                this.set(Modifiers.FAMILIAR_WEIGHT, 5.0);
-                break;
-              case DISCO_BANDIT:
-              case AVATAR_OF_SNEAKY_PETE:
-                this.set(Modifiers.RANGED_DAMAGE, 20.0);
-                break;
-              case ACCORDION_THIEF:
-                this.set(Modifiers.FOUR_SONGS, true);
-                break;
-              case PASTAMANCER:
-                this.set(Modifiers.MP_REGEN_MIN, 5.0);
-                this.set(Modifiers.MP_REGEN_MAX, 6.0);
-                this.set(Modifiers.COMBAT_MANA_COST, -3.0);
-                break;
-              case SAUCEROR:
-              case AVATAR_OF_JARLSBERG:
-                this.set(Modifiers.MP_REGEN_MIN, 5.0);
-                this.set(Modifiers.MP_REGEN_MAX, 6.0);
-                this.set(Modifiers.SPELL_DAMAGE, 20.0);
-                break;
+            AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
+            if (ascensionClass != null) {
+              switch (ascensionClass) {
+                case SEAL_CLUBBER:
+                case ZOMBIE_MASTER:
+                case ED:
+                case COWPUNCHER:
+                case BEANSLINGER:
+                case SNAKE_OILER:
+                  this.set(Modifiers.HP_REGEN_MIN, 10.0);
+                  this.set(Modifiers.HP_REGEN_MAX, 12.0);
+                  this.set(Modifiers.WEAPON_DAMAGE, 15.0);
+                  this.set(Modifiers.DAMAGE_REDUCTION, 1.0);
+                  break;
+                case TURTLE_TAMER:
+                  this.set(Modifiers.HP_REGEN_MIN, 10.0);
+                  this.set(Modifiers.HP_REGEN_MAX, 12.0);
+                  this.set(Modifiers.FAMILIAR_WEIGHT, 5.0);
+                  break;
+                case DISCO_BANDIT:
+                case AVATAR_OF_SNEAKY_PETE:
+                  this.set(Modifiers.RANGED_DAMAGE, 20.0);
+                  break;
+                case ACCORDION_THIEF:
+                  this.set(Modifiers.FOUR_SONGS, true);
+                  break;
+                case PASTAMANCER:
+                  this.set(Modifiers.MP_REGEN_MIN, 5.0);
+                  this.set(Modifiers.MP_REGEN_MAX, 6.0);
+                  this.set(Modifiers.COMBAT_MANA_COST, -3.0);
+                  break;
+                case SAUCEROR:
+                case AVATAR_OF_JARLSBERG:
+                  this.set(Modifiers.MP_REGEN_MIN, 5.0);
+                  this.set(Modifiers.MP_REGEN_MAX, 6.0);
+                  this.set(Modifiers.SPELL_DAMAGE, 20.0);
+                  break;
+              }
             }
             return true;
           }
