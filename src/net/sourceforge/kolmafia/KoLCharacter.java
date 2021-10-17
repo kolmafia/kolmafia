@@ -3175,6 +3175,7 @@ public abstract class KoLCharacter {
         break;
       case GLOVER:
         Preferences.increment("gloverPoints", points, 11, false);
+        Preferences.increment("garlandUpgrades", 1, 10, false);
         break;
       case DISGUISES_DELIMIT:
         Preferences.increment("masksUnlocked", points, 25, false);
