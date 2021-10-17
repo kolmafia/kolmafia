@@ -17,8 +17,8 @@ public class ScrapheapRequestTest extends RequestTestBase {
 
   @BeforeEach
   protected void initEach() {
-    KoLCharacter.reset("fakeUserName");
     Preferences.saveSettingsToFile = false;
+    KoLCharacter.reset("fakeUserName");
   }
 
   @AfterEach
