@@ -7479,6 +7479,7 @@ public class FightRequest extends GenericRequest {
         text.contains("too good not to photograph")
         || text.contains("for the scrapbook")
         || text.contains("You take a picture")
+        || text.contains("You scrap a picture")
         ||
         // End of combat
         text.contains("more interesting photograph")
@@ -9315,6 +9316,8 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains(
                 "You take out your scrapbook and start showing photos of your familiars to your opponent")
             || responseText.contains("waving your scrapbook")
+            || responseText.contains("the two of you share a friendly handshake and part ways")
+            || responseText.contains("they pass out from pure boredom")
             || skillSuccess) {
           BanishManager.banishMonster(monsterName, "Show your boring familiar pictures");
           Preferences.decrement("scrapbookCharges", 100, 0);

@@ -10,7 +10,7 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 public class If extends Conditional {
   private final List<Conditional> elseLoops;
 
-  public If(final Scope scope, final Value condition) {
+  public If(final Scope scope, final Evaluable condition) {
     super(scope, condition);
     this.elseLoops = new ArrayList<>();
   }

@@ -5,9 +5,9 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 
 public class ArrayLiteral extends AggregateLiteral {
-  private final List<Value> values;
+  private final List<Evaluable> values;
 
-  public ArrayLiteral(AggregateType type, final List<Value> values) {
+  public ArrayLiteral(AggregateType type, final List<Evaluable> values) {
     super(new AggregateType(type));
     this.values = values;
 
@@ -41,7 +41,7 @@ public class ArrayLiteral extends AggregateLiteral {
 
     int index = 0;
     int size = type.getSize();
-    for (Value val : this.values) {
+    for (Evaluable val : this.values) {
       if (size >= 0 && index >= size) {
         break;
       }

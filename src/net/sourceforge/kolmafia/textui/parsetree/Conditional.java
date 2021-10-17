@@ -7,9 +7,9 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public abstract class Conditional extends Command {
   public Scope scope;
-  private final Value condition;
+  private final Evaluable condition;
 
-  public Conditional(final Scope scope, final Value condition) {
+  public Conditional(final Scope scope, final Evaluable condition) {
     this.scope = scope;
     this.condition = condition;
   }
@@ -18,7 +18,7 @@ public abstract class Conditional extends Command {
     return this.scope;
   }
 
-  public Value getCondition() {
+  public Evaluable getCondition() {
     return this.condition;
   }
 

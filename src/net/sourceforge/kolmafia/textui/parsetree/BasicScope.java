@@ -110,11 +110,12 @@ public abstract class BasicScope extends Command {
     return this.functions.remove(f);
   }
 
-  public final Function findFunction(final String name, List<Value> params) {
+  public final Function findFunction(final String name, List<Evaluable> params) {
     return this.findFunction(name, params, MatchType.ANY);
   }
 
-  public final Function findFunction(final String name, List<Value> params, MatchType matchType) {
+  public final Function findFunction(
+      final String name, List<Evaluable> params, final MatchType matchType) {
     // Functions with no params are fine.
     if (params == null) {
       params = Collections.emptyList();
@@ -209,11 +210,11 @@ public abstract class BasicScope extends Command {
 
   private Function findFunction(
       final Function[] functions,
-      boolean library,
-      String name,
-      final List<Value> params,
-      MatchType match,
-      boolean vararg) {
+      final boolean library,
+      final String name,
+      final List<Evaluable> params,
+      final MatchType match,
+      final boolean vararg) {
     // Search the function list for a match
     for (Function function : functions) {
       if (function.paramsMatch(params, match, vararg)) {

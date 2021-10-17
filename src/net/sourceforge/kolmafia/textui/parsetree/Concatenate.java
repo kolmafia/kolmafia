@@ -7,10 +7,10 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class Concatenate extends Expression {
-  private final ArrayList<Value> strings;
+  private final ArrayList<Evaluable> strings;
 
-  public Concatenate(final Value lhs, final Value rhs) {
-    this.strings = new ArrayList<Value>();
+  public Concatenate(final Evaluable lhs, final Evaluable rhs) {
+    this.strings = new ArrayList<>();
     strings.add(lhs);
     strings.add(rhs);
   }
@@ -20,7 +20,7 @@ public class Concatenate extends Expression {
     return DataTypes.STRING_TYPE;
   }
 
-  public void addString(final Value string) {
+  public void addString(final Evaluable string) {
     strings.add(string);
   }
 
@@ -35,7 +35,7 @@ public class Concatenate extends Expression {
 
     int count = 0;
 
-    for (Value arg : this.strings) {
+    for (Evaluable arg : this.strings) {
       interpreter.traceIndent();
       if (ScriptRuntime.isTracing()) {
         interpreter.trace("Arg " + (++count) + ": " + arg);
@@ -76,7 +76,7 @@ public class Concatenate extends Expression {
     StringBuilder output = new StringBuilder("(");
     int count = 0;
 
-    for (Value string : this.strings) {
+    for (Evaluable string : this.strings) {
       if (count++ > 0) {
         output.append(" + ");
       }
@@ -91,7 +91,7 @@ public class Concatenate extends Expression {
   public void print(final PrintStream stream, final int indent) {
     AshRuntime.indentLine(stream, indent);
     stream.println("<CONCATENATE>");
-    for (Value string : this.strings) {
+    for (Evaluable string : this.strings) {
       string.print(stream, indent + 1);
     }
   }

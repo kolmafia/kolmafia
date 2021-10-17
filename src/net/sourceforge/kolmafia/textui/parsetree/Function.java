@@ -21,7 +21,7 @@ public abstract class Function extends Symbol {
   }
 
   public Function(final String name, final Type type) {
-    this(name, type, new ArrayList<VariableReference>());
+    this(name, type, new ArrayList<>());
   }
 
   public Type getType() {
@@ -149,15 +149,16 @@ public abstract class Function extends Symbol {
     return false;
   }
 
-  public boolean paramsMatch(final List<Value> params, MatchType match, boolean vararg) {
+  public boolean paramsMatch(
+      final List<? extends TypedNode> params, MatchType match, boolean vararg) {
     return (vararg)
         ? this.paramsMatchVararg(params, match)
         : this.paramsMatchNoVararg(params, match);
   }
 
-  private boolean paramsMatchNoVararg(final List<Value> params, MatchType match) {
+  private boolean paramsMatchNoVararg(final List<? extends TypedNode> params, MatchType match) {
     Iterator<VariableReference> refIterator = this.getVariableReferences().iterator();
-    Iterator<Value> valIterator = params.iterator();
+    Iterator<? extends TypedNode> valIterator = params.iterator();
     boolean matched = true;
 
     while (matched && refIterator.hasNext() && valIterator.hasNext()) {
@@ -169,7 +170,7 @@ public abstract class Function extends Symbol {
         break;
       }
 
-      Value currentValue = valIterator.next();
+      TypedNode currentValue = valIterator.next();
       Type valueType = currentValue.getType();
 
       switch (match) {
@@ -199,9 +200,9 @@ public abstract class Function extends Symbol {
     return false;
   }
 
-  private boolean paramsMatchVararg(final List<Value> params, MatchType match) {
+  private boolean paramsMatchVararg(final List<? extends TypedNode> params, MatchType match) {
     Iterator<VariableReference> refIterator = this.getVariableReferences().iterator();
-    Iterator<Value> valIterator = params.iterator();
+    Iterator<? extends TypedNode> valIterator = params.iterator();
     boolean matched = true;
     VariableReference vararg = null;
     VarArgType varargType = null;
@@ -210,7 +211,7 @@ public abstract class Function extends Symbol {
       // A VarArg parameter will consume all remaining values
       VariableReference currentParam = (vararg != null) ? vararg : refIterator.next();
       Type paramType = currentParam.getType();
-      Value currentValue = valIterator.next();
+      TypedNode currentValue = valIterator.next();
       Type valueType = currentValue.getType();
 
       // If have found the vararg, remember it.

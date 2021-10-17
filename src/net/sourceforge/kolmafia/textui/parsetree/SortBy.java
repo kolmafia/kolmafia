@@ -11,7 +11,7 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 public class SortBy extends Command {
   private final VariableReference aggregate;
   private final Variable indexvar, valuevar;
-  private final Value expr;
+  private final Evaluable expr;
 
   // For runtime error messages
   String fileName;
@@ -21,7 +21,7 @@ public class SortBy extends Command {
       final VariableReference aggregate,
       final Variable indexvar,
       final Variable valuevar,
-      final Value expr,
+      final Evaluable expr,
       final Parser parser) {
     this.aggregate = aggregate;
     this.indexvar = indexvar;

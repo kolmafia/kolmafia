@@ -2,21 +2,16 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
-public abstract class Expression extends Value {
-  Value lhs;
-  Value rhs;
+public abstract class Expression extends Evaluable {
+  Evaluable lhs;
+  Evaluable rhs;
 
-  public Value getLeftHandSide() {
+  public Evaluable getLeftHandSide() {
     return this.lhs;
   }
 
-  public Value getRightHandSide() {
+  public Evaluable getRightHandSide() {
     return this.rhs;
-  }
-
-  @Override
-  public String toQuotedString() {
-    return this.toString();
   }
 
   @Override

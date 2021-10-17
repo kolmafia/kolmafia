@@ -1487,6 +1487,33 @@ public class ParserTest {
                 "int", "x", ")", "{", "return", "a", ";", "}", "void", "bar", "(", "foo", "x", ")",
                 "{", "}", "bar", "(", "1", ")", ";")),
         Arguments.of(
+            "record function match",
+            "record rec {int i;}; void foo(rec x) {} foo(new rec());",
+            null,
+            Arrays.asList(
+                "record", "rec", "{", "int", "i", ";", "}", ";", "void", "foo", "(", "rec", "x",
+                ")", "{", "}", "foo", "(", "new", "rec", "(", ")", ")", ";")),
+        Arguments.of(
+            "coerced function match",
+            "void foo(float x) {} foo(1);",
+            null,
+            Arrays.asList(
+                "void", "foo", "(", "float", "x", ")", "{", "}", "foo", "(", "1", ")", ";")),
+        Arguments.of(
+            "vararg function match",
+            "void foo(int... x) {} foo(1, 2, 3);",
+            null,
+            Arrays.asList(
+                "void", "foo", "(", "int", "...", "x", ")", "{", "}", "foo", "(", "1", ",", "2",
+                ",", "3", ")", ";")),
+        Arguments.of(
+            "coerced vararg function match",
+            "void foo(float... x) {} foo(1, 2, 3);",
+            null,
+            Arrays.asList(
+                "void", "foo", "(", "float", "...", "x", ")", "{", "}", "foo", "(", "1", ",", "2",
+                ",", "3", ")", ";")),
+        Arguments.of(
             "function invocation interrupted",
             "call",
             "Variable reference expected for function name",

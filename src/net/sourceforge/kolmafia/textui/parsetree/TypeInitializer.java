@@ -15,6 +15,11 @@ public class TypeInitializer extends Value {
   }
 
   @Override
+  public Type getRawType() {
+    return this.type;
+  }
+
+  @Override
   public Value execute(final AshRuntime interpreter) {
     return this.type.initialValue();
   }
