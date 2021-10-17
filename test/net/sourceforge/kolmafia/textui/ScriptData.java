@@ -39,7 +39,8 @@ public abstract class ScriptData {
   public static class InvalidScriptData extends ScriptData {
     public final String errorText;
 
-    private InvalidScriptData(final String description, final String script, final String errorText) {
+    private InvalidScriptData(
+        final String description, final String script, final String errorText) {
       super(description, script);
       this.errorText = errorText;
     }

@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.textui;
 
-import static net.sourceforge.kolmafia.textui.ScriptData.valid;
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
+import static net.sourceforge.kolmafia.textui.ScriptData.valid;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,8 +39,7 @@ public class ParserTest {
      */
     return Stream.of(
         invalid("Unterminated Java for-loop", "for (", "Expected ), found end of file"),
-        invalid(
-            "Java for-loop, bad incrementer", "for (;;1)", "Variable reference expected"),
+        invalid("Java for-loop, bad incrementer", "for (;;1)", "Variable reference expected"),
         valid(
             "valid empty Java for-loop",
             "for (;;) {}",
@@ -51,12 +50,9 @@ public class ParserTest {
             Arrays.asList(
                 "for", "(", "int", "i", "=", "0", ";", "i", "<", "5", ";", "++", "i", ")", "{",
                 "}")),
-        invalid(
-            "Multiline string, end of line not escaped", "'\n'", "No closing ' found"),
+        invalid("Multiline string, end of line not escaped", "'\n'", "No closing ' found"),
         valid(
-            "Multiline string, end of line properly escaped",
-            "'\\\n'",
-            Arrays.asList("'\\", "'")),
+            "Multiline string, end of line properly escaped", "'\\\n'", Arrays.asList("'\\", "'")),
         valid(
             "Multiline string, end of line properly escaped + empty lines",
             "'\\\n\n   \n\n\n'",
@@ -90,16 +86,14 @@ public class ParserTest {
             "Typed constant escaped characters",
             "$boolean[\\f\\a\\l\\s\\e]",
             Arrays.asList("$", "boolean", "[", "\\f\\a\\l\\s\\e", "]")),
-        invalid(
-            "Typed constant bad typecast", "$boolean['']", "Bad boolean value: \"''\""),
+        invalid("Typed constant bad typecast", "$boolean['']", "Bad boolean value: \"''\""),
         invalid("Typed constant, unknown type", "$foo[]", "Unknown type foo"),
         invalid(
             "Typed constant, non-primitive type",
             "record r {int i;}; $r[]",
             "Non-primitive type r"),
         invalid("Typed constant multiline", "$boolean[\n]", "No closing ] found"),
-        invalid(
-            "Typed constant, escaped multiline", "$boolean[\\\n]", "No closing ] found"),
+        invalid("Typed constant, escaped multiline", "$boolean[\\\n]", "No closing ] found"),
         valid(
             "Typed constant, nested brackets, proper",
             "$item[[8042]rock]",
@@ -145,13 +139,10 @@ public class ParserTest {
                 "[",
                 "dire warren",
                 "]")),
-        valid(
-            "empty typed constant", "$string[]", Arrays.asList("$", "string", "[", "]")),
+        valid("empty typed constant", "$string[]", Arrays.asList("$", "string", "[", "]")),
         invalid("Plural constant, abrupt end", "$booleans[", "No closing ] found"),
-        invalid(
-            "Plural constant, unknown plural type", "$kolmafia[]", "Unknown type kolmafia"),
-        invalid(
-            "Plural constant, RAM-protection", "$strings[]", "Can't enumerate all strings"),
+        invalid("Plural constant, unknown plural type", "$kolmafia[]", "Unknown type kolmafia"),
+        invalid("Plural constant, RAM-protection", "$strings[]", "Can't enumerate all strings"),
         valid(
             "Plural constant, non... \"traditional\" plurals",
             "$bounties[]; $classes[]; $phyla[]",
@@ -262,8 +253,7 @@ public class ParserTest {
                 ":",
                 "2",
                 "}")),
-        invalid(
-            "Unterminated aggregate literal", "int[int] {", "Expected }, found end of file"),
+        invalid("Unterminated aggregate literal", "int[int] {", "Expected }, found end of file"),
         invalid("Interrupted map literal", "int[int] {:", "Script parsing error"),
         valid(
             "Simple array literal",
@@ -305,10 +295,8 @@ public class ParserTest {
             "Interrupted multidimensional map literal",
             "int[int, int] {1:",
             "Script parsing error"),
-        invalid(
-            "Invalid array literal coercion", "int[int]{ 'foo' }", "Invalid array literal"),
-        invalid(
-            "Invalid map literal coercion", "int[int]{ 'foo':'bar' }", "Invalid map literal"),
+        invalid("Invalid array literal coercion", "int[int]{ 'foo' }", "Invalid array literal"),
+        invalid("Invalid map literal coercion", "int[int]{ 'foo':'bar' }", "Invalid map literal"),
         invalid(
             "Ambiguity between array and map literal",
             "boolean[5]{ 0:true, 1:true, 2:false, true, 4:false }",
@@ -333,8 +321,7 @@ public class ParserTest {
             "int foo; typedef int foo; (\nfoo\n\n + 2);",
             Arrays.asList(
                 "int", "foo", ";", "typedef", "int", "foo", ";", "(", "foo", "+", "2", ")", ";")),
-        invalid(
-            "interrupted script directive", "script", "Expected <, found end of file"),
+        invalid("interrupted script directive", "script", "Expected <, found end of file"),
         valid(
             "script directive delimited with <>",
             "script <zlib.ash>;",
@@ -347,14 +334,9 @@ public class ParserTest {
             "script directive without delimiter",
             "script zlib.ash",
             Arrays.asList("script", "zlib.ash")),
-        invalid(
-            "Unterminated script directive", "script \"zlib.ash", "No closing \" found"),
-        valid(
-            "Script with bom", "\ufeff    'hello world'", Arrays.asList("'hello world'")),
-        valid(
-            "Simple operator assignment",
-            "int x = 3;",
-            Arrays.asList("int", "x", "=", "3", ";")),
+        invalid("Unterminated script directive", "script \"zlib.ash", "No closing \" found"),
+        valid("Script with bom", "\ufeff    'hello world'", Arrays.asList("'hello world'")),
+        valid("Simple operator assignment", "int x = 3;", Arrays.asList("int", "x", "=", "3", ";")),
         valid(
             "Compound operator assignment",
             "int x; x += 3;",
@@ -378,21 +360,15 @@ public class ParserTest {
             Arrays.asList(
                 "int", "[", "4", "]", "x", ";", "x", "=", "{", "1", ",", "2", ",", "3", ",", "4",
                 "}", ";")),
-        valid(
-            "since passes for low revision",
-            "since r100;",
-            Arrays.asList("since", "r100", ";")),
+        valid("since passes for low revision", "since r100;", Arrays.asList("since", "r100", ";")),
         invalid(
             "since fails for high revision",
             "since r2000000000;",
             "requires revision r2000000000 of kolmafia or higher"),
         invalid("Invalid since version", "since 10;", "invalid 'since' format"),
-        valid(
-            "since passes for low version", "since 1.0;", Arrays.asList("since", "1.0", ";")),
-        invalid(
-            "since fails for high version", "since 2000000000.0;", "final point release"),
-        invalid(
-            "since fails for not-a-number", "since yesterday;", "invalid 'since' format"),
+        valid("since passes for low version", "since 1.0;", Arrays.asList("since", "1.0", ";")),
+        invalid("since fails for high version", "since 2000000000.0;", "final point release"),
+        invalid("since fails for not-a-number", "since yesterday;", "invalid 'since' format"),
         valid(
             "Basic function with one argument",
             "void f(int a) {}",
@@ -407,8 +383,7 @@ public class ParserTest {
             "Invalid function name",
             "void float() {}",
             "Reserved word 'float' cannot be used as a function name"),
-        invalid(
-            "Basic function interrupted", "void f(", "Expected ), found end of file"),
+        invalid("Basic function interrupted", "void f(", "Expected ), found end of file"),
         invalid(
             "Basic function parameter interrupted",
             "void f(int",
@@ -457,10 +432,7 @@ public class ParserTest {
                 "(", "!", "(", "~", "-", "5", "==", "10", ")", "&&", "True", "||", "FALSE", ")",
                 ";")),
         invalid("Interrupted ! expression", "(!", "Value expected"),
-        invalid(
-            "Non-boolean ! expression",
-            "(!'abc');",
-            "\"!\" operator requires a boolean value"),
+        invalid("Non-boolean ! expression", "(!'abc');", "\"!\" operator requires a boolean value"),
         invalid("Interrupted ~ expression", "(~", "Value expected"),
         invalid(
             "Non-boolean/integer ~ expression",
@@ -512,9 +484,7 @@ public class ParserTest {
             "123.to_string();",
             Arrays.asList("123", ".", "to_string", "(", ")", ";")),
         valid(
-            "Unary minus",
-            "int x; (-x);",
-            Arrays.asList("int", "x", ";", "(", "-", "x", ")", ";")),
+            "Unary minus", "int x; (-x);", Arrays.asList("int", "x", ";", "(", "-", "x", ")", ";")),
         valid(
             "Chained if/else-if/else",
             "if (false) {} else if (false) {} else if (false) {} else {}",
@@ -522,10 +492,7 @@ public class ParserTest {
                 "if", "(", "false", ")", "{", "}", "else", "if", "(", "false", ")", "{", "}",
                 "else", "if", "(", "false", ")", "{", "}", "else", "{", "}")),
         invalid("Multiple else", "if (false) {} else {} else {}", "Else without if"),
-        invalid(
-            "else-if after else",
-            "if (false) {} else {} else if (true) {}",
-            "Else without if"),
+        invalid("else-if after else", "if (false) {} else {} else if (true) {}", "Else without if"),
         invalid("else without if", "else {}", "Unknown variable 'else'"),
         valid(
             "Multiline cli_execute script",
@@ -536,10 +503,7 @@ public class ParserTest {
                 "echo hello world;",
                 "echo sometimes we don't have a semicolon",
                 "}")),
-        invalid(
-            "Interrupted cli_execute script",
-            "cli_execute {",
-            "Expected }, found end of file"),
+        invalid("Interrupted cli_execute script", "cli_execute {", "Expected }, found end of file"),
         valid(
             "Non-basic-script cli_execute",
             "int cli_execute; cli_execute++",
@@ -616,8 +580,7 @@ public class ParserTest {
             "'\\u1'",
             "Unicode character escape requires 4 digits"),
         invalid("string with escaped eof", "'\\", "No closing ' found"),
-        invalid(
-            "plural typed constant with escaped eof", "$items[true\\", "No closing ] found"),
+        invalid("plural typed constant with escaped eof", "$items[true\\", "No closing ] found"),
         valid(
             "plural typed constant with escaped space",
             "$effects[\n\tBuy!\\ \\ Sell!\\ \\ Buy!\\ \\ Sell!\n]",
@@ -625,13 +588,8 @@ public class ParserTest {
         invalid("unterminated plural aggregate typ", "int[", "Missing index token"),
         // TODO: add tests for size == 0, size < 0, which ought to fail.
         valid(
-            "array with explicit size",
-            "int[2] x;",
-            Arrays.asList("int", "[", "2", "]", "x", ";")),
-        valid(
-            "array with unspecified size",
-            "int[] x;",
-            Arrays.asList("int", "[", "]", "x", ";")),
+            "array with explicit size", "int[2] x;", Arrays.asList("int", "[", "2", "]", "x", ";")),
+        valid("array with unspecified size", "int[] x;", Arrays.asList("int", "[", "]", "x", ";")),
         valid(
             "multidimensional array with partially specified size (1)",
             "int[2][] x;",
@@ -661,13 +619,10 @@ public class ParserTest {
             "multidimensional map with partially-specified comma-separated type",
             "int[int,] x;",
             "Missing index token"),
-        invalid(
-            "abruptly terminated 1-d map", "int[int", "Expected , or ], found end of file"),
-        invalid(
-            "abruptly terminated 1-d array", "int[4", "Expected , or ], found end of file"),
+        invalid("abruptly terminated 1-d map", "int[int", "Expected , or ], found end of file"),
+        invalid("abruptly terminated 1-d array", "int[4", "Expected , or ], found end of file"),
         invalid("map with unknown type", "int[a] x;", "Invalid type name 'a'"),
-        invalid(
-            "map containing aggregate type", "int[int[]] x;", "Expected , or ], found ["),
+        invalid("map containing aggregate type", "int[int[]] x;", "Expected , or ], found ["),
         valid(
             "multidimensional map with comma-separated type",
             "int[int, int] x;",
@@ -681,9 +636,7 @@ public class ParserTest {
             "int[][] x;",
             Arrays.asList("int", "[", "]", "[", "]", "x", ";")),
         valid(
-            "single static declaration",
-            "static int x;",
-            Arrays.asList("static", "int", "x", ";")),
+            "single static declaration", "static int x;", Arrays.asList("static", "int", "x", ";")),
         valid(
             "single static definition",
             "static int x = 1;",
@@ -704,19 +657,13 @@ public class ParserTest {
             "simple static block",
             "static { int x; }",
             Arrays.asList("static", "{", "int", "x", ";", "}")),
-        invalid(
-            "unterminated static declaration",
-            "static int x\nint y;",
-            "Expected ;, found int"),
-        invalid(
-            "unterminated static block", "static {", "Expected }, found end of file"),
+        invalid("unterminated static declaration", "static int x\nint y;", "Expected ;, found int"),
+        invalid("unterminated static block", "static {", "Expected }, found end of file"),
         invalid("lone static", "static;", "command or declaration required"),
-        invalid(
-            "unterminated typedef", "typedef int foo\n foo bar;", "Expected ;, found foo"),
+        invalid("unterminated typedef", "typedef int foo\n foo bar;", "Expected ;, found foo"),
         invalid("typedef with no type", "typedef;", "Missing data type for typedef"),
         invalid("typedef with no name", "typedef int;", "Type name expected"),
-        invalid(
-            "typedef with non-identifier name", "typedef int 1;", "Invalid type name '1'"),
+        invalid("typedef with non-identifier name", "typedef int 1;", "Invalid type name '1'"),
         invalid(
             "typedef with reserved name",
             "typedef int remove;",
@@ -730,13 +677,9 @@ public class ParserTest {
             "typedef float double; typedef float double;",
             Arrays.asList("typedef", "float", "double", ";", "typedef", "float", "double", ";")),
         invalid(
-            "inner main",
-            "void foo() { void main() {} }",
-            "main method must appear at top level"),
-        invalid(
-            "unterminated top-level declaration", "int x\nint y", "Expected ;, found int"),
-        invalid(
-            "type but no declaration", "int;", "Type given but not used to declare anything"),
+            "inner main", "void foo() { void main() {} }", "main method must appear at top level"),
+        invalid("unterminated top-level declaration", "int x\nint y", "Expected ;, found int"),
+        invalid("type but no declaration", "int;", "Type given but not used to declare anything"),
         valid(
             "aggregate-initialized definition",
             "int[1] x { 1 };",
@@ -744,9 +687,7 @@ public class ParserTest {
         invalid("record with no body", "record a;", "Expected {, found ;"),
         invalid("record with no name or body", "record;", "Record name expected"),
         invalid(
-            "record with non-identifier name",
-            "record 1 { int a;};",
-            "Invalid record name '1'"),
+            "record with non-identifier name", "record 1 { int a;};", "Invalid record name '1'"),
         invalid(
             "record with reserved name",
             "record int { int a;};",
@@ -757,11 +698,8 @@ public class ParserTest {
             "Record name 'a' is already defined"),
         invalid("record without fields", "record a {};", "Record field(s) expected"),
         invalid(
-            "record with void field type",
-            "record a { void a;};",
-            "Non-void field type expected"),
-        invalid(
-            "record with unknown field type", "record a { foo a;};", "Type name expected"),
+            "record with void field type", "record a { void a;};", "Non-void field type expected"),
+        invalid("record with unknown field type", "record a { foo a;};", "Type name expected"),
         invalid("record with no field name", "record a { int;};", "Field name expected"),
         invalid(
             "record with non-identifier field name",
@@ -779,8 +717,7 @@ public class ParserTest {
             "record with missing semicolon",
             "record a { int b\n float c;};",
             "Expected ;, found float"),
-        invalid(
-            "unterminated record", "record a { int b;", "Expected }, found end of file"),
+        invalid("unterminated record", "record a { int b;", "Expected }, found end of file"),
         invalid(
             "declaration with non-identifier name",
             "int 1;",
@@ -789,17 +726,13 @@ public class ParserTest {
             "declaration with reserved name",
             "int class;",
             "Reserved word 'class' cannot be a variable name"),
-        invalid(
-            "multiple-definition", "int x = 1; int x = 2;", "Variable x is already defined"),
+        invalid("multiple-definition", "int x = 1; int x = 2;", "Variable x is already defined"),
         invalid(
             "variable declaration followed by definition",
             // One might expect this to be acceptable.
             "int x; int x = 1;",
             "Variable x is already defined"),
-        invalid(
-            "parameter initialization",
-            "int f(int x = 1) {}",
-            "Cannot initialize parameter x"),
+        invalid("parameter initialization", "int f(int x = 1) {}", "Cannot initialize parameter x"),
         invalid(
             "brace assignment of primitive",
             "int x = {1}",
@@ -808,16 +741,12 @@ public class ParserTest {
             "brace assignment of array",
             "int[] x = {1, 2, 3};",
             Arrays.asList("int", "[", "]", "x", "=", "{", "1", ",", "2", ",", "3", "}", ";")),
-        invalid(
-            "invalid coercion", "int x = 'hello';", "Cannot store string in x of type int"),
+        invalid("invalid coercion", "int x = 'hello';", "Cannot store string in x of type int"),
         valid(
             "float->int assignment",
             "int x = 1.0;",
             Arrays.asList("int", "x", "=", "1", ".", "0", ";")),
-        valid(
-            "int->float assignment",
-            "float y = 1;",
-            Arrays.asList("float", "y", "=", "1", ";")),
+        valid("int->float assignment", "float y = 1;", Arrays.asList("float", "y", "=", "1", ";")),
         invalid("assignment missing rhs", "int x =", "Expression expected"),
         invalid("assignment missing rhs 2", "int x; x =", "Expression expected"),
         invalid(
@@ -833,8 +762,7 @@ public class ParserTest {
             "boolean x; x += 'foo'",
             "Cannot store string in x of type boolean"),
         invalid("break outside loop", "break;", "Encountered 'break' outside of loop"),
-        invalid(
-            "continue outside loop", "continue;", "Encountered 'continue' outside of loop"),
+        invalid("continue outside loop", "continue;", "Encountered 'continue' outside of loop"),
         valid(
             // Catch in ASH is comparable to a function that catches and
             // returns the text of any errors thrown by its block.
@@ -920,8 +848,7 @@ public class ParserTest {
             "for i from 1 downto 10000;",
             Arrays.asList("for", "i", "from", "1", "downto", "10000", ";")),
         invalid("no return from int function", "int f() {}", "Missing return value"),
-        invalid(
-            "return void from int function", "int f() { return; }", "Return needs int value"),
+        invalid("return void from int function", "int f() { return; }", "Return needs int value"),
         invalid(
             "return string from int function",
             "int f() { return 'str'; }",
@@ -930,8 +857,7 @@ public class ParserTest {
             "return int from void function",
             "void f() { return 1; }",
             "Cannot return a value from a void function"),
-        invalid(
-            "non-expression return", "int f() { return (); }", "Expression expected"),
+        invalid("non-expression return", "int f() { return (); }", "Expression expected"),
         valid(
             "single-command if",
             "if (true) print('msg');",
@@ -940,17 +866,11 @@ public class ParserTest {
         invalid("unclosed block scope", "{", "Expected }, found end of file"),
         // if / else-if / else
         invalid("if without condition", "if true", "Expected (, found true"),
-        invalid(
-            "if with empty condition", "if ()", "\"if\" requires a boolean condition"),
-        invalid(
-            "if with numeric condition", "if (1)", "\"if\" requires a boolean condition"),
-        invalid(
-            "if with unclosed condition", "if (true", "Expected ), found end of file"),
+        invalid("if with empty condition", "if ()", "\"if\" requires a boolean condition"),
+        invalid("if with numeric condition", "if (1)", "\"if\" requires a boolean condition"),
+        invalid("if with unclosed condition", "if (true", "Expected ), found end of file"),
         // These probably shouldn't need to be separate test cases...
-        invalid(
-            "else if without condition",
-            "if (false); else if true",
-            "Expected (, found true"),
+        invalid("else if without condition", "if (false); else if true", "Expected (, found true"),
         invalid(
             "else if with empty condition",
             "if (false); else if ()",
@@ -961,14 +881,9 @@ public class ParserTest {
             "Expected ), found end of file"),
         // while
         invalid("while without condition", "while true", "Expected (, found true"),
-        invalid(
-            "while with empty condition",
-            "while ()",
-            "\"while\" requires a boolean condition"),
-        invalid(
-            "while with unclosed condition", "while (true", "Expected ), found end of file"),
-        invalid(
-            "while with unclosed loop", "while (true) {", "Expected }, found end of file"),
+        invalid("while with empty condition", "while ()", "\"while\" requires a boolean condition"),
+        invalid("while with unclosed condition", "while (true", "Expected ), found end of file"),
+        invalid("while with unclosed loop", "while (true) {", "Expected }, found end of file"),
         invalid(
             "while with multiple statements but no semicolon",
             "while (true) print(5)\nprint(6)",
@@ -979,10 +894,8 @@ public class ParserTest {
             "repeat print('hello'); until(true);",
             Arrays.asList(
                 "repeat", "print", "(", "'hello'", ")", ";", "until", "(", "true", ")", ";")),
-        invalid(
-            "repeat without until", "repeat {}", "Expected until, found end of file"),
-        invalid(
-            "repeat without condition", "repeat {} until true", "Expected (, found true"),
+        invalid("repeat without until", "repeat {}", "Expected until, found end of file"),
+        invalid("repeat without condition", "repeat {} until true", "Expected (, found true"),
         invalid(
             "repeat with empty condition",
             "repeat {} until ('done')",
@@ -996,29 +909,17 @@ public class ParserTest {
             "Expected ), found end of file"),
         // switch
         invalid(
-            "switch without condition or block",
-            "switch true {}",
-            "Expected ( or {, found true"),
+            "switch without condition or block", "switch true {}", "Expected ( or {, found true"),
+        invalid("switch with empty condition", "switch ()", "\"switch ()\" requires an expression"),
+        invalid("switch with unclosed condition", "switch (true", "Expected ), found end of file"),
         invalid(
-            "switch with empty condition",
-            "switch ()",
-            "\"switch ()\" requires an expression"),
-        invalid(
-            "switch with unclosed condition",
-            "switch (true",
-            "Expected ), found end of file"),
-        invalid(
-            "switch with condition but no block",
-            "switch (true)",
-            "Expected {, found end of file"),
+            "switch with condition but no block", "switch (true)", "Expected {, found end of file"),
         invalid(
             "switch with condition but unclosed block",
             "switch (true) {",
             "Expected }, found end of file"),
         valid(
-            "switch with block and no condition",
-            "switch { }",
-            Arrays.asList("switch", "{", "}")),
+            "switch with block and no condition", "switch { }", Arrays.asList("switch", "{", "}")),
         valid(
             "switch with block, non-const label",
             "boolean x; switch { case x: }",
@@ -1044,9 +945,7 @@ public class ParserTest {
             "switch { case: }",
             "Case label needs to be followed by an expression"),
         invalid(
-            "switch case not terminated by colon",
-            "switch { case true; }",
-            "Expected :, found ;"),
+            "switch case not terminated by colon", "switch { case true; }", "Expected :, found ;"),
         invalid(
             "switch default not terminated by colon",
             "switch { default true; }",
@@ -1061,9 +960,7 @@ public class ParserTest {
             "switch { case 1: }",
             "Switch conditional has type boolean but label expression has type int"),
         invalid(
-            "duplicate switch label",
-            "switch (1) { case 0: case 0: }",
-            "Duplicate case label: 0"),
+            "duplicate switch label", "switch (1) { case 0: case 0: }", "Duplicate case label: 0"),
         invalid(
             "switch, multiple default labels",
             "switch (1) { default: default: }",
@@ -1076,19 +973,15 @@ public class ParserTest {
             "variable definition of sort",
             "int sort = 0;",
             Arrays.asList("int", "sort", "=", "0", ";")),
-        valid(
-            "variable declaration of sort", "int sort;", Arrays.asList("int", "sort", ";")),
+        valid("variable declaration of sort", "int sort;", Arrays.asList("int", "sort", ";")),
         valid(
             "function named sort",
             "void sort(){} sort();",
             Arrays.asList("void", "sort", "(", ")", "{", "}", "sort", "(", ")", ";")),
         invalid(
-            "sort not-a-variable primitive",
-            "sort 2 by value;",
-            "Aggregate reference expected"),
+            "sort not-a-variable primitive", "sort 2 by value;", "Aggregate reference expected"),
         invalid("sort without by", "int[] x {3,2,1}; sort x;", "Expected by, found ;"),
-        invalid(
-            "Sort, no sorting expression", "int[] x; sort x by", "Expression expected"),
+        invalid("Sort, no sorting expression", "int[] x; sort x by", "Expression expected"),
         valid(
             "valid sort",
             "int[] x; sort x by value*3;",
@@ -1103,9 +996,7 @@ public class ParserTest {
             "Reserved word 'item' cannot be a key variable"),
         invalid("foreach missing `in`", "foreach it;", "Expected in, found ;"),
         invalid(
-            "foreach missing key variable name",
-            "foreach in it;",
-            "Key variable name expected"),
+            "foreach missing key variable name", "foreach in it;", "Key variable name expected"),
         invalid(
             "foreach key variable named 'in'",
             "foreach in in it;",
@@ -1141,8 +1032,7 @@ public class ParserTest {
             // a nested scope.
             "int i; for i from 1 upto 10;",
             "Index variable 'i' is already defined"),
-        invalid(
-            "for without from", "for i in range(10):\n  print(i)", "Expected from, found in"),
+        invalid("for without from", "for i in range(10):\n  print(i)", "Expected from, found in"),
         invalid(
             "for with invalid dest keyword",
             "for i from 1 until 10;",
@@ -1154,9 +1044,7 @@ public class ParserTest {
                 "for", "(", "int", "i", "=", "0", ",", "int", "length", "=", "5", ";", "i", "<",
                 "length", ";", "i", "++", ")", ";")),
         invalid(
-            "javaFor with empty initializer",
-            "for (int i=0,; i < 5; ++i);",
-            "Identifier expected"),
+            "javaFor with empty initializer", "for (int i=0,; i < 5; ++i);", "Identifier expected"),
         valid(
             "javaFor with compound increment",
             "for (int i=0; i < 5; i+=1);",
@@ -1190,9 +1078,7 @@ public class ParserTest {
                 "for", "(", "int", "i", "=", "0", ";", "i", "<", "5", ";", "i", "=", "1", ")",
                 ";")),
         invalid(
-            "javaFor missing initial identifier",
-            "for (0; i < 5; i++);",
-            "Identifier required"),
+            "javaFor missing initial identifier", "for (0; i < 5; i++);", "Identifier required"),
         invalid(
             "javaFor missing initializer expression",
             "for (int i =; i < 5; i++);",
@@ -1224,14 +1110,10 @@ public class ParserTest {
             "function call interrupted after comma",
             "print(1,",
             "Expected parameter, found end of file"),
+        invalid("function call closed after comma", "print(1,);", "Expected parameter, found )"),
         invalid(
-            "function call closed after comma", "print(1,);", "Expected parameter, found )"),
-        invalid(
-            "function call interrupted after param",
-            "print(1",
-            "Expected ), found end of file"),
-        invalid(
-            "function call with non-comma separator", "print(1; 2);", "Expected ), found ;"),
+            "function call interrupted after param", "print(1", "Expected ), found end of file"),
+        invalid("function call with non-comma separator", "print(1; 2);", "Expected ), found ;"),
         valid(
             "function parameter coercion to ANY_TYPE",
             "dump('foo', 'bar');",
@@ -1302,8 +1184,7 @@ public class ParserTest {
             "preincrement with non-numeric variable",
             "string x; ++x;",
             "++X requires a numeric variable reference"),
-        invalid(
-            "preincrement requires a variable", "++1;", "Variable reference expected"),
+        invalid("preincrement requires a variable", "++1;", "Variable reference expected"),
         valid(
             "predecrement with float variable",
             "float x; --x;",
@@ -1326,8 +1207,7 @@ public class ParserTest {
             "ternary with non-boolean condition",
             "int x = 1 ? 1 : 2;",
             "Non-boolean expression 1 (int)"),
-        invalid(
-            "ternary without lhs", "int x = true ? : 2;", "Value expected in left hand side"),
+        invalid("ternary without lhs", "int x = true ? : 2;", "Value expected in left hand side"),
         invalid("ternary without colon", "int x = true ? 1;", "Expected :, found ;"),
         invalid(
             "ternary without rhs",
@@ -1339,18 +1219,15 @@ public class ParserTest {
             "(true ? 1 : $item[none];",
             "Cannot choose between 1 (int) and none (item)"),
         // parseValue
-        invalid(
-            "unclosed parenthetical expression", "(true", "Expected ), found end of file"),
+        invalid("unclosed parenthetical expression", "(true", "Expected ), found end of file"),
         invalid("aggregate literal without braces", "(int[])", "Expected {, found )"),
         valid(
             "indexed variable reference",
             "int[5] x; x[0];",
             Arrays.asList("int", "[", "5", "]", "x", ";", "x", "[", "0", "]", ";")),
         invalid("indexed primitive", "int x; x[0];", "Variable 'x' cannot be indexed"),
-        invalid(
-            "over-indexed variable reference", "int[5] x; x[0,1];", "Too many keys for 'x'"),
-        invalid(
-            "empty indexed variable reference", "int[5] x; x[];", "Index for 'x' expected"),
+        invalid("over-indexed variable reference", "int[5] x; x[0,1];", "Too many keys for 'x'"),
+        invalid("empty indexed variable reference", "int[5] x; x[];", "Index for 'x' expected"),
         invalid(
             "unterminated aggregate variable reference",
             "int[5] x; x[0",
@@ -1389,13 +1266,9 @@ public class ParserTest {
             "record {int a;} r; r.a;",
             Arrays.asList("record", "{", "int", "a", ";", "}", "r", ";", "r", ".", "a", ";")),
         invalid(
-            "record field reference without field",
-            "record {int a;} r; r.",
-            "Field name expected"),
+            "record field reference without field", "record {int a;} r; r.", "Field name expected"),
         invalid(
-            "record unknown field reference",
-            "record {int a;} r; r.b;",
-            "Invalid field name 'b'"),
+            "record unknown field reference", "record {int a;} r; r.b;", "Invalid field name 'b'"),
         invalid(
             "Illegal record creation",
             "void f( record foo {int a; int b;} bar )",
@@ -1453,7 +1326,8 @@ public class ParserTest {
   public void testScriptValidity(ScriptData script) {
     if (script instanceof InvalidScriptData) {
       ScriptException e = assertThrows(ScriptException.class, script.parser::parse, script.desc);
-      assertThat(script.desc, e.getMessage(), containsString(((InvalidScriptData) script).errorText));
+      assertThat(
+          script.desc, e.getMessage(), containsString(((InvalidScriptData) script).errorText));
       return;
     }
 
