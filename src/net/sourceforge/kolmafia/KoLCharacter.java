@@ -2342,8 +2342,9 @@ public abstract class KoLCharacter {
     if (adventuresLeft != KoLCharacter.adventuresLeft) {
       if (Taskbar.isTaskbarSupported()) {
         Taskbar taskbar = Taskbar.getTaskbar();
-        if (taskbar.isSupported(Taskbar.Feature.ICON_BADGE_TEXT)
-            || Preferences.getBoolean("useDockIconBadge")) {
+        if ((taskbar.isSupported(Taskbar.Feature.ICON_BADGE_TEXT)
+                || taskbar.isSupported(Taskbar.Feature.ICON_BADGE_NUMBER))
+            && Preferences.getBoolean("useDockIconBadge")) {
           taskbar.setIconBadge(String.valueOf(adventuresLeft));
         }
       }

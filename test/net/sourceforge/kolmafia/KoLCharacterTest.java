@@ -39,8 +39,10 @@ public class KoLCharacterTest {
     Preferences.setBoolean("useDockIconBadge", true);
 
     assertEquals(0, KoLCharacter.getAdventuresLeft());
-    // On Windows, this will trigger a debug log and bail early.
     KoLCharacter.setAdventuresLeft(10);
+
+    // Unfortunately there's no easy way to check taskbar badge state, so we're instead relying on
+    // this not bailing or raising an exception before it updates its internal state.
 
     assertEquals(10, KoLCharacter.getAdventuresLeft());
 
