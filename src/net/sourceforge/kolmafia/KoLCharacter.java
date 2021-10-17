@@ -468,6 +468,8 @@ public abstract class KoLCharacter {
 
     KoLCharacter.mask = null;
 
+    KoLCharacter.adventuresLeft = 0;
+
     KoLCharacter.attacksLeft = 0;
     KoLCharacter.adjustedStats = new int[3];
     KoLCharacter.totalSubpoints = new long[3];

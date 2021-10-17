@@ -33,6 +33,20 @@ public class KoLCharacterTest {
     assertEquals("testname", KoLCharacter.getUserName());
   }
 
+  @Test
+  public void setAdventuresLeftUpdatesState() {
+    // This is a global preference, and should be settable without being logged in.
+    Preferences.setBoolean("useDockIconBadge", true);
+
+    assertEquals(0, KoLCharacter.getAdventuresLeft());
+    // On Windows, this will trigger a debug log and bail early.
+    KoLCharacter.setAdventuresLeft(10);
+
+    assertEquals(10, KoLCharacter.getAdventuresLeft());
+
+    Preferences.resetToDefault("useDockIconBadge");
+  }
+
   @AfterEach
   void resetUsername() {
     KoLCharacter.reset("");
