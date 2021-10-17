@@ -468,6 +468,8 @@ public abstract class KoLCharacter {
 
     KoLCharacter.mask = null;
 
+    KoLCharacter.adventuresLeft = 0;
+
     KoLCharacter.attacksLeft = 0;
     KoLCharacter.adjustedStats = new int[3];
     KoLCharacter.totalSubpoints = new long[3];
@@ -2340,8 +2342,9 @@ public abstract class KoLCharacter {
     if (adventuresLeft != KoLCharacter.adventuresLeft) {
       if (Taskbar.isTaskbarSupported()) {
         Taskbar taskbar = Taskbar.getTaskbar();
-        if (taskbar.isSupported(Taskbar.Feature.ICON_BADGE_TEXT)
-            || Preferences.getBoolean("useDockIconBadge")) {
+        if ((taskbar.isSupported(Taskbar.Feature.ICON_BADGE_TEXT)
+                || taskbar.isSupported(Taskbar.Feature.ICON_BADGE_NUMBER))
+            && Preferences.getBoolean("useDockIconBadge")) {
           taskbar.setIconBadge(String.valueOf(adventuresLeft));
         }
       }
