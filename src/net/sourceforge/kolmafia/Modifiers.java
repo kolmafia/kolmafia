@@ -1720,8 +1720,8 @@ public class Modifiers {
     }
 
     // Make sure the modifiers apply to current class
-    String type = mods.strings[Modifiers.CLASS];
-    if (type != "" && !type.equals(KoLCharacter.getAscensionClass().getName())) {
+    AscensionClass ascensionClass = AscensionClass.nameToClass(mods.strings[Modifiers.CLASS]);
+    if (ascensionClass != null && ascensionClass != KoLCharacter.getAscensionClass()) {
       return;
     }
 

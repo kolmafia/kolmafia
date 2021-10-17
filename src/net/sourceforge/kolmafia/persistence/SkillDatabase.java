@@ -645,7 +645,7 @@ public class SkillDatabase {
     }
 
     if (classType != null) {
-      return KoLCharacter.getAscensionClass().equals(classType)
+      return KoLCharacter.getAscensionClass() == classType
           ? 0
           : Math.max(1 + KoLCharacter.getManaCostAdjustment(), 1);
     }

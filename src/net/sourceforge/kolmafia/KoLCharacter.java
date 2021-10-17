@@ -5634,9 +5634,9 @@ public abstract class KoLCharacter {
         int itemId = item.getItemId();
         Modifiers imod = Modifiers.getItemModifiers(itemId);
         if (imod != null) {
-          String classType = imod.getString(Modifiers.CLASS);
-          if (classType == ""
-              || classType.equals(ascensionClass.getName())
+          AscensionClass classType = AscensionClass.nameToClass(imod.getString(Modifiers.CLASS));
+          if (classType == null
+              || classType == ascensionClass
                   && (slot != EquipmentManager.FAMILIAR
                       || KoLCharacter.getFamiliar().getId() == FamiliarPool.HAND)) {
             smithsness += imod.get(Modifiers.SMITHSNESS);
