@@ -27,7 +27,7 @@ public class ScrapheapRequestTest extends RequestTestBase {
     Preferences.saveSettingsToFile = true;
   }
 
-  private synchronized int parseActivations(String path) throws IOException {
+  private int parseActivations(String path) throws IOException {
 
     String html = Files.readString(Paths.get(path));
     var req = new ScrapheapRequest("sh_chrono");
