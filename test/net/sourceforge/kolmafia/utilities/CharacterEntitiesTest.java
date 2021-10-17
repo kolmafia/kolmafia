@@ -23,17 +23,18 @@ public class CharacterEntitiesTest {
 
   @Test
   // This test discovered that escape and unescape are not inverses for all inputs.
-  // That may be because of the aggressive way Java substitutes unicode
   public void itShouldUnescape() {
     String a = "This is mixed and matched &pound; &curren;";
     String ua = CharacterEntities.unescape(a);
     String eua = CharacterEntities.escape(ua);
     assertEquals(a, eua);
     String b = "This is mixed and matched \u00a3 \u00a4";
-    String ub = CharacterEntities.unescape(b); // no & so unchanged
+    String ub = CharacterEntities.unescape(b);  //nothing to unescape so should be equal
     assertEquals(b, ub);
-    String eub = CharacterEntities.escape(ub); // should replace
-    assertEquals(a, eub); // if really inverse should compare b and eub
+    String eub = CharacterEntities.escape(ub);  //there should be a replacement
+    assertNotEquals(ub, eub); //so not equal
+    assertNotEquals(b, eub); //and not inverse
+    assertEquals(a, eub); //true because of data choice.
   }
 
   @Test
