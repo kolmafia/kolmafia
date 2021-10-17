@@ -16,17 +16,16 @@ import org.junit.jupiter.params.provider.MethodSource;
 class BasementRequestTest extends RequestTestBase {
 
   @BeforeAll
-  private static void injectPreferences() {
+  protected static void injectPreferences() {
+    Preferences.saveSettingsToFile = false;
+    // Set a username so we can edit preferences and have per-user defaults.
     KoLCharacter.reset("fakeUserName");
-
-    // Now that we have a username set, we can edit preferences and have per-user defaults.
-    // But first, make sure we don't persist anything.
-    Preferences.setBoolean("saveSettingsOnSet", false);
   }
 
   @AfterAll
-  private static void cleanupSession() {
+  protected static void cleanupSession() {
     KoLCharacter.reset("");
+    Preferences.saveSettingsToFile = true;
   }
 
   private static Stream<Arguments> monsterFights() {

@@ -18,9 +18,6 @@ public class FightRequestTest {
     assertTrue(fr.retryOnTimeout());
     assertTrue(fr.shouldFollowRedirect());
     assertFalse(FightRequest.canStillSteal());
-    assertFalse(FightRequest.initializingAfterFight());
-    FightRequest.initializeAfterFight();
-    assertTrue(FightRequest.initializingAfterFight());
   }
 
   @Test

@@ -2,7 +2,9 @@ package net.sourceforge.kolmafia;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class KoLCharacterTest {
@@ -34,5 +36,11 @@ public class KoLCharacterTest {
   @AfterEach
   void resetUsername() {
     KoLCharacter.reset("");
+    Preferences.saveSettingsToFile = true;
+  }
+
+  @BeforeEach
+  void skipWritingPreferences() {
+    Preferences.saveSettingsToFile = false;
   }
 }
