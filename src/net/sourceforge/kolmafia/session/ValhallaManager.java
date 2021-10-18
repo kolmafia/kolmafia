@@ -370,6 +370,7 @@ public class ValhallaManager {
     Preferences.setString("edPiece", "");
     Preferences.setInteger("eldritchTentaclesFought", 0);
     Preferences.setString("lastCopyableMonster", "");
+    Preferences.resetToDefault("lastZapperWandExplosionDay");
     Preferences.setInteger("guzzlrDeliveryProgress", 0);
     Preferences.setBoolean("itemBoughtPerAscension637", false);
     Preferences.setBoolean("itemBoughtPerAscension8266", false);

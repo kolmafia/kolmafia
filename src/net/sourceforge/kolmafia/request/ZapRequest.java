@@ -153,6 +153,8 @@ public class ZapRequest extends GenericRequest {
       ResultProcessor.processResult(KoLCharacter.getZapper().getNegation());
       // set to -1 because will be incremented below
       Preferences.setInteger("_zapCount", -1);
+      // a new wand can be made in 3 days
+      Preferences.setInteger("lastZapperWandExplosionDay", KoLCharacter.getCurrentDays());
     }
 
     Matcher itemMatcher = ZapRequest.ZAP_PATTERN.matcher(urlString);
