@@ -283,7 +283,6 @@ public abstract class KoLCharacter {
   private static ZodiacType ascensionSignType = ZodiacType.NONE;
   private static ZodiacZone ascensionSignZone = ZodiacZone.NONE;
   private static Path ascensionPath = Path.NONE;
-  private static int consumptionRestriction = AscensionSnapshot.NOPATH;
 
   // Things which can change over the course of playing
 
@@ -469,6 +468,8 @@ public abstract class KoLCharacter {
 
     KoLCharacter.mask = null;
 
+    KoLCharacter.adventuresLeft = 0;
+
     KoLCharacter.attacksLeft = 0;
     KoLCharacter.adjustedStats = new int[3];
     KoLCharacter.totalSubpoints = new long[3];
@@ -527,7 +528,6 @@ public abstract class KoLCharacter {
     KoLCharacter.ascensionSignType = ZodiacType.NONE;
     KoLCharacter.ascensionSignZone = ZodiacZone.NONE;
     KoLCharacter.ascensionPath = Path.NONE;
-    KoLCharacter.consumptionRestriction = AscensionSnapshot.NOPATH;
 
     KoLCharacter.mindControlLevel = 0;
     KoLCharacter.radSickness = 0;
@@ -2342,8 +2342,9 @@ public abstract class KoLCharacter {
     if (adventuresLeft != KoLCharacter.adventuresLeft) {
       if (Taskbar.isTaskbarSupported()) {
         Taskbar taskbar = Taskbar.getTaskbar();
-        if (taskbar.isSupported(Taskbar.Feature.ICON_BADGE_TEXT)
-            || Preferences.getBoolean("useDockIconBadge")) {
+        if ((taskbar.isSupported(Taskbar.Feature.ICON_BADGE_TEXT)
+                || taskbar.isSupported(Taskbar.Feature.ICON_BADGE_NUMBER))
+            && Preferences.getBoolean("useDockIconBadge")) {
           taskbar.setIconBadge(String.valueOf(adventuresLeft));
         }
       }
@@ -3177,6 +3178,7 @@ public abstract class KoLCharacter {
         break;
       case GLOVER:
         Preferences.increment("gloverPoints", points, 11, false);
+        Preferences.increment("garlandUpgrades", 1, 10, false);
         break;
       case DISGUISES_DELIMIT:
         Preferences.increment("masksUnlocked", points, 25, false);
@@ -3704,27 +3706,7 @@ public abstract class KoLCharacter {
   }
 
   public static final void setPath(final Path path) {
-    KoLCharacter.ascensionPath = path;
-    int restriction =
-        path == Path.OXYGENARIAN
-            ? AscensionSnapshot.OXYGENARIAN
-            : path == Path.BOOZETAFARIAN
-                ? AscensionSnapshot.BOOZETAFARIAN
-                : path == Path.TEETOTALER ? AscensionSnapshot.TEETOTALER : AscensionSnapshot.NOPATH;
-    KoLCharacter.consumptionRestriction = restriction;
-  }
-
-  /**
-   * Accessor method for the character's consumption restrictions
-   *
-   * @return String
-   */
-  public static final int getConsumptionRestriction() {
-    return KoLCharacter.consumptionRestriction;
-  }
-
-  public static final void setConsumptionRestriction(final int consumptionRestriction) {
-    KoLCharacter.consumptionRestriction = consumptionRestriction;
+    ascensionPath = path;
   }
 
   public static final boolean canEat() {
@@ -3740,8 +3722,11 @@ public abstract class KoLCharacter {
       return false;
     }
 
-    return KoLCharacter.consumptionRestriction == AscensionSnapshot.NOPATH
-        || KoLCharacter.consumptionRestriction == AscensionSnapshot.TEETOTALER;
+    if (ascensionPath == Path.OXYGENARIAN || ascensionPath == Path.BOOZETAFARIAN) {
+      return false;
+    }
+
+    return true;
   }
 
   public static final boolean canDrink() {
@@ -3753,20 +3738,15 @@ public abstract class KoLCharacter {
       return false;
     }
 
-    if (KoLCharacter.inNoobcore()) {
+    if (KoLCharacter.inNoobcore() || KoLCharacter.isPlumber() || KoLCharacter.inRobocore()) {
       return false;
     }
 
-    if (KoLCharacter.isPlumber()) {
+    if (ascensionPath == Path.OXYGENARIAN || ascensionPath == Path.TEETOTALER) {
       return false;
     }
 
-    if (KoLCharacter.inRobocore()) {
-      return false;
-    }
-
-    return KoLCharacter.consumptionRestriction == AscensionSnapshot.NOPATH
-        || KoLCharacter.consumptionRestriction == AscensionSnapshot.BOOZETAFARIAN;
+    return true;
   }
 
   /**

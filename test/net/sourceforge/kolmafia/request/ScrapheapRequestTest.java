@@ -9,56 +9,46 @@ import java.nio.file.Paths;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
-import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.DisabledOnOs;
-import org.junit.jupiter.api.condition.OS;
 
-@DisabledOnOs(value = OS.MAC, disabledReason = "Testing preference tracking does not work on Mac")
 public class ScrapheapRequestTest extends RequestTestBase {
 
   @BeforeEach
-  private void initEach() {
+  protected void initEach() {
+    Preferences.saveSettingsToFile = false;
     KoLCharacter.reset("fakeUserName");
-    Preferences.setBoolean("saveSettingsOnSet", false);
   }
 
-  @AfterAll
-  private static void tidyUp() {
+  @AfterEach
+  protected void tidyUp() {
     KoLCharacter.reset("");
+    Preferences.saveSettingsToFile = true;
+  }
+
+  private int parseActivations(String path) throws IOException {
+
+    String html = Files.readString(Paths.get(path));
+    var req = new ScrapheapRequest("sh_chrono");
+    req.responseText = html;
+    req.processResults();
+    return Preferences.getInteger("_chronolithActivations");
   }
 
   @Test
   public void parseChronolith1() throws IOException {
-    String html = Files.readString(Paths.get("request/test_scrapheap_chronolith_1.html"));
-    var req = new ScrapheapRequest("sh_chrono");
-    req.responseText = html;
-    req.processResults();
-
-    assertEquals(7, Preferences.getInteger("_chronolithActivations"));
+    assertEquals(7, parseActivations("request/test_scrapheap_chronolith_1.html"));
   }
 
   @Test
   public void parseChronolith37() throws IOException {
-    String html = Files.readString(Paths.get("request/test_scrapheap_chronolith_37.html"));
-
-    var req = new ScrapheapRequest("sh_chrono");
-    req.responseText = html;
-    req.processResults();
-
-    assertEquals(60, Preferences.getInteger("_chronolithActivations"));
+    assertEquals(60, parseActivations("request/test_scrapheap_chronolith_37.html"));
   }
 
   @Test
   public void parseChronolith69() throws IOException {
-    String html = Files.readString(Paths.get("request/test_scrapheap_chronolith_69.html"));
-
-    var req = new ScrapheapRequest("sh_chrono");
-    req.responseText = html;
-    req.processResults();
-
-    assertEquals(80, Preferences.getInteger("_chronolithActivations"));
+    assertEquals(80, parseActivations("request/test_scrapheap_chronolith_69.html"));
   }
 
   @Test
