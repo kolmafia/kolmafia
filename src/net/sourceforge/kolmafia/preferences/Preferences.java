@@ -6,8 +6,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintStream;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,11 +26,8 @@ import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
-import net.sourceforge.kolmafia.session.ChoiceManager;
-import net.sourceforge.kolmafia.session.ChoiceManager.ChoiceAdventure;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 
@@ -768,63 +763,6 @@ public class Preferences {
       } catch (IOException e) {
         System.out.println(e.getMessage() + " trying to close preferences stream.");
       }
-    }
-  }
-
-  public static final void printDefaults() {
-    PrintStream ostream = LogStream.openStream("choices.txt", true);
-
-    ostream.println("[u]Configurable[/u]");
-    ostream.println();
-
-    ChoiceManager.setChoiceOrdering(false);
-    Arrays.sort(ChoiceManager.CHOICE_ADVS);
-    Arrays.sort(ChoiceManager.CHOICE_ADV_SPOILERS);
-
-    Preferences.printDefaults(ChoiceManager.CHOICE_ADVS, ostream);
-
-    ostream.println();
-    ostream.println();
-    ostream.println("[u]Not Configurable[/u]");
-    ostream.println();
-
-    Preferences.printDefaults(ChoiceManager.CHOICE_ADV_SPOILERS, ostream);
-
-    ChoiceManager.setChoiceOrdering(true);
-    Arrays.sort(ChoiceManager.CHOICE_ADVS);
-    Arrays.sort(ChoiceManager.CHOICE_ADV_SPOILERS);
-
-    ostream.close();
-  }
-
-  private static void printDefaults(final ChoiceAdventure[] choices, final PrintStream ostream) {
-    for (ChoiceAdventure choice : choices) {
-      String setting = choice.getSetting();
-
-      ostream.print("[" + setting.substring(15) + "] ");
-      ostream.print(choice.getName() + ": ");
-
-      Object[] options = choice.getOptions();
-      int defaultOption = StringUtilities.parseInt(Preferences.userNames.get(setting));
-      Object def = ChoiceManager.findOption(options, defaultOption);
-
-      ostream.print(def.toString() + " [color=gray](");
-
-      int printedCount = 0;
-      for (Object option : options) {
-        if (option == def) {
-          continue;
-        }
-
-        if (printedCount != 0) {
-          ostream.print(", ");
-        }
-
-        ++printedCount;
-        ostream.print(option.toString());
-      }
-
-      ostream.println(")[/color]");
     }
   }
 
