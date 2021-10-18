@@ -228,7 +228,7 @@ user	awolDeferredPointsBeanslinger	0
 user	awolDeferredPointsCowpuncher	0
 user	awolDeferredPointsSnakeoiler	0
 user	awolVenom	0
-user	backupCameraMode
+user	backupCameraMode	meat
 user	backupCameraReverserEnabled	false
 user	badMoonEncounter01	false
 user	badMoonEncounter02	false
@@ -967,7 +967,7 @@ user	munchiesPillsUsed	0
 user	mushroomGardenCropLevel	1
 user	neverendingPartyAlways	false
 user	nextAdventure
-user	nextParanormalActivity	0
+user	nextParanormalActivity	1
 user	nextSpookyravenElizabethRoom	The Haunted Storage Room
 user	nextSpookyravenStephenRoom	The Haunted Bedroom
 user	nextQuantumFamiliar	none
