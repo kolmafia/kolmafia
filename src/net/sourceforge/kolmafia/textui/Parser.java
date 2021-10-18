@@ -9,7 +9,6 @@ import java.io.PrintStream;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Collectors;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -4088,10 +4087,6 @@ public class Parser {
     }
 
     return result;
-  }
-
-  public List<String> getTokensContent() {
-    return this.getTokens().stream().map(token -> token.content).collect(Collectors.toList());
   }
 
   private Position getCurrentPosition() {
