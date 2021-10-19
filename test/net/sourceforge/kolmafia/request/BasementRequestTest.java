@@ -70,10 +70,11 @@ class BasementRequestTest extends RequestTestBase {
   void matchesImpassableStatTestFromResponse(String encounter, String summary) {
     var req = spy(new BasementRequest("Fernswarthy's Basement, Level 499"));
     expectSuccess(req, "Fernswarthy's Basement, Level 499: " + encounter);
-    // Clear the error state, since we can't pass any of these tests.
-    KoLmafia.forceContinue();
 
     req.run();
+
+    // Clear the error state, since we can't pass any of these tests.
+    KoLmafia.forceContinue();
 
     assertEquals(499, BasementRequest.getBasementLevel());
     assertEquals(6470, BasementRequest.getBasementTestValue());
