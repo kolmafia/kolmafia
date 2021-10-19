@@ -4,11 +4,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class AshInteropTest {
 
   @Test
+  @Disabled
   void getPlayerIdReturnsInt() {
     ContactManager.registerPlayerId("heeheehee", "354981");
     var js = new JavascriptRuntime("getPlayerId(\"heeheehee\")");
@@ -20,6 +22,7 @@ public class AshInteropTest {
   }
 
   @Test
+  @Disabled
   void getPlayerNameReturnsString() {
     ContactManager.registerPlayerId("heeheehee", "354981");
     var js = new JavascriptRuntime("getPlayerName(354981)");
