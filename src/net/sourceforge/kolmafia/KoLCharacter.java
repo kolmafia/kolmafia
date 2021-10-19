@@ -2806,24 +2806,30 @@ public abstract class KoLCharacter {
 
     Preferences.setBoolean("kingLiberated", true);
 
-    if (oldPath == Path.AVATAR_OF_WEST_OF_LOATHING) {
-      String pref = null;
-      switch (ascensionClass) {
-        case BEANSLINGER:
-          pref = "awolPointsBeanslinger";
-          break;
-        case COWPUNCHER:
-          pref = "awolPointsCowpuncher";
-          break;
-        case SNAKE_OILER:
-          pref = "awolPointsSnakeoiler";
-          break;
-      }
-      if (pref != null) {
-        Preferences.increment(pref, points, 10, false);
-      }
-    } else {
-      oldPath.incrementPoints(points);
+    switch (oldPath) {
+      case AVATAR_OF_WEST_OF_LOATHING:
+        String pref = null;
+        switch (ascensionClass) {
+          case BEANSLINGER:
+            pref = "awolPointsBeanslinger";
+            break;
+          case COWPUNCHER:
+            pref = "awolPointsCowpuncher";
+            break;
+          case SNAKE_OILER:
+            pref = "awolPointsSnakeoiler";
+            break;
+        }
+        if (pref != null) {
+          Preferences.increment(pref, points, 10, false);
+        }
+        break;
+      case GLOVER:
+        // Fall-through on purpose!
+        Preferences.increment("garlandUpgrades", 1, 10, false);
+      default:
+        oldPath.incrementPoints(points);
+        break;
     }
 
     // We are no longer in Hardcore
@@ -5628,9 +5634,9 @@ public abstract class KoLCharacter {
         int itemId = item.getItemId();
         Modifiers imod = Modifiers.getItemModifiers(itemId);
         if (imod != null) {
-          String classType = imod.getString(Modifiers.CLASS);
-          if (classType == ""
-              || classType.equals(ascensionClass.getName())
+          AscensionClass classType = AscensionClass.nameToClass(imod.getString(Modifiers.CLASS));
+          if (classType == null
+              || classType == ascensionClass
                   && (slot != EquipmentManager.FAMILIAR
                       || KoLCharacter.getFamiliar().getId() == FamiliarPool.HAND)) {
             smithsness += imod.get(Modifiers.SMITHSNESS);

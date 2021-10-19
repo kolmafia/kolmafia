@@ -37,6 +37,9 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 
 public class Preferences {
+  // If false, blocks saving of all preferences. Do not modify outside of tests.
+  public static boolean saveSettingsToFile = true;
+
   private static final byte[] LINE_BREAK_AS_BYTES = KoLConstants.LINE_BREAK.getBytes();
 
   private static final String[] characterMap = new String[65536];
@@ -728,12 +731,15 @@ public class Preferences {
   }
 
   private static void saveToFile(File file, Map<String, Object> data) {
+    if (!Preferences.saveSettingsToFile) {
+      return;
+    }
+
     // See Collections.synchronizedSortedMap
     //
     // We are essentially iterating over the map. Not exactly - we
     // are iterating over the entrySet - but let's keep the map and
     // the file in synch atomically
-
     synchronized (data) {
       // Determine the contents of the file by
       // actually printing them.
