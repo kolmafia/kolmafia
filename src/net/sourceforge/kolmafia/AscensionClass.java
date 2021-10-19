@@ -13,17 +13,17 @@ public enum AscensionClass {
   TURTLE_TAMER("Turtle Tamer", 2, "turtle", 0, "Shell Up"),
   PASTAMANCER("Pastamancer", 3, "pasta", 1, "Entangling Noodles"),
   SAUCEROR("Sauceror", 4, "sauce", 1, "Soul Bubble"),
-  DISCO_BANDIT("Disco Bandit", 2, "disco", 5),
-  ACCORDION_THIEF("Accordion Thief", 2, "accordion", 6, "Accordion Bash"),
+  DISCO_BANDIT("Disco Bandit", 5, "disco", 2),
+  ACCORDION_THIEF("Accordion Thief", 6, "accordion", 2, "Accordion Bash"),
   AVATAR_OF_BORIS("Avatar of Boris", 11, "trusty", 0, "Broadside"),
   ZOMBIE_MASTER("Zombie Master", 12, "tombstone", 0, "Corpse Pile"),
   AVATAR_OF_JARLSBERG("Avatar of Jarlsberg", 14, "path12icon", 1, "Blend"),
-  AVATAR_OF_SNEAKY_PETE("Avatar of Sneaky Pete", 2, "bigglasses", 15, "Snap Fingers"),
+  AVATAR_OF_SNEAKY_PETE("Avatar of Sneaky Pete", 15, "bigglasses", 2, "Snap Fingers"),
   ED("Ed", 17, "thoth", 1, "Curse of Indecision"),
   COWPUNCHER("Cow Puncher", 18, "darkcow", 0),
   BEANSLINGER("Beanslinger", 19, "beancan", 1),
-  SNAKE_OILER("Snake Oiler", 2, "tinysnake", 20),
-  GELATINOUS_NOOB("Gelatinous Noob", 2, "gelatinousicon", 23),
+  SNAKE_OILER("Snake Oiler", 20, "tinysnake", 2),
+  GELATINOUS_NOOB("Gelatinous Noob", 23, "gelatinousicon", 2),
   VAMPYRE("Vampyre", 24, "vampirefangs", 1, "Chill of the Tomb"),
   PLUMBER("Plumber", 25, "mario_hammer2", -1);
 
@@ -69,7 +69,7 @@ public enum AscensionClass {
   }
 
   AscensionClass(String name, int id, String image, int primeStatIndex) {
-    this(name, id, image, -1, null);
+    this(name, id, image, primeStatIndex, null);
   }
 
   AscensionClass(String name, int id) {
