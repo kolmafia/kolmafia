@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 public class AshInteropTest {
 
   @Test
-  @Disabled
   void getPlayerIdReturnsInt() {
     ContactManager.registerPlayerId("heeheehee", "354981");
     var js = new JavascriptRuntime("getPlayerId(\"heeheehee\")");
@@ -34,6 +33,7 @@ public class AshInteropTest {
   }
 
   @Test
+  @Disabled
   void getPlayerIdInvertsGetPlayerName() {
     ContactManager.registerPlayerId("heeheehee", "354981");
     var js = new JavascriptRuntime("getPlayerId(getPlayerName(354981))");
@@ -45,6 +45,7 @@ public class AshInteropTest {
   }
 
   @Test
+  @Disabled
   void getPlayerNameInvertsGetPlayerId() {
     ContactManager.registerPlayerId("heeheehee", "354981");
     var js = new JavascriptRuntime("getPlayerName(parseInt(getPlayerId(\"heeheehee\")))");
