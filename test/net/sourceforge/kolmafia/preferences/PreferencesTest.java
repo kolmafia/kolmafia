@@ -19,7 +19,6 @@ class PreferencesTest {
    */
   @BeforeAll
   protected static void initAll() {
-    System.out.println("Welcome to the test!");
     KoLCharacter.reset("");
   }
 
