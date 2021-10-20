@@ -4,9 +4,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.AscensionPath.Path;
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -391,8 +391,8 @@ public class AfterLifeRequest extends GenericRequest {
       builder.append(" under the ");
 
       int sign = StringUtilities.parseInt(m.group(1));
-      if (sign >= 1 && sign <= KoLCharacter.ZODIACS.length) {
-        builder.append(KoLCharacter.ZODIACS[sign - 1]);
+      if (sign >= 1 && sign <= ZodiacSign.ZODIACS.length) {
+        builder.append(ZodiacSign.ZODIACS[sign - 1]);
       } else if (sign == 10) {
         builder.append("Bad Moon");
       } else {

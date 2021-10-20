@@ -3790,10 +3790,10 @@ public class Modifiers {
 
     // Make a map of zodiac signs
     Set<String> zodiacs = new TreeSet<>();
-    int signCount = KoLCharacter.ZODIACS.length;
+    int signCount = ZodiacSign.ZODIACS.length;
 
     for (int i = 0; i < signCount; ++i) {
-      String key = KoLCharacter.ZODIACS[i];
+      String key = ZodiacSign.ZODIACS[i];
       String name = key;
       zodiacs.add(name);
     }

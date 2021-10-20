@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
+import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
@@ -1613,7 +1614,7 @@ public class UseItemRequest extends GenericRequest {
     if (matcher.find()) {
       int num = StringUtilities.parseInt(matcher.group(1));
       if (num >= 1 && num <= 9) {
-        return KoLCharacter.ZODIACS[num - 1];
+        return ZodiacSign.ZODIACS[num - 1];
       }
     }
     return null;
