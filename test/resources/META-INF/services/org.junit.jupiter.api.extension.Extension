@@ -1,1 +1,2 @@
 net.sourceforge.kolmafia.extensions.ForbidNetworkAccess
+net.sourceforge.kolmafia.extensions.ClearSharedState
