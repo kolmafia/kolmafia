@@ -10,13 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class PreferencesTest {
-  /**
-   * @Mock HashMap<String, String> globalNames; @Mock SortedMap<String, Object> globalValues; @Mock
-   * File globalPropertiesFile; @Mock HashMap<String, String> userNames; @Mock SortedMap<String,
-   * Object> userValues; @Mock File userPropertiesFile; @Mock Set<String> defaultsSet; @Mock
-   * Set<String> perUserGlobalSet; @Mock Set<String> legacyDailies; @InjectMocks Preferences
-   * preferences;
-   */
+
   @BeforeAll
   protected static void initAll() {
     KoLCharacter.reset("");
