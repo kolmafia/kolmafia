@@ -5,6 +5,7 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.session.ContactManager;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,8 @@ class UseSkillRequestTest extends RequestTestBase {
     verify(req).externalExecute();
     assertEquals("Not enough mana to cast Experience Safari.", UseSkillRequest.lastUpdate);
     assertEquals(startingCasts, SkillDatabase.getCasts(EXPERIENCE_SAFARI));
+
+    KoLmafia.forceContinue();
   }
 
   @Test
