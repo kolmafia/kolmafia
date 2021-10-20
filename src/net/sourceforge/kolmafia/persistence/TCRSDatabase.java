@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -21,6 +20,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
@@ -80,7 +80,7 @@ public class TCRSDatabase {
   public static boolean validate(AscensionClass ascensionClass, String csign) {
     return (ascensionClass != null
         && ascensionClass.isStandard()
-        && Arrays.asList(KoLCharacter.ZODIACS).contains(csign));
+        && ZodiacSign.find(csign).isStandard());
   }
 
   public static String filename(AscensionClass ascensionClass, String sign, String suffix) {

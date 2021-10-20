@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
+import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
@@ -1608,15 +1609,15 @@ public class UseItemRequest extends GenericRequest {
 
   private static final Pattern HEWN_SPOON_PATTERN = Pattern.compile("whichsign=(\\d+)");
 
-  private static String parseAscensionSign(String urlString) {
+  private static ZodiacSign parseAscensionSign(String urlString) {
     Matcher matcher = UseItemRequest.HEWN_SPOON_PATTERN.matcher(urlString);
     if (matcher.find()) {
       int num = StringUtilities.parseInt(matcher.group(1));
       if (num >= 1 && num <= 9) {
-        return KoLCharacter.ZODIACS[num - 1];
+        return ZodiacSign.find(num);
       }
     }
-    return null;
+    return ZodiacSign.NONE;
   }
 
   public void parseConsumption() {
@@ -5541,7 +5542,7 @@ public class UseItemRequest extends GenericRequest {
           // You did change sign and it succeeded.
           // This was redirected to inventory.php?action=message.
           // Need to extract the sign from the original URL.
-          String sign = UseItemRequest.parseAscensionSign(UseItemRequest.lastUrlString);
+          ZodiacSign sign = UseItemRequest.parseAscensionSign(UseItemRequest.lastUrlString);
           if (sign != null) {
             // Set the new sign.
             KoLCharacter.setSign(sign);
@@ -6418,8 +6419,8 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.HEWN_MOON_RUNE_SPOON:
         {
-          String sign = parseAscensionSign(urlString);
-          if (sign != null && urlString.contains("doit=96")) {
+          ZodiacSign sign = parseAscensionSign(urlString);
+          if (sign != ZodiacSign.NONE && urlString.contains("doit=96")) {
             useString = "tuning moon to The " + sign;
           }
         }
