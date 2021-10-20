@@ -141,11 +141,16 @@ public abstract class KoLCharacter {
 
     public static final ZodiacSign find(final String name) {
       for (ZodiacSign sign : ZodiacSign.values()) {
-        if (name.equals(sign.getName())) {
+        if (name.equalsIgnoreCase(sign.getName())) {
           return sign;
         }
       }
       return ZodiacSign.NONE;
+    }
+
+    @Override
+    public String toString() {
+      return this.name;
     }
   }
 
