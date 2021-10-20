@@ -17,15 +17,18 @@ public class AshInteropTest {
 
   @Test
   void getPlayerIdReturnsInt() {
+    // The lastMessage checks are left over from some debugging.  They remain in this first test but
+    // there is no obvious benefit to including them in other tests.  If the assertion fails it is a
+    // suggestion that an exception was thrown but not otherwise handled.  Note that the assertion
+    // failure message will include the value of lastMessage.
     ContactManager.registerPlayerId("heeheehee", "354981");
     var js = new JavascriptRuntime("getPlayerId(\"heeheehee\")");
-    // before clearing lastMessage before the test, it wasn't empty
     String x = KoLmafia.getLastMessage();
-    assertEquals(x, "", "Last message not empty getting runtime.");
+    assertEquals(x, "", "Last message not empty after getting runtime.");
     assertNotNull(js, "JavascriptRuntime returned as null.");
     Value ret = js.execute(null, null, true);
     x = KoLmafia.getLastMessage();
-    assertEquals(x, "", "Last message not empty executing.");
+    assertEquals(x, "", "Last message not empty after executing.");
     assertNotNull(ret, "Javascript execute returns null instead of a result to be tested.");
     String retS = ret.toString();
     assertEquals("354981", retS);
