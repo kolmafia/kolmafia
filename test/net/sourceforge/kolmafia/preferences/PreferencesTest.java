@@ -5,6 +5,8 @@ import static org.mockito.Mockito.*;
 
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLmafia;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +22,13 @@ class PreferencesTest {
   protected void initEach() {
     Preferences.saveSettingsToFile = false;
     KoLCharacter.reset("fakePrefUser");
+    KoLCharacter.reset(false);
+  }
+
+  @AfterAll
+  public static void tearDown() {
+    // Reset the state
+    KoLmafia.forceContinue();
   }
 
   @Test
