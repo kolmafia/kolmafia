@@ -152,9 +152,6 @@ public class NPCStoreDatabase {
     // Check for whether or not the purchase can be made from a
     // guild store.	 Store #1 is moxie classes, store #2 is for
     // mysticality classes, and store #3 is for muscle classes.
-
-    String classType = KoLCharacter.getClassType();
-
     if (storeId.equals("gnoll")) {
       // Degrassi Knoll Bakery and Hardware Store
       return KoLCharacter.knollAvailable();
@@ -207,12 +204,12 @@ public class NPCStoreDatabase {
     } else if (storeId.equals("guildstore2")) {
       // Gouda's Grimoire and Grocery
       return (KoLCharacter.isMysticalityClass()
-              || (classType.equals(KoLCharacter.ACCORDION_THIEF) && KoLCharacter.getLevel() >= 9))
+              || (KoLCharacter.isAccordionThief() && KoLCharacter.getLevel() >= 9))
           && KoLCharacter.getGuildStoreOpen();
     } else if (storeId.equals("guildstore3")) {
       // Smacketeria
       return ((KoLCharacter.isMuscleClass() && !KoLCharacter.isAvatarOfBoris())
-              || (classType.equals(KoLCharacter.ACCORDION_THIEF) && KoLCharacter.getLevel() >= 9))
+              || (KoLCharacter.isAccordionThief() && KoLCharacter.getLevel() >= 9))
           && KoLCharacter.getGuildStoreOpen();
     } else if (storeId.equals("hippy")) {
       if (KoLCharacter.isKingdomOfExploathing()) {

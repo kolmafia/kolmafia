@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -34,7 +35,10 @@ public class StationaryButtonDecorator {
 
     int skillNumber = Integer.parseInt(skillId);
 
-    if (skillNumber == SkillDatabase.getSkillId(KoLCharacter.getClassStun())) {
+    AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
+
+    if (ascensionClass != null
+        && skillNumber == SkillDatabase.getSkillId(ascensionClass.getStun())) {
       return true;
     }
 
@@ -484,7 +488,8 @@ public class StationaryButtonDecorator {
       StationaryButtonDecorator.addFightButton(actionBuffer, "shake", !FightRequest.handledCan());
     }
 
-    String classStun = KoLCharacter.getClassStun();
+    AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
+    String classStun = ascensionClass == null ? "none" : ascensionClass.getStun();
     // Some skills can be available in combat but aren't always stuns. Disable if so or change to
     // Shadow Noodles if appropriate.
     if (classStun.equals("Shell Up")

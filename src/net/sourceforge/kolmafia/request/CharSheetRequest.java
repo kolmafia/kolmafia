@@ -9,6 +9,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -349,7 +350,7 @@ public class CharSheetRequest extends GenericRequest {
 
     // If you have the Cowrruption effect, you can Absorb Cowrruption if a Cow Puncher
     if (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.COWRRUPTION))
-        && KoLCharacter.getClassType() == KoLCharacter.COWPUNCHER) {
+        && KoLCharacter.getAscensionClass() == AscensionClass.COWPUNCHER) {
       UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance("Absorb Cowrruption");
       newSkillSet.add(skill);
     }
@@ -366,7 +367,7 @@ public class CharSheetRequest extends GenericRequest {
     KoLCharacter.setPermedSkills(permedSkillSet);
 
     // Finally, set the class name that we figured out.
-    KoLCharacter.setClassName(className);
+    KoLCharacter.setAscensionClass(className);
 
     // Update uneffect methods and heal amounts for updated skills
     UneffectRequest.reset();
@@ -407,7 +408,7 @@ public class CharSheetRequest extends GenericRequest {
    * instead. Note that this advances the <code>StringTokenizer</code> one token ahead of the base
    * value for the statistic.
    *
-   * @param st The <code>StringTokenizer</code> possibly containing the base value
+   * @param token The <code>StringTokenizer</code> possibly containing the base value
    * @param defaultBase The value to return, if no base value is found
    * @return The parsed base value, or the default value if no base value is found
    */

@@ -77,7 +77,7 @@ public class FoldItemCommand extends AbstractCommand {
       boolean canStaff =
           KoLCharacter.hasSkill("Spirit of Rigatoni")
               || KoLCharacter.isJarlsberg()
-              || (KoLCharacter.getClassType().equals(KoLCharacter.SAUCEROR)
+              || (KoLCharacter.isSauceror()
                   && KoLCharacter.hasEquipped(ItemPool.get(ItemPool.SPECIAL_SAUCE_GLOVE, 1)));
       if (!canStaff) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "You can't make a chefstaff");

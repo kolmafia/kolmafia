@@ -1720,8 +1720,8 @@ public class Modifiers {
     }
 
     // Make sure the modifiers apply to current class
-    String type = mods.strings[Modifiers.CLASS];
-    if (type != "" && !type.equals(KoLCharacter.getClassType())) {
+    AscensionClass ascensionClass = AscensionClass.nameToClass(mods.strings[Modifiers.CLASS]);
+    if (ascensionClass != null && ascensionClass != KoLCharacter.getAscensionClass()) {
       return;
     }
 
@@ -2013,22 +2013,22 @@ public class Modifiers {
 
   private static final String[][] classStrings = {
     {
-      KoLCharacter.SEAL_CLUBBER, "Seal Clubbers", "Seal&nbsp;Clubbers",
+      AscensionClass.SEAL_CLUBBER.getName(), "Seal Clubbers", "Seal&nbsp;Clubbers",
     },
     {
-      KoLCharacter.TURTLE_TAMER, "Turtle Tamers", "Turtle&nbsp;Tamers",
+      AscensionClass.TURTLE_TAMER.getName(), "Turtle Tamers", "Turtle&nbsp;Tamers",
     },
     {
-      KoLCharacter.PASTAMANCER, "Pastamancers",
+      AscensionClass.PASTAMANCER.getName(), "Pastamancers",
     },
     {
-      KoLCharacter.SAUCEROR, "Saucerors",
+      AscensionClass.SAUCEROR.getName(), "Saucerors",
     },
     {
-      KoLCharacter.DISCO_BANDIT, "Disco Bandits", "Disco&nbsp;Bandits",
+      AscensionClass.DISCO_BANDIT.getName(), "Disco Bandits", "Disco&nbsp;Bandits",
     },
     {
-      KoLCharacter.ACCORDION_THIEF, "Accordion Thieves", "Accordion&nbsp;Thieves",
+      AscensionClass.ACCORDION_THIEF.getName(), "Accordion Thieves", "Accordion&nbsp;Thieves",
     },
   };
 
@@ -2434,35 +2434,44 @@ public class Modifiers {
             this.set(Modifiers.SPELL_DAMAGE, 0.0);
 
             // Set modifiers depending on Character class
-            String classType = KoLCharacter.getClassType();
-            if (classType == KoLCharacter.SEAL_CLUBBER
-                || classType == KoLCharacter.ZOMBIE_MASTER
-                || classType == KoLCharacter.ED
-                || classType == KoLCharacter.COWPUNCHER
-                || classType == KoLCharacter.BEANSLINGER
-                || classType == KoLCharacter.SNAKE_OILER) {
-              this.set(Modifiers.HP_REGEN_MIN, 10.0);
-              this.set(Modifiers.HP_REGEN_MAX, 12.0);
-              this.set(Modifiers.WEAPON_DAMAGE, 15.0);
-              this.set(Modifiers.DAMAGE_REDUCTION, 1.0);
-            } else if (classType == KoLCharacter.TURTLE_TAMER) {
-              this.set(Modifiers.HP_REGEN_MIN, 10.0);
-              this.set(Modifiers.HP_REGEN_MAX, 12.0);
-              this.set(Modifiers.FAMILIAR_WEIGHT, 5.0);
-            } else if (classType == KoLCharacter.DISCO_BANDIT
-                || classType == KoLCharacter.AVATAR_OF_SNEAKY_PETE) {
-              this.set(Modifiers.RANGED_DAMAGE, 20.0);
-            } else if (classType == KoLCharacter.ACCORDION_THIEF) {
-              this.set(Modifiers.FOUR_SONGS, true);
-            } else if (classType == KoLCharacter.PASTAMANCER) {
-              this.set(Modifiers.MP_REGEN_MIN, 5.0);
-              this.set(Modifiers.MP_REGEN_MAX, 6.0);
-              this.set(Modifiers.COMBAT_MANA_COST, -3.0);
-            } else if (classType == KoLCharacter.SAUCEROR
-                || classType == KoLCharacter.AVATAR_OF_JARLSBERG) {
-              this.set(Modifiers.MP_REGEN_MIN, 5.0);
-              this.set(Modifiers.MP_REGEN_MAX, 6.0);
-              this.set(Modifiers.SPELL_DAMAGE, 20.0);
+            AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
+            if (ascensionClass != null) {
+              switch (ascensionClass) {
+                case SEAL_CLUBBER:
+                case ZOMBIE_MASTER:
+                case ED:
+                case COWPUNCHER:
+                case BEANSLINGER:
+                case SNAKE_OILER:
+                  this.set(Modifiers.HP_REGEN_MIN, 10.0);
+                  this.set(Modifiers.HP_REGEN_MAX, 12.0);
+                  this.set(Modifiers.WEAPON_DAMAGE, 15.0);
+                  this.set(Modifiers.DAMAGE_REDUCTION, 1.0);
+                  break;
+                case TURTLE_TAMER:
+                  this.set(Modifiers.HP_REGEN_MIN, 10.0);
+                  this.set(Modifiers.HP_REGEN_MAX, 12.0);
+                  this.set(Modifiers.FAMILIAR_WEIGHT, 5.0);
+                  break;
+                case DISCO_BANDIT:
+                case AVATAR_OF_SNEAKY_PETE:
+                  this.set(Modifiers.RANGED_DAMAGE, 20.0);
+                  break;
+                case ACCORDION_THIEF:
+                  this.set(Modifiers.FOUR_SONGS, true);
+                  break;
+                case PASTAMANCER:
+                  this.set(Modifiers.MP_REGEN_MIN, 5.0);
+                  this.set(Modifiers.MP_REGEN_MAX, 6.0);
+                  this.set(Modifiers.COMBAT_MANA_COST, -3.0);
+                  break;
+                case SAUCEROR:
+                case AVATAR_OF_JARLSBERG:
+                  this.set(Modifiers.MP_REGEN_MIN, 5.0);
+                  this.set(Modifiers.MP_REGEN_MAX, 6.0);
+                  this.set(Modifiers.SPELL_DAMAGE, 20.0);
+                  break;
+              }
             }
             return true;
           }
@@ -3138,25 +3147,25 @@ public class Modifiers {
     matcher = Modifiers.CLASS_PATTERN.matcher(enchantment);
     if (matcher.find()) {
       String plural = matcher.group(1);
-      String cls = "none";
+      AscensionClass cls = null;
       if (plural.equals("Accordion&nbsp;Thieves")) {
-        cls = KoLCharacter.ACCORDION_THIEF;
+        cls = AscensionClass.ACCORDION_THIEF;
       } else if (plural.equals("Disco&nbsp;Bandits")) {
-        cls = KoLCharacter.DISCO_BANDIT;
+        cls = AscensionClass.DISCO_BANDIT;
       } else if (plural.equals("Pastamancers")) {
-        cls = KoLCharacter.PASTAMANCER;
+        cls = AscensionClass.PASTAMANCER;
       } else if (plural.equals("Saucerors")) {
-        cls = KoLCharacter.SAUCEROR;
+        cls = AscensionClass.SAUCEROR;
       } else if (plural.equals("Seal&nbsp;Clubbers")) {
-        cls = KoLCharacter.SEAL_CLUBBER;
+        cls = AscensionClass.SEAL_CLUBBER;
       } else if (plural.equals("Turtle&nbsp;Tamers")) {
-        cls = KoLCharacter.TURTLE_TAMER;
+        cls = AscensionClass.TURTLE_TAMER;
       } else {
         return null;
       }
       return Modifiers.modifierTag(Modifiers.stringModifiers, Modifiers.CLASS)
           + ": \""
-          + cls
+          + cls.getName()
           + "\"";
     }
 

@@ -410,7 +410,7 @@ public class EatItemRequest extends UseItemRequest {
     // If we are not a Pastamancer, that's good enough. If we are,
     // make sure the player isn't going to accidentally scuttle the
     // stupid Spaghettihose trophy.
-    if (!KoLCharacter.getClassType().equals(KoLCharacter.PASTAMANCER)) {
+    if (!KoLCharacter.isPastamancer()) {
       return true;
     }
 
@@ -1031,8 +1031,7 @@ public class EatItemRequest extends UseItemRequest {
 
     // You feel the canticle take hold, and feel suddenly bloated
     // as the pasta expands in your belly.
-    if (KoLCharacter.getClassType().equals(KoLCharacter.PASTAMANCER)
-        && responseText.contains("feel suddenly bloated")) {
+    if (KoLCharacter.isPastamancer() && responseText.contains("feel suddenly bloated")) {
       Preferences.setInteger("carboLoading", 0);
     }
 

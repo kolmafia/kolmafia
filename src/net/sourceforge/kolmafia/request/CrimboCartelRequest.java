@@ -50,22 +50,22 @@ public class CrimboCartelRequest extends CoinMasterRequest {
         public final boolean availableItem(final int itemId) {
           switch (itemId) {
             case ItemPool.CRIMBO_CAROL_V1:
-              return KoLCharacter.getClassType().equals(KoLCharacter.SEAL_CLUBBER);
+              return KoLCharacter.isSealClubber();
 
             case ItemPool.CRIMBO_CAROL_V2:
-              return KoLCharacter.getClassType().equals(KoLCharacter.TURTLE_TAMER);
+              return KoLCharacter.isTurtleTamer();
 
             case ItemPool.CRIMBO_CAROL_V3:
-              return KoLCharacter.getClassType().equals(KoLCharacter.PASTAMANCER);
+              return KoLCharacter.isPastamancer();
 
             case ItemPool.CRIMBO_CAROL_V4:
-              return KoLCharacter.getClassType().equals(KoLCharacter.SAUCEROR);
+              return KoLCharacter.isSauceror();
 
             case ItemPool.CRIMBO_CAROL_V5:
-              return KoLCharacter.getClassType().equals(KoLCharacter.DISCO_BANDIT);
+              return KoLCharacter.isDiscoBandit();
 
             case ItemPool.CRIMBO_CAROL_V6:
-              return KoLCharacter.getClassType().equals(KoLCharacter.ACCORDION_THIEF);
+              return KoLCharacter.isAccordionThief();
           }
 
           return super.availableItem(itemId);

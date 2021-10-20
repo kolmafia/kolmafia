@@ -662,7 +662,7 @@ public class MaximizerSpeculation extends Speculation
     Object mark = this.mark();
     boolean chefstaffable =
         KoLCharacter.hasSkill("Spirit of Rigatoni") || KoLCharacter.isJarlsberg();
-    if (!chefstaffable && KoLCharacter.getClassType().equals(KoLCharacter.SAUCEROR)) {
+    if (!chefstaffable && KoLCharacter.isSauceror()) {
       chefstaffable =
           this.equipment[EquipmentManager.ACCESSORY1].getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE
               || this.equipment[EquipmentManager.ACCESSORY2].getItemId()

@@ -53,13 +53,13 @@ public abstract class ConditionalStatement extends AbstractCommand {
 
     if (parameters.startsWith("class is not ")) {
       String className = parameters.substring(13).trim().toLowerCase();
-      String actualClassName = KoLCharacter.getClassType().toLowerCase();
+      String actualClassName = KoLCharacter.getAscensionClassName().toLowerCase();
       return actualClassName.indexOf(className) == -1;
     }
 
     if (parameters.startsWith("class is ")) {
       String className = parameters.substring(9).trim().toLowerCase();
-      String actualClassName = KoLCharacter.getClassType().toLowerCase();
+      String actualClassName = KoLCharacter.getAscensionClassName().toLowerCase();
       return actualClassName.indexOf(className) != -1;
     }
 
