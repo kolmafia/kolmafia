@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +17,7 @@ public class SnapperCommandTest extends AbstractCommandTest {
   @BeforeEach
   public void initEach() {
     KoLCharacter.reset("testUser");
+    KoLCharacter.reset(false);
     Preferences.resetToDefault("redSnapperPhylum");
 
     // Reset the state
@@ -23,6 +25,12 @@ public class SnapperCommandTest extends AbstractCommandTest {
 
     // Stop requests from actually running
     GenericRequest.sessionId = null;
+  }
+
+  @AfterAll
+  public static void tearDown() {
+    // Reset the state
+    KoLmafia.forceContinue();
   }
 
   public SnapperCommandTest() {
