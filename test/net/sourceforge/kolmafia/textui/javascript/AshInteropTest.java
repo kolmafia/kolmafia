@@ -24,11 +24,11 @@ public class AshInteropTest {
     ContactManager.registerPlayerId("heeheehee", "354981");
     var js = new JavascriptRuntime("getPlayerId(\"heeheehee\")");
     String x = KoLmafia.getLastMessage();
-    assertEquals(x, "", "Last message not empty after getting runtime.");
+    assertEquals("", x, "Last message not empty after getting runtime.");
     assertNotNull(js, "JavascriptRuntime returned as null.");
     Value ret = js.execute(null, null, true);
     x = KoLmafia.getLastMessage();
-    assertEquals(x, "", "Last message not empty after executing.");
+    assertEquals("", x, "Last message not empty after executing.");
     assertNotNull(ret, "Javascript execute returns null instead of a result to be tested.");
     String retS = ret.toString();
     assertEquals("354981", retS);
