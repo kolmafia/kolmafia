@@ -391,10 +391,9 @@ public class AfterLifeRequest extends GenericRequest {
       builder.append(" under the ");
 
       int sign = StringUtilities.parseInt(m.group(1));
-      if (sign >= 1 && sign <= ZodiacSign.ZODIACS.length) {
-        builder.append(ZodiacSign.ZODIACS[sign - 1]);
-      } else if (sign == 10) {
-        builder.append("Bad Moon");
+      ZodiacSign zSign = ZodiacSign.find(sign);
+      if (zSign != ZodiacSign.NONE) {
+        builder.append(zSign);
       } else {
         builder.append("(Sign ");
         builder.append(sign);

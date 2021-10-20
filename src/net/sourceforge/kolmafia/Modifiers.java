@@ -3790,12 +3790,9 @@ public class Modifiers {
 
     // Make a map of zodiac signs
     Set<String> zodiacs = new TreeSet<>();
-    int signCount = ZodiacSign.ZODIACS.length;
 
-    for (int i = 0; i < signCount; ++i) {
-      String key = ZodiacSign.ZODIACS[i];
-      String name = key;
-      zodiacs.add(name);
+    for (ZodiacSign sign : ZodiacSign.ZODIACS) {
+      zodiacs.add(sign.getName());
     }
 
     // Make a map of stat days

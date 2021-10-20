@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia;
 
+import java.util.Arrays;
+import java.util.List;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 
@@ -17,18 +19,18 @@ public enum ZodiacSign {
   BAD_MOON("Bad Moon", 10, ZodiacType.BAD_MOON, ZodiacZone.NONE),
   ;
 
-  public static final String[] ZODIACS =
-      new String[] {
-        "Mongoose",
-        "Wallaby",
-        "Vole",
-        "Platypus",
-        "Opossum",
-        "Marmot",
-        "Wombat",
-        "Blender",
-        "Packrat"
-      };
+  public static final List<ZodiacSign> ZODIACS =
+      Arrays.asList(
+          ZodiacSign.MONGOOSE,
+          ZodiacSign.WALLABY,
+          ZodiacSign.VOLE,
+          ZodiacSign.PLATYPUS,
+          ZodiacSign.OPOSSUM,
+          ZodiacSign.MARMOT,
+          ZodiacSign.WOMBAT,
+          ZodiacSign.BLENDER,
+          ZodiacSign.PACKRAT
+      );
 
   private final String name;
   private final int id;
@@ -58,13 +60,26 @@ public enum ZodiacSign {
     return zone;
   }
 
-  public static final ZodiacSign find(final String name) {
+  public static ZodiacSign find(final String name) {
     for (ZodiacSign sign : ZodiacSign.values()) {
       if (name.equalsIgnoreCase(sign.getName())) {
         return sign;
       }
     }
     return ZodiacSign.NONE;
+  }
+
+  public static ZodiacSign find(final int id) {
+    for (ZodiacSign sign : ZodiacSign.values()) {
+      if (id == sign.getId()) {
+        return sign;
+      }
+    }
+    return ZodiacSign.NONE;
+  }
+
+  public final boolean isStandard() {
+    return ZODIACS.contains(this);
   }
 
   @Override

@@ -81,7 +81,7 @@ public class TCRSDatabase {
   public static boolean validate(AscensionClass ascensionClass, String csign) {
     return (ascensionClass != null
         && ascensionClass.isStandard()
-        && Arrays.asList(ZodiacSign.ZODIACS).contains(csign));
+        && ZodiacSign.find(csign).isStandard());
   }
 
   public static String filename(AscensionClass ascensionClass, String sign, String suffix) {

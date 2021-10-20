@@ -3093,6 +3093,15 @@ public abstract class KoLCharacter {
   }
 
   /**
+   * Accessor method to set a character's zodiac sign
+   *
+   * @param ascensionSign the new sign
+   */
+  public static final void setSign(ZodiacSign ascensionSign) {
+    KoLCharacter.ascensionSign = ascensionSign;
+  }
+
+  /**
    * Accessor method for the character's path
    *
    * @return String
