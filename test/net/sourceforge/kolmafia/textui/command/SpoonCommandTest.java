@@ -18,7 +18,7 @@ public class SpoonCommandTest extends AbstractCommandTest {
   @BeforeEach
   public void initEach() {
     KoLCharacter.reset("testUser");
-    KoLCharacter.reset(true);
+    KoLCharacter.reset(false);
     Preferences.resetToDefault("moonTuned");
 
     // Reset the state
