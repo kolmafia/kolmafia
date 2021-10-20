@@ -19,7 +19,7 @@ public enum ZodiacSign {
   BAD_MOON("Bad Moon", 10, ZodiacType.BAD_MOON, ZodiacZone.NONE),
   ;
 
-  public static final List<ZodiacSign> ZODIACS =
+  public static final List<ZodiacSign> standardZodiacSigns =
       Arrays.asList(
           ZodiacSign.MONGOOSE,
           ZodiacSign.WALLABY,
@@ -79,7 +79,7 @@ public enum ZodiacSign {
   }
 
   public final boolean isStandard() {
-    return ZODIACS.contains(this);
+    return standardZodiacSigns.contains(this);
   }
 
   @Override

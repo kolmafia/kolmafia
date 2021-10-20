@@ -3791,7 +3791,7 @@ public class Modifiers {
     // Make a map of zodiac signs
     Set<String> zodiacs = new TreeSet<>();
 
-    for (ZodiacSign sign : ZodiacSign.ZODIACS) {
+    for (ZodiacSign sign : ZodiacSign.standardZodiacSigns) {
       zodiacs.add(sign.getName());
     }
 
