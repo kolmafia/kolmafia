@@ -27,8 +27,7 @@ public class SpoonCommand extends AbstractCommand {
     }
 
     if (Preferences.getBoolean("moonTuned")) {
-      KoLmafia.updateDisplay(
-          MafiaState.ERROR, "You have already tuned the moon this ascension.");
+      KoLmafia.updateDisplay(MafiaState.ERROR, "You have already tuned the moon this ascension.");
       return;
     }
 
@@ -41,8 +40,7 @@ public class SpoonCommand extends AbstractCommand {
 
     ZodiacSign currentSign = ZodiacSign.find(KoLCharacter.getSign());
     if (currentSign == ZodiacSign.BAD_MOON) {
-      KoLmafia.updateDisplay(
-          MafiaState.ERROR, "You can't escape the Bad Moon this way.");
+      KoLmafia.updateDisplay(MafiaState.ERROR, "You can't escape the Bad Moon this way.");
       return;
     }
 
@@ -53,8 +51,7 @@ public class SpoonCommand extends AbstractCommand {
       return;
     }
     if (sign == ZodiacSign.BAD_MOON) {
-      KoLmafia.updateDisplay(
-          MafiaState.ERROR, "You can't choose to be born under a Bad Moon.");
+      KoLmafia.updateDisplay(MafiaState.ERROR, "You can't choose to be born under a Bad Moon.");
       return;
     }
     if (sign == currentSign) {

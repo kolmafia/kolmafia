@@ -112,11 +112,7 @@ public abstract class KoLCharacter {
     private final ZodiacType type;
     private final ZodiacZone zone;
 
-    ZodiacSign(
-        String name,
-        int id,
-        ZodiacType type,
-        ZodiacZone zone) {
+    ZodiacSign(String name, int id, ZodiacType type, ZodiacZone zone) {
       this.name = name;
       this.id = id;
       this.type = type;
