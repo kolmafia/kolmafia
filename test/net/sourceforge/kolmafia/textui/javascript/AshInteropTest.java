@@ -12,6 +12,7 @@ public class AshInteropTest {
 
   @BeforeEach
   void clearMessage() {
+    KoLmafia.forceContinue();
     KoLmafia.lastMessage = "";
   }
 
