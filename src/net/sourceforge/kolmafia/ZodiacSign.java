@@ -29,8 +29,7 @@ public enum ZodiacSign {
           ZodiacSign.MARMOT,
           ZodiacSign.WOMBAT,
           ZodiacSign.BLENDER,
-          ZodiacSign.PACKRAT
-      );
+          ZodiacSign.PACKRAT);
 
   private final String name;
   private final int id;
