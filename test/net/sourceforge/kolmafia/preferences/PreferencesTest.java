@@ -1,34 +1,22 @@
 package net.sourceforge.kolmafia.preferences;
 
+import static net.sourceforge.kolmafia.preferences.Preferences.baseUserName;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLmafia;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class PreferencesTest {
-
+  // Convert to the new way of doing things...
   @BeforeAll
   protected static void initAll() {
-    KoLCharacter.reset("");
-  }
-
-  @BeforeEach
-  protected void initEach() {
-    Preferences.saveSettingsToFile = false;
     KoLCharacter.reset("fakePrefUser");
-    KoLCharacter.reset(false);
-  }
-
-  @AfterAll
-  public static void tearDown() {
-    // Reset the state
-    KoLmafia.forceContinue();
+    KoLCharacter.reset( true );
+    Preferences.saveSettingsToFile = false;
   }
 
   @Test
@@ -360,8 +348,7 @@ class PreferencesTest {
     Preferences.resetToDefault(prefWithDefault);
     result = Preferences.getInteger(prefWithDefault);
     assertEquals(
-        prefDefault,
-        result,
+        prefDefault, result,
         "After resetToDefault, " + prefWithDefault + " does not equal " + prefDefault);
   }
 

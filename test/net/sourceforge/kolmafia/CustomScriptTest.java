@@ -65,18 +65,10 @@ public class CustomScriptTest {
     ContactManager.registerPlayerId("heeheehee", "354981");
     StaticEntity.overrideRevision(10000);
     TurnCounter.clearCounters();
-    KoLmafia.forceContinue();
-    KoLCharacter.reset("");
-    KoLCharacter.reset(false);
   }
 
   @AfterEach
   void tearDown() {
     StaticEntity.overrideRevision(null);
-  }
-
-  @AfterAll
-  static void cleanUp() {
-    KoLmafia.forceContinue();
   }
 }
