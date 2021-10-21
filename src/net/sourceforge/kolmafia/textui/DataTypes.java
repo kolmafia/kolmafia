@@ -911,58 +911,59 @@ public class DataTypes {
   private static String promptForValue(final Type type, final String message, final String name) {
     switch (type.getType()) {
       case TYPE_BOOLEAN:
-        return (String) InputFieldUtilities.input(message, DataTypes.BOOLEANS);
+        return InputFieldUtilities.input(message, DataTypes.BOOLEANS);
 
       case TYPE_LOCATION:
         {
           LockableListModel<KoLAdventure> inputs = AdventureDatabase.getAsLockableListModel();
           KoLAdventure initial =
               AdventureDatabase.getAdventure(Preferences.getString("lastAdventure"));
-          KoLAdventure value = (KoLAdventure) InputFieldUtilities.input(message, inputs, initial);
+          KoLAdventure value = InputFieldUtilities.input(message, inputs, initial);
           return value == null ? null : value.getAdventureName();
         }
 
       case TYPE_SKILL:
         {
-          Object[] inputs = SkillDatabase.getSkillsByType(SkillDatabase.CASTABLE).toArray();
-          UseSkillRequest value = (UseSkillRequest) InputFieldUtilities.input(message, inputs);
+          UseSkillRequest[] inputs =
+              SkillDatabase.getSkillsByType(SkillDatabase.CASTABLE).toArray(new UseSkillRequest[0]);
+          UseSkillRequest value = InputFieldUtilities.input(message, inputs);
           return value == null ? null : value.getSkillName();
         }
 
       case TYPE_FAMILIAR:
         {
-          Object[] inputs = KoLCharacter.getFamiliarList().toArray();
+          FamiliarData[] inputs = KoLCharacter.getFamiliarList().toArray(new FamiliarData[0]);
           FamiliarData initial = KoLCharacter.getFamiliar();
-          FamiliarData value = (FamiliarData) InputFieldUtilities.input(message, inputs, initial);
+          FamiliarData value = InputFieldUtilities.input(message, inputs, initial);
           return value == null ? null : value.getRace();
         }
 
       case TYPE_SLOT:
-        return (String) InputFieldUtilities.input(message, EquipmentRequest.slotNames);
+        return InputFieldUtilities.input(message, EquipmentRequest.slotNames);
 
       case TYPE_ELEMENT:
-        return (String) InputFieldUtilities.input(message, MonsterDatabase.ELEMENT_ARRAY);
+        return InputFieldUtilities.input(message, MonsterDatabase.ELEMENT_ARRAY);
 
       case TYPE_COINMASTER:
-        return (String) InputFieldUtilities.input(message, CoinmasterRegistry.MASTERS);
+        return InputFieldUtilities.input(message, CoinmasterRegistry.MASTERS);
 
       case TYPE_PHYLUM:
-        return (String) InputFieldUtilities.input(message, MonsterDatabase.PHYLUM_ARRAY);
+        return InputFieldUtilities.input(message, MonsterDatabase.PHYLUM_ARRAY);
 
       case TYPE_THRALL:
-        return (String) InputFieldUtilities.input(message, PastaThrallData.THRALL_ARRAY);
+        return InputFieldUtilities.input(message, PastaThrallData.THRALL_ARRAY);
 
       case TYPE_SERVANT:
-        return (String) InputFieldUtilities.input(message, EdServantData.SERVANT_ARRAY);
+        return InputFieldUtilities.input(message, EdServantData.SERVANT_ARRAY);
 
       case TYPE_VYKEA:
-        return (String) InputFieldUtilities.input(message, VYKEACompanionData.VYKEA);
+        return InputFieldUtilities.input(message, VYKEACompanionData.VYKEA);
 
       case TYPE_CLASS:
-        return (String) InputFieldUtilities.input(message, AscensionClass.values());
+        return InputFieldUtilities.input(message, AscensionClass.values()).toString();
 
       case TYPE_STAT:
-        return (String) InputFieldUtilities.input(message, DataTypes.STAT_ARRAY);
+        return InputFieldUtilities.input(message, DataTypes.STAT_ARRAY);
 
       case TYPE_INT:
       case TYPE_FLOAT:

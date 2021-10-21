@@ -35,12 +35,12 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 public class SendMessageFrame extends GenericFrame implements ListElementFilter {
   private boolean isStorage = false;
 
-  private final JComboBox sourceSelect;
-  private final LockableListModel contacts;
+  private final JComboBox<String> sourceSelect;
+  private final LockableListModel<String> contacts;
   private final AutoFilterComboBox recipientEntry;
 
-  private final LockableListModel attachments;
-  private final JList attachmentsList;
+  private final LockableListModel<AdventureResult> attachments;
+  private final JList<?> attachmentsList;
   private final AutoHighlightTextField attachedMeat;
   private final JTextArea messageEntry;
 
@@ -61,7 +61,7 @@ public class SendMessageFrame extends GenericFrame implements ListElementFilter 
 
     // What kind of package you want to send.
 
-    this.sourceSelect = new JComboBox();
+    this.sourceSelect = new JComboBox<>();
     this.sourceSelect.addItem("Send items/meat from inventory");
     this.sourceSelect.addItem("Send items/meat from ancestral storage");
     this.sourceSelect.addActionListener(new AttachmentClearListener());
@@ -73,7 +73,7 @@ public class SendMessageFrame extends GenericFrame implements ListElementFilter 
 
     // How much you want to attach, in raw terms.
 
-    this.attachments = new LockableListModel();
+    this.attachments = new LockableListModel<>();
     this.attachedMeat = new AutoHighlightTextField("0");
 
     // Now, layout the center part of the panel.
@@ -104,7 +104,7 @@ public class SendMessageFrame extends GenericFrame implements ListElementFilter 
     labelPanel.add(new JLabel("Attach or detach items", SwingConstants.LEFT), BorderLayout.CENTER);
 
     GenericScrollPane pane = new GenericScrollPane(this.attachments, 3);
-    this.attachmentsList = (JList) pane.getComponent();
+    this.attachmentsList = (JList<?>) pane.getComponent();
     this.attachmentsList.addKeyListener(new RemoveAttachmentListener());
 
     JPanel attachPanel = new JPanel(new BorderLayout(5, 5));
@@ -188,7 +188,7 @@ public class SendMessageFrame extends GenericFrame implements ListElementFilter 
 
   public void sendMessage() {
     AdventureResult[] attachmentsArray = new AdventureResult[this.attachments.size() + 1];
-    attachmentsArray = (AdventureResult[]) this.attachments.toArray(attachmentsArray);
+    attachmentsArray = this.attachments.toArray(attachmentsArray);
 
     attachmentsArray[this.attachments.size()] =
         new AdventureResult(
@@ -218,10 +218,10 @@ public class SendMessageFrame extends GenericFrame implements ListElementFilter 
   }
 
   public void attachItem() {
-    LockableListModel source =
+    LockableListModel<AdventureResult> source =
         this.isStorage
-            ? (SortedListModel) KoLConstants.storage
-            : (SortedListModel) KoLConstants.inventory;
+            ? (SortedListModel<AdventureResult>) KoLConstants.storage
+            : (SortedListModel<AdventureResult>) KoLConstants.inventory;
     if (source.isEmpty()) {
       return;
     }
@@ -231,11 +231,12 @@ public class SendMessageFrame extends GenericFrame implements ListElementFilter 
     int tradeableItemCount = source.getSize();
 
     AdventureResult current;
-    Object[] values = InputFieldUtilities.multiple("What would you like to send?", source, this);
+    AdventureResult[] values =
+        InputFieldUtilities.multiple("What would you like to send?", source, this);
 
     if (values.length < tradeableItemCount) {
       for (int i = 0; i < values.length; ++i) {
-        current = (AdventureResult) values[i];
+        current = values[i];
         Integer value =
             InputFieldUtilities.getQuantity(
                 "How many " + current.getName() + " to send?", current.getCount());
@@ -257,7 +258,7 @@ public class SendMessageFrame extends GenericFrame implements ListElementFilter 
   }
 
   public void detachItems() {
-    JList list = this.attachmentsList;
+    JList<?> list = this.attachmentsList;
     int[] indices = list.getSelectedIndices();
     for (int i = indices.length; i > 0; --i) {
       int index = indices[i - 1];
