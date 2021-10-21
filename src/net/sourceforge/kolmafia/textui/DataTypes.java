@@ -959,7 +959,7 @@ public class DataTypes {
         return (String) InputFieldUtilities.input(message, VYKEACompanionData.VYKEA);
 
       case TYPE_CLASS:
-        return (String) InputFieldUtilities.input(message, AscensionClass.values());
+        return InputFieldUtilities.input(message, AscensionClass.values()).toString();
 
       case TYPE_STAT:
         return (String) InputFieldUtilities.input(message, DataTypes.STAT_ARRAY);
