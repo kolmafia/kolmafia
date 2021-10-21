@@ -5,16 +5,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class AshInteropTest {
-
-  @BeforeEach
-  void clearMessage() {
-    KoLmafia.forceContinue();
-    KoLmafia.lastMessage = "";
-  }
 
   @Test
   void getPlayerIdReturnsInt() {

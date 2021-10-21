@@ -7,11 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,20 +17,11 @@ public class SpoonCommandTest extends AbstractCommandTest {
   @BeforeEach
   public void initEach() {
     KoLCharacter.reset("testUser");
-    KoLCharacter.reset(false);
+    KoLCharacter.reset(true);
     Preferences.resetToDefault("moonTuned");
-
-    // Reset the state
-    KoLmafia.forceContinue();
 
     // Stop requests from actually running
     GenericRequest.sessionId = null;
-  }
-
-  @AfterAll
-  public static void tearDown() {
-    // Reset the state
-    KoLmafia.forceContinue();
   }
 
   public SpoonCommandTest() {

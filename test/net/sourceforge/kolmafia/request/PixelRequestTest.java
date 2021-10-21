@@ -2,21 +2,14 @@ package net.sourceforge.kolmafia.request;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 public class PixelRequestTest {
-  @AfterEach
-  public void after() {
-    KoLCharacter.reset(false);
-  }
-
   @Test
   public void whitePixelPurchaseConsumesOtherPixels() {
     // 1 of each of red / green / blue pixel

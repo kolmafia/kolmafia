@@ -9,7 +9,6 @@ import java.nio.file.Paths;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,14 +16,7 @@ public class ScrapheapRequestTest extends RequestTestBase {
 
   @BeforeEach
   protected void initEach() {
-    Preferences.saveSettingsToFile = false;
     KoLCharacter.reset("fakeUserName");
-  }
-
-  @AfterEach
-  protected void tidyUp() {
-    KoLCharacter.reset("");
-    Preferences.saveSettingsToFile = true;
   }
 
   private int parseActivations(String path) throws IOException {

@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 public class MaximizerTest {
   @BeforeEach
   public void init() {
-    KoLCharacter.reset(false);
+    KoLCharacter.reset(true);
   }
 
   @Test
