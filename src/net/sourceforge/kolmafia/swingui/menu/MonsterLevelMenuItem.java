@@ -36,9 +36,8 @@ public class MonsterLevelMenuItem extends ThreadedMenuItem {
       int currentLevel = KoLCharacter.getMindControlLevel();
 
       String selectedLevel =
-          (String)
-              InputFieldUtilities.input(
-                  "Change monster annoyance from " + currentLevel + "?", levelArray);
+          InputFieldUtilities.input(
+              "Change monster annoyance from " + currentLevel + "?", levelArray);
 
       if (selectedLevel == null) {
         return;

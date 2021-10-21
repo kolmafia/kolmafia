@@ -23,10 +23,9 @@ public class LootHermitMenuItem extends ThreadedMenuItem {
       int cloverCount = HermitRequest.cloverCount();
 
       AdventureResult selectedValue =
-          (AdventureResult)
-              InputFieldUtilities.input(
-                  "I have worthless items!",
-                  (LockableListModel<AdventureResult>) KoLConstants.hermitItems);
+          InputFieldUtilities.input(
+              "I have worthless items!",
+              (LockableListModel<AdventureResult>) KoLConstants.hermitItems);
 
       if (selectedValue == null) {
         return;

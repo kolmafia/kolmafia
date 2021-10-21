@@ -204,7 +204,7 @@ public class MushroomScriptPanel extends JPanel {
 
   public void loadLayout() {
     File[] layouts = DataUtilities.listFiles(KoLConstants.PLOTS_LOCATION);
-    ArrayList names = new ArrayList();
+    ArrayList<String> names = new ArrayList<>();
 
     for (int i = 0; i < layouts.length; ++i) {
       String name = layouts[i].getName();
@@ -220,7 +220,7 @@ public class MushroomScriptPanel extends JPanel {
       return;
     }
 
-    String layout = (String) InputFieldUtilities.input("Which mushroom plot?", names.toArray());
+    String layout = InputFieldUtilities.input("Which mushroom plot?", names.toArray(new String[0]));
     if (layout != null) {
       this.loadLayout(layout);
     }

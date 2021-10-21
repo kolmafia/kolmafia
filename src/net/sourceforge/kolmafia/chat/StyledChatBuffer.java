@@ -10,8 +10,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 public class StyledChatBuffer extends ChatBuffer {
   private static int highlightCount = 0;
 
-  public static final List searchStrings = new ArrayList();
-  public static final List colorStrings = new ArrayList();
+  public static final List<String> searchStrings = new ArrayList<>();
+  public static final List<String> colorStrings = new ArrayList<>();
 
   private final String linkColor;
 
@@ -42,8 +42,8 @@ public class StyledChatBuffer extends ChatBuffer {
   public static final String removeHighlight(final int index) {
     --StyledChatBuffer.highlightCount;
 
-    String searchString = (String) StyledChatBuffer.searchStrings.remove(index);
-    String colorString = (String) StyledChatBuffer.colorStrings.remove(index);
+    String searchString = StyledChatBuffer.searchStrings.remove(index);
+    String colorString = StyledChatBuffer.colorStrings.remove(index);
 
     return searchString + "\n" + colorString;
   }
@@ -73,8 +73,8 @@ public class StyledChatBuffer extends ChatBuffer {
     String highlightMessage = message;
 
     for (int i = 0; i < StyledChatBuffer.highlightCount; ++i) {
-      String searchString = (String) StyledChatBuffer.searchStrings.get(i);
-      String colorString = (String) StyledChatBuffer.colorStrings.get(i);
+      String searchString = StyledChatBuffer.searchStrings.get(i);
+      String colorString = StyledChatBuffer.colorStrings.get(i);
 
       highlightMessage = this.applyHighlight(highlightMessage, searchString, colorString);
     }
