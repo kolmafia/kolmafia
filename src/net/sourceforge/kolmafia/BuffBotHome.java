@@ -29,7 +29,9 @@ public class BuffBotHome {
 
   private static boolean isActive = false;
 
-  private static final TreeMap pastRecipients = new TreeMap();
+  /** Past recipients of the buff associated with the given meat amount. */
+  private static final TreeMap<Integer, List<BuffRecord>> pastRecipients = new TreeMap<>();
+
   private static final LockableListModel<BuffMessage> messages =
       new LockableListModel<BuffMessage>();
   private static PrintStream textLogStream = System.out;
@@ -82,13 +84,13 @@ public class BuffBotHome {
   }
 
   /** Retrieves all the past recipients of the buff associated with the given meat amount. */
-  private static List getPastRecipients(final int meatSent) {
+  private static List<BuffRecord> getPastRecipients(final int meatSent) {
     Integer key = IntegerPool.get(meatSent);
     if (!BuffBotHome.pastRecipients.containsKey(key)) {
-      BuffBotHome.pastRecipients.put(key, new SortedListModel());
+      BuffBotHome.pastRecipients.put(key, new SortedListModel<>());
     }
 
-    return (List) BuffBotHome.pastRecipients.get(key);
+    return BuffBotHome.pastRecipients.get(key);
   }
 
   /**
@@ -96,11 +98,11 @@ public class BuffBotHome {
    * meat amount.
    */
   public static final int getInstanceCount(final int meatSent, final String name) {
-    List pastRecipients = BuffBotHome.getPastRecipients(meatSent);
+    List<BuffRecord> pastRecipients = BuffBotHome.getPastRecipients(meatSent);
     BuffRecord record = new BuffRecord(name);
 
     int index = pastRecipients.indexOf(record);
-    return index == -1 ? 0 : ((BuffRecord) pastRecipients.get(index)).getCount();
+    return index == -1 ? 0 : pastRecipients.get(index).getCount();
   }
 
   private static class BuffRecord implements Comparable<BuffRecord> {
@@ -153,20 +155,20 @@ public class BuffBotHome {
 
   /** Registers the given name as a recipient of the buff associated with the given meat amount. */
   public static final void addToRecipientList(final int meatSent, final String name) {
-    List pastRecipients = BuffBotHome.getPastRecipients(meatSent);
+    List<BuffRecord> pastRecipients = BuffBotHome.getPastRecipients(meatSent);
     BuffRecord record = new BuffRecord(name);
 
     int index = pastRecipients.indexOf(record);
     if (index == -1) {
       pastRecipients.add(record);
     } else {
-      ((BuffRecord) pastRecipients.get(index)).incrementCount();
+      pastRecipients.get(index).incrementCount();
     }
   }
 
   /** Causes the given player to be permanently ignored from all future buff requests. */
   public static final void denyFutureBuffs(final String name) {
-    List pastRecipients = BuffBotHome.getPastRecipients(0);
+    List<BuffRecord> pastRecipients = BuffBotHome.getPastRecipients(0);
     BuffRecord record = new BuffRecord(name);
 
     int index = pastRecipients.indexOf(record);
@@ -174,12 +176,12 @@ public class BuffBotHome {
       record.restrict();
       pastRecipients.add(record);
     } else {
-      ((BuffRecord) pastRecipients.get(index)).restrict();
+      pastRecipients.get(index).restrict();
     }
   }
 
   public static final boolean isPermitted(final String name) {
-    List pastRecipients = BuffBotHome.getPastRecipients(0);
+    List<BuffRecord> pastRecipients = BuffBotHome.getPastRecipients(0);
     BuffRecord record = new BuffRecord(name);
 
     int index = pastRecipients.indexOf(record);
@@ -187,7 +189,7 @@ public class BuffBotHome {
       return true;
     }
 
-    return ((BuffRecord) pastRecipients.get(index)).isPermitted();
+    return pastRecipients.get(index).isPermitted();
   }
 
   /**
@@ -296,7 +298,7 @@ public class BuffBotHome {
 
     @Override
     public Component getListCellRendererComponent(
-        final JList list,
+        final JList<?> list,
         final Object value,
         final int index,
         final boolean isSelected,
