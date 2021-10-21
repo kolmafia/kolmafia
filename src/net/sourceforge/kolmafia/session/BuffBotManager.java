@@ -157,19 +157,17 @@ public abstract class BuffBotManager {
   }
 
   /** An internal method which removes the list of selected buffs from the current mappings. */
-  public static final void removeBuffs(final Object[] buffs) {
-    Offering toRemove;
+  public static final void removeBuffs(final List<Offering> buffs) {
     boolean removedOne = false;
 
-    for (int i = 0; i < buffs.length; ++i) {
-      if (!BuffBotManager.buffCostTable.contains(buffs[i])) {
+    for (Offering buff : buffs) {
+      if (!BuffBotManager.buffCostTable.contains(buff)) {
         continue;
       }
 
       removedOne = true;
-      toRemove = (Offering) buffs[i];
-      BuffBotManager.buffCostTable.remove(toRemove);
-      BuffBotManager.buffCostMap.remove(IntegerPool.get(toRemove.getPrice()));
+      BuffBotManager.buffCostTable.remove(buff);
+      BuffBotManager.buffCostMap.remove(IntegerPool.get(buff.getPrice()));
     }
 
     if (removedOne) {
@@ -662,7 +660,7 @@ public abstract class BuffBotManager {
         }
 
         // This is a philanthropic buff and the user has already
-        // requested it the maximum number of times alotted.  The
+        // requested it the maximum number of times allotted.  The
         // user will not be buffed.
 
         BuffBotHome.update(
