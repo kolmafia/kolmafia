@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.request.AscensionHistoryRequest;
@@ -16,25 +17,6 @@ import net.sourceforge.kolmafia.session.ContactManager;
 
 public class AscensionSnapshot {
   public static final int NO_FILTER = 0;
-
-  public static final int UNKNOWN_CLASS = -1;
-  public static final int SEAL_CLUBBER = 1;
-  public static final int TURTLE_TAMER = 2;
-  public static final int PASTAMANCER = 3;
-  public static final int SAUCEROR = 4;
-  public static final int DISCO_BANDIT = 5;
-  public static final int ACCORDION_THIEF = 6;
-  public static final int BORIS = 11;
-  public static final int ZOMBIE_MASTER = 12;
-  public static final int JARLSBERG = 14;
-  public static final int SNEAKY_PETE = 15;
-  public static final int ED = 17;
-  public static final int COW_PUNCHER = 18;
-  public static final int BEAN_SLINGER = 19;
-  public static final int SNAKE_OILER = 20;
-  public static final int NOOB = 23;
-  public static final int VAMPYRE = 24;
-  public static final int PLUMBER = 25;
 
   public static final int UNKNOWN_TYPE = -1;
   public static final int NORMAL = 1;
@@ -577,7 +559,7 @@ public class AscensionSnapshot {
         AscensionSnapshot.getAscensionData(
             typeFilter,
             pathFilter,
-            AscensionSnapshot.NO_FILTER,
+            null,
             mainBoardSize,
             classBoardSize,
             maxAge,
@@ -618,7 +600,7 @@ public class AscensionSnapshot {
             AscensionSnapshot.getAscensionData(
                 typeFilter,
                 pathFilter,
-                AscensionSnapshot.COW_PUNCHER,
+                AscensionClass.COWPUNCHER,
                 mainBoardSize,
                 classBoardSize,
                 maxAge,
@@ -631,7 +613,7 @@ public class AscensionSnapshot {
             AscensionSnapshot.getAscensionData(
                 typeFilter,
                 pathFilter,
-                AscensionSnapshot.BEAN_SLINGER,
+                AscensionClass.BEANSLINGER,
                 mainBoardSize,
                 classBoardSize,
                 maxAge,
@@ -644,7 +626,7 @@ public class AscensionSnapshot {
             AscensionSnapshot.getAscensionData(
                 typeFilter,
                 pathFilter,
-                AscensionSnapshot.SNAKE_OILER,
+                AscensionClass.SNAKE_OILER,
                 mainBoardSize,
                 classBoardSize,
                 maxAge,
@@ -669,7 +651,7 @@ public class AscensionSnapshot {
             AscensionSnapshot.getAscensionData(
                 typeFilter,
                 pathFilter,
-                AscensionSnapshot.SEAL_CLUBBER,
+                AscensionClass.SEAL_CLUBBER,
                 mainBoardSize,
                 classBoardSize,
                 maxAge,
@@ -682,7 +664,7 @@ public class AscensionSnapshot {
             AscensionSnapshot.getAscensionData(
                 typeFilter,
                 pathFilter,
-                AscensionSnapshot.SAUCEROR,
+                AscensionClass.SAUCEROR,
                 mainBoardSize,
                 classBoardSize,
                 maxAge,
@@ -695,7 +677,7 @@ public class AscensionSnapshot {
             AscensionSnapshot.getAscensionData(
                 typeFilter,
                 pathFilter,
-                AscensionSnapshot.TURTLE_TAMER,
+                AscensionClass.TURTLE_TAMER,
                 mainBoardSize,
                 classBoardSize,
                 maxAge,
@@ -708,7 +690,7 @@ public class AscensionSnapshot {
             AscensionSnapshot.getAscensionData(
                 typeFilter,
                 pathFilter,
-                AscensionSnapshot.DISCO_BANDIT,
+                AscensionClass.DISCO_BANDIT,
                 mainBoardSize,
                 classBoardSize,
                 maxAge,
@@ -721,7 +703,7 @@ public class AscensionSnapshot {
             AscensionSnapshot.getAscensionData(
                 typeFilter,
                 pathFilter,
-                AscensionSnapshot.PASTAMANCER,
+                AscensionClass.PASTAMANCER,
                 mainBoardSize,
                 classBoardSize,
                 maxAge,
@@ -734,7 +716,7 @@ public class AscensionSnapshot {
             AscensionSnapshot.getAscensionData(
                 typeFilter,
                 pathFilter,
-                AscensionSnapshot.ACCORDION_THIEF,
+                AscensionClass.ACCORDION_THIEF,
                 mainBoardSize,
                 classBoardSize,
                 maxAge,
@@ -755,7 +737,7 @@ public class AscensionSnapshot {
   public static final String getAscensionData(
       final int typeFilter,
       final Path pathFilter,
-      final int classFilter,
+      final AscensionClass classFilter,
       final int mainBoardSize,
       final int classBoardSize,
       final int maxAge,
@@ -799,7 +781,7 @@ public class AscensionSnapshot {
 
     List<AscensionDataField> leaderList = new ArrayList<AscensionDataField>();
     int leaderListSize =
-        classFilter == AscensionSnapshot.NO_FILTER
+        classFilter == null
             ? (mainBoardSize == 0 ? 10 : mainBoardSize)
             : classBoardSize == 0 ? 5 : classBoardSize;
 
@@ -821,56 +803,20 @@ public class AscensionSnapshot {
     strbuf.append(KoLConstants.LINE_BREAK);
     strbuf.append("<tr><td style=\"color:white\" align=center bgcolor=blue><b>");
 
-    switch (classFilter) {
-      case NO_FILTER:
-        strbuf.append("Fastest ");
+    if (classFilter == null) {
+      strbuf.append("Fastest ");
 
-        strbuf.append(
-            typeFilter == AscensionSnapshot.NORMAL
-                ? "Normal "
-                : typeFilter == AscensionSnapshot.HARDCORE ? "Hardcore " : "Casual ");
-        strbuf.append(pathFilter == null ? "" : pathFilter.getName());
+      strbuf.append(
+          typeFilter == AscensionSnapshot.NORMAL
+              ? "Normal "
+              : typeFilter == AscensionSnapshot.HARDCORE ? "Hardcore " : "Casual ");
+      strbuf.append(pathFilter == null ? "" : pathFilter.getName());
 
-        strbuf.append("Ascensions (Out of ");
-        strbuf.append(resultsList.size());
-        strbuf.append(")");
-        break;
-
-      case SEAL_CLUBBER:
-        strbuf.append("Seal Clubber");
-        break;
-
-      case TURTLE_TAMER:
-        strbuf.append("Turtle Tamer");
-        break;
-
-      case PASTAMANCER:
-        strbuf.append("Pastamancer");
-        break;
-
-      case SAUCEROR:
-        strbuf.append("Sauceror");
-        break;
-
-      case DISCO_BANDIT:
-        strbuf.append("Disco Bandit");
-        break;
-
-      case ACCORDION_THIEF:
-        strbuf.append("Accordion Thief");
-        break;
-
-      case COW_PUNCHER:
-        strbuf.append("Cow Puncher");
-        break;
-
-      case BEAN_SLINGER:
-        strbuf.append("Bean Slinger");
-        break;
-
-      case SNAKE_OILER:
-        strbuf.append("Snake Oiler");
-        break;
+      strbuf.append("Ascensions (Out of ");
+      strbuf.append(resultsList.size());
+      strbuf.append(")");
+    } else {
+      strbuf.append(classFilter.getName());
     }
 
     strbuf.append(
@@ -927,10 +873,9 @@ public class AscensionSnapshot {
       request.getAscensionData().toArray(fields);
 
       for (AscensionDataField field : fields) {
-        if (field.matchesFilter(AscensionSnapshot.NORMAL, null, AscensionSnapshot.NO_FILTER, 0)) {
+        if (field.matchesFilter(AscensionSnapshot.NORMAL, null, null, 0)) {
           AscensionSnapshot.softcoreAscensionList.add(field);
-        } else if (field.matchesFilter(
-            AscensionSnapshot.HARDCORE, null, AscensionSnapshot.NO_FILTER, 0)) {
+        } else if (field.matchesFilter(AscensionSnapshot.HARDCORE, null, null, 0)) {
           AscensionSnapshot.hardcoreAscensionList.add(field);
         } else {
           AscensionSnapshot.casualAscensionList.add(field);

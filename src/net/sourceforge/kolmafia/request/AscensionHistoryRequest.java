@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.DataUtilities;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -100,7 +101,7 @@ public class AscensionHistoryRequest extends GenericRequest
     }
 
     var challengePathPoints = new HashMap<Path, Integer>();
-    var challengeClassPoints = new HashMap<Integer, Integer>();
+    var challengeClassPoints = new HashMap<AscensionClass, Integer>();
 
     String playerName = null;
     String playerId = null;
@@ -145,7 +146,7 @@ public class AscensionHistoryRequest extends GenericRequest
       int pointsEarned = lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
 
       if (lastField.path == Path.AVATAR_OF_WEST_OF_LOATHING) {
-        challengeClassPoints.merge(lastField.classId, pointsEarned, Integer::sum);
+        challengeClassPoints.merge(lastField.ascensionClass, pointsEarned, Integer::sum);
       } else {
         challengePathPoints.merge(lastField.path, pointsEarned, Integer::sum);
       }
@@ -158,19 +159,19 @@ public class AscensionHistoryRequest extends GenericRequest
       path.setPoints(points);
     }
 
-    for (Entry<Integer, Integer> entry : challengeClassPoints.entrySet()) {
+    for (Entry<AscensionClass, Integer> entry : challengeClassPoints.entrySet()) {
       int points = entry.getValue();
 
       String pref = null;
 
       switch (entry.getKey()) {
-        case AscensionSnapshot.COW_PUNCHER:
+        case COWPUNCHER:
           pref = "awolPointsCowpuncher";
           break;
-        case AscensionSnapshot.BEAN_SLINGER:
+        case BEANSLINGER:
           pref = "awolPointsBeanslinger";
           break;
-        case AscensionSnapshot.SNAKE_OILER:
+        case SNAKE_OILER:
           pref = "awolPointsSnakeoiler";
           break;
       }
@@ -496,9 +497,10 @@ public class AscensionHistoryRequest extends GenericRequest
     private StringBuffer stringForm;
 
     private Date timestamp;
-    private int level, classId, typeId;
+    private int level, typeId;
     private int dayCount, turnCount;
     private Path path;
+    private AscensionClass ascensionClass;
 
     public AscensionDataField(
         final String playerName, final String playerId, final String rowData) {
@@ -544,77 +546,7 @@ public class AscensionHistoryRequest extends GenericRequest
           .append("\"><b>");
       this.stringForm.append(this.playerName);
       this.stringForm.append("</b></a>&nbsp;(");
-
-      switch (this.classId) {
-        case AscensionSnapshot.SEAL_CLUBBER:
-          this.stringForm.append("SC");
-          break;
-
-        case AscensionSnapshot.TURTLE_TAMER:
-          this.stringForm.append("TT");
-          break;
-
-        case AscensionSnapshot.PASTAMANCER:
-          this.stringForm.append("PM");
-          break;
-
-        case AscensionSnapshot.SAUCEROR:
-          this.stringForm.append("SA");
-          break;
-
-        case AscensionSnapshot.DISCO_BANDIT:
-          this.stringForm.append("DB");
-          break;
-
-        case AscensionSnapshot.ACCORDION_THIEF:
-          this.stringForm.append("AT");
-          break;
-
-        case AscensionSnapshot.BORIS:
-          this.stringForm.append("B");
-          break;
-
-        case AscensionSnapshot.ZOMBIE_MASTER:
-          this.stringForm.append("ZM");
-          break;
-
-        case AscensionSnapshot.JARLSBERG:
-          this.stringForm.append("J");
-          break;
-
-        case AscensionSnapshot.SNEAKY_PETE:
-          this.stringForm.append("SP");
-          break;
-
-        case AscensionSnapshot.ED:
-          this.stringForm.append("E");
-          break;
-
-        case AscensionSnapshot.COW_PUNCHER:
-          this.stringForm.append("CP");
-          break;
-
-        case AscensionSnapshot.BEAN_SLINGER:
-          this.stringForm.append("BS");
-          break;
-
-        case AscensionSnapshot.SNAKE_OILER:
-          this.stringForm.append("SO");
-          break;
-
-        case AscensionSnapshot.NOOB:
-          this.stringForm.append("GN");
-          break;
-
-        case AscensionSnapshot.VAMPYRE:
-          this.stringForm.append("V");
-          break;
-
-        case AscensionSnapshot.PLUMBER:
-          this.stringForm.append("P");
-          break;
-      }
-
+      this.stringForm.append(ascensionClass.getInitials());
       this.stringForm.append(")&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=right>");
       this.stringForm.append(this.dayCount);
       this.stringForm.append("</td><td align=right>");
@@ -628,42 +560,11 @@ public class AscensionHistoryRequest extends GenericRequest
         return;
       }
 
-      this.classId =
-          columns[3].startsWith("SC")
-              ? AscensionSnapshot.SEAL_CLUBBER
-              : columns[3].startsWith("TT")
-                  ? AscensionSnapshot.TURTLE_TAMER
-                  : columns[3].startsWith("PM")
-                      ? AscensionSnapshot.PASTAMANCER
-                      : columns[3].startsWith("SA")
-                          ? AscensionSnapshot.SAUCEROR
-                          : columns[3].startsWith("DB")
-                              ? AscensionSnapshot.DISCO_BANDIT
-                              : columns[3].startsWith("AT")
-                                  ? AscensionSnapshot.ACCORDION_THIEF
-                                  : columns[3].startsWith("B")
-                                      ? AscensionSnapshot.BORIS
-                                      : columns[3].startsWith("ZM")
-                                          ? AscensionSnapshot.ZOMBIE_MASTER
-                                          : columns[3].startsWith("J")
-                                              ? AscensionSnapshot.JARLSBERG
-                                              : columns[3].startsWith("SP")
-                                                  ? AscensionSnapshot.SNEAKY_PETE
-                                                  : columns[3].startsWith("E")
-                                                      ? AscensionSnapshot.ED
-                                                      : columns[3].startsWith("CP")
-                                                          ? AscensionSnapshot.COW_PUNCHER
-                                                          : columns[3].startsWith("BS")
-                                                              ? AscensionSnapshot.BEAN_SLINGER
-                                                              : columns[3].startsWith("SO")
-                                                                  ? AscensionSnapshot.SNAKE_OILER
-                                                                  : columns[3].startsWith("GN")
-                                                                      ? AscensionSnapshot.NOOB
-                                                                      : columns[3].startsWith("V")
-                                                                          ? AscensionSnapshot
-                                                                              .VAMPYRE
-                                                                          : AscensionSnapshot
-                                                                              .UNKNOWN_CLASS;
+      for (AscensionClass ascensionClass : AscensionClass.values()) {
+        if (columns[3].startsWith(ascensionClass.getInitials())) {
+          this.ascensionClass = ascensionClass;
+        }
+      }
 
       String[] path = columns[7].split(",");
 
@@ -682,48 +583,13 @@ public class AscensionHistoryRequest extends GenericRequest
 
     private void setCurrentColumns(final String[] columns) {
       try {
-        this.classId =
-            columns[3].contains("club")
-                ? AscensionSnapshot.SEAL_CLUBBER
-                : columns[3].contains("turtle")
-                    ? AscensionSnapshot.TURTLE_TAMER
-                    : columns[3].contains("pasta")
-                        ? AscensionSnapshot.PASTAMANCER
-                        : columns[3].contains("sauce")
-                            ? AscensionSnapshot.SAUCEROR
-                            : columns[3].contains("disco")
-                                ? AscensionSnapshot.DISCO_BANDIT
-                                : columns[3].contains("accordion")
-                                    ? AscensionSnapshot.ACCORDION_THIEF
-                                    : columns[3].contains("trusty")
-                                        ? AscensionSnapshot.BORIS
-                                        : columns[3].contains("tombstone")
-                                            ? AscensionSnapshot.ZOMBIE_MASTER
-                                            : columns[3].contains("path12icon")
-                                                ? AscensionSnapshot.JARLSBERG
-                                                : columns[3].contains("bigglasses")
-                                                    ? AscensionSnapshot.SNEAKY_PETE
-                                                    : columns[3].contains("thoth")
-                                                        ? AscensionSnapshot.ED
-                                                        : columns[3].contains("darkcow")
-                                                            ? AscensionSnapshot.COW_PUNCHER
-                                                            : columns[3].contains("beancan")
-                                                                ? AscensionSnapshot.BEAN_SLINGER
-                                                                : columns[3].contains("tinysnake")
-                                                                    ? AscensionSnapshot.SNAKE_OILER
-                                                                    : columns[3].contains(
-                                                                            "gelatinousicon")
-                                                                        ? AscensionSnapshot.NOOB
-                                                                        : columns[3].contains(
-                                                                                "vampirefangs")
-                                                                            ? AscensionSnapshot
-                                                                                .VAMPYRE
-                                                                            : columns[3].contains(
-                                                                                    "mario_hammer2")
-                                                                                ? AscensionSnapshot
-                                                                                    .PLUMBER
-                                                                                : AscensionSnapshot
-                                                                                    .UNKNOWN_CLASS;
+        for (AscensionClass ascensionClass : AscensionClass.values()) {
+          String image = ascensionClass.getImage();
+          if (image != null && columns[3].contains(image)) {
+            this.ascensionClass = ascensionClass;
+            break;
+          }
+        }
 
         this.typeId =
             columns[8].contains("hardcore")
@@ -763,8 +629,8 @@ public class AscensionHistoryRequest extends GenericRequest
       return this.path;
     }
 
-    public int getClassId() {
-      return this.classId;
+    public AscensionClass getAscensionClass() {
+      return this.ascensionClass;
     }
 
     public int getAge() {
@@ -791,18 +657,21 @@ public class AscensionHistoryRequest extends GenericRequest
     }
 
     public boolean matchesFilter(
-        final int typeFilter, final Path pathFilter, final int classFilter, final int maxAge) {
+        final int typeFilter,
+        final Path pathFilter,
+        final AscensionClass classFilter,
+        final int maxAge) {
       return (typeFilter == AscensionSnapshot.NO_FILTER || typeFilter == this.typeId)
           && (pathFilter == null || pathFilter == this.path)
-          && (classFilter == AscensionSnapshot.NO_FILTER || classFilter == this.classId)
+          && (classFilter == null || classFilter == this.ascensionClass)
           && (maxAge == 0 || maxAge >= this.getAge());
     }
 
     public boolean matchesFilter(
-        final int typeFilter, final Path pathFilter, final int classFilter) {
+        final int typeFilter, final Path pathFilter, final AscensionClass classFilter) {
       return (typeFilter == AscensionSnapshot.NO_FILTER || typeFilter == this.typeId)
           && (pathFilter == null || pathFilter == this.path)
-          && (classFilter == AscensionSnapshot.NO_FILTER || classFilter == this.classId);
+          && (classFilter == null || classFilter == this.ascensionClass);
     }
 
     public int compareTo(final AscensionDataField o) {

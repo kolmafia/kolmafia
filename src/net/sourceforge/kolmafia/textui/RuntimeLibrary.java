@@ -32,6 +32,7 @@ import java.util.zip.GZIPInputStream;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.CoinmasterData;
@@ -3266,8 +3267,8 @@ public abstract class RuntimeLibrary {
     if (value.getType().equals(DataTypes.INT_TYPE)) {
       int num = (int) value.intValue();
 
-      if (num >= 0 && num < DataTypes.CLASSES.length) {
-        name = DataTypes.CLASSES[num];
+      if (num >= 0) {
+        return DataTypes.makeClassValue(AscensionClass.idToClass(num), true);
       }
     } else {
       name = value.toString();
@@ -5393,7 +5394,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value my_class(ScriptRuntime controller) {
-    return DataTypes.makeClassValue(KoLCharacter.getClassType());
+    return DataTypes.makeClassValue(KoLCharacter.getAscensionClass(), false);
   }
 
   public static Value my_level(ScriptRuntime controller) {
@@ -6146,7 +6147,8 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value stun_skill(ScriptRuntime controller) {
-    String stunSkill = KoLCharacter.getClassStun();
+    AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
+    String stunSkill = ascensionClass == null ? "none" : ascensionClass.getStun();
     int skill = -1;
 
     if (!stunSkill.equals("none")) {

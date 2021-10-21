@@ -17,6 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -820,21 +821,21 @@ public abstract class ChoiceManager {
         "Woods",
         "choiceAdventure27",
         "Spooky Forest",
-        new Object[] {KoLCharacter.SEAL_CLUBBER, KoLCharacter.TURTLE_TAMER}),
+        new Object[] {AscensionClass.SEAL_CLUBBER, AscensionClass.TURTLE_TAMER}),
 
     // A Pair of Craters
     new ChoiceSpoiler(
         "Woods",
         "choiceAdventure28",
         "Spooky Forest",
-        new Object[] {KoLCharacter.PASTAMANCER, KoLCharacter.SAUCEROR}),
+        new Object[] {AscensionClass.PASTAMANCER, AscensionClass.SAUCEROR}),
 
     // The Road Less Visible
     new ChoiceSpoiler(
         "Woods",
         "choiceAdventure29",
         "Spooky Forest",
-        new Object[] {KoLCharacter.DISCO_BANDIT, KoLCharacter.ACCORDION_THIEF}),
+        new Object[] {AscensionClass.DISCO_BANDIT, AscensionClass.ACCORDION_THIEF}),
 
     // Choices 30 - 39 are unknown
 
@@ -7616,7 +7617,7 @@ public abstract class ChoiceManager {
           buffer.setLength(0);
           ChoiceManager.lockSpoiler(buffer);
           buffer.append("-spooky");
-          if (KoLCharacter.getClassType() == KoLCharacter.ACCORDION_THIEF) {
+          if (KoLCharacter.isAccordionThief()) {
             buffer.append(" + intricate music box parts");
           }
           buffer.append(", fewer werewolves");
@@ -7659,10 +7660,7 @@ public abstract class ChoiceManager {
         // Where it's Attic
         result = new Object[6];
         result[0] =
-            "-spooky"
-                + (KoLCharacter.getClassType() == KoLCharacter.ACCORDION_THIEF
-                    ? " + intricate music box parts"
-                    : "");
+            "-spooky" + (KoLCharacter.isAccordionThief() ? " + intricate music box parts" : "");
         result[1] = "fewer werewolves";
         result[2] = "fewer vampires";
         result[3] = "+Moxie";
@@ -11349,7 +11347,9 @@ public abstract class ChoiceManager {
         if (text.contains("Also in this room is a ghost")) {
           QuestDatabase.setQuestProgress(Quest.NEMESIS, "step1");
         } else if (text.contains("You acquire")) {
-          ResultProcessor.processItem(KoLCharacter.getClassStarterWeapon(), -1);
+          AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
+          int starterWeaponId = ascensionClass == null ? -1 : ascensionClass.getStarterWeapon();
+          ResultProcessor.processItem(starterWeaponId, -1);
           QuestDatabase.setQuestProgress(Quest.NEMESIS, "step4");
         }
         break;
@@ -17713,19 +17713,27 @@ public abstract class ChoiceManager {
           // The only one that has more than one option is the initial riddle.
           // The option numbers are randomized each time, although the correct
           // answer remains the same.
-          String myClass = KoLCharacter.getClassType();
-          String answer =
-              myClass == KoLCharacter.SEAL_CLUBBER
-                  ? "Boredom."
-                  : myClass == KoLCharacter.TURTLE_TAMER
-                      ? "Friendship."
-                      : myClass == KoLCharacter.PASTAMANCER
-                          ? "Binding pasta thralls."
-                          : myClass == KoLCharacter.SAUCEROR
-                              ? "Power."
-                              : myClass == KoLCharacter.DISCO_BANDIT
-                                  ? "Me. Duh."
-                                  : myClass == KoLCharacter.ACCORDION_THIEF ? "Music." : null;
+          String answer = null;
+          switch (KoLCharacter.getAscensionClass()) {
+            case SEAL_CLUBBER:
+              answer = "Boredom.";
+              break;
+            case TURTLE_TAMER:
+              answer = "Friendship.";
+              break;
+            case PASTAMANCER:
+              answer = "Binding pasta thralls.";
+              break;
+            case SAUCEROR:
+              answer = "Power.";
+              break;
+            case DISCO_BANDIT:
+              answer = "Me. Duh.";
+              break;
+            case ACCORDION_THIEF:
+              answer = "Music.";
+              break;
+          }
 
           // Only standard classes can join the guild, so we
           // should not fail. But, if we do, cope.
@@ -17752,21 +17760,27 @@ public abstract class ChoiceManager {
           return "1";
         }
 
-        String myClass = KoLCharacter.getClassType();
-        String answer =
-            myClass == KoLCharacter.SEAL_CLUBBER
-                ? "Freak the hell out like a wrathful wolverine."
-                : myClass == KoLCharacter.TURTLE_TAMER
-                    ? "Sympathize with an amphibian."
-                    : myClass == KoLCharacter.PASTAMANCER
-                        ? "Entangle the wall with noodles."
-                        : myClass == KoLCharacter.SAUCEROR
-                            ? "Shoot a stream of sauce at the wall."
-                            : myClass == KoLCharacter.DISCO_BANDIT
-                                ? "Focus on your disco state of mind."
-                                : myClass == KoLCharacter.ACCORDION_THIEF
-                                    ? "Bash the wall with your accordion."
-                                    : null;
+        String answer = null;
+        switch (KoLCharacter.getAscensionClass()) {
+          case SEAL_CLUBBER:
+            answer = "Freak the hell out like a wrathful wolverine.";
+            break;
+          case TURTLE_TAMER:
+            answer = "Sympathize with an amphibian.";
+            break;
+          case PASTAMANCER:
+            answer = "Entangle the wall with noodles.";
+            break;
+          case SAUCEROR:
+            answer = "Shoot a stream of sauce at the wall.";
+            break;
+          case DISCO_BANDIT:
+            answer = "Focus on your disco state of mind.";
+            break;
+          case ACCORDION_THIEF:
+            answer = "Bash the wall with your accordion.";
+            break;
+        }
 
         // Only standard classes can join the guild, so we
         // should not fail. But, if we do, cope.

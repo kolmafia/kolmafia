@@ -657,7 +657,7 @@ public class CharPaneRequest extends GenericRequest {
       ResultProcessor.processAdventuresLeft(newAdventures - oldAdventures);
     }
 
-    if (KoLCharacter.getClassType() == KoLCharacter.SEAL_CLUBBER) {
+    if (KoLCharacter.isSealClubber()) {
       pattern = Pattern.compile(">(\\d+) gal.</span>");
       matcher = pattern.matcher(responseText);
       if (matcher != null && matcher.find()) {
@@ -666,7 +666,7 @@ public class CharPaneRequest extends GenericRequest {
       } else {
         KoLCharacter.setFuryNoCheck(0);
       }
-    } else if (KoLCharacter.getClassType() == KoLCharacter.SAUCEROR) {
+    } else if (KoLCharacter.isSauceror()) {
       pattern =
           Pattern.compile(
               "auce:(?:</small>)?</td><td align=left><b><font color=black>(?:<span>)?(\\d+)<");
@@ -1187,7 +1187,7 @@ public class CharPaneRequest extends GenericRequest {
           Pattern.DOTALL);
 
   private static void checkPastaThrall(final String responseText) {
-    if (KoLCharacter.getClassType() != KoLCharacter.PASTAMANCER) {
+    if (!KoLCharacter.isPastamancer()) {
       return;
     }
     Pattern pattern = CharPaneRequest.pastaThrallPattern;
@@ -1600,7 +1600,7 @@ public class CharPaneRequest extends GenericRequest {
     KoLCharacter.setMindControlLevel(mcd);
 
     int classType = JSON.getInt("class");
-    KoLCharacter.setClassType(classType);
+    KoLCharacter.setAscensionClass(classType);
 
     int pvpFights = JSON.getInt("pvpfights");
     KoLCharacter.setAttacksLeft(pvpFights);

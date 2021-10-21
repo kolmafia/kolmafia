@@ -2569,7 +2569,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       if (hh && hg) ff = "hipster+goth";
       else if (hh) ff = "hipster";
       else if (hg) ff = "goth";
-      boolean sc = KoLCharacter.getClassType().equals(KoLCharacter.SEAL_CLUBBER);
+      boolean sc = KoLCharacter.isSealClubber();
       boolean me = machineElf != null && machineElf.canEquip();
       boolean gl = godLobster != null && godLobster.canEquip();
       boolean sj =
@@ -3846,30 +3846,37 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean hasProtection = !Preferences.getBoolean("prayedForProtection");
       boolean hasGlamour = !Preferences.getBoolean("prayedForGlamour");
       boolean hasVigor = !Preferences.getBoolean("prayedForVigor");
-      String myClass = KoLCharacter.getClassType();
       btnMus.setVisible(hasProtection);
       btnMys.setVisible(hasGlamour);
       btnMox.setVisible(hasVigor);
       btnBuff.setVisible(true);
       this.setText("Pray to the Barrel god");
 
-      if (myClass.equals(KoLCharacter.SEAL_CLUBBER)) {
-        btnBuff.setToolTipText("Weapon Damage +150%");
-      } else if (myClass.equals(KoLCharacter.TURTLE_TAMER)) {
-        btnBuff.setToolTipText("Maximum HP +90, Makes food more delicious!");
-      } else if (myClass.equals(KoLCharacter.PASTAMANCER)) {
-        btnBuff.setToolTipText("+90% Item Drops from Monsters");
-      } else if (myClass.equals(KoLCharacter.SAUCEROR)) {
-        btnBuff.setToolTipText("Spell Damage +150%");
-      } else if (myClass.equals(KoLCharacter.DISCO_BANDIT)) {
-        btnBuff.setToolTipText("Ranged Damage +150%");
-      } else if (myClass.equals(KoLCharacter.ACCORDION_THIEF)) {
-        btnBuff.setToolTipText("+45% Booze Drops from Monsters, Makes booze more effective!");
-      } else {
-        if (!(hasProtection || hasGlamour || hasVigor) && !prayed) {
-          this.setText("The Barrel god will not answer your prayers");
-        }
-        btnBuff.setVisible(false);
+      switch (KoLCharacter.getAscensionClass()) {
+        case SEAL_CLUBBER:
+          btnBuff.setToolTipText("Weapon Damage +150%");
+          break;
+        case TURTLE_TAMER:
+          btnBuff.setToolTipText("Maximum HP +90, Makes food more delicious!");
+          break;
+        case PASTAMANCER:
+          btnBuff.setToolTipText("+90% Item Drops from Monsters");
+          break;
+        case SAUCEROR:
+          btnBuff.setToolTipText("Spell Damage +150%");
+          break;
+        case DISCO_BANDIT:
+          btnBuff.setToolTipText("Ranged Damage +150%");
+          break;
+        case ACCORDION_THIEF:
+          btnBuff.setToolTipText("+45% Booze Drops from Monsters, Makes booze more effective!");
+          break;
+        default:
+          if (!(hasProtection || hasGlamour || hasVigor) && !prayed) {
+            this.setText("The Barrel god will not answer your prayers");
+          }
+          btnBuff.setVisible(false);
+          break;
       }
     }
   }

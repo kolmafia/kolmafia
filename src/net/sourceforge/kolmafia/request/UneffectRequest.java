@@ -238,17 +238,17 @@ public class UneffectRequest extends GenericRequest {
         }
       case SkillPool.SHE_WHO_WAS_BLESSING:
         return EffectDatabase.getEffectName(
-            KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER
+            KoLCharacter.isTurtleTamer()
                 ? EffectPool.BLESSING_OF_SHE_WHO_WAS
                 : EffectPool.DISDAIN_OF_SHE_WHO_WAS);
       case SkillPool.STORM_BLESSING:
         return EffectDatabase.getEffectName(
-            KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER
+            KoLCharacter.isTurtleTamer()
                 ? EffectPool.BLESSING_OF_THE_STORM_TORTOISE
                 : EffectPool.DISDAIN_OF_THE_STORM_TORTOISE);
       case SkillPool.WAR_BLESSING:
         return EffectDatabase.getEffectName(
-            KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER
+            KoLCharacter.isTurtleTamer()
                 ? EffectPool.BLESSING_OF_THE_WAR_SNAPPER
                 : EffectPool.DISDAIN_OF_THE_WAR_SNAPPER);
       case SkillPool.TURTLE_POWER:
@@ -264,17 +264,17 @@ public class UneffectRequest extends GenericRequest {
         }
       case SkillPool.SHIELD_OF_THE_PASTALORD:
         return EffectDatabase.getEffectName(
-            KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER
+            KoLCharacter.isPastamancer()
                 ? EffectPool.SHIELD_OF_THE_PASTALORD
                 : EffectPool.FLIMSY_SHIELD_OF_THE_PASTALORD);
       case SkillPool.BLOOD_SUGAR_SAUCE_MAGIC:
         return EffectDatabase.getEffectName(
-            KoLCharacter.getClassType() == KoLCharacter.SAUCEROR
+            KoLCharacter.isSauceror()
                 ? EffectPool.BLOOD_SUGAR_SAUCE_MAGIC
                 : EffectPool.BLOOD_SUGAR_SAUCE_MAGIC_LITE);
       case SkillPool.SILENT_HUNTER:
         return EffectDatabase.getEffectName(
-            KoLCharacter.getClassType() == KoLCharacter.SEAL_CLUBBER
+            KoLCharacter.isSealClubber()
                 ? EffectPool.SILENT_HUNTING
                 : EffectPool.NEARLY_SILENT_HUNTING);
     }

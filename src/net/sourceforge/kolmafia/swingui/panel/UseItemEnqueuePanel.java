@@ -215,7 +215,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel {
           KoLCharacter.hasSkill("Song of the Glorious Lunch")
               || (Preferences.getBoolean("barrelShrineUnlocked")
                   && !Preferences.getBoolean("_barrelPrayer")
-                  && KoLCharacter.getClassType().equals(KoLCharacter.TURTLE_TAMER)
+                  && KoLCharacter.isTurtleTamer()
                   && StandardRequest.isAllowed("Items", "shrine to the Barrel god"));
 
       this.buttons[bingeIndex + 2].setEnabled(lunchAvailable);
@@ -243,7 +243,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel {
       boolean prayerAvailable =
           Preferences.getBoolean("barrelShrineUnlocked")
               && !Preferences.getBoolean("_barrelPrayer")
-              && KoLCharacter.getClassType().equals(KoLCharacter.ACCORDION_THIEF)
+              && KoLCharacter.isAccordionThief()
               && StandardRequest.isAllowed("Items", "shrine to the Barrel god");
       this.buttons[bingeIndex + 2].setEnabled(prayerAvailable);
 

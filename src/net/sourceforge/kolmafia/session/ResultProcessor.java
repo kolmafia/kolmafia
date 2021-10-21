@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -1317,7 +1318,7 @@ public class ResultProcessor {
           int duration = effect.getCount();
           if (duration == Integer.MAX_VALUE) {
             // Intrinsic effect
-          } else if (KoLCharacter.getClassType() == KoLCharacter.COWPUNCHER
+          } else if (KoLCharacter.getAscensionClass() == AscensionClass.COWPUNCHER
               && effect.getEffectId() == EffectPool.COWRRUPTION) {
             // Does not decrement
           } else if (duration + result.getCount() <= 0) {

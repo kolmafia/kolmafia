@@ -118,7 +118,7 @@ public class HermitRequest extends CoinMasterRequest {
     HermitRequest.registerHermitItem(ItemPool.KETCHUP, PurchaseRequest.MAX_QUANTITY);
     HermitRequest.registerHermitItem(ItemPool.CATSUP, PurchaseRequest.MAX_QUANTITY);
     HermitRequest.registerHermitItem(ItemPool.VOLLEYBALL, PurchaseRequest.MAX_QUANTITY);
-    if (KoLCharacter.getClassType().equals(KoLCharacter.SEAL_CLUBBER)) {
+    if (KoLCharacter.isSealClubber()) {
       HermitRequest.registerHermitItem(ItemPool.ANCIENT_SEAL, PurchaseRequest.MAX_QUANTITY);
     }
 
