@@ -15,11 +15,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+
+      - name: Add kolmafia remote
+        run: git remote add kolmafia git@github.com:kolmafia/kolmafia.git && git fetch --prune --unshallow
 
       - name: Auto-merge latest changes if possible
-        run: git merge origin/main --no-edit || git merge --abort
+        run: git merge kolmafia/main --no-edit || git merge --abort
 
       - name: Setup Java 17
         uses: actions/setup-java@v2
