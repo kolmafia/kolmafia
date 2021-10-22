@@ -3611,6 +3611,7 @@ public class UseItemRequest extends GenericRequest {
         }
 
         Preferences.setBoolean("_milkOfMagnesiumUsed", true);
+        Preferences.setBoolean("milkOfMagnesiumActive", true);
         KoLCharacter.updateStatus();
         ConcoctionDatabase.getUsables().sort();
         ConcoctionDatabase.queuedFood.touch();

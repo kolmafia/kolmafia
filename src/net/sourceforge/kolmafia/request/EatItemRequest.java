@@ -512,8 +512,9 @@ public class EatItemRequest extends UseItemRequest {
       if (consumptionTurns > 0) {
         // See if already used milk of magnesium today
         boolean milkUsed = Preferences.getBoolean("_milkOfMagnesiumUsed");
+        boolean milkActive = Preferences.getBoolean("milkOfMagnesiumActive");
 
-        if (!milkUsed) {
+        if (!milkUsed && !milkActive) {
           String message = "Are you sure you want to eat without milk?";
           if (!InputFieldUtilities.confirm(message)) {
             return false;
@@ -1026,7 +1027,7 @@ public class EatItemRequest extends UseItemRequest {
     // Satisfied, you let loose a nasty magnesium-flavored belch.
     if (responseText.contains("magnesium-flavored belch")) {
       EatItemRequest.logConsumption("Your milk of magnesium kicked in");
-      Preferences.setBoolean("_milkOfMagnesiumUsed", true);
+      Preferences.setBoolean("milkOfMagnesiumActive", false);
     }
 
     // You feel the canticle take hold, and feel suddenly bloated
