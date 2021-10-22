@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class DisplayCaseManagerTest {
@@ -42,5 +44,25 @@ class DisplayCaseManagerTest {
     // Test file has one shelf named -none-
     assertEquals(DisplayCaseManager.getShelves().size(), 1);
     assertEquals(DisplayCaseManager.getHeader(0), "-none-");
+  }
+
+  @Test
+  @Disabled("Not parsing as expected.")
+  public void itShouldHaveSomeShelves() {
+    // This file was generated from Nevalkarion's Display Case which had two shelves at the time.
+    String displayCase = null;
+    String fileName = "request/test_displaycollection_shelves.html";
+    try {
+      displayCase = Files.readString(Path.of(fileName));
+    } catch (Exception e) {
+      fail("Exception " + e);
+    }
+    assertNotNull(displayCase, "Could not read case data.");
+    assertTrue(displayCase.length() > 0, "Case data is empty.");
+    DisplayCaseManager.update(displayCase);
+    // Test file has two shelves
+    assertEquals(DisplayCaseManager.getShelves().size(), 2);
+    assertEquals(DisplayCaseManager.getHeader(0), "things that amuse me");
+    assertEquals(DisplayCaseManager.getHeader(1), "good times");
   }
 }
