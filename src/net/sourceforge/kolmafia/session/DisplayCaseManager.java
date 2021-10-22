@@ -156,7 +156,7 @@ public abstract class DisplayCaseManager {
     DisplayCaseManager.updateShelves(data);
 
     ArrayList<AdventureResult> items = new ArrayList<>();
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked") // You can't specify a generic in an array initialization
     ArrayList<AdventureResult>[] shelves = new ArrayList[DisplayCaseManager.shelves.size()];
     for (int i = 0; i < shelves.length; ++i) {
       shelves[i] = new ArrayList<>();
