@@ -283,6 +283,7 @@ public class Preferences {
         "merkinLockkeyMonster",
         "merkinQuestPath",
         "merkinVocabularyMastery",
+        "milkOfMagnesiumActive",
         "miniAdvClass",
         "moonTuned",
         "mushroomGardenCropLevel",
