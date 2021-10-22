@@ -19,7 +19,7 @@ jobs:
           fetch-depth: 0
 
       - name: Add kolmafia remote
-        run: git remote add kolmafia git@github.com:kolmafia/kolmafia.git && git fetch --prune --unshallow kolmafia
+        run: git remote add kolmafia git@github.com:kolmafia/kolmafia.git && git fetch --prune kolmafia main
 
       - name: Auto-merge latest changes if possible
         run: git merge kolmafia/main --no-edit || git merge --abort
