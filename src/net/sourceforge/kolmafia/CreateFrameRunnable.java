@@ -24,19 +24,19 @@ import net.sourceforge.kolmafia.swingui.TabbedChatFrame;
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
 
 public class CreateFrameRunnable implements Runnable {
-  private final Class creationType;
+  private final Class<?> creationType;
   private JFrame creation;
-  private Constructor creator;
+  private Constructor<?> creator;
   private final Object[] parameters;
 
-  public CreateFrameRunnable(final Class creationType) {
+  public CreateFrameRunnable(final Class<?> creationType) {
     this(creationType, new Object[0]);
   }
 
-  public CreateFrameRunnable(final Class creationType, final Object[] parameters) {
+  public CreateFrameRunnable(final Class<?> creationType, final Object[] parameters) {
     this.creationType = creationType;
     this.parameters = parameters;
-    Class[] parameterTypes = new Class[parameters.length];
+    Class<?>[] parameterTypes = new Class[parameters.length];
     for (int i = 0; i < parameters.length; ++i) {
       parameterTypes[i] = parameters[i] == null ? null : parameters[i].getClass();
     }
@@ -44,8 +44,8 @@ public class CreateFrameRunnable implements Runnable {
     this.creator = null;
     boolean isValidConstructor;
 
-    Class[] constructorParameterTypes;
-    Constructor[] constructors = creationType.getConstructors();
+    Class<?>[] constructorParameterTypes;
+    Constructor<?>[] constructors = creationType.getConstructors();
 
     for (int i = 0; i < constructors.length; ++i) {
       constructorParameterTypes = constructors[i].getParameterTypes();

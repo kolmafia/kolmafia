@@ -282,11 +282,11 @@ public class EquipmentDatabase {
     Map<String, Integer> containers = new TreeMap<String, Integer>();
 
     // Iterate over all items and assign item id to category
-    Iterator it = ItemDatabase.dataNameEntrySet().iterator();
+    Iterator<Entry<Integer, String>> it = ItemDatabase.dataNameEntrySet().iterator();
     while (it.hasNext()) {
-      Entry entry = (Entry) it.next();
-      Integer key = (Integer) entry.getKey();
-      String name = (String) entry.getValue();
+      Entry<Integer, String> entry = it.next();
+      Integer key = entry.getKey();
+      String name = entry.getValue();
       int type = ItemDatabase.getConsumptionType(key.intValue());
 
       switch (type) {
@@ -337,14 +337,14 @@ public class EquipmentDatabase {
   }
 
   private static void writeEquipmentCategory(
-      final PrintStream writer, final Map map, final String tag) {
+      final PrintStream writer, final Map<String, Integer> map, final String tag) {
     writer.println("# " + tag + " section of equipment.txt");
     writer.println();
 
-    Object[] keys = map.keySet().toArray();
+    String[] keys = map.keySet().toArray(new String[0]);
     for (int i = 0; i < keys.length; ++i) {
-      String name = (String) keys[i];
-      Integer val = (Integer) map.get(name);
+      String name = keys[i];
+      Integer val = map.get(name);
       int itemId = val.intValue();
       int power = EquipmentDatabase.getPower(itemId);
       String req = EquipmentDatabase.getEquipRequirement(itemId);

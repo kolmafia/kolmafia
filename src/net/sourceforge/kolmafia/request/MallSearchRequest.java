@@ -236,7 +236,7 @@ public class MallSearchRequest extends GenericRequest {
 
     List<String> itemNames = ItemDatabase.getMatchingNames(this.searchString);
 
-    List<String> disambiguatedItemNames = new ArrayList();
+    List<String> disambiguatedItemNames = new ArrayList<>();
 
     for (String itemName : itemNames) {
       int[] itemIds = ItemDatabase.getItemIds(itemName, 1, true);

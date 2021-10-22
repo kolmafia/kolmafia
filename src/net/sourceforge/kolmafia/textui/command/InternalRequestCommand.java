@@ -8,7 +8,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 
 public class InternalRequestCommand extends AbstractCommand {
   private boolean isRunning = false;
-  private final List requests = new LinkedList();
+  private final List<GenericRequest> requests = new LinkedList<>();
 
   public void addRequest(GenericRequest request) {
     if (this.isRunning) {
@@ -18,7 +18,7 @@ public class InternalRequestCommand extends AbstractCommand {
     this.requests.add(request);
   }
 
-  public void addRequests(Object[] requests) {
+  public void addRequests(GenericRequest[] requests) {
     if (this.isRunning) {
       return;
     }
@@ -34,10 +34,10 @@ public class InternalRequestCommand extends AbstractCommand {
 
     this.isRunning = true;
 
-    Iterator requestIterator = this.requests.iterator();
+    Iterator<GenericRequest> requestIterator = this.requests.iterator();
 
     while (requestIterator.hasNext()) {
-      GenericRequest request = (GenericRequest) requestIterator.next();
+      GenericRequest request = requestIterator.next();
 
       request.run();
     }

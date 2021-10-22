@@ -1719,9 +1719,9 @@ public class CharPaneRequest extends GenericRequest {
       // KoL returns an empty JSON array if there are no effects
       JSONObject effects = (JSONObject) o;
 
-      Iterator keys = effects.keys();
+      Iterator<String> keys = effects.keys();
       while (keys.hasNext()) {
-        String descId = (String) keys.next();
+        String descId = keys.next();
         JSONArray data = effects.getJSONArray(descId);
         String effectName = data.getString(0);
         int count = data.getInt(1);
@@ -1737,9 +1737,9 @@ public class CharPaneRequest extends GenericRequest {
     if (o instanceof JSONObject) {
       JSONObject intrinsics = (JSONObject) o;
 
-      Iterator keys = intrinsics.keys();
+      Iterator<String> keys = intrinsics.keys();
       while (keys.hasNext()) {
-        String descId = (String) keys.next();
+        String descId = keys.next();
         JSONArray data = intrinsics.getJSONArray(descId);
         String effectName = data.getString(0);
 

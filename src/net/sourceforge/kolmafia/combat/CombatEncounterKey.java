@@ -74,10 +74,10 @@ public class CombatEncounterKey {
       if (this.itemId != -1) {
         boolean foundItem = false;
 
-        Iterator itemIterator = monsterData.getItems().iterator();
+        Iterator<AdventureResult> itemIterator = monsterData.getItems().iterator();
 
         while (!foundItem && itemIterator.hasNext()) {
-          AdventureResult item = (AdventureResult) itemIterator.next();
+          AdventureResult item = itemIterator.next();
 
           if (item.getItemId() == this.itemId) {
             foundItem = true;

@@ -99,7 +99,7 @@ public class TestCommand extends AbstractCommand {
     }
   }
 
-  private static Frame findFrame(final Class type) {
+  private static Frame findFrame(final Class<?> type) {
     for (Frame frame : Frame.getFrames()) {
       if (frame.getClass() == type) {
         return frame;
