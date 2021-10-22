@@ -46,9 +46,9 @@ class DisplayCaseManagerTest {
   }
 
   @Test
-  @Disabled("Not parsing as expected.")
+  @Disabled("DisplayCaseManager.update may not be the right injection")
   public void itShouldHaveSomeShelves() {
-    // This file was generated from Nevalkarion's Display Case which had two shelves at the time.
+    // This file has three shelves.
     String displayCase = null;
     String fileName = "request/test_displaycollection_shelves.html";
     try {
@@ -59,9 +59,11 @@ class DisplayCaseManagerTest {
     assertNotNull(displayCase, "Could not read case data.");
     assertTrue(displayCase.length() > 0, "Case data is empty.");
     DisplayCaseManager.update(displayCase);
-    // Test file has two shelves
-    assertEquals(DisplayCaseManager.getShelves().size(), 2);
-    assertEquals(DisplayCaseManager.getHeader(0), "things that amuse me");
-    assertEquals(DisplayCaseManager.getHeader(1), "good times");
+    // Test file has three shelves
+    assertEquals(DisplayCaseManager.getShelves().size(), 3);
+    assertEquals(DisplayCaseManager.getHeader(0), "Tiny Plastic Shelf");
+    assertEquals(DisplayCaseManager.getHeader(1), "Things from Special Challeng Paths");
+    assertEquals(
+        DisplayCaseManager.getHeader(2), "\n" + "Things with quotes in the name that annoy me");
   }
 }
