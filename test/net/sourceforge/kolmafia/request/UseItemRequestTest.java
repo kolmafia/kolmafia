@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 class UseItemRequestTest extends RequestTestBase {
 
+  // We don't use @BeforeEach here because it's specific to milk-related tests.
   private void milkSetup() {
     // Simulate logging out and back in again.
     KoLCharacter.reset("");
@@ -57,7 +58,7 @@ class UseItemRequestTest extends RequestTestBase {
   }
 
   @Test
-  void preferencePreventsWastedServerHit() {
+  void milkPreferencePreventsWastedServerHit() {
     milkSetup();
     Preferences.setBoolean("_milkOfMagnesiumUsed", true);
 

@@ -13,13 +13,15 @@ import org.junit.jupiter.api.Test;
 
 class EatItemRequestTest extends RequestTestBase {
 
+  // We don't use @BeforeEach here because it's specific to milk-related tests.
   private void milkSetup() {
+    // Simulate logging out and back in again.
     KoLCharacter.reset("");
     KoLCharacter.reset("milk user");
     // Reset preferences to defaults.
     AdventureResult.addResultToList(
         KoLConstants.inventory, ItemPool.get(ItemPool.MILK_OF_MAGNESIUM));
-    // A food item. Sure.
+    // A food item that we can eat.
     AdventureResult.addResultToList(KoLConstants.inventory, ItemPool.get(ItemPool.TOMATO));
   }
 
