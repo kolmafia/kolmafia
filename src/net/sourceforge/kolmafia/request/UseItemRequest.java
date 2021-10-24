@@ -3597,7 +3597,7 @@ public class UseItemRequest extends GenericRequest {
         // was pretty hard on the old gullet.  Best wait until
         // tomorrow to go through that again.
 
-        if (responseText.contains(" hard on the old gullet")) {
+        if (responseText.contains("hard on the old gullet")) {
           Preferences.setBoolean("_milkOfMagnesiumUsed", true);
           return;
         }
@@ -3610,6 +3610,7 @@ public class UseItemRequest extends GenericRequest {
         }
 
         Preferences.setBoolean("_milkOfMagnesiumUsed", true);
+
         KoLCharacter.updateStatus();
         ConcoctionDatabase.getUsables().sort();
         ConcoctionDatabase.queuedFood.touch();
