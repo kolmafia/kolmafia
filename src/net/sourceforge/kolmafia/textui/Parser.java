@@ -3729,15 +3729,15 @@ public class Parser {
     this.currentToken();
 
     while (this.currentToken != destinationToken) {
-      this.currentLine.tokens.removeLast();
+      this.currentLine.removeLastToken();
 
-      while (this.currentLine.tokens.isEmpty()) {
+      while (!this.currentLine.hasTokens()) {
         // Don't do null checks. If previousLine is null, it means we never saw the
         // destination token, meaning we'd want to throw an error anyway.
         this.currentLine = this.currentLine.previousLine;
       }
 
-      this.currentToken = this.currentLine.tokens.getLast();
+      this.currentToken = this.currentLine.getLastToken();
       this.currentIndex = this.currentToken.offset;
     }
   }
@@ -3766,7 +3766,7 @@ public class Parser {
   private void clearCurrentToken() {
     if (this.currentToken != null) {
       this.currentToken = null;
-      this.currentLine.tokens.removeLast();
+      this.currentLine.removeLastToken();
     }
   }
 
@@ -3865,7 +3865,7 @@ public class Parser {
     }
 
     while (line != null && line.content != null) {
-      for (final Token token : line.tokens) {
+      for (final Token token : line.getTokensIterator()) {
         result.add(token);
       }
 

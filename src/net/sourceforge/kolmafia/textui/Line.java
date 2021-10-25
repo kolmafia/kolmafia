@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.Deque;
+import java.util.Iterator;
 import java.util.LinkedList;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -13,7 +14,7 @@ public final class Line {
   final int lineNumber;
   final int offset;
 
-  final Deque<Token> tokens = new LinkedList<>();
+  private final Deque<Token> tokens = new LinkedList<>();
 
   final Line previousLine;
   /* Not made final to avoid a possible StackOverflowError. Do not modify. */
@@ -100,6 +101,26 @@ public final class Line {
     final Token newToken = new Comment(commentLength);
     this.tokens.addLast(newToken);
     return newToken;
+  }
+
+  Iterable<Token> getTokensIterator() {
+    return new Iterable<Token>() {
+      public Iterator<Token> iterator() {
+        return Line.this.tokens.iterator();
+      }
+    };
+  }
+
+  boolean hasTokens() {
+    return !this.tokens.isEmpty();
+  }
+
+  Token getLastToken() {
+    return this.tokens.getLast();
+  }
+
+  Token removeLastToken() {
+    return this.tokens.removeLast();
   }
 
   @Override
