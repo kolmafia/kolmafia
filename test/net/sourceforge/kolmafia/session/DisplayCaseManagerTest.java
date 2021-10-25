@@ -26,17 +26,9 @@ class DisplayCaseManagerTest {
     assertNull(DisplayCaseManager.getHeader(1), "Index above bounds.");
   }
 
-  // The two disabled tests are an attempt to load display case html, parse it and then verify
-  // that the shelf data is correct.  This was supposed to be the first step towards a better test
-  // for DisplayCaseManager but jaadams5 has been unable to figure out the correct injection point.
-  // That would be something that fetches and processes displaycollection.php/who=
-  // DisplayCaseRequest is an obvious candidate but the visibility of DisplayCaseParser is
-  // problematic and it is time to move on.
-  // The disabled status should cause someone to revisit this eventually.
-
   @Test
   public void itShouldHaveSomeContents() {
-    // This file was generated from CafeBabe's Display Case which had no shelves at the time.
+    // This file is managecollectionshelves.php with no shelves.
     String displayCase = null;
     String fileName = "request/test_displaycollection_no_shelves.html";
     try {
@@ -54,7 +46,7 @@ class DisplayCaseManagerTest {
 
   @Test
   public void itShouldHaveSomeShelves() {
-    // This file has three shelves.
+    // This file is managecollectionshelves.php with two shelves.
     String displayCase = null;
     String fileName = "request/test_displaycollection_shelves.html";
     try {
