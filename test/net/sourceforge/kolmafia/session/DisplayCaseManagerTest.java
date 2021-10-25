@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class DisplayCaseManagerTest {
@@ -36,7 +35,6 @@ class DisplayCaseManagerTest {
   // The disabled status should cause someone to revisit this eventually.
 
   @Test
-  @Disabled("DisplayCaseManager.update is not the right injection")
   public void itShouldHaveSomeContents() {
     // This file was generated from CafeBabe's Display Case which had no shelves at the time.
     String displayCase = null;
@@ -55,7 +53,6 @@ class DisplayCaseManagerTest {
   }
 
   @Test
-  @Disabled("DisplayCaseManager.update is not the right injection")
   public void itShouldHaveSomeShelves() {
     // This file has three shelves.
     String displayCase = null;
@@ -69,9 +66,8 @@ class DisplayCaseManagerTest {
     assertTrue(displayCase.length() > 0, "Case data is empty.");
     DisplayCaseManager.update(displayCase);
     // Test file has three shelves
-    assertEquals(DisplayCaseManager.getShelves().size(), 3);
-    assertEquals(DisplayCaseManager.getHeader(0), "Tiny Plastic Shelf");
-    assertEquals(DisplayCaseManager.getHeader(1), "Things from Special Challeng Paths");
-    assertEquals(DisplayCaseManager.getHeader(2), "Things with quotes in the name that annoy me");
+    assertEquals(DisplayCaseManager.getShelves().size(), 2);
+    assertEquals(DisplayCaseManager.getHeader(0), "-none-");
+    assertEquals(DisplayCaseManager.getHeader(1), "Being punctual");
   }
 }
