@@ -82,7 +82,9 @@ public class LineTest {
     assertSame(token7, line3.getLastToken());
 
     assertIterableEquals(line1Tokens, line1.getTokensIterator());
+    assertIterableEquals(Arrays.asList(), line2.getTokensIterator());
     assertIterableEquals(line3Tokens, line3.getTokensIterator());
+    assertIterableEquals(Arrays.asList(), endOfFile.getTokensIterator());
 
     for (Token token : line1Tokens) {
       assertSame(line1, token.getLine());
