@@ -48,22 +48,17 @@ public class LineTest {
     assertEquals("Mary had a little lamb...", line3.content);
 
     // Relation between the lines
-    Line[] lines = {line1, line2, line3, endOfFile};
-    for (int i = 0; i < lines.length; ++i) {
-      Line line = lines[i];
+    assertNull(line1.previousLine);
+    assertSame(line1.nextLine, line2);
 
-      if (i == 0) {
-        assertNull(line.previousLine);
-      } else {
-        assertSame(lines[i - 1], line.previousLine);
-      }
+    assertSame(line2.previousLine, line1);
+    assertSame(line2.nextLine, line3);
 
-      if (i == lines.length - 1) {
-        assertNull(line.nextLine);
-      } else {
-        assertSame(lines[i + 1], line.nextLine);
-      }
-    }
+    assertSame(line3.previousLine, line2);
+    assertSame(line3.nextLine, endOfFile);
+
+    assertSame(endOfFile.previousLine, line3);
+    assertNull(endOfFile.nextLine);
 
     // Tokens
     Token token1 = line1.makeToken(4);
