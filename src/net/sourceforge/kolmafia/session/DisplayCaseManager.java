@@ -155,10 +155,9 @@ public abstract class DisplayCaseManager {
     DisplayCaseManager.updateShelves(data);
 
     ArrayList<AdventureResult> items = new ArrayList<>();
-    @SuppressWarnings("unchecked") // You can't specify a generic in an array initialization
-    ArrayList<AdventureResult>[] shelves = new ArrayList[DisplayCaseManager.shelves.size()];
-    for (int i = 0; i < shelves.length; ++i) {
-      shelves[i] = new ArrayList<>();
+    List<List<AdventureResult>> shelves = new ArrayList<>();
+    for (int i = 0; i < DisplayCaseManager.shelves.size(); ++i) {
+      shelves.add(new ArrayList<>());
     }
 
     Matcher optionMatcher = DisplayCaseManager.OPTION_PATTERN.matcher(data);
@@ -180,12 +179,12 @@ public abstract class DisplayCaseManager {
       int shelf = StringUtilities.parseInt(optionMatcher.group(4));
 
       items.add(item);
-      shelves[shelf].add(item);
+      shelves.get(shelf).add(item);
     }
 
     KoLConstants.collection.addAll(items);
     for (int i = 0; i < DisplayCaseManager.shelves.size(); ++i) {
-      DisplayCaseManager.shelves.get(i).addAll(shelves[i]);
+      DisplayCaseManager.shelves.get(i).addAll(shelves.get(i));
     }
 
     // Finally, we can account for Golden Mr. A's in your display case
