@@ -15,6 +15,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -3852,32 +3853,41 @@ public class DailyDeedsPanel extends Box implements Listener {
       btnBuff.setVisible(true);
       this.setText("Pray to the Barrel god");
 
-      switch (KoLCharacter.getAscensionClass()) {
-        case SEAL_CLUBBER:
-          btnBuff.setToolTipText("Weapon Damage +150%");
-          break;
-        case TURTLE_TAMER:
-          btnBuff.setToolTipText("Maximum HP +90, Makes food more delicious!");
-          break;
-        case PASTAMANCER:
-          btnBuff.setToolTipText("+90% Item Drops from Monsters");
-          break;
-        case SAUCEROR:
-          btnBuff.setToolTipText("Spell Damage +150%");
-          break;
-        case DISCO_BANDIT:
-          btnBuff.setToolTipText("Ranged Damage +150%");
-          break;
-        case ACCORDION_THIEF:
-          btnBuff.setToolTipText("+45% Booze Drops from Monsters, Makes booze more effective!");
-          break;
-        default:
-          if (!(hasProtection || hasGlamour || hasVigor) && !prayed) {
-            this.setText("The Barrel god will not answer your prayers");
-          }
-          btnBuff.setVisible(false);
-          break;
+      String buffText = null;
+      AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
+      if (ascensionClass != null) {
+        switch (ascensionClass) {
+          case SEAL_CLUBBER:
+            buffText = "Weapon Damage +150%";
+            break;
+          case TURTLE_TAMER:
+            buffText = "Maximum HP +90, Makes food more delicious!";
+            break;
+          case PASTAMANCER:
+            buffText = "+90% Item Drops from Monsters";
+            break;
+          case SAUCEROR:
+            buffText = "Spell Damage +150%";
+            break;
+          case DISCO_BANDIT:
+            buffText = "Ranged Damage +150%";
+            break;
+          case ACCORDION_THIEF:
+            buffText = "+45% Booze Drops from Monsters, Makes booze more effective!";
+            break;
+        }
       }
+
+      if (buffText != null) {
+        btnBuff.setToolTipText(buffText);
+        return;
+      }
+
+      if (!(hasProtection || hasGlamour || hasVigor)) {
+        this.setText("The Barrel god will not answer your prayers");
+      }
+
+      btnBuff.setVisible(false);
     }
   }
 
