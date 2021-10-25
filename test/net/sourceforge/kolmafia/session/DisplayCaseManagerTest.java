@@ -36,7 +36,7 @@ class DisplayCaseManagerTest {
   // The disabled status should cause someone to revisit this eventually.
 
   @Test
-  @Disabled("DisplayCaseManager.update is not be the right injection")
+  @Disabled("DisplayCaseManager.update is not the right injection")
   public void itShouldHaveSomeContents() {
     // This file was generated from CafeBabe's Display Case which had no shelves at the time.
     String displayCase = null;
@@ -55,7 +55,7 @@ class DisplayCaseManagerTest {
   }
 
   @Test
-  @Disabled("DisplayCaseManager.update is not be the right injection")
+  @Disabled("DisplayCaseManager.update is not the right injection")
   public void itShouldHaveSomeShelves() {
     // This file has three shelves.
     String displayCase = null;
