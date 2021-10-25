@@ -27,7 +27,16 @@ class DisplayCaseManagerTest {
     assertNull(DisplayCaseManager.getHeader(1), "Index above bounds.");
   }
 
+  // The two disabled tests are an attempt to load display case html, parse it and then verify
+  // that the shelf data is correct.  This was supposed to be the first step towards a better test
+  // for DisplayCaseManager but jaadams5 has been unable to figure out the correct injection point.
+  // That would be something that fetches and processes displaycollection.php/who=
+  // DisplayCaseRequest is an obvious candidate but the visibility of DisplayCaseParser is
+  // problematic and it is time to move on.
+  // The disabled status should cause someone to revisit this eventually.
+
   @Test
+  @Disabled("DisplayCaseManager.update is not be the right injection")
   public void itShouldHaveSomeContents() {
     // This file was generated from CafeBabe's Display Case which had no shelves at the time.
     String displayCase = null;
@@ -46,7 +55,7 @@ class DisplayCaseManagerTest {
   }
 
   @Test
-  @Disabled("DisplayCaseManager.update may not be the right injection")
+  @Disabled("DisplayCaseManager.update is not be the right injection")
   public void itShouldHaveSomeShelves() {
     // This file has three shelves.
     String displayCase = null;
@@ -63,7 +72,6 @@ class DisplayCaseManagerTest {
     assertEquals(DisplayCaseManager.getShelves().size(), 3);
     assertEquals(DisplayCaseManager.getHeader(0), "Tiny Plastic Shelf");
     assertEquals(DisplayCaseManager.getHeader(1), "Things from Special Challeng Paths");
-    assertEquals(
-        DisplayCaseManager.getHeader(2), "\n" + "Things with quotes in the name that annoy me");
+    assertEquals(DisplayCaseManager.getHeader(2), "Things with quotes in the name that annoy me");
   }
 }
