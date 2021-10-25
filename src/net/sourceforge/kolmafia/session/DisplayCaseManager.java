@@ -93,9 +93,8 @@ public abstract class DisplayCaseManager {
     // should be stored after the update.
 
     List<SortedListModel<AdventureResult>> shelforder = new ArrayList<>();
-    for (int i = 0; i < headers.length; ++i) {
-      shelforder.add(
-          DisplayCaseManager.shelves.get(DisplayCaseManager.headers.indexOf(headers[i])));
+    for (String header : headers) {
+      shelforder.add(DisplayCaseManager.shelves.get(DisplayCaseManager.headers.indexOf(header)));
     }
 
     // Save the lists to the server and update the display
