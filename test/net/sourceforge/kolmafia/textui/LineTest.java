@@ -109,12 +109,12 @@ public class LineTest {
   @Test
   public void testLineSubstring() {
     // The value of Line.offset is subtracted from beginIndex before being applied
-    assertEquals(line1BOM.content, line1BOM.substring(line1BOM.offset));
+    assertEquals(line1BOM.content.substring(3), line1BOM.substring(line1BOM.offset + 3));
     assertEquals(line2Empty.content, line2Empty.substring(line2Empty.offset));
     assertEquals(
-        line3SurroundingWhitespace.content,
-        line3SurroundingWhitespace.substring(line3SurroundingWhitespace.offset));
-    assertEquals("", endOfFile.substring(endOfFile.offset));
+        line3SurroundingWhitespace.content.substring(5),
+        line3SurroundingWhitespace.substring(line3SurroundingWhitespace.offset + 5));
+    assertEquals("", endOfFile.substring(endOfFile.offset)); // Always an empty string
   }
 
   @Test
