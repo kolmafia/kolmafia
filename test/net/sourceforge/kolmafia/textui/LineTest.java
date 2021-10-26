@@ -331,4 +331,16 @@ public class LineTest {
     testTokenSubstring1();
     testTokenSubstring2();
   }
+
+  @Test
+  public void testTokenFromEmptyLine() {
+    assertThrows(IndexOutOfBoundsException.class, () -> line2Empty.makeToken(1));
+  }
+
+  /** Remove line 3's last token, then try to make a new one, way bigger */
+  @Test
+  public void testTokenSizeOverflow() {
+    assertSame(line3Token4, line3SurroundingWhitespace.removeLastToken());
+    assertThrows(IndexOutOfBoundsException.class, () -> line3SurroundingWhitespace.makeToken(50));
+  }
 }
