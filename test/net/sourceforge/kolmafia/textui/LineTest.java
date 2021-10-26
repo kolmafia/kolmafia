@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 
 public class LineTest {
   private static final String scriptData =
-      "\ufeffLorem ipsum\n      \r\n  			Mary had a little lamb...	 	  ";
+      "\ufeffLorem ipsum\n      \r\n  \t\t\tMary had a little lamb...\t \t  ";
 
   private Line line1;
   private Line line2;
