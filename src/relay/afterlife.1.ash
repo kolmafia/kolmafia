@@ -400,7 +400,7 @@ void modify_decision( buffer page )
   if ( permery.contains_text( "It looks like you've already got all of the skills from your last life marked permanent.  There's nothing we can do for you here!" ) )
   {
     string no_perm_warning = `<p style="color:red">Are you sure you want to reincarnate without marking any skills permanent?<br /><label><input type="checkbox" class="req" value="1" name="noskillsok" /> yes</label></p>`;
-    string no_perm_ok = `<p style="color:orange">You are reincarnating without marking any skills permanent because you have no skills to make permanent.  Try learning more skills.  Knowledge is power.</p>`;
+    string no_perm_ok = `<p style="color:orange">You are reincarnating without marking any skills permanent because you have no skills to make permanent.  Try learning more skills.  Knowledge is power.</p><input type="hidden" value="1" name="noskillsok" />`;
     replace_string(page, no_perm_warning, no_perm_ok );
     }
 }
