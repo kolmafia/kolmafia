@@ -176,7 +176,7 @@ jar {
 				'Build-Dirty'     : versioning.info.dirty,
 				'Build-Jdk'       : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
 				'Build-OS'        : "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}"
-		)
+				)
 	}
 
 	from { configurations.implementation.collect { it.isDirectory() ? it : zipTree(it) } } {
