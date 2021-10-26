@@ -29,6 +29,7 @@ public class LineTest {
   private Token line3Token2;
   private Token line3Token3;
   private Token line3Token4;
+  private Token endOfFileToken;
 
   private List<Token> line1Tokens;
   private List<Token> line2Tokens;
@@ -63,7 +64,9 @@ public class LineTest {
     line3Token4 = line3SurroundingWhitespace.makeToken(7);
     line3Tokens = Arrays.asList(line3Token1, line3Token2, line3Token3, line3Token4);
 
-    endOfFileTokens = Arrays.asList();
+    // Submitted length doesn't matter for EOF
+    endOfFileToken = endOfFile.makeToken(1234);
+    endOfFileTokens = Arrays.asList(endOfFileToken);
 
     allTokens = Arrays.asList(line1Tokens, line2Tokens, line3Tokens, endOfFileTokens);
   }
@@ -134,7 +137,7 @@ public class LineTest {
     assertTrue(line1BOM.hasTokens());
     assertFalse(line2Empty.hasTokens());
     assertTrue(line3SurroundingWhitespace.hasTokens());
-    assertFalse(endOfFile.hasTokens());
+    assertTrue(endOfFile.hasTokens());
   }
 
   @Test
@@ -142,7 +145,7 @@ public class LineTest {
     assertSame(line1Token3, line1BOM.getLastToken());
     assertThrowsExactly(NoSuchElementException.class, line2Empty::getLastToken);
     assertSame(line3Token4, line3SurroundingWhitespace.getLastToken());
-    assertThrowsExactly(NoSuchElementException.class, endOfFile::getLastToken);
+    assertSame(endOfFileToken, endOfFile.getLastToken());
   }
 
   @Test
@@ -179,6 +182,8 @@ public class LineTest {
     assertEquals("had", line3Token2.content);
     assertEquals("a little", line3Token3.content);
     assertEquals("lamb...", line3Token4.content);
+
+    assertEquals(";", endOfFileToken.content);
   }
 
   @Test
@@ -191,6 +196,8 @@ public class LineTest {
     assertEquals(" ", line3Token2.followingWhitespace);
     assertEquals(" ", line3Token3.followingWhitespace);
     assertEquals("", line3Token4.followingWhitespace);
+
+    assertEquals("", endOfFileToken.followingWhitespace);
   }
 
   @Test
@@ -203,15 +210,20 @@ public class LineTest {
     assertEquals(line3Token1.restOfLineStart, line3Token2.offset);
     assertEquals(line3Token2.restOfLineStart, line3Token3.offset);
     assertEquals(line3Token3.restOfLineStart, line3Token4.offset);
+
+    assertEquals(line3SurroundingWhitespace.offset, endOfFileToken.offset);
   }
 
   @Test
   public void testRestOfLineStart() {
     for (List<Token> tokenList : allTokens) {
       for (Token token : tokenList) {
-        assertEquals(
-            token.offset + token.content.length() + token.followingWhitespace.length(),
-            token.restOfLineStart);
+        // restOfLineStart is undefined for the EOF token
+        if (token != endOfFileToken) {
+          assertEquals(
+              token.offset + token.content.length() + token.followingWhitespace.length(),
+              token.restOfLineStart);
+        }
       }
     }
   }
@@ -266,7 +278,7 @@ public class LineTest {
     for (List<Token> tokenList : allTokens) {
       for (Token token : tokenList) {
         if (token.content.length() < 2) {
-          assertThrowsExactly(IndexOutOfBoundsException.class, () -> token.substring(2));
+          assertThrows(IndexOutOfBoundsException.class, () -> token.substring(2));
         } else {
           assertEquals(token.content.substring(2), token.substring(2));
         }
@@ -279,7 +291,7 @@ public class LineTest {
     for (List<Token> tokenList : allTokens) {
       for (Token token : tokenList) {
         if (token.content.length() < 3) {
-          assertThrowsExactly(IndexOutOfBoundsException.class, () -> token.substring(1, 3));
+          assertThrows(IndexOutOfBoundsException.class, () -> token.substring(1, 3));
         } else {
           assertEquals(token.content.substring(1, 3), token.substring(1, 3));
         }
