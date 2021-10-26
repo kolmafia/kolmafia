@@ -50,17 +50,17 @@ repositories {
 
 dependencies {
 	// Use JUnit Jupiter for running JUnit5 tests.
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.8.1'
-	testRuntimeOnly 'org.junit.jupiter:junit-jupiter:5.8.1'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.8.0'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter:5.8.0'
 
 	testImplementation 'org.hamcrest:hamcrest:2.2'
-	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-	testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.1'
-	testImplementation 'org.mockito:mockito-core:4.0.0'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.0'
+	testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.0'
+	testImplementation 'org.mockito:mockito-core:3.+'
 
-	implementation 'com.formdev:flatlaf:1.6.1'
-	implementation 'com.formdev:flatlaf-intellij-themes:1.6.1'
-	implementation 'com.formdev:flatlaf-swingx:1.6.1'
+	implementation 'com.formdev:flatlaf:1.6'
+	implementation 'com.formdev:flatlaf-intellij-themes:1.6'
+	implementation 'com.formdev:flatlaf-swingx:1.6'
 	// Optional runtime deps for svnkit
 	runtimeOnly 'com.trilead:trilead-ssh2:1.0.0-build222'
 	runtimeOnly 'net.java.dev.jna:jna:5.9.0'
@@ -73,8 +73,8 @@ dependencies {
 		builtBy 'compileLibJava'
 	}
 
-	implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.25'
-	implementation 'org.fusesource.jansi:jansi:2.4.0'
+	implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.24'
+	implementation 'org.fusesource.jansi:jansi:2.3.4'
 	implementation 'org.json:json:20210307'
 	implementation 'org.mozilla:rhino:1.7.13'
 	implementation 'org.swinglabs:swingx:1.0'
@@ -176,7 +176,7 @@ jar {
 				'Build-Dirty'     : versioning.info.dirty,
 				'Build-Jdk'       : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
 				'Build-OS'        : "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}"
-				)
+		)
 	}
 
 	from { configurations.implementation.collect { it.isDirectory() ? it : zipTree(it) } } {
