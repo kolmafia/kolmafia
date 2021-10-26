@@ -68,27 +68,27 @@ public class LineTest {
     allTokens = Arrays.asList(line1Tokens, line2Tokens, line3Tokens, endOfFileTokens);
   }
 
+  /** Incremental, 1-indexed */
   @Test
   public void testLineNumbers() {
-    // Incremental, 1-indexed
     assertEquals(1, line1.lineNumber);
     assertEquals(2, line2.lineNumber);
     assertEquals(3, line3.lineNumber);
     assertEquals(line3.lineNumber, endOfFile.lineNumber);
   }
 
+  /** Count of leading whitespace characters, if the line is not all but whitespace */
   @Test
   public void testLineOffsets() {
-    // Nmb of whitespace before the content, if the line is not all but whitespace
     assertEquals(1, line1.offset);
     assertEquals(0, line2.offset);
     assertEquals(5, line3.offset);
     assertEquals(line3.offset, endOfFile.offset);
   }
 
+  /** Trimmed line content */
   @Test
   public void testLineContents() {
-    // Trimmed line content
     assertEquals("Lorem ipsum", line1.content);
     assertEquals("", line2.content);
     assertEquals("Mary had a little lamb...", line3.content);
@@ -285,9 +285,9 @@ public class LineTest {
     }
   }
 
+  /** Split "a little" "lamb..." into "a little" "lamb" "..." */
   @Test
   public void testRemoveLastToken() {
-    // Split "a little" "lamb..." into "a little" "lamb" "..."
     assertSame(token7, line3.removeLastToken());
     assertSame(token6, line3.removeLastToken());
 
