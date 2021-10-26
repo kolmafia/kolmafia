@@ -17,18 +17,18 @@ public class LineTest {
   private static final String scriptData =
       "\ufeffLorem ipsum\n      \r\n  \t\t\tMary had a little lamb...\t \t  ";
 
-  private Line line1;
-  private Line line2;
-  private Line line3;
+  private Line line1BOM;
+  private Line line2Empty;
+  private Line line3SurroundingWhitespace;
   private Line endOfFile;
 
-  private Token token1;
-  private Token token2;
-  private Token token3;
-  private Token token4;
-  private Token token5;
-  private Token token6;
-  private Token token7;
+  private Token line1Token1;
+  private Token line1Token2;
+  private Token line1Token3;
+  private Token line3Token1;
+  private Token line3Token2;
+  private Token line3Token3;
+  private Token line3Token4;
 
   private List<Token> line1Tokens;
   private List<Token> line2Tokens;
@@ -45,23 +45,23 @@ public class LineTest {
                 new ByteArrayInputStream(scriptData.getBytes(StandardCharsets.UTF_8)),
                 StandardCharsets.UTF_8));
 
-    line1 = new Line(commandStream);
-    line2 = new Line(commandStream, line1);
-    line3 = new Line(commandStream, line2);
-    endOfFile = new Line(commandStream, line3);
+    line1BOM = new Line(commandStream);
+    line2Empty = new Line(commandStream, line1BOM);
+    line3SurroundingWhitespace = new Line(commandStream, line2Empty);
+    endOfFile = new Line(commandStream, line3SurroundingWhitespace);
 
-    token1 = line1.makeToken(4);
-    token2 = line1.makeComment(3);
-    token3 = line1.makeToken(4);
-    line1Tokens = Arrays.asList(token1, token2, token3);
+    line1Token1 = line1BOM.makeToken(4);
+    line1Token2 = line1BOM.makeComment(3);
+    line1Token3 = line1BOM.makeToken(4);
+    line1Tokens = Arrays.asList(line1Token1, line1Token2, line1Token3);
 
     line2Tokens = Arrays.asList();
 
-    token4 = line3.makeToken(4);
-    token5 = line3.makeToken(3);
-    token6 = line3.makeToken(8);
-    token7 = line3.makeToken(7);
-    line3Tokens = Arrays.asList(token4, token5, token6, token7);
+    line3Token1 = line3SurroundingWhitespace.makeToken(4);
+    line3Token2 = line3SurroundingWhitespace.makeToken(3);
+    line3Token3 = line3SurroundingWhitespace.makeToken(8);
+    line3Token4 = line3SurroundingWhitespace.makeToken(7);
+    line3Tokens = Arrays.asList(line3Token1, line3Token2, line3Token3, line3Token4);
 
     endOfFileTokens = Arrays.asList();
 
@@ -71,96 +71,98 @@ public class LineTest {
   /** Incremental, 1-indexed */
   @Test
   public void testLineNumbers() {
-    assertEquals(1, line1.lineNumber);
-    assertEquals(2, line2.lineNumber);
-    assertEquals(3, line3.lineNumber);
-    assertEquals(line3.lineNumber, endOfFile.lineNumber);
+    assertEquals(1, line1BOM.lineNumber);
+    assertEquals(2, line2Empty.lineNumber);
+    assertEquals(3, line3SurroundingWhitespace.lineNumber);
+    assertEquals(line3SurroundingWhitespace.lineNumber, endOfFile.lineNumber);
   }
 
   /** Count of leading whitespace characters, if the line is not all but whitespace */
   @Test
   public void testLineOffsets() {
-    assertEquals(1, line1.offset);
-    assertEquals(0, line2.offset);
-    assertEquals(5, line3.offset);
-    assertEquals(line3.offset, endOfFile.offset);
+    assertEquals(1, line1BOM.offset);
+    assertEquals(0, line2Empty.offset);
+    assertEquals(5, line3SurroundingWhitespace.offset);
+    assertEquals(line3SurroundingWhitespace.offset, endOfFile.offset);
   }
 
   /** Trimmed line content */
   @Test
   public void testLineContents() {
-    assertEquals("Lorem ipsum", line1.content);
-    assertEquals("", line2.content);
-    assertEquals("Mary had a little lamb...", line3.content);
+    assertEquals("Lorem ipsum", line1BOM.content);
+    assertEquals("", line2Empty.content);
+    assertEquals("Mary had a little lamb...", line3SurroundingWhitespace.content);
     assertNull(endOfFile.content);
   }
 
   @Test
   public void testLineToString() {
-    assertEquals(line1.content, line1.toString());
-    assertEquals(line2.content, line2.toString());
-    assertEquals(line3.content, line3.toString());
+    assertEquals(line1BOM.content, line1BOM.toString());
+    assertEquals(line2Empty.content, line2Empty.toString());
+    assertEquals(line3SurroundingWhitespace.content, line3SurroundingWhitespace.toString());
     assertEquals(endOfFile.content, endOfFile.toString());
   }
 
   @Test
   public void testLineSubstring() {
     // The value of Line.offset is subtracted from beginIndex before being applied
-    assertEquals(line1.content, line1.substring(line1.offset));
-    assertEquals(line2.content, line2.substring(line2.offset));
-    assertEquals(line3.content, line3.substring(line3.offset));
+    assertEquals(line1BOM.content, line1BOM.substring(line1BOM.offset));
+    assertEquals(line2Empty.content, line2Empty.substring(line2Empty.offset));
+    assertEquals(
+        line3SurroundingWhitespace.content,
+        line3SurroundingWhitespace.substring(line3SurroundingWhitespace.offset));
     assertEquals("", endOfFile.substring(endOfFile.offset));
   }
 
   @Test
   public void testLineRelations() {
-    assertNull(line1.previousLine);
-    assertSame(line1.nextLine, line2);
+    assertNull(line1BOM.previousLine);
+    assertSame(line1BOM.nextLine, line2Empty);
 
-    assertSame(line2.previousLine, line1);
-    assertSame(line2.nextLine, line3);
+    assertSame(line2Empty.previousLine, line1BOM);
+    assertSame(line2Empty.nextLine, line3SurroundingWhitespace);
 
-    assertSame(line3.previousLine, line2);
-    assertSame(line3.nextLine, endOfFile);
+    assertSame(line3SurroundingWhitespace.previousLine, line2Empty);
+    assertSame(line3SurroundingWhitespace.nextLine, endOfFile);
 
-    assertSame(endOfFile.previousLine, line3);
+    assertSame(endOfFile.previousLine, line3SurroundingWhitespace);
     assertNull(endOfFile.nextLine);
   }
 
   @Test
   public void testHasTokens() {
-    assertTrue(line1.hasTokens());
-    assertFalse(line2.hasTokens());
-    assertTrue(line3.hasTokens());
+    assertTrue(line1BOM.hasTokens());
+    assertFalse(line2Empty.hasTokens());
+    assertTrue(line3SurroundingWhitespace.hasTokens());
     assertFalse(endOfFile.hasTokens());
   }
 
   @Test
   public void testGetLastToken() {
-    assertSame(token3, line1.getLastToken());
-    assertThrowsExactly(NoSuchElementException.class, line2::getLastToken);
-    assertSame(token7, line3.getLastToken());
+    assertSame(line1Token3, line1BOM.getLastToken());
+    assertThrowsExactly(NoSuchElementException.class, line2Empty::getLastToken);
+    assertSame(line3Token4, line3SurroundingWhitespace.getLastToken());
     assertThrowsExactly(NoSuchElementException.class, endOfFile::getLastToken);
   }
 
   @Test
   public void testGetTokensIterator() {
-    assertIterableEquals(line1Tokens, line1.getTokensIterator());
-    assertIterableEquals(line2Tokens, line2.getTokensIterator());
-    assertIterableEquals(line3Tokens, line3.getTokensIterator());
+    assertIterableEquals(line1Tokens, line1BOM.getTokensIterator());
+    assertIterableEquals(line2Tokens, line2Empty.getTokensIterator());
+    assertIterableEquals(line3Tokens, line3SurroundingWhitespace.getTokensIterator());
     assertIterableEquals(endOfFileTokens, endOfFile.getTokensIterator());
   }
 
   @Test
   public void testLineTokenRelation() {
     for (Token token : line1Tokens) {
-      assertSame(line1, token.getLine());
+      assertSame(line1BOM, token.getLine());
     }
     for (Token token : line2Tokens) {
-      assertSame(line2, token.getLine());
+      assertSame(line2Empty, token.getLine());
     }
     for (Token token : line3Tokens) {
-      assertSame(line3, token.getLine());
+      assertSame(line3SurroundingWhitespace, token.getLine());
     }
     for (Token token : endOfFileTokens) {
       assertSame(endOfFile, token.getLine());
@@ -169,38 +171,38 @@ public class LineTest {
 
   @Test
   public void testTokenContent() {
-    assertEquals("Lore", token1.content);
-    assertEquals("m i", token2.content);
-    assertEquals("psum", token3.content);
+    assertEquals("Lore", line1Token1.content);
+    assertEquals("m i", line1Token2.content);
+    assertEquals("psum", line1Token3.content);
 
-    assertEquals("Mary", token4.content);
-    assertEquals("had", token5.content);
-    assertEquals("a little", token6.content);
-    assertEquals("lamb...", token7.content);
+    assertEquals("Mary", line3Token1.content);
+    assertEquals("had", line3Token2.content);
+    assertEquals("a little", line3Token3.content);
+    assertEquals("lamb...", line3Token4.content);
   }
 
   @Test
   public void testFollowingWhitespace() {
-    assertEquals("", token1.followingWhitespace);
-    assertEquals("", token2.followingWhitespace);
-    assertEquals("", token3.followingWhitespace);
+    assertEquals("", line1Token1.followingWhitespace);
+    assertEquals("", line1Token2.followingWhitespace);
+    assertEquals("", line1Token3.followingWhitespace);
 
-    assertEquals(" ", token4.followingWhitespace);
-    assertEquals(" ", token5.followingWhitespace);
-    assertEquals(" ", token6.followingWhitespace);
-    assertEquals("", token7.followingWhitespace);
+    assertEquals(" ", line3Token1.followingWhitespace);
+    assertEquals(" ", line3Token2.followingWhitespace);
+    assertEquals(" ", line3Token3.followingWhitespace);
+    assertEquals("", line3Token4.followingWhitespace);
   }
 
   @Test
   public void testTokenOffset() {
-    assertEquals(line1.offset, token1.offset);
-    assertEquals(token1.restOfLineStart, token2.offset);
-    assertEquals(token2.restOfLineStart, token3.offset);
+    assertEquals(line1BOM.offset, line1Token1.offset);
+    assertEquals(line1Token1.restOfLineStart, line1Token2.offset);
+    assertEquals(line1Token2.restOfLineStart, line1Token3.offset);
 
-    assertEquals(line3.offset, token4.offset);
-    assertEquals(token4.restOfLineStart, token5.offset);
-    assertEquals(token5.restOfLineStart, token6.offset);
-    assertEquals(token6.restOfLineStart, token7.offset);
+    assertEquals(line3SurroundingWhitespace.offset, line3Token1.offset);
+    assertEquals(line3Token1.restOfLineStart, line3Token2.offset);
+    assertEquals(line3Token2.restOfLineStart, line3Token3.offset);
+    assertEquals(line3Token3.restOfLineStart, line3Token4.offset);
   }
 
   @Test
@@ -288,37 +290,37 @@ public class LineTest {
   /** Split "a little" "lamb..." into "a little" "lamb" "..." */
   @Test
   public void testRemoveLastToken() {
-    assertSame(token7, line3.removeLastToken());
-    assertSame(token6, line3.removeLastToken());
+    assertSame(line3Token4, line3SurroundingWhitespace.removeLastToken());
+    assertSame(line3Token3, line3SurroundingWhitespace.removeLastToken());
 
-    token6 = line3.makeToken(8);
-    token7 = line3.makeToken(4);
-    Token token8 = line3.makeToken(3);
-    line3Tokens = Arrays.asList(token4, token5, token6, token7, token8);
+    line3Token3 = line3SurroundingWhitespace.makeToken(8);
+    line3Token4 = line3SurroundingWhitespace.makeToken(4);
+    Token line3Token5 = line3SurroundingWhitespace.makeToken(3);
+    line3Tokens = Arrays.asList(line3Token1, line3Token2, line3Token3, line3Token4, line3Token5);
 
     // Re-do the tests
-    assertSame(token8, line3.getLastToken());
+    assertSame(line3Token5, line3SurroundingWhitespace.getLastToken());
 
     testGetTokensIterator();
     testLineRelations();
 
-    assertEquals("Mary", token4.content);
-    assertEquals("had", token5.content);
-    assertEquals("a little", token6.content);
-    assertEquals("lamb", token7.content);
-    assertEquals("...", token8.content);
+    assertEquals("Mary", line3Token1.content);
+    assertEquals("had", line3Token2.content);
+    assertEquals("a little", line3Token3.content);
+    assertEquals("lamb", line3Token4.content);
+    assertEquals("...", line3Token5.content);
 
-    assertEquals(" ", token4.followingWhitespace);
-    assertEquals(" ", token5.followingWhitespace);
-    assertEquals(" ", token6.followingWhitespace);
-    assertEquals("", token7.followingWhitespace);
-    assertEquals("", token8.followingWhitespace);
+    assertEquals(" ", line3Token1.followingWhitespace);
+    assertEquals(" ", line3Token2.followingWhitespace);
+    assertEquals(" ", line3Token3.followingWhitespace);
+    assertEquals("", line3Token4.followingWhitespace);
+    assertEquals("", line3Token5.followingWhitespace);
 
-    assertEquals(line3.offset, token4.offset);
-    assertEquals(token4.restOfLineStart, token5.offset);
-    assertEquals(token5.restOfLineStart, token6.offset);
-    assertEquals(token6.restOfLineStart, token7.offset);
-    assertEquals(token7.restOfLineStart, token8.offset);
+    assertEquals(line3SurroundingWhitespace.offset, line3Token1.offset);
+    assertEquals(line3Token1.restOfLineStart, line3Token2.offset);
+    assertEquals(line3Token2.restOfLineStart, line3Token3.offset);
+    assertEquals(line3Token3.restOfLineStart, line3Token4.offset);
+    assertEquals(line3Token4.restOfLineStart, line3Token5.offset);
 
     testRestOfLineStart();
     testTokenToString();
