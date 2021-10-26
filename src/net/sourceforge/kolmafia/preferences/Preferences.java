@@ -36,6 +36,8 @@ public class Preferences {
   // If false, blocks saving of all preferences. Do not modify outside of tests.
   public static boolean saveSettingsToFile = true;
 
+  private static final Object lock = new Object(); // used to synch io
+
   private static final byte[] LINE_BREAK_AS_BYTES = KoLConstants.LINE_BREAK.getBytes();
 
   private static final String[] characterMap = new String[65536];
@@ -92,7 +94,7 @@ public class Preferences {
               "timesRested",
               "tomeSummons"));
 
-  private static String[] resetOnAscension =
+  private static final String[] resetOnAscension =
       new String[] {
         "affirmationCookiesEaten",
         "aminoAcidsUsed",
@@ -453,6 +455,7 @@ public class Preferences {
     Preferences.globalNames.put("chatFontSize", isUsingMac ? "medium" : "small");
 
     try {
+      assert istream != null;
       istream.close();
     } catch (Exception e) {
       // The stream is already closed, go ahead
@@ -506,10 +509,10 @@ public class Preferences {
     // migration will pull the value from the global map
     for (Entry<Object, Object> entry : p.entrySet()) {
       String key = (String) entry.getKey();
-      if (!Preferences.globalNames.containsKey(key) && !Preferences.isPerUserGlobalProperty(key)) {
-        // System.out.println( "obsolete global setting detected: " + key );
-        // continue;
-      }
+      if (!Preferences.globalNames.containsKey(key)) {
+        Preferences.isPerUserGlobalProperty(key);
+      } // System.out.println( "obsolete global setting detected: " + key );
+      // continue;
 
       String value = (String) entry.getValue();
       Preferences.globalValues.put(key, value);
@@ -846,7 +849,7 @@ public class Preferences {
       map.put(name, value);
     }
 
-    return ((Boolean) value).booleanValue();
+    return (Boolean) value;
   }
 
   public static final int getInteger(final String user, final String name) {
@@ -862,7 +865,7 @@ public class Preferences {
       map.put(name, value);
     }
 
-    return ((Integer) value).intValue();
+    return (Integer) value;
   }
 
   public static final long getLong(final String user, final String name) {
@@ -878,7 +881,7 @@ public class Preferences {
       map.put(name, value);
     }
 
-    return ((Long) value).longValue();
+    return (Long) value;
   }
 
   public static final float getFloat(final String user, final String name) {
@@ -894,7 +897,7 @@ public class Preferences {
       map.put(name, value);
     }
 
-    return ((Float) value).floatValue();
+    return (Float) value;
   }
 
   public static final double getDouble(final String user, final String name) {
@@ -910,7 +913,7 @@ public class Preferences {
       map.put(name, value);
     }
 
-    return ((Double) value).doubleValue();
+    return (Double) value;
   }
 
   private static Map<String, Object> getMap(final String name) {
@@ -1037,7 +1040,8 @@ public class Preferences {
     // We are essentially iterating over the map. Not exactly - we
     // are iterating over the entrySet - but let's keep the map and
     // the file in synch atomically
-    synchronized (data) {
+
+    synchronized (lock) {
       // Determine the contents of the file by
       // actually printing them.
 
