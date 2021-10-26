@@ -301,11 +301,9 @@ public class LineTest {
 
   /** Split "a little" "lamb..." into "a little" "lamb" "..." */
   @Test
-  public void testRemoveLastToken() {
-    assertSame(line3Token4, line3SurroundingWhitespace.removeLastToken());
-    assertSame(line3Token3, line3SurroundingWhitespace.removeLastToken());
+  public void testRemoveLastToken1() {
+    line3SurroundingWhitespace.removeLastToken();
 
-    line3Token3 = line3SurroundingWhitespace.makeToken(8);
     line3Token4 = line3SurroundingWhitespace.makeToken(4);
     Token line3Token5 = line3SurroundingWhitespace.makeToken(3);
     line3Tokens = Arrays.asList(line3Token1, line3Token2, line3Token3, line3Token4, line3Token5);
@@ -313,27 +311,28 @@ public class LineTest {
     // Re-do the tests
     assertSame(line3Token5, line3SurroundingWhitespace.getLastToken());
 
-    testGetTokensIterator();
-    testLineRelations();
-
-    assertEquals("Mary", line3Token1.content);
-    assertEquals("had", line3Token2.content);
-    assertEquals("a little", line3Token3.content);
     assertEquals("lamb", line3Token4.content);
     assertEquals("...", line3Token5.content);
 
-    assertEquals(" ", line3Token1.followingWhitespace);
-    assertEquals(" ", line3Token2.followingWhitespace);
-    assertEquals(" ", line3Token3.followingWhitespace);
     assertEquals("", line3Token4.followingWhitespace);
     assertEquals("", line3Token5.followingWhitespace);
 
-    assertEquals(line3SurroundingWhitespace.offset, line3Token1.offset);
-    assertEquals(line3Token1.restOfLineStart, line3Token2.offset);
-    assertEquals(line3Token2.restOfLineStart, line3Token3.offset);
     assertEquals(line3Token3.restOfLineStart, line3Token4.offset);
     assertEquals(line3Token4.restOfLineStart, line3Token5.offset);
+  }
 
+  /** Check that the new/split tokens still follow the rules, just like the others */
+  @Test
+  public void testRemoveLastToken2() {
+    line3SurroundingWhitespace.removeLastToken();
+
+    line3Token4 = line3SurroundingWhitespace.makeToken(4);
+    Token line3Token5 = line3SurroundingWhitespace.makeToken(3);
+    line3Tokens = Arrays.asList(line3Token1, line3Token2, line3Token3, line3Token4, line3Token5);
+
+    // Re-do the tests
+    testGetTokensIterator();
+    testLineRelations();
     testRestOfLineStart();
     testTokenToString();
     testTokenLength();
@@ -342,6 +341,27 @@ public class LineTest {
     testTokenEndsWith();
     testTokenSubstring1();
     testTokenSubstring2();
+
+    // Those need to be done manually because of how they would try to test line3Token4
+    assertEquals("Mary", line3Token1.content);
+    assertEquals("had", line3Token2.content);
+    assertEquals("a little", line3Token3.content);
+
+    assertEquals(" ", line3Token1.followingWhitespace);
+    assertEquals(" ", line3Token2.followingWhitespace);
+    assertEquals(" ", line3Token3.followingWhitespace);
+
+    assertEquals(line3SurroundingWhitespace.offset, line3Token1.offset);
+    assertEquals(line3Token1.restOfLineStart, line3Token2.offset);
+    assertEquals(line3Token2.restOfLineStart, line3Token3.offset);
+  }
+
+  @Test
+  public void testRemoveLastTokenRemovalOrder() {
+    assertSame(line3Token4, line3SurroundingWhitespace.removeLastToken());
+    assertSame(line3Token3, line3SurroundingWhitespace.removeLastToken());
+    assertSame(line3Token2, line3SurroundingWhitespace.removeLastToken());
+    assertSame(line3Token1, line3SurroundingWhitespace.removeLastToken());
   }
 
   @Test
