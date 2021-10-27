@@ -220,7 +220,10 @@ public class LineTest {
         if (token != endOfFileToken) {
           assertEquals(
               token.offset + token.content.length() + token.followingWhitespace.length(),
-              token.restOfLineStart);
+              token.restOfLineStart,
+              "Token "
+                  + token
+                  + "'s restOfLineStart doesn't equal its offset + the length of its content + the length of its following whitespace");
         }
       }
     }
@@ -230,7 +233,10 @@ public class LineTest {
   public void testTokenToString() {
     for (List<Token> tokenList : allTokens) {
       for (Token token : tokenList) {
-        assertEquals(token.content, token.toString());
+        assertEquals(
+            token.content,
+            token.toString(),
+            "Token " + token + "'s .toString() didn't match its content");
       }
     }
   }
@@ -239,7 +245,10 @@ public class LineTest {
   public void testTokenLength() {
     for (List<Token> tokenList : allTokens) {
       for (Token token : tokenList) {
-        assertEquals(token.content.length(), token.length());
+        assertEquals(
+            token.content.length(),
+            token.length(),
+            "The behavior of Token " + token + "'s .length() didn't match its content's .length()");
       }
     }
   }
@@ -248,7 +257,12 @@ public class LineTest {
   public void testTokenEquals() {
     for (List<Token> tokenList : allTokens) {
       for (Token token : tokenList) {
-        assertEquals(token.content.equals("Lore"), token.equals("Lore"));
+        assertEquals(
+            token.content.equals("Lore"),
+            token.equals("Lore"),
+            "The behavior of Token "
+                + token
+                + "'s .equals(String) didn't match its content's .equals(String)");
       }
     }
   }
@@ -257,7 +271,12 @@ public class LineTest {
   public void testTokenEqualsIgnoreCase() {
     for (List<Token> tokenList : allTokens) {
       for (Token token : tokenList) {
-        assertEquals(token.content.equalsIgnoreCase("mary"), token.equalsIgnoreCase("mary"));
+        assertEquals(
+            token.content.equalsIgnoreCase("mary"),
+            token.equalsIgnoreCase("mary"),
+            "The behavior of Token "
+                + token
+                + "'s .equalsIgnoreCase(String) didn't match its content's .equalsIgnoreCase(String)");
       }
     }
   }
@@ -266,7 +285,12 @@ public class LineTest {
   public void testTokenEndsWith() {
     for (List<Token> tokenList : allTokens) {
       for (Token token : tokenList) {
-        assertEquals(token.content.endsWith("little"), token.endsWith("little"));
+        assertEquals(
+            token.content.endsWith("little"),
+            token.endsWith("little"),
+            "The behavior of Token "
+                + token
+                + "'s .endsWith(String) didn't match its content's .endsWith(String)");
       }
     }
   }
@@ -276,9 +300,19 @@ public class LineTest {
     for (List<Token> tokenList : allTokens) {
       for (Token token : tokenList) {
         if (token.content.length() < 2) {
-          assertThrows(IndexOutOfBoundsException.class, () -> token.substring(2));
+          assertThrows(
+              IndexOutOfBoundsException.class,
+              () -> token.substring(2),
+              "The behavior of Token "
+                  + token
+                  + "'s .substring(int) didn't match its content's .substring(int)");
         } else {
-          assertEquals(token.content.substring(2), token.substring(2));
+          assertEquals(
+              token.content.substring(2),
+              token.substring(2),
+              "The behavior of Token "
+                  + token
+                  + "'s .substring(int) didn't match its content's .substring(int)");
         }
       }
     }
@@ -289,9 +323,19 @@ public class LineTest {
     for (List<Token> tokenList : allTokens) {
       for (Token token : tokenList) {
         if (token.content.length() < 3) {
-          assertThrows(IndexOutOfBoundsException.class, () -> token.substring(1, 3));
+          assertThrows(
+              IndexOutOfBoundsException.class,
+              () -> token.substring(1, 3),
+              "The behavior of Token "
+                  + token
+                  + "'s .substring(int, int) didn't match its content's .substring(int, int)");
         } else {
-          assertEquals(token.content.substring(1, 3), token.substring(1, 3));
+          assertEquals(
+              token.content.substring(1, 3),
+              token.substring(1, 3),
+              "The behavior of Token "
+                  + token
+                  + "'s .substring(int, int) didn't match its content's .substring(int, int)");
         }
       }
     }
