@@ -3616,9 +3616,7 @@ public class Parser {
         final int commentEnd = restOfLine.indexOf("*/");
 
         if (commentEnd == -1) {
-          if (!restOfLine.isEmpty()) {
-            this.currentLine.makeComment(restOfLine.length());
-          }
+          this.currentLine.makeComment(restOfLine.length());
 
           this.currentLine = this.currentLine.nextLine;
           this.currentIndex = this.currentLine.offset;
@@ -3654,9 +3652,7 @@ public class Parser {
         final int commentEnd = restOfLine.indexOf("*/", 2);
 
         if (commentEnd == -1) {
-          if (!restOfLine.isEmpty()) {
-            this.currentLine.makeComment(restOfLine.length());
-          }
+          this.currentLine.makeComment(restOfLine.length());
 
           this.currentLine = this.currentLine.nextLine;
           this.currentIndex = this.currentLine.offset;
