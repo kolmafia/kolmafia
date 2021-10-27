@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -17,13 +18,8 @@ import net.sourceforge.kolmafia.request.GuildRequest;
 public class GuildUnlockManager {
   public static boolean canUnlockGuild() {
     // Don't try to open the guild unless you are one of the six standard classes
-    String classType = KoLCharacter.getClassType();
-    if (!classType.equals(KoLCharacter.SEAL_CLUBBER)
-        && !classType.equals(KoLCharacter.TURTLE_TAMER)
-        && !classType.equals(KoLCharacter.SAUCEROR)
-        && !classType.equals(KoLCharacter.PASTAMANCER)
-        && !classType.equals(KoLCharacter.DISCO_BANDIT)
-        && !classType.equals(KoLCharacter.ACCORDION_THIEF)) {
+    AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
+    if (!ascensionClass.isStandard()) {
       return false;
     }
 

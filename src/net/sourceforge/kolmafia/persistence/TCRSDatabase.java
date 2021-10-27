@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -15,11 +14,13 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.IntStream;
 import net.java.dev.spellcast.utilities.DataUtilities;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
@@ -73,21 +74,22 @@ public class TCRSDatabase {
   }
 
   public static String filename() {
-    return filename(KoLCharacter.getClassType(), KoLCharacter.getSign(), "");
+    return filename(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), "");
   }
 
-  public static boolean validate(String cclass, String csign) {
-    return (Arrays.asList(KoLCharacter.STANDARD_CLASSES).contains(cclass)
-        && Arrays.asList(KoLCharacter.ZODIACS).contains(csign));
+  public static boolean validate(AscensionClass ascensionClass, String csign) {
+    return (ascensionClass != null
+        && ascensionClass.isStandard()
+        && ZodiacSign.find(csign).isStandard());
   }
 
-  public static String filename(String cclass, String sign, String suffix) {
-    if (!validate(cclass, sign)) {
+  public static String filename(AscensionClass ascensionClass, String sign, String suffix) {
+    if (!validate(ascensionClass, sign)) {
       return "";
     }
 
     return "TCRS_"
-        + StringUtilities.globalStringReplace(cclass, " ", "_")
+        + StringUtilities.globalStringReplace(ascensionClass.getName(), " ", "_")
         + "_"
         + sign
         + suffix
@@ -99,23 +101,24 @@ public class TCRSDatabase {
       return false;
     }
     boolean retval = true;
-    retval &= load(KoLCharacter.getClassType(), KoLCharacter.getSign(), verbose);
-    retval &= loadCafe(KoLCharacter.getClassType(), KoLCharacter.getSign(), verbose);
+    retval &= load(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), verbose);
+    retval &= loadCafe(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), verbose);
     return retval;
   }
 
-  public static boolean load(String cclass, String csign, final boolean verbose) {
-    if (load(filename(cclass, csign, ""), TCRSMap, verbose)) {
-      currentClassSign = cclass + "/" + csign;
+  public static boolean load(AscensionClass ascensionClass, String csign, final boolean verbose) {
+    if (load(filename(ascensionClass, csign, ""), TCRSMap, verbose)) {
+      currentClassSign = ascensionClass.getName() + "/" + csign;
       return true;
     }
     return false;
   }
 
-  public static boolean loadCafe(String cclass, String csign, final boolean verbose) {
+  public static boolean loadCafe(
+      AscensionClass ascensionClass, String csign, final boolean verbose) {
     boolean retval = true;
-    retval &= load(filename(cclass, csign, "_cafe_booze"), TCRSBoozeMap, verbose);
-    retval &= load(filename(cclass, csign, "_cafe_food"), TCRSFoodMap, verbose);
+    retval &= load(filename(ascensionClass, csign, "_cafe_booze"), TCRSBoozeMap, verbose);
+    retval &= load(filename(ascensionClass, csign, "_cafe_food"), TCRSFoodMap, verbose);
     return true;
   }
 
@@ -160,28 +163,31 @@ public class TCRSDatabase {
       return false;
     }
     boolean retval = true;
-    retval &= save(KoLCharacter.getClassType(), KoLCharacter.getSign(), verbose);
-    retval &= saveCafe(KoLCharacter.getClassType(), KoLCharacter.getSign(), verbose);
+    retval &= save(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), verbose);
+    retval &= saveCafe(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), verbose);
     return retval;
   }
 
-  public static boolean save(String cclass, String csign, final boolean verbose) {
-    return save(filename(cclass, csign, ""), TCRSMap, verbose);
+  public static boolean save(AscensionClass ascensionClass, String csign, final boolean verbose) {
+    return save(filename(ascensionClass, csign, ""), TCRSMap, verbose);
   }
 
-  public static boolean saveCafe(String cclass, String csign, final boolean verbose) {
+  public static boolean saveCafe(
+      AscensionClass ascensionClass, String csign, final boolean verbose) {
     boolean retval = true;
-    retval &= save(filename(cclass, csign, "_cafe_booze"), TCRSBoozeMap, verbose);
-    retval &= save(filename(cclass, csign, "_cafe_food"), TCRSFoodMap, verbose);
+    retval &= save(filename(ascensionClass, csign, "_cafe_booze"), TCRSBoozeMap, verbose);
+    retval &= save(filename(ascensionClass, csign, "_cafe_food"), TCRSFoodMap, verbose);
     return true;
   }
 
-  public static boolean saveCafeBooze(String cclass, String csign, final boolean verbose) {
-    return save(filename(cclass, csign, "_cafe_booze"), TCRSBoozeMap, verbose);
+  public static boolean saveCafeBooze(
+      AscensionClass ascensionClass, String csign, final boolean verbose) {
+    return save(filename(ascensionClass, csign, "_cafe_booze"), TCRSBoozeMap, verbose);
   }
 
-  public static boolean saveCafeFood(String cclass, String csign, final boolean verbose) {
-    return save(filename(cclass, csign, "_cafe_food"), TCRSFoodMap, verbose);
+  public static boolean saveCafeFood(
+      AscensionClass ascensionClass, String csign, final boolean verbose) {
+    return save(filename(ascensionClass, csign, "_cafe_food"), TCRSFoodMap, verbose);
   }
 
   private static boolean save(
@@ -225,14 +231,15 @@ public class TCRSDatabase {
       return false;
     }
 
-    derive(KoLCharacter.getClassType(), KoLCharacter.getSign(), verbose);
+    derive(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), verbose);
     deriveCafe(verbose);
     return true;
   }
 
-  private static boolean derive(final String cclass, final String sign, final boolean verbose) {
+  private static boolean derive(
+      final AscensionClass ascensionClass, final String sign, final boolean verbose) {
     // If we don't currently have data for this class/sign, start fresh
-    String classSign = cclass + "/" + sign;
+    String classSign = ascensionClass.getName() + "/" + sign;
     if (!currentClassSign.equals(classSign)) {
       reset();
     }
@@ -708,24 +715,27 @@ public class TCRSDatabase {
 
   // *** Primitives for checking presence of local files
 
-  public static boolean localFileExists(String classType, String sign, final boolean verbose) {
+  public static boolean localFileExists(
+      AscensionClass ascensionClass, String sign, final boolean verbose) {
     boolean retval = false;
-    retval |= localFileExists(filename(classType, sign, ""), verbose);
+    retval |= localFileExists(filename(ascensionClass, sign, ""), verbose);
     return retval;
   }
 
-  public static boolean localCafeFileExists(String classType, String sign, final boolean verbose) {
+  public static boolean localCafeFileExists(
+      AscensionClass ascensionClass, String sign, final boolean verbose) {
     boolean retval = true;
-    retval &= localFileExists(filename(classType, sign, "_cafe_booze"), verbose);
-    retval &= localFileExists(filename(classType, sign, "_cafe_food"), verbose);
+    retval &= localFileExists(filename(ascensionClass, sign, "_cafe_booze"), verbose);
+    retval &= localFileExists(filename(ascensionClass, sign, "_cafe_food"), verbose);
     return retval;
   }
 
-  public static boolean anyLocalFileExists(String classType, String sign, final boolean verbose) {
+  public static boolean anyLocalFileExists(
+      AscensionClass ascensionClass, String sign, final boolean verbose) {
     boolean retval = false;
-    retval |= localFileExists(filename(classType, sign, ""), verbose);
-    retval |= localFileExists(filename(classType, sign, "_cafe_booze"), verbose);
-    retval |= localFileExists(filename(classType, sign, "_cafe_food"), verbose);
+    retval |= localFileExists(filename(ascensionClass, sign, ""), verbose);
+    retval |= localFileExists(filename(ascensionClass, sign, "_cafe_booze"), verbose);
+    retval |= localFileExists(filename(ascensionClass, sign, "_cafe_food"), verbose);
     return retval;
   }
 
@@ -760,16 +770,17 @@ public class TCRSDatabase {
   // non-cafe code was released a week before the cafe code, and some
   // class/signs have only the non-cafe file
 
-  public static boolean fetch(final String classType, final String sign, final boolean verbose) {
-    boolean retval = fetchRemoteFile(filename(classType, sign, ""), verbose);
+  public static boolean fetch(
+      final AscensionClass ascensionClass, final String sign, final boolean verbose) {
+    boolean retval = fetchRemoteFile(filename(ascensionClass, sign, ""), verbose);
     return retval;
   }
 
   public static boolean fetchCafe(
-      final String classType, final String sign, final boolean verbose) {
+      final AscensionClass ascensionClass, final String sign, final boolean verbose) {
     boolean retval = true;
-    retval &= fetchRemoteFile(filename(classType, sign, "_cafe_booze"), verbose);
-    retval &= fetchRemoteFile(filename(classType, sign, "_cafe_food"), verbose);
+    retval &= fetchRemoteFile(filename(ascensionClass, sign, "_cafe_booze"), verbose);
+    retval &= fetchRemoteFile(filename(ascensionClass, sign, "_cafe_food"), verbose);
     return retval;
   }
 
@@ -778,13 +789,14 @@ public class TCRSDatabase {
   // Not recommended.
 
   public static boolean fetchRemoteFiles(final boolean verbose) {
-    return fetchRemoteFiles(KoLCharacter.getClassType(), KoLCharacter.getSign(), verbose);
+    return fetchRemoteFiles(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), verbose);
   }
 
-  public static boolean fetchRemoteFiles(String classType, String sign, final boolean verbose) {
-    boolean retval = fetchRemoteFile(filename(classType, sign, ""), verbose);
-    fetchRemoteFile(filename(classType, sign, "_cafe_booze"), verbose);
-    fetchRemoteFile(filename(classType, sign, "_cafe_food"), verbose);
+  public static boolean fetchRemoteFiles(
+      AscensionClass ascensionClass, String sign, final boolean verbose) {
+    boolean retval = fetchRemoteFile(filename(ascensionClass, sign, ""), verbose);
+    fetchRemoteFile(filename(ascensionClass, sign, "_cafe_booze"), verbose);
+    fetchRemoteFile(filename(ascensionClass, sign, "_cafe_food"), verbose);
     return retval;
   }
 
@@ -847,28 +859,28 @@ public class TCRSDatabase {
       return false;
     }
 
-    return loadTCRSData(KoLCharacter.getClassType(), KoLCharacter.getSign(), true);
+    return loadTCRSData(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), true);
   }
 
   private static boolean loadTCRSData(
-      final String cclass, final String sign, final boolean verbose) {
+      final AscensionClass ascensionClass, final String sign, final boolean verbose) {
     // If local TCRS data file is not present, fetch from repository
-    if (!localFileExists(cclass, sign, verbose)) {
-      fetch(cclass, sign, verbose);
+    if (!localFileExists(ascensionClass, sign, verbose)) {
+      fetch(ascensionClass, sign, verbose);
     }
 
     boolean nonCafeLoaded = false;
 
     // If local TCRS data file is not present, offer to derive it
-    if (!localFileExists(cclass, sign, false)) {
+    if (!localFileExists(ascensionClass, sign, false)) {
       String message =
           "No TCRS data is available for "
-              + cclass
+              + ascensionClass.getName()
               + "/"
               + sign
               + ". Would you like to derive it? (This will take a long time, but you only have to do it once.)";
-      if (InputFieldUtilities.confirm(message) && derive(cclass, sign, verbose)) {
-        save(cclass, sign, verbose);
+      if (InputFieldUtilities.confirm(message) && derive(ascensionClass, sign, verbose)) {
+        save(ascensionClass, sign, verbose);
         nonCafeLoaded = true;
       } else {
         nonCafeLoaded = false;
@@ -877,27 +889,27 @@ public class TCRSDatabase {
     }
     // Otherwise, load it
     else {
-      nonCafeLoaded = load(cclass, sign, verbose);
+      nonCafeLoaded = load(ascensionClass, sign, verbose);
     }
 
     // Now do the same thing for cafe data.
-    if (!localCafeFileExists(cclass, sign, verbose)) {
-      fetchCafe(cclass, sign, verbose);
+    if (!localCafeFileExists(ascensionClass, sign, verbose)) {
+      fetchCafe(ascensionClass, sign, verbose);
     }
 
     boolean cafeLoaded = false;
 
     // If local TCRS data file is not present, offer to derive it
-    if (!localCafeFileExists(cclass, sign, false)) {
+    if (!localCafeFileExists(ascensionClass, sign, false)) {
       String message =
           "No TCRS cafe data is available for "
-              + cclass
+              + ascensionClass.getName()
               + "/"
               + sign
               + ". Would you like to derive it? (This will not take long, and you only have to do it once.)";
       if (InputFieldUtilities.confirm(message) && deriveCafe(verbose)) {
 
-        saveCafe(cclass, sign, verbose);
+        saveCafe(ascensionClass, sign, verbose);
         cafeLoaded = true;
       } else {
         cafeLoaded = false;
@@ -906,23 +918,23 @@ public class TCRSDatabase {
     }
     // Otherwise, load it
     else {
-      cafeLoaded = loadCafe(cclass, sign, verbose);
+      cafeLoaded = loadCafe(ascensionClass, sign, verbose);
     }
 
     // If we loaded data files, update them.
 
     if (nonCafeLoaded) {
       if (update(verbose) > 0) {
-        save(cclass, sign, verbose);
+        save(ascensionClass, sign, verbose);
       }
     }
 
     if (cafeLoaded) {
       if (updateCafeBooze(verbose) > 0) {
-        saveCafeBooze(cclass, sign, verbose);
+        saveCafeBooze(ascensionClass, sign, verbose);
       }
       if (updateCafeFood(verbose) > 0) {
-        saveCafeFood(cclass, sign, verbose);
+        saveCafeFood(ascensionClass, sign, verbose);
       }
     }
 

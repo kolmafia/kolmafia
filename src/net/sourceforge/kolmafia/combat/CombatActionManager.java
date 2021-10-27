@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -278,7 +279,8 @@ public abstract class CombatActionManager {
   }
 
   private static String getStun() {
-    String classStun = KoLCharacter.getClassStun();
+    AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
+    String classStun = ascensionClass == null ? "none" : ascensionClass.getStun();
     // Sometimes classStun isn't available or doesn't stun, don't return it in those cases
     if ((classStun.equals("Club Foot") && KoLCharacter.getFury() == 0)
         || (classStun.equals("Shell Up")

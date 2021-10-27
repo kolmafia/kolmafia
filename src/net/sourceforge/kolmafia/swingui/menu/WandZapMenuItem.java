@@ -20,8 +20,7 @@ public class WandZapMenuItem extends ThreadedMenuItem {
       }
 
       AdventureResult selectedValue =
-          (AdventureResult)
-              InputFieldUtilities.input("Let's explodey my wand!", ZapRequest.getZappableItems());
+          InputFieldUtilities.input("Let's explodey my wand!", ZapRequest.getZappableItems());
       if (selectedValue == null) {
         return;
       }

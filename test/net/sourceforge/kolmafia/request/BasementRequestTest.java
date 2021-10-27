@@ -6,8 +6,6 @@ import static org.mockito.Mockito.spy;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.preferences.Preferences;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -17,15 +15,8 @@ class BasementRequestTest extends RequestTestBase {
 
   @BeforeAll
   protected static void injectPreferences() {
-    Preferences.saveSettingsToFile = false;
     // Set a username so we can edit preferences and have per-user defaults.
     KoLCharacter.reset("fakeUserName");
-  }
-
-  @AfterAll
-  protected static void cleanupSession() {
-    KoLCharacter.reset("");
-    Preferences.saveSettingsToFile = true;
   }
 
   private static Stream<Arguments> monsterFights() {
@@ -70,10 +61,11 @@ class BasementRequestTest extends RequestTestBase {
   void matchesImpassableStatTestFromResponse(String encounter, String summary) {
     var req = spy(new BasementRequest("Fernswarthy's Basement, Level 499"));
     expectSuccess(req, "Fernswarthy's Basement, Level 499: " + encounter);
-    // Clear the error state, since we can't pass any of these tests.
-    KoLmafia.forceContinue();
 
     req.run();
+
+    // Clear the error state, since we can't pass any of these tests.
+    KoLmafia.forceContinue();
 
     assertEquals(499, BasementRequest.getBasementLevel());
     assertEquals(6470, BasementRequest.getBasementTestValue());

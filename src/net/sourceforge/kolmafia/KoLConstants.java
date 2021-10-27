@@ -220,7 +220,7 @@ public interface KoLConstants extends UtilityConstants {
   int MALLPRICES_VERSION = 0xF00D5;
 
   // The current versioned name of each KoLmafia-supplied relay file
-  String AFTERLIFE_ASH = "afterlife.ash";
+  String AFTERLIFE_ASH = "afterlife.1.ash";
   String BARREL_SOUNDS_JS = "barrel_sounds.js";
   String BASEMENT_JS = "basement.js";
   String BASICS_CSS = "basics.1.css";

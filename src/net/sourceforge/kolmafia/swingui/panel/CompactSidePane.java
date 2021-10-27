@@ -878,13 +878,11 @@ public class CompactSidePane extends JPanel implements Runnable {
         this.statusValueLabel[count].setText(
             KoLCharacter.getFury() + " / " + KoLCharacter.getFuryLimit());
         count++;
-      } else if (KoLCharacter.getClassType().equals(KoLCharacter.SAUCEROR)
-          && !KoLCharacter.inNuclearAutumn()) {
+      } else if (KoLCharacter.isSauceror() && !KoLCharacter.inNuclearAutumn()) {
         this.statusLabel[count].setText("Soulsauce: ");
         this.statusValueLabel[count].setText(KoLCharacter.getSoulsauce() + " / 100");
         count++;
-      } else if (KoLCharacter.getClassType().equals(KoLCharacter.DISCO_BANDIT)
-          && !KoLCharacter.inNuclearAutumn()) {
+      } else if (KoLCharacter.isDiscoBandit() && !KoLCharacter.inNuclearAutumn()) {
         this.statusLabel[count].setText(" Disco: ");
         this.statusValueLabel[count].setText(KoLCharacter.getDiscoMomentum() + " / 3");
         count++;

@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -405,7 +406,9 @@ public class Type extends Symbol {
         this.addValues(list, AdventureDatabase.getAsLockableListModel());
         break;
       case DataTypes.TYPE_CLASS:
-        this.addValues(list, DataTypes.CLASSES);
+        for (AscensionClass ascensionClass : AscensionClass.values()) {
+          list.add(DataTypes.makeClassValue(ascensionClass, true));
+        }
         break;
       case DataTypes.TYPE_STAT:
         this.addValues(list, DataTypes.STAT_ARRAY, 0, 3);

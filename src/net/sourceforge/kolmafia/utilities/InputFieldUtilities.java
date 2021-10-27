@@ -97,14 +97,14 @@ public class InputFieldUtilities {
         InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap(message), initial);
   }
 
-  public static final Object input(
-      final String message, final LockableListModel inputs, final Object initial) {
+  public static final <T> T input(
+      final String message, final LockableListModel<T> inputs, final T initial) {
     if (StaticEntity.isHeadless()) {
       int initialIndex = 0;
       RequestLogger.printLine(message);
 
       for (int i = 0; i < inputs.size(); ++i) {
-        Object o = inputs.get(i);
+        T o = inputs.get(i);
         RequestLogger.printLine("  " + (i + 1) + ": " + o);
 
         if (initial != null && initial.equals(o)) {
@@ -134,7 +134,7 @@ public class InputFieldUtilities {
       return null;
     }
 
-    JList selector = new JList(inputs);
+    JList<T> selector = new JList<>(inputs);
 
     JPanel panel = new JPanel(new BorderLayout());
     panel.add(new AutoFilterTextField(selector, initial), BorderLayout.NORTH);
@@ -152,11 +152,11 @@ public class InputFieldUtilities {
         : selector.getSelectedValue();
   }
 
-  public static final Object input(final String message, final LockableListModel inputs) {
+  public static final <T> T input(final String message, final LockableListModel<T> inputs) {
     return InputFieldUtilities.input(message, inputs, null);
   }
 
-  public static final Object input(final String message, final Object[] inputs) {
+  public static final <T> T input(final String message, final T[] inputs) {
     if (inputs == null || inputs.length == 0) {
       return null;
     }
@@ -164,8 +164,7 @@ public class InputFieldUtilities {
     return InputFieldUtilities.input(message, inputs, null);
   }
 
-  public static final Object input(
-      final String message, final Object[] inputs, final Object initial) {
+  public static final <T> T input(final String message, final T[] inputs, final T initial) {
     if (inputs == null || inputs.length == 0) {
       return null;
     }
@@ -173,32 +172,34 @@ public class InputFieldUtilities {
     // Keep simple input dialog (no AutoFilterTextField) if there
     // are only a few input choices: booleans, stats, classes, ...
     if (inputs.length <= 12) {
-      return JOptionPane.showInputDialog(
-          InputFieldUtilities.activeWindow,
-          StringUtilities.basicTextWrap(message),
-          "",
-          JOptionPane.INFORMATION_MESSAGE,
-          null,
-          inputs,
-          initial);
+      return (T)
+          JOptionPane.showInputDialog(
+              InputFieldUtilities.activeWindow,
+              StringUtilities.basicTextWrap(message),
+              "",
+              JOptionPane.INFORMATION_MESSAGE,
+              null,
+              inputs,
+              initial);
     }
 
     return InputFieldUtilities.input(
-        message, new LockableListModel(Arrays.asList(inputs)), initial);
+        message, new LockableListModel<>(Arrays.asList(inputs)), initial);
   }
 
-  public static final Object[] multiple(final String message, final LockableListModel inputs) {
+  public static final <T> List<T> multiple(
+      final String message, final LockableListModel<T> inputs) {
     return InputFieldUtilities.multiple(message, inputs, null);
   }
 
-  public static final Object[] multiple(
-      final String message, final LockableListModel inputs, final ListElementFilter filter) {
+  public static final <T> List<T> multiple(
+      final String message, final LockableListModel<T> inputs, final ListElementFilter filter) {
     if (StaticEntity.isHeadless()) {
       RequestLogger.printLine(message);
-      List<Object> visibleInputs = new ArrayList<Object>();
+      List<T> visibleInputs = new ArrayList<>();
 
       for (int i = 0; i < inputs.size(); ++i) {
-        Object o = inputs.get(i);
+        T o = inputs.get(i);
 
         if (filter.isVisible(o)) {
           visibleInputs.add(o);
@@ -213,7 +214,7 @@ public class InputFieldUtilities {
 
       String[] replyList = reply.split("\\s*,\\s*");
 
-      Set<Object> selectedValues = new HashSet<Object>();
+      Set<T> selectedValues = new HashSet<>();
 
       for (int i = 0; i < replyList.length; ++i) {
         int selectedIndex = StringUtilities.parseInt(replyList[i]) - 1;
@@ -223,10 +224,10 @@ public class InputFieldUtilities {
         }
       }
 
-      return selectedValues.toArray();
+      return new ArrayList<>(selectedValues);
     }
 
-    JList selector = new JList(inputs);
+    JList<T> selector = new JList<>(inputs);
     selector.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
     JPanel panel = new JPanel(new BorderLayout());
@@ -251,8 +252,8 @@ public class InputFieldUtilities {
             JOptionPane.OK_CANCEL_OPTION);
 
     return option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION
-        ? new Object[0]
-        : selector.getSelectedValuesList().toArray();
+        ? new ArrayList<T>()
+        : selector.getSelectedValuesList();
   }
 
   /**

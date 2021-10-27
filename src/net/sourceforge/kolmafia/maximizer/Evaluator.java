@@ -866,11 +866,11 @@ public class Evaluator {
     // Return true if effect cannot be gained due to current other effects or class
     switch (effectId) {
       case EffectPool.NEARLY_SILENT_HUNTING:
-        return KoLCharacter.getClassType() == KoLCharacter.SEAL_CLUBBER;
+        return KoLCharacter.isSealClubber();
 
       case EffectPool.SILENT_HUNTING:
       case EffectPool.BARREL_CHESTED:
-        return KoLCharacter.getClassType() != KoLCharacter.SEAL_CLUBBER;
+        return !KoLCharacter.isSealClubber();
 
       case EffectPool.BOON_OF_SHE_WHO_WAS:
         return KoLCharacter.getBlessingType() != KoLCharacter.SHE_WHO_WAS_BLESSING
@@ -897,19 +897,19 @@ public class Evaluator {
             || KoLCharacter.getBlessingLevel() != 3;
 
       case EffectPool.BLESSING_OF_SHE_WHO_WAS:
-        return KoLCharacter.getClassType() != KoLCharacter.TURTLE_TAMER
+        return !KoLCharacter.isTurtleTamer()
             || KoLCharacter.getBlessingType() == KoLCharacter.SHE_WHO_WAS_BLESSING
             || KoLCharacter.getBlessingLevel() == -1
             || KoLCharacter.getBlessingLevel() == 4;
 
       case EffectPool.BLESSING_OF_THE_STORM_TORTOISE:
-        return KoLCharacter.getClassType() != KoLCharacter.TURTLE_TAMER
+        return !KoLCharacter.isTurtleTamer()
             || KoLCharacter.getBlessingType() == KoLCharacter.STORM_BLESSING
             || KoLCharacter.getBlessingLevel() == -1
             || KoLCharacter.getBlessingLevel() == 4;
 
       case EffectPool.BLESSING_OF_THE_WAR_SNAPPER:
-        return KoLCharacter.getClassType() != KoLCharacter.TURTLE_TAMER
+        return !KoLCharacter.isTurtleTamer()
             || KoLCharacter.getBlessingType() == KoLCharacter.WAR_BLESSING
             || KoLCharacter.getBlessingLevel() == -1
             || KoLCharacter.getBlessingLevel() == 4;
@@ -917,10 +917,10 @@ public class Evaluator {
       case EffectPool.DISDAIN_OF_SHE_WHO_WAS:
       case EffectPool.DISDAIN_OF_THE_STORM_TORTOISE:
       case EffectPool.DISDAIN_OF_THE_WAR_SNAPPER:
-        return KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER;
+        return KoLCharacter.isTurtleTamer();
 
       case EffectPool.BARREL_OF_LAUGHS:
-        return KoLCharacter.getClassType() != KoLCharacter.TURTLE_TAMER;
+        return !KoLCharacter.isTurtleTamer();
 
       case EffectPool.FLIMSY_SHIELD_OF_THE_PASTALORD:
       case EffectPool.BLOODY_POTATO_BITS:
@@ -930,25 +930,25 @@ public class Evaluator {
       case EffectPool.PENNE_FEDORA:
       case EffectPool.PASTA_EYEBALL:
       case EffectPool.SPICE_HAZE:
-        return KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER;
+        return KoLCharacter.isPastamancer();
 
       case EffectPool.SHIELD_OF_THE_PASTALORD:
       case EffectPool.PORK_BARREL:
-        return KoLCharacter.getClassType() != KoLCharacter.PASTAMANCER;
+        return !KoLCharacter.isPastamancer();
 
       case EffectPool.BLOOD_SUGAR_SAUCE_MAGIC:
       case EffectPool.SOULERSKATES:
       case EffectPool.WARLOCK_WARSTOCK_WARBARREL:
-        return KoLCharacter.getClassType() != KoLCharacter.SAUCEROR;
+        return !KoLCharacter.isSauceror();
 
       case EffectPool.BLOOD_SUGAR_SAUCE_MAGIC_LITE:
-        return KoLCharacter.getClassType() == KoLCharacter.SAUCEROR;
+        return KoLCharacter.isSauceror();
 
       case EffectPool.DOUBLE_BARRELED:
-        return KoLCharacter.getClassType() != KoLCharacter.DISCO_BANDIT;
+        return !KoLCharacter.isDiscoBandit();
 
       case EffectPool.BEER_BARREL_POLKA:
-        return KoLCharacter.getClassType() != KoLCharacter.ACCORDION_THIEF;
+        return !KoLCharacter.isAccordionThief();
 
       case EffectPool.UNMUFFLED:
         return !Preferences.getString("peteMotorbikeMuffler").equals("Extra-Loud Muffler");
@@ -1188,8 +1188,7 @@ public class Evaluator {
                 // equip them anyway.
                 if (!KoLCharacter.hasSkill("Spirit of Rigatoni")
                     && !KoLCharacter.isJarlsberg()
-                    && !(KoLCharacter.getClassType().equals(KoLCharacter.SAUCEROR)
-                        && gloveAvailable)) {
+                    && !(KoLCharacter.isSauceror() && gloveAvailable)) {
                   continue;
                 }
                 // In any case, don't put this in an aux slot.
@@ -1261,7 +1260,7 @@ public class Evaluator {
 
           case EquipmentManager.ACCESSORY1:
             if (id == ItemPool.SPECIAL_SAUCE_GLOVE
-                && KoLCharacter.getClassType().equals(KoLCharacter.SAUCEROR)
+                && KoLCharacter.isSauceror()
                 && !KoLCharacter.hasSkill("Spirit of Rigatoni")) {
               item.validate(maxPrice, priceLevel);
 
@@ -1362,7 +1361,7 @@ public class Evaluator {
 
         boolean wrongClass = false;
         String classType = mods.getString(Modifiers.CLASS);
-        if (classType != "" && !classType.equals(KoLCharacter.getClassType())) {
+        if (classType != "" && !classType.equals(KoLCharacter.getAscensionClassName())) {
           wrongClass = true;
         }
 

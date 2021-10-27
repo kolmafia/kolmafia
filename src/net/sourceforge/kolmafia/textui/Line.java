@@ -5,6 +5,7 @@ import java.io.LineNumberReader;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Stack;
 import net.sourceforge.kolmafia.StaticEntity;
 import org.eclipse.lsp4j.Position;
 import org.eclipse.lsp4j.Range;
@@ -16,7 +17,7 @@ public final class Line {
   final int lineNumber;
   final int offset;
 
-  final Deque<Token> tokens = new LinkedList<>();
+  private final Deque<Token> tokens = new LinkedList<>();
 
   final Line previousLine;
   /* Not made final to avoid a possible StackOverflowError. Do not modify. */
@@ -89,6 +90,10 @@ public final class Line {
       return "";
     }
 
+    if (beginIndex < this.offset) {
+      throw new IndexOutOfBoundsException();
+    }
+
     // subtract "offset" from beginIndex, since we already removed it
     return this.content.substring(beginIndex - this.offset);
   }
@@ -105,6 +110,54 @@ public final class Line {
     return newToken;
   }
 
+  Iterable<Token> getTokensIterator() {
+    return new Iterable<Token>() {
+      public Iterator<Token> iterator() {
+        return Line.this.tokens.iterator();
+      }
+    };
+  }
+
+  boolean hasTokens() {
+    return !this.tokens.isEmpty();
+  }
+
+  Token getLastToken() {
+    return this.tokens.getLast();
+  }
+
+  /**
+   * Returns the first non-comment token preceding {@code token} (the very last if {@code null}).
+   *
+   * <p>{@code token} must be part of this {@link Line}. The return value may not.
+   * @param token the token following the one we want
+   * @return the first non-comment token preceding {@code token} (the very last if {@code null}).
+   */
+  Token peekPreviousToken(final Token token) {
+    final Stack<Token> reAddStack = new Stack<>();
+
+    if (token != null) {
+      if (!this.tokens.contains(token)) {
+        throw new IllegalArgumentException();
+      }
+
+      // Temporarily remove tokens up to (and including) token
+      do {
+        reAddStack.push(this.removeLastToken());
+      } while (reAddStack.peek() != token);
+    }
+
+    final Token previousToken = this.peekLastToken();
+
+    while (!reAddStack.isEmpty()) {
+      // Add the previously removed tokens back in
+      this.tokens.addLast(reAddStack.pop());
+    }
+
+    return previousToken;
+  }
+
+  /** Returns the last non-comment {@link Token} starting from the end of this {@link Line}. */
   Token peekLastToken() {
     Line line = this;
 
@@ -124,6 +177,10 @@ public final class Line {
     return null;
   }
 
+  Token removeLastToken() {
+    return this.tokens.removeLast();
+  }
+
   @Override
   public String toString() {
     return this.content;
@@ -135,6 +192,15 @@ public final class Line {
     final int restOfLineStart;
 
     private Token(final int tokenLength) {
+      if (tokenLength <= 0 && Line.this.content != null) {
+        throw new IllegalArgumentException();
+      }
+
+      // Only one "end of file" token allowed
+      if (Line.this.content == null && Line.this.hasTokens()) {
+        throw new IllegalStateException();
+      }
+
       final int offset;
 
       if (!Line.this.tokens.isEmpty()) {

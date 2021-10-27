@@ -61,9 +61,9 @@ public class ScrapheapRequest extends PlaceRequest {
     if (m.find()) {
       int cost = StringUtilities.parseInt(m.group(1));
 
-      if (cost > 158) {
+      if (cost > 148) {
         cost /= 10;
-      } else if (cost > 37) {
+      } else if (cost > 47) {
         cost /= 2;
       }
 

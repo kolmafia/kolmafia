@@ -288,9 +288,12 @@ public class JavascriptRuntime extends AbstractRuntime {
   }
 
   public static void checkInterrupted() {
-    if (Thread.interrupted() || !KoLmafia.permitsContinue()) {
-      KoLmafia.forceContinue();
+    if (Thread.interrupted()) {
       throw new JavaScriptException("Script interrupted.", null, 0);
+    }
+    if (!KoLmafia.permitsContinue()) {
+      KoLmafia.forceContinue();
+      throw new JavaScriptException("KoLmafia error: " + KoLmafia.getLastMessage(), null, 0);
     }
   }
 

@@ -1,0 +1,9 @@
+test skill add 12
+test skill add 121
+test skill add 152
+skills
+skills passive
+test skill remove 12
+test skill remove 121
+test skill remove 152
+skills

@@ -151,6 +151,8 @@ test {
 	systemProperty 'useCWDasROOT', true
 	workingDir 'test/root'
 
+	testLogging.showStandardStreams = true
+
 	reports {
 		html.required = true
 		junitXml.required = true

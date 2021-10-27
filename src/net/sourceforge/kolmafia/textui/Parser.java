@@ -3808,7 +3808,9 @@ public class Parser {
         final int commentEnd = restOfLine.indexOf("*/");
 
         if (commentEnd == -1) {
-          this.currentLine.makeComment(restOfLine.length());
+          if (!restOfLine.isEmpty()) {
+            this.currentLine.makeComment(restOfLine.length());
+          }
 
           this.currentLine = this.currentLine.nextLine;
           this.currentIndex = this.currentLine.offset;
@@ -3844,7 +3846,9 @@ public class Parser {
         final int commentEnd = restOfLine.indexOf("*/", 2);
 
         if (commentEnd == -1) {
-          this.currentLine.makeComment(restOfLine.length());
+          if (!restOfLine.isEmpty()) {
+            this.currentLine.makeComment(restOfLine.length());
+          }
 
           this.currentLine = this.currentLine.nextLine;
           this.currentIndex = this.currentLine.offset;
@@ -3921,34 +3925,22 @@ public class Parser {
     this.currentToken();
 
     while (this.currentToken != destinationToken) {
-      this.currentLine.tokens.removeLast();
+      this.currentLine.removeLastToken();
 
-      while (this.currentLine.tokens.isEmpty()) {
+      while (!this.currentLine.hasTokens()) {
         // Don't do null checks. If previousLine is null, it means we never saw the
         // destination token, meaning we'd want to throw an error anyway.
         this.currentLine = this.currentLine.previousLine;
       }
 
-      this.currentToken = this.currentLine.tokens.getLast();
+      this.currentToken = this.currentLine.getLastToken();
       this.currentIndex = this.currentToken.getStart().getCharacter();
     }
   }
 
   /** Finds the last token that was *read* */
   private final Token peekPreviousToken() {
-    if (this.currentToken != null) {
-      // Temporarily remove currentToken
-      this.currentLine.tokens.removeLast();
-    }
-
-    final Token previousToken = this.peekLastToken();
-
-    if (this.currentToken != null) {
-      // Add the previously removed token back in
-      this.currentLine.tokens.addLast(this.currentToken);
-    }
-
-    return previousToken;
+    return this.currentLine.peekPreviousToken(this.currentToken);
   }
 
   /** Finds the last token that was *discovered* */
@@ -3980,7 +3972,7 @@ public class Parser {
   private void clearCurrentToken() {
     if (this.currentToken != null) {
       this.currentToken = null;
-      this.currentLine.tokens.removeLast();
+      this.currentLine.removeLastToken();
     }
   }
 
@@ -4079,7 +4071,7 @@ public class Parser {
     }
 
     while (line != null && line.content != null) {
-      for (final Token token : line.tokens) {
+      for (final Token token : line.getTokensIterator()) {
         result.add(token);
       }
 

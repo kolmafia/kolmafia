@@ -32,6 +32,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -182,7 +183,8 @@ public class CustomCombatPanel extends JPanel {
       MouseListener listener = new SpecialPopListener();
       special.addMouseListener(listener);
 
-      String stunSkill = KoLCharacter.getClassStun();
+      AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
+      String stunSkill = ascensionClass == null ? "none" : ascensionClass.getStun();
       if (stunSkill.equals("Shell Up")) {
         if (KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING) {
           stunSkill = Preferences.getBoolean("considerShadowNoodles") ? "Shadow Noodles" : "none";
@@ -307,7 +309,10 @@ public class CustomCombatPanel extends JPanel {
 
       CustomCombatPanel.this.actionSelect.setSelectedItem(Preferences.getString("battleAction"));
 
-      if (KoLCharacter.hasSkill(KoLCharacter.getClassStun())) {
+      AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
+      String stunSkill = ascensionClass == null ? "none" : ascensionClass.getStun();
+
+      if (KoLCharacter.hasSkill(stunSkill)) {
         this.stunItem.setEnabled(true);
       } else {
         this.stunItem.setEnabled(false);

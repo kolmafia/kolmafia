@@ -2,9 +2,10 @@ package net.sourceforge.kolmafia;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
+import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class KoLCharacterTest {
@@ -49,14 +50,25 @@ public class KoLCharacterTest {
     Preferences.resetToDefault("useDockIconBadge");
   }
 
+  @Test
+  public void setSignAssignsValues() {
+    KoLCharacter.setSign("Marmot");
+
+    assertEquals("Marmot", KoLCharacter.getSign());
+    assertEquals(6, KoLCharacter.getSignIndex());
+    assertEquals(ZodiacType.MOXIE, KoLCharacter.getSignStat());
+    assertEquals(ZodiacZone.CANADIA, KoLCharacter.getSignZone());
+
+    KoLCharacter.setSign("Invalid");
+
+    assertEquals("None", KoLCharacter.getSign());
+    assertEquals(0, KoLCharacter.getSignIndex());
+    assertEquals(ZodiacType.NONE, KoLCharacter.getSignStat());
+    assertEquals(ZodiacZone.NONE, KoLCharacter.getSignZone());
+  }
+
   @AfterEach
   void resetUsername() {
     KoLCharacter.reset("");
-    Preferences.saveSettingsToFile = true;
-  }
-
-  @BeforeEach
-  void skipWritingPreferences() {
-    Preferences.saveSettingsToFile = false;
   }
 }

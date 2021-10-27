@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Taskbar;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -88,174 +87,9 @@ import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
  * extensibility.
  */
 public abstract class KoLCharacter {
-  private static final String NONE = "None";
-
-  // Classes
-  public static final String ASTRAL_SPIRIT = "Astral Spirit";
-  public static final String AVATAR_OF_BORIS = "Avatar of Boris";
-  public static final String ZOMBIE_MASTER = "Zombie Master";
-  public static final String AVATAR_OF_JARLSBERG = "Avatar of Jarlsberg";
-  public static final String AVATAR_OF_SNEAKY_PETE = "Avatar of Sneaky Pete";
-  public static final String ED = "Ed";
-  public static final String COWPUNCHER = "Cow Puncher";
-  public static final String BEANSLINGER = "Beanslinger";
-  public static final String SNAKE_OILER = "Snake Oiler";
-  public static final String GELATINOUS_NOOB = "Gelatinous Noob";
-  public static final String VAMPYRE = "Vampyre";
-  public static final String PLUMBER = "Plumber";
-
-  public static final String SEAL_CLUBBER = "Seal Clubber";
-  private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
-
-  static {
-    KoLCharacter.SEAL_CLUBBER_RANKS.add("Lemming Trampler");
-    KoLCharacter.SEAL_CLUBBER_RANKS.add("Tern Slapper");
-    KoLCharacter.SEAL_CLUBBER_RANKS.add("Puffin Intimidator");
-    KoLCharacter.SEAL_CLUBBER_RANKS.add("Ermine Thumper");
-    KoLCharacter.SEAL_CLUBBER_RANKS.add("Penguin Frightener");
-    KoLCharacter.SEAL_CLUBBER_RANKS.add("Malamute Basher");
-    KoLCharacter.SEAL_CLUBBER_RANKS.add("Narwhal Pummeler");
-    KoLCharacter.SEAL_CLUBBER_RANKS.add("Otter Crusher");
-    KoLCharacter.SEAL_CLUBBER_RANKS.add("Caribou Smacker");
-    KoLCharacter.SEAL_CLUBBER_RANKS.add("Moose Harasser");
-    KoLCharacter.SEAL_CLUBBER_RANKS.add("Reindeer Threatener");
-    KoLCharacter.SEAL_CLUBBER_RANKS.add("Ox Wrestler");
-    KoLCharacter.SEAL_CLUBBER_RANKS.add("Walrus Bludgeoner");
-    KoLCharacter.SEAL_CLUBBER_RANKS.add("Whale Boxer");
-    KoLCharacter.SEAL_CLUBBER_RANKS.add("Seal Clubber");
-  }
-
-  public static final String TURTLE_TAMER = "Turtle Tamer";
-  private static final List<String> TURTLE_TAMER_RANKS = new ArrayList<String>();
-
-  static {
-    KoLCharacter.TURTLE_TAMER_RANKS.add("Toad Coach");
-    KoLCharacter.TURTLE_TAMER_RANKS.add("Skink Trainer");
-    KoLCharacter.TURTLE_TAMER_RANKS.add("Frog Director");
-    KoLCharacter.TURTLE_TAMER_RANKS.add("Gecko Supervisor");
-    KoLCharacter.TURTLE_TAMER_RANKS.add("Newt Herder");
-    KoLCharacter.TURTLE_TAMER_RANKS.add("Frog Boss");
-    KoLCharacter.TURTLE_TAMER_RANKS.add("Iguana Driver");
-    KoLCharacter.TURTLE_TAMER_RANKS.add("Salamander Subduer");
-    KoLCharacter.TURTLE_TAMER_RANKS.add("Bullfrog Overseer");
-    KoLCharacter.TURTLE_TAMER_RANKS.add("Rattlesnake Chief");
-    KoLCharacter.TURTLE_TAMER_RANKS.add("Crocodile Lord");
-    KoLCharacter.TURTLE_TAMER_RANKS.add("Cobra Commander");
-    KoLCharacter.TURTLE_TAMER_RANKS.add("Alligator Subjugator");
-    KoLCharacter.TURTLE_TAMER_RANKS.add("Asp Master");
-    KoLCharacter.TURTLE_TAMER_RANKS.add("Turtle Tamer");
-  }
-
   public static final String WAR_BLESSING = "War";
   public static final String STORM_BLESSING = "Storm";
   public static final String SHE_WHO_WAS_BLESSING = "She-who-was";
-
-  public static final String PASTAMANCER = "Pastamancer";
-  private static final List<String> PASTAMANCER_RANKS = new ArrayList<String>();
-
-  static {
-    KoLCharacter.PASTAMANCER_RANKS.add("Dough Acolyte");
-    KoLCharacter.PASTAMANCER_RANKS.add("Yeast Scholar");
-    KoLCharacter.PASTAMANCER_RANKS.add("Noodle Neophyte");
-    KoLCharacter.PASTAMANCER_RANKS.add("Starch Savant");
-    KoLCharacter.PASTAMANCER_RANKS.add("Carbohydrate Cognoscenti");
-    KoLCharacter.PASTAMANCER_RANKS.add("Spaghetti Sage");
-    KoLCharacter.PASTAMANCER_RANKS.add("Macaroni Magician");
-    KoLCharacter.PASTAMANCER_RANKS.add("Vermicelli Enchanter");
-    KoLCharacter.PASTAMANCER_RANKS.add("Linguini Thaumaturge");
-    KoLCharacter.PASTAMANCER_RANKS.add("Ravioli Sorcerer");
-    KoLCharacter.PASTAMANCER_RANKS.add("Manicotti Magus");
-    KoLCharacter.PASTAMANCER_RANKS.add("Spaghetti Spellbinder");
-    KoLCharacter.PASTAMANCER_RANKS.add("Cannelloni Conjurer");
-    KoLCharacter.PASTAMANCER_RANKS.add("Angel-Hair Archmage");
-    KoLCharacter.PASTAMANCER_RANKS.add("Pastamancer");
-  }
-
-  public static final String SAUCEROR = "Sauceror";
-  private static final List<String> SAUCEROR_RANKS = new ArrayList<String>();
-
-  static {
-    KoLCharacter.SAUCEROR_RANKS.add("Allspice Acolyte");
-    KoLCharacter.SAUCEROR_RANKS.add("Cilantro Seer");
-    KoLCharacter.SAUCEROR_RANKS.add("Parsley Enchanter");
-    KoLCharacter.SAUCEROR_RANKS.add("Sage Sage");
-    KoLCharacter.SAUCEROR_RANKS.add("Rosemary Diviner");
-    KoLCharacter.SAUCEROR_RANKS.add("Thyme Wizard");
-    KoLCharacter.SAUCEROR_RANKS.add("Tarragon Thaumaturge");
-    KoLCharacter.SAUCEROR_RANKS.add("Oreganoccultist");
-    KoLCharacter.SAUCEROR_RANKS.add("Basillusionist");
-    KoLCharacter.SAUCEROR_RANKS.add("Coriander Conjurer");
-    KoLCharacter.SAUCEROR_RANKS.add("Bay Leaf Brujo");
-    KoLCharacter.SAUCEROR_RANKS.add("Sesame Soothsayer");
-    KoLCharacter.SAUCEROR_RANKS.add("Marinara Mage");
-    KoLCharacter.SAUCEROR_RANKS.add("Alfredo Archmage");
-    KoLCharacter.SAUCEROR_RANKS.add("Sauceror");
-  }
-
-  public static final String DISCO_BANDIT = "Disco Bandit";
-  private static final List<String> DISCO_BANDIT_RANKS = new ArrayList<String>();
-
-  static {
-    KoLCharacter.DISCO_BANDIT_RANKS.add("Funk Footpad");
-    KoLCharacter.DISCO_BANDIT_RANKS.add("Rhythm Rogue");
-    KoLCharacter.DISCO_BANDIT_RANKS.add("Chill Crook");
-    KoLCharacter.DISCO_BANDIT_RANKS.add("Jiggy Grifter");
-    KoLCharacter.DISCO_BANDIT_RANKS.add("Beat Snatcher");
-    KoLCharacter.DISCO_BANDIT_RANKS.add("Sample Swindler");
-    KoLCharacter.DISCO_BANDIT_RANKS.add("Move Buster");
-    KoLCharacter.DISCO_BANDIT_RANKS.add("Jam Horker");
-    KoLCharacter.DISCO_BANDIT_RANKS.add("Groove Filcher");
-    KoLCharacter.DISCO_BANDIT_RANKS.add("Vibe Robber");
-    KoLCharacter.DISCO_BANDIT_RANKS.add("Boogie Brigand");
-    KoLCharacter.DISCO_BANDIT_RANKS.add("Flow Purloiner");
-    KoLCharacter.DISCO_BANDIT_RANKS.add("Jive Pillager");
-    KoLCharacter.DISCO_BANDIT_RANKS.add("Rhymer and Stealer");
-    KoLCharacter.DISCO_BANDIT_RANKS.add("Disco Bandit");
-  }
-
-  public static final String ACCORDION_THIEF = "Accordion Thief";
-  private static final List<String> ACCORDION_THIEF_RANKS = new ArrayList<String>();
-
-  static {
-    KoLCharacter.ACCORDION_THIEF_RANKS.add("Polka Criminal");
-    KoLCharacter.ACCORDION_THIEF_RANKS.add("Mariachi Larcenist");
-    KoLCharacter.ACCORDION_THIEF_RANKS.add("Zydeco Rogue");
-    KoLCharacter.ACCORDION_THIEF_RANKS.add("Chord Horker");
-    KoLCharacter.ACCORDION_THIEF_RANKS.add("Chromatic Crook");
-    KoLCharacter.ACCORDION_THIEF_RANKS.add("Squeezebox Scoundrel");
-    KoLCharacter.ACCORDION_THIEF_RANKS.add("Concertina Con Artist");
-    KoLCharacter.ACCORDION_THIEF_RANKS.add("Button Box Burglar");
-    KoLCharacter.ACCORDION_THIEF_RANKS.add("Hurdy-Gurdy Hooligan");
-    KoLCharacter.ACCORDION_THIEF_RANKS.add("Sub-Sub-Apprentice Accordion Thief");
-    KoLCharacter.ACCORDION_THIEF_RANKS.add("Sub-Apprentice Accordion Thief");
-    KoLCharacter.ACCORDION_THIEF_RANKS.add("Pseudo-Apprentice Accordion Thief");
-    KoLCharacter.ACCORDION_THIEF_RANKS.add("Hemi-Apprentice Accordion Thief");
-    KoLCharacter.ACCORDION_THIEF_RANKS.add("Apprentice Accordion Thief");
-    KoLCharacter.ACCORDION_THIEF_RANKS.add("Accordion Thief");
-  }
-
-  public static final String[] ZODIACS =
-      new String[] {
-        "Mongoose",
-        "Wallaby",
-        "Vole",
-        "Platypus",
-        "Opossum",
-        "Marmot",
-        "Wombat",
-        "Blender",
-        "Packrat"
-      };
-
-  public static final String[] STANDARD_CLASSES =
-      new String[] {
-        KoLCharacter.SEAL_CLUBBER,
-        KoLCharacter.TURTLE_TAMER,
-        KoLCharacter.PASTAMANCER,
-        KoLCharacter.SAUCEROR,
-        KoLCharacter.DISCO_BANDIT,
-        KoLCharacter.ACCORDION_THIEF,
-      };
 
   public static final int MALE = -1;
   public static final int FEMALE = 1;
@@ -278,17 +112,13 @@ public abstract class KoLCharacter {
   private static boolean restricted = false;
 
   private static int ascensions = 0;
-  private static String ascensionSign = NONE;
-  private static int ascensionSignIndex = 0;
-  private static ZodiacType ascensionSignType = ZodiacType.NONE;
-  private static ZodiacZone ascensionSignZone = ZodiacZone.NONE;
+  private static ZodiacSign ascensionSign = ZodiacSign.NONE;
   private static Path ascensionPath = Path.NONE;
 
   // Things which can change over the course of playing
 
   private static String avatar = "";
-  private static String classname = "";
-  private static String classtype = null;
+  private static AscensionClass ascensionClass = null;
   private static int gender = 0;
   public static int AWOLtattoo = 0;
 
@@ -449,8 +279,7 @@ public abstract class KoLCharacter {
   }
 
   public static final void reset(boolean newCharacter) {
-    KoLCharacter.classname = "";
-    KoLCharacter.classtype = null;
+    KoLCharacter.ascensionClass = null;
 
     KoLCharacter.gender = 0;
     KoLCharacter.currentLevel = 1;
@@ -523,10 +352,7 @@ public abstract class KoLCharacter {
     KoLCharacter.AWOLtattoo = 0;
 
     KoLCharacter.ascensions = 0;
-    KoLCharacter.ascensionSign = NONE;
-    KoLCharacter.ascensionSignIndex = 0;
-    KoLCharacter.ascensionSignType = ZodiacType.NONE;
-    KoLCharacter.ascensionSignZone = ZodiacZone.NONE;
+    KoLCharacter.ascensionSign = ZodiacSign.NONE;
     KoLCharacter.ascensionPath = Path.NONE;
 
     KoLCharacter.mindControlLevel = 0;
@@ -1019,95 +845,7 @@ public abstract class KoLCharacter {
    * @return The index of the prime stat
    */
   public static final int getPrimeIndex() {
-    return KoLCharacter.getPrimeIndex(KoLCharacter.classtype);
-  }
-
-  public static final int getPrimeIndex(String classType) {
-    if (classType == null) {
-      return 0;
-    }
-
-    if (classType.equals(KoLCharacter.SEAL_CLUBBER)
-        || classType.equals(KoLCharacter.TURTLE_TAMER)
-        || classType.equals(KoLCharacter.AVATAR_OF_BORIS)
-        || classType.equals(KoLCharacter.ZOMBIE_MASTER)
-        || classType.equals(KoLCharacter.COWPUNCHER)) {
-      return 0;
-    }
-
-    if (classType.equals(KoLCharacter.SAUCEROR)
-        || classType.equals(KoLCharacter.PASTAMANCER)
-        || classType.equals(KoLCharacter.AVATAR_OF_JARLSBERG)
-        || classType.equals(KoLCharacter.ED)
-        || classType.equals(KoLCharacter.BEANSLINGER)
-        || classType.equals(KoLCharacter.VAMPYRE)) {
-      return 1;
-    }
-
-    if (classType.equals(KoLCharacter.DISCO_BANDIT)
-        || classType.equals(KoLCharacter.ACCORDION_THIEF)
-        || classType.equals(KoLCharacter.AVATAR_OF_SNEAKY_PETE)
-        || classType.equals(KoLCharacter.SNAKE_OILER)
-        || classType.equals(KoLCharacter.GELATINOUS_NOOB)) {
-      return 2;
-    }
-
-    if (classType.equals(KoLCharacter.PLUMBER)) {
-      long mus = KoLCharacter.totalSubpoints[0];
-      long mys = KoLCharacter.totalSubpoints[1];
-      long mox = KoLCharacter.totalSubpoints[2];
-      return (mus >= mys) ? (mus >= mox ? 0 : 2) : (mys >= mox) ? 1 : 2;
-    }
-
-    return 0;
-  }
-
-  public static final String getClassStun() {
-    return KoLCharacter.classtype == null
-        ? "none"
-        : KoLCharacter.classtype == KoLCharacter.SEAL_CLUBBER
-            ? "Club Foot"
-            : KoLCharacter.classtype == KoLCharacter.TURTLE_TAMER
-                ? "Shell Up"
-                : KoLCharacter.classtype == KoLCharacter.PASTAMANCER
-                    ? "Entangling Noodles"
-                    : KoLCharacter.classtype == KoLCharacter.SAUCEROR
-                        ? "Soul Bubble"
-                        : KoLCharacter.classtype == KoLCharacter.ACCORDION_THIEF
-                            ? "Accordion Bash"
-                            : KoLCharacter.classtype == KoLCharacter.AVATAR_OF_BORIS
-                                ? "Broadside"
-                                : KoLCharacter.classtype == KoLCharacter.ZOMBIE_MASTER
-                                    ? "Corpse Pile"
-                                    : KoLCharacter.classtype == KoLCharacter.AVATAR_OF_JARLSBERG
-                                        ? "Blend"
-                                        : KoLCharacter.classtype
-                                                == KoLCharacter.AVATAR_OF_SNEAKY_PETE
-                                            ? "Snap Fingers"
-                                            : KoLCharacter.classtype == KoLCharacter.ED
-                                                ? "Curse of Indecision"
-                                                : KoLCharacter.classtype == KoLCharacter.VAMPYRE
-                                                    ? "Chill of the Tomb"
-                                                    : Preferences.getBoolean(
-                                                            "considerShadowNoodles")
-                                                        ? "Shadow Noodles"
-                                                        : "none";
-  }
-
-  public static int getClassStarterWeapon() {
-    return KoLCharacter.classtype == KoLCharacter.SEAL_CLUBBER
-        ? ItemPool.SEAL_CLUB
-        : KoLCharacter.classtype == KoLCharacter.TURTLE_TAMER
-            ? ItemPool.TURTLE_TOTEM
-            : KoLCharacter.classtype == KoLCharacter.PASTAMANCER
-                ? ItemPool.PASTA_SPOON
-                : KoLCharacter.classtype == KoLCharacter.SAUCEROR
-                    ? ItemPool.SAUCEPAN
-                    : KoLCharacter.classtype == KoLCharacter.DISCO_BANDIT
-                        ? ItemPool.DISCO_BALL
-                        : KoLCharacter.classtype == KoLCharacter.ACCORDION_THIEF
-                            ? ItemPool.STOLEN_ACCORDION
-                            : -1;
+    return ascensionClass == null ? 0 : ascensionClass.getPrimeStatIndex();
   }
 
   /**
@@ -1146,7 +884,7 @@ public abstract class KoLCharacter {
 
   public static final int getFuryLimit() {
     // 0 if not Seal Clubber, 3 with only Wrath of the Wolverine, 5 with Ire of the Orca in additon
-    return (KoLCharacter.classtype != KoLCharacter.SEAL_CLUBBER
+    return (ascensionClass != AscensionClass.SEAL_CLUBBER
             || !KoLCharacter.hasSkill("Wrath of the Wolverine"))
         ? 0
         : KoLCharacter.hasSkill("Ire of the Orca") ? 5 : 3;
@@ -1403,71 +1141,33 @@ public abstract class KoLCharacter {
   /**
    * Accessor method to set the character's class.
    *
-   * @param classtype The name of the character's class
+   * @param ascensionClass The name of the character's class
    */
-  public static final void setClassType(final int classtype) {
-    String classname =
-        classtype == 1
-            ? KoLCharacter.SEAL_CLUBBER
-            : classtype == 2
-                ? KoLCharacter.TURTLE_TAMER
-                : classtype == 3
-                    ? KoLCharacter.PASTAMANCER
-                    : classtype == 4
-                        ? KoLCharacter.SAUCEROR
-                        : classtype == 5
-                            ? KoLCharacter.DISCO_BANDIT
-                            : classtype == 6
-                                ? KoLCharacter.ACCORDION_THIEF
-                                : classtype == 11
-                                    ? KoLCharacter.AVATAR_OF_BORIS
-                                    : classtype == 12
-                                        ? KoLCharacter.ZOMBIE_MASTER
-                                        : classtype == 14
-                                            ? KoLCharacter.AVATAR_OF_JARLSBERG
-                                            : classtype == 15
-                                                ? KoLCharacter.AVATAR_OF_SNEAKY_PETE
-                                                : classtype == 17
-                                                    ? KoLCharacter.ED
-                                                    : classtype == 18
-                                                        ? KoLCharacter.COWPUNCHER
-                                                        : classtype == 19
-                                                            ? KoLCharacter.BEANSLINGER
-                                                            : classtype == 20
-                                                                ? KoLCharacter.SNAKE_OILER
-                                                                : classtype == 23
-                                                                    ? KoLCharacter.GELATINOUS_NOOB
-                                                                    : classtype == 24
-                                                                        ? KoLCharacter.VAMPYRE
-                                                                        : classtype == 25
-                                                                            ? KoLCharacter.PLUMBER
-                                                                            : "Unknown";
+  public static final void setAscensionClass(final AscensionClass ascensionClass) {
+    KoLCharacter.ascensionClass = ascensionClass;
 
-    KoLCharacter.classtype = classname;
-    KoLCharacter.classname = classname;
-  }
+    KoLCharacter.tripleReagent = isSauceror();
 
-  public static final void setClassName(final String classname) {
-    KoLCharacter.classname = classname;
-    KoLCharacter.classtype = getClassType();
-    KoLCharacter.tripleReagent = KoLCharacter.classtype == KoLCharacter.SAUCEROR;
-
-    if (KoLCharacter.classtype == KoLCharacter.ASTRAL_SPIRIT) {
+    if (ascensionClass == AscensionClass.ASTRAL_SPIRIT) {
       return;
     }
 
-    // If we have an actual class, we have a mainstat.
-    // Reset concoction mainstat gains to reflect this.
     ConcoctionDatabase.resetConcoctionStatGains();
 
     // Allow or disallow special fight actions
     FightRequest.initialize();
   }
 
+  public static final void setAscensionClass(final int classId) {
+    setAscensionClass(AscensionClass.idToClass(classId));
+  }
+
+  public static final void setAscensionClass(final String className) {
+    setAscensionClass(AscensionClass.nameToClass(className));
+  }
+
   static final int getReagentPotionDuration() {
-    return 5
-        + (KoLCharacter.hasSkill("Impetuous Sauciness") ? 5 : 0)
-        + (KoLCharacter.classtype == KoLCharacter.SAUCEROR ? 5 : 0);
+    return 5 + (hasSkill("Impetuous Sauciness") ? 5 : 0) + (isSauceror() ? 5 : 0);
   }
 
   /**
@@ -1475,124 +1175,70 @@ public abstract class KoLCharacter {
    *
    * @return The name of the character's class
    */
-  public static final String getClassName() {
-    return KoLCharacter.classname;
+  public static final AscensionClass getAscensionClass() {
+    return ascensionClass;
   }
 
-  /**
-   * Accessor method to retrieve the type of the character's class.
-   *
-   * @return The type of the character's class
-   */
-  public static final String getClassType() {
-    if (KoLCharacter.classtype == null) {
-      KoLCharacter.classtype = KoLCharacter.getClassType(KoLCharacter.classname);
-    }
-
-    return KoLCharacter.classtype;
+  public static final String getAscensionClassName() {
+    return ascensionClass == null ? "none" : ascensionClass.getName();
   }
 
-  /**
-   * Accessor method to retrieve the type of the character's class.
-   *
-   * @return The type of the character's class
-   */
-  public static final String getClassType(final String classname) {
-    return classname.equals(KoLCharacter.AVATAR_OF_BORIS)
-        ? KoLCharacter.AVATAR_OF_BORIS
-        : classname.equals(KoLCharacter.ZOMBIE_MASTER)
-            ? KoLCharacter.ZOMBIE_MASTER
-            : classname.equals(KoLCharacter.AVATAR_OF_JARLSBERG)
-                ? KoLCharacter.AVATAR_OF_JARLSBERG
-                : classname.equals(KoLCharacter.AVATAR_OF_SNEAKY_PETE)
-                    ? KoLCharacter.AVATAR_OF_SNEAKY_PETE
-                    : classname.equals(KoLCharacter.ED)
-                        ? KoLCharacter.ED
-                        : classname.equals(KoLCharacter.COWPUNCHER)
-                            ? KoLCharacter.COWPUNCHER
-                            : classname.equals(KoLCharacter.BEANSLINGER)
-                                ? KoLCharacter.BEANSLINGER
-                                : classname.equals(KoLCharacter.SNAKE_OILER)
-                                    ? KoLCharacter.SNAKE_OILER
-                                    : classname.equals(KoLCharacter.GELATINOUS_NOOB)
-                                        ? KoLCharacter.GELATINOUS_NOOB
-                                        : classname.equals(KoLCharacter.VAMPYRE)
-                                            ? KoLCharacter.VAMPYRE
-                                            : classname.equals(KoLCharacter.PLUMBER)
-                                                ? KoLCharacter.PLUMBER
-                                                : KoLCharacter.SEAL_CLUBBER_RANKS.contains(
-                                                        classname)
-                                                    ? KoLCharacter.SEAL_CLUBBER
-                                                    : KoLCharacter.TURTLE_TAMER_RANKS.contains(
-                                                            classname)
-                                                        ? KoLCharacter.TURTLE_TAMER
-                                                        : KoLCharacter.PASTAMANCER_RANKS.contains(
-                                                                classname)
-                                                            ? KoLCharacter.PASTAMANCER
-                                                            : KoLCharacter.SAUCEROR_RANKS.contains(
-                                                                    classname)
-                                                                ? KoLCharacter.SAUCEROR
-                                                                : KoLCharacter.DISCO_BANDIT_RANKS
-                                                                        .contains(classname)
-                                                                    ? KoLCharacter.DISCO_BANDIT
-                                                                    : KoLCharacter
-                                                                            .ACCORDION_THIEF_RANKS
-                                                                            .contains(classname)
-                                                                        ? KoLCharacter
-                                                                            .ACCORDION_THIEF
-                                                                        : KoLCharacter
-                                                                            .ASTRAL_SPIRIT;
+  public static final boolean isSealClubber() {
+    return ascensionClass == AscensionClass.SEAL_CLUBBER;
+  }
+
+  public static final boolean isTurtleTamer() {
+    return ascensionClass == AscensionClass.TURTLE_TAMER;
+  }
+
+  public static final boolean isSauceror() {
+    return ascensionClass == AscensionClass.SAUCEROR;
+  }
+
+  public static final boolean isPastamancer() {
+    return ascensionClass == AscensionClass.PASTAMANCER;
+  }
+
+  public static final boolean isAccordionThief() {
+    return ascensionClass == AscensionClass.ACCORDION_THIEF;
+  }
+
+  public static final boolean isDiscoBandit() {
+    return ascensionClass == AscensionClass.DISCO_BANDIT;
   }
 
   public static final boolean isMuscleClass() {
-    return KoLCharacter.classtype == KoLCharacter.SEAL_CLUBBER
-        || KoLCharacter.classtype == KoLCharacter.TURTLE_TAMER
-        || KoLCharacter.classtype == KoLCharacter.AVATAR_OF_BORIS
-        || KoLCharacter.classtype == KoLCharacter.ZOMBIE_MASTER
-        || KoLCharacter.classtype == KoLCharacter.COWPUNCHER;
+    return ascensionClass != null && ascensionClass.getPrimeStatIndex() == 0;
   }
 
   public static final boolean isAvatarOfBoris() {
-    return KoLCharacter.classtype == KoLCharacter.AVATAR_OF_BORIS;
+    return ascensionClass == AscensionClass.AVATAR_OF_BORIS;
   }
 
   public static final boolean isZombieMaster() {
-    return KoLCharacter.classtype == KoLCharacter.ZOMBIE_MASTER;
+    return ascensionClass == AscensionClass.ZOMBIE_MASTER;
   }
 
   public static final boolean isMysticalityClass() {
-    return KoLCharacter.classtype == KoLCharacter.PASTAMANCER
-        || KoLCharacter.classtype == KoLCharacter.SAUCEROR
-        || KoLCharacter.classtype == KoLCharacter.AVATAR_OF_JARLSBERG
-        || KoLCharacter.classtype == KoLCharacter.ED
-        || KoLCharacter.classtype == KoLCharacter.BEANSLINGER
-        || KoLCharacter.classtype == KoLCharacter.VAMPYRE;
+    return ascensionClass != null && ascensionClass.getPrimeStatIndex() == 1;
   }
 
   public static final boolean isVampyre() {
-    return KoLCharacter.classtype == KoLCharacter.VAMPYRE;
+    return ascensionClass == AscensionClass.VAMPYRE;
   }
 
   public static final boolean isMoxieClass() {
-    return KoLCharacter.classtype == KoLCharacter.DISCO_BANDIT
-        || KoLCharacter.classtype == KoLCharacter.ACCORDION_THIEF
-        || KoLCharacter.classtype == KoLCharacter.AVATAR_OF_SNEAKY_PETE
-        || KoLCharacter.classtype == KoLCharacter.SNAKE_OILER
-        || KoLCharacter.classtype == KoLCharacter.GELATINOUS_NOOB;
+    return ascensionClass != null && ascensionClass.getPrimeStatIndex() == 2;
   }
 
   public static final boolean isAWoLClass() {
-    return KoLCharacter.getClassType() == KoLCharacter.COWPUNCHER
-        || KoLCharacter.getClassType() == KoLCharacter.BEANSLINGER
-        || KoLCharacter.getClassType() == KoLCharacter.SNAKE_OILER;
+    return ascensionClass == AscensionClass.COWPUNCHER
+        || ascensionClass == AscensionClass.BEANSLINGER
+        || ascensionClass == AscensionClass.SNAKE_OILER;
   }
 
   public static final Stat mainStat() {
-    return KoLCharacter.isMuscleClass()
-        ? Stat.MUSCLE
-        : KoLCharacter.isMysticalityClass()
-            ? Stat.MYSTICALITY
-            : KoLCharacter.isMoxieClass() ? Stat.MOXIE : Stat.NONE;
+    return ascensionClass == null ? Stat.NONE : ascensionClass.getMainStat();
   }
 
   public static final void setLimitmode(String limitmode) {
@@ -3141,63 +2787,29 @@ public abstract class KoLCharacter {
 
     Preferences.setBoolean("kingLiberated", true);
 
-    // Assign "points" to paths that grant them
     switch (oldPath) {
-      case AVATAR_OF_BORIS:
-        Preferences.increment("borisPoints", points);
-        break;
-      case AVATAR_OF_JARLSBERG:
-        Preferences.increment("jarlsbergPoints", points);
-        break;
-      case AVATAR_OF_SNEAKY_PETE:
-        Preferences.increment("sneakyPetePoints", points);
-        break;
-      case ACTUALLY_ED_THE_UNDYING:
-        Preferences.increment("edPoints", points);
-        break;
-      case ZOMBIE_SLAYER:
-        Preferences.increment("zombiePoints", points);
-        break;
       case AVATAR_OF_WEST_OF_LOATHING:
-        if (KoLCharacter.classtype == KoLCharacter.BEANSLINGER) {
-          Preferences.increment("awolPointsBeanslinger", points, 10, false);
-        } else if (KoLCharacter.classtype == KoLCharacter.COWPUNCHER) {
-          Preferences.increment("awolPointsCowpuncher", points, 10, false);
-        } else if (KoLCharacter.classtype == KoLCharacter.SNAKE_OILER) {
-          Preferences.increment("awolPointsSnakeoiler", points, 10, false);
+        String pref = null;
+        switch (ascensionClass) {
+          case BEANSLINGER:
+            pref = "awolPointsBeanslinger";
+            break;
+          case COWPUNCHER:
+            pref = "awolPointsCowpuncher";
+            break;
+          case SNAKE_OILER:
+            pref = "awolPointsSnakeoiler";
+            break;
+        }
+        if (pref != null) {
+          Preferences.increment(pref, points, 10, false);
         }
         break;
-      case THE_SOURCE:
-        Preferences.increment("sourcePoints", points);
-        break;
-      case GELATINOUS_NOOB:
-        Preferences.increment("noobPoints", points, 20, false);
-        break;
-      case LICENSE_TO_ADVENTURE:
-        Preferences.increment("bondPoints", points, 24, false);
-        break;
       case GLOVER:
-        Preferences.increment("gloverPoints", points, 11, false);
+        // Fall-through on purpose!
         Preferences.increment("garlandUpgrades", 1, 10, false);
-        break;
-      case DISGUISES_DELIMIT:
-        Preferences.increment("masksUnlocked", points, 25, false);
-        break;
-      case DARK_GYFFTE:
-        Preferences.increment("darkGyfftePoints", points, 23, false);
-        break;
-      case CRAZY_RANDOM_SUMMER_TWO:
-        TCRSDatabase.resetModifiers();
-        break;
-      case PATH_OF_THE_PLUMBER:
-        Preferences.increment("plumberPoints", points, 22, false);
-        KoLCharacter.removePlumberQuestItems();
-        break;
-      case YOU_ROBOT:
-        Preferences.increment("youRobotPoints", points, 37, false);
-        break;
-      case QUANTUM:
-        Preferences.increment("quantumPoints", points, 11, false);
+      default:
+        oldPath.incrementPoints(points);
         break;
     }
 
@@ -3413,7 +3025,7 @@ public abstract class KoLCharacter {
    * @return String
    */
   public static final String getSign() {
-    return KoLCharacter.ascensionSign;
+    return KoLCharacter.ascensionSign.getName();
   }
 
   /**
@@ -3422,7 +3034,7 @@ public abstract class KoLCharacter {
    * @return String
    */
   public static final int getSignIndex() {
-    return KoLCharacter.ascensionSignIndex;
+    return KoLCharacter.ascensionSign.getId();
   }
 
   /**
@@ -3431,7 +3043,7 @@ public abstract class KoLCharacter {
    * @return int
    */
   public static final ZodiacType getSignStat() {
-    return KoLCharacter.ascensionSignType;
+    return KoLCharacter.ascensionSign.getType();
   }
 
   /**
@@ -3440,7 +3052,7 @@ public abstract class KoLCharacter {
    * @return int
    */
   public static final ZodiacZone getSignZone() {
-    return KoLCharacter.ascensionSignZone;
+    return KoLCharacter.ascensionSign.getZone();
   }
 
   /**
@@ -3477,56 +3089,16 @@ public abstract class KoLCharacter {
       ascensionSign = ascensionSign.substring(4);
     }
 
+    KoLCharacter.ascensionSign = ZodiacSign.find(ascensionSign);
+  }
+
+  /**
+   * Accessor method to set a character's zodiac sign
+   *
+   * @param ascensionSign the new sign
+   */
+  public static final void setSign(ZodiacSign ascensionSign) {
     KoLCharacter.ascensionSign = ascensionSign;
-
-    // Determine the sign "type" --> the stat that gets +10% XP bonus
-    // Determine the sign "zone" --> the NPC area available for shopping
-
-    if (ascensionSign.equals("Mongoose")) {
-      KoLCharacter.ascensionSignIndex = 1;
-      KoLCharacter.ascensionSignType = ZodiacType.MUSCLE;
-      KoLCharacter.ascensionSignZone = ZodiacZone.KNOLL;
-    } else if (ascensionSign.equals("Platypus")) {
-      KoLCharacter.ascensionSignIndex = 4;
-      KoLCharacter.ascensionSignType = ZodiacType.MUSCLE;
-      KoLCharacter.ascensionSignZone = ZodiacZone.CANADIA;
-    } else if (ascensionSign.equals("Wombat")) {
-      KoLCharacter.ascensionSignIndex = 7;
-      KoLCharacter.ascensionSignType = ZodiacType.MUSCLE;
-      KoLCharacter.ascensionSignZone = ZodiacZone.GNOMADS;
-    } else if (ascensionSign.equals("Wallaby")) {
-      KoLCharacter.ascensionSignIndex = 2;
-      KoLCharacter.ascensionSignType = ZodiacType.MYSTICALITY;
-      KoLCharacter.ascensionSignZone = ZodiacZone.KNOLL;
-    } else if (ascensionSign.equals("Opossum")) {
-      KoLCharacter.ascensionSignIndex = 5;
-      KoLCharacter.ascensionSignType = ZodiacType.MYSTICALITY;
-      KoLCharacter.ascensionSignZone = ZodiacZone.CANADIA;
-    } else if (ascensionSign.equals("Blender")) {
-      KoLCharacter.ascensionSignIndex = 8;
-      KoLCharacter.ascensionSignType = ZodiacType.MYSTICALITY;
-      KoLCharacter.ascensionSignZone = ZodiacZone.GNOMADS;
-    } else if (ascensionSign.equals("Vole")) {
-      KoLCharacter.ascensionSignIndex = 3;
-      KoLCharacter.ascensionSignType = ZodiacType.MOXIE;
-      KoLCharacter.ascensionSignZone = ZodiacZone.KNOLL;
-    } else if (ascensionSign.equals("Marmot")) {
-      KoLCharacter.ascensionSignIndex = 6;
-      KoLCharacter.ascensionSignType = ZodiacType.MOXIE;
-      KoLCharacter.ascensionSignZone = ZodiacZone.CANADIA;
-    } else if (ascensionSign.equals("Packrat")) {
-      KoLCharacter.ascensionSignIndex = 9;
-      KoLCharacter.ascensionSignType = ZodiacType.MOXIE;
-      KoLCharacter.ascensionSignZone = ZodiacZone.GNOMADS;
-    } else if (ascensionSign.equals("Bad Moon")) {
-      KoLCharacter.ascensionSignIndex = 10;
-      KoLCharacter.ascensionSignType = ZodiacType.BAD_MOON;
-      KoLCharacter.ascensionSignZone = ZodiacZone.NONE;
-    } else {
-      KoLCharacter.ascensionSignIndex = 0;
-      KoLCharacter.ascensionSignType = ZodiacType.NONE;
-      KoLCharacter.ascensionSignZone = ZodiacZone.NONE;
-    }
   }
 
   /**
@@ -3874,7 +3446,7 @@ public abstract class KoLCharacter {
    * @return <code>true</code> if the character is in a Muscle sign
    */
   public static final boolean inMuscleSign() {
-    return KoLCharacter.ascensionSignType == ZodiacType.MUSCLE;
+    return KoLCharacter.getSignStat() == ZodiacType.MUSCLE;
   }
 
   /**
@@ -3886,7 +3458,7 @@ public abstract class KoLCharacter {
    * @return <code>true</code> if the character is in a Mysticality sign
    */
   public static final boolean inMysticalitySign() {
-    return KoLCharacter.ascensionSignType == ZodiacType.MYSTICALITY;
+    return KoLCharacter.getSignStat() == ZodiacType.MYSTICALITY;
   }
 
   /**
@@ -3897,7 +3469,7 @@ public abstract class KoLCharacter {
    * @return <code>true</code> if the character is in a Moxie sign
    */
   public static final boolean inMoxieSign() {
-    return KoLCharacter.ascensionSignType == ZodiacType.MOXIE;
+    return KoLCharacter.getSignStat() == ZodiacType.MOXIE;
   }
 
   /**
@@ -3908,7 +3480,7 @@ public abstract class KoLCharacter {
    * @return <code>true</code> if the character is in Bad Moon
    */
   public static final boolean inBadMoon() {
-    return KoLCharacter.ascensionSignType == ZodiacType.BAD_MOON;
+    return KoLCharacter.getSignStat() == ZodiacType.BAD_MOON;
   }
 
   /**
@@ -3922,7 +3494,7 @@ public abstract class KoLCharacter {
    * @return <code>true</code> if the character Can go inside Degrassi Knoll
    */
   public static final boolean knollAvailable() {
-    return KoLCharacter.ascensionSignZone == ZodiacZone.KNOLL
+    return KoLCharacter.getSignZone() == ZodiacZone.KNOLL
         && !Limitmode.limitZone("MusSign")
         && !KoLCharacter.isKingdomOfExploathing()
         && !KoLCharacter.inGoocore();
@@ -3938,7 +3510,7 @@ public abstract class KoLCharacter {
    * @return <code>true</code> if the character can go to Little Canadia
    */
   public static final boolean canadiaAvailable() {
-    return KoLCharacter.ascensionSignZone == ZodiacZone.CANADIA
+    return KoLCharacter.getSignZone() == ZodiacZone.CANADIA
         && !Limitmode.limitZone("Little Canadia")
         && !KoLCharacter.isKingdomOfExploathing();
   }
@@ -3952,7 +3524,7 @@ public abstract class KoLCharacter {
    * @return <code>true</code> if the character can go to the Gnomish Gnomads Camp
    */
   public static final boolean gnomadsAvailable() {
-    return (KoLCharacter.ascensionSignZone == ZodiacZone.GNOMADS)
+    return (KoLCharacter.getSignZone() == ZodiacZone.GNOMADS)
         && KoLCharacter.desertBeachAccessible()
         && !KoLCharacter.isKingdomOfExploathing();
   }
@@ -3963,7 +3535,7 @@ public abstract class KoLCharacter {
    * @return <code>true</code> if the character can potentially change monster level
    */
   public static final boolean mcdAvailable() {
-    switch (KoLCharacter.ascensionSignZone) {
+    switch (KoLCharacter.getSignZone()) {
       case CANADIA:
         // Direct access to the Mind Control Device
         return KoLCharacter.canadiaAvailable();
@@ -4129,7 +3701,7 @@ public abstract class KoLCharacter {
 
             case SkillPool.SOUL_SAUCERY:
               // Soul Saucery gives you access to six other skills if a Sauceror
-              if (KoLCharacter.getClassType() == KoLCharacter.SAUCEROR) {
+              if (isSauceror()) {
                 KoLCharacter.addAvailableSkill("Soul Bubble");
                 KoLCharacter.addAvailableSkill("Soul Finger");
                 KoLCharacter.addAvailableSkill("Soul Blaze");
@@ -4687,12 +4259,7 @@ public abstract class KoLCharacter {
     }
 
     // Only the six original character classes can join a guild
-    if (KoLCharacter.classtype != KoLCharacter.SEAL_CLUBBER
-        && KoLCharacter.classtype != KoLCharacter.TURTLE_TAMER
-        && KoLCharacter.classtype != KoLCharacter.PASTAMANCER
-        && KoLCharacter.classtype != KoLCharacter.SAUCEROR
-        && KoLCharacter.classtype != KoLCharacter.DISCO_BANDIT
-        && KoLCharacter.classtype != KoLCharacter.ACCORDION_THIEF) {
+    if (!ascensionClass.isStandard()) {
       KoLCharacter.guildStoreStateKnown = true;
       return false;
     }
@@ -4720,10 +4287,10 @@ public abstract class KoLCharacter {
 
   public static final boolean canPickpocket() {
     return !Limitmode.limitPickpocket()
-        && (KoLCharacter.classtype == KoLCharacter.DISCO_BANDIT
-            || KoLCharacter.classtype == KoLCharacter.ACCORDION_THIEF
-            || KoLCharacter.classtype == KoLCharacter.AVATAR_OF_SNEAKY_PETE
-            || KoLCharacter.classtype == KoLCharacter.GELATINOUS_NOOB
+        && (ascensionClass == AscensionClass.DISCO_BANDIT
+            || ascensionClass == AscensionClass.ACCORDION_THIEF
+            || ascensionClass == AscensionClass.AVATAR_OF_SNEAKY_PETE
+            || ascensionClass == AscensionClass.GELATINOUS_NOOB
             || KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FORM_OF_BIRD))
             || KoLCharacter.hasEquipped(ItemPool.TINY_BLACK_HOLE, EquipmentManager.OFFHAND)
             || KoLCharacter.hasEquipped(ItemPool.MIME_ARMY_INFILTRATION_GLOVE));
@@ -4963,7 +4530,7 @@ public abstract class KoLCharacter {
   }
 
   public static final PastaThrallData findPastaThrall(final String type) {
-    if (KoLCharacter.classtype != KoLCharacter.PASTAMANCER) {
+    if (ascensionClass != AscensionClass.PASTAMANCER) {
       return null;
     }
 
@@ -4990,7 +4557,7 @@ public abstract class KoLCharacter {
   }
 
   public static final PastaThrallData findPastaThrall(final int thrallId) {
-    if (KoLCharacter.classtype != KoLCharacter.PASTAMANCER) {
+    if (ascensionClass != AscensionClass.PASTAMANCER) {
       return null;
     }
 
@@ -5341,7 +4908,7 @@ public abstract class KoLCharacter {
 
     // Look at sign-specific adjustments
     newModifiers.add(Modifiers.MONSTER_LEVEL, MCD, "MCD:MCD");
-    newModifiers.add(Modifiers.getModifiers("Sign", KoLCharacter.ascensionSign));
+    newModifiers.add(Modifiers.getModifiers("Sign", KoLCharacter.ascensionSign.getName()));
 
     // If we are out of ronin/hardcore, look at stat day adjustments
     if (KoLCharacter.canInteract() && !KoLmafia.statDay.equals("None")) {
@@ -5504,7 +5071,7 @@ public abstract class KoLCharacter {
 
     // Add Pasta Thrall effects
 
-    if (KoLCharacter.classtype == KoLCharacter.PASTAMANCER) {
+    if (ascensionClass == AscensionClass.PASTAMANCER) {
       PastaThrallData thrall = KoLCharacter.currentPastaThrall;
       if (thrall != PastaThrallData.NO_THRALL) {
         newModifiers.add(Modifiers.getModifiers("Thrall", thrall.getType()));
@@ -6008,9 +5575,9 @@ public abstract class KoLCharacter {
         int itemId = item.getItemId();
         Modifiers imod = Modifiers.getItemModifiers(itemId);
         if (imod != null) {
-          String classType = imod.getString(Modifiers.CLASS);
-          if (classType == ""
-              || classType.equals(KoLCharacter.getClassType())
+          AscensionClass classType = AscensionClass.nameToClass(imod.getString(Modifiers.CLASS));
+          if (classType == null
+              || classType == ascensionClass
                   && (slot != EquipmentManager.FAMILIAR
                       || KoLCharacter.getFamiliar().getId() == FamiliarPool.HAND)) {
             smithsness += imod.get(Modifiers.SMITHSNESS);
