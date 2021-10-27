@@ -59,7 +59,7 @@ public class LineTest {
     line3Token1 = line3SurroundingWhitespace.makeToken(4);
     line3Token2 = line3SurroundingWhitespace.makeToken(3);
     line3Token3 = line3SurroundingWhitespace.makeToken(8);
-    line3Token4 = line3SurroundingWhitespace.makeToken(7);
+    line3Token4 = line3SurroundingWhitespace.makeComment(7);
     line3Tokens = Arrays.asList(line3Token1, line3Token2, line3Token3, line3Token4);
 
     // Submitted length doesn't matter for EOF
@@ -166,6 +166,54 @@ public class LineTest {
     assertThrowsExactly(NoSuchElementException.class, line2Empty::getLastToken);
     assertSame(line3Token4, line3SurroundingWhitespace.getLastToken());
     assertSame(endOfFileToken, endOfFile.getLastToken());
+  }
+
+  /** Diverts from getLastToken() in that it skips comments, and has access to previous lines */
+  @Test
+  public void testPeekLastToken() {
+    assertSame(line1Token3, line1BOM.peekLastToken());
+    assertSame(line1Token3, line2Empty.peekLastToken());
+    assertSame(line3Token3, line3SurroundingWhitespace.peekLastToken());
+    assertSame(endOfFileToken, endOfFile.peekLastToken());
+  }
+
+  /** peekPreviousToken(null) is the same as peekLastToken() */
+  @Test
+  public void testPeekPreviousToken1() {
+    assertSame(line1BOM.peekLastToken(), line1BOM.peekPreviousToken(null));
+    assertSame(line2Empty.peekLastToken(), line2Empty.peekPreviousToken(null));
+    assertSame(
+        line3SurroundingWhitespace.peekLastToken(),
+        line3SurroundingWhitespace.peekPreviousToken(null));
+    assertSame(endOfFile.peekLastToken(), endOfFile.peekPreviousToken(null));
+  }
+
+  /** returns null if submitted the very first token */
+  @Test
+  public void testPeekPreviousToken2() {
+    assertEquals(null, line1BOM.peekPreviousToken(line1Token1));
+  }
+
+  @Test
+  public void testPeekPreviousToken3() {
+    assertSame(line1Token1, line1BOM.peekPreviousToken(line1Token2));
+    assertSame(line1Token3, line3SurroundingWhitespace.peekPreviousToken(line3Token1));
+    assertSame(line3Token1, line3SurroundingWhitespace.peekPreviousToken(line3Token2));
+    assertSame(line3Token2, line3SurroundingWhitespace.peekPreviousToken(line3Token3));
+    assertSame(line3Token3, line3SurroundingWhitespace.peekPreviousToken(line3Token4));
+  }
+
+  /** Comments are skipped */
+  @Test
+  public void testPeekPreviousToken4() {
+    assertSame(line1Token1, line1BOM.peekPreviousToken(line1Token3));
+    assertSame(line3Token3, endOfFile.peekPreviousToken(endOfFileToken));
+  }
+
+  /** Submitted tokens must come from the corresponding line */
+  @Test
+  public void testPeekPreviousToken5() {
+    assertThrows(IllegalArgumentException.class, () -> endOfFile.peekPreviousToken(line3Token4));
   }
 
   @Test

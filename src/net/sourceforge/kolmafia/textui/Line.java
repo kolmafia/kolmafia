@@ -172,7 +172,7 @@ public final class Line {
         }
       }
 
-      line = this.previousLine;
+      line = line.previousLine;
     }
 
     return null;
