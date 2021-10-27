@@ -5,10 +5,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 public class KoLCharacterTest {
+  @AfterAll
+  protected static void cleanUp() {
+    //exists to trigger hooked routine
+  }
+
   @Test
   public void rejectsUsernameWithTwoPeriods() {
     KoLCharacter.reset("test..name");

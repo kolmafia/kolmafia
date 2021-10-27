@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.preferences;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.File;
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.KoLCharacter;
 import org.junit.jupiter.api.*;
@@ -14,6 +15,18 @@ class PreferencesTest {
     KoLCharacter.reset("fakePrefUser");
     KoLCharacter.reset(true);
     Preferences.saveSettingsToFile = false;
+  }
+
+  @AfterAll
+  protected static void cleanUpSettings() {
+    File file = new File("settings/GLOBAL_aliases.txt");
+    if (file.exists()) {
+      file.deleteOnExit();
+    }
+    file = new File("settings/GLOBAL_prefs.txt");
+    if (file.exists()) {
+      file.deleteOnExit();
+    }
   }
 
   @Test
@@ -328,8 +341,8 @@ class PreferencesTest {
         globalIntValue,
         Integer.parseInt(globalDefaultsMap.get(globalProp)),
         "Map value not equal to set value");
-    assertNotEquals(
-        userPropFloat, userDefaultsMap.get(propName), "Map value not equal to set value");
+    assertEquals(
+        userPropFloat, Float.parseFloat(userDefaultsMap.get(propName)), "Map value not equal to set value");
   }
 
   @Test
@@ -390,21 +403,21 @@ class PreferencesTest {
 
   @Test
   void ResetGlobalDailies() {
-    String gloablDailypref = "_testDaily";
+    String globalDailyPref = "_testDaily";
     Integer testValue = 2112;
-    Integer preTest = Preferences.getInteger("GLOBAL", gloablDailypref);
-    assertNotEquals(testValue, preTest, "new pref " + gloablDailypref + " is not empty.");
+    Integer preTest = Preferences.getInteger("GLOBAL", globalDailyPref);
+    assertNotEquals(testValue, preTest, "new pref " + globalDailyPref + " is not empty.");
 
-    Preferences.setInteger("GLOBAL", gloablDailypref, testValue);
-    Integer postSetPref = Preferences.getInteger(gloablDailypref);
-    assertEquals(testValue, postSetPref, "new pref " + gloablDailypref + " should be set");
+    Preferences.setInteger("GLOBAL", globalDailyPref, testValue);
+    Integer postSetPref = Preferences.getInteger(globalDailyPref);
+    assertEquals(testValue, postSetPref, "new pref " + globalDailyPref + " should be set");
 
     Preferences.resetGlobalDailies();
-    Integer afterReset = Preferences.getInteger("GLOBAL", gloablDailypref);
+    Integer afterReset = Preferences.getInteger("GLOBAL", globalDailyPref);
     assertNotEquals(
         testValue,
         afterReset,
-        "new pref " + gloablDailypref + " should be reset by resetGlobalDailies");
+        "new pref " + globalDailyPref + " should be reset by resetGlobalDailies");
   }
 
   @Test

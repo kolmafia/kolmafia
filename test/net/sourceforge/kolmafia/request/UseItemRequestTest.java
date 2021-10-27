@@ -11,9 +11,15 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 class UseItemRequestTest extends RequestTestBase {
+
+  @AfterAll
+  protected static void cleanUp() {
+    //exists to trigger hooked routine
+  }
 
   // We don't use @BeforeEach here because it's specific to milk-related tests.
   private void milkSetup() {

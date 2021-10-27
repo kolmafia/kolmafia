@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.extensions;
 
+import java.io.File;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -12,6 +13,8 @@ public class ClearSharedState implements AfterAllCallback {
 
   @Override
   public void afterAll(ExtensionContext context) {
+    // Clean up files
+    deleteEm(KoLCharacter.getUserName());
     // Among other things, this sets KoLCharacter.username.
     KoLCharacter.reset("");
     // But, if username is already "", then it doesn't do the bulk of resetting state.
@@ -22,5 +25,17 @@ public class ClearSharedState implements AfterAllCallback {
 
     KoLmafia.lastMessage = "";
     KoLmafia.forceContinue();
+  }
+
+  void deleteEm(String user) {
+    String begin = "settings/" + user;
+    File file = new File(begin + "_prefs.txt");
+    if (file.exists()) {
+      file.deleteOnExit();
+    }
+    file = new File(begin + "_moods.txt");
+    if (file.exists()) {
+      file.deleteOnExit();
+    }
   }
 }
