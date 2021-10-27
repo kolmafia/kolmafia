@@ -164,7 +164,6 @@ public class InputFieldUtilities {
     return InputFieldUtilities.input(message, inputs, null);
   }
 
-  @SuppressWarnings("unchecked")
   public static final <T> T input(final String message, final T[] inputs, final T initial) {
     if (inputs == null || inputs.length == 0) {
       return null;
@@ -188,12 +187,12 @@ public class InputFieldUtilities {
         message, new LockableListModel<>(Arrays.asList(inputs)), initial);
   }
 
-  public static final <T> T[] multiple(final String message, final LockableListModel<T> inputs) {
+  public static final <T> List<T> multiple(
+      final String message, final LockableListModel<T> inputs) {
     return InputFieldUtilities.multiple(message, inputs, null);
   }
 
-  @SuppressWarnings("unchecked")
-  public static final <T> T[] multiple(
+  public static final <T> List<T> multiple(
       final String message, final LockableListModel<T> inputs, final ListElementFilter filter) {
     if (StaticEntity.isHeadless()) {
       RequestLogger.printLine(message);
@@ -225,7 +224,7 @@ public class InputFieldUtilities {
         }
       }
 
-      return (T[]) selectedValues.toArray();
+      return new ArrayList<>(selectedValues);
     }
 
     JList<T> selector = new JList<>(inputs);
@@ -253,8 +252,8 @@ public class InputFieldUtilities {
             JOptionPane.OK_CANCEL_OPTION);
 
     return option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION
-        ? (T[]) new Object[0]
-        : (T[]) selector.getSelectedValuesList().toArray();
+        ? new ArrayList<T>()
+        : selector.getSelectedValuesList();
   }
 
   /**
