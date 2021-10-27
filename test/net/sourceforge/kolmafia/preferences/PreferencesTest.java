@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.preferences;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.File;
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.KoLCharacter;
 import org.junit.jupiter.api.*;

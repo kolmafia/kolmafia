@@ -17,7 +17,7 @@ public class AscensionHistoryRequestTest extends RequestTestBase {
     KoLCharacter.reset("the Tristero");
     KoLCharacter.setUserId(177122);
   }
- 
+
   @Test
   public void checkUserName() {
     assertEquals("the Tristero", KoLCharacter.getUserName());
