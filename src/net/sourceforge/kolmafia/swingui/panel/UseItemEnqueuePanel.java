@@ -97,7 +97,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel {
     if (this.food) {
       listeners.add(new BingeGhostListener());
       listeners.add(new MilkListener());
-      listeners.add(new UniversalListener());
+      listeners.add(new UniversalSeasoningListener());
       listeners.add(new LunchListener());
       listeners.add(new DistendListener());
     } else if (this.booze) {
@@ -564,7 +564,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel {
     }
   }
 
-  private class UniversalListener extends ThreadedListener {
+  private class UniversalSeasoningListener extends ThreadedListener {
     @Override
     protected void execute() {
       RequestThread.postRequest(
