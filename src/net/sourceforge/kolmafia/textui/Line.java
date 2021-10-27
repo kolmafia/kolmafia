@@ -139,7 +139,11 @@ public final class Line {
     final int restOfLineStart;
 
     private Token(final int tokenLength) {
-      if (tokenLength <= 0 && Line.this.content != null) {
+      this(tokenLength, false);
+    }
+
+    private Token(final int tokenLength, final boolean allowEmptyToken) {
+      if (tokenLength <= 0 && Line.this.content != null && !allowEmptyToken) {
         throw new IllegalArgumentException();
       }
 
@@ -215,7 +219,7 @@ public final class Line {
 
   private class Comment extends Token {
     private Comment(final int commentLength) {
-      super(commentLength);
+      super(commentLength, true);
     }
   }
 }
