@@ -18,7 +18,7 @@ class PreferencesTest {
   }
 
   @AfterAll
-  protected static void cleanUpSettings() {
+  protected static void cleanUpGlobalSettings() {
     File file = new File("settings/GLOBAL_aliases.txt");
     if (file.exists()) {
       file.deleteOnExit();

@@ -16,11 +16,6 @@ import org.junit.jupiter.api.Test;
 
 class UseItemRequestTest extends RequestTestBase {
 
-  @AfterAll
-  protected static void cleanUp() {
-    // exists to trigger hooked routine
-  }
-
   // We don't use @BeforeEach here because it's specific to milk-related tests.
   private void milkSetup() {
     // Simulate logging out and back in again.

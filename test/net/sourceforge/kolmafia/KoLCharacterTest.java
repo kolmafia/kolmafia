@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia;
 
+import static net.sourceforge.kolmafia.extensions.ClearSharedState.deleteEm;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
@@ -10,10 +11,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 public class KoLCharacterTest {
-  @AfterAll
-  protected static void cleanUp() {
-    // exists to trigger hooked routine
-  }
 
   @Test
   public void rejectsUsernameWithTwoPeriods() {
@@ -75,6 +72,7 @@ public class KoLCharacterTest {
 
   @AfterEach
   void resetUsername() {
+    deleteEm(KoLCharacter.baseUserName());
     KoLCharacter.reset("");
   }
 }

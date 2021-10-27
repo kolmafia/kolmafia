@@ -13,8 +13,8 @@ public class ClearSharedState implements AfterAllCallback {
 
   @Override
   public void afterAll(ExtensionContext context) {
-    // Clean up files
-    deleteEm(KoLCharacter.getUserName());
+    // Clean up user files
+    deleteEm(KoLCharacter.baseUserName());
     // Among other things, this sets KoLCharacter.username.
     KoLCharacter.reset("");
     // But, if username is already "", then it doesn't do the bulk of resetting state.
@@ -27,7 +27,7 @@ public class ClearSharedState implements AfterAllCallback {
     KoLmafia.forceContinue();
   }
 
-  void deleteEm(String user) {
+  public static void deleteEm(String user) {
     String begin = "settings/" + user;
     File file = new File(begin + "_prefs.txt");
     if (file.exists()) {
