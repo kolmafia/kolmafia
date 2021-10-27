@@ -10,36 +10,34 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 import net.sourceforge.kolmafia.textui.Line.Token;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class LineTest {
   private static final String scriptData =
       "\ufeffLorem ipsum\n      \r\n  \t\t\tMary had a little lamb...\t \t  ";
 
-  private Line line1BOM;
-  private Line line2Empty;
-  private Line line3SurroundingWhitespace;
-  private Line endOfFile;
+  private final Line line1BOM;
+  private final Line line2Empty;
+  private final Line line3SurroundingWhitespace;
+  private final Line endOfFile;
 
-  private Token line1Token1;
-  private Token line1Token2;
-  private Token line1Token3;
-  private Token line3Token1;
-  private Token line3Token2;
-  private Token line3Token3;
-  private Token line3Token4;
-  private Token endOfFileToken;
+  private final Token line1Token1;
+  private final Token line1Token2;
+  private final Token line1Token3;
+  private final Token line3Token1;
+  private final Token line3Token2;
+  private final Token line3Token3;
+  private final Token line3Token4;
+  private final Token endOfFileToken;
 
-  private List<Token> line1Tokens;
-  private List<Token> line2Tokens;
-  private List<Token> line3Tokens;
-  private List<Token> endOfFileTokens;
+  private final List<Token> line1Tokens;
+  private final List<Token> line2Tokens;
+  private final List<Token> line3Tokens;
+  private final List<Token> endOfFileTokens;
 
-  private List<List<Token>> allTokens;
+  private final List<List<Token>> allTokens;
 
-  @BeforeEach
-  public void prepare() {
+  public LineTest() {
     LineNumberReader commandStream =
         new LineNumberReader(
             new InputStreamReader(
