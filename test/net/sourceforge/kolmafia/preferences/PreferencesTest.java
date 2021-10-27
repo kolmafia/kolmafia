@@ -17,18 +17,6 @@ class PreferencesTest {
     Preferences.saveSettingsToFile = false;
   }
 
-  @AfterAll
-  protected static void cleanUpGlobalSettings() {
-    File file = new File("settings/GLOBAL_aliases.txt");
-    if (file.exists()) {
-      file.deleteOnExit();
-    }
-    file = new File("settings/GLOBAL_prefs.txt");
-    if (file.exists()) {
-      file.deleteOnExit();
-    }
-  }
-
   @Test
   void ResetClearsPrefs() {
     String propName = "aTestProp";

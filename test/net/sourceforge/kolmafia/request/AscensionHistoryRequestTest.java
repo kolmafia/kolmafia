@@ -17,12 +17,7 @@ public class AscensionHistoryRequestTest extends RequestTestBase {
     KoLCharacter.reset("the Tristero");
     KoLCharacter.setUserId(177122);
   }
-  /*
-    @AfterAll
-    protected static void cleanUp() {
-      // exists to trigger hooked routine
-    }
-  */
+ 
   @Test
   public void checkUserName() {
     assertEquals("the Tristero", KoLCharacter.getUserName());
