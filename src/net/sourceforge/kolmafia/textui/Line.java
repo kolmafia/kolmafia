@@ -191,7 +191,7 @@ public final class Line {
     final String followingWhitespace;
     final int restOfLineStart;
 
-    private Token(final int tokenLength) {
+    private Token(int tokenLength) {
       if (tokenLength <= 0 && Line.this.content != null) {
         throw new IllegalArgumentException();
       }
@@ -217,6 +217,7 @@ public final class Line {
         // Going forward, we can just assume lineRemainder is an
         // empty string.
         lineRemainder = "";
+        tokenLength = 0;
       } else {
         final String lineRemainderWithToken = Line.this.substring(offset);
 

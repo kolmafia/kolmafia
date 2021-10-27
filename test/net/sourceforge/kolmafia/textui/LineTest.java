@@ -245,7 +245,7 @@ public class LineTest {
     assertEquals(line3Token3.getStart().getCharacter() + line3Token3.content.length(), line3Token3.getEnd().getCharacter());
     assertEquals(line3Token4.getStart().getCharacter() + line3Token4.content.length(), line3Token4.getEnd().getCharacter());
 
-    assertEquals(endOfFileToken.getStart().getCharacter() + endOfFileToken.content.length(), endOfFileToken.getEnd().getCharacter());
+    assertEquals(endOfFileToken.getStart().getCharacter(), endOfFileToken.getEnd().getCharacter());
   }
 
   /** Tokens' positions' line are 0-indexed version of the line they are on */
