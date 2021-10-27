@@ -143,7 +143,8 @@ public final class Line {
     }
 
     private Token(final int tokenLength, final boolean allowEmptyToken) {
-      if (tokenLength <= 0 && Line.this.content != null && !allowEmptyToken) {
+      if ((tokenLength < 0 || (!allowEmptyToken && tokenLength == 0))
+          && Line.this.content != null) {
         throw new IllegalArgumentException();
       }
 
