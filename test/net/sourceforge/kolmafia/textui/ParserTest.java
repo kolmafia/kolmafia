@@ -201,6 +201,10 @@ public class ParserTest {
             "Plural constant, comment",
             "$booleans[tr//Comment\nue]",
             Arrays.asList("$", "booleans", "[", "tr", "//Comment", "ue", "]")),
+        valid(
+            "Plural constant, empty comment",
+            "$booleans[tr//\nue]",
+            Arrays.asList("$", "booleans", "[", "tr", "//", "ue", "]")),
         invalid(
             "Plural constant, two line-separated slashes",
             "$booleans[tr/\n/ue]",
@@ -214,20 +218,40 @@ public class ParserTest {
             "int x = // interrupting comment\n  5;",
             Arrays.asList("int", "x", "=", "// interrupting comment", "5", ";")),
         valid(
+            "Empty mid-line // comment",
+            "int x = //\n  5;",
+            Arrays.asList("int", "x", "=", "//", "5", ";")),
+        valid(
             "Mid-line # comment",
             // This ought to only accept full-line comments, but it's incorrectly implemented,
             // and at this point, widely used enough that this isn't feasible to change.
             "int x = # interrupting comment\n  5;",
             Arrays.asList("int", "x", "=", "# interrupting comment", "5", ";")),
         valid(
+            "Empty mid-line # comment",
+            "int x = #\n  5;",
+            Arrays.asList("int", "x", "=", "#", "5", ";")),
+        valid(
             "Multiline comment",
             "int x =/* this\n    is a comment\n   */ 5;",
             // Note that this drops some leading whitespace.
             Arrays.asList("int", "x", "=", "/* this", "is a comment", "*/", "5", ";")),
         valid(
+            "Empty multiline comment",
+            "int x =/*\n\n*/ 5;",
+            Arrays.asList("int", "x", "=", "/*", "*/", "5", ";")),
+        valid(
             "Multiline comment on one line",
             "int x =/* this is a comment */ 5;",
             Arrays.asList("int", "x", "=", "/* this is a comment */", "5", ";")),
+        valid(
+            "Empty multiline comment on one line",
+            "int x =/**/ 5;",
+            Arrays.asList("int", "x", "=", "/**/", "5", ";")),
+        invalid(
+            "Empty multiline comment on one line, single asterisk",
+            "int x =/*/ 5;",
+            "Expression expected"),
         valid(
             "Simple map literal",
             "int[item] { $item[seal-clubbing club]: 1, $item[helmet turtle]: 2}",
