@@ -248,6 +248,10 @@ public class ParserTest {
             "Empty multiline comment on one line",
             "int x =/**/ 5;",
             Arrays.asList("int", "x", "=", "/**/", "5", ";")),
+        invalid(
+            "Empty multiline comment on one line, single asterisk",
+            "int x =/*/ 5;",
+            "Expression expected"),
         valid(
             "Simple map literal",
             "int[item] { $item[seal-clubbing club]: 1, $item[helmet turtle]: 2}",
