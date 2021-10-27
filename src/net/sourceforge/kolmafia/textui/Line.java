@@ -130,6 +130,7 @@ public final class Line {
    * Returns the first non-comment token preceding {@code token} (the very last if {@code null}).
    *
    * <p>{@code token} must be part of this {@link Line}. The return value may not.
+   *
    * @param token the token following the one we want
    * @return the first non-comment token preceding {@code token} (the very last if {@code null}).
    */

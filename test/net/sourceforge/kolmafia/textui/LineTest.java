@@ -236,14 +236,28 @@ public class LineTest {
 
   @Test
   public void testTokenEndCharacter() {
-    assertEquals(line1Token1.getStart().getCharacter() + line1Token1.content.length(), line1Token1.getEnd().getCharacter());
-    assertEquals(line1Token2.getStart().getCharacter() + line1Token2.content.length(), line1Token2.getEnd().getCharacter());
-    assertEquals(line1Token3.getStart().getCharacter() + line1Token3.content.length(), line1Token3.getEnd().getCharacter());
+    assertEquals(
+        line1Token1.getStart().getCharacter() + line1Token1.content.length(),
+        line1Token1.getEnd().getCharacter());
+    assertEquals(
+        line1Token2.getStart().getCharacter() + line1Token2.content.length(),
+        line1Token2.getEnd().getCharacter());
+    assertEquals(
+        line1Token3.getStart().getCharacter() + line1Token3.content.length(),
+        line1Token3.getEnd().getCharacter());
 
-    assertEquals(line3Token1.getStart().getCharacter() + line3Token1.content.length(), line3Token1.getEnd().getCharacter());
-    assertEquals(line3Token2.getStart().getCharacter() + line3Token2.content.length(), line3Token2.getEnd().getCharacter());
-    assertEquals(line3Token3.getStart().getCharacter() + line3Token3.content.length(), line3Token3.getEnd().getCharacter());
-    assertEquals(line3Token4.getStart().getCharacter() + line3Token4.content.length(), line3Token4.getEnd().getCharacter());
+    assertEquals(
+        line3Token1.getStart().getCharacter() + line3Token1.content.length(),
+        line3Token1.getEnd().getCharacter());
+    assertEquals(
+        line3Token2.getStart().getCharacter() + line3Token2.content.length(),
+        line3Token2.getEnd().getCharacter());
+    assertEquals(
+        line3Token3.getStart().getCharacter() + line3Token3.content.length(),
+        line3Token3.getEnd().getCharacter());
+    assertEquals(
+        line3Token4.getStart().getCharacter() + line3Token4.content.length(),
+        line3Token4.getEnd().getCharacter());
 
     assertEquals(endOfFileToken.getStart().getCharacter(), endOfFileToken.getEnd().getCharacter());
   }
