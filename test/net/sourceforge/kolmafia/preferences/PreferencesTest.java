@@ -342,7 +342,9 @@ class PreferencesTest {
         Integer.parseInt(globalDefaultsMap.get(globalProp)),
         "Map value not equal to set value");
     assertEquals(
-        userPropFloat, Float.parseFloat(userDefaultsMap.get(propName)), "Map value not equal to set value");
+        userPropFloat,
+        Float.parseFloat(userDefaultsMap.get(propName)),
+        "Map value not equal to set value");
   }
 
   @Test

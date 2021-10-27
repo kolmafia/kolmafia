@@ -21,7 +21,7 @@ public class AscensionHistoryRequestTest extends RequestTestBase {
 
   @AfterAll
   protected static void cleanUp() {
-    //exists to trigger hooked routine
+    // exists to trigger hooked routine
   }
 
   @Test

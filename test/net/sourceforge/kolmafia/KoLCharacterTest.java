@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 public class KoLCharacterTest {
   @AfterAll
   protected static void cleanUp() {
-    //exists to trigger hooked routine
+    // exists to trigger hooked routine
   }
 
   @Test
